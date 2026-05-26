@@ -5,9 +5,16 @@ export default defineConfig({
   server: {
     port: 4341,
   },
+  source: {
+    entries: {
+      'creative-hub': {
+        entry: './src/garfish/CreativeHubEntry.tsx',
+        customEntry: true,
+      },
+    },
+  },
   performance: {
     buildCache: false,
   },
   plugins: [appTools(), moduleFederationPlugin()],
 });
-

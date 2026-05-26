@@ -1,12 +1,12 @@
-export default function RemotePanel() {
+export function DashboardPage({ path = '/home' }: { path?: string }) {
   return (
     <section data-testid="remote-panel">
-      <strong>Provider: cloud engine loader</strong>
-      <p>
-        The remote exposes loader and redirect metadata separately from visual
-        loading state.
-      </p>
+      <strong>Provider: cloud engine dashboard</strong>
+      <p>Dashboard route is ready at {path}.</p>
     </section>
   );
 }
 
+export default function RemotePanel() {
+  return <DashboardPage />;
+}

@@ -1,139 +1,106 @@
-import { Suspense, lazy } from 'react';
-import {
-  AgentRuntimePanel,
-  type DemoSnapshot,
-  type RuntimeEvent,
-  type RuntimeHandlers,
-  useDemoRuntime,
-} from '../../../../shared/agent-runtime';
+import { Suspense, lazy, useEffect, useState } from 'react';
 
 const RemotePanel = lazy(() => import('redirectLoaderProvider/RemotePanel'));
 
-const initialSnapshot: DemoSnapshot = {
-  caseId: 'redirect-loader',
-  page: {
-    url: '/',
-    status: 'pending',
-    pendingReason: 'root loader did not finish redirect decision',
-  },
-  route: {
-    path: '/',
-    matched: true,
-    redirectedTo: null,
-  },
-  loaders: [
-    {
-      id: 'root-loader',
-      status: 'pending',
-      started: true,
-      finished: false,
-      redirect: null,
-    },
-  ],
-  components: [
-    {
-      name: 'RootLoading',
-      remote: 'redirectLoaderProvider',
-      lifecycle: 'loading',
-      mounted: true,
-    },
-  ],
-  build: {
-    providerName: 'redirectLoaderProvider',
-    publicPath: 'auto',
-  },
-  shared: {
-    react: { singleton: true, resolvedToHost: true },
-  },
-  actions: [
-    {
-      id: 'run-client-fallback',
-      label: 'Run client fallback',
-      kind: 'retry',
-      enabled: true,
-    },
-  ],
-  errors: [],
+type AppProps = {
+  initialPath?: '/' | '/home';
 };
 
-const initialEvents: RuntimeEvent[] = [
-  {
-    id: 'redirect-loader-start',
-    type: 'loader.start',
-    source: 'consumer',
-    status: 'pending',
-    message: 'Root loader started.',
-    timestamp: '2026-05-25T00:00:00.000Z',
-  },
-  {
-    id: 'redirect-stuck',
-    type: 'page.pending',
-    source: 'consumer',
-    status: 'pending',
-    message: 'Page is still showing redirect loading state.',
-    timestamp: '2026-05-25T00:00:01.000Z',
-  },
-];
+const loaderId = 'consumer/src/routes/page.loader.ts';
 
-const handlers: RuntimeHandlers = {
-  'run-client-fallback': ({ emit }) => {
-    emit({
-      type: 'loader.redirect',
-      source: 'consumer',
-      status: 'success',
-      message: 'Client fallback redirected from root to dashboard.',
-    });
-    return {
-      page: {
-        url: '/dashboard',
-        status: 'success',
-        pendingReason: null,
-      },
-      route: {
-        path: '/dashboard',
-        redirectedTo: '/dashboard',
-      },
-      loaders: [
-        {
-          id: 'root-loader',
-          status: 'success',
-          started: true,
-          finished: true,
-          redirect: '/dashboard',
-        },
-      ],
-      components: [
-        {
-          name: 'DashboardPage',
-          remote: 'redirectLoaderProvider',
-          lifecycle: 'ready',
-          mounted: true,
-        },
-      ],
-    };
-  },
-};
+const getDefaultInitialPath = (): '/' | '/home' =>
+  typeof window !== 'undefined' && window.location.pathname === '/home'
+    ? '/home'
+    : '/';
 
-export default function App() {
-  const { snapshot, events, runtime } = useDemoRuntime(
-    initialSnapshot,
-    initialEvents,
-    handlers,
+const RootRedirectShell = () => (
+  <section data-testid="remote-panel">
+    <strong>Consumer: cloud engine root</strong>
+    <p>Redirecting to home...</p>
+    <p>Expected SSR loader: {loaderId} redirects to /home.</p>
+    <p>
+      static shell returned 200 and the consumer SSR redirect loader did not run
+    </p>
+  </section>
+);
+
+const DashboardShell = () => (
+  <section data-testid="remote-panel">
+    <strong>Provider: cloud engine dashboard</strong>
+    <p>Dashboard route is ready at /home.</p>
+  </section>
+);
+
+export default function App({
+  initialPath = getDefaultInitialPath(),
+}: AppProps) {
+  const [canLoadRemote, setCanLoadRemote] = useState(false);
+  const [route, setRoute] = useState(initialPath);
+  const [status, setStatus] = useState<'pending' | 'success'>(
+    initialPath === '/home' ? 'success' : 'pending',
   );
+
+  useEffect(() => {
+    setCanLoadRemote(true);
+  }, []);
+
+  const runClientFallback = () => {
+    window.history.pushState(null, '', '/home');
+    setRoute('/home');
+    setStatus('success');
+  };
+
+  const isDashboard = status === 'success';
 
   return (
-    <AgentRuntimePanel
-      title="Redirect loader MF case"
-      description="Consumer loads a Modern.js provider and exposes loader, redirect, and pending reason state instead of asking an agent to guess with sleeps."
-      snapshot={snapshot}
-      events={events}
-      runtime={runtime}
-      remoteSlot={
-        <Suspense fallback={<div>Loading remote provider...</div>}>
-          <RemotePanel />
-        </Suspense>
-      }
-    />
+    <main style={{ display: 'grid', gap: 16, padding: 24 }}>
+      <section>
+        <h1>Redirect loader MF case</h1>
+        <p>
+          The static shell returned 200 before the root loader redirected to
+          /home.
+        </p>
+      </section>
+
+      <section data-testid="reproduced-issue">
+        <h2>Reproduced Issue</h2>
+        <p>
+          <strong>Status:</strong> {status}
+        </p>
+        <p>
+          <strong>Route:</strong> {route}
+        </p>
+        {!isDashboard ? (
+          <p>
+            <strong>Pending reason:</strong> static shell returned 200 and the
+            consumer SSR redirect loader did not run
+          </p>
+        ) : null}
+        <p>
+          <strong>Loader:</strong> {loaderId} is not_run
+        </p>
+      </section>
+
+      <section>
+        <button type="button" onClick={runClientFallback}>
+          Run client fallback
+        </button>
+      </section>
+
+      <section>
+        <h2>Remote Provider</h2>
+        {isDashboard ? (
+          canLoadRemote ? (
+            <Suspense fallback={<DashboardShell />}>
+              <RemotePanel />
+            </Suspense>
+          ) : (
+            <DashboardShell />
+          )
+        ) : (
+          <RootRedirectShell />
+        )}
+      </section>
+    </main>
   );
 }
-

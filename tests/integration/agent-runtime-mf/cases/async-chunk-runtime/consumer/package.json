@@ -9,6 +9,7 @@
   "dependencies": {
     "@modern-js/runtime": "workspace:*",
     "@module-federation/modern-js-v3": "2.0.0",
+    "garfish": "1.19.4",
     "react": "^19.2.6",
     "react-dom": "^19.2.6"
   },

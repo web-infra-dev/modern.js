@@ -1,193 +1,150 @@
-import { Suspense, lazy } from 'react';
-import {
-  AgentRuntimePanel,
-  type DemoSnapshot,
-  type RuntimeEvent,
-  type RuntimeHandlers,
-  useDemoRuntime,
-} from '../../../../shared/agent-runtime';
+import { createRemoteAppComponent } from '@module-federation/modern-js-v3/react';
+import { loadRemote } from '@module-federation/modern-js-v3/runtime';
+import { useEffect, useState } from 'react';
 
-const RemotePanel = lazy(() => import('useNavigateBlankProvider/RemotePanel'));
+const RemoteAppFallback = ({ error }: { error: Error }) => (
+  <div role="alert">Remote provider failed: {error.message}</div>
+);
 
-const initialSnapshot: DemoSnapshot = {
-  caseId: 'usenavigate-blank',
-  page: {
-    url: '/host/features',
-    status: 'success',
-    pendingReason: null,
-  },
-  route: {
-    path: '/host/features',
-    basename: '/host',
-    matched: true,
-    lastNavigation: 'initial',
-  },
-  components: [
-    {
-      name: 'FeatureList',
-      remote: 'useNavigateBlankProvider',
-      lifecycle: 'ready',
-      mounted: true,
-    },
-  ],
-  build: {
-    providerName: 'useNavigateBlankProvider',
-    publicPath: 'auto',
-  },
-  shared: {
-    react: { singleton: true, resolvedToHost: true },
-  },
-  actions: [
-    {
-      id: 'enter-default-page',
-      label: 'Enter default page',
-      kind: 'navigation',
-      enabled: true,
-    },
-    {
-      id: 'navigate-lineage',
-      label: 'Navigate to lineage',
-      kind: 'navigation',
-      enabled: true,
-    },
-    {
-      id: 'navigate-features',
-      label: 'Navigate back to features',
-      kind: 'navigation',
-      enabled: true,
-    },
-  ],
-  errors: [],
+const RemoteApp = createRemoteAppComponent({
+  loader: () => loadRemote('useNavigateBlankProvider/export-app'),
+  export: 'provider' as any,
+  fallback: RemoteAppFallback,
+  loading: <div>Loading remote provider...</div>,
+});
+
+type NavigationResultDetail = {
+  path?: string;
+  basename?: string;
+  matched?: boolean;
+  view?: string;
+  lastNavigation?: string;
 };
 
-const initialEvents: RuntimeEvent[] = [
-  {
-    id: 'usenavigate-initial',
-    type: 'route.ready',
-    source: 'consumer',
-    status: 'success',
-    message: 'Feature route is mounted under /host.',
-    timestamp: '2026-05-25T00:00:00.000Z',
-  },
-];
-
-const handlers: RuntimeHandlers = {
-  'enter-default-page': ({ emit }) => {
-    emit({
-      type: 'route.change',
-      source: 'consumer',
-      status: 'success',
-      message: 'Entered default feature page.',
-    });
-    return {
-      page: {
-        url: '/host/features',
-        status: 'success',
-        pendingReason: null,
-      },
-      route: {
-        path: '/host/features',
-        matched: true,
-        lastNavigation: 'enter-default-page',
-      },
-      components: [
-        {
-          name: 'FeatureList',
-          remote: 'useNavigateBlankProvider',
-          lifecycle: 'ready',
-          mounted: true,
-        },
-      ],
-      errors: [],
-    };
-  },
-  'navigate-lineage': ({ emit }) => {
-    emit({
-      type: 'route.mismatch',
-      source: 'provider',
-      status: 'error',
-      message: 'useNavigate produced /lineage without the /host basename.',
-    });
-    return {
-      page: {
-        url: '/lineage',
-        status: 'blank',
-        pendingReason: 'basename mismatch after useNavigate',
-      },
-      route: {
-        path: '/lineage',
-        basename: '/host',
-        matched: false,
-        lastNavigation: 'navigate-lineage',
-      },
-      components: [
-        {
-          name: 'LineagePage',
-          remote: 'useNavigateBlankProvider',
-          lifecycle: 'not-mounted',
-          mounted: false,
-        },
-      ],
-      errors: [
-        {
-          type: 'route.mismatch',
-          message: 'Route /lineage does not match basename /host.',
-        },
-      ],
-    };
-  },
-  'navigate-features': ({ emit }) => {
-    emit({
-      type: 'route.change',
-      source: 'provider',
-      status: 'success',
-      message: 'Returned to /host/features.',
-    });
-    return {
-      page: {
-        url: '/host/features',
-        status: 'success',
-        pendingReason: null,
-      },
-      route: {
-        path: '/host/features',
-        basename: '/host',
-        matched: true,
-        lastNavigation: 'navigate-features',
-      },
-      components: [
-        {
-          name: 'FeatureList',
-          remote: 'useNavigateBlankProvider',
-          lifecycle: 'ready',
-          mounted: true,
-        },
-      ],
-      errors: [],
-    };
-  },
+type PageState = {
+  route: string;
+  status: 'success' | 'blank';
+  error: string | null;
 };
+
+const mountedBasename = 'content-understand-feature-lineage';
+const mountedRoute = `/${mountedBasename}/features`;
 
 export default function App() {
-  const { snapshot, events, runtime } = useDemoRuntime(
-    initialSnapshot,
-    initialEvents,
-    handlers,
-  );
+  const [pageState, setPageState] = useState<PageState>({
+    route: mountedRoute,
+    status: 'success',
+    error: null,
+  });
+
+  useEffect(() => {
+    if (typeof window !== 'undefined' && window.location.pathname === '/') {
+      window.history.replaceState(null, '', mountedRoute);
+    }
+
+    const onNavigationResult = (event: Event) => {
+      const detail =
+        (event as CustomEvent<NavigationResultDetail>).detail ?? {};
+      const matched = detail.matched !== false;
+      const route = detail.path || '/features';
+      setPageState({
+        route,
+        status: matched ? 'success' : 'blank',
+        error: matched
+          ? null
+          : `Route ${route} does not match host mount path.`,
+      });
+    };
+    window.addEventListener(
+      'usenavigate-blank:navigation-result',
+      onNavigationResult,
+    );
+    return () => {
+      window.removeEventListener(
+        'usenavigate-blank:navigation-result',
+        onNavigationResult,
+      );
+    };
+  }, []);
+
+  const enterDefaultPage = () => {
+    window.dispatchEvent(
+      new CustomEvent('usenavigate-blank:navigate', {
+        detail: { reset: true },
+      }),
+    );
+    setPageState({
+      route: mountedRoute,
+      status: 'success',
+      error: null,
+    });
+  };
+
+  const navigateLineage = () => {
+    window.dispatchEvent(
+      new CustomEvent('usenavigate-blank:navigate', {
+        detail: { to: '/lineage' },
+      }),
+    );
+  };
+
+  const navigateFeatures = () => {
+    window.dispatchEvent(
+      new CustomEvent('usenavigate-blank:navigate', {
+        detail: { to: '/features' },
+      }),
+    );
+  };
 
   return (
-    <AgentRuntimePanel
-      title="useNavigate blank MF case"
-      description="Consumer loads a Modern.js provider and declares route actions so an agent can reproduce the blank page and read the exact route mismatch."
-      snapshot={snapshot}
-      events={events}
-      runtime={runtime}
-      remoteSlot={
-        <Suspense fallback={<div>Loading remote provider...</div>}>
-          <RemotePanel />
-        </Suspense>
-      }
-    />
+    <main style={{ display: 'grid', gap: 16, padding: 24 }}>
+      <section>
+        <h1>useNavigate blank MF case</h1>
+        <p>
+          The remote app uses navigation paths that drop the host mount
+          basename.
+        </p>
+      </section>
+
+      <section data-testid="reproduced-issue">
+        <h2>Reproduced Issue</h2>
+        <p>
+          <strong>Status:</strong> {pageState.status}
+        </p>
+        <p>
+          <strong>Route:</strong> {pageState.route}
+        </p>
+        {pageState.error ? (
+          <p role="alert">
+            <strong>Error:</strong> {pageState.error}
+          </p>
+        ) : null}
+      </section>
+
+      <section>
+        <button type="button" onClick={enterDefaultPage}>
+          Enter default page
+        </button>
+        <button
+          type="button"
+          onClick={navigateLineage}
+          style={{ marginLeft: 8 }}
+        >
+          Navigate to lineage
+        </button>
+        <button
+          type="button"
+          onClick={navigateFeatures}
+          style={{ marginLeft: 8 }}
+        >
+          Navigate back to features
+        </button>
+      </section>
+
+      <section>
+        <h2>Remote Provider</h2>
+        <RemoteApp basename={mountedBasename} />
+      </section>
+    </main>
   );
 }
-

@@ -13,6 +13,9 @@ export default createModuleFederationConfig({
       singleton: true,
       requiredVersion: dependencies['react-dom'],
     },
+    'react-router': {
+      singleton: true,
+      requiredVersion: dependencies['react-router'],
+    },
   },
 });
-

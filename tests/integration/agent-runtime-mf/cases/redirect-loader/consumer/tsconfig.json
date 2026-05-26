@@ -4,5 +4,5 @@
     "declaration": false,
     "jsx": "react-jsx"
   },
-  "include": ["src", "../../../shared"]
+  "include": ["src"]
 }

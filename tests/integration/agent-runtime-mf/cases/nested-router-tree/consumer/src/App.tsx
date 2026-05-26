@@ -1,148 +1,92 @@
-import { Suspense, lazy } from 'react';
-import {
-  AgentRuntimePanel,
-  type DemoSnapshot,
-  type RuntimeEvent,
-  type RuntimeHandlers,
-  useDemoRuntime,
-} from '../../../../shared/agent-runtime';
+import { Component, Suspense, lazy, useCallback, useState } from 'react';
+import type { ErrorInfo, ReactNode } from 'react';
+import { BrowserRouter } from 'react-router';
 
 const RemotePanel = lazy(() => import('nestedRouterTreeProvider/RemotePanel'));
 
-const initialSnapshot: DemoSnapshot = {
-  caseId: 'nested-router-tree',
-  page: {
-    url: '/console/projects/42/detail',
-    status: 'error',
-    pendingReason: 'remote router owns a nested history tree',
-  },
-  route: {
-    path: '/console/projects/42/detail',
-    basename: '/console',
-    matched: true,
-    nestedRouterCount: 2,
-  },
-  components: [
-    {
-      name: 'HostRouter',
-      owner: 'consumer',
-      lifecycle: 'ready',
-      mounted: true,
-    },
-    {
-      name: 'RemoteRouter',
-      owner: 'nestedRouterTreeProvider',
-      lifecycle: 'mounted',
-      mounted: true,
-      duplicateRouter: true,
-    },
-    {
-      name: 'ProjectDetailPage',
-      owner: 'nestedRouterTreeProvider',
-      lifecycle: 'blocked',
-      mounted: false,
-    },
-  ],
-  build: {
-    providerName: 'nestedRouterTreeProvider',
-    publicPath: 'auto',
-  },
-  shared: {
-    react: { singleton: true, resolvedToHost: true },
-    'react-dom': { singleton: true, resolvedToHost: true },
-  },
-  actions: [
-    {
-      id: 'flatten-remote-router',
-      label: 'Flatten remote router',
-      kind: 'custom',
-      enabled: true,
-    },
-  ],
-  errors: [
-    {
-      type: 'route.error',
-      component: 'ProjectDetailPage',
-      message: 'Remote router created an extra route root.',
-    },
-  ],
+type RemoteErrorBoundaryProps = {
+  children: ReactNode;
+  onError: (error: Error, info: ErrorInfo) => void;
 };
 
-const initialEvents: RuntimeEvent[] = [
-  {
-    id: 'nested-router-mounted',
-    type: 'component.mounted',
-    source: 'provider',
-    status: 'success',
-    message: 'RemoteRouter mounted inside HostRouter.',
-    timestamp: '2026-05-25T00:00:00.000Z',
-  },
-  {
-    id: 'nested-router-warning',
-    type: 'route.warning',
-    source: 'consumer',
-    status: 'warning',
-    message: 'Two router roots are active for the same page.',
-    timestamp: '2026-05-25T00:00:01.000Z',
-  },
-];
-
-const handlers: RuntimeHandlers = {
-  'flatten-remote-router': ({ emit }) => {
-    emit({
-      type: 'route.recover',
-      source: 'consumer',
-      status: 'success',
-      message: 'Remote route now renders under the host router.',
-    });
-    return {
-      page: {
-        status: 'success',
-        pendingReason: null,
-      },
-      route: {
-        nestedRouterCount: 1,
-      },
-      components: [
-        {
-          name: 'HostRouter',
-          owner: 'consumer',
-          lifecycle: 'ready',
-          mounted: true,
-        },
-        {
-          name: 'ProjectDetailPage',
-          owner: 'nestedRouterTreeProvider',
-          lifecycle: 'ready',
-          mounted: true,
-          duplicateRouter: false,
-        },
-      ],
-      errors: [],
-    };
-  },
+type RemoteErrorBoundaryState = {
+  error: string | null;
 };
 
-export default function App() {
-  const { snapshot, events, runtime } = useDemoRuntime(
-    initialSnapshot,
-    initialEvents,
-    handlers,
-  );
+class RemoteErrorBoundary extends Component<
+  RemoteErrorBoundaryProps,
+  RemoteErrorBoundaryState
+> {
+  state: RemoteErrorBoundaryState = { error: null };
 
-  return (
-    <AgentRuntimePanel
-      title="Nested router MF case"
-      description="Consumer loads a Modern.js provider and reports route ownership so an agent can separate remote load success from router tree failure."
-      snapshot={snapshot}
-      events={events}
-      runtime={runtime}
-      remoteSlot={
-        <Suspense fallback={<div>Loading remote provider...</div>}>
-          <RemotePanel />
-        </Suspense>
-      }
-    />
-  );
+  componentDidCatch(error: Error, info: ErrorInfo) {
+    this.setState({ error: error.message });
+    this.props.onError(error, info);
+  }
+
+  render() {
+    if (this.state.error) {
+      return (
+        <section data-testid="remote-router-error">
+          <strong>Remote route failed</strong>
+          <p>{this.state.error}</p>
+        </section>
+      );
+    }
+    return this.props.children;
+  }
 }
 
+export default function App() {
+  const [status, setStatus] = useState<'loading' | 'error'>('loading');
+  const [errorMessage, setErrorMessage] = useState<string | null>(null);
+
+  const onRemoteError = useCallback((error: Error, info: ErrorInfo) => {
+    console.error('[nested-router-tree] remote route failed', {
+      error,
+      componentStack: info.componentStack,
+    });
+    setStatus('error');
+    setErrorMessage(error.message);
+  }, []);
+
+  return (
+    <BrowserRouter>
+      <main style={{ display: 'grid', gap: 16, padding: 24 }}>
+        <section>
+          <h1>Nested router MF case</h1>
+          <p>
+            The host already has a router, and the remote mounts another router
+            root inside it.
+          </p>
+        </section>
+
+        <section data-testid="reproduced-issue">
+          <h2>Reproduced Issue</h2>
+          <p>
+            <strong>Status:</strong> {status}
+          </p>
+          <p>
+            <strong>Route:</strong> /console/projects/42/detail
+          </p>
+          {errorMessage ? (
+            <p role="alert">
+              <strong>Error:</strong> {errorMessage}
+            </p>
+          ) : (
+            <p>Waiting for the provider route module to render.</p>
+          )}
+        </section>
+
+        <section>
+          <h2>Remote Provider</h2>
+          <RemoteErrorBoundary onError={onRemoteError}>
+            <Suspense fallback={<div>Loading remote provider...</div>}>
+              <RemotePanel />
+            </Suspense>
+          </RemoteErrorBoundary>
+        </section>
+      </main>
+    </BrowserRouter>
+  );
+}

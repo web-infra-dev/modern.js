@@ -5,7 +5,7 @@ export default createModuleFederationConfig({
   name: 'useNavigateBlankProvider',
   filename: 'remoteEntry.js',
   exposes: {
-    './RemotePanel': './src/RemotePanel.tsx',
+    './export-app': './src/export-app.tsx',
   },
   shared: {
     react: { singleton: true, requiredVersion: dependencies.react },
@@ -15,4 +15,3 @@ export default createModuleFederationConfig({
     },
   },
 });
-

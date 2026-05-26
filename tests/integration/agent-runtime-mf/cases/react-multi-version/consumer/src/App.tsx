@@ -1,183 +1,88 @@
-import { Suspense, lazy } from 'react';
-import {
-  AgentRuntimePanel,
-  type DemoSnapshot,
-  type RuntimeEvent,
-  type RuntimeHandlers,
-  useDemoRuntime,
-} from '../../../../shared/agent-runtime';
+import { Component, Suspense, lazy, useCallback, useState } from 'react';
+import type { ErrorInfo, ReactNode } from 'react';
 
-const RemotePanel = lazy(() =>
-  import('reactMultiVersionProvider/RemotePanel'),
-);
+const RemotePanel = lazy(() => import('reactMultiVersionProvider/RemotePanel'));
 
-const initialSnapshot: DemoSnapshot = {
-  caseId: 'react-multi-version',
-  page: {
-    url: '/checkout',
-    status: 'error',
-    pendingReason: null,
-  },
-  route: {
-    path: '/checkout',
-    basename: '/',
-    matched: true,
-  },
-  components: [
-    {
-      name: 'CheckoutRemote',
-      remote: 'reactMultiVersionProvider',
-      lifecycle: 'error',
-      mounted: false,
-      error: 'Invalid hook call',
-    },
-  ],
-  build: {
-    providerName: 'reactMultiVersionProvider',
-    publicPath: 'auto',
-    uniqueName: 'react_multi_version_provider',
-    chunkLoadingGlobal: 'webpackChunk_react_multi_version_provider',
-  },
-  shared: {
-    react: {
-      singleton: true,
-      hostVersion: '19.2.6',
-      remoteVersion: '18.2.0',
-      resolvedToHost: false,
-    },
-    'react-dom': {
-      singleton: true,
-      hostVersion: '19.2.6',
-      remoteVersion: '19.2.6',
-      resolvedToHost: true,
-    },
-  },
-  dependencySources: [
-    {
-      packageName: 'react',
-      version: '18.2.0',
-      bundled: true,
-      issuer: 'legacy-zustand-widget',
-      sourceFile: 'provider/src/RemotePanel.tsx',
-    },
-  ],
-  proxy: {
-    enabled: false,
-    rules: [
-      {
-        from: 'legacy-zustand-widget/react',
-        to: 'host/react',
-        matched: false,
-      },
-    ],
-  },
-  actions: [
-    {
-      id: 'apply-proxy-fix',
-      label: 'Apply proxy fix',
-      kind: 'custom',
-      enabled: true,
-    },
-  ],
-  errors: [
-    {
-      type: 'component.error',
-      component: 'CheckoutRemote',
-      message: 'Invalid hook call',
-    },
-  ],
+type RemoteErrorBoundaryProps = {
+  children: ReactNode;
+  onError: (error: Error, info: ErrorInfo) => void;
 };
 
-const initialEvents: RuntimeEvent[] = [
-  {
-    id: 'react-shared-warning',
-    type: 'shared.resolve',
-    source: 'consumer',
-    status: 'warning',
-    message: 'React resolved to a bundled dependency instead of the host.',
-    timestamp: '2026-05-25T00:00:00.000Z',
-  },
-  {
-    id: 'react-component-error',
-    type: 'component.error',
-    source: 'provider',
-    status: 'error',
-    message: 'CheckoutRemote threw Invalid hook call.',
-    timestamp: '2026-05-25T00:00:01.000Z',
-  },
-];
-
-const handlers: RuntimeHandlers = {
-  'apply-proxy-fix': ({ emit }) => {
-    emit({
-      type: 'proxy.match',
-      source: 'consumer',
-      status: 'success',
-      message: 'React dependency is redirected to the host shared instance.',
-    });
-    return {
-      components: [
-        {
-          name: 'CheckoutRemote',
-          remote: 'reactMultiVersionProvider',
-          lifecycle: 'ready',
-          mounted: true,
-          error: null,
-        },
-      ],
-      shared: {
-        react: {
-          singleton: true,
-          hostVersion: '19.2.6',
-          remoteVersion: '19.2.6',
-          resolvedToHost: true,
-        },
-      },
-      dependencySources: [
-        {
-          packageName: 'react',
-          version: '19.2.6',
-          bundled: false,
-          issuer: 'host shared scope',
-          sourceFile: 'consumer/module-federation.config.ts',
-        },
-      ],
-      proxy: {
-        enabled: true,
-        rules: [
-          {
-            from: 'legacy-zustand-widget/react',
-            to: 'host/react',
-            matched: true,
-          },
-        ],
-        lastMatchedRule: 'legacy-zustand-widget/react',
-      },
-      errors: [],
-    };
-  },
+type RemoteErrorBoundaryState = {
+  error: string | null;
 };
 
-export default function App() {
-  const { snapshot, events, runtime } = useDemoRuntime(
-    initialSnapshot,
-    initialEvents,
-    handlers,
-  );
+class RemoteErrorBoundary extends Component<
+  RemoteErrorBoundaryProps,
+  RemoteErrorBoundaryState
+> {
+  state: RemoteErrorBoundaryState = { error: null };
 
-  return (
-    <AgentRuntimePanel
-      title="React multi version MF case"
-      description="Consumer loads a Modern.js provider and exposes enough runtime state to prove whether React was shared or bundled."
-      snapshot={snapshot}
-      events={events}
-      runtime={runtime}
-      remoteSlot={
-        <Suspense fallback={<div>Loading remote provider...</div>}>
-          <RemotePanel />
-        </Suspense>
-      }
-    />
-  );
+  componentDidCatch(error: Error, info: ErrorInfo) {
+    this.setState({ error: error.message });
+    this.props.onError(error, info);
+  }
+
+  render() {
+    if (this.state.error) {
+      return (
+        <section data-testid="remote-panel-error">
+          <strong>Remote render failed</strong>
+          <p>{this.state.error}</p>
+        </section>
+      );
+    }
+    return this.props.children;
+  }
 }
 
+export default function App() {
+  const [status, setStatus] = useState<'loading' | 'error'>('loading');
+  const [errorMessage, setErrorMessage] = useState<string | null>(null);
+
+  const onRemoteError = useCallback((error: Error, info: ErrorInfo) => {
+    console.error('[react-multi-version] remote render failed', {
+      error,
+      componentStack: info.componentStack,
+    });
+    setStatus('error');
+    setErrorMessage(error.message);
+  }, []);
+
+  return (
+    <main style={{ display: 'grid', gap: 16, padding: 24 }}>
+      <section>
+        <h1>React multi version MF case</h1>
+        <p>
+          The remote renders a dependency package that bundles its own React.
+        </p>
+      </section>
+
+      <section data-testid="reproduced-issue">
+        <h2>Reproduced Issue</h2>
+        <p>
+          <strong>Status:</strong> {status}
+        </p>
+        <p>
+          <strong>Route:</strong> /checkout
+        </p>
+        {errorMessage ? (
+          <p role="alert">
+            <strong>Error:</strong> {errorMessage}
+          </p>
+        ) : (
+          <p>Waiting for the remote checkout component to render.</p>
+        )}
+      </section>
+
+      <section>
+        <h2>Remote Provider</h2>
+        <RemoteErrorBoundary onError={onRemoteError}>
+          <Suspense fallback={<div>Loading remote provider...</div>}>
+            <RemotePanel />
+          </Suspense>
+        </RemoteErrorBoundary>
+      </section>
+    </main>
+  );
+}

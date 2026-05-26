@@ -10,7 +10,8 @@
     "@modern-js/runtime": "workspace:*",
     "@module-federation/modern-js-v3": "2.0.0",
     "react": "^19.2.6",
-    "react-dom": "^19.2.6"
+    "react-dom": "^19.2.6",
+    "react-router": "7.13.1"
   },
   "devDependencies": {
     "@modern-js/app-tools": "workspace:*"

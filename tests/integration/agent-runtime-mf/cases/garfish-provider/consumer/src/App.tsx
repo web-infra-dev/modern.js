@@ -1,135 +1,137 @@
-import { Suspense, lazy } from 'react';
-import {
-  AgentRuntimePanel,
-  type DemoSnapshot,
-  type RuntimeEvent,
-  type RuntimeHandlers,
-  useDemoRuntime,
-} from '../../../../shared/agent-runtime';
+import Garfish from 'garfish';
+import { Suspense, lazy, useEffect, useState } from 'react';
 
 const RemotePanel = lazy(() => import('garfishProvider/RemotePanel'));
 
-const initialSnapshot: DemoSnapshot = {
-  caseId: 'garfish-provider',
-  page: {
-    url: '/container/orders',
-    status: 'blank',
-    pendingReason: 'entry loaded but provider was not mounted',
-  },
-  route: {
-    path: '/container/orders',
-    matched: true,
-  },
-  components: [
-    {
-      name: 'OrderProvider',
-      remote: 'garfishProvider',
-      lifecycle: 'loaded',
-      mounted: false,
-      ready: false,
-    },
-  ],
-  build: {
-    providerName: 'garfishProvider',
-    publicPath: 'auto',
-  },
-  shared: {
-    react: { singleton: true, resolvedToHost: true },
-  },
-  garfish: {
-    appName: 'orders',
-    entryLoaded: true,
-    providerExportFound: false,
-    mounted: false,
-    active: false,
-  },
-  actions: [
-    {
-      id: 'fix-provider-export',
-      label: 'Fix provider export',
-      kind: 'custom',
-      enabled: true,
-    },
-  ],
-  errors: [
-    {
-      type: 'garfish.provider_missing',
-      message: 'Entry script loaded but no provider export was found.',
-    },
-  ],
+const creativeHubRuntime = {
+  appName: 'creative-hub',
+  garfishEntry: 'http://localhost:4341/creative-hub',
+  basename: '/container/orders',
 };
 
-const initialEvents: RuntimeEvent[] = [
-  {
-    id: 'garfish-entry-loaded',
-    type: 'entry.loaded',
-    source: 'provider',
-    status: 'success',
-    message: 'Garfish child entry script loaded.',
-    timestamp: '2026-05-25T00:00:00.000Z',
-  },
-  {
-    id: 'garfish-provider-missing',
-    type: 'garfish.provider_missing',
-    source: 'consumer',
-    status: 'error',
-    message: 'Provider export was not detected after entry load.',
-    timestamp: '2026-05-25T00:00:01.000Z',
-  },
-];
+const garfishDomGetter = '#creative-hub-container';
+let garfishRegistered = false;
 
-const handlers: RuntimeHandlers = {
-  'fix-provider-export': ({ emit }) => {
-    emit({
-      type: 'garfish.mounted',
-      source: 'consumer',
-      status: 'success',
-      message: 'Provider export exists and the child app mounted.',
+const ensureGarfishRegistered = () => {
+  if (!window.__GARFISH__) {
+    Garfish.run({
+      basename: '/',
+      disablePreloadApp: true,
     });
-    return {
-      page: {
-        status: 'success',
-        pendingReason: null,
-      },
-      components: [
-        {
-          name: 'OrderProvider',
-          remote: 'garfishProvider',
-          lifecycle: 'ready',
-          mounted: true,
-          ready: true,
-        },
-      ],
-      garfish: {
-        providerExportFound: true,
-        mounted: true,
-        active: true,
-      },
-      errors: [],
-    };
-  },
+  }
+  if (garfishRegistered) {
+    return;
+  }
+  Garfish.registerApp({
+    name: creativeHubRuntime.appName,
+    entry: creativeHubRuntime.garfishEntry,
+    basename: creativeHubRuntime.basename,
+    domGetter: garfishDomGetter,
+    cache: false,
+  });
+  garfishRegistered = true;
 };
 
 export default function App() {
-  const { snapshot, events, runtime } = useDemoRuntime(
-    initialSnapshot,
-    initialEvents,
-    handlers,
+  const [status, setStatus] = useState<'success' | 'loading' | 'blank'>(
+    'success',
   );
+  const [route, setRoute] = useState('/container/home');
+  const [errorMessage, setErrorMessage] = useState<string | null>(null);
+  const [loading, setLoading] = useState(false);
+
+  useEffect(() => {
+    if (window.location.pathname === '/') {
+      window.history.replaceState(null, '', '/container/home');
+    }
+  }, []);
+
+  const loadCreativeHub = async () => {
+    let error = '[Garfish warning]: "provider" is "undefined"';
+    setLoading(true);
+    setStatus('loading');
+    setErrorMessage(null);
+    window.history.pushState(null, '', creativeHubRuntime.basename);
+    setRoute(creativeHubRuntime.basename);
+
+    try {
+      ensureGarfishRegistered();
+      const app = await Garfish.loadApp(creativeHubRuntime.appName, {
+        entry: creativeHubRuntime.garfishEntry,
+        basename: creativeHubRuntime.basename,
+        domGetter: garfishDomGetter,
+        cache: false,
+      });
+      if (!app) {
+        throw new Error('Garfish.loadApp returned empty app instance.');
+      }
+      if (app.mounted) {
+        await app.show();
+      } else {
+        await app.mount();
+      }
+    } catch (loadError) {
+      error =
+        loadError instanceof Error ? loadError.message : String(loadError);
+    }
+
+    setStatus('blank');
+    setErrorMessage(error);
+    setLoading(false);
+  };
 
   return (
-    <AgentRuntimePanel
-      title="Garfish provider MF case"
-      description="Consumer loads a Modern.js provider and keeps entry load, provider export, and mount state visible as separate facts."
-      snapshot={snapshot}
-      events={events}
-      runtime={runtime}
-      remoteSlot={
+    <main style={{ display: 'grid', gap: 16, padding: 24 }}>
+      <section>
+        <h1>Garfish provider MF case</h1>
+        <p>
+          The child app entry is loaded, but Garfish cannot read the expected
+          provider export.
+        </p>
+      </section>
+
+      <section data-testid="reproduced-issue">
+        <h2>Reproduced Issue</h2>
+        <p>
+          <strong>Status:</strong> {status}
+        </p>
+        <p>
+          <strong>Route:</strong> {route}
+        </p>
+        {errorMessage ? (
+          <p role="alert">
+            <strong>Error:</strong> {errorMessage}
+          </p>
+        ) : null}
+      </section>
+
+      <section>
+        <button type="button" onClick={loadCreativeHub} disabled={loading}>
+          Load Creative Hub
+        </button>
+      </section>
+
+      <section>
+        <h2>Remote Provider</h2>
         <Suspense fallback={<div>Loading remote provider...</div>}>
           <RemotePanel />
         </Suspense>
-      }
-    />
+      </section>
+
+      <section>
+        <h2>Garfish Sub App</h2>
+        <div
+          id="creative-hub-container"
+          data-testid="creative-hub-container"
+          style={{
+            minHeight: 120,
+            border: '1px dashed #8c959f',
+            padding: 12,
+          }}
+        >
+          <div id="root">Garfish child app has not been mounted.</div>
+        </div>
+      </section>
+    </main>
   );
 }
-

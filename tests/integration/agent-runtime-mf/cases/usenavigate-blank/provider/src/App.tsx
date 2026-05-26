@@ -1,6 +1,9 @@
 import RemotePanel from './RemotePanel';
 
-export default function App() {
-  return <RemotePanel />;
-}
+type AppProps = {
+  basename?: string;
+};
 
+export default function App({ basename }: AppProps) {
+  return <RemotePanel basename={basename} />;
+}
