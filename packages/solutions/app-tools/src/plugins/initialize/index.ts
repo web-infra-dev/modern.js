@@ -4,7 +4,10 @@ import {
   isDev,
   isDevCommand,
 } from '@modern-js/utils';
-import { createDefaultConfig } from '../../config';
+import {
+  createDefaultConfig,
+  isLazyCompilationSafeByDefault,
+} from '../../config';
 import type {
   AppTools,
   AppToolsNormalizedConfig,
@@ -25,8 +28,23 @@ export default (): CliPlugin<AppTools> => ({
   setup(api) {
     api.config(() => {
       const appContext = api.getAppContext();
+      const userConfig = api.getConfig();
+      const defaultConfig = createDefaultConfig(appContext);
 
-      return createDefaultConfig(appContext) as unknown as AppUserConfig;
+      // Default-enable lazy compilation for pure CSR only (see
+      // isLazyCompilationSafeByDefault). api.config() is low priority, so an
+      // explicit user `dev.lazyCompilation` always wins.
+      if (
+        userConfig.dev?.lazyCompilation === undefined &&
+        isLazyCompilationSafeByDefault(userConfig)
+      ) {
+        defaultConfig.dev = {
+          ...defaultConfig.dev,
+          lazyCompilation: { imports: true, entries: false },
+        };
+      }
+
+      return defaultConfig as unknown as AppUserConfig;
     });
 
     api.modifyResolvedConfig(async resolved => {

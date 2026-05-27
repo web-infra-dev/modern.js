@@ -99,3 +99,32 @@ export function createDefaultConfig(
     builderPlugins: [],
   };
 }
+
+/**
+ * Default-enable lazy compilation only for pure CSR. SSR (any mode), RSC and SSG
+ * inject first-screen chunks/CSS at render time, which lazy compilation defers.
+ */
+export function isLazyCompilationSafeByDefault(
+  userConfig: Pick<AppUserConfig, 'server' | 'output'>,
+): boolean {
+  const { server, output } = userConfig;
+
+  if (
+    output?.ssg ||
+    (output?.ssgByEntries && Object.keys(output.ssgByEntries).length > 0)
+  ) {
+    return false;
+  }
+  if (server?.rsc || server?.ssr) {
+    return false;
+  }
+  if (
+    server?.ssrByEntries &&
+    typeof server.ssrByEntries === 'object' &&
+    Object.values(server.ssrByEntries).some(Boolean)
+  ) {
+    return false;
+  }
+
+  return true;
+}
