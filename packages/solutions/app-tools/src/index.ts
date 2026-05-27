@@ -10,6 +10,11 @@ import {
   getCommand,
 } from '@modern-js/utils';
 import {
+  clearRouteComponentFiles,
+  collectRouteComponentFiles,
+  setRouteComponentFiles,
+} from './builder/shared/lazyCompilation';
+import {
   buildCommand,
   deployCommand,
   devCommand,
@@ -95,6 +100,22 @@ export const appTools = (): CliPlugin<AppTools> => ({
       deprecatedCommands(program);
     });
 
+    // Collect file-system route component files per entry, so the SSR builder
+    // can force them eager under lazy compilation. Recomputed on every call
+    // (the hook re-runs on route changes), keyed by entry to avoid stale data.
+    api.modifyFileSystemRoutes(params => {
+      const { entrypoint, routes } = params;
+      const { appDirectory, srcDirectory, internalSrcAlias } =
+        api.getAppContext();
+      const result = collectRouteComponentFiles(
+        routes,
+        srcDirectory,
+        internalSrcAlias,
+      );
+      setRouteComponentFiles(appDirectory, entrypoint.entryName, result);
+      return params;
+    });
+
     api.onPrepare(async () => {
       const command = getCommand();
       if (command === 'deploy') {
@@ -160,6 +181,8 @@ export const appTools = (): CliPlugin<AppTools> => ({
 
     api.onBeforeRestart(() => {
       cleanRequireCache([require.resolve('./plugins/analyze')]);
+      // Drop collected route data so removed routes don't linger after restart.
+      clearRouteComponentFiles(api.getAppContext().appDirectory);
     });
   },
 });
