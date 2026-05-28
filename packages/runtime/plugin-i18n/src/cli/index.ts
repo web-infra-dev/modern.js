@@ -5,6 +5,7 @@ import { getPublicDirRoutePrefixes } from '@modern-js/server-core';
 import type { Entrypoint } from '@modern-js/types';
 import type { BackendOptions, LocaleDetectionOptions } from '../shared/type';
 import { getBackendOptions, getLocaleDetectionOptions } from '../shared/utils';
+import '../runtime/types';
 
 export type TransformRuntimeConfigFn = (
   extendedConfig: Record<string, any>,
