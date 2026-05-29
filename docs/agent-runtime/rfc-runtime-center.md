@@ -635,7 +635,7 @@ Modern.js 约定式路由里的 `page.loader.ts`、`layout.loader.ts`、`page.da
 
 #### React root 和 route component
 
-React 层第一阶段不复刻完整 React tree，只记录框架能够稳定确认的生命周期。
+React 层不以复刻完整 React tree 为目标。第一阶段只记录框架能够稳定确认的生命周期，以及业务显式声明的 ready marker。后续如果需要组件级诊断，应作为独立增强能力评估，而不是默认纳入本 RFC 范围。
 
 范围分成三类：
 
@@ -643,7 +643,7 @@ React 层第一阶段不复刻完整 React tree，只记录框架能够稳定确
 2. route component 生命周期；
 3. 用户声明的 ready marker。
 
-不包含：
+默认不包含：
 
 - 遍历完整 React fiber tree；
 - 输出页面所有组件列表；
@@ -1064,3 +1064,19 @@ route matched
 3. Bridge Server 第一阶段是否只支持单 tab 绑定，还是支持一个进程管理多个 session / tab。
 4. MF 侧 observer API 的字段和事件 schema 是否由 MF 单独 RFC 定义。
 5. 业务拓展 API 首期是否只提供 `useAgentReady` 和 `registerAction`，还是同时提供 `AgentReady` 组件。
+
+## 阶段规划
+
+本文档中的“第一阶段”指先把本地开发调试闭环跑通。后续阶段不应该简单理解成继续堆能力，而是逐步把兼容实现、单页面调试、描述性策略沉淀成稳定、通用、可扩展的能力。
+
+| 阶段 | 目标 | 主要范围 | 边界 |
+| --- | --- | --- | --- |
+| 第一阶段：本地开发调试闭环 | 让 Agent 能在 Modern.js 本地开发和带登录态调试场景中可靠拿到页面状态，并执行声明过的动作 | 数据结构和 API、Runtime Center、Modern.js 路由 / loader / React root / route component 基础状态、业务 ready marker、MF / Garfish 兼容接入、Bridge Server、CLI、HTTP API、SSE、long polling、Browser Connector 单 tab 调试 | 不复刻完整 React tree；不默认使用 WebSocket；不默认启动 Bridge Server；不默认支持多 tab / 多 session；不自动判断任意业务组件是否 ready |
+| 第二阶段：稳定生态接入和协作能力 | 把第一阶段的兼容方案做成稳定接口，让多个页面、多个工具和生态运行时可以可靠接入 | MF 稳定 observer API、Garfish 稳定 observer API、多 tab / 多 session 管理、Bridge Server 会话模型、action 风险校验策略、ready blockers 标准化、dev server 显式配置和 CLI 复用策略 | 不把 React DevTools 能力内置为默认能力；不把所有业务状态自动推断为 ready；不默认接入生产环境页面 |
+| 第三阶段：深度诊断和自动化 | 在稳定协议之上扩展更强的诊断和自动化调试能力 | 可选 WebSocket adapter、页面主动连接 Bridge Server、组件级诊断增强、Suspense / lazy / error boundary 等更细状态、MCP / DevTools 等外部工具接入、生产环境受控诊断 | 需要单独评估安全、性能和使用边界；不作为本 RFC 第一阶段交付要求 |
+
+阶段验收建议：
+
+- 第一阶段验收以 demo 和本地真实页面调试为主，确认 Agent 能通过 snapshot / events / actions 给出结构化证据。
+- 第二阶段验收以生态接口稳定性为主，确认 MF、Garfish、Bridge Server 多会话和 action 策略可以被独立开发和测试。
+- 第三阶段验收以可选增强能力为主，确认深度诊断能力不会影响默认开发体验和页面运行成本。
