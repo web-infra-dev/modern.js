@@ -74,7 +74,7 @@ function applyBottomHtmlPlugin({
     const baseTemplateParams = {
       entryName,
       title: modernConfig.html.title,
-      mountId: modernConfig.html.templateParameters,
+      mountId: modernConfig.html.mountId,
     };
 
     chain.plugin(`${CHAIN_ID.PLUGIN.HTML}-${entryName}`).tap(args => [

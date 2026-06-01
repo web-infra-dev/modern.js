@@ -170,16 +170,26 @@ export async function parseCommonConfig(
   if (htmlPlugin !== false) {
     // compat template title and meta params
     extraConfig.tools.htmlPlugin = config => {
+      const defaultTemplateParameters = {
+        title: config.title,
+        meta: undefined,
+        mountId: html.mountId,
+      };
+
       if (typeof config.templateParameters === 'function') {
         const originFn = config.templateParameters;
 
         config.templateParameters = (...args) => {
           const res = originFn(...args);
           return {
-            title: config.title,
-            meta: undefined,
+            ...defaultTemplateParameters,
             ...res,
           };
+        };
+      } else {
+        config.templateParameters = {
+          ...defaultTemplateParameters,
+          ...config.templateParameters,
         };
       }
     };
