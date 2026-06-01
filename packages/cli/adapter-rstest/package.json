@@ -30,7 +30,7 @@
     "@modern-js/app-tools": "workspace:*"
   },
   "devDependencies": {
-    "@rsbuild/core": "2.0.0",
+    "@rsbuild/core": "2.0.9",
     "@rstest/core": "0.9.10",
     "@modern-js/tsconfig": "workspace:*",
     "@modern-js/rslib": "workspace:*",

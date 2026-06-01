@@ -33,8 +33,8 @@
   },
   "devDependencies": {
     "rsbuild-plugin-open-graph": "1.1.3",
-    "@rsbuild/plugin-sass": "1.5.0",
-    "@rspress/core": "2.0.2",
+    "@rsbuild/plugin-sass": "1.5.3",
+    "@rspress/core": "2.0.13",
     "@rspress/plugin-llms": "2.0.2",
     "@rspress/shared": "2.0.2",
     "@shikijs/transformers": "^3.23.0",
