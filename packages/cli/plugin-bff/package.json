@@ -89,7 +89,7 @@
     "@modern-js/server-utils": "workspace:*",
     "@modern-js/utils": "workspace:*",
     "@swc/helpers": "^0.5.17",
-    "qs": "^6.15.1",
+    "qs": "^6.15.2",
     "type-is": "^1.6.18"
   },
   "devDependencies": {
