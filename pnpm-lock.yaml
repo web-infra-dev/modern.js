@@ -540,8 +540,8 @@ importers:
         specifier: ^19.2.6
         version: 19.2.6(react@19.2.6)
       rsbuild-plugin-open-graph:
-        specifier: 1.1.2
-        version: 1.1.2(@rsbuild/core@2.0.0-beta.1(@module-federation/runtime-tools@2.0.0)(core-js@3.48.0))
+        specifier: 1.1.3
+        version: 1.1.3(@rsbuild/core@2.0.0-beta.1(@module-federation/runtime-tools@2.0.0)(core-js@3.48.0))
       ts-node:
         specifier: ^10.9.2
         version: 10.9.2(@swc/core@1.15.33(@swc/helpers@0.5.21))(@types/node@20.19.27)(typescript@5.9.3)
@@ -13613,8 +13613,8 @@ packages:
       '@rsbuild/core':
         optional: true
 
-  rsbuild-plugin-open-graph@1.1.2:
-    resolution: {integrity: sha512-CNVtaoiS+tcFP8ge7nlnlgnynnGnHdRnFujYBDMeYtw9hYB7mFTzF4Yr3K+q0LQjYHqeNIeeApmC0LCUXqIulg==}
+  rsbuild-plugin-open-graph@1.1.3:
+    resolution: {integrity: sha512-jIOxWCOgYnlONDcxj4LzGpQY5h3B9Apl+e0ieJeAs6YgMvbZ948dsPW5sx8WLj0DuyI3XR8yDNU5P34XXvwXgQ==}
     peerDependencies:
       '@rsbuild/core': ^1.0.0 || ^2.0.0-0
     peerDependenciesMeta:
@@ -25786,7 +25786,7 @@ snapshots:
     optionalDependencies:
       '@rsbuild/core': 2.0.0(@module-federation/runtime-tools@2.0.0)(core-js@3.48.0)
 
-  rsbuild-plugin-open-graph@1.1.2(@rsbuild/core@2.0.0-beta.1(@module-federation/runtime-tools@2.0.0)(core-js@3.48.0)):
+  rsbuild-plugin-open-graph@1.1.3(@rsbuild/core@2.0.0-beta.1(@module-federation/runtime-tools@2.0.0)(core-js@3.48.0)):
     optionalDependencies:
       '@rsbuild/core': 2.0.0-beta.1(@module-federation/runtime-tools@2.0.0)(core-js@3.48.0)
 
