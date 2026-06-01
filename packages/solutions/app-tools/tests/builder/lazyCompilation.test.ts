@@ -14,7 +14,10 @@ import {
 describe('normalizeModulePath', () => {
   it('produces an absolute POSIX path', () => {
     const p = normalizeModulePath('/app/src/routes/about/page.tsx');
-    expect(p.startsWith('/')).toBe(true);
+    // Absolute on either platform (POSIX `/...`, Windows `C:/...`); never a
+    // backslash. `startsWith('/')` would wrongly fail on Windows where the
+    // normalized path keeps its drive letter (e.g. `C:/app/...`).
+    expect(path.isAbsolute(p)).toBe(true);
     expect(p.includes('\\')).toBe(false);
   });
 
