@@ -60,13 +60,14 @@ function main() {
   }
 
   if (selectedGroups.length === 0 || tasks.length === 0) {
-    console.error('没有可运行的 group 或 task，请检查 --groups / --tasks 参数。');
+    console.error(
+      '没有可运行的 group 或 task，请检查 --groups / --tasks 参数。',
+    );
     process.exit(1);
   }
 
   // 可选：合并实测指标。scores 形如 { "<groupId>/<taskId>": { taskPass: 1, ... } }
-  const scores =
-    typeof args.scores === 'string' ? loadJson(args.scores) : {};
+  const scores = typeof args.scores === 'string' ? loadJson(args.scores) : {};
 
   const stamp = new Date().toISOString().replace(/[:.]/g, '-');
   const outDir =
@@ -91,7 +92,9 @@ function main() {
         fixture: task.fixture,
         successCriteria: task.successCriteria,
         status: measured ? 'measured' : 'pending',
-        metrics: measured || Object.fromEntries((task.record || metrics).map(m => [m, null])),
+        metrics:
+          measured ||
+          Object.fromEntries((task.record || metrics).map(m => [m, null])),
       };
       fs.writeFileSync(
         path.join(groupDir, `${task.id}.json`),
@@ -154,7 +157,9 @@ function main() {
     console.log(
       '\n下一步：用真实 Agent 跑每个 cell 的 prompt，把指标写入 scores.json，',
     );
-    console.log('再执行 `node ai-eval/run.mjs --scores=scores.json` 得到三组对比。');
+    console.log(
+      '再执行 `node ai-eval/run.mjs --scores=scores.json` 得到三组对比。',
+    );
   }
 }
 

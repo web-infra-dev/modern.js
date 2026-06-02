@@ -10,5 +10,11 @@
     "产出迁移报告（改了什么 / 为什么 / 待人工项）",
     "迁移后 modern build 通过"
   ],
-  "record": ["taskPass", "firstBuildPass", "manualItemAccuracy", "durationMs", "tokens"]
+  "record": [
+    "taskPass",
+    "firstBuildPass",
+    "manualItemAccuracy",
+    "durationMs",
+    "tokens"
+  ]
 }
