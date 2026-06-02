@@ -14,6 +14,11 @@ export const ZH_LOCALE = {
     step1: 'cd {projectName}',
     step2: 'pnpm install',
     step3: 'pnpm dev',
+    skillsTitle: '🤖 推荐的 Modern.js Skills（未安装）：',
+    skillsList:
+      'modernjs-migrate-to-v3、modernjs-dependency-audit、modernjs-issue-triage',
+    skillsDocs:
+      '安装方式：https://modernjs.dev/guides/get-started/ai-coding-agents',
   },
   help: {
     title: '🚀 Modern.js 项目创建工具',
@@ -25,6 +30,9 @@ export const ZH_LOCALE = {
     optionVersion: '  -v, --version  显示版本信息',
     optionLang: '  -l, --lang     设置语言 (zh 或 en)',
     optionSub: '  -s, --sub       标记为子项目（monorepo 中的子包）',
+    optionNoAgentsMd: '  --no-agents-md  跳过生成 AGENTS.md / CLAUDE.md',
+    optionSkills:
+      '  --skills        Skills 模式：none | recommended | custom（默认 recommended；不会自动安装）',
     examples: '💡 示例:',
     example1: '  create my-app',
     example2: '  create my-app --lang zh',

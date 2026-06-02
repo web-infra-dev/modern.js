@@ -1,0 +1,13 @@
+{
+  "id": "dependency-audit-phantom",
+  "category": "dependency",
+  "title": "定位幽灵依赖并修复",
+  "prompt": "给定项目源码中 import 了一个未在 package.json 声明的包（幽灵依赖）。请定位它，并给出最小修复（补声明或移除使用），不要手改 lockfile。",
+  "fixture": "fixtures/phantom-dep",
+  "successCriteria": [
+    "正确定位到未声明的依赖",
+    "给出补 package.json 声明或移除 import 的修复方案",
+    "未手改 pnpm-lock.yaml / node_modules"
+  ],
+  "record": ["taskPass", "manualItemAccuracy", "durationMs", "tokens"]
+}

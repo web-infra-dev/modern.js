@@ -68,6 +68,8 @@ function showHelp() {
   console.log(i18n.t(localeKeys.help.optionVersion));
   console.log(i18n.t(localeKeys.help.optionLang));
   console.log(i18n.t(localeKeys.help.optionSub));
+  console.log(i18n.t(localeKeys.help.optionNoAgentsMd));
+  console.log(i18n.t(localeKeys.help.optionSkills));
   console.log('');
   console.log(i18n.t(localeKeys.help.examples));
   console.log(i18n.t(localeKeys.help.example1));
@@ -107,6 +109,31 @@ function detectSubprojectFlag(): boolean | null {
   return null;
 }
 
+// `--no-agents-md` 逃生开关：跳过生成 AGENTS.md / CLAUDE.md
+function detectAgentsMdFlag(): boolean {
+  return !process.argv.slice(2).includes('--no-agents-md');
+}
+
+// `--skills=none|recommended|custom`（默认 recommended）。
+// 仅记录/提示选择，不在脚手架阶段隐式安装任何 Skill。
+function detectSkillsMode(): 'none' | 'recommended' | 'custom' {
+  const args = process.argv.slice(2);
+  let raw: string | undefined;
+  const eq = args.find(arg => arg.startsWith('--skills='));
+  if (eq) {
+    raw = eq.split('=')[1];
+  } else {
+    const index = args.indexOf('--skills');
+    if (index !== -1) {
+      raw = args[index + 1];
+    }
+  }
+  if (raw === 'none' || raw === 'custom') {
+    return raw;
+  }
+  return 'recommended';
+}
+
 function isDirectoryEmpty(dirPath: string): boolean {
   if (!fs.existsSync(dirPath)) {
     return false;
@@ -124,28 +151,19 @@ async function getProjectName(): Promise<{
   useCurrentDir: boolean;
 }> {
   const args = process.argv.slice(2);
-  const projectNameArg = args.find(
-    (arg, index) =>
-      arg !== '--lang' &&
-      arg !== '-l' &&
-      arg !== '--help' &&
-      arg !== '-h' &&
-      arg !== '--version' &&
-      arg !== '-v' &&
-      arg !== '--sub' &&
-      arg !== '-s' &&
-      arg !== '--no-sub' &&
-      (index === 0 ||
-        (args[index - 1] !== '--lang' &&
-          args[index - 1] !== '-l' &&
-          args[index - 1] !== '--help' &&
-          args[index - 1] !== '-h' &&
-          args[index - 1] !== '--version' &&
-          args[index - 1] !== '-v' &&
-          args[index - 1] !== '--sub' &&
-          args[index - 1] !== '-s' &&
-          args[index - 1] !== '--no-sub')),
-  );
+  // 取值型 flag：其后紧跟的 token 是它的值，不能当作项目名
+  const valueFlags = ['--lang', '-l', '--skills'];
+  const projectNameArg = args.find((arg, index) => {
+    // 跳过任何以 `-` 开头的选项（含 `--skills=xxx`、`--no-agents-md` 等）
+    if (arg.startsWith('-')) {
+      return false;
+    }
+    const prev = args[index - 1];
+    if (index > 0 && valueFlags.includes(prev)) {
+      return false;
+    }
+    return true;
+  });
 
   if (projectNameArg) {
     return { name: projectNameArg, useCurrentDir: false };
@@ -203,10 +221,15 @@ async function main() {
   const subprojectFlag = detectSubprojectFlag();
   const isSubproject = subprojectFlag === true;
 
+  // 子项目继承 monorepo 根目录的 AGENTS.md，不在子包内重复生成
+  const generateAgentsMd = detectAgentsMdFlag() && !isSubproject;
+  const skillsMode = detectSkillsMode();
+
   copyTemplate(templateDir, targetDir, {
     packageName: projectName,
     version,
     isSubproject,
+    generateAgentsMd,
   });
 
   const targetPackageJson = path.join(targetDir, 'package.json');
@@ -245,6 +268,13 @@ async function main() {
   }
   console.log(`${dim}   ${i18n.t(localeKeys.message.step2)}${reset}`);
   console.log(`${dim}   ${i18n.t(localeKeys.message.step3)}${reset}\n`);
+
+  // Skills 仅做推荐提示，不在此隐式安装
+  if (skillsMode === 'recommended') {
+    console.log(i18n.t(localeKeys.message.skillsTitle));
+    console.log(`${dim}   ${i18n.t(localeKeys.message.skillsList)}${reset}`);
+    console.log(`${dim}   ${i18n.t(localeKeys.message.skillsDocs)}${reset}\n`);
+  }
 }
 
 function copyTemplate(
@@ -254,6 +284,7 @@ function copyTemplate(
     packageName: string;
     version: string;
     isSubproject: boolean;
+    generateAgentsMd: boolean;
   },
 ) {
   fs.mkdirSync(dest, { recursive: true });
@@ -265,11 +296,17 @@ function copyTemplate(
     '.nvmrc',
   ];
 
+  // `--no-agents-md` 或子项目场景下跳过这些文件
+  const agentsMdFiles = ['AGENTS.md.handlebars', 'CLAUDE.md'];
+
   function copyRecursive(srcDir: string, destDir: string) {
     const entries = fs.readdirSync(srcDir, { withFileTypes: true });
 
     for (const entry of entries) {
       if (options.isSubproject && excludeInSubproject.includes(entry.name)) {
+        continue;
+      }
+      if (!options.generateAgentsMd && agentsMdFiles.includes(entry.name)) {
         continue;
       }
 

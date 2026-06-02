@@ -1,0 +1,14 @@
+{
+  "id": "migrate-pages-to-routes",
+  "category": "migration",
+  "title": "将简单 src/pages 迁移为约定式 src/routes",
+  "prompt": "给定一个 Modern.js v2 风格的简单 src/pages 结构（静态路由，无复杂动态段、无 custom server）。请迁移到 v3 约定式 src/routes，并产出迁移报告。",
+  "fixture": "fixtures/v2-simple-pages",
+  "successCriteria": [
+    "结构简单项被安全改写为 src/routes",
+    "复杂/不确定项进入人工清单而非盲目改写",
+    "产出迁移报告（改了什么 / 为什么 / 待人工项）",
+    "迁移后 modern build 通过"
+  ],
+  "record": ["taskPass", "firstBuildPass", "manualItemAccuracy", "durationMs", "tokens"]
+}

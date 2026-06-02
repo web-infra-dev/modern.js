@@ -1,0 +1,31 @@
+{
+  "$schema": "./schema/groups.schema.json",
+  "description": "三组 A/B 实验条件，用于复测 Modern.js AI 基建的收益（不照搬 EdenX 数据）。",
+  "groups": [
+    {
+      "id": "baseline",
+      "label": "无基建",
+      "context": { "agentsMd": false, "llmsTxt": false, "skills": false }
+    },
+    {
+      "id": "agents-llms",
+      "label": "AGENTS + llms",
+      "context": { "agentsMd": true, "llmsTxt": true, "skills": false }
+    },
+    {
+      "id": "agents-llms-skills",
+      "label": "AGENTS + llms + skills",
+      "context": { "agentsMd": true, "llmsTxt": true, "skills": true }
+    }
+  ],
+  "metrics": [
+    "taskPass",
+    "firstBuildPass",
+    "firstLintPass",
+    "firstTestPass",
+    "wrongTestScope",
+    "manualItemAccuracy",
+    "durationMs",
+    "tokens"
+  ]
+}

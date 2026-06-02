@@ -1,0 +1,13 @@
+{
+  "id": "docs-qa-bff",
+  "category": "docs-qa",
+  "title": "如何在 Modern.js 中创建一个 BFF 函数",
+  "prompt": "在一个 Modern.js v3 应用中，新增一个返回当前用户信息的 BFF 函数，并在页面中调用它。",
+  "fixture": null,
+  "successCriteria": [
+    "使用 Modern.js 一体化 BFF 范式（api 目录 / 函数式写法），而非裸 express 路由",
+    "前端通过类型安全的方式调用，而非手写 fetch URL",
+    "代码可通过 modern build"
+  ],
+  "record": ["taskPass", "firstBuildPass", "durationMs", "tokens"]
+}
