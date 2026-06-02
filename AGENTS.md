@@ -17,7 +17,7 @@
 - 构建单包：`pnpm --filter <pkg> build`
 - 跑测试：`pnpm --filter <pkg> test`（或包内 `rstest`）
 - 代码风格：`biome`（见 `biome.json`），提交前跑 lint。
-- 变更需 changeset：`pnpm changeset`（影响发布的改动必须加）。
+- 变更需 changeset：`pnpm change`（影响发布的改动必须加）。
 
 ## 禁改区（除非任务明确要求并人工确认）
 - 不手改 `pnpm-lock.yaml`、`dist/`、`node_modules/`、各包 `CHANGELOG.md`。

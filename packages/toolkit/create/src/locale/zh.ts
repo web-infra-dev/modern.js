@@ -6,6 +6,8 @@ export const ZH_LOCALE = {
     projectNameEmpty: '错误: 项目名称不能为空',
     directoryExists: '错误: 目录 "{projectName}" 已存在且不为空',
     createFailed: '创建项目时出错:',
+    invalidSkillsMode:
+      '错误: --skills 取值 "{value}" 非法，应为 none | recommended | custom 之一',
   },
   message: {
     welcome: '🚀 欢迎使用 Modern.js',

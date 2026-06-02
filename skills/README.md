@@ -29,7 +29,7 @@
 ## 安装与选装约定
 
 - Skills **默认不强装、不隐式安装**。
-- 通过 `@modern-js/create` 的 `--skills=none|recommended|custom` 选择（默认 `recommended`：只**展示推荐清单并要求确认**，不自动安装）。
+- 通过 `@modern-js/create` 的 `--skills=none|recommended|custom` 选择（默认 `recommended`：只**展示推荐清单**，不自动安装）。
 - 计划提供独立安装入口（P1 起）：`npx @modern-js/skills add <skill>`。
 
 ## 目录约定（实现后）

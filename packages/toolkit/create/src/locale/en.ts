@@ -7,6 +7,8 @@ export const EN_LOCALE = {
     directoryExists:
       'Error: Directory "{projectName}" already exists and is not empty',
     createFailed: 'Error creating project:',
+    invalidSkillsMode:
+      'Error: invalid --skills value "{value}", expected one of: none | recommended | custom',
   },
   message: {
     welcome: '🚀 Welcome to Modern.js',

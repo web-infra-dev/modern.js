@@ -1,5 +1,4 @@
 {
-  "$schema": "./schema/groups.schema.json",
   "description": "三组 A/B 实验条件，用于复测 Modern.js AI 基建的收益（不照搬 EdenX 数据）。",
   "groups": [
     {

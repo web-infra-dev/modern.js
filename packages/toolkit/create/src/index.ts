@@ -128,10 +128,14 @@ function detectSkillsMode(): 'none' | 'recommended' | 'custom' {
       raw = args[index + 1];
     }
   }
-  if (raw === 'none' || raw === 'custom') {
+  if (raw === undefined) {
+    return 'recommended';
+  }
+  if (raw === 'none' || raw === 'recommended' || raw === 'custom') {
     return raw;
   }
-  return 'recommended';
+  console.error(i18n.t(localeKeys.error.invalidSkillsMode, { value: raw }));
+  process.exit(1);
 }
 
 function isDirectoryEmpty(dirPath: string): boolean {
