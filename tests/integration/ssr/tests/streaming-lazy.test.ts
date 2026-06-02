@@ -87,8 +87,10 @@ describe('Streaming SSR with lazy compilation', () => {
     });
     const body = await res!.text();
 
-    // Page renders correctly.
+    // Page renders correctly, including the deeply-nested static child:
+    // page.tsx -> (static) About.tsx -> (static) B.tsx.
     expect(body).toMatch(/<div>About content<\/div>/);
+    expect(body).toMatch(/<div>B content<\/div>/);
     // CSS link injected into first-screen HTML.
     expect(body).toMatch(
       /<link href="\/static\/css\/async\/about\/page.css" rel="stylesheet" \/>/,
@@ -104,5 +106,17 @@ describe('Streaming SSR with lazy compilation', () => {
     expect(
       about.referenceCssAssets?.some(a => /async\/about\/page\.css$/.test(a)),
     ).toBe(true);
+
+    // Forcing the route component eager pulls its whole STATIC import subgraph
+    // (About + B) into the route chunk, so every nested component's CSS is
+    // merged into the single route CSS file — not just the route file's own.
+    // Fetch that CSS and assert both the 2nd-level (.about) and the
+    // 3rd-level (.b-deep) styles are present.
+    const cssRes = await page.goto(
+      `http://localhost:${appPort}/static/css/async/about/page.css`,
+    );
+    const css = await cssRes!.text();
+    expect(css).toMatch(/\.about\b/);
+    expect(css).toMatch(/\.b-deep\b/);
   });
 });
