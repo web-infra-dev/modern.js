@@ -1,49 +1,23 @@
 ---
-title: AI Coding Agents
+title: AI Tools
 sidebar_position: 6
 ---
 
-# Using Modern.js with AI Coding Agents
+# Modern.js For AI
 
-Modern.js ships a set of companion assets for AI coding agents (Claude Code, Cursor, etc.) to help you build **reliably and accurately** with an AI agent. This guide explains the boundaries between these assets and how to use them.
+Modern.js provides a toolkit for AI agents (Claude Code, Cursor, etc.) to help developers efficiently complete **feature development, dependency upgrades, and version migration**. The toolkit is made of three parts that work together:
 
-## Boundaries between the three assets
+- **AGENTS.md** — always-on project guidance (thin, generated per project): constraints and routing.
+- **Skills** — installable, on-demand AI capabilities (multi-step workflows with scripts/state).
+- **llms.txt** — the official docs knowledge source (large, auto-generated) for AI tools to retrieve facts.
 
-Modern.js's AI infrastructure is made of three assets that **work together rather than being mutually exclusive**:
+A one-line rule: look facts up in **llms.txt**; put project-level constraints in **AGENTS.md**; turn multi-step verifiable workflows into a **Skill**.
 
-| Asset | Responsibility | When to use |
-|---|---|---|
-| **llms.txt** | Knowledge index (large, auto-generated from docs) | Look up factual questions: APIs / config / concepts |
-| **AGENTS.md** | Project constraints + routing (thin, always in context) | Tell the agent "what to follow in *this* project and where to look" |
-| **Skills** | Verifiable multi-step workflows (with scripts/state) | Complex workflows: migration, dependency audit, issue triage |
+## AGENTS.md
 
-A one-line rule of thumb:
+When you scaffold with `@modern-js/create`, it generates a **lightweight** `AGENTS.md` (and a `CLAUDE.md` pointing to it) by default, serving as the agent's always-on guidance for your project: project commands, no-touch zones, version priority, and routing to docs and Skills.
 
-- A fact you can answer with a doc paragraph → look it up in **llms.txt**.
-- A constraint tied to *this* project → put it in **AGENTS.md**.
-- Multi-step + needs scripts/judgement + high-frequency pain → make it a **Skill** (otherwise keep it in AGENTS.md or docs; don't over-create Skills).
-
-## llms.txt: the official knowledge index
-
-The Modern.js docs site already integrates [`@rspress/plugin-llms`](https://rspress.rs/plugin/official-plugins/llms), which auto-generates:
-
-- Index: [`https://modernjs.dev/llms.txt`](https://modernjs.dev/llms.txt)
-- Full text: `https://modernjs.dev/llms-full.txt` (large — fetch on demand, don't dump the whole thing into context)
-
-In your project, **just reference the `llms.txt` link in `AGENTS.md`** and let the agent retrieve on demand, instead of copying heavy docs into the repo.
-
-## AGENTS.md / CLAUDE.md: always-on project guidance
-
-When you scaffold with `@modern-js/create`, it generates a **lightweight** `AGENTS.md` and a `CLAUDE.md` pointing to it by default, containing only:
-
-- Project commands (dev / build / serve / lint)
-- No-touch zones (lockfile, dist, node_modules)
-- Version priority (so the agent's answers match your Modern.js version)
-- Routing to docs and Skills
-
-Keeping `AGENTS.md` **thin** is intentional: the shorter the always-on context, the more reliable it is. Detailed knowledge goes to llms.txt; complex flows go to Skills.
-
-### Related scaffolding flags
+Related scaffolding flags:
 
 ```bash
 # Default: generate a thin AGENTS.md / CLAUDE.md and suggest recommended Skills (never auto-installed)
@@ -52,25 +26,38 @@ npx @modern-js/create my-app
 # Skip generating AGENTS.md / CLAUDE.md
 npx @modern-js/create my-app --no-agents-md
 
-# Control the Skills mode: none | recommended | custom (default: recommended)
+# Choose the Skills mode: none | recommended | custom (default: recommended, suggest only — never installs)
 npx @modern-js/create my-app --skills=none
 ```
 
-- `--skills` **only selects/suggests**; it never implicitly installs a Skill at scaffold time, nor fetches external packages.
-- A subproject created with `--sub` **inherits the monorepo root** `AGENTS.md` and does not regenerate one inside the sub-package.
+> A subproject created with `--sub` inherits the monorepo root `AGENTS.md` and does not regenerate one inside the sub-package.
 
-## Skills: verifiable multi-step workflows
+## Skills
 
-Skills follow the [Agent Skills open standard](https://github.com/vercel-labs/next-skills) and are triggered on demand. Modern.js Skills are **not force-installed and never installed implicitly**. The planned first batch includes:
+Skills are one-click installable, on-demand AI capabilities following the [Agent Skills open standard](https://github.com/vercel-labs/next-skills). The planned Modern.js Skills (coming soon):
 
-- `modernjs-migrate-to-v3` (user-facing): v2 → v3 migration. The first version only performs safe rewrites; complex items go to a manual checklist with a migration report.
-- `modernjs-dependency-audit` (maintainer/user): circular deps, phantom deps, duplicate versions, install size and time attribution.
-- `modernjs-issue-triage` (maintainer): issue classification, minimal-repro suggestions, labels and reply drafts.
+| Category | Skill | Identifier | Description |
+|---|---|---|---|
+| Migration | Upgrade to v3 | `modernjs-migrate-to-v3` | Migrate a v2 app to v3: safe rewrites + manual checklist for complex items + migration report |
+| Daily development | Enable features | `modernjs-feature-enable` | Enable BFF / SSG / RSC / Tailwind / Module Federation, etc. on demand |
+| Dependency governance | Dependency audit | `modernjs-dependency-audit` | Circular deps, phantom deps, duplicate versions, install size & time attribution |
+| Repo maintenance | Issue triage | `modernjs-issue-triage` | Issue classification, minimal-repro suggestions, labels and reply drafts |
 
-> These Skills are under implementation; install entry points will arrive in later releases.
+> Skills are **not force-installed and never installed implicitly**. The Skills above are under implementation; install entry points will arrive in later releases.
 
-## References
+## Quick integration
 
-- [Next.js Agent Skills](https://github.com/vercel-labs/next-skills)
-- [The llms.txt proposal](https://llmstxt.org/)
-- [Rspress llms plugin](https://rspress.rs/plugin/official-plugins/llms)
+Install a single Skill (coming soon):
+
+```bash
+npx @modern-js/skills add <skill-name>
+```
+
+## llms.txt
+
+Modern.js docs follow the [llms.txt specification](https://llmstxt.org/), auto-generated by [`@rspress/plugin-llms`](https://rspress.rs/plugin/official-plugins/llms), accessible via `/llms.txt` or `/llms-full.txt` for AI tool integration:
+
+- Index: [`https://modernjs.dev/llms.txt`](https://modernjs.dev/llms.txt)
+- Full text: `https://modernjs.dev/llms-full.txt` (large — fetch on demand)
+
+In your project's `AGENTS.md`, just **reference** the `llms.txt` link and let the agent retrieve on demand, instead of copying heavy docs into the repo.

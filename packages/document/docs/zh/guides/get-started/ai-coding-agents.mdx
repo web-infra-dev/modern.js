@@ -1,49 +1,23 @@
 ---
-title: AI 编码助手
+title: AI 工具
 sidebar_position: 6
 ---
 
-# 在 AI 编码助手中使用 Modern.js
+# Modern.js For AI
 
-Modern.js 为 AI 编码助手（Claude Code、Cursor 等）提供了一套配套资产，帮助你在 AI Agent 中**稳定、准确**地开发。本文说明这套资产的边界与使用方式。
+Modern.js 为 AI Agent（Claude Code、Cursor 等）提供了一套工具，帮助开发者更高效地完成**功能开发、依赖升级、版本迁移**等工作。整套能力由三部分组成，各司其职、互相协作：
 
-## 三类资产的边界
+- **AGENTS.md** —— 项目常驻指引（薄、随项目生成）：约束与路由。
+- **Skills** —— 可按需安装的 AI 辅助能力（带脚本/状态的多步骤流程）。
+- **llms.txt** —— 官方文档知识源（厚、自动生成）：供 AI 工具检索事实。
 
-Modern.js 的 AI 基建由三类资产组成，**各司其职、互相协作，而非三选一**：
+一句话边界：能用文档回答的查 **llms.txt**；项目级约束写进 **AGENTS.md**；多步骤可验证流程做成 **Skill**。
 
-| 资产 | 职责 | 何时使用 |
-|---|---|---|
-| **llms.txt** | 知识索引（厚、由文档自动生成） | 查 API / 配置 / 概念等事实性问题 |
-| **AGENTS.md** | 项目约束 + 路由（薄、常驻上下文） | 告诉 Agent「在这个项目里要遵守什么、去哪找」 |
-| **Skills** | 可验证的多步骤流程（带脚本/状态） | 迁移、依赖体检、issue 分诊等复杂工作流 |
+## AGENTS.md
 
-一句话判定：
+使用 `@modern-js/create` 创建项目时，默认会生成一份**轻量** `AGENTS.md`（及指向它的 `CLAUDE.md`），作为 AI Agent 在你项目里的常驻指引，内容只包含项目命令、禁改区、版本优先级、以及指向文档和 Skills 的路由。
 
-- 能用一段文档回答的事实 → 查 **llms.txt**。
-- 跟「这个项目」强绑定的约束 → 写进 **AGENTS.md**。
-- 多步骤 + 需脚本/判断 + 高频痛点 → 做成 **Skill**（其余沉淀进 AGENTS.md 或文档，避免滥造 Skill）。
-
-## llms.txt：官方知识索引
-
-Modern.js 文档站已内置 [`@rspress/plugin-llms`](https://rspress.rs/plugin/official-plugins/llms)，自动产出：
-
-- 索引：[`https://modernjs.dev/llms.txt`](https://modernjs.dev/llms.txt)
-- 全文：`https://modernjs.dev/llms-full.txt`（体积较大，建议按需取片段，不要整份塞进上下文）
-
-在你的项目里，**只需在 `AGENTS.md` 中引用 `llms.txt` 链接**，让 Agent 按需检索，而不要把厚文档复制进仓库。
-
-## AGENTS.md / CLAUDE.md：项目常驻指引
-
-使用 `@modern-js/create` 创建项目时，默认会生成一份**轻量** `AGENTS.md` 与一份指向它的 `CLAUDE.md`，内容只包含：
-
-- 项目命令（dev / build / serve / lint）
-- 禁改区（lockfile、dist、node_modules）
-- 版本优先级（让 Agent 的回答匹配你的 Modern.js 版本）
-- 文档与 Skills 的路由
-
-保持 `AGENTS.md` **精简**是有意为之：常驻上下文越短越可靠，详细知识交给 llms.txt，复杂流程交给 Skills。
-
-### 创建项目时的相关参数
+相关脚手架参数：
 
 ```bash
 # 默认：生成轻量 AGENTS.md / CLAUDE.md，并提示推荐 Skills（不自动安装）
@@ -52,25 +26,38 @@ npx @modern-js/create my-app
 # 跳过生成 AGENTS.md / CLAUDE.md
 npx @modern-js/create my-app --no-agents-md
 
-# 控制 Skills 模式：none | recommended | custom（默认 recommended）
+# 选择 Skills 模式：none | recommended | custom（默认 recommended，仅提示不安装）
 npx @modern-js/create my-app --skills=none
 ```
 
-- `--skills` **只做选择/提示**，不会在创建阶段隐式安装任何 Skill，也不会拉取外部包。
-- 以 `--sub` 创建的子项目会**继承 monorepo 根目录**的 `AGENTS.md`，不在子包内重复生成。
+> 以 `--sub` 创建的子项目会继承 monorepo 根目录的 `AGENTS.md`，不在子包内重复生成。
 
-## Skills：可验证的多步骤流程
+## Skills
 
-Skills 遵循 [Agent Skills 开放标准](https://github.com/vercel-labs/next-skills)，是按需触发的工作流。Modern.js 的 Skills **默认不强装、不隐式安装**，规划中的首批包括：
+Skills 是可一键安装、按需触发的 AI 辅助能力，遵循 [Agent Skills 开放标准](https://github.com/vercel-labs/next-skills)。Modern.js 规划中的 Skills（即将提供）：
 
-- `modernjs-migrate-to-v3`（用户向）：v2 → v3 迁移。首版只做安全改写，复杂项进入人工清单并产出迁移报告。
-- `modernjs-dependency-audit`（维护者/用户共用）：循环依赖、幽灵依赖、重复版本、安装体积与耗时归因。
-- `modernjs-issue-triage`（维护者向）：issue 分类、最小复现建议、标签与回复草稿。
+| 分类 | Skill | 标识 | 说明 |
+|---|---|---|---|
+| 版本迁移 | 升级到 v3 | `modernjs-migrate-to-v3` | v2 应用迁移到 v3：安全改写 + 复杂项人工清单 + 迁移报告 |
+| 日常开发 | 启用特性 | `modernjs-feature-enable` | 按需启用 BFF / SSG / RSC / Tailwind / Module Federation 等 |
+| 依赖治理 | 依赖体检 | `modernjs-dependency-audit` | 循环依赖、幽灵依赖、重复版本、安装体积与耗时归因 |
+| 仓库维护 | issue 分诊 | `modernjs-issue-triage` | issue 分类、最小复现建议、标签与回复草稿 |
 
-> 这些 Skill 正在实现中，安装入口将随后续版本提供。
+> Skills **默认不强装、不隐式安装**。以上 Skill 正在实现中，安装入口将随后续版本提供。
 
-## 参考
+## 快速接入
 
-- [Next.js Agent Skills](https://github.com/vercel-labs/next-skills)
-- [llms.txt 提案](https://llmstxt.org/)
-- [Rspress llms 插件](https://rspress.rs/plugin/official-plugins/llms)
+安装单个 Skill（即将提供）：
+
+```bash
+npx @modern-js/skills add <skill-name>
+```
+
+## llms.txt
+
+Modern.js 文档遵循 [llms.txt 规范](https://llmstxt.org/)，由 [`@rspress/plugin-llms`](https://rspress.rs/plugin/official-plugins/llms) 自动生成，可通过 `/llms.txt` 或 `/llms-full.txt` 供 AI 工具检索：
+
+- 索引：[`https://modernjs.dev/llms.txt`](https://modernjs.dev/llms.txt)
+- 全文：`https://modernjs.dev/llms-full.txt`（体积较大，建议按需取片段）
+
+在你的项目 `AGENTS.md` 中只需**引用** `llms.txt` 链接，让 Agent 按需检索，而不必把厚文档复制进仓库。
