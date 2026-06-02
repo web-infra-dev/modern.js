@@ -7,8 +7,6 @@ export const EN_LOCALE = {
     directoryExists:
       'Error: Directory "{projectName}" already exists and is not empty',
     createFailed: 'Error creating project:',
-    invalidSkillsMode:
-      'Error: invalid --skills value "{value}", expected one of: none | recommended | custom',
   },
   message: {
     welcome: '🚀 Welcome to Modern.js',
@@ -17,11 +15,6 @@ export const EN_LOCALE = {
     step1: 'cd {projectName}',
     step2: 'pnpm install',
     step3: 'pnpm dev',
-    skillsTitle: '🤖 Recommended Modern.js Skills (not installed):',
-    skillsList:
-      'modernjs-migrate-to-v3, modernjs-dependency-audit, modernjs-issue-triage',
-    skillsDocs:
-      'How to install: https://modernjs.dev/guides/get-started/ai-coding-agents',
   },
   help: {
     title: '🚀 Modern.js Project Creator',
@@ -33,10 +26,6 @@ export const EN_LOCALE = {
     optionVersion: '  -v, --version  Display version information',
     optionLang: '  -l, --lang     Set the language (zh or en)',
     optionSub: '  -s, --sub       Mark as a subproject (package in monorepo)',
-    optionNoAgentsMd:
-      '  --no-agents-md  Skip generating AGENTS.md / CLAUDE.md',
-    optionSkills:
-      '  --skills        Skills mode: none | recommended | custom (default: recommended; never auto-installs)',
     examples: '💡 Examples:',
     example1: '  create my-app',
     example2: '  create my-app --lang zh',
