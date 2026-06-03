@@ -23,9 +23,10 @@ npx @modern-js/skills add modernjs-dependency-audit --target=claude --dir=.
 
 | Skill | 说明 |
 |---|---|
+| `modernjs-migrate-to-v3` | v2 → v3 迁移：扫描产出 context.json + 迁移清单（自动/半自动/人工分类），安全改写 import 路径映射 |
 | `modernjs-dependency-audit` | 依赖体检：幽灵依赖、循环依赖、重复多版本、安装体积归因 |
 
-> 更多 Skill（`modernjs-migrate-to-v3`、`modernjs-feature-enable` 等）实现中，完成后会加入此包。
+> 更多 Skill（`modernjs-feature-enable`、`modernjs-issue-triage` 等）实现中，完成后会加入此包。
 
 ## 与仓库内 source of truth 的关系
 
