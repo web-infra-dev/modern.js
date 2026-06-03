@@ -10,14 +10,14 @@
 # 列出可安装的 Skills
 npx @modern-js/skills list
 
-# 安装一个 Skill 到 Agent 目录（默认安装到全部受支持的 Agent）
+# 安装一个 Skill 到 Agent 目录（会提示选择目标 Agent）
 npx @modern-js/skills add modernjs-dependency-audit
 
 # 指定目标 Agent 与项目根
-npx @modern-js/skills add modernjs-dependency-audit --target=claude --dir=.
+npx @modern-js/skills add modernjs-dependency-audit --target=claude,codex --dir=.
 ```
 
-`--target`：`claude`（→ `.claude/skills/`）、`codex`（→ `.agents/skills/`）、`cursor`（→ `.cursor/skills/`）、`all`（默认）。
+`--target`：`claude`（→ `.claude/skills/`）、`codex`（→ `.agents/skills/`）、`cursor`（→ `.cursor/skills/`）、`all`。不传时会先提示你选择。
 
 ## 当前可安装的 Skills
 

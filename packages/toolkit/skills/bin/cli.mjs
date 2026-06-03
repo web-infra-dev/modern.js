@@ -5,11 +5,13 @@
 // 命令：
 //   list                                  列出可安装的 Skills
 //   add <skill> [--target=t] [--dir=d]    安装某个 Skill 到 Agent 目录
-//     --target  claude | codex | cursor | all（默认 all）
+//     --target  claude | codex | cursor | all（不传则交互选择）
 //     --dir     安装到哪个项目根（默认当前目录）
 
 import fs from 'node:fs';
+import readline from 'node:readline/promises';
 import path from 'node:path';
+import process from 'node:process';
 import { fileURLToPath } from 'node:url';
 
 const PKG_ROOT = path.dirname(path.dirname(fileURLToPath(import.meta.url)));
@@ -61,9 +63,55 @@ function parseAddArgs(argv) {
   const skill = rest.find(a => !a.startsWith('--'));
   const targetArg = rest.find(a => a.startsWith('--target='));
   const dirArg = rest.find(a => a.startsWith('--dir='));
-  const target = targetArg ? targetArg.split('=')[1] : 'all';
+  const target = targetArg ? targetArg.split('=')[1] : null;
   const dir = dirArg ? path.resolve(dirArg.split('=')[1]) : process.cwd();
   return { skill, target, dir };
+}
+
+function resolveTargets(target) {
+  if (!target) return null;
+  const normalized =
+    target === 'all'
+      ? Object.keys(TARGETS)
+      : target
+          .split(',')
+          .map(t => t.trim())
+          .filter(Boolean);
+  const unknown = normalized.filter(t => !TARGETS[t]);
+  if (unknown.length) return { error: unknown };
+  return { targets: normalized };
+}
+
+async function promptTargets() {
+  if (!process.stdin.isTTY || !process.stdout.isTTY) {
+    console.error(
+      '未指定 --target，且当前不是交互终端；请显式传入 --target=claude,codex,cursor',
+    );
+    process.exit(1);
+  }
+  const rl = readline.createInterface({
+    input: process.stdin,
+    output: process.stdout,
+  });
+  try {
+    const answer = (await rl.question(
+      '请选择要安装到哪些 agent（逗号分隔：claude, codex, cursor）: ',
+    )).trim();
+    const parsed = resolveTargets(answer);
+    if (!parsed || !parsed.targets || !parsed.targets.length) {
+      console.error('未选择任何 target。');
+      process.exit(1);
+    }
+    if (parsed.error?.length) {
+      console.error(
+        `未知 target：${parsed.error.join(', ')}（可选：claude | codex | cursor | all）`,
+      );
+      process.exit(1);
+    }
+    return parsed.targets;
+  } finally {
+    rl.close();
+  }
 }
 
 function cmdList() {
@@ -79,11 +127,11 @@ function cmdList() {
     if (description) console.log(`    ${description}\n`);
   }
   console.log(
-    '安装：npx @modern-js/skills add <skill> --target=claude|codex|cursor|all',
+    '安装：npx @modern-js/skills add <skill> [--target=claude|codex|cursor|all]',
   );
 }
 
-function cmdAdd(argv) {
+async function cmdAdd(argv) {
   const { skill, target, dir } = parseAddArgs(argv);
   if (!skill) {
     console.error(
@@ -98,17 +146,8 @@ function cmdAdd(argv) {
     );
     process.exit(1);
   }
-  const targets =
-    target === 'all'
-      ? Object.keys(TARGETS)
-      : target.split(',').map(t => t.trim());
-  const unknown = targets.filter(t => !TARGETS[t]);
-  if (unknown.length) {
-    console.error(
-      `未知 target：${unknown.join(', ')}（可选：claude | codex | cursor | all）`,
-    );
-    process.exit(1);
-  }
+  const resolved = resolveTargets(target);
+  const targets = resolved ? resolved.targets : await promptTargets();
 
   console.log(`安装 ${skill} → ${dir}`);
   for (const t of targets) {
@@ -119,13 +158,16 @@ function cmdAdd(argv) {
   console.log('完成。可在对应 Agent 里触发该 Skill。');
 }
 
-function main() {
+async function main() {
   const cmd = process.argv[2];
   if (cmd === 'list') return cmdList();
-  if (cmd === 'add') return cmdAdd(process.argv);
+  if (cmd === 'add') return await cmdAdd(process.argv);
   console.log(
-    '@modern-js/skills\n\n命令：\n  list                                  列出可安装的 Skills\n  add <skill> [--target=t] [--dir=d]    安装 Skill（target: claude|codex|cursor|all，默认 all）',
+    '@modern-js/skills\n\n命令：\n  list                                  列出可安装的 Skills\n  add <skill> [--target=t] [--dir=d]    安装 Skill（target: claude|codex|cursor|all；不传则交互选择）',
   );
 }
 
-main();
+main().catch(err => {
+  console.error(err instanceof Error ? err.message : String(err));
+  process.exit(1);
+});
