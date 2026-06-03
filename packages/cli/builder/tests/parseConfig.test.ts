@@ -66,6 +66,44 @@ describe('parseCommonConfig', () => {
     ).toBeTruthy();
   });
 
+  test('tools.htmlPlugin should preserve async template parameters', async () => {
+    const { rsbuildConfig } = await parseCommonConfig({
+      html: {
+        mountId: 'app',
+      },
+    });
+    const htmlPlugin = rsbuildConfig.tools!.htmlPlugin as (
+      config: Record<string, any>,
+    ) => void;
+    const config = {
+      title: 'Modern.js',
+      templateParameters: async () => ({
+        htmlPlugin: {
+          tags: {
+            headTags: [],
+            bodyTags: [],
+          },
+        },
+        custom: 'value',
+      }),
+    };
+
+    htmlPlugin(config);
+
+    await expect(config.templateParameters()).resolves.toEqual({
+      title: 'Modern.js',
+      meta: undefined,
+      mountId: 'app',
+      htmlPlugin: {
+        tags: {
+          headTags: [],
+          bodyTags: [],
+        },
+      },
+      custom: 'value',
+    });
+  });
+
   test('dev.xxx', async () => {
     rs.stubEnv('NODE_ENV', 'development');
     expect(

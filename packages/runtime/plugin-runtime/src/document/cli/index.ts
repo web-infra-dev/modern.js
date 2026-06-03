@@ -60,6 +60,12 @@ interface HtmlRspackPlugin {
   tags: HtmlRspackPluginTags;
 }
 
+interface HtmlTemplateData {
+  htmlPlugin?: HtmlRspackPlugin;
+  htmlWebpackPlugin?: HtmlRspackPlugin;
+  htmlRspackPlugin?: HtmlRspackPlugin;
+}
+
 interface ExternalRequest {
   request?: string;
 }
@@ -649,8 +655,7 @@ export const documentPlugin = (): CliPlugin<AppTools> => ({
       if (!documentFilePath) {
         return null;
       }
-      // Don't know why we can't use htmlRspackPlugin, it can't get the tags.
-      return async ({ htmlPlugin }: { [option: string]: HtmlRspackPlugin }) => {
+      return async (templateData: HtmlTemplateData) => {
         const config = api.getNormalizedConfig();
         const documentParams = getDocParams({
           config: config as NormalizedConfig,
@@ -674,6 +679,15 @@ export const documentPlugin = (): CliPlugin<AppTools> => ({
 
         const { partialsByEntrypoint } = api.getAppContext();
         html = processPartials(html, entryName, partialsByEntrypoint || {});
+        const htmlPlugin =
+          templateData.htmlPlugin ||
+          templateData.htmlWebpackPlugin ||
+          templateData.htmlRspackPlugin;
+        if (!htmlPlugin) {
+          throw new Error(
+            'Failed to get HTML plugin tags from template parameters.',
+          );
+        }
         const { scripts, links, metas, titles } = extractHtmlTags(
           htmlPlugin,
           templateParameters,

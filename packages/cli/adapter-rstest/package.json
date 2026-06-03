@@ -26,16 +26,16 @@
     "test": "rstest"
   },
   "dependencies": {
-    "@rstest/adapter-rsbuild": "^0.2.6",
-    "@modern-js/app-tools": "workspace:*"
+    "@modern-js/app-tools": "workspace:*",
+    "@rstest/adapter-rsbuild": "^0.2.6"
   },
   "devDependencies": {
-    "@rsbuild/core": "2.0.9",
-    "@rstest/core": "0.9.10",
-    "@modern-js/tsconfig": "workspace:*",
     "@modern-js/rslib": "workspace:*",
+    "@modern-js/tsconfig": "workspace:*",
     "@modern-js/types": "workspace:*",
+    "@rsbuild/core": "2.0.10",
     "@rslib/core": "0.21.5",
+    "@rstest/core": "0.9.10",
     "@scripts/rstest-config": "workspace:*",
     "@types/node": "^20",
     "typescript": "^5"
