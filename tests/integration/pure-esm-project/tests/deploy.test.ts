@@ -7,7 +7,7 @@ import {
   runContinuousTask,
 } from '../../../utils/modernTestUtils';
 
-const appDir = path.resolve(__dirname, '../');
+const sourceAppDir = path.resolve(__dirname, '../');
 
 async function checkAppRun(host: string) {
   // Page render
@@ -36,8 +36,34 @@ async function checkAppRun(host: string) {
 // bff project's dependencies is more complex, so use bff project to test
 describe('deploy', () => {
   const apps = new Set();
+  let appDir: string;
 
   beforeAll(async () => {
+    appDir = await fse.mkdtemp(
+      path.join(path.dirname(sourceAppDir), '.pure-esm-deploy-'),
+    );
+    await fse.copy(sourceAppDir, appDir, {
+      filter: src => {
+        const relative = path.relative(sourceAppDir, src);
+        if (!relative) {
+          return true;
+        }
+        const [firstSegment] = relative.split(path.sep);
+        return ![
+          'node_modules',
+          'dist',
+          'dist-deploy',
+          '.output',
+          'tests',
+        ].includes(firstSegment);
+      },
+    });
+    await fse.ensureSymlink(
+      path.join(sourceAppDir, 'node_modules'),
+      path.join(appDir, 'node_modules'),
+      'dir',
+    );
+
     await modernBuild(appDir, [], {
       env: {
         TEST_DIST: 'dist-deploy',
@@ -48,8 +74,7 @@ describe('deploy', () => {
 
   afterAll(async () => {
     await Promise.all([...apps].map(x => killApp(x, true)));
-    await fse.remove(path.join(appDir, 'dist-deploy'));
-    await fse.remove(path.join(appDir, '.output'));
+    await fse.remove(appDir);
   });
 
   test('support server when deploy target is node', async () => {
