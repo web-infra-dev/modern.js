@@ -1,5 +1,7 @@
 # RFC: Agent Runtime - 面向 AI Agent 的前端运行时能力
 
+> 本 RFC 已被 [RFC: OpenRuntime](./rfc-openruntime.md) 替代。
+
 ## 状态
 
 Draft
