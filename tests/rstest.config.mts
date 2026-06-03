@@ -5,6 +5,9 @@ export default defineConfig({
   include: ['integration/**/*.(spec|test).[jt]s?(x)'],
   exclude: ['integration/rstest/**'],
   globals: true,
+  pool: {
+    maxWorkers: '50%',
+  },
   retry: 1,
   testTimeout: 60_000,
   hookTimeout: 60_000,
