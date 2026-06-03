@@ -31,9 +31,9 @@ export default (): CliPlugin<AppTools> => ({
       const userConfig = api.getConfig();
       const defaultConfig = createDefaultConfig(appContext);
 
-      // Default-enable lazy compilation for pure CSR only (see
-      // isLazyCompilationSafeByDefault). api.config() is low priority, so an
-      // explicit user `dev.lazyCompilation` always wins.
+      // Default-enable lazy compilation for supported dev scenarios (pure CSR
+      // and stream SSR; see isLazyCompilationSafeByDefault). api.config() is
+      // low priority, so an explicit user `dev.lazyCompilation` always wins.
       if (
         userConfig.dev?.lazyCompilation === undefined &&
         isLazyCompilationSafeByDefault(userConfig)
