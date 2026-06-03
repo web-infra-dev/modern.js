@@ -96,6 +96,26 @@ describe('plugin runtime cli', () => {
       },
     });
     expect(html.includes('<!DOCTYPE html>')).toBeTruthy();
+
+    const htmlWithHtmlWebpackPlugin = await htmlPluginFn({
+      htmlWebpackPlugin: {
+        tags: {
+          headTags: [],
+          bodyTags: '',
+        },
+      },
+    });
+    expect(htmlWithHtmlWebpackPlugin.includes('<!DOCTYPE html>')).toBeTruthy();
+
+    const htmlWithHtmlRspackPlugin = await htmlPluginFn({
+      htmlRspackPlugin: {
+        tags: {
+          headTags: [],
+          bodyTags: '',
+        },
+      },
+    });
+    expect(htmlWithHtmlRspackPlugin.includes('<!DOCTYPE html>')).toBeTruthy();
   });
   it('when user config set empty entries and disableDefaultEntries true, should get the ', async () => {
     const hooks: any = pluginAPI.getHooks();

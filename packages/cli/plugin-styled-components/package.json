@@ -30,7 +30,7 @@
     "build": "rslib build"
   },
   "dependencies": {
-    "@rsbuild/plugin-styled-components": "1.6.1",
+    "@rsbuild/plugin-styled-components": "1.6.2",
     "@swc/helpers": "^0.5.17"
   },
   "devDependencies": {

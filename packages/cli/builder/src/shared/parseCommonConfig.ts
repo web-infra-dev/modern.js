@@ -179,8 +179,8 @@ export async function parseCommonConfig(
       if (typeof config.templateParameters === 'function') {
         const originFn = config.templateParameters;
 
-        config.templateParameters = (...args) => {
-          const res = originFn(...args);
+        config.templateParameters = async (...args) => {
+          const res = await originFn(...args);
           return {
             ...defaultTemplateParameters,
             ...res,
