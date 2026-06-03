@@ -38,7 +38,7 @@ skills/maintainer/<skill>/        # 唯一手写源
 - **用户显式安装**（P1 提供 CLI）：
 
   ```bash
-  npx @modern-js/skills init                      # 可选：生成用户项目的轻量 AGENTS.md
+  npx @modern-js/skills list                       # 列出可装 skill
   npx @modern-js/skills add modernjs-migrate-to-v3 # 安装单个 skill
   # 支持 --target=claude|codex|cursor|all
   ```
@@ -57,4 +57,4 @@ skills/<maintainer|user>/<skill-name>/
 
 ## 与 create 的关系
 
-`@modern-js/create` **不默认生成** AGENTS.md/CLAUDE.md，也**不安装 Skills**。用户侧 AI 资产一律走显式入口（`npx @modern-js/skills init/add`，P1 提供）。
+`@modern-js/create` **不生成** AGENTS.md/CLAUDE.md（AGENTS.md 是仓库维护用的内部资产，不属于用户项目），也**不安装 Skills**。用户侧 skill 走显式入口（`npx @modern-js/skills list/add`）。
