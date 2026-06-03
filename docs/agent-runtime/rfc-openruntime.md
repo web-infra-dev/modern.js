@@ -99,9 +99,7 @@ CLI 通过 HTTP Bridge 找到对应页面 Runtime，再调用同一套 Runtime A
 
 ## 架构图
 
-```txt
-[架构图占位：Application / OpenRuntime SDK / Runtime Center / Bridge / CLI / Agent]
-```
+![OpenRuntime 架构图](./assets/openruntime-architecture.png)
 
 ## Runtime Center
 
