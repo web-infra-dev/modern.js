@@ -53,11 +53,12 @@ function parseRouteManifest(html: string): RouteManifest {
   throw new Error('route manifest object not balanced');
 }
 
-// Verifies the stream SSR + lazy compilation route-eager path on a dedicated
-// fixture (`streaming-lazy`, lazy always on) so it never shares dist with the
-// baseline `streaming` fixture. Route component chunks must still compile
-// eagerly, so first-screen async route assets (JS + CSS) are emitted, recorded
-// in the route manifest, and injected.
+// Verifies the stream SSR default lazy-compilation route-eager path on a
+// dedicated fixture (`streaming-lazy`) so it never shares dist with the baseline
+// `streaming` fixture. The fixture does not set `dev.lazyCompilation`; app-tools
+// should inject the default `{ imports: true, entries: false }`. Route component
+// chunks must still compile eagerly, so first-screen async route assets (JS +
+// CSS) are emitted, recorded in the route manifest, and injected.
 describe('Streaming SSR with lazy compilation', () => {
   let app: any;
   let appPort: number;

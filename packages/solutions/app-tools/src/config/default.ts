@@ -100,9 +100,23 @@ export function createDefaultConfig(
   };
 }
 
+type ServerSSRConfig = NonNullable<AppUserConfig['server']>['ssr'];
+
+const isStreamSSRConfig = (ssr: ServerSSRConfig) => {
+  if (!ssr) {
+    return false;
+  }
+  if (typeof ssr === 'boolean') {
+    // `ssr: true` defaults to stream SSR in Modern.
+    return ssr;
+  }
+  return ssr.mode !== 'string';
+};
+
 /**
- * Default-enable lazy compilation only for pure CSR. SSR (any mode), RSC and SSG
- * inject first-screen chunks/CSS at render time, which lazy compilation defers.
+ * Default-enable lazy compilation for pure CSR and stream SSR. Stream SSR keeps
+ * first-screen route assets correct via the route-eager lazyCompilation.test
+ * injected by the SSR builder plugin. String SSR, RSC and SSG stay disabled.
  */
 export function isLazyCompilationSafeByDefault(
   userConfig: Pick<AppUserConfig, 'server' | 'output'>,
@@ -115,13 +129,18 @@ export function isLazyCompilationSafeByDefault(
   ) {
     return false;
   }
-  if (server?.rsc || server?.ssr) {
+  if (server?.rsc) {
+    return false;
+  }
+  if (server?.ssr && !isStreamSSRConfig(server.ssr)) {
     return false;
   }
   if (
     server?.ssrByEntries &&
     typeof server.ssrByEntries === 'object' &&
-    Object.values(server.ssrByEntries).some(Boolean)
+    Object.values(server.ssrByEntries).some(
+      ssr => Boolean(ssr) && !isStreamSSRConfig(ssr),
+    )
   ) {
     return false;
   }

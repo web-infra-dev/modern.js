@@ -56,8 +56,18 @@ describe('initialize plugin: default lazyCompilation', () => {
     expect(configCb!().dev.lazyCompilation).toBeUndefined();
   });
 
-  it('does not inject for SSR (ssr: true)', () => {
+  it('injects for stream SSR (ssr: true)', () => {
     const { configCb } = setupPlugin({ server: { ssr: true } });
+    expect(configCb!().dev.lazyCompilation).toEqual({
+      imports: true,
+      entries: false,
+    });
+  });
+
+  it('does not inject for string SSR', () => {
+    const { configCb } = setupPlugin({
+      server: { ssr: { mode: 'string' } },
+    });
     expect(configCb!().dev.lazyCompilation).toBeUndefined();
   });
 

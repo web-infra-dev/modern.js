@@ -6,16 +6,16 @@ describe('isLazyCompilationSafeByDefault', () => {
     expect(isLazyCompilationSafeByDefault({ server: {} })).toBe(true);
   });
 
-  it('disables for `ssr: true`', () => {
+  it('enables for `ssr: true` because Modern defaults it to stream SSR', () => {
     expect(isLazyCompilationSafeByDefault({ server: { ssr: true } })).toBe(
-      false,
+      true,
     );
   });
 
-  it('disables for stream SSR', () => {
+  it('enables for stream SSR', () => {
     expect(
       isLazyCompilationSafeByDefault({ server: { ssr: { mode: 'stream' } } }),
-    ).toBe(false);
+    ).toBe(true);
   });
 
   it('disables for string SSR', () => {
@@ -24,10 +24,18 @@ describe('isLazyCompilationSafeByDefault', () => {
     ).toBe(false);
   });
 
-  it('disables when any entry uses SSR', () => {
+  it('enables when SSR entries are stream-only', () => {
     expect(
       isLazyCompilationSafeByDefault({
-        server: { ssrByEntries: { a: false, b: { mode: 'stream' } } },
+        server: { ssrByEntries: { a: false, b: true, c: { mode: 'stream' } } },
+      }),
+    ).toBe(true);
+  });
+
+  it('disables when any entry uses string SSR', () => {
+    expect(
+      isLazyCompilationSafeByDefault({
+        server: { ssrByEntries: { a: false, b: { mode: 'string' } } },
       }),
     ).toBe(false);
   });
