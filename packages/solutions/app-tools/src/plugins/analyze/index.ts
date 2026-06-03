@@ -197,12 +197,12 @@ export default (): CliPlugin<AppTools> => ({
         // FRESH from the app context here to pick up the collected value, then
         // thread it explicitly into the builder options (no `_internalContext`
         // read in the SSR builder plugin).
-        const { routeComponentFiles } = api.getAppContext();
+        const { eagerRouteComponentFilesByEntry } = api.getAppContext();
         const createBuilderForModern = await createBuilderGenerator();
         const builder = await createBuilderForModern({
           normalizedConfig: normalizedConfig as any,
           appContext: appContext as any,
-          routeComponentFiles,
+          eagerRouteComponentFilesByEntry,
         });
 
         builder.onBeforeBuild(

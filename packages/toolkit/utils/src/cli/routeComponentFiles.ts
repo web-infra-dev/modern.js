@@ -39,12 +39,22 @@ export function normalizeModulePath(filePath: string): string {
   return real.split(path.sep).join('/');
 }
 
-export type CollectResult = {
+export type RouteComponentFileCollection = {
   /** Normalized absolute paths of resolved route component files. */
-  files: Set<string>;
+  resolvedFiles: Set<string>;
   /** `_component` specifiers that could not be mapped to a real file. */
-  unresolved: string[];
+  unresolvedSpecifiers: string[];
 };
+
+/**
+ * Per-entry route component files, keyed by entry name. Collected by the router
+ * plugin from the FINAL routes and consumed (currently by stream SSR lazy
+ * compilation) to force route components eager.
+ */
+export type EagerRouteComponentFilesByEntry = Map<
+  string,
+  RouteComponentFileCollection
+>;
 
 /**
  * Resolve a route component's `_component` (alias form from `replaceWithAlias`,
@@ -102,9 +112,9 @@ export function collectRouteComponentFiles(
   routes: unknown,
   srcDirectory: string,
   srcAlias: string,
-): CollectResult {
-  const files = new Set<string>();
-  const unresolved: string[] = [];
+): RouteComponentFileCollection {
+  const resolvedFiles = new Set<string>();
+  const unresolvedSpecifiers: string[] = [];
   const walk = (list: unknown) => {
     if (!Array.isArray(list)) {
       return;
@@ -117,14 +127,14 @@ export function collectRouteComponentFiles(
           srcAlias,
         );
         if (file) {
-          files.add(file);
+          resolvedFiles.add(file);
         } else {
-          unresolved.push(route._component);
+          unresolvedSpecifiers.push(route._component);
         }
       }
       walk(route.children);
     }
   };
   walk(routes);
-  return { files, unresolved };
+  return { resolvedFiles, unresolvedSpecifiers };
 }

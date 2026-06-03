@@ -19,7 +19,7 @@ import type {
 import type { AppToolsContext } from '../../../types/plugin';
 import { HtmlAsyncChunkPlugin, RouterPlugin } from '../bundlerPlugins';
 import {
-  aggregateRouteComponentFiles,
+  aggregateEagerRouteComponentFiles,
   planSSRLazyCompilation,
 } from '../lazyCompilation';
 import type { BuilderOptions } from '../types';
@@ -30,7 +30,8 @@ export const builderPluginAdapterSSR = (
   name: 'builder-plugin-adapter-modern-ssr',
 
   setup(api) {
-    const { normalizedConfig, appContext, routeComponentFiles } = options;
+    const { normalizedConfig, appContext, eagerRouteComponentFilesByEntry } =
+      options;
     api.modifyRsbuildConfig(config => {
       const merged = mergeRsbuildConfig(config, {
         html: {
@@ -54,7 +55,7 @@ export const builderPluginAdapterSSR = (
         merged.dev?.lazyCompilation,
         normalizedConfig,
         appContext,
-        routeComponentFiles,
+        eagerRouteComponentFilesByEntry,
       );
       if (lazyCompilation !== undefined) {
         merged.dev = { ...merged.dev, lazyCompilation };
@@ -154,7 +155,7 @@ function getSSRLazyCompilation(
   current: unknown,
   normalizedConfig: AppNormalizedConfig,
   appContext: AppToolsContext,
-  routeComponentFiles: BuilderOptions['routeComponentFiles'],
+  eagerRouteComponentFilesByEntry: BuilderOptions['eagerRouteComponentFilesByEntry'],
 ): Rspack.LazyCompilationOptions | undefined {
   // Only stream SSR; RSC keeps its own behavior (route-eager alone does not make
   // its flight/server channel safe under lazy compilation).
@@ -166,12 +167,14 @@ function getSSRLazyCompilation(
     return undefined;
   }
   // The route component files were collected (from the FINAL routes) by the
-  // router plugin and threaded in explicitly as `BuilderOptions.routeComponentFiles`
-  // (read FRESH from the app context after `generateEntryCode`), so this plugin
-  // reads only the explicit param — no shared-context back-channel.
+  // router plugin and threaded in explicitly as
+  // `BuilderOptions.eagerRouteComponentFilesByEntry` (read FRESH from the app
+  // context after `generateEntryCode`), so this plugin reads only the explicit
+  // param — no shared-context back-channel. They are forced eager so stream SSR
+  // first-screen chunk/CSS injection has the assets it needs at render time.
   const plan = planSSRLazyCompilation(
     current,
-    aggregateRouteComponentFiles(routeComponentFiles),
+    aggregateEagerRouteComponentFiles(eagerRouteComponentFilesByEntry),
   );
   if (!plan.apply) {
     // Unresolved route components → we cannot guarantee they are eager, so we

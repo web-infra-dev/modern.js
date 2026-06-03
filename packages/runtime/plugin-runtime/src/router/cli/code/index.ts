@@ -15,7 +15,7 @@ import type {
 } from '@modern-js/types';
 import {
   fs,
-  type CollectResult,
+  type EagerRouteComponentFilesByEntry,
   collectRouteComponentFiles,
   getEntryOptions,
   isSSGEntry,
@@ -118,13 +118,14 @@ export const generateCode = async (
   // populated synchronously inside each `generateEntryCode` and published once,
   // after all entries are done, via the public `api.updateAppContext` channel —
   // the app-tools SSR builder plugin reads it back as
-  // `BuilderOptions.routeComponentFiles` to force route chunks eager under lazy
-  // compilation.
-  const routeComponentFiles = new Map<string, CollectResult>();
+  // `BuilderOptions.eagerRouteComponentFilesByEntry` to force route chunks eager
+  // under lazy compilation.
+  const eagerRouteComponentFilesByEntry: EagerRouteComponentFilesByEntry =
+    new Map();
 
   await Promise.all(entrypoints.map(generateEntryCode));
 
-  api.updateAppContext({ routeComponentFiles });
+  api.updateAppContext({ eagerRouteComponentFilesByEntry });
 
   async function generateEntryCode(entrypoint: Entrypoint) {
     const {
@@ -208,12 +209,12 @@ export const generateCode = async (
         // here (rather than inside a `modifyFileSystemRoutes` tap) guarantees we
         // capture the routes a later plugin may have replaced/added. The result
         // is published once after all entries via `api.updateAppContext` above.
-        const routeComponentResult = collectRouteComponentFiles(
+        const routeEagerFilesForEntry = collectRouteComponentFiles(
           routes,
           srcDirectory,
           internalSrcAlias,
         );
-        routeComponentFiles.set(entryName, routeComponentResult);
+        eagerRouteComponentFilesByEntry.set(entryName, routeEagerFilesForEntry);
 
         if (ssrMode === 'stream') {
           const hasPageRoute = routes.some(

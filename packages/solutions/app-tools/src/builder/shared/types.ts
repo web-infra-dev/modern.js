@@ -1,4 +1,4 @@
-import type { CollectResult } from '@modern-js/utils';
+import type { EagerRouteComponentFilesByEntry } from '@modern-js/utils';
 import type { AppNormalizedConfig } from '../../types';
 import type { AppToolsContext } from '../../types/plugin';
 
@@ -13,5 +13,5 @@ export type BuilderOptions = {
    * builder plugin can force route component chunks eager under lazy
    * compilation. Explicit param instead of a direct `_internalContext` read.
    */
-  routeComponentFiles?: Map<string, CollectResult>;
+  eagerRouteComponentFilesByEntry?: EagerRouteComponentFilesByEntry;
 };

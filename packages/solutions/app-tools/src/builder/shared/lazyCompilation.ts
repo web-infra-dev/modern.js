@@ -1,17 +1,23 @@
-import { type CollectResult, normalizeModulePath } from '@modern-js/utils';
+import {
+  type EagerRouteComponentFilesByEntry,
+  type RouteComponentFileCollection,
+  normalizeModulePath,
+} from '@modern-js/utils';
 
 // The COLLECTION side of this feature (`collectRouteComponentFiles`,
-// `normalizeModulePath`, `CollectResult`) lives in `@modern-js/utils` so the
-// route generator in `@modern-js/runtime` plugin-runtime can collect route
-// files WITHOUT a runtime value-import of `@modern-js/app-tools` (app-tools is
-// only a devDependency there). This module keeps the MATCHING/PLANNING side,
-// which is consumed by the SSR builder plugin (adapterSSR). Both sides share
-// `normalizeModulePath` from utils so the normalization stays identical.
+// `normalizeModulePath`, `RouteComponentFileCollection`) lives in
+// `@modern-js/utils` so the route generator in `@modern-js/runtime`
+// plugin-runtime can collect route files WITHOUT a runtime value-import of
+// `@modern-js/app-tools` (app-tools is only a devDependency there). This module
+// keeps the MATCHING/PLANNING side, which is consumed by the SSR builder plugin
+// (adapterSSR). Both sides share `normalizeModulePath` from utils so the
+// normalization stays identical.
 //
 // Re-export the collection helpers (which live in utils) so the SSR builder
 // plugin's matching side and app-tools' own unit tests have one import surface.
 export {
-  type CollectResult,
+  type EagerRouteComponentFilesByEntry,
+  type RouteComponentFileCollection,
   collectRouteComponentFiles,
   normalizeModulePath,
 } from '@modern-js/utils';
@@ -21,7 +27,7 @@ type LazyCompilationTestFn = (m: ModuleLike) => boolean;
 /** Matches Rspack's `LazyCompilationOptions['test']`. */
 type LazyCompilationTest = RegExp | LazyCompilationTestFn | undefined;
 
-export type RouteComponentInfo = {
+export type EagerRouteComponentInfo = {
   files: Set<string>;
   /** Specifiers that could not be resolved, keyed by entry name. */
   unresolvedByEntry: Map<string, string[]>;
@@ -29,22 +35,23 @@ export type RouteComponentInfo = {
 
 /**
  * Aggregate the per-entry route component data (collected by the router plugin
- * during route generation and threaded in as `BuilderOptions.routeComponentFiles`)
- * into the flat shape {@link planSSRLazyCompilation} expects: one Set of all
- * route files plus the unresolved specifiers keyed by entry.
+ * during route generation and threaded in as
+ * `BuilderOptions.eagerRouteComponentFilesByEntry`) into the flat shape
+ * {@link planSSRLazyCompilation} expects: one Set of all route files plus the
+ * unresolved specifiers keyed by entry.
  */
-export function aggregateRouteComponentFiles(
-  byEntry: Map<string, CollectResult> | undefined,
-): RouteComponentInfo {
+export function aggregateEagerRouteComponentFiles(
+  byEntry: EagerRouteComponentFilesByEntry | undefined,
+): EagerRouteComponentInfo {
   const files = new Set<string>();
   const unresolvedByEntry = new Map<string, string[]>();
   if (byEntry) {
-    for (const [entryName, result] of byEntry) {
-      for (const file of result.files) {
+    for (const [entryName, collection] of byEntry) {
+      for (const file of collection.resolvedFiles) {
         files.add(file);
       }
-      if (result.unresolved.length > 0) {
-        unresolvedByEntry.set(entryName, result.unresolved);
+      if (collection.unresolvedSpecifiers.length > 0) {
+        unresolvedByEntry.set(entryName, collection.unresolvedSpecifiers);
       }
     }
   }
@@ -58,7 +65,7 @@ export function aggregateRouteComponentFiles(
  * (defaulting to lazy when the user did not provide one).
  */
 export function buildSSRLazyCompilationTest(
-  routeFiles: Set<string>,
+  eagerRouteFiles: Set<string>,
   userTest?: LazyCompilationTest,
 ): LazyCompilationTestFn {
   // Normalize the user's test (RegExp | fn | undefined) to a function.
@@ -74,7 +81,7 @@ export function buildSSRLazyCompilationTest(
     if (!resource) {
       return userTestFn(m);
     }
-    if (routeFiles.has(normalizeModulePath(resource))) {
+    if (eagerRouteFiles.has(normalizeModulePath(resource))) {
       // Route component → must be eager, regardless of the user's test.
       return false;
     }
@@ -95,7 +102,7 @@ export type SSRLazyPlan =
  */
 export function planSSRLazyCompilation(
   current: unknown,
-  info: RouteComponentInfo,
+  info: EagerRouteComponentInfo,
 ): SSRLazyPlan {
   if (!current) {
     return { apply: false };

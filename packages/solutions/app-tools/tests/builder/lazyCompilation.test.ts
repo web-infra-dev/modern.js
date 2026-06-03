@@ -2,7 +2,7 @@ import fs from 'node:fs';
 import os from 'node:os';
 import path from 'node:path';
 import {
-  aggregateRouteComponentFiles,
+  aggregateEagerRouteComponentFiles,
   buildSSRLazyCompilationTest,
   collectRouteComponentFiles,
   normalizeModulePath,
@@ -45,42 +45,45 @@ describe('normalizeModulePath', () => {
 
 describe('buildSSRLazyCompilationTest', () => {
   const routeFile = normalizeModulePath('/app/src/routes/about/page.tsx');
-  const routeFiles = new Set([routeFile]);
+  const eagerRouteFiles = new Set([routeFile]);
 
   it('forces route component modules eager (false)', () => {
-    const test = buildSSRLazyCompilationTest(routeFiles);
+    const test = buildSSRLazyCompilationTest(eagerRouteFiles);
     expect(test({ resource: '/app/src/routes/about/page.tsx' })).toBe(false);
   });
 
   it('lazy (true) for non-route modules without a user test', () => {
-    const test = buildSSRLazyCompilationTest(routeFiles);
+    const test = buildSSRLazyCompilationTest(eagerRouteFiles);
     expect(test({ resource: '/app/src/components/Heavy.tsx' })).toBe(true);
   });
 
   it('delegates non-route modules to a function user test', () => {
     const userTest = (m: { resource?: string }) =>
       !/Heavy/.test(m.resource || '');
-    const test = buildSSRLazyCompilationTest(routeFiles, userTest);
+    const test = buildSSRLazyCompilationTest(eagerRouteFiles, userTest);
     expect(test({ resource: '/app/src/components/Heavy.tsx' })).toBe(false);
     expect(test({ resource: '/app/src/components/Light.tsx' })).toBe(true);
   });
 
   it('supports a RegExp user test', () => {
-    const test = buildSSRLazyCompilationTest(routeFiles, /Heavy/);
+    const test = buildSSRLazyCompilationTest(eagerRouteFiles, /Heavy/);
     expect(test({ resource: '/app/src/components/Heavy.tsx' })).toBe(true);
     expect(test({ resource: '/app/src/components/Light.tsx' })).toBe(false);
     expect(test({ resource: '/app/src/routes/about/page.tsx' })).toBe(false);
   });
 
   it('keeps route eager even when user test always returns true', () => {
-    const test = buildSSRLazyCompilationTest(routeFiles, () => true);
+    const test = buildSSRLazyCompilationTest(eagerRouteFiles, () => true);
     expect(test({ resource: '/app/src/routes/about/page.tsx' })).toBe(false);
   });
 
   it('falls back to user test / true for empty resource', () => {
-    expect(buildSSRLazyCompilationTest(routeFiles)({})).toBe(true);
+    expect(buildSSRLazyCompilationTest(eagerRouteFiles)({})).toBe(true);
     expect(
-      buildSSRLazyCompilationTest(routeFiles, () => false)({ resource: '' }),
+      buildSSRLazyCompilationTest(
+        eagerRouteFiles,
+        () => false,
+      )({ resource: '' }),
     ).toBe(false);
   });
 });
@@ -104,7 +107,7 @@ describe('collectRouteComponentFiles', () => {
   });
 
   it('un-aliases and resolves _component (with/without extension), walks children', () => {
-    const { files, unresolved } = collectRouteComponentFiles(
+    const { resolvedFiles, unresolvedSpecifiers } = collectRouteComponentFiles(
       [
         {
           _component: `${srcAlias}/routes/user/layout`,
@@ -115,20 +118,20 @@ describe('collectRouteComponentFiles', () => {
       srcAlias,
     );
     expect(
-      files.has(
+      resolvedFiles.has(
         normalizeModulePath(path.join(srcDir, 'routes', 'user', 'layout.tsx')),
       ),
     ).toBe(true);
     expect(
-      files.has(
+      resolvedFiles.has(
         normalizeModulePath(path.join(srcDir, 'routes', 'about', 'page.tsx')),
       ),
     ).toBe(true);
-    expect(unresolved).toHaveLength(0);
+    expect(unresolvedSpecifiers).toHaveLength(0);
   });
 
   it('reports unresolvable components instead of dropping them silently', () => {
-    const { files, unresolved } = collectRouteComponentFiles(
+    const { resolvedFiles, unresolvedSpecifiers } = collectRouteComponentFiles(
       [
         { _component: `${srcAlias}/routes/about/page.tsx` },
         { _component: 'some-npm-pkg/Component' },
@@ -137,30 +140,34 @@ describe('collectRouteComponentFiles', () => {
       srcDir,
       srcAlias,
     );
-    expect(files.size).toBe(1);
-    expect(unresolved).toEqual([
+    expect(resolvedFiles.size).toBe(1);
+    expect(unresolvedSpecifiers).toEqual([
       'some-npm-pkg/Component',
       `${srcAlias}/routes/missing/page`,
     ]);
   });
 });
 
-describe('aggregateRouteComponentFiles', () => {
+describe('aggregateEagerRouteComponentFiles', () => {
   const fileA = normalizeModulePath('/tmp/lazycompat-agg-app/src/a.tsx');
 
   it('returns an empty info for an undefined per-entry map', () => {
     const { files, unresolvedByEntry } =
-      aggregateRouteComponentFiles(undefined);
+      aggregateEagerRouteComponentFiles(undefined);
     expect(files.size).toBe(0);
     expect(unresolvedByEntry.size).toBe(0);
   });
 
   it('merges files across entries and surfaces unresolved per entry', () => {
     const byEntry = new Map([
-      ['main', { files: new Set([fileA]), unresolved: [] }],
-      ['admin', { files: new Set<string>(), unresolved: ['pkg/X'] }],
+      ['main', { resolvedFiles: new Set([fileA]), unresolvedSpecifiers: [] }],
+      [
+        'admin',
+        { resolvedFiles: new Set<string>(), unresolvedSpecifiers: ['pkg/X'] },
+      ],
     ]);
-    const { files, unresolvedByEntry } = aggregateRouteComponentFiles(byEntry);
+    const { files, unresolvedByEntry } =
+      aggregateEagerRouteComponentFiles(byEntry);
     expect(files.has(fileA)).toBe(true);
     expect(unresolvedByEntry.get('admin')).toEqual(['pkg/X']);
     // Entries without unresolved specifiers are not added to the map.
@@ -207,17 +214,21 @@ describe('route component collection uses FINAL routes (timing)', () => {
       routes = consumer(routes);
     }
 
-    const { files } = collectRouteComponentFiles(routes, srcDir, srcAlias);
+    const { resolvedFiles } = collectRouteComponentFiles(
+      routes,
+      srcDir,
+      srcAlias,
+    );
     const replaced = normalizeModulePath(
       path.join(srcDir, 'routes', 'about', 'replaced.tsx'),
     );
     const original = normalizeModulePath(
       path.join(srcDir, 'routes', 'about', 'original.tsx'),
     );
-    expect(files.has(replaced)).toBe(true);
+    expect(resolvedFiles.has(replaced)).toBe(true);
     // The intermediate component must NOT leak into the eager set.
-    expect(files.has(original)).toBe(false);
-    expect(files.size).toBe(1);
+    expect(resolvedFiles.has(original)).toBe(false);
+    expect(resolvedFiles.size).toBe(1);
   });
 });
 

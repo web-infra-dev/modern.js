@@ -3,7 +3,7 @@ import os from 'node:os';
 import path from 'node:path';
 import { createAsyncHook } from '@modern-js/plugin';
 import {
-  type CollectResult,
+  type EagerRouteComponentFilesByEntry,
   collectRouteComponentFiles,
   normalizeModulePath,
 } from '@modern-js/utils';
@@ -15,8 +15,9 @@ import { assign } from '@modern-js/utils/lodash';
  * The route generator (`router/cli/code/index.ts` `generateCode`) collects
  * route component files from the FINAL routes — i.e. AFTER every
  * `modifyFileSystemRoutes` consumer ran — and publishes them via the PUBLIC
- * `api.updateAppContext({ routeComponentFiles })` channel. The app-tools SSR
- * builder plugin reads them back as `BuilderOptions.routeComponentFiles`.
+ * `api.updateAppContext({ eagerRouteComponentFilesByEntry })` channel. The
+ * app-tools SSR builder plugin reads them back as
+ * `BuilderOptions.eagerRouteComponentFilesByEntry`.
  *
  * This test exercises the REAL pieces of that pipeline:
  *  - a REAL `createAsyncHook` (same hook factory the CLI uses) for
@@ -27,8 +28,9 @@ import { assign } from '@modern-js/utils/lodash';
  *    `getAppContext` spreads it fresh each call);
  *  - the REAL `collectRouteComponentFiles` from `@modern-js/utils`.
  *
- * It asserts the value read back via `getAppContext().routeComponentFiles`
- * reflects the FINAL (replaced) component, not the intermediate one.
+ * It asserts the value read back via
+ * `getAppContext().eagerRouteComponentFilesByEntry` reflects the FINAL
+ * (replaced) component, not the intermediate one.
  */
 describe('route component collection channel (modifyFileSystemRoutes → updateAppContext)', () => {
   let dir: string;
@@ -52,7 +54,9 @@ describe('route component collection channel (modifyFileSystemRoutes → updateA
 
   it('publishes the FINAL (replaced) route component through updateAppContext', async () => {
     // --- Faithful app-context channel (mirrors @modern-js/plugin cli/api.ts) ---
-    let context: { routeComponentFiles?: Map<string, CollectResult> } = {};
+    let context: {
+      eagerRouteComponentFilesByEntry?: EagerRouteComponentFilesByEntry;
+    } = {};
     const api = {
       getAppContext: () => ({ ...context }),
       updateAppContext: (update: Partial<typeof context>) => {
@@ -77,7 +81,8 @@ describe('route component collection channel (modifyFileSystemRoutes → updateA
     }));
 
     // --- Faithful simulation of the generateCode loop ---
-    const routeComponentFiles = new Map<string, CollectResult>();
+    const eagerRouteComponentFilesByEntry: EagerRouteComponentFilesByEntry =
+      new Map();
     const entrypoint = { entryName };
     // Intermediate routes (as an early plugin would emit them).
     const markedRoutes = [
@@ -90,14 +95,14 @@ describe('route component collection channel (modifyFileSystemRoutes → updateA
     });
 
     // Collect from the FINAL routes, then publish once via the public channel.
-    routeComponentFiles.set(
+    eagerRouteComponentFilesByEntry.set(
       entryName,
       collectRouteComponentFiles(routes, srcDir, srcAlias),
     );
-    api.updateAppContext({ routeComponentFiles });
+    api.updateAppContext({ eagerRouteComponentFilesByEntry });
 
     // --- Read back through a FRESH getAppContext (as app-tools analyze does) ---
-    const collected = api.getAppContext().routeComponentFiles;
+    const collected = api.getAppContext().eagerRouteComponentFilesByEntry;
     const result = collected?.get(entryName);
 
     const replaced = normalizeModulePath(
@@ -107,10 +112,10 @@ describe('route component collection channel (modifyFileSystemRoutes → updateA
       path.join(srcDir, 'routes', 'about', 'original.tsx'),
     );
 
-    expect(result?.files.has(replaced)).toBe(true);
+    expect(result?.resolvedFiles.has(replaced)).toBe(true);
     // The intermediate component must NOT leak into the eager set.
-    expect(result?.files.has(original)).toBe(false);
-    expect(result?.files.size).toBe(1);
-    expect(result?.unresolved).toEqual([]);
+    expect(result?.resolvedFiles.has(original)).toBe(false);
+    expect(result?.resolvedFiles.size).toBe(1);
+    expect(result?.unresolvedSpecifiers).toEqual([]);
   });
 });
