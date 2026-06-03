@@ -15,6 +15,8 @@ import type {
 } from '@modern-js/types';
 import {
   fs,
+  type CollectResult,
+  collectRouteComponentFiles,
   getEntryOptions,
   isSSGEntry,
   isUseRsc,
@@ -109,7 +111,20 @@ export const generateCode = async (
 
   const hooks = api.getHooks();
 
+  // Collect route component files from the FINAL routes (after every
+  // `modifyFileSystemRoutes` consumer ran) keyed by entry. A fresh Map per
+  // `generateCode` run avoids keeping stale entries when route generation is
+  // re-triggered by a dev restart (e.g. an entry was removed). Entries are
+  // populated synchronously inside each `generateEntryCode` and published once,
+  // after all entries are done, via the public `api.updateAppContext` channel —
+  // the app-tools SSR builder plugin reads it back as
+  // `BuilderOptions.routeComponentFiles` to force route chunks eager under lazy
+  // compilation.
+  const routeComponentFiles = new Map<string, CollectResult>();
+
   await Promise.all(entrypoints.map(generateEntryCode));
+
+  api.updateAppContext({ routeComponentFiles });
 
   async function generateEntryCode(entrypoint: Entrypoint) {
     const {
@@ -186,6 +201,19 @@ export const generateCode = async (
           entrypoint,
           routes: markedRoutes,
         });
+
+        // Collect route component files from the FINAL routes (after every
+        // `modifyFileSystemRoutes` consumer ran), so the SSR builder plugin can
+        // force route component chunks eager under lazy compilation. Collecting
+        // here (rather than inside a `modifyFileSystemRoutes` tap) guarantees we
+        // capture the routes a later plugin may have replaced/added. The result
+        // is published once after all entries via `api.updateAppContext` above.
+        const routeComponentResult = collectRouteComponentFiles(
+          routes,
+          srcDirectory,
+          internalSrcAlias,
+        );
+        routeComponentFiles.set(entryName, routeComponentResult);
 
         if (ssrMode === 'stream') {
           const hasPageRoute = routes.some(

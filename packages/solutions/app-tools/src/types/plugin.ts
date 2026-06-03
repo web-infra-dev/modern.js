@@ -132,6 +132,22 @@ export interface AppToolsExtendContext {
    * @private
    */
   bffRuntimeFramework?: string;
+  /**
+   * Route component files collected from the FINAL file-system routes (after all
+   * `modifyFileSystemRoutes` consumers ran), keyed by entry name. Populated by
+   * the router plugin during route generation and consumed by the SSR builder
+   * plugin to force route component chunks eager under lazy compilation.
+   *
+   * Published via the app context (`api.updateAppContext`) by the router plugin,
+   * then read fresh when assembling the builder options and threaded into
+   * `BuilderOptions.routeComponentFiles`; the SSR builder plugin reads it from
+   * those options (not from the context directly).
+   * @private
+   */
+  routeComponentFiles?: Map<
+    string,
+    { files: Set<string>; unresolved: string[] }
+  >;
 }
 
 export type AppToolsContext = AppContext<AppTools> & AppToolsExtendContext;

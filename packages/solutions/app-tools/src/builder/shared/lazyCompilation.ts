@@ -1,154 +1,25 @@
-import fs from 'node:fs';
-import path from 'node:path';
+import { type CollectResult, normalizeModulePath } from '@modern-js/utils';
 
-type RouteLike = {
-  _component?: string;
-  children?: RouteLike[];
-};
+// The COLLECTION side of this feature (`collectRouteComponentFiles`,
+// `normalizeModulePath`, `CollectResult`) lives in `@modern-js/utils` so the
+// route generator in `@modern-js/runtime` plugin-runtime can collect route
+// files WITHOUT a runtime value-import of `@modern-js/app-tools` (app-tools is
+// only a devDependency there). This module keeps the MATCHING/PLANNING side,
+// which is consumed by the SSR builder plugin (adapterSSR). Both sides share
+// `normalizeModulePath` from utils so the normalization stays identical.
+//
+// Re-export the collection helpers (which live in utils) so the SSR builder
+// plugin's matching side and app-tools' own unit tests have one import surface.
+export {
+  type CollectResult,
+  collectRouteComponentFiles,
+  normalizeModulePath,
+} from '@modern-js/utils';
 
 type ModuleLike = { resource?: string };
 type LazyCompilationTestFn = (m: ModuleLike) => boolean;
 /** Matches Rspack's `LazyCompilationOptions['test']`. */
 type LazyCompilationTest = RegExp | LazyCompilationTestFn | undefined;
-
-const RESOLVE_EXTENSIONS = ['.tsx', '.ts', '.jsx', '.js', '.mjs', '.cjs'];
-
-/**
- * Normalize a path so that route-component collection and `module.resource`
- * comparison use the exact same form: resolve symlinks (best effort), make it
- * absolute, and use POSIX separators. Used on both sides of the `test` match so
- * Windows / symlink / mixed-separator paths still line up.
- */
-export function normalizeModulePath(filePath: string): string {
-  const absolute = path.resolve(filePath);
-  let real = absolute;
-  try {
-    real = fs.realpathSync.native(absolute);
-  } catch {
-    // File may not exist yet (virtual / not emitted); fall back to absolute.
-  }
-  return real.split(path.sep).join('/');
-}
-
-type CollectResult = {
-  /** Normalized absolute paths of resolved route component files. */
-  files: Set<string>;
-  /** `_component` specifiers that could not be mapped to a real file. */
-  unresolved: string[];
-};
-
-/**
- * Resolve a route component's `_component` (alias form from `replaceWithAlias`,
- * possibly without extension) to a real file, normalized. Intentionally narrow:
- * only alias-relative or absolute specifiers that map to an existing file. npm
- * packages / other aliases / server-only conditional exports are NOT resolved
- * here — they are reported as unresolved so the caller can bail out instead of
- * silently leaving a route lazy.
- */
-function resolveRouteComponentFile(
-  component: string,
-  srcDirectory: string,
-  srcAlias: string,
-): string | undefined {
-  const normalizedAlias = srcAlias.replace(/[\\/]+$/, '');
-  let candidate: string | undefined;
-
-  if (
-    component === normalizedAlias ||
-    component.startsWith(`${normalizedAlias}/`)
-  ) {
-    const relative = component
-      .slice(normalizedAlias.length)
-      .replace(/^\/+/, '');
-    candidate = path.resolve(srcDirectory, relative);
-  } else if (path.isAbsolute(component)) {
-    candidate = path.resolve(component);
-  } else {
-    return undefined;
-  }
-
-  if (path.extname(candidate) && fs.existsSync(candidate)) {
-    return normalizeModulePath(candidate);
-  }
-  for (const ext of RESOLVE_EXTENSIONS) {
-    if (fs.existsSync(candidate + ext)) {
-      return normalizeModulePath(candidate + ext);
-    }
-  }
-  for (const ext of RESOLVE_EXTENSIONS) {
-    const indexFile = path.join(candidate, `index${ext}`);
-    if (fs.existsSync(indexFile)) {
-      return normalizeModulePath(indexFile);
-    }
-  }
-  return undefined;
-}
-
-/**
- * Walk the file-system route tree and collect the normalized absolute file
- * paths of every route component, plus any `_component` specifiers that could
- * not be resolved to a real file.
- */
-export function collectRouteComponentFiles(
-  routes: unknown,
-  srcDirectory: string,
-  srcAlias: string,
-): CollectResult {
-  const files = new Set<string>();
-  const unresolved: string[] = [];
-  const walk = (list: unknown) => {
-    if (!Array.isArray(list)) {
-      return;
-    }
-    for (const route of list as RouteLike[]) {
-      if (route._component) {
-        const file = resolveRouteComponentFile(
-          route._component,
-          srcDirectory,
-          srcAlias,
-        );
-        if (file) {
-          files.add(file);
-        } else {
-          unresolved.push(route._component);
-        }
-      }
-      walk(route.children);
-    }
-  };
-  walk(routes);
-  return { files, unresolved };
-}
-
-/**
- * Route component data collected during route generation, keyed by app
- * directory then entry name. Kept in module scope (rather than appContext)
- * because the builder receives an appContext snapshot that does not see later
- * `updateAppContext` writes. Recomputed per entry so route changes don't leave
- * stale data.
- */
-const routeDataByApp = new Map<string, Map<string, CollectResult>>();
-
-export function setRouteComponentFiles(
-  appDirectory: string,
-  entryName: string,
-  result: CollectResult,
-): void {
-  let byEntry = routeDataByApp.get(appDirectory);
-  if (!byEntry) {
-    byEntry = new Map();
-    routeDataByApp.set(appDirectory, byEntry);
-  }
-  byEntry.set(entryName, result);
-}
-
-/**
- * Drop an app's collected route data, so a fresh route generation (e.g. after a
- * dev restart triggered by adding/removing routes) doesn't keep stale entries.
- */
-export function clearRouteComponentFiles(appDirectory: string): void {
-  routeDataByApp.delete(appDirectory);
-}
 
 export type RouteComponentInfo = {
   files: Set<string>;
@@ -156,12 +27,17 @@ export type RouteComponentInfo = {
   unresolvedByEntry: Map<string, string[]>;
 };
 
-export function getRouteComponentFiles(
-  appDirectory: string,
+/**
+ * Aggregate the per-entry route component data (collected by the router plugin
+ * during route generation and threaded in as `BuilderOptions.routeComponentFiles`)
+ * into the flat shape {@link planSSRLazyCompilation} expects: one Set of all
+ * route files plus the unresolved specifiers keyed by entry.
+ */
+export function aggregateRouteComponentFiles(
+  byEntry: Map<string, CollectResult> | undefined,
 ): RouteComponentInfo {
   const files = new Set<string>();
   const unresolvedByEntry = new Map<string, string[]>();
-  const byEntry = routeDataByApp.get(appDirectory);
   if (byEntry) {
     for (const [entryName, result] of byEntry) {
       for (const file of result.files) {

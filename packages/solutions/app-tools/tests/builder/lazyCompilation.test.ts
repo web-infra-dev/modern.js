@@ -2,13 +2,11 @@ import fs from 'node:fs';
 import os from 'node:os';
 import path from 'node:path';
 import {
+  aggregateRouteComponentFiles,
   buildSSRLazyCompilationTest,
-  clearRouteComponentFiles,
   collectRouteComponentFiles,
-  getRouteComponentFiles,
   normalizeModulePath,
   planSSRLazyCompilation,
-  setRouteComponentFiles,
 } from '../../src/builder/shared/lazyCompilation';
 
 describe('normalizeModulePath', () => {
@@ -147,40 +145,79 @@ describe('collectRouteComponentFiles', () => {
   });
 });
 
-describe('route component store', () => {
-  const appDir = '/tmp/lazycompat-store-app';
-  const fileA = normalizeModulePath('/tmp/lazycompat-store-app/src/a.tsx');
+describe('aggregateRouteComponentFiles', () => {
+  const fileA = normalizeModulePath('/tmp/lazycompat-agg-app/src/a.tsx');
+
+  it('returns an empty info for an undefined per-entry map', () => {
+    const { files, unresolvedByEntry } =
+      aggregateRouteComponentFiles(undefined);
+    expect(files.size).toBe(0);
+    expect(unresolvedByEntry.size).toBe(0);
+  });
 
   it('merges files across entries and surfaces unresolved per entry', () => {
-    setRouteComponentFiles(appDir, 'main', {
-      files: new Set([fileA]),
-      unresolved: [],
-    });
-    setRouteComponentFiles(appDir, 'admin', {
-      files: new Set(),
-      unresolved: ['pkg/X'],
-    });
-    const { files, unresolvedByEntry } = getRouteComponentFiles(appDir);
+    const byEntry = new Map([
+      ['main', { files: new Set([fileA]), unresolved: [] }],
+      ['admin', { files: new Set<string>(), unresolved: ['pkg/X'] }],
+    ]);
+    const { files, unresolvedByEntry } = aggregateRouteComponentFiles(byEntry);
     expect(files.has(fileA)).toBe(true);
     expect(unresolvedByEntry.get('admin')).toEqual(['pkg/X']);
+    // Entries without unresolved specifiers are not added to the map.
+    expect(unresolvedByEntry.has('main')).toBe(false);
+  });
+});
+
+// Timing regression: the eager set must reflect the FINAL routes (after every
+// `modifyFileSystemRoutes` consumer ran), not an intermediate snapshot. The
+// collection now happens in the router plugin AFTER
+// `hooks.modifyFileSystemRoutes.call()` returns, so we simulate that pipeline:
+// a later consumer REPLACES a route component, and we assert the collected set
+// reflects the replacement (not the original).
+describe('route component collection uses FINAL routes (timing)', () => {
+  let dir: string;
+  let srcDir: string;
+  const srcAlias = '@_modern_js_src';
+
+  beforeAll(() => {
+    dir = fs.mkdtempSync(path.join(os.tmpdir(), 'lazycompat-timing-'));
+    srcDir = path.join(dir, 'src');
+    fs.mkdirSync(path.join(srcDir, 'routes', 'about'), { recursive: true });
+    // `original.tsx` is what an early plugin produced; `replaced.tsx` is what a
+    // later `modifyFileSystemRoutes` consumer swaps in.
+    fs.writeFileSync(path.join(srcDir, 'routes', 'about', 'original.tsx'), '');
+    fs.writeFileSync(path.join(srcDir, 'routes', 'about', 'replaced.tsx'), '');
   });
 
-  it('recomputes (overrides) an entry instead of appending', () => {
-    setRouteComponentFiles(appDir, 'admin', {
-      files: new Set(),
-      unresolved: [],
-    });
-    const { unresolvedByEntry } = getRouteComponentFiles(appDir);
-    expect(unresolvedByEntry.has('admin')).toBe(false);
+  afterAll(() => {
+    fs.rmSync(dir, { recursive: true, force: true });
   });
 
-  it('clearRouteComponentFiles drops all entries for the app', () => {
-    setRouteComponentFiles(appDir, 'main', {
-      files: new Set([fileA]),
-      unresolved: [],
-    });
-    clearRouteComponentFiles(appDir);
-    expect(getRouteComponentFiles(appDir).files.size).toBe(0);
+  it('collects the replaced component, not the intermediate one', () => {
+    // Initial routes (as an early plugin would emit them).
+    let routes: any = [{ _component: `${srcAlias}/routes/about/original.tsx` }];
+
+    // Simulate the `modifyFileSystemRoutes` pipeline: a later consumer replaces
+    // the route component. Collection must run on this FINAL value.
+    const consumers: Array<(r: any) => any> = [
+      r => r, // identity consumer
+      r => [{ _component: `${srcAlias}/routes/about/replaced.tsx` }], // replaces
+    ];
+    for (const consumer of consumers) {
+      routes = consumer(routes);
+    }
+
+    const { files } = collectRouteComponentFiles(routes, srcDir, srcAlias);
+    const replaced = normalizeModulePath(
+      path.join(srcDir, 'routes', 'about', 'replaced.tsx'),
+    );
+    const original = normalizeModulePath(
+      path.join(srcDir, 'routes', 'about', 'original.tsx'),
+    );
+    expect(files.has(replaced)).toBe(true);
+    // The intermediate component must NOT leak into the eager set.
+    expect(files.has(original)).toBe(false);
+    expect(files.size).toBe(1);
   });
 });
 

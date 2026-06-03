@@ -16,9 +16,10 @@ import type {
   SSGMultiEntryOptions,
   ServerUserConfig,
 } from '../../../types';
+import type { AppToolsContext } from '../../../types/plugin';
 import { HtmlAsyncChunkPlugin, RouterPlugin } from '../bundlerPlugins';
 import {
-  getRouteComponentFiles,
+  aggregateRouteComponentFiles,
   planSSRLazyCompilation,
 } from '../lazyCompilation';
 import type { BuilderOptions } from '../types';
@@ -29,7 +30,7 @@ export const builderPluginAdapterSSR = (
   name: 'builder-plugin-adapter-modern-ssr',
 
   setup(api) {
-    const { normalizedConfig, appContext } = options;
+    const { normalizedConfig, appContext, routeComponentFiles } = options;
     api.modifyRsbuildConfig(config => {
       const merged = mergeRsbuildConfig(config, {
         html: {
@@ -52,7 +53,8 @@ export const builderPluginAdapterSSR = (
       const lazyCompilation = getSSRLazyCompilation(
         merged.dev?.lazyCompilation,
         normalizedConfig,
-        appContext.appDirectory,
+        appContext,
+        routeComponentFiles,
       );
       if (lazyCompilation !== undefined) {
         merged.dev = { ...merged.dev, lazyCompilation };
@@ -151,7 +153,8 @@ const isStreamingSSR = (userConfig: AppNormalizedConfig): boolean => {
 function getSSRLazyCompilation(
   current: unknown,
   normalizedConfig: AppNormalizedConfig,
-  appDirectory: string,
+  appContext: AppToolsContext,
+  routeComponentFiles: BuilderOptions['routeComponentFiles'],
 ): Rspack.LazyCompilationOptions | undefined {
   // Only stream SSR; RSC keeps its own behavior (route-eager alone does not make
   // its flight/server channel safe under lazy compilation).
@@ -162,16 +165,23 @@ function getSSRLazyCompilation(
   ) {
     return undefined;
   }
+  // The route component files were collected (from the FINAL routes) by the
+  // router plugin and threaded in explicitly as `BuilderOptions.routeComponentFiles`
+  // (read FRESH from the app context after `generateEntryCode`), so this plugin
+  // reads only the explicit param — no shared-context back-channel.
   const plan = planSSRLazyCompilation(
     current,
-    getRouteComponentFiles(appDirectory),
+    aggregateRouteComponentFiles(routeComponentFiles),
   );
   if (!plan.apply) {
     // Unresolved route components → we cannot guarantee they are eager, so we
     // skipped the optimization; warn once per app instead of silently leaving a
     // route lazy.
     if (plan.unresolvedByEntry) {
-      warnUnresolvedRouteComponents(appDirectory, plan.unresolvedByEntry);
+      warnUnresolvedRouteComponents(
+        appContext.appDirectory,
+        plan.unresolvedByEntry,
+      );
     }
     return undefined;
   }
