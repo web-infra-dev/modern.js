@@ -21,7 +21,13 @@ function parseArgs(argv) {
   const topArg = rest.find(a => a.startsWith('--top='));
   const top = topArg ? Number(topArg.split('=')[1]) : 20;
   const dir = rest.find(a => !a.startsWith('--'));
-  return { dir: path.resolve(dir || '.'), json, top };
+  const rootArg = rest.find(a => a.startsWith('--install-root='));
+  return {
+    dir: path.resolve(dir || '.'),
+    json,
+    top,
+    installRoot: rootArg ? path.resolve(rootArg.split('=')[1]) : null,
+  };
 }
 
 function findLockfile(dir) {
@@ -29,6 +35,17 @@ function findLockfile(dir) {
   for (;;) {
     const p = path.join(cur, 'pnpm-lock.yaml');
     if (fs.existsSync(p)) return p;
+    const parent = path.dirname(cur);
+    if (parent === cur) return null;
+    cur = parent;
+  }
+}
+
+// 向上找含 node_modules 的安装根（pnpm workspace 下包在 packages/<x>，装在仓库根）
+function findInstallRoot(dir) {
+  let cur = dir;
+  for (;;) {
+    if (fs.existsSync(path.join(cur, 'node_modules'))) return cur;
     const parent = path.dirname(cur);
     if (parent === cur) return null;
     cur = parent;
@@ -118,7 +135,12 @@ function readLockNames(lockPath) {
 const mb = b => `${(b / 1024 / 1024).toFixed(2)} MB`;
 
 function main() {
-  const { dir, json, top } = parseArgs(process.argv);
+  const {
+    dir,
+    json,
+    top,
+    installRoot: explicitInstallRoot,
+  } = parseArgs(process.argv);
   const pkgPath = path.join(dir, 'package.json');
   if (!fs.existsSync(pkgPath)) {
     console.error(`未找到 package.json: ${pkgPath}`);
@@ -133,13 +155,16 @@ function main() {
 
   const lockPath = findLockfile(dir);
   const lockNames = lockPath ? readLockNames(lockPath) : null;
-  const installed = measureInstalled(dir);
+  // install 根：显式 --install-root > 向上找含 node_modules 的目录 > target 自身
+  const installRoot = explicitInstallRoot || findInstallRoot(dir) || dir;
+  const installed = measureInstalled(installRoot);
 
   const report = {
     target: dir,
     package: pkg.name || '(unnamed)',
     declaredCount: declared.size,
     lockfile: lockPath ? path.relative(dir, lockPath) : null,
+    installRoot: installed ? path.relative(dir, installRoot) || '.' : null,
     installPresent: !!installed,
     largest: [],
     declaredNotInstalled: [],
@@ -166,12 +191,14 @@ function main() {
 
   if (!installed) {
     console.log(
-      '\nℹ️ 未发现 node_modules —— install 结果不可用，**不推断体积**。',
+      '\nℹ️ 未发现 node_modules（已向上查找安装根）—— install 结果不可用，**不推断体积**。',
     );
-    console.log('   请先 `pnpm install`，再跑本工具拿可复核的真实字节数据。');
+    console.log(
+      '   请先 `pnpm install`；或用 `--install-root=<装了依赖的目录>` 指定安装根。',
+    );
   } else {
     console.log(
-      `\n📊 已安装总体积：${mb(report.totalBytes)}（按包累加真实落盘字节）`,
+      `\n📊 已安装总体积：${mb(report.totalBytes)}（安装根：${report.installRoot}，按包累加真实落盘字节）`,
     );
     console.log(`\n体积最大的 ${report.largest.length} 个包：`);
     for (const { name, bytes } of report.largest) {
