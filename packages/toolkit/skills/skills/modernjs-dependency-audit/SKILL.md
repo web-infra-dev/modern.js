@@ -19,9 +19,10 @@ user-invocable: true
 
 ## SOP
 1. **确定范围**：单个包目录（monorepo 里 `packages/<x>`）或整个用户项目根。
-2. **跑检测**：
+2. **跑检测**（命令相对本 skill 目录）：
    ```bash
-   node skills/maintainer/modernjs-dependency-audit/scripts/audit.mjs <target-dir>
+   node scripts/audit.mjs <target-dir>        # 幽灵 / 循环 / 重复多版本（--json 输出）
+   node scripts/size-audit.mjs <target-dir>   # 安装体积归因（需 node_modules，无则不推断）
    ```
    输出分级报告（阻断 / 建议 / 可选）+ JSON（便于 CI 消费）。
 3. **解读 & 给修复**：
@@ -38,9 +39,7 @@ user-invocable: true
 - [x] 幽灵依赖（import 的外部包未在 deps/devDeps/peerDeps/optionalDeps 声明）
 - [x] 循环依赖（相对 import 构图找环 + 断环建议）
 - [x] 重复多版本（读 `pnpm-lock.yaml`，找多版本包 + `pnpm dedupe`/overrides 建议）
+- [x] 安装体积归因（`size-audit.mjs`，数据优先：无 node_modules 不推断）
+- [ ] 安装耗时归因（需实测 install）
 - [ ] peer/dev/prod 放置校验、`exports`/`types` 正确性
-- [ ] 安装体积 & 耗时归因
 - [ ] 接 AST（替换正则提取，消除 codegen 模板字符串误报）
-
-## 工具目录说明
-本 skill 的**唯一手写源**在此目录；`.claude/skills/`、`.agents/skills/` 等由同步脚本生成的镜像不是 source of truth（见 `skills/README.md`）。
