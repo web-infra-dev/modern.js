@@ -1,0 +1,26 @@
+{
+  "name": "@modern-js/skills",
+  "version": "0.1.0",
+  "description": "Install Modern.js official Agent Skills into your project's AI agent (Claude Code / Codex / Cursor).",
+  "homepage": "https://modernjs.dev",
+  "bugs": "https://github.com/web-infra-dev/modern.js/issues",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/web-infra-dev/modern.js",
+    "directory": "packages/toolkit/skills"
+  },
+  "license": "MIT",
+  "keywords": ["modern.js", "ai", "agent", "skills", "claude", "codex", "cursor"],
+  "type": "module",
+  "bin": {
+    "modern-js-skills": "./bin/cli.mjs"
+  },
+  "files": ["bin", "skills"],
+  "engines": {
+    "node": ">=18"
+  },
+  "publishConfig": {
+    "registry": "https://registry.npmjs.org/",
+    "access": "public"
+  }
+}
