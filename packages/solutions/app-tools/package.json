@@ -101,7 +101,6 @@
     "@modern-js/utils": "workspace:*",
     "@rsbuild/core": "2.0.10",
     "@swc/core": "1.15.33",
-    "@swc/helpers": "^0.5.17",
     "es-module-lexer": "^1.7.0",
     "flatted": "^3.4.2",
     "import-meta-resolve": "^4.2.0",

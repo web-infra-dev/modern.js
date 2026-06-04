@@ -63,7 +63,6 @@
   "dependencies": {
     "@modern-js/runtime-utils": "workspace:*",
     "@modern-js/utils": "workspace:*",
-    "@swc/helpers": "^0.5.17",
     "encoding": "^0.1.13",
     "path-to-regexp": "^6.3.0",
     "qs": "^6.15.2"

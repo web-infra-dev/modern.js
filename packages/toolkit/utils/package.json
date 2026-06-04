@@ -141,7 +141,6 @@
     "test": "rstest --passWithNoTests"
   },
   "dependencies": {
-    "@swc/helpers": "^0.5.17",
     "caniuse-lite": "^1.0.30001520",
     "import-meta-resolve": "^4.2.0",
     "lodash": "^4.18.1",
