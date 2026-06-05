@@ -133,29 +133,9 @@ Target Registry / Snapshot / Event Log / Action Registry
 Target Registry 表示页面里有哪些对象可以被 Agent 引用或等待。
 
 ```ts
-type RuntimeObjectType =
-  | 'app'
-  | 'route'
-  | 'loader'
-  | 'component'
-  | 'form'
-  | 'field'
-  | 'remote'
-  | 'expose'
-  | 'shared'
-  | 'sub-app'
-  | 'business'
-  | 'custom';
+type RuntimeObjectType = string;
 
-type RuntimeStatus =
-  | 'idle'
-  | 'loading'
-  | 'pending'
-  | 'success'
-  | 'ready'
-  | 'blocked'
-  | 'error'
-  | 'inactive';
+type RuntimeStatus = string;
 
 type RuntimeError = {
   message: string;
@@ -170,7 +150,7 @@ type RegisterTargetInput = {
   source: string;
   label?: string;
   description?: string;
-  statuses?: RuntimeStatus[];
+  statuses: RuntimeStatus[];
   params?: RuntimeTargetParam[];
   matcher?: RuntimeTargetMatcher;
   data?: unknown;
@@ -189,30 +169,31 @@ type RuntimeTargetMatcher = {
 };
 ```
 
-`id`、`type` 和 `source` 是必填字段。`statuses` 不传时，Runtime Center 按 `type` 补默认状态。
+OpenRuntime Core 不内置固定的 `RuntimeObjectType` 和 `RuntimeStatus` 枚举。`type` 和 `statuses` 都由 `registerTarget` 显式声明，Runtime Center 只把它们当作字符串处理。`statuses` 不能为空。
 
-默认状态表：
+因此同样是 route、remote、business，不同框架或业务可以声明更准确的状态集合：
 
-| type | 默认 statuses |
-| --- | --- |
-| `app` | `loading` / `ready` / `blocked` / `error` / `inactive` |
-| `route` | `loading` / `ready` / `blocked` / `error` / `inactive` |
-| `component` | `loading` / `ready` / `blocked` / `error` / `inactive` |
-| `sub-app` | `idle` / `loading` / `ready` / `blocked` / `error` / `inactive` |
-| `business` | `pending` / `ready` / `blocked` / `error` / `inactive` |
-| `loader` | `idle` / `loading` / `pending` / `success` / `blocked` / `error` / `inactive` |
-| `remote` | `idle` / `loading` / `success` / `blocked` / `error` / `inactive` |
-| `expose` | `idle` / `loading` / `success` / `blocked` / `error` / `inactive` |
-| `shared` | `idle` / `success` / `blocked` / `error` / `inactive` |
-| `form` | `idle` / `pending` / `success` / `blocked` / `error` / `inactive` |
-| `field` | `idle` / `pending` / `success` / `blocked` / `error` / `inactive` |
-| `custom` | 默认允许全部 `RuntimeStatus`，接入方建议显式传 `statuses` |
+```ts
+runtime.registerTarget({
+  id: 'route:/route-a',
+  type: 'modern.route',
+  source: 'modern-js',
+  statuses: ['loading', 'ready', 'blocked', 'error', 'inactive'],
+});
 
-`ready` 只推荐用于表达“现在可以继续使用”的对象，例如 app、route、component、sub-app 和 business。loader、remote、expose、shared 这类过程或依赖对象应该用 `success` 表示完成。
+runtime.registerTarget({
+  id: 'remote:cloud-console',
+  type: 'mf.remote',
+  source: 'module-federation',
+  statuses: ['idle', 'loading', 'success', 'error'],
+});
+```
+
+SDK 可以提供常用 helper 或常量，降低接入成本；但这些只是 helper，不是 Core 的内置校验规则。最终允许哪些 `type` 和 `status`，以 `registerTarget` 的声明为准。
 
 `unregisterTarget(targetId)` 用于目标不再可被引用或等待的场景，例如动态卸载的子应用、销毁的业务区域或失效的自定义 target。框架静态路由、固定 remote、固定 shared 通常不需要注销，只需要通过 Snapshot 更新为 `inactive`、`blocked` 或 `error`。
 
-如果 `updateSnapshot` 更新了未注册过的 id，Runtime Center 可以临时创建 inferred target，避免状态丢失；开发环境应该给出 warning，提醒框架或业务在更早时机注册。
+如果 `updateSnapshot` 更新了未注册过的 id，Runtime Center 应拒绝本次更新，并在开发环境给出 warning，提醒框架或业务在更早时机调用 `registerTarget`。
 
 ## Snapshot
 
@@ -236,38 +217,12 @@ type RuntimeSnapshotTarget = {
   updatedAt: number;
 
   dependsOn?: string[];
-  contains?: string[];
-  loads?: string[];
-  renders?: string[];
-  provides?: string[];
-  shares?: string[];
-  customRelations?: RuntimeInlineRelation[];
-};
-
-type RuntimeInlineRelation = {
-  type: 'custom';
-  relation: string;
-  to: string;
-  description?: string;
-  data?: unknown;
 };
 ```
 
 `targets` 使用 target id 映射当前状态。`updateSnapshot` 按 `id` upsert，同一个 `id` 再次更新时只替换当前状态和相关字段，不追加历史 item。历史过程由 events 记录。
 
-常见关系直接作为 target 字段表达，方向统一是“当前 target 指向相关 target”。
-
-| 字段 | 含义 |
-| --- | --- |
-| `contains` | 当前 target 包含哪些 target |
-| `dependsOn` | 当前 target 依赖哪些 target |
-| `loads` | 当前 target 加载哪些 target |
-| `renders` | 当前 target 渲染哪些 target |
-| `provides` | 当前 target 提供哪些 target |
-| `shares` | 当前 target 共享或使用哪些 target |
-| `customRelations` | 业务自定义关系 |
-
-`loads` 的方向是当前 target 加载了谁。例如 `route:/home` 的 `loads: ['remote:cloudConsoleProvider']` 表示 `/home` 路由加载了这个 remote。
+`dependsOn` 表示当前 target 是否 ready 依赖哪些其他 target。Agent 可以沿着 `dependsOn` 查找 blocker。
 
 `latestEventId` 表示这份 Snapshot 截止到哪个 event，Agent 后续可以用 `getEvents({ since: latestEventId })` 读取增量事件。`capturedAt` 表示 Snapshot 生成时间，Bridge 返回断开页面的最后状态时也可以让 Agent 判断状态是否过期。
 
@@ -284,35 +239,80 @@ type RuntimeEvent = {
   targetId?: string;
   actionName?: string;
   status?: RuntimeStatus;
-  relation?: RuntimeRelationEvent;
-  data?: unknown;
+  payload?: unknown;
   error?: RuntimeError;
 };
+```
 
-type RuntimeRelationEvent =
-  | RuntimeBuiltInRelationEvent
-  | RuntimeCustomRelationEvent;
+`payload` 的结构由 `type` 决定。例如 `snapshot.updated` 的 payload 是被接受的 `UpdateSnapshotInput`，`action.started` 的 payload 是 action 入参，`action.success` 的 payload 是 action 返回值。
 
-type RuntimeBuiltInRelationEvent = {
-  from: string;
-  to: string;
-  field:
-    | 'dependsOn'
-    | 'contains'
-    | 'loads'
-    | 'renders'
-    | 'provides'
-    | 'shares';
-};
+例如：
 
-type RuntimeCustomRelationEvent = {
-  from: string;
-  type: 'custom';
-  relation: string;
-  to: string;
-  description?: string;
-  data?: unknown;
-};
+```ts
+runtime.updateSnapshot({
+  id: 'route:/a',
+  type: 'modern.route',
+  source: 'modern-js',
+  status: 'loading',
+  dependsOn: ['remote:B'],
+});
+```
+
+会自动记录：
+
+```json
+{
+  "id": 1,
+  "type": "snapshot.updated",
+  "source": "modern-js",
+  "timestamp": 1780000001,
+  "targetId": "route:/a",
+  "status": "loading",
+  "payload": {
+    "id": "route:/a",
+    "type": "modern.route",
+    "source": "modern-js",
+    "status": "loading",
+    "dependsOn": ["remote:B"]
+  }
+}
+```
+
+`runAction` 也会自动记录 event：
+
+```ts
+await runtime.runAction('selectRegion', {
+  province: 'zhejiang',
+  city: 'hangzhou',
+});
+```
+
+会自动记录：
+
+```json
+[
+  {
+    "id": 2,
+    "type": "action.started",
+    "source": "business",
+    "timestamp": 1780000002,
+    "actionName": "selectRegion",
+    "payload": {
+      "province": "zhejiang",
+      "city": "hangzhou"
+    }
+  },
+  {
+    "id": 3,
+    "type": "action.success",
+    "source": "business",
+    "timestamp": 1780000003,
+    "actionName": "selectRegion",
+    "payload": {
+      "selected": true
+    }
+  }
+]
 ```
 
 第一版只记录关键运行态变化，例如 action start / success / error、route change、loader start / success / redirect / error、remote / expose / shared 状态变化、component ready / error、business ready / blocked。
@@ -434,6 +434,23 @@ runtime.unregisterAction(actionName);
 runtime.runAction(actionName, payload?);
 ```
 
+#### registerTarget
+
+```ts
+runtime.registerTarget(target: RegisterTargetInput);
+runtime.unregisterTarget(targetId: string);
+```
+
+`registerTarget` 用来提前声明页面里可以被 Agent 引用或等待的目标。它回答的是“有什么可以等”，不是“现在是什么状态”。
+
+调用方必须在注册时声明 `type` 和 `statuses`。OpenRuntime Core 不会为 route、remote、business 等对象补内置状态。
+
+框架 adapter 应该在自己已经知道目标的时候尽早注册，例如 Modern.js 在路由表生成后注册 route target，MF 在 remotes 配置可用后注册 remote / expose / shared target，Garfish 在子应用注册信息可用后注册 sub-app target。
+
+调用 `registerTarget` 不会让这个 target 出现在 Snapshot 里。只有后续调用 `updateSnapshot` 写入当前状态后，它才会出现在 `snapshot.targets` 中。
+
+`unregisterTarget` 用来注销不再可引用或等待的目标。如果这个 target 上还有等待任务，相关 `waitFor` 应直接返回失败。
+
 #### connectBridge
 
 页面侧连接 Bridge 的第一版 API：
@@ -469,21 +486,15 @@ type UpdateSnapshotInput = {
   data?: unknown;
   error?: RuntimeError;
   dependsOn?: string[];
-  contains?: string[];
-  loads?: string[];
-  renders?: string[];
-  provides?: string[];
-  shares?: string[];
-  customRelations?: RuntimeInlineRelation[];
 };
 ```
 
-必填字段只有 `id` 和 `status`。`type` 默认是 `business`，`source` 默认是 `business`。
+必填字段只有 `id` 和 `status`。`type` 不再有默认值；如果传入 `type`，必须和已注册 target 的 `type` 一致。`source` 默认可以由 Runtime Client 补齐，例如业务侧默认 `business`，Modern.js / MF / Garfish adapter 使用自己的 source。
 
 `updateSnapshot` 必须符合 target 声明的状态范围：
 
 - 如果 `id` 已注册，`status` 必须在该 target 的 `statuses` 中。
-- 如果 `id` 未注册，Runtime Center 可以创建 inferred target，并使用该 `type` 的默认 statuses。
+- 如果 `id` 未注册，本次更新被拒绝，Snapshot 不变。
 - 如果 `status` 不在允许范围内，本次更新被拒绝，Snapshot 不变。
 - 被拒绝的更新需要记录 `snapshot.update.rejected` event。
 - 第一版不引入 strict mode，也不因为校验失败 throw，避免影响页面正常运行。
@@ -523,7 +534,6 @@ type RuntimeTargetDescriptor = {
   params?: RuntimeTargetParam[];
   matcher?: RuntimeTargetMatcher;
   data?: unknown;
-  inferred?: boolean;
   registeredAt: number;
   updatedAt: number;
 };
@@ -532,6 +542,8 @@ getTargets(query?: GetTargetsQuery): RuntimeTargetDescriptor[];
 ```
 
 `getTargets(query?)` 返回 Target Registry 里的可发现目标，不是当前状态。它告诉 Agent “有哪些 target 可以被引用或等待”。当前状态仍然通过 `getSnapshot(query?)` 或 `waitFor()` 判断。
+
+`status` 在 `getTargets` 中匹配的是 target 注册时声明的 `statuses`，不是当前运行状态。如果要按当前状态过滤，应使用 `getSnapshot(query?)`。
 
 `query` 第一版只匹配 target 的 `id`、`label` 和 `description`，大小写不敏感，使用 `includes` 匹配，不匹配 `data`。
 
@@ -577,13 +589,13 @@ type GetEventsResult = {
 getEvents(query?: GetEventsQuery): GetEventsResult;
 ```
 
-`since` 表示只读取 `id > since` 的事件。`targetId` 会匹配普通事件里的 `targetId`，也会匹配关系事件里的 `from` 和 `to`。
+`since` 表示只读取 `id > since` 的事件。`targetId` 只匹配事件里的 `targetId`。第一版不单独记录关系事件，依赖变化会出现在 `snapshot.updated` 的 `payload.dependsOn` 中。
 
 默认按事件发生顺序返回。如果没有传 `since`，默认只取最近一批事件，第一版默认 `limit` 可以是 100。`truncated: true` 表示结果被截断。
 
 `latestEventId` 表示当前 Event Log 最新 event id。即使本次查询没有返回事件，也可以用它作为下一次增量读取的起点。
 
-`getEvents` 不做全文搜索，也不匹配 `data`。
+`getEvents` 不做全文搜索，也不匹配 `payload`。
 
 #### getActions
 
