@@ -18,7 +18,7 @@
     "@modern-js/app-tools": "workspace:*",
     "@rsdoctor/rspack-plugin": "^1.5.12",
     "@types/node": "^20",
-    "@types/react": "^19.2.15",
+    "@types/react": "^19.2.17",
     "@types/react-dom": "^19.2.3",
     "typescript": "^5"
   },
