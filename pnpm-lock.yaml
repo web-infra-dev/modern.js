@@ -18,8 +18,6 @@ overrides:
   tmp: '>=0.2.7'
   '@isaacs/brace-expansion': '>=5.0.1'
 
-pnpmfileChecksum: sha256-e7fv4++EEy5D/4pBzV1yGYuIWnXfQwaMHH7OMxyEZx4=
-
 importers:
 
   .:
@@ -508,10 +506,10 @@ importers:
         version: 1.5.3(@rsbuild/core@2.0.10(@module-federation/runtime-tools@2.0.0)(core-js@3.48.0))
       '@rspress/core':
         specifier: 2.0.13
-        version: 2.0.13(@module-federation/runtime-tools@2.0.0)(@types/mdast@4.0.4)(@types/react@19.2.17)(core-js@3.48.0)(micromark-util-types@2.0.2)(micromark@4.0.2)
+        version: 2.0.13(@module-federation/runtime-tools@2.0.0)(@rspack/core@2.0.6(@module-federation/runtime-tools@2.0.0)(@swc/helpers@0.5.23))(@types/mdast@4.0.4)(@types/react@19.2.17)(core-js@3.48.0)(micromark-util-types@2.0.2)(micromark@4.0.2)
       '@rspress/plugin-llms':
         specifier: 2.0.2
-        version: 2.0.2(@rspress/core@2.0.13(@module-federation/runtime-tools@2.0.0)(@types/mdast@4.0.4)(@types/react@19.2.17)(core-js@3.48.0)(micromark-util-types@2.0.2)(micromark@4.0.2))
+        version: 2.0.2(@rspress/core@2.0.13(@module-federation/runtime-tools@2.0.0)(@rspack/core@2.0.6(@module-federation/runtime-tools@2.0.0)(@swc/helpers@0.5.23))(@types/mdast@4.0.4)(@types/react@19.2.17)(core-js@3.48.0)(micromark-util-types@2.0.2)(micromark@4.0.2))
       '@rspress/shared':
         specifier: 2.0.2
         version: 2.0.2(@module-federation/runtime-tools@2.0.0)(core-js@3.48.0)
@@ -1964,8 +1962,8 @@ importers:
         specifier: '>=6.0.6'
         version: 7.0.6
       enhanced-resolve:
-        specifier: 5.21.3
-        version: 5.21.3
+        specifier: 5.23.0
+        version: 5.23.0
       fs-extra:
         specifier: ^10.1.0
         version: 10.1.0
@@ -9782,8 +9780,8 @@ packages:
     resolution: {integrity: sha512-LMHl3dXhTcfv8gM4kEzIUeTQ+7fpdA0l2tUf34BddXPkz2A5xJ5L/Pchd5BL6rdccM9QGvu0sWZzK1Z1t4wwyg==}
     engines: {node: '>=10.13.0'}
 
-  enhanced-resolve@5.21.3:
-    resolution: {integrity: sha512-QyL119InA+XXEkNLNTPCXPugSvOfhwv0JOlGNzvxs0hZaiHLNvXSpudUWsOlsXGWJh8G6ckCScEkVHfX3kw/2Q==}
+  enhanced-resolve@5.23.0:
+    resolution: {integrity: sha512-yJN/BOOLxcOW2aQgeif9mSnaUB8KtvmMMp56oA1kx1CRfBKbhZm2pJ+NBY+3eOboHxix8lfjWpHE0Ei5U8RbSA==}
     engines: {node: '>=10.13.0'}
 
   enquirer@2.3.6:
@@ -18118,7 +18116,7 @@ snapshots:
       - '@emnapi/core'
       - '@emnapi/runtime'
 
-  '@rspress/core@2.0.13(@module-federation/runtime-tools@2.0.0)(@types/mdast@4.0.4)(@types/react@19.2.17)(core-js@3.48.0)(micromark-util-types@2.0.2)(micromark@4.0.2)':
+  '@rspress/core@2.0.13(@module-federation/runtime-tools@2.0.0)(@rspack/core@2.0.6(@module-federation/runtime-tools@2.0.0)(@swc/helpers@0.5.23))(@types/mdast@4.0.4)(@types/react@19.2.17)(core-js@3.48.0)(micromark-util-types@2.0.2)(micromark@4.0.2)':
     dependencies:
       '@mdx-js/mdx': 3.1.1
       '@mdx-js/react': 3.1.1(@types/react@19.2.17)(react@19.2.6)
@@ -18168,9 +18166,9 @@ snapshots:
       - micromark-util-types
       - supports-color
 
-  '@rspress/plugin-llms@2.0.2(@rspress/core@2.0.13(@module-federation/runtime-tools@2.0.0)(@types/mdast@4.0.4)(@types/react@19.2.17)(core-js@3.48.0)(micromark-util-types@2.0.2)(micromark@4.0.2))':
+  '@rspress/plugin-llms@2.0.2(@rspress/core@2.0.13(@module-federation/runtime-tools@2.0.0)(@rspack/core@2.0.6(@module-federation/runtime-tools@2.0.0)(@swc/helpers@0.5.23))(@types/mdast@4.0.4)(@types/react@19.2.17)(core-js@3.48.0)(micromark-util-types@2.0.2)(micromark@4.0.2))':
     dependencies:
-      '@rspress/core': 2.0.13(@module-federation/runtime-tools@2.0.0)(@types/mdast@4.0.4)(@types/react@19.2.17)(core-js@3.48.0)(micromark-util-types@2.0.2)(micromark@4.0.2)
+      '@rspress/core': 2.0.13(@module-federation/runtime-tools@2.0.0)(@rspack/core@2.0.6(@module-federation/runtime-tools@2.0.0)(@swc/helpers@0.5.23))(@types/mdast@4.0.4)(@types/react@19.2.17)(core-js@3.48.0)(micromark-util-types@2.0.2)(micromark@4.0.2)
       remark-mdx: 3.1.1
       remark-parse: 11.0.0
       remark-stringify: 11.0.0
@@ -18629,7 +18627,7 @@ snapshots:
   '@tailwindcss/node@4.1.18':
     dependencies:
       '@jridgewell/remapping': 2.3.5
-      enhanced-resolve: 5.21.3
+      enhanced-resolve: 5.23.0
       jiti: 2.6.1
       lightningcss: 1.30.2
       magic-string: 0.30.21
@@ -21235,7 +21233,7 @@ snapshots:
       graceful-fs: 4.2.11
       tapable: 2.3.3
 
-  enhanced-resolve@5.21.3:
+  enhanced-resolve@5.23.0:
     dependencies:
       graceful-fs: 4.2.11
       tapable: 2.3.3
@@ -27030,7 +27028,7 @@ snapshots:
   tsconfig-paths-webpack-plugin@4.1.0:
     dependencies:
       chalk: 4.1.2
-      enhanced-resolve: 5.21.3
+      enhanced-resolve: 5.23.0
       tsconfig-paths: 4.2.0
 
   tsconfig-paths@3.15.0:
@@ -27382,7 +27380,7 @@ snapshots:
       acorn-import-phases: 1.0.4(acorn@8.16.0)
       browserslist: 4.28.2
       chrome-trace-event: 1.0.4
-      enhanced-resolve: 5.21.3
+      enhanced-resolve: 5.23.0
       es-module-lexer: 2.1.0
       eslint-scope: 5.1.1
       events: 3.3.0
@@ -27424,7 +27422,7 @@ snapshots:
       acorn-import-phases: 1.0.4(acorn@8.16.0)
       browserslist: 4.28.2
       chrome-trace-event: 1.0.4
-      enhanced-resolve: 5.21.3
+      enhanced-resolve: 5.23.0
       es-module-lexer: 2.1.0
       eslint-scope: 5.1.1
       events: 3.3.0
@@ -27465,7 +27463,7 @@ snapshots:
       acorn-import-phases: 1.0.4(acorn@8.16.0)
       browserslist: 4.28.2
       chrome-trace-event: 1.0.4
-      enhanced-resolve: 5.21.3
+      enhanced-resolve: 5.23.0
       es-module-lexer: 2.1.0
       eslint-scope: 5.1.1
       events: 3.3.0
