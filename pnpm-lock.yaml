@@ -246,8 +246,8 @@ importers:
         specifier: 0.1.0
         version: 0.1.0(@rsbuild/core@2.0.10(@module-federation/runtime-tools@2.0.0)(core-js@3.48.0))(react-server-dom-rspack@0.0.2(@rspack/core@2.0.6(@module-federation/runtime-tools@2.0.0)(@swc/helpers@0.5.23))(react-dom@19.2.6(react@19.2.6))(react@19.2.6))
       rspack-manifest-plugin:
-        specifier: 5.2.1
-        version: 5.2.1(@rspack/core@2.0.6(@module-federation/runtime-tools@2.0.0)(@swc/helpers@0.5.23))
+        specifier: 5.2.2
+        version: 5.2.2(@rspack/core@2.0.6(@module-federation/runtime-tools@2.0.0)(@swc/helpers@0.5.23))
       ts-deepmerge:
         specifier: 7.0.3
         version: 7.0.3
@@ -13667,10 +13667,10 @@ packages:
     resolution: {integrity: sha512-jHUtwes07RKZ/UXJAqCKPViDEargkoCvTha+MuVXDc9xcSqXodHAu2B/QyAM+iRCEgHqQ7ztazH1rAtqD3WyNw==}
     engines: {node: ^20.19.0 || >=22.12.0}
 
-  rspack-manifest-plugin@5.2.1:
-    resolution: {integrity: sha512-H3qyCumiEiWy9zhcPIYPr3J3SWyvypVJJY5wxjG5L8gYny6dfNHfk0gyICg1tGO+g4uQzvVHER875ek/I/J8UA==}
+  rspack-manifest-plugin@5.2.2:
+    resolution: {integrity: sha512-vynki1FQjdRaPYHKuiu5vxa/CT6v6pa601Q1nXWOHgdJ1HGID7/bShwuD1c6K4GWboJYl590iD0i6hoUi4AAhA==}
     peerDependencies:
-      '@rspack/core': ^1.0.0 || ^2.0.0-0
+      '@rspack/core': ^1.0.0 || ^2.0.0
     peerDependenciesMeta:
       '@rspack/core':
         optional: true
@@ -25869,7 +25869,7 @@ snapshots:
 
   rslog@2.1.2: {}
 
-  rspack-manifest-plugin@5.2.1(@rspack/core@2.0.6(@module-federation/runtime-tools@2.0.0)(@swc/helpers@0.5.23)):
+  rspack-manifest-plugin@5.2.2(@rspack/core@2.0.6(@module-federation/runtime-tools@2.0.0)(@swc/helpers@0.5.23)):
     dependencies:
       '@rspack/lite-tapable': 1.1.0
     optionalDependencies:
