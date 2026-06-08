@@ -191,10 +191,18 @@ export default (): CliPlugin<AppTools> => ({
 
         const normalizedConfig =
           api.getNormalizedConfig() as AppNormalizedConfig;
+        // The route component files are collected by the router plugin DURING
+        // `generateEntryCode` (above) and published via `api.updateAppContext`.
+        // The local `appContext` snapshot was spread BEFORE that ran, so read
+        // FRESH from the app context here to pick up the collected value, then
+        // thread it explicitly into the builder options (no `_internalContext`
+        // read in the SSR builder plugin).
+        const { eagerRouteComponentFilesByEntry } = api.getAppContext();
         const createBuilderForModern = await createBuilderGenerator();
         const builder = await createBuilderForModern({
           normalizedConfig: normalizedConfig as any,
           appContext: appContext as any,
+          eagerRouteComponentFilesByEntry,
         });
 
         builder.onBeforeBuild(
