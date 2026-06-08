@@ -2528,8 +2528,8 @@ importers:
         specifier: ^0.5.17
         version: 0.5.17
       react-router:
-        specifier: 7.12.0
-        version: 7.12.0(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
+        specifier: 7.15.0
+        version: 7.15.0(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
     devDependencies:
       '@modern-js/app-tools':
         specifier: workspace:*
@@ -23028,8 +23028,8 @@ packages:
     peerDependencies:
       react: '>=16.8'
 
-  react-router@7.12.0:
-    resolution: {integrity: sha512-kTPDYPFzDVGIIGNLS5VJykK0HfHLY5MF3b+xj0/tTyNYL1gF1qs7u67Z9jEhQk2sQ98SUaHxlG31g1JtF7IfVw==}
+  react-router@7.15.0:
+    resolution: {integrity: sha512-HW9vYwuM8f4yx66Izy8xfrzCM+SBJluoZcCbww9A1TySax11S5Vgw6fi3ZjMONw9J4gQwngL7PzkyIpJJpJ7RQ==}
     engines: {node: '>=20.0.0'}
     peerDependencies:
       react: '>=18'
@@ -46299,7 +46299,7 @@ snapshots:
       '@remix-run/router': 1.23.2
       react: 19.2.6
 
-  react-router@7.12.0(react-dom@18.3.1(react@18.3.1))(react@18.3.1):
+  react-router@7.15.0(react-dom@18.3.1(react@18.3.1))(react@18.3.1):
     dependencies:
       cookie: 1.0.2
       react: 18.3.1
