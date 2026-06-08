@@ -13,7 +13,7 @@
     "fs-extra": "^10.1.0",
     "react": "^19.2.7",
     "react-dom": "^19.2.7",
-    "react-router": "7.13.1",
+    "react-router": "7.15.0",
     "react-router-dom": "7.13.1"
   },
   "devDependencies": {
