@@ -8,8 +8,11 @@ const ignoreDeps = [
   'tsx',
 ];
 
-const command = `npx check-dependency-version-consistency@latest . ${ignoreDeps
+const ignorePackages = ['@otrade/transaction_adapter'];
+
+const command = `check-dependency-version-consistency . ${ignoreDeps
   .map(dep => `--ignore-dep "${dep}"`)
+  .concat(ignorePackages.map(pkg => `--ignore-package "${pkg}"`))
   .join(' ')}`;
 
 console.log(`> ${command}`);
