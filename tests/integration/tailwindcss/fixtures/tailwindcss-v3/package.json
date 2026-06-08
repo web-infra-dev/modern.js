@@ -12,8 +12,8 @@
     "@modern-js/app-tools": "workspace:*",
     "@modern-js/runtime": "workspace:*",
     "@rsbuild/plugin-babel": "1.2.1",
-    "react": "^19.2.6",
-    "react-dom": "^19.2.6",
+    "react": "^19.2.7",
+    "react-dom": "^19.2.7",
     "styled-components": "^5.3.1",
     "tailwindcss": "^3.4.19",
     "twin.macro": "^3.4.1"
