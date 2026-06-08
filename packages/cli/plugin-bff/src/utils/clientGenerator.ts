@@ -205,7 +205,7 @@ async function setPackage(
 
     await fs.promises.writeFile(
       packagePath,
-      JSON.stringify(packageJson, null, 2),
+      `${JSON.stringify(packageJson, null, 2)}\n`,
     );
   } catch (error) {
     logger.error(`package.json update failed: ${error}`);
@@ -275,7 +275,11 @@ async function clientGenerator(draftOptions: APILoaderOptions) {
     logger.error(`Client bundle generate failed: ${error}`);
   }
 
-  setPackage(sourceList, draftOptions.appDir, draftOptions.relativeDistPath);
+  await setPackage(
+    sourceList,
+    draftOptions.appDir,
+    draftOptions.relativeDistPath,
+  );
 }
 
 export default clientGenerator;
