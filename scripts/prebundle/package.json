@@ -77,7 +77,7 @@
     "react-dom": "^19.2.6",
     "react-is": "^18.3.1",
     "rollup": "^3.30.0",
-    "rollup-plugin-dts": "6.3.0",
+    "rollup-plugin-dts": "6.4.1",
     "sass": "1.97.3",
     "semver": "7.7.4",
     "signal-exit": "3.0.7",
