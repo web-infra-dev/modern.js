@@ -1,5 +1,16 @@
 import { LanguageDetector } from 'i18next-http-middleware';
-import type { I18nInstance } from '../instance';
+import {
+  type I18nInstance,
+  getActualI18nextInstance,
+  isI18nWrapperInstance,
+} from '../instance';
+
+type LanguageDetectorInitOptions = Parameters<LanguageDetector['init']>[1];
+type LanguageDetectorDetect = (
+  request: any,
+  response: any,
+  detectionOrder?: string[],
+) => string | string[] | undefined;
 
 export const cacheUserLanguage = (
   _i18nInstance: I18nInstance,
@@ -25,6 +36,12 @@ export const readLanguageFromStorage = (
  */
 export const useI18nextLanguageDetector = (i18nInstance: I18nInstance) => {
   if (!i18nInstance.isInitialized) {
+    if (isI18nWrapperInstance(i18nInstance)) {
+      const actualInstance = getActualI18nextInstance(i18nInstance);
+      if (actualInstance && !actualInstance.isInitialized) {
+        actualInstance.use(LanguageDetector);
+      }
+    }
     return i18nInstance.use(LanguageDetector);
   }
   return i18nInstance;
@@ -44,7 +61,13 @@ export const detectLanguage = (
   }
 
   try {
-    const detector = i18nInstance.services?.languageDetector;
+    const detectorInstance = isI18nWrapperInstance(i18nInstance)
+      ? getActualI18nextInstance(i18nInstance)
+      : i18nInstance;
+    const instanceToUse = detectorInstance || i18nInstance;
+    const detector =
+      instanceToUse.services?.languageDetector ||
+      i18nInstance.services?.languageDetector;
     if (detector && typeof detector.detect === 'function') {
       const result = detector.detect(request, {});
       if (typeof result === 'string') {
@@ -56,18 +79,24 @@ export const detectLanguage = (
       return undefined;
     }
 
-    if (
-      i18nInstance.isInitialized &&
-      i18nInstance.services &&
-      i18nInstance.options
-    ) {
+    const isInitialized = Boolean(
+      i18nInstance.isInitialized || instanceToUse.isInitialized,
+    );
+    const servicesToUse = instanceToUse.services || i18nInstance.services;
+    const instanceOptions = instanceToUse.options || i18nInstance.options;
+
+    if (isInitialized && servicesToUse && instanceOptions) {
       const manualDetector = new LanguageDetector();
       const optionsToUse = detectionOptions
-        ? { ...i18nInstance.options, detection: detectionOptions }
-        : i18nInstance.options;
-      manualDetector.init(i18nInstance.services, optionsToUse as any);
+        ? { ...instanceOptions, detection: detectionOptions }
+        : instanceOptions;
+      manualDetector.init(
+        servicesToUse,
+        optionsToUse as LanguageDetectorInitOptions,
+      );
 
-      const result = (manualDetector.detect as any)(request, {}, undefined);
+      const detect = manualDetector.detect as unknown as LanguageDetectorDetect;
+      const result = detect(request, {}, undefined);
       if (typeof result === 'string') {
         return result;
       }

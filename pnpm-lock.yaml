@@ -2962,6 +2962,31 @@ importers:
         specifier: workspace:*
         version: link:../../../../packages/solutions/app-tools
 
+  tests/integration/i18n/custom-i18n-wrapper-ssr:
+    dependencies:
+      '@modern-js/plugin-i18n':
+        specifier: workspace:*
+        version: link:../../../../packages/runtime/plugin-i18n
+      '@modern-js/runtime':
+        specifier: workspace:*
+        version: link:../../../../packages/runtime/plugin-runtime
+      i18next:
+        specifier: 25.7.4
+        version: 25.7.4(typescript@5.9.3)
+      react:
+        specifier: ^19.2.7
+        version: 19.2.7
+      react-dom:
+        specifier: ^19.2.7
+        version: 19.2.7(react@19.2.7)
+      react-i18next:
+        specifier: 15.7.4
+        version: 15.7.4(i18next@25.7.4(typescript@5.9.3))(react-dom@19.2.7(react@19.2.7))(react@19.2.7)(typescript@5.9.3)
+    devDependencies:
+      '@modern-js/app-tools':
+        specifier: workspace:*
+        version: link:../../../../packages/solutions/app-tools
+
   tests/integration/i18n/mf: {}
 
   tests/integration/i18n/mf/mf-app-provider:
