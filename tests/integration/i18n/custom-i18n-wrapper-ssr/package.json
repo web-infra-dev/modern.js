@@ -1,0 +1,20 @@
+{
+  "private": true,
+  "name": "i18n-custom-i18n-wrapper-ssr",
+  "version": "0.0.1",
+  "scripts": {
+    "dev": "modern dev",
+    "build": "modern build"
+  },
+  "dependencies": {
+    "@modern-js/plugin-i18n": "workspace:*",
+    "@modern-js/runtime": "workspace:*",
+    "i18next": "25.7.4",
+    "react": "^19.2.7",
+    "react-dom": "^19.2.7",
+    "react-i18next": "15.7.4"
+  },
+  "devDependencies": {
+    "@modern-js/app-tools": "workspace:*"
+  }
+}
