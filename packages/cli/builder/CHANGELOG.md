@@ -1,5 +1,15 @@
 # @modern-js/builder
 
+## 3.3.0
+
+### Patch Changes
+
+- 2e85455: feat(builder): support TypeScript Go checks through `tools.tsChecker`
+
+  feat(builder): 通过 `tools.tsChecker` 支持 TypeScript Go 类型检查
+
+  - @modern-js/utils@3.3.0
+
 ## 3.2.2
 
 ### Patch Changes
