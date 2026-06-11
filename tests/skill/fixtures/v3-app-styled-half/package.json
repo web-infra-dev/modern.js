@@ -1,0 +1,26 @@
+{
+  "name": "v3-app-styled-half",
+  "version": "0.1.0",
+  "scripts": {
+    "dev": "modern dev",
+    "build": "modern build",
+    "serve": "modern serve"
+  },
+  "engines": {
+    "node": ">=20"
+  },
+  "dependencies": {
+    "@modern-js/runtime": "3.0.0",
+    "react": "^19.2.3",
+    "react-dom": "^19.2.0",
+    "@modern-js/plugin-styled-components": "3.0.0"
+  },
+  "devDependencies": {
+    "@modern-js/app-tools": "3.0.0",
+    "@modern-js/tsconfig": "3.0.0",
+    "typescript": "~5.7.3",
+    "@types/node": "^20",
+    "@types/react": "^19.1.8",
+    "@types/react-dom": "^19.1.6"
+  }
+}
