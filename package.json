@@ -37,6 +37,7 @@
     "update:lockfile": "pnpm install --lockfile-only",
     "check-changeset": "cd ./scripts/check-changeset && pnpm start",
     "check-dependencies": "node ./scripts/check-dependencies.js",
+    "sync:skills": "node ./scripts/sync-skills.mjs",
     "update-rspress": "npx taze major --include /rspress/ -w -r -l",
     "update-rsbuild": "npx taze major --include /rsbuild/ -w -r -l",
     "gen:docs": "rm -rf doc_output && mkdir doc_output && cp -r ./packages/document/doc_build/* ./doc_output",
