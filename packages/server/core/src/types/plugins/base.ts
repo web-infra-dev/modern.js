@@ -5,6 +5,7 @@ import type {
   Logger,
   Metrics,
   MiddlewareContext,
+  Monitors,
   Reporter,
   ServerRoute,
 } from '@modern-js/types';
@@ -16,14 +17,21 @@ import type { ServerPlugin } from './plugin';
 export type { FileChangeEvent, ResetEvent } from '@modern-js/plugin';
 export type FallbackReason = 'error' | 'header' | 'query' | `header,${string}`;
 
+export type FallbackContext = {
+  request: Request;
+  monitors?: Monitors;
+};
+
 export type FallbackInput = {
   reason: FallbackReason;
   error: unknown;
+  context?: FallbackContext;
 };
 
 export type OnFallback = (
   reason: FallbackReason,
   error?: unknown,
+  context?: FallbackContext,
 ) => Promise<void>;
 
 export type APIServerStartInput = {
