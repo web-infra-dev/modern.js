@@ -72,6 +72,26 @@ export interface BaseBackendOptions {
   loadPath?: string;
   addPath?: string;
   /**
+   * Internal file-system path used by the Node.js FS backend.
+   * Browser HTTP backend keeps using `loadPath`.
+   */
+  serverLoadPath?: string;
+  /**
+   * Internal file-system path candidates used by the Node.js FS backend.
+   * The first existing path under current cwd will be used.
+   */
+  serverLoadPaths?: string[];
+  /**
+   * Internal file-system path used by the Node.js FS backend.
+   * Browser HTTP backend keeps using `addPath`.
+   */
+  serverAddPath?: string;
+  /**
+   * Internal file-system path candidates used by the Node.js FS backend.
+   * The first existing path under current cwd will be used.
+   */
+  serverAddPaths?: string[];
+  /**
    * Cache hit mode for chained backend (only effective when both `loadPath` and `sdk` are provided)
    *
    * - `'none'` (default): If the first backend returns resources, stop and don't try the next backend
