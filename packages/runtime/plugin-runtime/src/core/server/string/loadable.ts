@@ -209,14 +209,23 @@ export class LoadableCollector implements Collector {
 
     const atrributes = attributesToString(this.generateAttributes());
 
-    const linkRegExp = /<link .*?href="([^"]+)".*?>/g;
-
-    const matchs = template.matchAll(linkRegExp);
+    // Only existing `<link rel="stylesheet">` tags should dedupe the route
+    // stylesheets injected below. Other link rels (e.g. `<link rel="prefetch">`
+    // emitted by `performance.prefetch`) can reference the same css file but do
+    // not apply styles, so they must not suppress the real stylesheet injection.
+    const linkRegExp = /<link\b[^>]*>/g;
 
     const existedLinks: string[] = [];
 
-    for (const match of matchs) {
-      existedLinks.push(match[1]);
+    for (const match of template.matchAll(linkRegExp)) {
+      const tag = match[0];
+      if (!/\brel=("|')stylesheet\1/.test(tag)) {
+        continue;
+      }
+      const href = tag.match(/\bhref=("|')(.*?)\1/)?.[2];
+      if (href) {
+        existedLinks.push(href);
+      }
     }
 
     const css = await Promise.all(
