@@ -3,20 +3,7 @@ export const DEFAULT_I18NEXT_BACKEND_OPTIONS = {
   addPath: '/locales/{{lng}}/{{ns}}.json',
 };
 
-declare global {
-  interface Window {
-    __assetPrefix__?: string;
-  }
-}
-
 function convertPath(path: string | undefined): string | undefined {
-  if (!path) {
-    return path;
-  }
-  // If it's an absolute path (starts with /), convert to relative path
-  if (path.startsWith('/')) {
-    return `${window.__assetPrefix__ || ''}${path}`;
-  }
   return path;
 }
 
