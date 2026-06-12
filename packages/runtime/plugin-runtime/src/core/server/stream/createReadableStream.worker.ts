@@ -142,16 +142,33 @@ export const createReadableStreamFromElement: CreateReadableStreamFromElement =
                 chunkVec.push(new TextDecoder().decode(value));
                 const concatedChunk = chunkVec.join('');
 
-                if (concatedChunk.includes(ESCAPED_SHELL_STREAM_END_MARK)) {
+                /**
+                 * React's chunk boundaries are byte-driven, so the marker can
+                 * land in the middle of a chunk that already carries
+                 * suspense-boundary content emitted right after the shell.
+                 * Split at the marker: content before goes between
+                 * shellBefore and shellAfter; content after is emitted as-is
+                 * so it lands past the closing `</html>` rather than being
+                 * swallowed inside it.
+                 */
+                const markerIndex = concatedChunk.indexOf(
+                  ESCAPED_SHELL_STREAM_END_MARK,
+                );
+                if (markerIndex !== -1) {
+                  const beforeMark = concatedChunk.slice(0, markerIndex);
+                  const afterMark = concatedChunk.slice(
+                    markerIndex + ESCAPED_SHELL_STREAM_END_MARK.length,
+                  );
+
                   shellChunkStatus = ShellChunkStatus.FINISH;
                   safeEnqueue(
                     encodeForWebStream(
-                      `${shellBefore}${concatedChunk.replace(
-                        ESCAPED_SHELL_STREAM_END_MARK,
-                        '',
-                      )}${shellAfter}`,
+                      `${shellBefore}${beforeMark}${shellAfter}`,
                     ),
                   );
+                  if (afterMark) {
+                    safeEnqueue(encodeForWebStream(afterMark));
+                  }
                   flushPendingScripts();
                 }
               } else {

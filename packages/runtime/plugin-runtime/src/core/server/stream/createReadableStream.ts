@@ -94,26 +94,38 @@ export const createReadableStreamFromElement: CreateReadableStreamFromElement =
                     if (shellChunkStatus !== ShellChunkStatus.FINISH) {
                       chunkVec.push(
                         Buffer.isBuffer(chunk) ? chunk : Buffer.from(chunk),
-                      ); /**
+                      );
+                      /**
                        * The shell content of App may be splitted by multiple chunks to transform,
                        * when any node value's size is larger than the React limitation, refer to:
                        * https://github.com/facebook/react/blob/v18.2.0/packages/react-server/src/ReactServerStreamConfigNode.js#L53.
                        * So we use the `SHELL_STREAM_END_MARK` to mark the shell content' tail.
+                       *
+                       * The marker can also land in the middle of a chunk that already carries
+                       * suspense-boundary content emitted right after the shell (React's chunk
+                       * boundaries are byte-driven, not render-phase-driven). Concat first so
+                       * we also catch markers that straddle two chunks, then split the buffered
+                       * content at the marker: everything before goes between shellBefore and
+                       * shellAfter; everything after goes out as-is so it lands past the
+                       * closing `</html>` instead of being swallowed inside it.
                        */
-                      const chunkStr = chunk.toString('utf-8');
-                      if (chunkStr.includes(ESCAPED_SHELL_STREAM_END_MARK)) {
-                        let concatedChunk = Buffer.concat(
-                          chunkVec as any,
-                        ).toString('utf-8');
-                        concatedChunk = concatedChunk.replace(
-                          ESCAPED_SHELL_STREAM_END_MARK,
-                          '',
+                      const concatedChunk = Buffer.concat(
+                        chunkVec as any,
+                      ).toString('utf-8');
+                      const markerIndex = concatedChunk.indexOf(
+                        ESCAPED_SHELL_STREAM_END_MARK,
+                      );
+                      if (markerIndex !== -1) {
+                        const beforeMark = concatedChunk.slice(0, markerIndex);
+                        const afterMark = concatedChunk.slice(
+                          markerIndex + ESCAPED_SHELL_STREAM_END_MARK.length,
                         );
 
                         shellChunkStatus = ShellChunkStatus.FINISH;
-                        this.push(
-                          `${shellBefore}${concatedChunk}${shellAfter}`,
-                        );
+                        this.push(`${shellBefore}${beforeMark}${shellAfter}`);
+                        if (afterMark) {
+                          this.push(afterMark);
+                        }
                         // Flush any pending <script> collected before shell finished
                         if (pendingScripts.length > 0) {
                           for (const s of pendingScripts) {
