@@ -54,7 +54,6 @@ export async function buildShellBeforeTemplate(
 
   const callbacks: BuildHtmlCb[] = [
     createReplaceHelemt(helmetData),
-    // @TODO: prefetch scripts of lazy component
     template => injectCss(template, entryName, styledComponentsStyleTags),
   ];
 
