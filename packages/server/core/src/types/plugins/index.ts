@@ -4,6 +4,7 @@ export type {
   CacheConfig,
   OnFallback,
   FallbackReason,
+  FallbackContext,
   GetRenderHandlerOptions,
   FileChangeEvent,
   FallbackInput,

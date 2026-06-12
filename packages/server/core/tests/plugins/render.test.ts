@@ -3,7 +3,11 @@ import type { Logger, ServerRoute } from '@modern-js/types';
 import { injectResourcePlugin } from '../../src/adapters/node/plugins';
 import { createDefaultPlugins, renderPlugin } from '../../src/plugins';
 import { createServerBase } from '../../src/serverBase';
-import type { ServerUserConfig } from '../../src/types';
+import type {
+  FallbackInput,
+  ServerPlugin,
+  ServerUserConfig,
+} from '../../src/types';
 import { getDefaultAppContext, getDefaultConfig } from '../helpers';
 
 const logger: Logger = {
@@ -24,6 +28,7 @@ const logger: Logger = {
 async function createSSRServer(
   pwd: string,
   serverConfig: ServerUserConfig = { ssr: true },
+  extraPlugins: ServerPlugin[] = [],
 ) {
   const config = getDefaultConfig();
 
@@ -42,6 +47,7 @@ async function createSSRServer(
     ...createDefaultPlugins({
       logger,
     }),
+    ...extraPlugins,
     injectResourcePlugin(),
     renderPlugin(),
   ]);
@@ -49,6 +55,18 @@ async function createSSRServer(
   await server.init();
 
   return server;
+}
+
+function createFallbackCapturePlugin(inputs: FallbackInput[]): ServerPlugin {
+  return {
+    name: 'fallback-capture',
+    setup(api) {
+      api.fallback(async input => {
+        inputs.push(input);
+        return input;
+      });
+    },
+  };
 }
 
 describe('should render html correctly', () => {
@@ -174,6 +192,47 @@ describe('should render html correctly', () => {
     expect(html4).toMatch(/Hello Modern/);
   });
 
+  it('should pass request and monitors when forcing csr fallback', async () => {
+    const ssrPwd = path.join(pwd, 'ssr');
+    const fallbackInputs: FallbackInput[] = [];
+    const server = await createSSRServer(
+      ssrPwd,
+      {
+        ssr: {
+          forceCSR: true,
+        },
+      },
+      [createFallbackCapturePlugin(fallbackInputs)],
+    );
+
+    let fallbackHeader;
+    const html = await Promise.resolve(server.request('/?csr=1', {}, {})).then(
+      res => {
+        fallbackHeader = res.headers.get('x-modern-ssr-fallback');
+        return res.text();
+      },
+    );
+
+    expect(html).toMatch(/Hello Modern/);
+    expect(fallbackHeader).toBe('1;reason=query');
+    expect(
+      html.includes(
+        `<script id="__modern_ssr_fallback_reason__" type="application/json">{"reason":"query"}</script>`,
+      ),
+    ).toBe(true);
+    expect(fallbackInputs).toHaveLength(1);
+    const fallbackInput = fallbackInputs[0]!;
+    expect(fallbackInput.reason).toBe('query');
+    expect(fallbackInput.context?.request).toBeInstanceOf(Request);
+    expect(fallbackInput.context?.request.url).toContain('/?csr=1');
+    expect(fallbackInput.context?.monitors?.counter).toEqual(
+      expect.any(Function),
+    );
+    expect(fallbackInput.context?.monitors?.error).toEqual(
+      expect.any(Function),
+    );
+  });
+
   it('support serve data', async () => {
     const ssrPwd = path.join(pwd, 'ssr');
 
@@ -218,5 +277,54 @@ describe('should render html correctly', () => {
         `<script id="__modern_ssr_fallback_reason__" type="application/json">{"reason":"error"}</script>`,
       ),
     ).toBe(true);
+  });
+
+  it('should pass request and monitors when render error fallback', async () => {
+    const ssrPwd = path.join(pwd, 'ssr');
+    const fallbackInputs: FallbackInput[] = [];
+    const server = await createSSRServer(
+      ssrPwd,
+      {
+        ssr: {
+          forceCSR: true,
+        },
+      },
+      [createFallbackCapturePlugin(fallbackInputs)],
+    );
+
+    let fallbackHeader;
+    const html = await Promise.resolve(
+      server.request(
+        '/',
+        {
+          headers: new Headers({
+            'x-render-error': '1',
+          }),
+        },
+        {},
+      ),
+    ).then(res => {
+      fallbackHeader = res.headers.get('x-modern-ssr-fallback');
+      return res.text();
+    });
+
+    expect(fallbackHeader).toBe('1;reason=error');
+    expect(
+      html.includes(
+        `<script id="__modern_ssr_fallback_reason__" type="application/json">{"reason":"error"}</script>`,
+      ),
+    ).toBe(true);
+    expect(fallbackInputs).toHaveLength(1);
+    const fallbackInput = fallbackInputs[0]!;
+    expect(fallbackInput.reason).toBe('error');
+    expect(fallbackInput.error).toBeInstanceOf(Error);
+    expect(fallbackInput.context?.request).toBeInstanceOf(Request);
+    expect(fallbackInput.context?.request.url).toContain('/');
+    expect(fallbackInput.context?.monitors?.counter).toEqual(
+      expect.any(Function),
+    );
+    expect(fallbackInput.context?.monitors?.error).toEqual(
+      expect.any(Function),
+    );
   });
 });
