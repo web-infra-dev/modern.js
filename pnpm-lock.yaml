@@ -748,8 +748,8 @@ importers:
         specifier: 1.1.2
         version: 1.1.2(@rsbuild/core@1.7.5)
       '@rsbuild/plugin-type-check':
-        specifier: 1.3.6
-        version: 1.3.6(@rsbuild/core@1.7.5)(@rspack/core@1.7.10(@swc/helpers@0.5.17))(tslib@2.8.1)(typescript@5.6.3)
+        specifier: 1.4.0
+        version: 1.4.0(@rsbuild/core@1.7.5)(@rspack/core@1.7.10(@swc/helpers@0.5.17))(tslib@2.8.1)(typescript@5.6.3)
       '@rsbuild/plugin-typed-css-modules':
         specifier: 1.2.4
         version: 1.2.4(@rsbuild/core@1.7.5)
@@ -4154,10 +4154,10 @@ importers:
         version: link:../../toolkit/utils
       '@storybook/react':
         specifier: ~7.6.1
-        version: 7.6.20(encoding@0.1.13)(react-dom@19.2.6(react@19.2.6))(react@19.2.6)(typescript@5.6.3)
+        version: 7.6.20(react-dom@19.2.6(react@19.2.6))(react@19.2.6)(typescript@5.6.3)
       storybook:
         specifier: ~7.6.1
-        version: 7.6.20(bufferutil@4.0.8)(encoding@0.1.13)(utf-8-validate@5.0.10)
+        version: 7.6.20(bufferutil@4.0.8)(utf-8-validate@5.0.10)
     devDependencies:
       '@storybook/types':
         specifier: ~7.6.12
@@ -13729,12 +13729,15 @@ packages:
       '@rsbuild/core':
         optional: true
 
-  '@rsbuild/plugin-type-check@1.3.6':
-    resolution: {integrity: sha512-KjsZTiAy98syAw8Ho8eco5js6CQp+LVcDFJe+apAguYeebbjSXfr86bKxVpVyJ0GCs+tlLNsiJNV7jO/LpHiAw==}
+  '@rsbuild/plugin-type-check@1.4.0':
+    resolution: {integrity: sha512-RPoLy6BP/PoZy8AYJR1oCGMI/MoMAIsos5K5G89OLK5n+6bxMox1F/p3pmO86d7G9jEChh7GJI33PjHYHyVL1w==}
     peerDependencies:
-      '@rsbuild/core': ^1.0.0 || ^2.0.0
+      '@rsbuild/core': ^1.0.0 || ^2.0.0-0
+      '@typescript/native-preview': ^7.0.0-0
     peerDependenciesMeta:
       '@rsbuild/core':
+        optional: true
+      '@typescript/native-preview':
         optional: true
 
   '@rsbuild/plugin-typed-css-modules@1.2.4':
@@ -24785,13 +24788,16 @@ packages:
   trough@2.1.0:
     resolution: {integrity: sha512-AqTiAOLcj85xS7vQ8QkAV41hPDIJ71XJB4RCUrzo/1GM2CQwhkJGaf9Hgr7BOugMRpgGUrqRg/DrBDl4H40+8g==}
 
-  ts-checker-rspack-plugin@1.3.2:
-    resolution: {integrity: sha512-aIrtWI258ZHUxFgZCX0EHgYI6ofNJKgh1O67/O7AhoS51x3G7LF0HyvF5ip73s5IUOyVkVPyYyo0VUqE7SnK8Q==}
+  ts-checker-rspack-plugin@1.4.0:
+    resolution: {integrity: sha512-xPBPe6n9XZW9vMw4PFJLZFY372rejKK8UFC12i33J+yJK+fmsQQ4k9eoOlbLE0zC6vftyKDhvfMF3RyMFFTOZw==}
     peerDependencies:
       '@rspack/core': ^1.0.0 || ^2.0.0
+      '@typescript/native-preview': ^7.0.0-0
       typescript: '>=3.8.0'
     peerDependenciesMeta:
       '@rspack/core':
+        optional: true
+      '@typescript/native-preview':
         optional: true
 
   ts-dedent@2.2.0:
@@ -33020,12 +33026,12 @@ snapshots:
     optionalDependencies:
       '@rsbuild/core': 1.7.5
 
-  '@rsbuild/plugin-type-check@1.3.6(@rsbuild/core@1.7.5)(@rspack/core@1.7.10(@swc/helpers@0.5.17))(tslib@2.8.1)(typescript@5.6.3)':
+  '@rsbuild/plugin-type-check@1.4.0(@rsbuild/core@1.7.5)(@rspack/core@1.7.10(@swc/helpers@0.5.17))(tslib@2.8.1)(typescript@5.6.3)':
     dependencies:
       deepmerge: 4.3.1
       json5: 2.2.3
       reduce-configs: 1.1.2
-      ts-checker-rspack-plugin: 1.3.2(@rspack/core@1.7.10(@swc/helpers@0.5.17))(tslib@2.8.1)(typescript@5.6.3)
+      ts-checker-rspack-plugin: 1.4.0(@rspack/core@1.7.10(@swc/helpers@0.5.17))(tslib@2.8.1)(typescript@5.6.3)
     optionalDependencies:
       '@rsbuild/core': 1.7.5
     transitivePeerDependencies:
@@ -34027,7 +34033,7 @@ snapshots:
       '@storybook/components': 7.6.20(@types/react-dom@18.3.5(@types/react@18.3.18))(@types/react@18.3.18)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
       '@storybook/core-events': 7.6.20
       '@storybook/csf': 0.1.11
-      '@storybook/docs-tools': 7.6.20(encoding@0.1.13)
+      '@storybook/docs-tools': 7.6.20
       '@storybook/global': 5.0.0
       '@storybook/manager-api': 7.6.20(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
       '@storybook/preview-api': 7.6.20
@@ -34053,7 +34059,7 @@ snapshots:
       - encoding
       - supports-color
 
-  '@storybook/builder-manager@7.6.20(encoding@0.1.13)':
+  '@storybook/builder-manager@7.6.20':
     dependencies:
       '@fal-works/esbuild-plugin-global-externals': 2.1.2
       '@storybook/core-common': 7.6.20(encoding@0.1.13)
@@ -34084,7 +34090,7 @@ snapshots:
       telejson: 7.2.0
       tiny-invariant: 1.3.3
 
-  '@storybook/cli@7.6.20(bufferutil@4.0.8)(encoding@0.1.13)(utf-8-validate@5.0.10)':
+  '@storybook/cli@7.6.20(bufferutil@4.0.8)(utf-8-validate@5.0.10)':
     dependencies:
       '@babel/core': 7.29.0
       '@babel/preset-env': 7.26.9(@babel/core@7.29.0)
@@ -34093,10 +34099,10 @@ snapshots:
       '@storybook/codemod': 7.6.20
       '@storybook/core-common': 7.6.20(encoding@0.1.13)
       '@storybook/core-events': 7.6.20
-      '@storybook/core-server': 7.6.20(bufferutil@4.0.8)(encoding@0.1.13)(utf-8-validate@5.0.10)
+      '@storybook/core-server': 7.6.20(bufferutil@4.0.8)(utf-8-validate@5.0.10)
       '@storybook/csf-tools': 7.6.20
       '@storybook/node-logger': 7.6.20
-      '@storybook/telemetry': 7.6.20(encoding@0.1.13)
+      '@storybook/telemetry': 7.6.20
       '@storybook/types': 7.6.20
       '@types/semver': 7.7.0
       '@yarnpkg/fslib': 2.10.3
@@ -34229,11 +34235,11 @@ snapshots:
     dependencies:
       ts-dedent: 2.2.0
 
-  '@storybook/core-server@7.6.20(bufferutil@4.0.8)(encoding@0.1.13)(utf-8-validate@5.0.10)':
+  '@storybook/core-server@7.6.20(bufferutil@4.0.8)(utf-8-validate@5.0.10)':
     dependencies:
       '@aw-web-design/x-default-browser': 1.4.126
       '@discoveryjs/json-ext': 0.5.7
-      '@storybook/builder-manager': 7.6.20(encoding@0.1.13)
+      '@storybook/builder-manager': 7.6.20
       '@storybook/channels': 7.6.20
       '@storybook/core-common': 7.6.20(encoding@0.1.13)
       '@storybook/core-events': 7.6.20
@@ -34244,7 +34250,7 @@ snapshots:
       '@storybook/manager': 7.6.20
       '@storybook/node-logger': 7.6.20
       '@storybook/preview-api': 7.6.20
-      '@storybook/telemetry': 7.6.20(encoding@0.1.13)
+      '@storybook/telemetry': 7.6.20
       '@storybook/types': 7.6.20
       '@types/detect-port': 1.3.5
       '@types/node': 18.19.74
@@ -34305,7 +34311,7 @@ snapshots:
 
   '@storybook/docs-mdx@0.1.0': {}
 
-  '@storybook/docs-tools@7.6.20(encoding@0.1.13)':
+  '@storybook/docs-tools@7.6.20':
     dependencies:
       '@storybook/core-common': 7.6.20(encoding@0.1.13)
       '@storybook/preview-api': 7.6.20
@@ -34399,11 +34405,11 @@ snapshots:
       react: 19.2.6
       react-dom: 19.2.6(react@19.2.6)
 
-  '@storybook/react@7.6.20(encoding@0.1.13)(react-dom@19.2.6(react@19.2.6))(react@19.2.6)(typescript@5.6.3)':
+  '@storybook/react@7.6.20(react-dom@19.2.6(react@19.2.6))(react@19.2.6)(typescript@5.6.3)':
     dependencies:
       '@storybook/client-logger': 7.6.20
       '@storybook/core-client': 7.6.20
-      '@storybook/docs-tools': 7.6.20(encoding@0.1.13)
+      '@storybook/docs-tools': 7.6.20
       '@storybook/global': 5.0.0
       '@storybook/preview-api': 7.6.20
       '@storybook/react-dom-shim': 7.6.20(react-dom@19.2.6(react@19.2.6))(react@19.2.6)
@@ -34436,7 +34442,7 @@ snapshots:
       memoizerific: 1.11.3
       qs: 6.15.2
 
-  '@storybook/telemetry@7.6.20(encoding@0.1.13)':
+  '@storybook/telemetry@7.6.20':
     dependencies:
       '@storybook/client-logger': 7.6.20
       '@storybook/core-common': 7.6.20(encoding@0.1.13)
@@ -47687,9 +47693,9 @@ snapshots:
 
   store2@2.14.3: {}
 
-  storybook@7.6.20(bufferutil@4.0.8)(encoding@0.1.13)(utf-8-validate@5.0.10):
+  storybook@7.6.20(bufferutil@4.0.8)(utf-8-validate@5.0.10):
     dependencies:
-      '@storybook/cli': 7.6.20(bufferutil@4.0.8)(encoding@0.1.13)(utf-8-validate@5.0.10)
+      '@storybook/cli': 7.6.20(bufferutil@4.0.8)(utf-8-validate@5.0.10)
     transitivePeerDependencies:
       - bufferutil
       - encoding
@@ -48395,7 +48401,7 @@ snapshots:
 
   trough@2.1.0: {}
 
-  ts-checker-rspack-plugin@1.3.2(@rspack/core@1.7.10(@swc/helpers@0.5.17))(tslib@2.8.1)(typescript@5.6.3):
+  ts-checker-rspack-plugin@1.4.0(@rspack/core@1.7.10(@swc/helpers@0.5.17))(tslib@2.8.1)(typescript@5.6.3):
     dependencies:
       '@rspack/lite-tapable': 1.1.2
       chokidar: 3.6.0
