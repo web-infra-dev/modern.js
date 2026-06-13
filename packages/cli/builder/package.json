@@ -45,7 +45,7 @@
     "@rsbuild/plugin-svgr": "2.0.3",
     "@rsbuild/plugin-type-check": "1.4.0",
     "@rsbuild/plugin-typed-css-modules": "1.2.3",
-    "@swc/core": "1.15.40",
+    "@swc/core": "1.15.41",
     "@swc/helpers": "^0.5.17",
     "autoprefixer": "10.4.27",
     "browserslist": "4.28.2",

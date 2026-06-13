@@ -216,7 +216,7 @@
     "@modern-js/runtime-utils": "workspace:*",
     "@modern-js/types": "workspace:*",
     "@modern-js/utils": "workspace:*",
-    "@swc/core": "1.15.40",
+    "@swc/core": "1.15.41",
     "@swc/helpers": "^0.5.17",
     "@swc/plugin-loadable-components": "^11.12.0",
     "@types/loadable__component": "^5.13.10",
