@@ -22,7 +22,10 @@ export default {
     withTestPreset({
       name: 'plugin-runtime-node',
       testEnvironment: 'node',
-      exclude: ['tests/router/prefetch.test.tsx'],
+      exclude: [
+        'tests/router/lifecycleHooks.test.tsx',
+        'tests/router/prefetch.test.tsx',
+      ],
       extends: commonConfig,
       plugins: [
         {
@@ -46,7 +49,10 @@ export default {
     withTestPreset({
       name: 'plugin-runtime-client',
       testEnvironment: 'happy-dom',
-      include: ['tests/router/prefetch.test.tsx'],
+      include: [
+        'tests/router/lifecycleHooks.test.tsx',
+        'tests/router/prefetch.test.tsx',
+      ],
       extends: commonConfig,
       plugins: [
         {

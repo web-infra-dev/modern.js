@@ -12,6 +12,7 @@ import {
   useLocation,
   useMatches,
 } from '@modern-js/runtime-utils/router';
+import type { DataRouter } from '@modern-js/runtime-utils/router';
 import { normalizePathname } from '@modern-js/runtime-utils/url';
 import * as React from 'react';
 import { useContext, useEffect, useMemo } from 'react';
@@ -27,6 +28,10 @@ import {
   type RouterExtendsHooks,
   modifyRoutes as modifyRoutesHook,
   onBeforeCreateRoutes as onBeforeCreateRoutesHook,
+  onRouteComponent as onRouteComponentHook,
+  onRouteLoader as onRouteLoaderHook,
+  onRouterCreated as onRouterCreatedHook,
+  onRouterStateChange as onRouterStateChangeHook,
 } from './hooks';
 import { createClientRouterFromPayload } from './rsc-router';
 import type { RouterConfig, Routes } from './types';
@@ -77,6 +82,10 @@ export const routerPlugin = (
     registryHooks: {
       modifyRoutes: modifyRoutesHook,
       onBeforeCreateRoutes: onBeforeCreateRoutesHook,
+      onRouterCreated: onRouterCreatedHook,
+      onRouterStateChange: onRouterStateChangeHook,
+      onRouteLoader: onRouteLoaderHook,
+      onRouteComponent: onRouteComponentHook,
     },
     setup: api => {
       const routesContainer = {
@@ -151,6 +160,7 @@ export const routerPlugin = (
         let cachedRouter: any = null;
 
         const RouterWrapper = (props: any) => {
+          const runtimeContext = useContext(InternalRuntimeContext);
           const routerResult = useRouterCreation(
             {
               ...props,
@@ -175,11 +185,29 @@ export const routerPlugin = (
             cachedRouter = routerResult.router;
             return cachedRouter;
           }, []);
-          const { routes } = routerResult;
+          const { basename: routerBasename, routes } = routerResult;
 
           routesContainer.current = routes;
 
           beforeCreateRouter = false;
+
+          useEffect(() => {
+            const hooks = api.getHooks();
+            hooks.onRouterCreated.call({
+              router,
+              routes,
+              basename: routerBasename,
+              context: runtimeContext,
+            });
+            return router.subscribe((state: DataRouter['state']) => {
+              hooks.onRouterStateChange.call({
+                router,
+                routes,
+                state,
+                context: runtimeContext,
+              });
+            });
+          }, [router, routes, routerBasename, runtimeContext]);
 
           // To match the node tree about https://github.com/web-infra-dev/modern.js/blob/v2.59.0/packages/runtime/plugin-runtime/src/router/runtime/plugin.node.tsx#L150-L168
           // According to react [useId generation algorithm](https://github.com/facebook/react/pull/22644), `useId` will generate id with the react node react struct.
@@ -292,6 +320,7 @@ function useRouterCreation(props: any, options: UseRouterCreationOptions) {
 
         return {
           router,
+          basename: _basename,
           routes: router.routes || [],
         };
       } catch (e) {
@@ -325,6 +354,7 @@ function useRouterCreation(props: any, options: UseRouterCreationOptions) {
 
     return {
       router,
+      basename: _basename,
       routes: modifiedRoutes,
     };
   }, [finalRouteConfig, props, _basename, hydrationData, getBlockNavState]);
