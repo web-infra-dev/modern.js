@@ -1,6 +1,6 @@
 {
   "name": "@modern-js/bundle-diff-benchmark",
-  "version": "3.2.2",
+  "version": "3.3.0",
   "private": true,
   "scripts": {
     "dev": "modern dev",
@@ -16,15 +16,15 @@
   ],
   "dependencies": {
     "@modern-js/runtime": "workspace:*",
-    "react": "^19.2.6",
-    "react-dom": "^19.2.6"
+    "react": "^19.2.7",
+    "react-dom": "^19.2.7"
   },
   "devDependencies": {
     "@modern-js/app-tools": "workspace:*",
     "@modern-js/tsconfig": "workspace:*",
     "@rsdoctor/rspack-plugin": "^1.5.12",
     "@types/node": "^20",
-    "@types/react": "^19.2.15",
+    "@types/react": "^19.2.17",
     "@types/react-dom": "^19.2.3",
     "prettier": "~2.8.8",
     "rimraf": "^6.1.3",

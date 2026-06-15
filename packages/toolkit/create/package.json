@@ -19,7 +19,7 @@
   "engines": {
     "node": ">=20"
   },
-  "version": "3.2.2",
+  "version": "3.3.0",
   "types": "./src/index.ts",
   "main": "./dist/index.js",
   "bin": {
@@ -41,7 +41,7 @@
   "devDependencies": {
     "@modern-js/i18n-utils": "workspace:*",
     "@modern-js/rslib": "workspace:*",
-    "@rslib/core": "0.21.5",
+    "@rslib/core": "0.22.0",
     "@types/node": "^20",
     "tsx": "^4.21.0",
     "typescript": "^5"

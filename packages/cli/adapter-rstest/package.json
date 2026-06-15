@@ -9,7 +9,7 @@
     "directory": "packages/cli/adapter-rstest"
   },
   "license": "MIT",
-  "version": "3.2.2",
+  "version": "3.3.0",
   "type": "module",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
@@ -34,7 +34,7 @@
     "@modern-js/tsconfig": "workspace:*",
     "@modern-js/types": "workspace:*",
     "@rsbuild/core": "2.0.10",
-    "@rslib/core": "0.21.5",
+    "@rslib/core": "0.22.0",
     "@rstest/core": "0.9.10",
     "@scripts/rstest-config": "workspace:*",
     "@types/node": "^20",

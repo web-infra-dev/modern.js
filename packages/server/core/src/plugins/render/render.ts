@@ -6,6 +6,7 @@ import { TrieRouter } from 'hono/router/trie-router';
 import { X_MODERNJS_RENDER } from '../../constants';
 import type {
   CacheConfig,
+  FallbackContext,
   FallbackReason,
   OnFallback,
   UserConfig,
@@ -150,10 +151,14 @@ export async function createRender({
     const framework = cutNameByHyphen(metaName || 'modern-js');
     const fallbackHeader = `x-${framework}-ssr-fallback`;
     let fallbackReason = null;
+    const fallbackContext: FallbackContext = {
+      request: req,
+      monitors,
+    };
 
     const fallbackWrapper: FallbackWrapper = async (reason, error?) => {
       fallbackReason = reason;
-      return onFallback?.(reason, error);
+      return onFallback?.(reason, error, fallbackContext);
     };
 
     if (!routeInfo) {

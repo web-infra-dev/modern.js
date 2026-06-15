@@ -1,7 +1,7 @@
 import path from 'path';
 import { fs } from '@modern-js/utils';
 import getPort from 'get-port';
-import puppeteer, { type Browser } from 'puppeteer';
+import puppeteer, { type Browser, type Page } from 'puppeteer';
 import {
   killApp,
   launchApp,
@@ -12,6 +12,17 @@ import {
 rstest.setConfig({ testTimeout: 1000 * 60 * 2, hookTimeout: 1000 * 60 * 2 });
 
 const appDir = path.resolve(__dirname, './app');
+
+async function getRootTextAfterRender(page: Page, text: string) {
+  await page.waitForFunction(
+    expected =>
+      document.querySelector('#root')?.textContent?.includes(expected),
+    {},
+    text,
+  );
+  const root = await page.$('#root');
+  return page.evaluate(el => el?.textContent, root);
+}
 
 describe('source build', () => {
   let app: any;
@@ -37,25 +48,28 @@ describe('source build', () => {
     // browser = await puppeteer.launch(launchOptions as any);
     const page = await browser.newPage();
     await page.goto(`http://localhost:${port}`);
-    const root = await page.$('#root');
-    const targetText = await page.evaluate(el => el?.textContent, root);
+    const targetText = await getRootTextAfterRender(
+      page,
+      'Card-Comp Title: App',
+    );
     expect(targetText).toMatch('Card-Comp Title: App');
     expect(targetText).toMatch('CARD-COMP CONTENT:hello world');
   });
 
   test('update component project code', async () => {
     const newContent = card.original.replace(/Card Comp/g, 'Card-Comp');
-    await fs.writeFile(card.codeDir, newContent);
-    await sleep(2000);
-    const page = await browser.newPage();
-    await page.goto(`http://localhost:${port}`);
-    const root = await page.$('#root');
-    const targetText = await page.evaluate(el => el?.textContent, root);
+    try {
+      await fs.writeFile(card.codeDir, newContent);
+      await sleep(2000);
+      const page = await browser.newPage();
+      await page.goto(`http://localhost:${port}`);
+      const targetText = await getRootTextAfterRender(page, 'Card-Comp');
 
-    expect(targetText).toMatch('Card-Comp');
-    expect(targetText).toMatch('CARD-COMP');
-
-    await fs.writeFile(card.codeDir, card.original);
+      expect(targetText).toMatch('Card-Comp');
+      expect(targetText).toMatch('CARD-COMP');
+    } finally {
+      await fs.writeFile(card.codeDir, card.original);
+    }
   });
 
   afterEach(async () => {

@@ -7,10 +7,10 @@
   },
   "dependencies": {
     "lodash": "^4.18.1",
-    "react": "^19.2.6",
-    "react-dom": "^19.2.6",
+    "react": "^19.2.7",
+    "react-dom": "^19.2.7",
     "react-router-dom": "7.13.1",
-    "vue": "^3.5.34"
+    "vue": "^3.5.38"
   },
   "devDependencies": {
     "@modern-js/builder": "workspace:*",
@@ -20,7 +20,7 @@
     "@types/connect": "^3.4.38",
     "@types/lodash": "^4.17.24",
     "@types/node": "^20",
-    "@types/react": "^19.2.15",
+    "@types/react": "^19.2.17",
     "@types/react-dom": "^19.2.3",
     "@types/serve-static": "^1.15.10",
     "connect": "^3.7.0",

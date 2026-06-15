@@ -2,6 +2,8 @@
 title: tsChecker
 ---
 
+import { PackageManagerTabs } from '@theme';
+
 # tools.tsChecker
 
 - **Type:** `Object | Function`
@@ -14,6 +16,8 @@ const defaultOptions = {
     memoryLimit: 8192,
     // use tsconfig of user project
     configFile: tsconfigPath,
+    // use TypeScript checker by default
+    tsgo: false,
     // use typescript of user project
     typescriptPath: require.resolve('typescript'),
   },
@@ -35,7 +39,7 @@ const defaultOptions = {
 },
 ```
 
-By default, the [@rsbuild/plugin-type-check](https://github.com/rspack-contrib/rsbuild-plugin-type-check) is enabled for type checking. You can use `output.disableTsChecker` config to disable it.
+By default, the [@rsbuild/plugin-type-check](https://github.com/rstackjs/rsbuild-plugin-type-check) is enabled for type checking. You can use `output.disableTsChecker` config to disable it.
 
 ## Example
 
@@ -53,4 +57,30 @@ export default {
 };
 ```
 
-> Please refer to [@rsbuild/plugin-type-check](https://github.com/rspack-contrib/rsbuild-plugin-type-check) for more details.
+> Please refer to [@rsbuild/plugin-type-check](https://github.com/rstackjs/rsbuild-plugin-type-check) for more details.
+
+## TypeScript Go Support
+
+`tools.tsChecker` supports enabling [TypeScript Go](https://github.com/microsoft/typescript-go) for type checking. This experimental capability is provided by [`ts-checker-rspack-plugin`](https://github.com/rstackjs/ts-checker-rspack-plugin), which is integrated by [`@rsbuild/plugin-type-check`](https://github.com/rstackjs/rsbuild-plugin-type-check), and can reduce type-checking time by about 5-10x.
+
+Before using it, install `@typescript/native-preview`:
+
+<PackageManagerTabs command="install @typescript/native-preview -D" />
+
+Then set `typescript.tsgo` to `true`:
+
+```ts
+export default {
+  tools: {
+    tsChecker: {
+      typescript: {
+        tsgo: true,
+      },
+    },
+  },
+};
+```
+
+When `tsgo` is enabled, the default `typescript.typescriptPath` resolves to `@typescript/native-preview/package.json`. If you manually set `typescript.typescriptPath`, it must be an absolute path to `@typescript/native-preview/package.json`.
+
+For supported options and limitations, please refer to [ts-checker-rspack-plugin - TypeScript Go support](https://github.com/rstackjs/ts-checker-rspack-plugin#typescript-go-support).

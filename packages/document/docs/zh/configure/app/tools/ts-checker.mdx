@@ -2,6 +2,8 @@
 title: tsChecker
 ---
 
+import { PackageManagerTabs } from '@theme';
+
 # tools.tsChecker
 
 - **类型：** `Object | Function`
@@ -14,6 +16,8 @@ const defaultOptions = {
     memoryLimit: 8192,
     // use tsconfig of user project
     configFile: tsconfigPath,
+    // use TypeScript checker by default
+    tsgo: false,
     // use typescript of user project
     typescriptPath: require.resolve('typescript'),
   },
@@ -35,7 +39,7 @@ const defaultOptions = {
 },
 ```
 
-默认情况下，Modern.js 会开启 [@rsbuild/plugin-type-check](https://github.com/rspack-contrib/rsbuild-plugin-type-check) 进行类型检查。你可以通过 `output.disableTsChecker` 配置项来关闭类型检查。
+默认情况下，Modern.js 会开启 [@rsbuild/plugin-type-check](https://github.com/rstackjs/rsbuild-plugin-type-check) 进行类型检查。你可以通过 `output.disableTsChecker` 配置项来关闭类型检查。
 
 ## 示例
 
@@ -53,4 +57,30 @@ export default {
 };
 ```
 
-> 请参考 [@rsbuild/plugin-type-check](https://github.com/rspack-contrib/rsbuild-plugin-type-check) 了解更多用法。
+> 请参考 [@rsbuild/plugin-type-check](https://github.com/rstackjs/rsbuild-plugin-type-check) 了解更多用法。
+
+## TypeScript Go 支持
+
+`tools.tsChecker` 支持开启 [TypeScript Go](https://github.com/microsoft/typescript-go) 进行类型检查。该能力由 [`@rsbuild/plugin-type-check`](https://github.com/rstackjs/rsbuild-plugin-type-check) 底层集成的 [`ts-checker-rspack-plugin`](https://github.com/rstackjs/ts-checker-rspack-plugin) 提供，目前仍处于实验阶段，可以将类型检查耗时减少约 5-10 倍。
+
+在使用前，需要安装 `@typescript/native-preview`：
+
+<PackageManagerTabs command="install @typescript/native-preview -D" />
+
+然后将 `typescript.tsgo` 设置为 `true`：
+
+```ts
+export default {
+  tools: {
+    tsChecker: {
+      typescript: {
+        tsgo: true,
+      },
+    },
+  },
+};
+```
+
+开启 `tsgo` 后，默认的 `typescript.typescriptPath` 会解析到 `@typescript/native-preview/package.json`。如果你手动设置了 `typescript.typescriptPath`，它必须是指向 `@typescript/native-preview/package.json` 的绝对路径。
+
+关于 `tsgo` 模式下生效的配置项和相关限制，请参考 [ts-checker-rspack-plugin - TypeScript Go support](https://github.com/rstackjs/ts-checker-rspack-plugin#typescript-go-support)。

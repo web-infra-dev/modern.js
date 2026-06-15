@@ -17,6 +17,7 @@ import type {
   ServerPlugin,
   ServerRoute,
 } from '@modern-js/types';
+import type { EagerRouteComponentFilesByEntry } from '@modern-js/utils';
 import type { AppTools } from '.';
 import type { getHookRunners } from '../compat/hooks';
 import type { AppToolsNormalizedConfig, AppToolsUserConfig } from './config';
@@ -132,6 +133,19 @@ export interface AppToolsExtendContext {
    * @private
    */
   bffRuntimeFramework?: string;
+  /**
+   * Route component files collected from the FINAL file-system routes (after all
+   * `modifyFileSystemRoutes` consumers ran), keyed by entry name. Populated by
+   * the router plugin during route generation and consumed (currently by stream
+   * SSR lazy compilation) to force route component chunks eager.
+   *
+   * Published via the app context (`api.updateAppContext`) by the router plugin,
+   * then read fresh when assembling the builder options and threaded into
+   * `BuilderOptions.eagerRouteComponentFilesByEntry`; the SSR builder plugin
+   * reads it from those options (not from the context directly).
+   * @private
+   */
+  eagerRouteComponentFilesByEntry?: EagerRouteComponentFilesByEntry;
 }
 
 export type AppToolsContext = AppContext<AppTools> & AppToolsExtendContext;

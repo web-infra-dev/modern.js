@@ -11,14 +11,14 @@
   "dependencies": {
     "@modern-js/runtime": "workspace:*",
     "fs-extra": "^10.1.0",
-    "react": "^19.2.6",
-    "react-dom": "^19.2.6"
+    "react": "^19.2.7",
+    "react-dom": "^19.2.7"
   },
   "devDependencies": {
     "@modern-js/app-tools": "workspace:*",
     "@types/fs-extra": "9.0.13",
     "@types/node": "^20",
-    "@types/react": "^19.2.15",
+    "@types/react": "^19.2.17",
     "@types/react-dom": "^19.2.3",
     "typescript": "^5"
   }
