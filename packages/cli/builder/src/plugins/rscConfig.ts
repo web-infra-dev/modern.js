@@ -210,11 +210,18 @@ export function pluginRscConfig(): RsbuildPlugin {
  * Get RSC plugins based on configuration
  * @param enableRsc - Whether RSC is enabled
  * @param internalDirectory - Internal directory path for route matching
+ * @param environments - Optional mapping of the RSC plugin's `server`/`client`
+ *   environments onto existing Rsbuild environment names. When omitted, the RSC
+ *   plugin uses its defaults (`'server'` / `'client'`). Frameworks that already
+ *   declare their own environments can point RSC at them instead of having the
+ *   plugin create new empty environments (which would otherwise fall back to the
+ *   default `./src` entry and fail to resolve).
  * @returns Array of RSC-related plugins
  */
 export async function getRscPlugins(
   enableRsc: boolean,
   internalDirectory: string,
+  environments?: { server?: string; client?: string },
 ): Promise<RsbuildPlugin[]> {
   if (enableRsc) {
     const routesFileReg = new RegExp(
@@ -226,6 +233,7 @@ export async function getRscPlugins(
     const { pluginRSC } = await import('rsbuild-plugin-rsc');
     return [
       pluginRSC({
+        ...(environments ? { environments } : {}),
         layers: {
           rsc: [/render[/\\].*[/\\]server[/\\]rsc/, /AppProxy/, routesFileReg],
         },
