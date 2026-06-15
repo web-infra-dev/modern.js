@@ -1686,8 +1686,8 @@ importers:
         specifier: 7.2.0
         version: 7.2.0
       '@types/inquirer':
-        specifier: 8.2.12
-        version: 8.2.12
+        specifier: 8.2.13
+        version: 8.2.13
       '@types/js-yaml':
         specifier: 4.0.9
         version: 4.0.9
@@ -7842,8 +7842,8 @@ packages:
   '@types/http-proxy@1.17.17':
     resolution: {integrity: sha512-ED6LB+Z1AVylNTu7hdzuBqOgMnvG/ld6wGCG8wFnAzKX5uyW2K3WD52v0gnLCTK/VLpXtKckgWuyScYK6cSPaw==}
 
-  '@types/inquirer@8.2.12':
-    resolution: {integrity: sha512-YxURZF2ZsSjU5TAe06tW0M3sL4UI9AMPA6dd8I72uOtppzNafcY38xkYgCZ/vsVOAyNdzHmvtTpLWilOrbP0dQ==}
+  '@types/inquirer@8.2.13':
+    resolution: {integrity: sha512-shSvl3mn4Z8AK627kA1vx8PYkyH6CdIjV5NYYj7a0xIxzmG3ZgzEpzCi3CWfktjAlq+0Z0wHJGtWNiACaYpeOg==}
 
   '@types/invariant@2.2.37':
     resolution: {integrity: sha512-IwpIMieE55oGWiXkQPSBY1nw1nFs6bsKXTFskNY8sdS17K24vyEBRQZEwlRS7ZmXCWnJcQtbxWzly+cODWGs2A==}
@@ -16565,7 +16565,7 @@ snapshots:
 
   '@jest/pattern@30.4.0':
     dependencies:
-      '@types/node': 25.9.1
+      '@types/node': 20.19.27
       jest-regex-util: 30.4.0
 
   '@jest/schemas@30.0.5':
@@ -16582,7 +16582,7 @@ snapshots:
       '@jest/schemas': 30.4.1
       '@types/istanbul-lib-coverage': 2.0.6
       '@types/istanbul-reports': 3.0.4
-      '@types/node': 25.9.1
+      '@types/node': 20.19.27
       '@types/yargs': 17.0.35
       chalk: 4.1.2
 
@@ -19070,7 +19070,7 @@ snapshots:
     dependencies:
       '@types/node': 20.19.27
 
-  '@types/inquirer@8.2.12':
+  '@types/inquirer@8.2.13':
     dependencies:
       '@types/through': 0.0.33
       rxjs: 7.8.2
@@ -22809,7 +22809,7 @@ snapshots:
   jest-util@30.4.1:
     dependencies:
       '@jest/types': 30.4.1
-      '@types/node': 25.9.1
+      '@types/node': 20.19.27
       chalk: 4.1.2
       ci-info: 4.4.0
       graceful-fs: 4.2.11

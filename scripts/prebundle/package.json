@@ -26,7 +26,7 @@
     "@types/debug": "4.1.13",
     "@types/fs-extra": "9.0.13",
     "@types/glob": "7.2.0",
-    "@types/inquirer": "8.2.12",
+    "@types/inquirer": "8.2.13",
     "@types/js-yaml": "4.0.9",
     "@types/less": "3.0.8",
     "@types/lodash": "^4.17.24",
