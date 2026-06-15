@@ -100,7 +100,7 @@
     "@modern-js/types": "workspace:*",
     "@modern-js/utils": "workspace:*",
     "@rsbuild/core": "2.0.10",
-    "@swc/core": "1.15.40",
+    "@swc/core": "1.15.41",
     "@swc/helpers": "^0.5.17",
     "es-module-lexer": "^1.7.0",
     "flatted": "^3.4.2",
