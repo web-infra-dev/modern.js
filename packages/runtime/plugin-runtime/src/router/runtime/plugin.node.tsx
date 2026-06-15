@@ -30,6 +30,10 @@ import {
   type RouterExtendsHooks,
   modifyRoutes as modifyRoutesHook,
   onBeforeCreateRoutes as onBeforeCreateRoutesHook,
+  onRouteComponent as onRouteComponentHook,
+  onRouteLoader as onRouteLoaderHook,
+  onRouterCreated as onRouterCreatedHook,
+  onRouterStateChange as onRouterStateChangeHook,
 } from './hooks';
 import {
   RSCStaticRouter,
@@ -62,6 +66,10 @@ export const routerPlugin = (
     registryHooks: {
       modifyRoutes: modifyRoutesHook,
       onBeforeCreateRoutes: onBeforeCreateRoutesHook,
+      onRouterCreated: onRouterCreatedHook,
+      onRouterStateChange: onRouterStateChangeHook,
+      onRouteLoader: onRouteLoaderHook,
+      onRouteComponent: onRouteComponentHook,
     },
     setup: api => {
       let finalRouteConfig: any = {};
