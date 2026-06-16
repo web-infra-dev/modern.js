@@ -1,5 +1,10 @@
 import 'reflect-metadata';
-import type { ServerPluginAPI } from '@modern-js/server-core';
+import {
+  type ServerPlugin,
+  type ServerPluginAPI,
+  compatPlugin,
+  createServerBase,
+} from '@modern-js/server-core';
 import { HonoAdapter } from '../src/runtime/hono/adapter';
 
 const before = ['custom-server-hook', 'custom-server-middleware', 'render'];
@@ -83,5 +88,112 @@ describe('HonoAdapter.registerMiddleware (dev/prod unified path)', () => {
 
     expect(adapter.isHono).toBe(false);
     expect(middlewares).toHaveLength(0);
+  });
+});
+
+function getDefaultConfig() {
+  return {
+    html: {},
+    output: {},
+    source: {},
+    tools: {},
+    server: {},
+    bff: {},
+    dev: {},
+    security: {},
+  } as any;
+}
+
+/**
+ * Inject API handler infos into the server context, then register them through
+ * the (Phase 4) unified HonoAdapter path — exactly what the BFF plugin does on
+ * every runtime build.
+ */
+function bffRoutesPlugin(apiHandlerInfos: any[]): ServerPlugin {
+  return {
+    name: 'test-bff-routes',
+    setup(api) {
+      api.onPrepare(async () => {
+        const ctx = api.getServerContext();
+        api.updateServerContext({ ...ctx, apiHandlerInfos });
+        await new HonoAdapter(api).registerMiddleware();
+      });
+    },
+  };
+}
+
+/**
+ * A catch-all middleware named `render` so the `hono-bff-api` routes
+ * (before: ['render']) are ordered ahead of it — mirroring the real SSR fallback.
+ */
+function renderPlugin(): ServerPlugin {
+  return {
+    name: 'test-render',
+    setup(api) {
+      api.onPrepare(() => {
+        const { middlewares } = api.getServerContext();
+        middlewares.push({
+          name: 'render',
+          path: '*',
+          method: 'all',
+          order: 'post',
+          handler: (c: any) => c.json({ served: 'render' }),
+        });
+      });
+    },
+  };
+}
+
+async function buildServer(prefix: string) {
+  const server = createServerBase({
+    config: getDefaultConfig(),
+    pwd: '',
+    appContext: {
+      apiDirectory: '',
+      lambdaDirectory: '',
+      bffRuntimeFramework: 'hono',
+    } as any,
+  });
+  const apiHandlerInfos = [
+    {
+      routePath: `${prefix}/hello`,
+      httpMethod: 'GET',
+      handler: () => ({ msg: 'hello' }),
+    },
+  ];
+  server.addPlugins([
+    compatPlugin(),
+    bffRoutesPlugin(apiHandlerInfos),
+    renderPlugin(),
+  ]);
+  await server.init();
+  return server;
+}
+
+describe('BFF API route dispatch through ServerBase (dev == prod path)', () => {
+  it('serves a matching API route under a custom prefix', async () => {
+    const server = await buildServer('/custom-api');
+
+    const res = await server.request('/custom-api/hello');
+
+    expect(res.status).toBe(200);
+    expect(await res.json()).toEqual({ msg: 'hello' });
+  });
+
+  it('falls through to render when an API path does not match (no truncation)', async () => {
+    const server = await buildServer('/api');
+
+    const res = await server.request('/api/not-exist');
+
+    expect(res.status).toBe(200);
+    expect(await res.json()).toEqual({ served: 'render' });
+  });
+
+  it('does not intercept non-API paths', async () => {
+    const server = await buildServer('/api');
+
+    const res = await server.request('/some/page');
+
+    expect(await res.json()).toEqual({ served: 'render' });
   });
 });
