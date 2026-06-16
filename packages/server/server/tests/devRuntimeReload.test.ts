@@ -146,6 +146,7 @@ describe('setupDevInfra (process-level singletons)', () => {
     const nodeServer = new EventEmitter() as any;
     const builder = { onDevCompileDone: rstest.fn() } as any;
     const builderDevServer = makeBuilderDevServer(true);
+    const onFileChange = rstest.fn();
     const infra = setupDevInfra({
       config: { server: {} } as any,
       pwd: '/tmp/app',
@@ -155,8 +156,9 @@ describe('setupDevInfra (process-level singletons)', () => {
       compiler: null,
       nodeServer,
       getRuntimeServer,
+      onFileChange,
     });
-    return { infra, nodeServer, builder, builderDevServer };
+    return { infra, nodeServer, builder, builderDevServer, onFileChange };
   }
 
   it('creates each process-level resource exactly once and releases them on close', () => {
@@ -209,25 +211,42 @@ describe('setupDevInfra (process-level singletons)', () => {
     expect(nodeServer.listenerCount('close')).toBe(1);
   });
 
-  it('routes watcher changes to the live runtime via the mutable ref (no stale closure)', async () => {
-    let current = makeFakeRuntimeServer();
-    const first = current;
-    setup(() => current);
+  it('triggers onFileChange (runtime reload) on a watched user server change', async () => {
+    const { onFileChange } = setup(() => makeFakeRuntimeServer());
 
     const watcher = getWatchers()[0];
     expect(watcher.listenCb).toBeTypeOf('function');
 
-    // A server file change reaches the current runtime's reset hook.
+    // A user server file change schedules a runtime reload.
     watcher.listenCb(path.join('/tmp/app', 'api/foo.ts'), 'change');
     await flush();
+    expect(onFileChange).toHaveBeenCalledTimes(1);
+
+    // Server loader bundles only drop the require cache; they never reload.
+    watcher.listenCb(
+      path.join('/tmp/app/dist', 'bundles/x-server-loaders.js'),
+      'change',
+    );
+    await flush();
+    expect(onFileChange).toHaveBeenCalledTimes(1);
+  });
+
+  it('onRepack reaches the live runtime via the mutable ref (no stale closure)', () => {
+    let current = makeFakeRuntimeServer();
+    const first = current;
+    const { builder } = setup(() => current);
+
+    // Capture the builder onDevCompileDone callback (server-bundle reset path).
+    const onCompileDone = builder.onDevCompileDone.mock.calls[0][0];
+    const clientStats = { stats: { toJson: () => ({ name: 'client' }) } };
+
+    onCompileDone(clientStats);
     expect(first.hooks.onReset.call).toHaveBeenCalledTimes(1);
 
-    // After a reload swaps the runtime, the watcher must hit the NEW runtime,
-    // never the replaced one.
+    // After a reload swaps the runtime, onRepack must hit the NEW runtime.
     const second = makeFakeRuntimeServer();
     current = second;
-    watcher.listenCb(path.join('/tmp/app', 'api/bar.ts'), 'change');
-    await flush();
+    onCompileDone(clientStats);
     expect(second.hooks.onReset.call).toHaveBeenCalledTimes(1);
     expect(first.hooks.onReset.call).toHaveBeenCalledTimes(1);
   });
