@@ -41,6 +41,21 @@ const setupRouterHooks = () => {
   };
 };
 
+class TestErrorBoundary extends React.Component<
+  { children: React.ReactNode },
+  { hasError: boolean }
+> {
+  state = { hasError: false };
+
+  static getDerivedStateFromError() {
+    return { hasError: true };
+  }
+
+  render() {
+    return this.state.hasError ? null : this.props.children;
+  }
+}
+
 describe('router lifecycle hooks', () => {
   afterEach(() => {
     setGlobalInternalRuntimeContext({
@@ -135,6 +150,34 @@ describe('router lifecycle hooks', () => {
       ]);
     });
     unmount();
+  });
+
+  test('emits route component render error events', async () => {
+    const { componentEvents } = setupRouterHooks();
+    const error = new Error('render failed');
+    const Component = createRouteComponent('routes/home', () => {
+      throw error;
+    });
+    const consoleError = rstest
+      .spyOn(console, 'error')
+      .mockImplementation(() => {});
+
+    render(
+      <TestErrorBoundary>
+        <Component />
+      </TestErrorBoundary>,
+    );
+
+    await waitFor(() => {
+      expect(componentEvents).toHaveLength(1);
+      expect(componentEvents[0]).toMatchObject({
+        type: 'render-error',
+        routeId: 'routes/home',
+        error,
+        componentStack: expect.any(String),
+      });
+    });
+    consoleError.mockRestore();
   });
 
   test('emits route module load and load error events', () => {
