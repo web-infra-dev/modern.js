@@ -198,6 +198,22 @@ describe('ReloadManager', () => {
     expect(manager.currentHandle).toBe(initial);
   });
 
+  it('ignores schedule() and reloadNow() after close()', async () => {
+    const build = rstest.fn(async () => makeHandle('next'));
+    const manager = new ReloadManager({
+      initialHandle: makeHandle('initial'),
+      build,
+      debounceMs: 10,
+    });
+
+    manager.close();
+    manager.schedule();
+    await manager.reloadNow();
+
+    await sleep(40);
+    expect(build).toHaveBeenCalledTimes(0);
+  });
+
   it('serves a 503 until setHandle seeds the initial known-good handle', () => {
     const seeded = makeHandle('seeded');
     const manager = new ReloadManager({

@@ -42,6 +42,7 @@ rstest.mock('../src/dev-tools/watcher', () => {
 });
 
 import { devRuntimeMiddlewarePlugin, setupDevInfra } from '../src/dev';
+import { ReloadManager } from '../src/dev-tools/reloadManager';
 import { createRuntimeServerOptions } from '../src/dev-tools/runtimeOptions';
 import * as watcherModule from '../src/dev-tools/watcher';
 
@@ -50,6 +51,7 @@ rstest.useRealTimers();
 const getWatchers = (): any[] => (watcherModule as any).__getWatchers();
 const resetWatchers = (): void => (watcherModule as any).__resetWatchers();
 const flush = () => new Promise(resolve => setTimeout(resolve, 0));
+const sleep = (ms: number) => new Promise(resolve => setTimeout(resolve, ms));
 
 function getDefaultConfig() {
   return {
@@ -249,6 +251,45 @@ describe('setupDevInfra (process-level singletons)', () => {
     onCompileDone(clientStats);
     expect(second.hooks.onReset.call).toHaveBeenCalledTimes(1);
     expect(first.hooks.onReset.call).toHaveBeenCalledTimes(1);
+  });
+
+  it('cancels a scheduled reload when the dev server closes (no build after close)', async () => {
+    // Wire a real ReloadManager exactly like createDevServer: watcher change ->
+    // schedule, dev server close -> reloadManager.close.
+    const build = rstest.fn(
+      async () => (() => new Response('ok')) as unknown as () => Response,
+    );
+    const reloadManager = new ReloadManager({
+      initialHandle: () => new Response('init') as any,
+      build,
+      debounceMs: 30,
+    });
+
+    const nodeServer = new EventEmitter() as any;
+    setupDevInfra({
+      config: { server: {} } as any,
+      pwd: '/tmp/app',
+      distDir: '/tmp/app/dist',
+      builder: { onDevCompileDone: rstest.fn() } as any,
+      builderDevServer: makeBuilderDevServer(true),
+      compiler: null,
+      nodeServer,
+      getRuntimeServer: () => makeFakeRuntimeServer(),
+      onFileChange: () => reloadManager.schedule(),
+      onClose: () => reloadManager.close(),
+    });
+
+    const watcher = getWatchers()[getWatchers().length - 1];
+
+    // A file change schedules a (debounced) reload.
+    watcher.listenCb(path.join('/tmp/app', 'api/foo.ts'), 'change');
+    // The dev server closes before the debounce fires.
+    nodeServer.emit('close');
+
+    // After the debounce window, no build ran: close cancelled the pending
+    // reload, so nothing rebuilds a runtime after teardown.
+    await sleep(60);
+    expect(build).toHaveBeenCalledTimes(0);
   });
 });
 

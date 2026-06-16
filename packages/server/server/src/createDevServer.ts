@@ -165,6 +165,9 @@ export async function createDevServer(
     // (debounced + serial + last-write-wins; a failed build keeps the old
     // handle serving, so a syntax error never takes the dev server down.)
     onFileChange: () => reloadManager.schedule(),
+    // On dev server close, stop the scheduler so a pending debounced reload
+    // can't rebuild a runtime after the watcher / builder dev server are gone.
+    onClose: () => reloadManager.close(),
   });
 
   const afterListen = async () => {
