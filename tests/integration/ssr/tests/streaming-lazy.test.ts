@@ -1,3 +1,4 @@
+import fs from 'fs';
 import path, { join } from 'path';
 import puppeteer, { type Browser, type Page } from 'puppeteer';
 import {
@@ -12,7 +13,11 @@ const fixtureDir = path.resolve(__dirname, '../fixtures');
 type RouteManifest = {
   routeAssets: Record<
     string,
-    { assets?: string[]; referenceCssAssets?: string[] }
+    {
+      chunkIds?: (string | number)[];
+      assets?: string[];
+      referenceCssAssets?: string[];
+    }
   >;
 };
 
@@ -61,12 +66,13 @@ function parseRouteManifest(html: string): RouteManifest {
 // CSS) are emitted, recorded in the route manifest, and injected.
 describe('Streaming SSR with lazy compilation', () => {
   let app: any;
+  let appDir: string;
   let appPort: number;
   let page: Page;
   let browser: Browser;
 
   beforeAll(async () => {
-    const appDir = join(fixtureDir, 'streaming-lazy');
+    appDir = join(fixtureDir, 'streaming-lazy');
     appPort = await getPort();
     app = await launchApp(appDir, appPort, {});
     browser = await puppeteer.launch(launchOptions as any);
@@ -97,10 +103,20 @@ describe('Streaming SSR with lazy compilation', () => {
       /<link href="\/static\/css\/async\/about\/page.css" rel="stylesheet" \/>/,
     );
 
-    // Route manifest assets are fully recovered (not deferred away by lazy).
-    const manifest = parseRouteManifest(body);
-    const about = manifest.routeAssets['about/page'];
-    expect(about).toBeDefined();
+    // The inline manifest is intentionally slimmed in non-RSC builds. The
+    // client only needs chunk ids for route prefetching, while SSR reads the
+    // full asset list from the on-disk manifest.
+    const inlineManifest = parseRouteManifest(body);
+    const inlineAbout = inlineManifest.routeAssets['about/page'];
+    expect(inlineAbout).toBeDefined();
+    expect(inlineAbout.chunkIds).toEqual(['about/page']);
+    expect(inlineAbout.assets).toBeUndefined();
+    expect(inlineAbout.referenceCssAssets).toBeUndefined();
+
+    const diskManifest = JSON.parse(
+      fs.readFileSync(join(appDir, 'dist/routes-manifest.json'), 'utf-8'),
+    ) as RouteManifest;
+    const about = diskManifest.routeAssets['about/page'];
     expect(about.assets?.some(a => /async\/about\/page\.js$/.test(a))).toBe(
       true,
     );

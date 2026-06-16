@@ -25,6 +25,7 @@ type Options = {
   disableFilenameHash?: boolean;
   scriptLoading?: ScriptLoading;
   nonce?: string;
+  useRsc?: boolean;
 };
 
 const generateContentHash = (content: string) => {
@@ -46,6 +47,8 @@ export class RouterPlugin {
 
   private nonce?: string;
 
+  private useRsc: boolean;
+
   constructor({
     staticJsDir = 'static/js',
     HtmlBundlerPlugin,
@@ -53,6 +56,7 @@ export class RouterPlugin {
     disableFilenameHash = false,
     scriptLoading = 'defer',
     nonce,
+    useRsc = false,
   }: Options) {
     this.HtmlBundlerPlugin = HtmlBundlerPlugin;
     this.enableInlineRouteManifests = enableInlineRouteManifests;
@@ -60,6 +64,7 @@ export class RouterPlugin {
     this.disableFilenameHash = disableFilenameHash;
     this.scriptLoading = scriptLoading;
     this.nonce = nonce;
+    this.useRsc = useRsc;
   }
 
   private isTargetNodeOrWebWorker(target: Compiler['options']['target']) {
@@ -162,6 +167,42 @@ export class RouterPlugin {
           const prevManifest: { routeAssets: RouteAssets } =
             JSON.parse(prevManifestStr);
 
+          // Walk descendant chunk groups (reached via dynamic import / React.lazy)
+          // to collect their CSS, so streaming SSR can inject them into the
+          // shell and avoid a flash of unstyled content when the lazy chunk
+          // arrives on the client.
+          const namedChunkGroupInstances = new Map<string, any>();
+          for (const cg of (compilation as any).chunkGroups || []) {
+            if (cg.name) {
+              namedChunkGroupInstances.set(cg.name, cg);
+            }
+          }
+          const collectDescendantCssAssets = (name: string): string[] => {
+            const root = namedChunkGroupInstances.get(name);
+            if (!root) return [];
+            const cssFiles = new Set<string>();
+            const visited = new Set<unknown>();
+            const stack: any[] = [...root.childrenIterable];
+            while (stack.length) {
+              const child = stack.pop();
+              if (visited.has(child)) continue;
+              visited.add(child);
+              for (const chunk of child.chunks) {
+                for (const file of chunk.files) {
+                  if (/\.css$/.test(file)) {
+                    cssFiles.add(
+                      publicPath ? normalizePath(publicPath) + file : file,
+                    );
+                  }
+                }
+              }
+              for (const c of child.childrenIterable) {
+                stack.push(c);
+              }
+            }
+            return Array.from(cssFiles);
+          };
+
           const asyncEntryNames = [];
           for (const [name, chunkGroup] of Object.entries(namedChunkGroups)) {
             if (name.startsWith('async-')) {
@@ -179,9 +220,16 @@ export class RouterPlugin {
                 ? normalizePath(publicPath) + filename
                 : filename;
             });
-            const referenceCssAssets = assets.filter(asset =>
+            const directCssAssets = assets.filter(asset =>
               /\.css$/.test(asset),
             );
+            const descendantCssAssets = collectDescendantCssAssets(name).filter(
+              asset => !directCssAssets.includes(asset),
+            );
+            const referenceCssAssets = [
+              ...directCssAssets,
+              ...descendantCssAssets,
+            ];
             routeAssets[name] = {
               chunkIds: chunkGroup.chunks,
               assets,
@@ -248,6 +296,17 @@ export class RouterPlugin {
 
             const manifest = { routeAssets: relatedAssets };
 
+            // Slim the inline manifest based on what the client actually reads:
+            //   - PrefetchLink: only `chunkIds` (CSS loading rides on the
+            //     webpack chunk runtime via `__webpack_require__.e`).
+            //   - RSC `injectRouteCss`: needs `referenceCssAssets` for client
+            //     navigation CSS injection.
+            //   - `assets` has no client consumer (server reads it from the
+            //     on-disk `route-manifest.json` instead).
+            // So in non-RSC mode we drop `assets` and `referenceCssAssets`
+            // from the inline payload to keep the HTML small. The on-disk
+            // manifest below stays complete so SSR still injects lazy CSS.
+            const { useRsc } = this;
             const injectedContent = `
             ;(function(){
               window.${ROUTE_MANIFEST} = ${JSON.stringify(manifest, (k, v) => {
@@ -255,6 +314,7 @@ export class RouterPlugin {
                   (k === 'assets' || k === 'referenceCssAssets') &&
                   Array.isArray(v)
                 ) {
+                  if (!useRsc) return undefined;
                   return v.map(item => {
                     return item.replace(publicPath, '');
                   });

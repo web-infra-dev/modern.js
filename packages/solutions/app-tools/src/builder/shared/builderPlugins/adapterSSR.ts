@@ -254,6 +254,7 @@ function applyRouterPlugin(
         disableFilenameHash: normalizedConfig.output?.filenameHash === false,
         scriptLoading: normalizedConfig.html?.scriptLoading,
         nonce: normalizedConfig.security?.nonce,
+        useRsc: isUseRsc(normalizedConfig),
       },
     ]);
   }
