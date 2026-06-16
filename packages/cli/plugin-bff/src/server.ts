@@ -73,7 +73,9 @@ export default (): ServerPlugin => ({
         });
       }
 
-      honoAdapter.registerMiddleware();
+      // Await: this is the sole BFF Hono registration entry, and onPrepare must
+      // finish pushing routes before ServerBase#applyMiddlewares runs.
+      await honoAdapter.registerMiddleware();
     });
     // No BFF-local onReset rebuild: in dev, `@modern-js/server` rebuilds the
     // whole runtime (including this plugin) on file changes, so the API routes
