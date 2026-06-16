@@ -10,6 +10,7 @@ import type {
 import { connectMid2HonoMid } from '@modern-js/server-core/node';
 import type { RequestHandler } from '@modern-js/types';
 import { API_DIR, SHARED_DIR } from '@modern-js/utils';
+import type { WatchEvent } from './dev-tools/watcher';
 import {
   getDevOptions,
   getMockMiddleware,
@@ -119,6 +120,11 @@ export interface DevInfraOptions {
   nodeServer?: NodeServer | NodeHttpsServer | Http2SecureServer;
   /** Accessor for the currently-active runtime ServerBase (a mutable ref). */
   getRuntimeServer: () => ServerBase | undefined;
+  /**
+   * Triggered when a watched user server file changes (require cache already
+   * busted). Wired to the runtime reload scheduler.
+   */
+  onFileChange: (filepath: string, event: WatchEvent) => void;
 }
 
 export interface DevInfra {
@@ -149,6 +155,7 @@ export function setupDevInfra({
   builder,
   builderDevServer,
   getRuntimeServer,
+  onFileChange,
   nodeServer,
 }: DevInfraOptions): DevInfra {
   const { close, connectWebSocket } = builderDevServer || {};
@@ -177,7 +184,7 @@ export function setupDevInfra({
     apiDir: apiDir || API_DIR,
     sharedDir: sharedDir || SHARED_DIR,
     watchOptions,
-    getServer: getRuntimeServer,
+    onChange: onFileChange,
   });
   closeCb.push(watcher.close.bind(watcher));
 

@@ -86,8 +86,21 @@ export async function createDevServer(
    * runtime can never leak into the next reload.
    */
   const buildRuntimeServer = async (): Promise<ReloadableHandle> => {
+    // Re-load modern.server.ts on every build so its plugins / middlewares /
+    // onError changes are picked up on reload. The watcher has already busted
+    // the require cache for changed files; an unchanged config just returns the
+    // cached module, so this is cheap when nothing relevant changed.
+    const freshServerConfig =
+      (await loadServerRuntimeConfig(serverConfigPath)) || {};
     const runtimeOptions = createRuntimeServerOptions(
-      prodServerOptions,
+      {
+        ...prodServerOptions,
+        serverConfig: { ...freshServerConfig, ...options.serverConfig },
+        plugins: [
+          ...(freshServerConfig.plugins || []),
+          ...(options.plugins || []),
+        ],
+      },
       assetPrefix,
     );
     const runtimeServer = createServerBase(runtimeOptions);
@@ -132,9 +145,10 @@ export async function createDevServer(
   reloadManager.setHandle(await buildRuntimeServer());
 
   /**
-   * Process-level dev infra, created once. The watcher / onRepack reach the
-   * live runtime via `getRuntimeServer` (a mutable ref) and a later phase will
-   * swap the trigger to `reloadManager.schedule()`.
+   * Process-level dev infra, created once. The file watcher triggers a unified
+   * runtime reload via `onFileChange`; the builder-recompile SSR-cache reset
+   * (onRepack) still reaches the live runtime via `getRuntimeServer` (a mutable
+   * ref). BFF's own onReset-based local rebuild is removed in a later phase.
    */
   setupDevInfra({
     config,
@@ -147,6 +161,10 @@ export async function createDevServer(
     compiler,
     nodeServer,
     getRuntimeServer: () => currentRuntimeServer,
+    // A watched user server file changed -> schedule a unified runtime reload.
+    // (debounced + serial + last-write-wins; a failed build keeps the old
+    // handle serving, so a syntax error never takes the dev server down.)
+    onFileChange: () => reloadManager.schedule(),
   });
 
   const afterListen = async () => {
