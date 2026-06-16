@@ -42,6 +42,7 @@ rstest.mock('../src/dev-tools/watcher', () => {
 });
 
 import { devRuntimeMiddlewarePlugin, setupDevInfra } from '../src/dev';
+import { createRuntimeServerOptions } from '../src/dev-tools/runtimeOptions';
 import * as watcherModule from '../src/dev-tools/watcher';
 
 rstest.useRealTimers();
@@ -229,5 +230,106 @@ describe('setupDevInfra (process-level singletons)', () => {
     await flush();
     expect(second.hooks.onReset.call).toHaveBeenCalledTimes(1);
     expect(first.hooks.onReset.call).toHaveBeenCalledTimes(1);
+  });
+});
+
+describe('createRuntimeServerOptions (per-build option isolation)', () => {
+  it('returns fresh containers so one build cannot pollute another', () => {
+    const base = {
+      config: { output: { distPath: { root: 'dist' } } },
+      serverConfig: {
+        middlewares: [{ name: 'a' }],
+        renderMiddlewares: [{ name: 'r' }],
+        plugins: [{ name: 'p' }],
+      },
+      plugins: [{ name: 'top' }],
+    } as any;
+
+    const a = createRuntimeServerOptions(base);
+    const b = createRuntimeServerOptions(base);
+
+    // Distinct container identities from the base and from each other.
+    expect(a.config).not.toBe(base.config);
+    expect(a.config.output).not.toBe(base.config.output);
+    expect(a.serverConfig).not.toBe(base.serverConfig);
+    expect(a.serverConfig.middlewares).not.toBe(base.serverConfig.middlewares);
+    expect(a.serverConfig.renderMiddlewares).not.toBe(
+      base.serverConfig.renderMiddlewares,
+    );
+    expect(a.serverConfig.plugins).not.toBe(base.serverConfig.plugins);
+    expect(a.plugins).not.toBe(base.plugins);
+    expect(a.serverConfig.middlewares).not.toBe(b.serverConfig.middlewares);
+
+    // Pollute round A's arrays.
+    a.serverConfig.middlewares.push({ name: 'leak-mw' });
+    a.serverConfig.renderMiddlewares.push({ name: 'leak-render' });
+    a.serverConfig.plugins.push({ name: 'leak-plugin' });
+    a.plugins.push({ name: 'leak-top' });
+    (a.config.output as any).assetPrefix = '/leaked/';
+
+    // Round B and the base remain pristine.
+    expect(b.serverConfig.middlewares).toHaveLength(1);
+    expect(b.serverConfig.renderMiddlewares).toHaveLength(1);
+    expect(b.serverConfig.plugins).toHaveLength(1);
+    expect(b.plugins).toHaveLength(1);
+    expect((b.config.output as any).assetPrefix).toBeUndefined();
+
+    expect(base.serverConfig.middlewares).toHaveLength(1);
+    expect(base.serverConfig.renderMiddlewares).toHaveLength(1);
+    expect(base.serverConfig.plugins).toHaveLength(1);
+    expect(base.plugins).toHaveLength(1);
+    expect((base.config.output as any).assetPrefix).toBeUndefined();
+  });
+
+  it('weaves assetPrefix into the fresh config.output without touching the base', () => {
+    const base = {
+      config: { output: {} },
+      serverConfig: {},
+      plugins: [],
+    } as any;
+    const built = createRuntimeServerOptions(base, '/static/');
+
+    expect(built.config.output.assetPrefix).toBe('/static/');
+    // The original options.config.output is never mutated.
+    expect((base.config.output as any).assetPrefix).toBeUndefined();
+  });
+
+  it('isolates serverConfig.middlewares pollution across consecutive runtime builds', async () => {
+    const baseOptions = {
+      config: getDefaultConfig(),
+      appContext: getDefaultAppContext(),
+      pwd: '',
+      serverConfig: { middlewares: [], renderMiddlewares: [] },
+      plugins: [],
+    } as any;
+
+    // Mirror buildRuntimeServer: a fresh options object per build, with a
+    // plugin that appends to its own runtimeOptions.serverConfig.middlewares.
+    const buildOnce = async () => {
+      const runtimeOptions = createRuntimeServerOptions(baseOptions);
+      const polluter: ServerPlugin = {
+        name: 'polluter',
+        setup(api) {
+          api.onPrepare(async () => {
+            (runtimeOptions.serverConfig as any).middlewares.push({
+              name: 'leak',
+            });
+          });
+        },
+      };
+      const server = createServerBase(runtimeOptions);
+      server.addPlugins([compatPlugin(), polluter]);
+      await server.init();
+      return runtimeOptions;
+    };
+
+    const o1 = await buildOnce();
+    const o2 = await buildOnce();
+
+    expect((o1.serverConfig as any).middlewares).toHaveLength(1);
+    // Second build does NOT inherit the first build's appended middleware.
+    expect((o2.serverConfig as any).middlewares).toHaveLength(1);
+    // The shared base stays pristine.
+    expect((baseOptions.serverConfig as any).middlewares).toHaveLength(0);
   });
 });
