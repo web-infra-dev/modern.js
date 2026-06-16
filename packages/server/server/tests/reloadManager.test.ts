@@ -214,6 +214,39 @@ describe('ReloadManager', () => {
     expect(build).toHaveBeenCalledTimes(0);
   });
 
+  it('does not start a trailing build or swap when closed during an in-flight reload', async () => {
+    const initial = makeHandle('initial');
+    const h1 = makeHandle('h1');
+    const d1 = defer<ReloadableHandle>();
+    const d2 = defer<ReloadableHandle>();
+    const deferreds = [d1, d2];
+    let buildIndex = 0;
+    const build = rstest.fn(() => deferreds[buildIndex++]!.promise);
+    const onReload = rstest.fn();
+
+    const manager = new ReloadManager({
+      initialHandle: initial,
+      build,
+      onReload,
+    });
+
+    // Build #1 is in flight; a second request coalesces into a trailing reload.
+    const p1 = manager.reloadNow();
+    void manager.reloadNow();
+    expect(build).toHaveBeenCalledTimes(1);
+
+    // Close while build #1 is still running, then let it resolve.
+    manager.close();
+    d1.resolve(h1);
+    await p1;
+
+    // The trailing build #2 never starts; the in-flight result is not committed
+    // (no swap) and the post-swap onReload callback never runs after close.
+    expect(build).toHaveBeenCalledTimes(1);
+    expect(manager.currentHandle).toBe(initial);
+    expect(onReload).not.toHaveBeenCalled();
+  });
+
   it('serves a 503 until setHandle seeds the initial known-good handle', () => {
     const seeded = makeHandle('seeded');
     const manager = new ReloadManager({

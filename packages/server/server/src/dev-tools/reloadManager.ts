@@ -179,6 +179,12 @@ export class ReloadManager {
         continue;
       }
 
+      // If the manager was closed while this build was in flight, drop the
+      // result without committing — no swap, no onReload after close.
+      if (this.#closed) {
+        return;
+      }
+
       // Build succeeded: commit the swap. From here on there is no rollback —
       // a failure in the onReload callback (e.g. previous-runtime cleanup) is
       // reported separately and never reverts the already-active handle.
@@ -188,7 +194,7 @@ export class ReloadManager {
       } catch (callbackError) {
         this.#reportReloadCallbackError(callbackError);
       }
-    } while (this.#pending);
+    } while (this.#pending && !this.#closed);
   }
 
   #reportBuildError(error: unknown): void {
@@ -223,6 +229,9 @@ export class ReloadManager {
    */
   close(): void {
     this.#closed = true;
+    // Drop any trailing reload that was coalesced while a build was running,
+    // so #runLoop won't start another build after close.
+    this.#pending = false;
     if (this.#debounceTimer) {
       clearTimeout(this.#debounceTimer);
       this.#debounceTimer = null;
