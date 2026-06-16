@@ -148,7 +148,8 @@ export async function createDevServer(
    * Process-level dev infra, created once. The file watcher triggers a unified
    * runtime reload via `onFileChange`; the builder-recompile SSR-cache reset
    * (onRepack) still reaches the live runtime via `getRuntimeServer` (a mutable
-   * ref). BFF's own onReset-based local rebuild is removed in a later phase.
+   * ref). BFF no longer has its own onReset-based local rebuild — it joins the
+   * unified runtime reload.
    */
   setupDevInfra({
     config,
