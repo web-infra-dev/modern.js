@@ -84,6 +84,8 @@ export class ReloadManager {
 
   #runningPromise: Promise<void> | null = null;
 
+  #closed = false;
+
   constructor(options: ReloadManagerOptions) {
     this.#current = options.initialHandle ?? notReadyHandle;
     this.#build = options.build;
@@ -126,6 +128,9 @@ export class ReloadManager {
    * collapse into a single reload.
    */
   schedule(): void {
+    if (this.#closed) {
+      return;
+    }
     if (this.#debounceTimer) {
       clearTimeout(this.#debounceTimer);
     }
@@ -141,6 +146,9 @@ export class ReloadManager {
    * run) so callers can await final settlement.
    */
   async reloadNow(): Promise<void> {
+    if (this.#closed) {
+      return;
+    }
     if (this.#running) {
       this.#pending = true;
       return this.#runningPromise ?? Promise.resolve();
@@ -207,8 +215,14 @@ export class ReloadManager {
     }
   }
 
-  /** Cancel any pending debounced reload. */
+  /**
+   * Stop the manager: cancel any pending debounced reload and reject all
+   * further `schedule()` / `reloadNow()` calls. Wired into the dev server's
+   * close chain so a debounce timer that fires after teardown can never
+   * rebuild a runtime once the watcher / builder dev server are gone.
+   */
   close(): void {
+    this.#closed = true;
     if (this.#debounceTimer) {
       clearTimeout(this.#debounceTimer);
       this.#debounceTimer = null;

@@ -125,6 +125,11 @@ export interface DevInfraOptions {
    * busted). Wired to the runtime reload scheduler.
    */
   onFileChange: (filepath: string, event: WatchEvent) => void;
+  /**
+   * Extra teardown run as part of the dev server close chain (e.g. stopping the
+   * reload scheduler so a pending debounced reload can't rebuild after close).
+   */
+  onClose?: () => void;
 }
 
 export interface DevInfra {
@@ -156,6 +161,7 @@ export function setupDevInfra({
   builderDevServer,
   getRuntimeServer,
   onFileChange,
+  onClose,
   nodeServer,
 }: DevInfraOptions): DevInfra {
   const { close, connectWebSocket } = builderDevServer || {};
@@ -187,6 +193,11 @@ export function setupDevInfra({
     onChange: onFileChange,
   });
   closeCb.push(watcher.close.bind(watcher));
+
+  // Stop the reload scheduler last, so any pending debounced reload is
+  // cancelled and no rebuild can run after the watcher / builder dev server
+  // have been closed.
+  onClose && closeCb.push(onClose);
 
   const close$ = () => {
     closeCb.forEach(cb => {
