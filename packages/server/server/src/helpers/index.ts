@@ -26,13 +26,20 @@ async function onServerChange({
   pwd,
   filepath,
   event,
-  server,
+  getServer,
 }: {
   pwd: string;
   filepath: string;
   event: WatchEvent;
-  server: ServerBase;
+  getServer: () => ServerBase | undefined;
 }) {
+  // Resolve the live runtime server lazily so the watcher never closes over a
+  // stale (replaced) runtime instance.
+  const server = getServer();
+  if (!server) {
+    return;
+  }
+
   const { mock } = AGGRED_DIR;
   const mockPath = path.normalize(path.join(pwd, mock));
 
@@ -64,14 +71,14 @@ export function startWatcher({
   apiDir,
   sharedDir,
   watchOptions,
-  server,
+  getServer,
 }: {
   pwd: string;
   distDir: string;
   apiDir: string;
   sharedDir: string;
   watchOptions?: WatchOptions;
-  server: ServerBase;
+  getServer: () => ServerBase | undefined;
 }) {
   const { mock } = AGGRED_DIR;
   const defaultWatched = [
@@ -105,7 +112,7 @@ export function startWatcher({
       pwd,
       filepath,
       event,
-      server,
+      getServer,
     });
   });
 

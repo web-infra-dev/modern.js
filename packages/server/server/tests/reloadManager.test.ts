@@ -197,4 +197,47 @@ describe('ReloadManager', () => {
     expect(build).toHaveBeenCalledTimes(0);
     expect(manager.currentHandle).toBe(initial);
   });
+
+  it('serves a 503 until setHandle seeds the initial known-good handle', () => {
+    const seeded = makeHandle('seeded');
+    const manager = new ReloadManager({
+      build: async () => makeHandle('built'),
+    });
+
+    // Before any handle is seeded, the default handle replies 503.
+    const notReady = manager.currentHandle(fakeRequest) as Response;
+    expect(notReady.status).toBe(503);
+
+    manager.setHandle(seeded);
+    expect(manager.currentHandle).toBe(seeded);
+    manager.handle(fakeRequest);
+    expect(seeded).toHaveBeenCalledTimes(1);
+  });
+
+  it('does not roll back when onReload throws; reports via onReloadError', async () => {
+    const initial = makeHandle('initial');
+    const next = makeHandle('next');
+    const onError = rstest.fn();
+    const onReloadError = rstest.fn();
+    const callbackError = new Error('previous-runtime cleanup failed');
+    const manager = new ReloadManager({
+      initialHandle: initial,
+      build: async () => next,
+      onReload: () => {
+        throw callbackError;
+      },
+      onError,
+      onReloadError,
+    });
+
+    await manager.reloadNow();
+
+    // The swap is committed even though the onReload callback threw.
+    expect(manager.currentHandle).toBe(next);
+    // A successful build is NOT a failed reload, so onError must not fire.
+    expect(onError).not.toHaveBeenCalled();
+    // The post-swap callback failure is surfaced separately.
+    expect(onReloadError).toHaveBeenCalledTimes(1);
+    expect(onReloadError).toHaveBeenCalledWith(callbackError);
+  });
 });
