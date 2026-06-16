@@ -1,0 +1,233 @@
+import { EventEmitter } from 'node:events';
+import path from 'node:path';
+import {
+  type ServerPlugin,
+  compatPlugin,
+  createServerBase,
+} from '@modern-js/server-core';
+
+// Replace the real chokidar-backed Watcher with a controllable fake so the
+// tests neither touch the filesystem nor leak watchers. The registry lives
+// inside the factory (rstest.mock is hoisted) and is exposed via getters.
+rstest.mock('../src/dev-tools/watcher', () => {
+  const instances: any[] = [];
+  class FakeWatcher {
+    listenCb: ((filepath: string, event: string) => void) | null = null;
+    closed = false;
+    constructor() {
+      instances.push(this);
+    }
+    createDepTree() {}
+    updateDepTree() {}
+    cleanDepCache() {}
+    listen(
+      _paths: unknown,
+      _opts: unknown,
+      cb: (filepath: string, event: string) => void,
+    ) {
+      this.listenCb = cb;
+    }
+    close() {
+      this.closed = true;
+    }
+  }
+  return {
+    default: FakeWatcher,
+    mergeWatchOptions: (options: unknown) => options ?? {},
+    __getWatchers: () => instances,
+    __resetWatchers: () => {
+      instances.length = 0;
+    },
+  };
+});
+
+import { devRuntimeMiddlewarePlugin, setupDevInfra } from '../src/dev';
+import * as watcherModule from '../src/dev-tools/watcher';
+
+rstest.useRealTimers();
+
+const getWatchers = (): any[] => (watcherModule as any).__getWatchers();
+const resetWatchers = (): void => (watcherModule as any).__resetWatchers();
+const flush = () => new Promise(resolve => setTimeout(resolve, 0));
+
+function getDefaultConfig() {
+  return {
+    html: {},
+    output: {},
+    source: {},
+    tools: {},
+    server: {},
+    bff: {},
+    dev: {},
+    security: {},
+  } as any;
+}
+
+function getDefaultAppContext() {
+  return { apiDirectory: '', lambdaDirectory: '' } as any;
+}
+
+function makeFakeRuntimeServer() {
+  return { hooks: { onReset: { call: rstest.fn() } } } as any;
+}
+
+function makeBuilderDevServer(withMiddleware = true) {
+  return {
+    close: rstest.fn(),
+    connectWebSocket: rstest.fn(),
+    afterListen: rstest.fn(),
+    middlewares: withMiddleware
+      ? (_req: any, _res: any, next: any) => next()
+      : undefined,
+  } as any;
+}
+
+beforeEach(() => {
+  resetWatchers();
+});
+
+describe('devRuntimeMiddlewarePlugin (per-runtime injection)', () => {
+  async function buildRuntimeMiddlewareNames(
+    builderDevServer: any,
+  ): Promise<string[]> {
+    let names: string[] = [];
+    const probe: ServerPlugin = {
+      name: 'probe',
+      setup(api) {
+        api.onPrepare(async () => {
+          names = api.getServerContext().middlewares.map(m => m.name);
+        });
+      },
+    };
+
+    const server = createServerBase({
+      config: getDefaultConfig(),
+      appContext: getDefaultAppContext(),
+      pwd: '',
+    });
+    server.addPlugins([
+      compatPlugin(),
+      devRuntimeMiddlewarePlugin(
+        { pwd: '', dev: {}, builderDevServer } as any,
+        null,
+      ),
+      probe,
+    ]);
+    await server.init();
+    return names;
+  }
+
+  it('injects mock / rsbuild / file-reader middlewares into every fresh runtime', async () => {
+    const builderDevServer = makeBuilderDevServer(true);
+
+    // Two independent fresh runtimes both get a complete dev middleware set.
+    const names1 = await buildRuntimeMiddlewareNames(builderDevServer);
+    const names2 = await buildRuntimeMiddlewareNames(builderDevServer);
+
+    for (const names of [names1, names2]) {
+      expect(names).toEqual(
+        expect.arrayContaining(['mock-dev', 'rsbuild-dev', 'init-file-reader']),
+      );
+    }
+  });
+
+  it('omits rsbuild-dev when the builder has no dev middleware', async () => {
+    const names = await buildRuntimeMiddlewareNames(
+      makeBuilderDevServer(false),
+    );
+    expect(names).toContain('mock-dev');
+    expect(names).not.toContain('rsbuild-dev');
+  });
+});
+
+describe('setupDevInfra (process-level singletons)', () => {
+  function setup(getRuntimeServer: () => any) {
+    const nodeServer = new EventEmitter() as any;
+    const builder = { onDevCompileDone: rstest.fn() } as any;
+    const builderDevServer = makeBuilderDevServer(true);
+    const infra = setupDevInfra({
+      config: { server: {} } as any,
+      pwd: '/tmp/app',
+      distDir: '/tmp/app/dist',
+      builder,
+      builderDevServer,
+      compiler: null,
+      nodeServer,
+      getRuntimeServer,
+    });
+    return { infra, nodeServer, builder, builderDevServer };
+  }
+
+  it('creates each process-level resource exactly once and releases them on close', () => {
+    const { infra, nodeServer, builder, builderDevServer } = setup(() =>
+      makeFakeRuntimeServer(),
+    );
+
+    expect(builderDevServer.connectWebSocket).toHaveBeenCalledTimes(1);
+    expect(builder.onDevCompileDone).toHaveBeenCalledTimes(1);
+    expect(getWatchers()).toHaveLength(1);
+    expect(nodeServer.listenerCount('close')).toBe(1);
+
+    infra.close();
+    expect(builderDevServer.close).toHaveBeenCalledTimes(1);
+    expect(getWatchers()[0].closed).toBe(true);
+  });
+
+  it('does not add process-level resources across runtime rebuilds', async () => {
+    let current = makeFakeRuntimeServer();
+    const { nodeServer, builder, builderDevServer } = setup(() => current);
+    const builderDevServerForRuntime = makeBuilderDevServer(true);
+
+    // Simulate several hot reloads, each building a brand-new runtime server,
+    // exactly like createDevServer's buildRuntimeServer does.
+    for (let i = 0; i < 3; i++) {
+      const runtimeServer = createServerBase({
+        config: getDefaultConfig(),
+        appContext: getDefaultAppContext(),
+        pwd: '',
+      });
+      runtimeServer.addPlugins([
+        compatPlugin(),
+        devRuntimeMiddlewarePlugin(
+          {
+            pwd: '',
+            dev: {},
+            builderDevServer: builderDevServerForRuntime,
+          } as any,
+          null,
+        ),
+      ]);
+      await runtimeServer.init();
+      current = runtimeServer as any;
+    }
+
+    // None of the process-level resources were touched by the rebuilds.
+    expect(builderDevServer.connectWebSocket).toHaveBeenCalledTimes(1);
+    expect(builder.onDevCompileDone).toHaveBeenCalledTimes(1);
+    expect(getWatchers()).toHaveLength(1);
+    expect(nodeServer.listenerCount('close')).toBe(1);
+  });
+
+  it('routes watcher changes to the live runtime via the mutable ref (no stale closure)', async () => {
+    let current = makeFakeRuntimeServer();
+    const first = current;
+    setup(() => current);
+
+    const watcher = getWatchers()[0];
+    expect(watcher.listenCb).toBeTypeOf('function');
+
+    // A server file change reaches the current runtime's reset hook.
+    watcher.listenCb(path.join('/tmp/app', 'api/foo.ts'), 'change');
+    await flush();
+    expect(first.hooks.onReset.call).toHaveBeenCalledTimes(1);
+
+    // After a reload swaps the runtime, the watcher must hit the NEW runtime,
+    // never the replaced one.
+    const second = makeFakeRuntimeServer();
+    current = second;
+    watcher.listenCb(path.join('/tmp/app', 'api/bar.ts'), 'change');
+    await flush();
+    expect(second.hooks.onReset.call).toHaveBeenCalledTimes(1);
+    expect(first.hooks.onReset.call).toHaveBeenCalledTimes(1);
+  });
+});

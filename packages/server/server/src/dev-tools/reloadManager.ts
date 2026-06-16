@@ -10,22 +10,45 @@ export type ReloadableHandle = (
 ) => Response | Promise<Response>;
 
 export interface ReloadManagerOptions {
-  /** The handle used before the first successful reload. */
-  initialHandle: ReloadableHandle;
+  /**
+   * The handle used before the first successful build. Optional: when omitted
+   * the manager serves a 503 "starting" response until the first build swaps a
+   * real handle in (use `setHandle()` for a fail-fast initial boot).
+   */
+  initialHandle?: ReloadableHandle;
   /**
    * Build a fresh handle (e.g. a brand new runtime `ServerBase`).
-   * If this throws, the previously active handle is retained.
+   * If this throws, the previously active handle is retained (rollback).
    */
   build: () => Promise<ReloadableHandle>;
   /** Debounce window (ms) used to coalesce rapid `schedule()` calls. */
   debounceMs?: number;
-  /** Called after a handle is successfully swapped in. */
+  /**
+   * Called after a handle is successfully built and swapped in (e.g. to clean
+   * up the previous runtime). The swap has already been committed when this
+   * runs, so throwing here does NOT roll back — it is reported via
+   * `onReloadError` instead of `onError`.
+   */
   onReload?: (handle: ReloadableHandle) => void;
-  /** Called when `build()` throws. The previous handle is kept. */
+  /**
+   * Called when `build()` throws. The previous handle is kept serving. This is
+   * the only path that counts as a failed reload.
+   */
   onError?: (error: unknown) => void;
+  /**
+   * Called when the `onReload` callback throws. The new handle is already
+   * active; this is a post-swap cleanup/callback failure, never a rollback.
+   */
+  onReloadError?: (error: unknown) => void;
 }
 
 const DEFAULT_DEBOUNCE_MS = 300;
+
+const notReadyHandle: ReloadableHandle = () =>
+  new Response('Dev server is starting…', {
+    status: 503,
+    headers: { 'content-type': 'text/plain; charset=utf-8' },
+  });
 
 /**
  * Owns the single mutable request handle behind a stable forwarding listener.
@@ -50,6 +73,8 @@ export class ReloadManager {
 
   readonly #onError?: (error: unknown) => void;
 
+  readonly #onReloadError?: (error: unknown) => void;
+
   #debounceTimer: ReturnType<typeof setTimeout> | null = null;
 
   #running = false;
@@ -60,11 +85,21 @@ export class ReloadManager {
   #runningPromise: Promise<void> | null = null;
 
   constructor(options: ReloadManagerOptions) {
-    this.#current = options.initialHandle;
+    this.#current = options.initialHandle ?? notReadyHandle;
     this.#build = options.build;
     this.#debounceMs = options.debounceMs ?? DEFAULT_DEBOUNCE_MS;
     this.#onReload = options.onReload;
     this.#onError = options.onError;
+    this.#onReloadError = options.onReloadError;
+  }
+
+  /**
+   * Replace the active handle directly, bypassing `build()`. Used to seed the
+   * initial known-good handle (a fail-fast boot builds the first runtime
+   * explicitly so build errors propagate, then seeds it here).
+   */
+  setHandle(handle: ReloadableHandle): void {
+    this.#current = handle;
   }
 
   /**
@@ -125,24 +160,51 @@ export class ReloadManager {
     // the most recent source. Only the latest successful build is retained.
     do {
       this.#pending = false;
+
+      let next: ReloadableHandle;
       try {
-        const next = await this.#build();
-        // Atomic swap: a single field assignment.
-        this.#current = next;
-        this.#onReload?.(next);
+        next = await this.#build();
       } catch (error) {
-        // Retain the previous handle; surface the failure but keep serving.
-        if (this.#onError) {
-          this.#onError(error);
-        } else {
-          logger.error(
-            `[dev-server] runtime reload failed, keep serving previous handle:\n${
-              error instanceof Error ? (error.stack ?? error.message) : error
-            }`,
-          );
-        }
+        // Build failure is the ONLY failed-reload path: retain the previous
+        // handle (rollback) and surface the error. Then re-check pending.
+        this.#reportBuildError(error);
+        continue;
+      }
+
+      // Build succeeded: commit the swap. From here on there is no rollback —
+      // a failure in the onReload callback (e.g. previous-runtime cleanup) is
+      // reported separately and never reverts the already-active handle.
+      this.#current = next; // atomic swap: a single field assignment
+      try {
+        this.#onReload?.(next);
+      } catch (callbackError) {
+        this.#reportReloadCallbackError(callbackError);
       }
     } while (this.#pending);
+  }
+
+  #reportBuildError(error: unknown): void {
+    if (this.#onError) {
+      this.#onError(error);
+    } else {
+      logger.error(
+        `[dev-server] runtime reload build failed, keep serving previous handle:\n${
+          error instanceof Error ? (error.stack ?? error.message) : error
+        }`,
+      );
+    }
+  }
+
+  #reportReloadCallbackError(error: unknown): void {
+    if (this.#onReloadError) {
+      this.#onReloadError(error);
+    } else {
+      logger.warn(
+        `[dev-server] onReload callback failed after a successful swap (handle is already active):\n${
+          error instanceof Error ? (error.stack ?? error.message) : error
+        }`,
+      );
+    }
   }
 
   /** Cancel any pending debounced reload. */

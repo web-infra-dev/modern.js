@@ -1,5 +1,12 @@
+import type { Server as NodeServer } from 'node:http';
+import type { Http2SecureServer } from 'node:http2';
+import type { Server as NodeHttpsServer } from 'node:https';
 import type { BuilderInstance, Rspack } from '@modern-js/builder';
-import type { ServerBaseOptions, ServerPlugin } from '@modern-js/server-core';
+import type {
+  ServerBase,
+  ServerBaseOptions,
+  ServerPlugin,
+} from '@modern-js/server-core';
 import { connectMid2HonoMid } from '@modern-js/server-core/node';
 import type { RequestHandler } from '@modern-js/types';
 import { API_DIR, SHARED_DIR } from '@modern-js/utils';
@@ -18,68 +25,34 @@ export type DevPluginOptions = ModernDevServerOptions<ServerBaseOptions> & {
   builderDevServer?: BuilderDevServer;
 };
 
-export const devPlugin = (
+/**
+ * Runtime-level dev middleware injection.
+ *
+ * This plugin is added to EVERY runtime `ServerBase` that `buildRuntimeServer`
+ * creates, so it must be safe to run repeatedly and must NOT touch any
+ * process-level resource (the file watcher / websocket / builder hooks / close
+ * callbacks all live in `setupDevInfra`). It only pushes request middlewares
+ * into the current server's middleware list:
+ * - user `dev.setupMiddlewares` (before / after)
+ * - the mock middleware
+ * - the rsbuild/builder dev middleware (a stable reference, just re-registered)
+ * - the file-reader middleware
+ */
+export const devRuntimeMiddlewarePlugin = (
   options: DevPluginOptions,
   compiler: Rspack.Compiler | Rspack.MultiCompiler | null,
 ): ServerPlugin => ({
   name: '@modern-js/plugin-dev',
 
   setup(api) {
-    const { config, pwd, builder, builderDevServer } = options;
-
-    const closeCb: Array<(...args: []) => any> = [];
+    const { pwd, builderDevServer } = options;
 
     const dev = getDevOptions(options.dev);
 
     api.onPrepare(async () => {
-      // https://github.com/web-infra-dev/rsbuild/blob/32fbb85e22158d5c4655505ce75e3452ce22dbb1/packages/shared/src/types/server.ts#L112
-      const {
-        middlewares: builderMiddlewares,
-        close,
-        connectWebSocket,
-      } = builderDevServer || {};
+      const { middlewares: builderMiddlewares } = builderDevServer || {};
 
-      close && closeCb.push(close);
-
-      const {
-        middlewares,
-        distDirectory,
-        nodeServer,
-        apiDirectory,
-        sharedDirectory,
-        serverBase,
-      } = api.getServerContext();
-
-      connectWebSocket &&
-        nodeServer &&
-        connectWebSocket({ server: nodeServer });
-      // TODO: remove any
-      const hooks = (api as any).getHooks();
-
-      // Handle webpack rebuild
-      builder?.onDevCompileDone(({ stats }) => {
-        if (stats.toJson({ all: false }).name !== 'server') {
-          onRepack(distDirectory!, hooks);
-        }
-      });
-
-      // Handle watch
-      const { watchOptions } = config.server;
-      const watcher = startWatcher({
-        pwd,
-        distDir: distDirectory!,
-        apiDir: apiDirectory || API_DIR,
-        sharedDir: sharedDirectory || SHARED_DIR,
-        watchOptions,
-        server: serverBase!,
-      });
-      closeCb.push(watcher.close.bind(watcher));
-      closeCb.length > 0 &&
-        nodeServer?.on('close', () => {
-          closeCb.forEach(cb => {
-            cb();
-          });
-        });
+      const { middlewares } = api.getServerContext();
 
       // Handle setupMiddlewares
       const before: RequestHandler[] = [];
@@ -133,3 +106,88 @@ export const devPlugin = (
     });
   },
 });
+
+export interface DevInfraOptions {
+  config: DevPluginOptions['config'];
+  pwd: string;
+  distDir: string;
+  apiDir?: string;
+  sharedDir?: string;
+  builder?: BuilderInstance;
+  builderDevServer?: BuilderDevServer;
+  compiler: Rspack.Compiler | Rspack.MultiCompiler | null;
+  nodeServer?: NodeServer | NodeHttpsServer | Http2SecureServer;
+  /** Accessor for the currently-active runtime ServerBase (a mutable ref). */
+  getRuntimeServer: () => ServerBase | undefined;
+}
+
+export interface DevInfra {
+  /** Tear down every process-level resource. Called when the dev server stops. */
+  close: () => void;
+}
+
+/**
+ * Process-level dev infrastructure, created EXACTLY ONCE for the lifetime of
+ * the dev server. None of these resources are recreated or torn down by a
+ * runtime hot reload:
+ * - the rsbuild/builder dev server websocket connection
+ * - the builder `onDevCompileDone` -> SSR cache reset hook
+ * - the file watcher
+ * - close callbacks registered on the Node server's `close` event
+ *
+ * The watcher / onRepack reach the LIVE runtime hooks through
+ * `getRuntimeServer()` (a mutable ref) instead of closing over the initial
+ * runtime, so a later phase can swap the trigger to the reload scheduler
+ * without leaking a stale closure to a dead runtime.
+ */
+export function setupDevInfra({
+  config,
+  pwd,
+  distDir,
+  apiDir,
+  sharedDir,
+  builder,
+  builderDevServer,
+  getRuntimeServer,
+  nodeServer,
+}: DevInfraOptions): DevInfra {
+  const { close, connectWebSocket } = builderDevServer || {};
+
+  const closeCb: Array<(...args: []) => any> = [];
+
+  close && closeCb.push(close);
+
+  connectWebSocket && nodeServer && connectWebSocket({ server: nodeServer });
+
+  // Handle server bundle rebuild: reset SSR cache against the live runtime.
+  builder?.onDevCompileDone(({ stats }) => {
+    if (stats.toJson({ all: false }).name !== 'server') {
+      const runtimeServer = getRuntimeServer();
+      if (runtimeServer) {
+        onRepack(distDir, runtimeServer.hooks);
+      }
+    }
+  });
+
+  // Handle watch
+  const { watchOptions } = config.server;
+  const watcher = startWatcher({
+    pwd,
+    distDir,
+    apiDir: apiDir || API_DIR,
+    sharedDir: sharedDir || SHARED_DIR,
+    watchOptions,
+    getServer: getRuntimeServer,
+  });
+  closeCb.push(watcher.close.bind(watcher));
+
+  const close$ = () => {
+    closeCb.forEach(cb => {
+      cb();
+    });
+  };
+
+  closeCb.length > 0 && nodeServer?.on('close', close$);
+
+  return { close: close$ };
+}
