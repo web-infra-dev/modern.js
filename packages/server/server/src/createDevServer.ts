@@ -10,6 +10,7 @@ import {
   type ReloadableHandle,
   createReloadManager,
 } from './dev-tools/reloadManager';
+import { createRuntimeServerOptions } from './dev-tools/runtimeOptions';
 import { getDevAssetPrefix, getDevOptions } from './helpers';
 import type { ApplyPlugins, ModernDevServerOptions } from './types';
 
@@ -57,6 +58,11 @@ export async function createDevServer(
     runCompile: options.runCompile,
   });
 
+  // Resolved once from the builder (the compiler exists after createDevServer).
+  // Woven into every per-build fresh config by `createRuntimeServerOptions`,
+  // never mutated onto the shared `prodServerOptions.config`.
+  const assetPrefix = await assetPrefixPromise;
+
   /**
    * The currently-active runtime ServerBase. Process-level infra (the file
    * watcher / SSR-cache reset) reaches the live hooks through this mutable ref
@@ -74,15 +80,21 @@ export async function createDevServer(
    * resource — the watcher / websocket / builderDevServer / close callbacks are
    * owned by `setupDevInfra` and survive reloads untouched.
    *
-   * A fresh options object is spread per build so a stray append can never leak
-   * across builds; every plugin is re-applied onto a brand-new ServerBase.
+   * Every build gets a fully fresh options object (fresh config / serverConfig
+   * / plugins, see `createRuntimeServerOptions`) and that same object is handed
+   * to both `createServerBase` and `applyPlugins`, so a stray append in one
+   * runtime can never leak into the next reload.
    */
   const buildRuntimeServer = async (): Promise<ReloadableHandle> => {
-    const runtimeServer = createServerBase({ ...prodServerOptions });
+    const runtimeOptions = createRuntimeServerOptions(
+      prodServerOptions,
+      assetPrefix,
+    );
+    const runtimeServer = createServerBase(runtimeOptions);
     runtimeServer.addPlugins([
       devRuntimeMiddlewarePlugin({ ...options, builderDevServer }, compiler),
     ]);
-    await applyPlugins(runtimeServer, prodServerOptions, nodeServer);
+    await applyPlugins(runtimeServer, runtimeOptions, nodeServer);
     await runtimeServer.init();
     currentRuntimeServer = runtimeServer;
     return runtimeServer.handle;
@@ -110,12 +122,6 @@ export async function createDevServer(
     );
   } else {
     nodeServer = await createNodeServer(reloadManager.handle);
-  }
-
-  // run after createDevServer, we can get assetPrefix from builder
-  const assetPrefix = await assetPrefixPromise;
-  if (assetPrefix) {
-    prodServerOptions.config.output.assetPrefix = assetPrefix;
   }
 
   /**
