@@ -9,10 +9,6 @@ import { HonoAdapter } from './runtime/hono/adapter';
 type SF = (args: any) => void;
 class Storage {
   public middlewares: SF[] = [];
-
-  reset() {
-    this.middlewares = [];
-  }
 }
 
 export default (): ServerPlugin => ({
@@ -77,32 +73,11 @@ export default (): ServerPlugin => ({
         });
       }
 
-      honoAdapter.registerMiddleware({
-        prefix,
-        enableHandleWeb,
-      });
+      honoAdapter.registerMiddleware();
     });
-    api.onReset(async ({ event }) => {
-      storage.reset();
-      const appContext = api.getServerContext();
-      const { middlewares } = storage;
-      api.updateServerContext({
-        ...appContext,
-        apiMiddlewares: middlewares,
-      });
-
-      if (event.type === 'file-change') {
-        const apiHandlerInfos = await apiRouter.getApiHandlers();
-        const appContext = api.getServerContext();
-        api.updateServerContext({
-          ...appContext,
-          apiHandlerInfos,
-        });
-
-        await honoAdapter.setHandlers();
-        await honoAdapter.registerApiRoutes();
-      }
-    });
+    // No BFF-local onReset rebuild: in dev, `@modern-js/server` rebuilds the
+    // whole runtime (including this plugin) on file changes, so the API routes
+    // are re-registered from scratch on every reload.
     api.prepareApiServer((async (input: any, next: any) => {
       const { pwd, prefix, httpMethodDecider } = input;
       const apiDir = path.resolve(pwd, API_DIR);
