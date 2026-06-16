@@ -116,6 +116,74 @@ export const createRouteLoader = <
   return wrappedLoader as T;
 };
 
+interface RouteComponentErrorReporterProps {
+  routeId: string;
+  children?: React.ReactNode;
+}
+
+const reportedRouteComponentRenderErrors = new Set<string>();
+
+const getRouteComponentRenderErrorKey = (routeId: string, error: unknown) => {
+  if (error instanceof Error) {
+    return `${routeId}:${error.name}:${error.message}`;
+  }
+
+  return `${routeId}:${String(error)}`;
+};
+
+const shouldReportRouteComponentRenderError = (
+  routeId: string,
+  error: unknown,
+) => {
+  const key = getRouteComponentRenderErrorKey(routeId, error);
+  if (reportedRouteComponentRenderErrors.has(key)) {
+    return false;
+  }
+
+  reportedRouteComponentRenderErrors.add(key);
+  setTimeout(() => {
+    reportedRouteComponentRenderErrors.delete(key);
+  }, 1000);
+  return true;
+};
+
+class RouteComponentErrorReporter extends React.Component<RouteComponentErrorReporterProps> {
+  componentDidCatch(error: unknown, errorInfo: React.ErrorInfo) {
+    if (shouldReportRouteComponentRenderError(this.props.routeId, error)) {
+      emitRouteComponent({
+        type: 'render-error',
+        routeId: this.props.routeId,
+        error,
+        ...(errorInfo.componentStack
+          ? { componentStack: errorInfo.componentStack }
+          : {}),
+      });
+    }
+    throw error;
+  }
+
+  render() {
+    return this.props.children ?? null;
+  }
+}
+
+interface RouteComponentMountReporterProps {
+  routeId: string;
+}
+
+const RouteComponentMountReporter = ({
+  routeId,
+}: RouteComponentMountReporterProps) => {
+  React.useEffect(() => {
+    emitRouteComponent({
+      type: 'mount',
+      routeId,
+    });
+  }, [routeId]);
+
+  return null;
+};
+
 export const createRouteComponent = <
   Props extends {},
   T extends React.ComponentType<Props>,
@@ -124,14 +192,16 @@ export const createRouteComponent = <
   Component: T,
 ): T => {
   const RouteComponent = (props: Props) => {
-    React.useEffect(() => {
-      emitRouteComponent({
-        type: 'mount',
-        routeId,
-      });
-    }, []);
-
-    return React.createElement<Props>(Component, props);
+    return React.createElement(
+      RouteComponentErrorReporter,
+      { routeId },
+      React.createElement(
+        React.Fragment,
+        null,
+        React.createElement<Props>(Component, props),
+        React.createElement(RouteComponentMountReporter, { routeId }),
+      ),
+    );
   };
 
   RouteComponent.displayName =

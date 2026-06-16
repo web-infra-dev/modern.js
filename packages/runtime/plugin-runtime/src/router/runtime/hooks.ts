@@ -53,6 +53,12 @@ export type RouteComponentEvent =
       error: unknown;
     }
   | {
+      type: 'render-error';
+      routeId: string;
+      error: unknown;
+      componentStack?: string;
+    }
+  | {
       type: 'mount';
       routeId: string;
     };
