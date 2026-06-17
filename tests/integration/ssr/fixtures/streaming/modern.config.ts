@@ -14,4 +14,7 @@ export default applyBaseConfig({
       mode: 'stream',
     },
   },
+  performance: {
+    prefetch: true,
+  },
 });
