@@ -36,6 +36,42 @@ const checkIsInline = (
   }
 };
 
+export const hasStylesheetLink = (template: string, href: string) => {
+  const linkTags = template.match(/<link\b[^>]*>/gi) ?? [];
+  return linkTags.some(linkTag => {
+    const attributes = getLinkAttributes(linkTag);
+    const linkHref = attributes.get('href');
+    const rel = attributes.get('rel');
+
+    return (
+      linkHref === href &&
+      rel
+        ?.split(/\s+/)
+        .some(relToken => relToken.toLowerCase() === 'stylesheet')
+    );
+  });
+};
+
+const getLinkAttributes = (linkTag: string) => {
+  const attributes = new Map<string, string>();
+  const attributeRegExp =
+    /([^\s"'<>/=]+)(?:\s*=\s*(?:"([^"]*)"|'([^']*)'|([^\s"'=<>`]+)))?/g;
+  let match: RegExpExecArray | null;
+
+  while ((match = attributeRegExp.exec(linkTag))) {
+    const [, name, doubleQuotedValue, singleQuotedValue, unquotedValue] = match;
+    if (name.toLowerCase() === 'link') {
+      continue;
+    }
+    attributes.set(
+      name.toLowerCase(),
+      doubleQuotedValue ?? singleQuotedValue ?? unquotedValue ?? '',
+    );
+  }
+
+  return attributes;
+};
+
 export interface BuildShellBeforeTemplateOptions {
   runtimeContext: TInternalRuntimeContext;
   entryName: string;
@@ -108,7 +144,7 @@ export async function buildShellBeforeTemplate(
             };
             const _cssChunks = referenceCssAssets.filter(
               (asset?: string) =>
-                asset?.endsWith('.css') && !template.includes(asset),
+                asset?.endsWith('.css') && !hasStylesheetLink(template, asset),
             );
             return [...chunks, ..._cssChunks];
           }, [] as string[])

@@ -11,6 +11,17 @@ import { expectPageToMatchTextContent } from '../../../utils/rstestPuppeteer';
 
 const fixtureDir = path.resolve(__dirname, '../fixtures');
 
+function getMatchedLinkHrefs(
+  html: string,
+  rel: 'prefetch' | 'stylesheet',
+  hrefPattern: RegExp,
+) {
+  return (html.match(/<link\b[^>]*>/g) ?? [])
+    .filter(link => new RegExp(`\\brel="${rel}"`).test(link))
+    .map(link => link.match(/\bhref="([^"]+)"/)?.[1])
+    .filter((href): href is string => Boolean(href?.match(hrefPattern)));
+}
+
 async function basicUsage(page: Page, appPort: number) {
   const res = await page.goto(`http://localhost:${appPort}/about`, {
     waitUntil: ['networkidle0'],
@@ -21,6 +32,12 @@ async function basicUsage(page: Page, appPort: number) {
   expect(body).toMatch(
     /<link href="\/static\/css\/async\/about\/page.css" rel="stylesheet" \/>/,
   );
+  const aboutPageCss = /\/static\/css\/async\/about\/page\.css$/;
+  const stylesheetHrefs = getMatchedLinkHrefs(body, 'stylesheet', aboutPageCss);
+  const prefetchHrefs = getMatchedLinkHrefs(body, 'prefetch', aboutPageCss);
+  expect(stylesheetHrefs.length).toBeGreaterThan(0);
+  expect(prefetchHrefs.length).toBeGreaterThan(0);
+  expect(stylesheetHrefs.some(href => prefetchHrefs.includes(href))).toBe(true);
 
   expect(body).toMatch(/<div>About content<\/div>/);
   expect(body).toMatch('reporter');
