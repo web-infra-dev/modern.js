@@ -8,6 +8,7 @@
 
 先安装基础依赖：
 
+import { Prompt } from '@rspress/core/theme';
 import { PackageManagerTabs } from '@theme';
 
 <PackageManagerTabs command="add @rstest/core @modern-js/adapter-rstest -D" />
@@ -161,3 +162,31 @@ test('Page', () => {
 如果你需要测试 `bff` 等 server-side logic，建议直接参考 [Rstest 文档](https://rstest.rs) 中关于 node mode 的说明。
 
 Modern.js 主要面向 web app，因此这里重点介绍的是 Web UI 测试，以及更贴近真实运行环境的 browser mode。
+
+## 从已有项目迁移
+
+如果你的项目已经使用 Jest 或 Vitest，可以参考 Rstest 官方迁移指南：
+
+- [从 Jest 迁移到 Rstest](https://rstest.rs/guide/migration/jest)
+- [从 Vitest 迁移到 Rstest](https://rstest.rs/guide/migration/vitest)
+
+推荐先安装 `migrate-to-rstest` skill，再复制下面的 Prompt 给编码 Agent；它会在迁移时保留 Modern.js 的 `@modern-js/adapter-rstest` 配置。
+
+<Prompt
+  title="迁移到 Rstest"
+  description="复制这个 Prompt 并发送给你的编码 Agent。"
+  prompt={`Migrate this Modern.js project from Jest or Vitest to Rstest.
+
+First install and use the migrate-to-rstest skill. If it is not installed, install it with:
+npx skills add rstackjs/agent-skills --skill migrate-to-rstest
+
+Follow the migrate-to-rstest skill instructions and the official Rstest migration guides:
+- Jest: https://rstest.rs/guide/migration/jest
+- Vitest: https://rstest.rs/guide/migration/vitest
+
+Modern.js-specific requirement:
+- Install and use @modern-js/adapter-rstest together with @rstest/core.
+- Create or update rstest.config.ts to import withModernConfig from @modern-js/adapter-rstest.
+- Reuse the Modern.js app configuration with extends: withModernConfig().
+- Do not replace this with a plain Rstest config unless the project explicitly does not need Modern.js config integration.`}
+/>
