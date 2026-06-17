@@ -81,3 +81,45 @@ export function getSSRMode(ssrConfig?: SSRConfig): 'string' | 'stream' | false {
   const result = ssrConfig?.mode === 'string' ? 'string' : 'stream';
   return result;
 }
+
+const getLinkAttributes = (linkTag: string) => {
+  const attributes = new Map<string, string>();
+  const attributeRegExp =
+    /([^\s"'<>/=]+)(?:\s*=\s*(?:"([^"]*)"|'([^']*)'|([^\s"'=<>`]+)))?/g;
+  let match: RegExpExecArray | null;
+
+  while ((match = attributeRegExp.exec(linkTag))) {
+    const [, name, doubleQuotedValue, singleQuotedValue, unquotedValue] = match;
+    if (name.toLowerCase() === 'link') {
+      continue;
+    }
+    attributes.set(
+      name.toLowerCase(),
+      doubleQuotedValue ?? singleQuotedValue ?? unquotedValue ?? '',
+    );
+  }
+
+  return attributes;
+};
+
+/**
+ * Whether the template already contains a `<link rel="stylesheet">` for `href`.
+ * Other link rels (e.g. `<link rel="prefetch">` emitted by `performance.prefetch`,
+ * or `<link rel="preload" as="style">`) may reference the same css URL but do not
+ * apply styles, so they must not block stylesheet injection during SSR.
+ */
+export const hasStylesheetLink = (template: string, href: string) => {
+  const linkTags = template.match(/<link\b[^>]*>/gi) ?? [];
+  return linkTags.some(linkTag => {
+    const attributes = getLinkAttributes(linkTag);
+    const linkHref = attributes.get('href');
+    const rel = attributes.get('rel');
+
+    return (
+      linkHref === href &&
+      rel
+        ?.split(/\s+/)
+        .some(relToken => relToken.toLowerCase() === 'stylesheet')
+    );
+  });
+};
