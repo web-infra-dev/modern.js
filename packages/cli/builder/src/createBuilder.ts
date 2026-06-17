@@ -53,11 +53,15 @@ export async function parseConfig(
     );
   }
 
-  const enableRsc = builderConfig.server?.rsc ?? false;
+  const rscConfig = builderConfig.server?.rsc ?? false;
+  const enableRsc = Boolean(rscConfig);
   if (enableRsc) {
+    const rscEnvironments =
+      typeof rscConfig === 'object' ? rscConfig.environments : undefined;
     const rscPlugins = await getRscPlugins(
       enableRsc,
       options.internalDirectory!,
+      rscEnvironments,
     );
     rsbuildPlugins.push(...rscPlugins);
   } else {

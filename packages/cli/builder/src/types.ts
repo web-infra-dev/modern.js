@@ -286,6 +286,33 @@ export type DistPath = DistPathConfig & {
   worker?: string;
 };
 
+/**
+ * RSC (React Server Components) configuration.
+ *
+ * - `true` / `false`: enable or disable RSC with the default `'server'` and
+ *   `'client'` environment names.
+ * - object form: enable RSC and customize which Rsbuild environments the RSC
+ *   plugin attaches to. Frameworks whose environment names differ from the
+ *   defaults (e.g. multi-page builders that already declare their own
+ *   server/client environments) can map RSC onto those existing environments
+ *   instead of letting the plugin create new empty `'server'`/`'client'` ones.
+ */
+export type RscConfig =
+  | boolean
+  | {
+      /**
+       * Map the RSC plugin's server/client environments onto existing Rsbuild
+       * environment names. Omitted keys fall back to the defaults
+       * (`'server'` / `'client'`).
+       */
+      environments?: {
+        /** Rsbuild environment name for the React Server Components (server) bundle. @default 'server' */
+        server?: string;
+        /** Rsbuild environment name for the client (browser) bundle. @default 'client' */
+        client?: string;
+      };
+    };
+
 export type BuilderConfig = {
   dev?: Omit<DevConfig, 'setupMiddlewares'> & {
     server?: {
@@ -302,7 +329,7 @@ export type BuilderConfig = {
     distPath?: DistPath;
   };
   server?: {
-    rsc?: boolean;
+    rsc?: RscConfig;
     port?: number;
     cors?: ServerConfig['cors'];
   };
