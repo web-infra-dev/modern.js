@@ -8,6 +8,7 @@ This guide explains how to integrate Rstest with Modern.js for web app testing.
 
 Install the base dependencies first:
 
+import { Prompt } from '@rspress/core/theme';
 import { PackageManagerTabs } from '@theme';
 
 <PackageManagerTabs command="add @rstest/core @modern-js/adapter-rstest -D" />
@@ -161,3 +162,31 @@ Execute the `test` command above to run your tests:
 If you need node mode tests for server-side logic such as `bff`, refer to the [Rstest documentation](https://rstest.rs) directly.
 
 Modern.js mainly targets web apps, so this guide focuses on web UI testing and browser mode.
+
+## Migrating from Existing Projects
+
+If your project already uses Jest or Vitest, refer to the official Rstest migration guides:
+
+- [Migrate from Jest to Rstest](https://rstest.rs/guide/migration/jest)
+- [Migrate from Vitest to Rstest](https://rstest.rs/guide/migration/vitest)
+
+We recommend installing the `migrate-to-rstest` skill first, then copying this prompt to your coding agent. It keeps the Modern.js `@modern-js/adapter-rstest` integration during migration:
+
+<Prompt
+  title="Migrate to Rstest"
+  description="Copy this prompt and send it to your coding agent."
+  prompt={`Migrate this Modern.js project from Jest or Vitest to Rstest.
+
+First install and use the migrate-to-rstest skill. If it is not installed, install it with:
+npx skills add rstackjs/agent-skills --skill migrate-to-rstest
+
+Follow the migrate-to-rstest skill instructions and the official Rstest migration guides:
+- Jest: https://rstest.rs/guide/migration/jest
+- Vitest: https://rstest.rs/guide/migration/vitest
+
+Modern.js-specific requirement:
+- Install and use @modern-js/adapter-rstest together with @rstest/core.
+- Create or update rstest.config.ts to import withModernConfig from @modern-js/adapter-rstest.
+- Reuse the Modern.js app configuration with extends: withModernConfig().
+- Do not replace this with a plain Rstest config unless the project explicitly does not need Modern.js config integration.`}
+/>
