@@ -6,7 +6,7 @@ import { CHUNK_CSS_PLACEHOLDER } from '../constants';
 import { createReplaceHelemt } from '../helmet';
 import type { HandleRequestConfig } from '../requestHandler';
 import { type BuildHtmlCb, buildHtml } from '../shared';
-import { checkIsNode, safeReplace } from '../utils';
+import { checkIsNode, hasStylesheetLink, safeReplace } from '../utils';
 
 const readAsset = async (chunk: string) => {
   // working node env
@@ -34,42 +34,6 @@ const checkIsInline = (
   } else {
     return false;
   }
-};
-
-export const hasStylesheetLink = (template: string, href: string) => {
-  const linkTags = template.match(/<link\b[^>]*>/gi) ?? [];
-  return linkTags.some(linkTag => {
-    const attributes = getLinkAttributes(linkTag);
-    const linkHref = attributes.get('href');
-    const rel = attributes.get('rel');
-
-    return (
-      linkHref === href &&
-      rel
-        ?.split(/\s+/)
-        .some(relToken => relToken.toLowerCase() === 'stylesheet')
-    );
-  });
-};
-
-const getLinkAttributes = (linkTag: string) => {
-  const attributes = new Map<string, string>();
-  const attributeRegExp =
-    /([^\s"'<>/=]+)(?:\s*=\s*(?:"([^"]*)"|'([^']*)'|([^\s"'=<>`]+)))?/g;
-  let match: RegExpExecArray | null;
-
-  while ((match = attributeRegExp.exec(linkTag))) {
-    const [, name, doubleQuotedValue, singleQuotedValue, unquotedValue] = match;
-    if (name.toLowerCase() === 'link') {
-      continue;
-    }
-    attributes.set(
-      name.toLowerCase(),
-      doubleQuotedValue ?? singleQuotedValue ?? unquotedValue ?? '',
-    );
-  }
-
-  return attributes;
 };
 
 export interface BuildShellBeforeTemplateOptions {

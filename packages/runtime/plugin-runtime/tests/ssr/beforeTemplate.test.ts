@@ -1,4 +1,4 @@
-import { hasStylesheetLink } from '../../src/core/server/stream/beforeTemplate';
+import { hasStylesheetLink } from '../../src/core/server/utils';
 
 describe('hasStylesheetLink', () => {
   const href = '/static/css/async/three_user/page.css';
