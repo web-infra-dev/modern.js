@@ -1,5 +1,28 @@
 # @modern-js/runtime
 
+## 3.4.0
+
+### Patch Changes
+
+- e0f6ccc: fix(runtime): string-mode SSR no longer drops a route's stylesheet when the same CSS is referenced by a non-stylesheet `<link>` (e.g. `<link rel="prefetch">`)
+
+  `LoadableCollector.emitStyleAssets` (string SSR) deduped injected route stylesheets against every `<link href>` in the template, so a `<link rel="prefetch">` for the same css URL (e.g. from `performance.prefetch`) made the real `<link rel="stylesheet">` be skipped and the route rendered unstyled. It now reuses the shared `hasStylesheetLink` helper (also used by streaming SSR), which only matches existing `<link rel="stylesheet">` tags.
+
+- 4c7f658: fix(runtime,app-tools): inject CSS of React.lazy descendants into streaming SSR shell to prevent FOUC; slim inline route manifest to only `chunkIds` when RSC is disabled
+
+  fix(runtime,app-tools): 流式 SSR 注入 React.lazy 子 chunk 的 CSS 到首屏 shell, 避免懒加载组件出现样式闪烁; 非 RSC 场景下 inline 路由 manifest 仅保留 `chunkIds`, 减少 HTML 体积
+
+- 9a8d961: fix(runtime): split streaming SSR chunk at SHELL_STREAM_END_MARK so suspense boundary content is not swallowed before shellAfter
+
+  fix(runtime): 流式 SSR 在 SHELL_STREAM_END_MARK 位置切分 chunk，避免 suspense 兑现内容被夹在 shellAfter 之前
+
+  - @modern-js/plugin-data-loader@3.4.0
+  - @modern-js/render@3.4.0
+  - @modern-js/plugin@3.4.0
+  - @modern-js/runtime-utils@3.4.0
+  - @modern-js/types@3.4.0
+  - @modern-js/utils@3.4.0
+
 ## 3.3.0
 
 ### Patch Changes
