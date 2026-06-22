@@ -1845,8 +1845,8 @@ importers:
         specifier: 1.101.0
         version: 1.101.0
       semver:
-        specifier: 7.8.4
-        version: 7.8.4
+        specifier: 7.8.5
+        version: 7.8.5
       signal-exit:
         specifier: 3.0.7
         version: 3.0.7
@@ -14000,8 +14000,8 @@ packages:
     engines: {node: '>=10'}
     hasBin: true
 
-  semver@7.8.4:
-    resolution: {integrity: sha512-rUCObTnP32Q08R2uuIrt7r9PlEonuTmtuXYcW6s5kjdlj3xbnwe+21yXptAUYcMAABLkYYTtnmzb3w3EDZfueA==}
+  semver@7.8.5:
+    resolution: {integrity: sha512-Y7/KDsb8LjooZpwaqGyulO6DQlksgCncchHGk+sZIY4SBvUocMBEFH5Ur1fI4dV+Jvl0w6cjvucaIi40puRioA==}
     engines: {node: '>=10'}
     hasBin: true
 
@@ -15859,7 +15859,7 @@ snapshots:
       outdent: 0.5.0
       prettier: 2.8.8
       resolve-from: 5.0.0
-      semver: 7.8.4
+      semver: 7.8.5
 
   '@changesets/assemble-release-plan@5.2.4':
     dependencies:
@@ -15868,7 +15868,7 @@ snapshots:
       '@changesets/get-dependents-graph': 1.3.6
       '@changesets/types': 5.2.1
       '@manypkg/get-packages': 1.1.3
-      semver: 7.8.4
+      semver: 7.8.5
 
   '@changesets/assemble-release-plan@6.0.9':
     dependencies:
@@ -15877,7 +15877,7 @@ snapshots:
       '@changesets/should-skip-package': 0.1.2
       '@changesets/types': 6.1.0
       '@manypkg/get-packages': 1.1.3
-      semver: 7.8.4
+      semver: 7.8.5
 
   '@changesets/changelog-git@0.2.1':
     dependencies:
@@ -15910,7 +15910,7 @@ snapshots:
       package-manager-detector: 0.2.11
       picocolors: 1.1.1
       resolve-from: 5.0.0
-      semver: 7.8.4
+      semver: 7.8.5
       spawndamnit: 3.0.1
       term-size: 2.2.1
     transitivePeerDependencies:
@@ -15943,7 +15943,7 @@ snapshots:
       package-manager-detector: 0.2.11
       picocolors: 1.1.1
       resolve-from: 5.0.0
-      semver: 7.8.4
+      semver: 7.8.5
       spawndamnit: 3.0.1
       term-size: 2.2.1
     transitivePeerDependencies:
@@ -15983,14 +15983,14 @@ snapshots:
       '@manypkg/get-packages': 1.1.3
       chalk: 2.4.2
       fs-extra: 7.0.1
-      semver: 7.8.4
+      semver: 7.8.5
 
   '@changesets/get-dependents-graph@2.1.3':
     dependencies:
       '@changesets/types': 6.1.0
       '@manypkg/get-packages': 1.1.3
       picocolors: 1.1.1
-      semver: 7.8.4
+      semver: 7.8.5
 
   '@changesets/get-release-plan@4.0.14':
     dependencies:
@@ -16221,7 +16221,7 @@ snapshots:
   '@commitlint/is-ignored@20.5.0':
     dependencies:
       '@commitlint/types': 20.5.0
-      semver: 7.8.4
+      semver: 7.8.5
 
   '@commitlint/lint@20.5.3':
     dependencies:
@@ -16295,7 +16295,7 @@ snapshots:
     dependencies:
       '@simple-libs/child-process-utils': 1.0.2
       '@simple-libs/stream-utils': 1.2.0
-      semver: 7.8.4
+      semver: 7.8.5
     optionalDependencies:
       conventional-commits-parser: 6.3.0
 
@@ -16450,7 +16450,7 @@ snapshots:
   '@financial-times/polyfill-useragent-normaliser@1.10.2':
     dependencies:
       '@financial-times/useragent_parser': 1.6.3
-      semver: 7.8.4
+      semver: 7.8.5
 
   '@financial-times/useragent_parser@1.6.3': {}
 
@@ -16880,7 +16880,7 @@ snapshots:
       https-proxy-agent: 7.0.6
       node-fetch: 2.7.0(encoding@0.1.13)
       nopt: 8.1.0
-      semver: 7.8.4
+      semver: 7.8.5
       tar: 7.5.16
     transitivePeerDependencies:
       - encoding
@@ -17593,7 +17593,7 @@ snapshots:
       extract-zip: 2.0.1
       progress: 2.0.3
       proxy-agent: 6.5.0
-      semver: 7.8.4
+      semver: 7.8.5
       tar-fs: 3.1.1
       yargs: 17.7.2
     transitivePeerDependencies:
@@ -17967,7 +17967,7 @@ snapshots:
       es-toolkit: 1.47.1
       filesize: 11.0.17
       fs-extra: 11.3.5
-      semver: 7.8.4
+      semver: 7.8.5
       source-map: 0.7.6
     transitivePeerDependencies:
       - '@emnapi/core'
@@ -20335,7 +20335,7 @@ snapshots:
       edit-json-file: 1.8.1
       globby: 13.2.2
       js-yaml: 4.2.0
-      semver: 7.8.4
+      semver: 7.8.5
       table: 6.9.0
       type-fest: 4.41.0
 
@@ -21338,7 +21338,7 @@ snapshots:
       is-core-module: 2.16.1
       mkdirp: 1.0.4
       resolve: 1.20.0
-      semver: 7.8.4
+      semver: 7.8.5
       yargs-parser: 20.2.9
 
   dunder-proto@1.0.1:
@@ -24267,7 +24267,7 @@ snapshots:
       ora: 5.3.0
       picocolors: 1.1.1
       resolve.exports: 2.0.3
-      semver: 7.8.4
+      semver: 7.8.5
       string-width: 4.2.3
       tar-stream: 2.2.0
       tmp: 0.2.7
@@ -26240,7 +26240,7 @@ snapshots:
 
   semver@7.7.3: {}
 
-  semver@7.8.4: {}
+  semver@7.8.5: {}
 
   send@0.19.2:
     dependencies:
@@ -26625,7 +26625,7 @@ snapshots:
       esbuild: 0.27.2
       open: 10.2.0
       recast: 0.23.11
-      semver: 7.8.4
+      semver: 7.8.5
       use-sync-external-store: 1.6.0(react@19.2.7)
       ws: 8.21.0(bufferutil@4.1.0)(utf-8-validate@5.0.10)
     optionalDependencies:
@@ -26809,7 +26809,7 @@ snapshots:
       methods: 1.1.2
       mime: 2.6.0
       qs: 6.15.2
-      semver: 7.8.4
+      semver: 7.8.5
     transitivePeerDependencies:
       - supports-color
 
