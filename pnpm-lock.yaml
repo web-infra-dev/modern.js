@@ -95,8 +95,8 @@ importers:
         specifier: workspace:*
         version: link:../../packages/tsconfig
       '@rsdoctor/rspack-plugin':
-        specifier: ^1.5.13
-        version: 1.5.13(@emnapi/core@1.10.0)(@emnapi/runtime@1.10.0)(@rsbuild/core@2.0.15(@module-federation/runtime-tools@2.0.0)(core-js@3.48.0))(@rspack/core@2.0.8(@module-federation/runtime-tools@2.0.0)(@swc/helpers@0.5.23))(bufferutil@4.1.0)(utf-8-validate@5.0.10)(webpack@5.104.1(@swc/core@1.15.41(@swc/helpers@0.5.23)))
+        specifier: ^1.5.15
+        version: 1.5.15(@emnapi/core@1.10.0)(@emnapi/runtime@1.10.0)(@rsbuild/core@2.0.15(@module-federation/runtime-tools@2.0.0)(core-js@3.48.0))(@rspack/core@2.0.8(@module-federation/runtime-tools@2.0.0)(@swc/helpers@0.5.23))(bufferutil@4.1.0)(utf-8-validate@5.0.10)(webpack@5.104.1(@swc/core@1.15.41(@swc/helpers@0.5.23)))
       '@types/node':
         specifier: ^20
         version: 20.19.27
@@ -3132,8 +3132,8 @@ importers:
         specifier: workspace:*
         version: link:../../../packages/solutions/app-tools
       '@rsdoctor/rspack-plugin':
-        specifier: ^1.5.13
-        version: 1.5.13(@emnapi/core@1.10.0)(@emnapi/runtime@1.10.0)(@rsbuild/core@2.0.15(@module-federation/runtime-tools@2.0.0)(core-js@3.48.0))(@rspack/core@2.0.8(@module-federation/runtime-tools@2.0.0)(@swc/helpers@0.5.23))(bufferutil@4.1.0)(utf-8-validate@5.0.10)(webpack@5.104.1(@swc/core@1.15.41(@swc/helpers@0.5.23)))
+        specifier: ^1.5.15
+        version: 1.5.15(@emnapi/core@1.10.0)(@emnapi/runtime@1.10.0)(@rsbuild/core@2.0.15(@module-federation/runtime-tools@2.0.0)(core-js@3.48.0))(@rspack/core@2.0.8(@module-federation/runtime-tools@2.0.0)(@swc/helpers@0.5.23))(bufferutil@4.1.0)(utf-8-validate@5.0.10)(webpack@5.104.1(@swc/core@1.15.41(@swc/helpers@0.5.23)))
       '@types/node':
         specifier: ^20
         version: 20.19.27
@@ -6832,28 +6832,28 @@ packages:
       '@rsbuild/core':
         optional: true
 
-  '@rsdoctor/client@1.5.13':
-    resolution: {integrity: sha512-pGc+Y6irGROjPBOAt7fMAiZwwtzS7dS5txcrioP8Q5MvJPGtcHxQ56IiUPl5i5faHBo0RSCwBESnslQPwjRGcg==}
+  '@rsdoctor/client@1.5.15':
+    resolution: {integrity: sha512-nHRAl8/0W45K9RQQE6E8cpMfQ7O6Q6GZbEIhnQY2fs8Y7KbJ1ffOv6diaW/wXrsCmWXSk/uGGy8onvltNj9H3g==}
 
-  '@rsdoctor/core@1.5.13':
-    resolution: {integrity: sha512-ZeJMUidUYAxA+Y48A+aAEyo0Pe1aIezv452y/z+eweI0V/MF4/uMcNTxaHuWYItKzP0XNr0/QStJTsfLSORzxQ==}
+  '@rsdoctor/core@1.5.15':
+    resolution: {integrity: sha512-STsX0becwnMe3Visy98g2jIHEG7xST9s252ZbikQPIYgOO4pTtgUgxIt86FgfNCWgv7NtbhHwDsYoqUrgpE8Yw==}
 
-  '@rsdoctor/graph@1.5.13':
-    resolution: {integrity: sha512-sImaFcLTg27m7PO5WOaH3ati3Vw64fvszBANae3ONXqb6F9EqpyLzyXTw7djqyvfVZsNObw+9LLmKJNevEmuyg==}
+  '@rsdoctor/graph@1.5.15':
+    resolution: {integrity: sha512-DdOjLuTk+lynItNBR1vW/Wy5Gb6GlT0IeHX3RZLxlDGEEc8qiamatumFKThQGBNR9NmdYs+phmq3lPSOwESbTA==}
 
-  '@rsdoctor/rspack-plugin@1.5.13':
-    resolution: {integrity: sha512-eYSrfW+8+A5BXynHryWizbwvTKXpItpANi3Mf8+XhCaxdi6zVDaND9RWt9vj4IBBaTMNH9M7j2TCsiP9TfcLCg==}
+  '@rsdoctor/rspack-plugin@1.5.15':
+    resolution: {integrity: sha512-IEDUo636Y+ehq4Mvog42HC9CHV0tMR/h2sKUejkruTe4MH7o+np8G7EhIW75ZU1Bd0jVCvSUw/wQ0lCsk5B9YA==}
     peerDependencies:
       '@rspack/core': '*'
     peerDependenciesMeta:
       '@rspack/core':
         optional: true
 
-  '@rsdoctor/sdk@1.5.13':
-    resolution: {integrity: sha512-KCcKSR9B6cKUj3J0+EqzYf4up34WldD2MP2iUfUzGR+9OI/OSGzuirFMlGzV9cSFHWj0iJ5ydGSrXFvWDwmLkg==}
+  '@rsdoctor/sdk@1.5.15':
+    resolution: {integrity: sha512-7diDW3Xg6wp1cPeFJMQziAq7BHbH5FrvJwiZOexBGSoh6XLC86MMPcmaOBk6OAuq+1dRUoGeOo4J7z29zhq2Jw==}
 
-  '@rsdoctor/types@1.5.13':
-    resolution: {integrity: sha512-XBrxFQ45eB3QsF1B2P3AMowUis2cbDmFLOu8brtDovGTYypEiUlMAmVsdIhXKJrljkv47+j7GgTmUSUBarLM1g==}
+  '@rsdoctor/types@1.5.15':
+    resolution: {integrity: sha512-GsNJQJj9dOS+fwLlfaLU77RSLq6a6+lj0GYNzl/w6Q5kQ0rMCvexG1ARu+JI48eO485jp+V8mZja/1OH+kTw6A==}
     peerDependencies:
       '@rspack/core': '*'
       webpack: 5.x
@@ -6863,8 +6863,8 @@ packages:
       webpack:
         optional: true
 
-  '@rsdoctor/utils@1.5.13':
-    resolution: {integrity: sha512-Z3O+92uRl6XrYJBDt2s0YAgkDszgjut85+kmM5wx+Z10Ha2o3ZmGp3FVLYBPz7TbKsay5RYxb2OLuJ39lrUQKg==}
+  '@rsdoctor/utils@1.5.15':
+    resolution: {integrity: sha512-sbj4guC72PzqtnQRG2v1JnP2gODpXw9xFgYsfHIEr/IcOLwkrxUsPw9SyC1Gdt6zcFSPU7cL8TM4V+Nc176Bwg==}
 
   '@rslib/core@0.23.0':
     resolution: {integrity: sha512-OEn5iNKYIyoy0JEUOXH2UTPBKlQRy/RjOtODhC4vS/sIw9iE8Nsp/4s0aeOkNtxsenuuxZCZo2foYvilI7VRgg==}
@@ -16209,7 +16209,7 @@ snapshots:
   '@commitlint/ensure@20.5.3':
     dependencies:
       '@commitlint/types': 20.5.0
-      es-toolkit: 1.46.1
+      es-toolkit: 1.47.1
 
   '@commitlint/execute-rule@20.0.0': {}
 
@@ -16268,7 +16268,7 @@ snapshots:
     dependencies:
       '@commitlint/config-validator': 20.5.0
       '@commitlint/types': 20.5.0
-      es-toolkit: 1.46.1
+      es-toolkit: 1.47.1
       global-directory: 5.0.0
       import-meta-resolve: 4.2.0
       resolve-from: 5.0.0
@@ -17953,15 +17953,15 @@ snapshots:
     optionalDependencies:
       '@rsbuild/core': 2.0.10(@module-federation/runtime-tools@2.0.0)(core-js@3.48.0)
 
-  '@rsdoctor/client@1.5.13': {}
+  '@rsdoctor/client@1.5.15': {}
 
-  '@rsdoctor/core@1.5.13(@emnapi/core@1.10.0)(@emnapi/runtime@1.10.0)(@rsbuild/core@2.0.15(@module-federation/runtime-tools@2.0.0)(core-js@3.48.0))(@rspack/core@2.0.8(@module-federation/runtime-tools@2.0.0)(@swc/helpers@0.5.23))(bufferutil@4.1.0)(utf-8-validate@5.0.10)(webpack@5.104.1(@swc/core@1.15.41(@swc/helpers@0.5.23)))':
+  '@rsdoctor/core@1.5.15(@emnapi/core@1.10.0)(@emnapi/runtime@1.10.0)(@rsbuild/core@2.0.15(@module-federation/runtime-tools@2.0.0)(core-js@3.48.0))(@rspack/core@2.0.8(@module-federation/runtime-tools@2.0.0)(@swc/helpers@0.5.23))(bufferutil@4.1.0)(utf-8-validate@5.0.10)(webpack@5.104.1(@swc/core@1.15.41(@swc/helpers@0.5.23)))':
     dependencies:
       '@rsbuild/plugin-check-syntax': 1.6.1(@rsbuild/core@2.0.15(@module-federation/runtime-tools@2.0.0)(core-js@3.48.0))
-      '@rsdoctor/graph': 1.5.13(@rspack/core@2.0.8(@module-federation/runtime-tools@2.0.0)(@swc/helpers@0.5.23))(webpack@5.104.1(@swc/core@1.15.41(@swc/helpers@0.5.23)))
-      '@rsdoctor/sdk': 1.5.13(@rspack/core@2.0.8(@module-federation/runtime-tools@2.0.0)(@swc/helpers@0.5.23))(bufferutil@4.1.0)(utf-8-validate@5.0.10)(webpack@5.104.1(@swc/core@1.15.41(@swc/helpers@0.5.23)))
-      '@rsdoctor/types': 1.5.13(@rspack/core@2.0.8(@module-federation/runtime-tools@2.0.0)(@swc/helpers@0.5.23))(webpack@5.104.1(@swc/core@1.15.41(@swc/helpers@0.5.23)))
-      '@rsdoctor/utils': 1.5.13(@rspack/core@2.0.8(@module-federation/runtime-tools@2.0.0)(@swc/helpers@0.5.23))(webpack@5.104.1(@swc/core@1.15.41(@swc/helpers@0.5.23)))
+      '@rsdoctor/graph': 1.5.15(@rspack/core@2.0.8(@module-federation/runtime-tools@2.0.0)(@swc/helpers@0.5.23))(webpack@5.104.1(@swc/core@1.15.41(@swc/helpers@0.5.23)))
+      '@rsdoctor/sdk': 1.5.15(@rspack/core@2.0.8(@module-federation/runtime-tools@2.0.0)(@swc/helpers@0.5.23))(bufferutil@4.1.0)(utf-8-validate@5.0.10)(webpack@5.104.1(@swc/core@1.15.41(@swc/helpers@0.5.23)))
+      '@rsdoctor/types': 1.5.15(@rspack/core@2.0.8(@module-federation/runtime-tools@2.0.0)(@swc/helpers@0.5.23))(webpack@5.104.1(@swc/core@1.15.41(@swc/helpers@0.5.23)))
+      '@rsdoctor/utils': 1.5.15(@rspack/core@2.0.8(@module-federation/runtime-tools@2.0.0)(@swc/helpers@0.5.23))(webpack@5.104.1(@swc/core@1.15.41(@swc/helpers@0.5.23)))
       '@rspack/resolver': 0.2.8(@emnapi/core@1.10.0)(@emnapi/runtime@1.10.0)
       browserslist-load-config: 1.0.3
       es-toolkit: 1.47.1
@@ -17979,10 +17979,10 @@ snapshots:
       - utf-8-validate
       - webpack
 
-  '@rsdoctor/graph@1.5.13(@rspack/core@2.0.8(@module-federation/runtime-tools@2.0.0)(@swc/helpers@0.5.23))(webpack@5.104.1(@swc/core@1.15.41(@swc/helpers@0.5.23)))':
+  '@rsdoctor/graph@1.5.15(@rspack/core@2.0.8(@module-federation/runtime-tools@2.0.0)(@swc/helpers@0.5.23))(webpack@5.104.1(@swc/core@1.15.41(@swc/helpers@0.5.23)))':
     dependencies:
-      '@rsdoctor/types': 1.5.13(@rspack/core@2.0.8(@module-federation/runtime-tools@2.0.0)(@swc/helpers@0.5.23))(webpack@5.104.1(@swc/core@1.15.41(@swc/helpers@0.5.23)))
-      '@rsdoctor/utils': 1.5.13(@rspack/core@2.0.8(@module-federation/runtime-tools@2.0.0)(@swc/helpers@0.5.23))(webpack@5.104.1(@swc/core@1.15.41(@swc/helpers@0.5.23)))
+      '@rsdoctor/types': 1.5.15(@rspack/core@2.0.8(@module-federation/runtime-tools@2.0.0)(@swc/helpers@0.5.23))(webpack@5.104.1(@swc/core@1.15.41(@swc/helpers@0.5.23)))
+      '@rsdoctor/utils': 1.5.15(@rspack/core@2.0.8(@module-federation/runtime-tools@2.0.0)(@swc/helpers@0.5.23))(webpack@5.104.1(@swc/core@1.15.41(@swc/helpers@0.5.23)))
       es-toolkit: 1.47.1
       path-browserify: 1.0.1
       source-map: 0.7.6
@@ -17990,13 +17990,13 @@ snapshots:
       - '@rspack/core'
       - webpack
 
-  '@rsdoctor/rspack-plugin@1.5.13(@emnapi/core@1.10.0)(@emnapi/runtime@1.10.0)(@rsbuild/core@2.0.15(@module-federation/runtime-tools@2.0.0)(core-js@3.48.0))(@rspack/core@2.0.8(@module-federation/runtime-tools@2.0.0)(@swc/helpers@0.5.23))(bufferutil@4.1.0)(utf-8-validate@5.0.10)(webpack@5.104.1(@swc/core@1.15.41(@swc/helpers@0.5.23)))':
+  '@rsdoctor/rspack-plugin@1.5.15(@emnapi/core@1.10.0)(@emnapi/runtime@1.10.0)(@rsbuild/core@2.0.15(@module-federation/runtime-tools@2.0.0)(core-js@3.48.0))(@rspack/core@2.0.8(@module-federation/runtime-tools@2.0.0)(@swc/helpers@0.5.23))(bufferutil@4.1.0)(utf-8-validate@5.0.10)(webpack@5.104.1(@swc/core@1.15.41(@swc/helpers@0.5.23)))':
     dependencies:
-      '@rsdoctor/core': 1.5.13(@emnapi/core@1.10.0)(@emnapi/runtime@1.10.0)(@rsbuild/core@2.0.15(@module-federation/runtime-tools@2.0.0)(core-js@3.48.0))(@rspack/core@2.0.8(@module-federation/runtime-tools@2.0.0)(@swc/helpers@0.5.23))(bufferutil@4.1.0)(utf-8-validate@5.0.10)(webpack@5.104.1(@swc/core@1.15.41(@swc/helpers@0.5.23)))
-      '@rsdoctor/graph': 1.5.13(@rspack/core@2.0.8(@module-federation/runtime-tools@2.0.0)(@swc/helpers@0.5.23))(webpack@5.104.1(@swc/core@1.15.41(@swc/helpers@0.5.23)))
-      '@rsdoctor/sdk': 1.5.13(@rspack/core@2.0.8(@module-federation/runtime-tools@2.0.0)(@swc/helpers@0.5.23))(bufferutil@4.1.0)(utf-8-validate@5.0.10)(webpack@5.104.1(@swc/core@1.15.41(@swc/helpers@0.5.23)))
-      '@rsdoctor/types': 1.5.13(@rspack/core@2.0.8(@module-federation/runtime-tools@2.0.0)(@swc/helpers@0.5.23))(webpack@5.104.1(@swc/core@1.15.41(@swc/helpers@0.5.23)))
-      '@rsdoctor/utils': 1.5.13(@rspack/core@2.0.8(@module-federation/runtime-tools@2.0.0)(@swc/helpers@0.5.23))(webpack@5.104.1(@swc/core@1.15.41(@swc/helpers@0.5.23)))
+      '@rsdoctor/core': 1.5.15(@emnapi/core@1.10.0)(@emnapi/runtime@1.10.0)(@rsbuild/core@2.0.15(@module-federation/runtime-tools@2.0.0)(core-js@3.48.0))(@rspack/core@2.0.8(@module-federation/runtime-tools@2.0.0)(@swc/helpers@0.5.23))(bufferutil@4.1.0)(utf-8-validate@5.0.10)(webpack@5.104.1(@swc/core@1.15.41(@swc/helpers@0.5.23)))
+      '@rsdoctor/graph': 1.5.15(@rspack/core@2.0.8(@module-federation/runtime-tools@2.0.0)(@swc/helpers@0.5.23))(webpack@5.104.1(@swc/core@1.15.41(@swc/helpers@0.5.23)))
+      '@rsdoctor/sdk': 1.5.15(@rspack/core@2.0.8(@module-federation/runtime-tools@2.0.0)(@swc/helpers@0.5.23))(bufferutil@4.1.0)(utf-8-validate@5.0.10)(webpack@5.104.1(@swc/core@1.15.41(@swc/helpers@0.5.23)))
+      '@rsdoctor/types': 1.5.15(@rspack/core@2.0.8(@module-federation/runtime-tools@2.0.0)(@swc/helpers@0.5.23))(webpack@5.104.1(@swc/core@1.15.41(@swc/helpers@0.5.23)))
+      '@rsdoctor/utils': 1.5.15(@rspack/core@2.0.8(@module-federation/runtime-tools@2.0.0)(@swc/helpers@0.5.23))(webpack@5.104.1(@swc/core@1.15.41(@swc/helpers@0.5.23)))
     optionalDependencies:
       '@rspack/core': 2.0.8(@module-federation/runtime-tools@2.0.0)(@swc/helpers@0.5.23)
     transitivePeerDependencies:
@@ -18008,12 +18008,12 @@ snapshots:
       - utf-8-validate
       - webpack
 
-  '@rsdoctor/sdk@1.5.13(@rspack/core@2.0.8(@module-federation/runtime-tools@2.0.0)(@swc/helpers@0.5.23))(bufferutil@4.1.0)(utf-8-validate@5.0.10)(webpack@5.104.1(@swc/core@1.15.41(@swc/helpers@0.5.23)))':
+  '@rsdoctor/sdk@1.5.15(@rspack/core@2.0.8(@module-federation/runtime-tools@2.0.0)(@swc/helpers@0.5.23))(bufferutil@4.1.0)(utf-8-validate@5.0.10)(webpack@5.104.1(@swc/core@1.15.41(@swc/helpers@0.5.23)))':
     dependencies:
-      '@rsdoctor/client': 1.5.13
-      '@rsdoctor/graph': 1.5.13(@rspack/core@2.0.8(@module-federation/runtime-tools@2.0.0)(@swc/helpers@0.5.23))(webpack@5.104.1(@swc/core@1.15.41(@swc/helpers@0.5.23)))
-      '@rsdoctor/types': 1.5.13(@rspack/core@2.0.8(@module-federation/runtime-tools@2.0.0)(@swc/helpers@0.5.23))(webpack@5.104.1(@swc/core@1.15.41(@swc/helpers@0.5.23)))
-      '@rsdoctor/utils': 1.5.13(@rspack/core@2.0.8(@module-federation/runtime-tools@2.0.0)(@swc/helpers@0.5.23))(webpack@5.104.1(@swc/core@1.15.41(@swc/helpers@0.5.23)))
+      '@rsdoctor/client': 1.5.15
+      '@rsdoctor/graph': 1.5.15(@rspack/core@2.0.8(@module-federation/runtime-tools@2.0.0)(@swc/helpers@0.5.23))(webpack@5.104.1(@swc/core@1.15.41(@swc/helpers@0.5.23)))
+      '@rsdoctor/types': 1.5.15(@rspack/core@2.0.8(@module-federation/runtime-tools@2.0.0)(@swc/helpers@0.5.23))(webpack@5.104.1(@swc/core@1.15.41(@swc/helpers@0.5.23)))
+      '@rsdoctor/utils': 1.5.15(@rspack/core@2.0.8(@module-federation/runtime-tools@2.0.0)(@swc/helpers@0.5.23))(webpack@5.104.1(@swc/core@1.15.41(@swc/helpers@0.5.23)))
       launch-editor: 2.13.2
       safer-buffer: 2.1.2
       socket.io: 4.8.1(bufferutil@4.1.0)(utf-8-validate@5.0.10)
@@ -18025,7 +18025,7 @@ snapshots:
       - utf-8-validate
       - webpack
 
-  '@rsdoctor/types@1.5.13(@rspack/core@2.0.8(@module-federation/runtime-tools@2.0.0)(@swc/helpers@0.5.23))(webpack@5.104.1(@swc/core@1.15.41(@swc/helpers@0.5.23)))':
+  '@rsdoctor/types@1.5.15(@rspack/core@2.0.8(@module-federation/runtime-tools@2.0.0)(@swc/helpers@0.5.23))(webpack@5.104.1(@swc/core@1.15.41(@swc/helpers@0.5.23)))':
     dependencies:
       '@types/connect': 3.4.38
       '@types/estree': 1.0.5
@@ -18035,13 +18035,13 @@ snapshots:
       '@rspack/core': 2.0.8(@module-federation/runtime-tools@2.0.0)(@swc/helpers@0.5.23)
       webpack: 5.104.1(@swc/core@1.15.41(@swc/helpers@0.5.23))
 
-  '@rsdoctor/utils@1.5.13(@rspack/core@2.0.8(@module-federation/runtime-tools@2.0.0)(@swc/helpers@0.5.23))(webpack@5.104.1(@swc/core@1.15.41(@swc/helpers@0.5.23)))':
+  '@rsdoctor/utils@1.5.15(@rspack/core@2.0.8(@module-federation/runtime-tools@2.0.0)(@swc/helpers@0.5.23))(webpack@5.104.1(@swc/core@1.15.41(@swc/helpers@0.5.23)))':
     dependencies:
       '@babel/code-frame': 7.26.2
-      '@rsdoctor/types': 1.5.13(@rspack/core@2.0.8(@module-federation/runtime-tools@2.0.0)(@swc/helpers@0.5.23))(webpack@5.104.1(@swc/core@1.15.41(@swc/helpers@0.5.23)))
+      '@rsdoctor/types': 1.5.15(@rspack/core@2.0.8(@module-federation/runtime-tools@2.0.0)(@swc/helpers@0.5.23))(webpack@5.104.1(@swc/core@1.15.41(@swc/helpers@0.5.23)))
       '@types/estree': 1.0.5
-      acorn: 8.16.0
-      acorn-import-attributes: 1.9.5(acorn@8.16.0)
+      acorn: 8.17.0
+      acorn-import-attributes: 1.9.5(acorn@8.17.0)
       acorn-walk: 8.3.5
       deep-eql: 4.1.4
       envinfo: 7.21.0
@@ -19720,10 +19720,6 @@ snapshots:
       acorn: 8.17.0
       acorn-walk: 8.3.5
     optional: true
-
-  acorn-import-attributes@1.9.5(acorn@8.16.0):
-    dependencies:
-      acorn: 8.16.0
 
   acorn-import-attributes@1.9.5(acorn@8.17.0):
     dependencies:
