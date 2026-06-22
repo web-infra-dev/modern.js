@@ -6,6 +6,7 @@ import {
   createPluginManager,
 } from '@modern-js/plugin';
 import { createContext, initPluginAPI } from '@modern-js/plugin/cli';
+import { rs } from '@rstest/core';
 
 import type { AppTools, AppToolsContext } from '@modern-js/app-tools';
 import { getBundleEntry } from '../../../../solutions/app-tools/src/plugins/analyze/getBundleEntry';
@@ -65,57 +66,54 @@ describe('plugin runtime cli', () => {
       config.find((item: any) => item.tools.htmlPlugin)! as any
     ).tools;
 
+    const templateParameters = rs.fn(async () => {
+      return {
+        title: 'abc',
+      };
+    });
     const mockBuilderOptions = {
-      templateParameters: () => {
-        return {
-          title: 'abc',
-        };
-      },
+      templateParameters,
       k: 'k',
     };
     const result = htmlPlugin(mockBuilderOptions, { entryName: 'main' });
 
     // mock renderer to bypass child-compiler output in unit test
+    let documentParams: any;
     (global as any).__MODERN_DOC_RENDERERS__ = {
-      main: () => '<html><head></head><body>mock</body></html>',
+      main: (params: any) => {
+        documentParams = params;
+        return '<html><head></head><body>mock</body></html>';
+      },
     };
 
     expect(result.k).toEqual(mockBuilderOptions.k);
     expect(result.templateParameters).toEqual(
       mockBuilderOptions.templateParameters,
     );
+    expect(templateParameters).not.toHaveBeenCalled();
     expect(Object.keys(result).length > 2).toBeTruthy();
     const htmlPluginFn = result.templateContent;
 
+    const compilation: Record<string, unknown> = {};
+    compilation.self = compilation;
     const html = await htmlPluginFn({
+      compilation,
       htmlPlugin: {
         tags: {
           headTags: [],
           bodyTags: '',
         },
       },
+      rspackConfig: { name: 'client' },
+      title: 'abc',
+      asyncValue: 'resolved',
     });
     expect(html.includes('<!DOCTYPE html>')).toBeTruthy();
-
-    const htmlWithHtmlWebpackPlugin = await htmlPluginFn({
-      htmlWebpackPlugin: {
-        tags: {
-          headTags: [],
-          bodyTags: '',
-        },
-      },
+    expect(documentParams.templateParams).toEqual({
+      title: 'abc',
+      asyncValue: 'resolved',
     });
-    expect(htmlWithHtmlWebpackPlugin.includes('<!DOCTYPE html>')).toBeTruthy();
-
-    const htmlWithHtmlRspackPlugin = await htmlPluginFn({
-      htmlRspackPlugin: {
-        tags: {
-          headTags: [],
-          bodyTags: '',
-        },
-      },
-    });
-    expect(htmlWithHtmlRspackPlugin.includes('<!DOCTYPE html>')).toBeTruthy();
+    expect(() => JSON.stringify(documentParams.templateParams)).not.toThrow();
   });
   it('when user config set empty entries and disableDefaultEntries true, should get the ', async () => {
     const hooks: any = pluginAPI.getHooks();
