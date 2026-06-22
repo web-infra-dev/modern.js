@@ -34,7 +34,7 @@
   "devDependencies": {
     "@modern-js/rslib": "workspace:*",
     "@modern-js/server-core": "workspace:*",
-    "@rslib/core": "0.22.1",
+    "@rslib/core": "0.23.0",
     "@scripts/build": "workspace:*",
     "@scripts/rstest-config": "workspace:*",
     "@types/react": "^19.2.17",
