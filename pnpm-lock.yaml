@@ -1129,7 +1129,7 @@ importers:
         specifier: ^6.3.0
         version: 6.3.0
       ws:
-        specifier: ^8.19.0
+        specifier: ^8.21.0
         version: 8.21.0(bufferutil@4.1.0)(utf-8-validate@5.0.10)
     devDependencies:
       '@modern-js/builder':
