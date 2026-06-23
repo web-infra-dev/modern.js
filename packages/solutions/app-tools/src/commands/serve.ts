@@ -11,6 +11,7 @@ import {
 import type { AppNormalizedConfig, AppTools } from '../types';
 import { loadServerPlugins } from '../utils/loadPlugins';
 import { printInstructions } from '../utils/printInstructions';
+import type { StartOptions } from '../utils/types';
 
 type ExtraServerOptions = {
   launcher?: typeof createProdServer;
@@ -18,6 +19,7 @@ type ExtraServerOptions = {
 
 export const serve = async (
   api: CLIPluginAPI<AppTools>,
+  options?: StartOptions,
   serverOptions?: ExtraServerOptions,
 ) => {
   const appContext = api.getAppContext();
@@ -96,6 +98,7 @@ export const serve = async (
           ),
       bffRuntimeFramework: appContext.bffRuntimeFramework,
     },
+    envDir: options?.envDir,
     runMode,
   });
 

@@ -32,4 +32,5 @@ export interface CLIRunOptions<
   Extends extends CLIPluginExtends = { config: {} },
 > extends CLIOptions<Extends> {
   command: string;
+  envDir?: string;
 }

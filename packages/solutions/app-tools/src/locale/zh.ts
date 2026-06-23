@@ -5,6 +5,7 @@ export const ZH_LOCALE = {
       config: '指定配置文件路径，可以为相对路径或绝对路径',
       skipBuild: '跳过构建阶段',
       noNeedInstall: '无需安装依赖',
+      envDir: '指定 .env 文件所在目录',
     },
     dev: {
       describe: '启动开发服务器',
