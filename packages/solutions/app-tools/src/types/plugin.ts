@@ -18,6 +18,7 @@ import type {
   ServerRoute,
 } from '@modern-js/types';
 import type { EagerRouteComponentFilesByEntry } from '@modern-js/utils';
+import type { EnvironmentConfig } from '@rsbuild/core';
 import type { AppTools } from '.';
 import type { getHookRunners } from '../compat/hooks';
 import type { AppToolsNormalizedConfig, AppToolsUserConfig } from './config';
@@ -29,6 +30,9 @@ export type CheckEntryPointFn = TransformFunction<{
 }>;
 export type ModifyEntrypointsFn = TransformFunction<{
   entrypoints: Entrypoint[];
+}>;
+export type ModifyBuilderEnvironmentsFn = TransformFunction<{
+  environments: Record<string, EnvironmentConfig>;
 }>;
 export type ModifyFileSystemRoutesFn = TransformFunction<{
   entrypoint: Entrypoint;
@@ -53,6 +57,7 @@ export interface AppToolsExtendAPI {
 
   checkEntryPoint: PluginHookTap<CheckEntryPointFn>;
   modifyEntrypoints: PluginHookTap<ModifyEntrypointsFn>;
+  modifyBuilderEnvironments: PluginHookTap<ModifyBuilderEnvironmentsFn>;
   modifyFileSystemRoutes: PluginHookTap<ModifyFileSystemRoutesFn>;
 
   generateEntryCode: PluginHookTap<GenerateEntryCodeFn>;
@@ -85,6 +90,7 @@ export interface AppToolsExtendHooks
   deploy: AsyncHook<DeplpoyFn>;
   checkEntryPoint: AsyncHook<CheckEntryPointFn>;
   modifyEntrypoints: AsyncHook<ModifyEntrypointsFn>;
+  modifyBuilderEnvironments: AsyncHook<ModifyBuilderEnvironmentsFn>;
   modifyFileSystemRoutes: AsyncHook<ModifyFileSystemRoutesFn>;
   generateEntryCode: AsyncHook<GenerateEntryCodeFn>;
   onBeforeGenerateRoutes: AsyncHook<BeforeGenerateRoutesFn>;
