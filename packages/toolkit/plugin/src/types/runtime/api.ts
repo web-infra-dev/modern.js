@@ -7,6 +7,7 @@ import type {
   ExtendStreamSSRFn,
   ExtendStringSSRCollectorsFn,
   OnBeforeRenderFn,
+  OnHydrationFn,
   PickContextFn,
   StringSSRCollectorsInfo,
   WrapRootFn,
@@ -22,6 +23,7 @@ export type RuntimePluginAPI<Extends extends RuntimePluginExtends> = Readonly<
     >;
     getRuntimeConfig: () => Readonly<Extends['config']>;
     onBeforeRender: PluginHookTap<OnBeforeRenderFn<Extends['extendContext']>>;
+    onHydration: PluginHookTap<OnHydrationFn<Extends['extendContext']>>;
     wrapRoot: PluginHookTap<WrapRootFn>;
     pickContext: PluginHookTap<PickContextFn<RuntimeContext>>;
     config: PluginHookTap<ConfigFn<Extends['config']>>;
