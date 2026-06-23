@@ -15,7 +15,11 @@
 ## 常用命令
 - 安装依赖：`pnpm install`
 - 构建单包：`pnpm --filter <pkg> build`
-- 跑测试：`pnpm --filter <pkg> test`（或包内 `rstest`）
+- 跑测试（按类型分别跑）：
+  - 单测（rstest）：根目录 `pnpm test:ut`；或单包 `pnpm --filter <pkg> test`（包内即 `rstest`）。
+  - 框架集成测试：`pnpm test:framework`（实际在 `tests/` 下跑 rstest 集成用例）。
+  - 构建器（builder）e2e 测试：`pnpm test:builder`（在 `tests/e2e/builder` 下）。
+  - Skill 回归：`node tests/skill/run.mjs`（migrate-to-v3）、`node tests/skill/feature-enable.mjs`（feature-enable）。
 - 代码风格：`biome`（见 `biome.json`），提交前跑 lint。
 - 变更需 changeset：`pnpm change`（影响发布的改动必须加）。
 
