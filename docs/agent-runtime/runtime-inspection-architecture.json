@@ -1,0 +1,572 @@
+{
+  "diagram": {
+    "title": "Modern.js Runtime Inspection and Actions for Agents Architecture",
+    "layers": [
+      {
+        "id": "agent-access-layer",
+        "name": "Agent 访问层",
+        "level": 1,
+        "components": [
+          {
+            "id": "ai-agent",
+            "name": "AI Agent",
+            "type": "consumer"
+          },
+          {
+            "id": "agent-access-api",
+            "name": "Agent 访问入口",
+            "type": "interface",
+            "contains": [
+              {
+                "id": "agent-runtime-cli",
+                "name": "CLI",
+                "type": "command-line-interface"
+              },
+              {
+                "id": "http-api",
+                "name": "HTTP API",
+                "type": "api"
+              },
+              {
+                "id": "sse-event-stream",
+                "name": "SSE Event Stream",
+                "type": "event-stream"
+              }
+            ]
+          },
+          {
+            "id": "bridge-server",
+            "name": "Bridge Server",
+            "type": "local-service",
+            "contains": [
+              {
+                "id": "target-tab-resolver",
+                "name": "目标 Tab 定位",
+                "type": "browser-target-resolver"
+              },
+              {
+                "id": "event-stream-adapter",
+                "name": "事件流转换",
+                "type": "stream-adapter"
+              },
+              {
+                "id": "action-dispatcher",
+                "name": "Action 分发",
+                "type": "action-dispatcher"
+              }
+            ]
+          },
+          {
+            "id": "browser-connector",
+            "name": "Browser Connector",
+            "type": "browser-connector",
+            "contains": [
+              {
+                "id": "cdp-connector",
+                "name": "CDP Connector",
+                "type": "cdp-adapter"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "id": "page-runtime-layer",
+        "name": "页面运行态接口层",
+        "level": 2,
+        "components": [
+          {
+            "id": "page-runtime-api",
+            "name": "页面端 Runtime API",
+            "type": "browser-api",
+            "contains": [
+              {
+                "id": "get-snapshot",
+                "name": "getSnapshot",
+                "type": "read-api"
+              },
+              {
+                "id": "get-events",
+                "name": "getEvents",
+                "type": "read-api"
+              },
+              {
+                "id": "wait-for-event",
+                "name": "waitForEvent",
+                "type": "wait-api"
+              },
+              {
+                "id": "get-actions",
+                "name": "getActions",
+                "type": "read-api"
+              },
+              {
+                "id": "run-action",
+                "name": "runAction",
+                "type": "execution-api"
+              }
+            ]
+          },
+          {
+            "id": "runtime-center",
+            "name": "Runtime Center",
+            "type": "in-page-state-center",
+            "provider": "Modern.js",
+            "contains": [
+              {
+                "id": "snapshot-store",
+                "name": "Snapshot Store",
+                "type": "state-store"
+              },
+              {
+                "id": "event-history",
+                "name": "Event History",
+                "type": "event-buffer"
+              },
+              {
+                "id": "subscription-registry",
+                "name": "Subscription Registry",
+                "type": "subscription-store"
+              },
+              {
+                "id": "action-registry",
+                "name": "Action Registry",
+                "type": "action-store"
+              },
+              {
+                "id": "ready-blocker-evaluator",
+                "name": "Ready / Blocker Evaluator",
+                "type": "readiness-evaluator"
+              }
+            ]
+          },
+          {
+            "id": "runtime-client",
+            "name": "Runtime Client",
+            "type": "browser-sdk",
+            "provider": "Modern.js",
+            "contains": [
+              {
+                "id": "state-writer",
+                "name": "状态写入",
+                "type": "write-api"
+              },
+              {
+                "id": "event-emitter",
+                "name": "事件写入",
+                "type": "event-api"
+              },
+              {
+                "id": "ready-marker-writer",
+                "name": "Ready 标记写入",
+                "type": "ready-api"
+              },
+              {
+                "id": "action-registrar",
+                "name": "Action 注册",
+                "type": "action-api"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "id": "modernjs-framework-integration-layer",
+        "name": "Modern.js 框架接入层",
+        "level": 3,
+        "components": [
+          {
+            "id": "runtime-plugin",
+            "name": "Runtime 插件",
+            "type": "framework-plugin",
+            "provider": "Modern.js",
+            "module": "planned: packages/runtime/plugin-runtime/src/agent-runtime",
+            "contains": [
+              {
+                "id": "runtime-center-creator",
+                "name": "创建 Runtime Center",
+                "type": "initialization"
+              },
+              {
+                "id": "page-api-mounter",
+                "name": "挂载页面端 API",
+                "type": "browser-global-api"
+              }
+            ]
+          },
+          {
+            "id": "router-instrumentation",
+            "name": "Router 接入",
+            "type": "framework-instrumentation",
+            "module": "packages/runtime/plugin-runtime/src/router/runtime/plugin.tsx",
+            "contains": [
+              {
+                "id": "route-wrapper",
+                "name": "Route Wrapper",
+                "type": "route-wrapper"
+              },
+              {
+                "id": "router-state-subscriber",
+                "name": "Router State Subscriber",
+                "type": "router-subscriber"
+              },
+              {
+                "id": "route-target-normalizer",
+                "name": "Route Target Normalizer",
+                "type": "target-normalizer"
+              }
+            ]
+          },
+          {
+            "id": "route-object-instrumentation",
+            "name": "Route Object 接入",
+            "type": "route-object-instrumentation",
+            "module": "packages/runtime/plugin-runtime/src/router/runtime/utils.tsx",
+            "contains": [
+              {
+                "id": "route-metadata-reader",
+                "name": "Route Metadata Reader",
+                "type": "metadata-reader"
+              },
+              {
+                "id": "route-component-wrapper",
+                "name": "Route Component Wrapper",
+                "type": "component-wrapper"
+              }
+            ]
+          },
+          {
+            "id": "loader-instrumentation",
+            "name": "Loader 接入",
+            "type": "loader-instrumentation",
+            "module": "packages/toolkit/runtime-utils/src/browser/nestedRoutes.tsx",
+            "dependencies": [
+              "packages/runtime/plugin-runtime/src/router/cli/code/templates.ts",
+              "packages/cli/plugin-data-loader/src/runtime/index.ts"
+            ],
+            "contains": [
+              {
+                "id": "route-loader-wrapper",
+                "name": "Route Loader Wrapper",
+                "type": "loader-wrapper"
+              },
+              {
+                "id": "data-loader-convention-mapper",
+                "name": "约定式 Data Loader 映射",
+                "type": "convention-mapper"
+              },
+              {
+                "id": "loader-missing-detector",
+                "name": "Loader Missing Detector",
+                "type": "diagnostic"
+              },
+              {
+                "id": "ssr-loader-state",
+                "name": "SSR Loader State",
+                "type": "ssr-state"
+              }
+            ]
+          },
+          {
+            "id": "react-root-instrumentation",
+            "name": "React Root 接入",
+            "type": "react-instrumentation",
+            "module": "packages/runtime/plugin-runtime/src/core/browser/index.tsx",
+            "contains": [
+              {
+                "id": "render-state-hook",
+                "name": "Render State Hook",
+                "type": "render-lifecycle"
+              },
+              {
+                "id": "hydrate-state-hook",
+                "name": "Hydrate State Hook",
+                "type": "hydrate-lifecycle"
+              },
+              {
+                "id": "root-error-capture",
+                "name": "Root Error Capture",
+                "type": "error-capture"
+              }
+            ]
+          },
+          {
+            "id": "ssr-initial-runtime-state",
+            "name": "SSR 初始运行态",
+            "type": "ssr-instrumentation",
+            "module": "packages/runtime/plugin-runtime/src/router/runtime/plugin.node.tsx",
+            "contains": [
+              {
+                "id": "server-route-state",
+                "name": "服务端 Route 状态",
+                "type": "ssr-route-state"
+              },
+              {
+                "id": "server-loader-state",
+                "name": "服务端 Loader 状态",
+                "type": "ssr-loader-state"
+              },
+              {
+                "id": "server-redirect-error-state",
+                "name": "服务端 Redirect / Error 状态",
+                "type": "ssr-result-state"
+              }
+            ]
+          },
+          {
+            "id": "build-runtime-info-injection",
+            "name": "Build 信息注入",
+            "type": "build-plugin",
+            "provider": "Modern.js",
+            "contains": [
+              {
+                "id": "unique-name",
+                "name": "uniqueName",
+                "type": "build-field"
+              },
+              {
+                "id": "public-path",
+                "name": "publicPath",
+                "type": "build-field"
+              },
+              {
+                "id": "chunk-loading-global",
+                "name": "chunkLoadingGlobal",
+                "type": "build-field"
+              }
+            ]
+          },
+          {
+            "id": "fatal-error-instrumentation",
+            "name": "Fatal Error 接入",
+            "type": "browser-error-instrumentation",
+            "provider": "Modern.js"
+          }
+        ]
+      },
+      {
+        "id": "application-and-ecosystem-layer",
+        "name": "业务与生态接入层",
+        "level": 4,
+        "components": [
+          {
+            "id": "business-runtime-api",
+            "name": "用户 API",
+            "type": "user-facing-api",
+            "provider": "Modern.js",
+            "contains": [
+              {
+                "id": "use-agent-ready",
+                "name": "useAgentReady",
+                "type": "react-hook"
+              },
+              {
+                "id": "agent-ready-component",
+                "name": "AgentReady",
+                "type": "react-component"
+              },
+              {
+                "id": "register-action",
+                "name": "registerAction",
+                "type": "action-registration-api"
+              }
+            ]
+          },
+          {
+            "id": "business-page-components",
+            "name": "业务页面 / 组件",
+            "type": "application-code"
+          },
+          {
+            "id": "mf-adapter",
+            "name": "MF Adapter",
+            "type": "ecosystem-adapter",
+            "provider": "MF",
+            "contains": [
+              {
+                "id": "mf-runtime-observer",
+                "name": "MF Runtime Observer",
+                "type": "runtime-observer"
+              },
+              {
+                "id": "remote-state-adapter",
+                "name": "Remote 状态适配",
+                "type": "state-adapter"
+              },
+              {
+                "id": "shared-state-adapter",
+                "name": "Shared 状态适配",
+                "type": "state-adapter"
+              },
+              {
+                "id": "chunk-state-adapter",
+                "name": "Chunk 状态适配",
+                "type": "state-adapter"
+              }
+            ]
+          },
+          {
+            "id": "garfish-adapter",
+            "name": "Garfish Adapter",
+            "type": "ecosystem-adapter",
+            "provider": "Garfish",
+            "contains": [
+              {
+                "id": "garfish-app-lifecycle",
+                "name": "子应用生命周期",
+                "type": "lifecycle-adapter"
+              },
+              {
+                "id": "garfish-provider-state",
+                "name": "Provider 状态",
+                "type": "state-adapter"
+              }
+            ]
+          }
+        ]
+      }
+    ],
+    "relationships": [
+      {
+        "from": "ai-agent",
+        "to": "agent-access-api",
+        "type": "uses"
+      },
+      {
+        "from": "agent-access-api",
+        "to": "bridge-server",
+        "type": "calls"
+      },
+      {
+        "from": "bridge-server",
+        "to": "browser-connector",
+        "type": "uses"
+      },
+      {
+        "from": "browser-connector",
+        "to": "page-runtime-api",
+        "type": "calls"
+      },
+      {
+        "from": "page-runtime-api",
+        "to": "runtime-center",
+        "type": "calls"
+      },
+      {
+        "from": "runtime-client",
+        "to": "runtime-center",
+        "type": "calls"
+      },
+      {
+        "from": "runtime-plugin",
+        "to": "runtime-center",
+        "type": "supports"
+      },
+      {
+        "from": "runtime-plugin",
+        "to": "page-runtime-api",
+        "type": "supports"
+      },
+      {
+        "from": "router-instrumentation",
+        "to": "runtime-client",
+        "type": "uses"
+      },
+      {
+        "from": "route-object-instrumentation",
+        "to": "router-instrumentation",
+        "type": "integrates-with"
+      },
+      {
+        "from": "loader-instrumentation",
+        "to": "router-instrumentation",
+        "type": "integrates-with"
+      },
+      {
+        "from": "loader-instrumentation",
+        "to": "runtime-client",
+        "type": "uses"
+      },
+      {
+        "from": "react-root-instrumentation",
+        "to": "runtime-client",
+        "type": "uses"
+      },
+      {
+        "from": "ssr-initial-runtime-state",
+        "to": "runtime-center",
+        "type": "supports"
+      },
+      {
+        "from": "build-runtime-info-injection",
+        "to": "runtime-client",
+        "type": "uses"
+      },
+      {
+        "from": "fatal-error-instrumentation",
+        "to": "runtime-client",
+        "type": "uses"
+      },
+      {
+        "from": "business-page-components",
+        "to": "business-runtime-api",
+        "type": "uses"
+      },
+      {
+        "from": "business-runtime-api",
+        "to": "runtime-client",
+        "type": "calls"
+      },
+      {
+        "from": "mf-adapter",
+        "to": "runtime-client",
+        "type": "calls"
+      },
+      {
+        "from": "garfish-adapter",
+        "to": "runtime-client",
+        "type": "calls"
+      },
+      {
+        "from": "action-dispatcher",
+        "to": "run-action",
+        "type": "calls"
+      },
+      {
+        "from": "event-stream-adapter",
+        "to": "get-events",
+        "type": "calls"
+      },
+      {
+        "from": "target-tab-resolver",
+        "to": "cdp-connector",
+        "type": "uses"
+      },
+      {
+        "from": "ready-blocker-evaluator",
+        "to": "snapshot-store",
+        "type": "depends-on"
+      },
+      {
+        "from": "ready-blocker-evaluator",
+        "to": "event-history",
+        "type": "depends-on"
+      },
+      {
+        "from": "run-action",
+        "to": "action-registry",
+        "type": "calls"
+      },
+      {
+        "from": "wait-for-event",
+        "to": "subscription-registry",
+        "type": "uses"
+      },
+      {
+        "from": "wait-for-event",
+        "to": "ready-blocker-evaluator",
+        "type": "uses"
+      }
+    ]
+  }
+}
