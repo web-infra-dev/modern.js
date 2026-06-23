@@ -59,6 +59,22 @@ export async function generateBuilder(
     builderConfig.environments = environments;
   }
 
+  // Allow plugins to transform the fully-merged builder environments map after
+  // the static framework env-merge and before the builder is created. Mirrors
+  // `modifyEntrypoints`: a transform-object hook whose non-undefined return
+  // replaces `environments`; with no taps the map is left untouched (identity).
+  const hooks = appContext._internalContext.pluginAPI?.getHooks();
+  if (hooks?.modifyBuilderEnvironments) {
+    const { environments: modifiedEnvironments } =
+      await hooks.modifyBuilderEnvironments.call({
+        environments: builderConfig.environments as Record<
+          string,
+          EnvironmentConfig
+        >,
+      });
+    builderConfig.environments = modifiedEnvironments;
+  }
+
   const builder = await createBuilder({
     cwd: appContext.appDirectory,
     rscClientRuntimePath: `@${appContext.metaName}/runtime/rsc/client`,
