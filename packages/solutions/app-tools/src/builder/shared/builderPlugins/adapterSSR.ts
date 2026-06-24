@@ -86,8 +86,15 @@ export const builderPluginAdapterSSR = (
 
         const isServiceWorker =
           environment.name === SERVICE_WORKER_ENVIRONMENT_NAME;
+        // Only Modern's own SSR server / service-worker environments get the Modern
+        // SSR entry filtering. A custom node environment injected via
+        // `modifyBuilderEnvironments` (e.g. a framework's own server bundle env) keeps
+        // its own entry and must NOT be filtered against the Modern SSR entry config —
+        // gating on `target === 'node'` alone wrongly captured every custom node env.
+        const isModernServerEnvironment =
+          environment.name === 'server' || isServiceWorker;
 
-        if (target === 'node' || isServiceWorker) {
+        if (isModernServerEnvironment) {
           applyFilterEntriesBySSRConfig({
             isProd,
             chain,
