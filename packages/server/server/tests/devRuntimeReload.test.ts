@@ -291,6 +291,28 @@ describe('setupDevInfra (process-level singletons)', () => {
     await sleep(60);
     expect(build).toHaveBeenCalledTimes(0);
   });
+
+  it('re-emits the public file-change onReset signal on the live runtime (downstream compat)', async () => {
+    // Downstream plugins (e.g. EdenX gulu/gulux) tap onReset({type:'file-change'})
+    // for their own dev refresh; the watcher must keep emitting it.
+    const runtime = makeFakeRuntimeServer();
+    const { onFileChange } = setup(() => runtime);
+
+    const watcher = getWatchers()[getWatchers().length - 1];
+    const file = path.join('/tmp/app', 'api/foo.ts');
+    watcher.listenCb(file, 'change');
+    await flush();
+
+    expect(runtime.hooks.onReset.call).toHaveBeenCalledTimes(1);
+    expect(runtime.hooks.onReset.call).toHaveBeenCalledWith({
+      event: {
+        type: 'file-change',
+        payload: [{ filename: file, event: 'change' }],
+      },
+    });
+    // and the unified reload is still triggered
+    expect(onFileChange).toHaveBeenCalledTimes(1);
+  });
 });
 
 describe('createRuntimeServerOptions (per-build option isolation)', () => {
