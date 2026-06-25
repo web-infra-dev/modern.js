@@ -313,6 +313,21 @@ describe('setupDevInfra (process-level singletons)', () => {
     // and the unified reload is still triggered
     expect(onFileChange).toHaveBeenCalledTimes(1);
   });
+
+  it('does NOT emit onReset for mock files (preserves pre-refactor emission) but still reloads', async () => {
+    const runtime = makeFakeRuntimeServer();
+    const { onFileChange } = setup(() => runtime);
+
+    const watcher = getWatchers()[getWatchers().length - 1];
+    // config/mock/** was never part of the onReset file-change signal; it
+    // refreshes via the reload (getMockMiddleware re-runs) only.
+    watcher.listenCb(path.join('/tmp/app', 'config/mock/index.ts'), 'change');
+    await flush();
+
+    expect(runtime.hooks.onReset.call).not.toHaveBeenCalled();
+    // but the reload is still scheduled so the mock middleware refreshes
+    expect(onFileChange).toHaveBeenCalledTimes(1);
+  });
 });
 
 describe('createRuntimeServerOptions (per-build option isolation)', () => {
