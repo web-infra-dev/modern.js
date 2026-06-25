@@ -3,13 +3,14 @@ import type { Http2SecureServer } from 'node:http2';
 import type { Server as NodeHttpsServer } from 'node:https';
 import type { BuilderInstance, Rspack } from '@modern-js/builder';
 import type {
+  FileChangeEvent,
   ServerBase,
   ServerBaseOptions,
   ServerPlugin,
 } from '@modern-js/server-core';
 import { connectMid2HonoMid } from '@modern-js/server-core/node';
 import type { RequestHandler } from '@modern-js/types';
-import { API_DIR, SHARED_DIR } from '@modern-js/utils';
+import { API_DIR, SHARED_DIR, logger } from '@modern-js/utils';
 import type { WatchEvent } from './dev-tools/watcher';
 import {
   getDevOptions,
@@ -190,7 +191,26 @@ export function setupDevInfra({
     apiDir: apiDir || API_DIR,
     sharedDir: sharedDir || SHARED_DIR,
     watchOptions,
-    onChange: onFileChange,
+    onChange: (filepath, event) => {
+      // Backward-compat: re-emit the public `file-change` onReset signal on the
+      // LIVE runtime (via getRuntimeServer, never a stale closure). `onReset` is
+      // a documented ServerPlugin hook; downstream plugins legitimately tap it
+      // for their own dev refresh — e.g. EdenX gulu/gulux restart their BFF
+      // child process on this event. It is a no-op for modern.js's own plugins
+      // (none tap onReset anymore). The unified runtime reload below is the
+      // modern.js reaction and is unchanged.
+      const runtimeServer = getRuntimeServer();
+      if (runtimeServer) {
+        const fileChangeEvent: FileChangeEvent = {
+          type: 'file-change',
+          payload: [{ filename: filepath, event }],
+        };
+        Promise.resolve(
+          runtimeServer.hooks.onReset.call({ event: fileChangeEvent }),
+        ).catch(error => logger.error(error as Error));
+      }
+      onFileChange(filepath, event);
+    },
   });
   closeCb.push(watcher.close.bind(watcher));
 
