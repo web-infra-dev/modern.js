@@ -1,7 +1,9 @@
 import type { Server as NodeServer } from 'node:http';
 import type { Http2SecureServer } from 'node:http2';
 import type { Server as NodeHttpsServer } from 'node:https';
+import path from 'node:path';
 import type { BuilderInstance, Rspack } from '@modern-js/builder';
+import { AGGRED_DIR } from '@modern-js/server-core';
 import type {
   FileChangeEvent,
   ServerBase,
@@ -185,6 +187,11 @@ export function setupDevInfra({
 
   // Handle watch
   const { watchOptions } = config.server;
+  // Mock files keep their original semantics: they refresh via the runtime
+  // reload (which re-runs getMockMiddleware) and were NEVER part of the
+  // `onReset` file-change signal pre-refactor, so they stay excluded here to
+  // keep `onReset`'s emission byte-identical to the old watcher behavior.
+  const mockPath = path.normalize(path.join(pwd, AGGRED_DIR.mock));
   const watcher = startWatcher({
     pwd,
     distDir,
@@ -192,15 +199,15 @@ export function setupDevInfra({
     sharedDir: sharedDir || SHARED_DIR,
     watchOptions,
     onChange: (filepath, event) => {
-      // Backward-compat: re-emit the public `file-change` onReset signal on the
-      // LIVE runtime (via getRuntimeServer, never a stale closure). `onReset` is
-      // a documented ServerPlugin hook; downstream plugins legitimately tap it
-      // for their own dev refresh — e.g. EdenX gulu/gulux restart their BFF
-      // child process on this event. It is a no-op for modern.js's own plugins
-      // (none tap onReset anymore). The unified runtime reload below is the
-      // modern.js reaction and is unchanged.
+      // Re-emit the public `file-change` onReset signal on the LIVE runtime
+      // (via getRuntimeServer, never a stale closure), preserving the exact
+      // pre-refactor emission. `onReset` is a documented ServerPlugin hook;
+      // downstream plugins (internal/external/EdenX) legitimately tap it for
+      // their own dev refresh — e.g. EdenX gulu/gulux restart their BFF child
+      // process on it. No-op for modern.js's own plugins. The unified runtime
+      // reload below is the modern.js reaction and is unchanged.
       const runtimeServer = getRuntimeServer();
-      if (runtimeServer) {
+      if (runtimeServer && !filepath.startsWith(mockPath)) {
         const fileChangeEvent: FileChangeEvent = {
           type: 'file-change',
           payload: [{ filename: filepath, event }],
