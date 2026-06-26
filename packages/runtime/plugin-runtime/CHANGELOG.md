@@ -1,5 +1,20 @@
 # @modern-js/runtime
 
+## 3.5.0
+
+### Patch Changes
+
+- 6c50ad3: fix(runtime): use the final HTML template parameters when rendering custom Document
+
+  fix(runtime): 渲染自定义 Document 时使用最终的 HTML 模板参数
+
+  - @modern-js/plugin@3.5.0
+  - @modern-js/plugin-data-loader@3.5.0
+  - @modern-js/render@3.5.0
+  - @modern-js/runtime-utils@3.5.0
+  - @modern-js/types@3.5.0
+  - @modern-js/utils@3.5.0
+
 ## 3.4.0
 
 ### Patch Changes
