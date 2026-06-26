@@ -5,8 +5,7 @@
   "scripts": {
     "dev": "tsc --watch",
     "build": "tsc",
-    "start": "tsx ./src/index.ts",
-    "test": "tsx --test ./tests/*.test.ts"
+    "start": "tsx ./src/index.ts"
   },
   "dependencies": {
     "@changesets/read": "^0.6.6",

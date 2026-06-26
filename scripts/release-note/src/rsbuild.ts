@@ -74,10 +74,7 @@ export function isVersionUpgraded(
  * Get all versions between oldVersion (exclusive) and newVersion (inclusive).
  * Handles prerelease versions, patch, minor, and major upgrades.
  */
-export function getVersionsBetween(
-  oldVersion: string,
-  newVersion: string,
-): string[] {
+function getVersionsBetween(oldVersion: string, newVersion: string): string[] {
   const versions: string[] = [];
 
   try {
