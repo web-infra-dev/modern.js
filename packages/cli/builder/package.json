@@ -33,7 +33,7 @@
   },
   "dependencies": {
     "@modern-js/utils": "workspace:*",
-    "@rsbuild/core": "2.0.10",
+    "@rsbuild/core": "2.1.0",
     "@rsbuild/plugin-assets-retry": "2.0.1",
     "@rsbuild/plugin-check-syntax": "2.0.0",
     "@rsbuild/plugin-css-minimizer": "2.0.1",

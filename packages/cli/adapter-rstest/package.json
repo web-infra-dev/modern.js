@@ -33,7 +33,7 @@
     "@modern-js/rslib": "workspace:*",
     "@modern-js/tsconfig": "workspace:*",
     "@modern-js/types": "workspace:*",
-    "@rsbuild/core": "2.0.10",
+    "@rsbuild/core": "2.1.0",
     "@rslib/core": "0.23.0",
     "@rstest/core": "0.9.10",
     "@scripts/rstest-config": "workspace:*",
