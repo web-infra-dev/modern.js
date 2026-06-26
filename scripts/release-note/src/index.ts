@@ -81,13 +81,18 @@ async function genReleaseNote() {
         currentRsbuildVersion &&
         isVersionUpgraded(publishedRsbuildVersion, currentRsbuildVersion)
       ) {
-        const upgradeNote = formatRsbuildUpgradeNote(
+        const upgradeNoteEn = formatRsbuildUpgradeNote(
           publishedRsbuildVersion,
           currentRsbuildVersion,
           'en',
         );
-        releaseNote.dependencies.en.push(upgradeNote);
-        releaseNote.dependencies.zh.push(upgradeNote);
+        const upgradeNoteZh = formatRsbuildUpgradeNote(
+          publishedRsbuildVersion,
+          currentRsbuildVersion,
+          'zh',
+        );
+        releaseNote.dependencies.en.push(upgradeNoteEn);
+        releaseNote.dependencies.zh.push(upgradeNoteZh);
       }
     }
   } catch {
