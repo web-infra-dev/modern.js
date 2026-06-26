@@ -1,0 +1,5 @@
+{
+  "name": "v3-app-ssg-output",
+  "dependencies": { "@modern-js/runtime": "3.0.0", "react": "^19.2.3" },
+  "devDependencies": { "@modern-js/app-tools": "3.0.0" }
+}

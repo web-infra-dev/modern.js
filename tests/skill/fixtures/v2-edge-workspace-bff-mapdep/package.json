@@ -1,0 +1,13 @@
+{
+  "private": true,
+  "name": "v2-edge-workspace-bff-mapdep",
+  "dependencies": {
+    "@modern-js/runtime": "workspace:*",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1"
+  },
+  "devDependencies": {
+    "@modern-js/app-tools": "workspace:*",
+    "typescript": "^5"
+  }
+}

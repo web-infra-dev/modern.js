@@ -1,0 +1,5 @@
+{
+  "name": "v2-edge-react19",
+  "dependencies": { "@modern-js/runtime": "2.60.0", "react": "^19.0.0" },
+  "devDependencies": { "@modern-js/app-tools": "2.60.0" }
+}

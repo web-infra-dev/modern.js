@@ -1,0 +1,48 @@
+---
+title: AI 工具
+sidebar_position: 6
+---
+
+# Modern.js For AI
+
+Modern.js 为 AI Agent 提供了一套工具套件，帮助开发者利用 AI 高效完成 Modern.js 应用的功能开发、依赖升级与版本迁移工作。
+
+## llms.txt
+
+Modern.js 文档遵循 [llms.txt 规范](https://llmstxt.org/)，由 [`@rspress/plugin-llms`](https://rspress.rs/plugin/official-plugins/llms) 自动生成，可通过 `/llms.txt` 或 `/llms-full.txt` 供 AI 工具检索：
+
+- 索引：[`https://modernjs.dev/llms.txt`](https://modernjs.dev/llms.txt)
+- 全文：`https://modernjs.dev/llms-full.txt`（体积较大，按需取片段）
+
+大部分「这个 API / 配置是什么」类问题，靠 llms.txt 即可解决。让你的 Agent 按需检索它即可，不必把文档复制进项目。
+
+## Skills
+
+Skills 是按需触发的 AI 辅助能力，遵循 [Agent Skills 开放标准](https://github.com/vercel-labs/skills)。用户向 Skills：
+
+| Skill | 标识 | 说明 |
+|---|---|---|
+| 升级到 v3 | `modernjs-migrate-to-v3` | v2 应用迁移到 v3：安全改写 + 复杂项人工清单 + 迁移报告 |
+| 启用特性 | `modernjs-feature-enable` | 为 v3 应用启用 BFF / SSG / styled-components，并脚手架化 Tailwind CSS / 自定义 Web Server |
+
+> Skills 默认不强装、不隐式安装，由你显式安装。RSC、微前端等属于配置或架构决策，不是 `modernjs-feature-enable` 的一键启用项。
+
+## 安装 Skills
+
+Modern.js 的用户向 Skill 就放在仓库根 `skills/` 目录，遵循 [Agent Skills 开放标准](https://github.com/vercel-labs/skills)。推荐用标准的 `skills` CLI 直接从 GitHub 安装：
+
+```bash
+# 列出可安装的 Skills
+npx skills add web-infra-dev/modern.js --list
+
+# 安装单个 Skill 到你的 Agent 目录（--agent 可选 claude-code / codex / cursor 等）
+npx skills add web-infra-dev/modern.js --skill modernjs-migrate-to-v3 --agent codex -y
+```
+
+它会把整个 Skill 目录（`SKILL.md` + `scripts/` + `references/`）安装到对应 Agent 目录，随后即可在该 Agent 里触发。
+
+> 需锁定到某个版本时，在仓库后加 `#<ref>`（ref 可为 tag / 分支 / commit），即安装该版本上的 Skill（把 `<tag>` 换成含本 Skill 的发布 tag）：
+>
+> ```bash
+> npx skills add web-infra-dev/modern.js#<tag> --skill modernjs-migrate-to-v3 --agent codex -y
+> ```
