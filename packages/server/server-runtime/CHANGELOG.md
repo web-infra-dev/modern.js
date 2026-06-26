@@ -1,5 +1,13 @@
 # @modern-js/server-runtime
 
+## 3.5.0
+
+### Patch Changes
+
+- @modern-js/server-core@3.5.0
+- @modern-js/runtime-utils@3.5.0
+- @modern-js/types@3.5.0
+
 ## 3.4.0
 
 ### Patch Changes
