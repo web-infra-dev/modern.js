@@ -12,20 +12,21 @@ import { PackageManagerTabs } from '@theme';
 ```js
 const defaultOptions = {
   typescript: {
+    // set 'readonly' to avoid emitting tsbuildinfo,
+    // as the generated tsbuildinfo will break ts-checker-rspack-plugin
+    mode: 'readonly',
+    // enable build when using project reference
+    build: useReference,
     // avoid OOM issue
     memoryLimit: 8192,
     // use tsconfig of user project
     configFile: tsconfigPath,
-    // use TypeScript checker by default
-    tsgo: false,
-    // use typescript of user project
-    typescriptPath: require.resolve('typescript'),
+    // resolve the default TypeScript package from user project
+    resolveRoot: rootPath,
   },
   issue: {
-    exclude: [
-      { file: '**/*.(spec|test).ts' },
-      { file: '**/node_modules/**/*' },
-    ],
+    // ignore type errors from node_modules
+    exclude: [({ file = '' }) => /[\\/]node_modules[\\/]/.test(file)],
   },
   logger: {
     log() {
@@ -33,7 +34,11 @@ const defaultOptions = {
       // we only want to display error messages
     },
     error(message: string) {
-      console.error(message.replace(/ERROR/g, 'Type Error'));
+      console.error(
+        message
+          .replace(/ERROR/g, 'Type Error')
+          .replace(/WARNING/g, 'Type Warning'),
+      );
     },
   },
 },
@@ -43,7 +48,9 @@ By default, the [@rsbuild/plugin-type-check](https://github.com/rstackjs/rsbuild
 
 ## Example
 
-When the value of `tsChecker` is of type Object, it will be deeply merged with the default configuration.
+### Object Type
+
+When the value of `tsChecker` is an object, it will be deeply merged with the default configuration.
 
 ```ts
 export default {
@@ -57,17 +64,34 @@ export default {
 };
 ```
 
+### Function Type
+
+When the value of `tsChecker` is a function, the default configuration will be passed as the first argument. You can directly modify the configuration object or return an object as the final configuration.
+
+```ts
+export default {
+  tools: {
+    tsChecker(options) {
+      options.async = false;
+      return options;
+    },
+  },
+};
+```
+
 > Please refer to [@rsbuild/plugin-type-check](https://github.com/rstackjs/rsbuild-plugin-type-check) for more details.
 
 ## TypeScript Go Support
 
 `tools.tsChecker` supports enabling [TypeScript Go](https://github.com/microsoft/typescript-go) for type checking. This experimental capability is provided by [`ts-checker-rspack-plugin`](https://github.com/rstackjs/ts-checker-rspack-plugin), which is integrated by [`@rsbuild/plugin-type-check`](https://github.com/rstackjs/rsbuild-plugin-type-check), and can reduce type-checking time by about 5-10x.
 
-Before using it, install `@typescript/native-preview`:
+Install TypeScript 7.0 RC to enable TypeScript Go automatically:
+
+<PackageManagerTabs command="install typescript@rc -D" />
+
+You can also install `@typescript/native-preview` and set `typescript.tsgo` to `true`:
 
 <PackageManagerTabs command="install @typescript/native-preview -D" />
-
-Then set `typescript.tsgo` to `true`:
 
 ```ts
 export default {
@@ -81,6 +105,8 @@ export default {
 };
 ```
 
-When `tsgo` is enabled, the default `typescript.typescriptPath` resolves to `@typescript/native-preview/package.json`. If you manually set `typescript.typescriptPath`, it must be an absolute path to `@typescript/native-preview/package.json`.
+When `tsgo` is enabled and `typescript.typescriptPath` is set manually, it must point to an absolute `typescript/package.json` path from TypeScript 7+ or `@typescript/native-preview/package.json`.
+
+> The `@typescript/native-preview` usage is deprecated and kept only for compatibility. We recommend installing `typescript@rc` to use `tsgo`.
 
 For supported options and limitations, please refer to [ts-checker-rspack-plugin - TypeScript Go support](https://github.com/rstackjs/ts-checker-rspack-plugin#typescript-go-support).

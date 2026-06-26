@@ -127,7 +127,7 @@ export type BuilderExtraConfig = {
      */
     devServer?: ToolsDevServerConfig;
     /**
-     * Modify the options of [fork-ts-checker-webpack-plugin](https://github.com/TypeStrong/fork-ts-checker-webpack-plugin).
+     * Modify the options of [ts-checker-rspack-plugin](https://github.com/rstackjs/ts-checker-rspack-plugin).
      */
     tsChecker?: PluginTypeCheckerOptions['tsCheckerOptions'];
     /**
