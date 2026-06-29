@@ -1,23 +1,69 @@
 packages:
- - 'packages/*'
- - 'packages/cli/*'
- - 'packages/document/*'
- - 'packages/devtools/*'
- - 'packages/runtime/*'
- - 'packages/generator/*'
- - 'packages/generator/generators/*'
- - 'packages/generator/plugins/*'
- - 'packages/review/*'
- - 'packages/server/*'
- - 'packages/builder/*'
- - 'packages/module/*'
- - 'packages/solutions/*'
- - 'packages/toolkit/*'
- - 'packages/toolkit/compiler/*'
- - 'packages/storybook/*'
- - 'scripts/*'
- - 'tests'
- - 'tests/integration/**/*'
- - 'tests/e2e/**/*'
- - 'website/*'
- - 'benchmark/*'
+  - 'packages/*'
+  - 'packages/cli/*'
+  - 'packages/document/*'
+  - 'packages/devtools/*'
+  - 'packages/runtime/*'
+  - 'packages/generator/*'
+  - 'packages/generator/generators/*'
+  - 'packages/generator/plugins/*'
+  - 'packages/review/*'
+  - 'packages/server/*'
+  - 'packages/builder/*'
+  - 'packages/module/*'
+  - 'packages/solutions/*'
+  - 'packages/toolkit/*'
+  - 'packages/toolkit/compiler/*'
+  - 'packages/storybook/*'
+  - 'scripts/*'
+  - 'tests'
+  - 'tests/integration/**/*'
+  - 'tests/e2e/**/*'
+  - 'website/*'
+  - 'benchmark/*'
+
+overrides:
+  h3: ^1.15.9
+  tar: ^7.5.10
+  micromatch: ^4.0.8
+  debug: ^4.3.7
+  diff: ^5.1.0
+  tmp: ^0.2.6
+  read-yaml-file>js-yaml: 3.14.2
+
+peerDependencyRules:
+  allowedVersions:
+    '@mdx-js/react@^1.6.22>react': '18'
+
+allowedDeprecatedVersions:
+  '@babel/plugin-proposal-object-rest-spread': 7.12.1 || 7.20.7
+  '@babel/plugin-proposal-private-property-in-object': 7.21.0
+  '@financial-times/polyfill-useragent-normaliser': 1.10.2
+  formidable: 1.2.6
+  sourcemap-codec: 1.4.8
+  js-polyfills: 0.1.43
+  picturefill: 3.0.3
+  querystring: 0.2.0
+  string-similarity: 4.0.4
+  source-map-resolve: 0.6.0 || 0.5.3
+  '@formatjs/intl-utils': 3.8.4
+  uuid: 3.4.0
+  trim: 0.0.1
+
+confirmModulesPurge: false
+verifyDepsBeforeRun: false
+allowBuilds:
+  '@biomejs/biome': true
+  '@parcel/watcher': true
+  '@swc/core': true
+  bufferutil: true
+  core-js: true
+  core-js-pure: true
+  es5-ext: true
+  esbuild: true
+  nx: true
+  playwright: true
+  puppeteer: true
+  sharp: true
+  styled-components: true
+  utf-8-validate: true
