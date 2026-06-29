@@ -18,6 +18,8 @@ overrides:
   tmp: '>=0.2.7'
   '@isaacs/brace-expansion': '>=5.0.1'
 
+pnpmfileChecksum: sha256-e7fv4++EEy5D/4pBzV1yGYuIWnXfQwaMHH7OMxyEZx4=
+
 importers:
 
   .:
@@ -33,10 +35,10 @@ importers:
         version: 1.9.4
       '@changesets/cli':
         specifier: ^2.29.8
-        version: 2.29.8(@types/node@25.9.3)
+        version: 2.29.8(@types/node@26.0.1)
       '@commitlint/cli':
         specifier: ^20.5.3
-        version: 20.5.3(@types/node@25.9.3)(conventional-commits-parser@6.3.0)(typescript@5.9.3)
+        version: 20.5.3(@types/node@26.0.1)(conventional-commits-parser@6.3.0)(typescript@5.9.3)
       '@commitlint/config-conventional':
         specifier: ^20.5.3
         version: 20.5.3
@@ -4054,7 +4056,7 @@ importers:
         version: 19.2.3(@types/react@19.2.17)
       ts-node:
         specifier: ^10.9.2
-        version: 10.9.2(@swc/core@1.15.41(@swc/helpers@0.5.23))(@types/node@25.9.3)(typescript@5.9.3)
+        version: 10.9.2(@swc/core@1.15.41(@swc/helpers@0.5.23))(@types/node@26.0.1)(typescript@5.9.3)
       typescript:
         specifier: ^5
         version: 5.9.3
@@ -4172,7 +4174,7 @@ importers:
         version: 19.2.3(@types/react@19.2.17)
       ts-node:
         specifier: ^10.9.2
-        version: 10.9.2(@swc/core@1.15.41(@swc/helpers@0.5.23))(@types/node@25.9.3)(typescript@5.9.3)
+        version: 10.9.2(@swc/core@1.15.41(@swc/helpers@0.5.23))(@types/node@26.0.1)(typescript@5.9.3)
       typescript:
         specifier: ^5
         version: 5.9.3
@@ -8015,9 +8017,6 @@ packages:
   '@types/node@25.9.1':
     resolution: {integrity: sha512-xfrlY7UD5rMJk3ZVJP8BNzS28J36YJg+xp+LPXV1TdWxr8uMH5A860QNxYDGQe/ylDSgjxE52Q9VnO7p75tJxg==}
 
-  '@types/node@25.9.3':
-    resolution: {integrity: sha512-603BddQMv3pUcr4U2dhujk83N2tTDVr/34wII2B6bJy6g+8WD6yUb11jszNs0gdi4PesVWl7ABt8nYMVpnLUcg==}
-
   '@types/node@26.0.1':
     resolution: {integrity: sha512-fc3KiUoBt6kie0N9bIW3E47vZsuaMf0PM2AaUpLCLT0s/LvX1nxAim6Fc049cNxODPpGm6qRAuUOB86SkRuPQw==}
 
@@ -9901,10 +9900,6 @@ packages:
 
   enhanced-resolve@5.24.0:
     resolution: {integrity: sha512-SkE2t82KlkkxQRVMVLAGKxLfORGQfrkx5dkj+vlgXRVNEdPc4eZcR+J/Fvj8C+yKSFH5L0q3NFlyufOVQnCcYQ==}
-    engines: {node: '>=10.13.0'}
-
-  enhanced-resolve@5.24.1:
-    resolution: {integrity: sha512-7DdUaTjmNwMcH2gLr1qycesKII3BK4RLy/mdAb7x10Lq7bR4aNKHt1BR1ZALSv0rPM/hF5wYF0PhGop/rJm8vw==}
     engines: {node: '>=10.13.0'}
 
   enquirer@2.3.6:
@@ -15947,7 +15942,7 @@ snapshots:
     transitivePeerDependencies:
       - '@types/node'
 
-  '@changesets/cli@2.29.8(@types/node@25.9.3)':
+  '@changesets/cli@2.29.8(@types/node@26.0.1)':
     dependencies:
       '@changesets/apply-release-plan': 7.0.14
       '@changesets/assemble-release-plan': 6.0.9
@@ -15963,7 +15958,7 @@ snapshots:
       '@changesets/should-skip-package': 0.1.2
       '@changesets/types': 6.1.0
       '@changesets/write': 0.4.0
-      '@inquirer/external-editor': 1.0.3(@types/node@25.9.3)
+      '@inquirer/external-editor': 1.0.3(@types/node@26.0.1)
       '@manypkg/get-packages': 1.1.3
       ansi-colors: 4.1.3
       ci-info: 3.9.0
@@ -16212,11 +16207,11 @@ snapshots:
 
   '@colordx/core@5.4.3': {}
 
-  '@commitlint/cli@20.5.3(@types/node@25.9.3)(conventional-commits-parser@6.3.0)(typescript@5.9.3)':
+  '@commitlint/cli@20.5.3(@types/node@26.0.1)(conventional-commits-parser@6.3.0)(typescript@5.9.3)':
     dependencies:
       '@commitlint/format': 20.5.0
       '@commitlint/lint': 20.5.3
-      '@commitlint/load': 20.5.3(@types/node@25.9.3)(typescript@5.9.3)
+      '@commitlint/load': 20.5.3(@types/node@26.0.1)(typescript@5.9.3)
       '@commitlint/read': 20.5.0(conventional-commits-parser@6.3.0)
       '@commitlint/types': 20.5.0
       tinyexec: 1.0.2
@@ -16261,14 +16256,14 @@ snapshots:
       '@commitlint/rules': 20.5.3
       '@commitlint/types': 20.5.0
 
-  '@commitlint/load@20.5.3(@types/node@25.9.3)(typescript@5.9.3)':
+  '@commitlint/load@20.5.3(@types/node@26.0.1)(typescript@5.9.3)':
     dependencies:
       '@commitlint/config-validator': 20.5.0
       '@commitlint/execute-rule': 20.0.0
       '@commitlint/resolve-extends': 20.5.3
       '@commitlint/types': 20.5.0
       cosmiconfig: 9.0.1(typescript@5.9.3)
-      cosmiconfig-typescript-loader: 6.2.0(@types/node@25.9.3)(cosmiconfig@9.0.1(typescript@5.9.3))(typescript@5.9.3)
+      cosmiconfig-typescript-loader: 6.2.0(@types/node@26.0.1)(cosmiconfig@9.0.1(typescript@5.9.3))(typescript@5.9.3)
       es-toolkit: 1.46.1
       is-plain-obj: 4.1.0
       picocolors: 1.1.1
@@ -16636,12 +16631,12 @@ snapshots:
     optionalDependencies:
       '@types/node': 20.19.27
 
-  '@inquirer/external-editor@1.0.3(@types/node@25.9.3)':
+  '@inquirer/external-editor@1.0.3(@types/node@26.0.1)':
     dependencies:
       chardet: 2.1.1
       iconv-lite: 0.7.1
     optionalDependencies:
-      '@types/node': 25.9.3
+      '@types/node': 26.0.1
 
   '@ioredis/as-callback@3.0.0': {}
 
@@ -19356,10 +19351,6 @@ snapshots:
     dependencies:
       undici-types: 7.24.6
 
-  '@types/node@25.9.3':
-    dependencies:
-      undici-types: 7.24.6
-
   '@types/node@26.0.1':
     dependencies:
       undici-types: 8.3.0
@@ -20638,9 +20629,9 @@ snapshots:
     dependencies:
       layout-base: 2.0.1
 
-  cosmiconfig-typescript-loader@6.2.0(@types/node@25.9.3)(cosmiconfig@9.0.1(typescript@5.9.3))(typescript@5.9.3):
+  cosmiconfig-typescript-loader@6.2.0(@types/node@26.0.1)(cosmiconfig@9.0.1(typescript@5.9.3))(typescript@5.9.3):
     dependencies:
-      '@types/node': 25.9.3
+      '@types/node': 26.0.1
       cosmiconfig: 9.0.1(typescript@5.9.3)
       jiti: 2.6.1
       typescript: 5.9.3
@@ -21460,11 +21451,6 @@ snapshots:
       tapable: 2.3.3
 
   enhanced-resolve@5.24.0:
-    dependencies:
-      graceful-fs: 4.2.11
-      tapable: 2.3.3
-
-  enhanced-resolve@5.24.1:
     dependencies:
       graceful-fs: 4.2.11
       tapable: 2.3.3
@@ -23024,7 +23010,7 @@ snapshots:
 
   jest-worker@27.5.1:
     dependencies:
-      '@types/node': 26.0.1
+      '@types/node': 20.19.27
       merge-stream: 2.0.0
       supports-color: 8.1.1
 
@@ -27253,26 +27239,6 @@ snapshots:
     optionalDependencies:
       '@swc/core': 1.15.41(@swc/helpers@0.5.23)
 
-  ts-node@10.9.2(@swc/core@1.15.41(@swc/helpers@0.5.23))(@types/node@25.9.3)(typescript@5.9.3):
-    dependencies:
-      '@cspotcode/source-map-support': 0.8.1
-      '@tsconfig/node10': 1.0.12
-      '@tsconfig/node12': 1.0.11
-      '@tsconfig/node14': 1.0.3
-      '@tsconfig/node16': 1.0.4
-      '@types/node': 25.9.3
-      acorn: 8.15.0
-      acorn-walk: 8.3.4
-      arg: 4.1.3
-      create-require: 1.1.1
-      diff: 8.0.3
-      make-error: 1.3.6
-      typescript: 5.9.3
-      v8-compile-cache-lib: 3.0.1
-      yn: 3.1.1
-    optionalDependencies:
-      '@swc/core': 1.15.41(@swc/helpers@0.5.23)
-
   ts-node@10.9.2(@swc/core@1.15.41(@swc/helpers@0.5.23))(@types/node@26.0.1)(typescript@5.9.3):
     dependencies:
       '@cspotcode/source-map-support': 0.8.1
@@ -27292,7 +27258,6 @@ snapshots:
       yn: 3.1.1
     optionalDependencies:
       '@swc/core': 1.15.41(@swc/helpers@0.5.23)
-    optional: true
 
   tsconfig-paths-webpack-plugin@4.1.0:
     dependencies:
@@ -27649,7 +27614,7 @@ snapshots:
       acorn-import-phases: 1.0.4(acorn@8.17.0)
       browserslist: 4.28.2
       chrome-trace-event: 1.0.4
-      enhanced-resolve: 5.24.1
+      enhanced-resolve: 5.24.0
       es-module-lexer: 2.1.0
       eslint-scope: 5.1.1
       events: 3.3.0
@@ -27691,7 +27656,7 @@ snapshots:
       acorn-import-phases: 1.0.4(acorn@8.17.0)
       browserslist: 4.28.2
       chrome-trace-event: 1.0.4
-      enhanced-resolve: 5.24.1
+      enhanced-resolve: 5.24.0
       es-module-lexer: 2.1.0
       eslint-scope: 5.1.1
       events: 3.3.0
@@ -27732,7 +27697,7 @@ snapshots:
       acorn-import-phases: 1.0.4(acorn@8.17.0)
       browserslist: 4.28.2
       chrome-trace-event: 1.0.4
-      enhanced-resolve: 5.24.1
+      enhanced-resolve: 5.24.0
       es-module-lexer: 2.1.0
       eslint-scope: 5.1.1
       events: 3.3.0
