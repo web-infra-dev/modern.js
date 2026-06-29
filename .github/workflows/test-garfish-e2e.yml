@@ -36,10 +36,12 @@ jobs:
           cache: 'pnpm'
 
       - name: Install Dependencies
+        env:
+          PLAYWRIGHT_SKIP_BROWSER_DOWNLOAD: 1
         run: pnpm install
 
       - name: Install playwright
-        run: node packages/toolkit/e2e/node_modules/@playwright/test/cli.js install
+        run: node packages/toolkit/e2e/node_modules/@playwright/test/cli.js install chromium
 
       - name: Test
         run: cd ./tests/e2e/garfish && pnpm run test
