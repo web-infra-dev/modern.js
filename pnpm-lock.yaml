@@ -1779,8 +1779,8 @@ importers:
         specifier: 2.2.3
         version: 2.2.3
       less:
-        specifier: 4.6.6
-        version: 4.6.6
+        specifier: 4.6.7
+        version: 4.6.7
       mime-types:
         specifier: 2.1.35
         version: 2.1.35
@@ -11372,8 +11372,8 @@ packages:
     engines: {node: '>=18'}
     hasBin: true
 
-  less@4.6.6:
-    resolution: {integrity: sha512-ooPSwQGQ2sVe8Dh1jVsbKKsRR2gd8lFK72BDkeSzjnD1T5aIHL65hCMfO0GVmtriKgDKrQv6xp9UrihUsWuAzA==}
+  less@4.6.7:
+    resolution: {integrity: sha512-o3UxHBPPVY1HtCXx15/z1NlknQiWyafRNbtLEv+6xFaDRI2g2xPKIH43do9dSwt8bGLTsjNSaifa48N3d6odsQ==}
     engines: {node: '>=18'}
     hasBin: true
 
@@ -23274,7 +23274,7 @@ snapshots:
       needle: 3.3.1
       source-map: 0.6.1
 
-  less@4.6.6:
+  less@4.6.7:
     dependencies:
       copy-anything: 3.0.5
       parse-node-version: 1.0.1
