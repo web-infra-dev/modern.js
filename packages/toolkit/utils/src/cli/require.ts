@@ -1,7 +1,51 @@
-import { isAbsolute } from 'node:path';
+import { randomUUID } from 'node:crypto';
+import { promises as fs } from 'node:fs';
+import { basename, dirname, extname, isAbsolute, join } from 'node:path';
 import { pathToFileURL } from 'node:url';
 import { moduleResolve } from 'import-meta-resolve';
 import { findExists } from './fs';
+const RSPACK_CHUNK_IMPORT_RE =
+  /import\("\.\/"\s*\+\s*__webpack_require__\.u\(chunkId\)\)/g;
+const DEV_BUNDLE_TEMP_MARKER = '.__modern_dev__.';
+let patchedBundleCounter = 0;
+
+function patchRspackChunkImports(bundleContent: string, timestamp: string) {
+  return bundleContent.replace(
+    RSPACK_CHUNK_IMPORT_RE,
+    `import("./" + __webpack_require__.u(chunkId) + "?t=${timestamp}")`,
+  );
+}
+
+export function createPatchedBundlePath(path: string, timestamp: string) {
+  const extension = extname(path);
+  const filename = basename(path, extension);
+  patchedBundleCounter += 1;
+  const uniqueSuffix = `${process.pid}.${patchedBundleCounter}.${randomUUID()}`;
+
+  return join(
+    dirname(path),
+    `${filename}${DEV_BUNDLE_TEMP_MARKER}${timestamp}.${uniqueSuffix}${extension}`,
+  );
+}
+
+async function importPatchedBundle(path: string, timestamp: string) {
+  const originalBundle = await fs.readFile(path, 'utf-8');
+  const patchedBundle = patchRspackChunkImports(originalBundle, timestamp);
+
+  if (patchedBundle === originalBundle) {
+    return importPath(path);
+  }
+
+  const tempBundlePath = createPatchedBundlePath(path, timestamp);
+
+  await fs.writeFile(tempBundlePath, patchedBundle);
+
+  try {
+    return await importPath(tempBundlePath);
+  } finally {
+    await fs.unlink(tempBundlePath).catch(() => undefined);
+  }
+}
 
 async function importPath(path: string, options?: any) {
   const modulePath = isAbsolute(path) ? pathToFileURL(path).href : path;
@@ -30,6 +74,13 @@ async function compatibleRequireESM(
       with: { type: 'json' },
     });
     return res.default;
+  }
+
+  if (process.env.NODE_ENV === 'development') {
+    const timestamp = Date.now().toString();
+    const module = await importPatchedBundle(path, timestamp);
+
+    return interop ? module.default : module;
   }
 
   const requiredModule = await importPath(path);
