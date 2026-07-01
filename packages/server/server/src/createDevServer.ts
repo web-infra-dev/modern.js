@@ -5,6 +5,7 @@ import {
   createNodeServer,
   loadServerRuntimeConfig,
 } from '@modern-js/server-core/node';
+import { logger } from '@modern-js/utils';
 import { devRuntimeMiddlewarePlugin, setupDevInfra } from './dev';
 import {
   type ReloadableHandle,
@@ -113,8 +114,23 @@ export async function createDevServer(
     return runtimeServer.handle;
   };
 
+  // Files changed since the last completed reload. The debounced reload
+  // coalesces several changes into one rebuild, so we collect them here and
+  // report them in a single success log (a bundler-free reload — e.g. a
+  // config/mock or modern.server.ts change — otherwise prints nothing).
+  const pendingReloadFiles = new Set<string>();
+
   const reloadManager = createReloadManager({
     build: buildRuntimeServer,
+    onReload: () => {
+      const files = Array.from(pendingReloadFiles);
+      pendingReloadFiles.clear();
+      logger.info(
+        files.length > 0
+          ? `Server runtime reloaded (${files.join(', ')})`
+          : 'Server runtime reloaded',
+      );
+    },
   });
 
   /**
@@ -165,7 +181,10 @@ export async function createDevServer(
     // A watched user server file changed -> schedule a unified runtime reload.
     // (debounced + serial + last-write-wins; a failed build keeps the old
     // handle serving, so a syntax error never takes the dev server down.)
-    onFileChange: () => reloadManager.schedule(),
+    onFileChange: (filepath: string) => {
+      pendingReloadFiles.add(path.relative(pwd, filepath));
+      reloadManager.schedule();
+    },
     // On dev server close, stop the scheduler so a pending debounced reload
     // can't rebuild a runtime after the watcher / builder dev server are gone.
     onClose: () => reloadManager.close(),
