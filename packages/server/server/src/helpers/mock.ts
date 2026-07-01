@@ -7,7 +7,7 @@ import {
 import { connectMockMid2HonoMid } from '@modern-js/server-core/node';
 import type { NextFunction } from '@modern-js/types';
 import type { NodeRequest, NodeResponse } from '@modern-js/types/server';
-import { fs } from '@modern-js/utils';
+import { fs, compatibleRequire } from '@modern-js/utils';
 import { match } from 'path-to-regexp';
 /** Types: Mock  */
 type MockHandler =
@@ -86,8 +86,17 @@ const getMockModule = async (
     return undefined;
   }
 
-  const { default: mockHandlers, config } = (await import(
-    mockFilePath
+  // Load through compatibleRequire (the same loader BFF API handlers use), not
+  // a raw `import()`:
+  // - it resolves `.ts` via the CJS require + ts-node/swc hook, so users can
+  //   author mocks in TypeScript (a native `import('*.ts')` throws
+  //   ERR_UNKNOWN_FILE_EXTENSION);
+  // - in dev the runtime reload re-reads the module fresh — the watcher busts
+  //   the require cache for the changed file, so `require()` returns the new
+  //   content (a raw `import()` would be served stale from the ESM URL cache).
+  const { default: mockHandlers, config } = (await compatibleRequire(
+    mockFilePath,
+    false,
   )) as MockModule;
 
   const enable = config?.enable as
