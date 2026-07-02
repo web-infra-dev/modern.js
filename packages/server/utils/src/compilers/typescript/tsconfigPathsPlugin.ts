@@ -82,7 +82,7 @@ const isDynamicImport = (
   );
 };
 
-export function tsconfigPathsBeforeHookFactory(
+export function tsconfigPathsTransformersFactory(
   tsBinary: typeof ts,
   baseUrl: string,
   paths: Record<string, string[] | string>,
@@ -125,7 +125,7 @@ export function tsconfigPathsBeforeHookFactory(
     return undefined;
   }
 
-  return (ctx: ts.TransformationContext): ts.Transformer<any> => {
+  const before = (ctx: ts.TransformationContext): ts.Transformer<any> => {
     return (sf: ts.SourceFile) => {
       const visitNode = (node: ts.Node): ts.Node => {
         if (isDynamicImport(tsBinary, node)) {
@@ -201,6 +201,91 @@ export function tsconfigPathsBeforeHookFactory(
       return tsBinary.visitNode(sf, visitNode);
     };
   };
+
+  // Declaration emit keeps the module specifiers exactly as authored (TypeScript
+  // never resolves `paths` there, see microsoft/TypeScript#30952), so the same
+  // alias rewrite must run on the declaration output. Two differences from the
+  // JS transform: nodes are synthesized without source positions (specifiers
+  // must be read via `.text`, not `getText()`), and inline `import("...")`
+  // types appear as ImportTypeNode instead of dynamic-import CallExpression.
+  // `moduleType` is intentionally not forwarded: declaration specifiers stay
+  // extensionless and relative specifiers are already correct as emitted.
+  const afterDeclarations = (
+    ctx: ts.TransformationContext,
+  ): ts.Transformer<ts.SourceFile | ts.Bundle> => {
+    return sourceFile => {
+      if (!tsBinary.isSourceFile(sourceFile)) {
+        return sourceFile;
+      }
+      const visitNode = (node: ts.Node): ts.Node => {
+        if (tsBinary.isImportTypeNode(node)) {
+          const literal = node.argument;
+          let importTypeNode: ts.Node = node;
+          if (
+            tsBinary.isLiteralTypeNode(literal) &&
+            tsBinary.isStringLiteral(literal.literal)
+          ) {
+            const result = getNotAliasedPath(
+              sourceFile,
+              matchPath,
+              literal.literal.text,
+            );
+            if (result) {
+              importTypeNode = ctx.factory.updateImportTypeNode(
+                node,
+                ctx.factory.createLiteralTypeNode(
+                  ctx.factory.createStringLiteral(result),
+                ),
+                // TS >= 5.3 names this `attributes`; earlier 5.x `assertions`.
+                (node as any).attributes ?? (node as any).assertions,
+                node.qualifier,
+                node.typeArguments,
+                node.isTypeOf,
+              );
+            }
+          }
+          return tsBinary.visitEachChild(importTypeNode, visitNode, ctx);
+        }
+        if (
+          (tsBinary.isImportDeclaration(node) ||
+            tsBinary.isExportDeclaration(node)) &&
+          node.moduleSpecifier &&
+          tsBinary.isStringLiteral(node.moduleSpecifier)
+        ) {
+          const result = getNotAliasedPath(
+            sourceFile,
+            matchPath,
+            node.moduleSpecifier.text,
+          );
+          if (!result) {
+            return node;
+          }
+          const moduleSpecifier = ctx.factory.createStringLiteral(result);
+          if (tsBinary.isImportDeclaration(node)) {
+            return ctx.factory.updateImportDeclaration(
+              node,
+              node.modifiers,
+              node.importClause,
+              moduleSpecifier,
+              node.assertClause,
+            );
+          }
+          return ctx.factory.updateExportDeclaration(
+            node,
+            node.modifiers,
+            node.isTypeOnly,
+            node.exportClause,
+            moduleSpecifier,
+            node.assertClause,
+          );
+        }
+        return tsBinary.visitEachChild(node, visitNode, ctx);
+      };
+      return tsBinary.visitEachChild(sourceFile, visitNode, ctx);
+    };
+  };
+
+  return { before, afterDeclarations };
 }
 
 function getNotAliasedPath(

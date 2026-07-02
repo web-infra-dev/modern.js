@@ -100,4 +100,42 @@ describe('typescript', () => {
       await fs.remove(distDir);
     }
   });
+
+  it('rewrites path aliases in emitted declarations', async () => {
+    const example = path.join(__dirname, './fixtures', './ts-example');
+    const tsconfigPath = path.join(example, './tsconfig.declaration.json');
+    const distDir = path.join(example, './dist-declaration');
+    const sharedDir = path.join(example, './shared');
+    const apiDir = path.join(example, './api');
+    const serverDir = path.join(example, './server');
+
+    try {
+      await compile(
+        example,
+        {
+          alias: {
+            '@modern-js/runtime/server': path.join(
+              sharedDir,
+              './runtime/server',
+            ),
+          },
+        } as any,
+        {
+          sourceDirs: [sharedDir, apiDir, serverDir],
+          distDir,
+          tsconfigPath,
+        },
+      );
+
+      const declaration = (
+        await fs.readFile(path.join(distDir, './api/declaration.d.ts'))
+      ).toString();
+
+      expect(declaration).toContain(`from "../shared/index"`);
+      expect(declaration).toContain(`import("../shared/index")`);
+      expect(declaration).not.toContain('@shared');
+    } finally {
+      await fs.remove(distDir);
+    }
+  });
 });

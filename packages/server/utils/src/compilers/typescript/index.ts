@@ -3,7 +3,7 @@ import { fs, getAliasConfig, logger } from '@modern-js/utils';
 import type { ParseConfigFileHost, Program } from 'typescript';
 import type ts from 'typescript';
 import type { CompileFunc } from '../../common';
-import { tsconfigPathsBeforeHookFactory } from './tsconfigPathsPlugin';
+import { tsconfigPathsTransformersFactory } from './tsconfigPathsPlugin';
 import { TypescriptLoader } from './typescriptLoader';
 
 const readTsConfigByFile = (tsConfigFile: string, tsInstance: typeof ts) => {
@@ -79,16 +79,23 @@ export const compileByTs: CompileFunc = async (
     },
   });
 
-  const tsconfigPathsPlugin = tsconfigPathsBeforeHookFactory(
+  const tsconfigPathsTransformers = tsconfigPathsTransformersFactory(
     ts,
     absoluteBaseUrl,
     paths,
     compileOptions.moduleType,
   );
 
-  const emitResult = program.emit(undefined, undefined, undefined, undefined, {
-    before: [tsconfigPathsPlugin!],
-  });
+  const emitResult = program.emit(
+    undefined,
+    undefined,
+    undefined,
+    undefined,
+    tsconfigPathsTransformers && {
+      before: [tsconfigPathsTransformers.before],
+      afterDeclarations: [tsconfigPathsTransformers.afterDeclarations],
+    },
+  );
 
   const allDiagnostics = ts
     .getPreEmitDiagnostics(program as unknown as Program)
