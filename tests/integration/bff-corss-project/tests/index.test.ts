@@ -1,4 +1,5 @@
 import dns from 'node:dns';
+import fs from 'node:fs';
 import path from 'path';
 import puppeteer, { type Browser, type Page } from 'puppeteer';
 import {
@@ -155,6 +156,49 @@ describe('corss project bff', () => {
         port: apiPort,
         prefix,
       });
+    });
+
+    test('generated client declarations are portable', () => {
+      const clientDir = path.join(apiAppDir, 'dist-1', 'client');
+      const declarations: string[] = [];
+      const walk = (dir: string) => {
+        for (const entry of fs.readdirSync(dir, { withFileTypes: true })) {
+          const full = path.join(dir, entry.name);
+          if (entry.isDirectory()) {
+            walk(full);
+          } else if (entry.name.endsWith('.d.ts')) {
+            declarations.push(full);
+          }
+        }
+      };
+      walk(clientDir);
+      expect(declarations.length).toBeGreaterThan(0);
+
+      const specifierRegex =
+        /(?:\bfrom\s*|\bimport\(\s*|\brequire\(\s*)(['"])([^'"]+)\1/g;
+      for (const file of declarations) {
+        const content = fs.readFileSync(file, 'utf8');
+        for (const match of content.matchAll(specifierRegex)) {
+          const specifier = match[2];
+          // tsconfig path aliases must not leak into published declarations
+          expect(specifier).not.toMatch(/^@(shared|api)\//);
+          // every relative specifier must resolve inside the dist tree
+          if (specifier.startsWith('.')) {
+            const target = path.resolve(path.dirname(file), specifier);
+            const resolved = [
+              `${target}.d.ts`,
+              path.join(target, 'index.d.ts'),
+            ].some(candidate => fs.existsSync(candidate));
+            expect(`${specifier}:${resolved}`).toBe(`${specifier}:true`);
+          }
+        }
+      }
+
+      const indexClient = fs.readFileSync(
+        path.join(clientDir, 'index.d.ts'),
+        'utf8',
+      );
+      expect(indexClient).toContain('../shared/index');
     });
 
     test('basic usage', async () => {
