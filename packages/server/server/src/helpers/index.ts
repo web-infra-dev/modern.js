@@ -1,62 +1,19 @@
 import path from 'path';
-import {
-  AGGRED_DIR,
-  type FileChangeEvent,
-  type ServerBase,
-} from '@modern-js/server-core';
+import { AGGRED_DIR } from '@modern-js/server-core';
 import {
   SERVER_BUNDLE_DIRECTORY,
   SERVER_DIR,
   type WatchOptions,
-  logger,
 } from '@modern-js/utils';
 import Watcher, {
   type WatchEvent,
   mergeWatchOptions,
 } from '../dev-tools/watcher';
-import { initOrUpdateMockMiddlewares } from './mock';
-import { debug } from './utils';
 
 export * from './repack';
 export * from './devOptions';
 export * from './fileReader';
 export * from './mock';
-
-async function onServerChange({
-  pwd,
-  filepath,
-  event,
-  server,
-}: {
-  pwd: string;
-  filepath: string;
-  event: WatchEvent;
-  server: ServerBase;
-}) {
-  const { mock } = AGGRED_DIR;
-  const mockPath = path.normalize(path.join(pwd, mock));
-
-  const { hooks } = server;
-  if (filepath.startsWith(mockPath)) {
-    await initOrUpdateMockMiddlewares(pwd);
-    logger.info('Finish update the mock handlers');
-  } else {
-    try {
-      const fileChangeEvent: FileChangeEvent = {
-        type: 'file-change',
-        payload: [{ filename: filepath, event }],
-      };
-
-      // TODO: should update to new api in next major version, do not use serverBase.hooks
-      await hooks.onReset.call({
-        event: fileChangeEvent,
-      });
-      debug(`Finish reload server, trigger by ${filepath} ${event}`);
-    } catch (e) {
-      logger.error(e as Error);
-    }
-  }
-}
 
 export function startWatcher({
   pwd,
@@ -64,14 +21,19 @@ export function startWatcher({
   apiDir,
   sharedDir,
   watchOptions,
-  server,
+  onChange,
 }: {
   pwd: string;
   distDir: string;
   apiDir: string;
   sharedDir: string;
   watchOptions?: WatchOptions;
-  server: ServerBase;
+  /**
+   * Called after the require cache for a changed user server file has been
+   * busted, so the next runtime build re-imports fresh code. Server loader
+   * bundles are handled inline (cache drop only) and never reach this.
+   */
+  onChange: (filepath: string, event: WatchEvent) => void;
 }) {
   const { mock } = AGGRED_DIR;
   const defaultWatched = [
@@ -92,21 +54,19 @@ export function startWatcher({
   const watcher = new Watcher();
   watcher.createDepTree();
   watcher.listen(defaultWatchedPaths, mergedWatchOptions, (filepath, event) => {
-    // TODO: should delete this cache in onRepack
+    // Server loader bundles are re-read per request via the file reader; just
+    // drop the stale require cache, no runtime reload needed.
     if (filepath.includes('-server-loaders.js')) {
       delete require.cache[filepath];
       return;
-    } else {
-      watcher.updateDepTree();
-      watcher.cleanDepCache(filepath);
     }
 
-    onServerChange({
-      pwd,
-      filepath,
-      event,
-      server,
-    });
+    // Bust the require cache for the changed module and its parents (incl.
+    // modern.server.ts when it or one of its deps changes) so the next runtime
+    // build re-imports fresh code, then trigger a unified runtime reload.
+    watcher.updateDepTree();
+    watcher.cleanDepCache(filepath);
+    onChange(filepath, event);
   });
 
   return watcher;

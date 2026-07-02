@@ -9,10 +9,6 @@ import { HonoAdapter } from './runtime/hono/adapter';
 type SF = (args: any) => void;
 class Storage {
   public middlewares: SF[] = [];
-
-  reset() {
-    this.middlewares = [];
-  }
 }
 
 export default (): ServerPlugin => ({
@@ -77,30 +73,26 @@ export default (): ServerPlugin => ({
         });
       }
 
-      honoAdapter.registerMiddleware({
-        prefix,
-        enableHandleWeb,
-      });
+      // Await: this is the sole BFF Hono registration entry, and onPrepare must
+      // finish pushing routes before ServerBase#applyMiddlewares runs.
+      await honoAdapter.registerMiddleware();
     });
+    // This plugin's own routes are re-registered from scratch on every unified
+    // runtime reload, so no BFF-local route rebuild is needed here. But the
+    // public `file-change` onReset signal is emitted on the LIVE runtime BEFORE
+    // that debounced rebuild runs, and downstream server plugins may re-register
+    // their BFF handlers from `appContext.apiHandlerInfos` inside their own
+    // onReset handler. So we refresh apiHandlerInfos into the server context on
+    // file-change, keeping the contract that this value is fresh when onReset
+    // fires — otherwise those consumers would re-register with stale handlers.
     api.onReset(async ({ event }) => {
-      storage.reset();
-      const appContext = api.getServerContext();
-      const { middlewares } = storage;
-      api.updateServerContext({
-        ...appContext,
-        apiMiddlewares: middlewares,
-      });
-
-      if (event.type === 'file-change') {
-        const apiHandlerInfos = await apiRouter.getApiHandlers();
+      if (event.type === 'file-change' && apiRouter) {
         const appContext = api.getServerContext();
+        const apiHandlerInfos = await apiRouter.getApiHandlers();
         api.updateServerContext({
           ...appContext,
           apiHandlerInfos,
         });
-
-        await honoAdapter.setHandlers();
-        await honoAdapter.registerApiRoutes();
       }
     });
     api.prepareApiServer((async (input: any, next: any) => {
