@@ -1,5 +1,25 @@
 # @modern-js/runtime
 
+## 2.71.1
+
+### Patch Changes
+
+- 9b44e82: fix(runtime): string-mode SSR no longer drops a route's stylesheet when the same CSS is referenced by a non-stylesheet `<link>` (e.g. `<link rel="prefetch">`)
+
+  `LoadableCollector.emitStyleAssets` (string SSR) deduped injected route stylesheets against every `<link href>` in the template, so a `<link rel="prefetch">` for the same css URL (e.g. from `performance.prefetch`) made the real `<link rel="stylesheet">` be skipped and the route rendered unstyled. It now reuses the shared `hasStylesheetLink` helper (also used by streaming SSR), which only matches existing `<link rel="stylesheet">` tags.
+
+- 192de27: fix(runtime): streaming SSR no longer skips route stylesheets when the same CSS URL already appears as a non-stylesheet `<link>` such as `rel="prefetch"`
+
+  fix(runtime): 流式 SSR 不再因为同一 CSS URL 已作为 `rel="prefetch"` 等非 stylesheet `<link>` 出现在模板中而跳过路由样式注入
+
+  - @modern-js/plugin-data-loader@2.71.1
+  - @modern-js/render@2.71.1
+  - @modern-js/plugin@2.71.1
+  - @modern-js/plugin-v2@2.71.1
+  - @modern-js/runtime-utils@2.71.1
+  - @modern-js/types@2.71.1
+  - @modern-js/utils@2.71.1
+
 ## 2.71.0
 
 ### Minor Changes
