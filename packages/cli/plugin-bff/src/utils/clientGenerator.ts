@@ -212,9 +212,40 @@ async function setPackage(
   }
 }
 
-export async function copyFiles(from: string, to: string) {
+const RELATIVE_SPECIFIER =
+  /(\bfrom\s*|\bimport\(\s*|\brequire\(\s*)(['"])(\.\.?\/[^'"]*)\2/g;
+
+// The generated client mirrors the handler's declaration but lives one
+// directory shallower (`dist/client/*` vs `dist/<lambda>/*`), so the relative
+// specifiers TypeScript emitted for the origin file must be re-based to keep
+// resolving from the copy's location.
+export function rebaseDeclarationSpecifiers(
+  source: string,
+  fromDir: string,
+  toDir: string,
+) {
+  return source.replace(
+    RELATIVE_SPECIFIER,
+    (_match, lead, quote, specifier) => {
+      const target = path.resolve(fromDir, specifier);
+      const relative = toPosixPath(path.relative(toDir, target));
+      const rebased = relative.startsWith('.') ? relative : `./${relative}`;
+      return `${lead}${quote}${rebased}${quote}`;
+    },
+  );
+}
+
+async function copyDeclarationFile(from: string, to: string) {
   if (await fs.pathExists(from)) {
-    await fs.copy(toPosixPath(from), toPosixPath(to));
+    const source = await fs.readFile(from, 'utf8');
+    await fs.outputFile(
+      to,
+      rebaseDeclarationSpecifiers(
+        source,
+        path.dirname(path.resolve(from)),
+        path.dirname(path.resolve(to)),
+      ),
+    );
   }
 }
 
@@ -264,9 +295,9 @@ async function clientGenerator(draftOptions: APILoaderOptions) {
       const code = await getClitentCode(source.resourcePath, source.source);
       if (code?.value) {
         await writeTargetFile(source.absTargetDir, code.value);
-        await copyFiles(
+        await copyDeclarationFile(
           source.relativeTargetDistDir,
-          source.targetDir.replace(`js`, 'd.ts'),
+          source.targetDir.replace(/\.js$/, '.d.ts'),
         );
       }
     }
