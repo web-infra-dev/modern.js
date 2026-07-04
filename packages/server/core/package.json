@@ -89,7 +89,7 @@
     "@types/cloneable-readable": "^2.0.3",
     "@types/merge-deep": "^3.0.3",
     "@types/node": "^20",
-    "http-proxy-middleware": "^2.0.9",
+    "http-proxy-middleware": "^2.0.10",
     "typescript": "^5"
   },
   "sideEffects": false,
