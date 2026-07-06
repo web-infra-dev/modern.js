@@ -48,7 +48,7 @@
     "@swc/core": "1.15.41",
     "@swc/helpers": "^0.5.17",
     "autoprefixer": "10.4.27",
-    "browserslist": "4.28.2",
+    "browserslist": "4.28.4",
     "core-js": "^3.48.0",
     "cssnano": "6.1.2",
     "html-minifier-terser": "^7.2.0",
