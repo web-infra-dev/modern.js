@@ -949,7 +949,7 @@ importers:
         specifier: ^20
         version: 20.19.27
       http-proxy-middleware:
-        specifier: ^2.0.9
+        specifier: ^2.0.10
         version: 2.0.10(@types/express@4.17.25)
       typescript:
         specifier: ^5
@@ -1527,7 +1527,7 @@ importers:
         specifier: ^20
         version: 20.19.27
       http-proxy-middleware:
-        specifier: ^2.0.9
+        specifier: ^2.0.10
         version: 2.0.10(@types/express@4.17.25)
       type-fest:
         specifier: 2.19.0
@@ -16675,7 +16675,7 @@ snapshots:
 
   '@jest/pattern@30.4.0':
     dependencies:
-      '@types/node': 25.9.1
+      '@types/node': 20.19.27
       jest-regex-util: 30.4.0
 
   '@jest/schemas@30.0.5':
@@ -16692,7 +16692,7 @@ snapshots:
       '@jest/schemas': 30.4.1
       '@types/istanbul-lib-coverage': 2.0.6
       '@types/istanbul-reports': 3.0.4
-      '@types/node': 25.9.1
+      '@types/node': 20.19.27
       '@types/yargs': 17.0.35
       chalk: 4.1.2
 
@@ -23029,7 +23029,7 @@ snapshots:
   jest-util@30.4.1:
     dependencies:
       '@jest/types': 30.4.1
-      '@types/node': 25.9.1
+      '@types/node': 20.19.27
       chalk: 4.1.2
       ci-info: 4.4.0
       graceful-fs: 4.2.11

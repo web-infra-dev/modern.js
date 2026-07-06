@@ -40,7 +40,7 @@
   "devDependencies": {
     "@types/babel__core": "^7.20.5",
     "@types/node": "^20",
-    "http-proxy-middleware": "^2.0.9",
+    "http-proxy-middleware": "^2.0.10",
     "type-fest": "2.19.0"
   },
   "sideEffects": false,
