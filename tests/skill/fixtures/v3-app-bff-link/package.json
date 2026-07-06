@@ -1,5 +1,5 @@
 {
   "name": "v3-app-bff-link",
-  "dependencies": { "@modern-js/runtime": "link:../../packages/runtime", "react": "^19.2.3" },
+  "dependencies": { "@modern-js/runtime": "link:../../packages/runtime", "react": "^19.2.7" },
   "devDependencies": { "@modern-js/app-tools": "link:../../packages/solutions/app-tools" }
 }

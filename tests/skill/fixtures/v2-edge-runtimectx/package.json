@@ -1,5 +1,5 @@
 {
   "name": "v2-edge-runtimectx",
-  "dependencies": { "@modern-js/runtime": "2.60.0", "react": "^18.2.0" },
+  "dependencies": { "@modern-js/runtime": "2.60.0", "react": "^18.3.1" },
   "devDependencies": { "@modern-js/app-tools": "2.60.0" }
 }

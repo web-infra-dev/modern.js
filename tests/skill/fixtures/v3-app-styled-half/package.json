@@ -11,8 +11,8 @@
   },
   "dependencies": {
     "@modern-js/runtime": "3.0.0",
-    "react": "^19.2.3",
-    "react-dom": "^19.2.0",
+    "react": "^19.2.7",
+    "react-dom": "^19.2.7",
     "@modern-js/plugin-styled-components": "3.0.0"
   },
   "devDependencies": {
