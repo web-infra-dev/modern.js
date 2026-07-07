@@ -1,7 +1,11 @@
 import path from 'path';
-import { type GenClientOptions, generateClient } from '@modern-js/bff-core';
+import {
+  API_FILE_RULES,
+  type GenClientOptions,
+  generateClient,
+} from '@modern-js/bff-core';
 import type { HttpMethodDecider } from '@modern-js/types';
-import { fs, logger } from '@modern-js/utils';
+import { fs, globby, logger } from '@modern-js/utils';
 
 export type APILoaderOptions = {
   prefix: string;
@@ -43,54 +47,49 @@ export async function readDirectoryFiles(
 ): Promise<FileDetails[]> {
   const filesList: FileDetails[] = [];
 
-  async function readFiles(currentPath: string): Promise<void> {
-    const entries = await fs.readdir(currentPath, { withFileTypes: true });
+  // Scan with the same rules as ApiRouter so stray artifacts sitting next to
+  // lambda sources (d.ts, test files, _private files) are never treated as
+  // api modules — loading e.g. a .d.ts through the client generator crashes
+  // with "Debug Failure. Output generation failed".
+  const resourcePaths = globby
+    .sync(API_FILE_RULES, { cwd: directory, gitignore: true })
+    .map(file => path.resolve(directory, file));
 
-    for (const entry of entries) {
-      if (entry.name === '_app.ts') continue;
+  for (const resourcePath of resourcePaths) {
+    const source = await fs.readFile(resourcePath, 'utf8');
+    const relativePath = path.relative(directory, resourcePath);
+    const parsedPath = path.parse(relativePath);
 
-      const resourcePath = path.join(currentPath, entry.name);
+    const targetDir = posixJoin(
+      `./${relativeDistPath}/${CLIENT_DIR}`,
+      parsedPath.dir,
+      `${parsedPath.name}.js`,
+    );
+    const name = parsedPath.name;
+    const absTargetDir = path.resolve(targetDir);
+    const relativePathFromAppDirectory = path.relative(
+      appDirectory,
+      path.dirname(resourcePath),
+    );
+    const typesFilePath = posixJoin(
+      `./${relativeDistPath}`,
+      relativePathFromAppDirectory,
+      `${name}.d.ts`,
+    );
+    const relativeTargetDistDir = `./${typesFilePath}`;
+    const exportKey = toPosixPath(path.join(parsedPath.dir, name));
 
-      if (entry.isDirectory()) {
-        await readFiles(resourcePath);
-      } else {
-        const source = await fs.readFile(resourcePath, 'utf8');
-        const relativePath = path.relative(directory, resourcePath);
-        const parsedPath = path.parse(relativePath);
-
-        const targetDir = posixJoin(
-          `./${relativeDistPath}/${CLIENT_DIR}`,
-          parsedPath.dir,
-          `${parsedPath.name}.js`,
-        );
-        const name = parsedPath.name;
-        const absTargetDir = path.resolve(targetDir);
-        const relativePathFromAppDirectory = path.relative(
-          appDirectory,
-          currentPath,
-        );
-        const typesFilePath = posixJoin(
-          `./${relativeDistPath}`,
-          relativePathFromAppDirectory,
-          `${name}.d.ts`,
-        );
-        const relativeTargetDistDir = `./${typesFilePath}`;
-        const exportKey = toPosixPath(path.join(parsedPath.dir, name));
-
-        filesList.push({
-          resourcePath,
-          source,
-          targetDir,
-          name,
-          absTargetDir,
-          relativeTargetDistDir,
-          exportKey,
-        });
-      }
-    }
+    filesList.push({
+      resourcePath,
+      source,
+      targetDir,
+      name,
+      absTargetDir,
+      relativeTargetDistDir,
+      exportKey,
+    });
   }
 
-  await readFiles(directory);
   return filesList;
 }
 
