@@ -4,6 +4,7 @@ import type {
   ToolsNormalizedConfig,
 } from '@modern-js/server-core';
 import { fs } from '@modern-js/utils';
+import type ts from 'typescript';
 
 export interface Pattern {
   from: string;
@@ -18,12 +19,22 @@ export interface IConfig {
   };
 }
 
+export type DeclarationTransformerFactory = (
+  tsInstance: typeof ts,
+) => ts.TransformerFactory<ts.SourceFile | ts.Bundle>;
+
 export interface CompileOptions {
   sourceDirs: string[];
   distDir: string;
   tsconfigPath?: string;
   moduleType?: 'module' | 'commonjs';
   throwErrorInsteadOfExit?: boolean;
+  /**
+   * Custom transformers applied to declaration emit (tsc
+   * `afterDeclarations`), so callers can shape the generated d.ts at the
+   * point it is produced.
+   */
+  declarationTransformers?: DeclarationTransformerFactory[];
 }
 
 export type CompileFunc = (

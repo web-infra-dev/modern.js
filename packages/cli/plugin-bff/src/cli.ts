@@ -16,10 +16,15 @@ import {
 } from '@modern-js/utils';
 import type { ConfigChain } from '@rsbuild/core';
 import clientGenerator from './utils/clientGenerator';
+import { createImportTypeRetargetTransformer } from './utils/clientTypesTransformer';
 import pluginGenerator from './utils/pluginGenerator';
 import runtimeGenerator from './utils/runtimeGenerator';
 
 const RUNTIME_CREATE_REQUEST = '@modern-js/plugin-bff/client';
+// The package that declares the server-side api types (kept in lockstep with
+// the `@modern-js/bff-core` import above — renaming the package breaks that
+// import loudly, which forces this constant to be updated with it).
+const BFF_CORE_PACKAGE = '@modern-js/bff-core';
 
 export const bffPlugin = (): CliPlugin<AppTools> => ({
   name: '@modern-js/plugin-bff',
@@ -55,6 +60,8 @@ export const bffPlugin = (): CliPlugin<AppTools> => ({
       const { server } = modernConfig;
       const { alias } = modernConfig.source;
       const { alias: resolveAlias } = modernConfig.resolve;
+      const clientTypesPackage = (modernConfig?.bff as any)
+        ?.clientTypesPackage as string | undefined;
 
       if (sourceDirs.length > 0) {
         const combinedAlias = ([] as unknown[])
@@ -72,6 +79,17 @@ export const bffPlugin = (): CliPlugin<AppTools> => ({
             tsconfigPath,
             moduleType,
             throwErrorInsteadOfExit: true,
+            // Internal, injected into the normalized config by upper-layer
+            // frameworks (same convention as `requestCreator` /
+            // `runtimeCreateRequest`); not part of the public bff config.
+            declarationTransformers: clientTypesPackage
+              ? [
+                  createImportTypeRetargetTransformer(
+                    BFF_CORE_PACKAGE,
+                    clientTypesPackage,
+                  ),
+                ]
+              : undefined,
           },
         );
       }

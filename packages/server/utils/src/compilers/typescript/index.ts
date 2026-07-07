@@ -88,6 +88,9 @@ export const compileByTs: CompileFunc = async (
 
   const emitResult = program.emit(undefined, undefined, undefined, undefined, {
     before: [tsconfigPathsPlugin!],
+    afterDeclarations: compileOptions.declarationTransformers?.map(factory =>
+      factory(ts),
+    ),
   });
 
   const allDiagnostics = ts
