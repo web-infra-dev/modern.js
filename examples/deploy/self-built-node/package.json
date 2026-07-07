@@ -1,0 +1,36 @@
+{
+  "name": "@examples/self-built-node",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "reset": "npx rimraf node_modules ./**/node_modules",
+    "dev": "modern dev",
+    "build": "modern build",
+    "start": "modern start",
+    "serve": "modern serve",
+    "lint": "biome check",
+    "deploy": "modern deploy"
+  },
+  "engines": {
+    "node": ">=20.19.5"
+  },
+  "dependencies": {
+    "@modern-js/runtime": "latest",
+    "@types/koa": "^2.15.0",
+    "koa": "^2.15.3",
+    "mime-types": "^2.1.35",
+    "react": "^19.2.7",
+    "react-dom": "^19.2.7"
+  },
+  "devDependencies": {
+    "@biomejs/biome": "1.8.3",
+    "@modern-js/app-tools": "latest",
+    "@modern-js/tsconfig": "latest",
+    "@types/jest": "~29.2.4",
+    "@types/node": "^20",
+    "@types/react": "^19.2.17",
+    "@types/react-dom": "^19.2.3",
+    "rimraf": "^6.0.1",
+    "typescript": "~5.0.4"
+  }
+}
