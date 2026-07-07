@@ -1,0 +1,35 @@
+{
+  "name": "@examples/react-compiler",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "reset": "npx rimraf node_modules ./**/node_modules",
+    "dev": "modern dev",
+    "build": "modern build",
+    "start": "modern start",
+    "serve": "modern serve",
+    "lint": "biome check"
+  },
+  "engines": {
+    "node": ">=20.19.5"
+  },
+  "dependencies": {
+    "@modern-js/runtime": "latest",
+    "react": "^19.2.7",
+    "react-dom": "^19.2.7"
+  },
+  "devDependencies": {
+    "@biomejs/biome": "1.9.4",
+    "@modern-js/app-tools": "latest",
+    "@modern-js/tsconfig": "latest",
+    "@rsbuild/plugin-babel": "^1.1.2",
+    "@types/jest": "~29.2.4",
+    "@types/node": "^20",
+    "@types/react": "^19.2.17",
+    "@types/react-dom": "^19.2.3",
+    "babel-plugin-react-compiler": "^1.0.0",
+    "eslint-plugin-react-hooks": "^6.0.0-rc.1",
+    "rimraf": "^6.0.1",
+    "typescript": "~5.7.3"
+  }
+}
