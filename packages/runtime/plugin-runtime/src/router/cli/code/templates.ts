@@ -280,7 +280,11 @@ export const fileSystemRoutes = async ({
         ? `/* webpackMode: "eager" */  `
         : '';
 
-    return `() => import(${importOptions}'${componentPath}').then(routeModule => handleRouteModule(routeModule, "${routeId}")).catch(handleRouteModuleError)`;
+    return [
+      `() => import(${importOptions}'${componentPath}')`,
+      `.then(routeModule => handleRouteModule(routeModule, "${routeId}"))`,
+      `.catch(error => handleRouteModuleError(error, "${routeId}"))`,
+    ].join('');
   };
 
   const traverseRouteTree = async (
@@ -380,6 +384,13 @@ export const fileSystemRoutes = async ({
       }
     }
 
+    const routeId =
+      route.type === 'nested' ? route.id : route.path || route._component || '';
+    const finalLoader =
+      route.type === 'nested' && route.id && loader
+        ? `createRouteLoader("${route.id}", ${loader})`
+        : loader;
+
     const isClientComponent =
       route.type === 'nested' &&
       Boolean(route._component) &&
@@ -392,18 +403,25 @@ export const fileSystemRoutes = async ({
       ));
 
     const shouldIncludeClientBundle = !isRscClientBundle || isClientComponent;
+    const finalComponent =
+      shouldIncludeClientBundle && route._component && routeId
+        ? `createRouteComponent(${JSON.stringify(routeId)}, ${component})`
+        : component;
 
     const finalRoute: any = {
       ...route,
       loading,
-      loader,
+      loader: finalLoader,
       action,
       config,
       error,
       children,
       ...(isClientComponent && { isClientComponent: true }),
       ...(shouldIncludeClientBundle && { lazyImport }),
-      ...(shouldIncludeClientBundle && route._component && { component }),
+      ...(shouldIncludeClientBundle &&
+        route._component && {
+          component: finalComponent,
+        }),
     };
     /**
      * All routing components with loader will add shouldRevalidate
@@ -530,7 +548,7 @@ export const fileSystemRoutes = async ({
   await fs.writeJSON(loadersMapFile, loadersMap);
 
   const importRuntimeRouterCode = `
-    import { createShouldRevalidate, handleRouteModule,  handleRouteModuleError} from '@${metaName}/runtime/routerHelper';
+    import { createRouteComponent, createRouteLoader, createShouldRevalidate, handleRouteModule,  handleRouteModuleError} from '@${metaName}/runtime/routerHelper';
   `;
   const routeModulesCode = `
     if(typeof document !== 'undefined'){

@@ -9,6 +9,7 @@ import type {
   ExtendStringSSRCollectorsFn,
   Hooks,
   OnBeforeRenderFn,
+  OnHydrationFn,
   PickContextFn,
   StringSSRCollectorsInfo,
   WrapRootFn,
@@ -21,6 +22,7 @@ export function initHooks<RuntimeConfig, RuntimeContext>(): Hooks<
   return {
     onBeforeRender:
       createAsyncInterruptHook<OnBeforeRenderFn<RuntimeContext>>(),
+    onHydration: createSyncHook<OnHydrationFn<RuntimeContext>>(),
     wrapRoot: createSyncHook<WrapRootFn>(),
     pickContext: createSyncHook<PickContextFn<RuntimeContext>>(),
     config: createCollectSyncHook<ConfigFn<RuntimeConfig>>(),
