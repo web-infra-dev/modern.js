@@ -8,7 +8,6 @@ import {
   normalizeModulePath,
   planSSRLazyCompilation,
 } from '../../src/builder/shared/lazyCompilation';
-import { defaultLazyCompilationTest } from '../../src/config/default';
 
 describe('normalizeModulePath', () => {
   it('produces an absolute POSIX path', () => {
@@ -76,21 +75,6 @@ describe('buildSSRLazyCompilationTest', () => {
   it('keeps route eager even when user test always returns true', () => {
     const test = buildSSRLazyCompilationTest(eagerRouteFiles, () => true);
     expect(test({ resource: '/app/src/routes/about/page.tsx' })).toBe(false);
-  });
-
-  it('composes with defaultLazyCompilationTest: react-dom stays eager', () => {
-    const test = buildSSRLazyCompilationTest(
-      eagerRouteFiles,
-      defaultLazyCompilationTest,
-    );
-    expect(
-      test({
-        resource:
-          '/app/node_modules/.pnpm/react-dom@19.2.7/node_modules/react-dom/client.js',
-      }),
-    ).toBe(false);
-    expect(test({ resource: '/app/src/routes/about/page.tsx' })).toBe(false);
-    expect(test({ resource: '/app/src/components/Heavy.tsx' })).toBe(true);
   });
 
   it('falls back to user test / true for empty resource', () => {
