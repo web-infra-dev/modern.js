@@ -2,5 +2,5 @@
 '@modern-js/runtime': minor
 ---
 
-refactor: import react-dom/client statically in the browser render/hydrate entry and drop the React 17 render path (renderWithReact18/hydrateWithReact18 renamed to renderWithReact/hydrateWithReact); the react17-only IgnorePlugin for react-dom/client is removed
-refactor: 浏览器端渲染/水合入口改为静态 import react-dom/client，移除 React 17 渲染路径（renderWithReact18/hydrateWithReact18 更名为 renderWithReact/hydrateWithReact），并删除 react17 专用的 react-dom/client IgnorePlugin
+refactor: drop React 17 support in the browser runtime: react-dom/client is now imported statically in the render/hydrate entry (renderWithReact18/hydrateWithReact18 renamed to renderWithReact/hydrateWithReact), all isReact18 branches, the IS_REACT18 define and the react17-only IgnorePlugin are removed, and peerDependencies now require react/react-dom >=18
+refactor: 浏览器运行时不再支持 React 17：渲染/水合入口改为静态 import react-dom/client（renderWithReact18/hydrateWithReact18 更名为 renderWithReact/hydrateWithReact），移除所有 isReact18 分支、IS_REACT18 define 与 react17 专用 IgnorePlugin，peerDependencies 要求 react/react-dom >=18

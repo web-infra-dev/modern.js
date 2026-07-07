@@ -1,9 +1,6 @@
 import path from 'path';
 import type { AppTools, CliPlugin } from '@modern-js/app-tools';
-import {
-  isReact18 as checkIsReact18,
-  cleanRequireCache,
-} from '@modern-js/utils';
+import { cleanRequireCache } from '@modern-js/utils';
 import { documentPlugin } from '../document/cli';
 import { routerPlugin } from '../router/cli';
 import { builderPluginAlias } from './alias';
@@ -77,15 +74,8 @@ export const runtimePlugin = (params?: {
     api.config(() => {
       const { appDirectory, metaName } = api.getAppContext();
 
-      const isReact18 = checkIsReact18(appDirectory);
-
-      process.env.IS_REACT18 = isReact18.toString();
-
       return {
         source: {
-          globalVars: {
-            'process.env.IS_REACT18': process.env.IS_REACT18,
-          },
           include: [
             new RegExp(
               `[\\\\/]node_modules[\\\\/]@${metaName}[\\\\/]runtime[\\\\/].*[\\\\/]head\\.`,
