@@ -1,13 +1,12 @@
 import { SSR_HYDRATION_ID_PREFIX } from '@modern-js/utils/universal/constants';
 import cookieTool from 'cookie';
 import type React from 'react';
+import * as ReactDOM from 'react-dom/client';
 import { getGlobalInternalRuntimeContext } from '../context';
 import { type TRuntimeContext, getInitialContext } from '../context/runtime';
 import { wrapRuntimeContextProvider } from '../react/wrapper';
 import type { SSRContainer } from '../types';
 import { hydrateRoot } from './hydrate';
-
-const IS_REACT18 = process.env.IS_REACT18 === 'true';
 
 const getQuery = () =>
   window.location.search
@@ -97,16 +96,11 @@ export async function render(
         : document.getElementById(id || 'root')!;
 
     async function ModernRender(App: React.ReactElement) {
-      const renderFunc = IS_REACT18 ? renderWithReact18 : renderWithReact17;
-      return renderFunc(App, rootElement);
+      return renderWithReact(App, rootElement);
     }
 
-    async function ModernHydrate(
-      App: React.ReactElement,
-      callback?: () => void,
-    ) {
-      const hydrateFunc = IS_REACT18 ? hydrateWithReact18 : hydrateWithReact17;
-      return hydrateFunc(App, rootElement, callback);
+    async function ModernHydrate(App: React.ReactElement) {
+      return hydrateWithReact(App, rootElement);
     }
 
     // we should hydateRoot only when ssr
@@ -120,42 +114,21 @@ export async function render(
   );
 }
 
-export async function renderWithReact18(
+export async function renderWithReact(
   App: React.ReactElement,
   rootElement: HTMLElement,
 ) {
-  const ReactDOM = await import('react-dom/client');
   const root = ReactDOM.createRoot(rootElement);
   root.render(App);
   return root;
 }
 
-export async function renderWithReact17(
+export async function hydrateWithReact(
   App: React.ReactElement,
   rootElement: HTMLElement,
 ) {
-  const ReactDOM: any = await import('react-dom');
-  ReactDOM.render(App, rootElement);
-  return rootElement;
-}
-
-export async function hydrateWithReact18(
-  App: React.ReactElement,
-  rootElement: HTMLElement,
-) {
-  const ReactDOM = await import('react-dom/client');
   const root = ReactDOM.hydrateRoot(rootElement, App, {
     identifierPrefix: SSR_HYDRATION_ID_PREFIX,
   });
   return root;
-}
-
-export async function hydrateWithReact17(
-  App: React.ReactElement,
-  rootElement: HTMLElement,
-  callback?: () => void,
-) {
-  const ReactDOM: any = await import('react-dom');
-  const root = ReactDOM.hydrate(App, rootElement, callback);
-  return root as any;
 }
