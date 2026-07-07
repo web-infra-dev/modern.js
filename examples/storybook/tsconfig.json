@@ -1,0 +1,26 @@
+{
+  "extends": "@modern-js/tsconfig/base",
+  "compilerOptions": {
+    "module": "es2022",
+    "moduleResolution": "bundler",
+    "declaration": false,
+    "jsx": "preserve",
+    "types": ["node"],
+    "baseUrl": "./",
+    "allowSyntheticDefaultImports": true,
+    "paths": {
+      "@/*": ["./src/*"],
+      "@shared/*": ["./shared/*"],
+      "@api/*": ["./api/*"]
+    }
+  },
+  "include": [
+    "src",
+    "shared",
+    "config",
+    "modern.config.ts",
+    "api",
+    ".storybook/**/*"
+  ],
+  "exclude": ["**/node_modules"]
+}
