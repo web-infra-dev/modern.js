@@ -113,6 +113,22 @@ const isStreamSSRConfig = (ssr: ServerSSRConfig) => {
   return ssr.mode !== 'string';
 };
 
+// `react-dom/client` (and `react-dom` on React 17) is dynamically imported by
+// the runtime to render/hydrate on EVERY page load, so lazy-compiling it gains
+// nothing and puts a compile round-trip on the first-paint/hydration critical
+// path — under load (CI) that round-trip races page interactions and repeated
+// page loads keep re-triggering rebuilds.
+const EAGER_DYNAMIC_IMPORT_RE = /[\\/]react-dom[\\/]/;
+
+/**
+ * Default `lazyCompilation.test`: keep runtime-critical dynamic imports
+ * (react-dom) eagerly compiled, lazy-compile everything else.
+ */
+export function defaultLazyCompilationTest(module: unknown): boolean {
+  const resource = (module as { resource?: string } | null)?.resource || '';
+  return !EAGER_DYNAMIC_IMPORT_RE.test(resource);
+}
+
 /**
  * Default-enable lazy compilation for pure CSR and stream SSR. Stream SSR keeps
  * first-screen route assets correct via the route-eager lazyCompilation.test

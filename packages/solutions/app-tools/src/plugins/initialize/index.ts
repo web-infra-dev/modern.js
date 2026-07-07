@@ -6,6 +6,7 @@ import {
 } from '@modern-js/utils';
 import {
   createDefaultConfig,
+  defaultLazyCompilationTest,
   isLazyCompilationSafeByDefault,
 } from '../../config';
 import type {
@@ -40,7 +41,13 @@ export default (): CliPlugin<AppTools> => ({
       ) {
         defaultConfig.dev = {
           ...defaultConfig.dev,
-          lazyCompilation: { imports: true, entries: false },
+          lazyCompilation: {
+            imports: true,
+            entries: false,
+            // react-dom must stay eager: hydration awaits its dynamic import
+            // on every page load (see defaultLazyCompilationTest).
+            test: defaultLazyCompilationTest,
+          },
         };
       }
 

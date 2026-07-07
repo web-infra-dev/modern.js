@@ -37,10 +37,26 @@ function setupPlugin(userConfig: any): Hookable {
 describe('initialize plugin: default lazyCompilation', () => {
   it('injects { imports: true, entries: false } for CSR when user has not set it', () => {
     const { configCb } = setupPlugin({});
-    expect(configCb!().dev.lazyCompilation).toEqual({
+    expect(configCb!().dev.lazyCompilation).toMatchObject({
       imports: true,
       entries: false,
     });
+  });
+
+  it('keeps react-dom eagerly compiled via the default test', () => {
+    const { configCb } = setupPlugin({});
+    const { test } = configCb!().dev.lazyCompilation;
+    expect(
+      test({
+        resource:
+          '/app/node_modules/.pnpm/react-dom@19.2.7/node_modules/react-dom/client.js',
+      }),
+    ).toBe(false);
+    expect(test({ resource: '/app/node_modules/react-dom/index.js' })).toBe(
+      false,
+    );
+    expect(test({ resource: '/app/src/routes/page.tsx' })).toBe(true);
+    expect(test({})).toBe(true);
   });
 
   it('does not override an explicit user `false`', () => {
@@ -58,7 +74,7 @@ describe('initialize plugin: default lazyCompilation', () => {
 
   it('injects for stream SSR (ssr: true)', () => {
     const { configCb } = setupPlugin({ server: { ssr: true } });
-    expect(configCb!().dev.lazyCompilation).toEqual({
+    expect(configCb!().dev.lazyCompilation).toMatchObject({
       imports: true,
       entries: false,
     });
