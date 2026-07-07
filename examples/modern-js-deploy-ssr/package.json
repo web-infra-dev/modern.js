@@ -1,0 +1,32 @@
+{
+  "name": "@examples/modern-js-deploy-ssr",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "reset": "npx rimraf node_modules ./**/node_modules",
+    "dev": "modern dev",
+    "build": "modern build",
+    "start": "modern start",
+    "serve": "modern serve",
+    "lint": "biome check"
+  },
+  "engines": {
+    "node": ">=20.19.5"
+  },
+  "dependencies": {
+    "@modern-js/runtime": "latest",
+    "react": "^19.2.7",
+    "react-dom": "^19.2.7"
+  },
+  "devDependencies": {
+    "@modern-js/app-tools": "latest",
+    "@modern-js/tsconfig": "latest",
+    "@biomejs/biome": "1.9.4",
+    "typescript": "~5.7.3",
+    "@types/jest": "~29.2.4",
+    "@types/node": "^20",
+    "@types/react": "^19.2.17",
+    "@types/react-dom": "^19.2.3",
+    "rimraf": "^6.0.1"
+  }
+}
