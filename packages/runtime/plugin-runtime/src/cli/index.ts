@@ -76,6 +76,11 @@ export const runtimePlugin = (params?: {
 
       return {
         source: {
+          globalVars: {
+            // The runtime itself no longer reads this, but user code may.
+            // React >=18 is required now, so it is always 'true'.
+            'process.env.IS_REACT18': 'true',
+          },
           include: [
             new RegExp(
               `[\\\\/]node_modules[\\\\/]@${metaName}[\\\\/]runtime[\\\\/].*[\\\\/]head\\.`,
