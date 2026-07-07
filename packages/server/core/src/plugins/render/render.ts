@@ -80,24 +80,33 @@ function getRouter(routes: ServerRoute[]): Router<ServerRoute> {
   return router;
 }
 
-type MatchedRoute = [ServerRoute, Params];
-function matchRoute(
+type MatchedRoute = [ServerRoute | undefined, Params];
+export function matchRoute(
   router: Router<ServerRoute>,
   pathname: string,
   entryName?: string,
 ): MatchedRoute {
   const matched = router.match('*', pathname);
+  const matchedRoutes = matched[0] as ReadonlyArray<
+    readonly [ServerRoute, unknown]
+  >;
   // For route rewrite in server.ts
   // If entryName is existed and the pathname matched multiple routes, we use entryName to find the target route
-  if (entryName && matched[0].length > 1) {
-    const matches: Array<MatchedRoute> = matched[0];
-    const result = matches.find(
-      ([route]) => route.entryName === entryName,
-    ) as MatchedRoute;
-    return result || [];
+  if (entryName && matchedRoutes.length > 1) {
+    for (const [route, params] of matchedRoutes) {
+      if (route.entryName === entryName) {
+        return [route, params as Params];
+      }
+    }
+
+    return [undefined, {}];
   } else {
-    const result = matched[0][0];
-    return result || [];
+    const result = matchedRoutes[0];
+    if (!result) {
+      return [undefined, {}];
+    }
+
+    return [result[0], result[1] as Params];
   }
 }
 
