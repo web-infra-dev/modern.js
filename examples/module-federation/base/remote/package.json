@@ -1,0 +1,36 @@
+{
+  "name": "@examples/mf-base-remote",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "reset": "npx rimraf node_modules ./**/node_modules",
+    "dev": "modern dev",
+    "build": "modern build",
+    "start": "modern start",
+    "serve": "MODERN_MF_AUTO_CORS=true modern serve",
+    "lint": "biome check",
+    "lint:fix": "biome check --write"
+  },
+  "engines": {
+    "node": ">=20.19.5"
+  },
+  "dependencies": {
+    "@modern-js/runtime": "latest",
+    "react": "^19.2.7",
+    "react-dom": "^19.2.7",
+    "@module-federation/modern-js-v3": "2.0.0"
+  },
+  "devDependencies": {
+    "@biomejs/biome": "1.8.3",
+    "@modern-js/app-tools": "latest",
+    "@modern-js/tsconfig": "latest",
+    "@types/jest": "~29.2.4",
+    "@types/node": "^20",
+    "@types/react": "^19.2.17",
+    "@types/react-dom": "^19.2.3",
+    "rimraf": "^6.0.1",
+    "typescript": "~5.0.4",
+    "ts-node": "~10.8.1",
+    "tsconfig-paths": "~3.14.1"
+  }
+}
