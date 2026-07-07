@@ -1,7 +1,8 @@
 import { SSR_HYDRATION_ID_PREFIX } from '@modern-js/utils/universal/constants';
 import cookieTool from 'cookie';
 import type React from 'react';
-import * as ReactDOM from 'react-dom/client';
+// aliased because this file already has Modern's own `hydrateRoot` from './hydrate'
+import { createRoot, hydrateRoot as hydrateReactRoot } from 'react-dom/client';
 import { getGlobalInternalRuntimeContext } from '../context';
 import { type TRuntimeContext, getInitialContext } from '../context/runtime';
 import { wrapRuntimeContextProvider } from '../react/wrapper';
@@ -118,7 +119,7 @@ export async function renderWithReact(
   App: React.ReactElement,
   rootElement: HTMLElement,
 ) {
-  const root = ReactDOM.createRoot(rootElement);
+  const root = createRoot(rootElement);
   root.render(App);
   return root;
 }
@@ -127,7 +128,7 @@ export async function hydrateWithReact(
   App: React.ReactElement,
   rootElement: HTMLElement,
 ) {
-  const root = ReactDOM.hydrateRoot(rootElement, App, {
+  const root = hydrateReactRoot(rootElement, App, {
     identifierPrefix: SSR_HYDRATION_ID_PREFIX,
   });
   return root;
