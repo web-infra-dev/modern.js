@@ -1,15 +1,4 @@
-import path from 'node:path';
-import { fileURLToPath } from 'node:url';
 import type { StorybookConfig } from 'storybook-react-rsbuild';
-
-const getAbsolutePath = (value: string): any => {
-  return path.resolve(
-    fileURLToPath(
-      new URL(import.meta.resolve(`${value}/package.json`, import.meta.url)),
-    ),
-    '..',
-  );
-};
 
 const config: StorybookConfig = {
   stories: ['../src/**/*.mdx', '../src/**/*.stories.@(js|jsx|mjs|ts|tsx)'],
@@ -17,8 +6,7 @@ const config: StorybookConfig = {
     '@storybook/addon-onboarding',
     '@storybook/addon-docs',
     {
-      // For this repo, you can use `storybook-addon-modernjs` directly.
-      name: getAbsolutePath('storybook-addon-modernjs'),
+      name: 'storybook-addon-modernjs',
       options: {},
     },
   ],

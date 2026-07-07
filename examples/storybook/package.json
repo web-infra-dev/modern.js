@@ -1,0 +1,43 @@
+{
+  "private": true,
+  "name": "@examples/storybook",
+  "version": "0.0.0",
+  "scripts": {
+    "build": "modern build",
+    "build:storybook": "storybook build",
+    "dev": "modern dev",
+    "reset": "npx rimraf node_modules ./**/node_modules",
+    "serve": "modern serve",
+    "start": "modern start",
+    "dev:api": "modern dev --api-only",
+    "storybook": "BFF_PROXY=1 storybook dev -p 6006 --no-open"
+  },
+  "dependencies": {
+    "@modern-js/plugin-bff": "latest",
+    "@modern-js/runtime": "latest",
+    "@modern-js/server-runtime": "latest",
+    "antd": "^5.29.3",
+    "hono": "^4.11.7",
+    "react": "^19.2.7",
+    "react-dom": "^19.2.7",
+    "ts-node": "^10.9.2",
+    "tsconfig-paths": "3.15.0",
+    "zod": "^3.25.76"
+  },
+  "devDependencies": {
+    "@modern-js/app-tools": "latest",
+    "@modern-js/tsconfig": "latest",
+    "@rsbuild/core": "2.1.0",
+    "@rsbuild/plugin-node-polyfill": "^1.4.5",
+    "@storybook/addon-docs": "^10.2.19",
+    "@storybook/addon-onboarding": "^10.2.19",
+    "@storybook/react": "^10.2.19",
+    "@types/node": "^20",
+    "@types/react": "^19.2.17",
+    "@types/react-dom": "^19.2.3",
+    "storybook": "^10.2.19",
+    "storybook-addon-modernjs": "3.3.4",
+    "storybook-react-rsbuild": "3.3.4",
+    "typescript": "^5"
+  }
+}

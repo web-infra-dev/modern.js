@@ -1,16 +1,16 @@
 import path from 'node:path';
+import { appTools, defineConfig } from '@modern-js/app-tools';
 import { bffPlugin } from '@modern-js/plugin-bff';
-import { applyBaseConfig } from '../../utils/applyBaseConfig';
 
-export default applyBaseConfig({
+export default defineConfig({
   source: {
     alias: {
       '@my-src': path.resolve(__dirname, 'src'),
     },
   },
-  plugins: [bffPlugin()],
+  plugins: [appTools(), bffPlugin()],
   output: {
-    disableTsChecker: true, // 关闭 TypeScript 类型检查
+    disableTsChecker: true,
   },
   bff: {
     prefix: '/bff-api',
