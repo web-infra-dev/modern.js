@@ -81,32 +81,16 @@ export default {
 
 > 请参考 [@rsbuild/plugin-type-check](https://github.com/rstackjs/rsbuild-plugin-type-check) 了解更多用法。
 
-## TypeScript Go 支持
+## TypeScript 7+ 支持
 
-`tools.tsChecker` 支持开启 [TypeScript Go](https://github.com/microsoft/typescript-go) 进行类型检查。该能力由 [`@rsbuild/plugin-type-check`](https://github.com/rstackjs/rsbuild-plugin-type-check) 底层集成的 [`ts-checker-rspack-plugin`](https://github.com/rstackjs/ts-checker-rspack-plugin) 提供，目前仍处于实验阶段，可以将类型检查耗时减少约 5-10 倍。
+`tools.tsChecker` 支持使用 TypeScript 7+ 的原生检查器进行类型检查。该能力由 [`@rsbuild/plugin-type-check`](https://github.com/rstackjs/rsbuild-plugin-type-check) 底层集成的 [`ts-checker-rspack-plugin`](https://github.com/rstackjs/ts-checker-rspack-plugin) 提供，可以减少大型项目的类型检查耗时。
 
-安装 TypeScript 7.0 RC 后，TypeScript Go 会自动开启：
+安装 TypeScript >= 7.0.0 后会自动启用 `tsgo`：
 
-<PackageManagerTabs command="install typescript@rc -D" />
+<PackageManagerTabs command="install typescript@latest -D" />
 
-你也可以安装 `@typescript/native-preview`，并将 `typescript.tsgo` 设置为 `true`：
+开启 `tsgo` 后，如果手动设置 `typescript.typescriptPath`，它必须指向 TypeScript 7+ 的 `typescript/package.json` 或旧版 `@typescript/native-preview/package.json` 的绝对路径。
 
-<PackageManagerTabs command="install @typescript/native-preview -D" />
+> `@typescript/native-preview` 路径仅作为兼容保留。新项目应使用标准 `typescript` 包提供的 TypeScript 7+。
 
-```ts
-export default {
-  tools: {
-    tsChecker: {
-      typescript: {
-        tsgo: true,
-      },
-    },
-  },
-};
-```
-
-开启 `tsgo` 后，如果手动设置 `typescript.typescriptPath`，它必须指向 TypeScript 7+ 的 `typescript/package.json` 或 `@typescript/native-preview/package.json` 的绝对路径。
-
-> `@typescript/native-preview` 的用法已废弃，仅作为兼容保留。推荐安装 `typescript@rc` 使用 `tsgo`。
-
-关于 `tsgo` 模式下生效的配置项和相关限制，请参考 [ts-checker-rspack-plugin - TypeScript Go support](https://github.com/rstackjs/ts-checker-rspack-plugin#typescript-go-support)。
+关于 `tsgo` 模式下生效的配置项和相关限制，请参考 [ts-checker-rspack-plugin - TypeScript 7+ support](https://github.com/rstackjs/ts-checker-rspack-plugin#typescript-7-support)。
