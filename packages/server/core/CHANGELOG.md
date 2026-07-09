@@ -1,5 +1,16 @@
 # @modern-js/server-plugin
 
+## 3.6.0
+
+### Patch Changes
+
+- c69486b: fix: prevent path traversal in static asset middleware
+  fix: 修复静态资源中间件的路径穿越问题
+- Updated dependencies [c34b53d]
+  - @modern-js/runtime-utils@3.6.0
+  - @modern-js/plugin@3.6.0
+  - @modern-js/utils@3.6.0
+
 ## 3.5.0
 
 ### Patch Changes
