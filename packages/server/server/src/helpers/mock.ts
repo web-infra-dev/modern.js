@@ -94,10 +94,19 @@ const getMockModule = async (
   // - in dev the runtime reload re-reads the module fresh — the watcher busts
   //   the require cache for the changed file, so `require()` returns the new
   //   content (a raw `import()` would be served stale from the ESM URL cache).
-  const { default: mockHandlers, config } = (await compatibleRequire(
-    mockFilePath,
-    false,
-  )) as MockModule;
+  // Restore the ESM/CJS interop that `import()` provided: Node synthesizes
+  // `module.exports` onto `.default` for a CJS file, but compatibleRequire's
+  // `require()` returns `module.exports` directly. So a pure-CJS mock
+  // (`module.exports = { 'METHOD /path': ... }`) has no `.default` — fall back
+  // to the module object itself. A `.ts` / ESM mock (`export default`) still
+  // exposes its real `default`.
+  const mod = (await compatibleRequire(mockFilePath, false)) as
+    | MockModule
+    | MockHandlers;
+  const mockHandlers = ((mod as MockModule)?.default ?? mod) as
+    | MockHandlers
+    | undefined;
+  const config = (mod as MockModule)?.config;
 
   const enable = config?.enable as
     | boolean

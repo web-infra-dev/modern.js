@@ -226,4 +226,34 @@ describe('should mock middleware work correctly', () => {
       fs.rmSync(tmpRoot, { recursive: true, force: true });
     }
   });
+
+  // Regression: a mock written as a plain CommonJS module (`module.exports`)
+  // has no `.default`. compatibleRequire's `require()` returns module.exports
+  // directly (unlike `import()`, which synthesizes it onto `.default`), so the
+  // loader must fall back to the module object itself — otherwise mockHandlers
+  // is undefined and it throws "Mock file ... parsed failed!".
+  it('loads a mock written as a CommonJS module (module.exports)', async () => {
+    const tmpRoot = fs.mkdtempSync(path.join(os.tmpdir(), 'modern-mock-'));
+    const mockDir = path.join(tmpRoot, 'config', 'mock');
+    fs.mkdirSync(mockDir, { recursive: true });
+    fs.writeFileSync(
+      path.join(mockDir, 'index.js'),
+      `module.exports = { 'GET /api/player': { data: [1, 2, 3] } };\n`,
+    );
+
+    const server = createServerBase({
+      config: getDefaultConfig(),
+      pwd: '',
+      appContext: getDefaultAppContext(),
+    });
+    server.addPlugins([compatPlugin(), createMockPlugin(tmpRoot)]);
+    await server.init();
+
+    try {
+      const response = await server.request('/api/player');
+      expect(await response.json()).toEqual({ data: [1, 2, 3] });
+    } finally {
+      fs.rmSync(tmpRoot, { recursive: true, force: true });
+    }
+  });
 });
