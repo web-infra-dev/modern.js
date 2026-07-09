@@ -11,9 +11,9 @@ import {
 } from '@modern-js/utils';
 import type { ConfigChain } from '@rsbuild/core';
 
-type TsRuntimeRegisterMode = 'ts-node' | 'node-loader' | 'unsupported';
+export type TsRuntimeRegisterMode = 'ts-node' | 'node-loader' | 'unsupported';
 
-interface TsRuntimeSetupOptions {
+export interface TsRuntimeSetupOptions {
   moduleType?: string;
   /**
    * User-configured `server.tsconfigPath`. Forwarded into the shared
