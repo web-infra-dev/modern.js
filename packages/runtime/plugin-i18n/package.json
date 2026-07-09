@@ -15,7 +15,7 @@
     "modern",
     "modern.js"
   ],
-  "version": "3.5.0",
+  "version": "3.6.0",
   "engines": {
     "node": ">=20"
   },
@@ -103,7 +103,7 @@
     "react-dom": ">=18.0.0",
     "i18next": ">=25.7.4",
     "react-i18next": ">=15.7.4",
-    "@modern-js/runtime": "workspace:^3.5.0"
+    "@modern-js/runtime": "workspace:^3.6.0"
   },
   "peerDependenciesMeta": {
     "i18next": {

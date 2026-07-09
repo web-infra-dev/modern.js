@@ -1,5 +1,11 @@
 # @modern-js/server-utils
 
+## 3.6.0
+
+### Patch Changes
+
+- @modern-js/utils@3.6.0
+
 ## 3.5.0
 
 ### Patch Changes

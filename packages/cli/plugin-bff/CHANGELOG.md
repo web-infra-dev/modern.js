@@ -1,5 +1,19 @@
 # @modern-js/plugin-bff
 
+## 3.6.0
+
+### Patch Changes
+
+- 70d8300: feat(server): unified dev-server runtime hot reload, replacing the BFF-local hot update
+  feat(server): 统一 dev-server 运行时热更新，替换 BFF 本地热更
+- Updated dependencies [c69486b]
+  - @modern-js/server-core@3.6.0
+  - @modern-js/server-utils@3.6.0
+  - @modern-js/create-request@3.6.0
+  - @modern-js/builder@3.6.0
+  - @modern-js/bff-core@3.6.0
+  - @modern-js/utils@3.6.0
+
 ## 3.5.0
 
 ### Patch Changes
