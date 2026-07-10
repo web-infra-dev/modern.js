@@ -1,0 +1,72 @@
+---
+title: reactCompiler
+---
+
+# source.reactCompiler
+
+- **Type:** `boolean | ReactCompilerOptions`
+- **Default:** `undefined` (disabled)
+
+Whether to enable [React Compiler](https://react.dev/learn/react-compiler). React Compiler is a build-time tool that optimizes re-rendering performance of React applications through automatic memoization.
+
+Modern.js implements this capability based on the Rust-based React Compiler built into Rspack's `builtin:swc-loader` (equivalent to setting SWC's `jsc.transform.reactCompiler`), reusing Rspack's built-in SWC transform chain without introducing Babel.
+
+:::tip
+This option is disabled by default. It must be enabled explicitly for any React version, including React 19.
+:::
+
+## Example
+
+### Enable React Compiler (React 19)
+
+```ts title="modern.config.ts"
+import { defineConfig } from '@modern-js/app-tools';
+
+export default defineConfig({
+  source: {
+    reactCompiler: true,
+  },
+});
+```
+
+### Using with React 18
+
+The compiled output targets React 19 by default. To use it in React 18 projects, you need to:
+
+1. Install [react-compiler-runtime](https://www.npmjs.com/package/react-compiler-runtime) as a **runtime dependency** (the compiled output references it at runtime):
+
+```bash
+npm add react-compiler-runtime
+```
+
+2. Specify the React version via `target`:
+
+```ts title="modern.config.ts"
+import { defineConfig } from '@modern-js/app-tools';
+
+export default defineConfig({
+  source: {
+    reactCompiler: {
+      target: '18',
+    },
+  },
+});
+```
+
+### Customize compilation behavior
+
+When passing an object, the options are the same as Rspack's `jsc.transform.reactCompiler`. For example, use `compilationMode: 'annotation'` to only compile functions annotated with the `"use memo"` directive:
+
+```ts title="modern.config.ts"
+import { defineConfig } from '@modern-js/app-tools';
+
+export default defineConfig({
+  source: {
+    reactCompiler: {
+      compilationMode: 'annotation',
+    },
+  },
+});
+```
+
+For the complete list of options, see [Rsbuild - reactCompiler](https://rsbuild.rs/plugins/list/plugin-react#reactcompiler) and the [React Compiler configuration docs](https://react.dev/reference/react-compiler/configuration).
