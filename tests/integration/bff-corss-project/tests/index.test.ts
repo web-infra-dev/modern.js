@@ -1,3 +1,4 @@
+import { spawnSync } from 'node:child_process';
 import dns from 'node:dns';
 import fs from 'node:fs';
 import path from 'path';
@@ -199,6 +200,20 @@ describe('corss project bff', () => {
         'utf8',
       );
       expect(indexClient).toContain('../shared/index');
+    });
+
+    test('client declarations type-check from a consumer without the producer paths', () => {
+      const result = spawnSync(
+        process.execPath,
+        [
+          path.join(appDir, 'node_modules/typescript/bin/tsc'),
+          '-p',
+          path.join(appDir, 'type-check-consumer/tsconfig.json'),
+        ],
+        { encoding: 'utf8' },
+      );
+      expect(result.stdout.trim()).toBe('');
+      expect(result.status).toBe(0);
     });
 
     test('basic usage', async () => {
