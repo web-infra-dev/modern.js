@@ -111,6 +111,9 @@ const ssrBuilderPlugin = (
               ? JSON.stringify('node')
               : JSON.stringify('browser'),
             'process.env.MODERN_SSR_ENV': JSON.stringify(ssrEnv),
+            'process.env.MODERN_RSC': JSON.stringify(
+              Boolean(userConfig.server?.rsc),
+            ),
           },
         },
         output: {

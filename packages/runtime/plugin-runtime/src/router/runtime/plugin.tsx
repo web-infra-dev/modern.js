@@ -152,10 +152,12 @@ export const routerPlugin = (
 
         const RouterWrapper = (props: any) => {
           const routerResult = useRouterCreation(
-            {
-              ...props,
-              rscPayload: props?.rscPayload,
-            },
+            process.env.MODERN_RSC
+              ? {
+                  ...props,
+                  rscPayload: props?.rscPayload,
+                }
+              : props,
             {
               api: api as any,
               createRoutes,
@@ -166,7 +168,6 @@ export const routerPlugin = (
           );
 
           // Only cache router instance, routes are always from routerResult
-          // rscPayload is stable after first render, so we only create router once
           const router = useMemo(() => {
             if (cachedRouter) {
               return cachedRouter;
@@ -244,9 +245,16 @@ function useRouterCreation(props: any, options: UseRouterCreationOptions) {
       : baseUrl;
 
   const { unstable_getBlockNavState: getBlockNavState } = runtimeContext;
-  const rscPayload = props?.rscPayload ? safeUse(props.rscPayload) : null;
+  // Keep the define expression inline at every RSC branch. Rspack can then
+  // remove the RSC imports in both production and development compilations.
+  const rscPayload =
+    process.env.MODERN_RSC && props?.rscPayload
+      ? safeUse(props.rscPayload)
+      : null;
 
-  let hydrationData = window._ROUTER_DATA || rscPayload;
+  let hydrationData = process.env.MODERN_RSC
+    ? window._ROUTER_DATA || rscPayload
+    : window._ROUTER_DATA;
 
   return useMemo(() => {
     if (hydrationData?.errors) {
@@ -256,10 +264,8 @@ function useRouterCreation(props: any, options: UseRouterCreationOptions) {
       };
     }
 
-    const isRscClient = getGlobalIsRscClient();
-
     let routes: RouteObject[] | null = null;
-    if (isRscClient) {
+    if (process.env.MODERN_RSC && getGlobalIsRscClient()) {
       routes = createRoutes
         ? createRoutes()
         : createRouteObjectsFromConfig({
@@ -282,7 +288,7 @@ function useRouterCreation(props: any, options: UseRouterCreationOptions) {
 
     const hooks = api.getHooks();
 
-    if (rscPayload) {
+    if (process.env.MODERN_RSC && rscPayload) {
       try {
         const router = createClientRouterFromPayload(
           rscPayload,
