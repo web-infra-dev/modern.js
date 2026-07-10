@@ -152,7 +152,7 @@ export const routerPlugin = (
 
         const RouterWrapper = (props: any) => {
           const routerResult = useRouterCreation(
-            process.env.MODERN_RSC
+            process.env.MODERN_ENABLE_RSC
               ? {
                   ...props,
                   rscPayload: props?.rscPayload,
@@ -248,11 +248,11 @@ function useRouterCreation(props: any, options: UseRouterCreationOptions) {
   // Keep the define expression inline at every RSC branch. Rspack can then
   // remove the RSC imports in both production and development compilations.
   const rscPayload =
-    process.env.MODERN_RSC && props?.rscPayload
+    process.env.MODERN_ENABLE_RSC && props?.rscPayload
       ? safeUse(props.rscPayload)
       : null;
 
-  let hydrationData = process.env.MODERN_RSC
+  let hydrationData = process.env.MODERN_ENABLE_RSC
     ? window._ROUTER_DATA || rscPayload
     : window._ROUTER_DATA;
 
@@ -265,7 +265,7 @@ function useRouterCreation(props: any, options: UseRouterCreationOptions) {
     }
 
     let routes: RouteObject[] | null = null;
-    if (process.env.MODERN_RSC && getGlobalIsRscClient()) {
+    if (process.env.MODERN_ENABLE_RSC && getGlobalIsRscClient()) {
       routes = createRoutes
         ? createRoutes()
         : createRouteObjectsFromConfig({
@@ -288,7 +288,7 @@ function useRouterCreation(props: any, options: UseRouterCreationOptions) {
 
     const hooks = api.getHooks();
 
-    if (process.env.MODERN_RSC && rscPayload) {
+    if (process.env.MODERN_ENABLE_RSC && rscPayload) {
       try {
         const router = createClientRouterFromPayload(
           rscPayload,
