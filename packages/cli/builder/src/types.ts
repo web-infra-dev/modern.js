@@ -22,6 +22,7 @@ import type { PluginAssetsRetryOptions } from '@rsbuild/plugin-assets-retry';
 import type { PluginCheckSyntaxOptions } from '@rsbuild/plugin-check-syntax';
 import type { PluginCssMinimizerOptions } from '@rsbuild/plugin-css-minimizer';
 import type { PluginLessOptions } from '@rsbuild/plugin-less';
+import type { PluginReactOptions } from '@rsbuild/plugin-react';
 import type { PluginRemOptions } from '@rsbuild/plugin-rem';
 import type { PluginSassOptions } from '@rsbuild/plugin-sass';
 import type { PluginSourceBuildOptions } from '@rsbuild/plugin-source-build';
@@ -175,6 +176,12 @@ export type BuilderExtraConfig = {
      * Define global variables. It can replace expressions like `process.env.FOO` in your code after compile.
      */
     globalVars?: ChainedGlobalVars;
+    /**
+     * Enable or configure React Compiler, powered by the Rust-based implementation
+     * built into Rspack's `builtin:swc-loader` (`jsc.transform.reactCompiler`).
+     * @default undefined (disabled)
+     */
+    reactCompiler?: PluginReactOptions['reactCompiler'];
   };
   output?: {
     /**

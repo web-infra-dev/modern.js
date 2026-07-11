@@ -38,7 +38,7 @@
     "@rsbuild/plugin-check-syntax": "2.0.0",
     "@rsbuild/plugin-css-minimizer": "2.0.1",
     "@rsbuild/plugin-less": "1.6.4",
-    "@rsbuild/plugin-react": "2.0.1",
+    "@rsbuild/plugin-react": "2.1.0",
     "@rsbuild/plugin-rem": "1.0.6",
     "@rsbuild/plugin-sass": "1.5.3",
     "@rsbuild/plugin-source-build": "1.0.6",
