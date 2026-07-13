@@ -10,6 +10,8 @@ export const ZH_LOCALE = {
   message: {
     welcome: '🚀 欢迎使用 Modern.js',
     success: '✨ 创建成功！',
+    agentsMd:
+      '✔ 已生成 AGENTS.md 和 CLAUDE.md —— AI 编码助手会自动读取。（--no-agents-md 可跳过）',
     nextSteps: '📋 下一步：',
     step1: 'cd {projectName}',
     step2: 'pnpm install',
@@ -25,6 +27,8 @@ export const ZH_LOCALE = {
     optionVersion: '  -v, --version  显示版本信息',
     optionLang: '  -l, --lang     设置语言 (zh 或 en)',
     optionSub: '  -s, --sub       标记为子项目（monorepo 中的子包）',
+    optionNoAgentsMd:
+      '  --no-agents-md  跳过生成 AGENTS.md / CLAUDE.md（AI 编码助手指引文件）',
     examples: '💡 示例:',
     example1: '  create my-app',
     example2: '  create my-app --lang zh',

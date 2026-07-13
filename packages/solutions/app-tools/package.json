@@ -80,7 +80,7 @@
     "modern-app": "./bin/modern.js"
   },
   "scripts": {
-    "prepublishOnly": "only-allow-pnpm",
+    "prepublishOnly": "only-allow-pnpm && node ./scripts/copy-main-doc.mjs",
     "dev": "rslib build --watch",
     "build": "rslib build",
     "test": "rstest"
