@@ -15,7 +15,9 @@ import type { RequestHandler } from '@modern-js/types';
 import { API_DIR, SHARED_DIR, logger } from '@modern-js/utils';
 import type { WatchEvent } from './dev-tools/watcher';
 import {
+  createLazyCompilationCorsMiddleware,
   getDevOptions,
+  getLazyCompilationPrefixes,
   getMockMiddleware,
   initFileReader,
   onRepack,
@@ -39,6 +41,7 @@ export type DevPluginOptions = ModernDevServerOptions<ServerBaseOptions> & {
  * into the current server's middleware list:
  * - user `dev.setupMiddlewares` (before / after)
  * - the mock middleware
+ * - the lazy-compilation CORS middleware (only when lazy compilation is on)
  * - the rsbuild/builder dev middleware (a stable reference, just re-registered)
  * - the file-reader middleware
  */
@@ -90,11 +93,25 @@ export const devRuntimeMiddlewarePlugin = (
         handler: mockMiddleware,
       });
 
-      builderMiddlewares &&
+      if (builderMiddlewares) {
+        // Must run before `rsbuild-dev`: rspack's lazy-compilation middleware
+        // lives inside the builder middlewares and writes to the raw node
+        // response, so the CORS headers have to be in place beforehand.
+        const lazyCompilationPrefixes = getLazyCompilationPrefixes(compiler);
+        if (lazyCompilationPrefixes.length > 0) {
+          middlewares.push({
+            name: 'lazy-compilation-cors',
+            handler: createLazyCompilationCorsMiddleware(
+              lazyCompilationPrefixes,
+            ),
+          });
+        }
+
         middlewares.push({
           name: 'rsbuild-dev',
           handler: connectMid2HonoMid(builderMiddlewares as any),
         });
+      }
 
       after.forEach((middleware, index) => {
         middlewares.push({

@@ -13,6 +13,7 @@ import Watcher, {
 export * from './repack';
 export * from './devOptions';
 export * from './fileReader';
+export * from './lazyCompilationCors';
 export * from './mock';
 
 export function startWatcher({
