@@ -21,6 +21,8 @@
     "./router": {
       "types": "./dist/types/router.d.ts",
       "modern:source": "./src/router.ts",
+      "import": "./dist/esm/router.mjs",
+      "require": "./dist/cjs/router.js",
       "default": "./dist/esm/router.mjs"
     },
     "./router/rsc": {
