@@ -1,0 +1,1 @@
+本地开发启动命令是 `pnpm dev`（对应 package.json scripts 里的 `modern dev`）。

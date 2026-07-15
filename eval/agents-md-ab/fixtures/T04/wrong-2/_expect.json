@@ -1,0 +1,1 @@
+{ "pass": false, "failCheck": ["build", "build_output-exists"] }

@@ -1,0 +1,541 @@
+{
+  "meta": {
+    "version": "v2-post-review",
+    "scoring": "primary = exact binary pass（全部断言通过=1，否则=0）；partial completeness 仅作 secondary 描述指标；weights 仅作分层描述，不参与任何判优",
+    "primary_set_layers": ["L1", "L2", "L3", "L5"],
+    "primary_set_size": 28,
+    "negative_control_layers": ["L0"],
+    "stress_test_layers": ["L4"],
+    "l4_note": "L4 为 coverage/fallback stress test，不入主准确率；abstention rate 单独报告；生产 B 的正确行为是兜底线上检索并答对",
+    "subset_order_seed": 20260715,
+    "subset_rule": "若需 N<28 的子集，按分层比例用 seed 洗牌后取前 N，顺序此刻冻结",
+    "review_note": "v2.1：L2-05/L3-02 依赖位置 primary 严格要求 dependencies（梅长苏 2026-07-15 终审措辞修正）；v2.2：@modern-js/server-runtime 预装进两棵模板（判分引擎实测：不预装则照官方文档写的正确答案 TS2307 构建失败被误杀），L3-02 相应去掉依赖位置断言、改为要求构建通过"
+  },
+  "tasks": [
+    {
+      "id": "L0-01",
+      "layer": "L0",
+      "weight": 1.0,
+      "kind": "code",
+      "prompt": "把 src/routes/page.tsx 中页面渲染的主标题文本改为精确字符串 \"AB Bench Home\"，并给该标题元素添加属性 data-testid=\"main-title\"。除该文件外不要改动其它文件。禁止启动 dev server；除已预装依赖外禁止安装任何依赖。",
+      "grader_spec": {
+        "type": "file_ast",
+        "rules": "src/routes/page.tsx 同时匹配 /AB Bench Home/ 与 /data-testid=[\"']main-title[\"']/；`pnpm build` 退出码为 0（防语法错误）；git diff 仅含该文件。",
+        "needs_build": true,
+        "needs_serve": false
+      },
+      "doc_source": null,
+      "trap_note": null
+    },
+    {
+      "id": "L0-02",
+      "layer": "L0",
+      "weight": 1.0,
+      "kind": "qa",
+      "prompt": "本项目后续想启用 SSG、styled-components 等可选功能。请用不超过两句话回答：在 Modern.js v3 中给已有项目启用可选功能的正确方式是什么？可以使用 `modern new` 命令吗？禁止启动 dev server、禁止安装依赖。",
+      "grader_spec": {
+        "type": "answer_keywords",
+        "rules": "必须满足全部才 pass：(a) 给出任一正确路径——官方 skills（匹配 /skills add|modernjs-feature-enable|官方 [Ss]kill/）或手动装插件+注册（匹配 /(pnpm add|npm i|install|手动).{0,40}(plugin|插件)/ 且 /modern\\.config/）；(b) 明确否定 modern new（匹配 /(不能|不可|已移除|removed).{0,12}modern new|modern new.{0,12}(不能|已移除|不支持)/）。把 modern new 作为推荐命令判 0。",
+        "needs_build": false,
+        "needs_serve": false
+      },
+      "doc_source": "guides/upgrade/other.mdx#new-and-upgrade-commands-removed",
+      "trap_note": "生产 AGENTS.md 引导至 skills 路径（非字面直答），本题归 L0 测『读取并遵循 AGENTS.md 指引』；训练数据典型错误答案是 modern new（v2 用法）。"
+    },
+    {
+      "id": "L0-03",
+      "layer": "L0",
+      "weight": 1.0,
+      "kind": "qa",
+      "prompt": "只输出一个 JSON 对象，不要输出任何其它文字、代码块围栏或解释：{\"scripts\": [...]}，其中数组为本项目 package.json 中 scripts 字段的全部 key，按字母升序。",
+      "grader_spec": {
+        "type": "answer_keywords",
+        "rules": "整个回答去除首尾空白后必须能被 JSON.parse，且等于 {\"scripts\":[\"build\",\"dev\",\"lint\",\"serve\"]}；带 markdown 围栏或附加文字判 0（严格指令遵循）。",
+        "needs_build": false,
+        "needs_serve": false
+      },
+      "doc_source": null,
+      "trap_note": null
+    },
+    {
+      "id": "L1-01",
+      "layer": "L1",
+      "weight": 1.0,
+      "kind": "code",
+      "prompt": "把本项目 dev / serve 启动端口改为 3100。只修改配置，禁止启动任何服务、禁止安装依赖。",
+      "grader_spec": {
+        "type": "file_ast",
+        "rules": "modern.config.ts 中 server 配置块内匹配 /port:\\s*3100/；不得出现 dev:{...port...} 或 tools.devServer；`pnpm build` 退出码 0。",
+        "needs_build": true,
+        "needs_serve": false
+      },
+      "doc_source": "configure/app/server/port.mdx",
+      "trap_note": "v2 曾有 dev.port（v3 已移除，upgrade/config.mdx 明确改为 server.port）；训练数据也常写 tools.devServer.port。"
+    },
+    {
+      "id": "L1-02",
+      "layer": "L1",
+      "weight": 1.0,
+      "kind": "code",
+      "prompt": "为应用开启 SSR，并要求使用字符串渲染（renderToString）而不是默认的流式渲染。只改配置。禁止启动 dev server、禁止安装依赖。",
+      "grader_spec": {
+        "type": "build_check",
+        "rules": "modern.config.ts 中 server.ssr 为对象且匹配 /mode:\\s*['\"]string['\"]/；`pnpm build` 退出码 0 且产出 SSR 产物（dist 下存在 bundles/ 目录或等价 server bundle）。写成 ssr:true（未设 mode）或 mode:'stream' 判 0。",
+        "needs_build": true,
+        "needs_serve": false
+      },
+      "doc_source": "configure/app/server/ssr.mdx",
+      "trap_note": "v3 默认 mode 即 stream，训练数据常见错误：以为默认是 string、或把 ssr 配在 output/runtime 下。"
+    },
+    {
+      "id": "L1-03",
+      "layer": "L1",
+      "weight": 1.0,
+      "kind": "code",
+      "prompt": "把构建产物的根目录从 dist 改为 build，并把 JS 产物子目录改为 assets/js。禁止启动 dev server、禁止安装依赖。",
+      "grader_spec": {
+        "type": "build_check",
+        "rules": "modern.config.ts 匹配 output.distPath.root === 'build' 且 distPath.js === 'assets/js'；`pnpm build` 后存在 build/ 目录且其中 assets/js/ 下有 .js 文件。使用 output.path / distDir / outputPath 判 0。",
+        "needs_build": true,
+        "needs_serve": false
+      },
+      "doc_source": "configure/app/output/dist-path.mdx",
+      "trap_note": "训练数据易与 webpack output.path、Next.js distDir、Vite build.outDir 混淆。"
+    },
+    {
+      "id": "L1-04",
+      "layer": "L1",
+      "weight": 1.0,
+      "kind": "code",
+      "prompt": "通过框架配置把页面 HTML 的 <title> 设置为 \"AB Demo Title\"（不要手写 HTML 模板文件）。禁止启动 dev server、禁止安装依赖。",
+      "grader_spec": {
+        "type": "html_check",
+        "rules": "modern.config.ts 匹配 html.title = 'AB Demo Title'；`pnpm build` 后 dist（或自定义产物目录）内任一 .html 文件包含 <title>AB Demo Title</title>。",
+        "needs_build": true,
+        "needs_serve": false
+      },
+      "doc_source": "configure/app/html/title.mdx",
+      "trap_note": null
+    },
+    {
+      "id": "L1-05",
+      "layer": "L1",
+      "weight": 1.0,
+      "kind": "code",
+      "prompt": "通过框架配置为页面 HTML 增加一个 meta 标签：name=\"description\"、content=\"modernjs ab benchmark\"。禁止启动 dev server、禁止安装依赖。",
+      "grader_spec": {
+        "type": "html_check",
+        "rules": "modern.config.ts 中 html.meta 配置含 description: 'modernjs ab benchmark'；构建后任一 .html 匹配 /<meta[^>]*name=\"description\"[^>]*content=\"modernjs ab benchmark\"/（属性顺序可交换）。",
+        "needs_build": true,
+        "needs_serve": false
+      },
+      "doc_source": "configure/app/html/meta.mdx",
+      "trap_note": null
+    },
+    {
+      "id": "L1-06",
+      "layer": "L1",
+      "weight": 1.0,
+      "kind": "code",
+      "prompt": "新建 src/common/greeting.ts 导出常量 GREETING = 'hello-alias'，为 ./src/common 配置路径别名 @common，并在 src/routes/page.tsx 中通过 '@common/greeting' 引入且渲染 GREETING。同步保证 TypeScript 能识别该别名。禁止启动 dev server、禁止安装依赖。",
+      "grader_spec": {
+        "type": "build_check",
+        "rules": "modern.config.ts 使用 resolve.alias 配置 '@common'（使用已废弃的 source.alias 判 0）；page.tsx 匹配 /from ['\"]@common\\/greeting['\"]/；`pnpm build` 退出码 0。",
+        "needs_build": true,
+        "needs_serve": false
+      },
+      "doc_source": "configure/app/resolve/alias.mdx",
+      "trap_note": "v2 写法 source.alias 在 v3 文档明确标注 Deprecated，须改用 resolve.alias；训练数据大概率给 source.alias。"
+    },
+    {
+      "id": "L1-07",
+      "layer": "L1",
+      "weight": 1.0,
+      "kind": "code",
+      "prompt": "为本地开发配置代理：把以 /ext 开头的请求代理到 https://example.com。只改配置，禁止启动 dev server 验证、禁止安装依赖。",
+      "grader_spec": {
+        "type": "file_ast",
+        "rules": "modern.config.ts 匹配 dev.server.proxy 且含键 '/ext' → 'https://example.com'（字符串或 {target} 形式均可）；`pnpm build` 退出码 0（借 TS 校验字段合法性）。写成 tools.devServer.proxy 或 dev.proxy 判 0。",
+        "needs_build": true,
+        "needs_serve": false
+      },
+      "doc_source": "guides/basic-features/debug/proxy.mdx（指向 configure/app/dev/server）",
+      "trap_note": "v2 常用 tools.devServer.proxy / dev.proxy；v3 为 dev.server.proxy，训练数据极易写旧字段。"
+    },
+    {
+      "id": "L1-08",
+      "layer": "L1",
+      "weight": 1.0,
+      "kind": "qa",
+      "prompt": "我在 .env 里写了 MY_FLAG=1，但在前端组件里 process.env.MY_FLAG 是 undefined。用不超过三句话回答：为什么？自定义环境变量要用什么前缀命名才能在前端代码中直接使用？禁止启动 dev server、禁止安装依赖。",
+      "grader_spec": {
+        "type": "answer_keywords",
+        "rules": "必须包含前缀 'MODERN_'（正则 /MODERN_/）；答 REACT_APP_ / VITE_ / NEXT_PUBLIC_ 为唯一前缀判 0；提及 source.globalVars/define 作为替代方案可接受但不得缺失 MODERN_。",
+        "needs_build": false,
+        "needs_serve": false
+      },
+      "doc_source": "guides/basic-features/env-vars.mdx#convention-names",
+      "trap_note": "训练数据典型错误：套用 CRA 的 REACT_APP_ 或 Vite 的 VITE_ 前缀。"
+    },
+    {
+      "id": "L2-01",
+      "layer": "L2",
+      "weight": 1.5,
+      "kind": "code",
+      "prompt": "新增动态路由页面 /user/:id：访问时通过 Data Loader（在路由渲染前执行的官方数据获取方案）拿到 {id, name: 'user-' + id} 并在页面渲染 name。要求使用约定式路由与官方约定的 loader 文件组织方式。禁止启动 dev server、禁止安装依赖。",
+      "grader_spec": {
+        "type": "build_check",
+        "rules": "存在 src/routes/user/[id]/page.data.ts(x) 且 export const loader，loader 参数使用 params（LoaderFunctionArgs）；src/routes/user/[id]/page.tsx 使用 useLoaderData（import 自 '@modern-js/runtime/router'）；`pnpm build` 退出码 0。把 loader 写进 page.tsx、或用 getServerSideProps/useEffect fetch 代替判 0。",
+        "needs_build": true,
+        "needs_serve": false
+      },
+      "doc_source": "guides/basic-features/routes/routes.mdx + guides/basic-features/data/data-fetch.mdx",
+      "trap_note": "训练数据常给 Next.js getServerSideProps、或 react-router 在 route 对象上挂 loader，而非 Modern.js 的同名 .data 文件约定。"
+    },
+    {
+      "id": "L2-02",
+      "layer": "L2",
+      "weight": 1.5,
+      "kind": "qa",
+      "prompt": "两问：(1) 本项目启用 BFF 后（默认前缀），文件 api/lambda/user/[username]/info.ts 中 export const get 对应哪个完整 URL 路径？(2) 若想把 BFF 前缀改为 /api-v2，在哪个配置项修改？禁止启动 dev server、禁止安装依赖。",
+      "grader_spec": {
+        "type": "answer_keywords",
+        "rules": "两问必须全对才 pass：(1) 匹配 /\\/api\\/user\\/:username\\/info/；(2) 匹配 /bff\\.prefix/（modern.config.ts 中 bff: { prefix: '/api-v2' }）。任一缺失判 0。",
+        "needs_build": false,
+        "needs_serve": false
+      },
+      "doc_source": "guides/advanced-features/bff/function.mdx#function-routes + configure/app/bff/prefix.mdx",
+      "trap_note": "动态段映射 [username]→:username 与默认前缀 /api 的组合是文档特有约定，训练数据易答成 /user/[username]/info 或 Next.js 风格。"
+    },
+    {
+      "id": "L2-03",
+      "layer": "L2",
+      "weight": 1.5,
+      "kind": "code",
+      "prompt": "用官方默认支持的 CSS Modules 方案给首页加一个红色按钮：创建样式文件并在 src/routes/page.tsx 引入使用（类名走样式对象）。同时在代码注释中写明：如果想让 src/styles/legacy.css 这类不带 module 后缀的文件也按 CSS Modules 处理，应使用哪个配置项。禁止启动 dev server、禁止安装依赖。",
+      "grader_spec": {
+        "type": "file_ast",
+        "rules": "存在 *.module.css（或 .module.scss/less）文件且 page.tsx 匹配 /import\\s+\\w+\\s+from\\s+['\"].*\\.module\\.css['\"]/ 并以 styles.xxx 形式使用；注释或 diff 中提及 output.cssModules（auto 配置）或 output.disableCssModuleExtension 之一；`pnpm build` 退出码 0。",
+        "needs_build": true,
+        "needs_serve": false
+      },
+      "doc_source": "guides/basic-features/css/css-modules.mdx + configure/app/output/css-modules.mdx",
+      "trap_note": null
+    },
+    {
+      "id": "L2-04",
+      "layer": "L2",
+      "weight": 1.5,
+      "kind": "qa",
+      "prompt": "三问，各一句话：(1) 本项目要产出可部署的产物（含内置 Node.js Server）应执行哪个命令？(2) 想在本地模拟生成 netlify 平台的部署产物，命令怎么写？(3) 执行 `modern build` 后，默认配置下构建产物根目录叫什么、JS 静态资源默认输出到哪个子目录？禁止启动 dev server、禁止安装依赖。",
+      "grader_spec": {
+        "type": "answer_keywords",
+        "rules": "三问必须全对才 pass：(1) /modern deploy/；(2) /MODERNJS_DEPLOY=netlify/ 且含 modern deploy；(3) /dist/ 与 /static\\/js/。任一缺失判 0。",
+        "needs_build": false,
+        "needs_serve": false
+      },
+      "doc_source": "guides/basic-features/deploy.mdx + guides/basic-features/output-files.mdx（configure/app/output/dist-path.mdx）",
+      "trap_note": "MODERNJS_DEPLOY 环境变量是文档特有事实，训练数据几乎不可能命中；易错答 `modern build --platform`。"
+    },
+    {
+      "id": "L2-05",
+      "layer": "L2",
+      "weight": 1.5,
+      "kind": "code",
+      "prompt": "为本项目准备启用 SSG（静态站点生成）：按官方步骤修改 modern.config.ts 完成插件注册与开关配置，并把所需插件依赖以 3.6.0 版本写入 package.json（按官方安装步骤应有的位置）。注意：本环境离线，禁止执行安装命令、禁止启动 dev server，只写文件即可（不要求构建通过）。",
+      "grader_spec": {
+        "type": "file_ast",
+        "rules": "primary exact-pass 全部必须满足：modern.config.ts 匹配 /import\\s*\\{[^}]*ssgPlugin[^}]*\\}\\s*from\\s*['\"]@modern-js\\/plugin-ssg['\"]/ 且 plugins 数组含 ssgPlugin()，且 output.ssg === true（或合法对象）；package.json 的 **dependencies** 含 \"@modern-js/plugin-ssg\": \"3.6.0\"（官方步骤 pnpm add → dependencies；写在 devDependencies 不算 primary pass，仅记 secondary completeness）。答 modern new 或漏插件注册判 0。",
+        "needs_build": false,
+        "needs_serve": false
+      },
+      "doc_source": "guides/basic-features/render/ssg.mdx（enable-ssg）+ configure/app/output/ssg.mdx",
+      "trap_note": "v2 时代用 `pnpm new` 启用 SSG；且部分旧资料只写 output.ssg 不注册 ssgPlugin，v3 两者缺一不可。"
+    },
+    {
+      "id": "L2-06",
+      "layer": "L2",
+      "weight": 1.5,
+      "kind": "qa",
+      "prompt": "本项目已开启 SSR。线上想支持按请求主动降级到 CSR：(1) 需要开启哪个配置项（写出完整字段路径与值）？(2) 开启后有哪两种方式让某次请求走 CSR？禁止启动 dev server、禁止安装依赖。",
+      "grader_spec": {
+        "type": "answer_keywords",
+        "rules": "三个要点必须全中才 pass：(1) /server\\.ssr\\.forceCSR/（或代码形式）；(2) /csr=true/；(3) /x-modern-ssr-fallback/。任一缺失判 0。",
+        "needs_build": false,
+        "needs_serve": false
+      },
+      "doc_source": "configure/app/server/ssr.mdx#active-fallback + guides/basic-features/render/ssr.mdx",
+      "trap_note": "x-modern-ssr-fallback 请求头为文档特有事实，无文档几乎必错。"
+    },
+    {
+      "id": "L2-07",
+      "layer": "L2",
+      "weight": 1.5,
+      "kind": "code",
+      "prompt": "开启 SSR（布尔开关即可），并给首页添加 Data Loader：loader 返回 { now: 'ssr-loader-ok' }，首页渲染该字段。要求 loader 按官方约定放在独立文件中。禁止启动 dev server、禁止安装依赖。",
+      "grader_spec": {
+        "type": "build_check",
+        "rules": "modern.config.ts server.ssr 为 true 或合法对象；存在 src/routes/page.data.ts 且 export const loader 返回含 'ssr-loader-ok'；page.tsx 使用 useLoaderData；`pnpm build` 退出码 0 且产出 SSR server bundle。",
+        "needs_build": true,
+        "needs_serve": false
+      },
+      "doc_source": "guides/basic-features/render/ssr.mdx + guides/basic-features/data/data-fetch.mdx",
+      "trap_note": null
+    },
+    {
+      "id": "L2-08",
+      "layer": "L2",
+      "weight": 1.5,
+      "kind": "code",
+      "prompt": "在保留现有约定式路由的同时，使用 v3 的配置式路由为组件新增一条 /home 路由：创建 src/home.tsx 组件（渲染文本 'config-route-home'），并按官方配置式路由文件约定完成注册。禁止启动 dev server、禁止安装依赖。",
+      "grader_spec": {
+        "type": "build_check",
+        "rules": "存在 src/modern.routes.ts，匹配 /import\\s*\\{[^}]*defineRoutes[^}]*\\}\\s*from\\s*['\"]@modern-js\\/runtime\\/config-routes['\"]/；回调中使用 route|page 函数注册 '/home' 指向 home.tsx，且返回值保留 fileRoutes（约定路由不丢失）；`pnpm build` 退出码 0。写 react-router createBrowserRouter 或改 App.tsx 自控路由判 0。",
+        "needs_build": true,
+        "needs_serve": false
+      },
+      "doc_source": "guides/basic-features/routes/config-routes.mdx + guides/basic-features/routes/routes.mdx",
+      "trap_note": "modern.routes.ts + defineRoutes 是 v3 新增能力，训练数据（多为 v2）完全没有，会退回自控路由或 react-router 手写。"
+    },
+    {
+      "id": "L3-01",
+      "layer": "L3",
+      "weight": 2.0,
+      "kind": "code",
+      "prompt": "完整启用 BFF 并打通一个接口：BFF 插件依赖已预装但未启用，请完成全部启用步骤（配置注册、TS 别名与 include），创建 api/lambda/hello.ts 提供 GET 接口返回字符串 'Hello Modern.js'，并在 src/routes/page.tsx 用官方一体化调用方式（@api 别名直接 import 函数）调用并渲染结果。禁止启动 dev server；除已预装依赖外禁止安装依赖。",
+      "grader_spec": {
+        "type": "http_check",
+        "rules": "全部必须满足才 pass：modern.config.ts plugins 含 bffPlugin()（import 自 '@modern-js/plugin-bff'）；tsconfig.json paths 含 \"@api/*\" 指向 api/lambda 且 include 含 \"api\"；api/lambda/hello.ts export const get；page.tsx 匹配 /from ['\"]@api\\/hello['\"]/（用 fetch('/api/hello') 代替一体化调用判 0）；`pnpm build` 成功后判分器起 `modern serve`，GET /api/hello 响应 200 且 body 含 Hello Modern.js。",
+        "needs_build": true,
+        "needs_serve": true
+      },
+      "doc_source": "guides/advanced-features/bff/function.mdx + components/enable-bff.mdx",
+      "trap_note": "v2 答案是 `pnpm new` 启用 BFF；tsconfig @api 别名与 include: [\"api\"] 两步是训练数据最常漏的。"
+    },
+    {
+      "id": "L3-02",
+      "layer": "L3",
+      "weight": 2.0,
+      "kind": "code",
+      "prompt": "为项目搭建自定义 Web Server：按 v3 官方方式创建服务端配置文件，注册一个名为 'request-timing' 的中间件，为所有响应追加响应头 x-render-by: modern-ab；同时完成 TS 工程配置，使服务端目录参与类型检查。所需运行时依赖 @modern-js/server-runtime 已预装，无需安装、无需改 package.json。禁止启动 dev server。",
+      "grader_spec": {
+        "type": "build_check",
+        "rules": "primary exact-pass 全部必须满足：存在 server/modern.server.ts，匹配 /import\\s*\\{[^}]*defineServerConfig[^}]*\\}\\s*from\\s*['\"]@modern-js\\/server-runtime['\"]/，default export 的 middlewares 数组含 { name: 'request-timing', handler }，handler 内 await next() 并设置 x-render-by 响应头；不存在 v2 约定的 server/index.ts；tsconfig.json include 含 \"server\"；`pnpm build` 退出码 0。写 v2 hook 结构或 express/koa 中间件判 0。",
+        "needs_build": true,
+        "needs_serve": false
+      },
+      "doc_source": "guides/advanced-features/web-server.mdx",
+      "trap_note": "v2 自定义 Web Server 是 server/index.ts + Hook/Middleware(Unstable) 写法；v3 改为 server/modern.server.ts + defineServerConfig + Hono 风格 MiddlewareHandler，训练数据大概率给 v2 结构。"
+    },
+    {
+      "id": "L3-03",
+      "layer": "L3",
+      "weight": 2.0,
+      "kind": "code",
+      "prompt": "实现流式 SSR + 延迟数据：开启流式 SSR；给 /stream 路由添加 Data Loader，其中一个慢数据（约 500ms 的 Promise，resolve 为 'deferred-ok'）按官方 defer 方式返回；页面用官方组件在 Suspense 中渲染该延迟数据，fallback 显示 'loading...'。禁止启动 dev server、禁止安装依赖。",
+      "grader_spec": {
+        "type": "build_check",
+        "rules": "server.ssr 开启（true 或 mode:'stream'）；src/routes/stream/page.data.ts 匹配 /import\\s*\\{[^}]*defer[^}]*\\}\\s*from\\s*['\"]@modern-js\\/runtime\\/router['\"]/ 且 return defer({...})（defer 收对象而非裸 Promise）；page.tsx 使用 <Await resolve={...}>（import 自 '@modern-js/runtime/router'）并包裹于 Suspense；`pnpm build` 退出码 0。",
+        "needs_build": true,
+        "needs_serve": false
+      },
+      "doc_source": "guides/basic-features/render/streaming-ssr.mdx + guides/basic-features/data/data-fetch.mdx",
+      "trap_note": "defer/Await 需从 '@modern-js/runtime/router' 引入且 defer 必须接对象参数；训练数据常直接从 'react-router-dom' 引入或 defer(promise) 传裸 Promise。"
+    },
+    {
+      "id": "L3-04",
+      "layer": "L3",
+      "weight": 2.0,
+      "kind": "code",
+      "prompt": "实现路由级错误边界：新增 /boom 路由，其 page 组件渲染时直接 throw new Error('boom-error')；再按官方约定为该路由目录添加错误边界组件，使用官方 hook 获取错误对象并渲染错误信息，保证其它路由不受影响。禁止启动 dev server、禁止安装依赖。",
+      "grader_spec": {
+        "type": "build_check",
+        "rules": "存在 src/routes/boom/page.tsx（含 throw）与 src/routes/boom/error.tsx（default export 组件）；error.tsx 匹配 /import\\s*\\{[^}]*useRouteError[^}]*\\}\\s*from\\s*['\"]@modern-js\\/runtime\\/router['\"]/；`pnpm build` 退出码 0。用 class ErrorBoundary(componentDidCatch) 手写或 error 文件放错位置判 0。",
+        "needs_build": true,
+        "needs_serve": false
+      },
+      "doc_source": "guides/basic-features/routes/routes.mdx#error-handling",
+      "trap_note": "训练数据倾向 React class ErrorBoundary；Modern.js v3 约定是目录内 error.tsx + useRouteError。"
+    },
+    {
+      "id": "L3-05",
+      "layer": "L3",
+      "weight": 2.0,
+      "kind": "code",
+      "prompt": "把项目改造成多入口应用：保留现有页面为主入口（路由 /），新增名为 admin 的入口（路由 /admin，页面渲染文本 'admin-entry'）。请按 v3 官方多入口目录约定完成改造（注意主入口目录命名与 package.json name 字段的关系）。禁止启动 dev server、禁止安装依赖。",
+      "grader_spec": {
+        "type": "html_check",
+        "rules": "src/ 下存在 demo-app/routes/（原路由整体迁入，与 package.json name 同名）与 admin/routes/page.tsx（含 'admin-entry'）；src 顶层不再直接存在 routes/；`pnpm build` 退出码 0，dist 产物中同时存在两个入口的 HTML（find dist -name 'index.html' 命中路径含 admin 与主入口各一）。",
+        "needs_build": true,
+        "needs_serve": false
+      },
+      "doc_source": "guides/concept/entries.mdx",
+      "trap_note": "v2/训练数据答案是 `pnpm new` 创建入口；且『主入口 = 与 package.json name 同名目录』这一约定极易漏掉，直接建 src/admin 而不迁移原 routes 会导致入口识别错乱。"
+    },
+    {
+      "id": "L3-06",
+      "layer": "L3",
+      "weight": 2.0,
+      "kind": "code",
+      "prompt": "新增 /blog 子路由（含自身 layout.tsx 与 page.tsx，page 渲染 'blog-page'），并按官方约定为根路由目录添加 Loading 组件（导出默认组件渲染 'route-loading'），使子路由 JS 分片加载期间显示该 Loading。请注意 Loading 生效的前置条件。禁止启动 dev server、禁止安装依赖。",
+      "grader_spec": {
+        "type": "build_check",
+        "rules": "存在 src/routes/loading.tsx（default export，含 'route-loading'）且 src/routes/layout.tsx 仍存在（Loading 生效前提）；存在 src/routes/blog/layout.tsx 与 blog/page.tsx；`pnpm build` 退出码 0。把 loading 写成 React.lazy+Suspense 手工方案判 0。",
+        "needs_build": true,
+        "needs_serve": false
+      },
+      "doc_source": "guides/basic-features/routes/routes.mdx#loading-experimental",
+      "trap_note": "『loading.tsx 仅在同目录存在 layout 组件时生效』是文档特有细节。"
+    },
+    {
+      "id": "L3-07",
+      "layer": "L3",
+      "weight": 2.0,
+      "kind": "code",
+      "prompt": "为应用的客户端路由设置 basename 为 /app。请把该运行时配置写在 v3 规定的正确位置（提示：不是 modern.config.ts）。禁止启动 dev server、禁止安装依赖。",
+      "grader_spec": {
+        "type": "file_ast",
+        "rules": "src/modern.runtime.ts 匹配 /import\\s*\\{[^}]*defineRuntimeConfig[^}]*\\}\\s*from\\s*['\"]@modern-js\\/runtime['\"]/ 且配置 router.basename === '/app'；modern.config.ts 中不得新增 runtime 字段（出现 runtime:{router 判 0）；`pnpm build` 退出码 0。",
+        "needs_build": true,
+        "needs_serve": false
+      },
+      "doc_source": "configure/app/runtime/0-intro.mdx + configure/app/runtime/router.mdx",
+      "trap_note": "v2 把 runtime.router 配在 modern.config.ts；v3 要求集中到 src/modern.runtime.ts + defineRuntimeConfig，训练数据大概率写错位置。"
+    },
+    {
+      "id": "L3-08",
+      "layer": "L3",
+      "weight": 2.0,
+      "kind": "code",
+      "prompt": "实现数据写入闭环：为 /notes 路由创建 Data Loader（返回 {items: []}）与 Data Action（接收表单提交，读取 request 中的数据并返回 {ok: true}），页面用官方 hook 获取 submit 方法触发写入、用 useLoaderData 渲染列表。loader/action 按官方文件约定组织。禁止启动 dev server、禁止安装依赖。",
+      "grader_spec": {
+        "type": "build_check",
+        "rules": "src/routes/notes/page.data.ts 同时 export const loader 与 export const action（action 使用 request 参数）；page.tsx 使用 useFetcher（import 自 '@modern-js/runtime/router'）并调用其 submit，同时使用 useLoaderData；`pnpm build` 退出码 0。action 写进组件文件或用 fetch POST 自建接口判 0。",
+        "needs_build": true,
+        "needs_serve": false
+      },
+      "doc_source": "guides/basic-features/data/data-write.mdx + guides/basic-features/data/data-fetch.mdx",
+      "trap_note": "同名 .data 文件同时承载 loader+action、useFetcher().submit 触发后自动重跑 loader，这一套约定训练数据常与 Remix/react-router 细节混淆。"
+    },
+    {
+      "id": "L4-01",
+      "layer": "L4",
+      "weight": 1.0,
+      "kind": "qa",
+      "prompt": "我要写一个 Modern.js CLI 插件，给 modern 命令行新增一个自定义子命令 my-command。回答：(1) 在插件 setup(api) 中应调用哪个 API？(2) 该 API 的回调函数参数里拿到的是什么对象（来自哪个库）？请给最小代码示例。禁止启动 dev server、禁止安装依赖。",
+      "grader_spec": {
+        "type": "answer_keywords",
+        "rules": "accuracy=1 仅当同时匹配 /api\\.addCommand/ 与 /program/（commander program 对象，示例含 program.command）。其余一律 0。abstention 判定（独立字段，不影响 accuracy）：回答明确声明本地文档未包含该内容且未编造 API 名时 abstained=true。",
+        "needs_build": false,
+        "needs_serve": false
+      },
+      "doc_source": "packages/document/docs/en/plugin/cli-plugins/api.mdx（bundle 未收录，仅线上 llms-full.txt 有）",
+      "trap_note": "缺口题：本地捆绑文档无 plugin/ 目录（已验证 addCommand 在 bundle 中 0 命中）。B 组应答『本地文档没有，需查线上文档』或正确兜底到线上；无兜底时训练数据会编造 API 名。"
+    },
+    {
+      "id": "L4-02",
+      "layer": "L4",
+      "weight": 1.0,
+      "kind": "qa",
+      "prompt": "写 Modern.js 运行时插件（Runtime Plugin）时，想用自定义的全局 Provider 包裹应用根组件：(1) 应使用插件 api 上的哪个方法？(2) 官方文档特别强调包装组件时必须注意什么（否则应用可能无法正常工作）？禁止启动 dev server、禁止安装依赖。",
+      "grader_spec": {
+        "type": "answer_keywords",
+        "rules": "accuracy=1 仅当匹配 /api\\.wrapRoot/ 且明确提到必须把 props 透传给原组件。其余一律 0。abstention 判定（独立字段，不影响 accuracy）：回答明确声明本地文档未包含该内容且未编造 API 名时 abstained=true。",
+        "needs_build": false,
+        "needs_serve": false
+      },
+      "doc_source": "packages/document/docs/en/plugin/runtime-plugins/api.mdx（bundle 未收录，已验证 wrapRoot 0 命中）",
+      "trap_note": "缺口题：v2 runtime 插件 hook 名不同（如 hoc/wrapRoot 早期形态），无线上文档时极易给出 v2 或臆造签名。"
+    },
+    {
+      "id": "L4-03",
+      "layer": "L4",
+      "weight": 1.0,
+      "kind": "qa",
+      "prompt": "Modern.js 服务器插件（Server Plugin）的生命周期钩子 api.onReset 中，event.type 可能有哪些取值？分别在什么情况下触发？禁止启动 dev server、禁止安装依赖。",
+      "grader_spec": {
+        "type": "answer_keywords",
+        "rules": "accuracy=1 仅当同时匹配 /repack/ 与 /file-change/ 且语义正确。其余一律 0。abstention 判定（独立字段，不影响 accuracy）：回答明确声明本地文档未包含该内容且未编造 API 名时 abstained=true。",
+        "needs_build": false,
+        "needs_serve": false
+      },
+      "doc_source": "packages/document/docs/en/plugin/server-plugins/api.mdx（bundle 未收录，已验证 onReset/repack 0 命中）",
+      "trap_note": "缺口题：'repack'|'file-change' 为文档独有枚举，训练数据不可能命中，专测 B 组对本地缺页的兜底行为。"
+    },
+    {
+      "id": "L4-04",
+      "layer": "L4",
+      "weight": 1.0,
+      "kind": "qa",
+      "prompt": "自定义 Modern.js 插件对象（Plugin 结构）中：(1) 声明『该插件必须依赖的、未注册就报错的插件列表』用哪个字段？(2) 向系统注册新的自定义 Hooks 用哪个字段？(3) 控制本插件在某些插件之前/之后执行的两个字段名是什么？禁止启动 dev server、禁止安装依赖。",
+      "grader_spec": {
+        "type": "answer_keywords",
+        "rules": "accuracy=1 仅当 /required/、/registryHooks/、/\\bpre\\b/、/\\bpost\\b/ 四者全部命中。其余一律 0。abstention 判定（独立字段，不影响 accuracy）：回答明确声明本地文档未包含该内容且未编造 API 名时 abstained=true。",
+        "needs_build": false,
+        "needs_serve": false
+      },
+      "doc_source": "packages/document/docs/en/plugin/plugin-system.mdx（bundle 未收录，已验证 registryHooks/usePlugins 0 命中）",
+      "trap_note": "缺口题：registryHooks 是拼写独特的字段（易臆造为 registerHooks），是甄别『真查了文档』vs『凭记忆编造』的强信号。"
+    },
+    {
+      "id": "L5-01",
+      "layer": "L5",
+      "weight": 1.5,
+      "kind": "qa",
+      "prompt": "我记得 Modern.js 可以用命令行往已有项目里添加新的页面入口（entry）。在当前项目（v3）中应该怎么做？给出具体命令或步骤。禁止启动 dev server、禁止安装依赖。",
+      "grader_spec": {
+        "type": "answer_keywords",
+        "rules": "必须明确说明 v3 已移除 `modern new`（匹配 /(modern new|new 命令).{0,20}(移除|不支持|removed)/ 或等价表述），并给出手动步骤：在 src/ 下创建入口目录 + routes/（匹配 /src\\/.{0,20}routes/ 与 mkdir|创建目录 语义）。凡把 `pnpm new` / `modern new` 作为可用命令推荐即判 0。",
+        "needs_build": false,
+        "needs_serve": false
+      },
+      "doc_source": "guides/upgrade/other.mdx#new-and-upgrade-commands-removed + guides/concept/entries.mdx",
+      "trap_note": "训练数据标准答案是 v2 的 `pnpm new`（modern new）交互式创建入口——v3 已移除该命令。"
+    },
+    {
+      "id": "L5-02",
+      "layer": "L5",
+      "weight": 1.5,
+      "kind": "code",
+      "prompt": "在 src/routes/layout.tsx 中获取框架运行时上下文里的 isBrowser 标志，并在浏览器端 console.log('is-browser', isBrowser)。要求使用当前版本（v3）推荐的 API 写法。禁止启动 dev server、禁止安装依赖。",
+      "grader_spec": {
+        "type": "file_ast",
+        "rules": "layout.tsx 匹配 /import\\s*\\{[^}]*RuntimeContext[^}]*\\}\\s*from\\s*['\"]@modern-js\\/runtime['\"]/ 且使用 use(RuntimeContext) 或 useContext(RuntimeContext)，isBrowser 从返回值顶层解构；出现 useRuntimeContext 调用判 0；`pnpm build` 退出码 0。",
+        "needs_build": true,
+        "needs_serve": false
+      },
+      "doc_source": "guides/upgrade/other.mdx#useruntimecontext-deprecated",
+      "trap_note": "训练数据标准答案是 v2 的 useRuntimeContext()（且 isBrowser 在 context.isBrowser）；v3 已废弃，改为 use(RuntimeContext) 且 isBrowser 提升到顶层。"
+    },
+    {
+      "id": "L5-03",
+      "layer": "L5",
+      "weight": 1.5,
+      "kind": "code",
+      "prompt": "给应用新增 /about 页面，渲染文本 'about-page'。请把文件放在当前版本（v3）约定式路由要求的正确位置。禁止启动 dev server、禁止安装依赖。",
+      "grader_spec": {
+        "type": "file_ast",
+        "rules": "存在 src/routes/about/page.tsx（default export 组件含 'about-page'）；不得创建 src/pages/ 目录（存在即判 0）；`pnpm build` 退出码 0。",
+        "needs_build": true,
+        "needs_serve": false
+      },
+      "doc_source": "guides/upgrade/other.mdx#pages-directory... + guides/basic-features/routes/routes.mdx",
+      "trap_note": "训练数据（Modern.js v1 教程与 Next.js pages router）会写 src/pages/about/index.tsx；v3 只支持 routes/ 目录 + page.tsx 约定。"
+    },
+    {
+      "id": "L5-04",
+      "layer": "L5",
+      "weight": 1.5,
+      "kind": "qa",
+      "prompt": "我想在这个项目里修改底层打包器配置（比如加一个 bundler 插件）。Modern.js v3 里还能用 tools.webpack / webpackChain 吗？正确的配置入口是什么？两句话回答。禁止启动 dev server、禁止安装依赖。",
+      "grader_spec": {
+        "type": "answer_keywords",
+        "rules": "必须说明 v3 不再支持 webpack（匹配 /webpack.{0,20}(不支持|移除|no longer)/ 等价表述），并给出 Rspack 入口：匹配 /tools\\.rspack/ 或 /tools\\.bundlerChain/（提到默认构建器为 Rspack）。推荐 tools.webpack/webpackChain 作为可用项判 0。",
+        "needs_build": false,
+        "needs_serve": false
+      },
+      "doc_source": "guides/upgrade/other.mdx#webpack-build-no-longer-supported + configure/app/tools/rspack.mdx",
+      "trap_note": "v2 双构建器时代 tools.webpack/webpackChain 是高频答案；v3 仅 Rspack（tools.rspack / tools.bundlerChain）。"
+    }
+  ]
+}

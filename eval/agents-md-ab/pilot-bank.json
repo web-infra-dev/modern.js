@@ -1,0 +1,130 @@
+{
+  "meta": {
+    "version": "pilot-v2-behavioral",
+    "scoring": "primary = exact binary pass（全部断言通过=1，否则=0）",
+    "source": "tasks.json 旧 10 题 pilot，grader_spec 按行为级重写（构建/起服务/产物断言），layer/kind 保留",
+    "note": "T02/T05/T07 answer_keywords 严格 binary；qa 答案来源 ANSWER.md 优先、否则 .final-answer.txt"
+  },
+  "tasks": [
+    {
+      "id": "T01",
+      "layer": "L0",
+      "kind": "code",
+      "prompt": "在首页（src/routes/page.tsx）中添加一个内容为 \"Hello Eval\" 的 <h2> 标题。不要启动 dev server，不要安装依赖。",
+      "grader_spec": {
+        "type": "build_check",
+        "rules": "src/routes/page.tsx 匹配 /<h2[^>]*>\\s*Hello Eval\\s*<\\/h2>/（组件断言；CSR 模板产物 HTML 不含运行时渲染内容，故断言源码组件）；`pnpm build` 退出码 0（防语法错误）。",
+        "needs_build": true,
+        "needs_serve": false
+      }
+    },
+    {
+      "id": "T02",
+      "layer": "L0",
+      "kind": "qa",
+      "prompt": "这个项目本地开发时应该运行什么命令启动开发服务器？把答案写入项目根目录的 ANSWER.md 文件。不要实际启动它。",
+      "grader_spec": {
+        "type": "answer_keywords",
+        "rules": "答案（ANSWER.md 优先，否则 .final-answer.txt；两处都没有判 fail）必须给出真实可用的 dev 命令：匹配 /(pnpm\\s+(run\\s+)?dev|npm\\s+run\\s+dev|yarn\\s+(run\\s+)?dev|modern\\s+dev)/。严格 binary。",
+        "needs_build": false,
+        "needs_serve": false
+      }
+    },
+    {
+      "id": "T03",
+      "layer": "L1",
+      "kind": "code",
+      "prompt": "为这个项目开启 SSR（服务端渲染）。只修改配置，不要启动 dev server，不要安装依赖。",
+      "grader_spec": {
+        "type": "build_check",
+        "rules": "`pnpm build` 退出码 0，且构建产出 SSR server bundle 证据：产物根目录（dist/build/build_output 任一）下存在 bundles/ 目录且其中有 .js 文件（行为级证据，覆盖 ssr:true 与 ssr:{...} 等一切正确写法；写错位置则不产出 bundles → fail）。",
+        "needs_build": true,
+        "needs_serve": false
+      }
+    },
+    {
+      "id": "T04",
+      "layer": "L1",
+      "kind": "code",
+      "prompt": "把这个项目的构建产物输出根目录改为 build_output。只修改配置，不要执行构建。",
+      "grader_spec": {
+        "type": "build_check",
+        "rules": "判分器执行 `pnpm build`（退出码 0），构建后真实存在 build_output/ 目录，且其中递归存在至少一个 .html 与一个 .js 产物（行为级：产物真的落在 build_output）。",
+        "needs_build": true,
+        "needs_serve": false
+      }
+    },
+    {
+      "id": "T05",
+      "layer": "L1",
+      "kind": "qa",
+      "prompt": "在 Modern.js v3 的约定式路由中，如果我想给某个路由页面添加「进入页面前获取数据」的 Data Loader，数据文件应该叫什么名字、放在哪里、需要导出什么？把答案写入项目根目录的 ANSWER.md。",
+      "grader_spec": {
+        "type": "answer_keywords",
+        "rules": "三点全中才 pass：(a) 文件命名为同名 .data 文件（匹配 /page\\.data|\\.data\\.(ts|tsx|js)/）；(b) 位置在 routes 路由目录、与路由组件同级（匹配 /routes/）；(c) 导出 loader（匹配 /loader/i）。严格 binary。",
+        "needs_build": false,
+        "needs_serve": false
+      }
+    },
+    {
+      "id": "T06",
+      "layer": "L2",
+      "kind": "code",
+      "prompt": "新增一个 /about 路由页面，并为它配一个 Data Loader：loader 返回 { title: 'About Us' }，页面组件从 loader 拿到 title 并渲染在 <h1> 里。不要启动 dev server。",
+      "grader_spec": {
+        "type": "build_check",
+        "rules": "存在 src/routes/about/page.tsx(.jsx) 与同级 page.data.ts(x/js)；data 文件导出 loader 且返回含 'About Us'；页面组件使用 useLoaderData 且含 <h1>（从 loader 拿 title 渲染）；`pnpm build` 退出码 0。loader 写进 page.tsx 或 data 文件命名不符约定判 0。",
+        "needs_build": true,
+        "needs_serve": false
+      }
+    },
+    {
+      "id": "T07",
+      "layer": "L2",
+      "kind": "qa",
+      "prompt": "我想给这个已有项目启用 BFF 功能，应该运行什么命令或者怎么操作？把具体步骤写入项目根目录的 ANSWER.md。只写答案，不要实际执行安装。",
+      "grader_spec": {
+        "type": "answer_keywords",
+        "rules": "陷阱题（v3 已移除 modern new）：任一行推荐 modern new / pnpm new 且该行无移除语境（移除|不再|不能|removed|no longer|deprecated|不要|别用|不支持）即 fail；pass 还须含手动启用/官方 skill 信号：/plugin-bff|bffPlugin|api\\/lambda|skills add|手动|manually|安装.*插件|install/i。严格 binary。",
+        "needs_build": false,
+        "needs_serve": false
+      }
+    },
+    {
+      "id": "T10",
+      "layer": "L2",
+      "kind": "code",
+      "prompt": "把应用的 HTML 标题（title）设置为 \"Eval App\"，并添加一个 name 为 description、内容为 \"eval description\" 的 meta 标签。通过框架配置实现，不要直接创建 HTML 文件。",
+      "grader_spec": {
+        "type": "html_check",
+        "rules": "modern.config.ts（去注释后）含 'Eval App'（快速静态前置，防手写 HTML 绕过）；`pnpm build` 退出码 0；构建产物中存在 .html 同时满足：含 <title>Eval App</title>，且匹配 /<meta[^>]*name=[\"']description[\"'][^>]*content=[\"']eval description[\"']/（属性顺序可交换）。",
+        "needs_build": true,
+        "needs_serve": false
+      }
+    },
+    {
+      "id": "T08",
+      "layer": "L3",
+      "kind": "code",
+      "prompt": "这个项目已经在 devDependencies 里装好了 @modern-js/plugin-bff 和 hono（无需安装）。请启用 BFF 功能，并新增一个 GET 接口 /api/hello，返回 JSON {\"message\":\"hi\"}。不要启动 dev server。",
+      "grader_spec": {
+        "type": "http_check",
+        "rules": "modern.config.ts 注册 bffPlugin（import 自 '@modern-js/plugin-bff'）；存在 api/lambda/hello.ts(.js) 且有 GET 导出；`pnpm build` 退出码 0；判分器以随机端口起 `pnpm serve`，GET /api/hello 响应 200 且 body JSON 深等于 {\"message\":\"hi\"}（行为级终审）。",
+        "needs_build": true,
+        "needs_serve": true
+      }
+    },
+    {
+      "id": "T09",
+      "layer": "L3",
+      "kind": "code",
+      "prompt": "为这个项目添加自定义 Web Server 逻辑：创建符合 Modern.js v3 约定的自定义 server 文件，实现一个中间件，给所有响应加上响应头 x-eval: 1。不要启动 dev server，不要安装依赖。",
+      "grader_spec": {
+        "type": "file_ast",
+        "rules": "存在 server/modern.server.ts(.js)（v3 约定路径）；文件（去注释后）声明 middlewares 中间件、handler 调用 next()、并设置 'x-eval' 响应头（匹配 /x-eval/ 且 /middlewares/ 且 /next\\s*\\(/）；`pnpm build` 退出码 0。注意：模板未安装 @modern-js/server-runtime，import 该包会使 tsc 失败 → build fail（已知模板/文档不一致，判分不要求该 import）。",
+        "needs_build": true,
+        "needs_serve": false
+      }
+    }
+  ]
+}
