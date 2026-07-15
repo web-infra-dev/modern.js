@@ -1,0 +1,625 @@
+{
+  "mode": "final",
+  "seed": 42,
+  "input": "synthetic-prod.jsonl",
+  "numpy_version": "2.4.6",
+  "preregistered_constants": {
+    "group_control": "PROD-A",
+    "group_treatment": "PROD-B",
+    "exploratory_groups": [
+      "G0",
+      "GA",
+      "GA2",
+      "GB"
+    ],
+    "primary_layers": [
+      "L1",
+      "L2",
+      "L3",
+      "L5"
+    ],
+    "negative_control_layer": "L0",
+    "stress_layer": "L4",
+    "alpha": 0.05,
+    "b_bootstrap": 10000,
+    "n_permutations": 10000,
+    "ci_level": 95.0,
+    "noninferiority_margin": -0.03,
+    "boott_variant": "对称化 studentized bootstrap-t（Hall）：q=|t*| 第97.5分位（'higher' 保守经验分位）；等尾 percentile-t 因校准网格实测反保守（下界>0 比例最高 0.058 > 名义 0.025）弃用，冻结",
+    "decision_rule": {
+      "win": "permutation two-sided p < 0.05 AND mean(d) > 0",
+      "non_inferior": "bootstrap-t 95% CI lower > -0.03",
+      "otherwise": "INSUFFICIENT_EVIDENCE",
+      "conflict": "置换与 CI 冲突时以置换为准（冻结）"
+    },
+    "power_task_ns": [
+      10,
+      20,
+      28
+    ],
+    "power_reps": [
+      2,
+      3,
+      4
+    ],
+    "power_deltas_pp": [
+      5,
+      10,
+      15,
+      20
+    ],
+    "power_n_sim": 2000,
+    "power_perm_p": 1000,
+    "rho_boot_b": 1000,
+    "rho_upper_pctl": 90.0,
+    "rho_min_tasks": 8,
+    "rho_fallback": "点估计x1.5 封顶0.5",
+    "success_definition": "pass AND NOT is_error AND NOT timeout（pass 为 exact binary）",
+    "selftest_grid": {
+      "n_tasks": [
+        10,
+        28
+      ],
+      "reps": [
+        2,
+        4
+      ],
+      "mu": [
+        0.3,
+        0.6
+      ],
+      "rho": [
+        0.1,
+        0.3
+      ],
+      "n_datasets": 2000,
+      "perm_p": 1000,
+      "boot_b": 1000
+    }
+  },
+  "n_records": 210,
+  "n_primary_records": 168,
+  "per_task_table": [
+    {
+      "task": "L1-00",
+      "n_A": 3,
+      "k_A": 3,
+      "p_A": 1.0,
+      "n_B": 3,
+      "k_B": 3,
+      "p_B": 1.0,
+      "d": 0.0
+    },
+    {
+      "task": "L1-01",
+      "n_A": 3,
+      "k_A": 0,
+      "p_A": 0.0,
+      "n_B": 3,
+      "k_B": 1,
+      "p_B": 0.3333333333333333,
+      "d": 0.3333333333333333
+    },
+    {
+      "task": "L1-02",
+      "n_A": 3,
+      "k_A": 2,
+      "p_A": 0.6666666666666666,
+      "n_B": 3,
+      "k_B": 1,
+      "p_B": 0.3333333333333333,
+      "d": -0.3333333333333333
+    },
+    {
+      "task": "L1-03",
+      "n_A": 3,
+      "k_A": 2,
+      "p_A": 0.6666666666666666,
+      "n_B": 3,
+      "k_B": 3,
+      "p_B": 1.0,
+      "d": 0.33333333333333337
+    },
+    {
+      "task": "L1-04",
+      "n_A": 3,
+      "k_A": 2,
+      "p_A": 0.6666666666666666,
+      "n_B": 3,
+      "k_B": 3,
+      "p_B": 1.0,
+      "d": 0.33333333333333337
+    },
+    {
+      "task": "L1-05",
+      "n_A": 3,
+      "k_A": 3,
+      "p_A": 1.0,
+      "n_B": 3,
+      "k_B": 1,
+      "p_B": 0.3333333333333333,
+      "d": -0.6666666666666667
+    },
+    {
+      "task": "L1-06",
+      "n_A": 3,
+      "k_A": 3,
+      "p_A": 1.0,
+      "n_B": 3,
+      "k_B": 1,
+      "p_B": 0.3333333333333333,
+      "d": -0.6666666666666667
+    },
+    {
+      "task": "L1-07",
+      "n_A": 3,
+      "k_A": 2,
+      "p_A": 0.6666666666666666,
+      "n_B": 3,
+      "k_B": 3,
+      "p_B": 1.0,
+      "d": 0.33333333333333337
+    },
+    {
+      "task": "L2-00",
+      "n_A": 3,
+      "k_A": 1,
+      "p_A": 0.3333333333333333,
+      "n_B": 3,
+      "k_B": 1,
+      "p_B": 0.3333333333333333,
+      "d": 0.0
+    },
+    {
+      "task": "L2-01",
+      "n_A": 3,
+      "k_A": 2,
+      "p_A": 0.6666666666666666,
+      "n_B": 3,
+      "k_B": 3,
+      "p_B": 1.0,
+      "d": 0.33333333333333337
+    },
+    {
+      "task": "L2-02",
+      "n_A": 3,
+      "k_A": 0,
+      "p_A": 0.0,
+      "n_B": 3,
+      "k_B": 1,
+      "p_B": 0.3333333333333333,
+      "d": 0.3333333333333333
+    },
+    {
+      "task": "L2-03",
+      "n_A": 3,
+      "k_A": 3,
+      "p_A": 1.0,
+      "n_B": 3,
+      "k_B": 3,
+      "p_B": 1.0,
+      "d": 0.0
+    },
+    {
+      "task": "L2-04",
+      "n_A": 3,
+      "k_A": 0,
+      "p_A": 0.0,
+      "n_B": 3,
+      "k_B": 2,
+      "p_B": 0.6666666666666666,
+      "d": 0.6666666666666666
+    },
+    {
+      "task": "L2-05",
+      "n_A": 3,
+      "k_A": 2,
+      "p_A": 0.6666666666666666,
+      "n_B": 3,
+      "k_B": 2,
+      "p_B": 0.6666666666666666,
+      "d": 0.0
+    },
+    {
+      "task": "L2-06",
+      "n_A": 3,
+      "k_A": 1,
+      "p_A": 0.3333333333333333,
+      "n_B": 3,
+      "k_B": 3,
+      "p_B": 1.0,
+      "d": 0.6666666666666667
+    },
+    {
+      "task": "L2-07",
+      "n_A": 3,
+      "k_A": 1,
+      "p_A": 0.3333333333333333,
+      "n_B": 3,
+      "k_B": 0,
+      "p_B": 0.0,
+      "d": -0.3333333333333333
+    },
+    {
+      "task": "L3-00",
+      "n_A": 3,
+      "k_A": 0,
+      "p_A": 0.0,
+      "n_B": 3,
+      "k_B": 0,
+      "p_B": 0.0,
+      "d": 0.0
+    },
+    {
+      "task": "L3-01",
+      "n_A": 3,
+      "k_A": 1,
+      "p_A": 0.3333333333333333,
+      "n_B": 3,
+      "k_B": 1,
+      "p_B": 0.3333333333333333,
+      "d": 0.0
+    },
+    {
+      "task": "L3-02",
+      "n_A": 3,
+      "k_A": 3,
+      "p_A": 1.0,
+      "n_B": 3,
+      "k_B": 3,
+      "p_B": 1.0,
+      "d": 0.0
+    },
+    {
+      "task": "L3-03",
+      "n_A": 3,
+      "k_A": 1,
+      "p_A": 0.3333333333333333,
+      "n_B": 3,
+      "k_B": 2,
+      "p_B": 0.6666666666666666,
+      "d": 0.3333333333333333
+    },
+    {
+      "task": "L3-04",
+      "n_A": 3,
+      "k_A": 2,
+      "p_A": 0.6666666666666666,
+      "n_B": 3,
+      "k_B": 2,
+      "p_B": 0.6666666666666666,
+      "d": 0.0
+    },
+    {
+      "task": "L3-05",
+      "n_A": 3,
+      "k_A": 2,
+      "p_A": 0.6666666666666666,
+      "n_B": 3,
+      "k_B": 2,
+      "p_B": 0.6666666666666666,
+      "d": 0.0
+    },
+    {
+      "task": "L3-06",
+      "n_A": 3,
+      "k_A": 0,
+      "p_A": 0.0,
+      "n_B": 3,
+      "k_B": 2,
+      "p_B": 0.6666666666666666,
+      "d": 0.6666666666666666
+    },
+    {
+      "task": "L3-07",
+      "n_A": 3,
+      "k_A": 2,
+      "p_A": 0.6666666666666666,
+      "n_B": 3,
+      "k_B": 2,
+      "p_B": 0.6666666666666666,
+      "d": 0.0
+    },
+    {
+      "task": "L5-00",
+      "n_A": 3,
+      "k_A": 1,
+      "p_A": 0.3333333333333333,
+      "n_B": 3,
+      "k_B": 0,
+      "p_B": 0.0,
+      "d": -0.3333333333333333
+    },
+    {
+      "task": "L5-01",
+      "n_A": 3,
+      "k_A": 2,
+      "p_A": 0.6666666666666666,
+      "n_B": 3,
+      "k_B": 2,
+      "p_B": 0.6666666666666666,
+      "d": 0.0
+    },
+    {
+      "task": "L5-02",
+      "n_A": 3,
+      "k_A": 1,
+      "p_A": 0.3333333333333333,
+      "n_B": 3,
+      "k_B": 2,
+      "p_B": 0.6666666666666666,
+      "d": 0.3333333333333333
+    },
+    {
+      "task": "L5-03",
+      "n_A": 3,
+      "k_A": 3,
+      "p_A": 1.0,
+      "n_B": 3,
+      "k_B": 3,
+      "p_B": 1.0,
+      "d": 0.0
+    }
+  ],
+  "excluded_tasks": [],
+  "inference": {
+    "mean_d": 0.08333333333333334,
+    "permutation_p": 0.28957104289571045,
+    "n_permutations": 10000,
+    "boott_ci_lower": -0.07298713949592822,
+    "boott_ci_upper": 0.2396538061625949,
+    "boott_se_obs": 0.06556631603912026,
+    "boott_degenerate": false,
+    "bca_ci_lower": -0.047619047619047616,
+    "bca_ci_upper": 0.20238095238095238,
+    "bca_note": "BCa 仅对照输出，决策用 bootstrap-t + 置换",
+    "ci_level": 95.0,
+    "n_bootstrap": 10000,
+    "n_paired_tasks": 28,
+    "primary_layers": [
+      "L1",
+      "L2",
+      "L3",
+      "L5"
+    ],
+    "conflict_rule": "置换与 CI 结论冲突时以置换为准（冻结）"
+  },
+  "decision": {
+    "decision": "INSUFFICIENT_EVIDENCE",
+    "perm_p": 0.28957104289571045,
+    "mean_d": 0.08333333333333334,
+    "boott_ci_lower": -0.07298713949592822,
+    "conflict_perm_vs_ci": false,
+    "conflict_rule": "置换与 CI 冲突时以置换为准（冻结）：WIN 仅由置换决定",
+    "rule": {
+      "win": "perm_p < 0.05 AND mean_d > 0",
+      "non_inferior": "bootstrap-t ci_lower > -0.03",
+      "otherwise": "INSUFFICIENT_EVIDENCE"
+    }
+  },
+  "efficiency_descriptive": {
+    "scope": "仅主分析集 layer ∈ ['L1', 'L2', 'L3', 'L5']",
+    "by_group": {
+      "PROD-A": {
+        "n_runs": 84,
+        "n_success_runs": 45,
+        "success_rate_runlevel": 0.5357142857142857,
+        "time_to_correct_ms_mean": 75695.37777777777,
+        "success_duration_ms_p50": 75898.0,
+        "success_duration_ms_p95": 117289.79999999999,
+        "cost_per_success_usd": 1.1200000000000017,
+        "mean_cost_of_success_runs_usd": 0.6000000000000004,
+        "total_cost_usd": 50.40000000000008,
+        "mean_cost_usd_all_runs": 0.6000000000000009,
+        "mean_input_tokens": 200000.0,
+        "mean_output_tokens": 2000.0,
+        "mean_num_turns": 8.0,
+        "mean_tool_calls": 9.0,
+        "mean_read_calls": 4.0,
+        "mean_webfetch_calls": 1.0,
+        "webfetch_error_rate": 0.0,
+        "webfetch_calls_total": 84,
+        "webfetch_errors_total": 0,
+        "timeout_rate": 0.0,
+        "is_error_rate": 0.0
+      },
+      "PROD-B": {
+        "n_runs": 84,
+        "n_success_runs": 52,
+        "success_rate_runlevel": 0.6190476190476191,
+        "time_to_correct_ms_mean": 73792.17307692308,
+        "success_duration_ms_p50": 69967.0,
+        "success_duration_ms_p95": 113758.15,
+        "cost_per_success_usd": 0.9692307692307707,
+        "mean_cost_of_success_runs_usd": 0.6000000000000006,
+        "total_cost_usd": 50.40000000000008,
+        "mean_cost_usd_all_runs": 0.6000000000000009,
+        "mean_input_tokens": 200000.0,
+        "mean_output_tokens": 2000.0,
+        "mean_num_turns": 8.0,
+        "mean_tool_calls": 9.0,
+        "mean_read_calls": 4.0,
+        "mean_webfetch_calls": 0.0,
+        "webfetch_error_rate": NaN,
+        "webfetch_calls_total": 0,
+        "webfetch_errors_total": 0,
+        "timeout_rate": 0.0,
+        "is_error_rate": 0.0
+      }
+    },
+    "paired": {
+      "n_tasks_used": 21,
+      "tasks_used": [
+        "L1-00",
+        "L1-02",
+        "L1-03",
+        "L1-04",
+        "L1-05",
+        "L1-06",
+        "L1-07",
+        "L2-00",
+        "L2-01",
+        "L2-03",
+        "L2-05",
+        "L2-06",
+        "L3-01",
+        "L3-02",
+        "L3-03",
+        "L3-04",
+        "L3-05",
+        "L3-07",
+        "L5-01",
+        "L5-02",
+        "L5-03"
+      ],
+      "duration_diff_ms_mean": 561.1984126984137,
+      "duration_diff_ms_ci": [
+        -8589.079166666666,
+        10389.502579365077
+      ],
+      "cost_diff_usd_mean": -0.04285714285714285,
+      "cost_diff_usd_ci": [
+        -0.28571428571428564,
+        0.21428571428571425
+      ],
+      "ci_method": "task-cluster bootstrap percentile（仅描述性，不用于决策）",
+      "note": "仅纳入两组均有>=1次成功的task；条件于成功有选择效应，为描述性次要指标，不参与判优"
+    }
+  },
+  "negative_control_L0": {
+    "layer": "L0",
+    "note": "负对照，仅描述，不推断",
+    "PROD-A": {
+      "n_runs": 9,
+      "n_tasks": 3,
+      "n_success": 5,
+      "pass_rate": 0.5555555555555556
+    },
+    "PROD-B": {
+      "n_runs": 9,
+      "n_tasks": 3,
+      "n_success": 7,
+      "pass_rate": 0.7777777777777778
+    },
+    "diff_B_minus_A": 0.2222222222222222
+  },
+  "stress_L4": {
+    "layer": "L4",
+    "note": "stress test，仅描述，不推断",
+    "PROD-A": {
+      "n_runs": 12,
+      "n_tasks": 4,
+      "n_success": 6,
+      "accuracy": 0.5,
+      "n_abstained": 0,
+      "abstention_rate": 0.0
+    },
+    "PROD-B": {
+      "n_runs": 12,
+      "n_tasks": 4,
+      "n_success": 8,
+      "accuracy": 0.6666666666666666,
+      "n_abstained": 0,
+      "abstention_rate": 0.0
+    }
+  },
+  "layer_descriptives_no_inference": [
+    {
+      "group": "PROD-A",
+      "layer": "L0",
+      "n_runs": 9,
+      "n_success": 5,
+      "pass_rate": 0.5555555555555556,
+      "in_primary_set": false
+    },
+    {
+      "group": "PROD-A",
+      "layer": "L1",
+      "n_runs": 24,
+      "n_success": 17,
+      "pass_rate": 0.7083333333333334,
+      "in_primary_set": true
+    },
+    {
+      "group": "PROD-A",
+      "layer": "L2",
+      "n_runs": 24,
+      "n_success": 10,
+      "pass_rate": 0.4166666666666667,
+      "in_primary_set": true
+    },
+    {
+      "group": "PROD-A",
+      "layer": "L3",
+      "n_runs": 24,
+      "n_success": 11,
+      "pass_rate": 0.4583333333333333,
+      "in_primary_set": true
+    },
+    {
+      "group": "PROD-A",
+      "layer": "L4",
+      "n_runs": 12,
+      "n_success": 6,
+      "pass_rate": 0.5,
+      "in_primary_set": false
+    },
+    {
+      "group": "PROD-A",
+      "layer": "L5",
+      "n_runs": 12,
+      "n_success": 7,
+      "pass_rate": 0.5833333333333334,
+      "in_primary_set": true
+    },
+    {
+      "group": "PROD-B",
+      "layer": "L0",
+      "n_runs": 9,
+      "n_success": 7,
+      "pass_rate": 0.7777777777777778,
+      "in_primary_set": false
+    },
+    {
+      "group": "PROD-B",
+      "layer": "L1",
+      "n_runs": 24,
+      "n_success": 16,
+      "pass_rate": 0.6666666666666666,
+      "in_primary_set": true
+    },
+    {
+      "group": "PROD-B",
+      "layer": "L2",
+      "n_runs": 24,
+      "n_success": 15,
+      "pass_rate": 0.625,
+      "in_primary_set": true
+    },
+    {
+      "group": "PROD-B",
+      "layer": "L3",
+      "n_runs": 24,
+      "n_success": 14,
+      "pass_rate": 0.5833333333333334,
+      "in_primary_set": true
+    },
+    {
+      "group": "PROD-B",
+      "layer": "L4",
+      "n_runs": 12,
+      "n_success": 8,
+      "pass_rate": 0.6666666666666666,
+      "in_primary_set": false
+    },
+    {
+      "group": "PROD-B",
+      "layer": "L5",
+      "n_runs": 12,
+      "n_success": 7,
+      "pass_rate": 0.5833333333333334,
+      "in_primary_set": true
+    }
+  ],
+  "exploratory_groups_no_inference": []
+}

@@ -1,0 +1,124 @@
+---
+sidebar_position: 12
+---
+
+# Import JSON Files
+
+Modern.js supports import JSON files in code by default. You can use Rsbuild plugins to support importing [YAML](https://yaml.org/) and [Toml](https://toml.io/en/) files and converting them to JSON format.
+
+## JSON file
+
+You can import JSON files directly in JavaScript files.
+
+### Example
+
+```json title="example.json"
+{
+  "name": "foo",
+  "items": [1, 2]
+}
+```
+
+```js title="index.js"
+import example from './example.json';
+
+console.log(example.name); // 'foo';
+console.log(example.items); // [1, 2];
+```
+
+### Named Import
+
+Modern.js does not support importing JSON files via named import yet:
+
+```js
+import { name } from './example.json';
+```
+
+## YAML file
+
+YAML is a data serialization language commonly used for writing configuration files.
+
+You can configure the [YAML plugin](https://github.com/rstackjs/rsbuild-plugin-yaml) in `modern.config.ts` to support importing `.yaml` or `.yml` files, they will be automatically converted to JSON format.
+
+```ts
+import { defineConfig } from '@modern-js/app-tools';
+import { pluginYaml } from '@rsbuild/plugin-yaml';
+
+export default defineConfig({
+  plugins: [pluginYaml()],
+});
+```
+
+### Example
+
+```yaml title="example.yaml"
+---
+hello: world
+foo:
+  bar: baz
+```
+
+```js
+import example from './example.yaml';
+
+console.log(example.hello); // 'world';
+console.log(example.foo); // { bar: 'baz' };
+```
+
+### Add type declaration
+
+When you import a YAML file in your TypeScript code, please create a `src/global.d.ts` file in your project and add the corresponding type declaration:
+
+```ts title="src/global.d.ts"
+declare module '*.yaml' {
+  const content: Record<string, any>;
+  export default content;
+}
+
+declare module '*.yml' {
+  const content: Record<string, any>;
+  export default content;
+}
+```
+
+## Toml file
+
+Toml is a semantically explicit, easy-to-read configuration file format.
+
+You can configure the [TOML plugin](https://github.com/rstackjs/rsbuild-plugin-toml) in `modern.config.ts` to support importing `.toml` files, it will be automatically converted to JSON format.
+
+```ts
+import { defineConfig } from '@modern-js/app-tools';
+import { pluginToml } from '@rsbuild/plugin-toml';
+
+export default defineConfig({
+  plugins: [pluginToml()],
+});
+```
+
+### Example
+
+```toml title="example.toml"
+hello = "world"
+
+[foo]
+bar = "baz"
+```
+
+```js
+import example from './example.toml';
+
+console.log(example.hello); // 'world';
+console.log(example.foo); // { bar: 'baz' };
+```
+
+### Add type declaration
+
+When you import Toml files in TypeScript code, please create a `src/global.d.ts` file in your project and add the corresponding type declarations:
+
+```ts title="src/global.d.ts"
+declare module '*.toml' {
+  const content: Record<string, any>;
+  export default content;
+}
+```

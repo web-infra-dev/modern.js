@@ -1,0 +1,37 @@
+---
+title: cssExtract
+---
+
+# tools.cssExtract
+
+- **Type:**
+
+```ts
+type CSSExtractOptions = {
+  pluginOptions?: Rspack.CssExtractRspackPluginOptions;
+  loaderOptions?: Rspack.CssExtractRspackLoaderOptions;
+};
+```
+
+- **Default:**
+
+```js
+const defaultOptions = {
+  // The loader options
+  loaderOptions: {},
+  // The plugin options
+  pluginOptions: {
+    // The default value of cssPath is `static/css`
+    // while the default value of cssFilename is `[name].[contenthash:8].css`
+    filename: `${cssPath}/${cssFilename}`,
+    chunkFilename: `${cssPath}/async/${cssFilename}`,
+    ignoreOrder: true,
+  },
+};
+```
+
+The config of [CssExtractRspackPlugin](https://rspack.rs/plugins/rspack/css-extract-rspack-plugin) can be modified through `tools.cssExtract`.
+
+import RsbuildConfig from '@site-docs-en/components/rsbuild-config-tooltip';
+
+<RsbuildConfig configName="tools.cssExtract" />

@@ -1,0 +1,130 @@
+---
+title: Locale Detection
+---
+
+# Locale Detection
+
+Locale detection means automatically inferring which language to use when the user has not manually selected one. The plugin can detect language from URL path, Cookie, request headers, browser settings, and other sources, and these methods can be combined.
+
+## Detection Priority
+
+No matter which detection methods are enabled, the priority is fixed as follows, from high to low:
+
+1. **SSR data**: Reads the language detected during server-side rendering from `window._SSR_DATA`, ensuring client and server consistency and avoiding language flicker.
+2. **Path detection**: Reads the locale prefix from the URL path. Requires `localePathRedirect`.
+3. **i18next detector**: Detects in the order configured by `detection.order` (Cookie, LocalStorage, query parameters, etc.).
+4. **initOptions.lng**: A language forced by runtime configuration.
+5. **fallbackLanguage**: The fallback language used when all detection methods fail.
+
+## Detection Methods
+
+### URL Path Detection
+
+After setting `localePathRedirect: true`, the plugin recognizes the language from the URL path prefix and automatically redirects paths without a prefix to the default language:
+
+```
+/about        -> redirects to /en/about (when fallbackLanguage is en)
+/zh/about     -> recognizes zh, no redirect
+/en/about     -> recognizes en, no redirect
+```
+
+```ts
+i18nPlugin({
+  localeDetection: {
+    localePathRedirect: true,
+    languages: ['zh', 'en'],
+    fallbackLanguage: 'en',
+  },
+});
+```
+
+After enabling path detection, you also need to configure a `[lang]` dynamic parameter in your routes. See [Routing Integration](./routing.md).
+
+### i18next Detector
+
+Set `i18nextDetector: true` to enable language detection from Cookie, LocalStorage, query parameters, request headers, and other sources:
+
+```ts
+i18nPlugin({
+  localeDetection: {
+    i18nextDetector: true,
+    detection: {
+      order: ['cookie', 'querystring', 'header'],
+      lookupCookie: 'i18next',
+      lookupQuerystring: 'lng',
+      lookupHeader: 'accept-language',
+      caches: ['cookie'],
+    },
+  },
+});
+```
+
+Both methods can be enabled at the same time:
+
+```ts
+i18nPlugin({
+  localeDetection: {
+    localePathRedirect: true,   // Path prefix
+    i18nextDetector: true,      // Cookie / Header, etc.
+    languages: ['zh', 'en'],
+    fallbackLanguage: 'en',
+    detection: {
+      order: ['cookie', 'header'],
+    },
+  },
+});
+```
+
+## Detection Options (`detection`)
+
+| Option | Type | Default | Description |
+| --- | --- | --- | --- |
+| `order` | `string[]` | See below | Detection order inside the i18next detector |
+| `lookupQuerystring` | `string` | `'lng'` | Query parameter key, such as `?lng=en` |
+| `lookupCookie` | `string` | `'i18next'` | Cookie key |
+| `lookupLocalStorage` | `string` | `'i18nextLng'` | LocalStorage key (browser only) |
+| `lookupSession` | `string` | - | SessionStorage key (browser only) |
+| `lookupHeader` | `string` | `'accept-language'` | HTTP request header key |
+| `lookupFromPathIndex` | `number` | `0` | Which URL path segment to start recognizing language from |
+| `caches` | `false \| string[]` | - | Where to cache the detected language, such as `['cookie']` |
+| `cookieMinutes` | `number` | `525600` (1 year) | Cookie expiration time in minutes |
+| `cookieExpirationDate` | `Date` | - | Cookie expiration date. Takes precedence over `cookieMinutes` |
+| `cookieDomain` | `string` | - | Cookie domain |
+
+**Default detection order when `order` is not configured:**
+
+```ts
+['querystring', 'cookie', 'localStorage', 'header', 'navigator', 'htmlTag', 'path', 'subdomain']
+```
+
+**Available `order` values:**
+
+| Value | Source | Limitation |
+| --- | --- | --- |
+| `querystring` | URL query parameter (`?lng=en`) | - |
+| `cookie` | Cookie | - |
+| `localStorage` | LocalStorage | Browser only |
+| `sessionStorage` | SessionStorage | Browser only |
+| `navigator` | Browser language settings | Browser only |
+| `htmlTag` | `<html lang="...">` | Browser only |
+| `header` | `Accept-Language` request header | - |
+| `path` | URL path (requires `localePathRedirect`) | - |
+| `subdomain` | Subdomain (`en.example.com`) | - |
+
+## ignoreRedirectRoutes
+
+Specify which paths should skip locale path redirects. This is useful for API routes, static assets, and other paths that do not need a locale prefix.
+
+**Syntax 1: string array** (supports exact match and prefix match)
+
+```ts
+ignoreRedirectRoutes: ['/api', '/admin', '/static']
+// '/api' matches both /api and /api/users.
+```
+
+**Syntax 2: function** (more flexible custom logic)
+
+```ts
+ignoreRedirectRoutes: pathname =>
+  pathname.startsWith('/api') || pathname.startsWith('/admin'),
+```

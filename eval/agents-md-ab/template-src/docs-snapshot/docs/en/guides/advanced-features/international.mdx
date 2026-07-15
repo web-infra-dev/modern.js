@@ -1,0 +1,29 @@
+---
+title: Internationalization
+---
+
+# Internationalization
+
+import I18nPluginIntroduce from '@site-docs/components/international/introduce';
+
+<I18nPluginIntroduce />
+
+## Where to start?
+
+| What you want to do | Documentation |
+| --- | --- |
+| Integrate for the first time and run an example | [Quick Start](./international/quick-start.md) |
+| Learn all configuration options | [Configuration](./international/configuration.md) |
+| Detect language from URL / Cookie / Header | [Locale Detection](./international/locale-detection.md) |
+| Implement paths with locale prefixes, such as `/en/about` | [Routing Integration](./international/routing.md) |
+| Load translation resources from a remote service or platform | [Resource Loading -> Custom Backend](./international/resource-loading.md#custom-backend) |
+| SSR, multiple entries, or custom instances | [Advanced Usage](./international/advanced.md) |
+| Look up Hooks / components / type definitions | [API Reference](./international/api.md) |
+
+## Core Capabilities
+
+- **Locale detection**: Supports detection from URL path, Cookie, LocalStorage, request headers, browser settings, and other sources, with configurable priority.
+- **Resource loading**: Supports HTTP static files, file system loading for SSR, custom SDK functions, and chained backend progressive loading.
+- **Routing integration**: Automatically adds locale path prefixes such as `/en/about`, and provides the `I18nLink` component for locale-aware navigation.
+- **SSR support**: Detects the language on the server and injects it into the page so the client can reuse it directly and avoid language flicker.
+- **TypeScript support**: Provides complete type definitions and supports type-safe translation keys.

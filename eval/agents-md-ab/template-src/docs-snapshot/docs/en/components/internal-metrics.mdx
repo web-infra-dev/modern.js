@@ -1,0 +1,20 @@
+In Modern.js, metric events are also handled by `LoggerMonitor`, which outputs metrics to the console in a specific format.
+
+:::info
+The built-in `LoggerMonitor` depends on the [rslog](https://www.npmjs.com/package/rslog) library.
+:::
+
+The `rslog` instance initialized in Modern.js outputs logs at `debug` level and above in development environment by default, and outputs all logs in production environment. In the built-in `LoggerMonitor`, all metric events are output as Debug logs. Therefore, if you want to view metric event information in the development environment, you need to add additional environment variables.
+
+Developers can add the environment variable `DEBUG=true` when running the `dev` command. If running normally, after accessing, you can see the following output in the console:
+
+```shell
+> Local:    http://localhost:8080/
+> press h + enter to show shortcuts
+
+debug   SSR Debug - server-loader, cost: 2.000094, req.url = /
+debug   SSR Debug - ssr-prerender, cost: 6.99997, req.url = /
+debug   SSR Debug - ssr-render-html, cost: 0.999927, req.url = /
+debug   Debug - server-handle-request, cost: 19.999981, req.url = /
+debug     --> GET / 200 90ms
+```

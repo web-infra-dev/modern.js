@@ -1,0 +1,31 @@
+---
+title: transformImport
+---
+
+# source.transformImport
+
+Transform the import path, which can be used to modularly import the subpath of third-party packages. The functionality is similar to [babel-plugin-import](https://www.npmjs.com/package/babel-plugin-import)。
+
+- **Type:**
+
+```ts
+type TransformImport =
+  | false
+  | Array<{
+      libraryName: string;
+      libraryDirectory?: string;
+      style?: string | boolean;
+      styleLibraryDirectory?: string;
+      camelToDashComponentName?: boolean;
+      transformToDefaultImport?: boolean;
+      customName?: string;
+      customStyleName?: string;
+    }>
+  | Function;
+```
+
+- **Default:** `undefined`
+
+import RsbuildConfig from '@site-docs-en/components/rsbuild-config-tooltip';
+
+<RsbuildConfig configName="source.transformImport" />

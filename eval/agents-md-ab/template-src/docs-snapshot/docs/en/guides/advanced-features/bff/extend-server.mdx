@@ -1,0 +1,120 @@
+# Extend BFF Server
+
+In some applications, developers may want to handle all BFF functions uniformly, such as authentication, logging, data processing, etc.
+
+Modern.js allows users to freely extend the BFF Server through [Middleware](/guides/advanced-features/web-server.html#middleware) method.
+
+## Using Middleware
+
+:::tip Version Consistency
+Before using middleware, you need to install the `@modern-js/server-runtime` dependency. Make sure the version of `@modern-js/server-runtime` matches the version of `@modern-js/app-tools` in your project. All Modern.js official packages are released with a uniform version number, and version mismatches may cause compatibility issues.
+
+Check the version of `@modern-js/app-tools` first, then install the same version of `@modern-js/server-runtime`:
+
+```bash
+# Check the current version of @modern-js/app-tools
+pnpm list @modern-js/app-tools
+
+# Install the same version of @modern-js/server-runtime
+pnpm add @modern-js/server-runtime@<version>
+```
+
+:::
+
+Developers can use middleware by configuring middlewares in `server/modern.server.ts`. The following describes how to write a BFF middleware manually to add permission verification:
+
+```ts title="server/modern.server.ts"
+import {
+  type MiddlewareHandler,
+  defineServerConfig,
+  getCookie,
+} from '@modern-js/server-runtime';
+
+const requireAuthForApi: MiddlewareHandler = async (c, next) => {
+  if (c.req.path.startsWith('/api') && c.req.path !== '/api/login') {
+    const sid = getCookie(c, 'sid');
+    if (!sid) {
+      return c.json({ code: -1, message: 'need login' }, 400);
+    }
+  }
+  await next();
+};
+
+export default defineServerConfig({
+  middlewares: [
+    {
+      name: 'require-auth-for-api',
+      handler: requireAuthForApi,
+    },
+  ],
+});
+```
+
+Then add a regular BFF function `api/lambda/hello.ts`:
+
+```ts title="api/lambda/hello.ts"
+export default async () => {
+  return 'Hello Modern.js';
+};
+```
+
+Next, in the frontend `src/routes/page.tsx`, add the interface access code and directly use the integrated method to call:
+
+```ts title="src/routes/page.tsx"
+import { useState, useEffect } from 'react';
+import { get as hello } from '@api/hello';
+
+export default () => {
+  const [text, setText] = useState('');
+
+  useEffect(() => {
+    async function fetchMyApi() {
+      const { message } = await hello();
+      setText(message);
+    }
+
+    fetchMyApi();
+  }, []);
+
+  return <p>{text}</p>;
+};
+```
+
+Now run the `dev` command to start the project, and access `http://localhost:8080/` to find that the request for `/api/hello` has been intercepted:
+
+![Network](https://lf3-static.bytednsdoc.com/obj/eden-cn/aphqeh7uhohpquloj/modern-js/docs/network2.png)
+
+Finally, modify the frontend code `src/routes/page.tsx`, and call the login interface before accessing `/api/hello`:
+
+:::note
+This part does not implement a real login interface; the code is just for demonstration.
+:::
+
+```ts
+import { useState, useEffect } from 'react';
+import { get as hello } from '@api/hello';
+import { post as login } from '@api/login';
+
+export default () => {
+  const [text, setText] = useState('');
+
+  useEffect(() => {
+    async function fetchAfterLogin() {
+      const { code } = await login();
+      if (code === 0) {
+        const { message } = await hello();
+        setText(message);
+      }
+    }
+    fetchAfterLogin();
+  }, []);
+
+  return <p>{text}</p>;
+};
+```
+
+Refresh the page, and you can see that the access to `/api/hello` is successful:
+
+![Network](https://lf3-static.bytednsdoc.com/obj/eden-cn/aphqeh7uhohpquloj/modern-js/docs/network3.png)
+
+The above code simulates defining middleware in `server/Modern.server.ts` and implements a simple login function. Similarly, other functionalities can be implemented in this configuration file to extend the BFF Server.

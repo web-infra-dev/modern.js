@@ -7,7 +7,14 @@
 //   4. assert pass/fail matches _expect.json (default: correct* → pass)
 //      and, for negatives, that reason points at an expected check name.
 //
-// Usage: node test-graders.mjs [--only T03] [--keep]
+// Usage: node test-graders.mjs [--bank taskbank-35.json] [--only T03] [--keep]
+//   --bank <file>  run the fixture matrix of another bank (default
+//                  pilot-bank.json); fixtures live in fixtures/<taskId>/
+//                  for both banks (task ids don't collide: T## vs L#-##).
+// Fixture dirs may carry an _expect.json:
+//   { "pass": false, "failCheck": ["check-name", ...], "delete": ["src/routes"] }
+//   "delete" removes template paths from the run dir BEFORE the overlay
+//   (needed for tasks that MOVE files, e.g. multi-entry migration).
 // Serial on purpose: canonical fixtures run REAL builds (~30-60 s each).
 
 import { spawnSync } from 'node:child_process';
@@ -16,15 +23,21 @@ import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
-const TEMPLATE = path.join(__dirname, 'template/demo-app');
+const EXPOSED = process.env.AB_EXPOSED_ROOT ?? '/tmp/modernjs-ab-exposed';
+const TEMPLATE = path.join(EXPOSED, 'templates/demo-app');
 const FIXTURES = path.join(__dirname, 'fixtures');
 const TESTRUNS = path.join(__dirname, 'testruns');
-const BANK = path.join(__dirname, 'pilot-bank.json');
 const ENGINE = path.join(__dirname, 'engine.mjs');
 
 const args = process.argv.slice(2);
 const only = args.includes('--only') ? args[args.indexOf('--only') + 1] : null;
 const keep = args.includes('--keep');
+const bankArg = args.includes('--bank')
+  ? args[args.indexOf('--bank') + 1]
+  : 'pilot-bank.json';
+const BANK = path.isAbsolute(bankArg)
+  ? bankArg
+  : path.join(__dirname, bankArg);
 
 const bank = JSON.parse(fs.readFileSync(BANK, 'utf8'));
 const taskIds = bank.tasks.map(t => t.id).filter(id => !only || id === only);
@@ -42,8 +55,20 @@ function prepareRunDir(taskId, fixtureName) {
     });
   }
   fs.symlinkSync(realNodeModules, path.join(dir, 'node_modules'));
-  // overlay fixture files (skip harness metadata)
   const fixDir = path.join(FIXTURES, taskId, fixtureName);
+  // deletions first (solutions that MOVE template files away)
+  const expectPath = path.join(fixDir, '_expect.json');
+  if (fs.existsSync(expectPath)) {
+    const exp = JSON.parse(fs.readFileSync(expectPath, 'utf8'));
+    for (const rel of exp.delete ?? []) {
+      const target = path.resolve(dir, rel);
+      if (!target.startsWith(dir + path.sep)) {
+        throw new Error(`unsafe delete path in ${taskId}/${fixtureName}: ${rel}`);
+      }
+      fs.rmSync(target, { recursive: true, force: true });
+    }
+  }
+  // overlay fixture files (skip harness metadata)
   const overlay = (from, to) => {
     for (const e of fs.readdirSync(from, { withFileTypes: true })) {
       if (e.name === '_expect.json') continue;

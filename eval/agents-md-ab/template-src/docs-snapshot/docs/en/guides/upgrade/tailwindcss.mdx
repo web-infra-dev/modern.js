@@ -1,0 +1,92 @@
+# Tailwind Plugin Changes
+
+Modern.js 3.0 recommends integrating Tailwind CSS through Rsbuild's native approach, no longer relying on the `@modern-js/plugin-tailwindcss` plugin, to fully utilize Rsbuild's more flexible configuration capabilities and better build experience.
+
+## Migration Steps
+
+The migration operations in this section are only required if the project uses the `@modern-js/plugin-tailwindcss` plugin and the `tailwindcss` version is v2 or v3.
+
+### 1. Remove Old Plugin
+
+Remove the `@modern-js/plugin-tailwindcss` dependency and configuration.
+
+**2.0 Version:**
+
+```ts title="modern.config.ts"
+import { defineConfig } from '@modern-js/app-tools';
+import tailwindcssPlugin from '@modern-js/plugin-tailwindcss';
+
+export default defineConfig({
+  plugins: [tailwindcssPlugin()],
+});
+```
+
+**3.0 Version:**
+
+```ts title="modern.config.ts"
+import { defineConfig } from '@modern-js/app-tools';
+
+export default defineConfig({
+  plugins: [],
+});
+```
+
+Also remove the `@modern-js/plugin-tailwindcss` dependency from `package.json`.
+
+### 2. Configure PostCSS
+
+Create or update the `postcss.config.cjs` file.
+
+```js title="postcss.config.cjs"
+module.exports = {
+  plugins: {
+    tailwindcss: {},
+  },
+};
+```
+
+### 3. Tailwind CSS Configuration Migration
+
+**Single Configuration Case**:
+
+- If only configured in `tailwind.config.{ts,js}`, no additional processing is needed
+- If only configured in `modern.config.ts`, you need to migrate Tailwind-related configurations to `tailwind.config.{ts,js}`
+
+**Dual Configuration Case**:
+
+If both `tailwind.config.{ts,js}` and `modern.config.ts` have configurations, you need to merge the configurations from both and migrate the merged configuration to `tailwind.config.{ts,js}`.
+
+**Special Directory Handling**:
+
+If the project has storybook or config/html directories, you need to add them to the `content` in `tailwind.config.{ts,js}`:
+
+```ts title="tailwind.config.ts"
+export default {
+  content: [
+    './src/**/*.{js,jsx,ts,tsx}',
+    './storybook/**/*', // If storybook directory exists
+    './config/html/**/*.{html,ejs,hbs}', // If config/html directory exists
+  ],
+};
+```
+
+### 4. CSS Style Import
+
+Change the CSS import method to the `@tailwind` directive approach.
+
+**2.0 Version:**
+
+```css
+@import 'tailwindcss/base.css';
+@import 'tailwindcss/components.css';
+@import 'tailwindcss/utilities.css';
+```
+
+**3.0 Version:**
+
+```css
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+```
+

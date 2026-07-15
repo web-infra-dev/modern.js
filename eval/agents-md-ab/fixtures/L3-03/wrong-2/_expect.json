@@ -1,0 +1,6 @@
+{
+  "pass": false,
+  "failCheck": [
+    "defer-returns-object"
+  ]
+}

@@ -1,0 +1,215 @@
+---
+sidebar_position: 1
+---
+
+# Commands
+
+Modern.js has some built-in commands that can help you quickly start a development server, build production environment code, and more.
+
+Through this chapter, you can learn about the built-in commands of Modern.js and how to use them.
+
+## modern dev
+
+The `modern dev` command is used to start a local development server and compile the source code in the development environment.
+
+```bash
+Usage: modern dev [options]
+
+Options:
+  -e --entry <entry>    compiler by entry
+  -c --config <config>  specify the configuration file, which can be a relative or absolute path
+  -h, --help            show command help
+  --web-only            only start web service
+  --api-only            only start API service
+```
+
+After running `modern dev`, Modern.js will watch source file changes and apply hot module replacement.
+
+```bash
+$ modern dev
+
+info    Starting dev server...
+
+  > Local:    http://localhost:8080/
+  > Network:  http://192.168.0.1:8080/
+```
+
+### Compile Partial Pages
+
+In multi-page (MPA) projects, the `--entry` option can be added to specify one or more pages to compile. In this way, only part of the code in the project will be compiled, and the dev startup speed will be faster.
+
+For example, execute `modern dev --entry`, the entry selector will be displayed in the command line interface:
+
+```text
+$ modern dev --entry
+
+? Please select the entry that needs to be built
+❯ ◯ foo
+  ◯ bar
+  ◯ baz
+```
+
+For example, if you select the `foo` entry, only the code related to the `foo` entry will be compiled, and the code of other pages will not be compiled.
+
+### Specify the page by parameter
+
+You can also specify the page name through parameters after `--entry`, and the names of multiple pages can be separated by commas.
+
+```bash
+# Compile foo page
+modern dev --entry foo
+
+# Compile foo and bar pages
+modern dev --entry foo,bar
+```
+
+## modern start
+
+`modern start` is an alias of `modern dev` command, the usage of the two are exactly the same.
+
+## modern build
+
+The `modern build` command will build production-ready artifacts in the `dist/` directory by default. You can specify the output directory by modifying the configuration [`output.distPath`](/configure/app/output/dist-path).
+
+```bash
+Usage: modern build [options]
+
+Options:
+  -c --config <config>  specify the configuration file, which can be a relative or absolute path
+  -h, --help            show command help
+  -w --watch            turn on watch mode, watch for changes and rebuild
+```
+
+## modern new
+
+The `modern new` command is used to enable features in an existing project.
+
+For example, add application entry, enable some optional features such as BFF, micro frontend, etc.
+
+```bash
+Usage: modern new [options]
+
+Options:
+  --config-file <configFile>  specify the configuration file, which can be a relative or absolute path
+  --lang <lang>          set the language (zh or en) for the new command.
+  -d, --debug            using debug mode to log something (default: false)
+  -c, --config <config>  set default generator config(json string)
+  --dist-tag <tag>       use specified tag version for its generator
+  --registry             set npm registry url to run npm command
+  -h, --help             show command help
+```
+
+### Add Entry
+
+In the project, execute the `new` command to add entries as follows:
+
+```text
+$ npx modern new
+? Please select the operation you want: Create Element
+? Please select the type of element to create: New "entry"
+? Please fill in the entry name: entry
+```
+
+### Enable Features
+
+In the project, execute the `new` command to enable features as follows:
+
+```text
+$ npx modern new
+? Please select the operation you want: Enable Features
+? Please select the feature name: (Use arrow keys)
+❯ Enable BFF
+  Enable SSG
+  Enable Micro Frontend
+```
+
+:::tip
+The `--config` parameter needs to use a JSON string.
+
+pnpm does not support the use of JSON strings as parameter values currently. Use `npm new` to turn on.【[Relate Issue](https://github.com/pnpm/pnpm/issues/3876)】
+:::
+
+import ServeCommand from '@site-docs-en/components/serve-command';
+
+<ServeCommand />
+
+## modern upgrade
+
+Execute the command `npx modern upgrade` in the project, by default, dependencies in the `package.json` are updated to the latest version.
+
+```bash
+Usage: modern upgrade [options]
+
+Options:
+  --config <config> specify the configuration file, which can be a relative or absolute path
+  --registry <registry>  specify npm registry (default: "")
+  -d,--debug             using debug mode to log something (default: false)
+  --cwd <cwd>            app directory (default: "")
+  -h, --help             show command help
+```
+
+## modern inspect
+
+The `modern inspect` command is used to view the Modern.js config, [Rsbuild config](https://v2.rsbuild.rs/config/index) and Rspack config of the project.
+
+```bash
+Usage: modern inspect [options]
+
+Options:
+  --env <env>           view the configuration in the target environment (default: "development")
+  --output <output>     Specify the path to output in the dist (default: "./")
+  --verbose             Show the full function in the result
+  -c --config <config>  specify the configuration file, which can be a relative or absolute path
+  -h, --help            show command help
+```
+
+After executing the command `npx modern inspect` in the project root directory, the following files will be generated in the `dist` directory of the project:
+
+- `modern.js.config.mjs`:The Modern.js configuration currently used.
+- `rsbuild.config.mjs`: The Rsbuild config to use at build time.
+- `rspack.config.web.mjs`: The Rspack config used by to use at build time.
+
+```bash
+➜ npx modern inspect
+
+Inspect config succeed, open following files to view the content:
+
+  - Rsbuild Config: /root/my-project/dist/rsbuild.config.mjs
+  - Rspack Config (web): /root/my-project/dist/rspack.config.web.mjs
+  - Modern.js Config: /root/my-project/dist/modern.js.config.mjs
+```
+
+### Configuration Env
+
+By default, the inspect command will output the development configs, you can use the `--env production` option to output the production configs:
+
+```bash
+modern inspect --env production
+```
+
+### Verbose content
+
+By default, the inspect command will omit the function content in the config object, you can use the `--verbose` option to output the full content of the function:
+
+```bash
+modern inspect --verbose
+```
+
+### SSR Configuration
+
+If the project has enabled SSR, an additional `rspack.config.node.mjs` file will be generated in the `dist/`, corresponding to the Rspack configuration at SSR build time.
+
+```bash
+➜ npx modern inspect
+
+Inspect config succeed, open following files to view the content:
+
+  - Rsbuild Config: /root/my-project/dist/rsbuild.config.mjs
+  - Rspack Config (web): /root/my-project/dist/rspack.config.web.mjs
+  - Rspack Config (node): /root/my-project/dist/rspack.config.node.mjs
+  - Modern.js Config: /root/my-project/dist/modern.js.config.mjs
+```
+
+import DeployCommand from '@site-docs-en/components/deploy-command';
+
+<DeployCommand />

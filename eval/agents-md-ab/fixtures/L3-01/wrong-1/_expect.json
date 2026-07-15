@@ -1,0 +1,7 @@
+{
+  "pass": false,
+  "failCheck": [
+    "unified-invocation",
+    "no-plain-fetch"
+  ]
+}

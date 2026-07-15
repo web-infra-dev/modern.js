@@ -14,7 +14,11 @@ export default async function grade(ctx, c) {
     return;
   const t = a.text;
   c.abstained = detectAbstention(t, ['wrapRoot']);
-  c.add('api-wrapRoot', /api\.wrapRoot/.test(t), 'expects api.wrapRoot');
+  c.add(
+    'api-wrapRoot',
+    ctx.positively(t, /api\.wrapRoot/),
+    'expects api.wrapRoot asserted positively',
+  );
   c.add(
     'props-passthrough-caveat',
     /props/.test(t) &&

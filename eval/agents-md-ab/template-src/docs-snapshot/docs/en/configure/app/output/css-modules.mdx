@@ -1,0 +1,52 @@
+---
+title: cssModules
+---
+
+# output.cssModules
+
+- **Type:**
+
+```ts
+type CssModules = {
+  auto?:
+    | boolean
+    | RegExp
+    | ((
+        resourcePath: string,
+        resourceQuery: string,
+        resourceFragment: string,
+      ) => boolean);
+  exportLocalsConvention?:
+    | 'asIs'
+    | 'camelCase'
+    | 'camelCaseOnly'
+    | 'dashes'
+    | 'dashesOnly';
+  exportGlobals?: boolean;
+  localIdentName?: string;
+  mode?:
+    | 'local'
+    | 'global'
+    | 'pure'
+    | 'icss'
+    | ((resourcePath: string) => 'local' | 'global' | 'pure' | 'icss');
+  namedExport?: boolean;
+};
+```
+
+- **Default:**
+
+```ts
+const defaultCssModules = {
+  auto: true,
+  namedExport: false,
+  exportGlobals: false,
+  exportLocalsConvention: 'camelCase',
+};
+```
+
+For custom CSS Modules configuration.
+
+import RsbuildConfig from '@site-docs-en/components/rsbuild-config-tooltip';
+
+<RsbuildConfig configName="output.cssModules" />

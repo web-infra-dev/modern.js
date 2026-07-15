@@ -1,0 +1,6 @@
+{
+  "pass": false,
+  "failCheck": [
+    "server-port-3100"
+  ]
+}

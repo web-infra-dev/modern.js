@@ -1,0 +1,102 @@
+---
+sidebar_position: 5
+---
+
+# Data Mocking
+
+Modern.js allows you to easily generate mock data so that the front-end can develop independently without depending on the back-end API.
+
+## Enabling Mock
+
+By convention, when there is an `index.ts` in the `config/mock/` directory, mock data will be automatically enabled:
+
+```bash
+.
+├── config
+│   └── mock
+│       └── index.ts
+├── src
+│   └── App.tsx
+└── modern.config.ts
+```
+
+## Writing Mock Files
+
+The `config/mock/index.ts` file only needs to export an object containing all Mock APIs. The properties of the object are composed of the request configuration `method` and `url`, and the corresponding property values can be `Object`, `Array`, or `Function`:
+
+```js
+export default {
+  /* The attribute is the concrete method and request url, and the value is object or array as the result of the request */
+  'GET /api/getInfo': { data: [1, 2, 3, 4] },
+
+  /* the default method is GET */
+  '/api/getExample': { id: 1 },
+
+  /* You can use custom functions to dynamically return data, req and res are both Node.js HTTP objects. */
+  'POST /api/addInfo': (req, res, next) => {
+    res.setHeader('Access-Control-Allow-Origin', '*');
+    res.end('200');
+  },
+};
+```
+
+When you access `http://localhost:8080/api/getInfo`, the API will return JSON `{ "data": [1, 2, 3, 4] }`.
+
+## Return Random Data
+
+Libraries such as [Mock.js](https://github.com/nuysoft/Mock/wiki/Getting-Started) can be used in `config/mock/index.js` to generate random data. For example:
+
+```js
+const Mock = require('mockjs');
+
+module.exports = {
+  '/api/getInfo': Mock.mock({
+    'data|1-10': [{ name: '@cname' }],
+  }) /* => {data: [{name: "Jack"}, {name: "Jim"},  {name: "Mary"}} */,
+};
+```
+
+:::info Other Mock Libraries
+
+- [Chancejs](https://github.com/chancejs/chancejs)
+- [Mock](https://github.com/nuysoft/Mock/wiki/Getting-Started)
+
+:::
+
+## Delayed Response
+
+- You can do this by using the browser's "weak connection simulation" feature.
+- Delays can be set via `setTimeout`, for example:
+
+```ts
+export default {
+  '/api/getInfo': (req, res) => {
+    setTimeout(() => {
+      res.end('delay 2000ms');
+    }, 2000);
+  },
+};
+```
+
+## Use Mock On Demand
+
+Under the `config/mock/index.ts`, you can also export the `config` to control the Mock service.
+
+```ts
+import type { IncomingMessage } from 'node:http';
+import type { ServerResponse } from 'node:http';
+
+type MockConfig = {
+  enable: ((req: IncomingMessage, res: ServerResponse) => boolean) | boolean;
+};
+
+export const config = {
+  enable: false
+}
+```
+
+Currently only the `enable` configuration is supported, which allows developers to control whether to execute mock.
+
+:::note
+After modifying `config`, there is no need to restart the service, which will take effect immediately.
+:::

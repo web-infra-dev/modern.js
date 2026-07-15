@@ -1,0 +1,6 @@
+{
+  "pass": true,
+  "delete": [
+    "src/routes"
+  ]
+}

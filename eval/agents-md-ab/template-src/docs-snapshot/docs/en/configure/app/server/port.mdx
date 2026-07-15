@@ -1,0 +1,22 @@
+---
+title: port
+---
+
+# server.port
+
+- **Type:** `number`
+- **Default:** `8080`
+
+When running the `dev` and `serve` commands, Modern.js will start with `8080` as the default port and automatically increase the port number when the port is occupied. You can use this configuration to modify the port number that the Server starts with:
+
+```js title="modern.config.ts"
+export default defineConfig({
+  server: {
+    port: 3000,
+  },
+});
+```
+
+import RsbuildConfig from '@site-docs-en/components/rsbuild-config-tooltip';
+
+<RsbuildConfig configName="server.port" />

@@ -1,0 +1,51 @@
+---
+title: distPath
+---
+
+# output.distPath
+
+
+import CommentTips from '@site-docs/components/output-distpath-warning';
+
+<CommentTips />
+
+- **Type：**
+
+```ts
+type DistPathConfig = {
+  root?: string;
+  html?: string;
+  js?: string;
+  css?: string;
+  svg?: string;
+  font?: string;
+  wasm?: string;
+  image?: string;
+  media?: string;
+  worker?: string;
+  assets?: string;
+};
+```
+
+- **Default：**
+
+```js
+const defaultDistPath = {
+  root: 'dist',
+  css: 'static/css',
+  svg: 'static/svg',
+  font: 'static/font',
+  html: 'html',
+  wasm: 'static/wasm',
+  image: 'static/image',
+  media: 'static/media',
+  js: 'static/js',
+  assets: 'static/assets',
+};
+```
+
+Set the directory of the dist files. Modern.js will output files to the corresponding subdirectory according to the file type.
+
+import RsbuildConfig from '@site-docs-en/components/rsbuild-config-tooltip';
+
+<RsbuildConfig configName="output.distPath" />

@@ -1,0 +1,24 @@
+---
+title: configDir
+---
+
+# source.configDir
+
+- **Type:** `string`
+- **Default:** `'./config'`
+
+Modern.js supports placing some files in the `./config` folder to customize HTML templates, icons, static assets, etc. For details, please refer to [File Convention](/apis/app/hooks/config/html).
+
+This option allows you to customize the directory of the configuration files.
+
+For example, adjust the assets directory to the `resources` directory:
+
+```js title="modern.config.ts"
+import { defineConfig } from '@modern-js/app-tools';
+
+export default defineConfig({
+  source: {
+    configDir: './resources',
+  },
+});
+```

@@ -134,7 +134,11 @@ function makeCtx() {
       rec(path.join(runDir, root));
       return out;
     },
-    // Compare project files against the frozen template manifest.
+    // Compare project files against the frozen template manifest (NOT git —
+    // run dirs are not git repos). Runner artifacts written into the runDir
+    // (.home/ HOME copy, .final-answer.txt, ANSWER.md, AGENTS.md/CLAUDE.md
+    // guidance variants) and build outputs are ignored on both sides so they
+    // never count as "extra changes".
     // Returns { modified: [], added: [], removed: [] } (relative paths).
     changedFiles() {
       const manifest = JSON.parse(
@@ -145,6 +149,11 @@ function makeCtx() {
         rel === 'CLAUDE.md' ||
         rel === 'ANSWER.md' ||
         rel === '.final-answer.txt' ||
+        rel === '.home' ||
+        rel.startsWith('.home/') ||
+        rel === 'node_modules' ||
+        rel.startsWith('node_modules/') ||
+        OUTPUT_DIRS.some(d => rel === d || rel.startsWith(`${d}/`)) ||
         rel.startsWith('.modern-js/') ||
         rel.startsWith('.claude/') ||
         rel.endsWith('.log');
@@ -187,6 +196,33 @@ function makeCtx() {
       return (text || '')
         .split('\n')
         .some(l => cmdRe.test(l) && !negRe.test(l));
+    },
+    // Context-aware positive-keyword helper: true when at least one match of
+    // `re` is asserted positively — i.e. NOT immediately preceded by a
+    // negation ("不是 X / 不要用 X / 没有 X / not X / don't use X") and NOT
+    // immediately followed by a contradiction ("X 已移除 / X 不存在 / X does
+    // not exist"). Catches "correct keyword quoted only to negate it".
+    positively(text, re) {
+      const t = text || '';
+      const g = new RegExp(
+        re.source,
+        re.flags.includes('g') ? re.flags : `${re.flags}g`,
+      );
+      const negBefore =
+        /(不是|并非|不叫|不要|不用|不能|不可|别用|避免|没有|不存在|不在|并不是|而不是|未找到|查不到|找不到|isn'?t|aren'?t|\bnot\b|don'?t|do not|doesn'?t|never|no longer|instead of|rather than|avoid|without)(用|使用|写成|配置|放在|支持|叫|为|是|use|using)?[\s:：，,。的（(【\["'`“”]*$/i;
+      const negAfter =
+        /^[\s”"'`）)\]】]*(这个|这种|该|一?项|配置|字段|命令|写法|用法|请求头|前缀)?[\s]*(已(在[^\n，。;]{0,8})?(被)?(移除|废弃|删除|下线)|不存在|并不存在|不可用|不支持|不对|不再(有|支持|可用)?|是错误|(is|was|has been)\s+(removed|deprecated|dropped)|does\s?n[o']t\s+exist|no such)/i;
+      // "如果没有 X / if X is not set" is a conditional, not a negation of X
+      const condBefore = /(如果|若|当|万一|\bif\b|\bwhen\b|\bunless\b)[^\n。；;]{0,16}$/i;
+      let m;
+      while ((m = g.exec(t)) !== null) {
+        const before = t.slice(Math.max(0, m.index - 24), m.index);
+        const after = t.slice(m.index + m[0].length, m.index + m[0].length + 30);
+        const negatedBefore = negBefore.test(before) && !condBefore.test(before);
+        if (!negatedBefore && !negAfter.test(after)) return true;
+        if (m.index === g.lastIndex) g.lastIndex++;
+      }
+      return false;
     },
 
     // --- build_check executor -------------------------------------------------

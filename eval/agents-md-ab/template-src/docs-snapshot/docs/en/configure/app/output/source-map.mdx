@@ -1,0 +1,34 @@
+---
+title: sourceMap
+---
+
+# output.sourceMap
+
+- **Type:**
+
+```ts
+type SourceMap =
+  | boolean
+  | {
+      js?: Rspack.Configuration['devtool'];
+      css?: boolean;
+    };
+```
+
+- **Default:**
+
+```ts
+const defaultSourceMap = {
+  js: isDev ? 'cheap-module-source-map' : 'hidden-source-map',
+  css: isDev,
+};
+```
+
+When `output.sourceMap` is not configured, the source map generation rules of Modern.js are different from Rsbuild:
+
+- In the development mode, JS and CSS source maps are generated for development debugging.
+- In the production mode, JS source maps are generated for stack trace backtracking, and CSS source maps are not generated to provide the best build performance.
+
+import RsbuildConfig from '@site-docs-en/components/rsbuild-config-tooltip';
+
+<RsbuildConfig configName="output.sourceMap" />

@@ -1,0 +1,24 @@
+---
+title: externals
+---
+
+# output.externals
+
+- **Type:**
+
+```ts
+type Externals =
+  | string
+  | object
+  | function
+  | RegExp
+  | Array<string | object | function | RegExp>;
+```
+
+- **Default:** `undefined`
+
+At build time, prevent some `import` dependencies from being packed into bundles in your code, and instead fetch them externally at runtime.
+
+import RsbuildConfig from '@site-docs-en/components/rsbuild-config-tooltip';
+
+<RsbuildConfig configName="output.externals" />

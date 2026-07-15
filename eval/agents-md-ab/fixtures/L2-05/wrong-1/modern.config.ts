@@ -1,0 +1,9 @@
+import { appTools, defineConfig } from '@modern-js/app-tools';
+import { ssgPlugin } from '@modern-js/plugin-ssg';
+
+export default defineConfig({
+  plugins: [appTools(), ssgPlugin()],
+  output: {
+    ssg: true,
+  },
+});

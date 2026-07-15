@@ -9,7 +9,8 @@ import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
-const TEMPLATE = path.join(__dirname, 'template/demo-app');
+const EXPOSED = process.env.AB_EXPOSED_ROOT ?? '/tmp/modernjs-ab-exposed';
+const TEMPLATE = path.join(EXPOSED, 'templates/demo-app');
 const DOCS = path.join(TEMPLATE, 'node_modules/@modern-js/app-tools/main-doc');
 const MANIFEST = path.join(__dirname, 'manifest.json');
 
@@ -32,7 +33,7 @@ function walk(root, skip = []) {
   return out;
 }
 
-const TEMPLATE_A = path.join(__dirname, 'template/demo-app-prod-a');
+const TEMPLATE_A = path.join(EXPOSED, 'templates/demo-app-prod-a');
 
 function pkgVersions(tplRoot) {
   const scope = path.join(tplRoot, 'node_modules/@modern-js');
@@ -90,6 +91,25 @@ if (cmd === 'manifest') {
     bad === 0 ? 'PRE-RUN FIXTURE OK' : `PRE-RUN FIXTURE BAD (${bad})`,
   );
   process.exit(bad === 0 ? 0 : 1);
+} else if (cmd === 'check-manifest') {
+  // reproducibility gate for setup-templates: fresh trees must match the
+  // committed manifest (project files, docs snapshot, arm tree properties)
+  const m = JSON.parse(fs.readFileSync(MANIFEST, 'utf-8'));
+  const errs = [];
+  const cmp = (name, want, got) => {
+    if (JSON.stringify(want) !== JSON.stringify(got)) errs.push(name);
+  };
+  cmp('project', m.project, walk(TEMPLATE, ['node_modules']));
+  cmp('projectA', m.projectA, walk(TEMPLATE_A, ['node_modules']));
+  cmp('sharedDocs', m.sharedDocs, walk(DOCS));
+  cmp('armTrees.PROD-B.versions', m.armTrees['PROD-B'].modernPkgVersions, pkgVersions(TEMPLATE));
+  cmp('armTrees.PROD-A.versions', m.armTrees['PROD-A'].modernPkgVersions, pkgVersions(TEMPLATE_A));
+  if (
+    fs.existsSync(path.join(TEMPLATE_A, 'node_modules/@modern-js/app-tools/main-doc'))
+  )
+    errs.push('PROD-A tree unexpectedly contains bundled docs');
+  console.log(errs.length === 0 ? 'MANIFEST MATCH — reproducible' : `MANIFEST MISMATCH: ${errs.join(', ')}`);
+  process.exit(errs.length === 0 ? 0 : 1);
 } else if (cmd === 'verify-shared') {
   const m = JSON.parse(fs.readFileSync(MANIFEST, 'utf-8'));
   const now = walk(DOCS);

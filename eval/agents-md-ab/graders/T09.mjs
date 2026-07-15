@@ -1,8 +1,10 @@
 // T09 (L3/code, file_ast + build): custom web server at the v3 conventional
 // path with a middleware setting the x-eval response header; build must pass.
-// NOTE: template lacks @modern-js/server-runtime — importing it fails tsc, so
-// the grader requires the file convention + middleware semantics, not that
-// specific import (known template/doc inconsistency, recorded in the bank).
+// NOTE: @modern-js/server-runtime is PREINSTALLED in both templates (earlier
+// revisions lacked it and the doc-canonical import failed tsc with TS2307 —
+// fixed). The grader keeps the historical lenient scope for this pilot task:
+// file convention + middleware semantics + build; the defineServerConfig
+// import is allowed but not required (the 35-task bank's L3-02 requires it).
 export default async function grade(ctx, c) {
   const rel = ['server/modern.server.ts', 'server/modern.server.js'].find(p =>
     ctx.exists(p),

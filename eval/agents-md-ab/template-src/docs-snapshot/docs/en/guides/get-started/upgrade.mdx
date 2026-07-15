@@ -1,0 +1,114 @@
+---
+sidebar_position: 3
+---
+
+import { PackageManagerTabs } from '@theme';
+import ReleaseNote from '@site-docs-en/components/release-note';
+
+# Upgrading
+
+import Upgrade from '@site-docs/components/auto-upgrade';
+
+<Upgrade />
+
+## Manual Upgrade
+
+All Modern.js official packages are released with a **uniform version number**, so when upgrading, you need to update all `@modern-js/**` packages to the target version uniformly.
+
+### Upgrade Steps
+
+1. **Check the latest version**
+
+   You can check the latest version of Modern.js through the following methods:
+
+   - Visit [npm](https://www.npmjs.com/package/@modern-js/app-tools) to check the latest version of `@modern-js/app-tools`
+   - Check [GitHub Releases](https://github.com/web-infra-dev/modern.js/releases)
+
+   <ReleaseNote />
+
+2. **Update package.json**
+
+   In the project's `package.json`, update all `@modern-js/**` packages to the target version. For example:
+
+   ```json title="package.json"
+   {
+     "dependencies": {
+       "@modern-js/app-tools": "3.0.0",
+       "@modern-js/runtime": "3.0.0"
+     },
+     "devDependencies": {
+       "@modern-js/types": "3.0.0"
+     }
+   }
+   ```
+
+3. **Reinstall dependencies**
+
+   After updating `package.json`, reinstall dependencies:
+
+   <PackageManagerTabs command="install" />
+
+:::tip
+When upgrading, you need to upgrade all packages provided by Modern.js uniformly, rather than upgrading individual dependencies. Ensure that all `@modern-js/**` packages have the same version number.
+:::
+
+## Version Management Strategy
+
+In Modern.js projects, we recommend that all officially provided dependencies use fixed version, and avoid using `^` or `~` for range declarations. For example:
+
+```json
+{
+  "dependencies": {
+    "@modern-js/app-tools": "x.y.z"
+  }
+}
+```
+
+This ensures that the versions of dependencies are fully determined, thereby guaranteeing build consistency and predictability.
+
+## Lock nested dependency
+
+When a nested dependency of the project has a problem and Modern.js cannot be updated immediately, you can use the package manager to lock the version of the nested dependency.
+
+### pnpm
+
+For projects using pnpm, add the following configuration to the `package.json` in the **root directory** of the project, and then run `pnpm install` again:
+
+```json title="package.json"
+{
+  "pnpm": {
+    "overrides": {
+      "package-name": "^1.0.0"
+    }
+  }
+}
+```
+
+### Yarn
+
+For projects using Yarn, add the following configuration to the `package.json` in the **root directory** of the project, and then run `yarn install` again:
+
+```json title="package.json"
+{
+  "resolutions": {
+    "package-name": "^1.0.0"
+  }
+}
+```
+
+### Npm
+
+For projects using Npm, add the following configuration to the `package.json` in the **root directory** of the project, and then run `npm install` again:
+
+```json title="package.json"
+{
+  "overrides": {
+    "package-name": "^1.0.0"
+  }
+}
+```
+
+:::info
+For Monorepo repositories, you can only lock dependency versions in the `package.json` in the root directory of the project, and it will affect all packages in the Monorepo.
+
+:::

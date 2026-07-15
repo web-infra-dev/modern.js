@@ -1,0 +1,32 @@
+---
+title: appIcon
+---
+
+# html.appIcon
+
+- **Type:**
+
+```ts
+type AppIconItem = {
+  src: string;
+  size: number;
+  target?: 'apple-touch-icon' | 'web-app-manifest';
+};
+
+type AppIcon = {
+  name?: string;
+  icons: AppIconItem[];
+  filename?: string;
+};
+```
+
+- **Default:** `undefined`
+
+Set the web application icons to display when added to the home screen of a mobile device:
+
+- Generate the web app manifest file and its `icons` field.
+- Generate the `apple-touch-icon` and `manifest` tags in the HTML file.
+
+import RsbuildConfig from '@site-docs-en/components/rsbuild-config-tooltip';
+
+<RsbuildConfig configName="html.appIcon" />

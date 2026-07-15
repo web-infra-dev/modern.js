@@ -1,0 +1,158 @@
+---
+title: Resource Loading
+---
+
+# Resource Loading
+
+How translation files are loaded depends on where your translation resources are stored:
+
+| Scenario | Loading method |
+| --- | --- |
+| Translation files are local to the project | Static file backend (the default method in this guide) |
+| Translations come from a remote API or translation platform | Custom backend |
+| Both: local fallback + remote real-time updates | Chained backend |
+
+## Static File Backend
+
+Put translation files in your project and the plugin loads them directly. This is the most common approach.
+
+**CSR and SSR use different loading mechanisms, but the configuration is exactly the same:**
+
+- CSR: The browser fetches translation files through HTTP, such as `GET /locales/zh/translation.json`.
+- SSR: The server reads files directly from disk without making HTTP requests.
+
+The plugin automatically chooses the right mechanism based on the runtime environment. You only need to configure `loadPath` once.
+
+**Resource file location:**
+
+```
+config/public/locales/    <- Default location. No extra configuration required.
+├── en/translation.json
+└── zh/translation.json
+```
+
+```ts
+// modern.config.ts
+export default defineConfig({
+  plugins: [
+    appTools(),
+    i18nPlugin({
+      backend: {
+        // `{{lng}}` is the language code, and `{{ns}}` is the namespace name.
+        // During SSR, the plugin automatically converts the leading `/` prefix
+        // to a relative path before reading the file. No extra handling is needed.
+        loadPath: '/locales/{{lng}}/{{ns}}.json',
+      },
+    }),
+  ],
+});
+```
+
+To store files in another directory, configure `server.publicDir`. The relationship between **`server.publicDir` and `backend.loadPath`** is:
+
+- `server.publicDir`: Decides which local directory is exposed as static assets, that is, where files are placed.
+- `backend.loadPath`: Decides which URL i18next requests for translation files, or which path the server reads from.
+
+## Custom Backend
+
+When translation resources are not local files but come from a remote API, database, or translation platform, load them with an async function.
+
+**Step 1: declare it enabled in `modern.config.ts`**
+
+```ts
+i18nPlugin({
+  backend: {
+    sdk: true,
+  },
+});
+```
+
+**Step 2: implement the loader function in `modern.runtime.ts`**
+
+```ts
+import { defineRuntimeConfig } from '@modern-js/runtime';
+import type { I18nSdkLoader } from '@modern-js/plugin-i18n/runtime';
+
+const myLoader: I18nSdkLoader = async options => {
+  // Most common case: load a single resource by language + namespace.
+  if (options.lng && options.ns) {
+    const res = await fetch(`/api/i18n/${options.lng}/${options.ns}`);
+    const data = await res.json();
+    return { [options.lng]: { [options.ns]: data } };
+  }
+
+  // Load all resources at once.
+  if (options.all) {
+    const res = await fetch('/api/i18n/all');
+    return res.json(); // Format: { en: { translation: {...} }, zh: { translation: {...} } }
+  }
+
+  return {};
+};
+
+export default defineRuntimeConfig({
+  i18n: {
+    initOptions: {
+      backend: { sdk: myLoader },
+    },
+  },
+});
+```
+
+**Loader parameter type:**
+
+```ts
+interface I18nSdkLoadOptions {
+  lng?: string;      // Single language code
+  ns?: string;       // Single namespace
+  lngs?: string[];   // Multiple language codes
+  nss?: string[];    // Multiple namespaces
+  all?: boolean;     // Load all resources
+}
+```
+
+When using a custom backend, translation resources are loaded asynchronously. You can use `isResourcesReady` to show a loading state before loading is complete. See [Best Practices -> Loading State Handling](./best-practices.md#loading-state-handling).
+
+## Chained Backend
+
+Use local files and a custom backend together to implement "show local translations quickly first, then update asynchronously with the latest translations":
+
+1. When the page loads, translations are loaded from local files and displayed immediately.
+2. The custom backend loads the latest translations asynchronously in the background. After it completes, the page updates automatically.
+
+```ts
+// modern.config.ts
+i18nPlugin({
+  backend: {
+    loadPath: '/locales/{{lng}}/{{ns}}.json', // Local files, fast display
+    sdk: true,                                 // Remote loading, async update
+  },
+});
+```
+
+```ts
+// modern.runtime.ts
+export default defineRuntimeConfig({
+  i18n: {
+    initOptions: {
+      backend: {
+        sdk: async options => {
+          if (options.lng && options.ns) {
+            const res = await fetch(`https://api.example.com/i18n/${options.lng}/${options.ns}`);
+            return { [options.lng]: { [options.ns]: await res.json() } };
+          }
+          return {};
+        },
+      },
+    },
+  },
+});
+```
+
+**`cacheHitMode` option** (controls how the two backends cooperate):
+
+| Value | Behavior |
+| --- | --- |
+| `'none'` | Use local files after a successful local hit and do not request the custom backend |
+| `'refresh'` | Continue requesting the custom backend and update cache, but do not update the current page |
+| `'refreshAndUpdateStore'` | Continue requesting the custom backend, update cache, and refresh page text (default) |

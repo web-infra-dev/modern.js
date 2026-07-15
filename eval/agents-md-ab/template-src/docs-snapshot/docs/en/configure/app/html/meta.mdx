@@ -1,0 +1,28 @@
+---
+title: meta
+---
+
+# html.meta
+
+- **Type:** `Object | Function`
+- **Default:**
+
+```js
+const defaultMeta = {
+  charset: { charset: 'utf-8' },
+  viewport:
+    'width=device-width, initial-scale=1.0, shrink-to-fit=no, viewport-fit=cover, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no',
+  'http-equiv': { 'http-equiv': 'x-ua-compatible', content: 'ie=edge' },
+  renderer: 'webkit',
+  layoutmode: 'standard',
+  imagemode: 'force',
+  'wap-font-scale': 'no',
+  'format-detection': 'telephone=no',
+};
+```
+
+Configure the `<meta>` tag of the HTML.
+
+import RsbuildConfig from '@site-docs-en/components/rsbuild-config-tooltip';
+
+<RsbuildConfig configName="html.meta" />

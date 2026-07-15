@@ -1,0 +1,8 @@
+{
+  "pass": false,
+  "failCheck": [
+    "force-csr-config",
+    "query-csr-true",
+    "fallback-header"
+  ]
+}

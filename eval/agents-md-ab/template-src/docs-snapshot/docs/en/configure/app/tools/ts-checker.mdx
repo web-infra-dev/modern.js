@@ -1,0 +1,96 @@
+---
+title: tsChecker
+---
+
+import { PackageManagerTabs } from '@theme';
+
+# tools.tsChecker
+
+- **Type:** `Object | Function`
+- **Default:**
+
+```js
+const defaultOptions = {
+  typescript: {
+    // set 'readonly' to avoid emitting tsbuildinfo,
+    // as the generated tsbuildinfo will break ts-checker-rspack-plugin
+    mode: 'readonly',
+    // enable build when using project reference
+    build: useReference,
+    // avoid OOM issue
+    memoryLimit: 8192,
+    // use tsconfig of user project
+    configFile: tsconfigPath,
+    // resolve the default TypeScript package from user project
+    resolveRoot: rootPath,
+  },
+  issue: {
+    // ignore type errors from node_modules
+    exclude: [({ file = '' }) => /[\\/]node_modules[\\/]/.test(file)],
+  },
+  logger: {
+    log() {
+      // do nothing
+      // we only want to display error messages
+    },
+    error(message: string) {
+      console.error(
+        message
+          .replace(/ERROR/g, 'Type Error')
+          .replace(/WARNING/g, 'Type Warning'),
+      );
+    },
+  },
+},
+```
+
+By default, the [@rsbuild/plugin-type-check](https://github.com/rstackjs/rsbuild-plugin-type-check) is enabled for type checking. You can use `output.disableTsChecker` config to disable it.
+
+## Example
+
+### Object Type
+
+When the value of `tsChecker` is an object, it will be deeply merged with the default configuration.
+
+```ts
+export default {
+  tools: {
+    tsChecker: {
+      issue: {
+        exclude: [({ file = '' }) => /[\\/]some-folder[\\/]/.test(file)],
+      },
+    },
+  },
+};
+```
+
+### Function Type
+
+When the value of `tsChecker` is a function, the default configuration will be passed as the first argument. You can directly modify the configuration object or return an object as the final configuration.
+
+```ts
+export default {
+  tools: {
+    tsChecker(options) {
+      options.async = false;
+      return options;
+    },
+  },
+};
+```
+
+> Please refer to [@rsbuild/plugin-type-check](https://github.com/rstackjs/rsbuild-plugin-type-check) for more details.
+
+## TypeScript 7+ Support
+
+`tools.tsChecker` supports the native checker included in TypeScript 7+. This capability is provided by [`ts-checker-rspack-plugin`](https://github.com/rstackjs/ts-checker-rspack-plugin), which is integrated by [`@rsbuild/plugin-type-check`](https://github.com/rstackjs/rsbuild-plugin-type-check), and can reduce type-checking time on large projects.
+
+Install TypeScript >= 7.0.0 to enable `tsgo` automatically:
+
+<PackageManagerTabs command="install typescript@latest -D" />
+
+When `tsgo` is enabled and `typescript.typescriptPath` is set manually, it must point to an absolute TypeScript 7+ `typescript/package.json` path or the legacy `@typescript/native-preview/package.json` path.
+
+> The `@typescript/native-preview` path is kept only for compatibility. New setups should use TypeScript 7+ from the standard `typescript` package.
+
+For supported options and limitations, please refer to [ts-checker-rspack-plugin - TypeScript 7+ support](https://github.com/rstackjs/ts-checker-rspack-plugin#typescript-7-support).

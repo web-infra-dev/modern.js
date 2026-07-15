@@ -1,0 +1,1 @@
+{"group":"GB","task":"T03","layer":"L1","rep":1,"pass":true,"reason":"","started_at":"2026-07-15T15:17:08.045Z","model":"claude-fable-5","duration_ms":72472,"num_turns":9,"tool_calls":8,"webfetch_calls":0,"webfetch_errors":0,"read_calls":2,"input_tokens":287694,"output_tokens":2051,"cost_usd":0.763804,"is_error":false,"timeout":false}

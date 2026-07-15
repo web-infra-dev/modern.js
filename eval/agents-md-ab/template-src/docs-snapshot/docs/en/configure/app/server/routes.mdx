@@ -1,0 +1,90 @@
+---
+title: routes
+---
+
+# server.routes
+
+- **Type:** `Object`
+- **Default:** Server-side routing rules generated based on file conventions, with one route rule generated for each entry, and the entry name is equal to the route path.
+
+This configuration option only applies to server-side routing and can customize the access route of application entries.
+
+## Custom access routes
+
+The `key` of the object is the name of the current application entry, and the value can be a `string | Array<string>`.
+
+When the value type is `string`, the current value represents the route path for accessing the entry.
+
+```ts title="modern.config.ts"
+export default defineConfig({
+  server: {
+    routes: {
+      // Default route is /entryName1, customized to /p/test1
+      entryName1: '/p/test1'
+      // Supports dynamic server-side routing configuration
+      entryName2: '/detail/:id'
+    }
+  }
+});
+```
+
+Multiple access routes can also be set for the entry through `Array<string>`:
+
+```ts title="modern.config.ts"
+export default defineConfig({
+  server: {
+    routes: {
+      'page-a': [`/a`, '/b'],
+    },
+  },
+});
+```
+
+At this time, the `page-a` entry can be accessed through both the `/a` and `/b` routes.
+
+After executing the `dev` command, you can view two route records for the `page-a` entry in `dist/route.json`:
+
+```json
+{
+  "routes": [
+    {
+      "urlPath": "/a",
+      "entryName": "page-a",
+      "entryPath": "html/page-a/index.html",
+      "isSPA": true,
+      "isSSR": false
+    },
+    {
+      "urlPath": "/b",
+      "entryName": "page-a",
+      "entryPath": "html/page-a/index.html",
+      "isSPA": true,
+      "isSSR": false
+    }
+  ]
+}
+```
+
+## Custom response headers
+
+Response headers can be set by configuring the `resHeaders` of the entry:
+
+```ts title="modern.config.ts"
+export default defineConfig({
+  server: {
+    routes: {
+      'page-a': {
+        route: ['/a', '/b'],
+        resHeaders: {
+          'x-modern-test': '1',
+        },
+      },
+    },
+  },
+});
+```
+
+:::note
+This configuration takes effect in both the production and development environments, and different response headers can be set according to the NODE_ENV to distinguish between environments. However, if you only need to set response headers in the development environment, it is recommended to use `tools.devServer.headers`.
+
+:::

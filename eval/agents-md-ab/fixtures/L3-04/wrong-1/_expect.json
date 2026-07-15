@@ -1,0 +1,7 @@
+{
+  "pass": false,
+  "failCheck": [
+    "use-route-error",
+    "no-class-error-boundary"
+  ]
+}

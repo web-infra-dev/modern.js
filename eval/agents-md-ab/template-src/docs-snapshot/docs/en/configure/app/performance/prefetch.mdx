@@ -1,0 +1,25 @@
+---
+title: prefetch
+---
+
+# performance.prefetch
+
+- **Type:** `undefined | true | PrefetchOption`
+
+```ts
+type IncludeType = 'async-chunks' | 'initial' | 'all-assets' | 'all-chunks';
+
+type Filter = Array<string | RegExp> | ((filename: string) => boolean);
+
+interface PrefetchOption {
+  type?: IncludeType;
+  include?: Filter;
+  exclude?: Filter;
+}
+```
+
+- **Default:** `undefined`
+
+import RsbuildConfig from '@site-docs-en/components/rsbuild-config-tooltip';
+
+<RsbuildConfig configName="performance.prefetch" />

@@ -1,0 +1,7 @@
+{
+  "pass": false,
+  "failCheck": [
+    "router-basename",
+    "no-runtime-in-config"
+  ]
+}

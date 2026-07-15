@@ -1,0 +1,111 @@
+# Playwright
+
+Playwright is a testing framework that allows you to run tests automatically in Chromium, Firefox, and WebKit environments using a single API. You can use it to **write E2E tests**.
+
+To use Playwright in Modern.js, you need to install the dependencies first. You can run the following commands:
+
+import { PackageManagerTabs } from '@theme';
+
+<PackageManagerTabs command={{ npm: "npm init playwright", yarn: "yarn create playwright", pnpm: "pnpm create playwright" }} />
+
+The above commands will automatically install Playwright dependencies and help you install and configure it in your project through a series of prompts, including adding a `playwright.config.ts` file.
+
+:::info
+Refer to the official Playwright documentation at [Install Playwright](https://playwright.dev/docs/intro#installation) for a more detailed guide.
+:::
+
+After creating with the default configuration, you can see the following files in your project:
+
+```ts title="tests/example.spec.ts"
+import { test, expect } from '@playwright/test';
+
+test('has title', async ({ page }) => {
+  await page.goto('https://playwright.dev/');
+
+  // Expect a title "to contain" a substring.
+  await expect(page).toHaveTitle(/Playwright/);
+});
+
+test('get started link', async ({ page }) => {
+  await page.goto('https://playwright.dev/');
+
+  // Click the get started link.
+  await page.getByRole('link', { name: 'Get started' }).click();
+
+  // Expects page to have a heading with the name of Installation.
+  await expect(
+    page.getByRole('heading', { name: 'Installation' }),
+  ).toBeVisible();
+});
+```
+
+This is the default test file. Now create some new pages and test them.
+
+## Create E2E Tests
+
+First, create two Modern.js pages.
+
+```tsx title="routes/page.tsx"
+import { Link } from '@modern-js/runtime/router';
+
+const Index = () => (
+  <div>
+    <h1>Home</h1>
+    <Link to="/about">About</Link>
+  </div>
+);
+
+export default Index;
+```
+
+```tsx title="routes/about/page.tsx"
+import { Link } from '@modern-js/runtime/router';
+
+const Index = () => (
+  <div>
+    <h1>About</h1>
+    <Link to="/">Home</Link>
+  </div>
+);
+
+export default Index;
+```
+
+Next, add test cases to ensure the links on your pages work properly.
+
+```ts title="tests/example.spec.ts"
+import { test, expect } from '@playwright/test'
+
+test('should navigate to the about page', async ({ page }) => {
+  // Start from the index page (the baseURL is set via the webServer in the playwright.config.ts)
+  await page.goto('http://localhost:8080/')
+  // Find an element with the text 'About' and click on it
+  await page.click('text=About')
+  // The new URL should be "/about" (baseURL is used there)
+  await expect(page).toHaveURL('http://localhost:8080/about')
+  // The new page should contain an h1 with "About"
+  await expect(page.locator('h1')).toContainText('About')
+})
+```
+
+## Run Test Cases
+
+Playwright requires your Modern.js server to be running. We recommend running your test cases under production builds; you can run `pnpm run build` and `pnpm run serve` to simulate the production environment locally.
+
+```bash
+info    Starting production server...
+
+  > Local:    http://localhost:8080/
+  > Network:  http://10.94.59.30:8080/
+```
+
+After the project is successfully built and running, you can run Playwright cases in another terminal by executing `npx playwright test`:
+
+```bash
+Running 3 tests using 3 workers
+  3 passed (2.0s)
+
+To open last HTML report run:
+
+  npx playwright show-report
+```

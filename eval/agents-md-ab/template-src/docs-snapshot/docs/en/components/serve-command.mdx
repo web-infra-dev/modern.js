@@ -1,0 +1,22 @@
+## modern serve
+
+The `modern serve` command is used to start a Modern.js project in the production environment. It can also be used to preview the artifacts built for the production environment locally. Please note that you need to execute the [`build`](/apis/app/commands#modern-build) command beforehand to generate the corresponding artifacts.
+
+```bash
+Usage: modern serve [options]
+
+Options:
+  -c --config <config>  specify the configuration file, which can be a relative or absolute path
+  -h, --help            show command help
+  --api-only            only run API service
+```
+
+By default, the project will run in `localhost:8080`, you can modify the server port number with `server.port`:
+
+```js
+export default defineConfig({
+  server: {
+    port: 8081,
+  },
+});
+```

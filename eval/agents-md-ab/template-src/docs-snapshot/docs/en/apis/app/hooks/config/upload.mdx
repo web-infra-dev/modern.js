@@ -1,0 +1,54 @@
+---
+title: upload/
+sidebar_position: 4
+---
+# upload/
+
+Any static assets can be placed in the `upload/` directory.
+
+## Description
+
+In the development environment, the static assets in this directory will be hosted under the `/upload` path. After building the application, the files in this directory will be copied to the dist directory.
+
+This file convention is mainly used for developers to use plugins to proactively upload static assets to the CDN.
+
+## Scenarios
+
+For example, SDKs for project use only, such as `google-analysis.js` (usually requires HTTP caching).
+
+Pictures, font files, common CSS, etc.
+
+## Code Compression
+
+If the file in the directory is a `.js` file, it will be automatically compressed during production environment construction.
+
+If the file ends with `.min.js`, it will not be compressed.
+
+## More Usage
+
+In React components, you can add this prefix through [Environment Variables](/guides/basic-features/env-vars.html#asset_prefix):
+
+```tsx
+export default () => {
+  return (
+    <img src={`${process.env.ASSET_PREFIX}/upload/banner.png`}></img>
+  );
+};
+```
+
+In addition, whether it is in [Custom HTML](/guides/basic-features/html) or any HTML file under [`config/public/`](/apis/app/hooks/config/public), you can directly use HTML tags to reference resources in the `config/upload/` directory:
+
+```html
+<script src="/upload/index.js"></script>
+```
+
+If you set the [`dev.assetPrefix`](/configure/app/dev/asset-prefix) or [`output.assetPrefix`](/configure/app/output/asset-prefix) prefix, you can also use template syntax to add the prefix directly:
+
+```html
+<script src="<%=assetPrefix %>/upload/index.js"></script>
+```
+
+:::info
+Modern.js does not support using files under `config/upload/` through URLs in `config/public/*.css` (such as background-image).
+
+:::

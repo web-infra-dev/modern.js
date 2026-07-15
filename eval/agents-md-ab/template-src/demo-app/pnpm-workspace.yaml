@@ -1,0 +1,4 @@
+allowBuilds:
+  '@biomejs/biome': set this to true or false
+  '@swc/core': set this to true or false
+  core-js: set this to true or false

@@ -1,0 +1,134 @@
+---
+title: Routing Integration
+---
+
+# Routing Integration
+
+## Enable Locale Path Prefixes
+
+After setting `localePathRedirect: true`, the plugin takes over language recognition and navigation in the URL. It does four things:
+
+1. **Recognizes the locale prefix in the URL**: When visiting `/zh/detail`, the plugin extracts `zh` from the path as the current language.
+2. **Automatically redirects paths without prefixes**: When visiting `/detail`, it first detects the language with the detector. If detection fails, it uses `fallbackLanguage`, then redirects to `/en/detail` or `/zh/detail`.
+3. **Synchronizes the URL when switching language**: If the current URL is `/en/detail`, calling `changeLanguage('zh')` automatically changes the URL to `/zh/detail`, instead of only changing i18next's internal language state.
+4. **Avoids duplicate path detection**: The plugin automatically removes `path` from the i18next detector `order`, because path language recognition is already handled by the plugin itself.
+
+```ts
+// modern.config.ts
+i18nPlugin({
+  localeDetection: {
+    localePathRedirect: true,
+    languages: ['zh', 'en'],
+    fallbackLanguage: 'en',
+  },
+});
+```
+
+**Result:**
+
+| Visited path | Result |
+| --- | --- |
+| `/about` | Redirects to `/en/about` |
+| `/en/about` | Visits normally, language is `en` |
+| `/zh/about` | Visits normally, language is `zh` |
+
+Some paths, such as API routes and static assets, do not need locale prefixes. Use `ignoreRedirectRoutes` to skip redirects. See [Locale Detection -> ignoreRedirectRoutes](./locale-detection.md#ignoreredirectroutes).
+
+## Route Configuration
+
+After enabling `localePathRedirect`, add a `[lang]` dynamic parameter in routes to receive the locale prefix.
+
+### File-system Routes
+
+Create a `[lang]` directory under `routes/`:
+
+```
+routes/
+└── [lang]/
+    ├── layout.tsx    <- You can read params.lang here.
+    ├── page.tsx
+    └── about/
+        └── page.tsx
+```
+
+Generated route structure:
+
+```
+/:lang          -> page.tsx
+/:lang/about    -> about/page.tsx
+```
+
+If you need to read the current language parameter in a layout or page:
+
+```tsx
+// routes/[lang]/layout.tsx
+import { Outlet, useParams } from '@modern-js/runtime/router';
+
+export default function Layout() {
+  const { lang } = useParams();
+  // lang is the language code in the current URL, such as 'en' or 'zh'.
+  // Usually you do not need to use it manually. useModernI18n() manages it automatically.
+  return <Outlet />;
+}
+```
+
+### Custom Routes
+
+:::info
+Custom routes are only needed when you are not using the Modern.js file-system routing system. File-system routes are recommended for most projects.
+:::
+
+If you use a custom route file (`modern.routes.ts`), add the `:lang` parameter manually:
+
+```tsx
+// modern.routes.ts
+import { Route, Routes, Outlet } from '@modern-js/runtime/router';
+
+export default function App() {
+  return (
+    <Routes>
+      <Route path=":lang" element={<Outlet />}>
+        <Route index element={<Home />} />
+        <Route path="about" element={<About />} />
+      </Route>
+    </Routes>
+  );
+}
+```
+
+## I18nLink Component
+
+`I18nLink` is a locale-aware link component. It automatically adds the current locale prefix to the target path, so you do not need to concatenate it manually.
+
+```tsx
+import { I18nLink } from '@modern-js/plugin-i18n/runtime';
+
+function Navigation() {
+  return (
+    <nav>
+      <I18nLink to="/">Home</I18nLink>
+      <I18nLink to="/about">About</I18nLink>
+      <I18nLink to="/contact" replace>Contact</I18nLink>
+    </nav>
+  );
+}
+```
+
+**When the current language is `en`:**
+
+```
+<I18nLink to="/about">  ->  Actual link: /en/about
+<I18nLink to="/">       ->  Actual link: /en
+```
+
+**Notes:**
+
+```tsx
+// Correct: no need to add the locale prefix manually.
+<I18nLink to="/about">About</I18nLink>
+
+// Incorrect: do not add the locale prefix manually, or it becomes /en/en/about.
+<I18nLink to="/en/about">About</I18nLink>
+```
+
+`I18nLink` extends the `Link` component from `@modern-js/runtime/router` and supports all standard Link props such as `replace`, `state`, and `className`. For the full Props type, see [API Reference](./api.md#i18nlink-component).

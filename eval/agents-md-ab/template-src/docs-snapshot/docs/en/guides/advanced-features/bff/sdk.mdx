@@ -1,0 +1,116 @@
+# Extend Request SDK
+
+The unified invocation of BFF functions is isomorphic in both CSR and SSR. The request SDK encapsulated by Modern.js relies on the [Fetch API](https://developer.mozilla.org/en-US/docs/Web/API/Fetch_API/Using_Fetch) on the browser side, and on [node-fetch](https://www.npmjs.com/package/node-fetch) on the server side. However, in actual business scenarios, additional processing may be required for requests or responses, such as:
+
+- Writing authentication information in the request headers
+- Uniform handling of response data or errors
+- Using other methods to send requests when the native fetch function is unavailable on specific platforms
+
+To address these scenarios, Modern.js provides the `configure` function, which offers a series of extension capabilities. You can use it to configure SSR passthrough request headers, add interceptors, or customize the request SDK.
+
+:::caution Note
+The `configure` function needs to be called before all BFF requests are sent to ensure that the default request configuration is overridden.
+:::
+
+```tsx title="routes/page.tsx"
+import { configure } from '@modern-js/plugin-bff/client';
+
+configure({
+  // ...
+});
+
+const Index = () => <div>Hello world</div>;
+export default Index;
+```
+
+## Configuring SSR Passthrough Request Headers
+
+When using both Modern.js SSR and BFF, it is often necessary to pass some request header information from the SSR page request to the BFF service.
+
+For example, imagine a project with a page URL `https://website.com`. This page is rendered using SSR, and in the component, it will call the API endpoint `https://website.com/api/info`, which requires the user's cookie information for authentication. The page needs to pass the `cookie` of the SSR page request to the BFF when requesting this API endpoint.
+
+Currently, the following request headers are automatically passed through in Modern.js:
+
+```ts
+['cookie', 'user-agent', 'x-tt-logid', 'x-tt-stress'];
+```
+
+You can configure additional request headers using `configure`. For example, in the following snippet, Modern.js will automatically pass the `x-uid` information from the SSR page request to the BFF service:
+
+```tsx
+configure({
+  allowedHeaders: ['x-uid'],
+});
+```
+
+## Adding Interceptors
+
+In some business scenarios, you may need to handle requests and responses uniformly. This can be achieved by **configuring interceptors**:
+
+```tsx
+configure({
+  // The `request` here is the default request tool for unified invocation. The `interceptor` function needs to return a new request.
+  // The output of the new request must be the parsed body result.
+  interceptor(request) {
+    return async (url, params) => {
+      const res = await request(url, params);
+      // Interceptors may return Response objects, which need to be manually parsed as JSON
+      if (res instanceof Response) {
+        return res.json();
+      }
+      // If it's already parsed data, return directly
+      return res;
+    };
+  },
+});
+```
+
+## Customizing the Request SDK
+
+If configuring interceptors alone cannot meet your needs and you want to customize the request function, you can also configure it using `configure`:
+
+```tsx
+import nodeFetch from 'node-fetch';
+
+const customFetch = (input: RequestInfo | URL, init: RequestInit) => {
+  const curFetch =
+    process.env.MODERN_TARGET !== 'node'
+      ? fetch
+      : (nodeFetch as unknown as typeof fetch);
+  return curFetch(input, init).then(async res => {
+    const data = await res.json();
+    data.hello = 'hello custom sdk';
+    return data;
+  });
+};
+
+configure({
+  request: customFetch,
+});
+```
+
+There are some conventions when configuring custom request functions:
+
+- The function's parameters should align with the Fetch API or node-fetch in the browser. All unified invocations of BFF functions will send requests via this function.
+- The function's output must be the actual data returned by the API, not a Promise, otherwise, the BFF function will not return data correctly.
+- If it's an SSR project, the function must support sending requests on both the browser and server sides.
+
+Below is an example of using axios to customize a request function:
+
+```tsx title="App.tsx"
+import { configure } from '@modern-js/plugin-bff/client';
+import type { Method, AxiosRequestHeaders as Headers } from 'axios';
+
+configure({
+  async request(...config: Parameters<typeof fetch>) {
+    const [url, params] = config;
+    const res = await axios({
+      url: url as string, // Here we need to use `as` because fetch and axios types are somewhat incompatible
+      method: params?.method as Method,
+      data: params?.body,
+      headers: params?.headers as Headers,
+    });
+    return res.data;
+  },
+});
+```

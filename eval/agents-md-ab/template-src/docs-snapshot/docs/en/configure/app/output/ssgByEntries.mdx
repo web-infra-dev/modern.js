@@ -1,0 +1,93 @@
+---
+title: ssgByEntries
+---
+
+# output.ssgByEntries
+
+- **Type:** `Record<string, boolean | object>`
+- **Default Value:** `undefined`
+
+Configure SSG per entry for multi-entry applications.
+
+:::info
+- Use `output.ssg` for single-entry apps.
+- For multi-entry apps, prefer `output.ssgByEntries`.
+- If `output.ssg` is `true` and `output.ssgByEntries` is not set, all routes under all entries are treated as SSG routes.
+
+:::
+
+## Configuration Type
+
+```ts
+type SSGRouteOptions =
+  | string
+  | {
+      url: string;
+      headers?: Record<string, any>;
+    };
+
+type SSGOptions = {
+  headers?: Record<string, any>;
+  routes?: SSGRouteOptions[];
+};
+
+// ssgByEntries type
+type SSGMultiEntryOptions = Record<string, boolean | SSGOptions>;
+```
+
+## Examples
+
+### Enable SSG for some entries
+
+```ts title="modern.config.ts"
+export default defineConfig({
+  output: {
+    ssgByEntries: {
+      home: true,
+      admin: false,
+    },
+  },
+});
+```
+
+### Configure routes per entry
+
+```ts title="modern.config.ts"
+export default defineConfig({
+  output: {
+    ssgByEntries: {
+      home: {
+        routes: ['/', '/about', '/user/modernjs'],
+      },
+      admin: {
+        routes: ['/', '/dashboard'],
+      },
+    },
+  },
+});
+```
+
+### Configure headers per entry or route
+
+```ts title="modern.config.ts"
+export default defineConfig({
+  output: {
+    ssgByEntries: {
+      home: {
+        headers: {
+          'x-tt-env': 'ppe_modernjs',
+        },
+        routes: [
+          '/',
+          {
+            url: '/about',
+            headers: {
+              from: 'modern-website',
+            },
+          },
+        ],
+      },
+    },
+  },
+});
+```

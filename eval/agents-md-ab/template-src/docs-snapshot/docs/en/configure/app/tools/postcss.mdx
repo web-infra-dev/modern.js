@@ -1,0 +1,38 @@
+---
+title: postcss
+---
+
+# tools.postcss
+
+- **Type:** `Object | Function`
+- **Default:**
+
+```js
+const defaultOptions = {
+  postcssOptions: {
+    plugins: [
+      // The following plugins are enabled by default
+      require('postcss-nesting'),
+      require('postcss-media-minmax'),
+      require('postcss-flexbugs-fixes'),
+      require('autoprefixer')({
+        flexbox: 'no-2009',
+      }),
+      // The following plugins are only enabled when compatible with legacy browsers
+      require('postcss-custom-properties'),
+      require('postcss-initial'),
+      require('postcss-page-break'),
+      require('postcss-font-variant'),
+    ],
+    sourceMap: isDev,
+  },
+};
+```
+
+Modern.js integrates PostCSS by default, you can configure [postcss-loader](https://github.com/webpack-contrib/postcss-loader) through `tools.postcss`.
+
+It should be noted that when you enable the `tools.lightningcss` configuration, PostCSS will be disabled by default, including `postcss-loader` and its default plugins.
+
+import RsbuildConfig from '@site-docs-en/components/rsbuild-config-tooltip';
+
+<RsbuildConfig configName="tools.postcss" />

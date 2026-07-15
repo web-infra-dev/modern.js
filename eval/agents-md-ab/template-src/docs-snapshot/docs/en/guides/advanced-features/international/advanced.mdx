@@ -1,0 +1,132 @@
+---
+title: Advanced Usage
+---
+
+# Advanced Usage
+
+## SSR Scenarios
+
+In SSR scenarios, the plugin detects the language on the server, loads translation resources, and injects the result into the page. The client reuses it directly to avoid language flicker.
+
+**Complete configuration:**
+
+```ts
+// modern.config.ts
+export default defineConfig({
+  server: {
+    ssr: true,
+  },
+  plugins: [
+    appTools(),
+    i18nPlugin({
+      localeDetection: {
+        localePathRedirect: true,
+        i18nextDetector: true,
+        languages: ['zh', 'en'],
+        fallbackLanguage: 'en',
+        detection: {
+          order: ['path', 'cookie', 'header'],
+          lookupHeader: 'accept-language',
+          caches: ['cookie'],
+        },
+      },
+      backend: {
+        loadPath: '/locales/{{lng}}/{{ns}}.json',
+      },
+    }),
+  ],
+});
+```
+
+Server-side language detection priority: URL path -> Cookie -> `Accept-Language` request header -> `fallbackLanguage`.
+
+**Route configuration (file-system routes):**
+
+```
+routes/
+└── [lang]/
+    ├── layout.tsx
+    └── page.tsx
+```
+
+In SSR scenarios, the language detected on the server is written to `window._SSR_DATA`. The client reads it directly and does not detect again, ensuring both sides use the same language.
+
+## Multiple Entries
+
+Different entries can use different language lists, detection methods, and resource paths:
+
+```ts
+// modern.config.ts
+i18nPlugin({
+  localeDetection: {
+    // Global defaults
+    localePathRedirect: true,
+    languages: ['zh', 'en'],
+    fallbackLanguage: 'en',
+
+    // Per-entry overrides
+    localeDetectionByEntry: {
+      admin: {
+        localePathRedirect: false, // admin does not use path prefixes
+        languages: ['en'],         // admin only supports English
+      },
+      mobile: {
+        languages: ['zh', 'en', 'ja'], // mobile supports more languages
+      },
+    },
+  },
+  backend: {
+    loadPath: '/locales/{{lng}}/{{ns}}.json', // Global default path
+
+    // Per-entry overrides
+    backendOptionsByEntry: {
+      admin: {
+        loadPath: '/admin/locales/{{lng}}/{{ns}}.json',
+      },
+      mobile: {
+        loadPath: '/mobile/locales/{{lng}}/{{ns}}.json',
+      },
+    },
+  },
+});
+```
+
+## Custom i18next Instance
+
+By default, the plugin uses an internally created i18next instance. If you need deeper customization, such as custom plugins or preconfigured options, pass a custom instance through runtime configuration:
+
+```ts
+// src/i18n.ts
+import i18next from 'i18next';
+
+const customI18n = i18next.createInstance();
+// You can use custom plugins here.
+// customI18n.use(MyPlugin);
+
+export default customI18n;
+```
+
+```ts
+// src/modern.runtime.ts
+import { defineRuntimeConfig } from '@modern-js/runtime';
+import customI18n from './i18n';
+
+export default defineRuntimeConfig({
+  i18n: {
+    i18nInstance: customI18n,
+    initOptions: {
+      fallbackLng: 'en',
+      supportedLngs: ['zh', 'en'],
+    },
+  },
+});
+```
+
+## Language Switching Behavior
+
+When `changeLanguage` is called to switch language:
+
+- **Translation update**: All components that use `t()` re-render automatically. No manual refresh is needed.
+- **URL update** (when `localePathRedirect` is enabled): Updates the URL with `history.pushState`, without triggering a page refresh and without affecting browser back/forward history.
+- **Cache update**: Writes to Cookie or LocalStorage based on the `caches` configuration, so the language choice is restored on the next visit.
+- **When path prefixes are not enabled**: Only the i18next instance and cache are updated. The URL stays unchanged.

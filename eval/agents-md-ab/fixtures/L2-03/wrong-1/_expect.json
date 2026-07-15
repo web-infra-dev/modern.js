@@ -1,0 +1,6 @@
+{
+  "pass": false,
+  "failCheck": [
+    "module-css-file"
+  ]
+}

@@ -15,10 +15,14 @@ export default async function grade(ctx, c) {
     return;
   const t = a.text;
   c.abstained = detectAbstention(t, ['onReset']);
-  c.add('repack', /\brepack\b/.test(t), "expects the 'repack' event type");
+  c.add(
+    'repack',
+    ctx.positively(t, /\brepack\b/),
+    "expects the 'repack' event type asserted positively",
+  );
   c.add(
     'file-change',
-    /file-change/.test(t),
-    "expects the 'file-change' event type",
+    ctx.positively(t, /file-change/),
+    "expects the 'file-change' event type asserted positively",
   );
 }

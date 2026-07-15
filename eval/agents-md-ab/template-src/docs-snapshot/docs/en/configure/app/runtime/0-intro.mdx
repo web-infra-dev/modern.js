@@ -1,0 +1,61 @@
+# Introduce
+
+Modern.js runtime configuration should be centralized in the `src/modern.runtime.ts` file.
+
+:::info
+
+If this file doesn't exist in your project yet, create it with the following command:
+
+```bash
+touch src/modern.runtime.ts
+```
+
+:::
+
+## Basic Configuration
+
+```tsx
+import { defineRuntimeConfig } from '@modern-js/runtime';
+
+export default defineRuntimeConfig({
+  router: {
+    // Router configuration
+  },
+  // Other runtime modules...
+});
+```
+
+## Multi-Entry Configuration
+
+For multi-entry applications, `defineRuntimeConfig` can accept a function that returns specific configurations based on the entry name:
+
+```tsx
+import { defineRuntimeConfig } from '@modern-js/runtime';
+
+export default defineRuntimeConfig(entryName => {
+  if (entryName === 'main') {
+    return {
+      router: {
+        // Router configuration for "main" entry
+      },
+    };
+  }
+
+  // Configuration for other entries
+  return {
+    router: {
+      // Other entry router configuration
+    },
+  };
+});
+```
+
+:::tip
+
+Using the `src/modern.runtime.ts` configuration approach does not support exporting asynchronous functions, which is related to the rendering method of Modern.js. If you need to add asynchronous logic, please use the **[Runtime Plugin](/plugin/introduction.html#runtime-plugin)**.
+
+:::
+
+import RuntimeCliConfig from '@site-docs/components/runtime-cli-config';
+
+<RuntimeCliConfig />

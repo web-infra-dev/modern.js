@@ -14,17 +14,18 @@ export default async function grade(ctx, c) {
   const t = a.text;
   c.add(
     'modern-deploy',
-    /modern deploy/.test(t),
-    'expects `modern deploy` for deployable output',
+    ctx.positively(t, /modern deploy/),
+    'expects `modern deploy` for deployable output (asserted positively)',
   );
   c.add(
     'netlify-env',
-    /MODERNJS_DEPLOY=netlify/.test(t) && /modern deploy/.test(t),
+    ctx.positively(t, /MODERNJS_DEPLOY=netlify/) &&
+      ctx.positively(t, /modern deploy/),
     'expects MODERNJS_DEPLOY=netlify modern deploy',
   );
   c.add(
     'default-output-dirs',
-    /\bdist\b/.test(t) && /static\/js/.test(t),
+    ctx.positively(t, /\bdist\b/) && ctx.positively(t, /static\/js/),
     'expects default root `dist` and JS under `static/js`',
   );
 }

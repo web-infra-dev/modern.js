@@ -1,0 +1,30 @@
+---
+title: baseUrl
+---
+
+# server.baseUrl
+
+- **Type:** `string | string[]`
+- **Default:** `undefined`
+
+Uniformly set the prefix of server-side routes (commonly used in situations where multiple applications share the same domain name to distinguish traffic).
+
+```ts title="modern.config.ts"
+export default defineConfig({
+  server: {
+    // All generated routes will automatically have the prefix `/base`
+    // Generated server-side route file path: dist/route.json
+    baseUrl: '/base'
+
+    // Multiple baseUrl
+    baseUrl: ['/base-new', '/base-old']
+  }
+})
+```
+
+After running `dev`, you will see that the route access will have the corresponding prefix added:
+
+```bash
+  > Local:    http://localhost:8080/base/
+  > Network:  http://192.168.0.1:8080/base/
+```

@@ -1,0 +1,30 @@
+# App.tsx
+
+The entry identifier when using [Self-controlled Routing](/guides/concept/entries.html#self-controlled-routing) in the application.
+
+`App.tsx` is not the actual application entry; Modern.js will automatically generate the real entry file, which is roughly as follows:
+
+```js
+// runtime-global-context
+import { setGlobalContext } from '@modern-js/runtime/context';
+import App from '@_modern_js_src/App';
+
+setGlobalContext({
+  App,
+});
+
+// index.tsx
+import './runtime-global-context';
+import { createRoot } from '@modern-js/runtime/react';
+import { render } from '@modern-js/runtime/browser';
+
+const ModernRoot = createRoot();
+
+render(<ModernRoot />, 'root');
+```
+
+When `createRoot` is executed, it will retrieve the registered Global App and generate the actual React component.
+
+:::note
+In scenarios with multiple entry points, each entry can have its own independent `App.tsx`. For more details, see [Entry Points](/guides/concept/entries).
+:::

@@ -1,0 +1,32 @@
+[
+  {
+    "type": "dir",
+    "name": "bff",
+    "label": "use-bff",
+    "collapsed": true
+  },
+
+  {
+    "type": "dir",
+    "name": "page-performance",
+    "label": "page-performance",
+    "collapsed": true
+  },
+  "build-performance",
+  "compatibility",
+  "low-level",
+  "source-build",
+  {
+    "type": "dir",
+    "name": "server-monitor",
+    "label": "server-monitor",
+    "collapsed": true
+  },
+  {
+    "type": "dir",
+    "name": "international",
+    "label": "Internationalization",
+    "collapsed": true
+  },
+  "web-server"
+]

@@ -24,8 +24,8 @@ export default async function grade(ctx, c) {
   );
   c.add(
     'rspack-entry',
-    /tools\.rspack|tools\.bundlerChain/.test(t),
-    'expects tools.rspack or tools.bundlerChain as the v3 entry',
+    ctx.positively(t, /tools\.rspack|tools\.bundlerChain/),
+    'expects tools.rspack or tools.bundlerChain asserted positively as the v3 entry',
   );
   c.add(
     'no-webpack-recommendation',

@@ -1,0 +1,7 @@
+{
+  "pass": false,
+  "failCheck": [
+    "negates-modern-new",
+    "no-modern-new-recommendation"
+  ]
+}

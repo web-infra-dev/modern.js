@@ -1,0 +1,221 @@
+---
+title: Configuration
+---
+
+# Configuration
+
+Plugin configuration is split between two files, each with a different responsibility:
+
+| File | Purpose |
+| --- | --- |
+| `modern.config.ts` | Basic plugin settings, read during build/startup |
+| `src/modern.runtime.ts` | i18next initialization options, read at runtime |
+
+:::warning Function values can only be configured at runtime
+`modern.config.ts` runs at build time and cannot serialize functions. SDK loaders, custom detection functions, and similar function values must be placed in `modern.runtime.ts`.
+:::
+
+## Configuration Ownership
+
+| Configuration | Where to configure |
+| --- | --- |
+| `localeDetection` (language detection, path redirects, etc.) | `modern.config.ts` |
+| `backend` (resource paths, SDK declaration, etc.) | `modern.config.ts` |
+| `i18nInstance` | `modern.runtime.ts` |
+| `initOptions` (`fallbackLng`, `ns`, and other i18next options) | `modern.runtime.ts` |
+| The actual `backend.sdk` loader function | `modern.runtime.ts` |
+
+## CLI Configuration
+
+```ts title="modern.config.ts"
+import { appTools, defineConfig } from '@modern-js/app-tools';
+import { i18nPlugin } from '@modern-js/plugin-i18n';
+
+export default defineConfig({
+  plugins: [
+    appTools(),
+    i18nPlugin({
+      localeDetection: { ... },
+      backend: { ... },
+    }),
+  ],
+});
+```
+
+### localeDetection Options
+
+| Field | Type | Default | Description |
+| --- | --- | --- | --- |
+| `languages` | `string[]` | `[]` | Supported language list |
+| `fallbackLanguage` | `string` | `''` | Fallback language when detection fails |
+| `localePathRedirect` | `boolean` | `false` | Handles URL locale prefix recognition, redirects, and switching. See [Routing Integration](./routing.md#enable-locale-path-prefixes) |
+| `i18nextDetector` | `boolean` | `false` | Enables the i18next detector (Cookie / Header, etc.) |
+| `detection` | `LanguageDetectorOptions` | - | Detailed i18next detector configuration. See [Locale Detection](./locale-detection.md) |
+| `ignoreRedirectRoutes` | `string[] \| Function` | - | Routes that skip redirects. See [Locale Detection](./locale-detection.md#ignoreredirectroutes) |
+| `localeDetectionByEntry` | `Record<string, ...>` | - | Per-entry overrides for multiple entries |
+
+**Example:**
+
+```ts
+i18nPlugin({
+  localeDetection: {
+    localePathRedirect: true,
+    i18nextDetector: true,
+    languages: ['zh', 'en', 'ja'],
+    fallbackLanguage: 'en',
+    detection: {
+      order: ['path', 'cookie', 'header'],
+      lookupCookie: 'i18next',
+      caches: ['cookie'],
+    },
+  },
+});
+```
+
+### backend Options
+
+```ts
+interface BackendOptions {
+  // Whether to enable backend resource loading.
+  // Automatically enabled when loadPath/addPath is configured, or when a locales directory exists.
+  enabled?: boolean;
+
+  // Decides which URL or local file to request for translations. Supports {{lng}} and {{ns}}.
+  // Default: '/locales/{{lng}}/{{ns}}.json'
+  loadPath?: string;
+
+  // Path for reporting missing translations (optional).
+  addPath?: string;
+
+  // Enables the custom backend SDK. The actual loader is provided in runtime config.
+  sdk?: boolean | string;
+
+  // Cache strategy for chained backend mode, effective when both loadPath and sdk are configured.
+  // 'none'                  - use local files and do not request the custom backend after a hit
+  // 'refresh'               - continue requesting the custom backend and update cache, but not the page
+  // 'refreshAndUpdateStore' - continue requesting and update page text as well (default)
+  cacheHitMode?: 'none' | 'refresh' | 'refreshAndUpdateStore';
+
+  // Per-entry overrides for multiple-entry scenarios.
+  backendOptionsByEntry?: Record<string, BaseBackendOptions>;
+}
+```
+
+**About the `sdk` field:** In `modern.config.ts`, set it to `true` to declare that the SDK backend is enabled. Provide the actual loader in `initOptions.backend.sdk` in `modern.runtime.ts`. See [Resource Loading -> Custom Backend](./resource-loading.md#custom-backend).
+
+**backend auto-enable rules:**
+
+| Situation | Result |
+| --- | --- |
+| `loadPath` or `addPath` is configured | Automatically enabled. No need to write `enabled: true` |
+| No backend is configured, but a `locales` directory exists and contains JSON files | Automatically enabled with the default `loadPath` |
+| `enabled: false` is set explicitly | Disabled, and auto-detection is skipped |
+
+Auto-detected directory locations, in priority order:
+
+1. `{project root}/config/public/locales`
+2. The `locales` subdirectory under the directory configured by `server.publicDir`
+
+**Which backend should you choose?**
+
+| Scenario | Recommended approach |
+| --- | --- |
+| Translation files are local to the project | Static file backend (configure `loadPath`; CSR/SSR switch automatically) |
+| Translations come from a remote API or translation platform | Custom backend (configure `sdk: true`) |
+| Local fallback + remote real-time updates | Chained backend (configure both `loadPath` and `sdk`) |
+
+See [Resource Loading](./resource-loading.md) for detailed usage.
+
+## Runtime Configuration
+
+```ts title="src/modern.runtime.ts"
+import { defineRuntimeConfig } from '@modern-js/runtime';
+import i18next from 'i18next';
+
+const i18nInstance = i18next.createInstance();
+
+export default defineRuntimeConfig({
+  i18n: {
+    i18nInstance,   // Optional. An isolated instance is recommended.
+    initOptions: {
+      fallbackLng: 'en',
+      supportedLngs: ['zh', 'en'],
+      ns: ['translation'],
+      defaultNS: 'translation',
+      interpolation: {
+        escapeValue: false, // React already escapes text; disable this to avoid double escaping.
+      },
+    },
+  },
+});
+```
+
+### i18nInstance Configuration
+
+If you need to use a custom i18n instance, provide it in the runtime configuration:
+
+import CustomInstanceCode from '@site-docs/components/international/custom-instance-code';
+
+<CustomInstanceCode />
+
+### initOptions
+
+import Desc from '@site-docs/components/international/init-options-desc';
+
+<Desc />
+
+| Field | Description |
+| --- | --- |
+| `fallbackLng` | Which language resources i18next falls back to when a translation key is missing. Supports strings, arrays, and maps (fallback chains) |
+| `supportedLngs` | Language list supported by i18next |
+| `ns` | Namespace list. Default is `['translation']` |
+| `defaultNS` | Default namespace. Default is `'translation'` |
+| `lng` | Forces the initial language. Usually not needed because the detector decides it |
+
+`fallbackLng` supports fallback chains, which are useful for regional language degradation:
+
+```ts
+initOptions: {
+  lng: 'zh-CN',
+  fallbackLng: {
+    'zh-CN': ['zh', 'en'], // If zh-CN is missing, try zh first, then en.
+    default: ['en'],
+  },
+},
+```
+
+### Custom Backend Function Configuration
+
+The actual loader function for a custom backend must be provided in runtime configuration:
+
+```ts
+// modern.config.ts: only declare that it is enabled.
+i18nPlugin({
+  backend: { sdk: true },
+});
+
+// modern.runtime.ts: provide the actual function.
+import type { I18nSdkLoader } from '@modern-js/plugin-i18n/runtime';
+
+const myLoader: I18nSdkLoader = async options => {
+  if (options.lng && options.ns) {
+    const res = await fetch(`/api/i18n/${options.lng}/${options.ns}`);
+    return res.json();
+  }
+  return {};
+};
+
+export default defineRuntimeConfig({
+  i18n: {
+    initOptions: {
+      backend: { sdk: myLoader },
+    },
+  },
+});
+```
+
+For complete usage, see [Resource Loading -> Custom Backend](./resource-loading.md#custom-backend).
+
+## Multiple Entries
+
+Multiple-entry projects can override configuration per entry. See [Advanced Usage -> Multiple Entries](./advanced.md#multiple-entries).

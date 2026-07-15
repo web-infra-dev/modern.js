@@ -1,0 +1,39 @@
+---
+title: entriesDir
+---
+
+# source.entriesDir
+
+- **Type:** `string`
+- **Default:** `'./src'`
+
+By default, Modern.js scans the `src` directory to identify page entries. You can customize the directory used for identifying page entries with this option.
+
+For example, with the following configuration and directory structure:
+
+```ts title="modern.config.ts"
+export default defineConfig({
+  source: {
+    entriesDir: './src/pages',
+  },
+});
+```
+
+```bash title="Project directory structure"
+.
+└── src
+    └── pages
+        ├── a
+        │   └── App.tsx
+        └── b
+            └── App.tsx
+```
+
+Modern.js will generate the build entries `a` and `b` based on the `./src/pages` directory structure. The result is as follows:
+
+```js
+const entry = {
+  a: './src/pages/a/App.tsx',
+  b: './src/pages/b/App.tsx',
+};
+```

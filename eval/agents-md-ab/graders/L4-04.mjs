@@ -17,14 +17,22 @@ export default async function grade(ctx, c) {
   c.abstained = detectAbstention(t, []);
   c.add(
     'required-field',
-    /\brequired\b/.test(t),
+    ctx.positively(t, /\brequired\b/),
     "expects the 'required' field for mandatory dependency plugins",
   );
   c.add(
     'registryHooks-field',
-    /registryHooks/.test(t),
+    ctx.positively(t, /registryHooks/),
     "expects 'registryHooks' (exact spelling; 'registerHooks' is a fabrication tell)",
   );
-  c.add('pre-field', /\bpre\b/.test(t), "expects the 'pre' ordering field");
-  c.add('post-field', /\bpost\b/.test(t), "expects the 'post' ordering field");
+  c.add(
+    'pre-field',
+    ctx.positively(t, /\bpre\b/),
+    "expects the 'pre' ordering field",
+  );
+  c.add(
+    'post-field',
+    ctx.positively(t, /\bpost\b/),
+    "expects the 'post' ordering field",
+  );
 }

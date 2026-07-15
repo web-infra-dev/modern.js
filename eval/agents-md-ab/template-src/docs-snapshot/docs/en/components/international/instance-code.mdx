@@ -1,0 +1,16 @@
+Create `src/modern.runtime.ts`:
+
+```ts
+import { defineRuntimeConfig } from '@modern-js/runtime';
+import i18next from 'i18next';
+
+// i18next exports a global singleton by default, which can cause multiple apps to affect each other.
+// createInstance() creates an isolated instance so each app has independent language state.
+const i18nInstance = i18next.createInstance();
+
+export default defineRuntimeConfig({
+  i18n: {
+    i18nInstance,
+  },
+});
+```

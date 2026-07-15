@@ -1,0 +1,26 @@
+---
+title: publicRoutes
+---
+
+# server.publicRoutes
+
+- **Type:** `Object`
+- **Default:** Server-side routing rules generated based on file conventions, with one route rule generated for each file.
+
+This configuration option only applies to server-side routing and can customize the access route of resources under `config/public/`.
+
+The `key` of the object is the relative file path of the `config/public/` (without using `./`), and the value can be a `string`.
+
+```ts title="modern.config.ts"
+export default defineConfig({
+  server: {
+    publicRoutes: {
+      // Set a long route
+      'index.json': '/user-config/card-info/extra/help.json',
+
+      // Set a route without a suffix
+      'robot.txt': '/app/authentication',
+    },
+  },
+});
+```

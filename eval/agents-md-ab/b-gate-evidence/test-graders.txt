@@ -1,0 +1,93 @@
+✓ T01/correct (want PASS, 4s)
+✓ T01/wrong-1 (want FAIL, 0s) — h2-hello-eval: expects <h2>Hello Eval</h2> in src/routes/page.tsx
+✓ T01/wrong-2 (want FAIL, 4s) — build: pnpm build exit 1: js-ab-exposed/templates/demo-app/node_modules/.pnpm/@rsbuild+core@2.1.0_core-js@3.49.0/node_modules/@rsbuild/core/dist/756.js:4320:141
+    at file:///tmp/modernjs-ab-exposed/templates/demo-app/node_modules/.pnpm/@rspack+core@2.1.4_@swc+helpers@0.5.23/node_modules/@rspack/core/dist/index.js:11907:54
+
+✓ T02/correct (want PASS, 0s)
+✓ T02/correct-final (want PASS, 0s)
+✓ T02/wrong-1 (want FAIL, 0s) — dev-command: expects pnpm dev / npm run dev / yarn dev / modern dev
+✓ T02/wrong-2 (want FAIL, 0s) — answer-present: no ANSWER.md nor .final-answer.txt
+✓ T03/correct (want PASS, 4s)
+✓ T03/wrong-1 (want FAIL, 4s) — ssr-server-bundle: no <outputRoot>/bundles/*.js emitted — SSR not actually enabled
+✓ T03/wrong-2 (want FAIL, 4s) — ssr-server-bundle: no <outputRoot>/bundles/*.js emitted — SSR not actually enabled
+✓ T04/correct (want PASS, 4s)
+✓ T04/wrong-1 (want FAIL, 4s) — build_output-exists: build_output/ directory not produced by build
+✓ T04/wrong-2 (want FAIL, 4s) — build: pnpm build exit 1: js-ab-exposed/templates/demo-app/node_modules/.pnpm/@rsbuild+core@2.1.0_core-js@3.49.0/node_modules/@rsbuild/core/dist/756.js:4320:141
+    at file:///tmp/modernjs-ab-exposed/templates/demo-app/node_modules/.pnpm/@rspack+core@2.1.4_@swc+helpers@0.5.23/node_modules/@rspack/core/dist/index.js:11907:54
+
+✓ T05/correct (want PASS, 0s)
+✓ T05/wrong-1 (want FAIL, 0s) — data-file-naming: expects same-named .data file (e.g. page.data.ts)
+✓ T05/wrong-2 (want FAIL, 0s) — exports-loader: expects: export a loader function
+✓ T06/correct (want PASS, 4s)
+✓ T06/wrong-1 (want FAIL, 0s) — about-page-data-exists: src/routes/about/page.data.ts missing (loader must live in the same-named .data file)
+✓ T06/wrong-2 (want FAIL, 0s) — loader-returns-about-us: loader must return { title: 'About Us' }
+✓ T07/correct (want PASS, 0s)
+✓ T07/wrong-1 (want FAIL, 0s) — no-modern-new-recommendation: recommends removed `modern new` / `pnpm new` without removal context
+✓ T07/wrong-2 (want FAIL, 0s) — manual-enable-signals: expects manual/official-skill enable steps (plugin-bff install+register, api/lambda, tsconfig, or skills add)
+✓ T10/correct (want PASS, 4s)
+✓ T10/wrong-1 (want FAIL, 0s) — config-has-title: modern.config must set the title via framework config (expects 'Eval App' in config)
+✓ T10/wrong-2 (want FAIL, 4s) — html-meta-description: meta name="description" content="eval description" not found in built html
+✓ T08/correct (want PASS, 7s)
+✓ T08/wrong-1 (want FAIL, 7s) — http-json-body: expected {"message":"hi"}, got {"message":"hello"}
+✓ T08/wrong-2 (want FAIL, 0s) — bff-plugin-registered: modern.config must import and register bffPlugin() from @modern-js/plugin-bff
+✓ T09/correct (want PASS, 6s)
+✓ T09/wrong-1 (want FAIL, 0s) — server-file-exists: server/modern.server.ts missing (v3 custom web server convention)
+✓ T09/wrong-2 (want FAIL, 0s) — sets-x-eval-header: expects the middleware to set the 'x-eval' response header
+✓ T09/wrong-3 (want FAIL, 6s) — build: pnpm build exit 1:  name: 'x-eval-header', handler }],
+
+error   build failed in 2.61s
+error   [96mserver/modern.server.ts[0m:[93m14[0m:[93m7[0m - [91merror[0m[90m TS2322: [0mType 'string' is not assignable to type 'number'.
+
+[7m14[0m const broken: number = 'not-a-number';
+[7m  [0m [91m      ~~~~~~[0m
+
+
+
+=== grader unit-test matrix ===
+task  fixture         want  result  time  reason
+T01   correct         PASS  OK      4s    
+T01   wrong-1         FAIL  OK      0s    h2-hello-eval: expects <h2>Hello Eval</h2> in src/routes/page.tsx
+T01   wrong-2         FAIL  OK      4s    build: pnpm build exit 1: js-ab-exposed/templates/demo-app/node_modules/.pnpm/@rsbuild+core@2.1.0_core-js@3.49.0/node_modules/@rsbuild/core/dist/756.js:4320:141
+    at file:///tmp/modernjs-ab-exposed/templates/demo-app/node_modules/.pnpm/@rspack+core@2.1.4_@swc+helpers@0.5.23/node_modules/@rspack/core/dist/index.js:11907:54
+
+T02   correct         PASS  OK      0s    
+T02   correct-final   PASS  OK      0s    
+T02   wrong-1         FAIL  OK      0s    dev-command: expects pnpm dev / npm run dev / yarn dev / modern dev
+T02   wrong-2         FAIL  OK      0s    answer-present: no ANSWER.md nor .final-answer.txt
+T03   correct         PASS  OK      4s    
+T03   wrong-1         FAIL  OK      4s    ssr-server-bundle: no <outputRoot>/bundles/*.js emitted — SSR not actually enabled
+T03   wrong-2         FAIL  OK      4s    ssr-server-bundle: no <outputRoot>/bundles/*.js emitted — SSR not actually enabled
+T04   correct         PASS  OK      4s    
+T04   wrong-1         FAIL  OK      4s    build_output-exists: build_output/ directory not produced by build
+T04   wrong-2         FAIL  OK      4s    build: pnpm build exit 1: js-ab-exposed/templates/demo-app/node_modules/.pnpm/@rsbuild+core@2.1.0_core-js@3.49.0/node_modules/@rsbuild/core/dist/756.js:4320:141
+    at file:///tmp/modernjs-ab-exposed/templates/demo-app/node_modules/.pnpm/@rspack+core@2.1.4_@swc+helpers@0.5.23/node_modules/@rspack/core/dist/index.js:11907:54
+
+T05   correct         PASS  OK      0s    
+T05   wrong-1         FAIL  OK      0s    data-file-naming: expects same-named .data file (e.g. page.data.ts)
+T05   wrong-2         FAIL  OK      0s    exports-loader: expects: export a loader function
+T06   correct         PASS  OK      4s    
+T06   wrong-1         FAIL  OK      0s    about-page-data-exists: src/routes/about/page.data.ts missing (loader must live in the same-named .data file)
+T06   wrong-2         FAIL  OK      0s    loader-returns-about-us: loader must return { title: 'About Us' }
+T07   correct         PASS  OK      0s    
+T07   wrong-1         FAIL  OK      0s    no-modern-new-recommendation: recommends removed `modern new` / `pnpm new` without removal context
+T07   wrong-2         FAIL  OK      0s    manual-enable-signals: expects manual/official-skill enable steps (plugin-bff install+register, api/lambda, tsconfig, or skills add)
+T10   correct         PASS  OK      4s    
+T10   wrong-1         FAIL  OK      0s    config-has-title: modern.config must set the title via framework config (expects 'Eval App' in config)
+T10   wrong-2         FAIL  OK      4s    html-meta-description: meta name="description" content="eval description" not found in built html
+T08   correct         PASS  OK      7s    
+T08   wrong-1         FAIL  OK      7s    http-json-body: expected {"message":"hi"}, got {"message":"hello"}
+T08   wrong-2         FAIL  OK      0s    bff-plugin-registered: modern.config must import and register bffPlugin() from @modern-js/plugin-bff
+T09   correct         PASS  OK      6s    
+T09   wrong-1         FAIL  OK      0s    server-file-exists: server/modern.server.ts missing (v3 custom web server convention)
+T09   wrong-2         FAIL  OK      0s    sets-x-eval-header: expects the middleware to set the 'x-eval' response header
+T09   wrong-3         FAIL  OK      6s    build: pnpm build exit 1:  name: 'x-eval-header', handler }],
+
+error   build failed in 2.61s
+error   [96mserver/modern.server.ts[0m:[93m14[0m:[93m7[0m - [91merror[0m[90m TS2322: [0mType 'string' is not assignable to type 'number'.
+
+[7m14[0m const broken: number = 'not-a-number';
+[7m  [0m [91m      ~~~~~~[0m
+
+
+
+32/32 fixtures behave as expected — ALL GREEN

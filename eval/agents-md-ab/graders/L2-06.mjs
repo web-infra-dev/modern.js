@@ -12,17 +12,22 @@ export default async function grade(ctx, c) {
   )
     return;
   const t = a.text;
-  const proseForm = /server\.ssr\.forceCSR/.test(t);
-  const codeForm = /forceCSR/.test(t) && /server/.test(t) && /ssr/i.test(t);
+  const proseForm = ctx.positively(t, /server\.ssr\.forceCSR/);
+  const codeForm =
+    ctx.positively(t, /forceCSR/) && /server/.test(t) && /ssr/i.test(t);
   c.add(
     'force-csr-config',
     proseForm || codeForm,
-    'expects server.ssr.forceCSR (full path or equivalent code form)',
+    'expects server.ssr.forceCSR asserted positively (full path or equivalent code form)',
   );
-  c.add('query-csr-true', /csr=true/.test(t), 'expects ?csr=true query way');
+  c.add(
+    'query-csr-true',
+    ctx.positively(t, /csr=true/),
+    'expects ?csr=true query way',
+  );
   c.add(
     'fallback-header',
-    /x-modern-ssr-fallback/.test(t),
+    ctx.positively(t, /x-modern-ssr-fallback/),
     'expects the x-modern-ssr-fallback request header way',
   );
 }

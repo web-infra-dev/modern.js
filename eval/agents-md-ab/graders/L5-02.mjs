@@ -18,11 +18,22 @@ export default async function grade(ctx, c) {
     /\buse(Context)?\s*\(\s*RuntimeContext\s*\)/.test(layout),
     'expects use(RuntimeContext) or useContext(RuntimeContext)',
   );
+  // v3 moved isBrowser to the TOP LEVEL of the context value: it must be
+  // destructured directly from the use(RuntimeContext)/useContext(...) return
+  // value ({ isBrowser } = ...), not read as context.isBrowser (v2 shape).
   c.add(
-    'is-browser-used',
-    /\bisBrowser\b/.test(layout) &&
-      /console\.log\s*\(\s*['"]is-browser['"]/.test(layout),
-    "expects isBrowser destructured and console.log('is-browser', isBrowser)",
+    'isbrowser-top-level-destructure',
+    /(?:const|let|var)\s*\{[^}]*\bisBrowser\b[^}]*\}\s*=\s*use(?:Context)?\s*\(\s*RuntimeContext\s*\)/.test(
+      layout,
+    ),
+    'isBrowser must be destructured at the top level of use(RuntimeContext)/useContext(RuntimeContext) — context.isBrowser property access (v2 shape) = 0',
+  );
+  c.add(
+    'console-log-is-browser',
+    /console\.log\s*\(\s*['"]is-browser['"]\s*,\s*isBrowser\s*[,)]/.test(
+      layout,
+    ),
+    "expects console.log('is-browser', isBrowser) — first arg the literal 'is-browser', second the destructured isBrowser variable",
   );
   c.add(
     'no-deprecated-hook',

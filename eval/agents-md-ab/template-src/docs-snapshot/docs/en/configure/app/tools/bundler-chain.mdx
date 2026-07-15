@@ -1,0 +1,30 @@
+---
+title: bundlerChain
+---
+
+# tools.bundlerChain
+
+- **Type:**
+
+```ts
+type BundlerChainFn = (
+  chain: RspackChain,
+  utils: ModifyBundlerChainUtils,
+) => Promise<void> | void;
+```
+
+- **Default:** `undefined`
+
+You can modify the Rspack configuration by configuring `tools.bundlerChain` which is type of `Function`. The function receives two parameters, the first is the original bundler chain object, and the second is an object containing some utils.
+
+:::tip What is BundlerChain
+
+Bundler chain is a chainable configuration tool implemented based on the Rspack configuration API, which you can use to modify Rspack configuration.
+
+Configurations modified via bundler chain will work on Rspack builds.
+
+:::
+
+> `tools.bundlerChain` is executed earlier than tools.rspack and thus will be overridden by changes in tools.rspack.
+
+For more information, please refer to [Rsbuild#tools.bundlerChain](https://v2.rsbuild.rs/config/tools/bundler-chain).

@@ -1,0 +1,39 @@
+---
+sidebar_position: 2
+---
+
+# CLI FAQ
+
+### Unable to pass command line arguments correctly when using pnpm?
+
+When using pnpm to call the commands in `package.json`, you need to pay attention to how parameters are passed:
+
+- **If you need to pass parameters to pnpm**, you need to put the parameters before the command.
+
+For example, using the pnpm `--filter` parameter to run the prepare command:
+
+```bash
+pnpm run --filter "./packages/**" prepare
+```
+
+- **If you need to pass parameters to the command**, you need to put the parameters after the command.
+
+For example, in the following `package.json` configuration:
+
+```json
+{
+  "scripts": {
+    "command": "modern command"
+  }
+}
+```
+
+The way to pass parameters when running the command is:
+
+```bash
+pnpm run command --options
+```
+
+:::tip
+Modern.js requires Node.js >= 20.19.5, and pnpm v6 does not support Node.js 20, so please use pnpm v7 or higher.
+:::

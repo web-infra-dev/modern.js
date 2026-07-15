@@ -1,0 +1,18 @@
+---
+title: aliasStrategy
+---
+
+# source.aliasStrategy
+
+:::warning Deprecation Warning
+`source.aliasStrategy` is deprecated, please use [resolve.aliasStrategy](/configure/app/resolve/alias-strategy) instead.
+:::
+
+- **Type:** `'prefer-tsconfig' | 'prefer-alias'`
+- **Default:** `'prefer-tsconfig'`
+
+`source.aliasStrategy` is used to control the priority between the `paths` option in `tsconfig.json` and the `alias` option in the bundler.
+
+import RsbuildConfig from '@site-docs-en/components/rsbuild-config-tooltip';
+
+<RsbuildConfig configName="source.aliasStrategy" />

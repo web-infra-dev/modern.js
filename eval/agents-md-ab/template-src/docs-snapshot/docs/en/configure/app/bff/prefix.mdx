@@ -1,0 +1,33 @@
+---
+title: prefix
+---
+
+# bff.prefix
+
+- **Type:** `string`
+- **Default:** `/api`
+
+import EnableBFFCaution from "@site-docs-en/components/enable-bff-caution";
+
+<EnableBFFCaution />
+
+By default, the prefix for accessing routes in the BFF API directory is `/api`, as shown in the following directory structure:
+
+```bash
+api
+└── hello.ts
+```
+
+The route corresponding to `api/hello.ts` when accessed is `localhost:8080/api/hello`.
+
+This configuration option can modify the default route prefix:
+
+```ts title="modern.config.ts"
+export default defineConfig({
+  bff: {
+    prefix: '/api-demo',
+  },
+});
+```
+
+The corresponding route for `api/hello.ts` when accessed is `localhost:8080/api-demo/hello`.

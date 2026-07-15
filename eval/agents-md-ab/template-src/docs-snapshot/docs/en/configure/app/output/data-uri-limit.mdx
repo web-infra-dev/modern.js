@@ -1,0 +1,30 @@
+---
+title: dataUriLimit
+---
+
+# output.dataUriLimit
+
+- **Type：**
+
+```ts
+type DataUriLimitConfig =
+  | number
+  | {
+      svg?: number;
+      font?: number;
+      image?: number;
+      media?: number;
+    };
+```
+
+- **Default：**
+
+```js
+const defaultDatUriLimit = 10000;
+```
+
+Set the size threshold to inline static assets such as images and fonts.
+
+import RsbuildConfig from '@site-docs-en/components/rsbuild-config-tooltip';
+
+<RsbuildConfig configName="output.dataUriLimit" />

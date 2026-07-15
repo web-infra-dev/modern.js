@@ -13,12 +13,12 @@ export default async function grade(ctx, c) {
   const t = a.text;
   c.add(
     'url-mapping',
-    /\/api\/user\/:username\/info/.test(t),
-    'expects /api/user/:username/info (default /api prefix + [username]→:username)',
+    ctx.positively(t, /\/api\/user\/:username\/info/),
+    'expects /api/user/:username/info asserted positively (default /api prefix + [username]→:username)',
   );
   c.add(
     'bff-prefix-config',
-    /bff\.prefix/.test(t) || /bff\s*:\s*\{[^}]*prefix/s.test(t),
+    ctx.positively(t, /bff\.prefix/) || /bff\s*:\s*\{[^}]*prefix/s.test(t),
     "expects bff.prefix (modern.config.ts bff: { prefix: '/api-v2' })",
   );
 }

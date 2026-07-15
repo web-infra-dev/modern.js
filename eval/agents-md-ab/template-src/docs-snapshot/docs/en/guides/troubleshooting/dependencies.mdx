@@ -1,0 +1,123 @@
+---
+sidebar_position: 1
+---
+
+# Dependencies FAQ
+
+### How to check the actual installed version of a dependency in the project?
+
+You can use the `ls` command provided by the package manager to view the version of the dependency in the project.
+
+Here are some basic examples. For detailed usage, please refer to the documentation of each package manager.
+
+**npm / yarn**
+
+For projects using npm or yarn, you can use the `npm ls` command.
+
+For example, running `npm ls @modern-js/plugin` will show the following result:
+
+```
+project
+└─┬ @modern-js/app-tools@x.y.z
+  └── @modern-js/plugin@x.y.z
+```
+
+**pnpm**
+
+For projects using pnpm, you can use the `pnpm ls` command.
+
+For example, running `pnpm ls @modern-js/plugin --depth Infinity` will show the following result:
+
+```
+devDependencies:
+@modern-js/app-tools x.y.z
+└── @modern-js/plugin x.y.z
+```
+
+---
+
+### Getting "The engine "node" is incompatible" error during dependency installation?
+
+If you encounter the following error message during dependency installation, it means that the current environment is using a Node.js version that is too low, and you need to upgrade Node.js to a higher version.
+
+```bash
+The engine "node" is incompatible with this module.
+
+Expected version ">=20.19.5". Got "16.20.1"
+```
+
+Modern.js requires Node.js version >= 20.19.5. We strongly recommend using the latest LTS version (such as [Node.js 22 LTS](https://nodejs.org/)) for the best experience.
+
+If the Node.js version of the current environment is lower than the above requirement, you can use tools such as [nvm](https://github.com/nvm-sh/nvm) or [fnm](https://github.com/Schniz/fnm) to switch versions.
+
+Here is an example of using nvm:
+
+```bash
+# Install Node.js 22 LTS
+nvm install 22 --lts
+
+# Switch to Node.js 22
+nvm use 22
+
+# Set Node.js 22 as the default version
+nvm alias default 22
+```
+
+For local development environments, it is recommended to use [fnm](https://github.com/Schniz/fnm), which has better performance than nvm and has similar usage.
+
+---
+
+### Getting a ReactNode type error after upgrading dependencies?
+
+After upgrading the dependencies of the project, if the following type error occurs, it means that the wrong version of `@types/react` is installed in the project.
+
+```bash
+The types returned by 'render()' are incompatible between these types.
+Type 'React.ReactNode' is not assignable to type 'import("/node_modules/@types/react/index").ReactNode'.
+Type '{}' is not assignable to type 'ReactNode'.
+```
+
+The reason for this problem is that the ReactNode type definition in React 18/19 is different from that in React 16/17. If there are multiple different versions of `@types/react` in the project, a ReactNode type conflict will occur, resulting in the above error.
+
+The solution is to lock the `@types/react` and `@types/react-dom` in the project to a unified version, such as `v17`.
+
+```json
+{
+  "@types/react": "^19",
+  "@types/react-dom": "^19"
+}
+```
+
+For methods of locking dependency versions, please refer to [Lock nested dependency](/guides/get-started/upgrade.html#lock-nested-dependency).
+
+---
+
+### Getting peer dependencies warnings in the console after running `pnpm install`?
+
+The reason for this warning is that the version range of peer dependencies declared by some third-party npm packages is inconsistent with the version range installed in Modern.js.
+
+In most cases, peer dependencies warnings will not affect the project operation and do not need to be processed separately. Please ignore the relevant warnings.
+
+---
+
+### What is the minimum supported version of React for the Modern.js framework?
+
+**Modern.js framework requires React version >= 18.0.0**.
+
+- **If you are using Modern.js runtime capabilities** (including SSR, Streaming SSR, data loading, routing, etc.), you must use React 18 or higher. React 16 and React 17 are no longer supported.
+- **If you are only using Modern.js build capabilities** (without runtime), React 16 or React 17 may theoretically work, but it is strongly recommended to upgrade to React 18 or higher for the best experience and full feature support.
+
+---
+
+### Type error in Modern.js configuration file?
+
+```bash
+Type 'CliPlugin<{}, {}, {}, {}>' is not assignable to type 'CliPlugin<any, {}, {}, {}>'.
+  Types of property 'setup' are incompatible.
+```
+
+When you use the Modern.js framework, the above error occurs in the configuration file, it may be due to the inconsistent versions of Modern.js related packages. You need to manually update all `@modern-js/**` packages to the same version.
+
+In the monorepo, the above error may also occur due to inconsistent versions of the Modern.js framework used by different sub-projects.
+
+For information on how to unify and upgrade dependency versions, please refer to the [Upgrading](/guides/get-started/upgrade) documentation.

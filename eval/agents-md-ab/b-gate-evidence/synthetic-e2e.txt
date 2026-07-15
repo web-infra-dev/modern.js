@@ -1,0 +1,100 @@
+预注册 A/B 分析（--final）  seed=42  numpy=2.4.6
+数据：synthetic-prod.jsonl（210 条 run；主分析集 168 条）
+
+===== [1] 主分析：配对任务分块（GA vs GB，仅主分析集 layer ∈ {'L3', 'L2', 'L5', 'L1'}）=====
+  # 主 outcome = exact binary pass（判分器保证），无任何加权。
+  # 聚类单位 = task：同一 task 的重复 run 相关，故一切推断都在 task 层面。
+  配对 task 数：28；仅一组有数据而被排除的 task：无
+  task                          n_A     p_A  n_B     p_B  d=p_B-p_A
+  L1-00                           3   1.000    3   1.000     +0.000
+  L1-01                           3   0.000    3   0.333     +0.333
+  L1-02                           3   0.667    3   0.333     -0.333
+  L1-03                           3   0.667    3   1.000     +0.333
+  L1-04                           3   0.667    3   1.000     +0.333
+  L1-05                           3   1.000    3   0.333     -0.667
+  L1-06                           3   1.000    3   0.333     -0.667
+  L1-07                           3   0.667    3   1.000     +0.333
+  L2-00                           3   0.333    3   0.333     +0.000
+  L2-01                           3   0.667    3   1.000     +0.333
+  L2-02                           3   0.000    3   0.333     +0.333
+  L2-03                           3   1.000    3   1.000     +0.000
+  L2-04                           3   0.000    3   0.667     +0.667
+  L2-05                           3   0.667    3   0.667     +0.000
+  L2-06                           3   0.333    3   1.000     +0.667
+  L2-07                           3   0.333    3   0.000     -0.333
+  L3-00                           3   0.000    3   0.000     +0.000
+  L3-01                           3   0.333    3   0.333     +0.000
+  L3-02                           3   1.000    3   1.000     +0.000
+  L3-03                           3   0.333    3   0.667     +0.333
+  L3-04                           3   0.667    3   0.667     +0.000
+  L3-05                           3   0.667    3   0.667     +0.000
+  L3-06                           3   0.000    3   0.667     +0.667
+  L3-07                           3   0.667    3   0.667     +0.000
+  L5-00                           3   0.333    3   0.000     -0.333
+  L5-01                           3   0.667    3   0.667     +0.000
+  L5-02                           3   0.333    3   0.667     +0.333
+  L5-03                           3   1.000    3   1.000     +0.000
+  ----------------------------------------------------------------
+  mean(d_t) = +0.0833   （d_t 的样本 sd = 0.3469）
+
+===== [2] 推断：task 级置换检验（判优）+ bootstrap-t CI（区间）=====
+  task 级符号翻转置换检验（P=10000，双侧，+1 修正）——判优主检验：
+    mean(d) = +0.0833   p = 0.28957
+  task-cluster bootstrap-t（B=10000，studentized，对称化临界值 q=|t*| 97.5 分位；等尾变体未过冻结校准硬门被弃用）95% CI：
+    [-0.0730, +0.2397]
+  BCa 95% CI（仅对照输出，决策不使用）：
+    [-0.0476, +0.2024]
+  # 置换与 CI 结论冲突时以置换为准（冻结）：WIN 仅由置换检验决定。
+
+===== [3] 预注册决策（冻结规则，禁止事后调整）=====
+  规则：WIN 若置换双侧 p < 0.05 且 mean(d) > 0；
+        NON_INFERIOR（备用）若 bootstrap-t CI 下界 > -0.03；
+        否则 INSUFFICIENT_EVIDENCE。
+  冲突裁决（冻结）：置换与 CI 冲突时以置换为准，WIN 仅由置换决定。
+  perm_p = 0.28957  mean(d) = +0.0833  bootstrap-t CI 下界 = -0.0730
+  →  判定：INSUFFICIENT_EVIDENCE
+
+===== [4] 效率指标（仅主分析集；描述性，不参与判优）=====
+  # 成功 run = pass 且非 is_error 且非 timeout；timeout/is_error 一律计 fail。
+  --- PROD-A ---
+    runs=84  成功 runs=45  run 级通过率=0.5357
+    [仅成功 run] time-to-correct 均值=75695.4ms  p50=75898.0ms  p95=117289.8ms
+    [仅成功 run] 每成功 run 成本（含失败尝试的花费）=$1.1200  成功 run 自身均价=$0.6000
+    [全部 run] tokens(in/out)=200000.0/2000.0  turns=8.00  tool_calls=9.00  read=4.00
+    [全部 run] webfetch 失败率=0.0000 (0/84)  timeout 率=0.0000  is_error 率=0.0000
+  --- PROD-B ---
+    runs=84  成功 runs=52  run 级通过率=0.6190
+    [仅成功 run] time-to-correct 均值=73792.2ms  p50=69967.0ms  p95=113758.1ms
+    [仅成功 run] 每成功 run 成本（含失败尝试的花费）=$0.9692  成功 run 自身均价=$0.6000
+    [全部 run] tokens(in/out)=200000.0/2000.0  turns=8.00  tool_calls=9.00  read=4.00
+    [全部 run] webfetch 失败率=  nan (0/0)  timeout 率=0.0000  is_error 率=0.0000
+  --- 配对差（B - A，task-cluster bootstrap percentile CI —— 仅描述性，不用于决策；仅两组均有成功的 21 个 task）---
+    time-to-correct 差：561.2ms  95% CI [-8589.1, 10389.5]
+    每成功成本差：$-0.0429  95% CI [-0.2857, 0.2143]
+
+===== [5] L0 负对照（仅描述，不推断）=====
+  PROD-A: runs=9 tasks=3 pass_rate=0.556
+  PROD-B: runs=9 tasks=3 pass_rate=0.778
+  差值（B - A）= 0.222（不做推断）
+
+===== [6] L4 stress test（仅描述，不推断）=====
+  PROD-A: runs=12 tasks=4 accuracy=0.500  abstention_rate=0.000（abstained 缺省按 false）
+  PROD-B: runs=12 tasks=4 accuracy=0.667  abstention_rate=0.000（abstained 缺省按 false）
+
+===== 按层描述表（全部 layer；无加权、不推断）=====
+  # 每层样本不足、未预注册多重校正：此表只用于提假设，禁止判优。
+  group    layer      primary  runs  succ  pass_rate
+  PROD-A   L0              no     9     5      0.556
+  PROD-A   L1             yes    24    17      0.708
+  PROD-A   L2             yes    24    10      0.417
+  PROD-A   L3             yes    24    11      0.458
+  PROD-A   L4              no    12     6      0.500
+  PROD-A   L5             yes    12     7      0.583
+  PROD-B   L0              no     9     7      0.778
+  PROD-B   L1             yes    24    16      0.667
+  PROD-B   L2             yes    24    15      0.625
+  PROD-B   L3             yes    24    14      0.583
+  PROD-B   L4              no    12     8      0.667
+  PROD-B   L5             yes    12     7      0.583
+
+[machine-readable JSON 已写入] b-gate-evidence/synthetic-e2e.json

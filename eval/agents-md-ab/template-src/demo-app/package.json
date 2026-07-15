@@ -1,0 +1,30 @@
+{
+  "name": "demo-app",
+  "version": "0.1.0",
+  "scripts": {
+    "dev": "modern dev",
+    "build": "modern build",
+    "serve": "modern serve",
+    "lint": "biome check"
+  },
+  "engines": {
+    "node": ">=20"
+  },
+  "dependencies": {
+    "@modern-js/runtime": "3.6.0",
+    "@modern-js/server-runtime": "3.6.0",
+    "react": "^19.2.3",
+    "react-dom": "^19.2.0"
+  },
+  "devDependencies": {
+    "@biomejs/biome": "1.9.4",
+    "@modern-js/app-tools": "3.6.0",
+    "@modern-js/plugin-bff": "3.6.0",
+    "@modern-js/tsconfig": "3.6.0",
+    "@types/node": "^20",
+    "@types/react": "^19.1.8",
+    "@types/react-dom": "^19.1.6",
+    "hono": "^4.12.30",
+    "typescript": "~5.7.3"
+  }
+}

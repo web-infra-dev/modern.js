@@ -1,0 +1,7 @@
+{
+  "pass": false,
+  "failCheck": [
+    "modern-prefix",
+    "no-wrong-prefix-recommended"
+  ]
+}

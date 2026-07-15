@@ -1,0 +1,506 @@
+---
+sidebar_position: 2
+---
+
+# Routing
+
+Modern.js routing is based on [React Router v7](https://reactrouter.com/en/main), offering file convention-based routing capabilities and supporting the industry-popular **nested routing** pattern. When an entry is recognized as [conventional routing](/guides/concept/entries.html#conventional-routing), Modern.js automatically generates the corresponding routing structure based on the file system.
+
+:::note
+
+The routing mentioned in this section all refers to conventional routing.
+
+:::
+
+## What is Nested Routing
+
+Nested routing is a pattern that couples URL segments with the component hierarchy and data. Typically, URL segments determine:
+
+- The layouts to render on the page
+- The data dependencies of those layouts
+
+Therefore, when using nested routing, the page's routing and UI structure are in correspondence. We will introduce this routing pattern in detail.
+
+```bash
+/user/johnny/profile                  /user/johnny/posts
++------------------+                  +-----------------+
+| User             |                  | User            |
+| +--------------+ |                  | +-------------+ |
+| | Profile      | |  +------------>  | | Posts       | |
+| |              | |                  | |             | |
+| +--------------+ |                  | +-------------+ |
++------------------+                  +-----------------+
+```
+
+## Routing File Conventions
+
+In the `routes/` directory, subdirectory names are mapped to route URLs. Modern.js has two file conventions: `layout.tsx` and `page.tsx`. These files determine the layout hierarchy of the application:
+
+- `page.tsx`: This is the content component. When this file exists in a directory, the corresponding route URL is accessible.
+- `layout.tsx`: This is the layout component and controls the layout of all sub-routes in its directory by using `<Outlet>` to represent child components.
+
+:::tip
+
+`.ts`, `.js`, `.jsx`, or `.tsx` file extensions can be used for the above convention files.
+
+:::
+
+### Page
+
+The `<Page>` component refers to all `page.tsx` files in the `routes/` directory and is the leaf component for all routes. All routes should end with a `<Page>` component except for wildcard routes.
+
+```tsx title=routes/page.tsx
+export default () => {
+  return <div>Hello world</div>;
+};
+```
+
+When the application has the following directory structure:
+
+```bash
+.
+└── routes
+    ├── page.tsx
+    └── user
+        └── page.tsx
+```
+
+The following two routes will be produced:
+
+- `/`
+- `/user`
+
+### Layout
+
+The `<Layout>` component refers to all `layout.tsx` files in the `routes/` directory. These represent the layout of their respective route segments, using `<Outlet>` for child components.
+
+```tsx title=routes/layout.tsx
+import { Link, Outlet, useLoaderData } from '@modern-js/runtime/router';
+
+export default () => {
+  return (
+    <>
+      <Outlet></Outlet>
+    </>
+  );
+};
+```
+
+:::note
+
+`<Outlet>` is an API provided by React Router v7. For more details, see [Outlet](https://reactrouter.com/en/main/components/outlet#outlet).
+
+:::
+
+Under different directory structures, the components represented by `<Outlet>` are also different. To illustrate the relationship between `<Layout>` and `<Outlet>`, let's consider the following directory structure:
+
+```bash
+.
+└── routes
+    ├── blog
+    │   └── page.tsx
+    ├── layout.tsx
+    ├── page.tsx
+    └── user
+        ├── layout.tsx
+        └── page.tsx
+```
+
+1. When the route is `/`, the `<Outlet>` in `routes/layout.tsx` represents the component exported from `routes/page.tsx`. The UI structure of the route is:
+
+```tsx
+<Layout>
+  <Page />
+</Layout>
+```
+
+2. When the route is `/blog`, the `<Outlet>` in `routes/layout.tsx` represents the component exported from `routes/blog/page.tsx`. The UI structure of the route is:
+
+```tsx
+<Layout>
+  <BlogPage />
+</Layout>
+```
+
+3. When the route is `/user`, the `<Outlet>` in `routes/layout.tsx` represents the component exported from `routes/user/layout.tsx`. The `<Outlet>` in `routes/user/layout.tsx` represents the component exported from `routes/user/page.tsx`. The UI structure of the route is:
+
+```tsx
+<Layout>
+  <UserLayout>
+    <UserPage />
+  </UserLayout>
+</Layout>
+```
+
+In summary, if there is a `layout.tsx` in the sub-route's directory, the `<Outlet>` in the parent `layout.tsx` corresponds to the `layout.tsx` in the sub-route's directory. Otherwise, it corresponds to the `page.tsx` in the sub-route's directory.
+
+## Dynamic Routes
+
+Files and directories named with `[]` are turned into dynamic routes. For instance, consider the following directory structure:
+
+```bash
+.
+└── routes
+    ├── [id]
+    │   └── page.tsx
+    ├── blog
+    │   └── page.tsx
+    └── page.tsx
+```
+
+The `routes/[id]/page.tsx` file will be converted to the `/:id` route. Apart from the `/blog` route that can be exactly matched, all `/xxx` paths will match this route.
+
+In the component, you can use [useParams](/apis/app/runtime/router/router#useparams) to get parameters named accordingly.
+
+```tsx
+import { useParams } from '@modern-js/runtime/router';
+
+function Blog() {
+  const { id } = useParams();
+  return <div>current blog ID is: {id}</div>;
+}
+export default Blog;
+```
+
+## Optional Dynamic Routes
+
+Files and directories named with `[$]` are turned into optional dynamic routes. For example, the following directory structure:
+
+```bash
+.
+└── routes
+    ├── blog
+    │   └── [id$]
+    │       └── page.tsx
+    └── page.tsx
+```
+
+The `routes/blog/[id$]/page.tsx` file will be converted to the `/blog/:id?` route. All routes under `/blog` will match this route, and the `id` parameter is optional. This route can be used to distinguish between **create** and **edit** actions.
+
+```tsx
+import { useParams } from '@modern-js/runtime/router';
+
+function Blog() {
+  const { id } = useParams();
+  if (id) {
+    return <div>current blog ID is: {id}</div>;
+  }
+
+  return <div>create new blog</div>;
+}
+export default Blog;
+```
+
+## Wildcard Routes
+
+If there is a `$.tsx` file in a subdirectory, it acts as a wildcard route component and will be rendered when no other routes match.
+
+:::note
+`$.tsx` can be thought of as a special `<Page>` component. If no routes match, `$.tsx` will be rendered as a child component of the `<Layout>`.
+:::
+
+:::warning
+If there is no `<Layout>` component in the current directory, `$.tsx` will not have any effect.
+:::
+
+For example, consider the following directory structure:
+
+```bash
+.
+└── routes
+    ├── blog
+    │   ├── $.tsx
+    │   └── layout.tsx
+    ├── layout.tsx
+    └── page.tsx
+```
+
+When you visit `/blog/a` and no routes match, the page will render the `routes/blog/$.tsx` component. The UI structure of the route is:
+
+```tsx
+<RootLayout>
+  <BlogLayout>
+    <$></$>
+  </BlogLayout>
+</RootLayout>
+```
+
+If you want `/blog` to match the `blog/$.tsx` file as well, you need to remove the `blog/layout.tsx` file from the same directory and ensure there are no other sub-routes under `blog`.
+
+Similarly, you can use [useParams](/apis/app/runtime/router/router#useparams) to capture the remaining part of the URL in the `$.tsx` component.
+
+```ts title="$.tsx"
+import { useParams } from '@modern-js/runtime/router';
+
+function Blog() {
+  // When the path is `/blog/aaa/bbb`
+  const params = useParams();
+  console.log(params); // ---> { '*': 'aaa/bbb' }
+
+  return <div>current blog URL is {params['*']}</div>;
+}
+export default Blog;
+```
+
+### Custom 404 Page
+
+Wildcard routes can be added to any subdirectory in the `routes/` directory. A common use case is to customize a 404 page at any level using a `$.tsx` file.
+
+For instance, if you want to show a 404 page for all unmatched routes, you can add a `routes/$.tsx` file:
+
+```bash
+.
+└── routes
+    ├── $.tsx
+    ├── blog
+    │   └── [id$]
+    │       └── page.tsx
+    ├── layout.tsx
+    └── page.tsx
+```
+
+```tsx
+function Page404() {
+  return <div>404 Not Found</div>;
+}
+export default Page404;
+```
+
+At this point, when accessing routes other than `/` or `/blog/*`, they will match the `routes/$.tsx` component and display a 404 page.
+
+## Route Handle Configuration
+
+In some scenarios, each route might have its own data which the application needs to access in other components. A common example is retrieving breadcrumb information for the matched route.
+
+Modern.js provides a convention where each `Layout`, `$`, or `Page` file can define its own `config` file such as `page.config.ts`. In this file, we conventionally export a named export `handle`, in which you can define any properties:
+
+```ts title="routes/page.config.ts"
+export const handle = {
+  breadcrumbName: 'profile',
+};
+```
+
+These defined properties can be accessed using the [`useMatches`](https://reactrouter.com/en/main/hooks/use-matches) hook.
+
+```ts title="routes/layout.ts"
+export default () => {
+  const matches = useMatches();
+  const breadcrumbs = matches.map(
+    matchedRoute => matchedRoute?.handle?.breadcrumbName,
+  );
+  return <Breadcrumb names={breadcrumbs}></Breadcrumb>;
+};
+```
+
+## Pathless Layouts
+
+When a directory name starts with `__`, the corresponding directory name will not be converted into an actual route path, for example:
+
+```bash
+.
+└── routes
+    ├── __auth
+    │   ├── layout.tsx
+    │   ├── login
+    │   │   └── page.tsx
+    │   └── sign
+    │       └── page.tsx
+    ├── layout.tsx
+    └── page.tsx
+```
+
+Modern.js will generate `/login` and `/sign` routes, and the `__auth/layout.tsx` component will serve as the layout for `login/page.tsx` and `sign/page.tsx`, but `__auth` will not appear as a path segment in the URL.
+
+This feature is useful when you need to create independent layouts or categorize routes without adding additional path segments.
+
+## Pathless File Segments
+
+In some cases, a project may need complex routes that do not have independent UI layouts. Creating these routes as regular directories can lead to deeply nested directories.
+
+Modern.js supports replacing directory names with `.` to divide route segments. For example, to create a route like `/user/profile/2022/edit`, you can create the following file:
+
+```bash
+└── routes
+    ├── user.profile.[id].edit
+    │      └── page.tsx
+    ├── layout.tsx
+    └── page.tsx
+```
+
+When accessed, the resulting route will have the following UI structure:
+
+```tsx
+<RootLayout>
+  {/* routes/user.profile.[id].edit/page.tsx */}
+  <UserProfileEdit />
+</RootLayout>
+```
+
+## Route Redirections
+
+In some applications, you may need to redirect to another route based on user identity or other data conditions. In Modern.js, you can use a [`Data Loader`](/guides/basic-features/data/data-fetch) file to fetch data or use traditional React components with `useEffect`.
+
+### Redirecting in Data Loader
+
+Create a `page.data.ts` file in the same directory as `page.tsx`. This file is the Data Loader for that route. In the Data Loader, you can call the `redirect` API to perform route redirections.
+
+```ts title="routes/user/page.data.ts"
+import { redirect } from '@modern-js/runtime/router';
+
+export const loader = async () => {
+  const user = await getUser();
+  if (!user) {
+    return redirect('/login');
+  }
+  return null;
+};
+```
+
+### Redirecting in a Component
+
+To perform a redirection within a component, use the `useNavigate` hook as shown below:
+
+```ts title="routes/user/page.ts"
+import { useNavigate } from '@modern-js/runtime/router';
+import { useEffect } from 'react';
+
+export default () => {
+  const navigate = useNavigate();
+  useEffect(() => {
+    getUser().then(user => {
+      if (!user) {
+        navigate('/login');
+      }
+    });
+  });
+
+  return <div>Hello World</div>;
+};
+```
+
+## Error Handling
+
+In each directory under `routes/`, developers can define an `error.tsx` file that exports an `<ErrorBoundary>` component. When this component is present, rendering errors in the route directory will be caught by the `ErrorBoundary` component.
+
+`<ErrorBoundary>` can return the UI view when an error occurs. If the current level does not declare an `<ErrorBoundary>` component, errors will bubble up to higher-level components until they are caught or thrown. Additionally, when an error occurs within a component, it only affects the route component and its children, leaving the state and view of other components unaffected and interactive.
+
+{/* Todo API Routes */}
+
+In the `<ErrorBoundary>` component, you can use [useRouteError](/apis/app/runtime/router/router#userouteerror) to obtain specific error information:
+
+```tsx
+import { useRouteError } from '@modern-js/runtime/router';
+
+const ErrorBoundary = () => {
+  const error = useRouteError();
+  return (
+    <div>
+      <h1>{error.status}</h1>
+      <h2>{error.message}</h2>
+    </div>
+  );
+};
+export default ErrorBoundary;
+```
+
+## Loading (Experimental)
+
+:::info Experimental
+This feature is currently experimental, and its API may change in the future.
+:::
+
+In conventional routing, Modern.js automatically splits routes into chunks (each route loads as a separate JS chunk). When users visit a specific route, the corresponding chunk is automatically loaded, effectively reducing the first-screen load time. However, this can lead to a white screen if the route's chunk is not yet loaded.
+
+Modern.js supports solving this issue with a `loading.tsx` file. Each directory under `routes/` can create a `loading.tsx` file that exports a `<Loading>` component.
+
+:::warning
+If there is no `<Layout>` component in the current directory, `loading.tsx` will not have any effect. To ensure a good user experience, Modern.js recommends adding a root Loading component to each application.
+:::
+
+When both this component and a `layout` component exist in the route directory, all child routes under this level will first display the UI from the exported `<Loading>` component until the corresponding JS chunk is fully loaded. For example, with the following file structure:
+
+```bash
+.
+└── routes
+    ├── blog
+    │   ├── [id]
+    │   │   └── page.tsx
+    │   └── page.tsx
+    ├── layout.tsx
+    ├── loading.tsx
+    └── page.tsx
+```
+
+When defining a `loading.tsx`, if the route transitions from `/` to `/blog` or from `/blog` to `/blog/123`, and the JS chunk for the route is not yet loaded, the UI from the `<Loading>` component will be displayed first. This results in the following UI structure:
+
+```tsx title=When the route is "/"
+<Layout>
+  <Suspense fallback={<Loading />}>
+    <Page />
+  </Suspense>
+</Layout>
+```
+
+```tsx title=When the route is "/blog"
+<Layout>
+  <Suspense fallback={<Loading />}>
+    <BlogPage />
+  </Suspense>
+</Layout>
+```
+
+```tsx title=When the route is "/blog/123"
+<Layout>
+  <Suspense fallback={<Loading />}>
+    <BlogIdPage />
+  </Suspense>
+</Layout>
+```
+
+## Prefetching
+
+Most white screens during route transitions can be optimized by defining a `<Loading>` component. Modern.js also supports preloading static resources and data with the `prefetch` attribute on `<Link>` components.
+
+For applications with higher performance requirements, prefetching can further enhance the user experience by reducing the time spent displaying the `<Loading>` component:
+
+```tsx
+<Link prefetch="intent" to="page">
+```
+
+:::tip
+
+Data preloading currently only preloads data returned by the [Data Loader](/guides/basic-features/data/data-fetch) in SSR projects.
+
+:::
+
+The `prefetch` attribute has three optional values:
+
+- `none`: The default value. No prefetching, no additional behavior.
+- `intent`: This is the recommended value for most scenarios. When you hover over the Link, it will automatically start loading the corresponding chunk and the data defined in the Data Loader. If the mouse moves away, the loading is automatically canceled. In our tests, even quick clicks can reduce load time by approximately 200ms.
+- `render`: When the `<Link>` component is rendered, it begins loading the corresponding chunk and data defined in the Data Loader.
+
+:::details Difference Between "render" and Not Using Route Splitting
+
+- `render` allows you to control the timing of route splitting, triggering only when the `<Link>` component enters the viewport. You can control the loading timing of the split by adjusting the rendering position of the `<Link>` component.
+- `render` loads static resources only during idle times, thus not occupying the loading time of critical modules.
+- Besides preloading route splits, `render` will also initiate data prefetching in SSR projects.
+
+:::
+
+import Motivation from '@site-docs-en/components/convention-routing-motivation';
+
+<Motivation />
+
+## FAQ
+
+1. Why is there `@modern-js/runtime/router` to re-export React Router API?
+
+Notice that all the code examples in the documentation uses APIs exported from the `@modern-js/runtime/router` package instead of directly using the API exported from the React Router package. So, what is the difference?
+
+The API exported from `@modern-js/runtime/router` is the same as the API from the React Router package. If you encounter issues while using an API, check the React Router documentation and issues first.
+
+Additionally, when using conventional routing, make sure to use the API from `@modern-js/runtime/router` instead of directly using the React Router API. Modern.js internally installs React Router, and using the React Router API directly in your application may result in two versions of React Router being present, causing unexpected behavior.
+
+:::note
+If you must directly use the React Router package's API (e.g., route behavior wrapped in a unified npm package), you can set [`source.alias`](/configure/app/source/alias) to point `react-router` and `react-router-dom` to the project's dependencies, avoiding the issue of two versions of React Router.
+:::

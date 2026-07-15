@@ -1,0 +1,29 @@
+---
+title: ssrByEntries
+---
+
+# server.ssrByEntries
+
+- **Type:** `Object`
+- **Default:** `undefined`
+
+Set SSR options by entry, and the properties inside the option are the same as [ssr](./ssr.mdx). The specified value will be replaced and merged with the content of the SSR attribute, for example:
+
+:::info
+The "entry name" defaults to the directory name. In a few cases, when defining an entry through `source.entries`, the entry name is the `key` of the `source.entries` object.
+
+:::
+
+```ts title="modern.config.ts"
+export default defineConfig({
+  server: {
+    ssr: true,
+    ssrByEntries: {
+      // page-a does not enable SSR
+      'page-a': false,
+    },
+  },
+});
+```
+
+In the above configuration, the project enables SSR as a whole, but the SSR rendering ability is disabled for the `page-a` entry.

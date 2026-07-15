@@ -17,12 +17,12 @@ export default async function grade(ctx, c) {
   c.abstained = detectAbstention(t, ['addCommand']);
   c.add(
     'api-addCommand',
-    /api\.addCommand/.test(t),
-    'expects api.addCommand in setup(api)',
+    ctx.positively(t, /api\.addCommand/),
+    'expects api.addCommand in setup(api), asserted positively (quoting it only to deny it does not count)',
   );
   c.add(
     'commander-program',
-    /\bprogram\b/.test(t),
+    ctx.positively(t, /\bprogram\b/),
     'expects the commander `program` object (program.command example)',
   );
 }

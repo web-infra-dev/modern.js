@@ -1,0 +1,27 @@
+# Using Tailwind CSS
+
+[Tailwind CSS](https://tailwindcss.com/) is a CSS framework and design system based on Utility Class, which can quickly add common styles to components, and support flexible extension of theme styles.
+
+## Using Tailwind CSS in Modern.js
+
+To use [Tailwind CSS](https://tailwindcss.com/) in Modern.js, you only need to configure it according to the Rsbuild steps. Rsbuild supports Tailwind CSS versions v3 and v4:
+
+- [Tailwind CSS v3](https://v2.rsbuild.rs/guide/styling/tailwindcss-v3#tailwind-css-v3)
+- [Tailwind CSS v4](https://v2.rsbuild.rs/guide/styling/tailwindcss)
+
+## Tailwind CSS Autocomplete
+
+Tailwind CSS provides an official extension called [Tailwind CSS IntelliSense](https://github.com/tailwindlabs/tailwindcss-intellisense) for autocompletion of Tailwind CSS class names, CSS functions, and directives in VS Code.
+
+You can follow the steps below to enable the autocomplete feature:
+
+1. Install the [Tailwind CSS IntelliSense](https://github.com/tailwindlabs/tailwindcss-intellisense) extension in VS Code.
+2. If the root directory of your project does not have a `tailwind.config.{ts,js}` file, you need to create one and write the Tailwind CSS configuration for your current project. Otherwise, the IDE plugin will not work correctly.
+
+## Browser Compatibility
+
+Tailwind CSS v3 does not support the IE 11 browser, please refer to:
+
+- [Tailwind CSS v3 - Browser Support](https://tailwindcss.com/docs/browser-support).
+
+If you use Tailwind CSS on IE 11 browser, some styles may not be available, please use it with caution.

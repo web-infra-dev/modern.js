@@ -22,6 +22,7 @@ import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
+const EXPOSED = process.env.AB_EXPOSED_ROOT ?? '/tmp/modernjs-ab-exposed';
 const CLAUDE_BIN =
   process.env.CLAUDE_BIN ?? path.join(os.homedir(), '.npm-global/bin/claude');
 const args = process.argv.slice(2);
@@ -42,11 +43,11 @@ const SEED = 20260716;
 
 // two frozen read-only trees: B arm carries bundled docs (real product form),
 // A arm (and pointer-diagnostic arms except GB) runs on a tree without them
-const TEMPLATE_B = path.join(__dirname, 'template/demo-app');
-const TEMPLATE_A = path.join(__dirname, 'template/demo-app-prod-a');
+const TEMPLATE_B = path.join(EXPOSED, 'templates/demo-app');
+const TEMPLATE_A = path.join(EXPOSED, 'templates/demo-app-prod-a');
 const templateFor = arm =>
   arm === 'PROD-B' || arm === 'GB' ? TEMPLATE_B : TEMPLATE_A;
-const RUNS = path.join(__dirname, 'runs2');
+const RUNS = path.join(EXPOSED, 'runs');
 const RESULTS = path.join(
   __dirname,
   `results-${path.basename(BANK_FILE, '.json')}.jsonl`,

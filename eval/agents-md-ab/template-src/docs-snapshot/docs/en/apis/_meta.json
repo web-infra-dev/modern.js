@@ -1,0 +1,13 @@
+[
+  "app/commands",
+  {
+    "type": "dir",
+    "name": "app/hooks",
+    "label": "file-conventions"
+  },
+  {
+    "type": "dir",
+    "name": "app/runtime",
+    "label": "runtime-api"
+  }
+]

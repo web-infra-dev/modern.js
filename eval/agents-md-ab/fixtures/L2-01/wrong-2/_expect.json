@@ -1,0 +1,6 @@
+{
+  "pass": false,
+  "failCheck": [
+    "page-uses-loader-data"
+  ]
+}

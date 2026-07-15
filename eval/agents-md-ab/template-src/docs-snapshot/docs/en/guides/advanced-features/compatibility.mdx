@@ -1,0 +1,81 @@
+---
+sidebar_position: 6
+---
+
+# Browser Compatibility
+
+## Browserslist Configuration
+
+Modern.js supports three ways to set the range of browsers that a web application needs to support.
+
+### Method 1: Configure via `.browserslistrc` File
+
+Modern.js supports setting the range of browsers that a web application needs to support. You can set the [Browserslist](https://browsersl.ist/) values in the `.browserslistrc` file.
+
+When you create a new Modern.js project, a default `.browserslistrc` configuration is included, which indicates that JavaScript code will be compiled to ES6 format.
+
+import DefaultBrowserslist from '@site-docs/components/default-browserslist';
+
+<DefaultBrowserslist />
+
+
+When the `overrideBrowserslist` configuration is not specified in the project, this `.browserslistrc` file will take effect.
+
+### Method 2: Configure via package.json
+
+You can also configure browserslist by setting the `browserslist` field in the `package.json` file:
+
+```json title="package.json"
+{
+  "browserslist": [
+    "chrome >= 87"
+    // Other browser configurations...
+  ]
+}
+```
+
+### Method 3: Configure via `output.overrideBrowserslist`
+
+You can also configure browserslist by setting the [`output.overrideBrowserslist`](/configure/app/output/override-browserslist) field in the `modern.config.js` file:
+
+```js title="modern.config.js"
+export default {
+  output: {
+    overrideBrowserslist: [
+      'chrome >= 87',
+      // Other browser configurations...
+    ],
+  },
+};
+```
+
+### Configuration Priority
+
+The `overrideBrowserslist` configuration has a higher priority than the `.browserslistrc` file and the `browserslist` field in package.json.
+
+In most scenarios, it is recommended to prioritize using the `.browserslistrc` file rather than the `overrideBrowserslist` configuration because the `.browserslistrc` file is the officially defined configuration file, has better general applicability, and can be recognized by other libraries in the community.
+
+:::tip
+Please refer to [Rsbuild - Setting Browser Range](https://v2.rsbuild.rs/zh/guide/advanced/browserslist) for more information.
+:::
+
+import UpgradeBrowserslist from '@site-docs-en/components/upgrade-browserslist';
+
+<UpgradeBrowserslist />
+
+## Polyfill
+
+### Compile-time Polyfill
+
+Modern.js by default injects corresponding polyfill code at compile time through [core-js](https://github.com/zloirock/core-js).
+
+By default, it will include the necessary polyfill code based on the project's Browserslist settings, so you generally do not need to worry about polyfill issues for your project source code and third-party dependencies. However, since some unused polyfill code is included, the final bundle size may increase.
+
+:::info
+For scenarios where certain third-party dependencies clearly do not require polyfills, you can set [`output.polyfill`](/configure/app/output/polyfill) to `usage`. This way, Babel will only inject polyfill code based on the syntax used in the code during compilation.
+
+:::
+
+import UAPolyfill from '@site-docs/components/ua-polyfill';
+
+<UAPolyfill />

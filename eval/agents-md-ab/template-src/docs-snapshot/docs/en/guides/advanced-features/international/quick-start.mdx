@@ -1,0 +1,112 @@
+---
+title: Quick Start
+---
+
+# Quick Start
+
+This guide helps you quickly integrate internationalization into a Modern.js project.
+
+## Install the Plugin
+
+import InstallCommand from '@site-docs/components/international/install-command';
+
+<InstallCommand />
+
+## Basic Configuration
+
+### Step 1: Register the Plugin
+
+Register the plugin in `modern.config.ts`:
+
+```ts
+import { appTools, defineConfig } from '@modern-js/app-tools';
+import { i18nPlugin } from '@modern-js/plugin-i18n';
+
+export default defineConfig({
+  plugins: [
+    appTools(),
+    i18nPlugin({
+      localeDetection: {
+        languages: ['zh', 'en'],
+        fallbackLanguage: 'en',
+      },
+    }),
+  ],
+});
+```
+
+### Step 2: Create Translation Files
+
+:::note Resource loading
+By default, the plugin looks for translation resources in the specified local directory. More resource loading methods are covered in later chapters.
+:::
+
+Create the `config/public/locales` directory:
+
+```
+config/public/locales/
+├── en/
+│   └── translation.json
+└── zh/
+    └── translation.json
+```
+
+```json
+// locales/en/translation.json
+{
+  "welcome": "Welcome to Modern.js"
+}
+```
+
+```json
+// locales/zh/translation.json
+{
+  "welcome": "欢迎使用 Modern.js"
+}
+```
+
+### Step 3: Configure Runtime Options
+
+import InstanceCode from '@site-docs/components/international/instance-code';
+
+<InstanceCode />
+
+### Step 4: Use It in Components
+
+Text returned by the `t()` function updates automatically after `changeLanguage` is called. No manual refresh is required.
+
+```tsx
+import { useTranslation } from 'react-i18next';
+import { useModernI18n } from '@modern-js/plugin-i18n/runtime';
+
+function App() {
+  const { t } = useTranslation();
+  const { language, changeLanguage, supportedLanguages } = useModernI18n();
+
+  return (
+    <div>
+      <h1>{t('welcome')}</h1>
+      <p>Current language: {language}</p>
+      {supportedLanguages.map(lang => (
+        <button
+          key={lang}
+          onClick={() => changeLanguage(lang)}
+          disabled={lang === language}
+        >
+          {lang}
+        </button>
+      ))}
+    </div>
+  );
+}
+```
+
+## Next Steps
+
+Choose what to read next based on your needs:
+
+- **Want a URL structure like `/en/about`** -> [Routing Integration](./routing.md)
+- **Need automatic language switching based on Cookie / Header** -> [Locale Detection](./locale-detection.md)
+- **Translation resources come from a remote service** -> [Resource Loading -> Custom Backend](./resource-loading.md#custom-backend)
+- **SSR scenarios** -> [Advanced Usage](./advanced.md)
+- **View all configuration options** -> [Configuration](./configuration.md)

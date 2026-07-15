@@ -10,15 +10,16 @@ import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
+const EXPOSED = process.env.AB_EXPOSED_ROOT ?? '/tmp/modernjs-ab-exposed';
 const CLAUDE_BIN =
   process.env.CLAUDE_BIN ?? path.join(os.homedir(), '.npm-global/bin/claude');
 const arm = process.argv[2] ?? 'PROD-B';
-const dir = path.join(__dirname, 'runs2', `sentinel-${arm}`);
+const dir = path.join(EXPOSED, 'runs', `sentinel-${arm}`);
 
 // reuse runner2's prep by shelling a minimal copy here
 fs.rmSync(dir, { recursive: true, force: true });
 fs.mkdirSync(dir, { recursive: true });
-const TEMPLATE = path.join(__dirname, 'template/demo-app');
+const TEMPLATE = path.join(EXPOSED, 'templates/demo-app');
 for (const entry of fs.readdirSync(TEMPLATE)) {
   if (entry === 'node_modules') continue;
   fs.cpSync(path.join(TEMPLATE, entry), path.join(dir, entry), {

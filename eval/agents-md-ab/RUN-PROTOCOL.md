@@ -2,6 +2,11 @@
 
 > 本文件与代码一起以 commit 冻结；任何变更需重新过 review。
 
+## 自包含与目录隔离（v2.1 整改）
+- **自包含**：commit 内含 template-src/（两套项目文件+pnpm-lock）与 template-src/docs-snapshot/（323 文件）；检出后 `node setup-templates.mjs` 物化两棵模板（pnpm@10.13.1 --frozen-lockfile）并自动对照 committed manifest 哈希校验（MANIFEST MATCH 才可用）
+- **exposed/private 目录隔离**：模板与 runs 在独立根（默认 /tmp/modernjs-ab-exposed，env AB_EXPOSED_ROOT），与实验私有代码（graders/bank/engine/runner/results）无共同祖先；runDir 一切可达路径（含 node_modules 符号链接 realpath）都只落在 exposed 树内——agent 无法通过向上遍历发现判分逻辑
+- **组名对齐**：runner 写入的 group 标签 = 统计脚本冻结常量（主对比 PROD-A/PROD-B；探索组 G0/GA/GA2/GB），合成数据端到端 --final 验证通过
+
 ## 执行栈
 - Claude Code CLI：2.1.210（runner 启动时回读校验并写入日志）
 - 模型：pin `claude-fable-5`；每 run 从 stream-json init 回读实际 model id；**同一 wave 内出现任何漂移 → 中止整个实验（exit 3）并留档**

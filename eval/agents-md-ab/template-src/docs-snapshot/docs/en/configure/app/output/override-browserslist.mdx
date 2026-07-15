@@ -1,0 +1,26 @@
+---
+title: overrideBrowserslist
+---
+
+# output.overrideBrowserslist
+
+- **Type:** `string[] | undefined`
+- **Default:**
+
+```ts
+const defaultBrowserListMap: Record<RsbuildTarget, string[]> = {
+  web: ['chrome >= 87', 'edge >= 88', 'firefox >= 78', 'safari >= 14'],
+  node: ['node >= 14'],
+  'web-worker': ['chrome >= 87', 'edge >= 88', 'firefox >= 78', 'safari >= 14'],
+};
+```
+
+Specifies the range of target browsers that the project is compatible with.
+
+This value will be used by [SWC](https://github.com/swc-project/swc) and [autoprefixer](https://github.com/postcss/autoprefixer) to identify the JavaScript syntax that need to be transformed and the CSS browser prefixes that need to be added.
+
+For other configuration methods and configuration priorities, please refer to the [Browserslist configuration](/guides/advanced-features/compatibility.html).
+
+import RsbuildConfig from '@site-docs-en/components/rsbuild-config-tooltip';
+
+<RsbuildConfig configName="output.overrideBrowserslist" />

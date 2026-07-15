@@ -1,0 +1,19 @@
+---
+title: nonce
+---
+
+# security.nonce
+
+- **Type:**
+
+```ts
+type Nonce = string;
+```
+
+- **Default:** `undefined`
+
+Adding a `nonce` attribute to the scripts resources introduced for HTML. This allows the browser to determine whether the script can be executed when it parses inline scripts with matching nonce values.
+
+import RsbuildConfig from '@site-docs-en/components/rsbuild-config-tooltip';
+
+<RsbuildConfig configName="security.nonce" />

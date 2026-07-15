@@ -1,0 +1,26 @@
+experiment: pilot-bank-20260715T173212Z-dev
+protocol: model=claude-fable-5 cli=2.1.210 (Claude Code) seed=20260716 allowedTools=Bash,Read,Write,Edit,Glob,Grep,WebFetch,WebSearch,TodoWrite,NotebookEdit
+waves=20 arms=PROD-A,PROD-B reps=2 → runs=40
+DRY RUN — plan only. Would write to: /tmp/claude-1001/-data00-home-zhangxiang-01-Projects--Dev-modern-js/52b4b8c5-73b0-4a2e-addd-d46d79072bb2/scratchpad/abtest/results/pilot-bank-20260715T173212Z-dev
+run dirs (exposed): /tmp/modernjs-ab-exposed/runs/pilot-bank-20260715T173212Z-dev/<arm>-<task>-r<rep>
+per-run HOME (private): /tmp/claude-1001/-data00-home-zhangxiang-01-Projects--Dev-modern-js/52b4b8c5-73b0-4a2e-addd-d46d79072bb2/scratchpad/abtest/tmp-homes/pilot-bank-20260715T173212Z-dev/<arm>-<task>-r<rep>
+wave T10 r2: PROD-A → PROD-B
+wave T02 r2: PROD-A → PROD-B
+wave T04 r1: PROD-B → PROD-A
+wave T07 r1: PROD-A → PROD-B
+wave T04 r2: PROD-B → PROD-A
+wave T06 r2: PROD-B → PROD-A
+wave T07 r2: PROD-A → PROD-B
+wave T08 r1: PROD-B → PROD-A
+wave T03 r2: PROD-A → PROD-B
+wave T10 r1: PROD-B → PROD-A
+wave T06 r1: PROD-B → PROD-A
+wave T01 r2: PROD-A → PROD-B
+wave T01 r1: PROD-A → PROD-B
+wave T05 r1: PROD-A → PROD-B
+wave T02 r1: PROD-B → PROD-A
+wave T05 r2: PROD-A → PROD-B
+wave T09 r2: PROD-B → PROD-A
+wave T09 r1: PROD-A → PROD-B
+wave T08 r2: PROD-B → PROD-A
+wave T03 r1: PROD-B → PROD-A

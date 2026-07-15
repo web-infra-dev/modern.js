@@ -1,0 +1,117 @@
+---
+title: devServer
+---
+
+# tools.devServer
+
+- **Type:** `Object`
+- **Default:** `{}`
+
+The config of DevServer can be modified through `tools.devServer`.
+
+### Options
+
+#### compress
+
+:::warning
+**Deprecated**: This configuration is deprecated, please use [dev.server.compress](https://modernjs.dev/en/configure/app/dev/server) instead.
+:::
+
+- **Type:** `boolean`
+- **Default:** `true`
+
+Whether to enable gzip compression for served static assets.
+
+If you want to disable the gzip compression, you can set `compress` to `false`:
+
+```ts
+export default {
+  tools: {
+    devServer: {
+      compress: false,
+    },
+  },
+};
+```
+
+#### headers
+
+:::warning
+**Deprecated**: This configuration is deprecated, please use [dev.server.headers](https://modernjs.dev/en/configure/app/dev/server) instead.
+:::
+
+- **Type:** `Record<string, string>`
+- **Default:** `undefined`
+
+Adds headers to all responses.
+
+```js
+export default {
+  tools: {
+    devServer: {
+      headers: {
+        'X-Custom-Foo': 'bar',
+      },
+    },
+  },
+};
+```
+
+#### historyApiFallback
+
+:::warning
+**Deprecated**: This configuration is deprecated, please use [dev.server.historyApiFallback](https://modernjs.dev/en/configure/app/dev/server) instead.
+:::
+
+- **Type:** `boolean | ConnectHistoryApiFallbackOptions`
+- **Default:** `false`
+
+The index.html page will likely have to be served in place of any 404 responses. Enable `devServer.historyApiFallback` by setting it to `true`:
+
+```js
+export default {
+  tools: {
+    devServer: {
+      historyApiFallback: true,
+    },
+  },
+};
+```
+
+For more options and information, see the [connect-history-api-fallback](https://github.com/bripkens/connect-history-api-fallback) documentation.
+
+#### proxy
+
+:::warning
+**Deprecated**: This configuration is deprecated, use [dev.server.proxy](https://modernjs.dev/en/configure/app/dev/server) instead.
+:::
+
+- **Type:** `ProxyOptions[] | Record<string, string | ProxyOptions>`
+- **Default:** `undefined`
+
+Configure proxy rules for the dev server, and forward requests to the specified service.
+
+```js
+export default {
+  tools: {
+    devServer: {
+      proxy: {
+        // http://localhost:8080/api -> https://example.com/api
+        // http://localhost:8080/api/foo -> https://example.com/api/foo
+        '/api': 'https://example.com',
+      },
+    },
+  },
+};
+```
+
+#### watch
+
+:::warning
+**Deprecated**: This configuration is deprecated, please use [dev.server.watch](https://modernjs.dev/en/configure/app/dev/server) instead.
+:::
+
+- **Type:** `boolean`
+- **Default:** `true`
+
+Whether to watch files change in directories such as `mock/`, `server/`, `api/`.

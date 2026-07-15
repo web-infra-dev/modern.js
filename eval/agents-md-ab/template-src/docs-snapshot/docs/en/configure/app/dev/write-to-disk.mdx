@@ -1,0 +1,14 @@
+---
+title: writeToDisk
+---
+
+# dev.writeToDisk
+
+- **Type:** `boolean | ((filename: string) => boolean)`
+- **Default:** `(file) => !file.includes('.hot-update.')`
+
+Controls whether the build output from development mode is written to disk.
+
+import RsbuildConfig from '@site-docs-en/components/rsbuild-config-tooltip';
+
+<RsbuildConfig configName="dev.writeToDisk" />

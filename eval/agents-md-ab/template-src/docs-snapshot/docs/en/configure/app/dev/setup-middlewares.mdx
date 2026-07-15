@@ -1,0 +1,36 @@
+---
+title: setupMiddlewares
+---
+
+# dev.setupMiddlewares
+
+- **Type:**
+
+```ts
+type RequestHandler = (req: any, res: any, next: () => void) => void;
+
+type ExposeServerApis = {
+  sockWrite: (
+    type: string,
+    data?: string | boolean | Record<string, any>,
+  ) => void;
+};
+
+type SetupMiddlewares = Array<
+  (
+    middlewares: {
+      unshift: (...handlers: RequestHandler[]) => void;
+      push: (...handlers: RequestHandler[]) => void;
+    },
+    server: ExposeServerApis,
+  ) => void
+>;
+```
+
+- **Default:** `undefined`
+
+Provides the ability to execute a custom function and apply custom middlewares.
+
+import RsbuildConfig from '@site-docs-en/components/rsbuild-config-tooltip';
+
+<RsbuildConfig configName="dev.setupMiddlewares" />

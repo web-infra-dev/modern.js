@@ -1,0 +1,6 @@
+{
+  "pass": false,
+  "failCheck": [
+    "error-file-exists"
+  ]
+}

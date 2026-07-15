@@ -1,0 +1,85 @@
+---
+title: ssg
+---
+
+# output.ssg
+
+- **Type:** `boolean | object`
+- **Default Value:** `undefined`
+
+Configuration to enable the application’s SSG (Static Site Generation) feature.
+
+:::tip Enabling SSG
+This configuration takes effect only when SSG is enabled. Please read the [Static Site Generation](/guides/basic-features/render/ssg) documentation to understand how to enable SSG and its use cases.
+
+:::
+
+:::info Recommended Reading
+The SSG feature is closely related to routing. It is recommended to understand the [routing solution](/guides/basic-features/routes/routes) before using SSG.
+
+:::
+
+:::info
+- Use `output.ssg` for single-entry apps.
+- For multi-entry apps, prefer `output.ssgByEntries`.
+- If `output.ssg` is `true` and `output.ssgByEntries` is not set, all routes under all entries are treated as SSG routes.
+
+:::
+
+## Boolean Type
+
+When this configuration is set to `true`, the SSG feature will be enabled for all entries by default. For **manual routing**, the root route of the entry will be rendered. For **conventional routing**, each route in the entry will be rendered.
+
+```js
+export default defineConfig({
+  output: {
+    ssg: true,
+  },
+});
+```
+
+## Object Type
+
+When the value type is `Object`, the following attributes can be configured.
+
+### Configuration Type
+
+```ts
+type SSGRouteOptions =
+  | string
+  | {
+      url: string;
+      headers?: Record<string, any>;
+    };
+
+type SSGOptions = {
+  headers?: Record<string, any>;
+  routes?: SSGRouteOptions[];
+};
+```
+
+### Example
+
+In the example configuration below, SSG will render the pages corresponding to the `/`, `/about`, and `/user/:id` routes.
+
+For the `/user/:id` route, `cookies` will be added to the request headers.
+
+```ts title="modern.config.ts"
+export default defineConfig({
+  output: {
+    ssg: {
+      routes: [
+        '/',
+        '/about',
+        {
+          url: '/user/modernjs',
+          headers: {
+            cookies: 'name=modernjs',
+          },
+        },
+      ],
+    },
+  },
+});
+```
+

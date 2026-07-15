@@ -1,0 +1,59 @@
+# plugins
+
+- **Type:** `CliPlugin[]`
+- **Default:** `[]`
+
+Used to configure custom Modern.js framework CLI plugins. For information on how to create custom CLI plugins, please refer to [How to Write CLI Plugins](/plugin/introduction.html#cli-plugins).
+
+## Note
+
+This option is **specifically for configuring framework CLI plugins**. If you need to configure other types of plugins, use the appropriate configuration method:
+
+- Use [builderPlugins](/configure/app/builder-plugins) for Rsbuild plugins.
+- Use [tools.bundlerChain](/configure/app/tools/bundler-chain) for Rspack plugins.
+- Use the [plugins field in runtime config](/configure/app/runtime/plugins) for framework Runtime plugins.
+
+## Examples
+
+Below are examples of using CLI plugins:
+
+### Using plugins from npm
+
+To use plugins from the npm registry, first install the plugins and then import them in your configuration:
+
+```ts title="modern.config.ts"
+import { myPlugin } from 'my-plugin';
+
+export default defineConfig({
+  plugins: [myPlugin()],
+});
+```
+
+### Using local plugins
+
+To use plugins from your local repository, import them directly using a relative path:
+
+```ts title="modern.config.ts"
+import { myPlugin } from './config/plugin/myPlugin';
+
+export default defineConfig({
+  plugins: [myPlugin()],
+});
+```
+
+### Plugin configuration
+
+If a plugin provides custom configuration options, pass them as parameters to the plugin function:
+
+```ts title="modern.config.ts"
+import { myPlugin } from 'my-plugin';
+
+export default defineConfig({
+  plugins: [
+    myPlugin({
+      foo: 1,
+      bar: 2,
+    }),
+  ],
+});
+```

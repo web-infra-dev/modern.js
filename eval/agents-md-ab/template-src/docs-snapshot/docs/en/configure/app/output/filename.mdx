@@ -1,0 +1,59 @@
+---
+title: filename
+---
+
+# output.filename
+
+:::warning
+
+In Modern.js `dev` command or use Modern.js server deployment, don't modify the html output filename. This will cause the page to be 404.
+
+:::
+
+- **Type:**
+
+```ts
+type FilenameConfig = {
+  js?:
+    | string
+    | ((pathData: Rspack.PathData, assetInfo: Rspack.JsAssetInfo) => string);
+  css?: string;
+  svg?: string;
+  font?: string;
+  image?: string;
+  media?: string;
+  assets?: string;
+};
+```
+
+- **Default:**
+
+```js
+// Development mode
+const devDefaultFilename = {
+  js: '[name].js',
+  css: '[name].css',
+  svg: '[name].[contenthash:8].svg',
+  font: '[name].[contenthash:8][ext]',
+  image: '[name].[contenthash:8][ext]',
+  media: '[name].[contenthash:8][ext]',
+  assets: '[name].[contenthash:8][ext]',
+};
+
+// Production mode
+const prodDefaultFilename = {
+  js: output.target === 'node' ? '[name].js' : '[name].[contenthash:8].js',
+  css: '[name].[contenthash:8].css',
+  svg: '[name].[contenthash:8].svg',
+  font: '[name].[contenthash:8][ext]',
+  image: '[name].[contenthash:8][ext]',
+  media: '[name].[contenthash:8][ext]',
+  assets: '[name].[contenthash:8][ext]',
+};
+```
+
+Sets the filename of dist files.
+
+import RsbuildConfig from '@site-docs-en/components/rsbuild-config-tooltip';
+
+<RsbuildConfig configName="output.filename" />

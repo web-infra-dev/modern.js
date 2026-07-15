@@ -1,0 +1,24 @@
+---
+title: crossProject
+---
+
+# bff.crossProject
+
+- **Type:** `boolean`
+- **Default:** `false`
+
+import EnableBFFCaution from "@site-docs-en/components/enable-bff-caution";
+
+<EnableBFFCaution />
+
+This configuration is used to enable BFF cross-project invocation functionality. When enabled, the current project can be used as a BFF producer, generating an SDK that can be directly called by other projects.
+
+```ts title="modern.config.ts"
+export default defineConfig({
+  bff: {
+    crossProject: true,
+  },
+});
+```
+
+For detailed configuration and usage of BFF cross-project invocation, please refer to the [BFF Cross-Project Invocation Guide](/guides/advanced-features/bff/cross-project.html).

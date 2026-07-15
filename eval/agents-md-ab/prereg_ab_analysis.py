@@ -120,9 +120,9 @@ except ImportError:  # pragma: no cover
 # ===========================================================================
 # 预注册常量（冻结）。禁止通过 CLI / 环境变量修改 —— 没有提供任何入口。
 # ===========================================================================
-GROUP_CONTROL = "GA"           # 主对比：对照组
-GROUP_TREATMENT = "GB"         # 主对比：处理组
-EXPLORATORY_GROUPS = ("G0", "GA2")  # 探索组：只描述，不推断
+GROUP_CONTROL = "PROD-A"           # 主对比：对照组
+GROUP_TREATMENT = "PROD-B"         # 主对比：处理组
+EXPLORATORY_GROUPS = ("G0", "GA", "GA2", "GB")  # 探索组：只描述，不推断
 
 PRIMARY_LAYERS = ("L1", "L2", "L3", "L5")  # 主分析集（冻结）
 NEGATIVE_CONTROL_LAYER = "L0"              # 负对照：仅描述

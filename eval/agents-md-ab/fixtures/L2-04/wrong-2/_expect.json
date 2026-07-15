@@ -1,0 +1,8 @@
+{
+  "pass": false,
+  "failCheck": [
+    "modern-deploy",
+    "netlify-env",
+    "default-output-dirs"
+  ]
+}

@@ -1,0 +1,20 @@
+---
+title: define
+---
+
+# source.define
+
+- **Type:** `Record<string, unknown>`
+- **Default:**
+
+```ts
+const defaultDefine = {
+  'process.env.MODERN_TARGET': '"browser"',
+};
+```
+
+Replaces variables in your code with other values or expressions at compile time. This can be useful for allowing different behavior between development builds and production builds.
+
+import RsbuildConfig from '@site-docs-en/components/rsbuild-config-tooltip';
+
+<RsbuildConfig configName="source.define" />

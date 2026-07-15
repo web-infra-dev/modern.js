@@ -1,0 +1,7 @@
+{
+  "pass": false,
+  "failCheck": [
+    "url-mapping",
+    "bff-prefix-config"
+  ]
+}

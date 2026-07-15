@@ -1,0 +1,40 @@
+---
+title: include
+---
+
+# source.include
+
+- **Type:** [RuleSetCondition[]](https://rspack.rs/config/module#condition)
+- **Default value:**
+
+```ts
+const defaultInclude = [
+  [{ not: /[\\/]node_modules[\\/]/ }, /\.(?:ts|tsx|jsx|mts|cts)$/],
+];
+```
+
+`source.include` is used to specify additional JavaScript files that need to be compiled. By default, the following files will be compiled:
+
+- TypeScript and JSX files in any directory, with file extensions matching `.ts`, `.tsx`, `.jsx`, `.mts`, `.cts`.
+- JavaScript files not in the `node_modules` directory, with file extensions matching `.js`, `.mjs`, `.cjs`.
+
+:::tip
+Before Rsbuild version 1.4, the default value of `source.include` was:
+
+```ts
+const defaultInclude = [
+  [
+    {
+      and: [APP_ROOT, { not: /[\\/]node_modules[\\/]/ }],
+    },
+    /\.(?:ts|tsx|jsx|mts|cts)$/,
+  ],
+];
+```
+
+The difference from the new version is that `.js`, `.mjs`, `.cjs` files only in the current directory will be compiled.
+:::
+
+import RsbuildConfig from '@site-docs/components/rsbuild-config-tooltip';
+
+<RsbuildConfig configName="source.include" />

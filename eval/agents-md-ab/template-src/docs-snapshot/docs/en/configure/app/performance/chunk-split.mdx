@@ -1,0 +1,44 @@
+---
+title: chunkSplit
+---
+
+# performance.chunkSplit
+
+- **Type:** `Object`
+- **Default:** `{ strategy: 'split-by-experience' }`
+
+`performance.chunkSplit` is used to configure the chunk splitting strategy. The type of `ChunkSplit` is as follows:
+
+```ts
+type ForceSplitting = RegExp[] | Record<string, RegExp>;
+
+interface BaseChunkSplit {
+  strategy?:
+    | 'split-by-module'
+    | 'split-by-experience'
+    | 'all-in-one'
+    | 'single-vendor';
+  override?: SplitChunks;
+  forceSplitting?: ForceSplitting;
+}
+
+interface SplitBySize {
+  strategy?: 'split-by-size';
+  minSize?: number;
+  maxSize?: number;
+  override?: SplitChunks;
+  forceSplitting?: ForceSplitting;
+}
+
+interface SplitCustom {
+  strategy?: 'custom';
+  splitChunks?: SplitChunks;
+  forceSplitting?: ForceSplitting;
+}
+
+export type ChunkSplit = BaseChunkSplit | SplitBySize | SplitCustom;
+```
+
+import RsbuildConfig from '@site-docs-en/components/rsbuild-config-tooltip';
+
+<RsbuildConfig configName="performance.chunkSplit" />

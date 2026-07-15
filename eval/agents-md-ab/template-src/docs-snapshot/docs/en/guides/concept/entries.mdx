@@ -1,0 +1,325 @@
+---
+sidebar_position: 1
+---
+
+# Page Entry
+
+Through this chapter, you can understand the entry conventions in Modern.js and how to customize entries.
+
+## What is Entry
+
+**Entry refers to the starting module of a page.**
+
+In a Modern.js application, each entry corresponds to an independent page and a server-side route. By default, Modern.js automatically determines page entries based on directory conventions, and also supports customizing entries through configuration options.
+
+Many configuration options provided by Modern.js are divided by entry, such as page title, HTML template, page meta information, whether to enable SSR/SSG, server-side routing rules, etc. If you want to learn more about the technical details of entries, please refer to the [In-Depth](#in-depth) chapter.
+
+## Single Entry and Multiple Entries
+
+The application initialized by Modern.js is a single-entry application with the following structure:
+
+```
+.
+├── src
+│   └── routes
+│       ├── index.css
+│       ├── layout.tsx
+│       └── page.tsx
+├── package.json
+├── modern.config.ts
+└── tsconfig.json
+```
+
+In a Modern.js application, you can easily switch from single entry to multiple entries. To manually create multiple entries, follow these steps:
+
+import NewEntryTooltip from '@site-docs-en/components/new-entry-tooltip.mdx';
+
+<NewEntryTooltip />
+
+1. **Move the original entry code to a directory named after the `name` field in `package.json`**
+
+   Assuming the `name` in `package.json` is `myapp`, you need to move the `src/routes/` directory to `src/myapp/routes/`:
+
+```bash
+# Create new directory
+mkdir -p src/myapp
+# Move original entry code
+mv src/routes src/myapp/routes
+```
+
+2. **Create a new entry directory**
+
+   Create a new entry directory, for example `new-entry`:
+
+```bash
+# Create new entry directory
+mkdir -p src/new-entry/routes
+```
+
+3. **Create necessary files in the new entry directory**
+
+   Create basic files in the `routes/` directory of the new entry:
+
+```bash
+# Create basic files (adjust content as needed)
+touch src/new-entry/routes/index.css
+touch src/new-entry/routes/layout.tsx
+touch src/new-entry/routes/page.tsx
+```
+
+After completing the above steps, the `src/` directory structure will be as follows:
+
+```bash
+.
+├── myapp    # Original entry
+│   └── routes
+│       ├── index.css
+│       ├── layout.tsx
+│       └── page.tsx
+└── new-entry # New entry
+    └── routes
+        ├── index.css
+        ├── layout.tsx
+        └── page.tsx
+```
+
+Modern.js will use the entry with the same name as the `name` field in `package.json` as the main entry. The route of the main entry is `/`, and the route of other entries is `/{entryName}`. For example, when the `name` in `package.json` is `myapp`, `src/myapp` will be the main entry of the application.
+
+You can execute `pnpm run dev` to start the development server. At this time, you can see that a new route named `/new-entry` has been added, and the routes of the original pages have not changed.
+
+:::note
+The concepts of **single entry/multiple entry** and **SPA/MPA** are not equivalent. The former is about how to configure and package the application, while the latter is a pattern for organizing front-end applications. Each entry can be SPA or non-SPA.
+:::
+
+## Entry Types
+
+Modern.js supports three entry types, each with different use cases and characteristics. Choosing the appropriate entry type can help you better organize your code.
+
+### How to Identify Entries
+
+Modern.js automatically scans directories to identify entries that meet the criteria. A directory is recognized as an entry if it meets **one of the following three conditions**:
+
+1. **Has a `routes/` directory** → Convention routing entry
+2. **Has an `App.tsx?` file** → Self-controlled routing entry
+3. **Has an `entry.tsx?` file** → Custom entry
+
+import EntryScanLogic from '@site-docs/components/entry-scan-logic.mdx';
+
+<EntryScanLogic />
+
+:::tip Custom scanning directory
+You can modify the directory for identifying entries through [source.entriesDir](/configure/app/source/entries-dir).
+
+:::
+
+import EntryMode from '@site-docs/components/entry-mode.mdx';
+
+<EntryMode />
+
+Next, we will introduce the usage of each entry type in detail.
+
+### Convention Routing
+
+If there is a `routes/` directory in the entry, we call this entry a convention routing entry. Modern.js will scan the files under `routes/` during startup and automatically generate client-side routes (react-router) based on file conventions. For example:
+
+```bash
+src/
+└── routes/
+    ├── layout.tsx    # Layout component (optional)
+    ├── page.tsx      # Homepage component (/ route)
+    ├── about/
+    │   └── page.tsx  # About page (/about route)
+    └── blog/
+        ├── page.tsx  # Blog list page (/blog route)
+        └── [id]/
+            └── page.tsx  # Blog detail page (/blog/:id route)
+```
+
+Component correspondence
+
+| File                        | Route         | Description                   |
+| --------------------------- | ------------- | ----------------------------- |
+| `routes/layout.tsx`         | Global layout | Outer container for all pages |
+| `routes/page.tsx`           | `/`           | Homepage                      |
+| `routes/about/page.tsx`     | `/about`      | About page                    |
+| `routes/blog/[id]/page.tsx` | `/blog/:id`   | Dynamic route page            |
+
+For more details, please refer to [Routing Solution](/guides/basic-features/routes/routes#convention-routing).
+
+### Self-controlled Routing
+
+If there is an `App.tsx?` file in the entry, this entry is a self-controlled routing entry. This method gives developers complete routing control.
+
+```bash
+.
+├── src
+│   └── App.tsx
+```
+
+For the entry defined as `src/App.tsx`, Modern.js does not perform additional routing operations. Developers can use the [React Router v7](https://reactrouter.com/en/main) API to set up client-side routes, or not set up client-side routes. For example, the following code sets up client-side routes in the application:
+
+```tsx title="src/App.tsx"
+import { BrowserRouter, Route, Routes } from '@modern-js/runtime/router';
+
+export default () => {
+  return (
+    <BrowserRouter>
+      <Routes>
+        <Route index element={<div>index</div>} />
+        <Route path="about" element={<div>about</div>} />
+      </Routes>
+    </BrowserRouter>
+  );
+};
+```
+
+:::note
+We recommend developers use convention routing. Modern.js provides a series of optimizations in resource loading and rendering for convention routing by default and offers built-in SSR capabilities. When using self-controlled routing, these capabilities need to be encapsulated by developers themselves.
+:::
+
+### Custom Entry
+
+By default, when using convention routing or self-controlled routing, Modern.js will automatically handle rendering. If you want to customize this behavior, you can implement it through a custom entry file.
+
+:::tip
+Custom entries can coexist with convention routing and self-controlled routing entries, customizing the application initialization logic.
+
+:::
+
+If there is an `entry.tsx` file in the entry, Modern.js will no longer control the application's rendering process. You can call the `createRoot` and `render` functions in the `entry.tsx` file to complete the application entry logic.
+
+```tsx title="src/entry.tsx"
+import { createRoot } from '@modern-js/runtime/react';
+import { render } from '@modern-js/runtime/browser';
+
+// Create root component
+const ModernRoot = createRoot();
+
+// Render to DOM
+render(<ModernRoot />);
+```
+
+In the code above, the component returned by the `createRoot` function is the component generated from the `routes/` directory or exported by `App.tsx`. The `render` function is used to handle rendering and mounting components. For example, if you want to execute some asynchronous tasks before rendering, you can implement it like this:
+
+```tsx
+import { createRoot } from '@modern-js/runtime/react';
+import { render } from '@modern-js/runtime/browser';
+
+const ModernRoot = createRoot();
+
+async function beforeRender() {
+  // some async request
+}
+
+beforeRender().then(() => {
+  render(<ModernRoot />);
+});
+```
+
+If you don't want to use any of Modern.js's runtime capabilities, you can also mount the component to the DOM node yourself, for example:
+
+```js title=src/entry.tsx
+import React from 'react';
+import { createRoot } from 'react-dom/client';
+import App from './App';
+
+const container = document.getElementById('root');
+
+if (container) {
+  const root = createRoot(container);
+  root.render(<App />);
+}
+```
+
+In this mode, **you will not be able to use Modern.js framework's runtime capabilities**, such as:
+
+- Convention routing, i.e., routing based on files under `src/routes`
+- Server-Side Rendering (SSR)
+- Internationalization (i18n)
+- Module Federation
+
+## Specifying Entries in Configuration File
+
+In some cases, you may need to customize the entry configuration instead of using the entry conventions provided by Modern.js.
+
+For example, if you need to migrate a non-Modern.js application to Modern.js, and it is not structured according to Modern.js's directory structure, there might be some migration costs involved in changing it to the conventional structure. In such cases, you can use custom entries.
+
+Modern.js provides the following configuration options that you can set in [modern.config.ts](/configure/app/usage):
+
+- [source.entries](/configure/app/source/entries): Used to set custom entry objects.
+- [source.disableDefaultEntries](/configure/app/source/disable-default-entries): Used to disable Modern.js's default entry scanning behavior. When you use custom entries, parts of your project structure might coincidentally match the Modern.js conventional directory structure, but you may not want Modern.js to generate entry configurations for them. Enabling this option can help avoid this issue.
+
+### Example
+
+Here is an example of a custom entry. You can also refer to the documentation of the corresponding configuration options for more usage.
+
+```ts title="modern.config.ts"
+export default defineConfig({
+  source: {
+    entries: {
+      // Specify an entry named 'my-entry'
+      'my-entry': {
+        // Path to the entry module
+        entry: './src/my-page/index.tsx',
+        // Disable automatic generation of entry code by Modern.js
+        disableMount: true,
+      },
+    },
+    // Disable entry scanning behavior
+    disableDefaultEntries: true,
+  },
+});
+```
+
+## In-Depth
+
+Pages usually correspond to HTML output files, meaning each additional entry will eventually generate a corresponding HTML file in the output. The modules imported by the entry will be compiled and packaged into multiple Chunk outputs. For example, JavaScript modules may ultimately generate several file outputs similar to `dist/static/js/index.ea39u8.js`.
+
+It's important to distinguish the relationships between concepts such as entry and route:
+
+- **Entry**: Contains multiple modules used for startup execution.
+- **Client Router**: In Modern.js, it is usually implemented by `react-router`, using the History API to determine which React component to load and display based on the browser's current URL.
+- **Server Router**: Determines what content the server returns based on the request URL. For traditional multi-page applications, different URLs usually return different HTML pages directly. For single-page applications that use client-side routing, the server generally falls back non-static asset requests to the entry HTML, and then the frontend takes over subsequent route matching and page rendering.
+
+Their corresponding relationships are as follows:
+
+- Each website project can contain multiple entries
+- Each entry contains several modules (source code files)
+- Each entry usually corresponds to one HTML file output and several other outputs
+- Each HTML file can contain multiple client-side routing solutions (for example, using both `react-router` and `@tanstack/react-router` in the same page)
+- Each HTML file can be mapped to multiple server-side routes
+- Each HTML file can contain multiple client-side routing solutions, and when accessing different routes of a single-entry application, the same HTML file is actually used
+
+## Common Issues
+
+1. **Does each client route defined by `react-router` generate a separate HTML file?**
+
+No. Each entry usually only generates one HTML file. If multiple client routing systems are defined in a single entry, they will share this one HTML file.
+
+2. **Does each `page.tsx` file in the `routes/` directory of convention routing generate an HTML file?**
+
+No. Convention routing is a client-side routing solution implemented based on `react-router`. Its convention is that each `page.tsx` file under the `routes/` directory corresponds to a client-side route of `react-router`. `routes/` itself serves as a page entry, corresponding to one HTML file in the final output.
+
+3. **Do Server-Side Rendering (SSR) projects build multiple HTML outputs?**
+
+When using server-side rendering applications, it is not necessary to generate an HTML output at build time. It can only include server-side JavaScript output for rendering. At this time, `react-router` will run and schedule routes on the server side, rendering and responding with HTML content on each request.
+
+However, Modern.js will still generate a complete client-side output containing HTML files for each entry at build time, which can be used to downgrade to client-side rendering when server-side rendering fails.
+
+Another special case is a project using Static Site Generation (SSG). Even if it is a single-entry SSG application built with convention routing, Modern.js will generate a separate HTML file for each `page.tsx` file outside the Rspack process.
+
+It should be noted that even when server-side rendering is enabled, React usually still needs to execute the hydration phase and run `react-router` routing on the frontend.
+
+4. **Are there exceptions where single-entry applications output multiple HTML files?**
+
+You can configure [html-rspack-plugin](https://rspack.rs/zh/plugins/rspack/html-rspack-plugin#%E7%94%9F%E6%88%90%E5%A4%9A%E4%B8%AA-html-%E6%96%87%E4%BB%B6) to generate multiple HTML outputs for each entry, or have multiple entries share one HTML output.
+
+5. **What is a Multi-Page Application (Multi-Page Application)?**
+
+The "page" in a Multi-Page Application refers to a static HTML file.
+
+Generally, any web application that contains multiple entries and multiple HTML file outputs can be called a multi-page application.
+
+In a narrow sense, a multi-page application may not contain client-side routing and only navigates between static HTML pages through elements like `<a>` tags. However, in practice, multi-page applications often need to configure client-side routing for their entries to meet different needs.
+
+Conversely, a single-entry application that defines multiple routes through `react-router` is called a Single Page Application because it only generates one HTML file output.

@@ -121,7 +121,7 @@
       "prompt": "为这个项目添加自定义 Web Server 逻辑：创建符合 Modern.js v3 约定的自定义 server 文件，实现一个中间件，给所有响应加上响应头 x-eval: 1。不要启动 dev server，不要安装依赖。",
       "grader_spec": {
         "type": "file_ast",
-        "rules": "存在 server/modern.server.ts(.js)（v3 约定路径）；文件（去注释后）声明 middlewares 中间件、handler 调用 next()、并设置 'x-eval' 响应头（匹配 /x-eval/ 且 /middlewares/ 且 /next\\s*\\(/）；`pnpm build` 退出码 0。注意：模板未安装 @modern-js/server-runtime，import 该包会使 tsc 失败 → build fail（已知模板/文档不一致，判分不要求该 import）。",
+        "rules": "存在 server/modern.server.ts(.js)（v3 约定路径）；文件（去注释后）声明 middlewares 中间件、handler 调用 next()、并设置 'x-eval' 响应头（匹配 /x-eval/ 且 /middlewares/ 且 /next\\s*\\(/）；`pnpm build` 退出码 0。注意：@modern-js/server-runtime 已预装进两棵模板（历史版本未预装时按官方文档 import 会 TS2307 误杀，已修复）；本 pilot 题保持宽松口径，defineServerConfig import 可写可不写、判分不要求（35 题 bank 的 L3-02 从 v2.2 起要求该 import 且构建通过）。",
         "needs_build": true,
         "needs_serve": false
       }

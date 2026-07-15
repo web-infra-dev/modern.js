@@ -1,0 +1,33 @@
+---
+title: inlineScripts
+---
+
+# output.inlineScripts
+
+- **Type:**
+
+```ts
+type InlineScriptsTest =
+  | RegExp
+  | ((params: { size: number; name: string }) => boolean);
+
+type InlineScripts =
+  | boolean
+  | InlineScriptsTest
+  | {
+      enable?: boolean | 'auto';
+      test: InlineScriptsTest;
+    };
+```
+
+- **Default:** `/builder-runtime([.].+)?\.js$/`
+
+Whether to inline output scripts files (.js files) into HTML with `<script>` tags.
+
+:::tip
+When using convention-based routing, you need to set [output.splitRouteChunks](/configure/app/output/split-route-chunks) to false if this option is turned on.
+:::
+
+import RsbuildConfig from '@site-docs-en/components/rsbuild-config-tooltip';
+
+<RsbuildConfig configName="output.inlineScripts" />

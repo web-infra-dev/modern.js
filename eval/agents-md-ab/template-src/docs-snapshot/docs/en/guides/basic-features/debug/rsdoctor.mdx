@@ -1,0 +1,45 @@
+import { PackageManagerTabs } from '@theme';
+
+# Using Rsdoctor
+
+Rsdoctor is a Rspack build analysis tool. In Modern.js, we recommend using Rsdoctor to diagnose and analyze the build process and build outputs.
+
+## Install Dependencies
+
+<PackageManagerTabs command="add @rsdoctor/rspack-plugin -D" />
+
+## Register Plugin
+
+In `modern.config.ts`, you can register the Rspack plugin via `tools.bundlerChain`. Refer to the example below:
+
+```ts title="modern.config.ts"
+import { RsdoctorRspackPlugin } from '@rsdoctor/rspack-plugin';
+
+export default {
+  // ...
+  tools: {
+    bundlerChain(chain) {
+      // Only register the plugin when RSDOCTOR is true, as the plugin will increase build time.
+      if (process.env.RSDOCTOR) {
+        chain.plugin('rsdoctor').use(RsdoctorRspackPlugin, [
+          {
+            // Plugin options
+          },
+        ]);
+      }
+    },
+  },
+};
+```
+
+## Execute Build
+
+You can execute the build command within your project. After the build is complete, Rsdoctor will automatically open the analysis page for the build.
+
+```bash
+RSDOCTOR=true npm run build
+```
+
+## Related Documentation
+
+For more information, please refer to the [Rsdoctor Website](https://rsdoctor.rs/).

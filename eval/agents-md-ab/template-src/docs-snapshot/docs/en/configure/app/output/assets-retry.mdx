@@ -1,0 +1,81 @@
+---
+title: assetsRetry
+---
+
+# output.assetsRetry
+
+- **Type:** `Object`
+
+`output.assetsRetry` is used to configure the retry of assets.The type of `AssetsRetryOptions` is as follows:
+
+```ts
+export type AssetsRetryHookContext = {
+  times: number;
+  domain: string;
+  url: string;
+  tagName: string;
+};
+
+export type AssetsRetryOptions = {
+  type?: string[];
+  domain?: string[];
+  max?: number;
+  test?: string | ((url: string) => boolean);
+  crossOrigin?: boolean | 'anonymous' | 'use-credentials';
+  inlineScript?: boolean;
+  onRetry?: (options: AssetsRetryHookContext) => void;
+  onSuccess?: (options: AssetsRetryHookContext) => void;
+  onFail?: (options: AssetsRetryHookContext) => void;
+};
+```
+
+- **Default:** `undefined`
+
+- Since this feature injects some runtime code into your HTML and [Rspack Runtime](https://rspack.rs/api/runtime-api/module-variables), it is disabled by default. To enable it, provide an object for the option, for example:
+
+```js
+export default {
+  output: {
+    assetsRetry: {},
+  },
+};
+```
+
+When you enable this feature, the default configuration for `assetsRetry` is:
+
+```ts
+export const defaultAssetsRetryOptions: AssetsRetryOptions = {
+  type: ['script', 'link', 'img'],
+  domain: [],
+  max: 3,
+  test: '',
+  crossOrigin: false,
+  inlineScript: false,
+  onRetry: () => {},
+  onSuccess: () => {},
+  onFail: () => {},
+};
+```
+
+### Example
+
+You can also customize your retry logic using the `assetsRetry` options.
+
+For example, setting `assetsRetry.domain` to specify the retry domain when assets fail to load.
+
+As an example, you can specify a list of fallback domains via `assetsRetry.domain`. The first domain in the list should match the domain used in your [`assetsPrefix`](./asset-prefix.mdx) configuration:
+
+```js
+export default {
+  output: {
+    assetsRetry: {
+      domain: ['cdn1.com', 'cdn2.com', 'cdn3.com'],
+    },
+    assetsPrefix: 'https://cdn1.com', // or '//cdn1.com'
+  },
+};
+```
+
+With the configuration above, if an asset fails to load from `cdn1.com`, requests will automatically fall back to `cdn2.com`. If `cdn2.com` also fails, the request will continue to `cdn3.com`.
+
+`assetsRetry` is implemented based on the Assets Retry plugin of Rsbuild and provides the same configuration options. You can refer to [Rsbuild - Assets Retry Plugin](https://github.com/rstackjs/rsbuild-plugin-assets-retry) to understand all available configuration options.
