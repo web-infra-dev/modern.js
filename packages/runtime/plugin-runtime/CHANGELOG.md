@@ -1,5 +1,18 @@
 # @modern-js/runtime
 
+## 3.7.0
+
+### Patch Changes
+
+- b261973: fix(runtime): exclude the SSR hydration runtime from CSR bundles
+- b261973: fix(runtime): exclude the RSC client runtime from web bundles when `server.rsc` is disabled
+  - @modern-js/plugin@3.7.0
+  - @modern-js/plugin-data-loader@3.7.0
+  - @modern-js/render@3.7.0
+  - @modern-js/runtime-utils@3.7.0
+  - @modern-js/types@3.7.0
+  - @modern-js/utils@3.7.0
+
 ## 3.6.0
 
 ### Minor Changes
