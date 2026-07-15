@@ -82,6 +82,70 @@ function makeCtx() {
     exists(rel) {
       return fs.existsSync(path.join(runDir, rel));
     },
+    // JSONC-safe reader for tsconfig-style files. NOTE: do NOT feed JSON with
+    // glob patterns ("@/*", "**/foo") through stripComments — "/*" starts a
+    // fake block comment there. This helper strips comments string-aware and
+    // tolerates trailing commas. Returns the parsed object or null.
+    readJsonc(rel) {
+      const raw = ctx.read(rel);
+      if (raw == null) return null;
+      try {
+        return JSON.parse(raw);
+      } catch {}
+      let out = '';
+      let inStr = false;
+      let inLine = false;
+      let inBlock = false;
+      for (let i = 0; i < raw.length; i++) {
+        const c = raw[i];
+        const n = raw[i + 1];
+        if (inLine) {
+          if (c === '\n') {
+            inLine = false;
+            out += c;
+          }
+          continue;
+        }
+        if (inBlock) {
+          if (c === '*' && n === '/') {
+            inBlock = false;
+            i++;
+          }
+          continue;
+        }
+        if (inStr) {
+          out += c;
+          if (c === '\\' && n != null) {
+            out += n;
+            i++;
+          } else if (c === '"') {
+            inStr = false;
+          }
+          continue;
+        }
+        if (c === '"') {
+          inStr = true;
+          out += c;
+          continue;
+        }
+        if (c === '/' && n === '/') {
+          inLine = true;
+          continue;
+        }
+        if (c === '/' && n === '*') {
+          inBlock = true;
+          i++;
+          continue;
+        }
+        out += c;
+      }
+      out = out.replace(/,\s*([}\]])/g, '$1');
+      try {
+        return JSON.parse(out);
+      } catch {
+        return null;
+      }
+    },
     stripComments(s) {
       return (s ?? '')
         .replace(/\/\*[\s\S]*?\*\//g, '')
@@ -209,9 +273,9 @@ function makeCtx() {
         re.flags.includes('g') ? re.flags : `${re.flags}g`,
       );
       const negBefore =
-        /(不是|并非|不叫|不要|不用|不能|不可|别用|避免|没有|不存在|不在|并不是|而不是|未找到|查不到|找不到|isn'?t|aren'?t|\bnot\b|don'?t|do not|doesn'?t|never|no longer|instead of|rather than|avoid|without)(用|使用|写成|配置|放在|支持|叫|为|是|use|using)?[\s:：，,。的（(【\["'`“”]*$/i;
+        /(不是|并非|不叫|不要|不用|不能|不可|别用|别碰|别写|别使用|避免|没有|不存在|不在|并不是|而不是|未找到|查不到|找不到|isn'?t|aren'?t|\bnot\b|don'?t|do not|doesn'?t|never|no longer|instead of|rather than|avoid|without)(用|使用|写成|配置|放在|支持|叫|为|是|找到|发现|查到|见到|use|using)?[\s:：，,。的（(【\["'`“”]*$/i;
       const negAfter =
-        /^[\s”"'`）)\]】]*(这个|这种|该|一?项|配置|字段|命令|写法|用法|请求头|前缀)?[\s]*(已(在[^\n，。;]{0,8})?(被)?(移除|废弃|删除|下线)|不存在|并不存在|不可用|不支持|不对|不再(有|支持|可用)?|是错误|(is|was|has been)\s+(removed|deprecated|dropped)|does\s?n[o']t\s+exist|no such)/i;
+        /^[\s”"'`）)\]】]*((这个|这种|这些|该|此)\s*)?((写法|做法|方法|配置|字段|命令|用法|请求头|前缀|变量|环境变量|参数|查询参数|取值|目录|路径|别名|入口|方式|钩子|函数|选项|api|一?项)\s*)?(也|同样|都)?\s*(已(在[^\n，。;]{0,8})?(被)?(移除|废弃|删除|下线)|不存在|并不存在|不可用|不支持|不对|不再(有|支持|可用)?|是错误|我?(在[^\n，。;]{0,10})?查不到|(is|was|has been)\s+(removed|deprecated|dropped)|does\s?n[o']t\s+exist|no such)/i;
       // "如果没有 X / if X is not set" is a conditional, not a negation of X
       const condBefore = /(如果|若|当|万一|\bif\b|\bwhen\b|\bunless\b)[^\n。；;]{0,16}$/i;
       let m;

@@ -46,7 +46,7 @@
 
 ## 判分
 - 引擎 engine.mjs + graders/（run 树之外，agent 退出后挂载）；QA 答案取 runDir/ANSWER.md 或 runner 落盘的 .final-answer.txt
-- primary = exact binary pass；abstained 独立字段；无模型单测（canonical + mutation fixtures）全绿的 commit 才有执行资格
+- primary = exact binary pass；abstained 独立字段；无模型单测（canonical + mutation fixtures）全绿的 commit 才有执行资格——两套矩阵都要绿：`node test-graders.mjs`（pilot 10 题）与 `node test-graders.mjs --bank taskbank-35.json`（35 题全量，每题 correct + ≥2 wrong，QA 题含"正确关键词出现在否定语境"负例）
 - pass/fail 各随机抽 ≥10% 盲审（复核人不见分组）
 
 ## 决策（冻结，见 prereg_ab_analysis.py 常量）
