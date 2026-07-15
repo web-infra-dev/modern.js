@@ -13,6 +13,12 @@ const source = path.resolve(pkgRoot, '../../document/docs/en');
 const bundleRoot = path.resolve(pkgRoot, 'main-doc');
 const target = path.join(bundleRoot, 'docs/en');
 
+// Top-level doc sections excluded from the bundle to keep it small.
+// Agents rarely need these while coding (blog/showcase, narrative
+// tutorials, framework-plugin authoring); llms.txt covers them online.
+// Keep this list in sync with scripts/check-doc-bundle.mjs.
+export const EXCLUDED_SECTIONS = ['community', 'tutorials', 'plugin'];
+
 if (!fs.existsSync(source)) {
   console.error(`[copy-main-doc] source docs not found: ${source}`);
   process.exit(1);
@@ -20,7 +26,14 @@ if (!fs.existsSync(source)) {
 
 fs.rmSync(bundleRoot, { recursive: true, force: true });
 fs.mkdirSync(path.dirname(target), { recursive: true });
-fs.cpSync(source, target, { recursive: true });
+fs.cpSync(source, target, {
+  recursive: true,
+  filter: src => {
+    const rel = path.relative(source, src);
+    const top = rel.split(path.sep)[0];
+    return rel === '' || !EXCLUDED_SECTIONS.includes(top);
+  },
+});
 
 const count = fs
   .readdirSync(target, { recursive: true, withFileTypes: true })
