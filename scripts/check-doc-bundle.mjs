@@ -16,12 +16,22 @@ const repoRoot = path.resolve(__dirname, '..');
 const docsSource = path.join(repoRoot, 'packages/document/docs/en');
 const appTools = path.join(repoRoot, 'packages/solutions/app-tools');
 
-const SIZE_LIMIT = 3 * 1024 * 1024;
+const SIZE_LIMIT = 2 * 1024 * 1024;
 const OUTSIDE_DOCS_WHITELIST = [/\.\.\/.*src\/sandbox\//];
+// must stay in sync with EXCLUDED_SECTIONS in
+// packages/solutions/app-tools/scripts/copy-main-doc.mjs
+const EXCLUDED_SECTIONS = ['community', 'tutorials', 'plugin'];
 
 const sourceFiles = fs
   .readdirSync(docsSource, { recursive: true, withFileTypes: true })
-  .filter(entry => entry.isFile());
+  .filter(entry => entry.isFile())
+  .filter(entry => {
+    const rel = path.relative(
+      docsSource,
+      path.join(entry.parentPath ?? entry.path, entry.name),
+    );
+    return !EXCLUDED_SECTIONS.includes(rel.split(path.sep)[0]);
+  });
 
 // 1 & 3: inspect the tarball file list
 execSync('node ./scripts/copy-main-doc.mjs', {
