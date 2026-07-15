@@ -1,5 +1,9 @@
 // L0-01 (file_ast): main title "AB Bench Home" + data-testid="main-title" in
-// src/routes/page.tsx; build passes; diff touches only that file.
+// src/routes/page.tsx; build passes; "no other files changed" is checked via
+// ctx.changedFiles() — a MANIFEST-based comparison (run dirs are not git
+// repos) whose ignore list covers runner artifacts (.home/, .final-answer.txt,
+// ANSWER.md, AGENTS.md/CLAUDE.md, node_modules, build outputs) so they never
+// count as extra changes.
 export default async function grade(ctx, c) {
   const page = ctx.read('src/routes/page.tsx');
   if (!c.add('page-exists', !!page, 'src/routes/page.tsx missing')) return;

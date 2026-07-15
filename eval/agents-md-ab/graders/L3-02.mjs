@@ -66,12 +66,7 @@ export default async function grade(ctx, c) {
     !ctx.exists('server/index.ts') && !ctx.exists('server/index.js'),
     'server/index.ts (v2 hook convention) = 0',
   );
-  let ts;
-  try {
-    ts = JSON.parse(ctx.stripComments(ctx.read('tsconfig.json')));
-  } catch {
-    ts = null;
-  }
+  const ts = ctx.readJsonc('tsconfig.json');
   c.add(
     'tsconfig-include-server',
     Array.isArray(ts?.include) && ts.include.includes('server'),

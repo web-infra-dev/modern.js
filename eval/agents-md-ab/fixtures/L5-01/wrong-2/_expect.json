@@ -1,0 +1,7 @@
+{
+  "pass": false,
+  "failCheck": [
+    "states-new-removed",
+    "no-new-recommendation"
+  ]
+}

@@ -1,0 +1,6 @@
+{
+  "pass": false,
+  "failCheck": [
+    "no-pages-directory"
+  ]
+}

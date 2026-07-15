@@ -1,0 +1,7 @@
+{
+  "pass": false,
+  "failCheck": [
+    "webpack-not-supported",
+    "no-webpack-recommendation"
+  ]
+}

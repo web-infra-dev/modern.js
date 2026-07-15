@@ -1,0 +1,9 @@
+{
+  "pass": false,
+  "failCheck": [
+    "required-field",
+    "registryHooks-field",
+    "pre-field",
+    "post-field"
+  ]
+}

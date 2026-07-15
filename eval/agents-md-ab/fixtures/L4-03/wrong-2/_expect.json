@@ -1,0 +1,7 @@
+{
+  "pass": false,
+  "failCheck": [
+    "repack",
+    "file-change"
+  ]
+}

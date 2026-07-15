@@ -1,0 +1,4 @@
+{
+  "pass": false,
+  "failCheck": ["use-runtime-context-value", "runtime-context-import", "no-deprecated-hook"]
+}

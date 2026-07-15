@@ -15,12 +15,7 @@ export default async function grade(ctx, c) {
       /bffPlugin\s*\(/.test(conf),
     'modern.config must import + register bffPlugin() from @modern-js/plugin-bff',
   );
-  let ts;
-  try {
-    ts = JSON.parse(ctx.stripComments(ctx.read('tsconfig.json')));
-  } catch {
-    ts = null;
-  }
+  const ts = ctx.readJsonc('tsconfig.json');
   const paths = ts?.compilerOptions?.paths ?? {};
   const apiAlias = paths['@api/*'];
   c.add(
