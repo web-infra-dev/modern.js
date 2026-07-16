@@ -148,4 +148,86 @@ describe('prefetch', () => {
     });
     unmount();
   });
+
+  test('support viewport', async () => {
+    const originalIntersectionObserver = global.IntersectionObserver;
+    const observeMock = rstest.fn();
+    const disconnectMock = rstest.fn();
+    let observerCallback: IntersectionObserverCallback | undefined;
+    rstest.useRealTimers();
+
+    class MockIntersectionObserver implements IntersectionObserver {
+      readonly root = null;
+      readonly rootMargin = '200px';
+      readonly thresholds: ReadonlyArray<number> = [];
+
+      constructor(callback: IntersectionObserverCallback) {
+        observerCallback = callback;
+      }
+
+      disconnect() {
+        disconnectMock();
+      }
+
+      observe(target: Element) {
+        observeMock(target);
+      }
+
+      takeRecords() {
+        return [];
+      }
+
+      unobserve() {}
+    }
+
+    global.IntersectionObserver = MockIntersectionObserver;
+
+    const mockRoutes = [
+      {
+        id: 'root',
+        path: '/',
+        element: <Link {...{ to: 'aa', prefetch: 'viewport' }} />,
+      },
+      {
+        id: 'aa',
+        path: 'aa',
+        loader: ({ request }: LoaderFunctionArgs) => null,
+        element: <h1>idk</h1>,
+      },
+    ];
+
+    let router;
+    act(() => {
+      router = createMemoryRouter(mockRoutes);
+    });
+    const { container, unmount } = render(
+      <RouterProvider router={router as any} />,
+    );
+
+    await waitFor(() => {
+      expect(observeMock).toHaveBeenCalledWith(container.firstChild);
+    });
+    expect(global.__webpack_chunk_load_test__).not.toHaveBeenCalled();
+
+    await act(async () => {
+      observerCallback?.(
+        [{ isIntersecting: true } as IntersectionObserverEntry],
+        {} as IntersectionObserver,
+      );
+    });
+
+    await waitFor(() => {
+      expect(global.__webpack_chunk_load_test__).toBeCalledTimes(1);
+      const dataHref = document.head
+        .querySelector('link[rel="prefetch"][as="fetch"]')
+        ?.getAttribute('href');
+      expect(
+        dataHref?.includes('aa?__loader=aa&__ssrDirect=true'),
+      ).toBeTruthy();
+    });
+    expect(disconnectMock).toHaveBeenCalled();
+
+    unmount();
+    global.IntersectionObserver = originalIntersectionObserver;
+  });
 });
