@@ -180,7 +180,12 @@ const processCommentPlaceholders = (html: string): string => {
 
 // load CommonJS module from code string (evaluated in Node), returns exports
 const requireFromString = (code: string, filename: string) => {
-  const m = new Module.Module(filename, module.parent as Module);
+  const m = new Module.Module(
+    filename,
+    process.env.MODERN_LIB_FORMAT === 'esm'
+      ? undefined
+      : (module.parent as Module),
+  );
   m.filename = filename;
   // set proper resolution paths for nested requires
   // eslint-disable-next-line @typescript-eslint/ban-ts-comment
@@ -268,10 +273,14 @@ const applyExternalsPlugin = (child: Compiler, compiler: Compiler) => {
 };
 
 const generateEntryCode = (docPath: string, _entryName: string): string => {
-  const runtimeAPI = require.resolve('../');
-  const esmRuntimeAPI = runtimeAPI
-    .replace(`cjs`, `esm`)
-    .replace(/.js$/, '.mjs');
+  const runtimeAPI =
+    process.env.MODERN_LIB_FORMAT === 'esm'
+      ? // @ts-ignore
+        import.meta.resolve('../index.mjs')
+      : require.resolve('../');
+  const esmRuntimeAPI = runtimeAPI.endsWith('.mjs')
+    ? runtimeAPI
+    : runtimeAPI.replace(`cjs`, `esm`).replace(/\.js$/, '.mjs');
 
   return `import React from 'react';
 import ReactDomServer from 'react-dom/server';
