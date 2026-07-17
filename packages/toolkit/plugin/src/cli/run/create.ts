@@ -1,4 +1,10 @@
-import { createDebugger, logger } from '@modern-js/utils';
+import {
+  createDebugger,
+  ensureAbsolutePath,
+  isPathInside,
+  logger,
+  resolveInsideOrFallback,
+} from '@modern-js/utils';
 import { program } from '@modern-js/utils/commander';
 import { loadEnv } from '@rsbuild/core';
 import { createPluginManager } from '../../manager';
@@ -71,8 +77,23 @@ export const createCli = <Extends extends CLIPluginExtends>() => {
     setProgramVersion(version);
 
     const envName = metaName === 'modern-js' ? 'MODERN' : metaName;
+    const envDir = options.envDir;
+    const envCwd = ensureAbsolutePath(appDirectory, envDir || '.');
+
+    if (!isPathInside(appDirectory, envCwd)) {
+      logger.warn(
+        `The env directory ${envDir} is outside project root, fallback to project root`,
+      );
+    }
+
+    const envLoadCwd = resolveInsideOrFallback(
+      appDirectory,
+      envDir,
+      appDirectory,
+    );
+
     loadEnv({
-      cwd: appDirectory,
+      cwd: envLoadCwd,
       mode: process.env[`${envName.toUpperCase()}_ENV`] || process.env.NODE_ENV,
       prefixes: [`${envName.toUpperCase()}_`],
     });
