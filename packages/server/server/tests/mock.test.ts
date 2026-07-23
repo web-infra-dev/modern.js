@@ -28,12 +28,12 @@ function getDefaultAppContext() {
   };
 }
 
-function createMockPlugin(pwd: string): ServerPlugin {
+function createMockPlugin(pwd: string, mockDir?: string): ServerPlugin {
   return {
     name: 'mock-plugin',
     setup(api) {
       api.onPrepare(async () => {
-        const mockMiddleware = await getMockMiddleware(pwd);
+        const mockMiddleware = await getMockMiddleware(pwd, mockDir);
         const { middlewares } = api.getServerContext();
 
         middlewares.push({
@@ -222,6 +222,47 @@ describe('should mock middleware work correctly', () => {
     try {
       const response = await server.request('/api/ping');
       expect(await response.json()).toEqual({ value: 'from-ts' });
+    } finally {
+      fs.rmSync(tmpRoot, { recursive: true, force: true });
+    }
+  });
+
+  it.each([
+    {
+      name: 'relative',
+      getAppRoot: (tmpRoot: string) => tmpRoot,
+      getMockDir: (_tmpRoot: string) => './fixtures/mocks',
+      getMockPath: (tmpRoot: string) => path.join(tmpRoot, 'fixtures', 'mocks'),
+    },
+    {
+      name: 'absolute',
+      getAppRoot: (tmpRoot: string) => path.join(tmpRoot, 'app'),
+      getMockDir: (tmpRoot: string) => path.join(tmpRoot, 'shared-mocks'),
+      getMockPath: (tmpRoot: string) => path.join(tmpRoot, 'shared-mocks'),
+    },
+  ])('loads a mock from a $name custom directory', async testCase => {
+    const tmpRoot = fs.mkdtempSync(path.join(os.tmpdir(), 'modern-mock-dir-'));
+    const appRoot = testCase.getAppRoot(tmpRoot);
+    const mockDir = testCase.getMockDir(tmpRoot);
+    const mockPath = testCase.getMockPath(tmpRoot);
+    fs.mkdirSync(appRoot, { recursive: true });
+    fs.mkdirSync(mockPath, { recursive: true });
+    fs.writeFileSync(
+      path.join(mockPath, 'index.ts'),
+      `export default { '/api/custom-mock': { source: '${testCase.name}' } };\n`,
+    );
+
+    const server = createServerBase({
+      config: getDefaultConfig(),
+      pwd: '',
+      appContext: getDefaultAppContext(),
+    });
+    server.addPlugins([compatPlugin(), createMockPlugin(appRoot, mockDir)]);
+    await server.init();
+
+    try {
+      const response = await server.request('/api/custom-mock');
+      expect(await response.json()).toEqual({ source: testCase.name });
     } finally {
       fs.rmSync(tmpRoot, { recursive: true, force: true });
     }

@@ -1,0 +1,35 @@
+---
+title: mockDir
+---
+
+# dev.mockDir
+
+- **Type:** `string`
+- **Default:** `'./config/mock'`
+
+Sets the directory containing the Mock API entry file. Relative paths are
+resolved from the application directory, and absolute paths are also supported.
+Modern.js loads `index.ts` or `index.js` from this directory during development.
+
+For example, move the Mock API entry to `mocks/index.ts`:
+
+```js title="modern.config.ts"
+import { defineConfig } from '@modern-js/app-tools';
+
+export default defineConfig({
+  dev: {
+    mockDir: './mocks',
+  },
+});
+```
+
+This is also useful in a monorepo when multiple applications share one Mock
+directory:
+
+```js title="modern.config.ts"
+export default defineConfig({
+  dev: {
+    mockDir: '../../shared/mocks',
+  },
+});
+```

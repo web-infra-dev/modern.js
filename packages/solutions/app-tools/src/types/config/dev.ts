@@ -51,6 +51,12 @@ export interface DevServerUserConfig {
  * Although its name is the same as in Rsbuild, it is consumed by Modern.js.
  */
 export type DevUserConfig = Omit<BuilderDevConfig, 'setupMiddlewares'> & {
+  /**
+   * Customize the directory containing the Mock API entry file.
+   * Relative paths are resolved from the application directory.
+   * @default './config/mock'
+   */
+  mockDir?: string;
   setupMiddlewares?: SetupMiddlewares;
   /**
    * Dev server specific options.

@@ -32,7 +32,7 @@ describe('bff hono tests', () => {
 
     beforeAll(async () => {
       port = await getPort();
-      app = await launchApp(appDir, port, {});
+      app = await launchApp(appDir, port, {}, { BFF_MOCK: 'false' });
       browser = await puppeteer.launch(launchOptions as any);
       page = await browser.newPage();
     });
@@ -122,6 +122,58 @@ describe('bff hono tests', () => {
           (img as HTMLImageElement).naturalWidth > 0,
       );
       expect(isLoaded).toBe(true);
+    });
+
+    afterAll(async () => {
+      await killApp(app);
+      await page.close();
+      await browser.close();
+    });
+  });
+
+  describe('bff hono with BFF_MOCK', () => {
+    let port = 8080;
+    const BASE_PAGE = 'base';
+    const prefix = '/bff-api';
+    let app: any;
+    let page: Page;
+    let browser: Browser;
+
+    beforeAll(async () => {
+      port = await getPort();
+      app = await launchApp(appDir, port, {}, { BFF_MOCK: 'true' });
+      browser = await puppeteer.launch(launchOptions as any);
+      page = await browser.newPage();
+    });
+
+    test('enable the custom Mock directory', async () => {
+      const mockedBffResponse = await fetch(`${host}:${port}${prefix}`);
+      expect(mockedBffResponse.status).toBe(200);
+      expect(await mockedBffResponse.json()).toEqual({
+        message: 'Hello Modern.js from Mock',
+        userid: 'mock-user',
+      });
+
+      const objectResponse = await fetch(`${host}:${port}/mock/hello`);
+      expect(objectResponse.status).toBe(200);
+      expect(await objectResponse.json()).toEqual({ message: 'mock v3' });
+
+      const functionResponse = await fetch(`${host}:${port}/mock/fn`);
+      expect(functionResponse.status).toBe(200);
+      expect(await functionResponse.json()).toEqual({
+        message: 'mock fn v1',
+      });
+
+      await page.goto(`${host}:${port}/${BASE_PAGE}`, {
+        timeout: 50000,
+      });
+      await page.waitForFunction(
+        () => {
+          const el = document.querySelector('.hello');
+          return el?.textContent === 'Hello Modern.js from Mock';
+        },
+        { timeout: 10000 },
+      );
     });
 
     afterAll(async () => {
