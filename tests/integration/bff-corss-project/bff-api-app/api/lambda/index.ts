@@ -7,9 +7,10 @@ import {
   Query,
 } from '@modern-js/plugin-bff/server';
 import { useHonoContext } from '@modern-js/server-runtime';
+import type { ApiMessage } from '@shared/index';
 import { z } from 'zod';
 
-export default async () => {
+export default async (): Promise<ApiMessage> => {
   return {
     message: 'Hello get bff-api-app',
   };

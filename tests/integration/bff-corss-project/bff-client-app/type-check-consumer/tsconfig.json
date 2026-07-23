@@ -1,0 +1,18 @@
+{
+  "compilerOptions": {
+    "strict": true,
+    "noEmit": true,
+    "target": "es2022",
+    "module": "nodenext",
+    "moduleResolution": "nodenext",
+    "types": [],
+    "skipLibCheck": false,
+    "baseUrl": ".",
+    "paths": {
+      "@modern-js/plugin-bff/server": [
+        "./stubs/modern-js-plugin-bff-server.d.ts"
+      ]
+    }
+  },
+  "include": ["probe.ts"]
+}
