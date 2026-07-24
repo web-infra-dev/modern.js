@@ -82,6 +82,11 @@
   "nx": {
     "targets": {
       "build": {
+        "inputs": [
+          "build",
+          "^build",
+          "{workspaceRoot}/packages/document/docs/en/**/*"
+        ],
         "outputs": [
           "{projectRoot}/dist",
           "{projectRoot}/docs"
