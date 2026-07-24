@@ -20,7 +20,7 @@ Most "what is this API / config" questions can be answered from llms.txt. Just l
 
 Every new Modern.js project is agent-ready out of the box:
 
-- **Bundled docs**: the `@modern-js/app-tools` package ships the full English docs at `node_modules/@modern-js/app-tools/main-doc/docs/en/` — they always match your installed framework version, no network required.
+- **Bundled docs**: the `@modern-js/app-tools` package ships the English docs at `node_modules/@modern-js/app-tools/docs/` — they always match your installed framework version, no network required.
 - **AGENTS.md / CLAUDE.md**: `npx @modern-js/create` generates both files by default. `AGENTS.md` instructs agents to read the bundled docs before writing any Modern.js code (so they don't rely on outdated training data); `CLAUDE.md` includes it for Claude Code via the `@AGENTS.md` directive. Pass `--no-agents-md` to skip generating them; they are also skipped in `--sub` (subproject) mode, where agent files belong to the monorepo root.
 
 The Modern.js-managed part of `AGENTS.md` is wrapped in `<!-- BEGIN:modernjs-agent-rules -->` / `<!-- END:modernjs-agent-rules -->` markers. Anything you write outside the markers is yours and will never be touched by Modern.js tooling.
