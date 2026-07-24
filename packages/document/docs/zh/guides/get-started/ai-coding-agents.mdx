@@ -20,7 +20,7 @@ Modern.js 文档遵循 [llms.txt 规范](https://llmstxt.org/)，由 [`@rspress/
 
 每个新建的 Modern.js 项目都开箱即为 agent-ready：
 
-- **随包文档**：`@modern-js/app-tools` 包内置了完整英文文档（`node_modules/@modern-js/app-tools/main-doc/docs/en/`）——与你安装的框架版本严格一致，离线可用。
+- **随包文档**：`@modern-js/app-tools` 包内置了英文文档（`node_modules/@modern-js/app-tools/docs/`）——与你安装的框架版本严格一致，离线可用。
 - **AGENTS.md / CLAUDE.md**：`npx @modern-js/create` 默认生成这两个文件。`AGENTS.md` 指示 agent 在编写任何 Modern.js 代码前先阅读随包文档（避免依赖过时的训练数据）；`CLAUDE.md` 通过 `@AGENTS.md` 指令供 Claude Code 引用。可通过 `--no-agents-md` 跳过生成；`--sub`（子项目）模式下也不会生成——monorepo 场景的 agent 文件应由仓库根统一管理。
 
 `AGENTS.md` 中由 Modern.js 管理的部分包裹在 `<!-- BEGIN:modernjs-agent-rules -->` / `<!-- END:modernjs-agent-rules -->` 标记内。标记之外的内容完全归你所有，Modern.js 工具永远不会改动。
