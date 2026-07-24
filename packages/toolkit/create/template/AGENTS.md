@@ -7,10 +7,10 @@ Modern.js v3 — APIs, config, and conventions may differ from what you know.
 
 Before writing or changing any Modern.js-related code:
 
-1. Read the bundled docs at `node_modules/@modern-js/app-tools/main-doc/docs/en/`
+1. Read the bundled docs at `node_modules/@modern-js/app-tools/main-doc/`
    — they exactly match the installed framework version. The files are MDX:
    when a page imports local content via `@site-docs-en/*`, resolve it to
-   `main-doc/docs/en/*` and read that file too — key content often lives in
+   `main-doc/*` and read that file too — key content often lives in
    those components. Imports pointing outside the docs tree (e.g.
    `../../src/sandbox/...`) are not bundled — consult the online docs for those.
 2. If the bundled docs are missing, fetch https://modernjs.dev/llms.txt
