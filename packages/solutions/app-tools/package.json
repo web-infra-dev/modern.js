@@ -79,10 +79,20 @@
     "modern": "./bin/modern.js",
     "modern-app": "./bin/modern.js"
   },
+  "nx": {
+    "targets": {
+      "build": {
+        "outputs": [
+          "{projectRoot}/dist",
+          "{projectRoot}/main-doc"
+        ]
+      }
+    }
+  },
   "scripts": {
-    "prepublishOnly": "only-allow-pnpm && node ./scripts/copy-main-doc.mjs",
+    "prepublishOnly": "only-allow-pnpm",
     "dev": "rslib build --watch",
-    "build": "rslib build",
+    "build": "rslib build && node ./scripts/copy-main-doc.mjs",
     "test": "rstest"
   },
   "dependencies": {
