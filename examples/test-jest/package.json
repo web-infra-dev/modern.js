@@ -23,10 +23,10 @@
     "ts-node": "^10.9.2"
   },
   "devDependencies": {
-    "@babel/core": "^7.25.2",
-    "@babel/preset-env": "^7.25.4",
-    "@babel/preset-react": "^7.24.7",
-    "@babel/preset-typescript": "^7.24.7",
+    "@babel/core": "^7.29.7",
+    "@babel/preset-env": "^7.29.7",
+    "@babel/preset-react": "^7.29.7",
+    "@babel/preset-typescript": "^7.29.7",
     "@modern-js/app-tools": "latest",
     "@modern-js/tsconfig": "latest",
     "@testing-library/dom": "^10.4.0",
