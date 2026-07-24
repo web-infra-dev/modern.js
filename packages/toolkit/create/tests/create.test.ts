@@ -36,9 +36,7 @@ describe('agent files generation', () => {
     const content = fs.readFileSync(agents, 'utf-8');
     expect(content).toContain('<!-- BEGIN:modernjs-agent-rules -->');
     expect(content).toContain('<!-- END:modernjs-agent-rules -->');
-    expect(content).toContain(
-      'node_modules/@modern-js/app-tools/main-doc/docs/en/',
-    );
+    expect(content).toContain('node_modules/@modern-js/app-tools/docs/');
     expect(content).toContain('https://modernjs.dev/llms.txt');
 
     expect(fs.readFileSync(claude, 'utf-8').trim()).toBe('@AGENTS.md');
