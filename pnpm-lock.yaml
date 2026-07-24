@@ -2095,6 +2095,9 @@ importers:
       '@rslib/core':
         specifier: 0.23.2
         version: 0.23.2(@module-federation/runtime-tools@2.0.0)(core-js@3.48.0)(typescript@5.9.3)
+      '@scripts/rstest-config':
+        specifier: workspace:*
+        version: link:../../../scripts/rstest-config
       '@types/node':
         specifier: ^20
         version: 20.19.27
