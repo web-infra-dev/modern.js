@@ -84,7 +84,7 @@
       "build": {
         "outputs": [
           "{projectRoot}/dist",
-          "{projectRoot}/main-doc"
+          "{projectRoot}/docs"
         ]
       }
     }

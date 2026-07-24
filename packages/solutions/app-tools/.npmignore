@@ -31,5 +31,5 @@ CHANGELOG.md
 
 
 # docs bundle for AI agents (copy-main-doc.mjs) — re-include everything
-!main-doc/
-!main-doc/**
+!docs/
+!docs/**
