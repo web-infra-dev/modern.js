@@ -41,7 +41,7 @@ execSync('node ./scripts/copy-main-doc.mjs', {
 const packJson = JSON.parse(
   execSync('npm pack --dry-run --json', { cwd: appTools, encoding: 'utf-8' }),
 );
-const bundled = packJson[0].files.filter(f => f.path.startsWith('main-doc/'));
+const bundled = packJson[0].files.filter(f => f.path.startsWith('docs/'));
 if (bundled.length !== sourceFiles.length) {
   console.error(
     `[check-doc-bundle] tarball has ${bundled.length} doc files, source has ${sourceFiles.length}`,
@@ -60,7 +60,7 @@ if (bundleSize > SIZE_LIMIT) {
 const importRegex = /from\s+'(@site-docs-en\/[^']+|\.{1,2}\/[^']+)'/g;
 const bundledPaths = new Set(bundled.map(f => f.path));
 const resolvesInBundle = spec => {
-  const rel = spec.replace('@site-docs-en/', 'main-doc/');
+  const rel = spec.replace('@site-docs-en/', 'docs/');
   return [
     '',
     '.mdx',
@@ -95,9 +95,9 @@ for (const entry of sourceFiles) {
       // relative import — resolve against the file's own directory
       const relDir = path.relative(docsSource, path.dirname(filePath));
       const resolved = path
-        .join('main-doc', relDir, spec)
+        .join('docs', relDir, spec)
         .replaceAll(path.sep, '/');
-      if (!resolvesInBundle(resolved.replace('main-doc/', '@site-docs-en/'))) {
+      if (!resolvesInBundle(resolved.replace('docs/', '@site-docs-en/'))) {
         console.error(
           `[check-doc-bundle] unresolvable relative import "${spec}" in ${filePath}`,
         );
