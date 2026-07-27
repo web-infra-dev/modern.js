@@ -5,20 +5,11 @@ sidebar_position: 6
 
 # Modern.js For AI
 
-Modern.js 为 AI Agent 提供了一套工具套件，帮助开发者利用 AI 高效完成 Modern.js 应用的功能开发、依赖升级与版本迁移工作。
-
-## llms.txt
-
-Modern.js 文档遵循 [llms.txt 规范](https://llmstxt.org/)，由 [`@rspress/plugin-llms`](https://rspress.rs/plugin/official-plugins/llms) 自动生成，可通过 `/llms.txt` 或 `/llms-full.txt` 供 AI 工具检索：
-
-- 索引：[`https://modernjs.dev/llms.txt`](https://modernjs.dev/llms.txt)
-- 全文：`https://modernjs.dev/llms-full.txt`（体积较大，按需取片段）
-
-大部分「这个 API / 配置是什么」类问题，靠 llms.txt 即可解决。让你的 Agent 按需检索它即可，不必把文档复制进项目。
+Modern.js 为 AI Agent 提供了一套工具套件，帮助开发者利用 AI 高效完成功能开发、依赖升级与版本迁移。它分三层：优先用**随包文档 + AGENTS.md**（默认、离线、与安装版本匹配），覆盖不到时用 **llms.txt** 在线兜底，多步骤流程交给 **Skills**。
 
 ## 随包文档与 AGENTS.md
 
-新建的 Modern.js 项目开箱即为 agent-ready：
+这是 AI Agent 获取 Modern.js 知识的**首选来源**。新建的 Modern.js 项目开箱即为 agent-ready：
 
 - **随包文档**：`@modern-js/app-tools` 内置了与安装版本一致的英文文档，位于 `node_modules/@modern-js/app-tools/docs/`，离线可用。
 - **AGENTS.md / CLAUDE.md**：`npx @modern-js/create` 自动生成，引导 AI 编码助手在写代码前先读随包文档，而不是依赖过时的训练数据。
@@ -34,6 +25,17 @@ npx @modern-js/create agents-md
 ```
 
 可随时重复运行以同步到最新版本，你的自定义内容会被保留。
+
+## llms.txt（在线兜底）
+
+随包文档只包含你**当前安装的版本**，并为控制体积裁掉了少数章节（社区、教程、插件开发）。遇到随包文档覆盖不到的场景——查阅其他版本、被裁掉的章节，或对照最新的在线文档——再用 llms.txt。
+
+Modern.js 文档遵循 [llms.txt 规范](https://llmstxt.org/)，由 [`@rspress/plugin-llms`](https://rspress.rs/plugin/official-plugins/llms) 自动生成：
+
+- 索引：[`https://modernjs.dev/llms.txt`](https://modernjs.dev/llms.txt)
+- 全文：`https://modernjs.dev/llms-full.txt`（体积较大，按需取片段）
+
+让 Agent 按需在线检索即可，不必把文档复制进项目。
 
 ## Skills
 
