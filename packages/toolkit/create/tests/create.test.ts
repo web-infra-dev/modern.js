@@ -88,14 +88,31 @@ describe('positional argument parsing', () => {
   });
 });
 
-describe('agents-md codemod (existing projects)', () => {
+describe('--agents-md-only (existing projects)', () => {
   const BEGIN = '<!-- BEGIN:modernjs-agent-rules -->';
   const END = '<!-- END:modernjs-agent-rules -->';
   const read = (name: string) =>
     fs.readFileSync(path.join(workdir, name), 'utf-8');
 
-  it('creates AGENTS.md and CLAUDE.md when neither exists', () => {
+  it('errors when combined with a project name', () => {
+    expect(() => runCreate(['--agents-md-only', 'my-app'])).toThrow();
+    expect(fs.existsSync(path.join(workdir, 'my-app'))).toBe(false);
+    expect(fs.existsSync(path.join(workdir, 'AGENTS.md'))).toBe(false);
+  });
+
+  it('errors when combined with --no-agents-md', () => {
+    expect(() => runCreate(['--agents-md-only', '--no-agents-md'])).toThrow();
+  });
+
+  it('no longer reserves "agents-md" as a project name', () => {
     runCreate(['agents-md']);
+    expect(fs.existsSync(path.join(workdir, 'agents-md/package.json'))).toBe(
+      true,
+    );
+  });
+
+  it('creates AGENTS.md and CLAUDE.md when neither exists', () => {
+    runCreate(['--agents-md-only']);
 
     const agents = read('AGENTS.md');
     expect(agents).toContain(BEGIN);
@@ -109,7 +126,7 @@ describe('agents-md codemod (existing projects)', () => {
       path.join(workdir, 'AGENTS.md'),
       `${BEGIN}\nOLD: node_modules/@modern-js/app-tools/main-doc/docs/en/\n${END}\n\n# My custom rules\nkeep me\n`,
     );
-    runCreate(['agents-md']);
+    runCreate(['--agents-md-only']);
 
     const agents = read('AGENTS.md');
     // stale path replaced with the current one, user content preserved
@@ -121,7 +138,7 @@ describe('agents-md codemod (existing projects)', () => {
 
   it('prepends the managed block above existing content when AGENTS.md has no markers', () => {
     fs.writeFileSync(path.join(workdir, 'AGENTS.md'), '# My rules\ndo X\n');
-    runCreate(['agents-md']);
+    runCreate(['--agents-md-only']);
 
     const agents = read('AGENTS.md');
     expect(agents).toContain('do X');
@@ -136,7 +153,7 @@ describe('agents-md codemod (existing projects)', () => {
       path.join(workdir, 'CLAUDE.md'),
       '# existing claude config\nsome rule\n',
     );
-    runCreate(['agents-md']);
+    runCreate(['--agents-md-only']);
 
     const claude = read('CLAUDE.md');
     expect(claude.split('\n').some(l => l.trim() === '@AGENTS.md')).toBe(true);
@@ -144,9 +161,9 @@ describe('agents-md codemod (existing projects)', () => {
   });
 
   it('is idempotent on a second run', () => {
-    runCreate(['agents-md']);
+    runCreate(['--agents-md-only']);
     const first = read('AGENTS.md') + read('CLAUDE.md');
-    runCreate(['agents-md']);
+    runCreate(['--agents-md-only']);
     const second = read('AGENTS.md') + read('CLAUDE.md');
     expect(second).toBe(first);
   });

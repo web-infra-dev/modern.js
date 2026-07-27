@@ -18,7 +18,7 @@ AI agents use them to get APIs, config, and conventions that exactly match your 
 `AGENTS.md` gives AI coding agents project-level guidance — telling them to read the bundled docs before making changes and to follow Modern.js conventions. A `CLAUDE.md` is generated alongside it, reusing the same guidance for Claude Code via the `@AGENTS.md` import.
 
 - **New projects**: `npx @modern-js/create` generates both files by default; pass `--no-agents-md` to skip them.
-- **Existing projects**: run `npx @modern-js/create agents-md` at the project root to create or update them. Re-run it any time; your own additions are preserved.
+- **Existing projects**: run `npx @modern-js/create --agents-md-only` at the project root to create or update them. Re-run it any time; your own additions are preserved.
 
 Modern.js only maintains the content inside the `<!-- BEGIN:modernjs-agent-rules -->` markers in `AGENTS.md`; anything you write outside them is left untouched.
 

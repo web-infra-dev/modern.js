@@ -6,6 +6,8 @@ export const ZH_LOCALE = {
     projectNameEmpty: '错误: 项目名称不能为空',
     directoryExists: '错误: 目录 "{projectName}" 已存在且不为空',
     createFailed: '创建项目时出错:',
+    agentsMdOnlyConflict:
+      '错误: --agents-md-only 只更新当前项目，不能与项目名或 --no-agents-md 同时使用',
   },
   message: {
     welcome: '🚀 欢迎使用 Modern.js',
@@ -38,12 +40,14 @@ export const ZH_LOCALE = {
     optionSub: '  -s, --sub       标记为子项目（monorepo 中的子包）',
     optionNoAgentsMd:
       '  --no-agents-md  跳过生成 AGENTS.md / CLAUDE.md（AI 编码助手指引文件）',
+    optionAgentsMdOnly:
+      '  --agents-md-only  仅为当前项目补齐/更新 AGENTS.md / CLAUDE.md（不创建项目）',
     examples: '💡 示例:',
     example1: '  create my-app',
     example2: '  create my-app --lang zh',
     example3: '  create my-app --sub',
     example4:
-      '  create agents-md   (为已有项目补齐/更新 AGENTS.md 和 CLAUDE.md)',
+      '  create --agents-md-only   (为已有项目补齐/更新 AGENTS.md 和 CLAUDE.md)',
     moreInfo: '📚 更多信息: https://modernjs.dev',
   },
   version: {
