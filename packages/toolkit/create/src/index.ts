@@ -3,6 +3,7 @@ import path from 'node:path';
 import readline from 'node:readline';
 import { fileURLToPath } from 'node:url';
 import { getLocaleLanguage } from '@modern-js/i18n-utils/language-detector';
+import { runAgentsMd } from './agents-md';
 import { i18n, localeKeys } from './locale';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
@@ -183,6 +184,17 @@ async function main() {
 
   if (args.includes('--version') || args.includes('-v')) {
     showVersion();
+    return;
+  }
+
+  // Subcommand for existing projects: add/refresh AGENTS.md & CLAUDE.md so
+  // agents pick up the bundled docs after an upgrade (idempotent).
+  if (args[0] === 'agents-md') {
+    const dirArg = args.slice(1).find(arg => !arg.startsWith('-'));
+    const targetDir = dirArg
+      ? path.resolve(process.cwd(), dirArg)
+      : process.cwd();
+    runAgentsMd(templateDir, targetDir);
     return;
   }
 

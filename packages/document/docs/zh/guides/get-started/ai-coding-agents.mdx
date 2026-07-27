@@ -25,6 +25,8 @@ Modern.js 文档遵循 [llms.txt 规范](https://llmstxt.org/)，由 [`@rspress/
 
 `AGENTS.md` 中由 Modern.js 管理的部分包裹在 `<!-- BEGIN:modernjs-agent-rules -->` / `<!-- END:modernjs-agent-rules -->` 标记内。标记之外的内容完全归你所有，Modern.js 工具永远不会改动。
 
+**已有项目**：升级 `@modern-js/app-tools` 后随包文档会自动出现在 `node_modules` 中；在项目根运行 `npx @modern-js/create agents-md` 即可补齐或更新 `AGENTS.md` / `CLAUDE.md`。该命令是幂等的——已存在的托管标记块会被就地更新，标记之外的自定义内容不受影响；没有标记块的 `AGENTS.md` 会被追加托管块，缺失的 `CLAUDE.md` 会补上 `@AGENTS.md` 引用。
+
 ## Skills
 
 Skills 是按需触发的 AI 辅助能力，遵循 [Agent Skills 开放标准](https://github.com/vercel-labs/skills)。用户向 Skills：

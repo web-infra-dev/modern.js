@@ -25,6 +25,8 @@ Every new Modern.js project is agent-ready out of the box:
 
 The Modern.js-managed part of `AGENTS.md` is wrapped in `<!-- BEGIN:modernjs-agent-rules -->` / `<!-- END:modernjs-agent-rules -->` markers. Anything you write outside the markers is yours and will never be touched by Modern.js tooling.
 
+**Existing projects**: after you upgrade `@modern-js/app-tools`, the bundled docs show up in `node_modules` automatically; run `npx @modern-js/create agents-md` at the project root to add or refresh `AGENTS.md` / `CLAUDE.md`. The command is idempotent — an existing managed block is updated in place, your own content outside the markers is left untouched, an `AGENTS.md` without the block gets it appended, and a missing `CLAUDE.md` gets the `@AGENTS.md` import.
+
 ## Skills
 
 Skills are on-demand AI capabilities following the [Agent Skills open standard](https://github.com/vercel-labs/skills). User-facing Skills:

@@ -18,6 +18,15 @@ export const EN_LOCALE = {
     step2: 'pnpm install',
     step3: 'pnpm dev',
   },
+  agentsCmd: {
+    created: '✔ Created {file}',
+    updatedBlock: '✔ Updated the modernjs-agent-rules block in {file}',
+    appendedBlock: '✔ Added the modernjs-agent-rules block to {file}',
+    linked: '✔ Added the `@AGENTS.md` import to {file}',
+    unchanged: '• {file} is already up to date',
+    done: '✨ Done — AI coding agents will read the bundled docs in node_modules/@modern-js/app-tools/docs/.',
+    targetNotFound: 'Error: target directory "{dir}" does not exist',
+  },
   help: {
     title: '🚀 Modern.js Project Creator',
     description: 'Create a new Modern.js project with ease',
@@ -34,7 +43,8 @@ export const EN_LOCALE = {
     example1: '  create my-app',
     example2: '  create my-app --lang zh',
     example3: '  create my-app --sub',
-    example4: '  create --help',
+    example4:
+      '  create agents-md   (add/refresh AGENTS.md & CLAUDE.md in an existing project)',
     moreInfo: '📚 Learn more: https://modernjs.dev',
   },
   version: {

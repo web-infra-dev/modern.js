@@ -17,6 +17,15 @@ export const ZH_LOCALE = {
     step2: 'pnpm install',
     step3: 'pnpm dev',
   },
+  agentsCmd: {
+    created: '✔ 已创建 {file}',
+    updatedBlock: '✔ 已更新 {file} 中的 modernjs-agent-rules 块',
+    appendedBlock: '✔ 已向 {file} 追加 modernjs-agent-rules 块',
+    linked: '✔ 已向 {file} 添加 `@AGENTS.md` 引用',
+    unchanged: '• {file} 已是最新',
+    done: '✨ 完成 —— AI 编码助手会读取 node_modules/@modern-js/app-tools/docs/ 里的随包文档。',
+    targetNotFound: '错误: 目标目录 "{dir}" 不存在',
+  },
   help: {
     title: '🚀 Modern.js 项目创建工具',
     description: '快速创建一个新的 Modern.js 项目',
@@ -33,7 +42,8 @@ export const ZH_LOCALE = {
     example1: '  create my-app',
     example2: '  create my-app --lang zh',
     example3: '  create my-app --sub',
-    example4: '  create --help',
+    example4:
+      '  create agents-md   (为已有项目补齐/更新 AGENTS.md 和 CLAUDE.md)',
     moreInfo: '📚 更多信息: https://modernjs.dev',
   },
   version: {
