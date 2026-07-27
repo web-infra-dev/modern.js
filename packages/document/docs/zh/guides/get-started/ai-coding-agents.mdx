@@ -5,37 +5,31 @@ sidebar_position: 6
 
 # Modern.js For AI
 
-Modern.js 为 AI Agent 提供了一套工具套件，帮助开发者利用 AI 高效完成功能开发、依赖升级与版本迁移。它分三层：优先用**随包文档 + AGENTS.md**（默认、离线、与安装版本匹配），覆盖不到时用 **llms.txt** 在线兜底，多步骤流程交给 **Skills**。
+Modern.js 为 AI Agent 提供了一套工具套件，让项目开箱即为 agent-ready，帮助你更准确、高效地用 AI 完成 Modern.js 应用的开发、升级与迁移。
 
-## 随包文档与 AGENTS.md
+## 随包文档
 
-这是 AI Agent 获取 Modern.js 知识的**首选来源**。新建的 Modern.js 项目开箱即为 agent-ready：
+Modern.js 把与你安装版本一致的英文文档随 `@modern-js/app-tools` 一起分发。安装或升级后，文档即位于 `node_modules/@modern-js/app-tools/docs/`，离线可用、无需额外配置。
 
-- **随包文档**：`@modern-js/app-tools` 内置了与安装版本一致的英文文档，位于 `node_modules/@modern-js/app-tools/docs/`，离线可用。
-- **AGENTS.md / CLAUDE.md**：`npx @modern-js/create` 自动生成，引导 AI 编码助手在写代码前先读随包文档，而不是依赖过时的训练数据。
+AI Agent 由此获取与当前框架版本严格匹配的 API、配置与约定，而不是依赖可能过时的训练数据。
 
-Modern.js 只维护 `AGENTS.md` 中 `<!-- BEGIN:modernjs-agent-rules -->` 标记内的内容，标记之外你自己写的内容不会被改动。不需要时加 `--no-agents-md` 可跳过生成。
+## AGENTS.md / CLAUDE.md
 
-### 已有项目
+`AGENTS.md` 是给 AI 编码助手的项目指引，告诉它在动手前先阅读随包文档、并遵循 Modern.js 的约定；`CLAUDE.md` 通过 `@AGENTS.md` 让 Claude Code 复用同一份指引。
 
-升级 `@modern-js/app-tools` 后，随包文档会自动出现在 `node_modules` 中。在项目根运行以下命令，即可生成或更新 `AGENTS.md` / `CLAUDE.md`：
+- **新建项目**：`npx @modern-js/create` 默认生成这两个文件，加 `--no-agents-md` 可跳过。
+- **已有项目**：在项目根运行 `npx @modern-js/create agents-md` 生成或更新，可随时重复运行，你添加的自定义内容会被保留。
 
-```bash
-npx @modern-js/create agents-md
-```
+Modern.js 只维护 `AGENTS.md` 中 `<!-- BEGIN:modernjs-agent-rules -->` 标记内的内容，标记之外你写的内容不会被改动。
 
-可随时重复运行以同步到最新版本，你的自定义内容会被保留。
+## llms.txt
 
-## llms.txt（在线兜底）
-
-随包文档只包含你**当前安装的版本**，并为控制体积裁掉了少数章节（社区、教程、插件开发）。遇到随包文档覆盖不到的场景——查阅其他版本、被裁掉的章节，或对照最新的在线文档——再用 llms.txt。
-
-Modern.js 文档遵循 [llms.txt 规范](https://llmstxt.org/)，由 [`@rspress/plugin-llms`](https://rspress.rs/plugin/official-plugins/llms) 自动生成：
+llms.txt 是遵循 [llms.txt 规范](https://llmstxt.org/) 的在线文档索引，由 [`@rspress/plugin-llms`](https://rspress.rs/plugin/official-plugins/llms) 自动生成，供 AI 工具在线检索完整文档：
 
 - 索引：[`https://modernjs.dev/llms.txt`](https://modernjs.dev/llms.txt)
 - 全文：`https://modernjs.dev/llms-full.txt`（体积较大，按需取片段）
 
-让 Agent 按需在线检索即可，不必把文档复制进项目。
+当需要查阅随包文档之外的内容（例如其他框架版本，或随包未包含的章节）时，让 Agent 在线检索它即可，不必把文档复制进项目。
 
 ## Skills
 
