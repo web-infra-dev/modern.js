@@ -13,9 +13,9 @@ Modern.js 把与你安装版本一致的英文文档随 `@modern-js/app-tools` �
 
 AI Agent 由此获取与当前框架版本严格匹配的 API、配置与约定，而不是依赖可能过时的训练数据。
 
-## AGENTS.md / CLAUDE.md
+## AGENTS.md
 
-`AGENTS.md` 是给 AI 编码助手的项目指引，告诉它在动手前先阅读随包文档、并遵循 Modern.js 的约定；`CLAUDE.md` 通过 `@AGENTS.md` 让 Claude Code 复用同一份指引。
+`AGENTS.md` 是给 AI 编码助手的项目指引，告诉它在动手前先阅读随包文档、并遵循 Modern.js 的约定；同时会生成 `CLAUDE.md`，通过 `@AGENTS.md` 让 Claude Code 复用同一份指引。
 
 - **新建项目**：`npx @modern-js/create` 默认生成这两个文件，加 `--no-agents-md` 可跳过。
 - **已有项目**：在项目根运行 `npx @modern-js/create agents-md` 生成或更新，可随时重复运行，你添加的自定义内容会被保留。
@@ -27,9 +27,9 @@ Modern.js 只维护 `AGENTS.md` 中 `<!-- BEGIN:modernjs-agent-rules -->` 标记
 llms.txt 是遵循 [llms.txt 规范](https://llmstxt.org/) 的在线文档索引，由 [`@rspress/plugin-llms`](https://rspress.rs/plugin/official-plugins/llms) 自动生成，供 AI 工具在线检索完整文档：
 
 - 索引：[`https://modernjs.dev/llms.txt`](https://modernjs.dev/llms.txt)
-- 全文：`https://modernjs.dev/llms-full.txt`（体积较大，按需取片段）
+- 全文：[`https://modernjs.dev/llms-full.txt`](https://modernjs.dev/llms-full.txt)（体积较大，按需取片段）
 
-当需要查阅随包文档之外的内容（例如其他框架版本，或随包未包含的章节）时，让 Agent 在线检索它即可，不必把文档复制进项目。
+当需要查阅随包文档之外的内容时，让 Agent 在线检索它即可，不必把文档复制进项目。典型场景包括：查阅其他框架版本、随包未包含的章节，或在 Modern.js 项目之外获取信息（例如尚未创建项目、或独立查阅资料时）。
 
 ## Skills
 
