@@ -1,9 +1,7 @@
 import type { Server as NodeServer } from 'node:http';
 import type { Http2SecureServer } from 'node:http2';
 import type { Server as NodeHttpsServer } from 'node:https';
-import path from 'node:path';
 import type { BuilderInstance, Rspack } from '@modern-js/builder';
-import { AGGRED_DIR } from '@modern-js/server-core';
 import type {
   FileChangeEvent,
   ServerBase,
@@ -18,7 +16,9 @@ import {
   getDevOptions,
   getMockMiddleware,
   initFileReader,
+  isPathInsideDirectory,
   onRepack,
+  resolveMockDirectory,
   startWatcher,
 } from './helpers';
 import type { ModernDevServerOptions } from './types';
@@ -83,7 +83,10 @@ export const devRuntimeMiddlewarePlugin = (
         });
       });
 
-      const mockMiddleware = await getMockMiddleware(pwd);
+      const mockMiddleware = await getMockMiddleware(
+        pwd,
+        options.config?.dev?.mockDir,
+      );
 
       middlewares.push({
         name: 'mock-dev',
@@ -191,12 +194,14 @@ export function setupDevInfra({
   // reload (which re-runs getMockMiddleware) and were NEVER part of the
   // `onReset` file-change signal pre-refactor, so they stay excluded here to
   // keep `onReset`'s emission byte-identical to the old watcher behavior.
-  const mockPath = path.normalize(path.join(pwd, AGGRED_DIR.mock));
+  const mockDir = config.dev?.mockDir;
+  const mockPath = resolveMockDirectory(pwd, mockDir);
   const watcher = startWatcher({
     pwd,
     distDir,
     apiDir: apiDir || API_DIR,
     sharedDir: sharedDir || SHARED_DIR,
+    mockDir,
     watchOptions,
     onChange: (filepath, event) => {
       // Re-emit the public `file-change` onReset signal on the LIVE runtime
@@ -207,7 +212,7 @@ export function setupDevInfra({
       // process on it. No-op for modern.js's own plugins. The unified runtime
       // reload below is the modern.js reaction and is unchanged.
       const runtimeServer = getRuntimeServer();
-      if (runtimeServer && !filepath.startsWith(mockPath)) {
+      if (runtimeServer && !isPathInsideDirectory(filepath, mockPath)) {
         const fileChangeEvent: FileChangeEvent = {
           type: 'file-change',
           payload: [{ filename: filepath, event }],

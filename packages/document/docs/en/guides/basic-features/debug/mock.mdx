@@ -20,6 +20,17 @@ By convention, when there is an `index.ts` in the `config/mock/` directory, mock
 └── modern.config.ts
 ```
 
+You can use [`dev.mockDir`](/configure/app/dev/mock-dir) to place the
+Mock entry in another directory:
+
+```js title="modern.config.ts"
+export default {
+  dev: {
+    mockDir: './mocks',
+  },
+};
+```
+
 ## Writing Mock Files
 
 The `config/mock/index.ts` file only needs to export an object containing all Mock APIs. The properties of the object are composed of the request configuration `method` and `url`, and the corresponding property values can be `Object`, `Array`, or `Function`:
