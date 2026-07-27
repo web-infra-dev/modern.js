@@ -18,14 +18,22 @@ Most "what is this API / config" questions can be answered from llms.txt. Just l
 
 ## Bundled docs & AGENTS.md
 
-Every new Modern.js project is agent-ready out of the box:
+A new Modern.js project is agent-ready out of the box:
 
-- **Bundled docs**: the `@modern-js/app-tools` package ships the English docs at `node_modules/@modern-js/app-tools/docs/` — they always match your installed framework version, no network required.
-- **AGENTS.md / CLAUDE.md**: `npx @modern-js/create` generates both files by default. `AGENTS.md` instructs agents to read the bundled docs before writing any Modern.js code (so they don't rely on outdated training data); `CLAUDE.md` includes it for Claude Code via the `@AGENTS.md` directive. Pass `--no-agents-md` to skip generating them; they are also skipped in `--sub` (subproject) mode, where agent files belong to the monorepo root.
+- **Bundled docs**: `@modern-js/app-tools` ships the English docs that match your installed version at `node_modules/@modern-js/app-tools/docs/`, available offline.
+- **AGENTS.md / CLAUDE.md**: `npx @modern-js/create` generates them automatically, telling AI coding agents to read the bundled docs before writing code instead of relying on outdated training data.
 
-The Modern.js-managed part of `AGENTS.md` is wrapped in `<!-- BEGIN:modernjs-agent-rules -->` / `<!-- END:modernjs-agent-rules -->` markers. Anything you write outside the markers is yours and will never be touched by Modern.js tooling.
+Modern.js only maintains the content inside the `<!-- BEGIN:modernjs-agent-rules -->` markers in `AGENTS.md`; anything you add outside them is left untouched. Pass `--no-agents-md` to skip generating them.
 
-**Existing projects**: after you upgrade `@modern-js/app-tools`, the bundled docs show up in `node_modules` automatically; run `npx @modern-js/create agents-md` at the project root to add or refresh `AGENTS.md` / `CLAUDE.md`. The command is idempotent — an existing managed block is updated in place, your own content outside the markers is left untouched, an `AGENTS.md` without the block gets it appended, and a missing `CLAUDE.md` gets the `@AGENTS.md` import.
+### Existing projects
+
+After you upgrade `@modern-js/app-tools`, the bundled docs appear in `node_modules` automatically. Run this at the project root to create or update `AGENTS.md` / `CLAUDE.md`:
+
+```bash
+npx @modern-js/create agents-md
+```
+
+Re-run it any time to sync to the latest version; your own edits are preserved.
 
 ## Skills
 

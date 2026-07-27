@@ -18,14 +18,22 @@ Modern.js 文档遵循 [llms.txt 规范](https://llmstxt.org/)，由 [`@rspress/
 
 ## 随包文档与 AGENTS.md
 
-每个新建的 Modern.js 项目都开箱即为 agent-ready：
+新建的 Modern.js 项目开箱即为 agent-ready：
 
-- **随包文档**：`@modern-js/app-tools` 包内置了英文文档（`node_modules/@modern-js/app-tools/docs/`）——与你安装的框架版本严格一致，离线可用。
-- **AGENTS.md / CLAUDE.md**：`npx @modern-js/create` 默认生成这两个文件。`AGENTS.md` 指示 agent 在编写任何 Modern.js 代码前先阅读随包文档（避免依赖过时的训练数据）；`CLAUDE.md` 通过 `@AGENTS.md` 指令供 Claude Code 引用。可通过 `--no-agents-md` 跳过生成；`--sub`（子项目）模式下也不会生成——monorepo 场景的 agent 文件应由仓库根统一管理。
+- **随包文档**：`@modern-js/app-tools` 内置了与安装版本一致的英文文档，位于 `node_modules/@modern-js/app-tools/docs/`，离线可用。
+- **AGENTS.md / CLAUDE.md**：`npx @modern-js/create` 自动生成，引导 AI 编码助手在写代码前先读随包文档，而不是依赖过时的训练数据。
 
-`AGENTS.md` 中由 Modern.js 管理的部分包裹在 `<!-- BEGIN:modernjs-agent-rules -->` / `<!-- END:modernjs-agent-rules -->` 标记内。标记之外的内容完全归你所有，Modern.js 工具永远不会改动。
+Modern.js 只维护 `AGENTS.md` 中 `<!-- BEGIN:modernjs-agent-rules -->` 标记内的内容，标记之外你自己写的内容不会被改动。不需要时加 `--no-agents-md` 可跳过生成。
 
-**已有项目**：升级 `@modern-js/app-tools` 后随包文档会自动出现在 `node_modules` 中；在项目根运行 `npx @modern-js/create agents-md` 即可补齐或更新 `AGENTS.md` / `CLAUDE.md`。该命令是幂等的——已存在的托管标记块会被就地更新，标记之外的自定义内容不受影响；没有标记块的 `AGENTS.md` 会被追加托管块，缺失的 `CLAUDE.md` 会补上 `@AGENTS.md` 引用。
+### 已有项目
+
+升级 `@modern-js/app-tools` 后，随包文档会自动出现在 `node_modules` 中。在项目根运行以下命令，即可生成或更新 `AGENTS.md` / `CLAUDE.md`：
+
+```bash
+npx @modern-js/create agents-md
+```
+
+可随时重复运行以同步到最新版本，你的自定义内容会被保留。
 
 ## Skills
 
