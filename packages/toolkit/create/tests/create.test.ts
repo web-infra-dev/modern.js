@@ -119,14 +119,16 @@ describe('agents-md codemod (existing projects)', () => {
     expect(agents).toContain('keep me');
   });
 
-  it('appends the managed block when AGENTS.md has no markers', () => {
+  it('prepends the managed block above existing content when AGENTS.md has no markers', () => {
     fs.writeFileSync(path.join(workdir, 'AGENTS.md'), '# My rules\ndo X\n');
     runCreate(['agents-md']);
 
     const agents = read('AGENTS.md');
     expect(agents).toContain('do X');
-    expect(agents).toContain(BEGIN);
     expect(agents).toContain('node_modules/@modern-js/app-tools/docs/');
+    // managed block leads the file, user content stays below it
+    expect(agents.startsWith(BEGIN)).toBe(true);
+    expect(agents.indexOf(BEGIN)).toBeLessThan(agents.indexOf('# My rules'));
   });
 
   it('adds the @AGENTS.md import to an existing CLAUDE.md', () => {

@@ -57,10 +57,11 @@ function applyAgentsMd(targetDir: string, block: string): void {
     return;
   }
 
-  // No managed block yet: append ours, keeping the existing content intact.
-  const base = content.replace(/\s*$/, '');
-  fs.writeFileSync(file, `${base}\n\n${block}\n`, 'utf-8');
-  report(localeKeys.agentsCmd.appendedBlock, 'AGENTS.md');
+  // No managed block yet: put ours at the top (the "read the docs first" rule
+  // should lead the file), keeping the user's existing content below it.
+  const rest = content.replace(/^\s*/, '');
+  fs.writeFileSync(file, rest ? `${block}\n\n${rest}` : `${block}\n`, 'utf-8');
+  report(localeKeys.agentsCmd.addedBlock, 'AGENTS.md');
 }
 
 // Create CLAUDE.md as an @AGENTS.md import, or add the import to an existing

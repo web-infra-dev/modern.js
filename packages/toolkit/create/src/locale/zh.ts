@@ -20,7 +20,7 @@ export const ZH_LOCALE = {
   agentsCmd: {
     created: '✔ 已创建 {file}',
     updatedBlock: '✔ 已更新 {file} 中的 modernjs-agent-rules 块',
-    appendedBlock: '✔ 已向 {file} 追加 modernjs-agent-rules 块',
+    addedBlock: '✔ 已在 {file} 顶部添加 modernjs-agent-rules 块',
     linked: '✔ 已向 {file} 添加 `@AGENTS.md` 引用',
     unchanged: '• {file} 已是最新',
     done: '✨ 完成 —— AI 编码助手会读取 node_modules/@modern-js/app-tools/docs/ 里的随包文档。',

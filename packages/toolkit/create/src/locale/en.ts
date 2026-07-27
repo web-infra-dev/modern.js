@@ -21,7 +21,7 @@ export const EN_LOCALE = {
   agentsCmd: {
     created: '✔ Created {file}',
     updatedBlock: '✔ Updated the modernjs-agent-rules block in {file}',
-    appendedBlock: '✔ Added the modernjs-agent-rules block to {file}',
+    addedBlock: '✔ Added the modernjs-agent-rules block to the top of {file}',
     linked: '✔ Added the `@AGENTS.md` import to {file}',
     unchanged: '• {file} is already up to date',
     done: '✨ Done — AI coding agents will read the bundled docs in node_modules/@modern-js/app-tools/docs/.',
