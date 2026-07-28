@@ -1,5 +1,41 @@
 import path from 'node:path';
-import { isSubDirOrEqual } from '../../src/plugins/analyze/utils';
+import {
+  checkIsBuildCommands,
+  isSubDirOrEqual,
+} from '../../src/plugins/analyze/utils';
+
+describe('checkIsBuildCommands', () => {
+  const originalModernArgv = process.env.MODERN_ARGV;
+
+  afterEach(() => {
+    if (originalModernArgv === undefined) {
+      delete process.env.MODERN_ARGV;
+    } else {
+      process.env.MODERN_ARGV = originalModernArgv;
+    }
+  });
+
+  it('uses the argv command when it is a build command', () => {
+    process.env.MODERN_ARGV = 'node modern build';
+
+    expect(checkIsBuildCommands()).toBe(true);
+  });
+
+  it('falls back to the app context for programmatic dev and start', () => {
+    process.env.MODERN_ARGV = 'node rstest test';
+
+    expect(checkIsBuildCommands('dev')).toBe(true);
+    expect(checkIsBuildCommands('start')).toBe(true);
+  });
+
+  it('does not fall back for other programmatic commands', () => {
+    process.env.MODERN_ARGV = 'node rstest test';
+
+    expect(checkIsBuildCommands('build')).toBe(false);
+    expect(checkIsBuildCommands('deploy')).toBe(false);
+    expect(checkIsBuildCommands('analyze')).toBe(false);
+  });
+});
 
 describe('isSubDirOrEqual', () => {
   it('should return true for the same directories', () => {

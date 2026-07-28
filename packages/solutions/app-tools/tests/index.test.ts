@@ -1,4 +1,4 @@
-import appToolsDefault, { appTools, mergeConfig } from '../src';
+import appToolsDefault, { appTools, closeServer, mergeConfig } from '../src';
 
 describe('app-tools export', () => {
   it('default export', () => {
@@ -7,6 +7,7 @@ describe('app-tools export', () => {
 
   it('named export', () => {
     expect(appTools).toBeDefined();
+    expect(closeServer).toBeDefined();
   });
 });
 

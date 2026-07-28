@@ -170,6 +170,7 @@ export { defineConfig } from './defineConfig';
 
 export { dev } from './commands/dev';
 export { serve } from './commands/serve';
+export { closeServer } from './utils/createServer';
 export type { DevOptions } from './utils/types';
 export { generateWatchFiles } from './utils/generateWatchFiles';
 export {
