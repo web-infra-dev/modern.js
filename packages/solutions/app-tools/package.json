@@ -82,10 +82,20 @@
   "nx": {
     "targets": {
       "build": {
+        "dependsOn": [
+          "^build",
+          {
+            "projects": [
+              "@modern-js/main-doc"
+            ],
+            "target": "build"
+          }
+        ],
         "inputs": [
           "build",
           "^build",
-          "{workspaceRoot}/packages/document/docs/en/**/*"
+          "{workspaceRoot}/packages/document/doc_build/**/*.md",
+          "{workspaceRoot}/packages/document/doc_build/llms.txt"
         ],
         "outputs": [
           "{projectRoot}/dist",
