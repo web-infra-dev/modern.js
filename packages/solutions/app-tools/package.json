@@ -77,7 +77,8 @@
   },
   "bin": {
     "modern": "./bin/modern.js",
-    "modern-app": "./bin/modern.js"
+    "modern-app": "./bin/modern.js",
+    "modern-bundle-docs": "./scripts/copy-docs.mjs"
   },
   "nx": {
     "targets": {
@@ -107,7 +108,7 @@
   "scripts": {
     "prepublishOnly": "only-allow-pnpm",
     "dev": "rslib build --watch",
-    "build": "rslib build && node ./scripts/copy-main-doc.mjs",
+    "build": "rslib build && node ./scripts/copy-docs.mjs",
     "test": "rstest"
   },
   "dependencies": {

@@ -26,12 +26,14 @@
     "create": "./bin/run.js"
   },
   "exports": {
-    ".": "./dist/index.js"
+    ".": "./dist/index.js",
+    "./agent-files": "./agent-files.mjs"
   },
   "files": [
     "template",
     "dist",
-    "bin.js"
+    "bin.js",
+    "agent-files.mjs"
   ],
   "scripts": {
     "build": "rslib build",
