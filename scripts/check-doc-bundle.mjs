@@ -2,6 +2,11 @@ import { execSync } from 'node:child_process';
 import fs from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
+import {
+  UNRENDERED_COMPONENT,
+  UNRESOLVED_IMPORT,
+  stripCode,
+} from './doc-bundle-rules.mjs';
 
 // Validates the docs bundle that ships inside the @modern-js/app-tools tarball
 // (created by packages/solutions/app-tools/scripts/copy-docs.mjs):
@@ -18,22 +23,6 @@ const docsBuild = path.join(repoRoot, 'packages/document/doc_build');
 const appTools = path.join(repoRoot, 'packages/solutions/app-tools');
 
 const SIZE_LIMIT = 2 * 1024 * 1024;
-// Imports that would mean the page still depends on the docs site to render.
-const UNRESOLVED_IMPORT =
-  /^import\s.*\sfrom\s+'(@site-docs[^']*|@theme|@site\/[^']*)'/m;
-// A component tag that survived the build renders as literal text for an
-// agent, so its content never reaches the bundle. The build strips the
-// imports, which is why checking those alone is not enough.
-//
-// Only self-closing tags or tags with attributes count: bare `<Name>` also
-// appears inside type signatures like `Promise<RsbuildConfig>`, which is prose,
-// not an unrendered component.
-const UNRENDERED_COMPONENT =
-  /<(ReleaseNote|PackageManagerTabs|RsbuildConfig|OverviewCard|SourceCode)(\s[^>]*)?\/>/;
-// Fenced code blocks legitimately show component usage as sample markup.
-const stripFences = content =>
-  content.replace(/^(`{3,4})[^\n]*\n[\s\S]*?^\1/gm, '');
-
 if (!fs.existsSync(docsBuild)) {
   console.error(`[check-doc-bundle] docs site output not found: ${docsBuild}`);
   console.error('[check-doc-bundle] run `pnpm build:docs` first');
@@ -94,7 +83,7 @@ for (const file of pages) {
     );
     unresolved++;
   }
-  const componentMatch = stripFences(content).match(UNRENDERED_COMPONENT);
+  const componentMatch = stripCode(content).match(UNRENDERED_COMPONENT);
   if (componentMatch) {
     console.error(
       `[check-doc-bundle] unrendered component in ${file.path}: <${componentMatch[1]}>`,
