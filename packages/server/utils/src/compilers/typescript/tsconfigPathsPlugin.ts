@@ -13,7 +13,12 @@ const COMPILED_TO_JS_EXTENSIONS = new Set(['.ts', '.tsx', '.js', '.jsx']);
 // Convert a resolved source path into the specifier that native ESM output
 // should reference at runtime.
 const toEsmOutputPath = (resolvedPath: string) => {
-  const sourcePath = findSourceEntry(resolvedPath) || resolvedPath;
+  // A directory match is joined with the platform separator, so on Windows the
+  // result comes back with backslashes. Emitted specifiers are always posix.
+  const sourcePath = (findSourceEntry(resolvedPath) || resolvedPath).replace(
+    /\\/g,
+    '/',
+  );
   const ext = path.extname(sourcePath);
 
   if (!ext) {
