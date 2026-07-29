@@ -2,13 +2,7 @@ import path from 'path';
 import { castArray } from '@modern-js/builder';
 import { getLocaleLanguage } from '@modern-js/i18n-utils/language-detector';
 import { createAsyncHook } from '@modern-js/plugin';
-import {
-  cleanRequireCache,
-  deprecatedCommands,
-  emptyDir,
-  getArgv,
-  getCommand,
-} from '@modern-js/utils';
+import { cleanRequireCache, deprecatedCommands } from '@modern-js/utils';
 import {
   buildCommand,
   deployCommand,
@@ -95,33 +89,6 @@ export const appTools = (): CliPlugin<AppTools> => ({
       inspectCommand(program, api);
       infoCommand(program, api);
       deprecatedCommands(program);
-    });
-
-    api.onPrepare(async () => {
-      const command = getCommand();
-      if (command === 'deploy') {
-        const isSkipBuild = ['-s', '--skip-build'].some(tag => {
-          return getArgv().includes(tag);
-        });
-        // if skip build, do not clean dist path
-        if (isSkipBuild) {
-          return;
-        }
-      }
-
-      // clean dist path before building
-      if (
-        command === 'dev' ||
-        command === 'start' ||
-        command === 'build' ||
-        command === 'deploy'
-      ) {
-        const resolvedConfig = api.getNormalizedConfig();
-        if (resolvedConfig.output.cleanDistPath) {
-          const appContext = api.getAppContext();
-          await emptyDir(appContext.distDirectory);
-        }
-      }
     });
 
     api.addWatchFiles(async () => {

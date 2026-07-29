@@ -3,6 +3,7 @@ import type { CLIPluginAPI } from '@modern-js/plugin';
 import { fs, type Alias, logger } from '@modern-js/utils';
 import type { ConfigChain } from '@rsbuild/core';
 import type { AppTools } from '../types';
+import { cleanDistPath } from '../utils/cleanDistPath';
 import { loadServerPlugins } from '../utils/loadPlugins';
 import { setupTsRuntime } from '../utils/register';
 import { generateRoutes } from '../utils/routes';
@@ -57,6 +58,10 @@ export const build = async (
   const resolvedConfig = api.getNormalizedConfig();
   const appContext = api.getAppContext();
   const hooks = api.getHooks();
+
+  // Clean dist before generating any build output (route spec, bundles). Must
+  // run for both apiOnly and bundler builds, before the first dist write.
+  await cleanDistPath(api);
 
   const combinedAlias = ([] as unknown[])
     .concat(resolvedConfig?.resolve?.alias ?? [])
