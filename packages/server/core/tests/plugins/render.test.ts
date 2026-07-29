@@ -1,7 +1,9 @@
 import path from 'path';
 import type { Logger, ServerRoute } from '@modern-js/types';
+import { TrieRouter } from 'hono/router/trie-router';
 import { injectResourcePlugin } from '../../src/adapters/node/plugins';
 import { createDefaultPlugins, renderPlugin } from '../../src/plugins';
+import { matchRoute } from '../../src/plugins/render/render';
 import { createServerBase } from '../../src/serverBase';
 import type {
   FallbackInput,
@@ -116,6 +118,21 @@ describe('should render html correctly', () => {
     );
 
     expect(html2).toBe('SSR User Render');
+  });
+
+  it('should return empty params for unmatched route', () => {
+    const router = new TrieRouter<ServerRoute>();
+    const route = {
+      urlPath: '/user',
+      entryName: 'user',
+    } as ServerRoute;
+
+    router.add('*', '/user/*', route);
+
+    const [routeInfo, params] = matchRoute(router, '/missing');
+
+    expect(routeInfo).toBeUndefined();
+    expect(params).toEqual({});
   });
 
   it('should force csr correctly', async () => {
