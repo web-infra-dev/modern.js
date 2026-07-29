@@ -76,6 +76,9 @@
       ],
       "builder": [
         "./dist/types/builder/index.d.ts"
+      ],
+      "bundle-docs": [
+        "./scripts/copy-docs.d.mts"
       ]
     }
   },

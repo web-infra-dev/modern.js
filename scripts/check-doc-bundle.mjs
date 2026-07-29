@@ -21,6 +21,18 @@ const SIZE_LIMIT = 2 * 1024 * 1024;
 // Imports that would mean the page still depends on the docs site to render.
 const UNRESOLVED_IMPORT =
   /^import\s.*\sfrom\s+'(@site-docs[^']*|@theme|@site\/[^']*)'/m;
+// A component tag that survived the build renders as literal text for an
+// agent, so its content never reaches the bundle. The build strips the
+// imports, which is why checking those alone is not enough.
+//
+// Only self-closing tags or tags with attributes count: bare `<Name>` also
+// appears inside type signatures like `Promise<RsbuildConfig>`, which is prose,
+// not an unrendered component.
+const UNRENDERED_COMPONENT =
+  /<(ReleaseNote|PackageManagerTabs|RsbuildConfig|OverviewCard|SourceCode)(\s[^>]*)?\/>/;
+// Fenced code blocks legitimately show component usage as sample markup.
+const stripFences = content =>
+  content.replace(/^(`{3,4})[^\n]*\n[\s\S]*?^\1/gm, '');
 
 if (!fs.existsSync(docsBuild)) {
   console.error(`[check-doc-bundle] docs site output not found: ${docsBuild}`);
@@ -75,10 +87,17 @@ if (bundleSize > SIZE_LIMIT) {
 let unresolved = 0;
 for (const file of pages) {
   const content = fs.readFileSync(path.join(appTools, file.path), 'utf-8');
-  const match = content.match(UNRESOLVED_IMPORT);
-  if (match) {
+  const importMatch = content.match(UNRESOLVED_IMPORT);
+  if (importMatch) {
     console.error(
-      `[check-doc-bundle] unresolved doc-site import in ${file.path}: ${match[1]}`,
+      `[check-doc-bundle] unresolved doc-site import in ${file.path}: ${importMatch[1]}`,
+    );
+    unresolved++;
+  }
+  const componentMatch = stripFences(content).match(UNRENDERED_COMPONENT);
+  if (componentMatch) {
+    console.error(
+      `[check-doc-bundle] unrendered component in ${file.path}: <${componentMatch[1]}>`,
     );
     unresolved++;
   }
