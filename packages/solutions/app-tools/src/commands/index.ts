@@ -8,6 +8,7 @@ import type {
   DevOptions,
   InfoOptions,
   InspectOptions,
+  StartOptions,
 } from '../utils/types';
 
 export const devCommand = async (
@@ -20,6 +21,7 @@ export const devCommand = async (
     .usage('[options]')
     .description(i18n.t(localeKeys.command.dev.describe))
     .option('-c --config <config>', i18n.t(localeKeys.command.shared.config))
+    .option('--env-dir <dir>', i18n.t(localeKeys.command.shared.envDir))
     .option('-e --entry [entry...]', i18n.t(localeKeys.command.dev.entry))
     .option('--analyze', i18n.t(localeKeys.command.shared.analyze))
     .option('--api-only', i18n.t(localeKeys.command.dev.apiOnly))
@@ -39,6 +41,7 @@ export const buildCommand = async (
     .usage('[options]')
     .description(i18n.t(localeKeys.command.build.describe))
     .option('-c --config <config>', i18n.t(localeKeys.command.shared.config))
+    .option('--env-dir <dir>', i18n.t(localeKeys.command.shared.envDir))
     .option('--analyze', i18n.t(localeKeys.command.shared.analyze))
     .option('-w --watch', i18n.t(localeKeys.command.build.watch))
     .action(async (options: BuildOptions) => {
@@ -57,9 +60,10 @@ export const serverCommand = (
     .description(i18n.t(localeKeys.command.serve.describe))
     .option('--api-only', i18n.t(localeKeys.command.dev.apiOnly))
     .option('-c --config <config>', i18n.t(localeKeys.command.shared.config))
-    .action(async () => {
+    .option('--env-dir <dir>', i18n.t(localeKeys.command.shared.envDir))
+    .action(async (options: StartOptions) => {
       const { serve } = await import('./serve.js');
-      await serve(api);
+      await serve(api, options);
     });
 };
 
@@ -71,12 +75,13 @@ export const deployCommand = (
     .command('deploy')
     .usage('[options]')
     .option('-c --config <config>', i18n.t(localeKeys.command.shared.config))
+    .option('--env-dir <dir>', i18n.t(localeKeys.command.shared.envDir))
     .option('-s --skip-build', i18n.t(localeKeys.command.shared.skipBuild))
     .description(i18n.t(localeKeys.command.deploy.describe))
     .action(async (options: DeployOptions) => {
       if (!options.skipBuild) {
         const { build } = await import('./build.js');
-        await build(api);
+        await build(api, options);
       }
 
       const { deploy } = await import('./deploy.js');

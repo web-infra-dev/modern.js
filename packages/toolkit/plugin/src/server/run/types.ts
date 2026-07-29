@@ -4,6 +4,7 @@ import type { Plugin } from '../../types/plugin';
 export type ServerCreateOptions = {
   /** server working directory, and then also dist directory */
   pwd: string;
+  envDir?: string;
   metaName?: string;
   routes?: ServerRoute[];
   appContext: {

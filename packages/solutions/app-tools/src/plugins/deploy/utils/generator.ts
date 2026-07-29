@@ -64,15 +64,18 @@ export interface GenerateHandlerOptions {
   template: string;
   appContext: AppToolsContext;
   config: AppToolsNormalizedConfig;
+  envDir?: string;
   serverConfig?: Partial<ProdServerOptions>;
   genAppContextTemplate?: typeof serverAppContextTemplate;
   genPluginImports?: typeof genPluginImportsCode;
   isESM?: boolean;
 }
+
 export const generateHandler = async ({
   template,
   appContext,
   config,
+  envDir,
   serverConfig: modifyServerConfig,
   genAppContextTemplate = serverAppContextTemplate,
   genPluginImports = genPluginImportsCode,
@@ -104,6 +107,7 @@ export const generateHandler = async ({
   const pluginImportCode = genPluginImports(plugins || [], Boolean(isESM));
   const dynamicProdOptions = {
     config: serverConfig,
+    envDir,
   };
 
   const serverConfigPath = getServerConfigPath(meta);
