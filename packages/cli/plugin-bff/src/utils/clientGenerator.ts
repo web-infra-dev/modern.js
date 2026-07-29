@@ -203,10 +203,13 @@ async function setPackage(
 
     mergePackageJson(packageJson, addFiles, typesVersions, exports);
 
-    await fs.promises.writeFile(
-      packagePath,
-      JSON.stringify(packageJson, null, 2),
-    );
+    const handle = await fs.promises.open(packagePath, 'w');
+    try {
+      await handle.write(JSON.stringify(packageJson, null, 2));
+      await handle.write('\n');
+    } finally {
+      await handle.close();
+    }
   } catch (error) {
     logger.error(`package.json update failed: ${error}`);
   }
@@ -275,7 +278,11 @@ async function clientGenerator(draftOptions: APILoaderOptions) {
     logger.error(`Client bundle generate failed: ${error}`);
   }
 
-  setPackage(sourceList, draftOptions.appDir, draftOptions.relativeDistPath);
+  await setPackage(
+    sourceList,
+    draftOptions.appDir,
+    draftOptions.relativeDistPath,
+  );
 }
 
 export default clientGenerator;
