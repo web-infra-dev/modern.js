@@ -27,13 +27,17 @@
   },
   "exports": {
     ".": "./dist/index.js",
-    "./agent-files": "./agent-files.mjs"
+    "./agent-files": {
+      "types": "./agent-files.d.mts",
+      "default": "./agent-files.mjs"
+    }
   },
   "files": [
     "template",
     "dist",
     "bin.js",
-    "agent-files.mjs"
+    "agent-files.mjs",
+    "agent-files.d.mts"
   ],
   "scripts": {
     "build": "rslib build",

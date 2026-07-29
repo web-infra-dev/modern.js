@@ -1,3 +1,4 @@
+#!/usr/bin/env node
 import fs from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
@@ -94,7 +95,24 @@ function parseArgs(argv) {
 
 // CLI: `modern-bundle-docs --source <doc_build> --target <pkg>/docs`
 // Both default to Modern.js's own layout when omitted.
-if (process.argv[1] && fileURLToPath(import.meta.url) === process.argv[1]) {
+// Compare resolved paths: when invoked through the published `.bin` entry,
+// process.argv[1] is a symlink to this file, so a raw string compare would
+// silently skip the CLI.
+const invokedDirectly = () => {
+  if (!process.argv[1]) {
+    return false;
+  }
+  try {
+    return (
+      fs.realpathSync(process.argv[1]) ===
+      fs.realpathSync(fileURLToPath(import.meta.url))
+    );
+  } catch {
+    return false;
+  }
+};
+
+if (invokedDirectly()) {
   const pkgRoot = path.resolve(__dirname, '..');
   const args = parseArgs(process.argv.slice(2));
   const source = args.source

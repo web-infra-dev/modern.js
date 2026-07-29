@@ -32,7 +32,7 @@
     "change-status": "changeset status",
     "gen-release-note": "cd ./scripts/release-note && pnpm start",
     "get-release-version": "cd ./scripts/release-version && pnpm start",
-    "release": "pnpm publish --filter ./packages/** --report-summary --ignore-scripts",
+    "release": "npm run check-doc-bundle && pnpm publish --filter ./packages/** --report-summary --ignore-scripts",
     "fix:lockfile": "pnpm install --fix-lockfile",
     "update:lockfile": "pnpm install --lockfile-only",
     "check-changeset": "cd ./scripts/check-changeset && pnpm start",
@@ -42,7 +42,8 @@
     "update-rsbuild": "npx taze major --include /rsbuild/ -w -r -l",
     "gen:docs": "rm -rf doc_output && mkdir doc_output && cp -r ./packages/document/doc_build/* ./doc_output",
     "docs:v2-link": "echo '/v2/*  https://modernjs-v2.netlify.app/:splat  200' >> doc_output/_redirects",
-    "build:docs": "pnpm --filter @modern-js/main-doc... build && npm run gen:docs && npm run docs:v2-link"
+    "build:docs": "pnpm --filter @modern-js/main-doc... build && npm run gen:docs && npm run docs:v2-link",
+    "check-doc-bundle": "node ./scripts/check-doc-bundle.mjs"
   },
   "engines": {
     "node": ">=20",

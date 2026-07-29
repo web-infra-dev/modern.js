@@ -47,5 +47,20 @@
     "react-dom": "^19.2.7",
     "ts-node": "^10.9.2",
     "typescript": "^5"
+  },
+  "nx": {
+    "targets": {
+      "build": {
+        "inputs": [
+          "build",
+          "^build",
+          "{projectRoot}/docs/**/*",
+          "{projectRoot}/rspress.config.ts"
+        ],
+        "outputs": [
+          "{projectRoot}/doc_build"
+        ]
+      }
+    }
   }
 }

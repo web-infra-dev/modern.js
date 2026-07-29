@@ -54,6 +54,10 @@
     "./types": {
       "types": "./lib/types.d.ts",
       "default": "./lib/types.d.ts"
+    },
+    "./bundle-docs": {
+      "types": "./scripts/copy-docs.d.mts",
+      "default": "./scripts/copy-docs.mjs"
     }
   },
   "engines": {
