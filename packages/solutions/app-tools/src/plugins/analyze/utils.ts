@@ -89,7 +89,8 @@ export const checkIsBuildCommands = (contextCommand?: string) => {
   return (
     contextCommand === 'dev' ||
     contextCommand === 'start' ||
-    contextCommand === 'build'
+    contextCommand === 'build' ||
+    contextCommand === 'deploy'
   );
 };
 

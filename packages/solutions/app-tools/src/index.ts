@@ -169,10 +169,11 @@ export const appTools = (): CliPlugin<AppTools> => ({
 export { defineConfig } from './defineConfig';
 
 export { build } from './commands/build';
+export { deploy } from './commands/deploy';
 export { dev } from './commands/dev';
 export { serve } from './commands/serve';
 export { closeServer } from './utils/createServer';
-export type { BuildOptions, DevOptions } from './utils/types';
+export type { BuildOptions, DeployOptions, DevOptions } from './utils/types';
 export { generateWatchFiles } from './utils/generateWatchFiles';
 export {
   resolveModernRsbuildConfig,

@@ -21,18 +21,18 @@ describe('checkIsBuildCommands', () => {
     expect(checkIsBuildCommands()).toBe(true);
   });
 
-  it('falls back to the app context for programmatic dev, start and build', () => {
+  it('falls back to the app context for programmatic build commands', () => {
     process.env.MODERN_ARGV = 'node rstest test';
 
     expect(checkIsBuildCommands('dev')).toBe(true);
     expect(checkIsBuildCommands('start')).toBe(true);
     expect(checkIsBuildCommands('build')).toBe(true);
+    expect(checkIsBuildCommands('deploy')).toBe(true);
   });
 
   it('does not fall back for other programmatic commands', () => {
     process.env.MODERN_ARGV = 'node rstest test';
 
-    expect(checkIsBuildCommands('deploy')).toBe(false);
     expect(checkIsBuildCommands('analyze')).toBe(false);
   });
 });

@@ -2,6 +2,7 @@ import appToolsDefault, {
   appTools,
   build,
   closeServer,
+  deploy,
   mergeConfig,
 } from '../src';
 
@@ -13,6 +14,7 @@ describe('app-tools export', () => {
   it('named export', () => {
     expect(appTools).toBeDefined();
     expect(build).toBeDefined();
+    expect(deploy).toBeDefined();
     expect(closeServer).toBeDefined();
   });
 });
