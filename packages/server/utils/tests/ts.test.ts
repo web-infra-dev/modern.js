@@ -142,4 +142,57 @@ describe('typescript', () => {
       await fs.remove(distDir);
     }
   });
+
+  it('should keep specifiers that are not compiled to js in esm output', async () => {
+    const example = path.join(__dirname, './fixtures', './tsx-example');
+    const tsconfigPath = path.join(example, './tsconfig.esm.json');
+    const distDir = path.join(example, './dist-esm-assets');
+    const sharedDir = path.join(example, './shared');
+    const serverDir = path.join(example, './server');
+
+    try {
+      await compile(example, { alias: {} } as any, {
+        sourceDirs: [sharedDir, serverDir],
+        distDir,
+        tsconfigPath,
+        moduleType: 'module',
+      });
+
+      const serverContent = (
+        await fs.readFile(path.join(distDir, './server/index.js'))
+      ).toString();
+
+      // `.json` and `.mjs` are copied verbatim, so their extensions must stay.
+      expect(serverContent).toContain(`"../shared/data.json"`);
+      expect(serverContent).not.toContain(`../shared/data.js"`);
+      expect(serverContent).toContain(`"./helper.mjs"`);
+      expect(serverContent).not.toContain(`"./helper.js"`);
+
+      // Import attributes must survive the specifier rewrite.
+      expect(serverContent).toMatch(/type:\s*['"]json['"]/);
+
+      // The options argument of a dynamic import must not be dropped.
+      expect(serverContent).toMatch(
+        /import\(\s*"\.\.\/shared\/data\.json"\s*,\s*\{/,
+      );
+
+      expect(serverContent).toContain(`"./legacy.cjs"`);
+
+      // Non-literal specifiers are resolved at runtime and must be untouched.
+      expect(serverContent).toContain('import(`./locales/${lang}.js`)');
+      expect(serverContent).toContain(`import('./locales/' + lang + '.js')`);
+
+      expect(
+        await fs.pathExists(path.join(distDir, './shared/data.json')),
+      ).toBeTruthy();
+      expect(
+        await fs.pathExists(path.join(distDir, './server/helper.mjs')),
+      ).toBeTruthy();
+      expect(
+        await fs.pathExists(path.join(distDir, './server/legacy.cjs')),
+      ).toBeTruthy();
+    } finally {
+      await fs.remove(distDir);
+    }
+  });
 });

@@ -1,4 +1,5 @@
 import dns from 'node:dns';
+import { pathToFileURL } from 'node:url';
 import path from 'path';
 import { fs as fse } from '@modern-js/utils';
 import {
@@ -52,7 +53,7 @@ describe('custom server under native esm', () => {
   it('should be loadable by node', async () => {
     // The strongest check: Node itself resolves the emitted specifiers.
     const mod = await import(
-      path.join(serverDistDir, 'modern.server.js').replace(/\\/g, '/')
+      pathToFileURL(path.join(serverDistDir, 'modern.server.js')).href
     );
 
     expect(mod.default).toBeDefined();
