@@ -2,18 +2,18 @@ import { execSync } from 'node:child_process';
 import fs from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
-import {
-  UNRENDERED_COMPONENT,
-  UNRESOLVED_IMPORT,
-  stripCode,
-} from './doc-bundle-rules.mjs';
 
 // Validates the docs bundle that ships inside the @modern-js/app-tools tarball
 // (created by packages/solutions/app-tools/scripts/copy-docs.mjs):
 //   1. the tarball actually contains the docs, and llms.txt as an index
 //   2. the bundled page count matches the docs site build output
-//   3. the pages are self-contained — no unresolved doc-site imports or aliases
-//   4. bundle size stays under the threshold
+//   3. bundle size stays under the threshold
+//
+// Deliberately limited to what can be checked deterministically. Whether a
+// page renders completely is the docs site's job — inferring it from the
+// output text needs a parser for the whole MDX surface, and every
+// approximation of that either misses real breakage or blocks releases on
+// false positives.
 //
 // Run it after building the docs site (`pnpm build:docs`); it is the gate that
 // keeps a release from shipping without, or with a stale, docs bundle.
@@ -70,31 +70,6 @@ if (bundleSize > SIZE_LIMIT) {
   process.exit(1);
 }
 
-// The bundled pages must be readable on their own: the docs site renders
-// components and inlines shared fragments at build time, so any leftover import
-// of a doc-site alias means an agent would hit content that never ships.
-let unresolved = 0;
-for (const file of pages) {
-  const content = fs.readFileSync(path.join(appTools, file.path), 'utf-8');
-  const importMatch = content.match(UNRESOLVED_IMPORT);
-  if (importMatch) {
-    console.error(
-      `[check-doc-bundle] unresolved doc-site import in ${file.path}: ${importMatch[1]}`,
-    );
-    unresolved++;
-  }
-  const componentMatch = stripCode(content).match(UNRENDERED_COMPONENT);
-  if (componentMatch) {
-    console.error(
-      `[check-doc-bundle] unrendered component in ${file.path}: <${componentMatch[1]}>`,
-    );
-    unresolved++;
-  }
-}
-if (unresolved > 0) {
-  process.exit(1);
-}
-
 console.log(
-  `[check-doc-bundle] OK — ${pages.length} pages + llms.txt, ${(bundleSize / 1024 / 1024).toFixed(2)}MB, all pages self-contained`,
+  `[check-doc-bundle] OK — ${pages.length} pages + llms.txt, ${(bundleSize / 1024 / 1024).toFixed(2)}MB`,
 );

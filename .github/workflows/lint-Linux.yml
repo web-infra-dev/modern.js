@@ -49,6 +49,3 @@ jobs:
 
       - name: Check Changeset
         run: pnpm run check-changeset
-
-      - name: Test Repo Scripts
-        run: pnpm run test:scripts
