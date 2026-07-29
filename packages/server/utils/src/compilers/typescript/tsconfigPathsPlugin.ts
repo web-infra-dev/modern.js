@@ -121,7 +121,9 @@ export function tsconfigPathsBeforeHookFactory(
     return matchAliasPath(requestedModule);
   };
 
-  if (Object.keys(paths).length === 0) {
+  // Native ESM output still needs relative specifiers rewritten to their
+  // emitted `.js` counterparts, even when the project declares no path alias.
+  if (Object.keys(paths).length === 0 && moduleType !== 'module') {
     return undefined;
   }
 

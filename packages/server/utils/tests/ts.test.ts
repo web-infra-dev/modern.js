@@ -100,4 +100,46 @@ describe('typescript', () => {
       await fs.remove(distDir);
     }
   });
+
+  it('should resolve tsx directory entries and emit runnable js in esm output', async () => {
+    const example = path.join(__dirname, './fixtures', './tsx-example');
+    const tsconfigPath = path.join(example, './tsconfig.esm.json');
+    const distDir = path.join(example, './dist-esm');
+    const sharedDir = path.join(example, './shared');
+    const serverDir = path.join(example, './server');
+
+    try {
+      // No alias and no tsconfig `paths`: relative specifiers still have to be
+      // rewritten for native ESM.
+      await compile(example, { alias: {} } as any, {
+        sourceDirs: [sharedDir, serverDir],
+        distDir,
+        tsconfigPath,
+        moduleType: 'module',
+      });
+
+      const serverContent = (
+        await fs.readFile(path.join(distDir, './server/index.js'))
+      ).toString();
+
+      // `./foo` points at `foo/index.tsx`, so it must not become `./foo.js`.
+      expect(serverContent).toContain(`from "./foo/index.js"`);
+      expect(serverContent).toContain(`from "../shared/bar.js"`);
+
+      // `jsx: preserve` would emit `foo/index.jsx`, which Node cannot load.
+      expect(
+        await fs.pathExists(path.join(distDir, './server/foo/index.js')),
+      ).toBeTruthy();
+      expect(
+        await fs.pathExists(path.join(distDir, './server/foo/index.jsx')),
+      ).toBeFalsy();
+
+      // Source files must not be copied next to their compiled output.
+      expect(
+        await fs.pathExists(path.join(distDir, './server/foo/index.tsx')),
+      ).toBeFalsy();
+    } finally {
+      await fs.remove(distDir);
+    }
+  });
 });
