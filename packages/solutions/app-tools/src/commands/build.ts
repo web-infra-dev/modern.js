@@ -109,7 +109,10 @@ export const build = async (
   await appContext.builder.onAfterBuild(async () => {
     return copyEnvFiles(appContext.appDirectory, appContext.distDirectory);
   });
-  await appContext.builder.build({
+  const buildResult = await appContext.builder.build({
     watch: options?.watch,
   });
+  if (!options?.watch) {
+    await buildResult?.close();
+  }
 };
