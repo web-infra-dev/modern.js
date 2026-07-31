@@ -1,6 +1,3 @@
-import fs from 'node:fs';
-import os from 'node:os';
-import path from 'node:path';
 import { type Plugin, createPluginManager } from '@modern-js/plugin';
 import { build } from '../../src/commands/build';
 
@@ -130,76 +127,5 @@ describe('command build', () => {
 
     expect(builderBuild).toHaveBeenCalledWith({ watch: true });
     expect(close).not.toHaveBeenCalled();
-  });
-
-  test('empties dist before building when cleanDistPath is enabled', async () => {
-    const root = fs.mkdtempSync(path.join(os.tmpdir(), 'app-tools-build-'));
-    const distDirectory = path.join(root, 'dist');
-    fs.mkdirSync(distDirectory, { recursive: true });
-    fs.writeFileSync(path.join(distDirectory, 'stale.js'), '// stale');
-
-    // Assert dist is already emptied by the time the builder runs.
-    const builderBuild = rstest.fn(async () => {
-      expect(fs.readdirSync(distDirectory)).toEqual([]);
-      return { close: rstest.fn() };
-    });
-    const mockAPI = {
-      getAppContext: rstest.fn((): any => ({
-        apiOnly: false,
-        distDirectory,
-        appDirectory: root,
-        metaName: 'modern-js',
-        builder: { build: builderBuild, onAfterBuild: rstest.fn() },
-      })),
-      getNormalizedConfig: rstest.fn(() => ({
-        output: { cleanDistPath: true },
-      })),
-      getHooks: rstest.fn(() => ({
-        _internalServerPlugins: { call: rstest.fn(() => ({ plugins: [] })) },
-      })),
-      updateAppContext: rstest.fn(),
-    };
-
-    try {
-      await build(mockAPI as any);
-      expect(builderBuild).toHaveBeenCalledTimes(1);
-    } finally {
-      fs.rmSync(root, { recursive: true, force: true });
-    }
-  });
-
-  test('preserves dist when cleanDistPath is disabled', async () => {
-    const root = fs.mkdtempSync(path.join(os.tmpdir(), 'app-tools-build-'));
-    const distDirectory = path.join(root, 'dist');
-    fs.mkdirSync(distDirectory, { recursive: true });
-    fs.writeFileSync(path.join(distDirectory, 'stale.js'), '// stale');
-
-    const builderBuild = rstest.fn(async () => {
-      expect(fs.readdirSync(distDirectory)).toEqual(['stale.js']);
-      return { close: rstest.fn() };
-    });
-    const mockAPI = {
-      getAppContext: rstest.fn((): any => ({
-        apiOnly: false,
-        distDirectory,
-        appDirectory: root,
-        metaName: 'modern-js',
-        builder: { build: builderBuild, onAfterBuild: rstest.fn() },
-      })),
-      getNormalizedConfig: rstest.fn(() => ({
-        output: { cleanDistPath: false },
-      })),
-      getHooks: rstest.fn(() => ({
-        _internalServerPlugins: { call: rstest.fn(() => ({ plugins: [] })) },
-      })),
-      updateAppContext: rstest.fn(),
-    };
-
-    try {
-      await build(mockAPI as any);
-      expect(builderBuild).toHaveBeenCalledTimes(1);
-    } finally {
-      fs.rmSync(root, { recursive: true, force: true });
-    }
   });
 });

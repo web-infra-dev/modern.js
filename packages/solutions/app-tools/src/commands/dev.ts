@@ -15,7 +15,6 @@ import {
 } from '@modern-js/utils';
 import type { ConfigChain } from '@rsbuild/core';
 import type { AppNormalizedConfig, AppTools } from '../types';
-import { cleanDistPath } from '../utils/cleanDistPath';
 import { setServer } from '../utils/createServer';
 import { loadServerPlugins } from '../utils/loadPlugins';
 import { printInstructions } from '../utils/printInstructions';
@@ -39,9 +38,6 @@ export const dev = async (
   const normalizedConfig = api.getNormalizedConfig();
   const appContext = api.getAppContext();
   const hooks = api.getHooks();
-
-  // Clean dist before generateRoutes writes the route spec into it.
-  await cleanDistPath(api);
 
   const combinedAlias = ([] as unknown[])
     .concat(normalizedConfig?.resolve?.alias ?? [])
