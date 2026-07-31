@@ -8,7 +8,7 @@
     "build": "modern build",
     "start": "modern start",
     "serve": "modern serve",
-    "prepare": "playwright install",
+    "prepare": "playwright install chromium",
     "test": "npx playwright test"
   },
   "engines": {

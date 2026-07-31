@@ -11,7 +11,7 @@
     "test:rstest-adapter": "rstest -c rstest.adapter.config.mts",
     "test:builder": "cd e2e/builder && pnpm test",
     "prepare": "node node_modules/puppeteer/install.mjs",
-    "pretest:rstest-adapter": "pnpm --dir integration/rstest/basic-app-rstest-browser exec playwright install"
+    "pretest:rstest-adapter": "pnpm --dir integration/rstest/basic-app-rstest-browser exec playwright install chromium"
   },
   "devDependencies": {
     "@modern-js/app-tools": "workspace:*",
