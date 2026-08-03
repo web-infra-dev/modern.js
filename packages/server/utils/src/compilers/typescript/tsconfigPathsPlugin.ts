@@ -5,13 +5,31 @@ import type { MatchPath } from '@modern-js/utils/tsconfig-paths';
 import { createMatchPath } from '@modern-js/utils/tsconfig-paths';
 import * as ts from 'typescript';
 
+// Extensions that TypeScript compiles into a `.js` file. Everything else
+// (`.json`, `.mjs`, `.cjs`, assets) keeps whatever extension it already has,
+// because it is copied to the output directory untouched.
+const COMPILED_TO_JS_EXTENSIONS = new Set(['.ts', '.tsx', '.js', '.jsx']);
+
 // Convert a resolved source path into the specifier that native ESM output
-// should reference at runtime, which is always the emitted `.js` file.
+// should reference at runtime.
 const toEsmOutputPath = (resolvedPath: string) => {
-  const sourcePath = findSourceEntry(resolvedPath) || resolvedPath;
+  // A directory match is joined with the platform separator, so on Windows the
+  // result comes back with backslashes. Emitted specifiers are always posix.
+  const sourcePath = (findSourceEntry(resolvedPath) || resolvedPath).replace(
+    /\\/g,
+    '/',
+  );
   const ext = path.extname(sourcePath);
 
-  return ext ? `${sourcePath.slice(0, -ext.length)}.js` : `${sourcePath}.js`;
+  if (!ext) {
+    return `${sourcePath}.js`;
+  }
+
+  if (!COMPILED_TO_JS_EXTENSIONS.has(ext)) {
+    return sourcePath;
+  }
+
+  return `${sourcePath.slice(0, -ext.length)}.js`;
 };
 
 const resolveRelativeEsmSpecifier = (sf: ts.SourceFile, text: string) => {
@@ -121,7 +139,9 @@ export function tsconfigPathsBeforeHookFactory(
     return matchAliasPath(requestedModule);
   };
 
-  if (Object.keys(paths).length === 0) {
+  // Native ESM output still needs relative specifiers rewritten to their
+  // emitted `.js` counterparts, even when the project declares no path alias.
+  if (Object.keys(paths).length === 0 && moduleType !== 'module') {
     return undefined;
   }
 
@@ -129,12 +149,25 @@ export function tsconfigPathsBeforeHookFactory(
     return (sf: ts.SourceFile) => {
       const visitNode = (node: ts.Node): ts.Node => {
         if (isDynamicImport(tsBinary, node)) {
-          const importPathWithQuotes = node.arguments[0].getText(sf);
-          const text = importPathWithQuotes.slice(
-            1,
-            importPathWithQuotes.length - 1,
+          const [specifier] = node.arguments;
+          // Only a literal specifier is known at compile time. Template
+          // interpolation or concatenation has to be resolved at runtime, so
+          // those calls are left untouched.
+          if (
+            !specifier ||
+            !(
+              tsBinary.isStringLiteral(specifier) ||
+              tsBinary.isNoSubstitutionTemplateLiteral(specifier)
+            )
+          ) {
+            return tsBinary.visitEachChild(node, visitNode, ctx);
+          }
+          const result = getNotAliasedPath(
+            sf,
+            matchPath,
+            specifier.text,
+            moduleType,
           );
-          const result = getNotAliasedPath(sf, matchPath, text, moduleType);
           if (!result) {
             return node;
           }
@@ -144,6 +177,9 @@ export function tsconfigPathsBeforeHookFactory(
             node.typeArguments,
             tsBinary.factory.createNodeArray([
               tsBinary.factory.createStringLiteral(result),
+              // `import(specifier, { with: { type: 'json' } })` carries its
+              // options in the second argument, which must survive the rewrite.
+              ...node.arguments.slice(1),
             ]),
           );
         }
@@ -152,16 +188,19 @@ export function tsconfigPathsBeforeHookFactory(
           (tsBinary.isExportDeclaration(node) && node.moduleSpecifier)
         ) {
           try {
-            const importPathWithQuotes = node?.moduleSpecifier?.getText();
+            const { moduleSpecifier: specifier } = node;
 
-            if (!importPathWithQuotes) {
+            // A non-literal module specifier is a grammar error; skip it
+            // instead of slicing quotes off arbitrary text.
+            if (!specifier || !tsBinary.isStringLiteral(specifier)) {
               return node;
             }
-            const text = importPathWithQuotes.substring(
-              1,
-              importPathWithQuotes.length - 1,
+            const result = getNotAliasedPath(
+              sf,
+              matchPath,
+              specifier.text,
+              moduleType,
             );
-            const result = getNotAliasedPath(sf, matchPath, text, moduleType);
             if (!result) {
               return node;
             }
@@ -171,6 +210,11 @@ export function tsconfigPathsBeforeHookFactory(
               node as any
             ).moduleSpecifier.parent;
 
+            // `with { type: 'json' }` is parsed into `attributes`; the legacy
+            // `assert { ... }` syntax into `assertClause`. Keep whichever the
+            // source used, otherwise the clause is dropped on rewrite.
+            const importAttributes = node.attributes ?? node.assertClause;
+
             let newNode;
             if (tsBinary.isImportDeclaration(node)) {
               newNode = tsBinary.factory.updateImportDeclaration(
@@ -178,7 +222,7 @@ export function tsconfigPathsBeforeHookFactory(
                 node.modifiers,
                 node.importClause,
                 moduleSpecifier,
-                node.assertClause,
+                importAttributes,
               );
             } else {
               newNode = tsBinary.factory.updateExportDeclaration(
@@ -187,7 +231,7 @@ export function tsconfigPathsBeforeHookFactory(
                 node.isTypeOnly,
                 node.exportClause,
                 moduleSpecifier,
-                node.assertClause,
+                importAttributes,
               );
             }
             (newNode as any).flags = node.flags;

@@ -22,7 +22,7 @@ const copyFiles = async (from: string, to: string, appDirectory: string) => {
     const targetDir = path.join(to, relativePath);
     await fs.copy(from, targetDir, {
       filter: src =>
-        !['.ts', '.js'].includes(path.extname(src)) &&
+        !['.ts', '.tsx', '.js', '.jsx'].includes(path.extname(src)) &&
         !src.endsWith('tsconfig.json'),
     });
   }
@@ -76,6 +76,13 @@ export const compileByTs: CompileFunc = async (
       ...options,
       rootDir: appDirectory,
       outDir: distDir,
+      // `jsx: preserve` emits `.jsx` files, which Node cannot execute and which
+      // the emitted specifiers (always `.js`) would not point at. Server output
+      // has to run in Node directly, so JSX must be transformed here.
+      jsx:
+        options.jsx === undefined || options.jsx === ts.JsxEmit.Preserve
+          ? ts.JsxEmit.ReactJSX
+          : options.jsx,
     },
   });
 
@@ -87,7 +94,7 @@ export const compileByTs: CompileFunc = async (
   );
 
   const emitResult = program.emit(undefined, undefined, undefined, undefined, {
-    before: [tsconfigPathsPlugin!],
+    before: tsconfigPathsPlugin ? [tsconfigPathsPlugin] : [],
   });
 
   const allDiagnostics = ts

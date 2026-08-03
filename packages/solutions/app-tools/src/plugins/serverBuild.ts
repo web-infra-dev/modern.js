@@ -30,7 +30,8 @@ export default (): CliPlugin<AppTools> => ({
 
   setup(api) {
     api.onAfterBuild(async () => {
-      const { appDirectory, distDirectory, metaName } = api.getAppContext();
+      const { appDirectory, distDirectory, metaName, moduleType } =
+        api.getAppContext();
       if (
         !checkHasCache(appDirectory) &&
         !checkHasConfig(appDirectory, metaName)
@@ -71,6 +72,7 @@ export default (): CliPlugin<AppTools> => ({
             sourceDirs,
             distDir,
             tsconfigPath,
+            moduleType,
           },
         );
       }
