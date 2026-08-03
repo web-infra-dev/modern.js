@@ -251,13 +251,14 @@ describe('docs location by version', () => {
     writePkg('3.8.0');
     runCreate(['--agents-md-only']);
 
-    const generated = fs
-      .readFileSync(path.join(workdir, 'AGENTS.md'), 'utf-8')
-      .trim();
-    const template = fs
-      .readFileSync(path.resolve(__dirname, '../template/AGENTS.md'), 'utf-8')
-      .trim();
+    // Compared by content, not bytes: without a .gitattributes rule the
+    // template checks out with CRLF on Windows, while the generated block is
+    // always joined with \n.
+    const readNormalized = (file: string) =>
+      fs.readFileSync(file, 'utf-8').replace(/\r\n/g, '\n').trim();
 
-    expect(generated).toBe(template);
+    expect(readNormalized(path.join(workdir, 'AGENTS.md'))).toBe(
+      readNormalized(path.resolve(__dirname, '../template/AGENTS.md')),
+    );
   });
 });
