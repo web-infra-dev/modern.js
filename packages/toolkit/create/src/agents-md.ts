@@ -1,8 +1,12 @@
 import fs from 'node:fs';
-import path from 'node:path';
 // Shared with downstream frameworks (EdenX, PIA) via the `./agent-files`
 // export, so the idempotency rules live in exactly one place.
-import { applyAgentFiles, readManagedBlock } from '../agent-files.mjs';
+import { applyAgentFiles } from '../agent-files.mjs';
+import {
+  buildBlock,
+  isModernProject,
+  resolveDocsLocation,
+} from './docs-location';
 import { i18n, localeKeys } from './locale';
 
 // Codemod for existing projects: add or refresh AGENTS.md / CLAUDE.md so AI
@@ -24,7 +28,7 @@ const CLAUDE_MESSAGES: Record<string, string> = {
   unchanged: localeKeys.agentsCmd.unchanged,
 };
 
-export function runAgentsMd(templateDir: string, targetDir: string): void {
+export function runAgentsMd(_templateDir: string, targetDir: string): void {
   if (!fs.existsSync(targetDir)) {
     console.error(
       i18n.t(localeKeys.agentsCmd.targetNotFound, { dir: targetDir }),
@@ -32,14 +36,19 @@ export function runAgentsMd(templateDir: string, targetDir: string): void {
     process.exit(1);
   }
 
-  const block = readManagedBlock(
-    path.join(templateDir, 'AGENTS.md'),
-    MARKER_NAME,
-  );
+  // Writing these into a project that does not use Modern.js would point its
+  // agent at documentation for a framework it has nothing to do with.
+  if (!isModernProject(targetDir)) {
+    console.error(i18n.t(localeKeys.agentsCmd.notAProject));
+    process.exit(1);
+  }
+
+  const location = resolveDocsLocation(targetDir);
+  const block = buildBlock(location, MARKER_NAME);
   const result = applyAgentFiles({ targetDir, block, markerName: MARKER_NAME });
 
   console.log(i18n.t(AGENTS_MESSAGES[result.agents], { file: 'AGENTS.md' }));
   console.log(i18n.t(CLAUDE_MESSAGES[result.claude], { file: 'CLAUDE.md' }));
   console.log('');
-  console.log(i18n.t(localeKeys.agentsCmd.done));
+  console.log(i18n.t(localeKeys.agentsCmd.done, { location }));
 }

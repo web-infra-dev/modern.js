@@ -25,8 +25,9 @@ export const ZH_LOCALE = {
     addedBlock: '✔ 已在 {file} 顶部添加 modernjs-agent-rules 块',
     linked: '✔ 已向 {file} 添加 `@AGENTS.md` 引用',
     unchanged: '• {file} 已是最新',
-    done: '✨ 完成 —— AI 编码助手会读取 node_modules/@modern-js/app-tools/docs/ 里的随包文档。',
+    done: '✨ 完成 —— AI 编码助手会读取 {location}。',
     targetNotFound: '错误: 目标目录 "{dir}" 不存在',
+    notAProject: '错误: 当前目录不是 Modern.js 项目，请在项目根目录运行',
   },
   help: {
     title: '🚀 Modern.js 项目创建工具',

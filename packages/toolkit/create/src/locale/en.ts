@@ -26,8 +26,9 @@ export const EN_LOCALE = {
     addedBlock: '✔ Added the modernjs-agent-rules block to the top of {file}',
     linked: '✔ Added the `@AGENTS.md` import to {file}',
     unchanged: '• {file} is already up to date',
-    done: '✨ Done — AI coding agents will read the bundled docs in node_modules/@modern-js/app-tools/docs/.',
+    done: '✨ Done — AI coding agents will read {location}.',
     targetNotFound: 'Error: target directory "{dir}" does not exist',
+    notAProject: 'Error: not a Modern.js project — run this in a project root',
   },
   help: {
     title: '🚀 Modern.js Project Creator',

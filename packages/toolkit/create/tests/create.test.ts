@@ -36,8 +36,10 @@ describe('agent files generation', () => {
     const content = fs.readFileSync(agents, 'utf-8');
     expect(content).toContain('<!-- BEGIN:modernjs-agent-rules -->');
     expect(content).toContain('<!-- END:modernjs-agent-rules -->');
+    // A freshly scaffolded project pins the current version, which ships the
+    // docs — so the block names the bundled path, not an online index.
     expect(content).toContain('node_modules/@modern-js/app-tools/docs/');
-    expect(content).toContain('https://modernjs.dev/llms.txt');
+    expect(content).not.toContain('https://modernjs.dev');
 
     expect(fs.readFileSync(claude, 'utf-8').trim()).toBe('@AGENTS.md');
     expect(output).toContain('AGENTS.md & CLAUDE.md generated');
@@ -93,6 +95,17 @@ describe('--agents-md-only (existing projects)', () => {
   const END = '<!-- END:modernjs-agent-rules -->';
   const read = (name: string) =>
     fs.readFileSync(path.join(workdir, name), 'utf-8');
+
+  // The command only writes into projects that actually use Modern.js.
+  beforeEach(() => {
+    fs.writeFileSync(
+      path.join(workdir, 'package.json'),
+      JSON.stringify({
+        name: 'fixture',
+        devDependencies: { '@modern-js/app-tools': '3.8.0' },
+      }),
+    );
+  });
 
   it('errors when combined with a project name', () => {
     expect(() => runCreate(['--agents-md-only', 'my-app'])).toThrow();
@@ -166,5 +179,85 @@ describe('--agents-md-only (existing projects)', () => {
     runCreate(['--agents-md-only']);
     const second = read('AGENTS.md') + read('CLAUDE.md');
     expect(second).toBe(first);
+  });
+});
+
+// Which docs a project should read follows from the version it installed, and
+// that is decided when the file is written — AGENTS.md is read on every turn,
+// so it must state one address rather than a rule for the agent to resolve.
+describe('docs location by version', () => {
+  const writePkg = (version: string) =>
+    fs.writeFileSync(
+      path.join(workdir, 'package.json'),
+      JSON.stringify({
+        name: 'fixture',
+        devDependencies: { '@modern-js/app-tools': version },
+      }),
+    );
+
+  const cases: [string, string][] = [
+    // v1 has no site of its own, so it reads v2's.
+    ['1.21.0', 'https://modernjs.dev/v2/llms.txt'],
+    ['2.68.0', 'https://modernjs.dev/v2/llms.txt'],
+    // Current major, but released before the docs shipped.
+    ['3.7.0', 'https://modernjs.dev/llms.txt'],
+    ['3.8.0', 'node_modules/@modern-js/app-tools/docs/'],
+    ['^3.9.0', 'node_modules/@modern-js/app-tools/docs/'],
+    // Trunk builds always carry the docs, and carry no comparable semver.
+    ['0.0.0-canary-20260731095506', 'node_modules/@modern-js/app-tools/docs/'],
+    ['workspace:*', 'node_modules/@modern-js/app-tools/docs/'],
+  ];
+
+  for (const [version, expected] of cases) {
+    it(`${version} resolves to ${expected}`, () => {
+      writePkg(version);
+      runCreate(['--agents-md-only']);
+
+      expect(
+        fs.readFileSync(path.join(workdir, 'AGENTS.md'), 'utf-8'),
+      ).toContain(expected);
+    });
+  }
+
+  it('prefers the installed version over the declared range', () => {
+    // A range says what was asked for; node_modules says what was resolved.
+    writePkg('^3.0.0');
+    const installed = path.join(workdir, 'node_modules/@modern-js/app-tools');
+    fs.mkdirSync(installed, { recursive: true });
+    fs.writeFileSync(
+      path.join(installed, 'package.json'),
+      JSON.stringify({ name: '@modern-js/app-tools', version: '3.7.0' }),
+    );
+    runCreate(['--agents-md-only']);
+
+    expect(fs.readFileSync(path.join(workdir, 'AGENTS.md'), 'utf-8')).toContain(
+      'https://modernjs.dev/llms.txt',
+    );
+  });
+
+  it('refuses a directory that does not use Modern.js', () => {
+    fs.writeFileSync(
+      path.join(workdir, 'package.json'),
+      JSON.stringify({ name: 'unrelated', dependencies: { react: '19' } }),
+    );
+
+    expect(() => runCreate(['--agents-md-only'])).toThrow();
+    expect(fs.existsSync(path.join(workdir, 'AGENTS.md'))).toBe(false);
+  });
+
+  it('keeps the scaffolding template in step with the generated block', () => {
+    // New projects copy the template; existing ones get a generated block.
+    // They must say the same thing, or the two paths drift apart.
+    writePkg('3.8.0');
+    runCreate(['--agents-md-only']);
+
+    const generated = fs
+      .readFileSync(path.join(workdir, 'AGENTS.md'), 'utf-8')
+      .trim();
+    const template = fs
+      .readFileSync(path.resolve(__dirname, '../template/AGENTS.md'), 'utf-8')
+      .trim();
+
+    expect(generated).toBe(template);
   });
 });
