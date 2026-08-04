@@ -2547,8 +2547,8 @@ importers:
         specifier: 1.2.8
         version: 1.2.8
       nanoid:
-        specifier: 3.3.15
-        version: 3.3.15
+        specifier: 3.3.17
+        version: 3.3.17
       normalize-path:
         specifier: 3.0.0
         version: 3.0.0
@@ -14672,6 +14672,11 @@ packages:
 
   nanoid@3.3.15:
     resolution: {integrity: sha512-y7Wygv/7mEOvxTuEQDB8StXdMRBWf1kR/tlhAzBRUFkB2jfcLOAxO/SHmOO2zgz1pVgK29/kyupn059/bCHdjA==}
+    engines: {node: ^10 || ^12 || ^13.7 || ^14 || >=15.0.1}
+    hasBin: true
+
+  nanoid@3.3.17:
+    resolution: {integrity: sha512-xQLf0A3HOMlgHq0n247/LRuAOYmB7dXJ/DvAxGvsSBij45XtBSmQycu+F8ODbHwns/XyFZagyL1+J0Offw1E0g==}
     engines: {node: ^10 || ^12 || ^13.7 || ^14 || >=15.0.1}
     hasBin: true
 
@@ -30912,6 +30917,8 @@ snapshots:
       thenify-all: 1.6.0
 
   nanoid@3.3.15: {}
+
+  nanoid@3.3.17: {}
 
   natural-compare@1.4.0: {}
 
