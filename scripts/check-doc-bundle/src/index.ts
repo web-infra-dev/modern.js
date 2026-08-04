@@ -1,7 +1,6 @@
 import { execSync } from 'node:child_process';
 import fs from 'node:fs';
 import path from 'node:path';
-import { fileURLToPath } from 'node:url';
 
 // Validates the docs bundle that ships inside the @modern-js/app-tools tarball
 // (created by packages/solutions/app-tools/src/bundleDocs.ts):
@@ -17,12 +16,17 @@ import { fileURLToPath } from 'node:url';
 //
 // Run it after building the docs site (`pnpm build:docs`); it is the gate that
 // keeps a release from shipping without, or with a stale, docs bundle.
-const __dirname = path.dirname(fileURLToPath(import.meta.url));
-const repoRoot = path.resolve(__dirname, '..');
+const repoRoot = path.resolve(__dirname, '../../..');
 const docsBuild = path.join(repoRoot, 'packages/document/doc_build');
 const appTools = path.join(repoRoot, 'packages/solutions/app-tools');
 
 const SIZE_LIMIT = 2 * 1024 * 1024;
+
+interface PackedFile {
+  path: string;
+  size: number;
+}
+
 if (!fs.existsSync(docsBuild)) {
   console.error(`[check-doc-bundle] docs site output not found: ${docsBuild}`);
   console.error('[check-doc-bundle] run `pnpm build:docs` first');
@@ -47,7 +51,7 @@ execSync('node ./bin/modern-bundle-docs.js', {
 });
 const packJson = JSON.parse(
   execSync('npm pack --dry-run --json', { cwd: appTools, encoding: 'utf-8' }),
-);
+) as { files: PackedFile[] }[];
 const bundled = packJson[0].files.filter(f => f.path.startsWith('docs/'));
 const pages = bundled.filter(f => f.path.endsWith('.md'));
 
