@@ -2,20 +2,10 @@ import { execSync } from 'node:child_process';
 import fs from 'node:fs';
 import path from 'node:path';
 
-// Validates the docs bundle that ships inside the @modern-js/app-tools tarball
-// (created by packages/solutions/app-tools/src/bundleDocs.ts):
-//   1. the tarball actually contains the docs, and llms.txt as an index
-//   2. the bundled page count matches the docs site build output
-//   3. bundle size stays under the threshold
-//
-// Deliberately limited to what can be checked deterministically. Whether a
-// page renders completely is the docs site's job — inferring it from the
-// output text needs a parser for the whole MDX surface, and every
-// approximation of that either misses real breakage or blocks releases on
-// false positives.
-//
-// Run it after building the docs site (`pnpm build:docs`); it is the gate that
-// keeps a release from shipping without, or with a stale, docs bundle.
+// Release gate for the docs bundled into @modern-js/app-tools: the tarball
+// must contain every page the docs site emitted, plus llms.txt, within the
+// size limit. Deliberately deterministic — whether a page renders completely
+// is the docs site's job. Run after `pnpm build:docs`.
 const repoRoot = path.resolve(__dirname, '../../..');
 const docsBuild = path.join(repoRoot, 'packages/document/doc_build');
 const appTools = path.join(repoRoot, 'packages/solutions/app-tools');

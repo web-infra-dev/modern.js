@@ -1,12 +1,9 @@
 import fs from 'node:fs';
 import path from 'node:path';
 
-// Decides which documentation a project's agent should read, and renders the
-// managed block that says so.
-//
-// The decision happens here, when the file is written, rather than being left
-// as a rule for the agent to resolve: AGENTS.md is written once and read on
-// every turn, so the block must state one address.
+// Decides which documentation a project's agent should read and renders the
+// managed block. Resolved at write time rather than left as a rule for the
+// agent: AGENTS.md is written once but read on every turn.
 
 const PKG = '@modern-js/app-tools';
 const DOCS_PATH = 'node_modules/@modern-js/app-tools/docs/';

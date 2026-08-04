@@ -2,9 +2,7 @@ import fs from 'node:fs';
 import path from 'node:path';
 
 // Writes the AGENTS.md / CLAUDE.md pair that points AI coding agents at the
-// version-matched bundled docs. Internal to this package: downstream
-// scaffolders (EdenX's generator) ship their own copy so the two release
-// independently.
+// version-matched bundled docs.
 
 type FileOutcome = 'created' | 'updated' | 'added' | 'linked' | 'unchanged';
 
