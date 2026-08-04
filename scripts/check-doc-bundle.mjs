@@ -4,7 +4,7 @@ import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 
 // Validates the docs bundle that ships inside the @modern-js/app-tools tarball
-// (created by packages/solutions/app-tools/scripts/copy-docs.mjs):
+// (created by packages/solutions/app-tools/src/bundleDocs.ts):
 //   1. the tarball actually contains the docs, and llms.txt as an index
 //   2. the bundled page count matches the docs site build output
 //   3. bundle size stays under the threshold
@@ -41,7 +41,7 @@ const expected = fs
     return !rel.startsWith(`zh${path.sep}`);
   }).length;
 
-execSync('node ./scripts/copy-docs.mjs', {
+execSync('node ./bin/modern-bundle-docs.js', {
   cwd: appTools,
   stdio: 'inherit',
 });

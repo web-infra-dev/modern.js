@@ -56,8 +56,8 @@
       "default": "./lib/types.d.ts"
     },
     "./bundle-docs": {
-      "types": "./scripts/copy-docs.d.mts",
-      "default": "./scripts/copy-docs.mjs"
+      "types": "./dist/types/bundleDocs.d.ts",
+      "default": "./dist/esm-node/bundleDocs.mjs"
     }
   },
   "engines": {
@@ -78,14 +78,14 @@
         "./dist/types/builder/index.d.ts"
       ],
       "bundle-docs": [
-        "./scripts/copy-docs.d.mts"
+        "./dist/types/bundleDocs.d.ts"
       ]
     }
   },
   "bin": {
     "modern": "./bin/modern.js",
     "modern-app": "./bin/modern.js",
-    "modern-bundle-docs": "./scripts/copy-docs.mjs"
+    "modern-bundle-docs": "./bin/modern-bundle-docs.js"
   },
   "nx": {
     "targets": {
@@ -115,7 +115,7 @@
   "scripts": {
     "prepublishOnly": "only-allow-pnpm",
     "dev": "rslib build --watch",
-    "build": "rslib build && node ./scripts/copy-docs.mjs",
+    "build": "rslib build && node ./bin/modern-bundle-docs.js",
     "test": "rstest"
   },
   "dependencies": {

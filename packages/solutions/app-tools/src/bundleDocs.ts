@@ -1,7 +1,5 @@
-#!/usr/bin/env node
 import fs from 'node:fs';
 import path from 'node:path';
-import { fileURLToPath } from 'node:url';
 
 // Copies a documentation site's build output into a package as `docs/`, so
 // every project gets version-matched offline docs for AI coding agents (see the
@@ -13,10 +11,9 @@ import { fileURLToPath } from 'node:url';
 // sources are not: a quarter of the pages get their actual content from
 // components whose data never ships with the package.
 //
-// Frameworks built on Modern.js (EdenX, PIA) ship their own docs the same way,
-// so this is exposed as a function and a `modern-bundle-docs` bin instead of
-// being hardcoded to Modern.js's own paths.
-const __dirname = path.dirname(fileURLToPath(import.meta.url));
+// Frameworks built on Modern.js (EdenX) ship their own docs the same way, so
+// this is exposed as the `./bundle-docs` export and a `modern-bundle-docs` bin
+// instead of being hardcoded to Modern.js's own paths.
 
 // The docs site also emits HTML, assets and translated trees; agents only need
 // one language's Markdown plus llms.txt as an index. llms-full.txt is a
@@ -24,20 +21,24 @@ const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const DEFAULT_INDEX_FILE = 'llms.txt';
 const DEFAULT_EXCLUDED_DIRS = ['zh'];
 
-/**
- * @param {object} options
- * @param {string} options.source docs site build output (e.g. `doc_build`)
- * @param {string} options.target directory to write the bundle to
- * @param {string} [options.indexFile] index file to ship alongside the pages
- * @param {string[]} [options.excludedDirs] top-level directories to skip
- * @returns {number} files copied, or 0 when the source is absent
- */
+export interface BundleDocsOptions {
+  /** Docs site build output (e.g. `doc_build`). */
+  source: string;
+  /** Directory to write the bundle to. */
+  target: string;
+  /** Index file to ship alongside the pages. */
+  indexFile?: string;
+  /** Top-level directories to skip. */
+  excludedDirs?: string[];
+}
+
+/** @returns files copied, or 0 when the source is absent */
 export function bundleDocs({
   source,
   target,
   indexFile = DEFAULT_INDEX_FILE,
   excludedDirs = DEFAULT_EXCLUDED_DIRS,
-}) {
+}: BundleDocsOptions): number {
   if (!fs.existsSync(source)) {
     // Not fatal: the docs site is excluded from most builds, and blocking every
     // package build on it would slow day-to-day work down for no reason. The
@@ -52,7 +53,7 @@ export function bundleDocs({
 
   fs.rmSync(target, { recursive: true, force: true });
 
-  const isBundled = rel =>
+  const isBundled = (rel: string) =>
     rel === indexFile ||
     (rel.endsWith('.md') &&
       !excludedDirs.some(dir => rel.startsWith(`${dir}${path.sep}`)));
@@ -82,38 +83,27 @@ export function bundleDocs({
   return count;
 }
 
-function parseArgs(argv) {
-  const options = {};
+function parseArgs(argv: string[]): Record<string, string> {
+  const options: Record<string, string> = {};
   for (let i = 0; i < argv.length; i += 2) {
     const key = argv[i]?.replace(/^--/, '');
-    if (key && argv[i + 1]) {
-      options[key] = argv[i + 1];
+    const value = argv[i + 1];
+    if (key && value) {
+      options[key] = value;
     }
   }
   return options;
 }
 
-// CLI: `modern-bundle-docs --source <doc_build> --target <pkg>/docs`
-// Both default to Modern.js's own layout when omitted.
-// Compare resolved paths: when invoked through the published `.bin` entry,
-// process.argv[1] is a symlink to this file, so a raw string compare would
-// silently skip the CLI.
-const invokedDirectly = () => {
-  if (!process.argv[1]) {
-    return false;
-  }
-  try {
-    return (
-      fs.realpathSync(process.argv[1]) ===
-      fs.realpathSync(fileURLToPath(import.meta.url))
-    );
-  } catch {
-    return false;
-  }
-};
-
-if (invokedDirectly()) {
-  const pkgRoot = path.resolve(__dirname, '..');
+/**
+ * CLI body behind the `modern-bundle-docs` bin:
+ * `modern-bundle-docs --source <doc_build> --target <pkg>/docs`.
+ * Both default to Modern.js's own layout when omitted.
+ *
+ * @param pkgRoot this package's root, supplied by the bin shim — the compiled
+ * module cannot know it portably across output formats.
+ */
+export function runBundleDocsCli(pkgRoot: string): void {
   const args = parseArgs(process.argv.slice(2));
   const source = args.source
     ? path.resolve(process.cwd(), args.source)
@@ -128,7 +118,7 @@ if (invokedDirectly()) {
       console.log(`[bundle-docs] bundled ${count} doc files into docs`);
     }
   } catch (error) {
-    console.error(error.message);
+    console.error((error as Error).message);
     process.exit(1);
   }
 }
