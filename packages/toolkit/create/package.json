@@ -26,18 +26,12 @@
     "create": "./bin/run.js"
   },
   "exports": {
-    ".": "./dist/index.js",
-    "./agent-files": {
-      "types": "./agent-files.d.mts",
-      "default": "./agent-files.mjs"
-    }
+    ".": "./dist/index.js"
   },
   "files": [
     "template",
     "dist",
-    "bin.js",
-    "agent-files.mjs",
-    "agent-files.d.mts"
+    "bin.js"
   ],
   "scripts": {
     "build": "rslib build",
@@ -59,12 +53,5 @@
     "registry": "https://registry.npmjs.org/",
     "access": "public",
     "types": "./dist/types/index.d.ts"
-  },
-  "typesVersions": {
-    "*": {
-      "agent-files": [
-        "./agent-files.d.mts"
-      ]
-    }
   }
 }

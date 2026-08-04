@@ -1,7 +1,5 @@
 import fs from 'node:fs';
-// Shared with downstream frameworks (EdenX, PIA) via the `./agent-files`
-// export, so the idempotency rules live in exactly one place.
-import { applyAgentFiles } from '../agent-files.mjs';
+import { applyAgentFiles } from './agent-files';
 import {
   buildBlock,
   isModernProject,
