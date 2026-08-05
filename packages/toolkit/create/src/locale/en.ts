@@ -29,6 +29,8 @@ export const EN_LOCALE = {
     done: '✨ Done — AI coding agents will read {location}.',
     targetNotFound: 'Error: target directory "{dir}" does not exist',
     notAProject: 'Error: not a Modern.js project — run this in a project root',
+    unsupportedVersion:
+      '• @modern-js/app-tools@{version} does not ship bundled docs; nothing was changed. Add https://modernjs.dev/llms.txt to AGENTS.md so AI tools can reach the framework docs, or upgrade to {since} or later and re-run this command',
   },
   help: {
     title: '🚀 Modern.js Project Creator',

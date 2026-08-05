@@ -28,6 +28,8 @@ export const ZH_LOCALE = {
     done: '✨ 完成 —— AI 编码助手会读取 {location}。',
     targetNotFound: '错误: 目标目录 "{dir}" 不存在',
     notAProject: '错误: 当前目录不是 Modern.js 项目，请在项目根目录运行',
+    unsupportedVersion:
+      '• 当前 @modern-js/app-tools@{version} 不支持随包文档，未修改任何文件。可在 AGENTS.md 中补充 https://modernjs.dev/llms.txt 供 AI 工具获取框架知识，或升级到 {since} 及以上后重新执行本命令',
   },
   help: {
     title: '🚀 Modern.js 项目创建工具',

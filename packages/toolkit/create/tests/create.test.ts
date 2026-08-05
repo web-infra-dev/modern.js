@@ -195,27 +195,35 @@ describe('docs location by version', () => {
       }),
     );
 
-  const cases: [string, string][] = [
-    // v1 has no site of its own, so it reads v2's.
-    ['1.21.0', 'https://modernjs.dev/v2/llms.txt'],
-    ['2.68.0', 'https://modernjs.dev/v2/llms.txt'],
-    // Current major, but released before the docs shipped.
-    ['3.7.0', 'https://modernjs.dev/llms.txt'],
-    ['3.8.0', 'node_modules/@modern-js/app-tools/docs/'],
-    ['^3.9.0', 'node_modules/@modern-js/app-tools/docs/'],
-    // Trunk builds always carry the docs, and carry no comparable semver.
-    ['0.0.0-canary-20260731095506', 'node_modules/@modern-js/app-tools/docs/'],
-    ['workspace:*', 'node_modules/@modern-js/app-tools/docs/'],
-  ];
+  // Versions without bundled docs get nothing written — only a hint — so no
+  // file in the project can name docs that are not there.
+  const unsupported = ['1.21.0', '2.68.0', '3.7.0'];
+  for (const version of unsupported) {
+    it(`${version} writes nothing and prints the hint`, () => {
+      writePkg(version);
+      const output = runCreate(['--agents-md-only']);
 
-  for (const [version, expected] of cases) {
-    it(`${version} resolves to ${expected}`, () => {
+      expect(fs.existsSync(path.join(workdir, 'AGENTS.md'))).toBe(false);
+      expect(fs.existsSync(path.join(workdir, 'CLAUDE.md'))).toBe(false);
+      expect(output).toContain('3.8.0');
+      expect(output).toContain('llms.txt');
+    });
+  }
+
+  const supported = [
+    '3.8.0',
+    '^3.9.0',
+    '0.0.0-canary-20260731095506',
+    'workspace:*',
+  ];
+  for (const version of supported) {
+    it(`${version} writes the bundled block`, () => {
       writePkg(version);
       runCreate(['--agents-md-only']);
 
       expect(
         fs.readFileSync(path.join(workdir, 'AGENTS.md'), 'utf-8'),
-      ).toContain(expected);
+      ).toContain('node_modules/@modern-js/app-tools/docs/');
     });
   }
 
@@ -228,11 +236,10 @@ describe('docs location by version', () => {
       path.join(installed, 'package.json'),
       JSON.stringify({ name: '@modern-js/app-tools', version: '3.7.0' }),
     );
-    runCreate(['--agents-md-only']);
+    const output = runCreate(['--agents-md-only']);
 
-    expect(fs.readFileSync(path.join(workdir, 'AGENTS.md'), 'utf-8')).toContain(
-      'https://modernjs.dev/llms.txt',
-    );
+    expect(fs.existsSync(path.join(workdir, 'AGENTS.md'))).toBe(false);
+    expect(output).toContain('3.8.0');
   });
 
   it('refuses a directory that does not use Modern.js', () => {

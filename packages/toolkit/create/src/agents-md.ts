@@ -1,9 +1,12 @@
 import fs from 'node:fs';
 import { applyAgentFiles } from './agent-files';
 import {
+  BUNDLED_SINCE,
+  DOCS_PATH,
   buildBlock,
   isModernProject,
-  resolveDocsLocation,
+  resolveVersion,
+  supportsBundledDocs,
 } from './docs-location';
 import { i18n, localeKeys } from './locale';
 
@@ -41,12 +44,25 @@ export function runAgentsMd(_templateDir: string, targetDir: string): void {
     process.exit(1);
   }
 
-  const location = resolveDocsLocation(targetDir);
-  const block = buildBlock(location, MARKER_NAME);
+  // Versions without bundled docs get no files at all: a block written now
+  // would name docs that are not there, and a file the tool half-manages on an
+  // old version would only need migrating again after the upgrade.
+  const version = resolveVersion(targetDir);
+  if (!supportsBundledDocs(version)) {
+    console.log(
+      i18n.t(localeKeys.agentsCmd.unsupportedVersion, {
+        version: version ?? 'unknown',
+        since: BUNDLED_SINCE,
+      }),
+    );
+    return;
+  }
+
+  const block = buildBlock(MARKER_NAME);
   const result = applyAgentFiles({ targetDir, block, markerName: MARKER_NAME });
 
   console.log(i18n.t(AGENTS_MESSAGES[result.agents], { file: 'AGENTS.md' }));
   console.log(i18n.t(CLAUDE_MESSAGES[result.claude], { file: 'CLAUDE.md' }));
   console.log('');
-  console.log(i18n.t(localeKeys.agentsCmd.done, { location }));
+  console.log(i18n.t(localeKeys.agentsCmd.done, { location: DOCS_PATH }));
 }
