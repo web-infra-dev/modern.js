@@ -1,5 +1,13 @@
 # @modern-js/render
 
+## 3.8.0
+
+### Patch Changes
+
+- Updated dependencies [b3a0709]
+  - @modern-js/utils@3.8.0
+  - @modern-js/types@3.8.0
+
 ## 3.7.0
 
 ### Patch Changes
