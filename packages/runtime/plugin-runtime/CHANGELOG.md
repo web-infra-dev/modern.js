@@ -1,5 +1,17 @@
 # @modern-js/runtime
 
+## 3.8.0
+
+### Patch Changes
+
+- Updated dependencies [b3a0709]
+  - @modern-js/utils@3.8.0
+  - @modern-js/plugin-data-loader@3.8.0
+  - @modern-js/render@3.8.0
+  - @modern-js/plugin@3.8.0
+  - @modern-js/runtime-utils@3.8.0
+  - @modern-js/types@3.8.0
+
 ## 3.7.0
 
 ### Patch Changes
