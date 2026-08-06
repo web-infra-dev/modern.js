@@ -14,6 +14,14 @@ export type APILoaderOptions = {
   httpMethodDecider?: HttpMethodDecider;
   relativeDistPath: string;
   relativeApiPath: string;
+  /**
+   * Absolute paths of the valid API files, resolved by ApiRouter with the same
+   * `API_FILE_RULES` the runtime router uses. Passing them in keeps the client
+   * generator and the router in agreement about what an API module is, so stray
+   * artifacts next to the sources (compiled `.d.ts`/`.js`, tests, private files)
+   * never reach `generateClient`.
+   */
+  apiFiles: string[];
 };
 
 interface FileDetails {
@@ -36,61 +44,82 @@ const TYPE_PREFIX = `${API_DIR}/`;
 const toPosixPath = (p: string) => p.replace(/\\/g, '/');
 const posixJoin = (...args: string[]) => toPosixPath(path.join(...args));
 
+// `generateClient` emits `export default createRequest(...)` only when the
+// handler declares a default export, so the generated client `.js` is an exact
+// signal for whether the facade needs a `default` re-export.
+const DEFAULT_EXPORT_RE = /(^|[\s;])export\s+default\b/;
+
+// The published client re-exports the handler's own declaration instead of
+// copying it. A verbatim copy landed the `.d.ts` one directory shallower than
+// tsc emitted it (`dist/client/*` vs `dist/<lambda>/*`), breaking every
+// relative specifier inside. A facade leaves the original declarations in place
+// (relative refs intact, and published via `**/*.d.ts`) and only points at them.
+export function buildClientTypeFacade(
+  clientTypesFile: string,
+  originTypesFile: string,
+  hasDefaultExport: boolean,
+): string {
+  const originNoExt = originTypesFile.replace(/\.d\.ts$/, '');
+  let specifier = toPosixPath(
+    path.relative(path.dirname(clientTypesFile), originNoExt),
+  );
+  if (!specifier.startsWith('.')) {
+    specifier = `./${specifier}`;
+  }
+
+  const lines: string[] = [];
+  // `export *` never carries the default binding, so re-export it explicitly.
+  if (hasDefaultExport) {
+    lines.push(`export { default } from '${specifier}';`);
+  }
+  lines.push(`export * from '${specifier}';`);
+  return `${lines.join('\n')}\n`;
+}
+
 export async function readDirectoryFiles(
   appDirectory: string,
   directory: string,
   relativeDistPath: string,
+  apiFiles: string[],
 ): Promise<FileDetails[]> {
   const filesList: FileDetails[] = [];
 
-  async function readFiles(currentPath: string): Promise<void> {
-    const entries = await fs.readdir(currentPath, { withFileTypes: true });
+  for (const resourcePath of apiFiles) {
+    const source = await fs.readFile(resourcePath, 'utf8');
+    const currentPath = path.dirname(resourcePath);
+    const relativePath = path.relative(directory, resourcePath);
+    const parsedPath = path.parse(relativePath);
 
-    for (const entry of entries) {
-      if (entry.name === '_app.ts') continue;
+    const targetDir = posixJoin(
+      `./${relativeDistPath}/${CLIENT_DIR}`,
+      parsedPath.dir,
+      `${parsedPath.name}.js`,
+    );
+    const name = parsedPath.name;
+    const absTargetDir = path.resolve(targetDir);
+    const relativePathFromAppDirectory = path.relative(
+      appDirectory,
+      currentPath,
+    );
+    const typesFilePath = posixJoin(
+      `./${relativeDistPath}`,
+      relativePathFromAppDirectory,
+      `${name}.d.ts`,
+    );
+    const relativeTargetDistDir = `./${typesFilePath}`;
+    const exportKey = toPosixPath(path.join(parsedPath.dir, name));
 
-      const resourcePath = path.join(currentPath, entry.name);
-
-      if (entry.isDirectory()) {
-        await readFiles(resourcePath);
-      } else {
-        const source = await fs.readFile(resourcePath, 'utf8');
-        const relativePath = path.relative(directory, resourcePath);
-        const parsedPath = path.parse(relativePath);
-
-        const targetDir = posixJoin(
-          `./${relativeDistPath}/${CLIENT_DIR}`,
-          parsedPath.dir,
-          `${parsedPath.name}.js`,
-        );
-        const name = parsedPath.name;
-        const absTargetDir = path.resolve(targetDir);
-        const relativePathFromAppDirectory = path.relative(
-          appDirectory,
-          currentPath,
-        );
-        const typesFilePath = posixJoin(
-          `./${relativeDistPath}`,
-          relativePathFromAppDirectory,
-          `${name}.d.ts`,
-        );
-        const relativeTargetDistDir = `./${typesFilePath}`;
-        const exportKey = toPosixPath(path.join(parsedPath.dir, name));
-
-        filesList.push({
-          resourcePath,
-          source,
-          targetDir,
-          name,
-          absTargetDir,
-          relativeTargetDistDir,
-          exportKey,
-        });
-      }
-    }
+    filesList.push({
+      resourcePath,
+      source,
+      targetDir,
+      name,
+      absTargetDir,
+      relativeTargetDistDir,
+      exportKey,
+    });
   }
 
-  await readFiles(directory);
   return filesList;
 }
 
@@ -142,6 +171,10 @@ async function setPackage(
       posixJoin(relativeDistPath, CLIENT_DIR, '**', '*'),
       posixJoin(relativeDistPath, RUNTIME_DIR, '**', '*'),
       posixJoin(relativeDistPath, PLUGIN_DIR, '**', '*'),
+      // The client facade re-exports declarations that stay in their original
+      // `dist/<lambda>` / `dist/shared` locations, so every emitted `.d.ts`
+      // must ship or consumers resolve the facade to a missing file (TS2307).
+      posixJoin(relativeDistPath, '**', '*.d.ts'),
     ];
 
     const typesVersions = {
@@ -215,17 +248,12 @@ async function setPackage(
   }
 }
 
-export async function copyFiles(from: string, to: string) {
-  if (await fs.pathExists(from)) {
-    await fs.copy(toPosixPath(from), toPosixPath(to));
-  }
-}
-
 async function clientGenerator(draftOptions: APILoaderOptions) {
   const sourceList = await readDirectoryFiles(
     draftOptions.appDir,
     draftOptions.lambdaDir,
     draftOptions.relativeDistPath,
+    draftOptions.apiFiles,
   );
 
   const getClitentCode = async (resourcePath: string, source: string) => {
@@ -267,9 +295,14 @@ async function clientGenerator(draftOptions: APILoaderOptions) {
       const code = await getClitentCode(source.resourcePath, source.source);
       if (code?.value) {
         await writeTargetFile(source.absTargetDir, code.value);
-        await copyFiles(
-          source.relativeTargetDistDir,
-          source.targetDir.replace(`js`, 'd.ts'),
+        const clientTypesFile = source.targetDir.replace(/\.js$/, '.d.ts');
+        await writeTargetFile(
+          path.resolve(clientTypesFile),
+          buildClientTypeFacade(
+            clientTypesFile,
+            source.relativeTargetDistDir,
+            DEFAULT_EXPORT_RE.test(code.value),
+          ),
         );
       }
     }

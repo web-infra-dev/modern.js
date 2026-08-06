@@ -122,6 +122,7 @@ export const bffPlugin = (): CliPlugin<AppTools> => ({
         httpMethodDecider,
         relativeDistPath,
         relativeApiPath,
+        apiFiles: apiRouter.getApiFiles(),
       });
       await runtimeGenerator({
         runtime,

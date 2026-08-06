@@ -3,7 +3,10 @@ import { fs, getAliasConfig, logger } from '@modern-js/utils';
 import type { ParseConfigFileHost, Program } from 'typescript';
 import type ts from 'typescript';
 import type { CompileFunc } from '../../common';
-import { tsconfigPathsBeforeHookFactory } from './tsconfigPathsPlugin';
+import {
+  tsconfigPathsAfterDeclarationsHookFactory,
+  tsconfigPathsBeforeHookFactory,
+} from './tsconfigPathsPlugin';
 import { TypescriptLoader } from './typescriptLoader';
 
 const readTsConfigByFile = (tsConfigFile: string, tsInstance: typeof ts) => {
@@ -93,8 +96,16 @@ export const compileByTs: CompileFunc = async (
     compileOptions.moduleType,
   );
 
+  // tsc keeps path aliases verbatim in `.d.ts` output, so the same rewrite has
+  // to run on declaration emit or aliased specifiers leak to consumers.
+  const tsconfigPathsDeclarationPlugin =
+    tsconfigPathsAfterDeclarationsHookFactory(ts, absoluteBaseUrl, paths);
+
   const emitResult = program.emit(undefined, undefined, undefined, undefined, {
     before: tsconfigPathsPlugin ? [tsconfigPathsPlugin] : [],
+    afterDeclarations: tsconfigPathsDeclarationPlugin
+      ? [tsconfigPathsDeclarationPlugin]
+      : [],
   });
 
   const allDiagnostics = ts
