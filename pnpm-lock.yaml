@@ -2374,6 +2374,18 @@ importers:
         specifier: ^3.14.0
         version: 3.14.0
 
+  scripts/check-doc-bundle:
+    devDependencies:
+      '@types/node':
+        specifier: ^20
+        version: 20.19.27
+      tsx:
+        specifier: ^3.14.0
+        version: 3.14.0
+      typescript:
+        specifier: ^5
+        version: 5.7.3
+
   scripts/lint-package-json:
     dependencies:
       '@types/fs-extra':
