@@ -1,5 +1,24 @@
 # @modern-js/app-tools
 
+## 3.8.1
+
+### Patch Changes
+
+- dfcd414: chore(app-tools): bump the package version for release
+
+  chore(app-tools): 更新包版本以发布新版本
+
+  - @modern-js/builder@3.8.1
+  - @modern-js/plugin-data-loader@3.8.1
+  - @modern-js/server-core@3.8.1
+  - @modern-js/prod-server@3.8.1
+  - @modern-js/server@3.8.1
+  - @modern-js/server-utils@3.8.1
+  - @modern-js/i18n-utils@3.8.1
+  - @modern-js/plugin@3.8.1
+  - @modern-js/types@3.8.1
+  - @modern-js/utils@3.8.1
+
 ## 3.8.0
 
 ### Minor Changes
