@@ -1,5 +1,14 @@
 # @modern-js/builder
 
+## 3.8.0
+
+### Patch Changes
+
+- f0abf7e: fix: respect output.module for service-worker environment output
+  fix: 在 service-worker 环境中遵循 output.module 输出配置
+- Updated dependencies [b3a0709]
+  - @modern-js/utils@3.8.0
+
 ## 3.7.0
 
 ### Minor Changes

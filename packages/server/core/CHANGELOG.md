@@ -1,5 +1,24 @@
 # @modern-js/server-plugin
 
+## 3.8.0
+
+### Minor Changes
+
+- 13b960f: feat: support configuring the Mock directory through `dev.mockDir`
+
+  feat: 支持通过 `dev.mockDir` 配置 Mock 目录
+
+### Patch Changes
+
+- 3b0eacf: fix: type render route misses explicitly
+  fix: 明确渲染路由未命中的类型
+- 3981b6b: fix(server-core): share the hono request context storage across duplicated module copies via a process-global AsyncLocalStorage, so BFF handlers no longer fail with "Can't call useContext out of server scope" when the host and plugin resolve different server-core instances
+  fix(server-core): 通过进程级 AsyncLocalStorage 让 hono 请求上下文在重复加载的模块副本间共享，宿主与插件解析到不同 server-core 实例时 BFF 不再报 "Can't call useContext out of server scope"
+- Updated dependencies [b3a0709]
+  - @modern-js/utils@3.8.0
+  - @modern-js/plugin@3.8.0
+  - @modern-js/runtime-utils@3.8.0
+
 ## 3.7.0
 
 ### Patch Changes

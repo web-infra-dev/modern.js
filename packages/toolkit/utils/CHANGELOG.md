@@ -1,5 +1,13 @@
 # @modern-js/utils
 
+## 3.8.0
+
+### Patch Changes
+
+- b3a0709: fix: make custom server output runnable under native ESM (pass `moduleType`, resolve `.tsx` / `.jsx` entries, transform JSX)
+
+  fix: 修复自定义 Server 在原生 ESM 下的产物不可运行问题（透传 `moduleType`、支持 `.tsx` / `.jsx` 入口解析、编译 JSX）
+
 ## 3.7.0
 
 ## 3.6.0

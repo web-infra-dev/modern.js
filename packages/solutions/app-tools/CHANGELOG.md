@@ -1,5 +1,53 @@
 # @modern-js/app-tools
 
+## 3.8.0
+
+### Minor Changes
+
+- ea80c84: feat: agent knowledge supply — bundle version-matched English docs into the app-tools tarball (`docs/`) on publish, and generate `AGENTS.md` / `CLAUDE.md` in new projects created by `@modern-js/create` (skip with `--no-agents-md`). Existing projects can run `npx @modern-js/create --agents-md-only` to add or idempotently refresh these files after an upgrade (managed marker block is updated in place, user content is preserved). Also fixes boolean flags swallowing the following positional argument (e.g. `create --sub my-app`).
+
+  feat: Agent 知识供给 —— 发布时将版本匹配的英文文档打进 app-tools tarball（`docs/`），并在 `@modern-js/create` 新建项目时默认生成 `AGENTS.md` / `CLAUDE.md`（`--no-agents-md` 可跳过）。已有项目可运行 `npx @modern-js/create --agents-md-only` 在升级后补齐或幂等更新这两个文件（就地更新托管标记块，保留用户自定义内容）。同时修复布尔参数吞掉后续位置参数的问题（如 `create --sub my-app`）。
+
+- eda048d: Export the programmatic `deploy` API and make it own the build, server plugin
+  loading, and deploy hook lifecycle.
+- 13b960f: feat: support configuring the Mock directory through `dev.mockDir`
+
+  feat: 支持通过 `dev.mockDir` 配置 Mock 目录
+
+- eda048d: Export `closeServer` from the package root. Programmatic `dev` and `start`
+  initialization now uses the app-context command when no CLI build command is
+  present, including occupied port selection.
+- eda048d: Export the programmatic `build` API and its options from the package root, initialize the builder when `build` is supplied through the app-context command, and close completed non-watch builds before returning. The `onPrepare` dist cleanup now also recognizes the programmatic `appContext.command`, so programmatic `dev`/`build` clean stale output the same way the CLI does (still honoring `output.cleanDistPath` and running before `nestedRoutes.json` is generated).
+
+  从包根导出程序化 `build` API 及其选项，在通过 app-context command 传入 `build` 时初始化 builder，并在返回前关闭已完成的非 watch 构建。`onPrepare` 的 dist 清理现在也识别程序化的 `appContext.command`，使程序化 `dev`/`build` 与 CLI 一样清理陈旧产物（仍遵循 `output.cleanDistPath`，并在生成 `nestedRoutes.json` 之前执行）。
+
+### Patch Changes
+
+- a305126: feat: bundle version-matched docs into `@modern-js/app-tools` and generate `AGENTS.md` / `CLAUDE.md` pointing at them, so AI coding agents read docs matching the installed version
+
+  feat: 随包分发与安装版本一致的文档，并生成指向它的 `AGENTS.md` / `CLAUDE.md`，让 AI 编码助手读到与所装版本匹配的文档
+
+- b3a0709: fix: make custom server output runnable under native ESM (pass `moduleType`, resolve `.tsx` / `.jsx` entries, transform JSX)
+
+  fix: 修复自定义 Server 在原生 ESM 下的产物不可运行问题（透传 `moduleType`、支持 `.tsx` / `.jsx` 入口解析、编译 JSX）
+
+- Updated dependencies [13b960f]
+- Updated dependencies [c2914ea]
+- Updated dependencies [3b0eacf]
+- Updated dependencies [3981b6b]
+- Updated dependencies [b3a0709]
+- Updated dependencies [f0abf7e]
+  - @modern-js/server@3.8.0
+  - @modern-js/server-core@3.8.0
+  - @modern-js/i18n-utils@3.8.0
+  - @modern-js/server-utils@3.8.0
+  - @modern-js/utils@3.8.0
+  - @modern-js/builder@3.8.0
+  - @modern-js/plugin-data-loader@3.8.0
+  - @modern-js/prod-server@3.8.0
+  - @modern-js/plugin@3.8.0
+  - @modern-js/types@3.8.0
+
 ## 3.7.0
 
 ### Minor Changes
