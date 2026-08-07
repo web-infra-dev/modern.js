@@ -91,6 +91,36 @@ describe('typescript', () => {
     }
   });
 
+  it('appends .js to declaration specifiers in esm output', async () => {
+    const example = path.join(__dirname, './fixtures', './ts-declaration-esm');
+    const tsconfigPath = path.join(example, './tsconfig.json');
+    const distDir = path.join(example, './dist');
+    const sharedDir = path.join(example, './shared');
+    const apiDir = path.join(example, './api');
+
+    try {
+      await compile(example, { alias: {} } as any, {
+        sourceDirs: [sharedDir, apiDir],
+        distDir,
+        tsconfigPath,
+        moduleType: 'module',
+      });
+
+      const dts = (
+        await fs.readFile(path.join(distDir, './api/index.d.ts'))
+      ).toString();
+
+      // In ESM output the declaration specifier must carry the emitted `.js`
+      // extension just like the JS output, or `node16`/`nodenext` consumers
+      // fail with TS2835. TS resolves `./x.js` back to `./x.d.ts`.
+      expect(dts).not.toContain('@shared');
+      expect(dts).toContain('from "../shared/types.js"');
+      expect(dts).toContain('import("../shared/types.js")');
+    } finally {
+      await fs.remove(distDir);
+    }
+  });
+
   it('should keep .js suffix for aliased imports in esm output', async () => {
     const example = path.join(__dirname, './fixtures', './ts-example');
     const tsconfigPath = path.join(example, './tsconfig.esm.json');

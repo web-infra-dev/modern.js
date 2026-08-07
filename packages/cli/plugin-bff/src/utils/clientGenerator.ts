@@ -15,6 +15,12 @@ export type APILoaderOptions = {
   relativeDistPath: string;
   relativeApiPath: string;
   /**
+   * `'module'` for native ESM output (`package.json#type: "module"`); the
+   * generated facade then re-exports with an explicit `.js` extension so
+   * `node16`/`nodenext` consumers resolve it.
+   */
+  moduleType?: 'module' | 'commonjs';
+  /**
    * Absolute paths of the valid API files, resolved by ApiRouter with the same
    * `API_FILE_RULES` the runtime router uses. Passing them in keeps the client
    * generator and the router in agreement about what an API module is, so stray
@@ -58,6 +64,7 @@ export function buildClientTypeFacade(
   clientTypesFile: string,
   originTypesFile: string,
   hasDefaultExport: boolean,
+  esm = false,
 ): string {
   const originNoExt = originTypesFile.replace(/\.d\.ts$/, '');
   let specifier = toPosixPath(
@@ -65,6 +72,12 @@ export function buildClientTypeFacade(
   );
   if (!specifier.startsWith('.')) {
     specifier = `./${specifier}`;
+  }
+  // Native ESM (`node16`/`nodenext`) requires an explicit extension in the
+  // re-export specifier, matching the `.js` the declaration emit produces; TS
+  // resolves `./x.js` back to `./x.d.ts`.
+  if (esm) {
+    specifier = `${specifier}.js`;
   }
 
   const lines: string[] = [];
@@ -302,6 +315,7 @@ async function clientGenerator(draftOptions: APILoaderOptions) {
             clientTypesFile,
             source.relativeTargetDistDir,
             DEFAULT_EXPORT_RE.test(code.value),
+            draftOptions.moduleType === 'module',
           ),
         );
       }

@@ -99,7 +99,12 @@ export const compileByTs: CompileFunc = async (
   // tsc keeps path aliases verbatim in `.d.ts` output, so the same rewrite has
   // to run on declaration emit or aliased specifiers leak to consumers.
   const tsconfigPathsDeclarationPlugin =
-    tsconfigPathsAfterDeclarationsHookFactory(ts, absoluteBaseUrl, paths);
+    tsconfigPathsAfterDeclarationsHookFactory(
+      ts,
+      absoluteBaseUrl,
+      paths,
+      compileOptions.moduleType,
+    );
 
   const emitResult = program.emit(undefined, undefined, undefined, undefined, {
     before: tsconfigPathsPlugin ? [tsconfigPathsPlugin] : [],

@@ -255,22 +255,27 @@ export function tsconfigPathsBeforeHookFactory(
 // declaration nodes are synthesized without source positions (specifiers are
 // read via `.text`), inline `import("...")` types appear as `ImportTypeNode`,
 // and `import x = require("...")` keeps its specifier in an
-// `ExternalModuleReference`. `moduleType` is intentionally not forwarded:
-// declaration specifiers stay extensionless.
+// `ExternalModuleReference`. `moduleType` is forwarded so ESM declarations
+// carry the same `.js` specifier as the JS output — `node16`/`nodenext`
+// consumers require explicit extensions in `.d.ts` too (TS emits `./x.js` and
+// resolves it back to `./x.d.ts`); mismatching JS and `.d.ts` here reproduces
+// the very TS2835 failure this rewrite exists to prevent.
 export function tsconfigPathsAfterDeclarationsHookFactory(
   tsBinary: typeof ts,
   baseUrl: string,
   paths: Record<string, string[] | string>,
+  moduleType?: 'module' | 'commonjs',
 ) {
-  // Declarations only need rewriting when the project declares path aliases;
-  // there is no ESM `.js`-extension concern here, unlike the `before` hook.
-  if (Object.keys(paths).length === 0) {
+  // Native ESM declarations still need relative specifiers rewritten to their
+  // emitted `.js` counterparts even without path aliases, matching the `before`
+  // hook's guard.
+  if (Object.keys(paths).length === 0 && moduleType !== 'module') {
     return undefined;
   }
 
   const matchPath = createTsMatchPath(baseUrl, paths);
   const rewrite = (sf: ts.SourceFile, text: string) =>
-    getNotAliasedPath(sf, matchPath, text);
+    getNotAliasedPath(sf, matchPath, text, moduleType);
 
   return (
     ctx: ts.TransformationContext,

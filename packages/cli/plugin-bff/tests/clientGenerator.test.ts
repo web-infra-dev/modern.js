@@ -130,6 +130,21 @@ describe('clientGenerator', () => {
       expect(withoutDefault).toContain(`export * from '../api/lambda/upload';`);
     });
 
+    it('appends a .js extension to the re-export in esm output', () => {
+      const facade = buildClientTypeFacade(
+        './dist/client/index.d.ts',
+        './dist/api/lambda/index.d.ts',
+        true,
+        true,
+      );
+      // node16/nodenext consumers need the explicit extension; TS maps
+      // `./x.js` back to `./x.d.ts`.
+      expect(facade).toContain(
+        `export { default } from '../api/lambda/index.js';`,
+      );
+      expect(facade).toContain(`export * from '../api/lambda/index.js';`);
+    });
+
     it('resolves the specifier from nested client locations', () => {
       const facade = buildClientTypeFacade(
         './dist/client/user/index.d.ts',
