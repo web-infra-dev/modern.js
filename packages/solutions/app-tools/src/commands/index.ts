@@ -24,6 +24,10 @@ export const devCommand = async (
     .option('--analyze', i18n.t(localeKeys.command.shared.analyze))
     .option('--api-only', i18n.t(localeKeys.command.dev.apiOnly))
     .option('--web-only', i18n.t(localeKeys.command.dev.webOnly))
+    // Consumed by the dev-lock plugin in `onPrepare` (before this action
+    // runs); registered here so it shows up in `--help` and passes
+    // Commander's unknown-option check.
+    .option('--allow-multiple', i18n.t(localeKeys.command.dev.allowMultiple))
     .action(async (options: DevOptions) => {
       const { dev } = await import('./dev.js');
       await dev(api, options);

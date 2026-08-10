@@ -22,6 +22,7 @@ import { DEFAULT_RUNTIME_CONFIG_FILE } from './constants';
 import { i18n } from './locale';
 import analyzePlugin from './plugins/analyze';
 import deployPlugin from './plugins/deploy';
+import devLockPlugin from './plugins/devLock';
 import initializePlugin from './plugins/initialize';
 import serverBuildPlugin from './plugins/serverBuild';
 import type { AppTools, CliPlugin } from './types';
@@ -45,6 +46,9 @@ export * from './defineConfig';
 export const appTools = (): CliPlugin<AppTools> => ({
   name: '@modern-js/app-tools',
   usePlugins: [
+    // Must stay first: its `onPrepare` checks the project operation lock
+    // before any plugin cleans `internalDirectory` or `dist`.
+    devLockPlugin(),
     compatPlugin(),
     initializePlugin(),
     analyzePlugin(),
