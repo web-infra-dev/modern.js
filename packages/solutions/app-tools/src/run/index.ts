@@ -3,6 +3,10 @@ import { run as CLIPluginRun } from '@modern-js/plugin/run';
 import type { InternalPlugins } from '@modern-js/types';
 import { chalk, minimist } from '@modern-js/utils';
 import { handleSetupResult } from '../compat/hooks';
+import {
+  type DevServerLockError,
+  isDevServerLockError,
+} from '../utils/devLock';
 import { getConfigFile } from '../utils/getConfigFile';
 import { loadInternalPlugins } from '../utils/loadPlugins';
 
@@ -96,5 +100,48 @@ export async function createRunOptions({
 
 export async function run(options: RunOptions) {
   const runOptions = await createRunOptions(options);
-  await CLIPluginRun(runOptions);
+  try {
+    await CLIPluginRun(runOptions);
+  } catch (err) {
+    // Lock conflicts are expected, user-facing outcomes: print an actionable
+    // message instead of a stack trace. Programmatic callers that invoke the
+    // CLI directly (not through this wrapper) receive the typed error as-is.
+    if (isDevServerLockError(err)) {
+      printDevServerLockError(err);
+      process.exitCode = 1;
+      return;
+    }
+    throw err;
+  }
+}
+
+function printDevServerLockError(err: DevServerLockError) {
+  console.error(`${chalk.red('error')}   [${err.code}] ${err.message}`);
+  for (const instance of err.instances) {
+    const url =
+      instance.urls?.[0] ??
+      (instance.port ? `http://localhost:${instance.port}` : undefined);
+    console.error(
+      `${chalk.red('error')}     ${instance.operation} (PID: ${instance.pid}${
+        url ? `, URL: ${chalk.cyan(url)}` : ''
+      })`,
+    );
+  }
+  const [first] = err.instances;
+  if (first) {
+    const killCommand =
+      process.platform === 'win32'
+        ? `taskkill /PID ${first.pid} /F`
+        : `kill ${first.pid}`;
+    console.error(
+      `${chalk.red('error')}   Reuse it, or stop it first: ${chalk.cyan(killCommand)}`,
+    );
+  }
+  if (err.code === 'EDEV_SERVER_RUNNING') {
+    console.error(
+      `${chalk.red('error')}   To intentionally run another dev server: ${chalk.cyan(
+        'modern dev --allow-multiple',
+      )}`,
+    );
+  }
 }
