@@ -1,0 +1,571 @@
+import { execSync } from 'child_process';
+import fs from 'fs';
+import net from 'net';
+import path from 'path';
+import { logger } from '@modern-js/utils';
+
+export const LOCK_SCHEMA_VERSION = 1;
+
+// Identity tolerance: process start time read back from the OS and the value
+// recorded in the lock never match exactly (tick rounding, ps formatting).
+const START_TIME_TOLERANCE_MS = 5000;
+// A lock whose content is not valid JSON is corrupted, but give a short grace
+// period so we never race a writer from a different (non tmp+rename) source.
+const BAD_JSON_GRACE_MS = 5000;
+const TCP_PROBE_TIMEOUT_MS = 300;
+const MUTEX_WAIT_TOTAL_MS = 10_000;
+const HEARTBEAT_INTERVAL_MS = 10_000;
+
+export type LockOperation = 'dev' | 'build' | 'deploy';
+export type LockMode = 'shared' | 'exclusive';
+export type LockState = 'starting' | 'ready' | 'running';
+
+export interface DevLockInfo {
+  schemaVersion: number;
+  operation: LockOperation;
+  mode: LockMode;
+  state: LockState;
+  pid: number;
+  processStartedAt: number;
+  port?: number;
+  host?: string;
+  urls?: string[];
+  appDirectory: string;
+  heartbeatAt?: number;
+}
+
+export type DevLockErrorCode =
+  | 'EDEV_SERVER_RUNNING'
+  | 'EDEV_BLOCKED_BY_BUILD'
+  | 'EBUILD_BLOCKED_BY_DEV'
+  | 'EBUILD_IN_PROGRESS'
+  | 'EUNSUPPORTED_LEASE'
+  | 'EDEVLOCK_BUSY';
+
+export interface DevLockInstance {
+  pid: number;
+  operation: LockOperation;
+  mode: LockMode;
+  port?: number;
+  urls?: string[];
+  startedAt: number;
+  appDirectory: string;
+}
+
+export class DevServerLockError extends Error {
+  code: DevLockErrorCode;
+  instances: DevLockInstance[];
+
+  constructor(
+    code: DevLockErrorCode,
+    message: string,
+    instances: DevLockInstance[] = [],
+  ) {
+    super(message);
+    this.name = 'DevServerLockError';
+    this.code = code;
+    this.instances = instances;
+  }
+}
+
+export const isDevServerLockError = (err: unknown): err is DevServerLockError =>
+  err instanceof Error && err.name === 'DevServerLockError';
+
+export const getLockDirectory = (appDirectory: string, metaName: string) =>
+  path.join(appDirectory, 'node_modules', '.cache', metaName, 'locks', 'v1');
+
+/** dev|start share the dev semantics; anything else does not take a lock. */
+export const normalizeLockOperation = (
+  command: string | undefined,
+): LockOperation | null => {
+  if (command === 'dev' || command === 'start' || command === 'dev-worker') {
+    return 'dev';
+  }
+  if (command === 'build') {
+    return 'build';
+  }
+  if (command === 'deploy') {
+    return 'deploy';
+  }
+  return null;
+};
+
+const selfStartedAt = () => Date.now() - process.uptime() * 1000;
+
+const isProcessAlive = (pid: number): boolean => {
+  try {
+    process.kill(pid, 0);
+    return true;
+  } catch (err) {
+    // EPERM means the process exists but belongs to someone else.
+    return (err as NodeJS.ErrnoException).code === 'EPERM';
+  }
+};
+
+/**
+ * Best-effort process start time for PID-reuse detection. Returns null when
+ * the platform offers no cheap way to read it (Windows), in which case the
+ * caller falls back to liveness + port probing only.
+ */
+const getProcessStartTime = (pid: number): number | null => {
+  try {
+    if (process.platform === 'linux') {
+      // /proc/<pid> is created when the process starts.
+      return fs.statSync(`/proc/${pid}`).ctimeMs;
+    }
+    if (process.platform === 'darwin') {
+      const out = execSync(`ps -o lstart= -p ${pid}`, {
+        stdio: ['ignore', 'pipe', 'ignore'],
+      })
+        .toString()
+        .trim();
+      if (out) {
+        const parsed = Date.parse(out);
+        return Number.isNaN(parsed) ? null : parsed;
+      }
+    }
+  } catch {
+    // fall through
+  }
+  return null;
+};
+
+const identityMatches = (pid: number, recordedStartedAt: number): boolean => {
+  if (!isProcessAlive(pid)) {
+    return false;
+  }
+  const actual = getProcessStartTime(pid);
+  if (actual === null) {
+    // No start-time source on this platform: liveness is all we have.
+    return true;
+  }
+  return Math.abs(actual - recordedStartedAt) <= START_TIME_TOLERANCE_MS;
+};
+
+const probePort = (port: number, host?: string): Promise<boolean> => {
+  // Probe the loopback matching the wildcard family, otherwise the real host.
+  const target =
+    !host || host === '0.0.0.0'
+      ? '127.0.0.1'
+      : host === '::' || host === '[::]'
+        ? '::1'
+        : host;
+  return new Promise(resolve => {
+    const socket = net.connect({ port, host: target });
+    const done = (result: boolean) => {
+      socket.destroy();
+      resolve(result);
+    };
+    socket.setTimeout(TCP_PROBE_TIMEOUT_MS);
+    socket.once('connect', () => done(true));
+    socket.once('timeout', () => done(false));
+    socket.once('error', () => done(false));
+  });
+};
+
+const atomicWrite = (filePath: string, data: string) => {
+  const tmp = `${filePath}.${process.pid}.tmp`;
+  fs.writeFileSync(tmp, data);
+  fs.renameSync(tmp, filePath);
+};
+
+const sleep = (ms: number) => new Promise(resolve => setTimeout(resolve, ms));
+
+interface MutexOwner {
+  pid: number;
+  processStartedAt: number;
+  token: string;
+  acquiredAt: number;
+}
+
+/**
+ * Cross-process critical section: every process contends on the same
+ * `.mutex` directory (mkdir is atomic). The only condition that allows
+ * breaking someone else's mutex is proof that its owner is dead — a live
+ * owner is waited on and, past the deadline, reported as busy, never broken.
+ */
+const acquireMutex = async (lockDir: string): Promise<string> => {
+  const mutexDir = path.join(lockDir, '.mutex');
+  const ownerFile = path.join(mutexDir, 'owner.json');
+  const token = `${process.pid}-${Math.random().toString(36).slice(2)}`;
+  const deadline = Date.now() + MUTEX_WAIT_TOTAL_MS;
+  let delay = 50;
+
+  for (;;) {
+    try {
+      fs.mkdirSync(mutexDir);
+      const owner: MutexOwner = {
+        pid: process.pid,
+        processStartedAt: selfStartedAt(),
+        token,
+        acquiredAt: Date.now(),
+      };
+      atomicWrite(ownerFile, JSON.stringify(owner));
+      return token;
+    } catch (err) {
+      if ((err as NodeJS.ErrnoException).code !== 'EEXIST') {
+        throw err;
+      }
+    }
+
+    let owner: MutexOwner | undefined;
+    try {
+      owner = JSON.parse(fs.readFileSync(ownerFile, 'utf-8'));
+    } catch {
+      // owner.json not written yet or unreadable — treat as held.
+    }
+    if (owner && !identityMatches(owner.pid, owner.processStartedAt)) {
+      // Owner is provably dead: clear the leftover mutex and retry now.
+      fs.rmSync(mutexDir, { recursive: true, force: true });
+      continue;
+    }
+
+    if (Date.now() >= deadline) {
+      throw new DevServerLockError(
+        'EDEVLOCK_BUSY',
+        'Another Modern.js process is checking this project, please retry shortly.',
+      );
+    }
+    await sleep(delay);
+    delay = Math.min(delay * 1.5, 500);
+  }
+};
+
+const releaseMutex = (lockDir: string, token: string) => {
+  const mutexDir = path.join(lockDir, '.mutex');
+  try {
+    const owner: MutexOwner = JSON.parse(
+      fs.readFileSync(path.join(mutexDir, 'owner.json'), 'utf-8'),
+    );
+    if (owner.token !== token) {
+      // The mutex changed hands (we were declared dead); never delete it.
+      return;
+    }
+  } catch {
+    // Missing/unreadable owner: fall through and best-effort remove.
+  }
+  fs.rmSync(mutexDir, { recursive: true, force: true });
+};
+
+const toInstance = (lock: DevLockInfo): DevLockInstance => ({
+  pid: lock.pid,
+  operation: lock.operation,
+  mode: lock.mode,
+  port: lock.port,
+  urls: lock.urls,
+  startedAt: lock.processStartedAt,
+  appDirectory: lock.appDirectory,
+});
+
+/**
+ * Enumerate lock files, delete stale ones, and return the live locks held by
+ * other processes plus (when present) our own lock for hot-restart reuse.
+ */
+const collectLiveLocks = async (lockDir: string) => {
+  const others: DevLockInfo[] = [];
+  let self: DevLockInfo | undefined;
+
+  let entries: string[] = [];
+  try {
+    entries = fs.readdirSync(lockDir);
+  } catch {
+    return { others, self };
+  }
+
+  for (const entry of entries) {
+    if (!entry.endsWith('.lock')) {
+      continue;
+    }
+    const filePath = path.join(lockDir, entry);
+
+    let lock: DevLockInfo;
+    try {
+      lock = JSON.parse(fs.readFileSync(filePath, 'utf-8'));
+    } catch {
+      try {
+        if (Date.now() - fs.statSync(filePath).mtimeMs > BAD_JSON_GRACE_MS) {
+          fs.rmSync(filePath, { force: true });
+        }
+      } catch {
+        // already gone
+      }
+      continue;
+    }
+
+    if (typeof lock.schemaVersion !== 'number' || !lock.pid) {
+      fs.rmSync(filePath, { force: true });
+      continue;
+    }
+    if (lock.schemaVersion > LOCK_SCHEMA_VERSION) {
+      // Written by a newer CLI: never delete what we cannot understand.
+      throw new DevServerLockError(
+        'EUNSUPPORTED_LEASE',
+        `Found a lock file written by a newer version of the CLI (${filePath}). Upgrade this CLI, or remove the file manually if you are sure no other process is running.`,
+        [toInstance(lock)],
+      );
+    }
+
+    if (
+      lock.pid === process.pid &&
+      Math.abs(lock.processStartedAt - selfStartedAt()) <=
+        START_TIME_TOLERANCE_MS
+    ) {
+      self = lock;
+      continue;
+    }
+
+    if (!identityMatches(lock.pid, lock.processStartedAt)) {
+      logger.debug(`[dev-lock] removing stale lock ${filePath}`);
+      fs.rmSync(filePath, { force: true });
+      continue;
+    }
+    if (
+      lock.operation === 'dev' &&
+      lock.state === 'ready' &&
+      typeof lock.port === 'number' &&
+      !(await probePort(lock.port, lock.host))
+    ) {
+      logger.debug(`[dev-lock] removing dead-server lock ${filePath}`);
+      fs.rmSync(filePath, { force: true });
+      continue;
+    }
+
+    others.push(lock);
+  }
+
+  return { others, self };
+};
+
+const decideConflict = (
+  op: LockOperation,
+  allowMultiple: boolean,
+  others: DevLockInfo[],
+): DevServerLockError | null => {
+  const exclusive = others.filter(lock => lock.mode === 'exclusive');
+  const shared = others.filter(lock => lock.mode === 'shared');
+
+  if (op === 'dev') {
+    if (exclusive.length > 0) {
+      return new DevServerLockError(
+        'EDEV_BLOCKED_BY_BUILD',
+        'A build/deploy is currently writing the output of this project.',
+        exclusive.map(toInstance),
+      );
+    }
+    if (shared.length > 0 && !allowMultiple) {
+      return new DevServerLockError(
+        'EDEV_SERVER_RUNNING',
+        'Another dev server is already running for this project.',
+        shared.map(toInstance),
+      );
+    }
+    return null;
+  }
+
+  // build / deploy
+  if (exclusive.length > 0) {
+    return new DevServerLockError(
+      'EBUILD_IN_PROGRESS',
+      'Another build/deploy is already running for this project.',
+      exclusive.map(toInstance),
+    );
+  }
+  if (shared.length > 0) {
+    return new DevServerLockError(
+      'EBUILD_BLOCKED_BY_DEV',
+      'A dev server is running for this project; stop it before building.',
+      shared.map(toInstance),
+    );
+  }
+  return null;
+};
+
+// ---- per-process session (heartbeat + exit cleanup, hot-restart safe) ----
+
+interface DevLockSession {
+  lockDir: string;
+  lockFile: string;
+  current?: DevLockInfo;
+  heartbeat?: ReturnType<typeof setInterval>;
+}
+
+const sessions = new Map<string, DevLockSession>();
+let exitHookInstalled = false;
+
+const sessionKey = (appDirectory: string, metaName: string) =>
+  `${appDirectory} ${metaName}`;
+
+const writeLockFile = (session: DevLockSession, lock: DevLockInfo) => {
+  session.current = lock;
+  atomicWrite(session.lockFile, JSON.stringify(lock, null, 2));
+};
+
+const removeOwnLock = (session: DevLockSession) => {
+  stopHeartbeat(session);
+  session.current = undefined;
+  try {
+    // Only ever delete our own <pid>.lock; identity re-check is implicit in
+    // the filename (pid) plus the fact that we wrote it in this process.
+    fs.rmSync(session.lockFile, { force: true });
+  } catch {
+    // best-effort
+  }
+};
+
+const stopHeartbeat = (session: DevLockSession) => {
+  if (session.heartbeat) {
+    clearInterval(session.heartbeat);
+    session.heartbeat = undefined;
+  }
+};
+
+const startHeartbeat = (session: DevLockSession) => {
+  stopHeartbeat(session);
+  session.heartbeat = setInterval(() => {
+    if (session.current) {
+      try {
+        writeLockFile(session, {
+          ...session.current,
+          heartbeatAt: Date.now(),
+        });
+      } catch {
+        // best-effort
+      }
+    }
+  }, HEARTBEAT_INTERVAL_MS);
+  // Never keep the process alive just for the heartbeat.
+  session.heartbeat.unref?.();
+};
+
+const installExitHook = () => {
+  if (exitHookInstalled) {
+    return;
+  }
+  exitHookInstalled = true;
+  process.on('exit', () => {
+    for (const session of sessions.values()) {
+      removeOwnLock(session);
+    }
+  });
+};
+
+export interface AcquireOptions {
+  appDirectory: string;
+  metaName: string;
+  operation: LockOperation;
+  allowMultiple?: boolean;
+}
+
+/**
+ * Check existing locks and register our own, atomically (inside the registry
+ * mutex). Throws DevServerLockError on conflict. Re-entry from the same
+ * process (config hot restart) reuses the existing lock file.
+ */
+export const acquireCommandLock = async ({
+  appDirectory,
+  metaName,
+  operation,
+  allowMultiple = false,
+}: AcquireOptions): Promise<void> => {
+  const lockDir = getLockDirectory(appDirectory, metaName);
+  fs.mkdirSync(lockDir, { recursive: true });
+
+  const key = sessionKey(appDirectory, metaName);
+  let session = sessions.get(key);
+  if (!session) {
+    session = {
+      lockDir,
+      lockFile: path.join(lockDir, `${process.pid}.lock`),
+    };
+    sessions.set(key, session);
+  }
+  installExitHook();
+
+  const token = await acquireMutex(lockDir);
+  try {
+    const { others, self } = await collectLiveLocks(lockDir);
+
+    const conflict = decideConflict(operation, allowMultiple, others);
+    if (conflict) {
+      throw conflict;
+    }
+
+    const mode: LockMode = operation === 'dev' ? 'shared' : 'exclusive';
+    const state: LockState = operation === 'dev' ? 'starting' : 'running';
+    writeLockFile(session, {
+      // Hot restart in the same process: reuse (rewrite) our existing file.
+      ...(self ?? {}),
+      schemaVersion: LOCK_SCHEMA_VERSION,
+      operation,
+      mode,
+      state,
+      pid: process.pid,
+      processStartedAt: selfStartedAt(),
+      appDirectory,
+      heartbeatAt: Date.now(),
+    });
+    startHeartbeat(session);
+  } finally {
+    releaseMutex(lockDir, token);
+  }
+};
+
+/** dev only: fill in the real port/urls once `server.listen` succeeded. */
+export const markDevLockReady = (
+  appDirectory: string,
+  metaName: string,
+  info: { port?: number; host?: string; urls?: string[] },
+): void => {
+  const session = sessions.get(sessionKey(appDirectory, metaName));
+  if (!session?.current) {
+    return;
+  }
+  try {
+    writeLockFile(session, {
+      ...session.current,
+      state: 'ready',
+      port: info.port,
+      host: info.host,
+      urls: info.urls,
+      heartbeatAt: Date.now(),
+    });
+  } catch (err) {
+    // Losing the update downgrades protection but must not break dev itself.
+    logger.warn(
+      `[dev-lock] failed to update lock file, duplicate-instance protection is degraded: ${err}`,
+    );
+  }
+};
+
+/** Release the lock this process holds for the given operation, if any. */
+export const releaseCommandLock = (
+  appDirectory: string,
+  metaName: string,
+  operation?: LockOperation,
+): void => {
+  const session = sessions.get(sessionKey(appDirectory, metaName));
+  if (!session) {
+    return;
+  }
+  if (operation && session.current && session.current.operation !== operation) {
+    return;
+  }
+  removeOwnLock(session);
+};
+
+/** Hot restart: keep the lock file, only dispose process-local resources. */
+export const suspendForRestart = (
+  appDirectory: string,
+  metaName: string,
+): void => {
+  const session = sessions.get(sessionKey(appDirectory, metaName));
+  if (session) {
+    stopHeartbeat(session);
+  }
+};
+
+export const releaseAllLocks = (): void => {
+  for (const session of sessions.values()) {
+    removeOwnLock(session);
+  }
+};

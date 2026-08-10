@@ -3,6 +3,7 @@ import type { CLIPluginAPI } from '@modern-js/plugin';
 import { fs, type Alias, logger } from '@modern-js/utils';
 import type { ConfigChain } from '@rsbuild/core';
 import type { AppTools } from '../types';
+import { releaseCommandLock } from '../utils/devLock';
 import { loadServerPlugins } from '../utils/loadPlugins';
 import { setupTsRuntime } from '../utils/register';
 import { generateRoutes } from '../utils/routes';
@@ -46,6 +47,21 @@ async function copyEnvFiles(
 }
 
 export const build = async (
+  api: CLIPluginAPI<AppTools>,
+  options?: BuildOptions,
+) => {
+  const { appDirectory, metaName } = api.getAppContext();
+  try {
+    await runBuild(api, options);
+  } finally {
+    // The exclusive lock is taken in `onPrepare`; a bare `deploy` runs this
+    // function while holding a 'deploy' lock, which this op-matched release
+    // leaves alone.
+    releaseCommandLock(appDirectory, metaName, 'build');
+  }
+};
+
+const runBuild = async (
   api: CLIPluginAPI<AppTools>,
   options?: BuildOptions,
 ) => {

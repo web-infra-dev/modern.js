@@ -16,6 +16,7 @@ import {
 import type { ConfigChain } from '@rsbuild/core';
 import type { AppNormalizedConfig, AppTools } from '../types';
 import { setServer } from '../utils/createServer';
+import { markDevLockReady } from '../utils/devLock';
 import { loadServerPlugins } from '../utils/loadPlugins';
 import { printInstructions } from '../utils/printInstructions';
 import { setupTsRuntime } from '../utils/register';
@@ -114,6 +115,10 @@ export const dev = async (
         host,
       },
       () => {
+        markDevLockReady(appContext.appDirectory, appContext.metaName, {
+          port,
+          host,
+        });
         printInstructions(
           hooks,
           appContext,
@@ -142,6 +147,11 @@ export const dev = async (
         }
 
         logger.debug('listen dev server done');
+
+        markDevLockReady(appContext.appDirectory, appContext.metaName, {
+          port,
+          host,
+        });
 
         await afterListen();
       },

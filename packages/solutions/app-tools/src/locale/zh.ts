@@ -11,6 +11,7 @@ export const ZH_LOCALE = {
       entry: '指定入口，编译特定的页面',
       apiOnly: '仅启动 API 接口服务',
       webOnly: '仅启动 Web 服务',
+      allowMultiple: '已有 dev server 运行时，允许再启动一个',
       selectEntry: '请选择需要构建的入口',
       requireEntry: '请至少选择一个入口',
     },
