@@ -183,21 +183,20 @@ describe('acquireCommandLock', () => {
     expect(locks[0].pid).toBe(process.pid);
   });
 
-  it('cleans up a ready dev lock whose port is no longer listening', async () => {
+  it('keeps an identity-verified live dev lock even when its port is closed (hot-restart window)', async () => {
+    // During a config hot restart the server closes before CLI init re-runs:
+    // the holder is alive but momentarily has no listening port. A failed
+    // port probe must NOT strip it of protection.
     writeForeignLock({
       pid: process.ppid,
       state: 'ready',
       port: 65531,
       host: '127.0.0.1',
     });
-    await acquireCommandLock({
-      appDirectory,
-      metaName: META,
-      operation: 'build',
-    });
-    const locks = readLocks();
-    expect(locks).toHaveLength(1);
-    expect(locks[0].operation).toBe('build');
+    await expect(
+      acquireCommandLock({ appDirectory, metaName: META, operation: 'build' }),
+    ).rejects.toMatchObject({ code: 'EBUILD_BLOCKED_BY_DEV' });
+    expect(readLocks()).toHaveLength(1);
   });
 
   it('keeps a ready dev lock whose port is actually listening', async () => {
@@ -307,6 +306,9 @@ describe('acquireCommandLock', () => {
         pid: process.ppid,
         operation: 'dev',
         mode: 'shared',
+        // ppid's real start time is readable on linux/darwin, so the kill
+        // suggestion is allowed for it.
+        identityVerified: true,
       });
     }
   });

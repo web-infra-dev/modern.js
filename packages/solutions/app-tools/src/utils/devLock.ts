@@ -33,6 +33,12 @@ export interface DevLockInfo {
   appDirectory: string;
   allowMultiple?: boolean;
   heartbeatAt?: number;
+  /**
+   * Runtime-only (never written to disk): whether the holder's identity was
+   * verified via its real process start time. When false, kill suggestions
+   * must be softened — the pid could belong to an unrelated process.
+   */
+  identityVerified?: boolean;
 }
 
 export type DevLockErrorCode =
@@ -51,6 +57,8 @@ export interface DevLockInstance {
   urls?: string[];
   startedAt: number;
   appDirectory: string;
+  /** Whether the pid's real start time confirmed the holder's identity. */
+  identityVerified: boolean;
 }
 
 export class DevServerLockError extends Error {
@@ -295,6 +303,9 @@ export const acquireRegistryMutex = async (
   cleanMutexDebris(lockDir);
 
   for (;;) {
+    // Preparing the candidate only touches paths we own — any failure here
+    // (read-only cache dir, ENOSPC, …) is a real IO error and must surface
+    // immediately instead of degenerating into a busy retry loop.
     try {
       fs.mkdirSync(candidate, { recursive: true });
       const owner: MutexOwner = {
@@ -304,13 +315,20 @@ export const acquireRegistryMutex = async (
         acquiredAt: Date.now(),
       };
       atomicWrite(path.join(candidate, 'owner.json'), JSON.stringify(owner));
+    } catch (err) {
+      fs.rmSync(candidate, { recursive: true, force: true });
+      throw err;
+    }
+
+    try {
       fs.renameSync(candidate, mutexDir);
       return token;
     } catch (err) {
       fs.rmSync(candidate, { recursive: true, force: true });
       const code = (err as NodeJS.ErrnoException).code;
-      // Occupied target reads differently per platform; anything else is a
-      // real IO error and must surface.
+      // An occupied rename target reads differently per platform
+      // (EEXIST/ENOTEMPTY on POSIX, EPERM/EACCES on Windows); anything else
+      // is a real IO error and must surface.
       if (
         code !== 'EEXIST' &&
         code !== 'ENOTEMPTY' &&
@@ -334,6 +352,8 @@ export const acquireRegistryMutex = async (
       // A published mutex always contains owner.json, so a missing or
       // unreadable one can only come from manual damage or an old layout.
       // Grace it briefly, then take it over via a deterministic tombstone.
+      // A vanished mutex (stat failure) falls through to the normal
+      // deadline/backoff path — never into a hot spin.
       try {
         const mtime = fs.statSync(mutexDir).mtimeMs;
         if (Date.now() - mtime > BAD_JSON_GRACE_MS) {
@@ -347,8 +367,7 @@ export const acquireRegistryMutex = async (
           continue;
         }
       } catch {
-        // The mutex vanished between rename failure and stat: retry now.
-        continue;
+        // fall through to deadline check + backoff
       }
     }
 
@@ -385,6 +404,7 @@ const toInstance = (lock: DevLockInfo): DevLockInstance => ({
   urls: lock.urls,
   startedAt: lock.processStartedAt,
   appDirectory: lock.appDirectory,
+  identityVerified: lock.identityVerified === true,
 });
 
 /**
@@ -444,11 +464,35 @@ const collectLiveLocks = async (lockDir: string) => {
       continue;
     }
 
-    if (!identityMatches(lock.pid, lock.processStartedAt)) {
+    if (!isProcessAlive(lock.pid)) {
       logger.debug(`[dev-lock] removing stale lock ${filePath}`);
       fs.rmSync(filePath, { force: true });
       continue;
     }
+
+    const actualStartTime = getProcessStartTime(lock.pid);
+    if (actualStartTime !== null) {
+      if (
+        Math.abs(actualStartTime - lock.processStartedAt) >
+        START_TIME_TOLERANCE_MS
+      ) {
+        // The pid was reused by an unrelated process.
+        logger.debug(`[dev-lock] removing pid-reused lock ${filePath}`);
+        fs.rmSync(filePath, { force: true });
+        continue;
+      }
+      // Identity-verified alive: never delete on a failed port probe. During
+      // a config hot restart the server is closed before CLI init re-runs,
+      // so for a short window a live dev has no listening port — deleting
+      // its lock here would let a concurrent build wipe its output.
+      lock.identityVerified = true;
+      others.push(lock);
+      continue;
+    }
+
+    // No start-time source on this platform: the port probe is the only
+    // remaining signal to tell a lingering lock from a live server.
+    lock.identityVerified = false;
     if (
       lock.operation === 'dev' &&
       lock.state === 'ready' &&

@@ -21,16 +21,28 @@ try {
   // ignore
 }
 
+// `run()` prints a friendly message for lock conflicts and re-throws the
+// typed error so its rejection semantics stay intact for programmatic
+// callers; the bin just turns that known error into a silent exit code.
+const onFatal = err => {
+  if (err && err.name === 'DevServerLockError') {
+    process.exit(process.exitCode || 1);
+  }
+  throw err;
+};
+
 if (isESM) {
   import('../dist/esm-node/run/index.mjs').then(({ run }) => {
-    run({
+    return run({
       internalPlugins: INTERNAL_RUNTIME_PLUGINS,
       version,
-    });
+    }).catch(onFatal);
   });
 } else {
-  require('../dist/cjs/run/index.js').run({
-    internalPlugins: INTERNAL_RUNTIME_PLUGINS,
-    version,
-  });
+  require('../dist/cjs/run/index.js')
+    .run({
+      internalPlugins: INTERNAL_RUNTIME_PLUGINS,
+      version,
+    })
+    .catch(onFatal);
 }
