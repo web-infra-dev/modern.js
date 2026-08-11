@@ -28,13 +28,27 @@ const readLocks = () =>
     .map(f => JSON.parse(fs.readFileSync(path.join(lockDir, f), 'utf-8')));
 
 // The identity check compares the recorded start time with the real one, so
-// locks that should read as "alive" must record the pid's actual start time.
+// locks that should read as "alive" must record the pid's actual start time
+// — mirroring the platform sources the implementation itself uses.
 const realStartTime = (pid: number) => {
   try {
-    return fs.statSync(`/proc/${pid}`).ctimeMs;
+    if (process.platform === 'linux') {
+      return fs.statSync(`/proc/${pid}`).ctimeMs;
+    }
+    if (process.platform === 'darwin') {
+      const out = require('node:child_process')
+        .execSync(`ps -o lstart= -p ${pid}`)
+        .toString()
+        .trim();
+      const parsed = Date.parse(out);
+      if (!Number.isNaN(parsed)) {
+        return parsed;
+      }
+    }
   } catch {
-    return Date.now();
+    // fall through
   }
+  return Date.now();
 };
 
 const writeForeignLock = (overrides: Record<string, unknown> = {}) => {
@@ -244,6 +258,26 @@ describe('acquireCommandLock', () => {
     const [lock] = readLocks();
     expect(lock.state).toBe('ready');
     expect(lock.port).toBe(8080);
+  });
+
+  it('hot-restart re-entry inherits allowMultiple from its own lock file', async () => {
+    // First acquire opted in to multi-instance mode alongside a live dev.
+    writeForeignLock({ pid: process.ppid });
+    await acquireCommandLock({
+      appDirectory,
+      metaName: META,
+      operation: 'dev',
+      allowMultiple: true,
+    });
+    // Config hot restart re-enters WITHOUT the original intent; the
+    // privilege persisted in our own lock file must keep it passing.
+    await acquireCommandLock({
+      appDirectory,
+      metaName: META,
+      operation: 'dev',
+    });
+    const own = readLocks().find(lock => lock.pid === process.pid);
+    expect(own.allowMultiple).toBe(true);
   });
 
   it('run-scoped intent is keyed by appDirectory and does not leak across apps', () => {

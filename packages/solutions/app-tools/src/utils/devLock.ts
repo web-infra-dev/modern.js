@@ -31,6 +31,7 @@ export interface DevLockInfo {
   host?: string;
   urls?: string[];
   appDirectory: string;
+  allowMultiple?: boolean;
   heartbeatAt?: number;
 }
 
@@ -186,7 +187,6 @@ interface MutexOwner {
 const MUTEX_DIR_NAME = '.mutex';
 const TOMBSTONE_PREFIX = '.stale-';
 const CANDIDATE_PREFIX = '.mutex-candidate-';
-const TOMBSTONE_GC_MS = 60_000;
 
 // Internal override so tests do not have to wait the full deadline.
 const mutexWaitTotalMs = () => {
@@ -217,7 +217,15 @@ const renameQuietly = (from: string, to: string): void => {
   }
 };
 
-/** Sweep inert debris: aged tombstones and candidates of dead processes. */
+/**
+ * Sweep candidate directories left behind by dead processes.
+ *
+ * Token tombstones (`.stale-<token>`) are deliberately never collected: a
+ * waiter suspended for an arbitrary time may still hold a pre-suspension
+ * read of a long-dead owner, and the tombstone occupying that exact target
+ * name is the only thing preventing it from renaming the *current* holder's
+ * mutex away. They are tiny and only ever created by abnormal takeovers.
+ */
 const cleanMutexDebris = (lockDir: string): void => {
   let entries: string[] = [];
   try {
@@ -226,19 +234,32 @@ const cleanMutexDebris = (lockDir: string): void => {
     return;
   }
   for (const entry of entries) {
+    if (!entry.startsWith(CANDIDATE_PREFIX)) {
+      continue;
+    }
     const full = path.join(lockDir, entry);
     try {
-      if (entry.startsWith(TOMBSTONE_PREFIX)) {
-        // A tombstone only needs to outlive in-flight waiters of the round
-        // that created it (bounded by the mutex wait deadline).
-        if (Date.now() - fs.statSync(full).mtimeMs > TOMBSTONE_GC_MS) {
+      const owner = readMutexOwner(full);
+      if (owner) {
+        if (!identityMatches(owner.pid, owner.processStartedAt)) {
           fs.rmSync(full, { recursive: true, force: true });
         }
-      } else if (entry.startsWith(CANDIDATE_PREFIX)) {
-        const owner = readMutexOwner(full);
-        if (!owner || !identityMatches(owner.pid, owner.processStartedAt)) {
+        continue;
+      }
+      // No owner.json yet: the creator may be alive between mkdir and the
+      // owner write. The candidate name embeds its creator's pid — only
+      // remove once that process is provably gone (or, for unparsable
+      // names, after a generous grace period).
+      const pidFromName = Number.parseInt(
+        entry.slice(CANDIDATE_PREFIX.length),
+        10,
+      );
+      if (Number.isInteger(pidFromName) && pidFromName > 0) {
+        if (!isProcessAlive(pidFromName)) {
           fs.rmSync(full, { recursive: true, force: true });
         }
+      } else if (Date.now() - fs.statSync(full).mtimeMs > BAD_JSON_GRACE_MS) {
+        fs.rmSync(full, { recursive: true, force: true });
       }
     } catch {
       // debris cleanup is best-effort
@@ -594,7 +615,14 @@ export const acquireCommandLock = async ({
   try {
     const { others, self } = await collectLiveLocks(lockDir);
 
-    const conflict = decideConflict(operation, allowMultiple, others);
+    // A hot restart re-enters without the original CLI/run intent; the
+    // privilege granted at the first acquire is persisted in our own lock
+    // file, so a multi-instance dev survives config restarts.
+    const effectiveAllowMultiple =
+      allowMultiple ||
+      (self?.operation === 'dev' && self.allowMultiple === true);
+
+    const conflict = decideConflict(operation, effectiveAllowMultiple, others);
     if (conflict) {
       throw conflict;
     }
@@ -611,6 +639,7 @@ export const acquireCommandLock = async ({
       pid: process.pid,
       processStartedAt: selfStartedAt(),
       appDirectory,
+      allowMultiple: operation === 'dev' ? effectiveAllowMultiple : undefined,
       heartbeatAt: Date.now(),
     });
     startHeartbeat(session);
@@ -685,11 +714,12 @@ export interface DevLockIntent {
   allowMultiple?: boolean;
 }
 
-// Keyed by appDirectory so concurrent programmatic runs against different
-// apps in one process cannot cross-pollinate. Each run overwrites its own
-// app's entry, and the entry deliberately survives the run: a config hot
-// restart re-executes CLI init in the same process and must observe the
-// original intent.
+// Keyed by appDirectory so concurrent runs against different apps in one
+// process cannot cross-pollinate. The entry lives only for the duration of
+// the `run()` invocation that set it (cleared in its `finally`), so a stale
+// `allowMultiple: true` can never leak into a later `cli.init()` for the
+// same app. Hot restarts do not need this map: the privilege is persisted
+// in the process's own lock file and re-applied on self re-entry.
 const runIntents = new Map<string, DevLockIntent>();
 
 export const setDevLockIntent = (
