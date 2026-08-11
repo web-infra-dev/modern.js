@@ -5,6 +5,7 @@ import { chalk, minimist } from '@modern-js/utils';
 import { handleSetupResult } from '../compat/hooks';
 import {
   type DevServerLockError,
+  clearDevLockIntent,
   isDevServerLockError,
   setDevLockIntent,
 } from '../utils/devLock';
@@ -106,6 +107,7 @@ export async function createRunOptions({
 
   return {
     cwd,
+    appDirectory,
     initialLog: initialLog || `Modern.js Framework v${version}`,
     configFile: finalConfigFile,
     metaName,
@@ -115,7 +117,7 @@ export async function createRunOptions({
 }
 
 export async function run(options: RunOptions) {
-  const runOptions = await createRunOptions(options);
+  const { appDirectory, ...runOptions } = await createRunOptions(options);
   try {
     await CLIPluginRun(runOptions);
   } catch (err) {
@@ -128,6 +130,12 @@ export async function run(options: RunOptions) {
       return;
     }
     throw err;
+  } finally {
+    // The intent only belongs to this invocation. By now the dev-lock guard
+    // (which runs during CLI init, before the command action) has consumed
+    // it; hot restarts re-derive the privilege from the process's own lock
+    // file instead of this map.
+    clearDevLockIntent(appDirectory);
   }
 }
 
