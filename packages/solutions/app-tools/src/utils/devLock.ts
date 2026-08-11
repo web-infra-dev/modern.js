@@ -1,6 +1,5 @@
 import { execSync } from 'child_process';
 import fs from 'fs';
-import net from 'net';
 import path from 'path';
 import { logger } from '@modern-js/utils';
 
@@ -12,7 +11,6 @@ const START_TIME_TOLERANCE_MS = 5000;
 // A lock whose content is not valid JSON is corrupted, but give a short grace
 // period so we never race a writer from a different (non tmp+rename) source.
 const BAD_JSON_GRACE_MS = 5000;
-const TCP_PROBE_TIMEOUT_MS = 300;
 const MUTEX_WAIT_TOTAL_MS = 10_000;
 const HEARTBEAT_INTERVAL_MS = 10_000;
 
@@ -118,8 +116,8 @@ const isProcessAlive = (pid: number): boolean => {
 
 /**
  * Best-effort process start time for PID-reuse detection. Returns null when
- * the platform offers no cheap way to read it (Windows), in which case the
- * caller falls back to liveness + port probing only.
+ * the platform offers no cheap way to read it (Windows), in which case
+ * liveness alone decides and stale-lock handling stays fail-safe.
  */
 const getProcessStartTime = (pid: number): number | null => {
   try {
@@ -154,27 +152,6 @@ const identityMatches = (pid: number, recordedStartedAt: number): boolean => {
     return true;
   }
   return Math.abs(actual - recordedStartedAt) <= START_TIME_TOLERANCE_MS;
-};
-
-const probePort = (port: number, host?: string): Promise<boolean> => {
-  // Probe the loopback matching the wildcard family, otherwise the real host.
-  const target =
-    !host || host === '0.0.0.0'
-      ? '127.0.0.1'
-      : host === '::' || host === '[::]'
-        ? '::1'
-        : host;
-  return new Promise(resolve => {
-    const socket = net.connect({ port, host: target });
-    const done = (result: boolean) => {
-      socket.destroy();
-      resolve(result);
-    };
-    socket.setTimeout(TCP_PROBE_TIMEOUT_MS);
-    socket.once('connect', () => done(true));
-    socket.once('timeout', () => done(false));
-    socket.once('error', () => done(false));
-  });
 };
 
 const atomicWrite = (filePath: string, data: string) => {
@@ -471,39 +448,26 @@ const collectLiveLocks = async (lockDir: string) => {
     }
 
     const actualStartTime = getProcessStartTime(lock.pid);
-    if (actualStartTime !== null) {
-      if (
-        Math.abs(actualStartTime - lock.processStartedAt) >
-        START_TIME_TOLERANCE_MS
-      ) {
-        // The pid was reused by an unrelated process.
-        logger.debug(`[dev-lock] removing pid-reused lock ${filePath}`);
-        fs.rmSync(filePath, { force: true });
-        continue;
-      }
-      // Identity-verified alive: never delete on a failed port probe. During
-      // a config hot restart the server is closed before CLI init re-runs,
-      // so for a short window a live dev has no listening port — deleting
-      // its lock here would let a concurrent build wipe its output.
-      lock.identityVerified = true;
-      others.push(lock);
-      continue;
-    }
-
-    // No start-time source on this platform: the port probe is the only
-    // remaining signal to tell a lingering lock from a live server.
-    lock.identityVerified = false;
     if (
-      lock.operation === 'dev' &&
-      lock.state === 'ready' &&
-      typeof lock.port === 'number' &&
-      !(await probePort(lock.port, lock.host))
+      actualStartTime !== null &&
+      Math.abs(actualStartTime - lock.processStartedAt) >
+        START_TIME_TOLERANCE_MS
     ) {
-      logger.debug(`[dev-lock] removing dead-server lock ${filePath}`);
+      // The pid was reused by an unrelated process.
+      logger.debug(`[dev-lock] removing pid-reused lock ${filePath}`);
       fs.rmSync(filePath, { force: true });
       continue;
     }
 
+    // A lock whose pid is alive is kept on every platform — fail-safe.
+    // During a config hot restart the server closes before CLI init
+    // re-runs, so for a short window a live dev has no listening port;
+    // any port-based "is it really serving" heuristic would delete the
+    // lock in exactly that window and let a concurrent build wipe the
+    // dev's output. Where no start-time source exists (Windows) this can
+    // keep a pid-reused lock around until a human checks — a conservative
+    // block, never a false green light.
+    lock.identityVerified = actualStartTime !== null;
     others.push(lock);
   }
 
