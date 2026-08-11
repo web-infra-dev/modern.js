@@ -20,12 +20,27 @@ const ownerPath = () => path.join(mutexPath(), 'owner.json');
 const listEntries = (prefix: string) =>
   fs.readdirSync(lockDir).filter(entry => entry.startsWith(prefix));
 
+// Mirrors the platform sources the implementation itself uses, so a fake
+// owner backed by a live pid reads as genuinely alive on every OS.
 const realStartTime = (pid: number) => {
   try {
-    return fs.statSync(`/proc/${pid}`).ctimeMs;
+    if (process.platform === 'linux') {
+      return fs.statSync(`/proc/${pid}`).ctimeMs;
+    }
+    if (process.platform === 'darwin') {
+      const out = require('node:child_process')
+        .execSync(`ps -o lstart= -p ${pid}`)
+        .toString()
+        .trim();
+      const parsed = Date.parse(out);
+      if (!Number.isNaN(parsed)) {
+        return parsed;
+      }
+    }
   } catch {
-    return Date.now();
+    // fall through
   }
+  return Date.now();
 };
 
 // Publish a mutex exactly like the implementation does, on behalf of a fake
@@ -137,6 +152,32 @@ describe('registry mutex', () => {
     releaseRegistryMutex(lockDir, token);
   });
 
+  it('token tombstones are never garbage-collected by age', async () => {
+    const tombstone = path.join(lockDir, '.stale-some-old-token');
+    fs.mkdirSync(tombstone, { recursive: true });
+    fs.writeFileSync(path.join(tombstone, 'owner.json'), '{}');
+    const past = new Date(Date.now() - 3_600_000);
+    fs.utimesSync(tombstone, past, past);
+    const token = await acquireRegistryMutex(lockDir);
+    releaseRegistryMutex(lockDir, token);
+    // An hour-old tombstone must still be there: it may be the only thing
+    // stopping a long-suspended waiter from renaming the current mutex away.
+    expect(fs.existsSync(tombstone)).toBe(true);
+  });
+
+  it('keeps an ownerless candidate whose creator is still alive', async () => {
+    // Simulates a process paused between mkdir(candidate) and writing
+    // owner.json — the candidate name embeds the (live) creator pid.
+    const candidate = path.join(
+      lockDir,
+      `.mutex-candidate-${process.ppid}-paused`,
+    );
+    fs.mkdirSync(candidate, { recursive: true });
+    const token = await acquireRegistryMutex(lockDir);
+    releaseRegistryMutex(lockDir, token);
+    expect(fs.existsSync(candidate)).toBe(true);
+  });
+
   it('cleans candidate debris left by a crash between create and rename', async () => {
     const debris = path.join(lockDir, '.mutex-candidate-4194301-crashed');
     fs.mkdirSync(debris, { recursive: true });
@@ -155,16 +196,26 @@ describe('registry mutex', () => {
   });
 });
 
-// Real multi-process contention over the built CJS artifact. Skipped when
-// the package has not been built (`nx build @modern-js/app-tools`).
+// Real multi-process contention over the built CJS artifact. Locally the
+// suite is skipped when the package has not been built yet; in CI a missing
+// artifact is a hard failure so this coverage can never silently drop out
+// (`build:required` builds @modern-js/app-tools before unit tests run).
 const testDir = typeof __dirname !== 'undefined' ? __dirname : process.cwd();
 const distDevLock = path.resolve(testDir, '../../dist/cjs/utils/devLock.js');
-const describeWithDist = fs.existsSync(distDevLock) ? describe : describe.skip;
+const distExists = fs.existsSync(distDevLock);
+const inCI = Boolean(process.env.CI && process.env.CI !== 'false');
+const describeWithDist = distExists || inCI ? describe : describe.skip;
 
 describeWithDist('registry mutex across real processes', () => {
-  it('exclusive build locks never overlap between processes', async () => {
-    const logFile = path.join(appDirectory, 'sections.log');
-    const childScript = `
+  it('built artifact is present (required for the multi-process suite)', () => {
+    expect(distExists).toBe(true);
+  });
+
+  (distExists ? it : it.skip)(
+    'exclusive build locks never overlap between processes',
+    async () => {
+      const logFile = path.join(appDirectory, 'sections.log');
+      const childScript = `
         const fs = require('fs');
         const { acquireCommandLock, releaseCommandLock } =
           require(${JSON.stringify(distDevLock)});
@@ -186,41 +237,43 @@ describeWithDist('registry mutex across real processes', () => {
           process.exit(3);
         });
       `;
-    const children = Array.from({ length: 4 }, () =>
-      execFileAsync(
-        process.execPath,
-        ['-e', childScript, appDirectory, logFile],
-        { env: { ...process.env, MODERN_DEV_LOCK_MUTEX_WAIT_MS: '8000' } },
-      ).catch(err => err),
-    );
-    await Promise.all(children);
+      const children = Array.from({ length: 4 }, () =>
+        execFileAsync(
+          process.execPath,
+          ['-e', childScript, appDirectory, logFile],
+          { env: { ...process.env, MODERN_DEV_LOCK_MUTEX_WAIT_MS: '8000' } },
+        ).catch(err => err),
+      );
+      await Promise.all(children);
 
-    const lines = fs
-      .readFileSync(logFile, 'utf-8')
-      .trim()
-      .split('\n')
-      .filter(Boolean);
-    // Replay the log: at no point may two processes be inside the
-    // exclusive section simultaneously.
-    let inside = 0;
-    let winners = 0;
-    for (const line of lines) {
-      const [kind] = line.split(' ');
-      if (kind === 'enter') {
-        inside += 1;
-        winners += 1;
-        expect(inside).toBe(1);
-      } else if (kind === 'exit') {
-        inside -= 1;
+      const lines = fs
+        .readFileSync(logFile, 'utf-8')
+        .trim()
+        .split('\n')
+        .filter(Boolean);
+      // Replay the log: at no point may two processes be inside the
+      // exclusive section simultaneously.
+      let inside = 0;
+      let winners = 0;
+      for (const line of lines) {
+        const [kind] = line.split(' ');
+        if (kind === 'enter') {
+          inside += 1;
+          winners += 1;
+          expect(inside).toBe(1);
+        } else if (kind === 'exit') {
+          inside -= 1;
+        }
       }
-    }
-    // At least one process must have made it through; the rest either
-    // queued (also fine) or were rejected with a typed conflict.
-    expect(winners).toBeGreaterThanOrEqual(1);
-    for (const line of lines) {
-      if (line.startsWith('blocked')) {
-        expect(line).toMatch(/EBUILD_IN_PROGRESS|EDEVLOCK_BUSY/);
+      // At least one process must have made it through; the rest either
+      // queued (also fine) or were rejected with a typed conflict.
+      expect(winners).toBeGreaterThanOrEqual(1);
+      for (const line of lines) {
+        if (line.startsWith('blocked')) {
+          expect(line).toMatch(/EBUILD_IN_PROGRESS|EDEVLOCK_BUSY/);
+        }
       }
-    }
-  }, 30_000);
+    },
+    30_000,
+  );
 });
