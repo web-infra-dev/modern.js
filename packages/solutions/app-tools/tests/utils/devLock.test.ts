@@ -6,11 +6,14 @@ import {
   DevServerLockError,
   LOCK_SCHEMA_VERSION,
   acquireCommandLock,
+  clearDevLockIntent,
+  getDevLockIntent,
   getLockDirectory,
   markDevLockReady,
   normalizeLockOperation,
   releaseAllLocks,
   releaseCommandLock,
+  setDevLockIntent,
 } from '../../src/utils/devLock';
 
 const META = 'modern-js';
@@ -241,6 +244,17 @@ describe('acquireCommandLock', () => {
     const [lock] = readLocks();
     expect(lock.state).toBe('ready');
     expect(lock.port).toBe(8080);
+  });
+
+  it('run-scoped intent is keyed by appDirectory and does not leak across apps', () => {
+    setDevLockIntent(appDirectory, { allowMultiple: true });
+    expect(getDevLockIntent(appDirectory)).toEqual({ allowMultiple: true });
+    expect(getDevLockIntent('/some/other/app')).toBeUndefined();
+    // A later run for the same app overwrites the previous intent.
+    setDevLockIntent(appDirectory, { allowMultiple: false });
+    expect(getDevLockIntent(appDirectory)).toEqual({ allowMultiple: false });
+    clearDevLockIntent(appDirectory);
+    expect(getDevLockIntent(appDirectory)).toBeUndefined();
   });
 
   it('errors carry structured instances for agents', async () => {
