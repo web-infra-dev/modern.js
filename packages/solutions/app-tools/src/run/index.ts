@@ -6,6 +6,7 @@ import { handleSetupResult } from '../compat/hooks';
 import {
   type DevServerLockError,
   isDevServerLockError,
+  setDevLockIntent,
 } from '../utils/devLock';
 import { getConfigFile } from '../utils/getConfigFile';
 import { loadInternalPlugins } from '../utils/loadPlugins';
@@ -18,6 +19,12 @@ export interface RunOptions {
   internalPlugins?: InternalPlugins;
   initialLog?: string;
   version: string;
+  /**
+   * Intentionally run this dev server alongside an already-running one
+   * (equivalent to the `--allow-multiple` CLI flag; the option wins over
+   * argv when both are present).
+   */
+  allowMultiple?: boolean;
 }
 export async function createRunOptions({
   cwd,
@@ -26,6 +33,7 @@ export async function createRunOptions({
   version,
   internalPlugins,
   configFile,
+  allowMultiple,
 }: RunOptions) {
   const nodeVersion = process.versions.node;
   const versionArr = nodeVersion.split('.').map(Number);
@@ -57,7 +65,8 @@ export async function createRunOptions({
   const cliParams = minimist<{
     c?: string;
     config?: string;
-  }>(process.argv.slice(2));
+    'allow-multiple'?: boolean;
+  }>(process.argv.slice(2), { boolean: ['allow-multiple'] });
   /**
    * Commands that support specify config files
    * `new` command need to use `--config-file` params,because `--config` is already used
@@ -87,6 +96,13 @@ export async function createRunOptions({
   const finalConfigFile: string = customConfigFile || getConfigFile(configFile);
 
   const plugins = await loadInternalPlugins(appDirectory, internalPlugins);
+
+  // Single place where the multi-dev intent is resolved: the typed run
+  // option wins over the raw `--allow-multiple` flag. Stored run-scoped
+  // (keyed by appDirectory) for the dev-lock plugin to read in `onPrepare`.
+  setDevLockIntent(appDirectory, {
+    allowMultiple: allowMultiple ?? Boolean(cliParams['allow-multiple']),
+  });
 
   return {
     cwd,

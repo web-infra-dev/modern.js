@@ -2,6 +2,7 @@ import { getArgv, getCommand, minimist } from '@modern-js/utils';
 import type { AppTools, CliPlugin } from '../types';
 import {
   acquireCommandLock,
+  getDevLockIntent,
   normalizeLockOperation,
   releaseAllLocks,
   suspendForRestart,
@@ -30,17 +31,23 @@ export default (): CliPlugin<AppTools> => ({
         return;
       }
 
-      // The flag is consumed here, before Commander parses the command
-      // action options (which happens after `onPrepare`).
-      const args = minimist(getArgv(), {
-        boolean: ['allow-multiple'],
-      });
+      // The run entry (`createRunOptions`) parses `--allow-multiple` /
+      // `RunOptions.allowMultiple` and stores a run-scoped intent; raw argv
+      // is only a fallback for callers that drive `cli.init()` directly.
+      const intent = getDevLockIntent(appDirectory);
+      const allowMultiple =
+        intent?.allowMultiple ??
+        Boolean(
+          minimist(getArgv(), { boolean: ['allow-multiple'] })[
+            'allow-multiple'
+          ],
+        );
 
       await acquireCommandLock({
         appDirectory,
         metaName,
         operation,
-        allowMultiple: operation === 'dev' && Boolean(args['allow-multiple']),
+        allowMultiple: operation === 'dev' && allowMultiple,
       });
     });
 
