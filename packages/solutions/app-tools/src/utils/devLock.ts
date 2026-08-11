@@ -93,6 +93,11 @@ export const normalizeLockOperation = (
 const selfStartedAt = () => Date.now() - process.uptime() * 1000;
 
 const isProcessAlive = (pid: number): boolean => {
+  // A process asking about itself is alive by definition; this also keeps
+  // sandboxes that guard `process.kill` on the own pid out of the picture.
+  if (pid === process.pid) {
+    return true;
+  }
   try {
     process.kill(pid, 0);
     return true;
@@ -178,46 +183,152 @@ interface MutexOwner {
   acquiredAt: number;
 }
 
+const MUTEX_DIR_NAME = '.mutex';
+const TOMBSTONE_PREFIX = '.stale-';
+const CANDIDATE_PREFIX = '.mutex-candidate-';
+const TOMBSTONE_GC_MS = 60_000;
+
+// Internal override so tests do not have to wait the full deadline.
+const mutexWaitTotalMs = () => {
+  const fromEnv = Number(process.env.MODERN_DEV_LOCK_MUTEX_WAIT_MS);
+  return Number.isFinite(fromEnv) && fromEnv > 0
+    ? fromEnv
+    : MUTEX_WAIT_TOTAL_MS;
+};
+
+const readMutexOwner = (mutexDir: string): MutexOwner | null => {
+  try {
+    return JSON.parse(
+      fs.readFileSync(path.join(mutexDir, 'owner.json'), 'utf-8'),
+    );
+  } catch {
+    return null;
+  }
+};
+
+const renameQuietly = (from: string, to: string): void => {
+  try {
+    fs.renameSync(from, to);
+  } catch {
+    // ENOENT: another waiter already took it over. EEXIST/ENOTEMPTY: the
+    // tombstone for this owner already exists, so this late rename is the
+    // exact race the deterministic target name is there to stop — either
+    // way the current `.mutex` (with its new owner) is left untouched.
+  }
+};
+
+/** Sweep inert debris: aged tombstones and candidates of dead processes. */
+const cleanMutexDebris = (lockDir: string): void => {
+  let entries: string[] = [];
+  try {
+    entries = fs.readdirSync(lockDir);
+  } catch {
+    return;
+  }
+  for (const entry of entries) {
+    const full = path.join(lockDir, entry);
+    try {
+      if (entry.startsWith(TOMBSTONE_PREFIX)) {
+        // A tombstone only needs to outlive in-flight waiters of the round
+        // that created it (bounded by the mutex wait deadline).
+        if (Date.now() - fs.statSync(full).mtimeMs > TOMBSTONE_GC_MS) {
+          fs.rmSync(full, { recursive: true, force: true });
+        }
+      } else if (entry.startsWith(CANDIDATE_PREFIX)) {
+        const owner = readMutexOwner(full);
+        if (!owner || !identityMatches(owner.pid, owner.processStartedAt)) {
+          fs.rmSync(full, { recursive: true, force: true });
+        }
+      }
+    } catch {
+      // debris cleanup is best-effort
+    }
+  }
+};
+
 /**
- * Cross-process critical section: every process contends on the same
- * `.mutex` directory (mkdir is atomic). The only condition that allows
- * breaking someone else's mutex is proof that its owner is dead — a live
- * owner is waited on and, past the deadline, reported as busy, never broken.
+ * Cross-process critical section. Acquisition publishes a fully-populated
+ * candidate directory and atomically renames it to the fixed `.mutex` path —
+ * a rename onto an existing non-empty directory fails, so winning the rename
+ * is winning the mutex, and a published mutex always carries a complete
+ * `owner.json` (there is no created-but-not-yet-written window).
+ *
+ * The only condition that allows taking over someone else's mutex is proof
+ * that its owner is dead; the takeover is itself an atomic rename to a
+ * tombstone whose name is derived from the dead owner's token, so among
+ * concurrent waiters exactly one wins and a late waiter cannot displace the
+ * next owner's mutex. A live owner is waited on and, past the deadline,
+ * reported as busy — never broken, no matter how long it has been holding.
+ *
+ * Exported for tests only.
  */
-const acquireMutex = async (lockDir: string): Promise<string> => {
-  const mutexDir = path.join(lockDir, '.mutex');
-  const ownerFile = path.join(mutexDir, 'owner.json');
+export const acquireRegistryMutex = async (
+  lockDir: string,
+): Promise<string> => {
+  const mutexDir = path.join(lockDir, MUTEX_DIR_NAME);
   const token = `${process.pid}-${Math.random().toString(36).slice(2)}`;
-  const deadline = Date.now() + MUTEX_WAIT_TOTAL_MS;
+  const candidate = path.join(lockDir, `${CANDIDATE_PREFIX}${token}`);
+  const deadline = Date.now() + mutexWaitTotalMs();
   let delay = 50;
+
+  cleanMutexDebris(lockDir);
 
   for (;;) {
     try {
-      fs.mkdirSync(mutexDir);
+      fs.mkdirSync(candidate, { recursive: true });
       const owner: MutexOwner = {
         pid: process.pid,
         processStartedAt: selfStartedAt(),
         token,
         acquiredAt: Date.now(),
       };
-      atomicWrite(ownerFile, JSON.stringify(owner));
+      atomicWrite(path.join(candidate, 'owner.json'), JSON.stringify(owner));
+      fs.renameSync(candidate, mutexDir);
       return token;
     } catch (err) {
-      if ((err as NodeJS.ErrnoException).code !== 'EEXIST') {
+      fs.rmSync(candidate, { recursive: true, force: true });
+      const code = (err as NodeJS.ErrnoException).code;
+      // Occupied target reads differently per platform; anything else is a
+      // real IO error and must surface.
+      if (
+        code !== 'EEXIST' &&
+        code !== 'ENOTEMPTY' &&
+        code !== 'EPERM' &&
+        code !== 'EACCES'
+      ) {
         throw err;
       }
     }
 
-    let owner: MutexOwner | undefined;
-    try {
-      owner = JSON.parse(fs.readFileSync(ownerFile, 'utf-8'));
-    } catch {
-      // owner.json not written yet or unreadable — treat as held.
-    }
-    if (owner && !identityMatches(owner.pid, owner.processStartedAt)) {
-      // Owner is provably dead: clear the leftover mutex and retry now.
-      fs.rmSync(mutexDir, { recursive: true, force: true });
-      continue;
+    const owner = readMutexOwner(mutexDir);
+    if (owner) {
+      if (!identityMatches(owner.pid, owner.processStartedAt)) {
+        renameQuietly(
+          mutexDir,
+          path.join(lockDir, `${TOMBSTONE_PREFIX}${owner.token}`),
+        );
+        continue;
+      }
+    } else {
+      // A published mutex always contains owner.json, so a missing or
+      // unreadable one can only come from manual damage or an old layout.
+      // Grace it briefly, then take it over via a deterministic tombstone.
+      try {
+        const mtime = fs.statSync(mutexDir).mtimeMs;
+        if (Date.now() - mtime > BAD_JSON_GRACE_MS) {
+          renameQuietly(
+            mutexDir,
+            path.join(
+              lockDir,
+              `${TOMBSTONE_PREFIX}corrupt-${Math.floor(mtime)}`,
+            ),
+          );
+          continue;
+        }
+      } catch {
+        // The mutex vanished between rename failure and stat: retry now.
+        continue;
+      }
     }
 
     if (Date.now() >= deadline) {
@@ -231,21 +342,19 @@ const acquireMutex = async (lockDir: string): Promise<string> => {
   }
 };
 
-const releaseMutex = (lockDir: string, token: string) => {
-  const mutexDir = path.join(lockDir, '.mutex');
-  try {
-    const owner: MutexOwner = JSON.parse(
-      fs.readFileSync(path.join(mutexDir, 'owner.json'), 'utf-8'),
-    );
-    if (owner.token !== token) {
-      // The mutex changed hands (we were declared dead); never delete it.
-      return;
-    }
-  } catch {
-    // Missing/unreadable owner: fall through and best-effort remove.
+/** Exported for tests only. */
+export const releaseRegistryMutex = (lockDir: string, token: string): void => {
+  const mutexDir = path.join(lockDir, MUTEX_DIR_NAME);
+  const owner = readMutexOwner(mutexDir);
+  if (owner && owner.token !== token) {
+    // The mutex changed hands (we were declared dead); never delete it.
+    return;
   }
   fs.rmSync(mutexDir, { recursive: true, force: true });
 };
+
+const acquireMutex = acquireRegistryMutex;
+const releaseMutex = releaseRegistryMutex;
 
 const toInstance = (lock: DevLockInfo): DevLockInstance => ({
   pid: lock.pid,
@@ -568,4 +677,32 @@ export const releaseAllLocks = (): void => {
   for (const session of sessions.values()) {
     removeOwnLock(session);
   }
+};
+
+// ---- run-scoped intent (typed run options → guard plugin) ----
+
+export interface DevLockIntent {
+  allowMultiple?: boolean;
+}
+
+// Keyed by appDirectory so concurrent programmatic runs against different
+// apps in one process cannot cross-pollinate. Each run overwrites its own
+// app's entry, and the entry deliberately survives the run: a config hot
+// restart re-executes CLI init in the same process and must observe the
+// original intent.
+const runIntents = new Map<string, DevLockIntent>();
+
+export const setDevLockIntent = (
+  appDirectory: string,
+  intent: DevLockIntent,
+): void => {
+  runIntents.set(appDirectory, intent);
+};
+
+export const getDevLockIntent = (
+  appDirectory: string,
+): DevLockIntent | undefined => runIntents.get(appDirectory);
+
+export const clearDevLockIntent = (appDirectory: string): void => {
+  runIntents.delete(appDirectory);
 };
