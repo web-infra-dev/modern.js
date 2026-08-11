@@ -122,12 +122,12 @@ export async function run(options: RunOptions) {
     await CLIPluginRun(runOptions);
   } catch (err) {
     // Lock conflicts are expected, user-facing outcomes: print an actionable
-    // message instead of a stack trace. Programmatic callers that invoke the
-    // CLI directly (not through this wrapper) receive the typed error as-is.
+    // message instead of a stack trace, then re-throw so `run()` keeps its
+    // rejection semantics for programmatic callers (the CLI bin catches the
+    // typed error and exits without printing it a second time).
     if (isDevServerLockError(err)) {
       printDevServerLockError(err);
       process.exitCode = 1;
-      return;
     }
     throw err;
   } finally {
@@ -152,13 +152,19 @@ function printDevServerLockError(err: DevServerLockError) {
     );
   }
   const [first] = err.instances;
-  if (first) {
+  if (first?.identityVerified) {
     const killCommand =
       process.platform === 'win32'
         ? `taskkill /PID ${first.pid} /F`
         : `kill ${first.pid}`;
     console.error(
       `${chalk.red('error')}   Reuse it, or stop it first: ${chalk.cyan(killCommand)}`,
+    );
+  } else if (first) {
+    // Without a verified process identity the pid may have been reused by
+    // an unrelated process — never suggest a blind force-kill.
+    console.error(
+      `${chalk.red('error')}   Verify PID ${first.pid} before stopping it manually.`,
     );
   }
   if (err.code === 'EDEV_SERVER_RUNNING') {
