@@ -183,19 +183,31 @@ describe('acquireCommandLock', () => {
     expect(locks[0].pid).toBe(process.pid);
   });
 
-  it('keeps an identity-verified live dev lock even when its port is closed (hot-restart window)', async () => {
+  it('keeps a live dev lock even when its port is closed (hot-restart window), on every platform', async () => {
     // During a config hot restart the server closes before CLI init re-runs:
-    // the holder is alive but momentarily has no listening port. A failed
-    // port probe must NOT strip it of protection.
+    // the holder is alive but momentarily has no listening port. A live pid
+    // must keep its lock on every platform — including Windows, where the
+    // start time cannot be read and identityVerified stays false.
     writeForeignLock({
       pid: process.ppid,
       state: 'ready',
       port: 65531,
       host: '127.0.0.1',
     });
-    await expect(
-      acquireCommandLock({ appDirectory, metaName: META, operation: 'build' }),
-    ).rejects.toMatchObject({ code: 'EBUILD_BLOCKED_BY_DEV' });
+    try {
+      await acquireCommandLock({
+        appDirectory,
+        metaName: META,
+        operation: 'build',
+      });
+      throw new Error('expected EBUILD_BLOCKED_BY_DEV');
+    } catch (err) {
+      const lockErr = err as DevServerLockError;
+      expect(lockErr.code).toBe('EBUILD_BLOCKED_BY_DEV');
+      expect(lockErr.instances[0].identityVerified).toBe(
+        process.platform !== 'win32',
+      );
+    }
     expect(readLocks()).toHaveLength(1);
   });
 
@@ -306,9 +318,9 @@ describe('acquireCommandLock', () => {
         pid: process.ppid,
         operation: 'dev',
         mode: 'shared',
-        // ppid's real start time is readable on linux/darwin, so the kill
-        // suggestion is allowed for it.
-        identityVerified: true,
+        // ppid's real start time is readable on linux/darwin (not Windows),
+        // and only a verified identity may receive a kill suggestion.
+        identityVerified: process.platform !== 'win32',
       });
     }
   });
