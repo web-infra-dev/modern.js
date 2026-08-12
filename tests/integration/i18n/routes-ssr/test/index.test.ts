@@ -1,6 +1,7 @@
 import path from 'path';
 import puppeteer, { type Browser, type Page } from 'puppeteer';
 import {
+  createIsolatedTestApp,
   getPort,
   killApp,
   launchApp,
@@ -12,7 +13,22 @@ import {
   waitForHydration,
 } from '../../test-utils';
 
-const projectDir = path.resolve(__dirname, '..');
+const sourceDir = path.resolve(__dirname, '..');
+let appDir: string;
+let cleanupApp: (() => Promise<void>) | undefined;
+
+beforeAll(async () => {
+  // Each test file runs against its own copy of the fixture: the dev server
+  // lock rejects concurrent dev/build in one directory, and parallel test
+  // files used to share (and silently corrupt) this one.
+  const isolated = await createIsolatedTestApp(sourceDir);
+  appDir = isolated.appDir;
+  cleanupApp = isolated.cleanup;
+});
+
+afterAll(async () => {
+  await cleanupApp?.();
+});
 
 describe('router-ssr-i18n', () => {
   let app: unknown;
@@ -20,7 +36,6 @@ describe('router-ssr-i18n', () => {
   let browser: Browser;
   let appPort: number;
   beforeAll(async () => {
-    const appDir = projectDir;
     appPort = await getPort();
     app = await launchApp(appDir, appPort);
 

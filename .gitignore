@@ -58,3 +58,7 @@ playground/
 .claude/settings.local.json
 .agents/runs/
 .specify/
+
+# transient copies created by tests/utils createIsolatedTestApp & pure-esm tests
+tests/integration/**/.isolated-*
+tests/integration/.pure-esm-*
