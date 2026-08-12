@@ -3,6 +3,7 @@ import path from 'path';
 import { fs as fse } from '@modern-js/utils';
 import puppeteer, { type Browser, type Page } from 'puppeteer';
 import {
+  createIsolatedTestApp,
   getPort,
   killApp,
   launchApp,
@@ -18,32 +19,12 @@ const sourceAppDir = path.resolve(__dirname, '../');
 dns.setDefaultResultOrder('ipv4first');
 
 async function createIsolatedAppDir() {
-  const appDir = await fse.mkdtemp(
-    path.join(path.dirname(sourceAppDir), '.pure-esm-index-'),
-  );
-
-  await fse.copy(sourceAppDir, appDir, {
-    filter: src => {
-      const relative = path.relative(sourceAppDir, src);
-      if (!relative) {
-        return true;
-      }
-      const [firstSegment] = relative.split(path.sep);
-      return ![
-        'node_modules',
-        'dist',
-        'dist-deploy',
-        '.output',
-        'tests',
-      ].includes(firstSegment);
-    },
+  // Shared helper links node_modules entry by entry (skipping .cache and
+  // .modern-js) so the copies for this file and deploy.test.ts do not share
+  // a lock registry or generated code through a whole-dir symlink.
+  const { appDir } = await createIsolatedTestApp(sourceAppDir, {
+    prefix: '.pure-esm-index-',
   });
-  await fse.ensureSymlink(
-    path.join(sourceAppDir, 'node_modules'),
-    path.join(appDir, 'node_modules'),
-    'dir',
-  );
-
   return appDir;
 }
 
