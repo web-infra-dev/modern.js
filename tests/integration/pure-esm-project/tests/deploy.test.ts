@@ -1,6 +1,7 @@
 import path from 'path';
 import { execa, fs as fse } from '@modern-js/utils';
 import {
+  createIsolatedTestApp,
   getPort,
   killApp,
   modernBuild,
@@ -39,30 +40,9 @@ describe('deploy', () => {
   let appDir: string;
 
   beforeAll(async () => {
-    appDir = await fse.mkdtemp(
-      path.join(path.dirname(sourceAppDir), '.pure-esm-deploy-'),
-    );
-    await fse.copy(sourceAppDir, appDir, {
-      filter: src => {
-        const relative = path.relative(sourceAppDir, src);
-        if (!relative) {
-          return true;
-        }
-        const [firstSegment] = relative.split(path.sep);
-        return ![
-          'node_modules',
-          'dist',
-          'dist-deploy',
-          '.output',
-          'tests',
-        ].includes(firstSegment);
-      },
-    });
-    await fse.ensureSymlink(
-      path.join(sourceAppDir, 'node_modules'),
-      path.join(appDir, 'node_modules'),
-      'dir',
-    );
+    appDir = (
+      await createIsolatedTestApp(sourceAppDir, { prefix: '.pure-esm-deploy-' })
+    ).appDir;
 
     await modernBuild(appDir, [], {
       env: {

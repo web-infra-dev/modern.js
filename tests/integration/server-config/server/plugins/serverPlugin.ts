@@ -45,7 +45,7 @@ export default (): ServerPlugin => ({
 
           const newText = text.replace('<body>', '<body> <h3>bytedance</h3>');
 
-          c.res = c.body(newText, {
+          c.res = new Response(newText, {
             status: res.status,
             headers: res.headers,
           });
