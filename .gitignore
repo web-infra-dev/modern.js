@@ -58,3 +58,7 @@ playground/
 .claude
 .agents/
 .specify/
+
+# transient copies created by tests/utils createIsolatedTestApp & pure-esm tests
+tests/integration/**/.isolated-*
+tests/integration/.pure-esm-*
