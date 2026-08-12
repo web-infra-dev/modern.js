@@ -23,9 +23,19 @@ function runContinuousTask(argv, stdOut, options = {}) {
     });
 
     let didResolve = false;
+    let allOutput = '';
+
+    function handleStderr(data) {
+      const message = data.toString();
+      allOutput += message;
+      if (stdOut !== false && options.stdout !== false) {
+        process.stderr.write(message);
+      }
+    }
 
     function handleStdout(data) {
       const message = data.toString();
+      allOutput += message;
 
       if (options.errorMessage?.test(message)) {
         if (!didResolve) {
@@ -51,16 +61,25 @@ function runContinuousTask(argv, stdOut, options = {}) {
     }
 
     instance.stdout.on('data', handleStdout);
+    instance.stderr.on('data', handleStderr);
 
     instance.on('error', error => {
       reject(error);
     });
 
-    instance.on('close', () => {
+    instance.on('close', code => {
       instance.stdout.removeListener('data', handleStdout);
+      instance.stderr.removeListener('data', handleStderr);
       if (!didResolve) {
         didResolve = true;
-        resolve();
+        // The process died before it ever became ready. Swallowing this as
+        // a silent `resolve(undefined)` used to surface later as confusing
+        // connection failures — fail loudly with the real output instead.
+        reject(
+          new Error(
+            `process exited (code ${code}) before it was ready:\n${allOutput}`,
+          ),
+        );
       }
     });
   });
@@ -157,8 +176,8 @@ function runModernCommandDev(argv, stdOut, options = {}) {
   });
 }
 
-function modernBuild(dir, args = [], opts = {}) {
-  return runModernCommand(['build', ...args], {
+async function modernBuild(dir, args = [], opts = {}) {
+  const result = await runModernCommand(['build', ...args], {
     ...opts,
     cwd: dir,
     stdout: true,
@@ -168,6 +187,14 @@ function modernBuild(dir, args = [], opts = {}) {
       ...(opts.env || {}),
     },
   });
+  // A failed build must fail the test instead of leaking a `code: 1` that
+  // most callers never check; pass `allowFailure: true` to inspect it.
+  if (result.code !== 0 && !opts.allowFailure) {
+    throw new Error(
+      `modern build exited with code ${result.code}:\n${result.stdout || ''}\n${result.stderr || ''}`,
+    );
+  }
+  return result;
 }
 
 function modernDeploy(dir, mode = '', opts = {}) {
@@ -208,11 +235,24 @@ function modernServe(dir, port, opts = {}) {
 }
 
 async function killApp(instance, ignoreError = false) {
-  await new Promise((resolve, reject) => {
-    if (!instance) {
-      resolve();
-    }
+  if (!instance) {
+    // Nothing to kill; without this the code below would still call
+    // treeKill(undefined.pid).
+    return;
+  }
 
+  // Wait for the process to actually exit, not just for the kill signal to
+  // be sent: a dev server removes its lock file on the way out, and a build
+  // started right after killApp() must not race that cleanup.
+  const closed =
+    instance.exitCode !== null || instance.signalCode
+      ? Promise.resolve()
+      : new Promise(resolve => {
+          instance.once('close', resolve);
+          setTimeout(resolve, 10_000).unref?.();
+        });
+
+  await new Promise((resolve, reject) => {
     treeKill(instance.pid, err => {
       if (err) {
         if (
@@ -235,6 +275,8 @@ async function killApp(instance, ignoreError = false) {
       return resolve();
     });
   });
+
+  await closed;
 }
 
 const portMap = new Map();
@@ -255,14 +297,15 @@ function sleep(t) {
 
 /**
  * Copy a fixture app into a unique temporary sibling directory so test files
- * that would otherwise share one project directory each run against their own
- * copy. Concurrent build/dev in a single directory corrupts artifacts: the
- * build empties `dist` under the running server.
+ * that used to share one project directory each run against their own copy —
+ * required since concurrent dev/build in the same directory is rejected by
+ * the dev server lock (and was silently corrupting artifacts before it).
  *
  * node_modules is NOT symlinked as a whole: a whole-dir link would make all
- * copies share `node_modules/.modern-js` (generated code), re-creating the
- * conflict. Every entry is linked individually instead, and `.cache` /
- * `.modern-js` are left out so each copy gets its own.
+ * copies share `node_modules/.cache` (the lock registry) and
+ * `node_modules/.modern-js` (generated code), re-creating the conflict.
+ * Every entry is linked individually instead, and those two are left out so
+ * each copy gets its own.
  */
 async function createIsolatedTestApp(sourceAppDir, options = {}) {
   const fse = require('fs-extra');

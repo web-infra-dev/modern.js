@@ -2,6 +2,7 @@ import path from 'path';
 import { fs } from '@modern-js/utils';
 import puppeteer, { type Browser, type Page } from 'puppeteer';
 import {
+  createIsolatedTestApp,
   getPort,
   killApp,
   launchApp,
@@ -12,7 +13,22 @@ import {
 } from '../../../../utils/modernTestUtils';
 import { conditionalTest } from '../../test-utils';
 
-const projectDir = path.resolve(__dirname, '..');
+const sourceDir = path.resolve(__dirname, '..');
+let appDir: string;
+let cleanupApp: (() => Promise<void>) | undefined;
+
+beforeAll(async () => {
+  // Each test file runs against its own copy of the fixture: the dev server
+  // lock rejects concurrent dev/build in one directory, and parallel test
+  // files used to share (and silently corrupt) this one.
+  const isolated = await createIsolatedTestApp(sourceDir);
+  appDir = isolated.appDir;
+  cleanupApp = isolated.cleanup;
+});
+
+afterAll(async () => {
+  await cleanupApp?.();
+});
 
 // Helper function to wait for element text content
 async function waitForElementText(
@@ -74,7 +90,6 @@ describe('app-ssr-i18n', () => {
   let appPort: number;
 
   beforeAll(async () => {
-    const appDir = projectDir;
     appPort = await getPort();
     app = await launchApp(appDir, appPort);
 
@@ -190,7 +205,6 @@ describe('app-ssr-i18n-build-and-server', () => {
   let appPort: number;
 
   beforeAll(async () => {
-    const appDir = projectDir;
     await modernBuild(appDir, ['--config', 'modern.config.ts']);
 
     // Verify build output
