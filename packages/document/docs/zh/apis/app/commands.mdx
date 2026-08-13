@@ -93,7 +93,7 @@ modern dev --allow-multiple
 
 `--allow-multiple` 只允许多个开发服务器并存，不允许 `dev` 与 `build` / `deploy` 同时运行。
 
-命令被阻止时，CLI 会显示冲突操作，并在可以确认时显示其 URL 和 PID。请停止或复用该进程后重试；已退出进程遗留的锁会在后续命令执行时自动清理。
+命令被阻止时，CLI 会显示冲突操作，并在可以确认时显示其 URL 和 PID。请停止或复用该进程后重试；Modern.js 能确认原进程已退出时，会在后续命令执行时自动清理遗留锁。
 
 ## modern build
 
