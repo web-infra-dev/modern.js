@@ -178,6 +178,50 @@ describe('registry mutex', () => {
     expect(fs.existsSync(candidate)).toBe(true);
   });
 
+  it('releasing detaches the mutex instead of emptying the shared path', async () => {
+    const token = await acquireRegistryMutex(lockDir);
+    releaseRegistryMutex(lockDir, token);
+    // Emptying `.mutex` in place would let a waiter rename its candidate onto
+    // the momentarily empty directory, and the trailing rmdir would then fail
+    // with ENOTEMPTY on the new owner's files.
+    expect(fs.existsSync(mutexPath())).toBe(false);
+    expect(listEntries('.mutex-release-')).toHaveLength(0);
+  });
+
+  it('a release racing a takeover leaves the new holder untouched', async () => {
+    const token = await acquireRegistryMutex(lockDir);
+    // Simulates the window between our owner read and our rename: another
+    // process has already replaced the mutex. Releasing must not touch it,
+    // and must not throw.
+    fs.rmSync(mutexPath(), { recursive: true, force: true });
+    publishForeignMutex({ pid: process.pid, token: 'new-holder' });
+    expect(() => releaseRegistryMutex(lockDir, token)).not.toThrow();
+    expect(JSON.parse(fs.readFileSync(ownerPath(), 'utf-8')).token).toBe(
+      'new-holder',
+    );
+    fs.rmSync(mutexPath(), { recursive: true, force: true });
+  });
+
+  it('a release with an unreadable owner is a no-op', async () => {
+    const token = await acquireRegistryMutex(lockDir);
+    // Mid-handover the owner file can be missing; nothing may be deleted on
+    // the strength of a guess.
+    fs.rmSync(ownerPath(), { force: true });
+    expect(() => releaseRegistryMutex(lockDir, token)).not.toThrow();
+    expect(fs.existsSync(mutexPath())).toBe(true);
+    fs.rmSync(mutexPath(), { recursive: true, force: true });
+  });
+
+  it('collects release debris left by a crash between detach and delete', async () => {
+    const debris = path.join(lockDir, '.mutex-release-crashed');
+    fs.mkdirSync(debris, { recursive: true });
+    fs.writeFileSync(path.join(debris, 'owner.json'), '{}');
+    const token = await acquireRegistryMutex(lockDir);
+    releaseRegistryMutex(lockDir, token);
+    // A detached mutex is unreachable, so it is always safe to sweep.
+    expect(listEntries('.mutex-release-')).toHaveLength(0);
+  });
+
   it('cleans candidate debris left by a crash between create and rename', async () => {
     const debris = path.join(lockDir, '.mutex-candidate-4194301-crashed');
     fs.mkdirSync(debris, { recursive: true });
