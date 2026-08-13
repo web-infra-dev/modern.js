@@ -180,12 +180,55 @@ describe('registry mutex', () => {
 
   it('releasing detaches the mutex instead of emptying the shared path', async () => {
     const token = await acquireRegistryMutex(lockDir);
+    const renameSpy = rstest.spyOn(fs, 'renameSync');
+    const rmSpy = rstest.spyOn(fs, 'rmSync');
+
     releaseRegistryMutex(lockDir, token);
-    // Emptying `.mutex` in place would let a waiter rename its candidate onto
-    // the momentarily empty directory, and the trailing rmdir would then fail
-    // with ENOTEMPTY on the new owner's files.
+
+    // The shared path must leave in one atomic move. Deleting it recursively
+    // empties it first, and a waiter can rename its candidate onto the
+    // momentarily empty directory — the trailing rmdir then fails with
+    // ENOTEMPTY and takes the new owner's files with it.
+    expect(renameSpy).toHaveBeenCalledWith(
+      mutexPath(),
+      path.join(lockDir, `.mutex-release-${token}`),
+    );
+    for (const [target] of rmSpy.mock.calls) {
+      expect(target).not.toBe(mutexPath());
+    }
+
+    renameSpy.mockRestore();
+    rmSpy.mockRestore();
     expect(fs.existsSync(mutexPath())).toBe(false);
     expect(listEntries('.mutex-release-')).toHaveLength(0);
+  });
+
+  it('a failing release-debris sweep does not block acquire', async () => {
+    const debris = path.join(lockDir, '.mutex-release-stuck');
+    fs.mkdirSync(debris, { recursive: true });
+    const realRmSync = fs.rmSync;
+    const rmSpy = rstest.spyOn(fs, 'rmSync').mockImplementation(((
+      target: fs.PathLike,
+      options?: unknown,
+    ) => {
+      if (target === debris) {
+        throw Object.assign(new Error('EACCES: permission denied'), {
+          code: 'EACCES',
+        });
+      }
+      return realRmSync(target, options as fs.RmOptions);
+    }) as typeof fs.rmSync);
+
+    try {
+      // Sweeping debris is best-effort: the acquisition it runs inside must
+      // still succeed, and must not surface the raw filesystem error.
+      const token = await acquireRegistryMutex(lockDir);
+      expect(token).toBeTruthy();
+      releaseRegistryMutex(lockDir, token);
+    } finally {
+      rmSpy.mockRestore();
+      fs.rmSync(debris, { recursive: true, force: true });
+    }
   });
 
   it('a release racing a takeover leaves the new holder untouched', async () => {
