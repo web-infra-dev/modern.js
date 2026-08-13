@@ -51,13 +51,20 @@ export const build = async (
   options?: BuildOptions,
 ) => {
   const { appDirectory, metaName } = api.getAppContext();
+  let keepLockUntilExit = false;
   try {
     await runBuild(api, options);
+    // In watch mode `builder.build()` resolves after the first compilation,
+    // while the watcher continues to write output. Keep the exclusive lock
+    // for the lifetime of the CLI process; `onBeforeExit` owns its cleanup.
+    keepLockUntilExit = Boolean(options?.watch);
   } finally {
     // The exclusive lock is taken in `onPrepare`; a bare `deploy` runs this
     // function while holding a 'deploy' lock, which this op-matched release
     // leaves alone.
-    releaseCommandLock(appDirectory, metaName, 'build');
+    if (!keepLockUntilExit) {
+      releaseCommandLock(appDirectory, metaName, 'build');
+    }
   }
 };
 
