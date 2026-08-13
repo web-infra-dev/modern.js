@@ -93,7 +93,7 @@ modern dev --allow-multiple
 
 `--allow-multiple` only permits multiple development servers. It does not allow `dev` and `build` / `deploy` to run together.
 
-When a command is blocked, the CLI reports the conflicting operation and, when available, its URL and PID. Stop or reuse that process, then retry the command. Locks left by exited processes are removed automatically on a subsequent command.
+When a command is blocked, the CLI reports the conflicting operation and, when available, its URL and PID. Stop or reuse that process, then retry the command. A subsequent command automatically removes a stale lock when Modern.js can verify that its process has exited.
 
 ## modern build
 
