@@ -197,6 +197,22 @@ async function modernBuild(dir, args = [], opts = {}) {
   return result;
 }
 
+function modernBuildWatch(dir, args = [], opts = {}) {
+  return runContinuousTask(
+    [kModernAppTools, 'build', '--watch', ...args],
+    undefined,
+    {
+      ...opts,
+      cwd: dir,
+      env: {
+        NODE_ENV: 'production',
+        ...(opts.env || {}),
+      },
+      waitMessage: /built in/i,
+    },
+  );
+}
+
 function modernDeploy(dir, mode = '', opts = {}) {
   return runModernCommand(['deploy', `--dir=${dir}`, `--mode=${mode}`], {
     ...opts,
@@ -384,6 +400,7 @@ module.exports = {
   runModernCommand,
   runModernCommandDev,
   modernBuild,
+  modernBuildWatch,
   modernDeploy,
   modernServe,
   launchApp,

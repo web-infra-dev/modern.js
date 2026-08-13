@@ -5,6 +5,7 @@ import {
   killApp,
   launchApp,
   modernBuild,
+  modernBuildWatch,
 } from '../../../utils/modernTestUtils';
 
 rstest.setConfig({ testTimeout: 1000 * 60 * 3, hookTimeout: 1000 * 60 * 3 });
@@ -75,6 +76,37 @@ describe('dev server lock', () => {
       }
       await first.cleanup();
       await second.cleanup();
+    }
+  });
+
+  test('build --watch holds the exclusive lock until the watcher stops', async () => {
+    const { appDir, cleanup } = await createIsolatedTestApp(sourceDir);
+    let watcher: any;
+    let app: any;
+    try {
+      watcher = await modernBuildWatch(appDir);
+
+      const err = await launchApp(appDir, await getPort()).then(
+        () => {
+          throw new Error('dev should have been rejected during build --watch');
+        },
+        rejection => rejection as Error,
+      );
+      expect(String(err.message)).toMatch(/EDEV_BLOCKED_BY_BUILD/);
+
+      await killApp(watcher);
+      watcher = undefined;
+
+      app = await launchApp(appDir, await getPort());
+      expect(app).toBeTruthy();
+    } finally {
+      if (watcher) {
+        await killApp(watcher, true);
+      }
+      if (app) {
+        await killApp(app, true);
+      }
+      await cleanup();
     }
   });
 });

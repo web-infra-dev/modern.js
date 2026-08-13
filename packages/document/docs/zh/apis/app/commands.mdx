@@ -21,6 +21,7 @@ Options:
   -h, --help            显示命令帮助
   --web-only            仅启动 Web 服务
   --api-only            仅启动 API 接口服务
+  --allow-multiple      允许在同一项目目录中再启动一个开发服务器
 ```
 
 运行 `modern dev` 后，Modern.js 会监听源文件变化并进行模块热更新。
@@ -66,6 +67,31 @@ modern dev --entry foo,bar
 ## modern start
 
 `modern start` 是 `modern dev` 命令的别名，两者的功能和用法完全一致。
+
+## 并发命令保护
+
+Modern.js 会阻止多个命令并发读写同一份生成文件。保护范围是项目根目录，因此项目的不同隔离副本互不影响。
+
+在同一项目根目录中：
+
+| 已运行的命令 | 新命令 | 结果 |
+| --- | --- | --- |
+| `dev` / `start` | `dev` / `start` | 默认阻止 |
+| `dev` / `start` | `build` / `deploy` | 阻止 |
+| `build` / `deploy` | `dev` / `start` | 阻止 |
+| `build` / `deploy` | `build` / `deploy` | 阻止 |
+
+`build --watch` 同样受此规则保护：在监听进程停止前会一直持有独占锁。
+
+如果确实需要在同一项目根目录中运行多个开发服务器，请使用：
+
+```bash
+modern dev --allow-multiple
+```
+
+`--allow-multiple` 只允许多个开发服务器并存，不允许 `dev` 与 `build` / `deploy` 同时运行。
+
+命令被阻止时，CLI 会显示冲突操作，并在可以确认时显示其 URL 和 PID。请停止或复用该进程后重试；已退出进程遗留的锁会在后续命令执行时自动清理。
 
 ## modern build
 
