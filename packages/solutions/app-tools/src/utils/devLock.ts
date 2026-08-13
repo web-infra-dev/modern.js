@@ -172,6 +172,9 @@ interface MutexOwner {
 const MUTEX_DIR_NAME = '.mutex';
 const TOMBSTONE_PREFIX = '.stale-';
 const CANDIDATE_PREFIX = '.mutex-candidate-';
+// A mutex detached by its owner on release. Unlike a tombstone it no longer
+// occupies a name any waiter can rename onto, so it is always safe to sweep.
+const RELEASE_PREFIX = '.mutex-release-';
 
 // Internal override so tests do not have to wait the full deadline.
 const mutexWaitTotalMs = () => {
@@ -219,6 +222,12 @@ const cleanMutexDebris = (lockDir: string): void => {
     return;
   }
   for (const entry of entries) {
+    if (entry.startsWith(RELEASE_PREFIX)) {
+      // Detached by a releaser that died before deleting it. Nothing can
+      // reach it any more, so it is unconditionally collectible.
+      fs.rmSync(path.join(lockDir, entry), { recursive: true, force: true });
+      continue;
+    }
     if (!entry.startsWith(CANDIDATE_PREFIX)) {
       continue;
     }
@@ -363,11 +372,35 @@ export const acquireRegistryMutex = async (
 export const releaseRegistryMutex = (lockDir: string, token: string): void => {
   const mutexDir = path.join(lockDir, MUTEX_DIR_NAME);
   const owner = readMutexOwner(mutexDir);
-  if (owner && owner.token !== token) {
-    // The mutex changed hands (we were declared dead); never delete it.
+  if (!owner || owner.token !== token) {
+    // Either the mutex changed hands (we were declared dead) or it is being
+    // handed over right now, so its owner is momentarily unreadable. Neither
+    // is ours to delete.
     return;
   }
-  fs.rmSync(mutexDir, { recursive: true, force: true });
+
+  // Detach under our own name before deleting. A recursive delete of the
+  // shared path removes `owner.json` first and only then the directory, and
+  // a waiter may rename its complete candidate onto that momentarily empty
+  // directory — the trailing rmdir would fail with ENOTEMPTY and take files
+  // from the new owner with it. A rename is atomic: either we move the whole
+  // directory out of the shared name, or we never touch it.
+  const detached = path.join(lockDir, `${RELEASE_PREFIX}${token}`);
+  try {
+    fs.renameSync(mutexDir, detached);
+  } catch {
+    // Taken over or already gone between the read and the rename; whatever
+    // occupies the shared name now belongs to someone else.
+    return;
+  }
+
+  try {
+    fs.rmSync(detached, { recursive: true, force: true });
+  } catch {
+    // The mutex is already released — the shared name is free. Failing to
+    // delete the detached copy must not surface as an error from the command
+    // that was holding it; `cleanMutexDebris` collects it on the next acquire.
+  }
 };
 
 const acquireMutex = acquireRegistryMutex;
