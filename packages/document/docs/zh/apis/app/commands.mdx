@@ -68,33 +68,6 @@ modern dev --entry foo,bar
 
 `modern start` 是 `modern dev` 命令的别名，两者的功能和用法完全一致。
 
-## 并发命令保护
-
-Modern.js 会阻止多个命令并发读写同一份生成文件。保护范围是项目根目录，因此项目的不同隔离副本互不影响。
-
-在同一项目根目录中：
-
-| 已运行的命令 | 新命令 | 结果 |
-| --- | --- | --- |
-| `dev` / `start` | `dev` / `start` | 默认阻止 |
-| `dev` / `start` | `build` / `deploy` | 阻止 |
-| `build` / `deploy` | `dev` / `start` | 阻止 |
-| `build` / `deploy` | `build` / `deploy` | 阻止 |
-
-`serve`、`inspect` 等只读命令不会加锁。
-
-`build --watch` 同样受此规则保护：在监听进程停止前会一直持有独占锁。
-
-如果确实需要在同一项目根目录中运行多个开发服务器，请使用：
-
-```bash
-modern dev --allow-multiple
-```
-
-`--allow-multiple` 只允许多个开发服务器并存，不允许 `dev` 与 `build` / `deploy` 同时运行。
-
-命令被阻止时，CLI 会显示冲突操作，并在可以确认时显示其 URL 和 PID。请停止或复用该进程后重试；Modern.js 能确认原进程已退出时，会在后续命令执行时自动清理遗留锁。
-
 ## modern build
 
 `modern build` 命令默认会在 `dist/` 目录下构建出可用于生产环境的产物。你可以通过修改配置 [`output.distPath`](/configure/app/output/dist-path) 指定产物的输出目录。
@@ -107,6 +80,8 @@ Options:
   -h, --help  显示命令帮助
   -w --watch  开启 watch 模式, 监听文件变更并重新构建
 ```
+
+构建与其他命令的并发限制见 [并发命令保护](#并发命令保护)。
 
 ## modern new
 
@@ -241,3 +216,32 @@ Inspect config succeed, open following files to view the content:
 import DeployCommand from '@site-docs/components/deploy-command';
 
 <DeployCommand />
+
+## 并发命令保护
+
+Modern.js 会阻止多个命令并发读写同一份生成文件。保护范围是项目根目录，因此项目的不同隔离副本互不影响。
+
+在同一项目根目录中：
+
+| 已运行的命令 | 新命令 | 结果 |
+| --- | --- | --- |
+| `dev` / `start` | `dev` / `start` | 默认阻止 |
+| `dev` / `start` | `build` / `deploy` | 阻止 |
+| `build` / `deploy` | `dev` / `start` | 阻止 |
+| `build` / `deploy` | `build` / `deploy` | 阻止 |
+
+`serve`、`inspect` 等只读命令不会加锁。
+
+`build --watch` 同样受此规则保护：在监听进程停止前会一直持有独占锁。
+
+如果确实需要在同一项目根目录中运行多个开发服务器，请使用：
+
+```bash
+modern dev --allow-multiple
+```
+
+`--allow-multiple` 只允许多个开发服务器并存，不允许 `dev` 与 `build` / `deploy` 同时运行。
+
+该参数仅 `dev` / `start`（别名）支持；`build` / `deploy` 不接受该参数（传入会提示未知参数）——独占锁对任何并发都互斥，不存在放宽的语义。
+
+命令被阻止时，CLI 会显示冲突操作，并在可以确认时显示其 URL 和 PID。请停止或复用该进程后重试；Modern.js 能确认原进程已退出时，会在后续命令执行时自动清理遗留锁。
