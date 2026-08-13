@@ -78,7 +78,7 @@ export const bffPlugin = (): CliPlugin<AppTools> => ({
     };
 
     const generator = async () => {
-      const { appDirectory, apiDirectory, lambdaDirectory, port } =
+      const { appDirectory, apiDirectory, lambdaDirectory, port, moduleType } =
         api.getAppContext();
 
       const modernConfig = api.getNormalizedConfig();
@@ -122,6 +122,8 @@ export const bffPlugin = (): CliPlugin<AppTools> => ({
         httpMethodDecider,
         relativeDistPath,
         relativeApiPath,
+        moduleType,
+        apiFiles: apiRouter.getApiFiles(),
       });
       await runtimeGenerator({
         runtime,
