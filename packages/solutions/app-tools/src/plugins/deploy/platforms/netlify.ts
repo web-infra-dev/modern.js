@@ -127,6 +127,7 @@ export const createNetlifyPreset: CreatePreset = ({
         appDir: appDirectory,
         sourceDir: funcsDirectory,
         includeEntries: [entry, netlifyEntry],
+        traceOptions: modernConfig.deploy?.traceOptions,
         copyWholePackage(pkgName) {
           return pkgName === '@modern-js/utils';
         },
