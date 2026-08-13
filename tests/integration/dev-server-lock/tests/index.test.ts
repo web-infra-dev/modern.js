@@ -6,6 +6,7 @@ import {
   launchApp,
   modernBuild,
   modernBuildWatch,
+  runModernCommandDev,
 } from '../../../utils/modernTestUtils';
 
 rstest.setConfig({ testTimeout: 1000 * 60 * 3, hookTimeout: 1000 * 60 * 3 });
@@ -76,6 +77,42 @@ describe('dev server lock', () => {
       }
       await first.cleanup();
       await second.cleanup();
+    }
+  });
+
+  test('--allow-multiple lets a second dev coexist (dev and the start alias), but build stays rejected', async () => {
+    const { appDir, cleanup } = await createIsolatedTestApp(sourceDir);
+    let app: any;
+    let second: any;
+    try {
+      app = await launchApp(appDir, await getPort());
+
+      // `start` is the dev alias and shares its options: the second server
+      // must boot on an auto-incremented port instead of being rejected.
+      second = await runModernCommandDev(
+        ['start', '--allow-multiple'],
+        undefined,
+        {
+          cwd: appDir,
+          env: { PORT: await getPort(), NODE_ENV: 'development' },
+        },
+      );
+      expect(second).toBeTruthy();
+
+      // The flag only relaxes dev↔dev: an exclusive command is still blocked.
+      const blocked = await modernBuild(appDir, [], { allowFailure: true });
+      expect(blocked.code).not.toBe(0);
+      expect(`${blocked.stdout}${blocked.stderr}`).toMatch(
+        /EBUILD_BLOCKED_BY_DEV/,
+      );
+    } finally {
+      if (second) {
+        await killApp(second, true);
+      }
+      if (app) {
+        await killApp(app, true);
+      }
+      await cleanup();
     }
   });
 
