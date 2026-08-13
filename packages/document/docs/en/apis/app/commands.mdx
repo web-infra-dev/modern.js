@@ -81,6 +81,8 @@ For the same project root:
 | `build` / `deploy` | `dev` / `start` | Blocked |
 | `build` / `deploy` | `build` / `deploy` | Blocked |
 
+Read-only commands such as `serve` and `inspect` do not take a lock.
+
 This also applies to `build --watch`: the exclusive lock is held until the watcher stops.
 
 If you intentionally need multiple development servers for one project root, start the additional server with:
