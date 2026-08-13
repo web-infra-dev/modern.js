@@ -224,8 +224,13 @@ const cleanMutexDebris = (lockDir: string): void => {
   for (const entry of entries) {
     if (entry.startsWith(RELEASE_PREFIX)) {
       // Detached by a releaser that died before deleting it. Nothing can
-      // reach it any more, so it is unconditionally collectible.
-      fs.rmSync(path.join(lockDir, entry), { recursive: true, force: true });
+      // reach it any more, so it is unconditionally collectible — and a
+      // failed sweep must never abort the acquisition that triggered it.
+      try {
+        fs.rmSync(path.join(lockDir, entry), { recursive: true, force: true });
+      } catch {
+        // Left for the next sweep.
+      }
       continue;
     }
     if (!entry.startsWith(CANDIDATE_PREFIX)) {
