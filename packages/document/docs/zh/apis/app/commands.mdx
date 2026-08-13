@@ -81,6 +81,8 @@ Modern.js 会阻止多个命令并发读写同一份生成文件。保护范围�
 | `build` / `deploy` | `dev` / `start` | 阻止 |
 | `build` / `deploy` | `build` / `deploy` | 阻止 |
 
+`serve`、`inspect` 等只读命令不会加锁。
+
 `build --watch` 同样受此规则保护：在监听进程停止前会一直持有独占锁。
 
 如果确实需要在同一项目根目录中运行多个开发服务器，请使用：
