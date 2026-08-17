@@ -60,6 +60,10 @@ const writeForeignLock = (overrides: Record<string, unknown> = {}) => {
     state: 'starting',
     pid: 999999,
     appDirectory,
+    // Same write set as the app defaults, so foreign locks conflict unless a
+    // test opts into isolation explicitly.
+    internalDirectory: path.join(appDirectory, 'node_modules', '.modern-js'),
+    distDirectory: path.join(appDirectory, 'dist'),
     ...overrides,
   } as Record<string, unknown> & { pid: number };
   if (lock.processStartedAt === undefined) {
@@ -89,7 +93,7 @@ describe('normalizeLockOperation', () => {
     expect(normalizeLockOperation('build')).toBe('build');
     expect(normalizeLockOperation('deploy')).toBe('deploy');
     expect(normalizeLockOperation('serve')).toBeNull();
-    expect(normalizeLockOperation('inspect')).toBeNull();
+    expect(normalizeLockOperation('inspect')).toBe('inspect');
     expect(normalizeLockOperation(undefined)).toBeNull();
   });
 });
@@ -156,6 +160,9 @@ describe('acquireCommandLock', () => {
       operation: 'build',
       mode: 'exclusive',
       state: 'running',
+      // watch build: persistent, so a conflicting build fails fast instead
+      // of queueing behind an unbounded holder.
+      persistent: true,
     });
     await expect(
       acquireCommandLock({
@@ -269,6 +276,144 @@ describe('acquireCommandLock', () => {
     const [lock] = readLocks();
     expect(lock.state).toBe('ready');
     expect(lock.port).toBe(8080);
+  });
+
+  it('queues behind a finite build and proceeds once it releases', async () => {
+    process.env.MODERN_DEV_LOCK_QUEUE_POLL_MS = '50';
+    try {
+      const foreign = writeForeignLock({
+        pid: process.ppid,
+        operation: 'build',
+        mode: 'exclusive',
+        state: 'running',
+      });
+      const pending = acquireCommandLock({
+        appDirectory,
+        metaName: META,
+        operation: 'build',
+      });
+      // Simulate the holder finishing while we wait.
+      await new Promise(resolve => setTimeout(resolve, 200));
+      fs.rmSync(path.join(lockDir, `${foreign.pid}.lock`));
+      await pending;
+      const locks = readLocks();
+      expect(locks).toHaveLength(1);
+      expect(locks[0].pid).toBe(process.pid);
+    } finally {
+      delete process.env.MODERN_DEV_LOCK_QUEUE_POLL_MS;
+    }
+  });
+
+  it('a waiter preempted by a persistent task fails fast instead of waiting forever', async () => {
+    process.env.MODERN_DEV_LOCK_QUEUE_POLL_MS = '50';
+    try {
+      const foreign = writeForeignLock({
+        pid: process.ppid,
+        operation: 'build',
+        mode: 'exclusive',
+        state: 'running',
+      });
+      const pending = acquireCommandLock({
+        appDirectory,
+        metaName: META,
+        operation: 'build',
+      });
+      await new Promise(resolve => setTimeout(resolve, 150));
+      // The finite build ends, but a dev server grabs the project first.
+      fs.rmSync(path.join(lockDir, `${foreign.pid}.lock`));
+      writeForeignLock({ pid: process.ppid });
+      await expect(pending).rejects.toMatchObject({
+        code: 'EBUILD_BLOCKED_BY_DEV',
+      });
+    } finally {
+      delete process.env.MODERN_DEV_LOCK_QUEUE_POLL_MS;
+    }
+  });
+
+  it('fully disjoint write sets run in parallel, whatever the commands are', async () => {
+    // A build over an isolated write set (per-config tempDir + distPath).
+    writeForeignLock({
+      pid: process.ppid,
+      operation: 'build',
+      mode: 'exclusive',
+      state: 'running',
+      internalDirectory: path.join(appDirectory, 'node_modules', '.iso-a'),
+      distDirectory: path.join(appDirectory, 'dist-a'),
+    });
+    // Our own build against the default directories: no shared path, no wait.
+    await acquireCommandLock({
+      appDirectory,
+      metaName: META,
+      operation: 'build',
+    });
+    expect(readLocks()).toHaveLength(2);
+
+    releaseCommandLock(appDirectory, META, 'build');
+
+    // Even a bare dev coexists with an isolated dev — no flag needed.
+    fs.rmSync(path.join(lockDir, `${process.ppid}.lock`));
+    writeForeignLock({
+      pid: process.ppid,
+      internalDirectory: path.join(appDirectory, 'node_modules', '.iso-b'),
+      distDirectory: path.join(appDirectory, 'dist-b'),
+    });
+    await acquireCommandLock({
+      appDirectory,
+      metaName: META,
+      operation: 'dev',
+    });
+    expect(readLocks()).toHaveLength(2);
+  });
+
+  it('sharing either directory alone still conflicts', async () => {
+    // Same internalDirectory, different dist: the generated-code dir is
+    // enough to collide (a watcher holder makes it fail fast, observable).
+    writeForeignLock({
+      pid: process.ppid,
+      operation: 'build',
+      mode: 'exclusive',
+      state: 'running',
+      persistent: true,
+      distDirectory: path.join(appDirectory, 'dist-other'),
+    });
+    await expect(
+      acquireCommandLock({ appDirectory, metaName: META, operation: 'build' }),
+    ).rejects.toMatchObject({ code: 'EBUILD_IN_PROGRESS' });
+  });
+
+  it('locks from older writers without write-set fields conflict conservatively', async () => {
+    writeForeignLock({
+      pid: process.ppid,
+      internalDirectory: undefined,
+      distDirectory: undefined,
+    });
+    await expect(
+      acquireCommandLock({ appDirectory, metaName: META, operation: 'dev' }),
+    ).rejects.toMatchObject({ code: 'EDEV_SERVER_RUNNING' });
+  });
+
+  it('inspect takes a short exclusive lock', async () => {
+    expect(normalizeLockOperation('inspect')).toBe('inspect');
+
+    writeForeignLock({ pid: process.ppid });
+    await expect(
+      acquireCommandLock({
+        appDirectory,
+        metaName: META,
+        operation: 'inspect',
+      }),
+    ).rejects.toMatchObject({ code: 'EBUILD_BLOCKED_BY_DEV' });
+
+    fs.rmSync(path.join(lockDir, `${process.ppid}.lock`));
+    writeForeignLock({
+      pid: process.ppid,
+      operation: 'inspect',
+      mode: 'exclusive',
+      state: 'running',
+    });
+    await expect(
+      acquireCommandLock({ appDirectory, metaName: META, operation: 'dev' }),
+    ).rejects.toMatchObject({ code: 'EDEV_BLOCKED_BY_BUILD' });
   });
 
   it('hot-restart re-entry inherits allowMultiple from its own lock file', async () => {
