@@ -3,11 +3,14 @@ import fs from 'node:fs';
 import os from 'node:os';
 import path from 'node:path';
 import ts from 'typescript';
-import { modernBuild } from '../../../utils/modernTestUtils';
+import {
+  createIsolatedTestApp,
+  modernBuild,
+} from '../../../utils/modernTestUtils';
 
 rstest.setConfig({ testTimeout: 1000 * 60 * 3, hookTimeout: 1000 * 60 * 3 });
 
-const apiAppDir = path.resolve(__dirname, '../bff-api-app');
+const sourceApiAppDir = path.resolve(__dirname, '../bff-api-app');
 
 // Type-check `consumerDir` in isolation and return the diagnostics. An unused
 // `@ts-expect-error` also surfaces here (TS2578), so a type that silently
@@ -32,10 +35,20 @@ describe('crossProject client type portability', () => {
   // real regression surface — "resolvable in the local dist" is not the same as
   // "resolvable from the packed tarball".
   it('a packed tarball resolves the client types from an isolated consumer', async () => {
-    await modernBuild(apiAppDir, [], {});
+    // Build and pack a copy: `index.test.ts` runs dev servers from the source
+    // fixture in a parallel test file, and a build there would empty its dist
+    // under the running server. `dist-1` is this fixture's output directory,
+    // so it must be excluded too — the copy has to start without stale (or
+    // half-written) build output.
+    const { appDir: apiAppDir, cleanup } = await createIsolatedTestApp(
+      sourceApiAppDir,
+      { exclude: ['dist-1'] },
+    );
 
     const workDir = fs.mkdtempSync(path.join(os.tmpdir(), 'bff-portability-'));
     try {
+      await modernBuild(apiAppDir, [], {});
+
       // 1. Pack exactly what would be published.
       execFileSync('pnpm', ['pack', '--pack-destination', workDir], {
         cwd: apiAppDir,
@@ -132,6 +145,7 @@ describe('crossProject client type portability', () => {
       expect(messages).toEqual([]);
     } finally {
       fs.rmSync(workDir, { recursive: true, force: true });
+      await cleanup();
     }
   });
 });
