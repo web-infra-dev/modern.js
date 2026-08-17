@@ -219,20 +219,21 @@ import DeployCommand from '@site-docs/components/deploy-command';
 
 ## 并发命令保护
 
-Modern.js 会阻止多个命令并发读写同一份生成文件。保护范围是项目根目录，因此项目的不同隔离副本互不影响。
+Modern.js 会阻止多个命令并发读写同一份生成文件。判断依据是两个目录：框架生成文件目录（`output.tempDir`，默认 `node_modules/.modern-js`）与产物目录（`output.distPath`，默认 `dist`）——**任一相同即视为冲突**；两者都不同的命令组合互不影响，可自由并行。
 
-在同一项目根目录中：
+同一套目录内发生冲突时：
 
 | 已运行的命令 | 新命令 | 结果 |
 | --- | --- | --- |
 | `dev` / `start` | `dev` / `start` | 默认阻止 |
-| `dev` / `start` | `build` / `deploy` | 阻止 |
-| `build` / `deploy` | `dev` / `start` | 阻止 |
-| `build` / `deploy` | `build` / `deploy` | 阻止 |
+| `dev` / `start` | `build` / `deploy` / `inspect` | 阻止 |
+| `build` / `deploy` / `inspect` | `dev` / `start` | 阻止 |
+| `build --watch` | `build` / `deploy` / `inspect` | 阻止（监听进程长驻，无法等待） |
+| `build` / `deploy` / `inspect` | `build` / `deploy` / `inspect` | **自动排队**：等待前一个完成后继续执行 |
 
-`serve`、`inspect` 等只读命令不会加锁。
+`serve` 只读产物，不参与锁。`inspect` 启动时会重建生成文件目录，因此持有短暂的独占锁。
 
-`build --watch` 同样受此规则保护：在监听进程停止前会一直持有独占锁。
+排队期间 CLI 会打印正在等待的命令与 PID，可随时 Ctrl-C 取消；等待没有固定超时，多个等待者的先后顺序不做保证。
 
 如果确实需要在同一项目根目录中运行多个开发服务器，请使用：
 
@@ -240,8 +241,8 @@ Modern.js 会阻止多个命令并发读写同一份生成文件。保护范围�
 modern dev --allow-multiple
 ```
 
-`--allow-multiple` 只允许多个开发服务器并存，不允许 `dev` 与 `build` / `deploy` 同时运行。
+`--allow-multiple` 只允许多个开发服务器并存，不允许 `dev` 与 `build` / `deploy` 同时运行；仅 `dev` / `start`（别名）支持该参数。
 
-该参数仅 `dev` / `start`（别名）支持；`build` / `deploy` 不接受该参数（传入会提示未知参数）——独占锁对任何并发都互斥，不存在放宽的语义。
+需要真正并行（例如多区域分别构建）时，为每个进程配置独立的 `output.tempDir` 与 `output.distPath`（配置文件可读环境变量派生目录），即可完全隔离、互不排队。
 
 命令被阻止时，CLI 会显示冲突操作，并在可以确认时显示其 URL 和 PID。请停止或复用该进程后重试；Modern.js 能确认原进程已退出时，会在后续命令执行时自动清理遗留锁。

@@ -12,9 +12,13 @@ const START_TIME_TOLERANCE_MS = 5000;
 // period so we never race a writer from a different (non tmp+rename) source.
 const BAD_JSON_GRACE_MS = 5000;
 const MUTEX_WAIT_TOTAL_MS = 10_000;
+// How often a queued command re-enters the mutex to re-evaluate, and how
+// often it reminds the user it is still waiting.
+const QUEUE_POLL_MS = 1_000;
+const QUEUE_LOG_INTERVAL_MS = 10_000;
 const HEARTBEAT_INTERVAL_MS = 10_000;
 
-export type LockOperation = 'dev' | 'build' | 'deploy';
+export type LockOperation = 'dev' | 'build' | 'deploy' | 'inspect';
 export type LockMode = 'shared' | 'exclusive';
 export type LockState = 'starting' | 'ready' | 'running';
 
@@ -29,6 +33,21 @@ export interface DevLockInfo {
   host?: string;
   urls?: string[];
   appDirectory: string;
+  /**
+   * The write set of this command: the framework-generated file directory
+   * and the build output directory. Two locks conflict only when either
+   * path is shared; fully disjoint write sets run in parallel. Locks from
+   * older writers may miss these fields — the safe reading of an unknown
+   * write set is "the whole app".
+   */
+  internalDirectory?: string;
+  distDirectory?: string;
+  /**
+   * Whether the holder is a long-lived task (dev server, `build --watch`).
+   * A persistent holder can never be waited on — queuing behind it would
+   * hang forever, so a conflicting command fails fast instead.
+   */
+  persistent?: boolean;
   allowMultiple?: boolean;
   heartbeatAt?: number;
   /**
@@ -93,6 +112,12 @@ export const normalizeLockOperation = (
   }
   if (command === 'deploy') {
     return 'deploy';
+  }
+  if (command === 'inspect') {
+    // inspect empties `internalDirectory` on startup (it is in the analyze
+    // plugin's build-commands list) and dumps configs into dist — a short
+    // exclusive task.
+    return 'inspect';
   }
   return null;
 };
@@ -182,6 +207,12 @@ const mutexWaitTotalMs = () => {
   return Number.isFinite(fromEnv) && fromEnv > 0
     ? fromEnv
     : MUTEX_WAIT_TOTAL_MS;
+};
+
+// Internal override so queueing tests do not poll at one-second granularity.
+const queuePollMs = () => {
+  const fromEnv = Number(process.env.MODERN_DEV_LOCK_QUEUE_POLL_MS);
+  return Number.isFinite(fromEnv) && fromEnv > 0 ? fromEnv : QUEUE_POLL_MS;
 };
 
 const readMutexOwner = (mutexDir: string): MutexOwner | null => {
@@ -512,48 +543,106 @@ const collectLiveLocks = async (lockDir: string) => {
   return { others, self };
 };
 
+interface WriteSet {
+  internalDirectory?: string;
+  distDirectory?: string;
+}
+
+const writeSetsIntersect = (a: WriteSet, b: WriteSet): boolean => {
+  if (
+    !a.internalDirectory ||
+    !b.internalDirectory ||
+    !a.distDirectory ||
+    !b.distDirectory
+  ) {
+    // Unknown write set (an older writer): assume it spans the whole app.
+    return true;
+  }
+  return (
+    a.internalDirectory === b.internalDirectory ||
+    a.distDirectory === b.distDirectory
+  );
+};
+
+type ConflictDecision =
+  | { kind: 'proceed' }
+  | { kind: 'error'; error: DevServerLockError }
+  | { kind: 'wait'; holders: DevLockInfo[] };
+
+/**
+ * First step: physical conflict = write sets intersect (either directory
+ * shared). Fully disjoint commands — a per-config isolation set up through
+ * `output.tempDir` + `output.distPath` — run in parallel, whatever they are.
+ *
+ * Second step, for the conflicting ones: fail fast when the wait would be
+ * unbounded (the holder is persistent) or the intent is wrong (a second bare
+ * dev); wait when the holder is a finite build-like task.
+ */
 const decideConflict = (
   op: LockOperation,
+  mine: WriteSet,
   allowMultiple: boolean,
   others: DevLockInfo[],
-): DevServerLockError | null => {
-  const exclusive = others.filter(lock => lock.mode === 'exclusive');
-  const shared = others.filter(lock => lock.mode === 'shared');
+): ConflictDecision => {
+  const conflicting = others.filter(lock => writeSetsIntersect(mine, lock));
+  if (conflicting.length === 0) {
+    return { kind: 'proceed' };
+  }
+
+  const exclusive = conflicting.filter(lock => lock.mode === 'exclusive');
+  const shared = conflicting.filter(lock => lock.mode === 'shared');
 
   if (op === 'dev') {
     if (exclusive.length > 0) {
-      return new DevServerLockError(
-        'EDEV_BLOCKED_BY_BUILD',
-        'A build/deploy is currently writing the output of this project.',
-        exclusive.map(toInstance),
-      );
+      return {
+        kind: 'error',
+        error: new DevServerLockError(
+          'EDEV_BLOCKED_BY_BUILD',
+          'A build/deploy is currently writing the output of this project.',
+          exclusive.map(toInstance),
+        ),
+      };
     }
     if (shared.length > 0 && !allowMultiple) {
-      return new DevServerLockError(
-        'EDEV_SERVER_RUNNING',
-        'Another dev server is already running for this project.',
-        shared.map(toInstance),
-      );
+      return {
+        kind: 'error',
+        error: new DevServerLockError(
+          'EDEV_SERVER_RUNNING',
+          'Another dev server is already running for this project.',
+          shared.map(toInstance),
+        ),
+      };
     }
-    return null;
+    return { kind: 'proceed' };
   }
 
-  // build / deploy
-  if (exclusive.length > 0) {
-    return new DevServerLockError(
-      'EBUILD_IN_PROGRESS',
-      'Another build/deploy is already running for this project.',
-      exclusive.map(toInstance),
-    );
-  }
+  // build / deploy / inspect
   if (shared.length > 0) {
-    return new DevServerLockError(
-      'EBUILD_BLOCKED_BY_DEV',
-      'A dev server is running for this project; stop it before building.',
-      shared.map(toInstance),
-    );
+    return {
+      kind: 'error',
+      error: new DevServerLockError(
+        'EBUILD_BLOCKED_BY_DEV',
+        'A dev server is running for this project; stop it before building.',
+        shared.map(toInstance),
+      ),
+    };
   }
-  return null;
+  const persistentHolders = exclusive.filter(lock => lock.persistent === true);
+  if (persistentHolders.length > 0) {
+    return {
+      kind: 'error',
+      error: new DevServerLockError(
+        'EBUILD_IN_PROGRESS',
+        'A watch build is running for this project; stop it before building.',
+        persistentHolders.map(toInstance),
+      ),
+    };
+  }
+  if (exclusive.length > 0) {
+    // Finite build-like holders: queue behind them instead of failing.
+    return { kind: 'wait', holders: exclusive };
+  }
+  return { kind: 'proceed' };
 };
 
 // ---- per-process session (heartbeat + exit cleanup, hot-restart safe) ----
@@ -630,6 +719,11 @@ export interface AcquireOptions {
   metaName: string;
   operation: LockOperation;
   allowMultiple?: boolean;
+  /** `build --watch`: marks the lock persistent so nobody queues behind it. */
+  watch?: boolean;
+  /** Write set of this command; missing values fall back to app defaults. */
+  internalDirectory?: string;
+  distDirectory?: string;
 }
 
 /**
@@ -642,6 +736,9 @@ export const acquireCommandLock = async ({
   metaName,
   operation,
   allowMultiple = false,
+  watch = false,
+  internalDirectory,
+  distDirectory,
 }: AcquireOptions): Promise<void> => {
   const lockDir = getLockDirectory(appDirectory, metaName);
   fs.mkdirSync(lockDir, { recursive: true });
@@ -657,40 +754,118 @@ export const acquireCommandLock = async ({
   }
   installExitHook();
 
-  const token = await acquireMutex(lockDir);
-  try {
-    const { others, self } = await collectLiveLocks(lockDir);
+  // Fall back to the app defaults so programmatic callers that do not pass
+  // the write set still participate with the standard directories.
+  const mine: Required<WriteSet> = {
+    internalDirectory:
+      internalDirectory ??
+      path.join(appDirectory, 'node_modules', `.${metaName}`),
+    distDirectory: distDirectory ?? path.join(appDirectory, 'dist'),
+  };
+  const persistent = operation === 'dev' || (operation === 'build' && watch);
 
-    // A hot restart re-enters without the original CLI/run intent; the
-    // privilege granted at the first acquire is persisted in our own lock
-    // file, so a multi-instance dev survives config restarts.
-    const effectiveAllowMultiple =
-      allowMultiple ||
-      (self?.operation === 'dev' && self.allowMultiple === true);
+  let waitedSince: number | undefined;
+  let lastWaitLog = 0;
 
-    const conflict = decideConflict(operation, effectiveAllowMultiple, others);
-    if (conflict) {
-      throw conflict;
+  // Queue loop. Every round fully re-enters the mutex, re-cleans stale locks
+  // and re-evaluates from scratch — never "the lock is gone, write directly".
+  // The mutex is released before sleeping, so waiting holds nothing, and a
+  // persistent task that jumps in during a wait flips the next round into a
+  // fail-fast error. No in-framework deadline: a fixed timeout would kill
+  // slow-but-legitimate builds; CI's overall timeout is the final backstop.
+  for (;;) {
+    const token = await acquireMutex(lockDir);
+    let decision!: ConflictDecision;
+    try {
+      const { others, self } = await collectLiveLocks(lockDir);
+
+      // A hot restart re-enters without the original CLI/run intent; the
+      // privilege granted at the first acquire is persisted in our own lock
+      // file, so a multi-instance dev survives config restarts.
+      const effectiveAllowMultiple =
+        allowMultiple ||
+        (self?.operation === 'dev' && self.allowMultiple === true);
+
+      decision = decideConflict(
+        operation,
+        mine,
+        effectiveAllowMultiple,
+        others,
+      );
+
+      if (decision.kind === 'error') {
+        throw decision.error;
+      }
+      if (decision.kind === 'proceed') {
+        const mode: LockMode = operation === 'dev' ? 'shared' : 'exclusive';
+        const state: LockState = operation === 'dev' ? 'starting' : 'running';
+        writeLockFile(session, {
+          // Hot restart in the same process: reuse (rewrite) our existing file.
+          ...(self ?? {}),
+          schemaVersion: LOCK_SCHEMA_VERSION,
+          operation,
+          mode,
+          state,
+          persistent,
+          pid: process.pid,
+          processStartedAt: selfStartedAt(),
+          appDirectory,
+          internalDirectory: mine.internalDirectory,
+          distDirectory: mine.distDirectory,
+          allowMultiple:
+            operation === 'dev' ? effectiveAllowMultiple : undefined,
+          heartbeatAt: Date.now(),
+        });
+        startHeartbeat(session);
+        return;
+      }
+    } finally {
+      releaseMutex(lockDir, token);
     }
 
-    const mode: LockMode = operation === 'dev' ? 'shared' : 'exclusive';
-    const state: LockState = operation === 'dev' ? 'starting' : 'running';
+    if (decision.kind !== 'wait') {
+      continue;
+    }
+    const holder = decision.holders[0];
+    const now = Date.now();
+    if (waitedSince === undefined) {
+      waitedSince = now;
+      lastWaitLog = now;
+      logger.info(
+        `[dev-lock] waiting for ${holder.operation} (PID ${holder.pid}) to finish before starting ${operation}...`,
+      );
+    } else if (now - lastWaitLog >= QUEUE_LOG_INTERVAL_MS) {
+      lastWaitLog = now;
+      logger.info(
+        `[dev-lock] still waiting for ${holder.operation} (PID ${holder.pid}) after ${Math.round((now - waitedSince) / 1000)}s...`,
+      );
+    }
+    await sleep(queuePollMs());
+  }
+};
+
+/**
+ * Upgrade the current lock to persistent. `build --watch` learns about the
+ * watch flag in the command action (after the lock was taken in `onPrepare`),
+ * and a watcher that keeps writing output must never be queued behind.
+ */
+export const markLockPersistent = (
+  appDirectory: string,
+  metaName: string,
+): void => {
+  const session = sessions.get(sessionKey(appDirectory, metaName));
+  if (!session?.current || session.current.persistent) {
+    return;
+  }
+  try {
     writeLockFile(session, {
-      // Hot restart in the same process: reuse (rewrite) our existing file.
-      ...(self ?? {}),
-      schemaVersion: LOCK_SCHEMA_VERSION,
-      operation,
-      mode,
-      state,
-      pid: process.pid,
-      processStartedAt: selfStartedAt(),
-      appDirectory,
-      allowMultiple: operation === 'dev' ? effectiveAllowMultiple : undefined,
+      ...session.current,
+      persistent: true,
       heartbeatAt: Date.now(),
     });
-    startHeartbeat(session);
-  } finally {
-    releaseMutex(lockDir, token);
+  } catch {
+    // Losing the upgrade only risks a waiter queuing behind a watcher; the
+    // periodic waiting log keeps that observable.
   }
 };
 

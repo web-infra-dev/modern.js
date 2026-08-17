@@ -219,20 +219,21 @@ import DeployCommand from '@site-docs-en/components/deploy-command';
 
 ## Concurrent command protection
 
-Modern.js prevents concurrent commands from reading or writing the same generated files. The protection is scoped to the project root, so isolated copies of a project do not affect each other.
+Modern.js prevents concurrent commands from reading or writing the same generated files. Two directories decide a conflict: the generated-files directory (`output.tempDir`, default `node_modules/.modern-js`) and the build output directory (`output.distPath`, default `dist`) — sharing **either** counts as a conflict, while commands whose directories are both different never affect each other and run in parallel.
 
-For the same project root:
+When commands conflict over the same directories:
 
 | Running command | New command | Result |
 | --- | --- | --- |
 | `dev` / `start` | `dev` / `start` | Blocked by default |
-| `dev` / `start` | `build` / `deploy` | Blocked |
-| `build` / `deploy` | `dev` / `start` | Blocked |
-| `build` / `deploy` | `build` / `deploy` | Blocked |
+| `dev` / `start` | `build` / `deploy` / `inspect` | Blocked |
+| `build` / `deploy` / `inspect` | `dev` / `start` | Blocked |
+| `build --watch` | `build` / `deploy` / `inspect` | Blocked (the watcher never exits, so waiting would hang) |
+| `build` / `deploy` / `inspect` | `build` / `deploy` / `inspect` | **Queued**: waits for the running one to finish, then continues |
 
-Read-only commands such as `serve` and `inspect` do not take a lock.
+`serve` only reads the build output and does not take a lock. `inspect` recreates the generated-files directory on startup, so it holds a short exclusive lock.
 
-This also applies to `build --watch`: the exclusive lock is held until the watcher stops.
+While queued, the CLI prints the command and PID it is waiting for; Ctrl-C cancels at any time. There is no fixed waiting timeout, and the order among multiple waiters is not guaranteed.
 
 If you intentionally need multiple development servers for one project root, start the additional server with:
 
@@ -240,6 +241,8 @@ If you intentionally need multiple development servers for one project root, sta
 modern dev --allow-multiple
 ```
 
-`--allow-multiple` only permits multiple development servers. It does not allow `dev` and `build` / `deploy` to run together.
+`--allow-multiple` only permits multiple development servers — it never allows `dev` and `build` / `deploy` to run together, and only `dev` / `start` (its alias) accept it.
+
+For real parallelism (for example building each region separately), give every process its own `output.tempDir` and `output.distPath` (the config file can derive them from an environment variable): fully disjoint directories never queue.
 
 When a command is blocked, the CLI reports the conflicting operation and, when available, its URL and PID. Stop or reuse that process, then retry the command. A subsequent command automatically removes a stale lock when Modern.js can verify that its process has exited.
