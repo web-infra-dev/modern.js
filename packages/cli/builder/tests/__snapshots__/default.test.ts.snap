@@ -23,6 +23,7 @@ exports[`builder rspack > should generator rspack config correctly 1`] = `
     ],
   },
   "experiments": {
+    "nativeWatcher": true,
     "sourceImport": true,
   },
   "infrastructureLogging": {
@@ -1491,6 +1492,7 @@ exports[`builder rspack > should generator rspack config correctly 2`] = `
   "rsbuild:less",
   "builder:environment-defaults-plugin",
   "builder:plugin-html-minifier-terser",
+  "builder:native-watcher",
   "rsbuild:type-check",
   "builder:runtime-chunk",
   "rsbuild:react",
@@ -1524,6 +1526,7 @@ exports[`builder rspack > should generator rspack config correctly when node 1`]
     ],
   },
   "experiments": {
+    "nativeWatcher": true,
     "sourceImport": true,
   },
   "infrastructureLogging": {
@@ -2486,6 +2489,7 @@ exports[`builder rspack > should generator rspack config correctly when prod 1`]
     ],
   },
   "experiments": {
+    "nativeWatcher": true,
     "sourceImport": true,
   },
   "infrastructureLogging": {
@@ -3977,6 +3981,7 @@ exports[`builder rspack > should generator rspack config correctly when service-
     ],
   },
   "experiments": {
+    "nativeWatcher": true,
     "sourceImport": true,
   },
   "infrastructureLogging": {
