@@ -1,3 +1,4 @@
+import path from 'path';
 import { getArgv, getCommand, minimist } from '@modern-js/utils';
 import type { AppTools, CliPlugin } from '../types';
 import {
@@ -35,19 +36,37 @@ export default (): CliPlugin<AppTools> => ({
       // `RunOptions.allowMultiple` and stores a run-scoped intent; raw argv
       // is only a fallback for callers that drive `cli.init()` directly.
       const intent = getDevLockIntent(appDirectory);
+      const args = minimist(getArgv(), {
+        boolean: ['allow-multiple', 'watch'],
+        alias: { w: 'watch' },
+      });
       const allowMultiple =
-        intent?.allowMultiple ??
-        Boolean(
-          minimist(getArgv(), { boolean: ['allow-multiple'] })[
-            'allow-multiple'
-          ],
-        );
+        intent?.allowMultiple ?? Boolean(args['allow-multiple']);
+
+      // The write set this command will touch. internalDirectory is fixed at
+      // plugin-setup time (from `output.tempDir`); distDirectory follows the
+      // resolved config, computed here defensively because other plugins may
+      // not have written it onto the app context yet in this early hook.
+      const resolvedConfig = api.getNormalizedConfig() as
+        | { output?: { distPath?: { root?: string } } }
+        | undefined;
+      const distRoot = resolvedConfig?.output?.distPath?.root || 'dist';
+      const distDirectory =
+        appContext.distDirectory ||
+        (path.isAbsolute(distRoot)
+          ? distRoot
+          : path.resolve(appDirectory, distRoot));
 
       await acquireCommandLock({
         appDirectory,
         metaName,
         operation,
         allowMultiple: operation === 'dev' && allowMultiple,
+        // `build --watch` seen on argv marks the lock persistent up front;
+        // programmatic watch is upgraded in the build action itself.
+        watch: operation === 'build' && Boolean(args.watch),
+        internalDirectory: appContext.internalDirectory,
+        distDirectory,
       });
     });
 

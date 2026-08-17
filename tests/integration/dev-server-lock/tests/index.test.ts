@@ -6,6 +6,7 @@ import {
   launchApp,
   modernBuild,
   modernBuildWatch,
+  runModernCommand,
   runModernCommandDev,
 } from '../../../utils/modernTestUtils';
 
@@ -109,6 +110,45 @@ describe('dev server lock', () => {
       if (second) {
         await killApp(second, true);
       }
+      if (app) {
+        await killApp(app, true);
+      }
+      await cleanup();
+    }
+  });
+
+  test('two builds in the same directory queue and both succeed', async () => {
+    const { appDir, cleanup } = await createIsolatedTestApp(sourceDir);
+    try {
+      const [first, second] = await Promise.all([
+        modernBuild(appDir),
+        modernBuild(appDir, [], {
+          env: { MODERN_DEV_LOCK_QUEUE_POLL_MS: '200' },
+        }),
+      ]);
+      expect(first.code).toBe(0);
+      expect(second.code).toBe(0);
+      // One of them must have waited for the other.
+      expect(`${first.stdout}${second.stdout}`).toMatch(/waiting for build/);
+    } finally {
+      await cleanup();
+    }
+  });
+
+  test('inspect is rejected while a dev server holds the lock', async () => {
+    const { appDir, cleanup } = await createIsolatedTestApp(sourceDir);
+    let app: any;
+    try {
+      app = await launchApp(appDir, await getPort());
+      const blocked = await runModernCommand(['inspect'], {
+        cwd: appDir,
+        stderr: true,
+      });
+      expect(blocked.code).not.toBe(0);
+      expect(`${blocked.stdout}${blocked.stderr}`).toMatch(
+        /EBUILD_BLOCKED_BY_DEV/,
+      );
+    } finally {
       if (app) {
         await killApp(app, true);
       }
