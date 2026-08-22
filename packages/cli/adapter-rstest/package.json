@@ -27,15 +27,15 @@
   },
   "dependencies": {
     "@modern-js/app-tools": "workspace:*",
-    "@rstest/adapter-rsbuild": "^0.2.6"
+    "@rstest/adapter-rsbuild": "^0.11.9"
   },
   "devDependencies": {
     "@modern-js/rslib": "workspace:*",
     "@modern-js/tsconfig": "workspace:*",
     "@modern-js/types": "workspace:*",
-    "@rsbuild/core": "2.1.0",
+    "@rsbuild/core": "2.1.13",
     "@rslib/core": "0.23.2",
-    "@rstest/core": "0.9.10",
+    "@rstest/core": "0.11.9",
     "@scripts/rstest-config": "workspace:*",
     "@types/node": "^20",
     "typescript": "^5"
