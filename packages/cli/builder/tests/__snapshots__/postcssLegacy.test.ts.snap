@@ -8,6 +8,12 @@ exports[`lightningcss-loader > should register lightningcss-loader and disable p
     },
     "oneOf": [
       {
+        "type": "asset/source",
+        "with": {
+          "type": "text",
+        },
+      },
+      {
         "resolve": {
           "preferRelative": true,
         },
@@ -133,6 +139,12 @@ exports[`lightningcss-loader > should register lightningcss-loader and postcss-l
       "not": "url",
     },
     "oneOf": [
+      {
+        "type": "asset/source",
+        "with": {
+          "type": "text",
+        },
+      },
       {
         "resolve": {
           "preferRelative": true,
@@ -307,6 +319,12 @@ exports[`plugin-postcssLegacy > should allow tools.postcss to override the plugi
       "not": "url",
     },
     "oneOf": [
+      {
+        "type": "asset/source",
+        "with": {
+          "type": "text",
+        },
+      },
       {
         "resolve": {
           "preferRelative": true,
@@ -562,6 +580,12 @@ exports[`plugin-postcssLegacy > should allow tools.postcss to override the plugi
         ],
       },
       {
+        "type": "asset/source",
+        "with": {
+          "type": "text",
+        },
+      },
+      {
         "resourceQuery": /\\[\\?&\\]raw\\(\\?:&\\|=\\|\\$\\)/,
         "type": "asset/source",
       },
@@ -739,6 +763,12 @@ exports[`plugin-postcssLegacy > should allow tools.postcss to override the plugi
         ],
       },
       {
+        "type": "asset/source",
+        "with": {
+          "type": "text",
+        },
+      },
+      {
         "resourceQuery": /\\[\\?&\\]raw\\(\\?:&\\|=\\|\\$\\)/,
         "type": "asset/source",
       },
@@ -808,6 +838,12 @@ exports[`plugin-postcssLegacy > should register postcss plugin by browserslist 1
       "not": "url",
     },
     "oneOf": [
+      {
+        "type": "asset/source",
+        "with": {
+          "type": "text",
+        },
+      },
       {
         "resolve": {
           "preferRelative": true,
@@ -1188,6 +1224,12 @@ exports[`plugin-postcssLegacy > should register postcss plugin by browserslist 2
         ],
       },
       {
+        "type": "asset/source",
+        "with": {
+          "type": "text",
+        },
+      },
+      {
         "resourceQuery": /\\[\\?&\\]raw\\(\\?:&\\|=\\|\\$\\)/,
         "type": "asset/source",
       },
@@ -1440,6 +1482,12 @@ exports[`plugin-postcssLegacy > should register postcss plugin by browserslist 3
         ],
       },
       {
+        "type": "asset/source",
+        "with": {
+          "type": "text",
+        },
+      },
+      {
         "resourceQuery": /\\[\\?&\\]raw\\(\\?:&\\|=\\|\\$\\)/,
         "type": "asset/source",
       },
@@ -1534,6 +1582,12 @@ exports[`plugin-postcssLegacy > should register postcss plugin correctly when in
       "not": "url",
     },
     "oneOf": [
+      {
+        "type": "asset/source",
+        "with": {
+          "type": "text",
+        },
+      },
       {
         "resolve": {
           "preferRelative": true,
@@ -1777,6 +1831,12 @@ exports[`plugin-postcssLegacy > should register postcss plugin correctly when in
       "not": "url",
     },
     "oneOf": [
+      {
+        "type": "asset/source",
+        "with": {
+          "type": "text",
+        },
+      },
       {
         "resolve": {
           "preferRelative": true,

@@ -48,6 +48,12 @@ exports[`builder rspack > should generator rspack config correctly 1`] = `
         },
         "oneOf": [
           {
+            "type": "asset/source",
+            "with": {
+              "type": "text",
+            },
+          },
+          {
             "resolve": {
               "preferRelative": true,
             },
@@ -302,6 +308,12 @@ exports[`builder rspack > should generator rspack config correctly 1`] = `
             ],
           },
           {
+            "type": "asset/source",
+            "with": {
+              "type": "text",
+            },
+          },
+          {
             "resourceQuery": /\\[\\?&\\]raw\\(\\?:&\\|=\\|\\$\\)/,
             "type": "asset/source",
           },
@@ -436,6 +448,12 @@ exports[`builder rspack > should generator rspack config correctly 1`] = `
             "type": "asset/inline",
           },
           {
+            "type": "asset/source",
+            "with": {
+              "type": "text",
+            },
+          },
+          {
             "resourceQuery": /\\[\\?&\\]raw\\(\\?:&\\|=\\|\\$\\)/,
             "type": "asset/source",
           },
@@ -451,7 +469,7 @@ exports[`builder rspack > should generator rspack config correctly 1`] = `
             "type": "asset",
           },
         ],
-        "test": /\\\\\\.\\(\\?:png\\|jpg\\|jpeg\\|pjpeg\\|pjp\\|gif\\|bmp\\|webp\\|ico\\|apng\\|avif\\|tif\\|tiff\\|jfif\\|cur\\)\\$/i,
+        "test": /\\\\\\.\\(\\?:png\\|jpg\\|jpeg\\|pjpeg\\|pjp\\|gif\\|bmp\\|webp\\|ico\\|apng\\|avif\\|tif\\|tiff\\|jfif\\|cur\\|jxl\\)\\$/i,
       },
       {
         "oneOf": [
@@ -465,6 +483,12 @@ exports[`builder rspack > should generator rspack config correctly 1`] = `
           {
             "resourceQuery": /\\[\\?&\\]inline\\(\\?:&\\|=\\|\\$\\)/,
             "type": "asset/inline",
+          },
+          {
+            "type": "asset/source",
+            "with": {
+              "type": "text",
+            },
           },
           {
             "resourceQuery": /\\[\\?&\\]raw\\(\\?:&\\|=\\|\\$\\)/,
@@ -482,7 +506,7 @@ exports[`builder rspack > should generator rspack config correctly 1`] = `
             "type": "asset",
           },
         ],
-        "test": /\\\\\\.\\(\\?:mp4\\|webm\\|ogg\\|mov\\|mp3\\|wav\\|flac\\|aac\\|m4a\\|opus\\)\\$/i,
+        "test": /\\\\\\.\\(\\?:mp4\\|webm\\|ogg\\|mov\\|mp3\\|wav\\|flac\\|aac\\|m4a\\|opus\\|vtt\\)\\$/i,
       },
       {
         "oneOf": [
@@ -496,6 +520,12 @@ exports[`builder rspack > should generator rspack config correctly 1`] = `
           {
             "resourceQuery": /\\[\\?&\\]inline\\(\\?:&\\|=\\|\\$\\)/,
             "type": "asset/inline",
+          },
+          {
+            "type": "asset/source",
+            "with": {
+              "type": "text",
+            },
           },
           {
             "resourceQuery": /\\[\\?&\\]raw\\(\\?:&\\|=\\|\\$\\)/,
@@ -517,6 +547,49 @@ exports[`builder rspack > should generator rspack config correctly 1`] = `
       },
       {
         "oneOf": [
+          {
+            "generator": {
+              "filename": "static/assets/[name].[contenthash:10][ext]",
+            },
+            "resourceQuery": /\\[\\?&\\]url\\(\\?:&\\|=\\|\\$\\)/,
+            "type": "asset/resource",
+          },
+          {
+            "resourceQuery": /\\[\\?&\\]inline\\(\\?:&\\|=\\|\\$\\)/,
+            "type": "asset/inline",
+          },
+          {
+            "type": "asset/source",
+            "with": {
+              "type": "text",
+            },
+          },
+          {
+            "resourceQuery": /\\[\\?&\\]raw\\(\\?:&\\|=\\|\\$\\)/,
+            "type": "asset/source",
+          },
+          {
+            "generator": {
+              "filename": "static/assets/[name].[contenthash:10][ext]",
+            },
+            "parser": {
+              "dataUrlCondition": {
+                "maxSize": 10000,
+              },
+            },
+            "type": "asset",
+          },
+        ],
+        "test": /\\\\\\.\\(\\?:webmanifest\\|pdf\\|txt\\)\\$/i,
+      },
+      {
+        "oneOf": [
+          {
+            "type": "asset/source",
+            "with": {
+              "type": "text",
+            },
+          },
           {
             "resourceQuery": /\\[\\?&\\]raw\\(\\?:&\\|=\\|\\$\\)/,
             "type": "asset/source",
@@ -722,6 +795,12 @@ exports[`builder rspack > should generator rspack config correctly 1`] = `
                 },
               },
             ],
+          },
+          {
+            "type": "asset/source",
+            "with": {
+              "type": "text",
+            },
           },
           {
             "resourceQuery": /\\[\\?&\\]raw\\(\\?:&\\|=\\|\\$\\)/,
@@ -1001,6 +1080,12 @@ exports[`builder rspack > should generator rspack config correctly 1`] = `
             ],
           },
           {
+            "type": "asset/source",
+            "with": {
+              "type": "text",
+            },
+          },
+          {
             "resourceQuery": /\\[\\?&\\]raw\\(\\?:&\\|=\\|\\$\\)/,
             "type": "asset/source",
           },
@@ -1107,6 +1192,12 @@ exports[`builder rspack > should generator rspack config correctly 1`] = `
           {
             "resourceQuery": /\\^\\\\\\?inline\\$/,
             "type": "asset/inline",
+          },
+          {
+            "type": "asset/source",
+            "with": {
+              "type": "text",
+            },
           },
           {
             "resourceQuery": /\\^\\\\\\?raw\\$/,
@@ -1310,6 +1401,9 @@ exports[`builder rspack > should generator rspack config correctly 1`] = `
     "chunkFilename": "static/js/async/[name].js",
     "devtoolFallbackModuleFilenameTemplate": [Function],
     "devtoolModuleFilenameTemplate": [Function],
+    "environment": {
+      "const": false,
+    },
     "filename": "static/js/[name].js",
     "path": "<WORKSPACE>/packages/cli/builder/dist",
     "publicPath": "/",
@@ -1554,6 +1648,12 @@ exports[`builder rspack > should generator rspack config correctly when node 1`]
         },
         "oneOf": [
           {
+            "type": "asset/source",
+            "with": {
+              "type": "text",
+            },
+          },
+          {
             "resolve": {
               "preferRelative": true,
             },
@@ -1664,6 +1764,12 @@ exports[`builder rspack > should generator rspack config correctly when node 1`]
                 "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/core/dist/workerLoader.mjs",
               },
             ],
+          },
+          {
+            "type": "asset/source",
+            "with": {
+              "type": "text",
+            },
           },
           {
             "resourceQuery": /\\[\\?&\\]raw\\(\\?:&\\|=\\|\\$\\)/,
@@ -1783,6 +1889,12 @@ exports[`builder rspack > should generator rspack config correctly when node 1`]
             "type": "asset/inline",
           },
           {
+            "type": "asset/source",
+            "with": {
+              "type": "text",
+            },
+          },
+          {
             "resourceQuery": /\\[\\?&\\]raw\\(\\?:&\\|=\\|\\$\\)/,
             "type": "asset/source",
           },
@@ -1799,7 +1911,7 @@ exports[`builder rspack > should generator rspack config correctly when node 1`]
             "type": "asset",
           },
         ],
-        "test": /\\\\\\.\\(\\?:png\\|jpg\\|jpeg\\|pjpeg\\|pjp\\|gif\\|bmp\\|webp\\|ico\\|apng\\|avif\\|tif\\|tiff\\|jfif\\|cur\\)\\$/i,
+        "test": /\\\\\\.\\(\\?:png\\|jpg\\|jpeg\\|pjpeg\\|pjp\\|gif\\|bmp\\|webp\\|ico\\|apng\\|avif\\|tif\\|tiff\\|jfif\\|cur\\|jxl\\)\\$/i,
       },
       {
         "oneOf": [
@@ -1814,6 +1926,12 @@ exports[`builder rspack > should generator rspack config correctly when node 1`]
           {
             "resourceQuery": /\\[\\?&\\]inline\\(\\?:&\\|=\\|\\$\\)/,
             "type": "asset/inline",
+          },
+          {
+            "type": "asset/source",
+            "with": {
+              "type": "text",
+            },
           },
           {
             "resourceQuery": /\\[\\?&\\]raw\\(\\?:&\\|=\\|\\$\\)/,
@@ -1832,7 +1950,7 @@ exports[`builder rspack > should generator rspack config correctly when node 1`]
             "type": "asset",
           },
         ],
-        "test": /\\\\\\.\\(\\?:mp4\\|webm\\|ogg\\|mov\\|mp3\\|wav\\|flac\\|aac\\|m4a\\|opus\\)\\$/i,
+        "test": /\\\\\\.\\(\\?:mp4\\|webm\\|ogg\\|mov\\|mp3\\|wav\\|flac\\|aac\\|m4a\\|opus\\|vtt\\)\\$/i,
       },
       {
         "oneOf": [
@@ -1847,6 +1965,12 @@ exports[`builder rspack > should generator rspack config correctly when node 1`]
           {
             "resourceQuery": /\\[\\?&\\]inline\\(\\?:&\\|=\\|\\$\\)/,
             "type": "asset/inline",
+          },
+          {
+            "type": "asset/source",
+            "with": {
+              "type": "text",
+            },
           },
           {
             "resourceQuery": /\\[\\?&\\]raw\\(\\?:&\\|=\\|\\$\\)/,
@@ -1869,6 +1993,51 @@ exports[`builder rspack > should generator rspack config correctly when node 1`]
       },
       {
         "oneOf": [
+          {
+            "generator": {
+              "emit": false,
+              "filename": "static/assets/[name].[contenthash:10][ext]",
+            },
+            "resourceQuery": /\\[\\?&\\]url\\(\\?:&\\|=\\|\\$\\)/,
+            "type": "asset/resource",
+          },
+          {
+            "resourceQuery": /\\[\\?&\\]inline\\(\\?:&\\|=\\|\\$\\)/,
+            "type": "asset/inline",
+          },
+          {
+            "type": "asset/source",
+            "with": {
+              "type": "text",
+            },
+          },
+          {
+            "resourceQuery": /\\[\\?&\\]raw\\(\\?:&\\|=\\|\\$\\)/,
+            "type": "asset/source",
+          },
+          {
+            "generator": {
+              "emit": false,
+              "filename": "static/assets/[name].[contenthash:10][ext]",
+            },
+            "parser": {
+              "dataUrlCondition": {
+                "maxSize": 10000,
+              },
+            },
+            "type": "asset",
+          },
+        ],
+        "test": /\\\\\\.\\(\\?:webmanifest\\|pdf\\|txt\\)\\$/i,
+      },
+      {
+        "oneOf": [
+          {
+            "type": "asset/source",
+            "with": {
+              "type": "text",
+            },
+          },
           {
             "resourceQuery": /\\[\\?&\\]raw\\(\\?:&\\|=\\|\\$\\)/,
             "type": "asset/source",
@@ -1985,6 +2154,12 @@ exports[`builder rspack > should generator rspack config correctly when node 1`]
                 },
               },
             ],
+          },
+          {
+            "type": "asset/source",
+            "with": {
+              "type": "text",
+            },
           },
           {
             "resourceQuery": /\\[\\?&\\]raw\\(\\?:&\\|=\\|\\$\\)/,
@@ -2123,6 +2298,12 @@ exports[`builder rspack > should generator rspack config correctly when node 1`]
             ],
           },
           {
+            "type": "asset/source",
+            "with": {
+              "type": "text",
+            },
+          },
+          {
             "resourceQuery": /\\[\\?&\\]raw\\(\\?:&\\|=\\|\\$\\)/,
             "type": "asset/source",
           },
@@ -2190,6 +2371,12 @@ exports[`builder rspack > should generator rspack config correctly when node 1`]
           {
             "resourceQuery": /\\^\\\\\\?inline\\$/,
             "type": "asset/inline",
+          },
+          {
+            "type": "asset/source",
+            "with": {
+              "type": "text",
+            },
           },
           {
             "resourceQuery": /\\^\\\\\\?raw\\$/,
@@ -2511,6 +2698,12 @@ exports[`builder rspack > should generator rspack config correctly when prod 1`]
         },
         "oneOf": [
           {
+            "type": "asset/source",
+            "with": {
+              "type": "text",
+            },
+          },
+          {
             "resolve": {
               "preferRelative": true,
             },
@@ -2764,6 +2957,12 @@ exports[`builder rspack > should generator rspack config correctly when prod 1`]
             ],
           },
           {
+            "type": "asset/source",
+            "with": {
+              "type": "text",
+            },
+          },
+          {
             "resourceQuery": /\\[\\?&\\]raw\\(\\?:&\\|=\\|\\$\\)/,
             "type": "asset/source",
           },
@@ -2898,6 +3097,12 @@ exports[`builder rspack > should generator rspack config correctly when prod 1`]
             "type": "asset/inline",
           },
           {
+            "type": "asset/source",
+            "with": {
+              "type": "text",
+            },
+          },
+          {
             "resourceQuery": /\\[\\?&\\]raw\\(\\?:&\\|=\\|\\$\\)/,
             "type": "asset/source",
           },
@@ -2913,7 +3118,7 @@ exports[`builder rspack > should generator rspack config correctly when prod 1`]
             "type": "asset",
           },
         ],
-        "test": /\\\\\\.\\(\\?:png\\|jpg\\|jpeg\\|pjpeg\\|pjp\\|gif\\|bmp\\|webp\\|ico\\|apng\\|avif\\|tif\\|tiff\\|jfif\\|cur\\)\\$/i,
+        "test": /\\\\\\.\\(\\?:png\\|jpg\\|jpeg\\|pjpeg\\|pjp\\|gif\\|bmp\\|webp\\|ico\\|apng\\|avif\\|tif\\|tiff\\|jfif\\|cur\\|jxl\\)\\$/i,
       },
       {
         "oneOf": [
@@ -2927,6 +3132,12 @@ exports[`builder rspack > should generator rspack config correctly when prod 1`]
           {
             "resourceQuery": /\\[\\?&\\]inline\\(\\?:&\\|=\\|\\$\\)/,
             "type": "asset/inline",
+          },
+          {
+            "type": "asset/source",
+            "with": {
+              "type": "text",
+            },
           },
           {
             "resourceQuery": /\\[\\?&\\]raw\\(\\?:&\\|=\\|\\$\\)/,
@@ -2944,7 +3155,7 @@ exports[`builder rspack > should generator rspack config correctly when prod 1`]
             "type": "asset",
           },
         ],
-        "test": /\\\\\\.\\(\\?:mp4\\|webm\\|ogg\\|mov\\|mp3\\|wav\\|flac\\|aac\\|m4a\\|opus\\)\\$/i,
+        "test": /\\\\\\.\\(\\?:mp4\\|webm\\|ogg\\|mov\\|mp3\\|wav\\|flac\\|aac\\|m4a\\|opus\\|vtt\\)\\$/i,
       },
       {
         "oneOf": [
@@ -2958,6 +3169,12 @@ exports[`builder rspack > should generator rspack config correctly when prod 1`]
           {
             "resourceQuery": /\\[\\?&\\]inline\\(\\?:&\\|=\\|\\$\\)/,
             "type": "asset/inline",
+          },
+          {
+            "type": "asset/source",
+            "with": {
+              "type": "text",
+            },
           },
           {
             "resourceQuery": /\\[\\?&\\]raw\\(\\?:&\\|=\\|\\$\\)/,
@@ -2979,6 +3196,49 @@ exports[`builder rspack > should generator rspack config correctly when prod 1`]
       },
       {
         "oneOf": [
+          {
+            "generator": {
+              "filename": "static/assets/[name].[contenthash:10][ext]",
+            },
+            "resourceQuery": /\\[\\?&\\]url\\(\\?:&\\|=\\|\\$\\)/,
+            "type": "asset/resource",
+          },
+          {
+            "resourceQuery": /\\[\\?&\\]inline\\(\\?:&\\|=\\|\\$\\)/,
+            "type": "asset/inline",
+          },
+          {
+            "type": "asset/source",
+            "with": {
+              "type": "text",
+            },
+          },
+          {
+            "resourceQuery": /\\[\\?&\\]raw\\(\\?:&\\|=\\|\\$\\)/,
+            "type": "asset/source",
+          },
+          {
+            "generator": {
+              "filename": "static/assets/[name].[contenthash:10][ext]",
+            },
+            "parser": {
+              "dataUrlCondition": {
+                "maxSize": 10000,
+              },
+            },
+            "type": "asset",
+          },
+        ],
+        "test": /\\\\\\.\\(\\?:webmanifest\\|pdf\\|txt\\)\\$/i,
+      },
+      {
+        "oneOf": [
+          {
+            "type": "asset/source",
+            "with": {
+              "type": "text",
+            },
+          },
           {
             "resourceQuery": /\\[\\?&\\]raw\\(\\?:&\\|=\\|\\$\\)/,
             "type": "asset/source",
@@ -3184,6 +3444,12 @@ exports[`builder rspack > should generator rspack config correctly when prod 1`]
                 },
               },
             ],
+          },
+          {
+            "type": "asset/source",
+            "with": {
+              "type": "text",
+            },
           },
           {
             "resourceQuery": /\\[\\?&\\]raw\\(\\?:&\\|=\\|\\$\\)/,
@@ -3463,6 +3729,12 @@ exports[`builder rspack > should generator rspack config correctly when prod 1`]
             ],
           },
           {
+            "type": "asset/source",
+            "with": {
+              "type": "text",
+            },
+          },
+          {
             "resourceQuery": /\\[\\?&\\]raw\\(\\?:&\\|=\\|\\$\\)/,
             "type": "asset/source",
           },
@@ -3569,6 +3841,12 @@ exports[`builder rspack > should generator rspack config correctly when prod 1`]
           {
             "resourceQuery": /\\^\\\\\\?inline\\$/,
             "type": "asset/inline",
+          },
+          {
+            "type": "asset/source",
+            "with": {
+              "type": "text",
+            },
           },
           {
             "resourceQuery": /\\^\\\\\\?raw\\$/,
@@ -3808,6 +4086,9 @@ exports[`builder rspack > should generator rspack config correctly when prod 1`]
     "chunkFilename": "static/js/async/[name].[contenthash:10].js",
     "devtoolFallbackModuleFilenameTemplate": "[relative-resource-path]?[hash]",
     "devtoolModuleFilenameTemplate": "[relative-resource-path]",
+    "environment": {
+      "const": false,
+    },
     "filename": "static/js/[name].[contenthash:10].js",
     "path": "<WORKSPACE>/packages/cli/builder/dist",
     "publicPath": "/",
@@ -4003,6 +4284,12 @@ exports[`builder rspack > should generator rspack config correctly when service-
         },
         "oneOf": [
           {
+            "type": "asset/source",
+            "with": {
+              "type": "text",
+            },
+          },
+          {
             "resolve": {
               "preferRelative": true,
             },
@@ -4113,6 +4400,12 @@ exports[`builder rspack > should generator rspack config correctly when service-
                 "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/core/dist/workerLoader.mjs",
               },
             ],
+          },
+          {
+            "type": "asset/source",
+            "with": {
+              "type": "text",
+            },
           },
           {
             "resourceQuery": /\\[\\?&\\]raw\\(\\?:&\\|=\\|\\$\\)/,
@@ -4231,6 +4524,12 @@ exports[`builder rspack > should generator rspack config correctly when service-
             "type": "asset/inline",
           },
           {
+            "type": "asset/source",
+            "with": {
+              "type": "text",
+            },
+          },
+          {
             "resourceQuery": /\\[\\?&\\]raw\\(\\?:&\\|=\\|\\$\\)/,
             "type": "asset/source",
           },
@@ -4246,7 +4545,7 @@ exports[`builder rspack > should generator rspack config correctly when service-
             "type": "asset",
           },
         ],
-        "test": /\\\\\\.\\(\\?:png\\|jpg\\|jpeg\\|pjpeg\\|pjp\\|gif\\|bmp\\|webp\\|ico\\|apng\\|avif\\|tif\\|tiff\\|jfif\\|cur\\)\\$/i,
+        "test": /\\\\\\.\\(\\?:png\\|jpg\\|jpeg\\|pjpeg\\|pjp\\|gif\\|bmp\\|webp\\|ico\\|apng\\|avif\\|tif\\|tiff\\|jfif\\|cur\\|jxl\\)\\$/i,
       },
       {
         "oneOf": [
@@ -4260,6 +4559,12 @@ exports[`builder rspack > should generator rspack config correctly when service-
           {
             "resourceQuery": /\\[\\?&\\]inline\\(\\?:&\\|=\\|\\$\\)/,
             "type": "asset/inline",
+          },
+          {
+            "type": "asset/source",
+            "with": {
+              "type": "text",
+            },
           },
           {
             "resourceQuery": /\\[\\?&\\]raw\\(\\?:&\\|=\\|\\$\\)/,
@@ -4277,7 +4582,7 @@ exports[`builder rspack > should generator rspack config correctly when service-
             "type": "asset",
           },
         ],
-        "test": /\\\\\\.\\(\\?:mp4\\|webm\\|ogg\\|mov\\|mp3\\|wav\\|flac\\|aac\\|m4a\\|opus\\)\\$/i,
+        "test": /\\\\\\.\\(\\?:mp4\\|webm\\|ogg\\|mov\\|mp3\\|wav\\|flac\\|aac\\|m4a\\|opus\\|vtt\\)\\$/i,
       },
       {
         "oneOf": [
@@ -4291,6 +4596,12 @@ exports[`builder rspack > should generator rspack config correctly when service-
           {
             "resourceQuery": /\\[\\?&\\]inline\\(\\?:&\\|=\\|\\$\\)/,
             "type": "asset/inline",
+          },
+          {
+            "type": "asset/source",
+            "with": {
+              "type": "text",
+            },
           },
           {
             "resourceQuery": /\\[\\?&\\]raw\\(\\?:&\\|=\\|\\$\\)/,
@@ -4312,6 +4623,49 @@ exports[`builder rspack > should generator rspack config correctly when service-
       },
       {
         "oneOf": [
+          {
+            "generator": {
+              "filename": "static/assets/[name].[contenthash:10][ext]",
+            },
+            "resourceQuery": /\\[\\?&\\]url\\(\\?:&\\|=\\|\\$\\)/,
+            "type": "asset/resource",
+          },
+          {
+            "resourceQuery": /\\[\\?&\\]inline\\(\\?:&\\|=\\|\\$\\)/,
+            "type": "asset/inline",
+          },
+          {
+            "type": "asset/source",
+            "with": {
+              "type": "text",
+            },
+          },
+          {
+            "resourceQuery": /\\[\\?&\\]raw\\(\\?:&\\|=\\|\\$\\)/,
+            "type": "asset/source",
+          },
+          {
+            "generator": {
+              "filename": "static/assets/[name].[contenthash:10][ext]",
+            },
+            "parser": {
+              "dataUrlCondition": {
+                "maxSize": 10000,
+              },
+            },
+            "type": "asset",
+          },
+        ],
+        "test": /\\\\\\.\\(\\?:webmanifest\\|pdf\\|txt\\)\\$/i,
+      },
+      {
+        "oneOf": [
+          {
+            "type": "asset/source",
+            "with": {
+              "type": "text",
+            },
+          },
           {
             "resourceQuery": /\\[\\?&\\]raw\\(\\?:&\\|=\\|\\$\\)/,
             "type": "asset/source",
@@ -4416,6 +4770,12 @@ exports[`builder rspack > should generator rspack config correctly when service-
                 },
               },
             ],
+          },
+          {
+            "type": "asset/source",
+            "with": {
+              "type": "text",
+            },
           },
           {
             "resourceQuery": /\\[\\?&\\]raw\\(\\?:&\\|=\\|\\$\\)/,
@@ -4554,6 +4914,12 @@ exports[`builder rspack > should generator rspack config correctly when service-
             ],
           },
           {
+            "type": "asset/source",
+            "with": {
+              "type": "text",
+            },
+          },
+          {
             "resourceQuery": /\\[\\?&\\]raw\\(\\?:&\\|=\\|\\$\\)/,
             "type": "asset/source",
           },
@@ -4620,6 +4986,12 @@ exports[`builder rspack > should generator rspack config correctly when service-
           {
             "resourceQuery": /\\^\\\\\\?inline\\$/,
             "type": "asset/inline",
+          },
+          {
+            "type": "asset/source",
+            "with": {
+              "type": "text",
+            },
           },
           {
             "resourceQuery": /\\^\\\\\\?raw\\$/,
@@ -4827,6 +5199,9 @@ exports[`builder rspack > should generator rspack config correctly when service-
     "chunkFilename": "[name].js",
     "devtoolFallbackModuleFilenameTemplate": "[relative-resource-path]?[hash]",
     "devtoolModuleFilenameTemplate": "[relative-resource-path]",
+    "environment": {
+      "const": false,
+    },
     "filename": "[name].js",
     "library": {
       "type": "commonjs2",
