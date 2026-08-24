@@ -2,6 +2,7 @@ import { execFileSync } from 'node:child_process';
 import fs from 'node:fs';
 import os from 'node:os';
 import path from 'node:path';
+import crossSpawn from 'cross-spawn';
 import ts from 'typescript';
 import {
   createIsolatedTestApp,
@@ -9,8 +10,6 @@ import {
 } from '../../../utils/modernTestUtils';
 
 rstest.setConfig({ testTimeout: 1000 * 60 * 3, hookTimeout: 1000 * 60 * 3 });
-
-const PNPM_BIN = process.platform === 'win32' ? 'pnpm.cmd' : 'pnpm';
 
 const sourceApiAppDir = path.resolve(__dirname, '../bff-api-app');
 
@@ -52,12 +51,23 @@ describe('crossProject client type portability', () => {
       await modernBuild(apiAppDir, [], {});
 
       // 1. Pack exactly what would be published.
-      //    On Windows `pnpm` is a `.cmd` shim, which `execFileSync` cannot
-      //    execute without a shell — spawning the bare name fails with ENOENT.
-      execFileSync(PNPM_BIN, ['pack', '--pack-destination', workDir], {
-        cwd: apiAppDir,
-        stdio: 'pipe',
-      });
+      //    Spawned through cross-spawn: on Windows `pnpm` is a `.cmd` shim,
+      //    which node refuses to execute directly (ENOENT for the bare name,
+      //    EINVAL for the `.cmd` since the CVE-2024-27980 fix). cross-spawn
+      //    routes it through the shell and quotes the arguments itself.
+      const pack = crossSpawn.sync(
+        'pnpm',
+        ['pack', '--pack-destination', workDir],
+        {
+          cwd: apiAppDir,
+          stdio: 'pipe',
+        },
+      );
+      if (pack.status !== 0) {
+        throw new Error(
+          `pnpm pack failed (${pack.status ?? pack.error}): ${pack.stderr?.toString() ?? ''}`,
+        );
+      }
       const tarball = fs
         .readdirSync(workDir)
         .find(name => name.endsWith('.tgz'));
