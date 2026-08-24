@@ -717,16 +717,16 @@ importers:
         version: 10.9.2(@swc/core@1.15.41(@swc/helpers@0.5.23))(@types/node@20.19.27)(typescript@5.0.4)
     devDependencies:
       '@babel/core':
-        specifier: ^7.25.2
+        specifier: ^7.29.7
         version: 7.29.7
       '@babel/preset-env':
-        specifier: ^7.25.4
+        specifier: ^7.29.7
         version: 7.29.7(@babel/core@7.29.7)
       '@babel/preset-react':
-        specifier: ^7.24.7
+        specifier: ^7.29.7
         version: 7.29.7(@babel/core@7.29.7)
       '@babel/preset-typescript':
-        specifier: ^7.24.7
+        specifier: ^7.29.7
         version: 7.29.7(@babel/core@7.29.7)
       '@modern-js/app-tools':
         specifier: latest
