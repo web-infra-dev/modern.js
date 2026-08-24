@@ -9,6 +9,87 @@ const kModernAppTools = path.join(
   '../node_modules/@modern-js/app-tools/bin/modern.js',
 );
 
+// A syntax error raised while Node compiles a generated module names neither
+// the file nor the line once the CLI has caught and re-logged it. The generated
+// code is the only part that differs per platform, so parse what was written
+// under `.modern-js` and let node report the offending file itself.
+function reportUnparsableGeneratedCode(cwd) {
+  if (!cwd) {
+    return;
+  }
+  const fs = require('fs');
+  const os = require('os');
+  const { execFileSync } = require('child_process');
+  const root = path.join(cwd, 'node_modules', '.modern-js');
+
+  const files = [];
+  const collect = dir => {
+    let entries;
+    try {
+      entries = fs.readdirSync(dir, { withFileTypes: true });
+    } catch {
+      return;
+    }
+    for (const entry of entries) {
+      const target = path.join(dir, entry.name);
+      if (entry.isDirectory()) {
+        collect(target);
+      } else if (/\.(js|jsx|mjs)$/.test(entry.name)) {
+        files.push(target);
+      }
+    }
+  };
+  collect(root);
+
+  if (!files.length) {
+    console.error(`[generated-code] nothing to parse under ${root}`);
+    return;
+  }
+
+  // `node --check` parses a `.js` file as CommonJS, which silently accepts the
+  // ESM-only breakage we are looking for. Check a `.mjs` copy instead so the
+  // parser applies module semantics, exactly like the failing loader did.
+  let isEsm = false;
+  try {
+    isEsm =
+      JSON.parse(fs.readFileSync(path.join(cwd, 'package.json'), 'utf8'))
+        .type === 'module';
+  } catch {}
+
+  let broken = 0;
+  for (const file of files) {
+    let target = file;
+    if (isEsm && !file.endsWith('.mjs')) {
+      target = path.join(
+        os.tmpdir(),
+        `modern-parse-${process.pid}-${broken}-${path.basename(file)}.mjs`,
+      );
+      try {
+        fs.copyFileSync(file, target);
+      } catch {
+        target = file;
+      }
+    }
+    try {
+      execFileSync(process.execPath, ['--check', target], { stdio: 'pipe' });
+    } catch (error) {
+      broken += 1;
+      console.error(
+        `[generated-code] ${file} does not parse:\n${error.stderr || error.message}`,
+      );
+    } finally {
+      if (target !== file) {
+        try {
+          fs.unlinkSync(target);
+        } catch {}
+      }
+    }
+  }
+  console.error(
+    `[generated-code] parsed ${files.length} generated file(s) under ${root}, ${broken} unparsable`,
+  );
+}
+
 function runContinuousTask(argv, stdOut, options = {}) {
   const { cwd } = options;
   const env = {
@@ -76,6 +157,7 @@ function runContinuousTask(argv, stdOut, options = {}) {
             stderrOutput ? `\n${stderrOutput}` : ''
           }`,
         );
+        reportUnparsableGeneratedCode(cwd);
         resolve();
       }
     });
@@ -155,6 +237,7 @@ function runModernCommand(argv, options = {}) {
             stdoutOutput ? `\n${stdoutOutput}` : ''
           }${stderrOutput ? `\n${stderrOutput}` : ''}`,
         );
+        reportUnparsableGeneratedCode(cwd);
       }
       resolve({
         code,
