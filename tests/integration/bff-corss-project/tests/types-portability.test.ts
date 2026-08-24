@@ -10,6 +10,8 @@ import {
 
 rstest.setConfig({ testTimeout: 1000 * 60 * 3, hookTimeout: 1000 * 60 * 3 });
 
+const PNPM_BIN = process.platform === 'win32' ? 'pnpm.cmd' : 'pnpm';
+
 const sourceApiAppDir = path.resolve(__dirname, '../bff-api-app');
 
 // Type-check `consumerDir` in isolation and return the diagnostics. An unused
@@ -50,7 +52,9 @@ describe('crossProject client type portability', () => {
       await modernBuild(apiAppDir, [], {});
 
       // 1. Pack exactly what would be published.
-      execFileSync('pnpm', ['pack', '--pack-destination', workDir], {
+      //    On Windows `pnpm` is a `.cmd` shim, which `execFileSync` cannot
+      //    execute without a shell — spawning the bare name fails with ENOENT.
+      execFileSync(PNPM_BIN, ['pack', '--pack-destination', workDir], {
         cwd: apiAppDir,
         stdio: 'pipe',
       });
