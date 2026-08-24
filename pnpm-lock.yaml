@@ -1674,8 +1674,8 @@ importers:
         specifier: ^3.0.0
         version: 3.0.0
       flatted:
-        specifier: ^3.4.2
-        version: 3.4.2
+        specifier: ^3.4.4
+        version: 3.4.4
       hono:
         specifier: ^4.11.7
         version: 4.11.7
@@ -2041,8 +2041,8 @@ importers:
         specifier: ^1.7.0
         version: 1.7.0
       flatted:
-        specifier: ^3.4.2
-        version: 3.4.2
+        specifier: ^3.4.4
+        version: 3.4.4
       import-meta-resolve:
         specifier: ^4.2.0
         version: 4.2.0
@@ -28348,7 +28348,7 @@ snapshots:
 
   flat-cache@3.2.0:
     dependencies:
-      flatted: 3.4.2
+      flatted: 3.4.4
       keyv: 4.5.4
       rimraf: 3.0.2
 
