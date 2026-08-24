@@ -20,7 +20,11 @@ function reportUnparsableGeneratedCode(cwd) {
   const fs = require('fs');
   const os = require('os');
   const { execFileSync } = require('child_process');
-  const root = path.join(cwd, 'node_modules', '.modern-js');
+  // Generated entries land in `.modern-js`, transpiled configs in `.cache`, so
+  // walk `node_modules` itself. Installed packages are pnpm symlinks and
+  // `isDirectory()` is false for those, so the walk stays inside what this run
+  // actually wrote instead of descending into the store.
+  const root = path.join(cwd, 'node_modules');
 
   const files = [];
   const collect = dir => {
