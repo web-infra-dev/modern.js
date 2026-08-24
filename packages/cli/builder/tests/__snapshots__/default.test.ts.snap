@@ -2542,7 +2542,9 @@ exports[`builder rspack > should generator rspack config correctly when node 1`]
   "name": "server",
   "optimization": {
     "minimize": false,
-    "splitChunks": false,
+    "splitChunks": {
+      "chunks": "all",
+    },
   },
   "output": {
     "assetModuleFilename": "static/assets/[name].[contenthash:10][ext]",
