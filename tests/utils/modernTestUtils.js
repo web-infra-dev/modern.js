@@ -24,6 +24,15 @@ function runContinuousTask(argv, stdOut, options = {}) {
 
     let didResolve = false;
 
+    // stderr is not part of the ready/error markers, but it is where a crashing
+    // app prints why it died. Without collecting it, a dev server that never
+    // boots leaves no trace and the test fails later with a misleading
+    // ERR_CONNECTION_REFUSED.
+    let stderrOutput = '';
+    instance.stderr?.on('data', data => {
+      stderrOutput += data.toString();
+    });
+
     function handleStdout(data) {
       const message = data.toString();
 
@@ -56,10 +65,17 @@ function runContinuousTask(argv, stdOut, options = {}) {
       reject(error);
     });
 
-    instance.on('close', () => {
+    instance.on('close', code => {
       instance.stdout.removeListener('data', handleStdout);
       if (!didResolve) {
         didResolve = true;
+        // Exited before it was ever ready — report it here, otherwise the only
+        // symptom is a connection refused in whatever assertion runs next.
+        console.error(
+          `[runContinuousTask] "${argv.join(' ')}" exited with code ${code} before becoming ready${
+            stderrOutput ? `\n${stderrOutput}` : ''
+          }`,
+        );
         resolve();
       }
     });
@@ -86,6 +102,10 @@ function runModernCommand(argv, options = {}) {
       options.instance(instance);
     }
 
+    // Set once the promise has been settled by a marker, so the close handler
+    // can tell an unexpected exit from an already-reported one.
+    let settled = false;
+
     let stderrOutput = '';
     if (options.stderr) {
       instance.stderr.on('data', chunk => {
@@ -110,10 +130,12 @@ function runModernCommand(argv, options = {}) {
         rejectOnCompileError &&
         compileErrorMarker.test(message)
       ) {
+        settled = true;
         reject(new Error(message));
       }
 
       if (marker?.test(message)) {
+        settled = true;
         resolve({
           code: 0,
           stdout: stdoutOutput,
@@ -124,6 +146,16 @@ function runModernCommand(argv, options = {}) {
     // }
 
     instance.on('close', code => {
+      // A non-zero exit that never printed "Compile error" resolves like a
+      // success here, and callers rarely check `code`. Report it, otherwise the
+      // only symptom is a missing-artifact assertion further down the test.
+      if (!settled && code !== 0) {
+        console.error(
+          `[runModernCommand] "${cmd}" exited with code ${code}${
+            stdoutOutput ? `\n${stdoutOutput}` : ''
+          }${stderrOutput ? `\n${stderrOutput}` : ''}`,
+        );
+      }
       resolve({
         code,
         stdout: stdoutOutput,
