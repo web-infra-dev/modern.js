@@ -2520,7 +2520,9 @@ exports[`builder environment compat > should generator environment config correc
     "name": "server",
     "optimization": {
       "minimize": false,
-      "splitChunks": false,
+      "splitChunks": {
+        "chunks": "all",
+      },
     },
     "output": {
       "assetModuleFilename": "static/assets/[name].[contenthash:10][ext]",
