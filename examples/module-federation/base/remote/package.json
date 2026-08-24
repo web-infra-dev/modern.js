@@ -16,8 +16,8 @@
   },
   "dependencies": {
     "@modern-js/runtime": "latest",
-    "react": "^19.2.7",
-    "react-dom": "^19.2.7",
+    "react": "^19.2.8",
+    "react-dom": "^19.2.8",
     "@module-federation/modern-js-v3": "2.0.0"
   },
   "devDependencies": {

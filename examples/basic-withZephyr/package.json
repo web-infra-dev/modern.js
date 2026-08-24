@@ -16,8 +16,8 @@
   "dependencies": {
     "@modern-js/plugin-ssg": "latest",
     "@modern-js/runtime": "latest",
-    "react": "^19.2.7",
-    "react-dom": "^19.2.7",
+    "react": "^19.2.8",
+    "react-dom": "^19.2.8",
     "zephyr-modernjs-plugin": "1.1.0",
     "zephyr-rspack-plugin": "1.1.0"
   },
