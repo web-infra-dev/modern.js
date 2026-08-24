@@ -96,6 +96,37 @@ function reportUnparsableGeneratedCode(cwd) {
   );
 }
 
+// Only `"type": "module"` fixtures fail, and they are the ones that resolve the
+// framework to `dist/esm-node`; CommonJS fixtures load `dist/cjs` and pass. So
+// when a command dies, check whether the ESM build itself still parses. Runs at
+// most once per worker: it is the same build for every test in the process.
+let checkedFrameworkEsm = false;
+function reportUnparsableFrameworkEsm() {
+  if (checkedFrameworkEsm) {
+    return;
+  }
+  checkedFrameworkEsm = true;
+  const { execFileSync } = require('child_process');
+  const repoRoot = path.resolve(__dirname, '../..');
+  try {
+    // Inherit so the report lands in the CI log next to the failure it explains.
+    execFileSync(
+      process.execPath,
+      [
+        '--experimental-vm-modules',
+        '--no-warnings',
+        path.join(__dirname, 'checkFrameworkEsm.mjs'),
+        repoRoot,
+      ],
+      { stdio: ['ignore', 'inherit', 'inherit'] },
+    );
+  } catch (error) {
+    console.error(
+      `[framework-esm] ${error.stderr || error.stdout || error.message}`,
+    );
+  }
+}
+
 function runContinuousTask(argv, stdOut, options = {}) {
   const { cwd } = options;
   const env = {
@@ -164,6 +195,7 @@ function runContinuousTask(argv, stdOut, options = {}) {
           }`,
         );
         reportUnparsableGeneratedCode(cwd);
+        reportUnparsableFrameworkEsm();
         resolve();
       }
     });
@@ -244,6 +276,7 @@ function runModernCommand(argv, options = {}) {
           }${stderrOutput ? `\n${stderrOutput}` : ''}`,
         );
         reportUnparsableGeneratedCode(cwd);
+        reportUnparsableFrameworkEsm();
       }
       resolve({
         code,
