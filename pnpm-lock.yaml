@@ -18,6 +18,8 @@ overrides:
   tmp: '>=0.2.7'
   '@isaacs/brace-expansion': '>=5.0.1'
 
+pnpmfileChecksum: sha256-e7fv4++EEy5D/4pBzV1yGYuIWnXfQwaMHH7OMxyEZx4=
+
 importers:
 
   .:
@@ -130,17 +132,17 @@ importers:
         version: 19.2.8(react@19.2.8)
       zephyr-modernjs-plugin:
         specifier: 1.1.0
-        version: 1.1.0(@modern-js/app-tools@3.8.2(@module-federation/runtime-tools@2.0.0)(@rspack/core@2.1.10(@module-federation/runtime-tools@2.0.0)(@swc/helpers@0.5.23))(bufferutil@4.1.0)(core-js@3.48.0)(devcert@1.2.3)(react-dom@19.2.8(react@19.2.8))(react-server-dom-rspack@0.1.0(@rspack/core@2.1.10(@module-federation/runtime-tools@2.0.0)(@swc/helpers@0.5.23))(react-dom@19.2.8(react@19.2.8))(react@19.2.8))(react@19.2.8)(ts-node@10.9.2(@swc/core@1.15.41(@swc/helpers@0.5.23))(@types/node@20.19.27)(typescript@5.7.3))(tsconfig-paths@4.2.0)(typescript@5.7.3)(utf-8-validate@5.0.10)(webpack@5.104.1(@swc/core@1.15.41(@swc/helpers@0.5.23))(postcss@8.5.26)))(zephyr-rspack-plugin@1.1.0(@rspack/core@2.1.10(@module-federation/runtime-tools@2.0.0)(@swc/helpers@0.5.23))(webpack@5.104.1(@swc/core@1.15.41(@swc/helpers@0.5.23))(postcss@8.5.26)))
+        version: 1.1.0(@modern-js/app-tools@3.8.2(@module-federation/runtime-tools@2.0.0)(@rspack/core@2.1.10(@module-federation/runtime-tools@2.0.0)(@swc/helpers@0.5.23))(bufferutil@4.1.0)(core-js@3.48.0)(devcert@1.2.3)(react-dom@19.2.8(react@19.2.8))(react-server-dom-rspack@0.1.0(@rspack/core@2.1.10(@module-federation/runtime-tools@2.0.0)(@swc/helpers@0.5.23))(react-dom@19.2.8(react@19.2.8))(react@19.2.8))(react@19.2.8)(ts-node@10.9.2(@swc/core@1.15.41(@swc/helpers@0.5.23))(@types/node@20.19.27)(typescript@5.7.3))(tsconfig-paths@4.2.0)(typescript@5.7.3)(utf-8-validate@5.0.10)(webpack@5.104.1(@swc/core@1.15.41(@swc/helpers@0.5.23))))(zephyr-rspack-plugin@1.1.0(@rspack/core@2.1.10(@module-federation/runtime-tools@2.0.0)(@swc/helpers@0.5.23))(webpack@5.104.1(@swc/core@1.15.41(@swc/helpers@0.5.23))))
       zephyr-rspack-plugin:
         specifier: 1.1.0
-        version: 1.1.0(@rspack/core@2.1.10(@module-federation/runtime-tools@2.0.0)(@swc/helpers@0.5.23))(webpack@5.104.1(@swc/core@1.15.41(@swc/helpers@0.5.23))(postcss@8.5.26))
+        version: 1.1.0(@rspack/core@2.1.10(@module-federation/runtime-tools@2.0.0)(@swc/helpers@0.5.23))(webpack@5.104.1(@swc/core@1.15.41(@swc/helpers@0.5.23)))
     devDependencies:
       '@biomejs/biome':
         specifier: 1.9.4
         version: 1.9.4
       '@modern-js/app-tools':
         specifier: latest
-        version: 3.8.2(@module-federation/runtime-tools@2.0.0)(@rspack/core@2.1.10(@module-federation/runtime-tools@2.0.0)(@swc/helpers@0.5.23))(bufferutil@4.1.0)(core-js@3.48.0)(devcert@1.2.3)(react-dom@19.2.8(react@19.2.8))(react-server-dom-rspack@0.1.0(@rspack/core@2.1.10(@module-federation/runtime-tools@2.0.0)(@swc/helpers@0.5.23))(react-dom@19.2.8(react@19.2.8))(react@19.2.8))(react@19.2.8)(ts-node@10.9.2(@swc/core@1.15.41(@swc/helpers@0.5.23))(@types/node@20.19.27)(typescript@5.7.3))(tsconfig-paths@4.2.0)(typescript@5.7.3)(utf-8-validate@5.0.10)(webpack@5.104.1(@swc/core@1.15.41(@swc/helpers@0.5.23))(postcss@8.5.26))
+        version: 3.8.2(@module-federation/runtime-tools@2.0.0)(@rspack/core@2.1.10(@module-federation/runtime-tools@2.0.0)(@swc/helpers@0.5.23))(bufferutil@4.1.0)(core-js@3.48.0)(devcert@1.2.3)(react-dom@19.2.8(react@19.2.8))(react-server-dom-rspack@0.1.0(@rspack/core@2.1.10(@module-federation/runtime-tools@2.0.0)(@swc/helpers@0.5.23))(react-dom@19.2.8(react@19.2.8))(react@19.2.8))(react@19.2.8)(ts-node@10.9.2(@swc/core@1.15.41(@swc/helpers@0.5.23))(@types/node@20.19.27)(typescript@5.7.3))(tsconfig-paths@4.2.0)(typescript@5.7.3)(utf-8-validate@5.0.10)(webpack@5.104.1(@swc/core@1.15.41(@swc/helpers@0.5.23)))
       '@modern-js/tsconfig':
         specifier: latest
         version: 3.8.2
@@ -189,7 +191,7 @@ importers:
         version: 1.8.3
       '@modern-js/app-tools':
         specifier: latest
-        version: 3.8.2(@module-federation/runtime-tools@2.0.0)(@rspack/core@2.1.10(@module-federation/runtime-tools@2.0.0)(@swc/helpers@0.5.23))(bufferutil@4.1.0)(core-js@3.48.0)(devcert@1.2.3)(react-dom@19.2.8(react@19.2.8))(react-server-dom-rspack@0.1.0(@rspack/core@2.1.10(@module-federation/runtime-tools@2.0.0)(@swc/helpers@0.5.23))(react-dom@19.2.8(react@19.2.8))(react@19.2.8))(react@19.2.8)(ts-node@10.9.2(@swc/core@1.15.41(@swc/helpers@0.5.23))(@types/node@20.19.27)(typescript@5.0.4))(tsconfig-paths@4.2.0)(typescript@5.0.4)(utf-8-validate@5.0.10)(webpack@5.104.1(@swc/core@1.15.41(@swc/helpers@0.5.23))(postcss@8.5.26))
+        version: 3.8.2(@module-federation/runtime-tools@2.0.0)(@rspack/core@2.1.10(@module-federation/runtime-tools@2.0.0)(@swc/helpers@0.5.23))(bufferutil@4.1.0)(core-js@3.48.0)(devcert@1.2.3)(react-dom@19.2.8(react@19.2.8))(react-server-dom-rspack@0.1.0(@rspack/core@2.1.10(@module-federation/runtime-tools@2.0.0)(@swc/helpers@0.5.23))(react-dom@19.2.8(react@19.2.8))(react@19.2.8))(react@19.2.8)(ts-node@10.9.2(@swc/core@1.15.41(@swc/helpers@0.5.23))(@types/node@20.19.27)(typescript@5.0.4))(tsconfig-paths@4.2.0)(typescript@5.0.4)(utf-8-validate@5.0.10)(webpack@5.104.1(@swc/core@1.15.41(@swc/helpers@0.5.23)))
       '@modern-js/tsconfig':
         specifier: latest
         version: 3.8.2
@@ -229,7 +231,7 @@ importers:
         version: 1.9.4
       '@modern-js/app-tools':
         specifier: latest
-        version: 3.8.2(@module-federation/runtime-tools@2.0.0)(@rspack/core@2.1.10(@module-federation/runtime-tools@2.0.0)(@swc/helpers@0.5.23))(bufferutil@4.1.0)(core-js@3.48.0)(devcert@1.2.3)(react-dom@19.2.8(react@19.2.8))(react-server-dom-rspack@0.1.0(@rspack/core@2.1.10(@module-federation/runtime-tools@2.0.0)(@swc/helpers@0.5.23))(react-dom@19.2.8(react@19.2.8))(react@19.2.8))(react@19.2.8)(ts-node@10.9.2(@swc/core@1.15.41(@swc/helpers@0.5.23))(@types/node@20.19.27)(typescript@5.7.3))(tsconfig-paths@4.2.0)(typescript@5.7.3)(utf-8-validate@5.0.10)(webpack@5.104.1(@swc/core@1.15.41(@swc/helpers@0.5.23))(postcss@8.5.26))
+        version: 3.8.2(@module-federation/runtime-tools@2.0.0)(@rspack/core@2.1.10(@module-federation/runtime-tools@2.0.0)(@swc/helpers@0.5.23))(bufferutil@4.1.0)(core-js@3.48.0)(devcert@1.2.3)(react-dom@19.2.8(react@19.2.8))(react-server-dom-rspack@0.1.0(@rspack/core@2.1.10(@module-federation/runtime-tools@2.0.0)(@swc/helpers@0.5.23))(react-dom@19.2.8(react@19.2.8))(react@19.2.8))(react@19.2.8)(ts-node@10.9.2(@swc/core@1.15.41(@swc/helpers@0.5.23))(@types/node@20.19.27)(typescript@5.7.3))(tsconfig-paths@4.2.0)(typescript@5.7.3)(utf-8-validate@5.0.10)(webpack@5.104.1(@swc/core@1.15.41(@swc/helpers@0.5.23)))
       '@modern-js/tsconfig':
         specifier: latest
         version: 3.8.2
@@ -272,7 +274,7 @@ importers:
         version: 1.9.4
       '@modern-js/app-tools':
         specifier: latest
-        version: 3.8.2(@module-federation/runtime-tools@2.0.0)(@rspack/core@2.1.10(@module-federation/runtime-tools@2.0.0)(@swc/helpers@0.5.23))(bufferutil@4.1.0)(core-js@3.48.0)(devcert@1.2.3)(react-dom@19.2.8(react@19.2.8))(react-server-dom-rspack@0.1.0(@rspack/core@2.1.10(@module-federation/runtime-tools@2.0.0)(@swc/helpers@0.5.23))(react-dom@19.2.8(react@19.2.8))(react@19.2.8))(react@19.2.8)(ts-node@10.9.2(@swc/core@1.15.41(@swc/helpers@0.5.23))(@types/node@20.19.27)(typescript@5.7.3))(tsconfig-paths@4.2.0)(typescript@5.7.3)(utf-8-validate@5.0.10)(webpack@5.104.1(@swc/core@1.15.41(@swc/helpers@0.5.23))(postcss@8.5.26))
+        version: 3.8.2(@module-federation/runtime-tools@2.0.0)(@rspack/core@2.1.10(@module-federation/runtime-tools@2.0.0)(@swc/helpers@0.5.23))(bufferutil@4.1.0)(core-js@3.48.0)(devcert@1.2.3)(react-dom@19.2.8(react@19.2.8))(react-server-dom-rspack@0.1.0(@rspack/core@2.1.10(@module-federation/runtime-tools@2.0.0)(@swc/helpers@0.5.23))(react-dom@19.2.8(react@19.2.8))(react@19.2.8))(react@19.2.8)(ts-node@10.9.2(@swc/core@1.15.41(@swc/helpers@0.5.23))(@types/node@20.19.27)(typescript@5.7.3))(tsconfig-paths@4.2.0)(typescript@5.7.3)(utf-8-validate@5.0.10)(webpack@5.104.1(@swc/core@1.15.41(@swc/helpers@0.5.23)))
       '@modern-js/tsconfig':
         specifier: latest
         version: 3.8.2
@@ -302,7 +304,7 @@ importers:
         version: 3.8.2(@module-federation/runtime-tools@2.0.0)(core-js@3.48.0)(react-dom@19.2.8(react@19.2.8))(react-server-dom-rspack@0.1.0(@rspack/core@2.1.10(@module-federation/runtime-tools@2.0.0)(@swc/helpers@0.5.23))(react-dom@19.2.8(react@19.2.8))(react@19.2.8))(react@19.2.8)
       '@module-federation/modern-js-v3':
         specifier: 2.0.0
-        version: 2.0.0(@rspack/core@2.1.10(@module-federation/runtime-tools@2.0.0)(@swc/helpers@0.5.23))(bufferutil@4.1.0)(react-dom@19.2.8(react@19.2.8))(react-router-dom@7.16.0(react-dom@19.2.8(react@19.2.8))(react@19.2.8))(react-router@7.15.1(react-dom@19.2.8(react@19.2.8))(react@19.2.8))(react@19.2.8)(typescript@5.0.4)(utf-8-validate@5.0.10)(webpack@5.104.1(@swc/core@1.15.41(@swc/helpers@0.5.23))(postcss@8.5.26))
+        version: 2.0.0(@rspack/core@2.1.10(@module-federation/runtime-tools@2.0.0)(@swc/helpers@0.5.23))(bufferutil@4.1.0)(react-dom@19.2.8(react@19.2.8))(react-router-dom@7.16.0(react-dom@19.2.8(react@19.2.8))(react@19.2.8))(react-router@7.15.1(react-dom@19.2.8(react@19.2.8))(react@19.2.8))(react@19.2.8)(typescript@5.0.4)(utf-8-validate@5.0.10)(webpack@5.104.1(@swc/core@1.15.41(@swc/helpers@0.5.23)))
       react:
         specifier: ^19.2.8
         version: 19.2.8
@@ -321,7 +323,7 @@ importers:
         version: 1.8.3
       '@modern-js/app-tools':
         specifier: latest
-        version: 3.8.2(@module-federation/runtime-tools@2.0.0)(@rspack/core@2.1.10(@module-federation/runtime-tools@2.0.0)(@swc/helpers@0.5.23))(bufferutil@4.1.0)(core-js@3.48.0)(devcert@1.2.3)(react-dom@19.2.8(react@19.2.8))(react-server-dom-rspack@0.1.0(@rspack/core@2.1.10(@module-federation/runtime-tools@2.0.0)(@swc/helpers@0.5.23))(react-dom@19.2.8(react@19.2.8))(react@19.2.8))(react@19.2.8)(ts-node@10.9.2(@swc/core@1.15.41(@swc/helpers@0.5.23))(@types/node@20.19.27)(typescript@5.0.4))(tsconfig-paths@4.2.0)(typescript@5.0.4)(utf-8-validate@5.0.10)(webpack@5.104.1(@swc/core@1.15.41(@swc/helpers@0.5.23))(postcss@8.5.26))
+        version: 3.8.2(@module-federation/runtime-tools@2.0.0)(@rspack/core@2.1.10(@module-federation/runtime-tools@2.0.0)(@swc/helpers@0.5.23))(bufferutil@4.1.0)(core-js@3.48.0)(devcert@1.2.3)(react-dom@19.2.8(react@19.2.8))(react-server-dom-rspack@0.1.0(@rspack/core@2.1.10(@module-federation/runtime-tools@2.0.0)(@swc/helpers@0.5.23))(react-dom@19.2.8(react@19.2.8))(react@19.2.8))(react@19.2.8)(ts-node@10.9.2(@swc/core@1.15.41(@swc/helpers@0.5.23))(@types/node@20.19.27)(typescript@5.0.4))(tsconfig-paths@4.2.0)(typescript@5.0.4)(utf-8-validate@5.0.10)(webpack@5.104.1(@swc/core@1.15.41(@swc/helpers@0.5.23)))
       '@modern-js/tsconfig':
         specifier: latest
         version: 3.8.2
@@ -351,7 +353,7 @@ importers:
         version: 3.8.2(@module-federation/runtime-tools@2.0.0)(core-js@3.48.0)(react-dom@19.2.8(react@19.2.8))(react-server-dom-rspack@0.1.0(@rspack/core@2.1.10(@module-federation/runtime-tools@2.0.0)(@swc/helpers@0.5.23))(react-dom@19.2.8(react@19.2.8))(react@19.2.8))(react@19.2.8)
       '@module-federation/modern-js-v3':
         specifier: 2.0.0
-        version: 2.0.0(@rspack/core@2.1.10(@module-federation/runtime-tools@2.0.0)(@swc/helpers@0.5.23))(bufferutil@4.1.0)(react-dom@19.2.8(react@19.2.8))(react-router-dom@7.16.0(react-dom@19.2.8(react@19.2.8))(react@19.2.8))(react-router@7.16.0(react-dom@19.2.8(react@19.2.8))(react@19.2.8))(react@19.2.8)(typescript@5.0.4)(utf-8-validate@5.0.10)(webpack@5.104.1(@swc/core@1.15.41(@swc/helpers@0.5.23))(postcss@8.5.26))
+        version: 2.0.0(@rspack/core@2.1.10(@module-federation/runtime-tools@2.0.0)(@swc/helpers@0.5.23))(bufferutil@4.1.0)(react-dom@19.2.8(react@19.2.8))(react-router-dom@7.16.0(react-dom@19.2.8(react@19.2.8))(react@19.2.8))(react-router@7.16.0(react-dom@19.2.8(react@19.2.8))(react@19.2.8))(react@19.2.8)(typescript@5.0.4)(utf-8-validate@5.0.10)(webpack@5.104.1(@swc/core@1.15.41(@swc/helpers@0.5.23)))
       react:
         specifier: ^19.2.8
         version: 19.2.8
@@ -364,7 +366,7 @@ importers:
         version: 1.8.3
       '@modern-js/app-tools':
         specifier: latest
-        version: 3.8.2(@module-federation/runtime-tools@2.0.0)(@rspack/core@2.1.10(@module-federation/runtime-tools@2.0.0)(@swc/helpers@0.5.23))(bufferutil@4.1.0)(core-js@3.48.0)(devcert@1.2.3)(react-dom@19.2.8(react@19.2.8))(react-server-dom-rspack@0.1.0(@rspack/core@2.1.10(@module-federation/runtime-tools@2.0.0)(@swc/helpers@0.5.23))(react-dom@19.2.8(react@19.2.8))(react@19.2.8))(react@19.2.8)(ts-node@10.9.2(@swc/core@1.15.41(@swc/helpers@0.5.23))(@types/node@20.19.27)(typescript@5.0.4))(tsconfig-paths@4.2.0)(typescript@5.0.4)(utf-8-validate@5.0.10)(webpack@5.104.1(@swc/core@1.15.41(@swc/helpers@0.5.23))(postcss@8.5.26))
+        version: 3.8.2(@module-federation/runtime-tools@2.0.0)(@rspack/core@2.1.10(@module-federation/runtime-tools@2.0.0)(@swc/helpers@0.5.23))(bufferutil@4.1.0)(core-js@3.48.0)(devcert@1.2.3)(react-dom@19.2.8(react@19.2.8))(react-server-dom-rspack@0.1.0(@rspack/core@2.1.10(@module-federation/runtime-tools@2.0.0)(@swc/helpers@0.5.23))(react-dom@19.2.8(react@19.2.8))(react@19.2.8))(react@19.2.8)(ts-node@10.9.2(@swc/core@1.15.41(@swc/helpers@0.5.23))(@types/node@20.19.27)(typescript@5.0.4))(tsconfig-paths@4.2.0)(typescript@5.0.4)(utf-8-validate@5.0.10)(webpack@5.104.1(@swc/core@1.15.41(@swc/helpers@0.5.23)))
       '@modern-js/tsconfig':
         specifier: latest
         version: 3.8.2
@@ -394,7 +396,7 @@ importers:
         version: 3.8.2(@module-federation/runtime-tools@2.0.0)(core-js@3.48.0)(react-dom@19.2.8(react@19.2.8))(react-server-dom-rspack@0.1.0(@rspack/core@2.1.10(@module-federation/runtime-tools@2.0.0)(@swc/helpers@0.5.23))(react-dom@19.2.8(react@19.2.8))(react@19.2.8))(react@19.2.8)
       '@module-federation/modern-js-v3':
         specifier: 2.0.0
-        version: 2.0.0(@rspack/core@2.1.10(@module-federation/runtime-tools@2.0.0)(@swc/helpers@0.5.23))(bufferutil@4.1.0)(react-dom@19.2.8(react@19.2.8))(react-router-dom@7.16.0(react-dom@19.2.8(react@19.2.8))(react@19.2.8))(react-router@7.16.0(react-dom@19.2.8(react@19.2.8))(react@19.2.8))(react@19.2.8)(typescript@5.0.4)(utf-8-validate@5.0.10)(webpack@5.104.1(@swc/core@1.15.41(@swc/helpers@0.5.23))(postcss@8.5.26))
+        version: 2.0.0(@rspack/core@2.1.10(@module-federation/runtime-tools@2.0.0)(@swc/helpers@0.5.23))(bufferutil@4.1.0)(react-dom@19.2.8(react@19.2.8))(react-router-dom@7.16.0(react-dom@19.2.8(react@19.2.8))(react@19.2.8))(react-router@7.16.0(react-dom@19.2.8(react@19.2.8))(react@19.2.8))(react@19.2.8)(typescript@5.0.4)(utf-8-validate@5.0.10)(webpack@5.104.1(@swc/core@1.15.41(@swc/helpers@0.5.23)))
       '@module-federation/runtime':
         specifier: 2.0.0
         version: 2.0.0
@@ -413,7 +415,7 @@ importers:
         version: 1.8.3
       '@modern-js/app-tools':
         specifier: latest
-        version: 3.8.2(@module-federation/runtime-tools@2.0.0)(@rspack/core@2.1.10(@module-federation/runtime-tools@2.0.0)(@swc/helpers@0.5.23))(bufferutil@4.1.0)(core-js@3.48.0)(devcert@1.2.3)(react-dom@19.2.8(react@19.2.8))(react-server-dom-rspack@0.1.0(@rspack/core@2.1.10(@module-federation/runtime-tools@2.0.0)(@swc/helpers@0.5.23))(react-dom@19.2.8(react@19.2.8))(react@19.2.8))(react@19.2.8)(ts-node@10.9.2(@swc/core@1.15.41(@swc/helpers@0.5.23))(@types/node@20.19.27)(typescript@5.0.4))(tsconfig-paths@4.2.0)(typescript@5.0.4)(utf-8-validate@5.0.10)(webpack@5.104.1(@swc/core@1.15.41(@swc/helpers@0.5.23))(postcss@8.5.26))
+        version: 3.8.2(@module-federation/runtime-tools@2.0.0)(@rspack/core@2.1.10(@module-federation/runtime-tools@2.0.0)(@swc/helpers@0.5.23))(bufferutil@4.1.0)(core-js@3.48.0)(devcert@1.2.3)(react-dom@19.2.8(react@19.2.8))(react-server-dom-rspack@0.1.0(@rspack/core@2.1.10(@module-federation/runtime-tools@2.0.0)(@swc/helpers@0.5.23))(react-dom@19.2.8(react@19.2.8))(react@19.2.8))(react@19.2.8)(ts-node@10.9.2(@swc/core@1.15.41(@swc/helpers@0.5.23))(@types/node@20.19.27)(typescript@5.0.4))(tsconfig-paths@4.2.0)(typescript@5.0.4)(utf-8-validate@5.0.10)(webpack@5.104.1(@swc/core@1.15.41(@swc/helpers@0.5.23)))
       '@modern-js/tsconfig':
         specifier: latest
         version: 3.8.2
@@ -443,7 +445,7 @@ importers:
         version: 3.8.2(@module-federation/runtime-tools@2.0.0)(core-js@3.48.0)(react-dom@19.2.8(react@19.2.8))(react-server-dom-rspack@0.1.0(@rspack/core@2.1.10(@module-federation/runtime-tools@2.0.0)(@swc/helpers@0.5.23))(react-dom@19.2.8(react@19.2.8))(react@19.2.8))(react@19.2.8)
       '@module-federation/modern-js-v3':
         specifier: 2.0.0
-        version: 2.0.0(@rspack/core@2.1.10(@module-federation/runtime-tools@2.0.0)(@swc/helpers@0.5.23))(bufferutil@4.1.0)(react-dom@19.2.8(react@19.2.8))(react-router-dom@7.16.0(react-dom@19.2.8(react@19.2.8))(react@19.2.8))(react-router@7.16.0(react-dom@19.2.8(react@19.2.8))(react@19.2.8))(react@19.2.8)(typescript@5.0.4)(utf-8-validate@5.0.10)(webpack@5.104.1(@swc/core@1.15.41(@swc/helpers@0.5.23))(postcss@8.5.26))
+        version: 2.0.0(@rspack/core@2.1.10(@module-federation/runtime-tools@2.0.0)(@swc/helpers@0.5.23))(bufferutil@4.1.0)(react-dom@19.2.8(react@19.2.8))(react-router-dom@7.16.0(react-dom@19.2.8(react@19.2.8))(react@19.2.8))(react-router@7.16.0(react-dom@19.2.8(react@19.2.8))(react@19.2.8))(react@19.2.8)(typescript@5.0.4)(utf-8-validate@5.0.10)(webpack@5.104.1(@swc/core@1.15.41(@swc/helpers@0.5.23)))
       react:
         specifier: ^19.2.8
         version: 19.2.8
@@ -456,7 +458,7 @@ importers:
         version: 1.8.3
       '@modern-js/app-tools':
         specifier: latest
-        version: 3.8.2(@module-federation/runtime-tools@2.0.0)(@rspack/core@2.1.10(@module-federation/runtime-tools@2.0.0)(@swc/helpers@0.5.23))(bufferutil@4.1.0)(core-js@3.48.0)(devcert@1.2.3)(react-dom@19.2.8(react@19.2.8))(react-server-dom-rspack@0.1.0(@rspack/core@2.1.10(@module-federation/runtime-tools@2.0.0)(@swc/helpers@0.5.23))(react-dom@19.2.8(react@19.2.8))(react@19.2.8))(react@19.2.8)(ts-node@10.8.2(@swc/core@1.15.41(@swc/helpers@0.5.23))(@types/node@20.19.27)(typescript@5.0.4))(tsconfig-paths@3.14.2)(typescript@5.0.4)(utf-8-validate@5.0.10)(webpack@5.104.1(@swc/core@1.15.41(@swc/helpers@0.5.23))(postcss@8.5.26))
+        version: 3.8.2(@module-federation/runtime-tools@2.0.0)(@rspack/core@2.1.10(@module-federation/runtime-tools@2.0.0)(@swc/helpers@0.5.23))(bufferutil@4.1.0)(core-js@3.48.0)(devcert@1.2.3)(react-dom@19.2.8(react@19.2.8))(react-server-dom-rspack@0.1.0(@rspack/core@2.1.10(@module-federation/runtime-tools@2.0.0)(@swc/helpers@0.5.23))(react-dom@19.2.8(react@19.2.8))(react@19.2.8))(react@19.2.8)(ts-node@10.8.2(@swc/core@1.15.41(@swc/helpers@0.5.23))(@types/node@20.19.27)(typescript@5.0.4))(tsconfig-paths@3.14.2)(typescript@5.0.4)(utf-8-validate@5.0.10)(webpack@5.104.1(@swc/core@1.15.41(@swc/helpers@0.5.23)))
       '@modern-js/tsconfig':
         specifier: latest
         version: 3.8.2
@@ -502,7 +504,7 @@ importers:
         version: 1.9.4
       '@modern-js/app-tools':
         specifier: latest
-        version: 3.8.2(@module-federation/runtime-tools@2.0.0)(@rspack/core@2.1.10(@module-federation/runtime-tools@2.0.0)(@swc/helpers@0.5.23))(bufferutil@4.1.0)(core-js@3.48.0)(devcert@1.2.3)(react-dom@19.2.8(react@19.2.8))(react-server-dom-rspack@0.1.0(@rspack/core@2.1.10(@module-federation/runtime-tools@2.0.0)(@swc/helpers@0.5.23))(react-dom@19.2.8(react@19.2.8))(react@19.2.8))(react@19.2.8)(ts-node@10.9.2(@swc/core@1.15.41(@swc/helpers@0.5.23))(@types/node@20.19.27)(typescript@5.7.3))(tsconfig-paths@4.2.0)(typescript@5.7.3)(utf-8-validate@5.0.10)(webpack@5.104.1(@swc/core@1.15.41(@swc/helpers@0.5.23))(postcss@8.5.26))
+        version: 3.8.2(@module-federation/runtime-tools@2.0.0)(@rspack/core@2.1.10(@module-federation/runtime-tools@2.0.0)(@swc/helpers@0.5.23))(bufferutil@4.1.0)(core-js@3.48.0)(devcert@1.2.3)(react-dom@19.2.8(react@19.2.8))(react-server-dom-rspack@0.1.0(@rspack/core@2.1.10(@module-federation/runtime-tools@2.0.0)(@swc/helpers@0.5.23))(react-dom@19.2.8(react@19.2.8))(react@19.2.8))(react@19.2.8)(ts-node@10.9.2(@swc/core@1.15.41(@swc/helpers@0.5.23))(@types/node@20.19.27)(typescript@5.7.3))(tsconfig-paths@4.2.0)(typescript@5.7.3)(utf-8-validate@5.0.10)(webpack@5.104.1(@swc/core@1.15.41(@swc/helpers@0.5.23)))
       '@modern-js/tsconfig':
         specifier: latest
         version: 3.8.2
@@ -532,7 +534,7 @@ importers:
     dependencies:
       '@modern-js/plugin-bff':
         specifier: latest
-        version: 3.8.2(@module-federation/runtime-tools@2.0.0)(@rspack/core@2.1.10(@module-federation/runtime-tools@2.0.0)(@swc/helpers@0.5.23))(core-js@3.48.0)(react-dom@19.2.8(react@19.2.8))(react-server-dom-rspack@0.1.0(@rspack/core@2.1.10(@module-federation/runtime-tools@2.0.0)(@swc/helpers@0.5.23))(react-dom@19.2.8(react@19.2.8))(react@19.2.8))(react@19.2.8)(ts-node@10.8.2(@swc/core@1.15.41(@swc/helpers@0.5.23))(@types/node@20.19.27)(typescript@5.7.3))(tsconfig-paths@3.14.2)(typescript@5.7.3)(webpack@5.104.1(@swc/core@1.15.41(@swc/helpers@0.5.23))(postcss@8.5.26))(zod@3.25.76)
+        version: 3.8.2(@module-federation/runtime-tools@2.0.0)(@rspack/core@2.1.10(@module-federation/runtime-tools@2.0.0)(@swc/helpers@0.5.23))(core-js@3.48.0)(react-dom@19.2.8(react@19.2.8))(react-server-dom-rspack@0.1.0(@rspack/core@2.1.10(@module-federation/runtime-tools@2.0.0)(@swc/helpers@0.5.23))(react-dom@19.2.8(react@19.2.8))(react@19.2.8))(react@19.2.8)(ts-node@10.8.2(@swc/core@1.15.41(@swc/helpers@0.5.23))(@types/node@20.19.27)(typescript@5.7.3))(tsconfig-paths@3.14.2)(typescript@5.7.3)(webpack@5.104.1(@swc/core@1.15.41(@swc/helpers@0.5.23)))(zod@3.25.76)
       '@modern-js/runtime':
         specifier: latest
         version: 3.8.2(@module-federation/runtime-tools@2.0.0)(core-js@3.48.0)(react-dom@19.2.8(react@19.2.8))(react-server-dom-rspack@0.1.0(@rspack/core@2.1.10(@module-federation/runtime-tools@2.0.0)(@swc/helpers@0.5.23))(react-dom@19.2.8(react@19.2.8))(react@19.2.8))(react@19.2.8)
@@ -551,7 +553,7 @@ importers:
         version: 1.9.4
       '@modern-js/app-tools':
         specifier: latest
-        version: 3.8.2(@module-federation/runtime-tools@2.0.0)(@rspack/core@2.1.10(@module-federation/runtime-tools@2.0.0)(@swc/helpers@0.5.23))(bufferutil@4.1.0)(core-js@3.48.0)(devcert@1.2.3)(react-dom@19.2.8(react@19.2.8))(react-server-dom-rspack@0.1.0(@rspack/core@2.1.10(@module-federation/runtime-tools@2.0.0)(@swc/helpers@0.5.23))(react-dom@19.2.8(react@19.2.8))(react@19.2.8))(react@19.2.8)(ts-node@10.8.2(@swc/core@1.15.41(@swc/helpers@0.5.23))(@types/node@20.19.27)(typescript@5.7.3))(tsconfig-paths@3.14.2)(typescript@5.7.3)(utf-8-validate@5.0.10)(webpack@5.104.1(@swc/core@1.15.41(@swc/helpers@0.5.23))(postcss@8.5.26))
+        version: 3.8.2(@module-federation/runtime-tools@2.0.0)(@rspack/core@2.1.10(@module-federation/runtime-tools@2.0.0)(@swc/helpers@0.5.23))(bufferutil@4.1.0)(core-js@3.48.0)(devcert@1.2.3)(react-dom@19.2.8(react@19.2.8))(react-server-dom-rspack@0.1.0(@rspack/core@2.1.10(@module-federation/runtime-tools@2.0.0)(@swc/helpers@0.5.23))(react-dom@19.2.8(react@19.2.8))(react@19.2.8))(react@19.2.8)(ts-node@10.8.2(@swc/core@1.15.41(@swc/helpers@0.5.23))(@types/node@20.19.27)(typescript@5.7.3))(tsconfig-paths@3.14.2)(typescript@5.7.3)(utf-8-validate@5.0.10)(webpack@5.104.1(@swc/core@1.15.41(@swc/helpers@0.5.23)))
       '@modern-js/tsconfig':
         specifier: latest
         version: 3.8.2
@@ -670,7 +672,7 @@ importers:
     devDependencies:
       '@modern-js/app-tools':
         specifier: latest
-        version: 3.8.2(@module-federation/runtime-tools@2.0.0)(@rspack/core@2.1.10(@module-federation/runtime-tools@2.0.0)(@swc/helpers@0.5.23))(bufferutil@4.1.0)(core-js@3.48.0)(devcert@1.2.3)(react-dom@19.2.8(react@19.2.8))(react-server-dom-rspack@0.1.0(@rspack/core@2.1.10(@module-federation/runtime-tools@2.0.0)(@swc/helpers@0.5.23))(react-dom@19.2.8(react@19.2.8))(react@19.2.8))(react@19.2.8)(ts-node@10.9.2(@swc/core@1.15.41(@swc/helpers@0.5.23))(@types/node@20.19.27)(typescript@5.0.4))(tsconfig-paths@4.2.0)(typescript@5.0.4)(utf-8-validate@5.0.10)(webpack@5.104.1(@swc/core@1.15.41(@swc/helpers@0.5.23))(postcss@8.5.26))
+        version: 3.8.2(@module-federation/runtime-tools@2.0.0)(@rspack/core@2.1.10(@module-federation/runtime-tools@2.0.0)(@swc/helpers@0.5.23))(bufferutil@4.1.0)(core-js@3.48.0)(devcert@1.2.3)(react-dom@19.2.8(react@19.2.8))(react-server-dom-rspack@0.1.0(@rspack/core@2.1.10(@module-federation/runtime-tools@2.0.0)(@swc/helpers@0.5.23))(react-dom@19.2.8(react@19.2.8))(react@19.2.8))(react@19.2.8)(ts-node@10.9.2(@swc/core@1.15.41(@swc/helpers@0.5.23))(@types/node@20.19.27)(typescript@5.0.4))(tsconfig-paths@4.2.0)(typescript@5.0.4)(utf-8-validate@5.0.10)(webpack@5.104.1(@swc/core@1.15.41(@swc/helpers@0.5.23)))
       '@modern-js/tsconfig':
         specifier: latest
         version: 3.8.2
@@ -728,7 +730,7 @@ importers:
         version: 7.29.7(@babel/core@7.29.7)
       '@modern-js/app-tools':
         specifier: latest
-        version: 3.8.2(@module-federation/runtime-tools@2.0.0)(@rspack/core@2.1.10(@module-federation/runtime-tools@2.0.0)(@swc/helpers@0.5.23))(bufferutil@4.1.0)(core-js@3.48.0)(devcert@1.2.3)(react-dom@19.2.8(react@19.2.8))(react-server-dom-rspack@0.1.0(@rspack/core@2.1.10(@module-federation/runtime-tools@2.0.0)(@swc/helpers@0.5.23))(react-dom@19.2.8(react@19.2.8))(react@19.2.8))(react@19.2.8)(ts-node@10.9.2(@swc/core@1.15.41(@swc/helpers@0.5.23))(@types/node@20.19.27)(typescript@5.0.4))(tsconfig-paths@4.2.0)(typescript@5.0.4)(utf-8-validate@5.0.10)(webpack@5.104.1(@swc/core@1.15.41(@swc/helpers@0.5.23))(postcss@8.5.26))
+        version: 3.8.2(@module-federation/runtime-tools@2.0.0)(@rspack/core@2.1.10(@module-federation/runtime-tools@2.0.0)(@swc/helpers@0.5.23))(bufferutil@4.1.0)(core-js@3.48.0)(devcert@1.2.3)(react-dom@19.2.8(react@19.2.8))(react-server-dom-rspack@0.1.0(@rspack/core@2.1.10(@module-federation/runtime-tools@2.0.0)(@swc/helpers@0.5.23))(react-dom@19.2.8(react@19.2.8))(react@19.2.8))(react@19.2.8)(ts-node@10.9.2(@swc/core@1.15.41(@swc/helpers@0.5.23))(@types/node@20.19.27)(typescript@5.0.4))(tsconfig-paths@4.2.0)(typescript@5.0.4)(utf-8-validate@5.0.10)(webpack@5.104.1(@swc/core@1.15.41(@swc/helpers@0.5.23)))
       '@modern-js/tsconfig':
         specifier: latest
         version: 3.8.2
@@ -786,7 +788,7 @@ importers:
     devDependencies:
       '@modern-js/app-tools':
         specifier: latest
-        version: 3.8.2(@module-federation/runtime-tools@2.0.0)(@rspack/core@2.1.10(@module-federation/runtime-tools@2.0.0)(@swc/helpers@0.5.23))(bufferutil@4.1.0)(core-js@3.48.0)(devcert@1.2.3)(react-dom@19.2.8(react@19.2.8))(react-server-dom-rspack@0.1.0(@rspack/core@2.1.10(@module-federation/runtime-tools@2.0.0)(@swc/helpers@0.5.23))(react-dom@19.2.8(react@19.2.8))(react@19.2.8))(react@19.2.8)(ts-node@10.9.2(@swc/core@1.15.41(@swc/helpers@0.5.23))(@types/node@20.19.27)(typescript@5.0.4))(tsconfig-paths@4.2.0)(typescript@5.0.4)(utf-8-validate@5.0.10)(webpack@5.104.1(@swc/core@1.15.41(@swc/helpers@0.5.23))(postcss@8.5.26))
+        version: 3.8.2(@module-federation/runtime-tools@2.0.0)(@rspack/core@2.1.10(@module-federation/runtime-tools@2.0.0)(@swc/helpers@0.5.23))(bufferutil@4.1.0)(core-js@3.48.0)(devcert@1.2.3)(react-dom@19.2.8(react@19.2.8))(react-server-dom-rspack@0.1.0(@rspack/core@2.1.10(@module-federation/runtime-tools@2.0.0)(@swc/helpers@0.5.23))(react-dom@19.2.8(react@19.2.8))(react@19.2.8))(react@19.2.8)(ts-node@10.9.2(@swc/core@1.15.41(@swc/helpers@0.5.23))(@types/node@20.19.27)(typescript@5.0.4))(tsconfig-paths@4.2.0)(typescript@5.0.4)(utf-8-validate@5.0.10)(webpack@5.104.1(@swc/core@1.15.41(@swc/helpers@0.5.23)))
       '@modern-js/tsconfig':
         specifier: latest
         version: 3.8.2
@@ -829,7 +831,7 @@ importers:
     devDependencies:
       '@modern-js/app-tools':
         specifier: latest
-        version: 3.8.2(@module-federation/runtime-tools@2.0.0)(@rspack/core@2.1.10(@module-federation/runtime-tools@2.0.0)(@swc/helpers@0.5.23))(bufferutil@4.1.0)(core-js@3.48.0)(devcert@1.2.3)(lightningcss@1.30.2)(react-dom@19.2.8(react@19.2.8))(react-server-dom-rspack@0.1.0(@rspack/core@2.1.10(@module-federation/runtime-tools@2.0.0)(@swc/helpers@0.5.23))(react-dom@19.2.8(react@19.2.8))(react@19.2.8))(react@19.2.8)(ts-node@10.9.2(@swc/core@1.15.41(@swc/helpers@0.5.23))(@types/node@20.19.27)(typescript@5.0.4))(tsconfig-paths@4.2.0)(typescript@5.0.4)(utf-8-validate@5.0.10)(webpack@5.104.1(@swc/core@1.15.41(@swc/helpers@0.5.23))(lightningcss@1.30.2)(postcss@8.5.26))
+        version: 3.8.2(@module-federation/runtime-tools@2.0.0)(@rspack/core@2.1.10(@module-federation/runtime-tools@2.0.0)(@swc/helpers@0.5.23))(bufferutil@4.1.0)(core-js@3.48.0)(devcert@1.2.3)(lightningcss@1.30.2)(react-dom@19.2.8(react@19.2.8))(react-server-dom-rspack@0.1.0(@rspack/core@2.1.10(@module-federation/runtime-tools@2.0.0)(@swc/helpers@0.5.23))(react-dom@19.2.8(react@19.2.8))(react@19.2.8))(react@19.2.8)(ts-node@10.9.2(@swc/core@1.15.41(@swc/helpers@0.5.23))(@types/node@20.19.27)(typescript@5.0.4))(tsconfig-paths@4.2.0)(typescript@5.0.4)(utf-8-validate@5.0.10)(webpack@5.104.1(@swc/core@1.15.41(@swc/helpers@0.5.23))(lightningcss@1.30.2))
       '@modern-js/tsconfig':
         specifier: latest
         version: 3.8.2
@@ -12433,7 +12435,6 @@ packages:
   eslint@9.39.4:
     resolution: {integrity: sha512-XoMjdBOwe/esVgEvLmNsD3IRHkm7fbKIUGvrleloJXUZgDHig2IPWNniv+GwjyJXzuNqVjlr5+4yVUZjycJwfQ==}
     engines: {node: ^18.18.0 || ^20.9.0 || >=21.1.0}
-    deprecated: This version is no longer supported. Please see https://eslint.org/version-support for other options.
     hasBin: true
     peerDependencies:
       jiti: '*'
@@ -21243,12 +21244,12 @@ snapshots:
       - utf-8-validate
       - webpack
 
-  '@modern-js/app-tools@3.8.2(@module-federation/runtime-tools@2.0.0)(@rspack/core@2.1.10(@module-federation/runtime-tools@2.0.0)(@swc/helpers@0.5.23))(bufferutil@4.1.0)(core-js@3.48.0)(devcert@1.2.3)(lightningcss@1.30.2)(react-dom@19.2.8(react@19.2.8))(react-server-dom-rspack@0.1.0(@rspack/core@2.1.10(@module-federation/runtime-tools@2.0.0)(@swc/helpers@0.5.23))(react-dom@19.2.8(react@19.2.8))(react@19.2.8))(react@19.2.8)(ts-node@10.9.2(@swc/core@1.15.41(@swc/helpers@0.5.23))(@types/node@20.19.27)(typescript@5.0.4))(tsconfig-paths@4.2.0)(typescript@5.0.4)(utf-8-validate@5.0.10)(webpack@5.104.1(@swc/core@1.15.41(@swc/helpers@0.5.23))(lightningcss@1.30.2)(postcss@8.5.26))':
+  '@modern-js/app-tools@3.8.2(@module-federation/runtime-tools@2.0.0)(@rspack/core@2.1.10(@module-federation/runtime-tools@2.0.0)(@swc/helpers@0.5.23))(bufferutil@4.1.0)(core-js@3.48.0)(devcert@1.2.3)(lightningcss@1.30.2)(react-dom@19.2.8(react@19.2.8))(react-server-dom-rspack@0.1.0(@rspack/core@2.1.10(@module-federation/runtime-tools@2.0.0)(@swc/helpers@0.5.23))(react-dom@19.2.8(react@19.2.8))(react@19.2.8))(react@19.2.8)(ts-node@10.9.2(@swc/core@1.15.41(@swc/helpers@0.5.23))(@types/node@20.19.27)(typescript@5.0.4))(tsconfig-paths@4.2.0)(typescript@5.0.4)(utf-8-validate@5.0.10)(webpack@5.104.1(@swc/core@1.15.41(@swc/helpers@0.5.23))(lightningcss@1.30.2))':
     dependencies:
       '@babel/parser': 7.29.7
       '@babel/traverse': 7.29.7
       '@babel/types': 7.29.7
-      '@modern-js/builder': 3.8.2(@module-federation/runtime-tools@2.0.0)(@rspack/core@2.1.10(@module-federation/runtime-tools@2.0.0)(@swc/helpers@0.5.23))(lightningcss@1.30.2)(react-dom@19.2.8(react@19.2.8))(react-server-dom-rspack@0.1.0(@rspack/core@2.1.10(@module-federation/runtime-tools@2.0.0)(@swc/helpers@0.5.23))(react-dom@19.2.8(react@19.2.8))(react@19.2.8))(react@19.2.8)(typescript@5.0.4)(webpack@5.104.1(@swc/core@1.15.41(@swc/helpers@0.5.23))(lightningcss@1.30.2)(postcss@8.5.26))
+      '@modern-js/builder': 3.8.2(@module-federation/runtime-tools@2.0.0)(@rspack/core@2.1.10(@module-federation/runtime-tools@2.0.0)(@swc/helpers@0.5.23))(lightningcss@1.30.2)(react-dom@19.2.8(react@19.2.8))(react-server-dom-rspack@0.1.0(@rspack/core@2.1.10(@module-federation/runtime-tools@2.0.0)(@swc/helpers@0.5.23))(react-dom@19.2.8(react@19.2.8))(react@19.2.8))(react@19.2.8)(typescript@5.0.4)(webpack@5.104.1(@swc/core@1.15.41(@swc/helpers@0.5.23))(lightningcss@1.30.2))
       '@modern-js/i18n-utils': 3.8.2(react-dom@19.2.8(react@19.2.8))(react@19.2.8)
       '@modern-js/plugin': 3.8.2(@module-federation/runtime-tools@2.0.0)(core-js@3.48.0)(react-dom@19.2.8(react@19.2.8))(react@19.2.8)
       '@modern-js/plugin-data-loader': 3.8.2(react-dom@19.2.8(react@19.2.8))(react@19.2.8)
@@ -21295,12 +21296,12 @@ snapshots:
       - utf-8-validate
       - webpack
 
-  '@modern-js/app-tools@3.8.2(@module-federation/runtime-tools@2.0.0)(@rspack/core@2.1.10(@module-federation/runtime-tools@2.0.0)(@swc/helpers@0.5.23))(bufferutil@4.1.0)(core-js@3.48.0)(devcert@1.2.3)(react-dom@19.2.8(react@19.2.8))(react-server-dom-rspack@0.1.0(@rspack/core@2.1.10(@module-federation/runtime-tools@2.0.0)(@swc/helpers@0.5.23))(react-dom@19.2.8(react@19.2.8))(react@19.2.8))(react@19.2.8)(ts-node@10.8.2(@swc/core@1.15.41(@swc/helpers@0.5.23))(@types/node@20.19.27)(typescript@5.0.4))(tsconfig-paths@3.14.2)(typescript@5.0.4)(utf-8-validate@5.0.10)(webpack@5.104.1(@swc/core@1.15.41(@swc/helpers@0.5.23))(postcss@8.5.26))':
+  '@modern-js/app-tools@3.8.2(@module-federation/runtime-tools@2.0.0)(@rspack/core@2.1.10(@module-federation/runtime-tools@2.0.0)(@swc/helpers@0.5.23))(bufferutil@4.1.0)(core-js@3.48.0)(devcert@1.2.3)(react-dom@19.2.8(react@19.2.8))(react-server-dom-rspack@0.1.0(@rspack/core@2.1.10(@module-federation/runtime-tools@2.0.0)(@swc/helpers@0.5.23))(react-dom@19.2.8(react@19.2.8))(react@19.2.8))(react@19.2.8)(ts-node@10.8.2(@swc/core@1.15.41(@swc/helpers@0.5.23))(@types/node@20.19.27)(typescript@5.0.4))(tsconfig-paths@3.14.2)(typescript@5.0.4)(utf-8-validate@5.0.10)(webpack@5.104.1(@swc/core@1.15.41(@swc/helpers@0.5.23)))':
     dependencies:
       '@babel/parser': 7.29.7
       '@babel/traverse': 7.29.7
       '@babel/types': 7.29.7
-      '@modern-js/builder': 3.8.2(@module-federation/runtime-tools@2.0.0)(@rspack/core@2.1.10(@module-federation/runtime-tools@2.0.0)(@swc/helpers@0.5.23))(react-dom@19.2.8(react@19.2.8))(react-server-dom-rspack@0.1.0(@rspack/core@2.1.10(@module-federation/runtime-tools@2.0.0)(@swc/helpers@0.5.23))(react-dom@19.2.8(react@19.2.8))(react@19.2.8))(react@19.2.8)(typescript@5.0.4)(webpack@5.104.1(@swc/core@1.15.41(@swc/helpers@0.5.23))(postcss@8.5.26))
+      '@modern-js/builder': 3.8.2(@module-federation/runtime-tools@2.0.0)(@rspack/core@2.1.10(@module-federation/runtime-tools@2.0.0)(@swc/helpers@0.5.23))(react-dom@19.2.8(react@19.2.8))(react-server-dom-rspack@0.1.0(@rspack/core@2.1.10(@module-federation/runtime-tools@2.0.0)(@swc/helpers@0.5.23))(react-dom@19.2.8(react@19.2.8))(react@19.2.8))(react@19.2.8)(typescript@5.0.4)(webpack@5.104.1(@swc/core@1.15.41(@swc/helpers@0.5.23)))
       '@modern-js/i18n-utils': 3.8.2(react-dom@19.2.8(react@19.2.8))(react@19.2.8)
       '@modern-js/plugin': 3.8.2(@module-federation/runtime-tools@2.0.0)(core-js@3.48.0)(react-dom@19.2.8(react@19.2.8))(react@19.2.8)
       '@modern-js/plugin-data-loader': 3.8.2(react-dom@19.2.8(react@19.2.8))(react@19.2.8)
@@ -21347,12 +21348,12 @@ snapshots:
       - utf-8-validate
       - webpack
 
-  '@modern-js/app-tools@3.8.2(@module-federation/runtime-tools@2.0.0)(@rspack/core@2.1.10(@module-federation/runtime-tools@2.0.0)(@swc/helpers@0.5.23))(bufferutil@4.1.0)(core-js@3.48.0)(devcert@1.2.3)(react-dom@19.2.8(react@19.2.8))(react-server-dom-rspack@0.1.0(@rspack/core@2.1.10(@module-federation/runtime-tools@2.0.0)(@swc/helpers@0.5.23))(react-dom@19.2.8(react@19.2.8))(react@19.2.8))(react@19.2.8)(ts-node@10.8.2(@swc/core@1.15.41(@swc/helpers@0.5.23))(@types/node@20.19.27)(typescript@5.7.3))(tsconfig-paths@3.14.2)(typescript@5.7.3)(utf-8-validate@5.0.10)(webpack@5.104.1(@swc/core@1.15.41(@swc/helpers@0.5.23))(postcss@8.5.26))':
+  '@modern-js/app-tools@3.8.2(@module-federation/runtime-tools@2.0.0)(@rspack/core@2.1.10(@module-federation/runtime-tools@2.0.0)(@swc/helpers@0.5.23))(bufferutil@4.1.0)(core-js@3.48.0)(devcert@1.2.3)(react-dom@19.2.8(react@19.2.8))(react-server-dom-rspack@0.1.0(@rspack/core@2.1.10(@module-federation/runtime-tools@2.0.0)(@swc/helpers@0.5.23))(react-dom@19.2.8(react@19.2.8))(react@19.2.8))(react@19.2.8)(ts-node@10.8.2(@swc/core@1.15.41(@swc/helpers@0.5.23))(@types/node@20.19.27)(typescript@5.7.3))(tsconfig-paths@3.14.2)(typescript@5.7.3)(utf-8-validate@5.0.10)(webpack@5.104.1(@swc/core@1.15.41(@swc/helpers@0.5.23)))':
     dependencies:
       '@babel/parser': 7.29.7
       '@babel/traverse': 7.29.7
       '@babel/types': 7.29.7
-      '@modern-js/builder': 3.8.2(@module-federation/runtime-tools@2.0.0)(@rspack/core@2.1.10(@module-federation/runtime-tools@2.0.0)(@swc/helpers@0.5.23))(react-dom@19.2.8(react@19.2.8))(react-server-dom-rspack@0.1.0(@rspack/core@2.1.10(@module-federation/runtime-tools@2.0.0)(@swc/helpers@0.5.23))(react-dom@19.2.8(react@19.2.8))(react@19.2.8))(react@19.2.8)(typescript@5.7.3)(webpack@5.104.1(@swc/core@1.15.41(@swc/helpers@0.5.23))(postcss@8.5.26))
+      '@modern-js/builder': 3.8.2(@module-federation/runtime-tools@2.0.0)(@rspack/core@2.1.10(@module-federation/runtime-tools@2.0.0)(@swc/helpers@0.5.23))(react-dom@19.2.8(react@19.2.8))(react-server-dom-rspack@0.1.0(@rspack/core@2.1.10(@module-federation/runtime-tools@2.0.0)(@swc/helpers@0.5.23))(react-dom@19.2.8(react@19.2.8))(react@19.2.8))(react@19.2.8)(typescript@5.7.3)(webpack@5.104.1(@swc/core@1.15.41(@swc/helpers@0.5.23)))
       '@modern-js/i18n-utils': 3.8.2(react-dom@19.2.8(react@19.2.8))(react@19.2.8)
       '@modern-js/plugin': 3.8.2(@module-federation/runtime-tools@2.0.0)(core-js@3.48.0)(react-dom@19.2.8(react@19.2.8))(react@19.2.8)
       '@modern-js/plugin-data-loader': 3.8.2(react-dom@19.2.8(react@19.2.8))(react@19.2.8)
@@ -21399,12 +21400,12 @@ snapshots:
       - utf-8-validate
       - webpack
 
-  '@modern-js/app-tools@3.8.2(@module-federation/runtime-tools@2.0.0)(@rspack/core@2.1.10(@module-federation/runtime-tools@2.0.0)(@swc/helpers@0.5.23))(bufferutil@4.1.0)(core-js@3.48.0)(devcert@1.2.3)(react-dom@19.2.8(react@19.2.8))(react-server-dom-rspack@0.1.0(@rspack/core@2.1.10(@module-federation/runtime-tools@2.0.0)(@swc/helpers@0.5.23))(react-dom@19.2.8(react@19.2.8))(react@19.2.8))(react@19.2.8)(ts-node@10.9.2(@swc/core@1.15.41(@swc/helpers@0.5.23))(@types/node@20.19.27)(typescript@5.0.4))(tsconfig-paths@4.2.0)(typescript@5.0.4)(utf-8-validate@5.0.10)(webpack@5.104.1(@swc/core@1.15.41(@swc/helpers@0.5.23))(postcss@8.5.26))':
+  '@modern-js/app-tools@3.8.2(@module-federation/runtime-tools@2.0.0)(@rspack/core@2.1.10(@module-federation/runtime-tools@2.0.0)(@swc/helpers@0.5.23))(bufferutil@4.1.0)(core-js@3.48.0)(devcert@1.2.3)(react-dom@19.2.8(react@19.2.8))(react-server-dom-rspack@0.1.0(@rspack/core@2.1.10(@module-federation/runtime-tools@2.0.0)(@swc/helpers@0.5.23))(react-dom@19.2.8(react@19.2.8))(react@19.2.8))(react@19.2.8)(ts-node@10.9.2(@swc/core@1.15.41(@swc/helpers@0.5.23))(@types/node@20.19.27)(typescript@5.0.4))(tsconfig-paths@4.2.0)(typescript@5.0.4)(utf-8-validate@5.0.10)(webpack@5.104.1(@swc/core@1.15.41(@swc/helpers@0.5.23)))':
     dependencies:
       '@babel/parser': 7.29.7
       '@babel/traverse': 7.29.7
       '@babel/types': 7.29.7
-      '@modern-js/builder': 3.8.2(@module-federation/runtime-tools@2.0.0)(@rspack/core@2.1.10(@module-federation/runtime-tools@2.0.0)(@swc/helpers@0.5.23))(react-dom@19.2.8(react@19.2.8))(react-server-dom-rspack@0.1.0(@rspack/core@2.1.10(@module-federation/runtime-tools@2.0.0)(@swc/helpers@0.5.23))(react-dom@19.2.8(react@19.2.8))(react@19.2.8))(react@19.2.8)(typescript@5.0.4)(webpack@5.104.1(@swc/core@1.15.41(@swc/helpers@0.5.23))(postcss@8.5.26))
+      '@modern-js/builder': 3.8.2(@module-federation/runtime-tools@2.0.0)(@rspack/core@2.1.10(@module-federation/runtime-tools@2.0.0)(@swc/helpers@0.5.23))(react-dom@19.2.8(react@19.2.8))(react-server-dom-rspack@0.1.0(@rspack/core@2.1.10(@module-federation/runtime-tools@2.0.0)(@swc/helpers@0.5.23))(react-dom@19.2.8(react@19.2.8))(react@19.2.8))(react@19.2.8)(typescript@5.0.4)(webpack@5.104.1(@swc/core@1.15.41(@swc/helpers@0.5.23)))
       '@modern-js/i18n-utils': 3.8.2(react-dom@19.2.8(react@19.2.8))(react@19.2.8)
       '@modern-js/plugin': 3.8.2(@module-federation/runtime-tools@2.0.0)(core-js@3.48.0)(react-dom@19.2.8(react@19.2.8))(react@19.2.8)
       '@modern-js/plugin-data-loader': 3.8.2(react-dom@19.2.8(react@19.2.8))(react@19.2.8)
@@ -21451,12 +21452,12 @@ snapshots:
       - utf-8-validate
       - webpack
 
-  '@modern-js/app-tools@3.8.2(@module-federation/runtime-tools@2.0.0)(@rspack/core@2.1.10(@module-federation/runtime-tools@2.0.0)(@swc/helpers@0.5.23))(bufferutil@4.1.0)(core-js@3.48.0)(devcert@1.2.3)(react-dom@19.2.8(react@19.2.8))(react-server-dom-rspack@0.1.0(@rspack/core@2.1.10(@module-federation/runtime-tools@2.0.0)(@swc/helpers@0.5.23))(react-dom@19.2.8(react@19.2.8))(react@19.2.8))(react@19.2.8)(ts-node@10.9.2(@swc/core@1.15.41(@swc/helpers@0.5.23))(@types/node@20.19.27)(typescript@5.7.3))(tsconfig-paths@4.2.0)(typescript@5.7.3)(utf-8-validate@5.0.10)(webpack@5.104.1(@swc/core@1.15.41(@swc/helpers@0.5.23))(postcss@8.5.26))':
+  '@modern-js/app-tools@3.8.2(@module-federation/runtime-tools@2.0.0)(@rspack/core@2.1.10(@module-federation/runtime-tools@2.0.0)(@swc/helpers@0.5.23))(bufferutil@4.1.0)(core-js@3.48.0)(devcert@1.2.3)(react-dom@19.2.8(react@19.2.8))(react-server-dom-rspack@0.1.0(@rspack/core@2.1.10(@module-federation/runtime-tools@2.0.0)(@swc/helpers@0.5.23))(react-dom@19.2.8(react@19.2.8))(react@19.2.8))(react@19.2.8)(ts-node@10.9.2(@swc/core@1.15.41(@swc/helpers@0.5.23))(@types/node@20.19.27)(typescript@5.7.3))(tsconfig-paths@4.2.0)(typescript@5.7.3)(utf-8-validate@5.0.10)(webpack@5.104.1(@swc/core@1.15.41(@swc/helpers@0.5.23)))':
     dependencies:
       '@babel/parser': 7.29.7
       '@babel/traverse': 7.29.7
       '@babel/types': 7.29.7
-      '@modern-js/builder': 3.8.2(@module-federation/runtime-tools@2.0.0)(@rspack/core@2.1.10(@module-federation/runtime-tools@2.0.0)(@swc/helpers@0.5.23))(react-dom@19.2.8(react@19.2.8))(react-server-dom-rspack@0.1.0(@rspack/core@2.1.10(@module-federation/runtime-tools@2.0.0)(@swc/helpers@0.5.23))(react-dom@19.2.8(react@19.2.8))(react@19.2.8))(react@19.2.8)(typescript@5.7.3)(webpack@5.104.1(@swc/core@1.15.41(@swc/helpers@0.5.23))(postcss@8.5.26))
+      '@modern-js/builder': 3.8.2(@module-federation/runtime-tools@2.0.0)(@rspack/core@2.1.10(@module-federation/runtime-tools@2.0.0)(@swc/helpers@0.5.23))(react-dom@19.2.8(react@19.2.8))(react-server-dom-rspack@0.1.0(@rspack/core@2.1.10(@module-federation/runtime-tools@2.0.0)(@swc/helpers@0.5.23))(react-dom@19.2.8(react@19.2.8))(react@19.2.8))(react@19.2.8)(typescript@5.7.3)(webpack@5.104.1(@swc/core@1.15.41(@swc/helpers@0.5.23)))
       '@modern-js/i18n-utils': 3.8.2(react-dom@19.2.8(react@19.2.8))(react@19.2.8)
       '@modern-js/plugin': 3.8.2(@module-federation/runtime-tools@2.0.0)(core-js@3.48.0)(react-dom@19.2.8(react@19.2.8))(react@19.2.8)
       '@modern-js/plugin-data-loader': 3.8.2(react-dom@19.2.8(react@19.2.8))(react@19.2.8)
@@ -21584,14 +21585,14 @@ snapshots:
       - typescript
       - webpack
 
-  '@modern-js/builder@3.8.2(@module-federation/runtime-tools@2.0.0)(@rspack/core@2.1.10(@module-federation/runtime-tools@2.0.0)(@swc/helpers@0.5.23))(lightningcss@1.30.2)(react-dom@19.2.8(react@19.2.8))(react-server-dom-rspack@0.1.0(@rspack/core@2.1.10(@module-federation/runtime-tools@2.0.0)(@swc/helpers@0.5.23))(react-dom@19.2.8(react@19.2.8))(react@19.2.8))(react@19.2.8)(typescript@5.0.4)(webpack@5.104.1(@swc/core@1.15.41(@swc/helpers@0.5.23))(lightningcss@1.30.2)(postcss@8.5.26))':
+  '@modern-js/builder@3.8.2(@module-federation/runtime-tools@2.0.0)(@rspack/core@2.1.10(@module-federation/runtime-tools@2.0.0)(@swc/helpers@0.5.23))(lightningcss@1.30.2)(react-dom@19.2.8(react@19.2.8))(react-server-dom-rspack@0.1.0(@rspack/core@2.1.10(@module-federation/runtime-tools@2.0.0)(@swc/helpers@0.5.23))(react-dom@19.2.8(react@19.2.8))(react@19.2.8))(react@19.2.8)(typescript@5.0.4)(webpack@5.104.1(@swc/core@1.15.41(@swc/helpers@0.5.23))(lightningcss@1.30.2))':
     dependencies:
       '@modern-js/utils': 3.8.2(react-dom@19.2.8(react@19.2.8))(react@19.2.8)
       '@rsbuild/core': 2.1.0(@module-federation/runtime-tools@2.0.0)(core-js@3.48.0)
       '@rsbuild/plugin-assets-retry': 2.0.1(@rsbuild/core@2.1.0(@module-federation/runtime-tools@2.0.0)(core-js@3.48.0))
       '@rsbuild/plugin-check-syntax': 2.0.0(@rsbuild/core@2.1.0(@module-federation/runtime-tools@2.0.0)(core-js@3.48.0))
-      '@rsbuild/plugin-css-minimizer': 2.0.1(@rsbuild/core@2.1.0(@module-federation/runtime-tools@2.0.0)(core-js@3.48.0))(lightningcss@1.30.2)(webpack@5.104.1(@swc/core@1.15.41(@swc/helpers@0.5.23))(lightningcss@1.30.2)(postcss@8.5.26))
-      '@rsbuild/plugin-less': 1.6.4(@rsbuild/core@2.1.0(@module-federation/runtime-tools@2.0.0)(core-js@3.48.0))(@rspack/core@2.1.10(@module-federation/runtime-tools@2.0.0)(@swc/helpers@0.5.23))(webpack@5.104.1(@swc/core@1.15.41(@swc/helpers@0.5.23))(lightningcss@1.30.2)(postcss@8.5.26))
+      '@rsbuild/plugin-css-minimizer': 2.0.1(@rsbuild/core@2.1.0(@module-federation/runtime-tools@2.0.0)(core-js@3.48.0))(lightningcss@1.30.2)(webpack@5.104.1(@swc/core@1.15.41(@swc/helpers@0.5.23))(lightningcss@1.30.2))
+      '@rsbuild/plugin-less': 1.6.4(@rsbuild/core@2.1.0(@module-federation/runtime-tools@2.0.0)(core-js@3.48.0))(@rspack/core@2.1.10(@module-federation/runtime-tools@2.0.0)(@swc/helpers@0.5.23))(webpack@5.104.1(@swc/core@1.15.41(@swc/helpers@0.5.23))(lightningcss@1.30.2))
       '@rsbuild/plugin-react': 2.1.0(@rsbuild/core@2.1.0(@module-federation/runtime-tools@2.0.0)(core-js@3.48.0))(@rspack/core@2.1.10(@module-federation/runtime-tools@2.0.0)(@swc/helpers@0.5.23))
       '@rsbuild/plugin-rem': 1.0.6(@rsbuild/core@2.1.0(@module-federation/runtime-tools@2.0.0)(core-js@3.48.0))
       '@rsbuild/plugin-sass': 1.5.3(@rsbuild/core@2.1.0(@module-federation/runtime-tools@2.0.0)(core-js@3.48.0))
@@ -21635,14 +21636,14 @@ snapshots:
       - typescript
       - webpack
 
-  '@modern-js/builder@3.8.2(@module-federation/runtime-tools@2.0.0)(@rspack/core@2.1.10(@module-federation/runtime-tools@2.0.0)(@swc/helpers@0.5.23))(react-dom@19.2.8(react@19.2.8))(react-server-dom-rspack@0.1.0(@rspack/core@2.1.10(@module-federation/runtime-tools@2.0.0)(@swc/helpers@0.5.23))(react-dom@19.2.8(react@19.2.8))(react@19.2.8))(react@19.2.8)(typescript@5.0.4)(webpack@5.104.1(@swc/core@1.15.41(@swc/helpers@0.5.23))(postcss@8.5.26))':
+  '@modern-js/builder@3.8.2(@module-federation/runtime-tools@2.0.0)(@rspack/core@2.1.10(@module-federation/runtime-tools@2.0.0)(@swc/helpers@0.5.23))(react-dom@19.2.8(react@19.2.8))(react-server-dom-rspack@0.1.0(@rspack/core@2.1.10(@module-federation/runtime-tools@2.0.0)(@swc/helpers@0.5.23))(react-dom@19.2.8(react@19.2.8))(react@19.2.8))(react@19.2.8)(typescript@5.0.4)(webpack@5.104.1(@swc/core@1.15.41(@swc/helpers@0.5.23)))':
     dependencies:
       '@modern-js/utils': 3.8.2(react-dom@19.2.8(react@19.2.8))(react@19.2.8)
       '@rsbuild/core': 2.1.0(@module-federation/runtime-tools@2.0.0)(core-js@3.48.0)
       '@rsbuild/plugin-assets-retry': 2.0.1(@rsbuild/core@2.1.0(@module-federation/runtime-tools@2.0.0)(core-js@3.48.0))
       '@rsbuild/plugin-check-syntax': 2.0.0(@rsbuild/core@2.1.0(@module-federation/runtime-tools@2.0.0)(core-js@3.48.0))
-      '@rsbuild/plugin-css-minimizer': 2.0.1(@rsbuild/core@2.1.0(@module-federation/runtime-tools@2.0.0)(core-js@3.48.0))(webpack@5.104.1(@swc/core@1.15.41(@swc/helpers@0.5.23))(postcss@8.5.26))
-      '@rsbuild/plugin-less': 1.6.4(@rsbuild/core@2.1.0(@module-federation/runtime-tools@2.0.0)(core-js@3.48.0))(@rspack/core@2.1.10(@module-federation/runtime-tools@2.0.0)(@swc/helpers@0.5.23))(webpack@5.104.1(@swc/core@1.15.41(@swc/helpers@0.5.23))(postcss@8.5.26))
+      '@rsbuild/plugin-css-minimizer': 2.0.1(@rsbuild/core@2.1.0(@module-federation/runtime-tools@2.0.0)(core-js@3.48.0))(webpack@5.104.1(@swc/core@1.15.41(@swc/helpers@0.5.23)))
+      '@rsbuild/plugin-less': 1.6.4(@rsbuild/core@2.1.0(@module-federation/runtime-tools@2.0.0)(core-js@3.48.0))(@rspack/core@2.1.10(@module-federation/runtime-tools@2.0.0)(@swc/helpers@0.5.23))(webpack@5.104.1(@swc/core@1.15.41(@swc/helpers@0.5.23)))
       '@rsbuild/plugin-react': 2.1.0(@rsbuild/core@2.1.0(@module-federation/runtime-tools@2.0.0)(core-js@3.48.0))(@rspack/core@2.1.10(@module-federation/runtime-tools@2.0.0)(@swc/helpers@0.5.23))
       '@rsbuild/plugin-rem': 1.0.6(@rsbuild/core@2.1.0(@module-federation/runtime-tools@2.0.0)(core-js@3.48.0))
       '@rsbuild/plugin-sass': 1.5.3(@rsbuild/core@2.1.0(@module-federation/runtime-tools@2.0.0)(core-js@3.48.0))
@@ -21686,14 +21687,14 @@ snapshots:
       - typescript
       - webpack
 
-  '@modern-js/builder@3.8.2(@module-federation/runtime-tools@2.0.0)(@rspack/core@2.1.10(@module-federation/runtime-tools@2.0.0)(@swc/helpers@0.5.23))(react-dom@19.2.8(react@19.2.8))(react-server-dom-rspack@0.1.0(@rspack/core@2.1.10(@module-federation/runtime-tools@2.0.0)(@swc/helpers@0.5.23))(react-dom@19.2.8(react@19.2.8))(react@19.2.8))(react@19.2.8)(typescript@5.7.3)(webpack@5.104.1(@swc/core@1.15.41(@swc/helpers@0.5.23))(postcss@8.5.26))':
+  '@modern-js/builder@3.8.2(@module-federation/runtime-tools@2.0.0)(@rspack/core@2.1.10(@module-federation/runtime-tools@2.0.0)(@swc/helpers@0.5.23))(react-dom@19.2.8(react@19.2.8))(react-server-dom-rspack@0.1.0(@rspack/core@2.1.10(@module-federation/runtime-tools@2.0.0)(@swc/helpers@0.5.23))(react-dom@19.2.8(react@19.2.8))(react@19.2.8))(react@19.2.8)(typescript@5.7.3)(webpack@5.104.1(@swc/core@1.15.41(@swc/helpers@0.5.23)))':
     dependencies:
       '@modern-js/utils': 3.8.2(react-dom@19.2.8(react@19.2.8))(react@19.2.8)
       '@rsbuild/core': 2.1.0(@module-federation/runtime-tools@2.0.0)(core-js@3.48.0)
       '@rsbuild/plugin-assets-retry': 2.0.1(@rsbuild/core@2.1.0(@module-federation/runtime-tools@2.0.0)(core-js@3.48.0))
       '@rsbuild/plugin-check-syntax': 2.0.0(@rsbuild/core@2.1.0(@module-federation/runtime-tools@2.0.0)(core-js@3.48.0))
-      '@rsbuild/plugin-css-minimizer': 2.0.1(@rsbuild/core@2.1.0(@module-federation/runtime-tools@2.0.0)(core-js@3.48.0))(webpack@5.104.1(@swc/core@1.15.41(@swc/helpers@0.5.23))(postcss@8.5.26))
-      '@rsbuild/plugin-less': 1.6.4(@rsbuild/core@2.1.0(@module-federation/runtime-tools@2.0.0)(core-js@3.48.0))(@rspack/core@2.1.10(@module-federation/runtime-tools@2.0.0)(@swc/helpers@0.5.23))(webpack@5.104.1(@swc/core@1.15.41(@swc/helpers@0.5.23))(postcss@8.5.26))
+      '@rsbuild/plugin-css-minimizer': 2.0.1(@rsbuild/core@2.1.0(@module-federation/runtime-tools@2.0.0)(core-js@3.48.0))(webpack@5.104.1(@swc/core@1.15.41(@swc/helpers@0.5.23)))
+      '@rsbuild/plugin-less': 1.6.4(@rsbuild/core@2.1.0(@module-federation/runtime-tools@2.0.0)(core-js@3.48.0))(@rspack/core@2.1.10(@module-federation/runtime-tools@2.0.0)(@swc/helpers@0.5.23))(webpack@5.104.1(@swc/core@1.15.41(@swc/helpers@0.5.23)))
       '@rsbuild/plugin-react': 2.1.0(@rsbuild/core@2.1.0(@module-federation/runtime-tools@2.0.0)(core-js@3.48.0))(@rspack/core@2.1.10(@module-federation/runtime-tools@2.0.0)(@swc/helpers@0.5.23))
       '@rsbuild/plugin-rem': 1.0.6(@rsbuild/core@2.1.0(@module-federation/runtime-tools@2.0.0)(core-js@3.48.0))
       '@rsbuild/plugin-sass': 1.5.3(@rsbuild/core@2.1.0(@module-federation/runtime-tools@2.0.0)(core-js@3.48.0))
@@ -21885,10 +21886,10 @@ snapshots:
       - webpack
       - zod
 
-  '@modern-js/plugin-bff@3.8.2(@module-federation/runtime-tools@2.0.0)(@rspack/core@2.1.10(@module-federation/runtime-tools@2.0.0)(@swc/helpers@0.5.23))(core-js@3.48.0)(react-dom@19.2.8(react@19.2.8))(react-server-dom-rspack@0.1.0(@rspack/core@2.1.10(@module-federation/runtime-tools@2.0.0)(@swc/helpers@0.5.23))(react-dom@19.2.8(react@19.2.8))(react@19.2.8))(react@19.2.8)(ts-node@10.8.2(@swc/core@1.15.41(@swc/helpers@0.5.23))(@types/node@20.19.27)(typescript@5.7.3))(tsconfig-paths@3.14.2)(typescript@5.7.3)(webpack@5.104.1(@swc/core@1.15.41(@swc/helpers@0.5.23))(postcss@8.5.26))(zod@3.25.76)':
+  '@modern-js/plugin-bff@3.8.2(@module-federation/runtime-tools@2.0.0)(@rspack/core@2.1.10(@module-federation/runtime-tools@2.0.0)(@swc/helpers@0.5.23))(core-js@3.48.0)(react-dom@19.2.8(react@19.2.8))(react-server-dom-rspack@0.1.0(@rspack/core@2.1.10(@module-federation/runtime-tools@2.0.0)(@swc/helpers@0.5.23))(react-dom@19.2.8(react@19.2.8))(react@19.2.8))(react@19.2.8)(ts-node@10.8.2(@swc/core@1.15.41(@swc/helpers@0.5.23))(@types/node@20.19.27)(typescript@5.7.3))(tsconfig-paths@3.14.2)(typescript@5.7.3)(webpack@5.104.1(@swc/core@1.15.41(@swc/helpers@0.5.23)))(zod@3.25.76)':
     dependencies:
       '@modern-js/bff-core': 3.8.2(react-dom@19.2.8(react@19.2.8))(react@19.2.8)(ts-node@10.8.2(@swc/core@1.15.41(@swc/helpers@0.5.23))(@types/node@20.19.27)(typescript@5.7.3))(tsconfig-paths@3.14.2)(zod@3.25.76)
-      '@modern-js/builder': 3.8.2(@module-federation/runtime-tools@2.0.0)(@rspack/core@2.1.10(@module-federation/runtime-tools@2.0.0)(@swc/helpers@0.5.23))(react-dom@19.2.8(react@19.2.8))(react-server-dom-rspack@0.1.0(@rspack/core@2.1.10(@module-federation/runtime-tools@2.0.0)(@swc/helpers@0.5.23))(react-dom@19.2.8(react@19.2.8))(react@19.2.8))(react@19.2.8)(typescript@5.7.3)(webpack@5.104.1(@swc/core@1.15.41(@swc/helpers@0.5.23))(postcss@8.5.26))
+      '@modern-js/builder': 3.8.2(@module-federation/runtime-tools@2.0.0)(@rspack/core@2.1.10(@module-federation/runtime-tools@2.0.0)(@swc/helpers@0.5.23))(react-dom@19.2.8(react@19.2.8))(react-server-dom-rspack@0.1.0(@rspack/core@2.1.10(@module-federation/runtime-tools@2.0.0)(@swc/helpers@0.5.23))(react-dom@19.2.8(react@19.2.8))(react@19.2.8))(react@19.2.8)(typescript@5.7.3)(webpack@5.104.1(@swc/core@1.15.41(@swc/helpers@0.5.23)))
       '@modern-js/create-request': 3.8.2(react-dom@19.2.8(react@19.2.8))(react@19.2.8)
       '@modern-js/server-core': 3.8.2(@module-federation/runtime-tools@2.0.0)(core-js@3.48.0)(react-dom@19.2.8(react@19.2.8))(react@19.2.8)
       '@modern-js/server-utils': 3.8.2(react-dom@19.2.8(react@19.2.8))(react@19.2.8)
@@ -22333,10 +22334,10 @@ snapshots:
       react: 19.2.8
       react-dom: 19.2.8(react@19.2.8)
 
-  '@module-federation/automatic-vendor-federation@1.2.1(webpack@5.104.1(@swc/core@1.15.41(@swc/helpers@0.5.23))(postcss@8.5.26))':
+  '@module-federation/automatic-vendor-federation@1.2.1(webpack@5.104.1(@swc/core@1.15.41(@swc/helpers@0.5.23)))':
     dependencies:
       find-package-json: 1.2.0
-      webpack: 5.104.1(@swc/core@1.15.41(@swc/helpers@0.5.23))(postcss@8.5.26)
+      webpack: 5.104.1(@swc/core@1.15.41(@swc/helpers@0.5.23))
 
   '@module-federation/bridge-react-webpack-plugin@2.0.0':
     dependencies:
@@ -22459,7 +22460,7 @@ snapshots:
       - supports-color
       - utf-8-validate
 
-  '@module-federation/enhanced@2.0.0(@rspack/core@2.1.10(@module-federation/runtime-tools@2.0.0)(@swc/helpers@0.5.23))(bufferutil@4.1.0)(react-dom@19.2.8(react@19.2.8))(react@19.2.8)(typescript@5.0.4)(utf-8-validate@5.0.10)(webpack@5.104.1(@swc/core@1.15.41(@swc/helpers@0.5.23))(postcss@8.5.26))':
+  '@module-federation/enhanced@2.0.0(@rspack/core@2.1.10(@module-federation/runtime-tools@2.0.0)(@swc/helpers@0.5.23))(bufferutil@4.1.0)(react-dom@19.2.8(react@19.2.8))(react@19.2.8)(typescript@5.0.4)(utf-8-validate@5.0.10)(webpack@5.104.1(@swc/core@1.15.41(@swc/helpers@0.5.23)))':
     dependencies:
       '@module-federation/bridge-react-webpack-plugin': 2.0.0
       '@module-federation/cli': 2.0.0(bufferutil@4.1.0)(typescript@5.0.4)(utf-8-validate@5.0.10)
@@ -22477,7 +22478,7 @@ snapshots:
       upath: 2.0.1
     optionalDependencies:
       typescript: 5.0.4
-      webpack: 5.104.1(@swc/core@1.15.41(@swc/helpers@0.5.23))(postcss@8.5.26)
+      webpack: 5.104.1(@swc/core@1.15.41(@swc/helpers@0.5.23))
     transitivePeerDependencies:
       - '@rspack/core'
       - bufferutil
@@ -22557,13 +22558,13 @@ snapshots:
       - utf-8-validate
       - vue-tsc
 
-  '@module-federation/modern-js-v3@2.0.0(@rspack/core@2.1.10(@module-federation/runtime-tools@2.0.0)(@swc/helpers@0.5.23))(bufferutil@4.1.0)(react-dom@19.2.8(react@19.2.8))(react-router-dom@7.16.0(react-dom@19.2.8(react@19.2.8))(react@19.2.8))(react-router@7.15.1(react-dom@19.2.8(react@19.2.8))(react@19.2.8))(react@19.2.8)(typescript@5.0.4)(utf-8-validate@5.0.10)(webpack@5.104.1(@swc/core@1.15.41(@swc/helpers@0.5.23))(postcss@8.5.26))':
+  '@module-federation/modern-js-v3@2.0.0(@rspack/core@2.1.10(@module-federation/runtime-tools@2.0.0)(@swc/helpers@0.5.23))(bufferutil@4.1.0)(react-dom@19.2.8(react@19.2.8))(react-router-dom@7.16.0(react-dom@19.2.8(react@19.2.8))(react@19.2.8))(react-router@7.15.1(react-dom@19.2.8(react@19.2.8))(react@19.2.8))(react@19.2.8)(typescript@5.0.4)(utf-8-validate@5.0.10)(webpack@5.104.1(@swc/core@1.15.41(@swc/helpers@0.5.23)))':
     dependencies:
       '@module-federation/bridge-react': 2.0.0(react-dom@19.2.8(react@19.2.8))(react-router-dom@7.16.0(react-dom@19.2.8(react@19.2.8))(react@19.2.8))(react-router@7.15.1(react-dom@19.2.8(react@19.2.8))(react@19.2.8))(react@19.2.8)
       '@module-federation/cli': 2.0.0(bufferutil@4.1.0)(typescript@5.0.4)(utf-8-validate@5.0.10)
-      '@module-federation/enhanced': 2.0.0(@rspack/core@2.1.10(@module-federation/runtime-tools@2.0.0)(@swc/helpers@0.5.23))(bufferutil@4.1.0)(react-dom@19.2.8(react@19.2.8))(react@19.2.8)(typescript@5.0.4)(utf-8-validate@5.0.10)(webpack@5.104.1(@swc/core@1.15.41(@swc/helpers@0.5.23))(postcss@8.5.26))
-      '@module-federation/node': 2.7.31(@rspack/core@2.1.10(@module-federation/runtime-tools@2.0.0)(@swc/helpers@0.5.23))(bufferutil@4.1.0)(react-dom@19.2.8(react@19.2.8))(react@19.2.8)(typescript@5.0.4)(utf-8-validate@5.0.10)(webpack@5.104.1(@swc/core@1.15.41(@swc/helpers@0.5.23))(postcss@8.5.26))
-      '@module-federation/rsbuild-plugin': 2.0.0(@rspack/core@2.1.10(@module-federation/runtime-tools@2.0.0)(@swc/helpers@0.5.23))(bufferutil@4.1.0)(react-dom@19.2.8(react@19.2.8))(react@19.2.8)(typescript@5.0.4)(utf-8-validate@5.0.10)(webpack@5.104.1(@swc/core@1.15.41(@swc/helpers@0.5.23))(postcss@8.5.26))
+      '@module-federation/enhanced': 2.0.0(@rspack/core@2.1.10(@module-federation/runtime-tools@2.0.0)(@swc/helpers@0.5.23))(bufferutil@4.1.0)(react-dom@19.2.8(react@19.2.8))(react@19.2.8)(typescript@5.0.4)(utf-8-validate@5.0.10)(webpack@5.104.1(@swc/core@1.15.41(@swc/helpers@0.5.23)))
+      '@module-federation/node': 2.7.31(@rspack/core@2.1.10(@module-federation/runtime-tools@2.0.0)(@swc/helpers@0.5.23))(bufferutil@4.1.0)(react-dom@19.2.8(react@19.2.8))(react@19.2.8)(typescript@5.0.4)(utf-8-validate@5.0.10)(webpack@5.104.1(@swc/core@1.15.41(@swc/helpers@0.5.23)))
+      '@module-federation/rsbuild-plugin': 2.0.0(@rspack/core@2.1.10(@module-federation/runtime-tools@2.0.0)(@swc/helpers@0.5.23))(bufferutil@4.1.0)(react-dom@19.2.8(react@19.2.8))(react@19.2.8)(typescript@5.0.4)(utf-8-validate@5.0.10)(webpack@5.104.1(@swc/core@1.15.41(@swc/helpers@0.5.23)))
       '@module-federation/runtime': 2.0.0
       '@module-federation/sdk': 2.0.0
       '@swc/helpers': 0.5.23
@@ -22587,13 +22588,13 @@ snapshots:
       - utf-8-validate
       - webpack
 
-  '@module-federation/modern-js-v3@2.0.0(@rspack/core@2.1.10(@module-federation/runtime-tools@2.0.0)(@swc/helpers@0.5.23))(bufferutil@4.1.0)(react-dom@19.2.8(react@19.2.8))(react-router-dom@7.16.0(react-dom@19.2.8(react@19.2.8))(react@19.2.8))(react-router@7.16.0(react-dom@19.2.8(react@19.2.8))(react@19.2.8))(react@19.2.8)(typescript@5.0.4)(utf-8-validate@5.0.10)(webpack@5.104.1(@swc/core@1.15.41(@swc/helpers@0.5.23))(postcss@8.5.26))':
+  '@module-federation/modern-js-v3@2.0.0(@rspack/core@2.1.10(@module-federation/runtime-tools@2.0.0)(@swc/helpers@0.5.23))(bufferutil@4.1.0)(react-dom@19.2.8(react@19.2.8))(react-router-dom@7.16.0(react-dom@19.2.8(react@19.2.8))(react@19.2.8))(react-router@7.16.0(react-dom@19.2.8(react@19.2.8))(react@19.2.8))(react@19.2.8)(typescript@5.0.4)(utf-8-validate@5.0.10)(webpack@5.104.1(@swc/core@1.15.41(@swc/helpers@0.5.23)))':
     dependencies:
       '@module-federation/bridge-react': 2.0.0(react-dom@19.2.8(react@19.2.8))(react-router-dom@7.16.0(react-dom@19.2.8(react@19.2.8))(react@19.2.8))(react-router@7.16.0(react-dom@19.2.8(react@19.2.8))(react@19.2.8))(react@19.2.8)
       '@module-federation/cli': 2.0.0(bufferutil@4.1.0)(typescript@5.0.4)(utf-8-validate@5.0.10)
-      '@module-federation/enhanced': 2.0.0(@rspack/core@2.1.10(@module-federation/runtime-tools@2.0.0)(@swc/helpers@0.5.23))(bufferutil@4.1.0)(react-dom@19.2.8(react@19.2.8))(react@19.2.8)(typescript@5.0.4)(utf-8-validate@5.0.10)(webpack@5.104.1(@swc/core@1.15.41(@swc/helpers@0.5.23))(postcss@8.5.26))
-      '@module-federation/node': 2.7.31(@rspack/core@2.1.10(@module-federation/runtime-tools@2.0.0)(@swc/helpers@0.5.23))(bufferutil@4.1.0)(react-dom@19.2.8(react@19.2.8))(react@19.2.8)(typescript@5.0.4)(utf-8-validate@5.0.10)(webpack@5.104.1(@swc/core@1.15.41(@swc/helpers@0.5.23))(postcss@8.5.26))
-      '@module-federation/rsbuild-plugin': 2.0.0(@rspack/core@2.1.10(@module-federation/runtime-tools@2.0.0)(@swc/helpers@0.5.23))(bufferutil@4.1.0)(react-dom@19.2.8(react@19.2.8))(react@19.2.8)(typescript@5.0.4)(utf-8-validate@5.0.10)(webpack@5.104.1(@swc/core@1.15.41(@swc/helpers@0.5.23))(postcss@8.5.26))
+      '@module-federation/enhanced': 2.0.0(@rspack/core@2.1.10(@module-federation/runtime-tools@2.0.0)(@swc/helpers@0.5.23))(bufferutil@4.1.0)(react-dom@19.2.8(react@19.2.8))(react@19.2.8)(typescript@5.0.4)(utf-8-validate@5.0.10)(webpack@5.104.1(@swc/core@1.15.41(@swc/helpers@0.5.23)))
+      '@module-federation/node': 2.7.31(@rspack/core@2.1.10(@module-federation/runtime-tools@2.0.0)(@swc/helpers@0.5.23))(bufferutil@4.1.0)(react-dom@19.2.8(react@19.2.8))(react@19.2.8)(typescript@5.0.4)(utf-8-validate@5.0.10)(webpack@5.104.1(@swc/core@1.15.41(@swc/helpers@0.5.23)))
+      '@module-federation/rsbuild-plugin': 2.0.0(@rspack/core@2.1.10(@module-federation/runtime-tools@2.0.0)(@swc/helpers@0.5.23))(bufferutil@4.1.0)(react-dom@19.2.8(react@19.2.8))(react@19.2.8)(typescript@5.0.4)(utf-8-validate@5.0.10)(webpack@5.104.1(@swc/core@1.15.41(@swc/helpers@0.5.23)))
       '@module-federation/runtime': 2.0.0
       '@module-federation/sdk': 2.0.0
       '@swc/helpers': 0.5.23
@@ -22647,16 +22648,16 @@ snapshots:
       - utf-8-validate
       - webpack
 
-  '@module-federation/node@2.7.31(@rspack/core@2.1.10(@module-federation/runtime-tools@2.0.0)(@swc/helpers@0.5.23))(bufferutil@4.1.0)(react-dom@19.2.8(react@19.2.8))(react@19.2.8)(typescript@5.0.4)(utf-8-validate@5.0.10)(webpack@5.104.1(@swc/core@1.15.41(@swc/helpers@0.5.23))(postcss@8.5.26))':
+  '@module-federation/node@2.7.31(@rspack/core@2.1.10(@module-federation/runtime-tools@2.0.0)(@swc/helpers@0.5.23))(bufferutil@4.1.0)(react-dom@19.2.8(react@19.2.8))(react@19.2.8)(typescript@5.0.4)(utf-8-validate@5.0.10)(webpack@5.104.1(@swc/core@1.15.41(@swc/helpers@0.5.23)))':
     dependencies:
-      '@module-federation/enhanced': 2.0.0(@rspack/core@2.1.10(@module-federation/runtime-tools@2.0.0)(@swc/helpers@0.5.23))(bufferutil@4.1.0)(react-dom@19.2.8(react@19.2.8))(react@19.2.8)(typescript@5.0.4)(utf-8-validate@5.0.10)(webpack@5.104.1(@swc/core@1.15.41(@swc/helpers@0.5.23))(postcss@8.5.26))
+      '@module-federation/enhanced': 2.0.0(@rspack/core@2.1.10(@module-federation/runtime-tools@2.0.0)(@swc/helpers@0.5.23))(bufferutil@4.1.0)(react-dom@19.2.8(react@19.2.8))(react@19.2.8)(typescript@5.0.4)(utf-8-validate@5.0.10)(webpack@5.104.1(@swc/core@1.15.41(@swc/helpers@0.5.23)))
       '@module-federation/runtime': 2.0.0
       '@module-federation/sdk': 2.0.0
       btoa: 1.2.1
       encoding: 0.1.13
       node-fetch: 2.7.0(encoding@0.1.13)
     optionalDependencies:
-      webpack: 5.104.1(@swc/core@1.15.41(@swc/helpers@0.5.23))(postcss@8.5.26)
+      webpack: 5.104.1(@swc/core@1.15.41(@swc/helpers@0.5.23))
     transitivePeerDependencies:
       - '@rspack/core'
       - bufferutil
@@ -22689,10 +22690,10 @@ snapshots:
       - utf-8-validate
       - vue-tsc
 
-  '@module-federation/rsbuild-plugin@2.0.0(@rspack/core@2.1.10(@module-federation/runtime-tools@2.0.0)(@swc/helpers@0.5.23))(bufferutil@4.1.0)(react-dom@19.2.8(react@19.2.8))(react@19.2.8)(typescript@5.0.4)(utf-8-validate@5.0.10)(webpack@5.104.1(@swc/core@1.15.41(@swc/helpers@0.5.23))(postcss@8.5.26))':
+  '@module-federation/rsbuild-plugin@2.0.0(@rspack/core@2.1.10(@module-federation/runtime-tools@2.0.0)(@swc/helpers@0.5.23))(bufferutil@4.1.0)(react-dom@19.2.8(react@19.2.8))(react@19.2.8)(typescript@5.0.4)(utf-8-validate@5.0.10)(webpack@5.104.1(@swc/core@1.15.41(@swc/helpers@0.5.23)))':
     dependencies:
-      '@module-federation/enhanced': 2.0.0(@rspack/core@2.1.10(@module-federation/runtime-tools@2.0.0)(@swc/helpers@0.5.23))(bufferutil@4.1.0)(react-dom@19.2.8(react@19.2.8))(react@19.2.8)(typescript@5.0.4)(utf-8-validate@5.0.10)(webpack@5.104.1(@swc/core@1.15.41(@swc/helpers@0.5.23))(postcss@8.5.26))
-      '@module-federation/node': 2.7.31(@rspack/core@2.1.10(@module-federation/runtime-tools@2.0.0)(@swc/helpers@0.5.23))(bufferutil@4.1.0)(react-dom@19.2.8(react@19.2.8))(react@19.2.8)(typescript@5.0.4)(utf-8-validate@5.0.10)(webpack@5.104.1(@swc/core@1.15.41(@swc/helpers@0.5.23))(postcss@8.5.26))
+      '@module-federation/enhanced': 2.0.0(@rspack/core@2.1.10(@module-federation/runtime-tools@2.0.0)(@swc/helpers@0.5.23))(bufferutil@4.1.0)(react-dom@19.2.8(react@19.2.8))(react@19.2.8)(typescript@5.0.4)(utf-8-validate@5.0.10)(webpack@5.104.1(@swc/core@1.15.41(@swc/helpers@0.5.23)))
+      '@module-federation/node': 2.7.31(@rspack/core@2.1.10(@module-federation/runtime-tools@2.0.0)(@swc/helpers@0.5.23))(bufferutil@4.1.0)(react-dom@19.2.8(react@19.2.8))(react@19.2.8)(typescript@5.0.4)(utf-8-validate@5.0.10)(webpack@5.104.1(@swc/core@1.15.41(@swc/helpers@0.5.23)))
       '@module-federation/sdk': 2.0.0
       fs-extra: 11.3.0
     transitivePeerDependencies:
@@ -23464,9 +23465,9 @@ snapshots:
       - lightningcss
       - webpack
 
-  '@rsbuild/plugin-css-minimizer@2.0.1(@rsbuild/core@2.1.0(@module-federation/runtime-tools@2.0.0)(core-js@3.48.0))(lightningcss@1.30.2)(webpack@5.104.1(@swc/core@1.15.41(@swc/helpers@0.5.23))(lightningcss@1.30.2)(postcss@8.5.26))':
+  '@rsbuild/plugin-css-minimizer@2.0.1(@rsbuild/core@2.1.0(@module-federation/runtime-tools@2.0.0)(core-js@3.48.0))(lightningcss@1.30.2)(webpack@5.104.1(@swc/core@1.15.41(@swc/helpers@0.5.23))(lightningcss@1.30.2))':
     dependencies:
-      css-minimizer-webpack-plugin: 8.0.0(lightningcss@1.30.2)(webpack@5.104.1(@swc/core@1.15.41(@swc/helpers@0.5.23))(lightningcss@1.30.2)(postcss@8.5.26))
+      css-minimizer-webpack-plugin: 8.0.0(lightningcss@1.30.2)(webpack@5.104.1(@swc/core@1.15.41(@swc/helpers@0.5.23))(lightningcss@1.30.2))
       reduce-configs: 1.1.2
     optionalDependencies:
       '@rsbuild/core': 2.1.0(@module-federation/runtime-tools@2.0.0)(core-js@3.48.0)
@@ -23479,9 +23480,9 @@ snapshots:
       - lightningcss
       - webpack
 
-  '@rsbuild/plugin-css-minimizer@2.0.1(@rsbuild/core@2.1.0(@module-federation/runtime-tools@2.0.0)(core-js@3.48.0))(webpack@5.104.1(@swc/core@1.15.41(@swc/helpers@0.5.23))(postcss@8.5.26))':
+  '@rsbuild/plugin-css-minimizer@2.0.1(@rsbuild/core@2.1.0(@module-federation/runtime-tools@2.0.0)(core-js@3.48.0))(webpack@5.104.1(@swc/core@1.15.41(@swc/helpers@0.5.23)))':
     dependencies:
-      css-minimizer-webpack-plugin: 8.0.0(webpack@5.104.1(@swc/core@1.15.41(@swc/helpers@0.5.23))(postcss@8.5.26))
+      css-minimizer-webpack-plugin: 8.0.0(webpack@5.104.1(@swc/core@1.15.41(@swc/helpers@0.5.23)))
       reduce-configs: 1.1.2
     optionalDependencies:
       '@rsbuild/core': 2.1.0(@module-federation/runtime-tools@2.0.0)(core-js@3.48.0)
@@ -23521,11 +23522,11 @@ snapshots:
       - '@rspack/core'
       - webpack
 
-  '@rsbuild/plugin-less@1.6.4(@rsbuild/core@2.1.0(@module-federation/runtime-tools@2.0.0)(core-js@3.48.0))(@rspack/core@2.1.10(@module-federation/runtime-tools@2.0.0)(@swc/helpers@0.5.23))(webpack@5.104.1(@swc/core@1.15.41(@swc/helpers@0.5.23))(lightningcss@1.30.2)(postcss@8.5.26))':
+  '@rsbuild/plugin-less@1.6.4(@rsbuild/core@2.1.0(@module-federation/runtime-tools@2.0.0)(core-js@3.48.0))(@rspack/core@2.1.10(@module-federation/runtime-tools@2.0.0)(@swc/helpers@0.5.23))(webpack@5.104.1(@swc/core@1.15.41(@swc/helpers@0.5.23))(lightningcss@1.30.2))':
     dependencies:
       deepmerge: 4.3.1
       less: 4.6.7
-      less-loader: 12.3.3(@rspack/core@2.1.10(@module-federation/runtime-tools@2.0.0)(@swc/helpers@0.5.23))(less@4.6.7)(webpack@5.104.1(@swc/core@1.15.41(@swc/helpers@0.5.23))(lightningcss@1.30.2)(postcss@8.5.26))
+      less-loader: 12.3.3(@rspack/core@2.1.10(@module-federation/runtime-tools@2.0.0)(@swc/helpers@0.5.23))(less@4.6.7)(webpack@5.104.1(@swc/core@1.15.41(@swc/helpers@0.5.23))(lightningcss@1.30.2))
       reduce-configs: 1.1.2
     optionalDependencies:
       '@rsbuild/core': 2.1.0(@module-federation/runtime-tools@2.0.0)(core-js@3.48.0)
@@ -23533,11 +23534,11 @@ snapshots:
       - '@rspack/core'
       - webpack
 
-  '@rsbuild/plugin-less@1.6.4(@rsbuild/core@2.1.0(@module-federation/runtime-tools@2.0.0)(core-js@3.48.0))(@rspack/core@2.1.10(@module-federation/runtime-tools@2.0.0)(@swc/helpers@0.5.23))(webpack@5.104.1(@swc/core@1.15.41(@swc/helpers@0.5.23))(postcss@8.5.26))':
+  '@rsbuild/plugin-less@1.6.4(@rsbuild/core@2.1.0(@module-federation/runtime-tools@2.0.0)(core-js@3.48.0))(@rspack/core@2.1.10(@module-federation/runtime-tools@2.0.0)(@swc/helpers@0.5.23))(webpack@5.104.1(@swc/core@1.15.41(@swc/helpers@0.5.23)))':
     dependencies:
       deepmerge: 4.3.1
       less: 4.6.7
-      less-loader: 12.3.3(@rspack/core@2.1.10(@module-federation/runtime-tools@2.0.0)(@swc/helpers@0.5.23))(less@4.6.7)(webpack@5.104.1(@swc/core@1.15.41(@swc/helpers@0.5.23))(postcss@8.5.26))
+      less-loader: 12.3.3(@rspack/core@2.1.10(@module-federation/runtime-tools@2.0.0)(@swc/helpers@0.5.23))(less@4.6.7)(webpack@5.104.1(@swc/core@1.15.41(@swc/helpers@0.5.23)))
       reduce-configs: 1.1.2
     optionalDependencies:
       '@rsbuild/core': 2.1.0(@module-federation/runtime-tools@2.0.0)(core-js@3.48.0)
@@ -26941,7 +26942,7 @@ snapshots:
       esbuild: 0.27.2
       lightningcss: 1.30.2
 
-  css-minimizer-webpack-plugin@8.0.0(lightningcss@1.30.2)(webpack@5.104.1(@swc/core@1.15.41(@swc/helpers@0.5.23))(lightningcss@1.30.2)(postcss@8.5.26)):
+  css-minimizer-webpack-plugin@8.0.0(lightningcss@1.30.2)(webpack@5.104.1(@swc/core@1.15.41(@swc/helpers@0.5.23))(lightningcss@1.30.2)):
     dependencies:
       '@jridgewell/trace-mapping': 0.3.31
       cssnano: 7.1.9(postcss@8.5.26)
@@ -26949,7 +26950,7 @@ snapshots:
       postcss: 8.5.26
       schema-utils: 4.3.3
       serialize-javascript: 7.0.5
-      webpack: 5.104.1(@swc/core@1.15.41(@swc/helpers@0.5.23))(lightningcss@1.30.2)(postcss@8.5.26)
+      webpack: 5.104.1(@swc/core@1.15.41(@swc/helpers@0.5.23))(lightningcss@1.30.2)
     optionalDependencies:
       lightningcss: 1.30.2
 
@@ -26963,7 +26964,7 @@ snapshots:
       serialize-javascript: 7.0.5
       webpack: 5.104.1(@swc/core@1.15.41(@swc/helpers@0.5.23))(cssnano@6.1.2(postcss@8.5.26))(html-minifier-terser@7.2.0)(postcss@8.5.26)
 
-  css-minimizer-webpack-plugin@8.0.0(webpack@5.104.1(@swc/core@1.15.41(@swc/helpers@0.5.23))(postcss@8.5.26)):
+  css-minimizer-webpack-plugin@8.0.0(webpack@5.104.1(@swc/core@1.15.41(@swc/helpers@0.5.23))):
     dependencies:
       '@jridgewell/trace-mapping': 0.3.31
       cssnano: 7.1.9(postcss@8.5.26)
@@ -26971,7 +26972,7 @@ snapshots:
       postcss: 8.5.26
       schema-utils: 4.3.3
       serialize-javascript: 7.0.5
-      webpack: 5.104.1(@swc/core@1.15.41(@swc/helpers@0.5.23))(postcss@8.5.26)
+      webpack: 5.104.1(@swc/core@1.15.41(@swc/helpers@0.5.23))
 
   css-select@5.2.2:
     dependencies:
@@ -30159,19 +30160,19 @@ snapshots:
       '@rspack/core': 2.1.10(@module-federation/runtime-tools@2.0.0)(@swc/helpers@0.5.23)
       webpack: 5.104.1(@swc/core@1.15.41(@swc/helpers@0.5.23))(esbuild@0.27.2)(lightningcss@1.30.2)(postcss@8.5.26)
 
-  less-loader@12.3.3(@rspack/core@2.1.10(@module-federation/runtime-tools@2.0.0)(@swc/helpers@0.5.23))(less@4.6.7)(webpack@5.104.1(@swc/core@1.15.41(@swc/helpers@0.5.23))(lightningcss@1.30.2)(postcss@8.5.26)):
+  less-loader@12.3.3(@rspack/core@2.1.10(@module-federation/runtime-tools@2.0.0)(@swc/helpers@0.5.23))(less@4.6.7)(webpack@5.104.1(@swc/core@1.15.41(@swc/helpers@0.5.23))(lightningcss@1.30.2)):
     dependencies:
       less: 4.6.7
     optionalDependencies:
       '@rspack/core': 2.1.10(@module-federation/runtime-tools@2.0.0)(@swc/helpers@0.5.23)
-      webpack: 5.104.1(@swc/core@1.15.41(@swc/helpers@0.5.23))(lightningcss@1.30.2)(postcss@8.5.26)
+      webpack: 5.104.1(@swc/core@1.15.41(@swc/helpers@0.5.23))(lightningcss@1.30.2)
 
-  less-loader@12.3.3(@rspack/core@2.1.10(@module-federation/runtime-tools@2.0.0)(@swc/helpers@0.5.23))(less@4.6.7)(webpack@5.104.1(@swc/core@1.15.41(@swc/helpers@0.5.23))(postcss@8.5.26)):
+  less-loader@12.3.3(@rspack/core@2.1.10(@module-federation/runtime-tools@2.0.0)(@swc/helpers@0.5.23))(less@4.6.7)(webpack@5.104.1(@swc/core@1.15.41(@swc/helpers@0.5.23))):
     dependencies:
       less: 4.6.7
     optionalDependencies:
       '@rspack/core': 2.1.10(@module-federation/runtime-tools@2.0.0)(@swc/helpers@0.5.23)
-      webpack: 5.104.1(@swc/core@1.15.41(@swc/helpers@0.5.23))(postcss@8.5.26)
+      webpack: 5.104.1(@swc/core@1.15.41(@swc/helpers@0.5.23))
 
   less@4.6.7:
     dependencies:
@@ -34293,28 +34294,16 @@ snapshots:
       lightningcss: 1.30.2
       postcss: 8.5.26
 
-  terser-webpack-plugin@5.6.1(@swc/core@1.15.41(@swc/helpers@0.5.23))(lightningcss@1.30.2)(postcss@8.5.26)(webpack@5.104.1(@swc/core@1.15.41(@swc/helpers@0.5.23))(lightningcss@1.30.2)(postcss@8.5.26)):
+  terser-webpack-plugin@5.6.1(@swc/core@1.15.41(@swc/helpers@0.5.23))(lightningcss@1.30.2)(webpack@5.104.1(@swc/core@1.15.41(@swc/helpers@0.5.23))(lightningcss@1.30.2)):
     dependencies:
       '@jridgewell/trace-mapping': 0.3.31
       jest-worker: 27.5.1
       schema-utils: 4.3.3
       terser: 5.50.0
-      webpack: 5.104.1(@swc/core@1.15.41(@swc/helpers@0.5.23))(lightningcss@1.30.2)(postcss@8.5.26)
+      webpack: 5.104.1(@swc/core@1.15.41(@swc/helpers@0.5.23))(lightningcss@1.30.2)
     optionalDependencies:
       '@swc/core': 1.15.41(@swc/helpers@0.5.23)
       lightningcss: 1.30.2
-      postcss: 8.5.26
-
-  terser-webpack-plugin@5.6.1(@swc/core@1.15.41(@swc/helpers@0.5.23))(postcss@8.5.26)(webpack@5.104.1(@swc/core@1.15.41(@swc/helpers@0.5.23))(postcss@8.5.26)):
-    dependencies:
-      '@jridgewell/trace-mapping': 0.3.31
-      jest-worker: 27.5.1
-      schema-utils: 4.3.3
-      terser: 5.50.0
-      webpack: 5.104.1(@swc/core@1.15.41(@swc/helpers@0.5.23))(postcss@8.5.26)
-    optionalDependencies:
-      '@swc/core': 1.15.41(@swc/helpers@0.5.23)
-      postcss: 8.5.26
 
   terser-webpack-plugin@5.6.1(@swc/core@1.15.41(@swc/helpers@0.5.23))(webpack@5.104.1(@swc/core@1.15.41(@swc/helpers@0.5.23))):
     dependencies:
@@ -34325,7 +34314,6 @@ snapshots:
       webpack: 5.104.1(@swc/core@1.15.41(@swc/helpers@0.5.23))
     optionalDependencies:
       '@swc/core': 1.15.41(@swc/helpers@0.5.23)
-    optional: true
 
   terser@5.48.0:
     dependencies:
@@ -35133,7 +35121,6 @@ snapshots:
       - lightningcss
       - postcss
       - uglify-js
-    optional: true
 
   webpack@5.104.1(@swc/core@1.15.41(@swc/helpers@0.5.23))(cssnano@6.1.2(postcss@8.5.26))(html-minifier-terser@7.2.0)(postcss@8.5.26):
     dependencies:
@@ -35217,7 +35204,7 @@ snapshots:
       - postcss
       - uglify-js
 
-  webpack@5.104.1(@swc/core@1.15.41(@swc/helpers@0.5.23))(lightningcss@1.30.2)(postcss@8.5.26):
+  webpack@5.104.1(@swc/core@1.15.41(@swc/helpers@0.5.23))(lightningcss@1.30.2):
     dependencies:
       '@types/eslint-scope': 3.7.7
       '@types/estree': 1.0.9
@@ -35241,48 +35228,7 @@ snapshots:
       neo-async: 2.6.2
       schema-utils: 4.3.3
       tapable: 2.3.3
-      terser-webpack-plugin: 5.6.1(@swc/core@1.15.41(@swc/helpers@0.5.23))(lightningcss@1.30.2)(postcss@8.5.26)(webpack@5.104.1(@swc/core@1.15.41(@swc/helpers@0.5.23))(lightningcss@1.30.2)(postcss@8.5.26))
-      watchpack: 2.5.2
-      webpack-sources: 3.5.1
-    transitivePeerDependencies:
-      - '@minify-html/node'
-      - '@swc/core'
-      - '@swc/css'
-      - '@swc/html'
-      - clean-css
-      - cssnano
-      - csso
-      - esbuild
-      - html-minifier-terser
-      - lightningcss
-      - postcss
-      - uglify-js
-
-  webpack@5.104.1(@swc/core@1.15.41(@swc/helpers@0.5.23))(postcss@8.5.26):
-    dependencies:
-      '@types/eslint-scope': 3.7.7
-      '@types/estree': 1.0.9
-      '@types/json-schema': 7.0.15
-      '@webassemblyjs/ast': 1.14.1
-      '@webassemblyjs/wasm-edit': 1.14.1
-      '@webassemblyjs/wasm-parser': 1.14.1
-      acorn: 8.18.0
-      acorn-import-phases: 1.0.4(acorn@8.18.0)
-      browserslist: 4.28.8
-      chrome-trace-event: 1.0.4
-      enhanced-resolve: 5.24.5
-      es-module-lexer: 2.3.2
-      eslint-scope: 5.1.1
-      events: 3.3.0
-      glob-to-regexp: 0.4.1
-      graceful-fs: 4.2.11
-      json-parse-even-better-errors: 2.3.1
-      loader-runner: 4.3.2
-      mime-types: 2.1.35
-      neo-async: 2.6.2
-      schema-utils: 4.3.3
-      tapable: 2.3.3
-      terser-webpack-plugin: 5.6.1(@swc/core@1.15.41(@swc/helpers@0.5.23))(postcss@8.5.26)(webpack@5.104.1(@swc/core@1.15.41(@swc/helpers@0.5.23))(postcss@8.5.26))
+      terser-webpack-plugin: 5.6.1(@swc/core@1.15.41(@swc/helpers@0.5.23))(lightningcss@1.30.2)(webpack@5.104.1(@swc/core@1.15.41(@swc/helpers@0.5.23))(lightningcss@1.30.2))
       watchpack: 2.5.2
       webpack-sources: 3.5.1
     transitivePeerDependencies:
@@ -35511,30 +35457,30 @@ snapshots:
     dependencies:
       tslib: 2.8.1
 
-  zephyr-modernjs-plugin@1.1.0(@modern-js/app-tools@3.8.2(@module-federation/runtime-tools@2.0.0)(@rspack/core@2.1.10(@module-federation/runtime-tools@2.0.0)(@swc/helpers@0.5.23))(bufferutil@4.1.0)(core-js@3.48.0)(devcert@1.2.3)(react-dom@19.2.8(react@19.2.8))(react-server-dom-rspack@0.1.0(@rspack/core@2.1.10(@module-federation/runtime-tools@2.0.0)(@swc/helpers@0.5.23))(react-dom@19.2.8(react@19.2.8))(react@19.2.8))(react@19.2.8)(ts-node@10.9.2(@swc/core@1.15.41(@swc/helpers@0.5.23))(@types/node@20.19.27)(typescript@5.7.3))(tsconfig-paths@4.2.0)(typescript@5.7.3)(utf-8-validate@5.0.10)(webpack@5.104.1(@swc/core@1.15.41(@swc/helpers@0.5.23))(postcss@8.5.26)))(zephyr-rspack-plugin@1.1.0(@rspack/core@2.1.10(@module-federation/runtime-tools@2.0.0)(@swc/helpers@0.5.23))(webpack@5.104.1(@swc/core@1.15.41(@swc/helpers@0.5.23))(postcss@8.5.26))):
+  zephyr-modernjs-plugin@1.1.0(@modern-js/app-tools@3.8.2(@module-federation/runtime-tools@2.0.0)(@rspack/core@2.1.10(@module-federation/runtime-tools@2.0.0)(@swc/helpers@0.5.23))(bufferutil@4.1.0)(core-js@3.48.0)(devcert@1.2.3)(react-dom@19.2.8(react@19.2.8))(react-server-dom-rspack@0.1.0(@rspack/core@2.1.10(@module-federation/runtime-tools@2.0.0)(@swc/helpers@0.5.23))(react-dom@19.2.8(react@19.2.8))(react@19.2.8))(react@19.2.8)(ts-node@10.9.2(@swc/core@1.15.41(@swc/helpers@0.5.23))(@types/node@20.19.27)(typescript@5.7.3))(tsconfig-paths@4.2.0)(typescript@5.7.3)(utf-8-validate@5.0.10)(webpack@5.104.1(@swc/core@1.15.41(@swc/helpers@0.5.23))))(zephyr-rspack-plugin@1.1.0(@rspack/core@2.1.10(@module-federation/runtime-tools@2.0.0)(@swc/helpers@0.5.23))(webpack@5.104.1(@swc/core@1.15.41(@swc/helpers@0.5.23)))):
     dependencies:
-      '@modern-js/app-tools': 3.8.2(@module-federation/runtime-tools@2.0.0)(@rspack/core@2.1.10(@module-federation/runtime-tools@2.0.0)(@swc/helpers@0.5.23))(bufferutil@4.1.0)(core-js@3.48.0)(devcert@1.2.3)(react-dom@19.2.8(react@19.2.8))(react-server-dom-rspack@0.1.0(@rspack/core@2.1.10(@module-federation/runtime-tools@2.0.0)(@swc/helpers@0.5.23))(react-dom@19.2.8(react@19.2.8))(react@19.2.8))(react@19.2.8)(ts-node@10.9.2(@swc/core@1.15.41(@swc/helpers@0.5.23))(@types/node@20.19.27)(typescript@5.7.3))(tsconfig-paths@4.2.0)(typescript@5.7.3)(utf-8-validate@5.0.10)(webpack@5.104.1(@swc/core@1.15.41(@swc/helpers@0.5.23))(postcss@8.5.26))
+      '@modern-js/app-tools': 3.8.2(@module-federation/runtime-tools@2.0.0)(@rspack/core@2.1.10(@module-federation/runtime-tools@2.0.0)(@swc/helpers@0.5.23))(bufferutil@4.1.0)(core-js@3.48.0)(devcert@1.2.3)(react-dom@19.2.8(react@19.2.8))(react-server-dom-rspack@0.1.0(@rspack/core@2.1.10(@module-federation/runtime-tools@2.0.0)(@swc/helpers@0.5.23))(react-dom@19.2.8(react@19.2.8))(react@19.2.8))(react@19.2.8)(ts-node@10.9.2(@swc/core@1.15.41(@swc/helpers@0.5.23))(@types/node@20.19.27)(typescript@5.7.3))(tsconfig-paths@4.2.0)(typescript@5.7.3)(utf-8-validate@5.0.10)(webpack@5.104.1(@swc/core@1.15.41(@swc/helpers@0.5.23)))
       tslib: 2.8.1
       zephyr-agent: 1.1.0
       zephyr-edge-contract: 1.1.0
     optionalDependencies:
-      zephyr-rspack-plugin: 1.1.0(@rspack/core@2.1.10(@module-federation/runtime-tools@2.0.0)(@swc/helpers@0.5.23))(webpack@5.104.1(@swc/core@1.15.41(@swc/helpers@0.5.23))(postcss@8.5.26))
+      zephyr-rspack-plugin: 1.1.0(@rspack/core@2.1.10(@module-federation/runtime-tools@2.0.0)(@swc/helpers@0.5.23))(webpack@5.104.1(@swc/core@1.15.41(@swc/helpers@0.5.23)))
     transitivePeerDependencies:
       - supports-color
 
-  zephyr-rspack-plugin@1.1.0(@rspack/core@2.1.10(@module-federation/runtime-tools@2.0.0)(@swc/helpers@0.5.23))(webpack@5.104.1(@swc/core@1.15.41(@swc/helpers@0.5.23))(postcss@8.5.26)):
+  zephyr-rspack-plugin@1.1.0(@rspack/core@2.1.10(@module-federation/runtime-tools@2.0.0)(@swc/helpers@0.5.23))(webpack@5.104.1(@swc/core@1.15.41(@swc/helpers@0.5.23))):
     dependencies:
       '@rspack/core': 2.1.10(@module-federation/runtime-tools@2.0.0)(@swc/helpers@0.5.23)
       tslib: 2.8.1
       zephyr-agent: 1.1.0
-      zephyr-xpack-internal: 1.1.0(webpack@5.104.1(@swc/core@1.15.41(@swc/helpers@0.5.23))(postcss@8.5.26))
+      zephyr-xpack-internal: 1.1.0(webpack@5.104.1(@swc/core@1.15.41(@swc/helpers@0.5.23)))
     transitivePeerDependencies:
       - supports-color
       - webpack
 
-  zephyr-xpack-internal@1.1.0(webpack@5.104.1(@swc/core@1.15.41(@swc/helpers@0.5.23))(postcss@8.5.26)):
+  zephyr-xpack-internal@1.1.0(webpack@5.104.1(@swc/core@1.15.41(@swc/helpers@0.5.23))):
     dependencies:
-      '@module-federation/automatic-vendor-federation': 1.2.1(webpack@5.104.1(@swc/core@1.15.41(@swc/helpers@0.5.23))(postcss@8.5.26))
+      '@module-federation/automatic-vendor-federation': 1.2.1(webpack@5.104.1(@swc/core@1.15.41(@swc/helpers@0.5.23)))
       tslib: 2.8.1
       zephyr-agent: 1.1.0
       zephyr-edge-contract: 1.1.0
