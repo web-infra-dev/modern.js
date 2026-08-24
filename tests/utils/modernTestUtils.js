@@ -38,7 +38,9 @@ function reportUnparsableGeneratedCode(cwd) {
       const target = path.join(dir, entry.name);
       if (entry.isDirectory()) {
         collect(target);
-      } else if (/\.(js|jsx|mjs)$/.test(entry.name)) {
+        // `.jsx` is deliberately absent: it carries JSX, which node cannot
+        // parse at all, so checking it reports every file as broken.
+      } else if (/\.(js|mjs)$/.test(entry.name)) {
         files.push(target);
       }
     }
