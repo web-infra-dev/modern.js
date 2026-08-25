@@ -2,6 +2,7 @@ import { execFileSync } from 'node:child_process';
 import fs from 'node:fs';
 import os from 'node:os';
 import path from 'node:path';
+import crossSpawn from 'cross-spawn';
 import ts from 'typescript';
 import {
   createIsolatedTestApp,
@@ -50,10 +51,23 @@ describe('crossProject client type portability', () => {
       await modernBuild(apiAppDir, [], {});
 
       // 1. Pack exactly what would be published.
-      execFileSync('pnpm', ['pack', '--pack-destination', workDir], {
-        cwd: apiAppDir,
-        stdio: 'pipe',
-      });
+      //    Spawned through cross-spawn: on Windows `pnpm` is a `.cmd` shim,
+      //    which node refuses to execute directly (ENOENT for the bare name,
+      //    EINVAL for the `.cmd` since the CVE-2024-27980 fix). cross-spawn
+      //    routes it through the shell and quotes the arguments itself.
+      const pack = crossSpawn.sync(
+        'pnpm',
+        ['pack', '--pack-destination', workDir],
+        {
+          cwd: apiAppDir,
+          stdio: 'pipe',
+        },
+      );
+      if (pack.status !== 0) {
+        throw new Error(
+          `pnpm pack failed (${pack.status ?? pack.error}): ${pack.stderr?.toString() ?? ''}`,
+        );
+      }
       const tarball = fs
         .readdirSync(workDir)
         .find(name => name.endsWith('.tgz'));
