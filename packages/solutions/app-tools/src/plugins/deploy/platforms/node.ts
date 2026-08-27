@@ -5,7 +5,11 @@ import {
   removeModuleSyncFromExports,
 } from '@modern-js/utils';
 import { nodeDepEmit as handleDependencies } from 'ndepe';
-import { readTemplate, resolveESMDependency } from '../utils';
+import {
+  createCopyWholePackage,
+  readTemplate,
+  resolveESMDependency,
+} from '../utils';
 import { generateHandler } from '../utils/generator';
 import type { CreatePreset } from './platform';
 
@@ -42,7 +46,6 @@ export const createNodePreset: CreatePreset = ({
       await fse.writeFile(entryFilePath, code);
     },
     async end() {
-      const copyWholePackages = modernConfig.deploy?.copyWholePackages || [];
       const filter = (filePath: string) => {
         return (
           !filePath.startsWith(staticDirectory) && !filePath.endsWith('.map')
@@ -59,12 +62,9 @@ export const createNodePreset: CreatePreset = ({
         appDir: appDirectory,
         sourceDir: outputDirectory,
         includeEntries: [entry],
-        copyWholePackage(pkgName) {
-          return (
-            pkgName === '@modern-js/utils' ||
-            copyWholePackages.includes(pkgName)
-          );
-        },
+        copyWholePackage: createCopyWholePackage(
+          modernConfig.deploy?.copyWholePackages,
+        ),
         entryFilter: filter,
         transformPackageJson: ({ pkgJSON }) => {
           if (!pkgJSON.exports) {

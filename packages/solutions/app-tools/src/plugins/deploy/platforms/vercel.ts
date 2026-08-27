@@ -2,7 +2,11 @@ import path from 'node:path';
 import { fs as fse, removeModuleSyncFromExports } from '@modern-js/utils';
 import { nodeDepEmit as handleDependencies } from 'ndepe';
 import { isMainEntry } from '../../../utils/routes';
-import { readTemplate, resolveESMDependency } from '../utils';
+import {
+  createCopyWholePackage,
+  readTemplate,
+  resolveESMDependency,
+} from '../utils';
 import { generateHandler } from '../utils/generator';
 import type { CreatePreset } from './platform';
 
@@ -119,7 +123,6 @@ export const createVercelPreset: CreatePreset = ({
       if (!needModernServer) {
         return;
       }
-      const copyWholePackages = modernConfig.deploy?.copyWholePackages || [];
       const entry = isEsmProject
         ? await resolveESMDependency('@modern-js/prod-server')
         : require.resolve('@modern-js/prod-server');
@@ -130,12 +133,9 @@ export const createVercelPreset: CreatePreset = ({
         appDir: appDirectory,
         sourceDir: funcsDirectory,
         includeEntries: [entry],
-        copyWholePackage(pkgName) {
-          return (
-            pkgName === '@modern-js/utils' ||
-            copyWholePackages.includes(pkgName)
-          );
-        },
+        copyWholePackage: createCopyWholePackage(
+          modernConfig.deploy?.copyWholePackages,
+        ),
         transformPackageJson: ({ pkgJSON }) => {
           if (!pkgJSON.exports || typeof pkgJSON.exports !== 'object') {
             return pkgJSON;
