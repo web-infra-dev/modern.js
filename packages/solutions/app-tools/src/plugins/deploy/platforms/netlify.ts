@@ -114,6 +114,7 @@ export const createNetlifyPreset: CreatePreset = ({
       if (!needModernServer) {
         return;
       }
+      const copyWholePackages = modernConfig.deploy?.copyWholePackages || [];
       const entry = isEsmProject
         ? await resolveESMDependency('@modern-js/prod-server')
         : require.resolve('@modern-js/prod-server');
@@ -128,7 +129,10 @@ export const createNetlifyPreset: CreatePreset = ({
         sourceDir: funcsDirectory,
         includeEntries: [entry, netlifyEntry],
         copyWholePackage(pkgName) {
-          return pkgName === '@modern-js/utils';
+          return (
+            pkgName === '@modern-js/utils' ||
+            copyWholePackages.includes(pkgName)
+          );
         },
         transformPackageJson: ({ pkgJSON }) => {
           if (!pkgJSON.exports || typeof pkgJSON.exports !== 'object') {

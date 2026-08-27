@@ -42,6 +42,7 @@ export const createNodePreset: CreatePreset = ({
       await fse.writeFile(entryFilePath, code);
     },
     async end() {
+      const copyWholePackages = modernConfig.deploy?.copyWholePackages || [];
       const filter = (filePath: string) => {
         return (
           !filePath.startsWith(staticDirectory) && !filePath.endsWith('.map')
@@ -59,7 +60,10 @@ export const createNodePreset: CreatePreset = ({
         sourceDir: outputDirectory,
         includeEntries: [entry],
         copyWholePackage(pkgName) {
-          return pkgName === '@modern-js/utils';
+          return (
+            pkgName === '@modern-js/utils' ||
+            copyWholePackages.includes(pkgName)
+          );
         },
         entryFilter: filter,
         transformPackageJson: ({ pkgJSON }) => {
