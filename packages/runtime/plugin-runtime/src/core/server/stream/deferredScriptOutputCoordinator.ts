@@ -81,9 +81,33 @@ function getSuffix(value: string, pattern: string): string {
 }
 
 /**
- * Serializes deferred resolver scripts with the React output stream without
- * rewriting React HTML. Shell completion makes a resolver eligible to send;
- * this coordinator waits for a root-level HTML boundary before emitting it.
+ * Serializes the router's deferred-data resolver scripts with React's Fizz
+ * output without rewriting either producer's bytes.
+ *
+ * Why this exists:
+ * - A resolver script settles the client-side Promise created for a
+ *   `defer()` key. It must be sent when that individual server Promise
+ *   settles; waiting for the whole React stream would unnecessarily delay
+ *   hydration and interactivity behind unrelated Suspense boundaries.
+ * - React and the resolver callbacks are independent stream producers. A
+ *   direct `write()` can therefore land in a partial HTML tag, a hidden Fizz
+ *   segment container, or between that container and its continuation
+ *   instruction.
+ * - React's public streaming callbacks expose shell/all-ready lifecycle
+ *   events, not a safe byte-level insertion point. React chunk sizes and
+ *   `progressiveChunkSize` are buffering heuristics, not HTML or Fizz
+ *   boundaries.
+ *
+ * The coordinator deliberately recognizes the Fizz continuation containers
+ * and instructions used by the supported React stream format. This is a
+ * compatibility boundary: when the supported React/Fizz output protocol is
+ * changed, update this recognizer and its Node, Edge, HTML, SVG, MathML, and
+ * table continuation tests together. It is not intended to be a general HTML
+ * rewriter.
+ *
+ * Shell completion only makes a resolver eligible to send. The resolver is
+ * emitted after a root-level HTML boundary and, for a continuation segment,
+ * after React's matching continuation instruction.
  */
 export class DeferredScriptOutputCoordinator {
   private readonly pendingResolvers: string[] = [];
