@@ -3,6 +3,7 @@ import { storage } from '@modern-js/runtime-utils/node';
 import { ESCAPED_SHELL_STREAM_END_MARK } from '../../../common';
 import { RenderLevel } from '../../constants';
 import { enqueueFromEntries } from './deferredScript';
+import { DeferredScriptOutputCoordinator } from './deferredScriptOutputCoordinator';
 import {
   type CreateReadableStreamFromElement,
   ShellChunkStatus,
@@ -72,11 +73,14 @@ export const createReadableStreamFromElement: CreateReadableStreamFromElement =
       }
 
       const reader = readableOriginal.getReader();
+      let coordinator: DeferredScriptOutputCoordinator | undefined;
 
       const stream = new ReadableStream({
         start(controller) {
+          const decoder = new TextDecoder();
           const pendingScripts: string[] = [];
           let isClosed = false;
+          let deferredResolversComplete = Promise.resolve();
 
           const safeEnqueue = (chunk: Uint8Array | unknown) => {
             if (isClosed) return;
@@ -98,20 +102,9 @@ export const createReadableStreamFromElement: CreateReadableStreamFromElement =
             }
           };
 
-          const flushPendingScripts = () => {
-            for (const s of pendingScripts) {
-              safeEnqueue(encodeForWebStream(s));
-            }
-            pendingScripts.length = 0;
-          };
-
-          const enqueueScript = (script: string) => {
-            if (shellChunkStatus === ShellChunkStatus.FINISH) {
-              safeEnqueue(encodeForWebStream(script));
-            } else {
-              pendingScripts.push(script);
-            }
-          };
+          coordinator = new DeferredScriptOutputCoordinator(content => {
+            safeEnqueue(encodeForWebStream(content));
+          });
 
           const storageContext = storage.useContext?.();
           const activeDeferreds = storageContext?.activeDeferreds;
@@ -125,13 +118,32 @@ export const createReadableStreamFromElement: CreateReadableStreamFromElement =
               : [];
 
           if (entries.length > 0) {
-            enqueueFromEntries(entries, config.nonce, enqueueScript);
+            deferredResolversComplete = enqueueFromEntries(
+              entries,
+              config.nonce,
+              script => {
+                if (!coordinator) {
+                  throw new Error('Deferred script coordinator is not ready');
+                }
+                if (shellChunkStatus === ShellChunkStatus.FINISH) {
+                  coordinator.enqueueResolver(script);
+                } else {
+                  pendingScripts.push(script);
+                }
+              },
+            );
           }
 
           async function push() {
             try {
               const { done, value } = await reader.read();
               if (done) {
+                const trailingText = decoder.decode();
+                if (trailingText) {
+                  coordinator?.writeReact(trailingText);
+                }
+                await deferredResolversComplete;
+                coordinator?.finish();
                 closeController();
                 return;
               }
@@ -139,7 +151,7 @@ export const createReadableStreamFromElement: CreateReadableStreamFromElement =
               if (isClosed) return;
 
               if (shellChunkStatus !== ShellChunkStatus.FINISH) {
-                chunkVec.push(new TextDecoder().decode(value));
+                chunkVec.push(decoder.decode(value, { stream: true }));
                 const concatedChunk = chunkVec.join('');
 
                 /**
@@ -161,22 +173,28 @@ export const createReadableStreamFromElement: CreateReadableStreamFromElement =
                   );
 
                   shellChunkStatus = ShellChunkStatus.FINISH;
-                  safeEnqueue(
-                    encodeForWebStream(
-                      `${shellBefore}${beforeMark}${shellAfter}`,
-                    ),
+                  coordinator?.writeReact(
+                    `${shellBefore}${beforeMark}${shellAfter}`,
                   );
                   if (afterMark) {
-                    safeEnqueue(encodeForWebStream(afterMark));
+                    coordinator?.writeReact(afterMark);
                   }
-                  flushPendingScripts();
+                  coordinator?.markShellFinished();
+                  for (const script of pendingScripts) {
+                    coordinator?.enqueueResolver(script);
+                  }
+                  pendingScripts.length = 0;
                 }
               } else {
-                safeEnqueue(value);
+                const decodedChunk = decoder.decode(value, { stream: true });
+                if (decodedChunk) {
+                  coordinator?.writeReact(decodedChunk);
+                }
               }
 
               if (!isClosed) push();
             } catch (error) {
+              coordinator?.abort();
               if (!isClosed) {
                 isClosed = true;
                 try {
@@ -190,6 +208,7 @@ export const createReadableStreamFromElement: CreateReadableStreamFromElement =
           push();
         },
         cancel(reason) {
+          coordinator?.abort();
           reader.cancel(reason).catch(() => {
             // Ignore cancellation errors
           });
