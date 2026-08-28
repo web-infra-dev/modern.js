@@ -1,7 +1,6 @@
 import type {
   CacheConfig,
   GetRenderHandlerOptions,
-  OnFallback,
   Render,
   ServerPlugin,
 } from '../../types';
@@ -22,21 +21,9 @@ export const injectRenderHandlerPlugin = ({
       const { distDirectory: pwd, routes, metaName } = api.getServerContext();
 
       const config = api.getServerConfig();
-
-      const hooks = api.getHooks();
-
       if (!routes) {
         return;
       }
-
-      const onFallback: OnFallback = async (reason, error, context) => {
-        // For other framework can report ssr fallback reason & error.
-        await hooks.fallback.call({
-          reason,
-          error,
-          context,
-        });
-      };
 
       const getRenderHandlerOptions: GetRenderHandlerOptions = {
         pwd: pwd!,
@@ -46,7 +33,6 @@ export const injectRenderHandlerPlugin = ({
         // TODO: support modern.server.ts cache config
         cacheConfig: cacheConfig,
         staticGenerate,
-        onFallback,
       };
 
       const render = await getRenderHandler(getRenderHandlerOptions);
@@ -66,7 +52,6 @@ export async function getRenderHandler({
   cacheConfig,
   metaName,
   staticGenerate,
-  onFallback,
 }: GetRenderHandlerOptions): Promise<Render> {
   const ssrConfig = config.server?.ssr;
   const ssrByEntries = config.server?.ssrByEntries;
@@ -91,7 +76,6 @@ export async function getRenderHandler({
     forceCSRMap,
     nonce: config.security?.nonce,
     metaName: metaName || 'modern-js',
-    onFallback,
   });
 
   return render;
