@@ -1,5 +1,11 @@
 # @modern-js/main-doc
 
+## 3.8.3
+
+### Patch Changes
+
+- @modern-js/sandpack-react@3.8.3
+
 ## 3.8.2
 
 ### Patch Changes

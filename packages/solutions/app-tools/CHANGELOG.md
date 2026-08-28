@@ -1,5 +1,34 @@
 # @modern-js/app-tools
 
+## 3.8.3
+
+### Patch Changes
+
+- 3748f08: chore: upgrade Rsbuild to v2.2.0-rc.0 and the SWC plugin to the latest version
+
+  chore: 升级 Rsbuild 至 v2.2.0-rc.0，并将 SWC 插件升级至最新版本
+
+- 546e96e: chore: upgrade Rsbuild dependencies to the latest versions
+
+  chore: 升级 Rsbuild 相关依赖至最新版本
+
+- f4bc5ee: fix: stop writing the ESM loader files twice
+
+  fix: 修复 ESM loader 文件被重复写入的问题
+
+- Updated dependencies [3748f08]
+- Updated dependencies [546e96e]
+  - @modern-js/plugin-data-loader@3.8.3
+  - @modern-js/plugin@3.8.3
+  - @modern-js/builder@3.8.3
+  - @modern-js/server-core@3.8.3
+  - @modern-js/server@3.8.3
+  - @modern-js/prod-server@3.8.3
+  - @modern-js/server-utils@3.8.3
+  - @modern-js/i18n-utils@3.8.3
+  - @modern-js/types@3.8.3
+  - @modern-js/utils@3.8.3
+
 ## 3.8.2
 
 ### Patch Changes
