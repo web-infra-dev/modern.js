@@ -1,4 +1,5 @@
 import { PassThrough, Readable, Transform } from 'stream';
+import { StringDecoder } from 'string_decoder';
 import { storage } from '@modern-js/runtime-utils/node';
 import { SSR_HYDRATION_ID_PREFIX } from '@modern-js/utils/universal/constants';
 import type { ReactElement } from 'react';
@@ -7,6 +8,7 @@ import { RenderLevel } from '../../constants';
 import { getGlobalInternalRuntimeContext } from '../../context';
 import { getMonitors } from '../../context/monitors';
 import { enqueueFromEntries } from './deferredScript';
+import { DeferredScriptOutputCoordinator } from './deferredScriptOutputCoordinator';
 import {
   type CreateReadableStreamFromElement,
   ShellChunkStatus,
@@ -87,7 +89,20 @@ export const createReadableStreamFromElement: CreateReadableStreamFromElement =
               entryName,
               styledComponentsStyleTags,
             }).then(({ shellAfter, shellBefore }) => {
+              const decoder = new StringDecoder('utf8');
               const pendingScripts: string[] = [];
+              const outputState: {
+                coordinator?: DeferredScriptOutputCoordinator;
+              } = {};
+              let deferredResolversComplete = Promise.resolve();
+
+              const writeReact = (content: string) => {
+                if (!outputState.coordinator) {
+                  throw new Error('Deferred script coordinator is not ready');
+                }
+                outputState.coordinator.writeReact(content);
+              };
+
               const body = new Transform({
                 transform(chunk, _encoding, callback) {
                   try {
@@ -122,19 +137,26 @@ export const createReadableStreamFromElement: CreateReadableStreamFromElement =
                         );
 
                         shellChunkStatus = ShellChunkStatus.FINISH;
-                        this.push(`${shellBefore}${beforeMark}${shellAfter}`);
+                        writeReact(`${shellBefore}${beforeMark}${shellAfter}`);
                         if (afterMark) {
-                          this.push(afterMark);
+                          writeReact(afterMark);
                         }
-                        // Flush any pending <script> collected before shell finished
-                        if (pendingScripts.length > 0) {
-                          for (const s of pendingScripts) {
-                            this.push(s);
+                        // FINISH retains its shell lifecycle meaning. The coordinator
+                        // becomes eligible only after this marker chunk's afterMark
+                        // bytes have been observed, preserving their original order.
+                        if (outputState.coordinator) {
+                          outputState.coordinator.markShellFinished();
+                          for (const script of pendingScripts) {
+                            outputState.coordinator.enqueueResolver(script);
                           }
+                          pendingScripts.length = 0;
                         }
                       }
                     } else {
-                      this.push(chunk);
+                      const decodedChunk = decoder.write(
+                        Buffer.isBuffer(chunk) ? chunk : Buffer.from(chunk),
+                      );
+                      writeReact(decodedChunk);
                     }
                     callback();
                   } catch (e) {
@@ -147,6 +169,52 @@ export const createReadableStreamFromElement: CreateReadableStreamFromElement =
                     }
                   }
                 },
+                flush(callback) {
+                  try {
+                    writeReact(decoder.end());
+                  } catch (error) {
+                    callback(
+                      error instanceof Error
+                        ? error
+                        : new Error('Received unknown error when streaming'),
+                    );
+                    return;
+                  }
+
+                  deferredResolversComplete.then(
+                    () => {
+                      try {
+                        outputState.coordinator?.finish();
+                        callback();
+                      } catch (error) {
+                        callback(
+                          error instanceof Error
+                            ? error
+                            : new Error(
+                                'Received unknown error when streaming',
+                              ),
+                        );
+                      }
+                    },
+                    error => {
+                      callback(
+                        error instanceof Error
+                          ? error
+                          : new Error('Received unknown error when streaming'),
+                      );
+                    },
+                  );
+                },
+              });
+
+              const coordinator = new DeferredScriptOutputCoordinator(
+                content => {
+                  body.push(content);
+                },
+              );
+              outputState.coordinator = coordinator;
+              body.once('close', () => {
+                coordinator.abort();
               });
 
               const passThrough = new PassThrough();
@@ -162,9 +230,6 @@ export const createReadableStreamFromElement: CreateReadableStreamFromElement =
                   processedStream = extender.processStream(processedStream);
                 }
               });
-              reactStreamingPipe(passThrough);
-
-              processedStream.pipe(body);
 
               // Inject router data scripts, enqueue until shell finished
               try {
@@ -182,21 +247,32 @@ export const createReadableStreamFromElement: CreateReadableStreamFromElement =
 
                 if (entries.length > 0) {
                   const enqueueScript = (s: string) => {
+                    if (!outputState.coordinator) {
+                      throw new Error(
+                        'Deferred script coordinator is not ready',
+                      );
+                    }
                     if (shellChunkStatus === ShellChunkStatus.FINISH) {
-                      body.write(s);
+                      outputState.coordinator.enqueueResolver(s);
                     } else {
                       pendingScripts.push(s);
                     }
                   };
 
-                  enqueueFromEntries(entries, config.nonce, (s: string) =>
-                    enqueueScript(s),
+                  deferredResolversComplete = enqueueFromEntries(
+                    entries,
+                    config.nonce,
+                    enqueueScript,
                   );
                 }
               } catch (err) {
                 const monitors = getMonitors();
                 monitors.error('cannot inject router data script', err);
               }
+
+              reactStreamingPipe(passThrough);
+
+              processedStream.pipe(body);
             });
           },
 
