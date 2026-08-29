@@ -2,7 +2,12 @@ import path from 'node:path';
 import { fs as fse, removeModuleSyncFromExports } from '@modern-js/utils';
 import { nodeDepEmit as handleDependencies } from 'ndepe';
 import { isMainEntry } from '../../../utils/routes';
-import { getTemplatePath, readTemplate, resolveESMDependency } from '../utils';
+import {
+  createCopyWholePackage,
+  getTemplatePath,
+  readTemplate,
+  resolveESMDependency,
+} from '../utils';
 import { type PluginItem, generateHandler } from '../utils/generator';
 import type { CreatePreset } from './platform';
 
@@ -127,9 +132,9 @@ export const createNetlifyPreset: CreatePreset = ({
         appDir: appDirectory,
         sourceDir: funcsDirectory,
         includeEntries: [entry, netlifyEntry],
-        copyWholePackage(pkgName) {
-          return pkgName === '@modern-js/utils';
-        },
+        copyWholePackage: createCopyWholePackage(
+          modernConfig.deploy?.copyWholePackages,
+        ),
         transformPackageJson: ({ pkgJSON }) => {
           if (!pkgJSON.exports || typeof pkgJSON.exports !== 'object') {
             return pkgJSON;
