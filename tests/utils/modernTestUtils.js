@@ -9,6 +9,124 @@ const kModernAppTools = path.join(
   '../node_modules/@modern-js/app-tools/bin/modern.js',
 );
 
+// A syntax error raised while Node compiles a generated module names neither
+// the file nor the line once the CLI has caught and re-logged it. The generated
+// code is the only part that differs per platform, so parse what was written
+// under `.modern-js` and let node report the offending file itself.
+function reportUnparsableGeneratedCode(cwd) {
+  if (!cwd) {
+    return;
+  }
+  const fs = require('fs');
+  const os = require('os');
+  const { execFileSync } = require('child_process');
+  // Generated entries land in `.modern-js`, transpiled configs in `.cache`, so
+  // walk `node_modules` itself. Installed packages are pnpm symlinks and
+  // `isDirectory()` is false for those, so the walk stays inside what this run
+  // actually wrote instead of descending into the store.
+  const root = path.join(cwd, 'node_modules');
+
+  const files = [];
+  const collect = dir => {
+    let entries;
+    try {
+      entries = fs.readdirSync(dir, { withFileTypes: true });
+    } catch {
+      return;
+    }
+    for (const entry of entries) {
+      const target = path.join(dir, entry.name);
+      if (entry.isDirectory()) {
+        collect(target);
+        // `.jsx` is deliberately absent: it carries JSX, which node cannot
+        // parse at all, so checking it reports every file as broken.
+      } else if (/\.(js|mjs)$/.test(entry.name)) {
+        files.push(target);
+      }
+    }
+  };
+  collect(root);
+
+  if (!files.length) {
+    console.error(`[generated-code] nothing to parse under ${root}`);
+    return;
+  }
+
+  // `node --check` parses a `.js` file as CommonJS, which silently accepts the
+  // ESM-only breakage we are looking for. Check a `.mjs` copy instead so the
+  // parser applies module semantics, exactly like the failing loader did.
+  let isEsm = false;
+  try {
+    isEsm =
+      JSON.parse(fs.readFileSync(path.join(cwd, 'package.json'), 'utf8'))
+        .type === 'module';
+  } catch {}
+
+  let broken = 0;
+  for (const file of files) {
+    let target = file;
+    if (isEsm && !file.endsWith('.mjs')) {
+      target = path.join(
+        os.tmpdir(),
+        `modern-parse-${process.pid}-${broken}-${path.basename(file)}.mjs`,
+      );
+      try {
+        fs.copyFileSync(file, target);
+      } catch {
+        target = file;
+      }
+    }
+    try {
+      execFileSync(process.execPath, ['--check', target], { stdio: 'pipe' });
+    } catch (error) {
+      broken += 1;
+      console.error(
+        `[generated-code] ${file} does not parse:\n${error.stderr || error.message}`,
+      );
+    } finally {
+      if (target !== file) {
+        try {
+          fs.unlinkSync(target);
+        } catch {}
+      }
+    }
+  }
+  console.error(
+    `[generated-code] parsed ${files.length} generated file(s) under ${root}, ${broken} unparsable`,
+  );
+}
+
+// Only `"type": "module"` fixtures fail, and they are the ones that resolve the
+// framework to `dist/esm-node`; CommonJS fixtures load `dist/cjs` and pass. So
+// when a command dies, check whether the ESM build itself still parses. Runs at
+// most once per worker: it is the same build for every test in the process.
+let checkedFrameworkEsm = false;
+function reportUnparsableFrameworkEsm() {
+  if (checkedFrameworkEsm) {
+    return;
+  }
+  checkedFrameworkEsm = true;
+  const { execFileSync } = require('child_process');
+  const repoRoot = path.resolve(__dirname, '../..');
+  try {
+    // Inherit so the report lands in the CI log next to the failure it explains.
+    execFileSync(
+      process.execPath,
+      [
+        '--experimental-vm-modules',
+        '--no-warnings',
+        path.join(__dirname, 'checkFrameworkEsm.mjs'),
+        repoRoot,
+      ],
+      { stdio: ['ignore', 'inherit', 'inherit'] },
+    );
+  } catch (error) {
+    console.error(
+      `[framework-esm] ${error.stderr || error.stdout || error.message}`,
+    );
+  }
+}
+
 function runContinuousTask(argv, stdOut, options = {}) {
   const { cwd } = options;
   const env = {
@@ -23,6 +141,15 @@ function runContinuousTask(argv, stdOut, options = {}) {
     });
 
     let didResolve = false;
+
+    // stderr is not part of the ready/error markers, but it is where a crashing
+    // app prints why it died. Without collecting it, a dev server that never
+    // boots leaves no trace and the test fails later with a misleading
+    // ERR_CONNECTION_REFUSED.
+    let stderrOutput = '';
+    instance.stderr?.on('data', data => {
+      stderrOutput += data.toString();
+    });
 
     function handleStdout(data) {
       const message = data.toString();
@@ -56,10 +183,19 @@ function runContinuousTask(argv, stdOut, options = {}) {
       reject(error);
     });
 
-    instance.on('close', () => {
+    instance.on('close', code => {
       instance.stdout.removeListener('data', handleStdout);
       if (!didResolve) {
         didResolve = true;
+        // Exited before it was ever ready — report it here, otherwise the only
+        // symptom is a connection refused in whatever assertion runs next.
+        console.error(
+          `[runContinuousTask] "${argv.join(' ')}" exited with code ${code} before becoming ready${
+            stderrOutput ? `\n${stderrOutput}` : ''
+          }`,
+        );
+        reportUnparsableGeneratedCode(cwd);
+        reportUnparsableFrameworkEsm();
         resolve();
       }
     });
@@ -86,6 +222,10 @@ function runModernCommand(argv, options = {}) {
       options.instance(instance);
     }
 
+    // Set once the promise has been settled by a marker, so the close handler
+    // can tell an unexpected exit from an already-reported one.
+    let settled = false;
+
     let stderrOutput = '';
     if (options.stderr) {
       instance.stderr.on('data', chunk => {
@@ -110,10 +250,12 @@ function runModernCommand(argv, options = {}) {
         rejectOnCompileError &&
         compileErrorMarker.test(message)
       ) {
+        settled = true;
         reject(new Error(message));
       }
 
       if (marker?.test(message)) {
+        settled = true;
         resolve({
           code: 0,
           stdout: stdoutOutput,
@@ -124,6 +266,18 @@ function runModernCommand(argv, options = {}) {
     // }
 
     instance.on('close', code => {
+      // A non-zero exit that never printed "Compile error" resolves like a
+      // success here, and callers rarely check `code`. Report it, otherwise the
+      // only symptom is a missing-artifact assertion further down the test.
+      if (!settled && code !== 0) {
+        console.error(
+          `[runModernCommand] "${cmd}" exited with code ${code}${
+            stdoutOutput ? `\n${stdoutOutput}` : ''
+          }${stderrOutput ? `\n${stderrOutput}` : ''}`,
+        );
+        reportUnparsableGeneratedCode(cwd);
+        reportUnparsableFrameworkEsm();
+      }
       resolve({
         code,
         stdout: stdoutOutput,
