@@ -1,0 +1,366 @@
+import { execFile } from 'node:child_process';
+import fs from 'node:fs';
+import os from 'node:os';
+import path from 'node:path';
+import { promisify } from 'node:util';
+import {
+  acquireRegistryMutex,
+  getLockDirectory,
+  releaseRegistryMutex,
+} from '../../src/utils/devLock';
+
+const execFileAsync = promisify(execFile);
+
+let lockDir: string;
+let appDirectory: string;
+
+const mutexPath = () => path.join(lockDir, '.mutex');
+const ownerPath = () => path.join(mutexPath(), 'owner.json');
+
+const listEntries = (prefix: string) =>
+  fs.readdirSync(lockDir).filter(entry => entry.startsWith(prefix));
+
+// Mirrors the platform sources the implementation itself uses, so a fake
+// owner backed by a live pid reads as genuinely alive on every OS.
+const realStartTime = (pid: number) => {
+  try {
+    if (process.platform === 'linux') {
+      return fs.statSync(`/proc/${pid}`).ctimeMs;
+    }
+    if (process.platform === 'darwin') {
+      const out = require('node:child_process')
+        .execSync(`ps -o lstart= -p ${pid}`)
+        .toString()
+        .trim();
+      const parsed = Date.parse(out);
+      if (!Number.isNaN(parsed)) {
+        return parsed;
+      }
+    }
+  } catch {
+    // fall through
+  }
+  return Date.now();
+};
+
+// Publish a mutex exactly like the implementation does, on behalf of a fake
+// owner (dead pid or a live foreign process).
+const publishForeignMutex = (owner: {
+  pid: number;
+  processStartedAt?: number;
+  token?: string;
+}) => {
+  fs.mkdirSync(mutexPath(), { recursive: true });
+  fs.writeFileSync(
+    ownerPath(),
+    JSON.stringify({
+      token: `foreign-${owner.pid}`,
+      acquiredAt: Date.now(),
+      processStartedAt: realStartTime(owner.pid),
+      ...owner,
+    }),
+  );
+};
+
+beforeEach(() => {
+  appDirectory = fs.mkdtempSync(path.join(os.tmpdir(), 'devlock-mutex-'));
+  lockDir = getLockDirectory(appDirectory, 'modern-js');
+  fs.mkdirSync(lockDir, { recursive: true });
+  process.env.MODERN_DEV_LOCK_MUTEX_WAIT_MS = '1500';
+});
+
+afterEach(() => {
+  delete process.env.MODERN_DEV_LOCK_MUTEX_WAIT_MS;
+  fs.rmSync(appDirectory, { recursive: true, force: true });
+});
+
+describe('registry mutex', () => {
+  it('published mutex always carries a complete owner.json', async () => {
+    const token = await acquireRegistryMutex(lockDir);
+    const owner = JSON.parse(fs.readFileSync(ownerPath(), 'utf-8'));
+    expect(owner.pid).toBe(process.pid);
+    expect(owner.token).toBe(token);
+    releaseRegistryMutex(lockDir, token);
+    expect(fs.existsSync(mutexPath())).toBe(false);
+  });
+
+  it('a second acquire waits for a live holder and reports busy, never breaks it', async () => {
+    const token = await acquireRegistryMutex(lockDir);
+    await expect(acquireRegistryMutex(lockDir)).rejects.toMatchObject({
+      code: 'EDEVLOCK_BUSY',
+    });
+    // The live holder's mutex must be fully intact after the failed attempt.
+    expect(JSON.parse(fs.readFileSync(ownerPath(), 'utf-8')).token).toBe(token);
+    releaseRegistryMutex(lockDir, token);
+  });
+
+  it('a queued acquire succeeds once the holder releases', async () => {
+    const first = await acquireRegistryMutex(lockDir);
+    const pending = acquireRegistryMutex(lockDir);
+    await new Promise(resolve => setTimeout(resolve, 120));
+    releaseRegistryMutex(lockDir, first);
+    const second = await pending;
+    expect(second).not.toBe(first);
+    releaseRegistryMutex(lockDir, second);
+  });
+
+  it('takes over a dead owner via a tombstone rename', async () => {
+    publishForeignMutex({ pid: 2 ** 22 - 3, processStartedAt: Date.now() });
+    const token = await acquireRegistryMutex(lockDir);
+    expect(JSON.parse(fs.readFileSync(ownerPath(), 'utf-8')).token).toBe(token);
+    // The dead owner's mutex was moved aside, not deleted in place.
+    expect(listEntries('.stale-')).toHaveLength(1);
+    releaseRegistryMutex(lockDir, token);
+  });
+
+  it('concurrent waiters taking over the same dead owner produce exactly one new holder', async () => {
+    publishForeignMutex({ pid: 2 ** 22 - 3, processStartedAt: Date.now() });
+    // Both contenders race the tombstone rename and then the acquisition;
+    // the loser of the acquisition must queue, so release the winner ASAP.
+    const contenders = [
+      acquireRegistryMutex(lockDir).then(token => {
+        releaseRegistryMutex(lockDir, token);
+        return token;
+      }),
+      acquireRegistryMutex(lockDir).then(token => {
+        releaseRegistryMutex(lockDir, token);
+        return token;
+      }),
+    ];
+    const tokens = await Promise.all(contenders);
+    expect(new Set(tokens).size).toBe(2);
+    // Exactly one tombstone for the single dead owner.
+    expect(listEntries('.stale-')).toHaveLength(1);
+  });
+
+  it('recovers from a damaged mutex (no owner.json) after the grace period', async () => {
+    fs.mkdirSync(mutexPath(), { recursive: true });
+    // Backdate the damaged mutex beyond the 5s grace window.
+    const past = new Date(Date.now() - 10_000);
+    fs.utimesSync(mutexPath(), past, past);
+    const token = await acquireRegistryMutex(lockDir);
+    expect(JSON.parse(fs.readFileSync(ownerPath(), 'utf-8')).token).toBe(token);
+    releaseRegistryMutex(lockDir, token);
+  });
+
+  it('a stale release from a displaced owner never deletes the new mutex', async () => {
+    publishForeignMutex({ pid: 2 ** 22 - 3, processStartedAt: Date.now() });
+    const token = await acquireRegistryMutex(lockDir);
+    // The displaced (dead) owner's release must be a no-op.
+    releaseRegistryMutex(lockDir, `foreign-${2 ** 22 - 3}`);
+    expect(fs.existsSync(mutexPath())).toBe(true);
+    releaseRegistryMutex(lockDir, token);
+  });
+
+  it('token tombstones are never garbage-collected by age', async () => {
+    const tombstone = path.join(lockDir, '.stale-some-old-token');
+    fs.mkdirSync(tombstone, { recursive: true });
+    fs.writeFileSync(path.join(tombstone, 'owner.json'), '{}');
+    const past = new Date(Date.now() - 3_600_000);
+    fs.utimesSync(tombstone, past, past);
+    const token = await acquireRegistryMutex(lockDir);
+    releaseRegistryMutex(lockDir, token);
+    // An hour-old tombstone must still be there: it may be the only thing
+    // stopping a long-suspended waiter from renaming the current mutex away.
+    expect(fs.existsSync(tombstone)).toBe(true);
+  });
+
+  it('keeps an ownerless candidate whose creator is still alive', async () => {
+    // Simulates a process paused between mkdir(candidate) and writing
+    // owner.json — the candidate name embeds the (live) creator pid.
+    const candidate = path.join(
+      lockDir,
+      `.mutex-candidate-${process.ppid}-paused`,
+    );
+    fs.mkdirSync(candidate, { recursive: true });
+    const token = await acquireRegistryMutex(lockDir);
+    releaseRegistryMutex(lockDir, token);
+    expect(fs.existsSync(candidate)).toBe(true);
+  });
+
+  it('releasing detaches the mutex instead of emptying the shared path', async () => {
+    const token = await acquireRegistryMutex(lockDir);
+    const renameSpy = rstest.spyOn(fs, 'renameSync');
+    const rmSpy = rstest.spyOn(fs, 'rmSync');
+
+    releaseRegistryMutex(lockDir, token);
+
+    // The shared path must leave in one atomic move. Deleting it recursively
+    // empties it first, and a waiter can rename its candidate onto the
+    // momentarily empty directory — the trailing rmdir then fails with
+    // ENOTEMPTY and takes the new owner's files with it.
+    expect(renameSpy).toHaveBeenCalledWith(
+      mutexPath(),
+      path.join(lockDir, `.mutex-release-${token}`),
+    );
+    for (const [target] of rmSpy.mock.calls) {
+      expect(target).not.toBe(mutexPath());
+    }
+
+    renameSpy.mockRestore();
+    rmSpy.mockRestore();
+    expect(fs.existsSync(mutexPath())).toBe(false);
+    expect(listEntries('.mutex-release-')).toHaveLength(0);
+  });
+
+  it('a failing release-debris sweep does not block acquire', async () => {
+    const debris = path.join(lockDir, '.mutex-release-stuck');
+    fs.mkdirSync(debris, { recursive: true });
+    const realRmSync = fs.rmSync;
+    const rmSpy = rstest.spyOn(fs, 'rmSync').mockImplementation(((
+      target: fs.PathLike,
+      options?: unknown,
+    ) => {
+      if (target === debris) {
+        throw Object.assign(new Error('EACCES: permission denied'), {
+          code: 'EACCES',
+        });
+      }
+      return realRmSync(target, options as fs.RmOptions);
+    }) as typeof fs.rmSync);
+
+    try {
+      // Sweeping debris is best-effort: the acquisition it runs inside must
+      // still succeed, and must not surface the raw filesystem error.
+      const token = await acquireRegistryMutex(lockDir);
+      expect(token).toBeTruthy();
+      releaseRegistryMutex(lockDir, token);
+    } finally {
+      rmSpy.mockRestore();
+      fs.rmSync(debris, { recursive: true, force: true });
+    }
+  });
+
+  it('a release racing a takeover leaves the new holder untouched', async () => {
+    const token = await acquireRegistryMutex(lockDir);
+    // Simulates the window between our owner read and our rename: another
+    // process has already replaced the mutex. Releasing must not touch it,
+    // and must not throw.
+    fs.rmSync(mutexPath(), { recursive: true, force: true });
+    publishForeignMutex({ pid: process.pid, token: 'new-holder' });
+    expect(() => releaseRegistryMutex(lockDir, token)).not.toThrow();
+    expect(JSON.parse(fs.readFileSync(ownerPath(), 'utf-8')).token).toBe(
+      'new-holder',
+    );
+    fs.rmSync(mutexPath(), { recursive: true, force: true });
+  });
+
+  it('a release with an unreadable owner is a no-op', async () => {
+    const token = await acquireRegistryMutex(lockDir);
+    // Mid-handover the owner file can be missing; nothing may be deleted on
+    // the strength of a guess.
+    fs.rmSync(ownerPath(), { force: true });
+    expect(() => releaseRegistryMutex(lockDir, token)).not.toThrow();
+    expect(fs.existsSync(mutexPath())).toBe(true);
+    fs.rmSync(mutexPath(), { recursive: true, force: true });
+  });
+
+  it('collects release debris left by a crash between detach and delete', async () => {
+    const debris = path.join(lockDir, '.mutex-release-crashed');
+    fs.mkdirSync(debris, { recursive: true });
+    fs.writeFileSync(path.join(debris, 'owner.json'), '{}');
+    const token = await acquireRegistryMutex(lockDir);
+    releaseRegistryMutex(lockDir, token);
+    // A detached mutex is unreachable, so it is always safe to sweep.
+    expect(listEntries('.mutex-release-')).toHaveLength(0);
+  });
+
+  it('cleans candidate debris left by a crash between create and rename', async () => {
+    const debris = path.join(lockDir, '.mutex-candidate-4194301-crashed');
+    fs.mkdirSync(debris, { recursive: true });
+    fs.writeFileSync(
+      path.join(debris, 'owner.json'),
+      JSON.stringify({
+        pid: 2 ** 22 - 3,
+        processStartedAt: Date.now(),
+        token: 'crashed',
+        acquiredAt: Date.now(),
+      }),
+    );
+    const token = await acquireRegistryMutex(lockDir);
+    releaseRegistryMutex(lockDir, token);
+    expect(listEntries('.mutex-candidate-')).toHaveLength(0);
+  });
+});
+
+// Real multi-process contention over the built CJS artifact. Locally the
+// suite is skipped when the package has not been built yet; in CI a missing
+// artifact is a hard failure so this coverage can never silently drop out
+// (`build:required` builds @modern-js/app-tools before unit tests run).
+const testDir = typeof __dirname !== 'undefined' ? __dirname : process.cwd();
+const distDevLock = path.resolve(testDir, '../../dist/cjs/utils/devLock.js');
+const distExists = fs.existsSync(distDevLock);
+const inCI = Boolean(process.env.CI && process.env.CI !== 'false');
+const describeWithDist = distExists || inCI ? describe : describe.skip;
+
+describeWithDist('registry mutex across real processes', () => {
+  it('built artifact is present (required for the multi-process suite)', () => {
+    expect(distExists).toBe(true);
+  });
+
+  (distExists ? it : it.skip)(
+    'exclusive build locks never overlap between processes',
+    async () => {
+      const logFile = path.join(appDirectory, 'sections.log');
+      const childScript = `
+        const fs = require('fs');
+        const { acquireCommandLock, releaseCommandLock } =
+          require(${JSON.stringify(distDevLock)});
+        const appDirectory = process.argv[1];
+        const logFile = process.argv[2];
+        (async () => {
+          await acquireCommandLock({
+            appDirectory,
+            metaName: 'modern-js',
+            operation: 'build',
+          });
+          fs.appendFileSync(logFile, 'enter ' + Date.now() + '\\n');
+          await new Promise(r => setTimeout(r, 150));
+          fs.appendFileSync(logFile, 'exit ' + Date.now() + '\\n');
+          releaseCommandLock(appDirectory, 'modern-js', 'build');
+          process.exit(0);
+        })().catch(err => {
+          fs.appendFileSync(logFile, 'blocked ' + (err.code || err) + '\\n');
+          process.exit(3);
+        });
+      `;
+      const children = Array.from({ length: 4 }, () =>
+        execFileAsync(
+          process.execPath,
+          ['-e', childScript, appDirectory, logFile],
+          { env: { ...process.env, MODERN_DEV_LOCK_MUTEX_WAIT_MS: '8000' } },
+        ).catch(err => err),
+      );
+      await Promise.all(children);
+
+      const lines = fs
+        .readFileSync(logFile, 'utf-8')
+        .trim()
+        .split('\n')
+        .filter(Boolean);
+      // Replay the log: at no point may two processes be inside the
+      // exclusive section simultaneously.
+      let inside = 0;
+      let winners = 0;
+      for (const line of lines) {
+        const [kind] = line.split(' ');
+        if (kind === 'enter') {
+          inside += 1;
+          winners += 1;
+          expect(inside).toBe(1);
+        } else if (kind === 'exit') {
+          inside -= 1;
+        }
+      }
+      // At least one process must have made it through; the rest either
+      // queued (also fine) or were rejected with a typed conflict.
+      expect(winners).toBeGreaterThanOrEqual(1);
+      for (const line of lines) {
+        if (line.startsWith('blocked')) {
+          expect(line).toMatch(/EBUILD_IN_PROGRESS|EDEVLOCK_BUSY/);
+        }
+      }
+    },
+    30_000,
+  );
+});

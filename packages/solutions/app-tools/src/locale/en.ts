@@ -12,6 +12,8 @@ export const EN_LOCALE = {
       entry: 'compiler by entry',
       apiOnly: 'start api server only',
       webOnly: 'start web server only',
+      allowMultiple:
+        'allow starting another dev server while one is already running for this project',
       selectEntry: 'Please select the entry that needs to be built',
       requireEntry: 'You must choose at least one entry',
     },

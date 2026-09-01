@@ -10,12 +10,14 @@ import {
   type Alias,
   DEFAULT_DEV_HOST,
   SERVER_DIR,
+  getAddressUrls,
   getMeta,
   logger,
 } from '@modern-js/utils';
 import type { ConfigChain } from '@rsbuild/core';
 import type { AppNormalizedConfig, AppTools } from '../types';
 import { setServer } from '../utils/createServer';
+import { markDevLockReady } from '../utils/devLock';
 import { loadServerPlugins } from '../utils/loadPlugins';
 import { printInstructions } from '../utils/printInstructions';
 import { setupTsRuntime } from '../utils/register';
@@ -99,6 +101,28 @@ export const dev = async (
 
   const host = normalizedConfig.dev?.host || DEFAULT_DEV_HOST;
 
+  // Same protocol/host derivation as `prettyInstructions`, so the URLs in
+  // the lock file match what the terminal prints (HTTPS, custom host, IPv6).
+  const markLockReady = () => {
+    const isHttps = Boolean(
+      normalizedConfig.dev?.https ||
+        (normalizedConfig.tools as { devServer?: { https?: unknown } })
+          ?.devServer?.https,
+    );
+    markDevLockReady(appDirectory, metaName, {
+      port,
+      host,
+      urls:
+        typeof port === 'number'
+          ? getAddressUrls(
+              isHttps ? 'https' : 'http',
+              port,
+              normalizedConfig.dev?.host,
+            ).map(({ url }) => url)
+          : undefined,
+    });
+  };
+
   if (apiOnly) {
     const { server } = await createDevServer(
       {
@@ -114,6 +138,7 @@ export const dev = async (
         host,
       },
       () => {
+        markLockReady();
         printInstructions(
           hooks,
           appContext,
@@ -139,9 +164,13 @@ export const dev = async (
       async (err?: Error) => {
         if (err) {
           logger.error('Occur error %s, when start dev server', err);
+          // Never mark the lock ready for a server that failed to listen.
+          return;
         }
 
         logger.debug('listen dev server done');
+
+        markLockReady();
 
         await afterListen();
       },

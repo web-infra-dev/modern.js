@@ -36,7 +36,7 @@ export default defineServerConfig({
       name: 'options-handler',
       method: 'options',
       path: '/api/options',
-      handler: c => {
+      handler: async c => {
         c.res.headers.set('x-options-handler', 'ok');
         return c.body(null, 204);
       },
