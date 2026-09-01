@@ -1,5 +1,30 @@
 # @modern-js/plugin-polyfill
 
+## 3.8.3
+
+### Patch Changes
+
+- @modern-js/utils@3.8.3
+
+## 3.8.2
+
+### Patch Changes
+
+- @modern-js/utils@3.8.2
+
+## 3.8.1
+
+### Patch Changes
+
+- @modern-js/utils@3.8.1
+
+## 3.8.0
+
+### Patch Changes
+
+- Updated dependencies [b3a0709]
+  - @modern-js/utils@3.8.0
+
 ## 3.7.0
 
 ### Patch Changes

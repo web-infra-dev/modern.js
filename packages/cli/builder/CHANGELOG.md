@@ -1,5 +1,40 @@
 # @modern-js/builder
 
+## 3.8.3
+
+### Patch Changes
+
+- 3748f08: chore: upgrade Rsbuild to v2.2.0-rc.0 and the SWC plugin to the latest version
+
+  chore: 升级 Rsbuild 至 v2.2.0-rc.0，并将 SWC 插件升级至最新版本
+
+- 546e96e: chore: upgrade Rsbuild dependencies to the latest versions
+
+  chore: 升级 Rsbuild 相关依赖至最新版本
+
+  - @modern-js/utils@3.8.3
+
+## 3.8.2
+
+### Patch Changes
+
+- @modern-js/utils@3.8.2
+
+## 3.8.1
+
+### Patch Changes
+
+- @modern-js/utils@3.8.1
+
+## 3.8.0
+
+### Patch Changes
+
+- f0abf7e: fix: respect output.module for service-worker environment output
+  fix: 在 service-worker 环境中遵循 output.module 输出配置
+- Updated dependencies [b3a0709]
+  - @modern-js/utils@3.8.0
+
 ## 3.7.0
 
 ### Minor Changes

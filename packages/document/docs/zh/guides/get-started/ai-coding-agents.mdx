@@ -18,7 +18,7 @@ AI Agent 由此获取与当前框架版本严格匹配的 API、配置与约定�
 `AGENTS.md` 是给 AI 编码助手的项目指引，告诉它在动手前先阅读随包文档、并遵循 Modern.js 的约定；同时会生成 `CLAUDE.md`，通过 `@AGENTS.md` 让 Claude Code 复用同一份指引。
 
 - **新建项目**：`npx @modern-js/create` 默认生成这两个文件，加 `--no-agents-md` 可跳过。
-- **已有项目**：在项目根运行 `npx @modern-js/create agents-md` 生成或更新，可随时重复运行，你添加的自定义内容会被保留。
+- **已有项目**：在项目根运行 `npx @modern-js/create --agents-md-only` 生成或更新，可随时重复运行，你添加的自定义内容会被保留。
 
 Modern.js 只维护 `AGENTS.md` 中 `<!-- BEGIN:modernjs-agent-rules -->` 标记内的内容，标记之外你写的内容不会被改动。
 

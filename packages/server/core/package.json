@@ -15,7 +15,7 @@
     "modern",
     "modern.js"
   ],
-  "version": "3.7.0",
+  "version": "3.8.3",
   "types": "./src/index.ts",
   "main": "./dist/cjs/index.js",
   "exports": {
@@ -77,7 +77,7 @@
     "@web-std/file": "^3.0.3",
     "@web-std/stream": "^1.0.3",
     "cloneable-readable": "^3.0.0",
-    "flatted": "^3.4.2",
+    "flatted": "^3.4.4",
     "hono": "^4.11.7",
     "ts-deepmerge": "7.0.3"
   },

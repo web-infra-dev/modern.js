@@ -1,5 +1,56 @@
 # @modern-js/server
 
+## 3.8.3
+
+### Patch Changes
+
+- @modern-js/server-core@3.8.3
+- @modern-js/server-utils@3.8.3
+- @modern-js/runtime-utils@3.8.3
+- @modern-js/types@3.8.3
+- @modern-js/utils@3.8.3
+
+## 3.8.2
+
+### Patch Changes
+
+- Updated dependencies [8edf91a]
+  - @modern-js/server-utils@3.8.2
+  - @modern-js/server-core@3.8.2
+  - @modern-js/runtime-utils@3.8.2
+  - @modern-js/types@3.8.2
+  - @modern-js/utils@3.8.2
+
+## 3.8.1
+
+### Patch Changes
+
+- @modern-js/server-core@3.8.1
+- @modern-js/server-utils@3.8.1
+- @modern-js/runtime-utils@3.8.1
+- @modern-js/types@3.8.1
+- @modern-js/utils@3.8.1
+
+## 3.8.0
+
+### Minor Changes
+
+- 13b960f: feat: support configuring the Mock directory through `dev.mockDir`
+
+  feat: 支持通过 `dev.mockDir` 配置 Mock 目录
+
+### Patch Changes
+
+- Updated dependencies [13b960f]
+- Updated dependencies [3b0eacf]
+- Updated dependencies [3981b6b]
+- Updated dependencies [b3a0709]
+  - @modern-js/server-core@3.8.0
+  - @modern-js/server-utils@3.8.0
+  - @modern-js/utils@3.8.0
+  - @modern-js/runtime-utils@3.8.0
+  - @modern-js/types@3.8.0
+
 ## 3.7.0
 
 ### Patch Changes

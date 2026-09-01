@@ -15,7 +15,7 @@
     "modern",
     "modern.js"
   ],
-  "version": "3.7.0",
+  "version": "3.8.3",
   "types": "./src/index.ts",
   "main": "./dist/cjs/index.js",
   "exports": {
@@ -54,6 +54,10 @@
     "./types": {
       "types": "./lib/types.d.ts",
       "default": "./lib/types.d.ts"
+    },
+    "./bundle-docs": {
+      "types": "./dist/types/bundleDocs.d.ts",
+      "default": "./dist/esm-node/bundleDocs.mjs"
     }
   },
   "engines": {
@@ -72,20 +76,34 @@
       ],
       "builder": [
         "./dist/types/builder/index.d.ts"
+      ],
+      "bundle-docs": [
+        "./dist/types/bundleDocs.d.ts"
       ]
     }
   },
   "bin": {
     "modern": "./bin/modern.js",
-    "modern-app": "./bin/modern.js"
+    "modern-app": "./bin/modern.js",
+    "modern-bundle-docs": "./bin/modern-bundle-docs.js"
   },
   "nx": {
     "targets": {
       "build": {
+        "dependsOn": [
+          "^build",
+          {
+            "projects": [
+              "@modern-js/main-doc"
+            ],
+            "target": "build"
+          }
+        ],
         "inputs": [
           "build",
           "^build",
-          "{workspaceRoot}/packages/document/docs/en/**/*"
+          "{workspaceRoot}/packages/document/doc_build/**/*.md",
+          "{workspaceRoot}/packages/document/doc_build/llms.txt"
         ],
         "outputs": [
           "{projectRoot}/dist",
@@ -97,7 +115,7 @@
   "scripts": {
     "prepublishOnly": "only-allow-pnpm",
     "dev": "rslib build --watch",
-    "build": "rslib build && node ./scripts/copy-main-doc.mjs",
+    "build": "rslib build && node ./bin/modern-bundle-docs.js",
     "test": "rstest"
   },
   "dependencies": {
@@ -114,11 +132,11 @@
     "@modern-js/server-utils": "workspace:*",
     "@modern-js/types": "workspace:*",
     "@modern-js/utils": "workspace:*",
-    "@rsbuild/core": "2.1.0",
+    "@rsbuild/core": "2.2.0-rc.0",
     "@swc/core": "1.15.41",
     "@swc/helpers": "^0.5.17",
     "es-module-lexer": "^1.7.0",
-    "flatted": "^3.4.2",
+    "flatted": "^3.4.4",
     "import-meta-resolve": "^4.2.0",
     "mlly": "^1.8.2",
     "ndepe": "^0.1.13",
