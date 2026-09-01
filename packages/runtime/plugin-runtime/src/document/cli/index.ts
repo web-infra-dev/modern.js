@@ -274,14 +274,8 @@ const applyExternalsPlugin = (child: Compiler, compiler: Compiler) => {
 };
 
 const generateEntryCode = (docPath: string, _entryName: string): string => {
-  const runtimeAPI =
-    process.env.MODERN_LIB_FORMAT === 'esm'
-      ? // @ts-ignore
-        import.meta.resolve('../index.mjs')
-      : require.resolve('../');
-  const esmRuntimeAPI = runtimeAPI.endsWith('.mjs')
-    ? runtimeAPI
-    : runtimeAPI.replace(`cjs`, `esm`).replace(/\.js$/, '.mjs');
+  // this entry will always resolve to "./dist/esm/document/index.mjs"
+  const esmRuntimeAPI = require.resolve('@modern-js/runtime/document');
 
   return `import React from 'react';
 import ReactDomServer from 'react-dom/server';
