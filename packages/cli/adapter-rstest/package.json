@@ -9,7 +9,7 @@
     "directory": "packages/cli/adapter-rstest"
   },
   "license": "MIT",
-  "version": "3.8.3",
+  "version": "3.9.0",
   "type": "module",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",

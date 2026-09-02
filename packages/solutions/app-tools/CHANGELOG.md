@@ -1,5 +1,25 @@
 # @modern-js/app-tools
 
+## 3.9.0
+
+### Minor Changes
+
+- e2c3858: chore: prepare the 3.9.0 minor release.
+
+### Patch Changes
+
+- Updated dependencies [2f4d9c4]
+  - @modern-js/server-core@3.9.0
+  - @modern-js/plugin-data-loader@3.9.0
+  - @modern-js/prod-server@3.9.0
+  - @modern-js/server@3.9.0
+  - @modern-js/server-utils@3.9.0
+  - @modern-js/builder@3.9.0
+  - @modern-js/i18n-utils@3.9.0
+  - @modern-js/plugin@3.9.0
+  - @modern-js/types@3.9.0
+  - @modern-js/utils@3.9.0
+
 ## 3.8.3
 
 ### Patch Changes
