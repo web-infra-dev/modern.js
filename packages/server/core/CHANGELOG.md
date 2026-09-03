@@ -1,5 +1,14 @@
 # @modern-js/server-plugin
 
+## 3.9.0
+
+### Patch Changes
+
+- 2f4d9c4: Remove the server plugin `fallback` hook. SSR-to-CSR fallback events are now reported directly through request monitors as a warning and an `ssr-fallback` counter.
+  - @modern-js/plugin@3.9.0
+  - @modern-js/runtime-utils@3.9.0
+  - @modern-js/utils@3.9.0
+
 ## 3.8.3
 
 ### Patch Changes
