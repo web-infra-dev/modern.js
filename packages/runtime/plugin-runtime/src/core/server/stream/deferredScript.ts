@@ -64,27 +64,35 @@ export function enqueueFromEntries(
   entries: Array<[string, unknown]>,
   nonce: string | undefined,
   emit: (script: string) => void,
-): void {
+): Promise<void> {
+  const pendingResolvers: Promise<void>[] = [];
+
   entries.forEach(([routeId, value]) => {
     if (!isDeferredDataLike(value)) return;
     const pendingKeys = new Set<string>(value.pendingKeys ?? []);
     pendingKeys.forEach((key: string) => {
       const tracked = value.data?.[key];
       if (isPromiseLike(tracked)) {
-        (tracked as Promise<unknown>).then(
-          (val: unknown) =>
-            emit(buildDeferredDataScript(nonce, [routeId, key, val])),
-          (err: unknown) =>
-            emit(
-              buildDeferredDataScript(nonce, [
-                routeId,
-                key,
-                undefined,
-                toErrorInfo(err),
-              ]),
-            ),
+        pendingResolvers.push(
+          Promise.resolve(tracked).then(
+            (val: unknown) => {
+              emit(buildDeferredDataScript(nonce, [routeId, key, val]));
+            },
+            (err: unknown) => {
+              emit(
+                buildDeferredDataScript(nonce, [
+                  routeId,
+                  key,
+                  undefined,
+                  toErrorInfo(err),
+                ]),
+              );
+            },
+          ),
         );
       }
     });
   });
+
+  return Promise.all(pendingResolvers).then(() => undefined);
 }
