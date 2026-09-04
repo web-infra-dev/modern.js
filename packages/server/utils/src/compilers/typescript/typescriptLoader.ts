@@ -5,8 +5,17 @@ export class TypescriptLoader {
 
   private appDirectory?: string;
 
-  constructor({ appDirectory }: { appDirectory: string }) {
+  private compiler?: string;
+
+  constructor({
+    appDirectory,
+    compiler,
+  }: {
+    appDirectory: string;
+    compiler?: string;
+  }) {
     this.appDirectory = appDirectory;
+    this.compiler = compiler;
   }
 
   public load(): typeof ts {
@@ -15,7 +24,7 @@ export class TypescriptLoader {
     }
 
     try {
-      const tsPath = require.resolve('typescript', {
+      const tsPath = require.resolve(this.compiler || 'typescript', {
         paths: [this.appDirectory || process.cwd()],
       });
 

@@ -1,8 +1,19 @@
 import path from 'path';
 import { fs } from '@modern-js/utils';
 import { compile } from '../src';
+import { TypescriptLoader } from '../src/compilers/typescript/typescriptLoader';
 
 describe('typescript', () => {
+  it('loads the configured compiler', () => {
+    const compiler = require.resolve('typescript');
+    const ts = new TypescriptLoader({
+      appDirectory: path.parse(process.cwd()).root,
+      compiler,
+    }).load();
+
+    expect(ts).toBe(require(compiler));
+  });
+
   it('compile typescript', async () => {
     const example = path.join(__dirname, './fixtures', './ts-example');
     const tsconfigPath = path.join(example, './tsconfig.json');

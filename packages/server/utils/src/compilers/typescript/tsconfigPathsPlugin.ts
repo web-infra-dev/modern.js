@@ -3,7 +3,7 @@ import path, { dirname, posix } from 'path';
 import { findMatchedSourcePath, findSourceEntry } from '@modern-js/utils';
 import type { MatchPath } from '@modern-js/utils/tsconfig-paths';
 import { createMatchPath } from '@modern-js/utils/tsconfig-paths';
-import * as ts from 'typescript';
+import type * as ts from 'typescript';
 
 // Extensions that TypeScript compiles into a `.js` file. Everything else
 // (`.json`, `.mjs`, `.cjs`, assets) keeps whatever extension it already has,
@@ -96,7 +96,7 @@ const isDynamicImport = (
 ): node is ts.CallExpression => {
   return (
     tsBinary.isCallExpression(node) &&
-    node.expression.kind === ts.SyntaxKind.ImportKeyword
+    node.expression.kind === tsBinary.SyntaxKind.ImportKeyword
   );
 };
 
