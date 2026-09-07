@@ -14,6 +14,7 @@ import { pluginEmitRouteFile } from '../plugins/emitRouteFile';
 import { pluginEnvironmentDefaults } from '../plugins/environmentDefaults';
 import { pluginGlobalVars } from '../plugins/globalVars';
 import { pluginHtmlMinifierTerser } from '../plugins/htmlMinify';
+import { pluginNativeWatcher } from '../plugins/nativeWatcher';
 import { pluginRuntimeChunk } from '../plugins/runtimeChunk';
 import type { BuilderConfig, CreateBuilderCommonOptions } from '../types';
 import { transformToRsbuildServerOptions } from './devServer';
@@ -230,6 +231,7 @@ export async function parseCommonConfig(
     }),
     pluginEnvironmentDefaults(distPath),
     pluginHtmlMinifierTerser(),
+    pluginNativeWatcher(),
   ];
 
   if (checkSyntax) {
