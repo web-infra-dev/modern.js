@@ -20,7 +20,6 @@
     "node": ">=20"
   },
   "version": "3.9.0",
-  "types": "./src/index.ts",
   "main": "./dist/index.js",
   "bin": {
     "create": "./bin/run.js"
@@ -42,7 +41,7 @@
   "devDependencies": {
     "@modern-js/i18n-utils": "workspace:*",
     "@modern-js/rslib": "workspace:*",
-    "@rslib/core": "0.23.2",
+    "@rslib/core": "1.0.0",
     "@scripts/rstest-config": "workspace:*",
     "@types/node": "^20",
     "tsx": "^4.22.4",
@@ -51,7 +50,6 @@
   "publishConfig": {
     "main": "./dist/index.js",
     "registry": "https://registry.npmjs.org/",
-    "access": "public",
-    "types": "./dist/types/index.d.ts"
+    "access": "public"
   }
 }

@@ -34,7 +34,7 @@
   "devDependencies": {
     "@modern-js/rslib": "workspace:*",
     "@modern-js/server-core": "workspace:*",
-    "@rslib/core": "0.23.2",
+    "@rslib/core": "1.0.0",
     "@scripts/build": "workspace:*",
     "@scripts/rstest-config": "workspace:*",
     "@types/react": "^19.2.17",
@@ -79,7 +79,6 @@
   "sideEffects": false,
   "publishConfig": {
     "registry": "https://registry.npmjs.org/",
-    "access": "public",
-    "types": "./dist/types/browser.d.ts"
+    "access": "public"
   }
 }
