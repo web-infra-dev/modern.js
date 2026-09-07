@@ -1,5 +1,10 @@
 import path from 'path';
-import { fs, getAliasConfig, logger } from '@modern-js/utils';
+import {
+  fs,
+  getAliasConfig,
+  logger,
+  readTsConfigByFile as readRawTsConfigByFile,
+} from '@modern-js/utils';
 import type { ParseConfigFileHost, Program } from 'typescript';
 import type ts from 'typescript';
 import type { CompileFunc } from '../../common';
@@ -42,8 +47,10 @@ export const compileByTs: CompileFunc = async (
     return;
   }
 
+  const tsConfig = readRawTsConfigByFile(tsconfigPath);
   const ts = new TypescriptLoader({
     appDirectory,
+    compiler: tsConfig['ts-node']?.compiler,
   }).load();
 
   const createProgram = ts.createIncrementalProgram || ts.createProgram;
