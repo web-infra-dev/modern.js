@@ -154,7 +154,7 @@
     "@rslib/core": "1.0.0",
     "@scripts/rstest-config": "workspace:*",
     "@types/node": "^20",
-    "happy-dom": "^20.9.0",
+    "happy-dom": "^20.14.0",
     "typescript": "^5"
   },
   "peerDependencies": {
