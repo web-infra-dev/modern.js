@@ -1,4 +1,4 @@
-const { MWAFiles } = require('./mwa');
+import { MWAFiles } from './mwa';
 
 export const ModernTemplates = {
   'web-app': MWAFiles,
