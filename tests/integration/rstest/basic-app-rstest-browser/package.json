@@ -22,8 +22,8 @@
     "@rstest/browser-react": "0.11.9",
     "@rstest/core": "0.11.9",
     "@types/node": "^20",
-    "@types/react": "^19.2.17",
-    "@types/react-dom": "^19.2.3",
+    "@types/react": "^19.2.18",
+    "@types/react-dom": "^19.2.7",
     "playwright": "^1.58.2",
     "typescript": "^5"
   }

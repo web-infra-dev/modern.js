@@ -27,10 +27,10 @@
     "@modern-js/app-tools": "latest",
     "@modern-js/tsconfig": "latest",
     "@playwright/test": "^1.60.0",
-    "@types/jest": "~29.2.4",
+    "@types/jest": "~29.5.14",
     "@types/node": "^20",
-    "@types/react": "^19.2.17",
-    "@types/react-dom": "^19.2.3",
+    "@types/react": "^19.2.18",
+    "@types/react-dom": "^19.2.7",
     "prettier": "~2.8.1",
     "rimraf": "~3.0.2",
     "typescript": "~5.0.4"

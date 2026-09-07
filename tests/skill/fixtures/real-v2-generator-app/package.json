@@ -20,10 +20,10 @@
   "devDependencies": {
     "@modern-js/app-tools": "2.66.0",
     "@modern-js/tsconfig": "2.66.0",
-    "@types/jest": "^29",
+    "@types/jest": "^29.5.14",
     "@types/node": "^16",
-    "@types/react": "^18",
-    "@types/react-dom": "^18",
+    "@types/react": "^18.3.31",
+    "@types/react-dom": "^18.3.7",
     "typescript": "~5.0.4"
   }
 }
