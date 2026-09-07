@@ -1,5 +1,5 @@
 import { join } from 'node:path';
-import type { RsbuildConfig, RsbuildPlugin } from '@rsbuild/core';
+import type { RsbuildConfig, RsbuildPlugin, Rspack } from '@rsbuild/core';
 import {
   SERVICE_WORKER_ENVIRONMENT_NAME,
   getBrowserslistWithDefault,
@@ -84,15 +84,18 @@ export const pluginEnvironmentDefaults = (
     api.modifyBundlerChain(async (chain, { environment }) => {
       const isServiceWorker =
         environment.name === SERVICE_WORKER_ENVIRONMENT_NAME;
+      const library = chain.output.get('library') as
+        | Rspack.LibraryOptions
+        | undefined;
 
       if (isServiceWorker && chain.output.get('module') === true) {
         chain.output.library({
-          ...(chain.output.get('library') || {}),
+          ...library,
           type: 'module',
         });
       } else if (isServiceWorker) {
         chain.output.library({
-          ...(chain.output.get('library') || {}),
+          ...library,
           type: 'commonjs2',
         });
       }
