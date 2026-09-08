@@ -658,7 +658,7 @@ const sessions = new Map<string, DevLockSession>();
 let exitHookInstalled = false;
 
 const sessionKey = (appDirectory: string, metaName: string) =>
-  `${appDirectory} ${metaName}`;
+  `${appDirectory}\u0000${metaName}`;
 
 const writeLockFile = (session: DevLockSession, lock: DevLockInfo) => {
   session.current = lock;
