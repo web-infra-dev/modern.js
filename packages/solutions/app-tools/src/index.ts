@@ -48,7 +48,8 @@ export * from './defineConfig';
 export const appTools = (): CliPlugin<AppTools> => ({
   name: '@modern-js/app-tools',
   usePlugins: [
-    // Must stay first: its `onPrepare` checks the project operation lock
+    // Must stay first: its `modifyResolvedConfig` checks the project
+    // operation lock before the initialize plugin probes the dev port and
     // before any plugin cleans `internalDirectory` or `dist`.
     devLockPlugin(),
     serverRuntimePlugin(),
