@@ -11,15 +11,18 @@ import {
 
 /**
  * Registers the project operation lock. Must be the first plugin in
- * app-tools' `usePlugins` so its `onPrepare` runs before the two destructive
- * cleanups (`internalDirectory` in the analyze plugin, `dist` in app-tools) —
- * a conflict must be reported before anything gets deleted.
+ * app-tools' `usePlugins` so its `modifyResolvedConfig` runs before the
+ * initialize plugin probes the dev port (which logs "Port X is in use,
+ * using port Y" — misleading for a process that is about to be rejected)
+ * and before the two destructive cleanups in `onPrepare` (`internalDirectory`
+ * in the analyze plugin, `dist` in app-tools): a conflict must be reported
+ * before anything is printed or deleted.
  */
 export default (): CliPlugin<AppTools> => ({
   name: '@modern-js/plugin-dev-lock',
 
   setup: api => {
-    api.onPrepare(async () => {
+    api.modifyResolvedConfig(async resolved => {
       const appContext = api.getAppContext();
       const { appDirectory, metaName } = appContext;
 
@@ -29,7 +32,7 @@ export default (): CliPlugin<AppTools> => ({
         getCommand() || (appContext as { command?: string }).command,
       );
       if (!operation) {
-        return;
+        return resolved;
       }
 
       // The run entry (`createRunOptions`) parses `--allow-multiple` /
@@ -45,12 +48,9 @@ export default (): CliPlugin<AppTools> => ({
 
       // The write set this command will touch. internalDirectory is fixed at
       // plugin-setup time (from `output.tempDir`); distDirectory follows the
-      // resolved config, computed here defensively because other plugins may
-      // not have written it onto the app context yet in this early hook.
-      const resolvedConfig = api.getNormalizedConfig() as
-        | { output?: { distPath?: { root?: string } } }
-        | undefined;
-      const distRoot = resolvedConfig?.output?.distPath?.root || 'dist';
+      // resolved config passed to this hook, computed here because no plugin
+      // has written it onto the app context yet at this point.
+      const distRoot = resolved.output?.distPath?.root || 'dist';
       const distDirectory =
         appContext.distDirectory ||
         (path.isAbsolute(distRoot)
@@ -68,6 +68,7 @@ export default (): CliPlugin<AppTools> => ({
         internalDirectory: appContext.internalDirectory,
         distDirectory,
       });
+      return resolved;
     });
 
     // Config hot restart re-runs the whole CLI init in the same process:

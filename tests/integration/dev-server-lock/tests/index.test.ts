@@ -44,15 +44,20 @@ describe('dev server lock', () => {
     const { appDir, cleanup } = await createIsolatedTestApp(sourceDir);
     let app: any;
     try {
-      app = await launchApp(appDir, await getPort());
+      const port = await getPort();
+      app = await launchApp(appDir, port);
 
-      const err = await launchApp(appDir, await getPort()).then(
+      // Same port on purpose: the lock must reject before the port probe
+      // prints "Port X is in use. using port Y", which would read as if the
+      // second server had started on another port.
+      const err = await launchApp(appDir, port).then(
         () => {
           throw new Error('the second dev server should have been rejected');
         },
         rejection => rejection as Error,
       );
       expect(String(err.message)).toMatch(/EDEV_SERVER_RUNNING/);
+      expect(String(err.message)).not.toMatch(/is in use/);
     } finally {
       if (app) {
         await killApp(app, true);
