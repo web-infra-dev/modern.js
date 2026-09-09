@@ -43,12 +43,11 @@ import { createRouteObjectsFromConfig, renderRoutes, urlJoin } from './utils';
 function createRemixRequest(request: Request) {
   const method = 'GET';
   const { headers } = request;
-  const controller = new AbortController();
 
   return new Request(request.url, {
     method,
     headers,
-    signal: controller.signal,
+    signal: request.signal,
   });
 }
 
