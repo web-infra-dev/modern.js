@@ -9,7 +9,8 @@ export const pluginManifest = (): RsbuildPlugin => ({
       const { RspackManifestPlugin } = await import('rspack-manifest-plugin');
       const publicPath = chain.output.get('publicPath');
 
-      // Let the plugin resolve functional public paths from compilation stats.
+      // Only pass string public paths to the manifest plugin.
+      // Function-valued publicPath is not yet supported by the plugin.
       chain.plugin(CHAIN_ID.PLUGIN.MANIFEST).use(RspackManifestPlugin, [
         {
           fileName:
