@@ -131,7 +131,7 @@ Modern.js 仓库的单元测试统一使用 [Rstest](https://rstest.rs/)。你�
 在提交 pull request 之前，为了确保本次变更没有引入缺陷，你可以通过执行以下命令运行单元测试：
 
 ```sh
-pnpm run test
+pnpm run test:ut
 ```
 
 你也可以使用 `--filter` 选项运行单个包的单元测试：
@@ -144,10 +144,11 @@ pnpm run --filter @modern-js/some-package test
 
 除了单元测试之外，Modern.js 仓库还包括端到端 (E2E) 测试，用于检查整个应用程序的功能。
 
-你可以执行 `test:e2e` 命令来运行 E2E 测试：
+使用以下命令运行框架集成测试和 Builder E2E 测试：
 
 ```sh
-pnpm run test:e2e
+pnpm run test:framework
+pnpm run test:builder
 ```
 
 如果需要运行指定的测试，可以添加关键字进行过滤：
@@ -159,7 +160,7 @@ npx rstest copy-assets
 
 ## Linting
 
-为了帮助保持代码风格的一致性和可读性，我们使用 ESLint 对代码进行校验。
+为了帮助保持代码风格的一致性和可读性，我们使用 Biome 对代码进行校验和格式化。
 
 你可以执行以下命令来运行 Linter：
 
