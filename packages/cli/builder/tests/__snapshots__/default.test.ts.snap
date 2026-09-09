@@ -2543,7 +2543,8 @@ exports[`builder rspack > should generator rspack config correctly when node 1`]
   "optimization": {
     "minimize": false,
     "splitChunks": {
-      "chunks": "all",
+      "chunks": "async",
+      "minSize": 0,
     },
   },
   "output": {
