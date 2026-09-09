@@ -2521,7 +2521,8 @@ exports[`builder environment compat > should generator environment config correc
     "optimization": {
       "minimize": false,
       "splitChunks": {
-        "chunks": "all",
+        "chunks": "async",
+        "minSize": 0,
       },
     },
     "output": {
