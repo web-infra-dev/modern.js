@@ -24,3 +24,8 @@ Please read the [Contributing Guide](https://github.com/web-infra-dev/modern.js/
 ## License
 
 Modern.js is [MIT licensed](https://github.com/web-infra-dev/modern.js/blob/main/LICENSE).
+
+## SSR request coordination
+
+The opt-in Node coordinator and its required renderer completion contract are
+covered in [SSR_REQUEST_COORDINATION.md](./SSR_REQUEST_COORDINATION.md).
