@@ -235,6 +235,7 @@ export const createRequestHandler: CreateRequestHandler = async (
         monitors: options.monitors,
         responseProxy,
         activeDeferreds,
+        work: options.work,
         serverPayload: undefined,
       },
       async () => {

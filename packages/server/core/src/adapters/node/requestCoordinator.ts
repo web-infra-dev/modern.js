@@ -1,14 +1,11 @@
 import { AsyncLocalStorage } from 'node:async_hooks';
+import type { SSRRequestWork } from '../../types/requestHandler';
+export type { SSRRequestWork } from '../../types/requestHandler';
 
 export interface SSRRequestCoordinatorOptions {
   maxPendingRequests: number;
   requestTimeoutMs: number;
   drainTimeoutMs: number;
-}
-
-export interface SSRRequestWork {
-  /** Register producer/loader work before returning a Response. */
-  track<T>(work: Promise<T>): Promise<T>;
 }
 
 type Phase = 'serving' | 'draining' | 'updating' | 'unavailable';

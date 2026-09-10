@@ -4,9 +4,11 @@
 It coordinates one application owner in one Node process. It does not replace
 the HTTP server or restart the process, and introduces no worker orchestration.
 
-**This primitive is not installed in the default Modern request path. R2 is not
-complete until renderers report all outstanding work and cancellation settles
-that work. Do not enable remote mutation around an uninstrumented renderer.**
+**This coordinator is not installed in the default Modern request path. The
+standard Node/Web HTML renderers, nested-route loaders and HTML cache now accept
+and propagate work ownership. R2 remains open for the RSC and custom-producer
+contracts; R3 still owns admission before resource selection. Do not enable remote
+mutation around an uninstrumented renderer.**
 
 ## Ownership contract
 
@@ -56,28 +58,54 @@ Static/liveness traffic should bypass this application-owner gate. Route-specifi
 ownership, readiness policy, and actual Modern resource switching belong to the
 integration phase; this primitive does not infer routes or mutate MF remotes.
 
-## Renderer gaps found in the current code
+## Renderer and loader integration
 
-These are unresolved and prevent treating this primitive as a completed live
-SSR update feature:
+`RenderOptions.work` is forwarded to `RequestHandlerOptions.work` and the stream
+renderer. The runtime request's existing AsyncLocalStorage scope carries it into
+nested-route loaders. This explicitly supplied object avoids introducing a second
+global request context or an MF-wide HTTP gate.
 
-- `runtime/plugin-runtime/src/core/server/stream/createReadableStream.ts` only
-  keeps React's `pipe`, does not wire `request.signal` to `abort`, and selects
-  either shell-ready or all-ready as its callback. Default shell streaming does
-  not independently report all producer work complete.
-- Its asynchronous `getTemplates(...).then(...)` paths do not reject the outer
-  promise when template processing fails. They need explicit completion/error
-  handling and stream teardown.
-- `stream/deferredScript.ts` schedules deferred promise callbacks and returns
-  void; these callbacks need tracked completion and protection against writing
-  after cancellation.
-- Stream extenders, loader/RSC work and Web-stream rendering must agree on the
-  completion/abort contract before they are admitted into the coordinated path.
+Node rendering independently reports React all-ready, rejects normal and fallback
+template errors, forwards Request abort and body cancellation to React, and tears
+down the registered stream chain. It tracks template continuations, React's
+rendering lifetime and each exposed extender stream. Both Node and Web rendering
+keep the output open until deferred scripts settle and suppress writes after
+cancellation. Deferred failures wait for the other registered tasks as well.
 
-The Node HTTP adapter already propagates response close to the Request's signal;
-the missing renderer handling cannot be replaced by treating that signal as a
-successful drain. R3 will integrate the owner before resource selection and R4
-will connect targeted/full rebuilding. R2 remains open meanwhile.
+Nested-route work registers before invoking the business loader/preload, retains
+ownership throughout the loader continuation, and tracks original returned values
+before DeferredData wraps them in a cancellation race. A late task whose request
+lease has ended is rejected before invoking business code. An aborted deferred
+wrapper does not prove its original producer stopped.
+
+The HTML cache forwards cancellation to its input reader, awaits writer
+backpressure, propagates stream errors and waits for asynchronous cache writes.
+Stale-while-revalidate work is registered even though the HTTP caller receives
+cached HTML immediately. An update cannot overtake that old generation's cache
+write. Cache-key invalidation across generations remains an owner integration
+requirement; draining a write alone does not invalidate previously cached HTML.
+
+## Remaining integration boundaries
+
+- RSC uses additional Flight producers, tee branches and payload-injection tasks.
+  These are not covered by the HTML renderer tests or a React HTML all-ready
+  signal. RSC coordinated mutation remains unsupported until that chain has a
+  complete ownership/cancellation contract and compiled integration validation.
+- Extenders can expose their Node stream lifecycle, but arbitrary work hidden
+  behind a custom destroy callback or unrelated task is not automatically tracked.
+  Custom renderers/producers must register their complete tasks explicitly.
+- Nested-route preload imports are tracked. Arbitrary business `React.lazy`,
+  background remote loading and imports outside that path must be registered by
+  their owner; aborting React cannot cancel their underlying promises. The React
+  test intentionally registers its independent lazy-import promise explicitly.
+- R3 must install the gate before selecting resources/loader/renderer, supply work
+  to every owned render/action path, invalidate generation-specific HTML caches,
+  and reject unsupported paths before mutation. These changes do not yet switch
+  application generations or expose the final MF update API.
+
+The Node HTTP adapter already propagates response close to Request.signal. The
+new renderer handling consumes that signal without equating disconnect with a
+successful drain. No deployment worker rotation or process restart is introduced.
 
 ## Validation (2026-09-10)
 
@@ -116,3 +144,49 @@ Full framework/builder E2E and runtime/Rspack/MF suites are not rerun: this chan
 is an opt-in server-core primitive, with no default renderer integration or
 compiler changes. Existing MF baseline tests do not prove this new gate works;
 the real HTTP test above exercises it explicitly. No publish commands were run.
+
+## Follow-up validation: renderer lifecycle (2026-09-10)
+
+The follow-up remains on the same PR/branch; it does not wait for the foundation
+PR to merge. Regression tests first reproduced template hangs and unhandled
+rejections, cache cancellation/error/write races, and premature release of a
+loader continuation. Initial route test setup needed the JSX React binding;
+that setup failure is not evidence of a product failure.
+
+The HTML stream tests run real React Node and Web rendering with template/context
+fixtures. The Web test alias supplies React Web rendering in place of the RSC
+entry, so these results explicitly do not validate RSC. React 19 waits for a
+potential document preamble when Suspense is at the root; the streaming fixture
+uses an application DOM container to obtain a real shell before pending content.
+Two real HTTP cases receive the shell, disconnect, keep deferred work leased,
+and publish new responses on the same PID and port.
+
+Commands for this follow-up (from Modern unless indicated):
+
+```sh
+pnpm --filter @modern-js/runtime exec rstest run tests/ssr/streamLifecycle.test.tsx --reporter verbose --testTimeout 4000
+pnpm --filter @modern-js/runtime-utils exec rstest run tests/universal/routeWork.test.ts --testTimeout 3000
+pnpm --filter @modern-js/server-core exec rstest run tests/plugins/cacheWork.test.ts --testTimeout 3000
+pnpm --filter @modern-js/server-core test
+pnpm --filter @modern-js/runtime-utils test
+pnpm --filter @modern-js/runtime test
+pnpm --filter @modern-js/server-core build
+pnpm --filter @modern-js/runtime-utils build
+pnpm --filter @modern-js/runtime build
+pnpm exec biome check $(git diff --name-only -- '*.ts' '*.tsx' '*.mts') packages/runtime/plugin-runtime/tests/ssr/streamLifecycle.test.tsx packages/runtime/plugin-runtime/tests/ssr/fixtures/renderSSRStream.ts packages/toolkit/runtime-utils/tests/universal/routeWork.test.ts packages/server/core/tests/plugins/cacheWork.test.ts
+pnpm exec changeset status
+git diff --check
+# From /Users/bytedance/outter/core:
+SSR_CACHE_STRICT=1 SSR_CACHE_RSPACK_ENTRY=/Users/bytedance/outter/rspack/packages/rspack/dist/index.js SSR_CACHE_MODERN_ENTRY=/Users/bytedance/work/modern.js/packages/server/core/dist/cjs/adapters/node/index.js node --test tools/ssr-cache/baseline.test.cjs
+```
+
+The strict local-Rspack/Modern artifact baseline reports 13 tests passing, zero
+skips/TODOs/failures in this invocation. It complements the renderer tests; it does
+not exercise RSC or the not-yet-installed default application owner. Full framework
+and builder E2E and the MF-wide Cypress matrix are not run for this follow-up;
+production-generation switching remains to be integrated, and the targeted
+artifact/HTTP checks do not replace its future E2E acceptance. No publication.
+
+Final affected-package results: server-core 42/42, runtime-utils 87/87, runtime 61/61; zero failed/skipped tests. All three builds and declaration generation, touched-file Biome, Changesets planning and diff checks pass. The runtime-utils test runner emits a MaxListenersExceededWarning about 11 `modified` listeners; it is recorded rather than suppressed and is not treated as a proven application memory leak or a resolved issue.
+
+A delayed reader-cancellation regression additionally proved that repeated Web cancellation must return the same tracked cancellation promise. The final renderer suite includes 17 lifecycle cases, including this handshake; the final full runtime suite is 61/61.
