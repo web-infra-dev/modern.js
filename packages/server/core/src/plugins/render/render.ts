@@ -141,6 +141,7 @@ export async function createRender({
       contextForceCSR,
       reporter,
       work,
+      cacheNamespace,
     },
   ) => {
     const forMatchpathname = matchPathname ?? getPathname(req);
@@ -233,6 +234,7 @@ export async function createRender({
       onTiming,
       reporter,
       work,
+      cacheNamespace,
     };
 
     if (fallbackReason) {

@@ -13,6 +13,7 @@ import type {
   TrackedPromise,
 } from '@modern-js/runtime-utils/browser';
 import { serializeJson } from '@modern-js/runtime-utils/node';
+import type { SSRRequestWork } from '@modern-js/server-core/node';
 
 function isTrackedPromise(value: any): value is TrackedPromise {
   return (
@@ -24,56 +25,93 @@ const DEFERRED_VALUE_PLACEHOLDER_PREFIX = '__deferred_promise:';
 export function createDeferredReadableStream(
   deferredData: DeferredData,
   signal: AbortSignal,
-): any {
+  work?: SSRRequestWork,
+): ReadableStream<Uint8Array> {
   const encoder = new TextEncoder();
-  const stream = new ReadableStream({
-    async start(controller: any) {
-      const criticalData: any = {};
-
-      const preresolvedKeys: string[] = [];
-      for (const [key, value] of Object.entries(deferredData.data)) {
-        if (isTrackedPromise(value)) {
-          criticalData[key] = `${DEFERRED_VALUE_PLACEHOLDER_PREFIX}${key}`;
-          if (
-            typeof value._data !== 'undefined' ||
-            typeof value._error !== 'undefined'
-          ) {
-            preresolvedKeys.push(key);
-          }
-        } else {
-          criticalData[key] = value;
+  let cancel = () => {};
+  return new ReadableStream<Uint8Array>({
+    start(controller) {
+      let settle!: () => void;
+      const completion = new Promise<void>(resolve => {
+        settle = resolve;
+      });
+      work?.track(completion);
+      let ended = false;
+      let unsubscribe = () => {};
+      const finish = () => {
+        if (ended) return;
+        ended = true;
+        unsubscribe();
+        signal.removeEventListener('abort', abort);
+        settle();
+      };
+      const fail = (reason: unknown) => {
+        if (ended) return;
+        finish();
+        controller.error(reason);
+        deferredData.cancel();
+      };
+      const abort = () => fail(signal.reason);
+      cancel = () => {
+        finish();
+        deferredData.cancel();
+      };
+      signal.addEventListener('abort', abort, { once: true });
+      if (signal.aborted) {
+        abort();
+        return;
+      }
+      try {
+        const criticalData: Record<string, unknown> = {};
+        const preresolvedKeys: string[] = [];
+        for (const [key, value] of Object.entries(deferredData.data)) {
+          if (isTrackedPromise(value)) {
+            criticalData[key] = `${DEFERRED_VALUE_PLACEHOLDER_PREFIX}${key}`;
+            if (
+              typeof value._data !== 'undefined' ||
+              typeof value._error !== 'undefined'
+            )
+              preresolvedKeys.push(key);
+          } else criticalData[key] = value;
         }
-      }
-
-      // Send the critical data
-      controller.enqueue(encoder.encode(`${JSON.stringify(criticalData)}\n\n`));
-
-      for (const preresolvedKey of preresolvedKeys) {
-        enqueueTrackedPromise(
-          controller,
-          encoder,
-          preresolvedKey,
-          deferredData.data[preresolvedKey] as TrackedPromise,
+        controller.enqueue(
+          encoder.encode(`${JSON.stringify(criticalData)}\n\n`),
         );
-      }
-
-      const unsubscribe = deferredData.subscribe((aborted, settledKey) => {
-        if (settledKey) {
+        for (const key of preresolvedKeys)
           enqueueTrackedPromise(
             controller,
             encoder,
-            settledKey,
-            deferredData.data[settledKey] as TrackedPromise,
+            key,
+            deferredData.data[key] as TrackedPromise,
           );
-        }
-      });
-      await deferredData.resolveData(signal);
-      unsubscribe();
-      controller.close();
+        const update = (aborted: boolean, key?: string) => {
+          if (ended) return;
+          try {
+            if (key)
+              enqueueTrackedPromise(
+                controller,
+                encoder,
+                key,
+                deferredData.data[key] as TrackedPromise,
+              );
+            if (aborted || deferredData.done) {
+              controller.close();
+              finish();
+            }
+          } catch (error) {
+            fail(error);
+          }
+        };
+        unsubscribe = deferredData.subscribe(update);
+        update(false);
+      } catch (error) {
+        fail(error);
+      }
+    },
+    cancel() {
+      cancel();
     },
   });
-
-  return stream;
 }
 
 function enqueueTrackedPromise(

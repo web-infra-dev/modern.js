@@ -26,6 +26,8 @@ export class ServerBase<E extends Env = any> {
 
   private app: Hono<E>;
 
+  private requestMiddleware?: MiddlewareHandler<E>;
+
   private plugins: ServerPlugin[] = [];
 
   private serverContext: ServerContext | null = null;
@@ -35,6 +37,9 @@ export class ServerBase<E extends Env = any> {
 
     this.app = new Hono<E>();
     this.app.use('*', run);
+    this.app.use('*', (context, next) =>
+      this.requestMiddleware ? this.requestMiddleware(context, next) : next(),
+    );
   }
 
   /**
@@ -62,6 +67,13 @@ export class ServerBase<E extends Env = any> {
     this.#applyMiddlewares();
 
     return this;
+  }
+
+  /** Install one outer request owner before both direct routes and plugin middleware. */
+  setRequestMiddleware(middleware: MiddlewareHandler<E>) {
+    if (this.requestMiddleware)
+      throw new Error('A request owner is already installed');
+    this.requestMiddleware = middleware;
   }
 
   addPlugins(plugins: ServerPlugin[]) {

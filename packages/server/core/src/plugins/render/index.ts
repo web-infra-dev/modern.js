@@ -109,7 +109,9 @@ function createRenderHandler(
     const request = c.req.raw;
     const nodeReq = c.env.node?.req;
 
-    const res = await render(request, {
+    const res = await (c.get('ssrRender') || render)(request, {
+      work: c.get('ssrWork'),
+      cacheNamespace: c.get('ssrCacheNamespace'),
       nodeReq,
       monitors,
       templates,

@@ -1,15 +1,64 @@
-# SSR request coordination (R2, opt-in primitive)
+# SSR request coordination and application publication (R2 / R3)
 
 `createSSRRequestCoordinator` is exported from `@modern-js/server-core/node`.
 It coordinates one application owner in one Node process. It does not replace
 the HTTP server or restart the process, and introduces no worker orchestration.
 
-**This coordinator is not installed in the default Modern request path. The
-standard Node/Web HTML renderers, nested-route loaders and HTML cache now accept
-and propagate work ownership. The agreed scope is ordinary HTML SSR; RSC is
-out of scope and is not an R2 acceptance gate. Custom producers use the explicit
-work-registration contract below. R3 owns admission before resource selection.
-Do not enable remote mutation around an uninstrumented renderer.**
+`createProdServer({ ssrApplication })` now installs an opt-in application owner
+before resource selection and all direct/plugin request middleware. Without this
+option the existing request path is retained. Ordinary HTML SSR and standalone
+data loaders are supported; RSC is outside scope. This is the application rebuild
+path, not the final MF update API or static dependency planner.
+
+## Application publication (R3)
+
+`SSRResourceApplicationOptions` requires the three coordinator limits and an
+`onReady(application)` callback. The callback receives `status` and
+`update(invalidate)`. The control plane invokes update outside request handling.
+The application owner drains existing work, awaits the bundler/remote invalidator,
+awaits `dispose(previousResources)`, reloads the declared CommonJS render/loader
+roots, rereads templates and JSON manifests, creates a fresh renderer, validates
+entry handlers and optional loader bundles, and publishes all resources together.
+The HTTP server, port, process, server plugins and logical MF instance remain.
+
+The invalidator owns transitive bundler state and remote changes; `dispose` owns
+adapter detachment and application-owned cleanup. They must preserve shared
+factories and support explicit retries. `dispose` must release all live adapters
+owned by this application, including adapters installed by an unsuccessful create;
+a failed create invokes it again before reporting the error. It must not dispose
+other applications or the persistent MF control plane. Modern only evicts declared
+application roots using canonical `require.resolve` keys. It does not walk and
+delete every Node dependency or automatically undo business globals/listeners.
+
+New requests choose templates, manifest, renderer and work context after admission.
+Each publication also gets a unique HTML-cache namespace (including custom keys
+and custom cache containers); old values expire by their existing TTL and cannot
+be served by the new generation. Namespaces are process-local, so separate owners
+no longer reuse each other's HTML cache entries when this mode is enabled.
+No cache backend flush or broad Node cache deletion is performed.
+
+An optional `validate(resources)` checks the unpublished generation directly.
+It must await its complete validation work and must not call back through gated
+HTTP requests. Concurrent entry preparation settles before failure is reported.
+Missing/invalid SSR handlers, templates, existing loader bundles and malformed
+JSON manifests reject publication. Native ESM application entry roots are rejected;
+Modern's own ESM distribution may still load the explicitly CommonJS app roots.
+After a mutation/preparation failure SSR stays unavailable until an explicit retry;
+there is no rollback promise or artificial mutation timeout.
+
+`bypass(request)` may return a Response directly for trusted static/liveness
+handlers. Returning undefined enters normal admission. The bypass cannot fall
+through to application middleware and must not access application-owned resources.
+Without an explicit bypass, requests (including static/API routes) are admitted
+through this application-wide owner. Scope-based admission remains R4. A readiness
+handler can consult `status`; liveness must not imply readiness during failed
+publication. No guessed production queue/time-limit defaults are introduced.
+
+The MF adapter and final remote-update API will compose these hooks. The production
+artifact test already supplies the real companion runtime's adapter disposal and
+remove/register operations, including failed-candidate cleanup. R4 still adds the
+static dependency planner and selective path; R5 owns API migration; R6 remains
+responsible for the complete deployment/hydration/load/resource acceptance matrix.
 
 ## Development branches
 
@@ -91,8 +140,8 @@ The HTML cache forwards cancellation to its input reader, awaits writer
 backpressure, propagates stream errors and waits for asynchronous cache writes.
 Stale-while-revalidate work is registered even though the HTTP caller receives
 cached HTML immediately. An update cannot overtake that old generation's cache
-write. Cache-key invalidation across generations remains an owner integration
-requirement; draining a write alone does not invalidate previously cached HTML.
+write. The opt-in application owner isolates HTML cache keys across generations; draining
+a write alone would not invalidate previously cached HTML.
 
 ## Remaining integration boundaries
 
@@ -107,10 +156,9 @@ requirement; draining a write alone does not invalidate previously cached HTML.
   background remote loading and imports outside that path must be registered by
   their owner; aborting React cannot cancel their underlying promises. The React
   test intentionally registers its independent lazy-import promise explicitly.
-- R3 must install the gate before selecting resources/loader/renderer, supply work
-  to every owned HTML SSR/loader path, invalidate generation-specific HTML caches,
-  and reject unsupported paths before mutation. These changes do not yet switch
-  application generations or expose the final MF update API.
+- R3 now supplies admission, work propagation and application-resource publication
+  when explicitly enabled. The final MF update API and static selective planner
+  remain separate integration work.
 
 The Node HTTP adapter already propagates response close to Request.signal. The
 new renderer handling consumes that signal without equating disconnect with a
@@ -234,3 +282,69 @@ runtime-utils test-runner listener warning remains. Full framework/builder E2E
 and the MF-wide Cypress suite were not rerun for this base correction; affected
 package tests/builds and the cross-repository artifact regression were used.
 RSC remains outside scope. No release or merge was performed.
+
+
+## R3 verification (2026-09-10)
+
+The current branch starts at integration commit `3d6b2f910d` (merged #8861) and
+continues targeting `feat/mf-ssr-clear-cache`. Tests exercise real ServerBase and
+createProdServer request chains, not only the coordinator primitive. The CJS
+artifact tests are explicit commands after build, outside the Rstest module loader.
+On macOS, a first experiment used a noncanonical temporary-directory cache key;
+using `require.resolve` fixes that defect. The owner now performs this itself.
+
+The production MF test exposed an additional cross-layer bug: a dynamic registration
+name can differ from the provider name in `Shared.from`, and dynamic remotes have
+no compile-time remoteInfos. Both runtime-core and the bundler cleanup hook must
+resolve this ownership from the runtime registration/resolved container metadata.
+Without the companion MF repair the strict shared-identity assertions fail even
+though the earlier 13-case baseline passes. The assertions were kept. No Rspack
+source or dependency lockfiles were changed for this repair.
+
+Commands (Modern repository unless indicated):
+
+```sh
+pnpm --filter @modern-js/server-core exec rstest run tests/adapters/application.test.ts
+pnpm --filter @modern-js/plugin-data-loader exec rstest run tests/requestWork.test.ts
+pnpm --filter @modern-js/server-core test
+pnpm --filter @modern-js/plugin-data-loader test
+pnpm --filter @modern-js/server-core build
+pnpm --filter @modern-js/plugin-data-loader build
+pnpm --filter @modern-js/prod-server build
+node --test packages/server/core/tests/application.http.test.cjs
+NODE_ENV=production SSR_CACHE_RSPACK_ENTRY=/Users/bytedance/outter/rspack/packages/rspack/dist/index.js SSR_CACHE_MF_ROOT=/Users/bytedance/outter/core node --test packages/server/core/tests/application.mf.test.cjs
+pnpm exec biome check $(git diff --cached --name-only -- '*.ts' '*.tsx' '*.mts' '*.cjs')
+pnpm exec changeset status
+git diff --check
+```
+
+The native HTTP tests cover new-resource selection, cached HTML isolation, loader
+replacement, direct/pre middleware admission, same PID/port, invalid publication,
+retry, native ESM rejection, and waiting for concurrent entry initialization.
+The MF artifact test compiles v1/v2/v3 before serving, then updates without host
+recompilation or recreating the HTTP server. It asserts queued HTTP requests get
+the new version, host/provider shared references remain identical, the logical
+MF instance is reused, old/failed adapters are detached, one current adapter remains,
+and a business global written by v1 still exists. Failed warmup yields 503 and a
+successful explicit retry restores v3.
+
+Standalone loader regressions also cover its work context, cancelled deferred
+responses, abort after one field settled, and serialization failure. Response
+subscription completion does not settle an independent original business Promise.
+
+Full framework/builder E2E, browser hydration/Cypress, load tests and RSC are not
+included in this R3 run. RSC is explicitly excluded; the other broad acceptance
+checks remain R6 rather than being represented as passed. The prod-server package
+has no unit-test suite; its actual createProdServer entry is exercised above.
+No publish commands are run. Exact final counts are recorded with the PR.
+
+
+Final R3 results: server-core 46/46; plugin-data-loader 10 passed and one existing
+skipped case (`should return directly when routeId not exist`). All three affected
+package builds and declarations pass. Native HTTP artifacts: 3/3; production MF
+artifact: 1/1; prior strict Rspack/Modern baseline: 13/13, with no skips/TODOs.
+The companion MF repair passes runtime-core 138/138 and bundler runtime 122/122.
+Its repository-wide Prettier gate still reports 683 existing/generated or unrelated
+user-dirty files; its changed files pass. This is recorded rather than broad-formatting
+the workspace. The production MF test requires both companion repository paths and
+fails if they are omitted; it is not silently skipped by the package unit runner.
