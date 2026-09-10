@@ -11,6 +11,14 @@ out of scope and is not an R2 acceptance gate. Custom producers use the explicit
 work-registration contract below. R3 owns admission before resource selection.
 Do not enable remote mutation around an uninstrumented renderer.**
 
+## Development branches
+
+Modern SSR cache work integrates into `feat/mf-ssr-clear-cache`, created directly
+from `main` at `4af5bf05b6513ee396419fada27f304880c15b67` on 2026-09-10.
+Start subsequent Modern work branches from this integration branch and target all
+related PRs at it. PR #8861 is rebased onto it; the unrelated
+`fix/ssr-chunk-loading-global` commits are not included.
+
 ## Ownership contract
 
 An owner constructs a coordinator with explicit `maxPendingRequests`,
@@ -201,3 +209,28 @@ the work-registration contract, rather than a requirement to discover every
 possible asynchronous side effect. This scope change is documentation-only;
 `git diff --check` was run, and code tests/builds were not repeated because no
 runtime or test behavior changed.
+
+## Integration-base validation (2026-09-10)
+
+The four SSR cache commits were rebased from `1340e9c1bc` onto the new integration
+branch at `4af5bf05b6`. There were no conflicts. The PR retains the same 24-file
+scope, and the custom chunk-loading-global fix from the previous base is absent.
+The integration branch itself starts at main, without those feature commits.
+
+After `pnpm install --frozen-lockfile --ignore-scripts`, all three full package
+`test` and `build` commands listed above were rerun against the main-derived 3.9.0
+dependencies: server-core 42/42, runtime-utils 87/87, runtime 61/61. Builds and
+declarations pass. Also rerun:
+
+```sh
+pnpm exec biome check $(git diff --name-only feat/mf-ssr-clear-cache...HEAD -- '*.ts' '*.tsx' '*.mts')
+pnpm exec changeset status
+git diff --check
+```
+
+The exact strict local-Rspack/Modern baseline command above was rerun with the new
+Modern artifacts: 13/13, no skips/TODOs/failures. The previously recorded
+runtime-utils test-runner listener warning remains. Full framework/builder E2E
+and the MF-wide Cypress suite were not rerun for this base correction; affected
+package tests/builds and the cross-repository artifact regression were used.
+RSC remains outside scope. No release or merge was performed.
