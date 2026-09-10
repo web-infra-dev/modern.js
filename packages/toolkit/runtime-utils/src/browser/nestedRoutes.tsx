@@ -142,44 +142,89 @@ function isPlainObject(value: any): value is Record<string, any> {
   );
 }
 
+async function getRequestWork() {
+  if (typeof document !== 'undefined') return undefined;
+  try {
+    return (await getAsyncLocalStorage())?.useContext()?.work;
+  } catch {
+    return undefined;
+  }
+}
+
+function holdRequestWork(work: Awaited<ReturnType<typeof getRequestWork>>) {
+  let finish = () => {};
+  if (work) {
+    const running = new Promise<void>(done => {
+      finish = done;
+    });
+    // Reject an expired lease before invoking any business code.
+    work.track(running);
+  }
+  return finish;
+}
+
 function createLoader(route: NestedRoute): LoaderFunction {
   const { loader } = route;
   if (loader) {
     return async (args: LoaderFunctionArgs) => {
-      if (typeof route.lazyImport === 'function') {
-        route.lazyImport();
-      }
-      const end = time();
-      const res = await loader(args);
-      let activeDeferreds = null;
-      if (typeof document === 'undefined') {
-        activeDeferreds = (await getAsyncLocalStorage())?.useContext()
-          ?.activeDeferreds as Map<string, DeferredData>;
-      } else {
-        activeDeferreds = originalActiveDeferreds;
-      }
-      if (isPlainObject(res)) {
-        const deferredData = privateDefer(res);
-        activeDeferreds.set(route.id!, deferredData);
-      }
+      const work =
+        typeof document === 'undefined' ? await getRequestWork() : undefined;
+      const finish = holdRequestWork(work);
+      try {
+        if (typeof route.lazyImport === 'function') {
+          const importing = route.lazyImport();
+          if (importing) work?.track(Promise.resolve(importing));
+        }
+        const end = time();
+        const loading = Promise.resolve(loader(args));
+        work?.track(loading);
+        const res = await loading;
+        // Track originals before DeferredData wraps them in a cancellation race.
+        if (isPlainObject(res) && work) {
+          work.track(Promise.allSettled(Object.values(res)));
+        }
+        let activeDeferreds = null;
+        if (typeof document === 'undefined') {
+          activeDeferreds = (await getAsyncLocalStorage())?.useContext()
+            ?.activeDeferreds as Map<string, DeferredData>;
+        } else {
+          activeDeferreds = originalActiveDeferreds;
+        }
+        if (isPlainObject(res)) {
+          const deferredData = privateDefer(res);
+          activeDeferreds.set(route.id!, deferredData);
+        }
 
-      const cost = end();
-      if (typeof document === 'undefined') {
-        const storage = await getAsyncLocalStorage();
-        storage
-          ?.useContext()
-          .monitors?.timing(
-            `${LOADER_REPORTER_NAME}-${route.id?.replace(/\//g, '_')}`,
-            cost,
-          );
+        const cost = end();
+        if (typeof document === 'undefined') {
+          const storage = await getAsyncLocalStorage();
+          storage
+            ?.useContext()
+            .monitors?.timing(
+              `${LOADER_REPORTER_NAME}-${route.id?.replace(/\//g, '_')}`,
+              cost,
+            );
+        }
+        return res;
+      } finally {
+        finish();
       }
-      return res;
     };
   } else {
     return () => {
-      if (typeof route.lazyImport === 'function') {
-        route.lazyImport();
+      if (typeof document === 'undefined') {
+        return getRequestWork().then(work => {
+          const finish = holdRequestWork(work);
+          try {
+            const importing = route.lazyImport?.();
+            if (importing) work?.track(Promise.resolve(importing));
+            return null;
+          } finally {
+            finish();
+          }
+        });
       }
+      route.lazyImport?.();
       return null;
     };
   }

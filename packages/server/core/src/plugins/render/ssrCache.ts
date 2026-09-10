@@ -59,50 +59,56 @@ async function processCache({
     const writer = stream.writable.getWriter();
 
     let html = '';
-    const push = () =>
-      reader.read().then(({ done, value }) => {
-        if (done) {
-          const match = ZERO_RENDER_LEVEL.test(html) || NO_SSR_CACHE.test(html);
-          // case 1: We should not cache the html, if we can match the html is downgrading.
-          // case 2: We should not cache the html, if the user's code contains <NoSSRCache>.
-          if (match) {
-            writer.close();
-            return;
-          }
-          const current = Date.now();
-          const cache: CacheStruct = {
-            val: html,
-            cursor: current,
-          };
+    let cancelled = false;
+    const cancel = async (reason: unknown) => {
+      cancelled = true;
+      await reader.cancel(reason);
+    };
+    // A cancelled consumer may leave the producer blocked in reader.read().
+    const downstream = writer.closed.catch(cancel);
+    requestHandlerOptions.work?.track(downstream);
+    void downstream.catch(() => {});
+    const onAbort = () => {
+      void Promise.allSettled([
+        cancel(request.signal.reason),
+        writer.abort(request.signal.reason),
+      ]);
+    };
+    request.signal.addEventListener('abort', onAbort, { once: true });
+    if (request.signal.aborted) onAbort();
 
-          container.set(key, JSON.stringify(cache), { ttl }).catch(() => {
-            if (onError) {
-              onError(
-                `[render-cache] set cache failed, key: ${key}, value: ${JSON.stringify(
-                  cache,
-                )}`,
-              );
-            } else {
-              console.error(
-                `[render-cache] set cache failed, key: ${key}, value: ${JSON.stringify(
-                  cache,
-                )}`,
-              );
-            }
-          });
-
-          writer.close();
-          return;
+    const pumping = (async () => {
+      try {
+        for (;;) {
+          const { done, value } = await reader.read();
+          if (cancelled) return;
+          if (done) break;
+          html += decoder.decode(value, { stream: true });
+          await writer.write(value);
         }
-
-        const content = decoder.decode(value);
-        html += content;
-
-        writer.write(value);
-        push();
-      });
-
-    push();
+        html += decoder.decode();
+        if (!ZERO_RENDER_LEVEL.test(html) && !NO_SSR_CACHE.test(html)) {
+          const cache: CacheStruct = { val: html, cursor: Date.now() };
+          try {
+            await container.set(key, JSON.stringify(cache), { ttl });
+          } catch (error) {
+            if (onError) onError(error, 'render-cache');
+            else
+              console.error(
+                `[render-cache] set cache failed, key: ${key}`,
+                error,
+              );
+          }
+        }
+        await writer.close();
+      } catch (error) {
+        await Promise.allSettled([cancel(error), writer.abort(error)]);
+      } finally {
+        request.signal.removeEventListener('abort', onAbort);
+      }
+    })();
+    requestHandlerOptions.work?.track(pumping);
+    void pumping.catch(() => {});
 
     cacheStatus && response.headers.set(X_RENDER_CACHE, cacheStatus);
 
@@ -246,7 +252,7 @@ export async function getCacheResult(
       // the cache is stale while revalidate
 
       // we shouldn't await this promise.
-      processCache({
+      const refreshing = processCache({
         key,
         request,
         requestHandler,
@@ -256,6 +262,14 @@ export async function getCacheResult(
       }).then(async response => {
         // For cache the readableStream, we need confirm the response is consume,
         await response.text();
+      });
+      requestHandlerOptions.work?.track(refreshing);
+      void refreshing.catch(error => {
+        try {
+          onError?.(error, 'render-cache');
+        } catch {
+          /* Reporting must not create an unhandled background rejection. */
+        }
       });
 
       const cacheStatus: CacheStatus = 'stale';

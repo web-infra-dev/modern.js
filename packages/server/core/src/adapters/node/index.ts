@@ -27,3 +27,9 @@ export {
   loadServerCliConfig,
   loadCacheConfig,
 } from './helper';
+
+export { createSSRRequestCoordinator } from './requestCoordinator';
+export type {
+  SSRRequestCoordinatorOptions,
+  SSRRequestWork,
+} from './requestCoordinator';

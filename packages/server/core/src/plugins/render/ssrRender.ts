@@ -23,6 +23,7 @@ import { createRequestHandlerConfig } from './utils';
 
 // TODO: It's a type combine by RenderOptions and CreateRenderOptions, improve it.
 export interface SSRRenderOptions {
+  work?: RequestHandlerOptions['work'];
   pwd: string;
   html: string;
   routeInfo: ServerRoute;
@@ -70,6 +71,7 @@ export async function ssrRender(
     onError,
     onTiming,
     reporter,
+    work,
   }: SSRRenderOptions,
 ): Promise<Response> {
   const { entryName } = routeInfo;
@@ -98,6 +100,7 @@ export async function ssrRender(
   const config = createRequestHandlerConfig(userConfig);
 
   const requestHandlerOptions: RequestHandlerOptions = {
+    work,
     resource: {
       route: routeInfo,
       loadableStats,

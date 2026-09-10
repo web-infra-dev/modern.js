@@ -9,10 +9,12 @@ import type {
   ServerManifest as RscServerManifest,
 } from '@modern-js/types';
 import type { NodeRequest } from '@modern-js/types/server';
+import type { SSRRequestWork } from './requestHandler';
 import type { ServerManifest } from './server';
 
 // TODO: combine some field with RequestHandlerOptions
 export interface RenderOptions {
+  work?: SSRRequestWork;
   monitors: Monitors;
 
   loaderContext?: Map<string, unknown>;

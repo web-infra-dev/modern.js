@@ -1,9 +1,18 @@
+import path from 'node:path';
 import type { ProjectConfig } from '@rstest/core';
 import { withTestPreset } from '@scripts/rstest-config';
 
 const commonConfig: ProjectConfig = {
   setupFiles: ['@scripts/rstest-config/setup.ts'],
   globals: true,
+  resolve: {
+    alias: {
+      '@modern-js/render/ssr': path.resolve(
+        __dirname,
+        'tests/ssr/fixtures/renderSSRStream.ts',
+      ),
+    },
+  },
   tools: {
     swc: {
       jsc: {

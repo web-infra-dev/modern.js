@@ -14,6 +14,7 @@ import { getTemplates } from './template';
 
 export const createReadableStreamFromElement: CreateReadableStreamFromElement =
   async (request, rootElement, options) => {
+    request.signal.throwIfAborted();
     let shellChunkStatus = ShellChunkStatus.START;
     const chunkVec: string[] = [];
     const {
@@ -37,6 +38,7 @@ export const createReadableStreamFromElement: CreateReadableStreamFromElement =
     try {
       const readableOriginal = await renderSSRStream(rootElement, {
         request,
+        signal: request.signal,
         nonce: config.nonce,
         rscRoot: rscRoot!,
         routes: runtimeContext.routes,
@@ -50,9 +52,12 @@ export const createReadableStreamFromElement: CreateReadableStreamFromElement =
 
       // A Promise that resolves when all rendering is complete
       // call onAllready, when allReady is resolve.
-      readableOriginal.allReady.then(() => {
+      const allReady = readableOriginal.allReady.then(() => {
         options?.onAllReady?.();
       });
+      options.work?.track(allReady);
+      // The body and allReady may both reject on cancellation.
+      void allReady.catch(() => {});
 
       // However, when a crawler visits your page, or if you're generating the pages at the build time,
       // you might want to let all of the content load first and then produce the final HTML output instead of revealing it progressively.
@@ -73,23 +78,48 @@ export const createReadableStreamFromElement: CreateReadableStreamFromElement =
 
       const reader = readableOriginal.getReader();
 
+      let isClosed = false;
+      const cancellation = new AbortController();
+      const pendingScripts: string[] = [];
+      let cancelling: Promise<void> | undefined;
+      let cancelReader: (reason: unknown) => Promise<void>;
+      const abort = () => {
+        void cancelReader(request.signal.reason).catch(() => {});
+      };
       const stream = new ReadableStream({
         start(controller) {
-          const pendingScripts: string[] = [];
-          let isClosed = false;
+          cancelReader = reason => {
+            if (cancelling) return cancelling;
+            if (isClosed) return Promise.resolve();
+            isClosed = true;
+            cancellation.abort(reason);
+            pendingScripts.length = 0;
+            request.signal.removeEventListener('abort', abort);
+            try {
+              controller.error(reason);
+            } catch {
+              /* Already cancelled. */
+            }
+            cancelling = reader.cancel(reason);
+            options.work?.track(cancelling);
+            return cancelling;
+          };
+          request.signal.addEventListener('abort', abort, { once: true });
+          if (request.signal.aborted) abort();
 
           const safeEnqueue = (chunk: Uint8Array | unknown) => {
             if (isClosed) return;
             try {
               controller.enqueue(chunk as Uint8Array);
-            } catch {
-              isClosed = true;
+            } catch (error) {
+              void cancelReader(error).catch(() => {});
             }
           };
 
           const closeController = () => {
             if (!isClosed) {
               isClosed = true;
+              request.signal.removeEventListener('abort', abort);
               try {
                 controller.close();
               } catch {
@@ -106,6 +136,7 @@ export const createReadableStreamFromElement: CreateReadableStreamFromElement =
           };
 
           const enqueueScript = (script: string) => {
+            if (isClosed) return;
             if (shellChunkStatus === ShellChunkStatus.FINISH) {
               safeEnqueue(encodeForWebStream(script));
             } else {
@@ -124,14 +155,22 @@ export const createReadableStreamFromElement: CreateReadableStreamFromElement =
               ? Array.from(activeDeferreds.entries())
               : [];
 
-          if (entries.length > 0) {
-            enqueueFromEntries(entries, config.nonce, enqueueScript);
-          }
+          const deferredWork = enqueueFromEntries(
+            entries,
+            config.nonce,
+            enqueueScript,
+            cancellation.signal,
+          );
+          options.work?.track(deferredWork);
+          void deferredWork.catch(error => {
+            void cancelReader(error).catch(() => {});
+          });
 
           async function push() {
             try {
               const { done, value } = await reader.read();
               if (done) {
+                await deferredWork;
                 closeController();
                 return;
               }
@@ -175,28 +214,24 @@ export const createReadableStreamFromElement: CreateReadableStreamFromElement =
                 safeEnqueue(value);
               }
 
-              if (!isClosed) push();
+              if (!isClosed) await push();
             } catch (error) {
-              if (!isClosed) {
-                isClosed = true;
-                try {
-                  controller.error(error);
-                } catch {
-                  // Controller already closed
-                }
-              }
+              await cancelReader(error);
             }
           }
-          push();
+          const pumping = push();
+          options.work?.track(pumping);
+          void pumping.catch(error => {
+            void cancelReader(error).catch(() => {});
+          });
         },
         cancel(reason) {
-          reader.cancel(reason).catch(() => {
-            // Ignore cancellation errors
-          });
+          return cancelReader(reason);
         },
       });
       return stream;
     } catch (e) {
+      request.signal.throwIfAborted();
       // Don't log error in `onShellError` callback, since it has been logged in `onError` callback
       const fallbackHtml = `${shellBefore}${shellAfter}`;
       const stream = getReadableStreamFromString(fallbackHtml);

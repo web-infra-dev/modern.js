@@ -55,6 +55,7 @@ const storage = createStorage<{
     headers: Record<string, string>;
     status: number;
   };
+  work?: { track<T>(work: Promise<T>): Promise<T> };
   activeDeferreds?: Map<string, unknown>;
   serverPayload?: unknown;
 }>();

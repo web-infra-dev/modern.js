@@ -60,31 +60,43 @@ export function buildDeferredDataScript(
   return `<script async${nonceAttr} data-fn-name="r" data-script-src="modern-run-router-data-fn" data-fn-args='${escaped}' suppressHydrationWarning>${runRouterDataFnStr}</script>`;
 }
 
+/** Cancellation suppresses writes; it does not pretend the underlying tasks stopped. */
 export function enqueueFromEntries(
   entries: Array<[string, unknown]>,
   nonce: string | undefined,
   emit: (script: string) => void,
-): void {
-  entries.forEach(([routeId, value]) => {
-    if (!isDeferredDataLike(value)) return;
-    const pendingKeys = new Set<string>(value.pendingKeys ?? []);
-    pendingKeys.forEach((key: string) => {
+  signal?: AbortSignal,
+): Promise<void> {
+  const tasks: Promise<void>[] = [];
+  for (const [routeId, value] of entries) {
+    if (!isDeferredDataLike(value)) continue;
+    for (const key of new Set(value.pendingKeys ?? [])) {
       const tracked = value.data?.[key];
-      if (isPromiseLike(tracked)) {
-        (tracked as Promise<unknown>).then(
-          (val: unknown) =>
-            emit(buildDeferredDataScript(nonce, [routeId, key, val])),
-          (err: unknown) =>
-            emit(
-              buildDeferredDataScript(nonce, [
-                routeId,
-                key,
-                undefined,
-                toErrorInfo(err),
-              ]),
-            ),
-        );
-      }
-    });
+      if (!isPromiseLike(tracked)) continue;
+      tasks.push(
+        Promise.resolve(tracked).then(
+          val => {
+            if (!signal?.aborted)
+              emit(buildDeferredDataScript(nonce, [routeId, key, val]));
+          },
+          err => {
+            if (!signal?.aborted)
+              emit(
+                buildDeferredDataScript(nonce, [
+                  routeId,
+                  key,
+                  undefined,
+                  toErrorInfo(err),
+                ]),
+              );
+          },
+        ),
+      );
+    }
+  }
+  // One failed serializer/writer must not release ownership of the other tasks.
+  return Promise.allSettled(tasks).then(results => {
+    const failed = results.find(result => result.status === 'rejected');
+    if (failed?.status === 'rejected') throw failed.reason;
   });
 }
