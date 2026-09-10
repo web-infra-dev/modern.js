@@ -81,21 +81,27 @@ will connect targeted/full rebuilding. R2 remains open meanwhile.
 
 ## Validation (2026-09-10)
 
-Baseline: Modern `46967f66c0` (`fix/ssr-chunk-loading-global`).
+Baseline: Modern `1340e9c1bc` (`fix/ssr-chunk-loading-global`). Initial work
+used `46967f66c0`; the branch was rebased onto the updated remote, dependencies
+were installed from its frozen lockfile, and the full package tests/build reran.
 
 Commands executed from the Modern repository:
 
 ```sh
+pnpm install --frozen-lockfile --ignore-scripts
 pnpm --filter @modern-js/server-core test -- requestCoordinator.test.ts
 pnpm --filter @modern-js/server-core test
 pnpm --filter @modern-js/server-core build
 pnpm exec biome check packages/server/core/src/adapters/node/requestCoordinator.ts packages/server/core/src/adapters/node/index.ts packages/server/core/tests/adapters/requestCoordinator.test.ts packages/server/core/tests/adapters/requestCoordinator.http.test.ts
-pnpm exec changeset status --output /tmp/modern-coordinator-changeset.json
+pnpm exec changeset status
 git diff --check
 ```
 
 Final package run: 39 tests pass, zero failures/skips; package build and touched
-source/test lint pass. The tests cover queue limits/deadlines/cancellation,
+source/test lint and changeset planning pass. The fixed Modern release group may
+expand the minor release beyond the single package in this changeset. An initial
+Changesets output-file invocation resolved the absolute path under the repository
+and failed; the plain status rerun succeeds. The tests cover queue limits/deadlines/cancellation,
 drain-before-mutation timeout, failed publication and retry, serialized updates,
 self-wait rejection, tracked rejection, body backpressure, and real HTTP streaming
 disconnect. The HTTP test keeps a producer leased after client disconnect, waits
