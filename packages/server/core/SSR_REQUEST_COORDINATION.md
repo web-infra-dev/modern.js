@@ -6,9 +6,10 @@ the HTTP server or restart the process, and introduces no worker orchestration.
 
 **This coordinator is not installed in the default Modern request path. The
 standard Node/Web HTML renderers, nested-route loaders and HTML cache now accept
-and propagate work ownership. R2 remains open for the RSC and custom-producer
-contracts; R3 still owns admission before resource selection. Do not enable remote
-mutation around an uninstrumented renderer.**
+and propagate work ownership. The agreed scope is ordinary HTML SSR; RSC is
+out of scope and is not an R2 acceptance gate. Custom producers use the explicit
+work-registration contract below. R3 owns admission before resource selection.
+Do not enable remote mutation around an uninstrumented renderer.**
 
 ## Ownership contract
 
@@ -87,10 +88,10 @@ requirement; draining a write alone does not invalidate previously cached HTML.
 
 ## Remaining integration boundaries
 
-- RSC uses additional Flight producers, tee branches and payload-injection tasks.
-  These are not covered by the HTML renderer tests or a React HTML all-ready
-  signal. RSC coordinated mutation remains unsupported until that chain has a
-  complete ownership/cancellation contract and compiled integration validation.
+- RSC, Flight producers, tee branches and RSC payload injection are outside this
+  RFC's implementation and acceptance scope, as explicitly agreed on 2026-09-10.
+  They do not block R2 or R3. The scope covers ordinary HTML SSR, including its
+  React streaming, loaders, remote consumption and HTML caches.
 - Extenders can expose their Node stream lifecycle, but arbitrary work hidden
   behind a custom destroy callback or unrelated task is not automatically tracked.
   Custom renderers/producers must register their complete tasks explicitly.
@@ -99,7 +100,7 @@ requirement; draining a write alone does not invalidate previously cached HTML.
   their owner; aborting React cannot cancel their underlying promises. The React
   test intentionally registers its independent lazy-import promise explicitly.
 - R3 must install the gate before selecting resources/loader/renderer, supply work
-  to every owned render/action path, invalidate generation-specific HTML caches,
+  to every owned HTML SSR/loader path, invalidate generation-specific HTML caches,
   and reject unsupported paths before mutation. These changes do not yet switch
   application generations or expose the final MF update API.
 
@@ -155,7 +156,7 @@ that setup failure is not evidence of a product failure.
 
 The HTML stream tests run real React Node and Web rendering with template/context
 fixtures. The Web test alias supplies React Web rendering in place of the RSC
-entry, so these results explicitly do not validate RSC. React 19 waits for a
+entry. RSC validation is outside the agreed scope. React 19 waits for a
 potential document preamble when Suspense is at the root; the streaming fixture
 uses an application DOM container to obtain a real shell before pending content.
 Two real HTTP cases receive the shell, disconnect, keep deferred work leased,
@@ -190,3 +191,13 @@ artifact/HTTP checks do not replace its future E2E acceptance. No publication.
 Final affected-package results: server-core 42/42, runtime-utils 87/87, runtime 61/61; zero failed/skipped tests. All three builds and declaration generation, touched-file Biome, Changesets planning and diff checks pass. The runtime-utils test runner emits a MaxListenersExceededWarning about 11 `modified` listeners; it is recorded rather than suppressed and is not treated as a proven application memory leak or a resolved issue.
 
 A delayed reader-cancellation regression additionally proved that repeated Web cancellation must return the same tracked cancellation promise. The final renderer suite includes 17 lifecycle cases, including this handshake; the final full runtime suite is 61/61.
+
+## Scope decision (2026-09-10)
+
+RSC is explicitly excluded by the user. Continue with ordinary SSR admission,
+application-resource ownership, same-process rebuilding and targeted invalidation.
+Arbitrary unregistered business background work remains an explicit boundary of
+the work-registration contract, rather than a requirement to discover every
+possible asynchronous side effect. This scope change is documentation-only;
+`git diff --check` was run, and code tests/builds were not repeated because no
+runtime or test behavior changed.
