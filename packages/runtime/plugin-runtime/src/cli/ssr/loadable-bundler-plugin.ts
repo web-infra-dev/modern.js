@@ -23,6 +23,8 @@ interface LoadablePluginOptions {
   chunkLoadingGlobal?: string;
 }
 
+const DEFAULT_CHUNK_LOADING_GLOBAL = '__LOADABLE_LOADED_CHUNKS__';
+
 type Compiler = Rspack.Compiler;
 
 type Compilation = Rspack.Compilation;
@@ -48,11 +50,10 @@ class LoadablePlugin {
       path,
       writeToDisk,
       outputAsset = true,
-      chunkLoadingGlobal = '__LOADABLE_LOADED_CHUNKS__',
+      chunkLoadingGlobal,
     }: LoadablePluginOptions = {
       filename: 'loadable-stats.json',
       outputAsset: true,
-      chunkLoadingGlobal: '__LOADABLE_LOADED_CHUNKS__',
     },
   ) {
     this.opts = {
@@ -69,7 +70,28 @@ class LoadablePlugin {
   apply(compiler: Compiler) {
     this.compiler = compiler;
 
-    compiler.options.output.chunkLoadingGlobal = this.opts.chunkLoadingGlobal;
+    if (this.opts.chunkLoadingGlobal) {
+      compiler.options.output.chunkLoadingGlobal = this.opts.chunkLoadingGlobal;
+    }
+
+    // Read the final value after all Rspack plugins have been applied, because
+    // another plugin may update chunkLoadingGlobal directly on the compiler.
+    compiler.hooks.initialize.tap(
+      {
+        name: LoadablePlugin.name,
+        stage: Number.POSITIVE_INFINITY,
+      },
+      () => {
+        const chunkLoadingGlobal =
+          compiler.options.output.chunkLoadingGlobal ||
+          DEFAULT_CHUNK_LOADING_GLOBAL;
+
+        new compiler.webpack.DefinePlugin({
+          'process.env.MODERN_CHUNK_LOADING_GLOBAL':
+            JSON.stringify(chunkLoadingGlobal),
+        }).apply(compiler);
+      },
+    );
 
     if (this.opts.outputAsset || this.opts.writeToDisk) {
       compiler.hooks.make.tap(
