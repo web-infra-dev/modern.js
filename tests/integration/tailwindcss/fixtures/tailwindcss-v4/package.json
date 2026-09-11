@@ -12,9 +12,9 @@
   "dependencies": {
     "@modern-js/app-tools": "workspace:*",
     "@modern-js/runtime": "workspace:*",
-    "postcss": "^8.5.16",
-    "react": "^19.2.7",
-    "react-dom": "^19.2.7",
+    "postcss": "^8.5.26",
+    "react": "^19.2.8",
+    "react-dom": "^19.2.8",
     "@tailwindcss/postcss": "^4.1.18",
     "tailwindcss": "^4.1.18"
   }

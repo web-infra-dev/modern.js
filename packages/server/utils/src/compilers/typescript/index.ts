@@ -1,9 +1,17 @@
 import path from 'path';
-import { fs, getAliasConfig, logger } from '@modern-js/utils';
+import {
+  fs,
+  getAliasConfig,
+  logger,
+  readTsConfigByFile as readRawTsConfigByFile,
+} from '@modern-js/utils';
 import type { ParseConfigFileHost, Program } from 'typescript';
 import type ts from 'typescript';
 import type { CompileFunc } from '../../common';
-import { tsconfigPathsBeforeHookFactory } from './tsconfigPathsPlugin';
+import {
+  tsconfigPathsAfterDeclarationsHookFactory,
+  tsconfigPathsBeforeHookFactory,
+} from './tsconfigPathsPlugin';
 import { TypescriptLoader } from './typescriptLoader';
 
 const readTsConfigByFile = (tsConfigFile: string, tsInstance: typeof ts) => {
@@ -22,7 +30,7 @@ const copyFiles = async (from: string, to: string, appDirectory: string) => {
     const targetDir = path.join(to, relativePath);
     await fs.copy(from, targetDir, {
       filter: src =>
-        !['.ts', '.js'].includes(path.extname(src)) &&
+        !['.ts', '.tsx', '.js', '.jsx'].includes(path.extname(src)) &&
         !src.endsWith('tsconfig.json'),
     });
   }
@@ -39,8 +47,10 @@ export const compileByTs: CompileFunc = async (
     return;
   }
 
+  const tsConfig = readRawTsConfigByFile(tsconfigPath);
   const ts = new TypescriptLoader({
     appDirectory,
+    compiler: tsConfig['ts-node']?.compiler,
   }).load();
 
   const createProgram = ts.createIncrementalProgram || ts.createProgram;
@@ -76,6 +86,13 @@ export const compileByTs: CompileFunc = async (
       ...options,
       rootDir: appDirectory,
       outDir: distDir,
+      // `jsx: preserve` emits `.jsx` files, which Node cannot execute and which
+      // the emitted specifiers (always `.js`) would not point at. Server output
+      // has to run in Node directly, so JSX must be transformed here.
+      jsx:
+        options.jsx === undefined || options.jsx === ts.JsxEmit.Preserve
+          ? ts.JsxEmit.ReactJSX
+          : options.jsx,
     },
   });
 
@@ -86,8 +103,21 @@ export const compileByTs: CompileFunc = async (
     compileOptions.moduleType,
   );
 
+  // tsc keeps path aliases verbatim in `.d.ts` output, so the same rewrite has
+  // to run on declaration emit or aliased specifiers leak to consumers.
+  const tsconfigPathsDeclarationPlugin =
+    tsconfigPathsAfterDeclarationsHookFactory(
+      ts,
+      absoluteBaseUrl,
+      paths,
+      compileOptions.moduleType,
+    );
+
   const emitResult = program.emit(undefined, undefined, undefined, undefined, {
-    before: [tsconfigPathsPlugin!],
+    before: tsconfigPathsPlugin ? [tsconfigPathsPlugin] : [],
+    afterDeclarations: tsconfigPathsDeclarationPlugin
+      ? [tsconfigPathsDeclarationPlugin]
+      : [],
   });
 
   const allDiagnostics = ts

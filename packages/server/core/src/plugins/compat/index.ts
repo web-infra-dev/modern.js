@@ -1,9 +1,8 @@
-import { createAsyncHook, createAsyncPipelineHook } from '@modern-js/plugin';
+import { createAsyncPipelineHook } from '@modern-js/plugin';
 import type {
   AfterMatchFn,
   AfterRenderFn,
   AfterStreamingRenderContextFn,
-  FallbackFn,
   PrepareApiServerFn,
   PrepareWebServerFn,
   ServerPlugin,
@@ -14,7 +13,6 @@ export { handleSetupResult } from './hooks';
 export const compatPlugin = (): ServerPlugin => ({
   name: '@modern-js/server-compat',
   registryHooks: {
-    fallback: createAsyncHook<FallbackFn>(),
     prepareWebServer: createAsyncPipelineHook<PrepareWebServerFn>(),
     prepareApiServer: createAsyncPipelineHook<PrepareApiServerFn>(),
     afterMatch: createAsyncPipelineHook<AfterMatchFn>(),

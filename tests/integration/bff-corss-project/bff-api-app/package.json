@@ -16,8 +16,8 @@
     "@modern-js/server-runtime": "workspace:*",
     "express": "^4.22.2",
     "hono": "^4.11.7",
-    "react": "^19.2.7",
-    "react-dom": "^19.2.7",
+    "react": "^19.2.8",
+    "react-dom": "^19.2.8",
     "ts-node": "^10.9.2",
     "tsconfig-paths": "3.15.0",
     "zod": "^3.25.76"
@@ -45,17 +45,21 @@
       "import": "./dist-1/client/*.js",
       "types": "./dist-1/client/*.d.ts"
     },
-    "./api/context/index": {
-      "import": "./dist-1/client/context/index.js",
-      "types": "./dist-1/client/context/index.d.ts"
-    },
     "./api/index": {
       "import": "./dist-1/client/index.js",
       "types": "./dist-1/client/index.d.ts"
     },
+    "./api/portable": {
+      "import": "./dist-1/client/portable.js",
+      "types": "./dist-1/client/portable.d.ts"
+    },
     "./api/upload": {
       "import": "./dist-1/client/upload.js",
       "types": "./dist-1/client/upload.d.ts"
+    },
+    "./api/context/index": {
+      "import": "./dist-1/client/context/index.js",
+      "types": "./dist-1/client/context/index.d.ts"
     },
     "./api/user/[id]": {
       "import": "./dist-1/client/user/[id].js",
@@ -77,14 +81,17 @@
       "api/*": [
         "./dist-1/client/*.d.ts"
       ],
-      "api/context/index": [
-        "./dist-1/client/context/index.d.ts"
-      ],
       "api/index": [
         "./dist-1/client/index.d.ts"
       ],
+      "api/portable": [
+        "./dist-1/client/portable.d.ts"
+      ],
       "api/upload": [
         "./dist-1/client/upload.d.ts"
+      ],
+      "api/context/index": [
+        "./dist-1/client/context/index.d.ts"
       ],
       "api/user/[id]": [
         "./dist-1/client/user/[id].d.ts"
@@ -97,6 +104,7 @@
   "files": [
     "dist-1/client/**/*",
     "dist-1/runtime/**/*",
-    "dist-1/plugin/**/*"
+    "dist-1/plugin/**/*",
+    "dist-1/**/*.d.ts"
   ]
 }

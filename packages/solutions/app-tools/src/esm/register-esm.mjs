@@ -25,6 +25,7 @@ export const registerModuleHooks = async ({
   )}/`;
   register('./ts-node-loader.mjs', import.meta.url, {
     data: {
+      appDir,
       baseUrl,
       paths,
     },

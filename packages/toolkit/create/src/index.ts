@@ -70,6 +70,7 @@ function showHelp() {
   console.log(i18n.t(localeKeys.help.optionLang));
   console.log(i18n.t(localeKeys.help.optionSub));
   console.log(i18n.t(localeKeys.help.optionNoAgentsMd));
+  console.log(i18n.t(localeKeys.help.optionAgentsMdOnly));
   console.log('');
   console.log(i18n.t(localeKeys.help.examples));
   console.log(i18n.t(localeKeys.help.example1));
@@ -110,6 +111,7 @@ const BOOLEAN_FLAGS = [
   '-s',
   '--no-sub',
   '--no-agents-md',
+  '--agents-md-only',
 ];
 
 function detectSubprojectFlag(): boolean | null {
@@ -187,14 +189,20 @@ async function main() {
     return;
   }
 
-  // Subcommand for existing projects: add/refresh AGENTS.md & CLAUDE.md so
-  // agents pick up the bundled docs after an upgrade (idempotent).
-  if (args[0] === 'agents-md') {
-    const dirArg = args.slice(1).find(arg => !arg.startsWith('-'));
-    const targetDir = dirArg
-      ? path.resolve(process.cwd(), dirArg)
-      : process.cwd();
-    runAgentsMd(templateDir, targetDir);
+  // Mode for existing projects: add/refresh AGENTS.md & CLAUDE.md in the
+  // current directory so agents pick up the bundled docs after an upgrade
+  // (idempotent). A flag rather than a positional, so it never collides with
+  // a project name; mutually exclusive with creating a project.
+  if (args.includes('--agents-md-only')) {
+    const hasProjectName = args.some(
+      (arg, index) =>
+        !arg.startsWith('-') && !VALUE_FLAGS.includes(args[index - 1]),
+    );
+    if (hasProjectName || args.includes('--no-agents-md')) {
+      console.error(i18n.t(localeKeys.error.agentsMdOnlyConflict));
+      process.exit(1);
+    }
+    runAgentsMd(templateDir, process.cwd());
     return;
   }
 

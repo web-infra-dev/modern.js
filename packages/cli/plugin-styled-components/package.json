@@ -8,7 +8,7 @@
     "modern",
     "modern.js"
   ],
-  "version": "3.7.0",
+  "version": "3.9.0",
   "types": "./src/index.ts",
   "main": "./dist/cjs/index.js",
   "export": {
@@ -30,14 +30,14 @@
     "build": "rslib build"
   },
   "dependencies": {
-    "@rsbuild/plugin-styled-components": "1.6.2",
+    "@rsbuild/plugin-styled-components": "1.7.0",
     "@swc/helpers": "^0.5.17"
   },
   "devDependencies": {
     "@modern-js/app-tools": "workspace:*",
     "@modern-js/rslib": "workspace:*",
     "@modern-js/runtime": "workspace:*",
-    "@rslib/core": "0.23.2",
+    "@rslib/core": "1.0.0",
     "@types/node": "^20",
     "@types/styled-components": "^5.1.36",
     "styled-components": "^5.3.1",

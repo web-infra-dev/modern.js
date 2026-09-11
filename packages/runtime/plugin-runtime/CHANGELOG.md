@@ -1,5 +1,77 @@
 # @modern-js/runtime
 
+## 3.9.0
+
+### Patch Changes
+
+- c4fd1c3: fix(app-tools): fix BFF ts-node-loader compatibility with ESM
+  fix(plugin-runtime): fix document CLI compatibility with ESM lib format
+
+  fix(app-tools): 修复 BFF ts-node-loader 在 ESM 构建格式下的兼容性问题
+  fix(plugin-runtime): 修复 document CLI 在 ESM 构建格式下的兼容性问题
+
+  - @modern-js/plugin-data-loader@3.9.0
+  - @modern-js/render@3.9.0
+  - @modern-js/plugin@3.9.0
+  - @modern-js/runtime-utils@3.9.0
+  - @modern-js/types@3.9.0
+  - @modern-js/utils@3.9.0
+
+## 3.8.3
+
+### Patch Changes
+
+- 3748f08: chore: upgrade Rsbuild to v2.2.0-rc.0 and the SWC plugin to the latest version
+
+  chore: 升级 Rsbuild 至 v2.2.0-rc.0，并将 SWC 插件升级至最新版本
+
+- 546e96e: chore: upgrade Rsbuild dependencies to the latest versions
+
+  chore: 升级 Rsbuild 相关依赖至最新版本
+
+- Updated dependencies [3748f08]
+- Updated dependencies [546e96e]
+  - @modern-js/plugin-data-loader@3.8.3
+  - @modern-js/plugin@3.8.3
+  - @modern-js/render@3.8.3
+  - @modern-js/runtime-utils@3.8.3
+  - @modern-js/types@3.8.3
+  - @modern-js/utils@3.8.3
+
+## 3.8.2
+
+### Patch Changes
+
+- @modern-js/plugin-data-loader@3.8.2
+- @modern-js/render@3.8.2
+- @modern-js/plugin@3.8.2
+- @modern-js/runtime-utils@3.8.2
+- @modern-js/types@3.8.2
+- @modern-js/utils@3.8.2
+
+## 3.8.1
+
+### Patch Changes
+
+- @modern-js/plugin-data-loader@3.8.1
+- @modern-js/render@3.8.1
+- @modern-js/plugin@3.8.1
+- @modern-js/runtime-utils@3.8.1
+- @modern-js/types@3.8.1
+- @modern-js/utils@3.8.1
+
+## 3.8.0
+
+### Patch Changes
+
+- Updated dependencies [b3a0709]
+  - @modern-js/utils@3.8.0
+  - @modern-js/plugin-data-loader@3.8.0
+  - @modern-js/render@3.8.0
+  - @modern-js/plugin@3.8.0
+  - @modern-js/runtime-utils@3.8.0
+  - @modern-js/types@3.8.0
+
 ## 3.7.0
 
 ### Patch Changes
