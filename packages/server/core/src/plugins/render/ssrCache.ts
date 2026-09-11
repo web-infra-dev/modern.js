@@ -201,6 +201,7 @@ export function matchCacheControl(
 }
 
 export interface GetCacheResultOptions {
+  cacheNamespace?: string;
   cacheControl: CacheControl;
   requestHandler: RequestHandler;
   requestHandlerOptions: RequestHandlerOptions;
@@ -219,7 +220,11 @@ export async function getCacheResult(
   } = options;
   const { onError } = requestHandlerOptions;
 
-  const key = computedKey(request, cacheControl);
+  const computed = computedKey(request, cacheControl);
+  const key =
+    options.cacheNamespace === undefined
+      ? computed
+      : JSON.stringify(['modern-ssr', options.cacheNamespace, computed]);
 
   let value: string | undefined;
   try {

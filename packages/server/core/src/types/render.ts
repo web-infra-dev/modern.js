@@ -15,6 +15,7 @@ import type { ServerManifest } from './server';
 // TODO: combine some field with RequestHandlerOptions
 export interface RenderOptions {
   work?: SSRRequestWork;
+  cacheNamespace?: string;
   monitors: Monitors;
 
   loaderContext?: Map<string, unknown>;

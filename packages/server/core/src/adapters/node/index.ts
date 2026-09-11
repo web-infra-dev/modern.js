@@ -33,3 +33,12 @@ export type {
   SSRRequestCoordinatorOptions,
   SSRRequestWork,
 } from './requestCoordinator';
+
+export { createSSRApplication } from './application';
+export type {
+  SSRApplication,
+  SSRApplicationOptions,
+  SSRApplicationResources,
+} from './application';
+
+export type { SSRResourceApplicationOptions } from './plugins/resource';
