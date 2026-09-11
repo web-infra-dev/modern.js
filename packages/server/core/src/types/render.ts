@@ -16,6 +16,8 @@ import type { ServerManifest } from './server';
 export interface RenderOptions {
   work?: SSRRequestWork;
   cacheNamespace?: string;
+  /** Entries leased by the application owner before middleware execution. */
+  entryScope?: readonly string[];
   monitors: Monitors;
 
   loaderContext?: Map<string, unknown>;

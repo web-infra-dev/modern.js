@@ -9,7 +9,26 @@ export interface SSRRequestCoordinatorOptions {
 }
 
 type Phase = 'serving' | 'draining' | 'updating' | 'unavailable';
-type Waiter = { resume: () => void; reject: (reason: Error) => void };
+export type SSRRequestScope = readonly string[] | undefined;
+type Waiter = {
+  scope: SSRRequestScope;
+  resume: () => void;
+  reject: (reason: Error) => void;
+};
+
+const intersects = (left: SSRRequestScope, right: SSRRequestScope) =>
+  !left || !right || left.some(scope => right.includes(scope));
+
+const copyScope = (scope: SSRRequestScope): SSRRequestScope => {
+  if (scope === undefined) return;
+  if (
+    !Array.isArray(scope) ||
+    !scope.length ||
+    scope.some(value => typeof value !== 'string' || !value)
+  )
+    throw new TypeError('SSR scope must contain non-empty entry names');
+  return [...new Set(scope)];
+};
 
 class AdmissionError extends Error {}
 
@@ -38,20 +57,28 @@ export function createSSRRequestCoordinator(
   const drainListeners = new Set<() => void>();
   let phase: Phase = 'serving';
   let active = 0;
+  let closedScope: SSRRequestScope;
+  const leases = new Map<object, SSRRequestScope>();
+  const blocked = (scope: SSRRequestScope) =>
+    phase !== 'serving' && intersects(scope, closedScope);
   let generation = 0;
   let updates: Promise<unknown> = Promise.resolve();
 
   const wake = (error?: Error) => {
     for (const waiter of Array.from(waiters)) {
-      if (error) waiter.reject(error);
-      else waiter.resume();
+      if (error && blocked(waiter.scope)) waiter.reject(error);
+      else if (!blocked(waiter.scope)) waiter.resume();
     }
   };
 
-  const waitForAdmission = (signal: AbortSignal, deadline: number) =>
+  const waitForAdmission = (
+    signal: AbortSignal,
+    deadline: number,
+    scope: SSRRequestScope,
+  ) =>
     new Promise<void>((resolve, reject) => {
       if (signal.aborted) return reject(signal.reason);
-      if (phase === 'unavailable')
+      if (phase === 'unavailable' && blocked(scope))
         return reject(new AdmissionError('SSR application is unavailable'));
       if (waiters.size >= maxPendingRequests)
         return reject(new AdmissionError('SSR request queue is full'));
@@ -66,7 +93,7 @@ export function createSSRRequestCoordinator(
         else resolve();
       };
       const abort = () => finish(signal.reason);
-      const waiter: Waiter = { resume: () => finish(), reject: finish };
+      const waiter: Waiter = { scope, resume: () => finish(), reject: finish };
       const timer = setTimeout(
         () => finish(new AdmissionError('SSR request wait timed out')),
         remaining,
@@ -77,8 +104,13 @@ export function createSSRRequestCoordinator(
 
   const drain = () =>
     new Promise<void>((resolve, reject) => {
-      if (active === 0) return resolve();
+      const drained = () =>
+        !Array.from(leases.values()).some(scope =>
+          intersects(scope, closedScope),
+        );
+      if (drained()) return resolve();
       const finish = () => {
+        if (!drained()) return;
         clearTimeout(timer);
         drainListeners.delete(finish);
         resolve();
@@ -94,6 +126,7 @@ export function createSSRRequestCoordinator(
     get status() {
       return {
         phase,
+        closedScope: phase === 'serving' ? [] : closedScope && [...closedScope],
         generation,
         activeRequests: active,
         pendingRequests: waiters.size,
@@ -103,6 +136,7 @@ export function createSSRRequestCoordinator(
     async handle(
       request: Request,
       render: (work: SSRRequestWork) => Promise<Response>,
+      requestScope?: readonly string[],
     ): Promise<Response> {
       if (
         context.getStore()?.active &&
@@ -111,11 +145,12 @@ export function createSSRRequestCoordinator(
         throw new Error(
           'Cannot wait on SSR admission from its active request or update',
         );
+      const scope = copyScope(requestScope);
       const deadline = Date.now() + requestTimeoutMs;
       try {
         // Waking is only a notification: another update may have closed admission.
-        while (phase !== 'serving')
-          await waitForAdmission(request.signal, deadline);
+        while (blocked(scope))
+          await waitForAdmission(request.signal, deadline, scope);
         request.signal.throwIfAborted();
       } catch (error) {
         if (error instanceof AdmissionError)
@@ -128,13 +163,14 @@ export function createSSRRequestCoordinator(
       // No await between checking admission and acquiring the lease.
       active++;
       const lease = { active: true };
+      leases.set(lease, scope);
       let pending = 1;
       const release = () => {
         if (--pending !== 0) return;
         lease.active = false;
         active--;
-        if (active === 0)
-          for (const finish of Array.from(drainListeners)) finish();
+        leases.delete(lease);
+        for (const finish of Array.from(drainListeners)) finish();
       };
       const work: SSRRequestWork = {
         track<T>(task: Promise<T>) {
@@ -202,7 +238,19 @@ export function createSSRRequestCoordinator(
     },
 
     /** Serialize updates. A mutation failure stays closed; retry explicitly. */
-    update(publish: () => Promise<void>): Promise<number> {
+    update(
+      publish: (scope: SSRRequestScope) => Promise<void>,
+      requestedScope?: readonly string[] | (() => SSRRequestScope),
+    ): Promise<number> {
+      let scope: SSRRequestScope;
+      try {
+        scope =
+          typeof requestedScope === 'function'
+            ? undefined
+            : copyScope(requestedScope);
+      } catch (error) {
+        return Promise.reject(error);
+      }
       if (context.getStore()?.active)
         return Promise.reject(
           new Error(
@@ -212,19 +260,25 @@ export function createSSRRequestCoordinator(
           ),
         );
       const operation = updates.then(async () => {
+        if (typeof requestedScope === 'function')
+          scope = copyScope(requestedScope());
         const previous = phase;
+        const previousScope = closedScope;
+        // A failed mutation must be repaired before its scope can reopen.
+        closedScope = previous === 'unavailable' ? undefined : scope;
         phase = 'draining';
         try {
           await drain();
         } catch (error) {
           phase = previous;
-          if (phase === 'serving') wake();
+          closedScope = previousScope;
+          wake();
           throw error;
         }
         phase = 'updating';
         const publication = { active: true, updating: true };
         try {
-          await context.run(publication, publish);
+          await context.run(publication, () => publish(closedScope));
           generation++;
           phase = 'serving';
           wake();

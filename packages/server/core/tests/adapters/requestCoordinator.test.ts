@@ -287,3 +287,115 @@ it('rejects nested updates and gated warmup instead of waiting on itself', async
   });
   expect(gate.status.generation).toBe(1);
 });
+
+it('scopes admission and drains unknown work while unrelated producers continue', async () => {
+  const gate = coordinator();
+  const a = deferred();
+  const b = deferred();
+  const unknown = deferred();
+  for (const [scope, work] of [
+    [['a'], a],
+    [['b'], b],
+    [undefined, unknown],
+  ] as const) {
+    const response = await gate.handle(
+      request(),
+      async tracker => {
+        tracker.track(work.promise);
+        return new Response('old');
+      },
+      scope,
+    );
+    await response.text();
+  }
+  let published = false;
+  const update = gate.update(async () => {
+    published = true;
+  }, ['a']);
+  await tick();
+  expect(
+    await (
+      await gate.handle(request(), async () => new Response('b'), ['b'])
+    ).text(),
+  ).toBe('b');
+  const waiting = gate.handle(request(), async () => new Response('new'), [
+    'a',
+  ]);
+  a.resolve();
+  await tick();
+  expect(published).toBe(false);
+  unknown.resolve();
+  await update;
+  expect(await (await waiting).text()).toBe('new');
+  expect(gate.status.activeRequests).toBe(1);
+  b.resolve();
+  await tick();
+  expect(gate.status.activeRequests).toBe(0);
+});
+
+it('a failed scoped mutation keeps only its scope closed and retry drains the whole app', async () => {
+  const gate = coordinator();
+  await expect(
+    gate.update(async () => {
+      throw new Error('broken');
+    }, ['a']),
+  ).rejects.toThrow('broken');
+  expect(
+    (await gate.handle(request(), async () => new Response('unsafe'), ['a']))
+      .status,
+  ).toBe(503);
+  expect(
+    await (
+      await gate.handle(request(), async () => new Response('b'), ['b'])
+    ).text(),
+  ).toBe('b');
+  const b = deferred();
+  await (
+    await gate.handle(
+      request(),
+      async work => {
+        work.track(b.promise);
+        return new Response('b');
+      },
+      ['b'],
+    )
+  ).text();
+  let recovered = false;
+  const update = gate.update(
+    async scope => {
+      expect(scope).toBeUndefined();
+      recovered = true;
+    },
+    ['a'],
+  );
+  await tick();
+  expect(recovered).toBe(false);
+  b.resolve();
+  await update;
+  expect(recovered).toBe(true);
+});
+
+it('plans at execution time after preceding updates and rejects invalid scopes before mutation', async () => {
+  const gate = coordinator();
+  const wait = deferred();
+  let entry = 'a';
+  const first = gate.update(async () => {
+    await wait.promise;
+    entry = 'b';
+  });
+  const second = gate.update(
+    async scope => {
+      expect(scope).toEqual(['b']);
+    },
+    () => [entry],
+  );
+  wait.resolve();
+  await first;
+  await second;
+  await expect(
+    gate.update(async () => {
+      throw new Error('must not run');
+    }, []),
+  ).rejects.toThrow('scope');
+  expect(gate.status.phase).toBe('serving');
+});

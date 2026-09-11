@@ -1,4 +1,4 @@
-# SSR request coordination and application publication (R2 / R3)
+# SSR request coordination and application publication (R2 / R3 / R4)
 
 `createSSRRequestCoordinator` is exported from `@modern-js/server-core/node`.
 It coordinates one application owner in one Node process. It does not replace
@@ -50,13 +50,13 @@ there is no rollback promise or artificial mutation timeout.
 handlers. Returning undefined enters normal admission. The bypass cannot fall
 through to application middleware and must not access application-owned resources.
 Without an explicit bypass, requests (including static/API routes) are admitted
-through this application-wide owner. Scope-based admission remains R4. A readiness
+through this application-wide owner. Scope-based admission is opt-in through the R4 hooks documented below. A readiness
 handler can consult `status`; liveness must not imply readiness during failed
 publication. No guessed production queue/time-limit defaults are introduced.
 
 The MF adapter and final remote-update API will compose these hooks. The production
 artifact test already supplies the real companion runtime's adapter disposal and
-remove/register operations, including failed-candidate cleanup. R4 still adds the
+remove/register operations, including failed-candidate cleanup. The companion MF R4 adapter supplies the
 static dependency planner and selective path; R5 owns API migration; R6 remains
 responsible for the complete deployment/hydration/load/resource acceptance matrix.
 
@@ -157,8 +157,8 @@ a write alone would not invalidate previously cached HTML.
   their owner; aborting React cannot cancel their underlying promises. The React
   test intentionally registers its independent lazy-import promise explicitly.
 - R3 now supplies admission, work propagation and application-resource publication
-  when explicitly enabled. The final MF update API and static selective planner
-  remain separate integration work.
+  when explicitly enabled. The R4 hooks below provide selective publication; the final MF update API
+  remains R5 work.
 
 The Node HTTP adapter already propagates response close to Request.signal. The
 new renderer handling consumes that signal without equating disconnect with a
@@ -348,3 +348,74 @@ Its repository-wide Prettier gate still reports 683 existing/generated or unrela
 user-dirty files; its changed files pass. This is recorded rather than broad-formatting
 the workspace. The production MF test requires both companion repository paths and
 fails if they are omitted; it is not silently skipped by the package unit runner.
+
+
+## Selective entry publication (R4, 2026-09-11)
+
+`resolveScope(request)` returns the complete list of entry names used by a request,
+or undefined when unknown. It runs before admission; resources are selected after
+admission. Unknown leases intersect every update. `update(invalidate, scope)`
+accepts either entry names or a synchronous plan factory evaluated inside the
+serialized queue, before closing admission. The invalidator receives the effective
+scope; undefined means whole application. Empty scopes and selective updates
+without a classifier are rejected before mutation.
+
+`reloadEntry(entryName)` is required with a classifier. On selective publication,
+Modern reacquires only selected render and standalone-loader exports through this
+callback, without evicting their CommonJS bundle roots. The MF adapter supplies
+this callback using the compiler's original entry module in its existing runtime.
+`dispose(resources, entries)` and invalidation receive the same effective scope.
+Selected maps are replaced atomically; unrelated resources and their HTML-cache
+namespaces remain available. Unknown or multi-entry requests use a fresh general
+namespace on every publication. A renderer rewrite across the admitted entry
+boundary returns 503 before selecting that entry's resources.
+
+Drain includes intersecting response bodies and tracked producers, including unknown
+requests. Unaffected requests remain admitted while a scope drains or is unavailable.
+A failed mutation/publication keeps the affected scope unavailable; the next explicit
+retry expands to whole application so partially replaced resources are never treated
+as a valid baseline. A drain timeout occurs before mutation and restores prior state.
+
+The companion `@module-federation/modern-js-v3` adapter owns the MF-specific graph,
+static-consumption contract and fallback reasons. Modern server-core has no MF
+package dependency or Rspack-specific compiler code. Routing/classifier correctness
+and custom middleware consumption remain the application's contract. Several routes
+inside a shared Modern entry update together; R4 does not claim arbitrary route-level
+isolation. Dynamic consumption and incomplete metadata use the R3 whole-application
+path while keeping the HTTP server, PID and port.
+
+### R4 verification
+
+Worktrees: `/private/tmp/modern-r4-static-update` and
+`/private/tmp/mf-r4-static-update`. Compiler preview:
+`2.2.3-canary-76e8f696-20260911033013`. Commands from Modern:
+
+```sh
+pnpm --filter @modern-js/server-core... build
+pnpm --filter @modern-js/prod-server... build
+pnpm --filter @modern-js/server-core test
+SSR_CACHE_MF_ROOT=/private/tmp/mf-r4-static-update node --test packages/server/core/tests/application.static-mf.test.cjs
+SSR_STATIC_NUMERIC=1 SSR_CACHE_MF_ROOT=/private/tmp/mf-r4-static-update node --test packages/server/core/tests/application.static-mf.test.cjs
+SSR_STATIC_OPTIMIZE=1 SSR_CACHE_MF_ROOT=/private/tmp/mf-r4-static-update node --test packages/server/core/tests/application.static-mf.test.cjs
+NODE_ENV=production node --test packages/server/core/tests/application.http.test.cjs
+NODE_ENV=production SSR_CACHE_RSPACK_ENTRY=/private/tmp/mf-r4-static-update/node_modules/@rspack/core/dist/index.js SSR_CACHE_MF_ROOT=/private/tmp/mf-r4-static-update node --test packages/server/core/tests/application.mf.test.cjs
+pnpm exec biome check $(git diff --name-only -- '*.ts')
+pnpm exec changeset status
+git diff --check
+```
+
+Server-core: 49 tests pass. Native static cases each pass, including loader replacement,
+shared ancestor entries, HTML cache isolation, unrelated module identity, pending
+producer drain, cross-entry rewrites, failure/retry and dynamic fallback. HTTP
+regression: 3 pass; production dynamic MF regression: 1 pass. Numeric IDs plus
+minification retain selective updates. Module concatenation exposes an incomplete
+native ancestor closure in this preview: the test asserts explicit
+`incomplete-parent-closure` whole-application fallback and successful replacement,
+not selective success. No compiler graph is fabricated to bypass this limitation.
+
+The fixture uses real Rspack artifacts and Modern ServerBase/render/resource/cache
+plugins; the production dynamic regression additionally exercises createProdServer.
+Full framework/builder E2E, browser hydration/Cypress, sustained load and heap/handle
+soaks are not run for R4 and remain R6 acceptance. The prod-server package has no
+unit suite; its production entry is exercised by the artifact regression. RSC is
+explicitly excluded. No publish commands are run.
