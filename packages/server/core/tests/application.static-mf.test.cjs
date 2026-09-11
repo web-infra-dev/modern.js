@@ -27,7 +27,8 @@ test('compiled static imports reload their Modern entries while independent requ
   const mf = process.env.SSR_CACHE_MF_ROOT;
   assert.ok(mf, 'Set SSR_CACHE_MF_ROOT to the companion MF worktree');
   const { rspack, container } = require(
-    require.resolve('@rspack/core', { paths: [mf] }),
+    process.env.SSR_CACHE_RSPACK_ENTRY ||
+      require.resolve('@rspack/core', { paths: [mf] }),
   );
   const { SSRDependencyPlugin } = require(
     path.join(mf, 'packages/modernjs-v3/dist/cjs/cli/SSRDependencyPlugin'),
@@ -233,25 +234,7 @@ test('compiled static imports reload their Modern entries while independent requ
     );
     const before = { ...globalThis.__staticRuns };
     const stable = require(path.join(out, 'a.cjs')).stable;
-    if (process.env.SSR_STATIC_OPTIMIZE === '1') {
-      assert.deepEqual(adapter.plan('remote'), {
-        mode: 'application',
-        reasons: ['incomplete-parent-closure'],
-      });
-      const result = await adapter.update(application, 'remote', {
-        entry: path.join(out, 'v2.cjs'),
-        entryGlobalName: 'v2',
-      });
-      assert.equal(result.mode, 'application');
-      assert.equal(await get('/a'), 'v2');
-      assert.equal(await get('/c'), 'v2');
-      assert.ok(
-        globalThis.__staticRuns.b > before.b,
-        'fallback rebuilds unrelated application roots',
-      );
-      assert.deepEqual(http.address(), address);
-      return;
-    }
+    const unrelatedStable = require(path.join(out, 'b.cjs')).stable;
     assert.deepEqual(adapter.plan('remote'), {
       mode: 'entries',
       entries: ['a', 'c'],
@@ -286,11 +269,19 @@ test('compiled static imports reload their Modern entries while independent requ
       'hit',
     );
     assert.equal(globalThis.__staticRuns.b, before.b);
-    assert.equal(globalThis.__staticRuns.stable, before.stable);
-    assert.equal(
-      await adapter.reload('a').then(exports => exports.stable),
-      stable,
-    );
+    assert.equal(require(path.join(out, 'b.cjs')).stable, unrelatedStable);
+    const updatedStable = await adapter
+      .reload('a')
+      .then(exports => exports.stable);
+    if (process.env.SSR_STATIC_OPTIMIZE === '1') {
+      // Scope hoisting places stable inside each entry's execution unit. The two
+      // affected units execute again; the independent b unit remains untouched.
+      assert.equal(globalThis.__staticRuns.stable, before.stable + 2);
+      assert.notEqual(updatedStable, stable);
+    } else {
+      assert.equal(globalThis.__staticRuns.stable, before.stable);
+      assert.equal(updatedStable, stable);
+    }
     assert.deepEqual(http.address(), address);
     assert.equal(
       createSSRUpdateAdapter({

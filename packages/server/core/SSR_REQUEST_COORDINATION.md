@@ -419,3 +419,45 @@ Full framework/builder E2E, browser hydration/Cypress, sustained load and heap/h
 soaks are not run for R4 and remain R6 acceptance. The prod-server package has no
 unit suite; its production entry is exercised by the artifact regression. RSC is
 explicitly excluded. No publish commands are run.
+
+
+## R4 concatenation follow-up (2026-09-11)
+
+The companion Rspack correction reconstructs MF consumer ancestry from emitted
+modules' outgoing edges. A source module concatenated into several pages/loaders
+can share dependency IDs whose incoming view retains just one rewritten origin;
+that was the source of the previous incomplete-parent-closure fallback. Modern's
+planner and safety checks are unchanged. The artifact regression now requires
+selective success under concatenation and accepts an explicit
+SSR_CACHE_RSPACK_ENTRY for testing the patched native compiler.
+
+The optimized test passes with the patched compiler and fails with the published
+2.2.3-canary-76e8f696-20260911033013 preview at the selective-plan assertion. Normal
+and numeric/minified variants also pass with the patch. Pages and standalone
+loaders update together while the independent entry continues serving and keeps
+its object identity. A stable source merged *inside* an affected entry necessarily
+executes with that entry; the test asserts exactly the two affected copies execute
+again, while the independent copy remains identical. This does not weaken the
+unrelated emitted-module preservation guarantee.
+
+Commands from `/private/tmp/modern-r4-static-update`:
+
+```sh
+# Expected red with the published preview:
+SSR_STATIC_OPTIMIZE=1 SSR_CACHE_MF_ROOT=/private/tmp/mf-r4-static-update node --test packages/server/core/tests/application.static-mf.test.cjs
+# Patched compiler: each command passes one native HTTP/artifact test.
+SSR_STATIC_OPTIMIZE=1 SSR_CACHE_RSPACK_ENTRY=/private/tmp/rspack-mf-concat/packages/rspack/dist/index.js SSR_CACHE_MF_ROOT=/private/tmp/mf-r4-static-update node --test packages/server/core/tests/application.static-mf.test.cjs
+SSR_STATIC_NUMERIC=1 SSR_CACHE_RSPACK_ENTRY=/private/tmp/rspack-mf-concat/packages/rspack/dist/index.js SSR_CACHE_MF_ROOT=/private/tmp/mf-r4-static-update node --test packages/server/core/tests/application.static-mf.test.cjs
+SSR_CACHE_RSPACK_ENTRY=/private/tmp/rspack-mf-concat/packages/rspack/dist/index.js SSR_CACHE_MF_ROOT=/private/tmp/mf-r4-static-update node --test packages/server/core/tests/application.static-mf.test.cjs
+pnpm exec biome check packages/server/core/tests/application.static-mf.test.cjs
+git diff --check
+```
+
+This follow-up changes only tests and verification documentation in Modern, so no
+new package build, full unit suite or changeset is required. Existing built Modern
+artifacts are exercised directly. Full framework/browser/load acceptance remains
+R6; RSC stays excluded. Rspack's new regression passes in standard and runtime-module
+modes (2 cases), its existing metadata and SSR serial regressions pass (4 cases),
+and the external native MF/Modern baseline passes 23 cases. A new Rspack preview or
+release is still needed to distribute the compiler fix; the old preview retains
+its conservative fallback. No dependency lockfile is changed or package published.
