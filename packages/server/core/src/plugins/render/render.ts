@@ -142,6 +142,7 @@ export async function createRender({
       reporter,
       work,
       cacheNamespace,
+      entryScope,
     },
   ) => {
     const forMatchpathname = matchPathname ?? getPathname(req);
@@ -168,6 +169,12 @@ export async function createRender({
         },
       });
     }
+
+    // A rewrite must not move an admitted request into an entry it did not lease.
+    if (entryScope && !entryScope.includes(routeInfo.entryName || 'main'))
+      return new Response('SSR rewrite crossed the admitted entry scope', {
+        status: 503,
+      });
 
     const html = templates[uniqueKeyByRoute(routeInfo)];
     if (!html) {

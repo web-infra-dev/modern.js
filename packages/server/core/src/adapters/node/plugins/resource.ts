@@ -31,6 +31,8 @@ import {
 export interface SSRResourceApplicationOptions
   extends Omit<SSRApplicationOptions, 'load'> {
   onReady: (application: SSRApplication) => void;
+  /** Reacquire a compiled root in its existing runtime after selective invalidation. */
+  reloadEntry?: (entry: string) => Promise<any>;
   /** Validate unpublished resources directly, without re-entering HTTP admission. */
   validate?: (resources: SSRApplicationResources) => Promise<void>;
 }
@@ -144,7 +146,10 @@ export async function getServerManifest(
   pwd: string,
   routes: ServerRoute[],
   monitors?: Monitors,
-  options: { reloadable?: boolean } = {},
+  options: {
+    reloadable?: boolean;
+    reloadEntry?: (entry: string) => Promise<any>;
+  } = {},
 ): Promise<ServerManifest> {
   const loaderBundles: Record<string, any> = {};
   const renderBundles: Record<string, any> = {};
@@ -161,22 +166,19 @@ export async function getServerManifest(
           `${entryName}-server-loaders.js`,
         );
 
-        const renderBundle = await loadBundle(
-          renderBundlePath,
-          monitors,
-          options.reloadable,
-        );
+        const renderBundle = options.reloadEntry
+          ? await options.reloadEntry(entryName)
+          : await loadBundle(renderBundlePath, monitors, options.reloadable);
         if (
           options.reloadable &&
           route.isSSR &&
           typeof (await renderBundle?.requestHandler) !== 'function'
         )
           throw new Error(`Invalid SSR entry: ${entryName}`);
-        const loaderBundle = await loadBundle(
-          loaderBundlePath,
-          monitors,
-          options.reloadable,
-        );
+        const loaderBundle =
+          options.reloadEntry && (await fs.pathExists(loaderBundlePath))
+            ? await options.reloadEntry(`${entryName}-server-loaders`)
+            : await loadBundle(loaderBundlePath, monitors, options.reloadable);
         renderBundle && (renderBundles[entryName] = renderBundle);
         loaderBundle &&
           (loaderBundles[entryName] = loaderBundle?.loadModules
@@ -315,6 +317,10 @@ export const injectResourcePlugin = (
       } = api.getServerContext();
 
       if (applicationOptions) {
+        if (applicationOptions.resolveScope && !applicationOptions.reloadEntry)
+          throw new Error(
+            'Scoped SSR requests require a compiled entry reloader',
+          );
         const context = api.getServerContext();
         if (
           api.getServerConfig().server?.rsc ||
@@ -329,13 +335,32 @@ export const injectResourcePlugin = (
             'SSR application requires the Modern render and server owners',
           );
         }
+        let published: SSRApplicationResources | undefined;
         const application = await createSSRApplication({
           ...applicationOptions,
-          load: async rebuilding => {
-            if (rebuilding) {
+          load: async (rebuilding, entries) => {
+            const selectedRoutes = entries
+              ? routes.filter(route =>
+                  entries.includes(route.entryName || MAIN_ENTRY_NAME),
+                )
+              : routes;
+            if (
+              entries?.some(
+                entry =>
+                  !selectedRoutes.some(
+                    route => (route.entryName || MAIN_ENTRY_NAME) === entry,
+                  ),
+              )
+            )
+              throw new Error('Unknown SSR entry in update scope');
+            if (entries && !applicationOptions.reloadEntry)
+              throw new Error(
+                'Selective SSR updates require a compiled entry reloader',
+              );
+            if (rebuilding && !entries) {
               // These are the declared application roots. The invalidator owns
               // transitive bundler/module state and must preserve shared modules.
-              for (const route of routes) {
+              for (const route of selectedRoutes) {
                 if (!route.bundle) continue;
                 const roots = [
                   path.resolve(pwd!, route.bundle),
@@ -354,8 +379,13 @@ export const injectResourcePlugin = (
             }
             // allSettled prevents a failed loader from abandoning concurrent preparation.
             const loaded = await Promise.allSettled([
-              getHtmlTemplates(pwd!, routes, { fresh: true }),
-              getServerManifest(pwd!, routes, undefined, { reloadable: true }),
+              getHtmlTemplates(pwd!, selectedRoutes, { fresh: true }),
+              getServerManifest(pwd!, selectedRoutes, undefined, {
+                reloadable: true,
+                reloadEntry: entries
+                  ? applicationOptions.reloadEntry
+                  : undefined,
+              }),
               getRenderHandler(context.getRenderOptions),
             ]);
             const failures = loaded.filter(
@@ -370,8 +400,25 @@ export const injectResourcePlugin = (
               if (result.status === 'rejected') throw result.reason;
               return result.value;
             };
-            const templates = value(loaded[0]);
-            const serverManifest = value(loaded[1]);
+            const templates = {
+              ...(entries ? published?.templates : {}),
+              ...value(loaded[0]),
+            };
+            const loadedManifest = value(loaded[1]);
+            // Publish fresh maps; active unrelated requests keep their old snapshot.
+            const serverManifest = entries
+              ? {
+                  ...published?.serverManifest,
+                  renderBundles: {
+                    ...published?.serverManifest.renderBundles,
+                    ...loadedManifest.renderBundles,
+                  },
+                  loaderBundles: {
+                    ...published?.serverManifest.loaderBundles,
+                    ...loadedManifest.loaderBundles,
+                  },
+                }
+              : loadedManifest;
             const render = value(loaded[2]);
             for (const route of routes) {
               if (!route.entryName) continue;
@@ -398,6 +445,7 @@ export const injectResourcePlugin = (
             }
             const resources = { templates, serverManifest, render };
             await applicationOptions.validate?.(resources);
+            published = resources;
             return resources;
           },
         });
