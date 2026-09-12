@@ -58,6 +58,7 @@ export const createNodePreset: CreatePreset = ({
         appDir: appDirectory,
         sourceDir: outputDirectory,
         includeEntries: [entry],
+        traceOptions: modernConfig.deploy?.traceOptions,
         copyWholePackage(pkgName) {
           return pkgName === '@modern-js/utils';
         },
