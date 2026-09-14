@@ -265,7 +265,10 @@ test('compiled static imports reload their Modern entries while independent requ
     assert.equal((await fetch(`${url}/b/rewrite`)).status, 503);
     const waiting = get('/c');
     producer.resolve();
-    assert.deepEqual(await update, {
+    const { timingsMs, ...updated } = await update;
+    assert.ok(timingsMs.total >= 0);
+    assert.ok(Object.values(timingsMs).every(value => value >= 0));
+    assert.deepEqual(updated, {
       mode: 'entries',
       entries: ['a', 'c'],
       reasons: [],
