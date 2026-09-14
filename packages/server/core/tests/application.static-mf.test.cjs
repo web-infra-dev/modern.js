@@ -245,10 +245,20 @@ test('compiled static imports reload their Modern entries while independent requ
     globalThis.__staticProducer = producer.promise;
     assert.equal(await get('/a/hold?hold'), 'v1');
     const instance = require(path.join(out, 'a.cjs')).req.federation.instance;
-    const update = (pendingUpdate = adapter.update(application, 'remote', {
+    const replacement = {
       entry: path.join(out, 'v2.cjs'),
       entryGlobalName: 'v2',
-    }));
+    };
+    const update = (pendingUpdate = adapter.update(
+      application,
+      'remote',
+      replacement,
+      { revision: 1 },
+    ));
+    assert.equal(
+      adapter.update(application, 'remote', replacement, { revision: 1 }),
+      update,
+    );
     await tick();
     assert.equal(application.status.phase, 'draining');
     assert.equal(await get('/b'), 'unrelated');
@@ -260,7 +270,14 @@ test('compiled static imports reload their Modern entries while independent requ
       entries: ['a', 'c'],
       reasons: [],
       generation: 1,
+      revision: 1,
+      appliedRevision: 1,
+      operationId: '1:1',
     });
+    const afterUpdate = { ...globalThis.__staticRuns };
+    await adapter.update(application, 'remote', replacement, { revision: 1 });
+    assert.deepEqual(globalThis.__staticRuns, afterUpdate);
+    assert.equal(adapter.status(application).appliedRevision, 1);
     assert.equal(await waiting, 'v2');
     assert.equal(await get('/a'), 'v2');
     assert.equal(await get('/a?__loader=a'), 'v2:loader');
@@ -317,6 +334,11 @@ test('compiled static imports reload their Modern entries while independent requ
       entryGlobalName: 'v1',
     });
     assert.equal(incomplete.mode, 'application');
+    assert.equal(incomplete.appliedRevision, 2);
+    await assert.rejects(
+      adapter.update(application, 'remote', replacement, { revision: 1 }),
+      /Stale/,
+    );
     assert.ok(incomplete.reasons.includes('missing-native-invalidation-graph'));
     assert.equal(await get('/a'), 'v1');
     assert.ok(globalThis.__staticRuns.b > beforeFallback);
@@ -329,13 +351,33 @@ test('compiled static imports reload their Modern entries while independent requ
       },
     ]);
     const beforeDynamic = globalThis.__staticRuns.b;
-    const dynamic = await adapter.update(application, 'dynamic', {
-      entry: path.join(out, 'v2.cjs'),
-      entryGlobalName: 'v2',
-    });
+    const beforeGeneration = application.status.generation;
+    const dynamic = await adapter.updateRemotes(
+      application,
+      [
+        {
+          name: 'dynamic',
+          entry: path.join(out, 'v2.cjs'),
+          entryGlobalName: 'v2',
+        },
+        {
+          name: 'new-dynamic',
+          entry: path.join(out, 'v2.cjs'),
+          entryGlobalName: 'v2',
+          type: 'commonjs-module',
+        },
+      ],
+      { revision: 3 },
+    );
     assert.equal(dynamic.mode, 'application');
     assert.ok(dynamic.reasons.includes('runtime-consumption-observed'));
     assert.equal((await instance.loadRemote('dynamic/Value')).default, 'v2');
+    assert.equal(
+      (await instance.loadRemote('new-dynamic/Value')).default,
+      'v2',
+    );
+    assert.equal(dynamic.generation, beforeGeneration + 1);
+    assert.equal(adapter.status(application).appliedRevision, 3);
     assert.ok(globalThis.__staticRuns.b > beforeDynamic);
   } finally {
     releaseHeld?.();
