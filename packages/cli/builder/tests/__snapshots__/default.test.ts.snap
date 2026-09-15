@@ -2541,7 +2541,7 @@ exports[`builder rspack > should generator rspack config correctly when node 1`]
   },
   "name": "server",
   "optimization": {
-    "chunkIds": "compact-hashed",
+    "chunkIds": "deterministic",
     "minimize": false,
     "moduleIds": "compact-hashed",
     "splitChunks": {

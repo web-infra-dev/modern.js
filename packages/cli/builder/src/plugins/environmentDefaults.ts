@@ -47,6 +47,20 @@ export const pluginEnvironmentDefaults = (
               cssAsync: '',
             },
           },
+          tools: {
+            rspack: {
+              optimization: {
+                // Server output puts entry and async chunks in one flat
+                // directory and names them `[name].js`, where an unnamed async
+                // chunk falls back to its chunk id. Short hashed ids can then
+                // collide with an entry name -- a two-entry app named `a` and
+                // `b` hits `Conflict: Multiple assets emit different content to
+                // the same filename a.js` -- so keep server chunk ids numeric.
+                // Nothing caches these bundles, so compact ids buy nothing here.
+                chunkIds: 'deterministic',
+              },
+            },
+          },
         };
       }
 
