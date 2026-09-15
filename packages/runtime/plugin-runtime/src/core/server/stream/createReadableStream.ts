@@ -68,6 +68,7 @@ export const createReadableStreamFromElement: CreateReadableStreamFromElement =
       const cancellation = new AbortController();
       const streams = new Set<NodeJS.ReadWriteStream>();
       let stopped = false;
+      let started = false;
       let abortReact: (reason?: unknown) => void = () => {};
       let renderingDone!: () => void;
       const rendering = new Promise<void>(done => {
@@ -116,7 +117,10 @@ export const createReadableStreamFromElement: CreateReadableStreamFromElement =
           },
           [onReady]() {
             if (onReady === 'onAllReady') renderingDone();
-            if (stopped) return;
+            // A ready callback may be re-entered when an already-resolved lazy
+            // boundary completes. React permits piping each render only once.
+            if (stopped || started) return;
+            started = true;
             const templateWork = Promise.resolve().then(async () => {
               let styledComponentsStyleTags = '';
               extenders.forEach(extender => {
