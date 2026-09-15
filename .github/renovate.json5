@@ -1,11 +1,18 @@
 {
   "$schema": "https://docs.renovatebot.com/renovate-schema.json",
   "extends": ["config:recommended"],
-  "baseBranch": ["main", "v2"],
+  "baseBranches": ["main", "v2"],
   "rangeStrategy": "bump",
   "updateLockFiles": true,
   "schedule": ["every weekend"],
-  "ignorePaths": ["**/node_modules/**", "packages/toolkit/utils/tests/fixtures/plugin"],
+  "ignorePaths": [
+    "**/node_modules/**",
+    "packages/toolkit/utils/tests/fixtures/plugin",
+    // demo apps, not part of the published packages
+    "examples/**",
+    // builder e2e fixtures (vue etc.), not part of the published packages
+    "tests/e2e/builder/**",
+  ],
   "lockFileMaintenance": {
     "enabled": true
   },
@@ -45,7 +52,7 @@
       "matchPackageNames": [
         "@rsbuild/**",
       ],
-      "updateTypes": ["minor", "patch"],
+      "matchUpdateTypes": ["minor", "patch"],
       "groupName": "rsbuild monorepo",
       "groupSlug": "rsbuild",
       "schedule": ["at any time"]
