@@ -2,6 +2,7 @@ import type { AddressInfo } from 'node:net';
 import { rstest } from '@rstest/core';
 import type React from 'react';
 import { Suspense, lazy } from 'react';
+import * as actual from 'react-dom/server' with { rstest: 'importActual' };
 import { createNodeServer } from '../../../../server/core/src/adapters/node/node';
 import { createSSRRequestCoordinator } from '../../../../server/core/src/adapters/node/requestCoordinator';
 import { JSX_SHELL_STREAM_END_MARK } from '../../src/common';
@@ -17,7 +18,24 @@ const fixture = rstest.hoisted(() => ({
     shellAfter: '</html>',
   })),
   activeDeferreds: new Map<string, unknown>(),
+  repeatReady: false,
 }));
+rstest.mock('react-dom/server', () => {
+  return {
+    ...actual,
+    renderToPipeableStream: (
+      element: React.ReactNode,
+      callbacks: Parameters<typeof actual.renderToPipeableStream>[1],
+    ) =>
+      actual.renderToPipeableStream(element, {
+        ...callbacks,
+        onAllReady() {
+          callbacks?.onAllReady?.();
+          if (fixture.repeatReady) callbacks?.onAllReady?.();
+        },
+      }),
+  };
+});
 rstest.mock('../../src/core/server/stream/template', () => ({
   getTemplates: fixture.templates,
 }));
@@ -72,6 +90,7 @@ beforeEach(() => {
     shellAfter: '</html>',
   });
   fixture.activeDeferreds.clear();
+  fixture.repeatReady = false;
 });
 
 describe.each([
@@ -367,4 +386,34 @@ it('Web cancellation keeps ownership until the original reader cancellation fini
   expect(mutate).not.toHaveBeenCalled();
   cancelling.resolve();
   await expect(update).resolves.toBe(1);
+});
+
+it('pipes once when all-ready is re-entered for a lazy boundary', async () => {
+  fixture.repeatReady = true;
+  const Remote = lazy(async () => ({
+    default: () => <section>dynamic remote</section>,
+  }));
+  const element = (
+    <>
+      <Suspense fallback={<p>loading</p>}>
+        <Remote />
+      </Suspense>
+      {JSX_SHELL_STREAM_END_MARK}
+    </>
+  );
+  for (let index = 0; index < 3; index++) {
+    fixture.templates.mockClear();
+    const html = await new Response(
+      await nodeRenderer(
+        new Request('http://localhost/', {
+          headers: { 'x-should-stream-all': 'true' },
+        }),
+        element,
+        options(),
+      ),
+    ).text();
+    expect(html).toContain('dynamic remote');
+    expect(html).toContain('</html>');
+    expect(fixture.templates).toHaveBeenCalledTimes(1);
+  }
 });
