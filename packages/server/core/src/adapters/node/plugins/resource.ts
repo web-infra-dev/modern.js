@@ -1,4 +1,4 @@
-import { createRequire } from 'node:module';
+import Module, { createRequire } from 'node:module';
 import path from 'path';
 import { fileReader } from '@modern-js/runtime-utils/fileReader';
 import type { Monitors, ServerRoute } from '@modern-js/types';
@@ -456,7 +456,7 @@ export const injectResourcePlugin = (
             const resources = { templates, serverManifest, render };
             await applicationOptions.validate?.(resources);
             // Publish Node's entry exports with the validated Modern resources.
-            // Keep the module/runtime itself, and retain raw loader exports rather
+            // Keep the bundler runtime itself, and retain raw loader exports rather
             // than the result of loadModules(). Preparation failures publish nothing.
             const cacheUpdates: Array<[NodeModule, any]> = [];
             for (const [filename, exports] of reloadedBundles) {
@@ -465,8 +465,42 @@ export const injectResourcePlugin = (
                 require.cache[require.resolve(path.resolve(filename))];
               if (cached) cacheUpdates.push([cached, exports]);
             }
-            for (const [cached, exports] of cacheUpdates)
-              cached.exports = exports;
+            // Module.load also saves initial exports in a Node-private field.
+            // Replace its wrapper without re-executing the bundler runtime.
+            const replacements = new Map<NodeModule, NodeModule>();
+            const nodeCache = createRequire(
+              path.resolve(pwd!, 'package.json'),
+            ).cache;
+            for (const [cached, exports] of cacheUpdates) {
+              const next = new Module(cached.id, cached.parent || undefined);
+              next.filename = cached.filename;
+              next.paths = cached.paths;
+              next.loaded = cached.loaded;
+              next.children = cached.children;
+              next.exports = exports;
+              replacements.set(cached, next);
+            }
+            const parents = new Set([
+              ...Object.values(nodeCache),
+              ...replacements.values(),
+              ...cacheUpdates.map(([cached]) => cached.parent),
+            ]);
+            for (const parent of parents) {
+              if (!parent) continue;
+              if (parent.parent && replacements.has(parent.parent))
+                parent.parent = replacements.get(parent.parent);
+              parent.children = [
+                ...new Set(
+                  parent.children.map(
+                    child => replacements.get(child) || child,
+                  ),
+                ),
+              ];
+            }
+            for (const [cached, next] of replacements) {
+              if (nodeCache[cached.filename] === cached)
+                nodeCache[cached.filename] = next;
+            }
             published = resources;
             return resources;
           },

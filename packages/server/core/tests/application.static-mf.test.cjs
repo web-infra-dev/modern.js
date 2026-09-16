@@ -234,6 +234,8 @@ test('compiled static imports reload their Modern entries while independent requ
     );
     const before = { ...globalThis.__staticRuns };
     const initialExports = require(path.join(out, 'a.cjs'));
+    const initialNodeModule =
+      require.cache[require.resolve(path.join(out, 'a.cjs'))];
     const unrelatedExports = require(path.join(out, 'b.cjs'));
     const initialLoader = require(
       path.join(out, 'bundles/a-server-loaders.js'),
@@ -282,6 +284,11 @@ test('compiled static imports reload their Modern entries while independent requ
       appliedRevision: 1,
       operationId: '1:1',
     });
+    assert.notEqual(
+      require.cache[require.resolve(path.join(out, 'a.cjs'))],
+      initialNodeModule,
+    );
+    assert.ok(!initialNodeModule.parent.children.includes(initialNodeModule));
     assert.notEqual(require(path.join(out, 'a.cjs')), initialExports);
     assert.notEqual(
       require(path.join(out, 'a.cjs')).requestHandler,
