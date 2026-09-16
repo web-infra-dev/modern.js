@@ -206,7 +206,7 @@ test('compiled static imports reload their Modern entries while independent requ
       },
       reloadEntry: adapter.reload,
       async dispose(_, entries) {
-        adapter.dispose(entries);
+        await adapter.dispose(entries);
       },
       async validate() {
         if (fail) throw new Error('candidate failed');
@@ -233,6 +233,11 @@ test('compiled static imports reload their Modern entries while independent requ
       'hit',
     );
     const before = { ...globalThis.__staticRuns };
+    const initialExports = require(path.join(out, 'a.cjs'));
+    const unrelatedExports = require(path.join(out, 'b.cjs'));
+    const initialLoader = require(
+      path.join(out, 'bundles/a-server-loaders.js'),
+    );
     const stable = require(path.join(out, 'a.cjs')).stable;
     const unrelatedStable = require(path.join(out, 'b.cjs')).stable;
     assert.deepEqual(adapter.plan('remote'), {
@@ -244,7 +249,7 @@ test('compiled static imports reload their Modern entries while independent requ
     releaseHeld = producer.resolve;
     globalThis.__staticProducer = producer.promise;
     assert.equal(await get('/a/hold?hold'), 'v1');
-    const instance = require(path.join(out, 'a.cjs')).req.federation.instance;
+
     const replacement = {
       entry: path.join(out, 'v2.cjs'),
       entryGlobalName: 'v2',
@@ -277,6 +282,20 @@ test('compiled static imports reload their Modern entries while independent requ
       appliedRevision: 1,
       operationId: '1:1',
     });
+    assert.notEqual(require(path.join(out, 'a.cjs')), initialExports);
+    assert.notEqual(
+      require(path.join(out, 'a.cjs')).requestHandler,
+      initialExports.requestHandler,
+    );
+    assert.equal(require(path.join(out, 'b.cjs')), unrelatedExports);
+    assert.notEqual(
+      require(path.join(out, 'bundles/a-server-loaders.js')),
+      initialLoader,
+    );
+    assert.equal(
+      typeof require(path.join(out, 'bundles/a-server-loaders.js')).loadModules,
+      'function',
+    );
     const afterUpdate = { ...globalThis.__staticRuns };
     await adapter.update(application, 'remote', replacement, { revision: 1 });
     assert.deepEqual(globalThis.__staticRuns, afterUpdate);
@@ -311,11 +330,13 @@ test('compiled static imports reload their Modern entries while independent requ
       'application',
     );
     assert.equal(adapter.plan('dynamic').mode, 'application');
+    const beforeFailure = require(path.join(out, 'a.cjs'));
     fail = true;
     await assert.rejects(
       application.update(async () => {}, ['a']),
       /candidate failed/,
     );
+    assert.equal(require(path.join(out, 'a.cjs')), beforeFailure);
     assert.equal((await fetch(`${url}/a`)).status, 503);
     assert.equal(await get('/b'), 'unrelated');
     fail = false;
@@ -345,7 +366,7 @@ test('compiled static imports reload their Modern entries while independent requ
     assert.ok(incomplete.reasons.includes('missing-native-invalidation-graph'));
     assert.equal(await get('/a'), 'v1');
     assert.ok(globalThis.__staticRuns.b > beforeFallback);
-    instance.registerRemotes([
+    require(path.join(out, 'a.cjs')).req.federation.instance.registerRemotes([
       {
         name: 'dynamic',
         entry: path.join(out, 'v1.cjs'),
@@ -374,6 +395,7 @@ test('compiled static imports reload their Modern entries while independent requ
     );
     assert.equal(dynamic.mode, 'application');
     assert.ok(dynamic.reasons.includes('runtime-consumption-observed'));
+    const instance = require(path.join(out, 'a.cjs')).req.federation.instance;
     assert.equal((await instance.loadRemote('dynamic/Value')).default, 'v2');
     assert.equal(
       (await instance.loadRemote('new-dynamic/Value')).default,

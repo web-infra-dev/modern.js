@@ -149,6 +149,7 @@ export async function getServerManifest(
   options: {
     reloadable?: boolean;
     reloadEntry?: (entry: string) => Promise<any>;
+    onReloadedBundle?: (filename: string, exports: any) => void;
   } = {},
 ): Promise<ServerManifest> {
   const loaderBundles: Record<string, any> = {};
@@ -179,6 +180,11 @@ export async function getServerManifest(
           options.reloadEntry && (await fs.pathExists(loaderBundlePath))
             ? await options.reloadEntry(`${entryName}-server-loaders`)
             : await loadBundle(loaderBundlePath, monitors, options.reloadable);
+        if (options.reloadEntry) {
+          options.onReloadedBundle?.(renderBundlePath, renderBundle);
+          if (loaderBundle)
+            options.onReloadedBundle?.(loaderBundlePath, loaderBundle);
+        }
         renderBundle && (renderBundles[entryName] = renderBundle);
         loaderBundle &&
           (loaderBundles[entryName] = loaderBundle?.loadModules
@@ -377,6 +383,7 @@ export const injectResourcePlugin = (
                 }
               }
             }
+            const reloadedBundles = new Map<string, any>();
             // allSettled prevents a failed loader from abandoning concurrent preparation.
             const loaded = await Promise.allSettled([
               getHtmlTemplates(pwd!, selectedRoutes, { fresh: true }),
@@ -385,6 +392,9 @@ export const injectResourcePlugin = (
                 reloadEntry: entries
                   ? applicationOptions.reloadEntry
                   : undefined,
+                onReloadedBundle: (filename, exports) => {
+                  reloadedBundles.set(filename, exports);
+                },
               }),
               getRenderHandler(context.getRenderOptions),
             ]);
@@ -445,6 +455,18 @@ export const injectResourcePlugin = (
             }
             const resources = { templates, serverManifest, render };
             await applicationOptions.validate?.(resources);
+            // Publish Node's entry exports with the validated Modern resources.
+            // Keep the module/runtime itself, and retain raw loader exports rather
+            // than the result of loadModules(). Preparation failures publish nothing.
+            const cacheUpdates: Array<[NodeModule, any]> = [];
+            for (const [filename, exports] of reloadedBundles) {
+              const require = createRequire(path.resolve(filename));
+              const cached =
+                require.cache[require.resolve(path.resolve(filename))];
+              if (cached) cacheUpdates.push([cached, exports]);
+            }
+            for (const [cached, exports] of cacheUpdates)
+              cached.exports = exports;
             published = resources;
             return resources;
           },
