@@ -24,7 +24,6 @@ import analyzePlugin from './plugins/analyze';
 import deployPlugin from './plugins/deploy';
 import initializePlugin from './plugins/initialize';
 import serverBuildPlugin from './plugins/serverBuild';
-import serverRuntimePlugin from './plugins/serverRuntime';
 import type { AppTools, CliPlugin } from './types';
 import type {
   AddRuntimeExportsFn,
@@ -47,7 +46,6 @@ export * from './defineConfig';
 export const appTools = (): CliPlugin<AppTools> => ({
   name: '@modern-js/app-tools',
   usePlugins: [
-    serverRuntimePlugin(),
     compatPlugin(),
     initializePlugin(),
     analyzePlugin(),
