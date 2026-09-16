@@ -1,0 +1,13 @@
+---
+'@modern-js/plugin-data-loader': patch
+'@modern-js/runtime': patch
+'@modern-js/app-tools': patch
+'@modern-js/adapter-rstest': patch
+'@modern-js/plugin-bff': patch
+'@modern-js/plugin': patch
+'@modern-js/builder': patch
+---
+
+chore: upgrade Rsbuild to v2.2.7
+
+chore: 升级 Rsbuild 至 v2.2.7
