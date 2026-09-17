@@ -15,7 +15,11 @@ const cwd = join(__dirname, '..');
 
 type LoaderUse = { loader?: string; options?: any; parallel?: boolean };
 
-/** Collect every loader `use` item whose loader path matches `pattern`. */
+/**
+ * Collect every loader `use` item whose loader path matches `pattern`.
+ * Loader paths are built with `path.join`, so normalize the separators
+ * before matching to keep the assertions valid on Windows.
+ */
 function findLoaderUses(value: unknown, pattern: RegExp): LoaderUse[] {
   const result: LoaderUse[] = [];
   const walk = (node: unknown) => {
@@ -27,7 +31,10 @@ function findLoaderUses(value: unknown, pattern: RegExp): LoaderUse[] {
       return;
     }
     const obj = node as Record<string, unknown>;
-    if (typeof obj.loader === 'string' && pattern.test(obj.loader)) {
+    if (
+      typeof obj.loader === 'string' &&
+      pattern.test(obj.loader.replace(/\\/g, '/'))
+    ) {
       result.push(obj as LoaderUse);
     }
     Object.values(obj).forEach(walk);
