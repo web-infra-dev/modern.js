@@ -236,7 +236,8 @@ export type BuilderExtraConfig = {
     svgDefaultExport?: SvgDefaultExport;
     /**
      * Whether to transform SVGs into React components. If true, will treat all .svg files as assets.
-     * @deprecated Use `tools.svgr: false` instead.
+     * @deprecated Use `tools.svgr` instead: `output.disableSvgr: true` maps to `tools.svgr: false`;
+     * `false` is the default behavior and can simply be removed.
      */
     disableSvgr?: boolean;
   };

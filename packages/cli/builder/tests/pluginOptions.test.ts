@@ -178,6 +178,18 @@ describe('resolveSvgrOptions', () => {
     expect(warn.mock.calls[1][0]).toContain('output.disableSvgr');
   });
 
+  it('should give a different hint for output.disableSvgr: false', () => {
+    expect(resolveSvgrOptions({ svgr: undefined, disableSvgr: false })).toEqual(
+      {
+        mixedImport: true,
+        svgrOptions: { exportType: 'named' },
+      },
+    );
+    expect(warn).toHaveBeenCalledTimes(1);
+    expect(warn.mock.calls[0][0]).toContain('can be removed');
+    expect(warn.mock.calls[0][0]).not.toContain('svgr: false');
+  });
+
   it('should disable the plugin with tools.svgr: false', () => {
     expect(resolveSvgrOptions({ svgr: false })).toBe(false);
   });
