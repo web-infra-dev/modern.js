@@ -88,5 +88,6 @@ export default {
 | `output.svgDefaultExport: 'component'` | `tools.svgr: { svgrOptions: { exportType: 'default' } }` |
 | `output.svgDefaultExport: 'url'`       | `tools.svgr: { svgrOptions: { exportType: 'named' } }`   |
 | `output.disableSvgr: true`             | `tools.svgr: false`                                      |
+| `output.disableSvgr: false`            | Default behavior, just remove it                         |
 
 When both are set, `tools.svgr` wins: once `tools.svgr` is set explicitly, `output.disableSvgr` no longer applies, and `tools.svgr.svgrOptions.exportType` overrides the value derived from `output.svgDefaultExport`.

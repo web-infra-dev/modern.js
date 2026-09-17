@@ -8,7 +8,7 @@ title: disableSvgr
 - **Default:** `false`
 
 :::warning Deprecated
-`output.disableSvgr` is deprecated and will be removed in the next major version. Use [tools.svgr](/configure/app/tools/svgr) and set it to `false` instead. When both are set, `tools.svgr` wins.
+`output.disableSvgr` is deprecated and will be removed in the next major version. Replace `output.disableSvgr: true` with [tools.svgr](/configure/app/tools/svgr) set to `false`; `output.disableSvgr: false` is the default behavior and can simply be removed. When both are set, `tools.svgr` wins.
 :::
 
 Whether to transform SVGs into React components. If true, will treat all .svg files as assets.

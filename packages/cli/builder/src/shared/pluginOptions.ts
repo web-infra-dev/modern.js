@@ -151,9 +151,12 @@ export const resolveSvgrOptions = ({
   svgDefaultExport?: SvgDefaultExport;
 }): PluginSvgrOptions | false => {
   if (disableSvgr !== undefined) {
+    // `true` disables SVGR, `false` is the default: the two need different hints.
     warnOnceInDev(
       'output.disableSvgr',
-      '`output.disableSvgr` is deprecated and will be removed in the next major version. Use `tools: { svgr: false }` instead.',
+      disableSvgr
+        ? '`output.disableSvgr` is deprecated and will be removed in the next major version. Use `tools: { svgr: false }` instead.'
+        : '`output.disableSvgr` is deprecated and will be removed in the next major version. SVGR is enabled by default, so `output.disableSvgr: false` can be removed (or use `tools: { svgr: {} }` to keep it explicit).',
     );
   }
 

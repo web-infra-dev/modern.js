@@ -88,5 +88,6 @@ export default {
 | `output.svgDefaultExport: 'component'` | `tools.svgr: { svgrOptions: { exportType: 'default' } }` |
 | `output.svgDefaultExport: 'url'`       | `tools.svgr: { svgrOptions: { exportType: 'named' } }`   |
 | `output.disableSvgr: true`             | `tools.svgr: false`                               |
+| `output.disableSvgr: false`            | 默认行为，直接删除即可                            |
 
 同时设置时以 `tools.svgr` 为准：显式设置了 `tools.svgr` 后，`output.disableSvgr` 不再生效；`tools.svgr.svgrOptions.exportType` 会覆盖 `output.svgDefaultExport` 派生的值。
