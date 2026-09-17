@@ -1,0 +1,92 @@
+---
+title: svgr
+---
+
+# tools.svgr
+
+- **类型：** `Object | Function | false`
+- **默认值：**
+
+```js
+const defaultOptions = {
+  mixedImport: true,
+  svgrOptions: {
+    exportType: 'named',
+  },
+};
+```
+
+`tools.svgr` 用于修改 [@rsbuild/plugin-svgr](https://rsbuild.rs/plugins/list/plugin-svgr) 的选项，取值为该插件的完整选项。设置为 `false` 时不再注册 SVGR 插件，所有 `.svg` 文件按静态资源处理。
+
+| 选项              | 说明                                                                                          |
+| ----------------- | --------------------------------------------------------------------------------------------- |
+| `svgrOptions`     | 传给 [SVGR](https://react-svgr.com/docs/options/) 的参数，例如 `exportType`、`icon`、`svgoConfig` |
+| `parallel`        | 是否使用 worker 线程并行转换 SVG，默认 `false`                                                  |
+| `exclude`         | 指定哪些 SVG 文件不交给 SVGR 处理                                                              |
+| `excludeImporter` | 指定从哪些文件导入 SVG 时不交给 SVGR 处理                                                       |
+| `query`           | 指定触发 SVGR 转换的 query，默认 `/react/`                                                     |
+| `mixedImport`     | 是否允许在同一个模块中同时导入 URL 与 React 组件，默认 `true`                                   |
+
+### 合并规则
+
+`tools.svgr` 为 `Object` 类型时，顶层字段与默认配置通过 Object.assign 进行浅层合并，`svgrOptions` 会再合并一层，因此只设置 `svgrOptions.icon` 不会丢掉默认的 `exportType`。
+
+`tools.svgr` 为 `Function` 类型时，默认配置作为第一个参数传入，可以直接修改配置对象，也可以返回一个值作为最终结果。也支持传入由对象和函数组成的数组，按顺序依次应用。
+
+### 并行转换
+
+SVGR 转换是纯 JavaScript 计算，默认只占用 Node.js 主线程。项目里 SVG 文件较多时，开启 `parallel` 可以把转换分发到 worker 线程池：
+
+```js
+export default {
+  tools: {
+    svgr: {
+      parallel: true,
+    },
+  },
+};
+```
+
+:::tip
+传给 worker 线程的选项需要满足[结构化克隆算法](https://developer.mozilla.org/zh-CN/docs/Web/API/Web_Workers_API/Structured_clone_algorithm)的要求，因此开启 `parallel` 后，`svgrOptions` 中不能包含函数。
+:::
+
+### 修改默认导出
+
+`svgrOptions.exportType` 决定 SVG 文件默认导出的内容：`'named'` 表示默认导出是文件 URL，React 组件通过 `ReactComponent` 具名导出；`'default'` 表示默认导出就是 React 组件。
+
+```js
+export default {
+  tools: {
+    svgr: {
+      svgrOptions: {
+        exportType: 'default',
+      },
+    },
+  },
+};
+```
+
+### 关闭 SVGR
+
+如果你确定项目内的所有 SVG 资源都没有当成 React 组件使用，可以关闭 SVGR 以提升构建性能：
+
+```js
+export default {
+  tools: {
+    svgr: false,
+  },
+};
+```
+
+### 与旧配置的关系
+
+`tools.svgr` 取代了下面两个已废弃的配置项，二者目前仍然生效，并将在下一个大版本中移除：
+
+| 旧配置                                | 新配置                                            |
+| ------------------------------------- | ------------------------------------------------- |
+| `output.svgDefaultExport: 'component'` | `tools.svgr: { svgrOptions: { exportType: 'default' } }` |
+| `output.svgDefaultExport: 'url'`       | `tools.svgr: { svgrOptions: { exportType: 'named' } }`   |
+| `output.disableSvgr: true`             | `tools.svgr: false`                               |
+
+同时设置时以 `tools.svgr` 为准：显式设置了 `tools.svgr` 后，`output.disableSvgr` 不再生效；`tools.svgr.svgrOptions.exportType` 会覆盖 `output.svgDefaultExport` 派生的值。

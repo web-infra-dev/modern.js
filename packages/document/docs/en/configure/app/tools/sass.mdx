@@ -9,41 +9,64 @@ title: sass
 
 ```js
 const defaultOptions = {
-  // CSS Source Map enabled by default in development environment
-  sourceMap: isDev,
+  sassLoaderOptions: {
+    // CSS Source Map enabled by default in development environment
+    sourceMap: isDev,
+  },
 };
 ```
 
-You can modify the config of [sass-loader](https://github.com/webpack-contrib/sass-loader) via `tools.sass`.
+`tools.sass` modifies the options of [@rsbuild/plugin-sass](https://rsbuild.rs/plugins/list/plugin-sass). It accepts the full plugin options:
 
-### Object Type
+| Option              | Description                                                                                    |
+| ------------------- | ---------------------------------------------------------------------------------------------- |
+| `sassLoaderOptions` | Options passed to [sass-loader](https://github.com/webpack-contrib/sass-loader), object or function |
+| `include`           | Files handled by sass-loader, defaults to `/\.s(?:a|c)ss$/`                                    |
+| `exclude`           | Files that sass-loader should skip                                                             |
+| `rewriteUrls`       | Whether to rewrite relative URLs in Sass files with resolve-url-loader, defaults to `true`     |
 
-When `tools.sass` is `Object` type, it is merged with the default config through Object.assign. It should be noted that `sassOptions` is merged through deepMerge in a deep way.
+### Modifying sass-loader options
 
-For example:
+When `sassLoaderOptions` is an `Object`, it is merged with the default config through Object.assign in a shallow way. It should be noted that `sassOptions` is merged through deepMerge in a deep way. For example:
 
 ```js
 export default {
   tools: {
     sass: {
-      sourceMap: true,
+      sassLoaderOptions: {
+        sourceMap: true,
+      },
     },
   },
 };
 ```
 
-### Function Type
-
-When `tools.sass` is a Function, the default config is passed as the first parameter, which can be directly modified or returned as the final result. The second parameter provides some utility functions that can be called directly. For Example:
+When `sassLoaderOptions` is a `Function`, the default config is passed as the first parameter, which can be directly modified or returned as the final result. The second parameter provides some utility functions that can be called directly. For example:
 
 ```js
 export default {
   tools: {
-    sass(config) {
-      // Modify sourceMap config
-      config.additionalData = async (content, loaderContext) => {
-        // ...
-      };
+    sass: {
+      sassLoaderOptions(config) {
+        // Modify the additionalData config
+        config.additionalData = async (content, loaderContext) => {
+          // ...
+        };
+      },
+    },
+  },
+};
+```
+
+### Disabling URL rewriting
+
+By default, relative URLs in Sass files are rewritten by resolve-url-loader so that they resolve relative to the source file. If your project does not rely on this, turn it off to drop one loader from the chain:
+
+```js
+export default {
+  tools: {
+    sass: {
+      rewriteUrls: false,
     },
   },
 };
@@ -57,13 +80,15 @@ In some scenarios, if you need to use a specific version of Sass instead of the 
 export default {
   tools: {
     sass: {
-      implementation: require('sass'),
+      sassLoaderOptions: {
+        implementation: require('sass'),
+      },
     },
   },
 };
 ```
 
-### Utility Function
+### Util Function
 
 #### addExcludes
 
@@ -74,8 +99,48 @@ Used to specify which files `sass-loader` does not compile, You can pass in one 
 ```js
 export default {
   tools: {
-    sass(config, { addExcludes }) {
-      addExcludes(/node_modules/);
+    sass: {
+      sassLoaderOptions(config, { addExcludes }) {
+        addExcludes(/node_modules/);
+      },
+    },
+  },
+};
+```
+
+The plugin's `exclude` option is the recommended equivalent:
+
+```js
+export default {
+  tools: {
+    sass: {
+      exclude: /node_modules/,
+    },
+  },
+};
+```
+
+### Legacy form
+
+In earlier versions, `tools.sass` took the sass-loader options directly, e.g. `tools.sass: { sassOptions: {} }` or `tools.sass(config, { addExcludes }) {}`. This form still works: Modern.js wraps it into `sassLoaderOptions` and produces exactly the same config as before. A migration hint is printed in development, and the legacy form will be removed in the next major version.
+
+```js
+// legacy
+export default {
+  tools: {
+    sass: {
+      sourceMap: true,
+    },
+  },
+};
+
+// current
+export default {
+  tools: {
+    sass: {
+      sassLoaderOptions: {
+        sourceMap: true,
+      },
     },
   },
 };

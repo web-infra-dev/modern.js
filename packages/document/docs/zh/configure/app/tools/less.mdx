@@ -9,48 +9,77 @@ title: less
 
 ```js
 const defaultOptions = {
-  lessOptions: {
-    javascriptEnabled: true,
+  lessLoaderOptions: {
+    lessOptions: {
+      javascriptEnabled: true,
+    },
+    // 默认在开发环境下启用 CSS 的 Source Map
+    sourceMap: isDev,
   },
-  // 默认在开发环境下启用 CSS 的 Source Map
-  sourceMap: isDev,
 };
 ```
 
-你可以通过 `tools.less` 修改 [less-loader](https://github.com/webpack-contrib/less-loader) 的配置。
+`tools.less` 用于修改 [@rsbuild/plugin-less](https://rsbuild.rs/plugins/list/plugin-less) 的选项，取值为该插件的完整选项：
 
-### Object 类型
+| 选项                 | 说明                                                                               |
+| -------------------- | ---------------------------------------------------------------------------------- |
+| `lessLoaderOptions`  | 传给 [less-loader](https://github.com/webpack-contrib/less-loader) 的选项，支持对象或函数 |
+| `include`            | 指定哪些文件交给 less-loader 处理，默认 `/\.less$/`                                  |
+| `exclude`            | 指定哪些文件不交给 less-loader 处理                                                  |
+| `parallel`           | 是否使用 worker 线程并行编译 Less，默认 `false`                                       |
 
-当 `tools.less` 的值为 `Object` 类型时，会与默认配置通过 Object.assign 进行浅层合并，值得注意的是，`lessOptions` 会通过 deepMerge 进行深层合并。
+### 修改 less-loader 选项
+
+`lessLoaderOptions` 为 `Object` 类型时，会与默认配置通过 Object.assign 进行浅层合并，值得注意的是，`lessOptions` 会通过 deepMerge 进行深层合并。
 
 ```js
 export default {
   tools: {
     less: {
-      lessOptions: {
-        javascriptEnabled: false,
+      lessLoaderOptions: {
+        lessOptions: {
+          javascriptEnabled: false,
+        },
       },
     },
   },
 };
 ```
 
-### Function 类型
-
-当 `tools.less` 为 Function 类型时，默认配置作为第一个参数传入，可以直接修改配置对象，也可以返回一个值作为最终结果，第二个参数提供了一些可以直接调用的工具函数：
+`lessLoaderOptions` 为 `Function` 类型时，默认配置作为第一个参数传入，可以直接修改配置对象，也可以返回一个值作为最终结果，第二个参数提供了一些可以直接调用的工具函数：
 
 ```js
 export default {
   tools: {
-    less(config) {
-      // 修改 lessOptions 配置
-      config.lessOptions = {
-        javascriptEnabled: false,
-      };
+    less: {
+      lessLoaderOptions(config) {
+        // 修改 lessOptions 配置
+        config.lessOptions = {
+          javascriptEnabled: false,
+        };
+      },
     },
   },
 };
 ```
+
+### 并行编译
+
+Less 编译是纯 JavaScript 计算，默认只占用 Node.js 主线程。开启 `parallel` 后，Less 模块会分发到 worker 线程池中编译，项目里 Less 文件较多时可以缩短构建时间。
+
+```js
+export default {
+  tools: {
+    less: {
+      parallel: true,
+    },
+  },
+};
+```
+
+:::tip
+传给 worker 线程的选项需要满足[结构化克隆算法](https://developer.mozilla.org/zh-CN/docs/Web/API/Web_Workers_API/Structured_clone_algorithm)的要求，因此开启 `parallel` 后，`lessLoaderOptions` 中不能包含函数，例如 `additionalData` 函数或自定义的 `implementation`。
+:::
 
 ### 修改 Less 版本
 
@@ -60,7 +89,9 @@ export default {
 export default {
   tools: {
     less: {
-      implementation: require('less'),
+      lessLoaderOptions: {
+        implementation: require('less'),
+      },
     },
   },
 };
@@ -77,10 +108,49 @@ export default {
 ```js
 export default {
   tools: {
-    less(config, { addExcludes }) {
-      addExcludes(/node_modules/);
+    less: {
+      lessLoaderOptions(config, { addExcludes }) {
+        addExcludes(/node_modules/);
+      },
     },
   },
 };
 ```
 
+推荐直接使用插件的 `exclude` 选项，效果相同：
+
+```js
+export default {
+  tools: {
+    less: {
+      exclude: /node_modules/,
+    },
+  },
+};
+```
+
+### 兼容旧写法
+
+在之前的版本中，`tools.less` 的取值直接是 less-loader 的选项，例如 `tools.less: { lessOptions: {} }` 或 `tools.less(config, { addExcludes }) {}`。这种写法目前仍然生效，Modern.js 会自动把它包装为 `lessLoaderOptions`，产出的配置与之前完全一致；在开发环境下会打印一条迁移提示，并将在下一个大版本中移除。
+
+```js
+// 旧写法
+export default {
+  tools: {
+    less: {
+      lessOptions: { javascriptEnabled: false },
+    },
+  },
+};
+
+// 新写法
+export default {
+  tools: {
+    less: {
+      lessLoaderOptions: {
+        lessOptions: { javascriptEnabled: false },
+      },
+    },
+  },
+};
+```
