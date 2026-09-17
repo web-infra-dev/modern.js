@@ -9,39 +9,64 @@ title: sass
 
 ```js
 const defaultOptions = {
-  // 默认在开发环境下启用 CSS 的 Source Map
-  sourceMap: isDev,
+  sassLoaderOptions: {
+    // 默认在开发环境下启用 CSS 的 Source Map
+    sourceMap: isDev,
+  },
 };
 ```
 
-你可以通过 `tools.sass` 修改 [sass-loader](https://github.com/webpack-contrib/sass-loader) 的配置。
+`tools.sass` 用于修改 [@rsbuild/plugin-sass](https://rsbuild.rs/plugins/list/plugin-sass) 的选项，取值为该插件的完整选项：
 
-### Object 类型
+| 选项                 | 说明                                                                               |
+| -------------------- | ---------------------------------------------------------------------------------- |
+| `sassLoaderOptions`  | 传给 [sass-loader](https://github.com/webpack-contrib/sass-loader) 的选项，支持对象或函数 |
+| `include`            | 指定哪些文件交给 sass-loader 处理，默认 `/\.s(?:a|c)ss$/`                             |
+| `exclude`            | 指定哪些文件不交给 sass-loader 处理                                                  |
+| `rewriteUrls`        | 是否使用 resolve-url-loader 重写 Sass 文件中的相对 URL，默认 `true`                    |
 
-当 `tools.sass` 的值为 `Object` 类型时，会与默认配置通过 Object.assign 进行浅层合并，值得注意的是，`sassOptions` 会通过 deepMerge 进行深层合并。
+### 修改 sass-loader 选项
+
+`sassLoaderOptions` 为 `Object` 类型时，会与默认配置通过 Object.assign 进行浅层合并，值得注意的是，`sassOptions` 会通过 deepMerge 进行深层合并。
 
 ```js
 export default {
   tools: {
     sass: {
-      sourceMap: true,
+      sassLoaderOptions: {
+        sourceMap: true,
+      },
     },
   },
 };
 ```
 
-### Function 类型
-
-当 `tools.sass` 为 Function 类型时，默认配置作为第一个参数传入，可以直接修改配置对象，也可以返回一个值作为最终结果，第二个参数提供了一些可以直接调用的工具函数：
+`sassLoaderOptions` 为 `Function` 类型时，默认配置作为第一个参数传入，可以直接修改配置对象，也可以返回一个值作为最终结果，第二个参数提供了一些可以直接调用的工具函数：
 
 ```js
 export default {
   tools: {
-    sass(config) {
-      // 修改 sourceMap 配置
-      config.additionalData = async (content, loaderContext) => {
-        // ...
-      };
+    sass: {
+      sassLoaderOptions(config) {
+        // 修改 additionalData 配置
+        config.additionalData = async (content, loaderContext) => {
+          // ...
+        };
+      },
+    },
+  },
+};
+```
+
+### 关闭 URL 重写
+
+默认情况下，Sass 文件里的相对 URL 会经过 resolve-url-loader 重写为相对于源文件的路径。如果项目不依赖这一行为，可以关闭它来减少一个 loader：
+
+```js
+export default {
+  tools: {
+    sass: {
+      rewriteUrls: false,
     },
   },
 };
@@ -55,7 +80,9 @@ export default {
 export default {
   tools: {
     sass: {
-      implementation: require('sass'),
+      sassLoaderOptions: {
+        implementation: require('sass'),
+      },
     },
   },
 };
@@ -72,8 +99,48 @@ export default {
 ```js
 export default {
   tools: {
-    sass(config, { addExcludes }) {
-      addExcludes(/node_modules/);
+    sass: {
+      sassLoaderOptions(config, { addExcludes }) {
+        addExcludes(/node_modules/);
+      },
+    },
+  },
+};
+```
+
+推荐直接使用插件的 `exclude` 选项，效果相同：
+
+```js
+export default {
+  tools: {
+    sass: {
+      exclude: /node_modules/,
+    },
+  },
+};
+```
+
+### 兼容旧写法
+
+在之前的版本中，`tools.sass` 的取值直接是 sass-loader 的选项，例如 `tools.sass: { sassOptions: {} }` 或 `tools.sass(config, { addExcludes }) {}`。这种写法目前仍然生效，Modern.js 会自动把它包装为 `sassLoaderOptions`，产出的配置与之前完全一致；在开发环境下会打印一条迁移提示，并将在下一个大版本中移除。
+
+```js
+// 旧写法
+export default {
+  tools: {
+    sass: {
+      sourceMap: true,
+    },
+  },
+};
+
+// 新写法
+export default {
+  tools: {
+    sass: {
+      sassLoaderOptions: {
+        sourceMap: true,
+      },
     },
   },
 };
