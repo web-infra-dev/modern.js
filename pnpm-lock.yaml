@@ -727,8 +727,8 @@ importers:
         specifier: 1.5.3
         version: 1.5.3(@rsbuild/core@1.7.6)
       '@rsbuild/plugin-source-build':
-        specifier: 1.0.6
-        version: 1.0.6(@rsbuild/core@1.7.6)
+        specifier: 1.0.7
+        version: 1.0.7(@rsbuild/core@1.7.6)
       '@rsbuild/plugin-styled-components':
         specifier: 1.6.0
         version: 1.6.0(@rsbuild/core@1.7.6)
@@ -13632,10 +13632,10 @@ packages:
       '@rsbuild/core':
         optional: true
 
-  '@rsbuild/plugin-source-build@1.0.6':
-    resolution: {integrity: sha512-F7m5qE/VzrUTq1ZsEmithuc+yxA52Bw4+6gkxprg+RpKqgBTLuv2sSQmpaJSYZrcLlkdCWLE4bwLY0zBT6MRAA==}
+  '@rsbuild/plugin-source-build@1.0.7':
+    resolution: {integrity: sha512-nsTWZSIU7fJfwrdCJKijL0XzWTyOXDsfCP6S3d01X3tRhejn3Xv4NjKbTpfwPyN7932YFkawQHWnAyBTKA1ADg==}
     peerDependencies:
-      '@rsbuild/core': ^1.0.0 || ^2.0.0-0
+      '@rsbuild/core': ^1.0.0 || ^2.0.0
     peerDependenciesMeta:
       '@rsbuild/core':
         optional: true
@@ -32883,7 +32883,7 @@ snapshots:
     optionalDependencies:
       '@rsbuild/core': 1.7.6
 
-  '@rsbuild/plugin-source-build@1.0.6(@rsbuild/core@1.7.6)':
+  '@rsbuild/plugin-source-build@1.0.7(@rsbuild/core@1.7.6)':
     dependencies:
       fast-glob: 3.3.3
       json5: 2.2.3
