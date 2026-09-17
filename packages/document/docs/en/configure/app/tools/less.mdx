@@ -131,6 +131,11 @@ export default {
 
 ### Legacy form
 
+:::warning Do not mix the two layers
+As soon as an object contains a plugin-level key (`lessLoaderOptions`, `include`, `exclude`, ...), the whole object is parsed as plugin options and any loader option in it has no effect. For example, `lessOptions` in `tools.less: { parallel: true, lessOptions: { ... } }` is ignored and must be moved under `lessLoaderOptions`; a hint is printed in development.
+:::
+
+
 In earlier versions, `tools.less` took the less-loader options directly, e.g. `tools.less: { lessOptions: {} }` or `tools.less(config, { addExcludes }) {}`. This form still works: Modern.js wraps it into `lessLoaderOptions` and produces exactly the same config as before. A migration hint is printed in development, and the legacy form will be removed in the next major version.
 
 ```js

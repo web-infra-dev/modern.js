@@ -1,4 +1,4 @@
-import { applyOptionsChain, isDev, logger } from '@modern-js/utils';
+import { applyOptionsChain, isDevCommand, logger } from '@modern-js/utils';
 import type { PluginLessOptions } from '@rsbuild/plugin-less';
 import type { PluginSassOptions } from '@rsbuild/plugin-sass';
 import type { PluginSvgrOptions, SvgDefaultExport } from '@rsbuild/plugin-svgr';
@@ -39,11 +39,13 @@ export const resetPluginOptionsWarnings = (): void => {
 };
 
 /**
- * Deprecation warnings are printed once per process and only in development,
- * so that `build` logs in CI stay clean.
+ * Migration hints are printed once per process and only by the `dev` /
+ * `start` commands, so that `build` logs in CI stay clean. The check is
+ * command based on purpose: the CLI keeps a user-provided `NODE_ENV`, so
+ * `NODE_ENV=development modern build` must stay silent as well.
  */
 const warnOnceInDev = (key: string, message: string): void => {
-  if (!isDev() || warned.has(key)) {
+  if (!isDevCommand() || warned.has(key)) {
     return;
   }
   warned.add(key);
@@ -62,6 +64,30 @@ const isEmptyObject = (value: unknown): boolean =>
   isPlainObject(value) && Object.keys(value).length === 0;
 
 /**
+ * An object carrying a plugin-level key is passed to the plugin as a whole,
+ * so any other key in it (typically leftover loader options such as
+ * `lessOptions`) is silently ignored by the plugin. Point that out.
+ */
+const warnIgnoredKeys = (
+  name: 'tools.less' | 'tools.sass',
+  value: Record<string, unknown>,
+  pluginKeys: ReadonlyArray<string>,
+  loaderOptionsKey: string,
+): void => {
+  const pluginLevel = Object.keys(value).filter(key =>
+    pluginKeys.includes(key),
+  );
+  const ignored = Object.keys(value).filter(key => !pluginKeys.includes(key));
+  if (ignored.length === 0) {
+    return;
+  }
+  warnOnceInDev(
+    `${name}:mixed`,
+    `\`${name}\` contains plugin-level options (${pluginLevel.join(', ')}) together with other keys (${ignored.join(', ')}). The whole object is passed to the plugin, so the other keys are ignored. Move loader options under \`${loaderOptionsKey}\`.`,
+  );
+};
+
+/**
  * `tools.less` accepts either the full options of `@rsbuild/plugin-less`
  * or, for backward compatibility, the less-loader options directly
  * (object, function or array form). The legacy form is wrapped into
@@ -71,6 +97,12 @@ export const normalizeLessOptions = (
   less: BuilderToolsConfig['less'],
 ): PluginLessOptions => {
   if (isPluginLevelOptions(less, LESS_PLUGIN_KEYS)) {
+    warnIgnoredKeys(
+      'tools.less',
+      less as Record<string, unknown>,
+      LESS_PLUGIN_KEYS,
+      'lessLoaderOptions',
+    );
     return less as PluginLessOptions;
   }
 
@@ -97,6 +129,12 @@ export const normalizeSassOptions = (
   sass: BuilderToolsConfig['sass'],
 ): PluginSassOptions => {
   if (isPluginLevelOptions(sass, SASS_PLUGIN_KEYS)) {
+    warnIgnoredKeys(
+      'tools.sass',
+      sass as Record<string, unknown>,
+      SASS_PLUGIN_KEYS,
+      'sassLoaderOptions',
+    );
     return sass as PluginSassOptions;
   }
 

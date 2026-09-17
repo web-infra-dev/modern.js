@@ -122,6 +122,11 @@ export default {
 
 ### Legacy form
 
+:::warning Do not mix the two layers
+As soon as an object contains a plugin-level key (`sassLoaderOptions`, `include`, `exclude`, ...), the whole object is parsed as plugin options and any loader option in it has no effect. For example, `sassOptions` in `tools.sass: { parallel: true, sassOptions: { ... } }` is ignored and must be moved under `sassLoaderOptions`; a hint is printed in development.
+:::
+
+
 In earlier versions, `tools.sass` took the sass-loader options directly, e.g. `tools.sass: { sassOptions: {} }` or `tools.sass(config, { addExcludes }) {}`. This form still works: Modern.js wraps it into `sassLoaderOptions` and produces exactly the same config as before. A migration hint is printed in development, and the legacy form will be removed in the next major version.
 
 ```js

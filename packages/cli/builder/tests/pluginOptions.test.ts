@@ -70,7 +70,8 @@ describe('normalizeLessOptions / normalizeSassOptions', () => {
 
   beforeEach(() => {
     resetPluginOptionsWarnings();
-    rs.stubEnv('NODE_ENV', 'development');
+    // hints are gated on the CLI command, not on NODE_ENV
+    rs.stubEnv('MODERN_ARGV', 'node modern dev');
     warn = rs.spyOn(logger, 'warn').mockImplementation(() => {});
   });
 
@@ -127,16 +128,32 @@ describe('normalizeLessOptions / normalizeSassOptions', () => {
     expect(warn).not.toHaveBeenCalled();
   });
 
-  it('should treat a mixed object as plugin-level options', () => {
+  it('should treat a mixed object as plugin-level options and warn about ignored keys', () => {
     const mixed = { parallel: true, lessOptions: { javascriptEnabled: true } };
     expect(normalizeLessOptions(mixed as any)).toBe(mixed);
-    expect(warn).not.toHaveBeenCalled();
+    expect(warn).toHaveBeenCalledTimes(1);
+    expect(warn.mock.calls[0][0]).toContain('(parallel)');
+    expect(warn.mock.calls[0][0]).toContain('(lessOptions)');
+    expect(warn.mock.calls[0][0]).toContain('ignored');
   });
 
-  it('should not warn outside of development', () => {
-    rs.stubEnv('NODE_ENV', 'production');
+  it('should also warn for the start command', () => {
+    rs.stubEnv('MODERN_ARGV', 'node modern start');
+    normalizeLessOptions({ lessOptions: {} });
+    expect(warn).toHaveBeenCalledTimes(1);
+  });
+
+  it('should stay silent for build even with NODE_ENV=development', () => {
+    rs.stubEnv('MODERN_ARGV', 'node modern build');
+    rs.stubEnv('NODE_ENV', 'development');
     normalizeLessOptions({ lessOptions: {} });
     normalizeSassOptions({ sassOptions: {} });
+    normalizeLessOptions({ parallel: true, lessOptions: {} } as any);
+    resolveSvgrOptions({
+      svgr: undefined,
+      disableSvgr: true,
+      svgDefaultExport: 'component',
+    });
     expect(warn).not.toHaveBeenCalled();
   });
 });
@@ -146,7 +163,8 @@ describe('resolveSvgrOptions', () => {
 
   beforeEach(() => {
     resetPluginOptionsWarnings();
-    rs.stubEnv('NODE_ENV', 'development');
+    // hints are gated on the CLI command, not on NODE_ENV
+    rs.stubEnv('MODERN_ARGV', 'node modern dev');
     warn = rs.spyOn(logger, 'warn').mockImplementation(() => {});
   });
 

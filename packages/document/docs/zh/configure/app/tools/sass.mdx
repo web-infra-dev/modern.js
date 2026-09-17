@@ -122,6 +122,11 @@ export default {
 
 ### 兼容旧写法
 
+:::warning 不要混写两种层级
+同一个对象里只要出现插件顶层键（`sassLoaderOptions`、`include`、`exclude` 等），整个对象就会按插件选项解析，其中的 loader 选项不会生效。例如 `tools.sass: { parallel: true, sassOptions: { ... } }` 里的 `sassOptions` 会被忽略，必须移到 `sassLoaderOptions` 下；开发环境下会打印一条提示。
+:::
+
+
 在之前的版本中，`tools.sass` 的取值直接是 sass-loader 的选项，例如 `tools.sass: { sassOptions: {} }` 或 `tools.sass(config, { addExcludes }) {}`。这种写法目前仍然生效，Modern.js 会自动把它包装为 `sassLoaderOptions`，产出的配置与之前完全一致；在开发环境下会打印一条迁移提示，并将在下一个大版本中移除。
 
 ```js
