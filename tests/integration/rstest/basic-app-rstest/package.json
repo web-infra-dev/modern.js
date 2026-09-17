@@ -20,7 +20,7 @@
     "@modern-js/plugin-bff": "workspace:*",
     "@modern-js/adapter-rstest": "workspace:*",
     "@rstest/core": "0.11.12",
-    "@testing-library/react": "^16.3.2",
+    "@testing-library/react": "^16.3.3",
     "@testing-library/jest-dom": "^6.9.1",
     "happy-dom": "^20.14.5",
     "@types/node": "^20",
