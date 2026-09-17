@@ -67,17 +67,22 @@ export function hydrateRoot(
       return ModernRender(wrapRuntimeContextProvider(App, context));
     } else if (renderLevel === RenderLevel.SERVER_RENDER) {
       return new Promise<Root | HTMLElement>(resolve => {
-        loadableReady(() => {
-          // callback: https://github.com/reactwg/react-18/discussions/5
-          const SSRApp: React.FC = () => (
-            <WithCallback callback={callback}>{App}</WithCallback>
-          );
-          ModernHydrate(
-            wrapRuntimeContextProvider(<SSRApp />, hydrateContext),
-          ).then(root => {
-            resolve(root);
-          });
-        });
+        loadableReady(
+          () => {
+            // callback: https://github.com/reactwg/react-18/discussions/5
+            const SSRApp: React.FC = () => (
+              <WithCallback callback={callback}>{App}</WithCallback>
+            );
+            ModernHydrate(
+              wrapRuntimeContextProvider(<SSRApp />, hydrateContext),
+            ).then(root => {
+              resolve(root);
+            });
+          },
+          {
+            chunkLoadingGlobal: process.env.MODERN_CHUNK_LOADING_GLOBAL,
+          },
+        );
       });
     } else {
       // unknown renderlevel or renderlevel is server prefetch.
