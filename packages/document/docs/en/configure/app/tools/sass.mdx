@@ -123,7 +123,7 @@ export default {
 ### Legacy form
 
 :::warning Do not mix the two layers
-As soon as an object contains a plugin-level key (`sassLoaderOptions`, `include`, `exclude`, ...), the whole object is parsed as plugin options and any loader option in it has no effect. For example, `sassOptions` in `tools.sass: { parallel: true, sassOptions: { ... } }` is ignored and must be moved under `sassLoaderOptions`; a hint is printed in development.
+As soon as an object contains a plugin-level key (`sassLoaderOptions`, `include`, `exclude`, ...), the whole object is parsed as plugin options and any loader option in it has no effect. For example, `sassOptions` in `tools.sass: { rewriteUrls: false, sassOptions: { ... } }` is ignored and must be moved under `sassLoaderOptions`; a hint is printed in development.
 :::
 
 
