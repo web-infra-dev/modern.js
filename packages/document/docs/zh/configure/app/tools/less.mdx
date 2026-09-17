@@ -131,6 +131,11 @@ export default {
 
 ### 兼容旧写法
 
+:::warning 不要混写两种层级
+同一个对象里只要出现插件顶层键（`lessLoaderOptions`、`include`、`exclude` 等），整个对象就会按插件选项解析，其中的 loader 选项不会生效。例如 `tools.less: { parallel: true, lessOptions: { ... } }` 里的 `lessOptions` 会被忽略，必须移到 `lessLoaderOptions` 下；开发环境下会打印一条提示。
+:::
+
+
 在之前的版本中，`tools.less` 的取值直接是 less-loader 的选项，例如 `tools.less: { lessOptions: {} }` 或 `tools.less(config, { addExcludes }) {}`。这种写法目前仍然生效，Modern.js 会自动把它包装为 `lessLoaderOptions`，产出的配置与之前完全一致；在开发环境下会打印一条迁移提示，并将在下一个大版本中移除。
 
 ```js
