@@ -7,6 +7,10 @@ title: disableSvgr
 - **类型：** `boolean`
 - **默认值：** `false`
 
+:::warning 已废弃
+`output.disableSvgr` 已废弃，并将在下一个大版本中移除。`output.disableSvgr: true` 请改为 [tools.svgr](/configure/app/tools/svgr) 设置为 `false`；`output.disableSvgr: false` 是默认行为，直接删除即可。两者同时设置时，以 `tools.svgr` 为准。
+:::
+
 是否调用 SVGR 将 SVG 转化为 React 组件。如果设置为 true，将把所有的.svg 文件视为资源处理。
 
 默认情况下，在 JS 文件中引用 SVG 资源时，Modern.js 会调用 SVGR，将 SVG 图片转换为一个 React 组件。
