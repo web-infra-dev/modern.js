@@ -10,9 +10,15 @@ const ignoreDeps = [
 
 // examples/ intentionally track the published packages (`latest`) and mirror
 // real user apps, so they are exempt from workspace version consistency.
+// tests/e2e/builder pins its own fixture dependencies and is listed under
+// `ignorePaths` in .github/renovate.json5, so shared upgrades never reach it.
+const ignorePaths = ['tests/e2e/builder'];
+
 const command = `npx check-dependency-version-consistency@latest . ${ignoreDeps
   .map(dep => `--ignore-dep "${dep}"`)
-  .join(' ')} --ignore-package-pattern "^@examples/"`;
+  .join(' ')} --ignore-package-pattern "^@examples/" ${ignorePaths
+  .map(path => `--ignore-path "${path}"`)
+  .join(' ')}`;
 
 console.log(`> ${command}`);
 
