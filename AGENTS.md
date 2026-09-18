@@ -21,7 +21,17 @@
   - 构建器（builder）e2e 测试：`pnpm test:builder`（在 `tests/e2e/builder` 下）。
   - Skill 回归：`node tests/skill/run.mjs`（migrate-to-v3）、`node tests/skill/feature-enable.mjs`（feature-enable）。
 - 代码风格：`biome`（见 `biome.json`），提交前跑 lint。
-- 变更需 changeset：`pnpm change`（影响发布的改动必须加）。
+- 变更需 changeset：`pnpm change`（影响发布的改动必须加）。正文固定两行——英文一行、空一行、中文一行，措辞与 PR 标题一致的 conventional commit 形式；除这两行外**不写任何解释、背景、根因、链接或列表**，那些写进 PR 描述。中间的空行不能省，否则 CHANGELOG 会把两行并成一行：
+
+```md
+---
+'@modern-js/runtime': patch
+---
+
+fix(runtime): keep generated route component bindings in a stable order
+
+fix(runtime): 路由代码生成的组件绑定顺序不再随机
+```
 
 ## 禁改区（除非任务明确要求并人工确认）
 - 不手改 `pnpm-lock.yaml`、`dist/`、`node_modules/`、各包 `CHANGELOG.md`。
