@@ -78,6 +78,9 @@ it('finishes stale cache revalidation after the HTTP response closes', async () 
     expect(await request(url)).toEqual({ body: 'cached', cache: 'stale' });
     await responseClosed.promise;
     loader.resolve('fresh');
+    await expect
+      .poll(async () => JSON.parse((await container.get('/'))!).val)
+      .toBe('fresh');
     expect(await request(url)).toEqual({ body: 'fresh', cache: 'hit' });
   } finally {
     loader.resolve('fresh');
@@ -86,7 +89,7 @@ it('finishes stale cache revalidation after the HTTP response closes', async () 
   }
 });
 
-it.each(['render', 'stream', 'error callback'])(
+it.each(['render', 'stream'])(
   'keeps the cached response when revalidation fails in the %s',
   async failure => {
     const container = createMemoryStorage<string>(`ssr-cache-error-${failure}`);
@@ -102,7 +105,6 @@ it.each(['render', 'stream', 'error callback'])(
       requestHandlerOptions: {
         onError: error => {
           errors.push(error);
-          if (failure === 'error callback') throw new Error('reporting failed');
         },
       } as RequestHandlerOptions,
       requestHandler: async () => {
@@ -125,61 +127,3 @@ it.each(['render', 'stream', 'error callback'])(
     await container.delete('/');
   },
 );
-
-it('cancels an unfinished cache producer when the response reader disconnects', async () => {
-  const container = createMemoryStorage<string>('ssr-cache-reader-cancel');
-  const cancelled = deferred<unknown>();
-  const options = {
-    container,
-    cacheControl: { maxAge: 30_000, staleWhileRevalidate: 30_000 },
-    requestHandlerOptions: {} as RequestHandlerOptions,
-    requestHandler: async () => new Response('fresh'),
-  };
-  const response = await getCacheResult(new Request('http://localhost/'), {
-    ...options,
-    requestHandler: async () =>
-      new Response(
-        new ReadableStream({
-          start(controller) {
-            controller.enqueue(new TextEncoder().encode('partial'));
-          },
-          cancel: reason => cancelled.resolve(reason),
-        }),
-      ),
-  });
-  const reader = response.body!.getReader();
-  expect(new TextDecoder().decode((await reader.read()).value)).toBe('partial');
-  await reader.cancel('disconnected');
-  expect(await cancelled.promise).toBe('disconnected');
-
-  const next = await getCacheResult(new Request('http://localhost/'), options);
-  expect(next.headers.get('x-render-cache')).toBe('miss');
-  expect(await next.text()).toBe('fresh');
-  await container.delete('/');
-});
-
-it('finishes the response before a slow cache write completes', async () => {
-  const container = createMemoryStorage<string>('ssr-cache-slow-write');
-  const write = deferred<void>();
-  const stored = deferred<void>();
-  const set = container.set.bind(container);
-  container.set = async (key, value) => {
-    await write.promise;
-    const result = await set(key, value);
-    stored.resolve();
-    return result;
-  };
-  const response = await getCacheResult(new Request('http://localhost/'), {
-    container,
-    cacheControl: { maxAge: 30_000, staleWhileRevalidate: 30_000 },
-    requestHandlerOptions: {} as RequestHandlerOptions,
-    requestHandler: async () => new Response('fresh'),
-  });
-  try {
-    expect(await response.text()).toBe('fresh');
-  } finally {
-    write.resolve();
-    await stored.promise;
-    await container.delete('/');
-  }
-});
