@@ -24,7 +24,17 @@
   - Skill 回归：`node tests/skill/run.mjs`（migrate-to-v3）、`node tests/skill/feature-enable.mjs`（feature-enable）。
 - 代码与格式检查：`pnpm check`（Rstack CLI，见 `rstack.config.mts`）。仅代码校验：`pnpm lint`。
 - 全仓格式化：`pnpm format`
-- 变更需 changeset：`pnpm change`（影响发布的改动必须加）。
+- 变更需 changeset：`pnpm change`（影响发布的改动必须加）。正文固定两行——英文一行、空一行、中文一行，措辞与 PR 标题一致的 conventional commit 形式；除这两行外**不写任何解释、背景、根因、链接或列表**，那些写进 PR 描述。中间的空行不能省，否则 CHANGELOG 会把两行并成一行：
+
+```md
+---
+'@modern-js/runtime': patch
+---
+
+fix(runtime): keep generated route component bindings in a stable order
+
+fix(runtime): 路由代码生成的组件绑定顺序不再随机
+```
 
 ## 禁改区（除非任务明确要求并人工确认）
 
