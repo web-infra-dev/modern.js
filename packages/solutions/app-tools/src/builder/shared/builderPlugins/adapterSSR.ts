@@ -218,10 +218,14 @@ function applyAsyncChunkHtmlPlugin({
   modernConfig: AppNormalizedConfig;
   HtmlBundlerPlugin: any;
 }) {
-  if (isStreamingSSR(modernConfig) || isUseRsc(modernConfig)) {
+  const streamSSR = isStreamingSSR(modernConfig);
+  if (streamSSR || isUseRsc(modernConfig)) {
     chain
       .plugin('html-async-chunk')
-      .use(HtmlAsyncChunkPlugin, [HtmlBundlerPlugin]);
+      .use(HtmlAsyncChunkPlugin, [
+        HtmlBundlerPlugin,
+        streamSSR,
+      ]);
   }
 }
 
