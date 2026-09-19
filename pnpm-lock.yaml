@@ -2980,8 +2980,8 @@ importers:
         specifier: workspace:*
         version: link:../../../../packages/server/server-runtime
       express:
-        specifier: ^4.22.2
-        version: 4.22.2
+        specifier: ^4.22.3
+        version: 4.22.3
       hono:
         specifier: ^4.11.7
         version: 4.11.7
@@ -3035,8 +3035,8 @@ importers:
         specifier: workspace:*
         version: link:../bff-api-app
       express:
-        specifier: ^4.22.2
-        version: 4.22.2
+        specifier: ^4.22.3
+        version: 4.22.3
       react:
         specifier: ^19.2.8
         version: 19.2.8
@@ -3090,8 +3090,8 @@ importers:
         specifier: workspace:*
         version: link:../bff-api-app
       express:
-        specifier: ^4.22.2
-        version: 4.22.2
+        specifier: ^4.22.3
+        version: 4.22.3
       react:
         specifier: ^19.2.8
         version: 19.2.8
@@ -4618,8 +4618,8 @@ importers:
         specifier: ^1.15.2
         version: 1.18.0
       express:
-        specifier: ^4.22.2
-        version: 4.22.2
+        specifier: ^4.22.3
+        version: 4.22.3
       react:
         specifier: ^19.2.8
         version: 19.2.8
@@ -4674,8 +4674,8 @@ importers:
         specifier: ^1.15.2
         version: 1.18.0
       express:
-        specifier: ^4.22.2
-        version: 4.22.2
+        specifier: ^4.22.3
+        version: 4.22.3
       react:
         specifier: ^19.2.8
         version: 19.2.8
@@ -4699,8 +4699,8 @@ importers:
         specifier: ^1.15.2
         version: 1.18.0
       express:
-        specifier: ^4.22.2
-        version: 4.22.2
+        specifier: ^4.22.3
+        version: 4.22.3
       react:
         specifier: ^19.2.8
         version: 19.2.8
@@ -12364,10 +12364,6 @@ packages:
     resolution: {integrity: sha512-L1l8TNvomm6UVW5B253AGxQagSQr+vGwhMlrrfRS2qmhx46AMpMVJKQYLvWYbysTMY8VoicOvzHzoHMbyzB+4A==}
     engines: {node: '>=10.13.0'}
 
-  enhanced-resolve@5.25.1:
-    resolution: {integrity: sha512-nGXts5znJzmWPu+mIE9izCOzdg63oJca2mDzGWWTth7sr4aCToKcoyFVBQwN75Ij5Pf6p510EwkTqViTRzDV+w==}
-    engines: {node: '>=10.13.0'}
-
   enquirer@2.3.6:
     resolution: {integrity: sha512-yjNnPr315/FjS4zIsUxYguYUPP2e1NK4d7E7ZOLiyYCcbFBiTMyID+2wvm2w6+pZ/odMA7cRkjhsPbltwBOrLg==}
     engines: {node: '>=8.6'}
@@ -12668,8 +12664,8 @@ packages:
     resolution: {integrity: sha512-2Zks0hf1VLFYI1kbh0I5jP3KHHyCHpkfyHBzsSXRFgl/Bg9mWYfMW8oD+PdMPlEwy5HNsR9JutYy6pMeOh61nw==}
     engines: {node: ^14.15.0 || ^16.10.0 || >=18.0.0}
 
-  express@4.22.2:
-    resolution: {integrity: sha512-IuL+Elrou2ZvCFHs18/CIzy2Nzvo25nZ1/D2eIZlz7c+QUayAcYoiM2BthCjs+EBHVpjYjcuLDAiCWgeIX3X1Q==}
+  express@4.22.3:
+    resolution: {integrity: sha512-Bdcs4+3qlpVlx2NRn6fgX2Ue2/gGRaPeawebgclM0ERSCqDpA+owF1fdPwjJUTAJWMTuAaxjDf+hzb0/4eKvvw==}
     engines: {node: '>= 0.10.0'}
 
   ext@1.7.0:
@@ -15335,8 +15331,8 @@ packages:
   path-serializer@0.5.1:
     resolution: {integrity: sha512-bMTznw/TiZbmxlPQEV1pFatJFQcBKt3i9glDcPqygSx5xGrcM4MTCSjY+3SgW9Y628zfRmuJ1uAc/t/A3Tw0QA==}
 
-  path-to-regexp@0.1.12:
-    resolution: {integrity: sha512-RA1GjUVMnvYFxuqovrEqZoxxW5NUZqbwKtYz/Tt7nXerk0LbLblQmrsgdeOxV5SFHf0UDggjS/bSeOZwt1pmEQ==}
+  path-to-regexp@0.1.13:
+    resolution: {integrity: sha512-A/AGNMFN3c8bOlvV9RreMdrv7jsmF9XIfDeCd87+I8RNg6s78BhJxMu69NEMHBSJFxKidViTEdruRwEk/WIKqA==}
 
   path-to-regexp@6.3.0:
     resolution: {integrity: sha512-Yhpw4T9C6hPpgPeA28us07OJeqZ5EzQTkbfwuhsUg0c237RomFoETJgmp2sa3F/41gfLE6G5cqcYwznmeEeOlQ==}
@@ -27887,11 +27883,6 @@ snapshots:
       graceful-fs: 4.2.11
       tapable: 2.3.3
 
-  enhanced-resolve@5.25.1:
-    dependencies:
-      graceful-fs: 4.2.11
-      tapable: 2.3.3
-
   enquirer@2.3.6:
     dependencies:
       ansi-colors: 4.1.3
@@ -28282,7 +28273,7 @@ snapshots:
       jest-message-util: 29.7.0
       jest-util: 29.7.0
 
-  express@4.22.2:
+  express@4.22.3:
     dependencies:
       accepts: 1.3.8
       array-flatten: 1.1.1
@@ -28303,9 +28294,9 @@ snapshots:
       methods: 1.1.2
       on-finished: 2.4.1
       parseurl: 1.3.3
-      path-to-regexp: 0.1.12
+      path-to-regexp: 0.1.13
       proxy-addr: 2.0.7
-      qs: 6.15.3
+      qs: 6.16.0
       range-parser: 1.2.1
       safe-buffer: 5.2.1
       send: 0.19.2
@@ -31921,7 +31912,7 @@ snapshots:
 
   path-serializer@0.5.1: {}
 
-  path-to-regexp@0.1.12: {}
+  path-to-regexp@0.1.13: {}
 
   path-to-regexp@6.3.0: {}
 
@@ -35395,7 +35386,7 @@ snapshots:
       acorn-import-phases: 1.0.4(acorn@8.18.0)
       browserslist: 4.29.0
       chrome-trace-event: 1.0.4
-      enhanced-resolve: 5.25.1
+      enhanced-resolve: 5.24.5
       es-module-lexer: 2.3.2
       eslint-scope: 5.1.1
       events: 3.3.0
@@ -35437,7 +35428,7 @@ snapshots:
       acorn-import-phases: 1.0.4(acorn@8.18.0)
       browserslist: 4.29.0
       chrome-trace-event: 1.0.4
-      enhanced-resolve: 5.25.1
+      enhanced-resolve: 5.24.5
       es-module-lexer: 2.3.2
       eslint-scope: 5.1.1
       events: 3.3.0
@@ -35478,7 +35469,7 @@ snapshots:
       acorn-import-phases: 1.0.4(acorn@8.18.0)
       browserslist: 4.29.0
       chrome-trace-event: 1.0.4
-      enhanced-resolve: 5.25.1
+      enhanced-resolve: 5.24.5
       es-module-lexer: 2.3.2
       eslint-scope: 5.1.1
       events: 3.3.0
@@ -35519,7 +35510,7 @@ snapshots:
       acorn-import-phases: 1.0.4(acorn@8.18.0)
       browserslist: 4.29.0
       chrome-trace-event: 1.0.4
-      enhanced-resolve: 5.25.1
+      enhanced-resolve: 5.24.5
       es-module-lexer: 2.3.2
       eslint-scope: 5.1.1
       events: 3.3.0
@@ -35560,7 +35551,7 @@ snapshots:
       acorn-import-phases: 1.0.4(acorn@8.18.0)
       browserslist: 4.29.0
       chrome-trace-event: 1.0.4
-      enhanced-resolve: 5.25.1
+      enhanced-resolve: 5.24.5
       es-module-lexer: 2.3.2
       eslint-scope: 5.1.1
       events: 3.3.0
