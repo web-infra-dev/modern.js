@@ -1334,8 +1334,8 @@ importers:
         specifier: ^4.6.3
         version: 4.6.3
       i18next-fs-backend:
-        specifier: ^2.6.7
-        version: 2.6.7
+        specifier: ^2.6.8
+        version: 2.6.8
       i18next-http-backend:
         specifier: ^3.0.6
         version: 3.0.6(encoding@0.1.13)
@@ -12364,10 +12364,6 @@ packages:
     resolution: {integrity: sha512-L1l8TNvomm6UVW5B253AGxQagSQr+vGwhMlrrfRS2qmhx46AMpMVJKQYLvWYbysTMY8VoicOvzHzoHMbyzB+4A==}
     engines: {node: '>=10.13.0'}
 
-  enhanced-resolve@5.25.1:
-    resolution: {integrity: sha512-nGXts5znJzmWPu+mIE9izCOzdg63oJca2mDzGWWTth7sr4aCToKcoyFVBQwN75Ij5Pf6p510EwkTqViTRzDV+w==}
-    engines: {node: '>=10.13.0'}
-
   enquirer@2.3.6:
     resolution: {integrity: sha512-yjNnPr315/FjS4zIsUxYguYUPP2e1NK4d7E7ZOLiyYCcbFBiTMyID+2wvm2w6+pZ/odMA7cRkjhsPbltwBOrLg==}
     engines: {node: '>=8.6'}
@@ -13408,8 +13404,8 @@ packages:
   i18next-chained-backend@4.6.3:
     resolution: {integrity: sha512-Yg4hAKg/98zRAMQs87vJSNevTzaPPrYF3Eb7Kpx+UEaaXLd3p69g7dulAL+hpmZQHeMQ/5gFqHVtdwva53mB0Q==}
 
-  i18next-fs-backend@2.6.7:
-    resolution: {integrity: sha512-nN2TIycyR/d+OVuLm1ugPyOlMprqPRnQ7QktBgn44F3H8l7TeTH4ffHJ7nUsd4QVJfetWW7/VZ3s+4g7FoAZUA==}
+  i18next-fs-backend@2.6.8:
+    resolution: {integrity: sha512-6w7An//zrZgwOrniDl0E3jXTPQayMexFnksuHrBA3dTyFbpbmmkKfPoI6SgaKq5gH5jXMzqrQpzN10jlKj6n7Q==}
 
   i18next-http-backend@3.0.6:
     resolution: {integrity: sha512-mBOqy8993jtqAoj6XaI1XeC/8/9v6EPS+681ziegrPvTB0DoaCY7PpTS0SpY56qLMoS4OI1TZEM2Zf59zNh05w==}
@@ -27887,11 +27883,6 @@ snapshots:
       graceful-fs: 4.2.11
       tapable: 2.3.3
 
-  enhanced-resolve@5.25.1:
-    dependencies:
-      graceful-fs: 4.2.11
-      tapable: 2.3.3
-
   enquirer@2.3.6:
     dependencies:
       ansi-colors: 4.1.3
@@ -29254,7 +29245,7 @@ snapshots:
     dependencies:
       '@babel/runtime': 7.28.4
 
-  i18next-fs-backend@2.6.7: {}
+  i18next-fs-backend@2.6.8: {}
 
   i18next-http-backend@3.0.6(encoding@0.1.13):
     dependencies:
@@ -35395,7 +35386,7 @@ snapshots:
       acorn-import-phases: 1.0.4(acorn@8.18.0)
       browserslist: 4.29.0
       chrome-trace-event: 1.0.4
-      enhanced-resolve: 5.25.1
+      enhanced-resolve: 5.24.5
       es-module-lexer: 2.3.2
       eslint-scope: 5.1.1
       events: 3.3.0
@@ -35437,7 +35428,7 @@ snapshots:
       acorn-import-phases: 1.0.4(acorn@8.18.0)
       browserslist: 4.29.0
       chrome-trace-event: 1.0.4
-      enhanced-resolve: 5.25.1
+      enhanced-resolve: 5.24.5
       es-module-lexer: 2.3.2
       eslint-scope: 5.1.1
       events: 3.3.0
@@ -35478,7 +35469,7 @@ snapshots:
       acorn-import-phases: 1.0.4(acorn@8.18.0)
       browserslist: 4.29.0
       chrome-trace-event: 1.0.4
-      enhanced-resolve: 5.25.1
+      enhanced-resolve: 5.24.5
       es-module-lexer: 2.3.2
       eslint-scope: 5.1.1
       events: 3.3.0
@@ -35519,7 +35510,7 @@ snapshots:
       acorn-import-phases: 1.0.4(acorn@8.18.0)
       browserslist: 4.29.0
       chrome-trace-event: 1.0.4
-      enhanced-resolve: 5.25.1
+      enhanced-resolve: 5.24.5
       es-module-lexer: 2.3.2
       eslint-scope: 5.1.1
       events: 3.3.0
@@ -35560,7 +35551,7 @@ snapshots:
       acorn-import-phases: 1.0.4(acorn@8.18.0)
       browserslist: 4.29.0
       chrome-trace-event: 1.0.4
-      enhanced-resolve: 5.25.1
+      enhanced-resolve: 5.24.5
       es-module-lexer: 2.3.2
       eslint-scope: 5.1.1
       events: 3.3.0
