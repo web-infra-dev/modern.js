@@ -1389,7 +1389,7 @@ importers:
         specifier: ^3.1.1
         version: 3.1.1(ioredis@5.8.2)
       sharp:
-        specifier: ^0.35.0
+        specifier: ^0.35.4
         version: 0.35.4(@types/node@20.19.27)
     devDependencies:
       '@modern-js/app-tools':
