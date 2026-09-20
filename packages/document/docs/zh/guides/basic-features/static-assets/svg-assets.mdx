@@ -159,21 +159,27 @@ declare module '*.svg' {
 }
 ```
 
-如果需要修改 SVGR 配置，可通过如下方式：
+如果需要修改 SVGR 配置，可通过 [tools.svgr](/configure/app/tools/svgr) 的 `svgrOptions` 设置。传入的 `svgoConfig.plugins` 会按插件名与默认配置深度合并，因此只需写出要改动的部分：
 
 ```js
 export default {
   tools: {
-    bundlerChain: (chain, { CHAIN_ID }) => {
-      chain.module
-        .rule(CHAIN_ID.RULE.SVG)
-        .oneOf(CHAIN_ID.ONE_OF.SVG)
-        .use(CHAIN_ID.USE.SVGR)
-        .tap(options => {
-          // modify svgoConfig
-          options.svgoConfig.plugins[0].params.overrides.removeUselessDefs = false;
-          return options;
-        });
+    svgr: {
+      svgrOptions: {
+        svgoConfig: {
+          plugins: [
+            {
+              name: 'preset-default',
+              params: {
+                overrides: {
+                  // 在默认的 preset-default 之上追加一项 override
+                  removeUselessDefs: false,
+                },
+              },
+            },
+          ],
+        },
+      },
     },
   },
 };

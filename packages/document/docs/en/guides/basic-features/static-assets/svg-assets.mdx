@@ -157,21 +157,27 @@ When SVGR is enabled, its default configuration is as follows:
 }
 ```
 
-If you need to modify the SVGR configuration, you can do the following:
+To modify the SVGR configuration, use `svgrOptions` of [tools.svgr](/configure/app/tools/svgr). The `svgoConfig.plugins` you pass are deep merged with the defaults by plugin name, so only the changed part needs to be written:
 
 ```js
 export default {
   tools: {
-    bundlerChain: (chain, { CHAIN_ID }) => {
-      chain.module
-        .rule(CHAIN_ID.RULE.SVG)
-        .oneOf(CHAIN_ID.ONE_OF.SVG)
-        .use(CHAIN_ID.USE.SVGR)
-        .tap(options => {
-          // modify svgoConfig
-          options.svgoConfig.plugins[0].params.overrides.removeUselessDefs = false;
-          return options;
-        });
+    svgr: {
+      svgrOptions: {
+        svgoConfig: {
+          plugins: [
+            {
+              name: 'preset-default',
+              params: {
+                overrides: {
+                  // add one more override on top of the default preset-default
+                  removeUselessDefs: false,
+                },
+              },
+            },
+          ],
+        },
+      },
     },
   },
 };
