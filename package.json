@@ -89,5 +89,22 @@
     "nx": "^22.4.2",
     "rimraf": "^6.0.1",
     "vitest": "^3.0.0"
+  },
+  "pnpm": {
+    "overrides": {
+      "dts-packer>resolve": "1.20.0",
+      "tsm>esbuild": "0.17.19",
+      "vite>esbuild": "0.17.19"
+    },
+    "peerDependencyRules": {
+      "allowedVersions": {
+        "flux>react": ">= 17",
+        "react-json-view>react": ">= 17",
+        "react-json-view>react-dom": ">= 17",
+        "react-element-to-jsx-string>react": ">= 17",
+        "react-element-to-jsx-string>react-dom": ">= 17",
+        "@mdx-js/react>react": ">= 17"
+      }
+    }
   }
 }
