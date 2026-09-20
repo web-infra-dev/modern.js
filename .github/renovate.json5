@@ -116,6 +116,22 @@
       "groupName": "modern",
       "groupSlug": "modern",
     },
+    // v2 is a maintenance branch: it exists so teams that cannot move to the
+    // current major yet still get bugfixes. Those users chose v2 for stability,
+    // so a routine dependency bump is risk without benefit for them -- the same
+    // reason Node.js and Angular keep their LTS lines to security and critical
+    // fixes only. Over the last year half of v2's commits (115 of 228) were
+    // dependency bumps, against a single-digit number of actual bugfixes.
+    //
+    // Routine updates are not dropped, only made opt-in: they stay listed on the
+    // Dependency Dashboard and a maintainer can tick one to have Renovate open
+    // the PR. Security updates are unaffected -- `vulnerabilityAlerts` overrides
+    // packageRules, which is why major security PRs (koa 2->3, ts-deepmerge
+    // 7->8) are raised even though the rule above disables major updates.
+    {
+      "matchBaseBranches": ["v2"],
+      "dependencyDashboardApproval": true,
+    },
   ],
   "vulnerabilityAlerts": {
     "enabled": true,
