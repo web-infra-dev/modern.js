@@ -17,7 +17,7 @@ overrides:
   esbuild: '>=0.25.0'
   tmp: '>=0.2.7'
   '@isaacs/brace-expansion': '>=5.0.1'
-  dts-packer>resolve: 1.20.0
+  dts-packer>resolve: 1.22.12
 
 importers:
 
@@ -16694,9 +16694,6 @@ packages:
     resolution: {integrity: sha512-OcXjMsGdhL4XnbShKpAcSqPMzQoYkYyhbEaeSko47MjRP9NfEQMhZkXL1DoFlt9LWQn4YttrdnV6X2OiyzBi+A==}
     engines: {node: '>=10'}
 
-  resolve@1.20.0:
-    resolution: {integrity: sha512-wENBPt4ySzg4ybFQW2TT1zMQucPK95HSh/nq2CFTZVOGut2+pQvSsgtda4d26YrYcr067wjbmzOG8byDPBX63A==}
-
   resolve@1.22.11:
     resolution: {integrity: sha512-RfqAvLnMl313r7c9oclB1HhUEAezcpLjz95wFH4LVuhk9JF/r22qmVP9AMmOU4vMX7Q8pN8jwNg/CSpdFnMjTQ==}
     engines: {node: '>= 0.4'}
@@ -18997,7 +18994,7 @@ snapshots:
       '@babel/helper-plugin-utils': 7.29.7
       debug: 4.4.3(supports-color@8.1.1)
       lodash.debounce: 4.0.8
-      resolve: 1.22.11
+      resolve: 1.22.12
     transitivePeerDependencies:
       - supports-color
 
@@ -27857,7 +27854,7 @@ snapshots:
       got: 11.8.6
       is-core-module: 2.16.1
       mkdirp: 1.0.4
-      resolve: 1.20.0
+      resolve: 1.22.12
       semver: 7.8.5
       yargs-parser: 20.2.9
 
@@ -29973,7 +29970,7 @@ snapshots:
       jest-pnp-resolver: 1.2.3(jest-resolve@29.7.0)
       jest-util: 29.7.0
       jest-validate: 29.7.0
-      resolve: 1.22.11
+      resolve: 1.22.12
       resolve.exports: 2.0.3
       slash: 3.0.0
 
@@ -32177,7 +32174,7 @@ snapshots:
       postcss: 8.5.28
       postcss-value-parser: 4.2.0
       read-cache: 1.0.0
-      resolve: 1.22.11
+      resolve: 1.22.12
 
   postcss-initial@4.0.1(postcss@8.5.28):
     dependencies:
@@ -33413,11 +33410,6 @@ snapshots:
   resolve-pkg-maps@1.0.0: {}
 
   resolve.exports@2.0.3: {}
-
-  resolve@1.20.0:
-    dependencies:
-      is-core-module: 2.16.1
-      path-parse: 1.0.7
 
   resolve@1.22.11:
     dependencies:
