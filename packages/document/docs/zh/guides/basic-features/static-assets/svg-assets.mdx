@@ -42,15 +42,21 @@ export default () => <Logo />;
 
 ## 修改默认导出
 
-你可以通过 [output.svgDefaultExport](/configure/app/output/svg-default-export) 配置项来修改 SVG 文件默认导出的内容，比如把默认导出的内容设置为 React 组件：
+你可以通过 [tools.svgr](/configure/app/tools/svgr) 的 `svgrOptions.exportType` 来修改 SVG 文件默认导出的内容，比如把默认导出的内容设置为 React 组件：
 
 ```ts
 export default {
-  output: {
-    svgDefaultExport: 'component',
+  tools: {
+    svgr: {
+      svgrOptions: {
+        exportType: 'default',
+      },
+    },
   },
 };
 ```
+
+旧的 [output.svgDefaultExport](/configure/app/output/svg-default-export) 配置项仍然生效，但已废弃。
 
 此时再使用默认导入，你会得到一个 React 组件，而不是 URL：
 
@@ -80,12 +86,12 @@ export default () => <Logo />;
 
 默认情况下，在 JS 文件中引用 SVG 资源时，Modern.js 会调用 SVGR，将 SVG 图片转换为一个 React 组件。
 
-如果你确定项目内的所有 SVG 资源都没有当成 React 组件使用时，可以通过将 [disableSvgr](/configure/app/output/disable-svgr) 设置为 true 来关闭此项转换，以提升构建性能。
+如果你确定项目内的所有 SVG 资源都没有当成 React 组件使用时，可以通过将 [tools.svgr](/configure/app/tools/svgr) 设置为 `false` 来关闭此项转换，以提升构建性能。
 
 ```js
 export default {
-  output: {
-    disableSvgr: true,
+  tools: {
+    svgr: false,
   },
 };
 ```
@@ -153,21 +159,27 @@ declare module '*.svg' {
 }
 ```
 
-如果需要修改 SVGR 配置，可通过如下方式：
+如果需要修改 SVGR 配置，可通过 [tools.svgr](/configure/app/tools/svgr) 的 `svgrOptions` 设置。传入的 `svgoConfig.plugins` 会按插件名与默认配置深度合并，因此只需写出要改动的部分：
 
 ```js
 export default {
   tools: {
-    bundlerChain: (chain, { CHAIN_ID }) => {
-      chain.module
-        .rule(CHAIN_ID.RULE.SVG)
-        .oneOf(CHAIN_ID.ONE_OF.SVG)
-        .use(CHAIN_ID.USE.SVGR)
-        .tap(options => {
-          // modify svgoConfig
-          options.svgoConfig.plugins[0].params.overrides.removeUselessDefs = false;
-          return options;
-        });
+    svgr: {
+      svgrOptions: {
+        svgoConfig: {
+          plugins: [
+            {
+              name: 'preset-default',
+              params: {
+                overrides: {
+                  // 在默认的 preset-default 之上追加一项 override
+                  removeUselessDefs: false,
+                },
+              },
+            },
+          ],
+        },
+      },
     },
   },
 };
