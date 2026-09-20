@@ -116,12 +116,6 @@
       "groupName": "modern",
       "groupSlug": "modern",
     },
-    // v2 is a maintenance branch: only vulnerability fixes, no routine bumps.
-    // (vulnerabilityAlerts below re-enables security updates for every branch.)
-    {
-      "matchBaseBranches": ["v2"],
-      "enabled": false,
-    },
   ],
   "vulnerabilityAlerts": {
     "enabled": true,
@@ -130,8 +124,8 @@
   // branches instead: every open branch has to be rebased (lockfile regenerated,
   // about a minute each on the hosted runner) whenever main changes, and the
   // hosted job is killed after 30 minutes.
-  "prConcurrentLimit": 6,
-  "branchConcurrentLimit": 6,
+  "prConcurrentLimit": 12,
+  "branchConcurrentLimit": 12,
   "ignoreDeps": [
     // vue only exists in tests/e2e/builder (the Vue plugin e2e fixture); it has
     // no second usage to stay consistent with, and bumping it churns that
