@@ -127,9 +127,12 @@
   "prConcurrentLimit": 12,
   "branchConcurrentLimit": 12,
   "ignoreDeps": [
-    // vue only exists in tests/e2e/builder (the Vue plugin e2e fixture); it has
-    // no second usage to stay consistent with, and bumping it churns that
-    // fixture for no benefit.
+    // vue is only used by test fixtures: tests/e2e/builder on both branches,
+    // plus tests/integration/module/plugins/vue on v2. Every one of them pins
+    // the same range, so ignoring vue cannot create a version mismatch. This
+    // file is read from the default branch and applies to v2 as well, which is
+    // intended: the framework does not ship Vue support, so these fixtures do
+    // not need to track Vue releases.
     "vue",
     // manually update some packages
     "pnpm",
