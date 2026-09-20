@@ -75,7 +75,7 @@
     "@scripts/build": "workspace:*",
     "@types/react": "^19.3.0",
     "@types/react-dom": "^19.3.0",
-    "check-dependency-version-consistency": "4.1.1",
+    "check-dependency-version-consistency": "6.0.0",
     "cross-env": "^7.0.3",
     "husky": "^8.0.3",
     "lint-staged": "~13.3.0",

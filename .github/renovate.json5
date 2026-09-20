@@ -1,20 +1,20 @@
 {
   "$schema": "https://docs.renovatebot.com/renovate-schema.json",
   "extends": ["config:recommended"],
-  "baseBranches": ["main", "v2"],
+  "baseBranchPatterns": ["main", "v2"],
   "rangeStrategy": "bump",
-  "updateLockFiles": true,
   "schedule": ["every weekend"],
   "ignorePaths": [
     "**/node_modules/**",
     "packages/toolkit/utils/tests/fixtures/plugin",
-    // demo apps, not part of the published packages
+    // demo apps: they track the published packages (`latest`) and are exempt
+    // from the workspace version-consistency check, so Renovate skips them too.
+    // Everything else (packages, scripts, tests fixtures) stays in scope so one
+    // update bumps a dependency everywhere and versions remain consistent.
     "examples/**",
-    // builder e2e fixtures (vue etc.), not part of the published packages
-    "tests/e2e/builder/**",
   ],
   "lockFileMaintenance": {
-    "enabled": true
+    "enabled": false
   },
   "ignoreScripts": false,
   "packageRules": [
@@ -117,7 +117,23 @@
       "groupSlug": "modern",
     },
   ],
+  "vulnerabilityAlerts": {
+    "enabled": true,
+  },
+  // One PR per dependency is intentional. Bound the number of open Renovate
+  // branches instead: every open branch has to be rebased (lockfile regenerated,
+  // about a minute each on the hosted runner) whenever main changes, and the
+  // hosted job is killed after 30 minutes.
+  "prConcurrentLimit": 12,
+  "branchConcurrentLimit": 12,
   "ignoreDeps": [
+    // vue is only used by test fixtures: tests/e2e/builder on both branches,
+    // plus tests/integration/module/plugins/vue on v2. Every one of them pins
+    // the same range, so ignoring vue cannot create a version mismatch. This
+    // file is read from the default branch and applies to v2 as well, which is
+    // intended: the framework does not ship Vue support, so these fixtures do
+    // not need to track Vue releases.
+    "vue",
     // manually update some packages
     "pnpm",
     "esbuild",
