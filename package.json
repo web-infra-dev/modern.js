@@ -71,10 +71,10 @@
     "@commitlint/cli": "^20.5.3",
     "@commitlint/config-conventional": "^20.5.3",
     "@modern-js/tsconfig": "workspace:*",
-    "@rstest/core": "0.11.9",
+    "@rstest/core": "0.11.12",
     "@scripts/build": "workspace:*",
-    "@types/react": "^19.2.17",
-    "@types/react-dom": "^19.2.3",
+    "@types/react": "^19.3.0",
+    "@types/react-dom": "^19.3.0",
     "check-dependency-version-consistency": "4.1.1",
     "cross-env": "^7.0.3",
     "husky": "^8.0.3",
@@ -85,7 +85,7 @@
   "pnpm": {
     "overrides": {
       "micromatch": "^4.0.8",
-      "read-yaml-file>js-yaml": "3.14.2",
+      "read-yaml-file>js-yaml": "3.15.2",
       "@remix-run/router": ">=1.23.2",
       "h3": ">=1.15.11",
       "tar": ">=7.5.22",
@@ -95,7 +95,8 @@
       "lodash-es": ">=4.18.1",
       "esbuild": ">=0.25.0",
       "tmp": ">=0.2.7",
-      "@isaacs/brace-expansion": ">=5.0.1"
+      "@isaacs/brace-expansion": ">=5.0.1",
+      "dts-packer>resolve": "1.20.0"
     },
     "peerDependencyRules": {
       "allowedVersions": {

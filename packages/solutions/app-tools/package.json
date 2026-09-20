@@ -15,7 +15,7 @@
     "modern",
     "modern.js"
   ],
-  "version": "3.9.0",
+  "version": "3.9.1",
   "types": "./src/index.ts",
   "main": "./dist/cjs/index.js",
   "exports": {
@@ -119,9 +119,9 @@
     "test": "rstest"
   },
   "dependencies": {
-    "@babel/parser": "^7.29.7",
-    "@babel/traverse": "^7.29.7",
-    "@babel/types": "^7.29.7",
+    "@babel/parser": "^7.29.8",
+    "@babel/traverse": "^7.29.8",
+    "@babel/types": "^7.29.8",
     "@modern-js/builder": "workspace:*",
     "@modern-js/i18n-utils": "workspace:*",
     "@modern-js/plugin": "workspace:*",
@@ -132,7 +132,7 @@
     "@modern-js/server-utils": "workspace:*",
     "@modern-js/types": "workspace:*",
     "@modern-js/utils": "workspace:*",
-    "@rsbuild/core": "2.2.4",
+    "@rsbuild/core": "2.2.7",
     "@swc/core": "1.15.41",
     "@swc/helpers": "^0.5.17",
     "es-module-lexer": "^1.7.0",

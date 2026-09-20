@@ -1,5 +1,22 @@
 # @modern-js/plugin-bff
 
+## 3.9.1
+
+### Patch Changes
+
+- 4af5bf0: Upgrade Rsbuild to 2.2.4 and support its stricter bundler chain types, preserving service worker library options and handling non-string public paths in asset prefix templates.
+
+  升级 Rsbuild 至 2.2.4，兼容更严格的 bundler chain 类型，保留 service worker 的 library 配置，并在 assetPrefix 模板中处理非字符串 publicPath。
+
+- Updated dependencies [bc59ee1]
+- Updated dependencies [4af5bf0]
+  - @modern-js/server-utils@3.9.1
+  - @modern-js/builder@3.9.1
+  - @modern-js/server-core@3.9.1
+  - @modern-js/create-request@3.9.1
+  - @modern-js/bff-core@3.9.1
+  - @modern-js/utils@3.9.1
+
 ## 3.9.0
 
 ### Patch Changes

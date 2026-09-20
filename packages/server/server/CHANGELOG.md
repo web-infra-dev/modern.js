@@ -1,5 +1,17 @@
 # @modern-js/server
 
+## 3.9.1
+
+### Patch Changes
+
+- Updated dependencies [bc59ee1]
+- Updated dependencies [2e6d853]
+  - @modern-js/server-utils@3.9.1
+  - @modern-js/runtime-utils@3.9.1
+  - @modern-js/server-core@3.9.1
+  - @modern-js/types@3.9.1
+  - @modern-js/utils@3.9.1
+
 ## 3.9.0
 
 ### Patch Changes

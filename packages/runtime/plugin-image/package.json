@@ -1,6 +1,6 @@
 {
   "name": "@modern-js/image",
-  "version": "3.9.0",
+  "version": "3.9.1",
   "type": "module",
   "main": "./dist/index.cjs",
   "types": "./dist/index.d.ts",
@@ -41,7 +41,7 @@
     "@rsbuild-image/core": "0.0.1-next.16",
     "@rsbuild-image/react": "0.0.1-next.16",
     "ipx": "^3.1.1",
-    "sharp": "^0.34.5"
+    "sharp": "^0.35.0"
   },
   "devDependencies": {
     "@modern-js/app-tools": "workspace:*",
