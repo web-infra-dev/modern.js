@@ -1059,7 +1059,7 @@ importers:
         specifier: ^0.5.17
         version: 0.5.23
       qs:
-        specifier: ^6.15.3
+        specifier: ^6.16.0
         version: 6.16.0
       type-is:
         specifier: ^1.6.18
@@ -1728,7 +1728,7 @@ importers:
         specifier: ^6.3.0
         version: 6.3.0
       qs:
-        specifier: ^6.15.3
+        specifier: ^6.16.0
         version: 6.16.0
     devDependencies:
       '@modern-js/rslib':
