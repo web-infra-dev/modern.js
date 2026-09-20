@@ -166,7 +166,7 @@
     "@swc/helpers": "^0.5.17",
     "lru-cache": "^10.4.3",
     "react-router": "7.18.4",
-    "serialize-javascript": "^6.0.2"
+    "serialize-javascript": "^7.0.0"
   },
   "peerDependencies": {
     "react": ">=18.3.1",
