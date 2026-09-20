@@ -8,7 +8,7 @@
     "start": "tsx ./src/index.ts"
   },
   "dependencies": {
-    "@changesets/read": "^0.6.6",
+    "@changesets/read": "^0.6.7",
     "@modern-js/utils": "workspace:*",
     "axios": "^1.15.2"
   },
