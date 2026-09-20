@@ -70,7 +70,13 @@ export async function parseCommonConfig(
       ...outputConfig
     } = {},
     html: { outputStructure, appIcon, ...htmlConfig } = {},
-    source: { alias, globalVars, transformImport, ...sourceConfig } = {},
+    source: {
+      alias,
+      globalVars,
+      transformImport,
+      reactCompiler,
+      ...sourceConfig
+    } = {},
     dev = {},
     server = {},
     security: { checkSyntax, sri, ...securityConfig } = {},
@@ -269,7 +275,9 @@ export async function parseCommonConfig(
     );
   }
 
-  rsbuildPlugins.push(pluginReact());
+  rsbuildPlugins.push(
+    pluginReact(reactCompiler !== undefined ? { reactCompiler } : {}),
+  );
 
   if (!disableSvgr) {
     const { pluginSvgr } = await import('@rsbuild/plugin-svgr');

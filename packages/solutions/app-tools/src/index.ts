@@ -24,7 +24,6 @@ import analyzePlugin from './plugins/analyze';
 import deployPlugin from './plugins/deploy';
 import initializePlugin from './plugins/initialize';
 import serverBuildPlugin from './plugins/serverBuild';
-import serverRuntimePlugin from './plugins/serverRuntime';
 import type { AppTools, CliPlugin } from './types';
 import type {
   AddRuntimeExportsFn,
@@ -47,7 +46,6 @@ export * from './defineConfig';
 export const appTools = (): CliPlugin<AppTools> => ({
   name: '@modern-js/app-tools',
   usePlugins: [
-    serverRuntimePlugin(),
     compatPlugin(),
     initializePlugin(),
     analyzePlugin(),
@@ -99,23 +97,23 @@ export const appTools = (): CliPlugin<AppTools> => ({
 
     api.onPrepare(async () => {
       const command = getCommand();
+
+      // CLI `deploy --skip-build` reuses the previous build output, so it must
+      // not clean dist.
       if (command === 'deploy') {
         const isSkipBuild = ['-s', '--skip-build'].some(tag => {
           return getArgv().includes(tag);
         });
-        // if skip build, do not clean dist path
         if (isSkipBuild) {
           return;
         }
       }
 
-      // clean dist path before building
-      if (
-        command === 'dev' ||
-        command === 'start' ||
-        command === 'build' ||
-        command === 'deploy'
-      ) {
+      // Clean dist before the build output is generated. This must run here in
+      // `onPrepare` (before the analyze plugin's `generateEntryCode`, which
+      // writes `nestedRoutes.json` into dist), NOT in the `build`/`dev`
+      // commands which run afterwards and would delete it.
+      if (['dev', 'start', 'build', 'deploy'].includes(command)) {
         const resolvedConfig = api.getNormalizedConfig();
         if (resolvedConfig.output.cleanDistPath) {
           const appContext = api.getAppContext();
@@ -170,7 +168,8 @@ export { defineConfig } from './defineConfig';
 
 export { dev } from './commands/dev';
 export { serve } from './commands/serve';
-export type { DevOptions } from './utils/types';
+export { closeServer } from './utils/createServer';
+export type { DeployOptions, DevOptions } from './utils/types';
 export { generateWatchFiles } from './utils/generateWatchFiles';
 export {
   resolveTsRuntimeRegisterMode,

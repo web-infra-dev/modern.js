@@ -1,0 +1,72 @@
+---
+title: reactCompiler
+---
+
+# source.reactCompiler
+
+- **类型：** `boolean | ReactCompilerOptions`
+- **默认值：** `undefined`（不开启）
+
+是否启用 [React Compiler](https://zh-hans.react.dev/learn/react-compiler)。React Compiler 是一个构建期工具，通过自动记忆化（memoization）优化 React 应用的重渲染性能。
+
+Modern.js 基于 Rspack `builtin:swc-loader` 内置的 Rust 版 React Compiler 实现该能力（等价于设置 SWC 的 `jsc.transform.reactCompiler`），复用 Rspack 内置的 SWC 转换链，无需额外引入 Babel。
+
+:::tip
+该配置默认关闭，任何 React 版本下都需要显式开启，包括 React 19。
+:::
+
+## 示例
+
+### 开启 React Compiler（React 19）
+
+```ts title="modern.config.ts"
+import { defineConfig } from '@modern-js/app-tools';
+
+export default defineConfig({
+  source: {
+    reactCompiler: true,
+  },
+});
+```
+
+### 在 React 18 中使用
+
+React Compiler 编译产物默认面向 React 19。在 React 18 项目中使用时，需要：
+
+1. 将 [react-compiler-runtime](https://www.npmjs.com/package/react-compiler-runtime) 安装为**运行时依赖**（编译产物会在运行时引用它）：
+
+```bash
+npm add react-compiler-runtime
+```
+
+2. 通过 `target` 指定 React 版本：
+
+```ts title="modern.config.ts"
+import { defineConfig } from '@modern-js/app-tools';
+
+export default defineConfig({
+  source: {
+    reactCompiler: {
+      target: '18',
+    },
+  },
+});
+```
+
+### 自定义编译行为
+
+传入对象时，选项与 Rspack `jsc.transform.reactCompiler` 一致，例如通过 `compilationMode: 'annotation'` 仅编译带有 `"use memo"` 指令的函数：
+
+```ts title="modern.config.ts"
+import { defineConfig } from '@modern-js/app-tools';
+
+export default defineConfig({
+  source: {
+    reactCompiler: {
+      compilationMode: 'annotation',
+    },
+  },
+});
+```
+
+完整选项请参考 [Rsbuild - reactCompiler](https://rsbuild.rs/plugins/list/plugin-react#reactcompiler) 与 [React Compiler 配置文档](https://zh-hans.react.dev/reference/react-compiler/configuration)。

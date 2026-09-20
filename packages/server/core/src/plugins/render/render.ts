@@ -4,13 +4,7 @@ import { cutNameByHyphen } from '@modern-js/utils/universal';
 import type { Router } from 'hono/router';
 import { TrieRouter } from 'hono/router/trie-router';
 import { X_MODERNJS_RENDER } from '../../constants';
-import type {
-  CacheConfig,
-  FallbackContext,
-  FallbackReason,
-  OnFallback,
-  UserConfig,
-} from '../../types';
+import type { CacheConfig, UserConfig } from '../../types';
 import type { Render } from '../../types';
 import type { Params } from '../../types/requestHandler';
 import { uniqueKeyByRoute } from '../../utils';
@@ -35,17 +29,15 @@ interface CreateRenderOptions {
   config: UserConfig;
   cacheConfig?: CacheConfig;
   staticGenerate?: boolean;
-  onFallback?: OnFallback;
   metaName?: string;
   forceCSR?: boolean;
   forceCSRMap?: Map<string, boolean>;
   nonce?: string;
 }
 
-type FallbackWrapper = (
-  reason: FallbackReason,
-  err?: unknown,
-) => ReturnType<OnFallback>;
+type FallbackReason = 'error' | 'header' | 'query' | `header,${string}`;
+
+type FallbackWrapper = (reason: FallbackReason) => void;
 
 const DYNAMIC_ROUTE_REG = /\/:./;
 
@@ -80,24 +72,33 @@ function getRouter(routes: ServerRoute[]): Router<ServerRoute> {
   return router;
 }
 
-type MatchedRoute = [ServerRoute, Params];
-function matchRoute(
+type MatchedRoute = [ServerRoute | undefined, Params];
+export function matchRoute(
   router: Router<ServerRoute>,
   pathname: string,
   entryName?: string,
 ): MatchedRoute {
   const matched = router.match('*', pathname);
+  const matchedRoutes = matched[0] as ReadonlyArray<
+    readonly [ServerRoute, unknown]
+  >;
   // For route rewrite in server.ts
   // If entryName is existed and the pathname matched multiple routes, we use entryName to find the target route
-  if (entryName && matched[0].length > 1) {
-    const matches: Array<MatchedRoute> = matched[0];
-    const result = matches.find(
-      ([route]) => route.entryName === entryName,
-    ) as MatchedRoute;
-    return result || [];
+  if (entryName && matchedRoutes.length > 1) {
+    for (const [route, params] of matchedRoutes) {
+      if (route.entryName === entryName) {
+        return [route, params as Params];
+      }
+    }
+
+    return [undefined, {}];
   } else {
-    const result = matched[0][0];
-    return result || [];
+    const result = matchedRoutes[0];
+    if (!result) {
+      return [undefined, {}];
+    }
+
+    return [result[0], result[1] as Params];
   }
 }
 
@@ -120,7 +121,6 @@ export async function createRender({
   forceCSR,
   forceCSRMap,
   config,
-  onFallback,
 }: CreateRenderOptions): Promise<Render> {
   const router = getRouter(routes);
 
@@ -151,14 +151,11 @@ export async function createRender({
     const framework = cutNameByHyphen(metaName || 'modern-js');
     const fallbackHeader = `x-${framework}-ssr-fallback`;
     let fallbackReason = null;
-    const fallbackContext: FallbackContext = {
-      request: req,
-      monitors,
-    };
 
-    const fallbackWrapper: FallbackWrapper = async (reason, error?) => {
+    const fallbackWrapper: FallbackWrapper = reason => {
       fallbackReason = reason;
-      return onFallback?.(reason, error, fallbackContext);
+      monitors?.warn('fallback to CSR reason: %o', { type: reason });
+      monitors?.counter('ssr-fallback', { type: reason });
     };
 
     if (!routeInfo) {
@@ -337,7 +334,7 @@ async function renderHandler(
       response = await ssrRender(request, options);
     } catch (e) {
       options.onError(e as Error, ErrorDigest.ERENDER);
-      await fallbackWrapper('error', e);
+      fallbackWrapper('error');
 
       response = await csrRender(request, {
         ...options,

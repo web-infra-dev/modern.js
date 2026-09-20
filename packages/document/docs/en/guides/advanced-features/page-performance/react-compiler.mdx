@@ -1,54 +1,69 @@
 # React Compiler
 
-The React Compiler is an experimental compiler introduced in React 19 that can automatically optimize your React code.
+React Compiler is a build-time compiler from the React team that reduces unnecessary re-renders through automatic memoization, without manually writing `useMemo`, `useCallback`, or `React.memo`.
 
-Before starting to use the React Compiler, it is recommended to read the [React Compiler documentation](https://zh-hans.react.dev/learn/react-compiler) to understand its features, current status, and usage.
+Before starting to use React Compiler, it is recommended to read the [React Compiler documentation](https://react.dev/learn/react-compiler) to understand its features, current status, and usage.
 
 ## How to Use
 
+Modern.js provides built-in support for React Compiler via the [source.reactCompiler](/configure/app/source/react-compiler) option, powered by the Rust-based React Compiler implementation in Rspack's `builtin:swc-loader`. It reuses Rspack's built-in SWC transform chain without introducing Babel (`babel-plugin-react-compiler`).
+
+This capability is **disabled by default** and must be enabled explicitly for any React version.
+
 ### React 19
 
-If you are using React 19, Modern.js has built-in support for React Compiler, and no additional configuration is required.
-
-### React 18
-
-If you are using React 18, you need to configure it as follows:
-
-1. Install `react-compiler-runtime` to allow the compiled code to run on versions before 19:
-
-```bash
-npm install react-compiler-runtime
-```
-
-2. Install `babel-plugin-react-compiler`:
-
-```bash
-npm install babel-plugin-react-compiler
-```
-
-3. Register the Babel plugin in your Modern.js configuration file:
+If you are using React 19, simply enable `source.reactCompiler` — no additional dependencies are required:
 
 ```ts title="modern.config.ts"
 import { appTools, defineConfig } from '@modern-js/app-tools';
-import { pluginBabel } from '@rsbuild/plugin-babel';
 
 export default defineConfig({
-  builderPlugins: [
-    pluginBabel({
-      babelLoaderOptions: (config, { addPlugins }) => {
-        addPlugins([
-          [
-            'babel-plugin-react-compiler',
-          {
-            target: '18', // 或 '17'，根据你使用的 React 版本
-          },
-          ],
-        ]);
-      },
-    });
-  ];
+  source: {
+    reactCompiler: true,
+  },
   plugins: [appTools()],
 });
 ```
+
+### React 18
+
+If you are using React 18, configure it as follows:
+
+1. Install `react-compiler-runtime` as a **runtime dependency** to allow the compiled code to run on versions before React 19:
+
+```bash
+npm add react-compiler-runtime
+```
+
+2. Specify the React version via `target` in the configuration:
+
+```ts title="modern.config.ts"
+import { appTools, defineConfig } from '@modern-js/app-tools';
+
+export default defineConfig({
+  source: {
+    reactCompiler: {
+      target: '18',
+    },
+  },
+  plugins: [appTools()],
+});
+```
+
+## Customize Compilation Behavior
+
+`source.reactCompiler` accepts an object to configure the compilation behavior, with the same options as Rspack's `jsc.transform.reactCompiler`. For example, use `compilationMode: 'annotation'` to only compile functions annotated with the `"use memo"` directive, enabling React Compiler incrementally:
+
+```ts title="modern.config.ts"
+export default defineConfig({
+  source: {
+    reactCompiler: {
+      compilationMode: 'annotation',
+    },
+  },
+});
+```
+
+For the complete list of options, see [Rsbuild - reactCompiler](https://rsbuild.rs/plugins/list/plugin-react#reactcompiler) and the [React Compiler configuration docs](https://react.dev/reference/react-compiler/configuration).
 
 > For detailed code, you can refer to the [Modern.js & React Compiler example project](https://github.com/web-infra-dev/modern.js/tree/main/examples/react-compiler)

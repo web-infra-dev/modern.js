@@ -12,18 +12,18 @@
   },
   "dependencies": {
     "@modern-js/runtime": "workspace:*",
-    "react": "^19.2.7",
-    "react-dom": "^19.2.7"
+    "react": "^19.2.8",
+    "react-dom": "^19.2.8"
   },
   "devDependencies": {
     "@modern-js/app-tools": "workspace:*",
     "@modern-js/adapter-rstest": "workspace:*",
-    "@rstest/browser": "0.9.10",
-    "@rstest/browser-react": "0.9.10",
-    "@rstest/core": "0.9.10",
+    "@rstest/browser": "0.11.12",
+    "@rstest/browser-react": "0.11.12",
+    "@rstest/core": "0.11.12",
     "@types/node": "^20",
-    "@types/react": "^19.2.17",
-    "@types/react-dom": "^19.2.3",
+    "@types/react": "^19.3.0",
+    "@types/react-dom": "^19.3.0",
     "playwright": "^1.58.2",
     "typescript": "^5"
   }

@@ -1,5 +1,59 @@
 # @modern-js/runtime-utils
 
+## 3.9.1
+
+### Patch Changes
+
+- 2e6d853: fix: use conventional route loading components as hydration fallbacks while initial route data is loading
+
+  fix: 初始路由数据加载期间使用约定式路由的 loading 组件作为 hydration fallback
+
+  - @modern-js/types@3.9.1
+  - @modern-js/utils@3.9.1
+
+## 3.9.0
+
+### Patch Changes
+
+- @modern-js/types@3.9.0
+- @modern-js/utils@3.9.0
+
+## 3.8.3
+
+### Patch Changes
+
+- @modern-js/types@3.8.3
+- @modern-js/utils@3.8.3
+
+## 3.8.2
+
+### Patch Changes
+
+- @modern-js/types@3.8.2
+- @modern-js/utils@3.8.2
+
+## 3.8.1
+
+### Patch Changes
+
+- @modern-js/types@3.8.1
+- @modern-js/utils@3.8.1
+
+## 3.8.0
+
+### Patch Changes
+
+- Updated dependencies [b3a0709]
+  - @modern-js/utils@3.8.0
+  - @modern-js/types@3.8.0
+
+## 3.7.0
+
+### Patch Changes
+
+- @modern-js/types@3.7.0
+- @modern-js/utils@3.7.0
+
 ## 3.6.0
 
 ### Minor Changes

@@ -3,15 +3,33 @@ import path, { dirname, posix } from 'path';
 import { findMatchedSourcePath, findSourceEntry } from '@modern-js/utils';
 import type { MatchPath } from '@modern-js/utils/tsconfig-paths';
 import { createMatchPath } from '@modern-js/utils/tsconfig-paths';
-import * as ts from 'typescript';
+import type * as ts from 'typescript';
+
+// Extensions that TypeScript compiles into a `.js` file. Everything else
+// (`.json`, `.mjs`, `.cjs`, assets) keeps whatever extension it already has,
+// because it is copied to the output directory untouched.
+const COMPILED_TO_JS_EXTENSIONS = new Set(['.ts', '.tsx', '.js', '.jsx']);
 
 // Convert a resolved source path into the specifier that native ESM output
-// should reference at runtime, which is always the emitted `.js` file.
+// should reference at runtime.
 const toEsmOutputPath = (resolvedPath: string) => {
-  const sourcePath = findSourceEntry(resolvedPath) || resolvedPath;
+  // A directory match is joined with the platform separator, so on Windows the
+  // result comes back with backslashes. Emitted specifiers are always posix.
+  const sourcePath = (findSourceEntry(resolvedPath) || resolvedPath).replace(
+    /\\/g,
+    '/',
+  );
   const ext = path.extname(sourcePath);
 
-  return ext ? `${sourcePath.slice(0, -ext.length)}.js` : `${sourcePath}.js`;
+  if (!ext) {
+    return `${sourcePath}.js`;
+  }
+
+  if (!COMPILED_TO_JS_EXTENSIONS.has(ext)) {
+    return sourcePath;
+  }
+
+  return `${sourcePath.slice(0, -ext.length)}.js`;
 };
 
 const resolveRelativeEsmSpecifier = (sf: ts.SourceFile, text: string) => {
@@ -78,16 +96,14 @@ const isDynamicImport = (
 ): node is ts.CallExpression => {
   return (
     tsBinary.isCallExpression(node) &&
-    node.expression.kind === ts.SyntaxKind.ImportKeyword
+    node.expression.kind === tsBinary.SyntaxKind.ImportKeyword
   );
 };
 
-export function tsconfigPathsBeforeHookFactory(
-  tsBinary: typeof ts,
+const createTsMatchPath = (
   baseUrl: string,
   paths: Record<string, string[] | string>,
-  moduleType?: 'module' | 'commonjs',
-) {
+): MatchPath => {
   const tsPaths: Record<string, string[]> = {};
   const alias: Record<string, string> = {};
 
@@ -103,12 +119,7 @@ export function tsconfigPathsBeforeHookFactory(
 
   const matchTsPath = createMatchPath(baseUrl, tsPaths, ['main']);
 
-  const matchPath: MatchPath = (
-    requestedModule,
-    readJSONSync,
-    fileExists,
-    extensions,
-  ) => {
+  return (requestedModule, readJSONSync, fileExists, extensions) => {
     const result = matchTsPath(
       requestedModule,
       readJSONSync,
@@ -120,8 +131,19 @@ export function tsconfigPathsBeforeHookFactory(
     }
     return matchAliasPath(requestedModule);
   };
+};
 
-  if (Object.keys(paths).length === 0) {
+export function tsconfigPathsBeforeHookFactory(
+  tsBinary: typeof ts,
+  baseUrl: string,
+  paths: Record<string, string[] | string>,
+  moduleType?: 'module' | 'commonjs',
+) {
+  const matchPath = createTsMatchPath(baseUrl, paths);
+
+  // Native ESM output still needs relative specifiers rewritten to their
+  // emitted `.js` counterparts, even when the project declares no path alias.
+  if (Object.keys(paths).length === 0 && moduleType !== 'module') {
     return undefined;
   }
 
@@ -129,12 +151,25 @@ export function tsconfigPathsBeforeHookFactory(
     return (sf: ts.SourceFile) => {
       const visitNode = (node: ts.Node): ts.Node => {
         if (isDynamicImport(tsBinary, node)) {
-          const importPathWithQuotes = node.arguments[0].getText(sf);
-          const text = importPathWithQuotes.slice(
-            1,
-            importPathWithQuotes.length - 1,
+          const [specifier] = node.arguments;
+          // Only a literal specifier is known at compile time. Template
+          // interpolation or concatenation has to be resolved at runtime, so
+          // those calls are left untouched.
+          if (
+            !specifier ||
+            !(
+              tsBinary.isStringLiteral(specifier) ||
+              tsBinary.isNoSubstitutionTemplateLiteral(specifier)
+            )
+          ) {
+            return tsBinary.visitEachChild(node, visitNode, ctx);
+          }
+          const result = getNotAliasedPath(
+            sf,
+            matchPath,
+            specifier.text,
+            moduleType,
           );
-          const result = getNotAliasedPath(sf, matchPath, text, moduleType);
           if (!result) {
             return node;
           }
@@ -144,6 +179,9 @@ export function tsconfigPathsBeforeHookFactory(
             node.typeArguments,
             tsBinary.factory.createNodeArray([
               tsBinary.factory.createStringLiteral(result),
+              // `import(specifier, { with: { type: 'json' } })` carries its
+              // options in the second argument, which must survive the rewrite.
+              ...node.arguments.slice(1),
             ]),
           );
         }
@@ -152,16 +190,19 @@ export function tsconfigPathsBeforeHookFactory(
           (tsBinary.isExportDeclaration(node) && node.moduleSpecifier)
         ) {
           try {
-            const importPathWithQuotes = node?.moduleSpecifier?.getText();
+            const { moduleSpecifier: specifier } = node;
 
-            if (!importPathWithQuotes) {
+            // A non-literal module specifier is a grammar error; skip it
+            // instead of slicing quotes off arbitrary text.
+            if (!specifier || !tsBinary.isStringLiteral(specifier)) {
               return node;
             }
-            const text = importPathWithQuotes.substring(
-              1,
-              importPathWithQuotes.length - 1,
+            const result = getNotAliasedPath(
+              sf,
+              matchPath,
+              specifier.text,
+              moduleType,
             );
-            const result = getNotAliasedPath(sf, matchPath, text, moduleType);
             if (!result) {
               return node;
             }
@@ -171,6 +212,11 @@ export function tsconfigPathsBeforeHookFactory(
               node as any
             ).moduleSpecifier.parent;
 
+            // `with { type: 'json' }` is parsed into `attributes`; the legacy
+            // `assert { ... }` syntax into `assertClause`. Keep whichever the
+            // source used, otherwise the clause is dropped on rewrite.
+            const importAttributes = node.attributes ?? node.assertClause;
+
             let newNode;
             if (tsBinary.isImportDeclaration(node)) {
               newNode = tsBinary.factory.updateImportDeclaration(
@@ -178,7 +224,7 @@ export function tsconfigPathsBeforeHookFactory(
                 node.modifiers,
                 node.importClause,
                 moduleSpecifier,
-                node.assertClause,
+                importAttributes,
               );
             } else {
               newNode = tsBinary.factory.updateExportDeclaration(
@@ -187,7 +233,7 @@ export function tsconfigPathsBeforeHookFactory(
                 node.isTypeOnly,
                 node.exportClause,
                 moduleSpecifier,
-                node.assertClause,
+                importAttributes,
               );
             }
             (newNode as any).flags = node.flags;
@@ -199,6 +245,130 @@ export function tsconfigPathsBeforeHookFactory(
         return tsBinary.visitEachChild(node, visitNode, ctx);
       };
       return tsBinary.visitNode(sf, visitNode);
+    };
+  };
+}
+
+// TypeScript never resolves tsconfig `paths` in declaration output
+// (microsoft/TypeScript#30952), so the alias rewrite that runs on JS emit must
+// run again on the declaration AST. Differences from the `before` transform:
+// declaration nodes are synthesized without source positions (specifiers are
+// read via `.text`), inline `import("...")` types appear as `ImportTypeNode`,
+// and `import x = require("...")` keeps its specifier in an
+// `ExternalModuleReference`. `moduleType` is forwarded so ESM declarations
+// carry the same `.js` specifier as the JS output — `node16`/`nodenext`
+// consumers require explicit extensions in `.d.ts` too (TS emits `./x.js` and
+// resolves it back to `./x.d.ts`); mismatching JS and `.d.ts` here reproduces
+// the very TS2835 failure this rewrite exists to prevent.
+export function tsconfigPathsAfterDeclarationsHookFactory(
+  tsBinary: typeof ts,
+  baseUrl: string,
+  paths: Record<string, string[] | string>,
+  moduleType?: 'module' | 'commonjs',
+) {
+  // Native ESM declarations still need relative specifiers rewritten to their
+  // emitted `.js` counterparts even without path aliases, matching the `before`
+  // hook's guard.
+  if (Object.keys(paths).length === 0 && moduleType !== 'module') {
+    return undefined;
+  }
+
+  const matchPath = createTsMatchPath(baseUrl, paths);
+  const rewrite = (sf: ts.SourceFile, text: string) =>
+    getNotAliasedPath(sf, matchPath, text, moduleType);
+
+  return (
+    ctx: ts.TransformationContext,
+  ): ts.Transformer<ts.SourceFile | ts.Bundle> => {
+    const { factory } = ctx;
+    return sourceFile => {
+      if (!tsBinary.isSourceFile(sourceFile)) {
+        return sourceFile;
+      }
+      const visitNode = (node: ts.Node): ts.Node => {
+        if (tsBinary.isImportTypeNode(node)) {
+          const { argument } = node;
+          if (
+            tsBinary.isLiteralTypeNode(argument) &&
+            tsBinary.isStringLiteral(argument.literal)
+          ) {
+            const result = rewrite(sourceFile, argument.literal.text);
+            if (result) {
+              const updated = factory.updateImportTypeNode(
+                node,
+                factory.createLiteralTypeNode(
+                  factory.createStringLiteral(result),
+                ),
+                // TS >= 5.3 names this `attributes`; earlier 5.x `assertions`.
+                (node as any).attributes ?? (node as any).assertions,
+                node.qualifier,
+                node.typeArguments,
+                node.isTypeOf,
+              );
+              return tsBinary.visitEachChild(updated, visitNode, ctx);
+            }
+          }
+          return tsBinary.visitEachChild(node, visitNode, ctx);
+        }
+
+        if (
+          (tsBinary.isImportDeclaration(node) ||
+            tsBinary.isExportDeclaration(node)) &&
+          node.moduleSpecifier &&
+          tsBinary.isStringLiteral(node.moduleSpecifier)
+        ) {
+          const result = rewrite(sourceFile, node.moduleSpecifier.text);
+          if (!result) {
+            return node;
+          }
+          const moduleSpecifier = factory.createStringLiteral(result);
+          const importAttributes =
+            (node as any).attributes ?? node.assertClause;
+          if (tsBinary.isImportDeclaration(node)) {
+            return factory.updateImportDeclaration(
+              node,
+              node.modifiers,
+              node.importClause,
+              moduleSpecifier,
+              importAttributes,
+            );
+          }
+          return factory.updateExportDeclaration(
+            node,
+            node.modifiers,
+            node.isTypeOnly,
+            node.exportClause,
+            moduleSpecifier,
+            importAttributes,
+          );
+        }
+
+        if (
+          tsBinary.isImportEqualsDeclaration(node) &&
+          tsBinary.isExternalModuleReference(node.moduleReference) &&
+          tsBinary.isStringLiteral(node.moduleReference.expression)
+        ) {
+          const result = rewrite(
+            sourceFile,
+            node.moduleReference.expression.text,
+          );
+          if (!result) {
+            return node;
+          }
+          return factory.updateImportEqualsDeclaration(
+            node,
+            node.modifiers,
+            node.isTypeOnly,
+            node.name,
+            factory.createExternalModuleReference(
+              factory.createStringLiteral(result),
+            ),
+          );
+        }
+
+        return tsBinary.visitEachChild(node, visitNode, ctx);
+      };
+      return tsBinary.visitEachChild(sourceFile, visitNode, ctx);
     };
   };
 }

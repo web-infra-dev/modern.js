@@ -73,4 +73,31 @@ describe('command build', () => {
       await plugin.setup(mockAPI);
     }
   });
+
+  test('does not close a completed non-watch build', async () => {
+    const close = rstest.fn();
+    const builderBuild = rstest.fn(async () => ({ close }));
+    const mockAPI = {
+      getAppContext: rstest.fn((): any => ({
+        apiOnly: false,
+        distDirectory: '/app/dist',
+        appDirectory: '/app',
+        metaName: 'modern-js',
+        builder: {
+          build: builderBuild,
+          onAfterBuild: rstest.fn(),
+        },
+      })),
+      getNormalizedConfig: rstest.fn(() => ({})),
+      getHooks: rstest.fn(() => ({
+        _internalServerPlugins: { call: rstest.fn(() => ({ plugins: [] })) },
+      })),
+      updateAppContext: rstest.fn(),
+    };
+
+    await build(mockAPI as any);
+
+    expect(builderBuild).toHaveBeenCalledWith({ watch: undefined });
+    expect(close).not.toHaveBeenCalled();
+  });
 });

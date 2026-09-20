@@ -43,6 +43,25 @@ let mockAPIs: MockAPI[] = [];
 
 let mockConfig: MockConfig | undefined;
 
+export const resolveMockDirectory = (
+  pwd: string,
+  mockDir = AGGRED_DIR.mock,
+): string => path.resolve(pwd, mockDir);
+
+export const isPathInsideDirectory = (
+  filepath: string,
+  directory: string,
+): boolean => {
+  const relativePath = path.relative(directory, path.resolve(filepath));
+
+  return (
+    relativePath === '' ||
+    (relativePath !== '..' &&
+      !relativePath.startsWith(`..${path.sep}`) &&
+      !path.isAbsolute(relativePath))
+  );
+};
+
 const parseKey = (key: string): { method: string; path: string } => {
   const _blank = ' ';
   // 'Method /pathname' | '/pathname'
@@ -64,6 +83,7 @@ const parseKey = (key: string): { method: string; path: string } => {
 
 const getMockModule = async (
   pwd: string,
+  mockDir?: string,
 ): Promise<
   | {
       mockHandlers?: MockHandlers;
@@ -73,9 +93,10 @@ const getMockModule = async (
 > => {
   const exts = ['.ts', '.js'];
   let mockFilePath = '';
+  const mockDirectory = resolveMockDirectory(pwd, mockDir);
 
   for (const ext of exts) {
-    const maybeMatch = path.join(pwd, `${AGGRED_DIR.mock}/index${ext}`);
+    const maybeMatch = path.join(mockDirectory, `index${ext}`);
     if (await fs.pathExists(maybeMatch)) {
       mockFilePath = maybeMatch;
       break;
@@ -136,8 +157,11 @@ export const getMatched = (request: InternalRequest, mockApis: MockAPI[]) => {
   return matched;
 };
 
-export async function initOrUpdateMockMiddlewares(pwd: string) {
-  const mockModule = await getMockModule(pwd);
+export async function initOrUpdateMockMiddlewares(
+  pwd: string,
+  mockDir?: string,
+) {
+  const mockModule = await getMockModule(pwd, mockDir);
 
   mockConfig = mockModule?.config;
 
@@ -154,8 +178,11 @@ export async function initOrUpdateMockMiddlewares(pwd: string) {
   );
 }
 
-export async function getMockMiddleware(pwd: string): Promise<Middleware> {
-  await initOrUpdateMockMiddlewares(pwd);
+export async function getMockMiddleware(
+  pwd: string,
+  mockDir?: string,
+): Promise<Middleware> {
+  await initOrUpdateMockMiddlewares(pwd, mockDir);
 
   const mockMiddleware: Middleware = async (c, next) => {
     if (typeof mockConfig?.enable === 'function') {

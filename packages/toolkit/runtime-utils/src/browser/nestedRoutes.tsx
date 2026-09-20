@@ -113,6 +113,10 @@ export const renderNestedRoute = (
     routeProps.element = element;
   }
 
+  if (nestedRoute.loading) {
+    routeProps.hydrateFallbackElement = <nestedRoute.loading />;
+  }
+
   const childElements = children?.map(childRoute => {
     return renderNestedRoute(childRoute, {
       parent: nestedRoute,

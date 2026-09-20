@@ -253,6 +253,89 @@ function sleep(t) {
   return new Promise(resolve => setTimeout(resolve, t));
 }
 
+/**
+ * Copy a fixture app into a unique temporary sibling directory so test files
+ * that would otherwise share one project directory each run against their own
+ * copy. Concurrent build/dev in a single directory corrupts artifacts: the
+ * build empties `dist` under the running server.
+ *
+ * node_modules is NOT symlinked as a whole: a whole-dir link would make all
+ * copies share `node_modules/.modern-js` (generated code), re-creating the
+ * conflict. Every entry is linked individually instead, and `.cache` /
+ * `.modern-js` are left out so each copy gets its own.
+ */
+async function createIsolatedTestApp(sourceAppDir, options = {}) {
+  const fse = require('fs-extra');
+  const { prefix = `.isolated-${path.basename(sourceAppDir)}-`, exclude = [] } =
+    options;
+
+  const appDir = await fse.mkdtemp(
+    path.join(path.dirname(sourceAppDir), prefix),
+  );
+  const topLevelExcludes = [
+    'node_modules',
+    'dist',
+    'dist-deploy',
+    'dist-ssg',
+    '.output',
+    'tests',
+    'test',
+    ...exclude,
+  ];
+  await fse.copy(sourceAppDir, appDir, {
+    filter: src => {
+      const relative = path.relative(sourceAppDir, src);
+      if (!relative) {
+        return true;
+      }
+      const [firstSegment] = relative.split(path.sep);
+      return !topLevelExcludes.includes(firstSegment);
+    },
+  });
+
+  const sourceNodeModules = path.join(sourceAppDir, 'node_modules');
+  const appNodeModules = path.join(appDir, 'node_modules');
+  await fse.ensureDir(appNodeModules);
+  if (await fse.pathExists(sourceNodeModules)) {
+    for (const entry of await fse.readdir(sourceNodeModules)) {
+      if (entry === '.cache' || entry === '.modern-js') {
+        continue;
+      }
+      const target = path.join(sourceNodeModules, entry);
+      // stat (not lstat): pnpm's top-level entries are themselves symlinks,
+      // and the link type must describe what they finally point to.
+      let isDirectory = true;
+      try {
+        isDirectory = (await fse.stat(target)).isDirectory();
+      } catch {
+        continue; // dangling link in the source tree
+      }
+      await fse.ensureSymlink(
+        target,
+        path.join(appNodeModules, entry),
+        isDirectory ? 'junction' : 'file',
+      );
+    }
+  }
+
+  return {
+    appDir,
+    // Callers must kill any process using appDir before cleanup; removal is
+    // retried because Windows keeps directories busy while children exit.
+    async cleanup() {
+      for (let attempt = 0; attempt < 5; attempt++) {
+        try {
+          await fse.remove(appDir);
+          return;
+        } catch {
+          await sleep(500);
+        }
+      }
+      await fse.remove(appDir).catch(() => {});
+    },
+  };
+}
+
 module.exports = {
   runContinuousTask,
   runModernCommand,
@@ -265,4 +348,5 @@ module.exports = {
   getPort,
   sleep,
   launchOptions,
+  createIsolatedTestApp,
 };

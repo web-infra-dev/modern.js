@@ -1,5 +1,67 @@
 # @modern-js/builder
 
+## 3.9.1
+
+### Patch Changes
+
+- 4af5bf0: Upgrade Rsbuild to 2.2.4 and support its stricter bundler chain types, preserving service worker library options and handling non-string public paths in asset prefix templates.
+
+  升级 Rsbuild 至 2.2.4，兼容更严格的 bundler chain 类型，保留 service worker 的 library 配置，并在 assetPrefix 模板中处理非字符串 publicPath。
+
+  - @modern-js/utils@3.9.1
+
+## 3.9.0
+
+### Patch Changes
+
+- @modern-js/utils@3.9.0
+
+## 3.8.3
+
+### Patch Changes
+
+- 3748f08: chore: upgrade Rsbuild to v2.2.0-rc.0 and the SWC plugin to the latest version
+
+  chore: 升级 Rsbuild 至 v2.2.0-rc.0，并将 SWC 插件升级至最新版本
+
+- 546e96e: chore: upgrade Rsbuild dependencies to the latest versions
+
+  chore: 升级 Rsbuild 相关依赖至最新版本
+
+  - @modern-js/utils@3.8.3
+
+## 3.8.2
+
+### Patch Changes
+
+- @modern-js/utils@3.8.2
+
+## 3.8.1
+
+### Patch Changes
+
+- @modern-js/utils@3.8.1
+
+## 3.8.0
+
+### Patch Changes
+
+- f0abf7e: fix: respect output.module for service-worker environment output
+  fix: 在 service-worker 环境中遵循 output.module 输出配置
+- Updated dependencies [b3a0709]
+  - @modern-js/utils@3.8.0
+
+## 3.7.0
+
+### Minor Changes
+
+- 65dd786: feat(builder): add `source.reactCompiler` to enable React Compiler via Rspack's built-in SWC implementation
+  feat(builder): 新增 `source.reactCompiler` 配置，基于 Rspack 内置 SWC 的 Rust 版 React Compiler 提供一键开启能力
+
+### Patch Changes
+
+- @modern-js/utils@3.7.0
+
 ## 3.6.0
 
 ### Patch Changes

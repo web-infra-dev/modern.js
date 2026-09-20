@@ -13,6 +13,7 @@ rstest.mock('../src/dev-tools/watcher', () => {
   const instances: any[] = [];
   class FakeWatcher {
     listenCb: ((filepath: string, event: string) => void) | null = null;
+    paths: string[] = [];
     closed = false;
     constructor() {
       instances.push(this);
@@ -21,10 +22,11 @@ rstest.mock('../src/dev-tools/watcher', () => {
     updateDepTree() {}
     cleanDepCache() {}
     listen(
-      _paths: unknown,
+      paths: string[],
       _opts: unknown,
       cb: (filepath: string, event: string) => void,
     ) {
+      this.paths = paths;
       this.listenCb = cb;
     }
     close() {
@@ -144,15 +146,19 @@ describe('devRuntimeMiddlewarePlugin (per-runtime injection)', () => {
 });
 
 describe('setupDevInfra (process-level singletons)', () => {
-  function setup(getRuntimeServer: () => any) {
+  function setup(
+    getRuntimeServer: () => any,
+    config = { server: {} } as any,
+    pwd = '/tmp/app',
+  ) {
     const nodeServer = new EventEmitter() as any;
     const builder = { onDevCompileDone: rstest.fn() } as any;
     const builderDevServer = makeBuilderDevServer(true);
     const onFileChange = rstest.fn();
     const infra = setupDevInfra({
-      config: { server: {} } as any,
-      pwd: '/tmp/app',
-      distDir: '/tmp/app/dist',
+      config,
+      pwd,
+      distDir: path.join(pwd, 'dist'),
       builder,
       builderDevServer,
       compiler: null,
@@ -327,6 +333,39 @@ describe('setupDevInfra (process-level singletons)', () => {
     expect(runtime.hooks.onReset.call).not.toHaveBeenCalled();
     // but the reload is still scheduled so the mock middleware refreshes
     expect(onFileChange).toHaveBeenCalledTimes(1);
+  });
+
+  it('watches a custom Mock directory and preserves its reload semantics', async () => {
+    const runtime = makeFakeRuntimeServer();
+    const pwd = path.join('/tmp', 'workspace', 'apps', 'web');
+    const mockDir = '../../shared-mocks';
+    const { onFileChange } = setup(
+      () => runtime,
+      { server: {}, dev: { mockDir } } as any,
+      pwd,
+    );
+
+    const watcher = getWatchers()[getWatchers().length - 1];
+    const resolvedMockDir = path.resolve(pwd, mockDir);
+    expect(watcher.paths).toContain(
+      path.normalize(path.join(resolvedMockDir, '**/*')),
+    );
+
+    const mockFile = path.join(resolvedMockDir, 'index.ts');
+    watcher.listenCb(mockFile, 'change');
+    await flush();
+
+    expect(runtime.hooks.onReset.call).not.toHaveBeenCalled();
+    expect(onFileChange).toHaveBeenCalledTimes(1);
+
+    // A sibling whose name starts with the configured directory must not be
+    // mistaken for a Mock file.
+    const siblingFile = path.join(`${resolvedMockDir}-other`, 'index.ts');
+    watcher.listenCb(siblingFile, 'change');
+    await flush();
+
+    expect(runtime.hooks.onReset.call).toHaveBeenCalledTimes(1);
+    expect(onFileChange).toHaveBeenCalledTimes(2);
   });
 });
 

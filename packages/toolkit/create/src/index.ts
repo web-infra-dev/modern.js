@@ -3,6 +3,7 @@ import path from 'node:path';
 import readline from 'node:readline';
 import { fileURLToPath } from 'node:url';
 import { getLocaleLanguage } from '@modern-js/i18n-utils/language-detector';
+import { runAgentsMd } from './agents-md';
 import { i18n, localeKeys } from './locale';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
@@ -68,6 +69,8 @@ function showHelp() {
   console.log(i18n.t(localeKeys.help.optionVersion));
   console.log(i18n.t(localeKeys.help.optionLang));
   console.log(i18n.t(localeKeys.help.optionSub));
+  console.log(i18n.t(localeKeys.help.optionNoAgentsMd));
+  console.log(i18n.t(localeKeys.help.optionAgentsMdOnly));
   console.log('');
   console.log(i18n.t(localeKeys.help.examples));
   console.log(i18n.t(localeKeys.help.example1));
@@ -96,6 +99,21 @@ function promptInput(question: string): Promise<string> {
   });
 }
 
+// flags that consume the next argument as their value
+const VALUE_FLAGS = ['--lang', '-l'];
+// flags that stand alone
+const BOOLEAN_FLAGS = [
+  '--help',
+  '-h',
+  '--version',
+  '-v',
+  '--sub',
+  '-s',
+  '--no-sub',
+  '--no-agents-md',
+  '--agents-md-only',
+];
+
 function detectSubprojectFlag(): boolean | null {
   const args = process.argv.slice(2);
   if (args.includes('--sub') || args.includes('-s')) {
@@ -105,6 +123,10 @@ function detectSubprojectFlag(): boolean | null {
     return false;
   }
   return null;
+}
+
+function detectNoAgentsMdFlag(): boolean {
+  return process.argv.slice(2).includes('--no-agents-md');
 }
 
 function isDirectoryEmpty(dirPath: string): boolean {
@@ -124,27 +146,14 @@ async function getProjectName(): Promise<{
   useCurrentDir: boolean;
 }> {
   const args = process.argv.slice(2);
+  // a positional argument is anything that is not a flag itself and not
+  // the value of a value-consuming flag (only --lang/-l takes a value;
+  // boolean flags must not swallow the argument that follows them)
   const projectNameArg = args.find(
     (arg, index) =>
-      arg !== '--lang' &&
-      arg !== '-l' &&
-      arg !== '--help' &&
-      arg !== '-h' &&
-      arg !== '--version' &&
-      arg !== '-v' &&
-      arg !== '--sub' &&
-      arg !== '-s' &&
-      arg !== '--no-sub' &&
-      (index === 0 ||
-        (args[index - 1] !== '--lang' &&
-          args[index - 1] !== '-l' &&
-          args[index - 1] !== '--help' &&
-          args[index - 1] !== '-h' &&
-          args[index - 1] !== '--version' &&
-          args[index - 1] !== '-v' &&
-          args[index - 1] !== '--sub' &&
-          args[index - 1] !== '-s' &&
-          args[index - 1] !== '--no-sub')),
+      !VALUE_FLAGS.includes(arg) &&
+      !BOOLEAN_FLAGS.includes(arg) &&
+      !(index > 0 && VALUE_FLAGS.includes(args[index - 1])),
   );
 
   if (projectNameArg) {
@@ -180,6 +189,23 @@ async function main() {
     return;
   }
 
+  // Mode for existing projects: add/refresh AGENTS.md & CLAUDE.md in the
+  // current directory so agents pick up the bundled docs after an upgrade
+  // (idempotent). A flag rather than a positional, so it never collides with
+  // a project name; mutually exclusive with creating a project.
+  if (args.includes('--agents-md-only')) {
+    const hasProjectName = args.some(
+      (arg, index) =>
+        !arg.startsWith('-') && !VALUE_FLAGS.includes(args[index - 1]),
+    );
+    if (hasProjectName || args.includes('--no-agents-md')) {
+      console.error(i18n.t(localeKeys.error.agentsMdOnlyConflict));
+      process.exit(1);
+    }
+    runAgentsMd(templateDir, process.cwd());
+    return;
+  }
+
   console.log(`\n${i18n.t(localeKeys.message.welcome)}\n`);
   const { name: projectName, useCurrentDir } = await getProjectName();
   const targetDir = useCurrentDir
@@ -202,11 +228,13 @@ async function main() {
 
   const subprojectFlag = detectSubprojectFlag();
   const isSubproject = subprojectFlag === true;
+  const noAgentsMd = detectNoAgentsMdFlag();
 
   copyTemplate(templateDir, targetDir, {
     packageName: projectName,
     version,
     isSubproject,
+    noAgentsMd,
   });
 
   const targetPackageJson = path.join(targetDir, 'package.json');
@@ -237,6 +265,9 @@ async function main() {
   const reset = '\x1b[0m';
 
   console.log(`${i18n.t(localeKeys.message.success)}\n`);
+  if (!noAgentsMd && !isSubproject) {
+    console.log(`${i18n.t(localeKeys.message.agentsMd)}\n`);
+  }
   console.log(i18n.t(localeKeys.message.nextSteps));
   if (!useCurrentDir) {
     console.log(
@@ -254,6 +285,7 @@ function copyTemplate(
     packageName: string;
     version: string;
     isSubproject: boolean;
+    noAgentsMd: boolean;
   },
 ) {
   fs.mkdirSync(dest, { recursive: true });
@@ -263,13 +295,21 @@ function copyTemplate(
     'biome.json',
     '.npmrc',
     '.nvmrc',
+    // agent files are managed at the monorepo root in subproject setups
+    'AGENTS.md',
+    'CLAUDE.md',
   ];
+
+  const agentFiles = ['AGENTS.md', 'CLAUDE.md'];
 
   function copyRecursive(srcDir: string, destDir: string) {
     const entries = fs.readdirSync(srcDir, { withFileTypes: true });
 
     for (const entry of entries) {
       if (options.isSubproject && excludeInSubproject.includes(entry.name)) {
+        continue;
+      }
+      if (options.noAgentsMd && agentFiles.includes(entry.name)) {
         continue;
       }
 

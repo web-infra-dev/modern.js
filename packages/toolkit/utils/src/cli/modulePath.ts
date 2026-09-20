@@ -2,7 +2,10 @@ import fs from 'node:fs';
 import path from 'node:path';
 import type { MatchPath } from '../../compiled/tsconfig-paths';
 
-export const SOURCE_EXTENSIONS = ['.ts', '.js'];
+// Keep the same order as TypeScript's own module resolution so that a
+// directory import like `./foo` resolves to the file `tsc` actually compiles.
+export const SOURCE_EXTENSIONS = ['.ts', '.tsx', '.js', '.jsx'];
+const TS_EXTENSIONS = ['.ts', '.tsx'];
 export const JS_LIKE_EXTENSION_RE = /\.(?:c|m)?js$/;
 
 const isFile = (filepath: string) =>
@@ -19,10 +22,14 @@ export const findSourceEntry = (resolvedPath: string) => {
     }
 
     if (JS_LIKE_EXTENSION_RE.test(resolvedPath)) {
-      const tsPath = `${resolvedPath.slice(0, -ext.length)}.ts`;
+      const withoutExt = resolvedPath.slice(0, -ext.length);
 
-      if (isFile(tsPath)) {
-        return tsPath;
+      for (const candidateExt of TS_EXTENSIONS) {
+        const tsPath = `${withoutExt}${candidateExt}`;
+
+        if (isFile(tsPath)) {
+          return tsPath;
+        }
       }
     }
 

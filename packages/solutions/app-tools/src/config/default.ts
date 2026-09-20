@@ -1,3 +1,4 @@
+import { AGGRED_DIR } from '@modern-js/server-core';
 import { DEFAULT_ENTRY_NAME, MAIN_ENTRY_NAME } from '@modern-js/utils';
 import type { AppUserConfig } from '../types';
 import type { AppToolsContext } from '../types/plugin';
@@ -8,6 +9,7 @@ export function createDefaultConfig(
   appContext: AppToolsContext,
 ): AppUserConfig {
   const dev: AppUserConfig['dev'] = {
+    mockDir: `./${AGGRED_DIR.mock}`,
     cliShortcuts: {
       help: false,
       // does not support restart server and print urls yet

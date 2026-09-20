@@ -1,27 +1,18 @@
-import { pathToFileURL } from 'url';
-import { findMatchedSourcePath, findSourceEntry } from '@modern-js/utils';
-import { createMatchPath } from '@modern-js/utils/tsconfig-paths';
 import { resolve as tsNodeResolve } from 'ts-node/esm';
 import { load as tsNodeLoad } from 'ts-node/esm';
+import {
+  initialize as initializeTsPathsLoader,
+  resolve as resolveTsPaths,
+} from './ts-paths-loader.mjs';
 
-let matchPath;
-
-export async function initialize({ baseUrl, paths }) {
-  matchPath = createMatchPath(baseUrl || './', paths || {});
+export async function initialize(config) {
+  await initializeTsPathsLoader(config);
 }
 
 export function resolve(specifier, context, defaultResolve) {
-  // Without this rewrite, aliases such as `@service/user` and
-  // `@service/user.js` would never reach ts-node as real source files.
-  const match = findMatchedSourcePath(matchPath, specifier);
-
-  return match
-    ? tsNodeResolve(
-        pathToFileURL(findSourceEntry(match) || match).href,
-        context,
-        defaultResolve,
-      )
-    : tsNodeResolve(specifier, context, defaultResolve);
+  return resolveTsPaths(specifier, context, (specifier, context) => {
+    return tsNodeResolve(specifier, context, defaultResolve);
+  });
 }
 
 export function load(url, context, defaultLoad) {

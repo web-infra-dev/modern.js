@@ -1,5 +1,32 @@
 import path from 'node:path';
-import { isSubDirOrEqual } from '../../src/plugins/analyze/utils';
+import {
+  checkIsBuildCommands,
+  isSubDirOrEqual,
+} from '../../src/plugins/analyze/utils';
+
+describe('checkIsBuildCommands', () => {
+  const originalModernArgv = process.env.MODERN_ARGV;
+
+  afterEach(() => {
+    if (originalModernArgv === undefined) {
+      delete process.env.MODERN_ARGV;
+    } else {
+      process.env.MODERN_ARGV = originalModernArgv;
+    }
+  });
+
+  it('uses the argv command when it is a build command', () => {
+    process.env.MODERN_ARGV = 'node modern build';
+
+    expect(checkIsBuildCommands()).toBe(true);
+  });
+
+  it('ignores non-build argv commands', () => {
+    process.env.MODERN_ARGV = 'node rstest test';
+
+    expect(checkIsBuildCommands()).toBe(false);
+  });
+});
 
 describe('isSubDirOrEqual', () => {
   it('should return true for the same directories', () => {

@@ -1,13 +1,13 @@
-import { SSR_HYDRATION_ID_PREFIX } from '@modern-js/utils/universal/constants';
 import cookieTool from 'cookie';
 import type React from 'react';
-// aliased because this file already has Modern's own `hydrateRoot` from './hydrate'
-import { createRoot, hydrateRoot as hydrateReactRoot } from 'react-dom/client';
+import { createRoot } from 'react-dom/client';
 import { getGlobalInternalRuntimeContext } from '../context';
 import { type TRuntimeContext, getInitialContext } from '../context/runtime';
 import { wrapRuntimeContextProvider } from '../react/wrapper';
 import type { SSRContainer } from '../types';
-import { hydrateRoot } from './hydrate';
+import { hydrateRoot, hydrateWithReact } from './hydrate';
+
+export { hydrateWithReact };
 
 const getQuery = () =>
   window.location.search
@@ -100,12 +100,12 @@ export async function render(
       return renderWithReact(App, rootElement);
     }
 
-    async function ModernHydrate(App: React.ReactElement) {
-      return hydrateWithReact(App, rootElement);
-    }
+    // we should hydrateRoot only when SSR or SSG is enabled
+    if (process.env.MODERN_ENABLE_HYDRATION && window._SSR_DATA) {
+      async function ModernHydrate(App: React.ReactElement) {
+        return hydrateWithReact(App, rootElement);
+      }
 
-    // we should hydateRoot only when ssr
-    if (window._SSR_DATA) {
       return hydrateRoot(App, context, ModernRender, ModernHydrate);
     }
     return ModernRender(wrapRuntimeContextProvider(App, context));
@@ -121,15 +121,5 @@ export async function renderWithReact(
 ) {
   const root = createRoot(rootElement);
   root.render(App);
-  return root;
-}
-
-export async function hydrateWithReact(
-  App: React.ReactElement,
-  rootElement: HTMLElement,
-) {
-  const root = hydrateReactRoot(rootElement, App, {
-    identifierPrefix: SSR_HYDRATION_ID_PREFIX,
-  });
   return root;
 }
