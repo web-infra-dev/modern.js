@@ -171,9 +171,11 @@ export const createTsNodeCompilerOptions = (
   return Object.assign(result, ...overrides);
 };
 
-// ts-node 10.x resolves `extends` itself and only understands a string, so a
-// config chain containing an `extends` array (the documented
-// `tsconfig.server.json` layout) cannot be passed to it as `project`.
+// ts-node 10.x resolves `extends` itself and only understands a string. The
+// recommended `tsconfig.server.json` keeps `extends` a string, but a chain
+// that does contain an array (for example `@modern-js/tsconfig/server` used
+// as a second entry) cannot be passed to ts-node as `project`; it is merged
+// here instead as a defensive fallback.
 export const canTsNodeReadProject = (files: string[]) =>
   files.every(file => !Array.isArray(readTsConfigByFile(file)?.extends));
 
