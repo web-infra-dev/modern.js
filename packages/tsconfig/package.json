@@ -10,6 +10,14 @@
     "directory": "packages/review/tsconfig"
   },
   "license": "MIT",
+  "files": [
+    "base.json",
+    "server.json",
+    "legacy.json",
+    "react.json",
+    "README.md",
+    "LICENSE"
+  ],
   "keywords": [
     "react",
     "framework",
@@ -23,5 +31,18 @@
     "registry": "https://registry.npmjs.org/",
     "access": "public"
   },
-  "main": "./base.json"
+  "main": "./base.json",
+  "peerDependencies": {
+    "@modern-js/app-tools": "workspace:^3.9.1"
+  },
+  "peerDependenciesMeta": {
+    "@modern-js/app-tools": {
+      "optional": true
+    }
+  },
+  "nx": {
+    "implicitDependencies": [
+      "!@modern-js/app-tools"
+    ]
+  }
 }
