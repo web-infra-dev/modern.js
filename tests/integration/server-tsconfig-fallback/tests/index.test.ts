@@ -137,7 +137,13 @@ describe('server tsconfig fallback (bundler-mode tsconfig.json, commonjs project
       await fse.writeJSON(
         path.join(appDir, 'tsconfig.server.json'),
         {
-          extends: ['./tsconfig.json', '@modern-js/tsconfig/server'],
+          extends: './tsconfig.json',
+          compilerOptions: {
+            module: 'NodeNext',
+            moduleResolution: 'NodeNext',
+            noEmit: false,
+            declaration: false,
+          },
           include: ['api', 'server', 'shared'],
         },
         { spaces: 2 },
