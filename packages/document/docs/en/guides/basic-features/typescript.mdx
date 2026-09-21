@@ -1,0 +1,56 @@
+# TypeScript Configuration
+
+Modern.js ships shared TypeScript presets in `@modern-js/tsconfig`. A project usually needs just two files: the main `tsconfig.json`, and a `tsconfig.server.json` only when it has server-side code.
+
+## Presets
+
+| Preset | Purpose |
+| --- | --- |
+| `@modern-js/tsconfig/base` | Main config. `module: ESNext`, `moduleResolution: bundler`, `jsx: react-jsx`, `target: ES2022`, `strict`, `isolatedModules`. Used by the editor, Rspack alias resolution and type-checking. |
+| `@modern-js/tsconfig/server` | Server-side emit overrides, exactly four fields: `module: NodeNext`, `moduleResolution: NodeNext`, `noEmit: false`, `declaration: false`. Layered on top of `tsconfig.json`. |
+| `@modern-js/tsconfig/legacy` | The previous `base` (`module: commonjs`, `moduleResolution: node`, `target: ES2015`). Rollback aid only; TypeScript 6 reports these options as deprecated. |
+| `@modern-js/tsconfig/react` | Deprecated alias of `base`. Use `base` directly. |
+
+## Two-file layout
+
+`tsconfig.json` is the single main config, and every path alias (`paths`) lives here:
+
+```json title="tsconfig.json"
+{
+  "extends": "@modern-js/tsconfig/base",
+  "compilerOptions": {
+    "noEmit": true,
+    "types": ["node"],
+    "paths": {
+      "@/*": ["./src/*"],
+      "@shared/*": ["./shared/*"]
+    }
+  },
+  "include": ["src", "shared", "config", "modern.config.ts"]
+}
+```
+
+When the project has a BFF (`api/`) or a custom server (`server/`), add `"@api/*": ["./api/lambda/*"]` to `paths`, add `api` and `server` to `include`, and create:
+
+```json title="tsconfig.server.json"
+{
+  "extends": ["./tsconfig.json", "@modern-js/tsconfig/server"],
+  "include": ["api", "server", "shared"]
+}
+```
+
+The framework uses this file to compile `api/`, `server/` and `shared/`, and for ts-node at dev time. Later entries of the `extends` array override earlier ones, so the `server` preset changes only its own four keys; everything else, including `paths`, is inherited from `tsconfig.json`.
+
+## Why two files
+
+Bundlers expect `module: ESNext`, while Node-side output has to match `package.json#type`: a project without `"type": "module"` needs CommonJS output. No single `module` value satisfies both, so the server side overrides the module options separately.
+
+## Without `tsconfig.server.json`
+
+The server config is resolved as `server.tsconfigPath` → `tsconfig.server.json` → `tsconfig.json`. Only when the framework falls back to `tsconfig.json`, its `module` is an ES module value, and the project is not `type: module`, server code is compiled with `module: NodeNext` + `moduleResolution: NodeNext` and a one-time warning is printed. `type: module` projects are never rewritten. See [server.tsconfigPath](/configure/app/server/tsconfig-path) for the full rule.
+
+## Notes
+
+- Never declare `paths` in `tsconfig.server.json`: TypeScript replaces `paths` wholesale instead of merging it key by key.
+- `baseUrl` is no longer needed. Relative entries in `paths` are resolved against the directory of the file that declares them.
+- `@modern-js/tsconfig` 3.10 and later requires `@modern-js/app-tools` 3.10 or later.

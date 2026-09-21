@@ -1,0 +1,56 @@
+# TypeScript 配置
+
+Modern.js 通过 `@modern-js/tsconfig` 提供共享的 TypeScript 预设。一个项目通常只需要两份文件：主配置 `tsconfig.json`，以及只在有服务端代码时才需要的 `tsconfig.server.json`。
+
+## 预设
+
+| 预设 | 用途 |
+| --- | --- |
+| `@modern-js/tsconfig/base` | 主配置。`module: ESNext`、`moduleResolution: bundler`、`jsx: react-jsx`、`target: ES2022`、`strict`、`isolatedModules`。供编辑器、Rspack 别名解析与类型检查使用。 |
+| `@modern-js/tsconfig/server` | 服务端编译覆盖项，只有四个字段：`module: NodeNext`、`moduleResolution: NodeNext`、`noEmit: false`、`declaration: false`。叠加在 `tsconfig.json` 之上使用。 |
+| `@modern-js/tsconfig/legacy` | 旧版 `base`（`module: commonjs`、`moduleResolution: node`、`target: ES2015`）。仅用于回退；这些选项在 TypeScript 6 中已被标记为废弃。 |
+| `@modern-js/tsconfig/react` | `base` 的别名，已废弃，请直接使用 `base`。 |
+
+## 两份文件的布局
+
+`tsconfig.json` 是唯一的主配置，所有路径别名（`paths`）都写在这里：
+
+```json title="tsconfig.json"
+{
+  "extends": "@modern-js/tsconfig/base",
+  "compilerOptions": {
+    "noEmit": true,
+    "types": ["node"],
+    "paths": {
+      "@/*": ["./src/*"],
+      "@shared/*": ["./shared/*"]
+    }
+  },
+  "include": ["src", "shared", "config", "modern.config.ts"]
+}
+```
+
+项目有 BFF（`api/`）或自定义 Server（`server/`）时，在 `paths` 中追加 `"@api/*": ["./api/lambda/*"]`，并把 `api`、`server` 加入 `include`，然后添加：
+
+```json title="tsconfig.server.json"
+{
+  "extends": ["./tsconfig.json", "@modern-js/tsconfig/server"],
+  "include": ["api", "server", "shared"]
+}
+```
+
+框架编译 `api/`、`server/`、`shared/` 以及开发时注册 ts-node 都会使用这份文件。`extends` 数组中靠后的条目覆盖靠前的，所以 `server` 预设只改写它自己的四个键，其余选项（包括 `paths`）全部继承自 `tsconfig.json`。
+
+## 为什么需要两份文件
+
+打包器希望看到 `module: ESNext`，而 Node 侧的产物必须与 `package.json#type` 一致：没有 `"type": "module"` 的项目需要 CommonJS 产物。同一份 `module` 取值无法同时满足两边，因此服务端单独覆盖模块选项。
+
+## 没有 `tsconfig.server.json` 会怎样
+
+框架按「`server.tsconfigPath` → `tsconfig.server.json` → `tsconfig.json`」的顺序解析服务端配置。只有回退到 `tsconfig.json` 且它的 `module` 是 ES Module 取值、而项目又不是 `type: module` 时，框架才会改用 `module: NodeNext` + `moduleResolution: NodeNext` 编译服务端代码，并打印一次警告。`type: module` 项目不会被改写。完整规则见 [server.tsconfigPath](/configure/app/server/tsconfig-path)。
+
+## 注意事项
+
+- 不要在 `tsconfig.server.json` 中声明 `paths`：TypeScript 对 `paths` 是整体替换，而不是逐键合并。
+- 不再需要 `baseUrl`。`paths` 中的相对路径以声明它的文件所在目录为基准。
+- `@modern-js/tsconfig` 3.10 及以上版本需要搭配 `@modern-js/app-tools` 3.10 及以上版本使用。
