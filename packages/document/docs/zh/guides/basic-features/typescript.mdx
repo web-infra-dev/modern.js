@@ -7,7 +7,7 @@ Modern.js 通过 `@modern-js/tsconfig` 提供共享的 TypeScript 预设。一�
 | 预设 | 用途 |
 | --- | --- |
 | `@modern-js/tsconfig/base` | 主配置。`module: ESNext`、`moduleResolution: bundler`、`jsx: react-jsx`、`target: ES2022`、`strict`、`isolatedModules`。供编辑器、Rspack 别名解析与类型检查使用。 |
-| `@modern-js/tsconfig/server` | 服务端编译覆盖项，只有四个字段：`module: NodeNext`、`moduleResolution: NodeNext`、`noEmit: false`、`declaration: false`。叠加在 `tsconfig.json` 之上使用。 |
+| `@modern-js/tsconfig/server` | 参考预设，内容是四个服务端产物覆盖项：`module: NodeNext`、`moduleResolution: NodeNext`、`noEmit: false`、`declaration: false`。供支持 `extends` 数组的工具（tsc >= 5.0）使用；推荐的 `tsconfig.server.json` 直接写入同样的四个字段。 |
 | `@modern-js/tsconfig/legacy` | 旧版 `base`（`module: commonjs`、`moduleResolution: node`、`target: ES2015`）。仅用于回退；这些选项在 TypeScript 6 中已被标记为废弃。 |
 | `@modern-js/tsconfig/react` | `base` 的别名，已废弃，请直接使用 `base`。 |
 
@@ -34,12 +34,18 @@ Modern.js 通过 `@modern-js/tsconfig` 提供共享的 TypeScript 预设。一�
 
 ```json title="tsconfig.server.json"
 {
-  "extends": ["./tsconfig.json", "@modern-js/tsconfig/server"],
+  "extends": "./tsconfig.json",
+  "compilerOptions": {
+    "module": "NodeNext",
+    "moduleResolution": "NodeNext",
+    "noEmit": false,
+    "declaration": false
+  },
   "include": ["api", "server", "shared"]
 }
 ```
 
-框架编译 `api/`、`server/`、`shared/` 以及开发时注册 ts-node 都会使用这份文件。`extends` 数组中靠后的条目覆盖靠前的，所以 `server` 预设只改写它自己的四个键，其余选项（包括 `paths`）全部继承自 `tsconfig.json`。
+框架编译 `api/`、`server/`、`shared/` 以及开发时注册 ts-node 都会使用这份文件。这四个 `compilerOptions` 只覆盖各自的键，其余选项（包括 `paths`）全部继承自 `tsconfig.json`。它们与 `@modern-js/tsconfig/server` 的内容一致，直接写在文件内是因为 ts-node 10 不支持 `extends` 数组。
 
 ## 为什么需要两份文件
 

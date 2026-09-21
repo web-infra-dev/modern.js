@@ -15,7 +15,7 @@ Shared TypeScript presets for Modern.js projects.
 | Preset   | Import path                   | Purpose                                                                                                                                                                  |
 | -------- | ----------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
 | `base`   | `@modern-js/tsconfig/base`    | Main project config: `module: ESNext`, `moduleResolution: bundler`, `jsx: react-jsx`, `target: ES2022`, `strict`, `isolatedModules`. Used by the editor, Rspack and type-checking. |
-| `server` | `@modern-js/tsconfig/server`  | Server-side emit overrides only: `module: NodeNext`, `moduleResolution: NodeNext`, `noEmit: false`, `declaration: false`. Layer it on top of your `tsconfig.json`.         |
+| `server` | `@modern-js/tsconfig/server`  | Reference preset with the four server-side emit overrides: `module: NodeNext`, `moduleResolution: NodeNext`, `noEmit: false`, `declaration: false`. For tools that support `extends` arrays (tsc >= 5.0); the recommended `tsconfig.server.json` inlines the same four fields. |
 | `legacy` | `@modern-js/tsconfig/legacy`  | The previous `base` preset (`module: commonjs`, `moduleResolution: node`, `target: ES2015`). Rollback aid only; TypeScript 6 reports these options as deprecated.          |
 | `react`  | `@modern-js/tsconfig/react`   | Deprecated alias of `base`. Use `base` instead.                                                                                                                          |
 
@@ -48,10 +48,18 @@ When the project has a BFF (`api/`) or a custom server (`server/`), add `"@api/*
 
 ```json
 {
-  "extends": ["./tsconfig.json", "@modern-js/tsconfig/server"],
+  "extends": "./tsconfig.json",
+  "compilerOptions": {
+    "module": "NodeNext",
+    "moduleResolution": "NodeNext",
+    "noEmit": false,
+    "declaration": false
+  },
   "include": ["api", "server", "shared"]
 }
 ```
+
+The four `compilerOptions` are exactly what `@modern-js/tsconfig/server` carries. They are inlined rather than added as a second `extends` entry because ts-node 10 does not support `extends` arrays, and `tsconfig.server.json` is also what ts-node reads at dev time.
 
 Rules:
 

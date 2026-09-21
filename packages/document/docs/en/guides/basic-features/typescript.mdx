@@ -7,7 +7,7 @@ Modern.js ships shared TypeScript presets in `@modern-js/tsconfig`. A project us
 | Preset | Purpose |
 | --- | --- |
 | `@modern-js/tsconfig/base` | Main config. `module: ESNext`, `moduleResolution: bundler`, `jsx: react-jsx`, `target: ES2022`, `strict`, `isolatedModules`. Used by the editor, Rspack alias resolution and type-checking. |
-| `@modern-js/tsconfig/server` | Server-side emit overrides, exactly four fields: `module: NodeNext`, `moduleResolution: NodeNext`, `noEmit: false`, `declaration: false`. Layered on top of `tsconfig.json`. |
+| `@modern-js/tsconfig/server` | Reference preset with the four server-side emit overrides: `module: NodeNext`, `moduleResolution: NodeNext`, `noEmit: false`, `declaration: false`. For tools that support `extends` arrays (tsc >= 5.0); the recommended `tsconfig.server.json` inlines the same fields. |
 | `@modern-js/tsconfig/legacy` | The previous `base` (`module: commonjs`, `moduleResolution: node`, `target: ES2015`). Rollback aid only; TypeScript 6 reports these options as deprecated. |
 | `@modern-js/tsconfig/react` | Deprecated alias of `base`. Use `base` directly. |
 
@@ -34,12 +34,18 @@ When the project has a BFF (`api/`) or a custom server (`server/`), add `"@api/*
 
 ```json title="tsconfig.server.json"
 {
-  "extends": ["./tsconfig.json", "@modern-js/tsconfig/server"],
+  "extends": "./tsconfig.json",
+  "compilerOptions": {
+    "module": "NodeNext",
+    "moduleResolution": "NodeNext",
+    "noEmit": false,
+    "declaration": false
+  },
   "include": ["api", "server", "shared"]
 }
 ```
 
-The framework uses this file to compile `api/`, `server/` and `shared/`, and for ts-node at dev time. Later entries of the `extends` array override earlier ones, so the `server` preset changes only its own four keys; everything else, including `paths`, is inherited from `tsconfig.json`.
+The framework uses this file to compile `api/`, `server/` and `shared/`, and for ts-node at dev time. The four `compilerOptions` override only their own keys; everything else, including `paths`, is inherited from `tsconfig.json`. They are the same fields as `@modern-js/tsconfig/server`, inlined because ts-node 10 does not support `extends` arrays.
 
 ## Why two files
 
