@@ -1,7 +1,6 @@
 import fs from 'fs';
-import path from 'path';
 import { applyOptionsChain } from './applyOptionsChain';
-import { readTsConfigByFile } from './get';
+import { readTsConfigWithExtends } from './get';
 
 export type Alias = Record<string, string | string[]>;
 
@@ -39,16 +38,17 @@ export const getAliasConfig = (
     };
   }
 
-  const tsconfig = readTsConfigByFile(option.tsconfigPath);
-  const baseUrl = tsconfig?.compilerOptions?.baseUrl;
+  // `paths` / `baseUrl` may live in a parent config (for example a
+  // `tsconfig.server.json` that only extends `tsconfig.json`), so the whole
+  // `extends` chain has to be read, not just the given file.
+  const tsconfig = readTsConfigWithExtends(option.tsconfigPath);
 
   return {
-    absoluteBaseUrl: baseUrl
-      ? path.join(option.appDirectory, baseUrl)
-      : option.appDirectory,
+    absoluteBaseUrl:
+      tsconfig.baseUrl ?? tsconfig.pathsBaseDir ?? option.appDirectory,
     paths: {
       ...alias,
-      ...tsconfig?.compilerOptions?.paths,
+      ...tsconfig.compilerOptions.paths,
     },
     isTsPath: true,
     isTsProject,
