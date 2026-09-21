@@ -1,5 +1,5 @@
 import path from 'path';
-import { fs } from '@modern-js/utils';
+import { fs, logger } from '@modern-js/utils';
 import { compile } from '../src';
 import { TypescriptLoader } from '../src/compilers/typescript/typescriptLoader';
 
@@ -16,7 +16,9 @@ describe('typescript', () => {
 
   it('compile typescript', async () => {
     const example = path.join(__dirname, './fixtures', './ts-example');
-    const tsconfigPath = path.join(example, './tsconfig.json');
+    // tsconfig.json is bundler-mode (ESNext); the convention file layers the
+    // `@modern-js/tsconfig/server` preset on top of it for commonjs output.
+    const tsconfigPath = path.join(example, './tsconfig.server.json');
     const distDir = path.join(example, './dist');
     const sharedDir = path.join(example, './shared');
     const apiDir = path.join(example, './api');
@@ -65,6 +67,113 @@ describe('typescript', () => {
     // expect(mapAliasContent).toMatchSnapshot();
 
     await fs.remove(distDir);
+  });
+
+  it('compiles a bundler-mode tsconfig to commonjs with compilerOverrides', async () => {
+    const example = path.join(__dirname, './fixtures', './ts-example');
+    // The main tsconfig resolves to `module: ESNext`; the framework passes the
+    // NodeNext overrides when it falls back to it in a commonjs project.
+    const tsconfigPath = path.join(example, './tsconfig.json');
+    const distDir = path.join(example, './dist-fallback');
+    const sharedDir = path.join(example, './shared');
+    const apiDir = path.join(example, './api');
+    const serverDir = path.join(example, './server');
+    const warn = rstest.spyOn(logger, 'warn').mockImplementation(() => {});
+
+    const run = () =>
+      compile(
+        example,
+        {
+          alias: {
+            '@modern-js/runtime/server': path.join(
+              sharedDir,
+              './runtime/server',
+            ),
+          },
+        } as any,
+        {
+          sourceDirs: [sharedDir, apiDir, serverDir],
+          distDir,
+          tsconfigPath,
+          moduleType: 'commonjs',
+          compilerOverrides: {
+            module: 'NodeNext',
+            moduleResolution: 'NodeNext',
+          },
+        },
+      );
+
+    try {
+      await run();
+
+      const apiContent = (
+        await fs.readFile(path.join(distDir, './api/index.js'))
+      ).toString();
+      expect(apiContent).toContain('exports.');
+      expect(apiContent).toContain('require(');
+      expect(apiContent).not.toMatch(/^import /m);
+      // aliases are rewritten to relative specifiers
+      expect(apiContent).toContain('../shared/index');
+      expect(apiContent).not.toContain('@shared/');
+
+      const api = require(path.join(distDir, './api')).default;
+      expect(api()).toEqual('runtime-shared-api');
+
+      const server = require(path.join(distDir, './server')).default;
+      expect(server()).toEqual('shared-server');
+
+      expect(warn).toBeCalledTimes(1);
+      expect(warn.mock.calls[0][0]).toContain('tsconfig.server.json');
+
+      // The warning is printed once per process and tsconfig file.
+      await run();
+      expect(warn).toBeCalledTimes(1);
+    } finally {
+      warn.mockRestore();
+      await fs.remove(distDir);
+    }
+  });
+
+  it('rejects unknown compilerOverrides values', async () => {
+    const example = path.join(__dirname, './fixtures', './ts-example');
+    const distDir = path.join(example, './dist-invalid');
+
+    await expect(
+      compile(example, { alias: {} } as any, {
+        sourceDirs: [path.join(example, './shared')],
+        distDir,
+        tsconfigPath: path.join(example, './tsconfig.json'),
+        compilerOverrides: { module: 'not-a-module-kind' },
+      }),
+    ).rejects.toThrow('compilerOverrides.module');
+
+    await fs.remove(distDir);
+  });
+
+  it('emits even when the tsconfig is type-check only', async () => {
+    const example = path.join(__dirname, './fixtures', './ts-example');
+    // `noEmit: true` + `emitDeclarationOnly: true` come from the main
+    // project config; the server compile must ignore both.
+    const tsconfigPath = path.join(example, './tsconfig.noemit.json');
+    const distDir = path.join(example, './dist-noemit');
+    const sharedDir = path.join(example, './shared');
+    const serverDir = path.join(example, './server');
+
+    try {
+      await compile(example, { alias: {} } as any, {
+        sourceDirs: [sharedDir, serverDir],
+        distDir,
+        tsconfigPath,
+      });
+
+      expect(
+        await fs.pathExists(path.join(distDir, './server/index.js')),
+      ).toBeTruthy();
+      const server = require(path.join(distDir, './server')).default;
+      expect(server()).toEqual('shared-server');
+    } finally {
+      await fs.remove(distDir);
+    }
   });
 
   it('rewrites tsconfig path aliases in emitted declarations', async () => {
