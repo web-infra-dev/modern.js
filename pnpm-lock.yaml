@@ -2101,8 +2101,8 @@ importers:
         specifier: ^20
         version: 20.19.27
       tsx:
-        specifier: ^4.22.4
-        version: 4.22.4
+        specifier: ^4.23.15
+        version: 4.23.15
       typescript:
         specifier: ^5
         version: 5.9.3
@@ -2820,7 +2820,7 @@ importers:
         version: 1.16.3
       tailwindcss:
         specifier: ^3.4.19
-        version: 3.4.19(tsx@4.22.4)(yaml@2.9.0)
+        version: 3.4.19(tsx@4.23.15)(yaml@2.9.0)
       typescript:
         specifier: ^5
         version: 5.9.3
@@ -5360,10 +5360,10 @@ importers:
         version: 5.3.11(@babel/core@7.29.7)(react-dom@19.2.8(react@19.2.8))(react-is@18.3.1)(react@19.2.8)
       tailwindcss:
         specifier: ^3.4.19
-        version: 3.4.19(tsx@4.22.4)(yaml@2.9.0)
+        version: 3.4.19(tsx@4.23.15)(yaml@2.9.0)
       twin.macro:
         specifier: ^3.4.1
-        version: 3.4.1(tailwindcss@3.4.19(tsx@4.22.4)(yaml@2.9.0))
+        version: 3.4.1(tailwindcss@3.4.19(tsx@4.23.15)(yaml@2.9.0))
     devDependencies:
       babel-plugin-macros:
         specifier: 3.1.0
@@ -17938,8 +17938,8 @@ packages:
     resolution: {integrity: sha512-xHtFaKtHxM9LOklMmJdI3BEnQq/D5F73Of2E1GDrITi9sgoVkvIsrQUTY1G8FlmGtA+awCI4EBlTRRYxkL2sRg==}
     hasBin: true
 
-  tsx@4.22.4:
-    resolution: {integrity: sha512-X8EX+XV4QR5xCsrgxaED954zTDfY8KqlDtskKEL0cHhyS/P8b4IFOvGDQpsC9Q1XnLq915wEfwwY/zzskCtmhg==}
+  tsx@4.23.15:
+    resolution: {integrity: sha512-Yiex1Ovn8z2xPpOWckIiysV1SSyRMY9BkLF++q0yKiDxCqRhosKfMg3janKkiLBwZ5c/YryloKwGZcrEmtwxKw==}
     engines: {node: '>=18.0.0'}
     hasBin: true
 
@@ -32264,13 +32264,13 @@ snapshots:
       postcss: 8.5.28
       ts-node: 10.9.2(@swc/core@1.15.41(@swc/helpers@0.5.23))(@types/node@26.0.1)(typescript@5.9.3)
 
-  postcss-load-config@6.0.1(jiti@1.21.7)(postcss@8.5.28)(tsx@4.22.4)(yaml@2.9.0):
+  postcss-load-config@6.0.1(jiti@1.21.7)(postcss@8.5.28)(tsx@4.23.15)(yaml@2.9.0):
     dependencies:
       lilconfig: 3.1.3
     optionalDependencies:
       jiti: 1.21.7
       postcss: 8.5.28
-      tsx: 4.22.4
+      tsx: 4.23.15
       yaml: 2.9.0
 
   postcss-media-minmax@5.0.0(postcss@8.5.28):
@@ -34598,7 +34598,7 @@ snapshots:
     transitivePeerDependencies:
       - ts-node
 
-  tailwindcss@3.4.19(tsx@4.22.4)(yaml@2.9.0):
+  tailwindcss@3.4.19(tsx@4.23.15)(yaml@2.9.0):
     dependencies:
       '@alloc/quick-lru': 5.2.0
       arg: 5.0.2
@@ -34617,7 +34617,7 @@ snapshots:
       postcss: 8.5.28
       postcss-import: 15.1.0(postcss@8.5.28)
       postcss-js: 4.1.0(postcss@8.5.28)
-      postcss-load-config: 6.0.1(jiti@1.21.7)(postcss@8.5.28)(tsx@4.22.4)(yaml@2.9.0)
+      postcss-load-config: 6.0.1(jiti@1.21.7)(postcss@8.5.28)(tsx@4.23.15)(yaml@2.9.0)
       postcss-nested: 6.2.0(postcss@8.5.28)
       postcss-selector-parser: 6.1.2
       resolve: 1.22.11
@@ -35084,7 +35084,7 @@ snapshots:
     optionalDependencies:
       fsevents: 2.3.3
 
-  tsx@4.22.4:
+  tsx@4.23.15:
     dependencies:
       esbuild: 0.27.2
     optionalDependencies:
@@ -35098,7 +35098,7 @@ snapshots:
 
   tweetnacl@0.14.5: {}
 
-  twin.macro@3.4.1(tailwindcss@3.4.19(tsx@4.22.4)(yaml@2.9.0)):
+  twin.macro@3.4.1(tailwindcss@3.4.19(tsx@4.23.15)(yaml@2.9.0)):
     dependencies:
       '@babel/template': 7.27.2
       babel-plugin-macros: 3.1.0
@@ -35106,7 +35106,7 @@ snapshots:
       lodash.get: 4.4.2
       lodash.merge: 4.6.2
       postcss-selector-parser: 6.1.2
-      tailwindcss: 3.4.19(tsx@4.22.4)(yaml@2.9.0)
+      tailwindcss: 3.4.19(tsx@4.23.15)(yaml@2.9.0)
 
   type-check@0.4.0:
     dependencies:
