@@ -30,6 +30,7 @@
       "default": "./dist/cjs/index.js"
     },
     "./universal": {
+      "types": "./dist/types/universal/index.d.ts",
       "node": {
         "module": "./dist/esm/universal/index.mjs",
         "import": "./dist/esm-node/universal/index.mjs",
@@ -38,6 +39,7 @@
       "default": "./dist/esm/universal/index.mjs"
     },
     "./universal/constants": {
+      "types": "./dist/types/universal/constants.d.ts",
       "node": {
         "module": "./dist/esm/universal/constants.mjs",
         "import": "./dist/esm-node/universal/constants.mjs",
@@ -46,27 +48,69 @@
       "default": "./dist/esm/universal/constants.mjs"
     },
     "./commander": {
+      "types": "./dist/compiled/commander/typings/index.d.ts",
       "import": "./dist/compiled/commander/index.mjs",
       "default": "./dist/compiled/commander/index.js"
     },
-    "./ora": "./dist/compiled/ora/index.js",
-    "./glob": "./dist/compiled/glob/index.js",
-    "./chalk": "./dist/compiled/chalk/index.js",
-    "./execa": "./dist/compiled/execa/index.js",
-    "./json5": "./dist/compiled/json5/index.js",
-    "./semver": "./dist/compiled/semver/index.js",
+    "./ora": {
+      "types": "./dist/compiled/ora/index.d.ts",
+      "default": "./dist/compiled/ora/index.js"
+    },
+    "./glob": {
+      "types": "./dist/compiled/glob/index.d.ts",
+      "default": "./dist/compiled/glob/index.js"
+    },
+    "./chalk": {
+      "types": "./dist/compiled/chalk/index.d.ts",
+      "default": "./dist/compiled/chalk/index.js"
+    },
+    "./execa": {
+      "types": "./dist/compiled/execa/index.d.ts",
+      "default": "./dist/compiled/execa/index.js"
+    },
+    "./json5": {
+      "types": "./dist/compiled/json5/index.d.ts",
+      "default": "./dist/compiled/json5/index.js"
+    },
+    "./semver": {
+      "types": "./dist/compiled/semver/index.d.ts",
+      "default": "./dist/compiled/semver/index.js"
+    },
     "./lodash": {
+      "types": "./dist/compiled/lodash/index.d.ts",
       "import": "./dist/compiled/lodash/index.mjs",
       "default": "./dist/compiled/lodash/index.js"
     },
-    "./globby": "./dist/compiled/globby/index.js",
-    "./fs-extra": "./dist/compiled/fs-extra/index.js",
-    "./fast-glob": "./dist/compiled/fast-glob/index.js",
-    "./gzip-size": "./dist/compiled/gzip-size/index.js",
-    "./mime-types": "./dist/compiled/mime-types/index.js",
-    "./strip-ansi": "./dist/compiled/strip-ansi/index.js",
-    "./browserslist": "./dist/compiled/browserslist/index.js",
+    "./globby": {
+      "types": "./dist/compiled/globby/index.d.ts",
+      "default": "./dist/compiled/globby/index.js"
+    },
+    "./fs-extra": {
+      "types": "./dist/compiled/fs-extra/index.d.ts",
+      "default": "./dist/compiled/fs-extra/index.js"
+    },
+    "./fast-glob": {
+      "types": "./dist/compiled/fast-glob/index.d.ts",
+      "default": "./dist/compiled/fast-glob/index.js"
+    },
+    "./gzip-size": {
+      "types": "./dist/compiled/gzip-size/index.d.ts",
+      "default": "./dist/compiled/gzip-size/index.js"
+    },
+    "./mime-types": {
+      "types": "./dist/compiled/mime-types/index.d.ts",
+      "default": "./dist/compiled/mime-types/index.js"
+    },
+    "./strip-ansi": {
+      "types": "./dist/compiled/strip-ansi/index.d.ts",
+      "default": "./dist/compiled/strip-ansi/index.js"
+    },
+    "./browserslist": {
+      "types": "./dist/compiled/browserslist/index.d.ts",
+      "default": "./dist/compiled/browserslist/index.js"
+    },
     "./tsconfig-paths": {
+      "types": "./dist/compiled/tsconfig-paths/lib/index.d.ts",
       "import": "./dist/compiled/tsconfig-paths/index.mjs",
       "default": "./dist/compiled/tsconfig-paths/index.js"
     }
