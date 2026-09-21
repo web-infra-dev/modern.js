@@ -61,12 +61,20 @@ Keep one main `tsconfig.json` (editor, Rspack aliases, type-check) and add a `ts
 
 ```json title="tsconfig.server.json"
 {
-  "extends": ["./tsconfig.json", "@modern-js/tsconfig/server"],
+  "extends": "./tsconfig.json",
+  "compilerOptions": {
+    "module": "NodeNext",
+    "moduleResolution": "NodeNext",
+    "noEmit": false,
+    "declaration": false
+  },
   "include": ["api", "server", "shared"]
 }
 ```
 
-`@modern-js/tsconfig/server` carries exactly four fields: `module: NodeNext`, `moduleResolution: NodeNext`, `noEmit: false`, `declaration: false`. Being the last entry of the `extends` array, it overrides only those keys; everything else is inherited from `tsconfig.json`.
+The four `compilerOptions` override only those keys; everything else is inherited from `tsconfig.json`. `@modern-js/tsconfig/server` is published as the reference preset with the same four fields for tools that support `extends` arrays (tsc >= 5.0), but the file Modern.js recommends and generates inlines them, because ts-node 10 does not support `extends` arrays and this file is also what ts-node reads at dev time.
+
+When compiling `api/`, `server/` and `shared/`, Modern.js always forces `noEmit: false` and `emitDeclarationOnly: false` (the server compile is an emit step), but leaves `declaration` to the config: a cross-project BFF relies on the emitted `.d.ts` files.
 
 With `tsconfig.server.json` in place, `server.tsconfigPath` is not needed. Set it only when the file has a different name or location:
 
@@ -82,6 +90,6 @@ export default defineConfig({
 
 - **`paths` must stay in `tsconfig.json`.** TypeScript merges `compilerOptions` key by key across `extends` but replaces `paths` wholesale, so declaring `paths` in `tsconfig.server.json` drops every alias from the main config. The framework reads aliases through the whole `extends` chain, so the server config only needs to inherit them.
 - `include` in `tsconfig.server.json` only needs to list the server-side directories.
-- ts-node 10.x cannot parse an `extends` array. Modern.js resolves the whole `extends` chain itself before registering ts-node, so `modern dev` is unaffected; if you run a script through the ts-node CLI with this file as its project, use a single `extends` and inline `module: NodeNext` / `moduleResolution: NodeNext` instead.
+- Keep `extends` a single string in `tsconfig.server.json`. Modern.js's own ts-node registration tolerates an `extends` array as a fallback, but the ts-node CLI (`ts-node --project tsconfig.server.json`) does not.
 - If an explicitly configured file does not exist, TypeScript / ts-node throws at startup.
 - Projects that do not want the new layout can extend `@modern-js/tsconfig/legacy` (the previous `commonjs` + `node` config) instead, but TypeScript 6 reports those options as deprecated.
