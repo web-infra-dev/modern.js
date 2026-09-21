@@ -1,6 +1,6 @@
+import fs from 'node:fs';
 import path from 'path';
 import { renderString } from '@modern-js/codesmith-api-handlebars';
-import { fs } from '@modern-js/codesmith-utils/fs-extra';
 import recursive from 'recursive-readdir';
 
 const IgnoreFiles = [
