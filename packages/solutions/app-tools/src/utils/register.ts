@@ -7,7 +7,9 @@ import {
   loadFromProject,
   mergeAlias,
   readTsConfigByFile,
-  resolveServerTsconfig,
+  readTsConfigWithExtends,
+  resolveServerTsconfigInfo,
+  warnServerTsconfigOverrides,
 } from '@modern-js/utils';
 import type { ConfigChain } from '@rsbuild/core';
 
@@ -17,8 +19,9 @@ interface TsRuntimeSetupOptions {
   moduleType?: string;
   /**
    * User-configured `server.tsconfigPath`. Forwarded into the shared
-   * resolveServerTsconfig helper. Resolved relative to appDir when not
-   * absolute. Falls back to `<appDir>/tsconfig.json` when unset.
+   * resolveServerTsconfigInfo helper. Resolved relative to appDir when not
+   * absolute. Falls back to `<appDir>/tsconfig.server.json` (convention) and
+   * then `<appDir>/tsconfig.json` when unset.
    */
   tsconfigPath?: string;
 }
@@ -129,6 +132,51 @@ const createRuntimePaths = ({
   return normalizedPaths;
 };
 
+// Compiler options that only matter for a full program / emit, or whose
+// relative paths are resolved against the declaring config file. They are
+// dropped when the merged options are handed to ts-node without a project.
+const TS_NODE_IGNORED_OPTIONS = new Set([
+  'baseUrl',
+  'paths',
+  'rootDir',
+  'rootDirs',
+  'outDir',
+  'outFile',
+  'declarationDir',
+  'typeRoots',
+  'tsBuildInfoFile',
+  'composite',
+  'incremental',
+  'noEmit',
+  'emitDeclarationOnly',
+  'declaration',
+  'declarationMap',
+  'sourceMap',
+  'inlineSourceMap',
+  'inlineSources',
+  'mapRoot',
+  'sourceRoot',
+]);
+
+export const createTsNodeCompilerOptions = (
+  compilerOptions: Record<string, unknown>,
+  ...overrides: Array<Record<string, unknown> | undefined>
+) => {
+  const result: Record<string, unknown> = {};
+  for (const [key, value] of Object.entries(compilerOptions)) {
+    if (!TS_NODE_IGNORED_OPTIONS.has(key)) {
+      result[key] = value;
+    }
+  }
+  return Object.assign(result, ...overrides);
+};
+
+// ts-node 10.x resolves `extends` itself and only understands a string, so a
+// config chain containing an `extends` array (the documented
+// `tsconfig.server.json` layout) cannot be passed to it as `project`.
+export const canTsNodeReadProject = (files: string[]) =>
+  files.every(file => !Array.isArray(readTsConfigByFile(file)?.extends));
+
 // Describes final runtime selection policy.
 // Prefer ts-node when available, otherwise use Node.js native TypeScript support.
 export const resolveTsRuntimeRegisterMode = (
@@ -162,7 +210,13 @@ export const setupTsRuntime = async (
   alias?: ConfigChain<Alias>,
   options: TsRuntimeSetupOptions = {},
 ) => {
-  const tsconfigPath = resolveServerTsconfig(appDir, options.tsconfigPath);
+  const tsconfigInfo = resolveServerTsconfigInfo(appDir, options.tsconfigPath, {
+    moduleType:
+      options.moduleType === 'module' || options.moduleType === 'commonjs'
+        ? options.moduleType
+        : undefined,
+  });
+  const tsconfigPath = tsconfigInfo.path;
   const isTsProject = await fs.pathExists(tsconfigPath);
   const hasTsNode = isDepExists(appDir, 'ts-node');
 
@@ -188,6 +242,23 @@ export const setupTsRuntime = async (
   }
 
   if (registerMode === 'ts-node') {
+    const tsConfig = readTsConfigWithExtends(tsconfigPath);
+    const tsNodeOptions = tsConfig.raw['ts-node'];
+    const tsNodeProject = canTsNodeReadProject(tsConfig.files);
+    // A bundler-mode `tsconfig.json` (`module: ESNext`) in a commonjs project
+    // has to be transpiled as NodeNext or `require()` fails on the output.
+    // ts-node `compilerOptions` overrides the project file; the user's own
+    // `ts-node.compilerOptions` still wins over the framework defaults. When
+    // ts-node cannot read the project itself, the whole merged option set is
+    // passed instead.
+    const tsNodeCompilerOptions = tsNodeProject
+      ? { ...tsconfigInfo.compilerOverrides, ...tsNodeOptions?.compilerOptions }
+      : createTsNodeCompilerOptions(
+          tsConfig.compilerOptions,
+          tsconfigInfo.compilerOverrides,
+          tsNodeOptions?.compilerOptions,
+        );
+
     if (options.moduleType === 'module') {
       const { registerModuleHooks } = await import('../esm/register-esm.mjs');
       await registerModuleHooks({
@@ -195,6 +266,8 @@ export const setupTsRuntime = async (
         distDir,
         baseUrl: absoluteBaseUrl || './',
         paths: runtimePaths,
+        tsconfigPath: tsNodeProject ? tsconfigPath : undefined,
+        compilerOptions: tsNodeCompilerOptions,
       });
     } else {
       const { register } = await import('@modern-js/utils/tsconfig-paths');
@@ -207,11 +280,12 @@ export const setupTsRuntime = async (
     // Keep CJS require hooks in module projects:
     // some server scanners still do `require('*.ts')` first and only
     // fallback to `import()` on ERR_REQUIRE_ESM.
-    const tsConfig = readTsConfigByFile(tsconfigPath);
     const tsNode = await loadFromProject('ts-node', appDir);
-    const tsNodeOptions = tsConfig['ts-node'];
+    warnServerTsconfigOverrides(tsconfigPath, tsconfigInfo.compilerOverrides);
     tsNode.register({
-      project: tsconfigPath,
+      ...(tsNodeProject
+        ? { project: tsconfigPath }
+        : { skipProject: true, scopeDir: appDir }),
       scope: true,
       // for env.d.ts, https://www.npmjs.com/package/ts-node#missing-types
       files: true,
@@ -221,6 +295,9 @@ export const setupTsRuntime = async (
         `(?:^|/)${path.relative(appDir, distDir)}/`,
       ],
       ...tsNodeOptions,
+      ...(Object.keys(tsNodeCompilerOptions).length > 0
+        ? { compilerOptions: tsNodeCompilerOptions }
+        : {}),
     });
   } else if (registerMode === 'node-loader') {
     const { registerPathsLoader } = await import('../esm/register-esm.mjs');
