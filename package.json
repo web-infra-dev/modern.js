@@ -96,7 +96,7 @@
       "esbuild": ">=0.25.0",
       "tmp": ">=0.2.7",
       "@isaacs/brace-expansion": ">=5.0.1",
-      "dts-packer>resolve": "1.20.0"
+      "dts-packer>resolve": "1.22.12"
     },
     "peerDependencyRules": {
       "allowedVersions": {
