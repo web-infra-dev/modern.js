@@ -1,11 +1,11 @@
 {
   "extends": "@modern-js/tsconfig/base",
   "compilerOptions": {
-    "declaration": false,
+    // The script runs under the ts-node CLI, which cannot read an `extends`
+    // array, so the server preset's module options are inlined here.
+    "module": "NodeNext",
+    "moduleResolution": "NodeNext",
     "jsx": "preserve",
-    "baseUrl": "./",
-    "isolatedModules": true,
-    "esModuleInterop": true,
-    "paths": {}
+    "esModuleInterop": true
   }
 }
