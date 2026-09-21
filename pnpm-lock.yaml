@@ -2340,7 +2340,11 @@ importers:
         specifier: ^5
         version: 5.9.3
 
-  packages/tsconfig: {}
+  packages/tsconfig:
+    dependencies:
+      '@modern-js/app-tools':
+        specifier: workspace:^3.9.1
+        version: link:../solutions/app-tools
 
   scripts/build:
     devDependencies:
