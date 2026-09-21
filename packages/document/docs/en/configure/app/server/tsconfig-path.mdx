@@ -5,59 +5,83 @@ title: tsconfigPath
 # server.tsconfigPath
 
 - **Type:** `string`
-- **Default:** `<appDirectory>/tsconfig.json`
+- **Default:** `undefined` (resolved automatically, see the precedence below)
 
 Specifies the tsconfig file used by server-side TypeScript processes.
 
 This option affects:
 
-- BFF / API compilation (`@modern-js/plugin-bff`)
-- Custom server compilation (`*.ts` files under `server/`)
-- Runtime ts-node registration, such as SSR, `modern.config.ts`, and `.ts` files under `config/`
+- BFF / API compilation (`@modern-js/plugin-bff`, the `api/` directory)
+- Custom server compilation (the `server/` directory, plus `shared/` compiled with it)
+- Runtime ts-node registration, such as SSR and `.ts` files under `config/`
 
-When this option is not set, `<appDirectory>/tsconfig.json` is used by default.
+## Resolution precedence
 
-## When to use
+The server tsconfig is resolved in this order; the first hit wins:
 
-Use this option when frontend and server-side code need different TypeScript configurations.
+1. **Explicit**: `server.tsconfigPath` (resolved relative to `appDirectory`; absolute paths are supported).
+2. **Convention**: `<appDirectory>/tsconfig.server.json`, used automatically when it exists.
+3. **Fallback**: `<appDirectory>/tsconfig.json`.
 
-For example, the frontend can use `moduleResolution: "Bundler"`, while the server side uses `moduleResolution: "NodeNext"` for type resolution of conditional exports or subpath exports.
+In the first two cases the file is used as is; the framework never rewrites its compiler options.
 
-## Example
+## Fallback override rule
 
-The example below uses `tsconfig.server.json` as the file name. You can use another name in your project.
+`@modern-js/tsconfig/base` is a bundler-oriented config (`module: ESNext`, `moduleResolution: bundler`). Compiling server code with it directly would emit ES modules, which a project without `"type": "module"` in `package.json` cannot `require()`.
 
-Add `<appDirectory>/tsconfig.server.json`:
+So **only when falling back to `tsconfig.json`**, the framework checks:
 
-```jsonc title="tsconfig.server.json"
+| Condition | Behavior |
+| --- | --- |
+| The effective `module` (after resolving `extends`) is an ES module value (`es2015` / `es6` / `es2020` / `es2022` / `esnext` / `preserve`, case-insensitive) and `package.json#type` is not `module` | Server code is compiled with `module: NodeNext` and `moduleResolution: NodeNext`, and a one-time warning suggests adding `tsconfig.server.json` |
+| `module` is `commonjs` / `node16` / `nodenext` / ... | Not rewritten |
+| `package.json#type` is `module` | Not rewritten (ESNext output is exactly what an ESM project needs; the framework appends `.js` to relative imports at emit) |
+
+`module` and `moduleResolution` are always rewritten together: TypeScript rejects changing only one of them (TS5095 / TS5109 / TS5110).
+
+## Recommended layout
+
+Keep one main `tsconfig.json` (editor, Rspack aliases, type-check) and add a `tsconfig.server.json` that only changes module options:
+
+```json title="tsconfig.json"
 {
-  "extends": "./tsconfig.json",
+  "extends": "@modern-js/tsconfig/base",
   "compilerOptions": {
-    "module": "NodeNext",
-    "moduleResolution": "NodeNext",
-    "target": "ES2022",
-    "lib": ["ESNext"],
+    "noEmit": true,
     "types": ["node"],
-    "esModuleInterop": true,
-    "experimentalDecorators": true,
-    "emitDecoratorMetadata": true
+    "paths": {
+      "@/*": ["./src/*"],
+      "@shared/*": ["./shared/*"],
+      "@api/*": ["./api/lambda/*"]
+    }
   },
-  "include": ["api", "shared", "server", "config", "modern.config.ts"]
+  "include": ["src", "shared", "config", "api", "server", "modern.config.ts"]
 }
 ```
 
-Specify this file in `modern.config.ts`:
+```json title="tsconfig.server.json"
+{
+  "extends": ["./tsconfig.json", "@modern-js/tsconfig/server"],
+  "include": ["api", "server", "shared"]
+}
+```
+
+`@modern-js/tsconfig/server` carries exactly four fields: `module: NodeNext`, `moduleResolution: NodeNext`, `noEmit: false`, `declaration: false`. Being the last entry of the `extends` array, it overrides only those keys; everything else is inherited from `tsconfig.json`.
+
+With `tsconfig.server.json` in place, `server.tsconfigPath` is not needed. Set it only when the file has a different name or location:
 
 ```ts title="modern.config.ts"
 export default defineConfig({
   server: {
-    tsconfigPath: './tsconfig.server.json',
+    tsconfigPath: './config/tsconfig.node.json',
   },
 });
 ```
 
 ## Notes
 
-- `tsconfigPath` is resolved relative to `appDirectory`. Absolute paths are also supported.
-- It is recommended to inherit shared options such as `paths` from the root tsconfig through `extends`, instead of maintaining them in multiple files.
-- If the configured file does not exist, TypeScript / ts-node will throw an error at startup.
+- **`paths` must stay in `tsconfig.json`.** TypeScript merges `compilerOptions` key by key across `extends` but replaces `paths` wholesale, so declaring `paths` in `tsconfig.server.json` drops every alias from the main config. The framework reads aliases through the whole `extends` chain, so the server config only needs to inherit them.
+- `include` in `tsconfig.server.json` only needs to list the server-side directories.
+- ts-node 10.x cannot parse an `extends` array. Modern.js resolves the whole `extends` chain itself before registering ts-node, so `modern dev` is unaffected; if you run a script through the ts-node CLI with this file as its project, use a single `extends` and inline `module: NodeNext` / `moduleResolution: NodeNext` instead.
+- If an explicitly configured file does not exist, TypeScript / ts-node throws at startup.
+- Projects that do not want the new layout can extend `@modern-js/tsconfig/legacy` (the previous `commonjs` + `node` config) instead, but TypeScript 6 reports those options as deprecated.
