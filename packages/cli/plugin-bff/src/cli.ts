@@ -12,7 +12,7 @@ import {
   DEFAULT_API_PREFIX,
   SHARED_DIR,
   normalizeOutputPath,
-  resolveServerTsconfig,
+  resolveServerTsconfigInfo,
 } from '@modern-js/utils';
 import type { ConfigChain } from '@rsbuild/core';
 import clientGenerator from './utils/clientGenerator';
@@ -38,9 +38,10 @@ export const bffPlugin = (): CliPlugin<AppTools> => ({
       const apiDir = apiDirectory || path.resolve(appDirectory, API_DIR);
       const sharedDir =
         sharedDirectory || path.resolve(appDirectory, SHARED_DIR);
-      const tsconfigPath = resolveServerTsconfig(
+      const tsconfigInfo = resolveServerTsconfigInfo(
         appDirectory,
         modernConfig?.server?.tsconfigPath,
+        { moduleType },
       );
 
       const sourceDirs = [];
@@ -69,7 +70,8 @@ export const bffPlugin = (): CliPlugin<AppTools> => ({
           {
             sourceDirs,
             distDir,
-            tsconfigPath,
+            tsconfigPath: tsconfigInfo.path,
+            compilerOverrides: tsconfigInfo.compilerOverrides,
             moduleType,
             throwErrorInsteadOfExit: true,
           },
