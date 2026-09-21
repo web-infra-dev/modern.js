@@ -1,4 +1,10 @@
 {
-  "extends": ["./tsconfig.json", "@modern-js/tsconfig/server"],
+  "extends": "./tsconfig.json",
+  "compilerOptions": {
+    "module": "NodeNext",
+    "moduleResolution": "NodeNext",
+    "noEmit": false,
+    "declaration": false
+  },
   "include": ["shared", "server", "api"]
 }
