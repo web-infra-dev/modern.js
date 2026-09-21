@@ -168,6 +168,6 @@ export const warnServerTsconfigOverrides = (
     `${path.basename(key)} sets an ES module "module" option but package.json "type" is not "module". ` +
       `Server-side code (api/, server/, shared/) is compiled with { ${overrides} } instead. ` +
       `To silence this warning, add a ${SERVER_TSCONFIG_FILENAME} next to it:\n` +
-      `  { "extends": ["./${TS_CONFIG_FILENAME}", "@modern-js/tsconfig/server"], "include": ["api", "server", "shared"] }`,
+      `  { "extends": "./${TS_CONFIG_FILENAME}", "compilerOptions": { "module": "NodeNext", "moduleResolution": "NodeNext", "noEmit": false, "declaration": false }, "include": ["api", "server", "shared"] }`,
   );
 };
