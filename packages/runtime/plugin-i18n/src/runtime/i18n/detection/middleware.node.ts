@@ -1,5 +1,9 @@
 import { LanguageDetector } from 'i18next-http-middleware';
-import type { I18nInstance } from '../instance';
+import {
+  type I18nInstance,
+  getActualI18nextInstance,
+  isI18nWrapperInstance,
+} from '../instance';
 
 export const cacheUserLanguage = (
   _i18nInstance: I18nInstance,
@@ -25,6 +29,12 @@ export const readLanguageFromStorage = (
  */
 export const useI18nextLanguageDetector = (i18nInstance: I18nInstance) => {
   if (!i18nInstance.isInitialized) {
+    if (isI18nWrapperInstance(i18nInstance)) {
+      const actualInstance = getActualI18nextInstance(i18nInstance);
+      if (actualInstance && !actualInstance.isInitialized) {
+        actualInstance.use(LanguageDetector);
+      }
+    }
     return i18nInstance.use(LanguageDetector);
   }
   return i18nInstance;
@@ -44,9 +54,10 @@ export const detectLanguage = (
   }
 
   try {
-    const detector = i18nInstance.services?.languageDetector;
+    const actualInstance = getActualI18nextInstance(i18nInstance);
+    const detector = actualInstance?.services?.languageDetector;
     if (detector && typeof detector.detect === 'function') {
-      const result = detector.detect(request, {});
+      const result = detector.detect(request, {}, detectionOptions?.order);
       if (typeof result === 'string') {
         return result;
       }
@@ -57,15 +68,15 @@ export const detectLanguage = (
     }
 
     if (
-      i18nInstance.isInitialized &&
-      i18nInstance.services &&
-      i18nInstance.options
+      actualInstance?.isInitialized &&
+      actualInstance.services &&
+      actualInstance.options
     ) {
       const manualDetector = new LanguageDetector();
       const optionsToUse = detectionOptions
-        ? { ...i18nInstance.options, detection: detectionOptions }
-        : i18nInstance.options;
-      manualDetector.init(i18nInstance.services, optionsToUse as any);
+        ? { ...actualInstance.options, detection: detectionOptions }
+        : actualInstance.options;
+      manualDetector.init(actualInstance.services, optionsToUse as any);
 
       const result = (manualDetector.detect as any)(request, {}, undefined);
       if (typeof result === 'string') {

@@ -13,6 +13,12 @@ const baseResources: Resources = {
       about: '关于（SDK）',
     },
   },
+  'zh-Hant-TW': {
+    translation: {
+      key: '你好，世界（繁體中文）',
+      about: '關於（繁體中文）',
+    },
+  },
 };
 
 export function createMockSdkLoader() {

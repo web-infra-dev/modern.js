@@ -528,9 +528,9 @@ export const detectLanguageWithPriority = async (
     );
   }
 
-  // Priority 3: i18next detector (reads from cookie/localStorage)
+  // Priority 3: i18next detector (reads from request in SSR or storage in CSR)
   if (!detectedLanguage && i18nextDetector) {
-    if (isI18nWrapperInstance(i18nInstance)) {
+    if (isI18nWrapperInstance(i18nInstance) && isBrowser()) {
       detectedLanguage = readLanguageFromStorage(
         mergeDetectionOptions(
           i18nextDetector,
