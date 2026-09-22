@@ -1,4 +1,5 @@
 import { LanguageDetector } from 'i18next-http-middleware';
+import { detectLanguageFromRequest } from '../../../shared/detection.js';
 import type { I18nInstance } from '../instance';
 
 export const cacheUserLanguage = (
@@ -14,10 +15,20 @@ export const cacheUserLanguage = (
  * Not available in Node.js environment, returns undefined
  */
 export const readLanguageFromStorage = (
-  _detectionOptions?: any,
+  detectionOptions?: any,
+  request?: any,
 ): string | undefined => {
-  // In Node.js environment, storage-based detection is not available
-  return undefined;
+  if (!request) {
+    return undefined;
+  }
+
+  const detectedLanguage = detectLanguageFromRequest(
+    request as any,
+    [],
+    detectionOptions,
+  );
+
+  return detectedLanguage ?? undefined;
 };
 /**
  * Register LanguageDetector plugin to i18n instance
