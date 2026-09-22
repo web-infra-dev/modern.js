@@ -539,6 +539,7 @@ export const detectLanguageWithPriority = async (
           userInitOptions,
         ),
         ssrContext?.request?.raw,
+        languages,
       );
     } else {
       detectedLanguage = await detectLanguageFromI18nextDetector(i18nInstance, {

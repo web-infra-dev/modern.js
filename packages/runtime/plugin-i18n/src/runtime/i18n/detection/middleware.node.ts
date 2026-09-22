@@ -10,6 +10,30 @@ export const cacheUserLanguage = (
   return;
 };
 
+const getSupportedLanguage = (
+  language: string | null,
+  supportedLanguages: string[] = [],
+): string | undefined => {
+  if (!language) {
+    return undefined;
+  }
+
+  if (supportedLanguages.length === 0) {
+    return language;
+  }
+
+  if (supportedLanguages.includes(language)) {
+    return language;
+  }
+
+  const baseLanguage = language.split('-')[0];
+  if (baseLanguage !== language && supportedLanguages.includes(baseLanguage)) {
+    return baseLanguage;
+  }
+
+  return undefined;
+};
+
 /**
  * Read language directly from storage (localStorage/cookie)
  * Not available in Node.js environment, returns undefined
@@ -17,6 +41,7 @@ export const cacheUserLanguage = (
 export const readLanguageFromStorage = (
   detectionOptions?: any,
   request?: any,
+  supportedLanguages?: string[],
 ): string | undefined => {
   if (!request) {
     return undefined;
@@ -28,7 +53,7 @@ export const readLanguageFromStorage = (
     detectionOptions,
   );
 
-  return detectedLanguage ?? undefined;
+  return getSupportedLanguage(detectedLanguage, supportedLanguages);
 };
 /**
  * Register LanguageDetector plugin to i18n instance

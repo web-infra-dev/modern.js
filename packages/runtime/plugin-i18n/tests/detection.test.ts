@@ -54,13 +54,19 @@ describe('i18n language detection', () => {
   });
 
   test('wrapper SSR querystring detection uses request.raw from the SSR context', () => {
-    const ssrContext = createSsrContext('http://localhost/?lng=zh');
+    const ssrContext = createSsrContext('http://localhost/?lng=zh-CN');
 
     expect(
-      readNodeLanguageFromStorage(detectionOptions, ssrContext.request as any),
+      readNodeLanguageFromStorage(detectionOptions, ssrContext.request as any, [
+        'en',
+        'zh',
+      ]),
     ).toBeUndefined();
     expect(
-      readNodeLanguageFromStorage(detectionOptions, ssrContext.request.raw),
+      readNodeLanguageFromStorage(detectionOptions, ssrContext.request.raw, [
+        'en',
+        'zh',
+      ]),
     ).toBe('zh');
   });
 
@@ -70,10 +76,16 @@ describe('i18n language detection', () => {
     });
 
     expect(
-      readNodeLanguageFromStorage(detectionOptions, ssrContext.request as any),
+      readNodeLanguageFromStorage(detectionOptions, ssrContext.request as any, [
+        'en',
+        'zh',
+      ]),
     ).toBeUndefined();
     expect(
-      readNodeLanguageFromStorage(detectionOptions, ssrContext.request.raw),
+      readNodeLanguageFromStorage(detectionOptions, ssrContext.request.raw, [
+        'en',
+        'zh',
+      ]),
     ).toBe('zh');
   });
 
@@ -83,10 +95,16 @@ describe('i18n language detection', () => {
     });
 
     expect(
-      readNodeLanguageFromStorage(detectionOptions, ssrContext.request as any),
+      readNodeLanguageFromStorage(detectionOptions, ssrContext.request as any, [
+        'en',
+        'zh',
+      ]),
     ).toBeUndefined();
     expect(
-      readNodeLanguageFromStorage(detectionOptions, ssrContext.request.raw),
+      readNodeLanguageFromStorage(detectionOptions, ssrContext.request.raw, [
+        'en',
+        'zh',
+      ]),
     ).toBe('zh');
   });
 
