@@ -24,7 +24,9 @@ export const useI18nextLanguageDetector = (i18nInstance: I18nInstance) => {
 
 /**
  * Read language directly from localStorage/cookie
- * Fallback when detector is not available in services
+ * Fallback when detector is not available in services.
+ * The optional request and supportedLanguages arguments are ignored in browsers
+ * to keep the wrapper API aligned with the Node SSR implementation.
  */
 export const readLanguageFromStorage = (
   detectionOptions?: any,

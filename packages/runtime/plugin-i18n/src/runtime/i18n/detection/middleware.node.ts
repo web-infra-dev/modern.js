@@ -35,8 +35,9 @@ const getSupportedLanguage = (
 };
 
 /**
- * Read language directly from storage (localStorage/cookie)
- * Not available in Node.js environment, returns undefined
+ * Read language for wrapper detection during SSR.
+ * On Node.js, browser storage is unavailable, so a raw Web Request is used to
+ * detect querystring/cookie/header language signals for the same wrapper API.
  */
 export const readLanguageFromStorage = (
   detectionOptions?: any,
