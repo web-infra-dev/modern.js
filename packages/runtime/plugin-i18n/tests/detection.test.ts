@@ -54,7 +54,7 @@ describe('i18n language detection', () => {
   });
 
   test('wrapper SSR querystring detection uses request.raw from the SSR context', () => {
-    const ssrContext = createSsrContext('http://localhost/?lng=zh-CN');
+    const ssrContext = createSsrContext('http://localhost/?lng=zh_CN');
 
     expect(
       readNodeLanguageFromStorage(detectionOptions, ssrContext.request as any, [

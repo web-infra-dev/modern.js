@@ -26,7 +26,7 @@ const getSupportedLanguage = (
     return language;
   }
 
-  const baseLanguage = language.split('-')[0];
+  const baseLanguage = language.split(/[-_]/)[0];
   if (baseLanguage !== language && supportedLanguages.includes(baseLanguage)) {
     return baseLanguage;
   }
