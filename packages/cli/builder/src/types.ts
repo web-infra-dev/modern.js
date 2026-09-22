@@ -26,7 +26,7 @@ import type { PluginReactOptions } from '@rsbuild/plugin-react';
 import type { PluginRemOptions } from '@rsbuild/plugin-rem';
 import type { PluginSassOptions } from '@rsbuild/plugin-sass';
 import type { PluginSourceBuildOptions } from '@rsbuild/plugin-source-build';
-import type { SvgDefaultExport } from '@rsbuild/plugin-svgr';
+import type { PluginSvgrOptions, SvgDefaultExport } from '@rsbuild/plugin-svgr';
 import type { PluginTypeCheckerOptions } from '@rsbuild/plugin-type-check';
 import type { Options as AutoprefixerOptions } from 'autoprefixer';
 
@@ -136,13 +136,29 @@ export type BuilderExtraConfig = {
      */
     minifyCss?: PluginCssMinimizerOptions['pluginOptions'];
     /**
-     * Modify the config of [less-loader](https://github.com/webpack-contrib/less-loader).
+     * Modify the options of [@rsbuild/plugin-less](https://rsbuild.rs/plugins/list/plugin-less),
+     * such as `lessLoaderOptions`, `include`, `exclude` and `parallel`.
+     *
+     * Passing the [less-loader](https://github.com/webpack-contrib/less-loader)
+     * options directly is still supported for backward compatibility, but is
+     * deprecated: move them under `lessLoaderOptions`.
      */
-    less?: PluginLessOptions['lessLoaderOptions'];
+    less?: PluginLessOptions['lessLoaderOptions'] | PluginLessOptions;
     /**
-     * Modify the config of [sass-loader](https://github.com/webpack-contrib/sass-loader).
+     * Modify the options of [@rsbuild/plugin-sass](https://rsbuild.rs/plugins/list/plugin-sass),
+     * such as `sassLoaderOptions`, `include`, `exclude` and `rewriteUrls`.
+     *
+     * Passing the [sass-loader](https://github.com/webpack-contrib/sass-loader)
+     * options directly is still supported for backward compatibility, but is
+     * deprecated: move them under `sassLoaderOptions`.
      */
-    sass?: PluginSassOptions['sassLoaderOptions'];
+    sass?: PluginSassOptions['sassLoaderOptions'] | PluginSassOptions;
+    /**
+     * Modify the options of [@rsbuild/plugin-svgr](https://rsbuild.rs/plugins/list/plugin-svgr),
+     * such as `svgrOptions`, `parallel`, `exclude` and `query`.
+     * Set to `false` to disable SVGR; all `.svg` files are then treated as static assets.
+     */
+    svgr?: ConfigChain<PluginSvgrOptions> | false;
   };
   dev?: {
     /** Set the page URL to open when the server starts. */
@@ -214,10 +230,14 @@ export type BuilderExtraConfig = {
     disableTsChecker?: boolean;
     /**
      * Configure the default export type of SVG files.
+     * @deprecated Use `tools.svgr.svgrOptions.exportType` instead:
+     * `'component'` maps to `exportType: 'default'`, `'url'` maps to `exportType: 'named'`.
      */
     svgDefaultExport?: SvgDefaultExport;
     /**
      * Whether to transform SVGs into React components. If true, will treat all .svg files as assets.
+     * @deprecated Use `tools.svgr` instead: `output.disableSvgr: true` maps to `tools.svgr: false`;
+     * `false` is the default behavior and can simply be removed.
      */
     disableSvgr?: boolean;
   };

@@ -165,8 +165,8 @@
     "@modern-js/utils": "workspace:*",
     "@swc/helpers": "^0.5.17",
     "lru-cache": "^10.4.3",
-    "react-router": "7.18.2",
-    "serialize-javascript": "^6.0.2"
+    "react-router": "7.18.4",
+    "serialize-javascript": "^7.0.0"
   },
   "peerDependencies": {
     "react": ">=18.3.1",
@@ -182,7 +182,7 @@
   },
   "devDependencies": {
     "@modern-js/rslib": "workspace:*",
-    "@rslib/core": "1.0.0",
+    "@rslib/core": "1.0.1",
     "@scripts/rstest-config": "workspace:*",
     "@types/ioredis-mock": "^8.2.8",
     "@types/node": "^20",

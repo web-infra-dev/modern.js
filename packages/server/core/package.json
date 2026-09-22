@@ -79,12 +79,12 @@
     "cloneable-readable": "^3.0.0",
     "flatted": "^3.4.4",
     "hono": "^4.11.7",
-    "ts-deepmerge": "7.0.3"
+    "ts-deepmerge": "8.0.0"
   },
   "devDependencies": {
     "@modern-js/rslib": "workspace:*",
     "@modern-js/types": "workspace:*",
-    "@rslib/core": "1.0.0",
+    "@rslib/core": "1.0.1",
     "@scripts/rstest-config": "workspace:*",
     "@types/cloneable-readable": "^2.0.3",
     "@types/merge-deep": "^3.0.3",

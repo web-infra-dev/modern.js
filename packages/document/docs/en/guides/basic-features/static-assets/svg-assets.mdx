@@ -42,15 +42,21 @@ export default () => <Logo />;
 
 ## Modify the Default Export
 
-You can modify the default export of SVG files through the [output.svgDefaultExport](/configure/app/output/svg-default-export) config. For example, set the default export as a React component:
+You can modify the default export of SVG files through `svgrOptions.exportType` of [tools.svgr](/configure/app/tools/svgr). For example, set the default export as a React component:
 
 ```ts
 export default {
-  output: {
-    svgDefaultExport: 'component',
+  tools: {
+    svgr: {
+      svgrOptions: {
+        exportType: 'default',
+      },
+    },
   },
 };
 ```
+
+The legacy [output.svgDefaultExport](/configure/app/output/svg-default-export) config still works but is deprecated.
 
 Then import the SVG, you'll get a React component instead of a URL:
 
@@ -78,12 +84,12 @@ Please read the [Import Static Assets](/guides/basic-features/static-assets) sec
 
 ## Disable SVGR Processing
 
-By default, when an SVG resource is referenced in a JS file, Modern.js will call SVGR to convert the SVG into a React component. If you are sure that all SVG resources in your project are not being used as React components, you can turn off this conversion by setting [disableSvgr](/configure/app/output/disable-svgr) to true to improve build performance.
+By default, when an SVG resource is referenced in a JS file, Modern.js will call SVGR to convert the SVG into a React component. If you are sure that all SVG resources in your project are not being used as React components, you can turn off this conversion by setting [tools.svgr](/configure/app/tools/svgr) to `false` to improve build performance.
 
 ```js
 export default {
-  output: {
-    disableSvgr: true,
+  tools: {
+    svgr: false,
   },
 };
 ```
@@ -151,21 +157,27 @@ When SVGR is enabled, its default configuration is as follows:
 }
 ```
 
-If you need to modify the SVGR configuration, you can do the following:
+To modify the SVGR configuration, use `svgrOptions` of [tools.svgr](/configure/app/tools/svgr). The `svgoConfig.plugins` you pass are deep merged with the defaults by plugin name, so only the changed part needs to be written:
 
 ```js
 export default {
   tools: {
-    bundlerChain: (chain, { CHAIN_ID }) => {
-      chain.module
-        .rule(CHAIN_ID.RULE.SVG)
-        .oneOf(CHAIN_ID.ONE_OF.SVG)
-        .use(CHAIN_ID.USE.SVGR)
-        .tap(options => {
-          // modify svgoConfig
-          options.svgoConfig.plugins[0].params.overrides.removeUselessDefs = false;
-          return options;
-        });
+    svgr: {
+      svgrOptions: {
+        svgoConfig: {
+          plugins: [
+            {
+              name: 'preset-default',
+              params: {
+                overrides: {
+                  // add one more override on top of the default preset-default
+                  removeUselessDefs: false,
+                },
+              },
+            },
+          ],
+        },
+      },
     },
   },
 };

@@ -52,14 +52,14 @@
     "axios": "^1.15.2",
     "connect-history-api-fallback": "^2.0.0",
     "http-compression": "1.0.6",
-    "minimatch": "^3.1.2",
+    "minimatch": "^3.1.5",
     "path-to-regexp": "^6.3.0",
     "ws": "^8.21.3"
   },
   "devDependencies": {
     "@modern-js/builder": "workspace:*",
     "@modern-js/rslib": "workspace:*",
-    "@rslib/core": "1.0.0",
+    "@rslib/core": "1.0.1",
     "@scripts/rstest-config": "workspace:*",
     "@types/connect-history-api-fallback": "^1.5.4",
     "@types/minimatch": "^3.0.5",

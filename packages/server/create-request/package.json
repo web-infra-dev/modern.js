@@ -66,12 +66,12 @@
     "@swc/helpers": "^0.5.17",
     "encoding": "^0.1.13",
     "path-to-regexp": "^6.3.0",
-    "qs": "^6.15.3"
+    "qs": "^6.16.0"
   },
   "devDependencies": {
     "@modern-js/rslib": "workspace:*",
     "@modern-js/types": "workspace:*",
-    "@rslib/core": "1.0.0",
+    "@rslib/core": "1.0.1",
     "@scripts/rstest-config": "workspace:*",
     "@types/node": "^20",
     "@types/qs": "^6.15.1",

@@ -67,7 +67,7 @@
     "@babel/core": "^7.29.7",
     "@babel/plugin-transform-modules-commonjs": "^7.29.7",
     "@biomejs/biome": "1.9.4",
-    "@changesets/cli": "^2.29.8",
+    "@changesets/cli": "^2.31.1",
     "@commitlint/cli": "^20.5.3",
     "@commitlint/config-conventional": "^20.5.3",
     "@modern-js/tsconfig": "workspace:*",
@@ -75,11 +75,11 @@
     "@scripts/build": "workspace:*",
     "@types/react": "^19.3.0",
     "@types/react-dom": "^19.3.0",
-    "check-dependency-version-consistency": "4.1.1",
+    "check-dependency-version-consistency": "6.0.0",
     "cross-env": "^7.0.3",
     "husky": "^8.0.3",
     "lint-staged": "~13.3.0",
-    "nx": "^22.5.4",
+    "nx": "^22.7.12",
     "rimraf": "^6.1.3"
   },
   "pnpm": {
@@ -96,7 +96,7 @@
       "esbuild": ">=0.25.0",
       "tmp": ">=0.2.7",
       "@isaacs/brace-expansion": ">=5.0.1",
-      "dts-packer>resolve": "1.20.0"
+      "dts-packer>resolve": "1.22.12"
     },
     "peerDependencyRules": {
       "allowedVersions": {

@@ -151,7 +151,7 @@
   "devDependencies": {
     "@modern-js/rslib": "workspace:*",
     "@modern-js/types": "workspace:*",
-    "@rslib/core": "1.0.0",
+    "@rslib/core": "1.0.1",
     "@scripts/rstest-config": "workspace:*",
     "@types/node": "^20",
     "happy-dom": "^20.14.5",
