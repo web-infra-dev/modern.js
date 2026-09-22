@@ -8,7 +8,8 @@
     "paths": {
       "@/*": ["./src/*"],
       "@shared/*": ["./shared/*"]
-    }
+    },
+    "types": ["@rstest/core/globals"]
   },
   "include": ["src", "tests", "modern.config.ts"]
 }

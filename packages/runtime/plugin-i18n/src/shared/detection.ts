@@ -12,10 +12,9 @@ export function detectLanguageFromRequest(
   req: {
     url: string;
     headers:
-      | {
-          get: (name: string) => string | null;
-        }
-      | Headers;
+      | Headers
+      | { get: (name: string) => string | null }
+      | Record<string, string | string[] | undefined>;
   },
   languages: string[],
   detectionOptions?: LanguageDetectorOptions,
@@ -39,11 +38,21 @@ export function detectLanguageFromRequest(
       order.length > 0 ? order : ['querystring', 'cookie', 'header'];
 
     // Helper to get header value
+    // req.headers is a Fetch API Headers instance when the caller passes the raw
+    // Request (e.g. ssrContext.request.raw), but modern.js's own SSR request object
+    // (ssrContext.request) carries headers as a plain, lower-cased key/value object.
     const getHeader = (name: string): string | null => {
-      if (req.headers instanceof Headers) {
-        return req.headers.get(name);
+      const headers = req.headers;
+      if (typeof (headers as Headers)?.get === 'function') {
+        return (headers as Headers).get(name);
       }
-      return req.headers.get(name);
+      const value = (headers as Record<string, string | string[] | undefined>)[
+        name.toLowerCase()
+      ];
+      if (Array.isArray(value)) {
+        return value[0] ?? null;
+      }
+      return value ?? null;
     };
 
     // Try each detection method in order
@@ -94,7 +103,8 @@ export function detectLanguageFromRequest(
               .map((lang: string) => {
                 const [code, q] = lang.trim().split(';');
                 return {
-                  code: code.split('-')[0], // Extract base language code
+                  code,
+                  baseCode: code.split('-')[0],
                   quality: q ? parseFloat(q.split('=')[1]) : 1.0,
                 };
               })
@@ -103,10 +113,15 @@ export function detectLanguageFromRequest(
                   b.quality - a.quality,
               );
 
-            // Find first matching language
+            // Find first matching language, preferring an exact tag match
+            // (e.g. 'zh-Hant-TW') over the base language code (e.g. 'zh')
             for (const lang of languagesList) {
               if (languages.length === 0 || languages.includes(lang.code)) {
                 detectedLang = lang.code;
+                break;
+              }
+              if (languages.includes(lang.baseCode)) {
+                detectedLang = lang.baseCode;
                 break;
               }
             }

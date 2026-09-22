@@ -13,6 +13,7 @@ export const cacheUserLanguage = (
 export const readLanguageFromStorage = (
   detectionOptions?: any,
   request?: any,
+  languages: string[] = [],
 ): string | undefined => {
   if (!request) {
     return undefined;
@@ -20,7 +21,7 @@ export const readLanguageFromStorage = (
 
   const detectedLanguage = detectLanguageFromRequest(
     request as any,
-    [],
+    languages,
     detectionOptions,
   );
   return detectedLanguage ?? undefined;
