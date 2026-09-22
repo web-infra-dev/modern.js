@@ -57,7 +57,7 @@ describe('detectLanguageWithPriority', () => {
   });
 
   test('should keep standard i18next detector behavior for non-wrapper', async () => {
-    detectLanguageMock.mockReturnValue('zh-CN');
+    detectLanguageMock.mockReturnValue('zh');
     const i18nInstance = {
       isInitialized: false,
       use() {
