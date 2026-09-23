@@ -1,6 +1,6 @@
 import { LanguageDetector } from 'i18next-http-middleware';
 import { detectLanguageFromRequest } from '../../../shared/detection.js';
-import type { I18nInstance } from '../instance';
+import type { I18nInstance, LanguageDetectorOptions } from '../instance';
 
 export const cacheUserLanguage = (
   _i18nInstance: I18nInstance,
@@ -11,8 +11,8 @@ export const cacheUserLanguage = (
 };
 
 export const readLanguageFromStorage = (
-  detectionOptions?: any,
-  request?: any,
+  detectionOptions?: LanguageDetectorOptions,
+  request?: Parameters<typeof detectLanguageFromRequest>[0],
   languages: string[] = [],
 ): string | undefined => {
   if (!request) {
@@ -20,7 +20,7 @@ export const readLanguageFromStorage = (
   }
 
   const detectedLanguage = detectLanguageFromRequest(
-    request as any,
+    request,
     languages,
     detectionOptions,
   );
