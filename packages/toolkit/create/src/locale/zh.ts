@@ -32,6 +32,8 @@ export const ZH_LOCALE = {
       '• 当前 @modern-js/app-tools@{version} 不支持随包文档，未修改任何文件。可在 AGENTS.md 中补充 https://modernjs.dev/llms.txt 供 AI 工具获取框架知识，或升级到 {since} 及以上后重新执行本命令',
   },
   help: {
+    optionTemplate:
+      '  --template <name>  app（默认）、mcp-apps（UI + 服务端）或 mcp-server（独立服务端）',
     title: '🚀 Modern.js 项目创建工具',
     description: '快速创建一个新的 Modern.js 项目',
     usage: '📖 用法:',

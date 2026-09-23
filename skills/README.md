@@ -6,6 +6,7 @@
 
 - `modernjs-migrate-to-v3` —— Modern.js v2 → v3 迁移
 - `modernjs-feature-enable` —— 为 v3 应用启用 BFF / SSG / styled-components / Tailwind / 自定义 Web Server
+- `modernjs-create-mcp-apps` —— 创建 MCP Apps / 独立 MCP Server，验证协议与宿主卡片，配置独立 UI 部署（使用包含 MCP 模板的版本）
 
 ## 安装
 

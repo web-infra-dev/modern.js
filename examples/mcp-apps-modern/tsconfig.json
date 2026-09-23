@@ -1,0 +1,23 @@
+{
+  "extends": "@modern-js/tsconfig/base",
+  "compilerOptions": {
+    "declaration": false,
+    "jsx": "preserve",
+    "baseUrl": "./",
+    "paths": {
+      "@/*": ["./src/*"],
+      "@shared/*": ["./shared/*"]
+    }
+  },
+  "include": [
+    "src",
+    "shared",
+    "config",
+    "modern.config.ts",
+    "server",
+    "api",
+    "mcp_apps.ts",
+    "mcp"
+  ],
+  "exclude": ["**/node_modules"]
+}

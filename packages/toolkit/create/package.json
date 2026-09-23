@@ -29,8 +29,9 @@
   },
   "files": [
     "template",
+    "mcp-templates",
     "dist",
-    "bin.js"
+    "bin"
   ],
   "scripts": {
     "build": "rslib build",

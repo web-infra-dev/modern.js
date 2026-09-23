@@ -1,0 +1,78 @@
+/* ErrorBoundary 样式 */
+
+.error-boundary-container {
+  padding: 40px;
+  background-color: #fef2f2;
+  border: 5px solid #dc2626;
+  border-radius: 12px;
+  min-height: 100vh;
+  font-family: system-ui;
+}
+
+.error-boundary-title {
+  color: #dc2626;
+  font-size: 32px;
+  margin-bottom: 20px;
+}
+
+.error-boundary-message-wrapper {
+  background-color: white;
+  padding: 20px;
+  border-radius: 8px;
+  margin-bottom: 20px;
+  border: 2px solid #fca5a5;
+}
+
+.error-boundary-message-title {
+  font-size: 20px;
+  margin-bottom: 12px;
+  color: #991b1b;
+}
+
+.error-boundary-message-content {
+  background-color: #fee;
+  padding: 16px;
+  border-radius: 6px;
+  overflow: auto;
+  font-size: 14px;
+  font-family: monospace;
+  white-space: pre-wrap;
+  word-break: break-word;
+}
+
+.error-boundary-stack-wrapper {
+  background-color: white;
+  padding: 20px;
+  border-radius: 8px;
+  border: 2px solid #fca5a5;
+}
+
+.error-boundary-stack-title {
+  font-size: 20px;
+  margin-bottom: 12px;
+  color: #991b1b;
+}
+
+.error-boundary-stack-content {
+  background-color: #fee;
+  padding: 16px;
+  border-radius: 6px;
+  overflow: auto;
+  font-size: 12px;
+  font-family: monospace;
+  max-height: 400px;
+  white-space: pre-wrap;
+  word-break: break-word;
+}
+
+.error-boundary-reload-btn {
+  margin-top: 20px;
+  padding: 12px 24px;
+  background-color: #dc2626;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  font-size: 16px;
+  cursor: pointer;
+  font-weight: bold;
+}

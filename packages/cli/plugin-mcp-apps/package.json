@@ -1,0 +1,105 @@
+{
+  "name": "@modern-js/plugin-mcp-apps",
+  "version": "3.9.1",
+  "description": "Modern.js integration for independently deployable MCP Apps",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/web-infra-dev/modern.js",
+    "directory": "packages/cli/plugin-mcp-apps"
+  },
+  "files": [
+    "dist",
+    "README.md"
+  ],
+  "sideEffects": false,
+  "engines": {
+    "node": ">=20"
+  },
+  "exports": {
+    ".": {
+      "types": "./dist/types/cli.d.ts",
+      "modern:source": "./src/cli.ts",
+      "import": "./dist/esm-node/cli.mjs",
+      "require": "./dist/cjs/cli.cjs"
+    },
+    "./server-plugin": {
+      "types": "./dist/types/server.d.ts",
+      "modern:source": "./src/server.ts",
+      "import": "./dist/esm-node/server.mjs",
+      "require": "./dist/cjs/server.cjs"
+    },
+    "./bff": {
+      "types": "./dist/types/bff.d.ts",
+      "modern:source": "./src/bff.ts",
+      "import": "./dist/esm-node/bff.mjs",
+      "require": "./dist/cjs/bff.cjs"
+    },
+    "./bff-runtime": {
+      "types": "./dist/types/bff-runtime.d.ts",
+      "modern:source": "./src/bff-runtime.ts",
+      "import": "./dist/esm-node/bff-runtime.mjs",
+      "require": "./dist/cjs/bff-runtime.cjs"
+    }
+  },
+  "scripts": {
+    "build": "rslib build",
+    "test": "rstest",
+    "typecheck": "tsc --noEmit"
+  },
+  "dependencies": {
+    "@modern-js/mcp-apps": "workspace:*",
+    "@modern-js/utils": "workspace:*",
+    "@modern-js/server-core": "workspace:*"
+  },
+  "devDependencies": {
+    "@modern-js/app-tools": "workspace:*",
+    "@rslib/core": "1.0.1",
+    "@scripts/rstest-config": "workspace:*",
+    "@types/node": "^20",
+    "typescript": "^5"
+  },
+  "publishConfig": {
+    "access": "public",
+    "registry": "https://registry.npmjs.org/",
+    "exports": {
+      ".": {
+        "types": "./dist/types/cli.d.ts",
+        "import": "./dist/esm-node/cli.mjs",
+        "require": "./dist/cjs/cli.cjs"
+      },
+      "./server-plugin": {
+        "types": "./dist/types/server.d.ts",
+        "import": "./dist/esm-node/server.mjs",
+        "require": "./dist/cjs/server.cjs"
+      },
+      "./bff": {
+        "types": "./dist/types/bff.d.ts",
+        "import": "./dist/esm-node/bff.mjs",
+        "require": "./dist/cjs/bff.cjs"
+      },
+      "./bff-runtime": {
+        "types": "./dist/types/bff-runtime.d.ts",
+        "import": "./dist/esm-node/bff-runtime.mjs",
+        "require": "./dist/cjs/bff-runtime.cjs"
+      }
+    }
+  },
+  "typesVersions": {
+    "*": {
+      ".": [
+        "dist/types/cli.d.ts"
+      ],
+      "server-plugin": [
+        "dist/types/server.d.ts"
+      ],
+      "bff": [
+        "dist/types/bff.d.ts"
+      ],
+      "bff-runtime": [
+        "dist/types/bff-runtime.d.ts"
+      ]
+    }
+  },
+  "types": "./dist/types/cli.d.ts"
+}

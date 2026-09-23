@@ -1,0 +1,23 @@
+{
+  "name": "@integration-test/mcp-apps",
+  "private": true,
+  "dependencies": {
+    "@modern-js/app-tools": "workspace:*",
+    "@modern-js/create": "workspace:*",
+    "@modern-js/mcp-apps": "workspace:*",
+    "@modern-js/plugin-mcp-apps": "workspace:*",
+    "@modern-js/plugin-bff": "workspace:*",
+    "@modern-js/runtime": "workspace:*",
+    "@modern-js/server-runtime": "workspace:*",
+    "@modern-js/tsconfig": "workspace:*",
+    "@module-federation/modern-js-v3": "2.0.0",
+    "react": "^19.2.8",
+    "react-dom": "^19.2.8"
+  },
+  "devDependencies": {
+    "@types/node": "^20",
+    "@types/react": "^19.3.0",
+    "@types/react-dom": "^19.3.0",
+    "typescript": "^5"
+  }
+}

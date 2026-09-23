@@ -1,0 +1,156 @@
+---
+sidebar_position: 17
+---
+
+# MCP Apps
+
+MCP Apps 插件通过 `mcp_apps.ts` 将工具执行和可交互 React 视图接入 AI 宿主。服务端和 UI 可以一起开发，也可以分别构建、发布。
+本功能为实验性能力，不包含 DevTools。
+
+## 创建项目
+
+使用包含这些新包的同一 Modern.js 发布版本：
+
+```bash
+npx @modern-js/create@<version> my-app --template mcp-apps
+npx @modern-js/create@<version> my-server --template mcp-server
+```
+
+`mcp-apps` 默认是标准 Modern.js 应用，增加本地 React 卡片和 MCP 插件，不依赖 MF。
+创建时加 `--mf` 才生成 Module Federation 配置和远程组件依赖。
+`mcp-server` 不包含 UI 目录，适合独立服务端。未传 template 时，普通应用模板不变。
+
+在源码仓库中验证尚未发布的实现，可先构建 `@modern-js/mcp-apps` 和
+`@modern-js/plugin-mcp-apps`，再运行 `pnpm --filter @examples/mcp-apps-modern dev`。
+
+## 接入已有项目
+
+安装与 app-tools 版本一致的 `@modern-js/mcp-apps` 和
+`@modern-js/plugin-mcp-apps`，同时安装 `@modern-js/plugin-bff`。以上包放在 dependencies 中。
+
+```ts title="modern.config.ts"
+import { appTools, defineConfig } from '@modern-js/app-tools';
+import { bffPlugin } from '@modern-js/plugin-bff';
+import { mcpAppsPlugin } from '@modern-js/plugin-mcp-apps';
+
+export default defineConfig({
+  bff: { prefix: "/mcp" },
+  plugins: [appTools(), bffPlugin(), mcpAppsPlugin()],
+});
+```
+
+```ts title="api/lambda/index.ts"
+import { mcpApps } from '@modern-js/plugin-mcp-apps/bff';
+
+export const { POST, GET, DELETE, PUT, PATCH, OPTIONS } = mcpApps();
+```
+
+```ts title="mcp_apps.ts"
+import { defineMcpApps } from '@modern-js/mcp-apps/config';
+
+export default defineMcpApps({
+  remotes: [],
+  tools: [{
+    name: 'greet',
+    inputSchema: {
+      type: 'object',
+      properties: { name: { type: 'string' } },
+      required: ['name'],
+    },
+    annotations: { readOnlyHint: true },
+    handler: { module: './mcp/tools', exportName: 'greet' },
+  }],
+});
+```
+
+```ts title="mcp/tools.ts"
+import type { RemoteToolHandler } from '@modern-js/mcp-apps/config';
+
+export const greet: RemoteToolHandler = input => {
+  const { name } = input as { name: string };
+  return { content: [{ type: 'text', text: `Hello, ${name}!` }] };
+};
+```
+
+将 `mcp_apps.ts` 和 handler 目录加入 tsconfig 的 include。运行 `modern dev` 后，
+通过 MCP 客户端连接 `/mcp`。直接在浏览器地址栏访问该路由会返回 405，因为当前
+实现使用无状态 HTTP POST。
+
+## 添加交互视图
+
+默认直接给工具增加 `view: { module: './src/components/Greeting.tsx' }`，
+保持 `remotes: []`。构建将组件及 React、CSS 打包成自包含 HTML，通过
+`ui://local/<tool>` MCP 资源提供。组件接收工具参数、`viewProps` 和 `mcpApp`。
+本地视图使用 esbuild 构建 JSX/TSX 和 CSS，不自动继承 Modern.js CSS 预处理器等扩展。
+
+### 可选 MF 模式
+
+使用已有 MF/Vmok 工具发布组件 expose。将其 manifest URL 写入 `remotes`，工具
+通过 `remote` 和 `view.module` 引用它：
+
+```ts
+remotes: [{
+  name: 'catalog',
+  baseUrl: 'https://cdn.example.com/catalog/v1/mf-manifest.json',
+  manifestType: 'mf',
+  csp: {
+    resourceDomains: ['https://cdn.example.com'],
+    connectDomains: ['https://cdn.example.com'],
+  },
+}]
+// 对应工具配置：remote: 'catalog', view: { module: './Results' }
+```
+
+MF 渲染器在宿主 iframe 内加载组件，传入工具参数、handler 返回的
+`viewProps` 和已连接的 `mcpApp`。组件通过 `mcpApp.callServerTool()` 调用工具，
+不应再创建第二个 useApp 连接。没有额外的 `ui-manifest.json`。
+
+已有 BFF 项目应保留原 `bff.prefix`；例如在 `/api` 前缀下添加
+`api/lambda/mcp.ts`，入口就是 `/api/mcp`。`serverInfo` 在
+`mcpApps({ serverInfo })` 中配置。
+
+## 插件选项
+
+| 选项 | 默认值 | 用途 |
+| --- | --- | --- |
+| `config` | `mcp_apps.ts` | 相对项目根目录的定义文件 |
+| `tsconfig` | esbuild 查找最近的 tsconfig | 定义与 handler 编译配置 |
+| `alias` | 无 | MCP 服务端编译使用的显式静态别名 |
+
+开发时监听配置和 handler 的源码依赖，编译成功后切换新版本；编译失败保留上一版。
+MCP 入口是 BFF API 路由，插件负责编译和 BFF 产物绑定，不注册 HTTP 中间件。鉴权中间件应在 BFF 路由之前执行，
+handler 的 `context.context` 为当前请求的 Hono Context。
+
+## 构建与独立部署
+
+`modern build` 将定义、handler 及其导入依赖编译到 `dist/mcp-apps/`。
+`modern serve` 只使用这些产物。`modern deploy` 生成可移动的 `.output/`，通过
+`node .output/index.js` 启动，无须原源码目录。
+
+默认 UI HTML 随 `dist/mcp-apps/` 部署；也可用 `view.html` 指定独立 HTTPS HTML URL，由服务端读取，并用 `view.csp` 声明其网络权限。MF 模式使用 MF/Vmok 原有产物独立发布。生产定义可通过环境变量设置远程资源地址，
+但 local handler 模块集合需要与构建时一致。运行时读取的独立文件、原生 addon
+等额外资产仍由应用管理部署。
+
+核心包也可脱离 Modern.js CLI 使用。`@modern-js/mcp-apps/build` 的
+`compileMcpApps({ configPath, outDir, tsconfig?, alias? })` 负责生成可搬迁产物，
+`@modern-js/mcp-apps/server` 提供 `createMcpAppsHandler` 接入独立 HTTP 服务。
+
+当前不提供持久 MCP 会话、恢复 SSE 或跨请求取消。标准 MF 已验证；内部 Vmok
+部署及各目标产品宿主应分别验收。
+
+
+## Hono 独立部署
+
+```ts
+import { Hono } from 'hono';
+import { mcpApps } from '@modern-js/mcp-apps/hono';
+const app = new Hono();
+app.all('/mcp', mcpApps({ configPath: './dist/mcp-apps/mcp_apps.mjs' }));
+```
+
+复制整个 `dist/mcp-apps/` 目录，并安装 handler 使用的外部依赖。
+该适配器不监听端口，鉴权、监听和部署由用户的 Hono 应用管理；Modern.js 服务端插件也复用该适配器。
+
+BFF TypeScript 开发依赖 `ts-node`（`^10.9.2`），模板已添加到 devDependencies。
+ESM 项目需同时设置 package.json 的 `"type": "module"`，以及 TypeScript 的
+`module: "esnext"` 和 `moduleResolution: "bundler"`。

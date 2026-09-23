@@ -5,6 +5,7 @@ import { fileURLToPath } from 'node:url';
 import { getLocaleLanguage } from '@modern-js/i18n-utils/language-detector';
 import { runAgentsMd } from './agents-md';
 import { i18n, localeKeys } from './locale';
+import { applyMcpTemplate, parseTemplate } from './mcp-template';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const templateDir = path.resolve(__dirname, '..', 'template');
@@ -71,6 +72,10 @@ function showHelp() {
   console.log(i18n.t(localeKeys.help.optionSub));
   console.log(i18n.t(localeKeys.help.optionNoAgentsMd));
   console.log(i18n.t(localeKeys.help.optionAgentsMdOnly));
+  console.log(i18n.t(localeKeys.help.optionTemplate));
+  console.log(
+    '  --mf                 Enable Module Federation for --template mcp-apps',
+  );
   console.log('');
   console.log(i18n.t(localeKeys.help.examples));
   console.log(i18n.t(localeKeys.help.example1));
@@ -100,7 +105,7 @@ function promptInput(question: string): Promise<string> {
 }
 
 // flags that consume the next argument as their value
-const VALUE_FLAGS = ['--lang', '-l'];
+const VALUE_FLAGS = ['--lang', '-l', '--template'];
 // flags that stand alone
 const BOOLEAN_FLAGS = [
   '--help',
@@ -110,6 +115,7 @@ const BOOLEAN_FLAGS = [
   '--sub',
   '-s',
   '--no-sub',
+  '--mf',
   '--no-agents-md',
   '--agents-md-only',
 ];
@@ -153,6 +159,7 @@ async function getProjectName(): Promise<{
     (arg, index) =>
       !VALUE_FLAGS.includes(arg) &&
       !BOOLEAN_FLAGS.includes(arg) &&
+      !arg.startsWith('--template=') &&
       !(index > 0 && VALUE_FLAGS.includes(args[index - 1])),
   );
 
@@ -189,6 +196,11 @@ async function main() {
     return;
   }
 
+  const template = parseTemplate(args);
+  const mf = args.includes('--mf');
+  if (mf && template !== 'mcp-apps')
+    throw new Error('--mf requires --template mcp-apps');
+
   // Mode for existing projects: add/refresh AGENTS.md & CLAUDE.md in the
   // current directory so agents pick up the bundled docs after an upgrade
   // (idempotent). A flag rather than a positional, so it never collides with
@@ -198,7 +210,11 @@ async function main() {
       (arg, index) =>
         !arg.startsWith('-') && !VALUE_FLAGS.includes(args[index - 1]),
     );
-    if (hasProjectName || args.includes('--no-agents-md')) {
+    if (
+      hasProjectName ||
+      args.includes('--no-agents-md') ||
+      template !== 'app'
+    ) {
       console.error(i18n.t(localeKeys.error.agentsMdOnlyConflict));
       process.exit(1);
     }
@@ -236,6 +252,8 @@ async function main() {
     isSubproject,
     noAgentsMd,
   });
+
+  if (template !== 'app') applyMcpTemplate(targetDir, version, template, mf);
 
   const targetPackageJson = path.join(targetDir, 'package.json');
   const packageJson = JSON.parse(fs.readFileSync(targetPackageJson, 'utf-8'));

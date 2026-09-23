@@ -41,6 +41,8 @@ export const EN_LOCALE = {
     optionHelp: '  -h, --help     Display this help message',
     optionVersion: '  -v, --version  Display version information',
     optionLang: '  -l, --lang     Set the language (zh or en)',
+    optionTemplate:
+      '  --template <name>  app (default), mcp-apps (UI + server), or mcp-server (server only)',
     optionSub: '  -s, --sub       Mark as a subproject (package in monorepo)',
     optionNoAgentsMd:
       '  --no-agents-md  Skip generating AGENTS.md / CLAUDE.md for AI coding agents',

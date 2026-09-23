@@ -1,0 +1,85 @@
+/* Component container layout */
+.mf-content {
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.mf-component-container {
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.mf-component-wrapper {
+  width: 100%;
+  box-sizing: border-box;
+}
+
+/* In fullscreen mode, stretch all container layers to full height */
+.mf-main.fullscreen .mf-content,
+.mf-main.fullscreen .mf-component-container,
+.mf-main.fullscreen .mf-component-wrapper {
+  height: 100%;
+}
+
+/* Loading state inside component container */
+.mf-loading-wrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  padding: 32px 16px;
+  gap: 10px;
+  box-sizing: border-box;
+  color: var(--color-text-secondary, #888);
+  font-size: 13px;
+  font-family: var(--font-sans, system-ui, -apple-system, sans-serif);
+}
+
+.mf-loading-text {
+  color: var(--color-text-secondary, #888);
+  font-size: 13px;
+}
+
+/* Component error display styles */
+.component-error-container {
+  border: 1px solid #fca5a5;
+  border-radius: 8px;
+  padding: 16px;
+}
+
+.component-error-icon {
+  font-size: 16px;
+  margin-bottom: 8px;
+}
+
+.component-error-title {
+  font-size: 14px;
+  font-weight: 600;
+  color: #dc2626;
+  margin-bottom: 8px;
+}
+
+.component-error-message {
+  font-size: 13px;
+  font-family: monospace;
+  padding: 8px;
+  border-radius: 4px;
+}
+
+.component-error-stack {
+  font-size: 11px;
+  margin-top: 12px;
+}
+
+.component-error-stack-summary {
+  cursor: pointer;
+  font-weight: bold;
+}
+
+.component-error-stack-pre {
+  margin-top: 8px;
+  padding: 8px;
+  border-radius: 4px;
+  overflow: auto;
+}

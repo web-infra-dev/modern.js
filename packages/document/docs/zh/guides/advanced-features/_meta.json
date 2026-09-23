@@ -5,7 +5,6 @@
     "label": "use-bff",
     "collapsed": true
   },
-
   {
     "type": "dir",
     "name": "page-performance",
@@ -28,5 +27,6 @@
     "label": "国际化",
     "collapsed": true
   },
-  "web-server"
+  "web-server",
+  "mcp-apps"
 ]

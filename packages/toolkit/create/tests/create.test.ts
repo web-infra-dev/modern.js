@@ -90,6 +90,81 @@ describe('positional argument parsing', () => {
   });
 });
 
+describe('MCP templates', () => {
+  it('creates local UI without MF and leaves the default template unchanged', () => {
+    runCreate(['--template', 'mcp-apps', 'mcp-app', '--no-agents-md']);
+    const root = path.join(workdir, 'mcp-app');
+    const pkg = JSON.parse(
+      fs.readFileSync(path.join(root, 'package.json'), 'utf8'),
+    );
+    expect(pkg.dependencies['@modern-js/plugin-mcp-apps']).toBeDefined();
+    expect(pkg.dependencies['@modern-js/mcp-apps']).toBeDefined();
+    expect(pkg.dependencies['@modern-js/plugin-bff']).toBeDefined();
+    expect(pkg.devDependencies['ts-node']).toBeDefined();
+    expect(fs.existsSync(path.join(root, 'api/lambda/index.ts'))).toBe(true);
+    expect(
+      fs.readFileSync(path.join(root, 'api/lambda/index.ts'), 'utf8'),
+    ).not.toContain('__dirname');
+    expect(fs.existsSync(path.join(root, 'mcp/tools.ts'))).toBe(true);
+    expect(fs.existsSync(path.join(root, 'api/mcp-tools.ts'))).toBe(false);
+    expect(
+      pkg.devDependencies['@module-federation/modern-js-v3'],
+    ).toBeUndefined();
+    expect(fs.readFileSync(path.join(root, 'mcp_apps.ts'), 'utf8')).toContain(
+      "module: './src/components/Greeting.tsx'",
+    );
+    expect(fs.existsSync(path.join(root, 'module-federation.config.ts'))).toBe(
+      false,
+    );
+    expect(fs.existsSync(path.join(root, 'src/components/Greeting.tsx'))).toBe(
+      true,
+    );
+    runCreate(['ordinary']);
+    expect(fs.existsSync(path.join(workdir, 'ordinary/mcp_apps.ts'))).toBe(
+      false,
+    );
+  });
+
+  it('adds MF only when explicitly selected', () => {
+    runCreate(['mf-app', '--template', 'mcp-apps', '--mf']);
+    const root = path.join(workdir, 'mf-app');
+    const pkg = JSON.parse(
+      fs.readFileSync(path.join(root, 'package.json'), 'utf8'),
+    );
+    expect(
+      pkg.devDependencies['@module-federation/modern-js-v3'],
+    ).toBeDefined();
+    expect(fs.existsSync(path.join(root, 'module-federation.config.ts'))).toBe(
+      true,
+    );
+    expect(fs.readFileSync(path.join(root, 'mcp_apps.ts'), 'utf8')).toContain(
+      "remote: 'mcp_ui'",
+    );
+    expect(() =>
+      runCreate(['bad-mf', '--template', 'mcp-server', '--mf']),
+    ).toThrow();
+  });
+
+  it('creates an independent server with no UI directory or React dependency', () => {
+    runCreate(['server-app', '--template=mcp-server', '--sub']);
+    const root = path.join(workdir, 'server-app');
+    const pkg = JSON.parse(
+      fs.readFileSync(path.join(root, 'package.json'), 'utf8'),
+    );
+    expect(pkg.dependencies.react).toBeUndefined();
+    expect(pkg.dependencies['@modern-js/runtime']).toBeUndefined();
+    expect(fs.existsSync(path.join(root, 'src'))).toBe(false);
+    expect(fs.existsSync(path.join(root, 'mcp/tools.ts'))).toBe(true);
+    expect(fs.existsSync(path.join(root, 'AGENTS.md'))).toBe(false);
+  });
+
+  it('rejects unsupported or missing template values before creating files', () => {
+    expect(() => runCreate(['bad', '--template', 'missing'])).toThrow();
+    expect(() => runCreate(['bad', '--template'])).toThrow();
+    expect(fs.existsSync(path.join(workdir, 'bad'))).toBe(false);
+  });
+});
+
 describe('--agents-md-only (existing projects)', () => {
   const BEGIN = '<!-- BEGIN:modernjs-agent-rules -->';
   const END = '<!-- END:modernjs-agent-rules -->';
