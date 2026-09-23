@@ -137,6 +137,15 @@ export function detectLanguageFromRequest(
       ) {
         return detectedLang;
       }
+
+      // Match query and cookie values like header values: exact tag first,
+      // then the supported base language (e.g. 'zh-CN' -> 'zh').
+      if (detectedLang) {
+        const baseLang = detectedLang.split('-')[0];
+        if (languages.includes(baseLang)) {
+          return baseLang;
+        }
+      }
     }
   } catch (error) {
     // Silently ignore errors
