@@ -1,5 +1,30 @@
 # @modern-js/runtime
 
+## 3.9.3
+
+### Patch Changes
+
+- 9f475f6: chore: upgrade Rsbuild to v2.2.9
+
+  chore: 升级 Rsbuild 至 v2.2.9
+
+- a9c110f: fix: emit streaming SSR deferred resolver scripts only at safe HTML boundaries
+
+  fix: Streaming SSR 的 deferred resolver script 仅在安全的 HTML 边界输出
+
+- a9c110f: fix: emit completion scripts for deferred fields serialized as pending during streaming SSR
+
+  fix: 流式 SSR 中，初始序列化为等待状态的 deferred 字段完成后发送通知
+
+- Updated dependencies [9f475f6]
+- Updated dependencies [a9c110f]
+  - @modern-js/plugin-data-loader@3.9.3
+  - @modern-js/plugin@3.9.3
+  - @modern-js/runtime-utils@3.9.3
+  - @modern-js/render@3.9.3
+  - @modern-js/types@3.9.3
+  - @modern-js/utils@3.9.3
+
 ## 3.9.2
 
 ### Patch Changes
