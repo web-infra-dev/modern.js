@@ -1,3 +1,4 @@
+import { DeferredData } from '@modern-js/runtime-utils/browser';
 import { enqueueFromEntries } from '../../src/core/server/stream/deferredScript';
 import { DeferredScriptOutputCoordinator } from '../../src/core/server/stream/deferredScriptOutputCoordinator';
 
@@ -95,6 +96,7 @@ describe('DeferredScriptOutputCoordinator', () => {
           },
         ],
       ],
+      new Map([['route', ['templateData']]]),
       undefined,
       script => coordinator.enqueueResolver(script),
     );
@@ -112,6 +114,36 @@ describe('DeferredScriptOutputCoordinator', () => {
       /^<a href="\/template">template<\/a><script async data-fn-name="r"/,
     );
     expect(output()).toContain('&quot;resolved&quot;');
+  });
+
+  test('emits a resolver for an initially pending key after it leaves pendingKeys', async () => {
+    let resolveTemplate: (value: string) => void;
+    const template = new Promise<string>(resolve => {
+      resolveTemplate = resolve;
+    });
+    const deferred = new DeferredData({
+      templateData: template,
+      preResolved: Promise.resolve('already ready'),
+    });
+    await deferred.data.preResolved;
+
+    const serializedKeys = new Map([['route', deferred.pendingKeys]]);
+    resolveTemplate!('template ready');
+    await deferred.data.templateData;
+    expect(deferred.pendingKeys).toEqual([]);
+
+    const scripts: string[] = [];
+    await enqueueFromEntries(
+      [['route', deferred]],
+      serializedKeys,
+      undefined,
+      script => scripts.push(script),
+    );
+
+    expect(scripts).toHaveLength(1);
+    expect(scripts[0]).toContain('templateData');
+    expect(scripts[0]).toContain('template ready');
+    expect(scripts[0]).not.toContain('preResolved');
   });
 
   test('does not inject into comments, templates, or raw-text elements', () => {

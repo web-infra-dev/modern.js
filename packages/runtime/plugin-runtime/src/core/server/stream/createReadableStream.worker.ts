@@ -108,6 +108,7 @@ export const createReadableStreamFromElement: CreateReadableStreamFromElement =
 
           const storageContext = storage.useContext?.();
           const activeDeferreds = storageContext?.activeDeferreds;
+          const deferredScriptKeys = storageContext?.deferredScriptKeys;
           /**
            * activeDeferreds is injected into storageContext by @modern-js/runtime.
            * @see packages/toolkit/runtime-utils/src/browser/nestedRoutes.tsx
@@ -120,6 +121,7 @@ export const createReadableStreamFromElement: CreateReadableStreamFromElement =
           if (entries.length > 0) {
             deferredResolversComplete = enqueueFromEntries(
               entries,
+              deferredScriptKeys,
               config.nonce,
               script => {
                 if (!coordinator) {

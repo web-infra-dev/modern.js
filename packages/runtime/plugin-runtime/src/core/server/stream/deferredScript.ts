@@ -62,6 +62,7 @@ export function buildDeferredDataScript(
 
 export function enqueueFromEntries(
   entries: Array<[string, unknown]>,
+  deferredScriptKeys: Map<string, string[]> | undefined,
   nonce: string | undefined,
   emit: (script: string) => void,
 ): Promise<void> {
@@ -69,8 +70,10 @@ export function enqueueFromEntries(
 
   entries.forEach(([routeId, value]) => {
     if (!isDeferredDataLike(value)) return;
-    const pendingKeys = new Set<string>(value.pendingKeys ?? []);
-    pendingKeys.forEach((key: string) => {
+    const serializedKeys = deferredScriptKeys
+      ? (deferredScriptKeys.get(routeId) ?? [])
+      : (value.pendingKeys ?? []);
+    serializedKeys.forEach((key: string) => {
       const tracked = value.data?.[key];
       if (isPromiseLike(tracked)) {
         pendingResolvers.push(

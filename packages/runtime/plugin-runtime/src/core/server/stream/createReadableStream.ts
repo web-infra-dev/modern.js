@@ -235,6 +235,7 @@ export const createReadableStreamFromElement: CreateReadableStreamFromElement =
               try {
                 const storageContext = storage.useContext?.();
                 const activeDeferreds = storageContext?.activeDeferreds;
+                const deferredScriptKeys = storageContext?.deferredScriptKeys;
 
                 /**
                  * activeDeferreds is injected into storageContext by @modern-js/runtime.
@@ -261,6 +262,7 @@ export const createReadableStreamFromElement: CreateReadableStreamFromElement =
 
                   deferredResolversComplete = enqueueFromEntries(
                     entries,
+                    deferredScriptKeys,
                     config.nonce,
                     enqueueScript,
                   );
