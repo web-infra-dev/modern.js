@@ -166,6 +166,26 @@ describe('Streaming SSR', () => {
     await deferredData(page, appPort);
   });
 
+  test.each([
+    [
+      'crawler user agent',
+      { 'user-agent': 'Mozilla/5.0 HeadlessChrome/152.0.0.0' },
+    ],
+    ['forced all ready', { 'x-should-stream-all': 'true' }],
+  ])('resolves deferred data for %s', async (_name, headers) => {
+    const response = await fetch(`http://localhost:${appPort}/user/1`, {
+      headers,
+    });
+    const html = await response.text();
+    const resolverScripts =
+      html.match(/<script[^>]*data-fn-name="r"[^>]*>/g) ?? [];
+
+    expect(response.status).toBe(200);
+    expect(html).toContain('data-fn-name="mergeLoaderData"');
+    expect(resolverScripts).toHaveLength(1);
+    expect(resolverScripts[0]).toContain('&quot;data&quot;');
+  });
+
   test(`deferred data in client navigation`, async () => {
     await deferredDataInNavigation(page, appPort);
   });
