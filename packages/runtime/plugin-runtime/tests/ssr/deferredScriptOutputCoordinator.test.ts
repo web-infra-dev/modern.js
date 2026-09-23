@@ -165,6 +165,22 @@ describe('DeferredScriptOutputCoordinator', () => {
     );
   });
 
+  test('releases resolvers after a styled boundary uses the shorter $RR instruction', () => {
+    const { coordinator, output } = createCoordinator();
+    coordinator.markShellFinished();
+
+    const segment = '<div hidden id="modern-js-S:1"><div>styled</div></div>';
+    const instruction =
+      '<script>$RR("modern-js-B:1","modern-js-S:1",[["/style.css","default"]])</script>';
+
+    coordinator.writeReact(segment);
+    coordinator.writeReact(instruction);
+    coordinator.enqueueResolver(resolver('styled'));
+    coordinator.finish();
+
+    expect(output()).toBe(`${segment}${instruction}${resolver('styled')}`);
+  });
+
   test.each([
     [
       'SVG',

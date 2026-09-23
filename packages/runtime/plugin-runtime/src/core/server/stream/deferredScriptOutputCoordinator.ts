@@ -519,7 +519,7 @@ export class DeferredScriptOutputCoordinator {
     if (this.continuationProtocolScript) {
       this.continuationProtocolTail =
         `${this.continuationProtocolTail}${char}`.slice(-4);
-      if (/\$(?:RC|RS|RX|RB)\b/.test(this.continuationProtocolTail)) {
+      if (/\$(?:RC|RS|RX|RB|RR)\b/.test(this.continuationProtocolTail)) {
         this.hasContinuationProtocolCall = true;
       }
     }
