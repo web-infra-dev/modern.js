@@ -43,12 +43,11 @@ import { createRouteObjectsFromConfig, renderRoutes, urlJoin } from './utils';
 function createRemixRequest(request: Request) {
   const method = 'GET';
   const { headers } = request;
-  const controller = new AbortController();
 
   return new Request(request.url, {
     method,
     headers,
-    signal: controller.signal,
+    signal: request.signal,
   });
 }
 
@@ -121,7 +120,9 @@ export const routerPlugin = (
                 renderRoutes({
                   routesConfig: finalRouteConfig,
                   ssrMode,
+                  application: Boolean(context._application),
                   props: {
+                    ...context._application?.props,
                     nonce,
                   },
                 }),
@@ -230,7 +231,7 @@ export const routerPlugin = (
                     hydrate={false}
                   />
 
-                  {mode === 'stream' && (
+                  {mode === 'stream' && !context._application && (
                     // ROUTER_DATA will inject in `packages/runtime/plugin-runtime/src/core/server/string/ssrData.ts` in string ssr
                     // So we can inject it only when streaming ssr
                     <DeferredDataScripts
