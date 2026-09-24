@@ -22,3 +22,4 @@ packages:
  - 'examples/*'
  - 'examples/deploy/*'
  - 'examples/module-federation/*/*'
+ - '!examples/module-federation/bridge-ssr/**'

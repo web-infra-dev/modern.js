@@ -22,7 +22,14 @@ export default {
     withTestPreset({
       name: 'plugin-runtime-node',
       testEnvironment: 'node',
-      exclude: ['tests/router/prefetch.test.tsx'],
+      output: {
+        bundleDependencies: ['@modern-js/render', 'react-server-dom-rspack'],
+      },
+      exclude: [
+        'tests/router/prefetch.test.tsx',
+        'tests/application/browser.test.tsx',
+        'tests/ssr/browserHydration.test.tsx',
+      ],
       extends: commonConfig,
       plugins: [
         {
@@ -46,7 +53,11 @@ export default {
     withTestPreset({
       name: 'plugin-runtime-client',
       testEnvironment: 'happy-dom',
-      include: ['tests/router/prefetch.test.tsx'],
+      include: [
+        'tests/router/prefetch.test.tsx',
+        'tests/application/browser.test.tsx',
+        'tests/ssr/browserHydration.test.tsx',
+      ],
       extends: commonConfig,
       plugins: [
         {

@@ -3,6 +3,7 @@ import type { StaticHandlerContext } from '@modern-js/runtime-utils/router';
 import type { BaseSSRServerContext } from '@modern-js/types';
 import { ROUTE_MANIFEST } from '@modern-js/utils/universal/constants';
 import { createContext, useContext } from 'react';
+import type { ApplicationRuntime } from '../../application/types';
 import type { RouteManifest } from '../../router/runtime/types';
 import type { RequestContext, SSRServerContext } from '../types';
 
@@ -26,6 +27,7 @@ export interface TInternalRuntimeContext extends TRuntimeContext {
   routerContext?: StaticHandlerContext;
   unstable_getBlockNavState?: () => boolean;
   ssrContext?: SSRServerContext;
+  _application?: ApplicationRuntime;
   _internalContext?: any;
   _internalRouterBaseName?: any;
 }
