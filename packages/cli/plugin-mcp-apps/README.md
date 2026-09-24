@@ -13,53 +13,44 @@ export default defineConfig({
 });
 ```
 
-The plugin compiles MCP definitions and handlers and binds artifacts during BFF
-initialization. HTTP routing belongs to BFF; add the following API entry and install `@modern-js/plugin-bff` and
-`@modern-js/mcp-apps` in dependencies.
+The BFF route statically imports the definition and its handlers. BFF owns their
+TypeScript compilation, module format, dependency tracing and hot reload. This
+plugin registers UI entries and binds UI resources during BFF initialization.
 
 ```ts
 // api/lambda/index.ts
 import { mcpApps } from '@modern-js/plugin-mcp-apps/bff';
+import definition from '../mcp_apps';
 
-export const { POST, GET, DELETE, PUT, PATCH, OPTIONS } = mcpApps();
+export const { POST, GET, DELETE, PUT, PATCH, OPTIONS } = mcpApps(definition);
 ```
 
 For an existing BFF application, keep its prefix and put the route in
 `api/lambda/mcp.ts` (for example `/api/mcp`). Do not register BFF twice.
-Pass `serverInfo` or `onError` to `mcpApps()`. The integration binds the artifact
-using the BFF runtime context; route depth, custom output directories and CJS/ESM
+Pass `serverInfo` or `onError` as the second argument of `mcpApps(definition, options)`. The integration binds the artifact
+using the BFF runtime context; custom output directories and CJS/ESM
 API modules do not require application-level path resolution. Export the returned
 functions directly so BFF can recognize them; apply authentication in BFF middleware.
 For manually hosted artifacts, the lower-level `@modern-js/mcp-apps/bff` adapter
-remains available with explicit root/entry options.
+accepts a loaded definition directly.
 
 ## Options
 
 | Option | Default | Meaning |
 | --- | --- | --- |
-| `config` | `mcp_apps.ts` | Trusted definition path, relative to project root |
-| `tsconfig` | esbuild's nearest tsconfig | Config/handler compilation settings |
-| `alias` | None | Explicit static server import aliases; tsconfig paths also work |
+| `config` | `api/mcp_apps.ts` | Trusted definition path, relative to project root |
 
-`modern dev` bundles the definition and local handlers into the framework internal MCP directory (normally `node_modules/.modern-js/mcp-apps/`). Config, handler and imported source changes trigger debounced
-recompilation. A new module generation is published atomically after successful
-compilation; invalid changes log an error and retain the last working generation.
-Development uses a development React renderer; production uses a production
-renderer, so dev-compiled remote JSX runs against a matching React dispatcher.
-The watcher is disposed on CLI exit/restart. Artifact revisions cancel obsolete
-requests when a new generation is loaded. BFF owns API runtime reloads.
+`api/mcp_apps.ts` imports handlers such as `greet` from `./mcp-tools` and assigns
+`handler: greet`. The route imports that definition and calls `mcpApps(definition)`.
+`modern dev` uses the ordinary BFF module watcher; `modern build` emits
+`dist/api/mcp_apps.js`, `dist/api/mcp-tools.js` and `dist/api/lambda/index.js`.
+No MCP-specific compiler, handler path mapping or generated configuration wrapper
+is used. Aliases and TS settings belong to the normal Modern.js / BFF configuration.
 
-`modern build` emits `dist/mcp-apps/`, including compiled handler dependencies,
-the definition entry, and packaged resource HTML. `modern serve` uses those files,
-not source modules. `modern deploy` includes the same artifacts in `.output/`.
-Both CJS and ESM application configurations are supported by the package exports;
-the generated MCP server modules are ESM on Node 20+.
-
-Configuration is evaluated at runtime so remote URLs can depend on environment
-variables. Local handler module references must be unchanged between build and
-runtime; changing that set requires rebuilding. The compiler bundles imported
-local code/JSON; separately read files, native addons and other runtime assets
-still need application deployment handling.
+UI HTML is emitted by the application builder and copied to `dist/mcp-apps/ui/`.
+JS/CSS remain ordinary application assets. `modern deploy` packages both the BFF
+output and the UI resources. Keep configuration modules free of startup-only
+side effects because build-time UI discovery reads the definition as well.
 
 ## UI and server separation
 
@@ -97,8 +88,10 @@ pnpm --filter tests test:framework integration/mcp-apps/tests/index.test.ts --re
 
 ## Local views and Hono
 
-The default template uses local `view.module` components, compiled into standalone
-HTML in `dist/mcp-apps/`. MF is selected explicitly with `--template mcp-apps --mf`.
+The default template registers local `view.module` components as normal Modern.js
+auto-mounted entries. It inherits the application builder, runtime config, aliases,
+CSS processing, preEntry and environment definitions. Emitted HTML is copied to
+`dist/mcp-apps/ui/`; JS/CSS and chunks keep their standard application output paths. MF is selected explicitly with `--template mcp-apps --mf`.
 The BFF runtime uses `@modern-js/mcp-apps/bff` internally; standalone Hono uses
 `@modern-js/mcp-apps/hono`. Both share the artifact loader and SDK transport. UI source changes participate in MCP development recompilation.
 
@@ -108,3 +101,13 @@ integration, but `mcpAppsPlugin()` no longer installs it or registers HTTP route
 Include `ts-node` (`^10.9.2`) in devDependencies for BFF TypeScript loading and
 API module hot reload on Node 20+. For ESM projects, use `"type": "module"` and
 TypeScript `module: "esnext"`, `moduleResolution: "bundler"` together.
+
+Local UI source changes use Rspack. Server definitions and handlers use BFF hot
+reload. Restart the development process when adding/removing UI entries or
+changing their module paths so the application entry graph is regenerated. Existing filesystem route layouts
+and loaders are not implicitly attached to a component entry.
+
+MCP resource responses set an asset base and include its origin in resource CSP.
+The default is the public request origin (including forwarded HTTPS); use the
+application dev/output assetPrefix for a separate asset host. Deploy static assets
+with the server or to that host. The Node deploy output includes both.

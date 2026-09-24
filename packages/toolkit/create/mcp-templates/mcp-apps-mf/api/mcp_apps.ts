@@ -1,4 +1,5 @@
 import { defineMcpApps } from '@modern-js/mcp-apps/config';
+import { addNumbers, greet } from './mcp-tools';
 
 const origin = (
   process.env.MCP_UI_ORIGIN ?? `http://localhost:${process.env.PORT ?? 8080}`
@@ -23,8 +24,22 @@ export default defineMcpApps({
         required: ['name'],
       },
       annotations: { readOnlyHint: true },
-      handler: { module: './mcp/tools', exportName: 'greet' },
+      handler: greet,
       view: { module: './Greeting' },
+    },
+    {
+      name: 'add_numbers',
+      description: 'Add two numbers and show the result.',
+      inputSchema: {
+        type: 'object',
+        properties: { a: { type: 'number' }, b: { type: 'number' } },
+        required: ['a', 'b'],
+        additionalProperties: false,
+      },
+      annotations: { readOnlyHint: true },
+      handler: addNumbers,
+      remote: 'mcp_ui',
+      view: { module: './Sum' },
     },
   ],
 });

@@ -1,7 +1,7 @@
 import { useApp } from '@modelcontextprotocol/ext-apps/react';
 import type { UseAppOptions } from '@modelcontextprotocol/ext-apps/react';
 import type { CallToolResult } from '@modelcontextprotocol/sdk/types.js';
-import { useState } from 'react';
+import { type ComponentType, createElement, useState } from 'react';
 export type { App } from '@modelcontextprotocol/ext-apps';
 
 export {
@@ -31,4 +31,27 @@ export function useMcpApp(options: Omit<UseAppOptions, 'onAppCreated'>) {
     },
   });
   return { ...connection, input, result, cancelled };
+}
+
+/** Adapt a normal Modern.js entry component to the host's MCP lifecycle. */
+export function createMcpView<P extends object>(
+  View: ComponentType<P>,
+  appInfo: { name: string; version: string },
+) {
+  return function McpView() {
+    const { app, isConnected, error, input, result, cancelled } = useMcpApp({
+      appInfo,
+      capabilities: {},
+    });
+    if (error) return createElement('p', { role: 'alert' }, error.message);
+    if (cancelled) return createElement('p', null, 'Tool cancelled');
+    if (!app || !isConnected) return createElement('p', null, 'Connecting…');
+    const output = result?.structuredContent;
+    return createElement(View, {
+      ...input,
+      ...(output?.args as object),
+      ...(output?.viewProps as object),
+      mcpApp: app,
+    } as P);
+  };
 }

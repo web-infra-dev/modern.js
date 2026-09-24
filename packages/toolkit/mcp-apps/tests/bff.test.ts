@@ -1,30 +1,19 @@
-import { mkdtemp, rm, writeFile } from 'node:fs/promises';
-import os from 'node:os';
-import path from 'node:path';
-import { afterAll, beforeAll, describe, expect, it } from '@rstest/core';
+import { describe, expect, it } from '@rstest/core';
 import { createMcpBffHandler } from '../src/bff';
-import { compileMcpApps } from '../src/build';
 
-let root: string;
-let handle: ReturnType<typeof createMcpBffHandler>;
-beforeAll(async () => {
-  root = await mkdtemp(path.join(os.tmpdir(), 'modern-mcp-bff-'));
-  await writeFile(
-    path.join(root, 'mcp_apps.ts'),
-    `export default { remotes: [], tools: [{ name: 'who', handler: { module: './tool' } }] };`,
-  );
-  await writeFile(
-    path.join(root, 'tool.ts'),
-    `export default (_, ctx) => ({ content: [], structuredContent: { user: ctx.context.user } });`,
-  );
-  await compileMcpApps({
-    configPath: path.join(root, 'mcp_apps.ts'),
-    outDir: path.join(root, 'mcp-apps'),
-  });
-  handle = createMcpBffHandler({ root, development: false });
-});
-afterAll(async () => {
-  await rm(root, { recursive: true, force: true });
+const handle = createMcpBffHandler({
+  definition: {
+    remotes: [],
+    tools: [
+      {
+        name: 'who',
+        handler: (_, ctx) => ({
+          content: [],
+          structuredContent: { user: (ctx.context as { user: string }).user },
+        }),
+      },
+    ],
+  },
 });
 
 async function call(

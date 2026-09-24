@@ -1,7 +1,6 @@
-import { mkdtemp, rm, writeFile } from 'node:fs/promises';
+import { mkdir, mkdtemp, rm, writeFile } from 'node:fs/promises';
 import os from 'node:os';
 import path from 'node:path';
-import { compileMcpApps } from '@modern-js/mcp-apps/build';
 import { createServerBase } from '@modern-js/server-core';
 import { createNodeServer } from '@modern-js/server-core/node';
 import { afterEach, describe, expect, it, rstest } from '@rstest/core';
@@ -17,20 +16,13 @@ afterEach(async () => {
 async function fixture() {
   const dir = await mkdtemp(path.join(os.tmpdir(), 'modern-mcp-plugin-'));
   dirs.push(dir);
+  await mkdir(path.join(dir, 'dist/mcp-apps'), { recursive: true });
+  const entry = path.join(dir, 'dist/mcp-apps/mcp_apps.mjs');
   await writeFile(
-    path.join(dir, 'mcp_apps.ts'),
-    `export default { remotes: [], tools: [{ name: 'who', handler: { module: './handler' } }] };`,
+    entry,
+    `export default { remotes: [], tools: [{ name: 'who', handler: (_, ctx) => ({ content: [], structuredContent: { user: ctx.context.get('user'), version: 'first' } }) }] };`,
   );
-  await writeFile(
-    path.join(dir, 'handler.ts'),
-    `export default (_, ctx) => ({ content: [], structuredContent: { user: ctx.context.get('user'), version: 'first' } });`,
-  );
-  const options = {
-    configPath: path.join(dir, 'mcp_apps.ts'),
-    outDir: path.join(dir, 'dist/mcp-apps'),
-  };
-  const result = await compileMcpApps(options);
-  return { dir, options, entry: result.entry };
+  return { dir, entry };
 }
 function call(user = 'Ada') {
   return new Request('http://localhost/mcp', {
@@ -145,31 +137,5 @@ describe('Modern.js server integration', () => {
     expect(
       (await server.handle(new Request('http://localhost/mcp'))).status,
     ).toBe(405);
-  });
-
-  it('refreshes only after a successful compilation and keeps last-good behavior on failure', async () => {
-    const f = await fixture();
-    const h = createArtifactHandler(f.entry, { development: true });
-    const context = new Map([['user', 'Ada']]);
-    expect(
-      (await (await h.handle(call(), context)).json()).result.structuredContent
-        .version,
-    ).toBe('first');
-    await writeFile(path.join(f.dir, 'handler.ts'), 'invalid TS !!!');
-    await expect(compileMcpApps(f.options)).rejects.toThrow();
-    expect(
-      (await (await h.handle(call(), context)).json()).result.structuredContent
-        .version,
-    ).toBe('first');
-    await writeFile(
-      path.join(f.dir, 'handler.ts'),
-      `export default (_, ctx) => ({ content: [], structuredContent: { user: ctx.context.get('user'), version: 'second' } });`,
-    );
-    await compileMcpApps(f.options);
-    expect(
-      (await (await h.handle(call(), context)).json()).result.structuredContent
-        .version,
-    ).toBe('second');
-    h.reset();
   });
 });

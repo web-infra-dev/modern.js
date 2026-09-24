@@ -5,6 +5,7 @@ import { getGlobalInternalRuntimeContext } from '../context';
 import { type TRuntimeContext, getInitialContext } from '../context/runtime';
 import { wrapRuntimeContextProvider } from '../react/wrapper';
 import type { SSRContainer } from '../types';
+import { readDocumentCookie } from './cookie';
 import { hydrateRoot, hydrateWithReact } from './hydrate';
 
 export { hydrateWithReact };
@@ -24,6 +25,7 @@ const getQuery = () =>
 
 function getSSRData(): SSRContainer {
   const ssrData = window._SSR_DATA;
+  const cookie = readDocumentCookie();
 
   const ssrRequest = ssrData?.context?.request;
 
@@ -40,8 +42,8 @@ function getSSRData(): SSRContainer {
         host: ssrRequest?.host || location.host,
         pathname: ssrRequest?.pathname || location.pathname,
         headers: ssrRequest?.headers || {},
-        cookieMap: cookieTool.parse(document.cookie || '') || {},
-        cookie: document.cookie || '',
+        cookieMap: cookieTool.parse(cookie) || {},
+        cookie,
         userAgent: ssrRequest?.headers?.['user-agent'] || navigator.userAgent,
         referer: document.referrer,
         query: {

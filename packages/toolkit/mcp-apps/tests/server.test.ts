@@ -350,29 +350,29 @@ describe('configuration validation and loading', () => {
     expect(() => endpoint(collision)).toThrow('collision');
   });
 
-  it('loads mcp_apps.ts plus a relative TS handler and named exports', async () => {
+  it('loads application-compiled modules with normal static imports', async () => {
     const dir = await tempDir();
     await writeFile(
-      path.join(dir, 'mcp_apps.ts'),
+      path.join(dir, 'mcp_apps.mjs'),
       `export default ${JSON.stringify(definition())}`,
     );
     await writeFile(
-      path.join(dir, 'helper.ts'),
-      'export const message: string = "From TS";',
+      path.join(dir, 'helper.mjs'),
+      'export const message = "From JS";',
     );
     await writeFile(
-      path.join(dir, 'tools.ts'),
-      `import { message } from './helper'; export function greet() { return { structuredContent: { greeting: message }, viewProps: { message } }; }`,
+      path.join(dir, 'tools.mjs'),
+      `import { message } from './helper.mjs'; export function greet() { return { structuredContent: { greeting: message }, viewProps: { message } }; }`,
     );
-    const configPath = path.join(dir, 'mcp_apps.ts');
+    const configPath = path.join(dir, 'mcp_apps.mjs');
     expect((await loadMcpAppsConfig(configPath)).tools[0].handler?.module).toBe(
       './tools',
     );
     const result = (
       await (await createMcpAppsHandler({ configPath })(call())).json()
     ).result;
-    expect(result.structuredContent.greeting).toBe('From TS');
-    expect(result.structuredContent.viewProps).toEqual({ message: 'From TS' });
+    expect(result.structuredContent.greeting).toBe('From JS');
+    expect(result.structuredContent.viewProps).toEqual({ message: 'From JS' });
   });
 
   it('loads compiled config/handler without TS source and retries failed initialization', async () => {

@@ -5,7 +5,10 @@ export default createModuleFederationConfig({
   manifest: { filePath: 'static' },
   filename: 'static/remoteEntry.js',
   dts: false,
-  exposes: { './Greeting': './src/components/Greeting.tsx' },
+  exposes: {
+    './Greeting': './src/components/Greeting.tsx',
+    './Sum': './src/components/Sum.tsx',
+  },
   shared: {
     react: { singleton: true },
     'react-dom': { singleton: true },

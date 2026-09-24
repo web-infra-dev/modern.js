@@ -1,4 +1,5 @@
 import { createArtifactHandler } from './artifact';
+import { type McpAppsDefinition, createMcpHandler } from './server';
 
 /** Structural Hono context: no runtime dependency on Hono or a Node listener. */
 interface HonoContext {
@@ -13,6 +14,11 @@ export type McpAppsHonoOptions = {
 } & (
   | { handler: Handler }
   | {
+      definition: McpAppsDefinition;
+      serverInfo?: { name: string; version: string };
+      configPath?: string;
+    }
+  | {
       configPath: string;
       development?: boolean;
       serverInfo?: { name: string; version: string };
@@ -21,13 +27,33 @@ export type McpAppsHonoOptions = {
 
 /** Mount after authentication at app.all('/mcp', mcpApps(...)). Does not listen. */
 export function mcpApps(options: McpAppsHonoOptions) {
-  const handler =
-    'handler' in options
-      ? options.handler
-      : createArtifactHandler(options.configPath, {
-          development: options.development ?? false,
+  const contexts = new WeakMap<Request, unknown>();
+  const handleDefinition =
+    'definition' in options
+      ? createMcpHandler(options.definition, {
           serverInfo: options.serverInfo,
-        });
+          configPath: options.configPath,
+          createContext: request => contexts.get(request),
+        })
+      : undefined;
+  const handler =
+    'definition' in options
+      ? {
+          async handle(request: Request, context?: unknown) {
+            contexts.set(request, context);
+            try {
+              return await handleDefinition!(request);
+            } finally {
+              contexts.delete(request);
+            }
+          },
+        }
+      : 'handler' in options
+        ? options.handler
+        : createArtifactHandler(options.configPath, {
+            development: options.development ?? false,
+            serverInfo: options.serverInfo,
+          });
   return async (c: HonoContext, next: () => Promise<void>) => {
     if (options.endpoint && c.req.path !== options.endpoint) return next();
     try {

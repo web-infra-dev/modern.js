@@ -1,12 +1,10 @@
-import path from 'node:path';
-import { createArtifactHandler } from './artifact';
+import { type McpAppsDefinition, createMcpHandler } from './server';
 
 export interface McpBffOptions {
-  /** Project root in development; compiled output root in production. */
-  root: string;
+  definition: McpAppsDefinition;
   development?: boolean;
-  /** Override the compiled artifact entry, relative to root or absolute. */
-  entry?: string;
+  /** Resource paths are resolved against this application-provided location. */
+  configPath?: string;
   serverInfo?: { name: string; version: string };
   onError?: (error: unknown) => void;
 }
@@ -17,18 +15,14 @@ interface BffContext {
 
 /** Modern.js BFF has already parsed the body before invoking the API function. */
 export function createMcpBffHandler(options: McpBffOptions) {
-  const development =
-    options.development ?? process.env.NODE_ENV === 'development';
-  const handler = createArtifactHandler(
-    path.resolve(
-      options.root,
-      options.entry ??
-        (development
-          ? 'node_modules/.cache/modern-mcp-apps/mcp_apps.mjs'
-          : 'mcp-apps/mcp_apps.mjs'),
-    ),
-    { development, serverInfo: options.serverInfo },
-  );
+  const contexts = new WeakMap<Request, BffContext>();
+  const handler = createMcpHandler(options.definition, {
+    configPath: options.configPath,
+    development: options.development,
+    serverInfo: options.serverInfo,
+    onError: options.onError,
+    createContext: request => contexts.get(request),
+  });
   return async (input: { data?: unknown }, context: BffContext) => {
     const raw = context.req.raw;
     // Match the stateless transport even for methods with no request body.
@@ -46,7 +40,12 @@ export function createMcpBffHandler(options: McpBffOptions) {
         body: input.data === undefined ? '' : JSON.stringify(input.data),
         signal: raw.signal,
       });
-      return await handler.handle(request, context);
+      contexts.set(request, context);
+      try {
+        return await handler(request);
+      } finally {
+        contexts.delete(request);
+      }
     } catch (error) {
       options.onError?.(error);
       return Response.json(

@@ -1,4 +1,7 @@
+import path from 'node:path';
 import { createMcpBffHandler } from '@modern-js/mcp-apps/bff';
+import type { McpAppsDefinition } from '@modern-js/mcp-apps/config';
+import { bindUiResources } from '@modern-js/mcp-apps/server';
 import { type ServerPlugin, useHonoContext } from '@modern-js/server-core';
 import type { McpEndpointOptions } from './bff';
 import { MCP_BFF_ENDPOINT, type McpAppsBffRuntimeOptions } from './shared';
@@ -26,16 +29,19 @@ export default function mcpBffRuntime(
         const infos = (ctx.apiHandlerInfos ?? []) as { handler: ApiHandler }[];
         const apiHandlerInfos = infos.map(info => {
           const endpointOptions = Reflect.get(info.handler, MCP_BFF_ENDPOINT) as
-            | McpEndpointOptions
+            | (McpEndpointOptions & { definition: McpAppsDefinition })
             | undefined;
           if (!endpointOptions) return info;
           let handler = handlers.get(info.handler);
           if (!handler) {
             const handle = createMcpBffHandler({
               ...endpointOptions,
-              root,
+              configPath: path.resolve(root, options.config),
               development: options.development,
-              entry: options.development ? options.devEntry : options.entry,
+              definition: bindUiResources(endpointOptions.definition, {
+                directory: path.resolve(root, options.resourceDirectory),
+                assetBase: options.assetBase,
+              }),
             });
             handler = input => handle(input, useHonoContext());
             handlers.set(info.handler, handler);

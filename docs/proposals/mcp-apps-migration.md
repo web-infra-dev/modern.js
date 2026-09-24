@@ -8,7 +8,7 @@
 
 ## 1. 已确认目标
 
-1. `mcp_apps.ts` 是应用定义入口，沿用 `remotes + tools + handler/view`。
+1. `api/mcp_apps.ts` 是应用定义入口，沿用 `remotes + tools + handler/view`。
 2. MCP Server/BFF 与 UI 可以分仓、分别构建部署，服务端不要求 UI 源码在场。
 3. 一体化是上层便利封装，不是服务端的运行前提。
 4. 不迁入 Fancy DevTools、Platform、隧道或内部部署管理功能。
@@ -22,7 +22,7 @@
 
 ```text
 服务端项目                         独立 UI 项目
-mcp_apps.ts                        MF/Vmok exposes
+api/mcp_apps.ts                        MF/Vmok exposes
   remotes                          ./Greeting → React 组件
   tools                              ↓ 构建、发布
     handler → ./tools.ts           mf-manifest.json / vmok-manifest.json
@@ -32,11 +32,11 @@ mcp_apps.ts                        MF/Vmok exposes
 MCP Server → Tool 结果 + ui://资源 → 宿主 iframe 中的 Fancy 远程渲染器
 ```
 
-`mcp_apps.ts` 只属于服务端定义，不将 handler 路径或实现导入前端构建。
+`api/mcp_apps.ts` 只属于服务端定义，不将 handler 路径或实现导入前端构建。
 服务端通过 `remote.baseUrl/browserEntry` 引用已发布的组件；浏览器在宿主
 iframe 中加载 manifest。服务端不下载 UI 源码，也不要求复制 manifest 文件。
 
-最小定义见 [示例 mcp_apps.ts](../../examples/mcp-apps-modern/mcp_apps.ts)。
+最小定义见 [示例 api/mcp_apps.ts](../../examples/mcp-apps-modern/api/mcp_apps.ts)。
 
 ## 3. 复用清单与边界
 
@@ -86,7 +86,7 @@ iframe 中加载 manifest。服务端不下载 UI 源码，也不要求复制 ma
 
 ### 服务端
 
-编译并部署启动文件、`mcp_apps.ts` 和它引用的 handler，保留相对路径。
+编译并部署启动文件、`api/mcp_apps.ts` 和它引用的 handler，保留相对路径。
 示例构建生成 `index.mjs`、`mcp_apps.mjs`、`tools.mjs`。
 
 - `createMcpAppsHandler({ configPath })` 加载定义。
@@ -98,7 +98,7 @@ iframe 中加载 manifest。服务端不下载 UI 源码，也不要求复制 ma
 ### UI
 
 使用已有 MF/Vmok 工具构建 exposes，发布其原有 manifest、remote entry、chunks。
-`mcp_apps.ts` 指向不可变版本 URL，CSP 配置实际脚本、样式和网络访问域名。
+`api/mcp_apps.ts` 指向不可变版本 URL，CSP 配置实际脚本、样式和网络访问域名。
 UI 与服务端可以独立发布；切换远程版本是修改服务端配置，不是复制 UI 工程。
 
 ## 6. 兼容说明
@@ -124,16 +124,14 @@ UI 与服务端可以独立发布；切换远程版本是修改服务端配置�
 
 采用 CLI 编译插件 + BFF API 路由：
 
-- CLI 插件通过核心包 `/build` 的 compileMcpApps 编译定义和 handler，将源码依赖一并打包；tsconfig paths 和显式 alias 可用于服务端编译。
-- 开发监听由 CLI 生命周期管理，不重复触发框架完整重启；成功编译后原子切换生成入口，错误时保留上一版。
-- 开发/生产各使用匹配的 React 渲染器，避免生产 React dispatcher 与开发 JSX 混用。
-- `api/lambda/index.ts` 通过 `mcpApps()` 声明 BFF 路由；初始化钩子绑定产物，不注入 Web Server 中间件。
-- MCP 工具默认放在 `mcp/tools.ts`，避免与 BFF 的 api/shared 编译重复；无关新文件不触发 MCP 重编译。
-- 前端沿用现有 MF 构建集成，不再另定义 UI manifest 格式。
-- 接入服务端重载、transport 清理、配置缓存失效与进程退出生命周期。
-- BFF adapter 读取相对产物路径，处理 BFF 已消费的请求体，直接返回 SDK Response。
-- 适配 Modern.js 请求代理的 body getter，避免 Request 克隆绕过底层流启动。
-- UI 模板通过 server/modern.server.ts 为 /static/* 的公开 MF 资源提供 CORS，不扩展到 /mcp 工具路由。
+- 配置在 `api/mcp_apps.ts`，工具函数通过普通 import 引入并直接赋给 `handler`。
+- BFF 路由静态导入 definition 并调用 `mcpApps(definition)`，由 BFF 的 TypeScript 编译、监听、重载和部署依赖追踪统一管理。
+- 已删除独立 MCP 编译器、生成配置包装程序、handler 文件名映射和 MCP 专用源码 watcher。
+- UI 插件注册标准 Modern.js 自动挂载入口，执行逻辑在普通源码中的 `createMcpView`；生成入口仅包含导入和调用。
+- `bindUiResources` 是普通 TypeScript 资源关联函数，不生成 JavaScript、不重写 handler。
+- UI HTML 保留在 `dist/mcp-apps/ui/`，服务端产物在 `dist/api/`，JS/CSS 使用标准应用产物路径。
+- MF 通用渲染器作为包资源由标准部署依赖处理保留；BFF 不新增 Web Server MCP 路由。
+
 
 源码依据：
 
@@ -224,7 +222,7 @@ build 和 serve。
 - UI 模板生产 /static/* CORS 断言通过；MCP 接口不使用该公共资源 CORS 中间件。
 
 部署产物中的 mcp-apps 目录是服务端编译产物，不是新增的 UI 配置格式；用户仍然
-只编写 mcp_apps.ts，UI 仍通过 MF/Vmok 原有 manifest 关联。
+只编写 api/mcp_apps.ts，UI 仍通过 MF/Vmok 原有 manifest 关联。
 
 ## 11. HTTPS / ngrok 宿主验证
 
@@ -244,6 +242,7 @@ ngrok 免费端点返回的提示页 HTML。因此当前免费域名的真实卡
 
 `--template mcp-apps` 默认创建标准 Modern.js 应用和本地 React 卡片；
 `--mf` 才添加 MF 配置与依赖。独立 Rsbuild UI 示例已合并回 Modern.js 示例。
-本地 view 编译为自包含 HTML，支持随服务端产物迁移或通过 `view.html` 引用
-独立 HTTPS HTML。Hono 适配器位于 `@modern-js/mcp-apps/hono`，Modern.js 插件
+本地 view 注册为标准 Modern.js 自动挂载入口，HTML 与 JS/CSS 分离输出；
+资源 HTML 副本放在 `dist/mcp-apps/ui/`，静态资源需与服务一同部署或设置 CDN。
+也支持通过 `view.html` 引用独立 HTTPS HTML。Hono 适配器位于 `@modern-js/mcp-apps/hono`，Modern.js 插件
 复用它；独立部署通过测试 fixture 验证，接入方式在文档中说明，不再维护单独的 Server 示例项目。

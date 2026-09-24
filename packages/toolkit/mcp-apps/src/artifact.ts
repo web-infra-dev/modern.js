@@ -1,7 +1,6 @@
 import fs from 'node:fs/promises';
-import path from 'node:path';
 import { createMcpHandler, loadMcpAppsConfig } from './server';
-/** Last-good compiled artifact is switched atomically between HTTP requests. */
+/** Optional file adapter for application-built configs; Modern.js BFF imports definitions directly. */
 export function createArtifactHandler(
   entry: string,
   options: {
@@ -24,16 +23,10 @@ export function createArtifactHandler(
       : 'production';
     if (active?.revision === revision) return;
     const definition = await loadMcpAppsConfig(entry);
-    const resourceHtml = definition.remotes.length
-      ? await fs.readFile(
-          path.join(path.dirname(entry), 'runtime.html'),
-          'utf8',
-        )
-      : undefined;
     const handle = createMcpHandler(definition, {
       configPath: entry,
+      development: options.development,
       serverInfo: options.serverInfo,
-      resourceHtml,
       createContext: request => contexts.get(request),
     });
     active?.abort.abort();

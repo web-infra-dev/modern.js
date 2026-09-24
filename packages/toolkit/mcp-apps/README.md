@@ -3,8 +3,8 @@
 场景化接入与调试见 [MCP Apps 使用指南](../../../docs/guides/mcp-apps-usage.md)，包含独立 Hono、可选 MF 和 ngrok。
 
 Build and deploy MCP servers and remote React views independently using
-`mcp_apps.ts`. The package provides configuration and handler loading,
-result/view binding, local React HTML compilation, a Hono adapter, and optional MF/Vmok rendering.
+`api/mcp_apps.ts`. The package provides configuration and handler loading,
+result/view binding, application-built HTML resources, a Hono adapter, and optional MF/Vmok rendering.
 
 ## Default local view and Hono
 
@@ -13,24 +13,28 @@ A standard Modern.js app can declare a local card without MF:
 ```ts
 export default defineMcpApps({
   remotes: [],
-  tools: [{ name: 'greet', handler: { module: './tools', exportName: 'greet' },
+  tools: [{ name: 'greet', handler: greet,
     view: { module: './src/components/Greeting.tsx' } }],
 });
 ```
 
-Compile it with `compileMcpApps({ configPath, outDir })` from the `/build` entry,
-then mount the generated definition in any Hono application:
+Run `modern build` with `mcpAppsPlugin()`. Local views become standard auto-mounted
+Modern.js entries. The application builder emits their HTML, JS, CSS and assets;
+the plugin copies the HTML into `dist/mcp-apps/ui/`. Mount the compiled definition
+in a Hono application if deploying the server independently:
 
 ```ts
 import { Hono } from 'hono';
 import { mcpApps } from '@modern-js/mcp-apps/hono';
 const app = new Hono();
-app.all('/mcp', mcpApps({ configPath: './dist/mcp-apps/mcp_apps.mjs' }));
+// definition is imported from the application's compiled module.
+app.all('/mcp', mcpApps({ definition }));
 ```
 
 For a standalone Node server, install `hono`, `@hono/node-server` and this package,
-copy the application's entire `dist/mcp-apps/` directory (plus external handler
-dependencies), then add a listener to the code above:
+copy the application's `dist/api/` and `dist/mcp-apps/ui/` directories (plus external handler
+dependencies), and serve the application static assets at their built URLs or
+publish them to the configured asset CDN. Then add a listener to the code above:
 
 ```ts
 import { serve } from '@hono/node-server';
@@ -42,24 +46,31 @@ Hono fixture, with no separate example project required.
 
 The adapter does not start a listener. Install authentication middleware first.
 Handlers receive the Hono context as `context.context`. Integrated Modern.js
-applications use `mcpApps()` from `@modern-js/plugin-mcp-apps/bff` in
+applications use `mcpApps(definition)` from `@modern-js/plugin-mcp-apps/bff` in
 `api/lambda/index.ts`; the BFF and Hono adapters share the artifact loader and SDK
 transport. Copy the entire compiled artifact directory when
 moving to a standalone server. Local cards register `ui://local/<tool>` resources
-and bundle React, JS and CSS into their HTML, without MF or external scripts.
+whose HTML references the normal Modern.js JS/CSS/chunk assets. Deploy those
+assets too; copying only the MCP directory is insufficient for a working UI.
 Local views currently support React components (not `renderMode: 'mount'`).
 
 Local `view.html` may point to independently hosted HTTPS HTML; the server fetches
 it for resource reads. `view.csp` declares any network origins used by that HTML.
-Local JSX/TSX and CSS are bundled by esbuild; Modern.js-specific CSS preprocessors
-or runtime features are not automatically inherited. Use MF for views requiring
-the application's full MF build pipeline.
+Local views use the application builder and Modern.js runtime, including configured
+aliases, CSS processing, preEntry, globalVars and runtime plugins. Existing page
+layouts/loaders are not automatically attached to a component entry.
+
+The core does not compile application code. Pass a statically imported definition
+to `createMcpHandler()` or the Hono adapter. Alternatively, `loadMcpAppsConfig()`
+loads an application-compiled JS module. `bindUiResources()` attaches emitted HTML
+paths while retaining the original tool functions; it does not generate source code.
 
 ## Optional MF app definition
 
 ```ts
-// mcp_apps.ts — server-owned app definition
+// api/mcp_apps.ts — server-owned app definition
 import { defineMcpApps } from '@modern-js/mcp-apps/config';
+import { greet } from './mcp-tools';
 
 export default defineMcpApps({
   remotes: [{
@@ -80,7 +91,7 @@ export default defineMcpApps({
       required: ['name'],
     },
     annotations: { readOnlyHint: true },
-    handler: { module: './tools', exportName: 'greet', runtime: 'local' },
+    handler: greet,
     view: { module: './Greeting', runtime: 'browser' },
   }],
 });
@@ -105,7 +116,7 @@ export const greet: RemoteToolHandler = input => {
 import { createMcpAppsHandler } from '@modern-js/mcp-apps/server';
 
 const handleMcp = createMcpAppsHandler({
-  configPath: './mcp_apps.ts', // use compiled ./mcp_apps.mjs in production
+  configPath: './dist/api/mcp_apps.js', // application-compiled configuration
   serverInfo: { name: 'greeting', version: '1.0.0' },
 });
 // app.all('/mcp', c => handleMcp(c.req.raw)); // Hono or any Web Request adapter
@@ -114,12 +125,13 @@ const handleMcp = createMcpAppsHandler({
 `createMcpAppsHandler` loads the trusted local definition lazily and retries failed
 initialization. Config loading supports TS/TSX, JS/MJS/CJS, JSON, extensionless paths,
 and default/config/mcpApps exports. Relative handler modules resolve from
-the definition directory. TypeScript is compiled to ESM with esbuild; compiled
-JS is imported directly. No request-supplied config URLs are accepted.
+the definition directory. Modules are imported directly; any TypeScript support must be supplied by the
+host runtime. Production should use application-compiled JavaScript. No request-supplied config URLs are accepted.
 
 `createMcpHandler(definition, options)` is the lower-level synchronous registration
-entry when the application already loaded its definition. `materializeMcpAppsConfig`
-exports a serialized definition; it does not compile/copy referenced handlers.
+entry when the application already loaded its definition. Use direct handler
+functions (`handler: greet`) with ordinary imports to let the application compiler
+track dependencies. No generated wrapper or handler path map is required.
 
 ## Publish the remote UI
 
@@ -158,7 +170,7 @@ preserved, never forced read-only.
 
 - The server registers `ui://mf/<remote-slug>/<tool-slug>` resources
   plus remote-level aliases. URI collisions fail at startup.
-- Resources contain the packaged, self-contained browser renderer. The renderer
+- MF resources contain the packaged, self-contained browser renderer. The renderer
   reads `structuredContent.resource.moduleFederation` and loads the remote UI.
 - Handler results use the `tool/resource/args/viewProps` envelope, business
   `structuredContent`, `content` and `_meta`. Render information is included in
@@ -197,13 +209,8 @@ Modern.js CLI integration is provided by `@modern-js/plugin-mcp-apps`; see its
 and `mcp-server` templates. See `NOTICE.md` and `THIRD-PARTY-LICENSE` for
 third-party license information.
 
-`@modern-js/mcp-apps/build` exports `compileMcpApps({ configPath, outDir,
-tsconfig?, alias?, development? })`. It bundles local code dependencies, keeps
-runtime environment evaluation in the definition, and publishes a relocatable
-`mcp_apps.mjs` only after all handler artifacts are ready. It also copies the
-matching development/production renderer. Local handler references must remain
-stable between build and runtime. Files read dynamically are application assets
-and need separate deployment handling.
+Application compilation is owned by Modern.js/BFF (or your own compiler outside
+Modern.js). The old `/build` entry and `compileMcpApps` API have been removed.
 
 ## Verify locally
 

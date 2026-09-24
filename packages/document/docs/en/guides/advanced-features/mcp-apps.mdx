@@ -5,7 +5,7 @@ sidebar_position: 17
 # MCP Apps
 
 The experimental MCP Apps plugin connects server tools and interactive React
-views to AI hosts using `mcp_apps.ts` definitions. Server and UI can
+views to AI hosts using `api/mcp_apps.ts` definitions. Server and UI can
 be developed together or deployed independently. DevTools is not included.
 
 ## Create a project
@@ -39,12 +39,14 @@ export default defineConfig({ bff: { prefix: "/mcp" },
 
 ```ts title="api/lambda/index.ts"
 import { mcpApps } from '@modern-js/plugin-mcp-apps/bff';
+import definition from '../mcp_apps';
 
-export const { POST, GET, DELETE, PUT, PATCH, OPTIONS } = mcpApps();
+export const { POST, GET, DELETE, PUT, PATCH, OPTIONS } = mcpApps(definition);
 ```
 
-```ts title="mcp_apps.ts"
+```ts title="api/mcp_apps.ts"
 import { defineMcpApps } from '@modern-js/mcp-apps/config';
+import { greet } from './mcp-tools';
 
 export default defineMcpApps({
   remotes: [],
@@ -56,12 +58,12 @@ export default defineMcpApps({
       required: ['name'],
     },
     annotations: { readOnlyHint: true },
-    handler: { module: './mcp/tools', exportName: 'greet' },
+    handler: greet,
   }],
 });
 ```
 
-```ts title="mcp/tools.ts"
+```ts title="api/mcp-tools.ts"
 import type { RemoteToolHandler } from '@modern-js/mcp-apps/config';
 
 export const greet: RemoteToolHandler = input => {
@@ -99,15 +101,13 @@ No additional UI-manifest format is introduced.
 
 Keep the original prefix in an existing BFF application: for example,
 `api/lambda/mcp.ts` under `/api` produces `/api/mcp`. Configure `serverInfo`
-in `mcpApps({ serverInfo })`.
+in `mcpApps(definition, { serverInfo })`.
 
 ## Plugin options
 
 | Option | Default | Purpose |
 | --- | --- | --- |
-| `config` | `mcp_apps.ts` | Definition relative to the project root |
-| `tsconfig` | Nearest tsconfig found by esbuild | Definition/handler compilation |
-| `alias` | None | Explicit static aliases for MCP server compilation |
+| `config` | `api/mcp_apps.ts` | Definition relative to the project root |
 
 Development watches definition and handler dependencies. Successful builds switch
 the active handler; invalid edits retain the last working version. Normal pages
@@ -116,8 +116,8 @@ handler `context.context` is the request-local Hono Context.
 
 ## Build and deploy
 
-`modern build` emits the definition, handlers and imported code to
-`dist/mcp-apps/`. `modern serve` uses those artifacts. `modern deploy` produces a
+`modern build` emits the definition and imported handlers to `dist/api/` through BFF.
+UI HTML is in `dist/mcp-apps/ui/`. `modern serve` uses those artifacts. `modern deploy` produces a
 relocatable `.output/` that runs with `node .output/index.js`, without source code.
 
 In MF mode, UI publishes ordinary MF/Vmok artifacts independently. Remote URLs
@@ -125,9 +125,9 @@ can use runtime environment variables; the local handler module set must stay
 unchanged since compilation. Files read at runtime, native addons and other
 application assets still require application-specific deployment handling.
 
-Without app-tools, use `compileMcpApps({ configPath, outDir, tsconfig?, alias? })`
-from `@modern-js/mcp-apps/build` and `createMcpAppsHandler` from
-`@modern-js/mcp-apps/server` in an independent HTTP server.
+Without app-tools, pass a loaded definition to `createMcpHandler(definition)`.
+Use your application compiler for the definition and handlers; the core no longer
+provides a separate compiler.
 
 Persistent sessions, resumable SSE and cross-request cancellation are not provided
 yet. Standard MF is verified; internal Vmok deployment and target product hosts
@@ -140,8 +140,11 @@ require their own compatibility checks.
 card and MCP plugin, without MF. Add `--mf` to opt into the remote-component
 configuration described above. A local view uses
 `view: { module: './src/components/Greeting.tsx' }` with `remotes: []`.
-The build bundles React, JSX/TSX and CSS into self-contained MCP resource HTML.
-Modern.js-specific CSS preprocessors are not inherited by this esbuild step.
+The plugin registers standard Modern.js auto-mounted entries, inheriting the
+application build, CSS processing, aliases, preEntry and runtime plugins. Resource
+HTML references ordinary application JS/CSS/chunks. Deploy those assets alongside
+the server or configure dev/output assetPrefix for a CDN. Existing filesystem
+route layouts and loaders are not implicitly attached to a component entry.
 
 The complete `dist/mcp-apps/` directory can be moved to an independent Hono app:
 
@@ -149,7 +152,7 @@ The complete `dist/mcp-apps/` directory can be moved to an independent Hono app:
 import { Hono } from 'hono';
 import { mcpApps } from '@modern-js/mcp-apps/hono';
 const app = new Hono();
-app.all('/mcp', mcpApps({ configPath: './dist/mcp-apps/mcp_apps.mjs' }));
+app.all('/mcp', mcpApps({ definition })); // import the application-built definition
 ```
 
 The adapter does not start a listener; add authentication middleware in the app.

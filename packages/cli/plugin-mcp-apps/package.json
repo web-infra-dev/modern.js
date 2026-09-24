@@ -50,7 +50,8 @@
   "dependencies": {
     "@modern-js/mcp-apps": "workspace:*",
     "@modern-js/utils": "workspace:*",
-    "@modern-js/server-core": "workspace:*"
+    "@modern-js/server-core": "workspace:*",
+    "@modern-js/plugin": "workspace:*"
   },
   "devDependencies": {
     "@modern-js/app-tools": "workspace:*",

@@ -22,17 +22,21 @@ export function normalizeToolConfig(tool: ToolConfig): NormalizedToolConfig {
         renderMode: tool.view.renderMode ?? 'component',
         runtime: tool.view.runtime,
         html: tool.view.html,
+        assetBase: tool.view.assetBase,
         csp: tool.view.csp,
       }
     : undefined;
-  const handler = tool.handler
-    ? {
-        module: tool.handler.module,
-        exportName: tool.handler.exportName ?? 'default',
-        runtime: tool.handler.runtime ?? 'local',
-        timeoutMs: tool.handler.timeoutMs,
-      }
-    : undefined;
+  const handler =
+    typeof tool.handler === 'function'
+      ? tool.handler
+      : tool.handler
+        ? {
+            module: tool.handler.module,
+            exportName: tool.handler.exportName ?? 'default',
+            runtime: tool.handler.runtime ?? 'local',
+            timeoutMs: tool.handler.timeoutMs,
+          }
+        : undefined;
 
   return {
     name: tool.name,

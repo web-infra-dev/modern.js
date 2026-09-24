@@ -1,7 +1,6 @@
-import { mkdtemp, rm, writeFile } from 'node:fs/promises';
+import { mkdtemp, rm } from 'node:fs/promises';
 import os from 'node:os';
 import path from 'node:path';
-import { compileMcpApps } from '@modern-js/mcp-apps/build';
 import {
   type ServerPlugin,
   compatPlugin,
@@ -20,24 +19,31 @@ afterEach(async () => {
 });
 
 it('binds the same declaration independently per BFF runtime without adding an MCP middleware', async () => {
-  const endpoint = mcpApps({ serverInfo: { name: 'bff-test', version: '1' } });
   const create = async (name: string) => {
     const root = await mkdtemp(
       path.join(os.tmpdir(), 'modern-mcp-bff-runtime-'),
     );
     directories.push(root);
-    await writeFile(
-      path.join(root, 'mcp_apps.ts'),
-      `export default { remotes: [], tools: [{ name: 'who', handler: { module: './tool' } }] };`,
+    const endpoint = mcpApps(
+      {
+        remotes: [],
+        tools: [
+          {
+            name: 'who',
+            handler: (_, ctx) => ({
+              content: [],
+              structuredContent: {
+                app: name,
+                user: (
+                  ctx.context as { req: { header: (key: string) => string } }
+                ).req.header('x-user'),
+              },
+            }),
+          },
+        ],
+      },
+      { serverInfo: { name: 'bff-test', version: '1' } },
     );
-    await writeFile(
-      path.join(root, 'tool.ts'),
-      `export default (_, ctx) => ({ content: [], structuredContent: { app: '${name}', user: ctx.context.req.header('x-user') } });`,
-    );
-    await compileMcpApps({
-      configPath: path.join(root, 'mcp_apps.ts'),
-      outDir: path.join(root, 'custom-output/mcp-apps'),
-    });
     const bff: ServerPlugin = {
       name: '@modern-js/plugin-bff',
       setup(api) {
@@ -84,8 +90,9 @@ it('binds the same declaration independently per BFF runtime without adding an M
       bff,
       mcpBffRuntime({
         development: false,
-        entry: 'mcp-apps/mcp_apps.mjs',
-        devEntry: 'unused',
+        config: 'mcp_apps.ts',
+        resourceDirectory: 'mcp-apps/ui',
+        assetBase: 'request',
       }),
     ]);
     await server.init();

@@ -6,7 +6,8 @@
     "build": "modern build",
     "serve": "modern serve",
     "preview:ngrok": "node scripts/preview-ngrok.mjs",
-    "deploy": "modern deploy"
+    "deploy": "modern deploy",
+    "verify:mcp": "node scripts/verify-mcp.mjs"
   },
   "dependencies": {
     "@modern-js/mcp-apps": "workspace:*",

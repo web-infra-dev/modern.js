@@ -78,11 +78,13 @@ export function validateMcpAppsConfig(config: McpAppsDefinition): void {
       throw new Error('Unsupported view runtime');
     if (
       tool.handler &&
+      typeof tool.handler !== 'function' &&
       (!tool.handler.module ||
         !['local', 'vmok-server'].includes(tool.handler.runtime ?? 'local'))
     )
       throw new Error(`Invalid handler for "${tool.name}"`);
     if (
+      typeof tool.handler !== 'function' &&
       tool.handler?.runtime === 'vmok-server' &&
       !config.remotes.find(remote => remote.name === tool.remote)?.serverEntry
     )

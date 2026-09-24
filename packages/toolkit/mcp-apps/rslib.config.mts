@@ -12,7 +12,6 @@ export default defineConfig({
           server: './src/server.ts',
           hono: './src/hono.ts',
           bff: './src/bff.ts',
-          build: './src/build.ts',
         },
       },
       output: { target: 'node', distPath: { root: 'dist/esm-node' } },
@@ -29,7 +28,6 @@ export default defineConfig({
           server: './src/server.ts',
           hono: './src/hono.ts',
           bff: './src/bff.ts',
-          build: './src/build.ts',
         },
       },
       output: {

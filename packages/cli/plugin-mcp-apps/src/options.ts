@@ -1,10 +1,6 @@
 export interface McpAppsPluginOptions {
-  /** Trusted application definition, relative to the project root. */
+  /** Application definition for UI discovery, relative to the project root. Defaults to api/mcp_apps.ts. */
   config?: string;
-  /** Optional tsconfig for config/handler compilation. */
-  tsconfig?: string;
-  /** Static server-only import aliases in addition to tsconfig paths. */
-  alias?: Record<string, string>;
 }
 
 export interface McpAppsServerOptions {

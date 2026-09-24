@@ -91,7 +91,11 @@ async function stop(child: ChildProcess) {
 async function until(check: () => Promise<boolean>, detail = () => '') {
   const deadline = Date.now() + 60_000;
   while (Date.now() < deadline) {
-    if (await check()) return;
+    try {
+      if (await check()) return;
+    } catch {
+      /* Framework restart or compilation in progress. */
+    }
     await new Promise(resolve => setTimeout(resolve, 100));
   }
   throw new Error(`Timed out: ${detail()}`);
@@ -108,6 +112,56 @@ async function rpc(method: string, params = {}) {
   });
   return response.json();
 }
+async function uiAssets(uri: string) {
+  const resource = (await rpc('resources/read', { uri })).result.contents[0];
+  const html = resource.text as string;
+  const urls = [...html.matchAll(/<script[^>]+src="([^"]+)"/g)].map(
+    match => new URL(match[1], `http://127.0.0.1:${port}/`).href,
+  );
+  expect(urls.length).toBeGreaterThan(0);
+  const assets = await Promise.all(
+    urls.map(async url => {
+      const response = await fetch(url);
+      expect(response.status).toBe(200);
+      return response.text();
+    }),
+  );
+  return assets.join('\n');
+}
+async function verifyBrowserUI() {
+  const hostPort = await freePort();
+  const host = spawn(
+    process.execPath,
+    [path.join(repo, 'packages/toolkit/mcp-apps/scripts/browser-fixture.mjs')],
+    {
+      cwd: repo,
+      env: {
+        ...process.env,
+        MCP_ENDPOINT: `http://127.0.0.1:${port}/mcp`,
+        MCP_HOST_PORT: String(hostPort),
+      },
+      stdio: 'ignore',
+    },
+  );
+  children.add(host);
+  try {
+    await until(async () => (await fetch(`http://127.0.0.1:${hostPort}`)).ok);
+    // Keep browser function serialization outside the test runner's transforms.
+    await exec(
+      process.execPath,
+      [
+        path.join(fixture, 'scripts/verify-ui.mjs'),
+        `http://127.0.0.1:${hostPort}`,
+      ],
+      { timeout: 45000 },
+    ).catch(error => {
+      throw new Error(`${error.stdout}\n${error.stderr}`);
+    });
+  } finally {
+    await stop(host);
+  }
+}
+
 async function greet() {
   return (
     await rpc('tools/call', { name: 'greet', arguments: { name: 'Ada' } })
@@ -149,31 +203,93 @@ describe('created Modern.js MCP projects', () => {
     port = await freePort();
     const app = await generate('local-app', 'mcp-apps');
     const viewPath = path.join(app, 'src/components/Greeting.tsx');
-    const original = await fs.readFile(viewPath, 'utf8');
+    const base = await fs.readFile(viewPath, 'utf8');
+    const original = `import marker from '@mcp-message';\nimport styles from './Greeting.module.css';\n${base.replace('<section ', '<section className={styles.card} data-alias={marker} data-build={process.env.MCP_BUILD_LABEL} ')}`;
+    await fs.writeFile(viewPath, original);
+    await fs.writeFile(
+      path.join(app, 'src/mcp-test.d.ts'),
+      `declare module '@mcp-message' { const value: string; export default value; }`,
+    );
+    await fs.writeFile(
+      path.join(app, 'src/message.ts'),
+      "export default 'alias-from-modern';",
+    );
+    await fs.writeFile(
+      path.join(app, 'src/components/Greeting.module.css'),
+      '.card { color: rgb(12, 34, 56); }',
+    );
+    await fs.writeFile(
+      path.join(app, 'src/pre-entry.ts'),
+      "document.documentElement.dataset.preentry = 'ready';",
+    );
+    await fs.writeFile(
+      path.join(app, 'src/modern.runtime.ts'),
+      `import { defineRuntimeConfig } from '@modern-js/runtime';
+export default defineRuntimeConfig({ plugins: [{ name: 'mcp-test-runtime', setup(api) { api.onBeforeRender(() => { document.documentElement.dataset.runtime = 'ready'; }); } }] });`,
+    );
+    const configPath = path.join(app, 'modern.config.ts');
+    await fs.writeFile(
+      configPath,
+      (await fs.readFile(configPath, 'utf8')).replace(
+        'export default defineConfig({',
+        `export default defineConfig({ source: { preEntry: ['./src/pre-entry.ts'], alias: { '@mcp-message': './src/message.ts' }, globalVars: { 'process.env.MCP_BUILD_LABEL': 'configured-by-modern' } },`,
+      ),
+    );
     const dev = await launch(app, ['dev']);
+    await verifyBrowserUI();
     await fs.writeFile(
       viewPath,
       original.replace('Greet again', 'Greet locally'),
     );
     await until(async () =>
-      (
-        await rpc('resources/read', { uri: 'ui://local/greet' })
-      ).result?.contents[0].text.includes('Greet locally'),
-    );
-    await fs.writeFile(viewPath, 'invalid TSX !!!');
-    await until(async () =>
-      (
-        await rpc('resources/read', { uri: 'ui://local/greet' })
-      ).result?.contents[0].text.includes('Greet locally'),
+      (await uiAssets('ui://local/greet')).includes('Greet locally'),
     );
     await fs.writeFile(viewPath, original);
+    const definitionPath = path.join(app, 'api/mcp_apps.ts');
+    await fs.writeFile(
+      definitionPath,
+      (await fs.readFile(definitionPath, 'utf8')).replace(
+        "name: 'greet',",
+        "name: 'greet', title: 'Modern entry reloaded',",
+      ),
+    );
+    await until(
+      async () =>
+        (await rpc('tools/list')).result?.tools[0].title ===
+        'Modern entry reloaded',
+    );
+    await verifyBrowserUI();
     await stop(dev);
     await command(app, ['build']);
     await expect(
-      fs.access(path.join(app, 'dist/mcp/tools.js')),
+      fs.access(path.join(app, 'dist/api/mcp-tools.js')),
+    ).resolves.toBeUndefined();
+    await expect(
+      fs.access(path.join(app, 'dist/mcp-apps/mcp_apps.mjs')),
     ).rejects.toThrow();
     const production = await launch(app, ['serve']);
+    await verifyBrowserUI();
     const listed = await rpc('tools/list');
+    expect(
+      listed.result.tools.map((tool: { name: string }) => tool.name),
+    ).toEqual(['greet', 'add_numbers']);
+    const added = await rpc('tools/call', {
+      name: 'add_numbers',
+      arguments: { a: 2, b: 3 },
+    });
+    expect(added.result.structuredContent.sum).toBe(5);
+    expect(added.result.structuredContent.viewProps).toEqual({
+      a: 2,
+      b: 3,
+      sum: 5,
+    });
+    const sumUri = listed.result.tools[1]._meta.ui.resourceUri;
+    expect(sumUri).toBe('ui://local/add_numbers');
+    expect(
+      (await rpc('resources/read', { uri: sumUri })).result.contents[0]
+        .mimeType,
+    ).toBe('text/html;profile=mcp-app');
+    expect(await uiAssets(sumUri)).toContain('Addition');
     const uri = listed.result.tools[0]._meta.ui.resourceUri;
     expect(uri).toBe('ui://local/greet');
     const resource = await rpc('resources/read', { uri });
@@ -193,9 +309,17 @@ describe('created Modern.js MCP projects', () => {
     await fs.rm(app, { recursive: true, force: true });
     await launch(relocated, ['index.js'], true);
     expect(await greet()).toBe('Hello, Ada!');
+    expect(await uiAssets(uri)).toContain('Greet again');
+    expect(await uiAssets(sumUri)).toContain('Addition');
     expect(
-      (await rpc('resources/read', { uri })).result.contents[0].text,
-    ).toContain('Greet again');
+      (
+        await rpc('tools/call', {
+          name: 'add_numbers',
+          arguments: { a: -2, b: 0.5 },
+        })
+      ).result.structuredContent.sum,
+    ).toBe(-1.5);
+    await verifyBrowserUI();
   }, 300_000);
 
   test('UI project: dev reload, production artifacts, normal pages, BFF and relocated deploy', async () => {
@@ -245,27 +369,13 @@ describe('created Modern.js MCP projects', () => {
     expect(preflight.headers.get('Access-Control-Allow-Private-Network')).toBe(
       'true',
     );
-    const toolsPath = path.join(app, 'mcp/tools.ts');
+    const toolsPath = path.join(app, 'api/mcp-tools.ts');
     const tools = await fs.readFile(toolsPath, 'utf8');
-    await fs.writeFile(
-      toolsPath,
-      `import { prefix } from './salutation';\n${tools.replace('Hello,', '${prefix},')}`,
-    );
-    await until(async () =>
-      (await fs.readFile(path.join(output, 'last-child.log'), 'utf8')).includes(
-        'rebuild failed',
-      ),
-    );
-    expect(await greet()).toBe('Hello, Ada!');
-    // Recover a missing dependency when the new file is created after a failed build.
-    await fs.writeFile(
-      path.join(app, 'mcp/salutation.ts'),
-      "export const prefix = 'Welcome';",
-    );
+    await fs.writeFile(toolsPath, tools.replace('Hello,', 'Welcome,'));
     await until(async () => (await greet()) === 'Welcome, Ada!');
     await fs.writeFile(
-      path.join(app, 'mcp_apps.ts'),
-      (await fs.readFile(path.join(app, 'mcp_apps.ts'), 'utf8')).replace(
+      path.join(app, 'api/mcp_apps.ts'),
+      (await fs.readFile(path.join(app, 'api/mcp_apps.ts'), 'utf8')).replace(
         "name: 'greet',",
         "name: 'greet', title: 'Reloaded',",
       ),
@@ -278,8 +388,8 @@ describe('created Modern.js MCP projects', () => {
     await fs.writeFile(
       routePath,
       (await fs.readFile(routePath, 'utf8')).replace(
-        'mcpApps();',
-        "mcpApps({ serverInfo: { name: 'reloaded-bff', version: '2' } });",
+        'mcpApps(definition);',
+        "mcpApps(definition, { serverInfo: { name: 'reloaded-bff', version: '2' } });",
       ),
     );
     await until(
@@ -295,7 +405,7 @@ describe('created Modern.js MCP projects', () => {
     await stop(dev);
     await command(app, ['build']);
     const compiled = await fs.readFile(
-      path.join(app, 'dist/mcp-apps/mcp_apps.mjs'),
+      path.join(app, 'dist/api/mcp_apps.js'),
       'utf8',
     );
     expect(compiled).not.toContain(app);
@@ -357,6 +467,14 @@ describe('created Modern.js MCP projects', () => {
       path.join(app, 'api/lambda/index.ts'),
       path.join(app, 'api/lambda/nested/mcp.ts'),
     );
+    const nestedRoute = path.join(app, 'api/lambda/nested/mcp.ts');
+    await fs.writeFile(
+      nestedRoute,
+      (await fs.readFile(nestedRoute, 'utf8')).replace(
+        "'../mcp_apps'",
+        "'../../mcp_apps'",
+      ),
+    );
     const configPath = path.join(app, 'modern.config.ts');
     await fs.writeFile(
       configPath,
@@ -372,6 +490,19 @@ describe('created Modern.js MCP projects', () => {
     await command(app, ['build']);
     await launch(app, ['serve']);
     expect(await greet()).toBe('Hello, Ada!');
+    expect(
+      (await rpc('tools/list')).result.tools.map(
+        (tool: { name: string }) => tool.name,
+      ),
+    ).toEqual(['greet', 'add_numbers']);
+    expect(
+      (
+        await rpc('tools/call', {
+          name: 'add_numbers',
+          arguments: { a: 2, b: 3 },
+        })
+      ).result.structuredContent,
+    ).toEqual({ a: 2, b: 3, sum: 5 });
     expect((await rpc('resources/list')).result.resources).toEqual([]);
   }, 180_000);
 });

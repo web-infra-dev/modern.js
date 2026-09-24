@@ -42,7 +42,7 @@ export interface ToolConfig {
   exportName?: string;
   renderMode?: RenderMode;
   view?: McpAppsViewConfig;
-  handler?: McpAppsHandlerConfig;
+  handler?: McpAppsHandlerConfig | RemoteToolHandler;
   visibility?: Array<'model' | 'app'>;
 }
 
@@ -56,6 +56,8 @@ export interface McpAppsViewConfig {
   runtime?: 'browser';
   /** Compiled HTML path, or an independently hosted HTTPS HTML resource. */
   html?: string;
+  /** Base for application assets; "request" uses the public MCP request origin. */
+  assetBase?: string;
   csp?: RemoteConfig['csp'];
 }
 
@@ -77,9 +79,11 @@ export interface NormalizedToolConfig {
   view?: Required<
     Pick<McpAppsViewConfig, 'module' | 'exportName' | 'renderMode'>
   > &
-    Pick<McpAppsViewConfig, 'runtime' | 'html' | 'csp'>;
-  handler?: Required<Pick<McpAppsHandlerConfig, 'module' | 'exportName'>> &
-    Pick<McpAppsHandlerConfig, 'runtime' | 'timeoutMs'>;
+    Pick<McpAppsViewConfig, 'runtime' | 'html' | 'csp' | 'assetBase'>;
+  handler?:
+    | RemoteToolHandler
+    | (Required<Pick<McpAppsHandlerConfig, 'module' | 'exportName'>> &
+        Pick<McpAppsHandlerConfig, 'runtime' | 'timeoutMs'>);
   visibility?: Array<'model' | 'app'>;
 }
 
@@ -92,7 +96,7 @@ export interface RemoteToolHandlerContext {
   toolName: string;
   remoteName?: string;
   remote?: RemoteConfig;
-  handler: Required<Pick<McpAppsHandlerConfig, 'module' | 'exportName'>> &
+  handler?: Required<Pick<McpAppsHandlerConfig, 'module' | 'exportName'>> &
     Pick<McpAppsHandlerConfig, 'runtime' | 'timeoutMs'>;
   extra: unknown;
   signal: AbortSignal;

@@ -7,7 +7,7 @@ description: 使用 Modern.js CLI 创建带交互式 React UI 的 MCP Apps 应�
 
 ## 1. 选择模板与版本
 
-- 需要在 MCP 宿主中显示交互卡片：`--template mcp-apps`，标准 Modern.js 应用，增加本地 React 卡片、`mcp_apps.ts` 和 MCP 插件；默认无 MF 依赖。
+- 需要在 MCP 宿主中显示交互卡片：`--template mcp-apps`，标准 Modern.js 应用，增加本地 React 卡片、`api/mcp_apps.ts` 和 MCP 插件；默认无 MF 依赖。
 - 用户明确需要远程组件/MF 时，再加 `--mf`：`--template mcp-apps --mf`。普通应用仍使用默认 app 模板。
 - 只需要后端工具：`--template mcp-server`，不生成 UI，也不依赖 React 应用；以后可配置独立部署的 remote。
 - 用户未指定架构但要求 MCP Apps 卡片时，默认 `mcp-apps`。这不要求生产环境将 UI 和 Server 部署在一起。
@@ -50,9 +50,9 @@ CLI 只生成文件，不安装依赖。生成的 `package.json` 默认写入 cr
 
 ## 3. 定义工具与 UI
 
-- `mcp_apps.ts`：工具名、JSON Schema、handler、remote 和 view 的对应关系；不另建 `ui-manifest.json`。
-- `mcp/tools.ts`：工具处理函数。
-- UI 模板的 `src/components/Greeting.tsx`：卡片组件。默认 `view.module` 指向本地源码，构建为自包含 HTML；仅 MF 模式生成 `module-federation.config.ts` 并暴露 `./Greeting`。
+- `api/mcp_apps.ts`：工具名、JSON Schema、handler、remote 和 view 的对应关系；不另建 `ui-manifest.json`。
+- `api/mcp-tools.ts`：工具处理函数。
+- UI 模板的 `src/components/Greeting.tsx`：卡片组件。默认 `view.module` 指向本地源码，通过标准 Modern.js 入口构建 HTML 与静态资源；仅 MF 模式生成 `module-federation.config.ts` 并暴露 `./Greeting`。
 - `modern.config.ts`：CLI 插件和服务端口；仅 MF 模式还有 MF 插件和资源前缀。
 
 优先修改已生成的示例，不重复手写整套运行时。`mcp-server` 初始只有文本工具，没有卡片属于预期行为。
@@ -70,12 +70,11 @@ CLI 只生成文件，不安装依赖。生成的 `package.json` 默认写入 cr
 
 ## 5. HTTPS 与独立部署
 
-默认卡片随 `dist/mcp-apps/` 生成自包含 HTML，宿主无需再请求 MF manifest。
+默认卡片 HTML 位于 `dist/mcp-apps/ui/`，宿主会加载应用 JS/CSS/chunk；需要部署静态资源或设置 assetPrefix，默认无需 MF manifest。
 可将整个产物目录复制到独立 Hono 服务，并使用 `@modern-js/mcp-apps/hono` 的
 `mcpApps({ configPath })` 挂载 `/mcp`，不需要另一份 UI 项目。鉴权由应用中间件提供。
 若单独托管 HTML，可通过本地 view 的 `html` 字段指定 HTTPS 地址（由 Server 获取），
-额外网络权限在 `view.csp` 中声明。默认本地视图使用 esbuild 打包 JSX/TSX 和 CSS，
-不自动继承 Modern.js CSS 预处理器等扩展；MF 模式使用应用的 MF 构建链路。
+额外网络权限在 `view.csp` 中声明。默认本地视图复用 Modern.js 的入口、构建和运行时配置；原页面的文件系统路由 layout 与 loader 不会自动附加到组件入口。
 
 **以下资源 origin 配置仅适用于 MF 模式**：在要求 HTTPS 的宿主中，设置 `MCP_UI_ORIGIN` 为实际 UI 资源 origin。UI 构建与 MCP 服务启动均需正确设置：
 

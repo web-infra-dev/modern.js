@@ -1,6 +1,4 @@
 import fs from 'node:fs/promises';
-import { createRequire } from 'node:module';
-import os from 'node:os';
 import path from 'node:path';
 import { pathToFileURL } from 'node:url';
 import type {
@@ -11,7 +9,6 @@ import type {
   RemoteConfig,
   RemoteToolHandler,
 } from './config';
-const requireFromCore = createRequire(import.meta.url);
 
 export async function loadMcpAppsConfig(
   configPath: string,
@@ -56,24 +53,12 @@ async function resolveLocalConfigModule(configPath: string): Promise<string> {
   return configPath;
 }
 
-export async function materializeMcpAppsConfig(
-  configPath: string,
-): Promise<string> {
-  const config = await loadMcpAppsConfig(configPath);
-  // Keep the generated module independent of dependencies omitted by tracing.
-  return [`export default ${JSON.stringify(config, null, 2)};`, ''].join('\n');
-}
-
-// Shared loader for local config and handler modules. TypeScript sources are
-// transpiled to ESM via esbuild (prepareMcpAppsModule); already-built .js/.mjs/
-// .cjs files are imported as-is. Using dynamic import() for both keeps a single
-// loading path and avoids require()'s CJS-only constraint on the handler side.
+// Load application-compiled modules. TypeScript support belongs to the host runtime.
 async function importLocalModule(
   modulePath: string,
 ): Promise<Record<string, unknown>> {
   const absolutePath = path.resolve(modulePath);
-  const preparedPath = await prepareMcpAppsModule(absolutePath);
-  const moduleUrl = pathToFileURL(preparedPath);
+  const moduleUrl = pathToFileURL(absolutePath);
   moduleUrl.searchParams.set('t', String(Date.now()));
   return (await importOptional(moduleUrl.href)) as Record<string, unknown>;
 }
@@ -84,72 +69,17 @@ async function loadMcpAppsModule(configPath: string): Promise<McpAppsConfig> {
     config?: McpAppsConfig;
     mcpApps?: McpAppsConfig;
   };
-  const config = mod.default ?? mod.config ?? mod.mcpApps;
+  const exported = mod.default ?? mod.config ?? mod.mcpApps;
+  const config =
+    exported && !('tools' in exported) && 'default' in exported
+      ? (exported as { default: McpAppsConfig }).default
+      : exported;
   if (!config) {
     throw new Error(
       `${configPath}: expected a default export from defineMcpApps(...)`,
     );
   }
   return config;
-}
-
-async function prepareMcpAppsModule(absolutePath: string): Promise<string> {
-  if (!/\.[cm]?tsx?$/.test(absolutePath)) {
-    return absolutePath;
-  }
-
-  const outputPath = path.join(
-    await ensureMcpAppsCacheDir(absolutePath),
-    `.mcp-apps.${path.basename(absolutePath)}.mjs`,
-  );
-  const { build } = loadEsbuild();
-  try {
-    await build({
-      entryPoints: [absolutePath],
-      outfile: outputPath,
-      bundle: true,
-      format: 'esm',
-      platform: 'node',
-      target: 'node20',
-      sourcemap: 'inline',
-      absWorkingDir: path.dirname(absolutePath),
-    });
-  } catch (error) {
-    throw rewriteConfigBuildError(error, absolutePath);
-  }
-  return outputPath;
-}
-
-/**
- * Turn esbuild's terse "No matching export" failure into actionable guidance.
- * The config-only helpers (`defineMcpApps` and the remote-origin utilities)
- * live in `@modern-js/mcp-apps/config`, not `@modern-js/mcp-apps/server`, so a config that
- * still imports them from the server entrypoint fails to bundle.
- */
-function rewriteConfigBuildError(error: unknown, configPath: string): unknown {
-  const errors =
-    error &&
-    typeof error === 'object' &&
-    Array.isArray((error as { errors?: unknown }).errors)
-      ? (
-          error as {
-            errors: Array<{ text?: string; location?: { lineText?: string } }>;
-          }
-        ).errors
-      : [];
-  // esbuild's `text` references the resolved file path, so the original
-  // `@modern-js/mcp-apps/server` specifier only survives in `location.lineText`.
-  const importsConfigFromServer = errors.some(
-    item =>
-      /No matching export/.test(item.text ?? '') &&
-      (item.location?.lineText ?? '').includes('@modern-js/mcp-apps/server'),
-  );
-  if (importsConfigFromServer) {
-    return new Error(
-      `${configPath}: "defineMcpApps" is exported from "@modern-js/mcp-apps/config", not "@modern-js/mcp-apps/server". Update the import in your mcp_apps config to "@modern-js/mcp-apps/config".`,
-    );
-  }
-  return error;
 }
 
 export function createMcpAppsHandlerLoader(
@@ -237,24 +167,6 @@ export async function resolveLocalHandlerModule(
   throw new Error(
     `Local handler module "${modulePath}" was not found from ${baseDir}`,
   );
-}
-
-async function ensureMcpAppsCacheDir(sourcePath: string): Promise<string> {
-  const dir = path.join(
-    os.tmpdir(),
-    'modern-mcp-apps',
-    Buffer.from(path.resolve(sourcePath)).toString('base64url'),
-  );
-  await fs.mkdir(dir, { recursive: true });
-  return dir;
-}
-
-function loadEsbuild(): {
-  build: (options: Record<string, unknown>) => Promise<unknown>;
-} {
-  return requireFromCore('esbuild') as {
-    build: (options: Record<string, unknown>) => Promise<unknown>;
-  };
 }
 
 function createVmokRemoteHandlerLoader(

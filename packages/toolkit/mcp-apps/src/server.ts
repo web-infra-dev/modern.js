@@ -34,10 +34,12 @@ import {
 } from './resources';
 
 export type * from './config';
-export { loadMcpAppsConfig, materializeMcpAppsConfig } from './loader';
+export { bindUiResources, getUiEntryName } from './ui-resources';
+export { loadMcpAppsConfig } from './loader';
 export { validateMcpAppsConfig } from './resources';
 
 export interface McpHandlerOptions<T = undefined> {
+  development?: boolean;
   serverInfo?: { name: string; version: string };
   configPath?: string;
   loadRemoteHandler?: LoadRemoteHandler;
@@ -102,7 +104,11 @@ export function createMcpHandler<T = undefined>(
         );
       }
       const timeoutMs =
-        tool.handler?.timeoutMs ?? options.handlerTimeoutMs ?? 30_000;
+        (typeof tool.handler === 'function'
+          ? undefined
+          : tool.handler?.timeoutMs) ??
+        options.handlerTimeoutMs ??
+        30_000;
       if (
         !Number.isSafeInteger(timeoutMs) ||
         timeoutMs < 1 ||
@@ -170,11 +176,11 @@ export function createMcpHandler<T = undefined>(
       ({ tool }) => toolUris.get(tool.name) === uri,
     )?.tool;
     if (!tool?.view || tool.remote)
-      return options.resourceHtml ?? readRuntimeHtml();
+      return options.resourceHtml ?? readRuntimeHtml(options.development);
     const html = tool.view.html;
     if (!html)
       throw new Error(
-        'Local MCP view is not compiled; run compileMcpApps first',
+        'Local MCP view has no HTML resource; bind the application-built UI resources first',
       );
     if (html.startsWith('https://')) {
       const response = await fetch(html, {
@@ -184,6 +190,7 @@ export function createMcpHandler<T = undefined>(
         throw new Error(`UI HTML request failed: ${response.status}`);
       return response.text();
     }
+    if (path.isAbsolute(html)) return fs.readFile(html, 'utf8');
     if (!options.configPath)
       throw new Error('Compiled local view requires configPath');
     return fs.readFile(
@@ -219,11 +226,53 @@ export function createMcpHandler<T = undefined>(
         );
       }
       const { name: _name, ...content } = resource;
+      const view = [...tools.values()].find(
+        ({ tool }) => toolUris.get(tool.name) === params.uri,
+      )?.tool.view;
+      let text = await readHtml(resource.uri);
+      if (view?.assetBase) {
+        const base =
+          view.assetBase === 'request' ? publicOrigin(request) : view.assetBase;
+        const url = new URL(base);
+        if (!['http:', 'https:'].includes(url.protocol))
+          throw new Error('Invalid MCP UI asset base');
+        const escaped = url.href
+          .replace(/&/g, '&amp;')
+          .replace(/"/g, '&quot;')
+          .replace(/</g, '&lt;');
+        text = text.replace(
+          /<head\b[^>]*>/i,
+          head => `${head}<base href="${escaped}">`,
+        );
+        const ui = content._meta.ui;
+        const csp = (ui.csp ?? {}) as {
+          resourceDomains?: string[];
+          connectDomains?: string[];
+          baseUriDomains?: string[];
+        };
+        content._meta = {
+          ui: {
+            ...ui,
+            csp: {
+              ...csp,
+              resourceDomains: [
+                ...new Set([...(csp.resourceDomains ?? []), url.origin]),
+              ],
+              baseUriDomains: [
+                ...new Set([...(csp.baseUriDomains ?? []), url.origin]),
+              ],
+              connectDomains: [
+                ...new Set([...(csp.connectDomains ?? []), url.origin]),
+              ],
+            },
+          },
+        };
+      }
       return {
         contents: [
           {
             ...content,
-            text: await readHtml(resource.uri),
+            text,
           },
         ],
       };
@@ -280,17 +329,23 @@ export function createMcpHandler<T = undefined>(
           const handlerConfig = tool.handler;
           const handlerResult: RemoteToolHandlerResult = await abortable(
             async () => {
-              const handler = await loadHandler({
-                remote,
-                handler: handlerConfig,
-                configPath: options.configPath,
-              });
+              const handler =
+                typeof handlerConfig === 'function'
+                  ? handlerConfig
+                  : await loadHandler({
+                      remote,
+                      handler: handlerConfig,
+                      configPath: options.configPath,
+                    });
               signal.throwIfAborted();
               return handler(input, {
                 toolName: tool.name,
                 remoteName: remote?.name,
                 remote,
-                handler: handlerConfig,
+                handler:
+                  typeof handlerConfig === 'function'
+                    ? undefined
+                    : handlerConfig,
                 request,
                 context,
                 extra,
@@ -372,3 +427,11 @@ export function createMcpAppsHandler<T = undefined>(
 }
 
 export { createArtifactHandler } from './artifact';
+
+/** Account for HTTPS termination at the application's reverse proxy. */
+function publicOrigin(request: Request) {
+  const url = new URL(request.url);
+  const proto = request.headers.get('x-forwarded-proto')?.split(',')[0].trim();
+  if (proto === 'http' || proto === 'https') url.protocol = `${proto}:`;
+  return `${url.origin}/`;
+}

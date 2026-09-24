@@ -43,6 +43,7 @@ export function applyMcpTemplate(
   // Use BFF's supported TS runtime on Node 20+ and invalidate API modules on reload.
   pkg.devDependencies['ts-node'] = '^10.9.2';
   pkg.scripts.deploy = 'modern deploy';
+  pkg.scripts['verify:mcp'] = 'node scripts/verify-mcp.mjs';
   if (template === 'mcp-apps') {
     if (mf) pkg.dependencies['@modern-js/server-runtime'] = version;
     if (mf) pkg.devDependencies['@module-federation/modern-js-v3'] = '2.0.0';
@@ -57,7 +58,7 @@ export function applyMcpTemplate(
   fs.writeFileSync(pkgPath, `${JSON.stringify(pkg, null, 2)}\n`);
   const tsPath = path.join(targetDir, 'tsconfig.json');
   const ts = JSON.parse(fs.readFileSync(tsPath, 'utf8'));
-  ts.include.push('api', 'mcp', 'mcp_apps.ts');
+  ts.include.push('api');
   if (mf) ts.include.push('module-federation.config.ts');
   fs.writeFileSync(tsPath, `${JSON.stringify(ts, null, 2)}\n`);
 }

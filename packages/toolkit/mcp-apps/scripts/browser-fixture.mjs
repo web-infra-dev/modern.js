@@ -8,6 +8,7 @@ import { proxyFixtureRpc } from './fixture-rpc.mjs';
 
 const root = fileURLToPath(new URL('..', import.meta.url));
 const dist = await mkdtemp(path.join(os.tmpdir(), 'modern-mcp-browser-'));
+const hostPort = Number(process.env.MCP_HOST_PORT ?? 8092);
 const endpoint = process.env.MCP_ENDPOINT ?? 'http://127.0.0.1:8080/mcp';
 const rslib = await createRslib({
   cwd: root,
@@ -61,9 +62,9 @@ const server = createServer(async (req, res) => {
       }),
     );
   }
-}).listen(8092, '127.0.0.1', () =>
+}).listen(hostPort, '127.0.0.1', () =>
   console.log(
-    `Browser fixture: http://127.0.0.1:8092\nMCP endpoint: ${endpoint}`,
+    `Browser fixture: http://127.0.0.1:${hostPort}\nMCP endpoint: ${endpoint}`,
   ),
 );
 
