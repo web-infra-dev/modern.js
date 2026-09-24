@@ -1,5 +1,13 @@
 # @modern-js/create-request
 
+## 3.9.3
+
+### Patch Changes
+
+- Updated dependencies [a9c110f]
+  - @modern-js/runtime-utils@3.9.3
+  - @modern-js/utils@3.9.3
+
 ## 3.9.2
 
 ### Patch Changes
