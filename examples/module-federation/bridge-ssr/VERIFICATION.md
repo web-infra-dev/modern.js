@@ -136,3 +136,29 @@ Modern 新增回归覆盖 application 服务端/浏览器生命周期、shell re
 - Remote 流支持内联 classic 完成脚本，并转发 CSP nonce。External/module 脚本不在这条重放路径内；完整 CSP 策略部署没有单独完成浏览器验收。
 - Node entry 404 的一次降级、浏览器 entry 同时缺失时的错误展示和无重载循环均已做真实浏览器验证；超时、截断、取消和 hydration 错误有框架单测，不能据此声称所有网络故障都已在真实浏览器逐项注入。
 - 两个 Remote 使用独立 memory router，当前不把每次应用内导航自动同步到 Host 地址栏。
+
+## CSS 闪烁修复回归（2026-09-24）
+
+修复前实际 `/inventory` 响应仅包含 Host CSS，浏览器在约 184.7 ms 已显示库存 HTML，生产者 CSS 约 224 ms 才开始请求、227.4 ms 完成；采集到 6 个 CSS 未就绪的 requestAnimationFrame。修复后冷请求中生产者 CSS 已在首次可见帧之前完成，`unstyled` 为空，库存仍保留原 SSR DOM。
+
+首页响应的 head 中同时包含 Host、商品、库存三个 stylesheet，两个生产者链接均早于首个 Bridge 内容帧。正常网络双 Remote 浏览器采集结果：商品和库存首次可见时 `cssReady: true`，无无样式帧；每个 CSS 仅有一个活动 head link；React 18/19 的原 SSR DOM 均复用，商品与库存分别在约 1095.2 ms / 1895.8 ms 完成，错误列表为空。随后商品进入第 `2 / 3` 页、库存切到上海前置仓，互不影响。
+
+本轮命令：
+
+```bash
+cd /Users/bytedance/outter/core-bridge-ssr-demo
+pnpm --filter @module-federation/bridge-react run test
+pnpm --filter @module-federation/bridge-react run build
+pnpm --filter @module-federation/modern-js-v3 test -- src/bridge-stream/bootstrap.spec.ts
+pnpm --filter @module-federation/modern-js-v3 run build
+node packages/modernjs-v3/tests/stream-react-versions.cjs \
+  /Users/bytedance/outter/modern-js-bridge-ssr-demo/examples/module-federation/bridge-ssr/product-app \
+  /Users/bytedance/outter/modern-js-bridge-ssr-demo/examples/module-federation/bridge-ssr/inventory-app
+pnpm --dir /Users/bytedance/outter/modern-js-bridge-ssr-demo/examples/module-federation/bridge-ssr run build
+```
+
+Bridge Jest 59 + Rstest 11 通过；Modern MF 命令实际运行全包，74 / 74 测试通过，其中 bootstrap 17 项。两个包构建、三个 Demo 生产构建、真实 React 18/19 流矩阵、变更文件格式检查通过。新增用例覆盖早期 CSS head 去重、晚到 metadata 顺序、CSS 加载前保留 loading、共享链接/已加载链接、两实例独立等待、错误/超时/取消及迟到 load 事件。
+
+尝试通过 byted-browser 设置弱网时，工具报 `CDP error (Network.enable): Session with given id not found`，因此不把该场景记为通过；浏览器结果仅涵盖上述正常网络冷请求/双应用，延迟与失败规则另有框架回归测试。本轮没有修改 Modern runtime 或 Demo 业务代码，未重复 Modern 单测、全仓 E2E 或上一轮已被无关 Tailwind 依赖阻断的全仓 Prettier 检查。
+
+本机证据：`/tmp/bridge-css-before-browser.json`、`/tmp/bridge-css-cold-browser.json`、`/tmp/bridge-css-response-proof.json`、`/tmp/bridge-css-home-browser.json`、`/tmp/bridge-css-interaction.json`。构建与矩阵日志：`/tmp/bridge-css-bridge-tests.log`、`/tmp/bridge-css-mf-build.log`、`/tmp/bridge-css-demo-build.log`、`/tmp/bridge-css-react-matrix.log`。这些是诊断采集，不参与应用渲染，不是模拟数据。

@@ -154,6 +154,16 @@ Host 配置 `server.ssr: { mode: 'stream', forceCSR: true }`。正常请求默�
 
 本示例实现的是本地执行 Node 产物。远程 HTTP SSR service executor 以及“HTTP 渲染失败后切换本地”的重试策略尚未实现。React Form Actions 的 document 级 replay 协议不在当前隔离机制支持范围；RSC 未纳入此 Demo 验证。
 
+## 生产者 CSS 与首屏样式
+
+框架自动从已加载的 MF manifest 中收集当前 expose 的 `css.sync` 和 `css.async`，Demo 无需手写 CSS URL 或增加配置。这是 expose 级的保守依赖集合，不承诺只加载实际访问路由的 CSS。
+
+在 Host head 输出前已经收集到的样式直接生成 `<link rel="stylesheet">`。这和普通 Modern SSR 一样会阻塞首绘，也可能阻塞后面的内联 bootstrap；慢 CSS 在这条路径上可能影响整个页面。如果 Remote 通过后续 Suspense 才被发现，CSS 清单随该实例的 `meta.stylesheets` 发出，浏览器立即创建或复用 head stylesheet，只在该实例的 CSS 加载完成后插入其 HTML。晚到 CSS 的等待按实例隔离，加载失败/超时沿已有 CSR 降级路径处理；watchdog 从 bootstrap 执行后才开始，不覆盖此前原生 head 样式阻塞阶段。
+
+CSS URL 在 head 和客户端加载阶段会去重；`preload`、disabled、alternate 或非 CSS 类型的链接不被当成已经应用的 stylesheet。此次修复还统一了自动注入的 Bridge 插件与组件使用的 ESM 入口，避免 CJS/ESM 各自持有一个运行时实例、导致 SSR 样式收集为空。
+
+真实浏览器修复前采集到库存内容已显示、生产者 CSS 仍未加载的 6 个绘制帧。修复后库存页冷请求和首页双 Remote 的首次可见帧均已具备 CSS，未再采集到无样式帧；两个独立 Root 保留原 SSR DOM，交互正常。详见 [验证记录](./VERIFICATION.md)。
+
 ## 路由所有权
 
 Host 使用 Modern 自己的页面路由。嵌入的每个应用使用独立 memory router，因此首页两个 Remote 可以拥有不同的应用内路径，互不修改 Host 地址栏。
