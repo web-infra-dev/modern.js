@@ -11,6 +11,7 @@ import { createNodePreset } from './platforms/node';
 import { createVercelPreset } from './platforms/vercel';
 import type { PluginAPI } from './types';
 import { getProjectUsage } from './utils';
+
 type DeployPresetCreators = {
   node: typeof createNodePreset;
   vercel: typeof createVercelPreset;
@@ -32,6 +33,7 @@ async function getDeployPreset(
   modernConfig: AppToolsNormalizedConfig,
   deployTarget: DeployTarget,
   api: PluginAPI,
+  envDir?: string,
 ) {
   const { appDirectory, distDirectory, metaName } = appContext;
   const { useSSR, useAPI, useWebServer } = getProjectUsage(
@@ -49,13 +51,24 @@ async function getDeployPreset(
     );
   }
 
-  return createPreset({ appContext, modernConfig, needModernServer, api });
+  return createPreset({
+    appContext,
+    modernConfig,
+    needModernServer,
+    api,
+    envDir,
+  });
 }
 
 export default (): CliPlugin<AppTools> => ({
   name: '@modern-js/plugin-deploy',
   setup: api => {
     const deployTarget = process.env.MODERNJS_DEPLOY || provider || 'node';
+    let deployEnvDir: string | undefined;
+
+    api.onBeforeDeploy(options => {
+      deployEnvDir = options?.envDir;
+    });
 
     api.deploy(async () => {
       const appContext = api.getAppContext();
@@ -69,6 +82,7 @@ export default (): CliPlugin<AppTools> => ({
         modernConfig,
         deployTarget as DeployTarget,
         api,
+        deployEnvDir,
       );
 
       deployPreset?.prepare && (await deployPreset?.prepare());
