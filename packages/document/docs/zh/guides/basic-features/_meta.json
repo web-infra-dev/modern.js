@@ -43,6 +43,7 @@
     "collapsed": true
   },
   "alias",
+  "typescript",
   "env-vars",
   "output-files",
   "deploy"

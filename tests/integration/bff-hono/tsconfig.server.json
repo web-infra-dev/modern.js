@@ -1,15 +1,10 @@
 {
-  "extends": "@modern-js/tsconfig/base",
+  "extends": "./tsconfig.json",
   "compilerOptions": {
-    "declaration": false,
-    "jsx": "preserve",
-    "baseUrl": "./",
-    "paths": {
-      "@/*": ["./src/*"],
-      "@shared/*": ["./shared/*"],
-      "@api/*": ["./api/*"]
-    },
-    "types": ["@rstest/core/globals"]
+    "module": "NodeNext",
+    "moduleResolution": "NodeNext",
+    "noEmit": false,
+    "declaration": false
   },
   "include": ["shared", "server", "api"]
 }

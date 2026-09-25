@@ -1,0 +1,1 @@
+{ "compilerOptions": { "lib": ["ESNext"], "jsx": "preserve", "target": "ES5" } }

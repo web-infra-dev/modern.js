@@ -48,6 +48,13 @@ export const SHARED_DIR = 'shared';
 export const TS_CONFIG_FILENAME = 'tsconfig.json';
 
 /**
+ * Convention filename of the server-side tsconfig. When it exists next to
+ * `tsconfig.json`, it is used to compile `api/`, `server/` and `shared/` and
+ * for ts-node at dev time, without any `server.tsconfigPath` configuration.
+ */
+export const SERVER_TSCONFIG_FILENAME = 'tsconfig.server.json';
+
+/**
  * Modern.config.ts cached dir
  */
 export const CONFIG_CACHE_DIR = './node_modules/.cache/bundle-require';

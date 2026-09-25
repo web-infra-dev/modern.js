@@ -5,59 +5,91 @@ title: tsconfigPath
 # server.tsconfigPath
 
 - **类型：** `string`
-- **默认值：** `<appDirectory>/tsconfig.json`
+- **默认值：** `undefined`（按下方优先级自动解析）
 
 指定服务端 TypeScript 相关流程使用的 tsconfig 文件。
 
 该配置会影响：
 
-- BFF / API 编译（`@modern-js/plugin-bff`）
-- 自定义 Server 编译（`server/` 目录下的 `*.ts` 文件）
-- 运行时 ts-node 注册（如 SSR、`modern.config.ts`、`config/` 目录下的 `.ts` 文件）
+- BFF / API 编译（`@modern-js/plugin-bff`，`api/` 目录）
+- 自定义 Server 编译（`server/` 目录，以及随之编译的 `shared/` 目录）
+- 运行时 ts-node 注册（如 SSR、`config/` 目录下的 `.ts` 文件）
 
-未配置时，默认使用 `<appDirectory>/tsconfig.json`。
+## 解析优先级
 
-## 使用场景
+服务端 tsconfig 按以下顺序解析，命中即停止：
 
-当前端和服务端需要不同的 TypeScript 配置时，可以通过该选项为服务端单独指定 tsconfig。
+1. **显式配置**：`server.tsconfigPath`（相对 `appDirectory` 解析，也支持绝对路径）。
+2. **约定文件**：`<appDirectory>/tsconfig.server.json` 存在时自动使用，无需任何配置。
+3. **回退**：`<appDirectory>/tsconfig.json`。
 
-例如前端使用 `moduleResolution: "Bundler"`，服务端需要使用 `moduleResolution: "NodeNext"` 来适配 conditional exports 或 subpath exports 的类型解析。
+前两种情况下，文件内容会被原样使用，框架不会改写任何编译选项。
 
-## 配置示例
+## 回退时的改写规则
 
-下面以 `tsconfig.server.json` 为例，你也可以根据项目情况使用其他文件名。
+`@modern-js/tsconfig/base` 是面向打包器的配置（`module: ESNext`、`moduleResolution: bundler`）。如果服务端编译直接使用它，产物会是 ES Module，而 `package.json` 没有 `"type": "module"` 的项目无法 `require()` 这些产物。
 
-新增 `<appDirectory>/tsconfig.server.json`：
+因此**只在回退到 `tsconfig.json`** 时，框架会做一次判断：
 
-```jsonc title="tsconfig.server.json"
+| 条件 | 行为 |
+| --- | --- |
+| 解析 `extends` 后的 `module` 为 ES Module 取值（`es2015` / `es6` / `es2020` / `es2022` / `esnext` / `preserve`，不区分大小写），且 `package.json#type` 不是 `module` | 以 `module: NodeNext` 与 `moduleResolution: NodeNext` 编译服务端代码，并打印一次警告，建议添加 `tsconfig.server.json` |
+| `module` 为 `commonjs` / `node16` / `nodenext` 等 | 不改写 |
+| `package.json#type` 为 `module` | 不改写（ESNext 产物正是 ESM 项目需要的，框架会为相对导入补全 `.js` 后缀） |
+
+`module` 与 `moduleResolution` 总是一起改写：TypeScript 不允许只改其中一个（TS5095 / TS5109 / TS5110）。
+
+## 推荐布局
+
+保留一份主配置 `tsconfig.json`（编辑器、Rspack 别名、类型检查），再加一份只改模块选项的 `tsconfig.server.json`：
+
+```json title="tsconfig.json"
+{
+  "extends": "@modern-js/tsconfig/base",
+  "compilerOptions": {
+    "noEmit": true,
+    "types": ["node"],
+    "paths": {
+      "@/*": ["./src/*"],
+      "@shared/*": ["./shared/*"],
+      "@api/*": ["./api/lambda/*"]
+    }
+  },
+  "include": ["src", "shared", "config", "api", "server", "modern.config.ts"]
+}
+```
+
+```json title="tsconfig.server.json"
 {
   "extends": "./tsconfig.json",
   "compilerOptions": {
     "module": "NodeNext",
     "moduleResolution": "NodeNext",
-    "target": "ES2022",
-    "lib": ["ESNext"],
-    "types": ["node"],
-    "esModuleInterop": true,
-    "experimentalDecorators": true,
-    "emitDecoratorMetadata": true
+    "noEmit": false,
+    "declaration": false
   },
-  "include": ["api", "shared", "server", "config", "modern.config.ts"]
+  "include": ["api", "server", "shared"]
 }
 ```
 
-在 `modern.config.ts` 中指定该文件：
+这四个 `compilerOptions` 只覆盖对应的键，其余选项全部继承自 `tsconfig.json`。`@modern-js/tsconfig/server` 作为参考预设发布，内容就是这四个字段，供支持 `extends` 数组的工具（tsc >= 5.0）使用；但 Modern.js 推荐并生成的文件把它们直接写在文件内，因为 ts-node 10 不支持 `extends` 数组，而开发时 ts-node 读取的正是这份文件。
+
+编译 `api/`、`server/`、`shared/` 时，Modern.js 总是强制 `noEmit: false` 与 `emitDeclarationOnly: false`（服务端编译本身就是产出步骤），但 `declaration` 保持配置文件中的取值：跨项目 BFF 依赖产出的 `.d.ts` 文件。
+
+有了 `tsconfig.server.json` 之后不需要再配置 `server.tsconfigPath`；只有当文件名或位置不同时才需要显式指定：
 
 ```ts title="modern.config.ts"
 export default defineConfig({
   server: {
-    tsconfigPath: './tsconfig.server.json',
+    tsconfigPath: './config/tsconfig.node.json',
   },
 });
 ```
 
 ## 注意事项
 
-- `tsconfigPath` 相对 `appDirectory` 解析，也支持绝对路径。
-- 建议通过 `extends` 继承根 tsconfig 中的 `paths` 等公共配置，避免重复维护。
-- 如果配置的文件不存在，TypeScript / ts-node 会在启动时抛出错误。
+- **`paths` 必须留在 `tsconfig.json` 中**。TypeScript 在 `extends` 合并时对 `compilerOptions` 逐键覆盖，但对 `paths` 是整体替换；在 `tsconfig.server.json` 里声明 `paths` 会丢掉主配置中的全部别名。框架读取别名时会沿 `extends` 链查找，所以服务端配置只继承即可。
+- `tsconfig.server.json` 中的 `include` 只需列出服务端目录。
+- `tsconfig.server.json` 中的 `extends` 保持为单个字符串。Modern.js 自己注册 ts-node 时会兼容数组形式作为兜底，但 ts-node CLI（`ts-node --project tsconfig.server.json`）不支持。
+- 如果显式配置的文件不存在，TypeScript / ts-node 会在启动时抛出错误。
+- 不希望采用新布局的项目可以改为继承 `@modern-js/tsconfig/legacy`（旧版 `commonjs` + `node` 配置），但这些选项在 TypeScript 6 中已被标记为废弃。

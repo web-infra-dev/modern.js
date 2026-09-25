@@ -1,0 +1,7 @@
+{
+  "extends": "./c.json",
+  "compilerOptions": {
+    "module": "esnext",
+    "paths": { "@b/*": ["./b/*"] }
+  }
+}
