@@ -22,12 +22,6 @@ export class HtmlAsyncChunkPlugin {
         const processScriptTag = (tag: (typeof assets.headTags)[0]) => {
           const { attributes } = tag;
 
-          // Convert defer to async
-          if (attributes && attributes.defer === true) {
-            attributes.async = true;
-            delete attributes.defer;
-          }
-
           const src = attributes?.src as string | undefined;
           const isRuntimeChunk = src && RUNTIME_CHUNK_REGEX.test(src);
 
