@@ -80,73 +80,13 @@ Options:
   -w --watch            turn on watch mode, watch for changes and rebuild
 ```
 
-## modern new
-
-The `modern new` command is used to enable features in an existing project.
-
-For example, add application entry, enable some optional features such as BFF, micro frontend, etc.
-
-```bash
-Usage: modern new [options]
-
-Options:
-  --config-file <configFile>  specify the configuration file, which can be a relative or absolute path
-  --lang <lang>          set the language (zh or en) for the new command.
-  -d, --debug            using debug mode to log something (default: false)
-  -c, --config <config>  set default generator config(json string)
-  --dist-tag <tag>       use specified tag version for its generator
-  --registry             set npm registry url to run npm command
-  -h, --help             show command help
-```
-
-### Add Entry
-
-In the project, execute the `new` command to add entries as follows:
-
-```text
-$ npx modern new
-? Please select the operation you want: Create Element
-? Please select the type of element to create: New "entry"
-? Please fill in the entry name: entry
-```
-
-### Enable Features
-
-In the project, execute the `new` command to enable features as follows:
-
-```text
-$ npx modern new
-? Please select the operation you want: Enable Features
-? Please select the feature name: (Use arrow keys)
-❯ Enable BFF
-  Enable SSG
-  Enable Micro Frontend
-```
-
-:::tip
-The `--config` parameter needs to use a JSON string.
-
-pnpm does not support the use of JSON strings as parameter values currently. Use `npm new` to turn on.【[Relate Issue](https://github.com/pnpm/pnpm/issues/3876)】
-:::
-
 import ServeCommand from '@site-docs-en/components/serve-command';
 
 <ServeCommand />
 
-## modern upgrade
-
-Execute the command `npx modern upgrade` in the project, by default, dependencies in the `package.json` are updated to the latest version.
-
-```bash
-Usage: modern upgrade [options]
-
-Options:
-  --config <config> specify the configuration file, which can be a relative or absolute path
-  --registry <registry>  specify npm registry (default: "")
-  -d,--debug             using debug mode to log something (default: false)
-  --cwd <cwd>            app directory (default: "")
-  -h, --help             show command help
-```
+:::info
+The `modern new` and `modern upgrade` commands were removed in Modern.js 3.0. See the [upgrade guide](/guides/upgrade/other#new-and-upgrade-commands-removed) for alternatives.
+:::
 
 ## modern inspect
 
