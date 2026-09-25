@@ -1,14 +1,39 @@
 import { createRequire } from 'node:module';
+import path from 'node:path';
+import { pathToFileURL } from 'node:url';
 import { applyOptionsChain, isProd } from '@modern-js/utils';
 import { type RsbuildPlugin, logger } from '@rsbuild/core';
 import type { Options } from 'cssnano';
 import { getCssSupport } from '../shared/getCssSupport';
 import type { ToolsAutoprefixerConfig } from '../types';
 
-const require = createRequire(import.meta.url);
+const builderRequire = createRequire(import.meta.url);
 
-const importPostcssPlugin = (name: string) =>
-  Promise.resolve(require(name)) as Promise<any>;
+const createRootRequire = (rootPath: string) =>
+  createRequire(pathToFileURL(path.join(rootPath, 'package.json')).href);
+
+export const loadPostcssPlugin = (name: string, appRootPath: string) => {
+  const resolvers = [
+    builderRequire,
+    createRootRequire(appRootPath),
+    createRootRequire(process.cwd()),
+  ];
+
+  let firstError: unknown = null;
+
+  for (const resolveWith of resolvers) {
+    try {
+      return resolveWith(name);
+    } catch (error) {
+      firstError ??= error;
+    }
+  }
+
+  throw firstError;
+};
+
+const importPostcssPlugin = (name: string, appRootPath: string) =>
+  Promise.resolve(loadPostcssPlugin(name, appRootPath)) as Promise<any>;
 
 export interface PluginPostcssOptions {
   autoprefixer?: ToolsAutoprefixerConfig;
@@ -54,29 +79,37 @@ export const pluginPostcss = (
       };
 
       const plugins = await Promise.all([
-        importPostcssPlugin('postcss-flexbugs-fixes'),
+        importPostcssPlugin('postcss-flexbugs-fixes', api.context.rootPath),
         !cssSupport.customProperties &&
-          importPostcssPlugin('postcss-custom-properties'),
-        !cssSupport.initial && importPostcssPlugin('postcss-initial'),
-        !cssSupport.pageBreak && importPostcssPlugin('postcss-page-break'),
-        !cssSupport.fontVariant && importPostcssPlugin('postcss-font-variant'),
-        !cssSupport.mediaMinmax && importPostcssPlugin('postcss-media-minmax'),
-        importPostcssPlugin('postcss-nesting'),
+          importPostcssPlugin(
+            'postcss-custom-properties',
+            api.context.rootPath,
+          ),
+        !cssSupport.initial &&
+          importPostcssPlugin('postcss-initial', api.context.rootPath),
+        !cssSupport.pageBreak &&
+          importPostcssPlugin('postcss-page-break', api.context.rootPath),
+        !cssSupport.fontVariant &&
+          importPostcssPlugin('postcss-font-variant', api.context.rootPath),
+        !cssSupport.mediaMinmax &&
+          importPostcssPlugin('postcss-media-minmax', api.context.rootPath),
+        importPostcssPlugin('postcss-nesting', api.context.rootPath),
         enableCssMinify &&
-          importPostcssPlugin('cssnano').then(cssnano =>
+          importPostcssPlugin('cssnano', api.context.rootPath).then(cssnano =>
             cssnano(cssnanoOptions),
           ),
         // The last insert autoprefixer
-        importPostcssPlugin('autoprefixer').then(autoprefixerPlugin =>
-          autoprefixerPlugin(
-            applyOptionsChain(
-              {
-                flexbox: 'no-2009',
-                overrideBrowserslist: config.output.overrideBrowserslist!,
-              },
-              autoprefixer,
+        importPostcssPlugin('autoprefixer', api.context.rootPath).then(
+          autoprefixerPlugin =>
+            autoprefixerPlugin(
+              applyOptionsChain(
+                {
+                  flexbox: 'no-2009',
+                  overrideBrowserslist: config.output.overrideBrowserslist!,
+                },
+                autoprefixer,
+              ),
             ),
-          ),
         ),
       ]).then(results => results.filter(Boolean));
 
