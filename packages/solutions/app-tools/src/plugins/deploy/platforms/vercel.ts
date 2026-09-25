@@ -129,6 +129,7 @@ export const createVercelPreset: CreatePreset = ({
         appDir: appDirectory,
         sourceDir: funcsDirectory,
         includeEntries: [entry],
+        traceOptions: modernConfig.deploy?.traceOptions,
         copyWholePackage(pkgName) {
           return pkgName === '@modern-js/utils';
         },
