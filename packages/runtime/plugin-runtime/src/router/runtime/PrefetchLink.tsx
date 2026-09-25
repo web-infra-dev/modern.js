@@ -15,10 +15,15 @@ import React, { useContext, useMemo } from 'react';
 import type {
   FocusEventHandler,
   MouseEventHandler,
+  Ref,
   TouchEventHandler,
 } from 'react';
 import { InternalRuntimeContext } from '../../core/context';
 import type { RouteAssets, RouteManifest } from './types';
+
+declare const WEBPACK_CHUNK_LOAD:
+  | ((chunkId: string | number) => Promise<unknown>)
+  | undefined;
 
 interface PrefetchHandlers {
   onFocus?: FocusEventHandler<Element>;
@@ -53,16 +58,32 @@ function composeEventHandlers<EventType extends React.SyntheticEvent | Event>(
  *
  * - "intent": Fetched when the user focuses or hovers the link
  * - "render": Fetched when the link is rendered
+ * - "viewport": Fetched when the link enters the viewport
  * - "none": Never fetched
  */
-type PrefetchBehavior = 'intent' | 'render' | 'none';
+type PrefetchBehavior = 'intent' | 'render' | 'viewport' | 'none';
 const ABSOLUTE_URL_REGEX = /^(?:[a-z][a-z0-9+.-]*:|\/\/)/i;
+const INTENT_DELAY = 100;
+const VIEWPORT_ROOT_MARGIN = '200px';
 export interface LinkProps extends RouterLinkProps {
   prefetch?: PrefetchBehavior;
 }
 export interface NavLinkProps extends RouterNavLinkProps {
   prefetch?: PrefetchBehavior;
 }
+
+const setRef = <T,>(ref: Ref<T> | undefined, value: T | null) => {
+  if (!ref) {
+    return;
+  }
+
+  if (typeof ref === 'function') {
+    ref(value);
+    return;
+  }
+
+  (ref as React.MutableRefObject<T | null>).current = value;
+};
 
 /**
  * Modified from https://github.com/remix-run/remix/blob/9a0601bd704d2f3ee622e0ddacab9b611eb0c5bc/packages/remix-react/components.tsx#L236
@@ -75,9 +96,15 @@ export interface NavLinkProps extends RouterNavLinkProps {
 function usePrefetchBehavior(
   prefetch: PrefetchBehavior,
   theirElementProps: PrefetchHandlers,
-): [boolean, Required<PrefetchHandlers>] {
+): [
+  boolean,
+  Required<PrefetchHandlers>,
+  (element: HTMLAnchorElement | null) => void,
+] {
   const [maybePrefetch, setMaybePrefetch] = React.useState(false);
   const [shouldPrefetch, setShouldPrefetch] = React.useState(false);
+  const [viewportElement, setViewportElement] =
+    React.useState<HTMLAnchorElement | null>(null);
   const { onFocus, onBlur, onMouseEnter, onMouseLeave, onTouchStart } =
     theirElementProps;
 
@@ -103,13 +130,45 @@ function usePrefetchBehavior(
   React.useEffect(() => {
     if (maybePrefetch) {
       const id = setTimeout(() => {
-        setShouldPrefetch(true);
-      }, 100);
+        if (prefetch === 'intent') {
+          setShouldPrefetch(true);
+        }
+      }, INTENT_DELAY);
       return () => {
         clearTimeout(id);
       };
     }
-  }, [maybePrefetch]);
+  }, [maybePrefetch, prefetch]);
+
+  React.useEffect(() => {
+    if (
+      !viewportElement ||
+      prefetch !== 'viewport' ||
+      typeof IntersectionObserver === 'undefined'
+    ) {
+      return;
+    }
+
+    const observer = new IntersectionObserver(
+      entries => {
+        if (!entries.some(entry => entry.isIntersecting)) {
+          return;
+        }
+
+        setShouldPrefetch(true);
+        observer.disconnect();
+      },
+      {
+        rootMargin: VIEWPORT_ROOT_MARGIN,
+      },
+    );
+
+    observer.observe(viewportElement);
+
+    return () => {
+      observer.disconnect();
+    };
+  }, [prefetch, viewportElement]);
 
   return [
     shouldPrefetch,
@@ -120,6 +179,7 @@ function usePrefetchBehavior(
       onMouseLeave: composeEventHandlers(onMouseLeave, cancelIntent),
       onTouchStart: composeEventHandlers(onTouchStart, setIntent),
     },
+    setViewportElement,
   ];
 }
 
@@ -138,17 +198,16 @@ async function loadRouteModule(
 
   const { chunkIds } = routeAssets[routeId];
 
-  if (!chunkIds) {
+  if (
+    !Array.isArray(chunkIds) ||
+    chunkIds.length === 0 ||
+    typeof WEBPACK_CHUNK_LOAD !== 'function'
+  ) {
     return;
   }
 
   try {
-    await Promise.all(
-      chunkIds.map(chunkId => {
-        // @ts-ignore
-        return WEBPACK_CHUNK_LOAD?.(chunkId);
-      }),
-    );
+    await Promise.all(chunkIds.map(chunkId => WEBPACK_CHUNK_LOAD(chunkId)));
   } catch (error) {
     console.error(error);
   }
@@ -186,10 +245,20 @@ const PrefetchPageLinks: React.FC<{ path: Path }> = ({ path }) => {
   const context = useContext(InternalRuntimeContext);
   const { routeManifest, routes } = context;
   const { routeAssets } = routeManifest || {};
-  const matches = Array.isArray(routes) ? matchRoutes(routes, pathname) : [];
-  if (Array.isArray(matches) && routeAssets) {
-    matches?.forEach(match => loadRouteModule(match.route, routeAssets));
-  }
+  const matches = useMemo(
+    () => (Array.isArray(routes) ? matchRoutes(routes, pathname) : []),
+    [pathname, routes],
+  );
+
+  React.useEffect(() => {
+    if (!Array.isArray(matches) || !routeAssets) {
+      return;
+    }
+
+    matches.forEach(match => {
+      void loadRouteModule(match.route, routeAssets);
+    });
+  }, [matches, routeAssets]);
 
   if (!window._SSR_DATA) {
     return null;
@@ -275,23 +344,26 @@ const createPrefetchLink = <T extends typeof RouterLink | typeof RouterNavLink>(
   return React.forwardRef<HTMLAnchorElement, InputLinkProps<T>>(
     ({ to, prefetch = 'none', ...props }, forwardedRef) => {
       const isAbsolute = typeof to === 'string' && ABSOLUTE_URL_REGEX.test(to);
-      const [shouldPrefetch, prefetchHandlers] = usePrefetchBehavior(
-        prefetch,
-        props,
+      const [shouldPrefetch, prefetchHandlers, setViewportElement] =
+        usePrefetchBehavior(prefetch, props);
+      const setAnchorRef = React.useCallback(
+        (element: HTMLAnchorElement | null) => {
+          setViewportElement(element);
+          setRef(forwardedRef, element);
+        },
+        [forwardedRef, setViewportElement],
       );
 
       const resolvedPath = useResolvedPath(to);
       return (
         <>
           <Link
-            ref={forwardedRef}
+            ref={setAnchorRef}
             to={to}
             {...(props as any)}
             {...prefetchHandlers}
           />
-          {shouldPrefetch && // @ts-ignore
-          WEBPACK_CHUNK_LOAD &&
-          !isAbsolute ? (
+          {shouldPrefetch && !isAbsolute ? (
             <PrefetchPageLinks path={resolvedPath} />
           ) : null}
         </>
