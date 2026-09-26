@@ -47,7 +47,7 @@
     "@rsbuild/plugin-typed-css-modules": "1.2.4",
     "@swc/core": "1.15.41",
     "@swc/helpers": "^0.5.17",
-    "autoprefixer": "10.4.27",
+    "autoprefixer": "10.6.1",
     "browserslist": "4.29.0",
     "core-js": "^3.48.0",
     "cssnano": "6.1.2",
