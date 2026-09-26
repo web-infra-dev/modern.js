@@ -69,10 +69,10 @@ export function parseCookie(req: Request): Cookie {
     .split(';')
     .forEach(item => {
       // every item is name=value
-      const [k, v] = item.trim().split('=');
+      const [k, ...v] = item.trim().split('=');
 
       if (k) {
-        cookie[k] = v;
+        cookie[k] = v.join('=');
       }
     });
 
