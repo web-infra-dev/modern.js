@@ -358,3 +358,31 @@ pnpm --dir examples/module-federation/bridge-ssr run build
 | `bridge-progressive-browser-final.json` | 最终产物商品先完成：提前模态框交互、ready / update / done 时序、原 DOM 复用、CSS 首次就绪及空错误列表 |
 | `bridge-progressive-browser-final-reverse.json` | 最终产物库存先完成：提前交互、原 DOM 复用、CSS 首次就绪及空错误列表 |
 | `bridge-progressive-browser-final-csr.json` | 最终产物纯 CSR：无 SSR runtime / 帧，两个列表和模态框交互正常 |
+
+
+### 库存流水后到内容的点击交互（2026-09-28）
+
+`Activity` 在 `Await` 内为每条真实流水提供“查看详情”，通过组件自己的 React state 打开只读详情弹窗。用 `?streamDelay=5000&activityDelay=2500` 重新构建库存应用、重启 Host 后验证：215.0 ms 观察到流水 loading；2649.9 ms 捕获后到的服务端详情按钮，此时未挂载 React 点击事件；2687.1 ms 同一按钮水合后点击，2789.5 ms 弹窗打开；2891.0 ms 确认关闭，2992.9 ms 重开成功。商品流到 5147.4 ms 才完成。弹窗内容与所点流水一致，两个 Remote 原容器、应用根节点和详情按钮均复用，页面错误为空。
+
+点击时库存自身的流已于 2671.3 ms 完成；本次证明后到区域自身能水合并交互，以及与仍未完成的商品流相互独立。不要将此记录描述为库存自身还有其他 pending 边界；该情况由前述真实构建矩阵验证。
+
+已运行命令：
+
+```bash
+# Modern worktree 根目录
+pnpm exec biome check --write examples/module-federation/bridge-ssr/inventory-app/src/routes/page.tsx examples/module-federation/bridge-ssr/inventory-app/src/routes/inventory.css
+
+# Demo workspace
+pnpm --filter @examples/bridge-ssr-inventory-app run typecheck
+pnpm --filter @examples/bridge-ssr-inventory-app run build
+
+# host 目录；重启此 demo 的 Host 以清除旧 Node 产物缓存
+pnpm run serve
+
+# 真实 Chrome，诊断探针仅观察流与 DOM、点击业务按钮
+bytedbrowser raw --session bridge-activity-late-hydration --init-script /private/tmp/bridge-activity-interaction-probe.js open 'http://127.0.0.1:4600/?streamDelay=5000&activityDelay=2500'
+bytedbrowser raw --session bridge-activity-late-hydration eval 'JSON.stringify(window.__bridgeActivityProof)'
+bytedbrowser raw --session bridge-activity-late-hydration screenshot /private/tmp/bridge-activity-dialog.png
+```
+
+本次仅修改 Demo 交互与样式，没有修改框架运行时；未重复框架包单测、完整 E2E 或其他应用构建，也未新增复刻组件实现的单测。验证采用库存应用类型检查、双端生产构建及真实浏览器交互。证据：`/private/tmp/bridge-activity-browser-proof.json`、`bridge-activity-dialog.png`、`bridge-activity-typecheck.log`、`bridge-activity-build.log`。

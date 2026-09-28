@@ -415,6 +415,26 @@
   margin-top: 2px;
   font-variant-numeric: tabular-nums;
 }
+.inv-movement-value .inv-text-button {
+  margin-top: 6px;
+}
+.inv-movement-fields {
+  margin: 22px 0 0;
+}
+.inv-movement-fields > div {
+  display: grid;
+  grid-template-columns: 80px minmax(0, 1fr);
+  gap: 12px;
+  padding: 9px 0;
+  font-size: 13px;
+}
+.inv-movement-fields dt {
+  color: #7a8a9c;
+}
+.inv-movement-fields dd {
+  margin: 0;
+  overflow-wrap: anywhere;
+}
 .inv-positive {
   color: #188370;
 }

@@ -6,7 +6,14 @@ import {
   useNavigation,
   useRevalidator,
 } from '@modern-js/runtime/router';
-import { type FormEvent, Suspense, useEffect, useRef, useState } from 'react';
+import {
+  type FormEvent,
+  Suspense,
+  useEffect,
+  useId,
+  useRef,
+  useState,
+} from 'react';
 import {
   type InventoryData,
   type Movement,
@@ -155,7 +162,82 @@ function Adjustment({
     </dialog>
   );
 }
+function MovementDetails({
+  movement,
+  onClose,
+}: { movement: Movement; onClose: () => void }) {
+  const dialog = useRef<HTMLDialogElement>(null);
+  const titleId = useId();
+  useEffect(() => {
+    const element = dialog.current;
+    element?.showModal();
+    return () => element?.close();
+  }, []);
+  return (
+    <dialog
+      className="inv-dialog"
+      data-testid="inventory-movement-dialog"
+      ref={dialog}
+      onCancel={onClose}
+      onClose={onClose}
+      aria-labelledby={titleId}
+    >
+      <header className="inv-dialog-heading">
+        <div>
+          <span>流水 #{movement.id}</span>
+          <h2 id={titleId}>库存流水详情</h2>
+        </div>
+        <button type="button" onClick={onClose} aria-label="关闭流水详情">
+          ×
+        </button>
+      </header>
+      <dl className="inv-movement-fields">
+        <div>
+          <dt>商品</dt>
+          <dd>{movement.name}</dd>
+        </div>
+        <div>
+          <dt>SKU</dt>
+          <dd>{movement.sku}</dd>
+        </div>
+        <div>
+          <dt>仓库</dt>
+          <dd>{movement.warehouse}</dd>
+        </div>
+        <div>
+          <dt>变更数量</dt>
+          <dd className={movement.delta > 0 ? 'inv-positive' : 'inv-danger'}>
+            {movement.delta > 0 ? '+' : ''}
+            {movement.delta}
+          </dd>
+        </div>
+        <div>
+          <dt>调整原因</dt>
+          <dd>{movement.reason}</dd>
+        </div>
+        <div>
+          <dt>操作时间</dt>
+          <dd>
+            <time dateTime={movement.createdAt}>
+              {movementTime(movement.createdAt)}
+            </time>
+          </dd>
+        </div>
+      </dl>
+      <footer className="inv-dialog-actions">
+        <button
+          type="button"
+          className="inv-button inv-primary"
+          onClick={onClose}
+        >
+          关闭
+        </button>
+      </footer>
+    </dialog>
+  );
+}
 function Activity({ movements }: { movements: Movement[] }) {
+  const [selected, setSelected] = useState<Movement | null>(null);
   return (
     <div data-testid="inventory-activity">
       {movements.length ? (
@@ -184,6 +266,14 @@ function Activity({ movements }: { movements: Movement[] }) {
                 <time dateTime={movement.createdAt}>
                   {movementTime(movement.createdAt)}
                 </time>
+                <button
+                  type="button"
+                  className="inv-text-button"
+                  data-testid="inventory-movement-details"
+                  onClick={() => setSelected(movement)}
+                >
+                  查看详情
+                </button>
               </div>
             </li>
           ))}
@@ -193,6 +283,12 @@ function Activity({ movements }: { movements: Movement[] }) {
           <strong>还没有库存流水</strong>
           <p>完成一次库存调整后，变更记录会显示在这里。</p>
         </div>
+      )}
+      {selected && (
+        <MovementDetails
+          movement={selected}
+          onClose={() => setSelected(null)}
+        />
       )}
     </div>
   );

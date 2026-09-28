@@ -224,6 +224,8 @@ Bridge 的普通 CSR 继续使用通用浏览器生命周期，不要求安装 M
 
 打开 `http://127.0.0.1:4600/?streamDelay=5000&activityDelay=4000`，在库存流水还显示 loading 时点击“调整库存”，弹窗应立即打开；也可以用“仅看低库存”过滤现有列表。后续流水到达时，已打开的弹窗和筛选状态应保留。商品使用 React 18，库存使用 React 19；交换两个延迟参数可检查完成顺序反转。`?csr=1` 继续验证普通 CSR 路径。
 
+验证后到内容自身的交互：打开 `http://127.0.0.1:4600/?streamDelay=5000&activityDelay=2500`，滚动到“最近库存流水”，等待 loading 被实际流水替换，点击任意一条右侧的“查看详情”。应打开“库存流水详情”弹窗，展示该条记录的商品、SKU、仓库、变更数量、原因和时间；关闭后可以再次打开。按钮和弹窗状态都位于 `Await` 后到的 `Activity` 子树内。这个场景中库存先完成，商品仍可能在加载；详情操作只读取已有流水，不修改库存。
+
 实现入口：Modern 的 `application/server.tsx` 生成 v2 初始 snapshot，`data.server.ts` 编码 deferred 引用和后续结果，`data.ts` 在浏览器恢复实例自己的 Promise，`application/index.tsx` 在 shell commit 后完成 hydrate 调用。MF 的 `bridgeStreamPlugin.node.tsx` 识别完整 shell marker并转发帧；`bootstrap.ts` 提供独立的 `session.ready` 和 `session.done`；Bridge 的 `hydration.ts` 优先等待 ready。
 
 延迟数据协议只传生产者定义的数据，Host 不理解 loader 或路由。原有 v1 完整 snapshot 仍可使用。当前验证覆盖 React 18.3.1 / 19.2.8；需要 Host 保持 HTTP 文档流开放直到 Remote 完成，不覆盖在已结束的文档上再次插入带 pending 边界的 SSR 流。完整命令、结果和边界见 VERIFICATION.md 的本轮记录。
