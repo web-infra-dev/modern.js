@@ -217,3 +217,40 @@ Bridge 的普通 CSR 继续使用通用浏览器生命周期，不要求安装 M
 7. `packages/modernjs-v3/tests/bridge-platform-build.cjs`：真实编译 Node/browser 产物，验证插件启用和未启用时的行为，并检查两次挂载同一 Remote 的 ID 和 DOM 水合复用。
 
 之后再按本文的双 Remote 延迟 URL、页面筛选/分页、`csr=1` 路径验收 Demo。此轮没有修改 `bridge.exposes` API、参数序列化策略，也没有增加业务 hydration mismatch 的自动诊断。
+
+## 执行流程与生产落地边界
+
+以下是当前实现的分工，后续优化计划不能当作已实现能力。MF 侧的完整说明与测试计划见 [MF README](https://github.com/module-federation/core/blob/feat/bridge-independent-ssr/packages/modernjs-v3/README.md)。
+
+### 生产者与 Host Node
+
+1. 生产者 Modern 提供 `renderApplication(request, options)`，返回应用 HTML 流、`snapshot` Promise 和 `cancel`；浏览器 `createApplication()` 提供 `mount / hydrate / update / destroy`。它们使用生产者自己的 registry、路由、loader、runtime context 和 React renderer。
+2. MF 根据当前 `bridge.exposes` 配置生成 Node/browser 入口，分别导出 `createModernServerBridge({ renderApplication })` 和 `createModernBrowserBridge({ createApplication })`。构建只生成代码，实际 SSR 在请求时执行；普通 exposes 自动扫描尚未实现。
+3. Host 的 `createRemoteAppComponent` 使用 `useId` 派生本次挂载的 ID，在 lazy 加载前以 `deferRender: true` 预注册；内层 `RemoteAppWrapper` 服务端生命周期补齐路由参数后激活同一任务。`BridgeSSRContext` 与任务集合由 MF 的 `api.extendStreamSSR` 集成为每次请求单独创建。
+4. Host 通过 MF 加载生产者 Node 模块，在自己的进程调用 `provider.renderStream`，最终执行生产者 `renderApplication`。没有启动额外 SSR 服务，也没有调用 HTTP 渲染接口；静态资源 HTTP 加载与服务端渲染传输是两回事。
+5. Host 原始 React 流先经 `hostPieces`，首段包含 Modern shell marker，后续复用 `htmlFrames`；Remote 流从头使用服务端 `htmlFrames`。分帧保持字节顺序，将完整 HTML 片段送往脚本隔离与组合器。Host 仍输出原始 HTML，Remote 才包装为 `accept(instanceId, frame)`。
+6. Host shell 写出后放行 Remote 帧，与 Host 后续内容交错发送；不等待整个 Host 完成、浏览器首绘或 Host 水合。生产者加载和 SSR 可以提前开始，晚出现的容器由浏览器队列处理。
+
+### 浏览器与水合
+
+浏览器运行的是 `bridgeStreamBootstrap`，不是服务端分帧器。它目前借 `getStyleTags` 注入，确保早于 `accept` 指令执行；独立的 early-bootstrap hook 仍待实现，需要保留执行顺序和 CSP nonce。bootstrap 按实例等待容器与 CSS，使用 `template.innerHTML` 解析完整片段后插入，并执行 React 生成的完成脚本。初次清理 Host 的 Remote loading 由 bootstrap 完成；后续 Suspense fallback 的替换算法来自 React，我们在服务端改写其已知 helper 名称以隔离实例。
+
+`window._SSR_DATA_READY` 是普通 Modern 页面入口的 Host 数据就绪 Promise，用于防止异步入口脚本早于首屏数据启动；它不表示 Remote 完成。当前 Remote SSR 不经过完整页面模板，浏览器入口使用独立 application API，因此不创建或等待这个全局信号。若未来把多个完整 Modern 页面模板直接拼入同一 document，会有 resolver 和页面数据覆盖风险，不能原样复用这条路径。
+
+生产者输出流的可写端触发 `finish` 后，递归解析 snapshot 所需数据并 resolve；这不等于浏览器已完成。Host 读完 HTML 后发送 `data` 和 `done` 帧；bootstrap 还要确认 CSS 与 Suspense DOM 更新结束，才 resolve 该实例的 `session.done`。随后 Bridge 调用生产者 `hydrate`，由生产者自己的 `hydrateRoot` 接管 DOM。
+
+snapshot 是协议版本、React 版本、ID 前缀、URL、basename、props、initialData、routerData 等可序列化初始状态，不是完整 runtime context 或任意组件状态。Host 不理解 loader 结构，只转发给生产者；生产者把路由数据交给自己的 Router 恢复。SSR 会话不会同时启动独立 CSR 渲染，消费者参数更新排在初始化后，复用现有 root；无 SSR 会话才直接 CSR 挂载。失败/超时/取消沿现有策略处理，最终失败可整页转 `csr=1`。
+
+当前实现是“流式展示，每个 Remote 全流和完整快照就绪后水合”。慢 loader 会延迟该 Remote 已显示区域的交互；提前水合需要初始状态和按实例的 deferred 数据协议，并协调后续 DOM 插入，尚未实现。同一生产者可有多个应用实例，但不同生产者仍不得共用 React/ReactDOM/Router/Modern runtime singleton：Modern 还有应用级 registry 全局状态，相同 React 版本也不自动消除覆盖风险。
+
+### 风险、验证计划与落地判断
+
+- HTML 分帧与片段插入是自定义集成；`htmlparser2` 与浏览器片段解析并不完全相同，特殊 HTML 上下文、字节切分、大帧和缓存限制需要真实浏览器覆盖。
+- React 完成脚本改名、Suspense DOM 完成检测依赖内部格式，不是 React 承诺稳定的公开组合协议。未知脚本形态当前原样放行，可能漏改或部分隔离。应建立经过验证的版本/特性准入，并对已识别但无法安全适配的 React 指令明确失败；不能把所有普通业务脚本一概误判。
+- 测试计划是 React 19 全部稳定版本（含 patch）、React 18 大多数稳定版本（明确清单与遗漏理由）、React 17 最新稳定版。React 17 只覆盖当前可支持的通用 CSR；它没有当前流式 SSR 使用的 React 18+ API。计划尚未落实，目前真实 renderer 证据仍仅覆盖 18.3.1 / 19.2.8。
+- 一个文档所有者、独立 runtime 和显式 snapshot 可以规避当前全局信号冲突；允许完整页面嵌入或跨应用共享 runtime，需要另外改造。`getStyleTags` 注入 JS 的职责问题可以通过框架接口修正。等待完整快照则是需要衡量业务交互时延的设计取舍。
+- React 私有输出依赖的风险只能通过版本约束和持续回归降低，不能靠一次测试彻底消除。正式落地前仍需版本矩阵、跨版本与多实例真实浏览器回归、并发/慢客户端/代理缓冲/断连/内存背压验证、错误诊断和灰度回滚。CSR 降级降低故障影响，不证明 SSR 组合逻辑绝不会出错。
+
+客观判断：当前 Demo 证明了限定版本和场景的可行性；受控版本、页面形态与能力范围下有可落地路径，但当前不能据此承诺生产就绪，或任意生产者升级 React 后都自动兼容。失败版本必须修复、禁用或明确排除，不能把测试目标提前当成通过保证。
+
+Service App 可以复用 Modern 应用渲染/水合 API，并在服务进程执行 `renderApplication`，通过 HTTP 返回约定帧协议。但服务端传输、浏览器入口/资源、实例数据、取消与水合仍需适配；本轮没有实现 HTTP executor 或 HTTP→本地重试。当前文档更新没有新增运行时能力，既有验证结果与未实现事项分开记录。
