@@ -72,7 +72,9 @@ title: tsconfigPath
 }
 ```
 
-这四个 `compilerOptions` 只覆盖对应的键，其余选项全部继承自 `tsconfig.json`。`@modern-js/tsconfig/server` 作为参考预设发布，内容就是这四个字段，供支持 `extends` 数组的工具（tsc >= 5.0）使用；但 Modern.js 推荐并生成的文件把它们直接写在文件内，因为 ts-node 10 不支持 `extends` 数组，而开发时 ts-node 读取的正是这份文件。
+这四个 `compilerOptions` 只覆盖对应的键，其余选项全部继承自 `tsconfig.json`。`@modern-js/tsconfig/server` 作为参考预设发布，内容就是这四个字段，供支持 `extends` 数组的工具（tsc >= 5.0）使用；但推荐的 `tsconfig.server.json` 把它们直接写在文件内，因为 ts-node 10 不支持 `extends` 数组，而开发时 ts-node 读取的正是这份文件。
+
+Modern.js 不会自动生成 `tsconfig.server.json`。存量项目可以用迁移 Skill 的脚本写入（见 [迁移存量项目](/guides/basic-features/typescript#迁移存量项目)），也可以按上面的内容手动添加。
 
 编译 `api/`、`server/`、`shared/` 时，Modern.js 总是强制 `noEmit: false` 与 `emitDeclarationOnly: false`（服务端编译本身就是产出步骤），但 `declaration` 保持配置文件中的取值：跨项目 BFF 依赖产出的 `.d.ts` 文件。
 
