@@ -67,6 +67,17 @@ Rules:
 - Modern.js picks the server config in this order: `server.tsconfigPath` → `<appDir>/tsconfig.server.json` → `<appDir>/tsconfig.json`.
 - Only the last fallback is rewritten: when `tsconfig.json` resolves to an ESM `module` (for example `ESNext`) and `package.json#type` is not `module`, Modern.js compiles server code with `module: NodeNext` / `moduleResolution: NodeNext` and prints a one-time warning suggesting `tsconfig.server.json`.
 
+## Migrating an existing project
+
+Modern.js does not generate `tsconfig.server.json`, and it does not rewrite your `tsconfig.json`. Projects created from the previous template still carry `"baseUrl": "./"`, which TypeScript 6 reports as TS5101. The `modernjs-migrate-to-v3` Skill ships a script that fixes this:
+
+```bash
+npx skills add web-infra-dev/modern.js --skill modernjs-migrate-to-v3
+node <skillDir>/scripts/migrate-tsconfig.mjs <projectDir>
+```
+
+It removes `baseUrl: "./"` / `"."` when `paths` exists, adds `"@api/*": ["./api/lambda/*"]` for BFF projects, and writes the `tsconfig.server.json` above for CommonJS projects with `api/` or `server/`. A custom `baseUrl` (such as `"./src"`) is left in place and reported as a manual step: prefix each `paths` entry with the old `baseUrl` (`"@/*": ["*"]` becomes `"@/*": ["./src/*"]`), then remove `baseUrl`. See [TypeScript Configuration](https://modernjs.dev/en/guides/basic-features/typescript) for the full rules.
+
 ## Getting Started
 
 Please follow [Quick Start](https://modernjs.dev/en/guides/get-started/quick-start) to get started with Modern.js.

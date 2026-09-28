@@ -55,6 +55,56 @@ Bundlers expect `module: ESNext`, while Node-side output has to match `package.j
 
 The server config is resolved as `server.tsconfigPath` → `tsconfig.server.json` → `tsconfig.json`. Only when the framework falls back to `tsconfig.json`, its `module` is an ES module value, and the project is not `type: module`, server code is compiled with `module: NodeNext` + `moduleResolution: NodeNext` and a one-time warning is printed. `type: module` projects are never rewritten. See [server.tsconfigPath](/configure/app/server/tsconfig-path) for the full rule.
 
+## Migrating an existing project
+
+The previous create template wrote `"baseUrl": "./"` into `tsconfig.json`, and TypeScript 6 reports TS5101 for any `baseUrl` (the option is deprecated). Modern.js 3 no longer has a `modern upgrade` command; existing projects migrate with the `modernjs-migrate-to-v3` Skill. Its `migrate.mjs` performs the tsconfig changes below (projects already on v3 are handled as a continuation), and the tsconfig step can also be run on its own:
+
+```bash
+# Install the Skill (--agent: claude-code / codex / cursor / ...)
+npx skills add web-infra-dev/modern.js --skill modernjs-migrate-to-v3
+
+# Migrate only the tsconfig; <skillDir> is where the Skill was installed
+node <skillDir>/scripts/migrate-tsconfig.mjs <projectDir>
+```
+
+Results go to `changed` (applied) and `manual` (left to you) in `<projectDir>/.agents/runs/modernjs-migrate/report.json`. The script is safe to run again.
+
+| Project state | What the script does |
+| --- | --- |
+| `baseUrl` is `"./"` or `"."` and `paths` exists | Removes `baseUrl`; `paths` is unchanged |
+| `baseUrl` is `"./"` or `"."` without `paths` | Keeps it and adds a manual item: bare imports resolved through `baseUrl` (such as `import 'src/foo'`) must first be mapped with `paths` (for example `"*": ["./*"]`), then `baseUrl` can be removed |
+| `baseUrl` has any other value (such as `"./src"`) | Keeps it and adds a manual item with the rewritten `paths` |
+| `api/lambda` exists and `paths` has no `@api/*` | Adds `"@api/*": ["./api/lambda/*"]`; if `baseUrl` is kept, this becomes a manual item for after the `baseUrl` rewrite |
+| Not `type: module`, has `api/` or `server/`, no `tsconfig.server.json` and no `server.tsconfigPath` | Writes the `tsconfig.server.json` shown above |
+| `tsconfig.json` contains comments or trailing commas | Leaves the file untouched and lists the edits above as manual items |
+
+With any other `baseUrl`, each `paths` entry used to resolve against `baseUrl`. Before removing it, prefix every entry with the old `baseUrl` so it is relative to the directory of `tsconfig.json`:
+
+```json title="Before"
+{
+  "compilerOptions": {
+    "baseUrl": "./src",
+    "paths": {
+      "@/*": ["*"],
+      "@shared/*": ["../shared/*"]
+    }
+  }
+}
+```
+
+```json title="After"
+{
+  "compilerOptions": {
+    "paths": {
+      "@/*": ["./src/*"],
+      "@shared/*": ["./shared/*"]
+    }
+  }
+}
+```
+
+Without the Skill, apply the same changes by hand.
+
 ## Notes
 
 - Never declare `paths` in `tsconfig.server.json`: TypeScript replaces `paths` wholesale instead of merging it key by key.
