@@ -5,7 +5,7 @@ import {
   SERVER_DIR,
   SHARED_DIR,
   getMeta,
-  resolveServerTsconfig,
+  resolveServerTsconfigInfo,
 } from '@modern-js/utils';
 import type { AppTools, CliPlugin } from '../types';
 
@@ -43,9 +43,10 @@ export default (): CliPlugin<AppTools> => ({
       const distDir = path.resolve(distDirectory);
       const serverDir = path.resolve(appDirectory, SERVER_DIR);
       const sharedDir = path.resolve(appDirectory, SHARED_DIR);
-      const tsconfigPath = resolveServerTsconfig(
+      const tsconfigInfo = resolveServerTsconfigInfo(
         appDirectory,
         modernConfig?.server?.tsconfigPath,
+        { moduleType },
       );
 
       const sourceDirs = [];
@@ -71,7 +72,8 @@ export default (): CliPlugin<AppTools> => ({
           {
             sourceDirs,
             distDir,
-            tsconfigPath,
+            tsconfigPath: tsconfigInfo.path,
+            compilerOverrides: tsconfigInfo.compilerOverrides,
             moduleType,
           },
         );

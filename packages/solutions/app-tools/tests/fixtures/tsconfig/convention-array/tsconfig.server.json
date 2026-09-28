@@ -1,0 +1,5 @@
+{
+  "extends": ["./tsconfig.json", "@modern-js/tsconfig/server"],
+  "include": ["api", "server", "shared"],
+  "ts-node": { "compilerOptions": { "target": "ES2020" } }
+}
