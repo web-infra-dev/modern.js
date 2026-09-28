@@ -69,7 +69,16 @@ export const connectMid2HonoMid = (handler: ConnectMiddleware): Middleware => {
       if (handler.length < 3) {
         resolve(handler(req, res, noop));
       } else {
+        // A middleware that answers the request never calls `next`; settle
+        // when its response finishes instead of leaving the chain pending.
+        const onFinish = () => {
+          const _ = context.res;
+          context.finalized = true;
+          resolve();
+        };
+        res.once('finish', onFinish);
         handler(req, res, err => {
+          res.removeListener('finish', onFinish);
           if (err) {
             reject(err);
           } else {
