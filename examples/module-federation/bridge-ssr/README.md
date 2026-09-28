@@ -199,3 +199,21 @@ pnpm run build
 ```
 
 完整的已运行检查命令、结果和未覆盖范围见 [VERIFICATION.md](./VERIFICATION.md)。
+
+## Review 生命周期拆分
+
+Bridge 的普通 CSR 继续使用通用浏览器生命周期，不要求安装 Modern 插件。独立应用 SSR 由 Modern MF 集成启用 `BridgeSSRPlugin`：仅在 Node Rspack 编译中，将内部 `@module-federation/bridge-react/remote-lifecycle` 解析到 `.server` 入口。浏览器构建不替换；没有安装该插件的 Node 构建也只输出普通 CSR 容器。插件限定于 Bridge 模块，不改变业务文件的后缀解析规则。
+
+`createHelpers.tsx` 和 `RemoteAppWrapper.tsx` 保留同一份 ID、Suspense 和容器结构；Node 注册与浏览器生命周期通过构建边界拆开。Bridge 库显式发布两套生命周期入口，并保留这条外部导入，避免打包后模块已经合并、应用构建无法选择。
+
+建议按下面顺序 review MF PR：
+
+1. `packages/bridge/bridge-react/src/remote/RemoteAppWrapper.tsx` 与 `createHelpers.tsx`：先确认组件结构和实例 ID 仍然只有一份。
+2. `packages/bridge/bridge-react/src/remote/lifecycleTypes.ts`：检查双端生命周期的共同接口。
+3. `packages/bridge/bridge-react/src/remote/remoteLifecycle.server.ts`：检查预注册、最终参数激活和 CSS 登记。
+4. `packages/bridge/bridge-react/src/remote/remoteLifecycle.ts` 与 `hydration.ts`：检查独立 root 水合、CSR 挂载、更新队列及销毁。
+5. `packages/modernjs-v3/src/rspack/index.ts` 与 `src/cli/bridgeApplications.ts`：检查 Modern 如何安装 Node 构建插件，以及插件如何选择正确模块。
+6. Bridge 的 `package.json`、`vite.config.ts` 和 `scripts/write-dts-entrypoints.mjs`：确认发布后的模块边界和类型声明存在。
+7. `packages/modernjs-v3/tests/bridge-platform-build.cjs`：真实编译 Node/browser 产物，验证插件启用和未启用时的行为，并检查两次挂载同一 Remote 的 ID 和 DOM 水合复用。
+
+之后再按本文的双 Remote 延迟 URL、页面筛选/分页、`csr=1` 路径验收 Demo。此轮没有修改 `bridge.exposes` API、参数序列化策略，也没有增加业务 hydration mismatch 的自动诊断。

@@ -162,3 +162,87 @@ Bridge Jest 59 + Rstest 11 通过；Modern MF 命令实际运行全包，74 / 74
 尝试通过 byted-browser 设置弱网时，工具报 `CDP error (Network.enable): Session with given id not found`，因此不把该场景记为通过；浏览器结果仅涵盖上述正常网络冷请求/双应用，延迟与失败规则另有框架回归测试。本轮没有修改 Modern runtime 或 Demo 业务代码，未重复 Modern 单测、全仓 E2E 或上一轮已被无关 Tailwind 依赖阻断的全仓 Prettier 检查。
 
 本机证据：`/tmp/bridge-css-before-browser.json`、`/tmp/bridge-css-cold-browser.json`、`/tmp/bridge-css-response-proof.json`、`/tmp/bridge-css-home-browser.json`、`/tmp/bridge-css-interaction.json`。构建与矩阵日志：`/tmp/bridge-css-bridge-tests.log`、`/tmp/bridge-css-mf-build.log`、`/tmp/bridge-css-demo-build.log`、`/tmp/bridge-css-react-matrix.log`。这些是诊断采集，不参与应用渲染，不是模拟数据。
+
+## 生命周期拆分回归（2026-09-28）
+
+本轮把 Bridge 的服务端注册和浏览器生命周期拆到不同入口，`createHelpers.tsx` / `RemoteAppWrapper.tsx` 继续维护同一套 React 组件结构、`useId`、Suspense 和容器 JSX。Modern 的 Node 编译通过真实 `BridgeSSRPlugin` 将 `@module-federation/bridge-react/remote-lifecycle` 精确切换到 `.server` 入口；默认入口保留通用 CSR 能力。没有更改 exposes 配置方式、SSR 参数序列化或应用业务代码，也没有新增用户组件 hydration 不一致的诊断机制。
+
+### 构建入口与自动化验证
+
+使用构建后的 Bridge 包和 Rspack 插件执行 `bridge-platform-build.cjs`，而不是只用测试 mock 替换入口。React 18.3.1 和 19.2.8 各执行以下五种真实 Rspack 构建，共十项：
+
+| 构建场景 | 检查结果 |
+| --- | --- |
+| Node + 插件，ESM `import` | 仅选入服务端生命周期，SSR 注册 ID 与共享 JSX 的容器 ID 对应 |
+| Node + 插件，CommonJS `require` | 选入对应的 CJS 服务端入口，并与调用方的 SSR context 保持一致 |
+| Node 不启用插件 | 保留默认入口，不注册 SSR 任务 |
+| 浏览器启用插件 | 仍选入浏览器入口，插件不改变浏览器实现 |
+| 浏览器不启用插件 | 保留通用 CSR 路径，不依赖 Modern SSR runtime |
+
+矩阵中的最小 React fixture 会在同一 Host 内渲染两次相同 Remote，检查 ID 不重复，并执行真实 hydrate、点击、props 更新和卸载。ESM/CJS 两条 SSR 路径均复用原容器和 Remote DOM，props 更新保留各自状态，最终销毁两个 root；通用 CSR 路径没有 SSR runtime，直接 mount 后也能完成上述交互。矩阵通过 JSDOM 运行浏览器产物，下面的商品后台验收另外使用真实 Chrome。
+
+| 检查 | 本轮结果 |
+| --- | --- |
+| MF 包构建 | Turbo 依赖构建 20 / 20 通过 |
+| Bridge React 单测 | Jest 60 / 60，Rstest 11 / 11 通过 |
+| MF Modern 单测 | 10 个测试文件、74 / 74 通过 |
+| Rspack 入口矩阵 | 两个 React 版本、十项构建通过；两个 SSR 入口和通用 CSR 的生命周期检查通过 |
+| React 18/19 流矩阵 | 三种交错完成顺序通过，`hydrationErrors` 均为 0 |
+| Demo | Host、商品、库存的类型检查与生产构建通过 |
+
+重建包产物后，MF Modern 的两项旧测试最初失败：Rstest 外置了 Bridge 包，测试没有经过服务端入口选择。测试配置现通过 `bundleDependencies` 将 Bridge 纳入构建，并安装同一个 `BridgeSSRPlugin`；重新运行全部 74 项通过。没有修改生产逻辑、放宽断言或增加超时时间来绕过失败。
+
+复验命令：
+
+```bash
+cd /Users/bytedance/outter/core-bridge-ssr-demo
+pnpm exec turbo run build --filter=@module-federation/modern-js-v3
+pnpm --filter @module-federation/bridge-react run test
+pnpm --filter @module-federation/modern-js-v3 run test
+
+node packages/modernjs-v3/tests/bridge-platform-build.cjs \
+  /Users/bytedance/outter/modern-js-bridge-ssr-demo/examples/module-federation/bridge-ssr/product-app \
+  /Users/bytedance/outter/modern-js-bridge-ssr-demo/examples/module-federation/bridge-ssr/inventory-app
+node packages/modernjs-v3/tests/stream-react-versions.cjs \
+  /Users/bytedance/outter/modern-js-bridge-ssr-demo/examples/module-federation/bridge-ssr/product-app \
+  /Users/bytedance/outter/modern-js-bridge-ssr-demo/examples/module-federation/bridge-ssr/inventory-app
+
+cd /Users/bytedance/outter/modern-js-bridge-ssr-demo
+pnpm --dir examples/module-federation/bridge-ssr run typecheck
+pnpm --dir examples/module-federation/bridge-ssr run build
+```
+
+### 真实浏览器回归
+
+重新构建三个应用并重启 Host 后，通过 byted-browser 验证 Chrome 中实际加载的 React renderer 为 `19.2.8 / 18.3.1 / 19.2.8`。完成时刻仍以各次导航为起点，不能当作首屏性能指标。
+
+| 页面参数 | 商品 React 18 完成 | 库存 React 19 完成 | 检查结果 |
+| --- | ---: | ---: | --- |
+| `?streamDelay=1000&activityDelay=1800` | 1158.5 ms | 1955.9 ms | 两者在 hydration 前已捕获 SSR DOM，hydration 后仍复用；错误列表为空 |
+| `?streamDelay=1800&activityDelay=600` | 1816.2 ms | 621.6 ms | 完成顺序反转，两者仍复用 SSR DOM；错误列表为空 |
+
+两次导航中商品和库存的首次可见检查均为 `cssReady: true`，`unstyled` 为空。第一组完成后，商品切到 `2 / 3` 页、库存切到上海前置仓，双方状态独立，两个应用仍保留原 SSR 根节点，没有新增错误。
+
+直接访问 `?csr=1` 时，页面没有 `__MF_BRIDGE_SSR__`，帧数为 0，商品显示 6 行、库存显示 18 行。随后商品切到 `2 / 3` 页（SH-1007 至 SH-1012），库存切到上海前置仓，仍没有 SSR runtime 或帧，错误列表为空。Node 产物故障导致的一次降级和双重故障无重载循环的真实浏览器证据仍见前面的 2026-09-24 记录，本轮没有重新注入这两项故障。
+
+### 检查边界与本地证据
+
+本轮没有修改 Modern runtime，未重复运行其整包单测、类型检查和独立构建；Demo 生产构建仍实际使用已链接的 Modern runtime。未运行两个仓库的完整 E2E / 全仓测试套件，当前验收采用受影响包单测、真实构建矩阵与商品后台浏览器回归。MF 全仓 `pnpm exec prettier --check .` 已尝试，因无关 Next 示例缺少 `@tailwindcss/typography` 报错，不能记为全仓格式通过。当前 PR 改动文件的 Prettier 检查通过，按仓库 `.prettierignore` 排除 pnpm 生成的锁文件。Modern 的 `pnpm exec biome check examples/module-federation/bridge-ssr/README.md examples/module-federation/bridge-ssr/VERIFICATION.md` 未处理文件（当前 Biome 不检查这些 Markdown）；文档通过 `git diff --check`，没有将该 Biome 命令记为通过。
+
+下列证据保存在当前机器的 `/private/tmp`，不会随仓库分发，也不参与 Demo 渲染：
+
+| 文件 | 内容 |
+| --- | --- |
+| `bridge-split-final-build.log` | 20 项依赖构建结果 |
+| `bridge-split-final-bridge-tests.log` | Bridge Jest 60 + Rstest 11 |
+| `bridge-split-server-wiring-mf-tests.log` | 启用真实服务端插件后的 MF Modern 74 项测试 |
+| `bridge-split-final-platform-matrix.log` | 两个 React 版本的 ESM/CJS hydration 与 CSR 产物矩阵 |
+| `bridge-split-final-stream-matrix.log` | 三种交错顺序及零 hydration error |
+| `bridge-split-demo-typecheck.log`、`bridge-split-demo-build.log` | 三个应用类型检查和生产构建 |
+| `bridge-split-ssr-browser.json` | 商品先完成、renderer、DOM 复用、CSS 首次就绪 |
+| `bridge-split-reverse-browser.json` | 库存先完成、DOM 复用、CSS 首次就绪 |
+| `bridge-split-interaction.json` | SSR 后商品分页与库存仓库切换 |
+| `bridge-split-csr-browser.json` | 无 SSR runtime / 帧的 CSR 渲染 |
+| `bridge-split-csr-interaction.json` | 纯 CSR 商品分页与库存仓库切换，无错误或 SSR 帧 |
+| `bridge-split-format-full.log` | 全仓格式检查的缺失依赖错误 |
+| `bridge-split-final-format.log` | 当前 PR 改动文件格式检查通过 |
