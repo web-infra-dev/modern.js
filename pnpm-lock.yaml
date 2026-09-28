@@ -1866,8 +1866,8 @@ importers:
         specifier: ^0.5.17
         version: 0.5.23
       axios:
-        specifier: ^1.15.2
-        version: 1.18.0
+        specifier: ^1.20.0
+        version: 1.20.0
       connect-history-api-fallback:
         specifier: ^2.0.0
         version: 2.0.0
@@ -2651,8 +2651,8 @@ importers:
         specifier: workspace:*
         version: link:../../packages/toolkit/utils
       axios:
-        specifier: ^1.15.2
-        version: 1.18.0
+        specifier: ^1.20.0
+        version: 1.20.0
     devDependencies:
       '@types/node':
         specifier: ^20
@@ -3084,8 +3084,8 @@ importers:
         specifier: workspace:*
         version: link:../../../../packages/server/server-runtime
       axios:
-        specifier: ^1.15.2
-        version: 1.18.0
+        specifier: ^1.20.0
+        version: 1.20.0
       bff-api-app:
         specifier: workspace:*
         version: link:../bff-api-app
@@ -3496,8 +3496,8 @@ importers:
         specifier: ^20
         version: 20.19.27
       axios:
-        specifier: ^1.15.2
-        version: 1.18.0
+        specifier: ^1.20.0
+        version: 1.20.0
 
   tests/integration/entries/fixtures/app-builder:
     dependencies:
@@ -4615,8 +4615,8 @@ importers:
         specifier: workspace:*
         version: link:../../../packages/runtime/plugin-runtime
       axios:
-        specifier: ^1.15.2
-        version: 1.18.0
+        specifier: ^1.20.0
+        version: 1.20.0
       express:
         specifier: ^4.22.3
         version: 4.22.3
@@ -4671,8 +4671,8 @@ importers:
         specifier: workspace:*
         version: link:../../../packages/runtime/plugin-runtime
       axios:
-        specifier: ^1.15.2
-        version: 1.18.0
+        specifier: ^1.20.0
+        version: 1.20.0
       express:
         specifier: ^4.22.3
         version: 4.22.3
@@ -4696,8 +4696,8 @@ importers:
         specifier: workspace:*
         version: link:../../../packages/runtime/plugin-runtime
       axios:
-        specifier: ^1.15.2
-        version: 1.18.0
+        specifier: ^1.20.0
+        version: 1.20.0
       express:
         specifier: ^4.22.3
         version: 4.22.3
@@ -4856,8 +4856,8 @@ importers:
         specifier: ^20
         version: 20.19.27
       axios:
-        specifier: ^1.15.2
-        version: 1.18.0
+        specifier: ^1.20.0
+        version: 1.20.0
 
   tests/integration/ssr/fixtures/base:
     dependencies:
@@ -10782,9 +10782,6 @@ packages:
     resolution: {integrity: sha512-aR99oXhpEDGo0UuAlYcn2iGRds30k366Zfa05XWScR9QaQD4JYiP3/1Qt1u7YlefUOK+cn0CcwoL1oefavQUlQ==}
     peerDependencies:
       axios: 0.x || 1.x
-
-  axios@1.18.0:
-    resolution: {integrity: sha512-E32NzpYKp++W7XRe52rHiXV2ehxmh3wbdgO7MHeFM+vqxLBYHzt0ElkiImtOBxtOmyp0yoC8C6uESVV84Y2/hw==}
 
   axios@1.18.1:
     resolution: {integrity: sha512-3nTvFlvpn9Zu/RkHUqtc7/+al4UpRW5az71ap5zccp6e8RAYEzhMTecX8Dz1wWDYrPpUoB1HAQEGEAEvUr7S9g==}
@@ -26030,16 +26027,6 @@ snapshots:
     dependencies:
       axios: 1.20.0
       is-retry-allowed: 2.2.0
-
-  axios@1.18.0:
-    dependencies:
-      follow-redirects: 1.16.0(debug@4.4.3(supports-color@7.2.0))
-      form-data: 4.0.6
-      https-proxy-agent: 5.0.1
-      proxy-from-env: 2.1.0
-    transitivePeerDependencies:
-      - debug
-      - supports-color
 
   axios@1.18.1(debug@4.4.3(supports-color@7.2.0))(supports-color@7.2.0):
     dependencies:
