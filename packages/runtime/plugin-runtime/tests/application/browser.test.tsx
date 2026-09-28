@@ -1,5 +1,9 @@
-import { useLoaderData, useLocation } from '@modern-js/runtime-utils/router';
-import React from 'react';
+import {
+  Await,
+  useLoaderData,
+  useLocation,
+} from '@modern-js/runtime-utils/router';
+import React, { Suspense, useState } from 'react';
 import { createApplication } from '../../src/application';
 import { setGlobalContext } from '../../src/core/context';
 import { registerPlugin } from '../../src/core/plugin';
@@ -118,3 +122,118 @@ it('hydrates from the explicit snapshot and preserves the existing DOM', async (
   app.destroy();
   container.remove();
 });
+
+it.each(['fulfilled', 'invalid-update', 'truncated', 'destroy'])(
+  'hydrates controls before deferred data and handles late %s',
+  async outcome => {
+    let clientLoaderCalls = 0;
+    function Counter() {
+      const [count, setCount] = useState(0);
+      return (
+        <button onClick={() => setCount(value => value + 1)}>{count}</button>
+      );
+    }
+    function Page() {
+      const data = useLoaderData() as { pending: Promise<string> };
+      return (
+        <main>
+          <Counter />
+          <Suspense fallback={<p>waiting for statistics</p>}>
+            <Await resolve={data.pending}>{value => <p>{value}</p>}</Await>
+          </Suspense>
+        </main>
+      );
+    }
+    setGlobalContext({
+      entryName: 'index',
+      routes: [
+        {
+          id: 'page',
+          type: 'nested',
+          isRoot: true,
+          path: '/',
+          component: Page,
+          loader: () => {
+            clientLoaderCalls++;
+            return { pending: Promise.resolve('unexpected client load') };
+          },
+        },
+      ],
+    });
+    // A React streamed-shell fixture: the pending boundary is deliberately
+    // incomplete while the button and the application shell marker are present.
+    const shell =
+      '<main><button>0</button><!--$?--><template id="early-browser-B:0"></template><p>waiting for statistics</p><!--/$--></main><template id="early-browser-shell"></template>';
+    const initial = {
+      protocol: 'modern-application/2' as const,
+      reactVersion: React.version,
+      identifierPrefix: 'early-browser-',
+      shellMarker: 'early-browser-shell',
+      url: 'http://products/',
+      basename: '/',
+      props: {},
+      routerData: { loaderData: { page: { pending: null } }, errors: null },
+      pending: [
+        { id: '0', path: ['routerData', 'loaderData', 'page', 'pending'] },
+      ],
+    };
+    let deliver!: ReadableStreamDefaultController<unknown>;
+    const delayedUpdates = new ReadableStream({
+      start(controller) {
+        deliver = controller;
+      },
+    });
+    const container = document.createElement('div');
+    container.innerHTML = shell;
+    document.body.append(container);
+    const originalButton = container.querySelector('button')!;
+    // The real document is still receiving the SSR response. React 19 treats a
+    // pending boundary after DOMContentLoaded as an interrupted server render.
+    Object.defineProperty(document, 'readyState', {
+      value: 'loading',
+      configurable: true,
+    });
+    registerPlugin([routerPlugin()]);
+    const errors: unknown[] = [];
+    const app = createApplication();
+    await app.hydrate(container, initial, {
+      updates: delayedUpdates,
+      onRecoverableError: error => errors.push(error),
+    });
+    expect(container.querySelector('button')).toBe(originalButton);
+    originalButton.click();
+    await new Promise(resolve => setTimeout(resolve, 20));
+    expect(originalButton.textContent).toBe('1');
+    expect(container.textContent).toContain('waiting for statistics');
+    expect(clientLoaderCalls).toBe(0);
+    expect(errors).toEqual([]);
+    if (outcome === 'destroy') {
+      app.destroy();
+    } else {
+      if (outcome !== 'truncated') {
+        deliver.enqueue({
+          id: outcome === 'invalid-update' ? 'unknown' : '0',
+          status: 'fulfilled',
+          value: 'later-statistics',
+          pending: [],
+        });
+      }
+      deliver.close();
+    }
+    await new Promise(resolve => setTimeout(resolve, 20));
+    if (outcome === 'invalid-update') {
+      expect(errors).toHaveLength(1);
+      expect(String(errors[0])).toContain('Unknown or duplicate');
+    } else if (outcome === 'truncated') {
+      expect(errors).toHaveLength(1);
+      expect(String(errors[0])).toContain(
+        'ended before all deferred values settled',
+      );
+    } else {
+      expect(errors).toEqual([]);
+    }
+    app.destroy();
+    container.remove();
+    Reflect.deleteProperty(document, 'readyState');
+  },
+);

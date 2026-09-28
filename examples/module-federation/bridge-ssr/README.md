@@ -10,17 +10,17 @@
 
 | 应用     | React / ReactDOM | 地址                    | 默认启动方式                            |
 | -------- | ---------------- | ----------------------- | --------------------------------------- |
-| Host     | 19.2.8           | `http://127.0.0.1:4500` | `modern serve`，负责页面 SSR 和商品 API |
-| 商品管理 | 18.3.1           | `http://127.0.0.1:4501` | `http-server dist`，只提供构建产物      |
-| 库存管理 | 19.2.8           | `http://127.0.0.1:4502` | `http-server dist`，只提供构建产物      |
+| Host     | 19.2.8           | `http://127.0.0.1:4600` | `modern serve`，负责页面 SSR 和商品 API |
+| 商品管理 | 18.3.1           | `http://127.0.0.1:4601` | `http-server dist`，只提供构建产物      |
+| 库存管理 | 19.2.8           | `http://127.0.0.1:4602` | `http-server dist`，只提供构建产物      |
 
-两个生产者默认没有运行 SSR 服务。4501/4502 是静态资源服务，可对应线上 CDN；Host 通过 MF manifest 加载其中的 Node entry/chunk，再调用生产者的 `renderStream`。浏览器也从这两个静态域加载对应应用的 JavaScript 和样式。
+两个生产者默认没有运行 SSR 服务。4601/4602 是静态资源服务，可对应线上 CDN；Host 通过 MF manifest 加载其中的 Node entry/chunk，再调用生产者的 `renderStream`。浏览器也从这两个静态域加载对应应用的 JavaScript 和样式。
 
 ```text
-浏览器 ──页面请求──▶ Host Modern Node :4500
+浏览器 ──页面请求──▶ Host Modern Node :4600
                         │
-                        ├─加载商品 Node 产物──▶ 静态资源 :4501
-                        ├─加载库存 Node 产物──▶ 静态资源 :4502
+                        ├─加载商品 Node 产物──▶ 静态资源 :4601
+                        ├─加载库存 Node 产物──▶ 静态资源 :4602
                         │
                         ├─本进程执行商品 Modern SSR（React 18）
                         ├─本进程执行库存 Modern SSR（React 19）
@@ -38,8 +38,8 @@
 
 ```text
 /Users/bytedance/outter/
-├── modern-js-bridge-ssr-demo/     # Modern worktree
-└── core-bridge-ssr-demo/          # Module Federation worktree
+├── modern-js-bridge-progressive-hydration/     # Modern worktree
+└── core-bridge-progressive-hydration/          # Module Federation worktree
 ```
 
 示例是独立 pnpm workspace，拥有自己的锁文件。它被排除在 Modern 根 workspace 之外，避免添加示例依赖时重新解析其他示例中的 `latest`。运行示例命令时需要进入本目录，或使用 `pnpm --dir examples/module-federation/bridge-ssr ...`。
@@ -49,11 +49,11 @@
 ```bash
 corepack enable
 
-cd /Users/bytedance/outter/core-bridge-ssr-demo
+cd /Users/bytedance/outter/core-bridge-progressive-hydration
 pnpm install --frozen-lockfile
 pnpm exec turbo run build --filter=@module-federation/modern-js-v3
 
-cd /Users/bytedance/outter/modern-js-bridge-ssr-demo
+cd /Users/bytedance/outter/modern-js-bridge-progressive-hydration
 pnpm install --frozen-lockfile
 pnpm --filter @modern-js/app-tools... --filter @modern-js/runtime... --filter @modern-js/server-runtime... run build
 ```
@@ -61,7 +61,7 @@ pnpm --filter @modern-js/app-tools... --filter @modern-js/runtime... --filter @m
 安装并构建示例：
 
 ```bash
-cd /Users/bytedance/outter/modern-js-bridge-ssr-demo/examples/module-federation/bridge-ssr
+cd /Users/bytedance/outter/modern-js-bridge-progressive-hydration/examples/module-federation/bridge-ssr
 pnpm install --frozen-lockfile
 pnpm run typecheck
 pnpm run build
@@ -96,8 +96,8 @@ Host 的 `server/commerce.ts` 使用 SQLite，首次打开时创建表并写入�
 可先检查业务 API 返回 JSON：
 
 ```bash
-curl -fsS http://127.0.0.1:4500/api/commerce/products
-curl -fsS http://127.0.0.1:4500/api/commerce/inventory
+curl -fsS http://127.0.0.1:4600/api/commerce/products
+curl -fsS http://127.0.0.1:4600/api/commerce/inventory
 ```
 
 ## 验证流式 SSR
@@ -115,9 +115,9 @@ curl -fsS http://127.0.0.1:4500/api/commerce/inventory
 API 延迟被限制在 0–5000 毫秒。推荐测试以下地址，交换快慢顺序：
 
 ```text
-http://127.0.0.1:4500/?streamDelay=2500&activityDelay=900
-http://127.0.0.1:4500/?streamDelay=500&activityDelay=2500
-http://127.0.0.1:4500/?csr=1
+http://127.0.0.1:4600/?streamDelay=2500&activityDelay=900
+http://127.0.0.1:4600/?streamDelay=500&activityDelay=2500
+http://127.0.0.1:4600/?csr=1
 ```
 
 检查 HTTP 输出时使用普通浏览器 User-Agent，避免框架把客户端识别为爬虫而等待完整渲染：
@@ -126,13 +126,13 @@ http://127.0.0.1:4500/?csr=1
 curl --http1.1 --no-buffer \
   -A 'Mozilla/5.0' \
   -D /tmp/bridge-demo-headers.txt \
-  'http://127.0.0.1:4500/?streamDelay=2500&activityDelay=900' \
+  'http://127.0.0.1:4600/?streamDelay=2500&activityDelay=900' \
   | tee /tmp/bridge-demo-response.html
 ```
 
 需要观察首屏内容和后续帧是否分批到达，而不是只检查最终文件包含商品文本。Remote 帧通过内联传输指令送到浏览器，轻量 bootstrap 插入完整 HTML 片段并执行 React 完成脚本；查看响应源码不能代替浏览器渐进展示验证。
 
-服务端每个 Remote 有独立渲染任务、`identifierPrefix` 和 snapshot；浏览器收到该 Remote 的结束帧及 snapshot，并确认 React 延迟执行的 Suspense DOM 插入完成后，才由它自己的 ReactDOM hydration。Host 的首屏 hydration 不等待两个 Remote 的流全部结束。最终是否正确，需要同时检查页面展示顺序、控制台 hydration 错误、真实交互和数据持久化。
+服务端每个 Remote 有独立渲染任务、`identifierPrefix` 和 snapshot；浏览器收到该 Remote 的完整 shell 与初始 snapshot，并确认 CSS 就绪后，就由它自己的 ReactDOM 开始 hydration。初始 snapshot 中的 deferred 引用由生产者恢复成当前实例的 Promise；后续数据帧会继续完成这些 Promise，不需要等待整个 Remote 流结束。Host 的首屏 hydration 不等待两个 Remote 的流全部结束。最终是否正确，需要同时检查页面展示顺序、控制台 hydration 错误、真实交互和数据持久化。
 
 ### 已完成的真实验收（2026-09-24）
 
@@ -179,9 +179,9 @@ Host 的 `/products/SH-1001` 会通过 `memoryRoute.entryPath` 把商品应用�
 | Modern runtime  | `packages/runtime/plugin-runtime/src/application/`                               | 真实应用 SSR、JSON snapshot、独立实例 hydration/mount/update/destroy        |
 | Modern router   | `packages/runtime/plugin-runtime/src/router/runtime/`                            | 应用实例自己的路由数据与 memory router，避免全局 hydration 数据串用         |
 | Modern SSR hook | `packages/runtime/plugin-runtime/src/core/server/stream/createReadableStream.ts` | 把请求、运行时 context、原生 shell marker 和 React 前缀交给 stream extender |
-| MF Modern CLI   | `core-bridge-ssr-demo/packages/modernjs-v3/src/cli/bridgeApplications.ts`        | 根据 `bridge.exposes` 生成双端入口，接入现有 registry 和构建配置            |
-| MF 流协议       | `core-bridge-ssr-demo/packages/modernjs-v3/src/bridge-stream/`                   | Bridge 生命周期适配、HTML 分帧、Host 流安全插入和浏览器 bootstrap           |
-| MF Bridge React | `core-bridge-ssr-demo/packages/bridge/bridge-react/src/`                         | 消费者容器、SSR 注册、生产者 hydration 与 CSR 生命周期                      |
+| MF Modern CLI   | `core-bridge-progressive-hydration/packages/modernjs-v3/src/cli/bridgeApplications.ts`        | 根据 `bridge.exposes` 生成双端入口，接入现有 registry 和构建配置            |
+| MF 流协议       | `core-bridge-progressive-hydration/packages/modernjs-v3/src/bridge-stream/`                   | Bridge 生命周期适配、HTML 分帧、Host 流安全插入和浏览器 bootstrap           |
+| MF Bridge React | `core-bridge-progressive-hydration/packages/bridge/bridge-react/src/`                         | 消费者容器、SSR 注册、生产者 hydration 与 CSR 生命周期                      |
 | Demo            | 当前目录下的三个应用                                                             | 配置、业务页面、loader、HTTP API 和 SQLite 数据                             |
 
 生产者主要配置是 `moduleFederationPlugin({ bridge: { exposes: { './App': true } }, config: { name, dts: false } })`。Host 配置 `bridge: true` 与普通 MF `remotes`，页面通过现有 `createRemoteAppComponent` 加载应用。
@@ -217,3 +217,13 @@ Bridge 的普通 CSR 继续使用通用浏览器生命周期，不要求安装 M
 7. `packages/modernjs-v3/tests/bridge-platform-build.cjs`：真实编译 Node/browser 产物，验证插件启用和未启用时的行为，并检查两次挂载同一 Remote 的 ID 和 DOM 水合复用。
 
 之后再按本文的双 Remote 延迟 URL、页面筛选/分页、`csr=1` 路径验收 Demo。此轮没有修改 `bridge.exposes` API、参数序列化策略，也没有增加业务 hydration mismatch 的自动诊断。
+
+## 验证提前水合
+
+本分支在原独立 Root SSR 实现上增加了初始 snapshot 和逐步数据传输。`ready` 表示 shell 与初始数据已经可用于水合；`done` 表示 HTML 和数据流结束。两者都不是 React commit 本身，验收必须执行真实交互。
+
+打开 `http://127.0.0.1:4600/?streamDelay=5000&activityDelay=4000`，在库存流水还显示 loading 时点击“调整库存”，弹窗应立即打开；也可以用“仅看低库存”过滤现有列表。后续流水到达时，已打开的弹窗和筛选状态应保留。商品使用 React 18，库存使用 React 19；交换两个延迟参数可检查完成顺序反转。`?csr=1` 继续验证普通 CSR 路径。
+
+实现入口：Modern 的 `application/server.tsx` 生成 v2 初始 snapshot，`data.server.ts` 编码 deferred 引用和后续结果，`data.ts` 在浏览器恢复实例自己的 Promise，`application/index.tsx` 在 shell commit 后完成 hydrate 调用。MF 的 `bridgeStreamPlugin.node.tsx` 识别完整 shell marker并转发帧；`bootstrap.ts` 提供独立的 `session.ready` 和 `session.done`；Bridge 的 `hydration.ts` 优先等待 ready。
+
+延迟数据协议只传生产者定义的数据，Host 不理解 loader 或路由。原有 v1 完整 snapshot 仍可使用。当前验证覆盖 React 18.3.1 / 19.2.8；需要 Host 保持 HTTP 文档流开放直到 Remote 完成，不覆盖在已结束的文档上再次插入带 pending 边界的 SSR 流。完整命令、结果和边界见 VERIFICATION.md 的本轮记录。

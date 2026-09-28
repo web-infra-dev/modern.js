@@ -246,3 +246,115 @@ pnpm --dir examples/module-federation/bridge-ssr run build
 | `bridge-split-csr-interaction.json` | 纯 CSR 商品分页与库存仓库切换，无错误或 SSR 帧 |
 | `bridge-split-format-full.log` | 全仓格式检查的缺失依赖错误 |
 | `bridge-split-final-format.log` | 当前 PR 改动文件格式检查通过 |
+
+
+## 提前水合回归（2026-09-28，新 worktree）
+
+本轮在独立 worktree 实现提前水合，不覆盖前述历史验证环境：
+
+- MF：`/Users/bytedance/outter/core-bridge-progressive-hydration`。
+- Modern：`/Users/bytedance/outter/modern-js-bridge-progressive-hydration`。
+- 新 Demo 的 Host / 商品静态资源 / 库存静态资源使用 `4600 / 4601 / 4602`；旧 Demo 的 `4500 / 4501 / 4502` 保留。
+
+生产者 Modern 在完整 shell 就绪后发送 `modern-application/2` 初始状态，将未完成 loader 值编码为实例内的 pending 引用，后续通过 fulfilled / rejected 数据更新恢复浏览器 Promise。MF 在生产者 shell marker 到达后发送 `ready`，并行转发后续 HTML 和 `update`；Bridge 在 `ready` 时调用生产者 hydrate，不再等待该 Remote 的 `done`。同一套生产代码仍兼容没有 progressive hydration 信息的最终 snapshot 路径。
+
+### 真实构建矩阵
+
+`packages/modernjs-v3/tests/progressive-hydration.cjs` 使用构建后的 Modern / MF 包，为 React 18.3.1、19.2.8 分别真实编译 Node 与浏览器产物，共四次 Rspack 构建。浏览器产物在 JSDOM 执行；registry 和可控制完成时机的 loader 是测试 fixture，应用生命周期、SSR renderer、路由、数据恢复、MF 流组合及 bootstrap 使用实际框架实现。该矩阵与下面的真实 Chrome 商品后台验收分别记录，不能把 JSDOM 当成真实浏览器验收。
+
+| 场景 | 结果 |
+| --- | --- |
+| 三个独立 root：React 18 同一生产者两实例，另一个 React 19 生产者 | 三个 shell 均在 deferred 数据完成前可点击，原 SSR DOM 复用，实例状态互不干扰 |
+| deferred 按正序、反序完成 | 两种顺序通过；首个 details 区域完成后即可交互，另一个 secondary 区域仍在等待；每组转发六个数据更新 |
+| React 18 deferred 拒绝 | 对应 `Await` error boundary 展示业务错误，其余应用继续完成，无 hydration error |
+| React 19 deferred 拒绝 | 同上，拒绝状态按实例传递，没有将可处理的业务拒绝误判为传输失败 |
+| 提前卸载 React 18 的第二个实例 | 被取消实例销毁，迟到内容不恢复它；另外两个实例继续完成并保持交互 |
+| 纯 CSR | 两个版本直接 mount、交互和销毁通过，不依赖 SSR 会话 |
+
+矩阵共六个场景，所有 `errors` 列表为空。另行重跑旧 `bridge-platform-build.cjs` 十项真实构建和 `stream-react-versions.cjs` 三种流交错顺序，均通过，覆盖旧入口选择、ESM/CJS 水合、CSR 和最终 snapshot 兼容路径。
+
+### 单测、类型与构建
+
+| 检查 | 本轮结果 |
+| --- | --- |
+| Bridge React | Jest 61 / 61、Rstest 11 / 11 通过 |
+| MF Modern | 10 个文件、81 / 81 通过，包含 bootstrap 24 项 |
+| Modern runtime | 21 个文件、69 / 69 通过；application 子集三个文件、19 项另行通过，这 19 项已经包含在 69 项中 |
+| MF 包构建 | Turbo 依赖构建 20 / 20 通过；最终构建其中 18 项命中缓存 |
+| Modern 构建 | app-tools、runtime、server-runtime 及所需依赖构建通过；修改完成后的 runtime 完整构建和声明生成通过 |
+| Modern 类型检查 | runtime `tsc --noEmit --pretty false` 退出码 0 |
+| Demo | 三个应用最终类型检查和生产构建通过 |
+| MF 全仓格式 | 最终 `pnpm exec prettier --check .` 通过；本轮初检发现矩阵脚本格式问题，格式化后重新运行通过 |
+| Modern 变更文件风格检查 | Biome 检查 17 个文件通过，无需修复 |
+
+新增 Bridge 测试使用真实 React root：`ready` 到达后 producer hydrate 已执行，而 `done` 仍 pending；同一 SSR button 的点击使计数更新，snapshot / updates 对象原样透传，`done` 后不重复 hydrate。bootstrap 测试覆盖两实例相同数据 ID 隔离、ready 后传输失败、CSS 与 pending Suspense、取消、页面退出和未消费数据的 UTF-8 字节限制。测试发现并修复了“HTML 传输已经完成、但更新数据尚未消费时取消，reader 永久等待”的问题，release / pagehide 两种路径均有回归。
+
+本轮主要复验命令：
+
+```bash
+cd /Users/bytedance/outter/core-bridge-progressive-hydration
+pnpm exec turbo run build --filter=@module-federation/modern-js-v3
+pnpm --filter @module-federation/bridge-react run test
+pnpm --filter @module-federation/modern-js-v3 run test
+pnpm --filter @module-federation/modern-js-v3 exec rstest run src/bridge-stream/bootstrap.spec.ts
+pnpm exec prettier --check .
+
+node packages/modernjs-v3/tests/progressive-hydration.cjs \
+  /Users/bytedance/outter/modern-js-bridge-progressive-hydration/examples/module-federation/bridge-ssr/product-app \
+  /Users/bytedance/outter/modern-js-bridge-progressive-hydration/examples/module-federation/bridge-ssr/inventory-app
+node packages/modernjs-v3/tests/bridge-platform-build.cjs \
+  /Users/bytedance/outter/modern-js-bridge-progressive-hydration/examples/module-federation/bridge-ssr/product-app \
+  /Users/bytedance/outter/modern-js-bridge-progressive-hydration/examples/module-federation/bridge-ssr/inventory-app
+node packages/modernjs-v3/tests/stream-react-versions.cjs \
+  /Users/bytedance/outter/modern-js-bridge-progressive-hydration/examples/module-federation/bridge-ssr/product-app \
+  /Users/bytedance/outter/modern-js-bridge-progressive-hydration/examples/module-federation/bridge-ssr/inventory-app
+
+cd /Users/bytedance/outter/modern-js-bridge-progressive-hydration
+pnpm --filter @modern-js/app-tools... --filter @modern-js/runtime... --filter @modern-js/server-runtime... run build
+pnpm --filter @modern-js/runtime test
+pnpm --filter @modern-js/runtime exec tsc --noEmit --pretty false
+pnpm --filter @modern-js/runtime run build
+pnpm --dir examples/module-federation/bridge-ssr run typecheck
+pnpm --dir examples/module-federation/bridge-ssr run build
+```
+
+### 最终产物的真实 Chrome 提前交互
+
+最终重建 Modern / MF 及三个 Demo 应用并重启 Host 后，通过 byted-browser 在真实页面观测协议时序，并点击已有的库存“调整库存”业务按钮；没有往应用注入替代 renderer 或模拟 HTML。浏览器加载的 React renderer 为 `19.2.8 / 18.3.1 / 19.2.8`。
+
+| 事件（导航后时间） | 商品先完成：`?streamDelay=4500&activityDelay=5000` | 库存先完成：`?streamDelay=5000&activityDelay=3500` |
+| --- | ---: | ---: |
+| 商品 React 18 ready | 273.5 ms | 52.0 ms |
+| 库存 React 19 ready | 274.1 ms | 52.5 ms |
+| 点击库存“调整库存” | 420.8 ms | 108.1 ms |
+| 检查到真实 React 模态框已打开 | 471.9 ms | 159.3 ms |
+| 商品流完成 | 4729.9 ms | 5045.2 ms |
+| 库存流完成 | 5234.7 ms | 3543.9 ms |
+
+两组点击时两个 Remote 均未 done，模态框在慢数据仍 pending 时已经打开，并在两条流随后完成后保持打开。两个 Remote 的原容器与应用根 DOM 均复用，错误列表为空。两组 CSS 首次可见检查均为 `cssReady: true`，`unstyled` 为空。
+
+这些是各次导航的观测时刻，不是固定性能承诺；协议 `ready` 表示允许启动水合，不能把它直接当成整个应用已经交互的时刻，实际提前交互由模态框行为证明。
+
+最终产物另行访问 `http://127.0.0.1:4600/?csr=1`：没有 `__MF_BRIDGE_SSR__`，帧列表为空，商品显示 6 行、库存显示 18 行。点击库存“调整库存”后模态框正常打开，错误列表为空。
+
+本轮没有重新注入真实页面的 Node entry 故障并执行 reload → CSR 验收；这次验证包括数据更新后期失败的单测、deferred 拒绝与取消的真实构建矩阵，以及纯 CSR 运行。之前的真实降级证据保留在上文，不能冒充本轮重测结果。两个仓库完整 E2E / 全仓测试套件未运行，本轮采用受影响包单测、真实构建矩阵和实际 Demo 浏览器回归；尚未验证任意 React 版本、RSC、Form Actions 或远程 HTTP SSR service executor。
+
+本轮机器上的证据文件仍是诊断产物，不参与业务渲染，也不会随仓库分发：
+
+| `/private/tmp/` 下文件 | 内容 |
+| --- | --- |
+| `bridge-progressive-matrix.log` | 四次 Rspack 构建产物运行的六个提前水合场景 |
+| `bridge-progressive-legacy-matrix.log`、`bridge-progressive-legacy-stream.log` | 十项旧入口构建与三种旧流交错顺序通过 |
+| `bridge-progressive-ready-tests.log` | Bridge Jest 61 + Rstest 11 |
+| `bridge-progressive-mf-final-test.log` | MF Modern 81 项，包括 bootstrap 24 项 |
+| `bridge-progressive-modern-final-test.log` | Modern runtime 69 项 |
+| `modern-progressive-application-tests.log` | 上述 Modern runtime 中 application 子集 19 项 |
+| `bridge-progressive-core-final-build.log` | MF Turbo 20 项依赖构建 |
+| `bridge-progressive-modern-build.log`、`bridge-progressive-modern-final-build.log` | Modern 依赖构建和最终 runtime 完整构建 |
+| `bridge-progressive-modern-types.log` | Modern runtime 类型检查；无诊断，退出码 0 |
+| `bridge-progressive-demo-final-typecheck.log`、`bridge-progressive-demo-final-build.log` | 三个 Demo 最终类型检查和生产构建 |
+| `bridge-progressive-format-final.log` | MF 最终全仓 Prettier 通过 |
+| `bridge-progressive-modern-biome.log` | Modern 变更文件 Biome 检查 17 项通过 |
+| `bridge-progressive-browser-final.json` | 最终产物商品先完成：提前模态框交互、ready / update / done 时序、原 DOM 复用、CSS 首次就绪及空错误列表 |
+| `bridge-progressive-browser-final-reverse.json` | 最终产物库存先完成：提前交互、原 DOM 复用、CSS 首次就绪及空错误列表 |
+| `bridge-progressive-browser-final-csr.json` | 最终产物纯 CSR：无 SSR runtime / 帧，两个列表和模态框交互正常 |

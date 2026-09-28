@@ -22,7 +22,9 @@ const install = (loader: (args: { request: Request }) => unknown) => {
           {label}:{String(context.initialData?.request)}
         </p>
         <Suspense fallback={<p>loading-details</p>}>
-          <Await resolve={pending}>{value => <p>{value}</p>}</Await>
+          <Await resolve={pending} errorElement={<p>loader-error</p>}>
+            {value => <p>{value}</p>}
+          </Await>
         </Suspense>
       </main>
     );
@@ -137,4 +139,90 @@ it('aborts the render and rejects its snapshot when the consumer cancels', async
   rendered.cancel(new Error('consumer disconnected'));
   await expect(rendered.snapshot).rejects.toThrow('consumer disconnected');
   await expect(reader.read()).rejects.toThrow('consumer disconnected');
+});
+
+it('publishes the complete shell and initial loader snapshot before deferred values settle', async () => {
+  let finish!: (value: string) => void;
+  const pending = new Promise<string>(resolve => {
+    finish = resolve;
+  });
+  install(() => ({ label: 'early-products', pending }));
+  const rendered = await renderApplication(new Request('http://products/'), {
+    identifierPrefix: 'early-',
+    progressiveHydration: true,
+  });
+  const reader = rendered.stream.getReader();
+  const shell = new TextDecoder().decode((await reader.read()).value);
+  const snapshot = await rendered.hydration!.snapshot;
+  expect(shell).toContain('early-products');
+  expect(shell).toContain('loading-details');
+  expect(shell).toContain('<template id="early-shell"></template>');
+  expect(rendered.hydration!.shellMarker).toBe('early-shell');
+  expect(snapshot.protocol).toBe('modern-application/2');
+  expect(snapshot.routerData?.loaderData.page).toEqual({
+    label: 'early-products',
+    pending: null,
+  });
+  expect(snapshot.pending).toEqual([
+    { id: '0', path: ['routerData', 'loaderData', 'page', 'pending'] },
+  ]);
+  const updates = rendered.hydration!.updates.getReader();
+  finish('later-stock');
+  expect((await updates.read()).value).toEqual({
+    id: '0',
+    status: 'fulfilled',
+    value: 'later-stock',
+    pending: [],
+  });
+  expect((await updates.read()).done).toBe(true);
+  let tail = '';
+  for (;;) {
+    const next = await reader.read();
+    if (next.done) break;
+    tail += new TextDecoder().decode(next.value);
+  }
+  expect(tail).toContain('later-stock');
+  expect((await rendered.snapshot).routerData?.loaderData.page.pending).toBe(
+    'later-stock',
+  );
+});
+
+it('transports a rejected deferred value without failing its Await error boundary', async () => {
+  let reject!: (error: Error) => void;
+  const pending = new Promise<string>((_, no) => {
+    reject = no;
+  });
+  install(() => ({ label: 'products', pending }));
+  const rendered = await renderApplication(new Request('http://products/'), {
+    identifierPrefix: 'rejected-',
+    progressiveHydration: true,
+  });
+  const html = new Response(rendered.stream).text();
+  const updates = rendered.hydration!.updates.getReader();
+  reject(new Error('statistics failed'));
+  expect((await updates.read()).value).toMatchObject({
+    id: '0',
+    status: 'rejected',
+    error: { message: 'statistics failed' },
+  });
+  expect((await updates.read()).done).toBe(true);
+  expect(await html).toContain('loader-error');
+  await expect(rendered.snapshot).rejects.toThrow('statistics failed');
+});
+
+it('errors the progressive data channel when rendering is cancelled after the shell', async () => {
+  install(() => ({ label: 'abort', pending: new Promise(() => {}) }));
+  const rendered = await renderApplication(new Request('http://products/'), {
+    identifierPrefix: 'abort-early-',
+    progressiveHydration: true,
+  });
+  const reader = rendered.stream.getReader();
+  await reader.read();
+  const updates = rendered.hydration!.updates.getReader();
+  const initial = await rendered.hydration!.snapshot;
+  expect(initial.pending).toHaveLength(1);
+  rendered.cancel(new Error('request disconnected'));
+  await expect(updates.read()).rejects.toThrow('request disconnected');
+  await expect(reader.read()).rejects.toThrow('request disconnected');
+  await expect(rendered.snapshot).rejects.toThrow('request disconnected');
 });

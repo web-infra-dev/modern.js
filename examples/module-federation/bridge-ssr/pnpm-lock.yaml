@@ -20,8 +20,8 @@ importers:
         specifier: link:../../../../packages/server/server-runtime
         version: link:../../../../packages/server/server-runtime
       '@module-federation/modern-js-v3':
-        specifier: link:../../../../../core-bridge-ssr-demo/packages/modernjs-v3
-        version: link:../../../../../core-bridge-ssr-demo/packages/modernjs-v3
+        specifier: link:../../../../../core-bridge-progressive-hydration/packages/modernjs-v3
+        version: link:../../../../../core-bridge-progressive-hydration/packages/modernjs-v3
       react:
         specifier: 19.2.8
         version: 19.2.8
@@ -66,8 +66,8 @@ importers:
         specifier: link:../../../../packages/server/server-runtime
         version: link:../../../../packages/server/server-runtime
       '@module-federation/modern-js-v3':
-        specifier: link:../../../../../core-bridge-ssr-demo/packages/modernjs-v3
-        version: link:../../../../../core-bridge-ssr-demo/packages/modernjs-v3
+        specifier: link:../../../../../core-bridge-progressive-hydration/packages/modernjs-v3
+        version: link:../../../../../core-bridge-progressive-hydration/packages/modernjs-v3
       react:
         specifier: 19.2.8
         version: 19.2.8
@@ -112,8 +112,8 @@ importers:
         specifier: link:../../../../packages/server/server-runtime
         version: link:../../../../packages/server/server-runtime
       '@module-federation/modern-js-v3':
-        specifier: link:../../../../../core-bridge-ssr-demo/packages/modernjs-v3
-        version: link:../../../../../core-bridge-ssr-demo/packages/modernjs-v3
+        specifier: link:../../../../../core-bridge-progressive-hydration/packages/modernjs-v3
+        version: link:../../../../../core-bridge-progressive-hydration/packages/modernjs-v3
       react:
         specifier: 18.3.1
         version: 18.3.1

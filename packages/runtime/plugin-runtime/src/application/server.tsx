@@ -6,12 +6,24 @@ import { getCurrentEntryName } from '../core/context';
 import { wrapRuntimeContextProvider } from '../core/react/wrapper';
 import { createRequestHandler } from '../core/server/requestHandler';
 import { serializeErrors } from '../router/runtime/utils';
-import type { ApplicationSnapshot } from './types';
+import { ApplicationShell } from './ApplicationShell';
+import { createApplicationData } from './data.server';
+import type {
+  ApplicationDataPatch,
+  ApplicationSnapshot,
+  ApplicationSnapshotV2,
+} from './types';
 
-export type { ApplicationSnapshot } from './types';
+export type {
+  ApplicationDataPatch,
+  ApplicationSnapshot,
+  ApplicationSnapshotV2,
+} from './types';
 
 export interface RenderApplicationOptions {
   identifierPrefix: string;
+  /** Emit an initial snapshot and independently settling loader values. */
+  progressiveHydration?: boolean;
   basename?: string;
   props?: Record<string, unknown>;
   nonce?: string;
@@ -23,6 +35,12 @@ export interface RenderApplicationOptions {
 export interface ApplicationStream {
   stream: ReadableStream<Uint8Array>;
   snapshot: Promise<ApplicationSnapshot>;
+  hydration?: {
+    snapshot: Promise<ApplicationSnapshotV2>;
+    updates: ReadableStream<ApplicationDataPatch>;
+    /** ID of the template that terminates the complete React shell. */
+    shellMarker: string;
+  };
   cancel: (reason?: unknown) => void;
 }
 
@@ -68,10 +86,39 @@ export async function renderApplication(
     async (_request, Root, context) => {
       const { runtimeContext } = context;
       runtimeContext.ssr = true;
+      const shellMarker = options.progressiveHydration
+        ? `${options.identifierPrefix}shell`
+        : undefined;
       const element = wrapRuntimeContextProvider(
-        <Root {...props} />,
+        shellMarker ? (
+          <ApplicationShell marker={shellMarker}>
+            <Root {...props} />
+          </ApplicationShell>
+        ) : (
+          <Root {...props} />
+        ),
         runtimeContext,
       );
+      const getSnapshot = (): ApplicationSnapshot => {
+        const router = runtimeContext.routerContext;
+        return {
+          protocol: 'modern-application/1',
+          reactVersion: React.version,
+          identifierPrefix: options.identifierPrefix,
+          ...(shellMarker ? { shellMarker } : {}),
+          url: request.url,
+          basename,
+          props,
+          initialData: runtimeContext.initialData,
+          routerData: router
+            ? {
+                loaderData: router.loaderData,
+                errors: serializeErrors(router.errors),
+              }
+            : undefined,
+        };
+      };
+      let applicationData: ReturnType<typeof createApplicationData> | undefined;
       const output = new PassThrough();
       let resolveSnapshot!: (snapshot: ApplicationSnapshot) => void;
       let rejectSnapshot!: (error: unknown) => void;
@@ -89,6 +136,7 @@ export async function renderApplication(
         const error =
           reason instanceof Error ? reason : new Error(String(reason));
         rejectSnapshot(error);
+        applicationData?.cancel(error);
         // Close transport before aborting React: abort can synchronously write
         // client-render instructions, which must not escape a cancelled task.
         output.destroy(error);
@@ -106,22 +154,7 @@ export async function renderApplication(
       output.once('finish', () => {
         if (failed) return;
         void (async () => {
-          const router = runtimeContext.routerContext;
-          const value: ApplicationSnapshot = {
-            protocol: 'modern-application/1',
-            reactVersion: React.version,
-            identifierPrefix: options.identifierPrefix,
-            url: request.url,
-            basename,
-            props,
-            initialData: runtimeContext.initialData,
-            routerData: router
-              ? {
-                  loaderData: router.loaderData,
-                  errors: serializeErrors(router.errors),
-                }
-              : undefined,
-          };
+          const value = getSnapshot();
           // JSON round-trip both validates and removes undefined properties.
           resolveSnapshot(JSON.parse(JSON.stringify(await resolveData(value))));
         })().catch(rejectSnapshot);
@@ -133,8 +166,25 @@ export async function renderApplication(
           identifierPrefix: options.identifierPrefix,
           nonce: options.nonce,
           onShellReady() {
-            rendered.pipe(output);
-            resolve();
+            try {
+              if (shellMarker) {
+                applicationData = createApplicationData({
+                  ...getSnapshot(),
+                  protocol: 'modern-application/2',
+                  shellMarker,
+                });
+                result!.hydration = {
+                  snapshot: Promise.resolve(applicationData.snapshot),
+                  updates: applicationData.updates,
+                  shellMarker,
+                };
+              }
+              rendered.pipe(output);
+              resolve();
+            } catch (error) {
+              fail(error);
+              reject(error);
+            }
           },
           onShellError(error) {
             fail(error);

@@ -28,7 +28,7 @@ export interface InventoryData {
   stock: StockList;
   activity: Movement[] | Promise<Movement[]>;
 }
-const origin = process.env.COMMERCE_API_ORIGIN || 'http://127.0.0.1:4500';
+const origin = process.env.COMMERCE_API_ORIGIN || 'http://127.0.0.1:4600';
 export async function inventoryApi<T>(
   path: string,
   options: RequestInit = {},

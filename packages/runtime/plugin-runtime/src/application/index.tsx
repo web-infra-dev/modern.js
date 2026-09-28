@@ -7,19 +7,28 @@ import {
   getInitialContext,
 } from '../core/context';
 import { wrapRuntimeContextProvider } from '../core/react/wrapper';
+import { ApplicationShell } from './ApplicationShell';
+import { restoreApplicationData } from './data';
 import type {
   ApplicationOptions,
   ApplicationRuntime,
   ApplicationSnapshot,
+  ApplicationSnapshotV2,
 } from './types';
 
-export type { ApplicationOptions, ApplicationSnapshot } from './types';
+export type {
+  ApplicationOptions,
+  ApplicationSnapshot,
+  ApplicationSnapshotV2,
+} from './types';
 
 export interface ApplicationInstance {
   hydrate: (
     container: HTMLElement,
-    snapshot: ApplicationSnapshot,
-    options?: Pick<ApplicationOptions, 'signal' | 'onRecoverableError'>,
+    snapshot: ApplicationSnapshot | ApplicationSnapshotV2,
+    options?: Pick<ApplicationOptions, 'signal' | 'onRecoverableError'> & {
+      updates?: ReadableStream<unknown>;
+    },
   ) => Promise<void>;
   mount: (container: HTMLElement, options: ApplicationOptions) => Promise<void>;
   update: (
@@ -40,6 +49,7 @@ function ApplicationCommit({
 export function createApplication(): ApplicationInstance {
   let root: Root | undefined;
   let context: TInternalRuntimeContext | undefined;
+  let shellMarker: string | undefined;
   let RootComponent: React.ComponentType<Record<string, unknown>>;
   let props: Record<string, unknown> = {};
   let removeAbortListener: (() => void) | undefined;
@@ -48,9 +58,11 @@ export function createApplication(): ApplicationInstance {
   let rejectCommit: ((error: unknown) => void) | undefined;
   let commit: () => void = () => {};
   let ready: Promise<void> = Promise.resolve();
+  let data: ReturnType<typeof restoreApplicationData> | undefined;
 
   const destroy = () => {
     destroyed = true;
+    data?.cancel(new Error('Application destroyed before data completed'));
     rejectCommit?.(new Error('Application destroyed before commit'));
     removeAbortListener?.();
     context?._application?.router?.dispose();
@@ -61,9 +73,11 @@ export function createApplication(): ApplicationInstance {
 
   const initialize = async (
     container: HTMLElement,
-    options: ApplicationOptions,
-    snapshot?: ApplicationSnapshot,
+    inputOptions: ApplicationOptions & { updates?: ReadableStream<unknown> },
+    inputSnapshot?: ApplicationSnapshot | ApplicationSnapshotV2,
   ) => {
+    let options = inputOptions;
+    let snapshot = inputSnapshot;
     if (root || destroyed || pending)
       throw new Error('Application instance has already been used');
     pending = true;
@@ -73,8 +87,23 @@ export function createApplication(): ApplicationInstance {
         `Application React version mismatch: ${snapshot.reactVersion} / ${React.version}`,
       );
     }
+    if (snapshot?.protocol === 'modern-application/2') {
+      if (!options.updates)
+        throw new Error(
+          'Progressive application hydration requires a data stream',
+        );
+      data = restoreApplicationData(snapshot, options.updates);
+      snapshot = data.snapshot;
+      options = { ...options, props: snapshot.props };
+      void data.done.catch(error => {
+        if (destroyed || options.signal?.aborted) return;
+        if (rejectCommit) rejectCommit(error);
+        else options.onRecoverableError?.(error);
+      });
+    }
     const url = new URL(options.url, window.location.href);
     props = options.props || {};
+    shellMarker = snapshot?.shellMarker;
     const application: ApplicationRuntime = {
       url: `${url.pathname}${url.search}${url.hash}`,
       hydrationData: snapshot?.routerData,
@@ -120,9 +149,15 @@ export function createApplication(): ApplicationInstance {
       };
     });
     const element = wrapRuntimeContextProvider(
-      <ApplicationCommit onCommit={commit}>
-        <RootComponent {...props} />
-      </ApplicationCommit>,
+      snapshot?.shellMarker ? (
+        <ApplicationShell marker={snapshot.shellMarker} onCommit={commit}>
+          <RootComponent {...props} />
+        </ApplicationShell>
+      ) : (
+        <ApplicationCommit onCommit={commit}>
+          <RootComponent {...props} />
+        </ApplicationCommit>
+      ),
       context,
     );
     const rootOptions = {
@@ -145,12 +180,20 @@ export function createApplication(): ApplicationInstance {
 
   return {
     hydrate(container, snapshot, options = {}) {
-      if (snapshot.protocol !== 'modern-application/1') {
+      if (
+        snapshot.protocol !== 'modern-application/1' &&
+        snapshot.protocol !== 'modern-application/2'
+      ) {
         return Promise.reject(
           new Error('Unsupported Modern application snapshot'),
         );
       }
-      return initialize(container, { ...snapshot, ...options }, snapshot);
+      return initialize(container, { ...snapshot, ...options }, snapshot).catch(
+        error => {
+          data?.cancel(error);
+          throw error;
+        },
+      );
     },
     mount: initialize,
     async update(options) {
@@ -170,9 +213,15 @@ export function createApplication(): ApplicationInstance {
         };
         root.render(
           wrapRuntimeContextProvider(
-            <ApplicationCommit onCommit={commit}>
-              <RootComponent {...props} />
-            </ApplicationCommit>,
+            shellMarker ? (
+              <ApplicationShell marker={shellMarker} onCommit={commit}>
+                <RootComponent {...props} />
+              </ApplicationShell>
+            ) : (
+              <ApplicationCommit onCommit={commit}>
+                <RootComponent {...props} />
+              </ApplicationCommit>
+            ),
             context,
           ),
         );
