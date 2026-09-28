@@ -33,7 +33,7 @@
   },
   "main": "./base.json",
   "peerDependencies": {
-    "@modern-js/app-tools": "workspace:^3.9.1"
+    "@modern-js/app-tools": "workspace:^3.9.3"
   },
   "peerDependenciesMeta": {
     "@modern-js/app-tools": {
