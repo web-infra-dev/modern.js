@@ -11,6 +11,8 @@
 //   - App.config → src/modern.runtime.ts 的 defineRuntimeConfig
 //   - useRuntimeContext() → use/useContext(RuntimeContext)（保留 react default import；alias 进人工）
 //   - src/pages → src/routes（无 routes 时，index.* 映射为 page.*）
+//   - tsconfig：删除默认 baseUrl、补 @api/* 别名、CommonJS 项目生成 tsconfig.server.json
+//           （见 migrate-tsconfig.mjs，也可单独执行）
 // 人工清单（语义复杂，不自动）：App.init / layout init、自定义 server、html.appIcon、
 //   server.ssr.mode、webpack 自定义配置、modernConfig.runtime、非空/函数式 runtime、
 //   applyBaseConfig(...) 包装下的结构性迁移（integration helper，标注「结构迁移未完成」）。
@@ -18,6 +20,7 @@
 import { execFileSync } from 'node:child_process';
 import fs from 'node:fs';
 import path from 'node:path';
+import { migrateTsconfig } from './migrate-tsconfig.mjs';
 
 const SRC_EXT = new Set(['.ts', '.tsx', '.js', '.jsx', '.mjs', '.cjs']);
 const ENTRY_EXTS = ['tsx', 'jsx', 'ts', 'js'];
@@ -2128,6 +2131,10 @@ function main() {
   assertRouteConventions(dir, routesGuard);
   writePostcss(dir, hadTailwind);
   flagManual(dir, reactMajor);
+  // tsconfig 迁移放在最后：custom server 迁移可能刚生成 server/，需要据此判断是否写 tsconfig.server.json
+  const tsconfigResult = migrateTsconfig(dir);
+  changed.push(...tsconfigResult.changed);
+  manual.push(...tsconfigResult.manual);
 
   const report = {
     projectDir: dir,
