@@ -15,3 +15,29 @@ export const ensureArray = <T>(params: T | T[]): T[] => {
   }
   return [params];
 };
+
+export const isPathInside = (parent: string, child: string): boolean => {
+  const relativePath = path.relative(parent, child);
+
+  return (
+    relativePath === '' ||
+    (!relativePath.startsWith('..') && !path.isAbsolute(relativePath))
+  );
+};
+
+export const resolveInsideOrFallback = (
+  base: string,
+  target: string | undefined,
+  fallback?: string,
+): string => {
+  if (!target) {
+    return fallback ?? base;
+  }
+
+  const resolvedTarget = path.resolve(base, target);
+  if (!isPathInside(base, resolvedTarget)) {
+    return fallback ?? base;
+  }
+
+  return resolvedTarget;
+};
