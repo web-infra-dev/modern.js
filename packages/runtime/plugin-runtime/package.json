@@ -128,6 +128,14 @@
         "require": "./dist/cjs/exports/config-routes.js"
       },
       "default": "./dist/cjs/exports/config-routes.js"
+    },
+    "./application": {
+      "types": "./dist/types/application/index.d.ts",
+      "default": "./dist/esm/application/index.mjs"
+    },
+    "./application/server": {
+      "types": "./dist/types/application/server.d.ts",
+      "default": "./dist/esm/application/server.mjs"
     }
   },
   "typesVersions": {
@@ -197,6 +205,12 @@
       ],
       "config-routes": [
         "./dist/types/exports/config-routes.d.ts"
+      ],
+      "application": [
+        "./dist/types/application/index.d.ts"
+      ],
+      "application/server": [
+        "./dist/types/application/server.d.ts"
       ]
     }
   },

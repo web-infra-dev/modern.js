@@ -7,6 +7,7 @@ import {
   type RouterProviderProps,
   createBrowserRouter,
   createHashRouter,
+  createMemoryRouter,
   createRoutesFromElements,
   useHref,
   useLocation,
@@ -86,7 +87,11 @@ export const routerPlugin = (
       api.onBeforeRender(context => {
         // In some scenarios, the initial pathname and the current pathname do not match.
         // We add a configuration to support the page to reload.
-        if (window._SSR_DATA && userConfig.unstable_reloadOnURLMismatch) {
+        if (
+          !context._application &&
+          window._SSR_DATA &&
+          userConfig.unstable_reloadOnURLMismatch
+        ) {
           const { ssrContext } = context;
           const currentPathname = normalizePathname(window.location.pathname);
           const initialPathname =
@@ -112,7 +117,7 @@ export const routerPlugin = (
         // Prefetch Link will use routes for match next route
         Object.defineProperty(context, 'routes', {
           get() {
-            return routesContainer.current;
+            return context._application?.routes || routesContainer.current;
           },
           enumerable: true,
         });
@@ -235,7 +240,11 @@ function useRouterCreation(props: any, options: UseRouterCreationOptions) {
     options;
   const runtimeContext = useContext(InternalRuntimeContext);
 
-  const baseUrl = selectBasePath(location.pathname).replace(/^\/*/, '/');
+  const application = runtimeContext._application;
+  const applicationPath = application
+    ? new URL(application.url, location.href).pathname
+    : location.pathname;
+  const baseUrl = selectBasePath(applicationPath).replace(/^\/*/, '/');
   const _basename =
     baseUrl === '/'
       ? urlJoin(
@@ -252,11 +261,16 @@ function useRouterCreation(props: any, options: UseRouterCreationOptions) {
       ? safeUse(props.rscPayload)
       : null;
 
-  let hydrationData = process.env.MODERN_ENABLE_RSC
-    ? window._ROUTER_DATA || rscPayload
-    : window._ROUTER_DATA;
+  let hydrationData = application
+    ? application.hydrationData
+    : process.env.MODERN_ENABLE_RSC
+      ? window._ROUTER_DATA || rscPayload
+      : window._ROUTER_DATA;
 
   return useMemo(() => {
+    if (application?.router) {
+      return { router: application.router, routes: application.routes || [] };
+    }
     if (hydrationData?.errors) {
       hydrationData = {
         ...hydrationData,
@@ -277,6 +291,7 @@ function useRouterCreation(props: any, options: UseRouterCreationOptions) {
         : createRoutesFromElements(
             renderRoutes({
               routesConfig: finalRouteConfig,
+              application: Boolean(application),
               props,
             }),
           );
@@ -307,15 +322,26 @@ function useRouterCreation(props: any, options: UseRouterCreationOptions) {
 
     const modifiedRoutes = hooks.modifyRoutes.call(routes);
 
-    const router = supportHtml5History
-      ? createBrowserRouter(modifiedRoutes, {
+    const router = application
+      ? createMemoryRouter(modifiedRoutes, {
           basename: _basename,
+          initialEntries: [application.url],
           hydrationData,
         })
-      : createHashRouter(modifiedRoutes, {
-          basename: _basename,
-          hydrationData,
-        });
+      : supportHtml5History
+        ? createBrowserRouter(modifiedRoutes, {
+            basename: _basename,
+            hydrationData,
+          })
+        : createHashRouter(modifiedRoutes, {
+            basename: _basename,
+            hydrationData,
+          });
+
+    if (application) {
+      application.router = router;
+      application.routes = modifiedRoutes;
+    }
 
     const originSubscribe = router.subscribe;
     router.subscribe = (listener: RouterSubscriber) => {

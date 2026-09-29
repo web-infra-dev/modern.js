@@ -21,7 +21,6 @@ import {
   isSSGEntry,
   slash,
 } from '@modern-js/utils';
-import { ROUTE_MODULES } from '@modern-js/utils/universal/constants';
 import {
   APP_CONFIG_NAME,
   APP_INIT_EXPORTED,
@@ -530,12 +529,10 @@ export const fileSystemRoutes = async ({
   await fs.writeJSON(loadersMapFile, loadersMap);
 
   const importRuntimeRouterCode = `
-    import { createShouldRevalidate, handleRouteModule,  handleRouteModuleError} from '@${metaName}/runtime/routerHelper';
+    import { createRouteModuleRegistry, handleRouteModuleError } from '@${metaName}/runtime/routerHelper';
   `;
   const routeModulesCode = `
-    if(typeof document !== 'undefined'){
-      window.${ROUTE_MODULES} = {}
-    }
+    const { createShouldRevalidate, handleRouteModule } = createRouteModuleRegistry();
   `;
 
   return `

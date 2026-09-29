@@ -8,7 +8,7 @@ exports[`fileSystemRoutes > generate code 1`] = `
   
     
     
-    import { createShouldRevalidate, handleRouteModule,  handleRouteModuleError} from '@modern-js/runtime/routerHelper';
+    import { createRouteModuleRegistry, handleRouteModuleError } from '@modern-js/runtime/routerHelper';
   
     
     import loading_0 from '@_modern_js_src/routes/loading.tsx';
@@ -20,9 +20,7 @@ import loader_1 from "@_modern_js_src/routes/layout.loader.ts";
 
     
     
-    if(typeof document !== 'undefined'){
-      window._routeModules = {}
-    }
+    const { createShouldRevalidate, handleRouteModule } = createRouteModuleRegistry();
   
     
     export const routes = [
@@ -80,7 +78,7 @@ exports[`fileSystemRoutes > generate code for legacy router 1`] = `
   
     
     
-    import { createShouldRevalidate, handleRouteModule,  handleRouteModuleError} from '@modern-js/runtime/routerHelper';
+    import { createRouteModuleRegistry, handleRouteModuleError } from '@modern-js/runtime/routerHelper';
   
     
     
@@ -88,9 +86,7 @@ exports[`fileSystemRoutes > generate code for legacy router 1`] = `
     
     
     
-    if(typeof document !== 'undefined'){
-      window._routeModules = {}
-    }
+    const { createShouldRevalidate, handleRouteModule } = createRouteModuleRegistry();
   
     
     export const routes = [

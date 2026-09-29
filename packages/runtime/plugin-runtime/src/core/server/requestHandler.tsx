@@ -78,6 +78,7 @@ export type CreateRequestHandler = (
   handleRequest: HandleRequest,
   options?: {
     enableRsc?: boolean;
+    runtimeContext?: Partial<TInternalRuntimeContext>;
   },
 ) => Promise<RequestHandler>;
 
@@ -268,6 +269,7 @@ export const createRequestHandler: CreateRequestHandler = async (
         });
 
         Object.assign(context, {
+          ...createRequestOptions?.runtimeContext,
           ssrContext,
           isBrowser: false,
         });

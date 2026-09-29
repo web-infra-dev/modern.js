@@ -1,0 +1,451 @@
+* {
+  box-sizing: border-box;
+}
+body {
+  margin: 0;
+  background: #f3f5f9;
+  color: #243247;
+  font-family: 'Segoe UI', 'PingFang SC', 'Microsoft YaHei', sans-serif;
+  font-size: 14px;
+}
+button,
+input,
+select,
+textarea {
+  font: inherit;
+}
+button,
+a,
+input,
+select,
+textarea {
+  outline-offset: 4px;
+}
+a {
+  color: inherit;
+  text-decoration: none;
+}
+button {
+  cursor: pointer;
+}
+.workspace {
+  min-height: 100vh;
+  display: grid;
+  grid-template-columns: 224px minmax(0, 1fr);
+}
+.workspace-sidebar {
+  position: sticky;
+  top: 0;
+  height: 100vh;
+  background: #fff;
+  border-right: 1px solid #e5eaf1;
+  display: flex;
+  flex-direction: column;
+  padding: 27px 17px 24px;
+}
+.workspace-brand {
+  display: flex;
+  gap: 11px;
+  align-items: center;
+  font-size: 16px;
+  font-weight: 650;
+  white-space: nowrap;
+}
+.workspace-brand small {
+  display: block;
+  font-size: 9px;
+  letter-spacing: 1.3px;
+  color: #8a96a8;
+  margin-top: 5px;
+}
+.brand-symbol {
+  display: grid;
+  place-items: center;
+  width: 35px;
+  height: 37px;
+  background: #2861d5;
+  color: white;
+  border-radius: 9px;
+  font-size: 22px;
+  font-weight: 500;
+}
+.shop-selector {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  margin: 32px 0 30px;
+  padding: 12px 9px;
+  background: #f6f8fc;
+  border-radius: 8px;
+  font-size: 12px;
+  font-weight: 600;
+}
+.shop-selector small {
+  display: block;
+  color: #8490a3;
+  margin-top: 6px;
+  font-weight: 400;
+  font-size: 10px;
+}
+.shop-icon {
+  width: 31px;
+  height: 31px;
+  display: grid;
+  place-items: center;
+  background: #e5ebf7;
+  border-radius: 6px;
+  color: #59739c;
+}
+.nav-caption {
+  font-size: 11px;
+  color: #97a2b2;
+  padding: 0 12px;
+  margin-bottom: 12px;
+}
+.workspace-sidebar nav {
+  display: grid;
+  gap: 7px;
+}
+.workspace-sidebar nav a {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 13px 14px;
+  color: #657187;
+  border-radius: 7px;
+  font-size: 13px;
+}
+.workspace-sidebar nav a.active {
+  color: #235bd2;
+  background: #edf3ff;
+  font-weight: 600;
+}
+.nav-icon {
+  font-size: 19px;
+  line-height: 1;
+}
+.nav-pill {
+  margin-left: auto;
+  background: #dce8ff;
+  border-radius: 4px;
+  padding: 1px 5px;
+  font-size: 10px;
+}
+.sidebar-bottom {
+  margin-top: auto;
+  padding: 12px;
+  font-size: 12px;
+  color: #52677e;
+}
+.sidebar-bottom small {
+  display: block;
+  font-size: 10px;
+  color: #99a3b2;
+  margin: 9px 0 0 14px;
+}
+.status-dot {
+  display: inline-block;
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: #36a07a;
+  margin-right: 8px;
+}
+.workspace-main {
+  min-width: 0;
+}
+.workspace-topbar {
+  height: 70px;
+  border-bottom: 1px solid #e7ecf3;
+  background: #fff;
+  padding: 0 31px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.workspace-topbar-left,
+.workspace-account {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+.workspace-topbar-left {
+  font-size: 12px;
+  color: #8b97a8;
+}
+.sidebar-toggle {
+  border: 0;
+  background: none;
+  color: #758197;
+  font-size: 16px;
+  padding: 5px;
+}
+.workspace-account {
+  font-size: 12px;
+}
+.workspace-account small {
+  font-size: 10px;
+  display: block;
+  margin-top: 5px;
+  color: #8c98a9;
+}
+.account-avatar {
+  background: #e4ecff;
+  color: #3b67b3;
+  border-radius: 50%;
+  display: grid;
+  place-items: center;
+  width: 33px;
+  height: 33px;
+}
+.store-badge {
+  font-size: 10px;
+  padding: 4px 8px;
+  color: #69819f;
+  background: #f4f7fb;
+  border: 1px solid #e6ebf3;
+  border-radius: 4px;
+  margin-right: 5px;
+}
+.workspace-content {
+  max-width: 1540px;
+  margin: 0 auto;
+  padding: 31px;
+}
+.workspace-heading {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 23px;
+  gap: 20px;
+}
+.workspace-eyebrow {
+  font-size: 11px;
+  color: #8796aa;
+  margin-bottom: 8px;
+}
+.workspace-heading h1 {
+  font-size: 25px;
+  font-weight: 650;
+  letter-spacing: -.5px;
+  margin: 0 0 9px;
+}
+.workspace-heading p {
+  font-size: 12px;
+  color: #8995a6;
+  margin: 0;
+}
+.workspace-link {
+  font-size: 12px;
+  color: #3867c9;
+  background: white;
+  border: 1px solid #dce4f0;
+  padding: 10px 15px;
+  border-radius: 6px;
+}
+.workspace-notice {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+  padding: 14px 17px;
+  background: #edf3fe;
+  border: 1px solid #dce7fc;
+  border-radius: 7px;
+  margin-bottom: 24px;
+  color: #5072aa;
+  font-size: 12px;
+}
+.notice-icon {
+  width: 17px;
+  height: 17px;
+  border: 1px solid #80a2d9;
+  border-radius: 50%;
+  display: grid;
+  place-items: center;
+  font-size: 11px;
+}
+.workspace-notice b {
+  font-weight: 600;
+  margin-right: 15px;
+}
+.workspace-notice span {
+  color: #7b92b5;
+}
+.application-section {
+  background: #fff;
+  border: 1px solid #e4eaf2;
+  border-radius: 10px;
+  margin-bottom: 24px;
+  overflow: hidden;
+  box-shadow: 0 2px 7px #31476603;
+  min-height: 160px;
+}
+.application-section.standalone {
+  margin-top: 3px;
+}
+.workspace-footer {
+  text-align: center;
+  color: #a3adbb;
+  font-size: 10px;
+  margin: 4px 0 24px;
+  letter-spacing: .2px;
+}
+.app-loading {
+  display: block;
+  padding: 27px;
+  color: #8796aa;
+  font-size: 12px;
+}
+.loading-line {
+  display: block;
+  width: 180px;
+  height: 17px;
+  background: #edf0f5;
+  border-radius: 4px;
+  margin-bottom: 13px;
+}
+.loading-line.short {
+  width: 270px;
+  height: 10px;
+  background: #f3f5f9;
+}
+.loading-table {
+  display: block;
+  height: 100px;
+  margin: 26px 0 20px;
+  background: repeating-linear-gradient(
+    #f6f8fc 0px,
+    #f6f8fc 29px,
+    white 29px,
+    white 43px
+  );
+}
+.app-error {
+  padding: 28px;
+  color: #8f4744;
+}
+.app-error h3 {
+  font-size: 16px;
+}
+.app-error p {
+  font-size: 12px;
+}
+.app-error button {
+  border: 1px solid #e4b4b0;
+  background: white;
+  padding: 8px 13px;
+  border-radius: 5px;
+  color: #8f4744;
+}
+.workspace.compact {
+  grid-template-columns: 76px minmax(0, 1fr);
+}
+.compact .workspace-sidebar {
+  padding-inline: 12px;
+}
+.compact .workspace-brand > span + span,
+.compact .shop-selector,
+.compact .nav-caption,
+.compact .sidebar-bottom,
+.compact .nav-pill {
+  display: none;
+}
+.compact .workspace-sidebar nav {
+  margin-top: 35px;
+}
+.compact .workspace-sidebar nav a {
+  font-size: 0;
+  padding: 14px;
+  gap: 0;
+}
+.compact .nav-icon {
+  font-size: 20px;
+}
+@media (max-width: 1000px) {
+  .workspace {
+    grid-template-columns: 184px minmax(0, 1fr);
+  }
+  .workspace-brand {
+    font-size: 13px;
+  }
+  .workspace-content {
+    padding: 22px;
+  }
+  .workspace-topbar {
+    padding: 0 22px;
+  }
+  .shop-selector {
+    padding: 9px 6px;
+    font-size: 10px;
+  }
+  .workspace-sidebar {
+    padding-inline: 12px;
+  }
+  .workspace-heading h1 {
+    font-size: 22px;
+  }
+}
+@media (max-width: 720px) {
+  .workspace {
+    display: block;
+  }
+  .workspace-sidebar {
+    position: static;
+    height: auto;
+    padding: 14px 17px;
+  }
+  .workspace-brand {
+    font-size: 15px;
+  }
+  .shop-selector,
+  .nav-caption,
+  .sidebar-bottom {
+    display: none;
+  }
+  .workspace-sidebar nav {
+    display: flex;
+    margin-top: 17px;
+  }
+  .workspace-sidebar nav a {
+    padding: 8px 10px;
+    font-size: 12px;
+  }
+  .workspace-topbar {
+    height: 55px;
+    padding: 0 16px;
+  }
+  .store-badge,
+  .sidebar-toggle {
+    display: none;
+  }
+  .workspace-content {
+    padding: 20px 13px;
+  }
+  .workspace-heading {
+    align-items: flex-start;
+  }
+  .workspace-heading h1 {
+    font-size: 20px;
+  }
+  .workspace-heading p {
+    max-width: 210px;
+    line-height: 1.6;
+  }
+  .workspace-link {
+    padding: 8px;
+    font-size: 10px;
+    white-space: nowrap;
+  }
+  .workspace-notice {
+    line-height: 1.7;
+  }
+  .workspace-notice b {
+    display: block;
+  }
+  .application-section {
+    border-radius: 8px;
+  }
+  .workspace.compact {
+    display: block;
+  }
+}

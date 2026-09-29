@@ -1,0 +1,10 @@
+{
+  "extends": "../tsconfig.local.json",
+  "compilerOptions": {
+    "jsx": "react-jsx",
+    "noEmit": false,
+    "skipLibCheck": true,
+    "baseUrl": "."
+  },
+  "include": ["src", "server", "modern.config.ts"]
+}
