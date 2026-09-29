@@ -1,5 +1,15 @@
 # Bridge SSR 验证记录
 
+## 当前 review 入口与记录范围（2026-09-29）
+
+保留的总 PR 为 [Modern #8941](https://github.com/web-infra-dev/modern.js/pull/8941) 和 [MF #5164](https://github.com/module-federation/core/pull/5164)。下文按实际执行日期保留独立 Root SSR、CSS、生命周期拆分、提前水合和后到内容交互的历史记录；不能将较早阶段的“等待完整 snapshot”或“未验证 HTTP”当作当前所有能力的结论，也不能将历史命令记为本次重新执行。
+
+当前初始文档 SSR 已采用 `ready / update / done` 提前水合。MF HTTP Service executor 及纯 HTTP 不加载 Host Node 产物的验收位于另一个仓库 `/Users/bytedance/personal/mf-x-bridge-service-ssr`，分支 `feat/bridge-progressive-service-ssr`；详细命令和证据见该仓库 `VERIFICATION.md`。React 18 Node UTF-8 输出专项和 pnpm 补丁也在该 Service Demo；本商品后台没有加入该补丁，历史 18.3.1 成功场景不等于该版本对任意内容安全。
+
+本次只归并基础分支的文档提交并更新 README/本记录，不改运行时代码、Demo 配置、依赖或锁文件，没有同步 `main`。执行 `git diff --check`、文档 Biome 检查和差异范围检查；Biome 当前不处理 Markdown，因此不将它记为文档格式通过。构建、包单测、类型检查、浏览器和全量 E2E 本次未重复执行，原因是相对整理前的代码变更只有 Markdown；下文保留各轮实际通过与未覆盖的范围。Modern 内置 MF 的包归属迁移尚未执行。
+
+## 独立 Root SSR 首轮记录（2026-09-24）
+
 验证日期：2026-09-24。该记录对应两个本地工作区的实现：Modern `modern-js-bridge-ssr-demo` 和 MF `core-bridge-ssr-demo`。它证明的是 Host 本地执行生产者 Node 产物的链路，不包含远程 HTTP SSR 执行器。
 
 ## 环境与判定标准
