@@ -2,7 +2,10 @@ import type { McpBffOptions } from '@modern-js/mcp-apps/bff';
 import type { McpAppsDefinition } from '@modern-js/mcp-apps/config';
 import { MCP_BFF_ENDPOINT } from './shared';
 
-export type McpEndpointOptions = Pick<McpBffOptions, 'serverInfo' | 'onError'>;
+export type McpEndpointOptions = Pick<
+  McpBffOptions,
+  'serverInfo' | 'onError' | 'allowedOrigins'
+>;
 
 /** Declare a BFF endpoint. Its compiled artifact is bound by the BFF lifecycle. */
 export function mcpApps(

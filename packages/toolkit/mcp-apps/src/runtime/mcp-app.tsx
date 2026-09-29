@@ -52,7 +52,7 @@ type ToolInputPayload = {
 };
 
 type ToolResultPayload = {
-  structuredContent?: ToolOutputPayload;
+  structuredContent?: unknown;
   content?: Array<{
     type?: string;
     text?: string;
@@ -271,11 +271,14 @@ function ModuleFederationApp() {
       // wrapped the same data as JSON in content[0].text; keep that fallback.
       app.ontoolresult = (result: ToolResultPayload) => {
         toolResultReceivedRef.current = true;
+        const output = result.structuredContent;
         if (
-          result?.structuredContent?.tool &&
-          result?.structuredContent?.resource
+          output &&
+          typeof output === 'object' &&
+          'tool' in output &&
+          'resource' in output
         ) {
-          applyToolOutput(result.structuredContent);
+          applyToolOutput(output as ToolOutputPayload);
           return;
         }
         if (!result.content || !Array.isArray(result.content)) {

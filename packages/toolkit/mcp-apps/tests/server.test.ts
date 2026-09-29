@@ -16,7 +16,6 @@ function definition(): McpAppsDefinition {
       {
         name: 'greeting_ui',
         baseUrl: 'https://cdn.example.com/v42/mf-manifest.json',
-        manifestType: 'mf',
         csp: {
           resourceDomains: ['https://cdn.example.com'],
           connectDomains: ['https://cdn.example.com'],
@@ -147,7 +146,6 @@ describe('MCP Apps definition and stateless HTTP', () => {
           remoteEntry: 'https://cdn.example.com/v42/mf-manifest.json',
           module: './Greeting',
           exportName: 'default',
-          manifestType: 'mf',
         },
       },
     });
@@ -394,23 +392,26 @@ describe('configuration validation and loading', () => {
     ).toBe('Compiled');
   });
 
-  it('keeps Vmok remote handler injection and browser metadata without requiring internal packages', async () => {
+  it('supports an injected local handler loader with standard MF browser metadata', async () => {
     const config = definition();
-    config.remotes[0].manifestType = 'vmok';
-    config.remotes[0].serverEntry =
-      'https://cdn.example.com/server/vmok-manifest.json';
-    config.tools[0].handler!.runtime = 'vmok-server';
+    config.tools[0].handler!.runtime = 'local';
     const handler = createMcpHandler(config, {
       loadRemoteHandler: async options => {
-        expect(options.handler.runtime).toBe('vmok-server');
-        expect(options.remote?.serverEntry).toContain('/server/');
+        expect(options.handler.runtime).toBe('local');
+        expect(options.remote?.name).toBe('greeting_ui');
         return greet;
       },
     });
+    const result = (await (await handler(call())).json()).result;
+    expect(result.structuredContent.greeting).toBe('Hello Ada');
+    expect(result.structuredContent.resource.moduleFederation).toMatchObject({
+      remoteName: 'greeting_ui',
+      remoteEntry: 'https://cdn.example.com/v42/mf-manifest.json',
+      module: './Greeting',
+    });
     expect(
-      (await (await handler(call())).json()).result.structuredContent.resource
-        .moduleFederation.manifestType,
-    ).toBe('vmok');
+      result.structuredContent.resource.moduleFederation,
+    ).not.toHaveProperty('manifestType');
   });
 
   it('retries a failed local handler load without restarting the endpoint', async () => {

@@ -21,10 +21,15 @@ export default function Greeting({
               name: 'greet',
               arguments: { name: 'Modern.js' },
             });
+            const output = result.structuredContent;
+            const nextMessage =
+              output && typeof output === 'object' && 'message' in output
+                ? output.message
+                : undefined;
             setUpdated(
               result.isError
                 ? 'Unable to greet. Try again.'
-                : String(result.structuredContent?.message ?? ''),
+                : String(nextMessage ?? ''),
             );
           } catch {
             setUpdated('Unable to greet. Try again.');

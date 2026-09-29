@@ -1,17 +1,17 @@
 import fs from 'node:fs/promises';
 import path from 'node:path';
-import { Server } from '@modelcontextprotocol/sdk/server/index.js';
-import { WebStandardStreamableHTTPServerTransport } from '@modelcontextprotocol/sdk/server/webStandardStreamableHttp.js';
 import {
-  CallToolRequestSchema,
-  CallToolResultSchema,
-  ErrorCode,
-  ListResourcesRequestSchema,
-  ListToolsRequestSchema,
-  McpError,
-  ReadResourceRequestSchema,
-} from '@modelcontextprotocol/sdk/types.js';
-import type { CallToolResult } from '@modelcontextprotocol/sdk/types.js';
+  Server,
+  WebStandardStreamableHTTPServerTransport,
+  createMcpHandler as createSdkHandler,
+  isLegacyRequest,
+} from '@modelcontextprotocol/server';
+import {
+  ProtocolError,
+  ProtocolErrorCode,
+  specTypeSchemas,
+} from '@modelcontextprotocol/server';
+import type { CallToolResult } from '@modelcontextprotocol/server';
 import addFormats from 'ajv-formats';
 import Ajv2020 from 'ajv/dist/2020.js';
 import type {
@@ -40,6 +40,8 @@ export { validateMcpAppsConfig } from './resources';
 
 export interface McpHandlerOptions<T = undefined> {
   development?: boolean;
+  /** Additional browser origins allowed to call the endpoint. Same-origin is allowed by default. */
+  allowedOrigins?: string[];
   serverInfo?: { name: string; version: string };
   configPath?: string;
   loadRemoteHandler?: LoadRemoteHandler;
@@ -84,8 +86,7 @@ export function createMcpHandler<T = undefined>(
 ): (request: Request) => Promise<Response> {
   validateMcpAppsConfig(definition);
   const { resources, toolUris } = createUiResources(definition);
-  const loadHandler =
-    options.loadRemoteHandler ?? createMcpAppsHandlerLoader(definition);
+  const loadHandler = options.loadRemoteHandler ?? createMcpAppsHandlerLoader();
   const tools = new Map(
     definition.tools.map(normalizeToolConfig).map(tool => {
       const inputSchema = tool.inputSchema ?? {
@@ -94,14 +95,6 @@ export function createMcpHandler<T = undefined>(
       };
       if (!/^[a-zA-Z0-9_.-]{1,128}$/.test(tool.name)) {
         throw new Error(`Invalid tool name: ${tool.name}`);
-      }
-      if (
-        inputSchema.type !== 'object' ||
-        (tool.outputSchema && tool.outputSchema.type !== 'object')
-      ) {
-        throw new Error(
-          `Tool "${tool.name}" requires object input/output schemas`,
-        );
       }
       const timeoutMs =
         (typeof tool.handler === 'function'
@@ -199,29 +192,25 @@ export function createMcpHandler<T = undefined>(
     );
   };
 
-  return async request => {
-    // Stateless P0 has no server-initiated SSE stream or session to delete.
-    if (request.method !== 'POST') {
-      return new Response(null, { status: 405, headers: { Allow: 'POST' } });
-    }
+  const createServer = async (request: Request) => {
     const context = await options.createContext?.(request);
     const server = new Server(
       options.serverInfo ?? { name: 'modern-mcp-apps', version: '1.0.0' },
       { capabilities: { tools: {}, resources: {} } },
     );
-    server.setRequestHandler(ListToolsRequestSchema, async () => ({
+    server.setRequestHandler('tools/list', async () => ({
       tools: [...tools.values()].map(({ descriptor }) => descriptor),
     }));
-    server.setRequestHandler(ListResourcesRequestSchema, async () => ({
+    server.setRequestHandler('resources/list', async () => ({
       resources: [...resources.values()],
     }));
-    server.setRequestHandler(ReadResourceRequestSchema, async ({ params }) => {
+    server.setRequestHandler('resources/read', async ({ params }) => {
       const resource = [...resources.values()].find(
         item => item.uri === params.uri,
       );
       if (!resource) {
-        throw new McpError(
-          ErrorCode.InvalidParams,
+        throw new ProtocolError(
+          ProtocolErrorCode.InvalidParams,
           `Unknown UI resource: ${params.uri}`,
         );
       }
@@ -277,123 +266,150 @@ export function createMcpHandler<T = undefined>(
         ],
       };
     });
-    server.setRequestHandler(
-      CallToolRequestSchema,
-      async ({ params }, extra) => {
-        const registered = tools.get(params.name);
-        if (!registered) {
-          throw new McpError(
-            ErrorCode.InvalidParams,
-            `Unknown tool: ${params.name}`,
-          );
-        }
-        const { tool, validateInput, validateOutput, timeoutMs } = registered;
-        const input = params.arguments ?? {};
-        if (!validateInput(input)) {
-          return toolError(
-            `Invalid input for tool "${tool.name}": ${JSON.stringify(validateInput.errors)}`,
-          );
-        }
-        const timeout = new AbortController();
-        const timer = setTimeout(
-          () => timeout.abort(new Error('Tool timed out')),
-          timeoutMs,
+    server.setRequestHandler('tools/call', async ({ params }, extra) => {
+      const registered = tools.get(params.name);
+      if (!registered) {
+        throw new ProtocolError(
+          ProtocolErrorCode.InvalidParams,
+          `Unknown tool: ${params.name}`,
         );
-        const signal = AbortSignal.any([
-          request.signal,
-          extra.signal,
-          timeout.signal,
-        ]);
-        try {
-          const remote = definition.remotes.find(
-            item => item.name === tool.remote,
-          );
-          const resourceUri = toolUris.get(tool.name);
-          const viewResource = resourceUri
-            ? createMcpAppsViewResource({
-                remote,
-                toolConfig: tool,
-                resourceUri,
-                serverUrl: new URL(request.url).origin,
-              })
-            : undefined;
-          if (!tool.handler) {
-            if (!viewResource)
-              throw new Error('View-only tool is missing its resource');
-            return createStaticMcpAppsToolResult({
-              toolName: tool.name,
-              resource: viewResource,
-              args: input,
-            });
-          }
-          const handlerConfig = tool.handler;
-          const handlerResult: RemoteToolHandlerResult = await abortable(
-            async () => {
-              const handler =
-                typeof handlerConfig === 'function'
-                  ? handlerConfig
-                  : await loadHandler({
-                      remote,
-                      handler: handlerConfig,
-                      configPath: options.configPath,
-                    });
-              signal.throwIfAborted();
-              return handler(input, {
-                toolName: tool.name,
-                remoteName: remote?.name,
-                remote,
-                handler:
-                  typeof handlerConfig === 'function'
-                    ? undefined
-                    : handlerConfig,
-                request,
-                context,
-                extra,
-                signal,
-                fetch,
-                fetchJson,
-                serverUrl: new URL(request.url).origin,
-              });
-            },
-            signal,
-          );
-          const result = CallToolResultSchema.parse({
-            ...handlerResult,
-            content: handlerResult.content ?? [],
-          });
-          if (
-            !result.isError &&
-            validateOutput &&
-            !validateOutput(result.structuredContent)
-          ) {
-            throw new Error(
-              `Invalid structured output from tool "${tool.name}"`,
-            );
-          }
-          return mergeHandlerResultWithView({
+      }
+      const { tool, validateInput, validateOutput, timeoutMs } = registered;
+      const input = params.arguments ?? {};
+      if (!validateInput(input)) {
+        return toolError(
+          `Invalid input for tool "${tool.name}": ${JSON.stringify(validateInput.errors)}`,
+        );
+      }
+      const timeout = new AbortController();
+      const timer = setTimeout(
+        () => timeout.abort(new Error('Tool timed out')),
+        timeoutMs,
+      );
+      const signal = AbortSignal.any([
+        request.signal,
+        extra.mcpReq.signal,
+        timeout.signal,
+      ]);
+      try {
+        const remote = definition.remotes.find(
+          item => item.name === tool.remote,
+        );
+        const resourceUri = toolUris.get(tool.name);
+        const viewResource = resourceUri
+          ? createMcpAppsViewResource({
+              remote,
+              toolConfig: tool,
+              resourceUri,
+              serverUrl: new URL(request.url).origin,
+            })
+          : undefined;
+        if (!tool.handler) {
+          if (!viewResource)
+            throw new Error('View-only tool is missing its resource');
+          return createStaticMcpAppsToolResult({
             toolName: tool.name,
-            args: input,
             resource: viewResource,
-            handlerResult: {
-              ...result,
-              content: handlerResult.content,
-              viewProps: handlerResult.viewProps,
-            },
+            args: input,
           });
-        } catch (error) {
-          options.onError?.(error, tool.name);
-          return toolError(
-            timeout.signal.aborted
-              ? 'Tool timed out'
-              : signal.aborted
-                ? 'Tool cancelled'
-                : 'Tool execution failed',
-          );
-        } finally {
-          clearTimeout(timer);
         }
-      },
-    );
+        const handlerConfig = tool.handler;
+        const handlerResult: RemoteToolHandlerResult = await abortable(
+          async () => {
+            const handler =
+              typeof handlerConfig === 'function'
+                ? handlerConfig
+                : await loadHandler({
+                    remote,
+                    handler: handlerConfig,
+                    configPath: options.configPath,
+                  });
+            signal.throwIfAborted();
+            return handler(input, {
+              toolName: tool.name,
+              remoteName: remote?.name,
+              remote,
+              handler:
+                typeof handlerConfig === 'function' ? undefined : handlerConfig,
+              request,
+              context,
+              extra,
+              signal,
+              fetch,
+              fetchJson,
+              serverUrl: new URL(request.url).origin,
+            });
+          },
+          signal,
+        );
+        const validated = await specTypeSchemas.CallToolResult[
+          '~standard'
+        ].validate({
+          ...handlerResult,
+          content: handlerResult.content ?? [],
+        });
+        if (validated.issues) throw new Error('Invalid tool result');
+        const result = validated.value;
+        if (
+          !result.isError &&
+          validateOutput &&
+          !validateOutput(result.structuredContent)
+        ) {
+          throw new Error(`Invalid structured output from tool "${tool.name}"`);
+        }
+        return mergeHandlerResultWithView({
+          toolName: tool.name,
+          args: input,
+          resource: viewResource,
+          handlerResult: {
+            ...result,
+            content: handlerResult.content,
+            viewProps: handlerResult.viewProps,
+          },
+        });
+      } catch (error) {
+        options.onError?.(error, tool.name);
+        return toolError(
+          timeout.signal.aborted
+            ? 'Tool timed out'
+            : signal.aborted
+              ? 'Tool cancelled'
+              : 'Tool execution failed',
+        );
+      } finally {
+        clearTimeout(timer);
+      }
+    });
+    return server;
+  };
+
+  const modern = createSdkHandler(
+    ({ requestInfo }) => {
+      if (!requestInfo) throw new Error('MCP HTTP request is required');
+      return createServer(requestInfo);
+    },
+    { legacy: 'reject', responseMode: 'json' },
+  );
+
+  return async request => {
+    const origin = request.headers.get('origin');
+    if (
+      origin !== null &&
+      ![
+        new URL(request.url).origin,
+        publicOrigin(request),
+        ...(options.allowedOrigins ?? []),
+      ].includes(origin)
+    ) {
+      return new Response('Forbidden origin', { status: 403 });
+    }
+    if (request.method !== 'POST') {
+      return new Response(null, { status: 405, headers: { Allow: 'POST' } });
+    }
+    // Preserve JSON responses for existing hosts while the SDK classifies and
+    // validates the latest per-request protocol envelope on the modern path.
+    if (!(await isLegacyRequest(request))) return modern.fetch(request);
+    const server = await createServer(request);
     const transport = new WebStandardStreamableHTTPServerTransport({
       sessionIdGenerator: undefined,
       enableJsonResponse: true,

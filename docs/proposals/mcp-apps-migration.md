@@ -1,6 +1,6 @@
 # MCP Apps 迁入 Modern.js 的方案与进度
 
-- 状态：P0 核心、P1 Modern.js 集成、P2 创建模板已实现；内部 Vmok 与目标产品宿主验收仍待进行。
+- 状态：P0 核心、P1 Modern.js 集成、P2 创建模板已实现；目标产品宿主验收仍待进行。
 - 日期：2026-09-22。
 - 分支：`docs/mcp-apps-migration-plan`。
 - 来源：Fancy commit `6fde5254d48edcc861edce4aadc92f96ffa6864c`。
@@ -15,17 +15,17 @@
 5. 后续 Modern.js 插件统一接入 `modern dev/build/serve`，不另启 Fancy CLI。
 6. 不启用插件的普通 Modern.js 项目不受影响。
 
-此前 P0 使用自定义 `ui-manifest.json` 的设计已撤销。UI 使用 MF/Vmok 原有
+此前 P0 使用自定义 `ui-manifest.json` 的设计已撤销。UI 使用 MF 原有
 构建产物；不增加要求用户生成、复制或维护的第二份 UI 清单。
 
 ## 2. 配置与运行链路
 
 ```text
 服务端项目                         独立 UI 项目
-api/mcp_apps.ts                        MF/Vmok exposes
+api/mcp_apps.ts                        MF exposes
   remotes                          ./Greeting → React 组件
   tools                              ↓ 构建、发布
-    handler → ./tools.ts           mf-manifest.json / vmok-manifest.json
+    handler → ./tools.ts           mf-manifest.json
     view → ./Greeting              remote entry + JS/CSS chunks
         │                              ↑
         ↓                              │
@@ -47,11 +47,9 @@ iframe 中加载 manifest。服务端不下载 UI 源码，也不要求复制 ma
 | 本地配置/handler 模块解析、TS 转 ESM | 迁移；已编译 JS 直接加载，失败缓存允许重试 |
 | `createMcpAppsViewResource`、静态结果、结果合并 | 迁移，保留 `tool/resource/args/viewProps` 结果约定 |
 | 远程级和 Tool 级 `ui://mf/` 资源 | 保留 URI 规则，增加冲突检测 |
-| MF/Vmok loader、snapshot、公用 React 配置 | 迁移原有浏览器实现；没有内部 npm 强依赖 |
+| MF loader、公用 React 配置 | 使用标准 MF 浏览器加载实现 |
 | component/mount 渲染、ErrorBoundary、样式 | 迁移，补齐 viewProps 实际传递 |
 | runtime HTML 的内联构建 | 沿用，随核心包发布，无须业务项目另管渲染器资源 |
-| Vmok manifest 安全转换测试 | 迁移到 rstest |
-| vmok-server handler loader | 保留可选加载和自定义 loader 接口，不强装内部依赖 |
 | Express 启动层、DevTools、Fancy CLI | 不迁移 |
 
 继续保留第一轮已验证的改进：
@@ -74,7 +72,7 @@ iframe 中加载 manifest。服务端不下载 UI 源码，也不要求复制 ma
 | `/config` | Fancy 兼容定义类型和 defineMcpApps |
 | `/server` | 配置加载、Tool/Resource 注册、HTTP handler、结果绑定 |
 | `/react` | React 通信辅助和 App 类型，供自己拥有宿主连接的视图使用 |
-| 包内 runtime HTML | 复用的 MF/Vmok 远程渲染器，运行在宿主 iframe |
+| 包内 runtime HTML | 复用的 MF 远程渲染器，运行在宿主 iframe |
 
 已由远程渲染器加载的组件使用注入的 `mcpApp`，不能再调用 useApp/useMcpApp
 创建第二条宿主连接。Node 服务端不执行浏览器 React 代码。
@@ -97,13 +95,13 @@ iframe 中加载 manifest。服务端不下载 UI 源码，也不要求复制 ma
 
 ### UI
 
-使用已有 MF/Vmok 工具构建 exposes，发布其原有 manifest、remote entry、chunks。
+使用已有 MF 工具构建 exposes，发布其原有 manifest、remote entry、chunks。
 `api/mcp_apps.ts` 指向不可变版本 URL，CSP 配置实际脚本、样式和网络访问域名。
 UI 与服务端可以独立发布；切换远程版本是修改服务端配置，不是复制 UI 工程。
 
 ## 6. 兼容说明
 
-- 标准 MF 项目明确设置 `manifestType: 'mf'`；省略时保留 Fancy 的 vmok 默认值。
+- 浏览器远程组件统一使用标准 MF manifest，不再提供 manifest 类型选择。
 - view 支持 `module/exportName/renderMode/runtime`；handler 支持
   `module/exportName/runtime/timeoutMs`，相对路径以定义文件目录为基准。
 - 支持 view-only、handler-only 和组合工具；旧顶层 module/exportName/renderMode
@@ -115,9 +113,6 @@ UI 与服务端可以独立发布；切换远程版本是修改服务端配置�
 - CSP、permissions、domain、prefersBorder 从可信服务端定义透传。visibility 是宿主
   提示，不是服务端权限控制；鉴权与 Origin/Host 策略由 HTTP 中间件处理。
 - 不开放请求参数指定任意远程配置的能力。本轮只加载可信本地 TS/JS/JSON 定义。
-- vmok-server 需可选 `@vmok/kit` 或 loadRemoteHandler 注入；未强装内部包。
-- Vmok 浏览器代码已迁移，其原有 CN region 静态 publicPath 转换限制仍在。
-  内部 Vmok 环境不因迁入源码就自动算作部署验证通过。
 - 本轮仍是无状态 POST 模式；持久会话、恢复 SSE、跨请求取消不是已实现能力。
 
 ## 7. Modern.js 集成（已实现）
@@ -148,7 +143,7 @@ UI 与服务端可以独立发布；切换远程版本是修改服务端配置�
 | P0：核心原型 | 本轮修正为 Fancy 定义 + 远程渲染复用 | 独立 Server、独立 MF UI、完整工具交互；目标产品宿主另验 |
 | P1：Modern.js 集成（完成） | CLI/Server 插件、配置编译与监听 | dev/build/serve、BFF 共存和系统临时目录中的 .output 启动通过 |
 | P2：创建体验（完成） | mcp-apps / mcp-server 模板、已有项目接入、中英文文档 | 从创建器生成的项目通过整链路验证；发布包生成模板通过，默认模板不变 |
-| P3：扩展验收 | 内部 Vmok 部署、更多宿主及高级 API | 按明确矩阵逐项验证 |
+| P3：扩展验收 | 更多宿主及高级 API | 按明确矩阵逐项验证 |
 
 脚手架已扩展现有 @modern-js/create 的 --template 选项；不搬回 Fancy CLI，也不恢复 v3 已移除的
 modern new。用户向自动化放根 skills，维护者流程遵循仓库约定。
@@ -171,7 +166,7 @@ pnpm --filter @modern-js/mcp-apps test:deployment
 
 本轮验证记录（2026-09-22）：
 
-- 25 项协议、配置加载和复用的 Vmok manifest 测试通过。
+- 迁移阶段的协议与配置加载测试通过（历史记录；当前以标准 MF 回归测试为准）。
 - 核心与两个独立示例构建、TypeScript 检查通过。
 - 变更文件 Biome、依赖版本一致性、package.json 校验通过。
 - 打包后在临时目录安装纯生产依赖，ESM/CJS 入口均可加载已编译定义，完成
@@ -181,7 +176,7 @@ pnpm --filter @modern-js/mcp-apps test:deployment
   `Hello, Modern.js!`，确认经宿主调用服务端成功。
 - 上述验证对应修正后的远程渲染实现，不沿用上一轮自定义 UI manifest 的结果。
 
-目标产品宿主、内部 Vmok 部署尚未验收。P1/P2 本地验收记录见下。
+目标产品宿主尚未验收。P1/P2 本地验收记录见下。
 
 ## 10. P1/P2 交付与本地验证
 
@@ -222,7 +217,7 @@ build 和 serve。
 - UI 模板生产 /static/* CORS 断言通过；MCP 接口不使用该公共资源 CORS 中间件。
 
 部署产物中的 mcp-apps 目录是服务端编译产物，不是新增的 UI 配置格式；用户仍然
-只编写 api/mcp_apps.ts，UI 仍通过 MF/Vmok 原有 manifest 关联。
+只编写 api/mcp_apps.ts，UI 仍通过 MF 原有 manifest 关联。
 
 ## 11. HTTPS / ngrok 宿主验证
 
@@ -246,3 +241,11 @@ ngrok 免费端点返回的提示页 HTML。因此当前免费域名的真实卡
 资源 HTML 副本放在 `dist/mcp-apps/ui/`，静态资源需与服务一同部署或设置 CDN。
 也支持通过 `view.html` 引用独立 HTTPS HTML。Hono 适配器位于 `@modern-js/mcp-apps/hono`，Modern.js 插件
 复用它；独立部署通过测试 fixture 验证，接入方式在文档中说明，不再维护单独的 Server 示例项目。
+
+## 2026-09-29 标准与依赖更新
+
+已移除内部远程加载器、快照逻辑及其配置字段，浏览器只加载标准 MF 远程组件，服务端 handler 使用本地模块或函数。
+
+依赖升级为 MCP SDK core/server/client 2.2.0、Apps SDK 2.0.3。MCP 2026-07-28 请求由官方 HTTP entry 处理，旧协议保留无状态 JSON 兼容；模板验证脚本改用 server/discover 和每请求元数据。
+
+标准基准：[MCP 2026-07-28](https://modelcontextprotocol.io/specification/2026-07-28)、[MCP Apps](https://apps.extensions.modelcontextprotocol.io/api/)。

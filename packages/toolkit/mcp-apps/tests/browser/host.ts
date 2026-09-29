@@ -1,9 +1,9 @@
+import type { CallToolResult } from '@modelcontextprotocol/client';
 // Test-only host using the official SDK. Never shipped in the npm package.
 import {
   AppBridge,
   PostMessageTransport,
 } from '@modelcontextprotocol/ext-apps/app-bridge';
-import type { CallToolResult } from '@modelcontextprotocol/sdk/types.js';
 import { readRpcResponse } from './rpc';
 
 async function rpc(method: string, params: Record<string, unknown> = {}) {

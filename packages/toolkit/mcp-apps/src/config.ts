@@ -2,7 +2,7 @@ import type { McpUiResourceMeta } from '@modelcontextprotocol/ext-apps';
 import type {
   CallToolResult,
   ToolAnnotations,
-} from '@modelcontextprotocol/sdk/types.js';
+} from '@modelcontextprotocol/server';
 
 export interface McpAppsConfig {
   remotes: RemoteConfig[];
@@ -12,13 +12,8 @@ export interface McpAppsConfig {
 export interface RemoteConfig {
   name: string;
   description?: string;
-  version?: string;
   baseUrl: string;
   browserEntry?: string;
-  serverEntry?: string;
-  manifestType?: 'vmok' | 'mf';
-  snapshotUrl?: string;
-  locale?: string;
   csp?: {
     connectDomains?: string[];
     resourceDomains?: string[];
@@ -64,7 +59,7 @@ export interface McpAppsViewConfig {
 export interface McpAppsHandlerConfig {
   module: string;
   exportName?: string;
-  runtime?: 'local' | 'vmok-server';
+  runtime?: 'local';
   timeoutMs?: number;
 }
 
@@ -112,7 +107,7 @@ export interface RemoteToolHandlerContext {
 
 export interface RemoteToolHandlerResult {
   content?: CallToolResult['content'];
-  structuredContent?: Record<string, unknown>;
+  structuredContent?: unknown;
   _meta?: Record<string, unknown>;
   viewProps?: Record<string, unknown>;
   isError?: boolean;

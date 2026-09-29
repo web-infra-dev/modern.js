@@ -14,7 +14,7 @@ import '../styles/component-renderer.css';
 export interface RemoteComponentContainerProps {
   /**
    * Module Federation configuration for loading the remote component.
-   * Must include remoteName, remoteEntry, module, exportName, and manifestType.
+   * Must include remoteName, remoteEntry, module, and exportName.
    */
   config: ModuleFederationConfig;
 
@@ -68,7 +68,6 @@ export interface RemoteComponentContainerProps {
  *       remoteEntry: 'http://localhost:8080/mf-manifest.json',
  *       module: './MyComponent',
  *       exportName: 'default',
- *       manifestType: 'mf',
  *     }}
  *     args={{ title: 'Hello' }}
  *     mcpApp={app}

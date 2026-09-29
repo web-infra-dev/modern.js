@@ -54,7 +54,7 @@ side effects because build-time UI discovery reads the definition as well.
 
 ## UI and server separation
 
-UI continues to use existing MF/Vmok exposes and manifests. The integrated endpoint uses BFF and does not require a UI entry or React rendering. The `mcp-server`
+UI continues to use existing MF exposes and manifests. The integrated endpoint uses BFF and does not require a UI entry or React rendering. The `mcp-server`
 template uses an `api/` directory with no `src/` to select Modern.js API-only mode.
 For UI integration, use the `mcp-apps` template or an existing federation setup.
 

@@ -5,8 +5,6 @@ import type {
   LoadRemoteHandler,
   LoadRemoteHandlerOptions,
   McpAppsConfig,
-  McpAppsDefinition,
-  RemoteConfig,
   RemoteToolHandler,
 } from './config';
 
@@ -82,32 +80,25 @@ async function loadMcpAppsModule(configPath: string): Promise<McpAppsConfig> {
   return config;
 }
 
-export function createMcpAppsHandlerLoader(
-  definition: McpAppsDefinition,
-): LoadRemoteHandler {
-  const vmokLoader = createVmokRemoteHandlerLoader(definition);
+export function createMcpAppsHandlerLoader(): LoadRemoteHandler {
   const localLoaderCache = new Map<string, Promise<RemoteToolHandler>>();
-
   return async options => {
-    if ((options.handler.runtime ?? 'local') === 'local') {
-      const cacheKey = `${options.configPath ?? process.cwd()}:${options.handler.module}:${options.handler.exportName}`;
-      if (!localLoaderCache.has(cacheKey)) {
-        const loading = loadLocalToolHandler(options);
-        localLoaderCache.set(cacheKey, loading);
-        loading.catch(() => {
-          if (localLoaderCache.get(cacheKey) === loading)
-            localLoaderCache.delete(cacheKey);
-        });
-      }
-      const handler = localLoaderCache.get(cacheKey);
-      if (!handler) {
-        throw new Error(
-          `Unable to load local handler "${options.handler.module}"`,
-        );
-      }
-      return handler;
+    const cacheKey = `${options.configPath ?? process.cwd()}:${options.handler.module}:${options.handler.exportName}`;
+    if (!localLoaderCache.has(cacheKey)) {
+      const loading = loadLocalToolHandler(options);
+      localLoaderCache.set(cacheKey, loading);
+      loading.catch(() => {
+        if (localLoaderCache.get(cacheKey) === loading)
+          localLoaderCache.delete(cacheKey);
+      });
     }
-    return vmokLoader(options);
+    const handler = localLoaderCache.get(cacheKey);
+    if (!handler) {
+      throw new Error(
+        `Unable to load local handler "${options.handler.module}"`,
+      );
+    }
+    return handler;
   };
 }
 
@@ -119,9 +110,7 @@ async function loadLocalToolHandler({
     handler.module,
     configPath,
   );
-  // Loaded through the same import() pipeline as the config: TypeScript sources
-  // are esbuild-transpiled, built .js/.mjs/.cjs are imported directly. No host
-  // TS loader or CJS-only require() needed.
+  // TypeScript support belongs to the host runtime, as with config loading.
   const mod = await importLocalModule(modulePath);
   const resolved = mod[handler.exportName] ?? mod.default;
   if (typeof resolved !== 'function') {
@@ -169,97 +158,6 @@ export async function resolveLocalHandlerModule(
   );
 }
 
-function createVmokRemoteHandlerLoader(
-  definition: McpAppsDefinition,
-): LoadRemoteHandler {
-  const instances = new Map<
-    string,
-    Promise<{ loadRemote: (id: string) => Promise<unknown> }>
-  >();
-
-  return async ({ remote, handler }) => {
-    if (!remote) throw new Error('vmok-server requires a remote');
-    const vmok = await getVmokInstance(definition, remote, instances);
-    const moduleId = toRemoteModuleId(remote.name, handler.module);
-    const remoteModule = (await vmok.loadRemote(moduleId)) as Record<
-      string,
-      unknown
-    >;
-    const resolved = remoteModule[handler.exportName] ?? remoteModule.default;
-    if (typeof resolved !== 'function') {
-      throw new Error(
-        `Export "${handler.exportName}" from "${moduleId}" is not a function`,
-      );
-    }
-    return resolved as RemoteToolHandler;
-  };
-}
-
-async function getVmokInstance(
-  definition: McpAppsDefinition,
-  remote: RemoteConfig,
-  instances: Map<
-    string,
-    Promise<{ loadRemote: (id: string) => Promise<unknown> }>
-  >,
-) {
-  const cacheKey = definition.remotes
-    .map(item => `${item.name}:${item.baseUrl}`)
-    .join('|');
-  if (!instances.has(cacheKey)) {
-    const loading = createVmokInstance(definition, remote);
-    instances.set(cacheKey, loading);
-    loading.catch(() => {
-      if (instances.get(cacheKey) === loading) instances.delete(cacheKey);
-    });
-  }
-  const instance = instances.get(cacheKey);
-  if (!instance) {
-    throw new Error(`Unable to create Vmok runtime for "${remote.name}"`);
-  }
-  return instance;
-}
-
-async function createVmokInstance(
-  definition: McpAppsDefinition,
-  activeRemote: RemoteConfig,
-): Promise<{ loadRemote: (id: string) => Promise<unknown> }> {
-  let runtime: {
-    createInstance?: (options: unknown) => {
-      loadRemote: (id: string) => Promise<unknown>;
-    };
-  };
-  try {
-    runtime = (await importOptional('@vmok/kit/runtime')) as typeof runtime;
-  } catch (error) {
-    throw new Error(
-      `Unable to load @vmok/kit/runtime for remote handler "${activeRemote.name}". Install @vmok/kit or pass loadRemoteHandler explicitly. ${
-        error instanceof Error ? error.message : String(error)
-      }`,
-    );
-  }
-
-  if (typeof runtime.createInstance !== 'function') {
-    throw new Error('@vmok/kit/runtime does not export createInstance');
-  }
-
-  return runtime.createInstance({
-    name: 'modern-mcp-host',
-    remotes: definition.remotes.map(remote => ({
-      name: remote.name,
-      entry: remote.serverEntry ?? remote.baseUrl,
-      ...(remote.version ? { version: remote.version } : {}),
-    })),
-  });
-}
-
 function importOptional(specifier: string): Promise<unknown> {
   return import(specifier);
-}
-
-function toRemoteModuleId(remoteName: string, modulePath: string): string {
-  const normalizedPath = modulePath.replace(/^\.\//, '');
-  return normalizedPath === '' || normalizedPath === '.'
-    ? remoteName
-    : `${remoteName}/${normalizedPath}`;
 }

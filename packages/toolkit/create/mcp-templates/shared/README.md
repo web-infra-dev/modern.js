@@ -70,6 +70,6 @@ With the application running, execute:
 pnpm verify:mcp http://localhost:8080/mcp
 ```
 
-The script checks initialization, tools/list, both tools/call results and every
+The script checks MCP 2026-07-28 server discovery, tools/list, both tools/call results and every
 UI resources/read response. It prints JSON results and an HTML summary. Expected
 results include `Hello, Modern.js!` and `sum: 5` for `{ a: 2, b: 3 }`.

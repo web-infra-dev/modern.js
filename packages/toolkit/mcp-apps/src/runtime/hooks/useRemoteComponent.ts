@@ -35,7 +35,6 @@ export interface UseRemoteComponentResult {
  * - Loading state management
  * - Error handling
  * - MF instance caching (shared across hook instances via MFProvider)
- * - Snapshot caching (for vmok manifests)
  *
  * @example
  * ```tsx
@@ -45,7 +44,6 @@ export interface UseRemoteComponentResult {
  *     remoteEntry: 'http://localhost:8080/mf-manifest.json',
  *     module: './MyComponent',
  *     exportName: 'default',
- *     manifestType: 'mf',
  *   },
  *   onLog: console.log,
  *   deps: [someExternalDep],
@@ -112,7 +110,6 @@ export function useRemoteComponent({
             config,
             addLog,
             mfInstanceRef: mfContext.mfInstanceRef,
-            snapshotCacheRef: mfContext.snapshotCacheRef,
             lastRemoteNameRef: mfContext.lastRemoteNameRef,
           }),
           timeoutPromise,

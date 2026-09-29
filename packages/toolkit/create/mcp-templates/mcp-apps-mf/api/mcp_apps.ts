@@ -9,7 +9,6 @@ export default defineMcpApps({
     {
       name: 'mcp_ui',
       baseUrl: `${origin}/static/mf-manifest.json`,
-      manifestType: 'mf',
       csp: { resourceDomains: [origin], connectDomains: [origin] },
     },
   ],

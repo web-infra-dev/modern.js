@@ -1,6 +1,6 @@
+import type { CallToolResult } from '@modelcontextprotocol/client';
 import { useApp } from '@modelcontextprotocol/ext-apps/react';
 import type { UseAppOptions } from '@modelcontextprotocol/ext-apps/react';
-import type { CallToolResult } from '@modelcontextprotocol/sdk/types.js';
 import { type ComponentType, createElement, useState } from 'react';
 export type { App } from '@modelcontextprotocol/ext-apps';
 
@@ -46,7 +46,9 @@ export function createMcpView<P extends object>(
     if (error) return createElement('p', { role: 'alert' }, error.message);
     if (cancelled) return createElement('p', null, 'Tool cancelled');
     if (!app || !isConnected) return createElement('p', null, 'Connecting…');
-    const output = result?.structuredContent;
+    const output = result?.structuredContent as
+      | { args?: object; viewProps?: object }
+      | undefined;
     return createElement(View, {
       ...input,
       ...(output?.args as object),

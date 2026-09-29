@@ -4,23 +4,387 @@ sidebar_position: 17
 
 # MCP Apps
 
-The experimental MCP Apps plugin connects server tools and interactive React
-views to AI hosts using `api/mcp_apps.ts` definitions. Server and UI can
-be developed together or deployed independently. DevTools is not included.
+## What are MCP Apps?
+
+MCP (Model Context Protocol) lets AI applications call tools and access data through a shared protocol. [MCP Apps](https://apps.extensions.modelcontextprotocol.io/api/) adds interactive interfaces: a tool can associate its result with a UI that a compatible AI host displays in the conversation. The “host” is the client where users interact with AI; this guide calls the embedded UI a “card.”
+
+For example, a sales query tool could display a chart with filters. When the user changes a filter, the card calls a tool through the host to retrieve new data. Forms and result lists can similarly let users act directly on an interface instead of describing each input and result across multiple messages.
+
+Cards require a host that supports MCP Apps; an ordinary MCP client may not render them. See the [official MCP Apps overview](https://apps.extensions.modelcontextprotocol.io/api/documents/Overview.html) for the protocol and host connection model.
+
+## What does Modern.js provide?
+
+Modern.js integrates MCP tools and React cards into the application development workflow. Write business functions and React components, connect them through `api/mcp_apps.ts`, and use the familiar development, build, and deployment commands.
+
+- **Project creation**: CLI templates for MCP Apps with UI and MCP servers without UI, with optional Module Federation (MF).
+- **Server integration**: A BFF MCP endpoint with TypeScript compilation, dependency tracking, and hot reload. The core package handles MCP tool calls and UI resource responses.
+- **React UI integration**: Build components within the application as card entries or load remote components through MF. The renderer connects to the host and passes tool arguments, result props, and `mcpApp` to the card.
+- **Build and deployment**: Develop and deploy the application and MCP server together, or publish UI assets and server code separately.
+
+This feature is experimental and does not include an AI chat host or DevTools. Connect to your target host to verify card rendering and interactions.
+
+## Choose a project type
+
+First decide whether users need an interface inside the AI conversation. Choose **MCP Server** for tools that only return data or perform tasks. Choose **MCP Apps** for forms, charts, or interactive cards. If you need UI, select the default or MF mode based on how you maintain and publish components.
+
+| Project type | When to choose it | CLI arguments |
+| --- | --- | --- |
+| MCP Apps: application React components (recommended starting point) | Building new UI maintained within this application, without remote component reuse requirements | `--template mcp-apps` |
+| MCP Apps: MF remote components | Reusing existing MF components or sharing versioned remote components across applications | `--template mcp-apps --mf` |
+| MCP Server: tools only | Providing tools such as queries and calculations without embedded UI | `--template mcp-server` |
+
+### Application components versus MF remote components
+
+Application component source lives in the current project and is compiled by the Modern.js application builder. Projects can be deployed to production and serve static assets from a CDN.
+
+| Aspect | Application React components | MF remote components |
+| --- | --- | --- |
+| UI definition | `view.module` points to a project component file, such as `./src/components/Greeting.tsx` | `remote` selects a remote, and `view.module` names an expose such as `./Greeting` |
+| Build and loading | Modern.js generates card HTML and application JS/CSS that the host loads | MF produces a manifest, remote entry, and chunks; the card renderer loads components through that manifest |
+| Component maintenance | Components are built and maintained with the application | Components can be independently published and reused as remote modules; the starter still includes their source in the same project |
+| Configuration to maintain | Component paths and application asset URLs | Additional exposes, manifest URLs, shared dependencies, and asset origins |
+
+**Start with application React components unless you have a specific MF reuse requirement.** Public access, CDN hosting, or separate UI and server deployment does not require MF; both modes support these deployment options. Choose MF for remote module loading and independent component releases, rather than as a prerequisite for production deployment.
 
 ## Create a project
 
-Use a Modern.js release containing both new packages:
+Replace `<version>` below with a Modern.js release containing the MCP Apps templates, `@modern-js/mcp-apps`, and `@modern-js/plugin-mcp-apps`.
+
+### Create MCP Apps with application React components
 
 ```bash
-npx @modern-js/create@<version> my-app --template mcp-apps
-npx @modern-js/create@<version> my-server --template mcp-server
+npx @modern-js/create@<version> my-mcp-app --template mcp-apps
+cd my-mcp-app
+pnpm install
+pnpm dev
 ```
 
-`mcp-apps` includes a local React card and MCP server. Add `--mf` for
-Module Federation configuration and remote components. `mcp-server` has no UI directory. The default application template
-is unchanged. Before publication, build the core/plugin in this repository and
-use `pnpm --filter @examples/mcp-apps-modern dev` to try the workspace example.
+The template configures the BFF and MCP Apps plugins and includes the `greet` and `add_numbers` tools with their React cards. Card source lives in `src/components/` and is compiled by the application builder; no MF manifest is needed.
+
+### Create MCP Apps with MF remote components
+
+Add `--mf` to publish and load remote components through Module Federation:
+
+```bash
+npx @modern-js/create@<version> my-mf-app --template mcp-apps --mf
+cd my-mf-app
+pnpm install
+pnpm dev
+```
+
+The template also generates `module-federation.config.ts`, exposing `./Greeting` and `./Sum`. The remote in `api/mcp_apps.ts` points to `http://localhost:8080/static/mf-manifest.json` by default. `--mf` is only available with the `mcp-apps` template.
+
+When a host accesses the application through a public URL, set `MCP_UI_ORIGIN` to the public UI asset origin so the host can load the manifest and component assets:
+
+```bash
+MCP_UI_ORIGIN=https://your-public-host.example.com pnpm dev
+```
+
+This variable is only used by the MF template. Supply an origin without `/mcp` or a manifest path. For an HTTPS tunnel, use the tunnel origin and forward it to the application port. Set the public asset origin when building and starting production applications too; update `remotes[].csp` when asset domains change.
+
+### Create an MCP server with tools only
+
+```bash
+npx @modern-js/create@<version> my-mcp-server --template mcp-server
+cd my-mcp-server
+pnpm install
+pnpm dev
+```
+
+This template includes the `greet` and `add_numbers` tools without React cards or MF configuration.
+
+### Project files
+
+| File | Purpose |
+| --- | --- |
+| `modern.config.ts` | Configure the BFF route prefix and plugins, including Module Federation in MF mode |
+| `api/mcp_apps.ts` | Associate tools with input schemas, handlers, and views |
+| `api/mcp-tools.ts` | Implement tool business logic |
+| `api/lambda/index.ts` | Declare the `/mcp` BFF route |
+| `src/components/` | React cards, included only in UI templates |
+| `module-federation.config.ts` | Remote component exposes, included only in MF mode |
+| `scripts/verify-mcp.mjs` | Verify MCP tool and UI resource responses |
+
+### Connect and verify
+
+Keep the development server running and execute this command in another terminal:
+
+```bash
+pnpm verify:mcp http://localhost:8080/mcp
+```
+
+The script uses MCP `2026-07-28` to check server discovery, the tool list, both tool call results, and resource reads for UI templates. A browser address-bar GET to `/mcp` returns 405 as expected because the current transport uses HTTP POST.
+
+Connect an MCP Apps host to the endpoint, call `greet` or `add_numbers`, and check that the card renders and can call a tool again. Protocol checks do not replace card interaction checks in a real host. Remote hosts need an accessible HTTPS endpoint such as `https://your-public-host.example.com/mcp`. The server-only template only needs an MCP client; card rendering support is not required.
+
+Before publication, build `@modern-js/mcp-apps` and `@modern-js/plugin-mcp-apps` in this repository, then run `pnpm --filter @examples/mcp-apps-modern dev` to try the local-card example.
+
+## Understand `api/mcp_apps.ts`
+
+`api/mcp_apps.ts` is the server-side MCP application definition: it declares the available tools, their execution logic, and the cards used to display results. It exports configuration through `defineMcpApps()`. The route in `api/lambda/index.ts` imports that definition and passes it to `mcpApps(definition)`. `defineMcpApps()` provides type hints; it does not start a server or register HTTP routes.
+
+For example, a local greeting card is defined as follows:
+
+```ts title="api/mcp_apps.ts"
+import { defineMcpApps } from '@modern-js/mcp-apps/config';
+import { greet } from './mcp-tools';
+
+export default defineMcpApps({
+  remotes: [],
+  tools: [{
+    name: 'greet',
+    description: 'Greet someone with an interactive card.',
+    inputSchema: {
+      type: 'object',
+      properties: { name: { type: 'string' } },
+      required: ['name'],
+      additionalProperties: false,
+    },
+    handler: greet,
+    view: { module: './src/components/Greeting.tsx' },
+  }],
+});
+```
+
+| Field | Meaning |
+| --- | --- |
+| `remotes` | Remote UI resources; use an empty array for local cards and tools without UI |
+| `tools[].name` | A unique tool name used by the host and cards to call the tool |
+| `tools[].description` | A description that helps the model select the tool |
+| `tools[].inputSchema` | A JSON Schema for arguments, validated before the handler runs |
+| `tools[].handler` | The business function receiving arguments and request context |
+| `tools[].view` | Optional card configuration; omit it to return tool results without a card |
+| `tools[].remote` | The referenced `remotes[].name` in MF mode |
+
+For local cards, `view.module` resolves relative to the **project root**. The ordinary `import { greet } from './mcp-tools'` resolves relative to `api/mcp_apps.ts`. A tool may have only a handler or only a view, but must define at least one.
+
+### Pass handler results to a card
+
+```ts title="api/mcp-tools.ts"
+import type { RemoteToolHandler } from '@modern-js/mcp-apps/config';
+
+export const greet: RemoteToolHandler = input => {
+  const { name } = input as { name: string };
+  const message = `Hello, ${name}!`;
+  return {
+    content: [{ type: 'text', text: message }],
+    structuredContent: { message },
+    viewProps: { message },
+  };
+};
+```
+
+`content` supplies tool content such as text, `structuredContent` supplies structured business data, and `viewProps` specifies props for the card. The renderer merges tool arguments with `viewProps`, with `viewProps` taking precedence, and injects the connected `mcpApp`. This card can receive `name`, `message`, and `mcpApp`, and call a tool again through `mcpApp.callServerTool()`.
+
+### Define an MF card
+
+MF mode uses the same definition file. Declare a remote manifest and reference that remote from the tool:
+
+```ts title="api/mcp_apps.ts"
+import { defineMcpApps } from '@modern-js/mcp-apps/config';
+import { greet } from './mcp-tools';
+
+export default defineMcpApps({
+  remotes: [{
+    name: 'mcp_ui',
+    baseUrl: 'https://cdn.example.com/static/mf-manifest.json',
+    csp: {
+      resourceDomains: ['https://cdn.example.com'],
+      connectDomains: ['https://cdn.example.com'],
+    },
+  }],
+  tools: [{
+    name: 'greet',
+    inputSchema: {
+      type: 'object',
+      properties: { name: { type: 'string' } },
+      required: ['name'],
+    },
+    handler: greet,
+    remote: 'mcp_ui',
+    view: { module: './Greeting' },
+  }],
+});
+```
+
+Here, `view.module: './Greeting'` is an **expose name** in `module-federation.config.ts`, not a file path. `baseUrl` points to a standard MF manifest. `csp.resourceDomains` declares origins for scripts, styles, and other assets; `csp.connectDomains` declares network request origins. Add any other asset or API origins to the appropriate lists.
+
+BFF compiles the definition and handlers for the server; they are not imported as browser UI entries. The build also reads the definition to discover UI entries, so avoid top-level side effects such as starting listeners.
+
+### `defineMcpApps` type definitions
+
+Import `defineMcpApps` and the configuration types below from `@modern-js/mcp-apps/config`. Its signature is:
+
+```ts
+export function defineMcpApps<T extends McpAppsDefinition>(definition: T): T;
+```
+
+The generic `T` preserves the inferred configuration type, and the function returns the object unchanged. It does not validate the configuration at runtime or infer handler argument types from `inputSchema`. The server validates tool arguments against JSON Schema before execution, while the handler's `input` type remains `unknown`.
+
+The definition uses the following configuration, handler context, and result types:
+
+```ts
+import type { McpUiResourceMeta } from '@modelcontextprotocol/ext-apps';
+import type { CallToolResult, ToolAnnotations } from '@modelcontextprotocol/server';
+
+export interface McpAppsDefinition {
+  /** Remote UI definitions; use an empty array for local cards or tools without UI. */
+  remotes: RemoteConfig[];
+  /** Tool definitions; at least one tool is required. */
+  tools: ToolConfig[];
+}
+
+export interface RemoteConfig {
+  /** Unique remote name referenced by a tool’s remote field. */
+  name: string;
+  /** Remote description for application use. */
+  description?: string;
+  /** Full URL of the standard MF manifest. */
+  baseUrl: string;
+  /** Browser entry URL; overrides baseUrl when provided. */
+  browserEntry?: string;
+  /** Card resource CSP declarations enforced by the host. */
+  csp?: {
+    /** Allowed origins for network connections such as fetch and WebSocket. */
+    connectDomains?: string[];
+    /** Allowed origins for assets such as scripts, styles, and images. */
+    resourceDomains?: string[];
+    /** Allowed origins for nested iframes embedded by the card. */
+    frameDomains?: string[];
+    /** Allowed origins for the HTML base URI. */
+    baseUriDomains?: string[];
+  };
+  /** Permissions requested by the card; the host decides whether to grant them. */
+  permissions?: McpUiResourceMeta['permissions'];
+  /** UI domain setting forwarded to the host; support depends on the host. */
+  domain?: string;
+  /** Hint requesting a card border from the host; defaults to true. */
+  prefersBorder?: boolean;
+}
+
+export interface ToolConfig {
+  /** Unique tool name used in tools/call requests. */
+  name: string;
+  /** Optional display title for the tool. */
+  title?: string;
+  /** Description of the tool’s purpose to help the model select it. */
+  description?: string;
+  /** Input JSON Schema; does not infer the input type. */
+  inputSchema?: JsonSchema;
+  /** JSON Schema for business structuredContent, validated before UI data is added. */
+  outputSchema?: JsonSchema;
+  /** Behavior hints such as read-only or destructive; not an authorization mechanism. */
+  annotations?: ToolAnnotations;
+  /** Associated RemoteConfig.name; omit for local cards. */
+  remote?: string;
+  /** Compatibility field; prefer view.module. */
+  module?: string;
+  /** Compatibility field; prefer view.exportName. */
+  exportName?: string;
+  /** Compatibility field; prefer view.renderMode. */
+  renderMode?: RenderMode;
+  /** Card configuration; omit for no UI. Provide at least a handler or view. */
+  view?: McpAppsViewConfig;
+  /** Business function or module loading configuration; prefer an imported function. */
+  handler?: McpAppsHandlerConfig | RemoteToolHandler;
+  /** Tool visibility to the model and card; defaults to ['model', 'app']. */
+  visibility?: Array<'model' | 'app'>;
+}
+
+/** JSON Schema object, validated using strict JSON Schema 2020-12. */
+export type JsonSchema = Record<string, unknown>;
+/** React component mode or an imperative mount mode provided by a remote module. */
+export type RenderMode = 'component' | 'mount';
+
+export interface McpAppsViewConfig {
+  /** Component path relative to the project root locally, or an MF expose name. */
+  module: string;
+  /** Component export name; defaults to default. */
+  exportName?: string;
+  /** Defaults to component; local entries only support component, while MF also supports mount. */
+  renderMode?: RenderMode;
+  /** View runtime; only browser is supported. */
+  runtime?: 'browser';
+  /** Compiled HTML path or independently hosted HTTPS HTML URL. */
+  html?: string;
+  /** Asset base URL; request uses the public MCP request origin. */
+  assetBase?: string;
+  /** CSP for local or independent HTML views; MF views use remote.csp. */
+  csp?: RemoteConfig['csp'];
+}
+
+export interface McpAppsHandlerConfig {
+  /** Handler module path relative to the definition directory. */
+  module: string;
+  /** Handler export name; defaults to default. */
+  exportName?: string;
+  /** Handler runtime; currently only local is supported. */
+  runtime?: 'local';
+  /** Execution timeout in milliseconds; falls back to server options, then 30000. */
+  timeoutMs?: number;
+}
+
+export interface RemoteToolHandlerContext {
+  /** Name of the tool being called. */
+  toolName: string;
+  /** Associated remote name; undefined when the tool has no remote. */
+  remoteName?: string;
+  /** Remote configuration associated with the tool. */
+  remote?: RemoteConfig;
+  /** Normalized module handler configuration; undefined for direct function handlers. */
+  handler?: Required<Pick<McpAppsHandlerConfig, 'module' | 'exportName'>> &
+    Pick<McpAppsHandlerConfig, 'runtime' | 'timeoutMs'>;
+  /** Additional context supplied by the MCP SDK for this tool call. */
+  extra: unknown;
+  /** Combined request, SDK cancellation, and timeout signal; business logic must honor it. */
+  signal: AbortSignal;
+  /** Standard fetch function; pass signal explicitly for cancellation. */
+  fetch: typeof fetch;
+  /** JSON request helper: serializes non-string bodies, parses JSON, and throws for non-OK responses. */
+  fetchJson: <T = unknown>(
+    /** Request URL. */
+    url: string,
+    /** Request options; body accepts JSON data. Pass signal for cancellation. */
+    init?: Omit<RequestInit, 'body'> & { body?: unknown },
+  ) => Promise<T>;
+  /** Origin of the current request URL. */
+  serverUrl?: string;
+  /** Current Web Request. */
+  request: Request;
+  /** Request-local application context; BFF/Hono adapters provide the Hono Context. */
+  context: unknown;
+}
+
+export interface RemoteToolHandlerResult {
+  /** MCP tool content, such as text or images. */
+  content?: CallToolResult['content'];
+  /** Structured business result; the framework adds UI data for tools with views. */
+  structuredContent?: unknown;
+  /** Additional tool result metadata. */
+  _meta?: Record<string, unknown>;
+  /** Card props, overriding tool arguments with the same names. */
+  viewProps?: Record<string, unknown>;
+  /** Whether this result represents a tool execution error. */
+  isError?: boolean;
+}
+
+/** Tool function returning a result synchronously or asynchronously. */
+export type RemoteToolHandler = (
+  /** Tool arguments validated against JSON Schema; narrow the type before use. */
+  input: unknown,
+  /** Context and request helpers for this call. */
+  context: RemoteToolHandlerContext,
+) => Promise<RemoteToolHandlerResult> | RemoteToolHandlerResult;
+```
+
+When using these types:
+
+- Both `remotes` and `tools` are required; use `remotes: []` without remote UI. The server requires at least one tool, and each tool must define a `handler` or `view`.
+- Prefer ordinary imports and `handler: greet` so BFF can track dependencies. `McpAppsHandlerConfig` supports loading handlers from local modules.
+- `view.exportName` defaults to `default`, and `view.renderMode` defaults to `component`. Local component entries only support `component`. Top-level `module`, `exportName`, and `renderMode` are compatibility fields; use `view` for new definitions.
+- `outputSchema` validates the handler's business `structuredContent`. Tools with views attach UI data after validation, so they do not advertise that schema in the tool list.
+- `visibility` defaults to `['model', 'app']`. It controls visibility to the model and card and does not replace server authorization. `annotations` provides tool behavior hints.
+- `context.request` is the current request. With BFF/Hono integration, `context.context` is its Hono Context. Asynchronous business operations should honor the cancellation signal in `context.signal`.
 
 ## Existing applications
 
@@ -78,14 +442,13 @@ current transport is stateless HTTP POST.
 
 ## Interactive remote views
 
-Publish an expose with existing MF/Vmok tooling. Add its manifest URL to `remotes`
+Publish an expose with existing MF tooling. Add its manifest URL to `remotes`
 and reference it from a tool with `remote` and `view.module`:
 
 ```ts
 remotes: [{
   name: 'catalog',
   baseUrl: 'https://cdn.example.com/catalog/v1/mf-manifest.json',
-  manifestType: 'mf',
   csp: {
     resourceDomains: ['https://cdn.example.com'],
     connectDomains: ['https://cdn.example.com'],
@@ -102,6 +465,16 @@ No additional UI-manifest format is introduced.
 Keep the original prefix in an existing BFF application: for example,
 `api/lambda/mcp.ts` under `/api` produces `/api/mcp`. Configure `serverInfo`
 in `mcpApps(definition, { serverInfo })`.
+
+## Protocol versions and host compatibility
+
+The implementation uses MCP SDK (`core`, `server`, and `client`) 2.2.0 and MCP Apps SDK 2.0.3. The HTTP endpoint supports [MCP 2026-07-28](https://modelcontextprotocol.io/specification/2026-07-28): the official SDK handles `server/discover`, per-request version and capability metadata, required header validation, and result/cache fields. A stateless JSON response path remains available for older protocols such as `2025-11-25`, including hosts that still initialize a connection.
+
+Cards use MCP Apps `_meta.ui.resourceUri`, `text/html;profile=mcp-app`, and resource content `_meta.ui` for CSP and permissions. `openai/outputTemplate` remains host compatibility metadata. The `tool/resource/args/viewProps` tool result envelope is a Modern.js rendering convention, not a required MCP protocol structure.
+
+`structuredContent` accepts any JSON value. Tools without cards return it unchanged. For cards, object results are merged with UI data; arrays and scalars are placed in `structuredContent.data`. Specify card props through `viewProps`.
+
+The endpoint accepts server requests without `Origin` and same-origin browser requests by default, rejecting other origins. For browser cross-origin access, explicitly configure BFF `mcpApps(definition, { allowedOrigins: ['https://host.example.com'] })` and application CORS as needed. The standalone Hono and core handlers also accept `allowedOrigins`. Authentication remains application middleware’s responsibility.
 
 ## Plugin options
 
@@ -120,7 +493,7 @@ handler `context.context` is the request-local Hono Context.
 UI HTML is in `dist/mcp-apps/ui/`. `modern serve` uses those artifacts. `modern deploy` produces a
 relocatable `.output/` that runs with `node .output/index.js`, without source code.
 
-In MF mode, UI publishes ordinary MF/Vmok artifacts independently. Remote URLs
+In MF mode, UI publishes ordinary MF artifacts independently. Remote URLs
 can use runtime environment variables; the local handler module set must stay
 unchanged since compilation. Files read at runtime, native addons and other
 application assets still require application-specific deployment handling.
@@ -130,8 +503,7 @@ Use your application compiler for the definition and handlers; the core no longe
 provides a separate compiler.
 
 Persistent sessions, resumable SSE and cross-request cancellation are not provided
-yet. Standard MF is verified; internal Vmok deployment and target product hosts
-require their own compatibility checks.
+yet. Standard MF is verified; target product hosts require their own compatibility checks.
 
 
 ## Default local views and optional MF

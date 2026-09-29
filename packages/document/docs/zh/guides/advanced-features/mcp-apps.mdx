@@ -4,24 +4,387 @@ sidebar_position: 17
 
 # MCP Apps
 
-MCP Apps 插件通过 `api/mcp_apps.ts` 将工具执行和可交互 React 视图接入 AI 宿主。服务端和 UI 可以一起开发，也可以分别构建、发布。
-本功能为实验性能力，不包含 DevTools。
+## 什么是 MCP Apps
+
+MCP（Model Context Protocol）让 AI 应用通过统一协议调用工具、访问数据。[MCP Apps](https://apps.extensions.modelcontextprotocol.io/api/) 在此基础上增加了交互界面：工具除了返回结果，还可以关联一个 UI，由支持 MCP Apps 的 AI 宿主展示在对话中。这里的“宿主”是用户与 AI 交互的客户端，“卡片”是本文对这种嵌入式 UI 的称呼。
+
+例如，查询销售数据的工具可以同时展示图表和筛选条件；用户调整筛选项后，卡片再通过宿主调用工具获取新数据。表单、结果列表等场景也可以让用户直接在界面中操作，减少用多轮文字描述输入和结果的成本。
+
+卡片需要在支持 MCP Apps 的宿主中运行，普通 MCP 客户端不一定具备卡片展示能力。协议与宿主连接方式可参考 [MCP Apps 官方概览](https://apps.extensions.modelcontextprotocol.io/api/documents/Overview.html)。
+
+## Modern.js 提供什么
+
+Modern.js 将 MCP 工具和 React 卡片接入现有应用开发流程：你编写业务函数和 React 组件，通过 `api/mcp_apps.ts` 将它们关联起来，再使用熟悉的开发、构建和部署命令。
+
+- **项目创建**：CLI 提供带 UI 的 MCP Apps 模板和不带 UI 的 MCP Server 模板，按需启用 Module Federation（MF）。
+- **服务端接入**：通过 BFF 暴露 MCP endpoint，复用 TypeScript 编译、依赖追踪和热更新；核心包处理 MCP 工具调用与 UI 资源响应。
+- **React UI 接入**：将应用内组件构建为卡片入口，或通过 MF 加载远程组件；提供宿主连接，将工具输入、结果属性和 `mcpApp` 传给卡片。
+- **构建与部署**：支持应用和 MCP 服务一起开发、部署，也支持将 UI 资源与服务端分别发布。
+
+本功能为实验性能力，不包含 AI 对话宿主或 DevTools。开发完成后，需要连接目标宿主验证卡片展示和交互。
+
+## 如何选择项目类型
+
+先判断是否需要让用户在 AI 对话中操作界面：只需要工具返回数据或执行任务，选择 **MCP Server**；需要表单、图表或交互卡片，选择 **MCP Apps**。需要 UI 时，再根据组件的维护和发布方式选择默认模式或 MF 模式。
+
+| 项目类型 | 适合的场景 | CLI 参数 |
+| --- | --- | --- |
+| MCP Apps：应用内 React 组件（推荐起点） | 新建交互界面，组件随当前应用维护，没有远程组件复用需求 | `--template mcp-apps` |
+| MCP Apps：MF 远程组件 | 已有 MF 组件，或需要让多个应用复用按版本发布的远程组件 | `--template mcp-apps --mf` |
+| MCP Server：仅工具 | 只需要提供查询、计算等工具，不需要嵌入式 UI | `--template mcp-server` |
+
+### 应用内组件与 MF 远程组件有什么区别
+
+应用内组件的源码位于当前项目中，由 Modern.js 应用构建器编译。项目可以部署到生产环境，静态资源支持部署到 CDN。
+
+| 对比项 | 应用内 React 组件 | MF 远程组件 |
+| --- | --- | --- |
+| UI 定义 | `view.module` 指向项目内组件文件，如 `./src/components/Greeting.tsx` | `remote` 指定远程资源，`view.module` 指向 expose 名称，如 `./Greeting` |
+| 构建与加载 | Modern.js 生成卡片 HTML 和应用 JS/CSS，宿主加载这些资源 | MF 构建生成 manifest、remote entry 和 chunks，卡片渲染器按 manifest 加载组件 |
+| 组件维护方式 | 组件随当前应用构建、维护 | 组件可以作为远程模块独立发布并被复用；模板初始仍在同一项目中提供源码 |
+| 需要维护的配置 | 组件路径和应用静态资源地址 | 额外维护 exposes、manifest 地址、共享依赖及资源域名 |
+
+**没有明确的 MF 复用需求时，优先选择应用内 React 组件。** 仅仅需要公网访问、CDN 或 UI 与服务端分开部署，不必启用 MF，两种模式都支持这些部署方式。MF 适用于需要远程模块加载和组件独立发布的场景，不是部署到生产环境的前提。
 
 ## 创建项目
 
-使用包含这些新包的同一 Modern.js 发布版本：
+以下命令中的 `<version>` 请替换为包含 MCP Apps 模板、`@modern-js/mcp-apps` 和 `@modern-js/plugin-mcp-apps` 的 Modern.js 发布版本。
+
+### 创建 MCP Apps 项目（应用内 React 组件）
 
 ```bash
-npx @modern-js/create@<version> my-app --template mcp-apps
-npx @modern-js/create@<version> my-server --template mcp-server
+npx @modern-js/create@<version> my-mcp-app --template mcp-apps
+cd my-mcp-app
+pnpm install
+pnpm dev
 ```
 
-`mcp-apps` 默认是标准 Modern.js 应用，增加本地 React 卡片和 MCP 插件，不依赖 MF。
-创建时加 `--mf` 才生成 Module Federation 配置和远程组件依赖。
-`mcp-server` 不包含 UI 目录，适合独立服务端。未传 template 时，普通应用模板不变。
+模板已配置 BFF 和 MCP Apps 插件，并提供 `greet`、`add_numbers` 工具以及对应的 React 卡片。卡片源码位于当前项目的 `src/components/`，由应用构建器编译，无须配置 MF manifest。
 
-在源码仓库中验证尚未发布的实现，可先构建 `@modern-js/mcp-apps` 和
-`@modern-js/plugin-mcp-apps`，再运行 `pnpm --filter @examples/mcp-apps-modern dev`。
+### 创建 MCP Apps 项目（MF 远程组件）
+
+需要通过 Module Federation 发布和加载远程组件时，增加 `--mf`：
+
+```bash
+npx @modern-js/create@<version> my-mf-app --template mcp-apps --mf
+cd my-mf-app
+pnpm install
+pnpm dev
+```
+
+模板额外生成 `module-federation.config.ts`，暴露 `./Greeting` 和 `./Sum`；`api/mcp_apps.ts` 中的 remote 默认指向 `http://localhost:8080/static/mf-manifest.json`。`--mf` 仅适用于 `mcp-apps` 模板。
+
+如果宿主通过公网地址访问应用，启动时将 `MCP_UI_ORIGIN` 设置为 UI 资源的公开 origin，让宿主能加载 manifest 和组件资源：
+
+```bash
+MCP_UI_ORIGIN=https://your-public-host.example.com pnpm dev
+```
+
+该变量只用于 MF 模板，填写 origin，不包含 `/mcp` 或 manifest 路径。使用 HTTPS 隧道时填写隧道提供的 origin，并将隧道转发到应用端口。生产环境构建和启动时也需设置对应的公开资源 origin；资源域名发生变化时，同步更新 `remotes[].csp`。
+
+### 创建 MCP Server 项目（仅工具）
+
+```bash
+npx @modern-js/create@<version> my-mcp-server --template mcp-server
+cd my-mcp-server
+pnpm install
+pnpm dev
+```
+
+该模板保留 `greet` 和 `add_numbers` 工具，不生成 React 卡片或 MF 配置。
+
+### 项目文件
+
+| 文件 | 用途 |
+| --- | --- |
+| `modern.config.ts` | 配置 BFF 路由前缀和插件；MF 模式还会启用 Module Federation |
+| `api/mcp_apps.ts` | 定义工具、输入 schema、handler 和 view 的关联 |
+| `api/mcp-tools.ts` | 实现工具业务逻辑 |
+| `api/lambda/index.ts` | 声明 `/mcp` 的 BFF 路由 |
+| `src/components/` | React 卡片，仅 UI 模板包含 |
+| `module-federation.config.ts` | 远程组件 exposes，仅 MF 模式包含 |
+| `scripts/verify-mcp.mjs` | 验证 MCP 工具和 UI 资源响应 |
+
+### 连接与验证
+
+保持开发服务运行，在另一个终端执行：
+
+```bash
+pnpm verify:mcp http://localhost:8080/mcp
+```
+
+脚本使用 MCP `2026-07-28` 检查服务发现、工具列表、两个工具的调用结果，以及 UI 模板的资源读取。直接在浏览器地址栏访问 `/mcp` 返回 405 是预期行为，当前协议使用 HTTP POST。
+
+然后在支持 MCP Apps 的宿主中连接该 endpoint，调用 `greet` 或 `add_numbers`，确认卡片显示并能再次调用工具。协议脚本验证不替代真实宿主中的卡片交互验证。远程宿主应连接可访问的 HTTPS 地址，例如 `https://your-public-host.example.com/mcp`。纯服务端模板只需支持 MCP 的客户端，无须卡片渲染能力。
+
+在源码仓库中验证尚未发布的实现，可先构建 `@modern-js/mcp-apps` 和 `@modern-js/plugin-mcp-apps`，再运行 `pnpm --filter @examples/mcp-apps-modern dev` 体验本地卡片示例。
+
+## 理解 `api/mcp_apps.ts`
+
+`api/mcp_apps.ts` 是服务端的 MCP 应用定义文件，用来声明“有哪些工具、如何执行、结果用哪个卡片展示”。它通过 `defineMcpApps()` 导出配置，由 `api/lambda/index.ts` 导入并交给 `mcpApps(definition)` 注册为 MCP endpoint。`defineMcpApps()` 提供类型提示，本身不启动服务或注册 HTTP 路由。
+
+下面以本地问候卡片为例：
+
+```ts title="api/mcp_apps.ts"
+import { defineMcpApps } from '@modern-js/mcp-apps/config';
+import { greet } from './mcp-tools';
+
+export default defineMcpApps({
+  remotes: [],
+  tools: [{
+    name: 'greet',
+    description: 'Greet someone with an interactive card.',
+    inputSchema: {
+      type: 'object',
+      properties: { name: { type: 'string' } },
+      required: ['name'],
+      additionalProperties: false,
+    },
+    handler: greet,
+    view: { module: './src/components/Greeting.tsx' },
+  }],
+});
+```
+
+| 字段 | 含义 |
+| --- | --- |
+| `remotes` | 远程 UI 资源列表；本地卡片和纯工具项目使用空数组 |
+| `tools[].name` | 工具唯一名称，宿主和卡片通过它调用工具 |
+| `tools[].description` | 工具用途说明，帮助模型选择工具 |
+| `tools[].inputSchema` | 工具参数的 JSON Schema，服务端在执行 handler 前校验 |
+| `tools[].handler` | 工具业务函数，接收输入参数和请求上下文 |
+| `tools[].view` | 可选卡片配置；省略时只返回工具结果，不展示卡片 |
+| `tools[].remote` | MF 模式下引用的 `remotes[].name` |
+
+本地卡片的 `view.module` 相对**项目根目录**解析；`import { greet } from './mcp-tools'` 则遵循普通模块导入规则，相对 `api/mcp_apps.ts` 解析。工具可以只有 handler 或只有 view，但不能两者都省略。
+
+### handler 如何把结果交给卡片
+
+```ts title="api/mcp-tools.ts"
+import type { RemoteToolHandler } from '@modern-js/mcp-apps/config';
+
+export const greet: RemoteToolHandler = input => {
+  const { name } = input as { name: string };
+  const message = `Hello, ${name}!`;
+  return {
+    content: [{ type: 'text', text: message }],
+    structuredContent: { message },
+    viewProps: { message },
+  };
+};
+```
+
+`content` 提供文本等工具内容，`structuredContent` 提供结构化业务数据，`viewProps` 明确指定传给卡片的属性。渲染器合并工具输入参数和 `viewProps`，同名属性以 `viewProps` 为准，并注入已连接的 `mcpApp`。例如，上面的卡片可以接收 `name`、`message` 和 `mcpApp`；组件通过 `mcpApp.callServerTool()` 再次调用工具。
+
+### MF 模式下的定义
+
+MF 模式仍使用同一个定义文件，区别是声明远程 manifest，并让工具引用对应的 remote：
+
+```ts title="api/mcp_apps.ts"
+import { defineMcpApps } from '@modern-js/mcp-apps/config';
+import { greet } from './mcp-tools';
+
+export default defineMcpApps({
+  remotes: [{
+    name: 'mcp_ui',
+    baseUrl: 'https://cdn.example.com/static/mf-manifest.json',
+    csp: {
+      resourceDomains: ['https://cdn.example.com'],
+      connectDomains: ['https://cdn.example.com'],
+    },
+  }],
+  tools: [{
+    name: 'greet',
+    inputSchema: {
+      type: 'object',
+      properties: { name: { type: 'string' } },
+      required: ['name'],
+    },
+    handler: greet,
+    remote: 'mcp_ui',
+    view: { module: './Greeting' },
+  }],
+});
+```
+
+这里的 `view.module: './Greeting'` 是 `module-federation.config.ts` 中的 **expose 名称**，不是磁盘文件路径。`baseUrl` 指向标准 MF manifest；`csp.resourceDomains` 声明脚本、样式等资源来源，`csp.connectDomains` 声明网络请求来源。使用其他资源或 API 域名时也需要加入对应列表。
+
+定义文件和 handler 由 BFF 负责服务端编译，不会作为 UI 入口导入浏览器。构建阶段也会读取定义来发现 UI 入口，因此应避免在模块顶层启动监听器等副作用。
+
+### `defineMcpApps` 类型定义
+
+从 `@modern-js/mcp-apps/config` 导入 `defineMcpApps` 及下列配置类型。函数签名如下：
+
+```ts
+export function defineMcpApps<T extends McpAppsDefinition>(definition: T): T;
+```
+
+泛型 `T` 保留传入配置的推断类型，函数原样返回该对象。它不执行运行时校验，也不会根据 `inputSchema` 自动推导 handler 的参数类型；工具参数在服务端执行前按 JSON Schema 校验，handler 中的 `input` 类型仍是 `unknown`。
+
+下面是定义文件涉及的配置、handler 上下文及返回值类型：
+
+```ts
+import type { McpUiResourceMeta } from '@modelcontextprotocol/ext-apps';
+import type { CallToolResult, ToolAnnotations } from '@modelcontextprotocol/server';
+
+export interface McpAppsDefinition {
+  /** 远程 UI 定义；本地卡片或纯工具项目填写空数组。 */
+  remotes: RemoteConfig[];
+  /** 工具定义列表，至少包含一个工具。 */
+  tools: ToolConfig[];
+}
+
+export interface RemoteConfig {
+  /** 远程资源的唯一名称，由工具的 remote 字段引用。 */
+  name: string;
+  /** 远程资源描述，供应用使用。 */
+  description?: string;
+  /** 标准 MF manifest 的完整 URL。 */
+  baseUrl: string;
+  /** 浏览器加载入口；设置后覆盖 baseUrl。 */
+  browserEntry?: string;
+  /** 卡片资源的 CSP 声明，由宿主实施。 */
+  csp?: {
+    /** 允许 fetch、WebSocket 等网络连接的来源。 */
+    connectDomains?: string[];
+    /** 允许加载脚本、样式、图片等资源的来源。 */
+    resourceDomains?: string[];
+    /** 允许卡片嵌入子 iframe 的来源。 */
+    frameDomains?: string[];
+    /** 允许 HTML base URI 使用的来源。 */
+    baseUriDomains?: string[];
+  };
+  /** 向宿主声明卡片请求的权限，是否授予由宿主决定。 */
+  permissions?: McpUiResourceMeta['permissions'];
+  /** 传给宿主的 UI 域名设置，具体支持由宿主决定。 */
+  domain?: string;
+  /** 是否希望宿主显示卡片边框，默认 true；属于展示提示。 */
+  prefersBorder?: boolean;
+}
+
+export interface ToolConfig {
+  /** 工具唯一名称，用于 tools/call 调用。 */
+  name: string;
+  /** 可选的工具展示标题。 */
+  title?: string;
+  /** 工具用途说明，帮助模型选择工具。 */
+  description?: string;
+  /** 输入参数的 JSON Schema；不推导 input 类型。 */
+  inputSchema?: JsonSchema;
+  /** 业务 structuredContent 的 JSON Schema；在附加 UI 数据前校验。 */
+  outputSchema?: JsonSchema;
+  /** 只读、破坏性等行为提示，不代替权限控制。 */
+  annotations?: ToolAnnotations;
+  /** 关联的 RemoteConfig.name；本地卡片无需设置。 */
+  remote?: string;
+  /** 兼容字段，推荐改用 view.module。 */
+  module?: string;
+  /** 兼容字段，推荐改用 view.exportName。 */
+  exportName?: string;
+  /** 兼容字段，推荐改用 view.renderMode。 */
+  renderMode?: RenderMode;
+  /** 卡片配置；省略时不绑定 UI，handler 与 view 至少提供一个。 */
+  view?: McpAppsViewConfig;
+  /** 业务函数或模块加载配置；推荐直接传入导入的函数。 */
+  handler?: McpAppsHandlerConfig | RemoteToolHandler;
+  /** 工具对模型和卡片的可见性，默认 ['model', 'app']。 */
+  visibility?: Array<'model' | 'app'>;
+}
+
+/** JSON Schema 对象；当前使用严格的 JSON Schema 2020-12 校验。 */
+export type JsonSchema = Record<string, unknown>;
+/** React 组件模式，或远程模块提供的命令式挂载模式。 */
+export type RenderMode = 'component' | 'mount';
+
+export interface McpAppsViewConfig {
+  /** 本地模式为相对项目根目录的组件路径；MF 模式为 expose 名称。 */
+  module: string;
+  /** 组件导出名，默认 default。 */
+  exportName?: string;
+  /** 默认 component；本地入口仅支持 component，MF 也支持 mount。 */
+  renderMode?: RenderMode;
+  /** 视图运行环境，目前仅支持 browser。 */
+  runtime?: 'browser';
+  /** 构建后的 HTML 路径，或独立托管的 HTTPS HTML URL。 */
+  html?: string;
+  /** 静态资源基址；request 表示使用公开 MCP 请求 origin。 */
+  assetBase?: string;
+  /** 本地或独立 HTML 视图的 CSP；MF 视图使用 remote.csp。 */
+  csp?: RemoteConfig['csp'];
+}
+
+export interface McpAppsHandlerConfig {
+  /** handler 模块路径，相对定义文件目录解析。 */
+  module: string;
+  /** handler 导出名，默认 default。 */
+  exportName?: string;
+  /** handler 运行环境，当前仅支持 local。 */
+  runtime?: 'local';
+  /** 执行超时毫秒数；未设置时使用服务端配置，最终默认 30000。 */
+  timeoutMs?: number;
+}
+
+export interface RemoteToolHandlerContext {
+  /** 当前调用的工具名称。 */
+  toolName: string;
+  /** 工具关联的远程名称，无 remote 时为 undefined。 */
+  remoteName?: string;
+  /** 工具关联的远程配置。 */
+  remote?: RemoteConfig;
+  /** 规范化的模块 handler 配置；直接传入函数时为 undefined。 */
+  handler?: Required<Pick<McpAppsHandlerConfig, 'module' | 'exportName'>> &
+    Pick<McpAppsHandlerConfig, 'runtime' | 'timeoutMs'>;
+  /** MCP SDK 提供的本次工具调用附加上下文。 */
+  extra: unknown;
+  /** 请求中断、SDK 取消或执行超时的组合信号；业务逻辑需主动响应。 */
+  signal: AbortSignal;
+  /** 标准 fetch 函数；需要取消时自行传入 signal。 */
+  fetch: typeof fetch;
+  /** JSON 请求辅助函数：序列化非字符串 body、解析 JSON，非成功响应抛错。 */
+  fetchJson: <T = unknown>(
+    /** 请求地址。 */
+    url: string,
+    /** 请求选项；body 可传 JSON 数据，取消时传入 signal。 */
+    init?: Omit<RequestInit, 'body'> & { body?: unknown },
+  ) => Promise<T>;
+  /** 当前请求 URL 的 origin。 */
+  serverUrl?: string;
+  /** 当前 Web Request。 */
+  request: Request;
+  /** 请求级应用上下文；BFF/Hono 适配器传入 Hono Context。 */
+  context: unknown;
+}
+
+export interface RemoteToolHandlerResult {
+  /** MCP 工具内容，例如文本或图片。 */
+  content?: CallToolResult['content'];
+  /** 结构化业务结果；带视图时框架会附加 UI 数据。 */
+  structuredContent?: unknown;
+  /** 工具结果的附加元数据。 */
+  _meta?: Record<string, unknown>;
+  /** 传给卡片的属性，合并时覆盖同名工具输入参数。 */
+  viewProps?: Record<string, unknown>;
+  /** 是否为工具执行错误结果。 */
+  isError?: boolean;
+}
+
+/** 工具函数，可同步或异步返回结果。 */
+export type RemoteToolHandler = (
+  /** 经 JSON Schema 校验的工具参数，使用前需收窄类型。 */
+  input: unknown,
+  /** 本次调用的上下文及请求辅助函数。 */
+  context: RemoteToolHandlerContext,
+) => Promise<RemoteToolHandlerResult> | RemoteToolHandlerResult;
+```
+
+使用时注意：
+
+- `remotes` 和 `tools` 都是必填字段；没有远程 UI 时填写 `remotes: []`。服务端要求至少一个工具，每个工具至少包含 `handler` 或 `view`。
+- 推荐通过普通 import 引入业务函数，并直接配置 `handler: greet`，便于 BFF 追踪依赖。`McpAppsHandlerConfig` 是按本地模块加载 handler 的形式。
+- `view.exportName` 默认为 `default`，`view.renderMode` 默认为 `component`；本地组件入口只支持 `component`。顶层 `module`、`exportName`、`renderMode` 是兼容字段，新配置应使用 `view`。
+- `outputSchema` 校验 handler 返回的业务 `structuredContent`；带视图的工具会在校验后附加 UI 数据，因此不会在工具列表中公开该 schema。
+- `visibility` 默认是 `['model', 'app']`，控制工具对模型和卡片的可见性，不代替服务端鉴权。`annotations` 是工具行为提示。
+- `context.request` 是当前请求，`context.context` 在 BFF/Hono 接入中为请求对应的 Hono Context；异步业务操作应响应 `context.signal` 的取消信号。
 
 ## 接入已有项目
 
@@ -88,14 +451,13 @@ export const greet: RemoteToolHandler = input => {
 
 ### 可选 MF 模式
 
-使用已有 MF/Vmok 工具发布组件 expose。将其 manifest URL 写入 `remotes`，工具
+使用已有 MF 工具发布组件 expose。将其 manifest URL 写入 `remotes`，工具
 通过 `remote` 和 `view.module` 引用它：
 
 ```ts
 remotes: [{
   name: 'catalog',
   baseUrl: 'https://cdn.example.com/catalog/v1/mf-manifest.json',
-  manifestType: 'mf',
   csp: {
     resourceDomains: ['https://cdn.example.com'],
     connectDomains: ['https://cdn.example.com'],
@@ -111,6 +473,16 @@ MF 渲染器在宿主 iframe 内加载组件，传入工具参数、handler 返�
 已有 BFF 项目应保留原 `bff.prefix`；例如在 `/api` 前缀下添加
 `api/lambda/mcp.ts`，入口就是 `/api/mcp`。`serverInfo` 在
 `mcpApps(definition, { serverInfo })` 中配置。
+
+## 协议版本与宿主兼容
+
+当前使用 MCP SDK（`core`、`server`、`client`）2.2.0 和 MCP Apps SDK 2.0.3。HTTP endpoint 支持 [MCP 2026-07-28](https://modelcontextprotocol.io/specification/2026-07-28)：由官方 SDK 处理 `server/discover`、每次请求的版本和能力元数据、必需请求头校验，以及结果的 `resultType` 和缓存字段。同时保留 `2025-11-25` 等旧协议的无状态 JSON 响应路径，兼容仍使用初始化握手的宿主。
+
+卡片使用 MCP Apps 的 `_meta.ui.resourceUri`、`text/html;profile=mcp-app` 和资源内容上的 `_meta.ui`（CSP、权限等）。`openai/outputTemplate` 仅作为宿主兼容元数据保留。工具调用结果中的 `tool/resource/args/viewProps` 是 Modern.js 的渲染约定，不是 MCP 协议必填字段。
+
+`structuredContent` 可以是任意 JSON 值。纯工具原样返回；带卡片时，对象结果与 UI 数据合并，数组或标量结果放在 `structuredContent.data` 中，卡片属性仍通过 `viewProps` 指定。
+
+endpoint 默认允许无 `Origin` 的服务端请求和同源浏览器请求，拒绝其他来源。需要浏览器跨域调用时，在 BFF 的 `mcpApps(definition, { allowedOrigins: ['https://host.example.com'] })` 中显式允许来源，并按应用需求配置 CORS；独立 Hono 和核心 handler 也支持 `allowedOrigins`。鉴权仍通过应用中间件实现。
 
 ## 插件选项
 
@@ -129,15 +501,14 @@ handler 的 `context.context` 为当前请求的 Hono Context。
 `node .output/index.js` 启动，无须原源码目录。
 
 默认 UI HTML 位于 `dist/mcp-apps/ui/`；必须同时部署应用静态资源或设置资源 CDN。
-资源地址默认以公开 MCP origin 为基准，也可配置 `dev.assetPrefix` / `output.assetPrefix`。也可用 `view.html` 指定独立 HTTPS HTML URL，由服务端读取，并用 `view.csp` 声明其网络权限。MF 模式使用 MF/Vmok 原有产物独立发布。生产定义可通过环境变量设置远程资源地址，
+资源地址默认以公开 MCP origin 为基准，也可配置 `dev.assetPrefix` / `output.assetPrefix`。也可用 `view.html` 指定独立 HTTPS HTML URL，由服务端读取，并用 `view.csp` 声明其网络权限。MF 模式使用 MF 原有产物独立发布。生产定义可通过环境变量设置远程资源地址，
 但 local handler 模块集合需要与构建时一致。运行时读取的独立文件、原生 addon
 等额外资产仍由应用管理部署。
 
 核心包可直接接收应用导入的 definition：`createMcpHandler(definition)`。
 服务端配置和工具函数使用 BFF 标准编译，产物位于 `dist/api/`，不再提供独立 MCP 编译器。
 
-当前不提供持久 MCP 会话、恢复 SSE 或跨请求取消。标准 MF 已验证；内部 Vmok
-部署及各目标产品宿主应分别验收。
+当前不提供持久 MCP 会话、恢复 SSE 或跨请求取消。标准 MF 已验证，各目标产品宿主应分别验收。
 
 
 ## Hono 独立部署

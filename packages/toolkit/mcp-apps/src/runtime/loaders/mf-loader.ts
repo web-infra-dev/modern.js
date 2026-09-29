@@ -9,9 +9,6 @@ import type {
   RemoteComponent,
   RemoteModule,
 } from '../utils/remote-types.js';
-import { fixProtocolRelativeUrl } from './snapshot-loader.js';
-import { setupVmokManifest } from './vmok-loader.js';
-import { createVmokManifestPlugin } from './vmok-manifest-plugin.js';
 
 const REACT_COMPAT_RANGE = '^17 || ^18 || ^19';
 
@@ -80,8 +77,6 @@ export interface ModuleFederationConfig {
   module: string;
   exportName: string;
   renderMode?: 'component' | 'mount';
-  snapshotUrl?: string;
-  manifestType?: 'mf' | 'vmok';
 }
 
 export interface LoadRemoteOptions {
@@ -89,16 +84,13 @@ export interface LoadRemoteOptions {
   addLog: (msg: string) => void;
   /** Ref holding the cached MF instance (reused across calls for the same remote) */
   mfInstanceRef: { current: ModuleFederationInstance | null };
-  snapshotCacheRef: { current: Map<string, unknown> };
   lastRemoteNameRef: { current: string };
 }
 
 /**
  * Load a remote Module Federation component.
  *
- * Dispatches to the appropriate manifest loader based on `manifestType`:
- *   - `"mf"` (default): standard MF path — uses mf-manifest.json directly
- *   - `"vmok"`: ByteDance-internal path — handled by vmok-loader.ts
+ * Uses the standard Module Federation manifest directly.
  *
  * Reuses the existing MF instance when the same remote is requested again,
  * preventing React multi-instance errors ("Invalid hook call").
@@ -109,7 +101,6 @@ export async function loadRemoteComponent({
   config,
   addLog,
   mfInstanceRef,
-  snapshotCacheRef,
   lastRemoteNameRef,
 }: LoadRemoteOptions): Promise<RemoteComponent> {
   const {
@@ -117,27 +108,12 @@ export async function loadRemoteComponent({
     remoteEntry: rawRemoteEntry,
     module: modulePath,
     exportName,
-    snapshotUrl: configSnapshotUrl,
-    manifestType = 'mf',
   } = config;
 
-  // ── Step 1: Manifest-specific setup ──────────────────────────────────────
-  let remoteEntry: string;
-
-  if (manifestType === 'vmok') {
-    // ByteDance-internal vmok path — see vmok-loader.ts for details.
-    // External users will never reach this branch.
-    remoteEntry = await setupVmokManifest({
-      remoteEntry: rawRemoteEntry,
-      snapshotUrl: configSnapshotUrl,
-      addLog,
-      snapshotCache: snapshotCacheRef.current,
-    });
-  } else {
-    // Standard MF path: mf-manifest.json is used directly as the entry.
-    remoteEntry = fixProtocolRelativeUrl(rawRemoteEntry);
-    addLog(`📋 Using MF manifest: ${remoteEntry}`);
-  }
+  const remoteEntry = rawRemoteEntry.startsWith('//')
+    ? `https:${rawRemoteEntry}`
+    : rawRemoteEntry;
+  addLog(`📋 Using MF manifest: ${remoteEntry}`);
 
   // ── Step 2: Create or reuse the MF instance ───────────────────────────────
   // The instance is cached per remote name. Re-creating it on every call
@@ -147,12 +123,10 @@ export async function loadRemoteComponent({
   if (mfInstanceRef.current && lastRemoteNameRef.current === remoteName) {
     mf = mfInstanceRef.current;
   } else {
-    addLog(`🔧 Creating MF instance (${manifestType})...`);
+    addLog('🔧 Creating MF instance...');
     mf = createInstance({
       name: 'mcp-host',
       remotes: [{ name: remoteName, entry: remoteEntry }],
-      plugins:
-        manifestType === 'vmok' ? [createVmokManifestPlugin(remoteEntry)] : [],
       shared: createReactSharedConfig(),
       shareStrategy: 'loaded-first',
     }) as ModuleFederationInstance;

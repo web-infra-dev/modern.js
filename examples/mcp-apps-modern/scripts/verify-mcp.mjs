@@ -2,6 +2,7 @@ import assert from 'node:assert/strict';
 
 const endpoint =
   process.argv[2] ?? process.env.MCP_ENDPOINT ?? 'http://localhost:8080/mcp';
+const protocolVersion = '2026-07-28';
 let nextId = 0;
 async function rpc(method, params = {}, notification = false) {
   const response = await fetch(endpoint, {
@@ -9,12 +10,27 @@ async function rpc(method, params = {}, notification = false) {
     headers: {
       'content-type': 'application/json',
       accept: 'application/json, text/event-stream',
+      'mcp-protocol-version': protocolVersion,
+      'mcp-method': method,
+      ...((params.name ?? params.uri)
+        ? { 'mcp-name': params.name ?? params.uri }
+        : {}),
     },
     body: JSON.stringify({
       jsonrpc: '2.0',
       ...(notification ? {} : { id: ++nextId }),
       method,
-      params,
+      params: {
+        ...params,
+        _meta: {
+          'io.modelcontextprotocol/protocolVersion': protocolVersion,
+          'io.modelcontextprotocol/clientCapabilities': {},
+          'io.modelcontextprotocol/clientInfo': {
+            name: 'mcp-template-check',
+            version: '1',
+          },
+        },
+      },
     }),
     signal: AbortSignal.timeout(10000),
   });
@@ -45,15 +61,11 @@ async function rpc(method, params = {}, notification = false) {
       2,
     )}`,
   );
+  assert.equal(message.result.resultType, 'complete');
   return message.result;
 }
 
-await rpc('initialize', {
-  protocolVersion: '2025-11-25',
-  capabilities: {},
-  clientInfo: { name: 'mcp-template-check', version: '1' },
-});
-await rpc('notifications/initialized', {}, true);
+await rpc('server/discover');
 const { tools } = await rpc('tools/list');
 for (const name of ['greet', 'add_numbers']) {
   assert.ok(

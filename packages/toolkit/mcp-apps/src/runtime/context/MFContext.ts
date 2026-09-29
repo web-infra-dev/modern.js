@@ -4,14 +4,12 @@ import type { ModuleFederationInstance } from '../utils/remote-types.js';
 /**
  * Global Module Federation caching context.
  *
- * Manages shared MF instance and snapshot cache across multiple containers,
+ * Manages the shared MF instance across multiple containers,
  * preventing React Hook conflicts ("Invalid hook call") when loading the same remote.
  */
 export interface MFContextType {
   /** Cached MF instance (reused per remote name) */
   mfInstanceRef: { current: ModuleFederationInstance | null };
-  /** Cached snapshots (for vmok-based manifests) */
-  snapshotCacheRef: { current: Map<string, unknown> };
   /** Last remote name loaded (to detect remote changes) */
   lastRemoteNameRef: { current: string };
 }

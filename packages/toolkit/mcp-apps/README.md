@@ -4,7 +4,7 @@
 
 Build and deploy MCP servers and remote React views independently using
 `api/mcp_apps.ts`. The package provides configuration and handler loading,
-result/view binding, application-built HTML resources, a Hono adapter, and optional MF/Vmok rendering.
+result/view binding, application-built HTML resources, a Hono adapter, and optional MF rendering.
 
 ## Default local view and Hono
 
@@ -76,7 +76,6 @@ export default defineMcpApps({
   remotes: [{
     name: 'mcp_ui',
     baseUrl: 'https://cdn.example.com/releases/1/mf-manifest.json',
-    manifestType: 'mf',
     csp: {
       resourceDomains: ['https://cdn.example.com'],
       connectDomains: ['https://cdn.example.com'],
@@ -135,8 +134,8 @@ track dependencies. No generated wrapper or handler path map is required.
 
 ## Publish the remote UI
 
-Expose `./Greeting` with the existing MF or Vmok build tooling. Standard MF emits
-`mf-manifest.json`, remote entry and chunks; Vmok emits its own manifest. Publish
+Expose `./Greeting` with the existing MF build tooling. Standard MF emits
+`mf-manifest.json`, remote entry and chunks. Publish
 those artifacts normally, then set `remotes[].baseUrl`/`browserEntry` to their URL.
 There is no second UI manifest to generate, copy, or maintain.
 
@@ -178,20 +177,14 @@ preserved, never forced read-only.
 - `outputSchema`, when supplied, validates business structuredContent before the
   view envelope is attached. It is advertised in tools/list for handler-only tools;
   view tools omit the advertised outputSchema to avoid contradicting that envelope.
-- Browser `manifestType` defaults to `vmok`. New standard MF
-  projects should explicitly set `manifestType: 'mf'`.
-- Browser MF and Vmok loaders support snapshot/static publicPath normalization.
-  Vmok region placeholder handling targets `region.cn`.
-  Standard MF is tested end-to-end; internal Vmok deployment still needs validation.
-- `handler.runtime: 'vmok-server'` uses an optional runtime loader and
-  requires `serverEntry`. Install the compatible `@vmok/kit` where the core can
-  resolve it, or inject `loadRemoteHandler`; internal packages are not dependencies.
+- Browser views use the standard Module Federation manifest and runtime.
+  No manifest type selector is needed.
 - Pin remote URLs to immutable releases. Remote assets must support cross-origin
   loading, and their script/CSS/fetch origins must be declared in remote CSP.
 - Production deploys contain the compiled definition and handler modules. No UI
   source or copied UI manifest is needed. The Node process does not import React;
   React is bundled into resource HTML for execution only inside the host iframe.
-- Node 20+; pinned MCP SDK 1.30.0 / Apps SDK 1.7.5. Stateless POST-only HTTP with a
+- Node 20+; MCP SDK core/server/client 2.2.0 / Apps SDK 2.0.3. Stateless POST-only HTTP with a
   new SDK server/transport per request. No persistent sessions, resumable SSE,
   server-initiated requests or cross-request cancellation routing in this version.
 - Input/output schemas use strict JSON Schema 2020-12 validation, not lossy Zod
@@ -199,7 +192,8 @@ preserved, never forced read-only.
 - Handler context provides `toolName/remote/handler/extra/signal/fetch/
   fetchJson/serverUrl` fields and adds `request/context`. `createContext(request)`
   supplies request-local context. Host visibility is not an authorization boundary.
-- Authentication, request-size limits and Host/Origin policy belong in HTTP
+- The endpoint validates Origin (same-origin by default, additional origins via
+  `allowedOrigins`). Authentication and deployment-specific Host/CORS policy belong in HTTP
   middleware. Errors from createContext propagate to that middleware. Tool failures
   are generic to clients; use `onError` for server diagnostics. Handlers must honor
   AbortSignal to stop external work; timeout cannot roll back side effects.
@@ -232,3 +226,10 @@ standalone server, set `MCP_ENDPOINT` to its endpoint.
 Open `http://127.0.0.1:8092` and click `Greet again`. The official AppBridge fixture
 is test-only and excluded from the npm package; it does not replace target-host
 compatibility testing.
+
+## Protocol versions
+
+The official SDK handles MCP 2026-07-28 per-request envelopes, server/discover,
+required request headers, resultType and cache metadata. Legacy clients retain
+stateless JSON responses and initialization support. Template verification uses
+2026-07-28. UI resources use the standard MCP Apps metadata and MIME type.

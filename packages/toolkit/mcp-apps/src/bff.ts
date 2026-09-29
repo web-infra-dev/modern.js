@@ -2,6 +2,7 @@ import { type McpAppsDefinition, createMcpHandler } from './server';
 
 export interface McpBffOptions {
   definition: McpAppsDefinition;
+  allowedOrigins?: string[];
   development?: boolean;
   /** Resource paths are resolved against this application-provided location. */
   configPath?: string;
@@ -18,6 +19,7 @@ export function createMcpBffHandler(options: McpBffOptions) {
   const contexts = new WeakMap<Request, BffContext>();
   const handler = createMcpHandler(options.definition, {
     configPath: options.configPath,
+    allowedOrigins: options.allowedOrigins,
     development: options.development,
     serverInfo: options.serverInfo,
     onError: options.onError,

@@ -180,7 +180,18 @@ async function generate(name: string, template: string, mf = false) {
     ],
     { cwd: output },
   );
-  return path.join(output, name);
+  const app = path.join(output, name);
+  if (mf) {
+    // MF's published declarations import app-tools too. Resolve those types
+    // against the workspace under test, not a second npm-installed framework.
+    const tsconfigPath = path.join(app, 'tsconfig.json');
+    const tsconfig = JSON.parse(await fs.readFile(tsconfigPath, 'utf8'));
+    tsconfig.compilerOptions.paths['@modern-js/app-tools'] = [
+      path.join(repo, 'packages/solutions/app-tools/src/index.ts'),
+    ];
+    await fs.writeFile(tsconfigPath, JSON.stringify(tsconfig));
+  }
+  return app;
 }
 
 beforeAll(async () => {

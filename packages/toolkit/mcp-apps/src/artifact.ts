@@ -5,6 +5,7 @@ export function createArtifactHandler(
   entry: string,
   options: {
     development: boolean;
+    allowedOrigins?: string[];
     serverInfo?: { name: string; version: string };
   },
 ) {
@@ -26,6 +27,7 @@ export function createArtifactHandler(
     const handle = createMcpHandler(definition, {
       configPath: entry,
       development: options.development,
+      allowedOrigins: options.allowedOrigins,
       serverInfo: options.serverInfo,
       createContext: request => contexts.get(request),
     });

@@ -10,6 +10,7 @@ interface Handler {
 }
 export type McpAppsHonoOptions = {
   endpoint?: string;
+  allowedOrigins?: string[];
   onError?: (error: unknown) => void;
 } & (
   | { handler: Handler }
@@ -32,6 +33,7 @@ export function mcpApps(options: McpAppsHonoOptions) {
     'definition' in options
       ? createMcpHandler(options.definition, {
           serverInfo: options.serverInfo,
+          allowedOrigins: options.allowedOrigins,
           configPath: options.configPath,
           createContext: request => contexts.get(request),
         })
@@ -53,6 +55,7 @@ export function mcpApps(options: McpAppsHonoOptions) {
         : createArtifactHandler(options.configPath, {
             development: options.development ?? false,
             serverInfo: options.serverInfo,
+            allowedOrigins: options.allowedOrigins,
           });
   return async (c: HonoContext, next: () => Promise<void>) => {
     if (options.endpoint && c.req.path !== options.endpoint) return next();

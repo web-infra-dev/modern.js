@@ -77,11 +77,9 @@ export function createMcpAppsViewResource({
     moduleFederation: {
       remoteName: toolConfig.remote,
       remoteEntry: remote.browserEntry ?? remote.baseUrl,
-      snapshotUrl: remote.snapshotUrl,
       module: toolConfig.view.module,
       exportName: toolConfig.view.exportName,
       renderMode: toolConfig.view.renderMode,
-      manifestType: remote.manifestType ?? 'vmok',
       mcpServerUrl: serverUrl,
       resourceUri,
     },
@@ -140,19 +138,22 @@ export function mergeHandlerResultWithView({
   resource?: ReturnType<typeof createMcpAppsViewResource>;
   handlerResult: RemoteToolHandlerResult;
 }) {
-  const structuredContent = {
-    ...(handlerResult.structuredContent ?? {}),
-    ...(resource
-      ? {
-          tool: toolName,
-          resource,
-          args,
-          ...(handlerResult.viewProps
-            ? { viewProps: handlerResult.viewProps }
-            : {}),
-        }
-      : {}),
-  };
+  const business = handlerResult.structuredContent;
+  const structuredContent = resource
+    ? {
+        ...(business && typeof business === 'object' && !Array.isArray(business)
+          ? business
+          : business === undefined
+            ? {}
+            : { data: business }),
+        tool: toolName,
+        resource,
+        args,
+        ...(handlerResult.viewProps
+          ? { viewProps: handlerResult.viewProps }
+          : {}),
+      }
+    : business;
   const content =
     handlerResult.content ??
     (resource

@@ -41,12 +41,7 @@ export function validateMcpAppsConfig(config: McpAppsDefinition): void {
     if (!remote.name || names.has(remote.name))
       throw new Error('Remote names must be non-empty and unique');
     names.add(remote.name);
-    for (const address of [
-      remote.baseUrl,
-      remote.browserEntry,
-      remote.serverEntry,
-      remote.snapshotUrl,
-    ]) {
+    for (const address of [remote.baseUrl, remote.browserEntry]) {
       if (address === undefined) continue;
       const url = new URL(
         address.startsWith('//') ? `https:${address}` : address,
@@ -60,8 +55,6 @@ export function validateMcpAppsConfig(config: McpAppsDefinition): void {
     }
     if (!remote.baseUrl)
       throw new Error(`Remote "${remote.name}" requires baseUrl`);
-    if (remote.manifestType && !['mf', 'vmok'].includes(remote.manifestType))
-      throw new Error('Unsupported manifestType');
   }
   for (const tool of config.tools.map(normalizeToolConfig)) {
     if (tool.remote !== undefined && !names.has(tool.remote))
@@ -79,16 +72,9 @@ export function validateMcpAppsConfig(config: McpAppsDefinition): void {
     if (
       tool.handler &&
       typeof tool.handler !== 'function' &&
-      (!tool.handler.module ||
-        !['local', 'vmok-server'].includes(tool.handler.runtime ?? 'local'))
+      (!tool.handler.module || (tool.handler.runtime ?? 'local') !== 'local')
     )
       throw new Error(`Invalid handler for "${tool.name}"`);
-    if (
-      typeof tool.handler !== 'function' &&
-      tool.handler?.runtime === 'vmok-server' &&
-      !config.remotes.find(remote => remote.name === tool.remote)?.serverEntry
-    )
-      throw new Error('vmok-server requires a remote with serverEntry');
   }
 }
 
