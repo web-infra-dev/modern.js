@@ -1,0 +1,38 @@
+# Build and deploy
+
+`modern build` emits the definition and imported handlers to `dist/api/` through BFF.
+UI HTML is in `dist/mcp-apps/ui/`. `modern serve` uses those artifacts. `modern deploy` produces a
+relocatable `.output/` that runs with `node .output/index.js`, without source code.
+
+In MF mode, UI publishes ordinary MF artifacts independently. Remote URLs
+can use runtime environment variables; the local handler module set must stay
+unchanged since compilation. Files read at runtime, native addons and other
+application assets still require application-specific deployment handling.
+
+Without app-tools, pass a loaded definition to `createMcpHandler(definition)`.
+Use your application compiler for the definition and handlers; the core no longer
+provides a separate compiler.
+
+Persistent sessions, resumable SSE and cross-request cancellation are not provided
+yet. Standard MF is verified; target product hosts require their own compatibility checks.
+
+
+## Standalone Hono deployment
+
+The complete `dist/mcp-apps/` directory can be moved to an independent Hono app:
+
+```ts
+import { Hono } from 'hono';
+import { mcpApps } from '@modern-js/mcp-apps/hono';
+const app = new Hono();
+app.all('/mcp', mcpApps({ definition })); // import the application-built definition
+```
+
+The adapter does not start a listener; add authentication middleware in the app.
+Modern.js uses the same adapter. An optional local `view.html` HTTPS URL lets the
+server read independently hosted HTML; use `view.csp` for its network permissions.
+`MCP_UI_ORIGIN` and MF manifest checks apply only to MF-enabled projects.
+
+Include `ts-node` (`^10.9.2`) in devDependencies for BFF TypeScript loading and
+API module hot reload on Node 20+. For ESM projects, use `"type": "module"` and
+TypeScript `module: "esnext"`, `moduleResolution: "bundler"` together.

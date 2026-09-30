@@ -1,0 +1,32 @@
+# 构建与部署
+
+`modern build` 通过 BFF 将定义和静态导入的 handler 编译到 `dist/api/`。
+`modern serve` 只使用这些产物。`modern deploy` 生成可移动的 `.output/`，通过
+`node .output/index.js` 启动，无须原源码目录。
+
+默认 UI HTML 位于 `dist/mcp-apps/ui/`；必须同时部署应用静态资源或设置资源 CDN。
+资源地址默认以公开 MCP origin 为基准，也可配置 `dev.assetPrefix` / `output.assetPrefix`。也可用 `view.html` 指定独立 HTTPS HTML URL，由服务端读取，并用 `view.csp` 声明其网络权限。MF 模式使用 MF 原有产物独立发布。生产定义可通过环境变量设置远程资源地址，
+但 local handler 模块集合需要与构建时一致。运行时读取的独立文件、原生 addon
+等额外资产仍由应用管理部署。
+
+核心包可直接接收应用导入的 definition：`createMcpHandler(definition)`。
+服务端配置和工具函数使用 BFF 标准编译，产物位于 `dist/api/`，不再提供独立 MCP 编译器。
+
+当前不提供持久 MCP 会话、恢复 SSE 或跨请求取消。标准 MF 已验证，各目标产品宿主应分别验收。
+
+
+## Hono 独立部署
+
+```ts
+import { Hono } from 'hono';
+import { mcpApps } from '@modern-js/mcp-apps/hono';
+const app = new Hono();
+app.all('/mcp', mcpApps({ definition })); // import the application-built definition
+```
+
+复制整个 `dist/mcp-apps/` 目录，并安装 handler 使用的外部依赖。
+该适配器不监听端口，鉴权、监听和部署由用户的 Hono 应用管理；Modern.js 服务端插件也复用该适配器。
+
+BFF TypeScript 开发依赖 `ts-node`（`^10.9.2`），模板已添加到 devDependencies。
+ESM 项目需同时设置 package.json 的 `"type": "module"`，以及 TypeScript 的
+`module: "esnext"` 和 `moduleResolution: "bundler"`。

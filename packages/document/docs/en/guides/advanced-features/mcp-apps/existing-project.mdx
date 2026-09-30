@@ -1,0 +1,89 @@
+# Existing applications
+
+Install `@modern-js/mcp-apps` and `@modern-js/plugin-mcp-apps` in production
+dependencies, matching the installed app-tools version. Also install
+`@modern-js/plugin-bff`.
+
+```ts title="modern.config.ts"
+import { appTools, defineConfig } from '@modern-js/app-tools';
+import { bffPlugin } from '@modern-js/plugin-bff';
+import { mcpAppsPlugin } from '@modern-js/plugin-mcp-apps';
+
+export default defineConfig({ bff: { prefix: "/mcp" },
+  plugins: [appTools(), bffPlugin(), mcpAppsPlugin()] });
+```
+
+```ts title="api/lambda/index.ts"
+import { mcpApps } from '@modern-js/plugin-mcp-apps/bff';
+import definition from '../mcp_apps';
+
+export const { POST, GET, DELETE, PUT, PATCH, OPTIONS } = mcpApps(definition);
+```
+
+```ts title="api/mcp_apps.ts"
+import { defineMcpApps } from '@modern-js/mcp-apps/config';
+import { greet } from './mcp-tools';
+
+export default defineMcpApps({
+  remotes: [],
+  tools: [{
+    name: 'greet',
+    inputSchema: {
+      type: 'object',
+      properties: { name: { type: 'string' } },
+      required: ['name'],
+    },
+    annotations: { readOnlyHint: true },
+    handler: greet,
+  }],
+});
+```
+
+```ts title="api/mcp-tools.ts"
+import type { RemoteToolHandler } from '@modern-js/mcp-apps/config';
+
+export const greet: RemoteToolHandler = input => {
+  const { name } = input as { name: string };
+  return { content: [{ type: 'text', text: `Hello, ${name}!` }] };
+};
+```
+
+Include the definition and handler directory in tsconfig. Run `modern dev` and
+connect an MCP client to `/mcp`. A browser address-bar GET returns 405 because the
+current transport is stateless HTTP POST.
+
+## Application component views
+
+A view references a component with `view: { module: './src/components/Greeting.tsx' }` and `remotes: []`.
+
+The plugin registers standard Modern.js auto-mounted entries, inheriting the
+application build, CSS processing, aliases, preEntry and runtime plugins. Resource
+HTML references ordinary application JS/CSS/chunks. Deploy those assets alongside
+the server or configure dev/output assetPrefix for a CDN. Existing filesystem
+route layouts and loaders are not implicitly attached to a component entry.
+
+## Interactive remote views
+
+Publish an expose with existing MF tooling. Add its manifest URL to `remotes`
+and reference it from a tool with `remote` and `view.module`:
+
+```ts
+remotes: [{
+  name: 'catalog',
+  baseUrl: 'https://cdn.example.com/catalog/v1/mf-manifest.json',
+  csp: {
+    resourceDomains: ['https://cdn.example.com'],
+    connectDomains: ['https://cdn.example.com'],
+  },
+}]
+// Corresponding tool: remote: 'catalog', view: { module: './Results' }
+```
+
+The MF renderer loads the component inside the host iframe and passes
+tool arguments, handler `viewProps`, and the connected `mcpApp`. Use
+`mcpApp.callServerTool()` for interactions; do not create a second useApp connection.
+No additional UI-manifest format is introduced.
+
+Keep the original prefix in an existing BFF application: for example,
+`api/lambda/mcp.ts` under `/api` produces `/api/mcp`. Configure `serverInfo`
+in `mcpApps(definition, { serverInfo })`.

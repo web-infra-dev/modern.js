@@ -1,0 +1,186 @@
+# API 参考
+
+## defineMcpApps 类型定义
+
+从 `@modern-js/mcp-apps/config` 导入 `defineMcpApps` 及下列配置类型。函数签名如下：
+
+```ts
+export function defineMcpApps<T extends McpAppsDefinition>(definition: T): T;
+```
+
+泛型 `T` 保留传入配置的推断类型，函数原样返回该对象。它不执行运行时校验，也不会根据 `inputSchema` 自动推导 handler 的参数类型；工具参数在服务端执行前按 JSON Schema 校验，handler 中的 `input` 类型仍是 `unknown`。
+
+下面是定义文件涉及的配置、handler 上下文及返回值类型：
+
+```ts
+import type { McpUiResourceMeta } from '@modelcontextprotocol/ext-apps';
+import type { CallToolResult, ToolAnnotations } from '@modelcontextprotocol/server';
+
+export interface McpAppsDefinition {
+  /** 远程 UI 定义；应用内组件卡片或纯工具项目填写空数组。 */
+  remotes: RemoteConfig[];
+  /** 工具定义列表，至少包含一个工具。 */
+  tools: ToolConfig[];
+}
+
+export interface RemoteConfig {
+  /** 远程资源的唯一名称，由工具的 remote 字段引用。 */
+  name: string;
+  /** 远程资源描述，供应用使用。 */
+  description?: string;
+  /** 标准 MF manifest 的完整 URL。 */
+  baseUrl: string;
+  /** 浏览器加载入口；设置后覆盖 baseUrl。 */
+  browserEntry?: string;
+  /** 卡片资源的 CSP 声明，由宿主实施。 */
+  csp?: {
+    /** 允许 fetch、WebSocket 等网络连接的来源。 */
+    connectDomains?: string[];
+    /** 允许加载脚本、样式、图片等资源的来源。 */
+    resourceDomains?: string[];
+    /** 允许卡片嵌入子 iframe 的来源。 */
+    frameDomains?: string[];
+    /** 允许 HTML base URI 使用的来源。 */
+    baseUriDomains?: string[];
+  };
+  /** 向宿主声明卡片请求的权限，是否授予由宿主决定。 */
+  permissions?: McpUiResourceMeta['permissions'];
+  /** 传给宿主的 UI 域名设置，具体支持由宿主决定。 */
+  domain?: string;
+  /** 是否希望宿主显示卡片边框，默认 true；属于展示提示。 */
+  prefersBorder?: boolean;
+}
+
+export interface ToolConfig {
+  /** 工具唯一名称，用于 tools/call 调用。 */
+  name: string;
+  /** 可选的工具展示标题。 */
+  title?: string;
+  /** 工具用途说明，帮助模型选择工具。 */
+  description?: string;
+  /** 输入参数的 JSON Schema；不推导 input 类型。 */
+  inputSchema?: JsonSchema;
+  /** 业务 structuredContent 的 JSON Schema；在附加 UI 数据前校验。 */
+  outputSchema?: JsonSchema;
+  /** 只读、破坏性等行为提示，不代替权限控制。 */
+  annotations?: ToolAnnotations;
+  /** 关联的 RemoteConfig.name；应用内组件卡片无需设置。 */
+  remote?: string;
+  /** 兼容字段，推荐改用 view.module。 */
+  module?: string;
+  /** 兼容字段，推荐改用 view.exportName。 */
+  exportName?: string;
+  /** 兼容字段，推荐改用 view.renderMode。 */
+  renderMode?: RenderMode;
+  /** 卡片配置；省略时不绑定 UI，handler 与 view 至少提供一个。 */
+  view?: McpAppsViewConfig;
+  /** 业务函数或模块加载配置；推荐直接传入导入的函数。 */
+  handler?: McpAppsHandlerConfig | RemoteToolHandler;
+  /** 工具对模型和卡片的可见性，默认 ['model', 'app']。 */
+  visibility?: Array<'model' | 'app'>;
+}
+
+/** JSON Schema 对象；当前使用严格的 JSON Schema 2020-12 校验。 */
+export type JsonSchema = Record<string, unknown>;
+/** React 组件模式，或远程模块提供的命令式挂载模式。 */
+export type RenderMode = 'component' | 'mount';
+
+export interface McpAppsViewConfig {
+  /** 本地模式为相对项目根目录的组件路径；MF 模式为 expose 名称。 */
+  module: string;
+  /** 组件导出名，默认 default。 */
+  exportName?: string;
+  /** 默认 component；本地入口仅支持 component，MF 也支持 mount。 */
+  renderMode?: RenderMode;
+  /** 视图运行环境，目前仅支持 browser。 */
+  runtime?: 'browser';
+  /** 构建后的 HTML 路径，或独立托管的 HTTPS HTML URL。 */
+  html?: string;
+  /** 静态资源基址；request 表示使用公开 MCP 请求 origin。 */
+  assetBase?: string;
+  /** 本地或独立 HTML 视图的 CSP；MF 视图使用 remote.csp。 */
+  csp?: RemoteConfig['csp'];
+}
+
+export interface McpAppsHandlerConfig {
+  /** handler 模块路径，相对定义文件目录解析。 */
+  module: string;
+  /** handler 导出名，默认 default。 */
+  exportName?: string;
+  /** handler 运行环境，当前仅支持 local。 */
+  runtime?: 'local';
+  /** 执行超时毫秒数；未设置时使用服务端配置，最终默认 30000。 */
+  timeoutMs?: number;
+}
+
+export interface RemoteToolHandlerContext {
+  /** 当前调用的工具名称。 */
+  toolName: string;
+  /** 工具关联的远程名称，无 remote 时为 undefined。 */
+  remoteName?: string;
+  /** 工具关联的远程配置。 */
+  remote?: RemoteConfig;
+  /** 规范化的模块 handler 配置；直接传入函数时为 undefined。 */
+  handler?: Required<Pick<McpAppsHandlerConfig, 'module' | 'exportName'>> &
+    Pick<McpAppsHandlerConfig, 'runtime' | 'timeoutMs'>;
+  /** MCP SDK 提供的本次工具调用附加上下文。 */
+  extra: unknown;
+  /** 请求中断、SDK 取消或执行超时的组合信号；业务逻辑需主动响应。 */
+  signal: AbortSignal;
+  /** 标准 fetch 函数；需要取消时自行传入 signal。 */
+  fetch: typeof fetch;
+  /** JSON 请求辅助函数：序列化非字符串 body、解析 JSON，非成功响应抛错。 */
+  fetchJson: <T = unknown>(
+    /** 请求地址。 */
+    url: string,
+    /** 请求选项；body 可传 JSON 数据，取消时传入 signal。 */
+    init?: Omit<RequestInit, 'body'> & { body?: unknown },
+  ) => Promise<T>;
+  /** 当前请求 URL 的 origin。 */
+  serverUrl?: string;
+  /** 当前 Web Request。 */
+  request: Request;
+  /** 请求级应用上下文；BFF/Hono 适配器传入 Hono Context。 */
+  context: unknown;
+}
+
+export interface RemoteToolHandlerResult {
+  /** MCP 工具内容，例如文本或图片。 */
+  content?: CallToolResult['content'];
+  /** 结构化业务结果；带视图时框架会附加 UI 数据。 */
+  structuredContent?: unknown;
+  /** 工具结果的附加元数据。 */
+  _meta?: Record<string, unknown>;
+  /** 传给卡片的属性，合并时覆盖同名工具输入参数。 */
+  viewProps?: Record<string, unknown>;
+  /** 是否为工具执行错误结果。 */
+  isError?: boolean;
+}
+
+/** 工具函数，可同步或异步返回结果。 */
+export type RemoteToolHandler = (
+  /** 经 JSON Schema 校验的工具参数，使用前需收窄类型。 */
+  input: unknown,
+  /** 本次调用的上下文及请求辅助函数。 */
+  context: RemoteToolHandlerContext,
+) => Promise<RemoteToolHandlerResult> | RemoteToolHandlerResult;
+```
+
+使用时注意：
+
+- `remotes` 和 `tools` 都是必填字段；没有远程 UI 时填写 `remotes: []`。服务端要求至少一个工具，每个工具至少包含 `handler` 或 `view`。
+- 推荐通过普通 import 引入业务函数，并直接配置 `handler: greet`，便于 BFF 追踪依赖。`McpAppsHandlerConfig` 是按本地模块加载 handler 的形式。
+- `view.exportName` 默认为 `default`，`view.renderMode` 默认为 `component`；本地组件入口只支持 `component`。顶层 `module`、`exportName`、`renderMode` 是兼容字段，新配置应使用 `view`。
+- `outputSchema` 校验 handler 返回的业务 `structuredContent`；带视图的工具会在校验后附加 UI 数据，因此不会在工具列表中公开该 schema。
+- `visibility` 默认是 `['model', 'app']`，控制工具对模型和卡片的可见性，不代替服务端鉴权。`annotations` 是工具行为提示。
+- `context.request` 是当前请求，`context.context` 在 BFF/Hono 接入中为请求对应的 Hono Context；异步业务操作应响应 `context.signal` 的取消信号。
+
+## 插件选项
+
+| 选项 | 默认值 | 用途 |
+| --- | --- | --- |
+| `config` | `api/mcp_apps.ts` | 相对项目根目录的定义文件 |
+
+开发时监听配置和 handler 的源码依赖，编译成功后切换新版本；编译失败保留上一版。
+MCP 入口是 BFF API 路由，插件负责编译和 BFF 产物绑定，不注册 HTTP 中间件。鉴权中间件应在 BFF 路由之前执行，
+handler 的 `context.context` 为当前请求的 Hono Context。

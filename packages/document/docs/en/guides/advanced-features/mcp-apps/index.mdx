@@ -1,0 +1,68 @@
+# Overview
+
+## What are MCP Apps?
+
+MCP (Model Context Protocol) lets AI applications call tools and access data through a shared protocol. [MCP Apps](https://apps.extensions.modelcontextprotocol.io/api/) adds interactive interfaces: a tool can associate its result with a UI that a compatible AI host displays in the conversation. The “host” is the client where users interact with AI; this guide calls the embedded UI a “card.”
+
+For example, a sales query tool could display a chart with filters. When the user changes a filter, the card calls a tool through the host to retrieve new data. Forms and result lists can similarly let users act directly on an interface instead of describing each input and result across multiple messages.
+
+Cards require a host that supports MCP Apps; an ordinary MCP client may not render them. See the [official MCP Apps overview](https://apps.extensions.modelcontextprotocol.io/api/documents/Overview.html) for the protocol and host connection model.
+
+## What does Modern.js provide?
+
+Modern.js integrates MCP tools and React cards into the application development workflow. Write business functions and React components, connect them through `api/mcp_apps.ts`, and use the familiar development, build, and deployment commands.
+
+- **Project creation**: CLI templates for MCP Apps with UI and MCP servers without UI, with optional Module Federation (MF).
+- **Server integration**: A BFF MCP endpoint with TypeScript compilation, dependency tracking, and hot reload. The core package handles MCP tool calls and UI resource responses.
+- **React UI integration**: Build components within the application as card entries or load remote components through MF. The renderer connects to the host and passes tool arguments, result props, and `mcpApp` to the card.
+- **Build and deployment**: Develop and deploy the application and MCP server together, or publish UI assets and server code separately.
+
+This feature is experimental and does not include an AI chat host or DevTools. Connect to your target host to verify card rendering and interactions.
+
+## Supported project types
+
+The Modern.js CLI provides two templates: `mcp-apps` and `mcp-server`. The `mcp-apps` template supports application React components and MF remote components, giving you the following three project options.
+
+### MCP Apps: application React components
+
+The `mcp-apps` template includes an MCP server and React cards. Component source lives in the project and is compiled by the Modern.js application builder. Tools reference component files through `view.module`, so business tools and cards are developed and maintained within the same application.
+
+### MCP Apps: MF remote components
+
+Adding `--mf` to the `mcp-apps` template exposes and loads React cards through Module Federation. The template includes component source and MF configuration, producing a manifest and component assets at build time. Tools reference components through `remote` and expose names, and can also use existing MF remote components.
+
+### MCP Server: tools only
+
+The `mcp-server` template includes tool definitions, business functions, and an MCP endpoint, without card UI. Clients call tools through MCP to retrieve data or perform tasks.
+
+## Choose a project type
+
+First decide whether users need an interface inside the AI conversation. Choose **MCP Server** for tools that only return data or perform tasks. Choose **MCP Apps** for forms, charts, or interactive cards. If you need UI, select the default or MF mode based on how you maintain and publish components.
+
+| Project type | When to choose it | CLI arguments |
+| --- | --- | --- |
+| MCP Apps: application React components (recommended starting point) | Building new UI maintained within this application, without remote component reuse requirements | `--template mcp-apps` |
+| MCP Apps: MF remote components | Reusing existing MF components or sharing versioned remote components across applications | `--template mcp-apps --mf` |
+| MCP Server: tools only | Providing tools such as queries and calculations without embedded UI | `--template mcp-server` |
+
+### Application components versus MF remote components
+
+| Aspect | Application React components | MF remote components |
+| --- | --- | --- |
+| UI definition | `view.module` points to a project component file, such as `./src/components/Greeting.tsx` | `remote` selects a remote, and `view.module` names an expose such as `./Greeting` |
+| Build and loading | Modern.js generates card HTML and application JS/CSS that the host loads | MF produces a manifest, remote entry, and chunks; the card renderer loads components through that manifest |
+| Component maintenance | Components are built and maintained with the application | Components can be independently published and reused as remote modules; the starter still includes their source in the same project |
+| Configuration to maintain | Component paths and application asset URLs | Additional exposes, manifest URLs, shared dependencies, and asset origins |
+
+**Start with application React components unless you have a specific MF reuse requirement.** Both UI modes support production deployment, CDN asset hosting, and separate UI and server releases. Choose MF when you need remote component reuse and independent version management.
+
+
+## In this guide
+
+- [Create a project](./quick-start)
+- [Define tools and views](./configuration)
+- [Card interactions](./interactions)
+- [Existing applications](./existing-project)
+- [API reference](./api)
+- [Protocol and host compatibility](./compatibility)
+- [Build and deploy](./deployment)

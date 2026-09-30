@@ -1,0 +1,68 @@
+# 概览
+
+## 什么是 MCP Apps
+
+MCP（Model Context Protocol）让 AI 应用通过统一协议调用工具、访问数据。[MCP Apps](https://apps.extensions.modelcontextprotocol.io/api/) 在此基础上增加了交互界面：工具除了返回结果，还可以关联一个 UI，由支持 MCP Apps 的 AI 宿主展示在对话中。这里的“宿主”是用户与 AI 交互的客户端，“卡片”是本文对这种嵌入式 UI 的称呼。
+
+例如，查询销售数据的工具可以同时展示图表和筛选条件；用户调整筛选项后，卡片再通过宿主调用工具获取新数据。表单、结果列表等场景也可以让用户直接在界面中操作，减少用多轮文字描述输入和结果的成本。
+
+卡片需要在支持 MCP Apps 的宿主中运行，普通 MCP 客户端不一定具备卡片展示能力。协议与宿主连接方式可参考 [MCP Apps 官方概览](https://apps.extensions.modelcontextprotocol.io/api/documents/Overview.html)。
+
+## Modern.js 提供什么
+
+Modern.js 将 MCP 工具和 React 卡片接入现有应用开发流程：你编写业务函数和 React 组件，通过 `api/mcp_apps.ts` 将它们关联起来，再使用熟悉的开发、构建和部署命令。
+
+- **项目创建**：CLI 提供带 UI 的 MCP Apps 模板和不带 UI 的 MCP Server 模板，按需启用 Module Federation（MF）。
+- **服务端接入**：通过 BFF 暴露 MCP endpoint，复用 TypeScript 编译、依赖追踪和热更新；核心包处理 MCP 工具调用与 UI 资源响应。
+- **React UI 接入**：将应用内组件构建为卡片入口，或通过 MF 加载远程组件；提供宿主连接，将工具输入、结果属性和 `mcpApp` 传给卡片。
+- **构建与部署**：支持应用和 MCP 服务一起开发、部署，也支持将 UI 资源与服务端分别发布。
+
+本功能为实验性能力，不包含 AI 对话宿主或 DevTools。开发完成后，需要连接目标宿主验证卡片展示和交互。
+
+## 支持的项目类型
+
+Modern.js CLI 提供 `mcp-apps` 和 `mcp-server` 两种模板。其中，`mcp-apps` 支持应用内 React 组件和 MF 远程组件两种 UI 模式，形成以下三种项目形态。
+
+### MCP Apps：应用内 React 组件
+
+使用 `mcp-apps` 模板创建，包含 MCP 服务端和 React 卡片。组件源码位于当前项目中，由 Modern.js 应用构建器编译，工具通过 `view.module` 引用组件文件。业务工具和卡片在同一个应用中开发、维护。
+
+### MCP Apps：MF 远程组件
+
+在 `mcp-apps` 模板上启用 `--mf`，通过 Module Federation 暴露和加载 React 卡片。模板包含组件源码及 MF 配置，构建后生成 manifest 和组件资源；工具通过 `remote` 和 expose 名称引用组件，也可以接入已有的 MF 远程组件。
+
+### MCP Server：仅工具
+
+使用 `mcp-server` 模板创建，包含工具定义、业务函数和 MCP endpoint，不生成卡片 UI。客户端通过 MCP 调用工具，获取数据或执行任务。
+
+## 如何选择项目类型
+
+先判断是否需要让用户在 AI 对话中操作界面：只需要工具返回数据或执行任务，选择 **MCP Server**；需要表单、图表或交互卡片，选择 **MCP Apps**。需要 UI 时，再根据组件的维护和发布方式选择默认模式或 MF 模式。
+
+| 项目类型 | 适合的场景 | CLI 参数 |
+| --- | --- | --- |
+| MCP Apps：应用内 React 组件（推荐起点） | 新建交互界面，组件随当前应用维护，没有远程组件复用需求 | `--template mcp-apps` |
+| MCP Apps：MF 远程组件 | 已有 MF 组件，或需要让多个应用复用按版本发布的远程组件 | `--template mcp-apps --mf` |
+| MCP Server：仅工具 | 只需要提供查询、计算等工具，不需要嵌入式 UI | `--template mcp-server` |
+
+### 应用内组件与 MF 远程组件有什么区别
+
+| 对比项 | 应用内 React 组件 | MF 远程组件 |
+| --- | --- | --- |
+| UI 定义 | `view.module` 指向项目内组件文件，如 `./src/components/Greeting.tsx` | `remote` 指定远程资源，`view.module` 指向 expose 名称，如 `./Greeting` |
+| 构建与加载 | Modern.js 生成卡片 HTML 和应用 JS/CSS，宿主加载这些资源 | MF 构建生成 manifest、remote entry 和 chunks，卡片渲染器按 manifest 加载组件 |
+| 组件维护方式 | 组件随当前应用构建、维护 | 组件可以作为远程模块独立发布并被复用；模板初始仍在同一项目中提供源码 |
+| 需要维护的配置 | 组件路径和应用静态资源地址 | 额外维护 exposes、manifest 地址、共享依赖及资源域名 |
+
+**没有明确的 MF 复用需求时，优先选择应用内 React 组件。** 两种 UI 模式都支持生产部署、CDN 静态资源托管，以及 UI 与服务端分别发布。选择 MF 的主要依据是远程组件复用和独立版本管理需求。
+
+
+## 阅读指南
+
+- [创建项目](./quick-start)
+- [定义工具与视图](./configuration)
+- [卡片交互](./interactions)
+- [接入已有项目](./existing-project)
+- [API 参考](./api)
+- [协议与宿主兼容](./compatibility)
+- [构建与部署](./deployment)

@@ -1,0 +1,9 @@
+# 协议与宿主兼容
+
+当前使用 MCP SDK（`core`、`server`、`client`）2.2.0 和 MCP Apps SDK 2.0.3。HTTP endpoint 支持 [MCP 2026-07-28](https://modelcontextprotocol.io/specification/2026-07-28)：由官方 SDK 处理 `server/discover`、每次请求的版本和能力元数据、必需请求头校验，以及结果的 `resultType` 和缓存字段。同时保留 `2025-11-25` 等旧协议的无状态 JSON 响应路径，兼容仍使用初始化握手的宿主。
+
+卡片使用 MCP Apps 的 `_meta.ui.resourceUri`、`text/html;profile=mcp-app` 和资源内容上的 `_meta.ui`（CSP、权限等）。`openai/outputTemplate` 仅作为宿主兼容元数据保留。工具调用结果中的 `tool/resource/args/viewProps` 是 Modern.js 的渲染约定，不是 MCP 协议必填字段。
+
+`structuredContent` 可以是任意 JSON 值。纯工具原样返回；带卡片时，对象结果与 UI 数据合并，数组或标量结果放在 `structuredContent.data` 中，卡片属性仍通过 `viewProps` 指定。
+
+endpoint 默认允许无 `Origin` 的服务端请求和同源浏览器请求，拒绝其他来源。需要浏览器跨域调用时，在 BFF 的 `mcpApps(definition, { allowedOrigins: ['https://host.example.com'] })` 中显式允许来源，并按应用需求配置 CORS；独立 Hono 和核心 handler 也支持 `allowedOrigins`。鉴权仍通过应用中间件实现。

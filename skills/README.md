@@ -18,6 +18,9 @@ npx skills add web-infra-dev/modern.js --list
 
 # 安装单个 Skill（--agent 可选 claude-code / codex / cursor）
 npx skills add web-infra-dev/modern.js --skill modernjs-migrate-to-v3 --agent codex -y
+
+# 安装 MCP Apps 项目创建 Skill
+npx skills add web-infra-dev/modern.js --skill modernjs-create-mcp-apps --agent codex -y
 ```
 
 锁版本：在仓库后加 `#<tag>`（含本 Skill 的发布 tag / 分支 / commit），如

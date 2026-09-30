@@ -1,0 +1,139 @@
+# Create a project
+
+Replace `<version>` below with a Modern.js release containing the MCP Apps templates, `@modern-js/mcp-apps`, and `@modern-js/plugin-mcp-apps`.
+
+## Create with an agent skill
+
+When using an AI coding assistant, install the [modernjs-create-mcp-apps](https://github.com/web-infra-dev/modern.js/tree/main/skills/modernjs-create-mcp-apps) skill to select a template, configure tools and cards, and run validation:
+
+```bash
+npx skills add web-infra-dev/modern.js --skill modernjs-create-mcp-apps
+```
+
+Then ask an agent that supports the skill, for example:
+
+```text
+Use modernjs-create-mcp-apps to create my-mcp-app with application React
+components and greeting and addition tools. Build it, verify the protocol,
+and explain how to connect it to a host for debugging.
+```
+
+Specify MF remote components or a tools-only MCP Server when needed. The skill uses the same CLI templates described below and requires a release that includes MCP Apps support. See the skill for working with unpublished source. Protocol checks and real host validation are reported separately.
+
+## Create MCP Apps with application React components
+
+```bash
+npx @modern-js/create@<version> my-mcp-app --template mcp-apps
+cd my-mcp-app
+pnpm install
+pnpm dev
+```
+
+The template configures the BFF and MCP Apps plugins and includes the `greet` and `add_numbers` tools with their React cards. Card source lives in `src/components/` and is compiled by the application builder; no MF manifest is needed.
+
+## Create MCP Apps with MF remote components
+
+Add `--mf` to publish and load remote components through Module Federation:
+
+```bash
+npx @modern-js/create@<version> my-mf-app --template mcp-apps --mf
+cd my-mf-app
+pnpm install
+pnpm dev
+```
+
+The template also generates `module-federation.config.ts`, exposing `./Greeting` and `./Sum`. The remote in `api/mcp_apps.ts` points to `http://localhost:8080/static/mf-manifest.json` by default. `--mf` is only available with the `mcp-apps` template.
+
+When a host accesses the application through a public URL, set `MCP_UI_ORIGIN` to the public UI asset origin so the host can load the manifest and component assets:
+
+```bash
+MCP_UI_ORIGIN=https://your-public-host.example.com pnpm dev
+```
+
+This variable is only used by the MF template. Supply an origin without `/mcp` or a manifest path. For an HTTPS tunnel, use the tunnel origin and forward it to the application port. Set the public asset origin when building and starting production applications too; update `remotes[].csp` when asset domains change.
+
+## Create an MCP server with tools only
+
+```bash
+npx @modern-js/create@<version> my-mcp-server --template mcp-server
+cd my-mcp-server
+pnpm install
+pnpm dev
+```
+
+This template includes the `greet` and `add_numbers` tools without React cards or MF configuration.
+
+## Project files
+
+| File | Purpose |
+| --- | --- |
+| `modern.config.ts` | Configure the BFF route prefix and plugins, including Module Federation in MF mode |
+| `api/mcp_apps.ts` | Associate tools with input schemas, handlers, and views |
+| `api/mcp-tools.ts` | Implement tool business logic |
+| `api/lambda/index.ts` | Declare the `/mcp` BFF route |
+| `src/components/` | React cards, included only in UI templates |
+| `module-federation.config.ts` | Remote component exposes, included only in MF mode |
+| `scripts/verify-mcp.mjs` | Verify MCP tool and UI resource responses |
+
+## Addresses after startup
+
+After `pnpm dev`, the terminal prints the application page URLs. For the application component template on the default port `8080`:
+
+```text
+Local:
+  index                   http://localhost:8080/
+  mcp-ui-231bf89d7268      http://localhost:8080/mcp-ui-231bf89d7268
+  mcp-ui-d10356c179bf      http://localhost:8080/mcp-ui-d10356c179bf
+Network:
+  ...                     http://<machine-network-IP>:8080/...
+```
+
+Use `Local` on the development machine. `Network` lists the same service on its network interfaces; access from other devices depends on routing and firewall rules. Use the actual addresses and port printed in your terminal.
+
+| Address | Purpose | Verification |
+| --- | --- | --- |
+| `http://localhost:8080/` | The template's application homepage with a project introduction and `/mcp` hint | Open it in a browser and look for `Modern.js MCP App`; this only checks the application page |
+| `http://localhost:8080/mcp-ui-231bf89d7268` | Card page entry for `greet` | Use a browser or `curl` to check HTML availability; verify full interactions in an MCP Apps host |
+| `http://localhost:8080/mcp-ui-d10356c179bf` | Card page entry for `add_numbers` | Check it the same way as the greeting card entry |
+| `http://localhost:8080/mcp` | MCP endpoint for tool discovery, calls, and card resource reads | Use `pnpm verify:mcp` or an MCP client; enter this URL in the host's MCP server configuration |
+
+The `mcp-ui-*` names are derived from tool names and are only generated for application component views. These pages connect to a host to receive tool inputs and results. Opening one as a standalone browser page may show `Connecting…` or a host connection error. HTTP 200 confirms page availability, not successful tool calls or card interactions.
+
+The MF template renders remote components without generating these application component entries. It also serves the following assets:
+
+| Address | Purpose | Verification |
+| --- | --- | --- |
+| `http://localhost:8080/static/mf-manifest.json` | Describes exposed MF components and their loading assets | Open it in a browser or run `curl -f http://localhost:8080/static/mf-manifest.json`; expect JSON with exposes for `Greeting` and `Sum` |
+| `http://localhost:8080/static/remoteEntry.js` | JavaScript entry used by the MF runtime | Run `curl -f http://localhost:8080/static/remoteEntry.js`; expect JavaScript. Its component chunks must also be accessible |
+
+When MF assets use a public `MCP_UI_ORIGIN`, verify these paths using that origin. The MCP Server template only provides the protocol service, without a homepage, card entries, or MF assets.
+
+Protocol responses also contain resource identifiers such as `ui://local/greet`, `ui://local/add_numbers`, or `ui://mf/mcp-ui` in MF mode. These are not browser URLs. The host reads their HTML through `resources/read` on `/mcp`. The verification script below reads the UI resources declared by the tools automatically.
+
+## Connect and verify
+
+### 1. Verify the protocol and tools
+
+Keep the development server running and execute this command in another terminal:
+
+```bash
+pnpm verify:mcp http://localhost:8080/mcp
+```
+
+The script uses MCP `2026-07-28` to check server discovery, the tool list, both tool call results, and resource reads for UI templates. A browser address-bar GET to `/mcp` returns 405 as expected because the current transport uses HTTP POST.
+
+A successful run prints `PASS`, checking the greeting `Hello, Modern.js!`, the addition result `5`, and reads of declared card resources. It does not execute card JavaScript in a browser or verify actual MF component loading. If you change the template tools, update the script's tool names, arguments, and result assertions too.
+
+### 2. Debug in an agent host
+
+After local protocol checks pass, verify tool calls, card loading, and interactions in an agent host that supports MCP Apps. For ChatGPT:
+
+1. Expose the development server through an HTTPS tunnel or deploy it to an accessible HTTPS environment. Forward the tunnel to your application port, `8080` by default. See OpenAI's [public access guide](https://developers.openai.com/plugins/build/app-quickstart#expose-your-server-to-the-public-internet).
+2. Add `https://<public-host>/mcp` as the MCP server URL. Follow the official [ChatGPT connection instructions](https://developers.openai.com/plugins/build/app-quickstart#connect-your-mcp-server-in-chatgpt) for developer mode and setup.
+3. Trigger `greet` or `add_numbers`, inspect the result and card, then interact with the card to call a tool again and confirm the UI updates. Refresh the host connection after changing tool definitions or metadata.
+
+Alongside `/mcp`, the card's HTML, JS/CSS, and MF assets must be accessible. For the MF template, restart with `MCP_UI_ORIGIN` set to the public asset origin, for example `MCP_UI_ORIGIN=https://your-public-host.example.com pnpm dev`. For application components served from a separate asset domain, configure `dev.assetPrefix`, or `output.assetPrefix` for production builds. Update the corresponding CSP when asset domains change; see [Build and deploy](./deployment).
+
+Run `pnpm verify:mcp https://<public-host>/mcp` to check the public protocol endpoint before testing host interactions. The script does not verify JavaScript execution or component loading in the host. For MCP Server projects, verify tool calls and results without card checks.
+
+Before publication, build `@modern-js/mcp-apps` and `@modern-js/plugin-mcp-apps` in this repository, then run `pnpm --filter @examples/mcp-apps-modern dev` to try the local-card example.

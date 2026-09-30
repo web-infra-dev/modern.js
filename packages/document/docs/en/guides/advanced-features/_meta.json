@@ -28,5 +28,10 @@
     "collapsed": true
   },
   "web-server",
-  "mcp-apps"
+  {
+    "type": "dir",
+    "name": "mcp-apps",
+    "label": "MCP Apps",
+    "collapsed": true
+  }
 ]

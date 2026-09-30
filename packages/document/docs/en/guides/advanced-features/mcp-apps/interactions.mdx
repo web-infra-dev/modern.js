@@ -1,0 +1,116 @@
+# Card interactions
+
+Cards can call server tools, send messages to the host conversation, and synchronize model context. Modern.js injects a connected `mcpApp`, an MCP Apps SDK `App` instance, into both application components and MF components. Both modes use the same API.
+
+## Access mcpApp
+
+Receive `mcpApp` through component props and import its type with `import type { App } from '@modern-js/mcp-apps/react'`. Templates declare the prop optional; disable actions when it is unavailable. Reuse the injected instance instead of calling `useApp()` or creating another `App` inside the card.
+
+| Need | Method | Outcome |
+| --- | --- | --- |
+| Query, calculate, or submit a business operation | `callServerTool()` | Returns the specified tool's result for the card to process and render |
+| Start a follow-up request from the card | `sendMessage()` | Asks the host to add a conversation message; the host handles subsequent model responses |
+| Share selections or filters with the model | `updateModelContext()` | Updates context for future turns without triggering an immediate model response |
+| Open an external page | `openLink()` | Asks the host to open a link |
+| Change the card display mode | `requestDisplayMode()` | Requests a mode; use the mode actually returned by the host |
+| Send debugging information | `sendLog()` | Sends a log, not a conversation message |
+
+## callServerTool: call a business tool
+
+Use a tool name from `api/mcp_apps.ts` and arguments matching its `inputSchema`. The host forwards the call to the MCP server; the card does not need a `/mcp` URL. This component works in both UI modes:
+
+```tsx title="src/components/Sum.tsx"
+import type { App } from '@modern-js/mcp-apps/react';
+import { useState } from 'react';
+
+export default function Sum({ sum, mcpApp }: { sum?: number; mcpApp?: App }) {
+  const [value, setValue] = useState<number>();
+  const [pending, setPending] = useState(false);
+  const [error, setError] = useState<string>();
+
+  async function calculate() {
+    if (!mcpApp) return;
+    setPending(true);
+    setError(undefined);
+    try {
+      const result = await mcpApp.callServerTool({
+        name: 'add_numbers',
+        arguments: { a: 2, b: 3 },
+      });
+      if (result.isError) throw new Error('Calculation failed');
+      const output = result.structuredContent;
+      if (!output || typeof output !== 'object' ||
+          !('sum' in output) || typeof output.sum !== 'number') {
+        throw new Error('Invalid calculation result');
+      }
+      setValue(output.sum);
+    } catch (error) {
+      setError(error instanceof Error ? error.message : 'Request failed');
+    } finally {
+      setPending(false);
+    }
+  }
+
+  return (
+    <section>
+      <p>{value ?? sum ?? 'Ready'}</p>
+      <button type="button" disabled={!mcpApp || pending} onClick={calculate}>
+        {pending ? 'Calculating…' : 'Calculate 2 + 3'}
+      </button>
+      {error && <p role="alert">{error}</p>}
+    </section>
+  );
+}
+```
+
+Handle the returned result in the interaction code and update React state. Do not rely on another host `ontoolresult` notification to refresh the UI. Business failures can return `isError: true`, while connection or protocol failures can throw; handle both. Check the business data structure before reading `structuredContent`, whose type is `unknown`.
+
+The tool must allow app calls. `visibility` defaults to `['model', 'app']`; `['app']` expresses app-only visibility for hosts to honor. Visibility does not replace server authorization.
+
+## sendMessage: request a follow-up in the conversation
+
+Use this for user actions such as explaining a result or analyzing a selection. Call the following function from a button handler and display failures in the card:
+
+```ts
+import type { App } from '@modern-js/mcp-apps/react';
+
+export async function askForExplanation(mcpApp: App, sum: number) {
+  if (!mcpApp.getHostCapabilities()?.message?.text) {
+    throw new Error('This host does not support text messages from cards');
+  }
+  const result = await mcpApp.sendMessage({
+    role: 'user',
+    content: [{ type: 'text', text: `Explain the calculation result: ${sum}` }],
+  });
+  if (result.isError) throw new Error('The host rejected the message');
+}
+```
+
+A message does not guarantee execution of a specific tool or directly return the model's reply. Use `callServerTool()` for a specific business operation and `sendMessage()` to let the model interpret a request and continue the conversation. Avoid automatically sending messages on component render or mount.
+
+## updateModelContext: share card state
+
+When users change filters or selected items, provide the current state for subsequent model turns:
+
+```ts
+import type { App } from '@modern-js/mcp-apps/react';
+
+export async function syncSelection(mcpApp: App, selectedIds: string[]) {
+  if (!mcpApp.getHostCapabilities()?.updateModelContext?.structuredContent) return;
+  await mcpApp.updateModelContext({
+    structuredContent: { selectedIds },
+  });
+}
+```
+
+This does not immediately trigger a model response. Each update replaces the context previously supplied by this card, so send the complete current state you want retained. A subsequent user action can invoke `sendMessage()` to request analysis. The caller should still handle request failures.
+
+## Other capabilities and host differences
+
+- Request external navigation with `mcpApp.openLink({ url: 'https://example.com' })`, handling `isError` and exceptions.
+- Check `mcpApp.getHostContext()?.availableDisplayModes` before requesting `requestDisplayMode({ mode: 'fullscreen' })`. Update the UI using the returned `mode`.
+- Send debug logs with `sendLog({ level: 'info', data: 'Calculation completed' })`. The host decides how to display or record them.
+
+Host support varies. Inspect `getHostCapabilities()` and `getHostContext()` after connection and hide, disable, or provide alternatives for unsupported actions. Verify success, rejection, and failure paths in the target host; the local protocol script does not cover these card-to-host calls.
+
+See the [MCP Apps SDK App API](https://apps.extensions.modelcontextprotocol.io/api/classes/app.App.html) for full method signatures and [Create a project](./quick-start) for host connection steps.

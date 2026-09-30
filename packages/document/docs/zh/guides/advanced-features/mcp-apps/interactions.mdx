@@ -1,0 +1,116 @@
+# 卡片交互
+
+卡片除了展示工具结果，还能调用服务端工具、向宿主对话发送消息、同步模型上下文。Modern.js 为应用内组件和 MF 组件注入已连接的 `mcpApp`，它是 MCP Apps SDK 的 `App` 实例，两种模式使用相同接口。
+
+## 如何获取 mcpApp
+
+组件从 props 接收 `mcpApp`，类型通过 `import type { App } from '@modern-js/mcp-apps/react'` 获取。模板将该属性声明为可选，组件应在连接不可用时禁用操作。复用注入的实例，无须在卡片内再次调用 `useApp()` 或创建 `new App()`。
+
+| 需求 | 方法 | 结果 |
+| --- | --- | --- |
+| 按钮点击后查询、计算或提交业务操作 | `callServerTool()` | 返回指定工具的执行结果，由卡片处理并更新状态 |
+| 让用户从卡片向对话发起后续请求 | `sendMessage()` | 请求宿主将消息加入对话；后续模型响应由宿主处理 |
+| 让模型了解当前选择或筛选条件 | `updateModelContext()` | 更新后续对话可用的上下文，不立即触发模型回复 |
+| 打开外部页面 | `openLink()` | 请求宿主打开链接 |
+| 切换卡片展示方式 | `requestDisplayMode()` | 请求切换模式，以宿主实际返回的模式为准 |
+| 向宿主发送调试日志 | `sendLog()` | 发送日志，不向对话发送消息 |
+
+## callServerTool：调用业务工具
+
+使用 `api/mcp_apps.ts` 中的工具名和符合 `inputSchema` 的参数。请求经宿主转发到 MCP 服务端，无须在卡片中拼接 `/mcp` URL。下面的组件适用于两种 UI 模式：
+
+```tsx title="src/components/Sum.tsx"
+import type { App } from '@modern-js/mcp-apps/react';
+import { useState } from 'react';
+
+export default function Sum({ sum, mcpApp }: { sum?: number; mcpApp?: App }) {
+  const [value, setValue] = useState<number>();
+  const [pending, setPending] = useState(false);
+  const [error, setError] = useState<string>();
+
+  async function calculate() {
+    if (!mcpApp) return;
+    setPending(true);
+    setError(undefined);
+    try {
+      const result = await mcpApp.callServerTool({
+        name: 'add_numbers',
+        arguments: { a: 2, b: 3 },
+      });
+      if (result.isError) throw new Error('Calculation failed');
+      const output = result.structuredContent;
+      if (!output || typeof output !== 'object' ||
+          !('sum' in output) || typeof output.sum !== 'number') {
+        throw new Error('Invalid calculation result');
+      }
+      setValue(output.sum);
+    } catch (error) {
+      setError(error instanceof Error ? error.message : 'Request failed');
+    } finally {
+      setPending(false);
+    }
+  }
+
+  return (
+    <section>
+      <p>{value ?? sum ?? 'Ready'}</p>
+      <button type="button" disabled={!mcpApp || pending} onClick={calculate}>
+        {pending ? 'Calculating…' : 'Calculate 2 + 3'}
+      </button>
+      {error && <p role="alert">{error}</p>}
+    </section>
+  );
+}
+```
+
+`callServerTool()` 返回的结果由当前交互代码消费。使用返回值更新 React 状态，不依赖宿主再次发送 `ontoolresult` 来刷新界面。业务失败可能返回 `isError: true`；连接、协议等异常可能抛出错误，两类情况都要处理。`structuredContent` 的类型是 `unknown`，读取前应检查业务数据结构。
+
+工具需要允许 App 调用。`visibility` 默认是 `['model', 'app']`；设置为 `['app']` 可表达仅供卡片调用的工具，实际可见性由宿主遵循，不能代替服务端鉴权。
+
+## sendMessage：向对话发送后续请求
+
+适合“解释这条结果”“根据当前选择继续分析”等由用户点击触发的操作。下面的函数可在按钮事件中调用，并将异常显示在卡片上：
+
+```ts
+import type { App } from '@modern-js/mcp-apps/react';
+
+export async function askForExplanation(mcpApp: App, sum: number) {
+  if (!mcpApp.getHostCapabilities()?.message?.text) {
+    throw new Error('This host does not support text messages from cards');
+  }
+  const result = await mcpApp.sendMessage({
+    role: 'user',
+    content: [{ type: 'text', text: `Explain the calculation result: ${sum}` }],
+  });
+  if (result.isError) throw new Error('The host rejected the message');
+}
+```
+
+它发送的是对话消息，不保证调用某个指定工具，也不直接返回模型回复。需要确定地执行某个业务工具时使用 `callServerTool()`；需要模型理解用户意图并继续对话时使用 `sendMessage()`。避免在组件渲染或挂载时自动发送，造成重复消息。
+
+## updateModelContext：同步卡片状态
+
+用户修改筛选条件或选中条目后，可以将当前状态提供给模型，供后续对话使用：
+
+```ts
+import type { App } from '@modern-js/mcp-apps/react';
+
+export async function syncSelection(mcpApp: App, selectedIds: string[]) {
+  if (!mcpApp.getHostCapabilities()?.updateModelContext?.structuredContent) return;
+  await mcpApp.updateModelContext({
+    structuredContent: { selectedIds },
+  });
+}
+```
+
+此调用不会立即触发模型回复；后一次更新替换当前卡片此前提供的上下文，所以应提交希望保留的完整当前状态。需要随后发起分析时，可由用户操作触发 `sendMessage()`。调用方仍需处理请求失败。
+
+## 其他能力与宿主差异
+
+- 使用 `mcpApp.openLink({ url: 'https://example.com' })` 请求宿主打开外部页面，并处理返回的 `isError` 和异常。
+- 通过 `mcpApp.getHostContext()?.availableDisplayModes` 检查可用模式，再调用 `requestDisplayMode({ mode: 'fullscreen' })`，根据返回的 `mode` 更新界面。
+- 使用 `sendLog({ level: 'info', data: 'Calculation completed' })` 发送调试日志；是否展示或记录由宿主决定。
+
+宿主能力并不完全一致。连接后通过 `getHostCapabilities()` 和 `getHostContext()` 检查支持情况；不支持的操作应隐藏、禁用或提供替代行为。新增交互后，在目标宿主中验证成功、拒绝和失败路径，本地协议脚本不会覆盖这些卡片到宿主的调用。
+
+完整方法和参数见 [MCP Apps SDK App API](https://apps.extensions.modelcontextprotocol.io/api/classes/app.App.html)，宿主连接步骤见[创建项目](./quick-start)。

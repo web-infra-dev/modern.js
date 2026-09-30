@@ -1,0 +1,9 @@
+# Protocol and host compatibility
+
+The implementation uses MCP SDK (`core`, `server`, and `client`) 2.2.0 and MCP Apps SDK 2.0.3. The HTTP endpoint supports [MCP 2026-07-28](https://modelcontextprotocol.io/specification/2026-07-28): the official SDK handles `server/discover`, per-request version and capability metadata, required header validation, and result/cache fields. A stateless JSON response path remains available for older protocols such as `2025-11-25`, including hosts that still initialize a connection.
+
+Cards use MCP Apps `_meta.ui.resourceUri`, `text/html;profile=mcp-app`, and resource content `_meta.ui` for CSP and permissions. `openai/outputTemplate` remains host compatibility metadata. The `tool/resource/args/viewProps` tool result envelope is a Modern.js rendering convention, not a required MCP protocol structure.
+
+`structuredContent` accepts any JSON value. Tools without cards return it unchanged. For cards, object results are merged with UI data; arrays and scalars are placed in `structuredContent.data`. Specify card props through `viewProps`.
+
+The endpoint accepts server requests without `Origin` and same-origin browser requests by default, rejecting other origins. For browser cross-origin access, explicitly configure BFF `mcpApps(definition, { allowedOrigins: ['https://host.example.com'] })` and application CORS as needed. The standalone Hono and core handlers also accept `allowedOrigins`. Authentication remains application middleware’s responsibility.

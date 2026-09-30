@@ -1,0 +1,87 @@
+# 接入已有项目
+
+安装与 app-tools 版本一致的 `@modern-js/mcp-apps` 和
+`@modern-js/plugin-mcp-apps`，同时安装 `@modern-js/plugin-bff`。以上包放在 dependencies 中。
+
+```ts title="modern.config.ts"
+import { appTools, defineConfig } from '@modern-js/app-tools';
+import { bffPlugin } from '@modern-js/plugin-bff';
+import { mcpAppsPlugin } from '@modern-js/plugin-mcp-apps';
+
+export default defineConfig({
+  bff: { prefix: "/mcp" },
+  plugins: [appTools(), bffPlugin(), mcpAppsPlugin()],
+});
+```
+
+```ts title="api/lambda/index.ts"
+import { mcpApps } from '@modern-js/plugin-mcp-apps/bff';
+import definition from '../mcp_apps';
+
+export const { POST, GET, DELETE, PUT, PATCH, OPTIONS } = mcpApps(definition);
+```
+
+```ts title="api/mcp_apps.ts"
+import { defineMcpApps } from '@modern-js/mcp-apps/config';
+import { greet } from './mcp-tools';
+
+export default defineMcpApps({
+  remotes: [],
+  tools: [{
+    name: 'greet',
+    inputSchema: {
+      type: 'object',
+      properties: { name: { type: 'string' } },
+      required: ['name'],
+    },
+    annotations: { readOnlyHint: true },
+    handler: greet,
+  }],
+});
+```
+
+```ts title="api/mcp-tools.ts"
+import type { RemoteToolHandler } from '@modern-js/mcp-apps/config';
+
+export const greet: RemoteToolHandler = input => {
+  const { name } = input as { name: string };
+  return { content: [{ type: 'text', text: `Hello, ${name}!` }] };
+};
+```
+
+将 `api/mcp_apps.ts` 和 handler 目录加入 tsconfig 的 include。运行 `modern dev` 后，
+通过 MCP 客户端连接 `/mcp`。直接在浏览器地址栏访问该路由会返回 405，因为当前
+实现使用无状态 HTTP POST。
+
+## 添加交互视图
+
+默认直接给工具增加 `view: { module: './src/components/Greeting.tsx' }`，
+保持 `remotes: []`。组件注册为标准 Modern.js 自动挂载入口，继承应用构建、
+别名、样式、环境变量、preEntry 和运行时插件。HTML 通过 `ui://local/<tool>`
+资源返回，宿主加载标准 JS/CSS/chunk。组件接收工具参数、`viewProps` 和 `mcpApp`。
+这不会自动附加原页面的文件系统路由 layout 或 loader。
+
+### 可选 MF 模式
+
+使用已有 MF 工具发布组件 expose。将其 manifest URL 写入 `remotes`，工具
+通过 `remote` 和 `view.module` 引用它：
+
+```ts
+remotes: [{
+  name: 'catalog',
+  baseUrl: 'https://cdn.example.com/catalog/v1/mf-manifest.json',
+  csp: {
+    resourceDomains: ['https://cdn.example.com'],
+    connectDomains: ['https://cdn.example.com'],
+  },
+}]
+// 对应工具配置：remote: 'catalog', view: { module: './Results' }
+```
+
+MF 渲染器在宿主 iframe 内加载组件，传入工具参数、handler 返回的
+`viewProps` 和已连接的 `mcpApp`。组件通过 `mcpApp.callServerTool()` 调用工具，
+不应再创建第二个 useApp 连接。没有额外的 `ui-manifest.json`。
+
+已有 BFF 项目应保留原 `bff.prefix`；例如在 `/api` 前缀下添加
+`api/lambda/mcp.ts`，入口就是 `/api/mcp`。`serverInfo` 在
+`mcpApps(definition, { serverInfo })` 中配置。
