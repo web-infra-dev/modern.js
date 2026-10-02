@@ -42,6 +42,29 @@ describe('plugin-postcssLegacy', () => {
     });
   });
 
+  it.each([
+    ['evaluation error', "throw new Error('plugin failed');", 'plugin failed'],
+    [
+      'missing transitive dependency',
+      "require('postcss-missing-dependency');",
+      "Cannot find module 'postcss-missing-dependency'",
+    ],
+  ])('should preserve a plugin %s', async (_type, source, message) => {
+    const pluginName = 'postcss-broken-plugin';
+    const appRoot = await mkdtemp(path.join(tmpdir(), 'builder-postcss-'));
+    tempDirs.push(appRoot);
+
+    const pluginDir = path.join(appRoot, 'node_modules', pluginName);
+    await mkdir(pluginDir, { recursive: true });
+    await writeFile(
+      path.join(pluginDir, 'package.json'),
+      JSON.stringify({ name: pluginName, main: 'index.js' }),
+    );
+    await writeFile(path.join(pluginDir, 'index.js'), source);
+
+    expect(() => loadPostcssPlugin(pluginName, appRoot)).toThrow(message);
+  });
+
   it('should register postcss plugin by browserslist', async () => {
     const rsbuild = await createBuilder({
       bundlerType: 'rspack',

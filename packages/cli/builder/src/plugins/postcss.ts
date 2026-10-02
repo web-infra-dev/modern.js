@@ -22,11 +22,17 @@ export const loadPostcssPlugin = (name: string, appRootPath: string) => {
   let firstError: unknown = null;
 
   for (const resolveWith of resolvers) {
+    let resolvedPath: string;
     try {
-      return resolveWith(name);
+      resolvedPath = resolveWith.resolve(name);
     } catch (error) {
+      if ((error as NodeJS.ErrnoException).code !== 'MODULE_NOT_FOUND') {
+        throw error;
+      }
       firstError ??= error;
+      continue;
     }
+    return resolveWith(resolvedPath);
   }
 
   throw firstError;
