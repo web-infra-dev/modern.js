@@ -64,8 +64,8 @@ export const createReadableStreamFromElement: CreateReadableStreamFromElement =
 
     const chunkVec: Buffer[] = [];
 
-    return new Promise(resolve => {
-      const { pipe: reactStreamingPipe } = renderToPipeableStream(
+    return new Promise((resolve, reject) => {
+      const { pipe: reactStreamingPipe, abort } = renderToPipeableStream(
         processedRootElement,
         {
           nonce: config.nonce,
@@ -80,7 +80,7 @@ export const createReadableStreamFromElement: CreateReadableStreamFromElement =
 
             options[onReady]?.();
 
-            getTemplates(htmlTemplate, {
+            const templateWork = getTemplates(htmlTemplate, {
               request,
               ssrConfig,
               renderLevel,
@@ -219,10 +219,29 @@ export const createReadableStreamFromElement: CreateReadableStreamFromElement =
 
               const passThrough = new PassThrough();
 
-              // Transform the Node.js readable stream to a Web ReadableStream
-              // For modern.js depend on hono.js, and we use Web standard
-              const stream = Readable.toWeb(body) as ReadableStream<Uint8Array>;
-              resolve(stream);
+              let htmlStream: Readable = body;
+              try {
+                extenders.forEach(extender => {
+                  if (extender.processHtmlStream) {
+                    htmlStream = extender.processHtmlStream(htmlStream);
+                  }
+                });
+
+                const stream = Readable.toWeb(
+                  htmlStream,
+                ) as ReadableStream<Uint8Array>;
+                resolve(stream);
+              } catch (error) {
+                htmlStream.destroy();
+                body.destroy();
+                passThrough.destroy();
+                try {
+                  abort();
+                } finally {
+                  reject(error);
+                }
+                return;
+              }
 
               let processedStream: NodeJS.ReadWriteStream = passThrough;
               extenders.forEach(extender => {
@@ -276,6 +295,7 @@ export const createReadableStreamFromElement: CreateReadableStreamFromElement =
 
               processedStream.pipe(body);
             });
+            templateWork.catch(reject);
           },
 
           onShellError(error: unknown) {

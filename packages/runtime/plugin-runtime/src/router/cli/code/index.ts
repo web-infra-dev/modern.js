@@ -17,15 +17,13 @@ import {
   fs,
   type EagerRouteComponentFilesByEntry,
   collectRouteComponentFiles,
+  filterRoutesForServer,
+  filterRoutesLoader,
   getEntryOptions,
   isSSGEntry,
   isUseRsc,
   isUseSSRBundle,
   logger,
-} from '@modern-js/utils';
-import {
-  filterRoutesForServer,
-  filterRoutesLoader,
   markRoutes,
 } from '@modern-js/utils';
 import { cloneDeep } from '@modern-js/utils/lodash';
@@ -111,6 +109,10 @@ export const generateCode = async (
 
   const hooks = api.getHooks();
 
+  const generatedRoutesByEntry: Record<
+    string,
+    (NestedRouteForCli | PageRoute)[]
+  > = {};
   // Collect route component files from the FINAL routes (after every
   // `modifyFileSystemRoutes` consumer ran) keyed by entry. A fresh Map per
   // `generateCode` run avoids keeping stale entries when route generation is
@@ -125,6 +127,26 @@ export const generateCode = async (
 
   await Promise.all(entrypoints.map(generateEntryCode));
 
+  const currentContext = api.getAppContext();
+  const activeEntries = new Set(
+    currentContext.entrypoints
+      .filter(
+        entrypoint =>
+          entrypoint.pageRoutesEntry || entrypoint.nestedRoutesEntry,
+      )
+      .map(entrypoint => entrypoint.entryName),
+  );
+  const generatedEntries = new Set(
+    entrypoints.map(entrypoint => entrypoint.entryName),
+  );
+  for (const [
+    entryName,
+    files,
+  ] of currentContext.eagerRouteComponentFilesByEntry || []) {
+    if (activeEntries.has(entryName) && !generatedEntries.has(entryName)) {
+      eagerRouteComponentFilesByEntry.set(entryName, files);
+    }
+  }
   api.updateAppContext({ eagerRouteComponentFilesByEntry });
 
   async function generateEntryCode(entrypoint: Entrypoint) {
@@ -202,6 +224,10 @@ export const generateCode = async (
           entrypoint,
           routes: markedRoutes,
         });
+        generatedRoutesByEntry[entryName] = routes as (
+          | NestedRouteForCli
+          | PageRoute
+        )[];
 
         // Collect route component files from the FINAL routes (after every
         // `modifyFileSystemRoutes` consumer ran), so the SSR builder plugin can
@@ -314,6 +340,8 @@ export const generateCode = async (
       }
     }
   }
+
+  return generatedRoutesByEntry;
 };
 
 export function generatorRegisterCode(

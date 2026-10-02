@@ -1,0 +1,15 @@
+{
+  "extends": "@modern-js/tsconfig/base",
+  "compilerOptions": {
+    "module": "ESNext",
+    "moduleResolution": "Bundler",
+    "declaration": false,
+    "lib": ["DOM", "ESNext", "dom.iterable"],
+    "jsx": "preserve",
+    "baseUrl": "./",
+    "isolatedModules": true,
+    "paths": {},
+    "rootDir": "./src"
+  },
+  "include": ["src"]
+}

@@ -3,14 +3,13 @@ import {
   createRequestContext,
   reporterCtx,
 } from '@modern-js/runtime-utils/node';
-import { createStaticHandler } from '@modern-js/runtime-utils/router';
-import {
-  StaticRouterProvider,
-  createStaticRouter,
-} from '@modern-js/runtime-utils/router';
 import {
   type RouteObject,
+  type StaticHandlerContext,
+  StaticRouterProvider,
   createRoutesFromElements,
+  createStaticHandler,
+  createStaticRouter,
 } from '@modern-js/runtime-utils/router';
 import { time } from '@modern-js/runtime-utils/time';
 import { LOADER_REPORTER_NAME } from '@modern-js/utils/universal/constants';
@@ -29,15 +28,22 @@ import DeferredDataScripts from './DeferredDataScripts.node';
 import {
   type RouterExtendsHooks,
   modifyRoutes as modifyRoutesHook,
+  onAfterCreateRouter as onAfterCreateRouterHook,
+  onBeforeCreateRouter as onBeforeCreateRouterHook,
   onBeforeCreateRoutes as onBeforeCreateRoutesHook,
 } from './hooks';
+import {
+  type RouterLifecycleContext,
+  applyRouterRuntimeState,
+  createRouterServerSnapshot,
+} from './lifecycle';
 import {
   RSCStaticRouter,
   createServerPayload,
   handleRSCRedirect,
   prepareRSCRoutes,
 } from './rsc-router';
-import type { RouterConfig } from './types';
+import type { InternalRouterServerSnapshot, RouterConfig } from './types';
 import { createRouteObjectsFromConfig, renderRoutes, urlJoin } from './utils';
 
 function createRemixRequest(request: Request) {
@@ -51,6 +57,30 @@ function createRemixRequest(request: Request) {
   });
 }
 
+function createReactRouterServerSnapshot(
+  routerContext: StaticHandlerContext,
+  basename?: string,
+): InternalRouterServerSnapshot {
+  return createRouterServerSnapshot({
+    framework: 'react-router',
+    basename,
+    statusCode: routerContext.statusCode,
+    errors: routerContext.errors as Record<string, unknown> | undefined,
+    routerData: {
+      loaderData: routerContext.loaderData,
+      errors: routerContext.errors as Record<string, unknown> | undefined,
+    },
+    matches: routerContext.matches
+      .map(match => {
+        const routeId = match.route.id;
+        return typeof routeId === 'string' ? { routeId } : undefined;
+      })
+      .filter(
+        (match): match is { routeId: string } => typeof match !== 'undefined',
+      ),
+  });
+}
+
 export const routerPlugin = (
   userConfig: Partial<RouterConfig> = {},
 ): RuntimePlugin<{
@@ -59,6 +89,8 @@ export const routerPlugin = (
   return {
     name: '@modern-js/plugin-router',
     registryHooks: {
+      onAfterCreateRouter: onAfterCreateRouterHook,
+      onBeforeCreateRouter: onBeforeCreateRouterHook,
       modifyRoutes: modifyRoutesHook,
       onBeforeCreateRoutes: onBeforeCreateRoutesHook,
     },
@@ -129,6 +161,15 @@ export const routerPlugin = (
 
         routes = hooks.modifyRoutes.call(routes);
 
+        const routerLifecycleContext: RouterLifecycleContext = {
+          framework: 'react-router',
+          phase: 'ssr-prepare',
+          routes,
+          runtimeContext: context,
+          basename: _basename,
+        };
+        hooks.onBeforeCreateRouter.call(routerLifecycleContext);
+
         const { query } = createStaticHandler(routes, {
           basename: _basename,
         });
@@ -179,6 +220,24 @@ export const routerPlugin = (
           throw errors[0];
         }
         context.routerContext = routerContext;
+        const routerServerSnapshot = createReactRouterServerSnapshot(
+          routerContext,
+          _basename,
+        );
+
+        applyRouterRuntimeState(context, {
+          framework: 'react-router',
+          basename: _basename,
+          instance: routerContext,
+          matchedRouteIds: routerServerSnapshot.matchedRouteIds,
+          serverSnapshot: routerServerSnapshot,
+        });
+        hooks.onAfterCreateRouter.call({
+          ...routerLifecycleContext,
+          router: routerContext,
+          serverSnapshot: routerServerSnapshot,
+          runtimeContext: context,
+        });
 
         let payload: ServerPayload;
         if (enableRsc) {

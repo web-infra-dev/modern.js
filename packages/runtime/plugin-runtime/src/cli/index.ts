@@ -2,7 +2,15 @@ import path from 'path';
 import type { AppTools, CliPlugin } from '@modern-js/app-tools';
 import { cleanRequireCache } from '@modern-js/utils';
 import { documentPlugin } from '../document/cli';
-import { routerPlugin } from '../router/cli';
+import {
+  getEntrypointRoutesDir,
+  getEntrypointRoutesOwner,
+  handleFileChange,
+  handleGeneratorEntryCode,
+  handleModifyEntrypoints,
+  isRouteEntry,
+  routerPlugin,
+} from '../router/cli';
 import { builderPluginAlias } from './alias';
 import { generateCode } from './code';
 import { ENTRY_BOOTSTRAP_FILE_NAME, ENTRY_POINT_FILE_NAME } from './constants';
@@ -10,7 +18,17 @@ import { isRuntimeEntry } from './entry';
 import { ssrPlugin } from './ssr';
 
 export { isRuntimeEntry } from './entry';
-export { ssrPlugin, routerPlugin, documentPlugin };
+export {
+  documentPlugin,
+  getEntrypointRoutesDir,
+  getEntrypointRoutesOwner,
+  handleFileChange,
+  handleGeneratorEntryCode,
+  handleModifyEntrypoints,
+  isRouteEntry,
+  routerPlugin,
+  ssrPlugin,
+};
 export const runtimePlugin = (params?: {
   plugins?: CliPlugin<AppTools>[];
 }): CliPlugin<AppTools> => ({

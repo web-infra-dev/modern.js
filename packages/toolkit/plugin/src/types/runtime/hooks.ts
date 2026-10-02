@@ -1,3 +1,5 @@
+import type { Readable } from 'node:stream';
+
 export type HandleRequestConfig = Record<string, any>;
 export type ChunkSet = {
   renderLevel: any;
@@ -36,6 +38,9 @@ export interface StreamSSRExtender {
   getStyleTags?: () => string;
 
   processStream?: (stream: NodeJS.ReadWriteStream) => NodeJS.ReadWriteStream;
+
+  /** Processes assembled HTML after template and hydration script injection. */
+  processHtmlStream?: (stream: Readable) => Readable;
 }
 
 export type ExtendStreamSSRFn = () => StreamSSRExtender;
