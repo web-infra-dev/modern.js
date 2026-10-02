@@ -72,14 +72,13 @@ export interface NavLinkProps extends RouterNavLinkProps {
   prefetch?: PrefetchBehavior;
 }
 
-const setRef = <T,>(ref: Ref<T> | undefined, value: T | null) => {
+const setRef = <T,>(ref: Ref<T> | undefined, value: T | null): unknown => {
   if (!ref) {
     return;
   }
 
   if (typeof ref === 'function') {
-    ref(value);
-    return;
+    return ref(value);
   }
 
   (ref as React.MutableRefObject<T | null>).current = value;
@@ -99,12 +98,11 @@ function usePrefetchBehavior(
 ): [
   boolean,
   Required<PrefetchHandlers>,
-  (element: HTMLAnchorElement | null) => void,
+  React.MutableRefObject<HTMLAnchorElement | null>,
 ] {
   const [maybePrefetch, setMaybePrefetch] = React.useState(false);
   const [shouldPrefetch, setShouldPrefetch] = React.useState(false);
-  const [viewportElement, setViewportElement] =
-    React.useState<HTMLAnchorElement | null>(null);
+  const viewportElement = React.useRef<HTMLAnchorElement | null>(null);
   const { onFocus, onBlur, onMouseEnter, onMouseLeave, onTouchStart } =
     theirElementProps;
 
@@ -141,8 +139,9 @@ function usePrefetchBehavior(
   }, [maybePrefetch, prefetch]);
 
   React.useEffect(() => {
+    const element = viewportElement.current;
     if (
-      !viewportElement ||
+      !element ||
       prefetch !== 'viewport' ||
       typeof IntersectionObserver === 'undefined'
     ) {
@@ -163,7 +162,7 @@ function usePrefetchBehavior(
       },
     );
 
-    observer.observe(viewportElement);
+    observer.observe(element);
 
     return () => {
       observer.disconnect();
@@ -179,7 +178,7 @@ function usePrefetchBehavior(
       onMouseLeave: composeEventHandlers(onMouseLeave, cancelIntent),
       onTouchStart: composeEventHandlers(onTouchStart, setIntent),
     },
-    setViewportElement,
+    viewportElement,
   ];
 }
 
@@ -344,14 +343,24 @@ const createPrefetchLink = <T extends typeof RouterLink | typeof RouterNavLink>(
   return React.forwardRef<HTMLAnchorElement, InputLinkProps<T>>(
     ({ to, prefetch = 'none', ...props }, forwardedRef) => {
       const isAbsolute = typeof to === 'string' && ABSOLUTE_URL_REGEX.test(to);
-      const [shouldPrefetch, prefetchHandlers, setViewportElement] =
+      const [shouldPrefetch, prefetchHandlers, viewportElement] =
         usePrefetchBehavior(prefetch, props);
+      // Keep the composed ref void-returning for React 18 compatibility.
+      const refCleanup = React.useRef<(() => void) | undefined>(undefined);
       const setAnchorRef = React.useCallback(
         (element: HTMLAnchorElement | null) => {
-          setViewportElement(element);
-          setRef(forwardedRef, element);
+          viewportElement.current = element;
+          const cleanup = refCleanup.current;
+          refCleanup.current = undefined;
+          if (element === null && cleanup) {
+            cleanup();
+          } else {
+            const result = setRef(forwardedRef, element);
+            refCleanup.current =
+              typeof result === 'function' ? () => result() : undefined;
+          }
         },
-        [forwardedRef, setViewportElement],
+        [forwardedRef, viewportElement],
       );
 
       const resolvedPath = useResolvedPath(to);
