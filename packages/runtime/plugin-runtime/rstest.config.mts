@@ -1,9 +1,22 @@
+import path from 'node:path';
 import type { ProjectConfig } from '@rstest/core';
 import { withTestPreset } from '@scripts/rstest-config';
 
 const commonConfig: ProjectConfig = {
   setupFiles: ['@scripts/rstest-config/setup.ts'],
   globals: true,
+  resolve: {
+    alias: {
+      '@modern-js/render/client$': path.resolve(
+        __dirname,
+        '../render/src/client/index.tsx',
+      ),
+      '@modern-js/render/ssr$': path.resolve(
+        __dirname,
+        '../render/src/server/ssr/index.ts',
+      ),
+    },
+  },
   tools: {
     swc: {
       jsc: {

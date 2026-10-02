@@ -292,7 +292,7 @@ describe('TanStack streaming SSR', () => {
     'preserves built-in React Router %s SSR without a final HTML processor',
     async mode => {
       const { routerPlugin } = await import(
-        '../../../plugin-runtime/dist/esm/router/runtime/plugin.node.mjs'
+        '../../../plugin-runtime/src/router/runtime/plugin.node'
       );
       const { createRequestHandler, renderStreaming, renderString } =
         await import('@modern-js/runtime/ssr/server');
