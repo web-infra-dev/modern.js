@@ -1,10 +1,68 @@
+import { mkdir, mkdtemp, rm, writeFile } from 'node:fs/promises';
+import { tmpdir } from 'node:os';
+import path from 'node:path';
 import { afterEach, describe, expect, it, rs } from '@rstest/core';
 import { createBuilder } from '../src';
+import { loadPostcssPlugin } from '../src/plugins/postcss';
 import { matchRules, unwrapConfig } from './helper';
 
+const tempDirs: string[] = [];
+
 describe('plugin-postcssLegacy', () => {
-  afterEach(() => {
+  afterEach(async () => {
     rs.unstubAllEnvs();
+    await Promise.all(
+      tempDirs.map(dir => rm(dir, { recursive: true, force: true })),
+    );
+    tempDirs.length = 0;
+  });
+
+  it('should resolve postcss plugin from app root', async () => {
+    const pluginName = 'postcss-app-root-plugin';
+    const appRoot = await mkdtemp(path.join(tmpdir(), 'builder-postcss-'));
+    tempDirs.push(appRoot);
+
+    const pluginDir = path.join(appRoot, 'node_modules', pluginName);
+    await mkdir(pluginDir, { recursive: true });
+    await writeFile(
+      path.join(appRoot, 'package.json'),
+      JSON.stringify({ name: 'app-root' }),
+    );
+    await writeFile(
+      path.join(pluginDir, 'package.json'),
+      JSON.stringify({ name: pluginName, main: 'index.js' }),
+    );
+    await writeFile(
+      path.join(pluginDir, 'index.js'),
+      "module.exports = { postcssPlugin: 'postcss-app-root-plugin' };",
+    );
+
+    expect(loadPostcssPlugin(pluginName, appRoot)).toEqual({
+      postcssPlugin: pluginName,
+    });
+  });
+
+  it.each([
+    ['evaluation error', "throw new Error('plugin failed');", 'plugin failed'],
+    [
+      'missing transitive dependency',
+      "require('postcss-missing-dependency');",
+      "Cannot find module 'postcss-missing-dependency'",
+    ],
+  ])('should preserve a plugin %s', async (_type, source, message) => {
+    const pluginName = 'postcss-broken-plugin';
+    const appRoot = await mkdtemp(path.join(tmpdir(), 'builder-postcss-'));
+    tempDirs.push(appRoot);
+
+    const pluginDir = path.join(appRoot, 'node_modules', pluginName);
+    await mkdir(pluginDir, { recursive: true });
+    await writeFile(
+      path.join(pluginDir, 'package.json'),
+      JSON.stringify({ name: pluginName, main: 'index.js' }),
+    );
+    await writeFile(path.join(pluginDir, 'index.js'), source);
+
+    expect(() => loadPostcssPlugin(pluginName, appRoot)).toThrow(message);
   });
 
   it('should register postcss plugin by browserslist', async () => {
