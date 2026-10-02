@@ -1,5 +1,228 @@
 # @modern-js/plugin-bff
 
+## 3.9.3
+
+### Patch Changes
+
+- 9f475f6: chore: upgrade Rsbuild to v2.2.9
+
+  chore: 升级 Rsbuild 至 v2.2.9
+
+- 1dcb43c: fix: correct the "Middlware" typo in BFF middleware identifiers — the exported `PublicMiddlwareOptions` type from `@modern-js/server-core` is renamed to `PublicMiddlewareOptions`, and the internal `routeMiddlwares` variable in `@modern-js/plugin-bff` is renamed to `routeMiddlewares`
+  fix: 修正 BFF 中间件标识符里的 "Middlware" 拼写错误——`@modern-js/server-core` 导出的 `PublicMiddlwareOptions` 类型更名为 `PublicMiddlewareOptions`，`@modern-js/plugin-bff` 内部变量 `routeMiddlwares` 更名为 `routeMiddlewares`
+- Updated dependencies [9f475f6]
+- Updated dependencies [1dcb43c]
+- Updated dependencies [283dc5a]
+- Updated dependencies [a851cf4]
+  - @modern-js/builder@3.9.3
+  - @modern-js/server-core@3.9.3
+  - @modern-js/server-utils@3.9.3
+  - @modern-js/create-request@3.9.3
+  - @modern-js/bff-core@3.9.3
+  - @modern-js/utils@3.9.3
+
+## 3.9.2
+
+### Patch Changes
+
+- b4dec57: chore: upgrade Rsbuild to v2.2.6
+
+  chore: 升级 Rsbuild 至 v2.2.6
+
+- e2bbad2: chore: upgrade Rsbuild to v2.2.7
+
+  chore: 升级 Rsbuild 至 v2.2.7
+
+- Updated dependencies [b4dec57]
+- Updated dependencies [e2bbad2]
+  - @modern-js/builder@3.9.2
+  - @modern-js/server-core@3.9.2
+  - @modern-js/server-utils@3.9.2
+  - @modern-js/bff-core@3.9.2
+  - @modern-js/create-request@3.9.2
+  - @modern-js/utils@3.9.2
+
+## 3.9.1
+
+### Patch Changes
+
+- 4af5bf0: Upgrade Rsbuild to 2.2.4 and support its stricter bundler chain types, preserving service worker library options and handling non-string public paths in asset prefix templates.
+
+  升级 Rsbuild 至 2.2.4，兼容更严格的 bundler chain 类型，保留 service worker 的 library 配置，并在 assetPrefix 模板中处理非字符串 publicPath。
+
+- Updated dependencies [bc59ee1]
+- Updated dependencies [4af5bf0]
+  - @modern-js/server-utils@3.9.1
+  - @modern-js/builder@3.9.1
+  - @modern-js/server-core@3.9.1
+  - @modern-js/create-request@3.9.1
+  - @modern-js/bff-core@3.9.1
+  - @modern-js/utils@3.9.1
+
+## 3.9.0
+
+### Patch Changes
+
+- Updated dependencies [2f4d9c4]
+  - @modern-js/server-core@3.9.0
+  - @modern-js/server-utils@3.9.0
+  - @modern-js/builder@3.9.0
+  - @modern-js/bff-core@3.9.0
+  - @modern-js/create-request@3.9.0
+  - @modern-js/utils@3.9.0
+
+## 3.8.3
+
+### Patch Changes
+
+- 3748f08: chore: upgrade Rsbuild to v2.2.0-rc.0 and the SWC plugin to the latest version
+
+  chore: 升级 Rsbuild 至 v2.2.0-rc.0，并将 SWC 插件升级至最新版本
+
+- 546e96e: chore: upgrade Rsbuild dependencies to the latest versions
+
+  chore: 升级 Rsbuild 相关依赖至最新版本
+
+- Updated dependencies [3748f08]
+- Updated dependencies [546e96e]
+  - @modern-js/builder@3.8.3
+  - @modern-js/server-core@3.8.3
+  - @modern-js/server-utils@3.8.3
+  - @modern-js/bff-core@3.8.3
+  - @modern-js/create-request@3.8.3
+  - @modern-js/utils@3.8.3
+
+## 3.8.2
+
+### Patch Changes
+
+- 8edf91a: fix: make published crossProject BFF client declarations resolvable in consumers
+
+  fix: 修复发布后的 crossProject BFF 客户端声明在消费方项目中无法解析类型的问题
+
+- Updated dependencies [8edf91a]
+  - @modern-js/server-utils@3.8.2
+  - @modern-js/builder@3.8.2
+  - @modern-js/bff-core@3.8.2
+  - @modern-js/server-core@3.8.2
+  - @modern-js/create-request@3.8.2
+  - @modern-js/utils@3.8.2
+
+## 3.8.1
+
+### Patch Changes
+
+- @modern-js/builder@3.8.1
+- @modern-js/bff-core@3.8.1
+- @modern-js/server-core@3.8.1
+- @modern-js/create-request@3.8.1
+- @modern-js/server-utils@3.8.1
+- @modern-js/utils@3.8.1
+
+## 3.8.0
+
+### Patch Changes
+
+- Updated dependencies [13b960f]
+- Updated dependencies [3b0eacf]
+- Updated dependencies [3981b6b]
+- Updated dependencies [b3a0709]
+- Updated dependencies [f0abf7e]
+  - @modern-js/server-core@3.8.0
+  - @modern-js/server-utils@3.8.0
+  - @modern-js/utils@3.8.0
+  - @modern-js/builder@3.8.0
+  - @modern-js/bff-core@3.8.0
+  - @modern-js/create-request@3.8.0
+
+## 3.7.0
+
+### Patch Changes
+
+- Updated dependencies [65dd786]
+  - @modern-js/builder@3.7.0
+  - @modern-js/bff-core@3.7.0
+  - @modern-js/server-core@3.7.0
+  - @modern-js/create-request@3.7.0
+  - @modern-js/server-utils@3.7.0
+  - @modern-js/utils@3.7.0
+
+## 3.6.0
+
+### Patch Changes
+
+- 70d8300: feat(server): unified dev-server runtime hot reload, replacing the BFF-local hot update
+  feat(server): 统一 dev-server 运行时热更新，替换 BFF 本地热更
+- Updated dependencies [c69486b]
+  - @modern-js/server-core@3.6.0
+  - @modern-js/server-utils@3.6.0
+  - @modern-js/create-request@3.6.0
+  - @modern-js/builder@3.6.0
+  - @modern-js/bff-core@3.6.0
+  - @modern-js/utils@3.6.0
+
+## 3.5.0
+
+### Patch Changes
+
+- Updated dependencies [0f44558]
+  - @modern-js/builder@3.5.0
+  - @modern-js/bff-core@3.5.0
+  - @modern-js/server-core@3.5.0
+  - @modern-js/create-request@3.5.0
+  - @modern-js/server-utils@3.5.0
+  - @modern-js/utils@3.5.0
+
+## 3.4.0
+
+### Patch Changes
+
+- Updated dependencies [a46bd4e]
+- Updated dependencies [cf1f189]
+  - @modern-js/server-core@3.4.0
+  - @modern-js/builder@3.4.0
+  - @modern-js/server-utils@3.4.0
+  - @modern-js/bff-core@3.4.0
+  - @modern-js/create-request@3.4.0
+  - @modern-js/utils@3.4.0
+
+## 3.3.0
+
+### Patch Changes
+
+- Updated dependencies [2e85455]
+  - @modern-js/builder@3.3.0
+  - @modern-js/bff-core@3.3.0
+  - @modern-js/server-core@3.3.0
+  - @modern-js/create-request@3.3.0
+  - @modern-js/server-utils@3.3.0
+  - @modern-js/utils@3.3.0
+
+## 3.2.2
+
+### Patch Changes
+
+- @modern-js/builder@3.2.2
+- @modern-js/bff-core@3.2.2
+- @modern-js/server-core@3.2.2
+- @modern-js/create-request@3.2.2
+- @modern-js/server-utils@3.2.2
+- @modern-js/utils@3.2.2
+
+## 3.2.1
+
+### Patch Changes
+
+- 2aa5253: feat: support tsconfig.server.json for server-side TypeScript
+  feat: 支持单独配置服务端 tsconfig 配置
+- Updated dependencies [2aa5253]
+  - @modern-js/utils@3.2.1
+  - @modern-js/builder@3.2.1
+  - @modern-js/bff-core@3.2.1
+  - @modern-js/server-core@3.2.1
+  - @modern-js/create-request@3.2.1
+  - @modern-js/server-utils@3.2.1
+
 ## 3.2.0
 
 ### Patch Changes

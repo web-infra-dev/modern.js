@@ -1,3 +1,4 @@
+import { AGGRED_DIR } from '@modern-js/server-core';
 import { DEFAULT_ENTRY_NAME, MAIN_ENTRY_NAME } from '@modern-js/utils';
 import type { AppUserConfig } from '../types';
 import type { AppToolsContext } from '../types/plugin';
@@ -8,6 +9,7 @@ export function createDefaultConfig(
   appContext: AppToolsContext,
 ): AppUserConfig {
   const dev: AppUserConfig['dev'] = {
+    mockDir: `./${AGGRED_DIR.mock}`,
     cliShortcuts: {
       help: false,
       // does not support restart server and print urls yet
@@ -98,4 +100,52 @@ export function createDefaultConfig(
     plugins: [],
     builderPlugins: [],
   };
+}
+
+type ServerSSRConfig = NonNullable<AppUserConfig['server']>['ssr'];
+
+const isStreamSSRConfig = (ssr: ServerSSRConfig) => {
+  if (!ssr) {
+    return false;
+  }
+  if (typeof ssr === 'boolean') {
+    // `ssr: true` defaults to stream SSR in Modern.
+    return ssr;
+  }
+  return ssr.mode !== 'string';
+};
+
+/**
+ * Default-enable lazy compilation for pure CSR and stream SSR. Stream SSR keeps
+ * first-screen route assets correct via the route-eager lazyCompilation.test
+ * injected by the SSR builder plugin. String SSR, RSC and SSG stay disabled.
+ */
+export function isLazyCompilationSafeByDefault(
+  userConfig: Pick<AppUserConfig, 'server' | 'output'>,
+): boolean {
+  const { server, output } = userConfig;
+
+  if (
+    output?.ssg ||
+    (output?.ssgByEntries && Object.keys(output.ssgByEntries).length > 0)
+  ) {
+    return false;
+  }
+  if (server?.rsc) {
+    return false;
+  }
+  if (server?.ssr && !isStreamSSRConfig(server.ssr)) {
+    return false;
+  }
+  if (
+    server?.ssrByEntries &&
+    typeof server.ssrByEntries === 'object' &&
+    Object.values(server.ssrByEntries).some(
+      ssr => Boolean(ssr) && !isStreamSSRConfig(ssr),
+    )
+  ) {
+    return false;
+  }
+
+  return true;
 }

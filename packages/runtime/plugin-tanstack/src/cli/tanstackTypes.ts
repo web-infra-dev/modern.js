@@ -241,8 +241,8 @@ export async function generateTanstackRouterTypesSourceForEntry(opts: {
 
   const createRouteVarName = (route: NestedRouteForCli | PageRoute) => {
     const id = (route as any).id as string | undefined;
-    const base = id ? makeLegalIdentifier(id) : `r_${routeIndex++}`;
-    return `route_${base}`;
+    const base = id ? makeLegalIdentifier(id) : 'r';
+    return `route_${base}_${routeIndex++}`;
   };
 
   const buildRoute = async (opts: {
@@ -304,7 +304,7 @@ export async function generateTanstackRouterTypesSourceForEntry(opts: {
       const childVars = await Promise.all(
         children.map(child => buildRoute({ parentVar: varName, route: child })),
       );
-      statements.push(`${varName}.addChildren([${childVars.join(', ')}]);`);
+      return `${varName}.addChildren([${childVars.join(', ')}])`;
     }
 
     return varName;
@@ -360,6 +360,7 @@ import {
   createRootRouteWithContext,
   createRoute,
   createRouter,
+  isRedirect,
   notFound,
   redirect,
 } from '@modern-js/plugin-tanstack/runtime';
@@ -383,14 +384,18 @@ function isRedirectResponse(res: Response) {
   return redirectStatusCodes.has(res.status);
 }
 
-function throwTanstackRedirect(location: string) {
+function throwTanstackRedirect(
+  location: string,
+  statusCode: number,
+  headers: Headers,
+) {
   const target = location || '/';
   try {
     void new URL(target);
-    throw redirect({ href: target });
   } catch {
-    throw redirect({ to: target });
+    throw redirect({ to: target, statusCode, headers });
   }
+  throw redirect({ href: target, statusCode, headers });
 }
 
 function mapParamsForModernLoader(
@@ -470,7 +475,7 @@ function modernLoaderToTanstack<TLoader extends (args: any) => any>(
       if (isResponse(result)) {
         if (isRedirectResponse(result)) {
           const location = result.headers.get('Location') || '/';
-          throwTanstackRedirect(location);
+          throwTanstackRedirect(location, result.status, result.headers);
         }
         if (result.status === 404) {
           throw notFound();
@@ -479,10 +484,13 @@ function modernLoaderToTanstack<TLoader extends (args: any) => any>(
 
       return result as LoaderResult;
     } catch (err) {
+      if (isRedirect(err)) {
+        throw err;
+      }
       if (isResponse(err)) {
         if (isRedirectResponse(err)) {
           const location = err.headers.get('Location') || '/';
-          throwTanstackRedirect(location);
+          throwTanstackRedirect(location, err.status, err.headers);
         }
         if (err.status === 404) {
           throw notFound();

@@ -1,0 +1,13 @@
+{
+  "private": true,
+  "name": "v2-edge-link-bff-mapdep",
+  "dependencies": {
+    "@modern-js/runtime": "link:../../packages/runtime",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1"
+  },
+  "devDependencies": {
+    "@modern-js/app-tools": "link:../../packages/app-tools",
+    "typescript": "^5"
+  }
+}

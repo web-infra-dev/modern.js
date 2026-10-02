@@ -452,9 +452,13 @@ export function useFetcher(): Fetcher {
             }
           },
         });
-        setData(result);
+        if (requestId === requestIdRef.current) {
+          setData(result);
+        }
       } catch (err) {
-        setError(err);
+        if (requestId === requestIdRef.current) {
+          setError(err);
+        }
         throw err;
       } finally {
         clearRequestState(requestId);

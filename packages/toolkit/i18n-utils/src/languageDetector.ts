@@ -23,11 +23,18 @@ class I18CLILanguageDetector {
   }
 
   detect() {
+    const env = (
+      globalThis as {
+        process?: {
+          env?: Record<string, string | undefined>;
+        };
+      }
+    ).process?.env;
     const shellLocale =
-      process.env.LC_ALL ??
-      process.env.LC_MESSAGES ??
-      process.env.LANG ??
-      process.env.LANGUAGE ??
+      env?.LC_ALL ??
+      env?.LC_MESSAGES ??
+      env?.LANG ??
+      env?.LANGUAGE ??
       Intl.DateTimeFormat().resolvedOptions().locale;
 
     return this.formatShellLocale(shellLocale);

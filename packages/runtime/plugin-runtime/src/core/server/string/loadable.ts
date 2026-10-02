@@ -1,6 +1,6 @@
 import { type Chunk, ChunkExtractor } from '@loadable/server';
 import type { ReactElement } from 'react';
-import { attributesToString, checkIsNode } from '../utils';
+import { attributesToString, checkIsNode, hasStylesheetLink } from '../utils';
 import type { ChunkSet, Collector } from './types';
 
 declare module '@loadable/server' {
@@ -209,21 +209,14 @@ export class LoadableCollector implements Collector {
 
     const atrributes = attributesToString(this.generateAttributes());
 
-    const linkRegExp = /<link .*?href="([^"]+)".*?>/g;
-
-    const matchs = template.matchAll(linkRegExp);
-
-    const existedLinks: string[] = [];
-
-    for (const match of matchs) {
-      existedLinks.push(match[1]);
-    }
-
     const css = await Promise.all(
       chunks
         .filter(chunk => {
+          // Only an existing `<link rel="stylesheet">` should dedupe the route
+          // stylesheet we are about to inject. A `<link rel="prefetch">` for the
+          // same css URL (e.g. from `performance.prefetch`) must not block it.
           return (
-            !existedLinks.includes(chunk.url) &&
+            !hasStylesheetLink(template, chunk.url) &&
             !this.existsAssets?.includes(chunk.path)
           );
         })

@@ -1,5 +1,4 @@
 import type {
-  AsyncHook,
   AsyncPipelineHook,
   ServerContext as BaseServerContext,
   ServerPlugin as BaseServerPlugin,
@@ -16,13 +15,11 @@ import type { MiddlewareHandler } from 'hono';
 import type { MiddlewareObj } from './base';
 import type {
   APIServerStartInput,
-  FallbackInput,
   ServerConfig,
   WebAdapter,
   WebServerStartInput,
 } from './base';
 
-export type FallbackFn = (input: FallbackInput) => Promise<FallbackInput>;
 export type PrepareWebServerFn = (
   input: WebServerStartInput,
 ) => Promise<WebAdapter | null>;
@@ -44,7 +41,6 @@ export interface ServerPluginExtends extends BaseServerPluginExtends {
   };
   extendHooks: {
     prepareWebServer: AsyncPipelineHook<PrepareWebServerFn>;
-    fallback: AsyncHook<FallbackFn>;
     prepareApiServer: AsyncPipelineHook<PrepareApiServerFn>;
     afterMatch: AsyncPipelineHook<AfterMatchFn>;
     afterRender: AsyncPipelineHook<AfterRenderFn>;

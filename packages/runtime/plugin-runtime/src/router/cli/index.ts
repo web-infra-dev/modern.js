@@ -6,20 +6,28 @@ import type {
   ServerRoute,
 } from '@modern-js/types';
 import {
-  filterRoutesForServer,
-  findExists,
   fs,
   NESTED_ROUTE_SPEC_FILE,
+  filterRoutesForServer,
+  findExists,
 } from '@modern-js/utils';
 import { NESTED_ROUTES_DIR } from './constants';
-import { getEntrypointRoutesDir, isRouteEntry } from './entry';
+import {
+  getEntrypointRoutesDir,
+  getEntrypointRoutesOwner,
+  isRouteEntry,
+} from './entry';
 import {
   handleFileChange,
   handleGeneratorEntryCode,
   handleModifyEntrypoints,
 } from './handler';
 
-export { getEntrypointRoutesDir, isRouteEntry } from './entry';
+export {
+  getEntrypointRoutesDir,
+  getEntrypointRoutesOwner,
+  isRouteEntry,
+} from './entry';
 export {
   handleFileChange,
   handleGeneratorEntryCode,
@@ -58,9 +66,13 @@ type RouteEntrypointLike = {
   entry?: string;
   pageRoutesEntry?: string;
   nestedRoutesEntry?: string;
+  __modernRoutesOwner?: string;
 };
 
 function isBuiltInRouteEntrypoint(entrypoint: RouteEntrypointLike) {
+  if (getEntrypointRoutesOwner(entrypoint)) {
+    return false;
+  }
   if (entrypoint.pageRoutesEntry) {
     return true;
   }
@@ -74,6 +86,9 @@ function isBuiltInRouteEntrypoint(entrypoint: RouteEntrypointLike) {
 }
 
 function isPluginOwnedRouteEntrypoint(entrypoint: RouteEntrypointLike) {
+  if (getEntrypointRoutesOwner(entrypoint)) {
+    return true;
+  }
   const entrypointRoutesDir = getEntrypointRoutesDir(entrypoint);
   return Boolean(
     entrypointRoutesDir && entrypointRoutesDir !== NESTED_ROUTES_DIR,
@@ -155,9 +170,7 @@ export const routerPlugin = (): CliPlugin<AppTools> => ({
     });
     api.generateEntryCode(async ({ entrypoints }) => {
       const builtInEntrypoints = entrypoints.filter(isBuiltInRouteEntrypoint);
-      if (builtInEntrypoints.length > 0) {
-        await handleGeneratorEntryCode(api, builtInEntrypoints);
-      }
+      await handleGeneratorEntryCode(api, builtInEntrypoints);
     });
     api.onFileChanged(async e => {
       await handleFileChange(api, e, {

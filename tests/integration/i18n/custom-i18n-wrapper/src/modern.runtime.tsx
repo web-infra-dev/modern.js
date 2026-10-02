@@ -1,12 +1,10 @@
 import { defineRuntimeConfig } from '@modern-js/runtime';
+import I18n from './i18n';
 import { createMockSdkLoader } from './mock-sdk';
-import { createStarlingWrapper } from './starlingWrapper';
-
-const starlingWrapper = createStarlingWrapper();
 
 export default defineRuntimeConfig({
   i18n: {
-    i18nInstance: starlingWrapper,
+    i18nInstance: I18n,
     initOptions: {
       backend: {
         sdk: createMockSdkLoader(),

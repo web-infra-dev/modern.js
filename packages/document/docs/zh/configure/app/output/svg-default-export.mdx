@@ -7,6 +7,10 @@ title: svgDefaultExport
 - **类型：** `'url' | 'component'`
 - **默认值：** `'url'`
 
+:::warning 已废弃
+`output.svgDefaultExport` 已废弃，并将在下一个大版本中移除，请改用 [tools.svgr](/configure/app/tools/svgr) 的 `svgrOptions.exportType`：`'component'` 对应 `exportType: 'default'`，`'url'` 对应 `exportType: 'named'`。两者同时设置时，以 `tools.svgr` 为准。
+:::
+
 `output.svgDefaultExport` 可以用来配置 SVG 文件的默认导出。
 
 当 `output.svgDefaultExport` 配置为 `url` 时，SVG 文件的默认导出是文件的 URL。例如：

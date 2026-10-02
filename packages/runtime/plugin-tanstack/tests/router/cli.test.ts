@@ -3,6 +3,9 @@ import { tmpdir } from 'node:os';
 import path from 'node:path';
 import type { Entrypoint } from '@modern-js/types';
 import { fs, NESTED_ROUTE_SPEC_FILE } from '@modern-js/utils';
+import { routerPlugin } from '../../../plugin-runtime/src/router/cli';
+import { getEntrypointRoutesOwner } from '../../../plugin-runtime/src/router/cli/entry';
+import { handleModifyEntrypoints } from '../../../plugin-runtime/src/router/cli/handler';
 import {
   tanstackRouterPlugin,
   writeTanstackRegisterFile,
@@ -24,20 +27,10 @@ rstest.mock('@modern-js/runtime/cli', () => {
       (entrypoint.nestedRoutesEntry
         ? path.basename(entrypoint.nestedRoutesEntry)
         : null),
+    getEntrypointRoutesOwner,
     handleFileChange: runtimeCliMocks.handleFileChange,
     handleGeneratorEntryCode: runtimeCliMocks.handleGeneratorEntryCode,
-    handleModifyEntrypoints: async (
-      entrypoints: Entrypoint[],
-      routesDir = 'routes',
-    ) =>
-      entrypoints.map(entrypoint => {
-        const routesEntry = path.join(entrypoint.absoluteEntryDir!, routesDir);
-        return {
-          ...entrypoint,
-          nestedRoutesEntry: routesEntry,
-          [routesDirMetaKey]: routesDir,
-        };
-      }),
+    handleModifyEntrypoints,
     isRouteEntry: (dir: string, routesDir = 'routes') => {
       const routesEntry = path.join(dir, routesDir);
       return fs.existsSync(routesEntry) ? routesEntry : false;
@@ -119,6 +112,94 @@ describe('tanstack router cli plugin', () => {
       "declare module '@modern-js/plugin-tanstack/runtime'",
     );
   });
+
+  test.each([
+    { routesDir: 'routes', pluginFirst: false, enableTanstack: true },
+    { routesDir: 'routes', pluginFirst: true, enableTanstack: true },
+    { routesDir: 'views', pluginFirst: false, enableTanstack: true },
+    { routesDir: 'views', pluginFirst: true, enableTanstack: true },
+    { routesDir: 'routes', pluginFirst: false, enableTanstack: false },
+    { routesDir: null, pluginFirst: false, enableTanstack: true },
+    { routesDir: null, pluginFirst: true, enableTanstack: true },
+  ])(
+    'installs one router for $routesDir entries, plugin first: $pluginFirst, TanStack: $enableTanstack',
+    async ({ routesDir, pluginFirst, enableTanstack }) => {
+      tempDir = await mkdtemp(
+        path.join(tmpdir(), 'modern-tanstack-ownership-'),
+      );
+      const srcDirectory = path.join(tempDir, 'src');
+      const entryDir = path.join(srcDirectory, 'main');
+      if (routesDir) {
+        await mkdir(path.join(entryDir, routesDir), { recursive: true });
+      } else {
+        await fs.outputFile(
+          path.join(entryDir, 'App.tsx'),
+          'export default () => null;',
+        );
+        await fs.outputFile(
+          path.join(srcDirectory, 'modern.runtime.ts'),
+          'export default { router: { createRoutes: () => [] } };',
+        );
+      }
+      const taps: Record<string, Array<(args: any) => any>> = {};
+      const api = {
+        getAppContext: () => ({
+          srcDirectory,
+          metaName: 'modern-js',
+          runtimeConfigFile: 'modern.runtime',
+          serverRoutes: [],
+        }),
+        getNormalizedConfig: () => ({ router: {} }),
+        addCommand: () => {},
+        ...Object.fromEntries(
+          [
+            '_internalRuntimePlugins',
+            'checkEntryPoint',
+            'config',
+            'modifyEntrypoints',
+            'generateEntryCode',
+            'onFileChanged',
+            'modifyFileSystemRoutes',
+            'onBeforeGenerateRoutes',
+          ].map(name => [
+            name,
+            (tap: (args: any) => any) => (taps[name] ||= []).push(tap),
+          ]),
+        ),
+      };
+      const plugins = [routerPlugin()];
+      if (enableTanstack) {
+        plugins.push(
+          tanstackRouterPlugin(
+            !routesDir || routesDir === 'routes' ? {} : { routesDir },
+          ),
+        );
+      }
+      if (pluginFirst) plugins.reverse();
+      for (const plugin of plugins) plugin.setup!(api as any);
+      let args = {
+        entrypoints: [
+          {
+            entryName: 'main',
+            entry: entryDir,
+            absoluteEntryDir: entryDir,
+            isAutoMount: true,
+          } as Entrypoint,
+        ],
+      };
+      for (const tap of taps.modifyEntrypoints) args = await tap(args);
+      const [entrypoint] = args.entrypoints;
+      let runtimeArgs = { entrypoint, plugins: [] as any[] };
+      for (const tap of taps._internalRuntimePlugins)
+        runtimeArgs = tap(runtimeArgs);
+      expect(entrypoint.nestedRoutesEntry).toBe(
+        routesDir ? path.join(entryDir, routesDir) : undefined,
+      );
+      expect(runtimeArgs.plugins.map(plugin => plugin.name)).toEqual([
+        enableTanstack ? 'tanstackRouter' : 'router',
+      ]);
+    },
+  );
 
   test('claims custom routes, injects runtime plugin, and merges route specs', async () => {
     tempDir = await mkdtemp(path.join(tmpdir(), 'modern-tanstack-cli-'));
@@ -244,6 +325,7 @@ describe('tanstack router cli plugin', () => {
       isMainEntry: true,
       nestedRoutesEntry: viewsDir,
       __modernRoutesDir: 'views',
+      __modernRoutesOwner: '@modern-js/plugin-tanstack',
     } as Entrypoint;
     runtimeCliMocks.handleGeneratorEntryCode.mockResolvedValue({
       main: [
@@ -337,6 +419,7 @@ describe('tanstack router cli plugin', () => {
     const entrypoint = {
       entryName: 'main',
       __modernRoutesDir: 'views',
+      __modernRoutesOwner: '@modern-js/plugin-tanstack',
     } as any as Entrypoint;
     const api = {
       getAppContext: () => ({
@@ -367,6 +450,7 @@ describe('tanstack router cli plugin', () => {
           options.includeEntry({
             ...entrypoint,
             __modernRoutesDir: 'routes',
+            __modernRoutesOwner: undefined,
           }),
         ).toBe(false);
         expect(typeof options.regenerate).toBe('function');

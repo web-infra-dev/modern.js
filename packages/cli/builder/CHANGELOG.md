@@ -1,5 +1,148 @@
 # @modern-js/builder
 
+## 3.9.3
+
+### Patch Changes
+
+- 9f475f6: chore: upgrade Rsbuild to v2.2.9
+
+  chore: 升级 Rsbuild 至 v2.2.9
+
+- a851cf4: feat(builder): `tools.less` / `tools.sass` accept the full Rsbuild plugin options and add `tools.svgr`, so plugin-level options such as `parallel` can be configured; the legacy forms keep working and are marked deprecated.
+
+  feat(builder): `tools.less` / `tools.sass` 支持传入 Rsbuild 插件完整选项并新增 `tools.svgr`，可配置 `parallel` 等插件级选项；旧写法继续生效并标记废弃。
+
+  - @modern-js/utils@3.9.3
+
+## 3.9.2
+
+### Patch Changes
+
+- b4dec57: chore: upgrade Rsbuild to v2.2.6
+
+  chore: 升级 Rsbuild 至 v2.2.6
+
+- e2bbad2: chore: upgrade Rsbuild to v2.2.7
+
+  chore: 升级 Rsbuild 至 v2.2.7
+
+  - @modern-js/utils@3.9.2
+
+## 3.9.1
+
+### Patch Changes
+
+- 4af5bf0: Upgrade Rsbuild to 2.2.4 and support its stricter bundler chain types, preserving service worker library options and handling non-string public paths in asset prefix templates.
+
+  升级 Rsbuild 至 2.2.4，兼容更严格的 bundler chain 类型，保留 service worker 的 library 配置，并在 assetPrefix 模板中处理非字符串 publicPath。
+
+  - @modern-js/utils@3.9.1
+
+## 3.9.0
+
+### Patch Changes
+
+- @modern-js/utils@3.9.0
+
+## 3.8.3
+
+### Patch Changes
+
+- 3748f08: chore: upgrade Rsbuild to v2.2.0-rc.0 and the SWC plugin to the latest version
+
+  chore: 升级 Rsbuild 至 v2.2.0-rc.0，并将 SWC 插件升级至最新版本
+
+- 546e96e: chore: upgrade Rsbuild dependencies to the latest versions
+
+  chore: 升级 Rsbuild 相关依赖至最新版本
+
+  - @modern-js/utils@3.8.3
+
+## 3.8.2
+
+### Patch Changes
+
+- @modern-js/utils@3.8.2
+
+## 3.8.1
+
+### Patch Changes
+
+- @modern-js/utils@3.8.1
+
+## 3.8.0
+
+### Patch Changes
+
+- f0abf7e: fix: respect output.module for service-worker environment output
+  fix: 在 service-worker 环境中遵循 output.module 输出配置
+- Updated dependencies [b3a0709]
+  - @modern-js/utils@3.8.0
+
+## 3.7.0
+
+### Minor Changes
+
+- 65dd786: feat(builder): add `source.reactCompiler` to enable React Compiler via Rspack's built-in SWC implementation
+  feat(builder): 新增 `source.reactCompiler` 配置，基于 Rspack 内置 SWC 的 Rust 版 React Compiler 提供一键开启能力
+
+### Patch Changes
+
+- @modern-js/utils@3.7.0
+
+## 3.6.0
+
+### Patch Changes
+
+- @modern-js/utils@3.6.0
+
+## 3.5.0
+
+### Patch Changes
+
+- 0f44558: chore(builder): upgrade @rsbuild/plugin-type-check to 1.5.0
+  chore(builder): 升级 @rsbuild/plugin-type-check 到 1.5.0
+  - @modern-js/utils@3.5.0
+
+## 3.4.0
+
+### Minor Changes
+
+- cf1f189: feat(builder): support customizing RSC server/client environment names via `server.rsc.environments`
+
+  `server.rsc` now accepts an object form `{ environments?: { server?: string; client?: string } }` in addition to a boolean. This forwards the existing `environments` option of `rsbuild-plugin-rsc`, letting frameworks that declare their own Rsbuild environments map RSC onto them instead of having the plugin create new empty `server`/`client` environments (which otherwise fall back to the default `./src` entry and fail to resolve in non-convention setups). Passing `true`/`false` keeps the previous default behavior, so the change is fully backward compatible.
+
+  feat(builder): 支持通过 `server.rsc.environments` 自定义 RSC server/client 环境名
+
+  `server.rsc` 在原有 boolean 之外新增对象形式 `{ environments?: { server?: string; client?: string } }`，透传 `rsbuild-plugin-rsc` 已有的 `environments` 选项，使已声明自有 Rsbuild 环境的框架可将 RSC 映射到这些环境，而不必让插件新建空的 `server`/`client` 环境（否则会回落到默认入口 `./src` 而无法解析）。传 `true`/`false` 时行为不变，完全向后兼容。
+
+### Patch Changes
+
+- @modern-js/utils@3.4.0
+
+## 3.3.0
+
+### Patch Changes
+
+- 2e85455: feat(builder): support TypeScript Go checks through `tools.tsChecker`
+
+  feat(builder): 通过 `tools.tsChecker` 支持 TypeScript Go 类型检查
+
+  - @modern-js/utils@3.3.0
+
+## 3.2.2
+
+### Patch Changes
+
+- @modern-js/utils@3.2.2
+
+## 3.2.1
+
+### Patch Changes
+
+- Updated dependencies [2aa5253]
+  - @modern-js/utils@3.2.1
+
 ## 3.2.0
 
 ### Patch Changes

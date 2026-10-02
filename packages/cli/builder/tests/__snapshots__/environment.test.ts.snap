@@ -23,6 +23,9 @@ exports[`builder environment compat > should generator environment config correc
         "<WORKSPACE>/packages/cli/builder/src/index.ts",
       ],
     },
+    "experiments": {
+      "sourceImport": true,
+    },
     "infrastructureLogging": {
       "level": "error",
     },
@@ -45,6 +48,93 @@ exports[`builder environment compat > should generator environment config correc
             "not": "url",
           },
           "oneOf": [
+            {
+              "type": "asset/source",
+              "with": {
+                "type": "text",
+              },
+            },
+            {
+              "resolve": {
+                "preferRelative": true,
+              },
+              "resourceQuery": /\\[\\?&\\]url\\(\\?:&\\|=\\|\\$\\)/,
+              "use": [
+                {
+                  "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/core/dist/cssUrlLoader.mjs",
+                  "options": {
+                    "filename": "static/css/[name].css",
+                    "modules": {
+                      "auto": true,
+                      "exportGlobals": false,
+                      "exportLocalsConvention": "camelCase",
+                      "localIdentName": "[path][name]__[local]-[hash:base64:6]",
+                      "namedExport": false,
+                    },
+                  },
+                },
+                {
+                  "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/core/compiled/css-loader/index.js",
+                  "options": {
+                    "exportType": "string",
+                    "importLoaders": 1,
+                    "modules": false,
+                    "sourceMap": true,
+                  },
+                },
+                {
+                  "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/core/compiled/postcss-loader/index.js",
+                  "options": {
+                    "implementation": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/core/compiled/postcss/index.js",
+                    "postcssOptions": {
+                      "config": false,
+                      "plugins": [
+                        {
+                          "Once": [Function],
+                          "postcssPlugin": "postcss-flexbugs-fixes",
+                        },
+                        {
+                          "Declaration": [Function],
+                          "postcssPlugin": "postcss-page-break",
+                        },
+                        {
+                          "AtRule": {
+                            "custom-media": [Function],
+                            "media": [Function],
+                          },
+                          "postcssPlugin": "postcss-media-minmax",
+                        },
+                        {
+                          "Rule": [Function],
+                          "postcssPlugin": "postcss-nesting",
+                        },
+                        {
+                          "browsers": [
+                            "chrome >= 87",
+                            "edge >= 88",
+                            "firefox >= 78",
+                            "safari >= 14",
+                          ],
+                          "info": [Function],
+                          "options": {
+                            "flexbox": "no-2009",
+                            "overrideBrowserslist": [
+                              "chrome >= 87",
+                              "edge >= 88",
+                              "firefox >= 78",
+                              "safari >= 14",
+                            ],
+                          },
+                          "postcssPlugin": "autoprefixer",
+                          "prepare": [Function],
+                        },
+                      ],
+                    },
+                    "sourceMap": true,
+                  },
+                },
+              ],
+            },
             {
               "resolve": {
                 "preferRelative": true,
@@ -210,6 +300,21 @@ exports[`builder environment compat > should generator environment config correc
           ],
           "oneOf": [
             {
+              "resourceQuery": /\\[\\?&\\]worker\\(\\?:&\\|=\\|\\$\\)/,
+              "type": "javascript/auto",
+              "use": [
+                {
+                  "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/core/dist/workerLoader.mjs",
+                },
+              ],
+            },
+            {
+              "type": "asset/source",
+              "with": {
+                "type": "text",
+              },
+            },
+            {
               "resourceQuery": /\\[\\?&\\]raw\\(\\?:&\\|=\\|\\$\\)/,
               "type": "asset/source",
             },
@@ -336,12 +441,18 @@ exports[`builder environment compat > should generator environment config correc
               "generator": {
                 "filename": "static/image/[name].[contenthash:10][ext]",
               },
-              "resourceQuery": /\\^\\\\\\?url\\$/,
+              "resourceQuery": /\\[\\?&\\]url\\(\\?:&\\|=\\|\\$\\)/,
               "type": "asset/resource",
             },
             {
               "resourceQuery": /\\[\\?&\\]inline\\(\\?:&\\|=\\|\\$\\)/,
               "type": "asset/inline",
+            },
+            {
+              "type": "asset/source",
+              "with": {
+                "type": "text",
+              },
             },
             {
               "resourceQuery": /\\[\\?&\\]raw\\(\\?:&\\|=\\|\\$\\)/,
@@ -359,7 +470,7 @@ exports[`builder environment compat > should generator environment config correc
               "type": "asset",
             },
           ],
-          "test": /\\\\\\.\\(\\?:png\\|jpg\\|jpeg\\|pjpeg\\|pjp\\|gif\\|bmp\\|webp\\|ico\\|apng\\|avif\\|tif\\|tiff\\|jfif\\|cur\\)\\$/i,
+          "test": /\\\\\\.\\(\\?:png\\|jpg\\|jpeg\\|pjpeg\\|pjp\\|gif\\|bmp\\|webp\\|ico\\|apng\\|avif\\|tif\\|tiff\\|jfif\\|cur\\|jxl\\)\\$/i,
         },
         {
           "oneOf": [
@@ -367,12 +478,18 @@ exports[`builder environment compat > should generator environment config correc
               "generator": {
                 "filename": "static/media/[name].[contenthash:10][ext]",
               },
-              "resourceQuery": /\\^\\\\\\?url\\$/,
+              "resourceQuery": /\\[\\?&\\]url\\(\\?:&\\|=\\|\\$\\)/,
               "type": "asset/resource",
             },
             {
               "resourceQuery": /\\[\\?&\\]inline\\(\\?:&\\|=\\|\\$\\)/,
               "type": "asset/inline",
+            },
+            {
+              "type": "asset/source",
+              "with": {
+                "type": "text",
+              },
             },
             {
               "resourceQuery": /\\[\\?&\\]raw\\(\\?:&\\|=\\|\\$\\)/,
@@ -390,7 +507,7 @@ exports[`builder environment compat > should generator environment config correc
               "type": "asset",
             },
           ],
-          "test": /\\\\\\.\\(\\?:mp4\\|webm\\|ogg\\|mov\\|mp3\\|wav\\|flac\\|aac\\|m4a\\|opus\\)\\$/i,
+          "test": /\\\\\\.\\(\\?:mp4\\|webm\\|ogg\\|mov\\|mp3\\|wav\\|flac\\|aac\\|m4a\\|opus\\|vtt\\)\\$/i,
         },
         {
           "oneOf": [
@@ -398,12 +515,18 @@ exports[`builder environment compat > should generator environment config correc
               "generator": {
                 "filename": "static/font/[name].[contenthash:10][ext]",
               },
-              "resourceQuery": /\\^\\\\\\?url\\$/,
+              "resourceQuery": /\\[\\?&\\]url\\(\\?:&\\|=\\|\\$\\)/,
               "type": "asset/resource",
             },
             {
               "resourceQuery": /\\[\\?&\\]inline\\(\\?:&\\|=\\|\\$\\)/,
               "type": "asset/inline",
+            },
+            {
+              "type": "asset/source",
+              "with": {
+                "type": "text",
+              },
             },
             {
               "resourceQuery": /\\[\\?&\\]raw\\(\\?:&\\|=\\|\\$\\)/,
@@ -426,6 +549,49 @@ exports[`builder environment compat > should generator environment config correc
         {
           "oneOf": [
             {
+              "generator": {
+                "filename": "static/assets/[name].[contenthash:10][ext]",
+              },
+              "resourceQuery": /\\[\\?&\\]url\\(\\?:&\\|=\\|\\$\\)/,
+              "type": "asset/resource",
+            },
+            {
+              "resourceQuery": /\\[\\?&\\]inline\\(\\?:&\\|=\\|\\$\\)/,
+              "type": "asset/inline",
+            },
+            {
+              "type": "asset/source",
+              "with": {
+                "type": "text",
+              },
+            },
+            {
+              "resourceQuery": /\\[\\?&\\]raw\\(\\?:&\\|=\\|\\$\\)/,
+              "type": "asset/source",
+            },
+            {
+              "generator": {
+                "filename": "static/assets/[name].[contenthash:10][ext]",
+              },
+              "parser": {
+                "dataUrlCondition": {
+                  "maxSize": 10000,
+                },
+              },
+              "type": "asset",
+            },
+          ],
+          "test": /\\\\\\.\\(\\?:webmanifest\\|pdf\\|txt\\)\\$/i,
+        },
+        {
+          "oneOf": [
+            {
+              "type": "asset/source",
+              "with": {
+                "type": "text",
+              },
+            },
+            {
               "resourceQuery": /\\[\\?&\\]raw\\(\\?:&\\|=\\|\\$\\)/,
               "type": "asset/source",
             },
@@ -445,6 +611,105 @@ exports[`builder environment compat > should generator environment config correc
             "not": "url",
           },
           "oneOf": [
+            {
+              "resourceQuery": /\\[\\?&\\]url\\(\\?:&\\|=\\|\\$\\)/,
+              "use": [
+                {
+                  "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/core/dist/cssUrlLoader.mjs",
+                  "options": {
+                    "filename": "static/css/[name].css",
+                    "modules": {
+                      "auto": true,
+                      "exportGlobals": false,
+                      "exportLocalsConvention": "camelCase",
+                      "localIdentName": "[path][name]__[local]-[hash:base64:6]",
+                      "namedExport": false,
+                    },
+                  },
+                },
+                {
+                  "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/core/compiled/css-loader/index.js",
+                  "options": {
+                    "exportType": "string",
+                    "importLoaders": 3,
+                    "modules": false,
+                    "sourceMap": true,
+                  },
+                },
+                {
+                  "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/core/compiled/postcss-loader/index.js",
+                  "options": {
+                    "implementation": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/core/compiled/postcss/index.js",
+                    "postcssOptions": {
+                      "config": false,
+                      "plugins": [
+                        {
+                          "Once": [Function],
+                          "postcssPlugin": "postcss-flexbugs-fixes",
+                        },
+                        {
+                          "Declaration": [Function],
+                          "postcssPlugin": "postcss-page-break",
+                        },
+                        {
+                          "AtRule": {
+                            "custom-media": [Function],
+                            "media": [Function],
+                          },
+                          "postcssPlugin": "postcss-media-minmax",
+                        },
+                        {
+                          "Rule": [Function],
+                          "postcssPlugin": "postcss-nesting",
+                        },
+                        {
+                          "browsers": [
+                            "chrome >= 87",
+                            "edge >= 88",
+                            "firefox >= 78",
+                            "safari >= 14",
+                          ],
+                          "info": [Function],
+                          "options": {
+                            "flexbox": "no-2009",
+                            "overrideBrowserslist": [
+                              "chrome >= 87",
+                              "edge >= 88",
+                              "firefox >= 78",
+                              "safari >= 14",
+                            ],
+                          },
+                          "postcssPlugin": "autoprefixer",
+                          "prepare": [Function],
+                        },
+                      ],
+                    },
+                    "sourceMap": true,
+                  },
+                },
+                {
+                  "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/plugin-sass/compiled/resolve-url-loader/index.js",
+                  "options": {
+                    "join": [Function],
+                    "sourceMap": false,
+                  },
+                },
+                {
+                  "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/plugin-sass/compiled/sass-loader/index.js",
+                  "options": {
+                    "api": "modern-compiler",
+                    "implementation": "<WORKSPACE>/node_modules/<PNPM_INNER>/sass-embedded/dist/lib/index.js",
+                    "sassOptions": {
+                      "quietDeps": true,
+                      "silenceDeprecations": [
+                        "import",
+                      ],
+                    },
+                    "sourceMap": true,
+                  },
+                },
+              ],
+            },
             {
               "resourceQuery": /\\[\\?&\\]inline\\(\\?:&\\|=\\|\\$\\)/,
               "sideEffects": true,
@@ -531,6 +796,12 @@ exports[`builder environment compat > should generator environment config correc
                   },
                 },
               ],
+            },
+            {
+              "type": "asset/source",
+              "with": {
+                "type": "text",
+              },
             },
             {
               "resourceQuery": /\\[\\?&\\]raw\\(\\?:&\\|=\\|\\$\\)/,
@@ -642,6 +913,96 @@ exports[`builder environment compat > should generator environment config correc
           },
           "oneOf": [
             {
+              "resourceQuery": /\\[\\?&\\]url\\(\\?:&\\|=\\|\\$\\)/,
+              "use": [
+                {
+                  "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/core/dist/cssUrlLoader.mjs",
+                  "options": {
+                    "filename": "static/css/[name].css",
+                    "modules": {
+                      "auto": true,
+                      "exportGlobals": false,
+                      "exportLocalsConvention": "camelCase",
+                      "localIdentName": "[path][name]__[local]-[hash:base64:6]",
+                      "namedExport": false,
+                    },
+                  },
+                },
+                {
+                  "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/core/compiled/css-loader/index.js",
+                  "options": {
+                    "exportType": "string",
+                    "importLoaders": 2,
+                    "modules": false,
+                    "sourceMap": true,
+                  },
+                },
+                {
+                  "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/core/compiled/postcss-loader/index.js",
+                  "options": {
+                    "implementation": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/core/compiled/postcss/index.js",
+                    "postcssOptions": {
+                      "config": false,
+                      "plugins": [
+                        {
+                          "Once": [Function],
+                          "postcssPlugin": "postcss-flexbugs-fixes",
+                        },
+                        {
+                          "Declaration": [Function],
+                          "postcssPlugin": "postcss-page-break",
+                        },
+                        {
+                          "AtRule": {
+                            "custom-media": [Function],
+                            "media": [Function],
+                          },
+                          "postcssPlugin": "postcss-media-minmax",
+                        },
+                        {
+                          "Rule": [Function],
+                          "postcssPlugin": "postcss-nesting",
+                        },
+                        {
+                          "browsers": [
+                            "chrome >= 87",
+                            "edge >= 88",
+                            "firefox >= 78",
+                            "safari >= 14",
+                          ],
+                          "info": [Function],
+                          "options": {
+                            "flexbox": "no-2009",
+                            "overrideBrowserslist": [
+                              "chrome >= 87",
+                              "edge >= 88",
+                              "firefox >= 78",
+                              "safari >= 14",
+                            ],
+                          },
+                          "postcssPlugin": "autoprefixer",
+                          "prepare": [Function],
+                        },
+                      ],
+                    },
+                    "sourceMap": true,
+                  },
+                },
+                {
+                  "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/less-loader/dist/cjs.js",
+                  "options": {
+                    "lessOptions": {
+                      "javascriptEnabled": true,
+                      "paths": [
+                        "<WORKSPACE>/packages/cli/builder/node_modules",
+                      ],
+                    },
+                    "sourceMap": true,
+                  },
+                },
+              ],
+            },
+            {
               "resourceQuery": /\\[\\?&\\]inline\\(\\?:&\\|=\\|\\$\\)/,
               "sideEffects": true,
               "use": [
@@ -706,9 +1067,8 @@ exports[`builder environment compat > should generator environment config correc
                   },
                 },
                 {
-                  "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/plugin-less/compiled/less-loader/index.js",
+                  "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/less-loader/dist/cjs.js",
                   "options": {
-                    "implementation": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/plugin-less/compiled/less/index.js",
                     "lessOptions": {
                       "javascriptEnabled": true,
                       "paths": [
@@ -719,6 +1079,12 @@ exports[`builder environment compat > should generator environment config correc
                   },
                 },
               ],
+            },
+            {
+              "type": "asset/source",
+              "with": {
+                "type": "text",
+              },
             },
             {
               "resourceQuery": /\\[\\?&\\]raw\\(\\?:&\\|=\\|\\$\\)/,
@@ -796,9 +1162,8 @@ exports[`builder environment compat > should generator environment config correc
                   },
                 },
                 {
-                  "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/plugin-less/compiled/less-loader/index.js",
+                  "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/less-loader/dist/cjs.js",
                   "options": {
-                    "implementation": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/plugin-less/compiled/less/index.js",
                     "lessOptions": {
                       "javascriptEnabled": true,
                       "paths": [
@@ -828,6 +1193,12 @@ exports[`builder environment compat > should generator environment config correc
             {
               "resourceQuery": /\\^\\\\\\?inline\\$/,
               "type": "asset/inline",
+            },
+            {
+              "type": "asset/source",
+              "with": {
+                "type": "text",
+              },
             },
             {
               "resourceQuery": /\\^\\\\\\?raw\\$/,
@@ -1031,6 +1402,9 @@ exports[`builder environment compat > should generator environment config correc
       "chunkFilename": "static/js/async/[name].js",
       "devtoolFallbackModuleFilenameTemplate": [Function],
       "devtoolModuleFilenameTemplate": [Function],
+      "environment": {
+        "const": false,
+      },
       "filename": "static/js/[name].js",
       "path": "<WORKSPACE>/packages/cli/builder/dist",
       "publicPath": "/",
@@ -1101,6 +1475,7 @@ exports[`builder environment compat > should generator environment config correc
               "DEV": true,
               "MODE": "\\"development\\"",
               "PROD": false,
+              "SSR": false,
             },
             "process.env.ASSET_PREFIX": "\\"\\"",
             "process.env.BASE_URL": "\\"/\\"",
@@ -1134,7 +1509,7 @@ exports[`builder environment compat > should generator environment config correc
             "configFile": "<WORKSPACE>/packages/cli/builder/tsconfig.json",
             "memoryLimit": 8192,
             "mode": "readonly",
-            "typescriptPath": "<WORKSPACE>/node_modules/<PNPM_INNER>/typescript/lib/typescript.js",
+            "resolveRoot": "<WORKSPACE>/packages/cli/builder",
           },
         },
       },
@@ -1220,6 +1595,9 @@ exports[`builder environment compat > should generator environment config correc
         "<WORKSPACE>/packages/cli/builder/src/index.ts",
       ],
     },
+    "experiments": {
+      "sourceImport": true,
+    },
     "infrastructureLogging": {
       "level": "error",
     },
@@ -1247,6 +1625,43 @@ exports[`builder environment compat > should generator environment config correc
             "not": "url",
           },
           "oneOf": [
+            {
+              "type": "asset/source",
+              "with": {
+                "type": "text",
+              },
+            },
+            {
+              "resolve": {
+                "preferRelative": true,
+              },
+              "resourceQuery": /\\[\\?&\\]url\\(\\?:&\\|=\\|\\$\\)/,
+              "use": [
+                {
+                  "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/core/dist/cssUrlLoader.mjs",
+                  "options": {
+                    "filename": "[name].css",
+                    "modules": {
+                      "auto": true,
+                      "exportGlobals": false,
+                      "exportLocalsConvention": "camelCase",
+                      "exportOnlyLocals": true,
+                      "localIdentName": "[path][name]__[local]-[hash:base64:6]",
+                      "namedExport": false,
+                    },
+                  },
+                },
+                {
+                  "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/core/compiled/css-loader/index.js",
+                  "options": {
+                    "exportType": "string",
+                    "importLoaders": 0,
+                    "modules": false,
+                    "sourceMap": true,
+                  },
+                },
+              ],
+            },
             {
               "resolve": {
                 "preferRelative": true,
@@ -1277,6 +1692,16 @@ exports[`builder environment compat > should generator environment config correc
               "use": [
                 {
                   "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/core/dist/ignoreCssLoader.mjs",
+                  "options": {
+                    "modules": {
+                      "auto": true,
+                      "exportGlobals": false,
+                      "exportLocalsConvention": "camelCase",
+                      "exportOnlyLocals": true,
+                      "localIdentName": "[path][name]__[local]-[hash:base64:6]",
+                      "namedExport": false,
+                    },
+                  },
                 },
                 {
                   "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/core/compiled/css-loader/index.js",
@@ -1309,6 +1734,21 @@ exports[`builder environment compat > should generator environment config correc
             /\\\\\\.\\(\\?:ts\\|tsx\\|jsx\\|mts\\|cts\\)\\$/,
           ],
           "oneOf": [
+            {
+              "resourceQuery": /\\[\\?&\\]worker\\(\\?:&\\|=\\|\\$\\)/,
+              "type": "javascript/auto",
+              "use": [
+                {
+                  "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/core/dist/workerLoader.mjs",
+                },
+              ],
+            },
+            {
+              "type": "asset/source",
+              "with": {
+                "type": "text",
+              },
+            },
             {
               "resourceQuery": /\\[\\?&\\]raw\\(\\?:&\\|=\\|\\$\\)/,
               "type": "asset/source",
@@ -1419,12 +1859,18 @@ exports[`builder environment compat > should generator environment config correc
                 "emit": false,
                 "filename": "static/image/[name].[contenthash:10][ext]",
               },
-              "resourceQuery": /\\^\\\\\\?url\\$/,
+              "resourceQuery": /\\[\\?&\\]url\\(\\?:&\\|=\\|\\$\\)/,
               "type": "asset/resource",
             },
             {
               "resourceQuery": /\\[\\?&\\]inline\\(\\?:&\\|=\\|\\$\\)/,
               "type": "asset/inline",
+            },
+            {
+              "type": "asset/source",
+              "with": {
+                "type": "text",
+              },
             },
             {
               "resourceQuery": /\\[\\?&\\]raw\\(\\?:&\\|=\\|\\$\\)/,
@@ -1443,7 +1889,7 @@ exports[`builder environment compat > should generator environment config correc
               "type": "asset",
             },
           ],
-          "test": /\\\\\\.\\(\\?:png\\|jpg\\|jpeg\\|pjpeg\\|pjp\\|gif\\|bmp\\|webp\\|ico\\|apng\\|avif\\|tif\\|tiff\\|jfif\\|cur\\)\\$/i,
+          "test": /\\\\\\.\\(\\?:png\\|jpg\\|jpeg\\|pjpeg\\|pjp\\|gif\\|bmp\\|webp\\|ico\\|apng\\|avif\\|tif\\|tiff\\|jfif\\|cur\\|jxl\\)\\$/i,
         },
         {
           "oneOf": [
@@ -1452,12 +1898,18 @@ exports[`builder environment compat > should generator environment config correc
                 "emit": false,
                 "filename": "static/media/[name].[contenthash:10][ext]",
               },
-              "resourceQuery": /\\^\\\\\\?url\\$/,
+              "resourceQuery": /\\[\\?&\\]url\\(\\?:&\\|=\\|\\$\\)/,
               "type": "asset/resource",
             },
             {
               "resourceQuery": /\\[\\?&\\]inline\\(\\?:&\\|=\\|\\$\\)/,
               "type": "asset/inline",
+            },
+            {
+              "type": "asset/source",
+              "with": {
+                "type": "text",
+              },
             },
             {
               "resourceQuery": /\\[\\?&\\]raw\\(\\?:&\\|=\\|\\$\\)/,
@@ -1476,7 +1928,7 @@ exports[`builder environment compat > should generator environment config correc
               "type": "asset",
             },
           ],
-          "test": /\\\\\\.\\(\\?:mp4\\|webm\\|ogg\\|mov\\|mp3\\|wav\\|flac\\|aac\\|m4a\\|opus\\)\\$/i,
+          "test": /\\\\\\.\\(\\?:mp4\\|webm\\|ogg\\|mov\\|mp3\\|wav\\|flac\\|aac\\|m4a\\|opus\\|vtt\\)\\$/i,
         },
         {
           "oneOf": [
@@ -1485,12 +1937,18 @@ exports[`builder environment compat > should generator environment config correc
                 "emit": false,
                 "filename": "static/font/[name].[contenthash:10][ext]",
               },
-              "resourceQuery": /\\^\\\\\\?url\\$/,
+              "resourceQuery": /\\[\\?&\\]url\\(\\?:&\\|=\\|\\$\\)/,
               "type": "asset/resource",
             },
             {
               "resourceQuery": /\\[\\?&\\]inline\\(\\?:&\\|=\\|\\$\\)/,
               "type": "asset/inline",
+            },
+            {
+              "type": "asset/source",
+              "with": {
+                "type": "text",
+              },
             },
             {
               "resourceQuery": /\\[\\?&\\]raw\\(\\?:&\\|=\\|\\$\\)/,
@@ -1513,6 +1971,51 @@ exports[`builder environment compat > should generator environment config correc
         },
         {
           "oneOf": [
+            {
+              "generator": {
+                "emit": false,
+                "filename": "static/assets/[name].[contenthash:10][ext]",
+              },
+              "resourceQuery": /\\[\\?&\\]url\\(\\?:&\\|=\\|\\$\\)/,
+              "type": "asset/resource",
+            },
+            {
+              "resourceQuery": /\\[\\?&\\]inline\\(\\?:&\\|=\\|\\$\\)/,
+              "type": "asset/inline",
+            },
+            {
+              "type": "asset/source",
+              "with": {
+                "type": "text",
+              },
+            },
+            {
+              "resourceQuery": /\\[\\?&\\]raw\\(\\?:&\\|=\\|\\$\\)/,
+              "type": "asset/source",
+            },
+            {
+              "generator": {
+                "emit": false,
+                "filename": "static/assets/[name].[contenthash:10][ext]",
+              },
+              "parser": {
+                "dataUrlCondition": {
+                  "maxSize": 10000,
+                },
+              },
+              "type": "asset",
+            },
+          ],
+          "test": /\\\\\\.\\(\\?:webmanifest\\|pdf\\|txt\\)\\$/i,
+        },
+        {
+          "oneOf": [
+            {
+              "type": "asset/source",
+              "with": {
+                "type": "text",
+              },
+            },
             {
               "resourceQuery": /\\[\\?&\\]raw\\(\\?:&\\|=\\|\\$\\)/,
               "type": "asset/source",
@@ -1545,6 +2048,55 @@ exports[`builder environment compat > should generator environment config correc
             "not": "url",
           },
           "oneOf": [
+            {
+              "resourceQuery": /\\[\\?&\\]url\\(\\?:&\\|=\\|\\$\\)/,
+              "use": [
+                {
+                  "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/core/dist/cssUrlLoader.mjs",
+                  "options": {
+                    "filename": "[name].css",
+                    "modules": {
+                      "auto": true,
+                      "exportGlobals": false,
+                      "exportLocalsConvention": "camelCase",
+                      "exportOnlyLocals": true,
+                      "localIdentName": "[path][name]__[local]-[hash:base64:6]",
+                      "namedExport": false,
+                    },
+                  },
+                },
+                {
+                  "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/core/compiled/css-loader/index.js",
+                  "options": {
+                    "exportType": "string",
+                    "importLoaders": 2,
+                    "modules": false,
+                    "sourceMap": true,
+                  },
+                },
+                {
+                  "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/plugin-sass/compiled/resolve-url-loader/index.js",
+                  "options": {
+                    "join": [Function],
+                    "sourceMap": false,
+                  },
+                },
+                {
+                  "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/plugin-sass/compiled/sass-loader/index.js",
+                  "options": {
+                    "api": "modern-compiler",
+                    "implementation": "<WORKSPACE>/node_modules/<PNPM_INNER>/sass-embedded/dist/lib/index.js",
+                    "sassOptions": {
+                      "quietDeps": true,
+                      "silenceDeprecations": [
+                        "import",
+                      ],
+                    },
+                    "sourceMap": true,
+                  },
+                },
+              ],
+            },
             {
               "resourceQuery": /\\[\\?&\\]inline\\(\\?:&\\|=\\|\\$\\)/,
               "sideEffects": true,
@@ -1582,6 +2134,12 @@ exports[`builder environment compat > should generator environment config correc
               ],
             },
             {
+              "type": "asset/source",
+              "with": {
+                "type": "text",
+              },
+            },
+            {
               "resourceQuery": /\\[\\?&\\]raw\\(\\?:&\\|=\\|\\$\\)/,
               "type": "asset/source",
             },
@@ -1590,6 +2148,16 @@ exports[`builder environment compat > should generator environment config correc
               "use": [
                 {
                   "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/core/dist/ignoreCssLoader.mjs",
+                  "options": {
+                    "modules": {
+                      "auto": true,
+                      "exportGlobals": false,
+                      "exportLocalsConvention": "camelCase",
+                      "exportOnlyLocals": true,
+                      "localIdentName": "[path][name]__[local]-[hash:base64:6]",
+                      "namedExport": false,
+                    },
+                  },
                 },
                 {
                   "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/core/compiled/css-loader/index.js",
@@ -1641,6 +2209,46 @@ exports[`builder environment compat > should generator environment config correc
           },
           "oneOf": [
             {
+              "resourceQuery": /\\[\\?&\\]url\\(\\?:&\\|=\\|\\$\\)/,
+              "use": [
+                {
+                  "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/core/dist/cssUrlLoader.mjs",
+                  "options": {
+                    "filename": "[name].css",
+                    "modules": {
+                      "auto": true,
+                      "exportGlobals": false,
+                      "exportLocalsConvention": "camelCase",
+                      "exportOnlyLocals": true,
+                      "localIdentName": "[path][name]__[local]-[hash:base64:6]",
+                      "namedExport": false,
+                    },
+                  },
+                },
+                {
+                  "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/core/compiled/css-loader/index.js",
+                  "options": {
+                    "exportType": "string",
+                    "importLoaders": 1,
+                    "modules": false,
+                    "sourceMap": true,
+                  },
+                },
+                {
+                  "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/less-loader/dist/cjs.js",
+                  "options": {
+                    "lessOptions": {
+                      "javascriptEnabled": true,
+                      "paths": [
+                        "<WORKSPACE>/packages/cli/builder/node_modules",
+                      ],
+                    },
+                    "sourceMap": true,
+                  },
+                },
+              ],
+            },
+            {
               "resourceQuery": /\\[\\?&\\]inline\\(\\?:&\\|=\\|\\$\\)/,
               "sideEffects": true,
               "use": [
@@ -1654,9 +2262,8 @@ exports[`builder environment compat > should generator environment config correc
                   },
                 },
                 {
-                  "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/plugin-less/compiled/less-loader/index.js",
+                  "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/less-loader/dist/cjs.js",
                   "options": {
-                    "implementation": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/plugin-less/compiled/less/index.js",
                     "lessOptions": {
                       "javascriptEnabled": true,
                       "paths": [
@@ -1669,6 +2276,12 @@ exports[`builder environment compat > should generator environment config correc
               ],
             },
             {
+              "type": "asset/source",
+              "with": {
+                "type": "text",
+              },
+            },
+            {
               "resourceQuery": /\\[\\?&\\]raw\\(\\?:&\\|=\\|\\$\\)/,
               "type": "asset/source",
             },
@@ -1677,6 +2290,16 @@ exports[`builder environment compat > should generator environment config correc
               "use": [
                 {
                   "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/core/dist/ignoreCssLoader.mjs",
+                  "options": {
+                    "modules": {
+                      "auto": true,
+                      "exportGlobals": false,
+                      "exportLocalsConvention": "camelCase",
+                      "exportOnlyLocals": true,
+                      "localIdentName": "[path][name]__[local]-[hash:base64:6]",
+                      "namedExport": false,
+                    },
+                  },
                 },
                 {
                   "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/core/compiled/css-loader/index.js",
@@ -1694,9 +2317,8 @@ exports[`builder environment compat > should generator environment config correc
                   },
                 },
                 {
-                  "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/plugin-less/compiled/less-loader/index.js",
+                  "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/less-loader/dist/cjs.js",
                   "options": {
-                    "implementation": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/plugin-less/compiled/less/index.js",
                     "lessOptions": {
                       "javascriptEnabled": true,
                       "paths": [
@@ -1727,6 +2349,12 @@ exports[`builder environment compat > should generator environment config correc
             {
               "resourceQuery": /\\^\\\\\\?inline\\$/,
               "type": "asset/inline",
+            },
+            {
+              "type": "asset/source",
+              "with": {
+                "type": "text",
+              },
             },
             {
               "resourceQuery": /\\^\\\\\\?raw\\$/,
@@ -1892,7 +2520,10 @@ exports[`builder environment compat > should generator environment config correc
     "name": "server",
     "optimization": {
       "minimize": false,
-      "splitChunks": false,
+      "splitChunks": {
+        "chunks": "async",
+        "minSize": 0,
+      },
     },
     "output": {
       "assetModuleFilename": "static/assets/[name].[contenthash:10][ext]",
@@ -1923,6 +2554,7 @@ exports[`builder environment compat > should generator environment config correc
               "DEV": true,
               "MODE": "\\"development\\"",
               "PROD": false,
+              "SSR": true,
             },
             "process.env.ASSET_PREFIX": "\\"\\"",
             "process.env.BASE_URL": "\\"/\\"",
@@ -1997,6 +2629,9 @@ exports[`builder environment compat > should generator environment config correc
         "<WORKSPACE>/packages/cli/builder/src/index.ts",
       ],
     },
+    "experiments": {
+      "sourceImport": true,
+    },
     "infrastructureLogging": {
       "level": "error",
     },
@@ -2020,6 +2655,43 @@ exports[`builder environment compat > should generator environment config correc
             "not": "url",
           },
           "oneOf": [
+            {
+              "type": "asset/source",
+              "with": {
+                "type": "text",
+              },
+            },
+            {
+              "resolve": {
+                "preferRelative": true,
+              },
+              "resourceQuery": /\\[\\?&\\]url\\(\\?:&\\|=\\|\\$\\)/,
+              "use": [
+                {
+                  "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/core/dist/cssUrlLoader.mjs",
+                  "options": {
+                    "filename": "[name].css",
+                    "modules": {
+                      "auto": true,
+                      "exportGlobals": false,
+                      "exportLocalsConvention": "camelCase",
+                      "exportOnlyLocals": true,
+                      "localIdentName": "[path][name]__[local]-[hash:base64:6]",
+                      "namedExport": false,
+                    },
+                  },
+                },
+                {
+                  "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/core/compiled/css-loader/index.js",
+                  "options": {
+                    "exportType": "string",
+                    "importLoaders": 0,
+                    "modules": false,
+                    "sourceMap": true,
+                  },
+                },
+              ],
+            },
             {
               "resolve": {
                 "preferRelative": true,
@@ -2050,6 +2722,16 @@ exports[`builder environment compat > should generator environment config correc
               "use": [
                 {
                   "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/core/dist/ignoreCssLoader.mjs",
+                  "options": {
+                    "modules": {
+                      "auto": true,
+                      "exportGlobals": false,
+                      "exportLocalsConvention": "camelCase",
+                      "exportOnlyLocals": true,
+                      "localIdentName": "[path][name]__[local]-[hash:base64:6]",
+                      "namedExport": false,
+                    },
+                  },
                 },
                 {
                   "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/core/compiled/css-loader/index.js",
@@ -2082,6 +2764,21 @@ exports[`builder environment compat > should generator environment config correc
             /\\\\\\.\\(\\?:ts\\|tsx\\|jsx\\|mts\\|cts\\)\\$/,
           ],
           "oneOf": [
+            {
+              "resourceQuery": /\\[\\?&\\]worker\\(\\?:&\\|=\\|\\$\\)/,
+              "type": "javascript/auto",
+              "use": [
+                {
+                  "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/core/dist/workerLoader.mjs",
+                },
+              ],
+            },
+            {
+              "type": "asset/source",
+              "with": {
+                "type": "text",
+              },
+            },
             {
               "resourceQuery": /\\[\\?&\\]raw\\(\\?:&\\|=\\|\\$\\)/,
               "type": "asset/source",
@@ -2191,12 +2888,18 @@ exports[`builder environment compat > should generator environment config correc
               "generator": {
                 "filename": "static/image/[name].[contenthash:10][ext]",
               },
-              "resourceQuery": /\\^\\\\\\?url\\$/,
+              "resourceQuery": /\\[\\?&\\]url\\(\\?:&\\|=\\|\\$\\)/,
               "type": "asset/resource",
             },
             {
               "resourceQuery": /\\[\\?&\\]inline\\(\\?:&\\|=\\|\\$\\)/,
               "type": "asset/inline",
+            },
+            {
+              "type": "asset/source",
+              "with": {
+                "type": "text",
+              },
             },
             {
               "resourceQuery": /\\[\\?&\\]raw\\(\\?:&\\|=\\|\\$\\)/,
@@ -2214,7 +2917,7 @@ exports[`builder environment compat > should generator environment config correc
               "type": "asset",
             },
           ],
-          "test": /\\\\\\.\\(\\?:png\\|jpg\\|jpeg\\|pjpeg\\|pjp\\|gif\\|bmp\\|webp\\|ico\\|apng\\|avif\\|tif\\|tiff\\|jfif\\|cur\\)\\$/i,
+          "test": /\\\\\\.\\(\\?:png\\|jpg\\|jpeg\\|pjpeg\\|pjp\\|gif\\|bmp\\|webp\\|ico\\|apng\\|avif\\|tif\\|tiff\\|jfif\\|cur\\|jxl\\)\\$/i,
         },
         {
           "oneOf": [
@@ -2222,12 +2925,18 @@ exports[`builder environment compat > should generator environment config correc
               "generator": {
                 "filename": "static/media/[name].[contenthash:10][ext]",
               },
-              "resourceQuery": /\\^\\\\\\?url\\$/,
+              "resourceQuery": /\\[\\?&\\]url\\(\\?:&\\|=\\|\\$\\)/,
               "type": "asset/resource",
             },
             {
               "resourceQuery": /\\[\\?&\\]inline\\(\\?:&\\|=\\|\\$\\)/,
               "type": "asset/inline",
+            },
+            {
+              "type": "asset/source",
+              "with": {
+                "type": "text",
+              },
             },
             {
               "resourceQuery": /\\[\\?&\\]raw\\(\\?:&\\|=\\|\\$\\)/,
@@ -2245,7 +2954,7 @@ exports[`builder environment compat > should generator environment config correc
               "type": "asset",
             },
           ],
-          "test": /\\\\\\.\\(\\?:mp4\\|webm\\|ogg\\|mov\\|mp3\\|wav\\|flac\\|aac\\|m4a\\|opus\\)\\$/i,
+          "test": /\\\\\\.\\(\\?:mp4\\|webm\\|ogg\\|mov\\|mp3\\|wav\\|flac\\|aac\\|m4a\\|opus\\|vtt\\)\\$/i,
         },
         {
           "oneOf": [
@@ -2253,12 +2962,18 @@ exports[`builder environment compat > should generator environment config correc
               "generator": {
                 "filename": "static/font/[name].[contenthash:10][ext]",
               },
-              "resourceQuery": /\\^\\\\\\?url\\$/,
+              "resourceQuery": /\\[\\?&\\]url\\(\\?:&\\|=\\|\\$\\)/,
               "type": "asset/resource",
             },
             {
               "resourceQuery": /\\[\\?&\\]inline\\(\\?:&\\|=\\|\\$\\)/,
               "type": "asset/inline",
+            },
+            {
+              "type": "asset/source",
+              "with": {
+                "type": "text",
+              },
             },
             {
               "resourceQuery": /\\[\\?&\\]raw\\(\\?:&\\|=\\|\\$\\)/,
@@ -2281,6 +2996,49 @@ exports[`builder environment compat > should generator environment config correc
         {
           "oneOf": [
             {
+              "generator": {
+                "filename": "static/assets/[name].[contenthash:10][ext]",
+              },
+              "resourceQuery": /\\[\\?&\\]url\\(\\?:&\\|=\\|\\$\\)/,
+              "type": "asset/resource",
+            },
+            {
+              "resourceQuery": /\\[\\?&\\]inline\\(\\?:&\\|=\\|\\$\\)/,
+              "type": "asset/inline",
+            },
+            {
+              "type": "asset/source",
+              "with": {
+                "type": "text",
+              },
+            },
+            {
+              "resourceQuery": /\\[\\?&\\]raw\\(\\?:&\\|=\\|\\$\\)/,
+              "type": "asset/source",
+            },
+            {
+              "generator": {
+                "filename": "static/assets/[name].[contenthash:10][ext]",
+              },
+              "parser": {
+                "dataUrlCondition": {
+                  "maxSize": 10000,
+                },
+              },
+              "type": "asset",
+            },
+          ],
+          "test": /\\\\\\.\\(\\?:webmanifest\\|pdf\\|txt\\)\\$/i,
+        },
+        {
+          "oneOf": [
+            {
+              "type": "asset/source",
+              "with": {
+                "type": "text",
+              },
+            },
+            {
               "resourceQuery": /\\[\\?&\\]raw\\(\\?:&\\|=\\|\\$\\)/,
               "type": "asset/source",
             },
@@ -2300,6 +3058,55 @@ exports[`builder environment compat > should generator environment config correc
             "not": "url",
           },
           "oneOf": [
+            {
+              "resourceQuery": /\\[\\?&\\]url\\(\\?:&\\|=\\|\\$\\)/,
+              "use": [
+                {
+                  "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/core/dist/cssUrlLoader.mjs",
+                  "options": {
+                    "filename": "[name].css",
+                    "modules": {
+                      "auto": true,
+                      "exportGlobals": false,
+                      "exportLocalsConvention": "camelCase",
+                      "exportOnlyLocals": true,
+                      "localIdentName": "[path][name]__[local]-[hash:base64:6]",
+                      "namedExport": false,
+                    },
+                  },
+                },
+                {
+                  "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/core/compiled/css-loader/index.js",
+                  "options": {
+                    "exportType": "string",
+                    "importLoaders": 2,
+                    "modules": false,
+                    "sourceMap": true,
+                  },
+                },
+                {
+                  "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/plugin-sass/compiled/resolve-url-loader/index.js",
+                  "options": {
+                    "join": [Function],
+                    "sourceMap": false,
+                  },
+                },
+                {
+                  "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/plugin-sass/compiled/sass-loader/index.js",
+                  "options": {
+                    "api": "modern-compiler",
+                    "implementation": "<WORKSPACE>/node_modules/<PNPM_INNER>/sass-embedded/dist/lib/index.js",
+                    "sassOptions": {
+                      "quietDeps": true,
+                      "silenceDeprecations": [
+                        "import",
+                      ],
+                    },
+                    "sourceMap": true,
+                  },
+                },
+              ],
+            },
             {
               "resourceQuery": /\\[\\?&\\]inline\\(\\?:&\\|=\\|\\$\\)/,
               "sideEffects": true,
@@ -2337,6 +3144,12 @@ exports[`builder environment compat > should generator environment config correc
               ],
             },
             {
+              "type": "asset/source",
+              "with": {
+                "type": "text",
+              },
+            },
+            {
               "resourceQuery": /\\[\\?&\\]raw\\(\\?:&\\|=\\|\\$\\)/,
               "type": "asset/source",
             },
@@ -2345,6 +3158,16 @@ exports[`builder environment compat > should generator environment config correc
               "use": [
                 {
                   "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/core/dist/ignoreCssLoader.mjs",
+                  "options": {
+                    "modules": {
+                      "auto": true,
+                      "exportGlobals": false,
+                      "exportLocalsConvention": "camelCase",
+                      "exportOnlyLocals": true,
+                      "localIdentName": "[path][name]__[local]-[hash:base64:6]",
+                      "namedExport": false,
+                    },
+                  },
                 },
                 {
                   "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/core/compiled/css-loader/index.js",
@@ -2396,6 +3219,46 @@ exports[`builder environment compat > should generator environment config correc
           },
           "oneOf": [
             {
+              "resourceQuery": /\\[\\?&\\]url\\(\\?:&\\|=\\|\\$\\)/,
+              "use": [
+                {
+                  "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/core/dist/cssUrlLoader.mjs",
+                  "options": {
+                    "filename": "[name].css",
+                    "modules": {
+                      "auto": true,
+                      "exportGlobals": false,
+                      "exportLocalsConvention": "camelCase",
+                      "exportOnlyLocals": true,
+                      "localIdentName": "[path][name]__[local]-[hash:base64:6]",
+                      "namedExport": false,
+                    },
+                  },
+                },
+                {
+                  "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/core/compiled/css-loader/index.js",
+                  "options": {
+                    "exportType": "string",
+                    "importLoaders": 1,
+                    "modules": false,
+                    "sourceMap": true,
+                  },
+                },
+                {
+                  "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/less-loader/dist/cjs.js",
+                  "options": {
+                    "lessOptions": {
+                      "javascriptEnabled": true,
+                      "paths": [
+                        "<WORKSPACE>/packages/cli/builder/node_modules",
+                      ],
+                    },
+                    "sourceMap": true,
+                  },
+                },
+              ],
+            },
+            {
               "resourceQuery": /\\[\\?&\\]inline\\(\\?:&\\|=\\|\\$\\)/,
               "sideEffects": true,
               "use": [
@@ -2409,9 +3272,8 @@ exports[`builder environment compat > should generator environment config correc
                   },
                 },
                 {
-                  "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/plugin-less/compiled/less-loader/index.js",
+                  "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/less-loader/dist/cjs.js",
                   "options": {
-                    "implementation": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/plugin-less/compiled/less/index.js",
                     "lessOptions": {
                       "javascriptEnabled": true,
                       "paths": [
@@ -2424,6 +3286,12 @@ exports[`builder environment compat > should generator environment config correc
               ],
             },
             {
+              "type": "asset/source",
+              "with": {
+                "type": "text",
+              },
+            },
+            {
               "resourceQuery": /\\[\\?&\\]raw\\(\\?:&\\|=\\|\\$\\)/,
               "type": "asset/source",
             },
@@ -2432,6 +3300,16 @@ exports[`builder environment compat > should generator environment config correc
               "use": [
                 {
                   "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/core/dist/ignoreCssLoader.mjs",
+                  "options": {
+                    "modules": {
+                      "auto": true,
+                      "exportGlobals": false,
+                      "exportLocalsConvention": "camelCase",
+                      "exportOnlyLocals": true,
+                      "localIdentName": "[path][name]__[local]-[hash:base64:6]",
+                      "namedExport": false,
+                    },
+                  },
                 },
                 {
                   "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/core/compiled/css-loader/index.js",
@@ -2449,9 +3327,8 @@ exports[`builder environment compat > should generator environment config correc
                   },
                 },
                 {
-                  "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/plugin-less/compiled/less-loader/index.js",
+                  "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/less-loader/dist/cjs.js",
                   "options": {
-                    "implementation": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/plugin-less/compiled/less/index.js",
                     "lessOptions": {
                       "javascriptEnabled": true,
                       "paths": [
@@ -2481,6 +3358,12 @@ exports[`builder environment compat > should generator environment config correc
             {
               "resourceQuery": /\\^\\\\\\?inline\\$/,
               "type": "asset/inline",
+            },
+            {
+              "type": "asset/source",
+              "with": {
+                "type": "text",
+              },
             },
             {
               "resourceQuery": /\\^\\\\\\?raw\\$/,
@@ -2652,6 +3535,9 @@ exports[`builder environment compat > should generator environment config correc
       "chunkFilename": "[name].js",
       "devtoolFallbackModuleFilenameTemplate": "[relative-resource-path]?[hash]",
       "devtoolModuleFilenameTemplate": "[relative-resource-path]",
+      "environment": {
+        "const": false,
+      },
       "filename": "[name].js",
       "library": {
         "type": "commonjs2",
@@ -2676,6 +3562,7 @@ exports[`builder environment compat > should generator environment config correc
               "DEV": true,
               "MODE": "\\"development\\"",
               "PROD": false,
+              "SSR": false,
             },
             "process.env.ASSET_PREFIX": "\\"\\"",
             "process.env.BASE_URL": "\\"/\\"",

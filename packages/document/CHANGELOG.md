@@ -1,5 +1,95 @@
 # @modern-js/main-doc
 
+## 3.9.3
+
+### Patch Changes
+
+- @modern-js/sandpack-react@3.9.3
+
+## 3.9.2
+
+### Patch Changes
+
+- @modern-js/sandpack-react@3.9.2
+
+## 3.9.1
+
+### Patch Changes
+
+- @modern-js/sandpack-react@3.9.1
+
+## 3.9.0
+
+### Patch Changes
+
+- @modern-js/sandpack-react@3.9.0
+
+## 3.8.3
+
+### Patch Changes
+
+- @modern-js/sandpack-react@3.8.3
+
+## 3.8.2
+
+### Patch Changes
+
+- @modern-js/sandpack-react@3.8.2
+
+## 3.8.1
+
+### Patch Changes
+
+- @modern-js/sandpack-react@3.8.1
+
+## 3.8.0
+
+### Patch Changes
+
+- @modern-js/sandpack-react@3.8.0
+
+## 3.7.0
+
+### Patch Changes
+
+- @modern-js/sandpack-react@3.7.0
+
+## 3.6.0
+
+### Patch Changes
+
+- @modern-js/sandpack-react@3.6.0
+
+## 3.5.0
+
+### Patch Changes
+
+- @modern-js/sandpack-react@3.5.0
+
+## 3.4.0
+
+### Patch Changes
+
+- @modern-js/sandpack-react@3.4.0
+
+## 3.3.0
+
+### Patch Changes
+
+- @modern-js/sandpack-react@3.3.0
+
+## 3.2.2
+
+### Patch Changes
+
+- @modern-js/sandpack-react@3.2.2
+
+## 3.2.1
+
+### Patch Changes
+
+- @modern-js/sandpack-react@3.2.1
+
 ## 3.2.0
 
 ### Patch Changes

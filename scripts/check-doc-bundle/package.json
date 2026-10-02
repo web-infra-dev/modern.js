@@ -1,0 +1,15 @@
+{
+  "name": "@scripts/check-doc-bundle",
+  "version": "2.66.0",
+  "private": true,
+  "scripts": {
+    "dev": "tsc --watch",
+    "build": "tsc",
+    "start": "tsx ./src/index.ts"
+  },
+  "devDependencies": {
+    "@types/node": "^20",
+    "tsx": "^3.14.0",
+    "typescript": "^5"
+  }
+}

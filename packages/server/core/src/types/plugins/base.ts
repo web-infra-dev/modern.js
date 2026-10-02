@@ -14,17 +14,6 @@ import type { Render } from '../render';
 import type { ServerPlugin } from './plugin';
 
 export type { FileChangeEvent, ResetEvent } from '@modern-js/plugin';
-export type FallbackReason = 'error' | 'header' | 'query' | `header,${string}`;
-
-export type FallbackInput = {
-  reason: FallbackReason;
-  error: unknown;
-};
-
-export type OnFallback = (
-  reason: FallbackReason,
-  error?: unknown,
-) => Promise<void>;
 
 export type APIServerStartInput = {
   pwd: string;
@@ -66,7 +55,6 @@ export interface GetRenderHandlerOptions {
   pwd: string;
   routes: ServerRoute[];
   config: UserConfig;
-  onFallback?: OnFallback;
   cacheConfig?: CacheConfig;
   staticGenerate?: boolean;
   metaName?: string;

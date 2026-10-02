@@ -118,6 +118,28 @@ describe('create builder provider config', () => {
     expect(builderConfig.dev?.startUrl).toEqual('/xxx');
   });
 
+  it('should not pass dev.mockDir to Builder', () => {
+    const config = {
+      source: {},
+      output: {},
+      dev: {
+        mockDir: './mocks',
+      },
+    };
+    const appContext = {
+      appDirectory: `/fixtures`,
+      configDir: './icons',
+    };
+
+    const builderConfig = createBuilderProviderConfig(
+      config as any,
+      appContext as any,
+    );
+
+    expect(builderConfig.dev?.mockDir).toBeUndefined();
+    expect(config.dev.mockDir).toBe('./mocks');
+  });
+
   it('should not mutate source.preEntry when removing it from builder config', () => {
     const config = {
       source: {

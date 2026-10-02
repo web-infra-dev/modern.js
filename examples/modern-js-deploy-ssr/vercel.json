@@ -1,0 +1,4 @@
+{
+  "buildCommand": "modern deploy",
+  "outputDirectory": ".vercel/output"
+}

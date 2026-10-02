@@ -32,16 +32,20 @@ function isRedirectResponse(res: Response) {
   return redirectStatusCodes.has(res.status);
 }
 
-function throwTanstackRedirect(location: string) {
+function throwTanstackRedirect(
+  location: string,
+  statusCode: number,
+  headers: Headers,
+) {
   const target = location || '/';
   // Prefer `to` for internal/relative redirects so basepath can be applied.
   // Use `href` for absolute redirects (external).
   try {
     void new URL(target);
-    throw redirect({ href: target });
   } catch {
-    throw redirect({ to: target });
+    throw redirect({ to: target, statusCode, headers });
   }
+  throw redirect({ href: target, statusCode, headers });
 }
 
 function mapParamsForModernLoader({
@@ -89,7 +93,7 @@ function normalizeModernLoaderResult(result: unknown) {
   if (isResponse(result)) {
     if (isRedirectResponse(result)) {
       const location = result.headers.get('Location') || '/';
-      throwTanstackRedirect(location);
+      throwTanstackRedirect(location, result.status, result.headers);
     }
     if (result.status === 404) {
       throw notFound();
@@ -106,7 +110,7 @@ function normalizeModernLoaderError(err: unknown): never {
     }
     if (isRedirectResponse(err)) {
       const location = err.headers.get('Location') || '/';
-      throwTanstackRedirect(location);
+      throwTanstackRedirect(location, err.status, err.headers);
     }
     if (err.status === 404) {
       throw notFound();
@@ -151,7 +155,7 @@ function wrapModernLoader(
         return null;
       }
 
-      return callModernRouteHandler(modernLoader, ctx, params);
+      return await callModernRouteHandler(modernLoader, ctx, params);
     } catch (err) {
       normalizeModernLoaderError(err);
     }
@@ -196,7 +200,7 @@ function wrapRouteObjectLoader(route: RouteObject) {
         params: ctx.params || {},
       });
 
-      return callModernRouteHandler(routeLoader, ctx, params);
+      return await callModernRouteHandler(routeLoader, ctx, params);
     } catch (err) {
       normalizeModernLoaderError(err);
     }
@@ -452,7 +456,7 @@ export function createRouteTreeFromRouteObjects(
 export function getModernRouteIdsFromMatches(router: AnyRouter): string[] {
   const matches = router.state.matches || [];
   const ids = matches
-    .map((m: any) => m.route?.options?.staticData?.modernRouteId)
+    .map((m: any) => m.staticData?.modernRouteId)
     .filter(Boolean);
   return Array.from(new Set(ids));
 }

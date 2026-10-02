@@ -1,3 +1,5 @@
+import fs from 'fs';
+import os from 'os';
 import path from 'path';
 import {
   type ServerPlugin,
@@ -26,12 +28,12 @@ function getDefaultAppContext() {
   };
 }
 
-function createMockPlugin(pwd: string): ServerPlugin {
+function createMockPlugin(pwd: string, mockDir?: string): ServerPlugin {
   return {
     name: 'mock-plugin',
     setup(api) {
       api.onPrepare(async () => {
-        const mockMiddleware = await getMockMiddleware(pwd);
+        const mockMiddleware = await getMockMiddleware(pwd, mockDir);
         const { middlewares } = api.getServerContext();
 
         middlewares.push({
@@ -183,6 +185,86 @@ describe('should mock middleware work correctly', () => {
       await server.init();
     } catch (e: any) {
       expect(e.message).toMatch('should be object or function, but got string');
+    }
+  });
+
+  // Users author mocks in TypeScript. getMockModule loads through
+  // compatibleRequire's CJS `require()`, which strips `.ts` types (natively on
+  // Node >= 22.18) — a raw `import('*.ts')` would throw
+  // ERR_UNKNOWN_FILE_EXTENSION.
+  //
+  // The dev "edit -> new value on next reload" freshness cannot be asserted
+  // here: rstest runs the test in a module scope whose `require.cache` differs
+  // from the one the loader populates, so the test can't bust the cache the way
+  // the dev watcher does. That path is verified against a real `modern dev`
+  // server (compatibleRequire's require + the watcher's require.cache busting
+  // return fresh content on each reload).
+  it('loads a mock authored in TypeScript', async () => {
+    const tmpRoot = fs.mkdtempSync(path.join(os.tmpdir(), 'modern-mock-'));
+    const mockDir = path.join(tmpRoot, 'config', 'mock');
+    fs.mkdirSync(mockDir, { recursive: true });
+    fs.writeFileSync(
+      path.join(mockDir, 'index.ts'),
+      // `: string` is TS-only syntax — proves the file is transpiled, not
+      // parsed as plain JS.
+      `const label: string = 'from-ts';\n` +
+        `export default { 'GET /api/ping': { value: label } };\n`,
+    );
+
+    const server = createServerBase({
+      config: getDefaultConfig(),
+      pwd: '',
+      appContext: getDefaultAppContext(),
+    });
+    server.addPlugins([compatPlugin(), createMockPlugin(tmpRoot)]);
+    await server.init();
+
+    try {
+      const response = await server.request('/api/ping');
+      expect(await response.json()).toEqual({ value: 'from-ts' });
+    } finally {
+      fs.rmSync(tmpRoot, { recursive: true, force: true });
+    }
+  });
+
+  it.each([
+    {
+      name: 'relative',
+      getAppRoot: (tmpRoot: string) => tmpRoot,
+      getMockDir: (_tmpRoot: string) => './fixtures/mocks',
+      getMockPath: (tmpRoot: string) => path.join(tmpRoot, 'fixtures', 'mocks'),
+    },
+    {
+      name: 'absolute',
+      getAppRoot: (tmpRoot: string) => path.join(tmpRoot, 'app'),
+      getMockDir: (tmpRoot: string) => path.join(tmpRoot, 'shared-mocks'),
+      getMockPath: (tmpRoot: string) => path.join(tmpRoot, 'shared-mocks'),
+    },
+  ])('loads a mock from a $name custom directory', async testCase => {
+    const tmpRoot = fs.mkdtempSync(path.join(os.tmpdir(), 'modern-mock-dir-'));
+    const appRoot = testCase.getAppRoot(tmpRoot);
+    const mockDir = testCase.getMockDir(tmpRoot);
+    const mockPath = testCase.getMockPath(tmpRoot);
+    fs.mkdirSync(appRoot, { recursive: true });
+    fs.mkdirSync(mockPath, { recursive: true });
+    fs.writeFileSync(
+      path.join(mockPath, 'index.ts'),
+      `export default { '/api/custom-mock': { source: '${testCase.name}' } };\n`,
+    );
+
+    const server = createServerBase({
+      config: getDefaultConfig(),
+      pwd: '',
+      appContext: getDefaultAppContext(),
+    });
+    server.addPlugins([compatPlugin(), createMockPlugin(appRoot, mockDir)]);
+    await server.init();
+
+    try {
+      const response = await server.request('/api/custom-mock');
+      expect(await response.json()).toEqual({ source: testCase.name });
+    } finally {
+      fs.rmSync(tmpRoot, { recursive: true, force: true });
     }
   });
 });

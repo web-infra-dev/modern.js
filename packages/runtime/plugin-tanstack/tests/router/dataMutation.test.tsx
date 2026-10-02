@@ -361,6 +361,68 @@ describe('tanstack data mutation fetcher', () => {
     expect(screen.getByTestId('data').textContent).toBe('{"count":3}');
   });
 
+  test.each([
+    { method: 'get', staleResult: 'success' },
+    { method: 'get', staleResult: 'error' },
+    { method: 'post', staleResult: 'success' },
+    { method: 'post', staleResult: 'error' },
+  ])(
+    'keeps the latest $method result after a stale $staleResult',
+    async ({ method, staleResult }) => {
+      const results = [
+        createDeferred<{ count: number }>(),
+        createDeferred<{ count: number }>(),
+      ];
+      let callIndex = 0;
+      const handler = rstest.fn(() => results[callIndex++].promise);
+      currentRouter = createRouter({ action: handler, loader: handler });
+
+      render(<FetcherHarness />);
+
+      let firstSubmit: Promise<void> | undefined;
+      let secondSubmit: Promise<void> | undefined;
+      act(() => {
+        firstSubmit = latestFetcher!.submit(
+          { amount: 1 },
+          { method, action: '/mutation' },
+        );
+        secondSubmit = latestFetcher!.submit(
+          { amount: 2 },
+          { method, action: '/mutation' },
+        );
+      });
+      const firstCompletion = firstSubmit!.catch(error => error);
+      expect(handler).toHaveBeenCalledTimes(2);
+
+      await act(async () => {
+        results[1].resolve({ count: 2 });
+        await secondSubmit;
+      });
+
+      expect(screen.getByTestId('data').textContent).toBe('{"count":2}');
+      expect(screen.getByTestId('error').textContent).toBe('');
+      expect(screen.getByTestId('state').textContent).toBe(
+        method === 'get' ? 'loading' : 'submitting',
+      );
+
+      const staleError = new Error('stale request failed');
+      let firstError: unknown;
+      await act(async () => {
+        if (staleResult === 'error') {
+          results[0].reject(staleError);
+        } else {
+          results[0].resolve({ count: 1 });
+        }
+        firstError = await firstCompletion;
+      });
+
+      expect(firstError).toBe(staleResult === 'error' ? staleError : undefined);
+      expect(screen.getByTestId('data').textContent).toBe('{"count":2}');
+      expect(screen.getByTestId('error').textContent).toBe('');
+      expect(screen.getByTestId('state').textContent).toBe('idle');
+    },
+  );
+
   test('does not throw for Form submit with non-2xx response and still invalidates', async () => {
     const action = rstest.fn(
       async () =>

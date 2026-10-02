@@ -45,7 +45,10 @@ export const builderPluginAdapterHtml = (
 async function injectAssetPrefix({ chain }: { chain: RspackChain }) {
   const entries = chain.entryPoints.entries() || {};
   const entryNames = Object.keys(entries);
-  const assetPrefix = removeTailSlash(chain.output.get('publicPath') || '');
+  const publicPath = chain.output.get('publicPath');
+  const assetPrefix = removeTailSlash(
+    typeof publicPath === 'string' ? publicPath : '',
+  );
   const code = `window.__assetPrefix__ = '${assetPrefix}';`;
 
   entryNames.forEach(entryName => {
@@ -74,7 +77,7 @@ function applyBottomHtmlPlugin({
     const baseTemplateParams = {
       entryName,
       title: modernConfig.html.title,
-      mountId: modernConfig.html.templateParameters,
+      mountId: modernConfig.html.mountId,
     };
 
     chain.plugin(`${CHAIN_ID.PLUGIN.HTML}-${entryName}`).tap(args => [

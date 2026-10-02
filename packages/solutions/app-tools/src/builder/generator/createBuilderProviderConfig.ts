@@ -23,6 +23,9 @@ export function createBuilderProviderConfig(
   resolveConfig: AppNormalizedConfig,
   appContext: AppToolsContext,
 ): Omit<AppNormalizedConfig, 'plugins'> {
+  const builderDevConfig = { ...resolveConfig.dev };
+  delete builderDevConfig.mockDir;
+
   const htmlConfig = { ...resolveConfig.html };
   if (!htmlConfig.template) {
     htmlConfig.template = ({ entryName }) => {
@@ -49,7 +52,7 @@ export function createBuilderProviderConfig(
       ...resolveConfig.source,
     },
     dev: {
-      ...resolveConfig.dev,
+      ...builderDevConfig,
       port: appContext.port,
     },
     server: serverConfig,

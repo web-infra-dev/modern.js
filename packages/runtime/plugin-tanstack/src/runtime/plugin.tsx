@@ -1,5 +1,3 @@
-/// <reference path="./ssr-shim.d.ts" />
-
 import { merge } from '@modern-js/runtime-utils/merge';
 import type { RouteObject } from '@modern-js/runtime-utils/router';
 import {
@@ -9,6 +7,7 @@ import {
 } from '@modern-js/runtime/context';
 import type { RuntimePlugin } from '@modern-js/runtime/plugin';
 import {
+  type AnyRouter,
   RouterProvider,
   createBrowserHistory,
   createHashHistory,
@@ -140,6 +139,26 @@ export const tanstackRouterPlugin = (
         let cachedRouteTree: any = null;
         let cachedRouter: any = null;
         let cachedRouterBasepath: string | null = null;
+        const hydratingRouters = new WeakSet<AnyRouter>();
+        const hydratedRouters = new WeakSet<AnyRouter>();
+
+        const HydrationLifecycle = ({
+          context,
+        }: {
+          context: RouterLifecycleContext;
+        }) => {
+          React.useEffect(() => {
+            const router = context.router as AnyRouter;
+            if (!hydratedRouters.has(router)) {
+              hydratedRouters.add(router);
+              hooks.onAfterHydrateRouter.call({
+                ...context,
+                phase: 'hydrate',
+              });
+            }
+          }, [context]);
+          return null;
+        };
 
         const RouterWrapper = () => {
           const runtimeContext = useContext(InternalRuntimeContext);
@@ -180,20 +199,16 @@ export const tanstackRouterPlugin = (
               runtimeContext,
               basename: _basename,
             };
-            hooks.onBeforeCreateRouter.call(lifecycleContext);
-
             if (cachedRouter && cachedRouterBasepath === _basename) {
-              hooks.onAfterCreateRouter.call({
-                ...lifecycleContext,
-                router: cachedRouter,
-                runtimeContext,
-              });
               return cachedRouter;
             }
 
-            const history = supportHtml5History
-              ? createBrowserHistory()
-              : createHashHistory();
+            hooks.onBeforeCreateRouter.call(lifecycleContext);
+            const history =
+              cachedRouter?.history ||
+              (supportHtml5History
+                ? createBrowserHistory()
+                : createHashHistory());
 
             const rewrite = createModernBasepathRewrite(_basename);
 
@@ -229,7 +244,8 @@ export const tanstackRouterPlugin = (
 
           const hasSSRBootstrap =
             typeof window !== 'undefined' && (window as any).$_TSR;
-          if (hasSSRBootstrap) {
+          if (hasSSRBootstrap && !hydratingRouters.has(router)) {
+            hydratingRouters.add(router);
             hooks.onBeforeHydrateRouter.call({
               ...lifecycleContext,
               phase: 'hydrate',
@@ -241,19 +257,11 @@ export const tanstackRouterPlugin = (
           const RouterContent = hasSSRBootstrap ? (
             <React.Suspense fallback={null}>
               <RouterClient router={router} />
+              <HydrationLifecycle context={lifecycleContext} />
             </React.Suspense>
           ) : (
             <RouterProvider router={router} />
           );
-          if (hasSSRBootstrap) {
-            hooks.onAfterHydrateRouter.call({
-              ...lifecycleContext,
-              phase: 'hydrate',
-              router,
-              runtimeContext: runtimeState,
-            });
-          }
-
           return App ? <App>{RouterContent}</App> : RouterContent;
         };
 

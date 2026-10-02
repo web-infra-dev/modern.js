@@ -20,4 +20,5 @@ export * from './config';
 export * from './version';
 export * from './route';
 export * from './modulePath';
+export * from './routeComponentFiles';
 export * from './tsconfig';

@@ -1,0 +1,5 @@
+{
+  "name": "v2-edge-dynamic-import-comment",
+  "dependencies": { "@modern-js/runtime": "2.66.0", "react": "^18.3.1" },
+  "devDependencies": { "@modern-js/app-tools": "2.66.0" }
+}

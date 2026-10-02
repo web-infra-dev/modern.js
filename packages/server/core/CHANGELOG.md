@@ -1,5 +1,156 @@
 # @modern-js/server-plugin
 
+## 3.9.3
+
+### Patch Changes
+
+- 1dcb43c: fix: correct the "Middlware" typo in BFF middleware identifiers — the exported `PublicMiddlwareOptions` type from `@modern-js/server-core` is renamed to `PublicMiddlewareOptions`, and the internal `routeMiddlwares` variable in `@modern-js/plugin-bff` is renamed to `routeMiddlewares`
+  fix: 修正 BFF 中间件标识符里的 "Middlware" 拼写错误——`@modern-js/server-core` 导出的 `PublicMiddlwareOptions` 类型更名为 `PublicMiddlewareOptions`，`@modern-js/plugin-bff` 内部变量 `routeMiddlwares` 更名为 `routeMiddlewares`
+- 283dc5a: Keep SSR cache revalidation running after a completed HTTP response while preserving cancellation for disconnected clients. Handle background render and stream failures without unhandled rejections or caching incomplete HTML.
+- Updated dependencies [9f475f6]
+- Updated dependencies [a9c110f]
+  - @modern-js/plugin@3.9.3
+  - @modern-js/runtime-utils@3.9.3
+  - @modern-js/utils@3.9.3
+
+## 3.9.2
+
+### Patch Changes
+
+- Updated dependencies [b4dec57]
+- Updated dependencies [e2bbad2]
+  - @modern-js/plugin@3.9.2
+  - @modern-js/runtime-utils@3.9.2
+  - @modern-js/utils@3.9.2
+
+## 3.9.1
+
+### Patch Changes
+
+- Updated dependencies [4af5bf0]
+- Updated dependencies [2e6d853]
+  - @modern-js/plugin@3.9.1
+  - @modern-js/runtime-utils@3.9.1
+  - @modern-js/utils@3.9.1
+
+## 3.9.0
+
+### Patch Changes
+
+- 2f4d9c4: Remove the server plugin `fallback` hook. SSR-to-CSR fallback events are now reported directly through request monitors as a warning and an `ssr-fallback` counter.
+  - @modern-js/plugin@3.9.0
+  - @modern-js/runtime-utils@3.9.0
+  - @modern-js/utils@3.9.0
+
+## 3.8.3
+
+### Patch Changes
+
+- Updated dependencies [3748f08]
+- Updated dependencies [546e96e]
+  - @modern-js/plugin@3.8.3
+  - @modern-js/runtime-utils@3.8.3
+  - @modern-js/utils@3.8.3
+
+## 3.8.2
+
+### Patch Changes
+
+- @modern-js/plugin@3.8.2
+- @modern-js/runtime-utils@3.8.2
+- @modern-js/utils@3.8.2
+
+## 3.8.1
+
+### Patch Changes
+
+- @modern-js/plugin@3.8.1
+- @modern-js/runtime-utils@3.8.1
+- @modern-js/utils@3.8.1
+
+## 3.8.0
+
+### Minor Changes
+
+- 13b960f: feat: support configuring the Mock directory through `dev.mockDir`
+
+  feat: 支持通过 `dev.mockDir` 配置 Mock 目录
+
+### Patch Changes
+
+- 3b0eacf: fix: type render route misses explicitly
+  fix: 明确渲染路由未命中的类型
+- 3981b6b: fix(server-core): share the hono request context storage across duplicated module copies via a process-global AsyncLocalStorage, so BFF handlers no longer fail with "Can't call useContext out of server scope" when the host and plugin resolve different server-core instances
+  fix(server-core): 通过进程级 AsyncLocalStorage 让 hono 请求上下文在重复加载的模块副本间共享，宿主与插件解析到不同 server-core 实例时 BFF 不再报 "Can't call useContext out of server scope"
+- Updated dependencies [b3a0709]
+  - @modern-js/utils@3.8.0
+  - @modern-js/plugin@3.8.0
+  - @modern-js/runtime-utils@3.8.0
+
+## 3.7.0
+
+### Patch Changes
+
+- @modern-js/plugin@3.7.0
+- @modern-js/runtime-utils@3.7.0
+- @modern-js/utils@3.7.0
+
+## 3.6.0
+
+### Patch Changes
+
+- c69486b: fix: prevent path traversal in static asset middleware
+  fix: 修复静态资源中间件的路径穿越问题
+- Updated dependencies [c34b53d]
+  - @modern-js/runtime-utils@3.6.0
+  - @modern-js/plugin@3.6.0
+  - @modern-js/utils@3.6.0
+
+## 3.5.0
+
+### Patch Changes
+
+- @modern-js/plugin@3.5.0
+- @modern-js/runtime-utils@3.5.0
+- @modern-js/utils@3.5.0
+
+## 3.4.0
+
+### Patch Changes
+
+- a46bd4e: feat(server-core): pass request and monitors context to server plugin fallback hooks
+
+  feat(server-core): 为 server 插件 fallback hook 传递 request 和 monitors 上下文
+
+  - @modern-js/plugin@3.4.0
+  - @modern-js/runtime-utils@3.4.0
+  - @modern-js/utils@3.4.0
+
+## 3.3.0
+
+### Patch Changes
+
+- @modern-js/plugin@3.3.0
+- @modern-js/runtime-utils@3.3.0
+- @modern-js/utils@3.3.0
+
+## 3.2.2
+
+### Patch Changes
+
+- @modern-js/plugin@3.2.2
+- @modern-js/runtime-utils@3.2.2
+- @modern-js/utils@3.2.2
+
+## 3.2.1
+
+### Patch Changes
+
+- Updated dependencies [2aa5253]
+  - @modern-js/utils@3.2.1
+  - @modern-js/plugin@3.2.1
+  - @modern-js/runtime-utils@3.2.1
+
 ## 3.2.0
 
 ### Patch Changes

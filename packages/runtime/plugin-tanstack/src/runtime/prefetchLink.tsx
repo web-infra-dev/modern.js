@@ -4,14 +4,14 @@ import {
   type RegisteredRouter,
   Link as TanStackLink,
 } from '@tanstack/react-router';
-import type { ReactElement } from 'react';
+import { type ReactElement, forwardRef } from 'react';
 
 export type PrefetchBehavior = 'intent' | 'render' | 'none';
 
 function resolvePreloadFromPrefetch(
   prefetch: PrefetchBehavior | undefined,
-  preload: unknown,
-) {
+  preload: LinkComponentProps<'a'>['preload'],
+): LinkComponentProps<'a'>['preload'] {
   if (typeof preload !== 'undefined') {
     return preload;
   }
@@ -55,15 +55,17 @@ type LinkComponent = <
   props: LinkProps<TRouter, TFrom, TTo, TMaskFrom, TMaskTo>,
 ) => ReactElement;
 
-const LinkComponentImpl = (props: any) => {
+const LinkComponentImpl = forwardRef<HTMLAnchorElement, any>((props, ref) => {
   const { prefetch, preload, ...rest } = props;
   return (
     <TanStackLink
       {...rest}
+      to={rest.to}
+      ref={ref}
       preload={resolvePreloadFromPrefetch(prefetch, preload)}
     />
   );
-};
+});
 
 export const Link = LinkComponentImpl as LinkComponent;
 

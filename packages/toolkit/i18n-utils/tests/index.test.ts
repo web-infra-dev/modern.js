@@ -1,4 +1,5 @@
 import { I18n } from '../src';
+import { getLocaleLanguage } from '../src/languageDetector';
 
 describe('i18n test', () => {
   test('Init Default language', () => {
@@ -79,5 +80,38 @@ describe('i18n test', () => {
     };
     const keys = i18n.init('en', { en: EN_LANGUAGE, zh: ZH_LANGUAGE });
     expect(i18n.lang('zh').t(keys.name.lib_name)).toBe('工具库');
+  });
+
+  test('Detect language without process', () => {
+    const processDescriptor = Object.getOwnPropertyDescriptor(
+      globalThis,
+      'process',
+    );
+    const dateTimeFormatDescriptor = Object.getOwnPropertyDescriptor(
+      Intl,
+      'DateTimeFormat',
+    );
+    let language = '';
+
+    try {
+      Reflect.deleteProperty(globalThis, 'process');
+      Object.defineProperty(Intl, 'DateTimeFormat', {
+        configurable: true,
+        value: () => ({
+          resolvedOptions: () => ({ locale: 'fr-FR' }),
+        }),
+      });
+
+      language = getLocaleLanguage();
+    } finally {
+      if (processDescriptor) {
+        Object.defineProperty(globalThis, 'process', processDescriptor);
+      }
+      if (dateTimeFormatDescriptor) {
+        Object.defineProperty(Intl, 'DateTimeFormat', dateTimeFormatDescriptor);
+      }
+    }
+
+    expect(language).toBe('fr');
   });
 });

@@ -1,0 +1,33 @@
+---
+title: mockDir
+---
+
+# dev.mockDir
+
+- **类型：** `string`
+- **默认值：** `'./config/mock'`
+
+设置 Mock API 入口文件所在的目录。相对路径基于应用目录解析，同时也支持绝对路径。
+开发环境下，Modern.js 会加载该目录中的 `index.ts` 或 `index.js`。
+
+例如，将 Mock API 入口移动到 `mocks/index.ts`：
+
+```js title="modern.config.ts"
+import { defineConfig } from '@modern-js/app-tools';
+
+export default defineConfig({
+  dev: {
+    mockDir: './mocks',
+  },
+});
+```
+
+在 Monorepo 中，也可以让多个应用指向一个共享的 Mock 目录：
+
+```js title="modern.config.ts"
+export default defineConfig({
+  dev: {
+    mockDir: '../../shared/mocks',
+  },
+});
+```

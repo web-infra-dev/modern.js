@@ -1,6 +1,7 @@
 ---
 '@modern-js/runtime': minor
 '@modern-js/plugin-tanstack': minor
+'@modern-js/plugin': minor
 ---
 
 feat(runtime): move TanStack Router integration to `@modern-js/plugin-tanstack`

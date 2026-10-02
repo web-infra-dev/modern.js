@@ -4,12 +4,12 @@ import {
   reporterCtx,
 } from '@modern-js/runtime-utils/node';
 import {
-  createRoutesFromElements,
-  createStaticHandler,
-  createStaticRouter,
   type RouteObject,
   type StaticHandlerContext,
   StaticRouterProvider,
+  createRoutesFromElements,
+  createStaticHandler,
+  createStaticRouter,
 } from '@modern-js/runtime-utils/router';
 import { time } from '@modern-js/runtime-utils/time';
 import { LOADER_REPORTER_NAME } from '@modern-js/utils/universal/constants';
@@ -17,31 +17,31 @@ import type React from 'react';
 import { useContext } from 'react';
 import type { RuntimePlugin } from '../../core';
 import {
+  InternalRuntimeContext,
+  type ServerPayload,
   getGlobalEnableRsc,
   getGlobalLayoutApp,
   getGlobalRoutes,
-  InternalRuntimeContext,
-  type ServerPayload,
 } from '../../core/context';
 import { setServerPayload } from '../../core/context/serverPayload/index.server';
 import DeferredDataScripts from './DeferredDataScripts.node';
 import {
+  type RouterExtendsHooks,
   modifyRoutes as modifyRoutesHook,
   onAfterCreateRouter as onAfterCreateRouterHook,
   onBeforeCreateRouter as onBeforeCreateRouterHook,
   onBeforeCreateRoutes as onBeforeCreateRoutesHook,
-  type RouterExtendsHooks,
 } from './hooks';
 import {
+  type RouterLifecycleContext,
   applyRouterRuntimeState,
   createRouterServerSnapshot,
-  type RouterLifecycleContext,
 } from './lifecycle';
 import {
+  RSCStaticRouter,
   createServerPayload,
   handleRSCRedirect,
   prepareRSCRoutes,
-  RSCStaticRouter,
 } from './rsc-router';
 import type { InternalRouterServerSnapshot, RouterConfig } from './types';
 import { createRouteObjectsFromConfig, renderRoutes, urlJoin } from './utils';
@@ -49,12 +49,11 @@ import { createRouteObjectsFromConfig, renderRoutes, urlJoin } from './utils';
 function createRemixRequest(request: Request) {
   const method = 'GET';
   const { headers } = request;
-  const controller = new AbortController();
 
   return new Request(request.url, {
     method,
     headers,
-    signal: controller.signal,
+    signal: request.signal,
   });
 }
 

@@ -19,3 +19,6 @@ packages:
  - 'tests/e2e/**/*'
  - 'website/*'
  - 'benchmark/*'
+ - 'examples/*'
+ - 'examples/deploy/*'
+ - 'examples/module-federation/*/*'

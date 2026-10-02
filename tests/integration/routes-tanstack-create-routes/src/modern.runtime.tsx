@@ -1,5 +1,5 @@
 import { Link, Outlet, useMatch } from '@modern-js/plugin-tanstack/runtime';
-import { defineRuntimeConfig, type RuntimePlugin } from '@modern-js/runtime';
+import { type RuntimePlugin, defineRuntimeConfig } from '@modern-js/runtime';
 import type { RouteObject } from '@modern-js/runtime/router';
 
 const probeRouterHooksPlugin = (): RuntimePlugin => ({

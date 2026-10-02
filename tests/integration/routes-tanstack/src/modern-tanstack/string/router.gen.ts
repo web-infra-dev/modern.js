@@ -6,6 +6,7 @@ import {
   createRootRouteWithContext,
   createRoute,
   createRouter,
+  isRedirect,
   notFound,
   redirect,
 } from '@modern-js/plugin-tanstack/runtime';
@@ -29,14 +30,18 @@ function isRedirectResponse(res: Response) {
   return redirectStatusCodes.has(res.status);
 }
 
-function throwTanstackRedirect(location: string) {
+function throwTanstackRedirect(
+  location: string,
+  statusCode: number,
+  headers: Headers,
+) {
   const target = location || '/';
   try {
     void new URL(target);
-    throw redirect({ href: target });
   } catch {
-    throw redirect({ to: target });
+    throw redirect({ to: target, statusCode, headers });
   }
+  throw redirect({ href: target, statusCode, headers });
 }
 
 function mapParamsForModernLoader(
@@ -116,7 +121,7 @@ function modernLoaderToTanstack<TLoader extends (args: any) => any>(
       if (isResponse(result)) {
         if (isRedirectResponse(result)) {
           const location = result.headers.get('Location') || '/';
-          throwTanstackRedirect(location);
+          throwTanstackRedirect(location, result.status, result.headers);
         }
         if (result.status === 404) {
           throw notFound();
@@ -125,10 +130,13 @@ function modernLoaderToTanstack<TLoader extends (args: any) => any>(
 
       return result as LoaderResult;
     } catch (err) {
+      if (isRedirect(err)) {
+        throw err;
+      }
       if (isResponse(err)) {
         if (isRedirectResponse(err)) {
           const location = err.headers.get('Location') || '/';
-          throwTanstackRedirect(location);
+          throwTanstackRedirect(location, err.status, err.headers);
         }
         if (err.status === 404) {
           throw notFound();
@@ -157,7 +165,7 @@ export const rootRoute = createRootRouteWithContext<ModernRouterContext>()({
   }),
 });
 
-const route_string_blocker_page = createRoute({
+const route_string_blocker_page_1 = createRoute({
   getParentRoute: () => rootRoute,
   path: 'blocker',
   staticData: createRouteStaticData({
@@ -165,7 +173,7 @@ const route_string_blocker_page = createRoute({
   }),
 });
 
-const route_string_page = createRoute({
+const route_string_page_0 = createRoute({
   getParentRoute: () => rootRoute,
   path: '/',
   loader: modernLoaderToTanstack({ hasSplat: false }, loader_1),
@@ -175,7 +183,7 @@ const route_string_page = createRoute({
   }),
 });
 
-const route_string_mutation_page = createRoute({
+const route_string_mutation_page_2 = createRoute({
   getParentRoute: () => rootRoute,
   path: 'mutation',
   loader: modernLoaderToTanstack({ hasSplat: false }, loader_2),
@@ -186,7 +194,7 @@ const route_string_mutation_page = createRoute({
   }),
 });
 
-const route_string_optional__id$__page = createRoute({
+const route_string_optional__id$__page_3 = createRoute({
   getParentRoute: () => rootRoute,
   path: 'optional/{-$id}',
   loader: modernLoaderToTanstack({ hasSplat: false }, loader_3),
@@ -196,7 +204,7 @@ const route_string_optional__id$__page = createRoute({
   }),
 });
 
-const route_string_redirect_page = createRoute({
+const route_string_redirect_page_4 = createRoute({
   getParentRoute: () => rootRoute,
   path: 'redirect',
   loader: modernLoaderToTanstack({ hasSplat: false }, loader_4),
@@ -206,7 +214,7 @@ const route_string_redirect_page = createRoute({
   }),
 });
 
-const route_string_user__id__page = createRoute({
+const route_string_user__id__page_5 = createRoute({
   getParentRoute: () => rootRoute,
   path: 'user/$id',
   loader: modernLoaderToTanstack({ hasSplat: false }, loader_5),
@@ -217,12 +225,12 @@ const route_string_user__id__page = createRoute({
 });
 
 export const routeTree = rootRoute.addChildren([
-  route_string_page,
-  route_string_blocker_page,
-  route_string_mutation_page,
-  route_string_optional__id$__page,
-  route_string_redirect_page,
-  route_string_user__id__page,
+  route_string_page_0,
+  route_string_blocker_page_1,
+  route_string_mutation_page_2,
+  route_string_optional__id$__page_3,
+  route_string_redirect_page_4,
+  route_string_user__id__page_5,
 ]);
 
 export const router = createRouter({

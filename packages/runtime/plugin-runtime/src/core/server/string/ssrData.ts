@@ -1,7 +1,7 @@
+import type { IncomingHttpHeaders } from 'http';
 import { serializeJson } from '@modern-js/runtime-utils/node';
 import type { StaticHandlerContext } from '@modern-js/runtime-utils/router';
 import type { HeadersData } from '@modern-js/runtime-utils/universal/request';
-import type { IncomingHttpHeaders } from 'http';
 import { getRouterHydrationScripts } from '../../../router/runtime/lifecycle';
 import { ROUTER_DATA_JSON_ID, SSR_DATA_JSON_ID } from '../../constants';
 import type { TInternalRuntimeContext } from '../../context';

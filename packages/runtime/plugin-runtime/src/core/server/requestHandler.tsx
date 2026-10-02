@@ -14,9 +14,9 @@ import React, { Fragment } from 'react';
 import { cleanupRouterRuntimeState } from '../../router/runtime/lifecycle';
 import { handleRSCRedirect } from '../../router/runtime/rsc-router';
 import {
+  type TInternalRuntimeContext,
   getGlobalInternalRuntimeContext,
   getGlobalRSCRoot,
-  type TInternalRuntimeContext,
 } from '../context';
 import { getInitialContext } from '../context/runtime';
 import { getServerPayload } from '../context/serverPayload';
@@ -236,6 +236,7 @@ export const createRequestHandler: CreateRequestHandler = async (
       status: -1,
     };
     const activeDeferreds = new Map<string, DeferredData>();
+    const deferredScriptKeys = new Map<string, string[]>();
     return storage.run(
       {
         headers: headersData,
@@ -243,6 +244,7 @@ export const createRequestHandler: CreateRequestHandler = async (
         monitors: options.monitors,
         responseProxy,
         activeDeferreds,
+        deferredScriptKeys,
         serverPayload: undefined,
       },
       async () => {
@@ -320,8 +322,10 @@ export const createRequestHandler: CreateRequestHandler = async (
             // Convert to appropriate format
             const redirectUrl =
               beforeRenderResult.headers.get('Location') || '/';
+            const redirectHeaders = new Headers(beforeRenderResult.headers);
+            redirectHeaders.set('Location', redirectUrl);
             return processRedirect(
-              new Headers({ Location: redirectUrl }),
+              redirectHeaders,
               beforeRenderResult.status,
               redirectCtx,
             );

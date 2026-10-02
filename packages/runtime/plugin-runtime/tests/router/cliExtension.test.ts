@@ -2,7 +2,11 @@ import { mkdir, mkdtemp, readFile, rm, writeFile } from 'node:fs/promises';
 import { tmpdir } from 'node:os';
 import path from 'node:path';
 import type { Entrypoint } from '@modern-js/types';
-import { fs, NESTED_ROUTE_SPEC_FILE } from '@modern-js/utils';
+import {
+  fs,
+  NESTED_ROUTE_SPEC_FILE,
+  normalizeModulePath,
+} from '@modern-js/utils';
 import { routerPlugin } from '../../src/router/cli';
 import {
   getEntrypointRoutesDir,
@@ -28,6 +32,7 @@ const createConfig = () =>
 const createApi = (appContext: any, hooks?: any) =>
   ({
     getAppContext: () => appContext,
+    updateAppContext: (context: any) => Object.assign(appContext, context),
     getNormalizedConfig: createConfig,
     getHooks: () =>
       hooks || {
@@ -112,17 +117,29 @@ describe('router cli extension points', () => {
       metaName: 'modern-js',
       packageName: 'test-app',
       serverRoutes: [{ entryName: 'main', urlPath: '/' }],
-      entrypoints: [entrypoint],
+      entrypoints: [
+        entrypoint,
+        {
+          entryName: 'dashboard',
+          nestedRoutesEntry: path.join(srcDirectory, 'dashboard', 'routes'),
+        },
+      ],
     };
+    const api = createApi(appContext);
+    const dashboardFiles = {
+      resolvedFiles: new Set([
+        path.join(srcDirectory, 'dashboard', 'page.tsx'),
+      ]),
+      unresolvedSpecifiers: [],
+    };
+    api.updateAppContext({
+      eagerRouteComponentFilesByEntry: new Map([['dashboard', dashboardFiles]]),
+    });
 
-    const routesByEntry = await handleGeneratorEntryCode(
-      createApi(appContext),
-      [entrypoint],
-      {
-        entrypointsKey: 'fake-router',
-        generateCodeOptions: { enableTanstackTypes: false },
-      },
-    );
+    const routesByEntry = await handleGeneratorEntryCode(api, [entrypoint], {
+      entrypointsKey: 'fake-router',
+      generateCodeOptions: { enableTanstackTypes: false },
+    });
 
     expect(routesByEntry.main).toHaveLength(1);
     expect(JSON.stringify(routesByEntry.main)).toContain('"id":"page"');
@@ -138,6 +155,36 @@ describe('router cli extension points', () => {
       'utf-8',
     );
     expect(runtimeContext).toContain("import { routes } from './routes'");
+
+    expect(
+      api.getAppContext().eagerRouteComponentFilesByEntry.get('dashboard'),
+    ).toBe(dashboardFiles);
+    expect(
+      api.getAppContext().eagerRouteComponentFilesByEntry.get('main')
+        .resolvedFiles,
+    ).toContain(normalizeModulePath(path.join(viewsDir, 'page.tsx')));
+
+    await rm(path.join(viewsDir, 'page.tsx'));
+    await handleGeneratorEntryCode(api, [entrypoint]);
+    expect(
+      api.getAppContext().eagerRouteComponentFilesByEntry.get('main')
+        .resolvedFiles,
+    ).not.toContain(normalizeModulePath(path.join(viewsDir, 'page.tsx')));
+    expect(
+      api.getAppContext().eagerRouteComponentFilesByEntry.get('dashboard'),
+    ).toBe(dashboardFiles);
+
+    api.updateAppContext({ entrypoints: [entrypoint] });
+    await handleGeneratorEntryCode(api, []);
+    expect([
+      ...api.getAppContext().eagerRouteComponentFilesByEntry.keys(),
+    ]).toEqual(['main']);
+    api.updateAppContext({ entrypoints: [{ entryName: 'main' }] });
+    await handleGeneratorEntryCode(api, []);
+    expect(api.getAppContext().eagerRouteComponentFilesByEntry.size).toBe(0);
+    api.updateAppContext({ entrypoints: [] });
+    await handleGeneratorEntryCode(api, []);
+    expect(api.getAppContext().eagerRouteComponentFilesByEntry.size).toBe(0);
   });
 
   test('regenerates only the scoped route entries for file changes', async () => {

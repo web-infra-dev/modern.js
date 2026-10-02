@@ -1,0 +1,93 @@
+---
+title: svgr
+---
+
+# tools.svgr
+
+- **Type:** `Object | Function | false`
+- **Default:**
+
+```js
+const defaultOptions = {
+  mixedImport: true,
+  svgrOptions: {
+    exportType: 'named',
+  },
+};
+```
+
+`tools.svgr` modifies the options of [@rsbuild/plugin-svgr](https://rsbuild.rs/plugins/list/plugin-svgr). It accepts the full plugin options. Set it to `false` to skip registering the SVGR plugin; all `.svg` files are then treated as static assets.
+
+| Option            | Description                                                                                          |
+| ----------------- | ---------------------------------------------------------------------------------------------------- |
+| `svgrOptions`     | Options passed to [SVGR](https://react-svgr.com/docs/options/), such as `exportType`, `icon`, `svgoConfig` |
+| `parallel`        | Whether to transform SVG files in worker threads, defaults to `false`                                |
+| `exclude`         | SVG files that SVGR should skip                                                                      |
+| `excludeImporter` | Importer files whose SVG imports should skip SVGR                                                    |
+| `query`           | Query that triggers the SVGR transform, defaults to `/react/`                                        |
+| `mixedImport`     | Whether a module may import both the URL and the React component, defaults to `true`                |
+
+### Merge rules
+
+When `tools.svgr` is an `Object`, its top-level fields are merged with the defaults through Object.assign in a shallow way, and `svgrOptions` is merged one level deeper, so setting only `svgrOptions.icon` keeps the default `exportType`.
+
+When `tools.svgr` is a `Function`, the default config is passed as the first parameter, which can be directly modified or returned as the final result. An array of objects and functions is also accepted and applied in order.
+
+### Parallel transform
+
+The SVGR transform is pure JavaScript and runs on the Node.js main thread by default. With many SVG files, enable `parallel` to move the transform into a pool of worker threads:
+
+```js
+export default {
+  tools: {
+    svgr: {
+      parallel: true,
+    },
+  },
+};
+```
+
+:::tip
+Options sent to worker threads must satisfy the [structured clone algorithm](https://developer.mozilla.org/en-US/docs/Web/API/Web_Workers_API/Structured_clone_algorithm). With `parallel` enabled, `svgrOptions` therefore cannot contain functions.
+:::
+
+### Changing the default export
+
+`svgrOptions.exportType` controls what an SVG file exports by default: `'named'` exports the file URL by default and the React component as the named export `ReactComponent`; `'default'` exports the React component by default.
+
+```js
+export default {
+  tools: {
+    svgr: {
+      svgrOptions: {
+        exportType: 'default',
+      },
+    },
+  },
+};
+```
+
+### Disabling SVGR
+
+If you are sure that no SVG asset in your project is used as a React component, disable SVGR to improve build performance:
+
+```js
+export default {
+  tools: {
+    svgr: false,
+  },
+};
+```
+
+### Relation to the legacy options
+
+`tools.svgr` replaces the two deprecated options below. They still work today and will be removed in the next major version:
+
+| Legacy option                          | Replacement                                              |
+| -------------------------------------- | -------------------------------------------------------- |
+| `output.svgDefaultExport: 'component'` | `tools.svgr: { svgrOptions: { exportType: 'default' } }` |
+| `output.svgDefaultExport: 'url'`       | `tools.svgr: { svgrOptions: { exportType: 'named' } }`   |
+| `output.disableSvgr: true`             | `tools.svgr: false`                                      |
+| `output.disableSvgr: false`            | Default behavior, just remove it                         |
+
+When both are set, `tools.svgr` wins: once `tools.svgr` is set explicitly, `output.disableSvgr` no longer applies, and `tools.svgr.svgrOptions.exportType` overrides the value derived from `output.svgDefaultExport`.

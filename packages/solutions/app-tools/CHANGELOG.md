@@ -1,5 +1,359 @@
 # @modern-js/app-tools
 
+## 3.9.3
+
+### Patch Changes
+
+- 9f475f6: chore: upgrade Rsbuild to v2.2.9
+
+  chore: 升级 Rsbuild 至 v2.2.9
+
+- b721140: Remove the programmatic `build` and `deploy` exports and restore CLI-owned
+  build and deploy lifecycles. Programmatic dev and start calls no longer change
+  CLI-only initialization behavior, and completed non-watch builds are no longer
+  closed automatically. Keep the public `closeServer` API and `DeployOptions`
+  type.
+- Updated dependencies [9f475f6]
+- Updated dependencies [1dcb43c]
+- Updated dependencies [283dc5a]
+- Updated dependencies [a851cf4]
+  - @modern-js/plugin-data-loader@3.9.3
+  - @modern-js/plugin@3.9.3
+  - @modern-js/builder@3.9.3
+  - @modern-js/server-core@3.9.3
+  - @modern-js/server@3.9.3
+  - @modern-js/prod-server@3.9.3
+  - @modern-js/server-utils@3.9.3
+  - @modern-js/i18n-utils@3.9.3
+  - @modern-js/types@3.9.3
+  - @modern-js/utils@3.9.3
+
+## 3.9.2
+
+### Patch Changes
+
+- b4dec57: chore: upgrade Rsbuild to v2.2.6
+
+  chore: 升级 Rsbuild 至 v2.2.6
+
+- e2bbad2: chore: upgrade Rsbuild to v2.2.7
+
+  chore: 升级 Rsbuild 至 v2.2.7
+
+- 6a50153: fix(app-tools): remove `@modern-js/server-runtime` from the SSR bundle externals
+- Updated dependencies [b4dec57]
+- Updated dependencies [e2bbad2]
+  - @modern-js/plugin-data-loader@3.9.2
+  - @modern-js/plugin@3.9.2
+  - @modern-js/builder@3.9.2
+  - @modern-js/server-core@3.9.2
+  - @modern-js/server@3.9.2
+  - @modern-js/prod-server@3.9.2
+  - @modern-js/server-utils@3.9.2
+  - @modern-js/i18n-utils@3.9.2
+  - @modern-js/types@3.9.2
+  - @modern-js/utils@3.9.2
+
+## 3.9.1
+
+### Patch Changes
+
+- 4af5bf0: Upgrade Rsbuild to 2.2.4 and support its stricter bundler chain types, preserving service worker library options and handling non-string public paths in asset prefix templates.
+
+  升级 Rsbuild 至 2.2.4，兼容更严格的 bundler chain 类型，保留 service worker 的 library 配置，并在 assetPrefix 模板中处理非字符串 publicPath。
+
+- Updated dependencies [bc59ee1]
+- Updated dependencies [4af5bf0]
+  - @modern-js/server-utils@3.9.1
+  - @modern-js/builder@3.9.1
+  - @modern-js/plugin-data-loader@3.9.1
+  - @modern-js/plugin@3.9.1
+  - @modern-js/server@3.9.1
+  - @modern-js/server-core@3.9.1
+  - @modern-js/prod-server@3.9.1
+  - @modern-js/i18n-utils@3.9.1
+  - @modern-js/types@3.9.1
+  - @modern-js/utils@3.9.1
+
+## 3.9.0
+
+### Minor Changes
+
+- e2c3858: chore: prepare the 3.9.0 minor release.
+
+### Patch Changes
+
+- Updated dependencies [2f4d9c4]
+  - @modern-js/server-core@3.9.0
+  - @modern-js/plugin-data-loader@3.9.0
+  - @modern-js/prod-server@3.9.0
+  - @modern-js/server@3.9.0
+  - @modern-js/server-utils@3.9.0
+  - @modern-js/builder@3.9.0
+  - @modern-js/i18n-utils@3.9.0
+  - @modern-js/plugin@3.9.0
+  - @modern-js/types@3.9.0
+  - @modern-js/utils@3.9.0
+
+## 3.8.3
+
+### Patch Changes
+
+- 3748f08: chore: upgrade Rsbuild to v2.2.0-rc.0 and the SWC plugin to the latest version
+
+  chore: 升级 Rsbuild 至 v2.2.0-rc.0，并将 SWC 插件升级至最新版本
+
+- 546e96e: chore: upgrade Rsbuild dependencies to the latest versions
+
+  chore: 升级 Rsbuild 相关依赖至最新版本
+
+- f4bc5ee: fix: stop writing the ESM loader files twice
+
+  fix: 修复 ESM loader 文件被重复写入的问题
+
+- Updated dependencies [3748f08]
+- Updated dependencies [546e96e]
+  - @modern-js/plugin-data-loader@3.8.3
+  - @modern-js/plugin@3.8.3
+  - @modern-js/builder@3.8.3
+  - @modern-js/server-core@3.8.3
+  - @modern-js/server@3.8.3
+  - @modern-js/prod-server@3.8.3
+  - @modern-js/server-utils@3.8.3
+  - @modern-js/i18n-utils@3.8.3
+  - @modern-js/types@3.8.3
+  - @modern-js/utils@3.8.3
+
+## 3.8.2
+
+### Patch Changes
+
+- Updated dependencies [8edf91a]
+  - @modern-js/server-utils@3.8.2
+  - @modern-js/server@3.8.2
+  - @modern-js/builder@3.8.2
+  - @modern-js/plugin-data-loader@3.8.2
+  - @modern-js/server-core@3.8.2
+  - @modern-js/prod-server@3.8.2
+  - @modern-js/i18n-utils@3.8.2
+  - @modern-js/plugin@3.8.2
+  - @modern-js/types@3.8.2
+  - @modern-js/utils@3.8.2
+
+## 3.8.1
+
+### Patch Changes
+
+- dfcd414: chore(app-tools): bump the package version for release
+
+  chore(app-tools): 更新包版本以发布新版本
+
+  - @modern-js/builder@3.8.1
+  - @modern-js/plugin-data-loader@3.8.1
+  - @modern-js/server-core@3.8.1
+  - @modern-js/prod-server@3.8.1
+  - @modern-js/server@3.8.1
+  - @modern-js/server-utils@3.8.1
+  - @modern-js/i18n-utils@3.8.1
+  - @modern-js/plugin@3.8.1
+  - @modern-js/types@3.8.1
+  - @modern-js/utils@3.8.1
+
+## 3.8.0
+
+### Minor Changes
+
+- ea80c84: feat: agent knowledge supply — bundle version-matched English docs into the app-tools tarball (`docs/`) on publish, and generate `AGENTS.md` / `CLAUDE.md` in new projects created by `@modern-js/create` (skip with `--no-agents-md`). Existing projects can run `npx @modern-js/create --agents-md-only` to add or idempotently refresh these files after an upgrade (managed marker block is updated in place, user content is preserved). Also fixes boolean flags swallowing the following positional argument (e.g. `create --sub my-app`).
+
+  feat: Agent 知识供给 —— 发布时将版本匹配的英文文档打进 app-tools tarball（`docs/`），并在 `@modern-js/create` 新建项目时默认生成 `AGENTS.md` / `CLAUDE.md`（`--no-agents-md` 可跳过）。已有项目可运行 `npx @modern-js/create --agents-md-only` 在升级后补齐或幂等更新这两个文件（就地更新托管标记块，保留用户自定义内容）。同时修复布尔参数吞掉后续位置参数的问题（如 `create --sub my-app`）。
+
+- eda048d: Export the programmatic `deploy` API and make it own the build, server plugin
+  loading, and deploy hook lifecycle.
+- 13b960f: feat: support configuring the Mock directory through `dev.mockDir`
+
+  feat: 支持通过 `dev.mockDir` 配置 Mock 目录
+
+- eda048d: Export `closeServer` from the package root. Programmatic `dev` and `start`
+  initialization now uses the app-context command when no CLI build command is
+  present, including occupied port selection.
+- eda048d: Export the programmatic `build` API and its options from the package root, initialize the builder when `build` is supplied through the app-context command, and close completed non-watch builds before returning. The `onPrepare` dist cleanup now also recognizes the programmatic `appContext.command`, so programmatic `dev`/`build` clean stale output the same way the CLI does (still honoring `output.cleanDistPath` and running before `nestedRoutes.json` is generated).
+
+  从包根导出程序化 `build` API 及其选项，在通过 app-context command 传入 `build` 时初始化 builder，并在返回前关闭已完成的非 watch 构建。`onPrepare` 的 dist 清理现在也识别程序化的 `appContext.command`，使程序化 `dev`/`build` 与 CLI 一样清理陈旧产物（仍遵循 `output.cleanDistPath`，并在生成 `nestedRoutes.json` 之前执行）。
+
+### Patch Changes
+
+- a305126: feat: bundle version-matched docs into `@modern-js/app-tools` and generate `AGENTS.md` / `CLAUDE.md` pointing at them, so AI coding agents read docs matching the installed version
+
+  feat: 随包分发与安装版本一致的文档，并生成指向它的 `AGENTS.md` / `CLAUDE.md`，让 AI 编码助手读到与所装版本匹配的文档
+
+- b3a0709: fix: make custom server output runnable under native ESM (pass `moduleType`, resolve `.tsx` / `.jsx` entries, transform JSX)
+
+  fix: 修复自定义 Server 在原生 ESM 下的产物不可运行问题（透传 `moduleType`、支持 `.tsx` / `.jsx` 入口解析、编译 JSX）
+
+- Updated dependencies [13b960f]
+- Updated dependencies [c2914ea]
+- Updated dependencies [3b0eacf]
+- Updated dependencies [3981b6b]
+- Updated dependencies [b3a0709]
+- Updated dependencies [f0abf7e]
+  - @modern-js/server@3.8.0
+  - @modern-js/server-core@3.8.0
+  - @modern-js/i18n-utils@3.8.0
+  - @modern-js/server-utils@3.8.0
+  - @modern-js/utils@3.8.0
+  - @modern-js/builder@3.8.0
+  - @modern-js/plugin-data-loader@3.8.0
+  - @modern-js/prod-server@3.8.0
+  - @modern-js/plugin@3.8.0
+  - @modern-js/types@3.8.0
+
+## 3.7.0
+
+### Minor Changes
+
+- 65dd786: feat(builder): add `source.reactCompiler` to enable React Compiler via Rspack's built-in SWC implementation
+  feat(builder): 新增 `source.reactCompiler` 配置，基于 Rspack 内置 SWC 的 Rust 版 React Compiler 提供一键开启能力
+
+### Patch Changes
+
+- Updated dependencies [65dd786]
+  - @modern-js/builder@3.7.0
+  - @modern-js/server@3.7.0
+  - @modern-js/plugin@3.7.0
+  - @modern-js/plugin-data-loader@3.7.0
+  - @modern-js/server-core@3.7.0
+  - @modern-js/prod-server@3.7.0
+  - @modern-js/server-utils@3.7.0
+  - @modern-js/i18n-utils@3.7.0
+  - @modern-js/types@3.7.0
+  - @modern-js/utils@3.7.0
+
+## 3.6.0
+
+### Patch Changes
+
+- Updated dependencies [c69486b]
+- Updated dependencies [c34b53d]
+- Updated dependencies [70d8300]
+  - @modern-js/server-core@3.6.0
+  - @modern-js/plugin-data-loader@3.6.0
+  - @modern-js/server@3.6.0
+  - @modern-js/prod-server@3.6.0
+  - @modern-js/server-utils@3.6.0
+  - @modern-js/plugin@3.6.0
+  - @modern-js/builder@3.6.0
+  - @modern-js/i18n-utils@3.6.0
+  - @modern-js/types@3.6.0
+  - @modern-js/utils@3.6.0
+
+## 3.5.0
+
+### Minor Changes
+
+- 7211b65: feat(app-tools): add `modifyBuilderEnvironments` hook to transform the builder environments map before the builder is created
+
+  A new additive app-tools hook `modifyBuilderEnvironments` runs in `generateBuilder` after the framework's static environment merge and before `createBuilder`. It mirrors `modifyEntrypoints` as a transform-object async hook: each tapped callback receives `{ environments }` and may return a replacement map that chains to the next callback; tapping nothing leaves the environments byte-identical, so the change is fully backward compatible. This lets frameworks programmatically add environments (e.g. a custom browser worker environment), set per-environment `output`/`distPath`/ordering, or otherwise adjust the resolved environments map instead of being limited to a config-static merge.
+
+  feat(app-tools): 新增 `modifyBuilderEnvironments` hook，可在创建 builder 前变换 builder 环境表
+
+  新增的 app-tools hook `modifyBuilderEnvironments` 在 `generateBuilder` 中、框架静态环境合并之后、`createBuilder` 之前执行。它与 `modifyEntrypoints` 一致，是 transform-object 异步 hook：每个回调收到 `{ environments }`，可返回替换后的环境表并链式传给下一个回调；不挂载任何回调时环境表字节不变，完全向后兼容。框架可借此以编程方式新增环境（如自定义浏览器 worker 环境）、设置 per-environment 的 `output`/`distPath`/顺序，或调整已解析的环境表，而不再局限于静态配置合并。
+
+- 04e3ec5: feat(builder): upgrade rsbuild version to 2.1.0
+  feat(builder): 更新 Rsbuild 版本到 2.1.0
+
+### Patch Changes
+
+- Updated dependencies [0f44558]
+  - @modern-js/builder@3.5.0
+  - @modern-js/server@3.5.0
+  - @modern-js/plugin@3.5.0
+  - @modern-js/plugin-data-loader@3.5.0
+  - @modern-js/server-core@3.5.0
+  - @modern-js/prod-server@3.5.0
+  - @modern-js/server-utils@3.5.0
+  - @modern-js/i18n-utils@3.5.0
+  - @modern-js/types@3.5.0
+  - @modern-js/utils@3.5.0
+
+## 3.4.0
+
+### Patch Changes
+
+- 4c7f658: fix(runtime,app-tools): inject CSS of React.lazy descendants into streaming SSR shell to prevent FOUC; slim inline route manifest to only `chunkIds` when RSC is disabled
+
+  fix(runtime,app-tools): 流式 SSR 注入 React.lazy 子 chunk 的 CSS 到首屏 shell, 避免懒加载组件出现样式闪烁; 非 RSC 场景下 inline 路由 manifest 仅保留 `chunkIds`, 减少 HTML 体积
+
+- Updated dependencies [a46bd4e]
+- Updated dependencies [cf1f189]
+  - @modern-js/server-core@3.4.0
+  - @modern-js/builder@3.4.0
+  - @modern-js/plugin-data-loader@3.4.0
+  - @modern-js/prod-server@3.4.0
+  - @modern-js/server@3.4.0
+  - @modern-js/server-utils@3.4.0
+  - @modern-js/plugin@3.4.0
+  - @modern-js/i18n-utils@3.4.0
+  - @modern-js/types@3.4.0
+  - @modern-js/utils@3.4.0
+
+## 3.3.0
+
+### Minor Changes
+
+- ad364e2: feat: enable Rspack lazy compilation by default in CSR and stream SSR dev (string SSR / RSC / SSG stay disabled)
+  feat: keep stream SSR first-screen assets correct under lazy compilation by forcing route components eager
+
+  feat: CSR 与 stream SSR 开发环境下默认开启 Rspack 按需编译（string SSR / RSC / SSG 仍默认关闭）
+  feat: 通过强制路由组件 eager 编译，保证 stream SSR 在按需编译下首屏资源仍正确
+
+### Patch Changes
+
+- Updated dependencies [2e85455]
+  - @modern-js/builder@3.3.0
+  - @modern-js/server@3.3.0
+  - @modern-js/plugin@3.3.0
+  - @modern-js/plugin-data-loader@3.3.0
+  - @modern-js/server-core@3.3.0
+  - @modern-js/prod-server@3.3.0
+  - @modern-js/server-utils@3.3.0
+  - @modern-js/i18n-utils@3.3.0
+  - @modern-js/types@3.3.0
+  - @modern-js/utils@3.3.0
+
+## 3.2.2
+
+### Patch Changes
+
+- @modern-js/builder@3.2.2
+- @modern-js/plugin-data-loader@3.2.2
+- @modern-js/server-core@3.2.2
+- @modern-js/prod-server@3.2.2
+- @modern-js/server@3.2.2
+- @modern-js/server-utils@3.2.2
+- @modern-js/i18n-utils@3.2.2
+- @modern-js/plugin@3.2.2
+- @modern-js/types@3.2.2
+- @modern-js/utils@3.2.2
+
+## 3.2.1
+
+### Patch Changes
+
+- 2aa5253: feat: support tsconfig.server.json for server-side TypeScript
+  feat: 支持单独配置服务端 tsconfig 配置
+- ca60027: add @rsbuild/core/types reference to app-tools types
+- Updated dependencies [2aa5253]
+  - @modern-js/utils@3.2.1
+  - @modern-js/builder@3.2.1
+  - @modern-js/plugin-data-loader@3.2.1
+  - @modern-js/server-core@3.2.1
+  - @modern-js/prod-server@3.2.1
+  - @modern-js/server@3.2.1
+  - @modern-js/server-utils@3.2.1
+  - @modern-js/i18n-utils@3.2.1
+  - @modern-js/plugin@3.2.1
+  - @modern-js/types@3.2.1
+
 ## 3.2.0
 
 ### Minor Changes

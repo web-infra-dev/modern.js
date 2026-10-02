@@ -116,7 +116,8 @@
       "packages/runtime/plugin-runtime/static/**",
       "packages/cli/flight-server-transform-plugin/tests/fixture/**/*",
       "**/@mf-types/**",
-      "packages/toolkit/create/template/**/*"
+      "packages/toolkit/create/template/**/*",
+      "tests/skill/fixtures/**/*"
     ]
   }
 }

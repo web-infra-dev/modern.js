@@ -1,14 +1,20 @@
+import path from 'path';
 import type { Entrypoint } from '@modern-js/types';
 import { fs } from '@modern-js/utils';
-import path from 'path';
 import { hasApp } from '../../cli/entry';
 import { NESTED_ROUTES_DIR } from './constants';
 
 export const ROUTES_DIR_META_KEY = '__modernRoutesDir';
+export const ROUTES_OWNER_META_KEY = '__modernRoutesOwner';
 
 export type EntrypointWithRoutesMeta = Entrypoint & {
   [ROUTES_DIR_META_KEY]?: string;
+  [ROUTES_OWNER_META_KEY]?: string;
 };
+
+export const getEntrypointRoutesOwner = (entrypoint: {
+  [ROUTES_OWNER_META_KEY]?: string;
+}) => entrypoint[ROUTES_OWNER_META_KEY];
 
 export const getEntrypointRoutesDir = (entrypoint: {
   [ROUTES_DIR_META_KEY]?: string;
@@ -38,9 +44,15 @@ export const isRouteEntry = (dir: string, routesDir = NESTED_ROUTES_DIR) => {
 export const modifyEntrypoints = (
   entrypoints: Entrypoint[],
   routesDir = NESTED_ROUTES_DIR,
+  options: { routesOwner?: string } = {},
 ) => {
   return entrypoints.map(entrypoint => {
     const entrypointWithMeta = entrypoint as EntrypointWithRoutesMeta;
+
+    const owner = getEntrypointRoutesOwner(entrypointWithMeta);
+    if (owner && owner !== options.routesOwner) {
+      return entrypointWithMeta;
+    }
 
     if (!entrypoint.isAutoMount) {
       return entrypointWithMeta;
@@ -50,11 +62,17 @@ export const modifyEntrypoints = (
         entrypointWithMeta.nestedRoutesEntry =
           entrypoint.absoluteEntryDir || entrypoint.entry;
         entrypointWithMeta[ROUTES_DIR_META_KEY] = routesDir;
+        if (options.routesOwner) {
+          entrypointWithMeta[ROUTES_OWNER_META_KEY] = options.routesOwner;
+        }
       }
       return entrypointWithMeta;
     }
     const isHasApp = hasApp(entrypoint.absoluteEntryDir!);
     if (isHasApp) {
+      if (options.routesOwner) {
+        entrypointWithMeta[ROUTES_OWNER_META_KEY] = options.routesOwner;
+      }
       return entrypointWithMeta;
     }
     const isHasNestedRoutes = hasNestedRoutes(
@@ -67,6 +85,9 @@ export const modifyEntrypoints = (
         routesDir,
       );
       entrypointWithMeta[ROUTES_DIR_META_KEY] = routesDir;
+      if (options.routesOwner) {
+        entrypointWithMeta[ROUTES_OWNER_META_KEY] = options.routesOwner;
+      }
     }
     return entrypointWithMeta;
   });

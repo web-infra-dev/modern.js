@@ -4,8 +4,8 @@
 import fs from 'fs';
 import path from 'path';
 import {
-  acquireFixtureLock,
   type ReleaseFixtureLock,
+  acquireFixtureLock,
 } from '../../../utils/fixtureLock';
 import { modernBuild } from '../../../utils/modernTestUtils';
 

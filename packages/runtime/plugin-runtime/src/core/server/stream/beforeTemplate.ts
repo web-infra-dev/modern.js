@@ -7,7 +7,7 @@ import { CHUNK_CSS_PLACEHOLDER } from '../constants';
 import { createReplaceHelemt } from '../helmet';
 import type { HandleRequestConfig } from '../requestHandler';
 import { type BuildHtmlCb, buildHtml } from '../shared';
-import { checkIsNode, safeReplace } from '../utils';
+import { checkIsNode, hasStylesheetLink, safeReplace } from '../utils';
 
 const readAsset = async (chunk: string) => {
   // working node env
@@ -55,7 +55,6 @@ export async function buildShellBeforeTemplate(
 
   const callbacks: BuildHtmlCb[] = [
     createReplaceHelemt(helmetData),
-    // @TODO: prefetch scripts of lazy component
     template => injectCss(template, entryName, styledComponentsStyleTags),
   ];
 
@@ -126,7 +125,7 @@ export async function buildShellBeforeTemplate(
             const { referenceCssAssets = [] } = routeManifest;
             const _cssChunks = referenceCssAssets.filter(
               (asset?: string) =>
-                asset?.endsWith('.css') && !template.includes(asset),
+                asset?.endsWith('.css') && !hasStylesheetLink(template, asset),
             );
             return [...chunks, ..._cssChunks];
           }, [] as string[])

@@ -17,6 +17,8 @@ import type {
   ServerPlugin,
   ServerRoute,
 } from '@modern-js/types';
+import type { EagerRouteComponentFilesByEntry } from '@modern-js/utils';
+import type { EnvironmentConfig } from '@rsbuild/core';
 import type { AppTools } from '.';
 import type { getHookRunners } from '../compat/hooks';
 import type { AppToolsNormalizedConfig, AppToolsUserConfig } from './config';
@@ -28,6 +30,9 @@ export type CheckEntryPointFn = TransformFunction<{
 }>;
 export type ModifyEntrypointsFn = TransformFunction<{
   entrypoints: Entrypoint[];
+}>;
+export type ModifyBuilderEnvironmentsFn = TransformFunction<{
+  environments: Record<string, EnvironmentConfig>;
 }>;
 export type ModifyFileSystemRoutesFn = TransformFunction<{
   entrypoint: Entrypoint;
@@ -52,6 +57,7 @@ export interface AppToolsExtendAPI {
 
   checkEntryPoint: PluginHookTap<CheckEntryPointFn>;
   modifyEntrypoints: PluginHookTap<ModifyEntrypointsFn>;
+  modifyBuilderEnvironments: PluginHookTap<ModifyBuilderEnvironmentsFn>;
   modifyFileSystemRoutes: PluginHookTap<ModifyFileSystemRoutesFn>;
 
   generateEntryCode: PluginHookTap<GenerateEntryCodeFn>;
@@ -84,6 +90,7 @@ export interface AppToolsExtendHooks
   deploy: AsyncHook<DeplpoyFn>;
   checkEntryPoint: AsyncHook<CheckEntryPointFn>;
   modifyEntrypoints: AsyncHook<ModifyEntrypointsFn>;
+  modifyBuilderEnvironments: AsyncHook<ModifyBuilderEnvironmentsFn>;
   modifyFileSystemRoutes: AsyncHook<ModifyFileSystemRoutesFn>;
   generateEntryCode: AsyncHook<GenerateEntryCodeFn>;
   onBeforeGenerateRoutes: AsyncHook<BeforeGenerateRoutesFn>;
@@ -132,6 +139,19 @@ export interface AppToolsExtendContext {
    * @private
    */
   bffRuntimeFramework?: string;
+  /**
+   * Route component files collected from the FINAL file-system routes (after all
+   * `modifyFileSystemRoutes` consumers ran), keyed by entry name. Populated by
+   * the router plugin during route generation and consumed (currently by stream
+   * SSR lazy compilation) to force route component chunks eager.
+   *
+   * Published via the app context (`api.updateAppContext`) by the router plugin,
+   * then read fresh when assembling the builder options and threaded into
+   * `BuilderOptions.eagerRouteComponentFilesByEntry`; the SSR builder plugin
+   * reads it from those options (not from the context directly).
+   * @private
+   */
+  eagerRouteComponentFilesByEntry?: EagerRouteComponentFilesByEntry;
 }
 
 export type AppToolsContext = AppContext<AppTools> & AppToolsExtendContext;

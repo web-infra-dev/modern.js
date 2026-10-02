@@ -2,6 +2,8 @@
 title: tsChecker
 ---
 
+import { PackageManagerTabs } from '@theme';
+
 # tools.tsChecker
 
 - **类型：** `Object | Function`
@@ -10,18 +12,21 @@ title: tsChecker
 ```js
 const defaultOptions = {
   typescript: {
+    // set 'readonly' to avoid emitting tsbuildinfo,
+    // as the generated tsbuildinfo will break ts-checker-rspack-plugin
+    mode: 'readonly',
+    // enable build when using project reference
+    build: useReference,
     // avoid OOM issue
     memoryLimit: 8192,
     // use tsconfig of user project
     configFile: tsconfigPath,
-    // use typescript of user project
-    typescriptPath: require.resolve('typescript'),
+    // resolve the default TypeScript package from user project
+    resolveRoot: rootPath,
   },
   issue: {
-    exclude: [
-      { file: '**/*.(spec|test).ts' },
-      { file: '**/node_modules/**/*' },
-    ],
+    // ignore type errors from node_modules
+    exclude: [({ file = '' }) => /[\\/]node_modules[\\/]/.test(file)],
   },
   logger: {
     log() {
@@ -29,15 +34,21 @@ const defaultOptions = {
       // we only want to display error messages
     },
     error(message: string) {
-      console.error(message.replace(/ERROR/g, 'Type Error'));
+      console.error(
+        message
+          .replace(/ERROR/g, 'Type Error')
+          .replace(/WARNING/g, 'Type Warning'),
+      );
     },
   },
 },
 ```
 
-默认情况下，Modern.js 会开启 [@rsbuild/plugin-type-check](https://github.com/rspack-contrib/rsbuild-plugin-type-check) 进行类型检查。你可以通过 `output.disableTsChecker` 配置项来关闭类型检查。
+默认情况下，Modern.js 会开启 [@rsbuild/plugin-type-check](https://github.com/rstackjs/rsbuild-plugin-type-check) 进行类型检查。你可以通过 `output.disableTsChecker` 配置项来关闭类型检查。
 
 ## 示例
+
+### Object 类型
 
 当 `tsChecker` 的值为 Object 类型时，会与默认配置进行深层合并。
 
@@ -53,4 +64,33 @@ export default {
 };
 ```
 
-> 请参考 [@rsbuild/plugin-type-check](https://github.com/rspack-contrib/rsbuild-plugin-type-check) 了解更多用法。
+### Function 类型
+
+当 `tsChecker` 的值为 Function 类型时，默认配置会作为第一个参数传入。你可以直接修改配置对象，也可以返回一个对象作为最终配置。
+
+```ts
+export default {
+  tools: {
+    tsChecker(options) {
+      options.async = false;
+      return options;
+    },
+  },
+};
+```
+
+> 请参考 [@rsbuild/plugin-type-check](https://github.com/rstackjs/rsbuild-plugin-type-check) 了解更多用法。
+
+## TypeScript 7+ 支持
+
+`tools.tsChecker` 支持使用 TypeScript 7+ 的原生检查器进行类型检查。该能力由 [`@rsbuild/plugin-type-check`](https://github.com/rstackjs/rsbuild-plugin-type-check) 底层集成的 [`ts-checker-rspack-plugin`](https://github.com/rstackjs/ts-checker-rspack-plugin) 提供，可以减少大型项目的类型检查耗时。
+
+安装 TypeScript >= 7.0.0 后会自动启用 `tsgo`：
+
+<PackageManagerTabs command="install typescript@latest -D" />
+
+开启 `tsgo` 后，如果手动设置 `typescript.typescriptPath`，它必须指向 TypeScript 7+ 的 `typescript/package.json` 或旧版 `@typescript/native-preview/package.json` 的绝对路径。
+
+> `@typescript/native-preview` 路径仅作为兼容保留。新项目应使用标准 `typescript` 包提供的 TypeScript 7+。
+
+关于 `tsgo` 模式下生效的配置项和相关限制，请参考 [ts-checker-rspack-plugin - TypeScript 7+ support](https://github.com/rstackjs/ts-checker-rspack-plugin#typescript-7-support)。

@@ -15,19 +15,19 @@
     "@modern-js/plugin-bff": "workspace:*",
     "@modern-js/runtime": "workspace:*",
     "@modern-js/server-runtime": "workspace:*",
-    "koa": "2.16.4",
-    "react": "^19.2.6",
-    "react-dom": "^19.2.6",
+    "koa": "3.1.2",
+    "react": "^19.2.8",
+    "react-dom": "^19.2.8",
     "ts-node": "^10.9.2",
     "tsconfig-paths": "3.15.0",
     "zod": "^3.25.76"
   },
   "devDependencies": {
     "@modern-js/app-tools": "workspace:*",
-    "@types/koa": "2.15.0",
+    "@types/koa": "2.15.2",
     "@types/node": "^20",
-    "@types/react": "^19.2.14",
-    "@types/react-dom": "^19.2.3",
+    "@types/react": "^19.3.0",
+    "@types/react-dom": "^19.3.0",
     "typescript": "^5"
   }
 }

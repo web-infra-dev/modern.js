@@ -1,9 +1,9 @@
 import React, { useContext } from 'react';
 import { renderToString } from 'react-dom/server';
 import {
-  getInitialContext,
   InternalRuntimeContext,
   RuntimeContext,
+  getInitialContext,
 } from '../../../src/core/context';
 import { wrapRuntimeContextProvider } from '../../../src/core/react/wrapper';
 

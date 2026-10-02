@@ -1,5 +1,246 @@
 # @modern-js/runtime
 
+## 3.9.3
+
+### Patch Changes
+
+- 9f475f6: chore: upgrade Rsbuild to v2.2.9
+
+  chore: 升级 Rsbuild 至 v2.2.9
+
+- a9c110f: fix: emit streaming SSR deferred resolver scripts only at safe HTML boundaries
+
+  fix: Streaming SSR 的 deferred resolver script 仅在安全的 HTML 边界输出
+
+- a9c110f: fix: emit completion scripts for deferred fields serialized as pending during streaming SSR
+
+  fix: 流式 SSR 中，初始序列化为等待状态的 deferred 字段完成后发送通知
+
+- Updated dependencies [9f475f6]
+- Updated dependencies [a9c110f]
+  - @modern-js/plugin-data-loader@3.9.3
+  - @modern-js/plugin@3.9.3
+  - @modern-js/runtime-utils@3.9.3
+  - @modern-js/render@3.9.3
+  - @modern-js/types@3.9.3
+  - @modern-js/utils@3.9.3
+
+## 3.9.2
+
+### Patch Changes
+
+- b4dec57: chore: upgrade Rsbuild to v2.2.6
+
+  chore: 升级 Rsbuild 至 v2.2.6
+
+- e2bbad2: chore: upgrade Rsbuild to v2.2.7
+
+  chore: 升级 Rsbuild 至 v2.2.7
+
+- Updated dependencies [b4dec57]
+- Updated dependencies [e2bbad2]
+  - @modern-js/plugin-data-loader@3.9.2
+  - @modern-js/plugin@3.9.2
+  - @modern-js/render@3.9.2
+  - @modern-js/runtime-utils@3.9.2
+  - @modern-js/types@3.9.2
+  - @modern-js/utils@3.9.2
+
+## 3.9.1
+
+### Patch Changes
+
+- ca7563f: fix: preserve the SSR request abort signal when creating the router loader request
+
+  fix: 构造路由 loader 请求时保留 SSR 请求的取消信号
+
+- 4af5bf0: Upgrade Rsbuild to 2.2.4 and support its stricter bundler chain types, preserving service worker library options and handling non-string public paths in asset prefix templates.
+
+  升级 Rsbuild 至 2.2.4，兼容更严格的 bundler chain 类型，保留 service worker 的 library 配置，并在 assetPrefix 模板中处理非字符串 publicPath。
+
+- Updated dependencies [4af5bf0]
+- Updated dependencies [2e6d853]
+  - @modern-js/plugin-data-loader@3.9.1
+  - @modern-js/plugin@3.9.1
+  - @modern-js/runtime-utils@3.9.1
+  - @modern-js/render@3.9.1
+  - @modern-js/types@3.9.1
+  - @modern-js/utils@3.9.1
+
+## 3.9.0
+
+### Patch Changes
+
+- c4fd1c3: fix(app-tools): fix BFF ts-node-loader compatibility with ESM
+  fix(plugin-runtime): fix document CLI compatibility with ESM lib format
+
+  fix(app-tools): 修复 BFF ts-node-loader 在 ESM 构建格式下的兼容性问题
+  fix(plugin-runtime): 修复 document CLI 在 ESM 构建格式下的兼容性问题
+
+  - @modern-js/plugin-data-loader@3.9.0
+  - @modern-js/render@3.9.0
+  - @modern-js/plugin@3.9.0
+  - @modern-js/runtime-utils@3.9.0
+  - @modern-js/types@3.9.0
+  - @modern-js/utils@3.9.0
+
+## 3.8.3
+
+### Patch Changes
+
+- 3748f08: chore: upgrade Rsbuild to v2.2.0-rc.0 and the SWC plugin to the latest version
+
+  chore: 升级 Rsbuild 至 v2.2.0-rc.0，并将 SWC 插件升级至最新版本
+
+- 546e96e: chore: upgrade Rsbuild dependencies to the latest versions
+
+  chore: 升级 Rsbuild 相关依赖至最新版本
+
+- Updated dependencies [3748f08]
+- Updated dependencies [546e96e]
+  - @modern-js/plugin-data-loader@3.8.3
+  - @modern-js/plugin@3.8.3
+  - @modern-js/render@3.8.3
+  - @modern-js/runtime-utils@3.8.3
+  - @modern-js/types@3.8.3
+  - @modern-js/utils@3.8.3
+
+## 3.8.2
+
+### Patch Changes
+
+- @modern-js/plugin-data-loader@3.8.2
+- @modern-js/render@3.8.2
+- @modern-js/plugin@3.8.2
+- @modern-js/runtime-utils@3.8.2
+- @modern-js/types@3.8.2
+- @modern-js/utils@3.8.2
+
+## 3.8.1
+
+### Patch Changes
+
+- @modern-js/plugin-data-loader@3.8.1
+- @modern-js/render@3.8.1
+- @modern-js/plugin@3.8.1
+- @modern-js/runtime-utils@3.8.1
+- @modern-js/types@3.8.1
+- @modern-js/utils@3.8.1
+
+## 3.8.0
+
+### Patch Changes
+
+- Updated dependencies [b3a0709]
+  - @modern-js/utils@3.8.0
+  - @modern-js/plugin-data-loader@3.8.0
+  - @modern-js/render@3.8.0
+  - @modern-js/plugin@3.8.0
+  - @modern-js/runtime-utils@3.8.0
+  - @modern-js/types@3.8.0
+
+## 3.7.0
+
+### Patch Changes
+
+- b261973: fix(runtime): exclude the SSR hydration runtime from CSR bundles
+- b261973: fix(runtime): exclude the RSC client runtime from web bundles when `server.rsc` is disabled
+  - @modern-js/plugin@3.7.0
+  - @modern-js/plugin-data-loader@3.7.0
+  - @modern-js/render@3.7.0
+  - @modern-js/runtime-utils@3.7.0
+  - @modern-js/types@3.7.0
+  - @modern-js/utils@3.7.0
+
+## 3.6.0
+
+### Minor Changes
+
+- c34b53d: refactor: drop React 17 support and import react-dom/client statically in the browser runtime
+  refactor: 浏览器运行时移除 React 17 支持，并改为静态引入 react-dom/client
+
+### Patch Changes
+
+- Updated dependencies [c34b53d]
+  - @modern-js/render@3.6.0
+  - @modern-js/plugin-data-loader@3.6.0
+  - @modern-js/runtime-utils@3.6.0
+  - @modern-js/plugin@3.6.0
+  - @modern-js/types@3.6.0
+  - @modern-js/utils@3.6.0
+
+## 3.5.0
+
+### Patch Changes
+
+- 6c50ad3: fix(runtime): use the final HTML template parameters when rendering custom Document
+
+  fix(runtime): 渲染自定义 Document 时使用最终的 HTML 模板参数
+
+  - @modern-js/plugin@3.5.0
+  - @modern-js/plugin-data-loader@3.5.0
+  - @modern-js/render@3.5.0
+  - @modern-js/runtime-utils@3.5.0
+  - @modern-js/types@3.5.0
+  - @modern-js/utils@3.5.0
+
+## 3.4.0
+
+### Patch Changes
+
+- e0f6ccc: fix(runtime): string-mode SSR no longer drops a route's stylesheet when the same CSS is referenced by a non-stylesheet `<link>` (e.g. `<link rel="prefetch">`)
+
+  `LoadableCollector.emitStyleAssets` (string SSR) deduped injected route stylesheets against every `<link href>` in the template, so a `<link rel="prefetch">` for the same css URL (e.g. from `performance.prefetch`) made the real `<link rel="stylesheet">` be skipped and the route rendered unstyled. It now reuses the shared `hasStylesheetLink` helper (also used by streaming SSR), which only matches existing `<link rel="stylesheet">` tags.
+
+- 4c7f658: fix(runtime,app-tools): inject CSS of React.lazy descendants into streaming SSR shell to prevent FOUC; slim inline route manifest to only `chunkIds` when RSC is disabled
+
+  fix(runtime,app-tools): 流式 SSR 注入 React.lazy 子 chunk 的 CSS 到首屏 shell, 避免懒加载组件出现样式闪烁; 非 RSC 场景下 inline 路由 manifest 仅保留 `chunkIds`, 减少 HTML 体积
+
+- 9a8d961: fix(runtime): split streaming SSR chunk at SHELL_STREAM_END_MARK so suspense boundary content is not swallowed before shellAfter
+
+  fix(runtime): 流式 SSR 在 SHELL_STREAM_END_MARK 位置切分 chunk，避免 suspense 兑现内容被夹在 shellAfter 之前
+
+  - @modern-js/plugin-data-loader@3.4.0
+  - @modern-js/render@3.4.0
+  - @modern-js/plugin@3.4.0
+  - @modern-js/runtime-utils@3.4.0
+  - @modern-js/types@3.4.0
+  - @modern-js/utils@3.4.0
+
+## 3.3.0
+
+### Patch Changes
+
+- @modern-js/plugin@3.3.0
+- @modern-js/plugin-data-loader@3.3.0
+- @modern-js/render@3.3.0
+- @modern-js/runtime-utils@3.3.0
+- @modern-js/types@3.3.0
+- @modern-js/utils@3.3.0
+
+## 3.2.2
+
+### Patch Changes
+
+- @modern-js/plugin-data-loader@3.2.2
+- @modern-js/render@3.2.2
+- @modern-js/plugin@3.2.2
+- @modern-js/runtime-utils@3.2.2
+- @modern-js/types@3.2.2
+- @modern-js/utils@3.2.2
+
+## 3.2.1
+
+### Patch Changes
+
+- Updated dependencies [2aa5253]
+  - @modern-js/utils@3.2.1
+  - @modern-js/plugin-data-loader@3.2.1
+  - @modern-js/render@3.2.1
+  - @modern-js/plugin@3.2.1
+  - @modern-js/runtime-utils@3.2.1
+  - @modern-js/types@3.2.1
+
 ## 3.2.0
 
 ### Minor Changes

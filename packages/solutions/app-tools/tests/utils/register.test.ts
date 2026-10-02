@@ -106,6 +106,10 @@ describe('setupTsRuntime', () => {
   });
 
   it('should use node loader when ts-node does not exist but native capability is available', async () => {
+    // Establish this test's own precondition instead of relying on the ambient
+    // `process.features.typescript`, which is `false` on a plain Node 22 run
+    // (no --experimental-strip-types) and would otherwise resolve to 'unsupported'.
+    setNativeTypeScriptSupport(true);
     mockIsDepExists.mockReturnValue(false);
     const { setupTsRuntime } = await import('../../src/utils/register');
 

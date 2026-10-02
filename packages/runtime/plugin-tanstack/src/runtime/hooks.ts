@@ -1,6 +1,6 @@
 import { createSyncHook } from '@modern-js/plugin';
-import type { TRuntimeContext } from '@modern-js/runtime/context';
 import type { RouteObject } from '@modern-js/runtime-utils/router';
+import type { TRuntimeContext } from '@modern-js/runtime/context';
 import type { RouterLifecycleContext } from './lifecycle';
 
 const modifyRoutes = createSyncHook<(routes: RouteObject[]) => RouteObject[]>();

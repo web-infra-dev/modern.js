@@ -1,3 +1,4 @@
+import path from 'path';
 import type { AppNormalizedConfig, AppTools } from '@modern-js/app-tools';
 import type { CLIPluginAPI } from '@modern-js/plugin';
 import type {
@@ -7,7 +8,6 @@ import type {
 } from '@modern-js/types';
 import { getMeta } from '@modern-js/utils';
 import { cloneDeep } from '@modern-js/utils/lodash';
-import path from 'path';
 import * as templates from './code/templates';
 import { isPageComponentFile } from './code/utils';
 import { modifyEntrypoints } from './entry';
@@ -37,8 +37,9 @@ const originEntrypointsByKey = new Map<string, Entrypoint[]>();
 export async function handleModifyEntrypoints(
   entrypoints: Entrypoint[],
   routesDir?: string,
+  options?: { routesOwner?: string },
 ) {
-  return modifyEntrypoints(entrypoints, routesDir);
+  return modifyEntrypoints(entrypoints, routesDir, options);
 }
 
 export async function handleGeneratorEntryCode(

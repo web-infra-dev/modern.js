@@ -60,6 +60,11 @@ interface HtmlRspackPlugin {
   tags: HtmlRspackPluginTags;
 }
 
+interface HtmlTemplateData {
+  htmlPlugin?: HtmlRspackPlugin;
+  [key: string]: unknown;
+}
+
 interface ExternalRequest {
   request?: string;
 }
@@ -175,7 +180,12 @@ const processCommentPlaceholders = (html: string): string => {
 
 // load CommonJS module from code string (evaluated in Node), returns exports
 const requireFromString = (code: string, filename: string) => {
-  const m = new Module.Module(filename, module.parent as Module);
+  const m = new Module.Module(
+    filename,
+    process.env.MODERN_LIB_FORMAT === 'esm'
+      ? undefined
+      : (module.parent as Module),
+  );
   m.filename = filename;
   // set proper resolution paths for nested requires
   // eslint-disable-next-line @typescript-eslint/ban-ts-comment
@@ -263,10 +273,8 @@ const applyExternalsPlugin = (child: Compiler, compiler: Compiler) => {
 };
 
 const generateEntryCode = (docPath: string, _entryName: string): string => {
-  const runtimeAPI = require.resolve('../');
-  const esmRuntimeAPI = runtimeAPI
-    .replace(`cjs`, `esm`)
-    .replace(/.js$/, '.mjs');
+  // this entry will always resolve to "./dist/esm/document/index.mjs"
+  const esmRuntimeAPI = require.resolve('@modern-js/runtime/document');
 
   return `import React from 'react';
 import ReactDomServer from 'react-dom/server';
@@ -633,10 +641,7 @@ export const documentPlugin = (): CliPlugin<AppTools> => ({
         .replace(DOCUMENT_TITLE_PLACEHOLDER, () => titles);
     };
 
-    const documentEntry = (
-      entryName: string,
-      templateParameters: Record<string, unknown>,
-    ) => {
+    const documentEntry = (entryName: string) => {
       const { entrypoints, internalDirectory, appDirectory } =
         api.getAppContext();
 
@@ -649,9 +654,14 @@ export const documentPlugin = (): CliPlugin<AppTools> => ({
       if (!documentFilePath) {
         return null;
       }
-      // Don't know why we can't use htmlRspackPlugin, it can't get the tags.
-      return async ({ htmlPlugin }: { [option: string]: HtmlRspackPlugin }) => {
+      return async (templateData: HtmlTemplateData) => {
         const config = api.getNormalizedConfig();
+        const {
+          compilation: _compilation,
+          htmlPlugin,
+          rspackConfig: _rspackConfig,
+          ...templateParameters
+        } = templateData;
         const documentParams = getDocParams({
           config: config as NormalizedConfig,
           entryName,
@@ -674,6 +684,11 @@ export const documentPlugin = (): CliPlugin<AppTools> => ({
 
         const { partialsByEntrypoint } = api.getAppContext();
         html = processPartials(html, entryName, partialsByEntrypoint || {});
+        if (!htmlPlugin) {
+          throw new Error(
+            'Failed to get HTML plugin tags from template parameters.',
+          );
+        }
         const { scripts, links, metas, titles } = extractHtmlTags(
           htmlPlugin,
           templateParameters,
@@ -700,22 +715,7 @@ export const documentPlugin = (): CliPlugin<AppTools> => ({
       return {
         tools: {
           htmlPlugin: (options: any, entry: any) => {
-            // reuse builder's computed base parameters
-            // https://github.com/web-infra-dev/modern.js/blob/1abb452a87ae1adbcf8da47d62c05da39cbe4d69/packages/builder/builder-webpack-provider/src/plugins/html.ts#L69-L103
-            const hackParameters: Record<string, unknown> =
-              typeof options?.templateParameters === 'function'
-                ? options?.templateParameters(
-                    {} as any,
-                    {} as any,
-                    {} as any,
-                    {} as any,
-                  )
-                : { ...options?.templateParameters };
-
-            const templateContent = documentEntry(
-              entry.entryName,
-              hackParameters,
-            );
+            const templateContent = documentEntry(entry.entryName);
 
             const documentHtmlOptions = templateContent
               ? {

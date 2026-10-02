@@ -28,7 +28,7 @@ jobs:
           git config --system core.longpaths true
 
       - name: Checkout
-        uses: actions/checkout@v3
+        uses: actions/checkout@f43a0e5ff2bd294095638e18286ca9a3d1956744 # v3
         with:
           fetch-depth: 1
 
@@ -44,14 +44,14 @@ jobs:
         run: echo "${{steps.skip-ci.outputs.RESULT}}"
 
       - name: Setup Node.js 22.x
-        uses: actions/setup-node@v3
+        uses: actions/setup-node@3235b876344d2a9aa001b8d1453c930bba69e610 # v3
         with:
           node-version: 22.x
           cache: 'pnpm'
 
       - name: Nx Cache
         id: nx-cache
-        uses: actions/cache@v3
+        uses: actions/cache@6f8efc29b200d32929f49075959781ed54ec270c # v3
         with:
           path: .nx/cache
           key: nx-${{ github.ref_name }}-${{ github.sha }}

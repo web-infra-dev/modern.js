@@ -1,0 +1,8 @@
+[build]
+  publish = "dist"
+  command = "modern deploy"
+
+[functions]
+  directory = ".netlify/functions"
+  node_bundler = "none"
+  included_files = [".netlify/functions/**"]

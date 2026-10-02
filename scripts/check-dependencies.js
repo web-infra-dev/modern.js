@@ -8,9 +8,11 @@ const ignoreDeps = [
   'tsx',
 ];
 
-const command = `npx check-dependency-version-consistency@latest . ${ignoreDeps
+// examples/ intentionally track the published packages (`latest`) and mirror
+// real user apps, so they are exempt from workspace version consistency.
+const command = `npx check-dependency-version-consistency . ${ignoreDeps
   .map(dep => `--ignore-dep "${dep}"`)
-  .join(' ')}`;
+  .join(' ')} --ignore-package-pattern "^@examples/"`;
 
 console.log(`> ${command}`);
 

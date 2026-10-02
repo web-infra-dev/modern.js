@@ -1,13 +1,14 @@
 import path from 'path';
 import { execa, fs as fse } from '@modern-js/utils';
 import {
+  createIsolatedTestApp,
   getPort,
   killApp,
   modernBuild,
   runContinuousTask,
 } from '../../../utils/modernTestUtils';
 
-const appDir = path.resolve(__dirname, '../');
+const sourceAppDir = path.resolve(__dirname, '../');
 
 async function checkAppRun(host: string) {
   // Page render
@@ -36,8 +37,15 @@ async function checkAppRun(host: string) {
 // bff project's dependencies is more complex, so use bff project to test
 describe('deploy', () => {
   const apps = new Set();
+  let appDir: string;
 
   beforeAll(async () => {
+    appDir = (
+      await createIsolatedTestApp(sourceAppDir, {
+        prefix: '.pure-esm-deploy-',
+      })
+    ).appDir;
+
     await modernBuild(appDir, [], {
       env: {
         TEST_DIST: 'dist-deploy',
@@ -48,8 +56,7 @@ describe('deploy', () => {
 
   afterAll(async () => {
     await Promise.all([...apps].map(x => killApp(x, true)));
-    await fse.remove(path.join(appDir, 'dist-deploy'));
-    await fse.remove(path.join(appDir, '.output'));
+    await fse.remove(appDir);
   });
 
   test('support server when deploy target is node', async () => {
@@ -73,6 +80,24 @@ describe('deploy', () => {
     expect(await fse.pathExists(htmlDirectory)).toBe(true);
     expect(await fse.pathExists(apiFile)).toBe(true);
     expect(await fse.pathExists(bootstrapPath)).toBe(true);
+
+    // `@modern-js/server-runtime` used to be externalized in the SSR bundle,
+    // leaving a bare require on a transitive dependency that the application
+    // cannot resolve. It must now be bundled: no output file may require it.
+    const outputScripts = (
+      await fse.readdir(outputDirectory, { recursive: true })
+    )
+      .map(file => path.join(outputDirectory, String(file)))
+      .filter(
+        file =>
+          /\.(c?js|mjs)$/.test(file) &&
+          !file.split(path.sep).includes('node_modules'),
+      );
+    for (const file of outputScripts) {
+      const content = await fse.readFile(file, 'utf-8');
+      expect(content).not.toContain('require("@modern-js/server-runtime")');
+      expect(content).not.toContain("require('@modern-js/server-runtime')");
+    }
 
     // check server run
     const port = await getPort();

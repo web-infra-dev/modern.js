@@ -1,3 +1,4 @@
+import path from 'path';
 import type {
   AppNormalizedConfig,
   AppTools,
@@ -13,9 +14,11 @@ import type {
   SSRMode,
 } from '@modern-js/types';
 import {
+  fs,
+  type EagerRouteComponentFilesByEntry,
+  collectRouteComponentFiles,
   filterRoutesForServer,
   filterRoutesLoader,
-  fs,
   getEntryOptions,
   isSSGEntry,
   isUseRsc,
@@ -24,7 +27,6 @@ import {
   markRoutes,
 } from '@modern-js/utils';
 import { cloneDeep } from '@modern-js/utils/lodash';
-import path from 'path';
 import { ENTRY_POINT_RUNTIME_GLOBAL_CONTEXT_FILE_NAME } from '../../../cli/constants';
 import { resolveSSRMode } from '../../../cli/ssr/mode';
 import { FILE_SYSTEM_ROUTES_FILE_NAME } from '../constants';
@@ -111,8 +113,41 @@ export const generateCode = async (
     string,
     (NestedRouteForCli | PageRoute)[]
   > = {};
+  // Collect route component files from the FINAL routes (after every
+  // `modifyFileSystemRoutes` consumer ran) keyed by entry. A fresh Map per
+  // `generateCode` run avoids keeping stale entries when route generation is
+  // re-triggered by a dev restart (e.g. an entry was removed). Entries are
+  // populated synchronously inside each `generateEntryCode` and published once,
+  // after all entries are done, via the public `api.updateAppContext` channel —
+  // the app-tools SSR builder plugin reads it back as
+  // `BuilderOptions.eagerRouteComponentFilesByEntry` to force route chunks eager
+  // under lazy compilation.
+  const eagerRouteComponentFilesByEntry: EagerRouteComponentFilesByEntry =
+    new Map();
 
   await Promise.all(entrypoints.map(generateEntryCode));
+
+  const currentContext = api.getAppContext();
+  const activeEntries = new Set(
+    currentContext.entrypoints
+      .filter(
+        entrypoint =>
+          entrypoint.pageRoutesEntry || entrypoint.nestedRoutesEntry,
+      )
+      .map(entrypoint => entrypoint.entryName),
+  );
+  const generatedEntries = new Set(
+    entrypoints.map(entrypoint => entrypoint.entryName),
+  );
+  for (const [
+    entryName,
+    files,
+  ] of currentContext.eagerRouteComponentFilesByEntry || []) {
+    if (activeEntries.has(entryName) && !generatedEntries.has(entryName)) {
+      eagerRouteComponentFilesByEntry.set(entryName, files);
+    }
+  }
+  api.updateAppContext({ eagerRouteComponentFilesByEntry });
 
   async function generateEntryCode(entrypoint: Entrypoint) {
     const {
@@ -193,6 +228,19 @@ export const generateCode = async (
           | NestedRouteForCli
           | PageRoute
         )[];
+
+        // Collect route component files from the FINAL routes (after every
+        // `modifyFileSystemRoutes` consumer ran), so the SSR builder plugin can
+        // force route component chunks eager under lazy compilation. Collecting
+        // here (rather than inside a `modifyFileSystemRoutes` tap) guarantees we
+        // capture the routes a later plugin may have replaced/added. The result
+        // is published once after all entries via `api.updateAppContext` above.
+        const routeEagerFilesForEntry = collectRouteComponentFiles(
+          routes,
+          srcDirectory,
+          internalSrcAlias,
+        );
+        eagerRouteComponentFilesByEntry.set(entryName, routeEagerFilesForEntry);
 
         if (ssrMode === 'stream') {
           const hasPageRoute = routes.some(
@@ -289,7 +337,6 @@ export const generateCode = async (
           code,
           'utf8',
         );
-
       }
     }
   }

@@ -13,9 +13,9 @@ import type {
   ServerRoute,
 } from '@modern-js/types';
 import {
-  filterRoutesForServer,
   fs,
   NESTED_ROUTE_SPEC_FILE,
+  filterRoutesForServer,
 } from '@modern-js/utils';
 import {
   generateTanstackRouterTypesSourceForEntry,
@@ -38,6 +38,7 @@ export type TanstackRouterPluginOptions = {
 
 type RuntimeRouterCliHelpers = {
   getEntrypointRoutesDir: (entrypoint: Entrypoint) => string | null;
+  getEntrypointRoutesOwner: (entrypoint: Entrypoint) => string | undefined;
   handleFileChange: (
     api: CLIPluginAPI<AppTools>,
     event: unknown,
@@ -81,13 +82,17 @@ function getRuntimeRouterCli(): RuntimeRouterCliHelpers {
 
   const cli =
     require('@modern-js/runtime/cli') as Partial<RuntimeRouterCliHelpers>;
-  if (cli.handleGeneratorEntryCode && cli.getEntrypointRoutesDir) {
+  if (
+    cli.handleGeneratorEntryCode &&
+    cli.getEntrypointRoutesDir &&
+    cli.getEntrypointRoutesOwner
+  ) {
     runtimeRouterCli = cli as RuntimeRouterCliHelpers;
     return runtimeRouterCli;
   }
 
   throw new Error(
-    '@modern-js/plugin-tanstack requires @modern-js/runtime/cli router helper exports from tpcore-02.',
+    '@modern-js/plugin-tanstack requires @modern-js/runtime/cli router helper exports.',
   );
 }
 
@@ -231,8 +236,8 @@ export function tanstackRouterPlugin(
       const nestedRoutesForServer: Record<string, unknown> = {};
 
       const isTanstackEntrypoint = (entrypoint: Entrypoint) => {
-        const { getEntrypointRoutesDir } = getRuntimeRouterCli();
-        return getEntrypointRoutesDir(entrypoint) === routesDir;
+        const { getEntrypointRoutesOwner } = getRuntimeRouterCli();
+        return getEntrypointRoutesOwner(entrypoint) === ENTRYPOINTS_KEY;
       };
 
       api._internalRuntimePlugins(({ entrypoint, plugins }) => {

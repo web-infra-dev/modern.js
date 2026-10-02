@@ -17,6 +17,11 @@ import { pluginHtmlMinifierTerser } from '../plugins/htmlMinify';
 import { pluginRuntimeChunk } from '../plugins/runtimeChunk';
 import type { BuilderConfig, CreateBuilderCommonOptions } from '../types';
 import { transformToRsbuildServerOptions } from './devServer';
+import {
+  normalizeLessOptions,
+  normalizeSassOptions,
+  resolveSvgrOptions,
+} from './pluginOptions';
 import { NODE_MODULES_REGEX } from './utils';
 
 const CSS_MODULES_REGEX = /\.modules?\.\w+$/i;
@@ -70,7 +75,13 @@ export async function parseCommonConfig(
       ...outputConfig
     } = {},
     html: { outputStructure, appIcon, ...htmlConfig } = {},
-    source: { alias, globalVars, transformImport, ...sourceConfig } = {},
+    source: {
+      alias,
+      globalVars,
+      transformImport,
+      reactCompiler,
+      ...sourceConfig
+    } = {},
     dev = {},
     server = {},
     security: { checkSyntax, sri, ...securityConfig } = {},
@@ -80,6 +91,7 @@ export async function parseCommonConfig(
       minifyCss,
       less,
       sass,
+      svgr,
       htmlPlugin,
       autoprefixer,
       ...toolsConfig
@@ -170,16 +182,26 @@ export async function parseCommonConfig(
   if (htmlPlugin !== false) {
     // compat template title and meta params
     extraConfig.tools.htmlPlugin = config => {
+      const defaultTemplateParameters = {
+        title: config.title,
+        meta: undefined,
+        mountId: html.mountId,
+      };
+
       if (typeof config.templateParameters === 'function') {
         const originFn = config.templateParameters;
 
-        config.templateParameters = (...args) => {
-          const res = originFn(...args);
+        config.templateParameters = async (...args) => {
+          const res = await originFn(...args);
           return {
-            title: config.title,
-            meta: undefined,
+            ...defaultTemplateParameters,
             ...res,
           };
+        };
+      } else {
+        config.templateParameters = {
+          ...defaultTemplateParameters,
+          ...config.templateParameters,
         };
       }
     };
@@ -206,12 +228,8 @@ export async function parseCommonConfig(
       sourceMap,
     }),
     pluginEmitRouteFile(),
-    pluginSass({
-      sassLoaderOptions: sass,
-    }),
-    pluginLess({
-      lessLoaderOptions: less,
-    }),
+    pluginSass(normalizeSassOptions(sass)),
+    pluginLess(normalizeLessOptions(less)),
     pluginEnvironmentDefaults(distPath),
     pluginHtmlMinifierTerser(),
   ];
@@ -259,18 +277,18 @@ export async function parseCommonConfig(
     );
   }
 
-  rsbuildPlugins.push(pluginReact());
+  rsbuildPlugins.push(
+    pluginReact(reactCompiler !== undefined ? { reactCompiler } : {}),
+  );
 
-  if (!disableSvgr) {
+  const svgrOptions = resolveSvgrOptions({
+    svgr,
+    disableSvgr,
+    svgDefaultExport,
+  });
+  if (svgrOptions !== false) {
     const { pluginSvgr } = await import('@rsbuild/plugin-svgr');
-    rsbuildPlugins.push(
-      pluginSvgr({
-        mixedImport: true,
-        svgrOptions: {
-          exportType: svgDefaultExport === 'component' ? 'default' : 'named',
-        },
-      }),
-    );
+    rsbuildPlugins.push(pluginSvgr(svgrOptions));
   }
 
   // assetsRetry inject should be later

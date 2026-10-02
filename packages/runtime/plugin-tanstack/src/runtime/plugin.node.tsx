@@ -1,9 +1,8 @@
-/// <reference path="./ssr-shim.d.ts" />
-
 import { merge } from '@modern-js/runtime-utils/merge';
 import {
   type RequestContext,
   createRequestContext,
+  storage,
 } from '@modern-js/runtime-utils/node';
 import { time } from '@modern-js/runtime-utils/time';
 import {
@@ -20,7 +19,10 @@ import {
   createMemoryHistory,
   createRouter,
 } from '@tanstack/react-router';
-import { attachRouterServerSsrUtils } from '@tanstack/react-router/ssr/server';
+import {
+  attachRouterServerSsrUtils,
+  transformPipeableStreamWithRouter,
+} from '@tanstack/react-router/ssr/server';
 import type React from 'react';
 import { Suspense, useContext } from 'react';
 import { createModernBasepathRewrite } from './basepathRewrite';
@@ -131,6 +133,31 @@ export const tanstackRouterPlugin = (
       onBeforeHydrateRouter: onBeforeHydrateRouterHook,
     },
     setup: api => {
+      const routersByRequest = new WeakMap<
+        Request,
+        { router: AnyRouter; streaming: boolean }
+      >();
+
+      api.extendStreamSSR(() => {
+        const request = storage.useContext().request;
+        const state = request && routersByRequest.get(request);
+
+        return {
+          processHtmlStream: stream => {
+            if (!state) {
+              return stream;
+            }
+
+            const transformed = transformPipeableStreamWithRouter(
+              state.router,
+              stream,
+            );
+            state.streaming = true;
+            return transformed;
+          },
+        };
+      });
+
       api.onBeforeRender(async (context, interrupt) => {
         const pluginConfig: Record<string, any> = api.getRuntimeConfig();
         const mergedConfig = merge(
@@ -266,11 +293,21 @@ export const tanstackRouterPlugin = (
             matchedRouteIds,
             hydrationScripts,
           });
+        const routerSsrState = {
+          router: tanstackRouter as AnyRouter,
+          streaming: false,
+        };
+        routersByRequest.set(request.raw, routerSsrState);
         const runtimeContext = applyRouterServerPrepareResult(
           context as TInternalRuntimeContext,
           {
             snapshot: routerServerSnapshot,
-            cleanup: () => (tanstackRouter as any).serverSsr?.cleanup?.(),
+            cleanup: () => {
+              routersByRequest.delete(request.raw);
+              if (!routerSsrState.streaming) {
+                tanstackRouter.serverSsr?.cleanup();
+              }
+            },
             state: {
               framework: 'tanstack',
               basename: _basename,

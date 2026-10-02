@@ -216,7 +216,7 @@ function getPatchVersionsBetween(
 
 /**
  * Get all versions between two minor versions.
- * Includes remaining patch versions in old minor and all minor versions up to target.
+ * Includes minor release boundaries up to the target version.
  */
 function getMinorVersionsBetween(
   oldVersion: string,
@@ -228,30 +228,10 @@ function getMinorVersionsBetween(
   const newMajor = semver.major(newVersion);
   const newMinor = semver.minor(newVersion);
 
-  // List remaining patch versions in the old minor version
-  let currentVersion = semver.inc(oldVersion, 'patch');
-  while (
-    currentVersion &&
-    semver.major(currentVersion) === oldMajor &&
-    semver.minor(currentVersion) === oldMinor &&
-    semver.lt(currentVersion, newVersion)
-  ) {
-    versions.push(currentVersion);
-    const nextVersion = semver.inc(currentVersion, 'patch');
-    if (
-      !nextVersion ||
-      semver.major(nextVersion) !== oldMajor ||
-      semver.minor(nextVersion) !== oldMinor
-    ) {
-      break;
-    }
-    currentVersion = nextVersion;
-  }
-
-  // List all minor versions up to the target
   if (oldMajor === newMajor) {
     for (let minor = oldMinor + 1; minor <= newMinor; minor++) {
-      const minorVersion = `${oldMajor}.${minor}.0`;
+      const minorVersion =
+        minor === newMinor ? newVersion : `${oldMajor}.${minor}.0`;
       if (semver.lte(minorVersion, newVersion)) {
         versions.push(minorVersion);
       }
@@ -267,7 +247,7 @@ function getMinorVersionsBetween(
 
 /**
  * Get all versions between two major versions.
- * Includes remaining versions in old major and all major versions up to target.
+ * Includes major release boundaries and the exact target version.
  */
 function getMajorVersionsBetween(
   oldVersion: string,
@@ -277,27 +257,10 @@ function getMajorVersionsBetween(
   const oldMajor = semver.major(oldVersion);
   const newMajor = semver.major(newVersion);
 
-  // List remaining versions in the old major version
-  let currentVersion = semver.inc(oldVersion, 'patch');
-  while (
-    currentVersion &&
-    semver.major(currentVersion) === oldMajor &&
-    semver.lt(currentVersion, newVersion)
-  ) {
-    versions.push(currentVersion);
-    const nextVersion = semver.inc(currentVersion, 'patch');
-    if (!nextVersion || semver.major(nextVersion) !== oldMajor) {
-      break;
-    }
-    currentVersion = nextVersion;
-  }
-
-  // List all major versions up to the target
   for (let major = oldMajor + 1; major <= newMajor; major++) {
-    if (major === newMajor) {
-      versions.push(newVersion);
-    } else {
-      versions.push(`${major}.0.0`);
+    const majorVersion = `${major}.0.0`;
+    if (semver.lte(majorVersion, newVersion)) {
+      versions.push(majorVersion);
     }
   }
 
