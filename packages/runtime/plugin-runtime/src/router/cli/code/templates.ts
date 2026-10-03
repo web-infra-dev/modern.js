@@ -175,6 +175,20 @@ async function hasUseClientDirective(
   }
 }
 
+const collectClientDirectiveTargets = (
+  route: NestedRouteForCli | PageRoute,
+  targets: Set<string>,
+) => {
+  if ('children' in route && route.children) {
+    for (const child of route.children) {
+      collectClientDirectiveTargets(child, targets);
+    }
+  }
+  if (route.type === 'nested' && route._component) {
+    targets.add(route._component);
+  }
+};
+
 export const fileSystemRoutes = async ({
   metaName,
   routes,
@@ -227,6 +241,34 @@ export const fileSystemRoutes = async ({
     TEMP_LOADERS_DIR,
     'map.json',
   );
+
+  // Resolve the 'use client' directive for every route component before
+  // walking the tree. Reading it inside the walk made each route wait on its
+  // own file read, so sibling branches appended to the shared `errors` /
+  // `loadings` / `loaders` arrays in file-read completion order: the same
+  // sources produced different error_0 / loading_0 bindings from build to
+  // build, and the resulting import order changed chunk contents and hashes.
+  const clientDirectives = new Map<string, boolean>();
+  if (srcDirectory && internalSrcAlias) {
+    const targets = new Set<string>();
+    for (const route of routes) {
+      if ('type' in route) {
+        collectClientDirectiveTargets(route, targets);
+      }
+    }
+    await Promise.all(
+      Array.from(targets, async componentPath => {
+        clientDirectives.set(
+          componentPath,
+          await hasUseClientDirective(
+            componentPath,
+            srcDirectory,
+            internalSrcAlias,
+          ),
+        );
+      }),
+    );
+  }
 
   const importLazyCode = `
     import { lazy } from "react";
@@ -283,16 +325,14 @@ export const fileSystemRoutes = async ({
     return `() => import(${importOptions}'${componentPath}').then(routeModule => handleRouteModule(routeModule, "${routeId}")).catch(handleRouteModuleError)`;
   };
 
-  const traverseRouteTree = async (
+  const traverseRouteTree = (
     route: NestedRouteForCli | PageRoute,
     isRscClientBundle: boolean,
-  ): Promise<Route> => {
+  ): Route => {
     let children: Route['children'];
     if ('children' in route && route.children) {
-      children = await Promise.all(
-        route.children.map(child =>
-          traverseRouteTree(child, isRscClientBundle),
-        ),
+      children = route.children.map(child =>
+        traverseRouteTree(child, isRscClientBundle),
       );
     }
     let loading: string | undefined;
@@ -383,13 +423,7 @@ export const fileSystemRoutes = async ({
     const isClientComponent =
       route.type === 'nested' &&
       Boolean(route._component) &&
-      Boolean(srcDirectory) &&
-      Boolean(internalSrcAlias) &&
-      (await hasUseClientDirective(
-        route._component!,
-        srcDirectory,
-        internalSrcAlias,
-      ));
+      (clientDirectives.get(route._component!) ?? false);
 
     const shouldIncludeClientBundle = !isRscClientBundle || isClientComponent;
 
@@ -425,7 +459,7 @@ export const fileSystemRoutes = async ({
   `;
   for (const route of routes) {
     if ('type' in route) {
-      const newRoute = await traverseRouteTree(route, isRscClientBundle);
+      const newRoute = traverseRouteTree(route, isRscClientBundle);
       const routeStr = JSON.stringify(newRoute, null, 2);
       const keywords = [
         'component',
