@@ -3385,8 +3385,8 @@ importers:
         specifier: workspace:*
         version: link:../../../packages/server/server-runtime
       koa:
-        specifier: 3.1.2
-        version: 3.1.2
+        specifier: 3.2.1
+        version: 3.2.1
       react:
         specifier: ^19.2.8
         version: 19.2.8
@@ -14225,8 +14225,8 @@ packages:
     resolution: {integrity: sha512-MeuwbCoN1daWS32/Ni5qkzmrOtQO2qrnfdxDHjrm6s4b59yG4nexAJ0pTEFyzjLp0pBVO80CZp0vW8Ze30Ebow==}
     engines: {node: '>= 18'}
 
-  koa@3.1.2:
-    resolution: {integrity: sha512-2LOQnFKu3m0VxpE+5sb5+BRTSKrXmNxGgxVRiKwD9s5KQB1zID/FRXhtzeV7RT1L2GVpdEEAfVuclFOMGl1ikA==}
+  koa@3.2.1:
+    resolution: {integrity: sha512-e7IpWJrnanNUroVK2taAgMxoEZvHLXdQiNjeExSu/DEIWm83jaKGBgb7tLmu2rMYpA027qFB3iLR/k3AVpFRnA==}
     engines: {node: '>= 18'}
 
   launch-editor@2.13.2:
@@ -30417,7 +30417,7 @@ snapshots:
       type-is: 2.0.1
       vary: 1.1.2
 
-  koa@3.1.2:
+  koa@3.2.1:
     dependencies:
       accepts: 1.3.8
       content-disposition: 1.0.1
