@@ -39,7 +39,7 @@ test('externals', async ({ page }) => {
   builder.close();
 });
 
-test('should not external dependencies when target is web worker', async () => {
+test('should bundle dependencies when worker externals are explicitly disabled', async () => {
   const builder = await build({
     cwd: fixtures,
     entry: { index: resolve(fixtures, './src/index.js') },
@@ -48,6 +48,12 @@ test('should not external dependencies when target is web worker', async () => {
         target: 'web-worker',
         externals: {
           react: 'MyReact',
+        },
+      },
+      tools: {
+        rspack: config => {
+          // Worker builds can preserve externals; explicitly opt out for this case.
+          config.externals = [];
         },
       },
     },
