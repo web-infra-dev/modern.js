@@ -172,6 +172,12 @@ export { closeServer } from './utils/createServer';
 export type { DeployOptions, DevOptions } from './utils/types';
 export { generateWatchFiles } from './utils/generateWatchFiles';
 export {
+  resolveTsRuntimeRegisterMode,
+  setupTsRuntime,
+  type TsRuntimeRegisterMode,
+  type TsRuntimeSetupOptions,
+} from './utils/register';
+export {
   resolveModernRsbuildConfig,
   type ResolveModernRsbuildConfigOptions,
 } from './rsbuild';
