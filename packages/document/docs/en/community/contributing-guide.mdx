@@ -132,7 +132,7 @@ Modern.js uses [Rstest](https://rstest.rs/) for unit tests across the repository
 Before submitting a pull request, it's important to make sure that the changes haven't introduced any regressions or bugs. You can run the unit tests for the project by executing the following command:
 
 ```sh
-pnpm run test
+pnpm run test:ut
 ```
 
 Alternatively, you can run the unit tests of single package using the `--filter` option:
@@ -145,10 +145,11 @@ pnpm run --filter @modern-js/some-package test
 
 In addition to the unit tests, the Modern.js also includes end-to-end (E2E) tests, which checks the functionality of the application as a whole.
 
-You can run the `test:e2e` command to run the E2E tests:
+Run the framework integration tests and Builder E2E tests with the following commands:
 
 ```sh
-pnpm run test:e2e
+pnpm run test:framework
+pnpm run test:builder
 ```
 
 If you need to run a specified test, you can add keywords to filter:
@@ -160,7 +161,7 @@ npx rstest copy-assets
 
 ## Linting
 
-To help maintain consistency and readability of the codebase, we use a ESLint to lint the codes.
+To help maintain consistency and readability across the codebase, we use Biome for linting and formatting.
 
 You can run the Linter by executing the following command:
 
