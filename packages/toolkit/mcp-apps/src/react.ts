@@ -37,11 +37,12 @@ export function useMcpApp(options: Omit<UseAppOptions, 'onAppCreated'>) {
 export function createMcpView<P extends object>(
   View: ComponentType<P>,
   appInfo: { name: string; version: string },
+  capabilities: UseAppOptions['capabilities'] = {},
 ) {
   return function McpView() {
     const { app, isConnected, error, input, result, cancelled } = useMcpApp({
       appInfo,
-      capabilities: {},
+      capabilities,
     });
     if (error) return createElement('p', { role: 'alert' }, error.message);
     if (cancelled) return createElement('p', null, 'Tool cancelled');

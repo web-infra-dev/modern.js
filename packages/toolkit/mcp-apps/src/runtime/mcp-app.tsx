@@ -5,6 +5,7 @@ import { createRoot } from 'react-dom/client';
 import { ErrorBoundary } from './components/error-boundary';
 import { RemoteComponentContainer } from './components/remote-component-container';
 import { MFProvider } from './context/MFProvider';
+import { canRequestDisplayMode, subscribeHostContext } from './host-context';
 import type { ModuleFederationConfig } from './loaders/mf-loader';
 import { injectGlobalStyles } from './styles/styles';
 import type { ToolData } from './utils/types';
@@ -160,6 +161,8 @@ function ModuleFederationApp() {
       return;
     }
     const newMode = displayMode === 'fullscreen' ? 'inline' : 'fullscreen';
+    if (!canRequestDisplayMode(appRef.current.getHostContext(), newMode))
+      return;
     if (newMode === 'fullscreen') {
       // Apply immediately so content fills the growing iframe as the host animates it
       setDisplayMode('fullscreen');
@@ -237,24 +240,6 @@ function ModuleFederationApp() {
       appRef.current = app;
       toolResultReceivedRef.current = false;
 
-      // Capture initial container dimensions from host context
-      const initCtx = app.getHostContext() ?? {};
-      const initialHeight = getContainerHeight(initCtx);
-      if (initialHeight) {
-        setContainerHeight(initialHeight);
-      }
-
-      // Handle host context changes (display mode toggles, container resize)
-      app.onhostcontextchanged = (ctx: McpUiHostContext) => {
-        const height = getContainerHeight(ctx);
-        if (height) {
-          setContainerHeight(height);
-        }
-        if (ctx.displayMode) {
-          setDisplayMode(ctx.displayMode as 'inline' | 'fullscreen');
-        }
-      };
-
       // Handle live tool input updates from the host without
       // reloading the iframe or the remote Module Federation container.
       app.ontoolinput = async (
@@ -311,6 +296,21 @@ function ModuleFederationApp() {
       };
     },
   });
+
+  useEffect(() => {
+    if (!app || !isConnected) return;
+    const updateHostContext = (ctx: McpUiHostContext) => {
+      const height = getContainerHeight(ctx);
+      if (height !== undefined) setContainerHeight(height);
+      if (ctx.displayMode === 'inline' || ctx.displayMode === 'fullscreen') {
+        setDisplayMode(ctx.displayMode);
+      }
+    };
+    app.addEventListener('hostcontextchanged', updateHostContext);
+    updateHostContext(app.getHostContext() ?? {});
+    return () =>
+      app.removeEventListener('hostcontextchanged', updateHostContext);
+  }, [app, isConnected]);
 
   if (error) {
     return (
