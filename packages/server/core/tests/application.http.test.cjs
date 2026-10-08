@@ -33,6 +33,10 @@ test('rebuilds real Modern SSR and loader entries, skips old HTML cache, and kee
   const loader = path.join(pwd, 'bundles/main-server-loaders.js');
   const write = async version => {
     await writeFile(
+      path.join(pwd, 'index.html'),
+      `<html><head><script type="application/json" data-modern-mf-release>{"revision":"${version}"}</script></head><body>CSR ${version}</body></html>`,
+    );
+    await writeFile(
       entry,
       `exports.requestHandler = async (req, options) => new Response(${JSON.stringify(version)} + ':' + Boolean(options.work));`,
     );
@@ -42,7 +46,10 @@ test('rebuilds real Modern SSR and loader entries, skips old HTML cache, and kee
     );
   };
   await mkdir(path.dirname(loader));
-  await writeFile(path.join(pwd, 'index.html'), '<html>template</html>');
+  await mkdir(path.join(pwd, 'static/js'), { recursive: true });
+  await mkdir(path.join(pwd, 'upload'));
+  await writeFile(path.join(pwd, 'static/js/client.js'), 'client-chunk');
+  await writeFile(path.join(pwd, 'upload/private.txt'), 'upload-content');
   await write('v1');
   const config = getDefaultConfig();
   config.server = { ssr: true };
@@ -91,6 +98,8 @@ test('rebuilds real Modern SSR and loader entries, skips old HTML cache, and kee
       maxPendingRequests: 3,
       requestTimeoutMs: 1000,
       drainTimeoutMs: 1000,
+      requestPolicy: ({ request }) =>
+        request.headers.get('x-update-mode') || 'wait',
       onReady(value) {
         application = value;
       },
@@ -135,6 +144,43 @@ test('rebuilds real Modern SSR and loader entries, skips old HTML cache, and kee
     const before = preCalls;
     const queued = fetch(base);
     assert.equal(await (await fetch(`${base}/live`)).text(), 'alive');
+    const clientAsset = await fetch(`${base}/static/js/client.js`, {
+      headers: { 'x-update-mode': 'reject' },
+    });
+    assert.equal(clientAsset.status, 200);
+    assert.equal(await clientAsset.text(), 'client-chunk');
+    assert.match(clientAsset.headers.get('content-type'), /javascript/);
+    for (const pathname of [
+      '/upload/private.txt',
+      '/entry.cjs',
+      '/static/%2e%2e%2fentry.cjs',
+    ]) {
+      const protectedResponse = await fetch(base + pathname, {
+        headers: { 'x-update-mode': 'reject' },
+      });
+      assert.equal(protectedResponse.status, 503);
+      await protectedResponse.text();
+    }
+    const assetPost = await fetch(`${base}/static/js/client.js`, {
+      method: 'POST',
+      headers: { 'x-update-mode': 'reject' },
+    });
+    assert.equal(assetPost.status, 503);
+    await assetPost.text();
+    const fallback = await fetch(base, {
+      headers: { 'x-update-mode': 'csr', accept: 'text/html' },
+    });
+    assert.equal(fallback.headers.get('x-modernjs-render'), 'client');
+    assert.equal(fallback.headers.get('cache-control'), 'no-store');
+    assert.match(await fallback.text(), /"revision":"v1"/);
+    assert.equal(
+      (
+        await fetch(`${base}/?__loader=main`, {
+          headers: { 'x-update-mode': 'csr' },
+        })
+      ).status,
+      503,
+    );
     assert.equal(preCalls, before);
     release();
     assert.equal(await update, 1);
@@ -163,6 +209,11 @@ test('rebuilds real Modern SSR and loader entries, skips old HTML cache, and kee
         ),
     );
     assert.equal((await fetch(base)).status, 503);
+    const unavailableFallback = await fetch(base, {
+      headers: { 'x-update-mode': 'csr' },
+    });
+    assert.equal(unavailableFallback.status, 200);
+    assert.match(await unavailableFallback.text(), /"revision":"v2"/);
     await application.update(async () => {
       await write('v3');
       // Modern evicts declared application roots after invalidation and disposal.

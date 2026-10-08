@@ -1,4 +1,4 @@
-# SSR request coordination and application publication (R2 / R3 / R4)
+# SSR request coordination and application publication
 
 `createSSRRequestCoordinator` is exported from `@modern-js/server-core/node`.
 It coordinates one application owner in one Node process. It does not replace
@@ -13,17 +13,20 @@ path, not the final MF update API or static dependency planner.
 ## Application publication (R3)
 
 `SSRResourceApplicationOptions` requires the three coordinator limits and an
-`onReady(application)` callback. The callback receives `status` and
-`update(invalidate)`. The control plane invokes update outside request handling.
+`onReady(application)` callback. The callback receives `status`,
+`update(invalidate)`, `defer(operation)` and `assertUpdateAllowed()`.
+The control plane invokes update outside request handling; request-side
+notifications use `defer` as described below.
 The application owner drains existing work, awaits the bundler/remote invalidator,
 awaits `dispose(previousResources)`, reloads the declared CommonJS render/loader
 roots, rereads templates and JSON manifests, creates a fresh renderer, validates
 entry handlers and optional loader bundles, and publishes all resources together.
-The HTTP server, port, process, server plugins and logical MF instance remain.
+The HTTP server, port, process and server plugins remain. The invalidator decides
+which application-owned MF instances and bundler resources must be replaced.
 
 The invalidator owns transitive bundler state and remote changes; `dispose` owns
-adapter detachment and application-owned cleanup. They must preserve shared
-factories and support explicit retries. `dispose` must release all live adapters
+adapter detachment and application-owned cleanup. They must preserve resources
+still owned by unaffected applications and support explicit retries. `dispose` must release all live adapters
 owned by this application, including adapters installed by an unsuccessful create;
 a failed create invokes it again before reporting the error. It must not dispose
 other applications or the persistent MF control plane. Modern only evicts declared
@@ -49,16 +52,22 @@ there is no rollback promise or artificial mutation timeout.
 `bypass(request)` may return a Response directly for trusted static/liveness
 handlers. Returning undefined enters normal admission. The bypass cannot fall
 through to application middleware and must not access application-owned resources.
-Without an explicit bypass, requests (including static/API routes) are admitted
-through this application-wide owner. Scope-based admission is opt-in through the R4 hooks documented below. A readiness
+The resource plugin serves GET/HEAD requests for known emitted browser-asset
+directories before admission, so a CSR shell can load its JS/CSS while an update
+is running. These assets are treated as public and bypass user middleware. The
+early path excludes SSR bundles, declared server entries, uploads, public-directory
+files, directory roots and paths escaping the canonical emitted directories.
+It does not make arbitrary static files or API routes public: those requests still
+enter admission unless an explicit trusted `bypass` handles them.
+Scope-based admission is opt-in through the R4 hooks documented below. A readiness
 handler can consult `status`; liveness must not imply readiness during failed
-publication. No guessed production queue/time-limit defaults are introduced.
+publication. Request queue and timeout limits remain explicit; the bounded
+resumption and deferred-submission limits below have configurable defaults.
 
-The MF adapter and final remote-update API will compose these hooks. The production
-artifact test already supplies the real companion runtime's adapter disposal and
-remove/register operations, including failed-candidate cleanup. The companion MF R4 adapter supplies the
-static dependency planner and selective path; R5 owns API migration; R6 remains
-responsible for the complete deployment/hydration/load/resource acceptance matrix.
+The companion `@module-federation/modern-js-v3` adapter composes these hooks for
+remote replacement, revision comparison and deferred submission. It supplies the
+static dependency planner, selective invalidation and whole-application fallback.
+Modern owns request admission and publication; the adapter owns MF resources.
 
 ## Development branches
 
@@ -71,8 +80,7 @@ related PRs at it. PR #8861 is rebased onto it; the unrelated
 ## Ownership contract
 
 An owner constructs a coordinator with explicit `maxPendingRequests`,
-`requestTimeoutMs` and `drainTimeoutMs`. There are no unmeasured production
-defaults. `handle(request, render)` must wrap selection of the current resources,
+`requestTimeoutMs` and `drainTimeoutMs`. `handle(request, render)` must wrap selection of the current resources,
 loader and renderer. Selecting a handler before entering the gate can serve a
 stale generation even if the gate itself is correct.
 
@@ -99,12 +107,12 @@ must complete validation/publication before resolving. Validate inputs before
 calling `update`; the callback may perform irreversible cache mutation.
 
 Drain timeout happens before mutation and restores the preceding serving state.
-A callback failure keeps the application unavailable and returns 503 to waiters
-and new requests. A subsequent explicit update can recover it. The coordinator
+A callback failure keeps the affected application scope unavailable. A subsequent
+explicit update can recover it. The coordinator
 does not promise rollback or timeout an operation which may still be mutating.
 Waiters have independent cancellation and a total deadline across repeated wakes;
-queue overflow/timeout/unavailability produce 503 with Retry-After. Waking
-requests recheck admission before registering a lease.
+the default policy returns 503 with Retry-After on queue overflow, timeout or
+unavailability. Waking requests recheck admission before registering a lease.
 
 Calling update from an active request, nesting updates, or entering the gate to
 warm up a generation from its own update is rejected to prevent self-waiting.
@@ -112,9 +120,96 @@ Warm up the unpublished generation directly. AsyncLocalStorage only detects loca
 calls in the same context; arbitrary HTTP calls back into the application need
 application-level discipline.
 
-Static/liveness traffic should bypass this application-owner gate. Route-specific
-ownership, readiness policy, and actual Modern resource switching belong to the
-integration phase; this primitive does not infer routes or mutate MF remotes.
+Emitted browser assets bypass this application-owner gate automatically. Other
+static/liveness traffic needs an explicit trusted bypass when appropriate. Route-specific
+ownership is supplied by `resolveScope`; this primitive does not infer routes or
+mutate MF remotes.
+
+## Requests arriving during an update
+
+`requestPolicy` accepts `'wait'` (default), `'csr'`, `'reject'`, or a synchronous
+server-owned function. The function runs only when the request's entries intersect
+the closed update scope, before selecting any SSR handler or acquiring a request
+lease. Unaffected entries continue serving normally.
+
+```ts
+// host/server/ssr-request-policy.ts — load this from stable server configuration,
+// not from a replaceable page, loader or remote bundle.
+import type { SSRRequestPolicy } from '@modern-js/server-core/node';
+
+export const requestPolicy: SSRRequestPolicy = ({ request, update }) => {
+  const pathname = new URL(request.url).pathname;
+  // Only this public HTML shell is eligible for early CSR fallback.
+  if (pathname === '/public-weather') return 'csr';
+  return update.reason === 'updating' ? 'wait' : 'reject';
+};
+```
+
+Pass the function as `createProdServer({ ssrApplication: { requestPolicy, ... } })`.
+The callback receives the Fetch `Request` (`url`, `method`, `headers`, `signal`)
+and a frozen update snapshot: `phase`, `generation`, `affectedEntries`,
+`activeRequests`, `pendingRequests`, `waitedMs`, and `reason`. An undefined
+`affectedEntries` means the whole application. It must not read the request body,
+perform asynchronous work, or submit another update. Errors and invalid return
+values fail closed with 503.
+
+| Decision | Behavior |
+| --- | --- |
+| `wait` | Wait outside SSR until resources are published, retaining the original request deadline. |
+| `csr` | Return Modern's last published HTML/client release without entering SSR bundles or loaders. |
+| `reject` | Return 503 with `Retry-After: 1`. |
+
+Waiting requests can invoke the policy again with `reason: 'timeout'`,
+`'queue-full'` or `'unavailable'`; `'wait'` at those terminal reasons means 503,
+not an unbounded retry. The original update continues even when a request times
+out or disconnects. Queued requests resume in FIFO order with at most
+`maxResumeConcurrency` outstanding resumed leases (default 8). This limits queue
+resumption, not all application traffic; fresh or unaffected requests retain
+their normal admission path.
+
+The resource plugin supplies a framework-owned CSR renderer. It accepts HTML
+GET/HEAD navigation only; data-loader, declared API, RSC and non-HTML requests return 503
+when `csr` is selected. It uses published templates, preserves their pinned MF
+client release, and sends `Cache-Control: no-store`. A standalone
+`createSSRApplication` without a `renderCSR` implementation also returns 503.
+
+**CSR is an early response, before normal server middleware.** Downstream
+authentication, redirects, request-specific CSP headers and HTML transformations
+do not run. Enable it only for public shells or requests already authorized by a
+stable upstream layer. Protected routes should use `wait`/`reject` unless the
+server-owned policy and fallback explicitly provide the required checks and
+headers. Static route response headers are preserved. The framework does not
+interpret client headers as authorization to update or bypass access control.
+
+## Submitting an update from SSR
+
+`application.update(...)` still returns completion and rejects calls made from an
+active SSR request, including calls that reuse a pending adapter operation. Use
+`application.assertUpdateAllowed()` before adapter deduplication to preserve this
+boundary.
+
+`application.defer(operation)` returns `{ accepted: true, completed }`
+synchronously. It waits for the submitting request's response body **and** all
+tracked producer tasks to settle, then invokes the operation outside the request's
+AsyncLocalStorage context. A disconnect alone does not release unsettled producer
+work. Deferred operations are serialized, bounded by `maxPendingUpdates` (default
+32), and cannot be submitted during an update or admission-policy evaluation.
+
+```ts
+// Framework adapter primitive; the page-facing API should expose acceptance,
+// not ask the active request to await its own update completion.
+const receipt = application.defer(() => adapter.updateRemotes(application, remotes));
+// Do not await receipt.completed from the submitting request or tracked work.
+// Observe completion through the adapter's server-owned status/error reporting.
+```
+
+MF's `updateRemotes(..., { defer: 'after-response' })` composes this primitive and
+returns an operation/revision receipt; normal `updateRemotes` continues to return
+the completed result. The current response uses its existing generation. The
+later operation enters the same update queue, computes scope, drains any other
+affected requests, replaces resources, and reopens admission. Submission does not
+promise that the caller's next independent request already sees the new release;
+check the adapter's applied status when that guarantee is required.
 
 ## Renderer and loader integration
 
@@ -156,201 +251,15 @@ a write alone would not invalidate previously cached HTML.
   background remote loading and imports outside that path must be registered by
   their owner; aborting React cannot cancel their underlying promises. The React
   test intentionally registers its independent lazy-import promise explicitly.
-- R3 now supplies admission, work propagation and application-resource publication
-  when explicitly enabled. The R4 hooks below provide selective publication; the final MF update API
-  remains R5 work.
+- Application ownership remains opt-in. The companion MF adapter supplies remote
+  update APIs; `@modern-js/runtime/mf` is not exported by this server-core change.
 
 The Node HTTP adapter already propagates response close to Request.signal. The
 new renderer handling consumes that signal without equating disconnect with a
 successful drain. No deployment worker rotation or process restart is introduced.
 
-## Validation (2026-09-10)
+## Selective entry publication
 
-Baseline: Modern `1340e9c1bc` (`fix/ssr-chunk-loading-global`). Initial work
-used `46967f66c0`; the branch was rebased onto the updated remote, dependencies
-were installed from its frozen lockfile, and the full package tests/build reran.
-
-Commands executed from the Modern repository:
-
-```sh
-pnpm install --frozen-lockfile --ignore-scripts
-pnpm --filter @modern-js/server-core test -- requestCoordinator.test.ts
-pnpm --filter @modern-js/server-core test
-pnpm --filter @modern-js/server-core build
-pnpm exec biome check packages/server/core/src/adapters/node/requestCoordinator.ts packages/server/core/src/adapters/node/index.ts packages/server/core/tests/adapters/requestCoordinator.test.ts packages/server/core/tests/adapters/requestCoordinator.http.test.ts
-pnpm exec changeset status
-git diff --check
-```
-
-Final package run: 39 tests pass, zero failures/skips; package build and touched
-source/test lint and changeset planning pass. The fixed Modern release group may
-expand the minor release beyond the single package in this changeset. An initial
-Changesets output-file invocation resolved the absolute path under the repository
-and failed; the plain status rerun succeeds. The tests cover queue limits/deadlines/cancellation,
-drain-before-mutation timeout, failed publication and retry, serialized updates,
-self-wait rejection, tracked rejection, body backpressure, and real HTTP streaming
-disconnect. The HTTP test keeps a producer leased after client disconnect, waits
-for its explicit completion, and serves the new response on the same PID/port.
-
-An initial test held its first response unread and consequently blocked the next
-drain; the final test consumes it and checks safe serialization. This was a test
-ownership error, not justification to release streams early. No tests were
-weakened to treat shell or disconnect as completion.
-
-Full framework/builder E2E and runtime/Rspack/MF suites are not rerun: this change
-is an opt-in server-core primitive, with no default renderer integration or
-compiler changes. Existing MF baseline tests do not prove this new gate works;
-the real HTTP test above exercises it explicitly. No publish commands were run.
-
-## Follow-up validation: renderer lifecycle (2026-09-10)
-
-The follow-up remains on the same PR/branch; it does not wait for the foundation
-PR to merge. Regression tests first reproduced template hangs and unhandled
-rejections, cache cancellation/error/write races, and premature release of a
-loader continuation. Initial route test setup needed the JSX React binding;
-that setup failure is not evidence of a product failure.
-
-The HTML stream tests run real React Node and Web rendering with template/context
-fixtures. The Web test alias supplies React Web rendering in place of the RSC
-entry. RSC validation is outside the agreed scope. React 19 waits for a
-potential document preamble when Suspense is at the root; the streaming fixture
-uses an application DOM container to obtain a real shell before pending content.
-Two real HTTP cases receive the shell, disconnect, keep deferred work leased,
-and publish new responses on the same PID and port.
-
-Commands for this follow-up (from Modern unless indicated):
-
-```sh
-pnpm --filter @modern-js/runtime exec rstest run tests/ssr/streamLifecycle.test.tsx --reporter verbose --testTimeout 4000
-pnpm --filter @modern-js/runtime-utils exec rstest run tests/universal/routeWork.test.ts --testTimeout 3000
-pnpm --filter @modern-js/server-core exec rstest run tests/plugins/cacheWork.test.ts --testTimeout 3000
-pnpm --filter @modern-js/server-core test
-pnpm --filter @modern-js/runtime-utils test
-pnpm --filter @modern-js/runtime test
-pnpm --filter @modern-js/server-core build
-pnpm --filter @modern-js/runtime-utils build
-pnpm --filter @modern-js/runtime build
-pnpm exec biome check $(git diff --name-only -- '*.ts' '*.tsx' '*.mts') packages/runtime/plugin-runtime/tests/ssr/streamLifecycle.test.tsx packages/runtime/plugin-runtime/tests/ssr/fixtures/renderSSRStream.ts packages/toolkit/runtime-utils/tests/universal/routeWork.test.ts packages/server/core/tests/plugins/cacheWork.test.ts
-pnpm exec changeset status
-git diff --check
-# From /Users/bytedance/outter/core:
-SSR_CACHE_STRICT=1 SSR_CACHE_RSPACK_ENTRY=/Users/bytedance/outter/rspack/packages/rspack/dist/index.js SSR_CACHE_MODERN_ENTRY=/Users/bytedance/work/modern.js/packages/server/core/dist/cjs/adapters/node/index.js node --test tools/ssr-cache/baseline.test.cjs
-```
-
-The strict local-Rspack/Modern artifact baseline reports 13 tests passing, zero
-skips/TODOs/failures in this invocation. It complements the renderer tests; it does
-not exercise RSC or the not-yet-installed default application owner. Full framework
-and builder E2E and the MF-wide Cypress matrix are not run for this follow-up;
-production-generation switching remains to be integrated, and the targeted
-artifact/HTTP checks do not replace its future E2E acceptance. No publication.
-
-Final affected-package results: server-core 42/42, runtime-utils 87/87, runtime 61/61; zero failed/skipped tests. All three builds and declaration generation, touched-file Biome, Changesets planning and diff checks pass. The runtime-utils test runner emits a MaxListenersExceededWarning about 11 `modified` listeners; it is recorded rather than suppressed and is not treated as a proven application memory leak or a resolved issue.
-
-A delayed reader-cancellation regression additionally proved that repeated Web cancellation must return the same tracked cancellation promise. The final renderer suite includes 17 lifecycle cases, including this handshake; the final full runtime suite is 61/61.
-
-## Scope decision (2026-09-10)
-
-RSC is explicitly excluded by the user. Continue with ordinary SSR admission,
-application-resource ownership, same-process rebuilding and targeted invalidation.
-Arbitrary unregistered business background work remains an explicit boundary of
-the work-registration contract, rather than a requirement to discover every
-possible asynchronous side effect. This scope change is documentation-only;
-`git diff --check` was run, and code tests/builds were not repeated because no
-runtime or test behavior changed.
-
-## Integration-base validation (2026-09-10)
-
-The four SSR cache commits were rebased from `1340e9c1bc` onto the new integration
-branch at `4af5bf05b6`. There were no conflicts. The PR retains the same 24-file
-scope, and the custom chunk-loading-global fix from the previous base is absent.
-The integration branch itself starts at main, without those feature commits.
-
-After `pnpm install --frozen-lockfile --ignore-scripts`, all three full package
-`test` and `build` commands listed above were rerun against the main-derived 3.9.0
-dependencies: server-core 42/42, runtime-utils 87/87, runtime 61/61. Builds and
-declarations pass. Also rerun:
-
-```sh
-pnpm exec biome check $(git diff --name-only feat/mf-ssr-clear-cache...HEAD -- '*.ts' '*.tsx' '*.mts')
-pnpm exec changeset status
-git diff --check
-```
-
-The exact strict local-Rspack/Modern baseline command above was rerun with the new
-Modern artifacts: 13/13, no skips/TODOs/failures. The previously recorded
-runtime-utils test-runner listener warning remains. Full framework/builder E2E
-and the MF-wide Cypress suite were not rerun for this base correction; affected
-package tests/builds and the cross-repository artifact regression were used.
-RSC remains outside scope. No release or merge was performed.
-
-
-## R3 verification (2026-09-10)
-
-The current branch starts at integration commit `3d6b2f910d` (merged #8861) and
-continues targeting `feat/mf-ssr-clear-cache`. Tests exercise real ServerBase and
-createProdServer request chains, not only the coordinator primitive. The CJS
-artifact tests are explicit commands after build, outside the Rstest module loader.
-On macOS, a first experiment used a noncanonical temporary-directory cache key;
-using `require.resolve` fixes that defect. The owner now performs this itself.
-
-The production MF test exposed an additional cross-layer bug: a dynamic registration
-name can differ from the provider name in `Shared.from`, and dynamic remotes have
-no compile-time remoteInfos. Both runtime-core and the bundler cleanup hook must
-resolve this ownership from the runtime registration/resolved container metadata.
-Without the companion MF repair the strict shared-identity assertions fail even
-though the earlier 13-case baseline passes. The assertions were kept. No Rspack
-source or dependency lockfiles were changed for this repair.
-
-Commands (Modern repository unless indicated):
-
-```sh
-pnpm --filter @modern-js/server-core exec rstest run tests/adapters/application.test.ts
-pnpm --filter @modern-js/plugin-data-loader exec rstest run tests/requestWork.test.ts
-pnpm --filter @modern-js/server-core test
-pnpm --filter @modern-js/plugin-data-loader test
-pnpm --filter @modern-js/server-core build
-pnpm --filter @modern-js/plugin-data-loader build
-pnpm --filter @modern-js/prod-server build
-node --test packages/server/core/tests/application.http.test.cjs
-NODE_ENV=production SSR_CACHE_RSPACK_ENTRY=/Users/bytedance/outter/rspack/packages/rspack/dist/index.js SSR_CACHE_MF_ROOT=/Users/bytedance/outter/core node --test packages/server/core/tests/application.mf.test.cjs
-pnpm exec biome check $(git diff --cached --name-only -- '*.ts' '*.tsx' '*.mts' '*.cjs')
-pnpm exec changeset status
-git diff --check
-```
-
-The native HTTP tests cover new-resource selection, cached HTML isolation, loader
-replacement, direct/pre middleware admission, same PID/port, invalid publication,
-retry, native ESM rejection, and waiting for concurrent entry initialization.
-The MF artifact test compiles v1/v2/v3 before serving, then updates without host
-recompilation or recreating the HTTP server. It asserts queued HTTP requests get
-the new version, host/provider shared references remain identical, the logical
-MF instance is reused, old/failed adapters are detached, one current adapter remains,
-and a business global written by v1 still exists. Failed warmup yields 503 and a
-successful explicit retry restores v3.
-
-Standalone loader regressions also cover its work context, cancelled deferred
-responses, abort after one field settled, and serialization failure. Response
-subscription completion does not settle an independent original business Promise.
-
-Full framework/builder E2E, browser hydration/Cypress, load tests and RSC are not
-included in this R3 run. RSC is explicitly excluded; the other broad acceptance
-checks remain R6 rather than being represented as passed. The prod-server package
-has no unit-test suite; its actual createProdServer entry is exercised above.
-No publish commands are run. Exact final counts are recorded with the PR.
-
-
-Final R3 results: server-core 46/46; plugin-data-loader 10 passed and one existing
-skipped case (`should return directly when routeId not exist`). All three affected
-package builds and declarations pass. Native HTTP artifacts: 3/3; production MF
-artifact: 1/1; prior strict Rspack/Modern baseline: 13/13, with no skips/TODOs.
-The companion MF repair passes runtime-core 138/138 and bundler runtime 122/122.
-Its repository-wide Prettier gate still reports 683 existing/generated or unrelated
-user-dirty files; its changed files pass. This is recorded rather than broad-formatting
-the workspace. The production MF test requires both companion repository paths and
-fails if they are omitted; it is not silently skipped by the package unit runner.
-
-
-## Selective entry publication (R4, 2026-09-11)
 
 `resolveScope(request)` returns the complete list of entry names used by a request,
 or undefined when unknown. It runs before admission; resources are selected after
@@ -384,80 +293,41 @@ inside a shared Modern entry update together; R4 does not claim arbitrary route-
 isolation. Dynamic consumption and incomplete metadata use the R3 whole-application
 path while keeping the HTTP server, PID and port.
 
-### R4 verification
+## Validation (2026-10-08)
 
-Worktrees: `/private/tmp/modern-r4-static-update` and
-`/private/tmp/mf-r4-static-update`. Compiler preview:
-`2.2.3-canary-76e8f696-20260911033013`. Commands from Modern:
+From `/private/tmp/modern-ssr-update-policy`:
 
 ```sh
-pnpm --filter @modern-js/server-core... build
-pnpm --filter @modern-js/prod-server... build
+pnpm --filter @modern-js/server-core build
 pnpm --filter @modern-js/server-core test
-SSR_CACHE_MF_ROOT=/private/tmp/mf-r4-static-update node --test packages/server/core/tests/application.static-mf.test.cjs
-SSR_STATIC_NUMERIC=1 SSR_CACHE_MF_ROOT=/private/tmp/mf-r4-static-update node --test packages/server/core/tests/application.static-mf.test.cjs
-SSR_STATIC_OPTIMIZE=1 SSR_CACHE_MF_ROOT=/private/tmp/mf-r4-static-update node --test packages/server/core/tests/application.static-mf.test.cjs
 NODE_ENV=production node --test packages/server/core/tests/application.http.test.cjs
-NODE_ENV=production SSR_CACHE_RSPACK_ENTRY=/private/tmp/mf-r4-static-update/node_modules/@rspack/core/dist/index.js SSR_CACHE_MF_ROOT=/private/tmp/mf-r4-static-update node --test packages/server/core/tests/application.mf.test.cjs
-pnpm exec biome check $(git diff --name-only -- '*.ts')
-pnpm exec changeset status
+pnpm exec biome check packages/server/core/src/adapters/node/{application,index,requestCoordinator}.ts packages/server/core/src/adapters/node/plugins/{resource,static}.ts packages/server/core/src/plugins/render/render.ts packages/server/core/tests/adapters/{application,requestCoordinator.policy,staticAssets}.test.ts packages/server/core/tests/plugins/updateCSR.test.ts packages/server/core/tests/application.http.test.cjs
+pnpm exec changeset status --output ../modern-request-policy-changesets.json
 git diff --check
 ```
 
-Server-core: 49 tests pass. Native static cases each pass, including loader replacement,
-shared ancestor entries, HTML cache isolation, unrelated module identity, pending
-producer drain, cross-entry rewrites, failure/retry and dynamic fallback. HTTP
-regression: 3 pass; production dynamic MF regression: 1 pass. Numeric IDs plus
-minification retain selective updates. Module concatenation exposes an incomplete
-native ancestor closure in this preview: the test asserts explicit
-`incomplete-parent-closure` whole-application fallback and successful replacement,
-not selective success. No compiler graph is fabricated to bypass this limitation.
+The package build and declarations pass. All 63 unit tests across 15 files pass;
+these include policy decisions, queue overflow/timeout, FIFO resumption, request
+context guards, deferred response/producer completion, and static-resource
+symlink/overlapping-directory exclusions. Biome checks all 11 changed TS/CJS files
+without fixes. Changeset planning recognizes this server-core patch; existing
+changesets and Modern's fixed release group determine the combined release type.
+The CLI emits a nonfatal `/dev/tty` warning in this environment.
 
-The fixture uses real Rspack artifacts and Modern ServerBase/render/resource/cache
-plugins; the production dynamic regression additionally exercises createProdServer.
-Full framework/builder E2E, browser hydration/Cypress, sustained load and heap/handle
-soaks are not run for R4 and remain R6 acceptance. The prod-server package has no
-unit suite; its production entry is exercised by the artifact regression. RSC is
-explicitly excluded. No publish commands are run.
+All three native HTTP cases pass. They exercise application publication, the same PID/port,
+last-published CSR release templates, emitted-asset access during an update,
+protected path rejection, unavailable-state fallback and explicit recovery. The
+companion MF checkout owns cross-repository compiler/adapter and browser cases;
+the server-core unit command does not execute those suites.
 
+Earlier renderer and loader regressions establish that disconnect does not settle
+independent producer work, HTML-cache writes remain leased, and selective updates
+retain unrelated emitted modules. The companion Rspack graph fix supports numeric
+IDs, minification and concatenation; modules merged inside a replaced execution
+unit execute again with that unit. Those established contracts remain unchanged
+by the new admission policy. Obsolete worktree paths and preview-specific failure
+logs are omitted here; Git history retains the earlier validation record.
 
-## R4 concatenation follow-up (2026-09-11)
-
-The companion Rspack correction reconstructs MF consumer ancestry from emitted
-modules' outgoing edges. A source module concatenated into several pages/loaders
-can share dependency IDs whose incoming view retains just one rewritten origin;
-that was the source of the previous incomplete-parent-closure fallback. Modern's
-planner and safety checks are unchanged. The artifact regression now requires
-selective success under concatenation and accepts an explicit
-SSR_CACHE_RSPACK_ENTRY for testing the patched native compiler.
-
-The optimized test passes with the patched compiler and fails with the published
-2.2.3-canary-76e8f696-20260911033013 preview at the selective-plan assertion. Normal
-and numeric/minified variants also pass with the patch. Pages and standalone
-loaders update together while the independent entry continues serving and keeps
-its object identity. A stable source merged *inside* an affected entry necessarily
-executes with that entry; the test asserts exactly the two affected copies execute
-again, while the independent copy remains identical. This does not weaken the
-unrelated emitted-module preservation guarantee.
-
-Commands from `/private/tmp/modern-r4-static-update`:
-
-```sh
-# Expected red with the published preview:
-SSR_STATIC_OPTIMIZE=1 SSR_CACHE_MF_ROOT=/private/tmp/mf-r4-static-update node --test packages/server/core/tests/application.static-mf.test.cjs
-# Patched compiler: each command passes one native HTTP/artifact test.
-SSR_STATIC_OPTIMIZE=1 SSR_CACHE_RSPACK_ENTRY=/private/tmp/rspack-mf-concat/packages/rspack/dist/index.js SSR_CACHE_MF_ROOT=/private/tmp/mf-r4-static-update node --test packages/server/core/tests/application.static-mf.test.cjs
-SSR_STATIC_NUMERIC=1 SSR_CACHE_RSPACK_ENTRY=/private/tmp/rspack-mf-concat/packages/rspack/dist/index.js SSR_CACHE_MF_ROOT=/private/tmp/mf-r4-static-update node --test packages/server/core/tests/application.static-mf.test.cjs
-SSR_CACHE_RSPACK_ENTRY=/private/tmp/rspack-mf-concat/packages/rspack/dist/index.js SSR_CACHE_MF_ROOT=/private/tmp/mf-r4-static-update node --test packages/server/core/tests/application.static-mf.test.cjs
-pnpm exec biome check packages/server/core/tests/application.static-mf.test.cjs
-git diff --check
-```
-
-This follow-up changes only tests and verification documentation in Modern, so no
-new package build, full unit suite or changeset is required. Existing built Modern
-artifacts are exercised directly. Full framework/browser/load acceptance remains
-R6; RSC stays excluded. Rspack's new regression passes in standard and runtime-module
-modes (2 cases), its existing metadata and SSR serial regressions pass (4 cases),
-and the external native MF/Modern baseline passes 23 cases. A new Rspack preview or
-release is still needed to distribute the compiler fix; the old preview retains
-its conservative fallback. No dependency lockfile is changed or package published.
+Full Modern framework/builder suites and production load/heap soaks were not rerun
+for this server-core change; targeted package and native HTTP checks cover its
+changed paths. RSC remains outside scope. No publish commands were run.

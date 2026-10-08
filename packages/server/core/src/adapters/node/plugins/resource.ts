@@ -1,4 +1,4 @@
-import { createRequire } from 'node:module';
+import Module, { createRequire } from 'node:module';
 import path from 'path';
 import { fileReader } from '@modern-js/runtime-utils/fileReader';
 import type { Monitors, ServerRoute } from '@modern-js/types';
@@ -13,6 +13,7 @@ import {
   isProd,
 } from '@modern-js/utils';
 import { getRenderHandler } from '../../../plugins/render/inject';
+import { createCSRRender } from '../../../plugins/render/render';
 import type {
   Middleware,
   MiddlewareHandler,
@@ -27,6 +28,7 @@ import {
   type SSRApplicationResources,
   createSSRApplication,
 } from '../application';
+import { createStaticMiddleware } from './static';
 
 export interface SSRResourceApplicationOptions
   extends Omit<SSRApplicationOptions, 'load'> {
@@ -149,6 +151,7 @@ export async function getServerManifest(
   options: {
     reloadable?: boolean;
     reloadEntry?: (entry: string) => Promise<any>;
+    onReloadedBundle?: (filename: string, exports: any) => void;
   } = {},
 ): Promise<ServerManifest> {
   const loaderBundles: Record<string, any> = {};
@@ -179,6 +182,11 @@ export async function getServerManifest(
           options.reloadEntry && (await fs.pathExists(loaderBundlePath))
             ? await options.reloadEntry(`${entryName}-server-loaders`)
             : await loadBundle(loaderBundlePath, monitors, options.reloadable);
+        if (options.reloadEntry) {
+          options.onReloadedBundle?.(renderBundlePath, renderBundle);
+          if (loaderBundle)
+            options.onReloadedBundle?.(loaderBundlePath, loaderBundle);
+        }
         renderBundle && (renderBundles[entryName] = renderBundle);
         loaderBundle &&
           (loaderBundles[entryName] = loaderBundle?.loadModules
@@ -338,6 +346,9 @@ export const injectResourcePlugin = (
         let published: SSRApplicationResources | undefined;
         const application = await createSSRApplication({
           ...applicationOptions,
+          renderCSR:
+            applicationOptions.renderCSR ||
+            createCSRRender(routes, context.metaName),
           load: async (rebuilding, entries) => {
             const selectedRoutes = entries
               ? routes.filter(route =>
@@ -377,6 +388,7 @@ export const injectResourcePlugin = (
                 }
               }
             }
+            const reloadedBundles = new Map<string, any>();
             // allSettled prevents a failed loader from abandoning concurrent preparation.
             const loaded = await Promise.allSettled([
               getHtmlTemplates(pwd!, selectedRoutes, { fresh: true }),
@@ -385,6 +397,9 @@ export const injectResourcePlugin = (
                 reloadEntry: entries
                   ? applicationOptions.reloadEntry
                   : undefined,
+                onReloadedBundle: (filename, exports) => {
+                  reloadedBundles.set(filename, exports);
+                },
               }),
               getRenderHandler(context.getRenderOptions),
             ]);
@@ -445,13 +460,78 @@ export const injectResourcePlugin = (
             }
             const resources = { templates, serverManifest, render };
             await applicationOptions.validate?.(resources);
+            // Publish Node's entry exports with the validated Modern resources.
+            // Keep the bundler runtime itself, and retain raw loader exports rather
+            // than the result of loadModules(). Preparation failures publish nothing.
+            const cacheUpdates: Array<[NodeModule, any]> = [];
+            for (const [filename, exports] of reloadedBundles) {
+              const require = createRequire(path.resolve(filename));
+              const cached =
+                require.cache[require.resolve(path.resolve(filename))];
+              if (cached) cacheUpdates.push([cached, exports]);
+            }
+            // Module.load also saves initial exports in a Node-private field.
+            // Replace its wrapper without re-executing the bundler runtime.
+            const replacements = new Map<NodeModule, NodeModule>();
+            const nodeCache = createRequire(
+              path.resolve(pwd!, 'package.json'),
+            ).cache;
+            for (const [cached, exports] of cacheUpdates) {
+              const next = new Module(cached.id, cached.parent || undefined);
+              next.filename = cached.filename;
+              next.paths = cached.paths;
+              next.loaded = cached.loaded;
+              next.children = cached.children;
+              next.exports = exports;
+              replacements.set(cached, next);
+            }
+            const parents = new Set([
+              ...Object.values(nodeCache),
+              ...replacements.values(),
+              ...cacheUpdates.map(([cached]) => cached.parent),
+            ]);
+            for (const parent of parents) {
+              if (!parent) continue;
+              if (parent.parent && replacements.has(parent.parent))
+                parent.parent = replacements.get(parent.parent);
+              parent.children = [
+                ...new Set(
+                  parent.children.map(
+                    child => replacements.get(child) || child,
+                  ),
+                ),
+              ];
+            }
+            for (const [cached, next] of replacements) {
+              if (nodeCache[cached.filename] === cached)
+                nodeCache[cached.filename] = next;
+            }
             published = resources;
             return resources;
           },
         });
-        // Mounted before ServerBase installs plugin middlewares, including custom
-        // pre/render middleware. Those must not capture resources before admission.
-        context.serverBase.setRequestMiddleware(application.middleware);
+        const config = api.getServerConfig();
+        const assets = createStaticMiddleware({
+          pwd: pwd!,
+          routes,
+          output: config.output || {},
+          html: config.html || {},
+          server: config.server || {},
+          buildAssetsOnly: true,
+        });
+        // Published browser chunks have no generation-owned SSR work. Keep their
+        // existing static-file path protections and let a cold CSR shell boot
+        // while SSR admission is closed. Public/uploads and business middleware
+        // still enter the gate; this is not a general middleware bypass.
+        const requestMiddleware: Middleware<ServerEnv> = async (c, next) => {
+          if (c.req.method !== 'GET' && c.req.method !== 'HEAD')
+            return application.middleware(c, next);
+          return assets(c, async () => {
+            const response = await application.middleware(c, next);
+            if (response) c.res = response;
+          });
+        };
+        context.serverBase.setRequestMiddleware(requestMiddleware);
         applicationOptions.onReady(application);
         return;
       }
