@@ -29,11 +29,12 @@ export function createPublicPattern(
         return content;
       }
 
+      const publicPath = chain.output.get('publicPath');
       return content
         .toString('utf8')
         .replace(
           /<%=\s*assetPrefix\s*%>/g,
-          removeTailSlash(chain.output.get('publicPath')),
+          removeTailSlash(typeof publicPath === 'string' ? publicPath : ''),
         );
     },
   };

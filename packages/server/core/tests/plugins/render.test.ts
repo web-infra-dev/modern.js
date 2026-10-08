@@ -1,15 +1,11 @@
 import path from 'path';
-import type { Logger, ServerRoute } from '@modern-js/types';
+import type { Logger, MonitorEvent, ServerRoute } from '@modern-js/types';
 import { TrieRouter } from 'hono/router/trie-router';
 import { injectResourcePlugin } from '../../src/adapters/node/plugins';
 import { createDefaultPlugins, renderPlugin } from '../../src/plugins';
 import { matchRoute } from '../../src/plugins/render/render';
 import { createServerBase } from '../../src/serverBase';
-import type {
-  FallbackInput,
-  ServerPlugin,
-  ServerUserConfig,
-} from '../../src/types';
+import type { ServerPlugin, ServerUserConfig } from '../../src/types';
 import { getDefaultAppContext, getDefaultConfig } from '../helpers';
 
 const logger: Logger = {
@@ -59,16 +55,44 @@ async function createSSRServer(
   return server;
 }
 
-function createFallbackCapturePlugin(inputs: FallbackInput[]): ServerPlugin {
+function createMonitorCapturePlugin(events: MonitorEvent[]): ServerPlugin {
   return {
-    name: 'fallback-capture',
+    name: 'monitor-capture',
     setup(api) {
-      api.fallback(async input => {
-        inputs.push(input);
-        return input;
+      api.onPrepare(() => {
+        const { middlewares } = api.getServerContext();
+        middlewares.push({
+          name: 'monitor-capture',
+          handler: async (c, next) => {
+            c.get('monitors')?.push(event => events.push(event));
+            return next();
+          },
+        });
       });
     },
   };
+}
+
+function expectFallbackReport(events: MonitorEvent[], reason: string) {
+  expect(events).toEqual(
+    expect.arrayContaining([
+      expect.objectContaining({
+        type: 'log',
+        payload: expect.objectContaining({
+          level: 'warn',
+          message: 'fallback to CSR reason: %o',
+          args: [{ type: reason }],
+        }),
+      }),
+      expect.objectContaining({
+        type: 'counter',
+        payload: expect.objectContaining({
+          name: 'ssr-fallback',
+          tags: { type: reason },
+        }),
+      }),
+    ]),
+  );
 }
 
 describe('should render html correctly', () => {
@@ -209,9 +233,9 @@ describe('should render html correctly', () => {
     expect(html4).toMatch(/Hello Modern/);
   });
 
-  it('should pass request and monitors when forcing csr fallback', async () => {
+  it('should report monitor events when forcing csr fallback', async () => {
     const ssrPwd = path.join(pwd, 'ssr');
-    const fallbackInputs: FallbackInput[] = [];
+    const monitorEvents: MonitorEvent[] = [];
     const server = await createSSRServer(
       ssrPwd,
       {
@@ -219,7 +243,7 @@ describe('should render html correctly', () => {
           forceCSR: true,
         },
       },
-      [createFallbackCapturePlugin(fallbackInputs)],
+      [createMonitorCapturePlugin(monitorEvents)],
     );
 
     let fallbackHeader;
@@ -237,17 +261,7 @@ describe('should render html correctly', () => {
         `<script id="__modern_ssr_fallback_reason__" type="application/json">{"reason":"query"}</script>`,
       ),
     ).toBe(true);
-    expect(fallbackInputs).toHaveLength(1);
-    const fallbackInput = fallbackInputs[0]!;
-    expect(fallbackInput.reason).toBe('query');
-    expect(fallbackInput.context?.request).toBeInstanceOf(Request);
-    expect(fallbackInput.context?.request.url).toContain('/?csr=1');
-    expect(fallbackInput.context?.monitors?.counter).toEqual(
-      expect.any(Function),
-    );
-    expect(fallbackInput.context?.monitors?.error).toEqual(
-      expect.any(Function),
-    );
+    expectFallbackReport(monitorEvents, 'query');
   });
 
   it('support serve data', async () => {
@@ -296,9 +310,9 @@ describe('should render html correctly', () => {
     ).toBe(true);
   });
 
-  it('should pass request and monitors when render error fallback', async () => {
+  it('should report monitor events when render error triggers csr fallback', async () => {
     const ssrPwd = path.join(pwd, 'ssr');
-    const fallbackInputs: FallbackInput[] = [];
+    const monitorEvents: MonitorEvent[] = [];
     const server = await createSSRServer(
       ssrPwd,
       {
@@ -306,7 +320,7 @@ describe('should render html correctly', () => {
           forceCSR: true,
         },
       },
-      [createFallbackCapturePlugin(fallbackInputs)],
+      [createMonitorCapturePlugin(monitorEvents)],
     );
 
     let fallbackHeader;
@@ -331,17 +345,6 @@ describe('should render html correctly', () => {
         `<script id="__modern_ssr_fallback_reason__" type="application/json">{"reason":"error"}</script>`,
       ),
     ).toBe(true);
-    expect(fallbackInputs).toHaveLength(1);
-    const fallbackInput = fallbackInputs[0]!;
-    expect(fallbackInput.reason).toBe('error');
-    expect(fallbackInput.error).toBeInstanceOf(Error);
-    expect(fallbackInput.context?.request).toBeInstanceOf(Request);
-    expect(fallbackInput.context?.request.url).toContain('/');
-    expect(fallbackInput.context?.monitors?.counter).toEqual(
-      expect.any(Function),
-    );
-    expect(fallbackInput.context?.monitors?.error).toEqual(
-      expect.any(Function),
-    );
+    expectFallbackReport(monitorEvents, 'error');
   });
 });

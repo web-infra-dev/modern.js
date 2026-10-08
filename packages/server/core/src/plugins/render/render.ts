@@ -4,13 +4,7 @@ import { cutNameByHyphen } from '@modern-js/utils/universal';
 import type { Router } from 'hono/router';
 import { TrieRouter } from 'hono/router/trie-router';
 import { X_MODERNJS_RENDER } from '../../constants';
-import type {
-  CacheConfig,
-  FallbackContext,
-  FallbackReason,
-  OnFallback,
-  UserConfig,
-} from '../../types';
+import type { CacheConfig, UserConfig } from '../../types';
 import type { Render } from '../../types';
 import type { Params } from '../../types/requestHandler';
 import { uniqueKeyByRoute } from '../../utils';
@@ -35,17 +29,15 @@ interface CreateRenderOptions {
   config: UserConfig;
   cacheConfig?: CacheConfig;
   staticGenerate?: boolean;
-  onFallback?: OnFallback;
   metaName?: string;
   forceCSR?: boolean;
   forceCSRMap?: Map<string, boolean>;
   nonce?: string;
 }
 
-type FallbackWrapper = (
-  reason: FallbackReason,
-  err?: unknown,
-) => ReturnType<OnFallback>;
+type FallbackReason = 'error' | 'header' | 'query' | `header,${string}`;
+
+type FallbackWrapper = (reason: FallbackReason) => void;
 
 const DYNAMIC_ROUTE_REG = /\/:./;
 
@@ -129,7 +121,6 @@ export async function createRender({
   forceCSR,
   forceCSRMap,
   config,
-  onFallback,
 }: CreateRenderOptions): Promise<Render> {
   const router = getRouter(routes);
 
@@ -160,14 +151,11 @@ export async function createRender({
     const framework = cutNameByHyphen(metaName || 'modern-js');
     const fallbackHeader = `x-${framework}-ssr-fallback`;
     let fallbackReason = null;
-    const fallbackContext: FallbackContext = {
-      request: req,
-      monitors,
-    };
 
-    const fallbackWrapper: FallbackWrapper = async (reason, error?) => {
+    const fallbackWrapper: FallbackWrapper = reason => {
       fallbackReason = reason;
-      return onFallback?.(reason, error, fallbackContext);
+      monitors?.warn('fallback to CSR reason: %o', { type: reason });
+      monitors?.counter('ssr-fallback', { type: reason });
     };
 
     if (!routeInfo) {
@@ -346,7 +334,7 @@ async function renderHandler(
       response = await ssrRender(request, options);
     } catch (e) {
       options.onError(e as Error, ErrorDigest.ERENDER);
-      await fallbackWrapper('error', e);
+      fallbackWrapper('error');
 
       response = await csrRender(request, {
         ...options,

@@ -44,7 +44,8 @@ const DeferredDataScripts = (props?: {
       return null;
     }
 
-    const activeDeferreds = storage.useContext().activeDeferreds as Map<
+    const requestStorage = storage.useContext();
+    const activeDeferreds = requestStorage.activeDeferreds as Map<
       string,
       DeferredData
     >;
@@ -68,6 +69,10 @@ const DeferredDataScripts = (props?: {
     const initialScripts = Array.from(activeDeferreds.entries()).map(
       ([routeId, deferredData]) => {
         const pendingKeys = new Set(deferredData.pendingKeys);
+        requestStorage.deferredScriptKeys?.set(
+          routeId,
+          Array.from(pendingKeys),
+        );
         const { deferredKeys } = deferredData;
         const deferredKeyPromiseManifests = deferredKeys.map((key: string) => {
           if (pendingKeys.has(key)) {

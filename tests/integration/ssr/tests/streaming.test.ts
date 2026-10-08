@@ -166,6 +166,26 @@ describe('Streaming SSR', () => {
     await deferredData(page, appPort);
   });
 
+  test.each([
+    [
+      'crawler user agent',
+      { 'user-agent': 'Mozilla/5.0 HeadlessChrome/152.0.0.0' },
+    ],
+    ['forced all ready', { 'x-should-stream-all': 'true' }],
+  ])('resolves deferred data for %s', async (_name, headers) => {
+    const response = await fetch(`http://localhost:${appPort}/user/1`, {
+      headers,
+    });
+    const html = await response.text();
+    const resolverScripts =
+      html.match(/<script[^>]*data-fn-name="r"[^>]*>/g) ?? [];
+
+    expect(response.status).toBe(200);
+    expect(html).toContain('data-fn-name="mergeLoaderData"');
+    expect(resolverScripts).toHaveLength(1);
+    expect(resolverScripts[0]).toContain('&quot;data&quot;');
+  });
+
   test(`deferred data in client navigation`, async () => {
     await deferredDataInNavigation(page, appPort);
   });
@@ -176,5 +196,83 @@ describe('Streaming SSR', () => {
 
   test('should render fallback before final content', async () => {
     await streamingOrderOnServer(appPort);
+  });
+
+  test.each([
+    ['layout', '#root-hydration-loading'],
+    ['hydration/layout', '#nested-hydration-loading'],
+  ])('renders loading while hydrating %s', async (routeId, selector) => {
+    const hydrationPage = await browser.newPage();
+    const warnings: string[] = [];
+    hydrationPage.on('console', message => {
+      if (message.text().includes('No `HydrateFallback`')) {
+        warnings.push(message.text());
+      }
+    });
+
+    try {
+      // Simulate incomplete SSR data before the client creates its router.
+      await hydrationPage.evaluateOnNewDocument(id => {
+        let routerData: { loaderData: Record<string, unknown> };
+        Object.defineProperty(window, '_ROUTER_DATA', {
+          configurable: true,
+          get: () => routerData,
+          set: value => {
+            routerData = value;
+            delete routerData.loaderData[id];
+          },
+        });
+      }, routeId);
+
+      // Hold the client loader request until the fallback has been observed.
+      await hydrationPage.setRequestInterception(true);
+      hydrationPage.on('request', request => {
+        if (new URL(request.url()).searchParams.get('__loader') !== routeId) {
+          void request.continue();
+        }
+      });
+      const loaderRequest = hydrationPage.waitForRequest(
+        request =>
+          new URL(request.url()).searchParams.get('__loader') === routeId,
+      );
+      await hydrationPage.goto(`http://localhost:${appPort}/hydration`, {
+        waitUntil: 'domcontentloaded',
+      });
+      const request = await loaderRequest;
+      await hydrationPage.waitForSelector(selector, { visible: true });
+      expect(await hydrationPage.$('#hydration-page')).toBeNull();
+      if (routeId === 'hydration/layout') {
+        await expectPageToMatchTextContent(hydrationPage, 'Root layout');
+      }
+
+      await request.continue();
+      await hydrationPage.waitForSelector('#hydration-page', { visible: true });
+      await expectPageToMatchTextContent(hydrationPage, 'Hydrated layout');
+      expect(await hydrationPage.$(selector)).toBeNull();
+      expect(warnings).toEqual([]);
+    } finally {
+      await hydrationPage.close();
+    }
+  });
+
+  test('reuses complete hydration data without rerunning loaders', async () => {
+    const hydrationPage = await browser.newPage();
+    const loaderRequests: string[] = [];
+    hydrationPage.on('request', request => {
+      if (new URL(request.url()).searchParams.has('__loader')) {
+        loaderRequests.push(request.url());
+      }
+    });
+    try {
+      await hydrationPage.goto(`http://localhost:${appPort}/hydration`, {
+        waitUntil: 'networkidle0',
+      });
+      await hydrationPage.waitForSelector('#hydration-page', { visible: true });
+      expect(await hydrationPage.$('#root-hydration-loading')).toBeNull();
+      expect(await hydrationPage.$('#nested-hydration-loading')).toBeNull();
+      expect(loaderRequests).toEqual([]);
+    } finally {
+      await hydrationPage.close();
+    }
   });
 });

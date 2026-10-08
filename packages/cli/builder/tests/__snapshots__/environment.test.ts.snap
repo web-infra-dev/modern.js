@@ -64,6 +64,7 @@ exports[`builder environment compat > should generator environment config correc
                   "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/core/dist/cssUrlLoader.mjs",
                   "options": {
                     "filename": "static/css/[name].css",
+                    "minimized": false,
                     "modules": {
                       "auto": true,
                       "exportGlobals": false,
@@ -618,6 +619,7 @@ exports[`builder environment compat > should generator environment config correc
                   "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/core/dist/cssUrlLoader.mjs",
                   "options": {
                     "filename": "static/css/[name].css",
+                    "minimized": false,
                     "modules": {
                       "auto": true,
                       "exportGlobals": false,
@@ -919,6 +921,7 @@ exports[`builder environment compat > should generator environment config correc
                   "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/core/dist/cssUrlLoader.mjs",
                   "options": {
                     "filename": "static/css/[name].css",
+                    "minimized": false,
                     "modules": {
                       "auto": true,
                       "exportGlobals": false,
@@ -1641,6 +1644,7 @@ exports[`builder environment compat > should generator environment config correc
                   "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/core/dist/cssUrlLoader.mjs",
                   "options": {
                     "filename": "[name].css",
+                    "minimized": false,
                     "modules": {
                       "auto": true,
                       "exportGlobals": false,
@@ -2055,6 +2059,7 @@ exports[`builder environment compat > should generator environment config correc
                   "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/core/dist/cssUrlLoader.mjs",
                   "options": {
                     "filename": "[name].css",
+                    "minimized": false,
                     "modules": {
                       "auto": true,
                       "exportGlobals": false,
@@ -2215,6 +2220,7 @@ exports[`builder environment compat > should generator environment config correc
                   "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/core/dist/cssUrlLoader.mjs",
                   "options": {
                     "filename": "[name].css",
+                    "minimized": false,
                     "modules": {
                       "auto": true,
                       "exportGlobals": false,
@@ -2521,7 +2527,8 @@ exports[`builder environment compat > should generator environment config correc
     "optimization": {
       "minimize": false,
       "splitChunks": {
-        "chunks": "all",
+        "chunks": "async",
+        "minSize": 0,
       },
     },
     "output": {
@@ -2670,6 +2677,7 @@ exports[`builder environment compat > should generator environment config correc
                   "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/core/dist/cssUrlLoader.mjs",
                   "options": {
                     "filename": "[name].css",
+                    "minimized": false,
                     "modules": {
                       "auto": true,
                       "exportGlobals": false,
@@ -3064,6 +3072,7 @@ exports[`builder environment compat > should generator environment config correc
                   "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/core/dist/cssUrlLoader.mjs",
                   "options": {
                     "filename": "[name].css",
+                    "minimized": false,
                     "modules": {
                       "auto": true,
                       "exportGlobals": false,
@@ -3224,6 +3233,7 @@ exports[`builder environment compat > should generator environment config correc
                   "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/core/dist/cssUrlLoader.mjs",
                   "options": {
                     "filename": "[name].css",
+                    "minimized": false,
                     "modules": {
                       "auto": true,
                       "exportGlobals": false,

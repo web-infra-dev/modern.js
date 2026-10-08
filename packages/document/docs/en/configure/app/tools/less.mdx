@@ -9,48 +9,77 @@ title: less
 
 ```js
 const defaultOptions = {
-  lessOptions: {
-    javascriptEnabled: true,
+  lessLoaderOptions: {
+    lessOptions: {
+      javascriptEnabled: true,
+    },
+    // CSS Source Map enabled by default in development environment
+    sourceMap: isDev,
   },
-  // CSS Source Map enabled by default in development environment
-  sourceMap: isDev,
 };
 ```
 
-You can modify the config of [less-loader](https://github.com/webpack-contrib/less-loader) via `tools.less`.
+`tools.less` modifies the options of [@rsbuild/plugin-less](https://rsbuild.rs/plugins/list/plugin-less). It accepts the full plugin options:
 
-### Object Type
+| Option              | Description                                                                                    |
+| ------------------- | ---------------------------------------------------------------------------------------------- |
+| `lessLoaderOptions` | Options passed to [less-loader](https://github.com/webpack-contrib/less-loader), object or function |
+| `include`           | Files handled by less-loader, defaults to `/\.less$/`                                          |
+| `exclude`           | Files that less-loader should skip                                                             |
+| `parallel`          | Whether to compile Less modules in worker threads, defaults to `false`                         |
 
-When `tools.less` is configured as `Object` type, it is merged with the default config through Object.assign in a shallow way. It should be noted that `lessOptions` is merged through deepMerge in a deep way. For example:
+### Modifying less-loader options
+
+When `lessLoaderOptions` is an `Object`, it is merged with the default config through Object.assign in a shallow way. It should be noted that `lessOptions` is merged through deepMerge in a deep way. For example:
 
 ```js
 export default {
   tools: {
     less: {
-      lessOptions: {
-        javascriptEnabled: false,
+      lessLoaderOptions: {
+        lessOptions: {
+          javascriptEnabled: false,
+        },
       },
     },
   },
 };
 ```
 
-### Function Type
-
-When `tools.less` is a Function, the default config is passed as the first parameter, which can be directly modified or returned as the final result. The second parameter provides some utility functions that can be called directly. For example:
+When `lessLoaderOptions` is a `Function`, the default config is passed as the first parameter, which can be directly modified or returned as the final result. The second parameter provides some utility functions that can be called directly. For example:
 
 ```js
 export default {
   tools: {
-    less(config) {
-      // Modify the config of lessOptions
-      config.lessOptions = {
-        javascriptEnabled: false,
-      };
+    less: {
+      lessLoaderOptions(config) {
+        // Modify the config of lessOptions
+        config.lessOptions = {
+          javascriptEnabled: false,
+        };
+      },
     },
   },
 };
 ```
+
+### Parallel compilation
+
+Less compilation is pure JavaScript and runs on the Node.js main thread by default. With `parallel` enabled, Less modules are compiled in a pool of worker threads, which shortens the build when a project has many Less files.
+
+```js
+export default {
+  tools: {
+    less: {
+      parallel: true,
+    },
+  },
+};
+```
+
+:::tip
+Options sent to worker threads must satisfy the [structured clone algorithm](https://developer.mozilla.org/en-US/docs/Web/API/Web_Workers_API/Structured_clone_algorithm). With `parallel` enabled, `lessLoaderOptions` therefore cannot contain functions, such as an `additionalData` function or a custom `implementation`.
+:::
 
 ### Modifying Less Version
 
@@ -60,7 +89,9 @@ In some scenarios, if you need to use a specific version of Less instead of the 
 export default {
   tools: {
     less: {
-      implementation: require('less'),
+      lessLoaderOptions: {
+        implementation: require('less'),
+      },
     },
   },
 };
@@ -77,8 +108,53 @@ Used to specify which files `less-loader` does not compile, You can pass in one 
 ```js
 export default {
   tools: {
-    less(config, { addExcludes }) {
-      addExcludes(/node_modules/);
+    less: {
+      lessLoaderOptions(config, { addExcludes }) {
+        addExcludes(/node_modules/);
+      },
+    },
+  },
+};
+```
+
+The plugin's `exclude` option is the recommended equivalent:
+
+```js
+export default {
+  tools: {
+    less: {
+      exclude: /node_modules/,
+    },
+  },
+};
+```
+
+### Legacy form
+
+:::warning Do not mix the two layers
+As soon as an object contains a plugin-level key (`lessLoaderOptions`, `include`, `exclude`, ...), the whole object is parsed as plugin options and any loader option in it has no effect. For example, `lessOptions` in `tools.less: { parallel: true, lessOptions: { ... } }` is ignored and must be moved under `lessLoaderOptions`; a hint is printed in development.
+:::
+
+
+In earlier versions, `tools.less` took the less-loader options directly, e.g. `tools.less: { lessOptions: {} }` or `tools.less(config, { addExcludes }) {}`. This form still works: Modern.js wraps it into `lessLoaderOptions` and produces exactly the same config as before. A migration hint is printed in development, and the legacy form will be removed in the next major version.
+
+```js
+// legacy
+export default {
+  tools: {
+    less: {
+      lessOptions: { javascriptEnabled: false },
+    },
+  },
+};
+
+// current
+export default {
+  tools: {
+    less: {
+      lessLoaderOptions: {
+        lessOptions: { javascriptEnabled: false },
+      },
     },
   },
 };
