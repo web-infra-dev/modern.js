@@ -230,7 +230,9 @@ function ModuleFederationApp() {
       name: 'Module Federation',
       version: '1.0.0',
     },
-    capabilities: {},
+    capabilities: {
+      availableDisplayModes: ['inline', 'fullscreen'],
+    },
     onAppCreated: (app: App) => {
       appRef.current = app;
       toolResultReceivedRef.current = false;

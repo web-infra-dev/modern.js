@@ -52,3 +52,33 @@ it('uses externally built HTML without compiling the UI source and isolates requ
   }
   expect(definition.tools[0].view?.html).toBeUndefined();
 });
+
+it('serves an MF runtime that advertises fullscreen during app initialization', async () => {
+  const handle = createMcpHandler({
+    remotes: [
+      { name: 'ui', baseUrl: 'https://cdn.example.com/mf-manifest.json' },
+    ],
+    tools: [{ name: 'card', remote: 'ui', view: { module: './Card' } }],
+  });
+  const response = await handle(
+    new Request('http://localhost/mcp', {
+      method: 'POST',
+      headers: {
+        'content-type': 'application/json',
+        accept: 'application/json, text/event-stream',
+      },
+      body: JSON.stringify({
+        jsonrpc: '2.0',
+        id: 1,
+        method: 'resources/read',
+        params: { uri: 'ui://mf/ui/card' },
+      }),
+    }),
+  );
+  const result = await response.json();
+  expect(result.error).toBeUndefined();
+  // Check the shipped HTML, so a stale runtime bundle cannot pass this regression.
+  expect(result.result.contents[0].text).toMatch(
+    /capabilities:\{availableDisplayModes:\["inline","fullscreen"\]\}/,
+  );
+});
