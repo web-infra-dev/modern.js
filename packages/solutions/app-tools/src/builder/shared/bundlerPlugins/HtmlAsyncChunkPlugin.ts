@@ -15,7 +15,10 @@ export class HtmlAsyncChunkPlugin {
     compiler.hooks.compilation.tap(this.name, compilation => {
       const hooks = this.htmlPlugin.getCompilationHooks(compilation as any);
 
-      hooks.alterAssetTagGroups.tap(this.name, assets => {
+      // Run before Rsbuild's HTML processing (stage 0), which inlines runtime
+      // scripts and removes their src in production. Move runtime to body while
+      // src still identifies it so entry execution waits for initial SSR data.
+      hooks.alterAssetTagGroups.tap({ name: this.name, stage: -1 }, assets => {
         const headTags: typeof assets.headTags = [];
         const bodyTags: typeof assets.bodyTags = [];
 
