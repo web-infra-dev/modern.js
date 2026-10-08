@@ -119,3 +119,42 @@ it('rejects an invalid update callback without closing admission', async () => {
   );
   expect(application.status.phase).toBe('serving');
 });
+
+it('defers an application update until the submitting response and producer finish', async () => {
+  let version = 'old';
+  const application = await createSSRApplication({
+    ...limits,
+    load: async () => ({
+      templates: { main: version },
+      serverManifest: {},
+      render: async () => new Response(version),
+    }),
+  });
+  const app = new Hono();
+  app.use('*', application.middleware);
+  const producer = deferred();
+  let completed: Promise<number> | undefined;
+  app.get('/', c => {
+    if (c.get('templates').main === 'old') {
+      c.get('ssrWork').track(producer.promise);
+      expect(() => application.assertUpdateAllowed()).toThrow(
+        'Cannot update SSR from a request being drained',
+      );
+      const receipt = application.defer(() =>
+        application.update(async () => {
+          version = 'new';
+        }),
+      );
+      expect(receipt.accepted).toBe(true);
+      completed = receipt.completed;
+    }
+    return c.text(c.get('templates').main);
+  });
+  const response = await app.request('/');
+  expect(await response.text()).toBe('old');
+  await tick();
+  expect(version).toBe('old');
+  producer.resolve();
+  await expect(completed).resolves.toBe(1);
+  expect(await (await app.request('/')).text()).toBe('new');
+});

@@ -1,7 +1,7 @@
 import path from 'path';
 import { fileReader } from '@modern-js/runtime-utils/fileReader';
 import type { ServerRoute } from '@modern-js/types';
-import { fs } from '@modern-js/utils';
+import { fs, SERVER_BUNDLE_DIRECTORY } from '@modern-js/utils';
 import { getMimeType } from 'hono/utils/mime';
 import type {
   HonoRequest,
@@ -12,7 +12,10 @@ import type {
   ServerPlugin,
 } from '../../../types';
 import { sortRoutes } from '../../../utils';
-import { getPublicDirPatterns } from '../../../utils/publicDir';
+import {
+  getPublicDirPatterns,
+  normalizePublicDir,
+} from '../../../utils/publicDir';
 
 export const serverStaticPlugin = (): ServerPlugin => ({
   name: '@modern-js/plugin-server-static',
@@ -135,6 +138,8 @@ export interface ServerStaticOptions {
   html: HtmlNormalizedConfig;
   server: ServerNormalizedConfig;
   routes?: ServerRoute[];
+  /** Only emitted assets; excludes uploads and public files from an early SSR bypass. */
+  buildAssetsOnly?: boolean;
 }
 
 /**
@@ -160,6 +165,11 @@ export function createStaticMiddleware(
   const { publicDir } = options.server;
   const favicons = prepareFavicons(favicon);
   const staticFiles = [cssPath, jsPath, mediaPath].filter(v => Boolean(v));
+  const emittedRoots = ['static', ...staticFiles].flatMap(directory => {
+    const root = path.resolve(pwd, directory!);
+    // A '.' output path must never make server bundles into an early bypass.
+    return root !== path.resolve(pwd) && isPathInside(root, pwd) ? [root] : [];
+  });
 
   // Handle custom publicDir: string | string[]
   // Convert publicDir paths to regex patterns for matching
@@ -169,12 +179,14 @@ export function createStaticMiddleware(
   // TODO: If possible, we should not use `...staticFiles` here, file should only be read in static and upload dir.
   const staticReg = [
     'static/',
-    'upload/',
+    ...(options.buildAssetsOnly ? [] : ['upload/']),
     ...staticFiles,
-    ...publicDirPatterns,
+    ...(options.buildAssetsOnly ? [] : publicDirPatterns),
   ];
   // TODO: Also remove iconReg
-  const iconReg = ['favicon.ico', 'icon.png', ...favicons];
+  const iconReg = options.buildAssetsOnly
+    ? []
+    : ['favicon.ico', 'icon.png', ...favicons];
   const regPrefix = pathPrefix.endsWith('/') ? pathPrefix : `${pathPrefix}/`;
   const staticPathRegExp = new RegExp(
     `^${regPrefix}(${[...staticReg, ...iconReg].join('|')})`,
@@ -218,14 +230,61 @@ export function createStaticMiddleware(
         // So we call next().
         return next();
       }
+      let readPath = filepath;
+      if (options.buildAssetsOnly) {
+        // The ordinary static handler runs after user middleware. An early
+        // bypass must be narrower, including when output paths contain '.' or
+        // symlinks point from a public directory into application/server files.
+        const roots = emittedRoots.filter(root => isPathInside(filepath, root));
+        if (!roots.length) return next();
+        const realPwd = await fs.realpath(pwd);
+        readPath = await fs.realpath(filepath);
+        const canonical = (filename: string) =>
+          fs
+            .realpath(path.resolve(pwd, filename))
+            .catch(() => path.resolve(realPwd, filename));
+        const protectedRoots = await Promise.all(
+          [
+            SERVER_BUNDLE_DIRECTORY,
+            'upload',
+            'public',
+            ...normalizePublicDir(publicDir),
+          ].map(canonical),
+        );
+        const protectedFiles = await Promise.all(
+          (routes || []).flatMap(route =>
+            route.bundle ? [canonical(route.bundle)] : [],
+          ),
+        );
+        if (
+          !isPathInside(readPath, realPwd) ||
+          protectedRoots.some(root => isPathInside(readPath, root)) ||
+          protectedFiles.includes(readPath)
+        )
+          return next();
+        const realRoots = await Promise.all(
+          roots.map(root => fs.realpath(root).catch(() => undefined)),
+        );
+        if (
+          !realRoots.some(
+            root =>
+              root &&
+              root !== realPwd &&
+              isPathInside(root, realPwd) &&
+              isPathInside(readPath, root),
+          )
+        )
+          return next();
+        if (!(await fs.stat(readPath)).isFile()) return next();
+      }
       const mimeType = getMimeType(filepath);
       if (mimeType) {
         c.header('Content-Type', mimeType);
       }
-      const stat = await fs.lstat(filepath);
+      const stat = await fs.lstat(readPath);
       const { size } = stat;
       // serve static middleware always read file from real filesystem.
-      const chunk = await fileReader.readFileFromSystem(filepath, 'buffer');
+      const chunk = await fileReader.readFileFromSystem(readPath, 'buffer');
 
       // TODO: handle http range
       c.header('Content-Length', String(size));
@@ -240,6 +299,7 @@ export function createStaticMiddleware(
       );
       return c.body(body, 200);
     } else {
+      if (options.buildAssetsOnly) return next();
       return createPublicMiddleware({ pwd, routes: routes || [] })(c, next);
     }
   };

@@ -33,6 +33,12 @@ export type {
   SSRRequestCoordinatorOptions,
   SSRRequestScope,
   SSRRequestWork,
+  SSRRequestPolicyDecision,
+  SSRRequestPolicyReason,
+  SSRRequestPolicyContext,
+  SSRRequestPolicy,
+  SSRUpdatePhase,
+  SSRDeferredUpdate,
 } from './requestCoordinator';
 
 export { createSSRApplication } from './application';

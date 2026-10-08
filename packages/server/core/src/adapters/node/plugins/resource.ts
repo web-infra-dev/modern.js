@@ -13,6 +13,7 @@ import {
   isProd,
 } from '@modern-js/utils';
 import { getRenderHandler } from '../../../plugins/render/inject';
+import { createCSRRender } from '../../../plugins/render/render';
 import type {
   Middleware,
   MiddlewareHandler,
@@ -27,6 +28,7 @@ import {
   type SSRApplicationResources,
   createSSRApplication,
 } from '../application';
+import { createStaticMiddleware } from './static';
 
 export interface SSRResourceApplicationOptions
   extends Omit<SSRApplicationOptions, 'load'> {
@@ -344,6 +346,9 @@ export const injectResourcePlugin = (
         let published: SSRApplicationResources | undefined;
         const application = await createSSRApplication({
           ...applicationOptions,
+          renderCSR:
+            applicationOptions.renderCSR ||
+            createCSRRender(routes, context.metaName),
           load: async (rebuilding, entries) => {
             const selectedRoutes = entries
               ? routes.filter(route =>
@@ -505,9 +510,28 @@ export const injectResourcePlugin = (
             return resources;
           },
         });
-        // Mounted before ServerBase installs plugin middlewares, including custom
-        // pre/render middleware. Those must not capture resources before admission.
-        context.serverBase.setRequestMiddleware(application.middleware);
+        const config = api.getServerConfig();
+        const assets = createStaticMiddleware({
+          pwd: pwd!,
+          routes,
+          output: config.output || {},
+          html: config.html || {},
+          server: config.server || {},
+          buildAssetsOnly: true,
+        });
+        // Published browser chunks have no generation-owned SSR work. Keep their
+        // existing static-file path protections and let a cold CSR shell boot
+        // while SSR admission is closed. Public/uploads and business middleware
+        // still enter the gate; this is not a general middleware bypass.
+        const requestMiddleware: Middleware<ServerEnv> = async (c, next) => {
+          if (c.req.method !== 'GET' && c.req.method !== 'HEAD')
+            return application.middleware(c, next);
+          return assets(c, async () => {
+            const response = await application.middleware(c, next);
+            if (response) c.res = response;
+          });
+        };
+        context.serverBase.setRequestMiddleware(requestMiddleware);
         applicationOptions.onReady(application);
         return;
       }

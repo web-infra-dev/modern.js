@@ -7,6 +7,7 @@ import type {
 } from '../../types';
 import {
   type SSRRequestCoordinatorOptions,
+  type SSRRequestPolicyContext,
   createSSRRequestCoordinator,
 } from './requestCoordinator';
 
@@ -30,6 +31,14 @@ export interface SSRApplicationOptions extends SSRRequestCoordinatorOptions {
   ) => Promise<void>;
   /** Must respond directly; bypass handlers cannot fall through into application code. */
   bypass?: (request: Request) => Promise<Response | undefined>;
+  /** Server-owned HTML fallback. It must not execute application bundles or loaders. */
+  renderCSR?: (
+    request: Request,
+    context: SSRRequestPolicyContext & {
+      templates: Readonly<Record<string, string>>;
+      entryScope?: readonly string[];
+    },
+  ) => Response | Promise<Response>;
 }
 
 /** One process-local resource owner. Module invalidation belongs to its bundler adapter. */
@@ -65,6 +74,16 @@ export async function createSSRApplication(options: SSRApplicationOptions) {
         return c.res;
       },
       scope,
+      options.renderCSR
+        ? async context =>
+            options.renderCSR!(c.req.raw, {
+              ...context,
+              // Keep the last published client release until a new generation
+              // is ready. No retiring SSR handler is entered for this response.
+              templates: resources.templates,
+              entryScope: scope,
+            })
+        : undefined,
     );
     c.res = response;
     return response;
@@ -73,6 +92,14 @@ export async function createSSRApplication(options: SSRApplicationOptions) {
     middleware,
     get status() {
       return coordinator.status;
+    },
+    /** Submit control-plane work after this request's response and producers finish. */
+    defer<T>(operation: () => Promise<T>) {
+      return coordinator.defer(operation);
+    },
+    /** Let adapters enforce request boundaries before their own deduplication. */
+    assertUpdateAllowed() {
+      coordinator.assertUpdateAllowed();
     },
     /** Called only by the control plane; invalidate must detach/reset owned bundler state. */
     update(
