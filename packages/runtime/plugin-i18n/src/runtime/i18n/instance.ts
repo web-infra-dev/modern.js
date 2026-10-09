@@ -167,15 +167,6 @@ async function createI18nextInstance(): Promise<I18nInstance | null> {
   }
 }
 
-async function tryImportReactI18next() {
-  try {
-    const reactI18next = await import('react-i18next');
-    return reactI18next;
-  } catch (error) {
-    return null;
-  }
-}
-
 export function getI18nextInstanceForProvider(
   instance: I18nInstance | any,
 ): any {
@@ -211,17 +202,19 @@ export async function getI18nInstance(
 }
 
 export async function getInitReactI18next() {
-  const reactI18nextModule = await tryImportReactI18next();
-  if (reactI18nextModule) {
-    return reactI18nextModule.initReactI18next;
+  try {
+    const { initReactI18next } = await import('react-i18next');
+    return initReactI18next;
+  } catch (error) {
+    return null;
   }
-  return null;
 }
 
 export async function getI18nextProvider() {
-  const reactI18nextModule = await tryImportReactI18next();
-  if (reactI18nextModule) {
-    return reactI18nextModule.I18nextProvider;
+  try {
+    const { I18nextProvider } = await import('react-i18next');
+    return I18nextProvider;
+  } catch (error) {
+    return null;
   }
-  return null;
 }
