@@ -1,0 +1,4 @@
+packages:
+  - 'host'
+  - 'product-app'
+  - 'inventory-app'

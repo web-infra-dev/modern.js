@@ -1,0 +1,11 @@
+{
+  "name": "@examples/bridge-ssr",
+  "version": "0.1.0",
+  "private": true,
+  "packageManager": "pnpm@10.13.1",
+  "scripts": {
+    "build": "pnpm -r --workspace-concurrency=1 run build",
+    "typecheck": "pnpm -r run typecheck",
+    "start": "pnpm -r --parallel run demo:serve"
+  }
+}

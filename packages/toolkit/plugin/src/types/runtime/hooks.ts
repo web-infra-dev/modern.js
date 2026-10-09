@@ -29,6 +29,19 @@ export interface StreamSSRExtender {
   init?: (params: {
     rootElement: React.ReactElement;
     forceStream2String: boolean;
+    /** Existing React shell boundary; extenders must not add root siblings. */
+    shellEndMarker?: string;
+    /** Prefix used by the host React renderer and client hydration. */
+    identifierPrefix?: string;
+    /** The current render request; never a module-level last request. */
+    request?: Request;
+    runtimeContext?: {
+      ssrContext?: {
+        nonce?: string;
+        request: { url: string; raw?: Request; headers?: unknown };
+      };
+      [key: string]: unknown;
+    };
   }) => void;
 
   modifyRootElement?: (rootElement: React.ReactElement) => React.ReactElement;

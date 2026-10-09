@@ -10,7 +10,8 @@ import {
   isRouteErrorResponse,
 } from '@modern-js/runtime-utils/router';
 import type { NestedRoute, PageRoute, SSRMode } from '@modern-js/types';
-import React from 'react';
+import React, { useContext } from 'react';
+import { InternalRuntimeContext } from '../../core/context';
 import { DefaultNotFound } from './DefaultNotFound';
 import DeferredDataScripts from './DeferredDataScripts';
 import type { ModernRouteObject, RouterConfig } from './types';
@@ -21,10 +22,12 @@ export function getRouteComponents(
     globalApp,
     ssrMode,
     props,
+    application,
   }: {
     globalApp?: React.ComponentType<GlobalAppProps>;
     ssrMode?: SSRMode;
     props?: Record<string, unknown>;
+    application?: boolean;
   },
 ) {
   const Layout = ({ Component, ...props }: any) => {
@@ -38,7 +41,18 @@ export function getRouteComponents(
   const routeElements: React.ReactElement[] = [];
   for (const route of routes) {
     if (route.type === 'nested') {
-      const routeElement = renderNestedRoute(route, {
+      const Component = route.component as React.ComponentType<
+        Record<string, unknown>
+      >;
+      const ApplicationRoot = (rootProps: Record<string, unknown> = {}) => {
+        const context = useContext(InternalRuntimeContext);
+        return <Component {...rootProps} {...context._application?.props} />;
+      };
+      const applicationRoute =
+        application && route.isRoot && Component
+          ? { ...route, component: ApplicationRoot }
+          : route;
+      const routeElement = renderNestedRoute(applicationRoute, {
         DeferredDataComponent:
           ssrMode === 'stream' ? DeferredDataScripts : undefined,
         props,
@@ -187,10 +201,12 @@ export function renderRoutes({
   routesConfig,
   props,
   ssrMode,
+  application,
 }: {
   routesConfig: RouterConfig['routesConfig'];
   props?: Record<string, unknown>;
   ssrMode?: SSRMode;
+  application?: boolean;
 }) {
   if (!routesConfig) {
     return null;
@@ -203,6 +219,7 @@ export function renderRoutes({
     globalApp,
     ssrMode,
     props,
+    application,
   });
   return routeElements;
 }

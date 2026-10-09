@@ -51,6 +51,10 @@ export const createReadableStreamFromElement: CreateReadableStreamFromElement =
         extender.init({
           rootElement,
           forceStream2String,
+          shellEndMarker: ESCAPED_SHELL_STREAM_END_MARK,
+          identifierPrefix: SSR_HYDRATION_ID_PREFIX,
+          request,
+          runtimeContext,
         });
       }
     });

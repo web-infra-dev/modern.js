@@ -5,6 +5,8 @@ import type { RenderLevel } from './constants';
 declare global {
   interface Window {
     _SSR_DATA?: SSRContainer;
+    _SSR_DATA_READY?: Promise<void>;
+    _SSR_DATA_READY_RESOLVE?: () => void;
     _ROUTER_DATA?: RouterSSRData;
   }
 }
