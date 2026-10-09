@@ -10,6 +10,14 @@
     "directory": "packages/review/tsconfig"
   },
   "license": "MIT",
+  "files": [
+    "base.json",
+    "server.json",
+    "legacy.json",
+    "react.json",
+    "README.md",
+    "LICENSE"
+  ],
   "keywords": [
     "react",
     "framework",

@@ -25,6 +25,10 @@
     "./server": {
       "types": "./server/index.d.ts",
       "default": "./server/index.d.ts"
+    },
+    "./cli": {
+      "types": "./cli/index.d.ts",
+      "default": "./cli/index.d.ts"
     }
   },
   "typesVersions": {
@@ -34,6 +38,9 @@
       ],
       "server": [
         "./server/index.d.ts"
+      ],
+      "cli": [
+        "./cli/index.d.ts"
       ]
     }
   },

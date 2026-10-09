@@ -1,0 +1,13 @@
+{
+  "extends": "@modern-js/tsconfig/base",
+  "compilerOptions": {
+    "noEmit": true,
+    "types": ["node"],
+    "paths": {
+      "@/*": ["./src/*"],
+      "@shared/*": ["./shared/*"],
+      "@api/*": ["./api/lambda/*"]
+    }
+  },
+  "include": ["src", "shared", "config", "api", "server", "modern.config.ts"]
+}
