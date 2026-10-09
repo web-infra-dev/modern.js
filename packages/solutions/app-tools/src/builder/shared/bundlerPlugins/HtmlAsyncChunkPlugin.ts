@@ -6,9 +6,15 @@ export class HtmlAsyncChunkPlugin {
 
   htmlPlugin: typeof Rspack.HtmlRspackPlugin;
 
-  constructor(htmlPlugin: typeof Rspack.HtmlRspackPlugin) {
+  isStreamingSSR: boolean;
+
+  constructor(
+    htmlPlugin: typeof Rspack.HtmlRspackPlugin,
+    isStreamingSSR = false,
+  ) {
     this.name = 'HtmlAsyncChunkPlugin';
     this.htmlPlugin = htmlPlugin;
+    this.isStreamingSSR = isStreamingSSR;
   }
 
   apply(compiler: Rspack.Compiler) {
@@ -23,7 +29,7 @@ export class HtmlAsyncChunkPlugin {
           const { attributes } = tag;
 
           // Convert defer to async
-          if (attributes && attributes.defer === true) {
+          if (!this.isStreamingSSR && attributes && attributes.defer === true) {
             attributes.async = true;
             delete attributes.defer;
           }
