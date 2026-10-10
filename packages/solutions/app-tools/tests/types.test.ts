@@ -9,20 +9,18 @@ describe('app-tools types', () => {
       join(repoRoot, 'packages/solutions/app-tools/lib/types.d.ts'),
       'utf-8',
     );
-    const appEnvTemplate = readFileSync(
-      join(
-        repoRoot,
-        'packages/toolkit/create/template/src/modern-app-env.d.ts',
+    const tsconfig = JSON.parse(
+      readFileSync(
+        join(repoRoot, 'packages/toolkit/create/template/tsconfig.json'),
+        'utf-8',
       ),
-      'utf-8',
     );
 
     expect(appToolsTypes).toContain(
       '/// <reference types="@rsbuild/core/types" />',
     );
-    expect(appEnvTemplate).toContain(
-      "/// <reference types='@modern-js/app-tools/types' />",
-    );
-    expect(appEnvTemplate).not.toContain('@rsbuild/core/types');
+    expect(tsconfig.compilerOptions.types).toEqual([
+      '@modern-js/app-tools/types',
+    ]);
   });
 });
