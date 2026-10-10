@@ -18,7 +18,7 @@
     "@playwright/test": "1.63.0",
     "@rsbuild/core": "2.2.12",
     "@types/connect": "^3.4.38",
-    "@types/lodash": "^4.17.25",
+    "@types/lodash": "^4.17.26",
     "@types/node": "^20",
     "@types/react": "^19.3.0",
     "@types/react-dom": "^19.3.0",
