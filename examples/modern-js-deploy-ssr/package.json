@@ -7,8 +7,7 @@
     "dev": "modern dev",
     "build": "modern build",
     "start": "modern start",
-    "serve": "modern serve",
-    "lint": "biome check"
+    "serve": "modern serve"
   },
   "engines": {
     "node": ">=20.19.5"
@@ -21,7 +20,6 @@
   "devDependencies": {
     "@modern-js/app-tools": "latest",
     "@modern-js/tsconfig": "latest",
-    "@biomejs/biome": "1.9.4",
     "typescript": "~5.7.3",
     "@types/jest": "~29.2.4",
     "@types/node": "^20",

@@ -8,21 +8,21 @@ Modern.js supports multiple rendering modes, and different rendering modes are s
 
 ## Rendering Mode Quick Reference
 
-| Rendering Mode | Characteristics | Use Cases |
-|----------------|-----------------|-----------|
-| **CSR** | Executes JavaScript in the browser to render pages | Applications with strong interactivity and low SEO requirements |
-| **SSR** | Pre-renders complete HTML pages on the server | Websites with high requirements for first-screen performance and SEO |
-| **Streaming SSR** | Renders and returns progressively, displaying initial UI faster | Applications requiring faster first-screen perception speed (**Default SSR mode**) |
-| **RSC** | Components render on the server, reducing client JS size; high cohesion between data and component logic, reducing state passing | Projects pursuing optimal performance and needing to reduce client-side code |
-| **SSG** | Generates static pages at build time, can be cached by CDN | Websites with relatively static content, such as blogs and documentation sites |
+| Rendering Mode    | Characteristics                                                                                                                  | Use Cases                                                                          |
+| ----------------- | -------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------- |
+| **CSR**           | Executes JavaScript in the browser to render pages                                                                               | Applications with strong interactivity and low SEO requirements                    |
+| **SSR**           | Pre-renders complete HTML pages on the server                                                                                    | Websites with high requirements for first-screen performance and SEO               |
+| **Streaming SSR** | Renders and returns progressively, displaying initial UI faster                                                                  | Applications requiring faster first-screen perception speed (**Default SSR mode**) |
+| **RSC**           | Components render on the server, reducing client JS size; high cohesion between data and component logic, reducing state passing | Projects pursuing optimal performance and needing to reduce client-side code       |
+| **SSG**           | Generates static pages at build time, can be cached by CDN                                                                       | Websites with relatively static content, such as blogs and documentation sites     |
 
 ## Performance Comparison
 
-| Rendering Technology | Core Advantages | Main Bottlenecks |
-|---------------------|-----------------|------------------|
-| **SSR** | Server-side pre-rendering, beneficial for SEO | Must wait for all data to load before responding |
-| **Streaming SSR** | Renders and returns progressively, faster first screen | JS bundle size is still large |
-| **Streaming SSR + RSC** | Reduces client JS size | - |
+| Rendering Technology    | Core Advantages                                        | Main Bottlenecks                                 |
+| ----------------------- | ------------------------------------------------------ | ------------------------------------------------ |
+| **SSR**                 | Server-side pre-rendering, beneficial for SEO          | Must wait for all data to load before responding |
+| **Streaming SSR**       | Renders and returns progressively, faster first screen | JS bundle size is still large                    |
+| **Streaming SSR + RSC** | Reduces client JS size                                 | -                                                |
 
 ## How to Choose
 

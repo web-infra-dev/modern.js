@@ -63,8 +63,8 @@ function ButtonGroup() {
   const { t } = useTranslation('common', { keyPrefix: 'button' });
   return (
     <>
-      <button>{t('submit')}</button>   {/* common:button.submit */}
-      <button>{t('cancel')}</button>   {/* common:button.cancel */}
+      <button>{t('submit')}</button> {/* common:button.submit */}
+      <button>{t('cancel')}</button> {/* common:button.cancel */}
     </>
   );
 }
@@ -94,9 +94,9 @@ The quality of translation key names directly affects maintenance cost. Recommen
 ```
 
 ```tsx
-t('page.title')
-t('form.username.label')
-t('form.submit', { defaultValue: 'Save' }) // defaultValue prevents showing the key string when the key is missing.
+t('page.title');
+t('form.username.label');
+t('form.submit', { defaultValue: 'Save' }); // defaultValue prevents showing the key string when the key is missing.
 ```
 
 ## Plurals
@@ -121,9 +121,9 @@ i18next automatically selects the correct plural form based on the `count` param
 ```
 
 ```tsx
-t('item', { count: 0 })  // "没有条目" / "No items"
-t('item', { count: 1 })  // "没有条目" / "1 item" (Chinese usually has only one form)
-t('item', { count: 5 })  // "5 个条目" / "5 items"
+t('item', { count: 0 }); // "没有条目" / "No items"
+t('item', { count: 1 }); // "没有条目" / "1 item" (Chinese usually has only one form)
+t('item', { count: 5 }); // "5 个条目" / "5 items"
 ```
 
 Different languages have different plural rules. English has singular and plural, while Russian has one/few/many forms. i18next automatically matches CLDR rules based on the language code.
@@ -152,8 +152,8 @@ Nested structures can clearly reflect UI hierarchy and are accessed with dots:
 ```
 
 ```tsx
-t('modal.confirm.title')
-t('modal.confirm.actions.ok')
+t('modal.confirm.title');
+t('modal.confirm.actions.ok');
 ```
 
 Avoid nesting deeper than 4 levels. Excessive depth makes key names long and hard to maintain.
@@ -199,8 +199,8 @@ Use `, format` in translation files to specify the formatting type:
 ```
 
 ```tsx
-t('price', { value: 99.5 })       // "当前价格：¥99.50" (zh) / "$99.50" (en)
-t('expiry', { date: new Date() }) // "到期日：2025年5月12日" (zh)
+t('price', { value: 99.5 }); // "当前价格：¥99.50" (zh) / "$99.50" (en)
+t('expiry', { date: new Date() }); // "到期日：2025年5月12日" (zh)
 ```
 
 ## Error Handling
@@ -237,7 +237,7 @@ if (!i18n.isInitialized) return null;
 Provide fallback text with `defaultValue` to prevent key strings from appearing in the UI:
 
 ```tsx
-t('missing.key', { defaultValue: 'Default text' })
+t('missing.key', { defaultValue: 'Default text' });
 ```
 
 In development, you can enable `saveMissing` to output missing keys to the console for debugging:
@@ -281,8 +281,8 @@ Referencing JSON file types directly is less likely to drift from actual transla
 
 ```tsx
 const { t } = useTranslation();
-t('welcome');       // TypeScript autocomplete
-t('nonExistent');   // TypeScript error
+t('welcome'); // TypeScript autocomplete
+t('nonExistent'); // TypeScript error
 ```
 
 :::tip Large projects

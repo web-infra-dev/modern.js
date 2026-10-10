@@ -6,10 +6,10 @@ title: Configuration
 
 Plugin configuration is split between two files, each with a different responsibility:
 
-| File | Purpose |
-| --- | --- |
-| `modern.config.ts` | Basic plugin settings, read during build/startup |
-| `src/modern.runtime.ts` | i18next initialization options, read at runtime |
+| File                    | Purpose                                          |
+| ----------------------- | ------------------------------------------------ |
+| `modern.config.ts`      | Basic plugin settings, read during build/startup |
+| `src/modern.runtime.ts` | i18next initialization options, read at runtime  |
 
 :::warning Function values can only be configured at runtime
 `modern.config.ts` runs at build time and cannot serialize functions. SDK loaders, custom detection functions, and similar function values must be placed in `modern.runtime.ts`.
@@ -17,13 +17,13 @@ Plugin configuration is split between two files, each with a different responsib
 
 ## Configuration Ownership
 
-| Configuration | Where to configure |
-| --- | --- |
-| `localeDetection` (language detection, path redirects, etc.) | `modern.config.ts` |
-| `backend` (resource paths, SDK declaration, etc.) | `modern.config.ts` |
-| `i18nInstance` | `modern.runtime.ts` |
+| Configuration                                                  | Where to configure  |
+| -------------------------------------------------------------- | ------------------- |
+| `localeDetection` (language detection, path redirects, etc.)   | `modern.config.ts`  |
+| `backend` (resource paths, SDK declaration, etc.)              | `modern.config.ts`  |
+| `i18nInstance`                                                 | `modern.runtime.ts` |
 | `initOptions` (`fallbackLng`, `ns`, and other i18next options) | `modern.runtime.ts` |
-| The actual `backend.sdk` loader function | `modern.runtime.ts` |
+| The actual `backend.sdk` loader function                       | `modern.runtime.ts` |
 
 ## CLI Configuration
 
@@ -44,15 +44,15 @@ export default defineConfig({
 
 ### localeDetection Options
 
-| Field | Type | Default | Description |
-| --- | --- | --- | --- |
-| `languages` | `string[]` | `[]` | Supported language list |
-| `fallbackLanguage` | `string` | `''` | Fallback language when detection fails |
-| `localePathRedirect` | `boolean` | `false` | Handles URL locale prefix recognition, redirects, and switching. See [Routing Integration](./routing.md#enable-locale-path-prefixes) |
-| `i18nextDetector` | `boolean` | `false` | Enables the i18next detector (Cookie / Header, etc.) |
-| `detection` | `LanguageDetectorOptions` | - | Detailed i18next detector configuration. See [Locale Detection](./locale-detection.md) |
-| `ignoreRedirectRoutes` | `string[] \| Function` | - | Routes that skip redirects. See [Locale Detection](./locale-detection.md#ignoreredirectroutes) |
-| `localeDetectionByEntry` | `Record<string, ...>` | - | Per-entry overrides for multiple entries |
+| Field                    | Type                      | Default | Description                                                                                                                          |
+| ------------------------ | ------------------------- | ------- | ------------------------------------------------------------------------------------------------------------------------------------ |
+| `languages`              | `string[]`                | `[]`    | Supported language list                                                                                                              |
+| `fallbackLanguage`       | `string`                  | `''`    | Fallback language when detection fails                                                                                               |
+| `localePathRedirect`     | `boolean`                 | `false` | Handles URL locale prefix recognition, redirects, and switching. See [Routing Integration](./routing.md#enable-locale-path-prefixes) |
+| `i18nextDetector`        | `boolean`                 | `false` | Enables the i18next detector (Cookie / Header, etc.)                                                                                 |
+| `detection`              | `LanguageDetectorOptions` | -       | Detailed i18next detector configuration. See [Locale Detection](./locale-detection.md)                                               |
+| `ignoreRedirectRoutes`   | `string[] \| Function`    | -       | Routes that skip redirects. See [Locale Detection](./locale-detection.md#ignoreredirectroutes)                                       |
+| `localeDetectionByEntry` | `Record<string, ...>`     | -       | Per-entry overrides for multiple entries                                                                                             |
 
 **Example:**
 
@@ -105,11 +105,11 @@ interface BackendOptions {
 
 **backend auto-enable rules:**
 
-| Situation | Result |
-| --- | --- |
-| `loadPath` or `addPath` is configured | Automatically enabled. No need to write `enabled: true` |
-| No backend is configured, but a `locales` directory exists and contains JSON files | Automatically enabled with the default `loadPath` |
-| `enabled: false` is set explicitly | Disabled, and auto-detection is skipped |
+| Situation                                                                          | Result                                                  |
+| ---------------------------------------------------------------------------------- | ------------------------------------------------------- |
+| `loadPath` or `addPath` is configured                                              | Automatically enabled. No need to write `enabled: true` |
+| No backend is configured, but a `locales` directory exists and contains JSON files | Automatically enabled with the default `loadPath`       |
+| `enabled: false` is set explicitly                                                 | Disabled, and auto-detection is skipped                 |
 
 Auto-detected directory locations, in priority order:
 
@@ -118,11 +118,11 @@ Auto-detected directory locations, in priority order:
 
 **Which backend should you choose?**
 
-| Scenario | Recommended approach |
-| --- | --- |
-| Translation files are local to the project | Static file backend (configure `loadPath`; CSR/SSR switch automatically) |
-| Translations come from a remote API or translation platform | Custom backend (configure `sdk: true`) |
-| Local fallback + remote real-time updates | Chained backend (configure both `loadPath` and `sdk`) |
+| Scenario                                                    | Recommended approach                                                     |
+| ----------------------------------------------------------- | ------------------------------------------------------------------------ |
+| Translation files are local to the project                  | Static file backend (configure `loadPath`; CSR/SSR switch automatically) |
+| Translations come from a remote API or translation platform | Custom backend (configure `sdk: true`)                                   |
+| Local fallback + remote real-time updates                   | Chained backend (configure both `loadPath` and `sdk`)                    |
 
 See [Resource Loading](./resource-loading.md) for detailed usage.
 
@@ -136,7 +136,7 @@ const i18nInstance = i18next.createInstance();
 
 export default defineRuntimeConfig({
   i18n: {
-    i18nInstance,   // Optional. An isolated instance is recommended.
+    i18nInstance, // Optional. An isolated instance is recommended.
     initOptions: {
       fallbackLng: 'en',
       supportedLngs: ['zh', 'en'],
@@ -164,13 +164,13 @@ import Desc from '@site-docs/components/international/init-options-desc';
 
 <Desc />
 
-| Field | Description |
-| --- | --- |
-| `fallbackLng` | Which language resources i18next falls back to when a translation key is missing. Supports strings, arrays, and maps (fallback chains) |
-| `supportedLngs` | Language list supported by i18next |
-| `ns` | Namespace list. Default is `['translation']` |
-| `defaultNS` | Default namespace. Default is `'translation'` |
-| `lng` | Forces the initial language. Usually not needed because the detector decides it |
+| Field           | Description                                                                                                                            |
+| --------------- | -------------------------------------------------------------------------------------------------------------------------------------- |
+| `fallbackLng`   | Which language resources i18next falls back to when a translation key is missing. Supports strings, arrays, and maps (fallback chains) |
+| `supportedLngs` | Language list supported by i18next                                                                                                     |
+| `ns`            | Namespace list. Default is `['translation']`                                                                                           |
+| `defaultNS`     | Default namespace. Default is `'translation'`                                                                                          |
+| `lng`           | Forces the initial language. Usually not needed because the detector decides it                                                        |
 
 `fallbackLng` supports fallback chains, which are useful for regional language degradation:
 

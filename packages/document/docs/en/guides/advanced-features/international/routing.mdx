@@ -26,11 +26,11 @@ i18nPlugin({
 
 **Result:**
 
-| Visited path | Result |
-| --- | --- |
-| `/about` | Redirects to `/en/about` |
-| `/en/about` | Visits normally, language is `en` |
-| `/zh/about` | Visits normally, language is `zh` |
+| Visited path | Result                            |
+| ------------ | --------------------------------- |
+| `/about`     | Redirects to `/en/about`          |
+| `/en/about`  | Visits normally, language is `en` |
+| `/zh/about`  | Visits normally, language is `zh` |
 
 Some paths, such as API routes and static assets, do not need locale prefixes. Use `ignoreRedirectRoutes` to skip redirects. See [Locale Detection -> ignoreRedirectRoutes](./locale-detection.md#ignoreredirectroutes).
 
@@ -108,7 +108,9 @@ function Navigation() {
     <nav>
       <I18nLink to="/">Home</I18nLink>
       <I18nLink to="/about">About</I18nLink>
-      <I18nLink to="/contact" replace>Contact</I18nLink>
+      <I18nLink to="/contact" replace>
+        Contact
+      </I18nLink>
     </nav>
   );
 }

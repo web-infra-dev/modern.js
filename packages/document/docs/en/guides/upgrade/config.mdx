@@ -22,6 +22,18 @@ server: {
 }
 ```
 
+### dev.lazyCompilation
+
+**Change**: The default value in development has changed. Pure CSR and streaming SSR applications enable lazy compilation by default with `{ imports: true, entries: false }`; applications using string SSR, RSC or SSG keep it disabled by default. This only affects development and does not change production build output.
+
+**Migration Example**: To keep the 2.0 behavior, disable it explicitly:
+
+```typescript
+dev: {
+  lazyCompilation: false;
+}
+```
+
 ## html
 
 ### html.appIcon

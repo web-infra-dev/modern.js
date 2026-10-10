@@ -64,8 +64,8 @@ Both methods can be enabled at the same time:
 ```ts
 i18nPlugin({
   localeDetection: {
-    localePathRedirect: true,   // Path prefix
-    i18nextDetector: true,      // Cookie / Header, etc.
+    localePathRedirect: true, // Path prefix
+    i18nextDetector: true, // Cookie / Header, etc.
     languages: ['zh', 'en'],
     fallbackLanguage: 'en',
     detection: {
@@ -77,39 +77,48 @@ i18nPlugin({
 
 ## Detection Options (`detection`)
 
-| Option | Type | Default | Description |
-| --- | --- | --- | --- |
-| `order` | `string[]` | See below | Detection order inside the i18next detector |
-| `lookupQuerystring` | `string` | `'lng'` | Query parameter key, such as `?lng=en` |
-| `lookupCookie` | `string` | `'i18next'` | Cookie key |
-| `lookupLocalStorage` | `string` | `'i18nextLng'` | LocalStorage key (browser only) |
-| `lookupSession` | `string` | - | SessionStorage key (browser only) |
-| `lookupHeader` | `string` | `'accept-language'` | HTTP request header key |
-| `lookupFromPathIndex` | `number` | `0` | Which URL path segment to start recognizing language from |
-| `caches` | `false \| string[]` | - | Where to cache the detected language, such as `['cookie']` |
-| `cookieMinutes` | `number` | `525600` (1 year) | Cookie expiration time in minutes |
-| `cookieExpirationDate` | `Date` | - | Cookie expiration date. Takes precedence over `cookieMinutes` |
-| `cookieDomain` | `string` | - | Cookie domain |
+| Option                 | Type                | Default             | Description                                                   |
+| ---------------------- | ------------------- | ------------------- | ------------------------------------------------------------- |
+| `order`                | `string[]`          | See below           | Detection order inside the i18next detector                   |
+| `lookupQuerystring`    | `string`            | `'lng'`             | Query parameter key, such as `?lng=en`                        |
+| `lookupCookie`         | `string`            | `'i18next'`         | Cookie key                                                    |
+| `lookupLocalStorage`   | `string`            | `'i18nextLng'`      | LocalStorage key (browser only)                               |
+| `lookupSession`        | `string`            | -                   | SessionStorage key (browser only)                             |
+| `lookupHeader`         | `string`            | `'accept-language'` | HTTP request header key                                       |
+| `lookupFromPathIndex`  | `number`            | `0`                 | Which URL path segment to start recognizing language from     |
+| `caches`               | `false \| string[]` | -                   | Where to cache the detected language, such as `['cookie']`    |
+| `cookieMinutes`        | `number`            | `525600` (1 year)   | Cookie expiration time in minutes                             |
+| `cookieExpirationDate` | `Date`              | -                   | Cookie expiration date. Takes precedence over `cookieMinutes` |
+| `cookieDomain`         | `string`            | -                   | Cookie domain                                                 |
 
 **Default detection order when `order` is not configured:**
 
 ```ts
-['querystring', 'cookie', 'localStorage', 'header', 'navigator', 'htmlTag', 'path', 'subdomain']
+[
+  'querystring',
+  'cookie',
+  'localStorage',
+  'header',
+  'navigator',
+  'htmlTag',
+  'path',
+  'subdomain',
+];
 ```
 
 **Available `order` values:**
 
-| Value | Source | Limitation |
-| --- | --- | --- |
-| `querystring` | URL query parameter (`?lng=en`) | - |
-| `cookie` | Cookie | - |
-| `localStorage` | LocalStorage | Browser only |
-| `sessionStorage` | SessionStorage | Browser only |
-| `navigator` | Browser language settings | Browser only |
-| `htmlTag` | `<html lang="...">` | Browser only |
-| `header` | `Accept-Language` request header | - |
-| `path` | URL path (requires `localePathRedirect`) | - |
-| `subdomain` | Subdomain (`en.example.com`) | - |
+| Value            | Source                                   | Limitation   |
+| ---------------- | ---------------------------------------- | ------------ |
+| `querystring`    | URL query parameter (`?lng=en`)          | -            |
+| `cookie`         | Cookie                                   | -            |
+| `localStorage`   | LocalStorage                             | Browser only |
+| `sessionStorage` | SessionStorage                           | Browser only |
+| `navigator`      | Browser language settings                | Browser only |
+| `htmlTag`        | `<html lang="...">`                      | Browser only |
+| `header`         | `Accept-Language` request header         | -            |
+| `path`           | URL path (requires `localePathRedirect`) | -            |
+| `subdomain`      | Subdomain (`en.example.com`)             | -            |
 
 ## ignoreRedirectRoutes
 
@@ -118,7 +127,7 @@ Specify which paths should skip locale path redirects. This is useful for API ro
 **Syntax 1: string array** (supports exact match and prefix match)
 
 ```ts
-ignoreRedirectRoutes: ['/api', '/admin', '/static']
+ignoreRedirectRoutes: ['/api', '/admin', '/static'];
 // '/api' matches both /api and /api/users.
 ```
 

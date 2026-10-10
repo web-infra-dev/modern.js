@@ -1,6 +1,7 @@
 ---
 title: render
 ---
+
 # render
 
 It is used to render project components.
@@ -16,7 +17,10 @@ render(<ModernRoot />);
 ## Function Signature
 
 ```ts
-export function render(App: React.ReactElement, id?: HTMLElement | string): Promise<any>;
+export function render(
+  App: React.ReactElement,
+  id?: HTMLElement | string,
+): Promise<any>;
 ```
 
 ### Parameters
@@ -33,7 +37,7 @@ import { render } from '@modern-js/runtime/browser';
 const ModernRoot = createRoot();
 
 async function beforeRender() {
-   // todo
+  // todo
 }
 
 beforeRender().then(() => {

@@ -22,10 +22,10 @@ Modern.js 3.0 将项目默认入口名称改为 `index`，默认构建出的 HTM
 
 Modern.js 3.0 对部分运行时进行了调整，需要更新相关的导入路径。路径映射对照如下：
 
-| 旧版路径 | 新版路径 | 说明 |
-|---------|---------|------|
-| `@modern-js/runtime/bff` | `@modern-js/plugin-bff/runtime` | BFF 运行时路径 |
-| `@modern-js/runtime/server` | `@modern-js/server-runtime` | 服务端运行时路径 |
+| 旧版路径                    | 新版路径                        | 说明             |
+| --------------------------- | ------------------------------- | ---------------- |
+| `@modern-js/runtime/bff`    | `@modern-js/plugin-bff/runtime` | BFF 运行时路径   |
+| `@modern-js/runtime/server` | `@modern-js/server-runtime`     | 服务端运行时路径 |
 
 ## useRuntimeContext 已废弃
 
@@ -80,7 +80,6 @@ Modern.js 3.0 不再支持 Modern.js 1.0 版本引入的 `pages` 目录的约定
 Modern.js 3.0 将 `server.ssr.mode` 的默认值从 `'string'` 改为 `'stream'`。这意味着当启用 SSR 时，默认使用流式渲染（streaming rendering）而不是传统的字符串渲染。
 
 对于 React 18 及以上项目，把 `ssr.mode` 的值由 `'stream'` 改为 `'string'`，不对 Data Loader 中的代码进行修改或使用 Suspense 的话，从渲染结果上没有任何影响。如果你的项目依赖了 React17，请把 `ssr.mode` 的值手动设置为 `'string'`。
-
 
 ## 使用 React Router v7
 
@@ -182,9 +181,3 @@ antd v5 使用了 CSS-in-JS 方案，已原生支持按需加载，无需配置 
 ## Eslint 规则集
 
 Modern.js 之前提供了 ESLint 的完整规则集，涵盖了 @modern-js（针对 Node.js 项目的 Lint 规则）和 @modern-js-app（针对前端项目的 Lint 规则）。在 [v2.60.0](https://github.com/web-infra-dev/modern.js/releases/tag/v2.60.0) 版本中，我们正式移除了这些规则集。我们鼓励开发者根据自身需求选择合适的代码规范工具，直接使用 ESLint 并结合社区推荐的规则，或使用 Biome 以提升代码格式化的性能。
-
-
-
-
-
-

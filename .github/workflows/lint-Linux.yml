@@ -27,7 +27,7 @@ jobs:
         uses: actions/checkout@f43a0e5ff2bd294095638e18286ca9a3d1956744 # v3
         with:
           # This makes Actions fetch only one branch to release
-            fetch-depth: 1
+          fetch-depth: 1
 
       - name: Install Pnpm
         run: npm i -g --force corepack && corepack enable
@@ -35,7 +35,7 @@ jobs:
       - name: Setup Node.js 22
         uses: actions/setup-node@3235b876344d2a9aa001b8d1453c930bba69e610 # v3
         with:
-          node-version: "22"
+          node-version: '22'
           cache: 'pnpm'
 
       - name: Install Dependencies
@@ -46,6 +46,9 @@ jobs:
 
       - name: Lint
         run: pnpm run lint
+
+      - name: Check Formatting
+        run: pnpm run format:check
 
       - name: Check Changeset
         run: pnpm run check-changeset

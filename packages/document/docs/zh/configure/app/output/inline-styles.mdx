@@ -8,8 +8,7 @@ title: inlineStyles
 
 ```ts
 type InlineStylesTest =
-  | RegExp
-  | ((params: { size: number; name: string }) => boolean);
+  RegExp | ((params: { size: number; name: string }) => boolean);
 
 type InlineStyles =
   | boolean

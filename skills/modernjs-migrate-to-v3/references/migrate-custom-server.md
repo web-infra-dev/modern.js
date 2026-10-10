@@ -8,7 +8,10 @@
 
 ```ts
 // 旧 - server/index.ts
-export const unstableMiddleware: UnstableMiddleware[] = [middleware1, middleware2];
+export const unstableMiddleware: UnstableMiddleware[] = [
+  middleware1,
+  middleware2,
+];
 
 // 新 - server/modern.server.ts
 import { defineServerConfig } from '@modern-js/server-runtime';
@@ -26,7 +29,10 @@ export default defineServerConfig({
 // 旧：不调用 next 也会继续渲染
 const m: UnstableMiddleware = async (c, next) => c.response.raw('resp');
 // 新：必须 await next()
-import { defineServerConfig, type MiddlewareHandler } from '@modern-js/server-runtime';
+import {
+  defineServerConfig,
+  type MiddlewareHandler,
+} from '@modern-js/server-runtime';
 const m: MiddlewareHandler = async (c, next) => {
   await next();
   return c.text('resp');
@@ -35,16 +41,16 @@ const m: MiddlewareHandler = async (c, next) => {
 
 ## Context API：Modern.js Server Context → Hono Context
 
-| 旧 | 新 |
-| --- | --- |
-| `c.request.cookie` / `c.req.cookie()` | `getCookie(c, 'key')` |
-| `c.request.pathname` | `c.req.path` |
-| `c.request.host` | `c.req.header('Host')` |
-| `c.request.query` | `c.req.query()` |
-| `c.request.headers` | `c.req.header()` |
-| `c.response.status` | `c.status()` |
-| `c.response.set` | `c.res.headers.set` |
-| `c.response.raw` | `c.text` / `c.json` |
+| 旧                                    | 新                     |
+| ------------------------------------- | ---------------------- |
+| `c.request.cookie` / `c.req.cookie()` | `getCookie(c, 'key')`  |
+| `c.request.pathname`                  | `c.req.path`           |
+| `c.request.host`                      | `c.req.header('Host')` |
+| `c.request.query`                     | `c.req.query()`        |
+| `c.request.headers`                   | `c.req.header()`       |
+| `c.response.status`                   | `c.status()`           |
+| `c.response.set`                      | `c.res.headers.set`    |
+| `c.response.raw`                      | `c.text` / `c.json`    |
 
 ## afterRender Hook → renderMiddlewares
 

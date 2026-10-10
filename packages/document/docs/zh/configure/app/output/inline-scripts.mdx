@@ -8,8 +8,7 @@ title: inlineScripts
 
 ```ts
 type InlineScriptsTest =
-  | RegExp
-  | ((params: { size: number; name: string }) => boolean);
+  RegExp | ((params: { size: number; name: string }) => boolean);
 
 type InlineScripts =
   | boolean

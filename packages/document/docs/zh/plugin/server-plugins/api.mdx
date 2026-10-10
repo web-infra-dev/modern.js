@@ -46,17 +46,17 @@ export default myServerPlugin;
 
 - **返回值：** `ServerContext` 对象，包含以下字段：
 
-| 字段名            | 类型                | 描述                           |
-| ----------------- | ------------------- | ------------------------------ |
-| `middlewares`     | `MiddlewareObj[]`   | 中间件列表                     |
-| `renderMiddlewares` | `MiddlewareObj[]` | 渲染中间件列表                 |
-| `routes`          | `ServerRoute[]`     | 服务器路由信息                 |
-| `appDirectory`    | `string`            | 项目根目录的绝对路径           |
-| `apiDirectory`    | `string`            | API 模块目录的绝对路径         |
-| `lambdaDirectory` | `string`            | Lambda 模块目录的绝对路径     |
-| `sharedDirectory` | `string`            | 公共模块目录的绝对路径         |
-| `distDirectory`   | `string`            | 项目产物输出目录的绝对路径     |
-| `plugins`         | `ServerPlugin[]`    | 当前已注册的插件列表           |
+| 字段名              | 类型              | 描述                       |
+| ------------------- | ----------------- | -------------------------- |
+| `middlewares`       | `MiddlewareObj[]` | 中间件列表                 |
+| `renderMiddlewares` | `MiddlewareObj[]` | 渲染中间件列表             |
+| `routes`            | `ServerRoute[]`   | 服务器路由信息             |
+| `appDirectory`      | `string`          | 项目根目录的绝对路径       |
+| `apiDirectory`      | `string`          | API 模块目录的绝对路径     |
+| `lambdaDirectory`   | `string`          | Lambda 模块目录的绝对路径  |
+| `sharedDirectory`   | `string`          | 公共模块目录的绝对路径     |
+| `distDirectory`     | `string`          | 项目产物输出目录的绝对路径 |
+| `plugins`           | `ServerPlugin[]`  | 当前已注册的插件列表       |
 
 - **示例：**
 
@@ -111,7 +111,6 @@ await hooks.onPrepare.call();
 
 ---
 
-
 ## 上下文修改
 
 #### `api.updateServerContext`
@@ -142,7 +141,6 @@ api.onPrepare(() => {
 ```
 
 ---
-
 
 ## 生命周期钩子
 
@@ -204,7 +202,6 @@ api.onReset(async ({ event }) => {
 ```
 
 ---
-
 
 ## 其他说明
 

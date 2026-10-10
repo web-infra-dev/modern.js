@@ -144,8 +144,6 @@ export type SSGMultiEntryOptions = Record<
 >;
 
 export type SSGConfig =
-  | boolean
-  | SSGSingleEntryOptions
-  | SSGSingleEntryOptionsFactory;
+  boolean | SSGSingleEntryOptions | SSGSingleEntryOptionsFactory;
 
 export type { Merge } from 'type-fest';

@@ -17,11 +17,7 @@ type CssModules = {
         resourceFragment: string,
       ) => boolean);
   exportLocalsConvention?:
-    | 'asIs'
-    | 'camelCase'
-    | 'camelCaseOnly'
-    | 'dashes'
-    | 'dashesOnly';
+    'asIs' | 'camelCase' | 'camelCaseOnly' | 'dashes' | 'dashesOnly';
   exportGlobals?: boolean;
   localIdentName?: string;
   mode?:

@@ -32,16 +32,16 @@ This application extends the existing `custom-i18n-wrapper` CSR fixture with SSR
 regression coverage. Both share one instance implementation, resource loader,
 runtime configuration, and browser test setup.
 
-| Case | Coverage |
-| --- | --- |
-| Existing CSR resource loading | Accept the original initial translation, then require the SDK translation through the context instance. |
-| Existing CSR language switch | Switch en → zh → en and retain the original translation assertions. |
-| SSR query detection | Request `?lng=zh-Hant-TW` and inspect the raw server HTML and serialized language. |
-| SSR cookie detection | Send the i18next cookie and inspect the raw server HTML and serialized language. |
-| SSR header detection | Send Accept-Language and inspect the raw server HTML and serialized language. |
-| SSR hydration | Keep the server-selected language after React hydration. |
-| CSR query detection | Detect the query language without an HTTP redirect or client-side URL change. |
-| CSR direct calls | Initialize the imported custom instance and translate through `I18n.t()` before and after language switches. |
+| Case                          | Coverage                                                                                                     |
+| ----------------------------- | ------------------------------------------------------------------------------------------------------------ |
+| Existing CSR resource loading | Accept the original initial translation, then require the SDK translation through the context instance.      |
+| Existing CSR language switch  | Switch en → zh → en and retain the original translation assertions.                                          |
+| SSR query detection           | Request `?lng=zh-Hant-TW` and inspect the raw server HTML and serialized language.                           |
+| SSR cookie detection          | Send the i18next cookie and inspect the raw server HTML and serialized language.                             |
+| SSR header detection          | Send Accept-Language and inspect the raw server HTML and serialized language.                                |
+| SSR hydration                 | Keep the server-selected language after React hydration.                                                     |
+| CSR query detection           | Detect the query language without an HTTP redirect or client-side URL change.                                |
+| CSR direct calls              | Initialize the imported custom instance and translate through `I18n.t()` before and after language switches. |
 
 The CSR page keeps the context instance's `loaded` and `languageChanged` event
 subscriptions for the existing SDK tests, alongside the direct `I18n.t()` output.

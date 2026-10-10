@@ -160,13 +160,22 @@ npx rstest copy-assets
 
 ## Linting
 
-为了帮助保持代码风格的一致性和可读性，我们使用 Biome 对代码进行校验和格式化。
+为了帮助保持代码风格的一致性和可读性，我们使用 [Rstack CLI](https://rstack.rs/) 进行代码校验和格式化。
 
 你可以执行以下命令来运行 Linter：
 
 ```sh
 pnpm run lint
 ```
+
+在仓库根目录运行格式化命令，或仅检查格式而不修改文件：
+
+```sh
+pnpm run format
+pnpm run format:check
+```
+
+可以在命令后追加文件或目录路径来缩小范围。
 
 ## Benchmarking
 

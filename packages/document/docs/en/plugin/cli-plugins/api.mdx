@@ -39,29 +39,29 @@ Gets the context information of the Modern.js application.
 
 - **Returns:** An `AppContext` object containing the following fields:
 
-| Field Name             | Type                | Description                                                      | When Available               |
-| ---------------------- | ------------------- | ---------------------------------------------------------------- | ---------------------------- |
-| `command`              | `string`            | The currently executing command (e.g., `dev`, `build`, `deploy`) | -                            |
-| `port`                 | `number`            | The development server port number                               | After `onPrepare`            |
-| `configFile`           | `string`            | The absolute path to the configuration file                      | -                            |
-| `isProd`               | `boolean`           | Whether it is in production mode                                 | -                            |
-| `appDirectory`         | `string`            | The absolute path to the project root directory                  | -                            |
-| `srcDirectory`         | `string`            | The absolute path to the project source code directory           | -                            |
-| `distDirectory`        | `string`            | The absolute path to the project output directory                | In `onPrepare` (and later)   |
-| `sharedDirectory`      | `string`            | The absolute path to the shared modules directory                | -                            |
-| `nodeModulesDirectory` | `string`            | The absolute path to the `node_modules` directory                | -                            |
-| `ip`                   | `string`            | The IPv4 address of the current machine                          | -                            |
-| `packageName`          | `string`            | The `name` field in the project's `package.json`                 | -                            |
-| `plugins`              | `object[]`          | The list of currently registered plugins                         | -                            |
-| `entrypoints`          | `object[]`          | Information about page entry points                              | -                            |
-| `serverRoutes`         | `object[]`          | Server-side routing information                                  | -                            |
-| `bundlerType`          | `webpack \| rspack` | The type of bundler currently in use (`webpack` or `rspack`)     | After `onPrepare`            |
-| `metaName`             | `string`            | The internal name of the framework                               | -                            |
-| `apiDirectory`         | `string`            | The absolute path to the API module directory (used by BFF)      | -                            |
-| `lambdaDirectory`      | `string`            | The absolute path to the Lambda module directory (used by BFF)   | -                            |
-| `runtimeConfigFile`    | `string`            | The name of the runtime configuration file                       | -                            |
-| `checkedEntries`       | `string[]`          | Specified entry information                                      | -                            |
-| `apiOnly`              | `boolean`           | Whether it is in `apiOnly` mode                                  | -                            |
+| Field Name             | Type                | Description                                                      | When Available             |
+| ---------------------- | ------------------- | ---------------------------------------------------------------- | -------------------------- |
+| `command`              | `string`            | The currently executing command (e.g., `dev`, `build`, `deploy`) | -                          |
+| `port`                 | `number`            | The development server port number                               | After `onPrepare`          |
+| `configFile`           | `string`            | The absolute path to the configuration file                      | -                          |
+| `isProd`               | `boolean`           | Whether it is in production mode                                 | -                          |
+| `appDirectory`         | `string`            | The absolute path to the project root directory                  | -                          |
+| `srcDirectory`         | `string`            | The absolute path to the project source code directory           | -                          |
+| `distDirectory`        | `string`            | The absolute path to the project output directory                | In `onPrepare` (and later) |
+| `sharedDirectory`      | `string`            | The absolute path to the shared modules directory                | -                          |
+| `nodeModulesDirectory` | `string`            | The absolute path to the `node_modules` directory                | -                          |
+| `ip`                   | `string`            | The IPv4 address of the current machine                          | -                          |
+| `packageName`          | `string`            | The `name` field in the project's `package.json`                 | -                          |
+| `plugins`              | `object[]`          | The list of currently registered plugins                         | -                          |
+| `entrypoints`          | `object[]`          | Information about page entry points                              | -                          |
+| `serverRoutes`         | `object[]`          | Server-side routing information                                  | -                          |
+| `bundlerType`          | `webpack \| rspack` | The type of bundler currently in use (`webpack` or `rspack`)     | After `onPrepare`          |
+| `metaName`             | `string`            | The internal name of the framework                               | -                          |
+| `apiDirectory`         | `string`            | The absolute path to the API module directory (used by BFF)      | -                          |
+| `lambdaDirectory`      | `string`            | The absolute path to the Lambda module directory (used by BFF)   | -                          |
+| `runtimeConfigFile`    | `string`            | The name of the runtime configuration file                       | -                          |
+| `checkedEntries`       | `string[]`          | Specified entry information                                      | -                          |
+| `apiOnly`              | `boolean`           | Whether it is in `apiOnly` mode                                  | -                          |
 
 - **Example:**
 

@@ -1,6 +1,7 @@
 ---
 title: createRoot
 ---
+
 # createRoot
 
 It is used to create the root component provided by Modern.js, which will automatically register Runtime plugins and complete the initialization of Runtime plugins.
@@ -14,7 +15,9 @@ import { createRoot } from '@modern-js/runtime/react';
 ## Function Signature
 
 ```ts
-export function createRoot(UserApp?: React.ComponentType | null): React.ComponentType<any>;
+export function createRoot(
+  UserApp?: React.ComponentType | null,
+): React.ComponentType<any>;
 ```
 
 ### Parameters

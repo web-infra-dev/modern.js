@@ -1,7 +1,6 @@
 export async function createBuilderGenerator() {
-  const { createRspackBuilderForModern } = await import(
-    './builder-rspack/index.js'
-  );
+  const { createRspackBuilderForModern } =
+    await import('./builder-rspack/index.js');
   return createRspackBuilderForModern;
 }
 
