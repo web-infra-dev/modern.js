@@ -73,3 +73,8 @@ export const resolveESMDependency = async (entry: string) => {
     // ignore
   }
 };
+
+export const createCopyWholePackage =
+  (copyWholePackages: string[] = []) =>
+  (pkgName: string) =>
+    pkgName === '@modern-js/utils' || copyWholePackages.includes(pkgName);
