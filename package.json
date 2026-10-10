@@ -48,7 +48,7 @@
     "check-doc-bundle": "cd ./scripts/check-doc-bundle && pnpm start"
   },
   "engines": {
-    "node": ">=20",
+    "node": "^22.18.0 || >=24.3.0",
     "pnpm": ">=10.0.0"
   },
   "packageManager": "pnpm@10.13.1",
