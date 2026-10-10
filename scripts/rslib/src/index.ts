@@ -54,9 +54,6 @@ export const rslibConfig: RslibConfig = {
         },
         target: 'web' as const,
       },
-      dts: {
-        distPath: 'dist/types',
-      },
     },
     {
       id: 'cjs-node',
