@@ -18,7 +18,6 @@
   ],
   "scripts": {
     "dev": "rs doc",
-    "dev:no_lazy": "LAZY=false rs doc",
     "build": "rs doc build",
     "preview": "rs doc preview"
   },

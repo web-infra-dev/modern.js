@@ -111,9 +111,6 @@ define.doc({
     output: {
       dataUriLimit: 0,
     },
-    dev: {
-      lazyCompilation: process.env.LAZY !== 'false',
-    },
     resolve: {
       alias: {
         '@site-docs': path.join(import.meta.dirname, './docs/zh'),
