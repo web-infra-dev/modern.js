@@ -5,11 +5,7 @@ export {
 } from './hono';
 export type { ServerNodeContext, ServerNodeMiddleware } from './hono';
 
-export {
-  createNodeServer,
-  sendResponse,
-  createWebRequest,
-} from './node';
+export { createNodeServer, sendResponse, createWebRequest } from './node';
 
 export {
   serverStaticPlugin,

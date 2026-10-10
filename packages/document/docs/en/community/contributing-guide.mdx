@@ -161,13 +161,22 @@ npx rstest copy-assets
 
 ## Linting
 
-To help maintain consistency and readability across the codebase, we use Biome for linting and formatting.
+To help maintain consistency and readability across the codebase, we use Biome for linting and import organization, and Rstack CLI for formatting.
 
 You can run the Linter by executing the following command:
 
 ```sh
 pnpm run lint
 ```
+
+Run the formatter from the repository root, or check formatting without modifying files:
+
+```sh
+pnpm run format
+pnpm run format:check
+```
+
+Append a file or directory path to either command to limit its scope. Formatting requires Node.js `^22.18.0 || >=24.3.0`; the root package’s Node.js requirement remains `>=20`.
 
 ## Benchmarking
 

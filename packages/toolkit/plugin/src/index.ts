@@ -8,11 +8,7 @@ export {
   createAsyncPipelineHook,
 } from './hooks';
 
-export type {
-  Plugin,
-  PluginManager,
-  TransformFunction,
-} from './types/plugin';
+export type { Plugin, PluginManager, TransformFunction } from './types/plugin';
 export type {
   CLIPluginAPI,
   AppContext,

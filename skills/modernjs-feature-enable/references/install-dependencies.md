@@ -12,13 +12,13 @@ git rev-parse --show-toplevel
 
 ## 2. 检测包管理器（按优先级，命中即停）
 
-| 锁文件 / 标记 | 包管理器 | 安装命令 |
-| --- | --- | --- |
-| `pnpm-lock.yaml` | pnpm | `pnpm install` |
-| `yarn.lock` | yarn | `yarn install` |
-| `bun.lockb` | bun | `bun install` |
-| `package-lock.json` | npm | `npm install` |
-| 以上都没有 | 默认 pnpm | `pnpm install` |
+| 锁文件 / 标记       | 包管理器  | 安装命令       |
+| ------------------- | --------- | -------------- |
+| `pnpm-lock.yaml`    | pnpm      | `pnpm install` |
+| `yarn.lock`         | yarn      | `yarn install` |
+| `bun.lockb`         | bun       | `bun install`  |
+| `package-lock.json` | npm       | `npm install`  |
+| 以上都没有          | 默认 pnpm | `pnpm install` |
 
 ## 3. 执行
 

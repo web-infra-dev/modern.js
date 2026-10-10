@@ -24,9 +24,7 @@ export interface FileChangeEvent {
 
 export type ResetEvent = RepackEvent | FileChangeEvent;
 
-export type OnResetFn = (params: {
-  event: ResetEvent;
-}) => Promise<void> | void;
+export type OnResetFn = (params: { event: ResetEvent }) => Promise<void> | void;
 
 export type Hooks<ServerConfig> = {
   modifyConfig: AsyncHook<ModifyConfigFn<ServerConfig>>;

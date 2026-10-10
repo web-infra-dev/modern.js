@@ -1,7 +1,7 @@
-name: "🐞 Bug 报告"
+name: '🐞 Bug 报告'
 description: 给 Modern.js 报告 bug
-title: "[Bug]: "
-labels: ["bug"]
+title: '[Bug]: '
+labels: ['bug']
 body:
   - type: markdown
     attributes:
@@ -37,7 +37,7 @@ body:
     id: repro
     attributes:
       label: 复现链接
-      description: "请提供一个精炼的问题复现（去除无关依赖的最小化可运行 demo）。 你可以基于 CodePen 进行创建（[<kbd>⌘</kbd>点击这里打开模板](https://codepen.io/Justineo/pen/yLbxxOR)），或者提供复现项目的仓库地址："
+      description: '请提供一个精炼的问题复现（去除无关依赖的最小化可运行 demo）。 你可以基于 CodePen 进行创建（[<kbd>⌘</kbd>点击这里打开模板](https://codepen.io/Justineo/pen/yLbxxOR)），或者提供复现项目的仓库地址：'
       placeholder: 将链接粘贴到此处
     validations:
       required: true

@@ -16,10 +16,7 @@ import type {
 export type { DevServerHttpsOptions };
 
 type StaticOrigin =
-  | boolean
-  | string
-  | RegExp
-  | Array<boolean | string | RegExp>;
+  boolean | string | RegExp | Array<boolean | string | RegExp>;
 
 type CustomOrigin = (
   requestOrigin: string | undefined,

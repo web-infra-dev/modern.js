@@ -32,9 +32,8 @@ export const routerPlugin = (): CliPlugin<AppTools> => ({
         .command('routes')
         .description('generate routes inspect report')
         .action(async () => {
-          const { generateRoutesInspectReport } = await import(
-            './code/inspect'
-          );
+          const { generateRoutesInspectReport } =
+            await import('./code/inspect');
           await generateRoutesInspectReport(api);
         });
     });

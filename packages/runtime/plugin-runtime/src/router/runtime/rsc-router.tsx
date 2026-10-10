@@ -59,8 +59,7 @@ function collectCssFilesFromRoutes(
 
     // Try to get entryCssFiles from Component property
     const component = route.Component as
-      | (React.ComponentType & { entryCssFiles?: string[] })
-      | undefined;
+      (React.ComponentType & { entryCssFiles?: string[] }) | undefined;
     if (
       component &&
       typeof component === 'function' &&

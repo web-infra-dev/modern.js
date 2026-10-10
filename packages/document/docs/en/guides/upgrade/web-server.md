@@ -21,7 +21,10 @@ These two approaches are mutually exclusive in the legacy version. When migratin
 
 ```typescript
 // Legacy - server/index.ts
-export const unstableMiddleware: UnstableMiddleware[] = [middleware1, middleware2];
+export const unstableMiddleware: UnstableMiddleware[] = [
+  middleware1,
+  middleware2,
+];
 
 // New - server/modern.server.ts
 import { defineServerConfig } from '@modern-js/server-runtime';
@@ -38,13 +41,22 @@ export default defineServerConfig({
 
 ```typescript
 // Legacy
-import type { UnstableMiddleware, UnstableMiddlewareContext } from '@modern-js/server-runtime';
-const middleware: UnstableMiddleware = async (c: UnstableMiddlewareContext, next) => {
+import type {
+  UnstableMiddleware,
+  UnstableMiddlewareContext,
+} from '@modern-js/server-runtime';
+const middleware: UnstableMiddleware = async (
+  c: UnstableMiddlewareContext,
+  next,
+) => {
   return c.response.raw('response'); // Will continue rendering even without calling next
 };
 
 // New
-import { defineServerConfig, type MiddlewareHandler } from '@modern-js/server-runtime';
+import {
+  defineServerConfig,
+  type MiddlewareHandler,
+} from '@modern-js/server-runtime';
 const middleware: MiddlewareHandler = async (c, next) => {
   await next(); // Must call
   return c.text('response');
@@ -53,17 +65,17 @@ const middleware: MiddlewareHandler = async (c, next) => {
 
 ### Context API Comparison
 
-| Legacy API               | New API                 | Description            |
-| -------------------- | ---------------------- | ------------- |
-| `c.request.cookie`   | `getCookie(c, 'key')`  | Cookie reading      |
-| `c.req.cookie()`     | `getCookie(c, 'key')`  | Hono v4 deprecated    |
-| `c.request.pathname` | `c.req.path`           | Request path          |
-| `c.request.host`     | `c.req.header('Host')` | Request host          |
-| `c.request.query`    | `c.req.query()`        | Query parameters          |
-| `c.request.headers`  | `c.req.header()`       | Request headers           |
-| `c.response.status`  | `c.status()`           | Response status code         |
-| `c.response.set`     | `c.res.headers.set`    | Set response headers         |
-| `c.response.raw`     | `c.text` / `c.json`    | Response body           |
+| Legacy API           | New API                | Description          |
+| -------------------- | ---------------------- | -------------------- |
+| `c.request.cookie`   | `getCookie(c, 'key')`  | Cookie reading       |
+| `c.req.cookie()`     | `getCookie(c, 'key')`  | Hono v4 deprecated   |
+| `c.request.pathname` | `c.req.path`           | Request path         |
+| `c.request.host`     | `c.req.header('Host')` | Request host         |
+| `c.request.query`    | `c.req.query()`        | Query parameters     |
+| `c.request.headers`  | `c.req.header()`       | Request headers      |
+| `c.response.status`  | `c.status()`           | Response status code |
+| `c.response.set`     | `c.res.headers.set`    | Set response headers |
+| `c.response.raw`     | `c.text` / `c.json`    | Response body        |
 
 ## afterRender Hook
 
@@ -88,7 +100,10 @@ export const afterRender = (ctx, next) => {
 };
 
 // New - server/modern.server.ts
-import { defineServerConfig, type MiddlewareHandler } from '@modern-js/server-runtime';
+import {
+  defineServerConfig,
+  type MiddlewareHandler,
+} from '@modern-js/server-runtime';
 
 const renderMiddleware: MiddlewareHandler = async (c, next) => {
   await next(); // Wait for page rendering first
@@ -104,6 +119,8 @@ const renderMiddleware: MiddlewareHandler = async (c, next) => {
 };
 
 export default defineServerConfig({
-  renderMiddlewares: [{ name: 'custom-content-injection', handler: renderMiddleware }],
+  renderMiddlewares: [
+    { name: 'custom-content-injection', handler: renderMiddleware },
+  ],
 });
 ```

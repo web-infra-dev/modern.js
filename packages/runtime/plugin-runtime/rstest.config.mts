@@ -57,7 +57,10 @@ export default {
               ({
                 code,
                 resourcePath,
-              }: { code: string; resourcePath: string }) => {
+              }: {
+                code: string;
+                resourcePath: string;
+              }) => {
                 return code.replace(
                   '__webpack_chunk_load__',
                   '__webpack_chunk_load_test__',

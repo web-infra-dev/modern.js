@@ -1,7 +1,7 @@
-name: "🐞 Bug Report"
+name: '🐞 Bug Report'
 description: Report a Bug to Modern.js
-title: "[Bug]: "
-labels: ["bug"]
+title: '[Bug]: '
+labels: ['bug']
 body:
   - type: markdown
     attributes:
@@ -37,7 +37,7 @@ body:
     id: repro
     attributes:
       label: Reproduce link
-      description: "Please provide a simplest reproduction of the problem (minimal demo without redundant dependencies). You can create it on CodePen ([<kbd>⌘</kbd>Click here to open the template](https://codepen.io/Justineo/pen/yLbxxOR)), or provide the URL of the project:"
+      description: 'Please provide a simplest reproduction of the problem (minimal demo without redundant dependencies). You can create it on CodePen ([<kbd>⌘</kbd>Click here to open the template](https://codepen.io/Justineo/pen/yLbxxOR)), or provide the URL of the project:'
       placeholder: paste link here
     validations:
       required: true

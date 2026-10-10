@@ -1,7 +1,7 @@
-name: "✨ Feature Request"
+name: '✨ Feature Request'
 description: Submit a new feature request to Modern.js
-title: "[Feature]: "
-labels: ["✨ feature request"]
+title: '[Feature]: '
+labels: ['✨ feature request']
 body:
   - type: markdown
     attributes:

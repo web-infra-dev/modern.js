@@ -60,7 +60,7 @@ export const createReadableStreamFromElement: CreateReadableStreamFromElement =
       // from: https://react.dev/reference/react-dom/server/renderToReadableStream#handling-different-errors-in-different-ways
       const forceStreamToString = Boolean(
         typeof process !== 'undefined' &&
-          process.env?.MODERN_JS_STREAM_TO_STRING,
+        process.env?.MODERN_JS_STREAM_TO_STRING,
       );
       const { waitForAllReady } = resolveStreamingMode(
         request,
