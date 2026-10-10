@@ -54,7 +54,7 @@
     "http-compression": "1.0.6",
     "minimatch": "^3.1.5",
     "path-to-regexp": "^6.3.0",
-    "ws": "^8.21.3"
+    "ws": "^8.22.0"
   },
   "devDependencies": {
     "@modern-js/builder": "workspace:*",
