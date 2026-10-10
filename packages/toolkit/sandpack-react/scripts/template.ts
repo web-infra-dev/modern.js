@@ -9,6 +9,7 @@ const IgnoreFiles = [
   '.vscode/settings.json',
   '.husky/pre-commit',
   'README.md',
+  'rstack.config.mts',
 ];
 
 export async function handleTemplate(
@@ -68,7 +69,13 @@ async function handleCreateTemplate() {
   const files = await handleTemplate(templateDir, {
     packageName: 'modern-app',
     version,
+    // Online demos omit repository-level linting and formatting tools.
+    isSubproject: true,
   });
+
+  const packageJson = JSON.parse(files['package.json']);
+  packageJson.engines.node = '>=20';
+  files['package.json'] = `${JSON.stringify(packageJson, null, 2)}\n`;
 
   return files;
 }

@@ -38,17 +38,17 @@ npx @modern-js/create@latest myapp
 
 ⚡ 启动开发服务器：
 
-  pnpm start
+  pnpm dev
 ```
 
 现在，项目结构如下：
 
 ```
 .
-├── biome.json
 ├── modern.config.ts
 ├── package.json
 ├── README.md
+├── rstack.config.mts
 ├── src
 │   ├── modern-app-env.d.ts
 │   ├── modern.runtime.ts
@@ -57,4 +57,11 @@ npx @modern-js/create@latest myapp
 │       ├── layout.tsx
 │       └── page.tsx
 └── tsconfig.json
+```
+
+新建的独立项目使用 [Rstack CLI](https://rstack.rs/) 进行代码校验和格式化：
+
+```bash
+pnpm check
+pnpm format
 ```

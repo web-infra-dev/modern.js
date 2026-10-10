@@ -241,20 +241,6 @@ async function main() {
   const packageJson = JSON.parse(fs.readFileSync(targetPackageJson, 'utf-8'));
   packageJson.name = projectName;
 
-  if (isSubproject) {
-    delete packageJson['lint-staged'];
-    delete packageJson['simple-git-hooks'];
-    if (packageJson.scripts) {
-      delete packageJson.scripts.prepare;
-      delete packageJson.scripts.lint;
-    }
-    if (packageJson.devDependencies) {
-      delete packageJson.devDependencies['lint-staged'];
-      delete packageJson.devDependencies['simple-git-hooks'];
-      delete packageJson.devDependencies['@biomejs/biome'];
-    }
-  }
-
   fs.writeFileSync(
     targetPackageJson,
     `${JSON.stringify(packageJson, null, 2)}\n`,
@@ -292,7 +278,7 @@ function copyTemplate(
 
   const excludeInSubproject = [
     '.gitignore.handlebars',
-    'biome.json',
+    'rstack.config.mts',
     '.npmrc',
     '.nvmrc',
     // agent files are managed at the monorepo root in subproject setups

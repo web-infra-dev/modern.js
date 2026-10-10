@@ -60,8 +60,6 @@ define.fmt({
     '**/CHANGELOG.md',
     'packages/runtime/plugin-runtime/tests/document/feature/document/_tempTsconfig.json',
     'packages/server/server/tests/fixtures/pure/test-dist/**',
-    // Generated projects still use Biome to format this stylesheet.
-    'packages/toolkit/create/template/src/routes/index.css',
     // This HTML fixture is invalid.
     'packages/solutions/app-tools/tests/analyze/fixtures/html-templates/custom-partial/config/html/head.html',
     // This legacy declaration contains a default value in a function type.

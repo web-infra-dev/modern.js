@@ -38,17 +38,17 @@ npx @modern-js/create@latest myapp
 
 ⚡ Start the development server:
 
-  pnpm start
+  pnpm dev
 ```
 
 Now, the project structure is as follows:
 
 ```
 .
-├── biome.json
 ├── modern.config.ts
 ├── package.json
 ├── README.md
+├── rstack.config.mts
 ├── src
 │   ├── modern-app-env.d.ts
 │   ├── modern.runtime.ts
@@ -57,4 +57,11 @@ Now, the project structure is as follows:
 │       ├── layout.tsx
 │       └── page.tsx
 └── tsconfig.json
+```
+
+New standalone projects use [Rstack CLI](https://rstack.rs/) for linting and formatting:
+
+```bash
+pnpm check
+pnpm format
 ```
