@@ -73,10 +73,6 @@ async function handleCreateTemplate() {
     isSubproject: true,
   });
 
-  const packageJson = JSON.parse(files['package.json']);
-  packageJson.engines.node = '>=20';
-  files['package.json'] = `${JSON.stringify(packageJson, null, 2)}\n`;
-
   return files;
 }
 
