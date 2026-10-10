@@ -1,120 +1,94 @@
 {
-  "$schema": "https://docs.renovatebot.com/renovate-schema.json",
-  "extends": ["config:recommended"],
-  "baseBranchPatterns": ["main", "v2"],
-  "rangeStrategy": "bump",
-  "schedule": ["every weekend"],
-  "ignorePaths": [
-    "**/node_modules/**",
-    "packages/toolkit/utils/tests/fixtures/plugin",
+  $schema: 'https://docs.renovatebot.com/renovate-schema.json',
+  extends: ['config:recommended'],
+  baseBranchPatterns: ['main', 'v2'],
+  rangeStrategy: 'bump',
+  schedule: ['every weekend'],
+  ignorePaths: [
+    '**/node_modules/**',
+    'packages/toolkit/utils/tests/fixtures/plugin',
     // demo apps: they track the published packages (`latest`) and are exempt
     // from the workspace version-consistency check, so Renovate skips them too.
     // Everything else (packages, scripts, tests fixtures) stays in scope so one
     // update bumps a dependency everywhere and versions remain consistent.
-    "examples/**",
+    'examples/**',
   ],
-  "lockFileMaintenance": {
-    "enabled": false
+  lockFileMaintenance: {
+    enabled: false,
   },
-  "ignoreScripts": false,
-  "packageRules": [
+  ignoreScripts: false,
+  packageRules: [
     {
-      "matchDepTypes": [
-        "action"
-      ],
-      "pinDigests": true
+      matchDepTypes: ['action'],
+      pinDigests: true,
     },
     // ignore all major update
     {
-      "matchUpdateTypes": ["lockFileMaintenance", "pin", "digest"],
-      "enabled": false
+      matchUpdateTypes: ['lockFileMaintenance', 'pin', 'digest'],
+      enabled: false,
     },
     {
-      "matchUpdateTypes": ["major"],
-      "enabled": false
+      matchUpdateTypes: ['major'],
+      enabled: false,
     },
     {
-      "matchPackageNames": [
-        "@rspress/**",
-        "rspress",
-      ],
-      "groupName": "rspress monorepo",
-      "groupSlug": "rspress",
+      matchPackageNames: ['@rspress/**', 'rspress'],
+      groupName: 'rspress monorepo',
+      groupSlug: 'rspress',
     },
     {
-      "matchPackageNames": [
-        "@rstest/**",
-      ],
-      "groupName": "rstest monorepo",
-      "groupSlug": "rstest",
+      matchPackageNames: ['@rstest/**'],
+      groupName: 'rstest monorepo',
+      groupSlug: 'rstest',
     },
     {
-      "matchPackageNames": [
-        "@rsbuild/**",
-      ],
-      "matchUpdateTypes": ["minor", "patch"],
-      "groupName": "rsbuild monorepo",
-      "groupSlug": "rsbuild",
-      "schedule": ["at any time"]
+      matchPackageNames: ['@rsbuild/**'],
+      matchUpdateTypes: ['minor', 'patch'],
+      groupName: 'rsbuild monorepo',
+      groupSlug: 'rsbuild',
+      schedule: ['at any time'],
     },
     {
-      "matchPackageNames": [
-        "@rsdoctor/**",
-      ],
-      "groupName": "rsdoctor monorepo",
-      "groupSlug": "rsdoctor",
+      matchPackageNames: ['@rsdoctor/**'],
+      groupName: 'rsdoctor monorepo',
+      groupSlug: 'rsdoctor',
     },
     {
-      "matchPackageNames": [
-        "@modern-js/codesmith",
-        "@modern-js/codesmith-**",
-      ],
-      "groupName": "codesmith monorepo",
-      "groupSlug": "codesmith",
-      "schedule": ["at any time"]
+      matchPackageNames: ['@modern-js/codesmith', '@modern-js/codesmith-**'],
+      groupName: 'codesmith monorepo',
+      groupSlug: 'codesmith',
+      schedule: ['at any time'],
     },
     {
-      "matchPackageNames": [
-        "@remix-run/**",
-      ],
-      "groupName": "remix monorepo",
-      "groupSlug": "remix",
-      "enabled": false,
+      matchPackageNames: ['@remix-run/**'],
+      groupName: 'remix monorepo',
+      groupSlug: 'remix',
+      enabled: false,
     },
     {
-      "matchPackageNames": [
-        "@changesets/**",
-      ],
-      "groupName": "changesets monorepo",
-      "groupSlug": "changesets",
+      matchPackageNames: ['@changesets/**'],
+      groupName: 'changesets monorepo',
+      groupSlug: 'changesets',
     },
     {
-      "matchPackageNames": [
-        "@loadable/**",
-      ],
-      "groupName": "loadable monorepo",
-      "groupSlug": "loadable",
+      matchPackageNames: ['@loadable/**'],
+      groupName: 'loadable monorepo',
+      groupSlug: 'loadable',
     },
     {
-      "groupName": "types",
-      "matchPackageNames": [
-        "@types/**",
-      ],
-      "groupSlug": "types",
+      groupName: 'types',
+      matchPackageNames: ['@types/**'],
+      groupSlug: 'types',
     },
     {
-      "matchPackageNames": [
-        "actions/**",
-      ],
-      "groupName": "actions",
-      "groupSlug": "actions",
+      matchPackageNames: ['actions/**'],
+      groupName: 'actions',
+      groupSlug: 'actions',
     },
     {
-      "matchPackageNames": [
-        "@modern-js/**",
-      ],
-      "groupName": "modern",
-      "groupSlug": "modern",
+      matchPackageNames: ['@modern-js/**'],
+      groupName: 'modern',
+      groupSlug: 'modern',
     },
     // v2 is a maintenance branch: it exists so teams that cannot move to the
     // current major yet still get bugfixes. Those users chose v2 for stability,
@@ -129,63 +103,63 @@
     // packageRules, which is why major security PRs (koa 2->3, ts-deepmerge
     // 7->8) are raised even though the rule above disables major updates.
     {
-      "matchBaseBranches": ["v2"],
-      "dependencyDashboardApproval": true,
+      matchBaseBranches: ['v2'],
+      dependencyDashboardApproval: true,
     },
   ],
-  "vulnerabilityAlerts": {
-    "enabled": true,
+  vulnerabilityAlerts: {
+    enabled: true,
   },
   // One PR per dependency is intentional. Bound the number of open Renovate
   // branches instead: every open branch has to be rebased (lockfile regenerated,
   // about a minute each on the hosted runner) whenever main changes, and the
   // hosted job is killed after 30 minutes.
-  "prConcurrentLimit": 12,
-  "branchConcurrentLimit": 12,
-  "ignoreDeps": [
+  prConcurrentLimit: 12,
+  branchConcurrentLimit: 12,
+  ignoreDeps: [
     // vue is only used by test fixtures: tests/e2e/builder on both branches,
     // plus tests/integration/module/plugins/vue on v2. Every one of them pins
     // the same range, so ignoring vue cannot create a version mismatch. This
     // file is read from the default branch and applies to v2 as well, which is
     // intended: the framework does not ship Vue support, so these fixtures do
     // not need to track Vue releases.
-    "vue",
+    'vue',
     // manually update some packages
-    "pnpm",
-    "esbuild",
-    "typescript",
+    'pnpm',
+    'esbuild',
+    'typescript',
     // related to the SWC version built into Rspack
-    "@swc/helpers",
+    '@swc/helpers',
     // pure esm packages can not be used now
-    "globby",
-    "open",
-    "strip-ansi",
+    'globby',
+    'open',
+    'strip-ansi',
     // align Node.js version minimum requirements
-    "@types/node",
-    "node",
+    '@types/node',
+    'node',
     // server core hono dependency can not bump
-    "hono",
-    "@types/history",
-    "history",
-    "@types/lru-cache",
-    "@types/testing-library__jest-dom",
-    "pkg-up",
-    "styled-components",
-    "webpack",
+    'hono',
+    '@types/history',
+    'history',
+    '@types/lru-cache',
+    '@types/testing-library__jest-dom',
+    'pkg-up',
+    'styled-components',
+    'webpack',
     // need node 18
-    "http-compression",
-    "@biomejs/biome",
-    "caniuse-lite",
-    "@vercel/nft",
-    "vitest",
-    "@rsbuild-image/react",
-    "@rsbuild/plugin-styled-components",
-    "@rspress/shared",
-    "@rspress/plugin-llms",
-    "rspress",
-    "@module-federation/modern-js-v3",
-    "@module-federation/bridge-react",
-    "@module-federation/runtime",
-    "@rsbuild/webpack"
-  ]
+    'http-compression',
+    '@biomejs/biome',
+    'caniuse-lite',
+    '@vercel/nft',
+    'vitest',
+    '@rsbuild-image/react',
+    '@rsbuild/plugin-styled-components',
+    '@rspress/shared',
+    '@rspress/plugin-llms',
+    'rspress',
+    '@module-federation/modern-js-v3',
+    '@module-federation/bridge-react',
+    '@module-federation/runtime',
+    '@rsbuild/webpack',
+  ],
 }

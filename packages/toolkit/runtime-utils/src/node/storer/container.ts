@@ -12,9 +12,10 @@ interface MemoryContainerOptions {
  * MemoryContainer, it use lur-cache as cahe layer.
  * It has a Time to Live, by default as 1 hour.
  */
-export class MemoryContainer<K extends string, V extends {}>
-  implements Container<K, V>
-{
+export class MemoryContainer<
+  K extends string,
+  V extends {},
+> implements Container<K, V> {
   private static BYTE = 1;
 
   private static KB: number = 1024 * this.BYTE;

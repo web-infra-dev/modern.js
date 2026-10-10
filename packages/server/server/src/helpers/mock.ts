@@ -121,9 +121,7 @@ const getMockModule = async (
   )) as MockModule;
 
   const enable = config?.enable as
-    | boolean
-    | ((req: NodeRequest, res: NodeResponse) => boolean)
-    | undefined;
+    boolean | ((req: NodeRequest, res: NodeResponse) => boolean) | undefined;
 
   if (enable === false) {
     return undefined;

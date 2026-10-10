@@ -84,8 +84,10 @@ export interface AppToolsExtendAPI {
   useHookRunners: () => ReturnType<typeof getHookRunners>;
 }
 
-export interface AppToolsExtendHooks
-  extends Record<string, PluginHook<(...args: any[]) => any>> {
+export interface AppToolsExtendHooks extends Record<
+  string,
+  PluginHook<(...args: any[]) => any>
+> {
   onAfterPrepare: AsyncHook<AfterPrepareFn>;
   deploy: AsyncHook<DeplpoyFn>;
   checkEntryPoint: AsyncHook<CheckEntryPointFn>;

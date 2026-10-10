@@ -33,6 +33,4 @@ export const OutputValidationError = (
 });
 
 export type HandleResult<T> =
-  | HandleSuccess<T>
-  | InputValidationError
-  | OutputValidationError;
+  HandleSuccess<T> | InputValidationError | OutputValidationError;

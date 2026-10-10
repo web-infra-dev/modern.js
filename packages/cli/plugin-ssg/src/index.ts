@@ -49,11 +49,7 @@ export const ssgPlugin = (): CliPlugin<AppTools> => ({
 
       const { appDirectory, entrypoints } = appContext;
       const { output, server } = resolvedConfig;
-      const {
-        ssg,
-        ssgByEntries,
-        distPath: { root: outputPath } = {},
-      } = output;
+      const { ssg, ssgByEntries, distPath: { root: outputPath } = {} } = output;
 
       const ssgOptions: SSGConfig =
         (Array.isArray(ssg) ? ssg.pop() : ssg) ?? true;

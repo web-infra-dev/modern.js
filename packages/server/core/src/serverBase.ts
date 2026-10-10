@@ -130,13 +130,7 @@ export class ServerBase<E extends Env = any> {
        * We ensure at least one handler exists and cast to the "path + handlers" signature.
        */
       type RouteMethod =
-        | 'options'
-        | 'get'
-        | 'post'
-        | 'put'
-        | 'delete'
-        | 'patch'
-        | 'all';
+        'options' | 'get' | 'post' | 'put' | 'delete' | 'patch' | 'all';
       type Register = (
         path: string,
         handler: MiddlewareHandler,

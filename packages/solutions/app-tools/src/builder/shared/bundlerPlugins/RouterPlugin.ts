@@ -96,8 +96,8 @@ export class RouterPlugin {
   }
 
   private getEntryChunkFiles(entryChunks: Chunks) {
-    return entryChunks.map(
-      chunk => [...(chunk.files || [])].find(fname => fname.includes('.js'))!,
+    return entryChunks.map(chunk =>
+      [...(chunk.files || [])].find(fname => fname.includes('.js'))!,
     );
   }
 

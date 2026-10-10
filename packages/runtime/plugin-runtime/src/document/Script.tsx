@@ -28,7 +28,9 @@ export function Script(props: DocumentScriptProps) {
 }
 
 // tofix: 之前错误的给了 content 作为 Script 组件的 IIFE 载体，但 content 在 htmlelement.meta 上有含义
-export interface DocumentScriptProps
-  extends Omit<React.ScriptHTMLAttributes<HTMLScriptElement>, 'content'> {
+export interface DocumentScriptProps extends Omit<
+  React.ScriptHTMLAttributes<HTMLScriptElement>,
+  'content'
+> {
   content?: () => void;
 }

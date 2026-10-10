@@ -153,9 +153,8 @@ export function createStaticMiddleware(
   const prefix = options.output.assetPrefix || '/';
   const pathPrefix = extractPathname(prefix);
 
-  const {
-    distPath: { css: cssPath, js: jsPath, media: mediaPath } = {},
-  } = options.output;
+  const { distPath: { css: cssPath, js: jsPath, media: mediaPath } = {} } =
+    options.output;
   const { favicon } = options.html;
   const { publicDir } = options.server;
   const favicons = prepareFavicons(favicon);

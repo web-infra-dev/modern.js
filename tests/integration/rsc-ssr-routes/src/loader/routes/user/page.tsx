@@ -11,7 +11,10 @@ import { preinit } from 'react-dom';
 export default function UserPage({
   loaderData,
   matches,
-}: { loaderData: any; matches: any[] }) {
+}: {
+  loaderData: any;
+  matches: any[];
+}) {
   const { user } = loaderData;
   return (
     <div className="user-page">

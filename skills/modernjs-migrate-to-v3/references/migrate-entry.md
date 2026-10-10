@@ -6,12 +6,15 @@
 ## App.init → 运行时插件
 
 **迁移前（src/App.tsx）**
+
 ```tsx
 App.init = context => {
   context.store = createStore();
 };
 ```
+
 **迁移后（src/modern.runtime.ts）**
+
 ```ts
 import type { RuntimePlugin } from '@modern-js/runtime';
 import { defineRuntimeConfig } from '@modern-js/runtime';
@@ -27,6 +30,7 @@ const initPlugin = (): RuntimePlugin => ({
 
 export default defineRuntimeConfig({ plugins: [initPlugin()] });
 ```
+
 步骤：把 `App.init` 函数体移入插件 `setup` 的 `init({ context })`；从 `App.tsx` 删除 `App.init`。若 `modern.runtime.ts` 已有 `defineRuntimeConfig`（来自自动迁移的 `App.config`），把 `plugins` **合并**进去，不要覆盖。
 
 ## routes/layout.tsx 的 config / init 导出

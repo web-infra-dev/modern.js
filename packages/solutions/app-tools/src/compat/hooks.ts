@@ -132,24 +132,16 @@ export function getHookRunners(
     }) => {
       return hooks.onFileChanged.call(params);
     },
-    beforeCreateCompiler: async (params: {
-      bundlerConfigs?: any[];
-    }) => {
+    beforeCreateCompiler: async (params: { bundlerConfigs?: any[] }) => {
       return hooks.onBeforeCreateCompiler.call(params as any);
     },
-    afterCreateCompiler: async (params: {
-      compiler?: any;
-    }) => {
+    afterCreateCompiler: async (params: { compiler?: any }) => {
       return hooks.onAfterCreateCompiler.call(params as any);
     },
-    beforeBuild: async (params: {
-      bundlerConfigs?: any[];
-    }) => {
+    beforeBuild: async (params: { bundlerConfigs?: any[] }) => {
       return hooks.onBeforeBuild.call(params as any);
     },
-    afterBuild: async (params: {
-      stats?: any;
-    }) => {
+    afterBuild: async (params: { stats?: any }) => {
       return hooks.onAfterBuild.call(params as any);
     },
     beforeDev: async () => {

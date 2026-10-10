@@ -7,16 +7,7 @@
     "useIgnoreFile": true
   },
   "formatter": {
-    "enabled": true,
-    "indentStyle": "space"
-  },
-  "javascript": {
-    "formatter": {
-      "quoteStyle": "single",
-      "arrowParentheses": "asNeeded",
-      "jsxQuoteStyle": "double",
-      "lineWidth": 80
-    }
+    "enabled": false
   },
   "linter": {
     "enabled": true,
