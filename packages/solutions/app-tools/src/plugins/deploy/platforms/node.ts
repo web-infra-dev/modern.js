@@ -13,6 +13,7 @@ export const createNodePreset: CreatePreset = ({
   appContext,
   modernConfig,
   api,
+  envDir,
 }) => {
   const { appDirectory, distDirectory, moduleType } = appContext;
   const isEsmProject = moduleType === 'module';
@@ -36,6 +37,7 @@ export const createNodePreset: CreatePreset = ({
         template,
         appContext,
         config: modernConfig,
+        envDir,
         isESM: isEsmProject,
       });
 
