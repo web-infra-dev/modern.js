@@ -25,6 +25,8 @@
     "prepare-build-continue": "cross-env NX_DAEMON=false NX_REJECT_UNKNOWN_LOCAL_CACHE=0 nx run-many -t build -p @modern-js/* --exclude=@modern-js/main-doc,@modern-js/module-tools-docs --nxBail=false --maxParallel=4 || echo 'Build completed with some failures, continuing...'",
     "build:required": "cross-env NX_DAEMON=false nx run-many -t build -p @modern-js/builder @modern-js/bff-core @modern-js/utils @modern-js/i18n-utils @modern-js/runtime-utils",
     "lint": "biome check",
+    "format": "rs fmt",
+    "format:check": "rs fmt --check",
     "change": "changeset add",
     "bump": "changeset version",
     "pre:enter": "changeset pre enter",
@@ -80,7 +82,8 @@
     "husky": "^8.0.3",
     "lint-staged": "~13.3.0",
     "nx": "^22.7.12",
-    "rimraf": "^6.1.3"
+    "rimraf": "^6.1.3",
+    "rstack": "0.8.2"
   },
   "pnpm": {
     "overrides": {

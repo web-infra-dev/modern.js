@@ -5,6 +5,7 @@
     "aaron-bond.better-comments",
     "jasonnutter.search-node-modules",
     "mikestead.dotenv",
-    "biomejs.biome"
+    "biomejs.biome",
+    "rstack.rstack"
   ]
 }
