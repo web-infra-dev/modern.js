@@ -1,5 +1,33 @@
 # @modern-js/server-utils
 
+## 3.9.3
+
+### Patch Changes
+
+- @modern-js/utils@3.9.3
+
+## 3.9.2
+
+### Patch Changes
+
+- @modern-js/utils@3.9.2
+
+## 3.9.1
+
+### Patch Changes
+
+- bc59ee1: fix: respect the TypeScript compiler configured by ts-node
+
+  fix: 使用 ts-node 配置中指定的 TypeScript 编译器
+
+  - @modern-js/utils@3.9.1
+
+## 3.9.0
+
+### Patch Changes
+
+- @modern-js/utils@3.9.0
+
 ## 3.8.3
 
 ### Patch Changes

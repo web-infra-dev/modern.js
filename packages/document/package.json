@@ -22,14 +22,14 @@
     "build": "rspress build",
     "preview": "rspress preview"
   },
-  "version": "3.8.3",
+  "version": "3.9.3",
   "publishConfig": {
     "registry": "https://registry.npmjs.org/",
     "access": "public"
   },
   "dependencies": {
     "@modern-js/sandpack-react": "workspace:*",
-    "mermaid": "^11.15.0"
+    "mermaid": "^11.17.2"
   },
   "devDependencies": {
     "rsbuild-plugin-open-graph": "1.1.3",

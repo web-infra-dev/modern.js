@@ -15,7 +15,7 @@
     "modern",
     "modern.js"
   ],
-  "version": "3.8.3",
+  "version": "3.9.3",
   "engines": {
     "node": ">=20"
   },
@@ -57,8 +57,8 @@
     "@modern-js/rslib": "workspace:*",
     "@modern-js/server-core": "workspace:*",
     "@modern-js/types": "workspace:*",
-    "@rsbuild/core": "2.2.0-rc.0",
-    "@rslib/core": "0.23.2",
+    "@rsbuild/core": "2.2.12",
+    "@rslib/core": "1.0.3",
     "@scripts/rstest-config": "workspace:*",
     "@types/node": "^20",
     "@types/supertest": "^2.0.16",

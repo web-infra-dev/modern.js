@@ -21,19 +21,10 @@ describe('checkIsBuildCommands', () => {
     expect(checkIsBuildCommands()).toBe(true);
   });
 
-  it('falls back to the app context for programmatic build commands', () => {
+  it('ignores non-build argv commands', () => {
     process.env.MODERN_ARGV = 'node rstest test';
 
-    expect(checkIsBuildCommands('dev')).toBe(true);
-    expect(checkIsBuildCommands('start')).toBe(true);
-    expect(checkIsBuildCommands('build')).toBe(true);
-    expect(checkIsBuildCommands('deploy')).toBe(true);
-  });
-
-  it('does not fall back for other programmatic commands', () => {
-    process.env.MODERN_ARGV = 'node rstest test';
-
-    expect(checkIsBuildCommands('analyze')).toBe(false);
+    expect(checkIsBuildCommands()).toBe(false);
   });
 });
 

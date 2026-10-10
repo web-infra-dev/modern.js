@@ -44,7 +44,7 @@ export const serverStaticPlugin = (): ServerPlugin => ({
   },
 });
 
-export type PublicMiddlwareOptions = {
+export type PublicMiddlewareOptions = {
   pwd: string;
   routes: ServerRoute[];
 };
@@ -52,7 +52,7 @@ export type PublicMiddlwareOptions = {
 export function createPublicMiddleware({
   pwd,
   routes,
-}: PublicMiddlwareOptions): Middleware {
+}: PublicMiddlewareOptions): Middleware {
   return async (c, next) => {
     const route = matchPublicRoute(c.req, routes);
 

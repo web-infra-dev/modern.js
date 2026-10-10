@@ -15,7 +15,7 @@
     "modern",
     "modern.js"
   ],
-  "version": "3.8.3",
+  "version": "3.9.3",
   "files": [
     "dist",
     "hook.d.ts"
@@ -34,11 +34,11 @@
   "devDependencies": {
     "@modern-js/rslib": "workspace:*",
     "@modern-js/server-core": "workspace:*",
-    "@rslib/core": "0.23.2",
+    "@rslib/core": "1.0.3",
     "@scripts/build": "workspace:*",
     "@scripts/rstest-config": "workspace:*",
-    "@types/react": "^19.2.17",
-    "@types/react-dom": "^19.2.3",
+    "@types/react": "^19.3.0",
+    "@types/react-dom": "^19.3.0",
     "react": "^19.2.8",
     "react-dom": "^19.2.8",
     "react-server-dom-rspack": "0.1.0",
@@ -79,7 +79,6 @@
   "sideEffects": false,
   "publishConfig": {
     "registry": "https://registry.npmjs.org/",
-    "access": "public",
-    "types": "./dist/types/browser.d.ts"
+    "access": "public"
   }
 }

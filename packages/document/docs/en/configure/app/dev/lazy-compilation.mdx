@@ -33,9 +33,25 @@ type LazyCompilationOptions =
     };
 ```
 
-- **Default:** `false`
+- **Default:** depends on how the application renders:
+  - Pure CSR and streaming SSR applications: `{ imports: true, entries: false }`, which compiles dynamic imports on demand;
+  - Applications using string SSR (including any entry in `server.ssrByEntries` using string SSR), RSC or SSG: `false`.
 
 Enable lazy compilation (compilation on demand), implemented based on Rspack's [lazy compilation](https://rspack.rs/guide/features/lazy-compilation) feature.
+
+This option only takes effect in the dev server and does not affect production build output. When enabled for streaming SSR applications, route components are still compiled eagerly so that first-screen JS/CSS injection stays correct.
+
+An explicitly configured `dev.lazyCompilation` always takes precedence over the default. To disable it:
+
+```ts
+import { defineConfig } from '@modern-js/app-tools';
+
+export default defineConfig({
+  dev: {
+    lazyCompilation: false,
+  },
+});
+```
 
 import RsbuildLink from '@site/src/components/RsbuildLink';
 

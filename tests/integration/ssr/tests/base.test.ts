@@ -1,4 +1,6 @@
+import { randomUUID } from 'node:crypto';
 import dns from 'node:dns';
+import { get } from 'node:http';
 import path, { join } from 'path';
 import { fs } from '@modern-js/utils';
 import axios from 'axios';
@@ -67,11 +69,16 @@ describe('Traditional SSR', () => {
   let appPort: number;
   let page: Page;
   let browser: Browser;
+  let serverOutput = '';
 
   beforeAll(async () => {
     const appDir = join(fixtureDir, 'base');
     appPort = await getPort();
-    app = await launchApp(appDir, appPort);
+    app = await launchApp(appDir, appPort, {
+      onStdout: (message: string) => {
+        serverOutput += message;
+      },
+    });
 
     browser = await puppeteer.launch(launchOptions as any);
     page = await browser.newPage();
@@ -88,6 +95,49 @@ describe('Traditional SSR', () => {
 
   test(`basic usage`, async () => {
     await basicUsage(page, appPort);
+  });
+
+  test.each(['GET', 'POST'])(
+    '%s SSR preserves loader headers and GET method',
+    async method => {
+      const response = await fetch(
+        `http://localhost:${appPort}/abort?no-cache=1`,
+        { method, headers: { 'x-loader-test': 'preserved' } },
+      );
+      expect(response.status).toBe(200);
+      expect(await response.text()).toContain(
+        'loader-result:GET:preserved:false',
+      );
+    },
+  );
+
+  test('aborts the loader signal when the SSR client disconnects', async () => {
+    const id = randomUUID();
+    const request = get(
+      `http://localhost:${appPort}/abort?no-cache=1&id=${id}`,
+      response => response.resume(),
+    );
+    const closed = new Promise<void>(resolve => request.once('close', resolve));
+    // Destroying an unfinished HTTP request emits ECONNRESET.
+    const errors: Error[] = [];
+    request.on('error', error => errors.push(error));
+
+    try {
+      await expect
+        .poll(() => serverOutput, { timeout: 5000 })
+        .toContain(`loader-started:${id}:false`);
+      request.destroy();
+      await closed;
+      await expect
+        .poll(() => serverOutput, { timeout: 5000 })
+        .toContain(`loader-aborted:${id}:true`);
+      expect(
+        errors.every(error => 'code' in error && error.code === 'ECONNRESET'),
+      ).toBe(true);
+    } finally {
+      request.destroy();
+      await closed;
+    }
   });
 
   // We will not add chunkLoadingGlobal to entry(index.jsx)

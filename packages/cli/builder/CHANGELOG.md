@@ -1,5 +1,49 @@
 # @modern-js/builder
 
+## 3.9.3
+
+### Patch Changes
+
+- 9f475f6: chore: upgrade Rsbuild to v2.2.9
+
+  chore: 升级 Rsbuild 至 v2.2.9
+
+- a851cf4: feat(builder): `tools.less` / `tools.sass` accept the full Rsbuild plugin options and add `tools.svgr`, so plugin-level options such as `parallel` can be configured; the legacy forms keep working and are marked deprecated.
+
+  feat(builder): `tools.less` / `tools.sass` 支持传入 Rsbuild 插件完整选项并新增 `tools.svgr`，可配置 `parallel` 等插件级选项；旧写法继续生效并标记废弃。
+
+  - @modern-js/utils@3.9.3
+
+## 3.9.2
+
+### Patch Changes
+
+- b4dec57: chore: upgrade Rsbuild to v2.2.6
+
+  chore: 升级 Rsbuild 至 v2.2.6
+
+- e2bbad2: chore: upgrade Rsbuild to v2.2.7
+
+  chore: 升级 Rsbuild 至 v2.2.7
+
+  - @modern-js/utils@3.9.2
+
+## 3.9.1
+
+### Patch Changes
+
+- 4af5bf0: Upgrade Rsbuild to 2.2.4 and support its stricter bundler chain types, preserving service worker library options and handling non-string public paths in asset prefix templates.
+
+  升级 Rsbuild 至 2.2.4，兼容更严格的 bundler chain 类型，保留 service worker 的 library 配置，并在 assetPrefix 模板中处理非字符串 publicPath。
+
+  - @modern-js/utils@3.9.1
+
+## 3.9.0
+
+### Patch Changes
+
+- @modern-js/utils@3.9.0
+
 ## 3.8.3
 
 ### Patch Changes

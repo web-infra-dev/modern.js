@@ -50,7 +50,7 @@ export default (): CliPlugin<AppTools> => ({
     api.modifyResolvedConfig(async resolved => {
       let appContext = api.getAppContext();
       const userConfig = api.getConfig();
-      const port = await getServerPort(resolved, appContext.command);
+      const port = await getServerPort(resolved);
 
       appContext = {
         ...appContext,
@@ -103,15 +103,10 @@ function stabilizeConfig<C extends Record<string, any>>(
   });
 }
 
-async function getServerPort(
-  config: AppToolsNormalizedConfig,
-  contextCommand?: string,
-) {
+async function getServerPort(config: AppToolsNormalizedConfig) {
   const prodPort = Number(process.env.PORT) || config.server.port || 8080;
-  const isProgrammaticDev =
-    contextCommand === 'dev' || contextCommand === 'start';
 
-  if (isDev() && (isDevCommand() || isProgrammaticDev)) {
+  if (isDev() && isDevCommand()) {
     return getPort(Number(process.env.PORT) || prodPort);
   }
 

@@ -59,50 +59,58 @@ async function processCache({
     const writer = stream.writable.getWriter();
 
     let html = '';
-    const push = () =>
-      reader.read().then(({ done, value }) => {
-        if (done) {
-          const match = ZERO_RENDER_LEVEL.test(html) || NO_SSR_CACHE.test(html);
-          // case 1: We should not cache the html, if we can match the html is downgrading.
-          // case 2: We should not cache the html, if the user's code contains <NoSSRCache>.
-          if (match) {
-            writer.close();
-            return;
-          }
-          const current = Date.now();
-          const cache: CacheStruct = {
-            val: html,
-            cursor: current,
-          };
+    let cancelled = false;
+    const cancel = async (reason: unknown) => {
+      cancelled = true;
+      await reader.cancel(reason);
+    };
+    // A disconnected consumer may leave the producer waiting in reader.read().
+    void writer.closed.catch(cancel).catch(() => {});
+    const onAbort = () => {
+      void Promise.allSettled([
+        cancel(request.signal.reason),
+        writer.abort(request.signal.reason),
+      ]);
+    };
+    request.signal.addEventListener('abort', onAbort, { once: true });
+    if (request.signal.aborted) onAbort();
 
-          container.set(key, JSON.stringify(cache), { ttl }).catch(() => {
-            if (onError) {
-              onError(
-                `[render-cache] set cache failed, key: ${key}, value: ${JSON.stringify(
-                  cache,
-                )}`,
-              );
-            } else {
-              console.error(
-                `[render-cache] set cache failed, key: ${key}, value: ${JSON.stringify(
-                  cache,
-                )}`,
-              );
-            }
-          });
-
-          writer.close();
-          return;
+    const pumping = (async () => {
+      try {
+        for (;;) {
+          const { done, value } = await reader.read();
+          if (cancelled) return;
+          if (done) break;
+          html += decoder.decode(value, { stream: true });
+          await writer.write(value);
         }
-
-        const content = decoder.decode(value);
-        html += content;
-
-        writer.write(value);
-        push();
-      });
-
-    push();
+        html += decoder.decode();
+        // Finish the response without waiting for the cache backend.
+        await writer.close();
+        if (
+          !cancelled &&
+          !ZERO_RENDER_LEVEL.test(html) &&
+          !NO_SSR_CACHE.test(html)
+        ) {
+          const cache: CacheStruct = { val: html, cursor: Date.now() };
+          try {
+            await container.set(key, JSON.stringify(cache), { ttl });
+          } catch (error) {
+            if (onError) onError(error, 'render-cache');
+            else
+              console.error(
+                `[render-cache] set cache failed, key: ${key}`,
+                error,
+              );
+          }
+        }
+      } catch (error) {
+        await Promise.allSettled([cancel(error), writer.abort(error)]);
+      } finally {
+        request.signal.removeEventListener('abort', onAbort);
+      }
+    })();
+    void pumping.catch(() => {});
 
     cacheStatus && response.headers.set(X_RENDER_CACHE, cacheStatus);
 
@@ -246,17 +254,26 @@ export async function getCacheResult(
       // the cache is stale while revalidate
 
       // we shouldn't await this promise.
-      processCache({
+      void processCache({
         key,
         request,
         requestHandler,
         requestHandlerOptions,
         ttl,
         container,
-      }).then(async response => {
-        // For cache the readableStream, we need confirm the response is consume,
-        await response.text();
-      });
+      })
+        .then(async response => {
+          // Consume the response so the cache can finish writing the stream.
+          await response.text();
+        })
+        .catch(error => {
+          try {
+            if (onError) onError(error, 'render-cache');
+            else console.error('[render-cache] revalidation failed', error);
+          } catch {
+            // Error reporting must not reject an unawaited background task.
+          }
+        });
 
       const cacheStatus: CacheStatus = 'stale';
       return new Response(cache.val, {

@@ -44,7 +44,10 @@ export const createWebRequest = (
     headers: headerRecord,
     signal: controller.signal,
   };
-  res.on('close', () => controller.abort('res closed'));
+  res.on('close', () => {
+    // HTTP/2 can mark the response finished even when its stream was aborted.
+    if (!res.writableFinished || req.aborted) controller.abort('res closed');
+  });
 
   const url = `http://${req.headers.host}${req.url}`;
 

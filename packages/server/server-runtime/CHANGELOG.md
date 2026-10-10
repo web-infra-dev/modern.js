@@ -1,5 +1,42 @@
 # @modern-js/server-runtime
 
+## 3.9.3
+
+### Patch Changes
+
+- Updated dependencies [1dcb43c]
+- Updated dependencies [283dc5a]
+- Updated dependencies [a9c110f]
+  - @modern-js/server-core@3.9.3
+  - @modern-js/runtime-utils@3.9.3
+  - @modern-js/types@3.9.3
+
+## 3.9.2
+
+### Patch Changes
+
+- @modern-js/server-core@3.9.2
+- @modern-js/runtime-utils@3.9.2
+- @modern-js/types@3.9.2
+
+## 3.9.1
+
+### Patch Changes
+
+- Updated dependencies [2e6d853]
+  - @modern-js/runtime-utils@3.9.1
+  - @modern-js/server-core@3.9.1
+  - @modern-js/types@3.9.1
+
+## 3.9.0
+
+### Patch Changes
+
+- Updated dependencies [2f4d9c4]
+  - @modern-js/server-core@3.9.0
+  - @modern-js/runtime-utils@3.9.0
+  - @modern-js/types@3.9.0
+
 ## 3.8.3
 
 ### Patch Changes

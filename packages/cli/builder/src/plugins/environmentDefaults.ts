@@ -85,15 +85,13 @@ export const pluginEnvironmentDefaults = (
       const isServiceWorker =
         environment.name === SERVICE_WORKER_ENVIRONMENT_NAME;
 
-      if (isServiceWorker && chain.output.get('module') === true) {
+      if (isServiceWorker) {
+        const library = chain.output.get('library');
         chain.output.library({
-          ...(chain.output.get('library') || {}),
-          type: 'module',
-        });
-      } else if (isServiceWorker) {
-        chain.output.library({
-          ...(chain.output.get('library') || {}),
-          type: 'commonjs2',
+          ...(typeof library === 'string' || Array.isArray(library)
+            ? { name: library }
+            : library),
+          type: chain.output.get('module') === true ? 'module' : 'commonjs2',
         });
       }
     });
