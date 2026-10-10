@@ -24,6 +24,7 @@ exports[`builder environment compat > should generator environment config correc
       ],
     },
     "experiments": {
+      "nativeWatcher": true,
       "sourceImport": true,
     },
     "infrastructureLogging": {
@@ -1599,6 +1600,7 @@ exports[`builder environment compat > should generator environment config correc
       ],
     },
     "experiments": {
+      "nativeWatcher": true,
       "sourceImport": true,
     },
     "infrastructureLogging": {
@@ -2636,6 +2638,7 @@ exports[`builder environment compat > should generator environment config correc
       ],
     },
     "experiments": {
+      "nativeWatcher": true,
       "sourceImport": true,
     },
     "infrastructureLogging": {
