@@ -1,8 +1,8 @@
 import path from 'path';
 import { rslibConfig } from '@modern-js/rslib';
-import { defineConfig } from '@rslib/core';
+import { define } from 'rstack';
 
-export default defineConfig({
+define.lib({
   ...rslibConfig,
   lib: rslibConfig.lib?.map(libConfig => {
     return {
@@ -37,11 +37,11 @@ export default defineConfig({
               ]),
           {
             from: 'plugins/deploy/platforms/templates/*.cjs',
-            context: path.join(__dirname, 'src'),
+            context: path.join(import.meta.dirname, 'src'),
           },
           {
             from: 'plugins/deploy/platforms/templates/*.mjs',
-            context: path.join(__dirname, 'src'),
+            context: path.join(import.meta.dirname, 'src'),
           },
         ],
       },

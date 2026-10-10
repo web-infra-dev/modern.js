@@ -1,5 +1,6 @@
 import { rslibConfig } from '@modern-js/rslib';
-import { type RslibConfig, type Rspack, defineConfig } from '@rslib/core';
+import { define } from 'rstack';
+import type { RslibConfig, Rspack } from 'rstack/lib';
 
 const dependencies = [
   // zero dependency
@@ -158,7 +159,7 @@ const lib: RslibConfig['lib'] = rslibConfig.lib?.map(config => {
   return config;
 });
 
-export default defineConfig({
+define.lib({
   ...rslibConfig,
   lib,
 });

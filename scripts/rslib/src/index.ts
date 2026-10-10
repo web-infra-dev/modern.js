@@ -1,5 +1,5 @@
 import { pluginReact } from '@rsbuild/plugin-react';
-import type { RslibConfig } from '@rslib/core';
+import type { RslibConfig } from 'rstack/lib';
 
 export const rslibConfig: RslibConfig = {
   plugins: [pluginReact()],

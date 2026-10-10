@@ -841,9 +841,6 @@ importers:
       '@rsbuild/core':
         specifier: 2.2.12
         version: 2.2.12(@module-federation/runtime-tools@2.0.0)(core-js@3.48.0)
-      '@rslib/core':
-        specifier: 1.0.3
-        version: 1.0.3(@module-federation/runtime-tools@2.0.0)(core-js@3.48.0)(typescript@5.9.3)
       '@rstest/core':
         specifier: 0.11.12
         version: 0.11.12(@module-federation/runtime-tools@2.0.0)(core-js@3.48.0)(happy-dom@20.14.6(bufferutil@4.1.0)(utf-8-validate@5.0.10))(jsdom@25.0.1(bufferutil@4.1.0)(utf-8-validate@5.0.10))
@@ -962,9 +959,6 @@ importers:
       '@modern-js/types':
         specifier: workspace:*
         version: link:../../toolkit/types
-      '@rslib/core':
-        specifier: 1.0.3
-        version: 1.0.3(@module-federation/runtime-tools@2.0.0)(core-js@3.48.0)(typescript@5.9.3)
       '@scripts/rstest-config':
         specifier: workspace:*
         version: link:../../../scripts/rstest-config
@@ -1035,9 +1029,6 @@ importers:
       '@rsbuild/core':
         specifier: 2.2.12
         version: 2.2.12(@module-federation/runtime-tools@2.0.0)(core-js@3.48.0)
-      '@rslib/core':
-        specifier: 1.0.3
-        version: 1.0.3(@module-federation/runtime-tools@2.0.0)(core-js@3.48.0)(typescript@5.9.3)
       '@scripts/rstest-config':
         specifier: workspace:*
         version: link:../../../scripts/rstest-config
@@ -1087,9 +1078,6 @@ importers:
       '@rsbuild/core':
         specifier: 2.2.12
         version: 2.2.12(@module-federation/runtime-tools@2.0.0)(core-js@3.48.0)
-      '@rslib/core':
-        specifier: 1.0.3
-        version: 1.0.3(@module-federation/runtime-tools@2.0.0)(core-js@3.48.0)(typescript@5.9.3)
       '@scripts/rstest-config':
         specifier: workspace:*
         version: link:../../../scripts/rstest-config
@@ -1142,9 +1130,6 @@ importers:
       '@modern-js/types':
         specifier: workspace:*
         version: link:../../toolkit/types
-      '@rslib/core':
-        specifier: 1.0.3
-        version: 1.0.3(@module-federation/runtime-tools@2.0.0)(core-js@3.48.0)(typescript@5.9.3)
       '@scripts/rstest-config':
         specifier: workspace:*
         version: link:../../../scripts/rstest-config
@@ -1182,9 +1167,6 @@ importers:
       '@modern-js/runtime':
         specifier: workspace:*
         version: link:../../runtime/plugin-runtime
-      '@rslib/core':
-        specifier: 1.0.3
-        version: 1.0.3(@module-federation/runtime-tools@2.0.0)(core-js@3.48.0)(typescript@5.9.3)
       '@types/node':
         specifier: ^20
         version: 20.19.27
@@ -1301,9 +1283,6 @@ importers:
       '@modern-js/runtime':
         specifier: workspace:*
         version: link:../plugin-runtime
-      '@rslib/core':
-        specifier: 1.0.3
-        version: 1.0.3(@module-federation/runtime-tools@2.0.0)(core-js@3.48.0)(typescript@5.9.3)
       '@types/node':
         specifier: ^20
         version: 20.19.27
@@ -1344,9 +1323,6 @@ importers:
       '@modern-js/app-tools':
         specifier: workspace:*
         version: link:../../solutions/app-tools
-      '@rslib/core':
-        specifier: 1.0.3
-        version: 1.0.3(@module-federation/runtime-tools@2.0.0)(core-js@3.48.0)(typescript@5.9.3)
       '@types/node':
         specifier: ^20
         version: 20.19.27
@@ -1435,9 +1411,6 @@ importers:
       '@rsbuild/core':
         specifier: 2.2.12
         version: 2.2.12(@module-federation/runtime-tools@2.0.0)(core-js@3.48.0)
-      '@rslib/core':
-        specifier: 1.0.3
-        version: 1.0.3(@module-federation/runtime-tools@2.0.0)(core-js@3.48.0)(typescript@5.9.3)
       '@scripts/rstest-config':
         specifier: workspace:*
         version: link:../../../scripts/rstest-config
@@ -1542,9 +1515,6 @@ importers:
       '@modern-js/types':
         specifier: workspace:*
         version: link:../../toolkit/types
-      '@rslib/core':
-        specifier: 1.0.3
-        version: 1.0.3(@module-federation/runtime-tools@2.0.0)(core-js@3.48.0)(typescript@5.9.3)
       '@scripts/rstest-config':
         specifier: workspace:*
         version: link:../../../scripts/rstest-config
@@ -1585,9 +1555,6 @@ importers:
       '@modern-js/rslib':
         specifier: workspace:*
         version: link:../../../scripts/rslib
-      '@rslib/core':
-        specifier: 1.0.3
-        version: 1.0.3(@module-federation/runtime-tools@2.0.0)(core-js@3.48.0)(typescript@5.9.3)
       '@types/node':
         specifier: ^20
         version: 20.19.27
@@ -1637,9 +1604,6 @@ importers:
       '@modern-js/types':
         specifier: workspace:*
         version: link:../../toolkit/types
-      '@rslib/core':
-        specifier: 1.0.3
-        version: 1.0.3(@module-federation/runtime-tools@2.0.0)(core-js@3.48.0)(typescript@5.9.3)
       '@scripts/rstest-config':
         specifier: workspace:*
         version: link:../../../scripts/rstest-config
@@ -1686,9 +1650,6 @@ importers:
       '@modern-js/types':
         specifier: workspace:*
         version: link:../../toolkit/types
-      '@rslib/core':
-        specifier: 1.0.3
-        version: 1.0.3(@module-federation/runtime-tools@2.0.0)(core-js@3.48.0)(typescript@5.9.3)
       '@scripts/rstest-config':
         specifier: workspace:*
         version: link:../../../scripts/rstest-config
@@ -1735,9 +1696,6 @@ importers:
       '@modern-js/types':
         specifier: workspace:*
         version: link:../../toolkit/types
-      '@rslib/core':
-        specifier: 1.0.3
-        version: 1.0.3(@module-federation/runtime-tools@2.0.0)(core-js@3.48.0)(typescript@5.9.3)
       '@scripts/rstest-config':
         specifier: workspace:*
         version: link:../../../scripts/rstest-config
@@ -1775,9 +1733,6 @@ importers:
       '@modern-js/types':
         specifier: workspace:*
         version: link:../../toolkit/types
-      '@rslib/core':
-        specifier: 1.0.3
-        version: 1.0.3(@module-federation/runtime-tools@2.0.0)(core-js@3.48.0)(typescript@5.9.3)
       '@scripts/rstest-config':
         specifier: workspace:*
         version: link:../../../scripts/rstest-config
@@ -1839,9 +1794,6 @@ importers:
       '@modern-js/rslib':
         specifier: workspace:*
         version: link:../../../scripts/rslib
-      '@rslib/core':
-        specifier: 1.0.3
-        version: 1.0.3(@module-federation/runtime-tools@2.0.0)(core-js@3.48.0)(typescript@5.9.3)
       '@scripts/rstest-config':
         specifier: workspace:*
         version: link:../../../scripts/rstest-config
@@ -1891,9 +1843,6 @@ importers:
       '@modern-js/rslib':
         specifier: workspace:*
         version: link:../../../scripts/rslib
-      '@rslib/core':
-        specifier: 1.0.3
-        version: 1.0.3(@module-federation/runtime-tools@2.0.0)(core-js@3.48.0)(typescript@5.9.3)
       '@scripts/rstest-config':
         specifier: workspace:*
         version: link:../../../scripts/rstest-config
@@ -1919,9 +1868,6 @@ importers:
       '@modern-js/server-core':
         specifier: workspace:*
         version: link:../core
-      '@rslib/core':
-        specifier: 1.0.3
-        version: 1.0.3(@module-federation/runtime-tools@2.0.0)(core-js@3.48.0)(typescript@5.9.3)
       '@scripts/rstest-config':
         specifier: workspace:*
         version: link:../../../scripts/rstest-config
@@ -2007,9 +1953,6 @@ importers:
       '@modern-js/rslib':
         specifier: workspace:*
         version: link:../../../scripts/rslib
-      '@rslib/core':
-        specifier: 1.0.3
-        version: 1.0.3(@module-federation/runtime-tools@2.0.0)(core-js@3.48.0)(typescript@5.9.3)
       '@scripts/rstest-config':
         specifier: workspace:*
         version: link:../../../scripts/rstest-config
@@ -2037,9 +1980,6 @@ importers:
       '@modern-js/rslib':
         specifier: workspace:*
         version: link:../../../scripts/rslib
-      '@rslib/core':
-        specifier: 1.0.3
-        version: 1.0.3(@module-federation/runtime-tools@2.0.0)(core-js@3.48.0)(typescript@5.9.3)
       '@scripts/rstest-config':
         specifier: workspace:*
         version: link:../../../scripts/rstest-config
@@ -2065,9 +2005,6 @@ importers:
       '@modern-js/rslib':
         specifier: workspace:*
         version: link:../../../scripts/rslib
-      '@rslib/core':
-        specifier: 1.0.3
-        version: 1.0.3(@module-federation/runtime-tools@2.0.0)(core-js@3.48.0)(typescript@5.9.3)
       '@scripts/rstest-config':
         specifier: workspace:*
         version: link:../../../scripts/rstest-config
@@ -2105,9 +2042,6 @@ importers:
       '@modern-js/rslib':
         specifier: workspace:*
         version: link:../../../scripts/rslib
-      '@rslib/core':
-        specifier: 1.0.3
-        version: 1.0.3(@module-federation/runtime-tools@2.0.0)(core-js@3.48.0)(typescript@5.9.3)
       '@types/node':
         specifier: ^20
         version: 20.19.27
@@ -2142,9 +2076,6 @@ importers:
       '@modern-js/rslib':
         specifier: workspace:*
         version: link:../../../scripts/rslib
-      '@rslib/core':
-        specifier: 1.0.3
-        version: 1.0.3(@module-federation/runtime-tools@2.0.0)(core-js@3.48.0)(typescript@5.9.3)
       '@scripts/rstest-config':
         specifier: workspace:*
         version: link:../../../scripts/rstest-config
@@ -2197,9 +2128,6 @@ importers:
       '@modern-js/rslib':
         specifier: workspace:*
         version: link:../../../scripts/rslib
-      '@rslib/core':
-        specifier: 1.0.3
-        version: 1.0.3(@module-federation/runtime-tools@2.0.0)(core-js@3.48.0)(typescript@5.9.3)
       '@types/node':
         specifier: ^20
         version: 20.19.27
@@ -2270,9 +2198,6 @@ importers:
       '@modern-js/types':
         specifier: workspace:*
         version: link:../types
-      '@rslib/core':
-        specifier: 1.0.3
-        version: 1.0.3(@module-federation/runtime-tools@2.0.0)(core-js@3.48.0)(typescript@5.9.3)
       '@scripts/rstest-config':
         specifier: workspace:*
         version: link:../../../scripts/rstest-config
@@ -2634,9 +2559,6 @@ importers:
       '@rsbuild/plugin-react':
         specifier: 2.1.0
         version: 2.1.0(@rsbuild/core@2.2.12(@module-federation/runtime-tools@2.0.0)(core-js@3.48.0))(@rspack/core@2.2.8(@module-federation/runtime-tools@2.0.0)(@swc/helpers@0.5.23))
-      '@rslib/core':
-        specifier: 1.0.3
-        version: 1.0.3(@module-federation/runtime-tools@2.0.0)(core-js@3.48.0)(typescript@5.9.3)
       '@types/node':
         specifier: ^20
         version: 20.19.27
