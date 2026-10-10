@@ -42,18 +42,10 @@
     "**/node_modules": false
   },
   "[typescript]": {
-    "editor.defaultFormatter": "rstack.rstack",
-    "editor.codeActionsOnSave": {
-      "source.fixAll.rslint": "explicit",
-      "source.organizeImports": "never"
-    }
+    "editor.defaultFormatter": "rstack.rstack"
   },
   "[typescriptreact]": {
-    "editor.defaultFormatter": "rstack.rstack",
-    "editor.codeActionsOnSave": {
-      "source.fixAll.rslint": "explicit",
-      "source.organizeImports": "never"
-    }
+    "editor.defaultFormatter": "rstack.rstack"
   },
   "[json]": {
     "editor.defaultFormatter": "rstack.rstack"
@@ -62,18 +54,10 @@
     "editor.defaultFormatter": "rstack.rstack"
   },
   "[javascriptreact]": {
-    "editor.defaultFormatter": "rstack.rstack",
-    "editor.codeActionsOnSave": {
-      "source.fixAll.rslint": "explicit",
-      "source.organizeImports": "never"
-    }
+    "editor.defaultFormatter": "rstack.rstack"
   },
   "[javascript]": {
-    "editor.defaultFormatter": "rstack.rstack",
-    "editor.codeActionsOnSave": {
-      "source.fixAll.rslint": "explicit",
-      "source.organizeImports": "never"
-    }
+    "editor.defaultFormatter": "rstack.rstack"
   },
   "rust-analyzer.linkedProjects": [
     "./packages/cli/flight-server-transform-plugin/Cargo.toml"
