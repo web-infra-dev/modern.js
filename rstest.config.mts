@@ -1,5 +1,8 @@
 import { defineConfig } from '@rstest/core';
 
 export default defineConfig({
-  projects: ['packages/**/rstest.config.{ts,mts}'],
+  projects: [
+    'packages/**/rstest.config.{ts,mts}',
+    'scripts/rslib/rstest.config.mts',
+  ],
 });
