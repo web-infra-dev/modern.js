@@ -19,9 +19,9 @@ const defaultOptions = {
 `tools.sass` 用于修改 [@rsbuild/plugin-sass](https://rsbuild.rs/plugins/list/plugin-sass) 的选项，取值为该插件的完整选项：
 
 | 选项                | 说明                                                                                      |
-| ------------------- | ----------------------------------------------------------------------------------------- | ------- |
+| ------------------- | ----------------------------------------------------------------------------------------- |
 | `sassLoaderOptions` | 传给 [sass-loader](https://github.com/webpack-contrib/sass-loader) 的选项，支持对象或函数 |
-| `include`           | 指定哪些文件交给 sass-loader 处理，默认 `/\.s(?:a                                         | c)ss$/` |
+| `include`           | 指定哪些文件交给 sass-loader 处理，默认 `/\.s(?:a\|c)ss$/`                                |
 | `exclude`           | 指定哪些文件不交给 sass-loader 处理                                                       |
 | `rewriteUrls`       | 是否使用 resolve-url-loader 重写 Sass 文件中的相对 URL，默认 `true`                       |
 

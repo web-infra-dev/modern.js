@@ -19,9 +19,9 @@ const defaultOptions = {
 `tools.sass` modifies the options of [@rsbuild/plugin-sass](https://rsbuild.rs/plugins/list/plugin-sass). It accepts the full plugin options:
 
 | Option              | Description                                                                                         |
-| ------------------- | --------------------------------------------------------------------------------------------------- | ------- |
+| ------------------- | --------------------------------------------------------------------------------------------------- |
 | `sassLoaderOptions` | Options passed to [sass-loader](https://github.com/webpack-contrib/sass-loader), object or function |
-| `include`           | Files handled by sass-loader, defaults to `/\.s(?:a                                                 | c)ss$/` |
+| `include`           | Files handled by sass-loader, defaults to `/\.s(?:a\|c)ss$/`                                        |
 | `exclude`           | Files that sass-loader should skip                                                                  |
 | `rewriteUrls`       | Whether to rewrite relative URLs in Sass files with resolve-url-loader, defaults to `true`          |
 
