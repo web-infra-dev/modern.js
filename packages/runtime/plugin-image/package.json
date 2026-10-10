@@ -34,8 +34,8 @@
     "dist"
   ],
   "scripts": {
-    "build": "rslib build",
-    "dev": "rslib build --watch"
+    "build": "rs lib",
+    "dev": "rs lib --watch"
   },
   "dependencies": {
     "@rsbuild-image/core": "0.0.1-next.16",
@@ -45,7 +45,6 @@
   },
   "devDependencies": {
     "@modern-js/app-tools": "workspace:*",
-    "@rslib/core": "1.0.3",
     "@types/node": "^20",
     "react": "^19.2.8",
     "react-dom": "^19.2.8",

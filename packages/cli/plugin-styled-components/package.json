@@ -26,8 +26,8 @@
     }
   },
   "scripts": {
-    "dev": "rslib build --watch",
-    "build": "rslib build"
+    "dev": "rs lib --watch",
+    "build": "rs lib"
   },
   "dependencies": {
     "@rsbuild/plugin-styled-components": "1.7.0",
@@ -37,7 +37,6 @@
     "@modern-js/app-tools": "workspace:*",
     "@modern-js/rslib": "workspace:*",
     "@modern-js/runtime": "workspace:*",
-    "@rslib/core": "1.0.3",
     "@types/node": "^20",
     "@types/styled-components": "^5.1.36",
     "styled-components": "^5.3.1",

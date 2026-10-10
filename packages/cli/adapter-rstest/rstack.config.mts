@@ -1,6 +1,6 @@
-import { defineConfig } from '@rslib/core';
+import { define } from 'rstack';
 
-export default defineConfig({
+define.lib({
   lib: [
     {
       format: 'esm',

@@ -5,8 +5,8 @@
   "main": "./dist/cjs/index.js",
   "types": "./dist/types/index.d.ts",
   "scripts": {
-    "dev": "rslib build --watch",
-    "build": "rslib build"
+    "dev": "rs lib --watch",
+    "build": "rs lib"
   },
   "exports": {
     ".": {
@@ -16,7 +16,6 @@
   },
   "devDependencies": {
     "@rsbuild/plugin-react": "2.1.0",
-    "@rslib/core": "1.0.3",
     "@types/node": "^20",
     "typescript": "^5"
   }

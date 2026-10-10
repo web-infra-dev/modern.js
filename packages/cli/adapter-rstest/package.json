@@ -21,8 +21,8 @@
   },
   "scripts": {
     "prepublishOnly": "only-allow-pnpm",
-    "build": "rslib build",
-    "dev": "rslib build --watch",
+    "build": "rs lib",
+    "dev": "rs lib --watch",
     "test": "rstest"
   },
   "dependencies": {
@@ -34,7 +34,6 @@
     "@modern-js/tsconfig": "workspace:*",
     "@modern-js/types": "workspace:*",
     "@rsbuild/core": "2.2.12",
-    "@rslib/core": "1.0.3",
     "@rstest/core": "0.11.12",
     "@scripts/rstest-config": "workspace:*",
     "@types/node": "^20",

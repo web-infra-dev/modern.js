@@ -1,7 +1,7 @@
 import { rslibConfig } from '@modern-js/rslib';
-import { defineConfig } from '@rslib/core';
+import { define } from 'rstack';
 
-export default defineConfig({
+define.lib({
   ...rslibConfig,
   lib: rslibConfig.lib?.map(libConfig => {
     const isWebTarget = libConfig.output?.target === 'web';

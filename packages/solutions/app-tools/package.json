@@ -114,8 +114,8 @@
   },
   "scripts": {
     "prepublishOnly": "only-allow-pnpm",
-    "dev": "rslib build --watch",
-    "build": "rslib build && node ./bin/modern-bundle-docs.js",
+    "dev": "rs lib --watch",
+    "build": "rs lib && node ./bin/modern-bundle-docs.js",
     "test": "rstest"
   },
   "dependencies": {
@@ -145,7 +145,6 @@
   },
   "devDependencies": {
     "@modern-js/rslib": "workspace:*",
-    "@rslib/core": "1.0.3",
     "@scripts/rstest-config": "workspace:*",
     "@types/babel__traverse": "7.28.0",
     "@types/node": "^20",
