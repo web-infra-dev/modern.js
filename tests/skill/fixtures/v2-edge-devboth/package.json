@@ -1,5 +1,5 @@
 {
   "name": "v2-edge-devboth",
-  "dependencies": { "@modern-js/runtime": "2.60.0" },
-  "devDependencies": { "@modern-js/app-tools": "2.60.0" }
+  "dependencies": { "@modern-js/runtime": "2.71.1" },
+  "devDependencies": { "@modern-js/app-tools": "2.71.1" }
 }
