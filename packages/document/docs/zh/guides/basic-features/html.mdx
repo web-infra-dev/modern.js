@@ -20,9 +20,8 @@ Modern.js 约定，在 `src/` 或入口目录下，可以创建 `Document.tsx` �
     ├── entry-a
     │   ├── Document.tsx
     │   └── routes
-    ├── entry-b
-    │    └── routes
-    └── modern-app-env.d.ts
+    └── entry-b
+         └── routes
 ```
 
 `entry-a` 会优先使用当前入口下的 `Document.tsx` 文件。如果当前入口没有 `Document.tsx` 文件，例如 `entry-b`，则会查找根目录下的 `Document.tsx` 文件。

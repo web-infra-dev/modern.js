@@ -24,6 +24,33 @@ afterEach(() => {
   fs.rmSync(workdir, { recursive: true, force: true });
 });
 
+describe('project tooling', () => {
+  it.each(['standalone', 'subproject'])('generates %s tooling', mode => {
+    const standalone = mode === 'standalone';
+    runCreate(['my-app', ...(standalone ? [] : ['--sub'])]);
+
+    const projectDir = path.join(workdir, 'my-app');
+    const pkg = JSON.parse(
+      fs.readFileSync(path.join(projectDir, 'package.json'), 'utf-8'),
+    );
+    expect(pkg.scripts).toEqual({
+      dev: 'modern dev',
+      build: 'modern build',
+      serve: 'modern serve',
+      ...(standalone
+        ? { check: 'rs check', lint: 'rs lint', format: 'rs fmt' }
+        : {}),
+    });
+    expect(pkg.engines.node).toBe('^22.18.0 || >=24.3.0');
+    expect('rstack' in pkg.devDependencies).toBe(standalone);
+    expect(pkg.devDependencies['@biomejs/biome']).toBeUndefined();
+    expect(fs.existsSync(path.join(projectDir, 'rstack.config.mts'))).toBe(
+      standalone,
+    );
+    expect(fs.existsSync(path.join(projectDir, 'biome.json'))).toBe(false);
+  });
+});
+
 describe('agent files generation', () => {
   it('generates AGENTS.md and CLAUDE.md by default, with a hint', () => {
     const output = runCreate(['my-app']);

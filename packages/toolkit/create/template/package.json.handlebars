@@ -5,10 +5,12 @@
     "dev": "modern dev",
     "build": "modern build",
     "serve": "modern serve"{{#unless isSubproject}},
-    "lint": "biome check"{{/unless}}
+    "check": "rs check",
+    "lint": "rs lint",
+    "format": "rs fmt"{{/unless}}
   },
   "engines": {
-    "node": ">=20"
+    "node": "^22.18.0 || >=24.3.0"
   },
   "dependencies": {
     "@modern-js/runtime": "{{version}}",
@@ -18,7 +20,7 @@
   "devDependencies": {
     "@modern-js/app-tools": "{{version}}",
     "@modern-js/tsconfig": "{{version}}"{{#unless isSubproject}},
-    "@biomejs/biome": "1.9.4"{{/unless}},
+    "rstack": "0.8.2"{{/unless}},
     "typescript": "~5.7.3",
     "@types/node": "^20",
     "@types/react": "^19.1.8",
