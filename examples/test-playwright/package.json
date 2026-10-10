@@ -31,7 +31,6 @@
     "@types/node": "^20",
     "@types/react": "^19.2.17",
     "@types/react-dom": "^19.2.3",
-    "prettier": "~2.8.1",
     "rimraf": "~3.0.2",
     "typescript": "~5.0.4"
   }

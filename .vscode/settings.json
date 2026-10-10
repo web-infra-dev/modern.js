@@ -29,6 +29,7 @@
   "scss.validate": false,
   "less.validate": false,
   "editor.defaultFormatter": "biomejs.biome",
+  "rstack.rslint.enable": false,
   "editor.formatOnSave": true,
   "editor.codeActionsOnSave": {
     "quickfix.biome": "explicit"
@@ -86,6 +87,6 @@
     "editor.defaultFormatter": "rust-lang.rust-analyzer"
   },
   "[mdx]": {
-    "editor.defaultFormatter": "esbenp.prettier-vscode"
+    "editor.defaultFormatter": "rstack.rstack"
   }
 }
