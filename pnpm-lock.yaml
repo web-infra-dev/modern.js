@@ -2070,8 +2070,8 @@ importers:
         specifier: 7.18.4
         version: 7.18.4(react-dom@19.2.8(react@19.2.8))(react@19.2.8)
       serialize-javascript:
-        specifier: ^7.0.0
-        version: 7.0.5
+        specifier: ^7.1.2
+        version: 7.1.2
     devDependencies:
       '@modern-js/rslib':
         specifier: workspace:*
@@ -17136,8 +17136,8 @@ packages:
     resolution: {integrity: sha512-VMbMxbDeehAxpOtWJXlcUS5E8iXh6QmN+BkRX1GARS3wRaXEEgzCcB10gTQazO42tpNIya8xIyNx8fll1OFPrg==}
     engines: {node: '>= 0.8.0'}
 
-  serialize-javascript@7.0.5:
-    resolution: {integrity: sha512-F4LcB0UqUl1zErq+1nYEEzSHJnIwb3AF2XWB94b+afhrekOUijwooAYqFyRbjYkm2PAKBabx6oYv/xDxNi8IBw==}
+  serialize-javascript@7.1.2:
+    resolution: {integrity: sha512-GL2BWwVa6JydKO6l/ljVgjAZF4QJ3S7dWDWi53s5GZT8PJzD2fNxi67HANQGKAqPrwEpL5ba7gUBGi0Ls/sEoQ==}
     engines: {node: '>=20.0.0'}
 
   serve-static@1.16.3:
@@ -22385,7 +22385,7 @@ snapshots:
       '@swc/helpers': 0.5.23
       lru-cache: 10.4.3
       react-router: 7.18.4(react-dom@19.2.8(react@19.2.8))(react@19.2.8)
-      serialize-javascript: 7.0.5
+      serialize-javascript: 7.1.2
     optionalDependencies:
       react: 19.2.8
       react-dom: 19.2.8(react@19.2.8)
@@ -27484,7 +27484,7 @@ snapshots:
       jest-worker: 30.4.1
       postcss: 8.5.29
       schema-utils: 4.3.3
-      serialize-javascript: 7.0.5
+      serialize-javascript: 7.1.2
       webpack: 5.104.1(@swc/core@1.16.13(@swc/helpers@0.5.23))(esbuild@0.27.2)(lightningcss@1.30.2)(postcss@8.5.29)
     optionalDependencies:
       esbuild: 0.27.2
@@ -27497,7 +27497,7 @@ snapshots:
       jest-worker: 30.4.1
       postcss: 8.5.29
       schema-utils: 4.3.3
-      serialize-javascript: 7.0.5
+      serialize-javascript: 7.1.2
       webpack: 5.104.1(@swc/core@1.16.13(@swc/helpers@0.5.23))(cssnano@6.1.2(postcss@8.5.29))(html-minifier-terser@7.2.0)(postcss@8.5.29)
 
   css-minimizer-webpack-plugin@8.0.0(webpack@5.104.1(@swc/core@1.16.13(@swc/helpers@0.5.23))(postcss@8.5.29)):
@@ -27507,7 +27507,7 @@ snapshots:
       jest-worker: 30.4.1
       postcss: 8.5.29
       schema-utils: 4.3.3
-      serialize-javascript: 7.0.5
+      serialize-javascript: 7.1.2
       webpack: 5.104.1(@swc/core@1.16.13(@swc/helpers@0.5.23))(postcss@8.5.29)
 
   css-select@5.2.2:
@@ -34151,7 +34151,7 @@ snapshots:
     transitivePeerDependencies:
       - supports-color
 
-  serialize-javascript@7.0.5: {}
+  serialize-javascript@7.1.2: {}
 
   serve-static@1.16.3:
     dependencies:
