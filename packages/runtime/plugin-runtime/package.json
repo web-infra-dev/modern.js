@@ -245,8 +245,8 @@
     "@types/invariant": "^2.2.37",
     "@types/loadable__server": "5.12.11",
     "@types/node": "^20",
-    "react": "^19.2.8",
-    "react-dom": "^19.2.8",
+    "react": "^19.3.0",
+    "react-dom": "^19.3.0",
     "ts-node": "^10.9.2",
     "typescript": "^5"
   },
