@@ -4,7 +4,7 @@ import { build, getHrefByEntryName } from '../scripts/shared';
 
 const fixtures = __dirname;
 
-test('tools.rspack', async ({ page }) => {
+test('tools.rspack', async ({ page }, testInfo) => {
   const builder = await build({
     cwd: join(fixtures, 'source/global-vars'),
     entry: {
@@ -12,6 +12,11 @@ test('tools.rspack', async ({ page }) => {
     },
     runServer: true,
     builderConfig: {
+      output: {
+        distPath: {
+          root: testInfo.outputPath('dist'),
+        },
+      },
       source: {
         define: {
           ENABLE_TEST: JSON.stringify(true),
