@@ -2657,8 +2657,8 @@ importers:
         specifier: workspace:*
         version: link:../../../packages/toolkit/utils
       '@playwright/test':
-        specifier: 1.63.0
-        version: 1.63.0
+        specifier: 1.64.0
+        version: 1.64.0
       '@rsbuild/core':
         specifier: 2.2.12
         version: 2.2.12(@module-federation/runtime-tools@2.0.0)(core-js@3.48.0)
@@ -4285,7 +4285,7 @@ importers:
         version: link:../../../../packages/solutions/app-tools
       '@rstest/browser':
         specifier: 0.11.12
-        version: 0.11.12(@rstest/core@0.11.12(core-js@3.48.0)(happy-dom@20.14.6(bufferutil@4.1.0)(utf-8-validate@5.0.10))(jsdom@25.0.1(bufferutil@4.1.0)(utf-8-validate@5.0.10)))(bufferutil@4.1.0)(playwright@1.63.0)(utf-8-validate@5.0.10)
+        version: 0.11.12(@rstest/core@0.11.12(core-js@3.48.0)(happy-dom@20.14.6(bufferutil@4.1.0)(utf-8-validate@5.0.10))(jsdom@25.0.1(bufferutil@4.1.0)(utf-8-validate@5.0.10)))(bufferutil@4.1.0)(playwright@1.64.0)(utf-8-validate@5.0.10)
       '@rstest/browser-react':
         specifier: 0.11.12
         version: 0.11.12(@rstest/core@0.11.12(core-js@3.48.0)(happy-dom@20.14.6(bufferutil@4.1.0)(utf-8-validate@5.0.10))(jsdom@25.0.1(bufferutil@4.1.0)(utf-8-validate@5.0.10)))(react-dom@19.2.8(react@19.2.8))(react@19.2.8)
@@ -4302,8 +4302,8 @@ importers:
         specifier: ^19.3.0
         version: 19.3.0(@types/react@19.3.0)
       playwright:
-        specifier: ^1.63.0
-        version: 1.63.0
+        specifier: ^1.64.0
+        version: 1.64.0
       typescript:
         specifier: ^5
         version: 5.9.3
@@ -8312,8 +8312,8 @@ packages:
     engines: {node: '>=18'}
     hasBin: true
 
-  '@playwright/test@1.63.0':
-    resolution: {integrity: sha512-oxMK4vllB9RK5NQ2l1pq1IfOf2AvnEuj/vYGDj0H2nMtmtZpKtCwt/l00GEO6xjGfpBNAvjovvYdCm50dRQkpQ==}
+  '@playwright/test@1.64.0':
+    resolution: {integrity: sha512-oTN9FNYuN6bqQMwiho6jJKLCG2/QOYCixGXuCjRmzOq23eODeukuY2XiAVoVpAECbuezMt1MHQjAiQxK8F+Y+g==}
     engines: {node: '>=20'}
     hasBin: true
 
@@ -15520,8 +15520,8 @@ packages:
     engines: {node: '>=18'}
     hasBin: true
 
-  playwright-core@1.63.0:
-    resolution: {integrity: sha512-rYCsBF/M5HjUch52bbtVONEFjv6Xu8sm8h72dNlR5bzIE1fvC/bxgspzkjSfU+MweEMmPM8KJebG6nnyxo5mCg==}
+  playwright-core@1.64.0:
+    resolution: {integrity: sha512-T9r+MZkTECl2+oUcZ26YgZzTrYidTsIhYYkJix+6iDOymOb1FB2RLLSOxRGnZGv5DStt+aduIVbt+E8WygXYpg==}
     engines: {node: '>=20'}
     hasBin: true
 
@@ -15530,8 +15530,8 @@ packages:
     engines: {node: '>=18'}
     hasBin: true
 
-  playwright@1.63.0:
-    resolution: {integrity: sha512-+7ziBLidS4NaNCdt57SUDT+wYmmd5fmiQejUic/kb+YsYSCPyOOE9sebzMjNmQrsnNpDJqd4WHvV/8lfKfUDUg==}
+  playwright@1.64.0:
+    resolution: {integrity: sha512-kVzTnYFYEyQ9RGzBjNCd2+yEqWmVbxl3AHPynv3qQ6JTjv4a+kwRcnqQwIpuP3NnrnIrE/Q6wWAIAvMfIE2/Yg==}
     engines: {node: '>=20'}
     hasBin: true
 
@@ -23466,9 +23466,9 @@ snapshots:
     dependencies:
       playwright: 1.61.1
 
-  '@playwright/test@1.63.0':
+  '@playwright/test@1.64.0':
     dependencies:
-      playwright: 1.63.0
+      playwright: 1.64.0
 
   '@polka/url@1.0.0-next.29': {}
 
@@ -24645,7 +24645,7 @@ snapshots:
       react: 19.2.8
       react-dom: 19.2.8(react@19.2.8)
 
-  '@rstest/browser@0.11.12(@rstest/core@0.11.12(core-js@3.48.0)(happy-dom@20.14.6(bufferutil@4.1.0)(utf-8-validate@5.0.10))(jsdom@25.0.1(bufferutil@4.1.0)(utf-8-validate@5.0.10)))(bufferutil@4.1.0)(playwright@1.63.0)(utf-8-validate@5.0.10)':
+  '@rstest/browser@0.11.12(@rstest/core@0.11.12(core-js@3.48.0)(happy-dom@20.14.6(bufferutil@4.1.0)(utf-8-validate@5.0.10))(jsdom@25.0.1(bufferutil@4.1.0)(utf-8-validate@5.0.10)))(bufferutil@4.1.0)(playwright@1.64.0)(utf-8-validate@5.0.10)':
     dependencies:
       '@jridgewell/trace-mapping': 0.3.31
       '@rstest/core': 0.11.12(@module-federation/runtime-tools@2.0.0)(core-js@3.48.0)(happy-dom@20.14.6(bufferutil@4.1.0)(utf-8-validate@5.0.10))(jsdom@25.0.1(bufferutil@4.1.0)(utf-8-validate@5.0.10))
@@ -24655,7 +24655,7 @@ snapshots:
       sirv: 3.0.2
       ws: 8.21.3(bufferutil@4.1.0)(utf-8-validate@5.0.10)
     optionalDependencies:
-      playwright: 1.63.0
+      playwright: 1.64.0
     transitivePeerDependencies:
       - bufferutil
       - utf-8-validate
@@ -32390,7 +32390,7 @@ snapshots:
 
   playwright-core@1.61.1: {}
 
-  playwright-core@1.63.0: {}
+  playwright-core@1.64.0: {}
 
   playwright@1.61.1:
     dependencies:
@@ -32398,9 +32398,9 @@ snapshots:
     optionalDependencies:
       fsevents: 2.3.2
 
-  playwright@1.63.0:
+  playwright@1.64.0:
     dependencies:
-      playwright-core: 1.63.0
+      playwright-core: 1.64.0
 
   points-on-curve@0.2.0: {}
 
