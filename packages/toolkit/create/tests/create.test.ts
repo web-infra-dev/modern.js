@@ -76,7 +76,6 @@ describe('agent files generation', () => {
 
     expect(fs.existsSync(path.join(workdir, 'my-app/package.json'))).toBe(true);
     expect(fs.existsSync(path.join(workdir, 'my-app/AGENTS.md'))).toBe(false);
-    expect(fs.existsSync(path.join(workdir, 'my-app/CLAUDE.md'))).toBe(false);
     expect(output).not.toContain('AGENTS.md generated');
   });
 
@@ -150,7 +149,7 @@ describe('--agents-md-only (existing projects)', () => {
     );
   });
 
-  it('creates only AGENTS.md when neither file exists', () => {
+  it('creates only AGENTS.md when missing', () => {
     runCreate(['--agents-md-only']);
 
     const agents = read('AGENTS.md');
@@ -187,16 +186,6 @@ describe('--agents-md-only (existing projects)', () => {
     expect(agents.indexOf(BEGIN)).toBeLessThan(agents.indexOf('# My rules'));
   });
 
-  it('preserves an existing CLAUDE.md', () => {
-    fs.writeFileSync(
-      path.join(workdir, 'CLAUDE.md'),
-      '# existing claude config\nsome rule\n',
-    );
-    runCreate(['--agents-md-only']);
-
-    expect(read('CLAUDE.md')).toBe('# existing claude config\nsome rule\n');
-  });
-
   it('is idempotent on a second run', () => {
     runCreate(['--agents-md-only']);
     const first = read('AGENTS.md');
@@ -228,7 +217,6 @@ describe('docs location by version', () => {
       const output = runCreate(['--agents-md-only']);
 
       expect(fs.existsSync(path.join(workdir, 'AGENTS.md'))).toBe(false);
-      expect(fs.existsSync(path.join(workdir, 'CLAUDE.md'))).toBe(false);
       expect(output).toContain('3.8.0');
       expect(output).toContain('llms.txt');
     });
