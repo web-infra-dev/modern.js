@@ -39,29 +39,29 @@ export default myCliPlugin;
 
 - **返回值：** `AppContext` 对象，包含以下字段：
 
-| 字段名                 | 类型                | 描述                                               | 何时可用                    |
-| ---------------------- | ------------------- | -------------------------------------------------- | --------------------------- |
-| `command`              | `string`            | 当前执行的命令 (e.g.， `dev`， `build`， `deploy`) | -                           |
-| `port`                 | `number`            | 开发服务器端口号                                   | `onPrepare` 之后            |
-| `configFile`           | `string`            | 配置文件的绝对路径                                 | -                           |
-| `isProd`               | `boolean`           | 是否为生产模式                                     | -                           |
-| `appDirectory`         | `string`            | 项目根目录的绝对路径                               | -                           |
-| `srcDirectory`         | `string`            | 项目源码目录的绝对路径                             | -                           |
-| `distDirectory`        | `string`            | 项目产物输出目录的绝对路径                         | `onPrepare`（及之后）       |
-| `sharedDirectory`      | `string`            | 公共模块目录的绝对路径                             | -                           |
-| `nodeModulesDirectory` | `string`            | `node_modules` 目录的绝对路径                      | -                           |
-| `ip`                   | `string`            | 当前机器的 IPv4 地址                               | -                           |
-| `packageName`          | `string`            | 项目 `package.json` 中的 `name` 字段               | -                           |
-| `plugins`              | `object[]`          | 当前已注册的插件列表                               | -                           |
-| `entrypoints`          | `object[]`          | 页面入口信息                                       | -                           |
-| `serverRoutes`         | `object[]`          | 服务端路由信息                                     | -                           |
-| `bundlerType`          | `rspack`            | 当前使用的打包工具类型                             | `onPrepare` 之后            |
-| `metaName`             | `string`            | 框架内部名称                                       | -                           |
-| `apiDirectory`         | `string`            | API 模块目录的绝对路径 (BFF 使用)                  | -                           |
-| `lambdaDirectory`      | `string`            | Lambda 模块目录的绝对路径 (BFF 使用)               | -                           |
-| `runtimeConfigFile`    | `string`            | 运行时配置文件的名称                               | -                           |
-| `checkedEntries`       | `string[]`          | 指定的入口信息                                     | -                           |
-| `apiOnly`              | `boolean`           | 是否为 `apiOnly` 模式                              | -                           |
+| 字段名                 | 类型       | 描述                                               | 何时可用              |
+| ---------------------- | ---------- | -------------------------------------------------- | --------------------- |
+| `command`              | `string`   | 当前执行的命令 (e.g.， `dev`， `build`， `deploy`) | -                     |
+| `port`                 | `number`   | 开发服务器端口号                                   | `onPrepare` 之后      |
+| `configFile`           | `string`   | 配置文件的绝对路径                                 | -                     |
+| `isProd`               | `boolean`  | 是否为生产模式                                     | -                     |
+| `appDirectory`         | `string`   | 项目根目录的绝对路径                               | -                     |
+| `srcDirectory`         | `string`   | 项目源码目录的绝对路径                             | -                     |
+| `distDirectory`        | `string`   | 项目产物输出目录的绝对路径                         | `onPrepare`（及之后） |
+| `sharedDirectory`      | `string`   | 公共模块目录的绝对路径                             | -                     |
+| `nodeModulesDirectory` | `string`   | `node_modules` 目录的绝对路径                      | -                     |
+| `ip`                   | `string`   | 当前机器的 IPv4 地址                               | -                     |
+| `packageName`          | `string`   | 项目 `package.json` 中的 `name` 字段               | -                     |
+| `plugins`              | `object[]` | 当前已注册的插件列表                               | -                     |
+| `entrypoints`          | `object[]` | 页面入口信息                                       | -                     |
+| `serverRoutes`         | `object[]` | 服务端路由信息                                     | -                     |
+| `bundlerType`          | `rspack`   | 当前使用的打包工具类型                             | `onPrepare` 之后      |
+| `metaName`             | `string`   | 框架内部名称                                       | -                     |
+| `apiDirectory`         | `string`   | API 模块目录的绝对路径 (BFF 使用)                  | -                     |
+| `lambdaDirectory`      | `string`   | Lambda 模块目录的绝对路径 (BFF 使用)               | -                     |
+| `runtimeConfigFile`    | `string`   | 运行时配置文件的名称                               | -                     |
+| `checkedEntries`       | `string[]` | 指定的入口信息                                     | -                     |
+| `apiOnly`              | `boolean`  | 是否为 `apiOnly` 模式                              | -                     |
 
 - **示例：**
 
@@ -236,7 +236,7 @@ api.modifyRspackConfig((config, utils) => {
   config.builtins.minify = {
     enable: true,
     implementation: utils.rspack.SwcJsMinimizerRspackPlugin,
-  }
+  };
 });
 ```
 

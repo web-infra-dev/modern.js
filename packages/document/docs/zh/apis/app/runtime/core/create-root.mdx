@@ -1,6 +1,7 @@
 ---
 title: createRoot
 ---
+
 # createRoot
 
 用于创建 Modern.js 提供的根组件，该根组件会自动注册 Runtime 插件，并完成 Runtime 插件初始化。
@@ -14,7 +15,9 @@ import { createRoot } from '@modern-js/runtime/react';
 ## 函数签名
 
 ```ts
-export function createRoot(UserApp?: React.ComponentType | null): React.ComponentType<any>;
+export function createRoot(
+  UserApp?: React.ComponentType | null,
+): React.ComponentType<any>;
 ```
 
 ### 参数

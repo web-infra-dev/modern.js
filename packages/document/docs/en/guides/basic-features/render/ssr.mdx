@@ -90,7 +90,7 @@ export async function loader({ params }) {
   const data = await res.json();
   return {
     message: data.message,
-  }
+  };
 }
 ```
 
@@ -125,11 +125,7 @@ const Page = () => {
   const undefinedVars = data.unDefined;
   const definedVars = data.defined;
 
-  return (
-    <div>
-      {isNode ? undefinedVars.msg : definedVars.msg}
-    </div>
-  );
+  return <div>{isNode ? undefinedVars.msg : definedVars.msg}</div>;
 };
 
 export default Page;
@@ -214,7 +210,7 @@ document.addEventListener('load', () => {
   console.log('document load');
 });
 
-export const doSomething = () => {}
+export const doSomething = () => {};
 ```
 
 Directly referencing this in a component will cause SSR to throw errors, even if you use environment variables to conditionally load the code. The side effects in the dependency will still execute.
@@ -226,8 +222,8 @@ export const Page = () => {
   if (process.env.MODERN_TARGET === 'browser') {
     doSomething();
   }
-  return <div>Hello World</div>
-}
+  return <div>Hello World</div>;
+};
 ```
 
 Modern.js supports distinguishing between SSR and CSR bundles by using `.server.` suffix files. You can create `.ts` and `.server.ts` files with the same name to create a proxy:
@@ -243,12 +239,12 @@ export const doSomething: any = () => {};
 Import `./a` in the file, and the SSR bundle will prioritize the `.server.ts` files, while the CSR bundle will prioritize the `.ts` files.
 
 ```tsx title="routes/page.tsx"
-import { doSomething } from './a'
+import { doSomething } from './a';
 
 export const Page = () => {
   doSomething();
-  return <div>Hello World</div>
-}
+  return <div>Hello World</div>;
+};
 ```
 
 ## Common Issues

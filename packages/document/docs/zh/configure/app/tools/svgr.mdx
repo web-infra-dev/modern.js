@@ -18,14 +18,14 @@ const defaultOptions = {
 
 `tools.svgr` 用于修改 [@rsbuild/plugin-svgr](https://rsbuild.rs/plugins/list/plugin-svgr) 的选项，取值为该插件的完整选项。设置为 `false` 时不再注册 SVGR 插件，所有 `.svg` 文件按静态资源处理。
 
-| 选项              | 说明                                                                                          |
-| ----------------- | --------------------------------------------------------------------------------------------- |
+| 选项              | 说明                                                                                              |
+| ----------------- | ------------------------------------------------------------------------------------------------- |
 | `svgrOptions`     | 传给 [SVGR](https://react-svgr.com/docs/options/) 的参数，例如 `exportType`、`icon`、`svgoConfig` |
-| `parallel`        | 是否使用 worker 线程并行转换 SVG，默认 `false`                                                  |
-| `exclude`         | 指定哪些 SVG 文件不交给 SVGR 处理                                                              |
-| `excludeImporter` | 指定从哪些文件导入 SVG 时不交给 SVGR 处理                                                       |
-| `query`           | 指定触发 SVGR 转换的 query，默认 `/react/`                                                     |
-| `mixedImport`     | 是否允许在同一个模块中同时导入 URL 与 React 组件，默认 `true`                                   |
+| `parallel`        | 是否使用 worker 线程并行转换 SVG，默认 `false`                                                    |
+| `exclude`         | 指定哪些 SVG 文件不交给 SVGR 处理                                                                 |
+| `excludeImporter` | 指定从哪些文件导入 SVG 时不交给 SVGR 处理                                                         |
+| `query`           | 指定触发 SVGR 转换的 query，默认 `/react/`                                                        |
+| `mixedImport`     | 是否允许在同一个模块中同时导入 URL 与 React 组件，默认 `true`                                     |
 
 ### 合并规则
 
@@ -83,11 +83,11 @@ export default {
 
 `tools.svgr` 取代了下面两个已废弃的配置项，二者目前仍然生效，并将在下一个大版本中移除：
 
-| 旧配置                                | 新配置                                            |
-| ------------------------------------- | ------------------------------------------------- |
+| 旧配置                                 | 新配置                                                   |
+| -------------------------------------- | -------------------------------------------------------- |
 | `output.svgDefaultExport: 'component'` | `tools.svgr: { svgrOptions: { exportType: 'default' } }` |
 | `output.svgDefaultExport: 'url'`       | `tools.svgr: { svgrOptions: { exportType: 'named' } }`   |
-| `output.disableSvgr: true`             | `tools.svgr: false`                               |
-| `output.disableSvgr: false`            | 默认行为，直接删除即可                            |
+| `output.disableSvgr: true`             | `tools.svgr: false`                                      |
+| `output.disableSvgr: false`            | 默认行为，直接删除即可                                   |
 
 同时设置时以 `tools.svgr` 为准：显式设置了 `tools.svgr` 后，`output.disableSvgr` 不再生效；`tools.svgr.svgrOptions.exportType` 会覆盖 `output.svgDefaultExport` 派生的值。

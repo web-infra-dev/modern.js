@@ -10,14 +10,14 @@ title: API Reference
 
 ### Return Value
 
-| Field | Type | Description |
-| --- | --- | --- |
-| `language` | `string` | Current language code |
-| `changeLanguage` | `(lang: string) => Promise<void>` | Switches language |
-| `supportedLanguages` | `string[]` | Supported language list, from `localeDetection.languages` |
-| `isLanguageSupported` | `(lang: string) => boolean` | Checks whether a language is in the supported list |
-| `isResourcesReady` | `boolean` | Whether translation resources for the current language have finished loading |
-| `i18nInstance` | `I18nInstance` | i18next instance for advanced scenarios |
+| Field                 | Type                              | Description                                                                  |
+| --------------------- | --------------------------------- | ---------------------------------------------------------------------------- |
+| `language`            | `string`                          | Current language code                                                        |
+| `changeLanguage`      | `(lang: string) => Promise<void>` | Switches language                                                            |
+| `supportedLanguages`  | `string[]`                        | Supported language list, from `localeDetection.languages`                    |
+| `isLanguageSupported` | `(lang: string) => boolean`       | Checks whether a language is in the supported list                           |
+| `isResourcesReady`    | `boolean`                         | Whether translation resources for the current language have finished loading |
+| `i18nInstance`        | `I18nInstance`                    | i18next instance for advanced scenarios                                      |
 
 ### Basic Usage
 
@@ -85,13 +85,13 @@ A route link component with a locale prefix.
 
 ### Props
 
-| Prop | Type | Required | Description |
-| --- | --- | --- | --- |
-| `to` | `string` | Yes | Target path. Do not include the locale prefix |
-| `children` | `React.ReactNode` | Yes | Link content |
-| `replace` | `boolean` | No | Uses `history.replace` instead of `push` |
-| `state` | `any` | No | State passed to the target route |
-| Other Link props | - | No | Inherited from the `Link` component in `@modern-js/runtime/router` |
+| Prop             | Type              | Required | Description                                                        |
+| ---------------- | ----------------- | -------- | ------------------------------------------------------------------ |
+| `to`             | `string`          | Yes      | Target path. Do not include the locale prefix                      |
+| `children`       | `React.ReactNode` | Yes      | Link content                                                       |
+| `replace`        | `boolean`         | No       | Uses `history.replace` instead of `push`                           |
+| `state`          | `any`             | No       | State passed to the target route                                   |
+| Other Link props | -                 | No       | Inherited from the `Link` component in `@modern-js/runtime/router` |
 
 ### Usage
 
@@ -166,11 +166,11 @@ Type of the custom backend loader function:
 type I18nSdkLoader = (options: I18nSdkLoadOptions) => Promise<Resources>;
 
 interface I18nSdkLoadOptions {
-  lng?: string;      // Single language code
-  ns?: string;       // Single namespace
-  lngs?: string[];   // Multiple language codes
-  nss?: string[];    // Multiple namespaces
-  all?: boolean;     // Load all resources
+  lng?: string; // Single language code
+  ns?: string; // Single namespace
+  lngs?: string[]; // Multiple language codes
+  nss?: string[]; // Multiple namespaces
+  all?: boolean; // Load all resources
 }
 
 type Resources = {
@@ -185,14 +185,14 @@ type Resources = {
 ```ts
 interface LanguageDetectorOptions {
   order?: string[];
-  lookupQuerystring?: string;   // Default: 'lng'
-  lookupCookie?: string;        // Default: 'i18next'
-  lookupLocalStorage?: string;  // Default: 'i18nextLng'
+  lookupQuerystring?: string; // Default: 'lng'
+  lookupCookie?: string; // Default: 'i18next'
+  lookupLocalStorage?: string; // Default: 'i18nextLng'
   lookupSession?: string;
-  lookupHeader?: string;        // Default: 'accept-language'
+  lookupHeader?: string; // Default: 'accept-language'
   lookupFromPathIndex?: number; // Default: 0
   caches?: false | string[];
-  cookieMinutes?: number;       // Default: 525600 (1 year)
+  cookieMinutes?: number; // Default: 525600 (1 year)
   cookieExpirationDate?: Date;
   cookieDomain?: string;
 }
@@ -212,8 +212,8 @@ import { useTranslation } from 'react-i18next';
 import { useModernI18n } from '@modern-js/plugin-i18n/runtime';
 
 function App() {
-  const { t } = useTranslation();                          // Translate text
-  const { language, changeLanguage } = useModernI18n();    // Switch language
+  const { t } = useTranslation(); // Translate text
+  const { language, changeLanguage } = useModernI18n(); // Switch language
 
   return (
     <div>
@@ -231,5 +231,11 @@ You can also get the i18next instance from `useModernI18n` and call capabilities
 const { i18nInstance } = useModernI18n();
 
 // Dynamically add translation resources.
-i18nInstance.addResourceBundle('zh', 'translation', { key: 'Value' }, true, true);
+i18nInstance.addResourceBundle(
+  'zh',
+  'translation',
+  { key: 'Value' },
+  true,
+  true,
+);
 ```

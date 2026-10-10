@@ -10,14 +10,14 @@ title: API 参考
 
 ### 返回值
 
-| 字段 | 类型 | 说明 |
-| --- | --- | --- |
-| `language` | `string` | 当前语言代码 |
-| `changeLanguage` | `(lang: string) => Promise<void>` | 切换语言 |
-| `supportedLanguages` | `string[]` | 支持的语言列表（来自 `localeDetection.languages`） |
-| `isLanguageSupported` | `(lang: string) => boolean` | 检查语言是否在支持列表中 |
-| `isResourcesReady` | `boolean` | 当前语言的翻译资源是否已加载完成 |
-| `i18nInstance` | `I18nInstance` | i18next 实例（用于高级场景） |
+| 字段                  | 类型                              | 说明                                               |
+| --------------------- | --------------------------------- | -------------------------------------------------- |
+| `language`            | `string`                          | 当前语言代码                                       |
+| `changeLanguage`      | `(lang: string) => Promise<void>` | 切换语言                                           |
+| `supportedLanguages`  | `string[]`                        | 支持的语言列表（来自 `localeDetection.languages`） |
+| `isLanguageSupported` | `(lang: string) => boolean`       | 检查语言是否在支持列表中                           |
+| `isResourcesReady`    | `boolean`                         | 当前语言的翻译资源是否已加载完成                   |
+| `i18nInstance`        | `I18nInstance`                    | i18next 实例（用于高级场景）                       |
 
 ### 基本用法
 
@@ -85,13 +85,13 @@ function MyComponent() {
 
 ### Props
 
-| Prop | 类型 | 必填 | 说明 |
-| --- | --- | --- | --- |
-| `to` | `string` | 是 | 目标路径，不需要包含语言前缀 |
-| `children` | `React.ReactNode` | 是 | 链接内容 |
-| `replace` | `boolean` | 否 | 使用 `history.replace` 而非 `push` |
-| `state` | `any` | 否 | 传递给目标路由的状态 |
-| 其他 Link props | — | 否 | 继承自 `@modern-js/runtime/router` 的 `Link` 组件 |
+| Prop            | 类型              | 必填 | 说明                                              |
+| --------------- | ----------------- | ---- | ------------------------------------------------- |
+| `to`            | `string`          | 是   | 目标路径，不需要包含语言前缀                      |
+| `children`      | `React.ReactNode` | 是   | 链接内容                                          |
+| `replace`       | `boolean`         | 否   | 使用 `history.replace` 而非 `push`                |
+| `state`         | `any`             | 否   | 传递给目标路由的状态                              |
+| 其他 Link props | —                 | 否   | 继承自 `@modern-js/runtime/router` 的 `Link` 组件 |
 
 ### 用法
 
@@ -132,6 +132,7 @@ const myPlugin = (): RuntimePlugin => ({
 ```
 
 **注意事项：**
+
 - 确保 i18n 插件在使用 `context.changeLanguage` 的插件之前注册
 - `changeLanguage` 在服务端不会更新 URL 路径，需要配合路由插件或手动处理
 
@@ -165,11 +166,11 @@ interface I18nInstance {
 type I18nSdkLoader = (options: I18nSdkLoadOptions) => Promise<Resources>;
 
 interface I18nSdkLoadOptions {
-  lng?: string;      // 单个语言代码
-  ns?: string;       // 单个命名空间
-  lngs?: string[];   // 多个语言代码
-  nss?: string[];    // 多个命名空间
-  all?: boolean;     // 加载所有资源
+  lng?: string; // 单个语言代码
+  ns?: string; // 单个命名空间
+  lngs?: string[]; // 多个语言代码
+  nss?: string[]; // 多个命名空间
+  all?: boolean; // 加载所有资源
 }
 
 type Resources = {
@@ -184,14 +185,14 @@ type Resources = {
 ```ts
 interface LanguageDetectorOptions {
   order?: string[];
-  lookupQuerystring?: string;   // 默认 'lng'
-  lookupCookie?: string;        // 默认 'i18next'
-  lookupLocalStorage?: string;  // 默认 'i18nextLng'
+  lookupQuerystring?: string; // 默认 'lng'
+  lookupCookie?: string; // 默认 'i18next'
+  lookupLocalStorage?: string; // 默认 'i18nextLng'
   lookupSession?: string;
-  lookupHeader?: string;        // 默认 'accept-language'
+  lookupHeader?: string; // 默认 'accept-language'
   lookupFromPathIndex?: number; // 默认 0
   caches?: false | string[];
-  cookieMinutes?: number;       // 默认 525600（1年）
+  cookieMinutes?: number; // 默认 525600（1年）
   cookieExpirationDate?: Date;
   cookieDomain?: string;
 }
@@ -211,8 +212,8 @@ import { useTranslation } from 'react-i18next';
 import { useModernI18n } from '@modern-js/plugin-i18n/runtime';
 
 function App() {
-  const { t } = useTranslation();                          // 翻译文本
-  const { language, changeLanguage } = useModernI18n();    // 语言切换
+  const { t } = useTranslation(); // 翻译文本
+  const { language, changeLanguage } = useModernI18n(); // 语言切换
 
   return (
     <div>

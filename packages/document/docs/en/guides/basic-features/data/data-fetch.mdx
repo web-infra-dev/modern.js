@@ -24,9 +24,7 @@ Modern.js recommends managing routes using [conventional routing](/guides/basic-
 In the `routes/user/page.data.ts` file, you can export a Data Loader function:
 
 ```ts title="routes/user/page.data.ts"
-export type ProfileData = {
-  /*  some types */
-};
+export type ProfileData = {/*  some types */};
 
 export const loader = async (): Promise<ProfileData> => {
   const res = await fetch('https://api/user/profile');
