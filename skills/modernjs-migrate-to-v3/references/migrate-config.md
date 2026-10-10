@@ -25,15 +25,19 @@ v3 不再支持在 `modern.config.ts` 配 `runtime`，必须迁到 `src/modern.r
 
 ```ts
 // v2
-html: {
-  appIcon: './src/assets/icon.png';
-}
+defineConfig({
+  html: {
+    appIcon: './src/assets/icon.png',
+  },
+});
 // v3
-html: {
-  appIcon: {
-    icons: [{ src: './src/assets/icon.png', size: 180 }];
-  }
-}
+defineConfig({
+  html: {
+    appIcon: {
+      icons: [{ src: './src/assets/icon.png', size: 180 }],
+    },
+  },
+});
 ```
 
 ## server.ssr.mode：默认 'string' → 'stream'
@@ -41,11 +45,13 @@ html: {
 v3 启用 SSR 时默认流式渲染。**React 17 项目需手动设回 `'string'`**：
 
 ```ts
-server: {
-  ssr: {
-    mode: 'string';
-  }
-}
+defineConfig({
+  server: {
+    ssr: {
+      mode: 'string',
+    },
+  },
+});
 ```
 
 React 18+ 且未在 Data Loader 用 Suspense 时，保持默认 `'stream'` 渲染结果不变。
