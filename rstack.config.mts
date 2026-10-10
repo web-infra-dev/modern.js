@@ -1,5 +1,13 @@
 import { define } from 'rstack';
 
+define.staged({
+  '*.{js,ts,cjs,mjs,d.cts,d.mts,jsx,tsx,json,jsonc}': [
+    'biome check --files-ignore-unknown=true',
+  ],
+  '**/package.json': ['pnpm check-dependencies'],
+  '*': ['rs fmt --check --ignore-unknown --no-error-on-unmatched-pattern'],
+});
+
 define.fmt({
   singleQuote: true,
   trailingComma: 'all',

@@ -3,4 +3,4 @@
 # Skip hooks in CI.
 [ -n "$CI" ] && exit 0
 
-lint-staged
+rs staged
