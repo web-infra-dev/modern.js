@@ -46,7 +46,7 @@ importers:
         version: link:packages/tsconfig
       '@rstest/core':
         specifier: 0.11.12
-        version: 0.11.12(@module-federation/runtime-tools@2.0.0)(core-js@3.48.0)(happy-dom@20.14.5(bufferutil@4.1.0)(utf-8-validate@5.0.10))(jsdom@25.0.1(bufferutil@4.1.0)(utf-8-validate@5.0.10))
+        version: 0.11.12(@module-federation/runtime-tools@2.0.0)(core-js@3.48.0)(happy-dom@20.14.6(bufferutil@4.1.0)(utf-8-validate@5.0.10))(jsdom@25.0.1(bufferutil@4.1.0)(utf-8-validate@5.0.10))
       '@scripts/build':
         specifier: workspace:*
         version: link:scripts/build
@@ -76,7 +76,7 @@ importers:
         version: 6.1.3
       rstack:
         specifier: 0.8.2
-        version: 0.8.2(core-js@3.48.0)(happy-dom@20.14.5(bufferutil@4.1.0)(utf-8-validate@5.0.10))(jiti@2.7.0)(jsdom@25.0.1(bufferutil@4.1.0)(utf-8-validate@5.0.10))(typescript@5.9.3)
+        version: 0.8.2(core-js@3.48.0)(happy-dom@20.14.6(bufferutil@4.1.0)(utf-8-validate@5.0.10))(jiti@2.7.0)(jsdom@25.0.1(bufferutil@4.1.0)(utf-8-validate@5.0.10))(typescript@5.9.3)
 
   benchmark/bundle-diff:
     dependencies:
@@ -857,7 +857,7 @@ importers:
         version: 5.0.4
       vitest:
         specifier: ^2.0.5
-        version: 2.1.9(@types/node@20.19.27)(happy-dom@20.14.5(bufferutil@4.1.0)(utf-8-validate@5.0.10))(jsdom@25.0.1(bufferutil@4.1.0)(utf-8-validate@5.0.10))(less@4.9.1)(lightningcss@1.30.2)(sass-embedded@1.100.0)(sass@1.105.1)(terser@5.51.2)
+        version: 2.1.9(@types/node@20.19.27)(happy-dom@20.14.6(bufferutil@4.1.0)(utf-8-validate@5.0.10))(jsdom@25.0.1(bufferutil@4.1.0)(utf-8-validate@5.0.10))(less@4.9.1)(lightningcss@1.30.2)(sass-embedded@1.100.0)(sass@1.105.1)(terser@5.51.2)
 
   packages/cli/adapter-rstest:
     dependencies:
@@ -866,7 +866,7 @@ importers:
         version: link:../../solutions/app-tools
       '@rstest/adapter-rsbuild':
         specifier: ^0.11.12
-        version: 0.11.12(@rsbuild/core@2.2.12(@module-federation/runtime-tools@2.0.0)(core-js@3.48.0))(@rstest/core@0.11.12(@module-federation/runtime-tools@2.0.0)(core-js@3.48.0)(happy-dom@20.14.5(bufferutil@4.1.0)(utf-8-validate@5.0.10))(jsdom@25.0.1(bufferutil@4.1.0)(utf-8-validate@5.0.10)))
+        version: 0.11.12(@rsbuild/core@2.2.12(@module-federation/runtime-tools@2.0.0)(core-js@3.48.0))(@rstest/core@0.11.12(@module-federation/runtime-tools@2.0.0)(core-js@3.48.0)(happy-dom@20.14.6(bufferutil@4.1.0)(utf-8-validate@5.0.10))(jsdom@25.0.1(bufferutil@4.1.0)(utf-8-validate@5.0.10)))
     devDependencies:
       '@modern-js/rslib':
         specifier: workspace:*
@@ -885,7 +885,7 @@ importers:
         version: 1.0.3(@module-federation/runtime-tools@2.0.0)(core-js@3.48.0)(typescript@5.9.3)
       '@rstest/core':
         specifier: 0.11.12
-        version: 0.11.12(@module-federation/runtime-tools@2.0.0)(core-js@3.48.0)(happy-dom@20.14.5(bufferutil@4.1.0)(utf-8-validate@5.0.10))(jsdom@25.0.1(bufferutil@4.1.0)(utf-8-validate@5.0.10))
+        version: 0.11.12(@module-federation/runtime-tools@2.0.0)(core-js@3.48.0)(happy-dom@20.14.6(bufferutil@4.1.0)(utf-8-validate@5.0.10))(jsdom@25.0.1(bufferutil@4.1.0)(utf-8-validate@5.0.10))
       '@scripts/rstest-config':
         specifier: workspace:*
         version: link:../../../scripts/rstest-config
@@ -2322,8 +2322,8 @@ importers:
         specifier: ^20
         version: 20.19.27
       happy-dom:
-        specifier: ^20.14.5
-        version: 20.14.5(bufferutil@4.1.0)(utf-8-validate@5.0.10)
+        specifier: ^20.14.6
+        version: 20.14.6(bufferutil@4.1.0)(utf-8-validate@5.0.10)
       typescript:
         specifier: ^5
         version: 5.9.3
@@ -4362,7 +4362,7 @@ importers:
         version: link:../../../../packages/cli/plugin-bff
       '@rstest/core':
         specifier: 0.11.12
-        version: 0.11.12(@module-federation/runtime-tools@2.0.0)(core-js@3.48.0)(happy-dom@20.14.5(bufferutil@4.1.0)(utf-8-validate@5.0.10))(jsdom@25.0.1(bufferutil@4.1.0)(utf-8-validate@5.0.10))
+        version: 0.11.12(@module-federation/runtime-tools@2.0.0)(core-js@3.48.0)(happy-dom@20.14.6(bufferutil@4.1.0)(utf-8-validate@5.0.10))(jsdom@25.0.1(bufferutil@4.1.0)(utf-8-validate@5.0.10))
       '@testing-library/jest-dom':
         specifier: ^6.9.1
         version: 6.9.1
@@ -4379,8 +4379,8 @@ importers:
         specifier: ^19.3.0
         version: 19.3.0(@types/react@19.3.0)
       happy-dom:
-        specifier: ^20.14.5
-        version: 20.14.5(bufferutil@4.1.0)(utf-8-validate@5.0.10)
+        specifier: ^20.14.6
+        version: 20.14.6(bufferutil@4.1.0)(utf-8-validate@5.0.10)
       typescript:
         specifier: ^5
         version: 5.9.3
@@ -4405,13 +4405,13 @@ importers:
         version: link:../../../../packages/solutions/app-tools
       '@rstest/browser':
         specifier: 0.11.12
-        version: 0.11.12(@rstest/core@0.11.12(core-js@3.48.0)(happy-dom@20.14.5(bufferutil@4.1.0)(utf-8-validate@5.0.10))(jsdom@25.0.1(bufferutil@4.1.0)(utf-8-validate@5.0.10)))(bufferutil@4.1.0)(playwright@1.63.0)(utf-8-validate@5.0.10)
+        version: 0.11.12(@rstest/core@0.11.12(core-js@3.48.0)(happy-dom@20.14.6(bufferutil@4.1.0)(utf-8-validate@5.0.10))(jsdom@25.0.1(bufferutil@4.1.0)(utf-8-validate@5.0.10)))(bufferutil@4.1.0)(playwright@1.63.0)(utf-8-validate@5.0.10)
       '@rstest/browser-react':
         specifier: 0.11.12
-        version: 0.11.12(@rstest/core@0.11.12(core-js@3.48.0)(happy-dom@20.14.5(bufferutil@4.1.0)(utf-8-validate@5.0.10))(jsdom@25.0.1(bufferutil@4.1.0)(utf-8-validate@5.0.10)))(react-dom@19.2.8(react@19.2.8))(react@19.2.8)
+        version: 0.11.12(@rstest/core@0.11.12(core-js@3.48.0)(happy-dom@20.14.6(bufferutil@4.1.0)(utf-8-validate@5.0.10))(jsdom@25.0.1(bufferutil@4.1.0)(utf-8-validate@5.0.10)))(react-dom@19.2.8(react@19.2.8))(react@19.2.8)
       '@rstest/core':
         specifier: 0.11.12
-        version: 0.11.12(@module-federation/runtime-tools@2.0.0)(core-js@3.48.0)(happy-dom@20.14.5(bufferutil@4.1.0)(utf-8-validate@5.0.10))(jsdom@25.0.1(bufferutil@4.1.0)(utf-8-validate@5.0.10))
+        version: 0.11.12(@module-federation/runtime-tools@2.0.0)(core-js@3.48.0)(happy-dom@20.14.6(bufferutil@4.1.0)(utf-8-validate@5.0.10))(jsdom@25.0.1(bufferutil@4.1.0)(utf-8-validate@5.0.10))
       '@types/node':
         specifier: ^20
         version: 20.19.27
@@ -13527,8 +13527,8 @@ packages:
     engines: {node: '>=0.4.7'}
     hasBin: true
 
-  happy-dom@20.14.5:
-    resolution: {integrity: sha512-x/RzkpWO40bTjIoT30iQtt64FLLmH/iRcUCN2X//bLx7H3ifkdfPXyqsro/OYtqzIAhiLMMA7mmiOR9C3NOKjQ==}
+  happy-dom@20.14.6:
+    resolution: {integrity: sha512-5DDsf4QmEIlRL6NkCv/fxSjYHHkZceL/IaYQdJc2h3G7DRTEai++VTjbfL0LB9geW2VrA3+vrjF3Efx+OTtX0Q==}
     engines: {node: '>=20.0.0'}
 
   has-flag@3.0.0:
@@ -25001,21 +25001,21 @@ snapshots:
   '@rstackjs/cli-win32-x64-msvc@0.8.2':
     optional: true
 
-  '@rstest/adapter-rsbuild@0.11.12(@rsbuild/core@2.2.12(@module-federation/runtime-tools@2.0.0)(core-js@3.48.0))(@rstest/core@0.11.12(@module-federation/runtime-tools@2.0.0)(core-js@3.48.0)(happy-dom@20.14.5(bufferutil@4.1.0)(utf-8-validate@5.0.10))(jsdom@25.0.1(bufferutil@4.1.0)(utf-8-validate@5.0.10)))':
+  '@rstest/adapter-rsbuild@0.11.12(@rsbuild/core@2.2.12(@module-federation/runtime-tools@2.0.0)(core-js@3.48.0))(@rstest/core@0.11.12(@module-federation/runtime-tools@2.0.0)(core-js@3.48.0)(happy-dom@20.14.6(bufferutil@4.1.0)(utf-8-validate@5.0.10))(jsdom@25.0.1(bufferutil@4.1.0)(utf-8-validate@5.0.10)))':
     dependencies:
       '@rsbuild/core': 2.2.12(@module-federation/runtime-tools@2.0.0)(core-js@3.48.0)
-      '@rstest/core': 0.11.12(@module-federation/runtime-tools@2.0.0)(core-js@3.48.0)(happy-dom@20.14.5(bufferutil@4.1.0)(utf-8-validate@5.0.10))(jsdom@25.0.1(bufferutil@4.1.0)(utf-8-validate@5.0.10))
+      '@rstest/core': 0.11.12(@module-federation/runtime-tools@2.0.0)(core-js@3.48.0)(happy-dom@20.14.6(bufferutil@4.1.0)(utf-8-validate@5.0.10))(jsdom@25.0.1(bufferutil@4.1.0)(utf-8-validate@5.0.10))
 
-  '@rstest/browser-react@0.11.12(@rstest/core@0.11.12(core-js@3.48.0)(happy-dom@20.14.5(bufferutil@4.1.0)(utf-8-validate@5.0.10))(jsdom@25.0.1(bufferutil@4.1.0)(utf-8-validate@5.0.10)))(react-dom@19.2.8(react@19.2.8))(react@19.2.8)':
+  '@rstest/browser-react@0.11.12(@rstest/core@0.11.12(core-js@3.48.0)(happy-dom@20.14.6(bufferutil@4.1.0)(utf-8-validate@5.0.10))(jsdom@25.0.1(bufferutil@4.1.0)(utf-8-validate@5.0.10)))(react-dom@19.2.8(react@19.2.8))(react@19.2.8)':
     dependencies:
-      '@rstest/core': 0.11.12(@module-federation/runtime-tools@2.0.0)(core-js@3.48.0)(happy-dom@20.14.5(bufferutil@4.1.0)(utf-8-validate@5.0.10))(jsdom@25.0.1(bufferutil@4.1.0)(utf-8-validate@5.0.10))
+      '@rstest/core': 0.11.12(@module-federation/runtime-tools@2.0.0)(core-js@3.48.0)(happy-dom@20.14.6(bufferutil@4.1.0)(utf-8-validate@5.0.10))(jsdom@25.0.1(bufferutil@4.1.0)(utf-8-validate@5.0.10))
       react: 19.2.8
       react-dom: 19.2.8(react@19.2.8)
 
-  '@rstest/browser@0.11.12(@rstest/core@0.11.12(core-js@3.48.0)(happy-dom@20.14.5(bufferutil@4.1.0)(utf-8-validate@5.0.10))(jsdom@25.0.1(bufferutil@4.1.0)(utf-8-validate@5.0.10)))(bufferutil@4.1.0)(playwright@1.63.0)(utf-8-validate@5.0.10)':
+  '@rstest/browser@0.11.12(@rstest/core@0.11.12(core-js@3.48.0)(happy-dom@20.14.6(bufferutil@4.1.0)(utf-8-validate@5.0.10))(jsdom@25.0.1(bufferutil@4.1.0)(utf-8-validate@5.0.10)))(bufferutil@4.1.0)(playwright@1.63.0)(utf-8-validate@5.0.10)':
     dependencies:
       '@jridgewell/trace-mapping': 0.3.31
-      '@rstest/core': 0.11.12(@module-federation/runtime-tools@2.0.0)(core-js@3.48.0)(happy-dom@20.14.5(bufferutil@4.1.0)(utf-8-validate@5.0.10))(jsdom@25.0.1(bufferutil@4.1.0)(utf-8-validate@5.0.10))
+      '@rstest/core': 0.11.12(@module-federation/runtime-tools@2.0.0)(core-js@3.48.0)(happy-dom@20.14.6(bufferutil@4.1.0)(utf-8-validate@5.0.10))(jsdom@25.0.1(bufferutil@4.1.0)(utf-8-validate@5.0.10))
       convert-source-map: 2.0.0
       open-editor: 6.0.0
       pathe: 2.0.3
@@ -25027,24 +25027,24 @@ snapshots:
       - bufferutil
       - utf-8-validate
 
-  '@rstest/core@0.11.12(@module-federation/runtime-tools@2.0.0)(core-js@3.48.0)(happy-dom@20.14.5(bufferutil@4.1.0)(utf-8-validate@5.0.10))(jsdom@25.0.1(bufferutil@4.1.0)(utf-8-validate@5.0.10))':
+  '@rstest/core@0.11.12(@module-federation/runtime-tools@2.0.0)(core-js@3.48.0)(happy-dom@20.14.6(bufferutil@4.1.0)(utf-8-validate@5.0.10))(jsdom@25.0.1(bufferutil@4.1.0)(utf-8-validate@5.0.10))':
     dependencies:
       '@rsbuild/core': 2.2.12(@module-federation/runtime-tools@2.0.0)(core-js@3.48.0)
       '@types/chai': 5.2.3
     optionalDependencies:
-      happy-dom: 20.14.5(bufferutil@4.1.0)(utf-8-validate@5.0.10)
+      happy-dom: 20.14.6(bufferutil@4.1.0)(utf-8-validate@5.0.10)
       jsdom: 25.0.1(bufferutil@4.1.0)(utf-8-validate@5.0.10)
     transitivePeerDependencies:
       - '@module-federation/runtime-tools'
       - core-js
 
-  '@rstest/core@0.12.3(core-js@3.48.0)(happy-dom@20.14.5(bufferutil@4.1.0)(utf-8-validate@5.0.10))(jsdom@25.0.1(bufferutil@4.1.0)(utf-8-validate@5.0.10))':
+  '@rstest/core@0.12.3(core-js@3.48.0)(happy-dom@20.14.6(bufferutil@4.1.0)(utf-8-validate@5.0.10))(jsdom@25.0.1(bufferutil@4.1.0)(utf-8-validate@5.0.10))':
     dependencies:
       '@rsbuild/core': 2.2.12(@module-federation/runtime-tools@2.0.0)(core-js@3.48.0)
       '@types/chai': 5.2.3
       cjs-module-lexer: 2.3.0
     optionalDependencies:
-      happy-dom: 20.14.5(bufferutil@4.1.0)(utf-8-validate@5.0.10)
+      happy-dom: 20.14.6(bufferutil@4.1.0)(utf-8-validate@5.0.10)
       jsdom: 25.0.1(bufferutil@4.1.0)(utf-8-validate@5.0.10)
     transitivePeerDependencies:
       - '@module-federation/runtime-tools'
@@ -29697,7 +29697,7 @@ snapshots:
     optionalDependencies:
       uglify-js: 3.19.3
 
-  happy-dom@20.14.5(bufferutil@4.1.0)(utf-8-validate@5.0.10):
+  happy-dom@20.14.6(bufferutil@4.1.0)(utf-8-validate@5.0.10):
     dependencies:
       '@types/node': 20.19.43
       '@types/whatwg-mimetype': 3.0.2
@@ -34356,12 +34356,12 @@ snapshots:
     optionalDependencies:
       '@rspack/core': 2.2.8(@module-federation/runtime-tools@2.0.0)(@swc/helpers@0.5.23)
 
-  rstack@0.8.2(core-js@3.48.0)(happy-dom@20.14.5(bufferutil@4.1.0)(utf-8-validate@5.0.10))(jiti@2.7.0)(jsdom@25.0.1(bufferutil@4.1.0)(utf-8-validate@5.0.10))(typescript@5.9.3):
+  rstack@0.8.2(core-js@3.48.0)(happy-dom@20.14.6(bufferutil@4.1.0)(utf-8-validate@5.0.10))(jiti@2.7.0)(jsdom@25.0.1(bufferutil@4.1.0)(utf-8-validate@5.0.10))(typescript@5.9.3):
     dependencies:
       '@rsbuild/core': 2.2.12(@module-federation/runtime-tools@2.0.0)(core-js@3.48.0)
       '@rslib/core': 1.0.3(@module-federation/runtime-tools@2.0.0)(core-js@3.48.0)(typescript@5.9.3)
       '@rslint/core': 0.9.5(jiti@2.7.0)
-      '@rstest/core': 0.12.3(core-js@3.48.0)(happy-dom@20.14.5(bufferutil@4.1.0)(utf-8-validate@5.0.10))(jsdom@25.0.1(bufferutil@4.1.0)(utf-8-validate@5.0.10))
+      '@rstest/core': 0.12.3(core-js@3.48.0)(happy-dom@20.14.6(bufferutil@4.1.0)(utf-8-validate@5.0.10))(jsdom@25.0.1(bufferutil@4.1.0)(utf-8-validate@5.0.10))
       '@swc-next/parser': 0.2.3
       prettier: 3.9.9
       tinypool: 2.2.0
@@ -36138,7 +36138,7 @@ snapshots:
       sass-embedded: 1.100.0
       terser: 5.51.2
 
-  vitest@2.1.9(@types/node@20.19.27)(happy-dom@20.14.5(bufferutil@4.1.0)(utf-8-validate@5.0.10))(jsdom@25.0.1(bufferutil@4.1.0)(utf-8-validate@5.0.10))(less@4.9.1)(lightningcss@1.30.2)(sass-embedded@1.100.0)(sass@1.105.1)(terser@5.51.2):
+  vitest@2.1.9(@types/node@20.19.27)(happy-dom@20.14.6(bufferutil@4.1.0)(utf-8-validate@5.0.10))(jsdom@25.0.1(bufferutil@4.1.0)(utf-8-validate@5.0.10))(less@4.9.1)(lightningcss@1.30.2)(sass-embedded@1.100.0)(sass@1.105.1)(terser@5.51.2):
     dependencies:
       '@vitest/expect': 2.1.9
       '@vitest/mocker': 2.1.9(vite@5.4.21(@types/node@20.19.27)(less@4.9.1)(lightningcss@1.30.2)(sass-embedded@1.100.0)(sass@1.105.1)(terser@5.51.2))
@@ -36162,7 +36162,7 @@ snapshots:
       why-is-node-running: 2.3.0
     optionalDependencies:
       '@types/node': 20.19.27
-      happy-dom: 20.14.5(bufferutil@4.1.0)(utf-8-validate@5.0.10)
+      happy-dom: 20.14.6(bufferutil@4.1.0)(utf-8-validate@5.0.10)
       jsdom: 25.0.1(bufferutil@4.1.0)(utf-8-validate@5.0.10)
     transitivePeerDependencies:
       - less
