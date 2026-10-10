@@ -7,24 +7,55 @@
 A tool references a React component file in the current project directly through `view.module`. For example:
 
 ```ts title="api/mcp_apps.ts"
-import { defineMcpServer } from '@modern-js/mcp-apps/config';
+import { defineMcpServer, defineTool } from '@modern-js/mcp-apps/config';
 import { name, version } from '../package.json';
-import { addNumbers, greet } from './mcp-tools';
 
 export default defineMcpServer({
   name,
   version,
   tools: [
-    {
-      ...greet,
+    defineTool({
+      name: 'greet',
+      description: 'Greet someone.',
+      inputSchema: {
+        type: 'object',
+        properties: { name: { type: 'string', minLength: 1 } },
+        required: ['name'],
+        additionalProperties: false,
+      },
+      annotations: { readOnlyHint: true },
+      handler: async ({ name }) => {
+        const message = `Hello, ${name}!`;
+        return {
+          content: [{ type: 'text', text: message }],
+          structuredContent: { message },
+          viewProps: { message },
+        };
+      },
       visibility: ['model', 'app'],
       view: { module: './src/components/Greeting.tsx' },
-    },
-    {
-      ...addNumbers,
+    }),
+    defineTool({
+      name: 'add_numbers',
+      description: 'Add two numbers.',
+      inputSchema: {
+        type: 'object',
+        properties: { a: { type: 'number' }, b: { type: 'number' } },
+        required: ['a', 'b'],
+        additionalProperties: false,
+      },
+      annotations: { readOnlyHint: true },
+      handler: ({ a, b }) => {
+        const sum = a + b;
+        return {
+          content: [{ type: 'text', text: `${a} + ${b} = ${sum}` }],
+          structuredContent: { a, b, sum },
+          viewProps: { a, b, sum },
+        };
+      },
       visibility: ['model', 'app'],
       view: { module: './src/components/Sum.tsx' },
-    },
+    }),
   ],
 });
 ```
@@ -39,7 +70,7 @@ export default defineMcpServer({
 | `tools[].view` | Optional card configuration; omit it to return tool results without a card |
 | `tools[].remote` | The referenced `remotes[].name` in MF mode |
 
-For cards built from application components, `view.module` resolves relative to the **project root**. The ordinary `import { greet } from './mcp-tools'` resolves relative to `api/mcp_apps.ts`. A tool may have only a handler or only a view, but must define at least one.
+For cards built from application components, `view.module` resolves relative to the **project root**. A tool may have only a handler or only a view, but must define at least one.
 
 ### Map tools to components
 
@@ -63,13 +94,13 @@ When configuring the mapping:
 ### Add a card
 
 1. Create and export a React component in `src/components/`.
-2. Implement a business handler in `api/mcp-tools.ts`, returning the component's props through `viewProps`.
+2. Implement a business handler in `api/mcp_apps.ts`, returning the component's props through `viewProps`.
 3. Import the defined tool in `api/mcp_apps.ts`, spread it into `tools`, and point `view.module` to the component file.
 4. Run protocol checks, then trigger the tool in a host to verify card rendering and interactions. See [Create a project](./quick-start) for the steps.
 
 ## Pass handler results to a card
 
-```ts title="api/mcp-tools.ts"
+```ts title="api/mcp_apps.ts"
 import { defineTool } from '@modern-js/mcp-apps/config';
 
 export const greet = defineTool({
@@ -130,25 +161,44 @@ Each `exposes` key is a public module name and its value is a component source p
 Declare the remote and select an expose for the tool in `api/mcp_apps.ts`:
 
 ```ts title="api/mcp_apps.ts"
-import { defineMcpServer } from '@modern-js/mcp-apps/config';
-import { greet } from './mcp-tools';
+import { defineMcpServer, defineTool } from '@modern-js/mcp-apps/config';
 
 export default defineMcpServer({
   name: 'my-mcp-server',
   version: '1.0.0',
-  remotes: [{
-    name: 'mcp_ui',
-    baseUrl: 'https://cdn.example.com/static/mf-manifest.json',
-    csp: {
-      resourceDomains: ['https://cdn.example.com'],
-      connectDomains: ['https://cdn.example.com'],
+  remotes: [
+    {
+      name: 'mcp_ui',
+      baseUrl: 'https://cdn.example.com/static/mf-manifest.json',
+      csp: {
+        resourceDomains: ['https://cdn.example.com'],
+        connectDomains: ['https://cdn.example.com'],
+      },
     },
-  }],
-  tools: [{
-    ...greet,
-    remote: 'mcp_ui',
-    view: { module: './Greeting' },
-  }],
+  ],
+  tools: [
+    defineTool({
+      name: 'greet',
+      description: 'Greet someone.',
+      inputSchema: {
+        type: 'object',
+        properties: { name: { type: 'string', minLength: 1 } },
+        required: ['name'],
+        additionalProperties: false,
+      },
+      annotations: { readOnlyHint: true },
+      handler: async ({ name }) => {
+        const message = `Hello, ${name}!`;
+        return {
+          content: [{ type: 'text', text: message }],
+          structuredContent: { message },
+          viewProps: { message },
+        };
+      },
+      remote: 'mcp_ui',
+      view: { module: './Greeting' },
+    }),
+  ],
 });
 ```
 

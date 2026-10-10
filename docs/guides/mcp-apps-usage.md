@@ -19,7 +19,7 @@
 
 ## 从旧 canary 模板迁移
 
-- 将根目录 `mcp_apps.ts` 移到 `api/mcp_apps.ts`，工具实现移到 `api/mcp-tools.ts`。
+- 将根目录 `mcp_apps.ts` 移到 `api/mcp_apps.ts`，工具实现合并到同一文件。
 - 使用 `defineTool` 定义 schema 和 handler，再在服务定义中导入并引用工具。
 - `api/lambda/index.ts` 显式导入 `../mcp_apps`，调用 `mcpServer(definition)`。
 - 删除独立 MCP 编译步骤。`modern build` 使用 BFF 标准编译链生成 `dist/api/`；UI 仍使用 Modern.js 应用构建。
@@ -83,11 +83,10 @@ pnpm dev
 | --- | --- |
 | `modern.config.ts` | 启用 `mcpAppsPlugin()` |
 | `api/mcp_apps.ts` | 定义工具、输入 schema、handler 和 view |
-| `api/mcp-tools.ts` | 在服务端执行的工具业务逻辑 |
 | `src/components/Greeting.tsx` | 宿主中展示的 React 卡片 |
 
 默认没有 MF 插件或 manifest。`api/lambda/index.ts` 声明 BFF MCP 入口；
-`api/mcp_apps.ts` 用普通 import 引用 `api/mcp-tools.ts` 中的工具定义，并在需要 UI 时追加 `view`。两者由 BFF 编译和热更新；只有 `api/lambda/` 下的入口注册 HTTP 路由。
+`api/mcp_apps.ts` 统一定义服务配置、工具 schema、handler 和可选 `view`。服务定义由 BFF 编译和热更新；只有 `api/lambda/` 下的入口注册 HTTP 路由。
 模板启用 `bffPlugin()` 和 `mcpAppsPlugin()`，并包含 BFF 开发所需的 `ts-node`。
 
 调用关系：
@@ -135,38 +134,56 @@ export const { POST, GET, DELETE, PUT, PATCH, OPTIONS } = mcpServer(definition);
 
 ```ts
 // api/mcp_apps.ts
-import { defineMcpServer } from '@modern-js/mcp-apps/config';
-import { greet } from './mcp-tools';
+import { defineMcpServer, defineTool } from '@modern-js/mcp-apps/config';
+import { name, version } from '../package.json';
 
 export default defineMcpServer({
-  name: 'greeting-server',
-  version: '1.0.0',
-  tools: [{ ...greet, view: { module: './src/components/Greeting.tsx' } }],
-});
-```
-
-```ts
-// api/mcp-tools.ts
-import { defineTool } from '@modern-js/mcp-apps/config';
-
-export const greet = defineTool({
-  name: 'greet',
-  description: 'Greet someone.',
-  inputSchema: {
-    type: 'object',
-    properties: { name: { type: 'string', minLength: 1 } },
-    required: ['name'],
-    additionalProperties: false,
-  },
-  annotations: { readOnlyHint: true },
-  handler: async ({ name }) => {
-    const message = `Hello, ${name}!`;
-    return {
-      content: [{ type: 'text', text: message }],
-      structuredContent: { message },
-      viewProps: { message },
-    };
-  },
+  name,
+  version,
+  tools: [
+    defineTool({
+      name: 'greet',
+      description: 'Greet someone.',
+      inputSchema: {
+        type: 'object',
+        properties: { name: { type: 'string', minLength: 1 } },
+        required: ['name'],
+        additionalProperties: false,
+      },
+      annotations: { readOnlyHint: true },
+      handler: async ({ name }) => {
+        const message = `Hello, ${name}!`;
+        return {
+          content: [{ type: 'text', text: message }],
+          structuredContent: { message },
+          viewProps: { message },
+        };
+      },
+      visibility: ['model', 'app'],
+      view: { module: './src/components/Greeting.tsx' },
+    }),
+    defineTool({
+      name: 'add_numbers',
+      description: 'Add two numbers.',
+      inputSchema: {
+        type: 'object',
+        properties: { a: { type: 'number' }, b: { type: 'number' } },
+        required: ['a', 'b'],
+        additionalProperties: false,
+      },
+      annotations: { readOnlyHint: true },
+      handler: ({ a, b }) => {
+        const sum = a + b;
+        return {
+          content: [{ type: 'text', text: `${a} + ${b} = ${sum}` }],
+          structuredContent: { a, b, sum },
+          viewProps: { a, b, sum },
+        };
+      },
+      visibility: ['model', 'app'],
+      view: { module: './src/components/Sum.tsx' },
+    }),
+  ],
 });
 ```
 

@@ -13,7 +13,7 @@ pnpm --filter @examples/mcp-apps-modern dev
 ```
 
 Connect an MCP Apps host to `http://localhost:8080/mcp`. A browser GET returns 405.
-Edit `api/mcp-tools.ts` for business logic and `src/components/Greeting.tsx` for
+Edit `api/mcp_apps.ts` for business logic and `src/components/Greeting.tsx` for
 the card. The component receives tool arguments, `viewProps`, and `mcpApp`.
 
 ```sh
@@ -60,14 +60,13 @@ a Web Server endpoint. The BFF adapter preserves the MCP SDK response and passes
 the request Hono context to tools. Development artifacts are stored in
 the framework internal directory (normally `node_modules/.modern-js/mcp-apps/`); production artifacts are in `dist/mcp-apps/`.
 
-Business logic lives in `api/mcp-tools.ts`, statically imported by
-`api/mcp_apps.ts`. The ordinary BFF compiler and watcher own both files. `api/lambda/index.ts` only declares the route:
+Server configuration, tool schemas and business handlers live together in `api/mcp_apps.ts`. The ordinary BFF compiler and watcher compile and reload this file. `api/lambda/index.ts` only declares the route:
 
 ```ts
-import { mcpApps } from '@modern-js/plugin-mcp-apps/bff';
+import { mcpServer } from '@modern-js/plugin-mcp-apps/bff';
 import definition from '../mcp_apps';
 
-export const { POST, GET, DELETE, PUT, PATCH, OPTIONS } = mcpApps(definition);
+export const { POST, GET, DELETE, PUT, PATCH, OPTIONS } = mcpServer(definition);
 ```
 
 The MCP plugin adds standard auto-mounted Modern.js UI entries and copies their

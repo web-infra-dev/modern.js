@@ -7,24 +7,55 @@
 工具通过 `view.module` 直接引用当前项目的 React 组件文件。下面以应用内问候卡片为例：
 
 ```ts title="api/mcp_apps.ts"
-import { defineMcpServer } from '@modern-js/mcp-apps/config';
+import { defineMcpServer, defineTool } from '@modern-js/mcp-apps/config';
 import { name, version } from '../package.json';
-import { addNumbers, greet } from './mcp-tools';
 
 export default defineMcpServer({
   name,
   version,
   tools: [
-    {
-      ...greet,
+    defineTool({
+      name: 'greet',
+      description: 'Greet someone.',
+      inputSchema: {
+        type: 'object',
+        properties: { name: { type: 'string', minLength: 1 } },
+        required: ['name'],
+        additionalProperties: false,
+      },
+      annotations: { readOnlyHint: true },
+      handler: async ({ name }) => {
+        const message = `Hello, ${name}!`;
+        return {
+          content: [{ type: 'text', text: message }],
+          structuredContent: { message },
+          viewProps: { message },
+        };
+      },
       visibility: ['model', 'app'],
       view: { module: './src/components/Greeting.tsx' },
-    },
-    {
-      ...addNumbers,
+    }),
+    defineTool({
+      name: 'add_numbers',
+      description: 'Add two numbers.',
+      inputSchema: {
+        type: 'object',
+        properties: { a: { type: 'number' }, b: { type: 'number' } },
+        required: ['a', 'b'],
+        additionalProperties: false,
+      },
+      annotations: { readOnlyHint: true },
+      handler: ({ a, b }) => {
+        const sum = a + b;
+        return {
+          content: [{ type: 'text', text: `${a} + ${b} = ${sum}` }],
+          structuredContent: { a, b, sum },
+          viewProps: { a, b, sum },
+        };
+      },
       visibility: ['model', 'app'],
       view: { module: './src/components/Sum.tsx' },
-    },
+    }),
   ],
 });
 ```
@@ -39,7 +70,7 @@ export default defineMcpServer({
 | `tools[].view` | 可选卡片配置；省略时只返回工具结果，不展示卡片 |
 | `tools[].remote` | MF 模式下引用的 `remotes[].name` |
 
-应用内组件卡片的 `view.module` 相对**项目根目录**解析；`import { greet } from './mcp-tools'` 则遵循普通模块导入规则，相对 `api/mcp_apps.ts` 解析。工具可以只有 handler 或只有 view，但不能两者都省略。
+应用内组件卡片的 `view.module` 相对**项目根目录**解析。工具可以只有 handler 或只有 view，但不能两者都省略。
 
 ### 工具与组件的对应关系
 
@@ -63,13 +94,13 @@ export default defineMcpServer({
 ### 新增一张卡片
 
 1. 在 `src/components/` 中创建 React 组件并导出。
-2. 在 `api/mcp-tools.ts` 中实现业务 handler，通过 `viewProps` 返回组件需要的属性。
+2. 在 `api/mcp_apps.ts` 中实现业务 handler，通过 `viewProps` 返回组件需要的属性。
 3. 在 `api/mcp_apps.ts` 中导入工具定义，展开到 `tools` 中，再将 `view.module` 指向组件文件。
 4. 运行协议验证，并在宿主中触发工具，检查卡片展示和交互，具体步骤见[创建项目](./quick-start)。
 
 ## handler 如何把结果交给卡片
 
-```ts title="api/mcp-tools.ts"
+```ts title="api/mcp_apps.ts"
 import { defineTool } from '@modern-js/mcp-apps/config';
 
 export const greet = defineTool({
@@ -130,25 +161,44 @@ export default createModuleFederationConfig({
 在 `api/mcp_apps.ts` 中声明组件所在的 remote，并为工具选择 expose：
 
 ```ts title="api/mcp_apps.ts"
-import { defineMcpServer } from '@modern-js/mcp-apps/config';
-import { greet } from './mcp-tools';
+import { defineMcpServer, defineTool } from '@modern-js/mcp-apps/config';
 
 export default defineMcpServer({
   name: 'my-mcp-server',
   version: '1.0.0',
-  remotes: [{
-    name: 'mcp_ui',
-    baseUrl: 'https://cdn.example.com/static/mf-manifest.json',
-    csp: {
-      resourceDomains: ['https://cdn.example.com'],
-      connectDomains: ['https://cdn.example.com'],
+  remotes: [
+    {
+      name: 'mcp_ui',
+      baseUrl: 'https://cdn.example.com/static/mf-manifest.json',
+      csp: {
+        resourceDomains: ['https://cdn.example.com'],
+        connectDomains: ['https://cdn.example.com'],
+      },
     },
-  }],
-  tools: [{
-    ...greet,
-    remote: 'mcp_ui',
-    view: { module: './Greeting' },
-  }],
+  ],
+  tools: [
+    defineTool({
+      name: 'greet',
+      description: 'Greet someone.',
+      inputSchema: {
+        type: 'object',
+        properties: { name: { type: 'string', minLength: 1 } },
+        required: ['name'],
+        additionalProperties: false,
+      },
+      annotations: { readOnlyHint: true },
+      handler: async ({ name }) => {
+        const message = `Hello, ${name}!`;
+        return {
+          content: [{ type: 'text', text: message }],
+          structuredContent: { message },
+          viewProps: { message },
+        };
+      },
+      remote: 'mcp_ui',
+      view: { module: './Greeting' },
+    }),
+  ],
 });
 ```
 

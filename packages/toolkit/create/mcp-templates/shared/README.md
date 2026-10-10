@@ -6,7 +6,7 @@ pnpm dev
 ```
 
 The MCP endpoint is `/mcp`. Define tools in `api/mcp_apps.ts` and implement handlers
-in `api/mcp-tools.ts`. A normal browser GET to `/mcp` returns 405; connect an MCP
+in `api/mcp_apps.ts`. A normal browser GET to `/mcp` returns 405; connect an MCP
 client with POST requests instead. This starter does not include a DevTools host.
 
 ```sh
@@ -44,8 +44,7 @@ a Web Server endpoint. The BFF adapter preserves the MCP SDK response and passes
 the request Hono context to tools. Development artifacts are stored in
 the framework internal directory (normally `node_modules/.modern-js/mcp-apps/`); production artifacts are in `dist/mcp-apps/`.
 
-Business logic lives in `api/mcp-tools.ts`, statically imported by
-`api/mcp_apps.ts`. The ordinary BFF compiler and watcher own both files. `api/lambda/index.ts` only declares the route:
+Server configuration, tool schemas and business handlers live together in `api/mcp_apps.ts`. The ordinary BFF compiler and watcher compile and reload this file. `api/lambda/index.ts` only declares the route:
 
 ```ts
 import { mcpServer } from '@modern-js/plugin-mcp-apps/bff';

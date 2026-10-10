@@ -22,37 +22,32 @@ export const { POST, GET, DELETE, PUT, PATCH, OPTIONS } = mcpServer(definition);
 ```
 
 ```ts title="api/mcp_apps.ts"
-import { defineMcpServer } from '@modern-js/mcp-apps/config';
-import { greet } from './mcp-tools';
+import { defineMcpServer, defineTool } from '@modern-js/mcp-apps/config';
 
 export default defineMcpServer({
   name: 'greeting-server',
   version: '1.0.0',
-  tools: [greet],
-});
-```
-
-```ts title="api/mcp-tools.ts"
-import { defineTool } from '@modern-js/mcp-apps/config';
-
-export const greet = defineTool({
-  name: 'greet',
-  description: 'Greet someone.',
-  inputSchema: {
-    type: 'object',
-    properties: { name: { type: 'string', minLength: 1 } },
-    required: ['name'],
-    additionalProperties: false,
-  },
-  annotations: { readOnlyHint: true },
-  handler: async ({ name }) => {
-    const message = `Hello, ${name}!`;
-    return {
-      content: [{ type: 'text', text: message }],
-      structuredContent: { message },
-      viewProps: { message },
-    };
-  },
+  tools: [
+    defineTool({
+      name: 'greet',
+      description: 'Greet someone.',
+      inputSchema: {
+        type: 'object',
+        properties: { name: { type: 'string', minLength: 1 } },
+        required: ['name'],
+        additionalProperties: false,
+      },
+      annotations: { readOnlyHint: true },
+      handler: async ({ name }) => {
+        const message = `Hello, ${name}!`;
+        return {
+          content: [{ type: 'text', text: message }],
+          structuredContent: { message },
+          viewProps: { message },
+        };
+      },
+    }),
+  ],
 });
 ```
 

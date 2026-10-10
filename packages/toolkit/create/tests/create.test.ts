@@ -103,7 +103,7 @@ describe('MCP templates', () => {
     expect(pkg.scripts['verify:mcp']).toBe('node scripts/verify-mcp.mjs');
     expect(fs.existsSync(path.join(root, 'src/components/Sum.tsx'))).toBe(true);
     expect(
-      fs.readFileSync(path.join(root, 'api/mcp-tools.ts'), 'utf8'),
+      fs.readFileSync(path.join(root, 'api/mcp_apps.ts'), 'utf8'),
     ).toContain("name: 'add_numbers'");
     const definition = fs.readFileSync(
       path.join(root, 'api/mcp_apps.ts'),
@@ -115,14 +115,14 @@ describe('MCP templates', () => {
     );
     expect(definition).not.toContain('remotes: []');
     expect(
-      fs.readFileSync(path.join(root, 'api/mcp-tools.ts'), 'utf8'),
+      fs.readFileSync(path.join(root, 'api/mcp_apps.ts'), 'utf8'),
     ).toContain('handler: async ({ name })');
     expect(pkg.devDependencies['ts-node']).toBeDefined();
     expect(fs.existsSync(path.join(root, 'api/lambda/index.ts'))).toBe(true);
     expect(
       fs.readFileSync(path.join(root, 'api/lambda/index.ts'), 'utf8'),
     ).not.toContain('__dirname');
-    expect(fs.existsSync(path.join(root, 'api/mcp-tools.ts'))).toBe(true);
+    expect(fs.existsSync(path.join(root, 'api/mcp-tools.ts'))).toBe(false);
     expect(
       pkg.devDependencies['@module-federation/modern-js-v3'],
     ).toBeUndefined();
@@ -170,7 +170,7 @@ describe('MCP templates', () => {
     expect(pkg.dependencies.react).toBeUndefined();
     expect(pkg.dependencies['@modern-js/runtime']).toBeUndefined();
     expect(fs.existsSync(path.join(root, 'src'))).toBe(false);
-    expect(fs.existsSync(path.join(root, 'api/mcp-tools.ts'))).toBe(true);
+    expect(fs.existsSync(path.join(root, 'api/mcp-tools.ts'))).toBe(false);
     expect(fs.existsSync(path.join(root, 'AGENTS.md'))).toBe(false);
   });
 
