@@ -1,4 +1,5 @@
 import type { ChildProcess } from 'node:child_process';
+import { writeFile } from 'node:fs/promises';
 import http from 'node:http';
 import type { ServerResponse } from 'node:http';
 import path from 'node:path';
@@ -16,9 +17,14 @@ import {
 
 const fixtureDir = path.resolve(__dirname, '../fixtures/streaming');
 
-describe.each(['development', 'production'])(
-  'Streaming SSR runtime (%s)',
-  mode => {
+describe.each([
+  ['development', true],
+  ['production', true],
+  ['development', false],
+  ['production', false],
+] as const)(
+  'Streaming SSR runtime (%s, separate runtime: %s)',
+  (mode, separateRuntime) => {
     let fixture: Awaited<ReturnType<typeof createIsolatedTestApp>>;
     let app: ChildProcess | undefined;
     let origin: string;
@@ -27,6 +33,21 @@ describe.each(['development', 'production'])(
     beforeAll(async () => {
       // Build/dev must not share generated files with the other streaming tests.
       fixture = await createIsolatedTestApp(fixtureDir);
+      if (!separateRuntime) {
+        await writeFile(
+          path.join(fixture.appDir, 'modern.config.ts'),
+          `import { applyBaseConfig } from '../../../../utils/applyBaseConfig';
+export default applyBaseConfig({
+  server: { ssr: true },
+  performance: { prefetch: true },
+  tools: {
+    rspack(config, { isServer }) {
+      if (!isServer) config.optimization.runtimeChunk = false;
+    },
+  },
+});`,
+        );
+      }
       const port = await getPort();
       origin = `http://127.0.0.1:${port}`;
       if (mode === 'production') {
@@ -55,9 +76,11 @@ describe.each(['development', 'production'])(
       const scripts = [...html.matchAll(/<script\b[^>]*>[\s\S]*?<\/script>/g)];
       // This is also used by the builder inline-chunk e2e tests to identify runtime.
       const runtimeScripts = scripts.filter(script =>
-        mode === 'production'
-          ? script[0].includes('Loading chunk')
-          : /\ssrc="[^"]*\/builder-runtime\.js"/.test(script[0]),
+        !separateRuntime
+          ? /\ssrc="[^"]*\/index(?:\.[^"]+)?\.js"/.test(script[0])
+          : mode === 'production'
+            ? script[0].includes('Loading chunk')
+            : /\ssrc="[^"]*\/builder-runtime\.js"/.test(script[0]),
       );
       expect(runtimeScripts).toHaveLength(1);
       const runtime = runtimeScripts[0];
@@ -69,13 +92,33 @@ describe.each(['development', 'production'])(
       expect(runtime.index).toBeGreaterThan(
         initialData!.index! + initialData![0].length,
       );
+      const ssrData = scripts.find(script =>
+        script[0].includes('window._SSR_DATA ='),
+      );
+      expect(ssrData).toBeDefined();
+      expect(runtime.index).toBeGreaterThanOrEqual(
+        ssrData!.index! + ssrData![0].length,
+      );
       expect(runtime.index! + runtime[0].length).toBeLessThanOrEqual(
         html.indexOf('</body>'),
       );
-      if (mode === 'production') {
+      if (mode === 'production' && separateRuntime) {
         expect(runtime[0].slice(0, runtime[0].indexOf('>'))).not.toContain(
           'src=',
         );
+      }
+      if (!separateRuntime) {
+        expect(html).not.toContain('/builder-runtime');
+        expect(runtime[0]).toContain('async');
+        const src = runtime[0].match(/\ssrc="([^"]+)"/)![1];
+        const preloads = [...html.matchAll(/<link\b[^>]*>/g)].filter(
+          link =>
+            link[0].includes('rel="preload"') &&
+            link[0].includes('as="script"') &&
+            link[0].includes(`href="${src}"`),
+        );
+        expect(preloads).toHaveLength(1);
+        expect(preloads[0].index).toBeLessThan(html.indexOf('</head>'));
       }
       const initialScripts = scripts.filter(
         script => /<script\b[^>]*\ssrc="/.test(script[0]) && script !== runtime,
@@ -96,7 +139,8 @@ describe.each(['development', 'production'])(
             .slice(0, html.indexOf('</head>'))
             .matchAll(/<script\b[^>]*\ssrc="([^"]+)"/g),
         ].map(script => script[1]);
-        expect(initialScriptSrcs).toContain(entrySrc);
+        expect(initialScriptSrcs.length).toBeGreaterThan(0);
+        if (separateRuntime) expect(initialScriptSrcs).toContain(entrySrc);
         const initialDataOffset = html.indexOf(
           'data-script-src="modern-inline"',
         );
@@ -141,10 +185,18 @@ describe.each(['development', 'production'])(
             );
           }
         });
-        const proxyPort = await getPort();
-        await new Promise<void>(resolve =>
-          proxy.listen(proxyPort, '127.0.0.1', resolve),
-        );
+        await new Promise<void>((resolve, reject) => {
+          proxy.once('error', reject);
+          proxy.listen(0, '127.0.0.1', () => {
+            proxy.off('error', reject);
+            resolve();
+          });
+        });
+        const proxyAddress = proxy.address();
+        if (!proxyAddress || typeof proxyAddress === 'string') {
+          throw new Error('Expected the proxy to listen on a TCP port');
+        }
+        const proxyPort = proxyAddress.port;
         let navigation: Promise<unknown> | undefined;
         let browser: Browser | undefined;
         try {
@@ -171,27 +223,30 @@ describe.each(['development', 'production'])(
               entryFromCache = response.fromCache();
             }
           });
-          await page.evaluateOnNewDocument(sources => {
-            const state = window as Window & {
-              __loadedInitialScripts?: string[];
-            };
-            state.__loadedInitialScripts = [];
-            document.addEventListener(
-              'load',
-              event => {
-                const script = event.target;
-                if (
-                  script instanceof HTMLScriptElement &&
-                  sources.includes(new URL(script.src).pathname)
-                ) {
-                  state.__loadedInitialScripts!.push(
-                    new URL(script.src).pathname,
-                  );
-                }
-              },
-              true,
-            );
-          }, initialScriptSrcs);
+          await page.evaluateOnNewDocument(
+            sources => {
+              const state = window as Window & {
+                __loadedInitialScripts?: string[];
+              };
+              state.__loadedInitialScripts = [];
+              document.addEventListener(
+                'load',
+                event => {
+                  const script = event.target;
+                  if (
+                    script instanceof HTMLScriptElement &&
+                    sources.includes(new URL(script.src).pathname)
+                  ) {
+                    state.__loadedInitialScripts!.push(
+                      new URL(script.src).pathname,
+                    );
+                  }
+                },
+                true,
+              );
+            },
+            [...new Set([...initialScriptSrcs, entrySrc!])],
+          );
           navigation = page.goto(`${proxyOrigin}/hydration?split`, {
             waitUntil: 'networkidle0',
           });
@@ -209,10 +264,21 @@ describe.each(['development', 'production'])(
           );
           expect(entryFromCache).toBe(true);
           // All initial JS files have executed. Leave the parser paused so
-          // premature hydration to run if runtime was incorrectly emitted in head.
+          // premature hydration can run if runtime was incorrectly emitted in head.
           await page.evaluate(
             () => new Promise(resolve => setTimeout(resolve, 250)),
           );
+          if (!separateRuntime) {
+            expect(
+              await page.evaluate(
+                src =>
+                  (
+                    window as Window & { __loadedInitialScripts?: string[] }
+                  ).__loadedInitialScripts?.includes(src),
+                entrySrc!,
+              ),
+            ).toBe(false);
+          }
           pendingResponse!.end(html.slice(splitOffset));
           await navigation;
           const title = await page.evaluate(() => {
