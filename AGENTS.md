@@ -22,8 +22,8 @@
   - 框架集成测试：`pnpm test:framework`（实际在 `tests/` 下跑 rstest 集成用例）。
   - 构建器（builder）e2e 测试：`pnpm test:builder`（在 `tests/e2e/builder` 下）。
   - Skill 回归：`node tests/skill/run.mjs`（migrate-to-v3）、`node tests/skill/feature-enable.mjs`（feature-enable）。
-- 代码校验：`pnpm lint`（Rstack CLI，见 `rstack.config.mts`）。
-- 全仓格式化：`pnpm format`；检查格式：`pnpm format:check`
+- 代码与格式检查：`pnpm check`（Rstack CLI，见 `rstack.config.mts`）；仅代码校验：`pnpm lint`。
+- 全仓格式化：`pnpm format`
 - 变更需 changeset：`pnpm change`（影响发布的改动必须加）。
 
 ## 禁改区（除非任务明确要求并人工确认）
