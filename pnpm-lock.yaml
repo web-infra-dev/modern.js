@@ -62,9 +62,6 @@ importers:
       cross-env:
         specifier: ^7.0.3
         version: 7.0.3
-      husky:
-        specifier: ^8.0.3
-        version: 8.0.3
       lint-staged:
         specifier: ~13.3.0
         version: 13.3.0(enquirer@2.4.1)
@@ -13753,11 +13750,6 @@ packages:
   human-signals@8.0.1:
     resolution: {integrity: sha512-eKCa6bwnJhvxj14kZk5NCPc6Hb6BdsU9DZcOnmQKSnO1VKrfV0zCvtttPZUsBvjmNDn8rpcJfpwSYnHBjc95MQ==}
     engines: {node: '>=18.18.0'}
-
-  husky@8.0.3:
-    resolution: {integrity: sha512-+dQSyqPh4x1hlO1swXBiNb2HzTDN1I2IGLQx1GrBuiqFJfoMrnZWwVmatvSiO+Iz8fBUnf+lekwNo4c2LlXItg==}
-    engines: {node: '>=14'}
-    hasBin: true
 
   hyperdyperid@1.2.0:
     resolution: {integrity: sha512-Y93lCzHYgGWdrJ66yIktxiaGULYc6oGiABxhcO5AufBeOyoIdZF7bIfLaOrbM0iGIOXQQgxxRrFEnb+Y6w1n4A==}
@@ -30044,8 +30036,6 @@ snapshots:
   human-signals@5.0.0: {}
 
   human-signals@8.0.1: {}
-
-  husky@8.0.3: {}
 
   hyperdyperid@1.2.0: {}
 
