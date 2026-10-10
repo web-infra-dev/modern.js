@@ -21,12 +21,12 @@ const defaultOptions = {
 
 `tools.less` modifies the options of [@rsbuild/plugin-less](https://rsbuild.rs/plugins/list/plugin-less). It accepts the full plugin options:
 
-| Option              | Description                                                                                    |
-| ------------------- | ---------------------------------------------------------------------------------------------- |
+| Option              | Description                                                                                         |
+| ------------------- | --------------------------------------------------------------------------------------------------- |
 | `lessLoaderOptions` | Options passed to [less-loader](https://github.com/webpack-contrib/less-loader), object or function |
-| `include`           | Files handled by less-loader, defaults to `/\.less$/`                                          |
-| `exclude`           | Files that less-loader should skip                                                             |
-| `parallel`          | Whether to compile Less modules in worker threads, defaults to `false`                         |
+| `include`           | Files handled by less-loader, defaults to `/\.less$/`                                               |
+| `exclude`           | Files that less-loader should skip                                                                  |
+| `parallel`          | Whether to compile Less modules in worker threads, defaults to `false`                              |
 
 ### Modifying less-loader options
 
@@ -134,7 +134,6 @@ export default {
 :::warning Do not mix the two layers
 As soon as an object contains a plugin-level key (`lessLoaderOptions`, `include`, `exclude`, ...), the whole object is parsed as plugin options and any loader option in it has no effect. For example, `lessOptions` in `tools.less: { parallel: true, lessOptions: { ... } }` is ignored and must be moved under `lessLoaderOptions`; a hint is printed in development.
 :::
-
 
 In earlier versions, `tools.less` took the less-loader options directly, e.g. `tools.less: { lessOptions: {} }` or `tools.less(config, { addExcludes }) {}`. This form still works: Modern.js wraps it into `lessLoaderOptions` and produces exactly the same config as before. A migration hint is printed in development, and the legacy form will be removed in the next major version.
 

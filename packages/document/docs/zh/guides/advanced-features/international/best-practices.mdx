@@ -63,8 +63,8 @@ function ButtonGroup() {
   const { t } = useTranslation('common', { keyPrefix: 'button' });
   return (
     <>
-      <button>{t('submit')}</button>   {/* → common:button.submit */}
-      <button>{t('cancel')}</button>   {/* → common:button.cancel */}
+      <button>{t('submit')}</button> {/* → common:button.submit */}
+      <button>{t('cancel')}</button> {/* → common:button.cancel */}
     </>
   );
 }
@@ -94,9 +94,9 @@ function ButtonGroup() {
 ```
 
 ```tsx
-t('page.title')
-t('form.username.label')
-t('form.submit', { defaultValue: '保存' }) // defaultValue 防止键缺失时显示 key 字符串
+t('page.title');
+t('form.username.label');
+t('form.submit', { defaultValue: '保存' }); // defaultValue 防止键缺失时显示 key 字符串
 ```
 
 ## 复数
@@ -121,9 +121,9 @@ i18next 根据 `count` 参数自动选择对应的复数形式。**注意：i18n
 ```
 
 ```tsx
-t('item', { count: 0 })  // → "没有条目" / "No items"
-t('item', { count: 1 })  // → "没有条目" / "1 item"（中文通常只有一种形式）
-t('item', { count: 5 })  // → "5 个条目" / "5 items"
+t('item', { count: 0 }); // → "没有条目" / "No items"
+t('item', { count: 1 }); // → "没有条目" / "1 item"（中文通常只有一种形式）
+t('item', { count: 5 }); // → "5 个条目" / "5 items"
 ```
 
 不同语言的复数规则不同（英语有单复数，俄语有 one/few/many 等多种形式），i18next 会根据语言代码自动匹配 CLDR 规则。
@@ -152,8 +152,8 @@ t('item', { count: 5 })  // → "5 个条目" / "5 items"
 ```
 
 ```tsx
-t('modal.confirm.title')
-t('modal.confirm.actions.ok')
+t('modal.confirm.title');
+t('modal.confirm.actions.ok');
 ```
 
 嵌套层级不建议超过 4 层，过深的结构会让键名变得冗长难维护。
@@ -199,8 +199,8 @@ export default defineRuntimeConfig({
 ```
 
 ```tsx
-t('price', { value: 99.5 })       // → "当前价格：¥99.50"（zh）/ "$99.50"（en）
-t('expiry', { date: new Date() }) // → "到期日：2025年5月12日"（zh）
+t('price', { value: 99.5 }); // → "当前价格：¥99.50"（zh）/ "$99.50"（en）
+t('expiry', { date: new Date() }); // → "到期日：2025年5月12日"（zh）
 ```
 
 ## 错误处理
@@ -237,7 +237,7 @@ if (!i18n.isInitialized) return null;
 通过 `defaultValue` 提供兜底文案，防止界面显示 key 字符串：
 
 ```tsx
-t('missing.key', { defaultValue: '默认文案' })
+t('missing.key', { defaultValue: '默认文案' });
 ```
 
 开发环境可以开启 `saveMissing`，将缺失的键输出到控制台方便排查：
@@ -281,8 +281,8 @@ declare module 'react-i18next' {
 
 ```tsx
 const { t } = useTranslation();
-t('welcome');       // ✅ TypeScript 自动补全
-t('nonExistent');   // ❌ TypeScript 报错
+t('welcome'); // ✅ TypeScript 自动补全
+t('nonExistent'); // ❌ TypeScript 报错
 ```
 
 :::tip 大型项目

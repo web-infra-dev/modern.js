@@ -136,8 +136,10 @@ export default ErrorBoundary;
 ```ts
 declare function Link(props: LinkProps): React.ReactElement;
 
-interface LinkProps
-  extends Omit<React.AnchorHTMLAttributes<HTMLAnchorElement>, 'href'> {
+interface LinkProps extends Omit<
+  React.AnchorHTMLAttributes<HTMLAnchorElement>,
+  'href'
+> {
   replace?: boolean;
   state?: any;
   to: To;
@@ -158,12 +160,13 @@ A `<Link>` is an element that lets the user navigate to another page by clicking
 ```ts
 declare function NavLink(props: NavLinkProps): React.ReactElement;
 
-interface NavLinkProps
-  extends Omit<LinkProps, 'className' | 'style' | 'children'> {
+interface NavLinkProps extends Omit<
+  LinkProps,
+  'className' | 'style' | 'children'
+> {
   caseSensitive?: boolean;
   children?:
-    | React.ReactNode
-    | ((props: { isActive: boolean }) => React.ReactNode);
+    React.ReactNode | ((props: { isActive: boolean }) => React.ReactNode);
   className?: string | ((props: { isActive: boolean }) => string | undefined);
   end?: boolean;
   style?:

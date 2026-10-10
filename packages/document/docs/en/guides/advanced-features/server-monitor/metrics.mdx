@@ -8,15 +8,15 @@ When SSR is enabled, we need to monitor server-side phase durations and have the
 
 Based on server-side runtime logic, Modern.js provides the following metric events:
 
-| Key                      | Description              |
-| ------------------------ | ------------------------ |
-| server-handle-request    | Modern.js Server request handling duration                          |
+| Key                      | Description                                                                                                           |
+| ------------------------ | --------------------------------------------------------------------------------------------------------------------- |
+| server-handle-request    | Modern.js Server request handling duration                                                                            |
 | ssr-render-shell         | [SSR] When using Streaming SSR, React renders a shell for early streaming. This marks shell rendering completion time |
-| ssr-render-html          | [SSR] Time taken by React to render component tree to HTML (typically under 50ms) |
-| server-middleware        | Total execution time of Modern.js custom server middlewares         |
-| server-loader            | Server-side Data Loader total duration                          |
-| server-loader-#id        | Individual Data Loader durations on server-side                 |
-| server-loader-navigation | Server-side Data Loader duration during client navigation       |
+| ssr-render-html          | [SSR] Time taken by React to render component tree to HTML (typically under 50ms)                                     |
+| server-middleware        | Total execution time of Modern.js custom server middlewares                                                           |
+| server-loader            | Server-side Data Loader total duration                                                                                |
+| server-loader-#id        | Individual Data Loader durations on server-side                                                                       |
+| server-loader-navigation | Server-side Data Loader duration during client navigation                                                             |
 
 Modern.js server workflow diagram:
 

@@ -6,7 +6,13 @@ To use Playwright in Modern.js, you need to install the dependencies first. You 
 
 import { PackageManagerTabs } from '@theme';
 
-<PackageManagerTabs command={{ npm: "npm init playwright", yarn: "yarn create playwright", pnpm: "pnpm create playwright" }} />
+<PackageManagerTabs
+  command={{
+    npm: 'npm init playwright',
+    yarn: 'yarn create playwright',
+    pnpm: 'pnpm create playwright',
+  }}
+/>
 
 The above commands will automatically install Playwright dependencies and help you install and configure it in your project through a series of prompts, including adding a `playwright.config.ts` file.
 
@@ -74,18 +80,18 @@ export default Index;
 Next, add test cases to ensure the links on your pages work properly.
 
 ```ts title="tests/example.spec.ts"
-import { test, expect } from '@playwright/test'
+import { test, expect } from '@playwright/test';
 
 test('should navigate to the about page', async ({ page }) => {
   // Start from the index page (the baseURL is set via the webServer in the playwright.config.ts)
-  await page.goto('http://localhost:8080/')
+  await page.goto('http://localhost:8080/');
   // Find an element with the text 'About' and click on it
-  await page.click('text=About')
+  await page.click('text=About');
   // The new URL should be "/about" (baseURL is used there)
-  await expect(page).toHaveURL('http://localhost:8080/about')
+  await expect(page).toHaveURL('http://localhost:8080/about');
   // The new page should contain an h1 with "About"
-  await expect(page.locator('h1')).toContainText('About')
-})
+  await expect(page.locator('h1')).toContainText('About');
+});
 ```
 
 ## Run Test Cases

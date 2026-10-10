@@ -2,7 +2,6 @@
 title: Modern.js v3 Release
 ---
 
-
 # Modern.js v3 Release: Focused on web framework, embracing ecosystem development
 
 > Published on 2025.02.06
@@ -45,10 +44,10 @@ Modern.js 3.0 integrates React Server Component, supporting both CSR and SSR pro
 
 React Server Components (RSC) are a new type of component that allows **component logic to execute entirely on the server**, streaming the rendered UI directly to the client. Compared to traditional client components, Server Components offer the following benefits:
 
-| Feature | Description |
-| --- | --- |
-| Zero Client Bundle Size | Component code is not included in the client JS bundle — it only executes on the server, speeding up initial page load and rendering |
-| Higher Cohesion | Components can directly access databases, call internal APIs, and read local files, improving development efficiency |
+| Feature                 | Description                                                                                                                                                                   |
+| ----------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Zero Client Bundle Size | Component code is not included in the client JS bundle — it only executes on the server, speeding up initial page load and rendering                                          |
+| Higher Cohesion         | Components can directly access databases, call internal APIs, and read local files, improving development efficiency                                                          |
 | Progressive Enhancement | Can be seamlessly mixed with client components, selectively offloading interactive logic to the client while maintaining high performance and supporting complex interactions |
 
 It's important to clarify that RSC and SSR are **fundamentally different concepts**:
@@ -68,7 +67,7 @@ In Modern.js 3.0, simply enable RSC in the configuration:
 export default defineConfig({
   server: {
     rsc: true,
-  }
+  },
 });
 ```
 
@@ -76,7 +75,14 @@ export default defineConfig({
 Once enabled, all route components will default to Server Components. Some components in your project may not be able to run on the server — you can add the `'use client'` directive to those components to preserve their original behavior, and then migrate gradually.
 :::
 
-<video src="https://lf3-static.bytednsdoc.com/obj/eden-cn/nuvjhpqnuvr/rsc.mp4" controls autoplay loop muted style={{ width: '100%', borderRadius: 8 }} />
+<video
+  src="https://lf3-static.bytednsdoc.com/obj/eden-cn/nuvjhpqnuvr/rsc.mp4"
+  controls
+  autoplay
+  loop
+  muted
+  style={{ width: '100%', borderRadius: 8 }}
+/>
 
 #### RSC Features in Modern.js 3.0
 
@@ -157,7 +163,7 @@ import('./module').then(({ value }) => {
 });
 
 // Destructuring in function body
-import('./module').then((mod) => {
+import('./module').then(mod => {
   const { value } = mod;
   console.log(value);
 });
@@ -237,7 +243,10 @@ In practice, we found that some projects need to extend the Web Server — for e
 In Modern.js 3.0, we rebuilt the Web Server using [Hono](https://hono.dev) and officially opened up server middleware and plugin capabilities. Developers can use Hono middleware to meet their needs:
 
 ```ts title="server/modern.server.ts"
-import { defineServerConfig, type MiddlewareHandler } from "@modern-js/server-runtime";
+import {
+  defineServerConfig,
+  type MiddlewareHandler,
+} from '@modern-js/server-runtime';
 
 const timingMiddleware: MiddlewareHandler = async (c, next) => {
   const start = Date.now();
@@ -250,8 +259,8 @@ const htmlMiddleware: MiddlewareHandler = async (c, next) => {
   await next();
   const html = await c.res.text();
   const modified = html.replace(
-    "<head>",
-    '<head><meta name="generator" content="Modern.js">'
+    '<head>',
+    '<head><meta name="generator" content="Modern.js">',
   );
   c.res = c.body(modified, { status: c.res.status, headers: c.res.headers });
 };
@@ -322,13 +331,13 @@ In Modern.js, we recommend using convention-based routing to organize code. Howe
 Therefore, Modern.js 3.0 provides full config-based routing support, which can be used alongside convention-based routing or independently.
 
 ```ts title="src/modern.routes.ts"
-import { defineRoutes } from "@modern-js/runtime/config-routes";
+import { defineRoutes } from '@modern-js/runtime/config-routes';
 
 export default defineRoutes(({ route, layout, page }) => {
   return [
-    route("home.tsx", "/"),
-    route("about.tsx", "about"),
-    route("blog.tsx", "blog/:id"),
+    route('home.tsx', '/'),
+    route('about.tsx', 'about'),
+    route('blog.tsx', 'blog/:id'),
   ];
 });
 ```
@@ -414,19 +423,19 @@ For render cache usage, see the docs: [Render Cache](/guides/basic-features/rend
 The new version provides a `cache` function that offers finer-grained data-level control compared to render cache. When multiple data requests depend on the same data, `cache` can avoid duplicate requests:
 
 ```ts title="server/loader.ts"
-import { cache } from "@modern-js/runtime/cache";
-import { fetchUserData, fetchUserProjects, fetchUserTeam } from "./api";
+import { cache } from '@modern-js/runtime/cache';
+import { fetchUserData, fetchUserProjects, fetchUserTeam } from './api';
 
 // Cache user data to avoid duplicate requests
 const getUser = cache(fetchUserData);
 
 const getProjects = async () => {
-  const user = await getUser("test-user");
+  const user = await getUser('test-user');
   return fetchUserProjects(user.id);
 };
 
 const getTeam = async () => {
-  const user = await getUser("test-user"); // Reuses cache, no duplicate request
+  const user = await getUser('test-user'); // Reuses cache, no duplicate request
   return fetchUserTeam(user.id);
 };
 
@@ -445,14 +454,14 @@ For more on data cache usage, see the docs: [Data Cache](/guides/basic-features/
 
 Through practice, we have developed multi-dimensional fallback strategies:
 
-| Type | Trigger | Fallback Behavior | Use Case |
-| --- | --- | --- | --- |
-| Error Fallback | Data Loader execution error | Triggers ErrorBoundary | Data request error handling |
-| Render Error | Server-side rendering error | Falls back to CSR, reusing existing data for rendering | SSR error handling |
-| Business Fallback | Loader throws `throw Response` | Triggers ErrorBoundary with corresponding HTTP status code | 404, permission checks, and other business scenarios |
-| Client Loader | Configure Client Loader | Bypasses SSR, requests data source directly | Scenarios requiring client-side data fetching |
-| Forced Fallback | Query parameter `?__csr=true` | Skips SSR, returns CSR page | Debugging, temporary fallback |
-| Forced Fallback | Request header `x-modern-ssr-fallback` | Skips SSR, returns CSR page | Gateway-level fallback control |
+| Type              | Trigger                                | Fallback Behavior                                          | Use Case                                             |
+| ----------------- | -------------------------------------- | ---------------------------------------------------------- | ---------------------------------------------------- |
+| Error Fallback    | Data Loader execution error            | Triggers ErrorBoundary                                     | Data request error handling                          |
+| Render Error      | Server-side rendering error            | Falls back to CSR, reusing existing data for rendering     | SSR error handling                                   |
+| Business Fallback | Loader throws `throw Response`         | Triggers ErrorBoundary with corresponding HTTP status code | 404, permission checks, and other business scenarios |
+| Client Loader     | Configure Client Loader                | Bypasses SSR, requests data source directly                | Scenarios requiring client-side data fetching        |
+| Forced Fallback   | Query parameter `?__csr=true`          | Skips SSR, returns CSR page                                | Debugging, temporary fallback                        |
+| Forced Fallback   | Request header `x-modern-ssr-fallback` | Skips SSR, returns CSR page                                | Gateway-level fallback control                       |
 
 ---
 

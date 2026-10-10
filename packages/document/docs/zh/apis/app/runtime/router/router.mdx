@@ -2,6 +2,7 @@
 title: router
 sidebar_position: 1
 ---
+
 # router
 
 :::info 补充信息
@@ -135,8 +136,10 @@ export default ErrorBoundary;
 ```ts
 declare function Link(props: LinkProps): React.ReactElement;
 
-interface LinkProps
-  extends Omit<React.AnchorHTMLAttributes<HTMLAnchorElement>, 'href'> {
+interface LinkProps extends Omit<
+  React.AnchorHTMLAttributes<HTMLAnchorElement>,
+  'href'
+> {
   replace?: boolean;
   state?: any;
   to: To;
@@ -157,12 +160,13 @@ type To = string | Partial<Path>;
 ```ts
 declare function NavLink(props: NavLinkProps): React.ReactElement;
 
-interface NavLinkProps
-  extends Omit<LinkProps, 'className' | 'style' | 'children'> {
+interface NavLinkProps extends Omit<
+  LinkProps,
+  'className' | 'style' | 'children'
+> {
   caseSensitive?: boolean;
   children?:
-    | React.ReactNode
-    | ((props: { isActive: boolean }) => React.ReactNode);
+    React.ReactNode | ((props: { isActive: boolean }) => React.ReactNode);
   className?: string | ((props: { isActive: boolean }) => string | undefined);
   end?: boolean;
   style?:

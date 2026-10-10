@@ -2,6 +2,7 @@
 title: upload/
 sidebar_position: 4
 ---
+
 # upload/
 
 `upload/` 目录中可以放置任意格式的静态资源文件。
@@ -30,9 +31,7 @@ sidebar_position: 4
 
 ```tsx
 export default () => {
-  return (
-    <img src={`${process.env.ASSET_PREFIX}/upload/banner.png`}></img>
-  );
+  return <img src={`${process.env.ASSET_PREFIX}/upload/banner.png`}></img>;
 };
 ```
 

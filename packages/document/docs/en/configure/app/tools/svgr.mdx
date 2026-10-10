@@ -18,14 +18,14 @@ const defaultOptions = {
 
 `tools.svgr` modifies the options of [@rsbuild/plugin-svgr](https://rsbuild.rs/plugins/list/plugin-svgr). It accepts the full plugin options. Set it to `false` to skip registering the SVGR plugin; all `.svg` files are then treated as static assets.
 
-| Option            | Description                                                                                          |
-| ----------------- | ---------------------------------------------------------------------------------------------------- |
+| Option            | Description                                                                                                |
+| ----------------- | ---------------------------------------------------------------------------------------------------------- |
 | `svgrOptions`     | Options passed to [SVGR](https://react-svgr.com/docs/options/), such as `exportType`, `icon`, `svgoConfig` |
-| `parallel`        | Whether to transform SVG files in worker threads, defaults to `false`                                |
-| `exclude`         | SVG files that SVGR should skip                                                                      |
-| `excludeImporter` | Importer files whose SVG imports should skip SVGR                                                    |
-| `query`           | Query that triggers the SVGR transform, defaults to `/react/`                                        |
-| `mixedImport`     | Whether a module may import both the URL and the React component, defaults to `true`                |
+| `parallel`        | Whether to transform SVG files in worker threads, defaults to `false`                                      |
+| `exclude`         | SVG files that SVGR should skip                                                                            |
+| `excludeImporter` | Importer files whose SVG imports should skip SVGR                                                          |
+| `query`           | Query that triggers the SVGR transform, defaults to `/react/`                                              |
+| `mixedImport`     | Whether a module may import both the URL and the React component, defaults to `true`                       |
 
 ### Merge rules
 
