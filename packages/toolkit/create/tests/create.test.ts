@@ -52,13 +52,13 @@ describe('project tooling', () => {
 });
 
 describe('agent files generation', () => {
-  it('generates AGENTS.md and CLAUDE.md by default, with a hint', () => {
+  it('generates only AGENTS.md by default, with a hint', () => {
     const output = runCreate(['my-app']);
 
     const agents = path.join(workdir, 'my-app/AGENTS.md');
     const claude = path.join(workdir, 'my-app/CLAUDE.md');
     expect(fs.existsSync(agents)).toBe(true);
-    expect(fs.existsSync(claude)).toBe(true);
+    expect(fs.existsSync(claude)).toBe(false);
 
     const content = fs.readFileSync(agents, 'utf-8');
     expect(content).toContain('<!-- BEGIN:modernjs-agent-rules -->');
@@ -68,8 +68,7 @@ describe('agent files generation', () => {
     expect(content).toContain('node_modules/@modern-js/app-tools/docs/');
     expect(content).not.toContain('https://modernjs.dev');
 
-    expect(fs.readFileSync(claude, 'utf-8').trim()).toBe('@AGENTS.md');
-    expect(output).toContain('AGENTS.md & CLAUDE.md generated');
+    expect(output).toContain('AGENTS.md generated');
   });
 
   it('skips agent files with --no-agents-md and omits the hint', () => {
@@ -78,7 +77,7 @@ describe('agent files generation', () => {
     expect(fs.existsSync(path.join(workdir, 'my-app/package.json'))).toBe(true);
     expect(fs.existsSync(path.join(workdir, 'my-app/AGENTS.md'))).toBe(false);
     expect(fs.existsSync(path.join(workdir, 'my-app/CLAUDE.md'))).toBe(false);
-    expect(output).not.toContain('AGENTS.md & CLAUDE.md generated');
+    expect(output).not.toContain('AGENTS.md generated');
   });
 
   it('accepts --no-agents-md after the project name', () => {
@@ -93,7 +92,7 @@ describe('agent files generation', () => {
 
     expect(fs.existsSync(path.join(workdir, 'my-app/package.json'))).toBe(true);
     expect(fs.existsSync(path.join(workdir, 'my-app/AGENTS.md'))).toBe(false);
-    expect(output).not.toContain('AGENTS.md & CLAUDE.md generated');
+    expect(output).not.toContain('AGENTS.md generated');
   });
 });
 
@@ -151,14 +150,14 @@ describe('--agents-md-only (existing projects)', () => {
     );
   });
 
-  it('creates AGENTS.md and CLAUDE.md when neither exists', () => {
+  it('creates only AGENTS.md when neither file exists', () => {
     runCreate(['--agents-md-only']);
 
     const agents = read('AGENTS.md');
     expect(agents).toContain(BEGIN);
     expect(agents).toContain(END);
     expect(agents).toContain('node_modules/@modern-js/app-tools/docs/');
-    expect(read('CLAUDE.md').trim()).toBe('@AGENTS.md');
+    expect(fs.existsSync(path.join(workdir, 'CLAUDE.md'))).toBe(false);
   });
 
   it('refreshes the managed block in place and keeps user content', () => {
@@ -188,23 +187,21 @@ describe('--agents-md-only (existing projects)', () => {
     expect(agents.indexOf(BEGIN)).toBeLessThan(agents.indexOf('# My rules'));
   });
 
-  it('adds the @AGENTS.md import to an existing CLAUDE.md', () => {
+  it('preserves an existing CLAUDE.md', () => {
     fs.writeFileSync(
       path.join(workdir, 'CLAUDE.md'),
       '# existing claude config\nsome rule\n',
     );
     runCreate(['--agents-md-only']);
 
-    const claude = read('CLAUDE.md');
-    expect(claude.split('\n').some(l => l.trim() === '@AGENTS.md')).toBe(true);
-    expect(claude).toContain('some rule');
+    expect(read('CLAUDE.md')).toBe('# existing claude config\nsome rule\n');
   });
 
   it('is idempotent on a second run', () => {
     runCreate(['--agents-md-only']);
-    const first = read('AGENTS.md') + read('CLAUDE.md');
+    const first = read('AGENTS.md');
     runCreate(['--agents-md-only']);
-    const second = read('AGENTS.md') + read('CLAUDE.md');
+    const second = read('AGENTS.md');
     expect(second).toBe(first);
   });
 });

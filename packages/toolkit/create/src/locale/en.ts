@@ -14,7 +14,7 @@ export const EN_LOCALE = {
     welcome: '🚀 Welcome to Modern.js',
     success: '✨ Created successfully!',
     agentsMd:
-      '✔ AGENTS.md & CLAUDE.md generated — AI coding agents will pick them up automatically. (--no-agents-md to skip)',
+      '✔ AGENTS.md generated — AI coding agents will read it automatically. (--no-agents-md to skip)',
     nextSteps: '📋 Next steps:',
     step1: 'cd {projectName}',
     step2: 'pnpm install',
@@ -24,7 +24,6 @@ export const EN_LOCALE = {
     created: '✔ Created {file}',
     updatedBlock: '✔ Updated the modernjs-agent-rules block in {file}',
     addedBlock: '✔ Added the modernjs-agent-rules block to the top of {file}',
-    linked: '✔ Added the `@AGENTS.md` import to {file}',
     unchanged: '• {file} is already up to date',
     done: '✨ Done — AI coding agents will read {location}.',
     targetNotFound: 'Error: target directory "{dir}" does not exist',
@@ -43,15 +42,15 @@ export const EN_LOCALE = {
     optionLang: '  -l, --lang     Set the language (zh or en)',
     optionSub: '  -s, --sub       Mark as a subproject (package in monorepo)',
     optionNoAgentsMd:
-      '  --no-agents-md  Skip generating AGENTS.md / CLAUDE.md for AI coding agents',
+      '  --no-agents-md  Skip generating AGENTS.md for AI coding agents',
     optionAgentsMdOnly:
-      '  --agents-md-only  Only add/refresh AGENTS.md / CLAUDE.md in the current project (no scaffolding)',
+      '  --agents-md-only  Only add/refresh AGENTS.md in the current project (no scaffolding)',
     examples: '💡 Examples:',
     example1: '  create my-app',
     example2: '  create my-app --lang zh',
     example3: '  create my-app --sub',
     example4:
-      '  create --agents-md-only   (add/refresh AGENTS.md & CLAUDE.md in an existing project)',
+      '  create --agents-md-only   (add/refresh AGENTS.md in an existing project)',
     moreInfo: '📚 Learn more: https://modernjs.dev',
   },
   version: {

@@ -189,7 +189,7 @@ async function main() {
     return;
   }
 
-  // Mode for existing projects: add/refresh AGENTS.md & CLAUDE.md in the
+  // Mode for existing projects: add/refresh AGENTS.md in the
   // current directory so agents pick up the bundled docs after an upgrade
   // (idempotent). A flag rather than a positional, so it never collides with
   // a project name; mutually exclusive with creating a project.
@@ -283,10 +283,7 @@ function copyTemplate(
     '.nvmrc',
     // agent files are managed at the monorepo root in subproject setups
     'AGENTS.md',
-    'CLAUDE.md',
   ];
-
-  const agentFiles = ['AGENTS.md', 'CLAUDE.md'];
 
   function copyRecursive(srcDir: string, destDir: string) {
     const entries = fs.readdirSync(srcDir, { withFileTypes: true });
@@ -295,7 +292,7 @@ function copyTemplate(
       if (options.isSubproject && excludeInSubproject.includes(entry.name)) {
         continue;
       }
-      if (options.noAgentsMd && agentFiles.includes(entry.name)) {
+      if (options.noAgentsMd && entry.name === 'AGENTS.md') {
         continue;
       }
 
