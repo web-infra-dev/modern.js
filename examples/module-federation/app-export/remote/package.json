@@ -7,9 +7,7 @@
     "dev": "modern dev",
     "build": "modern build",
     "start": "modern start",
-    "serve": "modern serve",
-    "lint:fix": "biome check --write",
-    "lint": "biome check"
+    "serve": "modern serve"
   },
   "engines": {
     "node": ">=20.19.5"
@@ -21,7 +19,6 @@
     "@module-federation/modern-js-v3": "2.0.0"
   },
   "devDependencies": {
-    "@biomejs/biome": "1.8.3",
     "@modern-js/app-tools": "latest",
     "@modern-js/tsconfig": "latest",
     "@types/jest": "~29.2.4",

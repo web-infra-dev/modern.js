@@ -7,8 +7,7 @@
     "dev": "modern dev",
     "build": "modern build",
     "start": "modern start",
-    "serve": "modern serve",
-    "lint": "biome check"
+    "serve": "modern serve"
   },
   "engines": {
     "node": ">=20.19.5"
@@ -22,7 +21,6 @@
     "zephyr-rspack-plugin": "1.1.0"
   },
   "devDependencies": {
-    "@biomejs/biome": "1.9.4",
     "@modern-js/app-tools": "latest",
     "@modern-js/tsconfig": "latest",
     "@types/jest": "~29.5.14",

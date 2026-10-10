@@ -8,7 +8,6 @@
     "build": "modern build",
     "start": "modern start",
     "serve": "modern serve",
-    "lint": "biome check",
     "deploy": "modern deploy",
     "deploy:gh-pages": "MODERNJS_DEPLOY=ghPages modern deploy && gh-pages -d .output"
   },
@@ -21,7 +20,6 @@
     "react-dom": "^19.2.8"
   },
   "devDependencies": {
-    "@biomejs/biome": "1.9.4",
     "@modern-js/app-tools": "latest",
     "@modern-js/tsconfig": "latest",
     "@types/jest": "~29.2.4",
