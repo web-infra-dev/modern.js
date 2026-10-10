@@ -44,9 +44,9 @@ define.lint(({ js, ts }) => [
 ]);
 
 define.staged({
-  '*.{js,jsx,ts,tsx,cjs,mjs,cts,mts}': ['rs lint'],
+  '*.{md,mdx,json,json5,yml,yaml,css,less,scss,html}': 'rs fmt',
+  '*.{js,jsx,ts,tsx,cjs,mjs,mts}': ['rs lint', 'rs fmt'],
   '**/package.json': ['pnpm check-dependencies'],
-  '*': ['rs fmt --check --ignore-unknown --no-error-on-unmatched-pattern'],
 });
 
 define.fmt({

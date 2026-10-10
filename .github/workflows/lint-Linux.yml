@@ -44,11 +44,8 @@ jobs:
       - name: Lint package.json
         run: pnpm run lint:package-json
 
-      - name: Lint
-        run: pnpm run lint
-
-      - name: Check Formatting
-        run: pnpm run format:check
+      - name: Check Lint and Formatting
+        run: pnpm run check
 
       - name: Check Changeset
         run: pnpm run check-changeset
