@@ -1,10 +1,10 @@
 import path from 'path';
 import { pluginSass } from '@rsbuild/plugin-sass';
-import { defineConfig } from '@rspress/core';
 import { transformerNotationHighlight } from '@shikijs/transformers';
 import { pluginOpenGraph } from 'rsbuild-plugin-open-graph';
+import { define } from 'rstack';
 
-const docPath = path.join(__dirname, 'docs');
+const docPath = path.join(import.meta.dirname, 'docs');
 const siteTitle = 'Modern.js';
 const siteDescription =
   'The Modern.js framework is a progressive web framework based on React. At ByteDance, we use Modern.js to build upper-level frameworks that have supported the development of thousands of web applications.';
@@ -13,7 +13,7 @@ const socialDescription =
 const socialImage =
   'https://lf3-static.bytednsdoc.com/obj/eden-cn/nuvjhpqnuvr/modern-website/banner.jpeg';
 
-export default defineConfig({
+define.doc({
   root: docPath,
   llms: true,
   title: siteTitle,
@@ -22,7 +22,7 @@ export default defineConfig({
   logo: 'https://lf-cdn-tos.bytescm.com/obj/static/webinfra/modern-js-website/assets/images/images/modernjs-logo.svg',
   icon: 'https://lf3-static.bytednsdoc.com/obj/eden-cn/uhbfnupenuhf/favicon.ico',
   lang: 'en',
-  themeDir: path.join(__dirname, 'src'),
+  themeDir: path.join(import.meta.dirname, 'src'),
   markdown: {
     checkDeadLinks: true,
     shiki: {
@@ -111,14 +111,11 @@ export default defineConfig({
     output: {
       dataUriLimit: 0,
     },
-    dev: {
-      lazyCompilation: process.env.LAZY !== 'false',
-    },
     resolve: {
       alias: {
-        '@site-docs': path.join(__dirname, './docs/zh'),
-        '@site-docs-en': path.join(__dirname, './docs/en'),
-        '@site': require('path').resolve(__dirname),
+        '@site-docs': path.join(import.meta.dirname, './docs/zh'),
+        '@site-docs-en': path.join(import.meta.dirname, './docs/en'),
+        '@site': import.meta.dirname,
       },
     },
     plugins: [
