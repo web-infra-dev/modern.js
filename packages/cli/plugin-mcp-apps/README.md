@@ -19,15 +19,15 @@ plugin registers UI entries and binds UI resources during BFF initialization.
 
 ```ts
 // api/lambda/index.ts
-import { mcpApps } from '@modern-js/plugin-mcp-apps/bff';
+import { mcpServer } from '@modern-js/plugin-mcp-apps/bff';
 import definition from '../mcp_apps';
 
-export const { POST, GET, DELETE, PUT, PATCH, OPTIONS } = mcpApps(definition);
+export const { POST, GET, DELETE, PUT, PATCH, OPTIONS } = mcpServer(definition);
 ```
 
 For an existing BFF application, keep its prefix and put the route in
 `api/lambda/mcp.ts` (for example `/api/mcp`). Do not register BFF twice.
-Pass `serverInfo` or `onError` as the second argument of `mcpApps(definition, options)`. The integration binds the artifact
+Set `name` and `version` on `defineMcpServer()`. Optional endpoint `serverInfo` overrides that identity. Pass `onError` as the second argument of `mcpServer(definition, options)`. The integration binds the artifact
 using the BFF runtime context; custom output directories and CJS/ESM
 API modules do not require application-level path resolution. Export the returned
 functions directly so BFF can recognize them; apply authentication in BFF middleware.
@@ -40,8 +40,7 @@ accepts a loaded definition directly.
 | --- | --- | --- |
 | `config` | `api/mcp_apps.ts` | Trusted definition path, relative to project root |
 
-`api/mcp_apps.ts` imports handlers such as `greet` from `./mcp-tools` and assigns
-`handler: greet`. The route imports that definition and calls `mcpApps(definition)`.
+`api/mcp_apps.ts` imports tool definitions created with `defineTool()` from `./mcp-tools` and adds optional `view` configurations. The route imports that definition and calls `mcpServer(definition)`.
 `modern dev` uses the ordinary BFF module watcher; `modern build` emits
 `dist/api/mcp_apps.js`, `dist/api/mcp-tools.js` and `dist/api/lambda/index.js`.
 No MCP-specific compiler, handler path mapping or generated configuration wrapper

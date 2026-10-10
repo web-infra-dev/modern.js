@@ -11,8 +11,9 @@ result/view binding, application-built HTML resources, a Hono adapter, and optio
 A standard Modern.js app can declare a local card without MF:
 
 ```ts
-export default defineMcpApps({
-  remotes: [],
+export default defineMcpServer({
+  name: 'my-mcp-server',
+  version: '1.0.0',
   tools: [{ name: 'greet', handler: greet,
     view: { module: './src/components/Greeting.tsx' } }],
 });
@@ -69,10 +70,12 @@ paths while retaining the original tool functions; it does not generate source c
 
 ```ts
 // api/mcp_apps.ts — server-owned app definition
-import { defineMcpApps } from '@modern-js/mcp-apps/config';
+import { defineMcpServer } from '@modern-js/mcp-apps/config';
 import { greet } from './mcp-tools';
 
-export default defineMcpApps({
+export default defineMcpServer({
+  name: 'my-mcp-server',
+  version: '1.0.0',
   remotes: [{
     name: 'mcp_ui',
     baseUrl: 'https://cdn.example.com/releases/1/mf-manifest.json',
@@ -161,8 +164,8 @@ that own their host connection.
 
 `view.renderMode` accepts `component` (default) or `mount`, and `exportName` defaults
 to `default`. Legacy top-level `module/exportName/renderMode` are normalized into
-the explicit view definition. Handler-only tools can omit `remote` and use
-`remotes: []`; view-only tools can omit `handler`. Explicit `annotations` are
+the explicit view definition. Handler-only tools can omit `remote` and can omit
+`remotes`; view-only tools can omit `handler`. Explicit `annotations` are
 preserved, never forced read-only.
 
 ## Compatibility and deployment
@@ -233,3 +236,14 @@ The official SDK handles MCP 2026-07-28 per-request envelopes, server/discover,
 required request headers, resultType and cache metadata. Legacy clients retain
 stateless JSON responses and initialization support. Template verification uses
 2026-07-28. UI resources use the standard MCP Apps metadata and MIME type.
+
+## Unified server definitions
+
+Use `defineMcpServer({ name, version, tools, viewDefaults? })` for new servers.
+`remotes` is optional and defaults to an empty array. Both UI tools and backend-only
+tools use the same definition; add `view` only when a tool needs a card.
+`defineTool({ name, inputSchema, handler })` infers handler inputs from JSON Schema
+and supports synchronous and asynchronous results. Export `InferToolInput` and
+`InferToolOutput` types to share contracts with frontend code.
+The old `defineMcpApps` API remains available. Mount BFF routes with
+`mcpServer(definition)` from `@modern-js/plugin-mcp-apps/bff`.

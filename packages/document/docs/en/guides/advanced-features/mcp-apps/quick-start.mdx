@@ -69,7 +69,7 @@ This template includes the `greet` and `add_numbers` tools without React cards o
 | --- | --- |
 | `modern.config.ts` | Configure the BFF route prefix and plugins, including Module Federation in MF mode |
 | `api/mcp_apps.ts` | Associate tools with input schemas, handlers, and views |
-| `api/mcp-tools.ts` | Implement tool business logic |
+| `api/mcp-tools.ts` | Define typed tools and business handlers with `defineTool` |
 | `api/lambda/index.ts` | Declare the `/mcp` BFF route |
 | `src/components/` | React cards, included only in UI templates |
 | `module-federation.config.ts` | Remote component exposes, included only in MF mode |
@@ -137,3 +137,5 @@ Alongside `/mcp`, the card's HTML, JS/CSS, and MF assets must be accessible. For
 Run `pnpm verify:mcp https://<public-host>/mcp` to check the public protocol endpoint before testing host interactions. The script does not verify JavaScript execution or component loading in the host. For MCP Server projects, verify tool calls and results without card checks.
 
 Before publication, build `@modern-js/mcp-apps` and `@modern-js/plugin-mcp-apps` in this repository, then run `pnpm --filter @examples/mcp-apps-modern dev` to try the local-card example.
+
+The generated definition uses `defineMcpServer` with `name` and `version` from `package.json`. Local and backend-only tools omit `remotes`; MF tools declare their remote explicitly. Tools may use synchronous or asynchronous handlers, and `view` is optional. See [Tools and views](./configuration).

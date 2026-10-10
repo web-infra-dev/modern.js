@@ -4,7 +4,15 @@ import type {
   ToolAnnotations,
 } from '@modelcontextprotocol/server';
 
+export type McpAppsViewDefaults = Pick<
+  McpAppsViewConfig,
+  'assetBase' | 'csp' | 'exportName' | 'renderMode' | 'runtime'
+>;
+
 export interface McpAppsConfig {
+  name?: string;
+  version?: string;
+  viewDefaults?: McpAppsViewDefaults;
   remotes: RemoteConfig[];
   tools: ToolConfig[];
 }
@@ -32,6 +40,7 @@ export interface ToolConfig {
   inputSchema?: JsonSchema;
   outputSchema?: JsonSchema;
   annotations?: ToolAnnotations;
+  _meta?: Record<string, unknown>;
   remote?: string;
   module?: string;
   exportName?: string;
@@ -70,6 +79,7 @@ export interface NormalizedToolConfig {
   inputSchema?: JsonSchema;
   outputSchema?: JsonSchema;
   annotations?: ToolAnnotations;
+  _meta?: Record<string, unknown>;
   remote?: string;
   view?: Required<
     Pick<McpAppsViewConfig, 'module' | 'exportName' | 'renderMode'>
@@ -83,6 +93,9 @@ export interface NormalizedToolConfig {
 }
 
 export interface McpAppsDefinition {
+  name?: string;
+  version?: string;
+  viewDefaults?: McpAppsViewDefaults;
   remotes: RemoteConfig[];
   tools: ToolConfig[];
 }
@@ -129,6 +142,26 @@ export type LoadRemoteHandler = (
   options: LoadRemoteHandlerOptions,
 ) => Promise<RemoteToolHandler>;
 
+export interface McpServerDefinition
+  extends Omit<McpAppsDefinition, 'remotes'> {
+  name: string;
+  version: string;
+  remotes?: RemoteConfig[];
+}
+
+export function defineMcpServer<const T extends McpServerDefinition>(
+  definition: T,
+): T & { remotes: RemoteConfig[] } {
+  if (!definition.name.trim() || !definition.version.trim()) {
+    throw new Error('MCP server name and version must be non-empty');
+  }
+  return { ...definition, remotes: definition.remotes ?? [] };
+}
+
+/** @deprecated Use defineMcpServer for new server definitions. */
 export function defineMcpApps<T extends McpAppsDefinition>(definition: T): T {
   return definition;
 }
+
+export { defineTool } from './tool';
+export type { InferSchema, InferToolInput, InferToolOutput } from './tool';

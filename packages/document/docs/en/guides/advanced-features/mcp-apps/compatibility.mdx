@@ -6,4 +6,4 @@ Cards use MCP Apps `_meta.ui.resourceUri`, `text/html;profile=mcp-app`, and reso
 
 `structuredContent` accepts any JSON value. Tools without cards return it unchanged. For cards, object results are merged with UI data; arrays and scalars are placed in `structuredContent.data`. Specify card props through `viewProps`.
 
-The endpoint accepts server requests without `Origin` and same-origin browser requests by default, rejecting other origins. For browser cross-origin access, explicitly configure BFF `mcpApps(definition, { allowedOrigins: ['https://host.example.com'] })` and application CORS as needed. The standalone Hono and core handlers also accept `allowedOrigins`. Authentication remains application middleware’s responsibility.
+The endpoint accepts server requests without `Origin` and same-origin browser requests by default, rejecting other origins. For browser cross-origin access, explicitly configure BFF `mcpServer(definition, { allowedOrigins: ['https://host.example.com'] })` and application CORS as needed. The standalone Hono and core handlers also accept `allowedOrigins`. Authentication remains application middleware’s responsibility.

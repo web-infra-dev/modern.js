@@ -1,4 +1,5 @@
 import type {
+  McpAppsViewDefaults,
   NormalizedToolConfig,
   RemoteConfig,
   RemoteToolHandlerResult,
@@ -6,7 +7,25 @@ import type {
 } from './config';
 const RESOURCE_MIME_TYPE = 'text/html;profile=mcp-app';
 
-export function normalizeToolConfig(tool: ToolConfig): NormalizedToolConfig {
+export function normalizeToolConfig(
+  input: ToolConfig,
+  defaults?: McpAppsViewDefaults,
+): NormalizedToolConfig {
+  let tool = input;
+  if (tool.view && defaults) {
+    const view = {
+      ...tool.view,
+      assetBase: tool.view.assetBase ?? defaults.assetBase,
+      exportName: tool.view.exportName ?? defaults.exportName,
+      renderMode: tool.view.renderMode ?? defaults.renderMode,
+      runtime: tool.view.runtime ?? defaults.runtime,
+      csp:
+        defaults.csp || tool.view.csp
+          ? { ...defaults.csp, ...tool.view.csp }
+          : undefined,
+    };
+    tool = { ...tool, view };
+  }
   const legacyView =
     tool.module !== undefined
       ? {
@@ -45,6 +64,7 @@ export function normalizeToolConfig(tool: ToolConfig): NormalizedToolConfig {
     inputSchema: tool.inputSchema,
     outputSchema: tool.outputSchema,
     annotations: tool.annotations,
+    _meta: tool._meta,
     remote: tool.remote,
     view: explicitView ?? legacyView,
     handler,

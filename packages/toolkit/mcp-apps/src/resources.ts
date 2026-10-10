@@ -56,7 +56,9 @@ export function validateMcpAppsConfig(config: McpAppsDefinition): void {
     if (!remote.baseUrl)
       throw new Error(`Remote "${remote.name}" requires baseUrl`);
   }
-  for (const tool of config.tools.map(normalizeToolConfig)) {
+  for (const tool of config.tools.map(tool =>
+    normalizeToolConfig(tool, config.viewDefaults),
+  )) {
     if (tool.remote !== undefined && !names.has(tool.remote))
       throw new Error(
         `Tool "${tool.name}" references missing remote "${tool.remote}"`,
@@ -79,7 +81,9 @@ export function validateMcpAppsConfig(config: McpAppsDefinition): void {
 }
 
 export function createUiResources(definition: McpAppsDefinition) {
-  const normalized = definition.tools.map(normalizeToolConfig);
+  const normalized = definition.tools.map(tool =>
+    normalizeToolConfig(tool, definition.viewDefaults),
+  );
   const resources = new Map<
     string,
     {

@@ -1,35 +1,37 @@
 # Define tools and views
 
-`api/mcp_apps.ts` is the server-side MCP application definition: it declares the available tools, their execution logic, and the cards used to display results. It exports configuration through `defineMcpApps()`. The route in `api/lambda/index.ts` imports that definition and passes it to `mcpApps(definition)`. `defineMcpApps()` provides type hints; it does not start a server or register HTTP routes.
+`api/mcp_apps.ts` is the server-side MCP application definition: it declares the available tools, their execution logic, and the cards used to display results. It exports configuration through `defineMcpServer()`. The route in `api/lambda/index.ts` imports that definition and passes it to `mcpServer(definition)`. `defineMcpServer()` provides type hints; it does not start a server or register HTTP routes.
 
 ## Define an application component card
 
 A tool references a React component file in the current project directly through `view.module`. For example:
 
 ```ts title="api/mcp_apps.ts"
-import { defineMcpApps } from '@modern-js/mcp-apps/config';
-import { greet } from './mcp-tools';
+import { defineMcpServer } from '@modern-js/mcp-apps/config';
+import { name, version } from '../package.json';
+import { addNumbers, greet } from './mcp-tools';
 
-export default defineMcpApps({
-  remotes: [],
-  tools: [{
-    name: 'greet',
-    description: 'Greet someone with an interactive card.',
-    inputSchema: {
-      type: 'object',
-      properties: { name: { type: 'string' } },
-      required: ['name'],
-      additionalProperties: false,
+export default defineMcpServer({
+  name,
+  version,
+  tools: [
+    {
+      ...greet,
+      visibility: ['model', 'app'],
+      view: { module: './src/components/Greeting.tsx' },
     },
-    handler: greet,
-    view: { module: './src/components/Greeting.tsx' },
-  }],
+    {
+      ...addNumbers,
+      visibility: ['model', 'app'],
+      view: { module: './src/components/Sum.tsx' },
+    },
+  ],
 });
 ```
 
 | Field | Meaning |
 | --- | --- |
-| `remotes` | Remote UI resources; use an empty array for cards built from application components and tools without UI |
+| `remotes` | Optional remote UI resources; defaults to an empty array for local cards and tools without UI |
 | `tools[].name` | A unique tool name used by the host and cards to call the tool |
 | `tools[].description` | A description that helps the model select the tool |
 | `tools[].inputSchema` | A JSON Schema for arguments, validated before the handler runs |
@@ -45,16 +47,16 @@ The template uses the following mapping:
 
 | MCP tool `name` | Server `handler` | `view.module` | Component default export |
 | --- | --- | --- | --- |
-| `greet` | `greet` | `./src/components/Greeting.tsx` | Greeting card component |
-| `add_numbers` | `addNumbers` | `./src/components/Sum.tsx` | Addition card component |
+| `greet` | `greet.handler` | `./src/components/Greeting.tsx` | Greeting card component |
+| `add_numbers` | `addNumbers.handler` | `./src/components/Sum.tsx` | Addition card component |
 
-When the host calls `greet`, the server executes `handler: greet`. Modern.js builds a card entry from the component referenced by `view.module` and serves its HTML through the tool's `ui://local/greet` resource. The host loads the card and the component receives tool arguments, the handler's `viewProps`, and `mcpApp`. Business handlers execute on the server; React components run in the host's card UI.
+When the host calls `greet`, the server executes `greet.handler`. Modern.js builds a card entry from the component referenced by `view.module` and serves its HTML through the tool's `ui://local/greet` resource. The host loads the card and the component receives tool arguments, the handler's `viewProps`, and `mcpApp`. Business handlers execute on the server; React components run in the host's card UI.
 
 When configuring the mapping:
 
 - `tools[].name` is the tool call name and need not match the component filename or function name. `view.module` is a path relative to the project root.
 - `view.exportName` defaults to `default`, selecting `export default`. For a component exported as `export function Greeting()`, use `view: { module: './src/components/Greeting.tsx', exportName: 'Greeting' }`.
-- Placing a component in `src/components/` does not register a tool. Declare the tool and its `view` in `tools` for the plugin to generate a card entry. Omit the tool's `remote`; use `remotes: []` when all views are application components.
+- Placing a component in `src/components/` does not register a tool. Declare the tool and its `view` in `tools` for the plugin to generate a card entry. Omit the tool's `remote`; omit `remotes` when all views are application components.
 - Multiple tools can reference the same component file. The plugin generates an entry and UI resource for each tool, and the shared component must support their props. Each tool has one `view`, whose component can compose multiple child components.
 - When a card calls `mcpApp.callServerTool()`, use `tools[].name`, such as `add_numbers`, not a component name or file path. Tools that only provide business functionality can omit `view`.
 
@@ -62,23 +64,33 @@ When configuring the mapping:
 
 1. Create and export a React component in `src/components/`.
 2. Implement a business handler in `api/mcp-tools.ts`, returning the component's props through `viewProps`.
-3. Declare the tool name, input schema, and handler in `api/mcp_apps.ts`, and point `view.module` to the component file.
+3. Import the defined tool in `api/mcp_apps.ts`, spread it into `tools`, and point `view.module` to the component file.
 4. Run protocol checks, then trigger the tool in a host to verify card rendering and interactions. See [Create a project](./quick-start) for the steps.
 
 ## Pass handler results to a card
 
 ```ts title="api/mcp-tools.ts"
-import type { RemoteToolHandler } from '@modern-js/mcp-apps/config';
+import { defineTool } from '@modern-js/mcp-apps/config';
 
-export const greet: RemoteToolHandler = input => {
-  const { name } = input as { name: string };
-  const message = `Hello, ${name}!`;
-  return {
-    content: [{ type: 'text', text: message }],
-    structuredContent: { message },
-    viewProps: { message },
-  };
-};
+export const greet = defineTool({
+  name: 'greet',
+  description: 'Greet someone.',
+  inputSchema: {
+    type: 'object',
+    properties: { name: { type: 'string', minLength: 1 } },
+    required: ['name'],
+    additionalProperties: false,
+  },
+  annotations: { readOnlyHint: true },
+  handler: async ({ name }) => {
+    const message = `Hello, ${name}!`;
+    return {
+      content: [{ type: 'text', text: message }],
+      structuredContent: { message },
+      viewProps: { message },
+    };
+  },
+});
 ```
 
 `content` supplies tool content such as text, `structuredContent` supplies structured business data, and `viewProps` specifies props for the card. The renderer merges tool arguments with `viewProps`, with `viewProps` taking precedence, and injects the connected `mcpApp`. This card can receive `name`, `message`, and `mcpApp`, and call a tool again through `mcpApp.callServerTool()`.
@@ -118,10 +130,12 @@ Each `exposes` key is a public module name and its value is a component source p
 Declare the remote and select an expose for the tool in `api/mcp_apps.ts`:
 
 ```ts title="api/mcp_apps.ts"
-import { defineMcpApps } from '@modern-js/mcp-apps/config';
+import { defineMcpServer } from '@modern-js/mcp-apps/config';
 import { greet } from './mcp-tools';
 
-export default defineMcpApps({
+export default defineMcpServer({
+  name: 'my-mcp-server',
+  version: '1.0.0',
   remotes: [{
     name: 'mcp_ui',
     baseUrl: 'https://cdn.example.com/static/mf-manifest.json',
@@ -131,13 +145,7 @@ export default defineMcpApps({
     },
   }],
   tools: [{
-    name: 'greet',
-    inputSchema: {
-      type: 'object',
-      properties: { name: { type: 'string' } },
-      required: ['name'],
-    },
-    handler: greet,
+    ...greet,
     remote: 'mcp_ui',
     view: { module: './Greeting' },
   }],
@@ -152,10 +160,10 @@ The template maps its two tools to components as follows:
 
 | MCP tool `name` | Server `handler` | `remote` | `view.module` | Source referenced by `exposes` |
 | --- | --- | --- | --- | --- |
-| `greet` | `greet` | `mcp_ui` | `./Greeting` | `./src/components/Greeting.tsx` |
-| `add_numbers` | `addNumbers` | `mcp_ui` | `./Sum` | `./src/components/Sum.tsx` |
+| `greet` | `greet.handler` | `mcp_ui` | `./Greeting` | `./src/components/Greeting.tsx` |
+| `add_numbers` | `addNumbers.handler` | `mcp_ui` | `./Sum` | `./src/components/Sum.tsx` |
 
-When the host calls `greet`, the server executes `handler: greet` and returns business results. The card renderer resolves `remote: 'mcp_ui'` to its manifest in `remotes`, loads the component exposed as `./Greeting`, and passes tool arguments, the handler's `viewProps`, and `mcpApp` to it.
+When the host calls `greet`, the server executes `greet.handler` and returns business results. The card renderer resolves `remote: 'mcp_ui'` to its manifest in `remotes`, loads the component exposed as `./Greeting`, and passes tool arguments, the handler's `viewProps`, and `mcpApp` to it.
 
 Keep these names and responsibilities distinct:
 
@@ -173,3 +181,29 @@ BFF compiles the definition and handlers for the server; they are not imported a
 See the [API reference](./api) for complete fields and type definitions.
 
 See [Card interactions](./interactions) for calling tools, sending conversation messages, and updating model context.
+
+
+## viewDefaults
+
+```ts
+export default defineMcpServer({
+  name: 'my-mcp-server',
+  version: '1.0.0',
+  viewDefaults: {
+    assetBase: 'request',
+    csp: { resourceDomains: [], connectDomains: [], frameDomains: [], baseUriDomains: [] },
+  },
+  tools: [{ name: 'card', visibility: ['model', 'app'], view: { module: './Card' } }],
+});
+```
+
+Defaults apply only to tools with a view. Tool view fields override application defaults. CSP lists override independently; an empty list clears the default list. MF resource CSP continues to use remote.csp.
+
+## Typed tools
+
+`defineTool()` keeps JSON Schema with its handler and infers required and optional inputs, enums, arrays, and nested objects. Handlers may return a result or a Promise. `InferToolInput<typeof tool>` and `InferToolOutput<typeof tool>` expose input and structured output types for client code. Input validation still runs before the handler. Unsupported schema forms infer `unknown`.
+
+
+`name` and `version` identify the MCP server. `remotes` defaults to `[]`; omit it for local views and tools without UI. `viewDefaults` stays grouped at the top level. `defineMcpApps` and `mcpApps` remain available for compatibility.
+
+The view defaults are `exportName: 'default'`, `renderMode: 'component'`, and browser execution; templates omit these values.

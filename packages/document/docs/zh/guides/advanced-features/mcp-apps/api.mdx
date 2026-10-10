@@ -1,27 +1,44 @@
 # API 参考
 
-## defineMcpApps 类型定义
+## defineMcpServer 与 defineTool
 
-从 `@modern-js/mcp-apps/config` 导入 `defineMcpApps` 及下列配置类型。函数签名如下：
+从 `@modern-js/mcp-apps/config` 导入配置辅助函数。
+`defineMcpServer()` 要求顶层填写 `name`、`version`，将省略的 `remotes` 补为 `[]`，
+保留工具定义；空名称和版本会报错。该函数不启动 HTTP listener，
+`viewDefaults` 仅作用于带 view 的工具。
 
-```ts
-export function defineMcpApps<T extends McpAppsDefinition>(definition: T): T;
-```
+使用 `defineTool({ name, inputSchema, handler })` 根据 JSON Schema 推导 handler 参数。
+支持必填/可选字段、基础类型、枚举、数组、嵌套对象、`const`、`anyOf` 和 `oneOf`，
+未支持的形式保留为 `unknown`。handler 可以同步返回结果或返回 Promise。
+执行器在调用 handler 前校验输入，并可通过 `outputSchema` 校验 `structuredContent`。
+`InferToolInput<typeof tool>`、`InferToolOutput<typeof tool>` 分别提供输入和结构化输出类型；
+这些类型不会自动接入客户端 SDK 调用。当前辅助函数不接受 Zod schema。
 
-泛型 `T` 保留传入配置的推断类型，函数原样返回该对象。它不执行运行时校验，也不会根据 `inputSchema` 自动推导 handler 的参数类型；工具参数在服务端执行前按 JSON Schema 校验，handler 中的 `input` 类型仍是 `unknown`。
+BFF 路由从 `@modern-js/plugin-mcp-apps/bff` 导入 `mcpServer(definition, options)`。
+服务定义提供名称和版本，入口显式设置的 `serverInfo` 优先；`allowedOrigins`、`onError`
+仍属于入口配置。独立 Hono 适配器保持使用 `mcpApps({ definition })`。
 
-下面是定义文件涉及的配置、handler 上下文及返回值类型：
+旧入口 `defineMcpApps` 和 BFF `mcpApps` 保留兼容。直接使用 `RemoteToolHandler` 时
+输入仍为 `unknown`；需要类型推导时使用 `defineTool`。
+
+以下公共类型描述服务定义、handler 上下文及返回值：
 
 ```ts
 import type { McpUiResourceMeta } from '@modelcontextprotocol/ext-apps';
 import type { CallToolResult, ToolAnnotations } from '@modelcontextprotocol/server';
 
-export interface McpAppsDefinition {
-  /** 远程 UI 定义；应用内组件卡片或纯工具项目填写空数组。 */
-  remotes: RemoteConfig[];
-  /** 工具定义列表，至少包含一个工具。 */
+export interface McpServerDefinition {
+  name: string;
+  version: string;
+  viewDefaults?: McpAppsViewDefaults;
+  remotes?: RemoteConfig[];
   tools: ToolConfig[];
 }
+
+export type McpAppsViewDefaults = Pick<
+  McpAppsViewConfig,
+  'assetBase' | 'csp' | 'exportName' | 'renderMode' | 'runtime'
+>;
 
 export interface RemoteConfig {
   /** 远程资源的唯一名称，由工具的 remote 字段引用。 */
@@ -58,12 +75,14 @@ export interface ToolConfig {
   title?: string;
   /** 工具用途说明，帮助模型选择工具。 */
   description?: string;
-  /** 输入参数的 JSON Schema；不推导 input 类型。 */
+  /** 输入参数的 JSON Schema；defineTool 可推导支持的形式。 */
   inputSchema?: JsonSchema;
   /** 业务 structuredContent 的 JSON Schema；在附加 UI 数据前校验。 */
   outputSchema?: JsonSchema;
   /** 只读、破坏性等行为提示，不代替权限控制。 */
   annotations?: ToolAnnotations;
+  /** 工具扩展元数据，例如宿主调用状态文案。 */
+  _meta?: Record<string, unknown>;
   /** 关联的 RemoteConfig.name；应用内组件卡片无需设置。 */
   remote?: string;
   /** 兼容字段，推荐改用 view.module。 */
@@ -168,8 +187,8 @@ export type RemoteToolHandler = (
 
 使用时注意：
 
-- `remotes` 和 `tools` 都是必填字段；没有远程 UI 时填写 `remotes: []`。服务端要求至少一个工具，每个工具至少包含 `handler` 或 `view`。
-- 推荐通过普通 import 引入业务函数，并直接配置 `handler: greet`，便于 BFF 追踪依赖。`McpAppsHandlerConfig` 是按本地模块加载 handler 的形式。
+- `defineMcpServer` 要求 `name`、`version` 和 `tools`；`remotes` 可选，默认 `[]`。服务端要求至少一个工具，每个工具至少包含 `handler` 或 `view`。
+- 推荐通过普通 import 引入 `defineTool` 创建的工具定义，便于 BFF 追踪依赖。`McpAppsHandlerConfig` 是按本地模块加载 handler 的形式。
 - `view.exportName` 默认为 `default`，`view.renderMode` 默认为 `component`；本地组件入口只支持 `component`。顶层 `module`、`exportName`、`renderMode` 是兼容字段，新配置应使用 `view`。
 - `outputSchema` 校验 handler 返回的业务 `structuredContent`；带视图的工具会在校验后附加 UI 数据，因此不会在工具列表中公开该 schema。
 - `visibility` 默认是 `['model', 'app']`，控制工具对模型和卡片的可见性，不代替服务端鉴权。`annotations` 是工具行为提示。

@@ -29,3 +29,6 @@ export function mcpApps(
     OPTIONS: endpoint,
   };
 }
+
+/** Mount a server definition as a BFF endpoint. */
+export const mcpServer = mcpApps;

@@ -88,77 +88,85 @@ export function createMcpHandler<T = undefined>(
   const { resources, toolUris } = createUiResources(definition);
   const loadHandler = options.loadRemoteHandler ?? createMcpAppsHandlerLoader();
   const tools = new Map(
-    definition.tools.map(normalizeToolConfig).map(tool => {
-      const inputSchema = tool.inputSchema ?? {
-        type: 'object',
-        properties: {},
-      };
-      if (!/^[a-zA-Z0-9_.-]{1,128}$/.test(tool.name)) {
-        throw new Error(`Invalid tool name: ${tool.name}`);
-      }
-      const timeoutMs =
-        (typeof tool.handler === 'function'
-          ? undefined
-          : tool.handler?.timeoutMs) ??
-        options.handlerTimeoutMs ??
-        30_000;
-      if (
-        !Number.isSafeInteger(timeoutMs) ||
-        timeoutMs < 1 ||
-        timeoutMs > 2_147_483_647
-      ) {
-        throw new Error(`Invalid timeoutMs for tool "${tool.name}"`);
-      }
-      if (
-        tool.visibility &&
-        (tool.visibility.length === 0 ||
-          tool.visibility.some(value => value !== 'model' && value !== 'app'))
-      ) {
-        throw new Error(`Invalid visibility for tool "${tool.name}"`);
-      }
-      const uri = toolUris.get(tool.name);
-      const resource = uri ? resources.get(uri) : undefined;
-      // Compile per tool so schemas with the same $id cannot share stale validators.
-      // Strict mode fails unsupported keywords instead of silently dropping constraints.
-      const ajv = new Ajv2020({ strict: true, allErrors: true });
-      addFormats(ajv);
-      const validateInput = ajv.compile(inputSchema);
-      const validateOutput = tool.outputSchema
-        ? ajv.compile(tool.outputSchema)
-        : undefined;
-      const descriptor = {
-        name: tool.name,
-        ...(tool.title === undefined ? {} : { title: tool.title }),
-        ...(tool.description === undefined
-          ? {}
-          : { description: tool.description }),
-        inputSchema: inputSchema as { type: 'object'; [key: string]: unknown },
-        ...(tool.outputSchema && !tool.view
-          ? {
-              outputSchema: tool.outputSchema as {
-                type: 'object';
-                [key: string]: unknown;
-              },
-            }
-          : {}),
-        ...(tool.annotations ? { annotations: tool.annotations } : {}),
-        ...(resource || tool.visibility
-          ? {
-              _meta: {
-                ...(resource ? { 'openai/outputTemplate': resource.uri } : {}),
-                ui: {
-                  ...(resource ? { resourceUri: resource.uri } : {}),
-                  visibility: tool.visibility ?? ['model', 'app'],
+    definition.tools
+      .map(tool => normalizeToolConfig(tool, definition.viewDefaults))
+      .map(tool => {
+        const inputSchema = tool.inputSchema ?? {
+          type: 'object',
+          properties: {},
+        };
+        if (!/^[a-zA-Z0-9_.-]{1,128}$/.test(tool.name)) {
+          throw new Error(`Invalid tool name: ${tool.name}`);
+        }
+        const timeoutMs =
+          (typeof tool.handler === 'function'
+            ? undefined
+            : tool.handler?.timeoutMs) ??
+          options.handlerTimeoutMs ??
+          30_000;
+        if (
+          !Number.isSafeInteger(timeoutMs) ||
+          timeoutMs < 1 ||
+          timeoutMs > 2_147_483_647
+        ) {
+          throw new Error(`Invalid timeoutMs for tool "${tool.name}"`);
+        }
+        if (
+          tool.visibility &&
+          (tool.visibility.length === 0 ||
+            tool.visibility.some(value => value !== 'model' && value !== 'app'))
+        ) {
+          throw new Error(`Invalid visibility for tool "${tool.name}"`);
+        }
+        const uri = toolUris.get(tool.name);
+        const resource = uri ? resources.get(uri) : undefined;
+        // Compile per tool so schemas with the same $id cannot share stale validators.
+        // Strict mode fails unsupported keywords instead of silently dropping constraints.
+        const ajv = new Ajv2020({ strict: true, allErrors: true });
+        addFormats(ajv);
+        const validateInput = ajv.compile(inputSchema);
+        const validateOutput = tool.outputSchema
+          ? ajv.compile(tool.outputSchema)
+          : undefined;
+        const descriptor = {
+          name: tool.name,
+          ...(tool.title === undefined ? {} : { title: tool.title }),
+          ...(tool.description === undefined
+            ? {}
+            : { description: tool.description }),
+          inputSchema: inputSchema as {
+            type: 'object';
+            [key: string]: unknown;
+          },
+          ...(tool.outputSchema && !tool.view
+            ? {
+                outputSchema: tool.outputSchema as {
+                  type: 'object';
+                  [key: string]: unknown;
                 },
-              },
-            }
-          : {}),
-      };
-      return [
-        tool.name,
-        { tool, descriptor, validateInput, validateOutput, timeoutMs },
-      ];
-    }),
+              }
+            : {}),
+          ...(tool.annotations ? { annotations: tool.annotations } : {}),
+          ...(resource || tool.visibility || tool._meta
+            ? {
+                _meta: {
+                  ...tool._meta,
+                  ...(resource
+                    ? { 'openai/outputTemplate': resource.uri }
+                    : {}),
+                  ui: {
+                    ...(resource ? { resourceUri: resource.uri } : {}),
+                    visibility: tool.visibility ?? ['model', 'app'],
+                  },
+                },
+              }
+            : {}),
+        };
+        return [
+          tool.name,
+          { tool, descriptor, validateInput, validateOutput, timeoutMs },
+        ];
+      }),
   );
   if (tools.size !== definition.tools.length) {
     throw new Error('Tool names must be unique');
@@ -195,7 +203,10 @@ export function createMcpHandler<T = undefined>(
   const createServer = async (request: Request) => {
     const context = await options.createContext?.(request);
     const server = new Server(
-      options.serverInfo ?? { name: 'modern-mcp-apps', version: '1.0.0' },
+      options.serverInfo ?? {
+        name: definition.name ?? 'modern-mcp-apps',
+        version: definition.version ?? '1.0.0',
+      },
       { capabilities: { tools: {}, resources: {} } },
     );
     server.setRequestHandler('tools/list', async () => ({

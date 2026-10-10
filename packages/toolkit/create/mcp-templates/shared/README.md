@@ -48,10 +48,10 @@ Business logic lives in `api/mcp-tools.ts`, statically imported by
 `api/mcp_apps.ts`. The ordinary BFF compiler and watcher own both files. `api/lambda/index.ts` only declares the route:
 
 ```ts
-import { mcpApps } from '@modern-js/plugin-mcp-apps/bff';
+import { mcpServer } from '@modern-js/plugin-mcp-apps/bff';
 import definition from '../mcp_apps';
 
-export const { POST, GET, DELETE, PUT, PATCH, OPTIONS } = mcpApps(definition);
+export const { POST, GET, DELETE, PUT, PATCH, OPTIONS } = mcpServer(definition);
 ```
 
 The MCP plugin adds standard auto-mounted Modern.js UI entries and copies their

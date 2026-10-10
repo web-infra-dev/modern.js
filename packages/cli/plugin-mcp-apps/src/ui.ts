@@ -28,7 +28,9 @@ export function setupMcpUi(
     );
     for (const tool of definition.tools) {
       if (!tool.view || tool.remote || tool.view.html) continue;
-      if (tool.view.renderMode && tool.view.renderMode !== 'component') {
+      const renderMode =
+        tool.view.renderMode ?? definition.viewDefaults?.renderMode;
+      if (renderMode && renderMode !== 'component') {
         throw new Error(
           'Modern.js MCP UI entries require component renderMode',
         );
@@ -49,7 +51,7 @@ export function setupMcpUi(
         .split(path.sep)
         .join('/');
       const source = `import { createMcpView } from '@modern-js/mcp-apps/react';
-import { ${tool.view.exportName ?? 'default'} as View } from ${JSON.stringify(component)};
+import { ${tool.view.exportName ?? definition.viewDefaults?.exportName ?? 'default'} as View } from ${JSON.stringify(component)};
 export default createMcpView(View, ${JSON.stringify({ name: tool.name, version: '1.0.0' })});
 `;
       await fs.mkdir(path.dirname(entry), { recursive: true });

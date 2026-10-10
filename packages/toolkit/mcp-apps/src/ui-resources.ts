@@ -23,7 +23,10 @@ export function bindUiResources(
             options.directory,
             `${getUiEntryName(tool.name)}.html`,
           ),
-          assetBase: tool.view.assetBase ?? options.assetBase,
+          assetBase:
+            tool.view.assetBase ??
+            definition.viewDefaults?.assetBase ??
+            options.assetBase,
         },
       };
     }),

@@ -17,6 +17,10 @@ it('uses externally built HTML without compiling the UI source and isolates requ
   const dir = await mkdtemp(path.join(os.tmpdir(), 'modern-built-ui-'));
   dirs.push(dir);
   const definition: McpAppsDefinition = {
+    viewDefaults: {
+      assetBase: 'request',
+      csp: { connectDomains: ['https://api.example'] },
+    },
     remotes: [],
     tools: [{ name: 'card', view: { module: './not-compiled-here.tsx' } }],
   };
@@ -25,7 +29,7 @@ it('uses externally built HTML without compiling the UI source and isolates requ
     '<html><head></head><body><script src="/static/card.js"></script></body></html>',
   );
   const handle = createMcpHandler(
-    bindUiResources(definition, { directory: dir, assetBase: 'request' }),
+    bindUiResources(definition, { directory: dir }),
   );
   for (const host of ['one.example', 'two.example']) {
     const response = await handle(
@@ -47,6 +51,10 @@ it('uses externally built HTML without compiling the UI source and isolates requ
     const content = (await response.json()).result.contents[0];
     expect(content.text).toContain(`<base href="https://${host}/">`);
     expect(content.text).toContain('src="/static/card.js"');
+    expect(content._meta.ui.csp.connectDomains).toEqual([
+      'https://api.example',
+      `https://${host}`,
+    ]);
     expect(content._meta.ui.csp.resourceDomains).toEqual([`https://${host}`]);
     expect(content._meta.ui.csp.baseUriDomains).toEqual([`https://${host}`]);
   }

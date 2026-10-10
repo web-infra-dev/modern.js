@@ -1,35 +1,37 @@
 # 定义工具与视图
 
-`api/mcp_apps.ts` 是服务端的 MCP 应用定义文件，用来声明“有哪些工具、如何执行、结果用哪个卡片展示”。它通过 `defineMcpApps()` 导出配置，由 `api/lambda/index.ts` 导入并交给 `mcpApps(definition)` 注册为 MCP endpoint。`defineMcpApps()` 提供类型提示，本身不启动服务或注册 HTTP 路由。
+`api/mcp_apps.ts` 是服务端的 MCP 应用定义文件，用来声明“有哪些工具、如何执行、结果用哪个卡片展示”。它通过 `defineMcpServer()` 导出配置，由 `api/lambda/index.ts` 导入并交给 `mcpServer(definition)` 注册为 MCP endpoint。`defineMcpServer()` 提供类型提示，本身不启动服务或注册 HTTP 路由。
 
 ## 应用内组件模式下的定义
 
 工具通过 `view.module` 直接引用当前项目的 React 组件文件。下面以应用内问候卡片为例：
 
 ```ts title="api/mcp_apps.ts"
-import { defineMcpApps } from '@modern-js/mcp-apps/config';
-import { greet } from './mcp-tools';
+import { defineMcpServer } from '@modern-js/mcp-apps/config';
+import { name, version } from '../package.json';
+import { addNumbers, greet } from './mcp-tools';
 
-export default defineMcpApps({
-  remotes: [],
-  tools: [{
-    name: 'greet',
-    description: 'Greet someone with an interactive card.',
-    inputSchema: {
-      type: 'object',
-      properties: { name: { type: 'string' } },
-      required: ['name'],
-      additionalProperties: false,
+export default defineMcpServer({
+  name,
+  version,
+  tools: [
+    {
+      ...greet,
+      visibility: ['model', 'app'],
+      view: { module: './src/components/Greeting.tsx' },
     },
-    handler: greet,
-    view: { module: './src/components/Greeting.tsx' },
-  }],
+    {
+      ...addNumbers,
+      visibility: ['model', 'app'],
+      view: { module: './src/components/Sum.tsx' },
+    },
+  ],
 });
 ```
 
 | 字段 | 含义 |
 | --- | --- |
-| `remotes` | 远程 UI 资源列表；应用内组件卡片和纯工具项目使用空数组 |
+| `remotes` | 可选的远程 UI 资源列表，默认空数组；应用内组件卡片和纯工具项目可省略 |
 | `tools[].name` | 工具唯一名称，宿主和卡片通过它调用工具 |
 | `tools[].description` | 工具用途说明，帮助模型选择工具 |
 | `tools[].inputSchema` | 工具参数的 JSON Schema，服务端在执行 handler 前校验 |
@@ -45,16 +47,16 @@ export default defineMcpApps({
 
 | MCP 工具 `name` | 服务端 `handler` | `view.module` | 组件默认导出 |
 | --- | --- | --- | --- |
-| `greet` | `greet` | `./src/components/Greeting.tsx` | 问候卡片组件 |
-| `add_numbers` | `addNumbers` | `./src/components/Sum.tsx` | 加法卡片组件 |
+| `greet` | `greet.handler` | `./src/components/Greeting.tsx` | 问候卡片组件 |
+| `add_numbers` | `addNumbers.handler` | `./src/components/Sum.tsx` | 加法卡片组件 |
 
-宿主调用 `greet` 后，服务端执行 `handler: greet`。Modern.js 为 `view.module` 指定的组件生成卡片入口，并通过工具关联的 `ui://local/greet` 资源向宿主提供 HTML。宿主加载卡片后，组件接收工具输入、handler 返回的 `viewProps` 和 `mcpApp`。工具业务函数在服务端执行，React 组件在宿主的卡片界面中运行。
+宿主调用 `greet` 后，服务端执行 `greet.handler`。Modern.js 为 `view.module` 指定的组件生成卡片入口，并通过工具关联的 `ui://local/greet` 资源向宿主提供 HTML。宿主加载卡片后，组件接收工具输入、handler 返回的 `viewProps` 和 `mcpApp`。工具业务函数在服务端执行，React 组件在宿主的卡片界面中运行。
 
 配置时注意：
 
 - `tools[].name` 是工具调用名称，与组件文件名、组件函数名无须一致；`view.module` 是相对项目根目录的文件路径。
 - `view.exportName` 默认为 `default`，对应组件的 `export default`。如果文件通过 `export function Greeting()` 导出组件，则配置 `view: { module: './src/components/Greeting.tsx', exportName: 'Greeting' }`。
-- 将组件放入 `src/components/` 不会自动注册工具。需要在 `tools` 中声明工具并配置 `view`，插件才会为它生成卡片入口。该模式省略工具的 `remote`，全部使用应用内组件时配置 `remotes: []`。
+- 将组件放入 `src/components/` 不会自动注册工具。需要在 `tools` 中声明工具并配置 `view`，插件才会为它生成卡片入口。该模式省略工具的 `remote`，全部使用应用内组件时可省略 `remotes`。
 - 多个工具可以引用同一组件文件，插件按工具分别生成入口和 UI 资源；共享组件应能处理这些工具传入的属性。每个工具配置一个 `view`，组件内部可以组合多个子组件。
 - 卡片通过 `mcpApp.callServerTool()` 再次调用工具时，使用 `tools[].name`，例如 `add_numbers`，而不是组件名或文件路径。只提供业务能力的工具可以省略 `view`。
 
@@ -62,23 +64,33 @@ export default defineMcpApps({
 
 1. 在 `src/components/` 中创建 React 组件并导出。
 2. 在 `api/mcp-tools.ts` 中实现业务 handler，通过 `viewProps` 返回组件需要的属性。
-3. 在 `api/mcp_apps.ts` 的 `tools` 中声明工具名称、输入 schema 和 handler，将 `view.module` 指向组件文件。
+3. 在 `api/mcp_apps.ts` 中导入工具定义，展开到 `tools` 中，再将 `view.module` 指向组件文件。
 4. 运行协议验证，并在宿主中触发工具，检查卡片展示和交互，具体步骤见[创建项目](./quick-start)。
 
 ## handler 如何把结果交给卡片
 
 ```ts title="api/mcp-tools.ts"
-import type { RemoteToolHandler } from '@modern-js/mcp-apps/config';
+import { defineTool } from '@modern-js/mcp-apps/config';
 
-export const greet: RemoteToolHandler = input => {
-  const { name } = input as { name: string };
-  const message = `Hello, ${name}!`;
-  return {
-    content: [{ type: 'text', text: message }],
-    structuredContent: { message },
-    viewProps: { message },
-  };
-};
+export const greet = defineTool({
+  name: 'greet',
+  description: 'Greet someone.',
+  inputSchema: {
+    type: 'object',
+    properties: { name: { type: 'string', minLength: 1 } },
+    required: ['name'],
+    additionalProperties: false,
+  },
+  annotations: { readOnlyHint: true },
+  handler: async ({ name }) => {
+    const message = `Hello, ${name}!`;
+    return {
+      content: [{ type: 'text', text: message }],
+      structuredContent: { message },
+      viewProps: { message },
+    };
+  },
+});
 ```
 
 `content` 提供文本等工具内容，`structuredContent` 提供结构化业务数据，`viewProps` 明确指定传给卡片的属性。渲染器合并工具输入参数和 `viewProps`，同名属性以 `viewProps` 为准，并注入已连接的 `mcpApp`。例如，上面的卡片可以接收 `name`、`message` 和 `mcpApp`；组件通过 `mcpApp.callServerTool()` 再次调用工具。
@@ -118,10 +130,12 @@ export default createModuleFederationConfig({
 在 `api/mcp_apps.ts` 中声明组件所在的 remote，并为工具选择 expose：
 
 ```ts title="api/mcp_apps.ts"
-import { defineMcpApps } from '@modern-js/mcp-apps/config';
+import { defineMcpServer } from '@modern-js/mcp-apps/config';
 import { greet } from './mcp-tools';
 
-export default defineMcpApps({
+export default defineMcpServer({
+  name: 'my-mcp-server',
+  version: '1.0.0',
   remotes: [{
     name: 'mcp_ui',
     baseUrl: 'https://cdn.example.com/static/mf-manifest.json',
@@ -131,13 +145,7 @@ export default defineMcpApps({
     },
   }],
   tools: [{
-    name: 'greet',
-    inputSchema: {
-      type: 'object',
-      properties: { name: { type: 'string' } },
-      required: ['name'],
-    },
-    handler: greet,
+    ...greet,
     remote: 'mcp_ui',
     view: { module: './Greeting' },
   }],
@@ -152,10 +160,10 @@ export default defineMcpApps({
 
 | MCP 工具 `name` | 服务端 `handler` | `remote` | `view.module` | `exposes` 对应源码 |
 | --- | --- | --- | --- | --- |
-| `greet` | `greet` | `mcp_ui` | `./Greeting` | `./src/components/Greeting.tsx` |
-| `add_numbers` | `addNumbers` | `mcp_ui` | `./Sum` | `./src/components/Sum.tsx` |
+| `greet` | `greet.handler` | `mcp_ui` | `./Greeting` | `./src/components/Greeting.tsx` |
+| `add_numbers` | `addNumbers.handler` | `mcp_ui` | `./Sum` | `./src/components/Sum.tsx` |
 
-以 `greet` 为例，宿主调用工具后，服务端执行 `handler: greet` 并返回业务结果。卡片渲染器根据 `remote: 'mcp_ui'` 找到 `remotes` 中的 manifest，再通过 `view.module: './Greeting'` 加载暴露的组件，将工具输入、handler 返回的 `viewProps` 和 `mcpApp` 传给它。
+以 `greet` 为例，宿主调用工具后，服务端执行 `greet.handler` 并返回业务结果。卡片渲染器根据 `remote: 'mcp_ui'` 找到 `remotes` 中的 manifest，再通过 `view.module: './Greeting'` 加载暴露的组件，将工具输入、handler 返回的 `viewProps` 和 `mcpApp` 传给它。
 
 配置时需要区分以下名称和职责：
 
@@ -173,3 +181,29 @@ export default defineMcpApps({
 完整字段和类型定义见 [API 参考](./api)。
 
 卡片如何调用工具、向对话发送消息和同步模型上下文，见[卡片交互](./interactions)。
+
+
+## viewDefaults
+
+```ts
+export default defineMcpServer({
+  name: 'my-mcp-server',
+  version: '1.0.0',
+  viewDefaults: {
+    assetBase: 'request',
+    csp: { resourceDomains: [], connectDomains: [], frameDomains: [], baseUriDomains: [] },
+  },
+  tools: [{ name: 'card', visibility: ['model', 'app'], view: { module: './Card' } }],
+});
+```
+
+应用级默认值只作用于带 view 的工具。单个 tool 的 view 按字段覆盖默认值；CSP 各域名列表独立覆盖，空数组清空默认列表，不自动合并域名。MF 资源的 CSP 仍由 remote.csp 配置。
+
+## 工具类型推导
+
+`defineTool()` 将 JSON Schema 与 handler 放在一起，推导必填和可选参数、枚举、数组及嵌套对象。handler 支持同步或异步返回。前端可使用 `InferToolInput<typeof tool>` 和 `InferToolOutput<typeof tool>` 获取输入和结构化输出类型。执行前仍会校验输入，不支持推导的 schema 形式保留为 `unknown`。
+
+
+`name`、`version` 标识 MCP server。`remotes` 默认 `[]`，本地视图和无 UI 工具可省略。`viewDefaults` 仍作为顶层分组。旧入口 `defineMcpApps` 和 `mcpApps` 保留兼容。
+
+视图默认使用 `default` 导出、`component` 渲染模式，并在浏览器运行；模板无需显式填写这三项配置。

@@ -1,10 +1,13 @@
-import { defineMcpApps } from '@modern-js/mcp-apps/config';
+import { defineMcpServer } from '@modern-js/mcp-apps/config';
+import { name, version } from '../package.json';
 import { addNumbers, greet } from './mcp-tools';
 
 const origin = (
   process.env.MCP_UI_ORIGIN ?? `http://localhost:${process.env.PORT ?? 8080}`
 ).replace(/\/+$/, '');
-export default defineMcpApps({
+export default defineMcpServer({
+  name,
+  version,
   remotes: [
     {
       name: 'mcp_ui',
@@ -14,30 +17,15 @@ export default defineMcpApps({
   ],
   tools: [
     {
-      name: 'greet',
-      description: 'Greet someone with an interactive card.',
+      ...greet,
       remote: 'mcp_ui',
-      inputSchema: {
-        type: 'object',
-        properties: { name: { type: 'string', minLength: 1 } },
-        required: ['name'],
-      },
-      annotations: { readOnlyHint: true },
-      handler: greet,
+      visibility: ['model', 'app'],
       view: { module: './Greeting' },
     },
     {
-      name: 'add_numbers',
-      description: 'Add two numbers and show the result.',
-      inputSchema: {
-        type: 'object',
-        properties: { a: { type: 'number' }, b: { type: 'number' } },
-        required: ['a', 'b'],
-        additionalProperties: false,
-      },
-      annotations: { readOnlyHint: true },
-      handler: addNumbers,
+      ...addNumbers,
       remote: 'mcp_ui',
+      visibility: ['model', 'app'],
       view: { module: './Sum' },
     },
   ],

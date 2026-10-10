@@ -15,38 +15,45 @@ export default defineConfig({
 ```
 
 ```ts title="api/lambda/index.ts"
-import { mcpApps } from '@modern-js/plugin-mcp-apps/bff';
+import { mcpServer } from '@modern-js/plugin-mcp-apps/bff';
 import definition from '../mcp_apps';
 
-export const { POST, GET, DELETE, PUT, PATCH, OPTIONS } = mcpApps(definition);
+export const { POST, GET, DELETE, PUT, PATCH, OPTIONS } = mcpServer(definition);
 ```
 
 ```ts title="api/mcp_apps.ts"
-import { defineMcpApps } from '@modern-js/mcp-apps/config';
+import { defineMcpServer } from '@modern-js/mcp-apps/config';
 import { greet } from './mcp-tools';
 
-export default defineMcpApps({
-  remotes: [],
-  tools: [{
-    name: 'greet',
-    inputSchema: {
-      type: 'object',
-      properties: { name: { type: 'string' } },
-      required: ['name'],
-    },
-    annotations: { readOnlyHint: true },
-    handler: greet,
-  }],
+export default defineMcpServer({
+  name: 'greeting-server',
+  version: '1.0.0',
+  tools: [greet],
 });
 ```
 
 ```ts title="api/mcp-tools.ts"
-import type { RemoteToolHandler } from '@modern-js/mcp-apps/config';
+import { defineTool } from '@modern-js/mcp-apps/config';
 
-export const greet: RemoteToolHandler = input => {
-  const { name } = input as { name: string };
-  return { content: [{ type: 'text', text: `Hello, ${name}!` }] };
-};
+export const greet = defineTool({
+  name: 'greet',
+  description: 'Greet someone.',
+  inputSchema: {
+    type: 'object',
+    properties: { name: { type: 'string', minLength: 1 } },
+    required: ['name'],
+    additionalProperties: false,
+  },
+  annotations: { readOnlyHint: true },
+  handler: async ({ name }) => {
+    const message = `Hello, ${name}!`;
+    return {
+      content: [{ type: 'text', text: message }],
+      structuredContent: { message },
+      viewProps: { message },
+    };
+  },
+});
 ```
 
 将 `api/mcp_apps.ts` 和 handler 目录加入 tsconfig 的 include。运行 `modern dev` 后，
@@ -56,7 +63,7 @@ export const greet: RemoteToolHandler = input => {
 ## 添加交互视图
 
 默认直接给工具增加 `view: { module: './src/components/Greeting.tsx' }`，
-保持 `remotes: []`。组件注册为标准 Modern.js 自动挂载入口，继承应用构建、
+本地视图无需配置 `remotes`。组件注册为标准 Modern.js 自动挂载入口，继承应用构建、
 别名、样式、环境变量、preEntry 和运行时插件。HTML 通过 `ui://local/<tool>`
 资源返回，宿主加载标准 JS/CSS/chunk。组件接收工具参数、`viewProps` 和 `mcpApp`。
 这不会自动附加原页面的文件系统路由 layout 或 loader。
@@ -83,5 +90,4 @@ MF 渲染器在宿主 iframe 内加载组件，传入工具参数、handler 返�
 不应再创建第二个 useApp 连接。没有额外的 `ui-manifest.json`。
 
 已有 BFF 项目应保留原 `bff.prefix`；例如在 `/api` 前缀下添加
-`api/lambda/mcp.ts`，入口就是 `/api/mcp`。`serverInfo` 在
-`mcpApps(definition, { serverInfo })` 中配置。
+`api/lambda/mcp.ts`，入口就是 `/api/mcp`。服务名称和版本通过 `defineMcpServer()` 顶层的 `name`、`version` 配置；入口的 `serverInfo` 可显式覆盖它们。

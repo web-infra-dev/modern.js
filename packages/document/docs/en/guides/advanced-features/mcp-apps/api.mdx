@@ -1,27 +1,47 @@
 # API reference
 
-## defineMcpApps type definitions
+## defineMcpServer and defineTool
 
-Import `defineMcpApps` and the configuration types below from `@modern-js/mcp-apps/config`. Its signature is:
+Import configuration helpers from `@modern-js/mcp-apps/config`.
+`defineMcpServer()` requires top-level `name` and `version`, normalizes omitted
+`remotes` to `[]`, and preserves the tool definitions. It rejects empty identity
+fields and does not start a listener. `viewDefaults` applies only to tools with a view.
 
-```ts
-export function defineMcpApps<T extends McpAppsDefinition>(definition: T): T;
-```
+Use `defineTool({ name, inputSchema, handler })` to infer handler arguments from
+JSON Schema. Required/optional fields, primitives, enums, arrays, nested objects,
+`const`, `anyOf`, and `oneOf` are supported; unsupported forms remain `unknown`.
+Handlers may return a result or a Promise. The executor validates input before
+calling the handler, and optionally validates `structuredContent` against `outputSchema`.
+`InferToolInput<typeof tool>` and `InferToolOutput<typeof tool>` expose input and
+structured output types; this does not automatically type client SDK calls.
+Zod schemas are not currently accepted by this helper.
 
-The generic `T` preserves the inferred configuration type, and the function returns the object unchanged. It does not validate the configuration at runtime or infer handler argument types from `inputSchema`. The server validates tool arguments against JSON Schema before execution, while the handler's `input` type remains `unknown`.
+Mount BFF routes with `mcpServer(definition, options)` from
+`@modern-js/plugin-mcp-apps/bff`. The definition supplies the server identity;
+explicit endpoint `serverInfo` takes precedence. `allowedOrigins` and `onError`
+remain endpoint options. The separate Hono adapter remains `mcpApps({ definition })`.
 
-The definition uses the following configuration, handler context, and result types:
+`defineMcpApps` and BFF `mcpApps` remain available for compatibility. A plain
+`RemoteToolHandler` still receives `unknown`; use `defineTool` for inferred arguments.
+
+The following public types describe the definition, handler context, and result:
 
 ```ts
 import type { McpUiResourceMeta } from '@modelcontextprotocol/ext-apps';
 import type { CallToolResult, ToolAnnotations } from '@modelcontextprotocol/server';
 
-export interface McpAppsDefinition {
-  /** Remote UI definitions; use an empty array for cards built from application components or tools without UI. */
-  remotes: RemoteConfig[];
-  /** Tool definitions; at least one tool is required. */
+export interface McpServerDefinition {
+  name: string;
+  version: string;
+  viewDefaults?: McpAppsViewDefaults;
+  remotes?: RemoteConfig[];
   tools: ToolConfig[];
 }
+
+export type McpAppsViewDefaults = Pick<
+  McpAppsViewConfig,
+  'assetBase' | 'csp' | 'exportName' | 'renderMode' | 'runtime'
+>;
 
 export interface RemoteConfig {
   /** Unique remote name referenced by a tool’s remote field. */
@@ -58,12 +78,14 @@ export interface ToolConfig {
   title?: string;
   /** Description of the tool’s purpose to help the model select it. */
   description?: string;
-  /** Input JSON Schema; does not infer the input type. */
+  /** Input JSON Schema; defineTool infers supported forms. */
   inputSchema?: JsonSchema;
   /** JSON Schema for business structuredContent, validated before UI data is added. */
   outputSchema?: JsonSchema;
   /** Behavior hints such as read-only or destructive; not an authorization mechanism. */
   annotations?: ToolAnnotations;
+  /** Additional tool metadata, including host invocation status text. */
+  _meta?: Record<string, unknown>;
   /** Associated RemoteConfig.name; omit for cards built from application components. */
   remote?: string;
   /** Compatibility field; prefer view.module. */
@@ -168,8 +190,8 @@ export type RemoteToolHandler = (
 
 When using these types:
 
-- Both `remotes` and `tools` are required; use `remotes: []` without remote UI. The server requires at least one tool, and each tool must define a `handler` or `view`.
-- Prefer ordinary imports and `handler: greet` so BFF can track dependencies. `McpAppsHandlerConfig` supports loading handlers from local modules.
+- `name`, `version`, and `tools` are required by `defineMcpServer`; `remotes` is optional and defaults to `[]`. The server requires at least one tool, and each tool must define a `handler` or `view`.
+- Prefer ordinary imports of tools created with `defineTool` so BFF can track dependencies. `McpAppsHandlerConfig` supports loading handlers from local modules.
 - `view.exportName` defaults to `default`, and `view.renderMode` defaults to `component`. Local component entries only support `component`. Top-level `module`, `exportName`, and `renderMode` are compatibility fields; use `view` for new definitions.
 - `outputSchema` validates the handler's business `structuredContent`. Tools with views attach UI data after validation, so they do not advertise that schema in the tool list.
 - `visibility` defaults to `['model', 'app']`. It controls visibility to the model and card and does not replace server authorization. `annotations` provides tool behavior hints.

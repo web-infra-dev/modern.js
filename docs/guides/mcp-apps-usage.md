@@ -20,8 +20,8 @@
 ## 从旧 canary 模板迁移
 
 - 将根目录 `mcp_apps.ts` 移到 `api/mcp_apps.ts`，工具实现移到 `api/mcp-tools.ts`。
-- 配置中用 `import { greet } from './mcp-tools'` 和 `handler: greet`，替代本地 handler 字符串路径。
-- `api/lambda/index.ts` 显式导入 `../mcp_apps`，调用 `mcpApps(definition)`。
+- 使用 `defineTool` 定义 schema 和 handler，再在服务定义中导入并引用工具。
+- `api/lambda/index.ts` 显式导入 `../mcp_apps`，调用 `mcpServer(definition)`。
 - 删除独立 MCP 编译步骤。`modern build` 使用 BFF 标准编译链生成 `dist/api/`；UI 仍使用 Modern.js 应用构建。
 - 修改 UI 入口集合或 `view.module` 路径后重启开发进程；定义和工具业务代码使用 BFF 热更新。
 
@@ -87,7 +87,7 @@ pnpm dev
 | `src/components/Greeting.tsx` | 宿主中展示的 React 卡片 |
 
 默认没有 MF 插件或 manifest。`api/lambda/index.ts` 声明 BFF MCP 入口；
-`api/mcp_apps.ts` 用普通 import 引用 `api/mcp-tools.ts` 中的函数，配置 `handler: greet`。两者由 BFF 编译和热更新；只有 `api/lambda/` 下的入口注册 HTTP 路由。
+`api/mcp_apps.ts` 用普通 import 引用 `api/mcp-tools.ts` 中的工具定义，并在需要 UI 时追加 `view`。两者由 BFF 编译和热更新；只有 `api/lambda/` 下的入口注册 HTTP 路由。
 模板启用 `bffPlugin()` 和 `mcpAppsPlugin()`，并包含 BFF 开发所需的 `ts-node`。
 
 调用关系：
@@ -125,48 +125,49 @@ export default defineConfig({
 
 ```ts
 // api/lambda/index.ts
-import { mcpApps } from '@modern-js/plugin-mcp-apps/bff';
+import { mcpServer } from '@modern-js/plugin-mcp-apps/bff';
 import definition from '../mcp_apps';
 
-export const { POST, GET, DELETE, PUT, PATCH, OPTIONS } = mcpApps(definition);
+export const { POST, GET, DELETE, PUT, PATCH, OPTIONS } = mcpServer(definition);
 ```
 
 下面是一套可配合使用的最小定义、handler 和卡片：
 
 ```ts
 // api/mcp_apps.ts
-import { defineMcpApps } from '@modern-js/mcp-apps/config';
+import { defineMcpServer } from '@modern-js/mcp-apps/config';
 import { greet } from './mcp-tools';
 
-export default defineMcpApps({
-  remotes: [],
-  tools: [{
-    name: 'greet',
-    description: 'Greet someone with an interactive card.',
-    inputSchema: {
-      type: 'object',
-      properties: { name: { type: 'string', minLength: 1 } },
-      required: ['name'],
-    },
-    handler: greet,
-    view: { module: './src/components/Greeting.tsx' },
-  }],
+export default defineMcpServer({
+  name: 'greeting-server',
+  version: '1.0.0',
+  tools: [{ ...greet, view: { module: './src/components/Greeting.tsx' } }],
 });
 ```
 
 ```ts
 // api/mcp-tools.ts
-import type { RemoteToolHandler } from '@modern-js/mcp-apps/config';
+import { defineTool } from '@modern-js/mcp-apps/config';
 
-export const greet: RemoteToolHandler = input => {
-  const { name } = input as { name: string };
-  const message = `Hello, ${name}!`;
-  return {
-    content: [{ type: 'text', text: message }],
-    structuredContent: { message },
-    viewProps: { message },
-  };
-};
+export const greet = defineTool({
+  name: 'greet',
+  description: 'Greet someone.',
+  inputSchema: {
+    type: 'object',
+    properties: { name: { type: 'string', minLength: 1 } },
+    required: ['name'],
+    additionalProperties: false,
+  },
+  annotations: { readOnlyHint: true },
+  handler: async ({ name }) => {
+    const message = `Hello, ${name}!`;
+    return {
+      content: [{ type: 'text', text: message }],
+      structuredContent: { message },
+      viewProps: { message },
+    };
+  },
+});
 ```
 
 ```tsx
@@ -200,7 +201,7 @@ export default function Greeting({ message, mcpApp }: {
 }
 ```
 
-将 `api` 目录加入已有 tsconfig 的 include。MCP 路由由 `api/lambda/index.ts` 和 `bff.prefix` 决定。`serverInfo` 在 `mcpApps(definition, { serverInfo })` 中配置。
+将 `api` 目录加入已有 tsconfig 的 include。MCP 路由由 `api/lambda/index.ts` 和 `bff.prefix` 决定。服务名称和版本在 `defineMcpServer` 顶层通过 `name`、`version` 配置；入口 `serverInfo` 可显式覆盖。
 
 已有 BFF 应保留原 `bff.prefix`，例如 `/api` 下添加 `api/lambda/mcp.ts` 后，入口为 `/api/mcp`。不要重复注册 bffPlugin。鉴权放在 BFF 路由之前；handler 的 `context.context` 是当前请求的 Hono Context。
 
@@ -213,7 +214,7 @@ pnpm install
 pnpm dev
 ```
 
-该模板使用 Modern.js 管理服务，包含定义与 handler，不生成 UI。已有配置也可以省略工具的 `view`、保留 `remotes: []`。工具只返回文本/结构化数据时，宿主不显示卡片属于预期行为。
+该模板使用 Modern.js 管理服务，包含定义与 handler，不生成 UI。已有配置也可以省略工具的 `view`、省略 `remotes`。工具只返回文本/结构化数据时，宿主不显示卡片属于预期行为。
 
 ## 5. 一体化生产部署
 

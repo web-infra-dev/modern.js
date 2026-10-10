@@ -6,4 +6,4 @@
 
 `structuredContent` 可以是任意 JSON 值。纯工具原样返回；带卡片时，对象结果与 UI 数据合并，数组或标量结果放在 `structuredContent.data` 中，卡片属性仍通过 `viewProps` 指定。
 
-endpoint 默认允许无 `Origin` 的服务端请求和同源浏览器请求，拒绝其他来源。需要浏览器跨域调用时，在 BFF 的 `mcpApps(definition, { allowedOrigins: ['https://host.example.com'] })` 中显式允许来源，并按应用需求配置 CORS；独立 Hono 和核心 handler 也支持 `allowedOrigins`。鉴权仍通过应用中间件实现。
+endpoint 默认允许无 `Origin` 的服务端请求和同源浏览器请求，拒绝其他来源。需要浏览器跨域调用时，在 BFF 的 `mcpServer(definition, { allowedOrigins: ['https://host.example.com'] })` 中显式允许来源，并按应用需求配置 CORS；独立 Hono 和核心 handler 也支持 `allowedOrigins`。鉴权仍通过应用中间件实现。

@@ -14,38 +14,45 @@ export default defineConfig({ bff: { prefix: "/mcp" },
 ```
 
 ```ts title="api/lambda/index.ts"
-import { mcpApps } from '@modern-js/plugin-mcp-apps/bff';
+import { mcpServer } from '@modern-js/plugin-mcp-apps/bff';
 import definition from '../mcp_apps';
 
-export const { POST, GET, DELETE, PUT, PATCH, OPTIONS } = mcpApps(definition);
+export const { POST, GET, DELETE, PUT, PATCH, OPTIONS } = mcpServer(definition);
 ```
 
 ```ts title="api/mcp_apps.ts"
-import { defineMcpApps } from '@modern-js/mcp-apps/config';
+import { defineMcpServer } from '@modern-js/mcp-apps/config';
 import { greet } from './mcp-tools';
 
-export default defineMcpApps({
-  remotes: [],
-  tools: [{
-    name: 'greet',
-    inputSchema: {
-      type: 'object',
-      properties: { name: { type: 'string' } },
-      required: ['name'],
-    },
-    annotations: { readOnlyHint: true },
-    handler: greet,
-  }],
+export default defineMcpServer({
+  name: 'greeting-server',
+  version: '1.0.0',
+  tools: [greet],
 });
 ```
 
 ```ts title="api/mcp-tools.ts"
-import type { RemoteToolHandler } from '@modern-js/mcp-apps/config';
+import { defineTool } from '@modern-js/mcp-apps/config';
 
-export const greet: RemoteToolHandler = input => {
-  const { name } = input as { name: string };
-  return { content: [{ type: 'text', text: `Hello, ${name}!` }] };
-};
+export const greet = defineTool({
+  name: 'greet',
+  description: 'Greet someone.',
+  inputSchema: {
+    type: 'object',
+    properties: { name: { type: 'string', minLength: 1 } },
+    required: ['name'],
+    additionalProperties: false,
+  },
+  annotations: { readOnlyHint: true },
+  handler: async ({ name }) => {
+    const message = `Hello, ${name}!`;
+    return {
+      content: [{ type: 'text', text: message }],
+      structuredContent: { message },
+      viewProps: { message },
+    };
+  },
+});
 ```
 
 Include the definition and handler directory in tsconfig. Run `modern dev` and
@@ -54,7 +61,7 @@ current transport is stateless HTTP POST.
 
 ## Application component views
 
-A view references a component with `view: { module: './src/components/Greeting.tsx' }` and `remotes: []`.
+A view references a component with `view: { module: './src/components/Greeting.tsx' }` and can omit `remotes`.
 
 The plugin registers standard Modern.js auto-mounted entries, inheriting the
 application build, CSS processing, aliases, preEntry and runtime plugins. Resource
@@ -85,5 +92,4 @@ tool arguments, handler `viewProps`, and the connected `mcpApp`. Use
 No additional UI-manifest format is introduced.
 
 Keep the original prefix in an existing BFF application: for example,
-`api/lambda/mcp.ts` under `/api` produces `/api/mcp`. Configure `serverInfo`
-in `mcpApps(definition, { serverInfo })`.
+`api/lambda/mcp.ts` under `/api` produces `/api/mcp`. Set the server identity with top-level `name` and `version` in `defineMcpServer()`. Endpoint `serverInfo` remains available as an explicit override.
