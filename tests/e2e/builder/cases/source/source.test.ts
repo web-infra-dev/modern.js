@@ -43,7 +43,7 @@ test.describe('source configure multi', () => {
   });
 });
 
-test('global-vars', async ({ page }) => {
+test('global-vars', async ({ page }, testInfo) => {
   const builder = await build({
     cwd: join(fixtures, 'global-vars'),
     entry: {
@@ -51,6 +51,11 @@ test('global-vars', async ({ page }) => {
     },
     runServer: true,
     builderConfig: {
+      output: {
+        distPath: {
+          root: testInfo.outputPath('dist'),
+        },
+      },
       source: {
         globalVars: {
           ENABLE_TEST: true,
@@ -67,7 +72,7 @@ test('global-vars', async ({ page }) => {
   builder.close();
 });
 
-test('define', async ({ page }) => {
+test('define', async ({ page }, testInfo) => {
   const builder = await build({
     cwd: join(fixtures, 'global-vars'),
     entry: {
@@ -75,6 +80,11 @@ test('define', async ({ page }) => {
     },
     runServer: true,
     builderConfig: {
+      output: {
+        distPath: {
+          root: testInfo.outputPath('dist'),
+        },
+      },
       source: {
         define: {
           ENABLE_TEST: JSON.stringify(true),
