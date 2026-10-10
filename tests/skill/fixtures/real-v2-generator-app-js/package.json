@@ -10,13 +10,13 @@
     "node": ">=16.18.1"
   },
   "dependencies": {
-    "@modern-js/runtime": "2.66.0",
+    "@modern-js/runtime": "2.71.1",
     "react": "^18.3.1",
     "react-dom": "^18.3.1"
   },
   "devDependencies": {
-    "@modern-js/app-tools": "2.66.0",
-    "@modern-js/tsconfig": "2.66.0",
+    "@modern-js/app-tools": "2.71.1",
+    "@modern-js/tsconfig": "2.71.1",
     "typescript": "~5.0.4"
   }
 }
