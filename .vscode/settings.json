@@ -29,10 +29,9 @@
   "scss.validate": false,
   "less.validate": false,
   "editor.defaultFormatter": "rstack.rstack",
-  "rstack.rslint.enable": false,
   "editor.formatOnSave": true,
   "editor.codeActionsOnSave": {
-    "quickfix.biome": "explicit"
+    "source.fixAll.rslint": "explicit"
   },
   "emmet.triggerExpansionOnTab": true,
   "typescript.tsdk": "node_modules/typescript/lib",
@@ -45,17 +44,15 @@
   "[typescript]": {
     "editor.defaultFormatter": "rstack.rstack",
     "editor.codeActionsOnSave": {
-      "quickfix.biome": "explicit",
-      "source.organizeImports": "never",
-      "source.organizeImports.biome": "explicit"
+      "source.fixAll.rslint": "explicit",
+      "source.organizeImports": "never"
     }
   },
   "[typescriptreact]": {
     "editor.defaultFormatter": "rstack.rstack",
     "editor.codeActionsOnSave": {
-      "quickfix.biome": "explicit",
-      "source.organizeImports": "never",
-      "source.organizeImports.biome": "explicit"
+      "source.fixAll.rslint": "explicit",
+      "source.organizeImports": "never"
     }
   },
   "[json]": {
@@ -67,17 +64,15 @@
   "[javascriptreact]": {
     "editor.defaultFormatter": "rstack.rstack",
     "editor.codeActionsOnSave": {
-      "quickfix.biome": "explicit",
-      "source.organizeImports": "never",
-      "source.organizeImports.biome": "explicit"
+      "source.fixAll.rslint": "explicit",
+      "source.organizeImports": "never"
     }
   },
   "[javascript]": {
     "editor.defaultFormatter": "rstack.rstack",
     "editor.codeActionsOnSave": {
-      "quickfix.biome": "explicit",
-      "source.organizeImports": "never",
-      "source.organizeImports.biome": "explicit"
+      "source.fixAll.rslint": "explicit",
+      "source.organizeImports": "never"
     }
   },
   "rust-analyzer.linkedProjects": [

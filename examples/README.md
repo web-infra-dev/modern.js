@@ -14,6 +14,8 @@ pnpm dev
 
 > Note: `latest` follows the npm dist-tag. When the next major version of Modern.js is published, these examples must be updated together with it.
 
+Linting and formatting are managed by the repository’s root Rstack CLI configuration. The examples omit standalone lint tooling to focus on framework features; copied projects can add their own lint setup.
+
 ## Examples
 
 | Example                                                        | Description                                                                                  |
