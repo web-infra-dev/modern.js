@@ -64,3 +64,5 @@ New standalone projects use [Rstack CLI](https://rstack.rs/) for linting and for
 pnpm check
 pnpm format
 ```
+
+They also use `rs hooks` to install a pre-commit hook that runs `rs staged` to lint and format staged files. Run `git init` before installing dependencies, or run `pnpm prepare` if you initialize Git afterward.

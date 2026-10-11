@@ -38,7 +38,12 @@ describe('project tooling', () => {
       build: 'modern build',
       serve: 'modern serve',
       ...(standalone
-        ? { check: 'rs check', lint: 'rs lint', format: 'rs fmt' }
+        ? {
+            prepare: 'rs hooks',
+            check: 'rs check',
+            lint: 'rs lint',
+            format: 'rs fmt',
+          }
         : {}),
     });
     expect(pkg.engines.node).toBe('^22.18.0 || >=24.3.0');
@@ -48,6 +53,12 @@ describe('project tooling', () => {
       standalone,
     );
     expect(fs.existsSync(path.join(projectDir, 'biome.json'))).toBe(false);
+    const hooksDir = path.join(projectDir, '.rstack/hooks');
+    if (standalone) {
+      expect(fs.readdirSync(hooksDir)).toEqual(['pre-commit']);
+    } else {
+      expect(fs.existsSync(hooksDir)).toBe(false);
+    }
   });
 });
 

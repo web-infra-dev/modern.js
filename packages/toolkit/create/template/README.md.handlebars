@@ -8,7 +8,11 @@ Install the dependencies:
 pnpm install
 ```
 
-## Get Started
+{{#unless isSubproject}}The `prepare` script installs a pre-commit hook with Rstack CLI. Each commit checks and formats staged files with `rs staged`.
+
+For a new Git repository, run `git init` before installing dependencies. If you initialize Git later, run `pnpm prepare` to install the hook.
+
+{{/unless}}## Get Started
 
 Start the development server:
 
