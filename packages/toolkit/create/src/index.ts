@@ -278,6 +278,7 @@ function copyTemplate(
 
   const excludeInSubproject = [
     '.rstack',
+    '.vscode',
     '.gitignore.handlebars',
     'rstack.config.mts',
     '.npmrc',
