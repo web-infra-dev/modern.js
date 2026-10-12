@@ -335,7 +335,7 @@ exports[`builder rspack > should generator rspack config correctly 1`] = `
                   },
                   "detectSyntax": "auto",
                   "env": {
-                    "coreJs": "3.48",
+                    "coreJs": "3.50",
                     "mode": "entry",
                     "targets": [
                       "chrome >= 87",
@@ -398,7 +398,7 @@ exports[`builder rspack > should generator rspack config correctly 1`] = `
               },
               "detectSyntax": "auto",
               "env": {
-                "coreJs": "3.48",
+                "coreJs": "3.50",
                 "mode": "entry",
                 "targets": [
                   "chrome >= 87",
@@ -1219,7 +1219,7 @@ exports[`builder rspack > should generator rspack config correctly 1`] = `
                   },
                   "detectSyntax": "auto",
                   "env": {
-                    "coreJs": "3.48",
+                    "coreJs": "3.50",
                     "mode": "entry",
                     "targets": [
                       "chrome >= 87",
@@ -1292,7 +1292,7 @@ exports[`builder rspack > should generator rspack config correctly 1`] = `
                   },
                   "detectSyntax": "auto",
                   "env": {
-                    "coreJs": "3.48",
+                    "coreJs": "3.50",
                     "mode": "entry",
                     "targets": [
                       "chrome >= 87",
@@ -2995,7 +2995,7 @@ exports[`builder rspack > should generator rspack config correctly when prod 1`]
                   },
                   "detectSyntax": "auto",
                   "env": {
-                    "coreJs": "3.48",
+                    "coreJs": "3.50",
                     "mode": "entry",
                     "targets": [
                       "chrome >= 87",
@@ -3058,7 +3058,7 @@ exports[`builder rspack > should generator rspack config correctly when prod 1`]
               },
               "detectSyntax": "auto",
               "env": {
-                "coreJs": "3.48",
+                "coreJs": "3.50",
                 "mode": "entry",
                 "targets": [
                   "chrome >= 87",
@@ -3879,7 +3879,7 @@ exports[`builder rspack > should generator rspack config correctly when prod 1`]
                   },
                   "detectSyntax": "auto",
                   "env": {
-                    "coreJs": "3.48",
+                    "coreJs": "3.50",
                     "mode": "entry",
                     "targets": [
                       "chrome >= 87",
@@ -3952,7 +3952,7 @@ exports[`builder rspack > should generator rspack config correctly when prod 1`]
                   },
                   "detectSyntax": "auto",
                   "env": {
-                    "coreJs": "3.48",
+                    "coreJs": "3.50",
                     "mode": "entry",
                     "targets": [
                       "chrome >= 87",
