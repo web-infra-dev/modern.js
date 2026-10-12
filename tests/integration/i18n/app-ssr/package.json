@@ -11,8 +11,8 @@
     "@modern-js/plugin-i18n": "workspace:*",
     "@modern-js/runtime": "workspace:*",
     "i18next": "25.10.10",
-    "react": "^19.2.8",
-    "react-dom": "^19.2.8",
+    "react": "^19.3.0",
+    "react-dom": "^19.3.0",
     "react-i18next": "15.7.4"
   },
   "devDependencies": {
