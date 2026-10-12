@@ -7,7 +7,7 @@ const IgnoreFiles = [
   '.nvmrc',
   '.vscode/extensions.json',
   '.vscode/settings.json',
-  '.husky/pre-commit',
+  '.rstack/hooks/pre-commit',
   'README.md',
   'rstack.config.mts',
 ];

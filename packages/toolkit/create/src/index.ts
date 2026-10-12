@@ -277,6 +277,7 @@ function copyTemplate(
   fs.mkdirSync(dest, { recursive: true });
 
   const excludeInSubproject = [
+    '.rstack',
     '.gitignore.handlebars',
     'rstack.config.mts',
     '.npmrc',
