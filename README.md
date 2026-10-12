@@ -71,7 +71,7 @@ Come and chat with us on [Discord](https://discord.gg/qPCqYg38De)! The Modern.js
 
 ## Credits
 
-Some implementations of Modern.js are modified from existing projects, such as [create-react-app](https://github.com/facebook/create-react-app), [remix](https://github.com/remix-run/remix), [jest](https://github.com/facebook/jest) and [bundle-require](https://github.com/egoist/bundle-require). Thanks for them.
+Some implementations of Modern.js are modified from existing projects, such as [create-react-app](https://github.com/facebook/create-react-app), [remix](https://github.com/remix-run/remix) and [bundle-require](https://github.com/egoist/bundle-require). Thanks for them.
 
 - `@modern-js/bundle-require`: is modified from [bundle-require](https://github.com/egoist/bundle-require).
 - `@modern-js/plugin`: the hooks API is referenced from [farrow-pipeline](https://github.com/farrow-js/farrow/tree/master/packages/farrow-pipeline).
