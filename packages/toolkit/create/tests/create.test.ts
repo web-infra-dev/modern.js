@@ -275,9 +275,9 @@ describe('docs location by version', () => {
     expect(fs.existsSync(path.join(workdir, 'AGENTS.md'))).toBe(false);
   });
 
-  it('keeps the scaffolding template in step with the generated block', () => {
+  it('keeps the Modern.js template block in step with the generated block', () => {
     // New projects copy the template; existing ones get a generated block.
-    // They must say the same thing, or the two paths drift apart.
+    // Compare the managed block, allowing extra guidance in the template.
     writePkg('3.8.0');
     runCreate(['--agents-md-only']);
 
@@ -288,7 +288,9 @@ describe('docs location by version', () => {
       fs.readFileSync(file, 'utf-8').replace(/\r\n/g, '\n').trim();
 
     expect(readNormalized(path.join(workdir, 'AGENTS.md'))).toBe(
-      readNormalized(path.resolve(__dirname, '../template/AGENTS.md')),
+      readNormalized(path.resolve(__dirname, '../template/AGENTS.md')).match(
+        /<!-- BEGIN:modernjs-agent-rules -->[\s\S]*?<!-- END:modernjs-agent-rules -->/,
+      )?.[0],
     );
   });
 });
