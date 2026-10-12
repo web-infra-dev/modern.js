@@ -119,8 +119,8 @@
     "@modern-js/runtime": "workspace:*",
     "@types/node": "^20",
     "i18next": "25.10.10",
-    "react": "^19.2.8",
-    "react-dom": "^19.2.8",
+    "react": "^19.3.0",
+    "react-dom": "^19.3.0",
     "react-i18next": "15.7.4",
     "ts-node": "^10.9.2",
     "typescript": "^5"
