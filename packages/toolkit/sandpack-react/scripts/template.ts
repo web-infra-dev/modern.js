@@ -8,7 +8,7 @@ const IgnoreFiles = [
   '.vscode/extensions.json',
   '.vscode/settings.json',
   '.rstack/hooks/pre-commit',
-  'README.md.handlebars',
+  'README.md',
   'rstack.config.mts',
 ];
 
