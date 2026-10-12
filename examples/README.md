@@ -27,7 +27,5 @@ pnpm dev
 | [react-compiler](./react-compiler)                             | Enabling React Compiler with `@rsbuild/plugin-babel`                                         |
 | [sse](./sse)                                                   | Server-Sent Events with BFF (Hono) and custom server middlewares                             |
 | [storybook](./storybook)                                       | Storybook integration via `storybook-addon-modernjs`, with a BFF api                         |
-| [test-cypress](./test-cypress)                                 | E2E testing with Cypress                                                                     |
-| [test-jest](./test-jest)                                       | Unit testing with Jest                                                                       |
 | [test-playwright](./test-playwright)                           | E2E testing with Playwright                                                                  |
 | [test-vitest](./test-vitest)                                   | Unit testing with Vitest                                                                     |

@@ -142,7 +142,6 @@
     '@types/history',
     'history',
     '@types/lru-cache',
-    '@types/testing-library__jest-dom',
     'pkg-up',
     'styled-components',
     'webpack',

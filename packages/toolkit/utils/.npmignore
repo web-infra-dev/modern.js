@@ -24,7 +24,6 @@ src/
 compiled/
 
 modern.config.*
-jest.config.js
 .eslintrc.js
 .eslintrc
 tsconfig.json
