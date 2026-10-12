@@ -3,13 +3,13 @@
   "version": "1.0.0",
   "scripts": { "dev": "modern dev", "build": "modern build" },
   "dependencies": {
-    "@modern-js/runtime": "2.60.0",
+    "@modern-js/runtime": "2.71.1",
     "react": "^18.3.1",
     "react-dom": "^18.3.1"
   },
   "devDependencies": {
-    "@modern-js/app-tools": "2.60.0",
-    "@modern-js/plugin-tailwindcss": "2.60.0",
+    "@modern-js/app-tools": "2.71.1",
+    "@modern-js/plugin-tailwindcss": "2.70.4",
     "typescript": "~5.0.0"
   }
 }
