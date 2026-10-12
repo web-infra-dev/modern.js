@@ -16,7 +16,6 @@ import type { PerformanceUserConfig } from './performance';
 import type { ResolveUserConfig } from './resolve';
 import type { SecurityUserConfig } from './security';
 import type { SourceUserConfig } from './source';
-import type { TestingUserConfig } from './testing';
 import type { ToolsUserConfig } from './tools';
 
 export * from './output';
@@ -38,7 +37,6 @@ export interface AppToolsUserConfig {
   html?: HtmlUserConfig;
   tools?: ToolsUserConfig;
   security?: SecurityUserConfig;
-  testing?: TestingUserConfig;
   builderPlugins?: RsbuildPlugins;
   performance?: PerformanceUserConfig;
   environments?: RsbuildConfig['environments'];
