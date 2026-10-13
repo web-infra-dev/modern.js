@@ -8,43 +8,45 @@ import { bffPlugin } from '@modern-js/plugin-bff';
 import { mcpAppsPlugin } from '@modern-js/plugin-mcp-apps';
 
 export default defineConfig({
-  bff: { prefix: '/mcp' },
   plugins: [appTools(), bffPlugin(), mcpAppsPlugin()],
 });
 ```
 
-The BFF route statically imports the definition and its handlers. BFF owns their
-TypeScript compilation, module format, dependency tracing and hot reload. This
-plugin registers UI entries and binds UI resources during BFF initialization.
-
-```ts
-// api/lambda/index.ts
-import { mcpServer } from '@modern-js/plugin-mcp-apps/bff';
-import definition from '../mcp_apps';
-
-export const { POST, GET, DELETE, PUT, PATCH, OPTIONS } = mcpServer(definition);
-```
-
-For an existing BFF application, keep its prefix and put the route in
-`api/lambda/mcp.ts` (for example `/api/mcp`). Do not register BFF twice.
-Set `name` and `version` on `defineMcpServer()`. Optional endpoint `serverInfo` overrides that identity. Pass `onError` as the second argument of `mcpServer(definition, options)`. The integration binds the artifact
-using the BFF runtime context; custom output directories and CJS/ESM
-API modules do not require application-level path resolution. Export the returned
-functions directly so BFF can recognize them; apply authentication in BFF middleware.
-For manually hosted artifacts, the lower-level `@modern-js/mcp-apps/bff` adapter
-accepts a loaded definition directly.
+Place the server definition in `mcp_apps.ts` at the project root. The plugin
+registers `/mcp` through the existing BFF pipeline automatically. No handwritten
+`api/lambda/index.ts` is needed. Ordinary BFF routes and their prefix remain
+independent of the MCP endpoint.
 
 ## Options
 
 | Option | Default | Meaning |
 | --- | --- | --- |
-| `config` | `api/mcp_apps.ts` | Trusted definition path, relative to project root |
+| `config` | `mcp_apps.ts` | Trusted definition path, relative to project root |
+| `endpoint` | `/mcp` | Exact absolute HTTP path; `false` disables automatic mounting |
 
-`api/mcp_apps.ts` imports tool definitions created with `defineTool()` from `./mcp-tools` and adds optional `view` configurations. The route imports that definition and calls `mcpServer(definition)`.
-`modern dev` uses the ordinary BFF module watcher; `modern build` emits
-`dist/api/mcp_apps.js`, `dist/api/mcp-tools.js` and `dist/api/lambda/index.js`.
-No MCP-specific compiler, handler path mapping or generated configuration wrapper
-is used. Aliases and TS settings belong to the normal Modern.js / BFF configuration.
+```ts
+mcpAppsPlugin({ config: 'mcp_apps.ts', endpoint: '/mcp' })
+```
+
+The plugin uses the existing server TypeScript compiler and alias settings to
+emit the definition and its imported handlers into the application output.
+Production loads the emitted module, with CJS/ESM and custom output directories
+supported. The source definition participates in development watching.
+
+For an existing manually mounted BFF route, disable automatic mounting:
+
+```ts
+mcpAppsPlugin({ config: 'api/mcp_apps.ts', endpoint: false })
+
+// api/lambda/mcp.ts
+import { mcpServer } from '@modern-js/plugin-mcp-apps/bff';
+import definition from '../mcp_apps';
+export const { POST, GET, DELETE, PUT, PATCH, OPTIONS } = mcpServer(definition);
+```
+
+Set `name` and `version` on `defineMcpServer()`. Manual endpoint options can
+override `serverInfo` or provide `onError`. Authentication belongs in BFF
+middleware. Automatic mounting rejects an existing BFF route at the same path.
 
 UI HTML is emitted by the application builder and copied to `dist/mcp-apps/ui/`.
 JS/CSS remain ordinary application assets. `modern deploy` packages both the BFF
@@ -95,7 +97,7 @@ The BFF runtime uses `@modern-js/mcp-apps/bff` internally; standalone Hono uses
 `@modern-js/mcp-apps/hono`. Both share the artifact loader and SDK transport. UI source changes participate in MCP development recompilation.
 
 The legacy `server-plugin` export remains available for explicit Web Server
-integration, but `mcpAppsPlugin()` no longer installs it or registers HTTP routes.
+integration, but `mcpAppsPlugin()` registers its automatic endpoint through BFF.
 
 Include `ts-node` (`^10.9.2`) in devDependencies for BFF TypeScript loading and
 API module hot reload on Node 20+. For ESM projects, use `"type": "module"` and

@@ -182,6 +182,36 @@ async function generate(name: string, template: string, mf = false) {
   );
   const app = path.join(output, name);
   if (mf) {
+    await fs.mkdir(path.join(app, 'api/lambda'), { recursive: true });
+    await fs.rename(
+      path.join(app, 'mcp_apps.ts'),
+      path.join(app, 'api/mcp_apps.ts'),
+    );
+    const definition = path.join(app, 'api/mcp_apps.ts');
+    await fs.writeFile(
+      definition,
+      (await fs.readFile(definition, 'utf8')).replace(
+        "from './package.json'",
+        "from '../package.json'",
+      ),
+    );
+    await fs.writeFile(
+      path.join(app, 'api/lambda/index.ts'),
+      "import { mcpApps } from '@modern-js/plugin-mcp-apps/bff';\nimport definition from '../mcp_apps';\nexport const { POST, GET, DELETE, PUT, PATCH, OPTIONS } = mcpApps(definition);\n",
+    );
+    const configPath = path.join(app, 'modern.config.ts');
+    await fs.writeFile(
+      configPath,
+      (await fs.readFile(configPath, 'utf8'))
+        .replace(
+          "mcpAppsPlugin({ endpoint: '/mcp' })",
+          "mcpAppsPlugin({ config: 'api/mcp_apps.ts', endpoint: false })",
+        )
+        .replace(
+          'export default defineConfig({',
+          "export default defineConfig({ bff: { prefix: '/mcp' },",
+        ),
+    );
     // MF's published declarations import app-tools too. Resolve those types
     // against the workspace under test, not a second npm-installed framework.
     const tsconfigPath = path.join(app, 'tsconfig.json');
@@ -256,7 +286,7 @@ export default defineRuntimeConfig({ plugins: [{ name: 'mcp-test-runtime', setup
       (await uiAssets('ui://local/greet')).includes('Greet locally'),
     );
     await fs.writeFile(viewPath, original);
-    const definitionPath = path.join(app, 'api/mcp_apps.ts');
+    const definitionPath = path.join(app, 'mcp_apps.ts');
     await fs.writeFile(
       definitionPath,
       (await fs.readFile(definitionPath, 'utf8')).replace(
@@ -273,7 +303,7 @@ export default defineRuntimeConfig({ plugins: [{ name: 'mcp-test-runtime', setup
     await stop(dev);
     await command(app, ['build']);
     await expect(
-      fs.access(path.join(app, 'dist/api/mcp-tools.js')),
+      fs.access(path.join(app, 'dist/mcp_apps.js')),
     ).resolves.toBeUndefined();
     await expect(
       fs.access(path.join(app, 'dist/mcp-apps/mcp_apps.mjs')),
@@ -380,7 +410,7 @@ export default defineRuntimeConfig({ plugins: [{ name: 'mcp-test-runtime', setup
     expect(preflight.headers.get('Access-Control-Allow-Private-Network')).toBe(
       'true',
     );
-    const toolsPath = path.join(app, 'api/mcp-tools.ts');
+    const toolsPath = path.join(app, 'api/mcp_apps.ts');
     const tools = await fs.readFile(toolsPath, 'utf8');
     await fs.writeFile(toolsPath, tools.replace('Hello,', 'Welcome,'));
     await until(async () => (await greet()) === 'Welcome, Ada!');
@@ -472,6 +502,15 @@ export default defineRuntimeConfig({ plugins: [{ name: 'mcp-test-runtime', setup
     tsconfig.compilerOptions.module = 'esnext';
     tsconfig.compilerOptions.moduleResolution = 'bundler';
     await fs.writeFile(tsconfigPath, JSON.stringify(tsconfig));
+    // Native ESM JSON imports require a default import and an import attribute.
+    const definitionPath = path.join(app, 'api/mcp_apps.ts');
+    await fs.writeFile(
+      definitionPath,
+      (await fs.readFile(definitionPath, 'utf8')).replace(
+        "import { name, version } from '../package.json';",
+        "import packageInfo from '../package.json' with { type: 'json' };\nconst { name, version } = packageInfo;",
+      ),
+    );
     endpoint = '/mcp/nested/mcp';
     await fs.mkdir(path.join(app, 'api/lambda/nested'));
     await fs.rename(

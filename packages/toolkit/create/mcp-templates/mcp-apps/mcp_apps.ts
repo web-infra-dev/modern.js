@@ -1,18 +1,15 @@
-import { defineMcpServer, defineTool } from '@modern-js/mcp-apps/config';
-import { name, version } from '../package.json';
+import { defineMcpServer } from '@modern-js/mcp-apps/config';
+import { name, version } from './package.json';
 
 export default defineMcpServer({
   name,
   version,
   tools: [
-    defineTool({
+    {
       name: 'greet',
       description: 'Greet someone.',
       inputSchema: {
-        type: 'object',
-        properties: { name: { type: 'string', minLength: 1 } },
-        required: ['name'],
-        additionalProperties: false,
+        name: { type: 'string', minLength: 1 },
       },
       annotations: { readOnlyHint: true },
       handler: async ({ name }) => {
@@ -25,15 +22,13 @@ export default defineMcpServer({
       },
       visibility: ['model', 'app'],
       view: { module: './src/components/Greeting.tsx' },
-    }),
-    defineTool({
+    },
+    {
       name: 'add_numbers',
       description: 'Add two numbers.',
       inputSchema: {
-        type: 'object',
-        properties: { a: { type: 'number' }, b: { type: 'number' } },
-        required: ['a', 'b'],
-        additionalProperties: false,
+        a: { type: 'number' },
+        b: { type: 'number' },
       },
       annotations: { readOnlyHint: true },
       handler: ({ a, b }) => {
@@ -46,6 +41,6 @@ export default defineMcpServer({
       },
       visibility: ['model', 'app'],
       view: { module: './src/components/Sum.tsx' },
-    }),
+    },
   ],
 });

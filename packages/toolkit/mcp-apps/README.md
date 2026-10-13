@@ -3,7 +3,7 @@
 场景化接入与调试见 [MCP Apps 使用指南](../../../docs/guides/mcp-apps-usage.md)，包含独立 Hono、可选 MF 和 ngrok。
 
 Build and deploy MCP servers and remote React views independently using
-`api/mcp_apps.ts`. The package provides configuration and handler loading,
+`mcp_apps.ts`. The package provides configuration and handler loading,
 result/view binding, application-built HTML resources, a Hono adapter, and optional MF rendering.
 
 ## Default local view and Hono
@@ -47,9 +47,9 @@ Hono fixture, with no separate example project required.
 
 The adapter does not start a listener. Install authentication middleware first.
 Handlers receive the Hono context as `context.context`. Integrated Modern.js
-applications use `mcpApps(definition)` from `@modern-js/plugin-mcp-apps/bff` in
-`api/lambda/index.ts`; the BFF and Hono adapters share the artifact loader and SDK
-transport. Copy the entire compiled artifact directory when
+applications use `mcpAppsPlugin({ endpoint: '/mcp' })` for automatic BFF routing.
+Manual `mcpServer(definition)` mounting remains available with `endpoint: false`.
+The BFF and Hono adapters share the SDK transport. Copy the entire compiled artifact directory when
 moving to a standalone server. Local cards register `ui://local/<tool>` resources
 whose HTML references the normal Modern.js JS/CSS/chunk assets. Deploy those
 assets too; copying only the MCP directory is insufficient for a working UI.
@@ -242,8 +242,43 @@ stateless JSON responses and initialization support. Template verification uses
 Use `defineMcpServer({ name, version, tools, viewDefaults? })` for new servers.
 `remotes` is optional and defaults to an empty array. Both UI tools and backend-only
 tools use the same definition; add `view` only when a tool needs a card.
-`defineTool({ name, inputSchema, handler })` infers handler inputs from JSON Schema
-and supports synchronous and asynchronous results. Export `InferToolInput` and
-`InferToolOutput` types to share contracts with frontend code.
+Inline tools infer handler inputs directly from their JSON Schema and support
+synchronous and asynchronous results; no `defineTool` wrapper is required.
+Use `defineTool({ name, inputSchema, handler })` for independently exported tools.
+Use `InferToolInput` / `InferToolOutput` on either an exported tool or
+`typeof definition.tools[0]` to share contracts with frontend code.
 The old `defineMcpApps` API remains available. Mount BFF routes with
 `mcpServer(definition)` from `@modern-js/plugin-mcp-apps/bff`.
+
+### Concise input schemas
+
+For object inputs, write a property map directly:
+
+```ts
+export default defineMcpServer({
+  name: 'greetings',
+  version: '1.0.0',
+  tools: [{
+    name: 'greet',
+    inputSchema: {
+      name: { type: 'string', minLength: 1 },
+      count: { type: 'integer', minimum: 1, optional: true },
+    },
+    handler: ({ name, count }) => ({
+      structuredContent: { message: `Hello, ${name}!`, count: count ?? 1 },
+    }),
+  }],
+});
+```
+
+Fields are required unless marked `optional: true`; additional properties are
+rejected. Modern.js expands this shorthand into standard JSON Schema before
+publishing tool descriptors and validating calls. The `optional` marker is removed
+from the generated schema. `defineTool` supports the same shorthand.
+
+Nested objects continue to use standard JSON Schema. Full JSON Schema takes
+precedence when the root includes a JSON Schema keyword (such as `type`,
+`properties`, or `description`); use the full object schema when an input field
+has one of those names, or when you need object-level constraints such as
+`additionalProperties`, `$defs`, or `anyOf`. An empty `{}` retains its existing
+JSON Schema meaning.

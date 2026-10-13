@@ -9,9 +9,13 @@ const origin = (
 ).replace(/\/+$/, '');
 
 export default defineConfig({
-  bff: { prefix: '/mcp' },
   server: { port },
   dev: { assetPrefix: origin },
   output: { assetPrefix: origin },
-  plugins: [appTools(), bffPlugin(), moduleFederationPlugin(), mcpAppsPlugin()],
+  plugins: [
+    appTools(),
+    bffPlugin(),
+    moduleFederationPlugin(),
+    mcpAppsPlugin({ endpoint: '/mcp' }),
+  ],
 });

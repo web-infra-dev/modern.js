@@ -3,6 +3,7 @@ import type {
   CallToolResult,
   ToolAnnotations,
 } from '@modelcontextprotocol/server';
+import type { InferSchema } from './tool';
 
 export type McpAppsViewDefaults = Pick<
   McpAppsViewConfig,
@@ -149,13 +150,49 @@ export interface McpServerDefinition
   remotes?: RemoteConfig[];
 }
 
-export function defineMcpServer<const T extends McpServerDefinition>(
-  definition: T,
-): T & { remotes: RemoteConfig[] } {
+type InlineTools<S extends unknown[]> = {
+  [K in keyof S]: Omit<ToolConfig, 'inputSchema' | 'handler'> & {
+    inputSchema?: S[K] & JsonSchema;
+    handler?:
+      | McpAppsHandlerConfig
+      | ((
+          input: InferSchema<S[K]>,
+          context: RemoteToolHandlerContext,
+        ) => RemoteToolHandlerResult | Promise<RemoteToolHandlerResult>);
+  };
+};
+
+type ServerDefinition<T, S extends unknown[]> = T &
+  McpServerDefinition & {
+    remotes: RemoteConfig[];
+    tools: {
+      [K in keyof S]: {
+        readonly $types?: {
+          input: InferSchema<S[K]>;
+          result: T extends { tools: infer U }
+            ? K extends keyof U
+              ? U[K] extends { handler: (...args: never[]) => infer R }
+                ? Awaited<R>
+                : unknown
+              : unknown
+            : unknown;
+        };
+      };
+    };
+  };
+
+export function defineMcpServer<const S extends unknown[], const T>(
+  definition: T &
+    Omit<McpServerDefinition, 'tools'> & { tools: InlineTools<S> },
+): ServerDefinition<T, S> {
   if (!definition.name.trim() || !definition.version.trim()) {
     throw new Error('MCP server name and version must be non-empty');
   }
-  return { ...definition, remotes: definition.remotes ?? [] };
+  // Tool input/result markers exist only in types; handlers are unchanged at runtime.
+  return {
+    ...definition,
+    remotes: definition.remotes ?? [],
+  } as ServerDefinition<T, S>;
 }
 
 /** @deprecated Use defineMcpServer for new server definitions. */

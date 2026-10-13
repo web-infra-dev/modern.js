@@ -127,3 +127,119 @@ it('binds the same declaration independently per BFF runtime without adding an M
   expect((await first.request('/custom/nested/mcp')).status).toBe(405);
   expect((await first.request('/custom/nested/mcp-extra')).status).toBe(404);
 });
+
+for (const extension of ['js', 'mjs']) {
+  it(`automatically mounts a compiled ${extension} definition alongside ordinary BFF routes`, async () => {
+    const root = await mkdtemp(path.join(os.tmpdir(), 'modern-mcp-auto-'));
+    directories.push(root);
+    const dist = path.join(root, 'dist');
+    const { mkdir, writeFile } = await import('node:fs/promises');
+    await mkdir(dist);
+    const definition = `{ name: 'automatic', version: '2', remotes: [], tools: [{ name: 'who', inputSchema: { name: { type: 'string' } }, handler: ({ name }, ctx) => ({ structuredContent: { name, user: ctx.context.req.header('x-user') } }) }] }`;
+    await writeFile(
+      path.join(dist, `mcp_apps.${extension}`),
+      extension === 'mjs'
+        ? `export default ${definition}`
+        : `module.exports = ${definition}`,
+    );
+    let addConflict = () => {};
+    const server = createServerBase({
+      pwd: dist,
+      appContext: {
+        bffRuntimeFramework: 'hono',
+        apiDirectory: '',
+        lambdaDirectory: '',
+      },
+      config: {
+        html: {},
+        output: {},
+        source: {},
+        tools: {},
+        server: {},
+        bff: {},
+        dev: {},
+        security: {},
+      },
+    });
+    server.addPlugins([
+      compatPlugin(),
+      {
+        name: '@modern-js/plugin-bff',
+        setup(api) {
+          addConflict = () => {
+            const ctx = api.getServerContext();
+            api.updateServerContext({
+              ...ctx,
+              apiHandlerInfos: [
+                ...(ctx.apiHandlerInfos ?? []),
+                {
+                  routePath: '/custom/mcp',
+                  httpMethod: 'POST',
+                  handler: () => ({}),
+                },
+              ],
+            });
+          };
+          api.onPrepare(async () => {
+            api.updateServerContext({
+              ...api.getServerContext(),
+              apiHandlerInfos: [
+                {
+                  routePath: '/api/status',
+                  httpMethod: 'GET',
+                  handler: () => ({ ok: true }),
+                },
+              ],
+            });
+            await api
+              .getHooks()
+              .prepareApiServer.call({ pwd: dist, prefix: '/api' });
+            await new HonoAdapter(api).registerMiddleware();
+          });
+        },
+      },
+      mcpBffRuntime({
+        development: false,
+        config: extension === 'mjs' ? 'mcp_apps.mts' : 'mcp_apps.ts',
+        endpoint: '/custom/mcp',
+        resourceDirectory: 'mcp-apps/ui',
+        assetBase: 'request',
+      }),
+    ]);
+    await server.init();
+    expect(await (await server.request('/api/status')).json()).toEqual({
+      ok: true,
+    });
+    expect((await server.request('/custom/mcp')).status).toBe(405);
+    expect((await server.request('/custom/mcp-extra')).status).toBe(404);
+    for (const [name, user] of [
+      ['Ada', 'one'],
+      ['Bob', 'two'],
+    ]) {
+      const response = await server.request('/custom/mcp', {
+        method: 'POST',
+        headers: {
+          'content-type': 'application/json',
+          accept: 'application/json, text/event-stream',
+          'x-user': user,
+        },
+        body: JSON.stringify({
+          jsonrpc: '2.0',
+          id: 1,
+          method: 'tools/call',
+          params: { name: 'who', arguments: { name } },
+        }),
+      });
+      expect((await response.json()).result.structuredContent).toEqual({
+        name,
+        user,
+      });
+    }
+    addConflict();
+    await expect(
+      server.hooks.onReset.call({
+        event: { type: 'file-change', payload: [] },
+      }),
+    ).rejects.toThrow('MCP endpoint conflicts');
+  });
+}

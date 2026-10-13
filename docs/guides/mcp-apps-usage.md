@@ -19,11 +19,10 @@
 
 ## 从旧 canary 模板迁移
 
-- 将根目录 `mcp_apps.ts` 移到 `api/mcp_apps.ts`，工具实现合并到同一文件。
-- 使用 `defineTool` 定义 schema 和 handler，再在服务定义中导入并引用工具。
-- `api/lambda/index.ts` 显式导入 `../mcp_apps`，调用 `mcpServer(definition)`。
-- 删除独立 MCP 编译步骤。`modern build` 使用 BFF 标准编译链生成 `dist/api/`；UI 仍使用 Modern.js 应用构建。
-- 修改 UI 入口集合或 `view.module` 路径后重启开发进程；定义和工具业务代码使用 BFF 热更新。
+- 将服务定义放在根目录 `mcp_apps.ts`，内联工具可直接写对象。
+- 启用 `mcpAppsPlugin({ endpoint: '/mcp' })`，删除原先仅用于 MCP 的手写 BFF 路由。
+- `modern build` 复用服务端 TypeScript 编译器；UI 仍使用应用构建。
+- 保留手动 BFF 路由时，设置 `config: 'api/mcp_apps.ts', endpoint: false`。
 
 ## 选择接入方式
 
@@ -82,12 +81,11 @@ pnpm dev
 | 文件 | 作用 |
 | --- | --- |
 | `modern.config.ts` | 启用 `mcpAppsPlugin()` |
-| `api/mcp_apps.ts` | 定义工具、输入 schema、handler 和 view |
+| `mcp_apps.ts` | 定义工具、输入 schema、handler 和 view |
 | `src/components/Greeting.tsx` | 宿主中展示的 React 卡片 |
 
-默认没有 MF 插件或 manifest。`api/lambda/index.ts` 声明 BFF MCP 入口；
-`api/mcp_apps.ts` 统一定义服务配置、工具 schema、handler 和可选 `view`。服务定义由 BFF 编译和热更新；只有 `api/lambda/` 下的入口注册 HTTP 路由。
-模板启用 `bffPlugin()` 和 `mcpAppsPlugin()`，并包含 BFF 开发所需的 `ts-node`。
+默认没有 MF 插件或 manifest。根目录 `mcp_apps.ts` 定义服务、schema、handler 和 view；
+插件自动注册 `/mcp`，不需要 `api/lambda/index.ts`。模板同时启用 BFF 插件。
 
 调用关系：
 
@@ -117,25 +115,16 @@ import { bffPlugin } from '@modern-js/plugin-bff';
 import { mcpAppsPlugin } from '@modern-js/plugin-mcp-apps';
 
 export default defineConfig({
-  bff: { prefix: "/mcp" },
   plugins: [appTools(), bffPlugin(), mcpAppsPlugin()],
 });
-```
-
-```ts
-// api/lambda/index.ts
-import { mcpServer } from '@modern-js/plugin-mcp-apps/bff';
-import definition from '../mcp_apps';
-
-export const { POST, GET, DELETE, PUT, PATCH, OPTIONS } = mcpServer(definition);
 ```
 
 下面是一套可配合使用的最小定义、handler 和卡片：
 
 ```ts
-// api/mcp_apps.ts
+// mcp_apps.ts
 import { defineMcpServer, defineTool } from '@modern-js/mcp-apps/config';
-import { name, version } from '../package.json';
+import { name, version } from './package.json';
 
 export default defineMcpServer({
   name,
@@ -218,9 +207,10 @@ export default function Greeting({ message, mcpApp }: {
 }
 ```
 
-将 `api` 目录加入已有 tsconfig 的 include。MCP 路由由 `api/lambda/index.ts` 和 `bff.prefix` 决定。服务名称和版本在 `defineMcpServer` 顶层通过 `name`、`version` 配置；入口 `serverInfo` 可显式覆盖。
-
-已有 BFF 应保留原 `bff.prefix`，例如 `/api` 下添加 `api/lambda/mcp.ts` 后，入口为 `/api/mcp`。不要重复注册 bffPlugin。鉴权放在 BFF 路由之前；handler 的 `context.context` 是当前请求的 Hono Context。
+将 `mcp_apps.ts` 加入 tsconfig 的 include。路由由插件的 `endpoint` 决定，默认 `/mcp`。
+已有 BFF 保留原 prefix，无需重复启用插件。鉴权放在 BFF 路由之前；handler 的
+`context.context` 是当前请求的 Hono Context。自定义挂载可设置 `endpoint: false`，
+再通过 `mcpServer(definition)` 导出 BFF 方法。
 
 ## 4. 只需要 MCP 工具
 
@@ -391,16 +381,10 @@ ngrok 官方说明，免费服务可能显示浏览器提示页；请求头 `ngr
 默认模板包含两个工具：`greet`（问候卡片）和 `add_numbers`（加法结果卡片）。
 纯 Server 模板提供同样的两个工具，但不声明 UI 资源。
 
-启动服务后，在项目目录运行：
-
-```bash
-pnpm verify:mcp http://localhost:8080/mcp
-```
-
-脚本会打印并校验 initialize、tools/list、两次 tools/call、以及每个 UI 的 resources/read。
-预期问候结果为 `Hello, Modern.js!`，`add_numbers({ a: 2, b: 3 })` 返回 `sum: 5`。
-HTML 只显示大小和预览；协议通过不代表宿主卡片已完成验收，仍需在宿主验证显示与交互。
-
+启动服务后，使用 MCP 客户端连接 `/mcp`，依次检查 tools/list、两个工具的
+tools/call，以及带 UI 工具的 resources/read。`greet` 应返回输入姓名的问候，
+`add_numbers({ a: 2, b: 3 })` 应返回 `sum: 5`。在宿主中验证卡片显示与交互。
+默认模板不再附带验证脚本。
 
 | 现象 | 检查方式 |
 | --- | --- |

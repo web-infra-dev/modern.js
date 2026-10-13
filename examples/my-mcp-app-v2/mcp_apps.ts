@@ -1,28 +1,15 @@
-import { defineMcpServer, defineTool } from '@modern-js/mcp-apps/config';
-import { name, version } from '../package.json';
+import { defineMcpServer } from '@modern-js/mcp-apps/config';
+import { name, version } from './package.json';
 
-const origin = (
-  process.env.MCP_UI_ORIGIN ?? `http://localhost:${process.env.PORT ?? 8080}`
-).replace(/\/+$/, '');
 export default defineMcpServer({
   name,
   version,
-  remotes: [
-    {
-      name: 'mcp_ui',
-      baseUrl: `${origin}/static/mf-manifest.json`,
-      csp: { resourceDomains: [origin], connectDomains: [origin] },
-    },
-  ],
   tools: [
-    defineTool({
+    {
       name: 'greet',
       description: 'Greet someone.',
       inputSchema: {
-        type: 'object',
-        properties: { name: { type: 'string', minLength: 1 } },
-        required: ['name'],
-        additionalProperties: false,
+        name: { type: 'string', minLength: 1 },
       },
       annotations: { readOnlyHint: true },
       handler: async ({ name }) => {
@@ -33,18 +20,15 @@ export default defineMcpServer({
           viewProps: { message },
         };
       },
-      remote: 'mcp_ui',
       visibility: ['model', 'app'],
-      view: { module: './Greeting' },
-    }),
-    defineTool({
+      view: { module: './src/components/Greeting.tsx' },
+    },
+    {
       name: 'add_numbers',
       description: 'Add two numbers.',
       inputSchema: {
-        type: 'object',
-        properties: { a: { type: 'number' }, b: { type: 'number' } },
-        required: ['a', 'b'],
-        additionalProperties: false,
+        a: { type: 'number' },
+        b: { type: 'number' },
       },
       annotations: { readOnlyHint: true },
       handler: ({ a, b }) => {
@@ -55,9 +39,8 @@ export default defineMcpServer({
           viewProps: { a, b, sum },
         };
       },
-      remote: 'mcp_ui',
       visibility: ['model', 'app'],
-      view: { module: './Sum' },
-    }),
+      view: { module: './src/components/Sum.tsx' },
+    },
   ],
 });

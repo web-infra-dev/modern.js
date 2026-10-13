@@ -5,6 +5,8 @@ import type {
   RemoteToolHandlerResult,
   ToolConfig,
 } from './config';
+import { normalizeInputSchema } from './input-schema';
+
 const RESOURCE_MIME_TYPE = 'text/html;profile=mcp-app';
 
 export function normalizeToolConfig(
@@ -61,7 +63,7 @@ export function normalizeToolConfig(
     name: tool.name,
     title: tool.title,
     description: tool.description,
-    inputSchema: tool.inputSchema,
+    inputSchema: normalizeInputSchema(tool.inputSchema),
     outputSchema: tool.outputSchema,
     annotations: tool.annotations,
     _meta: tool._meta,

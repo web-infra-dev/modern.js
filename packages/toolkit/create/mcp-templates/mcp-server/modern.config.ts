@@ -5,5 +5,9 @@ import { mcpAppsPlugin } from '@modern-js/plugin-mcp-apps';
 export default defineConfig({
   bff: { prefix: '/mcp' },
   server: { port: Number(process.env.PORT ?? 8080) },
-  plugins: [appTools(), bffPlugin(), mcpAppsPlugin()],
+  plugins: [
+    appTools(),
+    bffPlugin(),
+    mcpAppsPlugin({ config: 'api/mcp_apps.ts', endpoint: false }),
+  ],
 });

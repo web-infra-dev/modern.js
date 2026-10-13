@@ -529,6 +529,49 @@ importers:
         specifier: ~5.0.4
         version: 5.0.4
 
+  examples/my-mcp-app-v2:
+    dependencies:
+      '@modern-js/mcp-apps':
+        specifier: workspace:*
+        version: link:../../packages/toolkit/mcp-apps
+      '@modern-js/plugin-bff':
+        specifier: workspace:*
+        version: link:../../packages/cli/plugin-bff
+      '@modern-js/plugin-mcp-apps':
+        specifier: workspace:*
+        version: link:../../packages/cli/plugin-mcp-apps
+      '@modern-js/runtime':
+        specifier: workspace:*
+        version: link:../../packages/runtime/plugin-runtime
+      react:
+        specifier: ^19.2.8
+        version: 19.2.8
+      react-dom:
+        specifier: ^19.2.8
+        version: 19.2.8(react@19.2.8)
+    devDependencies:
+      '@modern-js/app-tools':
+        specifier: workspace:*
+        version: link:../../packages/solutions/app-tools
+      '@modern-js/tsconfig':
+        specifier: workspace:*
+        version: link:../../packages/tsconfig
+      '@types/node':
+        specifier: ^20
+        version: 20.19.43
+      '@types/react':
+        specifier: ^19.3.0
+        version: 19.3.0
+      '@types/react-dom':
+        specifier: ^19.3.0
+        version: 19.3.0(@types/react@19.3.0)
+      ts-node:
+        specifier: ^10.9.2
+        version: 10.9.2(@swc/core@1.15.41(@swc/helpers@0.5.23))(@types/node@20.19.43)(typescript@5.7.3)
+      typescript:
+        specifier: ~5.7.3
+        version: 5.7.3
+
   examples/react-compiler:
     dependencies:
       '@modern-js/runtime':
@@ -1220,6 +1263,9 @@ importers:
       '@modern-js/server-core':
         specifier: workspace:*
         version: link:../../server/core
+      '@modern-js/server-utils':
+        specifier: workspace:*
+        version: link:../../server/utils
       '@modern-js/utils':
         specifier: workspace:*
         version: link:../../toolkit/utils
@@ -25226,7 +25272,7 @@ snapshots:
   '@rslib/core@1.0.1(@module-federation/runtime-tools@2.2.1(node-fetch@3.3.2))(core-js@3.48.0)(typescript@5.7.3)':
     dependencies:
       '@rsbuild/core': 2.2.7(@module-federation/runtime-tools@2.2.1(node-fetch@3.3.2))(core-js@3.48.0)
-      rsbuild-plugin-dts: 1.0.1(@rsbuild/core@2.2.7(core-js@3.48.0))(typescript@5.7.3)
+      rsbuild-plugin-dts: 1.0.1(@rsbuild/core@2.2.7(@module-federation/runtime-tools@2.2.1(node-fetch@3.3.2))(core-js@3.48.0))(typescript@5.7.3)
     optionalDependencies:
       typescript: 5.7.3
     transitivePeerDependencies:
@@ -34778,19 +34824,19 @@ snapshots:
 
   rrweb-cssom@0.8.0: {}
 
+  rsbuild-plugin-dts@1.0.1(@rsbuild/core@2.2.7(@module-federation/runtime-tools@2.2.1(node-fetch@3.3.2))(core-js@3.48.0))(typescript@5.7.3):
+    dependencies:
+      '@ast-grep/napi': 0.45.3
+      '@rsbuild/core': 2.2.7(@module-federation/runtime-tools@2.2.1(node-fetch@3.3.2))(core-js@3.48.0)
+    optionalDependencies:
+      typescript: 5.7.3
+
   rsbuild-plugin-dts@1.0.1(@rsbuild/core@2.2.7(@module-federation/runtime-tools@2.2.1(node-fetch@3.3.2))(core-js@3.48.0))(typescript@5.9.3):
     dependencies:
       '@ast-grep/napi': 0.45.3
       '@rsbuild/core': 2.2.7(@module-federation/runtime-tools@2.2.1(node-fetch@3.3.2))(core-js@3.48.0)
     optionalDependencies:
       typescript: 5.9.3
-
-  rsbuild-plugin-dts@1.0.1(@rsbuild/core@2.2.7(core-js@3.48.0))(typescript@5.7.3):
-    dependencies:
-      '@ast-grep/napi': 0.45.3
-      '@rsbuild/core': 2.2.7(@module-federation/runtime-tools@2.2.1(node-fetch@3.3.2))(core-js@3.48.0)
-    optionalDependencies:
-      typescript: 5.7.3
 
   rsbuild-plugin-html-minifier-terser@1.1.5(@rsbuild/core@2.2.7(@module-federation/runtime-tools@2.2.1(node-fetch@3.3.2))(core-js@3.48.0)):
     dependencies:

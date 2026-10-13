@@ -1,6 +1,10 @@
+import fs from 'node:fs/promises';
 import path from 'node:path';
 import type { AppTools, CliPlugin } from '@modern-js/app-tools';
-import type { McpAppsPluginOptions } from './options';
+import { compile } from '@modern-js/server-utils';
+import { resolveServerTsconfig } from '@modern-js/utils';
+import { type McpAppsPluginOptions, endpointPath } from './options';
+import { compiledConfigPath } from './shared';
 import { setupMcpUi } from './ui';
 
 export type { McpAppsPluginOptions } from './options';
@@ -15,9 +19,57 @@ export const mcpAppsPlugin = (
     const configPath = () =>
       path.resolve(
         api.getAppContext().appDirectory,
-        options.config ?? 'api/mcp_apps.ts',
+        options.config ?? 'mcp_apps.ts',
       );
+    const endpoint =
+      options.endpoint === false ? false : endpointPath(options.endpoint);
     setupMcpUi(api, configPath);
+    api.addWatchFiles(() => [configPath()]);
+    api.onAfterBuild(async () => {
+      if (endpoint === false) return;
+      const ctx = api.getAppContext();
+      const config = api.getNormalizedConfig();
+      const tsconfigPath = path.join(
+        ctx.internalDirectory,
+        'mcp-apps/tsconfig.server.json',
+      );
+      await fs.mkdir(path.dirname(tsconfigPath), { recursive: true });
+      await fs.writeFile(
+        tsconfigPath,
+        JSON.stringify({
+          extends: resolveServerTsconfig(
+            ctx.appDirectory,
+            config.server.tsconfigPath,
+          ),
+          files: [configPath()],
+          include: [],
+          compilerOptions: { noEmit: false },
+        }),
+      );
+      await compile(
+        ctx.appDirectory,
+        {
+          server: config.server,
+          alias: ([] as unknown[]).concat(
+            config.source.alias ?? [],
+            config.resolve.alias ?? [],
+          ) as unknown as Parameters<typeof compile>[1]['alias'],
+        },
+        {
+          sourceDirs: [configPath()],
+          distDir: ctx.distDirectory,
+          tsconfigPath,
+          moduleType: ctx.moduleType,
+          throwErrorInsteadOfExit: true,
+        },
+      );
+      await fs.access(
+        path.resolve(
+          ctx.distDirectory,
+          compiledConfigPath(options.config ?? 'mcp_apps.ts'),
+        ),
+      );
+    });
     api._internalServerPlugins(({ plugins }) => {
       const ctx = api.getAppContext();
       const config = api.getNormalizedConfig();
@@ -29,7 +81,8 @@ export const mcpAppsPlugin = (
         name: '@modern-js/plugin-mcp-apps/bff-runtime',
         options: {
           development,
-          config: options.config ?? 'api/mcp_apps.ts',
+          endpoint,
+          config: options.config ?? 'mcp_apps.ts',
           resourceDirectory: development
             ? path
                 .relative(

@@ -1,6 +1,8 @@
 export interface McpAppsPluginOptions {
-  /** Application definition for UI discovery, relative to the project root. Defaults to api/mcp_apps.ts. */
+  /** Application definition for UI discovery, relative to the project root. Defaults to mcp_apps.ts. */
   config?: string;
+  /** Exact HTTP route, defaults to /mcp. Set false for manual BFF mounting. */
+  endpoint?: string | false;
 }
 
 export interface McpAppsServerOptions {

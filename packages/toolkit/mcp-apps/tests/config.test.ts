@@ -1,5 +1,5 @@
 import { expect, it } from '@rstest/core';
-import { defineMcpServer, defineTool } from '../src/config';
+import { defineMcpServer } from '../src/config';
 import { createMcpHandler } from '../src/server';
 
 function rpc(method: string, params: unknown = {}) {
@@ -15,25 +15,23 @@ function rpc(method: string, params: unknown = {}) {
 
 it('uses definition identity and awaits a typed non-view tool without remotes', async () => {
   let calls = 0;
-  const tool = defineTool({
-    name: 'greet',
-    inputSchema: {
-      type: 'object',
-      properties: { name: { type: 'string', minLength: 1 } },
-      required: ['name'],
-      additionalProperties: false,
-    },
-    _meta: { 'openai/toolInvocation/invoking': 'Greeting' },
-    handler: async ({ name }) => {
-      await Promise.resolve();
-      calls++;
-      return { structuredContent: { message: name.toUpperCase() } };
-    },
-  });
   const config = defineMcpServer({
     name: 'typed-server',
     version: '2.0.0',
-    tools: [tool],
+    tools: [
+      {
+        name: 'greet',
+        inputSchema: {
+          name: { type: 'string', minLength: 1 },
+        },
+        _meta: { 'openai/toolInvocation/invoking': 'Greeting' },
+        handler: async ({ name }) => {
+          await Promise.resolve();
+          calls++;
+          return { structuredContent: { message: name.toUpperCase() } };
+        },
+      },
+    ],
   });
   const handle = createMcpHandler(config);
   const initialized = await (
@@ -50,10 +48,18 @@ it('uses definition identity and awaits a typed non-view tool without remotes', 
     version: '2.0.0',
   });
   expect(config.remotes).toEqual([]);
+  const shorthand = config.tools[0].inputSchema;
+  expect(shorthand).toEqual({ name: { type: 'string', minLength: 1 } });
   const listed = await (await handle(rpc('tools/list'))).json();
   expect(listed.result.tools[0]._meta['openai/toolInvocation/invoking']).toBe(
     'Greeting',
   );
+  expect(listed.result.tools[0].inputSchema).toEqual({
+    type: 'object',
+    properties: { name: { type: 'string', minLength: 1 } },
+    required: ['name'],
+    additionalProperties: false,
+  });
   const resources = await (await handle(rpc('resources/list'))).json();
   expect(resources.result.resources).toEqual([]);
   const valid = await (
@@ -74,6 +80,12 @@ it('uses definition identity and awaits a typed non-view tool without remotes', 
     )
   ).json();
   expect(invalid.result.isError).toBe(true);
+  for (const args of [{}, { name: '' }, { name: 'Ada', extra: true }]) {
+    const rejected = await (
+      await handle(rpc('tools/call', { name: 'greet', arguments: args }))
+    ).json();
+    expect(rejected.result.isError).toBe(true);
+  }
   expect(calls).toBe(1);
 });
 
@@ -102,4 +114,43 @@ it('rejects empty server identity before mounting an endpoint', () => {
   expect(() => defineMcpServer({ name: ' ', version: '1', tools: [] })).toThrow(
     'MCP server name and version must be non-empty',
   );
+});
+
+it('validates optional shorthand properties before executing handlers', async () => {
+  const handle = createMcpHandler(
+    defineMcpServer({
+      name: 'optional',
+      version: '1',
+      tools: [
+        {
+          name: 'greet',
+          inputSchema: {
+            name: { type: 'string' },
+            count: { type: 'integer', minimum: 1, optional: true },
+          },
+          handler: ({ name, count }) => ({
+            structuredContent: { name, count: count ?? 1 },
+          }),
+        },
+      ],
+    }),
+  );
+  for (const args of [{ name: 'Ada' }, { name: 'Ada', count: 2 }]) {
+    const result = await (
+      await handle(rpc('tools/call', { name: 'greet', arguments: args }))
+    ).json();
+    expect(result.result.structuredContent).toEqual({
+      name: 'Ada',
+      count: 'count' in args ? args.count : 1,
+    });
+  }
+  const invalid = await (
+    await handle(
+      rpc('tools/call', {
+        name: 'greet',
+        arguments: { name: 'Ada', count: 0 },
+      }),
+    )
+  ).json();
+  expect(invalid.result.isError).toBe(true);
 });
