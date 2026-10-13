@@ -135,7 +135,7 @@ for (const extension of ['js', 'mjs']) {
     const dist = path.join(root, 'dist');
     const { mkdir, writeFile } = await import('node:fs/promises');
     await mkdir(dist);
-    const definition = `{ name: 'automatic', version: '2', remotes: [], tools: [{ name: 'who', inputSchema: { name: { type: 'string' } }, handler: ({ name }, ctx) => ({ structuredContent: { name, user: ctx.context.req.header('x-user') } }) }] }`;
+    const definition = `{ name: 'automatic', version: '2', remotes: [{ name: 'ui', baseUrl: 'https://ui.example/static/mf-manifest.json' }], tools: [{ name: 'who', remote: 'ui', view: { module: './Who' }, inputSchema: { name: { type: 'string' } }, handler: ({ name }, ctx) => ({ structuredContent: { name, user: ctx.context.req.header('x-user') } }) }] }`;
     await writeFile(
       path.join(dist, `mcp_apps.${extension}`),
       extension === 'mjs'
@@ -198,19 +198,52 @@ for (const extension of ['js', 'mjs']) {
           });
         },
       },
-      mcpBffRuntime({
-        development: false,
-        config: extension === 'mjs' ? 'mcp_apps.mts' : 'mcp_apps.ts',
-        endpoint: '/custom/mcp',
-        resourceDirectory: 'mcp-apps/ui',
-        assetBase: 'request',
-      }),
+      mcpBffRuntime(
+        {
+          development: false,
+          config: extension === 'mjs' ? 'mcp_apps.mts' : 'mcp_apps.ts',
+          endpoint: '/custom/mcp',
+          resourceDirectory: 'mcp-apps/ui',
+          assetBase: 'request',
+        },
+        {
+          transformResponse(response, context) {
+            response.headers.set(
+              'x-mcp-user',
+              context.req.raw.headers.get('x-user') ?? 'anonymous',
+            );
+            return response;
+          },
+        },
+      ),
     ]);
     await server.init();
     expect(await (await server.request('/api/status')).json()).toEqual({
       ok: true,
     });
     expect((await server.request('/custom/mcp')).status).toBe(405);
+    const preflight = await server.request('/static/mf-manifest.json', {
+      method: 'OPTIONS',
+      headers: {
+        Origin: 'null',
+        'Access-Control-Request-Private-Network': 'true',
+      },
+    });
+    expect(preflight.status).toBe(204);
+    expect(preflight.headers.get('Access-Control-Allow-Origin')).toBe('*');
+    expect(preflight.headers.get('Access-Control-Allow-Private-Network')).toBe(
+      'true',
+    );
+    expect(
+      (await server.request('/api/status')).headers.get(
+        'Access-Control-Allow-Origin',
+      ),
+    ).toBeNull();
+    expect(
+      (await server.request('/custom/mcp')).headers.get(
+        'Access-Control-Allow-Origin',
+      ),
+    ).toBeNull();
     expect((await server.request('/custom/mcp-extra')).status).toBe(404);
     for (const [name, user] of [
       ['Ada', 'one'],
@@ -230,7 +263,8 @@ for (const extension of ['js', 'mjs']) {
           params: { name: 'who', arguments: { name } },
         }),
       });
-      expect((await response.json()).result.structuredContent).toEqual({
+      expect(response.headers.get('x-mcp-user')).toBe(user);
+      expect((await response.json()).result.structuredContent).toMatchObject({
         name,
         user,
       });

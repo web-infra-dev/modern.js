@@ -151,6 +151,9 @@ describe('MCP templates', () => {
     expect(fs.existsSync(path.join(root, 'module-federation.config.ts'))).toBe(
       true,
     );
+    expect(fs.existsSync(path.join(root, 'server/modern.server.ts'))).toBe(
+      false,
+    );
     expect(fs.readFileSync(path.join(root, 'mcp_apps.ts'), 'utf8')).toContain(
       "remote: 'mcp_ui'",
     );

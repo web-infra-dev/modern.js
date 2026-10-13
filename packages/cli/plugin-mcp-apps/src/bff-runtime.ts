@@ -2,7 +2,12 @@ import path from 'node:path';
 import { createMcpBffHandler } from '@modern-js/mcp-apps/bff';
 import type { McpAppsDefinition } from '@modern-js/mcp-apps/config';
 import { bindUiResources } from '@modern-js/mcp-apps/server';
-import { type ServerPlugin, useHonoContext } from '@modern-js/server-core';
+import {
+  type Context,
+  type Next,
+  type ServerPlugin,
+  useHonoContext,
+} from '@modern-js/server-core';
 import { cleanRequireCache, compatibleRequire } from '@modern-js/utils';
 import type { McpEndpointOptions } from './bff';
 import {
@@ -15,9 +20,20 @@ const AUTO_ENDPOINT = Symbol('modern-mcp-auto-endpoint');
 
 type ApiHandler = (input: { data?: unknown }) => unknown;
 
+/** Host framework hooks; route registration remains shared. */
+export interface McpAppsBffRuntimeAdapter {
+  useContext?: () => { req: { raw: Request } };
+  transformResponse?: (
+    response: Response,
+    context: { req: { raw: Request } },
+    appDirectory: string,
+  ) => Response | Promise<Response>;
+}
+
 /** Bind artifacts to BFF-discovered functions. Never registers HTTP middleware. */
 export default function mcpBffRuntime(
   options: McpAppsBffRuntimeOptions,
+  adapter: McpAppsBffRuntimeAdapter = {},
 ): ServerPlugin {
   return {
     name: '@modern-js/plugin-mcp-apps/bff-runtime',
@@ -29,6 +45,49 @@ export default function mcpBffRuntime(
         const root = options.development ? ctx.appDirectory : ctx.distDirectory;
         if (!root)
           throw new Error('MCP Apps requires a BFF application directory');
+        const wrapHandler =
+          (handle: ReturnType<typeof createMcpBffHandler>) =>
+          async (input: { data?: unknown }): Promise<Response> => {
+            const context = (adapter.useContext ?? useHonoContext)();
+            const response = await handle(input, context);
+            return adapter.transformResponse
+              ? adapter.transformResponse(response, context, ctx.appDirectory)
+              : response;
+          };
+        const registerRemoteAssets = (definition: McpAppsDefinition) => {
+          if (!definition.tools.some(tool => tool.remote)) return;
+          if (
+            ctx.middlewares.some(item => item.name === 'mcp-public-ui-assets')
+          )
+            return;
+          ctx.middlewares.push({
+            name: 'mcp-public-ui-assets',
+            path: '/static/*',
+            order: 'pre',
+            handler: async (context: Context, next: Next) => {
+              context.header('Access-Control-Allow-Origin', '*');
+              if (context.req.method === 'OPTIONS') {
+                context.header(
+                  'Access-Control-Allow-Methods',
+                  'GET, HEAD, OPTIONS',
+                );
+                context.header('Access-Control-Allow-Headers', 'Content-Type');
+                if (
+                  context.req.header(
+                    'Access-Control-Request-Private-Network',
+                  ) === 'true'
+                ) {
+                  context.header(
+                    'Access-Control-Allow-Private-Network',
+                    'true',
+                  );
+                }
+                return context.body(null, 204);
+              }
+              await next();
+            },
+          });
+        };
         const handlers = new Map<
           ApiHandler,
           (input: { data?: unknown }) => Promise<Response>
@@ -58,6 +117,7 @@ export default function mcpBffRuntime(
           if (options.development) cleanRequireCache([config]);
           const loaded = await compatibleRequire(config);
           const definition = (loaded.default ?? loaded) as McpAppsDefinition;
+          registerRemoteAssets(definition);
           const handle = createMcpBffHandler({
             definition: bindUiResources(definition, {
               directory: path.resolve(root, options.resourceDirectory),
@@ -66,7 +126,7 @@ export default function mcpBffRuntime(
             configPath: config,
             development: options.development,
           });
-          const handler: ApiHandler = input => handle(input, useHonoContext());
+          const handler: ApiHandler = wrapHandler(handle);
           Reflect.set(handler, AUTO_ENDPOINT, true);
           userInfos.push(
             ...['POST', 'GET', 'DELETE', 'PUT', 'PATCH', 'OPTIONS'].map(
@@ -83,6 +143,7 @@ export default function mcpBffRuntime(
             | (McpEndpointOptions & { definition: McpAppsDefinition })
             | undefined;
           if (!endpointOptions) return info;
+          registerRemoteAssets(endpointOptions.definition);
           let handler = handlers.get(info.handler);
           if (!handler) {
             const handle = createMcpBffHandler({
@@ -94,7 +155,7 @@ export default function mcpBffRuntime(
                 assetBase: options.assetBase,
               }),
             });
-            handler = input => handle(input, useHonoContext());
+            handler = wrapHandler(handle);
             handlers.set(info.handler, handler);
           }
           return { ...info, handler };
