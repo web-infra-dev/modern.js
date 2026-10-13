@@ -16,6 +16,7 @@ export default defineConfig({
         loaderFailureMode: 'clientRender',
       },
       four: false,
+      'lazy-errors': false,
     },
   },
   performance: {

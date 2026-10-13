@@ -25,6 +25,25 @@ expect.addSnapshotSerializer({
 });
 
 describe('fileSystemRoutes', () => {
+  test('does not emit module loaders for server-only RSC routes', async () => {
+    const code = await fileSystemRoutes({
+      metaName: 'modern-js',
+      entryName: 'main',
+      internalDirectory: '',
+      isRscClientBundle: true,
+      routes: [
+        {
+          path: '/',
+          id: 'page',
+          _component: '@_modern_js_src/routes/page.tsx',
+          type: 'nested',
+        },
+      ],
+    });
+    expect(code).not.toContain('const routeModuleLoader_');
+    expect(code).not.toContain('import(/* webpackChunkName');
+  });
+
   test('generate code for legacy router', async () => {
     const routes: RouteLegacy[] = [
       {

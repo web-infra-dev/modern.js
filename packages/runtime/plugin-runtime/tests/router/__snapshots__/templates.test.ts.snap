@@ -8,7 +8,7 @@ exports[`fileSystemRoutes > generate code 1`] = `
   
     
     
-    import { createShouldRevalidate, handleRouteModule,  handleRouteModuleError} from '@modern-js/runtime/routerHelper';
+    import { createShouldRevalidate, createRouteModuleLoader, handleRouteModule, handleRouteModuleError } from '@modern-js/runtime/routerHelper';
   
     
     import loading_0 from '@_modern_js_src/routes/loading.tsx';
@@ -24,6 +24,9 @@ import loader_1 from "@_modern_js_src/routes/layout.loader.ts";
       window._routeModules = {}
     }
   
+const routeModuleLoader_0 = createRouteModuleLoader(() => import(/* webpackChunkName: "layout" */  '@_modern_js_src/routes/layout.tsx').then(routeModule => handleRouteModule(routeModule, "layout")).catch(handleRouteModuleError));
+const routeModuleLoader_1 = createRouteModuleLoader(() => import(/* webpackChunkName: "user/layout" */  '@_modern_js_src/routes/user/layout.tsx').then(routeModule => handleRouteModule(routeModule, "user/layout")).catch(handleRouteModuleError));
+const routeModuleLoader_3 = createRouteModuleLoader(() => import(/* webpackChunkName: "user/[id]/page" */  '@_modern_js_src/routes/user/[id]/page.tsx').then(routeModule => handleRouteModule(routeModule, "user/[id]/page")).catch(handleRouteModuleError));
     
     export const routes = [
   {
@@ -52,21 +55,21 @@ import loader_1 from "@_modern_js_src/routes/layout.loader.ts";
               "id": "user/[id]/page",
               "loader": loader_0,
               "type": "nested",
-              "lazyImport": () => import(/* webpackChunkName: "user/[id]/page" */  '@_modern_js_src/routes/user/[id]/page.tsx').then(routeModule => handleRouteModule(routeModule, "user/[id]/page")).catch(handleRouteModuleError),
-              "component": lazy(() => import(/* webpackChunkName: "user/[id]/page" */  '@_modern_js_src/routes/user/[id]/page.tsx').then(routeModule => handleRouteModule(routeModule, "user/[id]/page")).catch(handleRouteModuleError)),
+              "lazyImport": routeModuleLoader_3,
+              "component": lazy(routeModuleLoader_3),
               "shouldRevalidate": createShouldRevalidate("user/[id]/page")
             }
           ],
           "lazyImport": null
         }
       ],
-      "lazyImport": () => import(/* webpackChunkName: "user/layout" */  '@_modern_js_src/routes/user/layout.tsx').then(routeModule => handleRouteModule(routeModule, "user/layout")).catch(handleRouteModuleError),
-      "component": lazy(() => import(/* webpackChunkName: "user/layout" */  '@_modern_js_src/routes/user/layout.tsx').then(routeModule => handleRouteModule(routeModule, "user/layout")).catch(handleRouteModuleError)),
+      "lazyImport": routeModuleLoader_1,
+      "component": lazy(routeModuleLoader_1),
       "shouldRevalidate": createShouldRevalidate("user/layout")
     }
   ],
-  "lazyImport": () => import(/* webpackChunkName: "layout" */  '@_modern_js_src/routes/layout.tsx').then(routeModule => handleRouteModule(routeModule, "layout")).catch(handleRouteModuleError),
-  "component": lazy(() => import(/* webpackChunkName: "layout" */  '@_modern_js_src/routes/layout.tsx').then(routeModule => handleRouteModule(routeModule, "layout")).catch(handleRouteModuleError))
+  "lazyImport": routeModuleLoader_0,
+  "component": lazy(routeModuleLoader_0)
 },
 ];
   
@@ -80,7 +83,7 @@ exports[`fileSystemRoutes > generate code for legacy router 1`] = `
   
     
     
-    import { createShouldRevalidate, handleRouteModule,  handleRouteModuleError} from '@modern-js/runtime/routerHelper';
+    import { createShouldRevalidate, createRouteModuleLoader, handleRouteModule, handleRouteModuleError } from '@modern-js/runtime/routerHelper';
   
     
     
@@ -92,6 +95,7 @@ exports[`fileSystemRoutes > generate code for legacy router 1`] = `
       window._routeModules = {}
     }
   
+
     
     export const routes = [
   {

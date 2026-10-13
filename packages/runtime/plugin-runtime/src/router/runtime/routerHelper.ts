@@ -22,7 +22,14 @@ export const handleRouteModule = (routeModule: Module, routeId: string) => {
   return routeModule;
 };
 
-export const handleRouteModuleError = (error: Error) => {
+export const handleRouteModuleError = (error: unknown): never => {
   console.error(error);
-  return null;
+  throw error;
+};
+
+export const createRouteModuleLoader = <T>(loadModule: () => Promise<T>) => {
+  let promise: Promise<T> | undefined;
+  // Preloading and React.lazy must observe the same result, including failures.
+  // Re-importing a failed module can return incomplete exports from the bundler.
+  return () => (promise ??= loadModule());
 };

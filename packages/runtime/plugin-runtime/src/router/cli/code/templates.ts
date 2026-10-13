@@ -203,6 +203,7 @@ export const fileSystemRoutes = async ({
   internalSrcAlias?: string;
 }) => {
   const components: string[] = [];
+  const routeModuleLoaders: string[] = [];
   const loadings: string[] = [];
   const errors: string[] = [];
   const loaders: string[] = [];
@@ -287,6 +288,9 @@ export const fileSystemRoutes = async ({
     route: NestedRouteForCli | PageRoute,
     isRscClientBundle: boolean,
   ): Promise<Route> => {
+    // Reserve the name before async traversal to keep generated code stable.
+    const moduleLoaderIndex = routeModuleLoaders.length;
+    routeModuleLoaders.push('');
     let children: Route['children'];
     if ('children' in route && route.children) {
       children = await Promise.all(
@@ -392,6 +396,22 @@ export const fileSystemRoutes = async ({
       ));
 
     const shouldIncludeClientBundle = !isRscClientBundle || isClientComponent;
+
+    // React.lazy caches its result, so preloading must share that same promise.
+    // Keep loadable's inline imports intact for the string SSR transform.
+    if (
+      shouldIncludeClientBundle &&
+      route.type === 'nested' &&
+      !route.isRoot &&
+      ssrMode !== 'string' &&
+      lazyImport
+    ) {
+      const sharedImport = `routeModuleLoader_${moduleLoaderIndex}`;
+      routeModuleLoaders[moduleLoaderIndex] =
+        `const ${sharedImport} = createRouteModuleLoader(${lazyImport});`;
+      lazyImport = sharedImport;
+      component = `lazy(${sharedImport})`;
+    }
 
     const finalRoute: any = {
       ...route,
@@ -530,7 +550,7 @@ export const fileSystemRoutes = async ({
   await fs.writeJSON(loadersMapFile, loadersMap);
 
   const importRuntimeRouterCode = `
-    import { createShouldRevalidate, handleRouteModule,  handleRouteModuleError} from '@${metaName}/runtime/routerHelper';
+    import { createShouldRevalidate, createRouteModuleLoader, handleRouteModule, handleRouteModuleError } from '@${metaName}/runtime/routerHelper';
   `;
   const routeModulesCode = `
     if(typeof document !== 'undefined'){
@@ -548,6 +568,7 @@ export const fileSystemRoutes = async ({
     ${importLoadersCode}
     ${importConfigsCode}
     ${routeModulesCode}
+${routeModuleLoaders.filter(Boolean).join('\n')}
     ${routeComponentsCode}
   `;
 };

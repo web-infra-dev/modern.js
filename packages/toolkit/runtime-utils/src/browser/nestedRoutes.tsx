@@ -147,7 +147,9 @@ function createLoader(route: NestedRoute): LoaderFunction {
   if (loader) {
     return async (args: LoaderFunctionArgs) => {
       if (typeof route.lazyImport === 'function') {
-        route.lazyImport();
+        // Preloading must not block navigation. The component loader receives
+        // the original rejection when React renders the route.
+        route.lazyImport().catch(() => {});
       }
       const end = time();
       const res = await loader(args);
@@ -178,7 +180,7 @@ function createLoader(route: NestedRoute): LoaderFunction {
   } else {
     return () => {
       if (typeof route.lazyImport === 'function') {
-        route.lazyImport();
+        route.lazyImport().catch(() => {});
       }
       return null;
     };
