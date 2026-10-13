@@ -132,15 +132,20 @@ export default function TaskBoard({
         共享演示数据 · 保存到服务端文件，重新打开后可查询
       </p>
       {!mcpApp && <p>请在 MCP Apps 客户端中调用 list_tasks 来操作看板。</p>}
-      <form
-        onSubmit={event => {
-          event.preventDefault();
-          void run('create_task', { title: title.trim() });
-        }}
-        style={{ display: 'flex', gap: 8, marginBottom: 20 }}
-      >
+      <div style={{ display: 'flex', gap: 8, marginBottom: 20 }}>
         <input
           aria-label="新任务名称"
+          onKeyDown={event => {
+            if (
+              event.key === 'Enter' &&
+              !event.nativeEvent.isComposing &&
+              title.trim() &&
+              !busy
+            ) {
+              event.preventDefault();
+              void run('create_task', { title: title.trim() });
+            }
+          }}
           placeholder="下一件要完成的事…"
           maxLength={120}
           value={title}
@@ -148,10 +153,16 @@ export default function TaskBoard({
           disabled={busy || !mcpApp}
           style={{ flex: 1, minWidth: 0, padding: 10 }}
         />
-        <button type="submit" disabled={busy || !mcpApp || !title.trim()}>
+        <button
+          type="button"
+          disabled={busy || !mcpApp || !title.trim()}
+          onClick={() => {
+            void run('create_task', { title: title.trim() });
+          }}
+        >
           添加任务
         </button>
-      </form>
+      </div>
       {error && (
         <p role="alert" style={{ color: '#a52020' }}>
           {error}

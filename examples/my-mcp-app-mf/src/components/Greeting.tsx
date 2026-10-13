@@ -14,36 +14,7 @@ export default function Greeting({
     <section style={{ fontFamily: 'system-ui', padding: 24 }}>
       <h1>Send a greeting</h1>
       <p>Enter a name and get a greeting from the server.</p>
-      <form
-        onSubmit={async event => {
-          event.preventDefault();
-          if (!mcpApp || pending || !name.trim()) return;
-          setPending(true);
-          setError('');
-          try {
-            const result = await mcpApp.callServerTool({
-              name: 'greet',
-              arguments: { name: name.trim() },
-            });
-            const output = result.structuredContent;
-            if (
-              result.isError ||
-              !output ||
-              typeof output !== 'object' ||
-              !('message' in output) ||
-              typeof output.message !== 'string'
-            ) {
-              throw new Error('Invalid greeting response');
-            }
-            setUpdated(output.message);
-            setCount(value => value + 1);
-          } catch {
-            setError('Unable to greet. Your name is saved — please try again.');
-          } finally {
-            setPending(false);
-          }
-        }}
-      >
+      <div>
         <label style={{ display: 'block', marginBottom: 12 }}>
           Name{' '}
           <input
@@ -53,10 +24,43 @@ export default function Greeting({
             disabled={pending}
           />
         </label>
-        <button disabled={!mcpApp || pending || !name.trim()} type="submit">
+        <button
+          disabled={!mcpApp || pending || !name.trim()}
+          type="button"
+          onClick={async event => {
+            event.preventDefault();
+            if (!mcpApp || pending || !name.trim()) return;
+            setPending(true);
+            setError('');
+            try {
+              const result = await mcpApp.callServerTool({
+                name: 'greet',
+                arguments: { name: name.trim() },
+              });
+              const output = result.structuredContent;
+              if (
+                result.isError ||
+                !output ||
+                typeof output !== 'object' ||
+                !('message' in output) ||
+                typeof output.message !== 'string'
+              ) {
+                throw new Error('Invalid greeting response');
+              }
+              setUpdated(output.message);
+              setCount(value => value + 1);
+            } catch {
+              setError(
+                'Unable to greet. Your name is saved — please try again.',
+              );
+            } finally {
+              setPending(false);
+            }
+          }}
+        >
           {pending ? 'Sending…' : 'Send greeting'}
         </button>
-      </form>
+      </div>
       {!mcpApp && <p>Connect to an MCP host to send a greeting.</p>}
       {error && <p role="alert">{error}</p>}
       <output

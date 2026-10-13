@@ -27,45 +27,7 @@ export default function Sum({
     <section style={{ fontFamily: 'system-ui', padding: 24 }}>
       <h1>Add two numbers</h1>
       <p>Change the numbers and ask the server to calculate their sum.</p>
-      <form
-        onSubmit={async event => {
-          event.preventDefault();
-          if (!mcpApp || pending || !valid) return;
-          setPending(true);
-          setError('');
-          try {
-            const response = await mcpApp.callServerTool({
-              name: 'add_numbers',
-              arguments: { a: Number(first), b: Number(second) },
-            });
-            const output = response.structuredContent;
-            if (
-              response.isError ||
-              !output ||
-              typeof output !== 'object' ||
-              !('a' in output) ||
-              !('b' in output) ||
-              !('sum' in output) ||
-              typeof output.a !== 'number' ||
-              typeof output.b !== 'number' ||
-              typeof output.sum !== 'number' ||
-              !Number.isFinite(output.a) ||
-              !Number.isFinite(output.b) ||
-              !Number.isFinite(output.sum)
-            ) {
-              throw new Error('Invalid calculation response');
-            }
-            setUpdated({ a: output.a, b: output.b, sum: output.sum });
-            setCount(value => value + 1);
-          } catch {
-            setError(
-              'Unable to calculate. Your numbers are saved — please try again.',
-            );
-          } finally {
-            setPending(false);
-          }
-        }}
-      >
+      <div>
         <label style={{ display: 'block', marginBottom: 12 }}>
           First number{' '}
           <input
@@ -88,10 +50,50 @@ export default function Sum({
             disabled={pending}
           />
         </label>
-        <button type="submit" disabled={!mcpApp || pending || !valid}>
+        <button
+          type="button"
+          onClick={async event => {
+            event.preventDefault();
+            if (!mcpApp || pending || !valid) return;
+            setPending(true);
+            setError('');
+            try {
+              const response = await mcpApp.callServerTool({
+                name: 'add_numbers',
+                arguments: { a: Number(first), b: Number(second) },
+              });
+              const output = response.structuredContent;
+              if (
+                response.isError ||
+                !output ||
+                typeof output !== 'object' ||
+                !('a' in output) ||
+                !('b' in output) ||
+                !('sum' in output) ||
+                typeof output.a !== 'number' ||
+                typeof output.b !== 'number' ||
+                typeof output.sum !== 'number' ||
+                !Number.isFinite(output.a) ||
+                !Number.isFinite(output.b) ||
+                !Number.isFinite(output.sum)
+              ) {
+                throw new Error('Invalid calculation response');
+              }
+              setUpdated({ a: output.a, b: output.b, sum: output.sum });
+              setCount(value => value + 1);
+            } catch {
+              setError(
+                'Unable to calculate. Your numbers are saved — please try again.',
+              );
+            } finally {
+              setPending(false);
+            }
+          }}
+          disabled={!mcpApp || pending || !valid}
+        >
           {pending ? 'Calculating…' : 'Calculate'}
         </button>
-      </form>
+      </div>
       {!mcpApp && <p>Connect to an MCP host to calculate.</p>}
       {error && <p role="alert">{error}</p>}
       <output
