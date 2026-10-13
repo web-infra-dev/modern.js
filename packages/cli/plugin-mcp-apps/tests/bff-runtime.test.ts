@@ -128,14 +128,32 @@ it('binds the same declaration independently per BFF runtime without adding an M
   expect((await first.request('/custom/nested/mcp-extra')).status).toBe(404);
 });
 
-for (const extension of ['js', 'mjs']) {
-  it(`automatically mounts a compiled ${extension} definition alongside ordinary BFF routes`, async () => {
+for (const mode of ['js', 'mjs', 'local-mf']) {
+  const extension = mode === 'local-mf' ? 'js' : mode;
+  it(`automatically mounts a compiled ${mode} definition alongside ordinary BFF routes`, async () => {
     const root = await mkdtemp(path.join(os.tmpdir(), 'modern-mcp-auto-'));
     directories.push(root);
     const dist = path.join(root, 'dist');
     const { mkdir, writeFile } = await import('node:fs/promises');
     await mkdir(dist);
-    const definition = `{ name: 'automatic', version: '2', remotes: [{ name: 'ui', baseUrl: 'https://ui.example/static/mf-manifest.json' }], tools: [{ name: 'who', remote: 'ui', view: { module: './Who' }, inputSchema: { name: { type: 'string' } }, handler: ({ name }, ctx) => ({ structuredContent: { name, user: ctx.context.req.header('x-user') } }) }] }`;
+    let definition = `{ name: 'automatic', version: '2', remotes: [{ name: 'ui', baseUrl: 'https://ui.example/static/mf-manifest.json' }], tools: [{ name: 'who', remote: 'ui', view: { module: './Who' }, inputSchema: { name: { type: 'string' } }, handler: ({ name }, ctx) => ({ structuredContent: { name, user: ctx.context.req.header('x-user') } }) }] }`;
+    if (mode === 'local-mf') {
+      definition = definition.replace(
+        "remotes: [{ name: 'ui', baseUrl: 'https://ui.example/static/mf-manifest.json' }]",
+        'remotes: []',
+      );
+      await mkdir(path.join(dist, 'mcp-apps/ui'), { recursive: true });
+      await writeFile(
+        path.join(dist, 'mcp-apps/ui/mf-remotes.json'),
+        JSON.stringify([
+          {
+            name: 'ui',
+            manifest: 'static/mf-manifest.json',
+            publicPath: 'https://cdn.example/release/',
+          },
+        ]),
+      );
+    }
     await writeFile(
       path.join(dist, `mcp_apps.${extension}`),
       extension === 'mjs'
@@ -264,7 +282,16 @@ for (const extension of ['js', 'mjs']) {
         }),
       });
       expect(response.headers.get('x-mcp-user')).toBe(user);
-      expect((await response.json()).result.structuredContent).toMatchObject({
+      const content = (await response.json()).result.structuredContent;
+      if (mode === 'local-mf') {
+        expect(content.resource.moduleFederation.remoteEntry).toBe(
+          'https://cdn.example/release/static/mf-manifest.json',
+        );
+        expect(content.resource.csp.resourceDomains).toEqual([
+          'https://cdn.example',
+        ]);
+      }
+      expect(content).toMatchObject({
         name,
         user,
       });

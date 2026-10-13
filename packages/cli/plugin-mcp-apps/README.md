@@ -112,3 +112,14 @@ MCP resource responses set an asset base and include its origin in resource CSP.
 The default is the public request origin (including forwarded HTTPS); use the
 application dev/output assetPrefix for a separate asset host. Deploy static assets
 with the server or to that host. The Node deploy output includes both.
+
+## Local Module Federation views
+
+A tool can reference the current project's MF name with `remote: 'mcp_ui'`
+and `view: { module: './Greeting' }`, without a corresponding `remotes` entry.
+Enable manifest output in the MF configuration. The plugin discovers the emitted
+manifest, reuses its `publicPath`, and adds its origin to the resource CSP.
+Use `dev.assetPrefix` / `output.assetPrefix` for public asset hosting; no separate
+MCP origin variable is needed. Relative or automatic public paths use the request
+origin (including HTTPS termination). Explicit `remotes` remain unchanged.
+Custom `getPublicPath` functions require an explicit remote URL.

@@ -10,6 +10,7 @@ import {
 } from '@modern-js/server-core';
 import { cleanRequireCache, compatibleRequire } from '@modern-js/utils';
 import type { McpEndpointOptions } from './bff';
+import { bindMfRemotes, localRemoteNames, readMfArtifacts } from './mf';
 import {
   MCP_BFF_ENDPOINT,
   type McpAppsBffRuntimeOptions,
@@ -45,6 +46,42 @@ export default function mcpBffRuntime(
         const root = options.development ? ctx.appDirectory : ctx.distDirectory;
         if (!root)
           throw new Error('MCP Apps requires a BFF application directory');
+        const createBoundHandler = (
+          params: Parameters<typeof createMcpBffHandler>[0],
+        ) => {
+          if (!localRemoteNames(params.definition).length)
+            return createMcpBffHandler(params);
+          // Compilation completes after route registration in development.
+          // Resolve lazily, and keep only the most recent origin/artifact pair.
+          let cached:
+            | { key: string; handler: ReturnType<typeof createMcpBffHandler> }
+            | undefined;
+          return async (
+            ...args: Parameters<ReturnType<typeof createMcpBffHandler>>
+          ) => {
+            if (args[1].req.raw.method !== 'POST') {
+              return new Response(null, {
+                status: 405,
+                headers: { Allow: 'POST' },
+              });
+            }
+            const artifacts = await readMfArtifacts(
+              path.resolve(root, options.resourceDirectory),
+            );
+            const definition = bindMfRemotes(
+              params.definition,
+              artifacts,
+              args[1].req.raw,
+            );
+            const key = JSON.stringify(definition.remotes);
+            if (cached?.key !== key)
+              cached = {
+                key,
+                handler: createMcpBffHandler({ ...params, definition }),
+              };
+            return cached.handler(...args);
+          };
+        };
         const wrapHandler =
           (handle: ReturnType<typeof createMcpBffHandler>) =>
           async (input: { data?: unknown }): Promise<Response> => {
@@ -118,7 +155,7 @@ export default function mcpBffRuntime(
           const loaded = await compatibleRequire(config);
           const definition = (loaded.default ?? loaded) as McpAppsDefinition;
           registerRemoteAssets(definition);
-          const handle = createMcpBffHandler({
+          const handle = createBoundHandler({
             definition: bindUiResources(definition, {
               directory: path.resolve(root, options.resourceDirectory),
               assetBase: options.assetBase,
@@ -146,7 +183,7 @@ export default function mcpBffRuntime(
           registerRemoteAssets(endpointOptions.definition);
           let handler = handlers.get(info.handler);
           if (!handler) {
-            const handle = createMcpBffHandler({
+            const handle = createBoundHandler({
               ...endpointOptions,
               configPath: path.resolve(root, options.config),
               development: options.development,

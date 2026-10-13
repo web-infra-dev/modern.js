@@ -4,6 +4,7 @@ import type { AppTools, CliPlugin } from '@modern-js/app-tools';
 import type { McpAppsDefinition } from '@modern-js/mcp-apps/config';
 import { getUiEntryName } from '@modern-js/mcp-apps/server';
 import { createLoadedConfig } from '@modern-js/plugin/cli';
+import { MF_ARTIFACTS, localRemoteNames, mfArtifact } from './mf';
 
 export interface BuiltView {
   html: string;
@@ -16,6 +17,7 @@ export function setupMcpUi(
   configPath: () => string,
 ) {
   const entries = new Map<string, string>();
+  let localRemotes: string[] = [];
   const views: Record<string, BuiltView> = Object.create(null);
   api.modifyEntrypoints(async ({ entrypoints }) => {
     entries.clear();
@@ -26,6 +28,7 @@ export function setupMcpUi(
       ctx.appDirectory,
       configPath(),
     );
+    localRemotes = localRemoteNames(definition);
     for (const tool of definition.tools) {
       if (!tool.view || tool.remote || tool.view.html) continue;
       const renderMode =
@@ -102,6 +105,29 @@ export default createMcpView(View, ${JSON.stringify({ name: tool.name, version: 
             development ? ctx.internalDirectory : ctx.distDirectory,
             'mcp-apps/ui',
           );
+          if (localRemotes.length) {
+            const artifacts = compilation.getAssets().flatMap(asset => {
+              if (!asset.name.endsWith('.json')) return [];
+              const artifact = mfArtifact(
+                asset.name,
+                asset.source.source().toString(),
+              );
+              return artifact && localRemotes.includes(artifact.name)
+                ? [artifact]
+                : [];
+            });
+            for (const name of localRemotes) {
+              if (artifacts.filter(item => item.name === name).length !== 1) {
+                throw new Error(
+                  `Expected one emitted MF manifest for MCP remote "${name}"`,
+                );
+              }
+            }
+            await fs.mkdir(output, { recursive: true });
+            const target = path.join(output, MF_ARTIFACTS);
+            await fs.writeFile(`${target}.tmp`, JSON.stringify(artifacts));
+            await fs.rename(`${target}.tmp`, target);
+          }
           for (const [entryName] of entries) {
             const htmlPath = environment.htmlPaths[entryName];
             if (!htmlPath) continue;

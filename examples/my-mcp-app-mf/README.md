@@ -15,12 +15,14 @@ using POST; browser GET requests return 405.
 `http://localhost:8080/static/mf-manifest.json`.
 
 Use another port with `PORT=8083 pnpm --filter my-mcp-app-mf dev`.
-When accessing the app through a public domain, set `MCP_UI_ORIGIN` to that
-origin so the manifest, assets and CSP use the client-accessible address.
+For a public development address, configure `dev.assetPrefix`. In production,
+configure `output.assetPrefix` for the deployed assets. MCP reuses the emitted
+MF manifest publicPath and adds its origin to the UI CSP.
 
 ```sh
 pnpm --filter my-mcp-app-mf build
 pnpm --filter my-mcp-app-mf serve
 ```
 
-Set the same `MCP_UI_ORIGIN` when building and serving production assets.
+Local MF remotes are discovered by matching the tool remote name to the emitted
+manifest name. Explicit `remotes[].baseUrl` remains available for external apps.
