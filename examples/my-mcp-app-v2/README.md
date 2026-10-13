@@ -20,6 +20,22 @@ pnpm --filter my-mcp-app-v2 dev
 这是无认证的演示看板，仅放虚构数据。持久部署需要替换存储并加入用户隔离与认证。
 请求结果不确定时先刷新，不自动重试创建任务。每个进程最多保留 100 个任务。
 
+## 在 ChatGPT 中试用
+
+先构建并运行，再用 HTTPS 隧道转发同一个端口（含 `/mcp` 和静态资源）：
+
+```sh
+pnpm --filter my-mcp-app-v2 build
+pnpm --filter my-mcp-app-v2 serve
+# 在另一个终端，使用已安装且已配置的 ngrok
+ngrok http 8080
+```
+
+在 ChatGPT 的自定义 MCP 服务器入口添加 `https://<隧道域名>/mcp`。
+本演示选择无认证，服务器地址使用上述 `/mcp` 端点。
+连接后检查工具列表，调用 `list_tasks`，验证卡片、添加、状态切换与刷新。
+可用入口受账号和工作区策略影响，参见
+[OpenAI 接入说明](https://developers.openai.com/plugins/deploy/connect-chatgpt)。
 
 ```sh
 pnpm install
