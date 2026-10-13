@@ -6,6 +6,7 @@ export default createModuleFederationConfig({
   filename: 'static/remoteEntry.js',
   dts: false,
   exposes: {
+    './TaskBoard': './src/features/tasks/TaskBoard.tsx',
     './Greeting': './src/components/Greeting.tsx',
     './Sum': './src/components/Sum.tsx',
   },

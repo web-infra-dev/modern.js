@@ -1,10 +1,18 @@
 import { defineMcpServer, defineTool } from '@modern-js/mcp-apps/config';
 import { name, version } from './package.json';
+import {
+  createTask,
+  listTasks,
+  updateTask,
+} from './src/features/tasks/server/tools';
 
 export default defineMcpServer({
   name,
   version,
   tools: [
+    { ...listTasks, remote: 'mcp_ui', view: { module: './TaskBoard' } },
+    { ...createTask, remote: 'mcp_ui', view: { module: './TaskBoard' } },
+    { ...updateTask, remote: 'mcp_ui', view: { module: './TaskBoard' } },
     defineTool({
       name: 'greet',
       description: 'Greet someone.',
