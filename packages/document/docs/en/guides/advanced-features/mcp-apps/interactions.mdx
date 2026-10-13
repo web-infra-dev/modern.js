@@ -17,7 +17,7 @@ Receive `mcpApp` through component props and import its type with `import type {
 
 ## callServerTool: call a business tool
 
-Use a tool name from `api/mcp_apps.ts` and arguments matching its `inputSchema`. The host forwards the call to the MCP server; the card does not need a `/mcp` URL. This component works in both UI modes:
+Use a tool name from `mcp_apps.ts` and arguments matching its `inputSchema`. The host forwards the call to the MCP server; the card does not need a `/mcp` URL. This component works in both UI modes:
 
 ```tsx title="src/components/Sum.tsx"
 import type { App } from '@modern-js/mcp-apps/react';

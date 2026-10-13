@@ -7,8 +7,8 @@ Import configuration helpers from `@modern-js/mcp-apps/config`.
 `remotes` to `[]`, and preserves the tool definitions. It rejects empty identity
 fields and does not start a listener. `viewDefaults` applies only to tools with a view.
 
-Use `defineTool({ name, inputSchema, handler })` to infer handler arguments from
-JSON Schema. Required/optional fields, primitives, enums, arrays, nested objects,
+Inline tools in `defineMcpServer` infer handler arguments from inputSchema. Use
+`defineTool({ name, inputSchema, handler })` for standalone tool definitions. Required/optional fields, primitives, enums, arrays, nested objects,
 `const`, `anyOf`, and `oneOf` are supported; unsupported forms remain `unknown`.
 Handlers may return a result or a Promise. The executor validates input before
 calling the handler, and optionally validates `structuredContent` against `outputSchema`.
@@ -16,13 +16,13 @@ calling the handler, and optionally validates `structuredContent` against `outpu
 structured output types; this does not automatically type client SDK calls.
 Zod schemas are not currently accepted by this helper.
 
-Mount BFF routes with `mcpServer(definition, options)` from
+The plugin registers `/mcp` automatically. Set `endpoint: false` before mounting manual BFF routes with `mcpServer(definition, options)` from
 `@modern-js/plugin-mcp-apps/bff`. The definition supplies the server identity;
 explicit endpoint `serverInfo` takes precedence. `allowedOrigins` and `onError`
 remain endpoint options. The separate Hono adapter remains `mcpApps({ definition })`.
 
 `defineMcpApps` and BFF `mcpApps` remain available for compatibility. A plain
-`RemoteToolHandler` still receives `unknown`; use `defineTool` for inferred arguments.
+`RemoteToolHandler` still receives `unknown`; use inline tools or `defineTool` for inferred arguments.
 
 The following public types describe the definition, handler context, and result:
 
@@ -78,7 +78,7 @@ export interface ToolConfig {
   title?: string;
   /** Description of the tool’s purpose to help the model select it. */
   description?: string;
-  /** Input JSON Schema; defineTool infers supported forms. */
+  /** Input JSON Schema or property shorthand; configuration helpers infer supported forms. */
   inputSchema?: JsonSchema;
   /** JSON Schema for business structuredContent, validated before UI data is added. */
   outputSchema?: JsonSchema;
@@ -191,7 +191,7 @@ export type RemoteToolHandler = (
 When using these types:
 
 - `name`, `version`, and `tools` are required by `defineMcpServer`; `remotes` is optional and defaults to `[]`. The server requires at least one tool, and each tool must define a `handler` or `view`.
-- Prefer ordinary imports of tools created with `defineTool` so BFF can track dependencies. `McpAppsHandlerConfig` supports loading handlers from local modules.
+- Inline simple tools in `tools`; when splitting files, import tools created with `defineTool`. `McpAppsHandlerConfig` supports loading handlers from local modules.
 - `view.exportName` defaults to `default`, and `view.renderMode` defaults to `component`. Local component entries only support `component`. Top-level `module`, `exportName`, and `renderMode` are compatibility fields; use `view` for new definitions.
 - `outputSchema` validates the handler's business `structuredContent`. Tools with views attach UI data after validation, so they do not advertise that schema in the tool list.
 - `visibility` defaults to `['model', 'app']`. It controls visibility to the model and card and does not replace server authorization. `annotations` provides tool behavior hints.
@@ -201,9 +201,11 @@ When using these types:
 
 | Option | Default | Purpose |
 | --- | --- | --- |
-| `config` | `api/mcp_apps.ts` | Definition relative to the project root |
+| `config` | `mcp_apps.ts` | Definition relative to the project root |
+| `endpoint` | `/mcp` | Full route path independent of the BFF prefix; `false` disables automatic registration |
 
-Development watches definition and handler dependencies. Successful builds switch
-the active handler; invalid edits retain the last working version. Normal pages
-remain independent; MCP itself is a BFF API route. Authentication should precede BFF;
-handler `context.context` is the request-local Hono Context.
+Development watches the definition file and reloads it after changes; production reads the compiled definition. Automatic routes must not conflict with existing BFF paths. Authentication middleware should run before BFF; handler `context.context` is the request-local Hono Context.
+
+For MF remote tools, the plugin also adds CORS headers and OPTIONS handling for public `/static/*` assets. This policy does not apply to `/mcp`.
+
+`inputSchema` accepts standard JSON Schema or property shorthand. Shorthand fields are required by default; `optional: true` marks optional fields, and extra properties are rejected. Use full JSON Schema for nested objects and fields named after schema keywords. See [Define tools and views](./configuration).

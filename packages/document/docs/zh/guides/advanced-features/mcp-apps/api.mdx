@@ -7,19 +7,19 @@
 保留工具定义；空名称和版本会报错。该函数不启动 HTTP listener，
 `viewDefaults` 仅作用于带 view 的工具。
 
-使用 `defineTool({ name, inputSchema, handler })` 根据 JSON Schema 推导 handler 参数。
+`defineMcpServer` 的内联 tools 自动根据 inputSchema 推导 handler 参数。独立定义工具时可使用 `defineTool({ name, inputSchema, handler })`。
 支持必填/可选字段、基础类型、枚举、数组、嵌套对象、`const`、`anyOf` 和 `oneOf`，
 未支持的形式保留为 `unknown`。handler 可以同步返回结果或返回 Promise。
 执行器在调用 handler 前校验输入，并可通过 `outputSchema` 校验 `structuredContent`。
 `InferToolInput<typeof tool>`、`InferToolOutput<typeof tool>` 分别提供输入和结构化输出类型；
 这些类型不会自动接入客户端 SDK 调用。当前辅助函数不接受 Zod schema。
 
-BFF 路由从 `@modern-js/plugin-mcp-apps/bff` 导入 `mcpServer(definition, options)`。
+默认由 `mcpAppsPlugin()` 自动注册 `/mcp`。手写路由时设置 `endpoint: false`，从 `@modern-js/plugin-mcp-apps/bff` 导入 `mcpServer(definition, options)`。
 服务定义提供名称和版本，入口显式设置的 `serverInfo` 优先；`allowedOrigins`、`onError`
 仍属于入口配置。独立 Hono 适配器保持使用 `mcpApps({ definition })`。
 
 旧入口 `defineMcpApps` 和 BFF `mcpApps` 保留兼容。直接使用 `RemoteToolHandler` 时
-输入仍为 `unknown`；需要类型推导时使用 `defineTool`。
+输入仍为 `unknown`；需要类型推导时使用内联 tools 或 `defineTool`。
 
 以下公共类型描述服务定义、handler 上下文及返回值：
 
@@ -75,7 +75,7 @@ export interface ToolConfig {
   title?: string;
   /** 工具用途说明，帮助模型选择工具。 */
   description?: string;
-  /** 输入参数的 JSON Schema；defineTool 可推导支持的形式。 */
+  /** 输入参数的 JSON Schema 或属性简写；配置辅助函数可推导支持的形式。 */
   inputSchema?: JsonSchema;
   /** 业务 structuredContent 的 JSON Schema；在附加 UI 数据前校验。 */
   outputSchema?: JsonSchema;
@@ -188,7 +188,7 @@ export type RemoteToolHandler = (
 使用时注意：
 
 - `defineMcpServer` 要求 `name`、`version` 和 `tools`；`remotes` 可选，默认 `[]`。服务端要求至少一个工具，每个工具至少包含 `handler` 或 `view`。
-- 推荐通过普通 import 引入 `defineTool` 创建的工具定义，便于 BFF 追踪依赖。`McpAppsHandlerConfig` 是按本地模块加载 handler 的形式。
+- 简单工具直接内联在 `tools` 中；拆分文件时，通过普通 import 引入 `defineTool` 创建的工具。`McpAppsHandlerConfig` 是按本地模块加载 handler 的形式。
 - `view.exportName` 默认为 `default`，`view.renderMode` 默认为 `component`；本地组件入口只支持 `component`。顶层 `module`、`exportName`、`renderMode` 是兼容字段，新配置应使用 `view`。
 - `outputSchema` 校验 handler 返回的业务 `structuredContent`；带视图的工具会在校验后附加 UI 数据，因此不会在工具列表中公开该 schema。
 - `visibility` 默认是 `['model', 'app']`，控制工具对模型和卡片的可见性，不代替服务端鉴权。`annotations` 是工具行为提示。
@@ -198,8 +198,11 @@ export type RemoteToolHandler = (
 
 | 选项 | 默认值 | 用途 |
 | --- | --- | --- |
-| `config` | `api/mcp_apps.ts` | 相对项目根目录的定义文件 |
+| `config` | `mcp_apps.ts` | 相对项目根目录的定义文件 |
+| `endpoint` | `/mcp` | 独立于 BFF 前缀的完整路由路径；`false` 关闭自动注册 |
 
-开发时监听配置和 handler 的源码依赖，编译成功后切换新版本；编译失败保留上一版。
-MCP 入口是 BFF API 路由，插件负责编译和 BFF 产物绑定，不注册 HTTP 中间件。鉴权中间件应在 BFF 路由之前执行，
-handler 的 `context.context` 为当前请求的 Hono Context。
+开发时监听定义文件，更新后重新加载；生产环境读取构建后的定义。自动路由不能与已有 BFF 路径冲突。鉴权中间件应在 BFF 路由之前执行，handler 的 `context.context` 是当前请求的 Hono Context。
+
+使用 MF 远程工具时，插件额外为 `/static/*` 公共资源添加跨域响应及 OPTIONS 预检处理；该策略不应用于 `/mcp`。
+
+`inputSchema` 支持标准 JSON Schema 和属性简写。简写字段默认必填，使用 `optional: true` 标记可选；额外属性被禁止。嵌套对象及 Schema 关键字同名字段使用完整 JSON Schema，详见[定义工具与视图](./configuration)。

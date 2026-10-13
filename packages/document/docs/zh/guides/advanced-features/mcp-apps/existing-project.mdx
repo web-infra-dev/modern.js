@@ -9,33 +9,24 @@ import { bffPlugin } from '@modern-js/plugin-bff';
 import { mcpAppsPlugin } from '@modern-js/plugin-mcp-apps';
 
 export default defineConfig({
-  bff: { prefix: "/mcp" },
   plugins: [appTools(), bffPlugin(), mcpAppsPlugin()],
 });
 ```
 
-```ts title="api/lambda/index.ts"
-import { mcpServer } from '@modern-js/plugin-mcp-apps/bff';
-import definition from '../mcp_apps';
 
-export const { POST, GET, DELETE, PUT, PATCH, OPTIONS } = mcpServer(definition);
-```
 
-```ts title="api/mcp_apps.ts"
-import { defineMcpServer, defineTool } from '@modern-js/mcp-apps/config';
+```ts title="mcp_apps.ts"
+import { defineMcpServer } from '@modern-js/mcp-apps/config';
 
 export default defineMcpServer({
   name: 'greeting-server',
   version: '1.0.0',
   tools: [
-    defineTool({
+    {
       name: 'greet',
       description: 'Greet someone.',
       inputSchema: {
-        type: 'object',
-        properties: { name: { type: 'string', minLength: 1 } },
-        required: ['name'],
-        additionalProperties: false,
+        name: { type: 'string', minLength: 1 },
       },
       annotations: { readOnlyHint: true },
       handler: async ({ name }) => {
@@ -46,12 +37,12 @@ export default defineMcpServer({
           viewProps: { message },
         };
       },
-    }),
+    },
   ],
 });
 ```
 
-将 `api/mcp_apps.ts` 和 handler 目录加入 tsconfig 的 include。运行 `modern dev` 后，
+将 `mcp_apps.ts` 和 handler 目录加入 tsconfig 的 include。运行 `modern dev` 后，
 通过 MCP 客户端连接 `/mcp`。直接在浏览器地址栏访问该路由会返回 405，因为当前
 实现使用无状态 HTTP POST。
 
@@ -84,5 +75,23 @@ MF 渲染器在宿主 iframe 内加载组件，传入工具参数、handler 返�
 `viewProps` 和已连接的 `mcpApp`。组件通过 `mcpApp.callServerTool()` 调用工具，
 不应再创建第二个 useApp 连接。没有额外的 `ui-manifest.json`。
 
-已有 BFF 项目应保留原 `bff.prefix`；例如在 `/api` 前缀下添加
-`api/lambda/mcp.ts`，入口就是 `/api/mcp`。服务名称和版本通过 `defineMcpServer()` 顶层的 `name`、`version` 配置；入口的 `serverInfo` 可显式覆盖它们。
+已有 BFF 项目保留原 `bff.prefix`。自动 MCP 路由独立使用 `endpoint`，不会给它追加 BFF 前缀：
+
+```ts
+mcpAppsPlugin({ config: 'mcp_apps.ts', endpoint: '/api/mcp' })
+```
+
+默认值为根目录 `mcp_apps.ts` 和 `/mcp`。如果已有同路径 BFF 路由，插件会报冲突。
+
+### 保留手写入口
+
+需要自定义入口选项或兼容现有路由时，设置 `mcpAppsPlugin({ endpoint: false })`，再添加：
+
+```ts title="api/lambda/mcp.ts"
+import { mcpServer } from '@modern-js/plugin-mcp-apps/bff';
+import definition from '../../mcp_apps';
+
+export const { POST, GET, DELETE, PUT, PATCH, OPTIONS } = mcpServer(definition);
+```
+
+该手写路由遵循 BFF 前缀：`bff.prefix: '/api'` 时地址为 `/api/mcp`。定义中的 `name`、`version` 提供服务身份；`mcpServer` 的 `serverInfo` 可显式覆盖。

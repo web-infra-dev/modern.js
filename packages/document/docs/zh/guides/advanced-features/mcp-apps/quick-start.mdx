@@ -1,5 +1,7 @@
 # 创建项目
 
+本文对齐仓库当前实现。请使用包含根目录定义、内联工具推导、Schema 简写和自动路由的发布版本；`0.0.0-canary-20261013043838` 尚未包含这些改动。
+
 以下命令中的 `<version>` 请替换为包含 MCP Apps 模板、`@modern-js/mcp-apps` 和 `@modern-js/plugin-mcp-apps` 的 Modern.js 发布版本。
 
 ## 通过 Agent Skill 创建
@@ -41,7 +43,7 @@ pnpm install
 pnpm dev
 ```
 
-模板额外生成 `module-federation.config.ts`，暴露 `./Greeting` 和 `./Sum`；`api/mcp_apps.ts` 中的 remote 默认指向 `http://localhost:8080/static/mf-manifest.json`。`--mf` 仅适用于 `mcp-apps` 模板。
+模板额外生成 `module-federation.config.ts`，暴露 `./Greeting` 和 `./Sum`；`mcp_apps.ts` 中的 remote 默认指向 `http://localhost:8080/static/mf-manifest.json`。`--mf` 仅适用于 `mcp-apps` 模板。
 
 如果宿主通过公网地址访问应用，启动时将 `MCP_UI_ORIGIN` 设置为 UI 资源的公开 origin，让宿主能加载 manifest 和组件资源：
 
@@ -66,12 +68,12 @@ pnpm dev
 
 | 文件 | 用途 |
 | --- | --- |
-| `modern.config.ts` | 配置 BFF 路由前缀和插件；MF 模式还会启用 Module Federation |
-| `api/mcp_apps.ts` | 定义工具、输入 schema、handler 和 view 的关联 |
-| `api/lambda/index.ts` | 声明 `/mcp` 的 BFF 路由 |
+| `modern.config.ts` | 配置 MCP endpoint 和插件；MF 模式还会启用 Module Federation |
+| `mcp_apps.ts` | 定义工具、输入 schema、handler 和 view 的关联 |
 | `src/components/` | React 卡片，仅 UI 模板包含 |
 | `module-federation.config.ts` | 远程组件 exposes，仅 MF 模式包含 |
-| `scripts/verify-mcp.mjs` | 验证 MCP 工具和 UI 资源响应 |
+
+MCP Apps 的两种 UI 模板均使用根目录 `mcp_apps.ts`，无需 API 目录。MF 模板额外启用 MF 插件、exposes 和远程视图引用；公共 `/static/*` 资源跨域由 MCP Apps 插件处理，无需 `modern.server.ts`。纯 `mcp-server` 模板目前仍使用 `api/mcp_apps.ts` 和 `api/lambda/index.ts`，并显式设置 `config: 'api/mcp_apps.ts'`、`endpoint: false`。
 
 ## 启动后的地址
 
@@ -93,7 +95,7 @@ Network:
 | `http://localhost:8080/` | 模板的普通应用首页，显示项目介绍和 `/mcp` 提示 | 浏览器打开后应看到 `Modern.js MCP App`；这里只验证应用页面可访问 |
 | `http://localhost:8080/mcp-ui-231bf89d7268` | `greet` 的卡片页面入口 | 浏览器或 `curl` 可以检查 HTML 是否可访问；完整卡片交互需在 MCP Apps 宿主中验证 |
 | `http://localhost:8080/mcp-ui-d10356c179bf` | `add_numbers` 的卡片页面入口 | 与上一入口相同，用于加法工具的卡片 |
-| `http://localhost:8080/mcp` | MCP 协议接口，供客户端发现和调用工具、读取卡片资源 | 使用 `pnpm verify:mcp` 或 MCP 客户端；在宿主的 MCP 服务配置中填写此地址 |
+| `http://localhost:8080/mcp` | MCP 协议接口，供客户端发现和调用工具、读取卡片资源 | 使用 MCP 客户端；在宿主的 MCP 服务配置中填写此地址 |
 
 `mcp-ui-*` 由工具名称生成，只为应用内组件视图创建。它们需要与宿主建立连接并接收工具输入和结果；直接作为普通网页打开时，可能显示 `Connecting…` 或宿主连接错误。HTTP 200 只说明页面可访问，不代表工具调用和卡片交互已通过验证。
 
@@ -106,21 +108,15 @@ MF 模板通过远程组件渲染卡片，不生成上述应用内组件入口�
 
 MF 资源使用 `MCP_UI_ORIGIN` 配置的公开地址时，请使用该 origin 验证上述资源。MCP Server 模板只提供协议服务，没有首页、卡片入口或 MF 资源。
 
-协议响应中还会出现 `ui://local/greet`、`ui://local/add_numbers` 或 MF 模式的 `ui://mf/mcp-ui`。它们是 MCP 资源标识，不是浏览器网址。宿主通过 `/mcp` 的 `resources/read` 读取对应 HTML；下面的验证脚本会自动读取工具声明的 UI 资源。
+协议响应中还会出现 `ui://local/greet`、`ui://local/add_numbers` 或 MF 模式的 `ui://mf/mcp-ui`。它们是 MCP 资源标识，不是浏览器网址。宿主通过 `/mcp` 的 `resources/read` 读取对应 HTML。
 
 ## 连接与验证
 
 ### 1. 验证 MCP 协议和工具
 
-保持开发服务运行，在另一个终端执行：
+使用 MCP 客户端连接 `http://localhost:8080/mcp`，检查 `tools/list`，调用 `greet`（参数 `{ "name": "Modern.js" }`）和 `add_numbers`（参数 `{ "a": 2, "b": 3 }`），确认结果分别包含 `Hello, Modern.js!` 和 `5`。对于 UI 工具，读取工具元数据中的资源 URI，验证 `resources/read` 返回 HTML。
 
-```bash
-pnpm verify:mcp http://localhost:8080/mcp
-```
-
-脚本使用 MCP `2026-07-28` 检查服务发现、工具列表、两个工具的调用结果，以及 UI 模板的资源读取。直接在浏览器地址栏访问 `/mcp` 返回 405 是预期行为，当前协议使用 HTTP POST。
-
-脚本成功时会输出 `PASS`，包括问候结果 `Hello, Modern.js!`、加法结果 `5`，以及已声明卡片资源的读取检查。脚本不会在浏览器执行卡片 JavaScript，也不会验证 MF 组件实际加载。修改模板工具后，应同步调整脚本中的工具名称、参数和结果断言。
+模板不再附带验证脚本。浏览器地址栏 GET `/mcp` 返回 405 是预期行为，当前服务使用 HTTP POST。协议验证不等同于宿主内的卡片渲染和交互验证。
 
 ### 2. 在 Agent 宿主中调试
 
@@ -132,8 +128,8 @@ pnpm verify:mcp http://localhost:8080/mcp
 
 公开 `/mcp` 的同时，卡片依赖的 HTML、JS/CSS 和 MF 资源也必须可访问。MF 模板需将 `MCP_UI_ORIGIN` 设置为公开资源 origin 后重新启动，例如 `MCP_UI_ORIGIN=https://your-public-host.example.com pnpm dev`；应用内组件使用单独的静态资源域名时，应配置 `dev.assetPrefix`，生产构建使用 `output.assetPrefix`。资源域名变化时同步更新对应的 CSP，详见[构建与部署](./deployment)。
 
-可以先执行 `pnpm verify:mcp https://<公开域名>/mcp` 检查公网协议接口，再进行宿主交互验证。协议脚本不会验证宿主内的 JavaScript 执行和组件加载。纯 MCP Server 项目只需验证工具调用和结果，无须验证卡片。
+使用 MCP 客户端检查公网 `/mcp`，再验证宿主内的卡片加载和交互。纯 MCP Server 项目只需检查工具调用和结果。
 
-在源码仓库中验证尚未发布的实现，可先构建 `@modern-js/mcp-apps` 和 `@modern-js/plugin-mcp-apps`，再运行 `pnpm --filter @examples/mcp-apps-modern dev` 体验应用内组件卡片示例。
+在源码仓库中验证尚未发布的实现，可先构建 `@modern-js/mcp-apps` 和 `@modern-js/plugin-mcp-apps`，再运行 `pnpm --filter my-mcp-app-v2 dev` 体验应用内组件卡片示例。
 
 生成的定义使用 `defineMcpServer`，`name`、`version` 读取项目 `package.json`。本地视图和纯工具省略 `remotes`，MF 工具显式配置远程资源。handler 支持同步或异步返回，`view` 可选。详见[定义工具与视图](./configuration)。

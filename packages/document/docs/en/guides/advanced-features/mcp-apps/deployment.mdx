@@ -1,6 +1,6 @@
 # Build and deploy
 
-`modern build` emits the definition and imported handlers to `dist/api/` through BFF.
+`modern build` uses the MCP Apps plugin and server compiler to emit the root definition as `dist/mcp_apps.js`, preserving relative paths for imported handlers. `.mts` and `.cts` definitions emit `.mjs` and `.cjs` respectively.
 UI HTML is in `dist/mcp-apps/ui/`. `modern serve` uses those artifacts. `modern deploy` produces a
 relocatable `.output/` that runs with `node .output/index.js`, without source code.
 
@@ -19,7 +19,7 @@ yet. Standard MF is verified; target product hosts require their own compatibili
 
 ## Standalone Hono deployment
 
-The complete `dist/mcp-apps/` directory can be moved to an independent Hono app:
+Deploy the compiled definition, its imported handlers, `dist/mcp-apps/` resources and application static assets with an independent Hono app:
 
 ```ts
 import { Hono } from 'hono';
@@ -29,10 +29,13 @@ app.all('/mcp', mcpApps({ definition })); // import the application-built defini
 ```
 
 The adapter does not start a listener; add authentication middleware in the app.
-Modern.js uses the same adapter. An optional local `view.html` HTTPS URL lets the
+Modern.js automatically mounts the MCP endpoint through BFF. An optional local `view.html` HTTPS URL lets the
 server read independently hosted HTML; use `view.csp` for its network permissions.
 `MCP_UI_ORIGIN` and MF manifest checks apply only to MF-enabled projects.
 
 Include `ts-node` (`^10.9.2`) in devDependencies for BFF TypeScript loading and
 API module hot reload on Node 20+. For ESM projects, use `"type": "module"` and
 TypeScript `module: "esnext"`, `moduleResolution: "bundler"` together.
+
+
+The MF template no longer generates `server/modern.server.ts`. For remote tools, the plugin handles CORS and OPTIONS preflight for public `/static/*` assets served by this application, without applying that policy to `/mcp`. Configure CORS on the CDN when hosting manifests and chunks separately.

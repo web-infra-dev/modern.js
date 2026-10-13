@@ -9,32 +9,25 @@ import { appTools, defineConfig } from '@modern-js/app-tools';
 import { bffPlugin } from '@modern-js/plugin-bff';
 import { mcpAppsPlugin } from '@modern-js/plugin-mcp-apps';
 
-export default defineConfig({ bff: { prefix: "/mcp" },
-  plugins: [appTools(), bffPlugin(), mcpAppsPlugin()] });
+export default defineConfig({
+  plugins: [appTools(), bffPlugin(), mcpAppsPlugin()],
+});
 ```
 
-```ts title="api/lambda/index.ts"
-import { mcpServer } from '@modern-js/plugin-mcp-apps/bff';
-import definition from '../mcp_apps';
 
-export const { POST, GET, DELETE, PUT, PATCH, OPTIONS } = mcpServer(definition);
-```
 
-```ts title="api/mcp_apps.ts"
-import { defineMcpServer, defineTool } from '@modern-js/mcp-apps/config';
+```ts title="mcp_apps.ts"
+import { defineMcpServer } from '@modern-js/mcp-apps/config';
 
 export default defineMcpServer({
   name: 'greeting-server',
   version: '1.0.0',
   tools: [
-    defineTool({
+    {
       name: 'greet',
       description: 'Greet someone.',
       inputSchema: {
-        type: 'object',
-        properties: { name: { type: 'string', minLength: 1 } },
-        required: ['name'],
-        additionalProperties: false,
+        name: { type: 'string', minLength: 1 },
       },
       annotations: { readOnlyHint: true },
       handler: async ({ name }) => {
@@ -45,7 +38,7 @@ export default defineMcpServer({
           viewProps: { message },
         };
       },
-    }),
+    },
   ],
 });
 ```
@@ -86,5 +79,23 @@ tool arguments, handler `viewProps`, and the connected `mcpApp`. Use
 `mcpApp.callServerTool()` for interactions; do not create a second useApp connection.
 No additional UI-manifest format is introduced.
 
-Keep the original prefix in an existing BFF application: for example,
-`api/lambda/mcp.ts` under `/api` produces `/api/mcp`. Set the server identity with top-level `name` and `version` in `defineMcpServer()`. Endpoint `serverInfo` remains available as an explicit override.
+Keep the existing `bff.prefix`. The automatic MCP route uses `endpoint` directly, without adding the BFF prefix:
+
+```ts
+mcpAppsPlugin({ config: 'mcp_apps.ts', endpoint: '/api/mcp' })
+```
+
+The defaults are root `mcp_apps.ts` and `/mcp`. An existing BFF route at the same path causes a conflict error.
+
+### Keep a manual entry
+
+For custom endpoint options or an existing manual route, set `mcpAppsPlugin({ endpoint: false })`, then add:
+
+```ts title="api/lambda/mcp.ts"
+import { mcpServer } from '@modern-js/plugin-mcp-apps/bff';
+import definition from '../../mcp_apps';
+
+export const { POST, GET, DELETE, PUT, PATCH, OPTIONS } = mcpServer(definition);
+```
+
+This manual route follows the BFF prefix: `bff.prefix: '/api'` produces `/api/mcp`. Definition `name` and `version` provide server identity; `mcpServer` can override it with `serverInfo`.
