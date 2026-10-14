@@ -34,7 +34,11 @@ export class ServerBase<E extends Env = any> {
     this.serverOptions = options;
 
     this.app = new Hono<E>();
-    this.app.use('*', run);
+    this.app.use('*', async (context, next) => {
+      // Hono's next() resolves to a Context. Only responses may be returned
+      // from middleware, so do not forward the storage callback's result.
+      await run(context, next);
+    });
   }
 
   /**
