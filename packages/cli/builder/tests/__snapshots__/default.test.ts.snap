@@ -63,6 +63,7 @@ exports[`builder rspack > should generator rspack config correctly 1`] = `
                 "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/core/dist/cssUrlLoader.mjs",
                 "options": {
                   "filename": "static/css/[name].css",
+                  "minimized": false,
                   "modules": {
                     "auto": true,
                     "exportGlobals": false,
@@ -617,6 +618,7 @@ exports[`builder rspack > should generator rspack config correctly 1`] = `
                 "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/core/dist/cssUrlLoader.mjs",
                 "options": {
                   "filename": "static/css/[name].css",
+                  "minimized": false,
                   "modules": {
                     "auto": true,
                     "exportGlobals": false,
@@ -918,6 +920,7 @@ exports[`builder rspack > should generator rspack config correctly 1`] = `
                 "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/core/dist/cssUrlLoader.mjs",
                 "options": {
                   "filename": "static/css/[name].css",
+                  "minimized": false,
                   "modules": {
                     "auto": true,
                     "exportGlobals": false,
@@ -1663,6 +1666,7 @@ exports[`builder rspack > should generator rspack config correctly when node 1`]
                 "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/core/dist/cssUrlLoader.mjs",
                 "options": {
                   "filename": "[name].[contenthash:10].css",
+                  "minimized": false,
                   "modules": {
                     "auto": true,
                     "exportGlobals": false,
@@ -2077,6 +2081,7 @@ exports[`builder rspack > should generator rspack config correctly when node 1`]
                 "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/core/dist/cssUrlLoader.mjs",
                 "options": {
                   "filename": "[name].[contenthash:10].css",
+                  "minimized": false,
                   "modules": {
                     "auto": true,
                     "exportGlobals": false,
@@ -2237,6 +2242,7 @@ exports[`builder rspack > should generator rspack config correctly when node 1`]
                 "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/core/dist/cssUrlLoader.mjs",
                 "options": {
                   "filename": "[name].[contenthash:10].css",
+                  "minimized": false,
                   "modules": {
                     "auto": true,
                     "exportGlobals": false,
@@ -2718,6 +2724,7 @@ exports[`builder rspack > should generator rspack config correctly when prod 1`]
                 "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/core/dist/cssUrlLoader.mjs",
                 "options": {
                   "filename": "static/css/[name].[contenthash:10].css",
+                  "minimized": false,
                   "modules": {
                     "auto": true,
                     "exportGlobals": false,
@@ -3271,6 +3278,7 @@ exports[`builder rspack > should generator rspack config correctly when prod 1`]
                 "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/core/dist/cssUrlLoader.mjs",
                 "options": {
                   "filename": "static/css/[name].[contenthash:10].css",
+                  "minimized": false,
                   "modules": {
                     "auto": true,
                     "exportGlobals": false,
@@ -3572,6 +3580,7 @@ exports[`builder rspack > should generator rspack config correctly when prod 1`]
                 "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/core/dist/cssUrlLoader.mjs",
                 "options": {
                   "filename": "static/css/[name].[contenthash:10].css",
+                  "minimized": false,
                   "modules": {
                     "auto": true,
                     "exportGlobals": false,
@@ -4306,6 +4315,7 @@ exports[`builder rspack > should generator rspack config correctly when service-
                 "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/core/dist/cssUrlLoader.mjs",
                 "options": {
                   "filename": "[name].[contenthash:10].css",
+                  "minimized": false,
                   "modules": {
                     "auto": true,
                     "exportGlobals": false,
@@ -4700,6 +4710,7 @@ exports[`builder rspack > should generator rspack config correctly when service-
                 "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/core/dist/cssUrlLoader.mjs",
                 "options": {
                   "filename": "[name].[contenthash:10].css",
+                  "minimized": false,
                   "modules": {
                     "auto": true,
                     "exportGlobals": false,
@@ -4860,6 +4871,7 @@ exports[`builder rspack > should generator rspack config correctly when service-
                 "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/core/dist/cssUrlLoader.mjs",
                 "options": {
                   "filename": "[name].[contenthash:10].css",
+                  "minimized": false,
                   "modules": {
                     "auto": true,
                     "exportGlobals": false,

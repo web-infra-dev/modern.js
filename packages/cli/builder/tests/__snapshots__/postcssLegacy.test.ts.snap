@@ -23,6 +23,7 @@ exports[`lightningcss-loader > should register lightningcss-loader and disable p
             "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/core/dist/cssUrlLoader.mjs",
             "options": {
               "filename": "static/css/[name].css",
+              "minimized": false,
               "modules": {
                 "auto": true,
                 "exportGlobals": false,
@@ -155,6 +156,7 @@ exports[`lightningcss-loader > should register lightningcss-loader and postcss-l
             "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/core/dist/cssUrlLoader.mjs",
             "options": {
               "filename": "static/css/[name].css",
+              "minimized": false,
               "modules": {
                 "auto": true,
                 "exportGlobals": false,
@@ -335,6 +337,7 @@ exports[`plugin-postcssLegacy > should allow tools.postcss to override the plugi
             "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/core/dist/cssUrlLoader.mjs",
             "options": {
               "filename": "static/css/[name].css",
+              "minimized": false,
               "modules": {
                 "auto": true,
                 "exportGlobals": false,
@@ -470,6 +473,7 @@ exports[`plugin-postcssLegacy > should allow tools.postcss to override the plugi
             "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/core/dist/cssUrlLoader.mjs",
             "options": {
               "filename": "static/css/[name].css",
+              "minimized": false,
               "modules": {
                 "auto": true,
                 "exportGlobals": false,
@@ -671,6 +675,7 @@ exports[`plugin-postcssLegacy > should allow tools.postcss to override the plugi
             "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/core/dist/cssUrlLoader.mjs",
             "options": {
               "filename": "static/css/[name].css",
+              "minimized": false,
               "modules": {
                 "auto": true,
                 "exportGlobals": false,
@@ -854,6 +859,7 @@ exports[`plugin-postcssLegacy > should register postcss plugin by browserslist 1
             "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/core/dist/cssUrlLoader.mjs",
             "options": {
               "filename": "static/css/[name].css",
+              "minimized": false,
               "modules": {
                 "auto": true,
                 "exportGlobals": false,
@@ -1064,6 +1070,7 @@ exports[`plugin-postcssLegacy > should register postcss plugin by browserslist 2
             "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/core/dist/cssUrlLoader.mjs",
             "options": {
               "filename": "static/css/[name].css",
+              "minimized": false,
               "modules": {
                 "auto": true,
                 "exportGlobals": false,
@@ -1340,6 +1347,7 @@ exports[`plugin-postcssLegacy > should register postcss plugin by browserslist 3
             "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/core/dist/cssUrlLoader.mjs",
             "options": {
               "filename": "static/css/[name].css",
+              "minimized": false,
               "modules": {
                 "auto": true,
                 "exportGlobals": false,
@@ -1598,6 +1606,7 @@ exports[`plugin-postcssLegacy > should register postcss plugin correctly when in
             "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/core/dist/cssUrlLoader.mjs",
             "options": {
               "filename": "static/css/[name].css",
+              "minimized": false,
               "modules": {
                 "auto": true,
                 "exportGlobals": false,
@@ -1847,6 +1856,7 @@ exports[`plugin-postcssLegacy > should register postcss plugin correctly when in
             "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/core/dist/cssUrlLoader.mjs",
             "options": {
               "filename": "static/css/[name].[contenthash:10].css",
+              "minimized": false,
               "modules": {
                 "auto": true,
                 "exportGlobals": false,
