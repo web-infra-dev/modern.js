@@ -18,7 +18,6 @@ tests/
 !.vscode/extensions.json
 .idea/
 
-jest.config.js
 .eslintrc.js
 .eslintrc
 tsconfig.json

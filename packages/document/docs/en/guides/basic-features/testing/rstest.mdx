@@ -84,9 +84,9 @@ test('Page', async () => {
     </Router>,
   );
 
-  await expect.element(
-    page.getByRole('heading', { level: 1, name: 'Home' }),
-  ).toBeVisible();
+  await expect
+    .element(page.getByRole('heading', { level: 1, name: 'Home' }))
+    .toBeVisible();
 });
 ```
 
@@ -181,12 +181,14 @@ First install and use the migrate-to-rstest skill. If it is not installed, insta
 npx skills add rstackjs/agent-skills --skill migrate-to-rstest
 
 Follow the migrate-to-rstest skill instructions and the official Rstest migration guides:
+
 - Jest: https://rstest.rs/guide/migration/jest
 - Vitest: https://rstest.rs/guide/migration/vitest
 
 Modern.js-specific requirement:
+
 - Install and use @modern-js/adapter-rstest together with @rstest/core.
 - Create or update rstest.config.ts to import withModernConfig from @modern-js/adapter-rstest.
 - Reuse the Modern.js app configuration with extends: withModernConfig().
 - Do not replace this with a plain Rstest config unless the project explicitly does not need Modern.js config integration.`}
-/>
+  />

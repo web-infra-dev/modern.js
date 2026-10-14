@@ -1,0 +1,6 @@
+#!/usr/bin/env sh
+
+# Skip hooks in CI.
+[ -n "$CI" ] && exit 0
+
+commitlint --edit "$1"

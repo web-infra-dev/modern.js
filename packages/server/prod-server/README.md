@@ -26,5 +26,4 @@ Enable optional features:
 pnpm run new
 ```
 
-
 For more information, see the [Modern.js Module documentation](https://modernjs.dev/module-tools/en).

@@ -2,8 +2,10 @@ import type { BuilderConfig } from '@modern-js/builder';
 import type { SSGConfig, SSGMultiEntryOptions } from '@modern-js/types';
 import type { UnwrapBuilderConfig } from '../utils';
 
-export interface OutputUserConfig
-  extends UnwrapBuilderConfig<BuilderConfig, 'output'> {
+export interface OutputUserConfig extends UnwrapBuilderConfig<
+  BuilderConfig,
+  'output'
+> {
   /**
    * Enable SSG for self-controlled routing or conventional routing.
    * @default false

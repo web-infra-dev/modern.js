@@ -10,8 +10,7 @@ import { Link } from '../../src/router';
 
 declare global {
   var __webpack_chunk_load_test__:
-    | ((chunkId: string) => Promise<void>)
-    | undefined;
+    ((chunkId: string) => Promise<void>) | undefined;
   var _SSR_DATA: unknown;
 }
 

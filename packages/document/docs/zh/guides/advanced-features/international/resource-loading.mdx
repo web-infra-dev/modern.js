@@ -1,21 +1,23 @@
 ---
 title: 资源加载
 ---
+
 # 资源加载
 
 翻译文件的加载方式取决于你的翻译资源放在哪里：
 
-| 场景 | 加载方式 |
-| --- | --- |
-| 翻译文件放在项目本地 | 静态文件后端（本篇默认方式） |
-| 翻译来自远程 API、翻译平台 | 自定义后端 |
-| 两者都要：本地兜底 + 远程实时更新 | 链式后端 |
+| 场景                              | 加载方式                     |
+| --------------------------------- | ---------------------------- |
+| 翻译文件放在项目本地              | 静态文件后端（本篇默认方式） |
+| 翻译来自远程 API、翻译平台        | 自定义后端                   |
+| 两者都要：本地兜底 + 远程实时更新 | 链式后端                     |
 
 ## 静态文件后端
 
 把翻译文件放在项目里，插件直接加载。这是最常见的方式。
 
 **CSR 和 SSR 的加载机制不同，但配置完全一样：**
+
 - CSR：浏览器通过 HTTP 请求拉取翻译文件（如 `GET /locales/zh/translation.json`）
 - SSR：服务端直接从磁盘读取文件，不走 HTTP
 
@@ -100,11 +102,11 @@ export default defineRuntimeConfig({
 
 ```ts
 interface I18nSdkLoadOptions {
-  lng?: string;      // 单个语言代码
-  ns?: string;       // 单个命名空间
-  lngs?: string[];   // 多个语言代码
-  nss?: string[];    // 多个命名空间
-  all?: boolean;     // 加载所有资源
+  lng?: string; // 单个语言代码
+  ns?: string; // 单个命名空间
+  lngs?: string[]; // 多个语言代码
+  nss?: string[]; // 多个命名空间
+  all?: boolean; // 加载所有资源
 }
 ```
 
@@ -122,7 +124,7 @@ interface I18nSdkLoadOptions {
 i18nPlugin({
   backend: {
     loadPath: '/locales/{{lng}}/{{ns}}.json', // 本地文件，快速显示
-    sdk: true,                                 // 远程加载，异步更新
+    sdk: true, // 远程加载，异步更新
   },
 });
 ```
@@ -135,7 +137,9 @@ export default defineRuntimeConfig({
       backend: {
         sdk: async options => {
           if (options.lng && options.ns) {
-            const res = await fetch(`https://api.example.com/i18n/${options.lng}/${options.ns}`);
+            const res = await fetch(
+              `https://api.example.com/i18n/${options.lng}/${options.ns}`,
+            );
             return { [options.lng]: { [options.ns]: await res.json() } };
           }
           return {};
@@ -148,8 +152,8 @@ export default defineRuntimeConfig({
 
 **`cacheHitMode` 选项**（控制两个后端之间的协作方式）：
 
-| 值 | 行为 |
-| --- | --- |
-| `'none'` | 本地文件加载成功后直接使用，不再请求自定义后端 |
-| `'refresh'` | 继续请求自定义后端并更新缓存，但不更新当前页面 |
+| 值                        | 行为                                                   |
+| ------------------------- | ------------------------------------------------------ |
+| `'none'`                  | 本地文件加载成功后直接使用，不再请求自定义后端         |
+| `'refresh'`               | 继续请求自定义后端并更新缓存，但不更新当前页面         |
 | `'refreshAndUpdateStore'` | 继续请求自定义后端，更新缓存并同步刷新页面文案（默认） |

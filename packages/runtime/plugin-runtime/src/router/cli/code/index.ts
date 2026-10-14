@@ -69,9 +69,8 @@ export async function generateRoutesForEntry(
   const fileRoutes: NestedRouteForCli[] =
     routes.length > 0 ? (Array.isArray(routes) ? routes : [routes]) : [];
 
-  const { discoverAndParseConfigRoutes } = await import(
-    '../config-routes/parseRouteConfig'
-  );
+  const { discoverAndParseConfigRoutes } =
+    await import('../config-routes/parseRouteConfig');
 
   const configRoutesData = await discoverAndParseConfigRoutes(
     entrypoint,
@@ -177,9 +176,8 @@ export const generateCode = async (
         );
 
         // Remove component fields from generated routes
-        const { normalizeRoutes: removeComponentFields } = await import(
-          '../config-routes/converter'
-        );
+        const { normalizeRoutes: removeComponentFields } =
+          await import('../config-routes/converter');
         const normalizedRoutes = removeComponentFields(generatedRoutes);
 
         // Add all routes to initialRoutes

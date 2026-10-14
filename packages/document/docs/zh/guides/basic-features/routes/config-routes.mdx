@@ -6,7 +6,6 @@ sidebar_position: 3
 
 默认情况下，Modern.js 推荐使用 [约定式路由](./routes.mdx) 作为路由定义的方式。同时，Modern.js 也提供了一个配置式路由的能力，其可以和约定式路由一起使用，或两者分别单独使用。
 
-
 ## 何时使用配置式路由
 
 配置式路由在以下场景中特别有用：
@@ -22,26 +21,25 @@ sidebar_position: 3
 在 `src` 或每个入口目录下，你可以定义一个 `modern.routes.ts` 文件，通过该文件，你可以对路由进行配置：
 
 ```ts
-import { defineRoutes } from '@modern-js/runtime/config-routes'
+import { defineRoutes } from '@modern-js/runtime/config-routes';
 
 export default defineRoutes(({ route, layout, page, $ }, fileRoutes) => {
-  return [
-    route("home.tsx", "/"),
-  ]
-})
+  return [route('home.tsx', '/')];
+});
 ```
 
 ### 函数签名说明
 
 `defineRoutes` 接受一个回调函数，该回调函数有两个参数：
+
 1. `routeFunctions`：包含 `route`、`layout`、`page`、`$` 函数的对象
 2. `fileRoutes`：约定式路由生成的路由配置数组
 
 路由函数的基本签名：
+
 - 第一个参数：相对于 `modern.routes.ts` 的文件路径
 - 第二个参数：路由路径（可选，必须是字符串）
 - 第三个参数：子路由数组（可选）
-
 
 ## 路由函数
 
@@ -50,13 +48,13 @@ Modern.js 提供了四个主要的路由配置函数：
 :::tip 路径说明
 
 所有路由函数的第一个参数（路径）都是**相对路径**，会与父级路径拼接生成最终的路由路径：
+
 - **根路径**：`"/"` 或 "" 表示当前层级的根路径
 - **相对路径**：子路由的路径会相对于父级路径进行拼接
 - **动态路径**：使用 `:param` 语法表示动态参数
 - **通配路径**：使用 `"*"` 语法匹配所有路径
 
 :::
-
 
 :::info
 
@@ -73,27 +71,28 @@ Modern.js 提供了四个主要的路由配置函数：
 export default defineRoutes(({ route }, fileRoutes) => {
   return [
     // 无子路由时，自动生成页面路由
-    route("home.tsx", "/"),
-    route("about.tsx", "about"),
+    route('home.tsx', '/'),
+    route('about.tsx', 'about'),
 
     // 有子路由时，自动生成布局路由
     // dashboard/layout.tsx 需要包含 <Outlet> 来渲染子路由
-    route("dashboard/layout.tsx", "dashboard", [
-      route("dashboard/overview.tsx", "overview"),  // 生成路径：/dashboard/overview
-      route("dashboard/settings.tsx", "settings"),  // 生成路径：/dashboard/settings
+    route('dashboard/layout.tsx', 'dashboard', [
+      route('dashboard/overview.tsx', 'overview'), // 生成路径：/dashboard/overview
+      route('dashboard/settings.tsx', 'settings'), // 生成路径：/dashboard/settings
     ]),
 
     // 动态路由
-    route("products/detail.tsx", "products/:id"),
+    route('products/detail.tsx', 'products/:id'),
 
     // 多路径指向同一组件
-    route("user/profile.tsx", "user"),
-    route("user/profile.tsx", "profile"),
-  ]
-})
+    route('user/profile.tsx', 'user'),
+    route('user/profile.tsx', 'profile'),
+  ];
+});
 ```
 
 **使用场景**：
+
 - 快速配置路由，无需明确指定是页面还是布局
 - 简化路由配置的复杂度
 
@@ -105,15 +104,16 @@ export default defineRoutes(({ route }, fileRoutes) => {
 export default defineRoutes(({ layout, page }, fileRoutes) => {
   return [
     // 生成布局路由，路径为 "/auth"，必须包含子路由
-    layout("auth/layout.tsx", "auth", [
-      page("auth/login/page.tsx", "login"),      // 生成路径：/auth/login
-      page("auth/register/page.tsx", "register"), // 生成路径：/auth/register
+    layout('auth/layout.tsx', 'auth', [
+      page('auth/login/page.tsx', 'login'), // 生成路径：/auth/login
+      page('auth/register/page.tsx', 'register'), // 生成路径：/auth/register
     ]),
-  ]
-})
+  ];
+});
 ```
 
 **使用场景**：
+
 - 需要明确指定某个组件为布局组件
 - 为多个页面提供共同的布局结构
 - 需要在多个路由间共享导航、侧边栏等UI组件
@@ -125,15 +125,16 @@ export default defineRoutes(({ layout, page }, fileRoutes) => {
 ```ts
 export default defineRoutes(({ layout, page }, fileRoutes) => {
   return [
-    layout("dashboard/layout.tsx", "dashboard", [
-      page("dashboard/overview.tsx", "overview"),  // 生成路径：/dashboard/overview
-      page("dashboard/settings.tsx", "settings"),  // 生成路径：/dashboard/settings
+    layout('dashboard/layout.tsx', 'dashboard', [
+      page('dashboard/overview.tsx', 'overview'), // 生成路径：/dashboard/overview
+      page('dashboard/settings.tsx', 'settings'), // 生成路径：/dashboard/settings
     ]),
-  ]
-})
+  ];
+});
 ```
 
 **使用场景**：
+
 - 需要明确指定某个组件为页面组件
 - 确保组件不包含 `<Outlet>` 子组件渲染
 - 提供更清晰的语义表达
@@ -145,16 +146,17 @@ export default defineRoutes(({ layout, page }, fileRoutes) => {
 ```ts
 export default defineRoutes(({ layout, page, $ }, fileRoutes) => {
   return [
-    layout("blog/layout.tsx", "blog", [
-      page("blog/page.tsx", ""),                    // 生成路径：/blog
-      page("blog/[id]/page.tsx", ":id"),            // 生成路径：/blog/:id
-      $("blog/$.tsx", "*"),                         // 通配路由，匹配 /blog 下的所有未匹配路径
+    layout('blog/layout.tsx', 'blog', [
+      page('blog/page.tsx', ''), // 生成路径：/blog
+      page('blog/[id]/page.tsx', ':id'), // 生成路径：/blog/:id
+      $('blog/$.tsx', '*'), // 通配路由，匹配 /blog 下的所有未匹配路径
     ]),
-  ]
-})
+  ];
+});
 ```
 
 **使用场景**：
+
 - 自定义 404 页面
 - 处理特定路径下的所有未匹配请求
 
@@ -170,11 +172,11 @@ export default defineRoutes(({ layout, page, $ }, fileRoutes) => {
 export default defineRoutes(({ page }, fileRoutes) => {
   return [
     // 使用 page 函数明确指定页面路由
-    page("home.tsx", "/"),
-    page("about.tsx", "about"),
-    page("contact.tsx", "contact"),
-  ]
-})
+    page('home.tsx', '/'),
+    page('about.tsx', 'about'),
+    page('contact.tsx', 'contact'),
+  ];
+});
 ```
 
 ### 无路径路由
@@ -186,15 +188,16 @@ export default defineRoutes(({ layout, page }, fileRoutes) => {
   return [
     // 使用 layout 函数明确指定布局路由
     // auth/layout.tsx 需要包含 <Outlet> 来渲染子路由
-    layout("auth/layout.tsx", [
-      page("login/page.tsx", "login"),
-      page("register/page.tsx", "register"),
+    layout('auth/layout.tsx', [
+      page('login/page.tsx', 'login'),
+      page('register/page.tsx', 'register'),
     ]),
-  ]
-})
+  ];
+});
 ```
 
 上述配置会生成：
+
 - `/login` → `auth/layout.tsx` + `login/page.tsx`
 - `/register` → `auth/layout.tsx` + `register/page.tsx`
 
@@ -203,11 +206,11 @@ export default defineRoutes(({ layout, page }, fileRoutes) => {
 ```ts
 export default defineRoutes(({ page }, fileRoutes) => {
   return [
-    page("user.tsx", "user"),
-    page("user.tsx", "profile"),
-    page("user.tsx", "account"),
-  ]
-})
+    page('user.tsx', 'user'),
+    page('user.tsx', 'profile'),
+    page('user.tsx', 'account'),
+  ];
+});
 ```
 
 ### 动态路由
@@ -218,12 +221,12 @@ export default defineRoutes(({ page }, fileRoutes) => {
 export default defineRoutes(({ page }, fileRoutes) => {
   return [
     // 必需参数
-    page("blog/detail.tsx", "blog/:id"),
+    page('blog/detail.tsx', 'blog/:id'),
 
     // 可选参数
-    page("blog/index.tsx", "blog/:slug?"),
-  ]
-})
+    page('blog/index.tsx', 'blog/:slug?'),
+  ];
+});
 ```
 
 ## 路由相关文件自动查找
@@ -234,10 +237,10 @@ export default defineRoutes(({ page }, fileRoutes) => {
 // modern.routes.ts
 export default defineRoutes(({ route }, fileRoutes) => {
   return [
-    route("pages/profile.tsx", "profile"),
-    route("pages/user/detail.tsx", "user/:id"),
-  ]
-})
+    route('pages/profile.tsx', 'profile'),
+    route('pages/user/detail.tsx', 'user/:id'),
+  ];
+});
 ```
 
 Modern.js 会自动查找并加载：
@@ -259,7 +262,6 @@ Modern.js 会自动查找并加载：
 
 :::
 
-
 ## 路由合并
 
 配置式路由可以与约定式路由一起使用，你可以通过修改 `fileRoutes` 参数来实现路由的合并：
@@ -273,7 +275,6 @@ Modern.js 会自动查找并加载：
 当前路由结构可以通过 [`modern routes`](#调试路由) 命令查看
 
 :::
-
 
 ### 合并示例
 
@@ -312,6 +313,7 @@ export default defineRoutes(({ page }, fileRoutes) => {
   return fileRoutes;
 });
 ```
+
 ## 调试路由
 
 由于路由合并后的最终结构可能不够直观，Modern.js 提供了调试命令来帮助你查看完整路由信息：

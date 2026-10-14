@@ -2,7 +2,7 @@
 sidebar_position: 15
 ---
 
-import { PackageManagerTabs } from '@theme'
+import { PackageManagerTabs } from '@theme';
 
 # 使用 Storybook
 
@@ -33,14 +33,14 @@ Modern.js 基于此工具实现了 `storybook-addon-modernjs`，该插件会加�
 ## 配置 `.storybook/main.ts`
 
 ```ts
-import type { StorybookConfig } from 'storybook-react-rsbuild'
+import type { StorybookConfig } from 'storybook-react-rsbuild';
 
 const config: StorybookConfig = {
   stories: ['../src/**/*.stories.@(js|jsx|mjs|ts|tsx)'],
   addons: ['storybook-addon-modernjs'],
   framework: 'storybook-react-rsbuild',
-}
-export default config
+};
+export default config;
 ```
 
 ## Storybook 中进行 BFF 一体化调用
@@ -55,7 +55,7 @@ export default config
 {
   "scripts": {
     "dev:api": "modern dev --api-only",
-    "storybook": "BFF_PROXY=1 storybook dev -p 6006 --no-open",
+    "storybook": "BFF_PROXY=1 storybook dev -p 6006 --no-open"
   }
 }
 ```

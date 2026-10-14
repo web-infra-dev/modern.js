@@ -90,23 +90,23 @@ export function Html(
   // deal with the component with default
   const hasSetHead = Boolean(
     findTargetChildByComponent(Head, children) ||
-      findTargetChildByName('Head', children),
+    findTargetChildByName('Head', children),
   );
   const hasSetScripts = Boolean(
     findTargetElementByComponent(Scripts, children) ||
-      findTargetChildByName('Scripts', children),
+    findTargetChildByName('Scripts', children),
   );
   const hasSetLinks = Boolean(
     findTargetElementByComponent(Links, children) ||
-      findTargetChildByName('Links', children),
+    findTargetChildByName('Links', children),
   );
   const hasSetBody = Boolean(
     findTargetElementByComponent(Body, children) ||
-      findTargetChildByName('Body', children),
+    findTargetChildByName('Body', children),
   );
   const hasSetRoot = Boolean(
     findTargetElementByComponent(Root, children) ||
-      findTargetChildByName('Root', children),
+    findTargetChildByName('Root', children),
   );
   const hasSetTitle = Boolean(findTargetElement('title', children));
   const notMissMustChild = [

@@ -26,9 +26,9 @@ i18nPlugin({
 
 **效果：**
 
-| 访问路径 | 结果 |
-| --- | --- |
-| `/about` | 重定向到 `/en/about` |
+| 访问路径    | 结果                  |
+| ----------- | --------------------- |
+| `/about`    | 重定向到 `/en/about`  |
 | `/en/about` | 正常访问，语言为 `en` |
 | `/zh/about` | 正常访问，语言为 `zh` |
 
@@ -108,7 +108,9 @@ function Navigation() {
     <nav>
       <I18nLink to="/">首页</I18nLink>
       <I18nLink to="/about">关于</I18nLink>
-      <I18nLink to="/contact" replace>联系</I18nLink>
+      <I18nLink to="/contact" replace>
+        联系
+      </I18nLink>
     </nav>
   );
 }

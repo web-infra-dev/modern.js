@@ -25,17 +25,35 @@ v3 不再支持在 `modern.config.ts` 配 `runtime`，必须迁到 `src/modern.r
 
 ```ts
 // v2
-html: { appIcon: './src/assets/icon.png' }
+defineConfig({
+  html: {
+    appIcon: './src/assets/icon.png',
+  },
+});
 // v3
-html: { appIcon: { icons: [{ src: './src/assets/icon.png', size: 180 }] } }
+defineConfig({
+  html: {
+    appIcon: {
+      icons: [{ src: './src/assets/icon.png', size: 180 }],
+    },
+  },
+});
 ```
 
 ## server.ssr.mode：默认 'string' → 'stream'
 
 v3 启用 SSR 时默认流式渲染。**React 17 项目需手动设回 `'string'`**：
+
 ```ts
-server: { ssr: { mode: 'string' } }
+defineConfig({
+  server: {
+    ssr: {
+      mode: 'string',
+    },
+  },
+});
 ```
+
 React 18+ 且未在 Data Loader 用 Suspense 时，保持默认 `'stream'` 渲染结果不变。
 
 ## webpack → Rspack
@@ -45,6 +63,7 @@ v3 不再支持 webpack，默认 Rspack（与 webpack 配置高度兼容）。�
 ## Tailwind（自动迁移补充）
 
 `migrate.mjs` 已移除 `@modern-js/plugin-tailwindcss` 并写 `postcss.config.cjs`。仍需人工确认：
+
 - Tailwind 配置统一进 `tailwind.config.{ts,js}`（若原本只在 `modern.config.ts` 配置）。
 - CSS 引入从 `@import 'tailwindcss/*.css'` 改为 `@tailwind base/components/utilities;`。
 

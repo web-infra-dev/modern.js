@@ -1,6 +1,7 @@
 ---
 title: RuntimeContext
 ---
+
 # RuntimeContext
 
 `RuntimeContext` is a React Context used to get Runtime context information in components. This Context can be accessed through React's `use` or `useContext` API.
@@ -19,7 +20,7 @@ import { RuntimeContext } from '@modern-js/runtime';
 
 export function App() {
   const runtimeContext = use(RuntimeContext); // You can also use useContext(RuntimeContext)
-  return <div>Hello World</div>
+  return <div>Hello World</div>;
 }
 ```
 
@@ -53,21 +54,21 @@ type TRuntimeContext = {
 ```ts
 type RequestContext = {
   request: {
-    params: Record<string, string>;      // Route parameters
-    pathname: string;                     // Pathname
-    query: Record<string, string>;        // Query parameters
-    headers: IncomingHttpHeaders;         // Request headers
-    host: string;                         // Hostname
-    url: string;                          // Full URL
-    referer?: string;                     // Referrer page
-    userAgent?: string;                   // User agent
-    cookie?: string;                      // Cookie string
-    cookieMap?: Record<string, string>;   // Cookie map object
+    params: Record<string, string>; // Route parameters
+    pathname: string; // Pathname
+    query: Record<string, string>; // Query parameters
+    headers: IncomingHttpHeaders; // Request headers
+    host: string; // Hostname
+    url: string; // Full URL
+    referer?: string; // Referrer page
+    userAgent?: string; // User agent
+    cookie?: string; // Cookie string
+    cookieMap?: Record<string, string>; // Cookie map object
   };
   response: {
-    setHeader: (key: string, value: string) => void;  // Set response header (server-side only)
-    status: (code: number) => void;                   // Set status code (server-side only)
-    locals: Record<string, any>;                      // Local data
+    setHeader: (key: string, value: string) => void; // Set response header (server-side only)
+    status: (code: number) => void; // Set status code (server-side only)
+    locals: Record<string, any>; // Local data
   };
 };
 ```
@@ -91,11 +92,11 @@ function App() {
 
   if (isBrowser === true) {
     // Browser-side execution logic
-    console.log('browser render')
+    console.log('browser render');
   } else {
     // Server-side execution logic
     // Note: Functions like logger need to be injected into context through Runtime plugins
-    console.log('server render')
+    console.log('server render');
   }
 }
 ```
@@ -157,4 +158,3 @@ export default function MyComponent() {
   return <div>{message}</div>;
 }
 ```
-

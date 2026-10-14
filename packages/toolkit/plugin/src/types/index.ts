@@ -1,8 +1,4 @@
-export type {
-  Plugin,
-  PluginManager,
-  TransformFunction,
-} from './plugin';
+export type { Plugin, PluginManager, TransformFunction } from './plugin';
 export type {
   CLIPluginAPI,
   AppContext,

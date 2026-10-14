@@ -11,6 +11,7 @@ user-invocable: true
 > 状态：P1 进行中。`scripts/audit.mjs` 默认可直接扫描整个 Modern.js 仓库并输出双视角报告；仍支持显式传入单个包目录做聚焦分析。
 
 ## 何时触发
+
 - `import` 的包在 pnpm 严格模式下报 "module not found"（疑似幽灵依赖）
 - 构建/安装变慢、产物体积上涨，想定位归因
 - review 一个改 `package.json` / 新增依赖的 PR
@@ -18,6 +19,7 @@ user-invocable: true
 - 例行依赖体检
 
 ## SOP
+
 1. **直接跑整仓报告**（在仓库根执行）：
    ```bash
    node scripts/skills/dependency-audit/scripts/audit.mjs
@@ -43,10 +45,12 @@ user-invocable: true
 5. **验证**：修完跑 `pnpm install` + `pnpm --filter <pkg> build` / `pnpm --filter <pkg> test`，确认不回归。
 
 ## 安全红线
+
 - 只读分析 + 给建议；**不自动改 lockfile / dist / node_modules**。
 - 改 `package.json` 前先展示 diff、让人确认。
 
 ## 能力 roadmap
+
 - [x] 幽灵依赖（import 的外部包未在 deps/devDeps/peerDeps/optionalDeps 声明）
 - [x] 循环依赖（相对 import 构图找环 + 断环建议）
 - [x] 重复多版本（读 `pnpm-lock.yaml`，找多版本包 + `pnpm dedupe`/overrides 建议）

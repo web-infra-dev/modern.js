@@ -239,12 +239,12 @@ export default function DashboardPage() {
 
 ### 两种数据获取方式对比
 
-| 特性 | Server Component 中获取 | Data Loader 中获取 |
-| --- | --- | --- |
-| 避免请求瀑布 | 需要手动优化 | ✅ 自动并行执行 |
-| 组件内聚性 | ✅ 数据和 UI 在同一处 | 数据逻辑分离到单独文件 |
-| 维护性 | ✅ 更易理解和维护 | 需要维护额外文件 |
-| 类型安全 | ✅ 天然类型推断 | 需要手动管理类型 |
+| 特性         | Server Component 中获取 | Data Loader 中获取     |
+| ------------ | ----------------------- | ---------------------- |
+| 避免请求瀑布 | 需要手动优化            | ✅ 自动并行执行        |
+| 组件内聚性   | ✅ 数据和 UI 在同一处   | 数据逻辑分离到单独文件 |
+| 维护性       | ✅ 更易理解和维护       | 需要维护额外文件       |
+| 类型安全     | ✅ 天然类型推断         | 需要手动管理类型       |
 
 **一般情况下，我们推荐在 Server Component 中获取数据**，因为在服务端瀑布请求对性能的影响较小，这种方式使组件更加内聚，数据获取逻辑和 UI 渲染在同一处，更易于理解和维护。但如果你的页面有多个独立的数据源，且希望完全避免请求瀑布问题，Data Loader 的并行执行特性会更有优势。
 
@@ -268,7 +268,11 @@ export default function DashboardPage() {
 
 ```tsx title="routes/user/page.tsx"
 // Server Component 通过 props 接收 loaderData
-export default function UserPage({ loaderData }: { loaderData: { name: string } }) {
+export default function UserPage({
+  loaderData,
+}: {
+  loaderData: { name: string };
+}) {
   return <div>Welcome, {loaderData.name}</div>;
 }
 ```
@@ -276,7 +280,11 @@ export default function UserPage({ loaderData }: { loaderData: { name: string } 
 ```tsx title="routes/user/page.tsx"
 'use client';
 // Client Component 同样可以通过 props 接收 loaderData
-export default function UserPage({ loaderData }: { loaderData: { name: string } }) {
+export default function UserPage({
+  loaderData,
+}: {
+  loaderData: { name: string };
+}) {
   return <div>Welcome, {loaderData.name}</div>;
 }
 ```
@@ -599,7 +607,6 @@ export default function ProfilePage() {
 当使用 react19 时，无需再使用 Helmet，推荐直接使用 react 提供的[组件](https://react.dev/reference/react-dom/components)。
 
 import DeployTip from '@site-docs/components/rsc-deploy-tip';
-
 
 <DeployTip />
 

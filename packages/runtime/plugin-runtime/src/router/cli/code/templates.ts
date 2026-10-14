@@ -571,9 +571,8 @@ export function ssrLoaderCombinedModule(
 
   const ssg = isSSGEntry(config, entryName, entrypoints);
   if (entrypoint.nestedRoutesEntry && (ssr || ssg)) {
-    const serverLoaderRuntime = require.resolve(
-      '@modern-js/plugin-data-loader/runtime',
-    );
+    const serverLoaderRuntime =
+      require.resolve('@modern-js/plugin-data-loader/runtime');
     const serverLoadersFile = getServerLoadersFile(
       internalDirectory,
       entryName,

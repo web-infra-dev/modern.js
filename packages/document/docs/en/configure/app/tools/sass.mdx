@@ -18,12 +18,12 @@ const defaultOptions = {
 
 `tools.sass` modifies the options of [@rsbuild/plugin-sass](https://rsbuild.rs/plugins/list/plugin-sass). It accepts the full plugin options:
 
-| Option              | Description                                                                                    |
-| ------------------- | ---------------------------------------------------------------------------------------------- |
+| Option              | Description                                                                                         |
+| ------------------- | --------------------------------------------------------------------------------------------------- |
 | `sassLoaderOptions` | Options passed to [sass-loader](https://github.com/webpack-contrib/sass-loader), object or function |
-| `include`           | Files handled by sass-loader, defaults to `/\.s(?:a|c)ss$/`                                    |
-| `exclude`           | Files that sass-loader should skip                                                             |
-| `rewriteUrls`       | Whether to rewrite relative URLs in Sass files with resolve-url-loader, defaults to `true`     |
+| `include`           | Files handled by sass-loader, defaults to `/\.s(?:a\|c)ss$/`                                        |
+| `exclude`           | Files that sass-loader should skip                                                                  |
+| `rewriteUrls`       | Whether to rewrite relative URLs in Sass files with resolve-url-loader, defaults to `true`          |
 
 ### Modifying sass-loader options
 
@@ -125,7 +125,6 @@ export default {
 :::warning Do not mix the two layers
 As soon as an object contains a plugin-level key (`sassLoaderOptions`, `include`, `exclude`, ...), the whole object is parsed as plugin options and any loader option in it has no effect. For example, `sassOptions` in `tools.sass: { rewriteUrls: false, sassOptions: { ... } }` is ignored and must be moved under `sassLoaderOptions`; a hint is printed in development.
 :::
-
 
 In earlier versions, `tools.sass` took the sass-loader options directly, e.g. `tools.sass: { sassOptions: {} }` or `tools.sass(config, { addExcludes }) {}`. This form still works: Modern.js wraps it into `sassLoaderOptions` and produces exactly the same config as before. A migration hint is printed in development, and the legacy form will be removed in the next major version.
 

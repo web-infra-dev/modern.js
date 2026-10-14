@@ -46,9 +46,8 @@ rstest.mock('@modern-js/utils', () => ({
 
 describe('setupTsRuntime', () => {
   it('should follow node major fallback when native capability is undefined', async () => {
-    const { resolveTsRuntimeRegisterMode } = await import(
-      '../../src/utils/register'
-    );
+    const { resolveTsRuntimeRegisterMode } =
+      await import('../../src/utils/register');
     setNativeTypeScriptSupport(undefined);
     const expected =
       Number(process.versions.node.split('.')[0]) >= 22
@@ -59,33 +58,29 @@ describe('setupTsRuntime', () => {
 
   it('should prefer native capability over node version', async () => {
     setNativeTypeScriptSupport(true);
-    const { resolveTsRuntimeRegisterMode } = await import(
-      '../../src/utils/register'
-    );
+    const { resolveTsRuntimeRegisterMode } =
+      await import('../../src/utils/register');
     expect(resolveTsRuntimeRegisterMode(false)).toBe('node-loader');
   });
 
   it('should treat string native capability as supported', async () => {
     setNativeTypeScriptSupport('strip');
-    const { resolveTsRuntimeRegisterMode } = await import(
-      '../../src/utils/register'
-    );
+    const { resolveTsRuntimeRegisterMode } =
+      await import('../../src/utils/register');
     expect(resolveTsRuntimeRegisterMode(false)).toBe('node-loader');
   });
 
   it('should not fallback to node version when native capability is false', async () => {
     setNativeTypeScriptSupport(false);
-    const { resolveTsRuntimeRegisterMode } = await import(
-      '../../src/utils/register'
-    );
+    const { resolveTsRuntimeRegisterMode } =
+      await import('../../src/utils/register');
     expect(resolveTsRuntimeRegisterMode(false)).toBe('unsupported');
   });
 
   it('should choose ts-node when ts-node exists and native support is enabled', async () => {
     setNativeTypeScriptSupport('strip');
-    const { resolveTsRuntimeRegisterMode } = await import(
-      '../../src/utils/register'
-    );
+    const { resolveTsRuntimeRegisterMode } =
+      await import('../../src/utils/register');
     expect(resolveTsRuntimeRegisterMode(true)).toBe('ts-node');
   });
 

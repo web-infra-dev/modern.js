@@ -15,13 +15,13 @@
     "modern",
     "modern.js"
   ],
-  "version": "3.9.1",
+  "version": "3.9.3",
   "types": "./src/index.ts",
   "main": "./dist/cjs/index.js",
   "scripts": {
     "prepublishOnly": "only-allow-pnpm",
-    "build": "rslib build",
-    "dev": "rslib build --watch",
+    "build": "rs lib",
+    "dev": "rs lib --watch",
     "test": "rstest --passWithNoTests"
   },
   "exports": {
@@ -62,11 +62,9 @@
   "devDependencies": {
     "@modern-js/rslib": "workspace:*",
     "@modern-js/types": "workspace:*",
-    "@rslib/core": "1.0.1",
     "@scripts/rstest-config": "workspace:*",
     "@types/merge-deep": "^3.0.3",
     "@types/node": "^20",
-    "lint-staged": "~13.3.0",
     "typescript": "^5"
   },
   "sideEffects": [],

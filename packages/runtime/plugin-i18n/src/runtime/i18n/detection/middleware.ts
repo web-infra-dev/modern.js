@@ -1,6 +1,7 @@
 import { isBrowser } from '@modern-js/runtime';
 import LanguageDetector from 'i18next-browser-languagedetector';
-import type { I18nInstance } from '../instance';
+import type { detectLanguageFromRequest } from '../../../shared/detection.js';
+import type { I18nInstance, LanguageDetectorOptions } from '../instance';
 import { getActualI18nextInstance, isI18nWrapperInstance } from '../instance';
 
 /**
@@ -27,7 +28,9 @@ export const useI18nextLanguageDetector = (i18nInstance: I18nInstance) => {
  * Fallback when detector is not available in services
  */
 export const readLanguageFromStorage = (
-  detectionOptions?: any,
+  detectionOptions?: LanguageDetectorOptions,
+  _request?: Parameters<typeof detectLanguageFromRequest>[0],
+  _languages?: string[],
 ): string | undefined => {
   try {
     const options = detectionOptions || {};

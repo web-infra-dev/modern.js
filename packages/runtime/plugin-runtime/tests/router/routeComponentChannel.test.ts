@@ -65,13 +65,12 @@ describe('route component collection channel (modifyFileSystemRoutes → updateA
     };
 
     // --- Real async hook chain with a second tap that REPLACES the component ---
-    const modifyFileSystemRoutes =
-      createAsyncHook<
-        (params: { entrypoint: { entryName: string }; routes: any[] }) => {
-          entrypoint: { entryName: string };
-          routes: any[];
-        }
-      >();
+    const modifyFileSystemRoutes = createAsyncHook<
+      (params: { entrypoint: { entryName: string }; routes: any[] }) => {
+        entrypoint: { entryName: string };
+        routes: any[];
+      }
+    >();
     // Tap 1: identity (an early consumer that leaves routes untouched).
     modifyFileSystemRoutes.tap(params => params);
     // Tap 2: a later consumer that REPLACES the route component.
