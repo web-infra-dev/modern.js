@@ -1,0 +1,11 @@
+{
+  "extends": "../tsconfig.json",
+  "compilerOptions": {
+    // `gen-static` runs under the ts-node CLI as a plain Node script. The
+    // package config is bundler-mode (ESNext) and ts-node cannot read an
+    // `extends` array, so the server preset's module options are inlined.
+    "module": "NodeNext",
+    "moduleResolution": "NodeNext"
+  },
+  "include": ["."]
+}

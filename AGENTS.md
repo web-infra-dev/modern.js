@@ -21,7 +21,7 @@
   - 单测（rstest）：根目录 `pnpm test:ut`；或单包 `pnpm --filter <pkg> test`（包内即 `rstest`）。
   - 框架集成测试：`pnpm test:framework`（实际在 `tests/` 下跑 rstest 集成用例）。
   - 构建器（builder）e2e 测试：`pnpm test:builder`（在 `tests/e2e/builder` 下）。
-  - Skill 回归：`node tests/skill/run.mjs`（migrate-to-v3）、`node tests/skill/feature-enable.mjs`（feature-enable）。
+  - Skill 回归：`node tests/skill/run.mjs`（migrate-to-v3）、`node tests/skill/migrate-tsconfig.mjs`（migrate-to-v3 的 tsconfig 步骤）、`node tests/skill/feature-enable.mjs`（feature-enable）。
 - 代码与格式检查：`pnpm check`（Rstack CLI，见 `rstack.config.mts`）；仅代码校验：`pnpm lint`。
 - 全仓格式化：`pnpm format`
 - 变更需 changeset：`pnpm change`（影响发布的改动必须加）。
