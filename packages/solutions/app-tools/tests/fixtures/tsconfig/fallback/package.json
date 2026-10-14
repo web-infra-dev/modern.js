@@ -1,1 +1,3 @@
-{ "name": "tsconfig-fallback" }
+{
+  "name": "tsconfig-fallback"
+}

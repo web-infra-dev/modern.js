@@ -31,11 +31,11 @@ title: tsconfigPath
 
 因此**只在回退到 `tsconfig.json`** 时，框架会做一次判断：
 
-| 条件 | 行为 |
-| --- | --- |
+| 条件                                                                                                                                                                 | 行为                                                                                                                  |
+| -------------------------------------------------------------------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------- |
 | 解析 `extends` 后的 `module` 为 ES Module 取值（`es2015` / `es6` / `es2020` / `es2022` / `esnext` / `preserve`，不区分大小写），且 `package.json#type` 不是 `module` | 以 `module: NodeNext` 与 `moduleResolution: NodeNext` 编译服务端代码，并打印一次警告，建议添加 `tsconfig.server.json` |
-| `module` 为 `commonjs` / `node16` / `nodenext` 等 | 不改写 |
-| `package.json#type` 为 `module` | 不改写（ESNext 产物正是 ESM 项目需要的，框架会为相对导入补全 `.js` 后缀） |
+| `module` 为 `commonjs` / `node16` / `nodenext` 等                                                                                                                    | 不改写                                                                                                                |
+| `package.json#type` 为 `module`                                                                                                                                      | 不改写（ESNext 产物正是 ESM 项目需要的，框架会为相对导入补全 `.js` 后缀）                                             |
 
 `module` 与 `moduleResolution` 总是一起改写：TypeScript 不允许只改其中一个（TS5095 / TS5109 / TS5110）。
 
