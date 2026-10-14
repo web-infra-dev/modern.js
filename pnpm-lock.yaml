@@ -4452,11 +4452,11 @@ importers:
         specifier: ^4.11.7
         version: 4.11.7
       react:
-        specifier: ^19.2.8
-        version: 19.2.8
+        specifier: ^19.3.0
+        version: 19.3.0
       react-dom:
-        specifier: ^19.2.8
-        version: 19.2.8(react@19.2.8)
+        specifier: ^19.3.0
+        version: 19.3.0(react@19.3.0)
     devDependencies:
       '@modern-js/app-tools':
         specifier: workspace:*
