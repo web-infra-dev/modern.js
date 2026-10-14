@@ -78,13 +78,13 @@ node scripts/migrate.mjs <projectDir>
 
 依据 report 的 `manual` 列表，命中哪项读哪份：
 
-| 人工项                                                                                              | 参考                                  |
-| --------------------------------------------------------------------------------------------------- | ------------------------------------- |
-| `App.init` / `routes/layout` 的 `config`/`init` 导出、`modernConfig.runtime`、非空/函数式 `runtime` | `references/migrate-entry.md`         |
-| 自定义 Web Server（`unstableMiddleware` / `afterRender`）                                           | `references/migrate-custom-server.md` |
-| `html.appIcon` 字符串、`server.ssr.mode`、webpack 自定义配置、`applyBaseConfig(...)` 结构性迁移     | `references/migrate-config.md`        |
-| `useRuntimeContext as 别名` 调用                                                                    | `references/migrate-entry.md`         |
-| tsconfig 的 `baseUrl` 未自动删除 / `@api/*` 待补                                                   | 按人工项中给出的 `paths` 写法改写后删除 `baseUrl`（规则见文档 `guides/basic-features/typescript`「迁移存量项目」） |
+| 人工项                                                                                              | 参考                                                                                                               |
+| --------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------ |
+| `App.init` / `routes/layout` 的 `config`/`init` 导出、`modernConfig.runtime`、非空/函数式 `runtime` | `references/migrate-entry.md`                                                                                      |
+| 自定义 Web Server（`unstableMiddleware` / `afterRender`）                                           | `references/migrate-custom-server.md`                                                                              |
+| `html.appIcon` 字符串、`server.ssr.mode`、webpack 自定义配置、`applyBaseConfig(...)` 结构性迁移     | `references/migrate-config.md`                                                                                     |
+| `useRuntimeContext as 别名` 调用                                                                    | `references/migrate-entry.md`                                                                                      |
+| tsconfig 的 `baseUrl` 未自动删除 / `@api/*` 待补                                                    | 按人工项中给出的 `paths` 写法改写后删除 `baseUrl`（规则见文档 `guides/basic-features/typescript`「迁移存量项目」） |
 
 每处理完一项执行 `references/commit-changes.md`。
 

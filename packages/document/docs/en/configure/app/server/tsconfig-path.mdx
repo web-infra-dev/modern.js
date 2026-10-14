@@ -31,11 +31,11 @@ In the first two cases the file is used as is; the framework never rewrites its 
 
 So **only when falling back to `tsconfig.json`**, the framework checks:
 
-| Condition | Behavior |
-| --- | --- |
+| Condition                                                                                                                                                                                           | Behavior                                                                                                                                        |
+| --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------- |
 | The effective `module` (after resolving `extends`) is an ES module value (`es2015` / `es6` / `es2020` / `es2022` / `esnext` / `preserve`, case-insensitive) and `package.json#type` is not `module` | Server code is compiled with `module: NodeNext` and `moduleResolution: NodeNext`, and a one-time warning suggests adding `tsconfig.server.json` |
-| `module` is `commonjs` / `node16` / `nodenext` / ... | Not rewritten |
-| `package.json#type` is `module` | Not rewritten (ESNext output is exactly what an ESM project needs; the framework appends `.js` to relative imports at emit) |
+| `module` is `commonjs` / `node16` / `nodenext` / ...                                                                                                                                                | Not rewritten                                                                                                                                   |
+| `package.json#type` is `module`                                                                                                                                                                     | Not rewritten (ESNext output is exactly what an ESM project needs; the framework appends `.js` to relative imports at emit)                     |
 
 `module` and `moduleResolution` are always rewritten together: TypeScript rejects changing only one of them (TS5095 / TS5109 / TS5110).
 
