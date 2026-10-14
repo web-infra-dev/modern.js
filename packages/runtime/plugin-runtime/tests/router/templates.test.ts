@@ -25,6 +25,24 @@ expect.addSnapshotSerializer({
 });
 
 describe('fileSystemRoutes', () => {
+  test('keeps string SSR imports inside loadable with a shared module loader', async () => {
+    const code = await fileSystemRoutes({
+      metaName: 'modern-js',
+      entryName: 'main',
+      internalDirectory: '',
+      ssrMode: 'string',
+      routes: [
+        {
+          path: '/',
+          id: 'page',
+          _component: '@_modern_js_src/routes/page.tsx',
+          type: 'nested',
+        },
+      ],
+    });
+    expect(code.replace(/[\t ]+$/gm, '')).toMatchSnapshot();
+  });
+
   test('does not emit module loaders for server-only RSC routes', async () => {
     const code = await fileSystemRoutes({
       metaName: 'modern-js',

@@ -397,20 +397,27 @@ export const fileSystemRoutes = async ({
 
     const shouldIncludeClientBundle = !isRscClientBundle || isClientComponent;
 
-    // React.lazy caches its result, so preloading must share that same promise.
-    // Keep loadable's inline imports intact for the string SSR transform.
+    // Preloading and rendering must observe the same module evaluation result.
     if (
       shouldIncludeClientBundle &&
       route.type === 'nested' &&
       !route.isRoot &&
-      ssrMode !== 'string' &&
       lazyImport
     ) {
       const sharedImport = `routeModuleLoader_${moduleLoaderIndex}`;
-      routeModuleLoaders[moduleLoaderIndex] =
-        `const ${sharedImport} = createRouteModuleLoader(${lazyImport});`;
-      lazyImport = `${sharedImport}.preload`;
-      component = `lazy(${sharedImport}.load)`;
+      if (ssrMode === 'string') {
+        routeModuleLoaders[moduleLoaderIndex] =
+          `const ${sharedImport} = createLoadableRouteModuleLoader();`;
+        // Keep import() inside loadable's callback so the SSR transform can
+        // still generate requireSync, chunkName and the other chunk metadata.
+        lazyImport = `() => ${sharedImport}(${lazyImport})`;
+        component = `loadable(${lazyImport})`;
+      } else {
+        routeModuleLoaders[moduleLoaderIndex] =
+          `const ${sharedImport} = createRouteModuleLoader(${lazyImport});`;
+        lazyImport = `${sharedImport}.preload`;
+        component = `lazy(${sharedImport}.load)`;
+      }
     }
 
     const finalRoute: any = {
@@ -550,7 +557,7 @@ export const fileSystemRoutes = async ({
   await fs.writeJSON(loadersMapFile, loadersMap);
 
   const importRuntimeRouterCode = `
-    import { createShouldRevalidate, createRouteModuleLoader, handleRouteModule, handleRouteModuleError } from '@${metaName}/runtime/routerHelper';
+    import { createShouldRevalidate, createRouteModuleLoader, createLoadableRouteModuleLoader, handleRouteModule, handleRouteModuleError } from '@${metaName}/runtime/routerHelper';
   `;
   const routeModulesCode = `
     if(typeof document !== 'undefined'){

@@ -59,16 +59,36 @@ export const createRouteModuleLoader = <T>(loadModule: () => Promise<T>) => {
   };
 };
 
+export const createLoadableRouteModuleLoader = <T>() => {
+  let promise: Promise<T> | undefined;
+
+  return (loadModule: () => Promise<T>): Promise<T> => {
+    // Server imports retain loadable's synchronous loading and request behavior.
+    if (typeof document === 'undefined') {
+      return loadModule();
+    }
+    promise ??= loadModule().catch((error: unknown) => {
+      // Loadable may retry a failed request when rendering or loading again.
+      // Keep evaluation failures so every retry still receives the real error.
+      if (isChunkLoadError(error)) {
+        promise = undefined;
+      }
+      throw error;
+    });
+    return promise;
+  };
+};
+
 function isChunkLoadError(error: unknown): boolean {
   if (!error || typeof error !== 'object') {
     return false;
   }
   try {
     return (
-      'name' in error &&
-      error.name === 'ChunkLoadError' &&
       'request' in error &&
-      typeof error.request === 'string'
+      typeof error.request === 'string' &&
+      (('name' in error && error.name === 'ChunkLoadError') ||
+        ('code' in error && error.code === 'CSS_CHUNK_LOAD_FAILED'))
     );
   } catch {
     // Inspecting an arbitrary rejection must not replace the original error.

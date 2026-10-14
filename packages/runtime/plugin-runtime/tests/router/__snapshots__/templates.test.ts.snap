@@ -8,7 +8,7 @@ exports[`fileSystemRoutes > generate code 1`] = `
   
     
     
-    import { createShouldRevalidate, createRouteModuleLoader, handleRouteModule, handleRouteModuleError } from '@modern-js/runtime/routerHelper';
+    import { createShouldRevalidate, createRouteModuleLoader, createLoadableRouteModuleLoader, handleRouteModule, handleRouteModuleError } from '@modern-js/runtime/routerHelper';
   
     
     import loading_0 from '@_modern_js_src/routes/loading.tsx';
@@ -83,7 +83,7 @@ exports[`fileSystemRoutes > generate code for legacy router 1`] = `
   
     
     
-    import { createShouldRevalidate, createRouteModuleLoader, handleRouteModule, handleRouteModuleError } from '@modern-js/runtime/routerHelper';
+    import { createShouldRevalidate, createRouteModuleLoader, createLoadableRouteModuleLoader, handleRouteModule, handleRouteModuleError } from '@modern-js/runtime/routerHelper';
   
     
     
@@ -106,6 +106,41 @@ exports[`fileSystemRoutes > generate code for legacy router 1`] = `
 },
 ];
   
+`;
+
+exports[`fileSystemRoutes > keeps string SSR imports inside loadable with a shared module loader 1`] = `
+
+
+    import { lazy } from "react";
+    import loadable, { lazy as loadableLazy } from "@modern-js/runtime/loadable"
+
+
+
+    import { createShouldRevalidate, createRouteModuleLoader, createLoadableRouteModuleLoader, handleRouteModule, handleRouteModuleError } from '@modern-js/runtime/routerHelper';
+
+
+
+
+
+
+
+    if(typeof document !== 'undefined'){
+      window._routeModules = {}
+    }
+
+const routeModuleLoader_0 = createLoadableRouteModuleLoader();
+
+    export const routes = [
+  {
+  "path": "/",
+  "id": "page",
+  "_component": "@_modern_js_src/routes/page.tsx",
+  "type": "nested",
+  "lazyImport": () => routeModuleLoader_0(() => import(/* webpackChunkName: "page" */  '@_modern_js_src/routes/page.tsx').then(routeModule => handleRouteModule(routeModule, "page")).catch(handleRouteModuleError)),
+  "component": loadable(() => routeModuleLoader_0(() => import(/* webpackChunkName: "page" */  '@_modern_js_src/routes/page.tsx').then(routeModule => handleRouteModule(routeModule, "page")).catch(handleRouteModuleError)))
+},
+];
+
 `;
 
 exports[`routesForServer > generate code for server 1`] = `

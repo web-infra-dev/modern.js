@@ -1,4 +1,5 @@
 import {
+  createLoadableRouteModuleLoader,
   createRouteModuleLoader,
   handleRouteModuleError,
 } from '../../src/router/runtime/routerHelper';
@@ -33,6 +34,129 @@ describe('handleRouteModuleError', () => {
       ).rejects.toBe(reason);
     },
   );
+});
+
+describe('createLoadableRouteModuleLoader', () => {
+  beforeEach(() => {
+    rstest.stubGlobal('document', {});
+  });
+
+  afterEach(() => {
+    rstest.unstubAllGlobals();
+  });
+
+  const chunkError = () =>
+    Object.assign(new Error('Loading chunk failed'), {
+      name: 'ChunkLoadError',
+      request: 'https://example.com/route.js',
+    });
+
+  it('shares pending and successful imports between preload and loadable', async () => {
+    let resolveModule!: (value: unknown) => void;
+    const pending = new Promise(resolve => {
+      resolveModule = resolve;
+    });
+    const importModule = rstest.fn(() => pending);
+    const load = createLoadableRouteModuleLoader();
+    const preload = load(importModule);
+    expect(load(importModule)).toBe(preload);
+    const module = { default: () => null };
+    resolveModule(module);
+    await expect(preload).resolves.toBe(module);
+    expect(load(importModule)).toBe(preload);
+    expect(importModule).toHaveBeenCalledTimes(1);
+  });
+
+  it.each([new Error('Module failed'), undefined, null, 'module failure'])(
+    'preserves the original rejection on every loadable retry: %s',
+    async error => {
+      const importModule = rstest.fn(() => Promise.reject(error));
+      const load = createLoadableRouteModuleLoader();
+      const failed = load(importModule);
+      await expect(failed).rejects.toBe(error);
+      expect(load(importModule)).toBe(failed);
+      await expect(load(importModule)).rejects.toBe(error);
+      expect(importModule).toHaveBeenCalledTimes(1);
+    },
+  );
+
+  it.each(['script', 'stylesheet'])(
+    'allows and coalesces a retry after a %s request failure',
+    async kind => {
+      const error =
+        kind === 'script'
+          ? chunkError()
+          : Object.assign(new Error('Loading CSS chunk failed'), {
+              code: 'CSS_CHUNK_LOAD_FAILED',
+              request: 'https://example.com/route.css',
+            });
+      const module = { default: () => null };
+      const importModule = rstest
+        .fn<() => Promise<unknown>>()
+        .mockRejectedValueOnce(error)
+        .mockResolvedValueOnce(module);
+      const load = createLoadableRouteModuleLoader();
+      const failed = load(importModule);
+      await expect(failed).rejects.toBe(error);
+      const retry = load(importModule);
+      expect(retry).not.toBe(failed);
+      expect(load(importModule)).toBe(retry);
+      await expect(retry).resolves.toBe(module);
+      expect(importModule).toHaveBeenCalledTimes(2);
+    },
+  );
+
+  it('retains a module evaluation failure during a chunk retry', async () => {
+    const error = new Error('Module evaluation after network recovery failed');
+    const importModule = rstest
+      .fn<() => Promise<unknown>>()
+      .mockRejectedValueOnce(chunkError())
+      .mockRejectedValueOnce(error)
+      .mockResolvedValue({});
+    const load = createLoadableRouteModuleLoader();
+    await expect(load(importModule)).rejects.toHaveProperty(
+      'name',
+      'ChunkLoadError',
+    );
+    const failed = load(importModule);
+    await expect(failed).rejects.toBe(error);
+    expect(load(importModule)).toBe(failed);
+    expect(importModule).toHaveBeenCalledTimes(2);
+  });
+
+  it.each([
+    { name: 'ChunkLoadError' },
+    {
+      request: 'https://example.com/route.js',
+      get name() {
+        throw new Error('Cannot inspect rejection');
+      },
+    },
+  ])(
+    'retains unrecognized failures without replacing them: %s',
+    async error => {
+      const importModule = rstest.fn(() => Promise.reject(error));
+      const load = createLoadableRouteModuleLoader();
+      await expect(load(importModule)).rejects.toBe(error);
+      await expect(load(importModule)).rejects.toBe(error);
+      expect(importModule).toHaveBeenCalledTimes(1);
+    },
+  );
+
+  it('keeps server imports uncached across calls and requests', async () => {
+    rstest.stubGlobal('document', undefined);
+    const error = new Error('Server module failed');
+    const module = { default: () => null };
+    const importModule = rstest
+      .fn<() => Promise<unknown>>()
+      .mockRejectedValueOnce(error)
+      .mockResolvedValue(module);
+    const load = createLoadableRouteModuleLoader();
+    await expect(load(importModule)).rejects.toBe(error);
+    await expect(load(importModule)).resolves.toBe(module);
+    await expect(load(importModule)).resolves.toBe(module);
+    expect(importModule).toHaveBeenCalledTimes(3);
+  });
 });
 
 describe('createRouteModuleLoader', () => {
@@ -77,24 +201,33 @@ describe('createRouteModuleLoader', () => {
     expect(importModule).toHaveBeenCalledTimes(1);
   });
 
-  it('retries an unconsumed chunk failure on the next preload', async () => {
-    const error = chunkError();
-    const module = { default: () => null };
-    const importModule = rstest
-      .fn<() => Promise<typeof module>>()
-      .mockRejectedValueOnce(error)
-      .mockResolvedValueOnce(module);
-    const { preload, load } = createRouteModuleLoader(importModule);
-    const failed = preload();
-    await expect(failed).rejects.toBe(error);
+  it.each(['script', 'stylesheet'])(
+    'retries an unconsumed %s failure on the next preload',
+    async kind => {
+      const error =
+        kind === 'script'
+          ? chunkError()
+          : Object.assign(new Error('Loading CSS chunk failed'), {
+              code: 'CSS_CHUNK_LOAD_FAILED',
+              request: 'https://example.com/route.css',
+            });
+      const module = { default: () => null };
+      const importModule = rstest
+        .fn<() => Promise<typeof module>>()
+        .mockRejectedValueOnce(error)
+        .mockResolvedValueOnce(module);
+      const { preload, load } = createRouteModuleLoader(importModule);
+      const failed = preload();
+      await expect(failed).rejects.toBe(error);
 
-    const retry = preload();
-    expect(retry).not.toBe(failed);
-    expect(preload()).toBe(retry);
-    expect(load()).toBe(retry);
-    await expect(retry).resolves.toBe(module);
-    expect(importModule).toHaveBeenCalledTimes(2);
-  });
+      const retry = preload();
+      expect(retry).not.toBe(failed);
+      expect(preload()).toBe(retry);
+      expect(load()).toBe(retry);
+      await expect(retry).resolves.toBe(module);
+      expect(importModule).toHaveBeenCalledTimes(2);
+    },
+  );
 
   it('passes a settled preload failure to React without retrying', async () => {
     const error = chunkError();
@@ -143,6 +276,7 @@ describe('createRouteModuleLoader', () => {
 
   it('preserves a rejection whose diagnostic getter throws', async () => {
     const error = {
+      request: 'https://example.com/route.js',
       get name() {
         throw new Error('Cannot inspect rejection');
       },

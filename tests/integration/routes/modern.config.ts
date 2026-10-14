@@ -17,6 +17,7 @@ export default defineConfig({
       },
       four: false,
       'lazy-errors': false,
+      'loadable-errors': { mode: 'string' },
     },
   },
   performance: {
