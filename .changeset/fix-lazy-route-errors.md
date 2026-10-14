@@ -3,6 +3,6 @@
 '@modern-js/runtime-utils': patch
 ---
 
-fix: preserve lazy route import errors and share the import promise between non-blocking preloading and React.lazy so error boundaries receive the original module evaluation or chunk loading error. Allow a later preload to retry a chunk request failure that React has not consumed yet.
+fix: preserve original module evaluation and chunk loading errors in generated nested routes by sharing import results between non-blocking preloading and component rendering, including string SSR client navigation. Allow later preloads to retry JS/CSS chunk request failures before React.lazy consumes the loader, and retain loadable's existing request retry behavior.
 
-fix: 保留路由懒加载的原始异常，让非阻塞预加载与 React.lazy 共享加载 Promise，确保错误边界收到原始的模块执行或 chunk 加载错误。React 尚未接手的 chunk 请求失败，允许后续预加载重新尝试。
+fix: 让生成的嵌套路由在非阻塞预加载与组件渲染之间共享导入结果，保留原始模块执行和 chunk 加载异常，并覆盖 string SSR 客户端导航。React.lazy 尚未接手的 JS/CSS chunk 请求失败允许后续预加载重试，同时保留 loadable 现有的请求重试行为。
