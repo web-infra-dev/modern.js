@@ -15,6 +15,7 @@ import {
 } from '../../../utils/modernTestUtils';
 import { expectPageToMatchTextContent } from '../../../utils/rstestPuppeteer';
 import { testLazyRouteErrors } from './lazyRouteErrors';
+import { testLazyRoutePreload } from './lazyRoutePreload';
 
 const appDir = path.resolve(__dirname, '../');
 
@@ -724,6 +725,7 @@ describe('dev with rspack', () => {
   let browser: Browser;
   const errors: string[] = [];
   testLazyRouteErrors(() => ({ browser, appPort }));
+  testLazyRoutePreload(() => ({ browser, appPort }));
   beforeAll(async () => {
     appPort = await getPort();
     app = await launchApp(
@@ -860,6 +862,7 @@ describe('build with rspack', () => {
   let browser: Browser;
   const errors: string[] = [];
   testLazyRouteErrors(() => ({ browser, appPort }));
+  testLazyRoutePreload(() => ({ browser, appPort }));
   beforeAll(async () => {
     appPort = await getPort();
     const buildResult = await modernBuild(appDir, [], {

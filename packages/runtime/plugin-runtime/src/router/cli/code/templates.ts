@@ -409,8 +409,8 @@ export const fileSystemRoutes = async ({
       const sharedImport = `routeModuleLoader_${moduleLoaderIndex}`;
       routeModuleLoaders[moduleLoaderIndex] =
         `const ${sharedImport} = createRouteModuleLoader(${lazyImport});`;
-      lazyImport = sharedImport;
-      component = `lazy(${sharedImport})`;
+      lazyImport = `${sharedImport}.preload`;
+      component = `lazy(${sharedImport}.load)`;
     }
 
     const finalRoute: any = {

@@ -55,21 +55,21 @@ const routeModuleLoader_3 = createRouteModuleLoader(() => import(/* webpackChunk
               "id": "user/[id]/page",
               "loader": loader_0,
               "type": "nested",
-              "lazyImport": routeModuleLoader_3,
-              "component": lazy(routeModuleLoader_3),
+              "lazyImport": routeModuleLoader_3.preload,
+              "component": lazy(routeModuleLoader_3.load),
               "shouldRevalidate": createShouldRevalidate("user/[id]/page")
             }
           ],
           "lazyImport": null
         }
       ],
-      "lazyImport": routeModuleLoader_1,
-      "component": lazy(routeModuleLoader_1),
+      "lazyImport": routeModuleLoader_1.preload,
+      "component": lazy(routeModuleLoader_1.load),
       "shouldRevalidate": createShouldRevalidate("user/layout")
     }
   ],
-  "lazyImport": routeModuleLoader_0,
-  "component": lazy(routeModuleLoader_0)
+  "lazyImport": routeModuleLoader_0.preload,
+  "component": lazy(routeModuleLoader_0.load)
 },
 ];
   
