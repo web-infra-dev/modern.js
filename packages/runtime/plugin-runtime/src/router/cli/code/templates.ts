@@ -404,20 +404,32 @@ export const fileSystemRoutes = async ({
       !route.isRoot &&
       lazyImport
     ) {
-      const sharedImport = `routeModuleLoader_${moduleLoaderIndex}`;
+      const importFactory = lazyImport;
+      const loaderName = `routeModuleLoader_${moduleLoaderIndex}`;
+
+      let loaderDeclaration: string;
+      let preloadExpression: string;
+      let componentExpression: string;
+
       if (ssrMode === 'string') {
-        routeModuleLoaders[moduleLoaderIndex] =
-          `const ${sharedImport} = createLoadableRouteModuleLoader();`;
-        // Keep import() inside loadable's callback so the SSR transform can
-        // still generate requireSync, chunkName and the other chunk metadata.
-        lazyImport = `() => ${sharedImport}(${lazyImport})`;
-        component = `loadable(${lazyImport})`;
+        loaderDeclaration = `const ${loaderName} = createLoadableRouteModuleLoader();`;
+
+        // Keep import() inside loadable's callback so the SSR transform
+        // can generate synchronous loading and chunk metadata.
+        const loadExpression = `() => ${loaderName}(${importFactory})`;
+
+        preloadExpression = loadExpression;
+        componentExpression = `loadable(${loadExpression})`;
       } else {
-        routeModuleLoaders[moduleLoaderIndex] =
-          `const ${sharedImport} = createRouteModuleLoader(${lazyImport});`;
-        lazyImport = `${sharedImport}.preload`;
-        component = `lazy(${sharedImport}.load)`;
+        loaderDeclaration = `const ${loaderName} = createRouteModuleLoader(${importFactory});`;
+
+        preloadExpression = `${loaderName}.preload`;
+        componentExpression = `lazy(${loaderName}.load)`;
       }
+
+      routeModuleLoaders[moduleLoaderIndex] = loaderDeclaration;
+      lazyImport = preloadExpression;
+      component = componentExpression;
     }
 
     const finalRoute: any = {
