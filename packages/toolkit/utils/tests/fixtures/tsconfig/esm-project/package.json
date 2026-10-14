@@ -1,1 +1,4 @@
-{ "name": "esm-project", "type": "module" }
+{
+  "name": "esm-project",
+  "type": "module"
+}
