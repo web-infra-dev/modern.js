@@ -20,7 +20,7 @@ sidebar_position: 3
 node -v
 ```
 
-如果你当前环境没有安装 Node.js，可以使用 [nvm](https://github.com/nvm-sh/nvm)或者 [fnm](https://github.com/Schniz/fnm) 来安装它。
+如果你当前环境没有安装 Node.js，可以使用 [nvm](https://github.com/nvm-sh/nvm) 或者 [fnm](https://github.com/Schniz/fnm) 来安装它。
 
 以下是如何通过 nvm 安装 Node.js 22 LTS 版本的示例：
 
@@ -33,13 +33,6 @@ nvm alias default 22
 
 # 切换到新安装的 Node.js 22
 nvm use 22
-```
-
-### 安装 pnpm
-
-```bash
-# 使用 corepack 启用 pnpm，仅在 Node.js >= `v14.19.0` 上可用
-corepack enable
 ```
 
 ### 安装依赖
@@ -55,28 +48,6 @@ pnpm install
 - 运行 `prepare` 脚本来构建所有包（这将需要一些时间，但可以保证所有包都被正确构建）
 
 > 在此之后，你通常不需要一次性构建所有 packages。如果你正在开发的新功能依赖另一个 package 的最新代码，通常只构建指定的 package 就足够了。
-
-### 设置 Git 邮箱
-
-请确保在 `<https://github.com/settings/emails>` 中设置了电子邮件，当你提交 Pull Request 时将需要它。
-
-检查你的 git 客户端是否已配置邮箱：
-
-```sh
-git config --list | grep email
-```
-
-全局设置邮箱：
-
-```sh
-git config --global user.email "SOME_EMAIL@example.com"
-```
-
-针对本地仓库设置邮箱：
-
-```sh
-git config user.email "SOME_EMAIL@example.com"
-```
 
 ## 代码变更和构建
 

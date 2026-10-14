@@ -36,13 +36,6 @@ nvm alias default 22
 nvm use 22
 ```
 
-### Install pnpm
-
-```sh
-# Enable pnpm with corepack, only available on Node.js >= `v14.19.0`
-corepack enable
-```
-
 ### Install Dependencies
 
 ```sh
@@ -56,28 +49,6 @@ What this will do:
 - Run the `prepare` script to build all packages (this will take some time, but is necessary to make ensure all packages are built)
 
 > A full rebuild of all packages is generally not required after this. If a new feature you are developing requires an updated version of another package, it is usually sufficient to build the changed dependencies.
-
-### Set Git Email
-
-Please make sure you have your email set up in `<https://github.com/settings/emails>`. This will be needed later when you want to submit a pull request.
-
-Check that your git client is already configured the email:
-
-```sh
-git config --list | grep email
-```
-
-Set the email to global config:
-
-```sh
-git config --global user.email "SOME_EMAIL@example.com"
-```
-
-Set the email for local repo:
-
-```sh
-git config user.email "SOME_EMAIL@example.com"
-```
 
 ## Making Changes and Building
 

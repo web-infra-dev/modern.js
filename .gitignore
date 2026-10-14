@@ -55,6 +55,6 @@ playground/
 
 .swe
 .cursor
-.claude
-.agents/
+.claude/settings.local.json
+.agents/runs/
 .specify/

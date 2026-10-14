@@ -585,7 +585,7 @@ function buildUserAppReport(repoRoot, options) {
     ? measureInstall(appDir)
     : {
         measured: false,
-        command: 'node scripts/skills/dependency-audit/scripts/audit.mjs',
+        command: 'node .agents/skills/dependency-audit/scripts/audit.mjs',
       };
   const appSize = installedSizeReport(appDir, options.top, false);
   const validatedInstallTime = validateInstallResult(installTime, appSize);
@@ -682,7 +682,7 @@ function buildRepositoryReport(options) {
         : {
             measured: false,
             command:
-              'node scripts/skills/dependency-audit/scripts/audit.mjs --measure-install',
+              'node .agents/skills/dependency-audit/scripts/audit.mjs --measure-install',
           },
     },
     userApp: user,
