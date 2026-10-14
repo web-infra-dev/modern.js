@@ -991,6 +991,12 @@ try {
   console.log(
     '== C28. v2-edge-tailwind-dynamic-import (dynamic ≠ static decl) ==',
   );
+  const dyiTailwindVersion = JSON.parse(
+    fs.readFileSync(
+      path.join(HERE, 'fixtures/v2-edge-tailwind-dynamic-import/package.json'),
+      'utf8',
+    ),
+  ).devDependencies['@modern-js/plugin-tailwindcss'];
   const dyi = prepare('v2-edge-tailwind-dynamic-import');
   const dyiCfg = dyi.read('modern.config.ts');
   check(
@@ -1002,7 +1008,7 @@ try {
     'plugin-tailwindcss 依赖保留（未删、未升到不存在的 3.0.0）',
     JSON.parse(dyi.read('package.json')).devDependencies[
       '@modern-js/plugin-tailwindcss'
-    ] === '2.66.0',
+    ] === dyiTailwindVersion,
   );
   check(
     'dynamic/require tailwind 引用进 manual',
@@ -1013,6 +1019,12 @@ try {
 
   // C29. blocker：require 的 tailwind 不残留成断链（依赖保留 + manual）
   console.log('== C29. v2-edge-tailwind-require (CJS require) ==');
+  const rqTailwindVersion = JSON.parse(
+    fs.readFileSync(
+      path.join(HERE, 'fixtures/v2-edge-tailwind-require/package.json'),
+      'utf8',
+    ),
+  ).devDependencies['@modern-js/plugin-tailwindcss'];
   const rq = prepare('v2-edge-tailwind-require');
   const rqCfg = rq.read('modern.config.ts');
   check(
@@ -1023,7 +1035,7 @@ try {
     'plugin-tailwindcss 依赖保留（与 require 一致，config 仍可加载）',
     JSON.parse(rq.read('package.json')).devDependencies[
       '@modern-js/plugin-tailwindcss'
-    ] === '2.66.0',
+    ] === rqTailwindVersion,
   );
   check(
     'require 用法进 manual',
