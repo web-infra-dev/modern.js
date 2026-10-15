@@ -1,4 +1,5 @@
 import { readFile } from 'fs/promises';
+import path from 'path';
 import { buildShellBeforeTemplate } from '../../src/core/server/stream/beforeTemplate';
 import { LoadableCollector } from '../../src/core/server/string/loadable';
 import type { ChunkSet } from '../../src/core/server/string/types';
@@ -15,8 +16,8 @@ const assets: Record<string, string> = {
   'other.css': '.other { color: blue; }',
 };
 
-const getContent = (filepath: string) =>
-  Object.entries(assets).find(([name]) => filepath.endsWith(`/${name}`))?.[1];
+// The SSR code resolves asset paths with the platform separator.
+const getContent = (filepath: string) => assets[path.basename(filepath)];
 
 describe('inline assets', () => {
   const nodeEnv = process.env.NODE_ENV;
@@ -39,8 +40,8 @@ describe('inline assets', () => {
   });
 
   const readCount = (name: string) =>
-    mockReadFile.mock.calls.filter(([filepath]) =>
-      String(filepath).endsWith(`/${name}`),
+    mockReadFile.mock.calls.filter(
+      ([filepath]) => path.basename(String(filepath)) === name,
     ).length;
 
   it('should read each asset only once', async () => {
