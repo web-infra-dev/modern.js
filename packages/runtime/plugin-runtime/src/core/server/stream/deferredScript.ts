@@ -60,6 +60,32 @@ export function buildDeferredDataScript(
   return `<script async${nonceAttr} data-fn-name="r" data-script-src="modern-run-router-data-fn" data-fn-args='${escaped}' suppressHydrationWarning>${runRouterDataFnStr}</script>`;
 }
 
+function getSerializedKeys(
+  routeId: string,
+  value: DeferredDataLike,
+  deferredScriptKeys: Map<string, string[]> | undefined,
+): string[] {
+  return deferredScriptKeys
+    ? (deferredScriptKeys.get(routeId) ?? [])
+    : (value.pendingKeys ?? []);
+}
+
+/**
+ * Whether `enqueueFromEntries` would emit any resolver script for `entries`.
+ */
+export function hasDeferredResolvers(
+  entries: Array<[string, unknown]>,
+  deferredScriptKeys: Map<string, string[]> | undefined,
+): boolean {
+  return entries.some(
+    ([routeId, value]) =>
+      isDeferredDataLike(value) &&
+      getSerializedKeys(routeId, value, deferredScriptKeys).some(key =>
+        isPromiseLike(value.data?.[key]),
+      ),
+  );
+}
+
 export function enqueueFromEntries(
   entries: Array<[string, unknown]>,
   deferredScriptKeys: Map<string, string[]> | undefined,
@@ -70,9 +96,11 @@ export function enqueueFromEntries(
 
   entries.forEach(([routeId, value]) => {
     if (!isDeferredDataLike(value)) return;
-    const serializedKeys = deferredScriptKeys
-      ? (deferredScriptKeys.get(routeId) ?? [])
-      : (value.pendingKeys ?? []);
+    const serializedKeys = getSerializedKeys(
+      routeId,
+      value,
+      deferredScriptKeys,
+    );
     serializedKeys.forEach((key: string) => {
       const tracked = value.data?.[key];
       if (isPromiseLike(tracked)) {

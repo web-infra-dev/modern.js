@@ -1,5 +1,14 @@
+import { Readable } from 'stream';
 import { DeferredData } from '@modern-js/runtime-utils/browser';
-import { enqueueFromEntries } from '../../src/core/server/stream/deferredScript';
+import { storage } from '@modern-js/runtime-utils/node';
+import { createElement } from 'react';
+import { ESCAPED_SHELL_STREAM_END_MARK } from '../../src/common';
+import { setGlobalInternalRuntimeContext } from '../../src/core/context';
+import { createReadableStreamFromElement } from '../../src/core/server/stream/createReadableStream';
+import {
+  enqueueFromEntries,
+  hasDeferredResolvers,
+} from '../../src/core/server/stream/deferredScript';
 import { DeferredScriptOutputCoordinator } from '../../src/core/server/stream/deferredScriptOutputCoordinator';
 
 const resolver = (name: string) => `<script data-resolver="${name}"></script>`;
@@ -12,8 +21,28 @@ function createCoordinator() {
 
   return {
     coordinator,
+    chunks: output,
     output: () => output.join(''),
   };
+}
+
+// Inline scripts and styles with near-miss end tags, comments, quoted `>` in
+// attributes, a React continuation segment and multi-byte text.
+const REPRESENTATIVE_HTML = [
+  '<div class="card a>b" data-x=\'1\' hidden=hidden><!-- <b> -->',
+  '<style>.a::before{content:"</style"}</style>',
+  '<script>const s = "</scr" + "ipt>"; if (a <b && c <</script) {}</SCRIPT >',
+  '<div hidden id="modern-js-S:0"><span>中文 🚀</span></div>',
+  '<script>$RC("modern-js-B:0","modern-js-S:0")</script>',
+  '<textarea><p></textarea><br/><img src=x alt=y></div>',
+].join('');
+
+function chunkString(value: string, size: number) {
+  const chunks: string[] = [];
+  for (let offset = 0; offset < value.length; offset += size) {
+    chunks.push(value.slice(offset, offset + size));
+  }
+  return chunks;
 }
 
 describe('DeferredScriptOutputCoordinator', () => {
@@ -270,5 +299,246 @@ describe('DeferredScriptOutputCoordinator', () => {
     expect(output()).toBe(
       '<div hidden id="modern-js-S:business">content</div><script data-resolver="business"></script>',
     );
+  });
+
+  test('forwards React chunks as-is without tokenizing when no resolver can be queued', () => {
+    const consume = rstest.spyOn(
+      DeferredScriptOutputCoordinator.prototype as any,
+      'consume',
+    );
+    try {
+      for (const size of [1, 7, 64, REPRESENTATIVE_HTML.length]) {
+        const chunks = chunkString(REPRESENTATIVE_HTML, size);
+        const tracking = createCoordinator();
+        const passThrough = createCoordinator();
+        passThrough.coordinator.markNoResolvers();
+
+        for (const { coordinator } of [tracking, passThrough]) {
+          coordinator.markShellFinished();
+          for (const chunk of chunks) {
+            coordinator.writeReact(chunk);
+          }
+          coordinator.finish();
+        }
+
+        expect(passThrough.chunks).toEqual(chunks);
+        expect(passThrough.chunks).toEqual(tracking.chunks);
+      }
+
+      consume.mockClear();
+      const { coordinator } = createCoordinator();
+      coordinator.markNoResolvers();
+      coordinator.writeReact(REPRESENTATIVE_HTML);
+      expect(consume).not.toHaveBeenCalled();
+
+      createCoordinator().coordinator.writeReact(REPRESENTATIVE_HTML);
+      expect(consume).toHaveBeenCalledTimes(REPRESENTATIVE_HTML.length);
+    } finally {
+      consume.mockRestore();
+    }
+  });
+
+  test('never inserts a resolver at an unknown position without tokenizing', () => {
+    const { coordinator, output } = createCoordinator();
+    coordinator.markNoResolvers();
+    coordinator.markShellFinished();
+
+    coordinator.writeReact('<a href="/template');
+    coordinator.enqueueResolver(resolver('unexpected'));
+    coordinator.writeReact('">template</a>');
+
+    expect(output()).toBe('<a href="/template">template</a>');
+    expect(() => coordinator.finish()).toThrow('outside a safe HTML boundary');
+
+    const aborted = createCoordinator();
+    aborted.coordinator.markNoResolvers();
+    aborted.coordinator.abort();
+    aborted.coordinator.writeReact('<p>after abort</p>');
+    expect(aborted.output()).toBe('');
+  });
+
+  test('waits for the real raw-text end tag after near misses', () => {
+    const { coordinator, output } = createCoordinator();
+    coordinator.markShellFinished();
+
+    coordinator.writeReact(
+      '<script>a <b; c </scr; d </scripts; e = "<</script"; f <<</',
+    );
+    coordinator.enqueueResolver(resolver('script'));
+    coordinator.writeReact('SCRIPT');
+    coordinator.writeReact('><p>next</p>');
+
+    expect(output()).toBe(
+      '<script>a <b; c </scr; d </scripts; e = "<</script"; f <<</SCRIPT><script data-resolver="script"></script><p>next</p>',
+    );
+  });
+});
+
+describe('hasDeferredResolvers', () => {
+  const settled = () => Promise.resolve('value');
+
+  test.each<
+    [
+      string,
+      Array<[string, unknown]>,
+      Map<string, string[]> | undefined,
+      boolean,
+    ]
+  >([
+    ['no entries', [], new Map(), false],
+    ['non-deferred values', [['route', { foo: 1 }]], new Map(), false],
+    [
+      'loader data without deferred keys',
+      [['route', { data: { a: 1 }, pendingKeys: [] }]],
+      new Map([['route', []]]),
+      false,
+    ],
+    [
+      'a pending deferred key',
+      [['route', { data: { a: settled() }, pendingKeys: ['a'] }]],
+      new Map([['route', ['a']]]),
+      true,
+    ],
+    [
+      'a deferred key that was not serialized',
+      [['route', { data: { a: settled() }, pendingKeys: ['a'] }]],
+      new Map(),
+      false,
+    ],
+    [
+      'pending keys without serialized keys',
+      [['route', { data: { a: settled() }, pendingKeys: ['a'] }]],
+      undefined,
+      true,
+    ],
+    [
+      'a serialized key that is not a promise',
+      [['route', { data: { a: 'ready' }, pendingKeys: ['a'] }]],
+      new Map([['route', ['a']]]),
+      false,
+    ],
+    [
+      'one deferred route among plain routes',
+      [
+        ['layout', { data: { a: 1 }, pendingKeys: [] }],
+        ['page', { data: { b: settled() }, pendingKeys: ['b'] }],
+      ],
+      new Map([
+        ['layout', []],
+        ['page', ['b']],
+      ]),
+      true,
+    ],
+  ])(
+    'matches whether enqueueFromEntries emits a resolver: %s',
+    async (_name, entries, deferredScriptKeys, expected) => {
+      const scripts: string[] = [];
+      await enqueueFromEntries(entries, deferredScriptKeys, undefined, script =>
+        scripts.push(script),
+      );
+
+      expect(hasDeferredResolvers(entries, deferredScriptKeys)).toBe(expected);
+      expect(scripts.length > 0).toBe(expected);
+    },
+  );
+});
+
+describe('createReadableStreamFromElement deferred resolvers', () => {
+  const SHELL_BEFORE = '<html><body><div id="root">';
+  const SHELL_AFTER = '</div></body></html>';
+  const options = {
+    runtimeContext: {
+      ssrContext: { request: { pathname: '/', url: 'http://localhost/' } },
+    },
+    config: {},
+    ssrConfig: {},
+    htmlTemplate: `${SHELL_BEFORE}<!--<?- html ?>-->${SHELL_AFTER}`,
+    entryName: 'main',
+    onError: () => {},
+  } as any;
+
+  async function renderStream(
+    activeDeferreds: Map<string, unknown>,
+    deferredScriptKeys: Map<string, string[]>,
+  ) {
+    // Replace the React output with a fixed document so the test controls it.
+    const document = `${REPRESENTATIVE_HTML}${ESCAPED_SHELL_STREAM_END_MARK}<p>after</p>`;
+    setGlobalInternalRuntimeContext({
+      hooks: {
+        extendStreamSSR: {
+          call: () => [
+            {
+              processStream: (reactStream: NodeJS.ReadWriteStream) => {
+                reactStream.resume();
+                return Readable.from(chunkString(document, 64));
+              },
+            },
+          ],
+        },
+      },
+    } as any);
+
+    const stream = await storage.run(
+      { activeDeferreds, deferredScriptKeys },
+      () =>
+        createReadableStreamFromElement(
+          new Request('http://localhost/'),
+          createElement('div'),
+          options,
+        ),
+    );
+    return new Response(stream).text();
+  }
+
+  test.each([
+    ['no loader data', new Map(), new Map()],
+    [
+      'loader data without deferred keys',
+      new Map([['route', { data: { a: 1 }, pendingKeys: [] }]]),
+      new Map([['route', []]]),
+    ],
+  ])(
+    'does not tokenize the stream with %s',
+    async (_name, activeDeferreds, deferredScriptKeys) => {
+      const consume = rstest.spyOn(
+        DeferredScriptOutputCoordinator.prototype as any,
+        'consume',
+      );
+      try {
+        expect(await renderStream(activeDeferreds, deferredScriptKeys)).toBe(
+          `${SHELL_BEFORE}${REPRESENTATIVE_HTML}${SHELL_AFTER}<p>after</p>`,
+        );
+        expect(consume).not.toHaveBeenCalled();
+      } finally {
+        consume.mockRestore();
+      }
+    },
+  );
+
+  test('tokenizes the stream and emits resolvers for pending deferred data', async () => {
+    const consume = rstest.spyOn(
+      DeferredScriptOutputCoordinator.prototype as any,
+      'consume',
+    );
+    try {
+      const html = await renderStream(
+        new Map([
+          [
+            'route',
+            { data: { a: Promise.resolve('value') }, pendingKeys: ['a'] },
+          ],
+        ]),
+        new Map([['route', ['a']]]),
+      );
+
+      expect(
+        html.startsWith(
+          `${SHELL_BEFORE}${REPRESENTATIVE_HTML}${SHELL_AFTER}<p>after</p><script async data-fn-name="r"`,
+        ),
+      ).toBe(true);
+      expect(consume).toHaveBeenCalled();
+    } finally {
+      consume.mockRestore();
+    }
   });
 });

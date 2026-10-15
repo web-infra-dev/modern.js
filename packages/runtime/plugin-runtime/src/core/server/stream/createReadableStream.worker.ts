@@ -2,7 +2,7 @@ import { renderSSRStream } from '@modern-js/render/ssr';
 import { storage } from '@modern-js/runtime-utils/node';
 import { ESCAPED_SHELL_STREAM_END_MARK } from '../../../common';
 import { RenderLevel } from '../../constants';
-import { enqueueFromEntries } from './deferredScript';
+import { enqueueFromEntries, hasDeferredResolvers } from './deferredScript';
 import { DeferredScriptOutputCoordinator } from './deferredScriptOutputCoordinator';
 import {
   type CreateReadableStreamFromElement,
@@ -118,7 +118,7 @@ export const createReadableStreamFromElement: CreateReadableStreamFromElement =
               ? Array.from(activeDeferreds.entries())
               : [];
 
-          if (entries.length > 0) {
+          if (hasDeferredResolvers(entries, deferredScriptKeys)) {
             deferredResolversComplete = enqueueFromEntries(
               entries,
               deferredScriptKeys,
@@ -134,6 +134,8 @@ export const createReadableStreamFromElement: CreateReadableStreamFromElement =
                 }
               },
             );
+          } else {
+            coordinator.markNoResolvers();
           }
 
           async function push() {
