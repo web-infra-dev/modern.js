@@ -1,5 +1,9 @@
 import type { CacheControl, Container } from '@modern-js/types';
-import { getCacheResult } from '../../src/plugins/render/ssrCache';
+import type { NodeRequest } from '@modern-js/types/server';
+import {
+  getCacheResult,
+  matchCacheControl,
+} from '../../src/plugins/render/ssrCache';
 
 function sleep(timeout: number) {
   return new Promise(resolve => {
@@ -179,5 +183,68 @@ describe('test cacheManager', () => {
     const html3 = await result3.text();
 
     expect(html3).toEqual(`Hello_2`);
+  });
+});
+
+describe('matchCacheControl', () => {
+  const createReq = (url: string) =>
+    ({ url, headers: {} }) as unknown as NodeRequest;
+  const user: CacheControl = { maxAge: 1, staleWhileRevalidate: 1 };
+  const blog: CacheControl = { maxAge: 2, staleWhileRevalidate: 2 };
+  const other: CacheControl = { maxAge: 3, staleWhileRevalidate: 3 };
+
+  it('returns the option of the first matched pattern', () => {
+    const getBlog = rstest.fn(() => blog);
+    const options = {
+      '^/user/\\d+$': user,
+      '^/blog': getBlog,
+      '*': other,
+    };
+
+    // Run twice to also match with compiled patterns.
+    for (let i = 0; i < 2; i++) {
+      expect(matchCacheControl(options, createReq('/user/42'))).toBe(user);
+      const blogReq = createReq('/blog/post');
+      expect(matchCacheControl(options, blogReq)).toBe(blog);
+      expect(getBlog).toHaveBeenLastCalledWith(blogReq);
+      expect(matchCacheControl(options, createReq('/user/me'))).toBe(other);
+    }
+    expect(
+      matchCacheControl({ '^/user/\\d+$': user }, createReq('/user/me')),
+    ).toBeUndefined();
+  });
+
+  it('throws for an invalid pattern on every request', () => {
+    for (let i = 0; i < 2; i++) {
+      expect(() =>
+        matchCacheControl({ '/user/(': user }, createReq('/user/1')),
+      ).toThrow(SyntaxError);
+    }
+  });
+
+  it('compiles each pattern only once', () => {
+    const compiled: string[] = [];
+    const OriginalRegExp = globalThis.RegExp;
+    globalThis.RegExp = new Proxy(OriginalRegExp, {
+      construct(target, args) {
+        compiled.push(String(args[0]));
+        return Reflect.construct(target, args);
+      },
+    });
+    try {
+      const options = { '^/compile-once/a': user, '^/compile-once/b': blog };
+      for (let i = 0; i < 3; i++) {
+        expect(matchCacheControl(options, createReq('/compile-once/b'))).toBe(
+          blog,
+        );
+      }
+    } finally {
+      globalThis.RegExp = OriginalRegExp;
+    }
+
+    expect(compiled.filter(source => source.includes('compile-once'))).toEqual([
+      '^/compile-once/a',
+      '^/compile-once/b',
+    ]);
   });
 });
