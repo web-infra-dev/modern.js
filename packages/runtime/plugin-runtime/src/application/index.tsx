@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { startTransition, useEffect } from 'react';
 import { type Root, createRoot, hydrateRoot } from 'react-dom/client';
 import {
   type TInternalRuntimeContext,
@@ -32,7 +32,9 @@ export interface ApplicationInstance {
   ) => Promise<void>;
   mount: (container: HTMLElement, options: ApplicationOptions) => Promise<void>;
   update: (
-    options: Partial<Pick<ApplicationOptions, 'url' | 'props'>>,
+    options: Partial<Pick<ApplicationOptions, 'url' | 'props'>> & {
+      element?: React.ReactElement;
+    },
   ) => Promise<void>;
   destroy: () => void;
 }
@@ -46,7 +48,10 @@ function ApplicationCommit({
 }
 
 /** A separate lifecycle and memory router for each embedded application. */
-export function createApplication(): ApplicationInstance {
+export function createApplication(
+  inputElement?: React.ReactElement,
+): ApplicationInstance {
+  let appElement = inputElement;
   let root: Root | undefined;
   let context: TInternalRuntimeContext | undefined;
   let shellMarker: string | undefined;
@@ -133,9 +138,12 @@ export function createApplication(): ApplicationInstance {
       },
     });
     const hooks = getGlobalInternalRuntimeContext().hooks;
-    RootComponent = hooks.wrapRoot.call(
-      getGlobalApp()!,
-    ) as typeof RootComponent;
+    // A supplied element already contains Modern createRoot() and its wrappers.
+    if (!appElement) {
+      RootComponent = hooks.wrapRoot.call(
+        getGlobalApp()!,
+      ) as typeof RootComponent;
+    }
     await hooks.onBeforeRender.call(context);
     if (destroyed || options.signal?.aborted) {
       options.signal?.throwIfAborted();
@@ -151,11 +159,11 @@ export function createApplication(): ApplicationInstance {
     const element = wrapRuntimeContextProvider(
       snapshot?.shellMarker ? (
         <ApplicationShell marker={snapshot.shellMarker} onCommit={commit}>
-          <RootComponent {...props} />
+          {appElement || <RootComponent {...props} />}
         </ApplicationShell>
       ) : (
         <ApplicationCommit onCommit={commit}>
-          <RootComponent {...props} />
+          {appElement || <RootComponent {...props} />}
         </ApplicationCommit>
       ),
       context,
@@ -202,29 +210,36 @@ export function createApplication(): ApplicationInstance {
       if (options.url) {
         const url = new URL(options.url, window.location.href);
         const pathname = `${url.pathname}${url.search}${url.hash}`;
-        context._application!.url = pathname;
-        await context._application?.router?.navigate(pathname);
+        // Bridge may resend the same location with new component props. Do not
+        // re-run loaders and replace the restored progressive snapshot for it.
+        if (context._application!.url !== pathname) {
+          context._application!.url = pathname;
+          await context._application?.router?.navigate(pathname);
+        }
       }
-      if (options.props) {
+      if (options.props || options.element) {
+        if (options.element) appElement = options.element;
         props = { ...props, ...options.props };
         context = {
           ...context,
           _application: { ...context._application!, props },
         };
-        root.render(
-          wrapRuntimeContextProvider(
-            shellMarker ? (
-              <ApplicationShell marker={shellMarker} onCommit={commit}>
-                <RootComponent {...props} />
-              </ApplicationShell>
-            ) : (
-              <ApplicationCommit onCommit={commit}>
-                <RootComponent {...props} />
-              </ApplicationCommit>
-            ),
-            context,
+        // Keep pending server boundaries eligible for hydration when the Host
+        // updates props after the shell commits but before its data arrives.
+        const currentRoot = root;
+        const element = wrapRuntimeContextProvider(
+          shellMarker ? (
+            <ApplicationShell marker={shellMarker} onCommit={commit}>
+              {appElement || <RootComponent {...props} />}
+            </ApplicationShell>
+          ) : (
+            <ApplicationCommit onCommit={commit}>
+              {appElement || <RootComponent {...props} />}
+            </ApplicationCommit>
           ),
+          context,
         );
+        startTransition(() => currentRoot.render(element));
       }
     },
     destroy,

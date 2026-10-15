@@ -1,0 +1,26 @@
+diff --git a/cjs/react-dom-server.node.development.js b/cjs/react-dom-server.node.development.js
+index de58cde782d8aa60f61062613cb9210c56137d3b..8671f5e542213990892e5f92404473deef3068e7 100644
+--- a/cjs/react-dom-server.node.development.js
++++ b/cjs/react-dom-server.node.development.js
+@@ -126,7 +126,7 @@ function writeStringChunk(destination, stringChunk) {
+   writtenBytes += written;
+ 
+   if (read < stringChunk.length) {
+-    writeToDestination(destination, currentView);
++    writeToDestination(destination, currentView.subarray(0, writtenBytes));
+     currentView = new Uint8Array(VIEW_SIZE);
+     writtenBytes = textEncoder.encodeInto(stringChunk.slice(read), currentView).written;
+   }
+diff --git a/cjs/react-dom-server.node.production.min.js b/cjs/react-dom-server.node.production.min.js
+index 9cc6d69a5038580440f939beaf159d09bf6c98e7..412a837868dc3425362fe5ad4ceabeddc048f452 100644
+--- a/cjs/react-dom-server.node.production.min.js
++++ b/cjs/react-dom-server.node.production.min.js
+@@ -8,7 +8,7 @@
+  * LICENSE file in the root directory of this source tree.
+  */
+ 'use strict';var aa=require("util"),ba=require("react"),k=null,l=0,q=!0;
+-function r(a,b){if("string"===typeof b){if(0!==b.length)if(2048<3*b.length)0<l&&(t(a,k.subarray(0,l)),k=new Uint8Array(2048),l=0),t(a,u.encode(b));else{var c=k;0<l&&(c=k.subarray(l));c=u.encodeInto(b,c);var d=c.read;l+=c.written;d<b.length&&(t(a,k),k=new Uint8Array(2048),l=u.encodeInto(b.slice(d),k).written);2048===l&&(t(a,k),k=new Uint8Array(2048),l=0)}}else 0!==b.byteLength&&(2048<b.byteLength?(0<l&&(t(a,k.subarray(0,l)),k=new Uint8Array(2048),l=0),t(a,b)):(c=k.length-l,c<b.byteLength&&(0===c?t(a,
++function r(a,b){if("string"===typeof b){if(0!==b.length)if(2048<3*b.length)0<l&&(t(a,k.subarray(0,l)),k=new Uint8Array(2048),l=0),t(a,u.encode(b));else{var c=k;0<l&&(c=k.subarray(l));c=u.encodeInto(b,c);var d=c.read;l+=c.written;d<b.length&&(t(a,k.subarray(0,l)),k=new Uint8Array(2048),l=u.encodeInto(b.slice(d),k).written);2048===l&&(t(a,k),k=new Uint8Array(2048),l=0)}}else 0!==b.byteLength&&(2048<b.byteLength?(0<l&&(t(a,k.subarray(0,l)),k=new Uint8Array(2048),l=0),t(a,b)):(c=k.length-l,c<b.byteLength&&(0===c?t(a,
+ k):(k.set(b.subarray(0,c),l),l+=c,t(a,k),b=b.subarray(c)),k=new Uint8Array(2048),l=0),k.set(b,l),l+=b.byteLength,2048===l&&(t(a,k),k=new Uint8Array(2048),l=0)))}function t(a,b){a=a.write(b);q=q&&a}function w(a,b){r(a,b);return q}function ca(a){k&&0<l&&a.write(k.subarray(0,l));k=null;l=0;q=!0}var u=new aa.TextEncoder;function x(a){return u.encode(a)}
+ var y=Object.prototype.hasOwnProperty,da=/^[:A-Z_a-z\u00C0-\u00D6\u00D8-\u00F6\u00F8-\u02FF\u0370-\u037D\u037F-\u1FFF\u200C-\u200D\u2070-\u218F\u2C00-\u2FEF\u3001-\uD7FF\uF900-\uFDCF\uFDF0-\uFFFD][:A-Z_a-z\u00C0-\u00D6\u00D8-\u00F6\u00F8-\u02FF\u0370-\u037D\u037F-\u1FFF\u200C-\u200D\u2070-\u218F\u2C00-\u2FEF\u3001-\uD7FF\uF900-\uFDCF\uFDF0-\uFFFD\-.0-9\u00B7\u0300-\u036F\u203F-\u2040]*$/,ea={},fa={};
+ function ha(a){if(y.call(fa,a))return!0;if(y.call(ea,a))return!1;if(da.test(a))return fa[a]=!0;ea[a]=!0;return!1}function z(a,b,c,d,f,e,g){this.acceptsBooleans=2===b||3===b||4===b;this.attributeName=d;this.attributeNamespace=f;this.mustUseProperty=c;this.propertyName=a;this.type=b;this.sanitizeURL=e;this.removeEmptyString=g}var A={};

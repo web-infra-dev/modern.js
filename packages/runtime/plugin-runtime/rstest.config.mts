@@ -28,6 +28,7 @@ export default {
       exclude: [
         'tests/router/prefetch.test.tsx',
         'tests/application/browser.test.tsx',
+        'tests/mf/browser.test.tsx',
         'tests/ssr/browserHydration.test.tsx',
       ],
       extends: commonConfig,
@@ -56,6 +57,7 @@ export default {
       include: [
         'tests/router/prefetch.test.tsx',
         'tests/application/browser.test.tsx',
+        'tests/mf/browser.test.tsx',
         'tests/ssr/browserHydration.test.tsx',
       ],
       extends: commonConfig,

@@ -22,6 +22,8 @@ export type {
 
 export interface RenderApplicationOptions {
   identifierPrefix: string;
+  /** Already wrapped by Modern createRoot; do not wrap the component again. */
+  element?: React.ReactElement;
   /** Emit an initial snapshot and independently settling loader values. */
   progressiveHydration?: boolean;
   basename?: string;
@@ -89,13 +91,12 @@ export async function renderApplication(
       const shellMarker = options.progressiveHydration
         ? `${options.identifierPrefix}shell`
         : undefined;
+      const app = options.element || <Root {...props} />;
       const element = wrapRuntimeContextProvider(
         shellMarker ? (
-          <ApplicationShell marker={shellMarker}>
-            <Root {...props} />
-          </ApplicationShell>
+          <ApplicationShell marker={shellMarker}>{app}</ApplicationShell>
         ) : (
-          <Root {...props} />
+          app
         ),
         runtimeContext,
       );
