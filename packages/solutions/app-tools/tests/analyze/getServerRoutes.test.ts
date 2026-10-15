@@ -299,6 +299,35 @@ describe('get server routes', () => {
     ]);
   });
 
+  test(`should support public folder without config dir`, () => {
+    const appDirectory = path.resolve(
+      __dirname,
+      './fixtures/server-routes/has-config/config',
+    );
+
+    const routes = getServerRoutes([], {
+      appContext: { appDirectory } as AppToolsContext,
+      config: {
+        source: {},
+        output: outputConfig,
+        html: htmlConfig,
+        server: serverConfig,
+      } as any,
+    });
+
+    expect(
+      routes.map(({ urlPath, entryPath }) => ({ urlPath, entryPath })),
+    ).toEqual(
+      expect.arrayContaining([
+        { urlPath: '/b/about/logo.png', entryPath: 'public/b/about/logo.png' },
+        { urlPath: '/b/info.js', entryPath: 'public/b/info.js' },
+        { urlPath: '/test.json', entryPath: 'public/test.json' },
+        { urlPath: '/wx.txt', entryPath: 'public/wx.txt' },
+      ]),
+    );
+    expect(routes).toHaveLength(4);
+  });
+
   test(`should support disable spa`, () => {
     const routes = getServerRoutes(
       [{ entryName: 'page-a' }] as Entrypoint[],

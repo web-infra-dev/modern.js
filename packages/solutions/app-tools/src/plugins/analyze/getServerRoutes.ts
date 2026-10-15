@@ -212,6 +212,8 @@ const collectStaticRoutes = (
     server: { publicRoutes = {} },
   } = config;
   const publicFolder = path.resolve(appDirectory, configDir || '', 'public');
+  const configFolder = path.resolve(appDirectory, configDir || '');
+  const publicFolderLength = toPosix(publicFolder).length;
 
   const ignoreFiles = ['.gitkeep'];
 
@@ -220,19 +222,14 @@ const collectStaticRoutes = (
         .filter(filePath => !ignoreFiles.includes(path.basename(filePath)))
         .map(filePath => {
           const urlPath = `${urlJoin(
-            toPosix(filePath).slice(toPosix(publicFolder).length),
+            toPosix(filePath).slice(publicFolderLength),
           )}`;
 
           return {
             urlPath: publicRoutes[removeLeadingSlash(urlPath)] || urlPath,
             isSPA: true,
             isSSR: false,
-            entryPath: toPosix(
-              path.relative(
-                path.resolve(appDirectory, configDir || ''),
-                filePath,
-              ),
-            ),
+            entryPath: toPosix(path.relative(configFolder, filePath)),
           };
         })
     : [];
