@@ -3,7 +3,6 @@ import { StringDecoder } from 'string_decoder';
 import { storage } from '@modern-js/runtime-utils/node';
 import { SSR_HYDRATION_ID_PREFIX } from '@modern-js/utils/universal/constants';
 import type { ReactElement } from 'react';
-import { ESCAPED_SHELL_STREAM_END_MARK } from '../../../common';
 import { RenderLevel } from '../../constants';
 import { getGlobalInternalRuntimeContext } from '../../context';
 import { getMonitors } from '../../context/monitors';
@@ -12,6 +11,7 @@ import { DeferredScriptOutputCoordinator } from './deferredScriptOutputCoordinat
 import {
   type CreateReadableStreamFromElement,
   ShellChunkStatus,
+  createShellEndMarkSplitter,
   getReadableStreamFromString,
   resolveStreamingMode,
 } from './shared';
@@ -62,7 +62,7 @@ export const createReadableStreamFromElement: CreateReadableStreamFromElement =
       }
     });
 
-    const chunkVec: Buffer[] = [];
+    const splitAtShellEndMark = createShellEndMarkSplitter();
 
     return new Promise(resolve => {
       const { pipe: reactStreamingPipe } = renderToPipeableStream(
@@ -107,9 +107,6 @@ export const createReadableStreamFromElement: CreateReadableStreamFromElement =
                 transform(chunk, _encoding, callback) {
                   try {
                     if (shellChunkStatus !== ShellChunkStatus.FINISH) {
-                      chunkVec.push(
-                        Buffer.isBuffer(chunk) ? chunk : Buffer.from(chunk),
-                      );
                       /**
                        * The shell content of App may be splitted by multiple chunks to transform,
                        * when any node value's size is larger than the React limitation, refer to:
@@ -118,23 +115,19 @@ export const createReadableStreamFromElement: CreateReadableStreamFromElement =
                        *
                        * The marker can also land in the middle of a chunk that already carries
                        * suspense-boundary content emitted right after the shell (React's chunk
-                       * boundaries are byte-driven, not render-phase-driven). Concat first so
-                       * we also catch markers that straddle two chunks, then split the buffered
+                       * boundaries are byte-driven, not render-phase-driven). The splitter also
+                       * catches markers that straddle two chunks, then splits the buffered
                        * content at the marker: everything before goes between shellBefore and
                        * shellAfter; everything after goes out as-is so it lands past the
                        * closing `</html>` instead of being swallowed inside it.
                        */
-                      const concatedChunk = Buffer.concat(
-                        chunkVec as any,
-                      ).toString('utf-8');
-                      const markerIndex = concatedChunk.indexOf(
-                        ESCAPED_SHELL_STREAM_END_MARK,
+                      const shell = splitAtShellEndMark(
+                        decoder.write(
+                          Buffer.isBuffer(chunk) ? chunk : Buffer.from(chunk),
+                        ),
                       );
-                      if (markerIndex !== -1) {
-                        const beforeMark = concatedChunk.slice(0, markerIndex);
-                        const afterMark = concatedChunk.slice(
-                          markerIndex + ESCAPED_SHELL_STREAM_END_MARK.length,
-                        );
+                      if (shell) {
+                        const { beforeMark, afterMark } = shell;
 
                         shellChunkStatus = ShellChunkStatus.FINISH;
                         writeReact(`${shellBefore}${beforeMark}${shellAfter}`);
