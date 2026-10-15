@@ -133,12 +133,21 @@ async function generateHtml(
 
   const { ssrScripts, cssChunk, jsChunk } = chunkSet;
 
-  const finalHtml = await buildHtml(htmlTemplate, [
-    createReplaceHtml(html),
+  const replaceHtml = createReplaceHtml(html);
+  const replaceChunks = [
     createReplaceChunkJs(jsChunk),
     createReplaceChunkCss(cssChunk),
-    createReplaceSSRDataScript(ssrScripts),
-    createReplaceHelemt(helmetData),
+  ];
+  const replaceSSRData = createReplaceSSRDataScript(ssrScripts);
+  const replaceHelmet = createReplaceHelemt(helmetData);
+
+  // Insert the large SSR data and app html after the template edits, so they
+  // aren't scanned and copied by each edit. Helmet detects the <title> in the
+  // whole document, so keep the previous order if the app html may have one.
+  const finalHtml = await buildHtml(htmlTemplate, [
+    ...(html.includes('<title')
+      ? [replaceHtml, ...replaceChunks, replaceSSRData, replaceHelmet]
+      : [...replaceChunks, replaceHelmet, replaceSSRData, replaceHtml]),
     ...htmlModifiers,
   ]);
 
