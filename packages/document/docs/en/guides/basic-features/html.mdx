@@ -19,9 +19,8 @@ For example, consider the following directory structure:
     ├── entry-a
     │   ├── Document.tsx
     │   └── routes
-    ├── entry-b
-    │    └── routes
-    └── modern-app-env.d.ts
+    └── entry-b
+         └── routes
 ```
 
 `entry-a` will use the `Document.tsx` file under the current entry as the template. If there is no `Document.tsx` file under the current entry, like `entry-b`, it will look for the `Document.tsx` file under the root directory.

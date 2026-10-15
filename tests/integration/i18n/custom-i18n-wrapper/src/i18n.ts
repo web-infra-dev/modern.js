@@ -1,24 +1,6 @@
-import i18next from 'i18next';
+import { createCustomI18nInstance } from './custom-i18n-instance';
 
-const instance = i18next.createInstance();
+// Runtime configuration and direct application imports share this instance.
+const I18n = createCustomI18nInstance();
 
-instance.init({
-  lng: 'en',
-  fallbackLng: 'en',
-  resources: {
-    en: {
-      translation: {
-        key: 'Hello World from HTTP',
-        about: 'About page from HTTP',
-      },
-    },
-    zh: {
-      translation: {
-        key: '你好，世界（HTTP）',
-        about: '关于（HTTP）',
-      },
-    },
-  },
-});
-
-export default instance;
+export default I18n;

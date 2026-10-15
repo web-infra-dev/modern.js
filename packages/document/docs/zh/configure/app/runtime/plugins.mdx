@@ -50,9 +50,11 @@ import { defineRuntimeConfig } from '@modern-js/runtime';
 import { myPlugin } from './config/plugin/myPlugin';
 
 export default defineRuntimeConfig({
-  plugins: [myPlugin({
-    foo: 1,
-    bar: 2,
-  })],
+  plugins: [
+    myPlugin({
+      foo: 1,
+      bar: 2,
+    }),
+  ],
 });
 ```

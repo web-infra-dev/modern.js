@@ -5,9 +5,8 @@ const lazy = (
   moduleName: string,
   getRequireFn: () => (id: string) => unknown,
 ): any => {
-  const importLazyLocal: (moduleName: string) => unknown = createLazy(
-    getRequireFn(),
-  );
+  const importLazyLocal: (moduleName: string) => unknown =
+    createLazy(getRequireFn());
   return importLazyLocal(moduleName);
 };
 

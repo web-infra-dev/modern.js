@@ -44,7 +44,7 @@ export const serverStaticPlugin = (): ServerPlugin => ({
   },
 });
 
-export type PublicMiddlwareOptions = {
+export type PublicMiddlewareOptions = {
   pwd: string;
   routes: ServerRoute[];
 };
@@ -52,7 +52,7 @@ export type PublicMiddlwareOptions = {
 export function createPublicMiddleware({
   pwd,
   routes,
-}: PublicMiddlwareOptions): Middleware {
+}: PublicMiddlewareOptions): Middleware {
   return async (c, next) => {
     const route = matchPublicRoute(c.req, routes);
 
@@ -153,9 +153,8 @@ export function createStaticMiddleware(
   const prefix = options.output.assetPrefix || '/';
   const pathPrefix = extractPathname(prefix);
 
-  const {
-    distPath: { css: cssPath, js: jsPath, media: mediaPath } = {},
-  } = options.output;
+  const { distPath: { css: cssPath, js: jsPath, media: mediaPath } = {} } =
+    options.output;
   const { favicon } = options.html;
   const { publicDir } = options.server;
   const favicons = prepareFavicons(favicon);

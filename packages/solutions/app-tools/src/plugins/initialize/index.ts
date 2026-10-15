@@ -80,7 +80,6 @@ export default (): CliPlugin<AppTools> => ({
           'html',
           'output',
           'tools',
-          'testing',
           'plugins',
           'builderPlugins',
           'deploy',

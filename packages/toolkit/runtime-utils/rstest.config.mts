@@ -21,6 +21,11 @@ export default {
         'tests/browser/**/*.{test,spec}.{js,cjs,mjs,ts,tsx}',
       ],
       globals: true,
+      tools: {
+        swc: {
+          jsc: { transform: { react: { runtime: 'automatic' } } },
+        },
+      },
     }),
   ],
 };

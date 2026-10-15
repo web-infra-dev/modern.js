@@ -2,7 +2,12 @@ html,
 body {
   padding: 0;
   margin: 0;
-  font-family: Inter, PingFang SC, Hiragino Sans GB, Microsoft YaHei, Arial,
+  font-family:
+    Inter,
+    PingFang SC,
+    Hiragino Sans GB,
+    Microsoft YaHei,
+    Arial,
     sans-serif;
   color: #18212f;
   background: #f4f6f8;
@@ -56,14 +61,14 @@ code {
 .app {
   min-height: 100vh;
   padding: 56px;
-  background: linear-gradient(135deg, rgba(11, 111, 106, 0.1), transparent 42%),
-    #f4f6f8;
+  background:
+    linear-gradient(135deg, rgba(11, 111, 106, 0.1), transparent 42%), #f4f6f8;
   transition: background 160ms ease;
 }
 
 .app.is-highlighted {
-  background: linear-gradient(135deg, rgba(139, 43, 43, 0.12), transparent 42%),
-    #f7f4ef;
+  background:
+    linear-gradient(135deg, rgba(139, 43, 43, 0.12), transparent 42%), #f7f4ef;
 }
 
 .intro {

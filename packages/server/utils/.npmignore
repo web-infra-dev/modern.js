@@ -25,7 +25,6 @@ tests/
 src/
 
 modern.config.*
-jest.config.js
 .eslintrc.js
 .eslintrc
 tsconfig.json

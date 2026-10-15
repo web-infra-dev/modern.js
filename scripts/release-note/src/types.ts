@@ -31,12 +31,7 @@ export const ChangesTitle = `What's Changed`;
 export const ChangesZhTitle = '更新内容';
 
 export type CommitType =
-  | 'performance'
-  | 'features'
-  | 'bugFix'
-  | 'doc'
-  | 'dependencies'
-  | 'other';
+  'performance' | 'features' | 'bugFix' | 'doc' | 'dependencies' | 'other';
 
 export interface CommitObj {
   id: string;

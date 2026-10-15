@@ -14,10 +14,7 @@ type ForceSplitting = RegExp[] | Record<string, RegExp>;
 
 interface BaseChunkSplit {
   strategy?:
-    | 'split-by-module'
-    | 'split-by-experience'
-    | 'all-in-one'
-    | 'single-vendor';
+    'split-by-module' | 'split-by-experience' | 'all-in-one' | 'single-vendor';
   override?: SplitChunks;
   forceSplitting?: ForceSplitting;
 }

@@ -239,12 +239,12 @@ In RSC projects, you have two ways to fetch data: directly in Server Components,
 
 ### Comparison of Two Data Fetching Approaches
 
-| Feature | Fetching in Server Component | Fetching in Data Loader |
-| --- | --- | --- |
-| Avoid Request Waterfall | Requires manual optimization | ✅ Automatically parallel execution |
-| Component Cohesion | ✅ Data and UI in the same place | Data logic separated into separate files |
-| Maintainability | ✅ Easier to understand and maintain | Requires maintaining additional files |
-| Type Safety | ✅ Natural type inference | Requires manual type management |
+| Feature                 | Fetching in Server Component         | Fetching in Data Loader                  |
+| ----------------------- | ------------------------------------ | ---------------------------------------- |
+| Avoid Request Waterfall | Requires manual optimization         | ✅ Automatically parallel execution      |
+| Component Cohesion      | ✅ Data and UI in the same place     | Data logic separated into separate files |
+| Maintainability         | ✅ Easier to understand and maintain | Requires maintaining additional files    |
+| Type Safety             | ✅ Natural type inference            | Requires manual type management          |
 
 **Generally, we recommend fetching data in Server Components**, because waterfall requests have less performance impact on the server, and this approach makes components more cohesive, with data fetching logic and UI rendering in the same place, making it easier to understand and maintain. However, if your page has multiple independent data sources and you want to completely avoid request waterfall issues, Data Loader's parallel execution feature will be more advantageous.
 
@@ -268,7 +268,11 @@ In Modern.js RSC projects, Server Components can receive data returned by Data L
 
 ```tsx title="routes/user/page.tsx"
 // Server Component receives loaderData through props
-export default function UserPage({ loaderData }: { loaderData: { name: string } }) {
+export default function UserPage({
+  loaderData,
+}: {
+  loaderData: { name: string };
+}) {
   return <div>Welcome, {loaderData.name}</div>;
 }
 ```
@@ -276,7 +280,11 @@ export default function UserPage({ loaderData }: { loaderData: { name: string } 
 ```tsx title="routes/user/page.tsx"
 'use client';
 // Client Component can also receive loaderData through props
-export default function UserPage({ loaderData }: { loaderData: { name: string } }) {
+export default function UserPage({
+  loaderData,
+}: {
+  loaderData: { name: string };
+}) {
   return <div>Welcome, {loaderData.name}</div>;
 }
 ```
@@ -514,7 +522,6 @@ export default function ProfilePage() {
 When using React 19, you no longer need to use Helmet. We recommend directly using the [components](https://react.dev/reference/react-dom/components) provided by React.
 
 import DeployTip from '@site-docs/components/rsc-deploy-tip';
-
 
 <DeployTip />
 

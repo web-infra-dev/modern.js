@@ -1,6 +1,7 @@
 ---
 title: RuntimeContext
 ---
+
 # RuntimeContext
 
 `RuntimeContext` 是一个 React Context，用于在组件中获取 Runtime 上下文信息。该 Context 可以通过 React 的 `use` 或 `useContext` API 访问。
@@ -19,7 +20,7 @@ import { RuntimeContext } from '@modern-js/runtime';
 
 export function App() {
   const runtimeContext = use(RuntimeContext); // 也可以使用 useContext(RuntimeContext)
-  return <div>Hello World</div>
+  return <div>Hello World</div>;
 }
 ```
 
@@ -53,21 +54,21 @@ type TRuntimeContext = {
 ```ts
 type RequestContext = {
   request: {
-    params: Record<string, string>;      // 路由参数
-    pathname: string;                    // 路径名
-    query: Record<string, string>;       // 查询参数
-    headers: IncomingHttpHeaders;        // 请求头
-    host: string;                        // 主机名
-    url: string;                         // 完整 URL
-    referer?: string;                    // 来源页面
-    userAgent?: string;                  // 用户代理
-    cookie?: string;                     // Cookie 字符串
-    cookieMap?: Record<string, string>;  // Cookie 映射对象
+    params: Record<string, string>; // 路由参数
+    pathname: string; // 路径名
+    query: Record<string, string>; // 查询参数
+    headers: IncomingHttpHeaders; // 请求头
+    host: string; // 主机名
+    url: string; // 完整 URL
+    referer?: string; // 来源页面
+    userAgent?: string; // 用户代理
+    cookie?: string; // Cookie 字符串
+    cookieMap?: Record<string, string>; // Cookie 映射对象
   };
   response: {
-    setHeader: (key: string, value: string) => void;  // 设置响应头（仅服务端）
-    status: (code: number) => void;                    // 设置状态码（仅服务端）
-    locals: Record<string, any>;                       // 本地数据
+    setHeader: (key: string, value: string) => void; // 设置响应头（仅服务端）
+    status: (code: number) => void; // 设置状态码（仅服务端）
+    locals: Record<string, any>; // 本地数据
   };
 };
 ```
@@ -91,11 +92,11 @@ function App() {
 
   if (isBrowser === true) {
     // 浏览器端执行逻辑
-    console.log('browser render')
+    console.log('browser render');
   } else {
     // 服务器端执行逻辑
     // 注意：logger 等功能需要通过 Runtime 插件注入到 context 中
-    console.log('server render')
+    console.log('server render');
   }
 }
 ```
@@ -157,4 +158,3 @@ export default function MyComponent() {
   return <div>{message}</div>;
 }
 ```
-

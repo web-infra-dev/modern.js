@@ -49,10 +49,7 @@ interface GlobalContext {
 
 const globalContext: GlobalContext = {};
 
-export {
-  getServerPayload,
-  setServerPayload,
-} from './serverPayload/index';
+export { getServerPayload, setServerPayload } from './serverPayload/index';
 
 export function getGlobalIsRscClient() {
   return globalContext.isRscClient;

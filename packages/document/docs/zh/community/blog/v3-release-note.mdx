@@ -44,11 +44,11 @@ Modern.js 3.0 集成 React Server Component，支持 CSR 和 SSR 项目，并支
 
 React Server Components（服务端组件）是一种新的组件类型，它允许**组件逻辑完全在服务端执行**，并直接将渲染后的 UI 流式传输到客户端。与传统的客户端组件相比，服务端组件带来了以下特性：
 
-| 特性 | 说明 |
-| --- | --- |
-| 零客户端包体积 | 组件代码不包含在客户端 JS Bundle 中，仅在服务端执行，加快首屏加载与渲染速度 |
-| 更高的内聚性 | 组件可直接连接数据库、调用内部 API、读取本地文件，提高开发效率 |
-| 渐进增强 | 可与客户端组件无缝混合使用，按需下放交互逻辑到客户端，在保持高性能的同时，支持复杂交互体验 |
+| 特性           | 说明                                                                                       |
+| -------------- | ------------------------------------------------------------------------------------------ |
+| 零客户端包体积 | 组件代码不包含在客户端 JS Bundle 中，仅在服务端执行，加快首屏加载与渲染速度                |
+| 更高的内聚性   | 组件可直接连接数据库、调用内部 API、读取本地文件，提高开发效率                             |
+| 渐进增强       | 可与客户端组件无缝混合使用，按需下放交互逻辑到客户端，在保持高性能的同时，支持复杂交互体验 |
 
 需要明确的是，RSC 和 SSR 是**截然不同的概念**：
 
@@ -67,7 +67,7 @@ React Server Components（服务端组件）是一种新的组件类型，它允
 export default defineConfig({
   server: {
     rsc: true,
-  }
+  },
 });
 ```
 
@@ -75,7 +75,14 @@ export default defineConfig({
 配置启用后，所有的路由组件都会默认成为 Server Component。项目中可能存在无法在服务端运行的组件，你可以先为这些组件添加 `'use client'` 标记，以保持原有行为，再逐步迁移。
 :::
 
-<video src="https://lf3-static.bytednsdoc.com/obj/eden-cn/nuvjhpqnuvr/rsc.mp4" controls autoplay loop muted style={{ width: '100%', borderRadius: 8 }} />
+<video
+  src="https://lf3-static.bytednsdoc.com/obj/eden-cn/nuvjhpqnuvr/rsc.mp4"
+  controls
+  autoplay
+  loop
+  muted
+  style={{ width: '100%', borderRadius: 8 }}
+/>
 
 #### Modern.js 3.0 的 RSC 特性
 
@@ -156,7 +163,7 @@ import('./module').then(({ value }) => {
 });
 
 // 函数体内的解构访问
-import('./module').then((mod) => {
+import('./module').then(mod => {
   const { value } = mod;
   console.log(value);
 });
@@ -236,7 +243,10 @@ export default defineRuntimeConfig({
 在 Modern.js 3.0 中，我们使用 [Hono](https://hono.dev) 重构了 Web Server，并正式开放了服务端中间件与插件的能力。开发者可以使用 Hono 的中间件来完成需求：
 
 ```ts title="server/modern.server.ts"
-import { defineServerConfig, type MiddlewareHandler } from "@modern-js/server-runtime";
+import {
+  defineServerConfig,
+  type MiddlewareHandler,
+} from '@modern-js/server-runtime';
 
 const timingMiddleware: MiddlewareHandler = async (c, next) => {
   const start = Date.now();
@@ -249,8 +259,8 @@ const htmlMiddleware: MiddlewareHandler = async (c, next) => {
   await next();
   const html = await c.res.text();
   const modified = html.replace(
-    "<head>",
-    '<head><meta name="generator" content="Modern.js">'
+    '<head>',
+    '<head><meta name="generator" content="Modern.js">',
   );
   c.res = c.body(modified, { status: c.res.status, headers: c.res.headers });
 };
@@ -321,13 +331,13 @@ React Router v6 是一个重要的过渡版本，它引入了许多新特性（�
 因此，Modern.js 3.0 提供了完整的配置式路由支持，可以与约定式路由一起使用，或两者分别单独使用。
 
 ```ts title="src/modern.routes.ts"
-import { defineRoutes } from "@modern-js/runtime/config-routes";
+import { defineRoutes } from '@modern-js/runtime/config-routes';
 
 export default defineRoutes(({ route, layout, page }) => {
   return [
-    route("home.tsx", "/"),
-    route("about.tsx", "about"),
-    route("blog.tsx", "blog/:id"),
+    route('home.tsx', '/'),
+    route('about.tsx', 'about'),
+    route('blog.tsx', 'blog/:id'),
   ];
 });
 ```
@@ -364,8 +374,7 @@ Modern.js 3.0 重做了 SSG 能力，提供了灵活的缓存能力，对降级�
 - 简化了 API，降低理解成本
 - 与约定式路由更好地结合
 
-
-在新版本中，你可以通过  data loader 进行数据获取，与非 SSG 场景保持一致。然后在 ssg.routes 配置中即可直接指定要渲染的路由：
+在新版本中，你可以通过 data loader 进行数据获取，与非 SSG 场景保持一致。然后在 ssg.routes 配置中即可直接指定要渲染的路由：
 
 ```ts title="modern.config.ts"
 export default defineConfig({
@@ -414,19 +423,19 @@ export const cacheOption: CacheOption = {
 我们在新版本中提供了 `cache` 函数，相比渲染缓存它提供了更精细的数据粒度控制。当多个数据请求依赖同一份数据时，`cache` 可以避免重复请求：
 
 ```ts title="server/loader.ts"
-import { cache } from "@modern-js/runtime/cache";
-import { fetchUserData, fetchUserProjects, fetchUserTeam } from "./api";
+import { cache } from '@modern-js/runtime/cache';
+import { fetchUserData, fetchUserProjects, fetchUserTeam } from './api';
 
 // 缓存用户数据，避免重复请求
 const getUser = cache(fetchUserData);
 
 const getProjects = async () => {
-  const user = await getUser("test-user");
+  const user = await getUser('test-user');
   return fetchUserProjects(user.id);
 };
 
 const getTeam = async () => {
-  const user = await getUser("test-user"); // 复用缓存，不会重复请求
+  const user = await getUser('test-user'); // 复用缓存，不会重复请求
   return fetchUserTeam(user.id);
 };
 
@@ -445,14 +454,14 @@ export const loader = async () => {
 
 在实践过程中，我们沉淀了多维度的降级策略：
 
-| 类型 | 触发方式 | 降级行为 | 使用场景 |
-| --- | --- | --- | --- |
-| 异常降级 | Data Loader 执行报错 | 触发 ErrorBoundary | 数据请求异常兜底 |
-| 组件渲染报错 | 服务端渲染异常 | 降级到 CSR，复用已有数据渲染 | 服务端渲染异常兜底 |
-| 业务降级 | Loader 抛出 `throw Response` | 触发 ErrorBoundary，返回对应 HTTP 状态码 | 404、权限校验等业务场景 |
-| 配置 Client Loader | 配置 Client Loader | 绕过 SSR，直接请求数据源 | 需要在客户端直接获取数据的场景 |
-| 强制降级 | Query 参数 `?__csr=true` | 跳过 SSR，返回 CSR 页面 | 调试、临时降级 |
-| 强制降级 | 请求头 `x-modern-ssr-fallback` | 跳过 SSR，返回 CSR 页面 | 网关层控制降级 |
+| 类型               | 触发方式                       | 降级行为                                 | 使用场景                       |
+| ------------------ | ------------------------------ | ---------------------------------------- | ------------------------------ |
+| 异常降级           | Data Loader 执行报错           | 触发 ErrorBoundary                       | 数据请求异常兜底               |
+| 组件渲染报错       | 服务端渲染异常                 | 降级到 CSR，复用已有数据渲染             | 服务端渲染异常兜底             |
+| 业务降级           | Loader 抛出 `throw Response`   | 触发 ErrorBoundary，返回对应 HTTP 状态码 | 404、权限校验等业务场景        |
+| 配置 Client Loader | 配置 Client Loader             | 绕过 SSR，直接请求数据源                 | 需要在客户端直接获取数据的场景 |
+| 强制降级           | Query 参数 `?__csr=true`       | 跳过 SSR，返回 CSR 页面                  | 调试、临时降级                 |
+| 强制降级           | 请求头 `x-modern-ssr-fallback` | 跳过 SSR，返回 CSR 页面                  | 网关层控制降级                 |
 
 ---
 

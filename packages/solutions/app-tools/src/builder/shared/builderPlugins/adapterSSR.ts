@@ -222,10 +222,7 @@ function applyAsyncChunkHtmlPlugin({
   if (streamSSR || isUseRsc(modernConfig)) {
     chain
       .plugin('html-async-chunk')
-      .use(HtmlAsyncChunkPlugin, [
-        HtmlBundlerPlugin,
-        streamSSR,
-      ]);
+      .use(HtmlAsyncChunkPlugin, [HtmlBundlerPlugin, streamSSR]);
   }
 }
 

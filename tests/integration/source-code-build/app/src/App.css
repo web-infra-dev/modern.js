@@ -3,8 +3,15 @@ body {
   padding: 0;
   margin: 0;
   font-family:
-    nunito_for_arco, Helvetica Neue, Helvetica, PingFang SC,
-    Hiragino Sans GB, Microsoft YaHei, 微软雅黑, Arial, sans-serif;
+    nunito_for_arco,
+    Helvetica Neue,
+    Helvetica,
+    PingFang SC,
+    Hiragino Sans GB,
+    Microsoft YaHei,
+    微软雅黑,
+    Arial,
+    sans-serif;
 }
 
 * {
@@ -72,8 +79,14 @@ main {
   padding: 0.75rem;
   font-size: 1.1rem;
   font-family:
-    Menlo, Monaco, Lucida Console, Liberation Mono, DejaVu Sans Mono,
-    Bitstream Vera Sans Mono, Courier New, monospace;
+    Menlo,
+    Monaco,
+    Lucida Console,
+    Liberation Mono,
+    DejaVu Sans Mono,
+    Bitstream Vera Sans Mono,
+    Courier New,
+    monospace;
 }
 
 @media (max-width: 600px) {
@@ -103,7 +116,9 @@ main {
   text-decoration: none;
   border: 1px solid #470000;
   color: #470000;
-  transition: color 0.15s ease, border-color 0.15s ease;
+  transition:
+    color 0.15s ease,
+    border-color 0.15s ease;
   width: 45%;
 }
 

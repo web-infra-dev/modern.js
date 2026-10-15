@@ -3,13 +3,13 @@
   "version": "0.1.0",
   "scripts": { "dev": "modern dev", "build": "modern build", "new": "modern new", "upgrade": "modern upgrade" },
   "dependencies": {
-    "@modern-js/runtime": "2.68.0",
+    "@modern-js/runtime": "2.71.1",
     "react": "^18.3.1",
     "react-dom": "^18.3.1"
   },
   "devDependencies": {
-    "@modern-js/app-tools": "2.68.0",
-    "@modern-js/plugin-server": "2.68.0",
-    "@modern-js/plugin-bff": "2.68.0"
+    "@modern-js/app-tools": "2.71.1",
+    "@modern-js/plugin-server": "2.70.4",
+    "@modern-js/plugin-bff": "2.71.1"
   }
 }

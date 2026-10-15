@@ -15,7 +15,7 @@
     "modern",
     "modern.js"
   ],
-  "version": "3.9.1",
+  "version": "3.9.3",
   "types": "./src/index.ts",
   "main": "./dist/cjs/index.js",
   "exports": {
@@ -114,13 +114,13 @@
   },
   "scripts": {
     "prepublishOnly": "only-allow-pnpm",
-    "dev": "rslib build --watch",
-    "build": "rslib build && node ./bin/modern-bundle-docs.js",
+    "dev": "rs lib --watch",
+    "build": "rs lib && node ./bin/modern-bundle-docs.js",
     "test": "rstest"
   },
   "dependencies": {
-    "@babel/parser": "^7.29.8",
-    "@babel/traverse": "^7.29.8",
+    "@babel/parser": "^7.29.9",
+    "@babel/traverse": "^7.29.10",
     "@babel/types": "^7.29.8",
     "@modern-js/builder": "workspace:*",
     "@modern-js/i18n-utils": "workspace:*",
@@ -132,8 +132,8 @@
     "@modern-js/server-utils": "workspace:*",
     "@modern-js/types": "workspace:*",
     "@modern-js/utils": "workspace:*",
-    "@rsbuild/core": "2.2.7",
-    "@swc/core": "1.15.41",
+    "@rsbuild/core": "2.2.13",
+    "@swc/core": "1.16.18",
     "@swc/helpers": "^0.5.17",
     "es-module-lexer": "^1.7.0",
     "flatted": "^3.4.4",
@@ -145,7 +145,6 @@
   },
   "devDependencies": {
     "@modern-js/rslib": "workspace:*",
-    "@rslib/core": "1.0.0",
     "@scripts/rstest-config": "workspace:*",
     "@types/babel__traverse": "7.28.0",
     "@types/node": "^20",

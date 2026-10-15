@@ -6,8 +6,13 @@ Playwright 是一个测试框架，它允许你使用单一的 API，自动的�
 
 import { PackageManagerTabs } from '@theme';
 
-<PackageManagerTabs command={{ npm: "npm init playwright", yarn: "yarn create playwright", pnpm: "pnpm create playwright" }} />
-
+<PackageManagerTabs
+  command={{
+    npm: 'npm init playwright',
+    yarn: 'yarn create playwright',
+    pnpm: 'pnpm create playwright',
+  }}
+/>
 
 上述命令会自动安装 Playwright 依赖，并通过一系列提示帮助你在项目中安装和配置，包括添加一个 `playwright.config.ts` 文件。
 
@@ -75,18 +80,18 @@ export default Index;
 接下来，添加测试用例，来保证你页面的链接能够正常工作。
 
 ```ts title="tests/example.spec.ts"
-import { test, expect } from '@playwright/test'
- 
+import { test, expect } from '@playwright/test';
+
 test('should navigate to the about page', async ({ page }) => {
   // Start from the index page (the baseURL is set via the webServer in the playwright.config.ts)
-  await page.goto('http://localhost:8080/')
+  await page.goto('http://localhost:8080/');
   // Find an element with the text 'About' and click on it
-  await page.click('text=About')
+  await page.click('text=About');
   // The new URL should be "/about" (baseURL is used there)
-  await expect(page).toHaveURL('http://localhost:8080/about')
+  await expect(page).toHaveURL('http://localhost:8080/about');
   // The new page should contain an h1 with "About"
-  await expect(page.locator('h1')).toContainText('About')
-})
+  await expect(page.locator('h1')).toContainText('About');
+});
 ```
 
 ## 运行测试用例

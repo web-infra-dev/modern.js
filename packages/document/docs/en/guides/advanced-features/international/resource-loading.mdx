@@ -6,11 +6,11 @@ title: Resource Loading
 
 How translation files are loaded depends on where your translation resources are stored:
 
-| Scenario | Loading method |
-| --- | --- |
-| Translation files are local to the project | Static file backend (the default method in this guide) |
-| Translations come from a remote API or translation platform | Custom backend |
-| Both: local fallback + remote real-time updates | Chained backend |
+| Scenario                                                    | Loading method                                         |
+| ----------------------------------------------------------- | ------------------------------------------------------ |
+| Translation files are local to the project                  | Static file backend (the default method in this guide) |
+| Translations come from a remote API or translation platform | Custom backend                                         |
+| Both: local fallback + remote real-time updates             | Chained backend                                        |
 
 ## Static File Backend
 
@@ -103,11 +103,11 @@ export default defineRuntimeConfig({
 
 ```ts
 interface I18nSdkLoadOptions {
-  lng?: string;      // Single language code
-  ns?: string;       // Single namespace
-  lngs?: string[];   // Multiple language codes
-  nss?: string[];    // Multiple namespaces
-  all?: boolean;     // Load all resources
+  lng?: string; // Single language code
+  ns?: string; // Single namespace
+  lngs?: string[]; // Multiple language codes
+  nss?: string[]; // Multiple namespaces
+  all?: boolean; // Load all resources
 }
 ```
 
@@ -125,7 +125,7 @@ Use local files and a custom backend together to implement "show local translati
 i18nPlugin({
   backend: {
     loadPath: '/locales/{{lng}}/{{ns}}.json', // Local files, fast display
-    sdk: true,                                 // Remote loading, async update
+    sdk: true, // Remote loading, async update
   },
 });
 ```
@@ -138,7 +138,9 @@ export default defineRuntimeConfig({
       backend: {
         sdk: async options => {
           if (options.lng && options.ns) {
-            const res = await fetch(`https://api.example.com/i18n/${options.lng}/${options.ns}`);
+            const res = await fetch(
+              `https://api.example.com/i18n/${options.lng}/${options.ns}`,
+            );
             return { [options.lng]: { [options.ns]: await res.json() } };
           }
           return {};
@@ -151,8 +153,8 @@ export default defineRuntimeConfig({
 
 **`cacheHitMode` option** (controls how the two backends cooperate):
 
-| Value | Behavior |
-| --- | --- |
-| `'none'` | Use local files after a successful local hit and do not request the custom backend |
-| `'refresh'` | Continue requesting the custom backend and update cache, but do not update the current page |
-| `'refreshAndUpdateStore'` | Continue requesting the custom backend, update cache, and refresh page text (default) |
+| Value                     | Behavior                                                                                    |
+| ------------------------- | ------------------------------------------------------------------------------------------- |
+| `'none'`                  | Use local files after a successful local hit and do not request the custom backend          |
+| `'refresh'`               | Continue requesting the custom backend and update cache, but do not update the current page |
+| `'refreshAndUpdateStore'` | Continue requesting the custom backend, update cache, and refresh page text (default)       |

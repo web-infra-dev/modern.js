@@ -39,7 +39,7 @@ test('externals', async ({ page }) => {
   builder.close();
 });
 
-test('should not external dependencies when target is web worker', async () => {
+test('should preserve externals when target is web worker', async () => {
   const builder = await build({
     cwd: fixtures,
     entry: { index: resolve(fixtures, './src/index.js') },
@@ -55,7 +55,7 @@ test('should not external dependencies when target is web worker', async () => {
   const files = await builder.unwrapOutputJSON();
 
   const content = files[Object.keys(files).find(file => file.endsWith('.js'))!];
-  expect(content.includes('MyReact')).toBeFalsy();
+  expect(content).toContain('MyReact');
 
   builder.clean();
 });

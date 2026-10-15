@@ -78,12 +78,6 @@ export function transformHookParams(hookRunnerName: string, params: any) {
           entrypoint: params[0].entrypoint,
         },
       };
-    case 'jestConfig': {
-      return {
-        isMultiple: true,
-        params: params,
-      };
-    }
     default:
       return {
         isMultiple: false,

@@ -33,9 +33,25 @@ type LazyCompilationOptions =
     };
 ```
 
-- **默认值：** `false`
+- **默认值：** 取决于应用的渲染方式：
+  - 纯 CSR 与流式 SSR 应用：`{ imports: true, entries: false }`，即对动态导入按需编译；
+  - 使用 string SSR（包括 `server.ssrByEntries` 中任一入口为 string SSR）、RSC 或 SSG 的应用：`false`。
 
 用于开启 lazy compilation（即按需编译），基于 Rspack 的 [lazy compilation](https://rspack.rs/zh/guide/features/lazy-compilation) 特性实现。
+
+该配置仅在开发环境（dev server）下生效，不影响生产构建产物。流式 SSR 应用开启时，路由组件仍会提前编译，以保证首屏 JS/CSS 注入正确。
+
+显式配置的 `dev.lazyCompilation` 始终优先于默认值，如需关闭可配置：
+
+```ts
+import { defineConfig } from '@modern-js/app-tools';
+
+export default defineConfig({
+  dev: {
+    lazyCompilation: false,
+  },
+});
+```
 
 import RsbuildLink from '@site/src/components/RsbuildLink';
 

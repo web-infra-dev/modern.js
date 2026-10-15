@@ -14,13 +14,13 @@ description: 在已有的 Modern.js 3.0 应用里启用可选功能：自动启�
 
 > **不是「Modern.js v3 只能启用这几个」**。v3 里很多能力是**内置约定/配置**（Less/Sass 默认支持、Data Loader 是 `.data.ts` 约定、SSR/RSC 是配置/架构选择），不存在「启用插件」这一步，故不在本矩阵；微前端是架构决策。本 skill 覆盖的是「装插件/改配置就能开」的可选能力。
 
-| 功能 | 参数值 | 级别 | 现行依据（当前仓库文档） |
-| --- | --- | --- | --- |
-| BFF（一体化后端） | `bff` | ✅ 可自动启用 | `guides/advanced-features/bff/function.mdx`、`components/enable-bff.mdx` |
-| 静态站点生成 SSG | `ssg` | ✅ 可自动启用 | `components/enable-ssg.mdx`、`configure/app/output/ssg.mdx` |
-| styled-components | `styled-components` | ✅ 可自动启用 | `cli/plugin-styled-components`、`plugin/official/cli-plugins/plugin-styled-components.mdx` |
-| Tailwind CSS（v3） | `tailwindcss` | 🛠 脚手架（骨架自动 + 语义人工） | `guides/basic-features/css/tailwindcss.mdx`（Rsbuild 原生，非 @modern-js 插件） |
-| 自定义 Web Server | `server` | 🛠 脚手架（骨架自动 + 语义人工） | `guides/advanced-features/web-server.mdx`、`@modern-js/server-runtime` |
+| 功能               | 参数值              | 级别                            | 现行依据（当前仓库文档）                                                                   |
+| ------------------ | ------------------- | ------------------------------- | ------------------------------------------------------------------------------------------ |
+| BFF（一体化后端）  | `bff`               | ✅ 可自动启用                   | `guides/advanced-features/bff/function.mdx`、`components/enable-bff.mdx`                   |
+| 静态站点生成 SSG   | `ssg`               | ✅ 可自动启用                   | `components/enable-ssg.mdx`、`configure/app/output/ssg.mdx`                                |
+| styled-components  | `styled-components` | ✅ 可自动启用                   | `cli/plugin-styled-components`、`plugin/official/cli-plugins/plugin-styled-components.mdx` |
+| Tailwind CSS（v3） | `tailwindcss`       | 🛠 脚手架（骨架自动 + 语义人工） | `guides/basic-features/css/tailwindcss.mdx`（Rsbuild 原生，非 @modern-js 插件）            |
+| 自定义 Web Server  | `server`            | 🛠 脚手架（骨架自动 + 语义人工） | `guides/advanced-features/web-server.mdx`、`@modern-js/server-runtime`                     |
 
 > ✅ 可自动启用 = 装依赖 + modern.config 插件 + 必要文件，全自动闭环。
 > 🛠 脚手架 = 自动生成可构建骨架（server/modern.server.ts 含 middlewares/renderMiddlewares/plugins/onError 字段 + 示例注释；tailwind 的 config/postcss/css）+ 依赖，但业务语义（server 中间件逻辑、tailwind 的 CSS 接入与 v3·v4 选择）需人工补，report 会写清。

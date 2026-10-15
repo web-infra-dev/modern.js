@@ -142,12 +142,20 @@ function isPlainObject(value: any): value is Record<string, any> {
   );
 }
 
+// Loaders start downloading the route module early and do not wait for it.
+// A failure here must not surface as an unhandled rejection: the component's
+// own import retries the chunk and reports the real error to the route's
+// error boundary.
+function preloadRouteModule(lazyImport: () => Promise<unknown>) {
+  lazyImport().catch(() => {});
+}
+
 function createLoader(route: NestedRoute): LoaderFunction {
   const { loader } = route;
   if (loader) {
     return async (args: LoaderFunctionArgs) => {
       if (typeof route.lazyImport === 'function') {
-        route.lazyImport();
+        preloadRouteModule(route.lazyImport);
       }
       const end = time();
       const res = await loader(args);
@@ -178,7 +186,7 @@ function createLoader(route: NestedRoute): LoaderFunction {
   } else {
     return () => {
       if (typeof route.lazyImport === 'function') {
-        route.lazyImport();
+        preloadRouteModule(route.lazyImport);
       }
       return null;
     };

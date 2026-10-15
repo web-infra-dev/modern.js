@@ -10,10 +10,6 @@ export { getMonitors } from './core/context/monitors';
 export { getRequest } from './core/context/request';
 export { setHeaders, setStatus, redirect } from './core/context/response';
 
-export {
-  RuntimeContext,
-  defineRuntimeConfig,
-  useRuntimeContext,
-} from './core';
+export { RuntimeContext, defineRuntimeConfig, useRuntimeContext } from './core';
 
 export type { RouterConfig };

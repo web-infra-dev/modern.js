@@ -1,110 +1,325 @@
-import { rstest } from '@rstest/core';
+import type { Rspack } from '@modern-js/builder';
 import { HtmlAsyncChunkPlugin } from '../../src/builder/shared/bundlerPlugins/HtmlAsyncChunkPlugin';
-
-rstest.mock('@modern-js/builder', () => ({
-  RUNTIME_CHUNK_REGEX: /builder-runtime([.].+)?\.js$/,
-}));
 
 type Tag = {
   tagName: string;
-  attributes?: Record<string, unknown>;
+  voidTag: boolean;
+  attributes: Record<string, string | boolean | null | undefined>;
+  innerHTML?: string;
 };
 
-const runAlterAssetTagGroups = (
-  assets: {
-    headTags: Tag[];
-    bodyTags: Tag[];
-  },
-  isStreamingSSR = false,
-) => {
-  let alterAssetTagGroups:
-    | ((value: typeof assets) => typeof assets)
-    | undefined;
+type Assets = { headTags: Tag[]; bodyTags: Tag[]; publicPath: string };
+type HtmlCallback = (assets: Assets) => Assets;
 
+function runHtmlHooks(
+  assets: Assets,
+  entryFiles: string[],
+  processHtml: HtmlCallback = value => value,
+  options: { isStreamingSSR?: boolean; runtimeChunk?: boolean } = {},
+) {
+  const taps: { stage: number; callback: HtmlCallback }[] = [
+    { stage: 0, callback: processHtml },
+  ];
   const htmlPlugin = {
     getCompilationHooks: () => ({
       alterAssetTagGroups: {
-        tap: (_name: string, callback: typeof alterAssetTagGroups) => {
-          alterAssetTagGroups = callback;
+        tap(options: { stage: number }, callback: HtmlCallback) {
+          taps.push({ stage: options.stage, callback });
         },
       },
     }),
   };
   const compiler = {
+    options: { optimization: { runtimeChunk: options.runtimeChunk ?? false } },
     hooks: {
       compilation: {
-        tap: (_name: string, callback: (compilation: object) => void) => {
-          callback({});
+        tap(_name: string, callback: (compilation: unknown) => void) {
+          callback({
+            entrypoints: new Map(
+              entryFiles.map(file => [
+                file,
+                { getRuntimeChunk: () => ({ files: new Set([file]) }) },
+              ]),
+            ),
+          });
         },
       },
     },
   };
+  new HtmlAsyncChunkPlugin(
+    htmlPlugin as unknown as typeof Rspack.HtmlRspackPlugin,
+    options.isStreamingSSR,
+  ).apply(compiler as unknown as Rspack.Compiler);
+  return taps
+    .sort((a, b) => a.stage - b.stage)
+    .reduce((value, tap) => tap.callback(value), assets);
+}
 
-  new HtmlAsyncChunkPlugin(htmlPlugin as any, isStreamingSSR).apply(compiler);
-  return alterAssetTagGroups?.(assets);
-};
+const script = (src: string): Tag => ({
+  tagName: 'script',
+  voidTag: false,
+  attributes: { src, defer: true },
+});
 
-describe('HtmlAsyncChunkPlugin', () => {
-  it('keeps deferred scripts deferred for streaming SSR', () => {
-    const result = runAlterAssetTagGroups(
-      {
-        headTags: [
-          {
-            tagName: 'script',
-            attributes: { defer: true, src: '/static/js/main.js' },
-          },
-        ],
-        bodyTags: [],
+describe('HtmlAsyncChunkPlugin entry preloads', () => {
+  it('moves multiple hashed entries and matches their final resource attributes', () => {
+    const publicPath = 'https://cdn.example.com/assets/';
+    const entryFiles = ['js/main.123.js', 'js/second.456.js'];
+    const entries = entryFiles.map(file =>
+      script(`${publicPath}${file}?build=1`),
+    );
+    const vendor = script(`${publicPath}js/vendor.js`);
+    const resourceAttributes = {
+      crossorigin: 'anonymous',
+      integrity: 'sha384-example',
+      referrerpolicy: 'no-referrer',
+      fetchpriority: 'high',
+      nonce: 'example-nonce',
+    };
+    const result = runHtmlHooks(
+      { publicPath, headTags: [...entries, vendor], bodyTags: [] },
+      entryFiles,
+      assets => {
+        for (const tag of assets.bodyTags) {
+          Object.assign(tag.attributes, resourceAttributes);
+        }
+        return assets;
       },
-      true,
     );
 
-    expect(result?.headTags[0].attributes).toEqual({
-      defer: true,
-      src: '/static/js/main.js',
+    expect(result.bodyTags).toEqual(entries);
+    expect(result.headTags).toContain(vendor);
+    expect(
+      result.headTags
+        .filter(tag => tag.tagName === 'link')
+        .map(tag => tag.attributes),
+    ).toEqual(
+      entries.map(entry => ({
+        rel: 'preload',
+        as: 'script',
+        href: entry.attributes.src,
+        ...resourceAttributes,
+      })),
+    );
+    for (const entry of entries) {
+      expect(entry.attributes.async).toBe(true);
+      expect(entry.attributes.defer).toBeUndefined();
+    }
+  });
+
+  it('does not preload entries that HTML processing inlined', () => {
+    const result = runHtmlHooks(
+      { publicPath: '/', headTags: [script('/entry.js')], bodyTags: [] },
+      ['entry.js'],
+      assets => ({
+        ...assets,
+        bodyTags: assets.bodyTags.map(tag => ({
+          ...tag,
+          attributes: {},
+          innerHTML: '/* inlined entry */',
+        })),
+      }),
+    );
+    expect(result.headTags).toEqual([]);
+    expect(result.bodyTags[0].innerHTML).toBe('/* inlined entry */');
+  });
+
+  it('uses modulepreload for module entries', () => {
+    const entry = script('/entry.mjs');
+    entry.attributes = { src: '/entry.mjs', type: 'module' };
+    const result = runHtmlHooks(
+      { publicPath: '/', headTags: [entry], bodyTags: [] },
+      ['entry.mjs'],
+    );
+    expect(result.headTags[0].attributes).toEqual({
+      rel: 'modulepreload',
+      href: '/entry.mjs',
+    });
+    expect(result.bodyTags).toEqual([entry]);
+  });
+
+  it('reuses an existing matching preload', () => {
+    const preload: Tag = {
+      tagName: 'link',
+      voidTag: true,
+      attributes: { rel: 'preload', as: 'script', href: '/entry.js' },
+    };
+    const result = runHtmlHooks(
+      {
+        publicPath: '/',
+        headTags: [preload, script('/entry.js')],
+        bodyTags: [],
+      },
+      ['entry.js'],
+    );
+    expect(result.headTags).toEqual([preload]);
+  });
+
+  it('recognizes URL-encoded entry filenames with a query and fragment', () => {
+    const src = '/js/%E5%85%A5%E5%8F%A3%20name.js?build=1#fragment';
+    const entry = script(src);
+    const result = runHtmlHooks(
+      { publicPath: '/', headTags: [entry], bodyTags: [] },
+      ['js/入口 name.js'],
+    );
+    expect(result.bodyTags).toEqual([entry]);
+    expect(result.headTags[0].attributes).toEqual({
+      rel: 'preload',
+      as: 'script',
+      href: src,
     });
   });
 
-  it('converts deferred scripts to async outside streaming SSR', () => {
-    const result = runAlterAssetTagGroups({
-      headTags: [
-        {
-          tagName: 'script',
-          attributes: { defer: true, src: '/static/js/main.js' },
+  it.each(['crossorigin', 'integrity', 'referrerpolicy'])(
+    'does not reuse an existing preload with an extra %s attribute',
+    attribute => {
+      const preload: Tag = {
+        tagName: 'link',
+        voidTag: true,
+        attributes: {
+          rel: 'preload',
+          as: 'script',
+          href: '/entry.js',
+          [attribute]: attribute === 'crossorigin' ? 'anonymous' : 'example',
         },
-      ],
-      bodyTags: [],
-    });
+      };
+      const result = runHtmlHooks(
+        {
+          publicPath: '/',
+          headTags: [preload, script('/entry.js')],
+          bodyTags: [],
+        },
+        ['entry.js'],
+      );
+      expect(result.headTags).toHaveLength(2);
+      expect(result.headTags[1].attributes).toEqual({
+        rel: 'preload',
+        as: 'script',
+        href: '/entry.js',
+      });
+    },
+  );
+});
 
-    expect(result?.headTags[0].attributes).toEqual({
-      async: true,
-      src: '/static/js/main.js',
-    });
-  });
-
-  it('still moves the runtime chunk to the body for streaming SSR', () => {
-    const result = runAlterAssetTagGroups(
-      {
-        headTags: [
-          {
-            tagName: 'script',
-            attributes: { defer: true, src: '/builder-runtime.js' },
-          },
-          { tagName: 'link', attributes: { rel: 'stylesheet' } },
-        ],
-        bodyTags: [],
-      },
-      true,
+describe('HtmlAsyncChunkPlugin streaming SSR', () => {
+  it('preserves deferred scripts while moving the separate runtime to the body', () => {
+    const entry = script('/entry.js');
+    const runtime = script('/builder-runtime.js');
+    const stylesheet: Tag = {
+      tagName: 'link',
+      voidTag: true,
+      attributes: { rel: 'stylesheet', href: '/style.css' },
+    };
+    const result = runHtmlHooks(
+      { publicPath: '/', headTags: [entry, runtime, stylesheet], bodyTags: [] },
+      ['entry.js'],
+      undefined,
+      { isStreamingSSR: true, runtimeChunk: true },
     );
 
-    expect(result?.headTags).toEqual([
-      { tagName: 'link', attributes: { rel: 'stylesheet' } },
-    ]);
-    expect(result?.bodyTags).toEqual([
+    expect(result.headTags).toEqual([entry, stylesheet]);
+    expect(result.bodyTags).toEqual([runtime]);
+    for (const tag of [entry, runtime]) {
+      expect(tag.attributes.defer).toBe(true);
+      expect(tag.attributes.async).toBeUndefined();
+    }
+  });
+
+  it('keeps the default async behavior with a separate runtime', () => {
+    const entry = script('/entry.js');
+    const runtime = script('/builder-runtime.js');
+    const result = runHtmlHooks(
+      { publicPath: '/', headTags: [entry, runtime], bodyTags: [] },
+      ['entry.js'],
+      undefined,
+      { runtimeChunk: true },
+    );
+
+    expect(result.headTags).toEqual([entry]);
+    expect(result.bodyTags).toEqual([runtime]);
+    for (const tag of [entry, runtime]) {
+      expect(tag.attributes.async).toBe(true);
+      expect(tag.attributes.defer).toBeUndefined();
+    }
+  });
+
+  it('preserves defer and final preload attributes when the entry contains the runtime', () => {
+    const entry = script('/entry.js');
+    const vendor = script('/vendor.js');
+    const result = runHtmlHooks(
+      { publicPath: '/', headTags: [entry, vendor], bodyTags: [] },
+      ['entry.js'],
+      assets => {
+        expect(assets.bodyTags).toEqual([entry]);
+        entry.attributes.integrity = 'sha384-stream';
+        return assets;
+      },
+      { isStreamingSSR: true },
+    );
+
+    expect(result.bodyTags).toEqual([entry]);
+    expect(result.headTags).toEqual([
+      vendor,
       {
-        tagName: 'script',
-        attributes: { defer: true, src: '/builder-runtime.js' },
+        tagName: 'link',
+        voidTag: true,
+        attributes: {
+          rel: 'preload',
+          as: 'script',
+          href: '/entry.js',
+          integrity: 'sha384-stream',
+        },
       },
     ]);
+    for (const tag of [entry, vendor]) {
+      expect(tag.attributes.defer).toBe(true);
+      expect(tag.attributes.async).toBeUndefined();
+    }
   });
+
+  it('moves streaming entries before inlining without adding a stale preload', () => {
+    const entry = script('/entry.js');
+    const result = runHtmlHooks(
+      { publicPath: '/', headTags: [entry], bodyTags: [] },
+      ['entry.js'],
+      assets => {
+        expect(assets.bodyTags).toEqual([entry]);
+        expect(entry.attributes.defer).toBe(true);
+        return {
+          ...assets,
+          bodyTags: [{ ...entry, attributes: {}, innerHTML: '/* inlined */' }],
+        };
+      },
+      { isStreamingSSR: true },
+    );
+
+    expect(result.headTags).toEqual([]);
+    expect(result.bodyTags[0].innerHTML).toBe('/* inlined */');
+  });
+
+  it.each([false, true])(
+    'preserves explicit script attributes with streaming SSR set to %s',
+    isStreamingSSR => {
+      const asyncScript = script('/async.js');
+      asyncScript.attributes = { src: '/async.js', async: true };
+      const blockingScript = script('/blocking.js');
+      blockingScript.attributes = { src: '/blocking.js' };
+      const result = runHtmlHooks(
+        {
+          publicPath: '/',
+          headTags: [asyncScript, blockingScript],
+          bodyTags: [],
+        },
+        [],
+        undefined,
+        { isStreamingSSR, runtimeChunk: true },
+      );
+
+      expect(result.headTags.map(tag => tag.attributes)).toEqual([
+        { src: '/async.js', async: true },
+        { src: '/blocking.js' },
+      ]);
+      expect(result.bodyTags).toEqual([]);
+    },
+  );
 });
