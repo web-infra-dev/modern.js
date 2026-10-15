@@ -1,6 +1,11 @@
 import { type Chunk, ChunkExtractor } from '@loadable/server';
 import type { ReactElement } from 'react';
-import { attributesToString, checkIsNode, hasStylesheetLink } from '../utils';
+import {
+  attributesToString,
+  checkIsNode,
+  hasStylesheetLink,
+  readAssetWithCache,
+} from '../utils';
 import type { ChunkSet, Collector } from './types';
 
 declare module '@loadable/server' {
@@ -41,14 +46,13 @@ const checkIsInline = (
 
 const readAsset = async (chunk: Chunk) => {
   // working node env
-  const fs = await import('fs/promises');
   const path = await import('path');
 
   // only working in 'production' env
   // we need ensure the assetsDir is same as ssr bundles.
   const filepath = path.resolve(__dirname, chunk.filename);
 
-  return fs.readFile(filepath, 'utf-8');
+  return readAssetWithCache(filepath);
 };
 
 export interface LoadableCollectorOptions {
