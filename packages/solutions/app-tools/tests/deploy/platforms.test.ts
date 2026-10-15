@@ -3,6 +3,9 @@ import os from 'node:os';
 import path from 'node:path';
 import appTools from '../../src';
 import deployPlugin from '../../src/plugins/deploy';
+import * as deployUtils from '../../src/plugins/deploy/utils' with {
+  rstest: 'importActual',
+};
 import { createNetlifyPreset } from '../../src/plugins/deploy/platforms/netlify';
 import { createNodePreset } from '../../src/plugins/deploy/platforms/node';
 import { createVercelPreset } from '../../src/plugins/deploy/platforms/vercel';
@@ -19,6 +22,17 @@ rstest.mock('ndepe', () => {
   return { nodeDepEmit: ndepe.nodeDepEmit };
 });
 
+// `@modern-js/prod-server` may not be built when unit tests run, so resolve
+// it to a fake path. The presets use this helper in ESM projects.
+const resolveProdServer = (entry: string) =>
+  path.join('/node_modules', entry, 'index.mjs');
+
+rstest.mock('../../src/plugins/deploy/utils', () => ({
+  __esModule: true,
+  ...deployUtils,
+  resolveESMDependency: async (entry: string) => resolveProdServer(entry),
+}));
+
 const tempDirs: string[] = [];
 
 const createPresetParams = (needModernServer: boolean) => {
@@ -30,7 +44,7 @@ const createPresetParams = (needModernServer: boolean) => {
     appContext: {
       appDirectory,
       distDirectory,
-      moduleType: 'commonjs',
+      moduleType: 'module',
       entrypoints: [],
     } as any,
     modernConfig: {} as any,
@@ -75,7 +89,7 @@ describe('deploy platforms', () => {
       expect.objectContaining({
         appDir: params.appContext.appDirectory,
         sourceDir: path.join(params.appContext.appDirectory, '.output'),
-        includeEntries: [expect.anything()],
+        includeEntries: [resolveProdServer('@modern-js/prod-server')],
       }),
     );
   });
@@ -103,7 +117,10 @@ describe('deploy platforms', () => {
       expect.objectContaining({
         appDir: appDirectory,
         sourceDir: path.join(appDirectory, '.netlify/functions'),
-        includeEntries: [expect.anything(), expect.anything()],
+        includeEntries: [
+          resolveProdServer('@modern-js/prod-server'),
+          resolveProdServer('@modern-js/prod-server/netlify'),
+        ],
       }),
     );
   });
