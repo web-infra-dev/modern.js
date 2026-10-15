@@ -136,6 +136,14 @@
     "./application/server": {
       "types": "./dist/types/application/server.d.ts",
       "default": "./dist/esm/application/server.mjs"
+    },
+    "./mf": {
+      "types": "./dist/types/mf/index.d.ts",
+      "default": "./dist/esm/mf/index.mjs"
+    },
+    "./mf/server": {
+      "types": "./dist/types/mf/server.d.ts",
+      "default": "./dist/esm/mf/server.mjs"
     }
   },
   "typesVersions": {
@@ -211,6 +219,12 @@
       ],
       "application/server": [
         "./dist/types/application/server.d.ts"
+      ],
+      "mf": [
+        "./dist/types/mf/index.d.ts"
+      ],
+      "mf/server": [
+        "./dist/types/mf/server.d.ts"
       ]
     }
   },

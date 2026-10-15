@@ -16,6 +16,7 @@ import { time } from '@modern-js/runtime-utils/time';
 import { LOADER_REPORTER_NAME } from '@modern-js/utils/universal/constants';
 import type React from 'react';
 import { useContext } from 'react';
+import { ApplicationRootPropsContext } from '../../application/rootProps';
 import type { RuntimePlugin } from '../../core';
 import {
   InternalRuntimeContext,
@@ -242,7 +243,17 @@ export const routerPlugin = (
                   )}
                 </>
               );
-              return App ? <App>{routerWrapper}</App> : routerWrapper;
+              const content = App ? <App>{routerWrapper}</App> : routerWrapper;
+              // Routes/loaders are prepared before the supplied React tree is
+              // rendered. Read its actual root props through this subtree-local
+              // provider instead of rebuilding routes or mutating request state.
+              return context._application ? (
+                <ApplicationRootPropsContext.Provider value={props}>
+                  {content}
+                </ApplicationRootPropsContext.Provider>
+              ) : (
+                content
+              );
             } else {
               return App ? (
                 <App>

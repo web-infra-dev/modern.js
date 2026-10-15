@@ -11,6 +11,7 @@ import {
 } from '@modern-js/runtime-utils/router';
 import type { NestedRoute, PageRoute, SSRMode } from '@modern-js/types';
 import React, { useContext } from 'react';
+import { ApplicationRootPropsContext } from '../../application/rootProps';
 import { InternalRuntimeContext } from '../../core/context';
 import { DefaultNotFound } from './DefaultNotFound';
 import DeferredDataScripts from './DeferredDataScripts';
@@ -46,7 +47,14 @@ export function getRouteComponents(
       >;
       const ApplicationRoot = (rootProps: Record<string, unknown> = {}) => {
         const context = useContext(InternalRuntimeContext);
-        return <Component {...rootProps} {...context._application?.props} />;
+        const suppliedProps = useContext(ApplicationRootPropsContext);
+        return (
+          <Component
+            {...rootProps}
+            {...context._application?.props}
+            {...suppliedProps}
+          />
+        );
       };
       const applicationRoute =
         application && route.isRoot && Component

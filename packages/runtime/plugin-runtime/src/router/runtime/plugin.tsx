@@ -16,6 +16,7 @@ import {
 import { normalizePathname } from '@modern-js/runtime-utils/url';
 import * as React from 'react';
 import { useContext, useEffect, useMemo } from 'react';
+import { ApplicationRootPropsContext } from '../../application/rootProps';
 import { RuntimeContext, type RuntimePlugin } from '../../core';
 import {
   InternalRuntimeContext,
@@ -156,6 +157,9 @@ export const routerPlugin = (
         let cachedRouter: any = null;
 
         const RouterWrapper = (props: any) => {
+          const { _application: application } = useContext(
+            InternalRuntimeContext,
+          );
           const routerResult = useRouterCreation(
             process.env.MODERN_ENABLE_RSC
               ? {
@@ -174,13 +178,16 @@ export const routerPlugin = (
 
           // Only cache router instance, routes are always from routerResult
           const router = useMemo(() => {
+            // One exported ModernRoot can mount in several Bridge containers.
+            // Its closure cache belongs to ordinary single-root applications.
+            if (application) return routerResult.router;
             if (cachedRouter) {
               return cachedRouter;
             }
 
             cachedRouter = routerResult.router;
             return cachedRouter;
-          }, []);
+          }, [application, routerResult.router]);
           const { routes } = routerResult;
 
           routesContainer.current = routes;
@@ -190,20 +197,19 @@ export const routerPlugin = (
           // To match the node tree about https://github.com/web-infra-dev/modern.js/blob/v2.59.0/packages/runtime/plugin-runtime/src/router/runtime/plugin.node.tsx#L150-L168
           // According to react [useId generation algorithm](https://github.com/facebook/react/pull/22644), `useId` will generate id with the react node react struct.
           // To void hydration failed, we must guarantee that the node tree when browser hydrate must have same struct with node tree when ssr render.
-          const RouterContent = () => (
-            <>
-              <RouterProvider router={router} />
-              <EmptyComponent />
-              <EmptyComponent />
-            </>
-          );
-
-          return App ? (
+          const content = App ? (
             <App>
-              <RouterContent />
+              <RouterContent router={router} />
             </App>
           ) : (
-            <RouterContent />
+            <RouterContent router={router} />
+          );
+          return application ? (
+            <ApplicationRootPropsContext.Provider value={props}>
+              {content}
+            </ApplicationRootPropsContext.Provider>
+          ) : (
+            content
           );
         };
 
@@ -212,6 +218,18 @@ export const routerPlugin = (
     },
   };
 };
+
+// Keep this component identity stable when application props change so the
+// RouterProvider and already interactive pages retain their local React state.
+function RouterContent({ router }: { router: RouterProviderProps['router'] }) {
+  return (
+    <>
+      <RouterProvider router={router} />
+      <EmptyComponent />
+      <EmptyComponent />
+    </>
+  );
+}
 
 const EmptyComponent = () => null;
 
