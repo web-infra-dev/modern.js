@@ -1,5 +1,19 @@
 # @modern-js/builder
 
+## 3.10.0
+
+### Patch Changes
+
+- da0fe78: chore: upgrade Rsbuild to v2.2.13
+
+  chore: 升级 Rsbuild 至 v2.2.13
+
+- 7d9f0bb: chore(deps): upgrade Rsbuild to v2.2.12.
+
+  chore(deps): 升级 Rsbuild 到 v2.2.12。
+
+  - @modern-js/utils@3.10.0
+
 ## 3.9.3
 
 ### Patch Changes
