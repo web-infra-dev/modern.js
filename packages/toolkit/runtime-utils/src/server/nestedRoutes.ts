@@ -1,21 +1,16 @@
 import type { ServerRoute } from '@modern-js/types';
 
-function sortByUrlPath(entries: ServerRoute[]): ServerRoute[] {
-  entries.sort(function (a, b) {
-    const length1 = a.urlPath.length;
-    const length2 = b.urlPath.length;
-    if (length1 < length2) {
-      return 1;
-    }
-    if (length1 > length2) {
-      return -1;
-    }
-    return 0;
-  });
-  return entries;
-}
-
+// Find the entry with the longest matching urlPath, the first one wins on a tie.
+// It scans the entries instead of sorting them, as the array is shared by the server.
 export const matchEntry = (pathname: string, entries: ServerRoute[]) => {
-  sortByUrlPath(entries);
-  return entries.find(entry => pathname.startsWith(entry.urlPath));
+  let matched: ServerRoute | undefined;
+  for (const entry of entries) {
+    if (
+      pathname.startsWith(entry.urlPath) &&
+      (!matched || entry.urlPath.length > matched.urlPath.length)
+    ) {
+      matched = entry;
+    }
+  }
+  return matched;
 };
