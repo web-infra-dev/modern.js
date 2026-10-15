@@ -9,6 +9,23 @@ interface MemoryContainerOptions {
 }
 
 /**
+ * Estimate the size of a cached value without serializing binary data or strings.
+ * lru-cache requires a positive integer, so the minimum size is 1.
+ */
+export function calculateSize(value: unknown): number {
+  let size: number | undefined;
+  if (typeof value === 'string') {
+    size = value.length;
+  } else if (ArrayBuffer.isView(value)) {
+    // Buffer and other TypedArray, e.g. the static files of fileReader
+    size = value.byteLength;
+  } else {
+    size = JSON.stringify(value)?.length;
+  }
+  return Math.max(size || 0, 1);
+}
+
+/**
  * MemoryContainer, it use lur-cache as cahe layer.
  * It has a Time to Live, by default as 1 hour.
  */
@@ -33,12 +50,10 @@ export class MemoryContainer<
   private cache: LRUCache<K, V>;
 
   constructor({ max, maxAge }: MemoryContainerOptions = {}) {
-    this.cache = new LRUCache({
+    this.cache = new LRUCache<K, V>({
       maxSize: (max || 256) * MemoryContainer.MB,
       ttl: maxAge || MemoryContainer.hour,
-      sizeCalculation: (value, key) => {
-        return JSON.stringify(value).length;
-      },
+      sizeCalculation: calculateSize,
     });
   }
 
