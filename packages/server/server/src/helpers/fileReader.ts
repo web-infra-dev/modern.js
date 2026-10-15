@@ -1,10 +1,14 @@
 import type { Rspack } from '@modern-js/builder';
-import { fileReader } from '@modern-js/runtime-utils/fileReader';
+import {
+  fileReader,
+  type FileReader,
+} from '@modern-js/runtime-utils/fileReader';
 import type { Middleware } from '@modern-js/server-core';
 import type fs from '@modern-js/utils/fs-extra';
 
 export const initFileReader = (
   compiler: Rspack.Compiler | Rspack.MultiCompiler | null,
+  reader: FileReader = fileReader,
 ): Middleware => {
   let isInit = false;
 
@@ -14,9 +18,8 @@ export const initFileReader = (
     }
     isInit = true;
 
-    const { res } = ctx.env.node;
     if (!compiler) {
-      fileReader.reset();
+      await reader.reset();
       return next();
     }
 
@@ -25,9 +28,9 @@ export const initFileReader = (
     const { outputFileSystem } =
       'compilers' in compiler ? compiler.compilers[0] : compiler;
     if (outputFileSystem) {
-      fileReader.reset(outputFileSystem as unknown as typeof fs);
+      await reader.reset(outputFileSystem as unknown as typeof fs);
     } else {
-      fileReader.reset();
+      await reader.reset();
     }
     return next();
   };

@@ -1,5 +1,8 @@
 import path from 'path';
-import { fileReader } from '@modern-js/runtime-utils/fileReader';
+import {
+  fileReader,
+  type FileReader,
+} from '@modern-js/runtime-utils/fileReader';
 import type { Monitors, ServerRoute } from '@modern-js/types';
 import {
   fs,
@@ -20,7 +23,11 @@ import type {
 } from '../../../types';
 import { uniqueKeyByRoute } from '../../../utils';
 
-export async function getHtmlTemplates(pwd: string, routes: ServerRoute[]) {
+export async function getHtmlTemplates(
+  pwd: string,
+  routes: ServerRoute[],
+  reader: FileReader = fileReader,
+) {
   // Only process routes with entryName, which are HTML template routes.
   // Public static file routes don't have entryName and shouldn't be processed here.
   const htmlRoutes = routes.filter(route => route.entryName);
@@ -30,7 +37,7 @@ export async function getHtmlTemplates(pwd: string, routes: ServerRoute[]) {
       let html: string | undefined;
       try {
         const htmlPath = path.join(pwd, route.entryPath);
-        html = (await fileReader.readFile(htmlPath, 'utf-8'))?.toString();
+        html = (await reader.readFile(htmlPath, 'utf-8'))?.toString();
       } catch (e) {
         // ignore error
       }
@@ -47,11 +54,12 @@ export function injectTemplates(
   pwd: string,
   routes?: ServerRoute[],
   htmlTemplatePromise?: ReturnType<typeof getHtmlTemplates>,
+  reader: FileReader = fileReader,
 ): Middleware<ServerEnv> {
   return async (c, next) => {
     if (routes && !c.get('templates')) {
       const templates = await (htmlTemplatePromise ||
-        getHtmlTemplates(pwd, routes));
+        getHtmlTemplates(pwd, routes, reader));
       c.set('templates', templates);
     }
 
@@ -263,6 +271,7 @@ export const injectResourcePlugin = (): ServerPlugin => ({
     api.onPrepare(async () => {
       const {
         middlewares,
+        fileReader: reader,
         routes,
         distDirectory: pwd,
       } = api.getServerContext();
@@ -281,7 +290,7 @@ export const injectResourcePlugin = (): ServerPlugin => ({
         manifestPromise = getServerManifest(pwd!, warmupRoutes, undefined, {
           failOnError,
         });
-        htmlTemplatePromise = getHtmlTemplates(pwd!, routes || []);
+        htmlTemplatePromise = getHtmlTemplates(pwd!, routes || [], reader);
         if (failOnError) {
           await manifestPromise;
         }
@@ -296,7 +305,7 @@ export const injectResourcePlugin = (): ServerPlugin => ({
       middlewares.push({
         name: 'inject-html',
 
-        handler: injectTemplates(pwd!, routes, htmlTemplatePromise),
+        handler: injectTemplates(pwd!, routes, htmlTemplatePromise, reader),
       });
     });
   },

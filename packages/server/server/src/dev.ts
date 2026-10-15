@@ -56,7 +56,7 @@ export const devRuntimeMiddlewarePlugin = (
     api.onPrepare(async () => {
       const { middlewares: builderMiddlewares } = builderDevServer || {};
 
-      const { middlewares } = api.getServerContext();
+      const { middlewares, fileReader } = api.getServerContext();
 
       // Handle setupMiddlewares
       const before: RequestHandler[] = [];
@@ -108,7 +108,7 @@ export const devRuntimeMiddlewarePlugin = (
 
       middlewares.push({
         name: 'init-file-reader',
-        handler: initFileReader(compiler),
+        handler: initFileReader(compiler, fileReader),
       });
     });
   },
@@ -179,11 +179,11 @@ export function setupDevInfra({
   connectWebSocket && nodeServer && connectWebSocket({ server: nodeServer });
 
   // Handle server bundle rebuild: reset SSR cache against the live runtime.
-  builder?.onDevCompileDone(({ stats }) => {
+  builder?.onDevCompileDone(async ({ stats }) => {
     if (stats.toJson({ all: false }).name !== 'server') {
       const runtimeServer = getRuntimeServer();
       if (runtimeServer) {
-        onRepack(distDir, runtimeServer.hooks);
+        await onRepack(distDir, runtimeServer.hooks, runtimeServer.fileReader);
       }
     }
   });
