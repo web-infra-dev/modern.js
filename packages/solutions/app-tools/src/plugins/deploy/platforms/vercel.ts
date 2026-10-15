@@ -1,6 +1,5 @@
 import path from 'node:path';
 import { fs as fse, removeModuleSyncFromExports } from '@modern-js/utils';
-import { nodeDepEmit as handleDependencies } from 'ndepe';
 import { isMainEntry } from '../../../utils/routes';
 import { readTemplate, resolveESMDependency } from '../utils';
 import { generateHandler } from '../utils/generator';
@@ -125,6 +124,8 @@ export const createVercelPreset: CreatePreset = ({
       if (!entry) {
         throw new Error('Cannot find @modern-js/prod-server');
       }
+      // ndepe is heavy and only needed by `modern deploy`, so load it lazily.
+      const { nodeDepEmit: handleDependencies } = await import('ndepe');
       await handleDependencies({
         appDir: appDirectory,
         sourceDir: funcsDirectory,
