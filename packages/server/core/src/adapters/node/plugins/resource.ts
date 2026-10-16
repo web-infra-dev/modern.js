@@ -1,8 +1,5 @@
 import path from 'path';
-import {
-  fileReader,
-  type FileReader,
-} from '@modern-js/runtime-utils/fileReader';
+import type { FileReader } from '@modern-js/runtime-utils/fileReader';
 import type { Monitors, ServerRoute } from '@modern-js/types';
 import {
   fs,
@@ -26,7 +23,7 @@ import { uniqueKeyByRoute } from '../../../utils';
 export async function getHtmlTemplates(
   pwd: string,
   routes: ServerRoute[],
-  reader: FileReader = fileReader,
+  reader: FileReader,
 ) {
   // Only process routes with entryName, which are HTML template routes.
   // Public static file routes don't have entryName and shouldn't be processed here.
@@ -52,9 +49,9 @@ export async function getHtmlTemplates(
 
 export function injectTemplates(
   pwd: string,
-  routes?: ServerRoute[],
+  routes: ServerRoute[] | undefined,
+  reader: FileReader,
   htmlTemplatePromise?: ReturnType<typeof getHtmlTemplates>,
-  reader: FileReader = fileReader,
 ): Middleware<ServerEnv> {
   return async (c, next) => {
     if (routes && !c.get('templates')) {
@@ -305,7 +302,7 @@ export const injectResourcePlugin = (): ServerPlugin => ({
       middlewares.push({
         name: 'inject-html',
 
-        handler: injectTemplates(pwd!, routes, htmlTemplatePromise, reader),
+        handler: injectTemplates(pwd!, routes, reader, htmlTemplatePromise),
       });
     });
   },

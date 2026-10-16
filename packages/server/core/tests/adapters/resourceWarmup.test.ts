@@ -1,3 +1,4 @@
+import { fileReader } from '@modern-js/runtime-utils/fileReader';
 import path from 'node:path';
 import type { Monitors, ServerRoute } from '@modern-js/types';
 import { compatibleRequire, fs } from '@modern-js/utils';
@@ -37,6 +38,7 @@ const monitors = { error: errorLogger } as unknown as Monitors;
 function preparation(routes: ServerRoute[] = [route]) {
   let prepare!: () => unknown;
   const context = {
+    fileReader,
     distDirectory: pwd,
     routes,
     middlewares: [] as Array<{ name: string }>,

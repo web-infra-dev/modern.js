@@ -1,14 +1,11 @@
 import type { Rspack } from '@modern-js/builder';
-import {
-  fileReader,
-  type FileReader,
-} from '@modern-js/runtime-utils/fileReader';
+import type { FileReader } from '@modern-js/runtime-utils/fileReader';
 import type { Middleware } from '@modern-js/server-core';
 import type fs from '@modern-js/utils/fs-extra';
 
 export const initFileReader = (
   compiler: Rspack.Compiler | Rspack.MultiCompiler | null,
-  reader: FileReader = fileReader,
+  reader: FileReader,
 ): Middleware => {
   let isInit = false;
 

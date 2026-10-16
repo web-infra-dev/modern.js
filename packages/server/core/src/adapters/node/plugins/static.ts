@@ -1,8 +1,5 @@
 import path from 'path';
-import {
-  fileReader,
-  type FileReader,
-} from '@modern-js/runtime-utils/fileReader';
+import type { FileReader } from '@modern-js/runtime-utils/fileReader';
 import type { ServerRoute } from '@modern-js/types';
 import { fs } from '@modern-js/utils';
 import { getMimeType } from 'hono/utils/mime';
@@ -50,7 +47,7 @@ export const serverStaticPlugin = (): ServerPlugin => ({
 });
 
 export type PublicMiddlewareOptions = {
-  fileReader?: FileReader;
+  fileReader: FileReader;
   pwd: string;
   routes: ServerRoute[];
 };
@@ -58,7 +55,7 @@ export type PublicMiddlewareOptions = {
 export function createPublicMiddleware({
   pwd,
   routes,
-  fileReader: reader = fileReader,
+  fileReader: reader,
 }: PublicMiddlewareOptions): Middleware {
   return async (c, next) => {
     const route = matchPublicRoute(c.req, routes);
@@ -137,7 +134,7 @@ const extractPathname = (url: string): string => {
 };
 
 export interface ServerStaticOptions {
-  fileReader?: FileReader;
+  fileReader: FileReader;
   pwd: string;
   output: OutputNormalizedConfig;
   html: HtmlNormalizedConfig;
@@ -157,7 +154,7 @@ export interface ServerStaticOptions {
 export function createStaticMiddleware(
   options: ServerStaticOptions,
 ): Middleware {
-  const { pwd, routes, fileReader: reader = fileReader } = options;
+  const { pwd, routes, fileReader: reader } = options;
   const prefix = options.output.assetPrefix || '/';
   const pathPrefix = extractPathname(prefix);
 
