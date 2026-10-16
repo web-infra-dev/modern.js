@@ -73,9 +73,12 @@ export const pluginHtmlMinifierTerser = (): RsbuildPlugin => ({
         output,
         tools: { htmlPlugin },
       } = environment.config;
-      const disableHtmlMinify =
-        !isProd || output.minify === false || htmlPlugin === false;
+      if (!isProd || output.minify === false || htmlPlugin === false) {
+        return;
+      }
 
+      // Only load html-minifier-terser (with terser and clean-css) when HTML
+      // will actually be minified.
       const { minify } = await import('html-minifier-terser');
 
       const pluginRecord = chain.plugins.entries();
@@ -93,7 +96,7 @@ export const pluginHtmlMinifierTerser = (): RsbuildPlugin => ({
           return name === 'HtmlRspackPlugin';
         });
 
-        if (isHtmlRspackPlugin && !disableHtmlMinify) {
+        if (isHtmlRspackPlugin) {
           chain.plugin(id).tap(options => {
             if (!options.length) {
               return options;
