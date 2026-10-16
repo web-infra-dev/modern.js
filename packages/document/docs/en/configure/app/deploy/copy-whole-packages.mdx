@@ -1,0 +1,33 @@
+---
+title: copyWholePackages
+---
+
+# deploy.copyWholePackages
+
+- **Type:** `string[]`
+- **Default:** `[]`
+
+Names of packages that `modern deploy` copies to the output `node_modules` in full, instead of only the files that the dependency trace reached.
+
+When you run `modern deploy`, Modern.js traces the server bundle to find the dependency files it needs, and copies only those files to the output `node_modules`. A package whose root entry point is never reached by the trace is copied without that entry point. For example, if the server bundle only imports `zod` through the `zod/v3` subpath, the output `node_modules/zod/package.json` still points at the root `index.cjs`, but that file is not copied. The first bare `require('zod')` at runtime then fails with `Cannot find module`.
+
+Use this option to name the affected packages. Every file of each named package is copied to the output.
+
+```ts title="modern.config.ts"
+export default defineConfig({
+  deploy: {
+    copyWholePackages: ['zod'],
+  },
+});
+```
+
+## Boundaries
+
+This option changes which files of a package are copied. It does not change which packages are copied:
+
+- Only a package that the dependency trace already reached is affected. A package that was never traced is not added to the output, even if it is named here.
+- The extra files are copied as they are. Modern.js does not trace them, so any dependency that only those extra files import is not added to the output.
+- Nested `node_modules` directories inside the package are not copied.
+- When the trace reaches more than one version of the package, only the versions it reached are copied in full.
+
+`@modern-js/utils` is always copied in full. You do not need to add it to this list.

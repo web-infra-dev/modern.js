@@ -44,6 +44,12 @@
   },
   {
     "type": "dir",
+    "name": "app/deploy",
+    "label": "deploy",
+    "collapsed": true
+  },
+  {
+    "type": "dir",
     "name": "app/output",
     "label": "output",
     "collapsed": true
