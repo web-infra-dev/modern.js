@@ -228,6 +228,8 @@ pnpm prepare
 pnpm run bump
 ```
 
+该命令会先通过 Changesets 升级包版本，再自动将内部 `peerDependencies` 范围同步为 `workspace:^<依赖包版本>`，与 changeset 校验保持一致。
+
 5. 提交版本变更。
 
 ```sh
