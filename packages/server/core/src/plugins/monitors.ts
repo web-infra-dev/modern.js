@@ -205,20 +205,22 @@ export const injectServerTiming = (): ServerPlugin => ({
 
           await next();
 
-          serverTimings.forEach(serverTiming => {
-            const { name, desc, dur } = serverTiming;
+          if (serverTimings.length === 0) {
+            return;
+          }
 
-            // TODO: Modern.js should't export anything about bytedance.
+          // TODO: Modern.js should't export anything about bytedance.
+          const value = serverTimings
+            .map(
+              ({ name, desc, dur }) =>
+                `bd-${metaName}-${name};${desc ? `decs="${desc}";` : ''} dur=${dur}`,
+            )
+            .join(', ');
 
-            const _name = `bd-${metaName}-${name}`;
-
-            const value = `${_name};${
-              desc ? `decs="${desc}";` : ''
-            } dur=${dur}`;
-
-            c.header(SERVER_TIMING, value, {
-              append: true,
-            });
+          // `c.header()` copies the finalized response on every call, so append
+          // all timings at once, which is the same as appending them one by one.
+          c.header(SERVER_TIMING, value, {
+            append: true,
           });
         }) as MiddlewareHandler,
       });
