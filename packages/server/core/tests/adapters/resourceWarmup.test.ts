@@ -42,6 +42,7 @@ function preparation(routes: ServerRoute[] = [route]) {
     middlewares: [] as Array<{ name: string }>,
   };
   injectResourcePlugin().setup?.({
+    onReset: rstest.fn(),
     onPrepare: (callback: () => unknown) => {
       prepare = callback;
     },

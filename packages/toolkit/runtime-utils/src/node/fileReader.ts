@@ -1,9 +1,7 @@
 import type { Buffer } from 'buffer';
-import type { Container } from '@modern-js/types';
 import Fs from '@modern-js/utils/fs-extra';
 import { createMemoryStorage } from './storer';
-import { MemoryContainer } from './storer/container';
-import { Storage } from './storer/storage';
+import type { Storage } from './storer/storage';
 
 export class FileReader {
   private storage: Storage<Buffer | null>;
@@ -102,13 +100,3 @@ export class FileReader {
 }
 
 export const fileReader = new FileReader(createMemoryStorage('__file__system'));
-
-/** Create a reader with a cache owned exclusively by this instance. */
-export function createFileReader() {
-  return new FileReader(
-    new Storage<Buffer | null>(
-      '__file__system',
-      new MemoryContainer<string, Buffer>() as Container<string, Buffer | null>,
-    ),
-  );
-}

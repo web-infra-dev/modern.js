@@ -1,7 +1,5 @@
 ---
-'@modern-js/runtime-utils': patch
 '@modern-js/server-core': patch
-'@modern-js/server': patch
 ---
 
-Share an isolated file reader across each server's HTML templates, static resources, development filesystem initialization and rebuild cache invalidation. This prevents stale HTML when custom adapters resolve separate runtime-utils copies and keeps different servers' caches independent.
+Invalidate the resource plugin's own file cache after a development rebuild so custom server adapters do not serve stale HTML when dependencies resolve multiple runtime-utils instances.

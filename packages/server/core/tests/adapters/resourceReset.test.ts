@@ -2,8 +2,6 @@ import { mkdtemp, rm, writeFile } from 'node:fs/promises';
 import os from 'node:os';
 import path from 'node:path';
 import { fileReader } from '@modern-js/runtime-utils/fileReader';
-import { onRepack } from '../../../server/src/helpers/repack';
-import { serverStaticPlugin } from '../../src/adapters/node/plugins/static';
 import { injectResourcePlugin } from '../../src/adapters/node/plugins/resource';
 import { createServerBase } from '../../src/serverBase';
 import { getDefaultAppContext, getDefaultConfig } from '../helpers';
@@ -21,38 +19,16 @@ it('serves rebuilt HTML after repack without another fileReader clearing its cac
       pwd,
       routes: [{ urlPath: '/', entryPath: 'index.html', entryName: 'main' }],
     });
-    server.addPlugins([injectResourcePlugin(), serverStaticPlugin()]);
+    server.addPlugins([injectResourcePlugin()]);
     await server.init();
     server.get('/', c => c.json(c.get('templates')));
 
-    const other = createServerBase({
-      config: getDefaultConfig(),
-      appContext: getDefaultAppContext(),
-      pwd,
-      routes: [{ urlPath: '/', entryPath: 'index.html', entryName: 'main' }],
-    });
-    other.addPlugins([injectResourcePlugin()]);
-    await other.init();
-    other.get('/', c => c.json(c.get('templates')));
-    await other.request('/');
-    await writeFile(path.join(pwd, 'icon.png'), 'before');
-    expect(await (await server.request('/icon.png')).text()).toBe('before');
     const before = await server.request('/');
     expect(await before.json()).toEqual({
       'main-/': '<script src="vendor-before.js"></script>',
     });
     await writeFile(htmlPath, '<script src="vendor-after.js"></script>');
-    await writeFile(path.join(pwd, 'icon.png'), 'after!');
-    // Clearing a separately resolved module singleton cannot clear this server.
-    await fileReader.reset();
-    expect(await (await server.request('/')).json()).toEqual({
-      'main-/': '<script src="vendor-before.js"></script>',
-    });
-    await onRepack(pwd, server.hooks, server.fileReader);
-    expect(await (await server.request('/icon.png')).text()).toBe('after!');
-    expect(await (await other.request('/')).json()).toEqual({
-      'main-/': '<script src="vendor-before.js"></script>',
-    });
+    await server.hooks.onReset.call({ event: { type: 'repack' } });
     const after = await server.request('/');
     expect(await after.json()).toEqual({
       'main-/': '<script src="vendor-after.js"></script>',
