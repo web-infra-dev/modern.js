@@ -103,7 +103,9 @@ describe('devRuntimeMiddlewarePlugin (per-runtime injection)', () => {
       name: 'probe',
       setup(api) {
         api.onPrepare(async () => {
-          names = api.getServerContext().middlewares.map(m => m.name);
+          const context = api.getServerContext();
+          expect(context).not.toHaveProperty('fileReader');
+          names = context.middlewares.map(m => m.name);
         });
       },
     };
@@ -118,6 +120,7 @@ describe('devRuntimeMiddlewarePlugin (per-runtime injection)', () => {
       devRuntimeMiddlewarePlugin(
         { pwd: '', dev: {}, builderDevServer } as any,
         null,
+        server,
       ),
       probe,
     ]);
@@ -209,6 +212,7 @@ describe('setupDevInfra (process-level singletons)', () => {
             builderDevServer: builderDevServerForRuntime,
           } as any,
           null,
+          runtimeServer,
         ),
       ]);
       await runtimeServer.init();

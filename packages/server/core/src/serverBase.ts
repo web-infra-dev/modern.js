@@ -63,7 +63,6 @@ export class ServerBase<E extends Env = any> {
       handleSetupResult,
     });
     (serverContext as Record<string, any>).serverBase = this;
-    (serverContext as Record<string, any>).fileReader = this.fileReader;
     this.serverContext = serverContext as unknown as ServerContext;
     // need after serverContext to run onPrepare
     await serverContext.hooks.onPrepare.call();
