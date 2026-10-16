@@ -244,7 +244,7 @@ describe('setupDevInfra (process-level singletons)', () => {
     expect(onFileChange).toHaveBeenCalledTimes(1);
   });
 
-  it('onRepack reaches the live runtime via the mutable ref (no stale closure)', async () => {
+  it('onRepack reaches the live runtime via the mutable ref (no stale closure)', () => {
     let current = makeFakeRuntimeServer();
     const first = current;
     const { builder } = setup(() => current);
@@ -253,14 +253,14 @@ describe('setupDevInfra (process-level singletons)', () => {
     const onCompileDone = builder.onDevCompileDone.mock.calls[0][0];
     const clientStats = { stats: { toJson: () => ({ name: 'client' }) } };
 
-    await onCompileDone(clientStats);
+    onCompileDone(clientStats);
     expect(first.hooks.onReset.call).toHaveBeenCalledTimes(1);
     expect(first.fileReader.reset).toHaveBeenCalledTimes(1);
 
     // After a reload swaps the runtime, onRepack must hit the NEW runtime.
     const second = makeFakeRuntimeServer();
     current = second;
-    await onCompileDone(clientStats);
+    onCompileDone(clientStats);
     expect(second.hooks.onReset.call).toHaveBeenCalledTimes(1);
     expect(second.fileReader.reset).toHaveBeenCalledTimes(1);
     expect(first.fileReader.reset).toHaveBeenCalledTimes(1);

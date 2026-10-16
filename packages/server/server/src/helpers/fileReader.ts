@@ -16,7 +16,7 @@ export const initFileReader = (
     isInit = true;
 
     if (!compiler) {
-      await reader.reset();
+      reader.reset();
       return next();
     }
 
@@ -25,9 +25,9 @@ export const initFileReader = (
     const { outputFileSystem } =
       'compilers' in compiler ? compiler.compilers[0] : compiler;
     if (outputFileSystem) {
-      await reader.reset(outputFileSystem as unknown as typeof fs);
+      reader.reset(outputFileSystem as unknown as typeof fs);
     } else {
-      await reader.reset();
+      reader.reset();
     }
     return next();
   };

@@ -180,11 +180,11 @@ export function setupDevInfra({
   connectWebSocket && nodeServer && connectWebSocket({ server: nodeServer });
 
   // Handle server bundle rebuild: reset SSR cache against the live runtime.
-  builder?.onDevCompileDone(async ({ stats }) => {
+  builder?.onDevCompileDone(({ stats }) => {
     if (stats.toJson({ all: false }).name !== 'server') {
       const runtimeServer = getRuntimeServer();
       if (runtimeServer) {
-        await onRepack(distDir, runtimeServer.hooks, runtimeServer.fileReader);
+        onRepack(distDir, runtimeServer.hooks, runtimeServer.fileReader);
       }
     }
   });

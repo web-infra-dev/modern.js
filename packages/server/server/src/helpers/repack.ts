@@ -9,14 +9,14 @@ const cleanSSRCache = (distDir: string) => {
   });
 };
 
-export const onRepack = async (
+export const onRepack = (
   distDir: string,
   hooks: ServerPluginHooks,
   reader: FileReader,
 ) => {
   cleanSSRCache(distDir);
-  await reader.reset();
-  await hooks.onReset.call({
+  reader.reset();
+  hooks.onReset.call({
     event: {
       type: 'repack',
     },
