@@ -1,12 +1,12 @@
 import { renderSSRStream } from '@modern-js/render/ssr';
 import { storage } from '@modern-js/runtime-utils/node';
-import { ESCAPED_SHELL_STREAM_END_MARK } from '../../../common';
 import { RenderLevel } from '../../constants';
 import { enqueueFromEntries } from './deferredScript';
 import { DeferredScriptOutputCoordinator } from './deferredScriptOutputCoordinator';
 import {
   type CreateReadableStreamFromElement,
   ShellChunkStatus,
+  createShellEndMarkSplitter,
   encodeForWebStream,
   getReadableStreamFromString,
   resolveStreamingMode,
@@ -16,7 +16,7 @@ import { getTemplates } from './template';
 export const createReadableStreamFromElement: CreateReadableStreamFromElement =
   async (request, rootElement, options) => {
     let shellChunkStatus = ShellChunkStatus.START;
-    const chunkVec: string[] = [];
+    const splitAtShellEndMark = createShellEndMarkSplitter();
     const {
       htmlTemplate,
       runtimeContext,
@@ -153,9 +153,6 @@ export const createReadableStreamFromElement: CreateReadableStreamFromElement =
               if (isClosed) return;
 
               if (shellChunkStatus !== ShellChunkStatus.FINISH) {
-                chunkVec.push(decoder.decode(value, { stream: true }));
-                const concatedChunk = chunkVec.join('');
-
                 /**
                  * React's chunk boundaries are byte-driven, so the marker can
                  * land in the middle of a chunk that already carries
@@ -165,14 +162,11 @@ export const createReadableStreamFromElement: CreateReadableStreamFromElement =
                  * so it lands past the closing `</html>` rather than being
                  * swallowed inside it.
                  */
-                const markerIndex = concatedChunk.indexOf(
-                  ESCAPED_SHELL_STREAM_END_MARK,
+                const shell = splitAtShellEndMark(
+                  decoder.decode(value, { stream: true }),
                 );
-                if (markerIndex !== -1) {
-                  const beforeMark = concatedChunk.slice(0, markerIndex);
-                  const afterMark = concatedChunk.slice(
-                    markerIndex + ESCAPED_SHELL_STREAM_END_MARK.length,
-                  );
+                if (shell) {
+                  const { beforeMark, afterMark } = shell;
 
                   shellChunkStatus = ShellChunkStatus.FINISH;
                   coordinator?.writeReact(
