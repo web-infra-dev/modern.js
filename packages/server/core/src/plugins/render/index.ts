@@ -14,18 +14,6 @@ import { requestLatencyMiddleware } from '../monitors';
 
 export * from './inject';
 
-const DYNAMIC_ROUTE_REG = /\/:./;
-
-/**
- * Escape special regex characters in a path string.
- * This is needed because Hono's router converts paths to regex patterns,
- * and special characters like parentheses need to be escaped.
- */
-function escapeRegexSpecialChars(path: string): string {
-  // Escape special regex characters: ( ) [ ] { } * + ? . ^ $ | \
-  return path.replace(/[()[\]{}*+?.^$|\\]/g, '\\$&');
-}
-
 export const renderPlugin = (): ServerPlugin => ({
   name: '@modern-js/plugin-render',
 
@@ -47,17 +35,10 @@ export const renderPlugin = (): ServerPlugin => ({
 
       for (const route of pageRoutes) {
         const { urlPath: originUrlPath } = route;
-        const isDynamic = DYNAMIC_ROUTE_REG.test(originUrlPath);
-
-        // For static routes, escape special regex characters to prevent regex syntax errors
-        // For dynamic routes, keep as-is since they contain route parameters
-        const escapedPath = isDynamic
-          ? originUrlPath
-          : escapeRegexSpecialChars(originUrlPath);
-
-        const urlPath = escapedPath.endsWith('/')
-          ? `${escapedPath}*`
-          : `${escapedPath}/*`;
+        // Hono accepts route paths and handles regex escaping internally.
+        const urlPath = originUrlPath.endsWith('/')
+          ? `${originUrlPath}*`
+          : `${originUrlPath}/*`;
 
         // config.renderMiddlewares can register by server config and prepare hook
         renderMiddlewares?.forEach(m => {
