@@ -1,5 +1,5 @@
 import path from 'path';
-import type { FileReader } from '@modern-js/runtime-utils/fileReader';
+import { fileReader } from '@modern-js/runtime-utils/fileReader';
 import type { ServerRoute } from '@modern-js/types';
 import { fs } from '@modern-js/utils';
 import { getMimeType } from 'hono/utils/mime';
@@ -21,7 +21,6 @@ export const serverStaticPlugin = (): ServerPlugin => ({
     api.onPrepare(() => {
       const {
         middlewares,
-        fileReader: reader,
         distDirectory: pwd,
         routes,
       } = api.getServerContext();
@@ -30,7 +29,6 @@ export const serverStaticPlugin = (): ServerPlugin => ({
 
       const serverStaticMiddleware = createStaticMiddleware({
         pwd: pwd!,
-        fileReader: reader,
         routes,
         output: config.output || {},
         html: config.html || {},
@@ -47,7 +45,6 @@ export const serverStaticPlugin = (): ServerPlugin => ({
 });
 
 export type PublicMiddlewareOptions = {
-  fileReader: FileReader;
   pwd: string;
   routes: ServerRoute[];
 };
@@ -55,7 +52,6 @@ export type PublicMiddlewareOptions = {
 export function createPublicMiddleware({
   pwd,
   routes,
-  fileReader: reader,
 }: PublicMiddlewareOptions): Middleware {
   return async (c, next) => {
     const route = matchPublicRoute(c.req, routes);
@@ -63,7 +59,7 @@ export function createPublicMiddleware({
     if (route) {
       const { entryPath } = route;
       const filename = path.join(pwd, entryPath);
-      const data = await reader.readFile(filename, 'buffer');
+      const data = await fileReader.readFile(filename, 'buffer');
       const mimeType = getMimeType(filename);
 
       if (data !== null) {
@@ -134,7 +130,6 @@ const extractPathname = (url: string): string => {
 };
 
 export interface ServerStaticOptions {
-  fileReader: FileReader;
   pwd: string;
   output: OutputNormalizedConfig;
   html: HtmlNormalizedConfig;
@@ -154,7 +149,7 @@ export interface ServerStaticOptions {
 export function createStaticMiddleware(
   options: ServerStaticOptions,
 ): Middleware {
-  const { pwd, routes, fileReader: reader } = options;
+  const { pwd, routes } = options;
   const prefix = options.output.assetPrefix || '/';
   const pathPrefix = extractPathname(prefix);
 
@@ -229,7 +224,7 @@ export function createStaticMiddleware(
       const stat = await fs.lstat(filepath);
       const { size } = stat;
       // serve static middleware always read file from real filesystem.
-      const chunk = await reader.readFileFromSystem(filepath, 'buffer');
+      const chunk = await fileReader.readFileFromSystem(filepath, 'buffer');
 
       // TODO: handle http range
       c.header('Content-Length', String(size));
@@ -244,11 +239,7 @@ export function createStaticMiddleware(
       );
       return c.body(body, 200);
     } else {
-      return createPublicMiddleware({
-        pwd,
-        routes: routes || [],
-        fileReader: reader,
-      })(c, next);
+      return createPublicMiddleware({ pwd, routes: routes || [] })(c, next);
     }
   };
 }
