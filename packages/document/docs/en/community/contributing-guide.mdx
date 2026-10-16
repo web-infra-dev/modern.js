@@ -229,6 +229,8 @@ pnpm run prepare
 pnpm run bump
 ```
 
+After Changesets updates the package versions, this command synchronizes internal `peerDependencies` ranges to `workspace:^<dependency version>` to satisfy the changeset validation.
+
 5. Commit the version change.
 
 ```sh

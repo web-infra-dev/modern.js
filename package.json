@@ -28,7 +28,7 @@
     "lint": "rs lint",
     "format": "rs fmt",
     "change": "changeset add",
-    "bump": "changeset version",
+    "bump": "pnpm --filter @scripts/check-changeset bump",
     "pre:enter": "changeset pre enter",
     "pre:exit": "changeset pre exit",
     "change-status": "changeset status",
