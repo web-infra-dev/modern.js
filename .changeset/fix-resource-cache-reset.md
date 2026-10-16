@@ -1,5 +1,6 @@
 ---
 '@modern-js/server-core': patch
+'@modern-js/server': patch
 ---
 
-Invalidate the resource plugin's own file cache after a development rebuild so custom server adapters do not serve stale HTML when dependencies resolve multiple runtime-utils instances.
+Pass the server-core fileReader singleton through the server context and development helpers so HTML templates, static resources, compiler filesystem initialization and rebuild invalidation use the same reader even when the two packages resolve different runtime-utils copies.

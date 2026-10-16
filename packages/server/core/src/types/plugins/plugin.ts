@@ -1,3 +1,4 @@
+import type { FileReader } from '@modern-js/runtime-utils/fileReader';
 import type {
   AsyncPipelineHook,
   ServerContext as BaseServerContext,
@@ -35,6 +36,7 @@ export type AfterStreamingRenderContextFn = (
 export interface ServerPluginExtends extends BaseServerPluginExtends {
   config: ServerConfig;
   extendContext: {
+    fileReader: FileReader;
     middlewares: MiddlewareObj[];
     renderMiddlewares: MiddlewareObj[];
     [key: string]: any;

@@ -1,3 +1,4 @@
+import { fileReader } from '@modern-js/runtime-utils/fileReader';
 import type { Plugin } from '@modern-js/plugin';
 import { type ServerCreateOptions, server } from '@modern-js/plugin/server';
 import { Hono, type MiddlewareHandler } from 'hono';
@@ -22,6 +23,8 @@ export interface ServerBaseOptions extends ServerCreateOptions {
 }
 
 export class ServerBase<E extends Env = any> {
+  public readonly fileReader = fileReader;
+
   public serverOptions: ServerBaseOptions;
 
   private app: Hono<E>;
@@ -60,6 +63,7 @@ export class ServerBase<E extends Env = any> {
       handleSetupResult,
     });
     (serverContext as Record<string, any>).serverBase = this;
+    (serverContext as Record<string, any>).fileReader = this.fileReader;
     this.serverContext = serverContext as unknown as ServerContext;
     // need after serverContext to run onPrepare
     await serverContext.hooks.onPrepare.call();
