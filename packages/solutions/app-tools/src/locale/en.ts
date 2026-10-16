@@ -6,6 +6,7 @@ export const EN_LOCALE = {
         'specify the configuration file, which can be a relative or absolute path',
       skipBuild: 'skip the build phase',
       noNeedInstall: 'not run install command',
+      envDir: 'specify the directory containing .env files',
     },
     dev: {
       describe: 'starting the dev server',
