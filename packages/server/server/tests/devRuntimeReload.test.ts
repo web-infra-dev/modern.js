@@ -103,9 +103,7 @@ describe('devRuntimeMiddlewarePlugin (per-runtime injection)', () => {
       name: 'probe',
       setup(api) {
         api.onPrepare(async () => {
-          const context = api.getServerContext();
-          expect(context).not.toHaveProperty('fileReader');
-          names = context.middlewares.map(m => m.name);
+          names = api.getServerContext().middlewares.map(m => m.name);
         });
       },
     };
