@@ -116,6 +116,8 @@ export class DeferredScriptOutputCoordinator {
 
   private shellFinished = false;
 
+  private expectsResolvers = true;
+
   private closed = false;
 
   private state: TokenizerState = 'data';
@@ -171,8 +173,22 @@ export class DeferredScriptOutputCoordinator {
     this.flushResolvers();
   }
 
+  /**
+   * Resolver scripts only come from deferred data registered before React
+   * output starts. When none was registered, nothing can ever be inserted, so
+   * React chunks are emitted as-is instead of being tokenized char by char.
+   */
+  public markNoResolvers(): void {
+    this.expectsResolvers = false;
+  }
+
   public writeReact(chunk: string): void {
     if (this.closed || !chunk) {
+      return;
+    }
+
+    if (!this.expectsResolvers) {
+      this.emit(chunk);
       return;
     }
 
@@ -205,7 +221,9 @@ export class DeferredScriptOutputCoordinator {
 
     if (this.pendingResolvers.length > 0) {
       throw new Error(
-        'Cannot emit deferred resolver scripts because the React stream ended outside a safe HTML boundary.',
+        this.expectsResolvers
+          ? 'Cannot emit deferred resolver scripts because the React stream ended outside a safe HTML boundary.'
+          : 'Cannot emit deferred resolver scripts that were queued after the stream was marked as having no resolvers.',
       );
     }
   }
@@ -225,7 +243,12 @@ export class DeferredScriptOutputCoordinator {
   }
 
   private flushResolvers(): void {
-    if (!this.isSafeBoundary() || this.pendingResolvers.length === 0) {
+    // Without tokenizing there is no known safe boundary to insert at.
+    if (
+      !this.expectsResolvers ||
+      !this.isSafeBoundary() ||
+      this.pendingResolvers.length === 0
+    ) {
       return;
     }
 
@@ -515,7 +538,6 @@ export class DeferredScriptOutputCoordinator {
       return;
     }
 
-    const endTagPrefix = `</${rawTextElement}`;
     if (this.continuationProtocolScript) {
       this.continuationProtocolTail =
         `${this.continuationProtocolTail}${char}`.slice(-4);
@@ -523,6 +545,13 @@ export class DeferredScriptOutputCoordinator {
         this.hasContinuationProtocolCall = true;
       }
     }
+    // An end tag can only start at `<`, so the suffix search below would
+    // keep `rawTextSearch` empty anyway.
+    if (!this.rawTextSearch && char !== '<') {
+      return;
+    }
+
+    const endTagPrefix = `</${rawTextElement}`;
     this.rawTextSearch = getSuffix(
       `${this.rawTextSearch}${char.toLowerCase()}`,
       endTagPrefix,
