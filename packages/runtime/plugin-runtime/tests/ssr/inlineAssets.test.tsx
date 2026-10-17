@@ -129,6 +129,39 @@ describe('inline assets', () => {
     expect(readCount('other.css')).toBe(1);
   });
 
+  it('should not read or inline assets outside production', async () => {
+    process.env.NODE_ENV = 'development';
+    const html = await buildShellBeforeTemplate(
+      '<html><head><!--<?- chunksMap.css ?>--></head><body>',
+      {
+        runtimeContext: {
+          routes: [
+            {
+              id: 'layout',
+              path: '/',
+              children: [{ id: 'dev/page', index: true }],
+            },
+          ],
+          routerContext: { location: { pathname: '/' }, basename: '/' },
+          routeManifest: {
+            routeAssets: {
+              'dev/page': {
+                referenceCssAssets: ['/static/css/async/dev/page.css'],
+              },
+            },
+          },
+        } as any,
+        entryName: 'main',
+        config: { inlineStyles: true } as any,
+      },
+    );
+
+    expect(html).toContain(
+      '<link href="/static/css/async/dev/page.css" rel="stylesheet" />',
+    );
+    expect(mockReadFile).not.toHaveBeenCalled();
+  });
+
   it('should inline the route css of streaming SSR without reading it again', async () => {
     const runtimeContext = {
       routes: [

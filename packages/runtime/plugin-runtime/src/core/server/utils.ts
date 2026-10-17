@@ -30,6 +30,7 @@ export function checkIsNode(): boolean {
   return typeof process !== 'undefined' && process.release?.name === 'node';
 }
 
+// Holds each inlined build output once, so its size is bounded by the build.
 const assetCache = new Map<string, Promise<string>>();
 
 /**
@@ -47,6 +48,7 @@ export function readAssetWithCache(filepath: string): Promise<string> {
     fs.readFile(filepath, 'utf-8'),
   );
   assetCache.set(filepath, content);
+  // Only drops the failed entry, callers still receive the rejection.
   content.catch(() => {
     if (assetCache.get(filepath) === content) {
       assetCache.delete(filepath);
