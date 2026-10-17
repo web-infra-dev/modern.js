@@ -221,7 +221,9 @@ export class DeferredScriptOutputCoordinator {
 
     if (this.pendingResolvers.length > 0) {
       throw new Error(
-        'Cannot emit deferred resolver scripts because the React stream ended outside a safe HTML boundary.',
+        this.expectsResolvers
+          ? 'Cannot emit deferred resolver scripts because the React stream ended outside a safe HTML boundary.'
+          : 'Cannot emit deferred resolver scripts that were queued after the stream was marked as having no resolvers.',
       );
     }
   }

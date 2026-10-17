@@ -3,7 +3,10 @@ import { DeferredData } from '@modern-js/runtime-utils/browser';
 import { storage } from '@modern-js/runtime-utils/node';
 import { createElement } from 'react';
 import { ESCAPED_SHELL_STREAM_END_MARK } from '../../src/common';
-import { setGlobalInternalRuntimeContext } from '../../src/core/context';
+import {
+  getGlobalInternalRuntimeContext,
+  setGlobalInternalRuntimeContext,
+} from '../../src/core/context';
 import { createReadableStreamFromElement } from '../../src/core/server/stream/createReadableStream';
 import {
   enqueueFromEntries,
@@ -348,7 +351,7 @@ describe('DeferredScriptOutputCoordinator', () => {
     coordinator.writeReact('">template</a>');
 
     expect(output()).toBe('<a href="/template">template</a>');
-    expect(() => coordinator.finish()).toThrow('outside a safe HTML boundary');
+    expect(() => coordinator.finish()).toThrow('marked as having no resolvers');
 
     const aborted = createCoordinator();
     aborted.coordinator.markNoResolvers();
@@ -444,6 +447,12 @@ describe('hasDeferredResolvers', () => {
 });
 
 describe('createReadableStreamFromElement deferred resolvers', () => {
+  const previousContext = getGlobalInternalRuntimeContext();
+
+  afterAll(() => {
+    setGlobalInternalRuntimeContext(previousContext);
+  });
+
   const SHELL_BEFORE = '<html><body><div id="root">';
   const SHELL_AFTER = '</div></body></html>';
   const options = {
