@@ -3,7 +3,10 @@ import type React from 'react';
 import ReactDomServer from 'react-dom/server';
 import { Helmet } from 'react-helmet';
 import { RenderLevel } from '../../src/core/constants';
-import { setGlobalInternalRuntimeContext } from '../../src/core/context';
+import {
+  getGlobalInternalRuntimeContext,
+  setGlobalInternalRuntimeContext,
+} from '../../src/core/context';
 import {
   CHUNK_CSS_PLACEHOLDER,
   CHUNK_JS_PLACEHOLDER,
@@ -206,6 +209,12 @@ async function renderWithPreviousOrder(
 }
 
 describe('renderString html building', () => {
+  const previousContext = getGlobalInternalRuntimeContext();
+
+  afterAll(() => {
+    setGlobalInternalRuntimeContext(previousContext);
+  });
+
   beforeAll(() => {
     setGlobalInternalRuntimeContext({
       hooks: {
@@ -261,6 +270,19 @@ describe('renderString html building', () => {
     ].join('');
     const html = await render(
       defaultTemplate,
+      <div dangerouslySetInnerHTML={{ __html: appHtml }} />,
+    );
+
+    expect(html).toContain(`<div id="root"><div>${appHtml}</div></div>`);
+    expect(html).toContain(`</div></div>\n  ${jsChunk}\n  <script>`);
+  });
+
+  it('should insert the app html last when the template has a title', async () => {
+    // The app html has a <title>, but helmet finds the template's one first,
+    // so the template edits still run before the app html is inserted.
+    const appHtml = `<svg><title>Close</title></svg>${CHUNK_JS_PLACEHOLDER}`;
+    const html = await render(
+      titleTemplate,
       <div dangerouslySetInnerHTML={{ __html: appHtml }} />,
     );
 

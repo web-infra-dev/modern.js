@@ -13,7 +13,7 @@ import {
   HTML_PLACEHOLDER,
   SSR_DATA_PLACEHOLDER,
 } from '../constants';
-import { createReplaceHelemt } from '../helmet';
+import { createReplaceHelemt, hasTitleTag } from '../helmet';
 import { type BuildHtmlCb, type RenderString, buildHtml } from '../shared';
 import { SSRErrors, SSRTimings, type Tracer } from '../tracer';
 import { getSSRConfigByEntry, safeReplace } from '../utils';
@@ -143,9 +143,9 @@ async function generateHtml(
 
   // Insert the large SSR data and app html after the template edits, so they
   // aren't scanned and copied by each edit. Helmet detects the <title> in the
-  // whole document, so keep the previous order if the app html may have one.
+  // whole document, so keep the previous order if only the app html may have one.
   const finalHtml = await buildHtml(htmlTemplate, [
-    ...(html.includes('<title')
+    ...(html.includes('<title') && !hasTitleTag(htmlTemplate)
       ? [replaceHtml, ...replaceChunks, replaceSSRData, replaceHelmet]
       : [...replaceChunks, replaceHelmet, replaceSSRData, replaceHtml]),
     ...htmlModifiers,

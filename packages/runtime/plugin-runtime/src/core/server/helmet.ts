@@ -10,6 +10,10 @@ const RE_TITLE = /<title[^>]*>([\s\S\n\r]*?)<\/title>/;
 const TEST_TITLE_CONTENT =
   /(?<=<title[^>]*>)([\s\S\n\r]*?)([.|\S])([\s\S\n\r]*?)(?=<\/title>)/;
 
+export function hasTitleTag(html: string) {
+  return RE_TITLE.test(html);
+}
+
 export function createReplaceHelemt(helmetData?: HelmetData) {
   return helmetData
     ? (template: string) => helmetReplace(template, helmetData)
