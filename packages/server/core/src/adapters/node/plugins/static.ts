@@ -220,14 +220,14 @@ export function createStaticMiddleware(
         // So we call next().
         return next();
       }
-      const mimeType = getMimeType(filepath);
-      if (mimeType) {
-        c.header('Content-Type', mimeType);
-      }
       // serve static middleware always read file from real filesystem.
       const chunk = await fileReader.readFileFromSystem(filepath, 'buffer');
       if (chunk === null) {
         return next();
+      }
+      const mimeType = getMimeType(filepath);
+      if (mimeType) {
+        c.header('Content-Type', mimeType);
       }
       // TODO: handle http range
       // Use the size of the (possibly cached) content, so it always matches the body.

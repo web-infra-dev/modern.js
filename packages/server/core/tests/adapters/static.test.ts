@@ -9,15 +9,21 @@ const jsContent = 'console.log("hello");\n'.repeat(100);
 
 describe('static middleware', () => {
   let pwd: string;
+  let hasSymlink = true;
 
   beforeAll(async () => {
     pwd = await fs.mkdtemp(path.join(os.tmpdir(), 'modern-static-'));
     await fs.outputFile(path.join(pwd, 'static/js/main.js'), jsContent);
     await fs.ensureDir(path.join(pwd, 'static/js/dir.js'));
-    await fs.symlink(
-      path.join(pwd, 'static/js/main.js'),
-      path.join(pwd, 'static/js/link.js'),
-    );
+    try {
+      await fs.symlink(
+        path.join(pwd, 'static/js/main.js'),
+        path.join(pwd, 'static/js/link.js'),
+      );
+    } catch {
+      // Platform without symlink permission (e.g. some Windows CI).
+      hasSymlink = false;
+    }
     await fs.outputFile(path.join(pwd, 'public/robots.txt'), 'robots');
     await fs.outputFile(path.join(pwd, 'public/docs.txt'), 'docs');
     await fs.outputFile(path.join(pwd, 'public/guide.txt'), 'guide');
@@ -103,7 +109,10 @@ describe('static middleware', () => {
     expect(await res.text()).toBe(jsContent);
   });
 
-  it('should report the size of the symlink target', async () => {
+  it('should report the size of the symlink target', async ctx => {
+    if (!hasSymlink) {
+      ctx.skip();
+    }
     const app = createApp(createRoutes());
     const res = await app.request('/static/js/link.js');
     expect(res.status).toBe(200);
