@@ -33,6 +33,10 @@ describe.each([
     beforeAll(async () => {
       // Build/dev must not share generated files with the other streaming tests.
       fixture = await createIsolatedTestApp(fixtureDir);
+      await writeFile(
+        path.join(fixture.appDir, 'src/routes/hydration/layout.data.ts'),
+        "export const loader = () => ({ title: 'Hydrated layout', payload: 'x'.repeat(12 * 1024) });\n",
+      );
       if (!separateRuntime) {
         await writeFile(
           path.join(fixture.appDir, 'modern.config.ts'),
@@ -62,6 +66,7 @@ export default applyBaseConfig({
       });
       expect(response.status).toBe(200);
       html = await response.text();
+      expect(html).toContain('x'.repeat(12 * 1024));
     });
 
     afterAll(async () => {
@@ -131,7 +136,7 @@ export default applyBaseConfig({
     });
 
     if (mode === 'production') {
-      test('waits for split router data before hydrating with cached entry scripts', async () => {
+      const checkCachedSplitData = async (insidePayload = false) => {
         const entrySrc = html.match(/\ssrc="([^"]*\/index\.[^"]+\.js)"/)?.[1];
         expect(entrySrc).toBeDefined();
         const initialScriptSrcs = [
@@ -150,7 +155,16 @@ export default applyBaseConfig({
         );
         expect(initialDataOffset).toBeGreaterThan(-1);
         expect(loaderDataOffset).toBeGreaterThan(initialDataOffset);
-        const splitOffset = loaderDataOffset + '"loaderData":'.length;
+        const payloadPrefix = '"payload":"';
+        const payloadOffset = html.indexOf(payloadPrefix, loaderDataOffset);
+        expect(payloadOffset).toBeGreaterThan(loaderDataOffset);
+        // Reproduce #8822 with a chunk boundary inside a large data script.
+        const splitOffset = insidePayload
+          ? payloadOffset + payloadPrefix.length + 6 * 1024
+          : loaderDataOffset + '"loaderData":'.length;
+        expect(splitOffset).toBeLessThan(
+          html.indexOf('</script>', initialDataOffset),
+        );
         let pendingResponse: ServerResponse | undefined;
         let notifySplit: () => void = () => {};
         const splitStarted = new Promise<void>(resolve => {
@@ -227,8 +241,31 @@ export default applyBaseConfig({
             sources => {
               const state = window as Window & {
                 __loadedInitialScripts?: string[];
+                __prematureDataRemovals?: number;
+                _ROUTER_DATA?: unknown;
               };
               state.__loadedInitialScripts = [];
+              state.__prematureDataRemovals = 0;
+              new MutationObserver(records => {
+                for (const record of records) {
+                  for (const node of record.removedNodes) {
+                    const elements =
+                      node instanceof Element
+                        ? [node, ...node.querySelectorAll('script')]
+                        : [];
+                    if (
+                      !state._ROUTER_DATA &&
+                      elements.some(element =>
+                        element.matches(
+                          'script[data-script-src="modern-inline"]',
+                        ),
+                      )
+                    ) {
+                      state.__prematureDataRemovals!++;
+                    }
+                  }
+                }
+              }).observe(document, { childList: true, subtree: true });
               document.addEventListener(
                 'load',
                 event => {
@@ -288,6 +325,22 @@ export default applyBaseConfig({
             return state._ROUTER_DATA?.loaderData['hydration/layout']?.title;
           });
           expect(title).toBe('Hydrated layout');
+          const completeData = await page.evaluate(() => {
+            const state = window as Window & {
+              _ROUTER_DATA?: {
+                loaderData: Record<string, { payload?: string }>;
+              };
+              __prematureDataRemovals?: number;
+            };
+            return {
+              payloadLength:
+                state._ROUTER_DATA?.loaderData['hydration/layout']?.payload
+                  ?.length,
+              prematureDataRemovals: state.__prematureDataRemovals,
+            };
+          });
+          expect(completeData.payloadLength).toBe(12 * 1024);
+          expect(completeData.prematureDataRemovals).toBe(0);
           expect(loaderRequests).toEqual([]);
           // SSR markup alone does not prove hydration. A same-document route
           // change confirms the entry actually started and attached handlers.
@@ -321,7 +374,15 @@ export default applyBaseConfig({
             }
           }
         }
-      });
+      };
+
+      test('waits for split router data before hydrating with cached entry scripts', () =>
+        checkCachedSplitData());
+
+      test.each(Array.from({ length: 10 }, (_, index) => index + 1))(
+        'hydrates 12KB router data without premature removal on cached visit %i',
+        () => checkCachedSplitData(true),
+      );
     }
   },
 );
