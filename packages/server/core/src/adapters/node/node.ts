@@ -134,6 +134,8 @@ const writeBody = async (
   let abortError: unknown;
   let cancelled: Promise<void> | undefined;
   let resume: (() => void) | undefined;
+  let waitsForDrain = false;
+  const onDrain = () => resume?.();
   const abort = (error: unknown) => {
     if (cancelled) {
       return;
@@ -164,11 +166,16 @@ const writeBody = async (
       }
       try {
         if (!(res as ServerResponse).write(result.value) && !cancelled) {
+          if (!waitsForDrain) {
+            // Listen once per response: a compression middleware may forward
+            // `drain` listeners to its own stream, where `res.off()` can't
+            // remove them.
+            waitsForDrain = true;
+            res.on('drain', onDrain);
+          }
           await new Promise<void>(resolve => {
             resume = resolve;
-            res.once('drain', resolve);
           });
-          res.off('drain', resume!);
           resume = undefined;
         }
       } catch (error) {
@@ -183,6 +190,11 @@ const writeBody = async (
   } finally {
     res.off('close', onClose);
     res.off('error', abort);
+    if (waitsForDrain) {
+      res.off('drain', onDrain);
+    }
+    // Unlock the body like `pipeTo` does, so it can still be cancelled.
+    reader.releaseLock();
   }
 };
 

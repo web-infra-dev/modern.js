@@ -1,4 +1,4 @@
-import { once } from 'node:events';
+import { EventEmitter, once } from 'node:events';
 import { Agent, type ServerResponse, request } from 'node:http';
 import { connect, createServer } from 'node:http2';
 import type { AddressInfo } from 'node:net';
@@ -434,6 +434,56 @@ describe('sendResponse to a writable', () => {
       expect(res.listenerCount('drain')).toBe(0);
     },
   );
+
+  it('keeps one drain listener when drain listeners are forwarded', async () => {
+    // Like a compression middleware, which forwards `drain` listeners to its
+    // own stream but does not override `off()`.
+    class ForwardingResponse extends MockResponse {
+      forwarded = new EventEmitter();
+
+      constructor() {
+        super();
+        Writable.prototype.on.call(this, 'drain', () =>
+          this.forwarded.emit('drain'),
+        );
+      }
+
+      on(event: any, listener: any) {
+        if (event === 'drain') {
+          this.forwarded.on(event, listener);
+          return this;
+        }
+        return super.on(event, listener);
+      }
+    }
+    const chunks = Array.from({ length: 5 }, () => 'a'.repeat(4096));
+    const res = new ForwardingResponse();
+    const sent = send(createBody(chunks).stream, res);
+    for (let i = 0; i < chunks.length; i++) {
+      await expect.poll(() => res.callbacks.length).toBe(1);
+      res.flush();
+    }
+    await sent;
+
+    expect(res.data).toBe(chunks.join(''));
+    expect(res.forwarded.listenerCount('drain')).toBeLessThanOrEqual(1);
+  });
+
+  it('releases the body once it is written or cancelled', async () => {
+    const written = new Response('done');
+    await sendResponse(written, new MockResponse() as unknown as NodeResponse);
+    expect(written.body!.locked).toBe(false);
+    await expect(written.body!.cancel()).resolves.toBeUndefined();
+
+    const res = new MockResponse();
+    res.destroy();
+    await once(res, 'close');
+    const aborted = new Response(new ReadableStream());
+    await expect(
+      sendResponse(aborted, res as unknown as NodeResponse),
+    ).rejects.toMatchObject({ code: 'ABORT_ERR' });
+    expect(aborted.body!.locked).toBe(false);
+  });
 
   it('cancels the body when the response is already destroyed', async () => {
     const cancel = rstest.fn();
