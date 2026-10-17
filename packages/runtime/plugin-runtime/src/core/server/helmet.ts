@@ -10,8 +10,10 @@ const RE_TITLE = /<title[^>]*>([\s\S\n\r]*?)<\/title>/;
 const TEST_TITLE_CONTENT =
   /(?<=<title[^>]*>)([\s\S\n\r]*?)([.|\S])([\s\S\n\r]*?)(?=<\/title>)/;
 
-export function hasTitleTag(html: string) {
-  return RE_TITLE.test(html);
+/** Whether the first <title> of `html` starts before `index`. */
+export function hasTitleTagBefore(html: string, index: number) {
+  const match = RE_TITLE.exec(html);
+  return match !== null && match.index < index;
 }
 
 export function createReplaceHelemt(helmetData?: HelmetData) {

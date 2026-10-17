@@ -13,7 +13,7 @@ import {
   HTML_PLACEHOLDER,
   SSR_DATA_PLACEHOLDER,
 } from '../constants';
-import { createReplaceHelemt, hasTitleTag } from '../helmet';
+import { createReplaceHelemt, hasTitleTagBefore } from '../helmet';
 import { type BuildHtmlCb, type RenderString, buildHtml } from '../shared';
 import { SSRErrors, SSRTimings, type Tracer } from '../tracer';
 import { getSSRConfigByEntry, safeReplace } from '../utils';
@@ -133,26 +133,52 @@ async function generateHtml(
 
   const { ssrScripts, cssChunk, jsChunk } = chunkSet;
 
-  const replaceHtml = createReplaceHtml(html);
   const replaceChunks = [
     createReplaceChunkJs(jsChunk),
     createReplaceChunkCss(cssChunk),
   ];
-  const replaceSSRData = createReplaceSSRDataScript(ssrScripts);
   const replaceHelmet = createReplaceHelemt(helmetData);
 
-  // Insert the large SSR data and app html after the template edits, so they
-  // aren't scanned and copied by each edit. Helmet detects the <title> in the
-  // whole document, so keep the previous order if only the app html may have one.
+  // Helmet uses the first <title> of the whole document, so keep the previous
+  // order when it may be in the app html.
+  const appHtmlMayHaveFirstTitle =
+    html.includes('<title') &&
+    !hasTitleTagBefore(htmlTemplate, htmlTemplate.indexOf(HTML_PLACEHOLDER));
+
   const finalHtml = await buildHtml(htmlTemplate, [
-    ...(html.includes('<title') && !hasTitleTag(htmlTemplate)
-      ? [replaceHtml, ...replaceChunks, replaceSSRData, replaceHelmet]
-      : [...replaceChunks, replaceHelmet, replaceSSRData, replaceHtml]),
+    ...(appHtmlMayHaveFirstTitle
+      ? [
+          createReplaceHtml(html),
+          ...replaceChunks,
+          createReplaceSSRDataScript(ssrScripts),
+          replaceHelmet,
+        ]
+      : [
+          // Insert the large SSR data and app html after the template edits, so
+          // they aren't scanned and copied by each edit. Mark their positions
+          // first, so content added by the edits can't take the placeholders.
+          (template: string) =>
+            safeReplace(
+              safeReplace(template, HTML_PLACEHOLDER, HTML_MARKER),
+              SSR_DATA_PLACEHOLDER,
+              SSR_DATA_MARKER,
+            ),
+          ...replaceChunks,
+          replaceHelmet,
+          (template: string) =>
+            safeReplace(template, SSR_DATA_MARKER, ssrScripts),
+          (template: string) => safeReplace(template, HTML_MARKER, html),
+        ]),
     ...htmlModifiers,
   ]);
 
   return finalHtml;
 }
+
+// Unique per process, so neither the template edits nor the app can produce them.
+const markerId = Math.random().toString(36).slice(2);
+const HTML_MARKER = `<!--modern-html-${markerId}-->`;
+const SSR_DATA_MARKER = `<!--modern-ssr-data-${markerId}-->`;
 
 function createReplaceHtml(html: string): BuildHtmlCb {
   return (template: string) => safeReplace(template, HTML_PLACEHOLDER, html);

@@ -66,7 +66,26 @@ const headChunksTemplate = `<!DOCTYPE html>
 </body>
 </html>`;
 
-const templates = { defaultTemplate, titleTemplate, headChunksTemplate };
+// The only <title> of the template is in a footer after the app html.
+const footerTitleTemplate = `<!DOCTYPE html>
+<html>
+<head>
+  <!--<?- chunksMap.css ?>-->
+</head>
+<body>
+  <div id="root"><!--<?- html ?>--></div>
+  <footer><svg><title>Logo</title></svg></footer>
+  <!--<?- chunksMap.js ?>-->
+  <!--<?- SSRDataScript ?>-->
+</body>
+</html>`;
+
+const templates = {
+  defaultTemplate,
+  titleTemplate,
+  headChunksTemplate,
+  footerTitleTemplate,
+};
 
 const Content = () => (
   <main>
@@ -125,6 +144,15 @@ const apps: Record<string, () => React.ReactElement> = {
       <svg>
         <title>Close</title>
       </svg>
+    </>
+  ),
+  // Helmet inlines scripts as is, so they can contain placeholder-like text.
+  helmetScriptWithPlaceholders: () => (
+    <>
+      <Helmet>
+        <script>{`window.__html = "${HTML_PLACEHOLDER}${SSR_DATA_PLACEHOLDER}";`}</script>
+      </Helmet>
+      <Content />
     </>
   ),
   reactTitle: () => (
@@ -249,9 +277,11 @@ describe('renderString html building', () => {
       expect(html).toContain('<h1 class="title">Hello Modern.js</h1>');
       expect(html).toContain(jsChunk);
       expect(html).toContain('window._SSR_DATA');
-      expect(html).not.toContain(HTML_PLACEHOLDER);
-      expect(html).not.toContain(CHUNK_JS_PLACEHOLDER);
-      expect(html).not.toContain(SSR_DATA_PLACEHOLDER);
+      // Every template placeholder is replaced, the Helmet script keeps its text.
+      const outsideHelmetScript = html.replace(/window\.__html = "[^"]*";/, '');
+      expect(outsideHelmetScript).not.toContain(HTML_PLACEHOLDER);
+      expect(outsideHelmetScript).not.toContain(CHUNK_JS_PLACEHOLDER);
+      expect(outsideHelmetScript).not.toContain(SSR_DATA_PLACEHOLDER);
     },
   );
 
