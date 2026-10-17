@@ -2,7 +2,11 @@ import type { Container } from '@modern-js/types';
 import { LRUCache } from 'lru-cache';
 
 interface MemoryContainerOptions {
-  /** The maximum size of the cache, unit(MB). The default of value is 256. */
+  /**
+   * The maximum size of the cache, unit(MB). The default of value is 256.
+   * Binary values are counted in bytes, strings in UTF-16 code units and other
+   * values by the length of their JSON.
+   */
   max?: number;
 
   maxAge?: number;
@@ -16,7 +20,7 @@ export function calculateSize(value: unknown): number {
   let size: number | undefined;
   if (typeof value === 'string') {
     size = value.length;
-  } else if (ArrayBuffer.isView(value)) {
+  } else if (ArrayBuffer.isView(value) || value instanceof ArrayBuffer) {
     // Buffer and other TypedArray, e.g. the static files of fileReader
     size = value.byteLength;
   } else {

@@ -9,6 +9,7 @@ describe('MemoryContainer size calculation', () => {
   it('should use the byte length of Buffer and TypedArray', () => {
     expect(calculateSize(Buffer.alloc(100 * KB, 1))).toBe(100 * KB);
     expect(calculateSize(new Uint16Array(10))).toBe(20);
+    expect(calculateSize(new ArrayBuffer(30))).toBe(30);
     const view = Buffer.alloc(100).subarray(10, 30);
     expect(calculateSize(view)).toBe(20);
   });
