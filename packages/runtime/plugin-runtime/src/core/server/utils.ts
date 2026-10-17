@@ -30,6 +30,33 @@ export function checkIsNode(): boolean {
   return typeof process !== 'undefined' && process.release?.name === 'node';
 }
 
+// Holds each inlined build output once, so its size is bounded by the build.
+const assetCache = new Map<string, Promise<string>>();
+
+/**
+ * Read a build output file (e.g. an inlined css / js chunk) by its absolute path.
+ * Inlining only applies in production, where build outputs don't change at
+ * runtime, so the content is cached. Failed reads are not cached.
+ */
+export function readAssetWithCache(filepath: string): Promise<string> {
+  const cached = assetCache.get(filepath);
+  if (cached) {
+    return cached;
+  }
+
+  const content = import('fs/promises').then(fs =>
+    fs.readFile(filepath, 'utf-8'),
+  );
+  assetCache.set(filepath, content);
+  // Only drops the failed entry, callers still receive the rejection.
+  content.catch(() => {
+    if (assetCache.get(filepath) === content) {
+      assetCache.delete(filepath);
+    }
+  });
+  return content;
+}
+
 /**
  * forked from https://github.com/remix-run/remix/blob/main/packages/remix-server-runtime/errors.ts
  * license at https://github.com/remix-run/remix/blob/main/LICENSE.md
