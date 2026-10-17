@@ -6,15 +6,9 @@ export class HtmlAsyncChunkPlugin {
 
   htmlPlugin: typeof Rspack.HtmlRspackPlugin;
 
-  isStreamingSSR: boolean;
-
-  constructor(
-    htmlPlugin: typeof Rspack.HtmlRspackPlugin,
-    isStreamingSSR = false,
-  ) {
+  constructor(htmlPlugin: typeof Rspack.HtmlRspackPlugin) {
     this.name = 'HtmlAsyncChunkPlugin';
     this.htmlPlugin = htmlPlugin;
-    this.isStreamingSSR = isStreamingSSR;
   }
 
   apply(compiler: Rspack.Compiler) {
@@ -51,14 +45,14 @@ export class HtmlAsyncChunkPlugin {
           const { attributes } = tag;
 
           // Convert defer to async
-          if (!this.isStreamingSSR && attributes && attributes.defer === true) {
+          if (attributes && attributes.defer === true) {
             attributes.async = true;
             delete attributes.defer;
           }
 
           const src = attributes?.src;
           // Without a separate runtime, the entry itself starts the app. Move
-          // that script after initial SSR data while keeping non-blocking loading.
+          // that script after initial SSR data while keeping async loading.
           const isRuntimeChunk =
             typeof src === 'string' &&
             (runtimeInEntry
