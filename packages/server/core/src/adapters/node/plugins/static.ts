@@ -53,8 +53,13 @@ export function createPublicMiddleware({
   pwd,
   routes,
 }: PublicMiddlewareOptions): Middleware {
+  // Filter and sort a copy once, the routes array is shared with other plugins.
+  const publicRoutes = routes
+    .filter(route => !route.isSSR && route.entryPath?.startsWith('public'))
+    .sort(sortRoutes);
+
   return async (c, next) => {
-    const route = matchPublicRoute(c.req, routes);
+    const route = matchPublicRoute(c.req, publicRoutes);
 
     if (route) {
       const { entryPath } = route;
@@ -86,17 +91,8 @@ export function createPublicMiddleware({
   };
 }
 
-function matchPublicRoute(req: HonoRequest, routes: ServerRoute[]) {
-  for (const route of routes.sort(sortRoutes)) {
-    if (
-      !route.isSSR &&
-      route.entryPath.startsWith('public') &&
-      req.path.startsWith(route.urlPath)
-    ) {
-      return route;
-    }
-  }
-  return undefined;
+function matchPublicRoute(req: HonoRequest, publicRoutes: ServerRoute[]) {
+  return publicRoutes.find(route => req.path.startsWith(route.urlPath));
 }
 
 // Check whether `target` is located inside `root` (or is `root` itself),
@@ -179,6 +175,11 @@ export function createStaticMiddleware(
     `^${regPrefix}(${[...staticReg, ...iconReg].join('|')})`,
   );
 
+  const publicMiddleware = createPublicMiddleware({
+    pwd,
+    routes: routes || [],
+  });
+
   /**
    * The function is modified based on
    * https://github.com/honojs/node-server/blob/main/src/serve-static.ts
@@ -209,7 +210,9 @@ export function createStaticMiddleware(
       if (!isPathInside(filepath, pwd)) {
         return next();
       }
-      if (!(await fs.pathExists(filepath))) {
+      // `stat` follows symlinks, a single call checks that the file exists and is not a directory.
+      const stat = await fs.stat(filepath).catch(() => null);
+      if (!stat?.isFile()) {
         // FIXME: we shoud return a response with status is 404, if we can't found static asset
         // return c.html(createErrorHtml(404), 404);
 
@@ -217,20 +220,18 @@ export function createStaticMiddleware(
         // So we call next().
         return next();
       }
+      // serve static middleware always read file from real filesystem.
+      const chunk = await fileReader.readFileFromSystem(filepath, 'buffer');
+      if (chunk === null) {
+        return next();
+      }
       const mimeType = getMimeType(filepath);
       if (mimeType) {
         c.header('Content-Type', mimeType);
       }
-      const stat = await fs.lstat(filepath);
-      const { size } = stat;
-      // serve static middleware always read file from real filesystem.
-      const chunk = await fileReader.readFileFromSystem(filepath, 'buffer');
-
       // TODO: handle http range
-      c.header('Content-Length', String(size));
-      if (chunk === null) {
-        return next();
-      }
+      // Use the size of the (possibly cached) content, so it always matches the body.
+      c.header('Content-Length', String(chunk.byteLength));
       // See comment above: convert Buffer<ArrayBufferLike> to Uint8Array<ArrayBuffer>.
       const body = new Uint8Array(
         chunk.buffer as ArrayBuffer,
@@ -239,7 +240,7 @@ export function createStaticMiddleware(
       );
       return c.body(body, 200);
     } else {
-      return createPublicMiddleware({ pwd, routes: routes || [] })(c, next);
+      return publicMiddleware(c, next);
     }
   };
 }
