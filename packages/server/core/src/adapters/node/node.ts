@@ -105,6 +105,10 @@ export const createWebRequest = (
 
 const noop = () => {};
 
+// `Http2ServerResponse` has no `destroyed`, its stream has.
+const isDestroyed = (res: NodeResponse) =>
+  'stream' in res ? res.stream.destroyed : res.destroyed;
+
 const createAbortError = () =>
   Object.assign(new Error('The operation was aborted'), {
     name: 'AbortError',
@@ -119,6 +123,8 @@ const createAbortError = () =>
  * - cancel the body if `res` closes, errors or throws before the body is
  *   fully written, and reject with that error (an `ABORT_ERR` when the client
  *   disconnects).
+ * Unlike `pipeTo`, it resolves once `res.end()` is called instead of waiting
+ * for the response to finish.
  */
 const writeBody = async (
   body: ReadableStream<Uint8Array>,
@@ -142,7 +148,7 @@ const writeBody = async (
   res.on('close', onClose);
   res.on('error', abort);
   try {
-    if ((res as ServerResponse).destroyed) {
+    if (isDestroyed(res)) {
       onClose();
     }
     while (!cancelled) {

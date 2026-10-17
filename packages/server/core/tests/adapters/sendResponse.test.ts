@@ -490,3 +490,46 @@ describe('sendResponse to a writable', () => {
     expect(res.errored).toBe(failure);
   });
 });
+
+describe('sendResponse to a closed http2 response', () => {
+  it('cancels the body instead of waiting for drain', async () => {
+    const cancel = rstest.fn();
+    let sent: Promise<unknown> | undefined;
+    const server = createServer(async (_req, res) => {
+      res.destroy();
+      await once(res, 'close');
+      sent = sendResponse(
+        new Response(
+          new ReadableStream({
+            pull(controller) {
+              controller.enqueue(encoder.encode('x'.repeat(64 * 1024)));
+            },
+            cancel,
+          }),
+        ),
+        res as unknown as NodeResponse,
+      ).catch(error => error);
+    });
+    server.listen(0, '127.0.0.1');
+    await once(server, 'listening');
+
+    const session = connect(
+      `http://127.0.0.1:${(server.address() as AddressInfo).port}`,
+    );
+    session.on('error', () => {});
+    const req = session.request({ ':method': 'GET' });
+    req.on('error', () => {});
+    req.resume();
+    req.end();
+    await once(req, 'close');
+
+    try {
+      await expect.poll(() => sent).toBeDefined();
+      expect(await sent).toMatchObject({ code: 'ABORT_ERR' });
+      expect(cancel).toHaveBeenCalledTimes(1);
+    } finally {
+      session.destroy();
+      await new Promise(resolve => server.close(resolve));
+    }
+  });
+});
