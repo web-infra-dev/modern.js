@@ -122,23 +122,28 @@ describe('walkDirectory', () => {
     expect(statSync).not.toHaveBeenCalled();
   });
 
-  it('follows symlinked directories and files', () => {
+  it('follows symlinked directories and files', ctx => {
     writeFiles(['real/dir/a.txt', 'real/dir/nested/b.txt', 'real/file.txt']);
     writeFiles(['public/c.txt']);
     const publicDir = path.join(root, 'public');
-    try {
-      fs.symlinkSync(
-        path.join(root, 'real/dir'),
-        path.join(publicDir, 'linked-dir'),
-        'junction',
-      );
-      fs.symlinkSync(
-        path.join(root, 'real/file.txt'),
-        path.join(publicDir, 'linked-file.txt'),
-      );
-    } catch {
-      // Platform without symlink permission (e.g. some Windows CI): skip.
-      return;
+    const link = (target: string, linkPath: string, type?: 'junction') => {
+      try {
+        fs.symlinkSync(
+          path.join(root, target),
+          path.join(publicDir, linkPath),
+          type,
+        );
+        return true;
+      } catch {
+        return false;
+      }
+    };
+    // A junction needs no permission on Windows, a file symlink may need one.
+    const hasDirLink = link('real/dir', 'linked-dir', 'junction');
+    const hasFileLink = link('real/file.txt', 'linked-file.txt');
+    if (!hasDirLink && !hasFileLink) {
+      // Platform without symlink permission (e.g. some Windows CI).
+      ctx.skip();
     }
     const expected = statWalkDirectory(publicDir);
     const statSync = rs.spyOn(fs, 'statSync');
@@ -148,11 +153,13 @@ describe('walkDirectory', () => {
     expect(files).toEqual(expected);
     expect(relative(files, publicDir).sort()).toEqual([
       'c.txt',
-      'linked-dir/a.txt',
-      'linked-dir/nested/b.txt',
-      'linked-file.txt',
+      ...(hasDirLink ? ['linked-dir/a.txt', 'linked-dir/nested/b.txt'] : []),
+      ...(hasFileLink ? ['linked-file.txt'] : []),
     ]);
-    expect(statSync).toHaveBeenCalledTimes(2);
+    // Only the symlinks need a stat.
+    expect(statSync).toHaveBeenCalledTimes(
+      Number(hasDirLink) + Number(hasFileLink),
+    );
   });
 
   it('keeps the order for a large flat directory', () => {
