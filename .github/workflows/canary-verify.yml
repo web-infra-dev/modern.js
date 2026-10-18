@@ -87,9 +87,9 @@ jobs:
 
   stage:
     needs: build
+    if: startsWith(github.ref, 'refs/heads/release-canary-verify/')
     runs-on: ubuntu-24.04
     timeout-minutes: 45
-    environment: npm-canary-verify
     permissions:
       contents: read
       id-token: write
