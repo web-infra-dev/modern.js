@@ -1,0 +1,127 @@
+name: Modern.js Canary Verify
+
+on:
+  push:
+    branches: ['release-canary-verify/**']
+    paths: ['.release/canary-plan.json']
+  workflow_dispatch:
+    inputs:
+      expected_plan_hash:
+        description: SHA256 of stableStringify(plan) for this prepared branch
+        required: true
+        type: string
+
+permissions:
+  contents: read
+
+concurrency:
+  group: canary-verify-${{ github.ref }}
+  cancel-in-progress: false
+
+jobs:
+  build:
+    if: startsWith(github.ref, 'refs/heads/release-canary-verify/')
+    runs-on: ubuntu-24.04
+    timeout-minutes: 90
+    permissions:
+      contents: read
+    outputs:
+      plan_hash: ${{ steps.plan.outputs.plan_hash }}
+      release_id: ${{ steps.plan.outputs.release_id }}
+    steps:
+      - name: Checkout exact source
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+        with:
+          ref: ${{ github.sha }}
+          fetch-depth: 0
+          persist-credentials: false
+      - name: Set up Node
+        uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020
+        with:
+          node-version: '24.21.0'
+      - name: Install pinned pnpm
+        run: npm install --global pnpm@10.13.1 --ignore-scripts
+      - name: Test canary contracts
+        run: node --test scripts/canary-release/*.test.mjs
+      - name: Verify prepared source and plan
+        id: plan
+        env:
+          EXPECTED_PLAN_HASH: ${{ inputs.expected_plan_hash }}
+        run: node scripts/canary-release/release.mjs verify --expected-plan-hash "$EXPECTED_PLAN_HASH"
+      - name: Install dependencies with native scripts
+        run: node scripts/canary-release/release.mjs install
+      - name: Test real Changesets and pnpm packing contracts
+        env:
+          CANARY_TEST_TOOLCHAIN: .
+        run: node --test scripts/canary-release/prepare.test.mjs
+      - name: Build packages
+        run: pnpm run prepare-build
+      - name: Unit tests
+        run: pnpm run test:ut
+      - name: Build documentation
+        run: pnpm run build:docs
+      - name: Check documentation bundle
+        run: pnpm run check-doc-bundle
+      - name: Pack and verify all canary tarballs
+        env:
+          EXPECTED_PLAN_HASH: ${{ steps.plan.outputs.plan_hash }}
+        run: node scripts/canary-release/release.mjs pack --expected-plan-hash "$EXPECTED_PLAN_HASH"
+      - name: Upload verified tarballs and manifest
+        # Verified via GitHub API: actions/upload-artifact git/ref/tags/v4.
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: canary-tarballs-${{ github.run_id }}-${{ github.run_attempt }}
+          path: .release/artifacts/*
+          include-hidden-files: true
+          if-no-files-found: error
+          retention-days: 14
+          compression-level: 0
+      - name: Upload manifest for the trigger client
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: canary-manifest-${{ steps.plan.outputs.release_id }}
+          path: .release/artifacts/manifest.json
+          include-hidden-files: true
+          if-no-files-found: error
+          retention-days: 30
+
+  stage:
+    needs: build
+    runs-on: ubuntu-24.04
+    timeout-minutes: 45
+    environment: npm-canary-verify
+    permissions:
+      contents: read
+      id-token: write
+    steps:
+      - name: Checkout exact source
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+        with:
+          ref: ${{ github.sha }}
+          fetch-depth: 0
+          persist-credentials: false
+      - name: Set up Node
+        uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020
+        with:
+          node-version: '24.21.0'
+      - name: Install pinned clients without repository dependencies
+        run: npm install --global npm@11.21.0 pnpm@10.13.1 --ignore-scripts
+      - name: Download this run's verified artifacts
+        # Verified via GitHub API: actions/download-artifact git/ref/tags/v4.
+        uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093
+        with:
+          name: canary-tarballs-${{ github.run_id }}-${{ github.run_attempt }}
+          path: .release/artifacts
+      - name: Verify all artifacts and stage through OIDC
+        env:
+          EXPECTED_PLAN_HASH: ${{ needs.build.outputs.plan_hash }}
+        run: node scripts/canary-release/release.mjs stage --expected-plan-hash "$EXPECTED_PLAN_HASH"
+      - name: Persist stage receipts even on partial failure
+        if: always()
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: canary-receipts-${{ github.run_id }}-${{ github.run_attempt }}
+          path: .release/receipts/*.json
+          include-hidden-files: true
+          if-no-files-found: error
+          retention-days: 30

@@ -1,0 +1,153 @@
+import assert from 'node:assert/strict';
+import fs from 'node:fs';
+import path from 'node:path';
+import test from 'node:test';
+import { fileURLToPath } from 'node:url';
+import { planHash, readJson, run, writeJson } from './core.mjs';
+import { releaseId, temporary, version } from './fixtures.mjs';
+import { install, prepare, withoutRootPrepare } from './prepare.mjs';
+
+const repository = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '../..');
+
+function fixture(t, { changeset = true } = {}) {
+  const root = temporary(t);
+  writeJson(path.join(root, 'package.json'), {
+    name: 'canary-contract-fixture', private: true,
+    scripts: { bump: 'pnpm --filter @scripts/check-changeset bump', prepare: 'must-not-run' },
+  });
+  fs.writeFileSync(path.join(root, 'pnpm-workspace.yaml'), "packages:\n  - 'packages/*'\n  - 'scripts/*'\n");
+  writeJson(path.join(root, '.changeset/config.json'), {
+    changelog: false, commit: false, access: 'restricted', baseBranch: 'main',
+    fixed: [['@modern-js/*']], linked: [], updateInternalDependencies: 'patch', ignore: [],
+  });
+  if (changeset) fs.writeFileSync(path.join(root, '.changeset/original.md'), '---\n"@modern-js/a": minor\n---\n\nOriginal real change.\n');
+  writeJson(path.join(root, 'packages/a/package.json'), {
+    name: '@modern-js/a', version: '3.10.0', dependencies: { '@modern-js/b': 'workspace:*' },
+  });
+  writeJson(path.join(root, 'packages/b/package.json'), { name: '@modern-js/b', version: '3.6.0' });
+  writeJson(path.join(root, 'packages/private/package.json'), { name: '@modern-js/private', version: '3.6.0', private: true });
+  // This package.json is tracked-like data but is not a workspace.
+  writeJson(path.join(root, 'packages/a/compiled/fixture/package.json'), { name: '@modern-js/not-a-workspace', version: '1.0.0' });
+  return root;
+}
+
+function fakeRunner(root, { failSnapshot = false, snapshots = [] } = {}) {
+  return (command, args) => {
+    if (command === 'git') return '';
+    if (args.includes('list')) return JSON.stringify(['a', 'b', 'private'].map(name => ({ path: path.join(root, 'packages', name) })));
+    if (args.includes('bump')) {
+      if (args.includes('--snapshot')) {
+        assert.equal(readJson(path.join(root, '.changeset/config.json')).snapshot.useCalculatedVersion, false);
+        assert.equal(readJson(path.join(root, '.changeset/config.json')).snapshot.prereleaseTemplate, 'canary-verify.{tag}');
+        assert.equal(args.at(-1), releaseId);
+        assert(fs.readFileSync(path.join(root, '.changeset/original.md'), 'utf8').includes('Original real change'));
+        assert.equal(readJson(path.join(root, 'packages/a/package.json')).version, '3.10.0');
+        const seed = fs.readFileSync(path.join(root, '.changeset/canary-verify-coverage.md'), 'utf8');
+        assert(seed.includes('"@modern-js/a": patch') && seed.includes('"@modern-js/b": patch'));
+        assert(!seed.includes('@modern-js/private') && !seed.includes('not-a-workspace'));
+        snapshots.push(seed);
+        if (failSnapshot) throw new Error('snapshot failed');
+      } else {
+        fs.rmSync(path.join(root, '.changeset/original.md'));
+      }
+      for (const name of ['a', 'b']) {
+        const file = path.join(root, `packages/${name}/package.json`);
+        const json = readJson(file);
+        json.version = args.includes('--snapshot') ? version : '3.11.0';
+        writeJson(file, json);
+      }
+      return '';
+    }
+    assert.deepEqual(args, ['install', '--lockfile-only', '--ignore-scripts', '--no-frozen-lockfile']);
+    assert.equal(readJson(path.join(root, 'package.json')).scripts.prepare, undefined);
+    fs.writeFileSync(path.join(root, 'pnpm-lock.yaml'), 'generated lockfile\n');
+    return '';
+  };
+}
+
+test('prepare contract preserves original bump inputs, prediction and a complete uniform snapshot', t => {
+  const root = fixture(t);
+  const config = fs.readFileSync(path.join(root, '.changeset/config.json'), 'utf8');
+  const result = prepare(root, releaseId, 'a'.repeat(40), fakeRunner(root));
+  assert.equal(result.plan.version, version);
+  assert(result.plan.packages.every(pkg => pkg.version === version));
+  assert.equal(result.plan.packages.length, 2);
+  assert.equal(result.predicted.packages[0].version, '3.11.0');
+  assert.equal(result.predicted.packages[1].previousVersion, '3.6.0');
+  assert.equal(result.planHash, planHash(readJson(path.join(root, '.release/canary-plan.json'))));
+  assert.deepEqual(readJson(path.join(root, '.release/predicted-versions.json')), result.predicted);
+  assert.equal(readJson(path.join(root, 'packages/a/package.json')).dependencies['@modern-js/b'], `workspace:${version}`);
+  assert.equal(fs.readFileSync(path.join(root, '.changeset/config.json'), 'utf8'), config);
+  assert(fs.existsSync(path.join(root, '.changeset/original.md')));
+  assert(!fs.existsSync(path.join(root, '.changeset/canary-verify-coverage.md')));
+  assert.equal(readJson(path.join(root, 'package.json')).scripts.prepare, 'must-not-run');
+  assert.throws(() => prepare(root, releaseId, 'a'.repeat(40), fakeRunner(root)), /Already prepared/);
+});
+
+test('snapshot failure restores original versions, changesets, config and lockfile', t => {
+  const root = fixture(t);
+  const config = fs.readFileSync(path.join(root, '.changeset/config.json'), 'utf8');
+  assert.throws(() => prepare(root, releaseId, 'a'.repeat(40), fakeRunner(root, { failSnapshot: true })), /snapshot failed/);
+  assert.equal(readJson(path.join(root, 'packages/a/package.json')).version, '3.10.0');
+  assert.equal(fs.readFileSync(path.join(root, '.changeset/config.json'), 'utf8'), config);
+  assert(fs.existsSync(path.join(root, '.changeset/original.md')));
+  assert(!fs.existsSync(path.join(root, 'pnpm-lock.yaml')));
+  assert(!fs.existsSync(path.join(root, '.release/canary-plan.json')));
+  assert(!fs.existsSync(path.join(root, '.release/predicted-versions.json')));
+});
+
+test('install suppresses only root prepare, preserves native dependency scripts and restores bytes on error', t => {
+  const root = fixture(t);
+  const original = fs.readFileSync(path.join(root, 'package.json'));
+  assert.throws(() => install(root, (command, args) => {
+    assert.equal(command, 'pnpm');
+    assert(!args.includes('--ignore-scripts'));
+    assert(args.includes('--config.dangerouslyAllowAllBuilds=true'));
+    assert.equal(readJson(path.join(root, 'package.json')).scripts.prepare, undefined);
+    throw new Error('failed install');
+  }));
+  assert.deepEqual(fs.readFileSync(path.join(root, 'package.json')), original);
+  withoutRootPrepare(root, () => assert.equal(readJson(path.join(root, 'package.json')).scripts.prepare, undefined));
+  assert.deepEqual(fs.readFileSync(path.join(root, 'package.json')), original);
+});
+
+// Optional real-tool test. CI runs it after installing the repository dependencies.
+for (const changeset of [true, false]) {
+  test(`real repository bump + Changesets snapshot, changeset=${changeset}`, { skip: !process.env.CANARY_TEST_TOOLCHAIN }, t => {
+    const root = fixture(t, { changeset });
+    const toolchain = path.resolve(process.env.CANARY_TEST_TOOLCHAIN);
+    fs.symlinkSync(path.join(toolchain, 'node_modules'), path.join(root, 'node_modules'), 'dir');
+    const script = path.join(root, 'scripts/check-changeset');
+    fs.mkdirSync(path.join(script, 'src'), { recursive: true });
+    for (const file of ['package.json', 'src/bump.ts', 'src/peerDependencies.ts']) {
+      fs.copyFileSync(path.join(repository, 'scripts/check-changeset', file), path.join(script, file));
+    }
+    const scriptModules = path.join(toolchain, 'scripts/check-changeset/node_modules');
+    if (fs.existsSync(scriptModules)) fs.symlinkSync(scriptModules, path.join(script, 'node_modules'), 'dir');
+    const calls = [];
+    const execute = (command, args, options) => {
+      calls.push([command, ...args]);
+      if (command === 'git') return '';
+      // Lockfile resolution is checked by the unit contract, not network access in this fixture.
+      if (args.includes('--lockfile-only')) return '';
+      return run(command, args, { ...options, inherit: false });
+    };
+    const result = prepare(root, releaseId, 'a'.repeat(40), execute);
+    assert.equal(result.plan.packages.length, 2);
+    assert(result.plan.packages.every(pkg => pkg.version === version));
+    assert.equal(result.plan.version, version);
+    assert.deepEqual(calls.filter(call => call.includes('bump')), [
+      ['pnpm', 'run', 'bump'], ['pnpm', 'run', 'bump', '--snapshot', releaseId],
+    ]);
+    assert.equal(result.predicted.packages[0].version, changeset ? '3.11.0' : '3.10.0');
+    assert.equal(result.predicted.packages[1].version, changeset ? '3.11.0' : '3.6.0');
+    assert.equal(readJson(path.join(root, 'packages/a/package.json')).dependencies['@modern-js/b'], `workspace:${version}`);
+    // Exercise actual pnpm pack conversion, not a handcrafted tarball manifest.
+    const output = path.join(root, 'packed');
+    fs.mkdirSync(output);
+    run('pnpm', ['pack', '--pack-destination', output], { cwd: path.join(root, 'packages/a') });
+    const packed = JSON.parse(run('tar', ['-xOzf', path.join(output, fs.readdirSync(output)[0]), 'package/package.json']));
+    assert.equal(packed.version, version);
+    assert.equal(packed.dependencies['@modern-js/b'], version);
+  });
+}
