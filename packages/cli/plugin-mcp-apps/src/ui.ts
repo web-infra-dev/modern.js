@@ -7,11 +7,6 @@ import { createUiManifest, getUiEntryName } from '@modern-js/mcp-apps/server';
 import { createLoadedConfig } from '@modern-js/plugin/cli';
 import { MF_ARTIFACTS, localRemoteNames, mfArtifact } from './mf';
 
-export interface BuiltView {
-  html: string;
-  assetBase: string;
-}
-
 /** Add standard auto-mounted Modern.js entries, then retain their emitted HTML. */
 export function setupMcpUi(
   api: Parameters<NonNullable<CliPlugin<AppTools>['setup']>>[0],
@@ -22,7 +17,6 @@ export function setupMcpUi(
   let localRemotes: string[] = [];
   let debugEnabled = false;
   let definition: McpAppsDefinition;
-  const views: Record<string, BuiltView> = Object.create(null);
   api.onBeforePrintInstructions(({ instructions }) => ({
     instructions: instructions
       .split('\n')
@@ -37,7 +31,6 @@ export function setupMcpUi(
   }));
   api.modifyEntrypoints(async ({ entrypoints }) => {
     entries.clear();
-    for (const key of Object.keys(views)) delete views[key];
     const ctx = api.getAppContext();
     const config = api.getNormalizedConfig();
     const appRequire = createRequire(
@@ -88,16 +81,6 @@ export default createMcpView(View, ${JSON.stringify({ name: tool.name, version: 
         absoluteEntryDir: path.dirname(entry),
       });
       entries.set(entryName, tool.name);
-      const prefix = ['dev', 'start'].includes(ctx.command)
-        ? config.dev.assetPrefix
-        : config.output.assetPrefix;
-      views[tool.name] = {
-        html: `./ui/${entryName}.html`,
-        assetBase:
-          typeof prefix === 'string' && /^https?:\/\//.test(prefix)
-            ? `${prefix.replace(/\/+$/, '')}/`
-            : 'request',
-      };
     }
     debugEnabled =
       options.debug !== false && ['dev', 'start'].includes(ctx.command);
@@ -245,5 +228,4 @@ export default function DebugPage() { return <McpDebugger {...${JSON.stringify(p
       );
     }
   });
-  return views;
 }
