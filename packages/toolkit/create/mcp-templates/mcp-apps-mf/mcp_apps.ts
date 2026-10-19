@@ -9,6 +9,9 @@ import {
 export default defineMcpServer({
   name,
   version,
+  // Tool remote names match module-federation.config.ts.
+  // The plugin discovers local manifest URLs from build output.
+  // Configure remotes explicitly only for externally hosted MF applications.
   tools: [
     { ...listTasks, remote: 'mcp_ui', view: { module: './TaskBoard' } },
     { ...createTask, remote: 'mcp_ui', view: { module: './TaskBoard' } },

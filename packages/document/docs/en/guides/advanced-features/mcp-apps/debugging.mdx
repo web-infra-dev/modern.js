@@ -36,6 +36,8 @@ Use standard JSON with double-quoted keys and strings. JavaScript object literal
 4. Click **Run tool** to inspect the status, duration and complete result.
 5. Successful tools with UI resources load their HTML in **Card preview**.
 
+The preview shows Local or Module Federation loading mode and the resource URI. After an MF tool runs, it also shows the manifest URL returned by the server so you can verify the connected project and asset source.
+
 Tool calls use the real MCP endpoint. The preview uses the official AppBridge for initialization, input and result delivery. Calls initiated by the card are forwarded to the same endpoint, allowing interactive tools to continue working. Running tools produces their normal business effects.
 
 JSON, HTTP, MCP and bridge errors appear in the error area. Results with `isError` show a tool error and do not load a new card. Inspect browser developer tools for script loading and CSP errors.

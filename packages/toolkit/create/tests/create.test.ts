@@ -135,6 +135,9 @@ describe('MCP templates', () => {
     );
     expect(pkg.dependencies['@modern-js/plugin-mcp-apps']).toBeDefined();
     expect(pkg.dependencies['@modern-js/mcp-apps']).toBeDefined();
+    expect(
+      fs.existsSync(path.join(workdir, 'mcp-app/src/modern.runtime.ts')),
+    ).toBe(false);
     expect(pkg.dependencies['@modern-js/plugin-bff']).toBeDefined();
     expect(pkg.scripts['verify:mcp']).toBeUndefined();
     expect(fs.existsSync(path.join(root, 'scripts/verify-mcp.mjs'))).toBe(
@@ -177,6 +180,9 @@ describe('MCP templates', () => {
 
   it('adds MF only when explicitly selected', () => {
     runCreate(['mf-app', '--template', 'mcp-apps', '--mf']);
+    expect(
+      fs.existsSync(path.join(workdir, 'mf-app/src/modern.runtime.ts')),
+    ).toBe(false);
     const root = path.join(workdir, 'mf-app');
     const pkg = JSON.parse(
       fs.readFileSync(path.join(root, 'package.json'), 'utf8'),

@@ -36,6 +36,8 @@ ENDPOINT 默认展示当前服务的完整地址，例如 `http://localhost:8080
 4. 点击 **Run tool**，查看执行状态、耗时和完整返回结果。
 5. 带 UI 的工具执行成功后，会读取对应 HTML，并在 **Card preview** 中加载卡片。
 
+卡片预览顶部显示 Local 或 Module Federation 加载模式及资源 URI。MF 工具执行后还会显示服务端实际返回的 manifest 地址，便于确认当前连接的项目和资源来源。
+
 调试页通过真实的 MCP endpoint 调用工具，卡片通过官方 AppBridge 完成握手和数据传递。卡片发起的工具调用也会转发给该 endpoint，因此任务管理等交互可以继续操作。执行会产生工具本身的业务效果。
 
 参数 JSON、HTTP、MCP 和卡片通信错误会显示在错误区域。工具返回的 `isError` 会显示为工具错误，不加载新卡片。浏览器中的脚本加载错误和 CSP 错误仍需查看开发者工具控制台。

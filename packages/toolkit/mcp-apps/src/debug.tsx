@@ -268,6 +268,18 @@ export function McpDebugger({ endpoint = '', views = [] }: McpDebuggerProps) {
   }
   const choices = simulate ? views : tools;
   const tool = tools.find(item => item.name === selected);
+  const resourceUri = tool?._meta?.ui?.resourceUri;
+  const isMfView = !simulate && resourceUri?.startsWith('ui://mf/');
+  const resultResource = output
+    ? JSON.parse(output)?.structuredContent?.resource
+    : undefined;
+  const mfResource = resultResource?.moduleFederation;
+  const manifestUrl =
+    !simulate &&
+    mfResource?.resourceUri === resourceUri &&
+    typeof mfResource?.remoteEntry === 'string'
+      ? mfResource.remoteEntry
+      : undefined;
   async function discover(target = address) {
     setStatus('Connecting…');
     await connect(target);
@@ -501,8 +513,33 @@ export function McpDebugger({ endpoint = '', views = [] }: McpDebuggerProps) {
         <section className="preview" aria-label="Card preview">
           <div className="preview-heading">
             <h2>Card preview</h2>
-            <span>AppBridge · sandbox</span>
+            <span>
+              {simulate
+                ? 'Local · simulation'
+                : !resourceUri
+                  ? 'No UI resource'
+                  : isMfView
+                    ? 'Module Federation'
+                    : 'Local'}{' '}
+              · AppBridge
+            </span>
           </div>
+          {resourceUri && !simulate && (
+            <div className="view-resource">
+              <div>
+                <strong>Resource</strong>
+                <code>{resourceUri}</code>
+              </div>
+              {isMfView && (
+                <div>
+                  <strong>MF manifest</strong>
+                  <code>
+                    {manifestUrl ?? 'Run the tool to resolve its manifest URL'}
+                  </code>
+                </div>
+              )}
+            </div>
+          )}
           <div className="canvas">
             {!hasPreview && (
               <div className="empty">

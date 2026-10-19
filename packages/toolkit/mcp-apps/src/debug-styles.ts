@@ -19,4 +19,6 @@ export const debugStyles = `
 @media(min-width:1600px){.mcp-debug .workspace{grid-template-columns:360px minmax(480px,1fr) 460px}}
 @media(max-width:1150px){.mcp-debug .workspace{grid-template-columns:300px minmax(0,1fr);height:auto;min-height:calc(100vh - 148px);overflow:visible}.mcp-debug .workspace>aside{grid-row:span 2}.mcp-debug .workspace>.activity{grid-column:2;border-top:1px solid var(--line)}.mcp-debug .workspace>.preview{grid-column:2}.mcp-debug .activity .log-list{max-height:460px}}
 @media(max-width:760px){.mcp-debug .workspace{display:block}.mcp-debug .workspace>aside{border-right:0}.mcp-debug .workspace>.preview,.mcp-debug .workspace>.activity{border-left:0;border-top:1px solid var(--line);padding:20px}.mcp-debug .workspace>aside>.tool{display:inline-block;width:auto}.mcp-debug .canvas{min-height:320px}}
+
+.mcp-debug .view-resource{background:#fff;border:1px solid var(--line);border-radius:8px;padding:12px 14px;margin-bottom:16px;font-size:11px}.mcp-debug .view-resource>div{display:flex;gap:14px;align-items:baseline}.mcp-debug .view-resource>div+div{margin-top:7px}.mcp-debug .view-resource strong{color:var(--muted);font-weight:500;min-width:76px}.mcp-debug .view-resource code{overflow-wrap:anywhere;color:#526079;min-width:0}
 `;

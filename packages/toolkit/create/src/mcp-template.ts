@@ -44,6 +44,9 @@ export function applyMcpTemplate(
   pkg.devDependencies['ts-node'] = '^10.9.2';
   pkg.scripts.deploy = 'modern deploy';
   if (template === 'mcp-apps') {
+    // The base app template includes an empty runtime config. MCP views and
+    // MF remotes do not require one unless the application adds runtime options.
+    fs.rmSync(path.join(targetDir, 'src/modern.runtime.ts'), { force: true });
     fs.rmSync(path.join(targetDir, 'api'), {
       recursive: true,
       force: true,
