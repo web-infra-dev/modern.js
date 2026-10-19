@@ -176,7 +176,10 @@ export default function mcpBffRuntime(
           );
         }
         const apiHandlerInfos = userInfos.map(info => {
-          const endpointOptions = Reflect.get(info.handler, MCP_BFF_ENDPOINT) as
+          const endpointOptions = Reflect.get(
+            info.handler,
+            MCP_BFF_ENDPOINT,
+          ) as
             | (McpEndpointOptions & { definition: McpAppsDefinition })
             | undefined;
           if (!endpointOptions) return info;

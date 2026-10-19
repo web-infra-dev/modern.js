@@ -55,15 +55,15 @@ export default defineMcpServer({
 });
 ```
 
-| Field | Meaning |
-| --- | --- |
-| `remotes` | Optional remote UI resources; defaults to an empty array for local cards and tools without UI |
-| `tools[].name` | A unique tool name used by the host and cards to call the tool |
-| `tools[].description` | A description that helps the model select the tool |
-| `tools[].inputSchema` | A JSON Schema for arguments, validated before the handler runs |
-| `tools[].handler` | The business function receiving arguments and request context |
-| `tools[].view` | Optional card configuration; omit it to return tool results without a card |
-| `tools[].remote` | The referenced `remotes[].name` in MF mode |
+| Field                 | Meaning                                                                                       |
+| --------------------- | --------------------------------------------------------------------------------------------- |
+| `remotes`             | Optional remote UI resources; defaults to an empty array for local cards and tools without UI |
+| `tools[].name`        | A unique tool name used by the host and cards to call the tool                                |
+| `tools[].description` | A description that helps the model select the tool                                            |
+| `tools[].inputSchema` | A JSON Schema for arguments, validated before the handler runs                                |
+| `tools[].handler`     | The business function receiving arguments and request context                                 |
+| `tools[].view`        | Optional card configuration; omit it to return tool results without a card                    |
+| `tools[].remote`      | The referenced `remotes[].name` in MF mode                                                    |
 
 For cards built from application components, `view.module` resolves relative to the **project root**. A tool may have only a handler or only a view, but must define at least one.
 
@@ -71,10 +71,11 @@ For cards built from application components, `view.module` resolves relative to 
 
 The template uses the following mapping:
 
-| MCP tool `name` | Server `handler` | `view.module` | Component default export |
-| --- | --- | --- | --- |
-| `greet` | `greet` handler | `./src/components/Greeting.tsx` | Greeting card component |
-| `add_numbers` | `add_numbers` handler | `./src/components/Sum.tsx` | Addition card component |
+| MCP tool `name`                              | Server `handler`                                      | `view.module`                        | Component default export |
+| -------------------------------------------- | ----------------------------------------------------- | ------------------------------------ | ------------------------ |
+| `list_tasks` / `create_task` / `update_task` | Task handlers in `src/features/tasks/server/tools.ts` | `./src/features/tasks/TaskBoard.tsx` | Task board               |
+| `greet`                                      | `greet` handler                                       | `./src/components/Greeting.tsx`      | Greeting card component  |
+| `add_numbers`                                | `add_numbers` handler                                 | `./src/components/Sum.tsx`           | Addition card component  |
 
 When the host calls `greet`, the server executes `greet` handler. Modern.js builds a card entry from the component referenced by `view.module` and serves its HTML through the tool's `ui://local/greet` resource. The host loads the card and the component receives tool arguments, the handler's `viewProps`, and `mcpApp`. Business handlers execute on the server; React components run in the host's card UI.
 
@@ -134,6 +135,7 @@ export default createModuleFederationConfig({
   manifest: { filePath: 'static' },
   filename: 'static/remoteEntry.js',
   exposes: {
+    './TaskBoard': './src/features/tasks/TaskBoard.tsx',
     './Greeting': './src/components/Greeting.tsx',
     './Sum': './src/components/Sum.tsx',
   },
@@ -150,7 +152,21 @@ Each `exposes` key is a public module name and its value is a component source p
 
 ### 2. Associate a tool with a card
 
-Declare the remote and select an expose for the tool in `mcp_apps.ts`:
+For local MF components, match the tool remote to the MF configuration name. The plugin discovers the emitted manifest and publicPath without explicit `remotes`.
+
+```ts title="mcp_apps.ts"
+import { defineMcpServer } from '@modern-js/mcp-apps/config';
+import { name, version } from './package.json';
+import { listTasks } from './src/features/tasks/server/tools';
+
+export default defineMcpServer({
+  name,
+  version,
+  tools: [{ ...listTasks, remote: 'mcp_ui', view: { module: './TaskBoard' } }],
+});
+```
+
+For independently deployed external MF applications, declare the remote and select an expose in `mcp_apps.ts`:
 
 ```ts title="mcp_apps.ts"
 import { defineMcpServer } from '@modern-js/mcp-apps/config';
@@ -195,19 +211,20 @@ Here, `view.module: './Greeting'` is an **expose name** in `module-federation.co
 
 ### 3. Understand the mapping
 
-The template maps its two tools to components as follows:
+The template maps its five tools to components as follows:
 
-| MCP tool `name` | Server `handler` | `remote` | `view.module` | Source referenced by `exposes` |
-| --- | --- | --- | --- | --- |
-| `greet` | `greet` handler | `mcp_ui` | `./Greeting` | `./src/components/Greeting.tsx` |
-| `add_numbers` | `add_numbers` handler | `mcp_ui` | `./Sum` | `./src/components/Sum.tsx` |
+| MCP tool `name`                              | Server `handler`      | `remote` | `view.module` | Source referenced by `exposes`       |
+| -------------------------------------------- | --------------------- | -------- | ------------- | ------------------------------------ |
+| `list_tasks` / `create_task` / `update_task` | Task handlers         | `mcp_ui` | `./TaskBoard` | `./src/features/tasks/TaskBoard.tsx` |
+| `greet`                                      | `greet` handler       | `mcp_ui` | `./Greeting`  | `./src/components/Greeting.tsx`      |
+| `add_numbers`                                | `add_numbers` handler | `mcp_ui` | `./Sum`       | `./src/components/Sum.tsx`           |
 
 When the host calls `greet`, the server executes `greet` handler and returns business results. The card renderer resolves `remote: 'mcp_ui'` to its manifest in `remotes`, loads the component exposed as `./Greeting`, and passes tool arguments, the handler's `viewProps`, and `mcpApp` to it.
 
 Keep these names and responsibilities distinct:
 
 - `tools[].name` identifies an MCP tool for calls; `view.module` identifies an MF expose. They do not need the same name: `greet` uses `./Greeting`.
-- `tools[].remote` must match a `remotes[].name`. The template uses `mcp_ui` for both this name and the MF configuration's `name`. Its `baseUrl` points to the manifest providing the required expose.
+- In Modern.js, `tools[].remote` can match an emitted local manifest name, such as `mcp_ui`. External remotes must match `remotes[].name`, with `baseUrl` pointing to their manifest. Direct core usage requires complete remote definitions because the core does not discover application build artifacts.
 - `view.module` must match an `exposes` key, including case and the `./` prefix. Use `./Greeting` in the tool definition, not the component source path.
 - An expose makes a module loadable; it does not register an MCP tool. Only entries in `tools` appear in the tool list. Server business functions are configured through `handler` and do not need MF exposes.
 - Multiple tools can share an expose if the component supports their props. Each tool configures one `view`, which can compose multiple child components. Tools without UI can omit both `view` and `remote`.
@@ -215,12 +232,11 @@ Keep these names and responsibilities distinct:
 
 To add a card, expose its component, then configure the tool's business handler, `remote`, and `view.module`. If tool execution succeeds but card loading fails, check the manifest URL, expose name, component export, and asset CSP first.
 
-BFF compiles the definition and handlers for the server; they are not imported as browser UI entries. The build also reads the definition to discover UI entries, so avoid top-level side effects such as starting listeners.
+For automatic routes, the plugin invokes the existing server compiler for the root definition and imported handlers. Manual BFF routes use BFF compilation; they are not imported as browser UI entries. The build also reads the definition to discover UI entries, so avoid top-level side effects such as starting listeners.
 
 See the [API reference](./api) for complete fields and type definitions.
 
 See [Card interactions](./interactions) for calling tools, sending conversation messages, and updating model context.
-
 
 ## viewDefaults
 
@@ -230,9 +246,16 @@ export default defineMcpServer({
   version: '1.0.0',
   viewDefaults: {
     assetBase: 'request',
-    csp: { resourceDomains: [], connectDomains: [], frameDomains: [], baseUriDomains: [] },
+    csp: {
+      resourceDomains: [],
+      connectDomains: [],
+      frameDomains: [],
+      baseUriDomains: [],
+    },
   },
-  tools: [{ name: 'card', visibility: ['model', 'app'], view: { module: './Card' } }],
+  tools: [
+    { name: 'card', visibility: ['model', 'app'], view: { module: './Card' } },
+  ],
 });
 ```
 
@@ -242,11 +265,9 @@ Defaults apply only to tools with a view. Tool view fields override application 
 
 `defineTool()` keeps JSON Schema with its handler and infers required and optional inputs, enums, arrays, and nested objects. Handlers may return a result or a Promise. `InferToolInput<typeof tool>` and `InferToolOutput<typeof tool>` expose input and structured output types for client code. Input validation still runs before the handler. Unsupported schema forms infer `unknown`.
 
-
 `name` and `version` identify the MCP server. `remotes` defaults to `[]`; omit it for local views and tools without UI. `viewDefaults` stays grouped at the top level. `defineMcpApps` and `mcpApps` remain available for compatibility.
 
 The view defaults are `exportName: 'default'`, `renderMode: 'component'`, and browser execution; templates omit these values.
-
 
 ## Inline tools and input shorthand
 

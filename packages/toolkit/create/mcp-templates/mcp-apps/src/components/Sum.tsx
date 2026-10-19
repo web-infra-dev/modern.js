@@ -2,7 +2,11 @@ export default function Sum({
   a,
   b,
   sum,
-}: { a?: number; b?: number; sum?: number }) {
+}: {
+  a?: number;
+  b?: number;
+  sum?: number;
+}) {
   return (
     <section style={{ fontFamily: 'system-ui', padding: 24 }}>
       <h1>Addition</h1>

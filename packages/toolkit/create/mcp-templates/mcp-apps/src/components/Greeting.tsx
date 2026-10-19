@@ -4,7 +4,10 @@ import { useState } from 'react';
 export default function Greeting({
   message,
   mcpApp,
-}: { message?: string; mcpApp?: App }) {
+}: {
+  message?: string;
+  mcpApp?: App;
+}) {
   const [updated, setUpdated] = useState<string>();
   const [pending, setPending] = useState(false);
   return (

@@ -14,8 +14,6 @@ export default defineConfig({
 });
 ```
 
-
-
 ```ts title="mcp_apps.ts"
 import { defineMcpServer } from '@modern-js/mcp-apps/config';
 
@@ -63,14 +61,16 @@ Publish an expose with existing MF tooling. Add its manifest URL to `remotes`
 and reference it from a tool with `remote` and `view.module`:
 
 ```ts
-remotes: [{
-  name: 'catalog',
-  baseUrl: 'https://cdn.example.com/catalog/v1/mf-manifest.json',
-  csp: {
-    resourceDomains: ['https://cdn.example.com'],
-    connectDomains: ['https://cdn.example.com'],
+remotes: [
+  {
+    name: 'catalog',
+    baseUrl: 'https://cdn.example.com/catalog/v1/mf-manifest.json',
+    csp: {
+      resourceDomains: ['https://cdn.example.com'],
+      connectDomains: ['https://cdn.example.com'],
+    },
   },
-}]
+];
 // Corresponding tool: remote: 'catalog', view: { module: './Results' }
 ```
 
@@ -82,7 +82,7 @@ No additional UI-manifest format is introduced.
 Keep the existing `bff.prefix`. The automatic MCP route uses `endpoint` directly, without adding the BFF prefix:
 
 ```ts
-mcpAppsPlugin({ config: 'mcp_apps.ts', endpoint: '/api/mcp' })
+mcpAppsPlugin({ config: 'mcp_apps.ts', endpoint: '/api/mcp' });
 ```
 
 The defaults are root `mcp_apps.ts` and `/mcp`. An existing BFF route at the same path causes a conflict error.

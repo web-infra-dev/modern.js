@@ -2,7 +2,7 @@
 
 Example projects for [Modern.js](https://modernjs.dev).
 
-Each example depends on the `latest` published Modern.js packages, so you can copy any example directory out of this repo and use it directly — `pnpm install && pnpm dev` just works, and you always get the newest release without editing versions.
+Most examples depend on the `latest` published Modern.js packages, so you can copy those example directories out of this repo and use it directly — `pnpm install && pnpm dev` just works, and you always get the newest release without editing versions.
 
 To run one inside this repo (examples are also members of the pnpm workspace, resolved against the published packages, pinned by the root lockfile):
 
@@ -14,10 +14,14 @@ pnpm dev
 
 > Note: `latest` follows the npm dist-tag. When the next major version of Modern.js is published, these examples must be updated together with it.
 
+MCP Apps examples use workspace packages and require `pnpm prepare-build` before running.
+
 ## Examples
 
 | Example                                                        | Description                                                                                  |
 | -------------------------------------------------------------- | -------------------------------------------------------------------------------------------- |
+| [my-mcp-app-v2](./my-mcp-app-v2)                               | MCP Apps task board with local React views                                                   |
+| [my-mcp-app-mf](./my-mcp-app-mf)                               | MCP Apps task board with Module Federation                                                   |
 | [basic-withZephyr](./basic-withZephyr)                         | Basic app deployed with [Zephyr Cloud](https://zephyr-cloud.io) via `zephyr-modernjs-plugin` |
 | [deploy/self-built-node](./deploy/self-built-node)             | Deploying the build output on a self-hosted Node.js (Express) server                         |
 | [modern-js-deploy-csr](./modern-js-deploy-csr)                 | CSR app deployment (Vercel / Netlify configs included)                                       |

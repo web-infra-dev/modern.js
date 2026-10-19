@@ -1,6 +1,6 @@
 # Modern.js MCP Apps plugin (experimental)
 
-场景化接入与调试见 [MCP Apps 使用指南](../../../docs/guides/mcp-apps-usage.md)，包含独立 Hono、可选 MF 和 ngrok。
+场景化接入与调试见 [MCP Apps 使用指南](../../../docs/guides/mcp-apps-usage.md)，包含独立 Hono 和可选 MF。
 
 ```ts
 import { appTools, defineConfig } from '@modern-js/app-tools';
@@ -19,13 +19,13 @@ independent of the MCP endpoint.
 
 ## Options
 
-| Option | Default | Meaning |
-| --- | --- | --- |
-| `config` | `mcp_apps.ts` | Trusted definition path, relative to project root |
-| `endpoint` | `/mcp` | Exact absolute HTTP path; `false` disables automatic mounting |
+| Option     | Default       | Meaning                                                       |
+| ---------- | ------------- | ------------------------------------------------------------- |
+| `config`   | `mcp_apps.ts` | Trusted definition path, relative to project root             |
+| `endpoint` | `/mcp`        | Exact absolute HTTP path; `false` disables automatic mounting |
 
 ```ts
-mcpAppsPlugin({ config: 'mcp_apps.ts', endpoint: '/mcp' })
+mcpAppsPlugin({ config: 'mcp_apps.ts', endpoint: '/mcp' });
 ```
 
 The plugin uses the existing server TypeScript compiler and alias settings to
@@ -36,7 +36,7 @@ supported. The source definition participates in development watching.
 For an existing manually mounted BFF route, disable automatic mounting:
 
 ```ts
-mcpAppsPlugin({ config: 'api/mcp_apps.ts', endpoint: false })
+mcpAppsPlugin({ config: 'api/mcp_apps.ts', endpoint: false });
 
 // api/lambda/mcp.ts
 import { mcpServer } from '@modern-js/plugin-mcp-apps/bff';
@@ -60,8 +60,8 @@ template uses an `api/` directory with no `src/` to select Modern.js API-only mo
 For UI integration, use the `mcp-apps` template or an existing federation setup.
 
 The underlying core is also usable without app-tools: see
-`examples/mcp-apps-modern` and the [Hono adapter documentation](../../toolkit/mcp-apps/README.md#default-local-view-and-hono). For a local integrated app,
-run `pnpm --filter @examples/mcp-apps-modern dev` in this repository after building
+`examples/my-mcp-app-v2` and the [Hono adapter documentation](../../toolkit/mcp-apps/README.md#default-local-view-and-hono). For a local integrated app,
+run `pnpm --filter my-mcp-app-v2 dev` in this repository after building
 the core and this plugin.
 
 ## HTTP behavior

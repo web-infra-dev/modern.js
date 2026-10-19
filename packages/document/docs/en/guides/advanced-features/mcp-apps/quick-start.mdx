@@ -1,6 +1,6 @@
 # Create a project
 
-This guide follows the current repository implementation. Use a release containing root definitions, inline tool inference, schema shorthand, and automatic routing; `0.0.0-canary-20261013043838` does not include these changes.
+This guide follows the current repository implementation. Choose a release containing these templates and APIs when installing published packages. Historical releases may not include them.
 
 Replace `<version>` below with a Modern.js release containing the MCP Apps templates, `@modern-js/mcp-apps`, and `@modern-js/plugin-mcp-apps`.
 
@@ -31,7 +31,7 @@ pnpm install
 pnpm dev
 ```
 
-The template configures the BFF and MCP Apps plugins and includes the `greet` and `add_numbers` tools with their React cards. Card source lives in `src/components/` and is compiled by the application builder; no MF manifest is needed.
+The template configures BFF and MCP Apps with five tools: `list_tasks`, `create_task`, `update_task`, `greet`, and `add_numbers`. The task board lives in `src/features/tasks/TaskBoard.tsx`, with handlers and file storage in `src/features/tasks/server/`. Basic cards live in `src/components/`. The application builder compiles these views without an MF manifest.
 
 ## Create MCP Apps with MF remote components
 
@@ -44,15 +44,19 @@ pnpm install
 pnpm dev
 ```
 
-The template also generates `module-federation.config.ts`, exposing `./Greeting` and `./Sum`. The remote in `mcp_apps.ts` points to `http://localhost:8080/static/mf-manifest.json` by default. `--mf` is only available with the `mcp-apps` template.
+The template also generates `module-federation.config.ts`, exposing `./TaskBoard`, `./Greeting`, and `./Sum`. Tools select the local MF application with `remote: 'mcp_ui'`, without duplicating its URL in `remotes`. `--mf` is only available with `mcp-apps`.
 
-When a host accesses the application through a public URL, set `MCP_UI_ORIGIN` to the public UI asset origin so the host can load the manifest and component assets:
+Configure public asset prefixes in `modern.config.ts` when a host needs public URLs:
 
-```bash
-MCP_UI_ORIGIN=https://your-public-host.example.com pnpm dev
+```ts
+export default defineConfig({
+  dev: { assetPrefix: 'https://assets.example.com/' },
+  output: { assetPrefix: 'https://assets.example.com/' },
+  // Keep the template plugins.
+});
 ```
 
-This variable is only used by the MF template. Supply an origin without `/mcp` or a manifest path. For an HTTPS tunnel, use the tunnel origin and forward it to the application port. Set the public asset origin when building and starting production applications too; update `remotes[].csp` when asset domains change.
+The plugin reads the emitted manifest and its publicPath to generate local remote URLs and resource CSP. External MF applications still use explicit `remotes[].baseUrl`. Declare any additional API or asset origins in CSP.
 
 ## Create an MCP server with tools only
 
@@ -67,12 +71,13 @@ This template includes the `greet` and `add_numbers` tools without React cards o
 
 ## Project files
 
-| File | Purpose |
-| --- | --- |
-| `modern.config.ts` | Configure the MCP endpoint and plugins, including Module Federation in MF mode |
-| `mcp_apps.ts` | Associate tools with input schemas, handlers, and views |
-| `src/components/` | React cards, included only in UI templates |
-| `module-federation.config.ts` | Remote component exposes, included only in MF mode |
+| File                          | Purpose                                                                                 |
+| ----------------------------- | --------------------------------------------------------------------------------------- |
+| `modern.config.ts`            | Configure the MCP endpoint and plugins, including Module Federation in MF mode          |
+| `mcp_apps.ts`                 | Associate tools with input schemas, handlers, and views                                 |
+| `src/components/`             | Greeting and Sum cards, included only in UI templates                                   |
+| `src/features/tasks/`         | Task board, shared types, server tools, and file storage, included only in UI templates |
+| `module-federation.config.ts` | Remote component exposes, included only in MF mode                                      |
 
 Both MCP Apps UI templates use root `mcp_apps.ts` without an API directory. MF adds its plugin, exposes, and remote view references; the MCP Apps plugin handles public `/static/*` asset CORS without `modern.server.ts`. The tools-only `mcp-server` template still uses `api/mcp_apps.ts` and `api/lambda/index.ts`, with explicit `config: 'api/mcp_apps.ts'` and `endpoint: false`.
 
@@ -91,25 +96,25 @@ Network:
 
 Use `Local` on the development machine. `Network` lists the same service on its network interfaces; access from other devices depends on routing and firewall rules. Use the actual addresses and port printed in your terminal.
 
-| Address | Purpose | Verification |
-| --- | --- | --- |
-| `http://localhost:8080/` | The template's application homepage with a project introduction and `/mcp` hint | Open it in a browser and look for `Modern.js MCP App`; this only checks the application page |
-| `http://localhost:8080/mcp-ui-231bf89d7268` | Card page entry for `greet` | Use a browser or `curl` to check HTML availability; verify full interactions in an MCP Apps host |
-| `http://localhost:8080/mcp-ui-d10356c179bf` | Card page entry for `add_numbers` | Check it the same way as the greeting card entry |
-| `http://localhost:8080/mcp` | MCP endpoint for tool discovery, calls, and card resource reads | Use an MCP client; enter this URL in the host's MCP server configuration |
+| Address                                     | Purpose                                                                         | Verification                                                                                     |
+| ------------------------------------------- | ------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------ |
+| `http://localhost:8080/`                    | The template's application homepage with a project introduction and `/mcp` hint | Open it in a browser and look for `Modern.js MCP App`; this only checks the application page     |
+| `http://localhost:8080/mcp-ui-231bf89d7268` | Card page entry for `greet`                                                     | Use a browser or `curl` to check HTML availability; verify full interactions in an MCP Apps host |
+| `http://localhost:8080/mcp-ui-d10356c179bf` | Card page entry for `add_numbers`                                               | Check it the same way as the greeting card entry                                                 |
+| `http://localhost:8080/mcp`                 | MCP endpoint for tool discovery, calls, and card resource reads                 | Use an MCP client; enter this URL in the host's MCP server configuration                         |
 
 The `mcp-ui-*` names are derived from tool names and are only generated for application component views. These pages connect to a host to receive tool inputs and results. Opening one as a standalone browser page may show `Connecting…` or a host connection error. HTTP 200 confirms page availability, not successful tool calls or card interactions.
 
 The MF template renders remote components without generating these application component entries. It also serves the following assets:
 
-| Address | Purpose | Verification |
-| --- | --- | --- |
-| `http://localhost:8080/static/mf-manifest.json` | Describes exposed MF components and their loading assets | Open it in a browser or run `curl -f http://localhost:8080/static/mf-manifest.json`; expect JSON with exposes for `Greeting` and `Sum` |
-| `http://localhost:8080/static/remoteEntry.js` | JavaScript entry used by the MF runtime | Run `curl -f http://localhost:8080/static/remoteEntry.js`; expect JavaScript. Its component chunks must also be accessible |
+| Address                                         | Purpose                                                  | Verification                                                                                                                                         |
+| ----------------------------------------------- | -------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `http://localhost:8080/static/mf-manifest.json` | Describes exposed MF components and their loading assets | Open it in a browser or run `curl -f http://localhost:8080/static/mf-manifest.json`; expect JSON with exposes for `TaskBoard`, `Greeting`, and `Sum` |
+| `http://localhost:8080/static/remoteEntry.js`   | JavaScript entry used by the MF runtime                  | Run `curl -f http://localhost:8080/static/remoteEntry.js`; expect JavaScript. Its component chunks must also be accessible                           |
 
-When MF assets use a public `MCP_UI_ORIGIN`, verify these paths using that origin. The MCP Server template only provides the protocol service, without a homepage, card entries, or MF assets.
+When MF assets use a public assetPrefix, verify these paths against the manifest publicPath. The MCP Server template only provides the protocol service, without a homepage, card entries, or MF assets.
 
-Protocol responses also contain resource identifiers such as `ui://local/greet`, `ui://local/add_numbers`, or `ui://mf/mcp-ui` in MF mode. These are not browser URLs. The host reads their HTML through `resources/read` on `/mcp`.
+Protocol responses also contain resource identifiers such as `ui://local/greet`, `ui://local/add_numbers`, or `ui://mf/mcp-ui/greet` in MF mode (`ui://mf/mcp-ui` is a remote-level alias). These are not browser URLs. The host reads their HTML through `resources/read` on `/mcp`.
 
 ## Connect and verify
 
@@ -127,10 +132,16 @@ After local protocol checks pass, verify tool calls, card loading, and interacti
 2. Add `https://<public-host>/mcp` as the MCP server URL. Follow the official [ChatGPT connection instructions](https://developers.openai.com/plugins/build/app-quickstart#connect-your-mcp-server-in-chatgpt) for developer mode and setup.
 3. Trigger `greet` or `add_numbers`, inspect the result and card, then interact with the card to call a tool again and confirm the UI updates. Refresh the host connection after changing tool definitions or metadata.
 
-Alongside `/mcp`, the card's HTML, JS/CSS, and MF assets must be accessible. For the MF template, restart with `MCP_UI_ORIGIN` set to the public asset origin, for example `MCP_UI_ORIGIN=https://your-public-host.example.com pnpm dev`. For application components served from a separate asset domain, configure `dev.assetPrefix`, or `output.assetPrefix` for production builds. Update the corresponding CSP when asset domains change; see [Build and deploy](./deployment).
+Alongside `/mcp`, the card's JS/CSS and MF resources must be accessible. Configure `dev.assetPrefix` for public development assets and `output.assetPrefix` for production, then restart or rebuild. The integration reuses manifest publicPath and derives resource CSP for local MF remotes. Declare external resource origins explicitly. See [Build and deploy](./deployment).
 
 Check the public `/mcp` endpoint with an MCP client, then verify card loading and interactions in a host. For tools-only servers, check tool calls and results.
 
 Before publication, build `@modern-js/mcp-apps` and `@modern-js/plugin-mcp-apps` in this repository, then run `pnpm --filter my-mcp-app-v2 dev` to try the local-card example.
 
-The generated definition uses `defineMcpServer` with `name` and `version` from `package.json`. Local and backend-only tools omit `remotes`; MF tools declare their remote explicitly. Tools may use synchronous or asynchronous handlers, and `view` is optional. See [Tools and views](./configuration).
+The generated definition uses `defineMcpServer` with `name` and `version` from `package.json`. Local and backend-only tools omit `remotes`; MF tools select a local manifest by remote name, while external remotes require explicit configuration. Tools may use synchronous or asynchronous handlers, and `view` is optional. See [Tools and views](./configuration).
+
+## Task board
+
+Call `list_tasks` in a host to open the board, `create_task({ title })` to create a task, and `update_task({ id, status })` to select `todo`, `in_progress`, or `done`. The card reads server state after writes and shows actual call arguments, results, and timing. The ordinary homepage is a read-only preview.
+
+Tasks default to `.mcp-demo/tasks.json` in the working directory. Set `MCP_TASKS_FILE` to override the path. Data survives restarts at the same path, with a limit of 100 tasks per process. This is an unauthenticated shared demo. Applications must implement user isolation and storage for multiple instances.

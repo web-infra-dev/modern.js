@@ -28,7 +28,10 @@ The following public types describe the definition, handler context, and result:
 
 ```ts
 import type { McpUiResourceMeta } from '@modelcontextprotocol/ext-apps';
-import type { CallToolResult, ToolAnnotations } from '@modelcontextprotocol/server';
+import type {
+  CallToolResult,
+  ToolAnnotations,
+} from '@modelcontextprotocol/server';
 
 export interface McpServerDefinition {
   name: string;
@@ -199,13 +202,15 @@ When using these types:
 
 ## Plugin options
 
-| Option | Default | Purpose |
-| --- | --- | --- |
-| `config` | `mcp_apps.ts` | Definition relative to the project root |
-| `endpoint` | `/mcp` | Full route path independent of the BFF prefix; `false` disables automatic registration |
+| Option     | Default       | Purpose                                                                                |
+| ---------- | ------------- | -------------------------------------------------------------------------------------- |
+| `config`   | `mcp_apps.ts` | Definition relative to the project root                                                |
+| `endpoint` | `/mcp`        | Full route path independent of the BFF prefix; `false` disables automatic registration |
 
 Development watches the definition file and reloads it after changes; production reads the compiled definition. Automatic routes must not conflict with existing BFF paths. Authentication middleware should run before BFF; handler `context.context` is the request-local Hono Context.
 
 For MF remote tools, the plugin also adds CORS headers and OPTIONS handling for public `/static/*` assets. This policy does not apply to `/mcp`.
 
 `inputSchema` accepts standard JSON Schema or property shorthand. Shorthand fields are required by default; `optional: true` marks optional fields, and extra properties are rejected. Use full JSON Schema for nested objects and fields named after schema keywords. See [Define tools and views](./configuration).
+
+Local MF tools can omit matching `remotes` entries in Modern.js. The plugin fills them from emitted manifest names and publicPath. Direct core usage does not run this discovery step and requires complete remote configurations.

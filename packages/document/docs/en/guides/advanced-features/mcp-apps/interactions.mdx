@@ -6,14 +6,14 @@ Cards can call server tools, send messages to the host conversation, and synchro
 
 Receive `mcpApp` through component props and import its type with `import type { App } from '@modern-js/mcp-apps/react'`. Templates declare the prop optional; disable actions when it is unavailable. Reuse the injected instance instead of calling `useApp()` or creating another `App` inside the card.
 
-| Need | Method | Outcome |
-| --- | --- | --- |
-| Query, calculate, or submit a business operation | `callServerTool()` | Returns the specified tool's result for the card to process and render |
-| Start a follow-up request from the card | `sendMessage()` | Asks the host to add a conversation message; the host handles subsequent model responses |
-| Share selections or filters with the model | `updateModelContext()` | Updates context for future turns without triggering an immediate model response |
-| Open an external page | `openLink()` | Asks the host to open a link |
-| Change the card display mode | `requestDisplayMode()` | Requests a mode; use the mode actually returned by the host |
-| Send debugging information | `sendLog()` | Sends a log, not a conversation message |
+| Need                                             | Method                 | Outcome                                                                                  |
+| ------------------------------------------------ | ---------------------- | ---------------------------------------------------------------------------------------- |
+| Query, calculate, or submit a business operation | `callServerTool()`     | Returns the specified tool's result for the card to process and render                   |
+| Start a follow-up request from the card          | `sendMessage()`        | Asks the host to add a conversation message; the host handles subsequent model responses |
+| Share selections or filters with the model       | `updateModelContext()` | Updates context for future turns without triggering an immediate model response          |
+| Open an external page                            | `openLink()`           | Asks the host to open a link                                                             |
+| Change the card display mode                     | `requestDisplayMode()` | Requests a mode; use the mode actually returned by the host                              |
+| Send debugging information                       | `sendLog()`            | Sends a log, not a conversation message                                                  |
 
 ## callServerTool: call a business tool
 
@@ -39,8 +39,12 @@ export default function Sum({ sum, mcpApp }: { sum?: number; mcpApp?: App }) {
       });
       if (result.isError) throw new Error('Calculation failed');
       const output = result.structuredContent;
-      if (!output || typeof output !== 'object' ||
-          !('sum' in output) || typeof output.sum !== 'number') {
+      if (
+        !output ||
+        typeof output !== 'object' ||
+        !('sum' in output) ||
+        typeof output.sum !== 'number'
+      ) {
         throw new Error('Invalid calculation result');
       }
       setValue(output.sum);
@@ -96,7 +100,8 @@ When users change filters or selected items, provide the current state for subse
 import type { App } from '@modern-js/mcp-apps/react';
 
 export async function syncSelection(mcpApp: App, selectedIds: string[]) {
-  if (!mcpApp.getHostCapabilities()?.updateModelContext?.structuredContent) return;
+  if (!mcpApp.getHostCapabilities()?.updateModelContext?.structuredContent)
+    return;
   await mcpApp.updateModelContext({
     structuredContent: { selectedIds },
   });

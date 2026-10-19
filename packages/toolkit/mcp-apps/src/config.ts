@@ -143,8 +143,10 @@ export type LoadRemoteHandler = (
   options: LoadRemoteHandlerOptions,
 ) => Promise<RemoteToolHandler>;
 
-export interface McpServerDefinition
-  extends Omit<McpAppsDefinition, 'remotes'> {
+export interface McpServerDefinition extends Omit<
+  McpAppsDefinition,
+  'remotes'
+> {
   name: string;
   version: string;
   remotes?: RemoteConfig[];

@@ -48,8 +48,7 @@ export function createMcpView<P extends object>(
     if (cancelled) return createElement('p', null, 'Tool cancelled');
     if (!app || !isConnected) return createElement('p', null, 'Connecting…');
     const output = result?.structuredContent as
-      | { args?: object; viewProps?: object }
-      | undefined;
+      { args?: object; viewProps?: object } | undefined;
     return createElement(View, {
       ...input,
       ...(output?.args as object),

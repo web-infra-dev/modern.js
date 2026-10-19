@@ -6,14 +6,14 @@
 
 组件从 props 接收 `mcpApp`，类型通过 `import type { App } from '@modern-js/mcp-apps/react'` 获取。模板将该属性声明为可选，组件应在连接不可用时禁用操作。复用注入的实例，无须在卡片内再次调用 `useApp()` 或创建 `new App()`。
 
-| 需求 | 方法 | 结果 |
-| --- | --- | --- |
-| 按钮点击后查询、计算或提交业务操作 | `callServerTool()` | 返回指定工具的执行结果，由卡片处理并更新状态 |
-| 让用户从卡片向对话发起后续请求 | `sendMessage()` | 请求宿主将消息加入对话；后续模型响应由宿主处理 |
-| 让模型了解当前选择或筛选条件 | `updateModelContext()` | 更新后续对话可用的上下文，不立即触发模型回复 |
-| 打开外部页面 | `openLink()` | 请求宿主打开链接 |
-| 切换卡片展示方式 | `requestDisplayMode()` | 请求切换模式，以宿主实际返回的模式为准 |
-| 向宿主发送调试日志 | `sendLog()` | 发送日志，不向对话发送消息 |
+| 需求                               | 方法                   | 结果                                           |
+| ---------------------------------- | ---------------------- | ---------------------------------------------- |
+| 按钮点击后查询、计算或提交业务操作 | `callServerTool()`     | 返回指定工具的执行结果，由卡片处理并更新状态   |
+| 让用户从卡片向对话发起后续请求     | `sendMessage()`        | 请求宿主将消息加入对话；后续模型响应由宿主处理 |
+| 让模型了解当前选择或筛选条件       | `updateModelContext()` | 更新后续对话可用的上下文，不立即触发模型回复   |
+| 打开外部页面                       | `openLink()`           | 请求宿主打开链接                               |
+| 切换卡片展示方式                   | `requestDisplayMode()` | 请求切换模式，以宿主实际返回的模式为准         |
+| 向宿主发送调试日志                 | `sendLog()`            | 发送日志，不向对话发送消息                     |
 
 ## callServerTool：调用业务工具
 
@@ -39,8 +39,12 @@ export default function Sum({ sum, mcpApp }: { sum?: number; mcpApp?: App }) {
       });
       if (result.isError) throw new Error('Calculation failed');
       const output = result.structuredContent;
-      if (!output || typeof output !== 'object' ||
-          !('sum' in output) || typeof output.sum !== 'number') {
+      if (
+        !output ||
+        typeof output !== 'object' ||
+        !('sum' in output) ||
+        typeof output.sum !== 'number'
+      ) {
         throw new Error('Invalid calculation result');
       }
       setValue(output.sum);
@@ -96,7 +100,8 @@ export async function askForExplanation(mcpApp: App, sum: number) {
 import type { App } from '@modern-js/mcp-apps/react';
 
 export async function syncSelection(mcpApp: App, selectedIds: string[]) {
-  if (!mcpApp.getHostCapabilities()?.updateModelContext?.structuredContent) return;
+  if (!mcpApp.getHostCapabilities()?.updateModelContext?.structuredContent)
+    return;
   await mcpApp.updateModelContext({
     structuredContent: { selectedIds },
   });

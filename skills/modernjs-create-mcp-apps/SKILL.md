@@ -7,15 +7,15 @@ description: 使用 Modern.js CLI 创建 MCP Apps（应用内 React 卡片或 MF
 
 ## 1. 选择模板与版本
 
-| 用户需求 | CLI 参数 | 生成内容 |
-| --- | --- | --- |
-| 新建交互卡片，组件随应用维护 | `--template mcp-apps` | MCP 服务、应用内 React 组件、普通应用首页 |
-| 复用或独立发布 MF 远程组件 | `--template mcp-apps --mf` | MCP 服务、React 组件和 MF exposes/manifest 配置 |
-| 数据查询、计算或业务操作，无 UI | `--template mcp-server` | HTTP MCP 工具服务，无 React 页面或卡片 |
+| 用户需求                        | CLI 参数                   | 生成内容                                        |
+| ------------------------------- | -------------------------- | ----------------------------------------------- |
+| 新建交互卡片，组件随应用维护    | `--template mcp-apps`      | MCP 服务、应用内 React 组件、普通应用首页       |
+| 复用或独立发布 MF 远程组件      | `--template mcp-apps --mf` | MCP 服务、React 组件和 MF exposes/manifest 配置 |
+| 数据查询、计算或业务操作，无 UI | `--template mcp-server`    | HTTP MCP 工具服务，无 React 页面或卡片          |
 
 用户未指定架构但要求卡片时，默认应用内组件模式。公网访问、CDN 或 UI 与服务端分别部署都不要求使用 MF。纯 MCP Server 可服务不支持 MCP Apps UI 的 MCP 客户端；当前模板不提供 stdio、Prompts 或通用业务 Resources 的配置入口。
 
-确认目标目录为空或不存在，不覆盖已有项目。Node.js 要求 >=20，沿用用户的包管理器，以下示例使用 pnpm。
+确认目标目录为空或不存在，不覆盖已有项目。当前模板的 Node.js 要求为 ^22.18.0 或 >=24.3.0，沿用用户的包管理器，以下示例使用 pnpm。
 
 **版本前提：** 只有包含新模板、`@modern-js/mcp-apps` 和 `@modern-js/plugin-mcp-apps` 的版本发布后，才能从 registry 完整安装。确认所选 creator 支持 `--template` / `--mf`，且依赖包存在；不要假定 `latest` 已支持，也不要把本地版本号当成已发布证明。使用 CLI 生成的配套依赖，不单独套用外部示例的 SDK 版本。
 
@@ -49,32 +49,32 @@ CLI 只生成文件，不安装依赖。生成的版本号不会自动指向工�
 3. 从仓库根目录执行 `pnpm install`，按仓库工作流构建所需依赖。
 4. 执行 `pnpm --filter @examples/my-mcp-app dev`。若 8080 被占用，可用 `PORT=8081` 指定端口，并同步修改客户端 endpoint。
 
-仓库外使用未发布版本需要正确打包、安装相关本地依赖，不能仅运行 registry 安装就宣称完成。只体验现有实现时可使用 `@examples/mcp-apps-modern`。
+仓库外使用未发布版本需要正确打包、安装相关本地依赖，不能仅运行 registry 安装就宣称完成。只体验现有实现时可使用 `my-mcp-app-v2` 或 `my-mcp-app-mf`。
 
 ## 3. 配置工具与卡片
 
 优先修改生成的示例，不重复实现运行时：
 
-- `modern.config.ts`：`bffPlugin()`、`mcpAppsPlugin()` 和 `bff.prefix: '/mcp'`；MF 模式另有 MF 插件和资源前缀。
-- `api/lambda/index.ts`：通过 `mcpApps(definition)` 导出 BFF 路由，提供 `/mcp`。
-- `api/mcp_apps.ts`：`defineMcpApps()` 定义 `remotes`、工具名、JSON Schema、handler 和 view；函数本身不启动 HTTP 服务。
-- `api/mcp-tools.ts`：服务端业务函数，模板包含 `greet` 和 `addNumbers`。
-- `src/components/Greeting.tsx`、`Sum.tsx`：UI 模板的卡片组件。
+- `modern.config.ts`：UI 模板启用 `bffPlugin()` 和 `mcpAppsPlugin()`，自动注册 `/mcp`，MF 模式额外启用 MF 插件。
+- `mcp_apps.ts`：UI 模板根定义，使用 `defineMcpServer({ name, version, tools })`，名称和版本读取 `package.json`。内联 handler 根据 schema 推导参数，拆分工具使用 `defineTool()`。
+- `src/features/tasks/server/`：任务工具与文件存储，`TaskBoard.tsx` 为任务卡片，`types.ts` 为共享类型。
+- `src/components/Greeting.tsx`、`Sum.tsx`：基础卡片。UI 模板包含任务列表、创建、更新、问候与加法五个工具。
+- 纯 `mcp-server` 使用 `api/mcp_apps.ts` 和 `api/lambda/index.ts`，通过 `mcpServer(definition)` 导出 BFF 路由，设置 `config: 'api/mcp_apps.ts', endpoint: false` 和 `bff.prefix: '/mcp'`，仅包含问候与加法工具。
 
 ### 应用内组件
 
-`remotes: []`，工具省略 `remote`，通过相对**项目根目录**的 `view.module` 引用源码：
+`remotes` 默认 `[]`，工具省略 `remote`，通过相对**项目根目录**的 `view.module` 引用源码：
 
-| 工具 `name` | `handler` | `view.module` |
-| --- | --- | --- |
-| `greet` | `greet` | `./src/components/Greeting.tsx` |
-| `add_numbers` | `addNumbers` | `./src/components/Sum.tsx` |
+| 工具 `name`   | `handler`    | `view.module`                   |
+| ------------- | ------------ | ------------------------------- |
+| `greet`       | `greet`      | `./src/components/Greeting.tsx` |
+| `add_numbers` | `addNumbers` | `./src/components/Sum.tsx`      |
 
 `view.exportName` 默认 `default`，命名导出需显式配置。插件按工具生成卡片入口与 `ui://local/<tool>` 资源；仅创建组件文件不会注册工具。多个工具可以复用组件，原页面的文件系统路由 layout/loader 不会自动附加到卡片入口。
 
 ### MF 组件
 
-`module-federation.config.ts` 的 `exposes` 将 `./Greeting`、`./Sum` 映射到组件文件。工具的 `remote` 匹配 `remotes[].name`，`view.module` 匹配 expose 键（包括大小写和 `./`），不是磁盘路径。模板使用 `mcp_ui`，manifest 地址为 `<origin>/static/mf-manifest.json`。
+`module-federation.config.ts` 的 `exposes` 将 `./TaskBoard`、`./Greeting`、`./Sum` 映射到组件文件。本地 remote 匹配构建 manifest 名称，插件补齐地址和 CSP。外部 remote 显式声明 `remotes[].baseUrl`，工具的 `remote` 匹配 `remotes[].name`，`view.module` 匹配 expose 键（包括大小写和 `./`），不是磁盘路径。模板使用 `mcp_ui`，manifest 地址为 `<origin>/static/mf-manifest.json`。
 
 例如 `greet` 使用 `remote: 'mcp_ui'`、`view: { module: './Greeting' }`。MF 只暴露 UI 模块，不会自动注册工具；业务 handler 仍在服务端执行，无须放进 `exposes`。只使用标准 MF manifest，不添加 `manifestType`、Vmok 配置或另一份 UI manifest。
 
@@ -100,24 +100,24 @@ CLI 只生成文件，不安装依赖。生成的版本号不会自动指向工�
 按层验证并分别报告结果：
 
 1. **开发与构建**：启动 `pnpm dev`；验证生产产物用 `pnpm build` 和 `pnpm serve`。不要让 dev 与 serve 争用端口。
-2. **协议和工具**：保持服务运行，在另一个终端执行 `pnpm verify:mcp http://localhost:8080/mcp`。模板脚本验证 `server/discover`、`tools/list`、两个工具的结果和已声明 UI 资源读取，成功输出 `PASS`。修改工具后同步调整脚本断言，不要用旧示例断言测试新业务。
-3. **UI 资源**：脚本通过 `_meta.ui.resourceUri` 执行 `resources/read`，检查 `text/html;profile=mcp-app` 与脚本引用。MF 模式另查 manifest、remote entry 和组件 JS/CSS 的可访问性，最终加载结果以宿主验证为准。
+2. **协议和工具**：用 MCP 客户端连接 `http://localhost:8080/mcp`，检查工具列表和结果。UI 模板还需检查任务创建、状态切换与重新查询。模板不附带 `verify:mcp` 脚本，不调用不存在的命令。
+3. **UI 资源**：根据 `_meta.ui.resourceUri` 执行 `resources/read`，检查 MIME 类型与脚本引用。MF 另查 manifest、remote entry 和 JS/CSS，最终加载结果以宿主验证为准。
 4. **真实宿主**：在支持 MCP Apps 的宿主中触发工具，检查卡片显示，再操作卡片调用工具并确认结果更新。纯 Server 验证工具结果即可。
 
-当前验证脚本采用 MCP `2026-07-28` 的每请求版本/能力元数据和请求头；服务端也保留旧协议初始化握手的兼容路径。手动调试优先使用 MCP 客户端或生成脚本，避免手写缺少请求头的 JSON-RPC 请求。
+官方 SDK 处理协议请求并保留旧协议握手兼容。调试优先使用 MCP 客户端，避免手写缺少协议请求头的请求。
 
 区分启动地址：`/` 是 UI 模板的普通首页；`/mcp-ui-<hash>` 是应用内组件入口，脱离宿主可能停留在 `Connecting…`；`/mcp` 才是客户端连接地址，浏览器 GET 返回 405 是预期行为。`ui://...` 是协议资源标识，不是浏览器 URL。`Local` 与 `Network` 是同一服务的不同访问地址；MF 和纯 Server 不生成应用内组件入口，纯 Server 也没有首页。
 
-协议脚本不会执行卡片 JavaScript。没有可用宿主时明确报告“卡片交互待验证”，不要将首页可访问或协议 PASS 当作完整 UI 验证。
+协议验证不会执行卡片 JavaScript。没有可用宿主时明确报告“卡片交互待验证”，不要将首页可访问或协议 PASS 当作完整 UI 验证。
 
 ## 5. 宿主调试与部署
 
 远程宿主需能访问 HTTPS MCP endpoint 及卡片依赖的资源。按用户选择使用部署环境或隧道，连接地址为 `https://<公开域名>/mcp`。ChatGPT 的公网暴露和接入操作参考 [OpenAI 官方指南](https://developers.openai.com/plugins/build/app-quickstart#expose-your-server-to-the-public-internet)，修改工具元数据后刷新宿主连接。仅为生成项目不必自动创建公网隧道。
 
 - **应用内组件**：HTML 位于 `dist/mcp-apps/ui/`，同时部署应用静态资源；单独托管资源时配置 `dev.assetPrefix` / `output.assetPrefix`。`view.html` 可指定独立 HTTPS HTML 地址，由服务端读取；通过 `view.csp` 声明资源权限。
-- **MF**：将 `MCP_UI_ORIGIN` 设置为公开 UI origin（不含 `/mcp` 或 manifest 路径），开发启动或生产构建/启动均使用对应值。模板追加 `/static/mf-manifest.json`。检查 manifest 的资源路径、CORS 和 `remotes[].csp`，域名变化时同步更新。
+- **MF**：开发资源使用 `dev.assetPrefix`，生产资源使用 `output.assetPrefix`。插件根据本地 manifest 名称和 publicPath 生成 remote 与资源 CSP。检查 manifest、remote entry 和 chunks 地址及 CORS，额外来源需声明 CSP。
 - **应用部署**：`pnpm deploy` 生成可迁移的 `.output/`，通过 `node .output/index.js` 启动；此命令不等于已上传云平台。
-- **独立 Hono 服务**：加载应用编译后的 definition 和 handler，使用 `@modern-js/mcp-apps/hono` 的 `mcpApps({ definition })` 挂载。应用内组件还需用 `@modern-js/mcp-apps/server` 的 `bindUiResources(definition, { directory, assetBase })` 绑定复制后的 HTML 目录和公开资源基址。`dist/mcp-apps/` 只有 UI 资源，不包含 `dist/api/` 的服务端定义及全部业务依赖，不能只复制它就宣称可独立运行。`configPath` 方案指向应用编译后的配置模块文件，不是产物目录；该适配器不编译源码、不启动监听器。
+- **独立 Hono 服务**：加载应用编译后的 definition 和 handler，使用 `@modern-js/mcp-apps/hono` 的 `mcpApps({ definition })` 挂载。应用内组件还需用 `@modern-js/mcp-apps/server` 的 `bindUiResources(definition, { directory, assetBase })` 绑定复制后的 HTML 目录和公开资源基址。复制完整 `dist/`，保留 package 身份与模块类型、根定义 `mcp_apps.js` 和导入模块相对路径。手动 BFF 定义位于 `dist/api/`。独立 Hono 不执行本地 MF 发现，需显式声明完整 remotes。`configPath` 方案指向应用编译后的配置模块文件，不是产物目录；该适配器不编译源码、不启动监听器。
 
 鉴权通过应用中间件处理。浏览器跨域调用需按实际来源配置 `allowedOrigins` 和应用 CORS；这与卡片资源 CSP 是不同配置。隧道若返回提示 HTML 而不是 manifest JSON，应检查浏览器实际响应，不能只凭 HTTP 200 判断成功。
 

@@ -25,7 +25,10 @@
 
 ```ts
 import type { McpUiResourceMeta } from '@modelcontextprotocol/ext-apps';
-import type { CallToolResult, ToolAnnotations } from '@modelcontextprotocol/server';
+import type {
+  CallToolResult,
+  ToolAnnotations,
+} from '@modelcontextprotocol/server';
 
 export interface McpServerDefinition {
   name: string;
@@ -196,13 +199,15 @@ export type RemoteToolHandler = (
 
 ## 插件选项
 
-| 选项 | 默认值 | 用途 |
-| --- | --- | --- |
-| `config` | `mcp_apps.ts` | 相对项目根目录的定义文件 |
-| `endpoint` | `/mcp` | 独立于 BFF 前缀的完整路由路径；`false` 关闭自动注册 |
+| 选项       | 默认值        | 用途                                                |
+| ---------- | ------------- | --------------------------------------------------- |
+| `config`   | `mcp_apps.ts` | 相对项目根目录的定义文件                            |
+| `endpoint` | `/mcp`        | 独立于 BFF 前缀的完整路由路径；`false` 关闭自动注册 |
 
 开发时监听定义文件，更新后重新加载；生产环境读取构建后的定义。自动路由不能与已有 BFF 路径冲突。鉴权中间件应在 BFF 路由之前执行，handler 的 `context.context` 是当前请求的 Hono Context。
 
 使用 MF 远程工具时，插件额外为 `/static/*` 公共资源添加跨域响应及 OPTIONS 预检处理；该策略不应用于 `/mcp`。
 
 `inputSchema` 支持标准 JSON Schema 和属性简写。简写字段默认必填，使用 `optional: true` 标记可选；额外属性被禁止。嵌套对象及 Schema 关键字同名字段使用完整 JSON Schema，详见[定义工具与视图](./configuration)。
+
+本应用的 MF 工具可省略对应的 `remotes` 声明，由插件根据构建 manifest 的名称和 publicPath 补齐。直接调用核心包时不执行此发现逻辑，需传入完整 remote 配置。

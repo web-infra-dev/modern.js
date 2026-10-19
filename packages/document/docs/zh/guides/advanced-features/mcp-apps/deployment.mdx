@@ -14,14 +14,26 @@
 
 当前不提供持久 MCP 会话、恢复 SSE 或跨请求取消。标准 MF 已验证，各目标产品宿主应分别验收。
 
-
 ## Hono 独立部署
 
 ```ts
+import path from 'node:path';
 import { Hono } from 'hono';
 import { mcpApps } from '@modern-js/mcp-apps/hono';
+import { loadMcpAppsConfig, bindUiResources } from '@modern-js/mcp-apps/server';
+
+const root = path.resolve('application');
+const definition = await loadMcpAppsConfig(path.join(root, 'mcp_apps.js'));
 const app = new Hono();
-app.all('/mcp', mcpApps({ definition })); // import the application-built definition
+app.all(
+  '/mcp',
+  mcpApps({
+    definition: bindUiResources(definition, {
+      directory: path.join(root, 'mcp-apps/ui'),
+      assetBase: 'request',
+    }),
+  }),
+);
 ```
 
 部署编译后的定义、导入的 handler、`dist/mcp-apps/` 资源及应用静态文件，并安装 handler 使用的外部依赖。
@@ -31,5 +43,8 @@ BFF TypeScript 开发依赖 `ts-node`（`^10.9.2`），模板已添加到 devDep
 ESM 项目需同时设置 package.json 的 `"type": "module"`，以及 TypeScript 的
 `module: "esnext"` 和 `moduleResolution: "bundler"`。
 
-
 MF 模板不再生成 `server/modern.server.ts`。使用远程工具时，插件为本应用的 `/static/*` 公共资源处理 CORS 和 OPTIONS 预检，`/mcp` 不受该策略影响。若 manifest 和 chunks 部署在独立 CDN，需要在 CDN 配置相应的跨域响应。
+
+独立部署本地视图时，将完整 `dist/` 复制到上例的 `application/`，保留 `package.json` 的名称、版本和模块类型，以及所有导入模块的相对路径。通过静态服务提供 `/static/*`，或将其发布到构建时配置的资源 CDN。适配器只提供 MCP 路由，不提供静态资源服务。
+
+本应用的 MF remote 由 Modern.js 插件读取构建产物后绑定。独立 Hono 不包含此发现逻辑，应在定义中显式配置 `remotes[].baseUrl` 和 CSP。Modern.js 内的 MF 公开开发地址使用 `dev.assetPrefix`，生产资源地址使用 `output.assetPrefix`。manifest 的 publicPath 决定实际加载地址。

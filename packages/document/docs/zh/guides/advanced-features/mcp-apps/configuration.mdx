@@ -55,15 +55,15 @@ export default defineMcpServer({
 });
 ```
 
-| 字段 | 含义 |
-| --- | --- |
-| `remotes` | 可选的远程 UI 资源列表，默认空数组；应用内组件卡片和纯工具项目可省略 |
-| `tools[].name` | 工具唯一名称，宿主和卡片通过它调用工具 |
-| `tools[].description` | 工具用途说明，帮助模型选择工具 |
-| `tools[].inputSchema` | 工具参数的 JSON Schema，服务端在执行 handler 前校验 |
-| `tools[].handler` | 工具业务函数，接收输入参数和请求上下文 |
-| `tools[].view` | 可选卡片配置；省略时只返回工具结果，不展示卡片 |
-| `tools[].remote` | MF 模式下引用的 `remotes[].name` |
+| 字段                  | 含义                                                                 |
+| --------------------- | -------------------------------------------------------------------- |
+| `remotes`             | 可选的远程 UI 资源列表，默认空数组；应用内组件卡片和纯工具项目可省略 |
+| `tools[].name`        | 工具唯一名称，宿主和卡片通过它调用工具                               |
+| `tools[].description` | 工具用途说明，帮助模型选择工具                                       |
+| `tools[].inputSchema` | 工具参数的 JSON Schema，服务端在执行 handler 前校验                  |
+| `tools[].handler`     | 工具业务函数，接收输入参数和请求上下文                               |
+| `tools[].view`        | 可选卡片配置；省略时只返回工具结果，不展示卡片                       |
+| `tools[].remote`      | MF 模式下引用的 `remotes[].name`                                     |
 
 应用内组件卡片的 `view.module` 相对**项目根目录**解析。工具可以只有 handler 或只有 view，但不能两者都省略。
 
@@ -71,10 +71,11 @@ export default defineMcpServer({
 
 模板中的对应关系如下：
 
-| MCP 工具 `name` | 服务端 `handler` | `view.module` | 组件默认导出 |
-| --- | --- | --- | --- |
-| `greet` | `greet` handler | `./src/components/Greeting.tsx` | 问候卡片组件 |
-| `add_numbers` | `add_numbers` handler | `./src/components/Sum.tsx` | 加法卡片组件 |
+| MCP 工具 `name`                              | 服务端 `handler`                                      | `view.module`                        | 组件默认导出 |
+| -------------------------------------------- | ----------------------------------------------------- | ------------------------------------ | ------------ |
+| `list_tasks` / `create_task` / `update_task` | `src/features/tasks/server/tools.ts` 中的工具 handler | `./src/features/tasks/TaskBoard.tsx` | 任务看板组件 |
+| `greet`                                      | `greet` handler                                       | `./src/components/Greeting.tsx`      | 问候卡片组件 |
+| `add_numbers`                                | `add_numbers` handler                                 | `./src/components/Sum.tsx`           | 加法卡片组件 |
 
 宿主调用 `greet` 后，服务端执行 `greet` handler。Modern.js 为 `view.module` 指定的组件生成卡片入口，并通过工具关联的 `ui://local/greet` 资源向宿主提供 HTML。宿主加载卡片后，组件接收工具输入、handler 返回的 `viewProps` 和 `mcpApp`。工具业务函数在服务端执行，React 组件在宿主的卡片界面中运行。
 
@@ -134,6 +135,7 @@ export default createModuleFederationConfig({
   manifest: { filePath: 'static' },
   filename: 'static/remoteEntry.js',
   exposes: {
+    './TaskBoard': './src/features/tasks/TaskBoard.tsx',
     './Greeting': './src/components/Greeting.tsx',
     './Sum': './src/components/Sum.tsx',
   },
@@ -150,7 +152,21 @@ export default createModuleFederationConfig({
 
 ### 2. 将工具关联到卡片
 
-在 `mcp_apps.ts` 中声明组件所在的 remote，并为工具选择 expose：
+本应用的 MF 组件只需设置工具的 `remote` 与 MF 配置的 `name` 一致，插件会从构建产物中发现 manifest，并根据 publicPath 生成 remote 地址，无需显式配置 `remotes`。
+
+```ts title="mcp_apps.ts"
+import { defineMcpServer } from '@modern-js/mcp-apps/config';
+import { name, version } from './package.json';
+import { listTasks } from './src/features/tasks/server/tools';
+
+export default defineMcpServer({
+  name,
+  version,
+  tools: [{ ...listTasks, remote: 'mcp_ui', view: { module: './TaskBoard' } }],
+});
+```
+
+下面演示引用独立部署的外部 MF 应用，需要在 `mcp_apps.ts` 中显式声明 remote，并为工具选择 expose：
 
 ```ts title="mcp_apps.ts"
 import { defineMcpServer } from '@modern-js/mcp-apps/config';
@@ -195,19 +211,20 @@ export default defineMcpServer({
 
 ### 3. 理解对应关系
 
-模板中两个工具与组件的对应关系如下：
+模板中五个工具与组件的对应关系如下：
 
-| MCP 工具 `name` | 服务端 `handler` | `remote` | `view.module` | `exposes` 对应源码 |
-| --- | --- | --- | --- | --- |
-| `greet` | `greet` handler | `mcp_ui` | `./Greeting` | `./src/components/Greeting.tsx` |
-| `add_numbers` | `add_numbers` handler | `mcp_ui` | `./Sum` | `./src/components/Sum.tsx` |
+| MCP 工具 `name`                              | 服务端 `handler`      | `remote` | `view.module` | `exposes` 对应源码                   |
+| -------------------------------------------- | --------------------- | -------- | ------------- | ------------------------------------ |
+| `list_tasks` / `create_task` / `update_task` | 任务工具 handler      | `mcp_ui` | `./TaskBoard` | `./src/features/tasks/TaskBoard.tsx` |
+| `greet`                                      | `greet` handler       | `mcp_ui` | `./Greeting`  | `./src/components/Greeting.tsx`      |
+| `add_numbers`                                | `add_numbers` handler | `mcp_ui` | `./Sum`       | `./src/components/Sum.tsx`           |
 
 以 `greet` 为例，宿主调用工具后，服务端执行 `greet` handler 并返回业务结果。卡片渲染器根据 `remote: 'mcp_ui'` 找到 `remotes` 中的 manifest，再通过 `view.module: './Greeting'` 加载暴露的组件，将工具输入、handler 返回的 `viewProps` 和 `mcpApp` 传给它。
 
 配置时需要区分以下名称和职责：
 
 - `tools[].name` 是 MCP 工具名，用于工具调用；`view.module` 是 MF expose 名，两者无须同名。例如，工具 `greet` 对应组件 `./Greeting`。
-- `tools[].remote` 必须匹配某个 `remotes[].name`。模板使用 `mcp_ui`，MF 配置中的 `name` 也采用该名称；`baseUrl` 指向提供目标 expose 的 manifest。
+- Modern.js 集成中，`tools[].remote` 可匹配本应用构建产物的 manifest 名称，模板使用 `mcp_ui`。显式配置外部 `remotes` 时，必须匹配 `remotes[].name`，`baseUrl` 指向目标 manifest。直接使用核心包时需传入完整 `remotes`，核心包不发现应用构建产物。
 - `view.module` 必须与 `exposes` 的键一致，包括大小写和 `./` 前缀。在工具配置中填写 `./Greeting`，而不是组件源码路径。
 - 配置 `exposes` 只会暴露模块，不会自动注册 MCP 工具。只有 `tools` 中声明的工具才会出现在工具列表中；服务端业务函数通过 `handler` 配置，无须放入 MF `exposes`。
 - 多个工具可以复用同一个 expose，只要组件能处理各工具传入的属性。每个工具配置一个 `view`，该组件内部可以组合多个子组件；纯工具可以省略 `view` 和 `remote`。
@@ -215,12 +232,11 @@ export default defineMcpServer({
 
 新增卡片时，先在 `exposes` 中暴露组件，再在 `tools` 中配置业务 handler、`remote` 和 `view.module`。如果工具执行成功但卡片加载失败，优先检查 manifest 地址、expose 名称、组件导出方式和资源 CSP。
 
-定义文件和 handler 由 BFF 负责服务端编译，不会作为 UI 入口导入浏览器。构建阶段也会读取定义来发现 UI 入口，因此应避免在模块顶层启动监听器等副作用。
+自动挂载时，插件调用现有服务端编译器处理根目录定义及导入的 handler；手动 BFF 路由由 BFF 编译，不会作为 UI 入口导入浏览器。构建阶段也会读取定义来发现 UI 入口，因此应避免在模块顶层启动监听器等副作用。
 
 完整字段和类型定义见 [API 参考](./api)。
 
 卡片如何调用工具、向对话发送消息和同步模型上下文，见[卡片交互](./interactions)。
-
 
 ## viewDefaults
 
@@ -230,9 +246,16 @@ export default defineMcpServer({
   version: '1.0.0',
   viewDefaults: {
     assetBase: 'request',
-    csp: { resourceDomains: [], connectDomains: [], frameDomains: [], baseUriDomains: [] },
+    csp: {
+      resourceDomains: [],
+      connectDomains: [],
+      frameDomains: [],
+      baseUriDomains: [],
+    },
   },
-  tools: [{ name: 'card', visibility: ['model', 'app'], view: { module: './Card' } }],
+  tools: [
+    { name: 'card', visibility: ['model', 'app'], view: { module: './Card' } },
+  ],
 });
 ```
 
@@ -242,11 +265,9 @@ export default defineMcpServer({
 
 `defineTool()` 将 JSON Schema 与 handler 放在一起，推导必填和可选参数、枚举、数组及嵌套对象。handler 支持同步或异步返回。前端可使用 `InferToolInput<typeof tool>` 和 `InferToolOutput<typeof tool>` 获取输入和结构化输出类型。执行前仍会校验输入，不支持推导的 schema 形式保留为 `unknown`。
 
-
 `name`、`version` 标识 MCP server。`remotes` 默认 `[]`，本地视图和无 UI 工具可省略。`viewDefaults` 仍作为顶层分组。旧入口 `defineMcpApps` 和 `mcpApps` 保留兼容。
 
 视图默认使用 `default` 导出、`component` 渲染模式，并在浏览器运行；模板无需显式填写这三项配置。
-
 
 ## 内联工具与输入简写
 

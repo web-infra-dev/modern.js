@@ -445,7 +445,9 @@ export function createMcpAppsHandler<T = undefined>(
     );
     const current = pending;
     try {
-      return await (await current)(request);
+      return await (
+        await current
+      )(request);
     } catch (error) {
       if (pending === current) pending = undefined;
       throw error;

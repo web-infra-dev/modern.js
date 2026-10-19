@@ -1,6 +1,6 @@
 # MCP Apps core (experimental)
 
-场景化接入与调试见 [MCP Apps 使用指南](../../../docs/guides/mcp-apps-usage.md)，包含独立 Hono、可选 MF 和 ngrok。
+场景化接入与调试见 [MCP Apps 使用指南](../../../docs/guides/mcp-apps-usage.md)，包含独立 Hono 和可选 MF。
 
 Build and deploy MCP servers and remote React views independently using
 `mcp_apps.ts`. The package provides configuration and handler loading,
@@ -14,8 +14,13 @@ A standard Modern.js app can declare a local card without MF:
 export default defineMcpServer({
   name: 'my-mcp-server',
   version: '1.0.0',
-  tools: [{ name: 'greet', handler: greet,
-    view: { module: './src/components/Greeting.tsx' } }],
+  tools: [
+    {
+      name: 'greet',
+      handler: greet,
+      view: { module: './src/components/Greeting.tsx' },
+    },
+  ],
 });
 ```
 
@@ -27,14 +32,23 @@ in a Hono application if deploying the server independently:
 ```ts
 import { Hono } from 'hono';
 import { mcpApps } from '@modern-js/mcp-apps/hono';
+import { bindUiResources } from '@modern-js/mcp-apps/server';
 const app = new Hono();
 // definition is imported from the application's compiled module.
-app.all('/mcp', mcpApps({ definition }));
+app.all(
+  '/mcp',
+  mcpApps({
+    definition: bindUiResources(definition, {
+      directory: './application/mcp-apps/ui',
+      assetBase: 'request',
+    }),
+  }),
+);
 ```
 
 For a standalone Node server, install `hono`, `@hono/node-server` and this package,
-copy the application's `dist/api/` and `dist/mcp-apps/ui/` directories (plus external handler
-dependencies), and serve the application static assets at their built URLs or
+copy the complete application `dist/` directory to `application/`, preserving package
+metadata, module type and imported module paths (plus external handler dependencies), and serve the application static assets at their built URLs or
 publish them to the configured asset CDN. Then add a listener to the code above:
 
 ```ts
@@ -76,31 +90,35 @@ import { greet } from './mcp-tools';
 export default defineMcpServer({
   name: 'my-mcp-server',
   version: '1.0.0',
-  remotes: [{
-    name: 'mcp_ui',
-    baseUrl: 'https://cdn.example.com/releases/1/mf-manifest.json',
-    csp: {
-      resourceDomains: ['https://cdn.example.com'],
-      connectDomains: ['https://cdn.example.com'],
+  remotes: [
+    {
+      name: 'mcp_ui',
+      baseUrl: 'https://cdn.example.com/releases/1/mf-manifest.json',
+      csp: {
+        resourceDomains: ['https://cdn.example.com'],
+        connectDomains: ['https://cdn.example.com'],
+      },
     },
-  }],
-  tools: [{
-    name: 'greet',
-    remote: 'mcp_ui',
-    inputSchema: {
-      type: 'object',
-      properties: { name: { type: 'string' } },
-      required: ['name'],
+  ],
+  tools: [
+    {
+      name: 'greet',
+      remote: 'mcp_ui',
+      inputSchema: {
+        type: 'object',
+        properties: { name: { type: 'string' } },
+        required: ['name'],
+      },
+      annotations: { readOnlyHint: true },
+      handler: greet,
+      view: { module: './Greeting', runtime: 'browser' },
     },
-    annotations: { readOnlyHint: true },
-    handler: greet,
-    view: { module: './Greeting', runtime: 'browser' },
-  }],
+  ],
 });
 ```
 
 ```ts
-// tools.ts — deployed with the server, never bundled into the UI
+// mcp-tools.ts — deployed with the server, never bundled into the UI
 import type { RemoteToolHandler } from '@modern-js/mcp-apps/config';
 
 export const greet: RemoteToolHandler = input => {
@@ -145,13 +163,25 @@ There is no second UI manifest to generate, copy, or maintain.
 ```tsx
 import type { App } from '@modern-js/mcp-apps/react';
 
-export default function Greeting({ message, mcpApp }: {
+export default function Greeting({
+  message,
+  mcpApp,
+}: {
   message?: string;
   mcpApp?: App;
 }) {
-  return <button onClick={() => mcpApp?.callServerTool({
-    name: 'greet', arguments: { name: 'Ada' },
-  })}>{message}</button>;
+  return (
+    <button
+      onClick={() =>
+        mcpApp?.callServerTool({
+          name: 'greet',
+          arguments: { name: 'Ada' },
+        })
+      }
+    >
+      {message}
+    </button>
+  );
 }
 ```
 
@@ -186,14 +216,14 @@ preserved, never forced read-only.
   loading, and their script/CSS/fetch origins must be declared in remote CSP.
 - Production deploys contain the compiled definition and handler modules. No UI
   source or copied UI manifest is needed. The Node process does not import React;
-  React is bundled into resource HTML for execution only inside the host iframe.
+  MF resources bundle the browser renderer into HTML. Local views load application-built React assets inside the host iframe.
 - Node 20+; MCP SDK core/server/client 2.2.0 / Apps SDK 2.0.3. Stateless POST-only HTTP with a
   new SDK server/transport per request. No persistent sessions, resumable SSE,
   server-initiated requests or cross-request cancellation routing in this version.
 - Input/output schemas use strict JSON Schema 2020-12 validation, not lossy Zod
-  conversion. Unsupported keywords fail at startup. Inputs are not type-inferred.
+  conversion. Unsupported keywords fail at startup. Inline tools and defineTool infer supported input schema forms.
 - Handler context provides `toolName/remote/handler/extra/signal/fetch/
-  fetchJson/serverUrl` fields and adds `request/context`. `createContext(request)`
+fetchJson/serverUrl` fields and adds `request/context`. `createContext(request)`
   supplies request-local context. Host visibility is not an authorization boundary.
 - The endpoint validates Origin (same-origin by default, additional origins via
   `allowedOrigins`). Authentication and deployment-specific Host/CORS policy belong in HTTP
@@ -213,7 +243,7 @@ Modern.js). The old `/build` entry and `compileMcpApps` API have been removed.
 
 ```sh
 pnpm --filter @modern-js/mcp-apps build
-pnpm --filter @examples/mcp-apps-modern build
+pnpm --filter my-mcp-app-v2 build
 pnpm --filter @modern-js/mcp-apps test
 pnpm --filter @modern-js/mcp-apps test:deployment
 ```
@@ -234,8 +264,7 @@ compatibility testing.
 
 The official SDK handles MCP 2026-07-28 per-request envelopes, server/discover,
 required request headers, resultType and cache metadata. Legacy clients retain
-stateless JSON responses and initialization support. Template verification uses
-2026-07-28. UI resources use the standard MCP Apps metadata and MIME type.
+stateless JSON responses and initialization support. Protocol tests exercise both request formats. UI resources use the standard MCP Apps metadata and MIME type.
 
 ## Unified server definitions
 
@@ -258,16 +287,18 @@ For object inputs, write a property map directly:
 export default defineMcpServer({
   name: 'greetings',
   version: '1.0.0',
-  tools: [{
-    name: 'greet',
-    inputSchema: {
-      name: { type: 'string', minLength: 1 },
-      count: { type: 'integer', minimum: 1, optional: true },
+  tools: [
+    {
+      name: 'greet',
+      inputSchema: {
+        name: { type: 'string', minLength: 1 },
+        count: { type: 'integer', minimum: 1, optional: true },
+      },
+      handler: ({ name, count }) => ({
+        structuredContent: { message: `Hello, ${name}!`, count: count ?? 1 },
+      }),
     },
-    handler: ({ name, count }) => ({
-      structuredContent: { message: `Hello, ${name}!`, count: count ?? 1 },
-    }),
-  }],
+  ],
 });
 ```
 

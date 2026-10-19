@@ -22,7 +22,8 @@ directory and started with `node .output/index.js`.
 The default UI template compiles `view.module` (a local React component) into
 Modern.js HTML and static JS/CSS assets. It does not need Module Federation or a manifest.
 Create with `--template mcp-apps --mf` to opt into MF remote components instead;
-only this mode uses `MCP_UI_ORIGIN` and exposes `./Greeting` through MF.
+MF mode discovers local remotes from emitted manifests and their publicPath.
+Configure dev.assetPrefix or output.assetPrefix for public assets.
 
 Server and UI do not have to share a deployment. Copy `dist/mcp-apps/` to an
 independent Hono server, also host the static assets (or publish them to the

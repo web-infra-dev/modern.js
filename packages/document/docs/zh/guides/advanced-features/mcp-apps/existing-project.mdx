@@ -13,8 +13,6 @@ export default defineConfig({
 });
 ```
 
-
-
 ```ts title="mcp_apps.ts"
 import { defineMcpServer } from '@modern-js/mcp-apps/config';
 
@@ -60,14 +58,16 @@ export default defineMcpServer({
 通过 `remote` 和 `view.module` 引用它：
 
 ```ts
-remotes: [{
-  name: 'catalog',
-  baseUrl: 'https://cdn.example.com/catalog/v1/mf-manifest.json',
-  csp: {
-    resourceDomains: ['https://cdn.example.com'],
-    connectDomains: ['https://cdn.example.com'],
+remotes: [
+  {
+    name: 'catalog',
+    baseUrl: 'https://cdn.example.com/catalog/v1/mf-manifest.json',
+    csp: {
+      resourceDomains: ['https://cdn.example.com'],
+      connectDomains: ['https://cdn.example.com'],
+    },
   },
-}]
+];
 // 对应工具配置：remote: 'catalog', view: { module: './Results' }
 ```
 
@@ -78,7 +78,7 @@ MF 渲染器在宿主 iframe 内加载组件，传入工具参数、handler 返�
 已有 BFF 项目保留原 `bff.prefix`。自动 MCP 路由独立使用 `endpoint`，不会给它追加 BFF 前缀：
 
 ```ts
-mcpAppsPlugin({ config: 'mcp_apps.ts', endpoint: '/api/mcp' })
+mcpAppsPlugin({ config: 'mcp_apps.ts', endpoint: '/api/mcp' });
 ```
 
 默认值为根目录 `mcp_apps.ts` 和 `/mcp`。如果已有同路径 BFF 路由，插件会报冲突。

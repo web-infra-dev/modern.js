@@ -27,7 +27,7 @@ opt into Module Federation configuration and remote components. `mcp-server` has
 Both use `modern dev/build/serve/deploy`; `app` remains the default template.
 The new packages must be released together before installing generated projects
 from the public registry. Inside this repository, use the workspace example
-`@examples/mcp-apps-modern` to try the implementation before publication.
+`my-mcp-app-v2` to try the implementation before publication.
 Generated projects initially reference the creator's package version, not workspace
 packages. For local source development, set a valid package name and use
 `workspace:*` for Modern.js dependencies available in this workspace before

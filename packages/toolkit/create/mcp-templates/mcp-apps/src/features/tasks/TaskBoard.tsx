@@ -7,7 +7,10 @@ const emptyTasks: Task[] = [];
 export default function TaskBoard({
   tasks = emptyTasks,
   mcpApp,
-}: { tasks?: Task[]; mcpApp?: App }) {
+}: {
+  tasks?: Task[];
+  mcpApp?: App;
+}) {
   const [items, setItems] = useState(tasks);
   const [title, setTitle] = useState('');
   const [busy, setBusy] = useState(false);

@@ -36,7 +36,6 @@ async function freePort() {
 const env = () => ({
   ...process.env,
   PORT: String(port),
-  MCP_UI_ORIGIN: `http://127.0.0.1:${port}`,
   MODERN_SERVER_LOG_LEVEL: 'error',
 });
 async function command(cwd: string, args: string[]) {
