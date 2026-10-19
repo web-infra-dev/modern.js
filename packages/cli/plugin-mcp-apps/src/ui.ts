@@ -19,6 +19,12 @@ export function setupMcpUi(
   const entries = new Map<string, string>();
   let localRemotes: string[] = [];
   const views: Record<string, BuiltView> = Object.create(null);
+  api.onBeforePrintInstructions(({ instructions }) => ({
+    instructions: instructions
+      .split('\n')
+      .filter(line => ![...entries.keys()].some(name => line.includes(name)))
+      .join('\n'),
+  }));
   api.modifyEntrypoints(async ({ entrypoints }) => {
     entries.clear();
     for (const key of Object.keys(views)) delete views[key];

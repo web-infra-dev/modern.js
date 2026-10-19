@@ -2,7 +2,7 @@ import fs from 'node:fs/promises';
 import path from 'node:path';
 import type { AppTools, CliPlugin } from '@modern-js/app-tools';
 import { compile } from '@modern-js/server-utils';
-import { resolveServerTsconfig } from '@modern-js/utils';
+import { getAddressUrls, resolveServerTsconfig } from '@modern-js/utils';
 import { type McpAppsPluginOptions, endpointPath } from './options';
 import { compiledConfigPath } from './shared';
 import { setupMcpUi } from './ui';
@@ -23,6 +23,26 @@ export const mcpAppsPlugin = (
       );
     const endpoint =
       options.endpoint === false ? false : endpointPath(options.endpoint);
+    api.onBeforePrintInstructions(({ instructions }) => {
+      if (endpoint === false) return { instructions };
+      const { port } = api.getAppContext();
+      if (port === undefined) return { instructions };
+      const config = api.getNormalizedConfig();
+      const devServer = config.tools.devServer;
+      const protocol =
+        config.dev.https ||
+        (typeof devServer === 'object' &&
+          'https' in devServer &&
+          devServer.https)
+          ? 'https'
+          : 'http';
+      const addresses = getAddressUrls(protocol, port, config.dev.host);
+      return {
+        instructions: `${instructions}${addresses
+          .map(({ label, url }) => `  > MCP ${label}${url}${endpoint}\n`)
+          .join('')}`,
+      };
+    });
     setupMcpUi(api, configPath);
     api.addWatchFiles(() => [configPath()]);
     api.onAfterBuild(async () => {
