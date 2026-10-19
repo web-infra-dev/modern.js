@@ -9,16 +9,6 @@ export interface McpAppsPluginOptions {
   endpoint?: string | false;
 }
 
-export interface McpAppsServerOptions {
-  development?: boolean;
-  endpoint?: string;
-  /** Relative to appDirectory, only used in development. */
-  devEntry?: string;
-  /** Relative to distDirectory; serialized into the production launcher. */
-  entry?: string;
-  serverInfo?: { name: string; version: string };
-}
-
 export function endpointPath(endpoint = '/mcp') {
   if (
     !/^\/(?:[a-zA-Z0-9_.~-]+\/?)+$/.test(endpoint) ||

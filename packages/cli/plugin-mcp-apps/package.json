@@ -23,12 +23,6 @@
       "import": "./dist/esm-node/cli.mjs",
       "require": "./dist/cjs/cli.cjs"
     },
-    "./server-plugin": {
-      "types": "./dist/types/server.d.ts",
-      "modern:source": "./src/server.ts",
-      "import": "./dist/esm-node/server.mjs",
-      "require": "./dist/cjs/server.cjs"
-    },
     "./bff": {
       "types": "./dist/types/bff.d.ts",
       "modern:source": "./src/bff.ts",
@@ -70,11 +64,6 @@
         "import": "./dist/esm-node/cli.mjs",
         "require": "./dist/cjs/cli.cjs"
       },
-      "./server-plugin": {
-        "types": "./dist/types/server.d.ts",
-        "import": "./dist/esm-node/server.mjs",
-        "require": "./dist/cjs/server.cjs"
-      },
       "./bff": {
         "types": "./dist/types/bff.d.ts",
         "import": "./dist/esm-node/bff.mjs",
@@ -91,9 +80,6 @@
     "*": {
       ".": [
         "dist/types/cli.d.ts"
-      ],
-      "server-plugin": [
-        "dist/types/server.d.ts"
       ],
       "bff": [
         "dist/types/bff.d.ts"

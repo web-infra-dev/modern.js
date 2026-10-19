@@ -3,7 +3,6 @@ export default defineConfig({
   source: {
     entry: {
       cli: './src/cli.ts',
-      server: './src/server.ts',
       bff: './src/bff.ts',
       'bff-runtime': './src/bff-runtime.ts',
     },
