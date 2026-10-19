@@ -1,21 +1,3 @@
-import type { Config as JestConfigTypes } from '@jest/types';
-
-export type JestConfig = JestConfigTypes.Config;
-
-export interface TestConfig {
-  /**
-   * Decide which transformer will be used to compile file
-   * @default 'babel-jest'
-   */
-  transformer?: 'babel-jest' | 'ts-jest';
-
-  /**
-   * Original jest config
-   * Doc: https://jestjs.io/docs/configuration
-   */
-  jest?: JestConfig | ((jestConfig: JestConfig) => JestConfig);
-}
-
 /**
  * Bundle entrypoint
  */
@@ -144,8 +126,6 @@ export type SSGMultiEntryOptions = Record<
 >;
 
 export type SSGConfig =
-  | boolean
-  | SSGSingleEntryOptions
-  | SSGSingleEntryOptionsFactory;
+  boolean | SSGSingleEntryOptions | SSGSingleEntryOptionsFactory;
 
 export type { Merge } from 'type-fest';

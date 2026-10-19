@@ -1,5 +1,22 @@
 # @modern-js/create
 
+## 3.10.0
+
+### Minor Changes
+
+- 8525dea: Add a pre-commit hook to new standalone projects using Rstack CLI to lint and format staged files.
+- 778f778: Use Rstack CLI for linting and formatting in new projects.
+
+### Patch Changes
+
+- e6cb9d3: Add Rstack CLI documentation guidance to AGENTS.md in new projects.
+- de0d25f: Recommend the Rstack VS Code extension in new standalone projects.
+- 00017a1: Generate only AGENTS.md for AI coding guidance. Stop creating or updating CLAUDE.md in project templates and the --agents-md-only command.
+
+## 3.9.3
+
+## 3.9.2
+
 ## 3.9.1
 
 ## 3.9.0

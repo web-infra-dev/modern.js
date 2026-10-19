@@ -32,7 +32,8 @@ async function main() {
   });
   const tools = await rpc('tools/list');
   const resource = await rpc('resources/read', {
-    uri: tools.tools[0]._meta.ui.resourceUri,
+    uri: tools.tools.find((tool: { name: string }) => tool.name === 'greet')
+      ._meta.ui.resourceUri,
   });
   const result = await rpc('tools/call', {
     name: 'greet',

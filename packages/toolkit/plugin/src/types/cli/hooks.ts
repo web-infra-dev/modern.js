@@ -60,11 +60,9 @@ export type AddCommandFn = (params: { program: Command }) => void;
 export type OnPrepareFn = () => Promise<void> | void;
 
 type WatchFilesReturnType =
-  | Array<string>
-  | { files: string[]; isPrivate: boolean };
+  Array<string> | { files: string[]; isPrivate: boolean };
 export type AddWatchFilesFn = () =>
-  | WatchFilesReturnType
-  | Promise<WatchFilesReturnType>;
+  WatchFilesReturnType | Promise<WatchFilesReturnType>;
 
 export type OnFileChangedFn = (params: {
   filename: string;

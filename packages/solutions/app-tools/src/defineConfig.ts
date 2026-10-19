@@ -6,8 +6,7 @@ export type ConfigParams = {
 };
 
 export type UserConfigExport<Config> =
-  | Config
-  | ((env: ConfigParams) => Config | Promise<Config>);
+  Config | ((env: ConfigParams) => Config | Promise<Config>);
 
 /**
  * This function helps you to autocomplete configuration types.

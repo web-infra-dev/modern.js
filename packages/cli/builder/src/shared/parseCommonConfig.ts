@@ -258,9 +258,8 @@ export async function parseCommonConfig(
   }
 
   if (enableCssModuleTSDeclaration) {
-    const { pluginTypedCSSModules } = await import(
-      '@rsbuild/plugin-typed-css-modules'
-    );
+    const { pluginTypedCSSModules } =
+      await import('@rsbuild/plugin-typed-css-modules');
     rsbuildPlugins.push(pluginTypedCSSModules());
   }
 

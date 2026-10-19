@@ -201,7 +201,7 @@ async function main() {
   if (mf && template !== 'mcp-apps')
     throw new Error('--mf requires --template mcp-apps');
 
-  // Mode for existing projects: add/refresh AGENTS.md & CLAUDE.md in the
+  // Mode for existing projects: add/refresh AGENTS.md in the
   // current directory so agents pick up the bundled docs after an upgrade
   // (idempotent). A flag rather than a positional, so it never collides with
   // a project name; mutually exclusive with creating a project.
@@ -259,20 +259,6 @@ async function main() {
   const packageJson = JSON.parse(fs.readFileSync(targetPackageJson, 'utf-8'));
   packageJson.name = projectName;
 
-  if (isSubproject) {
-    delete packageJson['lint-staged'];
-    delete packageJson['simple-git-hooks'];
-    if (packageJson.scripts) {
-      delete packageJson.scripts.prepare;
-      delete packageJson.scripts.lint;
-    }
-    if (packageJson.devDependencies) {
-      delete packageJson.devDependencies['lint-staged'];
-      delete packageJson.devDependencies['simple-git-hooks'];
-      delete packageJson.devDependencies['@biomejs/biome'];
-    }
-  }
-
   fs.writeFileSync(
     targetPackageJson,
     `${JSON.stringify(packageJson, null, 2)}\n`,
@@ -309,16 +295,15 @@ function copyTemplate(
   fs.mkdirSync(dest, { recursive: true });
 
   const excludeInSubproject = [
+    '.rstack',
+    '.vscode',
     '.gitignore.handlebars',
-    'biome.json',
+    'rstack.config.mts',
     '.npmrc',
     '.nvmrc',
     // agent files are managed at the monorepo root in subproject setups
     'AGENTS.md',
-    'CLAUDE.md',
   ];
-
-  const agentFiles = ['AGENTS.md', 'CLAUDE.md'];
 
   function copyRecursive(srcDir: string, destDir: string) {
     const entries = fs.readdirSync(srcDir, { withFileTypes: true });
@@ -327,7 +312,7 @@ function copyTemplate(
       if (options.isSubproject && excludeInSubproject.includes(entry.name)) {
         continue;
       }
-      if (options.noAgentsMd && agentFiles.includes(entry.name)) {
+      if (options.noAgentsMd && entry.name === 'AGENTS.md') {
         continue;
       }
 

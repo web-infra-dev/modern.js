@@ -1,1 +1,1 @@
-export const named = 'transformImport test succeed'
+export const named = 'transformImport test succeed';

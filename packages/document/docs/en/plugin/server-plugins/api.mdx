@@ -46,17 +46,17 @@ Gets the context information of the Modern.js server.
 
 - **Returns:** A `ServerContext` object containing the following fields:
 
-| Field Name          | Type              | Description                           |
-| ------------------- | ----------------- | ------------------------------------- |
-| `middlewares`       | `MiddlewareObj[]` | Middleware list                       |
-| `renderMiddlewares` | `MiddlewareObj[]` | Render middleware list                |
-| `routes`            | `ServerRoute[]`   | Server routing information            |
-| `appDirectory`      | `string`          | Absolute path to the project root    |
-| `apiDirectory`      | `string`          | Absolute path to the API module dir  |
-| `lambdaDirectory`   | `string`          | Absolute path to the Lambda module dir|
-| `sharedDirectory`   | `string`          | Absolute path to the shared module dir|
-| `distDirectory`     | `string`          | Absolute path to the output directory|
-| `plugins`            | `ServerPlugin[]`  | List of currently registered plugins  |
+| Field Name          | Type              | Description                            |
+| ------------------- | ----------------- | -------------------------------------- |
+| `middlewares`       | `MiddlewareObj[]` | Middleware list                        |
+| `renderMiddlewares` | `MiddlewareObj[]` | Render middleware list                 |
+| `routes`            | `ServerRoute[]`   | Server routing information             |
+| `appDirectory`      | `string`          | Absolute path to the project root      |
+| `apiDirectory`      | `string`          | Absolute path to the API module dir    |
+| `lambdaDirectory`   | `string`          | Absolute path to the Lambda module dir |
+| `sharedDirectory`   | `string`          | Absolute path to the shared module dir |
+| `distDirectory`     | `string`          | Absolute path to the output directory  |
+| `plugins`           | `ServerPlugin[]`  | List of currently registered plugins   |
 
 - **Example:**
 
@@ -111,7 +111,6 @@ In custom plugins, you can only manually call the hooks registered by the corres
 
 ---
 
-
 ## Context Modification
 
 #### `api.updateServerContext`
@@ -142,7 +141,6 @@ api.onPrepare(() => {
 ```
 
 ---
-
 
 ## Lifecycle Hooks
 
@@ -204,7 +202,6 @@ api.onReset(async ({ event }) => {
 ```
 
 ---
-
 
 ## Other Notes
 

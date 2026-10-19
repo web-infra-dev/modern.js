@@ -1,5 +1,45 @@
 # @modern-js/server-plugin
 
+## 3.10.0
+
+### Patch Changes
+
+- b5f56d5: 修复共享 Rslib 配置中多个构建目标并发写入同一声明目录导致的类型文件损坏问题。
+- 9a766ec: Wait for existing Node production SSR bundle warmup before starting the server, and preserve required SSR entry loading errors instead of starting with missing render modules. Non-SSR/static routes are not treated as required SSR entries. Missing optional loader bundles and manifests remain supported; CSR-only, RSC and development startup behavior is unchanged. Lazy route modules are not eagerly loaded.
+- 1d7a38e: fix(server-core): discard the AsyncLocalStorage callback result when registering request middleware so an unfinished Hono Context cannot escape as the response.
+
+  fix(server-core): 注册请求上下文中间件时，不再返回 AsyncLocalStorage 回调的结果，避免未完成的 Hono Context 被当作响应返回。
+
+- Updated dependencies [da0fe78]
+- Updated dependencies [9a766ec]
+- Updated dependencies [7d9f0bb]
+  - @modern-js/plugin@3.10.0
+  - @modern-js/runtime-utils@3.10.0
+  - @modern-js/utils@3.10.0
+
+## 3.9.3
+
+### Patch Changes
+
+- 1dcb43c: fix: correct the "Middlware" typo in BFF middleware identifiers — the exported `PublicMiddlwareOptions` type from `@modern-js/server-core` is renamed to `PublicMiddlewareOptions`, and the internal `routeMiddlwares` variable in `@modern-js/plugin-bff` is renamed to `routeMiddlewares`
+  fix: 修正 BFF 中间件标识符里的 "Middlware" 拼写错误——`@modern-js/server-core` 导出的 `PublicMiddlwareOptions` 类型更名为 `PublicMiddlewareOptions`，`@modern-js/plugin-bff` 内部变量 `routeMiddlwares` 更名为 `routeMiddlewares`
+- 283dc5a: Keep SSR cache revalidation running after a completed HTTP response while preserving cancellation for disconnected clients. Handle background render and stream failures without unhandled rejections or caching incomplete HTML.
+- Updated dependencies [9f475f6]
+- Updated dependencies [a9c110f]
+  - @modern-js/plugin@3.9.3
+  - @modern-js/runtime-utils@3.9.3
+  - @modern-js/utils@3.9.3
+
+## 3.9.2
+
+### Patch Changes
+
+- Updated dependencies [b4dec57]
+- Updated dependencies [e2bbad2]
+  - @modern-js/plugin@3.9.2
+  - @modern-js/runtime-utils@3.9.2
+  - @modern-js/utils@3.9.2
+
 ## 3.9.1
 
 ### Patch Changes

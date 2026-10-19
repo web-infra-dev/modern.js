@@ -9,7 +9,7 @@
   "tasks": {
     "start": {
       "name": "Application",
-      "command": "pnpm run start",
+      "command": "pnpm run dev",
       "runAtStart": true,
       "restartOn": {
         "files": ["pnpm-lock.yaml"]

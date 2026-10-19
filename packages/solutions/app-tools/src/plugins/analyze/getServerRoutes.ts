@@ -123,9 +123,7 @@ const collectHtmlRoutes = (
   const {
     source: { mainEntryName },
     html: { outputStructure },
-    output: {
-      distPath: { html: htmlPath } = {},
-    },
+    output: { distPath: { html: htmlPath } = {} },
     server: { baseUrl, routes, ssr, ssrByEntries, rsc },
     deploy,
   } = config;

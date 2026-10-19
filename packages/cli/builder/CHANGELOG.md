@@ -1,5 +1,47 @@
 # @modern-js/builder
 
+## 3.10.0
+
+### Patch Changes
+
+- da0fe78: chore: upgrade Rsbuild to v2.2.13
+
+  chore: 升级 Rsbuild 至 v2.2.13
+
+- 7d9f0bb: chore(deps): upgrade Rsbuild to v2.2.12.
+
+  chore(deps): 升级 Rsbuild 到 v2.2.12。
+
+  - @modern-js/utils@3.10.0
+
+## 3.9.3
+
+### Patch Changes
+
+- 9f475f6: chore: upgrade Rsbuild to v2.2.9
+
+  chore: 升级 Rsbuild 至 v2.2.9
+
+- a851cf4: feat(builder): `tools.less` / `tools.sass` accept the full Rsbuild plugin options and add `tools.svgr`, so plugin-level options such as `parallel` can be configured; the legacy forms keep working and are marked deprecated.
+
+  feat(builder): `tools.less` / `tools.sass` 支持传入 Rsbuild 插件完整选项并新增 `tools.svgr`，可配置 `parallel` 等插件级选项；旧写法继续生效并标记废弃。
+
+  - @modern-js/utils@3.9.3
+
+## 3.9.2
+
+### Patch Changes
+
+- b4dec57: chore: upgrade Rsbuild to v2.2.6
+
+  chore: 升级 Rsbuild 至 v2.2.6
+
+- e2bbad2: chore: upgrade Rsbuild to v2.2.7
+
+  chore: 升级 Rsbuild 至 v2.2.7
+
+  - @modern-js/utils@3.9.2
+
 ## 3.9.1
 
 ### Patch Changes

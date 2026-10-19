@@ -1,13 +1,14 @@
 ---
 title: 配置说明
 ---
+
 # 配置说明
 
 插件配置分为两个文件，各有职责：
 
-| 文件 | 用途 |
-| --- | --- |
-| `modern.config.ts` | 插件基础设置，在构建/启动时读取 |
+| 文件                    | 用途                             |
+| ----------------------- | -------------------------------- |
+| `modern.config.ts`      | 插件基础设置，在构建/启动时读取  |
 | `src/modern.runtime.ts` | i18next 初始化选项，在运行时读取 |
 
 :::warning 函数类型只能在运行时配置中设置
@@ -16,13 +17,13 @@ title: 配置说明
 
 ## 配置归属一览
 
-| 配置项 | 放在哪里 |
-| --- | --- |
-| `localeDetection`（语言检测、路径重定向等） | `modern.config.ts` |
-| `backend`（资源路径、sdk 声明等） | `modern.config.ts` |
-| `i18nInstance` | `modern.runtime.ts` |
+| 配置项                                           | 放在哪里            |
+| ------------------------------------------------ | ------------------- |
+| `localeDetection`（语言检测、路径重定向等）      | `modern.config.ts`  |
+| `backend`（资源路径、sdk 声明等）                | `modern.config.ts`  |
+| `i18nInstance`                                   | `modern.runtime.ts` |
 | `initOptions`（fallbackLng、ns 等 i18next 选项） | `modern.runtime.ts` |
-| `backend.sdk` 的实际加载函数 | `modern.runtime.ts` |
+| `backend.sdk` 的实际加载函数                     | `modern.runtime.ts` |
 
 ## CLI 配置
 
@@ -43,15 +44,15 @@ export default defineConfig({
 
 ### localeDetection 选项
 
-| 字段 | 类型 | 默认值 | 说明 |
-| --- | --- | --- | --- |
-| `languages` | `string[]` | `[]` | 支持的语言列表 |
-| `fallbackLanguage` | `string` | `''` | 语言检测失败时的兜底语言 |
-| `localePathRedirect` | `boolean` | `false` | 接管 URL 语言前缀的识别、重定向和切换，详见[路由集成](./routing.md#启用语言路径前缀) |
-| `i18nextDetector` | `boolean` | `false` | 启用 i18next 检测器（Cookie / Header 等） |
-| `detection` | `LanguageDetectorOptions` | — | i18next 检测器详细配置，见[语言检测](./locale-detection.md) |
-| `ignoreRedirectRoutes` | `string[] \| Function` | — | 跳过重定向的路由，见[语言检测](./locale-detection.md#ignoreredirectroutes) |
-| `localeDetectionByEntry` | `Record<string, ...>` | — | 多入口按入口覆盖配置 |
+| 字段                     | 类型                      | 默认值  | 说明                                                                                 |
+| ------------------------ | ------------------------- | ------- | ------------------------------------------------------------------------------------ |
+| `languages`              | `string[]`                | `[]`    | 支持的语言列表                                                                       |
+| `fallbackLanguage`       | `string`                  | `''`    | 语言检测失败时的兜底语言                                                             |
+| `localePathRedirect`     | `boolean`                 | `false` | 接管 URL 语言前缀的识别、重定向和切换，详见[路由集成](./routing.md#启用语言路径前缀) |
+| `i18nextDetector`        | `boolean`                 | `false` | 启用 i18next 检测器（Cookie / Header 等）                                            |
+| `detection`              | `LanguageDetectorOptions` | —       | i18next 检测器详细配置，见[语言检测](./locale-detection.md)                          |
+| `ignoreRedirectRoutes`   | `string[] \| Function`    | —       | 跳过重定向的路由，见[语言检测](./locale-detection.md#ignoreredirectroutes)           |
+| `localeDetectionByEntry` | `Record<string, ...>`     | —       | 多入口按入口覆盖配置                                                                 |
 
 **示例：**
 
@@ -104,23 +105,24 @@ interface BackendOptions {
 
 **backend 自动启用规则：**
 
-| 情况 | 结果 |
-| --- | --- |
-| 配置了 `loadPath` 或 `addPath` | 自动启用，无需写 `enabled: true` |
-| 未配置 backend，但 `locales` 目录存在且有 JSON 文件 | 自动启用，使用默认 `loadPath` |
-| 显式设置 `enabled: false` | 禁用，不做自动检测 |
+| 情况                                                | 结果                             |
+| --------------------------------------------------- | -------------------------------- |
+| 配置了 `loadPath` 或 `addPath`                      | 自动启用，无需写 `enabled: true` |
+| 未配置 backend，但 `locales` 目录存在且有 JSON 文件 | 自动启用，使用默认 `loadPath`    |
+| 显式设置 `enabled: false`                           | 禁用，不做自动检测               |
 
 自动检测的目录位置（按优先级）：
+
 1. `{项目根目录}/config/public/locales`
 2. `server.publicDir` 配置的目录下的 `locales` 子目录
 
 **选择哪种后端？**
 
-| 场景 | 推荐方式 |
-| --- | --- |
-| 翻译文件放在项目本地 | 静态文件后端（配置 `loadPath`，CSR/SSR 自动切换） |
-| 翻译来自远程 API 或翻译平台 | 自定义后端（配置 `sdk: true`） |
-| 本地兜底 + 远程实时更新 | 链式后端（同时配置 `loadPath` 和 `sdk`） |
+| 场景                        | 推荐方式                                          |
+| --------------------------- | ------------------------------------------------- |
+| 翻译文件放在项目本地        | 静态文件后端（配置 `loadPath`，CSR/SSR 自动切换） |
+| 翻译来自远程 API 或翻译平台 | 自定义后端（配置 `sdk: true`）                    |
+| 本地兜底 + 远程实时更新     | 链式后端（同时配置 `loadPath` 和 `sdk`）          |
 
 详细用法见[资源加载](./resource-loading.md)。
 
@@ -134,7 +136,7 @@ const i18nInstance = i18next.createInstance();
 
 export default defineRuntimeConfig({
   i18n: {
-    i18nInstance,   // 可选，建议使用独立实例
+    i18nInstance, // 可选，建议使用独立实例
     initOptions: {
       fallbackLng: 'en',
       supportedLngs: ['zh', 'en'],
@@ -162,13 +164,13 @@ import Desc from '@site-docs/components/international/init-options-desc';
 
 <Desc />
 
-| 字段 | 说明 |
-| --- | --- |
-| `fallbackLng` | i18next 找不到翻译键时回退到哪个语言的资源，支持字符串、数组或映射（回退链） |
-| `supportedLngs` | i18next 支持的语言列表 |
-| `ns` | 命名空间列表，默认 `['translation']` |
-| `defaultNS` | 默认命名空间，默认 `'translation'` |
-| `lng` | 强制指定初始语言（通常不需要，由检测器决定） |
+| 字段            | 说明                                                                         |
+| --------------- | ---------------------------------------------------------------------------- |
+| `fallbackLng`   | i18next 找不到翻译键时回退到哪个语言的资源，支持字符串、数组或映射（回退链） |
+| `supportedLngs` | i18next 支持的语言列表                                                       |
+| `ns`            | 命名空间列表，默认 `['translation']`                                         |
+| `defaultNS`     | 默认命名空间，默认 `'translation'`                                           |
+| `lng`           | 强制指定初始语言（通常不需要，由检测器决定）                                 |
 
 `fallbackLng` 支持回退链写法，适合区域语言降级的场景：
 

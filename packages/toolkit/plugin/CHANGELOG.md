@@ -1,5 +1,52 @@
 # @modern-js/plugin-v2
 
+## 3.10.0
+
+### Patch Changes
+
+- da0fe78: chore: upgrade Rsbuild to v2.2.13
+
+  chore: 升级 Rsbuild 至 v2.2.13
+
+- 7d9f0bb: chore(deps): upgrade Rsbuild to v2.2.12.
+
+  chore(deps): 升级 Rsbuild 到 v2.2.12。
+
+- Updated dependencies [14c23d0]
+- Updated dependencies [9a766ec]
+  - @modern-js/types@3.10.0
+  - @modern-js/runtime-utils@3.10.0
+  - @modern-js/utils@3.10.0
+
+## 3.9.3
+
+### Patch Changes
+
+- 9f475f6: chore: upgrade Rsbuild to v2.2.9
+
+  chore: 升级 Rsbuild 至 v2.2.9
+
+- Updated dependencies [a9c110f]
+  - @modern-js/runtime-utils@3.9.3
+  - @modern-js/types@3.9.3
+  - @modern-js/utils@3.9.3
+
+## 3.9.2
+
+### Patch Changes
+
+- b4dec57: chore: upgrade Rsbuild to v2.2.6
+
+  chore: 升级 Rsbuild 至 v2.2.6
+
+- e2bbad2: chore: upgrade Rsbuild to v2.2.7
+
+  chore: 升级 Rsbuild 至 v2.2.7
+
+  - @modern-js/runtime-utils@3.9.2
+  - @modern-js/types@3.9.2
+  - @modern-js/utils@3.9.2
+
 ## 3.9.1
 
 ### Patch Changes

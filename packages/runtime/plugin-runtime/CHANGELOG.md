@@ -1,5 +1,80 @@
 # @modern-js/runtime
 
+## 3.10.0
+
+### Patch Changes
+
+- da0fe78: chore: upgrade Rsbuild to v2.2.13
+
+  chore: 升级 Rsbuild 至 v2.2.13
+
+- 743f1b5: fix: keep loadable hydration aligned with `output.chunkLoadingGlobal` customized by Rspack plugins
+
+  fix: 确保 loadable 水合使用 Rspack 插件自定义的 `output.chunkLoadingGlobal`
+
+- 9a766ec: fix(runtime): keep the original error when a route module fails to load
+  fix(runtime): 路由模块加载失败时保留原始错误
+
+  Preserve module initialization errors across preloads and repeated imports in SSR server bundles, without changing browser bundle error handling.
+  SSR server bundle 在 preload 和重复 import 后仍保留模块初始化的原始 error，不改变 browser bundle 的错误处理。
+
+- Updated dependencies [da0fe78]
+- Updated dependencies [14c23d0]
+- Updated dependencies [9a766ec]
+- Updated dependencies [7d9f0bb]
+  - @modern-js/plugin-data-loader@3.10.0
+  - @modern-js/plugin@3.10.0
+  - @modern-js/types@3.10.0
+  - @modern-js/runtime-utils@3.10.0
+  - @modern-js/render@3.10.0
+  - @modern-js/utils@3.10.0
+
+## 3.9.3
+
+### Patch Changes
+
+- 9f475f6: chore: upgrade Rsbuild to v2.2.9
+
+  chore: 升级 Rsbuild 至 v2.2.9
+
+- a9c110f: fix: emit streaming SSR deferred resolver scripts only at safe HTML boundaries
+
+  fix: Streaming SSR 的 deferred resolver script 仅在安全的 HTML 边界输出
+
+- a9c110f: fix: emit completion scripts for deferred fields serialized as pending during streaming SSR
+
+  fix: 流式 SSR 中，初始序列化为等待状态的 deferred 字段完成后发送通知
+
+- Updated dependencies [9f475f6]
+- Updated dependencies [a9c110f]
+  - @modern-js/plugin-data-loader@3.9.3
+  - @modern-js/plugin@3.9.3
+  - @modern-js/runtime-utils@3.9.3
+  - @modern-js/render@3.9.3
+  - @modern-js/types@3.9.3
+  - @modern-js/utils@3.9.3
+
+## 3.9.2
+
+### Patch Changes
+
+- b4dec57: chore: upgrade Rsbuild to v2.2.6
+
+  chore: 升级 Rsbuild 至 v2.2.6
+
+- e2bbad2: chore: upgrade Rsbuild to v2.2.7
+
+  chore: 升级 Rsbuild 至 v2.2.7
+
+- Updated dependencies [b4dec57]
+- Updated dependencies [e2bbad2]
+  - @modern-js/plugin-data-loader@3.9.2
+  - @modern-js/plugin@3.9.2
+  - @modern-js/render@3.9.2
+  - @modern-js/runtime-utils@3.9.2
+  - @modern-js/types@3.9.2
+  - @modern-js/utils@3.9.2
+
 ## 3.9.1
 
 ### Patch Changes

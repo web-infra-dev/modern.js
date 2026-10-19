@@ -245,7 +245,8 @@ Set the header in your middleware to choose the behavior dynamically:
 ```ts title="middleware example"
 export const middleware = async (ctx, next) => {
   const ua = ctx.req.header('user-agent') || '';
-  const shouldWaitAll = /Lighthouse|Googlebot/i.test(ua) || ctx.req.path === '/marketing';
+  const shouldWaitAll =
+    /Lighthouse|Googlebot/i.test(ua) || ctx.req.path === '/marketing';
 
   // Write a boolean string: true -> onAllReady, false -> onShellReady
   ctx.req.headers.set('x-should-stream-all', String(shouldWaitAll));

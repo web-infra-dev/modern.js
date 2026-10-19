@@ -70,7 +70,9 @@ async function launch(cwd: string, args: string[], direct = false) {
     async () => {
       if (child.exitCode !== null) throw new Error(`Server exited: ${log}`);
       try {
-        return (await rpc('tools/list')).result?.tools?.[0]?.name === 'greet';
+        return (await rpc('tools/list')).result?.tools?.some(
+          (tool: { name: string }) => tool.name === 'greet',
+        );
       } catch {
         return false;
       }
@@ -167,7 +169,33 @@ async function greet() {
     await rpc('tools/call', { name: 'greet', arguments: { name: 'Ada' } })
   ).result?.structuredContent?.message;
 }
+async function verifyTasks() {
+  const created = await rpc('tools/call', {
+    name: 'create_task',
+    arguments: { title: 'Merge main regression' },
+  });
+  expect(created.result.isError).not.toBe(true);
+  const task = created.result.structuredContent.tasks.find(
+    (task: { title: string }) => task.title === 'Merge main regression',
+  );
+  expect(task).toMatchObject({
+    title: 'Merge main regression',
+    status: 'todo',
+  });
+  const updated = await rpc('tools/call', {
+    name: 'update_task',
+    arguments: { id: task.id, status: 'done' },
+  });
+  expect(updated.result.isError).not.toBe(true);
+  const listed = await rpc('tools/call', { name: 'list_tasks', arguments: {} });
+  expect(listed.result.structuredContent.tasks).toContainEqual({
+    ...task,
+    status: 'done',
+  });
+}
+
 async function generate(name: string, template: string, mf = false) {
+  await fs.rm(path.join(output, name), { recursive: true, force: true });
   await exec(
     process.execPath,
     [
@@ -190,10 +218,9 @@ async function generate(name: string, template: string, mf = false) {
     const definition = path.join(app, 'api/mcp_apps.ts');
     await fs.writeFile(
       definition,
-      (await fs.readFile(definition, 'utf8')).replace(
-        "from './package.json'",
-        "from '../package.json'",
-      ),
+      (await fs.readFile(definition, 'utf8'))
+        .replace("from './package.json'", "from '../package.json'")
+        .replace("from './src/", "from '../src/"),
     );
     await fs.writeFile(
       path.join(app, 'api/lambda/index.ts'),
@@ -296,8 +323,9 @@ export default defineRuntimeConfig({ plugins: [{ name: 'mcp-test-runtime', setup
     );
     await until(
       async () =>
-        (await rpc('tools/list')).result?.tools[0].title ===
-        'Modern entry reloaded',
+        (await rpc('tools/list')).result?.tools.find(
+          (tool: { name: string }) => tool.name === 'greet',
+        )?.title === 'Modern entry reloaded',
     );
     await verifyBrowserUI();
     await stop(dev);
@@ -309,11 +337,18 @@ export default defineRuntimeConfig({ plugins: [{ name: 'mcp-test-runtime', setup
       fs.access(path.join(app, 'dist/mcp-apps/mcp_apps.mjs')),
     ).rejects.toThrow();
     const production = await launch(app, ['serve']);
+    await verifyTasks();
     await verifyBrowserUI();
     const listed = await rpc('tools/list');
     expect(
       listed.result.tools.map((tool: { name: string }) => tool.name),
-    ).toEqual(['greet', 'add_numbers']);
+    ).toEqual([
+      'list_tasks',
+      'create_task',
+      'update_task',
+      'greet',
+      'add_numbers',
+    ]);
     const added = await rpc('tools/call', {
       name: 'add_numbers',
       arguments: { a: 2, b: 3 },
@@ -324,14 +359,18 @@ export default defineRuntimeConfig({ plugins: [{ name: 'mcp-test-runtime', setup
       b: 3,
       sum: 5,
     });
-    const sumUri = listed.result.tools[1]._meta.ui.resourceUri;
+    const sumUri = listed.result.tools.find(
+      (tool: { name: string }) => tool.name === 'add_numbers',
+    )._meta.ui.resourceUri;
     expect(sumUri).toBe('ui://local/add_numbers');
     expect(
       (await rpc('resources/read', { uri: sumUri })).result.contents[0]
         .mimeType,
     ).toBe('text/html;profile=mcp-app');
     expect(await uiAssets(sumUri)).toContain('Addition');
-    const uri = listed.result.tools[0]._meta.ui.resourceUri;
+    const uri = listed.result.tools.find(
+      (tool: { name: string }) => tool.name === 'greet',
+    )._meta.ui.resourceUri;
     expect(uri).toBe('ui://local/greet');
     const resource = await rpc('resources/read', { uri });
     expect(resource.result.contents[0].text).toContain('<script');
@@ -385,7 +424,7 @@ export default defineRuntimeConfig({ plugins: [{ name: 'mcp-test-runtime', setup
     const devManifest = await (
       await fetch(`http://127.0.0.1:${port}/static/mf-manifest.json`)
     ).json();
-    expect(devManifest.metaData.publicPath).toBe(`http://127.0.0.1:${port}/`);
+    expect(devManifest.metaData.publicPath).toBe(`http://localhost:${port}/`);
     const remoteResult = await rpc('tools/call', {
       name: 'greet',
       arguments: { name: 'Ada' },
@@ -393,7 +432,7 @@ export default defineRuntimeConfig({ plugins: [{ name: 'mcp-test-runtime', setup
     expect(
       remoteResult.result.structuredContent.resource.moduleFederation
         .remoteEntry,
-    ).toBe(`http://127.0.0.1:${port}/static/mf-manifest.json`);
+    ).toBe(`${devManifest.metaData.publicPath}static/mf-manifest.json`);
     const preflight = await fetch(
       `http://127.0.0.1:${port}/static/mf-manifest.json`,
       {
@@ -423,7 +462,9 @@ export default defineRuntimeConfig({ plugins: [{ name: 'mcp-test-runtime', setup
     );
     await until(
       async () =>
-        (await rpc('tools/list')).result.tools[0].title === 'Reloaded',
+        (await rpc('tools/list')).result.tools.find(
+          (tool: { name: string }) => tool.name === 'greet',
+        )?.title === 'Reloaded',
     );
     const routePath = path.join(app, 'api/lambda/index.ts');
     await fs.writeFile(
@@ -472,7 +513,9 @@ export default defineRuntimeConfig({ plugins: [{ name: 'mcp-test-runtime', setup
     ).toBeNull();
     const listed = await rpc('tools/list');
     const resource = await rpc('resources/read', {
-      uri: listed.result.tools[0]._meta.ui.resourceUri,
+      uri: listed.result.tools.find(
+        (tool: { name: string }) => tool.name === 'greet',
+      )._meta.ui.resourceUri,
     });
     expect(resource.result.contents[0].text).toContain('<script');
     await stop(production);
@@ -486,7 +529,9 @@ export default defineRuntimeConfig({ plugins: [{ name: 'mcp-test-runtime', setup
     await launch(relocated, ['index.js'], true);
     expect(await greet()).toBe('Welcome, Ada!');
     const html = await rpc('resources/read', {
-      uri: listed.result.tools[0]._meta.ui.resourceUri,
+      uri: listed.result.tools.find(
+        (tool: { name: string }) => tool.name === 'greet',
+      )._meta.ui.resourceUri,
     });
     expect(html.result.contents[0].text).toContain('<script');
   }, 300_000);

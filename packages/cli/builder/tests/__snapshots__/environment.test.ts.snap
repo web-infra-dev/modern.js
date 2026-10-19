@@ -61,9 +61,10 @@ exports[`builder environment compat > should generator environment config correc
               "resourceQuery": /\\[\\?&\\]url\\(\\?:&\\|=\\|\\$\\)/,
               "use": [
                 {
-                  "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/core/dist/cssUrlLoader.mjs",
+                  "loader": "<PNPM_INNER>/@rsbuild/core/dist/cssUrlLoader.mjs",
                   "options": {
                     "filename": "static/css/[name].css",
+                    "minimized": false,
                     "modules": {
                       "auto": true,
                       "exportGlobals": false,
@@ -74,7 +75,7 @@ exports[`builder environment compat > should generator environment config correc
                   },
                 },
                 {
-                  "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/core/compiled/css-loader/index.js",
+                  "loader": "<PNPM_INNER>/@rsbuild/core/compiled/css-loader/index.js",
                   "options": {
                     "exportType": "string",
                     "importLoaders": 1,
@@ -83,9 +84,9 @@ exports[`builder environment compat > should generator environment config correc
                   },
                 },
                 {
-                  "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/core/compiled/postcss-loader/index.js",
+                  "loader": "<PNPM_INNER>/@rsbuild/core/compiled/postcss-loader/index.js",
                   "options": {
-                    "implementation": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/core/compiled/postcss/index.js",
+                    "implementation": "<PNPM_INNER>/@rsbuild/core/compiled/postcss/index.js",
                     "postcssOptions": {
                       "config": false,
                       "plugins": [
@@ -143,7 +144,7 @@ exports[`builder environment compat > should generator environment config correc
               "sideEffects": true,
               "use": [
                 {
-                  "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/core/compiled/css-loader/index.js",
+                  "loader": "<PNPM_INNER>/@rsbuild/core/compiled/css-loader/index.js",
                   "options": {
                     "exportType": "string",
                     "importLoaders": 1,
@@ -152,9 +153,9 @@ exports[`builder environment compat > should generator environment config correc
                   },
                 },
                 {
-                  "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/core/compiled/postcss-loader/index.js",
+                  "loader": "<PNPM_INNER>/@rsbuild/core/compiled/postcss-loader/index.js",
                   "options": {
-                    "implementation": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/core/compiled/postcss/index.js",
+                    "implementation": "<PNPM_INNER>/@rsbuild/core/compiled/postcss/index.js",
                     "postcssOptions": {
                       "config": false,
                       "plugins": [
@@ -215,10 +216,10 @@ exports[`builder environment compat > should generator environment config correc
               "sideEffects": true,
               "use": [
                 {
-                  "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rspack/core/dist/cssExtractLoader.js",
+                  "loader": "<PNPM_INNER>/@rspack/core/dist/cssExtractLoader.js",
                 },
                 {
-                  "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/core/compiled/css-loader/index.js",
+                  "loader": "<PNPM_INNER>/@rsbuild/core/compiled/css-loader/index.js",
                   "options": {
                     "importLoaders": 1,
                     "modules": {
@@ -232,9 +233,9 @@ exports[`builder environment compat > should generator environment config correc
                   },
                 },
                 {
-                  "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/core/compiled/postcss-loader/index.js",
+                  "loader": "<PNPM_INNER>/@rsbuild/core/compiled/postcss-loader/index.js",
                   "options": {
-                    "implementation": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/core/compiled/postcss/index.js",
+                    "implementation": "<PNPM_INNER>/@rsbuild/core/compiled/postcss/index.js",
                     "postcssOptions": {
                       "config": false,
                       "plugins": [
@@ -304,7 +305,7 @@ exports[`builder environment compat > should generator environment config correc
               "type": "javascript/auto",
               "use": [
                 {
-                  "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/core/dist/workerLoader.mjs",
+                  "loader": "<PNPM_INNER>/@rsbuild/core/dist/workerLoader.mjs",
                 },
               ],
             },
@@ -321,7 +322,7 @@ exports[`builder environment compat > should generator environment config correc
             {
               "resolve": {
                 "alias": {
-                  "core-js": "<WORKSPACE>/node_modules/<PNPM_INNER>/core-js",
+                  "core-js": "<PNPM_INNER>/core-js",
                 },
               },
               "type": "javascript/auto",
@@ -335,7 +336,7 @@ exports[`builder environment compat > should generator environment config correc
                     },
                     "detectSyntax": "auto",
                     "env": {
-                      "coreJs": "3.48",
+                      "coreJs": "3.50",
                       "mode": "entry",
                       "targets": [
                         "chrome >= 87",
@@ -384,7 +385,7 @@ exports[`builder environment compat > should generator environment config correc
           },
           "resolve": {
             "alias": {
-              "core-js": "<WORKSPACE>/node_modules/<PNPM_INNER>/core-js",
+              "core-js": "<PNPM_INNER>/core-js",
             },
             "fullySpecified": false,
           },
@@ -398,7 +399,7 @@ exports[`builder environment compat > should generator environment config correc
                 },
                 "detectSyntax": "auto",
                 "env": {
-                  "coreJs": "3.48",
+                  "coreJs": "3.50",
                   "mode": "entry",
                   "targets": [
                     "chrome >= 87",
@@ -615,9 +616,10 @@ exports[`builder environment compat > should generator environment config correc
               "resourceQuery": /\\[\\?&\\]url\\(\\?:&\\|=\\|\\$\\)/,
               "use": [
                 {
-                  "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/core/dist/cssUrlLoader.mjs",
+                  "loader": "<PNPM_INNER>/@rsbuild/core/dist/cssUrlLoader.mjs",
                   "options": {
                     "filename": "static/css/[name].css",
+                    "minimized": false,
                     "modules": {
                       "auto": true,
                       "exportGlobals": false,
@@ -628,7 +630,7 @@ exports[`builder environment compat > should generator environment config correc
                   },
                 },
                 {
-                  "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/core/compiled/css-loader/index.js",
+                  "loader": "<PNPM_INNER>/@rsbuild/core/compiled/css-loader/index.js",
                   "options": {
                     "exportType": "string",
                     "importLoaders": 3,
@@ -637,9 +639,9 @@ exports[`builder environment compat > should generator environment config correc
                   },
                 },
                 {
-                  "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/core/compiled/postcss-loader/index.js",
+                  "loader": "<PNPM_INNER>/@rsbuild/core/compiled/postcss-loader/index.js",
                   "options": {
-                    "implementation": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/core/compiled/postcss/index.js",
+                    "implementation": "<PNPM_INNER>/@rsbuild/core/compiled/postcss/index.js",
                     "postcssOptions": {
                       "config": false,
                       "plugins": [
@@ -688,17 +690,17 @@ exports[`builder environment compat > should generator environment config correc
                   },
                 },
                 {
-                  "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/plugin-sass/compiled/resolve-url-loader/index.js",
+                  "loader": "<PNPM_INNER>/@rsbuild/plugin-sass/compiled/resolve-url-loader/index.js",
                   "options": {
                     "join": [Function],
                     "sourceMap": false,
                   },
                 },
                 {
-                  "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/plugin-sass/compiled/sass-loader/index.js",
+                  "loader": "<PNPM_INNER>/@rsbuild/plugin-sass/compiled/sass-loader/index.js",
                   "options": {
                     "api": "modern-compiler",
-                    "implementation": "<WORKSPACE>/node_modules/<PNPM_INNER>/sass-embedded/dist/lib/index.js",
+                    "implementation": "<PNPM_INNER>/sass-embedded/dist/lib/index.js",
                     "sassOptions": {
                       "quietDeps": true,
                       "silenceDeprecations": [
@@ -715,7 +717,7 @@ exports[`builder environment compat > should generator environment config correc
               "sideEffects": true,
               "use": [
                 {
-                  "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/core/compiled/css-loader/index.js",
+                  "loader": "<PNPM_INNER>/@rsbuild/core/compiled/css-loader/index.js",
                   "options": {
                     "exportType": "string",
                     "importLoaders": 3,
@@ -724,9 +726,9 @@ exports[`builder environment compat > should generator environment config correc
                   },
                 },
                 {
-                  "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/core/compiled/postcss-loader/index.js",
+                  "loader": "<PNPM_INNER>/@rsbuild/core/compiled/postcss-loader/index.js",
                   "options": {
-                    "implementation": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/core/compiled/postcss/index.js",
+                    "implementation": "<PNPM_INNER>/@rsbuild/core/compiled/postcss/index.js",
                     "postcssOptions": {
                       "config": false,
                       "plugins": [
@@ -775,17 +777,17 @@ exports[`builder environment compat > should generator environment config correc
                   },
                 },
                 {
-                  "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/plugin-sass/compiled/resolve-url-loader/index.js",
+                  "loader": "<PNPM_INNER>/@rsbuild/plugin-sass/compiled/resolve-url-loader/index.js",
                   "options": {
                     "join": [Function],
                     "sourceMap": false,
                   },
                 },
                 {
-                  "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/plugin-sass/compiled/sass-loader/index.js",
+                  "loader": "<PNPM_INNER>/@rsbuild/plugin-sass/compiled/sass-loader/index.js",
                   "options": {
                     "api": "modern-compiler",
-                    "implementation": "<WORKSPACE>/node_modules/<PNPM_INNER>/sass-embedded/dist/lib/index.js",
+                    "implementation": "<PNPM_INNER>/sass-embedded/dist/lib/index.js",
                     "sassOptions": {
                       "quietDeps": true,
                       "silenceDeprecations": [
@@ -811,10 +813,10 @@ exports[`builder environment compat > should generator environment config correc
               "sideEffects": true,
               "use": [
                 {
-                  "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rspack/core/dist/cssExtractLoader.js",
+                  "loader": "<PNPM_INNER>/@rspack/core/dist/cssExtractLoader.js",
                 },
                 {
-                  "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/core/compiled/css-loader/index.js",
+                  "loader": "<PNPM_INNER>/@rsbuild/core/compiled/css-loader/index.js",
                   "options": {
                     "importLoaders": 3,
                     "modules": {
@@ -828,9 +830,9 @@ exports[`builder environment compat > should generator environment config correc
                   },
                 },
                 {
-                  "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/core/compiled/postcss-loader/index.js",
+                  "loader": "<PNPM_INNER>/@rsbuild/core/compiled/postcss-loader/index.js",
                   "options": {
-                    "implementation": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/core/compiled/postcss/index.js",
+                    "implementation": "<PNPM_INNER>/@rsbuild/core/compiled/postcss/index.js",
                     "postcssOptions": {
                       "config": false,
                       "plugins": [
@@ -879,17 +881,17 @@ exports[`builder environment compat > should generator environment config correc
                   },
                 },
                 {
-                  "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/plugin-sass/compiled/resolve-url-loader/index.js",
+                  "loader": "<PNPM_INNER>/@rsbuild/plugin-sass/compiled/resolve-url-loader/index.js",
                   "options": {
                     "join": [Function],
                     "sourceMap": false,
                   },
                 },
                 {
-                  "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/plugin-sass/compiled/sass-loader/index.js",
+                  "loader": "<PNPM_INNER>/@rsbuild/plugin-sass/compiled/sass-loader/index.js",
                   "options": {
                     "api": "modern-compiler",
-                    "implementation": "<WORKSPACE>/node_modules/<PNPM_INNER>/sass-embedded/dist/lib/index.js",
+                    "implementation": "<PNPM_INNER>/sass-embedded/dist/lib/index.js",
                     "sassOptions": {
                       "quietDeps": true,
                       "silenceDeprecations": [
@@ -916,9 +918,10 @@ exports[`builder environment compat > should generator environment config correc
               "resourceQuery": /\\[\\?&\\]url\\(\\?:&\\|=\\|\\$\\)/,
               "use": [
                 {
-                  "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/core/dist/cssUrlLoader.mjs",
+                  "loader": "<PNPM_INNER>/@rsbuild/core/dist/cssUrlLoader.mjs",
                   "options": {
                     "filename": "static/css/[name].css",
+                    "minimized": false,
                     "modules": {
                       "auto": true,
                       "exportGlobals": false,
@@ -929,7 +932,7 @@ exports[`builder environment compat > should generator environment config correc
                   },
                 },
                 {
-                  "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/core/compiled/css-loader/index.js",
+                  "loader": "<PNPM_INNER>/@rsbuild/core/compiled/css-loader/index.js",
                   "options": {
                     "exportType": "string",
                     "importLoaders": 2,
@@ -938,9 +941,9 @@ exports[`builder environment compat > should generator environment config correc
                   },
                 },
                 {
-                  "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/core/compiled/postcss-loader/index.js",
+                  "loader": "<PNPM_INNER>/@rsbuild/core/compiled/postcss-loader/index.js",
                   "options": {
-                    "implementation": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/core/compiled/postcss/index.js",
+                    "implementation": "<PNPM_INNER>/@rsbuild/core/compiled/postcss/index.js",
                     "postcssOptions": {
                       "config": false,
                       "plugins": [
@@ -989,7 +992,7 @@ exports[`builder environment compat > should generator environment config correc
                   },
                 },
                 {
-                  "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/less-loader/dist/cjs.js",
+                  "loader": "<PNPM_INNER>/less-loader/dist/cjs.js",
                   "options": {
                     "lessOptions": {
                       "javascriptEnabled": true,
@@ -1007,7 +1010,7 @@ exports[`builder environment compat > should generator environment config correc
               "sideEffects": true,
               "use": [
                 {
-                  "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/core/compiled/css-loader/index.js",
+                  "loader": "<PNPM_INNER>/@rsbuild/core/compiled/css-loader/index.js",
                   "options": {
                     "exportType": "string",
                     "importLoaders": 2,
@@ -1016,9 +1019,9 @@ exports[`builder environment compat > should generator environment config correc
                   },
                 },
                 {
-                  "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/core/compiled/postcss-loader/index.js",
+                  "loader": "<PNPM_INNER>/@rsbuild/core/compiled/postcss-loader/index.js",
                   "options": {
-                    "implementation": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/core/compiled/postcss/index.js",
+                    "implementation": "<PNPM_INNER>/@rsbuild/core/compiled/postcss/index.js",
                     "postcssOptions": {
                       "config": false,
                       "plugins": [
@@ -1067,7 +1070,7 @@ exports[`builder environment compat > should generator environment config correc
                   },
                 },
                 {
-                  "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/less-loader/dist/cjs.js",
+                  "loader": "<PNPM_INNER>/less-loader/dist/cjs.js",
                   "options": {
                     "lessOptions": {
                       "javascriptEnabled": true,
@@ -1094,10 +1097,10 @@ exports[`builder environment compat > should generator environment config correc
               "sideEffects": true,
               "use": [
                 {
-                  "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rspack/core/dist/cssExtractLoader.js",
+                  "loader": "<PNPM_INNER>/@rspack/core/dist/cssExtractLoader.js",
                 },
                 {
-                  "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/core/compiled/css-loader/index.js",
+                  "loader": "<PNPM_INNER>/@rsbuild/core/compiled/css-loader/index.js",
                   "options": {
                     "importLoaders": 2,
                     "modules": {
@@ -1111,9 +1114,9 @@ exports[`builder environment compat > should generator environment config correc
                   },
                 },
                 {
-                  "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/core/compiled/postcss-loader/index.js",
+                  "loader": "<PNPM_INNER>/@rsbuild/core/compiled/postcss-loader/index.js",
                   "options": {
-                    "implementation": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/core/compiled/postcss/index.js",
+                    "implementation": "<PNPM_INNER>/@rsbuild/core/compiled/postcss/index.js",
                     "postcssOptions": {
                       "config": false,
                       "plugins": [
@@ -1162,7 +1165,7 @@ exports[`builder environment compat > should generator environment config correc
                   },
                 },
                 {
-                  "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/less-loader/dist/cjs.js",
+                  "loader": "<PNPM_INNER>/less-loader/dist/cjs.js",
                   "options": {
                     "lessOptions": {
                       "javascriptEnabled": true,
@@ -1217,7 +1220,7 @@ exports[`builder environment compat > should generator environment config correc
                     },
                     "detectSyntax": "auto",
                     "env": {
-                      "coreJs": "3.48",
+                      "coreJs": "3.50",
                       "mode": "entry",
                       "targets": [
                         "chrome >= 87",
@@ -1253,7 +1256,7 @@ exports[`builder environment compat > should generator environment config correc
                   },
                 },
                 {
-                  "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/plugin-svgr/dist/loader.mjs",
+                  "loader": "<PNPM_INNER>/@rsbuild/plugin-svgr/dist/loader.mjs",
                   "options": {
                     "exportType": "default",
                     "svgo": true,
@@ -1290,7 +1293,7 @@ exports[`builder environment compat > should generator environment config correc
                     },
                     "detectSyntax": "auto",
                     "env": {
-                      "coreJs": "3.48",
+                      "coreJs": "3.50",
                       "mode": "entry",
                       "targets": [
                         "chrome >= 87",
@@ -1326,7 +1329,7 @@ exports[`builder environment compat > should generator environment config correc
                   },
                 },
                 {
-                  "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/plugin-svgr/dist/loader.mjs",
+                  "loader": "<PNPM_INNER>/@rsbuild/plugin-svgr/dist/loader.mjs",
                   "options": {
                     "exportType": "named",
                     "svgo": true,
@@ -1346,7 +1349,7 @@ exports[`builder environment compat > should generator environment config correc
                   },
                 },
                 {
-                  "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/plugin-svgr/dist/assetLoader.mjs",
+                  "loader": "<PNPM_INNER>/@rsbuild/plugin-svgr/dist/assetLoader.mjs",
                   "options": {
                     "limit": 10000,
                     "name": "static/svg/[name].[contenthash:10].svg",
@@ -1537,8 +1540,8 @@ exports[`builder environment compat > should generator environment config correc
     ],
     "resolve": {
       "alias": {
-        "@swc/helpers": "<WORKSPACE>/node_modules/<PNPM_INNER>/@swc/helpers",
-        "react-refresh": "<WORKSPACE>/node_modules/<PNPM_INNER>/react-refresh",
+        "@swc/helpers": "<PNPM_INNER>/@swc/helpers",
+        "react-refresh": "<PNPM_INNER>/react-refresh",
       },
       "extensionAlias": {
         ".js": [
@@ -1638,9 +1641,10 @@ exports[`builder environment compat > should generator environment config correc
               "resourceQuery": /\\[\\?&\\]url\\(\\?:&\\|=\\|\\$\\)/,
               "use": [
                 {
-                  "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/core/dist/cssUrlLoader.mjs",
+                  "loader": "<PNPM_INNER>/@rsbuild/core/dist/cssUrlLoader.mjs",
                   "options": {
                     "filename": "[name].css",
+                    "minimized": false,
                     "modules": {
                       "auto": true,
                       "exportGlobals": false,
@@ -1652,7 +1656,7 @@ exports[`builder environment compat > should generator environment config correc
                   },
                 },
                 {
-                  "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/core/compiled/css-loader/index.js",
+                  "loader": "<PNPM_INNER>/@rsbuild/core/compiled/css-loader/index.js",
                   "options": {
                     "exportType": "string",
                     "importLoaders": 0,
@@ -1670,7 +1674,7 @@ exports[`builder environment compat > should generator environment config correc
               "sideEffects": true,
               "use": [
                 {
-                  "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/core/compiled/css-loader/index.js",
+                  "loader": "<PNPM_INNER>/@rsbuild/core/compiled/css-loader/index.js",
                   "options": {
                     "exportType": "string",
                     "importLoaders": 0,
@@ -1691,7 +1695,7 @@ exports[`builder environment compat > should generator environment config correc
               "sideEffects": true,
               "use": [
                 {
-                  "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/core/dist/ignoreCssLoader.mjs",
+                  "loader": "<PNPM_INNER>/@rsbuild/core/dist/ignoreCssLoader.mjs",
                   "options": {
                     "modules": {
                       "auto": true,
@@ -1704,7 +1708,7 @@ exports[`builder environment compat > should generator environment config correc
                   },
                 },
                 {
-                  "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/core/compiled/css-loader/index.js",
+                  "loader": "<PNPM_INNER>/@rsbuild/core/compiled/css-loader/index.js",
                   "options": {
                     "importLoaders": 0,
                     "modules": {
@@ -1739,7 +1743,7 @@ exports[`builder environment compat > should generator environment config correc
               "type": "javascript/auto",
               "use": [
                 {
-                  "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/core/dist/workerLoader.mjs",
+                  "loader": "<PNPM_INNER>/@rsbuild/core/dist/workerLoader.mjs",
                 },
               ],
             },
@@ -2035,7 +2039,7 @@ exports[`builder environment compat > should generator environment config correc
           "test": /\\\\\\.node\\$/,
           "use": [
             {
-              "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/core/dist/transformRawLoader.mjs",
+              "loader": "<PNPM_INNER>/@rsbuild/core/dist/transformRawLoader.mjs",
               "options": {
                 "getEnvironment": [Function],
                 "id": "rsbuild-transform-0",
@@ -2052,9 +2056,10 @@ exports[`builder environment compat > should generator environment config correc
               "resourceQuery": /\\[\\?&\\]url\\(\\?:&\\|=\\|\\$\\)/,
               "use": [
                 {
-                  "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/core/dist/cssUrlLoader.mjs",
+                  "loader": "<PNPM_INNER>/@rsbuild/core/dist/cssUrlLoader.mjs",
                   "options": {
                     "filename": "[name].css",
+                    "minimized": false,
                     "modules": {
                       "auto": true,
                       "exportGlobals": false,
@@ -2066,7 +2071,7 @@ exports[`builder environment compat > should generator environment config correc
                   },
                 },
                 {
-                  "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/core/compiled/css-loader/index.js",
+                  "loader": "<PNPM_INNER>/@rsbuild/core/compiled/css-loader/index.js",
                   "options": {
                     "exportType": "string",
                     "importLoaders": 2,
@@ -2075,17 +2080,17 @@ exports[`builder environment compat > should generator environment config correc
                   },
                 },
                 {
-                  "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/plugin-sass/compiled/resolve-url-loader/index.js",
+                  "loader": "<PNPM_INNER>/@rsbuild/plugin-sass/compiled/resolve-url-loader/index.js",
                   "options": {
                     "join": [Function],
                     "sourceMap": false,
                   },
                 },
                 {
-                  "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/plugin-sass/compiled/sass-loader/index.js",
+                  "loader": "<PNPM_INNER>/@rsbuild/plugin-sass/compiled/sass-loader/index.js",
                   "options": {
                     "api": "modern-compiler",
-                    "implementation": "<WORKSPACE>/node_modules/<PNPM_INNER>/sass-embedded/dist/lib/index.js",
+                    "implementation": "<PNPM_INNER>/sass-embedded/dist/lib/index.js",
                     "sassOptions": {
                       "quietDeps": true,
                       "silenceDeprecations": [
@@ -2102,7 +2107,7 @@ exports[`builder environment compat > should generator environment config correc
               "sideEffects": true,
               "use": [
                 {
-                  "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/core/compiled/css-loader/index.js",
+                  "loader": "<PNPM_INNER>/@rsbuild/core/compiled/css-loader/index.js",
                   "options": {
                     "exportType": "string",
                     "importLoaders": 2,
@@ -2111,17 +2116,17 @@ exports[`builder environment compat > should generator environment config correc
                   },
                 },
                 {
-                  "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/plugin-sass/compiled/resolve-url-loader/index.js",
+                  "loader": "<PNPM_INNER>/@rsbuild/plugin-sass/compiled/resolve-url-loader/index.js",
                   "options": {
                     "join": [Function],
                     "sourceMap": false,
                   },
                 },
                 {
-                  "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/plugin-sass/compiled/sass-loader/index.js",
+                  "loader": "<PNPM_INNER>/@rsbuild/plugin-sass/compiled/sass-loader/index.js",
                   "options": {
                     "api": "modern-compiler",
-                    "implementation": "<WORKSPACE>/node_modules/<PNPM_INNER>/sass-embedded/dist/lib/index.js",
+                    "implementation": "<PNPM_INNER>/sass-embedded/dist/lib/index.js",
                     "sassOptions": {
                       "quietDeps": true,
                       "silenceDeprecations": [
@@ -2147,7 +2152,7 @@ exports[`builder environment compat > should generator environment config correc
               "sideEffects": true,
               "use": [
                 {
-                  "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/core/dist/ignoreCssLoader.mjs",
+                  "loader": "<PNPM_INNER>/@rsbuild/core/dist/ignoreCssLoader.mjs",
                   "options": {
                     "modules": {
                       "auto": true,
@@ -2160,7 +2165,7 @@ exports[`builder environment compat > should generator environment config correc
                   },
                 },
                 {
-                  "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/core/compiled/css-loader/index.js",
+                  "loader": "<PNPM_INNER>/@rsbuild/core/compiled/css-loader/index.js",
                   "options": {
                     "importLoaders": 2,
                     "modules": {
@@ -2175,17 +2180,17 @@ exports[`builder environment compat > should generator environment config correc
                   },
                 },
                 {
-                  "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/plugin-sass/compiled/resolve-url-loader/index.js",
+                  "loader": "<PNPM_INNER>/@rsbuild/plugin-sass/compiled/resolve-url-loader/index.js",
                   "options": {
                     "join": [Function],
                     "sourceMap": false,
                   },
                 },
                 {
-                  "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/plugin-sass/compiled/sass-loader/index.js",
+                  "loader": "<PNPM_INNER>/@rsbuild/plugin-sass/compiled/sass-loader/index.js",
                   "options": {
                     "api": "modern-compiler",
-                    "implementation": "<WORKSPACE>/node_modules/<PNPM_INNER>/sass-embedded/dist/lib/index.js",
+                    "implementation": "<PNPM_INNER>/sass-embedded/dist/lib/index.js",
                     "sassOptions": {
                       "quietDeps": true,
                       "silenceDeprecations": [
@@ -2212,9 +2217,10 @@ exports[`builder environment compat > should generator environment config correc
               "resourceQuery": /\\[\\?&\\]url\\(\\?:&\\|=\\|\\$\\)/,
               "use": [
                 {
-                  "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/core/dist/cssUrlLoader.mjs",
+                  "loader": "<PNPM_INNER>/@rsbuild/core/dist/cssUrlLoader.mjs",
                   "options": {
                     "filename": "[name].css",
+                    "minimized": false,
                     "modules": {
                       "auto": true,
                       "exportGlobals": false,
@@ -2226,7 +2232,7 @@ exports[`builder environment compat > should generator environment config correc
                   },
                 },
                 {
-                  "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/core/compiled/css-loader/index.js",
+                  "loader": "<PNPM_INNER>/@rsbuild/core/compiled/css-loader/index.js",
                   "options": {
                     "exportType": "string",
                     "importLoaders": 1,
@@ -2235,7 +2241,7 @@ exports[`builder environment compat > should generator environment config correc
                   },
                 },
                 {
-                  "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/less-loader/dist/cjs.js",
+                  "loader": "<PNPM_INNER>/less-loader/dist/cjs.js",
                   "options": {
                     "lessOptions": {
                       "javascriptEnabled": true,
@@ -2253,7 +2259,7 @@ exports[`builder environment compat > should generator environment config correc
               "sideEffects": true,
               "use": [
                 {
-                  "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/core/compiled/css-loader/index.js",
+                  "loader": "<PNPM_INNER>/@rsbuild/core/compiled/css-loader/index.js",
                   "options": {
                     "exportType": "string",
                     "importLoaders": 1,
@@ -2262,7 +2268,7 @@ exports[`builder environment compat > should generator environment config correc
                   },
                 },
                 {
-                  "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/less-loader/dist/cjs.js",
+                  "loader": "<PNPM_INNER>/less-loader/dist/cjs.js",
                   "options": {
                     "lessOptions": {
                       "javascriptEnabled": true,
@@ -2289,7 +2295,7 @@ exports[`builder environment compat > should generator environment config correc
               "sideEffects": true,
               "use": [
                 {
-                  "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/core/dist/ignoreCssLoader.mjs",
+                  "loader": "<PNPM_INNER>/@rsbuild/core/dist/ignoreCssLoader.mjs",
                   "options": {
                     "modules": {
                       "auto": true,
@@ -2302,7 +2308,7 @@ exports[`builder environment compat > should generator environment config correc
                   },
                 },
                 {
-                  "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/core/compiled/css-loader/index.js",
+                  "loader": "<PNPM_INNER>/@rsbuild/core/compiled/css-loader/index.js",
                   "options": {
                     "importLoaders": 1,
                     "modules": {
@@ -2317,7 +2323,7 @@ exports[`builder environment compat > should generator environment config correc
                   },
                 },
                 {
-                  "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/less-loader/dist/cjs.js",
+                  "loader": "<PNPM_INNER>/less-loader/dist/cjs.js",
                   "options": {
                     "lessOptions": {
                       "javascriptEnabled": true,
@@ -2404,7 +2410,7 @@ exports[`builder environment compat > should generator environment config correc
                   },
                 },
                 {
-                  "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/plugin-svgr/dist/loader.mjs",
+                  "loader": "<PNPM_INNER>/@rsbuild/plugin-svgr/dist/loader.mjs",
                   "options": {
                     "exportType": "default",
                     "svgo": true,
@@ -2472,7 +2478,7 @@ exports[`builder environment compat > should generator environment config correc
                   },
                 },
                 {
-                  "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/plugin-svgr/dist/loader.mjs",
+                  "loader": "<PNPM_INNER>/@rsbuild/plugin-svgr/dist/loader.mjs",
                   "options": {
                     "exportType": "named",
                     "svgo": true,
@@ -2492,7 +2498,7 @@ exports[`builder environment compat > should generator environment config correc
                   },
                 },
                 {
-                  "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/plugin-svgr/dist/assetLoader.mjs",
+                  "loader": "<PNPM_INNER>/@rsbuild/plugin-svgr/dist/assetLoader.mjs",
                   "options": {
                     "limit": 10000,
                     "name": "static/svg/[name].[contenthash:10].svg",
@@ -2575,7 +2581,7 @@ exports[`builder environment compat > should generator environment config correc
     ],
     "resolve": {
       "alias": {
-        "@swc/helpers": "<WORKSPACE>/node_modules/<PNPM_INNER>/@swc/helpers",
+        "@swc/helpers": "<PNPM_INNER>/@swc/helpers",
       },
       "extensionAlias": {
         ".js": [
@@ -2668,9 +2674,10 @@ exports[`builder environment compat > should generator environment config correc
               "resourceQuery": /\\[\\?&\\]url\\(\\?:&\\|=\\|\\$\\)/,
               "use": [
                 {
-                  "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/core/dist/cssUrlLoader.mjs",
+                  "loader": "<PNPM_INNER>/@rsbuild/core/dist/cssUrlLoader.mjs",
                   "options": {
                     "filename": "[name].css",
+                    "minimized": false,
                     "modules": {
                       "auto": true,
                       "exportGlobals": false,
@@ -2682,7 +2689,7 @@ exports[`builder environment compat > should generator environment config correc
                   },
                 },
                 {
-                  "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/core/compiled/css-loader/index.js",
+                  "loader": "<PNPM_INNER>/@rsbuild/core/compiled/css-loader/index.js",
                   "options": {
                     "exportType": "string",
                     "importLoaders": 0,
@@ -2700,7 +2707,7 @@ exports[`builder environment compat > should generator environment config correc
               "sideEffects": true,
               "use": [
                 {
-                  "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/core/compiled/css-loader/index.js",
+                  "loader": "<PNPM_INNER>/@rsbuild/core/compiled/css-loader/index.js",
                   "options": {
                     "exportType": "string",
                     "importLoaders": 0,
@@ -2721,7 +2728,7 @@ exports[`builder environment compat > should generator environment config correc
               "sideEffects": true,
               "use": [
                 {
-                  "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/core/dist/ignoreCssLoader.mjs",
+                  "loader": "<PNPM_INNER>/@rsbuild/core/dist/ignoreCssLoader.mjs",
                   "options": {
                     "modules": {
                       "auto": true,
@@ -2734,7 +2741,7 @@ exports[`builder environment compat > should generator environment config correc
                   },
                 },
                 {
-                  "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/core/compiled/css-loader/index.js",
+                  "loader": "<PNPM_INNER>/@rsbuild/core/compiled/css-loader/index.js",
                   "options": {
                     "importLoaders": 0,
                     "modules": {
@@ -2769,7 +2776,7 @@ exports[`builder environment compat > should generator environment config correc
               "type": "javascript/auto",
               "use": [
                 {
-                  "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/core/dist/workerLoader.mjs",
+                  "loader": "<PNPM_INNER>/@rsbuild/core/dist/workerLoader.mjs",
                 },
               ],
             },
@@ -3062,9 +3069,10 @@ exports[`builder environment compat > should generator environment config correc
               "resourceQuery": /\\[\\?&\\]url\\(\\?:&\\|=\\|\\$\\)/,
               "use": [
                 {
-                  "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/core/dist/cssUrlLoader.mjs",
+                  "loader": "<PNPM_INNER>/@rsbuild/core/dist/cssUrlLoader.mjs",
                   "options": {
                     "filename": "[name].css",
+                    "minimized": false,
                     "modules": {
                       "auto": true,
                       "exportGlobals": false,
@@ -3076,7 +3084,7 @@ exports[`builder environment compat > should generator environment config correc
                   },
                 },
                 {
-                  "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/core/compiled/css-loader/index.js",
+                  "loader": "<PNPM_INNER>/@rsbuild/core/compiled/css-loader/index.js",
                   "options": {
                     "exportType": "string",
                     "importLoaders": 2,
@@ -3085,17 +3093,17 @@ exports[`builder environment compat > should generator environment config correc
                   },
                 },
                 {
-                  "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/plugin-sass/compiled/resolve-url-loader/index.js",
+                  "loader": "<PNPM_INNER>/@rsbuild/plugin-sass/compiled/resolve-url-loader/index.js",
                   "options": {
                     "join": [Function],
                     "sourceMap": false,
                   },
                 },
                 {
-                  "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/plugin-sass/compiled/sass-loader/index.js",
+                  "loader": "<PNPM_INNER>/@rsbuild/plugin-sass/compiled/sass-loader/index.js",
                   "options": {
                     "api": "modern-compiler",
-                    "implementation": "<WORKSPACE>/node_modules/<PNPM_INNER>/sass-embedded/dist/lib/index.js",
+                    "implementation": "<PNPM_INNER>/sass-embedded/dist/lib/index.js",
                     "sassOptions": {
                       "quietDeps": true,
                       "silenceDeprecations": [
@@ -3112,7 +3120,7 @@ exports[`builder environment compat > should generator environment config correc
               "sideEffects": true,
               "use": [
                 {
-                  "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/core/compiled/css-loader/index.js",
+                  "loader": "<PNPM_INNER>/@rsbuild/core/compiled/css-loader/index.js",
                   "options": {
                     "exportType": "string",
                     "importLoaders": 2,
@@ -3121,17 +3129,17 @@ exports[`builder environment compat > should generator environment config correc
                   },
                 },
                 {
-                  "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/plugin-sass/compiled/resolve-url-loader/index.js",
+                  "loader": "<PNPM_INNER>/@rsbuild/plugin-sass/compiled/resolve-url-loader/index.js",
                   "options": {
                     "join": [Function],
                     "sourceMap": false,
                   },
                 },
                 {
-                  "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/plugin-sass/compiled/sass-loader/index.js",
+                  "loader": "<PNPM_INNER>/@rsbuild/plugin-sass/compiled/sass-loader/index.js",
                   "options": {
                     "api": "modern-compiler",
-                    "implementation": "<WORKSPACE>/node_modules/<PNPM_INNER>/sass-embedded/dist/lib/index.js",
+                    "implementation": "<PNPM_INNER>/sass-embedded/dist/lib/index.js",
                     "sassOptions": {
                       "quietDeps": true,
                       "silenceDeprecations": [
@@ -3157,7 +3165,7 @@ exports[`builder environment compat > should generator environment config correc
               "sideEffects": true,
               "use": [
                 {
-                  "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/core/dist/ignoreCssLoader.mjs",
+                  "loader": "<PNPM_INNER>/@rsbuild/core/dist/ignoreCssLoader.mjs",
                   "options": {
                     "modules": {
                       "auto": true,
@@ -3170,7 +3178,7 @@ exports[`builder environment compat > should generator environment config correc
                   },
                 },
                 {
-                  "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/core/compiled/css-loader/index.js",
+                  "loader": "<PNPM_INNER>/@rsbuild/core/compiled/css-loader/index.js",
                   "options": {
                     "importLoaders": 2,
                     "modules": {
@@ -3185,17 +3193,17 @@ exports[`builder environment compat > should generator environment config correc
                   },
                 },
                 {
-                  "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/plugin-sass/compiled/resolve-url-loader/index.js",
+                  "loader": "<PNPM_INNER>/@rsbuild/plugin-sass/compiled/resolve-url-loader/index.js",
                   "options": {
                     "join": [Function],
                     "sourceMap": false,
                   },
                 },
                 {
-                  "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/plugin-sass/compiled/sass-loader/index.js",
+                  "loader": "<PNPM_INNER>/@rsbuild/plugin-sass/compiled/sass-loader/index.js",
                   "options": {
                     "api": "modern-compiler",
-                    "implementation": "<WORKSPACE>/node_modules/<PNPM_INNER>/sass-embedded/dist/lib/index.js",
+                    "implementation": "<PNPM_INNER>/sass-embedded/dist/lib/index.js",
                     "sassOptions": {
                       "quietDeps": true,
                       "silenceDeprecations": [
@@ -3222,9 +3230,10 @@ exports[`builder environment compat > should generator environment config correc
               "resourceQuery": /\\[\\?&\\]url\\(\\?:&\\|=\\|\\$\\)/,
               "use": [
                 {
-                  "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/core/dist/cssUrlLoader.mjs",
+                  "loader": "<PNPM_INNER>/@rsbuild/core/dist/cssUrlLoader.mjs",
                   "options": {
                     "filename": "[name].css",
+                    "minimized": false,
                     "modules": {
                       "auto": true,
                       "exportGlobals": false,
@@ -3236,7 +3245,7 @@ exports[`builder environment compat > should generator environment config correc
                   },
                 },
                 {
-                  "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/core/compiled/css-loader/index.js",
+                  "loader": "<PNPM_INNER>/@rsbuild/core/compiled/css-loader/index.js",
                   "options": {
                     "exportType": "string",
                     "importLoaders": 1,
@@ -3245,7 +3254,7 @@ exports[`builder environment compat > should generator environment config correc
                   },
                 },
                 {
-                  "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/less-loader/dist/cjs.js",
+                  "loader": "<PNPM_INNER>/less-loader/dist/cjs.js",
                   "options": {
                     "lessOptions": {
                       "javascriptEnabled": true,
@@ -3263,7 +3272,7 @@ exports[`builder environment compat > should generator environment config correc
               "sideEffects": true,
               "use": [
                 {
-                  "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/core/compiled/css-loader/index.js",
+                  "loader": "<PNPM_INNER>/@rsbuild/core/compiled/css-loader/index.js",
                   "options": {
                     "exportType": "string",
                     "importLoaders": 1,
@@ -3272,7 +3281,7 @@ exports[`builder environment compat > should generator environment config correc
                   },
                 },
                 {
-                  "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/less-loader/dist/cjs.js",
+                  "loader": "<PNPM_INNER>/less-loader/dist/cjs.js",
                   "options": {
                     "lessOptions": {
                       "javascriptEnabled": true,
@@ -3299,7 +3308,7 @@ exports[`builder environment compat > should generator environment config correc
               "sideEffects": true,
               "use": [
                 {
-                  "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/core/dist/ignoreCssLoader.mjs",
+                  "loader": "<PNPM_INNER>/@rsbuild/core/dist/ignoreCssLoader.mjs",
                   "options": {
                     "modules": {
                       "auto": true,
@@ -3312,7 +3321,7 @@ exports[`builder environment compat > should generator environment config correc
                   },
                 },
                 {
-                  "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/core/compiled/css-loader/index.js",
+                  "loader": "<PNPM_INNER>/@rsbuild/core/compiled/css-loader/index.js",
                   "options": {
                     "importLoaders": 1,
                     "modules": {
@@ -3327,7 +3336,7 @@ exports[`builder environment compat > should generator environment config correc
                   },
                 },
                 {
-                  "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/less-loader/dist/cjs.js",
+                  "loader": "<PNPM_INNER>/less-loader/dist/cjs.js",
                   "options": {
                     "lessOptions": {
                       "javascriptEnabled": true,
@@ -3413,7 +3422,7 @@ exports[`builder environment compat > should generator environment config correc
                   },
                 },
                 {
-                  "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/plugin-svgr/dist/loader.mjs",
+                  "loader": "<PNPM_INNER>/@rsbuild/plugin-svgr/dist/loader.mjs",
                   "options": {
                     "exportType": "default",
                     "svgo": true,
@@ -3481,7 +3490,7 @@ exports[`builder environment compat > should generator environment config correc
                   },
                 },
                 {
-                  "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/plugin-svgr/dist/loader.mjs",
+                  "loader": "<PNPM_INNER>/@rsbuild/plugin-svgr/dist/loader.mjs",
                   "options": {
                     "exportType": "named",
                     "svgo": true,
@@ -3501,7 +3510,7 @@ exports[`builder environment compat > should generator environment config correc
                   },
                 },
                 {
-                  "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/plugin-svgr/dist/assetLoader.mjs",
+                  "loader": "<PNPM_INNER>/@rsbuild/plugin-svgr/dist/assetLoader.mjs",
                   "options": {
                     "limit": 10000,
                     "name": "static/svg/[name].[contenthash:10].svg",
@@ -3583,7 +3592,7 @@ exports[`builder environment compat > should generator environment config correc
     ],
     "resolve": {
       "alias": {
-        "@swc/helpers": "<WORKSPACE>/node_modules/<PNPM_INNER>/@swc/helpers",
+        "@swc/helpers": "<PNPM_INNER>/@swc/helpers",
       },
       "extensionAlias": {
         ".js": [

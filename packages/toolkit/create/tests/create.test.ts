@@ -24,14 +24,52 @@ afterEach(() => {
   fs.rmSync(workdir, { recursive: true, force: true });
 });
 
+describe('project tooling', () => {
+  it.each(['standalone', 'subproject'])('generates %s tooling', mode => {
+    const standalone = mode === 'standalone';
+    runCreate(['my-app', ...(standalone ? [] : ['--sub'])]);
+
+    const projectDir = path.join(workdir, 'my-app');
+    const pkg = JSON.parse(
+      fs.readFileSync(path.join(projectDir, 'package.json'), 'utf-8'),
+    );
+    expect(pkg.scripts).toEqual({
+      dev: 'modern dev',
+      build: 'modern build',
+      serve: 'modern serve',
+      ...(standalone
+        ? {
+            prepare: 'rs hooks',
+            check: 'rs check',
+            lint: 'rs lint',
+            format: 'rs fmt',
+          }
+        : {}),
+    });
+    expect(pkg.engines.node).toBe('^22.18.0 || >=24.3.0');
+    expect('rstack' in pkg.devDependencies).toBe(standalone);
+    expect(pkg.devDependencies['@biomejs/biome']).toBeUndefined();
+    expect(fs.existsSync(path.join(projectDir, 'rstack.config.mts'))).toBe(
+      standalone,
+    );
+    expect(fs.existsSync(path.join(projectDir, 'biome.json'))).toBe(false);
+    const hooksDir = path.join(projectDir, '.rstack/hooks');
+    if (standalone) {
+      expect(fs.readdirSync(hooksDir)).toEqual(['pre-commit']);
+    } else {
+      expect(fs.existsSync(hooksDir)).toBe(false);
+    }
+  });
+});
+
 describe('agent files generation', () => {
-  it('generates AGENTS.md and CLAUDE.md by default, with a hint', () => {
+  it('generates only AGENTS.md by default, with a hint', () => {
     const output = runCreate(['my-app']);
 
     const agents = path.join(workdir, 'my-app/AGENTS.md');
     const claude = path.join(workdir, 'my-app/CLAUDE.md');
     expect(fs.existsSync(agents)).toBe(true);
-    expect(fs.existsSync(claude)).toBe(true);
+    expect(fs.existsSync(claude)).toBe(false);
 
     const content = fs.readFileSync(agents, 'utf-8');
     expect(content).toContain('<!-- BEGIN:modernjs-agent-rules -->');
@@ -41,8 +79,7 @@ describe('agent files generation', () => {
     expect(content).toContain('node_modules/@modern-js/app-tools/docs/');
     expect(content).not.toContain('https://modernjs.dev');
 
-    expect(fs.readFileSync(claude, 'utf-8').trim()).toBe('@AGENTS.md');
-    expect(output).toContain('AGENTS.md & CLAUDE.md generated');
+    expect(output).toContain('AGENTS.md generated');
   });
 
   it('skips agent files with --no-agents-md and omits the hint', () => {
@@ -50,8 +87,7 @@ describe('agent files generation', () => {
 
     expect(fs.existsSync(path.join(workdir, 'my-app/package.json'))).toBe(true);
     expect(fs.existsSync(path.join(workdir, 'my-app/AGENTS.md'))).toBe(false);
-    expect(fs.existsSync(path.join(workdir, 'my-app/CLAUDE.md'))).toBe(false);
-    expect(output).not.toContain('AGENTS.md & CLAUDE.md generated');
+    expect(output).not.toContain('AGENTS.md generated');
   });
 
   it('accepts --no-agents-md after the project name', () => {
@@ -66,7 +102,7 @@ describe('agent files generation', () => {
 
     expect(fs.existsSync(path.join(workdir, 'my-app/package.json'))).toBe(true);
     expect(fs.existsSync(path.join(workdir, 'my-app/AGENTS.md'))).toBe(false);
-    expect(output).not.toContain('AGENTS.md & CLAUDE.md generated');
+    expect(output).not.toContain('AGENTS.md generated');
   });
 });
 
@@ -216,14 +252,14 @@ describe('--agents-md-only (existing projects)', () => {
     );
   });
 
-  it('creates AGENTS.md and CLAUDE.md when neither exists', () => {
+  it('creates only AGENTS.md when missing', () => {
     runCreate(['--agents-md-only']);
 
     const agents = read('AGENTS.md');
     expect(agents).toContain(BEGIN);
     expect(agents).toContain(END);
     expect(agents).toContain('node_modules/@modern-js/app-tools/docs/');
-    expect(read('CLAUDE.md').trim()).toBe('@AGENTS.md');
+    expect(fs.existsSync(path.join(workdir, 'CLAUDE.md'))).toBe(false);
   });
 
   it('refreshes the managed block in place and keeps user content', () => {
@@ -253,23 +289,11 @@ describe('--agents-md-only (existing projects)', () => {
     expect(agents.indexOf(BEGIN)).toBeLessThan(agents.indexOf('# My rules'));
   });
 
-  it('adds the @AGENTS.md import to an existing CLAUDE.md', () => {
-    fs.writeFileSync(
-      path.join(workdir, 'CLAUDE.md'),
-      '# existing claude config\nsome rule\n',
-    );
-    runCreate(['--agents-md-only']);
-
-    const claude = read('CLAUDE.md');
-    expect(claude.split('\n').some(l => l.trim() === '@AGENTS.md')).toBe(true);
-    expect(claude).toContain('some rule');
-  });
-
   it('is idempotent on a second run', () => {
     runCreate(['--agents-md-only']);
-    const first = read('AGENTS.md') + read('CLAUDE.md');
+    const first = read('AGENTS.md');
     runCreate(['--agents-md-only']);
-    const second = read('AGENTS.md') + read('CLAUDE.md');
+    const second = read('AGENTS.md');
     expect(second).toBe(first);
   });
 });
@@ -296,7 +320,6 @@ describe('docs location by version', () => {
       const output = runCreate(['--agents-md-only']);
 
       expect(fs.existsSync(path.join(workdir, 'AGENTS.md'))).toBe(false);
-      expect(fs.existsSync(path.join(workdir, 'CLAUDE.md'))).toBe(false);
       expect(output).toContain('3.8.0');
       expect(output).toContain('llms.txt');
     });
@@ -344,9 +367,9 @@ describe('docs location by version', () => {
     expect(fs.existsSync(path.join(workdir, 'AGENTS.md'))).toBe(false);
   });
 
-  it('keeps the scaffolding template in step with the generated block', () => {
+  it('keeps the Modern.js template block in step with the generated block', () => {
     // New projects copy the template; existing ones get a generated block.
-    // They must say the same thing, or the two paths drift apart.
+    // Compare the managed block, allowing extra guidance in the template.
     writePkg('3.8.0');
     runCreate(['--agents-md-only']);
 
@@ -357,7 +380,9 @@ describe('docs location by version', () => {
       fs.readFileSync(file, 'utf-8').replace(/\r\n/g, '\n').trim();
 
     expect(readNormalized(path.join(workdir, 'AGENTS.md'))).toBe(
-      readNormalized(path.resolve(__dirname, '../template/AGENTS.md')),
+      readNormalized(path.resolve(__dirname, '../template/AGENTS.md')).match(
+        /<!-- BEGIN:modernjs-agent-rules -->[\s\S]*?<!-- END:modernjs-agent-rules -->/,
+      )?.[0],
     );
   });
 });

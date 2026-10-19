@@ -64,8 +64,8 @@ i18nPlugin({
 ```ts
 i18nPlugin({
   localeDetection: {
-    localePathRedirect: true,   // 路径前缀
-    i18nextDetector: true,      // Cookie / Header 等
+    localePathRedirect: true, // 路径前缀
+    i18nextDetector: true, // Cookie / Header 等
     languages: ['zh', 'en'],
     fallbackLanguage: 'en',
     detection: {
@@ -77,39 +77,48 @@ i18nPlugin({
 
 ## 检测选项（detection）
 
-| 选项 | 类型 | 默认值 | 说明 |
-| --- | --- | --- | --- |
-| `order` | `string[]` | 见下方 | i18next 检测器内部的检测顺序 |
-| `lookupQuerystring` | `string` | `'lng'` | 查询参数键名，例如 `?lng=en` |
-| `lookupCookie` | `string` | `'i18next'` | Cookie 键名 |
-| `lookupLocalStorage` | `string` | `'i18nextLng'` | LocalStorage 键名（仅浏览器） |
-| `lookupSession` | `string` | — | SessionStorage 键名（仅浏览器） |
-| `lookupHeader` | `string` | `'accept-language'` | HTTP 请求头键名 |
-| `lookupFromPathIndex` | `number` | `0` | 从 URL 路径的第几段开始识别语言 |
-| `caches` | `false \| string[]` | — | 检测到的语言缓存到哪里，如 `['cookie']` |
-| `cookieMinutes` | `number` | `525600`（1年） | Cookie 过期时间（分钟） |
-| `cookieExpirationDate` | `Date` | — | Cookie 过期日期，优先级高于 `cookieMinutes` |
-| `cookieDomain` | `string` | — | Cookie 域名 |
+| 选项                   | 类型                | 默认值              | 说明                                        |
+| ---------------------- | ------------------- | ------------------- | ------------------------------------------- |
+| `order`                | `string[]`          | 见下方              | i18next 检测器内部的检测顺序                |
+| `lookupQuerystring`    | `string`            | `'lng'`             | 查询参数键名，例如 `?lng=en`                |
+| `lookupCookie`         | `string`            | `'i18next'`         | Cookie 键名                                 |
+| `lookupLocalStorage`   | `string`            | `'i18nextLng'`      | LocalStorage 键名（仅浏览器）               |
+| `lookupSession`        | `string`            | —                   | SessionStorage 键名（仅浏览器）             |
+| `lookupHeader`         | `string`            | `'accept-language'` | HTTP 请求头键名                             |
+| `lookupFromPathIndex`  | `number`            | `0`                 | 从 URL 路径的第几段开始识别语言             |
+| `caches`               | `false \| string[]` | —                   | 检测到的语言缓存到哪里，如 `['cookie']`     |
+| `cookieMinutes`        | `number`            | `525600`（1年）     | Cookie 过期时间（分钟）                     |
+| `cookieExpirationDate` | `Date`              | —                   | Cookie 过期日期，优先级高于 `cookieMinutes` |
+| `cookieDomain`         | `string`            | —                   | Cookie 域名                                 |
 
 **默认检测顺序（未配置 `order` 时）：**
 
 ```ts
-['querystring', 'cookie', 'localStorage', 'header', 'navigator', 'htmlTag', 'path', 'subdomain']
+[
+  'querystring',
+  'cookie',
+  'localStorage',
+  'header',
+  'navigator',
+  'htmlTag',
+  'path',
+  'subdomain',
+];
 ```
 
 **`order` 可用值：**
 
-| 值 | 检测来源 | 限制 |
-| --- | --- | --- |
-| `querystring` | URL 查询参数（`?lng=en`） | — |
-| `cookie` | Cookie | — |
-| `localStorage` | LocalStorage | 仅浏览器 |
-| `sessionStorage` | SessionStorage | 仅浏览器 |
-| `navigator` | 浏览器语言设置 | 仅浏览器 |
-| `htmlTag` | `<html lang="...">` | 仅浏览器 |
-| `header` | `Accept-Language` 请求头 | — |
-| `path` | URL 路径（需同时启用 `localePathRedirect`） | — |
-| `subdomain` | 子域名（`en.example.com`） | — |
+| 值               | 检测来源                                    | 限制     |
+| ---------------- | ------------------------------------------- | -------- |
+| `querystring`    | URL 查询参数（`?lng=en`）                   | —        |
+| `cookie`         | Cookie                                      | —        |
+| `localStorage`   | LocalStorage                                | 仅浏览器 |
+| `sessionStorage` | SessionStorage                              | 仅浏览器 |
+| `navigator`      | 浏览器语言设置                              | 仅浏览器 |
+| `htmlTag`        | `<html lang="...">`                         | 仅浏览器 |
+| `header`         | `Accept-Language` 请求头                    | —        |
+| `path`           | URL 路径（需同时启用 `localePathRedirect`） | —        |
+| `subdomain`      | 子域名（`en.example.com`）                  | —        |
 
 ## ignoreRedirectRoutes
 
@@ -118,7 +127,7 @@ i18nPlugin({
 **写法一：字符串数组**（支持精确匹配和前缀匹配）
 
 ```ts
-ignoreRedirectRoutes: ['/api', '/admin', '/static']
+ignoreRedirectRoutes: ['/api', '/admin', '/static'];
 // '/api' 会匹配 /api 和 /api/users
 ```
 

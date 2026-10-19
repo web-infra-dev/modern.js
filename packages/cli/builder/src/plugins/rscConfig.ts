@@ -78,9 +78,8 @@ export function pluginRscConfig(): RsbuildPlugin {
             // Try require.resolve first, fallback to path.resolve if it fails
             let loaderPath: string;
             try {
-              loaderPath = require.resolve(
-                '../shared/rsc/rsc-server-entry-loader',
-              );
+              loaderPath =
+                require.resolve('../shared/rsc/rsc-server-entry-loader');
             } catch {
               // Fallback for test environments where require.resolve may not work with TS files
               loaderPath = path.resolve(

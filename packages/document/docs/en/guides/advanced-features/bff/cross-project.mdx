@@ -9,6 +9,7 @@ Cross-project invocation consists of **producer** and **consumer** sides. The pr
 
 Enable cross-project invocation via configuration. Projects with BFF capabilities enabled can act as BFF producers, or you can create standalone BFF applications.
 When executing `dev` or `build`, the following artifacts for consumers will be automatically generated:
+
 - API functions under the `dist/client` directory
 - Runtime configuration functions under the `dist/runtime` directory
 - Interface exports defined in `exports` field of `package.json`
@@ -24,7 +25,7 @@ Ensure the current project has BFF enabled with API files defined under `api/lam
 export default defineConfig({
   bff: {
     crossProject: true,
-  }
+  },
 });
 ```
 
@@ -88,9 +89,9 @@ import { configure as innerConfigure } from '@modern-js/plugin-bff/client';
 import axios from 'axios';
 
 configure({
-    setDomain() {
-        return 'https://your-bff-api.com';
-    },
+  setDomain() {
+    return 'https://your-bff-api.com';
+  },
 });
 
 innerConfigure({

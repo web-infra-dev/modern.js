@@ -1,5 +1,93 @@
 # @modern-js/app-tools
 
+## 3.10.0
+
+### Patch Changes
+
+- da0fe78: chore: upgrade Rsbuild to v2.2.13
+
+  chore: 升级 Rsbuild 至 v2.2.13
+
+- 430b31e: Move the runtime script to the body before production inlining so streaming SSR hydration waits for initial router data. When runtime extraction is disabled, move the entry containing the runtime to the body and preload it from the head to preserve early downloading.
+- 14c23d0: chore: remove obsolete Jest test plugin hooks, configuration types, and the unused `testing` and `tools.jest` configuration options.
+
+  chore: 移除已废弃的 Jest 测试插件钩子、配置类型以及无用的 `testing` 和 `tools.jest` 配置项。
+
+- 7d9f0bb: chore(deps): upgrade Rsbuild to v2.2.12.
+
+  chore(deps): 升级 Rsbuild 到 v2.2.12。
+
+- Updated dependencies [da0fe78]
+- Updated dependencies [b5f56d5]
+- Updated dependencies [14c23d0]
+- Updated dependencies [9a766ec]
+- Updated dependencies [1d7a38e]
+- Updated dependencies [7d9f0bb]
+  - @modern-js/plugin-data-loader@3.10.0
+  - @modern-js/plugin@3.10.0
+  - @modern-js/builder@3.10.0
+  - @modern-js/server-core@3.10.0
+  - @modern-js/types@3.10.0
+  - @modern-js/server@3.10.0
+  - @modern-js/prod-server@3.10.0
+  - @modern-js/server-utils@3.10.0
+  - @modern-js/utils@3.10.0
+  - @modern-js/i18n-utils@3.10.0
+
+## 3.9.3
+
+### Patch Changes
+
+- 9f475f6: chore: upgrade Rsbuild to v2.2.9
+
+  chore: 升级 Rsbuild 至 v2.2.9
+
+- b721140: Remove the programmatic `build` and `deploy` exports and restore CLI-owned
+  build and deploy lifecycles. Programmatic dev and start calls no longer change
+  CLI-only initialization behavior, and completed non-watch builds are no longer
+  closed automatically. Keep the public `closeServer` API and `DeployOptions`
+  type.
+- Updated dependencies [9f475f6]
+- Updated dependencies [1dcb43c]
+- Updated dependencies [283dc5a]
+- Updated dependencies [a851cf4]
+  - @modern-js/plugin-data-loader@3.9.3
+  - @modern-js/plugin@3.9.3
+  - @modern-js/builder@3.9.3
+  - @modern-js/server-core@3.9.3
+  - @modern-js/server@3.9.3
+  - @modern-js/prod-server@3.9.3
+  - @modern-js/server-utils@3.9.3
+  - @modern-js/i18n-utils@3.9.3
+  - @modern-js/types@3.9.3
+  - @modern-js/utils@3.9.3
+
+## 3.9.2
+
+### Patch Changes
+
+- b4dec57: chore: upgrade Rsbuild to v2.2.6
+
+  chore: 升级 Rsbuild 至 v2.2.6
+
+- e2bbad2: chore: upgrade Rsbuild to v2.2.7
+
+  chore: 升级 Rsbuild 至 v2.2.7
+
+- 6a50153: fix(app-tools): remove `@modern-js/server-runtime` from the SSR bundle externals
+- Updated dependencies [b4dec57]
+- Updated dependencies [e2bbad2]
+  - @modern-js/plugin-data-loader@3.9.2
+  - @modern-js/plugin@3.9.2
+  - @modern-js/builder@3.9.2
+  - @modern-js/server-core@3.9.2
+  - @modern-js/server@3.9.2
+  - @modern-js/prod-server@3.9.2
+  - @modern-js/server-utils@3.9.2
+  - @modern-js/i18n-utils@3.9.2
+  - @modern-js/types@3.9.2
+  - @modern-js/utils@3.9.2
+
 ## 3.9.1
 
 ### Patch Changes

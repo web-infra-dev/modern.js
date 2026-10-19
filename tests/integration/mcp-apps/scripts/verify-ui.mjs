@@ -9,6 +9,12 @@ const browser = await puppeteer.launch({
 try {
   const page = await browser.newPage();
   page.on('pageerror', error => console.error(error));
+  page.on('console', message => {
+    if (message.type() === 'error') console.error(message.text());
+  });
+  page.on('requestfailed', request =>
+    console.error(request.url(), request.failure()?.errorText),
+  );
   await page.goto(process.argv[2]);
   await page.waitForFunction(
     () =>

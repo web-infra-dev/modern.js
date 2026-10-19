@@ -1,5 +1,5 @@
 import { pluginReact } from '@rsbuild/plugin-react';
-import type { RslibConfig } from '@rslib/core';
+import type { RslibConfig } from 'rstack/lib';
 
 export const rslibConfig: RslibConfig = {
   plugins: [pluginReact()],
@@ -53,9 +53,6 @@ export const rslibConfig: RslibConfig = {
           root: './dist/esm',
         },
         target: 'web' as const,
-      },
-      dts: {
-        distPath: 'dist/types',
       },
     },
     {

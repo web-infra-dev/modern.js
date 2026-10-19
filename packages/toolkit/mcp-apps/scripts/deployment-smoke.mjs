@@ -54,13 +54,18 @@ try {
     path.join(temp, 'index.mjs'),
   );
   await cp(
-    path.join(repoRoot, 'examples/mcp-apps-modern/dist'),
+    path.join(repoRoot, 'examples/my-mcp-app-v2/dist'),
     path.join(temp, 'application'),
     { recursive: true },
   );
   await writeFile(
     path.join(temp, 'application/package.json'),
-    JSON.stringify({ type: 'commonjs' }),
+    JSON.stringify({
+      ...JSON.parse(
+        await readFile(path.join(temp, 'application/package.json'), 'utf8'),
+      ),
+      type: 'commonjs',
+    }),
   );
   const installed = JSON.parse(
     await readFile(
@@ -97,7 +102,7 @@ try {
       `
     const assert = require('node:assert/strict');
     const { loadMcpAppsConfig, bindUiResources, createMcpHandler } = require('@modern-js/mcp-apps/server');
-    loadMcpAppsConfig(require('node:path').resolve('application/api/mcp_apps.js')).then(definition => createMcpHandler(bindUiResources(definition, { directory: require('node:path').resolve('application/mcp-apps/ui'), assetBase: 'request' }))(new Request('http://localhost/mcp', { method: 'POST', headers: { 'content-type': 'application/json', accept: 'application/json, text/event-stream' }, body: JSON.stringify({ jsonrpc: '2.0', id: 1, method: 'resources/read', params: { uri: 'ui://local/greet' } }) }))).then(async response => {
+    loadMcpAppsConfig(require('node:path').resolve('application/mcp_apps.js')).then(definition => createMcpHandler(bindUiResources(definition, { directory: require('node:path').resolve('application/mcp-apps/ui'), assetBase: 'request' }))(new Request('http://localhost/mcp', { method: 'POST', headers: { 'content-type': 'application/json', accept: 'application/json, text/event-stream' }, body: JSON.stringify({ jsonrpc: '2.0', id: 1, method: 'resources/read', params: { uri: 'ui://local/greet' } }) }))).then(async response => {
       const result = await response.json();
       assert.ok(result.result.contents[0].text.includes('<script'));
     }).catch(error => { console.error(error); process.exitCode = 1; });
@@ -111,7 +116,7 @@ try {
       ...process.env,
       HOST: '127.0.0.1',
       PORT: '0',
-      MCP_APPS_CONFIG: path.join(temp, 'application/api/mcp_apps.js'),
+      MCP_APPS_CONFIG: path.join(temp, 'application/mcp_apps.js'),
     },
     stdio: ['ignore', 'pipe', 'pipe'],
   });
@@ -164,7 +169,7 @@ try {
   });
   assert.equal(result.structuredContent.message, 'Hello, Independent server!');
   const resource = await rpc('resources/read', {
-    uri: listed.tools[0]._meta.ui.resourceUri,
+    uri: listed.tools.find(tool => tool.name === 'greet')._meta.ui.resourceUri,
   });
   assert.ok(resource.contents[0].text.includes('<script'));
   for (const match of resource.contents[0].text.matchAll(

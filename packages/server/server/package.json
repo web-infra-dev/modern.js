@@ -15,7 +15,7 @@
     "modern",
     "modern.js"
   ],
-  "version": "3.9.1",
+  "version": "3.10.0",
   "types": "./src/index.ts",
   "main": "./dist/cjs/index.js",
   "exports": {
@@ -38,8 +38,8 @@
   },
   "scripts": {
     "prepublishOnly": "only-allow-pnpm",
-    "build": "rslib build",
-    "dev": "rslib build --watch",
+    "build": "rs lib",
+    "dev": "rs lib --watch",
     "test": "rstest"
   },
   "dependencies": {
@@ -49,23 +49,22 @@
     "@modern-js/types": "workspace:*",
     "@modern-js/utils": "workspace:*",
     "@swc/helpers": "^0.5.17",
-    "axios": "^1.15.2",
+    "axios": "^1.20.0",
     "connect-history-api-fallback": "^2.0.0",
     "http-compression": "1.0.6",
     "minimatch": "^3.1.5",
     "path-to-regexp": "^6.3.0",
-    "ws": "^8.21.3"
+    "ws": "^8.22.0"
   },
   "devDependencies": {
     "@modern-js/builder": "workspace:*",
     "@modern-js/rslib": "workspace:*",
-    "@rslib/core": "1.0.1",
     "@scripts/rstest-config": "workspace:*",
     "@types/connect-history-api-fallback": "^1.5.4",
     "@types/minimatch": "^3.0.5",
     "@types/node": "^20",
-    "@types/ws": "^8.18.1",
-    "node-mocks-http": "^1.17.2",
+    "@types/ws": "^8.18.2",
+    "node-mocks-http": "^1.18.1",
     "ts-node": "^10.9.2",
     "tsconfig-paths": "4.2.0",
     "typescript": "^5",

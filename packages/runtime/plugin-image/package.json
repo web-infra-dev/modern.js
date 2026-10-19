@@ -1,6 +1,6 @@
 {
   "name": "@modern-js/image",
-  "version": "3.9.1",
+  "version": "3.10.0",
   "type": "module",
   "main": "./dist/index.cjs",
   "types": "./dist/index.d.ts",
@@ -34,21 +34,20 @@
     "dist"
   ],
   "scripts": {
-    "build": "rslib build",
-    "dev": "rslib build --watch"
+    "build": "rs lib",
+    "dev": "rs lib --watch"
   },
   "dependencies": {
     "@rsbuild-image/core": "0.0.1-next.16",
     "@rsbuild-image/react": "0.0.1-next.16",
-    "ipx": "^3.1.1",
-    "sharp": "^0.35.4"
+    "ipx": "^3.1.2",
+    "sharp": "^0.35.5"
   },
   "devDependencies": {
     "@modern-js/app-tools": "workspace:*",
-    "@rslib/core": "1.0.1",
     "@types/node": "^20",
-    "react": "^19.2.8",
-    "react-dom": "^19.2.8",
+    "react": "^19.3.1",
+    "react-dom": "^19.3.1",
     "typescript": "^5"
   }
 }

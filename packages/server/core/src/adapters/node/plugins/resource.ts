@@ -59,26 +59,50 @@ export function injectTemplates(
   };
 }
 
-const loadBundle = async (filepath: string, monitors?: Monitors) => {
-  if (!(await fs.pathExists(filepath))) {
+function reportBundleError(
+  filepath: string,
+  error: unknown,
+  monitors?: Monitors,
+) {
+  const detail = error instanceof Error ? error.stack || error.message : error;
+  if (monitors) {
+    monitors.error(`Load ${filepath} bundle failed, error = %s`, detail);
+  } else {
+    console.error(`Load ${filepath} bundle failed, error = ${detail}`);
+  }
+}
+
+const loadBundle = async (
+  filepath: string,
+  monitors?: Monitors,
+  { required = false, failOnError = false } = {},
+) => {
+  // Required bundles go through the module loader even when absent, preserving
+  // its original error code, message and stack. Optional bundles may be absent.
+  if (!required && !failOnError && !(await fs.pathExists(filepath))) {
     return undefined;
   }
 
   try {
+    if (!required && failOnError) {
+      try {
+        await fs.access(filepath);
+      } catch (e) {
+        const code = (e as NodeJS.ErrnoException)?.code;
+        if (code === 'ENOENT' || code === 'ENOTDIR') {
+          return undefined;
+        }
+        // pathExists also returns false for access errors. In strict warmup,
+        // only actual absence is optional, not permissions or other I/O errors.
+        throw e;
+      }
+    }
     const module = await compatibleRequire(filepath, false);
     return module;
   } catch (e) {
-    if (monitors) {
-      monitors.error(
-        `Load ${filepath} bundle failed, error = %s`,
-        e instanceof Error ? e.stack || e.message : e,
-      );
-    } else {
-      console.error(
-        `Load ${filepath} bundle failed, error = ${
-          e instanceof Error ? e.stack || e.message : e
-        }`,
-      );
+    reportBundleError(filepath, e, monitors);
+    if (failOnError) {
+      throw e;
     }
     return undefined;
   }
@@ -88,6 +112,7 @@ export async function getServerManifest(
   pwd: string,
   routes: ServerRoute[],
   monitors?: Monitors,
+  { failOnError = false } = {},
 ): Promise<ServerManifest> {
   const loaderBundles: Record<string, any> = {};
   const renderBundles: Record<string, any> = {};
@@ -96,6 +121,9 @@ export async function getServerManifest(
     routes
       .filter(route => Boolean(route.bundle))
       .map(async route => {
+        // SSG can attach a bundle path even to static-file routes. A declared
+        // path alone does not make that route a required SSR render entry.
+        const failOnBundleError = failOnError && Boolean(route.isSSR);
         const entryName = route.entryName || MAIN_ENTRY_NAME;
         const renderBundlePath = path.join(pwd, route.bundle || '');
         const loaderBundlePath = path.join(
@@ -104,14 +132,27 @@ export async function getServerManifest(
           `${entryName}-server-loaders.js`,
         );
 
-        const renderBundle = await loadBundle(renderBundlePath, monitors);
-        const loaderBundle = await loadBundle(loaderBundlePath, monitors);
+        const renderBundle = await loadBundle(renderBundlePath, monitors, {
+          required: failOnBundleError,
+          failOnError: failOnBundleError,
+        });
+        const loaderBundle = await loadBundle(loaderBundlePath, monitors, {
+          failOnError: failOnBundleError,
+        });
 
         renderBundle && (renderBundles[entryName] = renderBundle);
-        loaderBundle &&
-          (loaderBundles[entryName] = loaderBundle?.loadModules
-            ? await loaderBundle?.loadModules()
-            : loaderBundle);
+        if (loaderBundle) {
+          try {
+            loaderBundles[entryName] = loaderBundle.loadModules
+              ? await loaderBundle.loadModules()
+              : loaderBundle;
+          } catch (e) {
+            if (failOnBundleError) {
+              reportBundleError(loaderBundlePath, e, monitors);
+            }
+            throw e;
+          }
+        }
       }),
   );
 
@@ -219,7 +260,7 @@ export const injectResourcePlugin = (): ServerPlugin => ({
   name: '@modern-js/plugin-inject-resource',
 
   setup(api) {
-    api.onPrepare(() => {
+    api.onPrepare(async () => {
       const {
         middlewares,
         routes,
@@ -231,8 +272,19 @@ export const injectResourcePlugin = (): ServerPlugin => ({
       let manifestPromise: Promise<ServerManifest> | undefined;
 
       if (isProd()) {
-        manifestPromise = getServerManifest(pwd!, routes || [], undefined);
+        const warmupRoutes = routes || [];
+        // Keep CSR-only and RSC startup behavior unchanged. Only await the
+        // existing classic SSR warmup; do not eagerly import lazy route modules.
+        const failOnError =
+          warmupRoutes.some(route => route.isSSR && route.bundle) &&
+          !warmupRoutes.some(route => route.isRSC);
+        manifestPromise = getServerManifest(pwd!, warmupRoutes, undefined, {
+          failOnError,
+        });
         htmlTemplatePromise = getHtmlTemplates(pwd!, routes || []);
+        if (failOnError) {
+          await manifestPromise;
+        }
       }
 
       middlewares.push({

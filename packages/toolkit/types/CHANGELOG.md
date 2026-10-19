@@ -1,5 +1,17 @@
 # @modern-js/types
 
+## 3.10.0
+
+### Patch Changes
+
+- 14c23d0: chore: remove obsolete Jest test plugin hooks, configuration types, and the unused `testing` and `tools.jest` configuration options.
+
+  chore: 移除已废弃的 Jest 测试插件钩子、配置类型以及无用的 `testing` 和 `tools.jest` 配置项。
+
+## 3.9.3
+
+## 3.9.2
+
 ## 3.9.1
 
 ## 3.9.0

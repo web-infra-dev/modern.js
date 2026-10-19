@@ -22,6 +22,18 @@ server: {
 }
 ```
 
+### dev.lazyCompilation
+
+**变更内容**：开发环境下的默认值变化。纯 CSR 与流式 SSR 应用默认开启按需编译，默认值为 `{ imports: true, entries: false }`；使用 string SSR、RSC 或 SSG 的应用仍默认关闭。该变更只影响开发环境，不影响生产构建产物。
+
+**迁移示例**：如需保持 2.0 的行为，可以显式关闭：
+
+```typescript
+dev: {
+  lazyCompilation: false;
+}
+```
+
 ## html
 
 ### html.appIcon

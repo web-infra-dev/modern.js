@@ -25,9 +25,7 @@ Modern.js 推荐使用[约定式路由](/guides/basic-features/routes/routes)做
 在 `routes/user/page.data.ts` 文件中，可以导出一个 `loader` 函数：
 
 ```ts title="routes/user/page.data.ts"
-export type ProfileData = {
-  /*  some types */
-};
+export type ProfileData = {/*  some types */};
 
 export const loader = async (): Promise<ProfileData> => {
   const res = await fetch('https://api/user/profile');

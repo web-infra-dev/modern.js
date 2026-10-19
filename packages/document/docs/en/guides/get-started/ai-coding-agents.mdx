@@ -15,10 +15,10 @@ AI agents use them to get APIs, config, and conventions that exactly match your 
 
 ## AGENTS.md
 
-`AGENTS.md` gives AI coding agents project-level guidance — telling them to read the bundled docs before making changes and to follow Modern.js conventions. A `CLAUDE.md` is generated alongside it, reusing the same guidance for Claude Code via the `@AGENTS.md` import.
+`AGENTS.md` gives AI coding agents project-level guidance — telling them to read the bundled docs before making changes and to follow Modern.js conventions.
 
-- **New projects**: `npx @modern-js/create` generates both files by default; pass `--no-agents-md` to skip them.
-- **Existing projects**: run `npx @modern-js/create --agents-md-only` at the project root to create or update them. Re-run it any time; your own additions are preserved.
+- **New projects**: `npx @modern-js/create` generates `AGENTS.md` by default; pass `--no-agents-md` to skip it.
+- **Existing projects**: run `npx @modern-js/create --agents-md-only` at the project root to create or update `AGENTS.md`. Re-run it any time; your own additions are preserved.
 
 Modern.js only maintains the content inside the `<!-- BEGIN:modernjs-agent-rules -->` markers in `AGENTS.md`; anything you write outside them is left untouched.
 
@@ -35,9 +35,9 @@ Use it when you need content beyond the bundled docs — just let your agent ret
 
 Skills are on-demand AI capabilities following the [Agent Skills open standard](https://github.com/vercel-labs/skills). User-facing Skills:
 
-| Skill | Identifier | Description |
-|---|---|---|
-| Upgrade to v3 | `modernjs-migrate-to-v3` | Migrate a v2 app to v3: safe rewrites + manual checklist + migration report |
+| Skill           | Identifier                | Description                                                                                     |
+| --------------- | ------------------------- | ----------------------------------------------------------------------------------------------- |
+| Upgrade to v3   | `modernjs-migrate-to-v3`  | Migrate a v2 app to v3: safe rewrites + manual checklist + migration report                     |
 | Enable features | `modernjs-feature-enable` | Enable BFF / SSG / styled-components for v3 apps, and scaffold Tailwind CSS / custom Web Server |
 
 > Skills are not force-installed or implicitly installed — you install them explicitly. RSC and micro-frontend setups are configuration or architecture decisions, not one-click `modernjs-feature-enable` actions.
