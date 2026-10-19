@@ -134,3 +134,5 @@ export function registerGreeting(server) {
 非 Node Server 可以直接读取 JSON manifest，返回相同的 UI 资源和工具结果结构。若自行返回 HTML，也需要处理 base 地址和 CSP，确保脚本及样式可以加载。
 
 集成模式同样输出 manifest，生产 BFF 优先使用其中的 HTML 映射。开发首次编译前和缺少 manifest 的旧产物继续使用约定路径绑定。
+
+使用 `ui-only` 时也可以打开开发调试页，先模拟参数和 viewProps 预览本地卡片，或切换到 Live server 连接自建 MCP Server。详见[本地调试](./debugging)。

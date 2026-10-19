@@ -2,6 +2,32 @@
 
 Run `modern dev` and open the Debug URL printed in the terminal, normally `http://localhost:8080/__mcp_debug`. This entry is generated only in development and is excluded from production builds.
 
+## Debug workspace
+
+The debugger uses three independently scrolling columns and stacks them on narrow screens:
+
+| Area | Purpose |
+| --- | --- |
+| Left | Search and select tools, edit arguments below the tool list, and run calls |
+| Center | Preview the real UI card and interact with it |
+| Right | Inspect request logs and the latest complete tool response |
+
+ENDPOINT displays the full server URL, such as `http://localhost:8080/mcp`. Opening the page connects automatically and selects the first tool without executing a business tool. Edit the URL and reconnect to use another endpoint.
+
+## Fill arguments from inputSchema
+
+Selecting a tool displays its property names, types, required or optional markers and descriptions. The debugger generates editable JSON using default, examples, const or enum values where available, and placeholders otherwise. When a required list exists, the template includes required fields and fields with defaults. Add optional fields manually as needed.
+
+For `greet`, replace the empty string with a name:
+
+```json
+{
+  "name": "Ada"
+}
+```
+
+Use standard JSON with double-quoted keys and strings. JavaScript object literals such as `{name: 'Ada'}` are not accepted. Generated templates do not guarantee validity against every Schema constraint. Edit them for your tool and expand **Tool schema and UI resource** to inspect the complete Schema.
+
 ## Call tools and preview cards
 
 1. The page automatically connects to the default MCP endpoint and lists tools. Click **Connect & discover** to retry or connect after changing the address.

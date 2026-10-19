@@ -206,6 +206,8 @@ When using these types:
 | ---------- | ------------- | -------------------------------------------------------------------------------------- |
 | `config`   | `mcp_apps.ts` | Definition relative to the project root                                                |
 | `endpoint` | `/mcp`        | Full route path independent of the BFF prefix; `false` disables automatic registration |
+| `debug` | `true` | Generate the development-only `/__mcp_debug` page. Set to `false` to disable. See [Local debugging](./debugging) |
+| `mode` | `integrated` | Use `ui-only` to build UI resources without BFF. See [Use a user-managed MCP Server](./custom-server) |
 
 Development watches the definition file and reloads it after changes; production reads the compiled definition. Automatic routes must not conflict with existing BFF paths. Authentication middleware should run before BFF; handler `context.context` is the request-local Hono Context.
 

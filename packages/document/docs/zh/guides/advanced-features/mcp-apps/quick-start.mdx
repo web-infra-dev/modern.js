@@ -144,3 +144,7 @@ MF 资源使用公开 assetPrefix 时，请使用 manifest 的实际 publicPath 
 在宿主调用 `list_tasks` 打开看板，通过 `create_task({ title })` 创建任务，通过 `update_task({ id, status })` 切换为 `todo`、`in_progress` 或 `done`。卡片写入后再次查询服务端，并显示真实调用参数、结果与耗时。普通首页只是只读预览。
 
 任务默认保存在工作目录 `.mcp-demo/tasks.json`，可通过 `MCP_TASKS_FILE` 指定路径。同一存储路径下重启后保留，单进程最多 100 个任务。这是无认证的共享演示，多用户隔离和多实例持久化需要应用自行实现。
+
+## 在本地调试工具与卡片
+
+运行 `modern dev` 后，打开启动日志中的 Debug 地址。调试页自动连接 MCP endpoint，可根据 inputSchema 填写参数、执行工具、预览 UI，并在右侧查看 `tools/call`、`resources/read` 等请求日志。详见[本地调试](./debugging)。

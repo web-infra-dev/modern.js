@@ -203,6 +203,8 @@ export type RemoteToolHandler = (
 | ---------- | ------------- | --------------------------------------------------- |
 | `config`   | `mcp_apps.ts` | 相对项目根目录的定义文件                            |
 | `endpoint` | `/mcp`        | 独立于 BFF 前缀的完整路由路径；`false` 关闭自动注册 |
+| `debug` | `true` | 开发环境生成 `/__mcp_debug` 调试页，设为 `false` 关闭，详见[本地调试](./debugging) |
+| `mode` | `integrated` | `ui-only` 仅构建 UI 资源，不依赖 BFF，详见[接入自建 MCP Server](./custom-server) |
 
 开发时监听定义文件，更新后重新加载；生产环境读取构建后的定义。自动路由不能与已有 BFF 路径冲突。鉴权中间件应在 BFF 路由之前执行，handler 的 `context.context` 是当前请求的 Hono Context。
 

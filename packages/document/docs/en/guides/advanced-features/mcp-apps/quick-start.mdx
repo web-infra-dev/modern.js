@@ -145,3 +145,7 @@ The generated definition uses `defineMcpServer` with `name` and `version` from `
 Call `list_tasks` in a host to open the board, `create_task({ title })` to create a task, and `update_task({ id, status })` to select `todo`, `in_progress`, or `done`. The card reads server state after writes and shows actual call arguments, results, and timing. The ordinary homepage is a read-only preview.
 
 Tasks default to `.mcp-demo/tasks.json` in the working directory. Set `MCP_TASKS_FILE` to override the path. Data survives restarts at the same path, with a limit of 100 tasks per process. This is an unauthenticated shared demo. Applications must implement user isolation and storage for multiple instances.
+
+## Debug tools and cards locally
+
+After `modern dev`, open the Debug URL printed in the terminal. The debugger connects automatically, generates argument templates from inputSchema, runs tools, previews cards and displays request logs such as `tools/call` and `resources/read` in the right column. See [Local debugging](./debugging).
