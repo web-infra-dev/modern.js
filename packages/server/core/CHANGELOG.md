@@ -1,5 +1,14 @@
 # @modern-js/server-plugin
 
+## 3.10.1
+
+### Patch Changes
+
+- e046a11: Pass the server-core fileReader singleton from the runtime server into development helpers so HTML templates, static resources, compiler filesystem initialization and rebuild invalidation use the same reader even when the two packages resolve different runtime-utils copies.
+  - @modern-js/plugin@3.10.1
+  - @modern-js/runtime-utils@3.10.1
+  - @modern-js/utils@3.10.1
+
 ## 3.10.0
 
 ### Patch Changes
