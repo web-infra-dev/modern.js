@@ -1,5 +1,6 @@
 import fs from 'node:fs/promises';
 import path from 'node:path';
+import { createRequire } from 'node:module';
 import type { AppTools, CliPlugin } from '@modern-js/app-tools';
 import type { McpAppsDefinition } from '@modern-js/mcp-apps/config';
 import { createUiManifest, getUiEntryName } from '@modern-js/mcp-apps/server';
@@ -15,15 +16,23 @@ export interface BuiltView {
 export function setupMcpUi(
   api: Parameters<NonNullable<CliPlugin<AppTools>['setup']>>[0],
   configPath: () => string,
+  options: { endpoint?: string | false; debug?: boolean } = {},
 ) {
   const entries = new Map<string, string>();
   let localRemotes: string[] = [];
+  let debugEnabled = false;
   let definition: McpAppsDefinition;
   const views: Record<string, BuiltView> = Object.create(null);
   api.onBeforePrintInstructions(({ instructions }) => ({
     instructions: instructions
       .split('\n')
       .filter(line => ![...entries.keys()].some(name => line.includes(name)))
+      .filter(
+        line =>
+          !debugEnabled ||
+          !line.includes('__mcp_debug') ||
+          line.includes('> Debug:'),
+      )
       .join('\n'),
   }));
   api.modifyEntrypoints(async ({ entrypoints }) => {
@@ -31,6 +40,9 @@ export function setupMcpUi(
     for (const key of Object.keys(views)) delete views[key];
     const ctx = api.getAppContext();
     const config = api.getNormalizedConfig();
+    const appRequire = createRequire(
+      path.join(ctx.appDirectory, 'package.json'),
+    );
     const loaded = await createLoadedConfig<McpAppsDefinition>(
       ctx.appDirectory,
       configPath(),
@@ -62,7 +74,7 @@ export function setupMcpUi(
         .resolve(ctx.appDirectory, tool.view.module)
         .split(path.sep)
         .join('/');
-      const source = `import { createMcpView } from '@modern-js/mcp-apps/react';
+      const source = `import { createMcpView } from ${JSON.stringify(appRequire.resolve('@modern-js/mcp-apps/react'))};
 import { ${tool.view.exportName ?? definition.viewDefaults?.exportName ?? 'default'} as View } from ${JSON.stringify(component)};
 export default createMcpView(View, ${JSON.stringify({ name: tool.name, version: '1.0.0' })});
 `;
@@ -86,6 +98,38 @@ export default createMcpView(View, ${JSON.stringify({ name: tool.name, version: 
             ? `${prefix.replace(/\/+$/, '')}/`
             : 'request',
       };
+    }
+    debugEnabled =
+      options.debug !== false && ['dev', 'start'].includes(ctx.command);
+    if (debugEnabled) {
+      const entryName = '__mcp_debug';
+      if (entrypoints.some(entry => entry.entryName === entryName)) {
+        throw new Error(
+          'MCP debugger entry conflicts with application entry: __mcp_debug',
+        );
+      }
+      const entry = path.join(ctx.internalDirectory, 'mcp-ui', 'debug.jsx');
+      const props = {
+        endpoint: options.endpoint || '',
+        views: [...entries].map(([name, tool]) => ({
+          name: tool,
+          url: `/${name}`,
+        })),
+      };
+      await fs.mkdir(path.dirname(entry), { recursive: true });
+      await fs.writeFile(
+        entry,
+        `import { McpDebugger } from ${JSON.stringify(appRequire.resolve('@modern-js/mcp-apps/debug'))};
+export default function DebugPage() { return <McpDebugger {...${JSON.stringify(props)}} />; }
+`,
+      );
+      entrypoints.push({
+        entryName,
+        entry,
+        isMainEntry: false,
+        isAutoMount: true,
+        absoluteEntryDir: path.dirname(entry),
+      });
     }
     return { entrypoints };
   });

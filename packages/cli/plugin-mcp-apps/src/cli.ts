@@ -32,8 +32,10 @@ export const mcpAppsPlugin = (
         ? false
         : endpointPath(options.endpoint);
     api.onBeforePrintInstructions(({ instructions }) => {
-      if (endpoint === false) return { instructions };
-      const { port } = api.getAppContext();
+      const { port, command } = api.getAppContext();
+      const debug =
+        options.debug !== false && ['dev', 'start'].includes(command);
+      if (endpoint === false && !debug) return { instructions };
       if (port === undefined) return { instructions };
       const config = api.getNormalizedConfig();
       const devServer = config.tools.devServer;
@@ -44,14 +46,17 @@ export const mcpAppsPlugin = (
           devServer.https)
           ? 'https'
           : 'http';
-      const addresses = getAddressUrls(protocol, port, config.dev.host);
+      const host = config.dev.host;
+      const [{ url }] = getAddressUrls(
+        protocol,
+        port,
+        !host || host === '0.0.0.0' ? 'localhost' : host,
+      );
       return {
-        instructions: `${instructions}${addresses
-          .map(({ label, url }) => `  > MCP ${label}${url}${endpoint}\n`)
-          .join('')}`,
+        instructions: `${instructions}${endpoint ? `  > MCP:    ${url}${endpoint}\n` : ''}${debug ? `  > Debug:  ${url}/__mcp_debug\n` : ''}`,
       };
     });
-    setupMcpUi(api, configPath);
+    setupMcpUi(api, configPath, { endpoint, debug: options.debug });
     api.addWatchFiles(() => [configPath()]);
     api.onAfterBuild(async () => {
       if (endpoint === false) return;

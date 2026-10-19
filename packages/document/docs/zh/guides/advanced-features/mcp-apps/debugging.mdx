@@ -1,0 +1,39 @@
+# 本地调试
+
+运行 `modern dev` 后，打开启动日志中的 Debug 地址，默认是 `http://localhost:8080/__mcp_debug`。调试页仅在开发环境生成，生产构建不包含该入口。
+
+## 调用工具并预览卡片
+
+1. 进入页面后自动连接默认 MCP endpoint 并读取工具列表。失败重试或修改地址后，点击 **Connect & discover** 重新连接。
+2. 选择工具，展开 **Tool schema and UI resource** 查看参数定义和 UI 资源 URI。
+3. 在 **Arguments (JSON)** 中填写工具参数，例如 `greet` 的 `{"name":"Ada"}`。
+4. 点击 **Run tool**，查看执行状态、耗时和完整返回结果。
+5. 带 UI 的工具执行成功后，会读取对应 HTML，并在 **Card preview** 中加载卡片。
+
+调试页通过真实的 MCP endpoint 调用工具，卡片通过官方 AppBridge 完成握手和数据传递。卡片发起的工具调用也会转发给该 endpoint，因此任务管理等交互可以继续操作。执行会产生工具本身的业务效果。
+
+参数 JSON、HTTP、MCP 和卡片通信错误会显示在错误区域。工具返回的 `isError` 会显示为工具错误，不加载新卡片。浏览器中的脚本加载错误和 CSP 错误仍需查看开发者工具控制台。
+
+## 只预览本地 UI
+
+启用 `mcpAppsPlugin({ mode: 'ui-only' })` 时，调试页默认选择 **Simulate local UI**。
+
+选择本地视图，在 **Arguments (JSON)** 中输入工具参数，在 **View props (JSON)** 中输入服务端原本会返回的 `viewProps`，点击 **Preview card**。
+
+模拟模式无需 MCP Server，只验证卡片渲染和宿主握手。它不执行业务 handler，也不支持卡片继续调用服务端工具。需要完整验证时，取消模拟模式，填写已有 Server 的 MCP endpoint 并连接。跨域 endpoint 需要服务端允许调试页的 Origin 并配置 CORS。
+
+模拟列表包含本地构建的组件视图，MF 和显式 HTML 视图通过真实 endpoint 调试。
+
+## 关闭调试页
+
+```ts
+mcpAppsPlugin({ debug: false })
+```
+
+调试宿主用于本地验证，不等同于目标产品宿主。发布前仍需在目标宿主验证卡片、网络权限和交互兼容性。
+
+## 请求日志
+
+右侧的 **Request logs** 显示当前页面最近 100 次 MCP 请求，包括初始化、工具发现、工具调用和资源读取。卡片内发起的工具调用也会记录，并标记为 Card → Server。
+
+每条日志展示时间、方法、状态和耗时，展开后可查看 endpoint、请求参数及响应结果。可以筛选 Tool calls、Resource reads 或 Errors，点击 Clear 清空。日志只保留在当前页面内存中，刷新后清除。较大的响应会截断显示。

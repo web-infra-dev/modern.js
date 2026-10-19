@@ -49,12 +49,18 @@
       "modern:source": "./src/bff.ts",
       "import": "./dist/esm-node/bff.mjs",
       "require": "./dist/cjs/bff.cjs"
+    },
+    "./debug": {
+      "types": "./dist/types/debug.d.ts",
+      "modern:source": "./src/debug.tsx",
+      "import": "./dist/esm/debug.mjs",
+      "default": "./dist/esm/debug.mjs"
     }
   },
   "scripts": {
     "build": "rslib build && pnpm build:runtime",
     "dev": "rslib build --watch",
-    "test": "pnpm build:runtime && rstest",
+    "test": "pnpm build && rstest",
     "typecheck": "tsc --noEmit && tsc -p tsconfig.contracts.json",
     "test:deployment": "node scripts/deployment-smoke.mjs",
     "build:runtime": "node scripts/build-runtime.mjs"
@@ -116,6 +122,11 @@
         "types": "./dist/types/bff.d.ts",
         "import": "./dist/esm-node/bff.mjs",
         "require": "./dist/cjs/bff.cjs"
+      },
+      "./debug": {
+        "types": "./dist/types/debug.d.ts",
+        "import": "./dist/esm/debug.mjs",
+        "default": "./dist/esm/debug.mjs"
       }
     }
   },
@@ -135,6 +146,9 @@
       ],
       "bff": [
         "dist/types/bff.d.ts"
+      ],
+      "debug": [
+        "dist/types/debug.d.ts"
       ]
     }
   }

@@ -1,4 +1,6 @@
 export interface McpAppsPluginOptions {
+  /** Enable the development-only /__mcp_debug page. Defaults to true. */
+  debug?: boolean;
   /** Build local UI resources without a BFF dependency or server compilation. */
   mode?: 'integrated' | 'ui-only';
   /** Application definition for UI discovery, relative to the project root. Defaults to mcp_apps.ts. */
