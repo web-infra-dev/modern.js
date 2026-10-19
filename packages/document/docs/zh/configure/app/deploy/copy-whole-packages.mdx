@@ -1,0 +1,33 @@
+---
+title: copyWholePackages
+---
+
+# deploy.copyWholePackages
+
+- **类型：** `string[]`
+- **默认值：** `[]`
+
+指定需要完整复制到部署产物 `node_modules` 中的包名。默认情况下，只会复制依赖追踪实际到达的文件。
+
+执行 `modern deploy` 时，Modern.js 会对服务端产物做依赖追踪，找出需要的依赖文件，并只将这些文件复制到部署产物的 `node_modules` 中。如果某个包的根入口文件没有被追踪到，该包会在缺少入口文件的情况下被复制。例如，服务端产物只通过 `zod/v3` 子路径引用 `zod`，部署产物中的 `node_modules/zod/package.json` 仍然指向根入口 `index.cjs`，但该文件不会被复制。运行时第一次执行 `require('zod')` 就会报错 `Cannot find module`。
+
+使用该配置指定受影响的包名后，这些包的所有文件都会被复制到部署产物中。
+
+```ts title="modern.config.ts"
+export default defineConfig({
+  deploy: {
+    copyWholePackages: ['zod'],
+  },
+});
+```
+
+## 作用边界
+
+该配置只影响一个包中哪些文件会被复制，不影响哪些包会被复制：
+
+- 只对依赖追踪已经到达的包生效。没有被追踪到的包即使写在这里，也不会被添加到部署产物中。
+- 额外复制的文件按原样复制，Modern.js 不会对它们再次进行依赖追踪。因此，只被这些额外文件引用的依赖不会被添加到部署产物中。
+- 包内部嵌套的 `node_modules` 目录不会被复制。
+- 当依赖追踪到达了一个包的多个版本时，只有被追踪到的版本会被完整复制。
+
+`@modern-js/utils` 始终会被完整复制，无需添加到该列表中。
