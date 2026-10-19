@@ -15,6 +15,7 @@ function runHtmlHooks(
   assets: Assets,
   entryFiles: string[],
   processHtml: HtmlCallback = value => value,
+  options: { runtimeChunk?: boolean } = {},
 ) {
   const taps: { stage: number; callback: HtmlCallback }[] = [
     { stage: 0, callback: processHtml },
@@ -29,7 +30,7 @@ function runHtmlHooks(
     }),
   };
   const compiler = {
-    options: { optimization: { runtimeChunk: false } },
+    options: { optimization: { runtimeChunk: options.runtimeChunk ?? false } },
     hooks: {
       compilation: {
         tap(_name: string, callback: (compilation: unknown) => void) {
@@ -195,6 +196,128 @@ describe('HtmlAsyncChunkPlugin entry preloads', () => {
         as: 'script',
         href: '/entry.js',
       });
+    },
+  );
+});
+
+describe('HtmlAsyncChunkPlugin streaming SSR', () => {
+  it('keeps scripts async while moving the separate runtime to the body', () => {
+    const entry = script('/entry.js');
+    const runtime = script('/builder-runtime.js');
+    const stylesheet: Tag = {
+      tagName: 'link',
+      voidTag: true,
+      attributes: { rel: 'stylesheet', href: '/style.css' },
+    };
+    const result = runHtmlHooks(
+      { publicPath: '/', headTags: [entry, runtime, stylesheet], bodyTags: [] },
+      ['entry.js'],
+      undefined,
+      { runtimeChunk: true },
+    );
+
+    expect(result.headTags).toEqual([entry, stylesheet]);
+    expect(result.bodyTags).toEqual([runtime]);
+    for (const tag of [entry, runtime]) {
+      expect(tag.attributes.async).toBe(true);
+      expect(tag.attributes.defer).toBeUndefined();
+    }
+  });
+
+  it('keeps an existing body runtime async', () => {
+    const entry = script('/entry.js');
+    const runtime = script('/builder-runtime.js');
+    const result = runHtmlHooks(
+      { publicPath: '/', headTags: [entry], bodyTags: [runtime] },
+      ['entry.js'],
+      undefined,
+      { runtimeChunk: true },
+    );
+
+    expect(result.headTags).toEqual([entry]);
+    expect(result.bodyTags).toEqual([runtime]);
+    for (const tag of [entry, runtime]) {
+      expect(tag.attributes.async).toBe(true);
+      expect(tag.attributes.defer).toBeUndefined();
+    }
+  });
+
+  it('keeps async loading and final preload attributes when the entry contains the runtime', () => {
+    const entry = script('/entry.js');
+    const vendor = script('/vendor.js');
+    const result = runHtmlHooks(
+      { publicPath: '/', headTags: [entry, vendor], bodyTags: [] },
+      ['entry.js'],
+      assets => {
+        expect(assets.bodyTags).toEqual([entry]);
+        entry.attributes.integrity = 'sha384-stream';
+        return assets;
+      },
+    );
+
+    expect(result.bodyTags).toEqual([entry]);
+    expect(result.headTags).toEqual([
+      vendor,
+      {
+        tagName: 'link',
+        voidTag: true,
+        attributes: {
+          rel: 'preload',
+          as: 'script',
+          href: '/entry.js',
+          integrity: 'sha384-stream',
+        },
+      },
+    ]);
+    for (const tag of [entry, vendor]) {
+      expect(tag.attributes.async).toBe(true);
+      expect(tag.attributes.defer).toBeUndefined();
+    }
+  });
+
+  it('moves streaming entries before inlining without adding a stale preload', () => {
+    const entry = script('/entry.js');
+    const result = runHtmlHooks(
+      { publicPath: '/', headTags: [entry], bodyTags: [] },
+      ['entry.js'],
+      assets => {
+        expect(assets.bodyTags).toEqual([entry]);
+        expect(entry.attributes.async).toBe(true);
+        expect(entry.attributes.defer).toBeUndefined();
+        return {
+          ...assets,
+          bodyTags: [{ ...entry, attributes: {}, innerHTML: '/* inlined */' }],
+        };
+      },
+    );
+
+    expect(result.headTags).toEqual([]);
+    expect(result.bodyTags[0].innerHTML).toBe('/* inlined */');
+  });
+
+  it.each([false, true])(
+    'preserves explicit script attributes with a separate runtime set to %s',
+    runtimeChunk => {
+      const asyncScript = script('/async.js');
+      asyncScript.attributes = { src: '/async.js', async: true };
+      const blockingScript = script('/blocking.js');
+      blockingScript.attributes = { src: '/blocking.js' };
+      const result = runHtmlHooks(
+        {
+          publicPath: '/',
+          headTags: [asyncScript, blockingScript],
+          bodyTags: [],
+        },
+        [],
+        undefined,
+        { runtimeChunk },
+      );
+
+      expect(result.headTags.map(tag => tag.attributes)).toEqual([
+        { src: '/async.js', async: true },
+        { src: '/blocking.js' },
+      ]);
+      expect(result.bodyTags).toEqual([]);
     },
   );
 });
