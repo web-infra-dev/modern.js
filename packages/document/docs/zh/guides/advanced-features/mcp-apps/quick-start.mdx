@@ -135,8 +135,6 @@ MF 资源使用公开 assetPrefix 时，请使用 manifest 的实际 publicPath 
 
 使用 MCP 客户端检查公网 `/mcp`，再验证宿主内的卡片加载和交互。纯 MCP Server 项目只需检查工具调用和结果。
 
-在源码仓库中验证尚未发布的实现，在仓库根目录执行 `pnpm install`、`pnpm prepare-build`，再运行 `pnpm --filter my-mcp-app-v2 dev` 体验应用内组件卡片示例。
-
 生成的定义使用 `defineMcpServer`，`name`、`version` 读取项目 `package.json`。本地视图和纯工具省略 `remotes`，MF 工具通过 remote 选择本地 manifest，外部资源需显式配置 remotes。handler 支持同步或异步返回，`view` 可选。详见[定义工具与视图](./configuration)。
 
 ## 任务看板

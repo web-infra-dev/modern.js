@@ -14,34 +14,13 @@ Please follow [Quick Start](https://modernjs.dev/en/guides/get-started/quick-sta
 
 ### MCP Apps templates
 
-The experimental MCP templates use `mcp_apps.ts` definitions. From this source
-repository, generate a project with:
-
 ```sh
-node packages/toolkit/create/bin/run.js examples/my-app --template mcp-apps --sub
-node packages/toolkit/create/bin/run.js examples/my-server --template mcp-server --sub
+npx @modern-js/create@<version> my-app --template mcp-apps
+npx @modern-js/create@<version> my-mf-app --template mcp-apps --mf
+npx @modern-js/create@<version> my-server --template mcp-server
 ```
 
-`mcp-apps` includes a local React card and MCP server plugin. Add `--mf` to
-opt into Module Federation configuration and remote components. `mcp-server` has no UI directory or React application dependency.
-Both use `modern dev/build/serve/deploy`; `app` remains the default template.
-The new packages must be released together before installing generated projects
-from the public registry. Inside this repository, use the workspace example
-`my-mcp-app-v2` to try the implementation before publication.
-Generated projects initially reference the creator's package version, not workspace
-packages. For local source development, set a valid package name and use
-`workspace:*` for Modern.js dependencies available in this workspace before
-installing. The [MCP Apps creation skill](../../../skills/modernjs-create-mcp-apps/SKILL.md)
-describes the full workflow and host validation.
-
-After a version containing the templates and dependencies is published:
-
-```sh
-pnpm dlx @modern-js/create@<version> my-app --template mcp-apps
-cd my-app
-pnpm install
-pnpm dev
-```
+Replace `<version>` with a release containing MCP Apps support. Choose `mcp-apps` for interactive React cards, add `--mf` for Module Federation, or use `mcp-server` for tools without UI. See the [MCP Apps guide](https://modernjs.dev/en/guides/advanced-features/mcp-apps).
 
 ## Documentation
 

@@ -1,13 +1,15 @@
 ---
-'@modern-js/plugin-mcp-apps': minor
 '@modern-js/mcp-apps': minor
+'@modern-js/plugin-mcp-apps': minor
 '@modern-js/create': minor
+'@modern-js/app-tools': patch
+'@modern-js/runtime': patch
 ---
 
-Integrate MCP Apps definitions with Modern.js development, production builds and portable Node deployment artifacts. Add mcp-apps and mcp-server creator templates while retaining independent server/UI deployment and the default application template.
+Add MCP Apps support with typed tool definitions, BFF endpoint integration, local React views and Module Federation components.
 
-Default MCP Apps scaffolding to local views; add `--mf` for remote components and share the Hono adapter across deployments.
+Provide UI-only builds and a versioned UI manifest for independently managed MCP servers. Include a development debugger with automatic connection, schema-based argument templates, card previews and request logs.
 
-Route integrated MCP endpoints through BFF API functions instead of automatically injecting Web Server middleware. Add a BFF adapter that preserves SDK responses and request context, and update templates and examples.
+Add MCP Apps and MCP Server scaffolding with interactive examples, and preserve MCP runtime assets in Node, Netlify and Vercel deployment output.
 
-Simplify BFF route declarations with mcpApps(), bind artifacts from runtime context for portable output paths, and move template tool implementations outside the BFF compiler input directories.
+Allow the browser runtime to initialize inside sandboxed iframes where access to document.cookie is restricted.

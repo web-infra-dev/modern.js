@@ -136,8 +136,6 @@ Alongside `/mcp`, the card's JS/CSS and MF resources must be accessible. Configu
 
 Check the public `/mcp` endpoint with an MCP client, then verify card loading and interactions in a host. For tools-only servers, check tool calls and results.
 
-Before publication, build `@modern-js/mcp-apps` and `@modern-js/plugin-mcp-apps` in this repository, then run `pnpm --filter my-mcp-app-v2 dev` to try the local-card example.
-
 The generated definition uses `defineMcpServer` with `name` and `version` from `package.json`. Local and backend-only tools omit `remotes`; MF tools select a local manifest by remote name, while external remotes require explicit configuration. Tools may use synchronous or asynchronous handlers, and `view` is optional. See [Tools and views](./configuration).
 
 ## Task board
