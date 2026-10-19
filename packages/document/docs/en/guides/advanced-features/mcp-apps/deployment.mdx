@@ -54,3 +54,5 @@ The MF template no longer generates `server/modern.server.ts`. For remote tools,
 For standalone local views, copy the complete `dist/` to `application/`, preserving package name, version, module type, and relative imported module paths. Serve `/static/*` separately or publish assets to the configured CDN. The adapter serves MCP requests, not static assets.
 
 Modern.js binds local MF remotes from emitted artifacts. Standalone Hono does not run this discovery step. Declare complete `remotes[].baseUrl` and CSP explicitly for MF views. The tools-only template uses manual BFF compilation under `dist/api/` instead of the root definition path shown above.
+
+For UI-only builds with an existing MCP Server, see [Use a user-managed MCP Server](./custom-server).

@@ -204,3 +204,16 @@ export function defineMcpApps<T extends McpAppsDefinition>(definition: T): T {
 
 export { defineTool } from './tool';
 export type { InferSchema, InferToolInput, InferToolOutput } from './tool';
+
+export interface McpUiDefinition {
+  viewDefaults?: McpAppsViewDefaults;
+  tools: Array<{
+    name: string;
+    view: McpAppsViewConfig;
+  }>;
+}
+
+/** Declare local UI builds without importing server-side tool handlers. */
+export function defineMcpUi(definition: McpUiDefinition): McpAppsDefinition {
+  return { ...definition, remotes: [] };
+}

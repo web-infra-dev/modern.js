@@ -90,3 +90,83 @@ it('serves an MF runtime that advertises fullscreen during app initialization', 
     /capabilities:\{availableDisplayModes:\["inline","fullscreen"\]\}/,
   );
 });
+
+it('exports only local view metadata and reads relocated manifest resources', async () => {
+  const { createUiManifest, readUiManifestResource, createMcpViewResult } =
+    await import('../src/server');
+  const dir = await mkdtemp(path.join(os.tmpdir(), 'modern-ui-manifest-'));
+  dirs.push(dir);
+  const manifest = createUiManifest(
+    {
+      remotes: [],
+      viewDefaults: { csp: { connectDomains: ['https://api.example'] } },
+      tools: [
+        {
+          name: 'greet',
+          handler: () => ({ content: [] }),
+          view: { module: './private/source.tsx', html: './card.html' },
+        },
+        { name: 'plain', handler: () => ({ content: [] }) },
+      ],
+    },
+    { assetBase: 'https://cdn.example/app/' },
+  );
+  expect(Object.keys(manifest.tools)).toEqual(['greet']);
+  expect(JSON.stringify(manifest)).not.toContain('private');
+  await writeFile(
+    path.join(dir, 'card.html'),
+    '<html><head></head><body></body></html>',
+  );
+  const content = await readUiManifestResource(
+    JSON.parse(JSON.stringify(manifest)),
+    'greet',
+    { directory: dir },
+  );
+  expect(content.uri).toBe('ui://local/greet');
+  expect(content.text).toContain('<base href="https://cdn.example/app/">');
+  expect(content._meta.ui.csp).toMatchObject({
+    resourceDomains: ['https://cdn.example'],
+    connectDomains: ['https://api.example', 'https://cdn.example'],
+  });
+  expect(
+    createMcpViewResult(
+      { name: 'Ada' },
+      {
+        structuredContent: { extra: true },
+        viewProps: { message: 'Hello Ada' },
+      },
+    ),
+  ).toMatchObject({
+    content: [],
+    structuredContent: {
+      args: { name: 'Ada' },
+      extra: true,
+      viewProps: { message: 'Hello Ada' },
+    },
+  });
+  await expect(
+    readUiManifestResource(manifest, 'missing', { directory: dir }),
+  ).rejects.toThrow('Unknown MCP UI tool');
+});
+
+it('binds manifest paths rather than recomputing hashed names', () => {
+  const definition: McpAppsDefinition = {
+    remotes: [],
+    tools: [{ name: 'card', view: { module: './Card' } }],
+  };
+  const bound = bindUiResources(definition, {
+    directory: '/app/mcp-apps/ui',
+    manifest: {
+      version: 1,
+      tools: {
+        card: {
+          resourceUri: 'ui://local/card',
+          mimeType: 'text/html;profile=mcp-app',
+          html: './ui/custom.html',
+          ui: {},
+        },
+      },
+    },
+  });
+  expect(bound.tools[0].view?.html).toBe('/app/mcp-apps/ui/custom.html');
+});

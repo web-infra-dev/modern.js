@@ -2,7 +2,7 @@ import fs from 'node:fs/promises';
 import path from 'node:path';
 import type { AppTools, CliPlugin } from '@modern-js/app-tools';
 import type { McpAppsDefinition } from '@modern-js/mcp-apps/config';
-import { getUiEntryName } from '@modern-js/mcp-apps/server';
+import { createUiManifest, getUiEntryName } from '@modern-js/mcp-apps/server';
 import { createLoadedConfig } from '@modern-js/plugin/cli';
 import { MF_ARTIFACTS, localRemoteNames, mfArtifact } from './mf';
 
@@ -18,6 +18,7 @@ export function setupMcpUi(
 ) {
   const entries = new Map<string, string>();
   let localRemotes: string[] = [];
+  let definition: McpAppsDefinition;
   const views: Record<string, BuiltView> = Object.create(null);
   api.onBeforePrintInstructions(({ instructions }) => ({
     instructions: instructions
@@ -30,10 +31,12 @@ export function setupMcpUi(
     for (const key of Object.keys(views)) delete views[key];
     const ctx = api.getAppContext();
     const config = api.getNormalizedConfig();
-    const { config: definition } = await createLoadedConfig<McpAppsDefinition>(
+    const loaded = await createLoadedConfig<McpAppsDefinition>(
       ctx.appDirectory,
       configPath(),
     );
+    definition = loaded.config;
+    definition.remotes ??= [];
     localRemotes = localRemoteNames(definition);
     for (const tool of definition.tools) {
       if (!tool.view || tool.remote || tool.view.html) continue;
@@ -136,7 +139,10 @@ export default createMcpView(View, ${JSON.stringify({ name: tool.name, version: 
           }
           for (const [entryName] of entries) {
             const htmlPath = environment.htmlPaths[entryName];
-            if (!htmlPath) continue;
+            if (!htmlPath)
+              throw new Error(
+                `Missing HTML output path for MCP entry ${entryName}`,
+              );
             const asset = compilation.getAsset(htmlPath);
             if (!asset)
               throw new Error(
@@ -147,6 +153,50 @@ export default createMcpView(View, ${JSON.stringify({ name: tool.name, version: 
             await fs.writeFile(`${filename}.tmp`, asset.source.source());
             await fs.rename(`${filename}.tmp`, filename);
           }
+          const prefix = development
+            ? api.getNormalizedConfig().dev.assetPrefix
+            : api.getNormalizedConfig().output.assetPrefix;
+          const manifestDefinition = {
+            ...definition,
+            tools: await Promise.all(
+              definition.tools.map(async tool => {
+                const html = tool.view?.html;
+                if (
+                  !tool.view ||
+                  tool.remote ||
+                  !html ||
+                  html.startsWith('https://')
+                )
+                  return tool;
+                const filename = path.join(
+                  output,
+                  `${getUiEntryName(tool.name)}.html`,
+                );
+                await fs.mkdir(output, { recursive: true });
+                await fs.writeFile(
+                  `${filename}.tmp`,
+                  await fs.readFile(
+                    path.resolve(path.dirname(configPath()), html),
+                  ),
+                );
+                await fs.rename(`${filename}.tmp`, filename);
+                return { ...tool, view: { ...tool.view, html: undefined } };
+              }),
+            ),
+          };
+          const manifest = createUiManifest(manifestDefinition, {
+            assetBase:
+              typeof prefix === 'string' && /^https?:\/\//.test(prefix)
+                ? `${prefix.replace(/\/+$/, '')}/`
+                : 'request',
+          });
+          const target = path.join(output, '../ui-manifest.json');
+          await fs.mkdir(path.dirname(target), { recursive: true });
+          await fs.writeFile(
+            `${target}.tmp`,
+            JSON.stringify(manifest, null, 2),
+          );
+          await fs.rename(`${target}.tmp`, target);
         },
       );
     }

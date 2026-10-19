@@ -13,16 +13,24 @@ export const mcpAppsPlugin = (
   options: McpAppsPluginOptions = {},
 ): CliPlugin<AppTools> => ({
   name: '@modern-js/plugin-mcp-apps',
-  required: ['@modern-js/plugin-bff'],
+  required: options.mode === 'ui-only' ? [] : ['@modern-js/plugin-bff'],
   post: ['@modern-js/runtime'],
   setup(api) {
+    if (options.mode === 'ui-only') {
+      api.modifyResolvedConfig(config => {
+        config.source.disableDefaultEntries = true;
+        return config;
+      });
+    }
     const configPath = () =>
       path.resolve(
         api.getAppContext().appDirectory,
         options.config ?? 'mcp_apps.ts',
       );
     const endpoint =
-      options.endpoint === false ? false : endpointPath(options.endpoint);
+      options.mode === 'ui-only' || options.endpoint === false
+        ? false
+        : endpointPath(options.endpoint);
     api.onBeforePrintInstructions(({ instructions }) => {
       if (endpoint === false) return { instructions };
       const { port } = api.getAppContext();
@@ -90,6 +98,7 @@ export const mcpAppsPlugin = (
         ),
       );
     });
+    if (options.mode === 'ui-only') return;
     api._internalServerPlugins(({ plugins }) => {
       const ctx = api.getAppContext();
       const config = api.getNormalizedConfig();

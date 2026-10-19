@@ -1,7 +1,11 @@
 import path from 'node:path';
+import { readFile } from 'node:fs/promises';
 import { createMcpBffHandler } from '@modern-js/mcp-apps/bff';
 import type { McpAppsDefinition } from '@modern-js/mcp-apps/config';
-import { bindUiResources } from '@modern-js/mcp-apps/server';
+import {
+  type McpUiManifest,
+  bindUiResources,
+} from '@modern-js/mcp-apps/server';
 import {
   type Context,
   type Next,
@@ -46,6 +50,24 @@ export default function mcpBffRuntime(
         const root = options.development ? ctx.appDirectory : ctx.distDirectory;
         if (!root)
           throw new Error('MCP Apps requires a BFF application directory');
+        let manifest: McpUiManifest | undefined;
+        if (!options.development) {
+          try {
+            manifest = JSON.parse(
+              await readFile(
+                path.resolve(
+                  root,
+                  options.resourceDirectory,
+                  '../ui-manifest.json',
+                ),
+                'utf8',
+              ),
+            );
+          } catch (error) {
+            // Keep previously built deployments without a manifest working.
+            if ((error as NodeJS.ErrnoException).code !== 'ENOENT') throw error;
+          }
+        }
         const createBoundHandler = (
           params: Parameters<typeof createMcpBffHandler>[0],
         ) => {
@@ -159,6 +181,7 @@ export default function mcpBffRuntime(
             definition: bindUiResources(definition, {
               directory: path.resolve(root, options.resourceDirectory),
               assetBase: options.assetBase,
+              manifest,
             }),
             configPath: config,
             development: options.development,
@@ -193,6 +216,7 @@ export default function mcpBffRuntime(
               definition: bindUiResources(endpointOptions.definition, {
                 directory: path.resolve(root, options.resourceDirectory),
                 assetBase: options.assetBase,
+                manifest,
               }),
             });
             handler = wrapHandler(handle);

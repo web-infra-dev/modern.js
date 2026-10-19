@@ -34,7 +34,14 @@ import {
 } from './resources';
 
 export type * from './config';
-export { bindUiResources, getUiEntryName } from './ui-resources';
+export {
+  bindUiResources,
+  getUiEntryName,
+  createUiManifest,
+  readUiManifestResource,
+} from './ui-resources';
+export type { McpUiManifest } from './ui-resources';
+export { createMcpViewResult } from './definition';
 export { loadMcpAppsConfig } from './loader';
 export { validateMcpAppsConfig } from './resources';
 

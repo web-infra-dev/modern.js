@@ -194,3 +194,26 @@ export function mergeHandlerResultWithView({
     ...(handlerResult.isError ? { isError: true } : {}),
   };
 }
+
+/** Result contract consumed by createMcpView in a user-managed MCP server. */
+export function createMcpViewResult(
+  args: Record<string, unknown>,
+  result: RemoteToolHandlerResult,
+) {
+  const { viewProps, ...rest } = result;
+  return {
+    ...rest,
+    content: result.content ?? [],
+    structuredContent: {
+      ...(result.structuredContent &&
+      typeof result.structuredContent === 'object' &&
+      !Array.isArray(result.structuredContent)
+        ? result.structuredContent
+        : result.structuredContent === undefined
+          ? {}
+          : { data: result.structuredContent }),
+      args,
+      ...(viewProps ? { viewProps } : {}),
+    },
+  };
+}
