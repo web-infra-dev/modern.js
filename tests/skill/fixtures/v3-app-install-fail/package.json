@@ -10,14 +10,14 @@
     "node": ">=20"
   },
   "dependencies": {
-    "@modern-js/runtime": "3.9.3",
+    "@modern-js/runtime": "3.10.0",
     "react": "^19.3.1",
     "react-dom": "^19.3.1",
     "broken-local-dep-xyz": "file:./this-path-does-not-exist"
   },
   "devDependencies": {
-    "@modern-js/app-tools": "3.9.3",
-    "@modern-js/tsconfig": "3.9.3",
+    "@modern-js/app-tools": "3.10.0",
+    "@modern-js/tsconfig": "3.10.0",
     "typescript": "~5.7.3",
     "@types/node": "^20",
     "@types/react": "^19.3.0",
