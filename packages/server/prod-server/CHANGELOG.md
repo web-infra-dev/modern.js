@@ -1,5 +1,14 @@
 # @modern-js/prod-server
 
+## 3.10.1
+
+### Patch Changes
+
+- Updated dependencies [e046a11]
+  - @modern-js/server-core@3.10.1
+  - @modern-js/runtime-utils@3.10.1
+  - @modern-js/utils@3.10.1
+
 ## 3.10.0
 
 ### Patch Changes
