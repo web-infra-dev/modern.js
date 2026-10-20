@@ -35,9 +35,9 @@ The comparison tests check HTML differences, actual API and MF loader use, indep
 
 ### Inspect remotes
 
-Enable **Inspect** in either comparison page to outline the remote components. Labels show the container name, exposed module and registered manifest URL. Hover or focus a label to see the consumer, request ID, nested chain with each manifest URL and the resolved entry URL. The label links to the manifest. Re-exported nested boundaries sharing the same visible element use one outline with the complete chain.
+Enable **Inspect** in either comparison page to outline the remote components. Labels show the first remote loaded by the host, its exposed module and registered manifest URL. Re-exported boundaries sharing the same visible element use one outline. Expand the source label to reveal the nested producer and its own manifest link, connected beneath the first source with a producer-colored dot. Escape or a click outside collapses it. Single-source components have no expand control. Hover a link for its full URL and runtime request details.
 
-Colors are generated from a random session palette keyed by the remote container name. All frames and modules from the same remote share one color, and frame reloads keep that color. A re-exported component uses the final producer's color while its label retains the nested chain.
+Colors are generated from a random session palette keyed by the remote container name. All frames and modules from the same remote share one color, and frame reloads keep that color. A re-exported component uses the first remote's color, which stays unchanged when its source chain is expanded.
 
 The host and nested consumer register the same runtime plugin through `runtimePlugins`. Its `apply(instance)` / `onLoad` hooks decorate React component exports using runtime metadata, including dynamically registered remotes. Data loaders are excluded. Module property descriptors preserve named exports and non-enumerable MF module IDs. The React inspection UI loads asynchronously after remote initialization to avoid consuming React during runtime bootstrap.
 

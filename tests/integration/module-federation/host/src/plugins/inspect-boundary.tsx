@@ -88,8 +88,80 @@ type Bounds = {
   width: number;
   height: number;
   chain: string;
-  chainDetails: string;
 };
+type Source = Pick<RemoteInfo, 'name' | 'expose' | 'manifest'>;
+function InspectLabel({
+  sources,
+  info,
+  paletteSeed,
+}: {
+  sources: Source[];
+  info: RemoteInfo;
+  paletteSeed: string;
+}) {
+  const [expanded, setExpanded] = useState(false);
+  const label = useRef<HTMLDivElement>(null);
+  useEffect(() => {
+    if (!expanded) return;
+    function closeOutside(event: PointerEvent) {
+      if (!label.current?.contains(event.target as Node)) setExpanded(false);
+    }
+    function closeEscape(event: KeyboardEvent) {
+      if (event.key === 'Escape') {
+        setExpanded(false);
+        label.current?.querySelector('button')?.focus();
+      }
+    }
+    document.addEventListener('pointerdown', closeOutside);
+    document.addEventListener('keydown', closeEscape);
+    return () => {
+      document.removeEventListener('pointerdown', closeOutside);
+      document.removeEventListener('keydown', closeEscape);
+    };
+  }, [expanded]);
+  return (
+    <div ref={label} className="mf-inspect-label" data-expanded={expanded}>
+      {(expanded ? sources : sources.slice(0, 1)).map((source, index) => (
+        <div
+          className="mf-inspect-row"
+          key={`${index}:${source.name}${source.expose}`}
+        >
+          <span
+            className="mf-inspect-dot"
+            style={{ background: remoteColor(source.name, paletteSeed) }}
+          />
+          <a
+            className="mf-inspect-source"
+            href={source.manifest}
+            target="_blank"
+            rel="noreferrer"
+            title={`${source.manifest}${index === sources.length - 1 ? `\nConsumer: ${info.consumer}\nRequest: ${info.request}\nEntry: ${info.entry}` : ''}`}
+          >
+            <strong>
+              {source.name}
+              <span>/{source.expose.replace(/^\.\//, '')}</span>
+            </strong>
+            <span className="mf-inspect-url">
+              {source.manifest.replace(/^https?:\/\//, '')}
+            </span>
+          </a>
+          {index === 0 && sources.length > 1 && (
+            <button
+              type="button"
+              className="mf-inspect-toggle"
+              aria-label={expanded ? '收起内部来源' : '展开内部来源'}
+              aria-expanded={expanded}
+              onClick={() => setExpanded(value => !value)}
+            >
+              <span>{sources.length - 1}</span>
+              <span className="mf-inspect-chevron">⌄</span>
+            </button>
+          )}
+        </div>
+      ))}
+    </div>
+  );
+}
 function Boundary({
   info,
   children,
@@ -140,15 +212,23 @@ function Boundary({
         setBounds(null);
         return;
       }
-      const chain: string[] = [info.name];
-      const chainDetails = [`${info.name}${info.expose} @ ${info.manifest}`];
+      const chain: Source[] = [
+        { name: info.name, expose: info.expose, manifest: info.manifest },
+      ];
       let ancestor =
         node.parentElement?.closest<HTMLElement>('[data-mf-boundary]');
       while (ancestor) {
-        chain.unshift(ancestor.dataset.mfName!);
-        chainDetails.unshift(
-          `${ancestor.dataset.mfName}${ancestor.dataset.mfExpose} @ ${ancestor.dataset.mfManifest}`,
-        );
+        const ancestorRoots = visualRoots(ancestor);
+        if (
+          roots.length !== ancestorRoots.length ||
+          roots.some((root, index) => root !== ancestorRoots[index])
+        )
+          break;
+        chain.unshift({
+          name: ancestor.dataset.mfName!,
+          expose: ancestor.dataset.mfExpose!,
+          manifest: ancestor.dataset.mfManifest!,
+        });
         ancestor =
           ancestor.parentElement?.closest<HTMLElement>('[data-mf-boundary]');
       }
@@ -159,8 +239,7 @@ function Boundary({
         top,
         width: Math.max(...rects.map(rect => rect.right)) - left,
         height: Math.max(...rects.map(rect => rect.bottom)) - top,
-        chain: chain.join(' → '),
-        chainDetails: chainDetails.join('\n'),
+        chain: JSON.stringify(chain),
       };
       setBounds(previous =>
         previous &&
@@ -183,6 +262,7 @@ function Boundary({
       window.removeEventListener('scroll', measure, true);
     };
   }, [enabled, info]);
+  const sources: Source[] = bounds ? JSON.parse(bounds.chain) : [];
   return (
     <div
       ref={boundary}
@@ -199,11 +279,11 @@ function Boundary({
           <div
             className="mf-inspect-outline"
             data-testid="mf-inspect-outline"
-            data-mf-name={info.name}
-            data-mf-expose={info.expose}
+            data-mf-name={sources[0].name}
+            data-mf-expose={sources[0].expose}
             style={
               {
-                '--inspect-color': remoteColor(info.name, paletteSeed),
+                '--inspect-color': remoteColor(sources[0].name, paletteSeed),
                 top: bounds.top,
                 left: bounds.left,
                 width: bounds.width,
@@ -211,22 +291,11 @@ function Boundary({
               } as CSSProperties
             }
           >
-            <a
-              className="mf-inspect-label"
-              href={info.manifest}
-              target="_blank"
-              rel="noreferrer"
-              aria-label={`${bounds.chain} ${info.expose} ${info.manifest}`}
-              title={`Consumer: ${info.consumer}\nRequest: ${info.request}\nChain:\n${bounds.chainDetails}\nEntry: ${info.entry}`}
-            >
-              <strong>
-                {bounds.chain}
-                <span>{info.expose}</span>
-              </strong>
-              <span className="mf-inspect-url">
-                {info.manifest.replace(/^https?:\/\//, '')}
-              </span>
-            </a>
+            <InspectLabel
+              sources={sources}
+              info={info}
+              paletteSeed={paletteSeed}
+            />
           </div>,
           document.body,
         )}

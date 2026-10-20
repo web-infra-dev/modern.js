@@ -424,7 +424,7 @@ for (const mode of modes) {
           else colors.set(name, color);
         }
         const hourly = await frame.$eval(
-          '[data-testid="mf-inspect-outline"][data-mf-expose="./WeatherHourly"] .mf-inspect-label',
+          '[data-testid="mf-inspect-outline"][data-mf-expose="./WeatherHourly"] .mf-inspect-source',
           element => ({
             name: element.textContent,
             url: (element as HTMLAnchorElement).href,
@@ -437,17 +437,69 @@ for (const mode of modes) {
         );
         expect(hourly.title).toContain('Entry: http://localhost:');
         expect(
-          await frame.$eval(
-            '[data-testid="mf-inspect-outline"][data-mf-expose="./WeatherDays"]',
-            element => element.textContent,
+          await frame.$(
+            '[data-mf-expose="./WeatherHourly"].mf-inspect-outline button',
           ),
-        ).toContain('lab_nested → lab_provider');
-        expect(
-          await frame.$eval(
-            '[data-testid="mf-inspect-outline"][data-mf-expose="./WeatherWind"]',
-            element => element.textContent,
-          ),
-        ).toContain('lab_nested → lab_library');
+        ).toBeNull();
+        for (const [expose, producer, manifest] of [
+          [
+            'WeatherDays',
+            'lab_provider',
+            `http://localhost:${lab.ports.provider}/static/mf-manifest.json`,
+          ],
+          [
+            'WeatherWind',
+            'lab_library',
+            `http://localhost:${lab.ports.library}/mf-manifest.json`,
+          ],
+        ]) {
+          const selector = `[data-testid="mf-inspect-outline"][data-mf-expose="./${expose}"]`;
+          const before = await frame.$eval(selector, element => ({
+            name: element.getAttribute('data-mf-name'),
+            color: getComputedStyle(element).borderTopColor,
+            text: element.textContent,
+          }));
+          expect(before.name).toBe('lab_nested');
+          expect(before.text).toContain(`lab_nested/${expose}`);
+          expect(before.text).not.toContain(producer);
+          expect(
+            await frame.$eval(
+              `${selector} a`,
+              element => (element as HTMLAnchorElement).href,
+            ),
+          ).toBe(
+            `http://localhost:${lab.ports.nested}/static/mf-manifest.json`,
+          );
+          await frame.click(`${selector} button`);
+          const expanded = await frame.$$eval(`${selector} a`, elements =>
+            elements.map(element => ({
+              text: element.textContent,
+              url: (element as HTMLAnchorElement).href,
+            })),
+          );
+          expect(expanded).toHaveLength(2);
+          expect(expanded[1].text).toContain(`${producer}/${expose}`);
+          expect(expanded[1].url).toBe(manifest);
+          expect(
+            await frame.$eval(
+              selector,
+              element => getComputedStyle(element).borderTopColor,
+            ),
+          ).toBe(before.color);
+          await page.keyboard.press('Escape');
+          expect(
+            await frame.$eval(`${selector} button`, element =>
+              element.getAttribute('aria-expanded'),
+            ),
+          ).toBe('false');
+          await frame.click(`${selector} button`);
+          await frame.click('[data-testid="weather-hourly"]');
+          expect(
+            await frame.$eval(`${selector} button`, element =>
+              element.getAttribute('aria-expanded'),
+            ),
+          ).toBe('false');
+        }
         expect(
           await frame.$eval(
             '[data-testid="weather-save"]',
