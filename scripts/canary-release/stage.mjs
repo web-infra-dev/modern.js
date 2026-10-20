@@ -22,6 +22,45 @@ export function stageIdFromOutput(stdout, pkg) {
   return entry.stageId;
 }
 
+// npm reports its machine readable cause as `npm error code E403`, or as
+// `error.code` under --json. Only that token is allowed into the receipt: it
+// separates a missing trusted publisher from a rate limit or a permission
+// problem, and being a fixed shape it cannot carry registry text.
+const ERROR_CODE = /^\s*npm (?:error|ERR!) code ([A-Z][A-Z0-9_]{1,30})\s*$/m;
+const CODE = /^[A-Z][A-Z0-9_]{1,30}$/;
+
+export function npmErrorCode(result) {
+  for (const stream of [result.stderr, result.stdout]) {
+    const match = ERROR_CODE.exec(String(stream ?? ''));
+    if (match) return match[1];
+  }
+  try {
+    const code = JSON.parse(String(result.stdout ?? ''))?.error?.code;
+    if (typeof code === 'string' && CODE.test(code)) return code;
+  } catch { /* npm did not answer with JSON */ }
+  const spawned = result.error?.code;
+  return typeof spawned === 'string' && CODE.test(spawned) ? spawned : null;
+}
+
+// Token shaped values, in case npm ever echoes the credential it exchanged.
+const SECRET = /(npm_[A-Za-z0-9]{16,}|gh[pousr]_[A-Za-z0-9]{16,}|eyJ[\w-]{8,}\.[\w-]{8,}\.[\w-]{8,}|[A-Za-z0-9+/]{40,}={0,2})/g;
+const DIAGNOSTIC_LINES = 40;
+const DIAGNOSTIC_CHARS = 4000;
+
+// The job log only. The receipt is published as an artifact, so it keeps the
+// error code alone; this keeps npm's own wording, minus anything token shaped,
+// where a maintainer reading the failed run can see it.
+export function diagnostic(result) {
+  const lines = [String(result.stdout ?? ''), String(result.stderr ?? '')]
+    .join('\n').split('\n').filter(line => /^\s*npm (error|warn|ERR!|notice)\b/.test(line));
+  try {
+    const summary = JSON.parse(String(result.stdout ?? ''))?.error?.summary;
+    if (typeof summary === 'string') lines.push(summary);
+  } catch { /* npm did not answer with JSON */ }
+  if (!lines.length) return `no npm diagnostic (exit ${result.status ?? result.error?.code ?? 'unknown'})`;
+  return lines.slice(0, DIAGNOSTIC_LINES).join('\n').replace(SECRET, '[redacted]').slice(0, DIAGNOSTIC_CHARS);
+}
+
 export function isolatedNpmEnvironment(env, temporary) {
   for (const key of ['NODE_AUTH_TOKEN', 'NPM_TOKEN', 'NPM_AUTH_TOKEN']) {
     assert(!env[key], 'Personal npm tokens are not allowed');
@@ -42,6 +81,9 @@ export function isolatedNpmEnvironment(env, temporary) {
 
 // Never approves a stage or claims registry availability. Every attempt is recorded
 // before the network call so an interrupted request remains explicitly unknown.
+// A package that fails does not stop the ones after it: each stage is a separate
+// request, stopping cannot recall the requests already sent, and one run that
+// reports all 29 outcomes beats 29 runs that each report one.
 export function stage(root, options, {
   env = process.env,
   validateSource = assertSource,
@@ -49,6 +91,7 @@ export function stage(root, options, {
   workspaces = listWorkspaces,
   execute = run,
   publish = (args, settings) => spawnSync('npm', args, { ...settings, encoding: 'utf8', maxBuffer: 16 * 1024 * 1024 }),
+  log = message => console.error(message),
 } = {}) {
   const receiptDir = path.resolve(root, options.receiptDir);
   fs.mkdirSync(receiptDir, { recursive: true });
@@ -88,20 +131,27 @@ export function stage(root, options, {
     assert.equal(execute('npm', ['--version'], { cwd: temporary, env: npmEnv }), '11.21.0', 'npm 11.21.0 is required');
     receipt.status = 'staging';
     persist();
+    let unresolved = 0;
     for (const pkg of manifest.packages) {
       const item = { name: pkg.name, version: pkg.version, integrity: pkg.integrity, status: 'unknown', stageId: null };
       receipt.packages.push(item);
       persist();
       const result = publish(stageArguments(path.resolve(root, options.artifacts, pkg.filename)), { cwd: temporary, env: npmEnv });
       // Even a nonzero result can mean the registry accepted a request. Do not retry.
-      if (result.error || result.status !== 0) {
+      try {
+        assert(!result.error && result.status === 0, 'npm exited nonzero');
+        item.stageId = stageIdFromOutput(result.stdout, pkg);
+        item.status = 'staged';
+      } catch (error) {
+        unresolved += 1;
         item.exitCode = result.status ?? null;
-        throw new Error('npm stage failed or returned an ambiguous outcome; inspect registry stages before retrying');
+        item.errorCode = npmErrorCode(result);
+        log(`[stage] ${pkg.name} unresolved: ${String(error.message).replace(SECRET, '[redacted]')}`);
+        log(diagnostic(result));
       }
-      item.stageId = stageIdFromOutput(result.stdout, pkg);
-      item.status = 'staged';
       persist();
     }
+    assert.equal(unresolved, 0, `${unresolved} of ${manifest.packages.length} packages failed or returned an ambiguous outcome; inspect registry stages before retrying`);
     receipt.status = 'staged';
     persist();
     return receipt;
