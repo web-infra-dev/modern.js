@@ -195,13 +195,15 @@
 }
 .sky-cloud {
   position: absolute;
-  inset: 0;
+  inset: -8% -18%;
   background: url('./clouds.svg') center top/cover no-repeat;
+  animation: weather-cloud-near 75s ease-in-out -25s infinite alternate;
   pointer-events: none;
 }
 .cloud-two {
   transform: translate(15%, -15%) scale(1.2);
   opacity: 0.3;
+  animation: weather-cloud-far 110s ease-in-out -60s infinite alternate;
 }
 .weather-content {
   position: relative;
@@ -1009,4 +1011,21 @@
 .advanced-stage .replacement + .replacement {
   padding-top: 0;
   border-top: 0;
+}
+
+@keyframes weather-cloud-near {
+  from {
+    transform: translate3d(-7%, 0, 0);
+  }
+  to {
+    transform: translate3d(7%, 2%, 0);
+  }
+}
+@keyframes weather-cloud-far {
+  from {
+    transform: translate3d(2%, -15%, 0) scale(1.2);
+  }
+  to {
+    transform: translate3d(17%, -11%, 0) scale(1.2);
+  }
 }
