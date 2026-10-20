@@ -1,5 +1,37 @@
 # @modern-js/plugin-bff
 
+## 3.10.1
+
+### Patch Changes
+
+- Updated dependencies [e046a11]
+  - @modern-js/server-core@3.10.1
+  - @modern-js/server-utils@3.10.1
+  - @modern-js/builder@3.10.1
+  - @modern-js/bff-core@3.10.1
+  - @modern-js/create-request@3.10.1
+  - @modern-js/utils@3.10.1
+
+## 3.10.0
+
+### Patch Changes
+
+- da0fe78: chore: upgrade Rsbuild to v2.2.13
+
+  chore: 升级 Rsbuild 至 v2.2.13
+
+- Updated dependencies [da0fe78]
+- Updated dependencies [b5f56d5]
+- Updated dependencies [9a766ec]
+- Updated dependencies [1d7a38e]
+- Updated dependencies [7d9f0bb]
+  - @modern-js/builder@3.10.0
+  - @modern-js/server-core@3.10.0
+  - @modern-js/server-utils@3.10.0
+  - @modern-js/bff-core@3.10.0
+  - @modern-js/create-request@3.10.0
+  - @modern-js/utils@3.10.0
+
 ## 3.9.3
 
 ### Patch Changes
