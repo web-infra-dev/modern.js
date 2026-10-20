@@ -1,0 +1,22 @@
+import { defineMcpServer } from '@modern-js/mcp-apps/config';
+import { name, version } from './package.json';
+import { createTask, listTasks, updateTask } from './src/features/tasks/server/tools';
+import { greet, addNumbers } from './mcp_tools';
+
+export default defineMcpServer({
+  name,
+  version,
+{{#if mf}}  // Remote names match module-federation.config.ts. Manifest URLs are discovered from build output.
+{{/if}}  tools: [
+{{#if mf}}    { ...listTasks, remote: 'mcp_ui', view: { module: './TaskBoard' } },
+    { ...createTask, remote: 'mcp_ui', view: { module: './TaskBoard' } },
+    { ...updateTask, remote: 'mcp_ui', view: { module: './TaskBoard' } },
+    { ...greet, remote: 'mcp_ui', view: { module: './Greeting' } },
+    { ...addNumbers, remote: 'mcp_ui', view: { module: './Sum' } },
+{{/if}}{{#unless mf}}    { ...listTasks, view: { module: './src/features/tasks/TaskBoard.tsx' } },
+    { ...createTask, view: { module: './src/features/tasks/TaskBoard.tsx' } },
+    { ...updateTask, view: { module: './src/features/tasks/TaskBoard.tsx' } },
+    { ...greet, view: { module: './src/components/Greeting.tsx' } },
+    { ...addNumbers, view: { module: './src/components/Sum.tsx' } },
+{{/unless}}  ],
+});

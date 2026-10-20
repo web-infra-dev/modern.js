@@ -1,6 +1,7 @@
 import fs from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
+import { copyTemplate } from './template';
 
 type Template = 'app' | 'mcp-apps' | 'mcp-server';
 
@@ -30,12 +31,19 @@ export function applyMcpTemplate(
     path.dirname(fileURLToPath(import.meta.url)),
     '../mcp-templates',
   );
-  fs.cpSync(path.join(root, 'shared'), targetDir, { recursive: true });
-  fs.cpSync(path.join(root, template), targetDir, { recursive: true });
-  if (mf)
-    fs.cpSync(path.join(root, 'mcp-apps-mf'), targetDir, { recursive: true });
   const pkgPath = path.join(targetDir, 'package.json');
   const pkg = JSON.parse(fs.readFileSync(pkgPath, 'utf8'));
+  const copy = (directory: string) =>
+    copyTemplate(path.join(root, directory), targetDir, {
+      packageName: pkg.name,
+      version,
+      isSubproject: false,
+      noAgentsMd: false,
+      mf,
+    });
+  copy('shared');
+  copy(template);
+  if (mf) copy('mcp-apps-mf');
   pkg.dependencies['@modern-js/mcp-apps'] = version;
   // BFF owns the HTTP endpoint; MCP Apps owns compilation and tool execution.
   pkg.dependencies['@modern-js/plugin-mcp-apps'] = version;

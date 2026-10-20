@@ -1,14 +1,16 @@
 import { appTools, defineConfig } from '@modern-js/app-tools';
 import { bffPlugin } from '@modern-js/plugin-bff';
 import { mcpAppsPlugin } from '@modern-js/plugin-mcp-apps';
-import { moduleFederationPlugin } from '@module-federation/modern-js-v3';
+{{#if mf}}import { moduleFederationPlugin } from '@module-federation/modern-js-v3';
+{{/if}}
 
 export default defineConfig({
   server: { port: Number(process.env.PORT ?? 8080) },
   plugins: [
     appTools(),
     bffPlugin(),
-    moduleFederationPlugin(),
+{{#if mf}}    moduleFederationPlugin(),
+{{/if}}
     mcpAppsPlugin({ endpoint: '/mcp' }),
   ],
 });

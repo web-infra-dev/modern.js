@@ -5,7 +5,7 @@ pnpm install
 pnpm dev
 ```
 
-Define tools and handlers in `mcp_apps.ts`. The MCP endpoint is `/mcp`. For projects with UI, open the Debug URL printed at startup to call tools, preview cards and inspect request logs.
+Define shared tools and handlers in `mcp_tools.ts`, and register them in `mcp_apps.ts` (or `api/mcp_apps.ts` for tool-only projects). The MCP endpoint is `/mcp`. For projects with UI, open the Inspector URL printed at startup to call tools, preview cards and inspect request logs.
 
 ```sh
 pnpm build

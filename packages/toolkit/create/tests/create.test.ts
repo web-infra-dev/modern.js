@@ -145,7 +145,7 @@ describe('MCP templates', () => {
     );
     expect(fs.existsSync(path.join(root, 'api'))).toBe(false);
     expect(fs.existsSync(path.join(root, 'src/components/Sum.tsx'))).toBe(true);
-    expect(fs.readFileSync(path.join(root, 'mcp_apps.ts'), 'utf8')).toContain(
+    expect(fs.readFileSync(path.join(root, 'mcp_tools.ts'), 'utf8')).toContain(
       "name: 'add_numbers'",
     );
     const definition = fs.readFileSync(path.join(root, 'mcp_apps.ts'), 'utf8');
@@ -154,7 +154,7 @@ describe('MCP templates', () => {
       "import { name, version } from './package.json'",
     );
     expect(definition).not.toContain('remotes: []');
-    expect(fs.readFileSync(path.join(root, 'mcp_apps.ts'), 'utf8')).toContain(
+    expect(fs.readFileSync(path.join(root, 'mcp_tools.ts'), 'utf8')).toContain(
       'handler: async ({ name })',
     );
     expect(pkg.devDependencies['ts-node']).toBeDefined();
@@ -176,6 +176,46 @@ describe('MCP templates', () => {
     expect(fs.existsSync(path.join(workdir, 'ordinary/mcp_apps.ts'))).toBe(
       false,
     );
+  });
+
+  it('shares business tools and renders only the selected UI configuration', () => {
+    runCreate(['local-ui', '--template', 'mcp-apps']);
+    runCreate(['mf-ui', '--template', 'mcp-apps', '--mf']);
+    runCreate(['tools-only', '--template', 'mcp-server']);
+    const read = (project: string, filename: string) =>
+      fs.readFileSync(path.join(workdir, project, filename), 'utf8');
+    for (const filename of [
+      'mcp_tools.ts',
+      'src/features/tasks/server/tools.ts',
+      'src/features/tasks/server/store.ts',
+    ]) {
+      expect(read('local-ui', filename)).toBe(read('mf-ui', filename));
+    }
+    expect(read('tools-only', 'mcp_tools.ts')).toBe(
+      read('local-ui', 'mcp_tools.ts'),
+    );
+    expect(read('tools-only', 'api/mcp_apps.ts')).toContain(
+      "from '../mcp_tools'",
+    );
+    expect(read('local-ui', 'modern.config.ts')).not.toContain(
+      'moduleFederationPlugin',
+    );
+    expect(read('mf-ui', 'modern.config.ts')).toContain(
+      'moduleFederationPlugin()',
+    );
+    for (const project of ['local-ui', 'mf-ui']) {
+      const definition = read(project, 'mcp_apps.ts');
+      expect(definition).toContain("from './mcp_tools'");
+      expect(definition).not.toContain('handler:');
+      for (const filename of ['mcp_apps.ts', 'modern.config.ts']) {
+        expect(read(project, filename)).not.toMatch(/\{\{[#/]/);
+        expect(
+          fs.existsSync(path.join(workdir, project, `${filename}.handlebars`)),
+        ).toBe(false);
+      }
+    }
+    expect(read('local-ui', 'mcp_apps.ts')).not.toContain("remote: 'mcp_ui'");
+    expect(read('mf-ui', 'mcp_apps.ts')).not.toContain('./src/components/');
   });
 
   it('adds MF only when explicitly selected', () => {
