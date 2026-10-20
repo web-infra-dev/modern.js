@@ -276,6 +276,12 @@ for (const mode of modes) {
       });
       await page.setViewport({ width: 1440, height: 900 });
       await page.goto(`${lab.url}/compare`, { waitUntil: 'networkidle0' });
+      expect(
+        await page.$eval(
+          'select[aria-label="JavaScript startup delay"]',
+          element => (element as HTMLSelectElement).value,
+        ),
+      ).toBe('0');
       const frames = page
         .frames()
         .filter(frame => frame.url().includes('/weather?'));
@@ -344,6 +350,14 @@ for (const mode of modes) {
               .every(card => card.scrollHeight <= card.clientHeight + 1),
           );
       }
+      const delayedScript = page.waitForResponse(
+        response => response.headers()['x-lab-script-delay'] === '1500',
+      );
+      await page.select(
+        'select[aria-label="JavaScript startup delay"]',
+        '1500',
+      );
+      await delayedScript;
       expect(delays).toContain('1500');
     });
     it('compares four data paths using a local API and the MF data loader', async () => {

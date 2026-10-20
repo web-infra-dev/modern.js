@@ -17,7 +17,7 @@ export function LabNav() {
   return (
     <nav className="weather-nav" aria-label="Comparison pages">
       <Link className="weather-brand" to="/compare">
-        ◈ Weather Lab <small>Modern.js × Module Federation</small>
+        ◈ Weather Lab
       </Link>
       <div>
         <Link to="/compare">Rendering</Link>
@@ -117,7 +117,7 @@ function Panel({
 }
 export default function Comparison({ data = false }: { data?: boolean }) {
   const [run, setRun] = useState(0);
-  const [delay, setDelay] = useState(1500);
+  const [delay, setDelay] = useState(0);
   const [inspect, setInspect] = useState(false);
   const [paletteSeed] = useState(inspectPaletteSeed);
   const panels = data

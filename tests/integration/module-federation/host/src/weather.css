@@ -10,6 +10,12 @@
   min-height: 100dvh;
 }
 .comparison-shell {
+  --ink: #e0ebf5;
+  --muted: #a1b5c9;
+  background:
+    radial-gradient(ellipse at 8% -12%, #53748e80, transparent 58%),
+    radial-gradient(ellipse at 95% 100%, #2b526b60, transparent 55%),
+    linear-gradient(150deg, #24394c, #142537 58%, #101d2d);
   height: 100dvh;
   display: flex;
   flex-direction: column;
@@ -32,14 +38,6 @@
   font-size: 18px;
   font-weight: 650;
   letter-spacing: -0.5px;
-}
-.weather-brand small {
-  font-size: 11px;
-  display: inline-block;
-  margin-left: 14px;
-  color: var(--muted);
-  font-weight: 400;
-  letter-spacing: 0;
 }
 .weather-nav > div {
   display: flex;
@@ -93,6 +91,33 @@
   font: inherit;
   color: #335d7e;
   cursor: pointer;
+}
+.comparison-shell .weather-nav {
+  border-bottom-color: #d5e8fa14;
+}
+.comparison-shell .weather-nav > div a:hover {
+  color: #b7e4ff;
+}
+.comparison-shell .comparison-controls button,
+.comparison-shell .comparison-controls select {
+  color: #e0ebf5;
+  background: #ffffff0c;
+  border-color: #c4def52b;
+  box-shadow: inset 0 1px #ffffff08;
+}
+.comparison-shell .comparison-controls option {
+  color: #203c5b;
+  background: #f3f7fb;
+}
+.comparison-shell .comparison-controls button:hover {
+  background: #ffffff18;
+  border-color: #c4def557;
+}
+.comparison-shell .comparison-panel {
+  border-color: #dcebf54d;
+  box-shadow:
+    0 18px 45px #030c1b50,
+    0 3px 10px #030c1b26;
 }
 .comparison-grid {
   display: grid;
@@ -1102,7 +1127,7 @@
 .inspect-control {
   cursor: pointer;
   gap: 7px;
-  color: #315674;
+  color: inherit;
 }
 .inspect-control input {
   accent-color: #2f6fa3;

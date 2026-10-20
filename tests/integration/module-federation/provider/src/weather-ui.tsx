@@ -80,7 +80,7 @@ export function CurrentWeather({
       data-source={data?.source || 'pending'}
     >
       <span className="location-label">⌖ My location</span>
-      <h1>Yuhang</h1>
+      <h1>Hangzhou</h1>
       <div className="current-temperature">
         {data ? data.temperature : '—'}
         <sup>°</sup>
