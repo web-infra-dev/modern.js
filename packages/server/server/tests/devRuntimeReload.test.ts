@@ -73,7 +73,10 @@ function getDefaultAppContext() {
 }
 
 function makeFakeRuntimeServer() {
-  return { hooks: { onReset: { call: rstest.fn() } } } as any;
+  return {
+    fileReader: { reset: rstest.fn().mockResolvedValue(undefined) },
+    hooks: { onReset: { call: rstest.fn() } },
+  } as any;
 }
 
 function makeBuilderDevServer(withMiddleware = true) {
@@ -115,6 +118,7 @@ describe('devRuntimeMiddlewarePlugin (per-runtime injection)', () => {
       devRuntimeMiddlewarePlugin(
         { pwd: '', dev: {}, builderDevServer } as any,
         null,
+        server,
       ),
       probe,
     ]);
@@ -206,6 +210,7 @@ describe('setupDevInfra (process-level singletons)', () => {
             builderDevServer: builderDevServerForRuntime,
           } as any,
           null,
+          runtimeServer,
         ),
       ]);
       await runtimeServer.init();
@@ -250,12 +255,15 @@ describe('setupDevInfra (process-level singletons)', () => {
 
     onCompileDone(clientStats);
     expect(first.hooks.onReset.call).toHaveBeenCalledTimes(1);
+    expect(first.fileReader.reset).toHaveBeenCalledTimes(1);
 
     // After a reload swaps the runtime, onRepack must hit the NEW runtime.
     const second = makeFakeRuntimeServer();
     current = second;
     onCompileDone(clientStats);
     expect(second.hooks.onReset.call).toHaveBeenCalledTimes(1);
+    expect(second.fileReader.reset).toHaveBeenCalledTimes(1);
+    expect(first.fileReader.reset).toHaveBeenCalledTimes(1);
     expect(first.hooks.onReset.call).toHaveBeenCalledTimes(1);
   });
 
