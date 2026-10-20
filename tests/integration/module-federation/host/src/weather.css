@@ -163,13 +163,35 @@
   border: 1px solid #d5e2ed;
 }
 .comparison-panel > header {
-  background: #3275ad;
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+  background: #215c95;
   height: 37px;
   display: flex;
   align-items: center;
   justify-content: space-between;
   padding: 0 15px;
   flex-shrink: 0;
+}
+.comparison-panel > header::before {
+  content: '';
+  position: absolute;
+  z-index: -2;
+  inset: -80px -18% -320px;
+  background: url('./clouds.svg') center top / cover no-repeat;
+  filter: blur(3px);
+  opacity: 0.9;
+  pointer-events: none;
+}
+.comparison-panel > header::after {
+  content: '';
+  position: absolute;
+  z-index: -1;
+  inset: 0;
+  background: linear-gradient(#ffffff30, #ffffff1f);
+  backdrop-filter: blur(12px) saturate(0.85);
+  pointer-events: none;
 }
 .comparison-panel h2 {
   font-size: 12px;
