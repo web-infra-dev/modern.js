@@ -10,12 +10,12 @@
   min-height: 100dvh;
 }
 .comparison-shell {
-  --ink: #e0ebf5;
-  --muted: #a1b5c9;
+  --ink: #243956;
+  --muted: #647593;
   background:
-    radial-gradient(ellipse at 10% 25%, #648b9a75, transparent 58%),
-    radial-gradient(ellipse at 90% 65%, #4c697d66, transparent 60%),
-    linear-gradient(135deg, #334c59, #253745 52%, #182632);
+    radial-gradient(ellipse at 0% 15%, #c4edffb3, transparent 55%),
+    radial-gradient(ellipse at 100% 90%, #d6ccff99, transparent 60%),
+    linear-gradient(135deg, #f0f8ff, #e8efff 52%, #f3f1ff);
   position: relative;
   isolation: isolate;
   height: 100dvh;
@@ -30,9 +30,9 @@
   z-index: -1;
   width: 70vw;
   height: 65vh;
-  border: 1px solid #c7e9f512;
+  border: 1px solid #ffffff80;
   border-radius: 64px;
-  background: linear-gradient(135deg, #c7e9f50d, #c7e9f502);
+  background: linear-gradient(135deg, #ffffff4d, #ffffff0d);
   transform: rotate(-24deg);
   pointer-events: none;
 }
@@ -117,32 +117,32 @@
   cursor: pointer;
 }
 .comparison-shell .weather-nav {
-  border-bottom-color: #d5e8fa14;
+  border-bottom-color: #819cc21a;
 }
 .comparison-shell .weather-nav > div a:hover {
-  color: #b7e4ff;
+  color: #2868d8;
 }
 .comparison-shell .comparison-controls button,
 .comparison-shell .comparison-controls select {
-  color: #e0ebf5;
-  background: #ffffff0c;
-  border-color: #c4def52b;
-  box-shadow: inset 0 1px #ffffff08;
+  color: #354e72;
+  background: #ffffff80;
+  border-color: #9db4d34d;
+  box-shadow: 0 2px 5px #4a6b9c08;
 }
 .comparison-shell .comparison-controls option {
   color: #203c5b;
   background: #f3f7fb;
 }
 .comparison-shell .comparison-controls button:hover {
-  background: #ffffff18;
-  border-color: #c4def557;
+  background: #ffffffd9;
+  border-color: #7a9fd380;
 }
 .comparison-shell .comparison-panel {
   border: 0;
   box-shadow:
-    0 2px 4px #020b1859,
-    0 14px 20px -4px #020b18a6,
-    0 36px 48px -12px #020b18bf;
+    0 2px 5px #3455841a,
+    0 16px 24px -8px #34558438,
+    0 36px 52px -16px #4d67a652;
 }
 .comparison-grid {
   display: grid;
