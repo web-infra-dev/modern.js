@@ -69,7 +69,7 @@ export function validatePlan(plan) {
   assert.equal(plan.tag, TAG, 'Only the canary-verify tag is allowed');
   assert.equal(plan.version, `0.0.0-${TAG}.${plan.releaseId}`, 'Expected the shared cross-repository canary version');
   assert(SHA.test(plan.baseSha), 'Invalid baseSha');
-  assert.equal(plan.mode, 'stage', 'Only stage mode is allowed');
+  assert.equal(plan.mode, 'publish', 'Only publish mode is allowed');
   assert.deepEqual(plan.requiredTargets, ['npm'], 'Only npm is allowed');
   assert(Array.isArray(plan.packages) && plan.packages.length > 0, 'Empty package set');
   const names = new Set();
@@ -138,7 +138,7 @@ export function assertSource(root, plan, expectedSha, execute = run) {
 }
 
 export function assertTrigger(plan, env = process.env, event = readJson(env.GITHUB_EVENT_PATH)) {
-  assert.equal(env.GITHUB_REF, `refs/heads/release-canary-verify/${plan.releaseId}`, 'Only a prepared release branch may stage');
+  assert.equal(env.GITHUB_REF, `refs/heads/release-canary-verify/${plan.releaseId}`, 'Only a prepared release branch may publish');
   assert.equal(env.GITHUB_REF_TYPE, 'branch', 'Expected branch ref');
   if (env.GITHUB_EVENT_NAME === 'push') {
     assert.equal(event.created, true, 'Prepared branches must be written once');

@@ -9,7 +9,7 @@ export const version = `0.0.0-canary-verify.${releaseId}`;
 export const makePlan = () => ({
   schemaVersion: 1, releaseId, tag: 'canary-verify', version, baseSha: 'a'.repeat(40),
   packages: ['a', 'b'].map(name => ({ name: `@modern-js/${name}`, version, path: `packages/${name}` })),
-  mode: 'stage', requiredTargets: ['npm'],
+  mode: 'publish', requiredTargets: ['npm'],
 });
 
 export function temporary(t) {

@@ -9,7 +9,7 @@ import {
   validateTarball, verifyArtifacts, writeJson,
 } from './core.mjs';
 import { install, prepare } from './prepare.mjs';
-import { stage } from './stage.mjs';
+import { publish } from './publish.mjs';
 
 export { stableStringify, planHash } from './core.mjs';
 
@@ -60,7 +60,7 @@ export function main(argv = process.argv.slice(2)) {
     verify: { 'expected-plan-hash': { type: 'string' } },
     pack: { out: { type: 'string', default: '.release/artifacts' }, 'expected-plan-hash': { type: 'string' } },
     'verify-artifacts': { artifacts: { type: 'string', default: '.release/artifacts' }, 'expected-plan-hash': { type: 'string' } },
-    stage: {
+    publish: {
       artifacts: { type: 'string', default: '.release/artifacts' },
       'receipt-dir': { type: 'string', default: '.release/receipts' },
       'expected-plan-hash': { type: 'string' },
@@ -84,8 +84,8 @@ export function main(argv = process.argv.slice(2)) {
   } else if (command === 'verify-artifacts') {
     const { plan } = verify(root, values['expected-plan-hash']);
     verifyArtifacts(path.resolve(root, values.artifacts), plan, values['expected-plan-hash'], process.env.GITHUB_SHA);
-  } else if (command === 'stage') {
-    stage(root, {
+  } else if (command === 'publish') {
+    publish(root, {
       artifacts: values.artifacts, receiptDir: values['receipt-dir'], expectedPlanHash: values['expected-plan-hash'],
     });
   }

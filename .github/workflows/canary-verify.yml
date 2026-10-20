@@ -85,7 +85,7 @@ jobs:
           if-no-files-found: error
           retention-days: 30
 
-  stage:
+  publish:
     needs: build
     if: startsWith(github.ref, 'refs/heads/release-canary-verify/')
     runs-on: ubuntu-24.04
@@ -112,11 +112,11 @@ jobs:
         with:
           name: canary-tarballs-${{ github.run_id }}-${{ github.run_attempt }}
           path: .release/artifacts
-      - name: Verify all artifacts and stage through OIDC
+      - name: Verify all artifacts and publish through OIDC
         env:
           EXPECTED_PLAN_HASH: ${{ needs.build.outputs.plan_hash }}
-        run: node scripts/canary-release/release.mjs stage --expected-plan-hash "$EXPECTED_PLAN_HASH"
-      - name: Persist stage receipts even on partial failure
+        run: node scripts/canary-release/release.mjs publish --expected-plan-hash "$EXPECTED_PLAN_HASH"
+      - name: Persist publish receipts even on partial failure
         if: always()
         uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
         with:

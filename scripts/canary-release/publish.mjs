@@ -8,18 +8,24 @@ import {
   validatePackageSet, verifyArtifacts, writeJson,
 } from './core.mjs';
 
-export function stageArguments(tarball) {
-  return ['stage', 'publish', tarball, '--tag', TAG, '--access', 'public', '--ignore-scripts', '--json', '--registry', REGISTRY];
+// Staged publishing would hold every package until a maintainer approved it,
+// but npm accepts no CI identity for that approval: `npm stage approve` requires
+// interactive authentication and refuses OIDC tokens. Approving would mean a
+// long lived npm token wherever the approval runs, which is worse than what the
+// gate buys. The release is therefore public the moment npm accepts it, and its
+// isolation rests on the 0.0.0 version, which no semver range matches, and on a
+// dist-tag of its own, which leaves `latest` untouched.
+export function publishArguments(tarball) {
+  return ['publish', tarball, '--tag', TAG, '--access', 'public', '--ignore-scripts', '--json', '--registry', REGISTRY];
 }
 
-export function stageIdFromOutput(stdout, pkg) {
+export function publishedFromOutput(stdout, pkg) {
   const result = JSON.parse(stdout);
   // npm 11.21.0 logTar emits a package-name-keyed object for publish --json.
   const entry = result[pkg.name];
-  assert(entry && entry.name === pkg.name && entry.version === pkg.version, 'Unexpected npm stage response');
-  assert(typeof entry.stageId === 'string' && /^[a-zA-Z0-9_-]{1,200}$/.test(entry.stageId), 'Missing or invalid stageId');
-  assert.equal(entry.integrity, pkg.integrity, 'npm staged integrity mismatch');
-  return entry.stageId;
+  assert(entry && entry.name === pkg.name && entry.version === pkg.version, 'Unexpected npm publish response');
+  assert.equal(entry.integrity, pkg.integrity, 'npm published integrity mismatch');
+  return `${pkg.name}@${pkg.version}`;
 }
 
 // npm reports its machine readable cause as `npm error code E403`, or as
@@ -79,18 +85,19 @@ export function isolatedNpmEnvironment(env, temporary) {
   };
 }
 
-// Never approves a stage or claims registry availability. Every attempt is recorded
-// before the network call so an interrupted request remains explicitly unknown.
-// A package that fails does not stop the ones after it: each stage is a separate
-// request, stopping cannot recall the requests already sent, and one run that
-// reports all 29 outcomes beats 29 runs that each report one.
-export function stage(root, options, {
+// Records that npm accepted each package, never that the registry already serves
+// it: propagation is verified separately against the registry bytes. Every attempt
+// is recorded before the network call so an interrupted request remains explicitly
+// unknown. A package that fails does not stop the ones after it: each publish is a
+// separate request, stopping cannot recall the requests already sent, and one run
+// that reports all 29 outcomes beats 29 runs that each report one.
+export function publish(root, options, {
   env = process.env,
   validateSource = assertSource,
   validateTrigger = assertTrigger,
   workspaces = listWorkspaces,
   execute = run,
-  publish = (args, settings) => spawnSync('npm', args, { ...settings, encoding: 'utf8', maxBuffer: 16 * 1024 * 1024 }),
+  npm = (args, settings) => spawnSync('npm', args, { ...settings, encoding: 'utf8', maxBuffer: 16 * 1024 * 1024 }),
   log = message => console.error(message),
 } = {}) {
   const receiptDir = path.resolve(root, options.receiptDir);
@@ -98,25 +105,21 @@ export function stage(root, options, {
   const receiptFile = path.join(receiptDir, 'receipt.json');
   assert(!fs.existsSync(receiptFile), 'Existing receipt: inspect it before retrying with a new releaseId');
   const receipt = {
-    schemaVersion: 1, mode: 'stage', publicAvailable: false, status: 'validating',
+    schemaVersion: 1, mode: 'publish', publicAvailable: true, status: 'validating',
     sourceSha: env.GITHUB_SHA ?? null, planHash: options.expectedPlanHash ?? null,
     releaseId: null, tag: TAG, version: null, runId: env.GITHUB_RUN_ID ?? null,
     runAttempt: env.GITHUB_RUN_ATTEMPT ?? null, packages: [],
   };
   function persist() {
     writeJson(receiptFile, receipt);
-    writeJson(path.join(receiptDir, 'stage-ids.json'), {
-      schemaVersion: 1, releaseId: receipt.releaseId, sourceSha: receipt.sourceSha,
-      planHash: receipt.planHash,
-      packages: receipt.packages.filter(pkg => pkg.stageId).map(({ name, version, stageId }) => ({ name, version, stageId })),
-    });
   }
   persist();
   let temporary;
   try {
-    assert.equal(env.GITHUB_ACTIONS, 'true', 'Stage runs only in GitHub Actions');
-    // A previous attempt may have reached the registry without returning a receipt.
-    assert.equal(env.GITHUB_RUN_ATTEMPT, '1', 'Automatic stage retries are disabled; reconcile prior stage IDs first');
+    assert.equal(env.GITHUB_ACTIONS, 'true', 'Publishing runs only in GitHub Actions');
+    // A previous attempt may have reached the registry without returning a receipt,
+    // and a published version can never be replaced.
+    assert.equal(env.GITHUB_RUN_ATTEMPT, '1', 'Automatic publish retries are disabled; reconcile the registry first');
     const plan = readJson(path.join(root, '.release/canary-plan.json'));
     const manifest = verifyArtifacts(path.resolve(root, options.artifacts), plan, options.expectedPlanHash, env.GITHUB_SHA);
     receipt.releaseId = plan.releaseId;
@@ -129,35 +132,35 @@ export function stage(root, options, {
     fs.writeFileSync(npmEnv.NPM_CONFIG_USERCONFIG, '');
     fs.writeFileSync(npmEnv.NPM_CONFIG_GLOBALCONFIG, '');
     assert.equal(execute('npm', ['--version'], { cwd: temporary, env: npmEnv }), '11.21.0', 'npm 11.21.0 is required');
-    receipt.status = 'staging';
+    receipt.status = 'publishing';
     persist();
     let unresolved = 0;
     for (const pkg of manifest.packages) {
-      const item = { name: pkg.name, version: pkg.version, integrity: pkg.integrity, status: 'unknown', stageId: null };
+      const item = { name: pkg.name, version: pkg.version, integrity: pkg.integrity, status: 'unknown' };
       receipt.packages.push(item);
       persist();
-      const result = publish(stageArguments(path.resolve(root, options.artifacts, pkg.filename)), { cwd: temporary, env: npmEnv });
+      const result = npm(publishArguments(path.resolve(root, options.artifacts, pkg.filename)), { cwd: temporary, env: npmEnv });
       // Even a nonzero result can mean the registry accepted a request. Do not retry.
       try {
         assert(!result.error && result.status === 0, 'npm exited nonzero');
-        item.stageId = stageIdFromOutput(result.stdout, pkg);
-        item.status = 'staged';
+        publishedFromOutput(result.stdout, pkg);
+        item.status = 'published';
       } catch (error) {
         unresolved += 1;
         item.exitCode = result.status ?? null;
         item.errorCode = npmErrorCode(result);
-        log(`[stage] ${pkg.name} unresolved: ${String(error.message).replace(SECRET, '[redacted]')}`);
+        log(`[publish] ${pkg.name} unresolved: ${String(error.message).replace(SECRET, '[redacted]')}`);
         log(diagnostic(result));
       }
       persist();
     }
-    assert.equal(unresolved, 0, `${unresolved} of ${manifest.packages.length} packages failed or returned an ambiguous outcome; inspect registry stages before retrying`);
-    receipt.status = 'staged';
+    assert.equal(unresolved, 0, `${unresolved} of ${manifest.packages.length} packages failed or returned an ambiguous outcome; inspect the registry before retrying`);
+    receipt.status = 'published';
     persist();
     return receipt;
   } catch (error) {
     receipt.status = receipt.packages.length ? 'partial-or-unknown' : 'blocked';
-    receipt.failure = receipt.packages.length ? 'stage-request-failed-or-unconfirmed' : 'preflight-failed';
+    receipt.failure = receipt.packages.length ? 'publish-request-failed-or-unconfirmed' : 'preflight-failed';
     persist();
     throw error;
   } finally {
