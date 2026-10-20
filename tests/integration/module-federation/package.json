@@ -1,0 +1,14 @@
+{
+  "name": "mf-lab-tests",
+  "private": true,
+  "scripts": {
+    "dev": "node scripts/dev.mjs",
+    "test": "rstest -c rstest.config.mts"
+  },
+  "devDependencies": {
+    "@rstest/core": "0.12.3",
+    "get-port": "5.1.1",
+    "puppeteer": "^24.43.1",
+    "tree-kill": "^1.2.2"
+  }
+}

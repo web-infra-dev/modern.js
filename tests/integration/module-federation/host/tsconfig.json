@@ -1,0 +1,16 @@
+{
+  "extends": "@modern-js/tsconfig/base",
+  "compilerOptions": {
+    "jsx": "react-jsx",
+    "noEmit": true,
+    "paths": {
+      "@module-federation/runtime": [
+        "./node_modules/@module-federation/runtime"
+      ],
+      "@module-federation/runtime-core": [
+        "./node_modules/@module-federation/runtime-core"
+      ]
+    }
+  },
+  "include": ["src", "*.ts"]
+}
