@@ -3,12 +3,12 @@ import path from 'node:path';
 import test from 'node:test';
 import { planHash, readJson } from './core.mjs';
 import { artifactFixture, githubEnvironment } from './fixtures.mjs';
-import { isolatedNpmEnvironment, stage, stageArguments, stageIdFromOutput } from './stage.mjs';
+import { diagnostic, isolatedNpmEnvironment, npmErrorCode, stage, stageArguments, stageIdFromOutput } from './stage.mjs';
 
-function settings(fixture, publish) {
+function settings(fixture, publish, log = () => {}) {
   return {
     env: githubEnvironment(), validateSource: () => {}, validateTrigger: () => {},
-    workspaces: () => fixture.plan.packages, execute: () => '11.21.0', publish,
+    workspaces: () => fixture.plan.packages, execute: () => '11.21.0', publish, log,
   };
 }
 const options = plan => ({ artifacts: 'artifacts', receiptDir: 'receipts', expectedPlanHash: planHash(plan) });
@@ -80,4 +80,47 @@ test('stage response must contain a matching identity, integrity and nonempty st
   for (const result of [{}, { [pkg.name]: pkg }, { [pkg.name]: { ...pkg, stageId: 'id', integrity: 'wrong' } }]) {
     assert.throws(() => stageIdFromOutput(JSON.stringify(result), pkg));
   }
+});
+
+test('one unresolved package does not stop the rest, and each is attempted once', t => {
+  const fixture = artifactFixture(t);
+  const logged = [];
+  let count = 0;
+  assert.throws(() => stage(fixture.root, options(fixture.plan), settings(fixture, () => {
+    const index = count++;
+    if (index === 0) return { status: 1, stderr: 'npm error code E404\nnpm error 404 Not Found' };
+    const pkg = fixture.manifest.packages[index];
+    return { status: 0, stdout: JSON.stringify({ [pkg.name]: { ...pkg, stageId: 'stage-two' } }) };
+  }, message => logged.push(message))), /1 of 2 packages/);
+  const receipt = readJson(path.join(fixture.root, 'receipts/receipt.json'));
+  assert.equal(count, 2, 'Every package is attempted exactly once');
+  assert.equal(receipt.packages[0].status, 'unknown');
+  assert.equal(receipt.packages[0].errorCode, 'E404');
+  assert.equal(receipt.packages[1].stageId, 'stage-two');
+  assert.equal(receipt.status, 'partial-or-unknown');
+  assert.equal(readJson(path.join(fixture.root, 'receipts/stage-ids.json')).packages.length, 1);
+  assert.match(logged.join('\n'), /npm error 404 Not Found/);
+});
+
+test('npm diagnostics reach the log without a token or the receipt', t => {
+  const fixture = artifactFixture(t);
+  const token = `npm_${'a'.repeat(36)}`;
+  const logged = [];
+  assert.throws(() => stage(fixture.root, options(fixture.plan), settings(fixture,
+    () => ({ status: 1, stderr: `npm error code E403\nnpm error 403 ${token} rejected\nunrelated line` }),
+    message => logged.push(message))));
+  const text = logged.join('\n');
+  assert(!text.includes(token), 'A token shaped value must never be logged');
+  assert.match(text, /npm error 403 \[redacted\] rejected/);
+  assert(!text.includes('unrelated line'), 'Only npm diagnostics are logged');
+  assert(!JSON.stringify(readJson(path.join(fixture.root, 'receipts/receipt.json'))).includes('403 '), 'Receipt carries the code alone');
+});
+
+test('only a fixed shape error code is read back from npm', () => {
+  assert.equal(npmErrorCode({ stderr: 'npm error code ENEEDAUTH' }), 'ENEEDAUTH');
+  assert.equal(npmErrorCode({ stdout: JSON.stringify({ error: { code: 'E429', summary: 'Too many requests' } }) }), 'E429');
+  assert.equal(npmErrorCode({ error: { code: 'ENOENT' } }), 'ENOENT');
+  assert.equal(npmErrorCode({ stderr: 'npm error code not a code' }), null);
+  assert.equal(npmErrorCode({ stderr: 'nothing useful' }), null);
+  assert.match(diagnostic({ status: 1 }), /no npm diagnostic/);
 });
