@@ -4,12 +4,15 @@ import path from 'node:path';
 import test from 'node:test';
 import { planHash, readJson } from './core.mjs';
 import { artifactFixture, githubEnvironment } from './fixtures.mjs';
-import { diagnostic, isolatedNpmEnvironment, npmErrorCode, publish, publishArguments, publishedFromOutput } from './publish.mjs';
+import {
+  assertTrustedPublishers, diagnostic, isolatedNpmEnvironment, npmErrorCode,
+  publish, publishArguments, publishedFromOutput, repairInstructions,
+} from './publish.mjs';
 
 function settings(fixture, npm, log = () => {}) {
   return {
     env: githubEnvironment(), validateSource: () => {}, validateTrigger: () => {},
-    workspaces: () => fixture.plan.packages, execute: () => '11.21.0', npm, log,
+    workspaces: () => fixture.plan.packages, execute: () => '11.21.0', verifyTrust: () => {}, npm, log,
   };
 }
 const options = plan => ({ artifacts: 'artifacts', receiptDir: 'receipts', expectedPlanHash: planHash(plan) });
@@ -28,10 +31,10 @@ test('OIDC-only environment strips injected npm config and refuses token fallbac
   assert.throws(() => isolatedNpmEnvironment({}, '/tmp'));
 });
 
-test('a complete run records every package as published', t => {
+test('a complete run records every package as published', async t => {
   const fixture = artifactFixture(t);
   let count = 0;
-  const receipt = publish(fixture.root, options(fixture.plan), settings(fixture, () => {
+  const receipt = await publish(fixture.root, options(fixture.plan), settings(fixture, () => {
     const pkg = fixture.manifest.packages[count++];
     return { status: 0, stdout: JSON.stringify({ [pkg.name]: { ...pkg } }) };
   }));
@@ -43,10 +46,10 @@ test('a complete run records every package as published', t => {
   assert(!fs.existsSync(path.join(fixture.root, 'receipts/stage-ids.json')), 'Stage IDs no longer exist');
 });
 
-test('partial failure keeps the earlier package published and marks the ambiguous one, never retries', t => {
+test('partial failure keeps the earlier package published and marks the ambiguous one, never retries', async t => {
   const fixture = artifactFixture(t);
   let count = 0;
-  assert.throws(() => publish(fixture.root, options(fixture.plan), settings(fixture, () => {
+  await assert.rejects(() => publish(fixture.root, options(fixture.plan), settings(fixture, () => {
     if (count++ > 0) return { status: 1, stderr: 'secret must not enter receipt' };
     const pkg = fixture.manifest.packages[0];
     return { status: 0, stdout: JSON.stringify({ [pkg.name]: { ...pkg } }) };
@@ -59,21 +62,21 @@ test('partial failure keeps the earlier package published and marks the ambiguou
   assert(!JSON.stringify(receipt).includes('secret'));
 });
 
-test('all artifacts and OIDC validate before the first network write, failure receipt is saved', t => {
+test('all artifacts and OIDC validate before the first network write, failure receipt is saved', async t => {
   const fixture = artifactFixture(t);
   let count = 0;
   const deps = settings(fixture, () => { count++; });
   deps.env.NPM_TOKEN = 'forbidden';
-  assert.throws(() => publish(fixture.root, options(fixture.plan), deps));
+  await assert.rejects(() => publish(fixture.root, options(fixture.plan), deps));
   assert.equal(count, 0);
   assert.equal(readJson(path.join(fixture.root, 'receipts/receipt.json')).status, 'blocked');
 });
 
-test('reruns fail closed because a published version can never be replaced', t => {
+test('reruns fail closed because a published version can never be replaced', async t => {
   const fixture = artifactFixture(t);
   const deps = settings(fixture, () => assert.fail('must not publish'));
   deps.env.GITHUB_RUN_ATTEMPT = '2';
-  assert.throws(() => publish(fixture.root, options(fixture.plan), deps), /retries/);
+  await assert.rejects(() => publish(fixture.root, options(fixture.plan), deps), /retries/);
 });
 
 test('publish response must contain a matching identity and integrity', t => {
@@ -85,11 +88,11 @@ test('publish response must contain a matching identity and integrity', t => {
   assert.equal(publishedFromOutput(JSON.stringify({ [pkg.name]: pkg }), pkg), `${pkg.name}@${pkg.version}`);
 });
 
-test('one unresolved package does not stop the rest, and each is attempted once', t => {
+test('one unresolved package does not stop the rest, and each is attempted once', async t => {
   const fixture = artifactFixture(t);
   const logged = [];
   let count = 0;
-  assert.throws(() => publish(fixture.root, options(fixture.plan), settings(fixture, () => {
+  await assert.rejects(() => publish(fixture.root, options(fixture.plan), settings(fixture, () => {
     const index = count++;
     if (index === 0) return { status: 1, stderr: 'npm error code E404\nnpm error 404 Not Found' };
     const pkg = fixture.manifest.packages[index];
@@ -104,11 +107,11 @@ test('one unresolved package does not stop the rest, and each is attempted once'
   assert.match(logged.join('\n'), /npm error 404 Not Found/);
 });
 
-test('npm diagnostics reach the log without a token or the receipt', t => {
+test('npm diagnostics reach the log without a token or the receipt', async t => {
   const fixture = artifactFixture(t);
   const token = `npm_${'a'.repeat(36)}`;
   const logged = [];
-  assert.throws(() => publish(fixture.root, options(fixture.plan), settings(fixture,
+  await assert.rejects(() => publish(fixture.root, options(fixture.plan), settings(fixture,
     () => ({ status: 1, stderr: `npm error code E403\nnpm error 403 ${token} rejected\nunrelated line` }),
     message => logged.push(message))));
   const text = logged.join('\n');
@@ -125,4 +128,97 @@ test('only a fixed shape error code is read back from npm', () => {
   assert.equal(npmErrorCode({ stderr: 'npm error code not a code' }), null);
   assert.equal(npmErrorCode({ stderr: 'nothing useful' }), null);
   assert.match(diagnostic({ status: 1 }), /no npm diagnostic/);
+});
+
+// Trusted publishers are configured per package and cannot be configured at all
+// for a package npm does not serve yet, so a package added to the repository
+// reaches the publish job unconfigured. The probe has to catch that before the
+// first package is published, and has to stay out of the way when the registry
+// answers something that proves nothing.
+function registry({ refuse = new Set(), status = 403, absent = new Set(), fail = new Set() } = {}) {
+  const calls = [];
+  return {
+    calls,
+    request(url, settings = {}) {
+      calls.push(`${settings.method ?? 'GET'} ${url}`);
+      if (!url.startsWith('https://registry.npmjs.org/')) {
+        return Promise.resolve({ ok: true, status: 200, json: () => Promise.resolve({ value: 'id-token' }) });
+      }
+      const name = decodeURIComponent(new URL(url).pathname.split('/package/').pop() ?? '');
+      if (settings.method === 'HEAD') {
+        const packed = decodeURIComponent(new URL(url).pathname.slice(1));
+        return Promise.resolve({ ok: !absent.has(packed), status: absent.has(packed) ? 404 : 200 });
+      }
+      if (fail.has(name)) return Promise.reject(new Error('socket hang up'));
+      if (refuse.has(name)) return Promise.resolve({ ok: false, status });
+      return Promise.resolve({ ok: true, status: 200, json: () => Promise.resolve({ token: 'npm_exchanged' }) });
+    },
+  };
+}
+const names = ['@modern-js/a', '@modern-js/b'];
+const trustEnvironment = () => ({
+  ...githubEnvironment(),
+  GITHUB_REPOSITORY: 'web-infra-dev/modern.js',
+  GITHUB_WORKFLOW_REF: 'web-infra-dev/modern.js/.github/workflows/canary-verify.yml@refs/heads/release-canary-verify/x',
+});
+
+test('every package is probed through the same exchange npm uses, and a token is never logged', async () => {
+  const logged = [];
+  const stub = registry();
+  await assertTrustedPublishers(names, { env: trustEnvironment(), request: stub.request, log: message => logged.push(message) });
+  assert.deepEqual(stub.calls.slice(1), [
+    'POST https://registry.npmjs.org/-/npm/v1/oidc/token/exchange/package/@modern-js%2fa',
+    'POST https://registry.npmjs.org/-/npm/v1/oidc/token/exchange/package/@modern-js%2fb',
+  ]);
+  assert.match(stub.calls[0], /audience=npm%3Aregistry.npmjs.org/);
+  assert(!logged.join('\n').includes('npm_exchanged'));
+});
+
+test('a refused exchange blocks the release and names the command that repairs it', async () => {
+  const logged = [];
+  const stub = registry({ refuse: new Set(['@modern-js/b']) });
+  await assert.rejects(
+    () => assertTrustedPublishers(names, { env: trustEnvironment(), request: stub.request, log: message => logged.push(message) }),
+    /1 of 2 packages have no trusted publisher/);
+  assert.match(logged.join('\n'), /npm trust github @modern-js\/b --repo web-infra-dev\/modern.js --file canary-verify.yml --allow-publish/);
+});
+
+test('a package npm does not serve yet is reported as needing a first publish, not a binding', async () => {
+  const logged = [];
+  const stub = registry({ refuse: new Set(['@modern-js/b']), status: 404, absent: new Set(['@modern-js/b']) });
+  await assert.rejects(() => assertTrustedPublishers(names, { env: trustEnvironment(), request: stub.request, log: message => logged.push(message) }));
+  assert.match(logged.join('\n'), /@modern-js\/b: not on npm yet/);
+  assert(!logged.join('\n').includes('npm trust github @modern-js/b'));
+});
+
+test('an answer that proves nothing is reported but never blocks the release', async () => {
+  for (const stub of [registry({ refuse: new Set(['@modern-js/a']), status: 503 }), registry({ fail: new Set(['@modern-js/a']) })]) {
+    const logged = [];
+    await assertTrustedPublishers(names, { env: trustEnvironment(), request: stub.request, log: message => logged.push(message) });
+    assert.match(logged.join('\n'), /1 package\(s\) could not be checked/);
+  }
+});
+
+test('the probe fails closed when GitHub will not mint an identity token', async () => {
+  const request = () => Promise.resolve({ ok: false, status: 403, json: () => Promise.resolve({}) });
+  await assert.rejects(() => assertTrustedPublishers(names, { env: trustEnvironment(), request, log: () => {} }), /identity token/);
+});
+
+test('repair instructions fall back to placeholders outside a known workflow', () => {
+  assert.match(repairInstructions('@modern-js/a', true, {}), /--repo <owner>\/<repository> --file <workflow>.yml/);
+});
+
+test('the publish job runs the probe before the first package and refuses to continue', async t => {
+  const fixture = artifactFixture(t);
+  let attempted = 0;
+  const deps = settings(fixture, () => { attempted++; });
+  deps.verifyTrust = (probed) => {
+    assert.deepEqual(probed, fixture.manifest.packages.map(pkg => pkg.name));
+    return Promise.reject(new Error('1 of 2 packages have no trusted publisher for this workflow'));
+  };
+  await assert.rejects(() => publish(fixture.root, options(fixture.plan), deps), /no trusted publisher/);
+  assert.equal(attempted, 0, 'Nothing may be published once the probe refuses');
+  const receipt = readJson(path.join(fixture.root, 'receipts/receipt.json'));
+  assert.equal(receipt.status, 'blocked');
+  assert.equal(receipt.failure, 'preflight-failed');
 });
