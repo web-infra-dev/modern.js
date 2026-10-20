@@ -7,7 +7,7 @@ export default defineConfig({
   plugins: [pluginReact()],
   source: {
     entry: {
-      [development ? 'mcp-app.dev' : 'mcp-app']: './src/runtime/mcp-app.tsx',
+      [development ? 'mcp-app.dev' : 'mcp-app']: './src/mf-runtime/mcp-app.tsx',
     },
     define: {
       'process.env.NODE_ENV': JSON.stringify(
@@ -16,7 +16,7 @@ export default defineConfig({
     },
   },
   html: {
-    template: './src/runtime/mcp-app.html',
+    template: './src/mf-runtime/mcp-app.html',
     inject: 'body',
   },
   output: {

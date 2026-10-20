@@ -452,6 +452,71 @@ describe('server', () => {
       });
     }
 
+    it('discards initialization invalidated by reset without clearing newer work', async () => {
+      const dir = await tempDir();
+      const entry = path.join(dir, 'mcp_apps.mjs');
+      const key = path.basename(dir);
+      const started = Promise.withResolvers<void>();
+      const releaseOld = Promise.withResolvers<void>();
+      const freshStarted = Promise.withResolvers<void>();
+      const releaseFresh = Promise.withResolvers<void>();
+      let freshLoads = 0;
+      const gates = globalThis as unknown as Record<
+        string,
+        {
+          start(): void;
+          wait: Promise<void>;
+          freshStart(): void;
+          freshWait: Promise<void>;
+        }
+      >;
+      gates[key] = {
+        start: () => started.resolve(),
+        wait: releaseOld.promise,
+        freshStart: () => {
+          freshLoads++;
+          freshStarted.resolve();
+        },
+        freshWait: releaseFresh.promise,
+      };
+      const config = (version: string) =>
+        `export default { remotes: [], tools: [{ name: 'greet', handler: () => ({ structuredContent: { version: '${version}' } }) }] };`;
+      const artifact = createArtifactHandler(entry);
+      try {
+        await writeFile(
+          entry,
+          `globalThis[${JSON.stringify(key)}].start(); await globalThis[${JSON.stringify(key)}].wait; ${config('old')}`,
+        );
+        const pending = artifact.handle(call());
+        const rejected = expect(pending).rejects.toMatchObject({
+          name: 'AbortError',
+        });
+        await started.promise;
+        artifact.reset();
+        await writeFile(
+          entry,
+          `globalThis[${JSON.stringify(key)}].freshStart(); await globalThis[${JSON.stringify(key)}].freshWait; ${config('fresh')}`,
+        );
+        const fresh = artifact.handle(call());
+        await freshStarted.promise;
+        releaseOld.resolve();
+        await rejected;
+        const concurrent = artifact.handle(call());
+        releaseFresh.resolve();
+        for (const response of await Promise.all([fresh, concurrent])) {
+          expect((await response.json()).result.structuredContent.version).toBe(
+            'fresh',
+          );
+        }
+        expect(freshLoads).toBe(1);
+      } finally {
+        releaseOld.resolve();
+        releaseFresh.resolve();
+        artifact.reset();
+        delete gates[key];
+      }
+    });
+
     it('cancels an in-flight file-backed tool when its handler is reset', async () => {
       const dir = await tempDir();
       const entry = path.join(dir, 'mcp_apps.mjs');

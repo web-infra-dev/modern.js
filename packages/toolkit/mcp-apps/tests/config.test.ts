@@ -1,8 +1,9 @@
+import * as configEntry from '../src/config';
 import { expect, it, describe } from '@rstest/core';
 import { defineMcpServer } from '../src/config';
 import { createMcpHandler } from '../src/server';
-import { normalizeToolConfig } from '../src/definition';
-import { normalizeInputSchema } from '../src/input-schema';
+import { normalizeToolConfig } from '../src/resources';
+import { normalizeInputSchema } from '../src/resources';
 import { bindUiResources } from '../src/resources';
 
 describe('config', () => {
@@ -268,4 +269,13 @@ describe('view-defaults', () => {
       'https://tool.example',
     ]);
   });
+});
+
+it('keeps the configuration entry limited to definition helpers', () => {
+  expect(Object.keys(configEntry).sort()).toEqual([
+    'defineMcpApps',
+    'defineMcpServer',
+    'defineMcpUi',
+    'defineTool',
+  ]);
 });

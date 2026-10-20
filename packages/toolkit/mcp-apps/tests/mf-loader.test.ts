@@ -1,6 +1,6 @@
 import { createInstance } from '@module-federation/enhanced/runtime';
 import { beforeEach, describe, expect, it, rstest } from '@rstest/core';
-import { loadRemoteComponent } from './mf-loader';
+import { loadRemoteComponent } from '../src/mf-runtime/mf-loader';
 
 rstest.mock('@module-federation/enhanced/runtime', () => ({
   createInstance: rstest.fn(),
@@ -24,7 +24,6 @@ describe('standard MF loading', () => {
         module: './Greeting',
         exportName: 'default',
       },
-      addLog: rstest.fn(),
       instances: new Map(),
     };
 
@@ -64,7 +63,6 @@ describe('standard MF loading', () => {
         module: './Greeting',
         exportName: 'default',
       },
-      addLog: rstest.fn(),
       instances: new Map(),
     };
     expect(await loadRemoteComponent(options)).toBe(First);

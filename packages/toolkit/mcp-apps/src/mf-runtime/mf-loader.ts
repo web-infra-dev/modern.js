@@ -103,7 +103,6 @@ export interface ModuleFederationConfig {
 
 export interface LoadRemoteOptions {
   config: ModuleFederationConfig;
-  addLog: (msg: string) => void;
   instances: Map<string, ModuleFederationInstance>;
 }
 
@@ -119,7 +118,6 @@ export interface LoadRemoteOptions {
  */
 export async function loadRemoteComponent({
   config,
-  addLog,
   instances,
 }: LoadRemoteOptions): Promise<RemoteComponent> {
   const {
@@ -132,13 +130,11 @@ export async function loadRemoteComponent({
   const remoteEntry = rawRemoteEntry.startsWith('//')
     ? `https:${rawRemoteEntry}`
     : rawRemoteEntry;
-  addLog(`📋 Using MF manifest: ${remoteEntry}`);
 
   // A remote's name and entry jointly identify its runtime instance.
   const key = JSON.stringify([remoteName, remoteEntry]);
   let mf = instances.get(key);
   if (!mf) {
-    addLog('Creating MF instance...');
     mf = createInstance({
       name: 'mcp-host',
       remotes: [{ name: remoteName, entry: remoteEntry }],
@@ -159,17 +155,7 @@ export async function loadRemoteComponent({
       ? remoteName
       : `${remoteName}/${normalizedPath}`;
 
-  addLog(`📦 Loading remote module: ${fullPath}`);
-
-  let remoteModule: RemoteModule | RemoteComponent;
-  try {
-    remoteModule = await mf.loadRemote(fullPath);
-  } catch (loadErr: unknown) {
-    const message =
-      loadErr instanceof Error ? loadErr.message : String(loadErr);
-    addLog(`❌ Load failed: ${message}`);
-    throw loadErr;
-  }
+  const remoteModule = await mf.loadRemote(fullPath);
 
   const moduleRecord =
     typeof remoteModule === 'object'

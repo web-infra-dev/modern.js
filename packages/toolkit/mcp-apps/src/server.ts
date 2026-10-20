@@ -1,5 +1,6 @@
 import fs from 'node:fs/promises';
 import path from 'node:path';
+import { pathToFileURL } from 'node:url';
 import {
   Server,
   WebStandardStreamableHTTPServerTransport,
@@ -16,23 +17,16 @@ import addFormats from 'ajv-formats';
 import Ajv2020 from 'ajv/dist/2020.js';
 import type {
   LoadRemoteHandler,
+  LoadRemoteHandlerOptions,
+  McpAppsConfig,
   McpAppsDefinition,
+  RemoteToolHandler,
   RemoteToolHandlerResult,
 } from './config';
 import {
-  createMcpAppsViewResource,
-  createStaticMcpAppsToolResult,
-  fetchJson,
-  mergeHandlerResultWithView,
   normalizeToolConfig,
-} from './definition';
-import {
-  createMcpAppsHandlerLoader,
-  loadMcpAppsConfig,
-  resolveLocalConfigModule,
-} from './loader';
-import {
   createUiResources,
+  createMcpAppsViewResource,
   readRuntimeHtml,
   resolveUiHtml,
   validateMcpAppsConfig,
@@ -46,8 +40,6 @@ export {
   readUiManifestResource,
 } from './resources';
 export type { McpUiManifest } from './resources';
-export { createMcpViewResult } from './definition';
-export { loadMcpAppsConfig } from './loader';
 export { validateMcpAppsConfig } from './resources';
 
 export interface McpHandlerOptions<T = undefined> {
@@ -436,8 +428,10 @@ export function createArtifactHandler<T = unknown>(
       }
     | undefined;
   let loading: Promise<void> | undefined;
+  let lifecycle = new AbortController();
   const contexts = new WeakMap<Request, T>();
   const refresh = async () => {
+    const signal = lifecycle.signal;
     if (active && !options.development) return;
     const configPath = await resolveLocalConfigModule(entry);
     const revision = options.development
@@ -445,6 +439,7 @@ export function createArtifactHandler<T = unknown>(
       : 'production';
     if (active?.revision === revision) return;
     const definition = await loadMcpAppsConfig(configPath);
+    signal.throwIfAborted();
     const handle = createMcpHandler(definition, {
       ...options,
       configPath,
@@ -458,10 +453,10 @@ export function createArtifactHandler<T = unknown>(
   };
   return {
     async handle(request: Request, context?: T) {
-      loading ??= refresh().finally(() => {
-        loading = undefined;
-      });
-      await loading;
+      const pending = (loading ??= refresh().finally(() => {
+        if (loading === pending) loading = undefined;
+      }));
+      await pending;
       if (!active) throw new Error('MCP Apps handler is unavailable');
       const { handle, abort } = active;
       // Read the body through Modern.js's request proxy to resume its stream.
@@ -481,6 +476,9 @@ export function createArtifactHandler<T = unknown>(
       }
     },
     reset() {
+      lifecycle.abort();
+      lifecycle = new AbortController();
+      loading = undefined;
       active?.abort.abort();
       active = undefined;
     },
@@ -493,4 +491,269 @@ function publicOrigin(request: Request) {
   const proto = request.headers.get('x-forwarded-proto')?.split(',')[0].trim();
   if (proto === 'http' || proto === 'https') url.protocol = `${proto}:`;
   return `${url.origin}/`;
+}
+
+export async function loadMcpAppsConfig(
+  configPath: string,
+): Promise<McpAppsConfig> {
+  const resolvedPath = await resolveLocalConfigModule(configPath);
+
+  if (/\.[cm]?tsx?$/.test(resolvedPath) || /\.[cm]?js$/.test(resolvedPath)) {
+    return loadMcpAppsModule(resolvedPath);
+  }
+
+  const raw = await fs.readFile(path.resolve(resolvedPath), 'utf8');
+  return JSON.parse(raw) as McpAppsConfig;
+}
+
+// Resolve a config path that omits its extension, mirroring how local handler
+// modules are resolved. Lets callers point at "dir/mcp_apps" and pick up the
+// compiled mcp_apps.mjs (prod) or the mcp_apps.ts source (dev) automatically.
+// If nothing matches, the path is returned unchanged so the original error
+// (e.g. ENOENT from readFile) still surfaces.
+async function resolveLocalConfigModule(configPath: string): Promise<string> {
+  if (path.extname(configPath)) {
+    return configPath;
+  }
+  const absolute = path.resolve(configPath);
+  const candidates = [
+    `${absolute}.mjs`,
+    `${absolute}.js`,
+    `${absolute}.cjs`,
+    `${absolute}.ts`,
+    `${absolute}.tsx`,
+    `${absolute}.json`,
+  ];
+  for (const candidate of candidates) {
+    try {
+      if ((await fs.stat(candidate)).isFile()) {
+        return candidate;
+      }
+    } catch {
+      // Try the next extension.
+    }
+  }
+  return configPath;
+}
+
+let moduleRevision = 0;
+
+// Load application-compiled modules. TypeScript support belongs to the host runtime.
+async function importLocalModule(
+  modulePath: string,
+): Promise<Record<string, unknown>> {
+  const absolutePath = path.resolve(modulePath);
+  const moduleUrl = pathToFileURL(absolutePath);
+  moduleUrl.searchParams.set('t', String(++moduleRevision));
+  return (await importOptional(moduleUrl.href)) as Record<string, unknown>;
+}
+
+async function loadMcpAppsModule(configPath: string): Promise<McpAppsConfig> {
+  const mod = (await importLocalModule(configPath)) as {
+    default?: McpAppsConfig;
+    config?: McpAppsConfig;
+    mcpApps?: McpAppsConfig;
+  };
+  const exported = mod.default ?? mod.config ?? mod.mcpApps;
+  const config =
+    exported && !('tools' in exported) && 'default' in exported
+      ? (exported as { default: McpAppsConfig }).default
+      : exported;
+  if (!config) {
+    throw new Error(
+      `${configPath}: expected a default export from defineMcpApps(...)`,
+    );
+  }
+  return config;
+}
+
+function createMcpAppsHandlerLoader(): LoadRemoteHandler {
+  const localLoaderCache = new Map<string, Promise<RemoteToolHandler>>();
+  return async options => {
+    const cacheKey = `${options.configPath ?? process.cwd()}:${options.handler.module}:${options.handler.exportName}`;
+    if (!localLoaderCache.has(cacheKey)) {
+      const loading = loadLocalToolHandler(options);
+      localLoaderCache.set(cacheKey, loading);
+      loading.catch(() => {
+        if (localLoaderCache.get(cacheKey) === loading)
+          localLoaderCache.delete(cacheKey);
+      });
+    }
+    const handler = localLoaderCache.get(cacheKey);
+    if (!handler) {
+      throw new Error(
+        `Unable to load local handler "${options.handler.module}"`,
+      );
+    }
+    return handler;
+  };
+}
+
+async function loadLocalToolHandler({
+  handler,
+  configPath,
+}: LoadRemoteHandlerOptions): Promise<RemoteToolHandler> {
+  const modulePath = await resolveLocalHandlerModule(
+    handler.module,
+    configPath,
+  );
+  // TypeScript support belongs to the host runtime, as with config loading.
+  const mod = await importLocalModule(modulePath);
+  const resolved = mod[handler.exportName] ?? mod.default;
+  if (typeof resolved !== 'function') {
+    throw new Error(
+      `Export "${handler.exportName}" from "${modulePath}" is not a function`,
+    );
+  }
+  return resolved as RemoteToolHandler;
+}
+
+async function resolveLocalHandlerModule(
+  modulePath: string,
+  configPath?: string,
+): Promise<string> {
+  const baseDir = configPath
+    ? path.dirname(path.resolve(configPath))
+    : process.cwd();
+  const candidate = path.isAbsolute(modulePath)
+    ? modulePath
+    : path.resolve(baseDir, modulePath);
+  const candidates = path.extname(candidate)
+    ? [candidate]
+    : [
+        candidate,
+        `${candidate}.ts`,
+        `${candidate}.tsx`,
+        `${candidate}.js`,
+        `${candidate}.mjs`,
+        `${candidate}.cjs`,
+        path.join(candidate, 'index.ts'),
+        path.join(candidate, 'index.js'),
+      ];
+  for (const item of candidates) {
+    try {
+      const stat = await fs.stat(item);
+      if (stat.isFile()) {
+        return item;
+      }
+    } catch {
+      // Try the next extension.
+    }
+  }
+  throw new Error(
+    `Local handler module "${modulePath}" was not found from ${baseDir}`,
+  );
+}
+
+function importOptional(specifier: string): Promise<unknown> {
+  return import(specifier);
+}
+
+function createStaticMcpAppsToolResult({
+  toolName,
+  resource,
+  args,
+}: {
+  toolName: string;
+  resource: NonNullable<ReturnType<typeof createMcpAppsViewResource>>;
+  args: unknown;
+}) {
+  const payload = { tool: toolName, resource, args };
+  return {
+    content: [{ type: 'text' as const, text: JSON.stringify(payload) }],
+    structuredContent: payload,
+  };
+}
+
+async function fetchJson<T = unknown>(
+  url: string,
+  init: Omit<RequestInit, 'body'> & { body?: unknown } = {},
+): Promise<T> {
+  const { body, headers, ...rest } = init;
+  const response = await fetch(url, {
+    ...rest,
+    headers: {
+      ...(body !== undefined ? { 'content-type': 'application/json' } : {}),
+      ...headers,
+    },
+    body:
+      body !== undefined && typeof body !== 'string'
+        ? JSON.stringify(body)
+        : body,
+  });
+  if (!response.ok) {
+    throw new Error(
+      `${url}: request failed (${response.status} ${response.statusText})`,
+    );
+  }
+  return (await response.json()) as T;
+}
+
+function mergeHandlerResultWithView({
+  toolName,
+  args,
+  resource,
+  handlerResult,
+}: {
+  toolName: string;
+  args: unknown;
+  resource?: ReturnType<typeof createMcpAppsViewResource>;
+  handlerResult: RemoteToolHandlerResult;
+}) {
+  const business = handlerResult.structuredContent;
+  const structuredContent = resource
+    ? {
+        ...(business && typeof business === 'object' && !Array.isArray(business)
+          ? business
+          : business === undefined
+            ? {}
+            : { data: business }),
+        tool: toolName,
+        resource,
+        args,
+        ...(handlerResult.viewProps
+          ? { viewProps: handlerResult.viewProps }
+          : {}),
+      }
+    : business;
+  const content =
+    handlerResult.content ??
+    (resource
+      ? [
+          {
+            type: 'text' as const,
+            text: JSON.stringify({ tool: toolName, resource, args }),
+          },
+        ]
+      : []);
+
+  return {
+    content,
+    structuredContent,
+    ...(handlerResult._meta ? { _meta: handlerResult._meta } : {}),
+    ...(handlerResult.isError ? { isError: true } : {}),
+  };
+}
+
+/** Result contract consumed by createMcpView in a user-managed MCP server. */
+export function createMcpViewResult(
+  args: Record<string, unknown>,
+  result: RemoteToolHandlerResult,
+) {
+  const { viewProps, ...rest } = result;
+  return {
+    ...rest,
+    content: result.content ?? [],
+    structuredContent: {
+      ...(result.structuredContent &&
+      typeof result.structuredContent === 'object' &&
+      !Array.isArray(result.structuredContent)
+        ? result.structuredContent
+        : result.structuredContent === undefined
+          ? {}
+          : { data: result.structuredContent }),
+      args,
+      ...(viewProps ? { viewProps } : {}),
+    },
+  };
 }

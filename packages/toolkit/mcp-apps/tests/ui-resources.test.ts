@@ -9,7 +9,7 @@ import type { McpUiHostContext } from '@modelcontextprotocol/ext-apps';
 import {
   canRequestDisplayMode,
   subscribeHostContext,
-} from '../src/runtime/host-context';
+} from '../src/mf-runtime/host-context';
 
 describe('ui-resources', () => {
   const dirs: string[] = [];
