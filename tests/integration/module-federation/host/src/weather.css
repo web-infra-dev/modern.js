@@ -13,13 +13,37 @@
   --ink: #e0ebf5;
   --muted: #a1b5c9;
   background:
-    radial-gradient(ellipse at 8% -12%, #53748e80, transparent 58%),
-    radial-gradient(ellipse at 95% 100%, #2b526b60, transparent 55%),
-    linear-gradient(150deg, #24394c, #142537 58%, #101d2d);
+    radial-gradient(ellipse at 10% 25%, #648b9a75, transparent 58%),
+    radial-gradient(ellipse at 90% 65%, #4c697d66, transparent 60%),
+    linear-gradient(135deg, #334c59, #253745 52%, #182632);
+  position: relative;
+  isolation: isolate;
   height: 100dvh;
   display: flex;
   flex-direction: column;
   overflow: hidden;
+}
+.comparison-shell::before,
+.comparison-shell::after {
+  content: '';
+  position: absolute;
+  z-index: -1;
+  width: 70vw;
+  height: 65vh;
+  border: 1px solid #c7e9f512;
+  border-radius: 64px;
+  background: linear-gradient(135deg, #c7e9f50d, #c7e9f502);
+  transform: rotate(-24deg);
+  pointer-events: none;
+}
+.comparison-shell::before {
+  top: -46vh;
+  left: -8vw;
+}
+.comparison-shell::after {
+  right: -25vw;
+  bottom: -42vh;
+  transform: rotate(-30deg);
 }
 .weather-nav {
   height: 64px;
@@ -116,15 +140,15 @@
 .comparison-shell .comparison-panel {
   border: 0;
   box-shadow:
-    0 0 48px #6bbcf51f,
-    0 32px 64px #020b18a6,
-    0 8px 20px #020b1880;
+    0 2px 4px #020b1859,
+    0 14px 20px -4px #020b18a6,
+    0 36px 48px -12px #020b18bf;
 }
 .comparison-grid {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  gap: 18px;
-  padding: 0 24px;
+  gap: 30px;
+  padding: 6px 36px 0;
   min-height: 0;
   flex: 1;
 }
@@ -1113,7 +1137,7 @@
   padding: 14px 24px;
 }
 .comparison-shell > .comparison-grid {
-  padding-bottom: 20px;
+  padding-bottom: 36px;
 }
 @media (max-width: 640px) {
   .comparison-toolbar {
