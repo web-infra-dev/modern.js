@@ -1,5 +1,55 @@
 # @modern-js/app-tools
 
+## 3.10.1
+
+### Patch Changes
+
+- Updated dependencies [e046a11]
+  - @modern-js/server-core@3.10.1
+  - @modern-js/server@3.10.1
+  - @modern-js/plugin-data-loader@3.10.1
+  - @modern-js/prod-server@3.10.1
+  - @modern-js/server-utils@3.10.1
+  - @modern-js/builder@3.10.1
+  - @modern-js/i18n-utils@3.10.1
+  - @modern-js/plugin@3.10.1
+  - @modern-js/types@3.10.1
+  - @modern-js/utils@3.10.1
+
+## 3.10.0
+
+### Patch Changes
+
+- da0fe78: chore: upgrade Rsbuild to v2.2.13
+
+  chore: 升级 Rsbuild 至 v2.2.13
+
+- 430b31e: Move the runtime script to the body before production inlining so streaming SSR hydration waits for initial router data. When runtime extraction is disabled, move the entry containing the runtime to the body and preload it from the head to preserve early downloading.
+- 14c23d0: chore: remove obsolete Jest test plugin hooks, configuration types, and the unused `testing` and `tools.jest` configuration options.
+
+  chore: 移除已废弃的 Jest 测试插件钩子、配置类型以及无用的 `testing` 和 `tools.jest` 配置项。
+
+- 7d9f0bb: chore(deps): upgrade Rsbuild to v2.2.12.
+
+  chore(deps): 升级 Rsbuild 到 v2.2.12。
+
+- Updated dependencies [da0fe78]
+- Updated dependencies [b5f56d5]
+- Updated dependencies [14c23d0]
+- Updated dependencies [9a766ec]
+- Updated dependencies [1d7a38e]
+- Updated dependencies [7d9f0bb]
+  - @modern-js/plugin-data-loader@3.10.0
+  - @modern-js/plugin@3.10.0
+  - @modern-js/builder@3.10.0
+  - @modern-js/server-core@3.10.0
+  - @modern-js/types@3.10.0
+  - @modern-js/server@3.10.0
+  - @modern-js/prod-server@3.10.0
+  - @modern-js/server-utils@3.10.0
+  - @modern-js/utils@3.10.0
+  - @modern-js/i18n-utils@3.10.0
+
 ## 3.9.3
 
 ### Patch Changes
