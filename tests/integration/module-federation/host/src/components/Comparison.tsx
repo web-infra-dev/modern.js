@@ -84,6 +84,10 @@ function Panel({
   }, [run, sendInspect]);
   return (
     <section className="comparison-panel">
+      <div className="comparison-sky" aria-hidden="true">
+        <div className="sky-cloud cloud-one" />
+        <div className="sky-cloud cloud-two" />
+      </div>
       <header>
         <h2>{name}</h2>
         <span>
@@ -99,7 +103,7 @@ function Panel({
         ref={frame}
         title={name}
         onLoad={sendInspect}
-        src={`/weather?${query}&run=${run}`}
+        src={`/weather?${query}&run=${run}&sharedSky=1`}
         sandbox="allow-scripts allow-same-origin"
       />
       <footer>

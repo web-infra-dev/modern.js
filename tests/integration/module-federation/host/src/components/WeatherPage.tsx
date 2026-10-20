@@ -53,10 +53,17 @@ export default function WeatherPage() {
   const [params] = useSearchParams();
   const compact = params.get('compact') === '1';
   const local = params.get('data') === 'local';
+  const sharedSky = params.get('sharedSky') === '1';
   return (
-    <main className={`weather-scene ${compact ? 'compact' : ''}`}>
-      <div className="sky-cloud cloud-one" />
-      <div className="sky-cloud cloud-two" />
+    <main
+      className={`weather-scene ${compact ? 'compact' : ''} ${sharedSky ? 'shared-sky' : ''}`}
+    >
+      {!sharedSky && (
+        <>
+          <div className="sky-cloud cloud-one" />
+          <div className="sky-cloud cloud-two" />
+        </>
+      )}
       <div className="weather-content">
         {params.get('data') === 'mf' ? (
           params.get('render') === 'csr' ? (

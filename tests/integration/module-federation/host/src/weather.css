@@ -153,6 +153,8 @@
   flex: 1;
 }
 .comparison-panel {
+  position: relative;
+  isolation: isolate;
   min-height: 0;
   overflow: hidden;
   display: flex;
@@ -166,7 +168,8 @@
   position: relative;
   isolation: isolate;
   overflow: hidden;
-  background: #215c95;
+  background: #ffffff1f;
+  backdrop-filter: blur(12px) saturate(0.9);
   height: 37px;
   display: flex;
   align-items: center;
@@ -174,24 +177,16 @@
   padding: 0 15px;
   flex-shrink: 0;
 }
-.comparison-panel > header::before {
-  content: '';
+.comparison-sky {
   position: absolute;
-  z-index: -2;
-  inset: -80px -18% -320px;
-  background: url('./clouds.svg') center top / cover no-repeat;
-  filter: blur(3px);
-  opacity: 0.9;
-  pointer-events: none;
-}
-.comparison-panel > header::after {
-  content: '';
-  position: absolute;
-  z-index: -1;
   inset: 0;
-  background: linear-gradient(#ffffff30, #ffffff1f);
-  backdrop-filter: blur(12px) saturate(0.85);
-  pointer-events: none;
+  z-index: -1;
+  overflow: hidden;
+  background: linear-gradient(170deg, #215c95 0%, #4588c1 45%, #78acd9 100%);
+}
+:root:has(.weather-scene.shared-sky),
+.weather-scene.shared-sky {
+  background: transparent;
 }
 .comparison-panel h2 {
   font-size: 12px;
@@ -209,9 +204,10 @@
   flex: 1;
   min-height: 0;
   border: 0;
-  background: linear-gradient(#2668a3, #71a6d2);
+  background: transparent;
 }
 .comparison-panel > footer {
+  background: #fff;
   display: flex;
   justify-content: space-between;
   gap: 8px;
