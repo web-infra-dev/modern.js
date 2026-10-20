@@ -13,8 +13,8 @@ type Current = {
 };
 const runtime = getInstance()!;
 const options = {
-  loading: <div className="weather-wait">正在连接天气站…</div>,
-  fallback: <p role="alert">天气站连接失败</p>,
+  loading: <div className="weather-wait">Connecting to weather station…</div>,
+  fallback: <p role="alert">Could not connect to weather station</p>,
 };
 async function remote<T>(name: string) {
   const module = await loadRemote<T>(name);
@@ -74,21 +74,21 @@ export default function WeatherPage() {
               <Days />
               <Wind />
               <section className="weather-card air-weather">
-                <h2>◌ 空气质量</h2>
+                <h2>◌ Air quality</h2>
                 <strong>49</strong>
-                <p>优</p>
+                <p>Good</p>
                 <div className="air-scale" />
-                <small>当前 AQI (CN) 为 49。</small>
+                <small>Current AQI (CN): 49.</small>
               </section>
               <section className="weather-card uv-weather">
-                <h2>☀ 紫外线指数</h2>
+                <h2>☀ UV index</h2>
                 <strong>3</strong>
-                <p>中等</p>
+                <p>Moderate</p>
                 <div className="air-scale" />
-                <small>下午出门时注意防晒。</small>
+                <small>Use sun protection this afternoon.</small>
               </section>
               <section className="weather-card sunset-weather">
-                <h2>☼ 日落</h2>
+                <h2>☼ Sunset</h2>
                 <strong>17:24</strong>
                 <svg viewBox="0 0 200 60" aria-hidden="true">
                   <path
@@ -100,14 +100,10 @@ export default function WeatherPage() {
                   <path d="M0 40h200" stroke="#b9e6ff" />
                   <circle cx="128" cy="13" r="5" fill="white" />
                 </svg>
-                <small>日出：上午 6:05</small>
+                <small>Sunrise: 6:05 AM</small>
               </section>
             </>
           )}
-        </div>
-        <div className="weather-credit">
-          本地模拟天气 · 杭州余杭 ·{' '}
-          {compact ? '' : '静态 / 动态 / 嵌套远程组件'}
         </div>
       </div>
     </main>

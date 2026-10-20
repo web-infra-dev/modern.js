@@ -149,7 +149,9 @@ function InspectLabel({
             <button
               type="button"
               className="mf-inspect-toggle"
-              aria-label={expanded ? '收起内部来源' : '展开内部来源'}
+              aria-label={
+                expanded ? 'Collapse nested sources' : 'Expand nested sources'
+              }
               aria-expanded={expanded}
               onClick={() => setExpanded(value => !value)}
             >

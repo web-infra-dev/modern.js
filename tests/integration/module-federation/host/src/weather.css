@@ -495,13 +495,6 @@
   max-height: 40px;
   margin: auto;
 }
-.weather-credit {
-  text-align: center;
-  font-size: 8px;
-  opacity: 0.65;
-  padding-top: 8px;
-  flex-shrink: 0;
-}
 .compact .weather-content {
   padding: 8px 20px 6px;
   display: grid;
@@ -546,13 +539,6 @@
 }
 .compact .hours button:nth-child(n + 6) {
   display: none;
-}
-.compact .weather-credit {
-  position: absolute;
-  bottom: 4px;
-  left: 0;
-  right: 0;
-  font-size: 7px;
 }
 .weather-wait {
   padding: 25px;

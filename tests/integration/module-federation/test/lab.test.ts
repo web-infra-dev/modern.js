@@ -290,17 +290,20 @@ for (const mode of modes) {
             '[data-testid="weather-save"]',
             element => element.textContent,
           ),
-        ).toContain('已收藏');
-        await frame.$eval('input[aria-label="调整风向"]', element => {
-          const input = element as HTMLInputElement;
-          const setter = Object.getOwnPropertyDescriptor(
-            HTMLInputElement.prototype,
-            'value',
-          )!.set!;
-          setter.call(input, '180');
-          input.dispatchEvent(new Event('input', { bubbles: true }));
-          input.dispatchEvent(new Event('change', { bubbles: true }));
-        });
+        ).toContain('Station saved');
+        await frame.$eval(
+          'input[aria-label="Adjust wind direction"]',
+          element => {
+            const input = element as HTMLInputElement;
+            const setter = Object.getOwnPropertyDescriptor(
+              HTMLInputElement.prototype,
+              'value',
+            )!.set!;
+            setter.call(input, '180');
+            input.dispatchEvent(new Event('input', { bubbles: true }));
+            input.dispatchEvent(new Event('change', { bubbles: true }));
+          },
+        );
         await frame.waitForFunction(
           () =>
             document.querySelector('[data-testid="wind-angle"]')
@@ -319,7 +322,7 @@ for (const mode of modes) {
       ).toBe(true);
       await page.waitForFunction(() =>
         [...document.querySelectorAll('.comparison-panel>header')].every(
-          header => header.textContent?.includes('交互已验证'),
+          header => header.textContent?.includes('Interaction verified'),
         ),
       );
       expect(
@@ -351,7 +354,7 @@ for (const mode of modes) {
         await fetch(`${lab.url}/weather?render=ssr&data=mf&compact=1`)
       ).text();
       expect(normal).toContain('data-source="pending"');
-      expect(prefetched).toContain('data-source="本地天气 API"');
+      expect(prefetched).toContain('data-source="Local weather API"');
       const dataRequests: string[] = [];
       page.on('request', request => {
         if (
@@ -368,14 +371,14 @@ for (const mode of modes) {
         .filter(frame => frame.url().includes('/weather?'));
       expect(frames).toHaveLength(4);
       for (const frame of frames) {
-        await frame.waitForSelector('[data-source="本地天气 API"]');
+        await frame.waitForSelector('[data-source="Local weather API"]');
         await frame.click('[data-testid="weather-save"]');
         expect(
           await frame.$eval(
             '[data-testid="weather-save"]',
             element => element.textContent,
           ),
-        ).toContain('已收藏');
+        ).toContain('Station saved');
         expect(await frame.$('[data-testid="weather-days"]')).toBeNull();
         expect(
           await frame.evaluate(
@@ -505,7 +508,7 @@ for (const mode of modes) {
             '[data-testid="weather-save"]',
             element => element.textContent,
           ),
-        ).toContain('已收藏');
+        ).toContain('Station saved');
         expect(
           await frame.evaluate(() => (window as any).inspectSentinel),
         ).toBe('preserved');
@@ -568,7 +571,7 @@ for (const mode of modes) {
         .filter(frame => frame.url().includes('/weather?'));
       const initial = [];
       for (const frame of frames) {
-        await frame.waitForSelector('[data-source="本地天气 API"]');
+        await frame.waitForSelector('[data-source="Local weather API"]');
         await frame.waitForSelector(
           '[data-testid="weather-save"]:not(:disabled)',
         );
@@ -581,7 +584,7 @@ for (const mode of modes) {
             '[data-testid="weather-save"]',
             element => element.textContent,
           ),
-        ).toContain('已收藏');
+        ).toContain('Station saved');
       }
       let requests = 0;
       page.on('request', request => {
@@ -606,7 +609,7 @@ for (const mode of modes) {
             '[data-testid="weather-save"]',
             element => element.textContent,
           ),
-        ).toContain('已收藏');
+        ).toContain('Station saved');
         expect(
           await frame.$(
             '[data-testid="mf-inspect-outline"][data-mf-expose$=".data"]',
@@ -627,7 +630,7 @@ for (const mode of modes) {
       await frame.waitForSelector(
         '[data-testid="provider-forecast"][data-version="v2"]',
       );
-      await page.select('select[aria-label="进阶场景"]', 'lifecycle');
+      await page.select('select[aria-label="Advanced scenarios"]', 'lifecycle');
       await page.waitForFunction(() =>
         document
           .querySelector('iframe')
@@ -641,7 +644,7 @@ for (const mode of modes) {
           element => element.textContent,
         ),
       ).toBe('30°');
-      await page.select('select[aria-label="进阶场景"]', 'replace');
+      await page.select('select[aria-label="Advanced scenarios"]', 'replace');
       await page.waitForFunction(() =>
         document
           .querySelector('iframe')

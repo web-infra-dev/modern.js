@@ -10,23 +10,23 @@ export default function Page() {
       <header className="comparison-intro">
         <div>
           <span>WEATHER / ADVANCED</span>
-          <h1>天气站的进阶实验</h1>
-          <p>远程版本替换、数据恢复和数据加载生命周期。</p>
+          <h1>Weather experiments</h1>
+          <p>Remote replacement, data recovery and loader lifecycle.</p>
         </div>
         <select
-          aria-label="进阶场景"
+          aria-label="Advanced scenarios"
           value={scenario}
           onChange={event => setScenario(event.target.value as typeof scenario)}
         >
-          <option value="replace">天气版本替换</option>
-          <option value="recovery">数据恢复</option>
-          <option value="lifecycle">数据生命周期</option>
+          <option value="replace">Remote replacement</option>
+          <option value="recovery">Data recovery</option>
+          <option value="lifecycle">Data lifecycle</option>
         </select>
       </header>
       <iframe
         key={scenario}
         className="advanced-frame"
-        title="进阶天气实验"
+        title="Advanced weather experiment"
         src={`/${scenario}?embedded=1`}
       />
     </div>

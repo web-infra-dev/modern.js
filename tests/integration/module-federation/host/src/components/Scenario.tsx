@@ -61,7 +61,7 @@ function Replacement({ dynamic }: { dynamic: boolean }) {
           onClick={replace}
           disabled={Boolean(Component)}
         >
-          切换到降雨版本 ↗
+          Switch to rainy forecast ↗
         </button>
       </div>
       <Suspense fallback={<p>Switching versions…</p>}>
@@ -83,20 +83,20 @@ function Lifecycle() {
     <>
       <div className="controls">
         <span>
-          父组件更新次数： <b data-testid="parent-renders">{renders}</b>
+          Parent updates: <b data-testid="parent-renders">{renders}</b>
         </span>
         <div>
           <button
             data-testid="rerender"
             onClick={() => setRenders(value => value + 1)}
           >
-            更新页面（复用天气数据）
+            Update page (reuse data)
           </button>
           <button
             data-testid="remount"
             onClick={() => setMount(value => value + 1)}
           >
-            重新加载天气站（获取新批次）
+            Reload station (fetch new data)
           </button>
         </div>
       </div>

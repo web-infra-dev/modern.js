@@ -7,8 +7,8 @@ export type WeatherData = {
 };
 export const fixture: WeatherData = {
   temperature: 30,
-  condition: '局部多云',
-  source: '本地预置天气',
+  condition: 'Partly cloudy',
+  source: 'Local fixture',
   requestId: 0,
 };
 export function report(event: string) {
@@ -23,7 +23,7 @@ export function WeatherIcon({ rainy = false }: { rainy?: boolean }) {
     <svg
       viewBox="0 0 64 48"
       className="weather-icon"
-      aria-label={rainy ? '阵雨' : '局部多云'}
+      aria-label={rainy ? 'Showers' : 'Partly cloudy'}
     >
       <g fill="#ffdb69">
         <circle cx="42" cy="17" r="10" />
@@ -59,19 +59,19 @@ export function CurrentWeather({
   const [saved, setSaved] = useState(false);
   useEffect(() => {
     setReady(true);
-    report('客户端已接管');
+    report('Client ready');
     if (!local && !mfData) {
       fetch(`${process.env.MF_LAB_API}/weather`)
         .then(response => {
-          if (!response.ok) throw new Error('天气接口异常');
+          if (!response.ok) throw new Error('Weather API request failed');
           return response.json();
         })
         .then(setData)
-        .catch(() => report('数据请求失败'));
+        .catch(() => report('Data request failed'));
     }
   }, []);
   useEffect(() => {
-    if (data) report('天气数据已显示');
+    if (data) report('Weather ready');
   }, [data]);
   return (
     <section
@@ -79,28 +79,28 @@ export function CurrentWeather({
       data-testid="weather-current"
       data-source={data?.source || 'pending'}
     >
-      <span className="location-label">⌖ 我的位置</span>
-      <h1>余杭区</h1>
+      <span className="location-label">⌖ My location</span>
+      <h1>Yuhang</h1>
       <div className="current-temperature">
         {data ? data.temperature : '—'}
         <sup>°</sup>
       </div>
-      <p>{data?.condition || '等待天气数据'}</p>
-      <p>最高 30° · 最低 21°</p>
+      <p>{data?.condition || 'Waiting for weather'}</p>
+      <p>H:30° · L:21°</p>
       <button
         className="weather-save"
         disabled={!ready || !data}
         onClick={() => {
           setSaved(!saved);
-          report('交互已验证');
+          report('Interaction verified');
         }}
         data-testid="weather-save"
       >
-        {saved ? '♥ 已收藏天气站' : '♡ 收藏天气站'}
+        {saved ? '♥ Station saved' : '♡ Save station'}
       </button>
       <small className="weather-source">
-        {data?.source || '尚未获取数据'}
-        {data?.requestId ? ` · 请求 #${data.requestId}` : ''}
+        {data?.source || 'No data yet'}
+        {data?.requestId ? ` · Request #${data.requestId}` : ''}
       </small>
     </section>
   );
@@ -115,7 +115,7 @@ export function HourlyWeather() {
       data-testid="weather-hourly"
     >
       <h2>
-        ◷ 每小时天气预报 <small>动态远程 · Rslib</small>
+        ◷ Hourly forecast <small>Dynamic remote · Rslib</small>
       </h2>
       <div className="hours">
         {[30, 29, 28, 27, 26, 25, 24, 23].map((temperature, index) => (
@@ -125,18 +125,18 @@ export function HourlyWeather() {
             aria-pressed={selected === index}
             onClick={() => {
               setSelected(index);
-              report('交互已验证');
+              report('Interaction verified');
             }}
           >
-            <span>{index === 0 ? '现在' : `${index + 14}时`}</span>
+            <span>{index === 0 ? 'Now' : `${index + 14}:00`}</span>
             <WeatherIcon rainy={index > 4} />
             <b>{temperature}°</b>
           </button>
         ))}
       </div>
       <p className="card-caption">
-        {selected === 0 ? '现在' : `${selected + 14}时`} · {30 - selected}
-        °，傍晚有短时阵雨。
+        {selected === 0 ? 'Now' : `${selected + 14}:00`} · {30 - selected}° ·
+        Brief showers this evening.
       </p>
     </section>
   );
@@ -145,9 +145,9 @@ export function DaysWeather() {
   return (
     <section className="weather-card days-weather" data-testid="weather-days">
       <h2>
-        ▦ 未来五天天气 <small>静态嵌套 · Modern</small>
+        ▦ 5-day forecast <small>Static nested · Modern</small>
       </h2>
-      {['今天', '周三', '周四', '周五', '周六'].map((day, index) => (
+      {['Today', 'Wed', 'Thu', 'Fri', 'Sat'].map((day, index) => (
         <div className="day-row" key={day}>
           <b>{day}</b>
           <WeatherIcon rainy={index % 2 === 1} />
@@ -174,24 +174,24 @@ export function WindWeather() {
   return (
     <section className="weather-card wind-weather" data-testid="weather-wind">
       <h2>
-        〰 风 <small>动态嵌套 · Rslib</small>
+        〰 Wind <small>Dynamic nested · Rslib</small>
       </h2>
       <div className="wind-body">
         <div>
           <p>
-            风速 <b>4 公里/小时</b>
+            Speed <b>4 km/h</b>
           </p>
           <p>
-            阵风 <b>9 公里/小时</b>
+            Gusts <b>9 km/h</b>
           </p>
           <p>
-            来向 <b data-testid="wind-angle">{angle}°</b>
+            From <b data-testid="wind-angle">{angle}°</b>
           </p>
         </div>
         <div
           className="wind-map"
           role="img"
-          aria-label={`模拟风场，风从 ${angle} 度吹来，流线显示下风方向`}
+          aria-label={`Simulated wind from ${angle} degrees; trails show the downwind direction`}
         >
           <svg
             viewBox="0 0 200 120"
@@ -250,21 +250,21 @@ export function WindWeather() {
             </g>
           </svg>
           <div className="compass">
-            <span>北</span>
+            <span>N</span>
             <i style={{ transform: `rotate(${angle}deg)` }}>↑</i>
-            <span>南</span>
+            <span>S</span>
           </div>
-          <span className="wind-map-label">模拟风场 · 流线为吹向</span>
+          <span className="wind-map-label">Wind flow simulation</span>
         </div>
       </div>
       <label className="wind-control">
         {verified
-          ? '✓ 交互已验证'
+          ? '✓ Interaction verified'
           : ready
-            ? '拖动滑块，改变风向'
-            : '等待客户端接管'}
+            ? 'Drag to change wind direction'
+            : 'Waiting for client'}
         <input
-          aria-label="调整风向"
+          aria-label="Adjust wind direction"
           type="range"
           min="0"
           max="360"
@@ -273,7 +273,7 @@ export function WindWeather() {
           onChange={event => {
             setAngle(Number(event.target.value));
             setVerified(true);
-            report('交互已验证');
+            report('Interaction verified');
           }}
         />
       </label>

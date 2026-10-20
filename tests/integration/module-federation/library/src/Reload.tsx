@@ -5,10 +5,10 @@ export default function Reload({
 }) {
   return (
     <div className="request-meter">
-      <span>余杭区 · 天气更新</span>
+      <span>Yuhang · Weather update</span>
       <div className="lifecycle-temperature">30°</div>
-      <p>局部多云，傍晚有短时阵雨。</p>
-      <span>本次天气数据批次</span>
+      <p>Partly cloudy. Brief showers this evening.</p>
+      <span>Weather request batch</span>
       <strong data-testid="request-count">{mfData?.requestCount ?? '—'}</strong>
     </div>
   );

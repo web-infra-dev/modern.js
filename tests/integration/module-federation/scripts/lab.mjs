@@ -224,8 +224,8 @@ export async function startLab(mode = 'dev', fixedPorts = false) {
       res.end(
         JSON.stringify({
           temperature: 30,
-          condition: '局部多云',
-          source: '本地天气 API',
+          condition: 'Partly cloudy',
+          source: 'Local weather API',
           requestId: id,
         }),
       );

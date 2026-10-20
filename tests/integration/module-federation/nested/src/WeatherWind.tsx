@@ -11,7 +11,7 @@ const Wind = getInstance()!.createLazyComponent({
     if (!module) throw new Error('Missing weather wind remote');
     return module;
   },
-  loading: <p>正在加载风向…</p>,
-  fallback: <p role="alert">风向加载失败</p>,
+  loading: <p>Loading wind…</p>,
+  fallback: <p role="alert">Could not load wind</p>,
 });
 export default Wind;

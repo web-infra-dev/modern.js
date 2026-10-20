@@ -15,14 +15,14 @@ function inspectPaletteSeed() {
 }
 export function LabNav() {
   return (
-    <nav className="weather-nav" aria-label="对比实验">
+    <nav className="weather-nav" aria-label="Comparison pages">
       <Link className="weather-brand" to="/compare">
-        ◈ 天气实验室 <small>Modern.js × Module Federation</small>
+        ◈ Weather Lab <small>Modern.js × Module Federation</small>
       </Link>
       <div>
-        <Link to="/compare">渲染对比</Link>
-        <Link to="/compare-data">数据对比</Link>
-        <Link to="/advanced">进阶场景</Link>
+        <Link to="/compare">Rendering</Link>
+        <Link to="/compare-data">Data fetching</Link>
+        <Link to="/advanced">Advanced scenarios</Link>
       </div>
     </nav>
   );
@@ -66,10 +66,10 @@ function Panel({
       if (event.data?.type !== 'mf-weather') return;
       if (
         ![
-          '客户端已接管',
-          '天气数据已显示',
-          '交互已验证',
-          '数据请求失败',
+          'Client ready',
+          'Weather ready',
+          'Interaction verified',
+          'Data request failed',
         ].includes(event.data.event) ||
         typeof event.data.at !== 'number'
       )
@@ -87,11 +87,11 @@ function Panel({
       <header>
         <h2>{name}</h2>
         <span>
-          {events['交互已验证'] !== undefined
-            ? '● 交互已验证'
-            : events['客户端已接管'] !== undefined
-              ? '● 客户端已接管'
-              : '◌ 等待客户端'}
+          {events['Interaction verified'] !== undefined
+            ? '● Interaction verified'
+            : events['Client ready'] !== undefined
+              ? '● Client ready'
+              : '◌ Waiting for client'}
         </span>
       </header>
       <iframe
@@ -103,12 +103,14 @@ function Panel({
         sandbox="allow-scripts allow-same-origin"
       />
       <footer>
-        {['客户端已接管', '天气数据已显示', '交互已验证'].map(event => (
-          <span key={event}>
-            {event}
-            <b>{events[event] === undefined ? '—' : `${events[event]} ms`}</b>
-          </span>
-        ))}
+        {['Client ready', 'Weather ready', 'Interaction verified'].map(
+          event => (
+            <span key={event}>
+              {event}
+              <b>{events[event] === undefined ? '—' : `${events[event]} ms`}</b>
+            </span>
+          ),
+        )}
       </footer>
     </section>
   );
@@ -132,7 +134,7 @@ export default function Comparison({ data = false }: { data?: boolean }) {
   return (
     <div className="comparison-shell">
       <LabNav />
-      <header className="comparison-toolbar" aria-label="对比控制">
+      <header className="comparison-toolbar" aria-label="Comparison controls">
         <div className="comparison-controls">
           <label className="inspect-control">
             <input
@@ -143,22 +145,22 @@ export default function Comparison({ data = false }: { data?: boolean }) {
             Inspect
           </label>
           <label>
-            模拟慢启动{' '}
+            Simulate slow startup{' '}
             <select
-              aria-label="JavaScript 启动延迟"
-              title="推迟天气页面入口脚本的加载，用于观察 JavaScript 启动前的页面"
+              aria-label="JavaScript startup delay"
+              title="Delay the weather entry script to compare the initial page before JavaScript starts"
               value={delay}
               onChange={event => {
                 setDelay(Number(event.target.value));
                 setRun(value => value + 1);
               }}
             >
-              <option value={0}>不延迟</option>
-              <option value={1500}>延迟 1.5 秒</option>
-              <option value={3000}>延迟 3 秒</option>
+              <option value={0}>No delay</option>
+              <option value={1500}>1.5 s delay</option>
+              <option value={3000}>3 s delay</option>
             </select>
           </label>
-          <button onClick={() => setRun(run + 1)}>↻ 重新加载</button>
+          <button onClick={() => setRun(run + 1)}>↻ Reload</button>
         </div>
       </header>
       <div className={`comparison-grid ${data ? 'four-panels' : ''}`}>
