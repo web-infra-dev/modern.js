@@ -2,7 +2,6 @@
 '@modern-js/mcp-apps': minor
 '@modern-js/plugin-mcp-apps': minor
 '@modern-js/create': minor
-'@modern-js/app-tools': patch
 '@modern-js/runtime': patch
 ---
 
@@ -10,7 +9,7 @@ Add MCP Apps support with typed tool definitions, BFF endpoint integration, loca
 
 Provide UI-only builds and a versioned UI manifest for independently managed MCP servers. Include the development Inspector at `/__mcp_inspector` with automatic connection, schema-based argument templates, card previews and request logs.
 
-Add MCP Apps and MCP Server scaffolding with interactive examples, and preserve MCP runtime assets in Node, Netlify and Vercel deployment output.
+Add MCP Apps and MCP Server scaffolding with interactive examples, and bundle the MCP HTML renderer as JavaScript modules so deployments retain it through standard dependency tracing.
 
 Share starter tools across local UI, Module Federation and server-only projects, and use each MCP package's own version in generated dependencies. Generate each project directly from selected template directories without deleting, overwriting or patching generated files.
 

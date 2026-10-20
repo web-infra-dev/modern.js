@@ -1,7 +1,6 @@
 import fs from 'node:fs/promises';
 import { createHash } from 'node:crypto';
 import path from 'node:path';
-import { fileURLToPath } from 'node:url';
 import {
   type JsonSchema,
   type ToolConfig,
@@ -12,27 +11,12 @@ import {
 } from './config';
 
 export const UI_MIME_TYPE = 'text/html;profile=mcp-app';
-const moduleDirectory = path.dirname(fileURLToPath(import.meta.url));
-const htmlPromises = new Map<string, Promise<string>>();
-export function readRuntimeHtml(development = false): Promise<string> {
-  const filename = development ? 'mcp-app.dev.html' : 'mcp-app.html';
-  const existing = htmlPromises.get(filename);
-  if (existing) return existing;
-  const pending = fs
-    .readFile(path.resolve(moduleDirectory, '../runtime', filename), 'utf8')
-    .catch(async error => {
-      // Source-condition tests use the same built artifact as the published server.
-      if (error.code !== 'ENOENT') throw error;
-      return fs.readFile(
-        path.resolve(moduleDirectory, '../dist/runtime', filename),
-        'utf8',
-      );
-    });
-  htmlPromises.set(filename, pending);
-  pending.catch(() => {
-    if (htmlPromises.get(filename) === pending) htmlPromises.delete(filename);
-  });
-  return pending;
+// The runtime build exports HTML as JavaScript so dependency tracing keeps it.
+export async function readRuntimeHtml(development = false): Promise<string> {
+  const runtime = development
+    ? await import('../dist/runtime/mcp-app.dev.runtime.mjs')
+    : await import('../dist/runtime/mcp-app.runtime.mjs');
+  return runtime.default;
 }
 
 export function validateMcpAppsConfig(config: McpAppsDefinition): void {

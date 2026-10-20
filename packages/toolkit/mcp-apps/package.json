@@ -58,8 +58,8 @@
     }
   },
   "scripts": {
-    "build": "rslib build && pnpm build:runtime",
-    "dev": "rslib build --watch",
+    "build": "pnpm build:runtime && rslib build",
+    "dev": "pnpm build:runtime && rslib build --watch",
     "typecheck": "tsc --noEmit",
     "build:runtime": "node scripts/build-runtime.mjs"
   },

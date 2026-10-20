@@ -1,5 +1,5 @@
 import { execFileSync } from 'node:child_process';
-import { rm } from 'node:fs/promises';
+import { readFile, rm, writeFile } from 'node:fs/promises';
 import { createRequire } from 'node:module';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
@@ -21,4 +21,12 @@ for (const mode of ['production', 'development']) {
       stdio: 'inherit',
     },
   );
+  const name = mode === 'development' ? 'mcp-app.dev' : 'mcp-app';
+  const htmlPath = path.join(root, 'dist/runtime', `${name}.html`);
+  const html = await readFile(htmlPath, 'utf8');
+  await writeFile(
+    path.join(root, 'dist/runtime', `${name}.runtime.mjs`),
+    `export default ${JSON.stringify(html)};\n`,
+  );
+  await rm(htmlPath);
 }

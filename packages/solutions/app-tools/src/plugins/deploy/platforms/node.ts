@@ -59,10 +59,7 @@ export const createNodePreset: CreatePreset = ({
         sourceDir: outputDirectory,
         includeEntries: [entry],
         copyWholePackage(pkgName) {
-          // MCP Apps reads its packaged HTML renderer at runtime.
-          return (
-            pkgName === '@modern-js/utils' || pkgName === '@modern-js/mcp-apps'
-          );
+          return pkgName === '@modern-js/utils';
         },
         entryFilter: filter,
         transformPackageJson: ({ pkgJSON }) => {
