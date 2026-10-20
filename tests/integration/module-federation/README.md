@@ -15,6 +15,20 @@ The interactive lab opens at http://localhost:4300. Stop it with Ctrl+C. Add `--
 
 The test command runs the same assertions against Modern development servers and production build + serve. It uses available ports, starts providers before consumers, waits for HTTP readiness, and stops child processes after failures. The root framework suite also discovers these tests.
 
+## Test organization
+
+Browser end-to-end coverage lives in `tests/`, following the integration fixture convention:
+
+- `index.test.ts`: suite entry, runs each category in development and production.
+- `fixture.ts`: shared application/browser lifecycle, per-test pages, error checks and interaction helpers.
+- `rendering.cases.ts`: static, dynamic and nested SSR, hydration, styles/assets, routing and custom manifests.
+- `data-fetch.cases.ts`: server/client loaders, recovery, lifecycle and explicit prefetch.
+- `comparison.cases.ts`: two-panel/four-panel comparisons, local-only requests, script delay and desktop layout.
+- `inspect.cases.ts`: remote identities, expandable chains, colors and state/request preservation.
+- `advanced.cases.ts`: version replacement and experiment switching.
+
+Only the entry uses the `.test.ts` suffix. Category modules register cases under named `describe` groups, sharing one application environment per mode rather than rebuilding the fixture for each category. Filter a category with `pnpm --filter mf-lab-tests test -t 'Data fetching'`.
+
 ## Weather comparison pages
 
 The main navigation has three destinations. The original regression routes remain directly accessible for focused tests.

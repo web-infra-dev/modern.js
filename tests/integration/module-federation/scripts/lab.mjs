@@ -25,6 +25,7 @@ const names = [
 ];
 const sleep = ms => new Promise(resolve => setTimeout(resolve, ms));
 export async function startLab(mode = 'dev', fixedPorts = false) {
+  /** @type {Record<string, number>} */
   const ports = {};
   for (const [index, name] of names.entries()) {
     ports[name] = fixedPorts
