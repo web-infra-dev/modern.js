@@ -106,43 +106,33 @@ export default function Comparison({ data = false }: { data?: boolean }) {
   return (
     <div className="comparison-shell">
       <LabNav />
-      <header className="comparison-intro">
-        <div>
-          <span>WEATHER / FEDERATION LAB</span>
-          <h1>
-            {data ? '同一份天气，四条数据路径。' : '同一片天空，两种渲染方式。'}
-          </h1>
-          <p>
-            {data
-              ? '本地 API 固定延迟 900 ms。普通模式挂载后请求；data-fetch 使用 MF 数据加载器。'
-              : '相同预置天气，不等待接口。暂停脚本，查看服务端交付的内容；开启脚本，再亲手验证交互。'}
-          </p>
-        </div>
+      <header className="comparison-toolbar" aria-label="对比控制">
         <div className="comparison-controls">
           <label>
-            启动脚本延迟{' '}
+            模拟慢启动{' '}
             <select
-              aria-label="客户端启动脚本延迟"
+              aria-label="JavaScript 启动延迟"
+              title="推迟天气页面入口脚本的加载，用于观察 JavaScript 启动前的页面"
               value={delay}
               onChange={event => {
                 setDelay(Number(event.target.value));
                 setRun(value => value + 1);
               }}
             >
-              <option value={0}>0 ms</option>
-              <option value={1500}>1500 ms</option>
-              <option value={3000}>3000 ms</option>
+              <option value={0}>不延迟</option>
+              <option value={1500}>延迟 1.5 秒</option>
+              <option value={3000}>延迟 3 秒</option>
             </select>
           </label>
-          <label>
+          <label title="关闭后停止运行页面脚本，只保留服务端输出的静态内容">
             <input
               type="checkbox"
               checked={scripts}
               onChange={event => setScripts(event.target.checked)}
             />{' '}
-            执行客户端脚本
+            运行 JavaScript
           </label>
-          <button onClick={() => setRun(run + 1)}>↻ 同时重新加载</button>
+          <button onClick={() => setRun(run + 1)}>↻ 重新加载</button>
         </div>
       </header>
       <div className={`comparison-grid ${data ? 'four-panels' : ''}`}>
@@ -156,11 +146,6 @@ export default function Comparison({ data = false }: { data?: boolean }) {
           />
         ))}
       </div>
-      <footer className="comparison-note">
-        时间取自各 iframe 的
-        performance.now()，包含文档请求和资源加载；数据就绪由客户端确认；暂停脚本可检查
-        SSR 首屏内容。所有接口与素材均在本地。
-      </footer>
     </div>
   );
 }

@@ -779,7 +779,7 @@
 .weather-source {
   font-weight: 400;
 }
-@media (max-height: 550px) {
+@media (max-height: 620px) {
   .weather-scene:not(.compact) .weather-content {
     padding: 10px 15px 6px;
   }
@@ -987,7 +987,7 @@
   font-size: 8px;
   letter-spacing: 0;
 }
-@media (max-height: 550px) {
+@media (max-height: 620px) {
   .weather-scene:not(.compact) .weather-grid {
     grid-template-rows: 100px minmax(130px, 1fr);
   }
@@ -1091,5 +1091,25 @@
   }
   to {
     stroke-dashoffset: 0;
+  }
+}
+
+.comparison-toolbar {
+  display: flex;
+  justify-content: flex-end;
+  flex-shrink: 0;
+  padding: 14px 24px;
+}
+.comparison-shell > .comparison-grid {
+  padding-bottom: 20px;
+}
+@media (max-width: 640px) {
+  .comparison-toolbar {
+    justify-content: flex-start;
+    padding: 12px;
+  }
+  .comparison-toolbar .comparison-controls {
+    flex-wrap: wrap;
+    white-space: normal;
   }
 }
