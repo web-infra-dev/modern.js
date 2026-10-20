@@ -1,3 +1,8 @@
+:root {
+  color-scheme: light dark;
+  color: var(--color-text-primary, CanvasText);
+}
+
 body,
 html {
   margin: 0 !important;
@@ -21,7 +26,7 @@ html {
   position: fixed;
   inset: 0;
   z-index: 9999;
-  background: #fff;
+  background: var(--color-background-primary, Canvas);
   overflow-y: auto;
   overflow-x: hidden;
   /* Gentle bloom-in: content scales up from 98% and fades in */
@@ -234,7 +239,7 @@ body.mf-fullscreen {
 }
 
 .error-boundary-message-wrapper {
-  background-color: white;
+  background-color: var(--color-background-primary, Canvas);
   padding: 20px;
   border-radius: 8px;
   margin-bottom: 20px;
@@ -259,7 +264,7 @@ body.mf-fullscreen {
 }
 
 .error-boundary-stack-wrapper {
-  background-color: white;
+  background-color: var(--color-background-primary, Canvas);
   padding: 20px;
   border-radius: 8px;
   border: 2px solid #fca5a5;

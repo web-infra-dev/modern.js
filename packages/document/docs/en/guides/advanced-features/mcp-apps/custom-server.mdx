@@ -49,7 +49,7 @@ In your MCP server:
 1. Set each tool's `_meta.ui.resourceUri` from the manifest.
 2. Advertise the corresponding resource URI, MIME type and UI metadata.
 3. Handle resource reads by returning the HTML and UI metadata.
-4. Return tool arguments in `structuredContent.args` and component props in `structuredContent.viewProps`.
+4. Return tool arguments in `_meta['modernjs.dev/mcp-app'].args` and component props in `_meta['modernjs.dev/mcp-app'].viewProps`.
 
 Node servers can use these helpers:
 

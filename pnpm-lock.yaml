@@ -1998,17 +1998,17 @@ importers:
   packages/toolkit/mcp-apps:
     dependencies:
       '@modelcontextprotocol/client':
-        specifier: 2.2.0
-        version: 2.2.0
+        specifier: 2.3.1
+        version: 2.3.1
       '@modelcontextprotocol/core':
-        specifier: 2.2.0
-        version: 2.2.0
+        specifier: 2.3.1
+        version: 2.3.1
       '@modelcontextprotocol/ext-apps':
         specifier: 2.0.3
-        version: 2.0.3(@modelcontextprotocol/client@2.2.0)(@modelcontextprotocol/core@2.2.0)(@modelcontextprotocol/server@2.2.0)(react-dom@19.3.1(react@19.3.1))(react@19.3.1)(zod@4.6.5)
+        version: 2.0.3(@modelcontextprotocol/client@2.3.1)(@modelcontextprotocol/core@2.3.1)(@modelcontextprotocol/server@2.3.1)(react-dom@19.3.1(react@19.3.1))(react@19.3.1)(zod@4.6.5)
       '@modelcontextprotocol/server':
-        specifier: 2.2.0
-        version: 2.2.0
+        specifier: 2.3.1
+        version: 2.3.1
       ajv:
         specifier: ^8.20.0
         version: 8.20.0
@@ -6979,12 +6979,12 @@ packages:
   '@mermaid-js/parser@1.2.1':
     resolution: {integrity: sha512-n12NohV3mrUyUL2o93IgG/ifeW9FTyeJn3zDxkhwa8MJ9Fxg3HQMlA3RiGmD/3UnJvheztkjjQAjA2T4LmUcpw==}
 
-  '@modelcontextprotocol/client@2.2.0':
-    resolution: {integrity: sha512-LxCou/CSYQ6dwEnjhLZY0KnEuc8V4UJ3IEQCl/uR2yHobSQIEdJKUlKLRYRF5i5FqRGHy1eK7une3aAWDHLtig==}
+  '@modelcontextprotocol/client@2.3.1':
+    resolution: {integrity: sha512-mIGZXpHsjnZ6lD+gD/WCMpR5k8yVQQ8nNFH1N0Srf7AvnwTUMYD6pvTY8ng2+He5FfV7YMZLmrjL7cLa/cc3dQ==}
     engines: {node: '>=20'}
 
-  '@modelcontextprotocol/core@2.2.0':
-    resolution: {integrity: sha512-iLhmprRmWI8EcosOA3wVvww22z02NkgqhV4fBH6f/odQBsi7xnJc0HGmi21yWO+/iKw2yzqVE127Zhna5/+JXw==}
+  '@modelcontextprotocol/core@2.3.1':
+    resolution: {integrity: sha512-laVmIhPGpWi7rG9q+0UigblRN0Hws/Yjlb6qLFtVqryXVLkc4h+yN8z731POD2LnAGQlFe7/tXhUm7Bi0YB91g==}
     engines: {node: '>=20'}
 
   '@modelcontextprotocol/ext-apps@2.0.3':
@@ -7005,8 +7005,8 @@ packages:
       react-dom:
         optional: true
 
-  '@modelcontextprotocol/server@2.2.0':
-    resolution: {integrity: sha512-qFnltjus6Gk8Lx6J1w2RXmr3YPN22MNT6qD6zjAkaiWIlFIFxWClz0rXHNuJF/KSUyn5YGhkSvXkWDbQHVLFEQ==}
+  '@modelcontextprotocol/server@2.3.1':
+    resolution: {integrity: sha512-e59MfWuSssj6DoQ96JCTqdW1AXT5/XtnTl0WWd6MU1Ka434fFUGGosCLJbGNySDhHGvxQWoRWK137FXYFkYNWw==}
     engines: {node: '>=20'}
 
   '@modern-js/app-tools@3.10.1':
@@ -19310,9 +19310,9 @@ snapshots:
     dependencies:
       '@chevrotain/types': 11.1.2
 
-  '@modelcontextprotocol/client@2.2.0':
+  '@modelcontextprotocol/client@2.3.1':
     dependencies:
-      '@modelcontextprotocol/core': 2.2.0
+      '@modelcontextprotocol/core': 2.3.1
       cross-spawn: 7.0.6
       eventsource: 3.0.7
       eventsource-parser: 3.1.0
@@ -19320,24 +19320,24 @@ snapshots:
       pkce-challenge: 5.0.1
       zod: 4.6.5
 
-  '@modelcontextprotocol/core@2.2.0':
+  '@modelcontextprotocol/core@2.3.1':
     dependencies:
       zod: 4.6.5
 
-  '@modelcontextprotocol/ext-apps@2.0.3(@modelcontextprotocol/client@2.2.0)(@modelcontextprotocol/core@2.2.0)(@modelcontextprotocol/server@2.2.0)(react-dom@19.3.1(react@19.3.1))(react@19.3.1)(zod@4.6.5)':
+  '@modelcontextprotocol/ext-apps@2.0.3(@modelcontextprotocol/client@2.3.1)(@modelcontextprotocol/core@2.3.1)(@modelcontextprotocol/server@2.3.1)(react-dom@19.3.1(react@19.3.1))(react@19.3.1)(zod@4.6.5)':
     dependencies:
-      '@modelcontextprotocol/client': 2.2.0
-      '@modelcontextprotocol/core': 2.2.0
+      '@modelcontextprotocol/client': 2.3.1
+      '@modelcontextprotocol/core': 2.3.1
       '@standard-schema/spec': 1.1.0
       zod: 4.6.5
     optionalDependencies:
-      '@modelcontextprotocol/server': 2.2.0
+      '@modelcontextprotocol/server': 2.3.1
       react: 19.3.1
       react-dom: 19.3.1(react@19.3.1)
 
-  '@modelcontextprotocol/server@2.2.0':
+  '@modelcontextprotocol/server@2.3.1':
     dependencies:
-      '@modelcontextprotocol/core': 2.2.0
+      '@modelcontextprotocol/core': 2.3.1
       zod: 4.6.5
 
   '@modern-js/app-tools@3.10.1(@module-federation/runtime-tools@2.2.1(node-fetch@3.3.2))(@rspack/core@2.2.9(@module-federation/runtime-tools@2.2.1(node-fetch@3.3.2))(@swc/helpers@0.5.23))(bufferutil@4.1.0)(core-js@3.50.0)(devcert@1.2.3)(esbuild@0.27.2)(lightningcss@1.32.0)(react-dom@19.2.8(react@19.2.8))(react-server-dom-rspack@0.1.0(@rspack/core@2.2.9(@module-federation/runtime-tools@2.2.1(node-fetch@3.3.2))(@swc/helpers@0.5.23))(react-dom@19.2.8(react@19.2.8))(react@19.2.8))(react@19.2.8)(rollup@4.62.2)(ts-node@10.9.2(@swc/core@1.16.18(@swc/helpers@0.5.23))(@types/node@20.19.27)(typescript@5.7.3))(tsconfig-paths@3.15.0)(typescript@5.7.3)(utf-8-validate@5.0.10)(webpack@5.104.1(@swc/core@1.16.18(@swc/helpers@0.5.23))(esbuild@0.27.2)(lightningcss@1.32.0)(postcss@8.5.31))':

@@ -1,3 +1,17 @@
+import { MCP_VIEW_META_KEY, readMcpViewResult } from '../view-result';
+import type {
+  McpUiResourceMeta,
+  McpUiHostContext,
+} from '@modelcontextprotocol/ext-apps';
+import {
+  appTools,
+  assertAppTool,
+  readHtmlResource,
+  disposeBridge,
+  disposePreview,
+  externalUrl,
+  downloadName,
+} from './protocol';
 import type { CallToolResult } from '@modelcontextprotocol/client';
 import {
   AppBridge,
@@ -11,8 +25,10 @@ import { schemaExample } from './schema';
 interface Tool {
   name: string;
   description?: string;
-  inputSchema?: Record<string, unknown>;
-  _meta?: { ui?: { resourceUri?: string } };
+  inputSchema: { type: 'object'; [key: string]: any };
+  _meta?: {
+    ui?: { resourceUri?: string; visibility?: Array<'model' | 'app'> };
+  };
 }
 interface RequestLog {
   id: string;
@@ -36,16 +52,29 @@ function logJson(value: unknown) {
 
 export interface McpInspectorProps {
   endpoint?: string;
+  sandboxUrl?: string;
   views?: Array<{ name: string; url: string }>;
 }
 
 /** Development host. Calls the real endpoint and uses the official app bridge. */
-export function McpInspector({ endpoint = '', views = [] }: McpInspectorProps) {
+export function McpInspector({
+  endpoint = '',
+  views = [],
+  sandboxUrl,
+}: McpInspectorProps) {
+  const [modelContext, setModelContext] = useState<unknown>();
+  const [messages, setMessages] = useState<unknown[]>([]);
+  const [appToolList, setAppToolList] = useState<Tool[]>([]);
+  const [appToolName, setAppToolName] = useState('');
+  const [appToolArgs, setAppToolArgs] = useState('{}');
+  const [appToolOutput, setAppToolOutput] = useState('');
+  const activeRequest = useRef<AbortController | null>(null);
+  const proxyListener = useRef<(() => void) | undefined>(undefined);
   const [logs, setLogs] = useState<RequestLog[]>([]);
   const [logFilter, setLogFilter] = useState('all');
   const [search, setSearch] = useState('');
-  const [previewHtml, setPreviewHtml] = useState<string>();
-  const hasPreview = previewHtml !== undefined;
+  const [previewUrl, setPreviewUrl] = useState<string>();
+  const hasPreview = previewUrl !== undefined;
   const [address, setAddress] = useState(endpoint);
   const [tools, setTools] = useState<Tool[]>([]);
   const [selected, setSelected] = useState('');
@@ -59,6 +88,13 @@ export function McpInspector({ endpoint = '', views = [] }: McpInspectorProps) {
   const [simulate, setSimulate] = useState(!endpoint);
   const frame = useRef<HTMLIFrameElement>(null);
   const bridge = useRef<AppBridge | null>(null);
+  const initialized = useRef(false);
+  const hostContext = useRef<McpUiHostContext>({});
+  function updateHostContext(change: Partial<McpUiHostContext>) {
+    hostContext.current = { ...hostContext.current, ...change };
+    if (initialized.current)
+      bridge.current?.setHostContext(hostContext.current);
+  }
   const previewTimeout = useRef<ReturnType<typeof setTimeout> | undefined>(
     undefined,
   );
@@ -75,7 +111,10 @@ export function McpInspector({ endpoint = '', views = [] }: McpInspectorProps) {
   useEffect(
     () => () => {
       clearTimeout(previewTimeout.current);
-      void bridge.current?.close();
+      proxyListener.current?.();
+      activeRequest.current?.abort();
+      void disposeBridge(bridge.current).catch(() => {});
+      void client.current?.close();
     },
     [],
   );
@@ -85,6 +124,7 @@ export function McpInspector({ endpoint = '', views = [] }: McpInspectorProps) {
     params?: Record<string, unknown>,
     notification = false,
     source: RequestLog['source'] = 'inspector',
+    signal?: AbortSignal,
   ) {
     if (!client.current) throw new Error('Connect to an MCP endpoint first');
     const id = crypto.randomUUID();
@@ -104,6 +144,7 @@ export function McpInspector({ endpoint = '', views = [] }: McpInspectorProps) {
         method,
         params,
         notification,
+        signal,
       );
       setLogs(previous =>
         previous.map(item =>
@@ -134,11 +175,32 @@ export function McpInspector({ endpoint = '', views = [] }: McpInspectorProps) {
       throw cause;
     }
   }
+  async function closePreview() {
+    const host = bridge.current;
+    await disposePreview(host, () => {
+      if (bridge.current !== host) return;
+      bridge.current = null;
+      initialized.current = false;
+      setAppToolList([]);
+      setAppToolName('');
+      setAppToolOutput('');
+      proxyListener.current?.();
+      setPreviewUrl(undefined);
+    });
+  }
   async function connect(target = address) {
+    await closePreview();
+    await client.current?.close();
     client.current = new McpInspectorClient(new URL(target, location.href));
     await rpc('initialize', {
       protocolVersion: '2025-11-25',
-      capabilities: {},
+      capabilities: {
+        extensions: {
+          'io.modelcontextprotocol/ui': {
+            mimeTypes: ['text/html;profile=mcp-app'],
+          },
+        },
+      },
       clientInfo: { name: 'modern-mcp-inspector', version: '1.0.0' },
     });
     await rpc('notifications/initialized', undefined, true);
@@ -154,6 +216,7 @@ export function McpInspector({ endpoint = '', views = [] }: McpInspectorProps) {
       setStatus('Failed');
     } finally {
       setBusy(false);
+      activeRequest.current = null;
     }
   }
   function object(text: string) {
@@ -173,48 +236,198 @@ export function McpInspector({ endpoint = '', views = [] }: McpInspectorProps) {
     html: string,
     input: Record<string, unknown>,
     result: CallToolResult,
+    ui: McpUiResourceMeta = {},
   ) {
     const iframe = frame.current;
     if (!iframe?.contentWindow) throw new Error('Preview frame unavailable');
-    await bridge.current?.close();
+    await disposeBridge(bridge.current).catch(() => {});
+    proxyListener.current?.();
+    setAppToolList([]);
+    setAppToolName('');
+    setAppToolOutput('');
+    setModelContext(undefined);
+    setMessages([]);
     setFullscreen(false);
+    initialized.current = false;
+    hostContext.current = {
+      theme: matchMedia('(prefers-color-scheme: dark)').matches
+        ? 'dark'
+        : 'light',
+      locale: navigator.language,
+      timeZone: Intl.DateTimeFormat().resolvedOptions().timeZone,
+      platform: 'web',
+      containerDimensions: { width: iframe.clientWidth, maxHeight: 1000 },
+      ...(tools.find(tool => tool.name === selected)
+        ? { toolInfo: { tool: tools.find(tool => tool.name === selected)! } }
+        : {}),
+      displayMode: 'inline',
+      availableDisplayModes: ['inline', 'fullscreen'],
+    };
     const host = new AppBridge(
       null,
       { name: 'Modern.js inspector', version: '1' },
-      simulate ? {} : { serverTools: {} },
       {
-        hostContext: {
-          displayMode: 'inline',
-          availableDisplayModes: ['inline', 'fullscreen'],
+        ...(simulate ? {} : { serverTools: {}, serverResources: {} }),
+        sandbox: { permissions: {}, csp: ui.csp ?? {} },
+        openLinks: {},
+        downloadFile: {},
+        logging: {},
+        message: {
+          text: {},
+          image: {},
+          audio: {},
+          resource: {},
+          resourceLink: {},
+          structuredContent: {},
         },
+        updateModelContext: {
+          text: {},
+          image: {},
+          audio: {},
+          resource: {},
+          resourceLink: {},
+          structuredContent: {},
+        },
+      },
+      {
+        hostContext: hostContext.current,
       },
     );
     bridge.current = host;
     host.onrequestdisplaymode = async ({ mode }) => {
-      const acceptedMode = mode === 'fullscreen' ? 'fullscreen' : 'inline';
+      const supported = host.getAppCapabilities()?.availableDisplayModes;
+      const acceptedMode =
+        (mode === 'inline' || mode === 'fullscreen') &&
+        (!supported || supported.includes(mode))
+          ? mode
+          : (hostContext.current.displayMode ?? 'inline');
       setFullscreen(acceptedMode === 'fullscreen');
-      host.setHostContext({
+      updateHostContext({
         displayMode: acceptedMode,
         availableDisplayModes: ['inline', 'fullscreen'],
       });
       return { mode: acceptedMode };
     };
-    host.oncalltool = async params => {
+    host.oncalltool = async (params, extra) => {
+      assertAppTool(tools, params.name);
       const next = (await rpc(
         'tools/call',
         params,
         false,
         'card',
+        extra.mcpReq.signal,
       )) as CallToolResult;
       setOutput(JSON.stringify(next, null, 2));
       return next;
     };
+    host.setRequestHandler('tools/list', async () => ({
+      tools: appTools(tools),
+    }));
+    host.onreadresource = async (params, extra) =>
+      rpc('resources/read', params, false, 'card', extra.mcpReq.signal);
+    host.onlistresources = async (params, extra) =>
+      rpc('resources/list', params, false, 'card', extra.mcpReq.signal);
+    host.onupdatemodelcontext = async params => {
+      setModelContext(params);
+      return {};
+    };
+    host.onmessage = async params => {
+      setMessages(previous => [...previous, params].slice(-100));
+      return {};
+    };
+    host.onloggingmessage = params =>
+      setMessages(previous => [...previous, { log: params }].slice(-100));
+    host.onopenlink = async ({ url }) => {
+      const target = externalUrl(url);
+      if (!window.confirm(`Open ${target}?`)) return { isError: true };
+      window.open(target, '_blank', 'noopener,noreferrer');
+      return {};
+    };
+    host.ondownloadfile = async ({ contents }) => {
+      if (!window.confirm(`Download ${contents.length} file(s)?`))
+        return { isError: true };
+      for (const item of contents) {
+        let resource;
+        let downloaded: Blob | undefined;
+        if (item.type === 'resource') resource = item.resource;
+        else if (/^https?:\/\//i.test(item.uri)) {
+          const response = await fetch(externalUrl(item.uri));
+          if (!response.ok)
+            throw new Error(`Download failed: HTTP ${response.status}`);
+          downloaded = await response.blob();
+          resource = { uri: item.uri };
+        } else {
+          if (simulate)
+            throw new Error('Connect a server to read resource links');
+          const read = await rpc(
+            'resources/read',
+            { uri: item.uri },
+            false,
+            'card',
+          );
+          resource = read.contents?.find(
+            (content: { uri: string }) => content.uri === item.uri,
+          );
+        }
+        if (!resource) throw new Error('Download resource unavailable');
+        const blob =
+          downloaded ??
+          new Blob(
+            [
+              resource.blob === undefined
+                ? (resource.text ?? '')
+                : Uint8Array.from(atob(resource.blob), char =>
+                    char.charCodeAt(0),
+                  ),
+            ],
+            { type: resource.mimeType ?? 'application/octet-stream' },
+          );
+        const url = URL.createObjectURL(blob);
+        const link = document.createElement('a');
+        link.href = url;
+        link.download = downloadName(resource.uri);
+        link.click();
+        setTimeout(() => URL.revokeObjectURL(url), 1000);
+      }
+      return {};
+    };
+    host.setNotificationHandler(
+      'notifications/tools/list_changed',
+      async () => {
+        if (bridge.current !== host || !host.getAppCapabilities()?.tools)
+          return;
+        const registered = await host.listTools({});
+        if (bridge.current === host) setAppToolList(registered.tools);
+      },
+    );
+    host.onrequestteardown = () => {
+      void disposeBridge(host)
+        .catch(() => {})
+        .finally(() => {
+          if (bridge.current === host) {
+            bridge.current = null;
+            initialized.current = false;
+            proxyListener.current?.();
+            setPreviewUrl(undefined);
+            setAppToolList([]);
+            setAppToolName('');
+            setAppToolOutput('');
+          }
+        });
+    };
     host.oninitialized = async () => {
+      if (bridge.current !== host) return;
+      initialized.current = true;
+      updateHostContext({});
       clearTimeout(previewTimeout.current);
       try {
         await host.sendToolInput({ arguments: input });
         await host.sendToolResult(result);
         setStatus('Card connected');
+        if (host.getAppCapabilities()?.tools) {
+          const registered = await host.listTools({});
+          if (bridge.current === host) setAppToolList(registered.tools);
+        }
       } catch (cause) {
         setError(`Card communication: ${String(cause)}`);
       }
@@ -235,14 +448,54 @@ export function McpInspector({ endpoint = '', views = [] }: McpInspectorProps) {
         'The UI resource was received, but the card did not complete its host handshake. Check iframe script loading and the browser console.',
       );
     }, 15000);
-    setPreviewHtml(html);
+    if (!sandboxUrl)
+      throw new Error('Inspector requires a cross-origin sandbox URL');
+    const sandbox = new URL(sandboxUrl);
+    if (sandbox.origin === location.origin)
+      throw new Error('Sandbox must have a different origin');
+    sandbox.searchParams.set('parentOrigin', location.origin);
+    const ready = (event: MessageEvent) => {
+      if (
+        event.source !== iframe.contentWindow ||
+        event.origin !== sandbox.origin ||
+        event.data?.method !== 'ui/notifications/sandbox-proxy-ready'
+      )
+        return;
+      iframe.contentWindow?.postMessage(
+        {
+          jsonrpc: '2.0',
+          method: 'ui/notifications/sandbox-resource-ready',
+          params: { html, csp: ui.csp },
+        },
+        sandbox.origin,
+      );
+    };
+    window.addEventListener('message', ready);
+    const theme = matchMedia('(prefers-color-scheme: dark)');
+    const changed = () =>
+      updateHostContext({ theme: theme.matches ? 'dark' : 'light' });
+    theme.addEventListener('change', changed);
+    const resize = new ResizeObserver(() =>
+      updateHostContext({
+        containerDimensions: { width: iframe.clientWidth, maxHeight: 1000 },
+      }),
+    );
+    resize.observe(iframe.parentElement!);
+    proxyListener.current = () => {
+      window.removeEventListener('message', ready);
+      theme.removeEventListener('change', changed);
+      resize.disconnect();
+    };
+    setPreviewUrl(sandbox.href);
   }
   async function execute() {
     const input = object(args);
+    activeRequest.current = new AbortController();
     setStatus('Running…');
-    setPreviewHtml(undefined);
     clearTimeout(previewTimeout.current);
-    await bridge.current?.close();
+    await closePreview();
+    setModelContext(undefined);
+    setMessages([]);
 
     const start = performance.now();
     if (simulate) {
@@ -256,17 +509,35 @@ export function McpInspector({ endpoint = '', views = [] }: McpInspectorProps) {
       );
       const result = {
         content: [],
-        structuredContent: { args: input, viewProps: object(props) },
+        _meta: {
+          [MCP_VIEW_META_KEY]: {
+            version: 1,
+            args: input,
+            viewProps: object(props),
+          },
+        },
       };
       setOutput(JSON.stringify(result, null, 2));
-      await preview(html, input, result);
+      await preview(html, input, result, {
+        csp: {
+          resourceDomains: [location.origin],
+          connectDomains: [location.origin],
+          baseUriDomains: [location.origin],
+        },
+      });
     } else {
       if (!activeAddress.current || activeAddress.current !== address)
         await connect();
-      const result = (await rpc('tools/call', {
-        name: selected,
-        arguments: input,
-      })) as CallToolResult;
+      const result = (await rpc(
+        'tools/call',
+        {
+          name: selected,
+          arguments: input,
+        },
+        false,
+        'inspector',
+        activeRequest.current.signal,
+      )) as CallToolResult;
       setOutput(JSON.stringify(result, null, 2));
       setStatus(
         `${result.isError ? 'Tool error' : 'Completed'} in ${Math.round(performance.now() - start)} ms`,
@@ -275,11 +546,17 @@ export function McpInspector({ endpoint = '', views = [] }: McpInspectorProps) {
         ?.resourceUri;
       if (uri && !result.isError) {
         const resource = await rpc('resources/read', { uri });
-        const html = resource.contents?.find(
-          (item: { text?: string }) => typeof item.text === 'string',
-        )?.text;
-        if (!html) throw new Error('UI resource did not return HTML');
-        await preview(html, input, result);
+        const listed = await rpc('resources/list');
+        const fallback = listed.resources?.find(
+          (item: { uri: string }) => item.uri === uri,
+        )?._meta?.ui;
+        const { html, ui } = readHtmlResource(
+          resource.contents ?? [],
+          uri,
+          fallback,
+        );
+        activeRequest.current?.signal.throwIfAborted();
+        await preview(html, input, result, ui);
       }
     }
   }
@@ -288,9 +565,13 @@ export function McpInspector({ endpoint = '', views = [] }: McpInspectorProps) {
   const resourceUri = tool?._meta?.ui?.resourceUri;
   const isMfView = !simulate && resourceUri?.startsWith('ui://mf/');
   const resultResource = output
-    ? JSON.parse(output)?.structuredContent?.resource
+    ? readMcpViewResult(JSON.parse(output))?.resource
     : undefined;
-  const mfResource = resultResource?.moduleFederation;
+  const mfResource = (
+    resultResource as
+      | { moduleFederation?: { resourceUri?: string; remoteEntry?: string } }
+      | undefined
+  )?.moduleFederation;
   const manifestUrl =
     !simulate &&
     mfResource?.resourceUri === resourceUri &&
@@ -396,22 +677,24 @@ export function McpInspector({ endpoint = '', views = [] }: McpInspectorProps) {
                 disabled={busy}
                 key={item.name}
                 aria-pressed={selected === item.name}
-                onClick={() => {
-                  setSelected(item.name);
-                  setArgs(
-                    JSON.stringify(
-                      schemaExample(
-                        tools.find(tool => tool.name === item.name)
-                          ?.inputSchema ?? { type: 'object' },
+                onClick={() =>
+                  void run(async () => {
+                    await closePreview();
+                    setSelected(item.name);
+                    setArgs(
+                      JSON.stringify(
+                        schemaExample(
+                          tools.find(tool => tool.name === item.name)
+                            ?.inputSchema ?? { type: 'object' },
+                        ),
+                        null,
+                        2,
                       ),
-                      null,
-                      2,
-                    ),
-                  );
-                  setOutput('');
-                  setError('');
-                  setPreviewHtml(undefined);
-                }}
+                    );
+                    setOutput('');
+                    setError('');
+                  })
+                }
               >
                 <strong>{item.name}</strong>
                 <small>
@@ -510,6 +793,21 @@ export function McpInspector({ endpoint = '', views = [] }: McpInspectorProps) {
                 {busy ? 'Running…' : simulate ? 'Preview card' : 'Run tool'}{' '}
                 <span aria-hidden="true">↗</span>
               </button>
+              {busy && (
+                <button
+                  onClick={() => {
+                    activeRequest.current?.abort();
+                    if (initialized.current)
+                      void bridge.current
+                        ?.sendToolCancelled({
+                          reason: 'Cancelled in Inspector',
+                        })
+                        .catch(() => {});
+                  }}
+                >
+                  Cancel
+                </button>
+              )}
               <span className="status" role="status">
                 {status}
               </span>
@@ -538,7 +836,7 @@ export function McpInspector({ endpoint = '', views = [] }: McpInspectorProps) {
                 type="button"
                 onClick={() => {
                   setFullscreen(false);
-                  bridge.current?.setHostContext({
+                  updateHostContext({
                     displayMode: 'inline',
                     availableDisplayModes: ['inline', 'fullscreen'],
                   });
@@ -587,9 +885,9 @@ export function McpInspector({ endpoint = '', views = [] }: McpInspectorProps) {
             <iframe
               key="mcp-app-preview"
               ref={frame}
-              srcDoc={previewHtml}
+              src={previewUrl}
               title="MCP App preview"
-              sandbox="allow-scripts"
+              sandbox="allow-scripts allow-same-origin"
               style={{ display: hasPreview ? 'block' : 'none' }}
             />
           </div>
@@ -597,6 +895,65 @@ export function McpInspector({ endpoint = '', views = [] }: McpInspectorProps) {
             Local previews help you iterate. Verify permissions and
             compatibility in your target host before release.
           </p>
+          <section aria-label="App protocol state">
+            <details>
+              <summary>Model context</summary>
+              <pre>{logJson(modelContext)}</pre>
+            </details>
+            <details>
+              <summary>App messages and logs</summary>
+              <pre>{logJson(messages)}</pre>
+            </details>
+            <details>
+              <summary>App-provided tools</summary>
+              <button
+                onClick={() =>
+                  void run(async () => {
+                    const registered = await bridge.current?.listTools({});
+                    setAppToolList(registered?.tools ?? []);
+                  })
+                }
+                disabled={!hasPreview}
+              >
+                Refresh app tools
+              </button>
+              <select
+                value={appToolName}
+                onChange={event => setAppToolName(event.target.value)}
+              >
+                <option value="">Select app tool</option>
+                {appToolList.map(item => (
+                  <option key={item.name} value={item.name}>
+                    {item.name}
+                  </option>
+                ))}
+              </select>
+              <textarea
+                aria-label="App tool arguments"
+                value={appToolArgs}
+                onChange={event => setAppToolArgs(event.target.value)}
+              />
+              <button
+                disabled={!appToolName || !hasPreview}
+                onClick={() =>
+                  void run(async () => {
+                    activeRequest.current = new AbortController();
+                    const result = await bridge.current?.callTool(
+                      {
+                        name: appToolName,
+                        arguments: object(appToolArgs),
+                      },
+                      { signal: activeRequest.current.signal },
+                    );
+                    setAppToolOutput(logJson(result));
+                  })
+                }
+              >
+                Call app tool
+              </button>
+              <pre>{appToolOutput}</pre>
+            </details>
+          </section>
         </section>
         <section className="activity" aria-label="Activity">
           <div className="section-label">ACTIVITY</div>

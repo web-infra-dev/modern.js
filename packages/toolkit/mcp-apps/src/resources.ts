@@ -133,7 +133,11 @@ export function createUiResources(definition: McpAppsDefinition) {
       _meta: {
         ui: {
           csp: tool.view?.csp ?? { connectDomains: [], resourceDomains: [] },
-          prefersBorder: true,
+          prefersBorder: tool.view?.prefersBorder ?? true,
+          ...(tool.view?.permissions
+            ? { permissions: tool.view.permissions }
+            : {}),
+          ...(tool.view?.domain ? { domain: tool.view.domain } : {}),
         },
       },
     });
@@ -165,6 +169,14 @@ export function bindUiResources(
         : undefined;
       if (!entry)
         throw new Error(`Missing MCP UI manifest entry: ${tool.name}`);
+      if (
+        entry.resourceUri !== `ui://local/${encodeURIComponent(tool.name)}` ||
+        entry.mimeType !== UI_MIME_TYPE ||
+        typeof entry.html !== 'string' ||
+        !entry.html
+      ) {
+        throw new Error(`MCP UI manifest mismatch for tool: ${tool.name}`);
+      }
       return {
         ...tool,
         view: {
@@ -454,6 +466,10 @@ export function normalizeToolConfig(
       exportName: tool.view.exportName ?? defaults.exportName,
       renderMode: tool.view.renderMode ?? defaults.renderMode,
       runtime: tool.view.runtime ?? defaults.runtime,
+      permissions: tool.view.permissions ?? defaults.permissions,
+      domain: tool.view.domain ?? defaults.domain,
+      prefersBorder: tool.view.prefersBorder ?? defaults.prefersBorder,
+      capabilities: tool.view.capabilities ?? defaults.capabilities,
       csp:
         defaults.csp || tool.view.csp
           ? { ...defaults.csp, ...tool.view.csp }
@@ -478,6 +494,10 @@ export function normalizeToolConfig(
         html: tool.view.html,
         assetBase: tool.view.assetBase,
         csp: tool.view.csp,
+        permissions: tool.view.permissions,
+        domain: tool.view.domain,
+        prefersBorder: tool.view.prefersBorder,
+        capabilities: tool.view.capabilities,
       }
     : undefined;
   const handler =

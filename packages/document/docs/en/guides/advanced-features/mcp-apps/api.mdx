@@ -27,7 +27,7 @@ remain endpoint options. The separate Hono adapter remains `mcpApps({ definition
 The following public types describe the definition, handler context, and result:
 
 ```ts
-import type { McpUiResourceMeta } from '@modelcontextprotocol/ext-apps';
+import type { McpUiAppCapabilities, McpUiResourceMeta } from '@modelcontextprotocol/ext-apps'
 import type {
   CallToolResult,
   ToolAnnotations,
@@ -43,7 +43,7 @@ export interface McpServerDefinition {
 
 export type McpAppsViewDefaults = Pick<
   McpAppsViewConfig,
-  'assetBase' | 'csp' | 'exportName' | 'renderMode' | 'runtime'
+  'assetBase' | 'csp' | 'exportName' | 'renderMode' | 'runtime' | 'permissions' | 'domain' | 'prefersBorder' | 'capabilities'
 >;
 
 export interface RemoteConfig {
@@ -71,7 +71,8 @@ export interface RemoteConfig {
   /** UI domain setting forwarded to the host; support depends on the host. */
   domain?: string;
   /** Hint requesting a card border from the host; defaults to true. */
-  prefersBorder?: boolean;
+  prefersBorder?: boolean
+  capabilities?: McpUiAppCapabilities
 }
 
 export interface ToolConfig {
@@ -83,7 +84,7 @@ export interface ToolConfig {
   description?: string;
   /** Input JSON Schema or property shorthand; configuration helpers infer supported forms. */
   inputSchema?: JsonSchema;
-  /** JSON Schema for business structuredContent, validated before UI data is added. */
+  /** JSON Schema for business structuredContent. Rendering metadata is stored separately. */
   outputSchema?: JsonSchema;
   /** Behavior hints such as read-only or destructive; not an authorization mechanism. */
   annotations?: ToolAnnotations;
@@ -124,7 +125,11 @@ export interface McpAppsViewConfig {
   /** Asset base URL; request uses the public MCP request origin. */
   assetBase?: string;
   /** CSP for local or independent HTML views; MF views use remote.csp. */
-  csp?: RemoteConfig['csp'];
+  csp?: RemoteConfig['csp']
+  permissions?: McpUiResourceMeta['permissions']
+  domain?: string
+  prefersBorder?: boolean
+  capabilities?: McpUiAppCapabilities
 }
 
 export interface McpAppsHandlerConfig {
@@ -172,7 +177,7 @@ export interface RemoteToolHandlerContext {
 export interface RemoteToolHandlerResult {
   /** MCP tool content, such as text or images. */
   content?: CallToolResult['content'];
-  /** Structured business result; the framework adds UI data for tools with views. */
+  /** Structured business result, preserved unchanged even for tools with views. */
   structuredContent?: unknown;
   /** Additional tool result metadata. */
   _meta?: Record<string, unknown>;
@@ -196,7 +201,7 @@ When using these types:
 - `name`, `version`, and `tools` are required by `defineMcpServer`; `remotes` is optional and defaults to `[]`. The server requires at least one tool, and each tool must define a `handler` or `view`.
 - Inline simple tools in `tools`; when splitting files, import tools created with `defineTool`. `McpAppsHandlerConfig` supports loading handlers from local modules.
 - `view.exportName` defaults to `default`, and `view.renderMode` defaults to `component`. Local component entries only support `component`. Top-level `module`, `exportName`, and `renderMode` are compatibility fields; use `view` for new definitions.
-- `outputSchema` validates the handler's business `structuredContent`. Tools with views attach UI data after validation, so they do not advertise that schema in the tool list.
+- `outputSchema` validates the handler's business `structuredContent` and is advertised for tools with or without views. Rendering metadata lives separately in result `_meta` and does not change the business schema.
 - `visibility` defaults to `['model', 'app']`. It controls visibility to the model and card and does not replace server authorization. `annotations` provides tool behavior hints.
 - `context.request` is the current request. With BFF/Hono integration, `context.context` is its Hono Context. Asynchronous business operations should honor the cancellation signal in `context.signal`.
 
@@ -216,3 +221,24 @@ For MF remote tools, the plugin also adds CORS headers and OPTIONS handling for 
 `inputSchema` accepts standard JSON Schema or property shorthand. Shorthand fields are required by default; `optional: true` marks optional fields, and extra properties are rejected. Use full JSON Schema for nested objects and fields named after schema keywords. See [Define tools and views](./configuration).
 
 MF tools require an explicit matching `remotes` entry. Set `baseUrl` to the complete MF manifest URL and configure CSP origins. The plugin does not infer the address.
+
+
+## withViewProps
+
+Import from `@modern-js/mcp-apps/server`. Use `withViewProps(result)` when business data and card props are identical, avoiding a duplicate `viewProps` declaration. Pass a mapping function to adapt the component interface. Its input type is inferred from the business result.
+
+```ts
+import { withViewProps } from '@modern-js/mcp-apps/server'
+
+const result = withViewProps({
+  content: [{ type: 'text', text: 'Query completed' }],
+  structuredContent: { orders: [], total: 0 },
+})
+
+const mapped = withViewProps(result, data => ({
+  items: data.orders,
+  totalCount: data.total,
+}))
+```
+
+The helper returns a new result object, preserving business data, content and metadata. The default mapping reuses the business object reference without deep cloning. Both `structuredContent` and the mapped props should be plain objects. Wrap arrays or scalars in `{ items }` or `{ value }`. The mapping runs synchronously and propagates errors to the caller. Existing prop precedence stays the same. Card props are stored in result metadata at `_meta['modernjs.dev/mcp-app'].viewProps`.

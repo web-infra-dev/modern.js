@@ -1,36 +1,49 @@
 import type { CallToolResult } from '@modelcontextprotocol/client';
-import { useApp } from '@modelcontextprotocol/ext-apps/react';
+import { useApp, useHostStyles } from '@modelcontextprotocol/ext-apps/react';
 import type { UseAppOptions } from '@modelcontextprotocol/ext-apps/react';
-import { type ComponentType, createElement, useState } from 'react';
+import { type ComponentType, createElement, useReducer } from 'react';
+import { mergeMcpViewProps, reduceMcpToolState } from './view-result';
 export type { App } from '@modelcontextprotocol/ext-apps';
 
 export {
   useApp,
   useDocumentTheme,
   useHostStyleVariables,
+  useHostStyles,
+  useHostFonts,
 } from '@modelcontextprotocol/ext-apps/react';
 
 /** Mount once per view. Handlers are registered before the host handshake. */
-export function useMcpApp(options: Omit<UseAppOptions, 'onAppCreated'>) {
-  const [input, setInput] = useState<Record<string, unknown>>();
-  const [result, setResult] = useState<CallToolResult>();
-  const [cancelled, setCancelled] = useState(false);
+export function useMcpApp(
+  options: Omit<UseAppOptions, 'onAppCreated'>,
+  onAppCreated?: UseAppOptions['onAppCreated'],
+) {
+  const [state, dispatch] = useReducer(reduceMcpToolState, {
+    cancelled: false,
+  });
   const connection = useApp({
     ...options,
     onAppCreated(app) {
-      app.ontoolinput = event => {
-        setInput(event.arguments);
-        setResult(undefined);
-        setCancelled(false);
+      app.ontoolinputpartial = event =>
+        dispatch({ type: 'partial', arguments: event.arguments });
+      app.ontoolinput = event =>
+        dispatch({ type: 'input', arguments: event.arguments });
+      app.ontoolresult = event => dispatch({ type: 'result', result: event });
+      app.ontoolcancelled = () => dispatch({ type: 'cancelled' });
+      app.onteardown = async () => {
+        dispatch({ type: 'teardown' });
+        return {};
       };
-      app.ontoolresult = event => {
-        setResult(event);
-        setCancelled(false);
-      };
-      app.ontoolcancelled = () => setCancelled(true);
+      onAppCreated?.(app);
     },
   });
-  return { ...connection, input, result, cancelled };
+  useHostStyles(connection.app, connection.app?.getHostContext());
+  return {
+    ...connection,
+    ...state,
+    result: state.result as CallToolResult | undefined,
+    viewProps: mergeMcpViewProps(state.input, state.partialInput, state.result),
+  };
 }
 
 /** Adapt a normal Modern.js entry component to the host's MCP lifecycle. */
@@ -40,19 +53,18 @@ export function createMcpView<P extends object>(
   capabilities: UseAppOptions['capabilities'] = {},
 ) {
   return function McpView() {
-    const { app, isConnected, error, input, result, cancelled } = useMcpApp({
+    const { app, isConnected, error, viewProps, cancelled } = useMcpApp({
       appInfo,
-      capabilities,
+      capabilities: {
+        availableDisplayModes: ['inline', 'fullscreen'],
+        ...capabilities,
+      },
     });
     if (error) return createElement('p', { role: 'alert' }, error.message);
     if (cancelled) return createElement('p', null, 'Tool cancelled');
     if (!app || !isConnected) return createElement('p', null, 'Connecting…');
-    const output = result?.structuredContent as
-      { args?: object; viewProps?: object } | undefined;
     return createElement(View, {
-      ...input,
-      ...(output?.args as object),
-      ...(output?.viewProps as object),
+      ...viewProps,
       mcpApp: app,
     } as P);
   };

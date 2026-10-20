@@ -6,6 +6,7 @@ import {
   createUiManifest,
   getUiEntryName,
   validateMcpAppsConfig,
+  startInspectorSandbox,
 } from '@modern-js/mcp-apps/server';
 import { createLoadedConfig } from '@modern-js/plugin/cli';
 import type { AppTools, CliPlugin } from '@modern-js/app-tools';
@@ -169,6 +170,11 @@ function setupMcpUi(
   options: { endpoint?: string | false; inspector?: boolean } = {},
 ) {
   const entries = new Map<string, string>();
+  let sandbox: Awaited<ReturnType<typeof startInspectorSandbox>> | undefined;
+  api.onBeforeExit(async () => {
+    await sandbox?.close();
+    sandbox = undefined;
+  });
   let inspectorEnabled = false;
   let definition: McpAppsDefinition;
   api.onBeforePrintInstructions(({ instructions }) => ({
@@ -223,7 +229,7 @@ function setupMcpUi(
         .join('/');
       const source = `import { createMcpView } from ${JSON.stringify(appRequire.resolve('@modern-js/mcp-apps/react'))};
 import { ${tool.view.exportName ?? definition.viewDefaults?.exportName ?? 'default'} as View } from ${JSON.stringify(component)};
-export default createMcpView(View, ${JSON.stringify({ name: tool.name, version: '1.0.0' })});
+export default createMcpView(View, ${JSON.stringify({ name: tool.name, version: '1.0.0' })}, ${JSON.stringify(tool.view.capabilities ?? definition.viewDefaults?.capabilities ?? {})});
 `;
       await fs.mkdir(path.dirname(entry), { recursive: true });
       await fs.writeFile(entry, source);
@@ -239,6 +245,7 @@ export default createMcpView(View, ${JSON.stringify({ name: tool.name, version: 
     inspectorEnabled =
       options.inspector !== false && ['dev', 'start'].includes(ctx.command);
     if (inspectorEnabled) {
+      sandbox ??= await startInspectorSandbox();
       const entryName = 'mcp/inspector';
       if (entrypoints.some(entry => entry.entryName === entryName)) {
         throw new Error(
@@ -248,6 +255,7 @@ export default createMcpView(View, ${JSON.stringify({ name: tool.name, version: 
       const entry = path.join(ctx.internalDirectory, 'mcp-ui', 'inspector.jsx');
       const props = {
         endpoint: options.endpoint || '',
+        sandboxUrl: sandbox.url,
         views: [...entries].map(([name, tool]) => ({
           name: tool,
           url: `/${name}`,

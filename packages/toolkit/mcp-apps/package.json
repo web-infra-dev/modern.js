@@ -61,13 +61,14 @@
     "build": "pnpm build:runtime && rslib build",
     "dev": "pnpm build:runtime && rslib build --watch",
     "typecheck": "tsc --noEmit",
-    "build:runtime": "node scripts/build-runtime.mjs"
+    "build:runtime": "node scripts/build-runtime.mjs",
+    "test": "rstest"
   },
   "dependencies": {
-    "@modelcontextprotocol/client": "2.2.0",
-    "@modelcontextprotocol/core": "2.2.0",
+    "@modelcontextprotocol/client": "2.3.1",
+    "@modelcontextprotocol/core": "2.3.1",
     "@modelcontextprotocol/ext-apps": "2.0.3",
-    "@modelcontextprotocol/server": "2.2.0",
+    "@modelcontextprotocol/server": "2.3.1",
     "ajv": "^8.20.0",
     "ajv-formats": "^3.0.1"
   },

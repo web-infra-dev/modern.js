@@ -24,7 +24,7 @@
 以下公共类型描述服务定义、handler 上下文及返回值：
 
 ```ts
-import type { McpUiResourceMeta } from '@modelcontextprotocol/ext-apps';
+import type { McpUiAppCapabilities, McpUiResourceMeta } from '@modelcontextprotocol/ext-apps'
 import type {
   CallToolResult,
   ToolAnnotations,
@@ -40,7 +40,7 @@ export interface McpServerDefinition {
 
 export type McpAppsViewDefaults = Pick<
   McpAppsViewConfig,
-  'assetBase' | 'csp' | 'exportName' | 'renderMode' | 'runtime'
+  'assetBase' | 'csp' | 'exportName' | 'renderMode' | 'runtime' | 'permissions' | 'domain' | 'prefersBorder' | 'capabilities'
 >;
 
 export interface RemoteConfig {
@@ -68,7 +68,8 @@ export interface RemoteConfig {
   /** 传给宿主的 UI 域名设置，具体支持由宿主决定。 */
   domain?: string;
   /** 是否希望宿主显示卡片边框，默认 true；属于展示提示。 */
-  prefersBorder?: boolean;
+  prefersBorder?: boolean
+  capabilities?: McpUiAppCapabilities
 }
 
 export interface ToolConfig {
@@ -80,7 +81,7 @@ export interface ToolConfig {
   description?: string;
   /** 输入参数的 JSON Schema 或属性简写；配置辅助函数可推导支持的形式。 */
   inputSchema?: JsonSchema;
-  /** 业务 structuredContent 的 JSON Schema；在附加 UI 数据前校验。 */
+  /** 业务 structuredContent 的 JSON Schema。卡片渲染信息存放于结果元数据中。 */
   outputSchema?: JsonSchema;
   /** 只读、破坏性等行为提示，不代替权限控制。 */
   annotations?: ToolAnnotations;
@@ -121,7 +122,11 @@ export interface McpAppsViewConfig {
   /** 静态资源基址；request 表示使用公开 MCP 请求 origin。 */
   assetBase?: string;
   /** 本地或独立 HTML 视图的 CSP；MF 视图使用 remote.csp。 */
-  csp?: RemoteConfig['csp'];
+  csp?: RemoteConfig['csp']
+  permissions?: McpUiResourceMeta['permissions']
+  domain?: string
+  prefersBorder?: boolean
+  capabilities?: McpUiAppCapabilities
 }
 
 export interface McpAppsHandlerConfig {
@@ -169,7 +174,7 @@ export interface RemoteToolHandlerContext {
 export interface RemoteToolHandlerResult {
   /** MCP 工具内容，例如文本或图片。 */
   content?: CallToolResult['content'];
-  /** 结构化业务结果；带视图时框架会附加 UI 数据。 */
+  /** 结构化业务结果。带视图时也保持原样。 */
   structuredContent?: unknown;
   /** 工具结果的附加元数据。 */
   _meta?: Record<string, unknown>;
@@ -193,7 +198,7 @@ export type RemoteToolHandler = (
 - `defineMcpServer` 要求 `name`、`version` 和 `tools`；`remotes` 可选，默认 `[]`。服务端要求至少一个工具，每个工具至少包含 `handler` 或 `view`。
 - 简单工具直接内联在 `tools` 中；拆分文件时，通过普通 import 引入 `defineTool` 创建的工具。`McpAppsHandlerConfig` 是按本地模块加载 handler 的形式。
 - `view.exportName` 默认为 `default`，`view.renderMode` 默认为 `component`；本地组件入口只支持 `component`。顶层 `module`、`exportName`、`renderMode` 是兼容字段，新配置应使用 `view`。
-- `outputSchema` 校验 handler 返回的业务 `structuredContent`；带视图的工具会在校验后附加 UI 数据，因此不会在工具列表中公开该 schema。
+- `outputSchema` 校验 handler 返回的业务 `structuredContent`，包括带视图的工具，并在工具列表中公开。渲染信息单独放在结果 `_meta` 中，不影响业务 schema。
 - `visibility` 默认是 `['model', 'app']`，控制工具对模型和卡片的可见性，不代替服务端鉴权。`annotations` 是工具行为提示。
 - `context.request` 是当前请求，`context.context` 在 BFF/Hono 接入中为请求对应的 Hono Context；异步业务操作应响应 `context.signal` 的取消信号。
 
@@ -213,3 +218,24 @@ export type RemoteToolHandler = (
 `inputSchema` 支持标准 JSON Schema 和属性简写。简写字段默认必填，使用 `optional: true` 标记可选；额外属性被禁止。嵌套对象及 Schema 关键字同名字段使用完整 JSON Schema，详见[定义工具与视图](./configuration)。
 
 MF 工具必须显式声明对应的 `remotes`，将 `baseUrl` 设置为完整的 MF manifest URL，并配置 CSP 域名。插件不会推断该地址。
+
+
+## withViewProps
+
+从 `@modern-js/mcp-apps/server` 导入。当业务结果与卡片属性相同时，使用 `withViewProps(result)` 复用 `structuredContent`，避免重复声明 `viewProps`。需要转换组件属性时，传入映射函数，其参数类型由业务结果推导。
+
+```ts
+import { withViewProps } from '@modern-js/mcp-apps/server'
+
+const result = withViewProps({
+  content: [{ type: 'text', text: '查询完成' }],
+  structuredContent: { orders: [], total: 0 },
+})
+
+const mapped = withViewProps(result, data => ({
+  items: data.orders,
+  totalCount: data.total,
+}))
+```
+
+此函数返回新结果对象，保留业务数据、内容和元数据。默认映射复用业务对象引用，不会深拷贝。`structuredContent` 和映射结果应为普通对象，数组或标量需包装为 `{ items }` 或 `{ value }`。映射函数同步执行，异常向调用方传播。此函数不改变现有 props 合并规则。`viewProps` 写入工具结果的 `_meta['modernjs.dev/mcp-app'].viewProps`。

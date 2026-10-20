@@ -1,5 +1,9 @@
-import type { App, McpUiHostContext } from '@modelcontextprotocol/ext-apps';
-import { useApp } from '@modelcontextprotocol/ext-apps/react';
+import type {
+  App,
+  McpUiAppCapabilities,
+  McpUiHostContext,
+} from '@modelcontextprotocol/ext-apps';
+import { useMcpApp } from '../react';
 import { useCallback, useEffect, useRef, useState } from 'react';
 import { createRoot } from 'react-dom/client';
 import {
@@ -29,17 +33,6 @@ function subscribeHostContext(app: HostContextSource, listener: Listener) {
   return () => app.removeEventListener('hostcontextchanged', listener);
 }
 
-interface ToolData {
-  tool: string;
-  config: {
-    name?: string;
-    title?: string;
-    description?: string;
-    resource?: unknown;
-  };
-  args: Record<string, unknown>;
-}
-
 const FullscreenIcon = () => (
   <svg
     aria-hidden="true"
@@ -59,34 +52,6 @@ const FullscreenIcon = () => (
   </svg>
 );
 
-type ToolOutputPayload = {
-  tool?: string;
-  resource?: unknown;
-  config?: {
-    resource?: unknown;
-  };
-  args?: Record<string, unknown>;
-  viewProps?: Record<string, unknown>;
-};
-
-type OpenAiFallback = {
-  openai?: {
-    toolOutput?: ToolOutputPayload;
-  };
-};
-
-type ToolInputPayload = {
-  arguments?: Record<string, unknown>;
-};
-
-type ToolResultPayload = {
-  structuredContent?: unknown;
-  content?: Array<{
-    type?: string;
-    text?: string;
-  }>;
-};
-
 type ModuleFederationResource = {
   moduleFederation: ModuleFederationConfig;
 };
@@ -94,88 +59,32 @@ type ModuleFederationResource = {
 function hasModuleFederationResource(
   resource: unknown,
 ): resource is ModuleFederationResource {
+  if (
+    !resource ||
+    typeof resource !== 'object' ||
+    !('moduleFederation' in resource)
+  )
+    return false;
+  const config = resource.moduleFederation;
   return (
-    resource !== null &&
-    typeof resource === 'object' &&
-    'moduleFederation' in resource
+    !!config &&
+    typeof config === 'object' &&
+    ['remoteName', 'remoteEntry', 'module', 'exportName'].every(
+      key => typeof (config as Record<string, unknown>)[key] === 'string',
+    ) &&
+    (!('renderMode' in config) ||
+      config.renderMode === undefined ||
+      config.renderMode === 'component' ||
+      config.renderMode === 'mount')
   );
 }
 
-/**
- * Workaround for ChatGPT page-refresh bug (ext-apps#522).
- *
- * After a ChatGPT page refresh the MCP Apps protocol notifications
- * (`ontoolresult`, `ontoolinput`, `oninitialized`) do NOT re-fire, so the
- * widget stays blank. However, ChatGPT still exposes the original tool
- * data on `window.openai.toolOutput` and `window.openai.toolInput`.
- *
- * This helper reads `window.openai.toolOutput` as a fallback data source.
- *
- * @see https://github.com/modelcontextprotocol/ext-apps/issues/522
- */
-function getOpenAIToolOutput(): {
-  tool: string;
-  resource: unknown;
-  args: Record<string, unknown>;
-} | null {
-  try {
-    const openai = (window as Window & OpenAiFallback).openai;
-    if (!openai?.toolOutput?.tool) {
-      return null;
-    }
-    return {
-      tool: openai.toolOutput.tool,
-      resource: openai.toolOutput.resource,
-      args: openai.toolOutput.args ?? {},
-    };
-  } catch {
-    return null;
-  }
-}
-
 function ModuleFederationApp() {
-  const [currentTool, setCurrentTool] = useState<ToolData | null>(null);
-  const [showMFComponent, setShowMFComponent] = useState(false);
   const [displayMode, setDisplayMode] = useState<'inline' | 'fullscreen'>(
     'inline',
   );
 
-  // Tracks whether `ontoolresult` has delivered data through the standard
-  // MCP Apps protocol path. Used to decide whether the window.openai
-  // fallback should activate.
-  const toolResultReceivedRef = useRef(false);
-
   const appRef = useRef<App | null>(null);
-
-  /**
-   * Shared handler: applies a parsed tool-output object to component state.
-   * Accepts the `{ tool, resource, args }` shape produced by both the
-   * standard `ontoolresult` parsing path and `window.openai.toolOutput`.
-   */
-  const applyToolOutput = useCallback((parsed: ToolOutputPayload) => {
-    // Handle tool with resource
-    let resource: unknown = null;
-    if (parsed.tool && parsed.resource) {
-      resource = parsed.resource;
-      setCurrentTool({
-        tool: parsed.tool,
-        args: { ...(parsed.args ?? {}), ...(parsed.viewProps ?? {}) },
-        config: { resource },
-      });
-    } else if (parsed.tool && parsed.config?.resource) {
-      resource = parsed.config.resource;
-      setCurrentTool({
-        tool: parsed.tool,
-        args: { ...(parsed.args ?? {}), ...(parsed.viewProps ?? {}) },
-        config: { resource },
-      });
-    } else {
-      return;
-    }
-
-    console.log('[mcp-app] ✅ tool result applied for', parsed.tool);
-    setShowMFComponent(true);
-  }, []);
 
   const toggleFullscreen = useCallback(async () => {
     if (!appRef.current) {
@@ -222,90 +131,22 @@ function ModuleFederationApp() {
     return () => document.body.classList.remove('mf-fullscreen');
   }, [displayMode]);
 
-  /**
-   * ChatGPT page-refresh fallback (ext-apps#522).
-   *
-   * After mount, wait 500ms for the normal `ontoolresult` protocol path to
-   * deliver data. If it hasn't, read from `window.openai.toolOutput` instead.
-   * This covers the case where ChatGPT re-creates the widget iframe on page
-   * refresh but never re-sends the tool-result / tool-input notifications.
-   *
-   * @see https://github.com/modelcontextprotocol/ext-apps/issues/522
-   */
-  useEffect(() => {
-    const timer = setTimeout(() => {
-      if (toolResultReceivedRef.current) {
-        return;
-      }
-      const output = getOpenAIToolOutput();
-      if (!output) {
-        return;
-      }
-      console.log(
-        '[mcp-app] ⚠️ ontoolresult not received — recovering from window.openai (ext-apps#522)',
-      );
-      applyToolOutput(output);
-    }, 500);
-    return () => clearTimeout(timer);
-  }, [applyToolOutput]);
-
-  const { app, error, isConnected } = useApp({
-    appInfo: {
-      name: 'Module Federation',
-      version: '1.0.0',
+  const { app, error, isConnected, cancelled, resource, viewProps } = useMcpApp(
+    {
+      appInfo: {
+        name: 'Module Federation',
+        version: '1.0.0',
+      },
+      capabilities: {
+        availableDisplayModes: ['inline', 'fullscreen'],
+        ...(JSON.parse(
+          document.getElementById('modern-mcp-capabilities')?.textContent ??
+            '{}',
+        ) as McpUiAppCapabilities),
+      },
     },
-    capabilities: {
-      availableDisplayModes: ['inline', 'fullscreen'],
-    },
-    onAppCreated: (app: App) => {
+    (app: App) => {
       appRef.current = app;
-      toolResultReceivedRef.current = false;
-
-      // Handle live tool input updates from the host without
-      // reloading the iframe or the remote Module Federation container.
-      app.ontoolinput = async (
-        input: ToolInputPayload | Record<string, unknown>,
-      ) => {
-        const args = (input?.arguments ?? input ?? {}) as Record<
-          string,
-          unknown
-        >;
-        setCurrentTool(prev => (prev ? { ...prev, args } : prev));
-      };
-
-      // Handle tool result — standard MCP Apps protocol path.
-      // MCP Apps payloads put render metadata in structuredContent
-      // so handlers can keep content[] human-readable. Older static payloads
-      // wrapped the same data as JSON in content[0].text; keep that fallback.
-      app.ontoolresult = (result: ToolResultPayload) => {
-        toolResultReceivedRef.current = true;
-        const output = result.structuredContent;
-        if (
-          output &&
-          typeof output === 'object' &&
-          'tool' in output &&
-          'resource' in output
-        ) {
-          applyToolOutput(output as ToolOutputPayload);
-          return;
-        }
-        if (!result.content || !Array.isArray(result.content)) {
-          return;
-        }
-        const textContent = result.content.find(c => c.type === 'text');
-        if (!textContent?.text) {
-          return;
-        }
-        let parsed: ToolOutputPayload;
-        try {
-          parsed = JSON.parse(textContent.text) as ToolOutputPayload;
-        } catch {
-          return;
-        }
-        applyToolOutput(parsed);
-      };
-
-      app.onteardown = async () => ({});
       app.onerror = (err: unknown) => {
         const msg = err instanceof Error ? err.message : String(err);
         // Suppress known protocol noise: stale bridge receives initialize
@@ -316,7 +157,7 @@ function ModuleFederationApp() {
         console.error('[MF App] Error:', err);
       };
     },
-  });
+  );
 
   useEffect(() => {
     if (!app || !isConnected) return;
@@ -327,6 +168,8 @@ function ModuleFederationApp() {
     };
     return subscribeHostContext(app, updateHostContext);
   }, [app, isConnected]);
+
+  if (cancelled) return <p role="status">Tool cancelled</p>;
 
   if (error) {
     return (
@@ -365,14 +208,13 @@ function ModuleFederationApp() {
         </button>
       </div>
       {/* Render remote component when tool is available */}
-      {showMFComponent &&
-        hasModuleFederationResource(currentTool?.config?.resource) && (
-          <RemoteComponentContainer
-            config={currentTool.config.resource.moduleFederation}
-            args={currentTool.args}
-            mcpApp={app}
-          />
-        )}
+      {hasModuleFederationResource(resource) && (
+        <RemoteComponentContainer
+          config={resource.moduleFederation}
+          args={viewProps}
+          mcpApp={app}
+        />
+      )}
     </main>
   );
 }

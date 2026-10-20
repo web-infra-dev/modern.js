@@ -1,5 +1,8 @@
 import type { InputSchemaKeyword } from './resources';
-import type { McpUiResourceMeta } from '@modelcontextprotocol/ext-apps';
+import type {
+  McpUiAppCapabilities,
+  McpUiResourceMeta,
+} from '@modelcontextprotocol/ext-apps';
 import type {
   CallToolResult,
   ToolAnnotations,
@@ -7,7 +10,15 @@ import type {
 
 export type McpAppsViewDefaults = Pick<
   McpAppsViewConfig,
-  'assetBase' | 'csp' | 'exportName' | 'renderMode' | 'runtime'
+  | 'assetBase'
+  | 'csp'
+  | 'exportName'
+  | 'renderMode'
+  | 'runtime'
+  | 'permissions'
+  | 'domain'
+  | 'prefersBorder'
+  | 'capabilities'
 >;
 
 export interface McpAppsConfig {
@@ -32,6 +43,8 @@ export interface RemoteConfig {
   permissions?: McpUiResourceMeta['permissions'];
   domain?: string;
   prefersBorder?: boolean;
+  /** Capabilities of the shared MF application. */
+  capabilities?: McpUiAppCapabilities;
 }
 
 export interface ToolConfig {
@@ -64,6 +77,10 @@ export interface McpAppsViewConfig {
   /** Base for application assets; "request" uses the public MCP request origin. */
   assetBase?: string;
   csp?: RemoteConfig['csp'];
+  permissions?: McpUiResourceMeta['permissions'];
+  domain?: string;
+  prefersBorder?: boolean;
+  capabilities?: McpUiAppCapabilities;
 }
 
 export interface McpAppsHandlerConfig {
@@ -85,7 +102,17 @@ export interface NormalizedToolConfig {
   view?: Required<
     Pick<McpAppsViewConfig, 'module' | 'exportName' | 'renderMode'>
   > &
-    Pick<McpAppsViewConfig, 'runtime' | 'html' | 'csp' | 'assetBase'>;
+    Pick<
+      McpAppsViewConfig,
+      | 'runtime'
+      | 'html'
+      | 'csp'
+      | 'assetBase'
+      | 'permissions'
+      | 'domain'
+      | 'prefersBorder'
+      | 'capabilities'
+    >;
   handler?:
     | RemoteToolHandler
     | (Required<Pick<McpAppsHandlerConfig, 'module' | 'exportName'>> &

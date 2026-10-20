@@ -128,7 +128,7 @@ export function registerGreeting(server) {
 
 `readUiManifestResource()` 读取 HTML、注入静态资源的 base 地址，并将资源来源补充到 CSP。默认的 `assetBase: 'request'` 需要调用方显式传入公开地址，独立 Server 的 origin 不一定是 UI 的静态资源地址。
 
-`createMcpViewResult(args, result)` 保留业务结果，将工具参数写入 `structuredContent.args`，将视图参数写入 `structuredContent.viewProps`。`createMcpView()` 按工具输入、结果 args、viewProps 的顺序合并 props，并注入 `mcpApp`。
+`createMcpViewResult(args, result)` 保留业务结果，将工具参数写入 `_meta['modernjs.dev/mcp-app'].args`，将视图参数写入 `_meta['modernjs.dev/mcp-app'].viewProps`。`createMcpView()` 按工具输入、结果 args、viewProps 的顺序合并 props，并注入 `mcpApp`。
 
 非 Node Server 可以直接读取 JSON manifest，返回相同的 UI 资源和工具结果结构。若自行返回 HTML，也需要处理 base 地址和 CSP，确保脚本及样式可以加载。
 

@@ -1,48 +1,73 @@
 import type { App } from '@modern-js/mcp-apps/react';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 
 export default function Greeting({
+  name = 'Modern.js',
   message,
   mcpApp,
 }: {
+  name?: string;
   message?: string;
   mcpApp?: App;
 }) {
+  const [value, setValue] = useState(name);
   const [updated, setUpdated] = useState<string>();
+  const [error, setError] = useState<string>();
   const [pending, setPending] = useState(false);
+
+  useEffect(() => {
+    setValue(name);
+    setUpdated(undefined);
+    setError(undefined);
+  }, [name, message]);
+
   return (
     <section style={{ fontFamily: 'system-ui', padding: 24 }}>
       <h1>{updated ?? message ?? 'Hello!'}</h1>
-      <button
-        disabled={!mcpApp || pending}
-        type="button"
-        onClick={async () => {
-          if (!mcpApp) return;
+      <form
+        onSubmit={async event => {
+          event.preventDefault();
+          if (!mcpApp || pending || !value.trim()) return;
           setPending(true);
+          setError(undefined);
           try {
             const result = await mcpApp.callServerTool({
               name: 'greet',
-              arguments: { name: 'Modern.js' },
+              arguments: { name: value.trim() },
             });
             const output = result.structuredContent;
-            const nextMessage =
-              output && typeof output === 'object' && 'message' in output
-                ? output.message
-                : undefined;
-            setUpdated(
-              result.isError
-                ? 'Unable to greet. Try again.'
-                : String(nextMessage ?? ''),
-            );
+            if (
+              result.isError ||
+              !output ||
+              typeof output !== 'object' ||
+              !('message' in output) ||
+              typeof output.message !== 'string'
+            ) {
+              setError('Unable to greet. Try again.');
+              return;
+            }
+            setUpdated(output.message);
           } catch {
-            setUpdated('Unable to greet. Try again.');
+            setError('Unable to greet. Try again.');
           } finally {
             setPending(false);
           }
         }}
       >
-        {pending ? 'Greeting…' : 'Greet again'}
-      </button>
+        <label>
+          Name{' '}
+          <input
+            value={value}
+            onChange={event => setValue(event.target.value)}
+            disabled={pending}
+            required
+          />
+        </label>{' '}
+        <button disabled={!mcpApp || pending || !value.trim()} type="submit">
+          {pending ? 'Greeting…' : 'Greet again'}
+        </button>
+      </form>
+      {error && <p role="alert">{error}</p>}
     </section>
   );
 }

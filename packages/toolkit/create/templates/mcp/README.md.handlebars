@@ -27,11 +27,14 @@ The tool-only `mcp-server` template uses an explicit BFF route and an `api/mcp_a
 - [User-managed servers](https://modernjs.dev/en/guides/advanced-features/mcp-apps/custom-server)
 
 {{#if isMcpUi}}
-## 服务端任务演示
+## Try the two tools
 
-只有 `list_tasks` 绑定任务看板，调用它可打开任务列表。`create_task` 和 `update_task` 不绑定 UI，直接调用时只返回操作结果。创建、更新和刷新通过 `callServerTool` 执行，调用记录显示真实参数、返回值和耗时。ID 和创建时间由服务端生成。任务默认保存在工作目录 `.mcp-demo/tasks.json`，可用 `MCP_TASKS_FILE` 指定路径，重启后保留。此为单进程共享演示，多个用户共用数据；多实例部署应改用数据库，临时文件系统不保证持久性。Greeting/Sum 保留为基础兼容示例。
+Open `/mcp/inspector` during development and use Live server mode.
 
-任务示例集中在 `src/features/tasks/`：`TaskBoard.tsx` 为前端组件，`types.ts` 为共享类型，`server/tools.ts` 和 `server/store.ts` 为服务端工具与存储。Greeting 和 Sum 的简单工具直接定义在 `mcp_apps.ts` 中。工具与视图的关联在根目录 `mcp_apps.ts` 中显式声明。
+- Call `add_numbers` with `{ "a": 2, "b": 3 }`. This ordinary MCP tool returns text and structured data without opening a card.
+- Call `greet` with `{ "name": "Ada" }`. This MCP App opens the Greeting card. Edit the name and submit to call the tool again. The card consumes the returned business result directly and displays errors without losing the previous greeting.
+
+Both tools are defined in `mcp_apps.ts`. Only `greet` has a view. It uses `withViewProps()` to explicitly reuse its business result as card props. Edit `src/components/Greeting.tsx` to change the card. The default demo has no task storage or shared mutable server state.
 
 {{/if}}
 

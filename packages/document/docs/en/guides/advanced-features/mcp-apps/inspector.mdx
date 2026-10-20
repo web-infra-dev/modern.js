@@ -63,3 +63,13 @@ The local inspector does not replace compatibility testing in your target host b
 **Request logs** in the right column shows the latest 100 MCP requests in this page, including initialization, tool discovery, tool calls and resource reads. Calls initiated by the card are labeled Card → Server.
 
 Each entry includes its time, method, status and duration. Expand an entry to inspect its endpoint, request parameters and response result. Filter by Tool calls, Resource reads or Errors, or click Clear. Logs are kept in page memory and disappear on refresh. Large responses are truncated for display.
+
+## Standard host capabilities
+
+The Inspector runs a cross-origin sandbox proxy on a separate local port. HTML loads in a second iframe with response CSP headers restricting network requests, scripts, styles, fonts, nested frames and base URIs. Content-level `_meta.ui` takes precedence over listing metadata. Both text and base64 blob HTML are supported. Camera, microphone, geolocation and clipboard permissions are currently denied.
+
+The sandbox listens only on `127.0.0.1`, so open the Inspector on the same computer as the development server. It does not start during production builds. Development HMR WebSockets must also comply with CSP, and undeclared connections are blocked.
+
+Cards can update model context, send messages and logs, read server resources, open HTTP or HTTPS links, download resources, request display modes and request teardown. Context updates replace the previous value. Messages and logs appear locally without triggering a model response. Opening links and downloading files require user confirmation.
+
+Use **App-provided tools** to refresh and call tools registered by the card. Registrations expire when the iframe closes. Tool forwarding checks visibility and rejects calls from cards to model-only server tools. Preview replacement and shutdown send `ui/resource-teardown`. Use **Cancel** to cancel a running request.

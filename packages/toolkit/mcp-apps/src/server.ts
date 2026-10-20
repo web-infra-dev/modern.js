@@ -1,3 +1,5 @@
+import { MCP_VIEW_META_KEY } from './view-result';
+import { getUiCapability } from '@modelcontextprotocol/ext-apps/server';
 import fs from 'node:fs/promises';
 import path from 'node:path';
 import { pathToFileURL } from 'node:url';
@@ -33,6 +35,8 @@ import {
 } from './resources';
 
 export type * from './config';
+export { withViewProps } from './view-props';
+export { startInspectorSandbox } from './inspector/sandbox-server';
 export {
   bindUiResources,
   getUiEntryName,
@@ -56,6 +60,23 @@ export interface McpHandlerOptions<T = undefined> {
   createContext?: (request: Request) => T | Promise<T>;
   /** Called for unexpected handler errors; error details are not sent to clients. */
   onError?: (error: unknown, toolName: string) => void;
+}
+
+export function meaningfulContent(
+  result: RemoteToolHandlerResult,
+  toolName: string,
+) {
+  if (result.content?.length) return result.content;
+  const data = result.structuredContent;
+  return [
+    {
+      type: 'text' as const,
+      text:
+        data === undefined
+          ? `Tool ${toolName} ${result.isError ? 'failed' : 'completed'}.`
+          : JSON.stringify(data),
+    },
+  ];
 }
 
 function toolError(message: string): CallToolResult {
@@ -142,7 +163,7 @@ export function createMcpHandler<T = undefined>(
             type: 'object';
             [key: string]: unknown;
           },
-          ...(tool.outputSchema && !tool.view
+          ...(tool.outputSchema
             ? {
                 outputSchema: tool.outputSchema as {
                   type: 'object';
@@ -155,9 +176,6 @@ export function createMcpHandler<T = undefined>(
             ? {
                 _meta: {
                   ...tool._meta,
-                  ...(resource
-                    ? { 'openai/outputTemplate': resource.uri }
-                    : {}),
                   ui: {
                     ...(resource ? { resourceUri: resource.uri } : {}),
                     visibility: tool.visibility ?? ['model', 'app'],
@@ -180,8 +198,18 @@ export function createMcpHandler<T = undefined>(
     const tool = [...tools.values()].find(
       ({ tool }) => toolUris.get(tool.name) === uri,
     )?.tool;
-    if (!tool?.view || tool.remote)
-      return options.resourceHtml ?? readRuntimeHtml(options.development);
+    if (!tool?.view || tool.remote) {
+      const html =
+        options.resourceHtml ?? (await readRuntimeHtml(options.development));
+      const capabilities =
+        definition.remotes.find(remote => remote.name === tool?.remote)
+          ?.capabilities ?? {};
+      return html.replace(
+        /<head\b[^>]*>/i,
+        head =>
+          `${head}<script type="application/json" id="modern-mcp-capabilities">${JSON.stringify(capabilities).replace(/</g, '\\u003c')}</script>`,
+      );
+    }
     const html = tool.view.html;
     if (!html)
       throw new Error(
@@ -213,9 +241,24 @@ export function createMcpHandler<T = undefined>(
       },
       { capabilities: { tools: {}, resources: {} } },
     );
-    server.setRequestHandler('tools/list', async () => ({
-      tools: [...tools.values()].map(({ descriptor }) => descriptor),
-    }));
+    server.setRequestHandler('tools/list', async () => {
+      const capabilities = server.getClientCapabilities();
+      // Stateless legacy requests do not carry their initialize capabilities.
+      // For negotiated capabilities, respect the host's supported UI MIME types.
+      const supportsUi =
+        capabilities === undefined ||
+        getUiCapability(capabilities)?.mimeTypes?.includes(
+          'text/html;profile=mcp-app',
+        );
+      return {
+        tools: [...tools.values()].map(({ descriptor }) => {
+          if (supportsUi || !descriptor._meta?.ui.resourceUri)
+            return descriptor;
+          const { resourceUri: _uri, ...ui } = descriptor._meta.ui;
+          return { ...descriptor, _meta: { ...descriptor._meta, ui } };
+        }),
+      };
+    });
     server.setRequestHandler('resources/list', async () => ({
       resources: [...resources.values()],
     }));
@@ -330,7 +373,7 @@ export function createMcpHandler<T = undefined>(
           '~standard'
         ].validate({
           ...handlerResult,
-          content: handlerResult.content ?? [],
+          content: meaningfulContent(handlerResult, tool.name),
         });
         if (validated.issues) throw new Error('Invalid tool result');
         const result = validated.value;
@@ -347,7 +390,7 @@ export function createMcpHandler<T = undefined>(
           resource: viewResource,
           handlerResult: {
             ...result,
-            content: handlerResult.content,
+            content: meaningfulContent(handlerResult, tool.name),
             viewProps: handlerResult.viewProps,
           },
         });
@@ -660,8 +703,13 @@ function createStaticMcpAppsToolResult({
 }) {
   const payload = { tool: toolName, resource, args };
   return {
-    content: [{ type: 'text' as const, text: JSON.stringify(payload) }],
-    structuredContent: payload,
+    content: [
+      {
+        type: 'text' as const,
+        text: `Opened ${toolName} with arguments ${JSON.stringify(args)}.`,
+      },
+    ],
+    _meta: { [MCP_VIEW_META_KEY]: { version: 1, ...payload } },
   };
 }
 
@@ -700,37 +748,31 @@ function mergeHandlerResultWithView({
   resource?: ReturnType<typeof createMcpAppsViewResource>;
   handlerResult: RemoteToolHandlerResult;
 }) {
-  const business = handlerResult.structuredContent;
-  const structuredContent = resource
-    ? {
-        ...(business && typeof business === 'object' && !Array.isArray(business)
-          ? business
-          : business === undefined
-            ? {}
-            : { data: business }),
-        tool: toolName,
-        resource,
-        args,
-        ...(handlerResult.viewProps
-          ? { viewProps: handlerResult.viewProps }
-          : {}),
-      }
-    : business;
-  const content =
-    handlerResult.content ??
-    (resource
-      ? [
-          {
-            type: 'text' as const,
-            text: JSON.stringify({ tool: toolName, resource, args }),
-          },
-        ]
-      : []);
-
   return {
-    content,
-    structuredContent,
-    ...(handlerResult._meta ? { _meta: handlerResult._meta } : {}),
+    content: meaningfulContent(handlerResult, toolName),
+    ...(handlerResult.structuredContent === undefined
+      ? {}
+      : { structuredContent: handlerResult.structuredContent }),
+    ...(handlerResult._meta || resource
+      ? {
+          _meta: {
+            ...handlerResult._meta,
+            ...(resource
+              ? {
+                  [MCP_VIEW_META_KEY]: {
+                    version: 1,
+                    tool: toolName,
+                    resource,
+                    args,
+                    ...(handlerResult.viewProps
+                      ? { viewProps: handlerResult.viewProps }
+                      : {}),
+                  },
+                }
+              : {}),
+          },
+        }
+      : {}),
     ...(handlerResult.isError ? { isError: true } : {}),
   };
 }
@@ -741,19 +783,17 @@ export function createMcpViewResult(
   result: RemoteToolHandlerResult,
 ) {
   const { viewProps, ...rest } = result;
-  return {
-    ...rest,
-    content: result.content ?? [],
-    structuredContent: {
-      ...(result.structuredContent &&
-      typeof result.structuredContent === 'object' &&
-      !Array.isArray(result.structuredContent)
-        ? result.structuredContent
-        : result.structuredContent === undefined
-          ? {}
-          : { data: result.structuredContent }),
+  const metadata: Record<string, unknown> = {
+    ...result._meta,
+    [MCP_VIEW_META_KEY]: {
+      version: 1,
       args,
       ...(viewProps ? { viewProps } : {}),
     },
+  };
+  return {
+    ...rest,
+    content: result.content ?? [],
+    _meta: metadata,
   };
 }
