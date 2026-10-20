@@ -5,6 +5,7 @@ import {
   useState,
   useSyncExternalStore,
   type ComponentType,
+  type CSSProperties,
 } from 'react';
 import { createPortal } from 'react-dom';
 
@@ -16,23 +17,38 @@ export type RemoteInfo = {
   consumer: string;
   request: string;
 };
-type InspectStore = { enabled: boolean; listeners: Set<() => void> };
+const serverSettings = { enabled: false, paletteSeed: '' };
+type InspectStore = {
+  settings: typeof serverSettings;
+  listeners: Set<() => void>;
+};
 const storeKey = Symbol.for('mf-lab.inspect');
 function getStore(): InspectStore {
   const target = window as unknown as Record<symbol, InspectStore>;
   if (!target[storeKey]) {
-    const store = { enabled: false, listeners: new Set<() => void>() };
+    const store = {
+      settings: serverSettings,
+      listeners: new Set<() => void>(),
+    };
     target[storeKey] = store;
     window.addEventListener('message', event => {
       if (
         event.origin !== window.location.origin ||
         event.source !== window.parent ||
         event.data?.type !== 'mf-lab-inspect' ||
-        typeof event.data.enabled !== 'boolean'
+        typeof event.data.enabled !== 'boolean' ||
+        typeof event.data.paletteSeed !== 'string'
       )
         return;
-      if (store.enabled === event.data.enabled) return;
-      store.enabled = event.data.enabled;
+      if (
+        store.settings.enabled === event.data.enabled &&
+        store.settings.paletteSeed === event.data.paletteSeed
+      )
+        return;
+      store.settings = {
+        enabled: event.data.enabled,
+        paletteSeed: event.data.paletteSeed,
+      };
       store.listeners.forEach(listener => listener());
     });
   }
@@ -49,8 +65,14 @@ function subscribe(listener: () => void) {
     store.listeners.delete(listener);
   };
 }
-const snapshot = () => getStore().enabled;
-const serverSnapshot = () => false;
+const snapshot = () => getStore().settings;
+const serverSnapshot = () => serverSettings;
+function remoteColor(name: string, seed: string) {
+  let hash = 2166136261;
+  for (const character of `${seed}:${name}`)
+    hash = Math.imul(hash ^ character.charCodeAt(0), 16777619);
+  return `hsl(${((hash >>> 0) % 36000) / 100} 75% 78%)`;
+}
 function visualRoots(node: Element): Element[] {
   return Array.from(node.children).flatMap(child => {
     if (['SCRIPT', 'STYLE', 'LINK', 'TEMPLATE'].includes(child.tagName))
@@ -75,7 +97,11 @@ function Boundary({
   info: RemoteInfo;
   children: React.ReactNode;
 }) {
-  const enabled = useSyncExternalStore(subscribe, snapshot, serverSnapshot);
+  const { enabled, paletteSeed } = useSyncExternalStore(
+    subscribe,
+    snapshot,
+    serverSnapshot,
+  );
   const boundary = useRef<HTMLDivElement>(null);
   const [bounds, setBounds] = useState<Bounds | null>(null);
   useEffect(() => {
@@ -157,11 +183,6 @@ function Boundary({
       window.removeEventListener('scroll', measure, true);
     };
   }, [enabled, info]);
-  const tone = info.name.includes('library')
-    ? 'mint'
-    : info.name.includes('nested')
-      ? 'violet'
-      : 'amber';
   return (
     <div
       ref={boundary}
@@ -176,16 +197,19 @@ function Boundary({
         bounds &&
         createPortal(
           <div
-            className={`mf-inspect-outline ${tone}`}
+            className="mf-inspect-outline"
             data-testid="mf-inspect-outline"
             data-mf-name={info.name}
             data-mf-expose={info.expose}
-            style={{
-              top: bounds.top,
-              left: bounds.left,
-              width: bounds.width,
-              height: bounds.height,
-            }}
+            style={
+              {
+                '--inspect-color': remoteColor(info.name, paletteSeed),
+                top: bounds.top,
+                left: bounds.left,
+                width: bounds.width,
+                height: bounds.height,
+              } as CSSProperties
+            }
           >
             <a
               className="mf-inspect-label"

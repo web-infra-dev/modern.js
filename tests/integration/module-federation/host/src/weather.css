@@ -1131,12 +1131,6 @@
   box-shadow: 0 0 0 2px #122b4b20;
   pointer-events: none;
 }
-.mf-inspect-outline.mint {
-  --inspect-color: #87f3d1;
-}
-.mf-inspect-outline.violet {
-  --inspect-color: #d4bdff;
-}
 .mf-inspect-label {
   position: absolute;
   top: 3px;

@@ -1,5 +1,18 @@
 import { useCallback, useEffect, useRef, useState } from 'react';
 import { Link } from '@modern-js/runtime/router';
+function inspectPaletteSeed() {
+  if (typeof window === 'undefined') return '';
+  const seed = window.crypto.randomUUID();
+  try {
+    const key = 'mf-lab.inspect-palette';
+    const existing = window.sessionStorage.getItem(key);
+    if (existing) return existing;
+    window.sessionStorage.setItem(key, seed);
+  } catch {
+    // The parent still supplies one shared palette if storage is unavailable.
+  }
+  return seed;
+}
 export function LabNav() {
   return (
     <nav className="weather-nav" aria-label="对比实验">
@@ -19,21 +32,23 @@ function Panel({
   query,
   run,
   inspect,
+  paletteSeed,
 }: {
   name: string;
   query: string;
   run: number;
   inspect: boolean;
+  paletteSeed: string;
 }) {
   const frame = useRef<HTMLIFrameElement>(null);
   const inspectRef = useRef(inspect);
   inspectRef.current = inspect;
   const sendInspect = useCallback(() => {
     frame.current?.contentWindow?.postMessage(
-      { type: 'mf-lab-inspect', enabled: inspectRef.current },
+      { type: 'mf-lab-inspect', enabled: inspectRef.current, paletteSeed },
       window.location.origin,
     );
-  }, []);
+  }, [paletteSeed]);
   useEffect(sendInspect, [inspect, run, sendInspect]);
   const [events, setEvents] = useState<Record<string, number>>({});
   useEffect(() => {
@@ -102,6 +117,7 @@ export default function Comparison({ data = false }: { data?: boolean }) {
   const [run, setRun] = useState(0);
   const [delay, setDelay] = useState(1500);
   const [inspect, setInspect] = useState(false);
+  const [paletteSeed] = useState(inspectPaletteSeed);
   const panels = data
     ? [
         ['CSR', 'render=csr&csr=1&data=client'],
@@ -153,6 +169,7 @@ export default function Comparison({ data = false }: { data?: boolean }) {
             query={`${query}&delay=${delay}${data ? '&compact=1' : ''}`}
             run={run}
             inspect={inspect}
+            paletteSeed={paletteSeed}
           />
         ))}
       </div>

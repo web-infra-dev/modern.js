@@ -391,6 +391,7 @@ for (const mode of modes) {
       ).toBe(true);
     });
     it('inspects runtime remote identities and nested chains without remounting weather', async () => {
+      const colors = new Map<string, string>();
       await page.setViewport({ width: 1440, height: 900 });
       await page.goto(`${lab.url}/compare`, { waitUntil: 'networkidle0' });
       const frames = page
@@ -410,6 +411,18 @@ for (const mode of modes) {
             document.querySelectorAll('[data-testid="mf-inspect-outline"]')
               .length === 4,
         );
+        const palette = await frame.$$eval(
+          '[data-testid="mf-inspect-outline"]',
+          elements =>
+            elements.map(element => ({
+              name: element.getAttribute('data-mf-name')!,
+              color: getComputedStyle(element).borderTopColor,
+            })),
+        );
+        for (const { name, color } of palette) {
+          if (colors.has(name)) expect(color).toBe(colors.get(name));
+          else colors.set(name, color);
+        }
         const hourly = await frame.$eval(
           '[data-testid="mf-inspect-outline"][data-mf-expose="./WeatherHourly"] .mf-inspect-label',
           element => ({
@@ -481,8 +494,19 @@ for (const mode of modes) {
       await page.waitForNetworkIdle();
       for (const frame of page
         .frames()
-        .filter(frame => frame.url().includes('/weather?')))
+        .filter(frame => frame.url().includes('/weather?'))) {
         await frame.waitForSelector('[data-testid="mf-inspect-outline"]');
+        const palette = await frame.$$eval(
+          '[data-testid="mf-inspect-outline"]',
+          elements =>
+            elements.map(element => ({
+              name: element.getAttribute('data-mf-name')!,
+              color: getComputedStyle(element).borderTopColor,
+            })),
+        );
+        for (const { name, color } of palette)
+          expect(color).toBe(colors.get(name));
+      }
     });
     it('inspects data-fetch components without wrapping loaders or repeating data requests', async () => {
       await page.setViewport({ width: 1440, height: 900 });
