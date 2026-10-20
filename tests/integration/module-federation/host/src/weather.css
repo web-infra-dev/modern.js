@@ -114,13 +114,11 @@
   border-color: #c4def557;
 }
 .comparison-shell .comparison-panel {
-  border-color: #e5f4ff99;
+  border: 0;
   box-shadow:
-    0 0 0 1px #b9ddff1a,
-    0 0 24px #99cfff26,
-    0 0 64px #8ac7f51a,
-    0 24px 56px #030c1b80,
-    0 5px 14px #030c1b40;
+    0 0 48px #6bbcf51f,
+    0 32px 64px #020b18a6,
+    0 8px 20px #020b1880;
 }
 .comparison-grid {
   display: grid;
