@@ -20,7 +20,7 @@
   },
   "devDependencies": {
     "@modern-js/app-tools": "workspace:*",
-    "@modern-js/tsconfig": "3.10.0",
+    "@modern-js/tsconfig": "workspace:*",
     "typescript": "~5.7.3",
     "@types/node": "^20",
     "@types/react": "^19.1.8",

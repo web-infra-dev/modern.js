@@ -17,11 +17,11 @@
     "@modern-js/mcp-apps": "workspace:*",
     "@modern-js/plugin-mcp-apps": "workspace:*",
     "@modern-js/plugin-bff": "workspace:*",
-    "@modern-js/server-runtime": "3.10.0"
+    "@modern-js/server-runtime": "workspace:*"
   },
   "devDependencies": {
     "@modern-js/app-tools": "workspace:*",
-    "@modern-js/tsconfig": "3.10.0",
+    "@modern-js/tsconfig": "workspace:*",
     "typescript": "~5.7.3",
     "@types/node": "^20",
     "@types/react": "^19.1.8",
