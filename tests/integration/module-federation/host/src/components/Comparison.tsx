@@ -17,12 +17,10 @@ export function LabNav() {
 function Panel({
   name,
   query,
-  scripts,
   run,
 }: {
   name: string;
   query: string;
-  scripts: boolean;
   run: number;
 }) {
   const frame = useRef<HTMLIFrameElement>(null);
@@ -53,29 +51,25 @@ function Panel({
     }
     window.addEventListener('message', receive);
     return () => window.removeEventListener('message', receive);
-  }, [run, scripts]);
+  }, [run]);
   return (
     <section className="comparison-panel">
       <header>
         <h2>{name}</h2>
         <span>
-          {scripts
-            ? events['交互已验证'] !== undefined
-              ? '● 交互已验证'
-              : events['客户端已接管'] !== undefined
-                ? '● 客户端已接管'
-                : '◌ 等待客户端'
-            : '脚本已暂停 · 检查首屏 HTML'}
+          {events['交互已验证'] !== undefined
+            ? '● 交互已验证'
+            : events['客户端已接管'] !== undefined
+              ? '● 客户端已接管'
+              : '◌ 等待客户端'}
         </span>
       </header>
       <iframe
-        key={`${run}-${scripts}`}
+        key={run}
         ref={frame}
         title={name}
         src={`/weather?${query}&run=${run}`}
-        sandbox={
-          scripts ? 'allow-scripts allow-same-origin' : 'allow-same-origin'
-        }
+        sandbox="allow-scripts allow-same-origin"
       />
       <footer>
         {['客户端已接管', '天气数据已显示', '交互已验证'].map(event => (
@@ -89,7 +83,6 @@ function Panel({
   );
 }
 export default function Comparison({ data = false }: { data?: boolean }) {
-  const [scripts, setScripts] = useState(true);
   const [run, setRun] = useState(0);
   const [delay, setDelay] = useState(1500);
   const panels = data
@@ -124,14 +117,6 @@ export default function Comparison({ data = false }: { data?: boolean }) {
               <option value={3000}>延迟 3 秒</option>
             </select>
           </label>
-          <label title="关闭后停止运行页面脚本，只保留服务端输出的静态内容">
-            <input
-              type="checkbox"
-              checked={scripts}
-              onChange={event => setScripts(event.target.checked)}
-            />{' '}
-            运行 JavaScript
-          </label>
           <button onClick={() => setRun(run + 1)}>↻ 重新加载</button>
         </div>
       </header>
@@ -141,7 +126,6 @@ export default function Comparison({ data = false }: { data?: boolean }) {
             key={name}
             name={name}
             query={`${query}&delay=${delay}${data ? '&compact=1' : ''}`}
-            scripts={scripts}
             run={run}
           />
         ))}

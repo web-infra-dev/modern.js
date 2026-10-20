@@ -341,22 +341,7 @@ for (const mode of modes) {
               .every(card => card.scrollHeight <= card.clientHeight + 1),
           );
       }
-      await page.click('.comparison-controls input');
-      await page.waitForNetworkIdle();
       expect(delays).toContain('1500');
-      const paused = page
-        .frames()
-        .filter(frame => frame.url().includes('/weather?'));
-      expect(await paused[0].$('[data-testid="weather-current"]')).toBeNull();
-      expect(
-        await paused[1].$('[data-testid="weather-current"]'),
-      ).not.toBeNull();
-      expect(
-        await paused[1].$eval(
-          '[data-testid="weather-save"]',
-          element => (element as HTMLButtonElement).disabled,
-        ),
-      ).toBe(true);
     });
     it('compares four data paths using a local API and the MF data loader', async () => {
       const normal = await (
