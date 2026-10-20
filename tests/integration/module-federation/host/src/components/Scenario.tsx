@@ -22,72 +22,7 @@ import {
   NoData,
   Reload,
 } from './remotes';
-export const scenarios = {
-  static: {
-    title: 'Across the boundary.',
-    description:
-      'A component built by another Modern application, rendered on the server and ready to interact.',
-    kind: 'Server rendering',
-    path: 'Modern provider',
-  },
-  dynamic: {
-    title: 'Connect on demand.',
-    description:
-      'A remote registered at runtime. A library build joins the same server-rendered experience.',
-    kind: 'Dynamic remote',
-    path: 'Rslib provider',
-  },
-  nested: {
-    title: 'One more connection.',
-    description:
-      'The host loads a remote that loads another remote. Every boundary remains a real, independent build.',
-    kind: 'Nested rendering',
-    path: 'Nested → Modern',
-  },
-  'dynamic-nested': {
-    title: 'Follow the signal.',
-    description:
-      'A dynamically loaded relay connects to a dynamically registered library remote.',
-    kind: 'Dynamic nesting',
-    path: 'Nested → Rslib',
-  },
-  data: {
-    title: 'Data makes the journey.',
-    description:
-      'The remote weather station fetches its data on the server. The first HTML response already carries the forecast.',
-    kind: 'Server data',
-    path: 'Modern provider → Data',
-  },
-  csr: {
-    title: 'Arrive, then fetch.',
-    description:
-      'The component renders in the browser while the host retrieves its data from the library’s server bundle.',
-    kind: 'Client rendering',
-    path: 'Rslib provider → Host server',
-  },
-  recovery: {
-    title: 'Keep the connection.',
-    description:
-      'Intentional server failures exercise both recovery paths: a client data loader and a retry through the host.',
-    kind: 'Data recovery',
-    path: 'Server → Recovery',
-  },
-  lifecycle: {
-    title: 'Render. Repeat. Remount.',
-    description:
-      'Compare a parent rerender with a fresh remote mount. Watch the actual data-loader request count.',
-    kind: 'Data lifecycle',
-    path: 'Rslib provider → Data',
-  },
-  replace: {
-    title: 'A change in the forecast.',
-    description:
-      'The same weather station, a new remote build. Switch from clear skies at 24° to rain at 16° without reloading the page.',
-    kind: 'Remote replacement',
-    path: 'Version one → Version two',
-  },
-} as const;
-export type ScenarioName = keyof typeof scenarios;
+import type { ScenarioName } from './scenarios';
 type ForecastModule = { default: ComponentType<{ id?: string }> };
 async function loadForecast(name: string): Promise<ForecastModule> {
   const module = await loadRemote<ForecastModule>(`${name}/Forecast`);
@@ -126,7 +61,7 @@ function Replacement({ dynamic }: { dynamic: boolean }) {
           onClick={replace}
           disabled={Boolean(Component)}
         >
-          Load version two ↗
+          切换到降雨版本 ↗
         </button>
       </div>
       <Suspense fallback={<p>Switching versions…</p>}>
@@ -148,20 +83,20 @@ function Lifecycle() {
     <>
       <div className="controls">
         <span>
-          Parent renders: <b data-testid="parent-renders">{renders}</b>
+          父组件更新次数： <b data-testid="parent-renders">{renders}</b>
         </span>
         <div>
           <button
             data-testid="rerender"
             onClick={() => setRenders(value => value + 1)}
           >
-            Rerender parent
+            更新页面（复用天气数据）
           </button>
           <button
             data-testid="remount"
             onClick={() => setMount(value => value + 1)}
           >
-            Remount remote
+            重新加载天气站（获取新批次）
           </button>
         </div>
       </div>

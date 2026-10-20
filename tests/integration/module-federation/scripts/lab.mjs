@@ -1,5 +1,5 @@
 import { spawn } from 'node:child_process';
-import { createServer } from 'node:http';
+import { createServer, request } from 'node:http';
 import { createReadStream } from 'node:fs';
 import { stat } from 'node:fs/promises';
 import path from 'node:path';
@@ -20,6 +20,8 @@ const names = [
   'library',
   'providerV2',
   'libraryV2',
+  'api',
+  'hostInternal',
 ];
 const sleep = ms => new Promise(resolve => setTimeout(resolve, ms));
 export async function startLab(mode = 'dev', fixedPorts = false) {
@@ -160,6 +162,76 @@ export async function startLab(mode = 'dev', fixedPorts = false) {
     );
   }
   try {
+    const gateway = createServer(async (req, res) => {
+      const referer = req.headers.referer;
+      if (
+        referer &&
+        /\/static\/js\/index(?:\.[\w]+)?\.js$/.test(
+          new URL(req.url, 'http://localhost').pathname,
+        )
+      ) {
+        const frame = new URL(referer);
+        if (frame.pathname === '/weather') {
+          const delay = Math.min(
+            3000,
+            Math.max(0, Number(frame.searchParams.get('delay')) || 0),
+          );
+          await sleep(delay);
+          res.setHeader('x-lab-script-delay', String(delay));
+        }
+      }
+      if (res.destroyed) return;
+      const upstream = request(
+        {
+          hostname: 'localhost',
+          port: ports.hostInternal,
+          path: req.url,
+          method: req.method,
+          headers: req.headers,
+        },
+        response => {
+          res.writeHead(response.statusCode, {
+            ...response.headers,
+            ...(/\/static\/js\/index(?:\.[\w]+)?\.js$/.test(
+              new URL(req.url, 'http://localhost').pathname,
+            )
+              ? { 'cache-control': 'no-store' }
+              : {}),
+          });
+          response.pipe(res);
+        },
+      );
+      upstream.on('error', () => {
+        if (!res.headersSent) res.writeHead(502);
+        res.end();
+      });
+      res.on('close', () => upstream.destroy());
+      req.pipe(upstream);
+    });
+    servers.push(gateway);
+    await new Promise(resolve => gateway.listen(ports.host, resolve));
+    let requestId = 0;
+    const api = createServer(async (req, res) => {
+      res.setHeader('Access-Control-Allow-Origin', '*');
+      res.setHeader('Cache-Control', 'no-store');
+      if (req.url !== '/weather') {
+        res.writeHead(404).end();
+        return;
+      }
+      const id = ++requestId;
+      await sleep(900);
+      res.setHeader('Content-Type', 'application/json');
+      res.end(
+        JSON.stringify({
+          temperature: 30,
+          condition: '局部多云',
+          source: '本地天气 API',
+          requestId: id,
+        }),
+      );
+    });
+    servers.push(api);
+    await new Promise(resolve => api.listen(ports.api, resolve));
     for (const version of ['v1', 'v2']) {
       // Library builds are deterministic and serve the same emitted files in both modes.
       await launch('library', [rslib, 'build'], version);

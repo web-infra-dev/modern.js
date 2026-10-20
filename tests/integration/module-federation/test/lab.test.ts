@@ -252,6 +252,194 @@ for (const mode of modes) {
       await click('replace-dynamic');
       await forecast('dynamic', 'v2', '16', 'Rain is rolling in.');
     });
+    it('compares real CSR/SSR documents and isolates interactive weather frames', async () => {
+      const ssr = await (
+        await fetch(`${lab.url}/weather?render=ssr&data=local`)
+      ).text();
+      const csr = await (
+        await fetch(`${lab.url}/weather?render=csr&csr=1&data=local`)
+      ).text();
+      for (const id of [
+        'weather-current',
+        'weather-hourly',
+        'weather-days',
+        'weather-wind',
+      ])
+        expect(ssr).toContain(`data-testid="${id}"`);
+      expect(csr).not.toContain('data-testid="weather-current"');
+      const requests: string[] = [];
+      const delays: string[] = [];
+      page.on('request', request => requests.push(request.url()));
+      page.on('response', response => {
+        if (response.headers()['x-lab-script-delay'])
+          delays.push(response.headers()['x-lab-script-delay']);
+      });
+      await page.setViewport({ width: 1440, height: 900 });
+      await page.goto(`${lab.url}/compare`, { waitUntil: 'networkidle0' });
+      const frames = page
+        .frames()
+        .filter(frame => frame.url().includes('/weather?'));
+      expect(frames).toHaveLength(2);
+      for (const frame of frames) {
+        await frame.waitForSelector(
+          '[data-testid="weather-save"]:not(:disabled)',
+        );
+        await frame.click('[data-testid="weather-save"]');
+        expect(
+          await frame.$eval(
+            '[data-testid="weather-save"]',
+            element => element.textContent,
+          ),
+        ).toContain('已收藏');
+        await frame.$eval('input[aria-label="调整风向"]', element => {
+          const input = element as HTMLInputElement;
+          const setter = Object.getOwnPropertyDescriptor(
+            HTMLInputElement.prototype,
+            'value',
+          )!.set!;
+          setter.call(input, '180');
+          input.dispatchEvent(new Event('input', { bubbles: true }));
+          input.dispatchEvent(new Event('change', { bubbles: true }));
+        });
+        await frame.waitForFunction(
+          () =>
+            document.querySelector('[data-testid="wind-angle"]')
+              ?.textContent === '180°',
+        );
+        expect(
+          await frame.evaluate(
+            () => document.documentElement.scrollHeight <= innerHeight,
+          ),
+        ).toBe(true);
+      }
+      expect(
+        await page.evaluate(
+          () => document.documentElement.scrollHeight <= innerHeight,
+        ),
+      ).toBe(true);
+      await page.waitForFunction(() =>
+        [...document.querySelectorAll('.comparison-panel>header')].every(
+          header => header.textContent?.includes('交互已验证'),
+        ),
+      );
+      expect(
+        requests.filter(
+          url =>
+            /^https?:/.test(url) &&
+            !['localhost', '127.0.0.1'].includes(new URL(url).hostname),
+        ),
+      ).toEqual([]);
+      for (const viewport of [
+        { width: 1440, height: 900 },
+        { width: 1280, height: 800 },
+      ]) {
+        await page.setViewport(viewport);
+        for (const frame of frames)
+          await frame.waitForFunction(() =>
+            [...document.querySelectorAll('.weather-card')]
+              .filter(card => getComputedStyle(card).display !== 'none')
+              .every(card => card.scrollHeight <= card.clientHeight + 1),
+          );
+      }
+      await page.click('.comparison-controls input');
+      await page.waitForNetworkIdle();
+      expect(delays).toContain('1500');
+      const paused = page
+        .frames()
+        .filter(frame => frame.url().includes('/weather?'));
+      expect(await paused[0].$('[data-testid="weather-current"]')).toBeNull();
+      expect(
+        await paused[1].$('[data-testid="weather-current"]'),
+      ).not.toBeNull();
+      expect(
+        await paused[1].$eval(
+          '[data-testid="weather-save"]',
+          element => (element as HTMLButtonElement).disabled,
+        ),
+      ).toBe(true);
+    });
+    it('compares four data paths using a local API and the MF data loader', async () => {
+      const normal = await (
+        await fetch(`${lab.url}/weather?render=ssr&data=client&compact=1`)
+      ).text();
+      const prefetched = await (
+        await fetch(`${lab.url}/weather?render=ssr&data=mf&compact=1`)
+      ).text();
+      expect(normal).toContain('data-source="pending"');
+      expect(prefetched).toContain('data-source="本地天气 API"');
+      const dataRequests: string[] = [];
+      page.on('request', request => {
+        if (
+          request.url().includes('WeatherData_data') ||
+          request.url().includes('WeatherData.data') ||
+          request.url().includes('x-mf-data-fetch')
+        )
+          dataRequests.push(request.url());
+      });
+      await page.setViewport({ width: 1440, height: 900 });
+      await page.goto(`${lab.url}/compare-data`, { waitUntil: 'networkidle0' });
+      const frames = page
+        .frames()
+        .filter(frame => frame.url().includes('/weather?'));
+      expect(frames).toHaveLength(4);
+      for (const frame of frames) {
+        await frame.waitForSelector('[data-source="本地天气 API"]');
+        await frame.click('[data-testid="weather-save"]');
+        expect(
+          await frame.$eval(
+            '[data-testid="weather-save"]',
+            element => element.textContent,
+          ),
+        ).toContain('已收藏');
+        expect(await frame.$('[data-testid="weather-days"]')).toBeNull();
+        expect(
+          await frame.evaluate(
+            () => document.documentElement.scrollHeight <= innerHeight,
+          ),
+        ).toBe(true);
+      }
+      expect(dataRequests.length).toBeGreaterThan(0);
+      expect(
+        await page.evaluate(
+          () => document.documentElement.scrollHeight <= innerHeight,
+        ),
+      ).toBe(true);
+    });
+    it('isolates advanced replacement state when switching weather experiments', async () => {
+      await page.goto(`${lab.url}/advanced`, { waitUntil: 'networkidle0' });
+      let frame = page
+        .frames()
+        .find(frame => frame.url().includes('/replace?'))!;
+      await frame.waitForSelector(
+        '[data-testid="provider-forecast"][data-version="v1"]',
+      );
+      await frame.click('[data-testid="replace-provider"]');
+      await frame.waitForSelector(
+        '[data-testid="provider-forecast"][data-version="v2"]',
+      );
+      await page.select('select[aria-label="进阶场景"]', 'lifecycle');
+      await page.waitForFunction(() =>
+        document
+          .querySelector('iframe')
+          ?.contentDocument?.querySelector('[data-testid="request-count"]'),
+      );
+      frame = page.frames().find(frame => frame.url().includes('/lifecycle?'))!;
+      await frame.waitForSelector('[data-testid="request-count"]');
+      expect(
+        await frame.$eval(
+          '.lifecycle-temperature',
+          element => element.textContent,
+        ),
+      ).toBe('30°');
+      await page.select('select[aria-label="进阶场景"]', 'replace');
+      await page.waitForFunction(() =>
+        document
+          .querySelector('iframe')
+          ?.contentDocument?.querySelector(
+            '[data-testid="provider-forecast"][data-version="v1"]',
+          ),
+      );
+    });
     it('serves custom manifest paths and all referenced server entry files', async () => {
       const manifest = await (
         await fetch(

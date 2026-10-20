@@ -9,6 +9,8 @@ export default createModuleFederationConfig({
     provider: `lab_provider@${origin('provider', 4301)}/static/mf-manifest.json`,
   },
   exposes: {
+    './WeatherDays': './src/WeatherDays.tsx',
+    './WeatherWind': './src/WeatherWind.tsx',
     './Relay': './src/Relay.tsx',
     './DynamicRelay': './src/DynamicRelay.tsx',
   },

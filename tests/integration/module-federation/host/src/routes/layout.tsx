@@ -1,8 +1,23 @@
 import { Link, Outlet, useLocation } from '@modern-js/runtime/router';
-import { scenarios, type ScenarioName } from '../components/Scenario';
+import { scenarios, type ScenarioName } from '../components/scenarios';
 import './lab.css';
+import '../weather.css';
 export default function Layout() {
   const location = useLocation();
+  if (
+    ['/', '/compare', '/compare-data', '/weather', '/advanced'].includes(
+      location.pathname,
+    )
+  )
+    return <Outlet />;
+  if (new URLSearchParams(location.search).get('embedded') === '1')
+    return (
+      <div className="advanced-shell">
+        <main className="advanced-stage">
+          <Outlet />
+        </main>
+      </div>
+    );
   const current = location.pathname.split('/')[1] || 'static';
   const scenario = scenarios[current as ScenarioName] || scenarios.static;
   return (

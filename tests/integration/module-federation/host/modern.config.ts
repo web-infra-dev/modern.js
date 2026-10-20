@@ -4,7 +4,10 @@ import { port, origin } from '../ports';
 const name = 'host';
 export default defineConfig({
   html: { title: 'Federation lab · SSR & data fetching' },
-  server: { port: port(name, 4300), ssr: { mode: 'stream' } },
+  server: {
+    port: port('hostInternal', 4307),
+    ssr: { mode: 'stream', forceCSR: true },
+  },
   output: {
     distPath: {
       root: process.env.MF_LAB_VERSION === 'v2' ? 'dist-v2' : 'dist',
@@ -14,6 +17,7 @@ export default defineConfig({
   dev: { assetPrefix: `${origin(name, 4300)}/`, lazyCompilation: false },
   source: {
     globalVars: {
+      'process.env.MF_LAB_API': origin('api', 4306),
       'process.env.MF_LAB_NESTED': origin('nested', 4302),
       'process.env.MF_LAB_LIBRARY': origin('library', 4303),
       'process.env.MF_LAB_LIBRARY_V2': origin('libraryV2', 4305),

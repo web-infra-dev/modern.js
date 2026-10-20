@@ -15,6 +15,24 @@ The interactive lab opens at http://localhost:4300. Stop it with Ctrl+C. Add `--
 
 The test command runs the same assertions against Modern development servers and production build + serve. It uses available ports, starts providers before consumers, waits for HTTP readiness, and stops child processes after failures. The root framework suite also discovers these tests.
 
+## Weather comparison pages
+
+The main navigation has three destinations. The original regression routes remain directly accessible for focused tests.
+
+- `/compare`: side-by-side CSR and SSR documents with the same local fixture data. Current weather is a static Modern remote, hourly weather is a dynamically registered Rslib remote, the five-day forecast passes through the nested Modern build, and the wind dial passes through dynamically loaded nested and Rslib builds.
+- `/compare-data`: four isolated documents for CSR, SSR, CSR + MF data-fetch and SSR + MF data-fetch. The first two request weather after mounting. The latter two use the real remote `WeatherData.data` loader. SSR + data-fetch includes the API result in its HTML. CSR + data-fetch uses the adapter's `noSSR` component boundary and runs its loader in the browser.
+- `/advanced`: weather version replacement, data recovery and lifecycle experiments in one selector.
+
+Both comparison pages fit a desktop viewport. Smaller screens stack the panels. On shorter desktops the decorative air-quality, UV and sunset cards are omitted so the four rendering modules remain visible. The compact four-way comparison omits nested modules.
+
+The shell renders no weather components itself. Each iframe has independent React and MF state. Disabling client scripts uses the iframe sandbox, so SSR content remains visible with disabled controls and CSR remains empty. Changing the startup delay or reloading recreates the documents. The test runner proxies the host and delays the actual host entry script by 0, 1500 or 3000 ms, with caching disabled for that entry. This is a network delay, not a simulated loading screen.
+
+The local API returns deterministic weather after 900 ms and assigns a request ID. It is started and stopped with the test applications. In interactive mode, the public gateway is port 4300, the API is 4306 and the underlying Modern host is 4307. CI allocates these ports independently. Weather icons and procedural cloud imagery are bundled SVG, and fonts use the system stack. No public weather, image, map or font service is required.
+
+Frame messages validate origin and source. Client takeover is reported after mounting, while interaction is only verified after a real save, forecast selection or wind adjustment. Times are measured from each document's navigation start, and data readiness is a client observation rather than a server paint measurement. Pausing scripts provides the separate initial-HTML comparison. These are diagnostic timings, not a performance ranking.
+
+The comparison tests check HTML differences, actual API and MF loader use, independent interactive frames, the script-delay response, script-paused behavior, local-only requests and desktop viewport bounds. The original regression assertions remain in place.
+
 ## Build boundaries
 
 | Source     | Role                                                                   |

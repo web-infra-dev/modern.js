@@ -44,3 +44,8 @@ declare module 'library/NoData' {
   const Component: import('react').ComponentType;
   export default Component;
 }
+
+declare module 'provider/WeatherDays' {
+  const Component: import('react').ComponentType;
+  export default Component;
+}
