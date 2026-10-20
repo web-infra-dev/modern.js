@@ -33,6 +33,14 @@ Frame messages validate origin and source. Client takeover is reported after mou
 
 The comparison tests check HTML differences, actual API and MF loader use, independent interactive frames, the script-delay response, local-only requests and desktop viewport bounds. The original regression assertions remain in place.
 
+### Inspect remotes
+
+Enable **Inspect** in either comparison page to outline the remote components. Labels show the container name, exposed module and registered manifest URL. Hover or focus a label to see the consumer, request ID, nested chain with each manifest URL and the resolved entry URL. The label links to the manifest. Re-exported nested boundaries sharing the same visible element use one outline with the complete chain.
+
+The host and nested consumer register the same runtime plugin through `runtimePlugins`. Its `apply(instance)` / `onLoad` hooks decorate React component exports using runtime metadata, including dynamically registered remotes. Data loaders are excluded. Module property descriptors preserve named exports and non-enumerable MF module IDs. The React inspection UI loads asynchronously after remote initialization to avoid consuming React during runtime bootstrap.
+
+The decorator keeps a `display: contents` boundary in both SSR and CSR. Inspection adds a portal overlay measured with ResizeObserver rather than changing the weather layout. Toggling it sends origin/source-checked messages into the existing frames and does not remount components, reload documents or fetch weather again. Inspection defaults to off and remains selected across frame reloads.
+
 ## Build boundaries
 
 | Source     | Role                                                                   |

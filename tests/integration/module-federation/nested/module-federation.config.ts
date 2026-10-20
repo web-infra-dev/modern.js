@@ -5,6 +5,7 @@ export default createModuleFederationConfig({
   manifest: { filePath: 'static' },
   filename: 'static/remoteEntry.js',
   dts: false,
+  runtimePlugins: [require.resolve('../host/src/plugins/inspect.tsx')],
   remotes: {
     provider: `lab_provider@${origin('provider', 4301)}/static/mf-manifest.json`,
   },

@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 import { Link } from '@modern-js/runtime/router';
 export function LabNav() {
   return (
@@ -18,22 +18,37 @@ function Panel({
   name,
   query,
   run,
+  inspect,
 }: {
   name: string;
   query: string;
   run: number;
+  inspect: boolean;
 }) {
   const frame = useRef<HTMLIFrameElement>(null);
+  const inspectRef = useRef(inspect);
+  inspectRef.current = inspect;
+  const sendInspect = useCallback(() => {
+    frame.current?.contentWindow?.postMessage(
+      { type: 'mf-lab-inspect', enabled: inspectRef.current },
+      window.location.origin,
+    );
+  }, []);
+  useEffect(sendInspect, [inspect, run, sendInspect]);
   const [events, setEvents] = useState<Record<string, number>>({});
   useEffect(() => {
     setEvents({});
     function receive(event: MessageEvent) {
       if (
         event.origin !== window.location.origin ||
-        event.source !== frame.current?.contentWindow ||
-        event.data?.type !== 'mf-weather'
+        event.source !== frame.current?.contentWindow
       )
         return;
+      if (event.data?.type === 'mf-lab-inspect-ready') {
+        sendInspect();
+        return;
+      }
+      if (event.data?.type !== 'mf-weather') return;
       if (
         ![
           '客户端已接管',
@@ -51,7 +66,7 @@ function Panel({
     }
     window.addEventListener('message', receive);
     return () => window.removeEventListener('message', receive);
-  }, [run]);
+  }, [run, sendInspect]);
   return (
     <section className="comparison-panel">
       <header>
@@ -68,6 +83,7 @@ function Panel({
         key={run}
         ref={frame}
         title={name}
+        onLoad={sendInspect}
         src={`/weather?${query}&run=${run}`}
         sandbox="allow-scripts allow-same-origin"
       />
@@ -85,6 +101,7 @@ function Panel({
 export default function Comparison({ data = false }: { data?: boolean }) {
   const [run, setRun] = useState(0);
   const [delay, setDelay] = useState(1500);
+  const [inspect, setInspect] = useState(false);
   const panels = data
     ? [
         ['CSR', 'render=csr&csr=1&data=client'],
@@ -101,6 +118,14 @@ export default function Comparison({ data = false }: { data?: boolean }) {
       <LabNav />
       <header className="comparison-toolbar" aria-label="对比控制">
         <div className="comparison-controls">
+          <label className="inspect-control">
+            <input
+              type="checkbox"
+              checked={inspect}
+              onChange={event => setInspect(event.target.checked)}
+            />
+            Inspect
+          </label>
           <label>
             模拟慢启动{' '}
             <select
@@ -127,6 +152,7 @@ export default function Comparison({ data = false }: { data?: boolean }) {
             name={name}
             query={`${query}&delay=${delay}${data ? '&compact=1' : ''}`}
             run={run}
+            inspect={inspect}
           />
         ))}
       </div>

@@ -390,6 +390,155 @@ for (const mode of modes) {
         ),
       ).toBe(true);
     });
+    it('inspects runtime remote identities and nested chains without remounting weather', async () => {
+      await page.setViewport({ width: 1440, height: 900 });
+      await page.goto(`${lab.url}/compare`, { waitUntil: 'networkidle0' });
+      const frames = page
+        .frames()
+        .filter(frame => frame.url().includes('/weather?'));
+      for (const frame of frames) {
+        expect(await frame.$('[data-testid="mf-inspect-outline"]')).toBeNull();
+        await frame.click('[data-testid="weather-save"]');
+        await frame.evaluate(() => {
+          (window as any).inspectSentinel = 'preserved';
+        });
+      }
+      await page.click('.inspect-control input');
+      for (const frame of frames) {
+        await frame.waitForFunction(
+          () =>
+            document.querySelectorAll('[data-testid="mf-inspect-outline"]')
+              .length === 4,
+        );
+        const hourly = await frame.$eval(
+          '[data-testid="mf-inspect-outline"][data-mf-expose="./WeatherHourly"] .mf-inspect-label',
+          element => ({
+            name: element.textContent,
+            url: (element as HTMLAnchorElement).href,
+            title: element.getAttribute('title'),
+          }),
+        );
+        expect(hourly.name).toContain('lab_library');
+        expect(hourly.url).toBe(
+          `http://localhost:${lab.ports.library}/mf-manifest.json`,
+        );
+        expect(hourly.title).toContain('Entry: http://localhost:');
+        expect(
+          await frame.$eval(
+            '[data-testid="mf-inspect-outline"][data-mf-expose="./WeatherDays"]',
+            element => element.textContent,
+          ),
+        ).toContain('lab_nested → lab_provider');
+        expect(
+          await frame.$eval(
+            '[data-testid="mf-inspect-outline"][data-mf-expose="./WeatherWind"]',
+            element => element.textContent,
+          ),
+        ).toContain('lab_nested → lab_library');
+        expect(
+          await frame.$eval(
+            '[data-testid="weather-save"]',
+            element => element.textContent,
+          ),
+        ).toContain('已收藏');
+        expect(
+          await frame.evaluate(() => (window as any).inspectSentinel),
+        ).toBe('preserved');
+        const position = await frame.$eval(
+          '[data-testid="weather-hourly"]',
+          element => {
+            const rect = element.getBoundingClientRect();
+            return {
+              left: rect.left,
+              top: rect.top,
+              width: rect.width,
+              height: rect.height,
+            };
+          },
+        );
+        const outline = await frame.$eval(
+          '[data-testid="mf-inspect-outline"][data-mf-expose="./WeatherHourly"]',
+          element => {
+            const rect = element.getBoundingClientRect();
+            return {
+              left: rect.left,
+              top: rect.top,
+              width: rect.width,
+              height: rect.height,
+            };
+          },
+        );
+        for (const key of ['left', 'top', 'width', 'height'] as const)
+          expect(Math.abs(position[key] - outline[key])).toBeLessThan(2);
+      }
+      await page.click('.inspect-control input');
+      for (const frame of frames)
+        await frame.waitForFunction(
+          () => !document.querySelector('[data-testid="mf-inspect-outline"]'),
+        );
+      await page.click('.inspect-control input');
+      await page.click('.comparison-controls button');
+      await page.waitForNetworkIdle();
+      for (const frame of page
+        .frames()
+        .filter(frame => frame.url().includes('/weather?')))
+        await frame.waitForSelector('[data-testid="mf-inspect-outline"]');
+    });
+    it('inspects data-fetch components without wrapping loaders or repeating data requests', async () => {
+      await page.setViewport({ width: 1440, height: 900 });
+      await page.goto(`${lab.url}/compare-data`, { waitUntil: 'networkidle0' });
+      const frames = page
+        .frames()
+        .filter(frame => frame.url().includes('/weather?'));
+      const initial = [];
+      for (const frame of frames) {
+        await frame.waitForSelector('[data-source="本地天气 API"]');
+        await frame.waitForSelector(
+          '[data-testid="weather-save"]:not(:disabled)',
+        );
+        initial.push(
+          await frame.$eval('.weather-source', element => element.textContent),
+        );
+        await frame.click('[data-testid="weather-save"]');
+        expect(
+          await frame.$eval(
+            '[data-testid="weather-save"]',
+            element => element.textContent,
+          ),
+        ).toContain('已收藏');
+      }
+      let requests = 0;
+      page.on('request', request => {
+        if (
+          request.url().includes('/weather') ||
+          request.url().includes('x-mf-data-fetch')
+        )
+          requests++;
+      });
+      await page.click('.inspect-control input');
+      for (const [index, frame] of frames.entries()) {
+        await frame.waitForFunction(
+          () =>
+            document.querySelectorAll('[data-testid="mf-inspect-outline"]')
+              .length === 2,
+        );
+        expect(
+          await frame.$eval('.weather-source', element => element.textContent),
+        ).toBe(initial[index]);
+        expect(
+          await frame.$eval(
+            '[data-testid="weather-save"]',
+            element => element.textContent,
+          ),
+        ).toContain('已收藏');
+        expect(
+          await frame.$(
+            '[data-testid="mf-inspect-outline"][data-mf-expose$=".data"]',
+          ),
+        ).toBeNull();
+      }
+      expect(requests).toBe(0);
+    });
     it('isolates advanced replacement state when switching weather experiments', async () => {
       await page.goto(`${lab.url}/advanced`, { waitUntil: 'networkidle0' });
       let frame = page
