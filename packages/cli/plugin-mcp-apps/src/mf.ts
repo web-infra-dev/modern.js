@@ -6,6 +6,8 @@ export interface MfArtifact {
   name: string;
   manifest: string;
   publicPath: string;
+  /** Emitted asset names relative to publicPath. Absent in older builds. */
+  assets?: string[];
 }
 
 export const MF_ARTIFACTS = 'mf-remotes.json';
@@ -102,4 +104,23 @@ export function compiledConfigPath(config: string) {
   return config.replace(/\.(tsx?|mts|cts)$/, extension =>
     extension === '.mts' ? '.mjs' : extension === '.cts' ? '.cjs' : '.js',
   );
+}
+
+/** Match emitted local assets, including custom MF output directories. */
+export function findMfAsset(artifacts: MfArtifact[], request: Request) {
+  const origin = new URL(request.url);
+  const proto = request.headers.get('x-forwarded-proto')?.split(',')[0].trim();
+  if (proto === 'https' || proto === 'http') origin.protocol = `${proto}:`;
+  for (const artifact of artifacts) {
+    const prefix = artifact.publicPath === 'auto' ? '/' : artifact.publicPath;
+    const base = new URL(
+      prefix.endsWith('/') ? prefix : `${prefix}/`,
+      origin.origin,
+    );
+    for (const filename of artifact.assets ?? [artifact.manifest]) {
+      const asset = new URL(filename, base);
+      if (asset.origin === origin.origin && asset.pathname === origin.pathname)
+        return filename;
+    }
+  }
 }

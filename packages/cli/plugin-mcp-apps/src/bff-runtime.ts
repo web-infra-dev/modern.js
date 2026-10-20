@@ -12,10 +12,11 @@ import {
   type ServerPlugin,
   useHonoContext,
 } from '@modern-js/server-core';
-import { cleanRequireCache, compatibleRequire } from '@modern-js/utils';
+import { cleanRequireCache, compatibleRequire, mime } from '@modern-js/utils';
 import { MCP_BFF_ENDPOINT, type McpEndpointOptions } from './bff';
 import {
   bindMfRemotes,
+  findMfAsset,
   localRemoteNames,
   readMfArtifacts,
   compiledConfigPath,
@@ -46,7 +47,7 @@ export interface McpAppsBffRuntimeAdapter {
   ) => Response | Promise<Response>;
 }
 
-/** Bind artifacts to BFF-discovered functions. Never registers HTTP middleware. */
+/** Bind UI artifacts to BFF routes and expose emitted MF assets. */
 export default function mcpBffRuntime(
   options: McpAppsBffRuntimeOptions,
   adapter: McpAppsBffRuntimeAdapter = {},
@@ -56,7 +57,9 @@ export default function mcpBffRuntime(
     pre: ['@modern-js/plugin-bff'],
     required: ['@modern-js/plugin-bff'],
     setup(api) {
+      let hasLocalRemotes = false;
       const bind = async () => {
+        hasLocalRemotes = false;
         const ctx = api.getServerContext();
         const root = options.development ? ctx.appDirectory : ctx.distDirectory;
         if (!root)
@@ -86,6 +89,15 @@ export default function mcpBffRuntime(
             assetBase: options.assetBase,
             manifest,
           });
+        let artifacts: ReturnType<typeof readMfArtifacts> | undefined;
+        const loadArtifacts = () => {
+          if (options.development) return readMfArtifacts(resourceDirectory);
+          artifacts ??= readMfArtifacts(resourceDirectory).catch(error => {
+            artifacts = undefined;
+            throw error;
+          });
+          return artifacts;
+        };
         const createBoundHandler = (
           params: Parameters<typeof createMcpBffHandler>[0],
         ) => {
@@ -93,15 +105,6 @@ export default function mcpBffRuntime(
             return createMcpBffHandler(params);
           // Compilation completes after route registration in development.
           // Resolve lazily, and keep only the most recent origin/artifact pair.
-          let artifacts: ReturnType<typeof readMfArtifacts> | undefined;
-          const loadArtifacts = () => {
-            if (options.development) return readMfArtifacts(resourceDirectory);
-            artifacts ??= readMfArtifacts(resourceDirectory).catch(error => {
-              artifacts = undefined;
-              throw error;
-            });
-            return artifacts;
-          };
           let cached:
             | { key: string; handler: ReturnType<typeof createMcpBffHandler> }
             | undefined;
@@ -139,15 +142,31 @@ export default function mcpBffRuntime(
           };
         const registerRemoteAssets = (definition: McpAppsDefinition) => {
           if (!definition.tools.some(tool => tool.remote)) return;
+          hasLocalRemotes ||= localRemoteNames(definition).length > 0;
           if (
             ctx.middlewares.some(item => item.name === 'mcp-public-ui-assets')
           )
             return;
           ctx.middlewares.push({
             name: 'mcp-public-ui-assets',
-            path: '/static/*',
+            path: '/*',
             order: 'pre',
             handler: async (context: Context, next: Next) => {
+              let asset: string | undefined;
+              if (!context.req.path.startsWith('/static/')) {
+                if (!hasLocalRemotes) return next();
+                let artifacts: Awaited<ReturnType<typeof readMfArtifacts>>;
+                try {
+                  artifacts = await loadArtifacts();
+                } catch (error) {
+                  // Development assets may not exist until the first compilation.
+                  if ((error as NodeJS.ErrnoException).code === 'ENOENT')
+                    return next();
+                  throw error;
+                }
+                asset = findMfAsset(artifacts, context.req.raw);
+                if (!asset) return next();
+              }
               context.header('Access-Control-Allow-Origin', '*');
               if (context.req.method === 'OPTIONS') {
                 context.header(
@@ -166,6 +185,37 @@ export default function mcpBffRuntime(
                   );
                 }
                 return context.body(null, 204);
+              }
+              if (
+                asset &&
+                !options.development &&
+                ['GET', 'HEAD'].includes(context.req.method)
+              ) {
+                const filename = path.resolve(root, asset);
+                const relative = path.relative(root, filename);
+                if (
+                  relative === '..' ||
+                  relative.startsWith(`..${path.sep}`) ||
+                  path.isAbsolute(relative)
+                )
+                  return next();
+                try {
+                  const content = await readFile(filename);
+                  return new Response(
+                    context.req.method === 'HEAD' ? null : content,
+                    {
+                      headers: {
+                        'Content-Type':
+                          mime.lookup(filename) || 'application/octet-stream',
+                        'Content-Length': String(content.byteLength),
+                        'Access-Control-Allow-Origin': '*',
+                      },
+                    },
+                  );
+                } catch (error) {
+                  if ((error as NodeJS.ErrnoException).code !== 'ENOENT')
+                    throw error;
+                }
               }
               await next();
             },

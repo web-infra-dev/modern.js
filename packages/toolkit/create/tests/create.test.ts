@@ -1,3 +1,5 @@
+import mcpAppsPackage from '../../mcp-apps/package.json';
+import mcpPluginPackage from '../../../cli/plugin-mcp-apps/package.json';
 import { execFileSync } from 'node:child_process';
 import fs from 'node:fs';
 import os from 'node:os';
@@ -133,8 +135,12 @@ describe('MCP templates', () => {
     const pkg = JSON.parse(
       fs.readFileSync(path.join(root, 'package.json'), 'utf8'),
     );
-    expect(pkg.dependencies['@modern-js/plugin-mcp-apps']).toBeDefined();
-    expect(pkg.dependencies['@modern-js/mcp-apps']).toBeDefined();
+    expect(pkg.dependencies['@modern-js/plugin-mcp-apps']).toBe(
+      mcpPluginPackage.version,
+    );
+    expect(pkg.dependencies['@modern-js/mcp-apps']).toBe(
+      mcpAppsPackage.version,
+    );
     expect(
       fs.existsSync(path.join(workdir, 'mcp-app/src/modern.runtime.ts')),
     ).toBe(false);

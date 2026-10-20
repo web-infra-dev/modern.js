@@ -1,4 +1,5 @@
 import assert from 'node:assert/strict';
+import { verifyMcpStarters } from '../../create/tests/mcp-smoke.mjs';
 import { execFileSync, spawn } from 'node:child_process';
 import { once } from 'node:events';
 import {
@@ -18,6 +19,7 @@ const repoRoot = path.resolve(packageRoot, '../../..');
 const temp = await mkdtemp(path.join(os.tmpdir(), 'modern-mcp-deployment-'));
 let child;
 try {
+  const localDist = await verifyMcpStarters(temp);
   execFileSync('pnpm', ['pack', '--pack-destination', temp], {
     cwd: packageRoot,
     stdio: 'pipe',
@@ -53,11 +55,7 @@ try {
     path.join(packageRoot, 'tests/fixtures/hono-server.mjs'),
     path.join(temp, 'index.mjs'),
   );
-  await cp(
-    path.join(repoRoot, 'examples/my-mcp-app-v2/dist'),
-    path.join(temp, 'application'),
-    { recursive: true },
-  );
+  await cp(localDist, path.join(temp, 'application'), { recursive: true });
   await writeFile(
     path.join(temp, 'application/package.json'),
     JSON.stringify({
@@ -67,6 +65,9 @@ try {
       type: 'commonjs',
     }),
   );
+  await rm(path.join(temp, 'application/mcp-apps/ui-manifest.json'), {
+    force: true,
+  });
   const installed = JSON.parse(
     await readFile(
       path.join(temp, 'node_modules/@modern-js/mcp-apps/package.json'),

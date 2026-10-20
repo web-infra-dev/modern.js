@@ -128,8 +128,9 @@ it('binds the same declaration independently per BFF runtime without adding an M
   expect((await first.request('/custom/nested/mcp-extra')).status).toBe(404);
 });
 
-for (const mode of ['js', 'mjs', 'local-mf']) {
-  const extension = mode === 'local-mf' ? 'js' : mode;
+for (const mode of ['js', 'mjs', 'local-mf', 'custom-mf']) {
+  const localMf = mode === 'local-mf' || mode === 'custom-mf';
+  const extension = localMf ? 'js' : mode;
   it(`automatically mounts a compiled ${mode} definition alongside ordinary BFF routes`, async () => {
     const root = await mkdtemp(path.join(os.tmpdir(), 'modern-mcp-auto-'));
     directories.push(root);
@@ -137,19 +138,39 @@ for (const mode of ['js', 'mjs', 'local-mf']) {
     const { mkdir, writeFile } = await import('node:fs/promises');
     await mkdir(dist);
     let definition = `{ name: 'automatic', version: '2', remotes: [{ name: 'ui', baseUrl: 'https://ui.example/static/mf-manifest.json' }], tools: [{ name: 'who', remote: 'ui', view: { module: './Who' }, inputSchema: { name: { type: 'string' } }, handler: ({ name }, ctx) => ({ structuredContent: { name, user: ctx.context.req.header('x-user') } }) }] }`;
-    if (mode === 'local-mf') {
+    if (localMf) {
       definition = definition.replace(
         "remotes: [{ name: 'ui', baseUrl: 'https://ui.example/static/mf-manifest.json' }]",
         'remotes: []',
       );
       await mkdir(path.join(dist, 'mcp-apps/ui'), { recursive: true });
+      if (mode === 'custom-mf') {
+        await mkdir(path.join(dist, 'federation'), { recursive: true });
+        await mkdir(path.join(dist, 'chunks'), { recursive: true });
+        await writeFile(
+          path.join(dist, 'federation/manifest.json'),
+          '{"name":"ui"}',
+        );
+        await writeFile(
+          path.join(dist, 'chunks/remote.js'),
+          'export default "remote";',
+        );
+        await writeFile(path.join(dist, 'secret.js'), 'private server code');
+      }
       await writeFile(
         path.join(dist, 'mcp-apps/ui/mf-remotes.json'),
         JSON.stringify([
           {
             name: 'ui',
-            manifest: 'static/mf-manifest.json',
-            publicPath: 'https://cdn.example/release/',
+            manifest:
+              mode === 'custom-mf'
+                ? 'federation/manifest.json'
+                : 'static/mf-manifest.json',
+            publicPath:
+              mode === 'custom-mf'
+                ? '/widgets/'
+                : 'https://cdn.example/release/',
+            assets: ['federation/manifest.json', 'chunks/remote.js'],
           },
         ]),
       );
@@ -262,6 +283,37 @@ for (const mode of ['js', 'mjs', 'local-mf']) {
         'Access-Control-Allow-Origin',
       ),
     ).toBeNull();
+    if (mode === 'custom-mf') {
+      const manifest = await server.request(
+        '/widgets/federation/manifest.json',
+      );
+      expect(manifest.headers.get('Content-Type')).toBe('application/json');
+      expect(await manifest.json()).toEqual({ name: 'ui' });
+      const remote = await server.request('/widgets/chunks/remote.js');
+      expect(await remote.text()).toBe('export default "remote";');
+      expect(remote.headers.get('Access-Control-Allow-Origin')).toBe('*');
+      const head = await server.request('/widgets/chunks/remote.js', {
+        method: 'HEAD',
+      });
+      expect(await head.text()).toBe('');
+      expect(head.headers.get('Content-Length')).toBe(
+        String(Buffer.byteLength('export default "remote";')),
+      );
+      expect((await server.request('/widgets/secret.js')).status).toBe(404);
+      for (const pathname of [
+        '/widgets/federation/manifest.json',
+        '/widgets/chunks/remote.js',
+      ]) {
+        const response = await server.request(pathname, { method: 'OPTIONS' });
+        expect(response.status).toBe(204);
+        expect(response.headers.get('Access-Control-Allow-Origin')).toBe('*');
+      }
+      expect(
+        (
+          await server.request('/widgets/unrelated.js', { method: 'OPTIONS' })
+        ).headers.get('Access-Control-Allow-Origin'),
+      ).toBeNull();
+    }
     expect((await server.request('/custom/mcp-extra')).status).toBe(404);
     for (const [name, user] of [
       ['Ada', 'one'],
@@ -283,12 +335,14 @@ for (const mode of ['js', 'mjs', 'local-mf']) {
       });
       expect(response.headers.get('x-mcp-user')).toBe(user);
       const content = (await response.json()).result.structuredContent;
-      if (mode === 'local-mf') {
+      if (localMf) {
         expect(content.resource.moduleFederation.remoteEntry).toBe(
-          'https://cdn.example/release/static/mf-manifest.json',
+          mode === 'custom-mf'
+            ? 'http://localhost/widgets/federation/manifest.json'
+            : 'https://cdn.example/release/static/mf-manifest.json',
         );
         expect(content.resource.csp.resourceDomains).toEqual([
-          'https://cdn.example',
+          mode === 'custom-mf' ? 'http://localhost' : 'https://cdn.example',
         ]);
       }
       expect(content).toMatchObject({

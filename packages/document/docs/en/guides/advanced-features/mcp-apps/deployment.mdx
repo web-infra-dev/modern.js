@@ -49,7 +49,7 @@ Include `ts-node` (`^10.9.2`) in devDependencies for BFF TypeScript loading and
 API module hot reload on Node 20+. For ESM projects, use `"type": "module"` and
 TypeScript `module: "esnext"`, `moduleResolution: "bundler"` together.
 
-The MF template no longer generates `server/modern.server.ts`. For remote tools, the plugin handles CORS and OPTIONS preflight for public `/static/*` assets served by this application, without applying that policy to `/mcp`. Configure CORS on the CDN when hosting manifests and chunks separately.
+The MF template no longer generates `server/modern.server.ts`. For remote tools, the plugin handles CORS and OPTIONS preflight for public `/static/*` assets served by this application, without applying that policy to `/mcp`. Local MF builds also record emitted assets so production serving and CORS work for manifests and chunks in custom directories. This does not expose unrecorded files. Configure CORS on the CDN when hosting manifests and chunks separately.
 
 For standalone local views, copy the complete `dist/` to `application/`, preserving package name, version, module type, and relative imported module paths. Serve `/static/*` separately or publish assets to the configured CDN. The adapter serves MCP requests, not static assets.
 

@@ -1,5 +1,5 @@
 import { expect, it } from '@rstest/core';
-import { bindMfRemotes, mfArtifact } from '../src/mf';
+import { bindMfRemotes, mfArtifact, findMfAsset } from '../src/mf';
 
 const definition = {
   remotes: [],
@@ -76,4 +76,31 @@ it('preserves explicit external remotes and rejects missing local manifests', ()
     bindMfRemotes(definition, [], new Request('https://app.example/mcp')),
   ).toThrow('Missing MF manifest');
   expect(mfArtifact('stats.json', '{"name":"mcp_ui"}')).toBeUndefined();
+});
+
+it('matches custom emitted paths without exposing unrelated routes or external CDNs', () => {
+  const artifacts = [
+    {
+      ...artifact,
+      publicPath: '/widgets/',
+      assets: ['federation/manifest.json', 'chunks/remote.js'],
+    },
+  ];
+  for (const pathname of [
+    '/widgets/federation/manifest.json',
+    '/widgets/chunks/remote.js',
+  ]) {
+    expect(
+      findMfAsset(artifacts, new Request(`https://app.example${pathname}`)),
+    ).toBe(pathname.replace('/widgets/', ''));
+  }
+  expect(
+    findMfAsset(artifacts, new Request('https://app.example/api/status')),
+  ).toBeUndefined();
+  expect(
+    findMfAsset(
+      [{ ...artifacts[0], publicPath: 'https://cdn.example/widgets/' }],
+      new Request('https://app.example/widgets/chunks/remote.js'),
+    ),
+  ).toBeUndefined();
 });

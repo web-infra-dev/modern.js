@@ -43,7 +43,7 @@ BFF TypeScript 开发依赖 `ts-node`（`^10.9.2`），模板已添加到 devDep
 ESM 项目需同时设置 package.json 的 `"type": "module"`，以及 TypeScript 的
 `module: "esnext"` 和 `moduleResolution: "bundler"`。
 
-MF 模板不再生成 `server/modern.server.ts`。使用远程工具时，插件为本应用的 `/static/*` 公共资源处理 CORS 和 OPTIONS 预检，`/mcp` 不受该策略影响。若 manifest 和 chunks 部署在独立 CDN，需要在 CDN 配置相应的跨域响应。
+MF 模板不再生成 `server/modern.server.ts`。使用远程工具时，插件为本应用的 `/static/*` 公共资源处理 CORS 和 OPTIONS 预检。本地 MF 构建会额外记录实际输出的资产文件，自定义目录中的 manifest 和 chunks 也可由生产服务读取，并处理对应的跨域预检。该规则不扩展到未记录的文件，`/mcp` 不受该策略影响。若 manifest 和 chunks 部署在独立 CDN，需要在 CDN 配置相应的跨域响应。
 
 独立部署本地视图时，将完整 `dist/` 复制到上例的 `application/`，保留 `package.json` 的名称、版本和模块类型，以及所有导入模块的相对路径。通过静态服务提供 `/static/*`，或将其发布到构建时配置的资源 CDN。适配器只提供 MCP 路由，不提供静态资源服务。
 

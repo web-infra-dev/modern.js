@@ -307,14 +307,21 @@ export default function InspectorPage() { return <McpInspector {...${JSON.string
             'mcp-apps/ui',
           );
           if (localRemotes.length) {
-            const artifacts = compilation.getAssets().flatMap(asset => {
+            const assets = compilation.getAssets();
+            const assetNames = assets.map(asset => asset.name);
+            const artifacts = assets.flatMap(asset => {
               if (!asset.name.endsWith('.json')) return [];
               const artifact = mfArtifact(
                 asset.name,
                 asset.source.source().toString(),
               );
               return artifact && localRemotes.includes(artifact.name)
-                ? [artifact]
+                ? [
+                    {
+                      ...artifact,
+                      assets: assetNames,
+                    },
+                  ]
                 : [];
             });
             for (const name of localRemotes) {

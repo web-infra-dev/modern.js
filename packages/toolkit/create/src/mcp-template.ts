@@ -2,6 +2,8 @@ import fs from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { copyTemplate } from './template';
+import mcpAppsPackage from '../../mcp-apps/package.json';
+import mcpPluginPackage from '../../../cli/plugin-mcp-apps/package.json';
 
 type Template = 'app' | 'mcp-apps' | 'mcp-server';
 
@@ -44,9 +46,9 @@ export function applyMcpTemplate(
   copy('shared');
   copy(template);
   if (mf) copy('mcp-apps-mf');
-  pkg.dependencies['@modern-js/mcp-apps'] = version;
+  pkg.dependencies['@modern-js/mcp-apps'] = mcpAppsPackage.version;
   // BFF owns the HTTP endpoint; MCP Apps owns compilation and tool execution.
-  pkg.dependencies['@modern-js/plugin-mcp-apps'] = version;
+  pkg.dependencies['@modern-js/plugin-mcp-apps'] = mcpPluginPackage.version;
   pkg.dependencies['@modern-js/plugin-bff'] = version;
   // Use BFF's supported TS runtime on Node 20+ and invalidate API modules on reload.
   pkg.devDependencies['ts-node'] = '^10.9.2';

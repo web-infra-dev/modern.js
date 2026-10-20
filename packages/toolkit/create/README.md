@@ -27,6 +27,12 @@ Replace `<version>` with a release containing MCP Apps support. Choose `mcp-apps
 - [English Documentation](https://modernjs.dev/en/)
 - [中文文档](https://modernjs.dev)
 
+## MCP starter verification
+
+After building workspace dependencies, run `pnpm --filter @modern-js/create test:mcp` to generate local UI, MF and tool-only projects. This check links built workspace dependencies, typechecks and builds each project, then calls its production MCP endpoint. The MF case also verifies custom manifest and JS directories.
+
+Run `pnpm --filter @modern-js/mcp-apps test:deployment` to additionally pack the SDK and install it in an isolated production project.
+
 ## Contributing
 
 Please read the [Contributing Guide](https://github.com/web-infra-dev/modern.js/blob/main/CONTRIBUTING.md).

@@ -37,7 +37,8 @@
     "build": "rs lib",
     "dev": "rs lib -w",
     "start": "node ./dist/index.js",
-    "test": "rstest"
+    "test": "rstest",
+    "test:mcp": "node tests/mcp-smoke.mjs"
   },
   "devDependencies": {
     "@modern-js/i18n-utils": "workspace:*",
