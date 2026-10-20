@@ -154,7 +154,22 @@ function InspectLabel({
               onClick={() => setExpanded(value => !value)}
             >
               <span>{sources.length - 1}</span>
-              <span className="mf-inspect-chevron">⌄</span>
+              <svg
+                className="mf-inspect-chevron"
+                width="8"
+                height="8"
+                viewBox="0 0 8 8"
+                aria-hidden="true"
+              >
+                <path
+                  d="m1.5 2.75 2.5 2.5 2.5-2.5"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeWidth="1.2"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                />
+              </svg>
             </button>
           )}
         </div>

@@ -1213,6 +1213,9 @@
 .mf-inspect-toggle {
   display: flex;
   align-items: center;
+  justify-content: center;
+  box-sizing: border-box;
+  height: 20px;
   gap: 4px;
   flex-shrink: 0;
   padding: 2px 5px;
@@ -1221,7 +1224,17 @@
   color: inherit;
   background: #ffffff0d;
   font: inherit;
+  line-height: 1;
   cursor: pointer;
+}
+.mf-inspect-toggle > span {
+  display: flex;
+  align-items: center;
+  height: 12px;
+}
+.mf-inspect-chevron {
+  display: block;
+  flex-shrink: 0;
 }
 .mf-inspect-label[data-expanded='true'] .mf-inspect-chevron {
   transform: rotate(180deg);
