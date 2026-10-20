@@ -6,7 +6,7 @@ import type { ReactElement } from 'react';
 import { RenderLevel } from '../../constants';
 import { getGlobalInternalRuntimeContext } from '../../context';
 import { getMonitors } from '../../context/monitors';
-import { enqueueFromEntries } from './deferredScript';
+import { enqueueFromEntries, hasDeferredResolvers } from './deferredScript';
 import { DeferredScriptOutputCoordinator } from './deferredScriptOutputCoordinator';
 import {
   type CreateReadableStreamFromElement,
@@ -239,7 +239,7 @@ export const createReadableStreamFromElement: CreateReadableStreamFromElement =
                     ? Array.from(activeDeferreds.entries())
                     : [];
 
-                if (entries.length > 0) {
+                if (hasDeferredResolvers(entries, deferredScriptKeys)) {
                   const enqueueScript = (s: string) => {
                     if (!outputState.coordinator) {
                       throw new Error(
@@ -259,6 +259,8 @@ export const createReadableStreamFromElement: CreateReadableStreamFromElement =
                     config.nonce,
                     enqueueScript,
                   );
+                } else {
+                  coordinator.markNoResolvers();
                 }
               } catch (err) {
                 const monitors = getMonitors();
