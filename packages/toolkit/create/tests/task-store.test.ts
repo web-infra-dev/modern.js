@@ -2,7 +2,7 @@ import { mkdtemp, readFile, rm, writeFile } from 'node:fs/promises';
 import os from 'node:os';
 import path from 'node:path';
 import { expect, it } from '@rstest/core';
-import { taskOperation } from '../mcp-templates/mcp-apps/src/features/tasks/server/store';
+import { taskOperation } from '../templates/mcp-apps/src/features/tasks/server/store';
 
 it('persists serialized task writes and reads the file again on every query', async () => {
   const directory = await mkdtemp(path.join(os.tmpdir(), 'mcp-task-store-'));

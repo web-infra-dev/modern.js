@@ -44,7 +44,7 @@ pnpm install
 pnpm dev
 ```
 
-The template also generates `module-federation.config.ts`, exposing `./TaskBoard`, `./Greeting`, and `./Sum`. Tools select the local MF application with `remote: 'mcp_ui'`, without duplicating its URL in `remotes`. `--mf` is only available with `mcp-apps`.
+The template also generates `module-federation.config.ts`, exposing `./TaskBoard`, `./Greeting`, and `./Sum`. Tools select an explicitly configured `remotes` entry with `remote: 'mcp_ui'`. Set its complete manifest URL in `mcp_apps.ts`. `--mf` is only available with `mcp-apps`.
 
 Configure public asset prefixes in `modern.config.ts` when a host needs public URLs:
 
@@ -56,7 +56,7 @@ export default defineConfig({
 });
 ```
 
-The plugin reads the emitted manifest and its publicPath to generate local remote URLs and resource CSP. External MF applications still use explicit `remotes[].baseUrl`. Declare any additional API or asset origins in CSP.
+The template defaults to `http://localhost:8080/static/mf-manifest.json`. Set `MCP_UI_MANIFEST_URL` and `MCP_UI_ORIGIN`, or edit the remote definition for your deployment. Asset prefixes do not configure this manifest URL. Serve MF assets and configure CORS with your static server or CDN.
 
 ## Create an MCP server with tools only
 

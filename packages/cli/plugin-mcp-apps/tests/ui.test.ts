@@ -12,7 +12,7 @@ import path from 'node:path';
 import { expect, it } from '@rstest/core';
 import { mcpAppsPlugin } from '../src/cli';
 
-for (const mode of ['build', 'dev', 'disabled']) {
+for (const mode of ['build', 'dev', 'disabled', 'missing-remote']) {
   it(`builds portable UI resources in ${mode} without a BFF server`, async () => {
     const command = mode === 'build' ? 'build' : 'dev';
     const root = await mkdtemp(path.join(os.tmpdir(), 'modern-ui-only-'));
@@ -31,7 +31,7 @@ for (const mode of ['build', 'dev', 'disabled']) {
       );
       await writeFile(
         path.join(root, 'mcp_apps.mjs'),
-        `export default { tools: [{ name: 'greet', view: { module: './Greeting.tsx' } }] };`,
+        `export default { tools: [{ name: 'greet', ${mode === 'missing-remote' ? "remote: 'unconfigured'," : ''} view: { module: './Greeting.tsx' } }] };`,
       );
       const hooks: Record<string, any> = {};
       const plugin = mcpAppsPlugin({
@@ -73,6 +73,12 @@ for (const mode of ['build', 'dev', 'disabled']) {
           throw new Error('UI-only must not register a server plugin');
         },
       } as any);
+      if (mode === 'missing-remote') {
+        await expect(hooks.entries({ entrypoints: [] })).rejects.toThrow(
+          'explicit manifest baseUrl',
+        );
+        return;
+      }
       const { entrypoints } = await hooks.entries({ entrypoints: [] });
       expect(entrypoints).toHaveLength(mode === 'dev' ? 2 : 1);
       expect(

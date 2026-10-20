@@ -1,7 +1,70 @@
 import fs from 'node:fs';
 import path from 'node:path';
+import { fileURLToPath } from 'node:url';
+import mcpAppsPackage from '../../mcp-apps/package.json';
+import mcpPluginPackage from '../../../cli/plugin-mcp-apps/package.json';
 
-function renderTemplate(template: string, data: Record<string, any>): string {
+type Template = 'app' | 'mcp-apps' | 'mcp-server';
+
+export function parseTemplate(args: string[]): Template {
+  const values: string[] = [];
+  for (let index = 0; index < args.length; index++) {
+    if (args[index] === '--template') values.push(args[++index] ?? '');
+    else if (args[index].startsWith('--template='))
+      values.push(args[index].slice('--template='.length));
+  }
+  if (
+    values.length > 1 ||
+    (values.length && !['app', 'mcp-apps', 'mcp-server'].includes(values[0]))
+  ) {
+    throw new Error('--template must be one of: app, mcp-apps, mcp-server');
+  }
+  return (values[0] ?? 'app') as Template;
+}
+
+/** Select disjoint template directories before writing the project. */
+export function createProject(
+  targetDir: string,
+  options: {
+    packageName: string;
+    version: string;
+    template: Template;
+    mf: boolean;
+    isSubproject: boolean;
+    noAgentsMd: boolean;
+  },
+) {
+  const { template, mf } = options;
+  const isMcp = template !== 'app';
+  const hasUi = template !== 'mcp-server';
+  const data = {
+    ...options,
+    isMcp,
+    hasUi,
+    isMcpUi: template === 'mcp-apps',
+    isMcpServer: template === 'mcp-server',
+    mcpAppsVersion: mcpAppsPackage.version,
+    mcpPluginVersion: mcpPluginPackage.version,
+  };
+  const directories = [
+    'common',
+    ...(hasUi ? ['ui'] : []),
+    ...(isMcp ? ['mcp'] : []),
+    template,
+    ...(mf ? ['mf'] : []),
+  ];
+  const root = path.resolve(
+    path.dirname(fileURLToPath(import.meta.url)),
+    '../templates',
+  );
+  for (const directory of directories)
+    copyTemplate(path.join(root, directory), targetDir, data);
+}
+
+function renderTemplate(
+  template: string,
+  data: Record<string, string | boolean>,
+): string {
   let result = template;
 
   const ifRegex = /\{\{#if\s+(\w+)\}\}([\s\S]*?)\{\{\/if\}\}/g;
@@ -27,16 +90,10 @@ function renderTemplate(template: string, data: Record<string, any>): string {
   return result;
 }
 
-export function copyTemplate(
+function copyTemplate(
   src: string,
   dest: string,
-  options: {
-    packageName: string;
-    version: string;
-    isSubproject: boolean;
-    noAgentsMd: boolean;
-    mf?: boolean;
-  },
+  data: Record<string, string | boolean>,
 ) {
   fs.mkdirSync(dest, { recursive: true });
 
@@ -55,10 +112,11 @@ export function copyTemplate(
     const entries = fs.readdirSync(srcDir, { withFileTypes: true });
 
     for (const entry of entries) {
-      if (options.isSubproject && excludeInSubproject.includes(entry.name)) {
+      if (entry.name === '.DS_Store') continue;
+      if (data.isSubproject && excludeInSubproject.includes(entry.name)) {
         continue;
       }
-      if (options.noAgentsMd && entry.name === 'AGENTS.md') {
+      if (data.noAgentsMd && entry.name === 'AGENTS.md') {
         continue;
       }
 
@@ -71,16 +129,14 @@ export function copyTemplate(
       } else {
         if (entry.name.endsWith('.handlebars')) {
           const templateContent = fs.readFileSync(srcPath, 'utf-8');
-          const rendered = renderTemplate(templateContent, {
-            packageName: options.packageName,
-            version: options.version,
-            isSubproject: options.isSubproject,
-            mf: options.mf,
-          });
+          const rendered = renderTemplate(templateContent, data);
           destPath = destPath.replace(/\.handlebars$/, '');
-          fs.writeFileSync(destPath, rendered, 'utf-8');
+          fs.writeFileSync(destPath, rendered, {
+            encoding: 'utf-8',
+            flag: 'wx',
+          });
         } else {
-          fs.copyFileSync(srcPath, destPath);
+          fs.copyFileSync(srcPath, destPath, fs.constants.COPYFILE_EXCL);
         }
       }
     }

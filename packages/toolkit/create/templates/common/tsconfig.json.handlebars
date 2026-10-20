@@ -10,6 +10,6 @@
       "@shared/*": ["./shared/*"]
     }
   },
-  "include": ["src", "shared", "config", "modern.config.ts", "server"],
+  "include": ["shared", "config", "modern.config.ts", "server"{{#if hasUi}}, "src"{{/if}}{{#if isMcp}}, "mcp_tools.ts"{{/if}}{{#if isMcpUi}}, "mcp_apps.ts"{{/if}}{{#if isMcpServer}}, "api"{{/if}}{{#if mf}}, "module-federation.config.ts"{{/if}}],
   "exclude": ["**/node_modules"]
 }

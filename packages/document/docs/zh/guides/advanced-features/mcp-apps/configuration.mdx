@@ -152,21 +152,7 @@ export default createModuleFederationConfig({
 
 ### 2. 将工具关联到卡片
 
-本应用的 MF 组件只需设置工具的 `remote` 与 MF 配置的 `name` 一致，插件会从构建产物中发现 manifest，并根据 publicPath 生成 remote 地址，无需显式配置 `remotes`。
-
-```ts title="mcp_apps.ts"
-import { defineMcpServer } from '@modern-js/mcp-apps/config';
-import { name, version } from './package.json';
-import { listTasks } from './src/features/tasks/server/tools';
-
-export default defineMcpServer({
-  name,
-  version,
-  tools: [{ ...listTasks, remote: 'mcp_ui', view: { module: './TaskBoard' } }],
-});
-```
-
-下面演示引用独立部署的外部 MF 应用，需要在 `mcp_apps.ts` 中显式声明 remote，并为工具选择 expose：
+无论 MF 组件由本应用还是独立服务托管，都必须在 `remotes[].baseUrl` 中显式配置完整的 manifest URL，并声明 CSP 域名。插件不会发现 manifest 或推断 remote 地址。
 
 ```ts title="mcp_apps.ts"
 import { defineMcpServer } from '@modern-js/mcp-apps/config';
@@ -224,7 +210,7 @@ export default defineMcpServer({
 配置时需要区分以下名称和职责：
 
 - `tools[].name` 是 MCP 工具名，用于工具调用；`view.module` 是 MF expose 名，两者无须同名。例如，工具 `greet` 对应组件 `./Greeting`。
-- Modern.js 集成中，`tools[].remote` 可匹配本应用构建产物的 manifest 名称，模板使用 `mcp_ui`。显式配置外部 `remotes` 时，必须匹配 `remotes[].name`，`baseUrl` 指向目标 manifest。直接使用核心包时需传入完整 `remotes`，核心包不发现应用构建产物。
+- `tools[].remote` 必须匹配 `remotes[].name`，`baseUrl` 必须是完整的 manifest URL。remoteEntry、JS 和 CSS 资产由 MF runtime 负责加载。
 - `view.module` 必须与 `exposes` 的键一致，包括大小写和 `./` 前缀。在工具配置中填写 `./Greeting`，而不是组件源码路径。
 - 配置 `exposes` 只会暴露模块，不会自动注册 MCP 工具。只有 `tools` 中声明的工具才会出现在工具列表中；服务端业务函数通过 `handler` 配置，无须放入 MF `exposes`。
 - 多个工具可以复用同一个 expose，只要组件能处理各工具传入的属性。每个工具配置一个 `view`，该组件内部可以组合多个子组件；纯工具可以省略 `view` 和 `remote`。

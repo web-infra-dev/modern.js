@@ -7,23 +7,23 @@
 在 `modern.config.ts` 中启用纯 UI 模式，无需安装或启用 BFF 插件。此模式关闭默认页面入口扫描，因此无需创建首页：
 
 ```ts
-import { appTools, defineConfig } from '@modern-js/app-tools'
-import { mcpAppsPlugin } from '@modern-js/plugin-mcp-apps'
+import { appTools, defineConfig } from '@modern-js/app-tools';
+import { mcpAppsPlugin } from '@modern-js/plugin-mcp-apps';
 
 export default defineConfig({
   plugins: [appTools(), mcpAppsPlugin({ mode: 'ui-only' })],
   output: { assetPrefix: 'https://cdn.example.com/' },
-})
+});
 ```
 
 使用 `mcp_apps.ts` 声明 UI，避免导入服务端 handler：
 
 ```ts
-import { defineMcpUi } from '@modern-js/mcp-apps/config'
+import { defineMcpUi } from '@modern-js/mcp-apps/config';
 
 export default defineMcpUi({
   tools: [{ name: 'greet', view: { module: './src/components/Greeting.tsx' } }],
-})
+});
 ```
 
 运行 `modern build` 后，产物包含 `dist/mcp-apps/ui-manifest.json` 和 `dist/mcp-apps/ui/`。将 JS、CSS 等静态产物发布到 `assetPrefix` 对应的地址，将 manifest 和 HTML 交给 MCP Server。开发模式的 manifest 位于 `<internalDirectory>/mcp-apps/ui-manifest.json`。
@@ -31,7 +31,6 @@ export default defineMcpUi({
 ## 构建产物与工具映射
 
 manifest 的 `version` 当前为 `1`，`tools` 按工具名索引，每项包含 `resourceUri`、`mimeType`、`html`、`assetBase` 和 `ui` 元数据。`html` 相对于 manifest 所在目录解析，显式指定的 HTTPS HTML 地址保持原样。manifest 仅描述本地视图，不包含业务 handler、源模块路径或 MF remote。MF 继续使用标准 MF manifest 和 expose 配置。
-
 
 ```json
 {
@@ -58,20 +57,20 @@ manifest 的 `version` 当前为 `1`，`tools` 按工具名索引，每项包含
 下面的函数为已有官方 MCP SDK `Server` 注册一个工具及 UI 资源。它使用与仓库一致的 `setRequestHandler` API。已有工具较多时，将这些分支合入现有处理器，避免覆盖原有处理器。
 
 ```ts
-import { readFile } from 'node:fs/promises'
-import path from 'node:path'
+import { readFile } from 'node:fs/promises';
+import path from 'node:path';
 import {
   createMcpViewResult,
   readUiManifestResource,
   type McpUiManifest,
-} from '@modern-js/mcp-apps/server'
+} from '@modern-js/mcp-apps/server';
 
-const directory = path.resolve('dist/mcp-apps')
+const directory = path.resolve('dist/mcp-apps');
 const manifest: McpUiManifest = JSON.parse(
   await readFile(path.join(directory, 'ui-manifest.json'), 'utf8'),
-)
-if (manifest.version !== 1) throw new Error('Unsupported UI manifest version')
-const view = manifest.tools.greet
+);
+if (manifest.version !== 1) throw new Error('Unsupported UI manifest version');
+const view = manifest.tools.greet;
 
 export function registerGreeting(server) {
   server.setRequestHandler('tools/list', async () => ({
@@ -88,7 +87,7 @@ export function registerGreeting(server) {
         _meta: { ui: { resourceUri: view.resourceUri } },
       },
     ],
-  }))
+  }));
   server.setRequestHandler('resources/list', async () => ({
     resources: [
       {
@@ -98,9 +97,9 @@ export function registerGreeting(server) {
         _meta: { ui: view.ui },
       },
     ],
-  }))
+  }));
   server.setRequestHandler('resources/read', async ({ params }) => {
-    if (params.uri !== view.resourceUri) throw new Error('Unknown UI resource')
+    if (params.uri !== view.resourceUri) throw new Error('Unknown UI resource');
     return {
       contents: [
         await readUiManifestResource(manifest, 'greet', {
@@ -108,22 +107,22 @@ export function registerGreeting(server) {
           assetBase: 'https://cdn.example.com/',
         }),
       ],
-    }
-  })
+    };
+  });
   server.setRequestHandler('tools/call', async ({ params }) => {
-    const name = params.arguments?.name
+    const name = params.arguments?.name;
     if (params.name !== 'greet' || typeof name !== 'string') {
-      throw new Error('Invalid tool call')
+      throw new Error('Invalid tool call');
     }
-    const message = `Hello, ${name}!`
+    const message = `Hello, ${name}!`;
     return createMcpViewResult(
       { name },
       {
         content: [{ type: 'text', text: message }],
         viewProps: { message },
       },
-    )
-  })
+    );
+  });
 }
 ```
 

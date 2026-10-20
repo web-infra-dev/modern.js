@@ -24,7 +24,7 @@ const AGENTS_MESSAGES: Record<string, string> = {
   unchanged: localeKeys.agentsCmd.unchanged,
 };
 
-export function runAgentsMd(_templateDir: string, targetDir: string): void {
+export function runAgentsMd(targetDir: string): void {
   if (!fs.existsSync(targetDir)) {
     console.error(
       i18n.t(localeKeys.agentsCmd.targetNotFound, { dir: targetDir }),

@@ -152,21 +152,7 @@ Each `exposes` key is a public module name and its value is a component source p
 
 ### 2. Associate a tool with a card
 
-For local MF components, match the tool remote to the MF configuration name. The plugin discovers the emitted manifest and publicPath without explicit `remotes`.
-
-```ts title="mcp_apps.ts"
-import { defineMcpServer } from '@modern-js/mcp-apps/config';
-import { name, version } from './package.json';
-import { listTasks } from './src/features/tasks/server/tools';
-
-export default defineMcpServer({
-  name,
-  version,
-  tools: [{ ...listTasks, remote: 'mcp_ui', view: { module: './TaskBoard' } }],
-});
-```
-
-For independently deployed external MF applications, declare the remote and select an expose in `mcp_apps.ts`:
+For both application-local and independently hosted MF components, explicitly configure `remotes[].baseUrl` with the complete manifest URL and declare the CSP origins. The plugin does not discover manifests or derive remote URLs.
 
 ```ts title="mcp_apps.ts"
 import { defineMcpServer } from '@modern-js/mcp-apps/config';
@@ -224,7 +210,7 @@ When the host calls `greet`, the server executes `greet` handler and returns bus
 Keep these names and responsibilities distinct:
 
 - `tools[].name` identifies an MCP tool for calls; `view.module` identifies an MF expose. They do not need the same name: `greet` uses `./Greeting`.
-- In Modern.js, `tools[].remote` can match an emitted local manifest name, such as `mcp_ui`. External remotes must match `remotes[].name`, with `baseUrl` pointing to their manifest. Direct core usage requires complete remote definitions because the core does not discover application build artifacts.
+- `tools[].remote` must match `remotes[].name`. Set `baseUrl` to the complete manifest URL. The MF runtime loads its remoteEntry, JS and CSS assets.
 - `view.module` must match an `exposes` key, including case and the `./` prefix. Use `./Greeting` in the tool definition, not the component source path.
 - An expose makes a module loadable; it does not register an MCP tool. Only entries in `tools` appear in the tool list. Server business functions are configured through `handler` and do not need MF exposes.
 - Multiple tools can share an expose if the component supports their props. Each tool configures one `view`, which can compose multiple child components. Tools without UI can omit both `view` and `remote`.

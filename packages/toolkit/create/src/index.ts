@@ -5,11 +5,9 @@ import { fileURLToPath } from 'node:url';
 import { getLocaleLanguage } from '@modern-js/i18n-utils/language-detector';
 import { runAgentsMd } from './agents-md';
 import { i18n, localeKeys } from './locale';
-import { copyTemplate } from './template';
-import { applyMcpTemplate, parseTemplate } from './mcp-template';
+import { createProject, parseTemplate } from './template';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
-const templateDir = path.resolve(__dirname, '..', 'template');
 
 const detectLanguage = (): 'zh' | 'en' => {
   const langIndex = process.argv.findIndex(
@@ -198,7 +196,7 @@ async function main() {
       console.error(i18n.t(localeKeys.error.agentsMdOnlyConflict));
       process.exit(1);
     }
-    runAgentsMd(templateDir, process.cwd());
+    runAgentsMd(process.cwd());
     return;
   }
 
@@ -226,23 +224,14 @@ async function main() {
   const isSubproject = subprojectFlag === true;
   const noAgentsMd = detectNoAgentsMdFlag();
 
-  copyTemplate(templateDir, targetDir, {
+  createProject(targetDir, {
     packageName: projectName,
     version,
     isSubproject,
     noAgentsMd,
+    template,
+    mf,
   });
-
-  if (template !== 'app') applyMcpTemplate(targetDir, version, template, mf);
-
-  const targetPackageJson = path.join(targetDir, 'package.json');
-  const packageJson = JSON.parse(fs.readFileSync(targetPackageJson, 'utf-8'));
-  packageJson.name = projectName;
-
-  fs.writeFileSync(
-    targetPackageJson,
-    `${JSON.stringify(packageJson, null, 2)}\n`,
-  );
 
   // ANSI escape codes: \x1b[2m = dim, \x1b[3m = italic, \x1b[0m = reset
   const dim = '\x1b[2m\x1b[3m';

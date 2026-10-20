@@ -74,7 +74,7 @@ CLI 只生成文件，不安装依赖。生成的版本号不会自动指向工�
 
 ### MF 组件
 
-`module-federation.config.ts` 的 `exposes` 将 `./TaskBoard`、`./Greeting`、`./Sum` 映射到组件文件。本地 remote 匹配构建 manifest 名称，插件补齐地址和 CSP。外部 remote 显式声明 `remotes[].baseUrl`，工具的 `remote` 匹配 `remotes[].name`，`view.module` 匹配 expose 键（包括大小写和 `./`），不是磁盘路径。模板使用 `mcp_ui`，manifest 地址为 `<origin>/static/mf-manifest.json`。
+`module-federation.config.ts` 的 `exposes` 将 `./TaskBoard`、`./Greeting`、`./Sum` 映射到组件文件。所有 MF remote 都必须显式声明完整的 `remotes[].baseUrl` 和 CSP。工具的 `remote` 匹配 `remotes[].name`，`view.module` 匹配 expose 键（包括大小写和 `./`），不是磁盘路径。模板使用 `mcp_ui`，默认 manifest 地址为 `http://localhost:8080/static/mf-manifest.json`。可通过 `MCP_UI_MANIFEST_URL` 和 `MCP_UI_ORIGIN` 或直接修改 remote 定义配置其他部署地址。
 
 例如 `greet` 使用 `remote: 'mcp_ui'`、`view: { module: './Greeting' }`。MF 只暴露 UI 模块，不会自动注册工具；业务 handler 仍在服务端执行，无须放进 `exposes`。只使用标准 MF manifest，不添加 `manifestType`、Vmok 配置或另一份 UI manifest。
 
@@ -115,9 +115,9 @@ CLI 只生成文件，不安装依赖。生成的版本号不会自动指向工�
 远程宿主需能访问 HTTPS MCP endpoint 及卡片依赖的资源。按用户选择使用部署环境或隧道，连接地址为 `https://<公开域名>/mcp`。ChatGPT 的公网暴露和接入操作参考 [OpenAI 官方指南](https://developers.openai.com/plugins/build/app-quickstart#expose-your-server-to-the-public-internet)，修改工具元数据后刷新宿主连接。仅为生成项目不必自动创建公网隧道。
 
 - **应用内组件**：HTML 位于 `dist/mcp-apps/ui/`，同时部署应用静态资源；单独托管资源时配置 `dev.assetPrefix` / `output.assetPrefix`。`view.html` 可指定独立 HTTPS HTML 地址，由服务端读取；通过 `view.csp` 声明资源权限。
-- **MF**：开发资源使用 `dev.assetPrefix`，生产资源使用 `output.assetPrefix`。插件根据本地 manifest 名称和 publicPath 生成 remote 与资源 CSP。检查 manifest、remote entry 和 chunks 地址及 CORS，额外来源需声明 CSP。
+- **MF**：显式配置完整的 manifest URL 和资源 CSP，插件不会推断 remote 地址。开发资源使用 `dev.assetPrefix`，生产资源使用 `output.assetPrefix`，这些前缀不会设置 `remotes[].baseUrl`。MF runtime 负责加载 manifest、remote entry 和 chunks。资产托管和 CORS 由应用静态服务或 CDN 配置。
 - **应用部署**：`pnpm deploy` 生成可迁移的 `.output/`，通过 `node .output/index.js` 启动；此命令不等于已上传云平台。
-- **独立 Hono 服务**：加载应用编译后的 definition 和 handler，使用 `@modern-js/mcp-apps/hono` 的 `mcpApps({ definition })` 挂载。应用内组件还需用 `@modern-js/mcp-apps/server` 的 `bindUiResources(definition, { directory, assetBase })` 绑定复制后的 HTML 目录和公开资源基址。复制完整 `dist/`，保留 package 身份与模块类型、根定义 `mcp_apps.js` 和导入模块相对路径。手动 BFF 定义位于 `dist/api/`。独立 Hono 不执行本地 MF 发现，需显式声明完整 remotes。`configPath` 方案指向应用编译后的配置模块文件，不是产物目录；该适配器不编译源码、不启动监听器。
+- **独立 Hono 服务**：加载应用编译后的 definition 和 handler，使用 `@modern-js/mcp-apps/hono` 的 `mcpApps({ definition })` 挂载。应用内组件还需用 `@modern-js/mcp-apps/server` 的 `bindUiResources(definition, { directory, assetBase })` 绑定复制后的 HTML 目录和公开资源基址。复制完整 `dist/`，保留 package 身份与模块类型、根定义 `mcp_apps.js` 和导入模块相对路径。手动 BFF 定义位于 `dist/api/`。Modern.js 与独立 Hono 都需要显式声明完整 remotes。`configPath` 方案指向应用编译后的配置模块文件，不是产物目录；该适配器不编译源码、不启动监听器。
 
 鉴权通过应用中间件处理。浏览器跨域调用需按实际来源配置 `allowedOrigins` 和应用 CORS；这与卡片资源 CSP 是不同配置。隧道若返回提示 HTML 而不是 manifest JSON，应检查浏览器实际响应，不能只凭 HTTP 200 判断成功。
 

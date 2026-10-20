@@ -68,7 +68,7 @@ export function validateMcpAppsConfig(config: McpAppsDefinition): void {
   )) {
     if (tool.remote !== undefined && !names.has(tool.remote))
       throw new Error(
-        `Tool "${tool.name}" references missing remote "${tool.remote}"`,
+        `Tool "${tool.name}" references missing remote "${tool.remote}". Configure remotes[] with an explicit manifest baseUrl.`,
       );
     if (!tool.view && !tool.handler)
       throw new Error(`Tool "${tool.name}" must define a view or handler`);

@@ -6,9 +6,9 @@ import {
   mkdir,
   mkdtemp,
   readFile,
+  readdir,
   rm,
   symlink,
-  writeFile,
 } from 'node:fs/promises';
 import net from 'node:net';
 import os from 'node:os';
@@ -59,12 +59,29 @@ export async function verifyMcpStarters(directory) {
   const workspace = new Map(
     projects.map(project => [project.name, project.path]),
   );
+  const archiveDirectory = path.join(directory, 'create-package');
+  await mkdir(archiveDirectory);
+  execFileSync('pnpm', ['pack', '--pack-destination', archiveDirectory], {
+    cwd: packageRoot,
+    stdio: 'pipe',
+  });
+  const archive = (await readdir(archiveDirectory)).find(name =>
+    name.endsWith('.tgz'),
+  );
+  assert.ok(archive);
+  execFileSync('tar', [
+    '-xzf',
+    path.join(archiveDirectory, archive),
+    '-C',
+    archiveDirectory,
+  ]);
+  const createBin = path.join(archiveDirectory, 'package/bin/run.js');
   let localDist;
   for (const mode of ['local', 'mf', 'server']) {
     const projectName = `starter-${mode}`;
     const target = path.join(directory, projectName);
     run(
-      path.join(packageRoot, 'bin/run.js'),
+      createBin,
       [
         projectName,
         '--template',
@@ -106,19 +123,6 @@ export async function verifyMcpStarters(directory) {
       await mkdir(path.dirname(destination), { recursive: true });
       await symlink(source, destination, 'dir');
     }
-    if (mode === 'mf') {
-      const filename = path.join(target, 'module-federation.config.ts');
-      const source = await readFile(filename, 'utf8');
-      await writeFile(
-        filename,
-        source
-          .replace("filePath: 'static'", "filePath: 'federation'")
-          .replace(
-            "filename: 'static/remoteEntry.js'",
-            "filename: 'chunks/remoteEntry.js'",
-          ),
-      );
-    }
     run(
       path.join(target, 'node_modules/typescript/bin/tsc'),
       ['--noEmit'],
@@ -130,7 +134,12 @@ export async function verifyMcpStarters(directory) {
     const endpoint = `http://127.0.0.1:${port}/mcp`;
     const child = spawn(process.execPath, [appTools, 'serve'], {
       cwd: target,
-      env: { ...process.env, PORT: String(port) },
+      env: {
+        ...process.env,
+        PORT: String(port),
+        MCP_UI_MANIFEST_URL: `http://127.0.0.1:${port}/static/mf-manifest.json`,
+        MCP_UI_ORIGIN: `http://127.0.0.1:${port}`,
+      },
       stdio: ['ignore', 'pipe', 'pipe'],
     });
     let output = '';
@@ -196,28 +205,15 @@ export async function verifyMcpStarters(directory) {
           const response = await fetch(manifestUrl);
           assert.equal(response.status, 200);
           assert.equal((await response.json()).name, 'mcp_ui');
-          assert.ok(new URL(manifestUrl).pathname.startsWith('/federation/'));
-          const artifacts = JSON.parse(
-            await readFile(
-              path.join(target, 'dist/mcp-apps/ui/mf-remotes.json'),
-              'utf8',
-            ),
+          assert.equal(
+            manifestUrl,
+            `http://127.0.0.1:${port}/static/mf-manifest.json`,
           );
-          for (const name of [
-            artifacts[0].manifest,
-            ...artifacts[0].assets.filter(name => name.endsWith('.js')),
-          ]) {
-            const assetUrl = new URL(name, endpoint);
-            const preflight = await fetch(assetUrl, {
-              method: 'OPTIONS',
-              headers: { Origin: 'null' },
-            });
-            assert.equal(preflight.status, 204, assetUrl.href);
-            assert.equal(
-              preflight.headers.get('Access-Control-Allow-Origin'),
-              '*',
+          for (const filename of ['ui/mf-remotes.json', 'ui-manifest.json']) {
+            await assert.rejects(
+              access(path.join(target, 'dist/mcp-apps', filename)),
+              { code: 'ENOENT' },
             );
-            assert.equal((await fetch(assetUrl)).status, 200);
           }
         }
       }

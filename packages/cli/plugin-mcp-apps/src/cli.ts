@@ -2,28 +2,18 @@ import fs from 'node:fs/promises';
 import path from 'node:path';
 import { createRequire } from 'node:module';
 import type { McpAppsDefinition } from '@modern-js/mcp-apps/config';
-import { createUiManifest, getUiEntryName } from '@modern-js/mcp-apps/server';
+import {
+  createUiManifest,
+  getUiEntryName,
+  validateMcpAppsConfig,
+} from '@modern-js/mcp-apps/server';
 import { createLoadedConfig } from '@modern-js/plugin/cli';
 import type { AppTools, CliPlugin } from '@modern-js/app-tools';
 import { compile } from '@modern-js/server-utils';
 import { getAddressUrls, resolveServerTsconfig } from '@modern-js/utils';
-import {
-  MF_ARTIFACTS,
-  compiledConfigPath,
-  localRemoteNames,
-  mfArtifact,
-} from './mf';
+import { type McpAppsPluginOptions, compiledConfigPath } from './config';
 
-export interface McpAppsPluginOptions {
-  /** Enable the development-only /__mcp_inspector page. Defaults to true. */
-  inspector?: boolean;
-  /** Build local UI resources without a BFF dependency or server compilation. */
-  mode?: 'integrated' | 'ui-only';
-  /** Application definition for UI discovery, relative to the project root. Defaults to mcp_apps.ts. */
-  config?: string;
-  /** Exact HTTP route, defaults to /mcp. Set false for manual BFF mounting. */
-  endpoint?: string | false;
-}
+export type { McpAppsPluginOptions } from './config';
 
 export function endpointPath(endpoint = '/mcp') {
   if (
@@ -179,7 +169,6 @@ function setupMcpUi(
   options: { endpoint?: string | false; inspector?: boolean } = {},
 ) {
   const entries = new Map<string, string>();
-  let localRemotes: string[] = [];
   let inspectorEnabled = false;
   let definition: McpAppsDefinition;
   api.onBeforePrintInstructions(({ instructions }) => ({
@@ -207,7 +196,7 @@ function setupMcpUi(
     );
     definition = loaded.config;
     definition.remotes ??= [];
-    localRemotes = localRemoteNames(definition);
+    validateMcpAppsConfig(definition);
     for (const tool of definition.tools) {
       if (!tool.view || tool.remote || tool.view.html) continue;
       const renderMode =
@@ -300,42 +289,14 @@ export default function InspectorPage() { return <McpInspector {...${JSON.string
         'modern-mcp-ui-resources',
         async compilation => {
           if (compilation.errors.length) return;
+          // MF views use their configured remote and the standard MF output.
+          if (!definition.tools.some(tool => tool.view && !tool.remote)) return;
           const ctx = api.getAppContext();
           const development = ['dev', 'start'].includes(ctx.command);
           const output = path.join(
             development ? ctx.internalDirectory : ctx.distDirectory,
             'mcp-apps/ui',
           );
-          if (localRemotes.length) {
-            const assets = compilation.getAssets();
-            const assetNames = assets.map(asset => asset.name);
-            const artifacts = assets.flatMap(asset => {
-              if (!asset.name.endsWith('.json')) return [];
-              const artifact = mfArtifact(
-                asset.name,
-                asset.source.source().toString(),
-              );
-              return artifact && localRemotes.includes(artifact.name)
-                ? [
-                    {
-                      ...artifact,
-                      assets: assetNames,
-                    },
-                  ]
-                : [];
-            });
-            for (const name of localRemotes) {
-              if (artifacts.filter(item => item.name === name).length !== 1) {
-                throw new Error(
-                  `Expected one emitted MF manifest for MCP remote "${name}"`,
-                );
-              }
-            }
-            await writeArtifact(
-              path.join(output, MF_ARTIFACTS),
-              JSON.stringify(artifacts),
-            );
-          }
           for (const [entryName] of entries) {
             const htmlPath = environment.htmlPaths[entryName];
             if (!htmlPath)

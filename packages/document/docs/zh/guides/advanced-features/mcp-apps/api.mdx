@@ -212,4 +212,4 @@ export type RemoteToolHandler = (
 
 `inputSchema` 支持标准 JSON Schema 和属性简写。简写字段默认必填，使用 `optional: true` 标记可选；额外属性被禁止。嵌套对象及 Schema 关键字同名字段使用完整 JSON Schema，详见[定义工具与视图](./configuration)。
 
-本应用的 MF 工具可省略对应的 `remotes` 声明，由插件根据构建 manifest 的名称和 publicPath 补齐。直接调用核心包时不执行此发现逻辑，需传入完整 remote 配置。
+MF 工具必须显式声明对应的 `remotes`，将 `baseUrl` 设置为完整的 MF manifest URL，并配置 CSP 域名。插件不会推断该地址。

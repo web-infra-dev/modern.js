@@ -128,6 +128,73 @@ describe('positional argument parsing', () => {
   });
 });
 
+describe('direct template generation', () => {
+  it.each([
+    ['app', false],
+    ['app', true],
+    ['mcp-apps', false],
+    ['mcp-apps', true],
+    ['mf', false],
+    ['mf', true],
+    ['mcp-server', false],
+    ['mcp-server', true],
+  ] as const)(
+    'generates %s with subproject=%s without leftover files',
+    (mode, subproject) => {
+      const template = mode === 'mf' ? 'mcp-apps' : mode;
+      runCreate([
+        'direct',
+        '--template',
+        template,
+        ...(mode === 'mf' ? ['--mf'] : []),
+        ...(subproject ? ['--sub'] : []),
+      ]);
+      const root = path.join(workdir, 'direct');
+      const exists = (filename: string) =>
+        fs.existsSync(path.join(root, filename));
+      const pkg = JSON.parse(
+        fs.readFileSync(path.join(root, 'package.json'), 'utf8'),
+      );
+      const tsconfig = JSON.parse(
+        fs.readFileSync(path.join(root, 'tsconfig.json'), 'utf8'),
+      );
+      const ui = mode !== 'mcp-server';
+      const mcp = mode !== 'app';
+      expect(exists('src')).toBe(ui);
+      expect(exists('src/modern.runtime.ts')).toBe(mode === 'app');
+      expect(exists('api/lambda/index.ts')).toBe(mode === 'mcp-server');
+      expect(exists('mcp_apps.ts')).toBe(mode === 'mcp-apps' || mode === 'mf');
+      expect(exists('mcp_tools.ts')).toBe(mcp);
+      expect(exists('module-federation.config.ts')).toBe(mode === 'mf');
+      expect(Boolean(pkg.dependencies.react)).toBe(ui);
+      expect(Boolean(pkg.dependencies['@modern-js/plugin-bff'])).toBe(mcp);
+      expect(
+        Boolean(pkg.devDependencies['@module-federation/modern-js-v3']),
+      ).toBe(mode === 'mf');
+      expect(Boolean(pkg.scripts.deploy)).toBe(mcp);
+      expect(Boolean(pkg.scripts.prepare)).toBe(!subproject);
+      expect(exists('.gitignore')).toBe(!subproject);
+      expect(exists('AGENTS.md')).toBe(!subproject);
+      expect(tsconfig.include.includes('api')).toBe(mode === 'mcp-server');
+      expect(tsconfig.include.includes('src')).toBe(ui);
+      if (!subproject && mcp)
+        expect(
+          fs.readFileSync(path.join(root, '.gitignore'), 'utf8'),
+        ).toContain('.modern-js/');
+      for (const filename of [
+        'package.json',
+        'tsconfig.json',
+        'README.md',
+        'modern.config.ts',
+      ]) {
+        const source = fs.readFileSync(path.join(root, filename), 'utf8');
+        expect(source).not.toMatch(/\{\{[#/]/);
+        expect(exists(`${filename}.handlebars`)).toBe(false);
+      }
+    },
+  );
+});
+
 describe('MCP templates', () => {
   it('creates local UI without MF and leaves the default template unchanged', () => {
     runCreate(['--template', 'mcp-apps', 'mcp-app', '--no-agents-md']);
@@ -222,6 +289,13 @@ describe('MCP templates', () => {
     }
     expect(read('local-ui', 'mcp_apps.ts')).not.toContain("remote: 'mcp_ui'");
     expect(read('mf-ui', 'mcp_apps.ts')).not.toContain('./src/components/');
+    expect(read('mf-ui', 'mcp_apps.ts')).toContain('MCP_UI_MANIFEST_URL');
+    expect(read('mf-ui', 'mcp_apps.ts')).toContain(
+      'http://localhost:8080/static/mf-manifest.json',
+    );
+    expect(read('local-ui', 'mcp_apps.ts')).not.toContain(
+      'MCP_UI_MANIFEST_URL',
+    );
   });
 
   it('adds MF only when explicitly selected', () => {
@@ -432,7 +506,9 @@ describe('docs location by version', () => {
       fs.readFileSync(file, 'utf-8').replace(/\r\n/g, '\n').trim();
 
     expect(readNormalized(path.join(workdir, 'AGENTS.md'))).toBe(
-      readNormalized(path.resolve(__dirname, '../template/AGENTS.md')).match(
+      readNormalized(
+        path.resolve(__dirname, '../templates/common/AGENTS.md'),
+      ).match(
         /<!-- BEGIN:modernjs-agent-rules -->[\s\S]*?<!-- END:modernjs-agent-rules -->/,
       )?.[0],
     );

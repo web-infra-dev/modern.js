@@ -215,4 +215,4 @@ For MF remote tools, the plugin also adds CORS headers and OPTIONS handling for 
 
 `inputSchema` accepts standard JSON Schema or property shorthand. Shorthand fields are required by default; `optional: true` marks optional fields, and extra properties are rejected. Use full JSON Schema for nested objects and fields named after schema keywords. See [Define tools and views](./configuration).
 
-Local MF tools can omit matching `remotes` entries in Modern.js. The plugin fills them from emitted manifest names and publicPath. Direct core usage does not run this discovery step and requires complete remote configurations.
+MF tools require an explicit matching `remotes` entry. Set `baseUrl` to the complete MF manifest URL and configure CSP origins. The plugin does not infer the address.

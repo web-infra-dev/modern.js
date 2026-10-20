@@ -28,8 +28,7 @@
     ".": "./dist/index.js"
   },
   "files": [
-    "template",
-    "mcp-templates",
+    "templates",
     "dist",
     "bin"
   ],

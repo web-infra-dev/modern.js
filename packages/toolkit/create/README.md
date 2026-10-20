@@ -27,9 +27,15 @@ Replace `<version>` with a release containing MCP Apps support. Choose `mcp-apps
 - [English Documentation](https://modernjs.dev/en/)
 - [中文文档](https://modernjs.dev)
 
+## Template maintenance
+
+Templates live under `templates/`. `common/` owns engineering files and renders the final package.json and tsconfig. `ui/` owns the shared React shell, `app/` owns the ordinary application, and `mcp/` owns shared MCP tools and documentation. `mcp-apps/`, `mcp-server/` and `mf/` contain only their mode-specific files.
+
+The generator selects directories before copying. Each output file has one owner, and conflicting paths fail instead of overwriting existing files. No generated files are deleted or patched afterward.
+
 ## MCP starter verification
 
-After building workspace dependencies, run `pnpm --filter @modern-js/create test:mcp` to generate local UI, MF and tool-only projects. This check links built workspace dependencies, typechecks and builds each project, then calls its production MCP endpoint. The MF case also verifies custom manifest and JS directories.
+After building workspace dependencies, run `pnpm --filter @modern-js/create test:mcp` to pack the CLI and generate local UI, MF and tool-only projects with the packed executable. This check links built workspace dependencies, typechecks and builds each project, then calls its production MCP endpoint. The MF case supplies its manifest URL explicitly and verifies that the tool result preserves it.
 
 Run `pnpm --filter @modern-js/mcp-apps test:deployment` to additionally pack the SDK and install it in an isolated production project.
 

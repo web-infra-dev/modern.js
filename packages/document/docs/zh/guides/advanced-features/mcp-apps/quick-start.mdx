@@ -43,7 +43,7 @@ pnpm install
 pnpm dev
 ```
 
-模板额外生成 `module-federation.config.ts`，暴露 `./TaskBoard`、`./Greeting` 和 `./Sum`。工具通过 `remote: 'mcp_ui'` 关联本应用的 MF manifest，无需在 `remotes` 中重复声明地址。`--mf` 仅适用于 `mcp-apps` 模板。
+模板额外生成 `module-federation.config.ts`，暴露 `./TaskBoard`、`./Greeting` 和 `./Sum`。工具通过 `remote: 'mcp_ui'` 关联显式声明的 `remotes`。在 `mcp_apps.ts` 中配置完整的 manifest URL。`--mf` 仅适用于 `mcp-apps` 模板。
 
 宿主通过公网地址访问资源时，在 `modern.config.ts` 中配置公开资源前缀：
 
@@ -55,7 +55,7 @@ export default defineConfig({
 });
 ```
 
-插件读取构建产生的 manifest 及其 publicPath，生成对应的 remote 地址和资源 CSP。外部 MF 应用仍通过 `remotes[].baseUrl` 显式配置，额外 API 或资源域名需声明对应 CSP。
+模板默认地址为 `http://localhost:8080/static/mf-manifest.json`。可通过 `MCP_UI_MANIFEST_URL`、`MCP_UI_ORIGIN` 或直接修改 remote 定义配置部署地址。资源前缀不会设置此 manifest URL。MF 资产托管和 CORS 由静态服务器或 CDN 配置。
 
 ## 创建 MCP Server 项目（仅工具）
 

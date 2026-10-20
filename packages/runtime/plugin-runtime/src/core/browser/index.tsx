@@ -25,6 +25,8 @@ const getQuery = () =>
 
 function getSSRData(): SSRContainer {
   const ssrData = window._SSR_DATA;
+  // CSR also uses this function to populate request.cookie and request.cookieMap.
+  // Cookie access must tolerate sandboxed MCP Apps hosts even when SSR is disabled.
   const cookie = readDocumentCookie();
 
   const ssrRequest = ssrData?.context?.request;

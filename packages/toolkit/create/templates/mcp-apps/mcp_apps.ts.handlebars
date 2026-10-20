@@ -6,7 +6,14 @@ import { greet, addNumbers } from './mcp_tools';
 export default defineMcpServer({
   name,
   version,
-{{#if mf}}  // Remote names match module-federation.config.ts. Manifest URLs are discovered from build output.
+{{#if mf}}  remotes: [{
+    name: 'mcp_ui',
+    baseUrl: process.env.MCP_UI_MANIFEST_URL ?? 'http://localhost:8080/static/mf-manifest.json',
+    csp: {
+      resourceDomains: [process.env.MCP_UI_ORIGIN ?? 'http://localhost:8080'],
+      connectDomains: [process.env.MCP_UI_ORIGIN ?? 'http://localhost:8080'],
+    },
+  }],
 {{/if}}  tools: [
 {{#if mf}}    { ...listTasks, remote: 'mcp_ui', view: { module: './TaskBoard' } },
     { ...createTask, remote: 'mcp_ui', view: { module: './TaskBoard' } },
