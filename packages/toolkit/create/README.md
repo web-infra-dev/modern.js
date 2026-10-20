@@ -33,12 +33,6 @@ Templates live under `templates/`. `common/` owns engineering files and renders 
 
 The generator selects directories before copying. Each output file has one owner, and conflicting paths fail instead of overwriting existing files. No generated files are deleted or patched afterward.
 
-## MCP starter verification
-
-After building workspace dependencies, run `pnpm --filter @modern-js/create test:mcp` to pack the CLI and generate local UI, MF and tool-only projects with the packed executable. This check links built workspace dependencies, typechecks and builds each project, then calls its production MCP endpoint. The MF case supplies its manifest URL explicitly and verifies that the tool result preserves it.
-
-Run `pnpm --filter @modern-js/mcp-apps test:deployment` to additionally pack the SDK and install it in an isolated production project.
-
 ## Contributing
 
 Please read the [Contributing Guide](https://github.com/web-infra-dev/modern.js/blob/main/CONTRIBUTING.md).

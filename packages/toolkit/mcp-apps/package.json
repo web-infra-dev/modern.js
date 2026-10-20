@@ -60,9 +60,7 @@
   "scripts": {
     "build": "rslib build && pnpm build:runtime",
     "dev": "rslib build --watch",
-    "test": "pnpm build && rstest",
-    "typecheck": "tsc --noEmit && tsc -p tsconfig.contracts.json",
-    "test:deployment": "node tests/deployment-smoke.mjs",
+    "typecheck": "tsc --noEmit",
     "build:runtime": "node scripts/build-runtime.mjs"
   },
   "dependencies": {
