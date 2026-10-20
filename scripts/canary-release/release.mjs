@@ -52,7 +52,7 @@ export function pack(root, output, expectedPlanHash) {
   return manifest;
 }
 
-export function main(argv = process.argv.slice(2)) {
+export async function main(argv = process.argv.slice(2)) {
   const [command, ...args] = argv;
   const definitions = {
     prepare: { 'release-id': { type: 'string' }, 'base-sha': { type: 'string' } },
@@ -85,17 +85,15 @@ export function main(argv = process.argv.slice(2)) {
     const { plan } = verify(root, values['expected-plan-hash']);
     verifyArtifacts(path.resolve(root, values.artifacts), plan, values['expected-plan-hash'], process.env.GITHUB_SHA);
   } else if (command === 'publish') {
-    publish(root, {
+    await publish(root, {
       artifacts: values.artifacts, receiptDir: values['receipt-dir'], expectedPlanHash: values['expected-plan-hash'],
     });
   }
 }
 
 if (process.argv[1] && import.meta.url === pathToFileURL(path.resolve(process.argv[1])).href) {
-  try {
-    main();
-  } catch (error) {
+  main().catch(error => {
     console.error(error.message);
     process.exitCode = 1;
-  }
+  });
 }

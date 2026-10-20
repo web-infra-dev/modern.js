@@ -67,6 +67,89 @@ export function diagnostic(result) {
   return lines.slice(0, DIAGNOSTIC_LINES).join('\n').replace(SECRET, '[redacted]').slice(0, DIAGNOSTIC_CHARS);
 }
 
+// npm exchanges the GitHub identity token for a short lived registry token once
+// per package, at `/-/npm/v1/oidc/token/exchange/package/<name>`. Its own failure
+// is silent: npm logs at verbose level, returns no token and publishes with no
+// credential at all, so a package without a trusted publisher for this workflow
+// surfaces as ENEEDAUTH or E404 in the middle of a run whose earlier packages are
+// already public and can never be replaced. Running that same exchange for every
+// package first turns a half published release into a release that published
+// nothing. A newly added package cannot be configured in advance: npm requires
+// the package to exist before a trusted publisher can be created for it.
+const EXCHANGE = '/-/npm/v1/oidc/token/exchange/package/';
+// Only the registry refusing the exchange proves the configuration is missing.
+// A transport error, a server error or a rate limit proves nothing and must not
+// block a release that npm's own exchange may still complete.
+const CONCLUSIVE = new Set([400, 401, 403, 404]);
+const escapeName = name => name.replace('/', '%2f');
+
+async function identityToken(env, request) {
+  const url = new URL(env.ACTIONS_ID_TOKEN_REQUEST_URL);
+  url.searchParams.set('audience', `npm:${new URL(REGISTRY).hostname}`);
+  const response = await request(url.href, {
+    headers: { Accept: 'application/json', Authorization: `Bearer ${env.ACTIONS_ID_TOKEN_REQUEST_TOKEN}` },
+  });
+  assert(response.ok, 'GitHub refused to mint an OIDC identity token');
+  const body = await response.json();
+  assert(typeof body?.value === 'string' && body.value, 'GitHub returned no OIDC identity token');
+  return body.value;
+}
+
+// The command a maintainer has to run for each package the exchange refused.
+// Packages that npm does not serve at all need a first publish through the normal
+// release pipeline before any trusted publisher can exist for them.
+export function repairInstructions(name, known, env) {
+  const repository = env.GITHUB_REPOSITORY ?? '<owner>/<repository>';
+  const workflow = (env.GITHUB_WORKFLOW_REF ?? '').split('@')[0].split('/').pop() || '<workflow>.yml';
+  if (!known) return `${name}: not on npm yet; publish it once through the normal release pipeline, then configure a trusted publisher`;
+  return `${name}: npm trust github ${name} --repo ${repository} --file ${workflow} --allow-publish --allow-stage-publish --yes`;
+}
+
+export async function assertTrustedPublishers(names, {
+  env = process.env,
+  request = (...args) => fetch(...args),
+  log = message => console.error(message),
+} = {}) {
+  const token = await identityToken(env, request);
+  const refused = [];
+  const unchecked = [];
+  for (const name of names) {
+    let response;
+    try {
+      response = await request(new URL(`${EXCHANGE}${escapeName(name)}`, REGISTRY).href, {
+        method: 'POST', headers: { Accept: 'application/json', Authorization: `Bearer ${token}` },
+      });
+    } catch {
+      unchecked.push(name);
+      continue;
+    }
+    if (response.ok) {
+      // The body carries a usable publish credential. Read it only to confirm one
+      // was issued, never log it and never keep it.
+      const issued = await response.json().then(body => Boolean(body?.token), () => false);
+      if (issued) continue;
+      refused.push(name);
+    } else if (CONCLUSIVE.has(response.status)) {
+      refused.push(name);
+    } else {
+      unchecked.push(name);
+    }
+  }
+  if (unchecked.length) log(`[preflight] ${unchecked.length} package(s) could not be checked; npm decides at publish time: ${unchecked.join(', ')}`);
+  if (refused.length) {
+    log(`[preflight] ${refused.length} of ${names.length} packages cannot publish from this workflow. Nothing was published.`);
+    // The registry answers 401 for every package when it rejects the identity
+    // itself, which looks exactly like every package missing its configuration.
+    if (refused.length === names.length) log('[preflight] Every package was refused: suspect the workflow identity before the per-package configuration.');
+    for (const name of refused) {
+      const known = await request(new URL(`/${escapeName(name)}`, REGISTRY).href, { method: 'HEAD' })
+        .then(response => response.status !== 404, () => true);
+      log(`  ${repairInstructions(name, known, env)}`);
+    }
+  }
+  assert.equal(refused.length, 0, `${refused.length} of ${names.length} packages have no trusted publisher for this workflow`);
+}
+
 export function isolatedNpmEnvironment(env, temporary) {
   for (const key of ['NODE_AUTH_TOKEN', 'NPM_TOKEN', 'NPM_AUTH_TOKEN']) {
     assert(!env[key], 'Personal npm tokens are not allowed');
@@ -91,7 +174,7 @@ export function isolatedNpmEnvironment(env, temporary) {
 // unknown. A package that fails does not stop the ones after it: each publish is a
 // separate request, stopping cannot recall the requests already sent, and one run
 // that reports all 29 outcomes beats 29 runs that each report one.
-export function publish(root, options, {
+export async function publish(root, options, {
   env = process.env,
   validateSource = assertSource,
   validateTrigger = assertTrigger,
@@ -99,6 +182,7 @@ export function publish(root, options, {
   execute = run,
   npm = (args, settings) => spawnSync('npm', args, { ...settings, encoding: 'utf8', maxBuffer: 16 * 1024 * 1024 }),
   log = message => console.error(message),
+  verifyTrust = assertTrustedPublishers,
 } = {}) {
   const receiptDir = path.resolve(root, options.receiptDir);
   fs.mkdirSync(receiptDir, { recursive: true });
@@ -132,6 +216,9 @@ export function publish(root, options, {
     fs.writeFileSync(npmEnv.NPM_CONFIG_USERCONFIG, '');
     fs.writeFileSync(npmEnv.NPM_CONFIG_GLOBALCONFIG, '');
     assert.equal(execute('npm', ['--version'], { cwd: temporary, env: npmEnv }), '11.21.0', 'npm 11.21.0 is required');
+    // Everything checkable offline has passed; ask the registry last, and only
+    // about whether it would accept this workflow for each package.
+    await verifyTrust(manifest.packages.map(pkg => pkg.name), { env, log });
     receipt.status = 'publishing';
     persist();
     let unresolved = 0;
