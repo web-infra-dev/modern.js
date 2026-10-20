@@ -1,4 +1,10 @@
-import { lazy, Suspense, useState } from 'react';
+import {
+  lazy,
+  Suspense,
+  useState,
+  type ComponentType,
+  type LazyExoticComponent,
+} from 'react';
 import {
   loadRemote,
   registerRemotes,
@@ -7,6 +13,7 @@ import Signal from 'provider/Signal';
 import Relay from 'nested/Relay';
 import {
   DynamicSignal,
+  DynamicForecast,
   DynamicNested,
   Forecast,
   ClientForecast,
@@ -73,18 +80,26 @@ export const scenarios = {
     path: 'Rslib provider → Data',
   },
   replace: {
-    title: 'A new signal arrives.',
+    title: 'A change in the forecast.',
     description:
-      'Replace an already loaded remote with a second independently built version, using the existing runtime API.',
+      'The same weather station, a new remote build. Switch from clear skies at 24° to rain at 16° without reloading the page.',
     kind: 'Remote replacement',
     path: 'Version one → Version two',
   },
 } as const;
 export type ScenarioName = keyof typeof scenarios;
+type ForecastModule = { default: ComponentType<{ id?: string }> };
+async function loadForecast(name: string): Promise<ForecastModule> {
+  const module = await loadRemote<ForecastModule>(`${name}/Forecast`);
+  if (!module) throw new Error(`Remote ${name}/Forecast returned no module`);
+  return module;
+}
 function Replacement({ dynamic }: { dynamic: boolean }) {
-  const [Component, setComponent] = useState<ReturnType<typeof lazy>>();
+  const [Component, setComponent] =
+    useState<LazyExoticComponent<ForecastModule['default']>>();
   const [status, setStatus] = useState('Version one');
   const name = dynamic ? 'dynamic' : 'provider';
+  const forecastId = `${name}-forecast`;
   async function replace() {
     registerRemotes(
       [
@@ -96,14 +111,7 @@ function Replacement({ dynamic }: { dynamic: boolean }) {
       ],
       { force: true },
     );
-    setComponent(
-      lazy(
-        () =>
-          loadRemote(`${name}/Signal`) as Promise<{
-            default: React.ComponentType;
-          }>,
-      ),
-    );
+    setComponent(lazy(() => loadForecast(name)));
     setStatus('Version two');
   }
   return (
@@ -122,7 +130,13 @@ function Replacement({ dynamic }: { dynamic: boolean }) {
         </button>
       </div>
       <Suspense fallback={<p>Switching versions…</p>}>
-        {Component ? <Component /> : dynamic ? <DynamicSignal /> : <Signal />}
+        {Component ? (
+          <Component id={forecastId} />
+        ) : dynamic ? (
+          <DynamicForecast id={forecastId} />
+        ) : (
+          <Forecast id={forecastId} />
+        )}
       </Suspense>
     </section>
   );

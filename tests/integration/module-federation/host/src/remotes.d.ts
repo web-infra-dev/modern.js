@@ -7,9 +7,14 @@ declare module 'nested/Relay' {
   export default Component;
 }
 declare module 'provider/Forecast' {
-  const Component: import('react').ComponentType<{
-    mfData?: { source: string; temperature: number };
-  }>;
+  const Component: (props: {
+    id?: string;
+    mfData?: {
+      source: string;
+      temperature: number;
+      weather?: 'sunny' | 'rainy';
+    };
+  }) => import('react').JSX.Element;
   export default Component;
 }
 declare module 'provider/ClientRecovery' {
@@ -25,9 +30,14 @@ declare module 'provider/ServerRecovery' {
   export default Component;
 }
 declare module 'library/Forecast' {
-  const Component: import('react').ComponentType<{
-    mfData?: { source: string; temperature: number };
-  }>;
+  const Component: (props: {
+    id?: string;
+    mfData?: {
+      source: string;
+      temperature: number;
+      weather?: 'sunny' | 'rainy';
+    };
+  }) => import('react').JSX.Element;
   export default Component;
 }
 declare module 'library/NoData' {

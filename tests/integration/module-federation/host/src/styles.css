@@ -327,7 +327,7 @@ h1 {
   margin: 18px 0;
   font-weight: 500;
 }
-.temperature span {
+.temperature .degree {
   font-size: 50px;
   vertical-align: top;
 }
@@ -516,4 +516,11 @@ footer > :last-child {
   font: inherit;
   font-size: 12px;
   cursor: pointer;
+}
+
+.forecast[data-weather='rainy'] {
+  background: #e5ecf5;
+}
+.forecast[data-weather='rainy'] .weather-icon {
+  color: #607eaf;
 }

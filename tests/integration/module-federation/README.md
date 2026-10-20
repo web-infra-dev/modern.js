@@ -30,19 +30,19 @@ The provider and library each build a second version from the same source, into 
 
 Sources are the MF core repository's `apps/modernjs-ssr` and `apps/modern-component-data-fetch`.
 
-| Original scenario                  | Lab route                           | Assertions                                                                                           |
-| ---------------------------------- | ----------------------------------- | ---------------------------------------------------------------------------------------------------- |
-| Static remote                      | `/static`                           | Remote HTML in the server response, hydrated interaction, CSS and image origin                       |
-| Dynamic remote                     | `/dynamic`                          | Runtime registration, Rslib SSR, hydrated interaction, CSS                                           |
-| Nested remote                      | `/nested`                           | Real host → nested build → provider chain, SSR, independently split child components and interaction |
-| Dynamic nested remote              | `/dynamic-nested`                   | Runtime loading at both boundaries, SSR, CSS, async child components and interaction                 |
-| Client routing                     | `/static` ↔ `/nested`               | Back/forward and interaction without a document reload                                               |
-| Static/dynamic version replacement | `/replace`                          | Version one loads first, forced registration loads version two, interaction                          |
-| Custom manifest and entry paths    | Provider `/static/mf-manifest.json` | Manifest metadata and accessible server entry                                                        |
-| SSR data fetching                  | `/data`                             | Server data in the first HTML response and hydrated interaction                                      |
-| CSR with server data               | `/csr`                              | Component absent from server HTML, data request through host, forwarded query                        |
-| Client/server downgrade            | `/recovery`                         | Intentional initial failures recover through the two distinct loaders                                |
-| Data-loader lifecycle              | `/lifecycle`                        | Parent rerender preserves data, remount refetches, no-data loader runs once                          |
+| Original scenario                  | Lab route                           | Assertions                                                                                                           |
+| ---------------------------------- | ----------------------------------- | -------------------------------------------------------------------------------------------------------------------- |
+| Static remote                      | `/static`                           | Remote HTML in the server response, hydrated interaction, CSS and image origin                                       |
+| Dynamic remote                     | `/dynamic`                          | Runtime registration, Rslib SSR, hydrated interaction, CSS                                                           |
+| Nested remote                      | `/nested`                           | Real host → nested build → provider chain, SSR, independently split child components and interaction                 |
+| Dynamic nested remote              | `/dynamic-nested`                   | Runtime loading at both boundaries, SSR, CSS, async child components and interaction                                 |
+| Client routing                     | `/static` ↔ `/nested`               | Back/forward and interaction without a document reload                                                               |
+| Static/dynamic version replacement | `/replace`                          | Sunny 24° version one changes to rainy 16° version two through forced registration, with interaction after each load |
+| Custom manifest and entry paths    | Provider `/static/mf-manifest.json` | Manifest metadata and accessible server entry                                                                        |
+| SSR data fetching                  | `/data`                             | Server data in the first HTML response and hydrated interaction                                                      |
+| CSR with server data               | `/csr`                              | Component absent from server HTML, data request through host, forwarded query                                        |
+| Client/server downgrade            | `/recovery`                         | Intentional initial failures recover through the two distinct loaders                                                |
+| Data-loader lifecycle              | `/lifecycle`                        | Parent rerender preserves data, remount refetches, no-data loader runs once                                          |
 
 Browser page errors fail the tests, except in the intentional recovery scenario. The existing adapter renders an error fallback on the server and recovers data in the browser, so React 19 reports two recoverable hydration mismatches. That test explicitly checks both reports and both successful data results. Other page errors still fail it. No fixed sleeps are used as readiness assertions. The visual design uses local system fonts and bundled styles, with no external image or font requests.
 

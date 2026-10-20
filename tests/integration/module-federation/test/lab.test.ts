@@ -221,24 +221,36 @@ for (const mode of modes) {
       expect(noDataRequests).toBe(0);
     });
     it('replaces static and dynamic remotes with independently built version two', async () => {
-      await visit('replace', 'signal');
-      await page.waitForSelector(selector('library-signal'));
-      expect(await text('signal')).toContain('v1');
-      expect(await text('library-signal')).toContain('v1');
+      await visit('replace', 'provider-forecast');
+      await page.waitForSelector(selector('dynamic-forecast'));
+      async function forecast(
+        name: string,
+        version: string,
+        temperature: string,
+        condition: string,
+      ) {
+        const id = `${name}-forecast`;
+        await page.waitForFunction(
+          (sel, expected) =>
+            document.querySelector(sel)?.getAttribute('data-version') ===
+            expected,
+          {},
+          selector(id),
+          version,
+        );
+        expect(await text(`${id}-temperature`)).toBe(temperature);
+        expect(await text(`${id}-condition`)).toBe(condition);
+        await click(`${id}-counter`);
+        expect(await text(`${id}-counter`)).toBe('Readings saved: 1');
+      }
+      await forecast('provider', 'v1', '24', 'Clear skies ahead.');
+      await forecast('dynamic', 'v1', '24', 'Clear skies ahead.');
       await click('replace-provider');
-      await page.waitForFunction(() =>
-        document
-          .querySelector('[data-testid="signal"]')
-          ?.textContent?.includes('v2'),
-      );
-      await counter('signal');
+      await forecast('provider', 'v2', '16', 'Rain is rolling in.');
+      // Replacing the Modern remote must leave the other station on version one.
+      expect(await text('dynamic-forecast-temperature')).toBe('24');
       await click('replace-dynamic');
-      await page.waitForFunction(() =>
-        document
-          .querySelector('[data-testid="library-signal"]')
-          ?.textContent?.includes('v2'),
-      );
-      await counter('library-signal');
+      await forecast('dynamic', 'v2', '16', 'Rain is rolling in.');
     });
     it('serves custom manifest paths and all referenced server entry files', async () => {
       const manifest = await (

@@ -35,6 +35,14 @@ export const DynamicSignal = getInstance()!.createLazyComponent({
   loading,
   fallback,
 });
+export const DynamicForecast = getInstance()!.createLazyComponent({
+  loader: () =>
+    requiredRemote<{ default: (props: { id?: string }) => React.JSX.Element }>(
+      'dynamic/Forecast',
+    ),
+  loading,
+  fallback,
+});
 export const DynamicNested = getInstance()!.createLazyComponent({
   loader: () =>
     requiredRemote<{ default: () => React.JSX.Element }>(
