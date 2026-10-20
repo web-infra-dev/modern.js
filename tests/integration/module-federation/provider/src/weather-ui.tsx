@@ -185,16 +185,76 @@ export function WindWeather() {
             阵风 <b>9 公里/小时</b>
           </p>
           <p>
-            方向 <b data-testid="wind-angle">{angle}°</b>
+            来向 <b data-testid="wind-angle">{angle}°</b>
           </p>
         </div>
-        <div className="compass">
-          <span>北</span>
-          <i style={{ transform: `rotate(${angle}deg)` }}>↑</i>
-          <strong>
-            4<small>公里/小时</small>
-          </strong>
-          <span>南</span>
+        <div
+          className="wind-map"
+          role="img"
+          aria-label={`模拟风场，风从 ${angle} 度吹来，流线显示下风方向`}
+        >
+          <svg
+            viewBox="0 0 200 120"
+            preserveAspectRatio="xMidYMid slice"
+            aria-hidden="true"
+          >
+            <rect width="200" height="120" fill="#3979a7" />
+            <path
+              d="M-10-10H145L128 14 142 29 119 40 123 58 98 70 109 83 84 102 89 130H-10Z"
+              fill="#70a584"
+            />
+            <path
+              d="M-10 14 61 4 91 27 70 43 95 59 54 79 63 103 29 130H-10Z"
+              fill="#8bb58d"
+              opacity=".65"
+            />
+            <path
+              d="M200 55 174 70 185 90 156 105 151 130H210Z"
+              fill="#7ba889"
+            />
+            <g fill="none" stroke="#c4d4ab" strokeWidth=".7" opacity=".45">
+              <path d="M-5 24Q50 5 90 27T136 28M-5 43Q26 19 68 44T122 53M-5 65Q25 45 58 67T104 83M-5 92Q31 66 68 92T86 111" />
+              <path d="M19-10Q55 33 32 64T39 130M62-10Q90 22 74 54T73 130M104-10Q120 15 100 48T95 90" />
+            </g>
+            <path
+              d="M12 0Q78 28 49 59T87 120"
+              fill="none"
+              stroke="#aed9e0"
+              strokeWidth="2"
+              opacity=".8"
+            />
+            <g
+              className="wind-flow"
+              data-testid="wind-flow"
+              style={{
+                transform: `rotate(${angle}deg)`,
+                transformOrigin: '100px 60px',
+              }}
+            >
+              {Array.from({ length: 24 }, (_, index) => {
+                const x = index * 20 - 140;
+                return (
+                  <path
+                    key={index}
+                    className="wind-stream"
+                    d={`M${x} -160 C${x + 35} -70 ${x - 25} 25 ${x + 8} 90 S${x + 32} 230 ${x - 8} 290`}
+                    strokeWidth={index % 3 === 0 ? 1.6 : 1}
+                    opacity={0.4 + (index % 4) * 0.15}
+                    style={{
+                      animationDuration: `${2 + (index % 5) * 0.3}s`,
+                      animationDelay: `${-(index % 7) * 0.4}s`,
+                    }}
+                  />
+                );
+              })}
+            </g>
+          </svg>
+          <div className="compass">
+            <span>北</span>
+            <i style={{ transform: `rotate(${angle}deg)` }}>↑</i>
+            <span>南</span>
+          </div>
+          <span className="wind-map-label">模拟风场 · 流线为吹向</span>
         </div>
       </div>
       <label className="wind-control">

@@ -197,13 +197,13 @@
   position: absolute;
   inset: -8% -18%;
   background: url('./clouds.svg') center top/cover no-repeat;
-  animation: weather-cloud-near 75s ease-in-out -25s infinite alternate;
+  animation: weather-cloud-near 18s ease-in-out -6s infinite alternate;
   pointer-events: none;
 }
 .cloud-two {
   transform: translate(15%, -15%) scale(1.2);
   opacity: 0.3;
-  animation: weather-cloud-far 110s ease-in-out -60s infinite alternate;
+  animation: weather-cloud-far 32s ease-in-out -17s infinite alternate;
 }
 .weather-content {
   position: relative;
@@ -1015,10 +1015,10 @@
 
 @keyframes weather-cloud-near {
   from {
-    transform: translate3d(-7%, 0, 0);
+    transform: translate3d(-12%, 0, 0);
   }
   to {
-    transform: translate3d(7%, 2%, 0);
+    transform: translate3d(12%, 3%, 0);
   }
 }
 @keyframes weather-cloud-far {
@@ -1027,5 +1027,69 @@
   }
   to {
     transform: translate3d(17%, -11%, 0) scale(1.2);
+  }
+}
+
+.wind-map {
+  position: relative;
+  width: 53%;
+  height: 100%;
+  min-height: 80px;
+  max-height: 130px;
+  margin-left: 10px;
+  overflow: hidden;
+  border-radius: 10px;
+  background: #326d99;
+  isolation: isolate;
+}
+.wind-map > svg {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+}
+.wind-flow {
+  transition: transform 0.6s ease;
+}
+.wind-stream {
+  fill: none;
+  stroke: #e5f8ff;
+  stroke-linecap: round;
+  stroke-dasharray: 12 40;
+  animation: weather-wind-stream 2.4s linear infinite;
+}
+.wind-map-label {
+  position: absolute;
+  left: 7px;
+  bottom: 5px;
+  font-size: 7px;
+  color: #e4f5ff;
+  text-shadow: 0 1px 3px #173f5c;
+}
+.wind-weather .wind-map .compass {
+  position: absolute;
+  right: 6px;
+  top: 6px;
+  width: 33px;
+  height: 33px;
+  margin: 0;
+  border-width: 2px;
+  background: #204e7790;
+  font-size: 6px;
+}
+.wind-map .compass i {
+  font-size: 23px;
+  line-height: 26px;
+}
+.wind-weather .wind-body > div:first-child {
+  flex: 1;
+  min-width: 0;
+}
+@keyframes weather-wind-stream {
+  from {
+    stroke-dashoffset: 104;
+  }
+  to {
+    stroke-dashoffset: 0;
   }
 }
