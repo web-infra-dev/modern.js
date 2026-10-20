@@ -81,7 +81,7 @@ export function prepare(root, releaseId, baseSha, execute = run) {
     const plan = validatePlan({
       schemaVersion: 1, releaseId, tag: TAG, version: `0.0.0-${TAG}.${releaseId}`, baseSha,
       packages: publishable(snapshot).map(({ name, version, path: dir }) => ({ name, version, path: dir })),
-      mode: 'stage', requiredTargets: ['npm'],
+      mode: 'publish', requiredTargets: ['npm'],
     });
     const versions = new Map(plan.packages.map(pkg => [pkg.name, pkg.version]));
     for (const pkg of snapshot) {

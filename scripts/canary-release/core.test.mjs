@@ -29,7 +29,7 @@ test('any nonzero major, minor or patch baseline is rejected even when every pac
 
 const invalidPlans = {
   'stable tag': plan => { plan.tag = 'latest'; },
-  'direct publish': plan => { plan.mode = 'publish'; },
+  'foreign mode': plan => { plan.mode = 'stage'; },
   'internal target': plan => { plan.requiredTargets.push('internal'); },
   'internal metadata': plan => { plan.internalRepository = 'secret'; },
   'foreign scope': plan => { plan.packages[0].name = '@other/a'; },

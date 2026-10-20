@@ -1,20 +1,21 @@
 import assert from 'node:assert/strict';
+import fs from 'node:fs';
 import path from 'node:path';
 import test from 'node:test';
 import { planHash, readJson } from './core.mjs';
 import { artifactFixture, githubEnvironment } from './fixtures.mjs';
-import { diagnostic, isolatedNpmEnvironment, npmErrorCode, stage, stageArguments, stageIdFromOutput } from './stage.mjs';
+import { diagnostic, isolatedNpmEnvironment, npmErrorCode, publish, publishArguments, publishedFromOutput } from './publish.mjs';
 
-function settings(fixture, publish, log = () => {}) {
+function settings(fixture, npm, log = () => {}) {
   return {
     env: githubEnvironment(), validateSource: () => {}, validateTrigger: () => {},
-    workspaces: () => fixture.plan.packages, execute: () => '11.21.0', publish, log,
+    workspaces: () => fixture.plan.packages, execute: () => '11.21.0', npm, log,
   };
 }
 const options = plan => ({ artifacts: 'artifacts', receiptDir: 'receipts', expectedPlanHash: planHash(plan) });
 
-test('stage command pins tag, access, registry and ignores scripts', () => {
-  assert.deepEqual(stageArguments('/tmp/a.tgz'), ['stage', 'publish', '/tmp/a.tgz', '--tag', 'canary-verify', '--access', 'public', '--ignore-scripts', '--json', '--registry', 'https://registry.npmjs.org/']);
+test('publish command pins tag, access, registry and ignores scripts', () => {
+  assert.deepEqual(publishArguments('/tmp/a.tgz'), ['publish', '/tmp/a.tgz', '--tag', 'canary-verify', '--access', 'public', '--ignore-scripts', '--json', '--registry', 'https://registry.npmjs.org/']);
 });
 
 test('OIDC-only environment strips injected npm config and refuses token fallback', () => {
@@ -27,34 +28,35 @@ test('OIDC-only environment strips injected npm config and refuses token fallbac
   assert.throws(() => isolatedNpmEnvironment({}, '/tmp'));
 });
 
-test('successful stages persist IDs without claiming public availability', t => {
+test('a complete run records every package as published', t => {
   const fixture = artifactFixture(t);
   let count = 0;
-  const receipt = stage(fixture.root, options(fixture.plan), settings(fixture, () => {
+  const receipt = publish(fixture.root, options(fixture.plan), settings(fixture, () => {
     const pkg = fixture.manifest.packages[count++];
-    return { status: 0, stdout: JSON.stringify({ [pkg.name]: { ...pkg, stageId: `stage-${count}` } }) };
+    return { status: 0, stdout: JSON.stringify({ [pkg.name]: { ...pkg } }) };
   }));
   assert.equal(count, 2);
-  assert.equal(receipt.status, 'staged');
-  assert.equal(receipt.publicAvailable, false);
-  assert.equal(readJson(path.join(fixture.root, 'receipts/stage-ids.json')).packages.length, 2);
+  assert.equal(receipt.status, 'published');
+  assert.equal(receipt.mode, 'publish');
+  assert.equal(receipt.publicAvailable, true);
+  assert.deepEqual(receipt.packages.map(item => item.status), ['published', 'published']);
+  assert(!fs.existsSync(path.join(fixture.root, 'receipts/stage-ids.json')), 'Stage IDs no longer exist');
 });
 
-test('partial failure retains earlier IDs and marks ambiguous request, never retries', t => {
+test('partial failure keeps the earlier package published and marks the ambiguous one, never retries', t => {
   const fixture = artifactFixture(t);
   let count = 0;
-  assert.throws(() => stage(fixture.root, options(fixture.plan), settings(fixture, () => {
+  assert.throws(() => publish(fixture.root, options(fixture.plan), settings(fixture, () => {
     if (count++ > 0) return { status: 1, stderr: 'secret must not enter receipt' };
     const pkg = fixture.manifest.packages[0];
-    return { status: 0, stdout: JSON.stringify({ [pkg.name]: { ...pkg, stageId: 'stage-one' } }) };
+    return { status: 0, stdout: JSON.stringify({ [pkg.name]: { ...pkg } }) };
   })));
   const receipt = readJson(path.join(fixture.root, 'receipts/receipt.json'));
   assert.equal(count, 2);
   assert.equal(receipt.status, 'partial-or-unknown');
-  assert.equal(receipt.packages[0].stageId, 'stage-one');
+  assert.equal(receipt.packages[0].status, 'published');
   assert.equal(receipt.packages[1].status, 'unknown');
   assert(!JSON.stringify(receipt).includes('secret'));
-  assert.equal(readJson(path.join(fixture.root, 'receipts/stage-ids.json')).packages.length, 1);
 });
 
 test('all artifacts and OIDC validate before the first network write, failure receipt is saved', t => {
@@ -62,43 +64,43 @@ test('all artifacts and OIDC validate before the first network write, failure re
   let count = 0;
   const deps = settings(fixture, () => { count++; });
   deps.env.NPM_TOKEN = 'forbidden';
-  assert.throws(() => stage(fixture.root, options(fixture.plan), deps));
+  assert.throws(() => publish(fixture.root, options(fixture.plan), deps));
   assert.equal(count, 0);
   assert.equal(readJson(path.join(fixture.root, 'receipts/receipt.json')).status, 'blocked');
 });
 
-test('reruns fail closed because an earlier request may have reached the registry', t => {
+test('reruns fail closed because a published version can never be replaced', t => {
   const fixture = artifactFixture(t);
   const deps = settings(fixture, () => assert.fail('must not publish'));
   deps.env.GITHUB_RUN_ATTEMPT = '2';
-  assert.throws(() => stage(fixture.root, options(fixture.plan), deps), /retries/);
+  assert.throws(() => publish(fixture.root, options(fixture.plan), deps), /retries/);
 });
 
-test('stage response must contain a matching identity, integrity and nonempty stageId', t => {
+test('publish response must contain a matching identity and integrity', t => {
   const { manifest } = artifactFixture(t);
   const pkg = manifest.packages[0];
-  for (const result of [{}, { [pkg.name]: pkg }, { [pkg.name]: { ...pkg, stageId: 'id', integrity: 'wrong' } }]) {
-    assert.throws(() => stageIdFromOutput(JSON.stringify(result), pkg));
+  for (const result of [{}, { [pkg.name]: { ...pkg, version: '1.2.3' } }, { [pkg.name]: { ...pkg, integrity: 'wrong' } }]) {
+    assert.throws(() => publishedFromOutput(JSON.stringify(result), pkg));
   }
+  assert.equal(publishedFromOutput(JSON.stringify({ [pkg.name]: pkg }), pkg), `${pkg.name}@${pkg.version}`);
 });
 
 test('one unresolved package does not stop the rest, and each is attempted once', t => {
   const fixture = artifactFixture(t);
   const logged = [];
   let count = 0;
-  assert.throws(() => stage(fixture.root, options(fixture.plan), settings(fixture, () => {
+  assert.throws(() => publish(fixture.root, options(fixture.plan), settings(fixture, () => {
     const index = count++;
     if (index === 0) return { status: 1, stderr: 'npm error code E404\nnpm error 404 Not Found' };
     const pkg = fixture.manifest.packages[index];
-    return { status: 0, stdout: JSON.stringify({ [pkg.name]: { ...pkg, stageId: 'stage-two' } }) };
+    return { status: 0, stdout: JSON.stringify({ [pkg.name]: { ...pkg } }) };
   }, message => logged.push(message))), /1 of 2 packages/);
   const receipt = readJson(path.join(fixture.root, 'receipts/receipt.json'));
   assert.equal(count, 2, 'Every package is attempted exactly once');
   assert.equal(receipt.packages[0].status, 'unknown');
   assert.equal(receipt.packages[0].errorCode, 'E404');
-  assert.equal(receipt.packages[1].stageId, 'stage-two');
+  assert.equal(receipt.packages[1].status, 'published');
   assert.equal(receipt.status, 'partial-or-unknown');
-  assert.equal(readJson(path.join(fixture.root, 'receipts/stage-ids.json')).packages.length, 1);
   assert.match(logged.join('\n'), /npm error 404 Not Found/);
 });
 
@@ -106,7 +108,7 @@ test('npm diagnostics reach the log without a token or the receipt', t => {
   const fixture = artifactFixture(t);
   const token = `npm_${'a'.repeat(36)}`;
   const logged = [];
-  assert.throws(() => stage(fixture.root, options(fixture.plan), settings(fixture,
+  assert.throws(() => publish(fixture.root, options(fixture.plan), settings(fixture,
     () => ({ status: 1, stderr: `npm error code E403\nnpm error 403 ${token} rejected\nunrelated line` }),
     message => logged.push(message))));
   const text = logged.join('\n');
