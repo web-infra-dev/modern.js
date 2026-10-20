@@ -1168,12 +1168,14 @@
     white-space: normal;
   }
 }
-.inspect-control {
+.inspect-control,
+.prefetch-control {
   cursor: pointer;
   gap: 7px;
   color: inherit;
 }
-.inspect-control input {
+.inspect-control input,
+.prefetch-control input {
   accent-color: #2f6fa3;
   margin: 0;
 }

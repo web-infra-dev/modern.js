@@ -70,6 +70,7 @@ function Panel({
           'Weather ready',
           'Interaction verified',
           'Data request failed',
+          'Data prefetch started',
         ].includes(event.data.event) ||
         typeof event.data.at !== 'number'
       )
@@ -95,7 +96,9 @@ function Panel({
             ? '● Interaction verified'
             : events['Client ready'] !== undefined
               ? '● Client ready'
-              : '◌ Waiting for client'}
+              : events['Data prefetch started'] !== undefined
+                ? '◌ Prefetching data'
+                : '◌ Waiting for client'}
         </span>
       </header>
       <iframe
@@ -123,6 +126,7 @@ export default function Comparison({ data = false }: { data?: boolean }) {
   const [run, setRun] = useState(0);
   const [delay, setDelay] = useState(0);
   const [inspect, setInspect] = useState(false);
+  const [prefetch, setPrefetch] = useState(true);
   const [paletteSeed] = useState(inspectPaletteSeed);
   const panels = data
     ? [
@@ -148,6 +152,22 @@ export default function Comparison({ data = false }: { data?: boolean }) {
             />
             Inspect
           </label>
+          {data && (
+            <label
+              className="prefetch-control"
+              title="Start MF client data loading before rendering. SSR data is already loaded on the server."
+            >
+              <input
+                type="checkbox"
+                checked={prefetch}
+                onChange={event => {
+                  setPrefetch(event.target.checked);
+                  setRun(value => value + 1);
+                }}
+              />
+              Data prefetch
+            </label>
+          )}
           <label>
             Simulate slow startup{' '}
             <select
@@ -172,7 +192,7 @@ export default function Comparison({ data = false }: { data?: boolean }) {
           <Panel
             key={name}
             name={name}
-            query={`${query}&delay=${delay}${data ? '&compact=1' : ''}`}
+            query={`${query}&delay=${delay}${data ? `&compact=1&prefetch=${prefetch ? '1' : '0'}` : ''}`}
             run={run}
             inspect={inspect}
             paletteSeed={paletteSeed}

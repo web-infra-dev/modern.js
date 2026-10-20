@@ -12,6 +12,37 @@ type Current = {
   }) => React.JSX.Element;
 };
 const runtime = getInstance()!;
+// Start the actual MF loader while the route module initializes, before React
+// renders its lazy component. SSR data is already provided in the HTML.
+if (typeof window !== 'undefined') {
+  const query = new URLSearchParams(window.location.search);
+  if (
+    query.get('data') === 'mf' &&
+    query.get('render') === 'csr' &&
+    query.get('prefetch') === '1'
+  ) {
+    performance.mark('weather-prefetch-start');
+    window.parent.postMessage(
+      {
+        type: 'mf-weather',
+        event: 'Data prefetch started',
+        at: Math.round(performance.now()),
+      },
+      window.location.origin,
+    );
+    void runtime.prefetch({ id: 'provider/WeatherData' }).catch(() => {
+      window.parent.postMessage(
+        {
+          type: 'mf-weather',
+          event: 'Data request failed',
+          at: Math.round(performance.now()),
+        },
+        window.location.origin,
+      );
+    });
+  }
+}
+
 const options = {
   loading: <div className="weather-wait">Connecting to weather station…</div>,
   fallback: <p role="alert">Could not connect to weather station</p>,

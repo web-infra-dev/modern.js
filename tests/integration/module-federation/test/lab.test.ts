@@ -407,6 +407,65 @@ for (const mode of modes) {
         ),
       ).toBe(true);
     });
+    it('prefetches CSR weather data by default and reuses one request when rendering', async () => {
+      await page.setViewport({ width: 1440, height: 900 });
+      await page.goto(`${lab.url}/compare-data`, { waitUntil: 'networkidle0' });
+      expect(
+        await page.$eval(
+          '.prefetch-control input',
+          element => (element as HTMLInputElement).checked,
+        ),
+      ).toBe(true);
+      const sources: string[] = [];
+      for (const enabled of [true, false]) {
+        const frames = page
+          .frames()
+          .filter(frame => frame.url().includes('/weather?'));
+        expect(frames).toHaveLength(4);
+        for (const [index, frame] of frames.entries()) {
+          await frame.waitForSelector('[data-source="Local weather API"]');
+          await frame.waitForSelector(
+            '[data-testid="weather-save"]:not(:disabled)',
+          );
+          const result = await frame.evaluate(
+            api => ({
+              starts: performance
+                .getEntriesByName('weather-prefetch-start')
+                .map(entry => entry.startTime),
+              requests: performance
+                .getEntriesByType('resource')
+                .filter(entry => entry.name === `${api}/weather`)
+                .map(entry => entry.startTime),
+              source: document.querySelector('.weather-source')!.textContent!,
+            }),
+            `http://localhost:${lab.ports.api}`,
+          );
+          expect(result.starts).toHaveLength(enabled && index === 2 ? 1 : 0);
+          expect(result.requests).toHaveLength(index === 3 ? 0 : 1);
+          if (enabled && index === 2)
+            expect(result.requests[0]).toBeGreaterThanOrEqual(result.starts[0]);
+          if (enabled) sources.push(result.source);
+          else expect(result.source).not.toBe(sources[index]);
+          await frame.click('[data-testid="weather-save"]');
+          expect(
+            await frame.$eval(
+              '[data-testid="weather-save"]',
+              element => element.textContent,
+            ),
+          ).toContain('Station saved');
+        }
+        if (enabled) {
+          await page.click('.prefetch-control input');
+          await page.waitForNetworkIdle();
+        }
+      }
+      expect(
+        await page.$eval(
+          '.prefetch-control input',
+          element => (element as HTMLInputElement).checked,
+        ),
+      ).toBe(false);
+    });
     it('inspects runtime remote identities and nested chains without remounting weather', async () => {
       const colors = new Map<string, string>();
       await page.setViewport({ width: 1440, height: 900 });
