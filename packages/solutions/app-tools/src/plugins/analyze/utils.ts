@@ -8,15 +8,25 @@ import {
 import { transform } from '@swc/core';
 import { parse } from 'es-module-lexer';
 
-export const walkDirectory = (dir: string): string[] =>
-  fs.readdirSync(dir).reduce<string[]>((previous, filename) => {
-    const filePath = path.join(dir, filename);
-    if (fs.statSync(filePath).isDirectory()) {
-      return [...previous, ...walkDirectory(filePath)];
-    } else {
-      return [...previous, filePath];
+export const walkDirectory = (dir: string): string[] => {
+  const files: string[] = [];
+  const walk = (current: string) => {
+    for (const dirent of fs.readdirSync(current, { withFileTypes: true })) {
+      const filePath = path.join(current, dirent.name);
+      // Only stat symlinks, so they are followed like before.
+      const isDirectory = dirent.isSymbolicLink()
+        ? fs.statSync(filePath).isDirectory()
+        : dirent.isDirectory();
+      if (isDirectory) {
+        walk(filePath);
+      } else {
+        files.push(filePath);
+      }
     }
-  }, []);
+  };
+  walk(dir);
+  return files;
+};
 
 export const replaceWithAlias = (
   base: string,
