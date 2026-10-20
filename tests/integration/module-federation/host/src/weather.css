@@ -169,7 +169,7 @@
   isolation: isolate;
   overflow: hidden;
   background: #ffffff1f;
-  backdrop-filter: blur(12px) saturate(0.9);
+  backdrop-filter: blur(6px);
   height: 37px;
   display: flex;
   align-items: center;
