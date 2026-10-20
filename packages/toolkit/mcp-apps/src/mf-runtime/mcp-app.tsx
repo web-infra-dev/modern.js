@@ -2,11 +2,33 @@ import type { App, McpUiHostContext } from '@modelcontextprotocol/ext-apps';
 import { useApp } from '@modelcontextprotocol/ext-apps/react';
 import { useCallback, useEffect, useRef, useState } from 'react';
 import { createRoot } from 'react-dom/client';
-import { ErrorBoundary } from './error-boundary';
-import { RemoteComponentContainer } from './remote';
-import { canRequestDisplayMode, subscribeHostContext } from './host-context';
-import type { ModuleFederationConfig } from './mf-loader';
+import {
+  ErrorBoundary,
+  RemoteComponentContainer,
+  type ModuleFederationConfig,
+} from './remote';
 import './styles.css';
+
+type Listener = (context: McpUiHostContext) => void;
+interface HostContextSource {
+  getHostContext(): McpUiHostContext | undefined;
+  addEventListener(event: 'hostcontextchanged', listener: Listener): void;
+  removeEventListener(event: 'hostcontextchanged', listener: Listener): void;
+}
+
+function canRequestDisplayMode(
+  context: McpUiHostContext | undefined,
+  mode: 'inline' | 'fullscreen',
+) {
+  return context?.availableDisplayModes?.includes(mode) ?? false;
+}
+
+function subscribeHostContext(app: HostContextSource, listener: Listener) {
+  app.addEventListener('hostcontextchanged', listener);
+  listener(app.getHostContext() ?? {});
+  return () => app.removeEventListener('hostcontextchanged', listener);
+}
+
 interface ToolData {
   tool: string;
   config: {
