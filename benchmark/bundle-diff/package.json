@@ -1,6 +1,6 @@
 {
   "name": "@modern-js/bundle-diff-benchmark",
-  "version": "3.9.3",
+  "version": "3.10.1",
   "private": true,
   "scripts": {
     "dev": "modern dev",
@@ -16,8 +16,8 @@
   ],
   "dependencies": {
     "@modern-js/runtime": "workspace:*",
-    "react": "^19.3.0",
-    "react-dom": "^19.3.0"
+    "react": "^19.3.1",
+    "react-dom": "^19.3.1"
   },
   "devDependencies": {
     "@modern-js/app-tools": "workspace:*",

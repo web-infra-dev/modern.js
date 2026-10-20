@@ -45,6 +45,7 @@ export type DevPluginOptions = ModernDevServerOptions<ServerBaseOptions> & {
 export const devRuntimeMiddlewarePlugin = (
   options: DevPluginOptions,
   compiler: Rspack.Compiler | Rspack.MultiCompiler | null,
+  runtimeServer: ServerBase,
 ): ServerPlugin => ({
   name: '@modern-js/plugin-dev',
 
@@ -108,7 +109,7 @@ export const devRuntimeMiddlewarePlugin = (
 
       middlewares.push({
         name: 'init-file-reader',
-        handler: initFileReader(compiler),
+        handler: initFileReader(compiler, runtimeServer.fileReader),
       });
     });
   },
@@ -183,7 +184,7 @@ export function setupDevInfra({
     if (stats.toJson({ all: false }).name !== 'server') {
       const runtimeServer = getRuntimeServer();
       if (runtimeServer) {
-        onRepack(distDir, runtimeServer.hooks);
+        onRepack(distDir, runtimeServer.hooks, runtimeServer.fileReader);
       }
     }
   });
