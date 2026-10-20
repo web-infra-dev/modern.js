@@ -77,35 +77,32 @@ export const parseModule = async ({
   return parse(content);
 };
 
-export const hasLoader = async (filename: string, source?: string) => {
+const hasExport = async (
+  filename: string,
+  exportName: string,
+  source?: string,
+) => {
   let content = source;
   if (!source) {
     content = (await fse.readFile(filename, 'utf-8')).toString();
   }
-  if (content) {
+  // An export name is written in the source as is or with escape sequences,
+  // so a file containing neither cannot export it and needs no parsing.
+  if (content && (content.includes(exportName) || content.includes('\\'))) {
     const [, moduleExports] = await parseModule({
       source: content.toString(),
       filename,
     });
-    return moduleExports.some(e => e.n === LOADER_EXPORT_NAME);
+    return moduleExports.some(e => e.n === exportName);
   }
   return false;
 };
 
-export const hasAction = async (filename: string, source?: string) => {
-  let content = source;
-  if (!source) {
-    content = (await fse.readFile(filename, 'utf-8')).toString();
-  }
-  if (content) {
-    const [, moduleExports] = await parseModule({
-      source: content.toString(),
-      filename,
-    });
-    return moduleExports.some(e => e.n === ACTION_EXPORT_NAME);
-  }
-  return false;
-};
+export const hasLoader = (filename: string, source?: string) =>
+  hasExport(filename, LOADER_EXPORT_NAME, source);
+
+export const hasAction = (filename: string, source?: string) =>
+  hasExport(filename, ACTION_EXPORT_NAME, source);
 
 export const getServerLoadersFile = (
   internalDirectory: string,
