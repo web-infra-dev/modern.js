@@ -5,6 +5,7 @@ import recursive from 'recursive-readdir';
 
 const IgnoreFiles = [
   '.nvmrc',
+  'AGENTS.md',
   '.vscode/extensions.json',
   '.vscode/settings.json',
   '.rstack/hooks/pre-commit',
@@ -59,19 +60,28 @@ async function handleCreateTemplate() {
   const createPackagePath = path.dirname(path.dirname(createPackageMainPath));
   const createPackageJsonPath = path.join(createPackagePath, 'package.json');
 
-  const templateDir = path.join(createPackagePath, 'template');
+  const templateDir = path.join(createPackagePath, 'templates');
 
   const createPackageJson = JSON.parse(
     fs.readFileSync(createPackageJsonPath, 'utf-8'),
   );
   const version = createPackageJson.version || '3.0.0';
 
-  const files = await handleTemplate(templateDir, {
+  // Match the CLI's standard app template composition.
+  const data = {
     packageName: 'modern-app',
     version,
+    hasUi: true,
     // Online demos omit repository-level linting and formatting tools.
     isSubproject: true,
-  });
+  };
+  const files: Record<string, string> = {};
+  for (const directory of ['common', 'ui', 'app']) {
+    Object.assign(
+      files,
+      await handleTemplate(path.join(templateDir, directory), data),
+    );
+  }
 
   return files;
 }
