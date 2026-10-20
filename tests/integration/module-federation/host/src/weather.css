@@ -163,6 +163,7 @@
   border: 1px solid #d5e2ed;
 }
 .comparison-panel > header {
+  background: #3275ad;
   height: 37px;
   display: flex;
   align-items: center;
@@ -174,12 +175,12 @@
   font-size: 12px;
   letter-spacing: 1px;
   margin: 0;
-  color: #244868;
+  color: #f3f9ff;
   font-weight: 600;
 }
 .comparison-panel > header > span {
   font-size: 10px;
-  color: #6d8193;
+  color: #d8eaff;
 }
 .comparison-panel iframe {
   width: 100%;
