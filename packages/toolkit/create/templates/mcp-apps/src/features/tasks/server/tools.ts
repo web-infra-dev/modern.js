@@ -8,7 +8,7 @@ async function result(change?: Parameters<typeof taskOperation>[0]) {
     return {
       content: [{ type: 'text' as const, text: JSON.stringify(tasks) }],
       structuredContent: { tasks },
-      viewProps: { tasks },
+      ...(change ? {} : { viewProps: { tasks } }),
     };
   } catch (error) {
     console.error('Task operation failed', error);

@@ -11,7 +11,7 @@ Provide UI-only builds and a versioned UI manifest for independently managed MCP
 
 Add MCP Apps and MCP Server scaffolding with interactive examples, and bundle the MCP HTML renderer as JavaScript modules so deployments retain it through standard dependency tracing.
 
-Share starter tools across local UI, Module Federation and server-only projects, and use each MCP package's own version in generated dependencies. Generate each project directly from selected template directories without deleting, overwriting or patching generated files.
+Bind the task board only to the list tool, keeping create and update tools independent of UI. Share starter tools across local UI, Module Federation and server-only projects, and use each MCP package's own version in generated dependencies. Generate each project directly from selected template directories without deleting, overwriting or patching generated files.
 
 Require explicit Module Federation manifest URLs and CSP configuration, delegating remote asset loading to the standard MF runtime. Reuse browser MF instances by remote name and entry URL, and invalidate pending file-backed handler initialization on reset.
 

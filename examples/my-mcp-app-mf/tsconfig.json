@@ -1,0 +1,15 @@
+{
+  "extends": "@modern-js/tsconfig/base",
+  "compilerOptions": {
+    "types": ["@modern-js/app-tools/types"],
+    "declaration": false,
+    "jsx": "preserve",
+    "baseUrl": "./",
+    "paths": {
+      "@/*": ["./src/*"],
+      "@shared/*": ["./shared/*"]
+    }
+  },
+  "include": ["shared", "config", "modern.config.ts", "server", "src", "mcp_tools.ts", "mcp_apps.ts", "module-federation.config.ts"],
+  "exclude": ["**/node_modules"]
+}
