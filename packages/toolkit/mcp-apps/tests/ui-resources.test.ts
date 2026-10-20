@@ -4,7 +4,7 @@ import { mkdtemp, rm, writeFile } from 'node:fs/promises';
 import { afterEach, expect, it, describe } from '@rstest/core';
 import type { McpAppsDefinition } from '../src/config';
 import { createMcpHandler } from '../src/server';
-import { bindUiResources, getUiEntryName } from '../src/ui-resources';
+import { bindUiResources, getUiEntryName } from '../src/resources';
 import type { McpUiHostContext } from '@modelcontextprotocol/ext-apps';
 import {
   canRequestDisplayMode,

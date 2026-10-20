@@ -1,15 +1,15 @@
 import type { App } from '@modelcontextprotocol/ext-apps';
 import type React from 'react';
-import { useEffect, useRef } from 'react';
-import { useRemoteComponent } from '../hooks/useRemoteComponent.js';
-import type { ModuleFederationConfig } from '../loaders/mf-loader.js';
-import type {
-  MountResult,
-  RemoteComponent,
-  RemoteProps,
-} from '../utils/remote-types.js';
-import { ErrorBoundary } from './error-boundary.js';
-import '../styles/component-renderer.css';
+import { useCallback, useEffect, useRef, useState } from 'react';
+import {
+  loadRemoteComponent,
+  type ModuleFederationConfig,
+  type ModuleFederationInstance,
+  type MountResult,
+  type RemoteComponent,
+  type RemoteProps,
+} from './mf-loader';
+import { ErrorBoundary } from './error-boundary';
 
 export interface RemoteComponentContainerProps {
   /**
@@ -53,29 +53,6 @@ export interface RemoteComponentContainerProps {
   deps?: React.DependencyList;
 }
 
-/**
- * Container component for rendering remote Module Federation components.
- *
- * This is the easiest way to load and render a remote component.
- * It handles loading, error states, and passes props/mcpApp automatically.
- *
- * @example
- * ```tsx
- * <MFProvider>
- *   <RemoteComponentContainer
- *     config={{
- *       remoteName: 'my_remote',
- *       remoteEntry: 'http://localhost:8080/mf-manifest.json',
- *       module: './MyComponent',
- *       exportName: 'default',
- *     }}
- *     args={{ title: 'Hello' }}
- *     mcpApp={app}
- *     onLog={console.log}
- *   />
- * </MFProvider>
- * ```
- */
 export function RemoteComponentContainer({
   config,
   args = {},
@@ -200,4 +177,133 @@ export function RemoteComponentContainer({
       </div>
     </div>
   );
+}
+
+interface UseRemoteComponentOptions {
+  config: ModuleFederationConfig;
+  onLog?: (msg: string) => void;
+  /** Timeout for remote loading in milliseconds (default: 30000) */
+  loadTimeoutMs?: number;
+  /**
+   * Dependency array to trigger reload.
+   * If not provided, component loads once on mount.
+   * If provided, component reloads when deps change.
+   */
+  deps?: React.DependencyList;
+}
+
+interface UseRemoteComponentResult {
+  /** The loaded React component, or null if still loading/error */
+  component: RemoteComponent | null;
+  /** Whether the component is currently loading */
+  isLoading: boolean;
+  /** Error message if loading failed, or null */
+  error: string | null;
+  /** Manually trigger a reload of the component */
+  reload: () => void;
+}
+
+function useRemoteComponent({
+  config,
+  onLog,
+  loadTimeoutMs = 30000,
+  deps,
+}: UseRemoteComponentOptions): UseRemoteComponentResult {
+  const [component, setComponent] = useState<RemoteComponent | null>(null);
+  const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState<string | null>(null);
+  const [reloadKey, setReloadKey] = useState(0);
+
+  const instances = useRef(new Map<string, ModuleFederationInstance>());
+  const { remoteName, remoteEntry, module, exportName } = config;
+
+  const onLogRef = useRef(onLog);
+
+  useEffect(() => {
+    onLogRef.current = onLog;
+  }, [onLog]);
+
+  const addLog = useCallback((msg: string) => {
+    if (onLogRef.current) {
+      const timestamp = new Date().toLocaleTimeString();
+      onLogRef.current(`[${timestamp}] ${msg}`);
+    }
+  }, []);
+
+  // Compute effective dependencies
+  const effectDeps = deps ?? [];
+
+  // Effect to load the component
+  useEffect(() => {
+    void reloadKey;
+    let isMounted = true;
+
+    const loadComponent = async () => {
+      let timeoutId: ReturnType<typeof setTimeout> | null = null;
+      try {
+        setIsLoading(true);
+        setError(null);
+        setComponent(null);
+
+        const timeoutPromise = new Promise<never>((_, reject) => {
+          timeoutId = setTimeout(() => {
+            reject(
+              new Error(
+                `Load timeout after ${loadTimeoutMs}ms: ${remoteName}/${module}`,
+              ),
+            );
+          }, loadTimeoutMs);
+        });
+
+        const loadedComponent = await Promise.race([
+          loadRemoteComponent({
+            config: { remoteName, remoteEntry, module, exportName },
+            addLog,
+            instances: instances.current,
+          }),
+          timeoutPromise,
+        ]);
+
+        if (timeoutId) {
+          clearTimeout(timeoutId);
+        }
+
+        if (isMounted) {
+          setComponent(() => loadedComponent);
+          setIsLoading(false);
+        }
+      } catch (err: unknown) {
+        if (timeoutId) {
+          clearTimeout(timeoutId);
+        }
+        if (isMounted) {
+          const errorMsg = err instanceof Error ? err.message : String(err);
+          addLog(`❌ Load failed: ${errorMsg}`);
+          setError(errorMsg);
+          setIsLoading(false);
+        }
+      }
+    };
+
+    loadComponent();
+
+    return () => {
+      isMounted = false;
+    };
+  }, [
+    remoteName,
+    remoteEntry,
+    module,
+    exportName,
+    addLog,
+    loadTimeoutMs,
+    reloadKey,
+    ...effectDeps,
+  ]);
+
+  const reload = useCallback(() => {
+    setReloadKey(k => k + 1);
+  }, []);
+
+  return { component, isLoading, error, reload };
 }

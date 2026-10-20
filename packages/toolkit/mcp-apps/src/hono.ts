@@ -1,5 +1,8 @@
-import { createArtifactHandler } from './artifact';
-import { type McpAppsDefinition, createMcpHandler } from './server';
+import {
+  type McpAppsDefinition,
+  createMcpHandler,
+  createArtifactHandler,
+} from './server';
 
 /** Structural Hono context: no runtime dependency on Hono or a Node listener. */
 interface HonoContext {

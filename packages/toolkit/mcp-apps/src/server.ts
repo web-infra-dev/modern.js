@@ -26,10 +26,15 @@ import {
   mergeHandlerResultWithView,
   normalizeToolConfig,
 } from './definition';
-import { createMcpAppsHandlerLoader, loadMcpAppsConfig } from './loader';
+import {
+  createMcpAppsHandlerLoader,
+  loadMcpAppsConfig,
+  resolveLocalConfigModule,
+} from './loader';
 import {
   createUiResources,
   readRuntimeHtml,
+  resolveUiHtml,
   validateMcpAppsConfig,
 } from './resources';
 
@@ -39,8 +44,8 @@ export {
   getUiEntryName,
   createUiManifest,
   readUiManifestResource,
-} from './ui-resources';
-export type { McpUiManifest } from './ui-resources';
+} from './resources';
+export type { McpUiManifest } from './resources';
 export { createMcpViewResult } from './definition';
 export { loadMcpAppsConfig } from './loader';
 export { validateMcpAppsConfig } from './resources';
@@ -236,50 +241,19 @@ export function createMcpHandler<T = undefined>(
       const view = [...tools.values()].find(
         ({ tool }) => toolUris.get(tool.name) === params.uri,
       )?.tool.view;
-      let text = await readHtml(resource.uri);
-      if (view?.assetBase) {
-        const base =
-          view.assetBase === 'request' ? publicOrigin(request) : view.assetBase;
-        const url = new URL(base);
-        if (!['http:', 'https:'].includes(url.protocol))
-          throw new Error('Invalid MCP UI asset base');
-        const escaped = url.href
-          .replace(/&/g, '&amp;')
-          .replace(/"/g, '&quot;')
-          .replace(/</g, '&lt;');
-        text = text.replace(
-          /<head\b[^>]*>/i,
-          head => `${head}<base href="${escaped}">`,
-        );
-        const ui = content._meta.ui;
-        const csp = (ui.csp ?? {}) as {
-          resourceDomains?: string[];
-          connectDomains?: string[];
-          baseUriDomains?: string[];
-        };
-        content._meta = {
-          ui: {
-            ...ui,
-            csp: {
-              ...csp,
-              resourceDomains: [
-                ...new Set([...(csp.resourceDomains ?? []), url.origin]),
-              ],
-              baseUriDomains: [
-                ...new Set([...(csp.baseUriDomains ?? []), url.origin]),
-              ],
-              connectDomains: [
-                ...new Set([...(csp.connectDomains ?? []), url.origin]),
-              ],
-            },
-          },
-        };
-      }
+      const base =
+        view?.assetBase === 'request' ? publicOrigin(request) : view?.assetBase;
+      const resolved = resolveUiHtml(
+        await readHtml(resource.uri),
+        content._meta.ui,
+        base,
+      );
       return {
         contents: [
           {
             ...content,
-            text,
+            text: resolved.text,
+            _meta: { ui: resolved.ui },
           },
         ],
       };
@@ -445,24 +419,73 @@ export function createMcpHandler<T = undefined>(
 export function createMcpAppsHandler<T = undefined>(
   options: McpHandlerOptions<T> & { configPath: string },
 ) {
-  let pending: Promise<ReturnType<typeof createMcpHandler<T>>> | undefined;
-  return async (request: Request): Promise<Response> => {
-    pending ??= loadMcpAppsConfig(options.configPath).then(definition =>
-      createMcpHandler(definition, options),
-    );
-    const current = pending;
-    try {
-      return await (
-        await current
-      )(request);
-    } catch (error) {
-      if (pending === current) pending = undefined;
-      throw error;
-    }
-  };
+  const handler = createArtifactHandler<T>(options.configPath, options);
+  return (request: Request) => handler.handle(request);
 }
 
-export { createArtifactHandler } from './artifact';
+/** Load a file-backed definition, sharing refresh and cancellation across adapters. */
+export function createArtifactHandler<T = unknown>(
+  entry: string,
+  options: McpHandlerOptions<T> = {},
+) {
+  let active:
+    | {
+        revision: string;
+        handle: ReturnType<typeof createMcpHandler<T>>;
+        abort: AbortController;
+      }
+    | undefined;
+  let loading: Promise<void> | undefined;
+  const contexts = new WeakMap<Request, T>();
+  const refresh = async () => {
+    if (active && !options.development) return;
+    const configPath = await resolveLocalConfigModule(entry);
+    const revision = options.development
+      ? await fs.readFile(configPath, 'utf8')
+      : 'production';
+    if (active?.revision === revision) return;
+    const definition = await loadMcpAppsConfig(configPath);
+    const handle = createMcpHandler(definition, {
+      ...options,
+      configPath,
+      createContext: request =>
+        contexts.has(request)
+          ? (contexts.get(request) as T)
+          : (options.createContext?.(request) as T | Promise<T>),
+    });
+    active?.abort.abort();
+    active = { revision, handle, abort: new AbortController() };
+  };
+  return {
+    async handle(request: Request, context?: T) {
+      loading ??= refresh().finally(() => {
+        loading = undefined;
+      });
+      await loading;
+      if (!active) throw new Error('MCP Apps handler is unavailable');
+      const { handle, abort } = active;
+      // Read the body through Modern.js's request proxy to resume its stream.
+      const init: RequestInit & { duplex: 'half' } = {
+        method: request.method,
+        headers: request.headers,
+        body: request.body,
+        signal: AbortSignal.any([request.signal, abort.signal]),
+        duplex: 'half',
+      };
+      const scoped = new Request(request.url, init);
+      if (context !== undefined) contexts.set(scoped, context);
+      try {
+        return await handle(scoped);
+      } finally {
+        contexts.delete(scoped);
+      }
+    },
+    reset() {
+      active?.abort.abort();
+      active = undefined;
+    },
+  };
+}
 
 /** Account for HTTPS termination at the application's reverse proxy. */
 function publicOrigin(request: Request) {

@@ -1,0 +1,296 @@
+body,
+html {
+  margin: 0 !important;
+  padding: 0 !important;
+  width: 100% !important;
+  height: auto;
+  overflow: visible !important;
+}
+* {
+  box-sizing: border-box;
+}
+
+/* Main container */
+.mf-main {
+  position: relative;
+  width: 100%;
+}
+
+/* Fullscreen mode */
+.mf-main.fullscreen {
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+  background: #fff;
+  overflow-y: auto;
+  overflow-x: hidden;
+  /* Gentle bloom-in: content scales up from 98% and fades in */
+  animation: mf-fullscreen-enter 0.22s cubic-bezier(0.25, 0.46, 0.45, 0.94) both;
+}
+
+@keyframes mf-fullscreen-enter {
+  from {
+    opacity: 0.5;
+    transform: scale(0.98);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+/* In fullscreen, prevent body from adding scroll space */
+body.mf-fullscreen {
+  overflow: hidden;
+}
+
+/* Toolbar - visible on hover only, positioned relative to .mf-main */
+.mf-toolbar {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  z-index: 100;
+  opacity: 0;
+  transition: opacity 0.35s ease;
+  display: flex;
+  gap: 8px;
+  pointer-events: none;
+}
+
+.mf-main:hover .mf-toolbar {
+  opacity: 1;
+}
+
+/* Auto-flash toolbar when entering fullscreen so user sees the collapse button */
+.mf-main.fullscreen .mf-toolbar {
+  animation: mf-toolbar-flash 1.8s ease forwards;
+}
+
+@keyframes mf-toolbar-flash {
+  0% {
+    opacity: 1;
+  }
+  60% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+  }
+}
+
+/* Keep it visible again on hover even after flash fades */
+.mf-main.fullscreen:hover .mf-toolbar {
+  opacity: 1;
+  animation: none;
+}
+
+/* Tool button — matches excalidraw-mcp-vecel .app-button exactly */
+.mf-tool-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 28px;
+  width: 28px;
+  padding: 0;
+  color: rgba(0, 0, 0, 0.45);
+  background: rgba(255, 255, 255, 0.6);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: all 0.15s ease;
+  pointer-events: auto;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
+}
+
+.mf-tool-btn:hover {
+  color: rgba(0, 0, 0, 0.65);
+  background: rgba(255, 255, 255, 0.8);
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.12);
+}
+
+/* Loading spinner animation */
+@keyframes spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.loading-spinner {
+  display: inline-block;
+  width: 16px;
+  height: 16px;
+  border: 2px solid rgba(0, 0, 0, 0.1);
+  border-top-color: currentColor;
+  border-radius: 50%;
+  animation: spin 0.8s linear infinite;
+}
+
+/* Component container layout */
+.mf-content {
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.mf-component-container {
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.mf-component-wrapper {
+  width: 100%;
+  box-sizing: border-box;
+}
+
+/* In fullscreen mode, stretch all container layers to full height */
+.mf-main.fullscreen .mf-content,
+.mf-main.fullscreen .mf-component-container,
+.mf-main.fullscreen .mf-component-wrapper {
+  height: 100%;
+}
+
+/* Loading state inside component container */
+.mf-loading-wrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  padding: 32px 16px;
+  gap: 10px;
+  box-sizing: border-box;
+  color: var(--color-text-secondary, #888);
+  font-size: 13px;
+  font-family: var(--font-sans, system-ui, -apple-system, sans-serif);
+}
+
+.mf-loading-text {
+  color: var(--color-text-secondary, #888);
+  font-size: 13px;
+}
+
+/* Component error display styles */
+.component-error-container {
+  border: 1px solid #fca5a5;
+  border-radius: 8px;
+  padding: 16px;
+}
+
+.component-error-icon {
+  font-size: 16px;
+  margin-bottom: 8px;
+}
+
+.component-error-title {
+  font-size: 14px;
+  font-weight: 600;
+  color: #dc2626;
+  margin-bottom: 8px;
+}
+
+.component-error-message {
+  font-size: 13px;
+  font-family: monospace;
+  padding: 8px;
+  border-radius: 4px;
+}
+
+.component-error-stack {
+  font-size: 11px;
+  margin-top: 12px;
+}
+
+.component-error-stack-summary {
+  cursor: pointer;
+  font-weight: bold;
+}
+
+.component-error-stack-pre {
+  margin-top: 8px;
+  padding: 8px;
+  border-radius: 4px;
+  overflow: auto;
+}
+
+/* ErrorBoundary 样式 */
+
+.error-boundary-container {
+  padding: 40px;
+  background-color: #fef2f2;
+  border: 5px solid #dc2626;
+  border-radius: 12px;
+  min-height: 100vh;
+  font-family: system-ui;
+}
+
+.error-boundary-title {
+  color: #dc2626;
+  font-size: 32px;
+  margin-bottom: 20px;
+}
+
+.error-boundary-message-wrapper {
+  background-color: white;
+  padding: 20px;
+  border-radius: 8px;
+  margin-bottom: 20px;
+  border: 2px solid #fca5a5;
+}
+
+.error-boundary-message-title {
+  font-size: 20px;
+  margin-bottom: 12px;
+  color: #991b1b;
+}
+
+.error-boundary-message-content {
+  background-color: #fee;
+  padding: 16px;
+  border-radius: 6px;
+  overflow: auto;
+  font-size: 14px;
+  font-family: monospace;
+  white-space: pre-wrap;
+  word-break: break-word;
+}
+
+.error-boundary-stack-wrapper {
+  background-color: white;
+  padding: 20px;
+  border-radius: 8px;
+  border: 2px solid #fca5a5;
+}
+
+.error-boundary-stack-title {
+  font-size: 20px;
+  margin-bottom: 12px;
+  color: #991b1b;
+}
+
+.error-boundary-stack-content {
+  background-color: #fee;
+  padding: 16px;
+  border-radius: 6px;
+  overflow: auto;
+  font-size: 12px;
+  font-family: monospace;
+  max-height: 400px;
+  white-space: pre-wrap;
+  word-break: break-word;
+}
+
+.error-boundary-reload-btn {
+  margin-top: 20px;
+  padding: 12px 24px;
+  background-color: #dc2626;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  font-size: 16px;
+  cursor: pointer;
+  font-weight: bold;
+}

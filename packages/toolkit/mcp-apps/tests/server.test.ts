@@ -5,6 +5,7 @@ import { afterEach, describe, expect, it } from '@rstest/core';
 import { defineMcpApps } from '../src/config';
 import type { McpAppsDefinition, RemoteToolHandler } from '../src/config';
 import {
+  createArtifactHandler,
   createMcpAppsHandler,
   createMcpHandler,
   loadMcpAppsConfig,
@@ -400,6 +401,80 @@ describe('server', () => {
         (await (await handler(call())).json()).result.structuredContent
           .greeting,
       ).toBe('Compiled');
+    });
+
+    for (const development of [false, true]) {
+      it(`shares file loading and context across adapters in ${development ? 'development' : 'production'}`, async () => {
+        const dir = await tempDir();
+        const entry = path.join(dir, 'mcp_apps.mjs');
+        const save = (version: string) =>
+          writeFile(
+            entry,
+            `export default { remotes: [], tools: [{ name: 'greet', handler: (_, ctx) => ({ structuredContent: { version: '${version}', user: ctx.context.user } }) }] };`,
+          );
+        await save('first');
+        const artifact = createArtifactHandler<{ user: string }>(entry, {
+          development,
+        });
+        const fromFile = createMcpAppsHandler({
+          configPath: path.join(dir, 'mcp_apps'),
+          development,
+          createContext: async () => ({ user: 'callback' }),
+        });
+        const read = async (response: Promise<Response>) =>
+          (await (await response).json()).result.structuredContent;
+        expect(
+          await Promise.all([
+            read(artifact.handle(call(), { user: 'Ada' })),
+            read(artifact.handle(call(), { user: 'Grace' })),
+            read(fromFile(call())),
+          ]),
+        ).toEqual([
+          { version: 'first', user: 'Ada' },
+          { version: 'first', user: 'Grace' },
+          { version: 'first', user: 'callback' },
+        ]);
+        await save('second');
+        const expectedVersion = development ? 'second' : 'first';
+        expect(await read(artifact.handle(call(), { user: 'Ada' }))).toEqual({
+          version: expectedVersion,
+          user: 'Ada',
+        });
+        expect(await read(fromFile(call()))).toEqual({
+          version: expectedVersion,
+          user: 'callback',
+        });
+        artifact.reset();
+        expect(await read(artifact.handle(call(), { user: 'reset' }))).toEqual({
+          version: 'second',
+          user: 'reset',
+        });
+      });
+    }
+
+    it('cancels an in-flight file-backed tool when its handler is reset', async () => {
+      const dir = await tempDir();
+      const entry = path.join(dir, 'mcp_apps.mjs');
+      await writeFile(
+        entry,
+        `export default { remotes: [], tools: [{ name: 'greet', handler: { module: './tools' } }] };`,
+      );
+      const started = Promise.withResolvers<void>();
+      let signal: AbortSignal | undefined;
+      const artifact = createArtifactHandler(entry, {
+        loadRemoteHandler: async () => (_, context) => {
+          signal = context.signal;
+          started.resolve();
+          return new Promise(() => {});
+        },
+      });
+      const pending = artifact.handle(call());
+      await started.promise;
+      artifact.reset();
+      const result = (await (await pending).json()).result;
+      expect(signal?.aborted).toBe(true);
+      expect(result.isError).toBe(true);
+      expect(result.content[0].text).toBe('Tool cancelled');
     });
 
     it('supports an injected local handler loader with standard MF browser metadata', async () => {

@@ -2,16 +2,21 @@ import type { App, McpUiHostContext } from '@modelcontextprotocol/ext-apps';
 import { useApp } from '@modelcontextprotocol/ext-apps/react';
 import { useCallback, useEffect, useRef, useState } from 'react';
 import { createRoot } from 'react-dom/client';
-import { ErrorBoundary } from './components/error-boundary';
-import { RemoteComponentContainer } from './components/remote-component-container';
-import { MFProvider } from './context/MFProvider';
+import { ErrorBoundary } from './error-boundary';
+import { RemoteComponentContainer } from './remote';
 import { canRequestDisplayMode, subscribeHostContext } from './host-context';
-import type { ModuleFederationConfig } from './loaders/mf-loader';
-import { injectGlobalStyles } from './styles/styles';
-import type { ToolData } from './utils/types';
-
-// Inject global styles
-injectGlobalStyles();
+import type { ModuleFederationConfig } from './mf-loader';
+import './styles.css';
+interface ToolData {
+  tool: string;
+  config: {
+    name?: string;
+    title?: string;
+    description?: string;
+    resource?: unknown;
+  };
+  args: Record<string, unknown>;
+}
 
 const FullscreenIcon = () => (
   <svg
@@ -74,11 +79,6 @@ function hasModuleFederationResource(
   );
 }
 
-function getContainerHeight(context: McpUiHostContext): number | undefined {
-  const dimensions = context.containerDimensions;
-  return dimensions && 'height' in dimensions ? dimensions.height : undefined;
-}
-
 /**
  * Workaround for ChatGPT page-refresh bug (ext-apps#522).
  *
@@ -117,7 +117,6 @@ function ModuleFederationApp() {
   const [displayMode, setDisplayMode] = useState<'inline' | 'fullscreen'>(
     'inline',
   );
-  const [_containerHeight, setContainerHeight] = useState<number | null>(null);
 
   // Tracks whether `ontoolresult` has delivered data through the standard
   // MCP Apps protocol path. Used to decide whether the window.openai
@@ -300,16 +299,11 @@ function ModuleFederationApp() {
   useEffect(() => {
     if (!app || !isConnected) return;
     const updateHostContext = (ctx: McpUiHostContext) => {
-      const height = getContainerHeight(ctx);
-      if (height !== undefined) setContainerHeight(height);
       if (ctx.displayMode === 'inline' || ctx.displayMode === 'fullscreen') {
         setDisplayMode(ctx.displayMode);
       }
     };
-    app.addEventListener('hostcontextchanged', updateHostContext);
-    updateHostContext(app.getHostContext() ?? {});
-    return () =>
-      app.removeEventListener('hostcontextchanged', updateHostContext);
+    return subscribeHostContext(app, updateHostContext);
   }, [app, isConnected]);
 
   if (error) {
@@ -363,8 +357,6 @@ function ModuleFederationApp() {
 
 createRoot(document.body).render(
   <ErrorBoundary>
-    <MFProvider>
-      <ModuleFederationApp />
-    </MFProvider>
+    <ModuleFederationApp />
   </ErrorBoundary>,
 );

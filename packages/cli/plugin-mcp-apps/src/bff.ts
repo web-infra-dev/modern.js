@@ -1,6 +1,7 @@
 import type { McpBffOptions } from '@modern-js/mcp-apps/bff';
 import type { McpAppsDefinition } from '@modern-js/mcp-apps/config';
-import { MCP_BFF_ENDPOINT } from './shared';
+// Symbol.for keeps declarations interoperable across CJS/ESM package entries.
+export const MCP_BFF_ENDPOINT = Symbol.for('@modern-js/plugin-mcp-apps/bff');
 
 export type McpEndpointOptions = Pick<
   McpBffOptions,

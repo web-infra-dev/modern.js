@@ -25,8 +25,7 @@ describe('standard MF loading', () => {
         exportName: 'default',
       },
       addLog: rstest.fn(),
-      mfInstanceRef: { current: null },
-      lastRemoteNameRef: { current: '' },
+      instances: new Map(),
     };
 
     expect(await loadRemoteComponent(options)).toBe(View);
@@ -44,5 +43,42 @@ describe('standard MF loading', () => {
 
     expect(await loadRemoteComponent(options)).toBe(View);
     expect(createInstance).toHaveBeenCalledTimes(1);
+  });
+  it('isolates entries for the same remote and reuses previous remotes after switching', async () => {
+    const First = () => null;
+    const Second = () => null;
+    const firstLoad = rstest.fn().mockResolvedValue({ default: First });
+    const secondLoad = rstest.fn().mockResolvedValue({ default: Second });
+    rstest
+      .mocked(createInstance)
+      .mockReturnValueOnce({ loadRemote: firstLoad } as unknown as ReturnType<
+        typeof createInstance
+      >)
+      .mockReturnValueOnce({ loadRemote: secondLoad } as unknown as ReturnType<
+        typeof createInstance
+      >);
+    const options = {
+      config: {
+        remoteName: 'cards',
+        remoteEntry: 'https://cdn.example/v1/mf-manifest.json',
+        module: './Greeting',
+        exportName: 'default',
+      },
+      addLog: rstest.fn(),
+      instances: new Map(),
+    };
+    expect(await loadRemoteComponent(options)).toBe(First);
+    expect(
+      await loadRemoteComponent({
+        ...options,
+        config: {
+          ...options.config,
+          remoteEntry: 'https://cdn.example/v2/mf-manifest.json',
+        },
+      }),
+    ).toBe(Second);
+    expect(await loadRemoteComponent(options)).toBe(First);
+    expect(createInstance).toHaveBeenCalledTimes(2);
+    expect(firstLoad).toHaveBeenCalledTimes(2);
   });
 });

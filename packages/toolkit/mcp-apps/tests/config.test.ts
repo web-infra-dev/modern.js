@@ -3,7 +3,7 @@ import { defineMcpServer } from '../src/config';
 import { createMcpHandler } from '../src/server';
 import { normalizeToolConfig } from '../src/definition';
 import { normalizeInputSchema } from '../src/input-schema';
-import { bindUiResources } from '../src/ui-resources';
+import { bindUiResources } from '../src/resources';
 
 describe('config', () => {
   function rpc(method: string, params: unknown = {}) {

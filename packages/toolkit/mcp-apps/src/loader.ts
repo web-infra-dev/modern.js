@@ -26,7 +26,9 @@ export async function loadMcpAppsConfig(
 // compiled mcp_apps.mjs (prod) or the mcp_apps.ts source (dev) automatically.
 // If nothing matches, the path is returned unchanged so the original error
 // (e.g. ENOENT from readFile) still surfaces.
-async function resolveLocalConfigModule(configPath: string): Promise<string> {
+export async function resolveLocalConfigModule(
+  configPath: string,
+): Promise<string> {
   if (path.extname(configPath)) {
     return configPath;
   }
@@ -51,13 +53,15 @@ async function resolveLocalConfigModule(configPath: string): Promise<string> {
   return configPath;
 }
 
+let moduleRevision = 0;
+
 // Load application-compiled modules. TypeScript support belongs to the host runtime.
 async function importLocalModule(
   modulePath: string,
 ): Promise<Record<string, unknown>> {
   const absolutePath = path.resolve(modulePath);
   const moduleUrl = pathToFileURL(absolutePath);
-  moduleUrl.searchParams.set('t', String(Date.now()));
+  moduleUrl.searchParams.set('t', String(++moduleRevision));
   return (await importOptional(moduleUrl.href)) as Record<string, unknown>;
 }
 

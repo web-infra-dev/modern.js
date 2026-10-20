@@ -13,13 +13,24 @@ import {
   useHonoContext,
 } from '@modern-js/server-core';
 import { cleanRequireCache, compatibleRequire } from '@modern-js/utils';
-import type { McpEndpointOptions } from './bff';
-import { bindMfRemotes, localRemoteNames, readMfArtifacts } from './mf';
+import { MCP_BFF_ENDPOINT, type McpEndpointOptions } from './bff';
 import {
-  MCP_BFF_ENDPOINT,
-  type McpAppsBffRuntimeOptions,
+  bindMfRemotes,
+  localRemoteNames,
+  readMfArtifacts,
   compiledConfigPath,
-} from './shared';
+} from './mf';
+
+export interface McpAppsBffRuntimeOptions {
+  development: boolean;
+  config: string;
+  /** Omitted for legacy/manual BFF declarations. */
+  endpoint?: string | false;
+  /** Root-relative directory containing HTML emitted by the application builder. */
+  resourceDirectory: string;
+  /** Explicit public asset base, otherwise resolved from the request. */
+  assetBase: string;
+}
 
 const AUTO_ENDPOINT = Symbol('modern-mcp-auto-endpoint');
 
@@ -68,6 +79,13 @@ export default function mcpBffRuntime(
             if ((error as NodeJS.ErrnoException).code !== 'ENOENT') throw error;
           }
         }
+        const resourceDirectory = path.resolve(root, options.resourceDirectory);
+        const bindDefinition = (definition: McpAppsDefinition) =>
+          bindUiResources(definition, {
+            directory: resourceDirectory,
+            assetBase: options.assetBase,
+            manifest,
+          });
         const createBoundHandler = (
           params: Parameters<typeof createMcpBffHandler>[0],
         ) => {
@@ -75,6 +93,15 @@ export default function mcpBffRuntime(
             return createMcpBffHandler(params);
           // Compilation completes after route registration in development.
           // Resolve lazily, and keep only the most recent origin/artifact pair.
+          let artifacts: ReturnType<typeof readMfArtifacts> | undefined;
+          const loadArtifacts = () => {
+            if (options.development) return readMfArtifacts(resourceDirectory);
+            artifacts ??= readMfArtifacts(resourceDirectory).catch(error => {
+              artifacts = undefined;
+              throw error;
+            });
+            return artifacts;
+          };
           let cached:
             | { key: string; handler: ReturnType<typeof createMcpBffHandler> }
             | undefined;
@@ -87,12 +114,9 @@ export default function mcpBffRuntime(
                 headers: { Allow: 'POST' },
               });
             }
-            const artifacts = await readMfArtifacts(
-              path.resolve(root, options.resourceDirectory),
-            );
             const definition = bindMfRemotes(
               params.definition,
-              artifacts,
+              await loadArtifacts(),
               args[1].req.raw,
             );
             const key = JSON.stringify(definition.remotes);
@@ -178,11 +202,7 @@ export default function mcpBffRuntime(
           const definition = (loaded.default ?? loaded) as McpAppsDefinition;
           registerRemoteAssets(definition);
           const handle = createBoundHandler({
-            definition: bindUiResources(definition, {
-              directory: path.resolve(root, options.resourceDirectory),
-              assetBase: options.assetBase,
-              manifest,
-            }),
+            definition: bindDefinition(definition),
             configPath: config,
             development: options.development,
           });
@@ -213,11 +233,7 @@ export default function mcpBffRuntime(
               ...endpointOptions,
               configPath: path.resolve(root, options.config),
               development: options.development,
-              definition: bindUiResources(endpointOptions.definition, {
-                directory: path.resolve(root, options.resourceDirectory),
-                assetBase: options.assetBase,
-                manifest,
-              }),
+              definition: bindDefinition(endpointOptions.definition),
             });
             handler = wrapHandler(handle);
             handlers.set(info.handler, handler);

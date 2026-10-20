@@ -97,3 +97,9 @@ export function bindMfRemotes(
   });
   return { ...definition, remotes: [...definition.remotes, ...remotes] };
 }
+
+export function compiledConfigPath(config: string) {
+  return config.replace(/\.(tsx?|mts|cts)$/, extension =>
+    extension === '.mts' ? '.mjs' : extension === '.cts' ? '.cjs' : '.js',
+  );
+}

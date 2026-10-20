@@ -4,11 +4,33 @@ import * as reactDOMExport from 'react-dom';
 import * as reactDOMClientExport from 'react-dom/client';
 import * as reactJsxDevRuntimeExport from 'react/jsx-dev-runtime';
 import * as reactJsxRuntimeExport from 'react/jsx-runtime';
-import type {
-  ModuleFederationInstance,
-  RemoteComponent,
-  RemoteModule,
-} from '../utils/remote-types.js';
+import type React from 'react';
+
+export type RemoteProps = Record<string, unknown>;
+
+export type MountResult =
+  | undefined
+  | (() => void)
+  | {
+      unmount?: () => void;
+      update?: (props: RemoteProps) => void;
+    };
+
+export type RemoteModule = {
+  default?: RemoteComponent;
+  [key: string]: unknown;
+};
+
+export type RemoteComponent = {
+  (props: RemoteProps): React.ReactNode;
+  (container: HTMLElement, props: RemoteProps): MountResult;
+  mount?: (container: HTMLElement, props: RemoteProps) => MountResult;
+  update?: (props: RemoteProps) => void;
+};
+
+export type ModuleFederationInstance = {
+  loadRemote: (path: string) => Promise<RemoteModule | RemoteComponent>;
+};
 
 const REACT_COMPAT_RANGE = '^17 || ^18 || ^19';
 
@@ -82,9 +104,7 @@ export interface ModuleFederationConfig {
 export interface LoadRemoteOptions {
   config: ModuleFederationConfig;
   addLog: (msg: string) => void;
-  /** Ref holding the cached MF instance (reused across calls for the same remote) */
-  mfInstanceRef: { current: ModuleFederationInstance | null };
-  lastRemoteNameRef: { current: string };
+  instances: Map<string, ModuleFederationInstance>;
 }
 
 /**
@@ -100,8 +120,7 @@ export interface LoadRemoteOptions {
 export async function loadRemoteComponent({
   config,
   addLog,
-  mfInstanceRef,
-  lastRemoteNameRef,
+  instances,
 }: LoadRemoteOptions): Promise<RemoteComponent> {
   const {
     remoteName,
@@ -115,23 +134,18 @@ export async function loadRemoteComponent({
     : rawRemoteEntry;
   addLog(`📋 Using MF manifest: ${remoteEntry}`);
 
-  // ── Step 2: Create or reuse the MF instance ───────────────────────────────
-  // The instance is cached per remote name. Re-creating it on every call
-  // would cause React to see two separate instances, triggering
-  // "Invalid hook call" errors inside remote components.
-  let mf: ModuleFederationInstance;
-  if (mfInstanceRef.current && lastRemoteNameRef.current === remoteName) {
-    mf = mfInstanceRef.current;
-  } else {
-    addLog('🔧 Creating MF instance...');
+  // A remote's name and entry jointly identify its runtime instance.
+  const key = JSON.stringify([remoteName, remoteEntry]);
+  let mf = instances.get(key);
+  if (!mf) {
+    addLog('Creating MF instance...');
     mf = createInstance({
       name: 'mcp-host',
       remotes: [{ name: remoteName, entry: remoteEntry }],
       shared: createReactSharedConfig(),
       shareStrategy: 'loaded-first',
     }) as ModuleFederationInstance;
-    mfInstanceRef.current = mf;
-    lastRemoteNameRef.current = remoteName;
+    instances.set(key, mf);
   }
 
   // ── Step 3: Load the remote module ───────────────────────────────────────
