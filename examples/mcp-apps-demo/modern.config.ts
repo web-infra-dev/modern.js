@@ -8,7 +8,6 @@ export default defineConfig({
   plugins: [
     appTools(),
     bffPlugin(),
-
     mcpAppsPlugin({ endpoint: '/mcp' }),
   ],
 });

@@ -30,7 +30,7 @@ pnpm install
 pnpm dev
 ```
 
-模板已配置 BFF 和 MCP Apps 插件，包含 `list_tasks`、`create_task`、`update_task`、`greet` 和 `add_numbers` 五个工具。任务看板位于 `src/features/tasks/TaskBoard.tsx`，基础卡片位于 `src/components/`，均由应用构建器编译，无须配置 MF manifest。任务处理函数和文件存储位于 `src/features/tasks/server/`。
+模板已配置 BFF 和 MCP Apps 插件，包含 `greet` 和 `add_numbers` 两个工具。`add_numbers` 只返回计算结果，不展示卡片。`greet` 使用 `withViewProps()` 将业务结果作为组件属性，展示 `src/components/Greeting.tsx` 中的交互卡片，用户可以修改名字并再次调用工具。本地组件由应用构建器编译，无须配置 MF manifest。
 
 ## 创建 MCP Apps 项目（MF 远程组件）
 
@@ -43,7 +43,7 @@ pnpm install
 pnpm dev
 ```
 
-模板额外生成 `module-federation.config.ts`，暴露 `./TaskBoard`、`./Greeting` 和 `./Sum`。工具通过 `remote: 'mcp_ui'` 关联显式声明的 `remotes`。在 `mcp_apps.ts` 中配置完整的 manifest URL。`--mf` 仅适用于 `mcp-apps` 模板。
+模板额外生成 `module-federation.config.ts`，仅暴露 `./Greeting`，`add_numbers` 保持为无卡片工具。工具通过 `remote: 'mcp_ui'` 关联显式声明的 `remotes`。在 `mcp_apps.ts` 中配置完整的 manifest URL。`--mf` 仅适用于 `mcp-apps` 模板。
 
 宿主通过公网地址访问资源时，在 `modern.config.ts` 中配置公开资源前缀：
 
@@ -108,7 +108,7 @@ MF 模板通过远程组件渲染卡片，不生成上述应用内组件入口�
 
 | 地址                                            | 用途                                    | 如何验证                                                                                                                                       |
 | ----------------------------------------------- | --------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------- |
-| `http://localhost:8080/static/mf-manifest.json` | 描述 MF 暴露的组件和加载资源            | 浏览器打开或执行 `curl -f http://localhost:8080/static/mf-manifest.json`，应返回 JSON，包含 `TaskBoard`、`Greeting`、`Sum` 对应的 exposes 信息 |
+| `http://localhost:8080/static/mf-manifest.json` | 描述 MF 暴露的组件和加载资源            | 浏览器打开或执行 `curl -f http://localhost:8080/static/mf-manifest.json`，应返回 JSON，包含 `Greeting` 对应的 exposes 信息 |
 | `http://localhost:8080/static/remoteEntry.js`   | MF 运行时加载远程组件的 JavaScript 入口 | 执行 `curl -f http://localhost:8080/static/remoteEntry.js`，应返回 JavaScript；组件依赖的 chunks 也需要可访问                                  |
 
 MF 资源使用公开 assetPrefix 时，请使用 manifest 的实际 publicPath 验证上述资源。MCP Server 模板只提供协议服务，没有首页、卡片入口或 MF 资源。
@@ -129,19 +129,19 @@ MF 资源使用公开 assetPrefix 时，请使用 manifest 的实际 publicPath 
 
 1. 将开发服务通过 HTTPS 隧道暴露到公网，或部署到可访问的 HTTPS 环境。隧道应转发到当前应用端口，默认是 `8080`。具体操作参考 OpenAI 的[将服务暴露到公网](https://developers.openai.com/plugins/build/app-quickstart#expose-your-server-to-the-public-internet)。
 2. 在宿主中添加 MCP 服务，填写 `https://<公开域名>/mcp`。ChatGPT 的开发者模式和连接操作参考[在 ChatGPT 中连接 MCP 服务](https://developers.openai.com/plugins/build/app-quickstart#connect-your-mcp-server-in-chatgpt)。
-3. 在对话中触发 `greet` 或 `add_numbers`，检查结果和卡片，并操作卡片再次调用工具，确认界面更新。修改工具定义或元数据后，刷新宿主中的连接。
+3. 在对话中触发 `add_numbers`，确认返回计算结果且不展示卡片。再触发 `greet`，检查问候卡片，修改名字并提交，确认卡片更新。修改工具定义或元数据后，刷新宿主中的连接。
 
-公开 `/mcp` 的同时，卡片引用的 JS/CSS 和 MF 资源也必须可访问。公开开发资源配置 `dev.assetPrefix`，生产构建配置 `output.assetPrefix`，然后重新启动或构建。MF 插件集成复用 manifest 的 publicPath，自动推导本地 remote 的资源 CSP；外部资源仍需显式声明对应 CSP，详见[构建与部署](./deployment)。
+公开 `/mcp` 的同时，卡片引用的 JS/CSS 和 MF 资源也必须可访问。公开开发资源配置 `dev.assetPrefix`，生产构建配置 `output.assetPrefix`，然后重新启动或构建。MF 模式还需显式配置公开的 manifest URL 和对应 CSP 域名，详见[构建与部署](./deployment)。
 
 使用 MCP 客户端检查公网 `/mcp`，再验证宿主内的卡片加载和交互。纯 MCP Server 项目只需检查工具调用和结果。
 
-生成的定义使用 `defineMcpServer`，`name`、`version` 读取项目 `package.json`。本地视图和纯工具省略 `remotes`，MF 工具通过 remote 选择本地 manifest，外部资源需显式配置 remotes。handler 支持同步或异步返回，`view` 可选。详见[定义工具与视图](./configuration)。
+生成的定义使用 `defineMcpServer`，`name`、`version` 读取项目 `package.json`。本地视图和纯工具省略 `remotes`，MF 工具通过 remote 引用显式配置的 manifest URL。handler 支持同步或异步返回，`view` 可选。详见[定义工具与视图](./configuration)。
 
-## 任务看板
+## 进阶示例
 
-在宿主调用 `list_tasks` 打开看板，通过 `create_task({ title })` 创建任务，通过 `update_task({ id, status })` 切换为 `todo`、`in_progress` 或 `done`。卡片写入后再次查询服务端，并显示真实调用参数、结果与耗时。普通首页只是只读预览。
+任务看板已从默认模板移出，作为仓库中的 [mcp-apps-task-board](https://github.com/web-infra-dev/modern.js/tree/main/examples/mcp-apps-task-board) 独立示例。它演示通过 `list_tasks` 打开卡片，以及卡片调用 `create_task`、`update_task` 后刷新服务端状态。
 
-任务默认保存在工作目录 `.mcp-demo/tasks.json`，可通过 `MCP_TASKS_FILE` 指定路径。同一存储路径下重启后保留，单进程最多 100 个任务。这是无认证的共享演示，多用户隔离和多实例持久化需要应用自行实现。
+任务默认保存在工作目录 `.mcp-demo/tasks.json`，可通过 `MCP_TASKS_FILE` 指定路径。这是单进程共享演示，多用户隔离和多实例持久化需要应用自行实现。入门接入只需先完成上述两个基础工具。
 
 ## 在本地调试工具与卡片
 

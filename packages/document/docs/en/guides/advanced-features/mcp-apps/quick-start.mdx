@@ -31,7 +31,7 @@ pnpm install
 pnpm dev
 ```
 
-The template configures BFF and MCP Apps with five tools: `list_tasks`, `create_task`, `update_task`, `greet`, and `add_numbers`. The task board lives in `src/features/tasks/TaskBoard.tsx`, with handlers and file storage in `src/features/tasks/server/`. Basic cards live in `src/components/`. The application builder compiles these views without an MF manifest.
+The template configures BFF and MCP Apps with two tools: `greet` and `add_numbers`. `add_numbers` returns a calculation result without a card. `greet` uses `withViewProps()` to pass business data to the interactive card in `src/components/Greeting.tsx`, where users can edit the name and call the tool again. The application builder compiles the local component without an MF manifest.
 
 ## Create MCP Apps with MF remote components
 
@@ -44,7 +44,7 @@ pnpm install
 pnpm dev
 ```
 
-The template also generates `module-federation.config.ts`, exposing `./TaskBoard`, `./Greeting`, and `./Sum`. Tools select an explicitly configured `remotes` entry with `remote: 'mcp_ui'`. Set its complete manifest URL in `mcp_apps.ts`. `--mf` is only available with `mcp-apps`.
+The template also generates `module-federation.config.ts`, exposing only `./Greeting`. `add_numbers` remains a tool without a card. Tools select an explicitly configured `remotes` entry with `remote: 'mcp_ui'`. Set its complete manifest URL in `mcp_apps.ts`. `--mf` is only available with `mcp-apps`.
 
 Configure public asset prefixes in `modern.config.ts` when a host needs public URLs:
 
@@ -109,7 +109,7 @@ The MF template renders remote components without generating these application c
 
 | Address                                         | Purpose                                                  | Verification                                                                                                                                         |
 | ----------------------------------------------- | -------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `http://localhost:8080/static/mf-manifest.json` | Describes exposed MF components and their loading assets | Open it in a browser or run `curl -f http://localhost:8080/static/mf-manifest.json`; expect JSON with exposes for `TaskBoard`, `Greeting`, and `Sum` |
+| `http://localhost:8080/static/mf-manifest.json` | Describes exposed MF components and their loading assets | Open it in a browser or run `curl -f http://localhost:8080/static/mf-manifest.json`; expect JSON with an expose for `Greeting` |
 | `http://localhost:8080/static/remoteEntry.js`   | JavaScript entry used by the MF runtime                  | Run `curl -f http://localhost:8080/static/remoteEntry.js`; expect JavaScript. Its component chunks must also be accessible                           |
 
 When MF assets use a public assetPrefix, verify these paths against the manifest publicPath. The MCP Server template only provides the protocol service, without a homepage, card entries, or MF assets.
@@ -130,19 +130,19 @@ After local protocol checks pass, verify tool calls, card loading, and interacti
 
 1. Expose the development server through an HTTPS tunnel or deploy it to an accessible HTTPS environment. Forward the tunnel to your application port, `8080` by default. See OpenAI's [public access guide](https://developers.openai.com/plugins/build/app-quickstart#expose-your-server-to-the-public-internet).
 2. Add `https://<public-host>/mcp` as the MCP server URL. Follow the official [ChatGPT connection instructions](https://developers.openai.com/plugins/build/app-quickstart#connect-your-mcp-server-in-chatgpt) for developer mode and setup.
-3. Trigger `greet` or `add_numbers`, inspect the result and card, then interact with the card to call a tool again and confirm the UI updates. Refresh the host connection after changing tool definitions or metadata.
+3. Trigger `add_numbers` and confirm it returns a calculation result without a card. Then trigger `greet`, edit the name in the card and submit to confirm the UI updates. Refresh the host connection after changing tool definitions or metadata.
 
-Alongside `/mcp`, the card's JS/CSS and MF resources must be accessible. Configure `dev.assetPrefix` for public development assets and `output.assetPrefix` for production, then restart or rebuild. The integration reuses manifest publicPath and derives resource CSP for local MF remotes. Declare external resource origins explicitly. See [Build and deploy](./deployment).
+Alongside `/mcp`, the card's JS/CSS and MF resources must be accessible. Configure `dev.assetPrefix` for public development assets and `output.assetPrefix` for production, then restart or rebuild. For MF, explicitly configure the public manifest URL and the corresponding CSP origins. See [Build and deploy](./deployment).
 
 Check the public `/mcp` endpoint with an MCP client, then verify card loading and interactions in a host. For tools-only servers, check tool calls and results.
 
-The generated definition uses `defineMcpServer` with `name` and `version` from `package.json`. Local and backend-only tools omit `remotes`; MF tools select a local manifest by remote name, while external remotes require explicit configuration. Tools may use synchronous or asynchronous handlers, and `view` is optional. See [Tools and views](./configuration).
+The generated definition uses `defineMcpServer` with `name` and `version` from `package.json`. Local and backend-only tools omit `remotes`; MF tools reference an explicitly configured manifest URL by remote name. Tools may use synchronous or asynchronous handlers, and `view` is optional. See [Tools and views](./configuration).
 
-## Task board
+## Advanced example
 
-Call `list_tasks` in a host to open the board, `create_task({ title })` to create a task, and `update_task({ id, status })` to select `todo`, `in_progress`, or `done`. The card reads server state after writes and shows actual call arguments, results, and timing. The ordinary homepage is a read-only preview.
+The task board is a separate repository example at [mcp-apps-task-board](https://github.com/web-infra-dev/modern.js/tree/main/examples/mcp-apps-task-board). It is not included in the default template. Call `list_tasks` to open the card, then use `create_task` and `update_task` from the card and refresh server state.
 
-Tasks default to `.mcp-demo/tasks.json` in the working directory. Set `MCP_TASKS_FILE` to override the path. Data survives restarts at the same path, with a limit of 100 tasks per process. This is an unauthenticated shared demo. Applications must implement user isolation and storage for multiple instances.
+Tasks default to `.mcp-demo/tasks.json` in the working directory. Set `MCP_TASKS_FILE` to override the location. This is a single-process shared demo. Applications must implement user isolation and multi-instance persistence. Start with the two basic tools above when integrating MCP Apps.
 
 ## Debug tools and cards locally
 

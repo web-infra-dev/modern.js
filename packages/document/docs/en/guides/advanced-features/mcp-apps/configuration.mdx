@@ -8,6 +8,7 @@ A tool references a React component file in the current project directly through
 
 ```ts title="mcp_apps.ts"
 import { defineMcpServer } from '@modern-js/mcp-apps/config';
+import { withViewProps } from '@modern-js/mcp-apps/server'
 import { name, version } from './package.json';
 
 export default defineMcpServer({
@@ -23,11 +24,10 @@ export default defineMcpServer({
       annotations: { readOnlyHint: true },
       handler: async ({ name }) => {
         const message = `Hello, ${name}!`;
-        return {
+        return withViewProps({
           content: [{ type: 'text', text: message }],
           structuredContent: { message },
-          viewProps: { message },
-        };
+        })
       },
       visibility: ['model', 'app'],
       view: { module: './src/components/Greeting.tsx' },
@@ -45,11 +45,9 @@ export default defineMcpServer({
         return {
           content: [{ type: 'text', text: `${a} + ${b} = ${sum}` }],
           structuredContent: { a, b, sum },
-          viewProps: { a, b, sum },
         };
       },
       visibility: ['model', 'app'],
-      view: { module: './src/components/Sum.tsx' },
     },
   ],
 });
@@ -71,11 +69,10 @@ For cards built from application components, `view.module` resolves relative to 
 
 The template uses the following mapping:
 
-| MCP tool `name`                              | Server `handler`                                      | `view.module`                        | Component default export |
-| -------------------------------------------- | ----------------------------------------------------- | ------------------------------------ | ------------------------ |
-| `list_tasks` / `create_task` / `update_task` | Task handlers in `src/features/tasks/server/tools.ts` | `./src/features/tasks/TaskBoard.tsx` | Task board               |
-| `greet`                                      | `greet` handler                                       | `./src/components/Greeting.tsx`      | Greeting card component  |
-| `add_numbers`                                | `add_numbers` handler                                 | `./src/components/Sum.tsx`           | Addition card component  |
+| MCP tool `name`                              | Server `handler`                                      | `view.module`                        | Component default export  |
+| -------------------------------------------- | ----------------------------------------------------- | ------------------------------------ | ------------------------- |
+| `greet`                                      | `greet` handler                                       | `./src/components/Greeting.tsx`      | Greeting card component   |
+| `add_numbers`                                | `add_numbers` handler                                 | —                                    | No card, tool result only |
 
 When the host calls `greet`, the server executes `greet` handler. Modern.js builds a card entry from the component referenced by `view.module` and serves its HTML through the tool's `ui://local/greet` resource. The host loads the card and the component receives tool arguments, the handler's `viewProps`, and `mcpApp`. Business handlers execute on the server; React components run in the host's card UI.
 
@@ -98,6 +95,7 @@ When configuring the mapping:
 
 ```ts title="tools/greet.ts"
 import { defineTool } from '@modern-js/mcp-apps/config';
+import { withViewProps } from '@modern-js/mcp-apps/server'
 
 export const greet = defineTool({
   name: 'greet',
@@ -108,14 +106,15 @@ export const greet = defineTool({
   annotations: { readOnlyHint: true },
   handler: async ({ name }) => {
     const message = `Hello, ${name}!`;
-    return {
+    return withViewProps({
       content: [{ type: 'text', text: message }],
       structuredContent: { message },
-      viewProps: { message },
-    };
+    })
   },
 });
 ```
+
+Use `withViewProps(result)` when business data and component props are identical. Pass a mapping function to adapt the component interface, such as `withViewProps(result, data => ({ message: data.message }))`. Explicit `viewProps` remains supported. Arbitrary business fields are not automatically spread into component props.
 
 `content` supplies tool content such as text, `structuredContent` supplies structured business data, and `viewProps` specifies props for the card. The renderer merges tool arguments with `viewProps`, with `viewProps` taking precedence, and injects the connected `mcpApp`. This card can receive `name`, `message`, and `mcpApp`, and call a tool again through `mcpApp.callServerTool()`.
 
@@ -135,9 +134,7 @@ export default createModuleFederationConfig({
   manifest: { filePath: 'static' },
   filename: 'static/remoteEntry.js',
   exposes: {
-    './TaskBoard': './src/features/tasks/TaskBoard.tsx',
     './Greeting': './src/components/Greeting.tsx',
-    './Sum': './src/components/Sum.tsx',
   },
   shared: {
     react: { singleton: true },
@@ -156,6 +153,7 @@ For both application-local and independently hosted MF components, explicitly co
 
 ```ts title="mcp_apps.ts"
 import { defineMcpServer } from '@modern-js/mcp-apps/config';
+import { withViewProps } from '@modern-js/mcp-apps/server'
 
 export default defineMcpServer({
   name: 'my-mcp-server',
@@ -180,11 +178,10 @@ export default defineMcpServer({
       annotations: { readOnlyHint: true },
       handler: async ({ name }) => {
         const message = `Hello, ${name}!`;
-        return {
+        return withViewProps({
           content: [{ type: 'text', text: message }],
           structuredContent: { message },
-          viewProps: { message },
-        };
+        })
       },
       remote: 'mcp_ui',
       view: { module: './Greeting' },
@@ -197,13 +194,12 @@ Here, `view.module: './Greeting'` is an **expose name** in `module-federation.co
 
 ### 3. Understand the mapping
 
-The template maps its five tools to components as follows:
+The template maps its two tools as follows:
 
 | MCP tool `name`                              | Server `handler`      | `remote` | `view.module` | Source referenced by `exposes`       |
 | -------------------------------------------- | --------------------- | -------- | ------------- | ------------------------------------ |
-| `list_tasks` / `create_task` / `update_task` | Task handlers         | `mcp_ui` | `./TaskBoard` | `./src/features/tasks/TaskBoard.tsx` |
 | `greet`                                      | `greet` handler       | `mcp_ui` | `./Greeting`  | `./src/components/Greeting.tsx`      |
-| `add_numbers`                                | `add_numbers` handler | `mcp_ui` | `./Sum`       | `./src/components/Sum.tsx`           |
+| `add_numbers`                                | `add_numbers` handler | —        | —             | No card, tool result only            |
 
 When the host calls `greet`, the server executes `greet` handler and returns business results. The card renderer resolves `remote: 'mcp_ui'` to its manifest in `remotes`, loads the component exposed as `./Greeting`, and passes tool arguments, the handler's `viewProps`, and `mcpApp` to it.
 
@@ -214,7 +210,7 @@ Keep these names and responsibilities distinct:
 - `view.module` must match an `exposes` key, including case and the `./` prefix. Use `./Greeting` in the tool definition, not the component source path.
 - An expose makes a module loadable; it does not register an MCP tool. Only entries in `tools` appear in the tool list. Server business functions are configured through `handler` and do not need MF exposes.
 - Multiple tools can share an expose if the component supports their props. Each tool configures one `view`, which can compose multiple child components. Tools without UI can omit both `view` and `remote`.
-- When a card calls `mcpApp.callServerTool({ name: 'add_numbers', arguments: { a: 2, b: 3 } })`, `name` is the MCP tool name, not an expose name such as `./Sum`.
+- When a card calls `mcpApp.callServerTool({ name: 'add_numbers', arguments: { a: 2, b: 3 } })`, `name` is the MCP tool name, not an expose name such as `./Greeting`.
 
 To add a card, expose its component, then configure the tool's business handler, `remote`, and `view.module`. If tool execution succeeds but card loading fails, check the manifest URL, expose name, component export, and asset CSP first.
 
