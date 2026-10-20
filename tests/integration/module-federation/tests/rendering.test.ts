@@ -1,6 +1,6 @@
-import type { LabContext } from './fixture';
+import { describeLab } from './fixture';
 
-export function renderingCases(getContext: LabContext) {
+describeLab('Rendering and assets', getContext => {
   it('renders a static remote in HTML, hydrates it and loads its styles', async () => {
     const { lab, page, visit, counter, selector } = getContext();
     const html = await (await fetch(`${lab.url}/static`)).text();
@@ -100,4 +100,4 @@ export function renderingCases(getContext: LabContext) {
     expect(response.status).toBe(200);
     expect(await response.text()).toContain('lab_provider');
   });
-}
+});

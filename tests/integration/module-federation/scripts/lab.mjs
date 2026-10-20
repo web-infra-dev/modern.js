@@ -7,12 +7,7 @@ import { fileURLToPath } from 'node:url';
 import { createRequire } from 'node:module';
 import getPort from 'get-port';
 import treeKill from 'tree-kill';
-const root = fileURLToPath(new URL('../', import.meta.url));
-const hostRequire = createRequire(path.join(root, 'host/package.json'));
-const modern = path.resolve(
-  path.dirname(hostRequire.resolve('@modern-js/app-tools')),
-  '../../bin/modern.js',
-);
+const fixtureRoot = fileURLToPath(new URL('../', import.meta.url));
 const names = [
   'host',
   'provider',
@@ -24,14 +19,22 @@ const names = [
   'hostInternal',
 ];
 const sleep = ms => new Promise(resolve => setTimeout(resolve, ms));
-export async function startLab(mode = 'dev', fixedPorts = false) {
+export async function startLab(
+  mode = 'dev',
+  fixedPorts = false,
+  root = fixtureRoot,
+) {
+  const hostRequire = createRequire(path.join(root, 'host/package.json'));
+  const modern = path.resolve(
+    path.dirname(hostRequire.resolve('@modern-js/app-tools')),
+    '../../bin/modern.js',
+  );
   /** @type {Record<string, number>} */
   const ports = {};
   for (const [index, name] of names.entries()) {
     ports[name] = fixedPorts
       ? 4300 + index
       : await getPort({
-          port: getPort.makeRange(14000, 24000),
           exclude: Object.values(ports),
         });
   }

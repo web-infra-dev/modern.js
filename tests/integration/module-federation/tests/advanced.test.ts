@@ -1,6 +1,6 @@
-import type { LabContext } from './fixture';
+import { describeLab } from './fixture';
 
-export function advancedCases(getContext: LabContext) {
+describeLab('Advanced scenarios', getContext => {
   it('replaces static and dynamic remotes with independently built version two', async () => {
     const { page, visit, text, click, selector } = getContext();
     await visit('replace', 'provider-forecast');
@@ -37,6 +37,13 @@ export function advancedCases(getContext: LabContext) {
   it('isolates advanced replacement state when switching weather experiments', async () => {
     const { lab, page } = getContext();
     await page.goto(`${lab.url}/advanced`, { waitUntil: 'networkidle0' });
+    await page.waitForFunction(() =>
+      document
+        .querySelector('iframe')
+        ?.contentDocument?.querySelector(
+          '[data-testid="provider-forecast"][data-version="v1"]',
+        ),
+    );
     let frame = page.frames().find(frame => frame.url().includes('/replace?'))!;
     await frame.waitForSelector(
       '[data-testid="provider-forecast"][data-version="v1"]',
@@ -68,4 +75,4 @@ export function advancedCases(getContext: LabContext) {
         ),
     );
   });
-}
+});

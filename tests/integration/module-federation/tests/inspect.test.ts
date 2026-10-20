@@ -1,15 +1,16 @@
-import type { LabContext } from './fixture';
+import { describeLab } from './fixture';
 
-export function inspectCases(getContext: LabContext) {
+describeLab('Inspect', getContext => {
   it('inspects runtime remote identities and nested chains without remounting weather', async () => {
-    const { lab, page } = getContext();
+    const { lab, page, weatherFrames } = getContext();
     const colors = new Map<string, string>();
     await page.setViewport({ width: 1440, height: 900 });
     await page.goto(`${lab.url}/compare`, { waitUntil: 'networkidle0' });
-    const frames = page
-      .frames()
-      .filter(frame => frame.url().includes('/weather?'));
+    const frames = await weatherFrames(2);
     for (const frame of frames) {
+      await frame.waitForSelector(
+        '[data-testid="weather-save"]:not(:disabled)',
+      );
       expect(await frame.$('[data-testid="mf-inspect-outline"]')).toBeNull();
       await frame.click('[data-testid="weather-save"]');
       await frame.evaluate(() => {
@@ -153,10 +154,7 @@ export function inspectCases(getContext: LabContext) {
       );
     await page.click('.inspect-control input');
     await page.click('.comparison-controls button');
-    await page.waitForNetworkIdle();
-    for (const frame of page
-      .frames()
-      .filter(frame => frame.url().includes('/weather?'))) {
+    for (const frame of await weatherFrames(2)) {
       await frame.waitForSelector('[data-testid="mf-inspect-outline"]');
       const palette = await frame.$$eval(
         '[data-testid="mf-inspect-outline"]',
@@ -171,12 +169,10 @@ export function inspectCases(getContext: LabContext) {
     }
   });
   it('inspects data-fetch components without wrapping loaders or repeating data requests', async () => {
-    const { lab, page } = getContext();
+    const { lab, page, weatherFrames } = getContext();
     await page.setViewport({ width: 1440, height: 900 });
     await page.goto(`${lab.url}/compare-data`, { waitUntil: 'networkidle0' });
-    const frames = page
-      .frames()
-      .filter(frame => frame.url().includes('/weather?'));
+    const frames = await weatherFrames(4);
     const initial = [];
     for (const frame of frames) {
       await frame.waitForSelector('[data-source="Local weather API"]');
@@ -226,4 +222,4 @@ export function inspectCases(getContext: LabContext) {
     }
     expect(requests).toBe(0);
   });
-}
+});

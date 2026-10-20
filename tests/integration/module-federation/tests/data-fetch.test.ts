@@ -1,6 +1,6 @@
-import type { LabContext } from './fixture';
+import { describeLab } from './fixture';
 
-export function dataFetchCases(getContext: LabContext) {
+describeLab('Data fetching', getContext => {
   it('serializes server-fetched remote data into the first HTML response', async () => {
     const { lab, visit, text, click } = getContext();
     const html = await (await fetch(`${lab.url}/data`)).text();
@@ -80,9 +80,10 @@ export function dataFetchCases(getContext: LabContext) {
     expect(noDataRequests).toBe(0);
   });
   it('prefetches CSR weather data by default and reuses one request when rendering', async () => {
-    const { lab, page } = getContext();
+    const { lab, page, weatherFrames } = getContext();
     await page.setViewport({ width: 1440, height: 900 });
     await page.goto(`${lab.url}/compare-data`, { waitUntil: 'networkidle0' });
+    await page.waitForSelector('.prefetch-control input');
     expect(
       await page.$eval(
         '.prefetch-control input',
@@ -91,9 +92,7 @@ export function dataFetchCases(getContext: LabContext) {
     ).toBe(true);
     const sources: string[] = [];
     for (const enabled of [true, false]) {
-      const frames = page
-        .frames()
-        .filter(frame => frame.url().includes('/weather?'));
+      const frames = await weatherFrames(4);
       expect(frames).toHaveLength(4);
       for (const [index, frame] of frames.entries()) {
         await frame.waitForSelector('[data-source="Local weather API"]');
@@ -129,7 +128,6 @@ export function dataFetchCases(getContext: LabContext) {
       }
       if (enabled) {
         await page.click('.prefetch-control input');
-        await page.waitForNetworkIdle();
       }
     }
     expect(
@@ -139,4 +137,4 @@ export function dataFetchCases(getContext: LabContext) {
       ),
     ).toBe(false);
   });
-}
+});

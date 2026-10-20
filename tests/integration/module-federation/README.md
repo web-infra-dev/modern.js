@@ -17,17 +17,42 @@ The test command runs the same assertions against Modern development servers and
 
 ## Test organization
 
-Browser end-to-end coverage lives in `tests/`, following the integration fixture convention:
+Browser end-to-end coverage lives in independently runnable `tests/*.test.ts` files:
 
-- `index.test.ts`: suite entry, runs each category in development and production.
-- `fixture.ts`: shared application/browser lifecycle, per-test pages, error checks and interaction helpers.
-- `rendering.cases.ts`: static, dynamic and nested SSR, hydration, styles/assets, routing and custom manifests.
-- `data-fetch.cases.ts`: server/client loaders, recovery, lifecycle and explicit prefetch.
-- `comparison.cases.ts`: two-panel/four-panel comparisons, local-only requests, script delay and desktop layout.
-- `inspect.cases.ts`: remote identities, expandable chains, colors and state/request preservation.
-- `advanced.cases.ts`: version replacement and experiment switching.
+- `rendering.test.ts`: static, dynamic and nested SSR, hydration, styles/assets, routing and custom manifests.
+- `data-fetch.test.ts`: server/client loaders, recovery, lifecycle and explicit prefetch.
+- `comparison.test.ts`: two-panel/four-panel comparisons, local-only requests, script delay and desktop layout.
+- `inspect.test.ts`: remote identities, expandable chains, colors and state/request preservation.
+- `advanced.test.ts`: version replacement and experiment switching.
+- `fixture.ts`: shared setup/cleanup implementation, per-test browser pages, error checks and interaction helpers.
 
-Only the entry uses the `.test.ts` suffix. Category modules register cases under named `describe` groups, sharing one application environment per mode rather than rebuilding the fixture for each category. Filter a category with `pnpm --filter mf-lab-tests test -t 'Data fetching'`.
+Each file registers its own development and production suites. Each mode builds a fresh temporary copy of the fixture sources, linking installed packages individually without modifying them and keeping writable dependency caches local to that copy. Builds and server processes are isolated between files, so the framework runner can run files concurrently without overwriting another file's manifests or the interactive demo. Temporary sources and outputs are deleted after the suite, including failed setups.
+
+Run one file:
+
+```sh
+pnpm --filter mf-lab-tests test tests/data-fetch.test.ts
+```
+
+Run one case in development mode:
+
+```sh
+MF_LAB_MODE=dev pnpm --filter mf-lab-tests test tests/data-fetch.test.ts -t prefetches
+```
+
+Watch a test file:
+
+```sh
+MF_LAB_MODE=dev pnpm --filter mf-lab-tests test tests/data-fetch.test.ts --watch
+```
+
+The repository framework entry supports the same file and case filters:
+
+```sh
+MF_LAB_MODE=dev pnpm test:framework integration/module-federation/tests/data-fetch.test.ts -t prefetches
+```
+
+Normal `it.only` and `describe.only` selection also works directly inside each file. The root framework command discovers these same `.test.ts` files, with no aggregator entry or separate test runner.
 
 ## Weather comparison pages
 

@@ -5,6 +5,7 @@ import { port, origin, shared } from '../ports';
 const version = process.env.MF_LAB_VERSION === 'v2' ? 'v2' : 'v1';
 const key = version === 'v2' ? 'libraryV2' : 'library';
 export default defineConfig({
+  performance: { buildCache: false },
   lib: [
     {
       format: 'mf',

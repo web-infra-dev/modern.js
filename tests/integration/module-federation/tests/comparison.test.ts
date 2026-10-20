@@ -1,8 +1,8 @@
-import type { LabContext } from './fixture';
+import { describeLab } from './fixture';
 
-export function comparisonCases(getContext: LabContext) {
+describeLab('Comparison UI', getContext => {
   it('compares real CSR/SSR documents and isolates interactive weather frames', async () => {
-    const { lab, page } = getContext();
+    const { lab, page, weatherFrames } = getContext();
     const ssr = await (
       await fetch(`${lab.url}/weather?render=ssr&data=local`)
     ).text();
@@ -26,15 +26,14 @@ export function comparisonCases(getContext: LabContext) {
     });
     await page.setViewport({ width: 1440, height: 900 });
     await page.goto(`${lab.url}/compare`, { waitUntil: 'networkidle0' });
+    await page.waitForSelector('select[aria-label="JavaScript startup delay"]');
     expect(
       await page.$eval(
         'select[aria-label="JavaScript startup delay"]',
         element => (element as HTMLSelectElement).value,
       ),
     ).toBe('0');
-    const frames = page
-      .frames()
-      .filter(frame => frame.url().includes('/weather?'));
+    const frames = await weatherFrames(2);
     expect(frames).toHaveLength(2);
     for (const frame of frames) {
       await frame.waitForSelector(
@@ -108,7 +107,7 @@ export function comparisonCases(getContext: LabContext) {
     expect(delays).toContain('1500');
   });
   it('compares four data paths using a local API and the MF data loader', async () => {
-    const { lab, page } = getContext();
+    const { lab, page, weatherFrames } = getContext();
     const normal = await (
       await fetch(`${lab.url}/weather?render=ssr&data=client&compact=1`)
     ).text();
@@ -128,12 +127,13 @@ export function comparisonCases(getContext: LabContext) {
     });
     await page.setViewport({ width: 1440, height: 900 });
     await page.goto(`${lab.url}/compare-data`, { waitUntil: 'networkidle0' });
-    const frames = page
-      .frames()
-      .filter(frame => frame.url().includes('/weather?'));
+    const frames = await weatherFrames(4);
     expect(frames).toHaveLength(4);
     for (const frame of frames) {
       await frame.waitForSelector('[data-source="Local weather API"]');
+      await frame.waitForSelector(
+        '[data-testid="weather-save"]:not(:disabled)',
+      );
       await frame.click('[data-testid="weather-save"]');
       expect(
         await frame.$eval(
@@ -155,4 +155,4 @@ export function comparisonCases(getContext: LabContext) {
       ),
     ).toBe(true);
   });
-}
+});
