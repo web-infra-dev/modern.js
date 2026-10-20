@@ -4,9 +4,9 @@ import {
   PostMessageTransport,
 } from '@modelcontextprotocol/ext-apps/app-bridge';
 import React, { useEffect, useRef, useState } from 'react';
-import { DebugRpcClient } from './debug-rpc';
-import { debugStyles } from './debug-styles';
-import { schemaExample } from './debug-schema';
+import { McpInspectorClient } from './client';
+import inspectorStyles from './styles.css?raw';
+import { schemaExample } from './schema';
 
 interface Tool {
   name: string;
@@ -19,7 +19,7 @@ interface RequestLog {
   time: number;
   method: string;
   endpoint: string;
-  source: 'debugger' | 'card';
+  source: 'inspector' | 'card';
   params?: Record<string, unknown>;
   duration?: number;
   status: 'pending' | 'success' | 'error';
@@ -34,13 +34,13 @@ function logJson(value: unknown) {
     : text;
 }
 
-export interface McpDebuggerProps {
+export interface McpInspectorProps {
   endpoint?: string;
   views?: Array<{ name: string; url: string }>;
 }
 
 /** Development host. Calls the real endpoint and uses the official app bridge. */
-export function McpDebugger({ endpoint = '', views = [] }: McpDebuggerProps) {
+export function McpInspector({ endpoint = '', views = [] }: McpInspectorProps) {
   const [logs, setLogs] = useState<RequestLog[]>([]);
   const [logFilter, setLogFilter] = useState('all');
   const [search, setSearch] = useState('');
@@ -61,7 +61,7 @@ export function McpDebugger({ endpoint = '', views = [] }: McpDebuggerProps) {
   const previewTimeout = useRef<ReturnType<typeof setTimeout> | undefined>(
     undefined,
   );
-  const client = useRef<DebugRpcClient | null>(null);
+  const client = useRef<McpInspectorClient | null>(null);
   const activeAddress = useRef('');
   const autoConnectedEndpoint = useRef('');
   useEffect(() => {
@@ -83,7 +83,7 @@ export function McpDebugger({ endpoint = '', views = [] }: McpDebuggerProps) {
     method: string,
     params?: Record<string, unknown>,
     notification = false,
-    source: RequestLog['source'] = 'debugger',
+    source: RequestLog['source'] = 'inspector',
   ) {
     if (!client.current) throw new Error('Connect to an MCP endpoint first');
     const id = crypto.randomUUID();
@@ -134,11 +134,11 @@ export function McpDebugger({ endpoint = '', views = [] }: McpDebuggerProps) {
     }
   }
   async function connect(target = address) {
-    client.current = new DebugRpcClient(new URL(target, location.href));
+    client.current = new McpInspectorClient(new URL(target, location.href));
     await rpc('initialize', {
       protocolVersion: '2025-11-25',
       capabilities: {},
-      clientInfo: { name: 'modern-mcp-debugger', version: '1.0.0' },
+      clientInfo: { name: 'modern-mcp-inspector', version: '1.0.0' },
     });
     await rpc('notifications/initialized', undefined, true);
     activeAddress.current = target;
@@ -178,7 +178,7 @@ export function McpDebugger({ endpoint = '', views = [] }: McpDebuggerProps) {
     await bridge.current?.close();
     const host = new AppBridge(
       null,
-      { name: 'Modern.js debugger', version: '1' },
+      { name: 'Modern.js inspector', version: '1' },
       simulate ? {} : { serverTools: {} },
     );
     bridge.current = host;
@@ -302,18 +302,18 @@ export function McpDebugger({ endpoint = '', views = [] }: McpDebuggerProps) {
     setStatus(`${found.length} tools discovered`);
   }
   return (
-    <main className="mcp-debug">
-      <style>{debugStyles}</style>
+    <main className="mcp-inspector">
+      <style>{inspectorStyles}</style>
       <header>
         <div className="brand">
           <div className="logo">M</div>
           <div>
-            <h1>MCP Apps Debugger</h1>
+            <h1>MCP Apps Inspector</h1>
             <div className="caption">Modern.js developer tools</div>
           </div>
           <span className="badge">LOCAL</span>
         </div>
-        <div className="mode" aria-label="Debug mode">
+        <div className="mode" aria-label="Inspector mode">
           <button
             disabled={busy}
             aria-pressed={!simulate}
@@ -617,7 +617,7 @@ export function McpDebugger({ endpoint = '', views = [] }: McpDebuggerProps) {
                     <div className="log-meta">
                       {item.source === 'card'
                         ? 'Card → Server'
-                        : 'Debugger → Server'}{' '}
+                        : 'Inspector → Server'}{' '}
                       · {item.endpoint}
                     </div>
                     <div className="log-body">

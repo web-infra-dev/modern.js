@@ -37,7 +37,7 @@ for (const mode of ['build', 'dev', 'disabled']) {
       const plugin = mcpAppsPlugin({
         mode: 'ui-only',
         config: 'mcp_apps.mjs',
-        debug: mode !== 'disabled',
+        inspector: mode !== 'disabled',
       });
       expect(plugin.required).toEqual([]);
       const config = {
@@ -76,7 +76,7 @@ for (const mode of ['build', 'dev', 'disabled']) {
       const { entrypoints } = await hooks.entries({ entrypoints: [] });
       expect(entrypoints).toHaveLength(mode === 'dev' ? 2 : 1);
       expect(
-        entrypoints.some((entry: any) => entry.entryName === '__mcp_debug'),
+        entrypoints.some((entry: any) => entry.entryName === '__mcp_inspector'),
       ).toBe(mode === 'dev');
       expect(await readFile(entrypoints[0].entry, 'utf8')).toContain(
         'createMcpView',

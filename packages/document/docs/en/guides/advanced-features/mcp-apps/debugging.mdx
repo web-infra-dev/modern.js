@@ -1,22 +1,22 @@
 # Local debugging
 
-Run `modern dev` and open the Debug URL printed in the terminal, normally `http://localhost:8080/__mcp_debug`. This entry is generated only in development and is excluded from production builds.
+Run `modern dev` and open the Inspector URL printed in the terminal, normally `http://localhost:8080/__mcp_inspector`. This entry is generated only in development and is excluded from production builds.
 
-## Debug workspace
+## Inspector workspace
 
-The debugger uses three independently scrolling columns and stacks them on narrow screens:
+The inspector uses three independently scrolling columns and stacks them on narrow screens:
 
-| Area | Purpose |
-| --- | --- |
-| Left | Search and select tools, edit arguments below the tool list, and run calls |
-| Center | Preview the real UI card and interact with it |
-| Right | Inspect request logs and the latest complete tool response |
+| Area   | Purpose                                                                    |
+| ------ | -------------------------------------------------------------------------- |
+| Left   | Search and select tools, edit arguments below the tool list, and run calls |
+| Center | Preview the real UI card and interact with it                              |
+| Right  | Inspect request logs and the latest complete tool response                 |
 
 ENDPOINT displays the full server URL, such as `http://localhost:8080/mcp`. Opening the page connects automatically and selects the first tool without executing a business tool. Edit the URL and reconnect to use another endpoint.
 
 ## Fill arguments from inputSchema
 
-Selecting a tool displays its property names, types, required or optional markers and descriptions. The debugger generates editable JSON using default, examples, const or enum values where available, and placeholders otherwise. When a required list exists, the template includes required fields and fields with defaults. Add optional fields manually as needed.
+Selecting a tool displays its property names, types, required or optional markers and descriptions. The inspector generates editable JSON using default, examples, const or enum values where available, and placeholders otherwise. When a required list exists, the template includes required fields and fields with defaults. Add optional fields manually as needed.
 
 For `greet`, replace the empty string with a name:
 
@@ -44,19 +44,19 @@ JSON, HTTP, MCP and bridge errors appear in the error area. Results with `isErro
 
 ## Simulate a local UI
 
-With `mcpAppsPlugin({ mode: 'ui-only' })`, the debugger starts in **Simulate local UI** mode. Select a local view, enter its arguments and **View props (JSON)**, then click **Preview card**.
+With `mcpAppsPlugin({ mode: 'ui-only' })`, the inspector starts in **Simulate local UI** mode. Select a local view, enter its arguments and **View props (JSON)**, then click **Preview card**.
 
-Simulation tests card rendering and the host handshake without executing server handlers. It does not support further server tool calls. To test the complete flow, disable simulation and connect to your existing MCP endpoint. Cross-origin endpoints must allow the debugger Origin and configure CORS.
+Simulation tests card rendering and the host handshake without executing server handlers. It does not support further server tool calls. To test the complete flow, disable simulation and connect to your existing MCP endpoint. Cross-origin endpoints must allow the inspector Origin and configure CORS.
 
 Simulation lists locally built component views. Use a real endpoint to test MF or explicit HTML views.
 
-## Disable the debugger
+## Disable the inspector
 
 ```ts
-mcpAppsPlugin({ debug: false })
+mcpAppsPlugin({ inspector: false });
 ```
 
-The local debugger does not replace compatibility testing in your target host before release.
+The local inspector does not replace compatibility testing in your target host before release.
 
 ## Request logs
 

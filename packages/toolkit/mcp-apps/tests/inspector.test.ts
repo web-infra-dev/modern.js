@@ -1,11 +1,11 @@
 import { execFileSync } from 'node:child_process';
 import { fileURLToPath } from 'node:url';
 import { expect, it, describe } from '@rstest/core';
-import { DebugRpcClient } from '../src/debug-rpc';
-import { schemaExample } from '../src/debug-schema';
+import { McpInspectorClient } from '../src/inspector/client';
+import { schemaExample } from '../src/inspector/schema';
 
-describe('debug-render', () => {
-  it('renders the shipped debugger without a global React variable', () => {
+describe('inspector-render', () => {
+  it('renders the shipped inspector without a global React variable', () => {
     const html = execFileSync(
       process.execPath,
       [
@@ -14,9 +14,9 @@ describe('debug-render', () => {
         `
     import { createElement } from 'react';
     import { renderToStaticMarkup } from 'react-dom/server';
-    import { McpDebugger } from './dist/esm/debug.mjs';
+    import { McpInspector } from './dist/esm/inspector.mjs';
     if ('React' in globalThis) throw new Error('Unexpected React global');
-    console.log(renderToStaticMarkup(createElement(McpDebugger, { endpoint: '/mcp' })));
+    console.log(renderToStaticMarkup(createElement(McpInspector, { endpoint: '/mcp' })));
   `,
       ],
       {
@@ -24,33 +24,33 @@ describe('debug-render', () => {
         encoding: 'utf8',
       },
     );
-    expect(html).toContain('MCP Apps Debugger');
+    expect(html).toContain('MCP Apps Inspector');
     expect(html).toContain('Connect &amp; discover');
   });
 });
 
-describe('debug-rpc', () => {
+describe('inspector-client', () => {
   it('preserves sessions, sends initialized notifications and reads SSE results after notifications', async () => {
     const requests: Array<{ headers: Headers; body: any }> = [];
-    const client = new DebugRpcClient(new URL('http://localhost/mcp'), (async (
-      _url,
-      init,
-    ) => {
-      requests.push({
-        headers: new Headers(init?.headers),
-        body: JSON.parse(String(init?.body)),
-      });
-      if (requests.length === 1)
-        return Response.json(
-          { jsonrpc: '2.0', result: {} },
-          { headers: { 'Mcp-Session-Id': 'test-session' } },
+    const client = new McpInspectorClient(
+      new URL('http://localhost/mcp'),
+      (async (_url, init) => {
+        requests.push({
+          headers: new Headers(init?.headers),
+          body: JSON.parse(String(init?.body)),
+        });
+        if (requests.length === 1)
+          return Response.json(
+            { jsonrpc: '2.0', result: {} },
+            { headers: { 'Mcp-Session-Id': 'test-session' } },
+          );
+        if (requests.length === 2) return new Response(null, { status: 202 });
+        return new Response(
+          'event: message\r\ndata: {"method":"notifications/progress"}\r\n\r\nevent: message\r\ndata: {"result":{"tools":[]}}\r\n\r\n',
+          { headers: { 'content-type': 'text/event-stream' } },
         );
-      if (requests.length === 2) return new Response(null, { status: 202 });
-      return new Response(
-        'event: message\r\ndata: {"method":"notifications/progress"}\r\n\r\nevent: message\r\ndata: {"result":{"tools":[]}}\r\n\r\n',
-        { headers: { 'content-type': 'text/event-stream' } },
-      );
-    }) as typeof fetch);
+      }) as typeof fetch,
+    );
     await client.request('initialize', {});
     await client.request('notifications/initialized', undefined, true);
     expect(await client.request('tools/list')).toEqual({ tools: [] });
@@ -63,7 +63,7 @@ describe('debug-rpc', () => {
       new Response('unavailable', { status: 503 }),
       Response.json({ error: { message: 'Invalid arguments' } }),
     ]) {
-      const client = new DebugRpcClient(
+      const client = new McpInspectorClient(
         new URL('http://localhost/mcp'),
         (async () => response) as typeof fetch,
       );
@@ -76,7 +76,7 @@ describe('debug-rpc', () => {
       if (this !== globalThis) throw new TypeError('Illegal invocation');
       return Response.json({ jsonrpc: '2.0', result: { tools: [] } });
     };
-    const client = new DebugRpcClient(
+    const client = new McpInspectorClient(
       new URL('http://localhost/mcp'),
       fetcher as typeof fetch,
     );
@@ -84,7 +84,7 @@ describe('debug-rpc', () => {
   });
 });
 
-describe('debug-schema', () => {
+describe('inspector-schema', () => {
   it('creates editable arguments from required keys, defaults and enum values', () => {
     expect(
       schemaExample({

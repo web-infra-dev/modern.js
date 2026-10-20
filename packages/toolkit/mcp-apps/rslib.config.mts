@@ -40,7 +40,12 @@ export default defineConfig({
       id: 'esm-web',
       format: 'esm',
       syntax: 'es2022',
-      source: { entry: { react: './src/react.ts', debug: './src/debug.tsx' } },
+      source: {
+        entry: {
+          react: './src/react.ts',
+          inspector: './src/inspector/index.tsx',
+        },
+      },
       output: { target: 'web', distPath: { root: 'dist/esm' } },
       dts: { distPath: 'dist/types' },
       autoExtension: true,

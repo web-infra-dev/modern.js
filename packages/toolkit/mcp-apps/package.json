@@ -50,11 +50,11 @@
       "import": "./dist/esm-node/bff.mjs",
       "require": "./dist/cjs/bff.cjs"
     },
-    "./debug": {
-      "types": "./dist/types/debug.d.ts",
-      "modern:source": "./src/debug.tsx",
-      "import": "./dist/esm/debug.mjs",
-      "default": "./dist/esm/debug.mjs"
+    "./inspector": {
+      "types": "./dist/types/inspector.d.ts",
+      "modern:source": "./src/inspector/index.tsx",
+      "import": "./dist/esm/inspector.mjs",
+      "default": "./dist/esm/inspector.mjs"
     }
   },
   "scripts": {
@@ -123,10 +123,10 @@
         "import": "./dist/esm-node/bff.mjs",
         "require": "./dist/cjs/bff.cjs"
       },
-      "./debug": {
-        "types": "./dist/types/debug.d.ts",
-        "import": "./dist/esm/debug.mjs",
-        "default": "./dist/esm/debug.mjs"
+      "./inspector": {
+        "types": "./dist/types/inspector.d.ts",
+        "import": "./dist/esm/inspector.mjs",
+        "default": "./dist/esm/inspector.mjs"
       }
     }
   },
@@ -147,8 +147,8 @@
       "bff": [
         "dist/types/bff.d.ts"
       ],
-      "debug": [
-        "dist/types/debug.d.ts"
+      "inspector": [
+        "dist/types/inspector.d.ts"
       ]
     }
   }

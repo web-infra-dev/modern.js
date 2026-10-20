@@ -3,16 +3,16 @@
 Modern.js integration for MCP tools and interactive React views.
 
 ```ts
-import { appTools, defineConfig } from '@modern-js/app-tools'
-import { bffPlugin } from '@modern-js/plugin-bff'
-import { mcpAppsPlugin } from '@modern-js/plugin-mcp-apps'
+import { appTools, defineConfig } from '@modern-js/app-tools';
+import { bffPlugin } from '@modern-js/plugin-bff';
+import { mcpAppsPlugin } from '@modern-js/plugin-mcp-apps';
 
 export default defineConfig({
   plugins: [appTools(), bffPlugin(), mcpAppsPlugin()],
-})
+});
 ```
 
-Define tools and views in `mcp_apps.ts`. The plugin registers `/mcp`, builds local UI resources, and provides `/__mcp_debug` during development.
+Define tools and views in `mcp_apps.ts`. The plugin registers `/mcp`, builds local UI resources, and provides `/__mcp_inspector` during development.
 
 For an independently managed MCP server, use `mcpAppsPlugin({ mode: 'ui-only' })` without the BFF plugin to build UI resources and a manifest.
 

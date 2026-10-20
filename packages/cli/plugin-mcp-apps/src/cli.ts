@@ -15,8 +15,8 @@ import {
 } from './mf';
 
 export interface McpAppsPluginOptions {
-  /** Enable the development-only /__mcp_debug page. Defaults to true. */
-  debug?: boolean;
+  /** Enable the development-only /__mcp_inspector page. Defaults to true. */
+  inspector?: boolean;
   /** Build local UI resources without a BFF dependency or server compilation. */
   mode?: 'integrated' | 'ui-only';
   /** Application definition for UI discovery, relative to the project root. Defaults to mcp_apps.ts. */
@@ -62,9 +62,9 @@ export const mcpAppsPlugin = (
         : endpointPath(options.endpoint);
     api.onBeforePrintInstructions(({ instructions }) => {
       const { port, command } = api.getAppContext();
-      const debug =
-        options.debug !== false && ['dev', 'start'].includes(command);
-      if (endpoint === false && !debug) return { instructions };
+      const inspector =
+        options.inspector !== false && ['dev', 'start'].includes(command);
+      if (endpoint === false && !inspector) return { instructions };
       if (port === undefined) return { instructions };
       const config = api.getNormalizedConfig();
       const devServer = config.tools.devServer;
@@ -82,10 +82,10 @@ export const mcpAppsPlugin = (
         !host || host === '0.0.0.0' ? 'localhost' : host,
       );
       return {
-        instructions: `${instructions}${endpoint ? `  > MCP:    ${url}${endpoint}\n` : ''}${debug ? `  > Debug:  ${url}/__mcp_debug\n` : ''}`,
+        instructions: `${instructions}${endpoint ? `  > MCP:    ${url}${endpoint}\n` : ''}${inspector ? `  > Inspector:  ${url}/__mcp_inspector\n` : ''}`,
       };
     });
-    setupMcpUi(api, configPath, { endpoint, debug: options.debug });
+    setupMcpUi(api, configPath, { endpoint, inspector: options.inspector });
     api.addWatchFiles(() => [configPath()]);
     api.onAfterBuild(async () => {
       if (endpoint === false) return;
@@ -176,11 +176,11 @@ async function writeArtifact(filename: string, content: string | Uint8Array) {
 function setupMcpUi(
   api: Parameters<NonNullable<CliPlugin<AppTools>['setup']>>[0],
   configPath: () => string,
-  options: { endpoint?: string | false; debug?: boolean } = {},
+  options: { endpoint?: string | false; inspector?: boolean } = {},
 ) {
   const entries = new Map<string, string>();
   let localRemotes: string[] = [];
-  let debugEnabled = false;
+  let inspectorEnabled = false;
   let definition: McpAppsDefinition;
   api.onBeforePrintInstructions(({ instructions }) => ({
     instructions: instructions
@@ -188,9 +188,9 @@ function setupMcpUi(
       .filter(line => ![...entries.keys()].some(name => line.includes(name)))
       .filter(
         line =>
-          !debugEnabled ||
-          !line.includes('__mcp_debug') ||
-          line.includes('> Debug:'),
+          !inspectorEnabled ||
+          !line.includes('__mcp_inspector') ||
+          line.includes('> Inspector:'),
       )
       .join('\n'),
   }));
@@ -247,16 +247,16 @@ export default createMcpView(View, ${JSON.stringify({ name: tool.name, version: 
       });
       entries.set(entryName, tool.name);
     }
-    debugEnabled =
-      options.debug !== false && ['dev', 'start'].includes(ctx.command);
-    if (debugEnabled) {
-      const entryName = '__mcp_debug';
+    inspectorEnabled =
+      options.inspector !== false && ['dev', 'start'].includes(ctx.command);
+    if (inspectorEnabled) {
+      const entryName = '__mcp_inspector';
       if (entrypoints.some(entry => entry.entryName === entryName)) {
         throw new Error(
-          'MCP debugger entry conflicts with application entry: __mcp_debug',
+          'MCP inspector entry conflicts with application entry: __mcp_inspector',
         );
       }
-      const entry = path.join(ctx.internalDirectory, 'mcp-ui', 'debug.jsx');
+      const entry = path.join(ctx.internalDirectory, 'mcp-ui', 'inspector.jsx');
       const props = {
         endpoint: options.endpoint || '',
         views: [...entries].map(([name, tool]) => ({
@@ -267,8 +267,8 @@ export default createMcpView(View, ${JSON.stringify({ name: tool.name, version: 
       await fs.mkdir(path.dirname(entry), { recursive: true });
       await fs.writeFile(
         entry,
-        `import { McpDebugger } from ${JSON.stringify(appRequire.resolve('@modern-js/mcp-apps/debug'))};
-export default function DebugPage() { return <McpDebugger {...${JSON.stringify(props)}} />; }
+        `import { McpInspector } from ${JSON.stringify(appRequire.resolve('@modern-js/mcp-apps/inspector'))};
+export default function InspectorPage() { return <McpInspector {...${JSON.stringify(props)}} />; }
 `,
       );
       entrypoints.push({

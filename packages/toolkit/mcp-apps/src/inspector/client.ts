@@ -1,5 +1,5 @@
 /** Small development client for stateless JSON and finite SSE MCP responses. */
-export class DebugRpcClient {
+export class McpInspectorClient {
   private session: string | null = null;
   constructor(
     private url: URL,
