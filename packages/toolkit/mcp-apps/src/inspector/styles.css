@@ -662,3 +662,21 @@
   color: #526079;
   min-width: 0;
 }
+
+.mcp-inspector .workspace > .preview.is-fullscreen {
+  position: fixed;
+  inset: 0;
+  z-index: 1000;
+  background: #fff;
+  display: flex;
+  flex-direction: column;
+}
+.mcp-inspector .preview.is-fullscreen .canvas {
+  flex: 1;
+  min-height: 0;
+  overflow: auto;
+}
+.mcp-inspector .preview.is-fullscreen .canvas iframe {
+  height: 100% !important;
+  min-height: 0;
+}

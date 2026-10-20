@@ -1,5 +1,5 @@
 export interface McpAppsPluginOptions {
-  /** Enable the development-only /__mcp_inspector page. Defaults to true. */
+  /** Enable the development-only /mcp/inspector page. Defaults to true. */
   inspector?: boolean;
   /** Build local UI resources without a BFF dependency or server compilation. */
   mode?: 'integrated' | 'ui-only';

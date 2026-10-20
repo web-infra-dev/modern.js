@@ -72,7 +72,7 @@ export const mcpAppsPlugin = (
         !host || host === '0.0.0.0' ? 'localhost' : host,
       );
       return {
-        instructions: `${instructions}${endpoint ? `  > MCP:    ${url}${endpoint}\n` : ''}${inspector ? `  > Inspector:  ${url}/__mcp_inspector\n` : ''}`,
+        instructions: `${instructions}${endpoint ? `  > MCP:    ${url}${endpoint}\n` : ''}${inspector ? `  > Inspector:  ${url}/mcp/inspector\n` : ''}`,
       };
     });
     setupMcpUi(api, configPath, { endpoint, inspector: options.inspector });
@@ -178,7 +178,7 @@ function setupMcpUi(
       .filter(
         line =>
           !inspectorEnabled ||
-          !line.includes('__mcp_inspector') ||
+          !line.includes('mcp/inspector') ||
           line.includes('> Inspector:'),
       )
       .join('\n'),
@@ -239,10 +239,10 @@ export default createMcpView(View, ${JSON.stringify({ name: tool.name, version: 
     inspectorEnabled =
       options.inspector !== false && ['dev', 'start'].includes(ctx.command);
     if (inspectorEnabled) {
-      const entryName = '__mcp_inspector';
+      const entryName = 'mcp/inspector';
       if (entrypoints.some(entry => entry.entryName === entryName)) {
         throw new Error(
-          'MCP inspector entry conflicts with application entry: __mcp_inspector',
+          'MCP inspector entry conflicts with application entry: mcp/inspector',
         );
       }
       const entry = path.join(ctx.internalDirectory, 'mcp-ui', 'inspector.jsx');

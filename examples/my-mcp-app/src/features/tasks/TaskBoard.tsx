@@ -15,6 +15,38 @@ export default function TaskBoard({
   const [title, setTitle] = useState('');
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState('');
+  const [hostContext, setHostContext] = useState(() =>
+    mcpApp?.getHostContext(),
+  );
+  const [resizing, setResizing] = useState(false);
+  const resizeLocked = useRef(false);
+  const fullscreen = hostContext?.displayMode === 'fullscreen';
+  const nextMode = fullscreen ? 'inline' : 'fullscreen';
+  const canResize =
+    hostContext?.availableDisplayModes?.includes(nextMode) ?? false;
+  useEffect(() => {
+    setHostContext(mcpApp?.getHostContext());
+    if (!mcpApp) return;
+    const update = () => setHostContext(mcpApp.getHostContext());
+    mcpApp.addEventListener('hostcontextchanged', update);
+    return () => mcpApp.removeEventListener('hostcontextchanged', update);
+  }, [mcpApp]);
+  async function toggleFullscreen() {
+    if (!mcpApp || !canResize || resizeLocked.current) return;
+    resizeLocked.current = true;
+    setResizing(true);
+    setError('');
+    try {
+      const result = await mcpApp.requestDisplayMode({ mode: nextMode });
+      setHostContext(current => ({ ...current, displayMode: result.mode }));
+      if (result.mode !== nextMode) setError('宿主未切换到请求的显示模式。');
+    } catch (cause) {
+      setError(cause instanceof Error ? cause.message : '显示模式切换失败。');
+    } finally {
+      resizeLocked.current = false;
+      setResizing(false);
+    }
+  }
   const locked = useRef(false);
   const [logs, setLogs] = useState<
     {
@@ -101,7 +133,8 @@ export default function TaskBoard({
       style={{
         fontFamily: 'system-ui',
         padding: 24,
-        maxWidth: 720,
+        maxWidth: fullscreen ? 'none' : 720,
+        minHeight: fullscreen ? '100vh' : undefined,
         margin: '0 auto',
         color: '#17233b',
         background: '#f5f7fb',
@@ -129,6 +162,15 @@ export default function TaskBoard({
           onClick={() => run('list_tasks', {})}
         >
           刷新
+        </button>
+        <button
+          type="button"
+          disabled={!mcpApp || !canResize || resizing}
+          aria-pressed={fullscreen}
+          title={canResize ? undefined : '当前宿主不支持此显示模式'}
+          onClick={() => void toggleFullscreen()}
+        >
+          {fullscreen ? '退出最大化' : '最大化'}
         </button>
       </header>
       <p style={{ fontSize: 13 }}>

@@ -12,7 +12,7 @@ export default defineConfig({
 });
 ```
 
-Define tools and views in `mcp_apps.ts`. The plugin registers `/mcp`, builds local UI resources, and provides `/__mcp_inspector` during development.
+Define tools and views in `mcp_apps.ts`. The plugin registers `/mcp`, builds local UI resources, and provides `/mcp/inspector` during development.
 
 For an independently managed MCP server, use `mcpAppsPlugin({ mode: 'ui-only' })` without the BFF plugin to build UI resources and a manifest.
 

@@ -55,6 +55,7 @@ export function McpInspector({ endpoint = '', views = [] }: McpInspectorProps) {
   const [error, setError] = useState('');
   const [status, setStatus] = useState('Ready');
   const [busy, setBusy] = useState(false);
+  const [fullscreen, setFullscreen] = useState(false);
   const [simulate, setSimulate] = useState(!endpoint);
   const frame = useRef<HTMLIFrameElement>(null);
   const bridge = useRef<AppBridge | null>(null);
@@ -176,12 +177,28 @@ export function McpInspector({ endpoint = '', views = [] }: McpInspectorProps) {
     const iframe = frame.current;
     if (!iframe?.contentWindow) throw new Error('Preview frame unavailable');
     await bridge.current?.close();
+    setFullscreen(false);
     const host = new AppBridge(
       null,
       { name: 'Modern.js inspector', version: '1' },
       simulate ? {} : { serverTools: {} },
+      {
+        hostContext: {
+          displayMode: 'inline',
+          availableDisplayModes: ['inline', 'fullscreen'],
+        },
+      },
     );
     bridge.current = host;
+    host.onrequestdisplaymode = async ({ mode }) => {
+      const acceptedMode = mode === 'fullscreen' ? 'fullscreen' : 'inline';
+      setFullscreen(acceptedMode === 'fullscreen');
+      host.setHostContext({
+        displayMode: acceptedMode,
+        availableDisplayModes: ['inline', 'fullscreen'],
+      });
+      return { mode: acceptedMode };
+    };
     host.oncalltool = async params => {
       const next = (await rpc(
         'tools/call',
@@ -510,9 +527,26 @@ export function McpInspector({ endpoint = '', views = [] }: McpInspectorProps) {
             )}
           </section>
         </aside>
-        <section className="preview" aria-label="Card preview">
+        <section
+          className={`preview${fullscreen ? ' is-fullscreen' : ''}`}
+          aria-label="Card preview"
+        >
           <div className="preview-heading">
             <h2>Card preview</h2>
+            {fullscreen && (
+              <button
+                type="button"
+                onClick={() => {
+                  setFullscreen(false);
+                  bridge.current?.setHostContext({
+                    displayMode: 'inline',
+                    availableDisplayModes: ['inline', 'fullscreen'],
+                  });
+                }}
+              >
+                Exit fullscreen
+              </button>
+            )}
             <span>
               {simulate
                 ? 'Local · simulation'

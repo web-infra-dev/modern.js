@@ -40,3 +40,5 @@ The tool-only `mcp-server` template uses an explicit BFF route and an `api/mcp_a
 Configure the complete MF manifest URL in `mcp_apps.ts`. The default is `http://localhost:8080/static/mf-manifest.json`. Set `MCP_UI_MANIFEST_URL` and `MCP_UI_ORIGIN` for a different address and its CSP origin, or edit the remote definition directly.
 
 The MCP plugin does not infer remote URLs or serve MF assets. Publish manifests and chunks with your application static server or CDN and configure CORS there so the host's sandbox can load them. The MF runtime handles manifest and module loading.
+
+在 Inspector 中运行 `list_tasks` 后，点击任务看板右上角的「最大化」测试全屏显示。点击「退出最大化」或 Inspector 顶部的「Exit fullscreen」恢复。实际宿主需要通过 `availableDisplayModes` 提供对应模式，按钮才会启用。
