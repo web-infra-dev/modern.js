@@ -1,5 +1,10 @@
 {
   "name": "@modern-js/image",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/web-infra-dev/modern.js",
+    "directory": "packages/runtime/plugin-image"
+  },
   "version": "3.10.0",
   "type": "module",
   "main": "./dist/index.cjs",

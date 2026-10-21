@@ -19,12 +19,22 @@ export function publishArguments(tarball) {
   return ['publish', tarball, '--tag', TAG, '--access', 'public', '--ignore-scripts', '--json', '--registry', REGISTRY];
 }
 
+// npm emits two shapes for `publish --json`, and which one depends on the code
+// path rather than on the version: a dry run on 11.21.0 returns an object keyed
+// by package name, a real publish on the same version returns the manifest
+// flat. Reading only the keyed shape rejected twenty seven packages that npm had
+// in fact accepted, so both are read and the fields decide, not the nesting.
+//
+// Integrity is checked when npm reports one and is not required, because the
+// authoritative check is not here: the next job reads the registry metadata and
+// re-hashes the downloaded tarball against this same manifest. What this
+// function has to establish is that npm accepted this exact name and version.
 export function publishedFromOutput(stdout, pkg) {
   const result = JSON.parse(stdout);
-  // npm 11.21.0 logTar emits a package-name-keyed object for publish --json.
-  const entry = result[pkg.name];
-  assert(entry && entry.name === pkg.name && entry.version === pkg.version, 'Unexpected npm publish response');
-  assert.equal(entry.integrity, pkg.integrity, 'npm published integrity mismatch');
+  const entry = result?.name === pkg.name ? result : result?.[pkg.name];
+  assert(entry && entry.name === pkg.name && entry.version === pkg.version,
+    `Unexpected npm publish response (top level keys: ${Object.keys(result ?? {}).slice(0, 6).join(', ') || 'none'})`);
+  if (entry.integrity !== undefined) assert.equal(entry.integrity, pkg.integrity, 'npm published integrity mismatch');
   return `${pkg.name}@${pkg.version}`;
 }
 
