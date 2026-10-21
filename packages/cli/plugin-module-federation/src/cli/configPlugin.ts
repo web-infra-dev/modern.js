@@ -74,13 +74,6 @@ const resolveSharedStrategyPlugin = (): string =>
     'dist/cjs/cli/mfRuntimePlugins/shared-strategy.js',
   );
 
-const resolveInjectNodeFetchPlugin = (): string =>
-  resolvePackageFile(
-    '@modern-js/plugin-module-federation',
-    'dist/esm/cli/mfRuntimePlugins/inject-node-fetch.mjs',
-    'dist/cjs/cli/mfRuntimePlugins/inject-node-fetch.js',
-  );
-
 const resolveNodeRuntimePlugin = (): string =>
   resolvePackageFile(
     '@module-federation/node',
@@ -219,8 +212,6 @@ export const patchMFConfig = (
     if (isDev()) {
       injectRuntimePlugins(resolveNodeRecordRemoteHashPlugin(), runtimePlugins);
     }
-
-    injectRuntimePlugins(resolveInjectNodeFetchPlugin(), runtimePlugins);
 
     if (!mfConfig.library) {
       mfConfig.library = {

@@ -69,7 +69,6 @@ describe('patchMFConfig', async () => {
       runtimePlugins: [
         require.resolve('@modern-js/plugin-module-federation/shared-strategy'),
         require.resolve('@module-federation/node/runtimePlugin'),
-        require.resolve('@modern-js/plugin-module-federation/inject-node-fetch'),
       ],
       shared: {
         react: {

@@ -74,11 +74,6 @@
       "import": "./dist/esm-node/cli/mfRuntimePlugins/shared-strategy.mjs",
       "require": "./dist/cjs/cli/mfRuntimePlugins/shared-strategy.js"
     },
-    "./inject-node-fetch": {
-      "types": "./dist/types/cli/mfRuntimePlugins/inject-node-fetch.d.ts",
-      "import": "./dist/esm-node/cli/mfRuntimePlugins/inject-node-fetch.mjs",
-      "require": "./dist/cjs/cli/mfRuntimePlugins/inject-node-fetch.js"
-    },
     "./data-fetch-server-plugin": {
       "types": "./dist/types/cli/server/data-fetch-server-plugin.d.ts",
       "import": "./dist/esm-node/cli/server/data-fetch-server-plugin.mjs",
@@ -128,9 +123,6 @@
       ],
       "shared-strategy": [
         "./dist/types/cli/mfRuntimePlugins/shared-strategy.d.ts"
-      ],
-      "inject-node-fetch": [
-        "./dist/types/cli/mfRuntimePlugins/inject-node-fetch.d.ts"
       ],
       "data-fetch-server-plugin": [
         "./dist/types/cli/server/data-fetch-server-plugin.d.ts"
