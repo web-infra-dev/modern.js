@@ -8,6 +8,6 @@ export default defineConfig({
   plugins: [
     appTools(),
     bffPlugin(),
-    mcpAppsPlugin({ config: 'api/mcp_apps.ts', endpoint: false }),
+    mcpAppsPlugin({ configPath: 'api/mcp_apps.ts', endpoint: false }),
   ],
 });

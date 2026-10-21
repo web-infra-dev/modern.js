@@ -29,7 +29,7 @@ Replace `<version>` with a release containing MCP Apps support. Choose `mcp-apps
 
 ## Template maintenance
 
-The existing `template/` directory contains the application template and shared project files. MCP-specific files live under `templates/mcp/`, `templates/mcp-apps/`, `templates/mcp-server/` and `templates/mf/`.
+The existing `template/` directory contains the application template and shared project files. Each MCP variant has its own template directory: `templates/mcp-apps/`, `templates/mcp-apps-mf/` and `templates/mcp-server/`. The `--mf` flag selects `mcp-apps-mf` directly.
 
 The generator selects directories before copying. Each output file has one owner, and conflicting paths fail instead of overwriting existing files. No generated files are deleted or patched afterward.
 

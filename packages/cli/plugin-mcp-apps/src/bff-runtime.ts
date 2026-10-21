@@ -8,14 +8,33 @@ import {
 } from '@modern-js/mcp-apps/server';
 import { type ServerPlugin, useHonoContext } from '@modern-js/server-core';
 import { cleanRequireCache, compatibleRequire } from '@modern-js/utils';
-import { MCP_BFF_ENDPOINT, type McpEndpointOptions } from './bff';
-import { type McpAppsBffRuntimeOptions, compiledConfigPath } from './config';
+import {
+  MCP_BFF_ENDPOINT,
+  type McpEndpointOptions,
+  compiledConfigPath,
+} from './bff';
 
-export type { McpAppsBffRuntimeOptions } from './config';
+export interface McpAppsBffRuntimeOptions {
+  development: boolean;
+  configPath: string;
+  /** Omitted for legacy/manual BFF declarations. */
+  endpoint?: string | false;
+  /** Root-relative directory containing HTML emitted by the application builder. */
+  resourceDirectory: string;
+  /** Explicit public asset base, otherwise resolved from the request. */
+  assetBase: string;
+}
 
 const AUTO_ENDPOINT = Symbol('modern-mcp-auto-endpoint');
 
 type ApiHandler = (input: { data?: unknown }) => unknown;
+
+// Only the route fields consumed here are needed from the BFF server context.
+interface ApiHandlerInfo {
+  handler: ApiHandler;
+  routePath: string;
+  httpMethod: string;
+}
 
 /** Host framework hooks; route registration remains shared. */
 export interface McpAppsBffRuntimeAdapter {
@@ -27,7 +46,10 @@ export interface McpAppsBffRuntimeAdapter {
   ) => Response | Promise<Response>;
 }
 
-/** Bind application-built UI resources to BFF routes. */
+/**
+ * Bind built UI resources before BFF registers routes, then install either the
+ * automatic endpoint or handlers declared manually through mcpApps()/mcpServer().
+ */
 export default function mcpBffRuntime(
   options: McpAppsBffRuntimeOptions,
   adapter: McpAppsBffRuntimeAdapter = {},
@@ -42,6 +64,8 @@ export default function mcpBffRuntime(
         const root = options.development ? ctx.appDirectory : ctx.distDirectory;
         if (!root)
           throw new Error('MCP Apps requires a BFF application directory');
+        // Production consumes the build manifest. Development uses conventional
+        // artifact paths so binding does not depend on the first UI emit finishing.
         let manifest: McpUiManifest | undefined;
         if (!options.development) {
           try {
@@ -67,6 +91,7 @@ export default function mcpBffRuntime(
             assetBase: options.assetBase,
             manifest,
           });
+        // Resolve request context per invocation, not during route initialization.
         const wrapHandler =
           (handle: ReturnType<typeof createMcpBffHandler>) =>
           async (input: { data?: unknown }): Promise<Response> => {
@@ -76,42 +101,44 @@ export default function mcpBffRuntime(
               ? adapter.transformResponse(response, context, ctx.appDirectory)
               : response;
           };
+        // Manual declarations share one placeholder across HTTP methods.
         const handlers = new Map<
           ApiHandler,
           (input: { data?: unknown }) => Promise<Response>
         >();
-        const infos = (ctx.apiHandlerInfos ?? []) as { handler: ApiHandler }[];
+        const infos = (ctx.apiHandlerInfos ?? []) as ApiHandlerInfo[];
         const autoEndpoint = options.endpoint;
+        // Drop previously generated routes when rebinding, preserving user routes.
         const userInfos = infos.filter(
           info => !Reflect.get(info.handler, AUTO_ENDPOINT),
         );
         if (
           autoEndpoint &&
-          userInfos.some(
-            info => (info as { routePath?: string }).routePath === autoEndpoint,
-          )
+          userInfos.some(info => info.routePath === autoEndpoint)
         ) {
           throw new Error(
             `MCP endpoint conflicts with an existing BFF route: ${autoEndpoint}. Use endpoint: false for manual mounting.`,
           );
         }
+        // Automatic mounting loads source in development and compiled JS in production.
         if (autoEndpoint) {
-          const config = path.resolve(
+          const configPath = path.resolve(
             root,
             options.development
-              ? options.config
-              : compiledConfigPath(options.config),
+              ? options.configPath
+              : compiledConfigPath(options.configPath),
           );
-          if (options.development) cleanRequireCache([config]);
-          const loaded = await compatibleRequire(config);
+          if (options.development) cleanRequireCache([configPath]);
+          const loaded = await compatibleRequire(configPath);
           const definition = (loaded.default ?? loaded) as McpAppsDefinition;
           const handle = createMcpBffHandler({
             definition: bindDefinition(definition),
-            configPath: config,
+            configPath,
             development: options.development,
           });
           const handler: ApiHandler = wrapHandler(handle);
           Reflect.set(handler, AUTO_ENDPOINT, true);
+          // Let the MCP transport handle unsupported methods consistently.
           userInfos.push(
             ...['POST', 'GET', 'DELETE', 'PUT', 'PATCH', 'OPTIONS'].map(
               httpMethod => ({
@@ -122,6 +149,8 @@ export default function mcpBffRuntime(
             ),
           );
         }
+        // Replace marked manual declarations after UI paths are available.
+        // Unmarked application handlers pass through unchanged.
         const apiHandlerInfos = userInfos.map(info => {
           const endpointOptions = Reflect.get(
             info.handler,
@@ -134,7 +163,7 @@ export default function mcpBffRuntime(
           if (!handler) {
             const handle = createMcpBffHandler({
               ...endpointOptions,
-              configPath: path.resolve(root, options.config),
+              configPath: path.resolve(root, options.configPath),
               development: options.development,
               definition: bindDefinition(endpointOptions.definition),
             });
@@ -150,6 +179,8 @@ export default function mcpBffRuntime(
       // currently only describes the input argument (as in plugin-bff itself).
       type Prepare = Parameters<typeof api.prepareApiServer>[0];
       type Input = Parameters<Prepare>[0];
+      // Development reloads rebuild the server runtime and run this hook again.
+      // Updating apiHandlerInfos on the old runtime would not replace its registered routes.
       api.prepareApiServer((async (
         input: Input,
         next: (value: Input) => void,
@@ -157,9 +188,6 @@ export default function mcpBffRuntime(
         await bind();
         return next(input);
       }) as unknown as Prepare);
-      api.onReset(async ({ event }) => {
-        if (event.type === 'file-change') await bind();
-      });
     },
   };
 }

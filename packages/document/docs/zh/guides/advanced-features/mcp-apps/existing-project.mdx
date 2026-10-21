@@ -7,7 +7,7 @@
 | 项目 | 要求与默认行为 |
 | --- | --- |
 | 插件 | 在 `appTools()` 基础上同时启用 `bffPlugin()` 和 `mcpAppsPlugin()`。BFF 提供服务端路由，MCP Apps 插件负责工具接入和卡片构建 |
-| 定义文件 | 默认读取项目根目录 `mcp_apps.ts`，默认导出 `defineMcpServer()` 的返回值。可通过插件的 `config` 修改文件位置和名称 |
+| 定义文件 | 默认读取项目根目录 `mcp_apps.ts`，默认导出 `defineMcpServer()` 的返回值。可通过插件的 `configPath` 修改文件位置和名称 |
 | 服务定义 | `name` 和 `version` 必须为非空字符串，`tools` 至少包含一个工具 |
 | 工具名 | 每个工具名称必须唯一，长度为 1～128，只允许英文字母、数字、下划线 `_`、点 `.` 和连字符 `-` |
 | 工具能力 | 每个工具至少提供 `handler` 或 `view`。普通工具只提供 handler 即可，不要求配置卡片 |
@@ -16,7 +16,7 @@
 | 服务地址 | 默认自动注册 `/mcp`，可通过 `endpoint` 修改。该路径独立于 BFF 前缀，且不能与已有 BFF 路由冲突。endpoint 只接受 HTTP POST |
 | 客户端 | 普通 MCP 客户端可以调用工具。展示交互卡片还要求宿主支持 MCP Apps，并向卡片转发工具结果元数据 |
 
-`mcp_apps.ts` 是默认文件名，不是固定名称。例如 `mcpAppsPlugin({ config: 'mcp/server.ts', endpoint: '/api/mcp' })` 会读取项目根目录下的 `mcp/server.ts`，并将服务挂载到 `/api/mcp`。
+`mcp_apps.ts` 是默认文件名，不是固定名称。例如 `mcpAppsPlugin({ configPath: 'mcp/server.ts', endpoint: '/api/mcp' })` 会读取项目根目录下的 `mcp/server.ts`，并将服务挂载到 `/api/mcp`。
 
 如果只用 Modern.js 构建 UI、MCP 服务由自建服务器提供，使用 `mode: 'ui-only'`，不要求启用 `bffPlugin()`。该模式仍需提供 UI 定义文件，具体见[接入自建 MCP Server](./custom-server)。完整选项见 [API 参考](./api)。
 
@@ -100,7 +100,7 @@ MF 渲染器在宿主 iframe 内加载组件，传入工具参数、handler 返�
 已有 BFF 项目保留原 `bff.prefix`。自动 MCP 路由独立使用 `endpoint`，不会给它追加 BFF 前缀：
 
 ```ts
-mcpAppsPlugin({ config: 'mcp_apps.ts', endpoint: '/api/mcp' });
+mcpAppsPlugin({ configPath: 'mcp_apps.ts', endpoint: '/api/mcp' });
 ```
 
 默认值为根目录 `mcp_apps.ts` 和 `/mcp`。如果已有同路径 BFF 路由，插件会报冲突。

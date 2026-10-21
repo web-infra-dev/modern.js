@@ -78,7 +78,7 @@ pnpm dev
 | `server/store.ts`             | 共享内存存储，仅 UI 模板包含，纯服务端模板位于 `api/server/store.ts` |
 | `module-federation.config.ts` | 远程组件 exposes，仅 MF 模式包含                                     |
 
-MCP Apps 的两种 UI 模板均使用根目录 `mcp_apps.ts`，无需 API 目录。MF 模板额外启用 MF 插件、exposes 和远程视图引用；模板通过 `server/modern.server.ts` 为公共 `/static/*` 资源配置 CORS，改用 CDN 时需同步配置。纯 `mcp-server` 模板目前仍使用 `api/mcp_apps.ts` 和 `api/lambda/index.ts`，并显式设置 `config: 'api/mcp_apps.ts'`、`endpoint: false`。
+MCP Apps 的两种 UI 模板均使用根目录 `mcp_apps.ts`，无需 API 目录。MF 模板额外启用 MF 插件、exposes 和远程视图引用；模板通过 `server/modern.server.ts` 为公共 `/static/*` 资源配置 CORS，改用 CDN 时需同步配置。纯 `mcp-server` 模板目前仍使用 `api/mcp_apps.ts` 和 `api/lambda/index.ts`，并显式设置 `configPath: 'api/mcp_apps.ts'`、`endpoint: false`。
 
 ## 启动后的地址
 

@@ -26,7 +26,7 @@ The tool-only `mcp-server` template uses an explicit BFF route and an `api/mcp_a
 - [Build and deploy](https://modernjs.dev/en/guides/advanced-features/mcp-apps/deployment)
 - [User-managed servers](https://modernjs.dev/en/guides/advanced-features/mcp-apps/custom-server)
 
-{{#if isMcpUi}}
+
 ## Try the Todo tools
 
 Open `/mcp/inspector` during development and use Live server mode.
@@ -40,11 +40,10 @@ The four tools are `list_todos`, `add_todo`, `update_todo` and `delete_todo`. On
 
 `update_todo` requires `id` and at least one of `title` or `completed`. For example, `{ "id": "welcome", "completed": true }` marks the initial item as completed. The card refreshes through `list_todos` after mutations.
 
-{{/if}}
 
-{{#if mf}}## Module Federation hosting
+
+## Module Federation hosting
 
 Configure the complete MF manifest URL in `mcp_apps.ts`. The default is `http://localhost:8080/static/mf-manifest.json`. Set `MCP_UI_MANIFEST_URL` and `MCP_UI_ORIGIN` for a different address and its CSP origin, or edit the remote definition directly.
 
 The MCP plugin does not infer remote URLs. The MF template includes `server/modern.server.ts`, which adds CORS headers and handles OPTIONS for public `/static/*` assets in development and production. This does not change `/mcp`. When hosting assets on a CDN, configure CORS there as well. The MF runtime handles manifest and module loading.
-{{/if}}

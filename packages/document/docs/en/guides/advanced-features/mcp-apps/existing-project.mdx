@@ -7,7 +7,7 @@ In integrated mode, Modern.js provides both the MCP endpoint and card builds. Th
 | Item | Requirement and default behavior |
 | --- | --- |
 | Plugins | Enable both `bffPlugin()` and `mcpAppsPlugin()` alongside `appTools()`. BFF provides server routes, while the MCP Apps plugin integrates tools and builds cards |
-| Definition file | The default is `mcp_apps.ts` in the project root, with the result of `defineMcpServer()` as its default export. Change its path and name with the plugin's `config` option |
+| Definition file | The default is `mcp_apps.ts` in the project root, with the result of `defineMcpServer()` as its default export. Change its path and name with the plugin's `configPath` option |
 | Server definition | `name` and `version` must be non-empty strings. `tools` must contain at least one tool |
 | Tool names | Names must be unique, contain 1–128 characters, and use only ASCII letters, digits, underscores `_`, dots `.`, and hyphens `-` |
 | Tool behavior | Every tool must provide a `handler` or a `view`, or both. Ordinary tools only need a handler and do not require a card |
@@ -16,7 +16,7 @@ In integrated mode, Modern.js provides both the MCP endpoint and card builds. Th
 | Endpoint | `/mcp` is registered automatically. Override it with `endpoint`. The path is independent of the BFF prefix and must not conflict with an existing BFF route. The endpoint only accepts HTTP POST |
 | Clients | Ordinary MCP clients can call tools. Interactive cards additionally require MCP Apps support and forwarding tool result metadata to the card |
 
-`mcp_apps.ts` is a default filename, not a fixed requirement. For example, `mcpAppsPlugin({ config: 'mcp/server.ts', endpoint: '/api/mcp' })` reads `mcp/server.ts` relative to the project root and mounts the endpoint at `/api/mcp`.
+`mcp_apps.ts` is a default filename, not a fixed requirement. For example, `mcpAppsPlugin({ configPath: 'mcp/server.ts', endpoint: '/api/mcp' })` reads `mcp/server.ts` relative to the project root and mounts the endpoint at `/api/mcp`.
 
 When Modern.js only builds the UI and a user-managed server provides MCP, use `mode: 'ui-only'`. This mode does not require `bffPlugin()`, but still needs a UI definition file. See [User-managed MCP servers](./custom-server) and the full options in the [API reference](./api).
 
@@ -104,7 +104,7 @@ No additional UI-manifest format is introduced.
 Keep the existing `bff.prefix`. The automatic MCP route uses `endpoint` directly, without adding the BFF prefix:
 
 ```ts
-mcpAppsPlugin({ config: 'mcp_apps.ts', endpoint: '/api/mcp' });
+mcpAppsPlugin({ configPath: 'mcp_apps.ts', endpoint: '/api/mcp' });
 ```
 
 The defaults are root `mcp_apps.ts` and `/mcp`. An existing BFF route at the same path causes a conflict error.

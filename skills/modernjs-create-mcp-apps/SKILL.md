@@ -59,7 +59,7 @@ CLI 只生成文件，不安装依赖。生成的版本号不会自动指向工�
 - `mcp_apps.ts`：UI 模板根定义，使用 `defineMcpServer({ name, version, tools })`，名称和版本读取 `package.json`。内联 handler 根据 schema 推导参数，拆分工具使用 `defineTool()`。
 - `server/store.ts`：共享的 Todo 内存存储，重启或模块重载后重置。
 - `src/components/Todos.tsx`：待办卡片。工具为 `list_todos`、`add_todo`、`update_todo` 和 `delete_todo`，只有 `list_todos` 绑定视图。
-- 纯 `mcp-server` 使用 `api/mcp_apps.ts`、`api/server/store.ts` 和 `api/lambda/index.ts`，通过 `mcpServer(definition)` 导出 BFF 路由，设置 `config: 'api/mcp_apps.ts', endpoint: false` 和 `bff.prefix: '/mcp'`，提供相同四个工具但不生成卡片。
+- 纯 `mcp-server` 使用 `api/mcp_apps.ts`、`api/server/store.ts` 和 `api/lambda/index.ts`，通过 `mcpServer(definition)` 导出 BFF 路由，设置 `configPath: 'api/mcp_apps.ts', endpoint: false` 和 `bff.prefix: '/mcp'`，提供相同四个工具但不生成卡片。
 
 ### 应用内组件
 

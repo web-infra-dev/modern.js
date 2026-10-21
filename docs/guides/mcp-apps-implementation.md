@@ -227,7 +227,7 @@ CLI 在开发流程中添加 `/mcp/inspector` 入口，并启动独立来源的�
 
 Inspector 独立发布为 `@modern-js/mcp-apps-inspector`，由框架插件接入。主要代码位于 [index.tsx](../../packages/toolkit/mcp-apps-inspector/src/index.tsx)、[client.ts](../../packages/toolkit/mcp-apps-inspector/src/client.ts)、[protocol.ts](../../packages/toolkit/mcp-apps-inspector/src/protocol.ts) 和 [sandbox-server.ts](../../packages/toolkit/mcp-apps-inspector/src/sandbox-server.ts)。模拟预览与真实调用共用新的结果约定。Inspector 提供的是本地调试闭环，不能代替真实宿主兼容性验证。
 
-[CLI 模板](../../packages/toolkit/create/templates/mcp-apps/mcp_apps.ts.handlebars) 默认生成四个 Todo 工具：`list_todos` 绑定交互卡片，`add_todo`、`update_todo` 和 `delete_todo` 只返回业务结果。卡片复用这些工具编辑名称、修改完成状态和删除事项。MF 变体复用相同业务，只替换视图来源。
+[CLI 模板](../../packages/toolkit/create/templates/mcp-apps/mcp_apps.ts) 默认生成四个 Todo 工具：`list_todos` 绑定交互卡片，`add_todo`、`update_todo` 和 `delete_todo` 只返回业务结果。卡片复用这些工具编辑名称、修改完成状态和删除事项。MF 变体复用相同业务，只替换视图来源。
 
 ## 协议边界与升级要求
 

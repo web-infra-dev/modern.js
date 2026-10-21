@@ -12,11 +12,20 @@ import { createLoadedConfig } from '@modern-js/plugin/cli';
 import type { AppTools, CliPlugin } from '@modern-js/app-tools';
 import { compile } from '@modern-js/server-utils';
 import { getAddressUrls, resolveServerTsconfig } from '@modern-js/utils';
-import { type McpAppsPluginOptions, compiledConfigPath } from './config';
+import { compiledConfigPath } from './bff';
 
-export type { McpAppsPluginOptions } from './config';
+export interface McpAppsPluginOptions {
+  /** Enable the development-only /mcp/inspector page. Defaults to true. */
+  inspector?: boolean;
+  /** Build local UI resources without a BFF dependency or server compilation. */
+  mode?: 'integrated' | 'ui-only';
+  /** Application definition for UI discovery, relative to the project root. Defaults to mcp_apps.ts. */
+  configPath?: string;
+  /** Exact HTTP route, defaults to /mcp. Set false for manual BFF mounting. */
+  endpoint?: string | false;
+}
 
-export function endpointPath(endpoint = '/mcp') {
+export function validateEndpointPath(endpoint = '/mcp') {
   if (
     !/^\/(?:[a-zA-Z0-9_.~-]+\/?)+$/.test(endpoint) ||
     endpoint.endsWith('/') ||
@@ -36,21 +45,15 @@ export const mcpAppsPlugin = (
   required: options.mode === 'ui-only' ? [] : ['@modern-js/plugin-bff'],
   post: ['@modern-js/runtime'],
   setup(api) {
-    if (options.mode === 'ui-only') {
-      api.modifyResolvedConfig(config => {
-        config.source.disableDefaultEntries = true;
-        return config;
-      });
-    }
     const configPath = () =>
       path.resolve(
         api.getAppContext().appDirectory,
-        options.config ?? 'mcp_apps.ts',
+        options.configPath ?? 'mcp_apps.ts',
       );
     const endpoint =
       options.mode === 'ui-only' || options.endpoint === false
         ? false
-        : endpointPath(options.endpoint);
+        : validateEndpointPath(options.endpoint);
     api.onBeforePrintInstructions(({ instructions }) => {
       const { port, command } = api.getAppContext();
       const inspector =
@@ -119,7 +122,7 @@ export const mcpAppsPlugin = (
       await fs.access(
         path.resolve(
           ctx.distDirectory,
-          compiledConfigPath(options.config ?? 'mcp_apps.ts'),
+          compiledConfigPath(options.configPath ?? 'mcp_apps.ts'),
         ),
       );
     });
@@ -136,7 +139,7 @@ export const mcpAppsPlugin = (
         options: {
           development,
           endpoint,
-          config: options.config ?? 'mcp_apps.ts',
+          configPath: options.configPath ?? 'mcp_apps.ts',
           resourceDirectory: development
             ? path
                 .relative(
@@ -163,12 +166,16 @@ async function writeArtifact(filename: string, content: string | Uint8Array) {
   await fs.rename(`${filename}.tmp`, filename);
 }
 
-/** Add standard auto-mounted Modern.js entries, then retain their emitted HTML. */
+/**
+ * Build local MCP views through Modern.js entries and emit HTML + a UI manifest
+ * for the MCP server to consume. Also adds the development Inspector and sandbox.
+ */
 function setupMcpUi(
   api: Parameters<NonNullable<CliPlugin<AppTools>['setup']>>[0],
   configPath: () => string,
   options: { endpoint?: string | false; inspector?: boolean } = {},
 ) {
+  // Track generated entry names and their tool names for HTML output and previews.
   const entries = new Map<string, string>();
   let sandbox: Awaited<ReturnType<typeof startInspectorSandbox>> | undefined;
   api.onBeforeExit(async () => {
@@ -177,6 +184,7 @@ function setupMcpUi(
   });
   let inspectorEnabled = false;
   let definition: McpAppsDefinition;
+  // Hide internal card URLs and keep the dedicated Inspector instruction.
   api.onBeforePrintInstructions(({ instructions }) => ({
     instructions: instructions
       .split('\n')
@@ -204,6 +212,7 @@ function setupMcpUi(
     definition = loaded.config;
     definition.remotes ??= [];
     validateMcpAppsConfig(definition);
+    // Only local source views need entries. MF and prebuilt HTML bypass this build.
     for (const tool of definition.tools) {
       if (!tool.view || tool.remote || tool.view.html) continue;
       const renderMode =
@@ -228,6 +237,7 @@ function setupMcpUi(
         .resolve(ctx.appDirectory, tool.view.module)
         .split(path.sep)
         .join('/');
+      // The wrapper connects the component to the host and maps tool results to props.
       const source = `import { createMcpView } from ${JSON.stringify(appRequire.resolve('@modern-js/mcp-apps/react'))};
 import { ${tool.view.exportName ?? definition.viewDefaults?.exportName ?? 'default'} as View } from ${JSON.stringify(component)};
 export default createMcpView(View, ${JSON.stringify({ name: tool.name, version: '1.0.0' })}, ${JSON.stringify(tool.view.capabilities ?? definition.viewDefaults?.capabilities ?? {})});
@@ -243,6 +253,7 @@ export default createMcpView(View, ${JSON.stringify({ name: tool.name, version: 
       });
       entries.set(entryName, tool.name);
     }
+    // Inspector previews run in a separate-origin sandbox, only during development.
     inspectorEnabled =
       options.inspector !== false && ['dev', 'start'].includes(ctx.command);
     if (inspectorEnabled) {
@@ -294,6 +305,7 @@ export default function InspectorPage() { return <McpInspector {...${JSON.string
     for (const child of compilers) {
       const environment = environments[child.name ?? 'client'];
       if (!environment || environment.config.output.target !== 'web') continue;
+      // Retain emitted HTML for resources/read and publish its tool mapping in the manifest.
       child.hooks.afterEmit.tapPromise(
         'modern-mcp-ui-resources',
         async compilation => {

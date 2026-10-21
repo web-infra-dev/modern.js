@@ -260,7 +260,7 @@ export const queryData = defineTool({
 
 | 选项        | 默认值        | 用途                                                                                   |
 | ----------- | ------------- | -------------------------------------------------------------------------------------- |
-| `config`    | `mcp_apps.ts` | 相对项目根目录的定义文件                                                               |
+| `configPath`    | `mcp_apps.ts` | 相对项目根目录的定义文件                                                               |
 | `endpoint`  | `/mcp`        | 独立于 BFF 前缀的完整路由路径；`false` 关闭自动注册                                    |
 | `inspector` | `true`        | 开发环境生成 `/mcp/inspector` 调试页，设为 `false` 关闭，详见[MCP Apps Inspector](./inspector) |
 | `mode`      | `integrated`  | `ui-only` 仅构建 UI 资源，不依赖 BFF，详见[接入自建 MCP Server](./custom-server)       |

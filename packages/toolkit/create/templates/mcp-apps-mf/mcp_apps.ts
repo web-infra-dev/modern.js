@@ -6,15 +6,19 @@ import { name, version } from './package.json';
 export default defineMcpServer({
   name,
   version,
-{{#if mf}}  remotes: [{
-    name: 'mcp_ui',
-    baseUrl: process.env.MCP_UI_MANIFEST_URL ?? 'http://localhost:8080/static/mf-manifest.json',
-    csp: {
-      resourceDomains: [process.env.MCP_UI_ORIGIN ?? 'http://localhost:8080'],
-      connectDomains: [process.env.MCP_UI_ORIGIN ?? 'http://localhost:8080'],
+  remotes: [
+    {
+      name: 'mcp_ui',
+      baseUrl:
+        process.env.MCP_UI_MANIFEST_URL ??
+        'http://localhost:8080/static/mf-manifest.json',
+      csp: {
+        resourceDomains: [process.env.MCP_UI_ORIGIN ?? 'http://localhost:8080'],
+        connectDomains: [process.env.MCP_UI_ORIGIN ?? 'http://localhost:8080'],
+      },
     },
-  }],
-{{/if}}  tools: [
+  ],
+  tools: [
     {
       name: 'list_todos',
       description: 'List all todos and open the interactive todo card.',
@@ -31,10 +35,8 @@ export default defineMcpServer({
           structuredContent: { todos },
         });
       },
-{{#if mf}}      remote: 'mcp_ui',
+      remote: 'mcp_ui',
       view: { module: './Todos' },
-{{/if}}{{#unless mf}}      view: { module: './src/components/Todos.tsx' },
-{{/unless}}
     },
     {
       name: 'add_todo',

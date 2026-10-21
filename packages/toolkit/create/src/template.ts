@@ -49,8 +49,8 @@ export function createProject(
   const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
   copyTemplate(path.join(root, 'template'), targetDir, data);
   if (isMcp) {
-    for (const directory of ['mcp', template, ...(mf ? ['mf'] : [])])
-      copyTemplate(path.join(root, 'templates', directory), targetDir, data);
+    const directory = mf ? 'mcp-apps-mf' : template;
+    copyTemplate(path.join(root, 'templates', directory), targetDir, data);
   }
 }
 
