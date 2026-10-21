@@ -1,0 +1,21 @@
+{
+  "name": "mf-lab-library",
+  "private": true,
+  "scripts": {
+    "dev": "rslib mf-dev",
+    "build": "rslib build"
+  },
+  "dependencies": {
+    "react": "^19.3.1",
+    "react-dom": "^19.3.1",
+    "@module-federation/modern-js-v3": "2.9.2",
+    "@module-federation/runtime": "2.9.2",
+    "@module-federation/runtime-core": "2.9.2"
+  },
+  "devDependencies": {
+    "@rslib/core": "0.23.2",
+    "@rsbuild/plugin-react": "1.4.5",
+    "@module-federation/rsbuild-plugin": "2.9.2",
+    "@modern-js/tsconfig": "workspace:*"
+  }
+}
