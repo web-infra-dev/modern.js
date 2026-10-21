@@ -10,9 +10,11 @@ const ignoreDeps = [
 
 // examples/ intentionally track the published packages (`latest`) and mirror
 // real user apps, so they are exempt from workspace version consistency.
+// MF regression fixtures pin the upstream adapter/toolchain baseline independently
+// of the older i18n fixtures and the workspace build toolchain.
 const command = `npx check-dependency-version-consistency . ${ignoreDeps
   .map(dep => `--ignore-dep "${dep}"`)
-  .join(' ')} --ignore-package-pattern "^@examples/"`;
+  .join(' ')} --ignore-package-pattern "^(@examples/|mf-lab-)"`;
 
 console.log(`> ${command}`);
 

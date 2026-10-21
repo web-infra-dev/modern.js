@@ -1,0 +1,18 @@
+{
+  "name": "mf-lab-provider",
+  "private": true,
+  "scripts": {
+    "dev": "modern dev",
+    "build": "modern build"
+  },
+  "dependencies": {
+    "react": "^19.3.1",
+    "react-dom": "^19.3.1",
+    "@module-federation/modern-js-v3": "2.9.2",
+    "@modern-js/runtime": "workspace:*"
+  },
+  "devDependencies": {
+    "@modern-js/app-tools": "workspace:*",
+    "@modern-js/tsconfig": "workspace:*"
+  }
+}
