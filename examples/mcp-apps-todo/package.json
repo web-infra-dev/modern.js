@@ -1,0 +1,28 @@
+{
+  "name": "mcp-apps-todo",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "modern dev",
+    "build": "modern build",
+    "serve": "modern serve",
+    "typecheck": "tsc --noEmit"
+  },
+  "dependencies": {
+    "@modern-js/mcp-apps": "workspace:*",
+    "@modern-js/plugin-mcp-apps": "workspace:*",
+    "@modern-js/plugin-bff": "workspace:*",
+    "@modern-js/runtime": "workspace:*",
+    "react": "^19.2.3",
+    "react-dom": "^19.2.0"
+  },
+  "devDependencies": {
+    "@modern-js/app-tools": "workspace:*",
+    "@modern-js/tsconfig": "workspace:*",
+    "@types/node": "^20",
+    "@types/react": "^19.1.8",
+    "@types/react-dom": "^19.1.6",
+    "typescript": "~5.7.3",
+    "ts-node": "^10.9.2"
+  }
+}

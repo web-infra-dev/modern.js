@@ -137,6 +137,8 @@ MF 资源使用公开 assetPrefix 时，请使用 manifest 的实际 publicPath 
 
 生成的定义使用 `defineMcpServer`，`name`、`version` 读取项目 `package.json`。本地视图和纯工具省略 `remotes`，MF 工具通过 remote 引用显式配置的 manifest URL。handler 支持同步或异步返回，`view` 可选。详见[定义工具与视图](./configuration)。
 
+完整的待办清单示例见 [mcp-apps-todo](https://github.com/web-infra-dev/modern.js/tree/main/examples/mcp-apps-todo)。它通过四个工具和一个 React 卡片，演示对话添加待办、卡片完成待办，以及双方共享服务端状态。
+
 ## 在本地调试工具与卡片
 
 运行 `modern dev` 后，打开启动日志中的 Inspector 地址。调试页自动连接 MCP endpoint，可根据 inputSchema 填写参数、执行工具、预览 UI，并在右侧查看 `tools/call`、`resources/read` 等请求日志。详见[MCP Apps Inspector](./inspector)。
