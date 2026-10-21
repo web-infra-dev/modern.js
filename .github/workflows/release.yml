@@ -1,4 +1,4 @@
-name: Modern.js Canary Verify
+name: Modern.js Release
 
 on:
   push:
@@ -15,7 +15,7 @@ permissions:
   contents: read
 
 concurrency:
-  group: canary-verify-${{ github.ref }}
+  group: modern-release-${{ github.ref }}
   cancel-in-progress: false
 
 jobs:

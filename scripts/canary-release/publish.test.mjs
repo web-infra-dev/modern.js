@@ -159,7 +159,7 @@ const names = ['@modern-js/a', '@modern-js/b'];
 const trustEnvironment = () => ({
   ...githubEnvironment(),
   GITHUB_REPOSITORY: 'web-infra-dev/modern.js',
-  GITHUB_WORKFLOW_REF: 'web-infra-dev/modern.js/.github/workflows/canary-verify.yml@refs/heads/release-canary-verify/x',
+  GITHUB_WORKFLOW_REF: 'web-infra-dev/modern.js/.github/workflows/release.yml@refs/heads/release-canary-verify/x',
 });
 
 test('every package is probed through the same exchange npm uses, and a token is never logged', async () => {
@@ -180,7 +180,7 @@ test('a refused exchange blocks the release and names the command that repairs i
   await assert.rejects(
     () => assertTrustedPublishers(names, { env: trustEnvironment(), request: stub.request, log: message => logged.push(message) }),
     /1 of 2 packages have no trusted publisher/);
-  assert.match(logged.join('\n'), /npm trust github @modern-js\/b --repo web-infra-dev\/modern.js --file canary-verify.yml --allow-publish/);
+  assert.match(logged.join('\n'), /npm trust github @modern-js\/b --repo web-infra-dev\/modern.js --file release.yml --allow-publish/);
 });
 
 test('a package npm does not serve yet is reported as needing a first publish, not a binding', async () => {
