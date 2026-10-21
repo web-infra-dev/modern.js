@@ -122,12 +122,12 @@ test('a failure that precedes the request is sent again, exactly once', async t 
     const pkg = fixture.manifest.packages.find(item => args[1].endsWith(item.filename));
     // Fails the way npm does when it cannot read the OIDC token, then works.
     if (calls.filter(file => file === args[1]).length === 1 && pkg === fixture.manifest.packages[0]) {
-      return { status: 1, stderr: 'npm error code IDENTITY_TOKEN_READ_ERROR\nnpm error error retrieving identity token' };
+      return { status: 1, stderr: 'npm error code TLOG_CREATE_ENTRY_ERROR\nnpm error error creating tlog entry - (409) an equivalent entry already exists' };
     }
     return { status: 0, stdout: JSON.stringify({ [pkg.name]: pkg }) };
   }, message => logged.push(message)));
   assert.equal(calls.length, fixture.manifest.packages.length + 1, 'only the identity failure is sent again');
-  assert.match(logged.join('\n'), /retrying: IDENTITY_TOKEN_READ_ERROR/);
+  assert.match(logged.join('\n'), /retrying: TLOG_CREATE_ENTRY_ERROR/);
   assert.equal(readJson(path.join(fixture.root, 'receipts/receipt.json')).status, 'published');
 });
 
