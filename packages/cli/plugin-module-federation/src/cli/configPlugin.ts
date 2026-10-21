@@ -387,7 +387,8 @@ export function patchBundlerConfig(options: {
       chain.output.chunkFilename(chunkFileName.replace('.js', suffix));
     }
   }
-  // modernjs project has the same entry for server/client, add polyfill:false to skip compile error in browser target
+  // SSR development code shares the client entry. Keep Node-only modules out
+  // of the browser bundle regardless of the Node.js version running the build.
   if (isDev() && enableSSR && !isServer) {
     chain.resolve.fallback
       .set('crypto', false)
