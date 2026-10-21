@@ -151,7 +151,7 @@ function Panel({
                 ? methods[event] === 'visibility estimate'
                   ? 'Estimated visibility of temperature and condition after intersection and a paint opportunity.'
                   : 'From frame navigation to the first paint of temperature and condition (Element Timing).'
-                : 'From frame navigation until the current-weather save button has its handler and is enabled.'
+                : 'From frame navigation until all key controls have hydrated or mounted: save station, hourly forecast, and wind when shown. Independent of weather data.'
             }
           >
             {event}

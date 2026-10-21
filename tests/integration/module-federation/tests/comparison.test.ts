@@ -66,6 +66,20 @@ describeLab('Comparison UI', getContext => {
           () => (window as any).__weatherMetrics['Data visible'].method,
         ),
       ).toBe('element timing');
+      const readiness = await frame.evaluate(() => ({
+        components: (window as any).__weatherComponentReady,
+        metric: (window as any).__weatherMetrics['Client ready'],
+      }));
+      const expected =
+        new URL(frame.url()).searchParams.get('compact') === '1'
+          ? ['current', 'hourly']
+          : ['current', 'hourly', 'wind'];
+      expect(Object.keys(readiness.components).sort()).toEqual(expected.sort());
+      expect(readiness.metric.at).toBe(
+        Math.round(
+          Math.max(...(Object.values(readiness.components) as number[])),
+        ),
+      );
       await frame.click('[data-testid="weather-save"]');
       expect(
         await frame.$eval(
@@ -188,6 +202,20 @@ describeLab('Comparison UI', getContext => {
           () => (window as any).__weatherMetrics['Data visible'].method,
         ),
       ).toBe('element timing');
+      const readiness = await frame.evaluate(() => ({
+        components: (window as any).__weatherComponentReady,
+        metric: (window as any).__weatherMetrics['Client ready'],
+      }));
+      const expected =
+        new URL(frame.url()).searchParams.get('compact') === '1'
+          ? ['current', 'hourly']
+          : ['current', 'hourly', 'wind'];
+      expect(Object.keys(readiness.components).sort()).toEqual(expected.sort());
+      expect(readiness.metric.at).toBe(
+        Math.round(
+          Math.max(...(Object.values(readiness.components) as number[])),
+        ),
+      );
       await frame.click('[data-testid="weather-save"]');
       expect(
         await frame.$eval(
@@ -293,77 +321,142 @@ describeLab('Comparison UI', getContext => {
     }
   });
 
-  it('keeps pending data unmeasured and reports enabled controls at the client-ready event', async () => {
+  it('waits for a delayed remote control before reporting the whole screen ready', async () => {
     const { lab, page } = getContext();
-    await page.setViewport({ width: 900, height: 700 });
-    await page.evaluateOnNewDocument(() => {
-      addEventListener('mf-weather-metric', event => {
-        if ((event as CustomEvent).detail.event === 'Client ready')
-          (window as any).__readyDisabled = (
-            document.querySelector(
-              '[data-testid="weather-save"]',
-            ) as HTMLButtonElement
-          )?.disabled;
-      });
-    });
     let release!: () => void;
     const gate = new Promise<void>(resolve => {
       release = resolve;
     });
-    const url = `http://localhost:${lab.ports.api}/weather`;
-    let notifyStarted!: () => void;
-    const started = new Promise<void>(resolve => {
-      notifyStarted = resolve;
-    });
     await page.setRequestInterception(true);
     page.on('request', async request => {
-      if (request.url() === url) {
-        notifyStarted();
+      if (
+        new URL(request.url()).pathname.includes(
+          '__federation_expose_WeatherHourly',
+        )
+      )
         await gate;
-      }
       await request.continue();
     });
     try {
-      await page.goto(
-        `${lab.url}/weather?render=csr&csr=1&data=client&compact=1`,
-        { waitUntil: 'domcontentloaded' },
-      );
-      await started;
-      await page.waitForSelector(
-        '[data-testid="weather-current"][data-source="pending"]',
-      );
+      await page.goto(`${lab.url}/weather?render=csr&csr=1&data=local`, {
+        waitUntil: 'domcontentloaded',
+      });
+      await page.waitForFunction(() => {
+        const ready = (window as any).__weatherComponentReady;
+        return ready?.current !== undefined && ready?.wind !== undefined;
+      });
       const pending = await page.evaluate(() => ({
-        metrics: (window as any).__weatherMetrics,
-        disabled: (
-          document.querySelector(
-            '[data-testid="weather-save"]',
-          ) as HTMLButtonElement
-        ).disabled,
+        components: (window as any).__weatherComponentReady,
+        ready: (window as any).__weatherMetrics['Client ready'],
       }));
-      expect(pending.metrics['Data visible']).toBeUndefined();
-      expect(pending.metrics['Client ready']).toBeUndefined();
-      expect(pending.disabled).toBe(true);
-      release();
-      await page.waitForFunction(() =>
-        Boolean(
-          (window as any).__weatherMetrics?.['Data visible'] &&
-          (window as any).__weatherMetrics?.['Client ready'],
-        ),
-      );
-      expect(await page.evaluate(() => (window as any).__readyDisabled)).toBe(
-        false,
-      );
+      expect(pending.components.hourly).toBeUndefined();
+      expect(pending.ready).toBeUndefined();
       await page.click('[data-testid="weather-save"]');
       expect(
         await page.$eval(
           '[data-testid="weather-save"]',
-          button => button.textContent,
+          node => node.textContent,
         ),
       ).toContain('Station saved');
+      release();
+      await page.waitForFunction(() =>
+        Boolean((window as any).__weatherMetrics['Client ready']),
+      );
+      const after = await page.evaluate(() => ({
+        components: (window as any).__weatherComponentReady,
+        ready: (window as any).__weatherMetrics['Client ready'],
+      }));
+      expect(after.ready.at).toBe(Math.round(after.components.hourly));
+      await page.click('[data-testid="weather-hourly"] button:nth-child(2)');
+      expect(
+        await page.$eval(
+          '[data-testid="weather-hourly"] button:nth-child(2)',
+          node => node.getAttribute('aria-pressed'),
+        ),
+      ).toBe('true');
     } finally {
       release();
     }
   });
+
+  for (const render of ['csr', 'ssr'])
+    it(`reports ${render} client readiness and permits interaction while data is pending`, async () => {
+      const { lab, page } = getContext();
+      await page.setViewport({ width: 900, height: 700 });
+      let release!: () => void;
+      const gate = new Promise<void>(resolve => {
+        release = resolve;
+      });
+      const url = `http://localhost:${lab.ports.api}/weather`;
+      let notifyStarted!: () => void;
+      const started = new Promise<void>(resolve => {
+        notifyStarted = resolve;
+      });
+      await page.setRequestInterception(true);
+      page.on('request', async request => {
+        if (request.url() === url) {
+          notifyStarted();
+          await gate;
+        }
+        await request.continue();
+      });
+      try {
+        await page.goto(
+          `${lab.url}/weather?render=${render}&csr=${render === 'csr' ? 1 : 0}&data=client&compact=1`,
+          { waitUntil: 'domcontentloaded' },
+        );
+        await started;
+        await page.waitForSelector(
+          '[data-testid="weather-current"][data-source="pending"]',
+        );
+        await page.waitForFunction(() =>
+          Boolean((window as any).__weatherMetrics?.['Client ready']),
+        );
+        const pending = await page.evaluate(() => ({
+          metrics: (window as any).__weatherMetrics,
+          disabled: (
+            document.querySelector(
+              '[data-testid="weather-save"]',
+            ) as HTMLButtonElement
+          ).disabled,
+        }));
+        expect(pending.metrics['Data visible']).toBeUndefined();
+        expect(pending.metrics['Client ready'].method).toBe(
+          'component effects',
+        );
+        expect(pending.disabled).toBe(false);
+        await page.click('[data-testid="weather-save"]');
+        expect(
+          await page.$eval(
+            '[data-testid="weather-save"]',
+            node => node.textContent,
+          ),
+        ).toContain('Station saved');
+        await page.click('[data-testid="weather-hourly"] button:nth-child(2)');
+        expect(
+          await page.$eval(
+            '[data-testid="weather-hourly"] button:nth-child(2)',
+            node => node.getAttribute('aria-pressed'),
+          ),
+        ).toBe('true');
+        release();
+        await page.waitForFunction(() =>
+          Boolean(
+            (window as any).__weatherMetrics?.['Data visible'] &&
+            (window as any).__weatherMetrics?.['Client ready'],
+          ),
+        );
+        const after = await page.evaluate(
+          () => (window as any).__weatherMetrics,
+        );
+        expect(after['Client ready']).toEqual(pending.metrics['Client ready']);
+        expect(after['Data visible'].at).toBeGreaterThan(
+          after['Client ready'].at,
+        );
+      } finally {
+        release();
+      }
+    });
 
   it('uses a labeled visibility estimate when Element Timing is unavailable', async () => {
     const { lab, page } = getContext();

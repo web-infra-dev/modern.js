@@ -1,5 +1,5 @@
 import { checkDataFailure } from './data-failure';
-import { useEffect, useLayoutEffect, useRef, useState } from 'react';
+import { useEffect, useState } from 'react';
 export type WeatherData = {
   temperature: number;
   condition: string;
@@ -18,6 +18,21 @@ export function report(event: string) {
       { type: 'mf-weather', event, at: Math.round(performance.now()) },
       window.location.origin,
     );
+}
+// The second effect observes the commit that enables this component's controls.
+// This reports local hydration/mount readiness, independently of weather data.
+function useClientReady(component: 'current' | 'hourly' | 'wind') {
+  const [ready, setReady] = useState(false);
+  useEffect(() => setReady(true), []);
+  useEffect(() => {
+    if (ready)
+      window.dispatchEvent(
+        new CustomEvent('mf-weather-component-ready', {
+          detail: { component, at: performance.now() },
+        }),
+      );
+  }, [ready, component]);
+  return ready;
 }
 export function WeatherIcon({ rainy = false }: { rainy?: boolean }) {
   return (
@@ -59,12 +74,9 @@ export function CurrentWeather({
 }) {
   const [data, setData] = useState(local ? fixture : mfData);
   const [error, setError] = useState<Error>();
-  const [ready, setReady] = useState(false);
+  const ready = useClientReady('current');
   const [saved, setSaved] = useState(false);
-  const saveButton = useRef<HTMLButtonElement>(null);
-  const clientReported = useRef(false);
   useEffect(() => {
-    setReady(true);
     if (!local && !mfData) {
       checkDataFailure({ labFailure })
         .then(() => fetch(`${process.env.MF_LAB_API}/weather`))
@@ -79,21 +91,6 @@ export function CurrentWeather({
         });
     }
   }, []);
-  useLayoutEffect(() => {
-    if (
-      !ready ||
-      !data ||
-      saveButton.current?.disabled !== false ||
-      clientReported.current
-    )
-      return;
-    clientReported.current = true;
-    window.dispatchEvent(
-      new CustomEvent('mf-weather-metric', {
-        detail: { event: 'Client ready', at: performance.now() },
-      }),
-    );
-  }, [ready, data]);
   if (error) throw error;
   return (
     <section
@@ -125,8 +122,7 @@ export function CurrentWeather({
       <p>H:30° · L:21°</p>
       <button
         className="weather-save"
-        ref={saveButton}
-        disabled={!ready || !data}
+        disabled={!ready}
         onClick={() => {
           setSaved(!saved);
         }}
@@ -143,8 +139,7 @@ export function CurrentWeather({
 }
 export function HourlyWeather() {
   const [selected, setSelected] = useState(0);
-  const [ready, setReady] = useState(false);
-  useEffect(() => setReady(true), []);
+  const ready = useClientReady('hourly');
   return (
     <section
       className="weather-card hourly-weather"
@@ -203,9 +198,8 @@ export function DaysWeather() {
 }
 export function WindWeather() {
   const [angle, setAngle] = useState(340);
-  const [ready, setReady] = useState(false);
+  const ready = useClientReady('wind');
   const [verified, setVerified] = useState(false);
-  useEffect(() => setReady(true), []);
   return (
     <section className="weather-card wind-weather" data-testid="weather-wind">
       <h2>

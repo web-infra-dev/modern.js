@@ -14,8 +14,17 @@ export const weatherMetricsScript = String.raw`
       parent.postMessage({ type: 'mf-weather', event: name, ...value }, location.origin);
     }
   });
-  addEventListener('mf-weather-metric', event => {
-    if (event.detail?.event === 'Client ready') publish('Client ready', event.detail.at, 'interactive commit');
+  // Compact screens contain current weather and hourly forecast only.
+  // Suspense boundaries may hydrate independently: wait for every key control.
+  const expected = new URLSearchParams(location.search).get('compact') === '1'
+    ? ['current', 'hourly'] : ['current', 'hourly', 'wind'];
+  const ready = window.__weatherComponentReady = {};
+  addEventListener('mf-weather-component-ready', event => {
+    const { component, at } = event.detail || {};
+    if (!expected.includes(component) || !Number.isFinite(at) || ready[component] !== undefined) return;
+    ready[component] = at;
+    if (expected.every(id => ready[id] !== undefined))
+      publish('Client ready', Math.max(...expected.map(id => ready[id])), 'component effects');
   });
   const ids = ['weather-temperature', 'weather-condition'];
   if (typeof PerformanceObserver !== 'undefined' && PerformanceObserver.supportedEntryTypes.includes('element')) {
