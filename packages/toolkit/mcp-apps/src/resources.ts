@@ -10,6 +10,10 @@ import {
   type RemoteConfig,
 } from './config';
 
+function localResourceUri(toolName: string): string {
+  return `ui://local/${encodeURIComponent(toolName)}`;
+}
+
 export const UI_MIME_TYPE = 'text/html;profile=mcp-app';
 // The runtime build exports HTML as JavaScript so dependency tracing keeps it.
 export async function readRuntimeHtml(development = false): Promise<string> {
@@ -125,7 +129,7 @@ export function createUiResources(definition: McpAppsDefinition) {
     }
   }
   for (const tool of normalized.filter(tool => tool.view && !tool.remote)) {
-    const uri = `ui://local/${encodeURIComponent(tool.name)}`;
+    const uri = localResourceUri(tool.name);
     resources.set(uri, {
       name: tool.name,
       uri,
@@ -188,7 +192,7 @@ export function bindUiResources(
       if (!entry)
         throw new Error(`Missing MCP UI manifest entry: ${tool.name}`);
       if (
-        entry.resourceUri !== `ui://local/${encodeURIComponent(tool.name)}` ||
+        entry.resourceUri !== localResourceUri(tool.name) ||
         entry.mimeType !== UI_MIME_TYPE ||
         typeof entry.html !== 'string' ||
         !entry.html

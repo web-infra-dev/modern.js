@@ -1,27 +1,43 @@
-import { execFileSync } from 'node:child_process';
 import { readFile, rm, writeFile } from 'node:fs/promises';
-import { createRequire } from 'node:module';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
+import { createRsbuild } from '@rsbuild/core';
+import { pluginReact } from '@rsbuild/plugin-react';
 
 const root = fileURLToPath(new URL('..', import.meta.url));
-const require = createRequire(import.meta.url);
-const bin = path.join(
-  path.dirname(require.resolve('@rsbuild/core/package.json')),
-  'bin/rsbuild.js',
-);
 await rm(path.join(root, 'dist/runtime'), { recursive: true, force: true });
-for (const mode of ['production', 'development']) {
-  execFileSync(
-    process.execPath,
-    [bin, 'build', '-c', 'rsbuild.runtime.config.mts'],
-    {
-      cwd: root,
-      env: { ...process.env, MCP_APPS_RUNTIME_MODE: mode },
-      stdio: 'inherit',
+for (const development of [false, true]) {
+  const name = development ? 'mcp-app.dev' : 'mcp-app';
+  const rsbuild = await createRsbuild({
+    cwd: root,
+    rsbuildConfig: {
+      mode: 'production',
+      plugins: [pluginReact()],
+      source: {
+        entry: { [name]: './src/mf-runtime/mcp-app.tsx' },
+        define: {
+          'process.env.NODE_ENV': JSON.stringify(
+            development ? 'development' : 'production',
+          ),
+        },
+      },
+      html: { title: 'MF Render Container', inject: 'body' },
+      output: {
+        distPath: { root: './dist/runtime' },
+        inlineScripts: true,
+        inlineStyles: true,
+        legalComments: 'inline',
+        cleanDistPath: false,
+      },
+      tools: {
+        rspack: {
+          optimization: { nodeEnv: false },
+          module: { parser: { javascript: { dynamicImportMode: 'eager' } } },
+        },
+      },
     },
-  );
-  const name = mode === 'development' ? 'mcp-app.dev' : 'mcp-app';
+  });
+  await rsbuild.build();
   const htmlPath = path.join(root, 'dist/runtime', `${name}.html`);
   const html = await readFile(htmlPath, 'utf8');
   await writeFile(

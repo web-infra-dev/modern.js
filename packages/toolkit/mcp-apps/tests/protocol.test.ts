@@ -1,3 +1,5 @@
+import { createServer } from 'node:http';
+import { mcpApps } from '../src/hono';
 import {
   Client,
   StreamableHTTPClientTransport,
@@ -339,6 +341,116 @@ it('reloads changed CommonJS definitions in development', async () => {
     expect((await after.json()).result.tools[0].name).toBe('after');
   } finally {
     handler.reset();
+    await rm(directory, { recursive: true, force: true });
+  }
+});
+
+function toolRequest() {
+  return new Request('http://example.com/mcp', {
+    method: 'POST',
+    headers: {
+      'content-type': 'application/json',
+      accept: 'application/json, text/event-stream',
+    },
+    body: JSON.stringify({
+      jsonrpc: '2.0',
+      id: 1,
+      method: 'tools/call',
+      params: { name: 'test', arguments: {} },
+    }),
+  });
+}
+
+it('preserves all fetchJson header formats and explicit content types', async () => {
+  const server = createServer((req, res) => {
+    req.resume();
+    res.setHeader('content-type', 'application/json');
+    res.end(JSON.stringify(req.headers));
+  });
+  await new Promise<void>(resolve => server.listen(0, '127.0.0.1', resolve));
+  const address = server.address() as { port: number };
+  try {
+    for (const headers of [
+      { Authorization: 'Bearer test' },
+      new Headers({ Authorization: 'Bearer test' }),
+      [['Authorization', 'Bearer test']] as [string, string][],
+      new Headers({
+        Authorization: 'Bearer test',
+        'Content-Type': 'application/custom',
+      }),
+    ]) {
+      const handle = createMcpHandler({
+        remotes: [],
+        tools: [
+          {
+            name: 'test',
+            handler: async (_args, ctx) => ({
+              content: [],
+              structuredContent: await ctx.fetchJson(
+                `http://127.0.0.1:${address.port}`,
+                {
+                  method: 'POST',
+                  headers,
+                  body: { value: 1 },
+                },
+              ),
+            }),
+          },
+        ],
+      });
+      const result = (await (await handle(toolRequest())).json()).result;
+      expect(result.isError).not.toBe(true);
+      expect(result.structuredContent.authorization).toBe('Bearer test');
+      expect(result.structuredContent['content-type']).toBe(
+        new Headers(headers).get('content-type') ?? 'application/json',
+      );
+    }
+  } finally {
+    await new Promise<void>((resolve, reject) =>
+      server.close(error => (error ? reject(error) : resolve())),
+    );
+  }
+});
+
+it('reports tool errors through both Hono definition and artifact adapters', async () => {
+  const directory = await mkdtemp(path.join(tmpdir(), 'modern-mcp-hono-'));
+  const configPath = path.join(directory, 'mcp_apps.cjs');
+  await writeFile(
+    configPath,
+    `module.exports = { remotes: [], tools: [{ name: 'test', handler: () => { throw new Error('tool failed') } }] }`,
+  );
+  try {
+    for (const source of [
+      {
+        definition: {
+          remotes: [],
+          tools: [
+            {
+              name: 'test',
+              handler: () => {
+                throw new Error('tool failed');
+              },
+            },
+          ],
+        },
+      },
+      { configPath },
+    ]) {
+      const errors: unknown[] = [];
+      const middleware = mcpApps({
+        ...source,
+        onError: error => errors.push(error),
+      });
+      const response = await middleware(
+        { req: { raw: toolRequest(), path: '/mcp' } },
+        async () => {},
+      );
+      expect(response).toBeInstanceOf(Response);
+      expect((await response!.json()).result.isError).toBe(true);
+      expect(errors).toHaveLength(1);
+      expect((errors[0] as Error).message).toBe('tool failed');
+    }
+  } finally {
     await rm(directory, { recursive: true, force: true });
   }
 });

@@ -141,7 +141,7 @@ handler 可以是函数，也可以通过本地模块路径加载。虽然部分
 
 此前将渲染字段合并进 `structuredContent`，会覆盖同名业务字段，也使业务输出 schema 与最终数据不一致。现在业务结果保持原样，带 View 的工具也可以公开 `outputSchema`。`meaningfulContent()` 在缺少内容时提供文本回退，不会将仅用于 UI 的 `viewProps` 自动序列化到文本中。
 
-[withViewProps()](../../packages/toolkit/mcp-apps/src/view-props.ts) 用来减少重复声明：
+[withViewProps()](../../packages/toolkit/mcp-apps/src/server.ts) 用来减少重复声明：
 
 <!-- prettier-ignore -->
 ```ts
@@ -208,7 +208,7 @@ HTTP handler 默认只接受 POST，采用无状态处理。新协议请求交�
 - BFF 请求体重建和取消信号传递是否正确
 - 服务端与 UI 同步升级要求，以及真实宿主转发元数据的验证是否充分
 
-[view-result.test.ts](../../packages/toolkit/mcp-apps/tests/view-result.test.ts) 覆盖结果隔离、旧格式读取、状态变化、输出校验、Manifest 标识检查及官方 SDK 通知转发。[protocol.test.ts](../../packages/toolkit/mcp-apps/tests/protocol.test.ts) 覆盖能力协商、资源和沙箱等协议行为。[view-props 测试](../../packages/toolkit/mcp-apps/tests/view-props.test.ts) 与 [类型用例](../../packages/toolkit/mcp-apps/tests/view-props.types.ts) 覆盖快捷函数和类型推导。
+[view-result.test.ts](../../packages/toolkit/mcp-apps/tests/view-result.test.ts) 覆盖结果隔离、旧格式读取、状态变化、输出校验、Manifest 标识检查及官方 SDK 通知转发。[protocol.test.ts](../../packages/toolkit/mcp-apps/tests/protocol.test.ts) 覆盖能力协商、资源和沙箱等协议行为。快捷函数行为也由 `view-result.test.ts` 覆盖，[类型用例](../../packages/toolkit/mcp-apps/tests/view-props.types.ts) 验证类型推导。
 
 ```sh
 pnpm --filter @modern-js/mcp-apps test

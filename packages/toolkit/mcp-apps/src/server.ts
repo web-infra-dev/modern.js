@@ -36,7 +36,6 @@ import {
 } from './resources';
 
 export type * from './config';
-export { withViewProps } from './view-props';
 export {
   bindUiResources,
   getUiEntryName,
@@ -721,12 +720,13 @@ async function fetchJson<T = unknown>(
   init: Omit<RequestInit, 'body'> & { body?: unknown } = {},
 ): Promise<T> {
   const { body, headers, ...rest } = init;
+  const requestHeaders = new Headers(headers);
+  if (body !== undefined && !requestHeaders.has('content-type')) {
+    requestHeaders.set('content-type', 'application/json');
+  }
   const response = await fetch(url, {
     ...rest,
-    headers: {
-      ...(body !== undefined ? { 'content-type': 'application/json' } : {}),
-      ...headers,
-    },
+    headers: requestHeaders,
     body:
       body !== undefined && typeof body !== 'string'
         ? JSON.stringify(body)
@@ -798,5 +798,33 @@ export function createMcpViewResult(
     ...rest,
     content: result.content ?? [],
     _meta: metadata,
+  };
+}
+
+type BusinessResult<T extends Record<string, unknown>> = Omit<
+  RemoteToolHandlerResult,
+  'structuredContent' | 'viewProps'
+> & { structuredContent: T };
+
+/** Explicitly reuse structured business data as card props, optionally mapping it. */
+export function withViewProps<T extends Record<string, unknown>>(
+  result: BusinessResult<T>,
+): BusinessResult<T> & { viewProps: T };
+export function withViewProps<
+  T extends Record<string, unknown>,
+  P extends Record<string, unknown>,
+>(
+  result: BusinessResult<T>,
+  select: (data: T) => P,
+): BusinessResult<T> & { viewProps: P };
+export function withViewProps<
+  T extends Record<string, unknown>,
+  P extends Record<string, unknown>,
+>(result: BusinessResult<T>, select?: (data: T) => P) {
+  return {
+    ...result,
+    viewProps: select
+      ? select(result.structuredContent)
+      : result.structuredContent,
   };
 }

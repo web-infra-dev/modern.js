@@ -37,6 +37,7 @@ export function mcpApps(options: McpAppsHonoOptions) {
       ? createMcpHandler(options.definition, {
           serverInfo: options.serverInfo,
           allowedOrigins: options.allowedOrigins,
+          onError: options.onError,
           configPath: options.configPath,
           createContext: request => contexts.get(request),
         })
@@ -59,6 +60,7 @@ export function mcpApps(options: McpAppsHonoOptions) {
             development: options.development ?? false,
             serverInfo: options.serverInfo,
             allowedOrigins: options.allowedOrigins,
+            onError: options.onError,
           });
   return async (c: HonoContext, next: () => Promise<void>) => {
     if (options.endpoint && c.req.path !== options.endpoint) return next();
