@@ -1,66 +1,144 @@
+import { normalizeToolConfig } from '../src/configuration/normalize';
 import { createServer } from 'node:http';
-import { mcpApps } from '../src/hono';
+import { mcpApps } from '../src/server/hono';
 import {
   Client,
   StreamableHTTPClientTransport,
 } from '@modelcontextprotocol/client';
-import { createArtifactHandler, createMcpHandler } from '../src/server';
+import { createArtifactHandler, createMcpHandler } from '../src/server/index';
 import { mkdtemp, writeFile, rm } from 'node:fs/promises';
 import { tmpdir } from 'node:os';
 import path from 'node:path';
-import { MCP_VIEW_META_KEY } from '../src/view-result';
+import { MCP_VIEW_META_KEY } from '../src/ui/view-result';
 import {
   createUiResources,
-  normalizeToolConfig,
   bindUiResources,
   createUiManifest,
-} from '../src/resources';
+} from '../src/ui/resources';
 
 describe('MCP Apps interoperability', () => {
-  it('embeds MF capabilities before the handshake without allowing HTML injection', async () => {
-    const capabilities = {
-      tools: { listChanged: true },
-      experimental: { 'example.test': { value: '</script>' } },
-    };
-    const handle = createMcpHandler(
-      {
-        remotes: [
+  it('preserves distinct remote and tool names in MF resource URIs', () => {
+    const names = [
+      'Todo',
+      'todo',
+      'list_todos',
+      'list.todos',
+      'list-todos',
+      'a/b',
+      'a%2Fb',
+    ];
+    const { resources, toolUris } = createUiResources({
+      remotes: names.map(name => ({
+        name,
+        baseUrl: 'https://example.com/mf-manifest.json',
+      })),
+      tools: names.map(name => ({
+        name,
+        remote: 'Todo',
+        view: { module: './View' },
+      })),
+    });
+    expect(resources.size).toBe(names.length * 2);
+    for (const name of names) {
+      expect(resources.has(`ui://mf/app/${encodeURIComponent(name)}`)).toBe(
+        true,
+      );
+      expect(toolUris.get(name)).toBe(
+        `ui://mf/app/Todo/${encodeURIComponent(name)}`,
+      );
+    }
+  });
+
+  it('warns instead of rejecting tool names outside the recommended format', async () => {
+    const warn = rs.spyOn(console, 'warn').mockImplementation(() => {});
+    try {
+      const handle = createMcpHandler({
+        remotes: [],
+        tools: [
           {
-            name: 'remote',
-            baseUrl: 'https://example.com/mf-manifest.json',
-            capabilities,
+            name: 'tools/list',
+            handler: () => ({ content: [{ type: 'text', text: 'ok' }] }),
           },
         ],
-        tools: [{ name: 'view', remote: 'remote', view: { module: './View' } }],
-      },
-      {
-        resourceHtml: '<!doctype html><html><head></head><body></body></html>',
-      },
-    );
-    const response = await handle(
-      new Request('http://localhost/mcp', {
-        method: 'POST',
-        headers: {
-          'content-type': 'application/json',
-          accept: 'application/json, text/event-stream',
-          'mcp-protocol-version': '2025-11-25',
-        },
-        body: JSON.stringify({
-          jsonrpc: '2.0',
-          id: 1,
-          method: 'resources/read',
-          params: { uri: 'ui://mf/remote/view' },
+      });
+      expect(warn).toHaveBeenCalledWith(
+        expect.stringContaining(
+          'Tool name "tools/list" does not follow the MCP recommended format',
+        ),
+      );
+      const response = await handle(
+        new Request('http://localhost/mcp', {
+          method: 'POST',
+          headers: {
+            'content-type': 'application/json',
+            accept: 'application/json, text/event-stream',
+            'mcp-protocol-version': '2025-11-25',
+          },
+          body: JSON.stringify({
+            jsonrpc: '2.0',
+            id: 1,
+            method: 'tools/call',
+            params: { name: 'tools/list', arguments: {} },
+          }),
         }),
-      }),
-    );
-    const body = await response.json();
-    const html = body.result.contents[0].text;
-    const json = html.match(
-      /id="modern-mcp-capabilities">(.*?)<\/script>/,
-    )?.[1];
-    expect(JSON.parse(json)).toEqual(capabilities);
-    expect(json).not.toContain('</script>');
+      );
+      const body = await response.json();
+      expect(body.result.content).toEqual([{ type: 'text', text: 'ok' }]);
+    } finally {
+      warn.mockRestore();
+    }
   });
+
+  it.each(['ui://mf/app/remote', 'ui://mf/app/remote/view'])(
+    'embeds MF capabilities in %s without allowing HTML injection',
+    async uri => {
+      const capabilities = {
+        tools: { listChanged: true },
+        experimental: { 'example.test': { value: '</script>' } },
+      };
+      const handle = createMcpHandler(
+        {
+          remotes: [
+            {
+              name: 'remote',
+              baseUrl: 'https://example.com/mf-manifest.json',
+              capabilities,
+            },
+          ],
+          tools: [
+            { name: 'view', remote: 'remote', view: { module: './View' } },
+          ],
+        },
+        {
+          resourceHtml:
+            '<!doctype html><html><head></head><body></body></html>',
+        },
+      );
+      const response = await handle(
+        new Request('http://localhost/mcp', {
+          method: 'POST',
+          headers: {
+            'content-type': 'application/json',
+            accept: 'application/json, text/event-stream',
+            'mcp-protocol-version': '2025-11-25',
+          },
+          body: JSON.stringify({
+            jsonrpc: '2.0',
+            id: 1,
+            method: 'resources/read',
+            params: { uri },
+          }),
+        }),
+      );
+      const body = await response.json();
+      const html = body.result.contents[0].text;
+      const json = html.match(
+        /id="modern-mcp-capabilities">(.*?)<\/script>/,
+      )?.[1];
+      expect(JSON.parse(json)).toEqual(capabilities);
+      expect(json).not.toContain('</script>');
+    },
+  );
   for (const mf of [false, true]) {
     for (const ui of [false, true]) {
       it(`${mf ? 'MF' : 'local'} negotiates UI support: ${ui}`, async () => {
@@ -113,7 +191,9 @@ describe('MCP Apps interoperability', () => {
           expect(listed.tools[0]._meta?.ui).toEqual({
             ...(ui
               ? {
-                  resourceUri: mf ? 'ui://mf/remote/greet' : 'ui://local/greet',
+                  resourceUri: mf
+                    ? 'ui://mf/app/remote/greet'
+                    : 'ui://app/greet',
                 }
               : {}),
             visibility: ['model', 'app'],
@@ -150,7 +230,7 @@ describe('MCP Apps interoperability', () => {
       },
     );
     const { resources } = createUiResources({ remotes: [], tools: [tool] });
-    expect(resources.get('ui://local/test')?._meta.ui).toMatchObject({
+    expect(resources.get('ui://app/test')?._meta.ui).toMatchObject({
       permissions: { camera: {} },
       domain: 'example.test',
       prefersBorder: false,
@@ -263,7 +343,7 @@ it('binds the public asset base to explicit development HTML resources', async (
           jsonrpc: '2.0',
           id: 1,
           method: 'resources/read',
-          params: { uri: 'ui://local/card' },
+          params: { uri: 'ui://app/card' },
         }),
       }),
     );
@@ -271,7 +351,7 @@ it('binds the public asset base to explicit development HTML resources', async (
     expect(result.contents[0].text).toContain(
       '<base href="https://assets.example.com/app/">',
     );
-    for (const key of ['resourceDomains', 'connectDomains', 'baseUriDomains']) {
+    for (const key of ['resourceDomains', 'baseUriDomains']) {
       expect(result.contents[0]._meta.ui.csp[key]).toContain(
         'https://assets.example.com',
       );

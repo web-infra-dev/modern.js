@@ -205,6 +205,60 @@ When using these types:
 - `visibility` defaults to `['model', 'app']`. It controls visibility to the model and card and does not replace server authorization. `annotations` provides tool behavior hints.
 - `context.request` is the current request. With BFF/Hono integration, `context.context` is its Hono Context. Asynchronous business operations should honor the cancellation signal in `context.signal`.
 
+When using `assetBase`, the HTML must contain a `<head>` element or reading the resource fails. The base is treated as a directory URL, with a trailing `/` added to its path when missing. Its origin is added to `resourceDomains` and `baseUriDomains`, but not automatically to `connectDomains`. Explicitly configure `csp.connectDomains` when fetching from that origin or loading an MF manifest.
+
+## Tool execution timeout and cancellation
+
+Timeouts are measured in milliseconds and resolved in this order:
+
+1. `handler.timeoutMs` for a module-based handler.
+2. The `handlerTimeoutMs` server option.
+3. The default of `30000`, or 30 seconds.
+
+The value must be an integer between `1` and `2147483647`. Function handlers use the server default and do not support a per-function `timeoutMs` setting.
+
+Set the server default with `createMcpHandler`:
+
+```ts
+import { createMcpHandler } from '@modern-js/mcp-apps/server'
+import definition from './mcp_apps'
+
+const handle = createMcpHandler(definition, {
+  handlerTimeoutMs: 10_000,
+})
+```
+
+A module-based handler can override the server default:
+
+```ts
+{
+  name: 'query_data',
+  handler: {
+    module: './handlers/query',
+    timeoutMs: 20_000,
+  },
+}
+```
+
+On timeout, the server stops waiting for the handler, aborts `context.signal`, and returns a tool result with `isError: true` and the text `Tool timed out`. This does not forcibly terminate business code or roll back completed writes. Synchronous blocking code also prevents the timer from firing promptly.
+
+`context.signal` also responds to request aborts and SDK cancellation. Asynchronous operations must honor the signal explicitly. Neither `context.fetch` nor `context.fetchJson` attaches it automatically:
+
+```ts
+import { defineTool } from '@modern-js/mcp-apps/config'
+
+export const queryData = defineTool({
+  name: 'query_data',
+  inputSchema: { type: 'object', properties: {} },
+  handler: async (_input, { signal, fetchJson }) => {
+    const data = await fetchJson('https://api.example.com/data', { signal })
+    return { structuredContent: { data } }
+  },
+})
+```
+
+For other asynchronous operations, use their cancellation APIs or call `signal.throwIfAborted()` at appropriate points.
+
 ## Plugin options
 
 | Option      | Default       | Purpose                                                                                                              |
@@ -222,6 +276,8 @@ For MF remote tools, the plugin also adds CORS headers and OPTIONS handling for 
 
 MF tools require an explicit matching `remotes` entry. Set `baseUrl` to the complete MF manifest URL and configure CSP origins. The plugin does not infer the address.
 
+
+`_meta['modernjs.dev/mcp-app']` is reserved by the framework. Generating view metadata replaces the handler value at this key entirely and preserves other `_meta` fields.
 
 ## withViewProps
 

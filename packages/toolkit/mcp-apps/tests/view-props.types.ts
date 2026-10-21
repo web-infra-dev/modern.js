@@ -1,4 +1,4 @@
-import { withViewProps } from '../src/server';
+import { withViewProps } from '../src/server/index';
 
 const direct = withViewProps({ structuredContent: { message: 'Hello' } });
 const message: string = direct.viewProps.message;

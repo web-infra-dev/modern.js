@@ -112,7 +112,7 @@ The MF template renders remote components without generating these application c
 
 When MF assets use a public assetPrefix, verify these paths against the manifest publicPath. The MCP Server template only provides the protocol service, without a homepage, card entries, or MF assets.
 
-Protocol responses also contain resource identifiers such as `ui://local/list_todos`, or `ui://mf/mcp-ui/list-todos` in MF mode (`ui://mf/mcp-ui` is a remote-level alias). These are not browser URLs. The host reads their HTML through `resources/read` on `/mcp`.
+Protocol responses also contain resource identifiers such as `ui://app/list_todos`, or `ui://mf/app/mcp-ui/list_todos` in MF mode (`ui://mf/app/mcp-ui` is a remote-level alias). These are not browser URLs. The host reads their HTML through `resources/read` on `/mcp`.
 
 ## Connect and verify
 

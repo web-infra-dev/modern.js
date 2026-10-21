@@ -74,7 +74,7 @@ export default defineMcpServer({
 | `greet`         | `greet` handler       | `./src/components/Greeting.tsx` | 问候卡片组件           |
 | `add_numbers`   | `add_numbers` handler | —                               | 无卡片，仅返回工具结果 |
 
-宿主调用 `greet` 后，服务端执行 `greet` handler。Modern.js 为 `view.module` 指定的组件生成卡片入口，并通过工具关联的 `ui://local/greet` 资源向宿主提供 HTML。宿主加载卡片后，组件接收工具输入、handler 返回的 `viewProps` 和 `mcpApp`。工具业务函数在服务端执行，React 组件在宿主的卡片界面中运行。
+宿主调用 `greet` 后，服务端执行 `greet` handler。Modern.js 为 `view.module` 指定的组件生成卡片入口，并通过工具关联的 `ui://app/greet` 资源向宿主提供 HTML。宿主加载卡片后，组件接收工具输入、handler 返回的 `viewProps` 和 `mcpApp`。工具业务函数在服务端执行，React 组件在宿主的卡片界面中运行。
 
 配置时注意：
 

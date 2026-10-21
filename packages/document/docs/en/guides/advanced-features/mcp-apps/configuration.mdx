@@ -74,7 +74,7 @@ The template uses the following mapping:
 | `greet`         | `greet` handler       | `./src/components/Greeting.tsx` | Greeting card component   |
 | `add_numbers`   | `add_numbers` handler | —                               | No card, tool result only |
 
-When the host calls `greet`, the server executes `greet` handler. Modern.js builds a card entry from the component referenced by `view.module` and serves its HTML through the tool's `ui://local/greet` resource. The host loads the card and the component receives tool arguments, the handler's `viewProps`, and `mcpApp`. Business handlers execute on the server; React components run in the host's card UI.
+When the host calls `greet`, the server executes `greet` handler. Modern.js builds a card entry from the component referenced by `view.module` and serves its HTML through the tool's `ui://app/greet` resource. The host loads the card and the component receives tool arguments, the handler's `viewProps`, and `mcpApp`. Business handlers execute on the server; React components run in the host's card UI.
 
 When configuring the mapping:
 

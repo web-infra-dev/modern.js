@@ -127,7 +127,7 @@ CLI 插件通过 `_internalServerPlugins` 注册 `bff-runtime`。服务端插件
 | `resources/list` | 返回 UI 资源描述                       |
 | `resources/read` | 返回 HTML 内容及资源元数据             |
 
-工具通过标准字段 `_meta.ui.resourceUri` 关联卡片。本地资源采用 `ui://local/<toolName>`，MF 工具资源采用 `ui://mf/<remoteName>/<toolName>`，名称按 URI 编码规则转义。HTML 的标准 MCP App MIME 类型由 `UI_MIME_TYPE` 常量定义。
+工具通过标准字段 `_meta.ui.resourceUri` 关联卡片。本地资源采用 `ui://app/<toolName>`，MF 工具资源采用 `ui://mf/app/<remoteName>/<toolName>`，名称按 URI 编码规则转义。HTML 的标准 MCP App MIME 类型由 `UI_MIME_TYPE` 常量定义。
 
 资源 URI 是协议标识。`resources/read` 返回 HTML 内容，宿主无需直接导航到应用页面。由于 HTML 在宿主环境中运行，`resolveUiHtml()` 根据 `assetBase` 注入 HTML base 地址，并将来源补充到相关 CSP 域名列表，让卡片能够访问应用的 JS、CSS 和 chunk。
 

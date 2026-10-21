@@ -70,7 +70,7 @@ export default defineMcpServer({
 
 默认直接给工具增加 `view: { module: './src/components/Greeting.tsx' }`，
 本地视图无需配置 `remotes`。组件注册为标准 Modern.js 自动挂载入口，继承应用构建、
-别名、样式、环境变量、preEntry 和运行时插件。HTML 通过 `ui://local/<tool>`
+别名、样式、环境变量、preEntry 和运行时插件。HTML 通过 `ui://app/<tool>`
 资源返回，宿主加载标准 JS/CSS/chunk。组件接收工具参数、`viewProps` 和 `mcpApp`。
 这不会自动附加原页面的文件系统路由 layout 或 loader。
 

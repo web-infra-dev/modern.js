@@ -1,4 +1,4 @@
-import { type McpAppsDefinition, createMcpHandler } from './server';
+import { type McpAppsDefinition, createMcpHandler } from './index';
 
 export interface McpBffOptions {
   definition: McpAppsDefinition;

@@ -8,10 +8,10 @@ export default defineConfig({
       syntax: 'es2022',
       source: {
         entry: {
-          config: './src/config.ts',
-          server: './src/server.ts',
-          hono: './src/hono.ts',
-          bff: './src/bff.ts',
+          config: './src/configuration/index.ts',
+          server: './src/server/index.ts',
+          hono: './src/server/hono.ts',
+          bff: './src/server/bff.ts',
         },
       },
       output: { target: 'node', distPath: { root: 'dist/esm-node' } },
@@ -24,10 +24,10 @@ export default defineConfig({
       syntax: 'es2022',
       source: {
         entry: {
-          config: './src/config.ts',
-          server: './src/server.ts',
-          hono: './src/hono.ts',
-          bff: './src/bff.ts',
+          config: './src/configuration/index.ts',
+          server: './src/server/index.ts',
+          hono: './src/server/hono.ts',
+          bff: './src/server/bff.ts',
         },
       },
       output: {
@@ -42,7 +42,7 @@ export default defineConfig({
       syntax: 'es2022',
       source: {
         entry: {
-          react: './src/react.ts',
+          react: './src/ui/react.ts',
         },
       },
       output: { target: 'web', distPath: { root: 'dist/esm' } },

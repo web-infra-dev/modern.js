@@ -22,31 +22,31 @@
   "exports": {
     "./config": {
       "types": "./dist/types/config.d.ts",
-      "modern:source": "./src/config.ts",
+      "modern:source": "./src/configuration/index.ts",
       "import": "./dist/esm-node/config.mjs",
       "require": "./dist/cjs/config.cjs"
     },
     "./server": {
       "types": "./dist/types/server.d.ts",
-      "modern:source": "./src/server.ts",
+      "modern:source": "./src/server/index.ts",
       "import": "./dist/esm-node/server.mjs",
       "require": "./dist/cjs/server.cjs"
     },
     "./react": {
       "types": "./dist/types/react.d.ts",
-      "modern:source": "./src/react.ts",
+      "modern:source": "./src/ui/react.ts",
       "import": "./dist/esm/react.mjs",
       "default": "./dist/esm/react.mjs"
     },
     "./hono": {
       "types": "./dist/types/hono.d.ts",
-      "modern:source": "./src/hono.ts",
+      "modern:source": "./src/server/hono.ts",
       "import": "./dist/esm-node/hono.mjs",
       "require": "./dist/cjs/hono.cjs"
     },
     "./bff": {
       "types": "./dist/types/bff.d.ts",
-      "modern:source": "./src/bff.ts",
+      "modern:source": "./src/server/bff.ts",
       "import": "./dist/esm-node/bff.mjs",
       "require": "./dist/cjs/bff.cjs"
     }

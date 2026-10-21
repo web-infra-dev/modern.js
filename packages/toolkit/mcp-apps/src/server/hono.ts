@@ -2,7 +2,7 @@ import {
   type McpAppsDefinition,
   createMcpHandler,
   createArtifactHandler,
-} from './server';
+} from './index';
 
 /** Structural Hono context: no runtime dependency on Hono or a Node listener. */
 interface HonoContext {

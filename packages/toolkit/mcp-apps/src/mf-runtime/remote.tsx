@@ -17,17 +17,39 @@ export type MountResult =
       update?: (props: RemoteProps) => void;
     };
 
+export type MountComponent = (
+  | ((container: HTMLElement, props: RemoteProps) => MountResult)
+  | { mount: (container: HTMLElement, props: RemoteProps) => MountResult }
+) & { update?: (props: RemoteProps) => void };
+
+export type ReactRemoteComponent =
+  React.ComponentType<RemoteProps> | React.ExoticComponent<RemoteProps>;
+export type RemoteComponent = ReactRemoteComponent | MountComponent;
+
 export type RemoteModule = {
   default?: RemoteComponent;
   [key: string]: unknown;
 };
 
-export type RemoteComponent = {
-  (props: RemoteProps): React.ReactNode;
-  (container: HTMLElement, props: RemoteProps): MountResult;
-  mount?: (container: HTMLElement, props: RemoteProps) => MountResult;
-  update?: (props: RemoteProps) => void;
-};
+function isReactComponent(value: unknown): value is ReactRemoteComponent {
+  if (typeof value === 'function') return true;
+  if (!value || typeof value !== 'object') return false;
+  const marker = (value as { $$typeof?: symbol }).$$typeof;
+  return (
+    marker === Symbol.for('react.memo') ||
+    marker === Symbol.for('react.forward_ref') ||
+    marker === Symbol.for('react.lazy')
+  );
+}
+
+function isMountComponent(value: unknown): value is MountComponent {
+  return (
+    typeof value === 'function' ||
+    (!!value &&
+      typeof value === 'object' &&
+      typeof (value as { mount?: unknown }).mount === 'function')
+  );
+}
 
 export type ModuleFederationInstance = {
   loadRemote: (path: string) => Promise<RemoteModule | RemoteComponent>;
@@ -158,20 +180,73 @@ export async function loadRemoteComponent({
 
   const remoteModule = await mf.loadRemote(fullPath);
 
-  const moduleRecord =
-    typeof remoteModule === 'object'
+  return resolveRemoteExport(remoteModule, exportName, config.renderMode);
+}
+
+/** Validate the selected export before React rendering or imperative mounting. */
+export function resolveRemoteExport(
+  remoteModule: unknown,
+  exportName: string,
+  renderMode: ModuleFederationConfig['renderMode'] = 'component',
+): RemoteComponent {
+  const record =
+    remoteModule && typeof remoteModule === 'object'
       ? (remoteModule as Record<string, unknown>)
-      : null;
-  const Component =
-    moduleRecord !== null
-      ? moduleRecord[exportName] || moduleRecord.default || remoteModule
-      : remoteModule;
-
-  if (!Component) {
-    throw new Error(`Export "${exportName}" not found in remote module`);
+      : undefined;
+  // Direct exports are supported only for the default export convention.
+  const direct =
+    typeof remoteModule === 'function' ||
+    isReactComponent(remoteModule) ||
+    (record && typeof record.mount === 'function');
+  const selected =
+    exportName === 'default' && direct
+      ? remoteModule
+      : record && Object.hasOwn(record, exportName)
+        ? record[exportName]
+        : undefined;
+  const valid =
+    renderMode === 'mount'
+      ? isMountComponent(selected)
+      : isReactComponent(selected);
+  if (!valid) {
+    throw new Error(
+      `Export "${exportName}" is missing or invalid for ${renderMode} mode`,
+    );
   }
+  return selected as RemoteComponent;
+}
 
-  return Component as RemoteComponent;
+/** Preserve receivers for module and instance lifecycle methods. */
+export function mountRemoteComponent(
+  remote: MountComponent,
+  container: HTMLElement,
+  props: RemoteProps,
+) {
+  let instance: MountResult;
+  if ('mount' in remote && typeof remote.mount === 'function') {
+    instance = remote.mount(container, props);
+  } else if (typeof remote === 'function') {
+    instance = remote(container, props);
+  } else {
+    throw new Error('Invalid remote mount export');
+  }
+  return {
+    update(next: RemoteProps) {
+      if (
+        instance &&
+        typeof instance === 'object' &&
+        typeof instance.update === 'function'
+      ) {
+        instance.update(next);
+      } else {
+        remote.update?.(next);
+      }
+    },
+    unmount() {
+      if (typeof instance === 'function') instance();
+      else instance?.unmount?.();
+    },
+  };
 }
 
 interface RemoteComponentContainerProps {
@@ -180,16 +255,47 @@ interface RemoteComponentContainerProps {
   mcpApp?: App | null;
 }
 
-export function RemoteComponentContainer({
+export function RemoteComponentContainer(props: RemoteComponentContainerProps) {
+  const [attempt, setAttempt] = useState(0);
+  const {
+    remoteName,
+    remoteEntry,
+    module,
+    exportName,
+    renderMode = 'component',
+  } = props.config;
+  const identity = JSON.stringify([
+    remoteName,
+    remoteEntry,
+    module,
+    exportName,
+    renderMode,
+    attempt,
+  ]);
+  return (
+    <RemoteComponentInstance
+      key={identity}
+      {...props}
+      onRetry={() => setAttempt(value => value + 1)}
+    />
+  );
+}
+
+function RemoteComponentInstance({
   config,
   args = {},
   mcpApp = null,
-}: RemoteComponentContainerProps) {
+  onRetry,
+}: RemoteComponentContainerProps & { onRetry: () => void }) {
   const { component: RemoteComponent, error } = useRemoteComponent(config);
   const mountContainerRef = useRef<HTMLDivElement | null>(null);
-  const cleanupRef = useRef<null | (() => void)>(null);
-  const mountedModuleRef = useRef<RemoteComponent | null>(null);
-  const mountedInstanceRef = useRef<MountResult>(undefined);
+  const [lifecycleError, setLifecycleError] = useState<string | null>(null);
+  const mountedRef = useRef<ReturnType<typeof mountRemoteComponent> | null>(
+    null,
+  );
+  const lastPropsRef = useRef<{ args: RemoteProps; mcpApp: App | null } | null>(
+    null,
+  );
   const argsRef = useRef(args);
   const mcpAppRef = useRef(mcpApp);
   argsRef.current = args;
@@ -200,86 +306,89 @@ export function RemoteComponentContainer({
     if (
       renderMode !== 'mount' ||
       !RemoteComponent ||
+      !isMountComponent(RemoteComponent) ||
       !mountContainerRef.current
     ) {
       return;
     }
 
-    const mountFn =
-      typeof RemoteComponent.mount === 'function'
-        ? RemoteComponent.mount
-        : typeof RemoteComponent === 'function'
-          ? RemoteComponent
-          : null;
-
-    if (!mountFn) {
-      return;
+    setLifecycleError(null);
+    try {
+      const mounted = mountRemoteComponent(
+        RemoteComponent,
+        mountContainerRef.current,
+        {
+          ...argsRef.current,
+          mcpApp: mcpAppRef.current,
+        },
+      );
+      mountedRef.current = mounted;
+      lastPropsRef.current = {
+        args: argsRef.current,
+        mcpApp: mcpAppRef.current,
+      };
+      return () => {
+        mountedRef.current = null;
+        lastPropsRef.current = null;
+        try {
+          mounted.unmount();
+        } catch (error) {
+          // Cleanup failures must not tear down the host connection.
+          console.error('[MF App] Remote unmount failed:', error);
+        }
+      };
+    } catch (error) {
+      mountContainerRef.current.replaceChildren();
+      setLifecycleError(error instanceof Error ? error.message : String(error));
     }
-
-    const result = mountFn(mountContainerRef.current, {
-      ...argsRef.current,
-      mcpApp: mcpAppRef.current,
-    });
-    mountedModuleRef.current = RemoteComponent;
-    mountedInstanceRef.current = result;
-    if (typeof result === 'function') {
-      cleanupRef.current = result;
-    } else if (
-      result &&
-      typeof result === 'object' &&
-      typeof result.unmount === 'function'
-    ) {
-      const unmount = result.unmount;
-      cleanupRef.current = () => unmount();
-    } else {
-      cleanupRef.current = null;
-    }
-
-    return () => {
-      cleanupRef.current?.();
-      cleanupRef.current = null;
-      mountedModuleRef.current = null;
-      mountedInstanceRef.current = undefined;
-    };
   }, [RemoteComponent, renderMode]);
 
   useEffect(() => {
-    if (renderMode !== 'mount' || !mountedModuleRef.current) {
+    const mounted = mountedRef.current;
+    if (renderMode !== 'mount' || !mounted) return;
+    if (
+      lastPropsRef.current?.args === args &&
+      lastPropsRef.current?.mcpApp === mcpApp
+    )
       return;
-    }
-
-    const mountedInstance = mountedInstanceRef.current;
-    const updateFn =
-      mountedInstance &&
-      typeof mountedInstance === 'object' &&
-      typeof mountedInstance.update === 'function'
-        ? mountedInstance.update.bind(mountedInstance)
-        : mountedModuleRef.current.update;
-    if (typeof updateFn === 'function') {
-      updateFn({
-        ...args,
-        mcpApp,
-      });
+    lastPropsRef.current = { args, mcpApp };
+    try {
+      mounted.update({ ...args, mcpApp });
+      setLifecycleError(null);
+    } catch (error) {
+      setLifecycleError(error instanceof Error ? error.message : String(error));
     }
   }, [args, mcpApp, renderMode]);
+
+  const displayError = error ?? lifecycleError;
+  const Component =
+    renderMode === 'component' && isReactComponent(RemoteComponent)
+      ? RemoteComponent
+      : null;
 
   return (
     <div className="mf-content">
       <div className="mf-component-container">
         {/* Error State */}
-        {error && (
+        {displayError && (
           <div className="component-error-container">
             <div className="component-error-icon">❌</div>
             <div className="component-error-title">Component Load Error</div>
-            <div className="component-error-message">{error}</div>
+            <div className="component-error-message" role="alert">
+              {displayError}
+            </div>
+            <button type="button" onClick={onRetry}>
+              Retry
+            </button>
           </div>
         )}
 
+        {!error && !RemoteComponent && <p role="status">Loading component…</p>}
         {/* Loaded Component */}
-        {!error && RemoteComponent && renderMode !== 'mount' && (
+        {!error && Component && (
           <div data-component-container className="mf-component-wrapper">
             <ErrorBoundary>
-              <RemoteComponent {...args} mcpApp={mcpApp} />
+              <Component {...args} mcpApp={mcpApp} />
             </ErrorBoundary>
           </div>
         )}
@@ -301,6 +410,7 @@ function useRemoteComponent({
   remoteEntry,
   module,
   exportName,
+  renderMode,
 }: ModuleFederationConfig) {
   const [component, setComponent] = useState<RemoteComponent | null>(null);
   const [error, setError] = useState<string | null>(null);
@@ -316,7 +426,7 @@ function useRemoteComponent({
     }, 30000);
 
     loadRemoteComponent({
-      config: { remoteName, remoteEntry, module, exportName },
+      config: { remoteName, remoteEntry, module, exportName, renderMode },
       instances: instances.current,
     }).then(
       loaded => {
@@ -333,7 +443,7 @@ function useRemoteComponent({
       active = false;
       clearTimeout(timer);
     };
-  }, [remoteName, remoteEntry, module, exportName]);
+  }, [remoteName, remoteEntry, module, exportName, renderMode]);
 
   return { component, error };
 }

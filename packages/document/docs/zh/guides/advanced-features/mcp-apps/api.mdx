@@ -202,6 +202,60 @@ export type RemoteToolHandler = (
 - `visibility` 默认是 `['model', 'app']`，控制工具对模型和卡片的可见性，不代替服务端鉴权。`annotations` 是工具行为提示。
 - `context.request` 是当前请求，`context.context` 在 BFF/Hono 接入中为请求对应的 Hono Context；异步业务操作应响应 `context.signal` 的取消信号。
 
+使用 `assetBase` 时，HTML 必须包含 `<head>` 元素，否则读取资源时报错。`assetBase` 按目录 URL 解析，路径末尾缺少 `/` 时会自动补齐。该地址的 origin 会加入 `resourceDomains` 和 `baseUriDomains`，不会自动加入 `connectDomains`。需要通过 fetch 请求该地址或加载 MF manifest 时，应显式配置对应的 `csp.connectDomains`。
+
+## 工具执行超时与取消
+
+超时时间单位为毫秒，按以下优先级取值：
+
+1. 模块形式 handler 的 `handler.timeoutMs`。
+2. 创建服务端时传入的 `handlerTimeoutMs`。
+3. 默认值 `30000`，即 30 秒。
+
+超时时间必须是 `1` 到 `2147483647` 之间的整数。函数形式的 handler 使用服务端默认值，不能在函数上配置 `timeoutMs`。
+
+通过 `createMcpHandler` 设置服务端默认值：
+
+```ts
+import { createMcpHandler } from '@modern-js/mcp-apps/server'
+import definition from './mcp_apps'
+
+const handle = createMcpHandler(definition, {
+  handlerTimeoutMs: 10_000,
+})
+```
+
+模块形式的 handler 可以覆盖服务端默认值：
+
+```ts
+{
+  name: 'query_data',
+  handler: {
+    module: './handlers/query',
+    timeoutMs: 20_000,
+  },
+}
+```
+
+执行超时后，服务端停止等待 handler，触发 `context.signal`，并返回 `isError: true`、文本为 `Tool timed out` 的工具结果。超时不会强行终止业务代码，也不会回滚已完成的写入。同步阻塞代码还会阻止定时器及时触发。
+
+`context.signal` 同时响应请求中断和 SDK 取消。异步操作需要主动使用该信号，`context.fetch` 和 `context.fetchJson` 不会自动附带它：
+
+```ts
+import { defineTool } from '@modern-js/mcp-apps/config'
+
+export const queryData = defineTool({
+  name: 'query_data',
+  inputSchema: { type: 'object', properties: {} },
+  handler: async (_input, { signal, fetchJson }) => {
+    const data = await fetchJson('https://api.example.com/data', { signal })
+    return { structuredContent: { data } }
+  },
+})
+```
+
+对其他异步操作，应使用其提供的取消接口，或在适当的位置调用 `signal.throwIfAborted()`。
+
 ## 插件选项
 
 | 选项        | 默认值        | 用途                                                                                   |
@@ -219,6 +273,8 @@ export type RemoteToolHandler = (
 
 MF 工具必须显式声明对应的 `remotes`，将 `baseUrl` 设置为完整的 MF manifest URL，并配置 CSP 域名。插件不会推断该地址。
 
+
+`_meta['modernjs.dev/mcp-app']` 是框架保留字段。生成界面元数据时会整体替换 handler 在该字段提供的值，其他 `_meta` 字段保持不变。
 
 ## withViewProps
 

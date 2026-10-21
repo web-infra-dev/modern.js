@@ -3,7 +3,7 @@ import type {
   McpUiAppCapabilities,
   McpUiHostContext,
 } from '@modelcontextprotocol/ext-apps';
-import { useMcpApp } from '../react';
+import { useMcpApp } from '../ui/react';
 import { useCallback, useEffect, useRef, useState } from 'react';
 import { createRoot } from 'react-dom/client';
 import {
@@ -85,14 +85,21 @@ function ModuleFederationApp() {
   );
 
   const appRef = useRef<App | null>(null);
+  const [availableDisplayModes, setAvailableDisplayModes] = useState<string[]>(
+    [],
+  );
 
+  const displayRequestPending = useRef(false);
+  const [isChangingDisplayMode, setIsChangingDisplayMode] = useState(false);
   const toggleFullscreen = useCallback(async () => {
-    if (!appRef.current) {
+    if (!appRef.current || displayRequestPending.current) {
       return;
     }
     const newMode = displayMode === 'fullscreen' ? 'inline' : 'fullscreen';
     if (!canRequestDisplayMode(appRef.current.getHostContext(), newMode))
       return;
+    displayRequestPending.current = true;
+    setIsChangingDisplayMode(true);
     if (newMode === 'fullscreen') {
       // Apply immediately so content fills the growing iframe as the host animates it
       setDisplayMode('fullscreen');
@@ -101,12 +108,16 @@ function ModuleFederationApp() {
     // fires after animation and will remove it cleanly
     try {
       const result = await appRef.current.requestDisplayMode({ mode: newMode });
-      setDisplayMode(result.mode as 'inline' | 'fullscreen');
+      if (result.mode === 'inline' || result.mode === 'fullscreen')
+        setDisplayMode(result.mode);
     } catch (err) {
       if (newMode === 'fullscreen') {
         setDisplayMode('inline'); // revert optimistic expand
       }
       console.error('[MF App] requestDisplayMode failed:', err);
+    } finally {
+      displayRequestPending.current = false;
+      setIsChangingDisplayMode(false);
     }
   }, [displayMode]);
 
@@ -162,6 +173,7 @@ function ModuleFederationApp() {
   useEffect(() => {
     if (!app || !isConnected) return;
     const updateHostContext = (ctx: McpUiHostContext) => {
+      setAvailableDisplayModes(ctx.availableDisplayModes ?? []);
       if (ctx.displayMode === 'inline' || ctx.displayMode === 'fullscreen') {
         setDisplayMode(ctx.displayMode);
       }
@@ -197,6 +209,12 @@ function ModuleFederationApp() {
         <button
           type="button"
           className={`mf-tool-btn${displayMode === 'fullscreen' ? ' is-fullscreen' : ''}`}
+          disabled={
+            isChangingDisplayMode ||
+            !availableDisplayModes.includes(
+              displayMode === 'fullscreen' ? 'inline' : 'fullscreen',
+            )
+          }
           onClick={toggleFullscreen}
           title={
             displayMode === 'fullscreen'

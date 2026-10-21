@@ -1,14 +1,14 @@
-import { withViewProps } from '../src/server';
+import { withViewProps } from '../src/server/index';
 import { App } from '@modelcontextprotocol/ext-apps';
 import { AppBridge } from '@modelcontextprotocol/ext-apps/app-bridge';
-import { createMcpHandler, createMcpViewResult } from '../src/server';
+import { createMcpHandler, createMcpViewResult } from '../src/server/index';
 import {
   MCP_VIEW_META_KEY,
   readMcpViewResult,
   mergeMcpViewProps,
   reduceMcpToolState,
-} from '../src/view-result';
-import { bindUiResources, createUiManifest } from '../src/resources';
+} from '../src/ui/view-result';
+import { bindUiResources, createUiManifest } from '../src/ui/resources';
 
 const resource = { moduleFederation: { remoteName: 'remote' } };
 const render = {
@@ -38,6 +38,64 @@ async function request(
   );
   return response.json();
 }
+
+it('preserves tool errors when the error reporter throws', async () => {
+  const handle = createMcpHandler(
+    {
+      remotes: [],
+      tools: [
+        {
+          name: 'fail',
+          handler: () => {
+            throw new Error('business failure');
+          },
+        },
+      ],
+    },
+    {
+      onError: () => {
+        throw new Error('reporter failure');
+      },
+    },
+  );
+  const called = await request(handle, 'tools/call', {
+    name: 'fail',
+    arguments: {},
+  });
+  expect(called.result).toEqual({
+    isError: true,
+    content: [{ type: 'text', text: 'Tool execution failed' }],
+  });
+});
+
+it('uses the public HTTPS origin in MF tool metadata behind a proxy', async () => {
+  const handle = createMcpHandler({
+    remotes: [
+      { name: 'remote', baseUrl: 'https://example.com/mf-manifest.json' },
+    ],
+    tools: [{ name: 'view', remote: 'remote', view: { module: './View' } }],
+  });
+  const response = await handle(
+    new Request('http://example.com/mcp', {
+      method: 'POST',
+      headers: {
+        'content-type': 'application/json',
+        accept: 'application/json, text/event-stream',
+        'x-forwarded-proto': 'https',
+      },
+      body: JSON.stringify({
+        jsonrpc: '2.0',
+        id: 1,
+        method: 'tools/call',
+        params: { name: 'view', arguments: {} },
+      }),
+    }),
+  );
+  const body = await response.json();
+  expect(
+    body.result._meta[MCP_VIEW_META_KEY].resource.moduleFederation.mcpServerUrl,
+  ).toBe('https://example.com');
+});
 
 describe('MCP rendering contract', () => {
   it('prefers versioned metadata over business fields and legacy output', () => {
@@ -134,7 +192,10 @@ describe('MCP rendering contract', () => {
       {
         structuredContent: business,
         viewProps: { name: 'UI' },
-        _meta: { trace: '123' },
+        _meta: {
+          trace: '123',
+          [MCP_VIEW_META_KEY]: { version: 99, stale: true },
+        },
       },
     );
     expect(output.structuredContent).toBe(business);
@@ -158,7 +219,10 @@ describe('MCP rendering contract', () => {
           handler: () => ({
             structuredContent: { args: 'business' },
             viewProps: { value: 4 },
-            _meta: { trace: '123' },
+            _meta: {
+              trace: '123',
+              [MCP_VIEW_META_KEY]: { version: 99, stale: true },
+            },
           }),
         },
       ],
@@ -274,7 +338,7 @@ describe('MCP rendering contract', () => {
       tools: [{ name: 'test', view: { module: './View' } }],
     };
     const manifest = createUiManifest(definition);
-    manifest.tools.test.resourceUri = 'ui://local/other';
+    manifest.tools.test.resourceUri = 'ui://app/other';
     expect(() =>
       bindUiResources(definition, { directory: '/tmp/ui', manifest }),
     ).toThrow('MCP UI manifest mismatch');

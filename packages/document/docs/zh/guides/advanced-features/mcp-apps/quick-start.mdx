@@ -111,7 +111,7 @@ MF 模板通过远程组件渲染卡片，不生成上述应用内组件入口�
 
 MF 资源使用公开 assetPrefix 时，请使用 manifest 的实际 publicPath 验证上述资源。MCP Server 模板只提供协议服务，没有首页、卡片入口或 MF 资源。
 
-协议响应中还会出现 `ui://local/list_todos` 或 MF 模式的 `ui://mf/mcp-ui/list-todos`（`ui://mf/mcp-ui` 为 remote 级别别名）。它们是 MCP 资源标识，不是浏览器网址。宿主通过 `/mcp` 的 `resources/read` 读取对应 HTML。
+协议响应中还会出现 `ui://app/list_todos` 或 MF 模式的 `ui://mf/app/mcp-ui/list_todos`（`ui://mf/app/mcp-ui` 为 remote 级别别名）。它们是 MCP 资源标识，不是浏览器网址。宿主通过 `/mcp` 的 `resources/read` 读取对应 HTML。
 
 ## 连接与验证
 
