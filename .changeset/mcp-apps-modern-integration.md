@@ -15,3 +15,9 @@ Provide a separately published development Inspector with live connections, loca
 Generate Todo starters from separate, complete templates for local components, Module Federation and tool-only servers. Include tools for listing, adding, editing, completing and deleting todos, with shared server state and an interactive card.
 
 Allow the browser runtime to initialize in sandboxed iframes where cookie access is restricted.
+
+Use ui://app/ resource identifiers for application-built views and URI-encoded remote and tool names under ui://mf/app/ to avoid naming collisions. Preserve MF root resource capabilities and normalize legacy views consistently when creating and binding UI manifests.
+
+Share cancellable HTML loading across server and manifest resources. Treat assetBase as a directory URL, require a head element for base injection, and add asset origins only to resource and base URI CSP permissions. Use the public request origin consistently and preserve tool error responses if error reporting fails. Warn when tool names do not follow the MCP recommended format.
+
+Validate remote exports for React and imperative mount modes, preserve lifecycle method receivers, and isolate state across module and render mode changes. Recover from lifecycle errors, support local loading retries, and serialize display mode requests while disabling unsupported transitions.
