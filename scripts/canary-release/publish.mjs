@@ -275,6 +275,52 @@ export function isolatedNpmEnvironment(env, temporary) {
 // unknown. A package that fails does not stop the ones after it: each publish is a
 // separate request, stopping cannot recall the requests already sent, and one run
 // that reports all 29 outcomes beats 29 runs that each report one.
+// npm's exit code is not the last word on whether a package was published.
+// Run 56 ended with 401 "Failed to generate Web Auth URLs" for a package that
+// the registry was serving at that exact version minutes later: npm stored the
+// publish and then failed at something after it. The registry is the authority,
+// and the manifest already carries the sha512 of the tarball that was uploaded,
+// so a package npm was unsure about is settled by asking for its metadata and
+// comparing that hash. npm warns that a publish "may take a few minutes to
+// become available", hence the budget rather than a single look.
+const CONFIRM_BUDGET = 8 * 60_000;
+const CONFIRM_INTERVAL = 20_000;
+
+export async function confirmFromRegistry(items, {
+  request = (...args) => fetch(...args),
+  wait = delay,
+  now = () => Date.now(),
+  log = () => {},
+  budgetMs = CONFIRM_BUDGET,
+} = {}) {
+  const deadline = now() + budgetMs;
+  const pending = new Set(items);
+  while (pending.size) {
+    for (const item of [...pending]) {
+      let metadata = null;
+      try {
+        const url = new URL(`/${escapeName(item.name)}/${encodeURIComponent(item.version)}`, REGISTRY).href;
+        const response = await request(url, { headers: { Accept: 'application/json' }, signal: AbortSignal.timeout(PROBE_TIMEOUT) });
+        if (response.ok) metadata = await response.json().then(body => body, () => null);
+      } catch { /* the budget decides, not one answer */ }
+      if (!metadata) continue;
+      // Only the exact bytes this job built count as this job's publication.
+      if (metadata?.dist?.integrity !== item.integrity) {
+        log(`[publish] ${item.name}@${item.version} is on the registry with different contents`);
+        pending.delete(item);
+        continue;
+      }
+      item.status = 'published';
+      item.confirmedBy = 'registry';
+      log(`[publish] ${item.name} was published after all; the registry serves this exact tarball`);
+      pending.delete(item);
+    }
+    if (!pending.size || now() >= deadline) break;
+    await wait(CONFIRM_INTERVAL);
+  }
+  return [...pending];
+}
+
 export async function publish(root, options, {
   env = process.env,
   validateSource = assertSource,
@@ -284,6 +330,7 @@ export async function publish(root, options, {
   npm = (args, settings) => spawnSync('npm', args, { ...settings, encoding: 'utf8', maxBuffer: 16 * 1024 * 1024 }),
   log = message => console.error(message),
   verifyTrust = assertTrustedPublishers,
+  confirm = confirmFromRegistry,
 } = {}) {
   const receiptDir = path.resolve(root, options.receiptDir);
   fs.mkdirSync(receiptDir, { recursive: true });
@@ -322,7 +369,7 @@ export async function publish(root, options, {
     await verifyTrust(manifest.packages.map(pkg => pkg.name), { env, log });
     receipt.status = 'publishing';
     persist();
-    let unresolved = 0;
+    const unsure = [];
     for (const pkg of manifest.packages) {
       const item = { name: pkg.name, version: pkg.version, integrity: pkg.integrity, status: 'unknown' };
       receipt.packages.push(item);
@@ -339,7 +386,7 @@ export async function publish(root, options, {
         publishedFromOutput(result.stdout, pkg);
         item.status = 'published';
       } catch (error) {
-        unresolved += 1;
+        unsure.push(item);
         item.exitCode = result.status ?? null;
         item.errorCode = npmErrorCode(result);
         log(`[publish] ${pkg.name} unresolved: ${String(error.message).replace(SECRET, '[redacted]')}`);
@@ -347,7 +394,11 @@ export async function publish(root, options, {
       }
       persist();
     }
-    assert.equal(unresolved, 0, `${unresolved} of ${manifest.packages.length} packages failed or returned an ambiguous outcome; inspect the registry before retrying`);
+    // Ask the registry about everything npm left in doubt, before deciding.
+    const unresolved = unsure.length ? await confirm(unsure, { log }) : [];
+    persist();
+    if (unsure.length) log(`[publish] ${unsure.length - unresolved.length} of ${unsure.length} doubtful packages were confirmed by the registry`);
+    assert.equal(unresolved.length, 0, `${unresolved.length} of ${manifest.packages.length} packages failed or returned an ambiguous outcome; inspect the registry before retrying`);
     receipt.status = 'published';
     persist();
     return receipt;
