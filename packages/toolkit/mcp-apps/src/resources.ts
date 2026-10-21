@@ -163,7 +163,13 @@ export function bindUiResources(
   return {
     ...definition,
     tools: definition.tools.map(tool => {
-      if (!tool.view || tool.remote || tool.view.html) return tool;
+      if (
+        !tool.view ||
+        tool.remote ||
+        (tool.view.html &&
+          (!options.manifest || tool.view.html.startsWith('https://')))
+      )
+        return tool;
       const entry = Object.hasOwn(manifest.tools, tool.name)
         ? manifest.tools[tool.name]
         : undefined;

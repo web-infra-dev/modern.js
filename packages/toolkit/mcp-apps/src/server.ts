@@ -2,6 +2,7 @@ import { MCP_VIEW_META_KEY } from './view-result';
 import { getUiCapability } from '@modelcontextprotocol/ext-apps/server';
 import fs from 'node:fs/promises';
 import path from 'node:path';
+import { createRequire } from 'node:module';
 import { pathToFileURL } from 'node:url';
 import {
   Server,
@@ -424,7 +425,7 @@ export function createMcpHandler<T = undefined>(
       origin !== null &&
       ![
         new URL(request.url).origin,
-        publicOrigin(request),
+        new URL(publicOrigin(request)).origin,
         ...(options.allowedOrigins ?? []),
       ].includes(origin)
     ) {
@@ -586,6 +587,9 @@ async function importLocalModule(
   modulePath: string,
 ): Promise<Record<string, unknown>> {
   const absolutePath = path.resolve(modulePath);
+  // Query parameters bypass ESM caching, but CJS uses the filename cache.
+  const require = createRequire(absolutePath);
+  delete require.cache[require.resolve(absolutePath)];
   const moduleUrl = pathToFileURL(absolutePath);
   moduleUrl.searchParams.set('t', String(++moduleRevision));
   return (await importOptional(moduleUrl.href)) as Record<string, unknown>;
