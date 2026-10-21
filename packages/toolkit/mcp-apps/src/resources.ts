@@ -163,16 +163,28 @@ export function bindUiResources(
   return {
     ...definition,
     tools: definition.tools.map(tool => {
-      if (
-        !tool.view ||
-        tool.remote ||
-        (tool.view.html &&
-          (!options.manifest || tool.view.html.startsWith('https://')))
-      )
-        return tool;
+      if (!tool.view || tool.remote) return tool;
       const entry = Object.hasOwn(manifest.tools, tool.name)
         ? manifest.tools[tool.name]
         : undefined;
+      // Explicit source HTML keeps its location, but still needs the public
+      // asset base when served inside a host's sandbox.
+      if (
+        tool.view.html &&
+        (!options.manifest || tool.view.html.startsWith('https://'))
+      ) {
+        return {
+          ...tool,
+          view: {
+            ...tool.view,
+            assetBase:
+              tool.view.assetBase ??
+              definition.viewDefaults?.assetBase ??
+              entry?.assetBase ??
+              options.assetBase,
+          },
+        };
+      }
       if (!entry)
         throw new Error(`Missing MCP UI manifest entry: ${tool.name}`);
       if (

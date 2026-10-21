@@ -43,7 +43,7 @@ BFF TypeScript 开发依赖 `ts-node`（`^10.9.2`），模板已添加到 devDep
 ESM 项目需同时设置 package.json 的 `"type": "module"`，以及 TypeScript 的
 `module: "esnext"` 和 `moduleResolution: "bundler"`。
 
-MF manifest 和 chunks 由应用静态服务或 CDN 托管，应在对应服务配置宿主沙箱所需的 CORS。MCP 插件不会注册 MF 资产路由或添加 CORS 响应头。
+MF manifest 和 chunks 由应用静态服务或 CDN 托管。MF 模板通过 `server/modern.server.ts` 为公共 `/static/*` 资源配置 CORS，并处理 OPTIONS，在开发和生产模式均生效，不影响 `/mcp`。改用 CDN 时，也需在 CDN 配置 CORS。MCP 插件本身不会注册 MF 资产路由或添加 CORS 响应头。
 
 独立部署本地视图时，将完整 `dist/` 复制到上例的 `application/`，保留 `package.json` 的名称、版本和模块类型，以及所有导入模块的相对路径。通过静态服务提供 `/static/*`，或将其发布到构建时配置的资源 CDN。适配器只提供 MCP 路由，不提供静态资源服务。
 

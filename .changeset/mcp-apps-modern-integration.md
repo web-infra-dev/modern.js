@@ -8,7 +8,7 @@
 
 Add MCP Apps support with typed tool definitions, input and output validation, business results mapped to React card props through withViewProps, and shared card lifecycle handling.
 
-Integrate automatic BFF endpoint registration, local React card builds and Module Federation views. Support UI-only builds with versioned UI manifests for independently managed MCP servers.
+Integrate automatic BFF endpoint registration, local React card builds and Module Federation views. Bind public asset bases for explicit HTML resources and configure CORS for public MF assets in generated applications. Support UI-only builds with versioned UI manifests for independently managed MCP servers.
 
 Provide a separately published development Inspector with live connections, local simulation, isolated card previews, host interactions and request logs.
 

@@ -227,6 +227,100 @@ it('binds copied HTML and its asset base from the production manifest', () => {
   ).toBe('https://cdn.example.com/greet.html');
 });
 
+it('binds the public asset base to explicit development HTML resources', async () => {
+  const directory = await mkdtemp(path.join(tmpdir(), 'modern-mcp-html-'));
+  try {
+    await writeFile(
+      path.join(directory, 'card.html'),
+      '<html><head></head><body><script src="./card.js"></script></body></html>',
+    );
+    const definition = {
+      remotes: [],
+      tools: [
+        { name: 'card', view: { module: './Card.tsx', html: './card.html' } },
+      ],
+    };
+    const bound = bindUiResources(definition, {
+      directory: path.join(directory, 'ui'),
+      assetBase: 'https://assets.example.com/app/',
+    });
+    expect(bound.tools[0].view?.html).toBe('./card.html');
+    expect(definition.tools[0].view).not.toHaveProperty('assetBase');
+    const handle = createMcpHandler(bound, {
+      configPath: path.join(directory, 'mcp_apps.ts'),
+      development: true,
+    });
+    const response = await handle(
+      new Request('http://example.com/mcp', {
+        method: 'POST',
+        headers: {
+          'content-type': 'application/json',
+          accept: 'application/json, text/event-stream',
+        },
+        body: JSON.stringify({
+          jsonrpc: '2.0',
+          id: 1,
+          method: 'resources/read',
+          params: { uri: 'ui://local/card' },
+        }),
+      }),
+    );
+    const { result } = await response.json();
+    expect(result.contents[0].text).toContain(
+      '<base href="https://assets.example.com/app/">',
+    );
+    for (const key of ['resourceDomains', 'connectDomains', 'baseUriDomains']) {
+      expect(result.contents[0]._meta.ui.csp[key]).toContain(
+        'https://assets.example.com',
+      );
+    }
+  } finally {
+    await rm(directory, { recursive: true, force: true });
+  }
+});
+
+it('preserves HTTPS HTML and asset base override precedence', () => {
+  const definition = {
+    remotes: [],
+    viewDefaults: { assetBase: 'https://defaults.example.com/' },
+    tools: [
+      {
+        name: 'card',
+        view: {
+          module: './Card.tsx',
+          html: 'https://html.example.com/card.html',
+        },
+      },
+    ],
+  };
+  const options = {
+    directory: '/unused',
+    assetBase: 'https://fallback.example.com/',
+  };
+  const bound = bindUiResources(definition, options);
+  expect(bound.tools[0].view).toMatchObject({
+    html: 'https://html.example.com/card.html',
+    assetBase: 'https://defaults.example.com/',
+  });
+  expect(
+    bindUiResources(
+      {
+        ...definition,
+        tools: [
+          {
+            ...definition.tools[0],
+            view: {
+              ...definition.tools[0].view,
+              assetBase: 'https://override.example.com/',
+            },
+          },
+        ],
+      },
+      options,
+    ).tools[0].view?.assetBase,
+  ).toBe('https://override.example.com/');
+});
+
 it('reloads changed CommonJS definitions in development', async () => {
   const directory = await mkdtemp(path.join(tmpdir(), 'modern-mcp-reload-'));
   const entry = path.join(directory, 'mcp_apps.cjs');

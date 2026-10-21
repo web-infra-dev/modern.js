@@ -79,7 +79,7 @@ This template includes the same four Todo tools with storage in `api/server/stor
 | `server/store.ts`             | Shared in-memory storage, located at `api/server/store.ts` in the server-only template |
 | `module-federation.config.ts` | Remote component exposes, included only in MF mode                                     |
 
-Both MCP Apps UI templates use root `mcp_apps.ts` without an API directory. MF adds its plugin, exposes, and remote view references; the MCP Apps plugin handles public `/static/*` asset CORS without `modern.server.ts`. The tools-only `mcp-server` template still uses `api/mcp_apps.ts` and `api/lambda/index.ts`, with explicit `config: 'api/mcp_apps.ts'` and `endpoint: false`.
+Both MCP Apps UI templates use root `mcp_apps.ts` without an API directory. MF adds its plugin, exposes, and remote view references; the generated `server/modern.server.ts` configures CORS for public `/static/*` assets. The tools-only `mcp-server` template still uses `api/mcp_apps.ts` and `api/lambda/index.ts`, with explicit `config: 'api/mcp_apps.ts'` and `endpoint: false`.
 
 ## Addresses after startup
 
