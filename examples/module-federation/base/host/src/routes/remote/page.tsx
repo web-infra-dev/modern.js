@@ -4,8 +4,8 @@
  * But it will flash the page when use SSR and the provider has css
  * For detail, please see https://module-federation.io/practice/frameworks/modern/index.html#css-flickering-issue
  */
-import { createLazyComponent } from '@module-federation/modern-js-v3/react';
-import { getInstance } from '@module-federation/modern-js-v3/runtime';
+import { createLazyComponent } from '@module-federation/bridge-react';
+import { getInstance } from '@module-federation/enhanced/runtime';
 import type React from 'react';
 
 const Button = createLazyComponent({

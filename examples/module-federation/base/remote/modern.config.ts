@@ -1,5 +1,4 @@
 import { appTools, defineConfig } from '@modern-js/app-tools';
-import { moduleFederationPlugin } from '@module-federation/modern-js-v3';
 
 // https://modernjs.dev/en/configure/app/usage
 export default defineConfig({
@@ -13,5 +12,5 @@ export default defineConfig({
     // Module federation will automatically write it to mf-manifest.json, which influences consumer to fetch remoteEntry.js.
     assetPrefix: 'http://127.0.0.1:3051',
   },
-  plugins: [appTools(), moduleFederationPlugin()],
+  plugins: [appTools()],
 });

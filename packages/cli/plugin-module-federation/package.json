@@ -1,0 +1,197 @@
+{
+  "name": "@modern-js/plugin-module-federation",
+  "version": "3.10.1",
+  "files": [
+    "dist",
+    "LICENSE",
+    "README.md"
+  ],
+  "publishConfig": {
+    "access": "public",
+    "types": "./dist/types/cli/index.d.ts"
+  },
+  "scripts": {
+    "build": "rs lib",
+    "dev": "rs lib --watch",
+    "test": "rstest",
+    "prepublishOnly": "only-allow-pnpm"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/web-infra-dev/modern.js",
+    "directory": "packages/cli/plugin-module-federation"
+  },
+  "exports": {
+    ".": {
+      "types": "./dist/types/cli/index.d.ts",
+      "import": "./dist/esm-node/cli/index.mjs",
+      "require": "./dist/cjs/cli/index.js"
+    },
+    "./runtime": {
+      "types": "./dist/types/runtime/index.d.ts",
+      "default": "./dist/esm/runtime/index.mjs"
+    },
+    "./data-fetch": {
+      "types": "./dist/types/react/data-fetch.d.ts",
+      "default": "./dist/esm/react/data-fetch.mjs"
+    },
+    "./react": {
+      "types": "./dist/types/react/index.d.ts",
+      "default": "./dist/esm/react/index.mjs"
+    },
+    "./react-v18": {
+      "types": "./dist/types/react/v18.d.ts",
+      "default": "./dist/esm/react/v18.mjs"
+    },
+    "./react-v19": {
+      "types": "./dist/types/react/v19.d.ts",
+      "default": "./dist/esm/react/v19.mjs"
+    },
+    "./react-plugin": {
+      "types": "./dist/types/react/plugin.d.ts",
+      "default": "./dist/esm/react/plugin.mjs"
+    },
+    "./ssr-dev-plugin": {
+      "types": "./dist/types/ssr-runtime/devPlugin.d.ts",
+      "default": "./dist/esm-node/ssr-runtime/devPlugin.mjs"
+    },
+    "./ssr-inject-data-fetch-function-plugin": {
+      "types": "./dist/types/ssr-runtime/injectDataFetchFunctionPlugin.d.ts",
+      "default": "./dist/esm-node/ssr-runtime/injectDataFetchFunctionPlugin.mjs"
+    },
+    "./config-plugin": {
+      "types": "./dist/types/cli/configPlugin.d.ts",
+      "import": "./dist/esm-node/cli/configPlugin.mjs",
+      "require": "./dist/cjs/cli/configPlugin.js"
+    },
+    "./ssr-plugin": {
+      "types": "./dist/types/cli/ssrPlugin.d.ts",
+      "import": "./dist/esm-node/cli/ssrPlugin.mjs",
+      "require": "./dist/cjs/cli/ssrPlugin.js"
+    },
+    "./shared-strategy": {
+      "types": "./dist/types/cli/mfRuntimePlugins/shared-strategy.d.ts",
+      "import": "./dist/esm-node/cli/mfRuntimePlugins/shared-strategy.mjs",
+      "require": "./dist/cjs/cli/mfRuntimePlugins/shared-strategy.js"
+    },
+    "./inject-node-fetch": {
+      "types": "./dist/types/cli/mfRuntimePlugins/inject-node-fetch.d.ts",
+      "import": "./dist/esm-node/cli/mfRuntimePlugins/inject-node-fetch.mjs",
+      "require": "./dist/cjs/cli/mfRuntimePlugins/inject-node-fetch.js"
+    },
+    "./data-fetch-server-plugin": {
+      "types": "./dist/types/cli/server/data-fetch-server-plugin.d.ts",
+      "import": "./dist/esm-node/cli/server/data-fetch-server-plugin.mjs",
+      "require": "./dist/cjs/cli/server/data-fetch-server-plugin.js",
+      "default": "./dist/cjs/cli/server/data-fetch-server-plugin.js"
+    },
+    "./server": {
+      "types": "./dist/types/server/index.d.ts",
+      "import": "./dist/esm-node/server/index.mjs",
+      "require": "./dist/cjs/server/index.js",
+      "default": "./dist/cjs/server/index.js"
+    },
+    "./types": {
+      "types": "./dist/types/types/index.d.ts",
+      "default": "./dist/cjs/types/index.js"
+    },
+    "./package.json": "./package.json"
+  },
+  "typesVersions": {
+    "*": {
+      ".": [
+        "./dist/types/cli/index.d.ts"
+      ],
+      "runtime": [
+        "./dist/types/runtime/index.d.ts"
+      ],
+      "data-fetch": [
+        "./dist/types/react/data-fetch.d.ts"
+      ],
+      "react": [
+        "./dist/types/react/index.d.ts"
+      ],
+      "react-v18": [
+        "./dist/types/react/v18.d.ts"
+      ],
+      "react-v19": [
+        "./dist/types/react/v19.d.ts"
+      ],
+      "react-plugin": [
+        "./dist/types/react/plugin.d.ts"
+      ],
+      "config-plugin": [
+        "./dist/types/cli/configPlugin.d.ts"
+      ],
+      "ssr-plugin": [
+        "./dist/types/cli/ssrPlugin.d.ts"
+      ],
+      "shared-strategy": [
+        "./dist/types/cli/mfRuntimePlugins/shared-strategy.d.ts"
+      ],
+      "inject-node-fetch": [
+        "./dist/types/cli/mfRuntimePlugins/inject-node-fetch.d.ts"
+      ],
+      "data-fetch-server-plugin": [
+        "./dist/types/cli/server/data-fetch-server-plugin.d.ts"
+      ],
+      "ssr-inject-data-fetch-function-plugin": [
+        "./dist/types/ssr-runtime/injectDataFetchFunctionPlugin.d.ts"
+      ],
+      "server": [
+        "./dist/types/server/index.d.ts"
+      ],
+      "types": [
+        "./dist/types/types/index.d.ts"
+      ]
+    }
+  },
+  "main": "./dist/cjs/cli/index.js",
+  "types": "./src/cli/index.ts",
+  "author": "hanric <hanric.zhang@gmail.com>",
+  "license": "MIT",
+  "engines": {
+    "node": ">=20"
+  },
+  "dependencies": {
+    "@modern-js/builder": "workspace:*",
+    "@modern-js/plugin": "workspace:*",
+    "@modern-js/server": "workspace:*",
+    "@modern-js/server-core": "workspace:*",
+    "@module-federation/bridge-react": "2.9.2",
+    "@module-federation/node": "2.7.52",
+    "@module-federation/rsbuild-plugin": "2.9.2",
+    "@module-federation/sdk": "2.9.2",
+    "@rsbuild/core": "2.2.13",
+    "@swc/helpers": "^0.5.17",
+    "jiti": "^2.7.0"
+  },
+  "devDependencies": {
+    "@modern-js/rslib": "workspace:*",
+    "@modern-js/server-runtime": "workspace:*",
+    "@module-federation/enhanced": "2.9.2",
+    "@rspack/core": "2.2.9",
+    "@scripts/rstest-config": "workspace:*",
+    "@types/node": "^20",
+    "react": "^19.3.1",
+    "react-dom": "^19.3.1",
+    "typescript": "^5"
+  },
+  "peerDependencies": {
+    "@module-federation/enhanced": "^2.9.2",
+    "react": ">=18.3.1",
+    "react-dom": ">=18.3.1"
+  },
+  "peerDependenciesMeta": {
+    "@module-federation/enhanced": {
+      "optional": true
+    },
+    "react": {
+      "optional": true
+    },
+    "react-dom": {
+      "optional": true
+    }
+  },
+  "description": "Built-in Modern.js Module Federation integration"
+}

@@ -1,5 +1,4 @@
 import { appTools, defineConfig } from '@modern-js/app-tools';
-import { moduleFederationPlugin } from '@module-federation/modern-js-v3';
 import { port, origin } from '../ports';
 const name = process.env.MF_LAB_VERSION === 'v2' ? 'providerV2' : 'provider';
 export default defineConfig({
@@ -32,5 +31,5 @@ export default defineConfig({
     },
   },
   performance: { buildCache: false },
-  plugins: [appTools(), moduleFederationPlugin()],
+  plugins: [appTools()],
 });

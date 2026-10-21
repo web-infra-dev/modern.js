@@ -5,3 +5,73 @@
 Module Federation 2.0 支持 [Rspack](https://rspack.rs/) 构建工具，并提供了动态类型提示、Manifest、Federation Runtime、运行时插件系统和 Chrome Devtools 等增强功能，提供更好的开发体验和调试能力。你可以访问 [Module Federation 官方文档](https://module-federation.io/zh/index.html) 了解更多信息。
 
 Modern.js 提供了一个 Module Federation 的示例项目，请参考 [module-federation-examples - modernjs](https://github.com/module-federation/module-federation-examples/tree/db5bdbeee56f779999a2c591fc553eb94eb20b36/modernjs)。
+
+## 内置接入
+
+Modern.js 会在应用目录检测 `module-federation.config.ts`，存在该文件时自动启用 Module Federation。无需安装或手动注册 Modern.js MF 插件，仍需安装 MF 引擎：
+
+```bash
+pnpm add @module-federation/enhanced
+```
+
+通用 MF 配置继续放在原文件中：
+
+{/* prettier-ignore */}
+```ts title="module-federation.config.ts"
+import { createModuleFederationConfig } from '@module-federation/enhanced'
+
+export default createModuleFederationConfig({
+  name: 'host',
+  remotes: {
+    remote: 'remote@http://localhost:3001/mf-manifest.json',
+  },
+})
+```
+
+在 `modern.config.ts` 中注册 `appTools()` 即可。内置适配器会接入 CSR/SSR 构建、双端 manifest、SSR 数据获取、开发态远端更新以及服务端资源服务。
+
+### moduleFederation
+
+| 配置    | 行为                                 |
+| ------- | ------------------------------------ |
+| 不配置  | 根据默认 MF 配置文件是否存在决定启用 |
+| `false` | 禁用内置 MF，可继续使用旧插件        |
+| `true`  | 启用并读取默认文件，文件不存在时报错 |
+| 对象    | 启用并设置框架适配选项               |
+
+{/* prettier-ignore */}
+```ts title="modern.config.ts"
+import { appTools, defineConfig } from '@modern-js/app-tools'
+
+export default defineConfig({
+  moduleFederation: {
+    fetchServerQuery: { source: 'host' },
+  },
+  plugins: [appTools()],
+})
+```
+
+对象接受旧插件的以下选项：
+
+| 选项                         | 说明                                                                 |
+| ---------------------------- | -------------------------------------------------------------------- |
+| `config`                     | 内联通用 MF 配置，优先于配置文件                                     |
+| `configPath`                 | 自定义 MF 配置路径，相对应用目录解析                                 |
+| `ssr`                        | 是否接入 MF SSR，默认跟随 `server.ssr`，也可设置 `{ distOutputDir }` |
+| `fetchServerQuery`           | 客户端调用远端服务端数据函数时附加的 query                           |
+| `autoOptimization`           | 自动设置双端 optimization target，默认开启，保留显式 target          |
+| `secondarySharedTreeShaking` | 保留旧插件开关兼容，默认关闭                                         |
+
+`server.ssr` 继续控制 Modern 应用自身的 SSR。通用的 `exposes`、`shared`、`runtimePlugins`、`dts` 和 manifest 配置仍放在 MF 配置文件中。
+
+### 从旧插件迁移
+
+移除 `@module-federation/modern-js-v3` 的插件注册及依赖，安装 `@module-federation/enhanced`。将配置辅助函数改从 enhanced 导入，将运行时 API 改从 `@module-federation/enhanced/runtime` 导入。
+
+React Bridge API 使用 `@module-federation/bridge-react`，React 版本入口使用 `/v18`、`/v19`，数据 API 使用 `/data-fetch`，运行时插件入口使用 `/plugin`。直接导入这些 API 的应用应声明 bridge-react 依赖。
+
+渐进迁移时可以保留旧插件，同时显式设置 `moduleFederation: false`。存在 MF 配置文件时会自动启用内置适配器，因此只保留旧注册而未关闭内置能力会报错。内置 MF 与旧插件同时启用时始终报错，也会检测通过其他插件的 `usePlugins` 注册的旧插件。
+
+此阶段不引入 `createReactRemote`、`ReactRemote`、`updateRemotes` 和 service app 等新 API。
+
+Modern 默认关闭 MF 引擎根据 bridge-react 依赖自动设置路由别名的行为，路由由 Modern 管理。显式配置 bridge.enableBridgeRouter 时保留用户选项。

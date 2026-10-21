@@ -17,8 +17,10 @@
     "react": "^19.2.8",
     "react-dom": "^19.2.8",
     "react-router-dom": "^7.15.1",
-    "@module-federation/modern-js-v3": "2.0.0",
-    "@module-federation/runtime": "2.0.0"
+    "@module-federation/runtime": "2.9.2",
+    "@module-federation/enhanced": "2.9.2",
+    "@module-federation/bridge-react": "2.9.2",
+    "@module-federation/runtime-core": "2.9.2"
   },
   "devDependencies": {
     "@modern-js/app-tools": "latest",

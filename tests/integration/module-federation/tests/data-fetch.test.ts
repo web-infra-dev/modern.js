@@ -137,4 +137,67 @@ describeLab('Data fetching', getContext => {
       ),
     ).toBe(false);
   });
+  it('makes prefetched data visible sooner from the same navigation start', async () => {
+    const { lab, page } = getContext();
+    const manifest = await (
+      await fetch(
+        `http://localhost:${lab.ports.provider}/static/mf-manifest.json`,
+      )
+    ).json();
+    const expose = manifest.exposes.find(
+      (item: any) => item.name === 'WeatherData',
+    );
+    expect(expose).toBeTruthy();
+    const componentAssets: string[] = expose.assets.js.sync;
+    expect(componentAssets.length).toBeGreaterThan(0);
+    await page.setCacheEnabled(false);
+    await page.setRequestInterception(true);
+    let held = 0;
+    page.on('request', async request => {
+      const url = new URL(request.url());
+      if (
+        url.port === String(lab.ports.provider) &&
+        componentAssets.some(asset => url.pathname.endsWith(`/${asset}`))
+      ) {
+        held += 1;
+        // A controlled component download gives prefetch an opportunity to
+        // overlap its real API request. Both navigations release at the same age.
+        await page.waitForFunction(() => performance.now() >= 1800);
+      }
+      await request.continue();
+    });
+    const visible: number[] = [];
+    for (const prefetch of [0, 1]) {
+      held = 0;
+      await page.goto(
+        `${lab.url}/weather?render=csr&csr=1&data=mf&compact=1&prefetch=${prefetch}`,
+        { waitUntil: 'domcontentloaded' },
+      );
+      await page.waitForFunction(() =>
+        Boolean((window as any).__weatherMetrics?.['Data visible']),
+      );
+      expect(held).toBeGreaterThan(0);
+      const result = await page.evaluate(
+        api => ({
+          metric: (window as any).__weatherMetrics['Data visible'],
+          temperature: document.querySelector(
+            '[elementtiming="weather-temperature"]',
+          )?.textContent,
+          condition: document.querySelector(
+            '[elementtiming="weather-condition"]',
+          )?.textContent,
+          requests: performance
+            .getEntriesByType('resource')
+            .filter(entry => entry.name === `${api}/weather`).length,
+        }),
+        `http://localhost:${lab.ports.api}`,
+      );
+      expect(result.metric.method).toBe('element timing');
+      expect(result.temperature).toBe('30°');
+      expect(result.condition).toBe('Partly cloudy');
+      expect(result.requests).toBe(1);
+      visible.push(result.metric.at);
+    }
+    expect(visible[0] - visible[1]).toBeGreaterThan(400);
+  });
 });

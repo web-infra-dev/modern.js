@@ -1,4 +1,4 @@
-import { createModuleFederationConfig } from '@module-federation/modern-js-v3';
+import { createModuleFederationConfig } from '@module-federation/enhanced';
 
 export default createModuleFederationConfig({
   name: 'remote',

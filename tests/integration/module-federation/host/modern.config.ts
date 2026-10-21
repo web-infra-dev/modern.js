@@ -1,6 +1,5 @@
 import { weatherMetricsScript } from './metrics';
 import { appTools, defineConfig } from '@modern-js/app-tools';
-import { moduleFederationPlugin } from '@module-federation/modern-js-v3';
 import { port, origin } from '../ports';
 const name = 'host';
 export default defineConfig({
@@ -43,8 +42,6 @@ export default defineConfig({
     },
   },
   performance: { buildCache: false },
-  plugins: [
-    appTools(),
-    moduleFederationPlugin({ fetchServerQuery: { lab: 'federation' } }),
-  ],
+  moduleFederation: { fetchServerQuery: { lab: 'federation' } },
+  plugins: [appTools()],
 });

@@ -231,6 +231,8 @@ export function setupLab(mode: 'dev' | 'production') {
   }
   return () => ({
     lab,
+    workspace,
+    mode,
     page,
     visit,
     text,
