@@ -2,6 +2,7 @@ import path from 'path';
 import type { ServerRoute } from '@modern-js/types';
 import { injectResourcePlugin } from '../../src/adapters/node/plugins';
 import { createDefaultPlugins, renderPlugin } from '../../src/plugins';
+import { createRender } from '../../src/plugins/render/render';
 import { createServerBase } from '../../src/serverBase';
 import { getDefaultAppContext, getDefaultConfig } from '../helpers';
 
@@ -70,6 +71,107 @@ describe('render route paths', () => {
     expect(renderedPaths).toEqual([urlPath, `${urlPath}/child`]);
   });
 
+  it.each([
+    ['/page^name.html', '/page%5Ename.html'],
+    ['/page^name.html', '/page%5ename.html'],
+    ['/page name.html', '/page%20name.html'],
+    ['/page%25name.html', '/page%25name.html'],
+    ['/page%255Ename.html', '/page%255Ename.html'],
+    ['/page^%ZZ.html', '/page%5E%ZZ.html'],
+  ])('renders %s from the encoded request %s', async (urlPath, requestPath) => {
+    const { server, renderedPaths } = await createRouteServer(urlPath);
+
+    for (const suffix of ['', '/child']) {
+      const response = await server.request(`${requestPath}${suffix}`, {}, {});
+
+      expect(response.status).toBe(200);
+      expect(response.headers.get('x-render-route')).toBe(`${urlPath}/*`);
+      expect(await response.text()).toBe('SSR Render');
+    }
+    expect(renderedPaths).toEqual([urlPath, `${urlPath}/child`]);
+  });
+
+  it('does not turn encoded separators into route boundaries', async () => {
+    const { server, renderedPaths } =
+      await createRouteServer('/page/name.html');
+
+    const response = await server.request('/page%2Fname.html', {}, {});
+
+    expect(response.status).toBe(404);
+    expect(renderedPaths).toEqual([]);
+
+    const encodedRoute = await createRouteServer('/page%2Fname.html');
+    const encodedResponse = await encodedRoute.server.request(
+      '/page%2Fname.html',
+      {},
+      {},
+    );
+
+    expect(encodedResponse.status).toBe(200);
+    expect(await encodedResponse.text()).toBe('SSR Render');
+    expect(encodedRoute.renderedPaths).toEqual(['/page%2Fname.html']);
+  });
+
+  it('keeps an explicit matchPathname literal when rendering directly', async () => {
+    const routes = ['/page^name.html', '/page%5Ename.html', '/中文.html'].map(
+      urlPath => ({
+        urlPath,
+        entryName: urlPath,
+        isSSR: false,
+      }),
+    ) as ServerRoute[];
+    const render = await createRender({
+      routes,
+      pwd: '',
+      config: getDefaultConfig(),
+    });
+    const templates = Object.fromEntries(
+      routes.map(route => [
+        `${route.entryName}-${route.urlPath}`,
+        route.urlPath,
+      ]),
+    );
+    const monitors = {
+      push: rstest.fn(),
+      error: rstest.fn(),
+      warn: rstest.fn(),
+      debug: rstest.fn(),
+      info: rstest.fn(),
+      trace: rstest.fn(),
+      timing: rstest.fn(),
+      counter: rstest.fn(),
+    };
+
+    for (const matchPathname of [
+      undefined,
+      ...routes.map(route => route.urlPath),
+    ]) {
+      const response = await render(
+        new Request('http://localhost/page%5Ename.html'),
+        {
+          templates,
+          matchPathname,
+          monitors,
+          serverManifest: {},
+        },
+      );
+
+      expect(response.status).toBe(200);
+      expect(await response.text()).toBe(matchPathname ?? '/page^name.html');
+    }
+
+    const response = await render(
+      new Request('http://localhost/%E4%B8%AD%E6%96%87.html'),
+      {
+        templates,
+        monitors,
+        serverManifest: {},
+      },
+    );
+    expect(response.status).toBe(200);
+    expect(await response.text()).toBe('/中文.html');
+  });
+
   it('does not interpret a literal dot as a regex wildcard', async () => {
     const { server, renderedPaths } = await createRouteServer('/detail.html');
 
@@ -81,18 +183,18 @@ describe('render route paths', () => {
     expect(renderedPaths).toEqual([]);
   });
 
-  it('renders a CSR page at a literal HTML path', async () => {
-    const { server, renderedPaths } = await createRouteServer(
-      '/detail.html',
-      false,
-    );
-    const response = await server.request('/detail.html', {}, {});
+  it.each([
+    ['/detail.html', '/detail.html'],
+    ['/page^name.html', '/page%5Ename.html'],
+  ])('renders a CSR page at %s', async (urlPath, requestPath) => {
+    const { server, renderedPaths } = await createRouteServer(urlPath, false);
+    const response = await server.request(requestPath, {}, {});
 
     expect(response.status).toBe(200);
     expect(response.headers.get('x-modernjs-render')).toBe('client');
-    expect(response.headers.get('x-render-route')).toBe('/detail.html/*');
+    expect(response.headers.get('x-render-route')).toBe(`${urlPath}/*`);
     expect(await response.text()).toContain('Hello Modern');
-    expect(renderedPaths).toEqual(['/detail.html']);
+    expect(renderedPaths).toEqual([urlPath]);
   });
 
   it('runs render middleware and CSR fallback at a literal HTML path', async () => {
@@ -120,6 +222,20 @@ describe('render route paths', () => {
       expect(await response.text()).toBe('SSR Render');
     }
     expect(renderedPaths).toEqual(['/users/123', '/users/123/child']);
+  });
+
+  it.each([
+    ['a%5Eb', 'a^b'],
+    ['a%2Fb', 'a/b'],
+    ['a%25b', 'a%b'],
+    ['a%ZZb', 'a%ZZb'],
+  ])('preserves the encoded dynamic parameter %s', async (id, expectedId) => {
+    const { server } = await createRouteServer('/users/:id/profile');
+    const response = await server.request(`/users/${id}/profile`, {}, {});
+
+    expect(response.status).toBe(200);
+    expect(response.headers.get('x-render-id')).toBe(expectedId);
+    expect(await response.text()).toBe('SSR Render');
   });
 
   it('preserves the wildcard for routes ending in a slash', async () => {
