@@ -5,7 +5,7 @@ import test from 'node:test';
 import { planHash, readJson } from './core.mjs';
 import { artifactFixture, githubEnvironment } from './fixtures.mjs';
 import {
-  assertTrustedPublishers, diagnostic, isolatedNpmEnvironment, npmErrorCode,
+  ATTEMPTS, assertTrustedPublishers, diagnostic, isolatedNpmEnvironment, npmErrorCode, retryAfterMs,
   publish, publishArguments, publishedFromOutput, repairInstructions,
 } from './publish.mjs';
 
@@ -135,10 +135,13 @@ test('only a fixed shape error code is read back from npm', () => {
 // reaches the publish job unconfigured. The probe has to catch that before the
 // first package is published, and has to stay out of the way when the registry
 // answers something that proves nothing.
-function registry({ refuse = new Set(), status = 403, absent = new Set(), fail = new Set() } = {}) {
+function registry({ refuse = new Set(), status = 403, absent = new Set(), fail = new Set(), flaky = new Map(), retryAfter = null } = {}) {
   const calls = [];
+  const attempts = new Map();
+  const headers = { get: name => (name === 'retry-after' ? retryAfter : null) };
   return {
     calls,
+    attempts,
     request(url, settings = {}) {
       calls.push(`${settings.method ?? 'GET'} ${url}`);
       if (!url.startsWith('https://registry.npmjs.org/')) {
@@ -149,9 +152,25 @@ function registry({ refuse = new Set(), status = 403, absent = new Set(), fail =
         const packed = decodeURIComponent(new URL(url).pathname.slice(1));
         return Promise.resolve({ ok: !absent.has(packed), status: absent.has(packed) ? 404 : 200 });
       }
+      const attempt = (attempts.get(name) ?? 0) + 1;
+      attempts.set(name, attempt);
+      // A package that answers transiently for its first few attempts and then
+      // works, which is what a rate limit or a restarting backend looks like.
+      if (attempt <= (flaky.get(name) ?? 0)) return Promise.resolve({ ok: false, status: 429, headers });
       if (fail.has(name)) return Promise.reject(new Error('socket hang up'));
-      if (refuse.has(name)) return Promise.resolve({ ok: false, status });
+      if (refuse.has(name)) return Promise.resolve({ ok: false, status, headers });
       return Promise.resolve({ ok: true, status: 200, json: () => Promise.resolve({ token: 'npm_exchanged' }) });
+    },
+  };
+}
+// Collects the backoff the probe asks for instead of sleeping through it.
+function probeSettings(stub, logged = [], waits = []) {
+  return {
+    logged, waits,
+    options: {
+      env: trustEnvironment(), request: stub.request,
+      log: message => logged.push(message),
+      wait: ms => { waits.push(ms); return Promise.resolve(); },
     },
   };
 }
@@ -191,12 +210,68 @@ test('a package npm does not serve yet is reported as needing a first publish, n
   assert(!logged.join('\n').includes('npm trust github @modern-js/b'));
 });
 
-test('an answer that proves nothing is reported but never blocks the release', async () => {
-  for (const stub of [registry({ refuse: new Set(['@modern-js/a']), status: 503 }), registry({ fail: new Set(['@modern-js/a']) })]) {
-    const logged = [];
-    await assertTrustedPublishers(names, { env: trustEnvironment(), request: stub.request, log: message => logged.push(message) });
-    assert.match(logged.join('\n'), /1 package\(s\) could not be checked/);
+test('an answer that proves nothing is retried, then stops the release before the first package', async () => {
+  for (const [stub, reason] of [
+    [registry({ refuse: new Set(['@modern-js/a']), status: 503 }), /@modern-js\/a: HTTP 503/],
+    [registry({ fail: new Set(['@modern-js/a']) }), /@modern-js\/a: connection failed/],
+  ]) {
+    const probe = probeSettings(stub);
+    await assert.rejects(() => assertTrustedPublishers(names, probe.options), /1 of 2 packages could not be checked/);
+    assert.equal(stub.attempts.get('@modern-js/a'), 4, 'The probe gives the registry four chances');
+    assert.deepEqual(probe.waits, [2000, 4000, 8000], 'Backoff doubles and is never slept through in tests');
+    assert.match(probe.logged.join('\n'), /Nothing was published; rerun the job/);
+    assert.match(probe.logged.join('\n'), reason);
   }
+});
+
+test('a transient answer that clears on a retry publishes normally and honours Retry-After', async () => {
+  const stub = registry({ flaky: new Map([['@modern-js/a', 2]]), retryAfter: '5' });
+  const probe = probeSettings(stub);
+  await assertTrustedPublishers(names, probe.options);
+  assert.equal(stub.attempts.get('@modern-js/a'), 3);
+  assert.deepEqual(probe.waits, [5000, 5000], 'The registry decides the wait while it answers with one');
+  assert.deepEqual(probe.logged, []);
+});
+
+test('a refusal is reported as a refusal even when other packages went unanswered', async () => {
+  const stub = registry({ refuse: new Set(['@modern-js/a', '@modern-js/b']), status: 403 });
+  const probe = probeSettings(stub);
+  await assert.rejects(() => assertTrustedPublishers(['@modern-js/a'], probe.options), /no trusted publisher/);
+  assert.equal(stub.attempts.get('@modern-js/a'), 1, 'A conclusive refusal is never retried');
+  // One package refused outright, the other never answered: the refusal is the
+  // one a maintainer can act on, so it decides the error.
+  const mixed = probeSettings(registry({ refuse: new Set(['@modern-js/a']), flaky: new Map([['@modern-js/b', ATTEMPTS]]) }));
+  await assert.rejects(() => assertTrustedPublishers(names, mixed.options), /1 of 2 packages have no trusted publisher/);
+  assert.match(mixed.logged.join('\n'), /npm trust github @modern-js\/a/);
+  assert.match(mixed.logged.join('\n'), /1 of 2 packages could not be checked/);
+});
+
+test('a registry that is down for every package stops inside the probe budget', async () => {
+  const stub = registry({ flaky: new Map(names.map(name => [name, ATTEMPTS])) });
+  // A clock the test advances itself: every attempt costs the wait plus the time
+  // a request that answers nothing spends before it is abandoned.
+  let clock = 0;
+  const logged = [];
+  await assert.rejects(() => assertTrustedPublishers(names, {
+    env: trustEnvironment(), request: stub.request,
+    log: message => logged.push(message),
+    wait: ms => { clock += ms + 150_000; return Promise.resolve(); },
+    now: () => clock,
+  }), /2 of 2 packages could not be checked/);
+  assert.equal(stub.attempts.get('@modern-js/a'), 3, 'Retrying stops once the budget is spent');
+  assert.equal(stub.attempts.get('@modern-js/b'), undefined, 'A package past the budget is never asked');
+  assert.match(logged.join('\n'), /@modern-js\/b: not reached, the 5 minute probe budget ran out/);
+});
+
+test('Retry-After is read when it is usable and ignored when it is not', () => {
+  const response = value => ({ headers: { get: () => value } });
+  assert.equal(retryAfterMs(response('5')), 5000);
+  assert.equal(retryAfterMs(response(new Date(21_000).toUTCString()), 1000), 20_000);
+  for (const value of [null, '', '   ', 'soon', '-1', '3600', new Date(0).toUTCString()]) {
+    assert.equal(retryAfterMs(response(value), 1000), null, `Retry-After: ${value}`);
+  }
+  assert.equal(retryAfterMs({}), null);
+  assert.equal(retryAfterMs(null), null);
 });
 
 test('the probe fails closed when GitHub will not mint an identity token', async () => {
