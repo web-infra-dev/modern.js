@@ -6,6 +6,7 @@ interface CreatePresetParams {
   appContext: AppToolsContext;
   modernConfig: AppToolsNormalizedConfig;
   api: PluginAPI;
+  envDir?: string;
   needModernServer?: boolean;
 }
 

@@ -8,6 +8,7 @@ import type { CreatePreset } from './platform';
 export const createVercelPreset: CreatePreset = ({
   appContext,
   modernConfig,
+  envDir,
   needModernServer,
 }) => {
   const { appDirectory, distDirectory, entrypoints, moduleType } = appContext;
@@ -109,6 +110,7 @@ export const createVercelPreset: CreatePreset = ({
         template,
         appContext,
         config: modernConfig,
+        envDir,
         isESM: isEsmProject,
       });
 
