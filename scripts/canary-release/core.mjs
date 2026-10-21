@@ -6,7 +6,12 @@ import path from 'node:path';
 
 export const TAG = 'canary-verify';
 export const REGISTRY = 'https://registry.npmjs.org/';
-export const RELEASE_ID = /^r[a-z0-9-]{0,63}[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/;
+// A date and sixteen random bytes, deliberately not grouped like a UUID: npm
+// redacts UUID shaped values out of its own `publish --json` output, so a
+// release id in that shape comes back as [REDACTED_UUID] and no published
+// package can be matched to the manifest that produced it. Same entropy,
+// different punctuation. The pipeline mints exactly this shape.
+export const RELEASE_ID = /^r\d{8}-[0-9a-f]{32}$/;
 const SHA = /^[0-9a-f]{40}$/;
 const HASH = /^[0-9a-f]{64}$/;
 const NAME = /^@modern-js\/[a-z0-9][a-z0-9._-]*$/;
@@ -65,7 +70,7 @@ export function validatePath(value) {
 export function validatePlan(plan) {
   keys(plan, ['schemaVersion', 'releaseId', 'tag', 'version', 'baseSha', 'packages', 'mode', 'requiredTargets'], 'plan');
   assert.equal(plan.schemaVersion, 1, 'Unsupported plan schema');
-  assert(RELEASE_ID.test(plan.releaseId), 'releaseId must start with r and end with a lowercase UUID');
+  assert(RELEASE_ID.test(plan.releaseId), 'releaseId must be r, a date and 16 lowercase hex bytes, with no UUID grouping');
   assert.equal(plan.tag, TAG, 'Only the canary-verify tag is allowed');
   assert.equal(plan.version, `0.0.0-${TAG}.${plan.releaseId}`, 'Expected the shared cross-repository canary version');
   assert(SHA.test(plan.baseSha), 'Invalid baseSha');
