@@ -192,7 +192,7 @@ importers:
         specifier: ~5.0.4
         version: 5.0.4
 
-  examples/mcp-apps-todo:
+  examples/mcp-apps:
     dependencies:
       '@modern-js/mcp-apps':
         specifier: workspace:*

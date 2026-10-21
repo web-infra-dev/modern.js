@@ -6,7 +6,7 @@ Modern.js 将 MCP Apps 支持拆成协议运行库、框架插件和独立的开
 
 ## 先看完整链路
 
-以 [Todo 示例](../../examples/mcp-apps-todo) 为例：
+以 [Todo 示例](../../examples/mcp-apps) 为例：
 
 ```text
 mcp_apps.ts 声明 list_todos 与 Todos View

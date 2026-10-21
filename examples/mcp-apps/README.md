@@ -7,7 +7,7 @@
 在仓库根目录安装依赖并构建工作区后运行：
 
 ```sh
-pnpm --filter mcp-apps-todo dev
+pnpm --filter mcp-apps dev
 ```
 
 打开启动日志中的 `/mcp/inspector`，连接 `/mcp`。
@@ -68,8 +68,8 @@ pnpm --filter mcp-apps-todo dev
 ## 构建与进阶
 
 ```sh
-pnpm --filter mcp-apps-todo build
-pnpm --filter mcp-apps-todo serve
+pnpm --filter mcp-apps build
+pnpm --filter mcp-apps serve
 ```
 
 生产环境提供 `/mcp` 和卡片资源，Inspector 仅用于开发。卡片的 HTML 和 manifest 位于 `dist/mcp-apps/`，部署时还需包含 JS、CSS 等静态资源。
