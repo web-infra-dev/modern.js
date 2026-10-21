@@ -37,16 +37,34 @@ function describeResponse(value, depth = 0) {
   return keys.map(key => `${key}: ${describeResponse(value[key], depth + 1)}`).join('; ').slice(0, 300) || 'empty object';
 }
 
+// npm redacts its own output before printing it, and a release id is the kind
+// of thing its patterns catch: every package of runs 51 to 53 came back as
+// 0.0.0-canary-verify.r<date>-[REDACTED_UUID] and matched nothing. The release
+// id no longer has that shape, and a redacted field is accepted here as well,
+// so the next pattern npm adds costs a weaker match rather than a whole run.
+// The weaker match is bounded: npm exited zero, the response is keyed by this
+// package, and the job after this one re-reads the registry and re-hashes the
+// tarball it downloads against the same manifest.
+const REDACTED = /\[REDACTED_[A-Z_]+\]/;
+const escape = text => text.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+
+export function sameValue(actual, expected) {
+  if (actual === expected) return true;
+  if (typeof actual !== 'string' || !REDACTED.test(actual)) return false;
+  const pattern = actual.split(REDACTED).map(escape).join('.+');
+  return new RegExp(`^${pattern}$`).test(expected);
+}
+
 export function publishedFromOutput(stdout, pkg) {
   const result = JSON.parse(stdout);
   for (const candidate of [result, result?.[pkg.name]]) {
     const entry = typeof candidate === 'string' ? { name: pkg.name, version: candidate } : candidate;
     if (!entry || typeof entry !== 'object' || Array.isArray(entry)) continue;
-    if ((entry.name ?? pkg.name) !== pkg.name || entry.version !== pkg.version) continue;
+    if (!sameValue(entry.name ?? pkg.name, pkg.name) || !sameValue(entry.version, pkg.version)) continue;
     // Checked when npm sends one, never required: the authoritative check is the
     // next job, which reads the registry metadata and re-hashes the tarball it
     // downloads against this same manifest.
-    if (entry.integrity !== undefined) assert.equal(entry.integrity, pkg.integrity, 'npm published integrity mismatch');
+    if (entry.integrity !== undefined) assert.ok(sameValue(entry.integrity, pkg.integrity), 'npm published integrity mismatch');
     return `${pkg.name}@${pkg.version}`;
   }
   assert.fail(`Unexpected npm publish response (${describeResponse(result)})`);
