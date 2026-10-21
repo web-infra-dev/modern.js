@@ -78,16 +78,74 @@ export function diagnostic(result) {
 // the package to exist before a trusted publisher can be created for it.
 const EXCHANGE = '/-/npm/v1/oidc/token/exchange/package/';
 // Only the registry refusing the exchange proves the configuration is missing.
-// A transport error, a server error or a rate limit proves nothing and must not
-// block a release that npm's own exchange may still complete.
+// A transport error, a server error or a rate limit proves nothing either way,
+// so the probe asks again rather than reading one as a refusal. What it must not
+// do is read one as permission: publishing is the step that cannot be undone, and
+// an unanswered package is exactly the package that fails in the middle of a run
+// whose earlier packages are already public. Once the retries are spent the
+// release stops, before the first package, and the job is rerun.
 const CONCLUSIVE = new Set([400, 401, 403, 404]);
+export const ATTEMPTS = 4;
+const BACKOFF = 2_000;
+const PROBE_TIMEOUT = 30_000;
+// A longer wait than this is not worth holding a runner open for; failing and
+// rerunning the job costs less, and nothing has been published yet.
+const MAX_RETRY_AFTER = 60_000;
+// A registry that is down for everything would otherwise cost every package its
+// full retry schedule, holding a runner for an hour to reach a failure that the
+// first few packages already decided. Once the budget is spent the rest are
+// reported unchecked without being asked.
+const BUDGET = 5 * 60_000;
 const escapeName = name => name.replace('/', '%2f');
+const delay = ms => new Promise(resolve => setTimeout(resolve, ms));
+
+// `Retry-After` is either a count of seconds or an HTTP date. Anything absent,
+// malformed, negative or beyond MAX_RETRY_AFTER falls back to the backoff.
+export function retryAfterMs(response, now = Date.now()) {
+  const header = response?.headers?.get?.('retry-after');
+  if (!header) return null;
+  const seconds = Number(header);
+  const ms = String(header).trim() !== '' && Number.isFinite(seconds) ? seconds * 1000 : Date.parse(header) - now;
+  return Number.isFinite(ms) && ms >= 0 && ms <= MAX_RETRY_AFTER ? ms : null;
+}
+
+// Resolves to 'allowed', 'refused', or 'unchecked' with the last thing the
+// registry did, which is what a maintainer reading the failed run needs.
+async function probePackage(name, token, request, { wait, now, deadline }) {
+  let reason = null;
+  for (let attempt = 1; attempt <= ATTEMPTS; attempt++) {
+    let response = null;
+    try {
+      response = await request(new URL(`${EXCHANGE}${escapeName(name)}`, REGISTRY).href, {
+        method: 'POST',
+        headers: { Accept: 'application/json', Authorization: `Bearer ${token}` },
+        signal: AbortSignal.timeout(PROBE_TIMEOUT),
+      });
+    } catch (error) {
+      reason = error?.name === 'TimeoutError' ? `no answer within ${PROBE_TIMEOUT / 1000}s` : 'connection failed';
+    }
+    if (response) {
+      if (response.ok) {
+        // The body carries a usable publish credential. Read it only to confirm
+        // one was issued, never log it and never keep it.
+        const issued = await response.json().then(body => Boolean(body?.token), () => false);
+        return { state: issued ? 'allowed' : 'refused' };
+      }
+      if (CONCLUSIVE.has(response.status)) return { state: 'refused' };
+      reason = `HTTP ${response.status}`;
+    }
+    if (attempt === ATTEMPTS || now() >= deadline) break;
+    await wait(retryAfterMs(response) ?? BACKOFF * 2 ** (attempt - 1));
+  }
+  return { state: 'unchecked', reason };
+}
 
 async function identityToken(env, request) {
   const url = new URL(env.ACTIONS_ID_TOKEN_REQUEST_URL);
   url.searchParams.set('audience', `npm:${new URL(REGISTRY).hostname}`);
   const response = await request(url.href, {
     headers: { Accept: 'application/json', Authorization: `Bearer ${env.ACTIONS_ID_TOKEN_REQUEST_TOKEN}` },
+    signal: AbortSignal.timeout(PROBE_TIMEOUT),
   });
   assert(response.ok, 'GitHub refused to mint an OIDC identity token');
   const body = await response.json();
@@ -109,33 +167,22 @@ export async function assertTrustedPublishers(names, {
   env = process.env,
   request = (...args) => fetch(...args),
   log = message => console.error(message),
+  wait = delay,
+  now = () => Date.now(),
 } = {}) {
   const token = await identityToken(env, request);
+  const deadline = now() + BUDGET;
   const refused = [];
   const unchecked = [];
   for (const name of names) {
-    let response;
-    try {
-      response = await request(new URL(`${EXCHANGE}${escapeName(name)}`, REGISTRY).href, {
-        method: 'POST', headers: { Accept: 'application/json', Authorization: `Bearer ${token}` },
-      });
-    } catch {
-      unchecked.push(name);
+    if (now() >= deadline) {
+      unchecked.push(`${name}: not reached, the ${BUDGET / 60_000} minute probe budget ran out`);
       continue;
     }
-    if (response.ok) {
-      // The body carries a usable publish credential. Read it only to confirm one
-      // was issued, never log it and never keep it.
-      const issued = await response.json().then(body => Boolean(body?.token), () => false);
-      if (issued) continue;
-      refused.push(name);
-    } else if (CONCLUSIVE.has(response.status)) {
-      refused.push(name);
-    } else {
-      unchecked.push(name);
-    }
+    const result = await probePackage(name, token, request, { wait, now, deadline });
+    if (result.state === 'refused') refused.push(name);
+    else if (result.state === 'unchecked') unchecked.push(`${name}: ${result.reason}`);
   }
-  if (unchecked.length) log(`[preflight] ${unchecked.length} package(s) could not be checked; npm decides at publish time: ${unchecked.join(', ')}`);
   if (refused.length) {
     log(`[preflight] ${refused.length} of ${names.length} packages cannot publish from this workflow. Nothing was published.`);
     // The registry answers 401 for every package when it rejects the identity
@@ -147,7 +194,12 @@ export async function assertTrustedPublishers(names, {
       log(`  ${repairInstructions(name, known, env)}`);
     }
   }
+  if (unchecked.length) {
+    log(`[preflight] ${unchecked.length} of ${names.length} packages could not be checked in ${ATTEMPTS} attempts. Nothing was published; rerun the job.`);
+    for (const item of unchecked) log(`  ${item}`);
+  }
   assert.equal(refused.length, 0, `${refused.length} of ${names.length} packages have no trusted publisher for this workflow`);
+  assert.equal(unchecked.length, 0, `${unchecked.length} of ${names.length} packages could not be checked; nothing was published`);
 }
 
 export function isolatedNpmEnvironment(env, temporary) {
