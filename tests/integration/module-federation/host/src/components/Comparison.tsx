@@ -50,6 +50,10 @@ function Panel({
   inspectRef.current = inspect;
   const sendInspect = useCallback(() => {
     frame.current?.contentWindow?.postMessage(
+      { type: 'mf-weather-metrics-request' },
+      window.location.origin,
+    );
+    frame.current?.contentWindow?.postMessage(
       { type: 'mf-lab-inspect', enabled: inspectRef.current, paletteSeed },
       window.location.origin,
     );
@@ -57,8 +61,10 @@ function Panel({
   useEffect(sendInspect, [inspect, run, sendInspect]);
   const [recovery, setRecovery] = useState('');
   const [events, setEvents] = useState<Record<string, number>>({});
+  const [methods, setMethods] = useState<Record<string, string>>({});
   useEffect(() => {
     setEvents({});
+    setMethods({});
     setRecovery('');
     function receive(event: MessageEvent) {
       if (
@@ -73,7 +79,10 @@ function Panel({
         setRecovery(event.data.status);
         return;
       }
-      if (event.data?.type === 'mf-lab-inspect-ready') {
+      if (
+        event.data?.type === 'mf-lab-inspect-ready' ||
+        event.data?.type === 'mf-weather-metrics-ready'
+      ) {
         sendInspect();
         return;
       }
@@ -81,14 +90,18 @@ function Panel({
       if (
         ![
           'Client ready',
-          'Weather ready',
-          'Interaction verified',
+          'Data visible',
           'Data request failed',
           'Data prefetch started',
         ].includes(event.data.event) ||
         typeof event.data.at !== 'number'
       )
         return;
+      if (typeof event.data.method === 'string')
+        setMethods(previous => ({
+          ...previous,
+          [event.data.event]: event.data.method,
+        }));
       setEvents(previous => ({
         ...previous,
         [event.data.event]: previous[event.data.event] ?? event.data.at,
@@ -113,13 +126,11 @@ function Panel({
           )}
         </h2>
         <span>
-          {events['Interaction verified'] !== undefined
-            ? '● Interaction verified'
-            : events['Client ready'] !== undefined
-              ? '● Client ready'
-              : events['Data prefetch started'] !== undefined
-                ? '◌ Prefetching data'
-                : '◌ Waiting for client'}
+          {events['Client ready'] !== undefined
+            ? '● Client ready'
+            : events['Data prefetch started'] !== undefined
+              ? '◌ Prefetching data'
+              : '◌ Waiting for client'}
         </span>
       </header>
       <iframe
@@ -131,14 +142,26 @@ function Panel({
         sandbox="allow-scripts allow-same-origin"
       />
       <footer>
-        {['Client ready', 'Weather ready', 'Interaction verified'].map(
-          event => (
-            <span key={event}>
-              {event}
-              <b>{events[event] === undefined ? '—' : `${events[event]} ms`}</b>
-            </span>
-          ),
-        )}
+        {['Data visible', 'Client ready'].map(event => (
+          <span
+            key={event}
+            data-metric={event}
+            title={
+              event === 'Data visible'
+                ? methods[event] === 'visibility estimate'
+                  ? 'Estimated visibility of temperature and condition after intersection and a paint opportunity.'
+                  : 'From frame navigation to the first paint of temperature and condition (Element Timing).'
+                : 'From frame navigation until the current-weather save button has its handler and is enabled.'
+            }
+          >
+            {event}
+            <b>
+              {events[event] === undefined
+                ? '—'
+                : `${methods[event] === 'visibility estimate' ? '≈ ' : ''}${events[event]} ms`}
+            </b>
+          </span>
+        ))}
       </footer>
     </section>
   );

@@ -134,3 +134,13 @@ Both comparison pages and Advanced scenarios provide a **Simulate failure** chec
 `tests/error-recovery.test.ts` runs independently in dev and production. It checks raw SSR HTML, actual HTTP failures, handling records, isolation, interactive neighbors, and successful loading before and after a fault. Normal regression tests retain their strict SSR and browser-error assertions.
 
 The pinned 2.9.2 adapter additionally reports one unhandled promise rejection when an intentionally failing client data loader runs through prefetch or data downgrade. The fault tests check its exact API error and count, alongside the visible adapter fallback. This known error is not ignored globally or treated as successful prefetching.
+
+## Comparison timing metrics
+
+The footer displays only **Data visible** and **Client ready**, both measured from each iframe's navigation time origin.
+
+- **Data visible** records the later first-paint timestamp of the real temperature and condition text using Element Timing. The observer is installed in the document head independently of the application entry, so SSR data can be measured before hydration. Placeholders and error cards have no timing targets. Browsers without Element Timing use intersection plus a paint opportunity as an estimate, labeled with `≈` and an explanatory tooltip.
+- **Client ready** records the layout commit in which the current-weather save button is enabled and its React handler is attached. Pending data does not count as ready. This is readiness for that control, not a claim that every remote or resource in the page has finished loading.
+- Clicking remains covered by e2e assertions on saved station and wind state. Interaction verified is no longer a timing metric or panel-header status.
+
+Comparison tests hold the application entry request while verifying that SSR data is already painted and the button remains disabled. They then release it and verify client readiness and actual interaction. Additional tests hold the client data request to verify that pending content produces neither metric, and exercise the visibility estimate when Element Timing is unavailable. Metric records are retained in the child document and replayed on a parent handshake so an early SSR paint is not lost while the comparison shell hydrates.

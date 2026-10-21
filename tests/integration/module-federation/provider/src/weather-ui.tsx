@@ -1,5 +1,5 @@
 import { checkDataFailure } from './data-failure';
-import { useEffect, useState } from 'react';
+import { useEffect, useLayoutEffect, useRef, useState } from 'react';
 export type WeatherData = {
   temperature: number;
   condition: string;
@@ -61,9 +61,10 @@ export function CurrentWeather({
   const [error, setError] = useState<Error>();
   const [ready, setReady] = useState(false);
   const [saved, setSaved] = useState(false);
+  const saveButton = useRef<HTMLButtonElement>(null);
+  const clientReported = useRef(false);
   useEffect(() => {
     setReady(true);
-    report('Client ready');
     if (!local && !mfData) {
       checkDataFailure({ labFailure })
         .then(() => fetch(`${process.env.MF_LAB_API}/weather`))
@@ -78,9 +79,21 @@ export function CurrentWeather({
         });
     }
   }, []);
-  useEffect(() => {
-    if (data) report('Weather ready');
-  }, [data]);
+  useLayoutEffect(() => {
+    if (
+      !ready ||
+      !data ||
+      saveButton.current?.disabled !== false ||
+      clientReported.current
+    )
+      return;
+    clientReported.current = true;
+    window.dispatchEvent(
+      new CustomEvent('mf-weather-metric', {
+        detail: { event: 'Client ready', at: performance.now() },
+      }),
+    );
+  }, [ready, data]);
   if (error) throw error;
   return (
     <section
@@ -90,18 +103,32 @@ export function CurrentWeather({
     >
       <span className="location-label">⌖ My location</span>
       <h1>Hangzhou</h1>
-      <div className="current-temperature">
-        {data ? data.temperature : '—'}
+      <div
+        className="current-temperature"
+        key={data ? 'temperature-data' : 'temperature-pending'}
+        {...(data ? { elementtiming: 'weather-temperature' } : {})}
+      >
+        {data ? (
+          <span key="data">{data.temperature}</span>
+        ) : (
+          <span key="pending">—</span>
+        )}
         <sup>°</sup>
       </div>
-      <p>{data?.condition || 'Waiting for weather'}</p>
+      {data ? (
+        <p key="condition-data" {...{ elementtiming: 'weather-condition' }}>
+          {data.condition}
+        </p>
+      ) : (
+        <p key="condition-pending">Waiting for weather</p>
+      )}
       <p>H:30° · L:21°</p>
       <button
         className="weather-save"
+        ref={saveButton}
         disabled={!ready || !data}
         onClick={() => {
           setSaved(!saved);
-          report('Interaction verified');
         }}
         data-testid="weather-save"
       >
@@ -134,7 +161,6 @@ export function HourlyWeather() {
             aria-pressed={selected === index}
             onClick={() => {
               setSelected(index);
-              report('Interaction verified');
             }}
           >
             <span>{index === 0 ? 'Now' : `${index + 14}:00`}</span>
@@ -282,7 +308,6 @@ export function WindWeather() {
           onChange={event => {
             setAngle(Number(event.target.value));
             setVerified(true);
-            report('Interaction verified');
           }}
         />
       </label>
