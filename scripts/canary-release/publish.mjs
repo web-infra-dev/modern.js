@@ -189,7 +189,9 @@ export async function assertTrustedPublishers(names, {
     // itself, which looks exactly like every package missing its configuration.
     if (refused.length === names.length) log('[preflight] Every package was refused: suspect the workflow identity before the per-package configuration.');
     for (const name of refused) {
-      const known = await request(new URL(`/${escapeName(name)}`, REGISTRY).href, { method: 'HEAD' })
+      // Only decides the wording of the repair line, so a registry that will not
+      // answer must not hold the failure open: assume the package exists.
+      const known = await request(new URL(`/${escapeName(name)}`, REGISTRY).href, { method: 'HEAD', signal: AbortSignal.timeout(PROBE_TIMEOUT) })
         .then(response => response.status !== 404, () => true);
       log(`  ${repairInstructions(name, known, env)}`);
     }
