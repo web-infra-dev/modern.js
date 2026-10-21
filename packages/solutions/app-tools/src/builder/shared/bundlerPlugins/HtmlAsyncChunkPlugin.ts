@@ -6,9 +6,19 @@ export class HtmlAsyncChunkPlugin {
 
   htmlPlugin: typeof Rspack.HtmlRspackPlugin;
 
-  constructor(htmlPlugin: typeof Rspack.HtmlRspackPlugin) {
+  constructor(
+    htmlPlugin: typeof Rspack.HtmlRspackPlugin,
+    private readonly shouldProcessEntry?: (entryName: string) => boolean,
+  ) {
     this.name = 'HtmlAsyncChunkPlugin';
     this.htmlPlugin = htmlPlugin;
+  }
+
+  private shouldProcess(plugin: { options: unknown }) {
+    if (!this.shouldProcessEntry) return true;
+    // Rsbuild supplies the owning entry independently of the included chunks.
+    const { entryName } = plugin.options as { entryName?: string };
+    return entryName !== undefined && this.shouldProcessEntry(entryName);
   }
 
   apply(compiler: Rspack.Compiler) {
@@ -35,6 +45,8 @@ export class HtmlAsyncChunkPlugin {
       // scripts and removes their src in production. Move runtime to body while
       // src still identifies it so entry execution waits for initial SSR data.
       hooks.alterAssetTagGroups.tap({ name: this.name, stage: -1 }, assets => {
+        if (!this.shouldProcess(assets.plugin)) return assets;
+
         const headTags: typeof assets.headTags = [];
         const bodyTags: typeof assets.bodyTags = [];
         const entryRuntimeUrls = runtimeInEntry
@@ -81,6 +93,8 @@ export class HtmlAsyncChunkPlugin {
         // Use final attributes after Rsbuild's HTML processing so preload CORS
         // and integrity settings match the script. Inlined entries need no hint.
         hooks.alterAssetTagGroups.tap({ name: this.name, stage: 1 }, assets => {
+          if (!this.shouldProcess(assets.plugin)) return assets;
+
           const entryRuntimeUrls = getEntryRuntimeUrls(assets.publicPath);
           for (const tag of assets.bodyTags) {
             const src = tag.attributes?.src;
