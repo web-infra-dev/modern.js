@@ -79,6 +79,15 @@ function getStaticHandler(
   routesConfig: ServerLoaderBundle['routes'],
   basename: string,
 ): StaticHandler {
+  // The dev server reloads the loader bundle after a rebuild, but Node keeps the
+  // old bundle reachable (from the children of its parent module), so a cached
+  // handler would be retained with every old bundle.
+  if (process.env.NODE_ENV === 'development') {
+    return createStaticHandler(transformNestedRoutes(routesConfig), {
+      basename,
+    });
+  }
+
   let handlers = staticHandlerCache.get(routesConfig);
   if (!handlers) {
     handlers = new Map();

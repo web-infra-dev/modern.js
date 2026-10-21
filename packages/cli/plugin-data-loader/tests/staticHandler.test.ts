@@ -95,6 +95,10 @@ describe('static handler cache', () => {
     rstest.mocked(createStaticHandler).mockClear();
   });
 
+  afterEach(() => {
+    rstest.unstubAllEnvs();
+  });
+
   it('should return per-request data for sequential and concurrent requests', async () => {
     const routes = createRoutes();
     const ids = Array.from({ length: 20 }, (_, i) => String(i + 1));
@@ -176,5 +180,14 @@ describe('static handler cache', () => {
 
     await request(createRoutes(), '/three/user/5', 'user/[id]/page', '5');
     expect(createStaticHandler).toHaveBeenCalledTimes(3);
+  });
+
+  it('should not cache the static handler in development', async () => {
+    rstest.stubEnv('NODE_ENV', 'development');
+    const routes = createRoutes();
+    await request(routes, '/three/user/1', 'user/[id]/page', '1');
+    const res = await request(routes, '/three/user/2', 'user/[id]/page', '2');
+    expect((await res.json()).id).toBe('2');
+    expect(createStaticHandler).toHaveBeenCalledTimes(2);
   });
 });
