@@ -4,7 +4,13 @@ import {
   SERVICE_WORKER_ENVIRONMENT_NAME,
   isHtmlDisabled,
 } from '@modern-js/builder';
-import { fs, isUseRsc, isUseSSRBundle, logger } from '@modern-js/utils';
+import {
+  fs,
+  getEntryOptions,
+  isUseRsc,
+  isUseSSRBundle,
+  logger,
+} from '@modern-js/utils';
 import {
   type RsbuildPlugin,
   type RspackChain,
@@ -17,6 +23,7 @@ import type {
   ServerUserConfig,
 } from '../../../types';
 import type { AppToolsContext } from '../../../types/plugin';
+import { isMainEntry } from '../../../utils/routes';
 import { HtmlAsyncChunkPlugin, RouterPlugin } from '../bundlerPlugins';
 import {
   aggregateEagerRouteComponentFiles,
@@ -35,7 +42,10 @@ export const builderPluginAdapterSSR = (
     api.modifyRsbuildConfig(config => {
       const merged = mergeRsbuildConfig(config, {
         html: {
-          inject: isStreamingSSR(normalizedConfig) ? 'head' : undefined,
+          inject: ({ entryName, value }) =>
+            isStreamingSSR(normalizedConfig, entryName, appContext)
+              ? 'head'
+              : value,
         },
         server: {
           // the http-compression can't handler stream http.
@@ -104,6 +114,7 @@ export const builderPluginAdapterSSR = (
           applyAsyncChunkHtmlPlugin({
             chain,
             modernConfig: options.normalizedConfig,
+            appContext,
             HtmlBundlerPlugin,
           });
         }
@@ -112,7 +123,11 @@ export const builderPluginAdapterSSR = (
   },
 });
 
-const isStreamingSSR = (userConfig: AppNormalizedConfig): boolean => {
+export const isStreamingSSR = (
+  userConfig: AppNormalizedConfig,
+  entryName?: string,
+  appContext?: Pick<AppToolsContext, 'packageName'>,
+): boolean => {
   const isStreaming = (ssr: ServerUserConfig['ssr']) => {
     if (!ssr) {
       return false;
@@ -127,12 +142,24 @@ const isStreamingSSR = (userConfig: AppNormalizedConfig): boolean => {
 
   const { server } = userConfig;
 
+  if (entryName !== undefined) {
+    return isStreaming(
+      getEntryOptions(
+        entryName,
+        isMainEntry(entryName, userConfig.source?.mainEntryName),
+        server.ssr,
+        server.ssrByEntries,
+        appContext?.packageName,
+      ),
+    );
+  }
+
   if (isStreaming(server.ssr)) {
     return true;
   }
 
-  // Since we cannot apply different plugins for different entries,
-  // we regard the whole app as streaming ssr only if one entry meets the requirement.
+  // Application-wide setup still needs the plugin when any entry streams.
+  // The HTML hooks decide whether to process each individual entry.
   if (server?.ssrByEntries && typeof server.ssrByEntries === 'object') {
     for (const name of Object.keys(server.ssrByEntries)) {
       if (isStreaming(server.ssrByEntries[name])) {
@@ -212,16 +239,23 @@ function warnUnresolvedRouteComponents(
 function applyAsyncChunkHtmlPlugin({
   chain,
   modernConfig,
+  appContext,
   HtmlBundlerPlugin,
 }: {
   chain: RspackChain;
   modernConfig: AppNormalizedConfig;
+  appContext: AppToolsContext;
   HtmlBundlerPlugin: any;
 }) {
   if (isStreamingSSR(modernConfig) || isUseRsc(modernConfig)) {
     chain
       .plugin('html-async-chunk')
-      .use(HtmlAsyncChunkPlugin, [HtmlBundlerPlugin]);
+      .use(HtmlAsyncChunkPlugin, [
+        HtmlBundlerPlugin,
+        (entryName: string) =>
+          isUseRsc(modernConfig) ||
+          isStreamingSSR(modernConfig, entryName, appContext),
+      ]);
   }
 }
 

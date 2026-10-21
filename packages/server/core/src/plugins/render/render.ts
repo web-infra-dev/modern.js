@@ -123,6 +123,8 @@ export async function createRender({
   config,
 }: CreateRenderOptions): Promise<Render> {
   const router = getRouter(routes);
+  const framework = cutNameByHyphen(metaName || 'modern-js');
+  const fallbackHeader = `x-${framework}-ssr-fallback`;
 
   return async (
     req,
@@ -148,8 +150,6 @@ export async function createRender({
       forMatchpathname,
       matchEntryName,
     );
-    const framework = cutNameByHyphen(metaName || 'modern-js');
-    const fallbackHeader = `x-${framework}-ssr-fallback`;
     let fallbackReason = null;
 
     const fallbackWrapper: FallbackWrapper = reason => {
@@ -191,8 +191,6 @@ export async function createRender({
       contextForceCSR,
     );
 
-    const headerData = parseHeaders(req);
-
     const onError = (e: unknown, key?: string) => {
       monitors?.error(
         `SSR Error - ${
@@ -200,7 +198,7 @@ export async function createRender({
         }, error = %s, req.url = %s, req.headers = %o`,
         e instanceof Error ? e.stack || e.message : e,
         forMatchpathname,
-        getHeadersWithoutCookie(headerData),
+        getHeadersWithoutCookie(parseHeaders(req)),
       );
     };
 
