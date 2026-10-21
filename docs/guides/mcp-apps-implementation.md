@@ -1,8 +1,23 @@
 # Modern.js MCP Apps 实现与设计
 
-Modern.js 将 MCP Apps 支持拆成协议运行库和框架插件。开发者声明服务端 Tool 及其可选 View，插件负责构建浏览器入口、输出 UI 资源并接入 BFF。宿主通过 MCP 获取工具和 HTML，再将工具输入与结果传给卡片中的 React 组件。
+Modern.js 将 MCP Apps 支持拆成协议运行库、框架插件和独立的开发 Inspector。开发者声明服务端 Tool 及其可选 View，插件负责构建浏览器入口、输出 UI 资源并接入 BFF。宿主通过 MCP 获取工具和 HTML，再将工具输入与结果传给卡片中的 React 组件。
 
 本文面向 PR reviewer，按定义、构建、服务接入和浏览器运行的顺序解释当前实现。需要特别关注结果元数据格式、本地与 Module Federation 两条渲染路径，以及服务端和 UI 产物的升级边界。
+
+## 先看完整链路
+
+以 [Todo 示例](../../examples/mcp-apps-todo) 为例：
+
+```text
+mcp_apps.ts 声明 list_todos 与 Todos View
+  → 插件编译 View，生成 HTML 和 ui-manifest.json
+  → 服务端绑定 UI 产物，注册 /mcp
+  → 宿主调用 list_todos，按 resourceUri 读取 HTML
+  → 宿主将结果传入卡片，Todos 渲染待办事项
+  → 用户修改事项，卡片调用 update_todo，再调用 list_todos 更新界面
+```
+
+这里有两个独立的数据流：宿主将工具调用结果传入卡片，卡片也可以通过 MCP 主动调用工具。后者的返回值由卡片消费，不能依赖宿主再次推送。
 
 ## 包边界与代码入口
 
@@ -16,22 +31,35 @@ Modern.js 将 MCP Apps 支持拆成协议运行库和框架插件。开发者声
 | `@modern-js/plugin-mcp-apps` | Modern.js 构建、监听、服务插件和 Inspector 入口 | [cli.ts](../../packages/cli/plugin-mcp-apps/src/cli.ts)                                                                                            |
 | BFF 服务插件                 | 绑定 UI 资源，注册或替换 API handler            | [bff-runtime.ts](../../packages/cli/plugin-mcp-apps/src/bff-runtime.ts)                                                                            |
 
+Inspector 由 `@modern-js/mcp-apps-inspector` 独立发布，负责开发调试 UI 和预览沙箱。核心运行库不依赖 Inspector，框架插件负责将它接入开发流程。
+
 核心 HTTP 接口是标准 `Request → Promise<Response>`。BFF 和 Hono 负责适配宿主框架，核心库不自行监听端口。应用可以使用完整 Modern.js 集成，也可以只构建 UI，将 MCP 服务部署在自己管理的服务器上。
 
 ## 从 Tool 定义开始
 
 `defineMcpServer()` 接收应用的工具定义，检查服务名称和版本，并将缺省 `remotes` 补成空数组。它不会启动服务器或编译组件。`defineTool()` 支持将工具拆到单独模块，类型层通过 JSON Schema 推导输入等信息。
 
+定义 API 和构建模式分别承担不同职责：
+
+| 入口 | 使用场景 |
+| --- | --- |
+| `defineMcpServer()` | 声明完整服务，包括工具 handler 和可选 View |
+| `defineTool()` | 单独声明工具，保留输入和结果的类型推导 |
+| `defineMcpUi()` | 只声明本地 View，不导入业务 handler，适合 UI 独立构建 |
+| 插件 `mode: 'ui-only'` | 构建 UI 和 Manifest，不自动注册 MCP 服务，也不编译服务定义 |
+
+`defineMcpUi()` 是配置辅助函数，`ui-only` 是插件选项，前者不会自动开启后者。完整 Modern.js 服务使用 `defineMcpServer()` 和默认插件模式即可。
+
 一个工具的关键字段是：
 
 <!-- prettier-ignore -->
 ```ts
 {
-  name: 'greet',
+  name: 'list_todos',
   inputSchema,
   outputSchema,
   handler,
-  view: { module: './src/components/Greeting.tsx' },
+  view: { module: './src/components/Todos.tsx' },
 }
 ```
 
@@ -99,7 +127,7 @@ CLI 插件通过 `_internalServerPlugins` 注册 `bff-runtime`。服务端插件
 | `resources/list` | 返回 UI 资源描述                       |
 | `resources/read` | 返回 HTML 内容及资源元数据             |
 
-工具通过标准字段 `_meta.ui.resourceUri` 关联卡片。本地资源采用 `ui://local/<toolName>`，MF 工具资源采用 `ui://mf/<remoteName>/<toolName>`。HTML 的标准 MCP App MIME 类型由 `UI_MIME_TYPE` 常量定义。
+工具通过标准字段 `_meta.ui.resourceUri` 关联卡片。本地资源采用 `ui://local/<toolName>`，MF 工具资源采用 `ui://mf/<remoteName>/<toolName>`，名称按 URI 编码规则转义。HTML 的标准 MCP App MIME 类型由 `UI_MIME_TYPE` 常量定义。
 
 资源 URI 是协议标识。`resources/read` 返回 HTML 内容，宿主无需直接导航到应用页面。由于 HTML 在宿主环境中运行，`resolveUiHtml()` 根据 `assetBase` 注入 HTML base 地址，并将来源补充到相关 CSP 域名列表，让卡片能够访问应用的 JS、CSS 和 chunk。
 
@@ -121,17 +149,17 @@ handler 可以是函数，也可以通过本地模块路径加载。虽然部分
 | `structuredContent`             | 原始结构的业务结果，供 outputSchema 校验               |
 | `_meta['modernjs.dev/mcp-app']` | Modern.js 渲染约定，包括版本、输入、组件属性和资源配置 |
 
-例如 Greeting 的结果可以是：
+例如 `list_todos` 的结果可以是：
 
 ```json
 {
-  "content": [{ "type": "text", "text": "Hello, Ada!" }],
-  "structuredContent": { "message": "Hello, Ada!" },
+  "content": [{ "type": "text", "text": "[]" }],
+  "structuredContent": { "todos": [] },
   "_meta": {
     "modernjs.dev/mcp-app": {
       "version": 1,
-      "args": { "name": "Ada" },
-      "viewProps": { "message": "Hello, Ada!" }
+      "args": {},
+      "viewProps": { "todos": [] }
     }
   }
 }
@@ -139,15 +167,15 @@ handler 可以是函数，也可以通过本地模块路径加载。虽然部分
 
 框架生成的元数据还可包含 `tool` 和 `resource`。命名空间由框架保留，`version` 描述内部渲染数据格式，与 MCP 协议版本无关。标准卡片关联仍由工具描述中的 `_meta.ui.resourceUri` 承担。
 
-此前将渲染字段合并进 `structuredContent`，会覆盖同名业务字段，也使业务输出 schema 与最终数据不一致。现在业务结果保持原样，带 View 的工具也可以公开 `outputSchema`。`meaningfulContent()` 在缺少内容时提供文本回退，不会将仅用于 UI 的 `viewProps` 自动序列化到文本中。
+业务数据与渲染元数据分开保存，避免覆盖同名业务字段，也使 `outputSchema` 只约束业务结果。带 View 的工具同样可以公开 `outputSchema`。`meaningfulContent()` 在缺少内容时提供文本回退，不会将仅用于 UI 的 `viewProps` 自动序列化到文本中。
 
 [withViewProps()](../../packages/toolkit/mcp-apps/src/server.ts) 用来减少重复声明：
 
 <!-- prettier-ignore -->
 ```ts
 return withViewProps({
-  content: [{ type: 'text', text: message }],
-  structuredContent: { message },
+  content: [{ type: 'text', text: JSON.stringify(todos) }],
+  structuredContent: { todos },
 })
 ```
 
@@ -168,6 +196,20 @@ return withViewProps({
 ```
 
 本地入口通过 `createMcpView()` 将合并后的属性和官方 `mcpApp` 实例交给业务组件。组件可以调用 `mcpApp.callServerTool()` 发起后续操作。此方法的返回值应由当前交互代码消费，不能依赖宿主一定再次发送工具结果事件来更新界面。
+
+## Todo 中的状态由谁管理
+
+MCP Apps 提供宿主与卡片的通信和生命周期能力，当前封装没有提供通用业务状态仓库。Todo 的状态分为三层：
+
+| 状态 | 所属位置 | 更新方式 |
+| --- | --- | --- |
+| 待办事项、标题、完成状态 | 服务端 `server/store.ts` | `add_todo`、`update_todo`、`delete_todo` 修改，`list_todos` 读取 |
+| 工具输入、结果、取消状态 | `useMcpApp()` | 处理宿主事件，由 reducer 清理旧调用数据 |
+| 筛选、编辑草稿、请求中和错误提示 | `Todos.tsx` | React 本地状态，只影响当前卡片 |
+
+首次展示时，`list_todos` 通过 `withViewProps()` 将数据传给组件。卡片内的修改先调用业务工具，再重新读取列表并更新 React 状态。勾选完成或改回待完成都会写入服务端，分组和统计由最新列表计算。
+
+这体现了“同一组工具既可供模型调用，也可供卡片交互调用”的能力。它不代表跨卡片实时同步：其他卡片需要刷新才能读到变化。示例存储是进程内共享内存，重启会清空，也没有按用户隔离。批量操作由多次工具调用组成，不是事务。
 
 ## MF 如何复用同一套运行时
 
@@ -208,10 +250,11 @@ HTTP handler 默认只接受 POST，采用无状态处理。新协议请求交�
 - BFF 请求体重建和取消信号传递是否正确
 - 服务端与 UI 同步升级要求，以及真实宿主转发元数据的验证是否充分
 
-[view-result.test.ts](../../packages/toolkit/mcp-apps/tests/view-result.test.ts) 覆盖结果隔离、旧格式读取、状态变化、输出校验、Manifest 标识检查及官方 SDK 通知转发。[protocol.test.ts](../../packages/toolkit/mcp-apps/tests/protocol.test.ts) 覆盖能力协商、资源和沙箱等协议行为。快捷函数行为也由 `view-result.test.ts` 覆盖，[类型用例](../../packages/toolkit/mcp-apps/tests/view-props.types.ts) 验证类型推导。
+[view-result.test.ts](../../packages/toolkit/mcp-apps/tests/view-result.test.ts) 覆盖结果隔离、旧格式读取、状态变化、输出校验、Manifest 标识检查及官方 SDK 通知转发。[protocol.test.ts](../../packages/toolkit/mcp-apps/tests/protocol.test.ts) 覆盖能力协商、资源绑定、Origin 校验、开发配置重载、请求头保留和 Hono 错误回调。Inspector 的桥接与沙箱行为由其独立包中的 [protocol.test.ts](../../packages/toolkit/mcp-apps-inspector/tests/protocol.test.ts) 验证。快捷函数行为由 `view-result.test.ts` 覆盖，[类型用例](../../packages/toolkit/mcp-apps/tests/view-props.types.ts) 验证类型推导。
 
 ```sh
 pnpm --filter @modern-js/mcp-apps test
+pnpm --filter @modern-js/mcp-apps-inspector test
 pnpm --filter @modern-js/mcp-apps typecheck
 pnpm exec tsc -p packages/toolkit/mcp-apps/tests/tsconfig.types.json
 pnpm --filter @modern-js/plugin-mcp-apps typecheck
