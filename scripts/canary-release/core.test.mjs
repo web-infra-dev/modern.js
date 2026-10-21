@@ -3,7 +3,7 @@ import fs from 'node:fs';
 import path from 'node:path';
 import test from 'node:test';
 import {
-  assertSource, assertTrigger, planHash, publishable, stableStringify,
+  RELEASE_ID, assertSource, assertTrigger, planHash, publishable, stableStringify,
   validateDependencies, validatePackageSet, validatePlan, validateTarball, verifyArtifacts, writeJson,
 } from './core.mjs';
 import { artifactFixture, githubEnvironment, makePlan, pushEvent, sourceSha, version } from './fixtures.mjs';
@@ -152,5 +152,24 @@ test('artifacts reject path escape, duplicates, missing packages and shared-vers
     mutate(changed);
     writeJson(path.join(directory, 'manifest.json'), changed);
     assert.throws(() => verifyArtifacts(directory, plan, planHash(plan), sourceSha));
+  }
+});
+
+test('the release id shape is the one the pipeline mints, and never a UUID', () => {
+  // Three validators across two repositories encode this shape and each had its
+  // own fixture, so runs 54 and 55 each died on a different one after the
+  // generator changed. This states the contract in the repository that receives
+  // the id: the pipeline builds `r<date>-<16 random bytes as hex>`.
+  const minted = `r20261022-${'ab12cd34'.repeat(4)}`;
+  assert.ok(RELEASE_ID.test(minted), minted);
+  for (const rejected of [
+    // What the pipeline used to mint. npm redacts this shape out of its own
+    // publish output, which is why it may never come back.
+    'r20261022-12345678-1234-4234-8234-123456789abc',
+    'r20261022-ab12cd34', 'r20261022-' + 'ab'.repeat(17), 'r2026102-' + 'ab'.repeat(16),
+    `R20261022-${'ab12cd34'.repeat(4)}`, `r20261022-${'AB12CD34'.repeat(4)}`,
+    `r20261022-${'ab12cd34'.repeat(4)} `, `release-${'ab12cd34'.repeat(4)}`,
+  ]) {
+    assert.ok(!RELEASE_ID.test(rejected), rejected);
   }
 });

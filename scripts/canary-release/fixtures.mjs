@@ -3,7 +3,7 @@ import os from 'node:os';
 import path from 'node:path';
 import { integrity, planHash, run, writeJson } from './core.mjs';
 
-export const releaseId = 'r20261018-12345678-1234-4234-8234-123456789abc';
+export const releaseId = 'r20261018-123456781234423482341234567890ab';
 export const sourceSha = 'b'.repeat(40);
 export const version = `0.0.0-canary-verify.${releaseId}`;
 export const makePlan = () => ({
