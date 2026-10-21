@@ -5,7 +5,7 @@ import test from 'node:test';
 import { planHash, readJson } from './core.mjs';
 import { artifactFixture, githubEnvironment } from './fixtures.mjs';
 import {
-  ATTEMPTS, assertTrustedPublishers, diagnostic, isolatedNpmEnvironment, npmErrorCode, retryAfterMs, sameValue,
+  ATTEMPTS, assertTrustedPublishers, confirmFromRegistry, diagnostic, isolatedNpmEnvironment, npmErrorCode, retryAfterMs, sameValue,
   publish, publishArguments, publishedFromOutput, repairInstructions,
 } from './publish.mjs';
 
@@ -13,6 +13,8 @@ function settings(fixture, npm, log = () => {}) {
   return {
     env: githubEnvironment(), validateSource: () => {}, validateTrigger: () => {},
     workspaces: () => fixture.plan.packages, execute: () => '11.21.0', verifyTrust: () => {}, npm, log,
+    // The registry is asked for real in its own test; here nothing is confirmed.
+    confirm: async items => items,
   };
 }
 const options = plan => ({ artifacts: 'artifacts', receiptDir: 'receipts', expectedPlanHash: planHash(plan) });
@@ -347,4 +349,47 @@ test('the publish job runs the probe before the first package and refuses to con
   const receipt = readJson(path.join(fixture.root, 'receipts/receipt.json'));
   assert.equal(receipt.status, 'blocked');
   assert.equal(receipt.failure, 'preflight-failed');
+});
+
+test('a package npm was unsure about is settled by the registry, not by its exit code', async () => {
+  const items = [
+    { name: '@modern-js/a', version: '0.0.0-x', integrity: 'sha512-aaa', status: 'unknown' },
+    { name: '@modern-js/b', version: '0.0.0-x', integrity: 'sha512-bbb', status: 'unknown' },
+    { name: '@modern-js/c', version: '0.0.0-x', integrity: 'sha512-ccc', status: 'unknown' },
+  ];
+  const seen = [];
+  const waits = [];
+  // a appears only on the second look, b is served with other bytes, c never arrives.
+  const request = url => {
+    seen.push(url);
+    if (url.includes('%2fa')) {
+      return seen.filter(item => item.includes('%2fa')).length > 1
+        ? Promise.resolve({ ok: true, json: () => Promise.resolve({ dist: { integrity: 'sha512-aaa' } }) })
+        : Promise.resolve({ ok: false, status: 404 });
+    }
+    if (url.includes('%2fb')) return Promise.resolve({ ok: true, json: () => Promise.resolve({ dist: { integrity: 'sha512-different' } }) });
+    return Promise.resolve({ ok: false, status: 404 });
+  };
+  let clock = 0;
+  const logged = [];
+  const pending = await confirmFromRegistry(items, {
+    request, log: message => logged.push(message),
+    wait: ms => { waits.push(ms); clock += ms; return Promise.resolve(); },
+    now: () => clock, budgetMs: 60_000,
+  });
+  assert.deepEqual(pending.map(item => item.name), ['@modern-js/c'], 'only what the registry never served stays unresolved');
+  assert.equal(items[0].status, 'published');
+  assert.equal(items[0].confirmedBy, 'registry');
+  assert.equal(items[1].status, 'unknown', "different bytes are not this job's publication");
+  assert.match(logged.join('\n'), /different contents/);
+  assert.ok(waits.length >= 1 && waits.every(ms => ms === 20_000));
+});
+
+test('registry confirmation turns a doubtful publish into a published receipt', async t => {
+  const fixture = artifactFixture(t);
+  const deps = settings(fixture, () => ({ status: 1, stderr: 'npm error code E401' }));
+  deps.confirm = async items => { for (const item of items) { item.status = 'published'; } return []; };
+  const receipt = await publish(fixture.root, options(fixture.plan), deps);
+  assert.equal(receipt.status, 'published');
+  assert.ok(readJson(path.join(fixture.root, 'receipts/receipt.json')).packages.every(item => item.status === 'published'));
 });
