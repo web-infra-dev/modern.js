@@ -37,7 +37,8 @@ export function prepare(root, releaseId, baseSha, execute = run) {
   assert(!fs.existsSync(planFile) && !fs.existsSync(predictionFile), 'Already prepared: use a fresh checkout for a deterministic retry');
   const workspaces = listWorkspaces(root, execute);
   const packages = publishable(workspaces);
-  assert(packages.every(pkg => /^\d+\.\d+\.\d+$/.test(pkg.version)), 'prepare requires stable source versions');
+  // Snapshots ignore the baseline, so an alpha window on main prepares to the same canary version.
+  assert(packages.every(pkg => /^\d+\.\d+\.\d+(-[a-z]+\.\d+)?$/.test(pkg.version)), 'prepare requires exact released source versions');
   const changesetDir = path.join(root, '.changeset');
   const changesetNames = fs.readdirSync(changesetDir);
   assert(changesetNames.every(name => fs.lstatSync(path.join(changesetDir, name)).isFile()), 'Unexpected changeset subdirectory');

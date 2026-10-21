@@ -3,13 +3,13 @@ import fs from 'node:fs';
 import path from 'node:path';
 import test from 'node:test';
 import { fileURLToPath } from 'node:url';
-import { planHash, readJson, run, writeJson } from './core.mjs';
+import { TAG, planHash, readJson, run, writeJson } from './core.mjs';
 import { releaseId, temporary, version } from './fixtures.mjs';
 import { install, prepare, withoutRootPrepare } from './prepare.mjs';
 
 const repository = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '../..');
 
-function fixture(t, { changeset = true } = {}) {
+function fixture(t, { changeset = true, baseline = '3.10.0' } = {}) {
   const root = temporary(t);
   writeJson(path.join(root, 'package.json'), {
     name: 'canary-contract-fixture', private: true,
@@ -22,7 +22,7 @@ function fixture(t, { changeset = true } = {}) {
   });
   if (changeset) fs.writeFileSync(path.join(root, '.changeset/original.md'), '---\n"@modern-js/a": minor\n---\n\nOriginal real change.\n');
   writeJson(path.join(root, 'packages/a/package.json'), {
-    name: '@modern-js/a', version: '3.10.0', dependencies: { '@modern-js/b': 'workspace:*' },
+    name: '@modern-js/a', version: baseline, dependencies: { '@modern-js/b': 'workspace:*' },
   });
   writeJson(path.join(root, 'packages/b/package.json'), { name: '@modern-js/b', version: '3.6.0' });
   writeJson(path.join(root, 'packages/private/package.json'), { name: '@modern-js/private', version: '3.6.0', private: true });
@@ -31,7 +31,7 @@ function fixture(t, { changeset = true } = {}) {
   return root;
 }
 
-function fakeRunner(root, { failSnapshot = false, snapshots = [] } = {}) {
+function fakeRunner(root, { failSnapshot = false, snapshots = [], baseline = '3.10.0' } = {}) {
   return (command, args) => {
     if (command === 'git') return '';
     if (args.includes('list')) return JSON.stringify(['a', 'b', 'private'].map(name => ({ path: path.join(root, 'packages', name) })));
@@ -41,7 +41,7 @@ function fakeRunner(root, { failSnapshot = false, snapshots = [] } = {}) {
         assert.equal(readJson(path.join(root, '.changeset/config.json')).snapshot.prereleaseTemplate, 'canary-verify.{tag}');
         assert.equal(args.at(-1), releaseId);
         assert(fs.readFileSync(path.join(root, '.changeset/original.md'), 'utf8').includes('Original real change'));
-        assert.equal(readJson(path.join(root, 'packages/a/package.json')).version, '3.10.0');
+        assert.equal(readJson(path.join(root, 'packages/a/package.json')).version, baseline);
         const seed = fs.readFileSync(path.join(root, '.changeset/canary-verify-coverage.md'), 'utf8');
         assert(seed.includes('"@modern-js/a": patch') && seed.includes('"@modern-js/b": patch'));
         assert(!seed.includes('@modern-js/private') && !seed.includes('not-a-workspace'));
@@ -82,6 +82,22 @@ test('prepare contract preserves original bump inputs, prediction and a complete
   assert(!fs.existsSync(path.join(root, '.changeset/canary-verify-coverage.md')));
   assert.equal(readJson(path.join(root, 'package.json')).scripts.prepare, 'must-not-run');
   assert.throws(() => prepare(root, releaseId, 'a'.repeat(40), fakeRunner(root)), /Already prepared/);
+});
+
+test('an alpha baseline on main still prepares to the shared canary version', t => {
+  const baseline = '3.0.0-alpha.2';
+  const root = fixture(t, { baseline });
+  const result = prepare(root, releaseId, 'a'.repeat(40), fakeRunner(root, { baseline }));
+  assert.equal(result.plan.version, version);
+  assert(result.plan.packages.every(pkg => pkg.version === version));
+  assert.equal(result.predicted.packages[0].previousVersion, baseline);
+});
+
+test('source versions that are not exact releases are rejected', t => {
+  for (const baseline of ['3.10', '3.10.0.1', 'workspace:*', '^3.10.0', '3.10.0-alpha', '3.10.0-alpha.2.1', `0.0.0-${TAG}.${releaseId}`]) {
+    const root = fixture(t, { baseline });
+    assert.throws(() => prepare(root, releaseId, 'a'.repeat(40), fakeRunner(root, { baseline })), /exact released source versions/);
+  }
 });
 
 test('snapshot failure restores original versions, changesets, config and lockfile', t => {
