@@ -1,23 +1,17 @@
 ---
 '@modern-js/mcp-apps': minor
-'@modern-js/plugin-mcp-apps': minor
 '@modern-js/mcp-apps-inspector': minor
+'@modern-js/plugin-mcp-apps': minor
 '@modern-js/create': minor
 '@modern-js/runtime': patch
 ---
 
-Add MCP Apps support with typed tool definitions, BFF endpoint integration, local React views and Module Federation components.
+Add MCP Apps support with typed tool definitions, input and output validation, business results mapped to React card props through withViewProps, and shared card lifecycle handling.
 
-Provide UI-only builds and a versioned UI manifest for independently managed MCP servers. Include the development Inspector at `/mcp/inspector` with automatic connection, schema-based argument templates, card previews and request logs.
+Integrate automatic BFF endpoint registration, local React card builds and Module Federation views. Support UI-only builds with versioned UI manifests for independently managed MCP servers.
 
-Add MCP Apps and MCP Server scaffolding with interactive examples, and bundle the MCP HTML renderer as JavaScript modules so deployments retain it through standard dependency tracing.
+Provide a separately published development Inspector with live connections, local simulation, isolated card previews, host interactions and request logs.
 
-Define simple starter tools and their views directly in the defineMcpServer tools array, and use each MCP package's own version in generated dependencies. Reuse the existing application template and select MCP-specific files before writing each project.
+Generate Todo starters for local components, Module Federation and tool-only servers. Include tools for listing, adding, editing, completing and deleting todos, with shared server state and an interactive card.
 
-Require explicit Module Federation manifest URLs and CSP configuration, delegating remote asset loading to the standard MF runtime. Reuse browser MF instances by remote name and entry URL, and invalidate pending file-backed handler initialization on reset.
-
-Allow the browser runtime to initialize inside sandboxed iframes where access to document.cookie is restricted.
-
-Consolidate MF loading, rendering and error handling into one runtime module, with host context handling kept in the application entry.
-
-Support fullscreen display requests in the development Inspector.
+Allow the browser runtime to initialize in sandboxed iframes where cookie access is restricted.

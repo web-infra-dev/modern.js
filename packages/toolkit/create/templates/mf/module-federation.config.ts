@@ -6,7 +6,7 @@ export default createModuleFederationConfig({
   filename: 'static/remoteEntry.js',
   dts: false,
   exposes: {
-    './Greeting': './src/components/Greeting.tsx',
+    './Todos': './src/components/Todos.tsx',
   },
   shared: {
     react: { singleton: true },

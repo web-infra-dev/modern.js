@@ -57,32 +57,32 @@ CLI 只生成文件，不安装依赖。生成的版本号不会自动指向工�
 
 - `modern.config.ts`：UI 模板启用 `bffPlugin()` 和 `mcpAppsPlugin()`，自动注册 `/mcp`，MF 模式额外启用 MF 插件。
 - `mcp_apps.ts`：UI 模板根定义，使用 `defineMcpServer({ name, version, tools })`，名称和版本读取 `package.json`。内联 handler 根据 schema 推导参数，拆分工具使用 `defineTool()`。
-- `src/features/tasks/server/`：任务工具与文件存储，`TaskBoard.tsx` 为任务卡片，`types.ts` 为共享类型。
-- `src/components/Greeting.tsx`、`Sum.tsx`：基础卡片。UI 模板包含任务列表、创建、更新、问候与加法五个工具。
-- 纯 `mcp-server` 使用 `api/mcp_apps.ts` 和 `api/lambda/index.ts`，通过 `mcpServer(definition)` 导出 BFF 路由，设置 `config: 'api/mcp_apps.ts', endpoint: false` 和 `bff.prefix: '/mcp'`，仅包含问候与加法工具。
+- `server/store.ts`：共享的 Todo 内存存储，重启或模块重载后重置。
+- `src/components/Todos.tsx`：待办卡片。工具为 `list_todos`、`add_todo`、`update_todo` 和 `delete_todo`，只有 `list_todos` 绑定视图。
+- 纯 `mcp-server` 使用 `api/mcp_apps.ts`、`api/server/store.ts` 和 `api/lambda/index.ts`，通过 `mcpServer(definition)` 导出 BFF 路由，设置 `config: 'api/mcp_apps.ts', endpoint: false` 和 `bff.prefix: '/mcp'`，提供相同四个工具但不生成卡片。
 
 ### 应用内组件
 
 `remotes` 默认 `[]`，工具省略 `remote`，通过相对**项目根目录**的 `view.module` 引用源码：
 
-| 工具 `name`   | `handler`    | `view.module`                   |
-| ------------- | ------------ | ------------------------------- |
-| `greet`       | `greet`      | `./src/components/Greeting.tsx` |
-| `add_numbers` | `addNumbers` | `./src/components/Sum.tsx`      |
+| 工具 `name`                              | `view.module`                |
+| ---------------------------------------- | ---------------------------- |
+| `list_todos`                             | `./src/components/Todos.tsx` |
+| `add_todo`、`update_todo`、`delete_todo` | 无卡片                       |
 
 `view.exportName` 默认 `default`，命名导出需显式配置。插件按工具生成卡片入口与 `ui://local/<tool>` 资源；仅创建组件文件不会注册工具。多个工具可以复用组件，原页面的文件系统路由 layout/loader 不会自动附加到卡片入口。
 
 ### MF 组件
 
-`module-federation.config.ts` 的 `exposes` 将 `./TaskBoard`、`./Greeting`、`./Sum` 映射到组件文件。所有 MF remote 都必须显式声明完整的 `remotes[].baseUrl` 和 CSP。工具的 `remote` 匹配 `remotes[].name`，`view.module` 匹配 expose 键（包括大小写和 `./`），不是磁盘路径。模板使用 `mcp_ui`，默认 manifest 地址为 `http://localhost:8080/static/mf-manifest.json`。可通过 `MCP_UI_MANIFEST_URL` 和 `MCP_UI_ORIGIN` 或直接修改 remote 定义配置其他部署地址。
+`module-federation.config.ts` 的 `exposes` 将 `./Todos` 映射到组件文件。所有 MF remote 都必须显式声明完整的 `remotes[].baseUrl` 和 CSP。工具的 `remote` 匹配 `remotes[].name`，`view.module` 匹配 expose 键（包括大小写和 `./`），不是磁盘路径。模板使用 `mcp_ui`，默认 manifest 地址为 `http://localhost:8080/static/mf-manifest.json`。可通过 `MCP_UI_MANIFEST_URL` 和 `MCP_UI_ORIGIN` 或直接修改 remote 定义配置其他部署地址。
 
-例如 `greet` 使用 `remote: 'mcp_ui'`、`view: { module: './Greeting' }`。MF 只暴露 UI 模块，不会自动注册工具；业务 handler 仍在服务端执行，无须放进 `exposes`。只使用标准 MF manifest，不添加 `manifestType`、Vmok 配置或另一份 UI manifest。
+例如 `list_todos` 使用 `remote: 'mcp_ui'`、`view: { module: './Todos' }`。MF 只暴露 UI 模块，不会自动注册工具；业务 handler 仍在服务端执行，无须放进 `exposes`。只使用标准 MF manifest，不添加 `manifestType`、Vmok 配置或另一份 UI manifest。
 
 ### 输入和结果
 
 `inputSchema` 校验调用参数；handler 返回 `content`、`structuredContent`，以及可选 `viewProps`。卡片接收工具输入和 `viewProps`（同名属性以后者为准），并注入 `mcpApp`。业务 `structuredContent` 不会自动全部展开成组件 props。`outputSchema` 校验 handler 的业务结果。
 
-卡片再次调用工具使用 `mcpApp.callServerTool({ name: 'add_numbers', arguments: { a: 2, b: 3 } })`，名称是 MCP 工具名。不要在已接收 `mcpApp` 的卡片里另建宿主连接。纯工具省略 `view`；也支持只有 view 的工具，但 handler 和 view 不能同时缺失。
+卡片再次调用工具使用 `mcpApp.callServerTool({ name: 'add_todo', arguments: { title: '阅读文档' } })`，名称是 MCP 工具名。不要在已接收 `mcpApp` 的卡片里另建宿主连接。纯工具省略 `view`；也支持只有 view 的工具，但 handler 和 view 不能同时缺失。
 
 ### 卡片交互能力
 

@@ -17,7 +17,7 @@ pnpm deploy
 
 Local React views produce HTML in `dist/mcp-apps/ui/` and a UI manifest in `dist/mcp-apps/ui-manifest.json`. Deploy the static JS/CSS assets as well, or configure `output.assetPrefix` for a CDN. MF projects use standard MF manifests and exposed components.
 
-The tool-only `mcp-server` template uses an explicit BFF route and an `api/mcp_apps.ts` definition. It does not include React cards.
+The tool-only `mcp-server` template uses an explicit BFF route and an `api/mcp_apps.ts` definition. It provides the same four Todo tools, with storage in `api/server/store.ts`, but does not include React cards.
 
 ## Documentation
 
@@ -27,14 +27,18 @@ The tool-only `mcp-server` template uses an explicit BFF route and an `api/mcp_a
 - [User-managed servers](https://modernjs.dev/en/guides/advanced-features/mcp-apps/custom-server)
 
 {{#if isMcpUi}}
-## Try the two tools
+## Try the Todo tools
 
 Open `/mcp/inspector` during development and use Live server mode.
 
-- Call `add_numbers` with `{ "a": 2, "b": 3 }`. This ordinary MCP tool returns text and structured data without opening a card.
-- Call `greet` with `{ "name": "Ada" }`. This MCP App opens the Greeting card. Edit the name and submit to call the tool again. The card consumes the returned business result directly and displays errors without losing the previous greeting.
+1. Call `add_todo` with `{ "title": "Learn MCP Apps" }`.
+2. Call `list_todos` with `{}` to open the Todo card.
+3. Use the status menu to switch between active and completed. Edit names, filter the list, delete items or clear completed items.
+4. Call `list_todos` again to confirm that conversation and card interactions share server state.
 
-Both tools are defined in `mcp_apps.ts`. Only `greet` has a view. It uses `withViewProps()` to explicitly reuse its business result as card props. Edit `src/components/Greeting.tsx` to change the card. The default demo has no task storage or shared mutable server state.
+The four tools are `list_todos`, `add_todo`, `update_todo` and `delete_todo`. Only `list_todos` has a view, using `withViewProps()` to pass business data as component props. Edit `src/components/Todos.tsx` for the card and `server/store.ts` for the in-memory store. Data resets on restart or server module reload. Bulk UI operations reuse existing tools and are not transactional.
+
+`update_todo` requires `id` and at least one of `title` or `completed`. For example, `{ "id": "welcome", "completed": true }` marks the initial item as completed. The card refreshes through `list_todos` after mutations.
 
 {{/if}}
 

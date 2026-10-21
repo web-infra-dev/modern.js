@@ -1,26 +1,33 @@
 export default function Page() {
   return (
-    <main style={{ fontFamily: 'system-ui', padding: 32 }}>
-      <h1>Modern.js MCP App</h1>
+    <main style={{ fontFamily: 'system-ui', padding: 32, maxWidth: 720 }}>
+      <h1>Modern.js MCP Todo</h1>
       <p>
         Open <a href="/mcp/inspector">MCP Apps Inspector</a> during development.
       </p>
-      <ul>
+      <ol>
         <li>
-          <code>add_numbers</code>: call with{' '}
-          <code>{'{ "a": 2, "b": 3 }'}</code> to get a result without a card.
+          Call <code>add_todo</code> with{' '}
+          <code>{'{ "title": "Learn MCP Apps" }'}</code>.
         </li>
         <li>
-          <code>greet</code>: call with <code>{'{ "name": "Ada" }'}</code> to
-          open a card. Edit the name and submit to call the tool again.
+          Call <code>list_todos</code> with <code>{'{}'}</code> to open the Todo
+          card.
         </li>
-      </ul>
+        <li>Edit a title, change its status or delete it in the card.</li>
+        <li>
+          Call <code>list_todos</code> again to verify the shared server state.
+        </li>
+      </ol>
       <p>
-        Endpoint: <code>/mcp</code>
+        Endpoint: <code>/mcp</code>. Only <code>list_todos</code> opens a card.
       </p>
       <p>
-        Edit <code>mcp_apps.ts</code> for tools and{' '}
-        <code>src/components/Greeting.tsx</code> for the interactive card.
+        Edit <code>mcp_apps.ts</code> for tools, <code>server/store.ts</code>{' '}
+        for data, and <code>src/components/Todos.tsx</code> for the UI.
+      </p>
+      <p>
+        Data is shared in server memory and resets when the server restarts.
       </p>
     </main>
   );

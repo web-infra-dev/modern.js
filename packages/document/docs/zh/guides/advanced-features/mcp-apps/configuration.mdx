@@ -8,7 +8,7 @@
 
 ```ts title="mcp_apps.ts"
 import { defineMcpServer } from '@modern-js/mcp-apps/config';
-import { withViewProps } from '@modern-js/mcp-apps/server'
+import { withViewProps } from '@modern-js/mcp-apps/server';
 import { name, version } from './package.json';
 
 export default defineMcpServer({
@@ -27,7 +27,7 @@ export default defineMcpServer({
         return withViewProps({
           content: [{ type: 'text', text: message }],
           structuredContent: { message },
-        })
+        });
       },
       visibility: ['model', 'app'],
       view: { module: './src/components/Greeting.tsx' },
@@ -53,15 +53,15 @@ export default defineMcpServer({
 });
 ```
 
-| 字段                    | 含义                                                                   |
+| 字段                  | 含义                                                                 |
 | --------------------- | -------------------------------------------------------------------- |
-| `remotes`             | 可选的远程 UI 资源列表，默认空数组；应用内组件卡片和纯工具项目可省略                                 |
-| `tools[].name`        | 工具唯一名称，宿主和卡片通过它调用工具                                                  |
-| `tools[].description` | 工具用途说明，帮助模型选择工具                                                      |
-| `tools[].inputSchema` | 工具参数的 JSON Schema，服务端在执行 handler 前校验                                 |
-| `tools[].handler`     | 工具业务函数，接收输入参数和请求上下文                                                  |
-| `tools[].view`        | 可选卡片配置；省略时只返回工具结果，不展示卡片                                              |
-| `tools[].remote`      | MF 模式下引用的 `remotes[].name`                                           |
+| `remotes`             | 可选的远程 UI 资源列表，默认空数组；应用内组件卡片和纯工具项目可省略 |
+| `tools[].name`        | 工具唯一名称，宿主和卡片通过它调用工具                               |
+| `tools[].description` | 工具用途说明，帮助模型选择工具                                       |
+| `tools[].inputSchema` | 工具参数的 JSON Schema，服务端在执行 handler 前校验                  |
+| `tools[].handler`     | 工具业务函数，接收输入参数和请求上下文                               |
+| `tools[].view`        | 可选卡片配置；省略时只返回工具结果，不展示卡片                       |
+| `tools[].remote`      | MF 模式下引用的 `remotes[].name`                                     |
 
 应用内组件卡片的 `view.module` 相对**项目根目录**解析。工具可以只有 handler 或只有 view，但不能两者都省略。
 
@@ -69,10 +69,10 @@ export default defineMcpServer({
 
 模板中的对应关系如下：
 
-| MCP 工具 `name`                                | 服务端 `handler`                                         | `view.module`                        | 组件默认导出       |
-| -------------------------------------------- | ----------------------------------------------------- | ------------------------------------ | ------------ |
-| `greet`                                      | `greet` handler                                       | `./src/components/Greeting.tsx`      | 问候卡片组件       |
-| `add_numbers`                                | `add_numbers` handler                                 | —                                    | 无卡片，仅返回工具结果  |
+| MCP 工具 `name` | 服务端 `handler`      | `view.module`                   | 组件默认导出           |
+| --------------- | --------------------- | ------------------------------- | ---------------------- |
+| `greet`         | `greet` handler       | `./src/components/Greeting.tsx` | 问候卡片组件           |
+| `add_numbers`   | `add_numbers` handler | —                               | 无卡片，仅返回工具结果 |
 
 宿主调用 `greet` 后，服务端执行 `greet` handler。Modern.js 为 `view.module` 指定的组件生成卡片入口，并通过工具关联的 `ui://local/greet` 资源向宿主提供 HTML。宿主加载卡片后，组件接收工具输入、handler 返回的 `viewProps` 和 `mcpApp`。工具业务函数在服务端执行，React 组件在宿主的卡片界面中运行。
 
@@ -95,7 +95,7 @@ export default defineMcpServer({
 
 ```ts title="tools/greet.ts"
 import { defineTool } from '@modern-js/mcp-apps/config';
-import { withViewProps } from '@modern-js/mcp-apps/server'
+import { withViewProps } from '@modern-js/mcp-apps/server';
 
 export const greet = defineTool({
   name: 'greet',
@@ -109,7 +109,7 @@ export const greet = defineTool({
     return withViewProps({
       content: [{ type: 'text', text: message }],
       structuredContent: { message },
-    })
+    });
   },
 });
 ```
@@ -153,7 +153,7 @@ export default createModuleFederationConfig({
 
 ```ts title="mcp_apps.ts"
 import { defineMcpServer } from '@modern-js/mcp-apps/config';
-import { withViewProps } from '@modern-js/mcp-apps/server'
+import { withViewProps } from '@modern-js/mcp-apps/server';
 
 export default defineMcpServer({
   name: 'my-mcp-server',
@@ -181,7 +181,7 @@ export default defineMcpServer({
         return withViewProps({
           content: [{ type: 'text', text: message }],
           structuredContent: { message },
-        })
+        });
       },
       remote: 'mcp_ui',
       view: { module: './Greeting' },
@@ -194,12 +194,12 @@ export default defineMcpServer({
 
 ### 3. 理解对应关系
 
-模板中两个工具与组件的对应关系如下：
+上面配置示例中，两个工具与组件的对应关系如下：
 
-| MCP 工具 `name`                                | 服务端 `handler`         | `remote` | `view.module` | `exposes` 对应源码                       |
-| -------------------------------------------- | --------------------- | -------- | ------------- | ------------------------------------ |
-| `greet`                                      | `greet` handler       | `mcp_ui` | `./Greeting`  | `./src/components/Greeting.tsx`      |
-| `add_numbers`                                | `add_numbers` handler | —        | —             | 无卡片，仅返回工具结果                          |
+| MCP 工具 `name` | 服务端 `handler`      | `remote` | `view.module` | `exposes` 对应源码              |
+| --------------- | --------------------- | -------- | ------------- | ------------------------------- |
+| `greet`         | `greet` handler       | `mcp_ui` | `./Greeting`  | `./src/components/Greeting.tsx` |
+| `add_numbers`   | `add_numbers` handler | —        | —             | 无卡片，仅返回工具结果          |
 
 以 `greet` 为例，宿主调用工具后，服务端执行 `greet` handler 并返回业务结果。卡片渲染器根据 `remote: 'mcp_ui'` 找到 `remotes` 中的 manifest，再通过 `view.module: './Greeting'` 加载暴露的组件，将工具输入、handler 返回的 `viewProps` 和 `mcpApp` 传给它。
 

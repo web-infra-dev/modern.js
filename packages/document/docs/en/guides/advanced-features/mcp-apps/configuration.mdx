@@ -8,7 +8,7 @@ A tool references a React component file in the current project directly through
 
 ```ts title="mcp_apps.ts"
 import { defineMcpServer } from '@modern-js/mcp-apps/config';
-import { withViewProps } from '@modern-js/mcp-apps/server'
+import { withViewProps } from '@modern-js/mcp-apps/server';
 import { name, version } from './package.json';
 
 export default defineMcpServer({
@@ -27,7 +27,7 @@ export default defineMcpServer({
         return withViewProps({
           content: [{ type: 'text', text: message }],
           structuredContent: { message },
-        })
+        });
       },
       visibility: ['model', 'app'],
       view: { module: './src/components/Greeting.tsx' },
@@ -69,10 +69,10 @@ For cards built from application components, `view.module` resolves relative to 
 
 The template uses the following mapping:
 
-| MCP tool `name`                              | Server `handler`                                      | `view.module`                        | Component default export  |
-| -------------------------------------------- | ----------------------------------------------------- | ------------------------------------ | ------------------------- |
-| `greet`                                      | `greet` handler                                       | `./src/components/Greeting.tsx`      | Greeting card component   |
-| `add_numbers`                                | `add_numbers` handler                                 | —                                    | No card, tool result only |
+| MCP tool `name` | Server `handler`      | `view.module`                   | Component default export  |
+| --------------- | --------------------- | ------------------------------- | ------------------------- |
+| `greet`         | `greet` handler       | `./src/components/Greeting.tsx` | Greeting card component   |
+| `add_numbers`   | `add_numbers` handler | —                               | No card, tool result only |
 
 When the host calls `greet`, the server executes `greet` handler. Modern.js builds a card entry from the component referenced by `view.module` and serves its HTML through the tool's `ui://local/greet` resource. The host loads the card and the component receives tool arguments, the handler's `viewProps`, and `mcpApp`. Business handlers execute on the server; React components run in the host's card UI.
 
@@ -95,7 +95,7 @@ When configuring the mapping:
 
 ```ts title="tools/greet.ts"
 import { defineTool } from '@modern-js/mcp-apps/config';
-import { withViewProps } from '@modern-js/mcp-apps/server'
+import { withViewProps } from '@modern-js/mcp-apps/server';
 
 export const greet = defineTool({
   name: 'greet',
@@ -109,7 +109,7 @@ export const greet = defineTool({
     return withViewProps({
       content: [{ type: 'text', text: message }],
       structuredContent: { message },
-    })
+    });
   },
 });
 ```
@@ -153,7 +153,7 @@ For both application-local and independently hosted MF components, explicitly co
 
 ```ts title="mcp_apps.ts"
 import { defineMcpServer } from '@modern-js/mcp-apps/config';
-import { withViewProps } from '@modern-js/mcp-apps/server'
+import { withViewProps } from '@modern-js/mcp-apps/server';
 
 export default defineMcpServer({
   name: 'my-mcp-server',
@@ -181,7 +181,7 @@ export default defineMcpServer({
         return withViewProps({
           content: [{ type: 'text', text: message }],
           structuredContent: { message },
-        })
+        });
       },
       remote: 'mcp_ui',
       view: { module: './Greeting' },
@@ -196,10 +196,10 @@ Here, `view.module: './Greeting'` is an **expose name** in `module-federation.co
 
 The template maps its two tools as follows:
 
-| MCP tool `name`                              | Server `handler`      | `remote` | `view.module` | Source referenced by `exposes`       |
-| -------------------------------------------- | --------------------- | -------- | ------------- | ------------------------------------ |
-| `greet`                                      | `greet` handler       | `mcp_ui` | `./Greeting`  | `./src/components/Greeting.tsx`      |
-| `add_numbers`                                | `add_numbers` handler | —        | —             | No card, tool result only            |
+| MCP tool `name` | Server `handler`      | `remote` | `view.module` | Source referenced by `exposes`  |
+| --------------- | --------------------- | -------- | ------------- | ------------------------------- |
+| `greet`         | `greet` handler       | `mcp_ui` | `./Greeting`  | `./src/components/Greeting.tsx` |
+| `add_numbers`   | `add_numbers` handler | —        | —             | No card, tool result only       |
 
 When the host calls `greet`, the server executes `greet` handler and returns business results. The card renderer resolves `remote: 'mcp_ui'` to its manifest in `remotes`, loads the component exposed as `./Greeting`, and passes tool arguments, the handler's `viewProps`, and `mcpApp` to it.
 
