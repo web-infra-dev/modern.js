@@ -10,14 +10,6 @@
       "@shared/*": ["./shared/*"]
     }
   },
-  "include": [
-    "shared",
-    "config",
-    "modern.config.ts",
-    "server",
-    "src",
-    "mcp_apps.ts",
-    "module-federation.config.ts"
-  ],
+  "include": ["src", "shared", "config", "modern.config.ts", "server"],
   "exclude": ["**/node_modules"]
 }

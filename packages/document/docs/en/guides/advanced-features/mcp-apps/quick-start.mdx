@@ -107,10 +107,10 @@ The `mcp-ui-*` names are derived from tool names and are only generated for appl
 
 The MF template renders remote components without generating these application component entries. It also serves the following assets:
 
-| Address                                         | Purpose                                                  | Verification                                                                                                                                         |
-| ----------------------------------------------- | -------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Address                                         | Purpose                                                  | Verification                                                                                                                   |
+| ----------------------------------------------- | -------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------ |
 | `http://localhost:8080/static/mf-manifest.json` | Describes exposed MF components and their loading assets | Open it in a browser or run `curl -f http://localhost:8080/static/mf-manifest.json`; expect JSON with an expose for `Greeting` |
-| `http://localhost:8080/static/remoteEntry.js`   | JavaScript entry used by the MF runtime                  | Run `curl -f http://localhost:8080/static/remoteEntry.js`; expect JavaScript. Its component chunks must also be accessible                           |
+| `http://localhost:8080/static/remoteEntry.js`   | JavaScript entry used by the MF runtime                  | Run `curl -f http://localhost:8080/static/remoteEntry.js`; expect JavaScript. Its component chunks must also be accessible     |
 
 When MF assets use a public assetPrefix, verify these paths against the manifest publicPath. The MCP Server template only provides the protocol service, without a homepage, card entries, or MF assets.
 
@@ -137,12 +137,6 @@ Alongside `/mcp`, the card's JS/CSS and MF resources must be accessible. Configu
 Check the public `/mcp` endpoint with an MCP client, then verify card loading and interactions in a host. For tools-only servers, check tool calls and results.
 
 The generated definition uses `defineMcpServer` with `name` and `version` from `package.json`. Local and backend-only tools omit `remotes`; MF tools reference an explicitly configured manifest URL by remote name. Tools may use synchronous or asynchronous handlers, and `view` is optional. See [Tools and views](./configuration).
-
-## Advanced example
-
-The task board is a separate repository example at [mcp-apps-task-board](https://github.com/web-infra-dev/modern.js/tree/main/examples/mcp-apps-task-board). It is not included in the default template. Call `list_tasks` to open the card, then use `create_task` and `update_task` from the card and refresh server state.
-
-Tasks default to `.mcp-demo/tasks.json` in the working directory. Set `MCP_TASKS_FILE` to override the location. This is a single-process shared demo. Applications must implement user isolation and multi-instance persistence. Start with the two basic tools above when integrating MCP Apps.
 
 ## Debug tools and cards locally
 

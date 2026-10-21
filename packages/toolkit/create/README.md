@@ -29,7 +29,7 @@ Replace `<version>` with a release containing MCP Apps support. Choose `mcp-apps
 
 ## Template maintenance
 
-Templates live under `templates/`. `common/` owns engineering files and renders the final package.json and tsconfig. `ui/` owns the shared React shell, `app/` owns the ordinary application, and `mcp/` owns shared MCP documentation. `mcp-apps/`, `mcp-server/` and `mf/` contain only their mode-specific files.
+The existing `template/` directory contains the application template and shared project files. MCP-specific files live under `templates/mcp/`, `templates/mcp-apps/`, `templates/mcp-server/` and `templates/mf/`.
 
 The generator selects directories before copying. Each output file has one owner, and conflicting paths fail instead of overwriting existing files. No generated files are deleted or patched afterward.
 

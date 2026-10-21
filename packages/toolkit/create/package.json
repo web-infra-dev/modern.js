@@ -28,6 +28,7 @@
     ".": "./dist/index.js"
   },
   "files": [
+    "template",
     "templates",
     "dist",
     "bin"

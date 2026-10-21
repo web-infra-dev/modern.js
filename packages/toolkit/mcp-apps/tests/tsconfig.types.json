@@ -4,10 +4,5 @@
     "noEmit": true,
     "types": ["node", "@rsbuild/core/types", "@rstest/core/globals"]
   },
-  "include": [
-    "../src",
-    "./view-props.types.ts",
-    "./view-result.test.ts",
-    "./view-props.test.ts"
-  ]
+  "include": ["../src", "./view-props.types.ts", "./view-result.test.ts"]
 }

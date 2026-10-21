@@ -106,10 +106,10 @@ Network:
 
 MF 模板通过远程组件渲染卡片，不生成上述应用内组件入口，另外提供以下资源地址：
 
-| 地址                                            | 用途                                    | 如何验证                                                                                                                                       |
-| ----------------------------------------------- | --------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------- |
+| 地址                                            | 用途                                    | 如何验证                                                                                                                   |
+| ----------------------------------------------- | --------------------------------------- | -------------------------------------------------------------------------------------------------------------------------- |
 | `http://localhost:8080/static/mf-manifest.json` | 描述 MF 暴露的组件和加载资源            | 浏览器打开或执行 `curl -f http://localhost:8080/static/mf-manifest.json`，应返回 JSON，包含 `Greeting` 对应的 exposes 信息 |
-| `http://localhost:8080/static/remoteEntry.js`   | MF 运行时加载远程组件的 JavaScript 入口 | 执行 `curl -f http://localhost:8080/static/remoteEntry.js`，应返回 JavaScript；组件依赖的 chunks 也需要可访问                                  |
+| `http://localhost:8080/static/remoteEntry.js`   | MF 运行时加载远程组件的 JavaScript 入口 | 执行 `curl -f http://localhost:8080/static/remoteEntry.js`，应返回 JavaScript；组件依赖的 chunks 也需要可访问              |
 
 MF 资源使用公开 assetPrefix 时，请使用 manifest 的实际 publicPath 验证上述资源。MCP Server 模板只提供协议服务，没有首页、卡片入口或 MF 资源。
 
@@ -136,12 +136,6 @@ MF 资源使用公开 assetPrefix 时，请使用 manifest 的实际 publicPath 
 使用 MCP 客户端检查公网 `/mcp`，再验证宿主内的卡片加载和交互。纯 MCP Server 项目只需检查工具调用和结果。
 
 生成的定义使用 `defineMcpServer`，`name`、`version` 读取项目 `package.json`。本地视图和纯工具省略 `remotes`，MF 工具通过 remote 引用显式配置的 manifest URL。handler 支持同步或异步返回，`view` 可选。详见[定义工具与视图](./configuration)。
-
-## 进阶示例
-
-任务看板已从默认模板移出，作为仓库中的 [mcp-apps-task-board](https://github.com/web-infra-dev/modern.js/tree/main/examples/mcp-apps-task-board) 独立示例。它演示通过 `list_tasks` 打开卡片，以及卡片调用 `create_task`、`update_task` 后刷新服务端状态。
-
-任务默认保存在工作目录 `.mcp-demo/tasks.json`，可通过 `MCP_TASKS_FILE` 指定路径。这是单进程共享演示，多用户隔离和多实例持久化需要应用自行实现。入门接入只需先完成上述两个基础工具。
 
 ## 在本地调试工具与卡片
 

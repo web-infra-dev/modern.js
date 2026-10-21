@@ -40,7 +40,7 @@ define.lint(({ js, ts }) => [
     },
   },
   {
-    ignores: [...sharedIgnores, 'packages/toolkit/create/templates/**'],
+    ignores: [...sharedIgnores, 'packages/toolkit/create/template/**'],
   },
 ]);
 

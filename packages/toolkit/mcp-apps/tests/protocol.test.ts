@@ -2,23 +2,17 @@ import {
   Client,
   StreamableHTTPClientTransport,
 } from '@modelcontextprotocol/client';
-import { createMcpHandler } from '../src/server';
+import { createArtifactHandler, createMcpHandler } from '../src/server';
+import { mkdtemp, writeFile, rm } from 'node:fs/promises';
+import { tmpdir } from 'node:os';
+import path from 'node:path';
 import { MCP_VIEW_META_KEY } from '../src/view-result';
-import { createUiResources, normalizeToolConfig } from '../src/resources';
 import {
-  startInspectorSandbox,
-  sandboxCsp,
-} from '../src/inspector/sandbox-server';
-import {
-  appTools,
-  assertAppTool,
-  readHtmlResource,
-  disposeBridge,
-  disposePreview,
-  externalUrl,
-  downloadName,
-} from '../src/inspector/protocol';
-import type { AppBridge } from '@modelcontextprotocol/ext-apps/app-bridge';
+  createUiResources,
+  normalizeToolConfig,
+  bindUiResources,
+  createUiManifest,
+} from '../src/resources';
 
 describe('MCP Apps interoperability', () => {
   it('embeds MF capabilities before the handshake without allowing HTML injection', async () => {
@@ -144,34 +138,6 @@ describe('MCP Apps interoperability', () => {
     }
   }
 
-  it('enforces app visibility in both discovery and calls', () => {
-    const tools = [
-      { name: 'default' },
-      { name: 'app', _meta: { ui: { visibility: ['app'] as const } } },
-      { name: 'model', _meta: { ui: { visibility: ['model'] as const } } },
-    ];
-    const input = tools as unknown as Parameters<typeof appTools>[0];
-    expect(appTools(input).map(tool => tool.name)).toEqual(['default', 'app']);
-    expect(() => assertAppTool(input, 'model')).toThrow();
-    expect(() => assertAppTool(input, 'missing')).toThrow();
-  });
-
-  it('accepts UTF-8 blob HTML and prefers content metadata over listing metadata', () => {
-    const html = '<!doctype html><html>你好</html>';
-    const content = {
-      uri: 'ui://test',
-      mimeType: 'text/html;profile=mcp-app',
-      blob: Buffer.from(html).toString('base64'),
-      _meta: { ui: { prefersBorder: false } },
-    };
-    expect(
-      readHtmlResource([content], content.uri, { prefersBorder: true }),
-    ).toEqual({ html, ui: { prefersBorder: false } });
-    expect(() =>
-      readHtmlResource([{ ...content, mimeType: 'text/plain' }], content.uri),
-    ).toThrow();
-  });
-
   it('binds full local resource metadata and normalizes defaults', () => {
     const tool = normalizeToolConfig(
       { name: 'test', view: { module: './View' } },
@@ -188,136 +154,97 @@ describe('MCP Apps interoperability', () => {
       prefersBorder: false,
     });
   });
-
-  it('tears down before closing even when graceful shutdown fails', async () => {
-    const calls: string[] = [];
-    await expect(
-      disposeBridge({
-        getAppCapabilities: () => ({}),
-        teardownResource: async () => {
-          calls.push('teardown');
-          throw new Error('timeout');
-        },
-        close: async () => {
-          calls.push('close');
-        },
-      } as unknown as AppBridge),
-    ).rejects.toThrow('timeout');
-    expect(calls).toEqual(['teardown', 'close']);
-  });
-
-  it('keeps the preview mounted until asynchronous teardown and close finish', async () => {
-    const calls: string[] = [];
-    let finishSave!: () => void;
-    let finishClose!: () => void;
-    const save = new Promise<void>(resolve => {
-      finishSave = resolve;
-    });
-    const closed = new Promise<void>(resolve => {
-      finishClose = resolve;
-    });
-    let closing!: () => void;
-    const closingStarted = new Promise<void>(resolve => {
-      closing = resolve;
-    });
-    const pending = disposePreview(
-      {
-        getAppCapabilities: () => ({}),
-        teardownResource: async () => {
-          calls.push('saving');
-          await save;
-          calls.push('saved');
-        },
-        close: async () => {
-          calls.push('closing');
-          closing();
-          await closed;
-        },
-      } as unknown as AppBridge,
-      () => calls.push('clear iframe'),
-    );
-    expect(calls).toEqual(['saving']);
-    finishSave();
-    await closingStarted;
-    expect(calls).toEqual(['saving', 'saved', 'closing']);
-    finishClose();
-    await pending;
-    expect(calls).toEqual(['saving', 'saved', 'closing', 'clear iframe']);
-  });
-
-  it('clears the preview after closing when teardown fails', async () => {
-    const calls: string[] = [];
-    await disposePreview(
-      {
-        getAppCapabilities: () => ({}),
-        teardownResource: async () => {
-          throw new Error('timeout');
-        },
-        close: async () => {
-          calls.push('close');
-        },
-      } as unknown as AppBridge,
-      () => calls.push('clear iframe'),
-    );
-    expect(calls).toEqual(['close', 'clear iframe']);
-  });
-
-  it('rejects unsafe URLs and sanitizes downloaded filenames', () => {
-    expect(() => externalUrl('javascript:alert(1)')).toThrow();
-    expect(downloadName('file:///report%2Fsecret.txt')).toBe(
-      'report_secret.txt',
-    );
-  });
 });
 
-describe('sandbox isolation', () => {
-  it('rejects CSP directive injection and blocks undeclared connections', () => {
-    expect(sandboxCsp()).toContain("connect-src 'none'");
-    expect(sandboxCsp()).toContain("frame-src 'none'");
-    expect(() =>
-      sandboxCsp({ resourceDomains: ['https://example.com; connect-src *'] }),
-    ).toThrow();
+function request(origin = 'http://example.com', forwardedProto = 'http') {
+  return new Request('http://example.com/mcp', {
+    method: 'POST',
+    headers: {
+      origin,
+      'x-forwarded-proto': forwardedProto,
+      'content-type': 'application/json',
+      accept: 'application/json, text/event-stream',
+    },
+    body: JSON.stringify({ jsonrpc: '2.0', id: 1, method: 'tools/list' }),
   });
+}
 
-  it('serves raw HTML with CSP headers on a separate origin', async () => {
-    const sandbox = await startInspectorSandbox();
-    try {
-      const origin = new URL(sandbox.url).origin;
-      const proxy = await fetch(
-        `${sandbox.url}?parentOrigin=http://localhost:8080`,
-      );
-      expect(proxy.headers.get('content-security-policy')).toContain(
-        'frame-ancestors http://localhost:8080',
-      );
-      const upload = await fetch(`${sandbox.url}/resource`, {
-        method: 'POST',
-        headers: { 'content-type': 'application/json', origin },
-        body: JSON.stringify({
-          html: '<!doctype html><html>hello</html>',
-          csp: { resourceDomains: ['https://cdn.example.com'] },
-        }),
-      });
-      expect(upload.status).toBe(200);
-      const { url } = await upload.json();
-      const resource = await fetch(new URL(url, sandbox.url));
-      expect(resource.headers.get('content-security-policy')).toContain(
-        'https://cdn.example.com',
-      );
-      expect(resource.headers.get('content-security-policy')).toContain(
-        "object-src 'none'",
-      );
-      expect(await resource.text()).toContain('hello');
-      const denied = await fetch(`${sandbox.url}/resource`, {
-        method: 'POST',
-        headers: {
-          'content-type': 'application/json',
-          origin: 'http://evil.test',
-        },
-        body: '{}',
-      });
-      expect(denied.status).toBe(403);
-    } finally {
-      await sandbox.close();
-    }
+it('accepts the public HTTPS origin behind a proxy and rejects other origins', async () => {
+  const handle = createMcpHandler({
+    remotes: [],
+    tools: [{ name: 'greet', handler: () => ({ content: [] }) }],
   });
+  expect((await handle(request('https://example.com', 'https'))).status).toBe(
+    200,
+  );
+  expect((await handle(request())).status).toBe(200);
+  expect((await handle(request('https://evil.example', 'https'))).status).toBe(
+    403,
+  );
+});
+
+it('binds copied HTML and its asset base from the production manifest', () => {
+  const definition = {
+    remotes: [],
+    tools: [
+      {
+        name: 'greet',
+        view: { module: './Greeting.tsx', html: './cards/greet.html' },
+      },
+    ],
+  };
+  const manifest = createUiManifest(
+    {
+      ...definition,
+      tools: [{ name: 'greet', view: { module: './Greeting.tsx' } }],
+    },
+    { assetBase: 'https://cdn.example.com/' },
+  );
+  const directory = path.resolve('/deploy/dist/mcp-apps/ui');
+  const bound = bindUiResources(definition, { directory, manifest });
+  expect(bound.tools[0].view?.html).toBe(
+    path.resolve(directory, '..', manifest.tools.greet.html),
+  );
+  expect(bound.tools[0].view?.assetBase).toBe('https://cdn.example.com/');
+  expect(definition.tools[0].view.html).toBe('./cards/greet.html');
+  expect(bindUiResources(definition, { directory }).tools[0].view?.html).toBe(
+    './cards/greet.html',
+  );
+  const remoteHtml = {
+    ...definition,
+    tools: [
+      {
+        name: 'greet',
+        view: {
+          module: './Greeting.tsx',
+          html: 'https://cdn.example.com/greet.html',
+        },
+      },
+    ],
+  };
+  expect(
+    bindUiResources(remoteHtml, { directory, manifest }).tools[0].view?.html,
+  ).toBe('https://cdn.example.com/greet.html');
+});
+
+it('reloads changed CommonJS definitions in development', async () => {
+  const directory = await mkdtemp(path.join(tmpdir(), 'modern-mcp-reload-'));
+  const entry = path.join(directory, 'mcp_apps.cjs');
+  const writeDefinition = (name: string) =>
+    writeFile(
+      entry,
+      `module.exports = { remotes: [], tools: [{ name: ${JSON.stringify(name)}, handler: () => ({ content: [] }) }] }`,
+    );
+  const handler = createArtifactHandler(entry, { development: true });
+  try {
+    await writeDefinition('before');
+    const before = await handler.handle(request());
+    expect((await before.json()).result.tools[0].name).toBe('before');
+    await writeDefinition('after');
+    const after = await handler.handle(request());
+    expect((await after.json()).result.tools[0].name).toBe('after');
+  } finally {
+    handler.reset();
+    await rm(directory, { recursive: true, force: true });
+  }
 });

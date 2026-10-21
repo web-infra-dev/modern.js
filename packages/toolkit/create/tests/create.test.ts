@@ -288,9 +288,7 @@ describe('docs location by version', () => {
       fs.readFileSync(file, 'utf-8').replace(/\r\n/g, '\n').trim();
 
     expect(readNormalized(path.join(workdir, 'AGENTS.md'))).toBe(
-      readNormalized(
-        path.resolve(__dirname, '../templates/common/AGENTS.md'),
-      ).match(
+      readNormalized(path.resolve(__dirname, '../template/AGENTS.md')).match(
         /<!-- BEGIN:modernjs-agent-rules -->[\s\S]*?<!-- END:modernjs-agent-rules -->/,
       )?.[0],
     );

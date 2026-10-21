@@ -196,7 +196,7 @@ async function main() {
       console.error(i18n.t(localeKeys.error.agentsMdOnlyConflict));
       process.exit(1);
     }
-    runAgentsMd(process.cwd());
+    runAgentsMd(path.resolve(__dirname, '../template'), process.cwd());
     return;
   }
 

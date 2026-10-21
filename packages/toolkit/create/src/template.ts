@@ -22,7 +22,7 @@ export function parseTemplate(args: string[]): Template {
   return (values[0] ?? 'app') as Template;
 }
 
-/** Select disjoint template directories before writing the project. */
+/** Reuse the existing application template and select MCP-specific files. */
 export function createProject(
   targetDir: string,
   options: {
@@ -46,19 +46,12 @@ export function createProject(
     mcpAppsVersion: mcpAppsPackage.version,
     mcpPluginVersion: mcpPluginPackage.version,
   };
-  const directories = [
-    'common',
-    ...(hasUi ? ['ui'] : []),
-    ...(isMcp ? ['mcp'] : []),
-    template,
-    ...(mf ? ['mf'] : []),
-  ];
-  const root = path.resolve(
-    path.dirname(fileURLToPath(import.meta.url)),
-    '../templates',
-  );
-  for (const directory of directories)
-    copyTemplate(path.join(root, directory), targetDir, data);
+  const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
+  copyTemplate(path.join(root, 'template'), targetDir, data);
+  if (isMcp) {
+    for (const directory of ['mcp', template, ...(mf ? ['mf'] : [])])
+      copyTemplate(path.join(root, 'templates', directory), targetDir, data);
+  }
 }
 
 function renderTemplate(
@@ -120,6 +113,19 @@ function copyTemplate(
         continue;
       }
 
+      const relative = path
+        .relative(src, path.join(srcDir, entry.name))
+        .split(path.sep)
+        .join('/');
+      if (data.isMcp && path.basename(src) === 'template') {
+        if (
+          ['README.md', 'modern.config.ts', 'src/routes/page.tsx'].includes(
+            relative,
+          )
+        )
+          continue;
+        if (!data.hasUi && relative === 'src') continue;
+      }
       const srcPath = path.join(srcDir, entry.name);
       let destPath = path.join(destDir, entry.name);
 
@@ -127,9 +133,21 @@ function copyTemplate(
         fs.mkdirSync(destPath, { recursive: true });
         copyRecursive(srcPath, destPath);
       } else {
-        if (entry.name.endsWith('.handlebars')) {
+        if (
+          entry.name.endsWith('.handlebars') ||
+          entry.name === 'tsconfig.json'
+        ) {
           const templateContent = fs.readFileSync(srcPath, 'utf-8');
-          const rendered = renderTemplate(templateContent, data);
+          let rendered = renderTemplate(templateContent, data);
+          if (entry.name === 'tsconfig.json' && data.isMcp) {
+            const config = JSON.parse(rendered);
+            config.include = config.include.filter(
+              (item: string) => data.hasUi || item !== 'src',
+            );
+            config.include.push(data.isMcpUi ? 'mcp_apps.ts' : 'api');
+            if (data.mf) config.include.push('module-federation.config.ts');
+            rendered = `${JSON.stringify(config, null, 2)}\n`;
+          }
           destPath = destPath.replace(/\.handlebars$/, '');
           fs.writeFileSync(destPath, rendered, {
             encoding: 'utf-8',

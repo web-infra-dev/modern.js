@@ -183,11 +183,9 @@ return withViewProps({
 
 CLI 在开发流程中添加 `/mcp/inspector` 入口，并启动独立来源的预览沙箱。Inspector 使用官方 Client SDK 连接 MCP 服务，使用 AppBridge 扮演宿主，通过跨源沙箱加载 HTML 并传递输入和结果。
 
-主要代码位于 [inspector/index.tsx](../../packages/toolkit/mcp-apps/src/inspector/index.tsx)、[client.ts](../../packages/toolkit/mcp-apps/src/inspector/client.ts)、[protocol.ts](../../packages/toolkit/mcp-apps/src/inspector/protocol.ts) 和 [sandbox-server.ts](../../packages/toolkit/mcp-apps/src/inspector/sandbox-server.ts)。模拟预览与真实调用共用新的结果约定。Inspector 提供的是本地调试闭环，不能代替真实宿主兼容性验证。
+Inspector 独立发布为 `@modern-js/mcp-apps-inspector`，由框架插件接入。主要代码位于 [index.tsx](../../packages/toolkit/mcp-apps-inspector/src/index.tsx)、[client.ts](../../packages/toolkit/mcp-apps-inspector/src/client.ts)、[protocol.ts](../../packages/toolkit/mcp-apps-inspector/src/protocol.ts) 和 [sandbox-server.ts](../../packages/toolkit/mcp-apps-inspector/src/sandbox-server.ts)。模拟预览与真实调用共用新的结果约定。Inspector 提供的是本地调试闭环，不能代替真实宿主兼容性验证。
 
 [CLI 模板](../../packages/toolkit/create/templates/mcp-apps/mcp_apps.ts.handlebars) 默认生成两个有明确差异的工具：`add_numbers` 返回普通计算结果，`greet` 绑定可修改名字并再次调用工具的卡片。MF 变体复用相同业务，只替换视图来源。
-
-可阅读 [基础 demo](../../examples/mcp-apps-demo/mcp_apps.ts) 对照定义与组件，再阅读 [任务看板](../../examples/mcp-apps-task-board/README.md) 理解多工具调用、状态更新和演示存储。
 
 ## 协议边界与升级要求
 

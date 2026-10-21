@@ -1,3 +1,4 @@
+import { startInspectorSandbox } from '@modern-js/mcp-apps-inspector/server';
 import fs from 'node:fs/promises';
 import path from 'node:path';
 import { createRequire } from 'node:module';
@@ -6,7 +7,6 @@ import {
   createUiManifest,
   getUiEntryName,
   validateMcpAppsConfig,
-  startInspectorSandbox,
 } from '@modern-js/mcp-apps/server';
 import { createLoadedConfig } from '@modern-js/plugin/cli';
 import type { AppTools, CliPlugin } from '@modern-js/app-tools';
@@ -193,6 +193,7 @@ function setupMcpUi(
     entries.clear();
     const ctx = api.getAppContext();
     const config = api.getNormalizedConfig();
+    const require = createRequire(import.meta.url);
     const appRequire = createRequire(
       path.join(ctx.appDirectory, 'package.json'),
     );
@@ -264,7 +265,7 @@ export default createMcpView(View, ${JSON.stringify({ name: tool.name, version: 
       await fs.mkdir(path.dirname(entry), { recursive: true });
       await fs.writeFile(
         entry,
-        `import { McpInspector } from ${JSON.stringify(appRequire.resolve('@modern-js/mcp-apps/inspector'))};
+        `import { McpInspector } from ${JSON.stringify(require.resolve('@modern-js/mcp-apps-inspector'))};
 export default function InspectorPage() { return <McpInspector {...${JSON.stringify(props)}} />; }
 `,
       );

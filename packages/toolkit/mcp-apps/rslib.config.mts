@@ -43,7 +43,6 @@ export default defineConfig({
       source: {
         entry: {
           react: './src/react.ts',
-          inspector: './src/inspector/index.tsx',
         },
       },
       output: { target: 'web', distPath: { root: 'dist/esm' } },

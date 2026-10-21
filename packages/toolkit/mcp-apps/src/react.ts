@@ -1,4 +1,5 @@
-import type { CallToolResult } from '@modelcontextprotocol/client';
+export { MCP_VIEW_META_KEY, readMcpViewResult } from './view-result';
+import type { CallToolResult } from '@modelcontextprotocol/server';
 import { useApp, useHostStyles } from '@modelcontextprotocol/ext-apps/react';
 import type { UseAppOptions } from '@modelcontextprotocol/ext-apps/react';
 import { type ComponentType, createElement, useReducer } from 'react';

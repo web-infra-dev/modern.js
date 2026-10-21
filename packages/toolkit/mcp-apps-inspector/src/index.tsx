@@ -1,4 +1,7 @@
-import { MCP_VIEW_META_KEY, readMcpViewResult } from '../view-result';
+import {
+  MCP_VIEW_META_KEY,
+  readMcpViewResult,
+} from '@modern-js/mcp-apps/react';
 import type {
   McpUiResourceMeta,
   McpUiHostContext,

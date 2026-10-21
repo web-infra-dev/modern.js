@@ -37,7 +37,6 @@ import {
 
 export type * from './config';
 export { withViewProps } from './view-props';
-export { startInspectorSandbox } from './inspector/sandbox-server';
 export {
   bindUiResources,
   getUiEntryName,

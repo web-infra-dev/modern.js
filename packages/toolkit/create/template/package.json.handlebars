@@ -15,9 +15,9 @@
     "node": "^22.18.0 || >=24.3.0"
   },
   "dependencies": {
-{{#if hasUi}}    "@modern-js/runtime": "{{version}}",
+{{#unless isMcpServer}}    "@modern-js/runtime": "{{version}}",
     "react": "^19.2.3",
-    "react-dom": "^19.2.0"{{/if}}{{#if isMcpUi}},{{/if}}
+    "react-dom": "^19.2.0"{{/unless}}{{#if isMcpUi}},{{/if}}
 {{#if isMcp}}    "@modern-js/mcp-apps": "{{mcpAppsVersion}}",
     "@modern-js/plugin-mcp-apps": "{{mcpPluginVersion}}",
     "@modern-js/plugin-bff": "{{version}}"{{/if}}{{#if mf}},
@@ -28,9 +28,9 @@
     "@modern-js/tsconfig": "{{version}}",
     "typescript": "~5.7.3",
     "@types/node": "^20"{{#unless isSubproject}},
-    "rstack": "0.8.2"{{/unless}}{{#if hasUi}},
+    "rstack": "0.8.2"{{/unless}}{{#unless isMcpServer}},
     "@types/react": "^19.1.8",
-    "@types/react-dom": "^19.1.6"{{/if}}{{#if isMcp}},
+    "@types/react-dom": "^19.1.6"{{/unless}}{{#if isMcp}},
     "ts-node": "^10.9.2"{{/if}}{{#if mf}},
     "@module-federation/modern-js-v3": "2.0.0"{{/if}}
   }
