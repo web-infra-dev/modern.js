@@ -1,10 +1,13 @@
 import type { Rspack } from '@modern-js/builder';
 import { RUNTIME_CHUNK_REGEX } from '@modern-js/builder';
+import { logger } from '@modern-js/utils';
 
 export class HtmlAsyncChunkPlugin {
   name: string;
 
   htmlPlugin: typeof Rspack.HtmlRspackPlugin;
+
+  private warnedMissingEntryName = false;
 
   constructor(
     htmlPlugin: typeof Rspack.HtmlRspackPlugin,
@@ -18,7 +21,16 @@ export class HtmlAsyncChunkPlugin {
     if (!this.shouldProcessEntry) return true;
     // Rsbuild supplies the owning entry independently of the included chunks.
     const { entryName } = plugin.options as { entryName?: string };
-    return entryName !== undefined && this.shouldProcessEntry(entryName);
+    if (entryName === undefined) {
+      if (!this.warnedMissingEntryName) {
+        this.warnedMissingEntryName = true;
+        logger.warn(
+          '[HtmlAsyncChunkPlugin] Skipping streaming script processing because HTML options are missing entryName. When returning a new object from tools.htmlPlugin, spread the original options to preserve entryName.',
+        );
+      }
+      return false;
+    }
+    return this.shouldProcessEntry(entryName);
   }
 
   apply(compiler: Rspack.Compiler) {

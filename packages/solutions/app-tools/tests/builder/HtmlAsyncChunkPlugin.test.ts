@@ -1,4 +1,6 @@
 import type { Rspack } from '@modern-js/builder';
+import { logger } from '@modern-js/utils';
+import { rs } from '@rstest/core';
 import { HtmlAsyncChunkPlugin } from '../../src/builder/shared/bundlerPlugins/HtmlAsyncChunkPlugin';
 
 type Tag = {
@@ -254,21 +256,30 @@ describe('HtmlAsyncChunkPlugin entry isolation', () => {
     ]);
   });
 
-  it('does not rewrite HTML without an owning entry', () => {
+  it('warns once across HTML hooks and preserves scripts without an owning entry', () => {
+    const warn = rs.spyOn(logger, 'warn').mockImplementation(() => {});
     const assets: Assets = {
       publicPath: '/',
       headTags: [script('/custom.js')],
       bodyTags: [],
       plugin: { options: {} },
     };
-    expect(
-      runHtmlHooks(
-        assets,
-        ['custom.js'],
-        value => value,
-        () => true,
-      ),
-    ).toBe(assets);
-    expect(assets.headTags).toEqual([script('/custom.js')]);
+    try {
+      expect(
+        runHtmlHooks(
+          assets,
+          ['custom.js'],
+          value => value,
+          () => true,
+        ),
+      ).toBe(assets);
+      expect(assets.headTags).toEqual([script('/custom.js')]);
+      expect(warn).toHaveBeenCalledTimes(1);
+      expect(warn).toHaveBeenCalledWith(
+        expect.stringMatching(/missing entryName.*tools\.htmlPlugin/),
+      );
+    } finally {
+      warn.mockRestore();
+    }
   });
 });

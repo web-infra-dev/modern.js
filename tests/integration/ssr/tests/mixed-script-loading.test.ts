@@ -43,14 +43,47 @@ describe.each([
         `
 import { applyBaseConfig } from '../../../../utils/applyBaseConfig';
 export default applyBaseConfig({
-  source: { disableDefaultEntries: true, preEntry: ['./src/probe.ts'], entries: { csr: './src/csr/routes', string: './src/string/routes', stream: './src/stream/routes' } },
-  server: { ssr: true, ssrByEntries: { csr: false, string: { mode: 'string' } } },
-  html: { inject: 'body', template: './template.html' },
-  builderPlugins: [{ name: 'test-html-implementation', setup(api) { api.modifyRsbuildConfig(config => { config.html = { ...config.html, implementation: '${implementation}' }; }); } }],
+  source: {
+    disableDefaultEntries: true,
+    preEntry: ['./src/probe.ts'],
+    entries: {
+      csr: './src/csr/routes',
+      string: './src/string/routes',
+      stream: './src/stream/routes',
+    },
+  },
+  server: {
+    ssr: true,
+    ssrByEntries: {
+      csr: false,
+      string: { mode: 'string' },
+    },
+  },
+  html: {
+    inject: 'body',
+    template: './template.html',
+  },
+  builderPlugins: [
+    {
+      name: 'test-html-implementation',
+      setup(api) {
+        api.modifyRsbuildConfig(config => {
+          config.html = {
+            ...config.html,
+            implementation: '${implementation}',
+          };
+        });
+      },
+    },
+  ],
   tools: {
     // Native HTML accepts a boolean, not Modern's JS minifier callback.
     ...(${implementation === 'native'} ? { htmlPlugin: { minify: false } } : {}),
-    rspack(config, { isServer }) { if (!isServer && !${separateRuntime}) config.optimization.runtimeChunk = false; },
+    rspack(config, { isServer }) {
+      if (!isServer && !${separateRuntime}) {
+        config.optimization.runtimeChunk = false;
+      }
+    },
   },
 });`,
       );
