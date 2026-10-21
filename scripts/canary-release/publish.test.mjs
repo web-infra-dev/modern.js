@@ -5,7 +5,7 @@ import test from 'node:test';
 import { planHash, readJson } from './core.mjs';
 import { artifactFixture, githubEnvironment } from './fixtures.mjs';
 import {
-  ATTEMPTS, assertTrustedPublishers, diagnostic, isolatedNpmEnvironment, npmErrorCode, retryAfterMs,
+  ATTEMPTS, assertTrustedPublishers, diagnostic, isolatedNpmEnvironment, npmErrorCode, retryAfterMs, sameValue,
   publish, publishArguments, publishedFromOutput, repairInstructions,
 } from './publish.mjs';
 
@@ -96,6 +96,15 @@ test('publish response must contain a matching identity and integrity', t => {
   ]) {
     assert.equal(publishedFromOutput(JSON.stringify(result), pkg), `${pkg.name}@${pkg.version}`);
   }
+  // npm prints its own output through a redactor; a field it masked still has to
+  // identify this package, and anything else it masked must not.
+  const masked = { ...pkg, version: pkg.version.replace(/-[0-9a-f]{6,}$/, '-[REDACTED_UUID]') };
+  assert.notEqual(masked.version, pkg.version, 'the fixture version must contain a maskable tail');
+  assert.equal(publishedFromOutput(JSON.stringify({ [pkg.name]: masked }), pkg), `${pkg.name}@${pkg.version}`);
+  assert.throws(() => publishedFromOutput(JSON.stringify({ [pkg.name]: { ...masked, version: `9.9.9-[REDACTED_UUID]` } }), pkg));
+  assert.ok(sameValue('a-[REDACTED_UUID]-b', 'a-1234-b'));
+  assert.ok(!sameValue('a-[REDACTED_UUID]-b', 'a-1234-c'));
+  assert.ok(!sameValue('[REDACTED_UUID]', ''), 'a mask must still cover something');
   // A rejection has to say what arrived, or the next surprise costs another run.
   assert.throws(() => publishedFromOutput(JSON.stringify({}), pkg), /empty object/);
   assert.throws(() => publishedFromOutput(JSON.stringify({ [pkg.name]: { id: 'x' } }), pkg), /object\{id\}/);
