@@ -1,4 +1,6 @@
 import type { Rspack } from '@modern-js/builder';
+import { logger } from '@modern-js/utils';
+import { rs } from '@rstest/core';
 import { HtmlAsyncChunkPlugin } from '../../src/builder/shared/bundlerPlugins/HtmlAsyncChunkPlugin';
 
 type Tag = {
@@ -8,13 +10,19 @@ type Tag = {
   innerHTML?: string;
 };
 
-type Assets = { headTags: Tag[]; bodyTags: Tag[]; publicPath: string };
+type Assets = {
+  headTags: Tag[];
+  bodyTags: Tag[];
+  publicPath: string;
+  plugin?: { options: { entryName?: string; chunks?: string[] } };
+};
 type HtmlCallback = (assets: Assets) => Assets;
 
 function runHtmlHooks(
   assets: Assets,
   entryFiles: string[],
   processHtml: HtmlCallback = value => value,
+  shouldProcessEntry?: (entryName: string) => boolean,
 ) {
   const taps: { stage: number; callback: HtmlCallback }[] = [
     { stage: 0, callback: processHtml },
@@ -47,6 +55,7 @@ function runHtmlHooks(
   };
   new HtmlAsyncChunkPlugin(
     htmlPlugin as unknown as typeof Rspack.HtmlRspackPlugin,
+    shouldProcessEntry,
   ).apply(compiler as unknown as Rspack.Compiler);
   return taps
     .sort((a, b) => a.stage - b.stage)
@@ -197,4 +206,80 @@ describe('HtmlAsyncChunkPlugin entry preloads', () => {
       });
     },
   );
+});
+
+describe('HtmlAsyncChunkPlugin entry isolation', () => {
+  it.each(['csr', 'string'])(
+    'preserves %s scripts and skips entry preloads',
+    entryName => {
+      const assets: Assets = {
+        publicPath: '/',
+        headTags: [script('/vendor.js')],
+        bodyTags: [script(`/${entryName}.js`)],
+        // Included dependency chunks must not determine the page rendering mode.
+        plugin: { options: { entryName, chunks: ['stream', entryName] } },
+      };
+      const result = runHtmlHooks(
+        assets,
+        [`${entryName}.js`],
+        value => value,
+        name => name === 'stream',
+      );
+      expect(result).toBe(assets);
+      expect(result.headTags).toEqual([script('/vendor.js')]);
+      expect(result.bodyTags).toEqual([script(`/${entryName}.js`)]);
+    },
+  );
+
+  it('still rewrites and preloads the streaming entry', () => {
+    const result = runHtmlHooks(
+      {
+        publicPath: '/',
+        headTags: [script('/stream.js')],
+        bodyTags: [script('/vendor.js')],
+        plugin: { options: { entryName: 'stream' } },
+      },
+      ['stream.js'],
+      value => value,
+      name => name === 'stream',
+    );
+    expect(result.bodyTags).toEqual([
+      {
+        tagName: 'script',
+        voidTag: false,
+        attributes: { src: '/stream.js', async: true },
+      },
+    ]);
+    expect(result.headTags.map(tag => tag.attributes)).toEqual([
+      { src: '/vendor.js', async: true },
+      { rel: 'preload', as: 'script', href: '/stream.js' },
+    ]);
+  });
+
+  it('warns once across HTML hooks and preserves scripts without an owning entry', () => {
+    const warn = rs.spyOn(logger, 'warn').mockImplementation(() => {});
+    const assets: Assets = {
+      publicPath: '/',
+      headTags: [script('/custom.js')],
+      bodyTags: [],
+      plugin: { options: {} },
+    };
+    try {
+      expect(
+        runHtmlHooks(
+          assets,
+          ['custom.js'],
+          value => value,
+          () => true,
+        ),
+      ).toBe(assets);
+      expect(assets.headTags).toEqual([script('/custom.js')]);
+      expect(warn).toHaveBeenCalledTimes(1);
+      expect(warn).toHaveBeenCalledWith(
+        expect.stringMatching(/missing entryName.*tools\.htmlPlugin/),
+      );
+    } finally {
+      warn.mockRestore();
+    }
+  });
 });
