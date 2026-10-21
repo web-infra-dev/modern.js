@@ -88,12 +88,46 @@ test('publish response must contain a matching identity and integrity', t => {
   ]) {
     assert.throws(() => publishedFromOutput(JSON.stringify(result), pkg));
   }
-  // Both shapes npm has been observed to emit, and a response without integrity,
-  // which the registry verification in the next job covers.
-  for (const result of [{ [pkg.name]: pkg }, pkg, { name: pkg.name, version: pkg.version }]) {
+  // Every shape npm has been observed to emit, plus a response without
+  // integrity, which the registry verification in the next job covers.
+  for (const result of [
+    { [pkg.name]: pkg }, pkg, { name: pkg.name, version: pkg.version },
+    { [pkg.name]: pkg.version }, { [pkg.name]: { version: pkg.version } },
+  ]) {
     assert.equal(publishedFromOutput(JSON.stringify(result), pkg), `${pkg.name}@${pkg.version}`);
   }
-  assert.throws(() => publishedFromOutput(JSON.stringify({}), pkg), /top level keys: none/);
+  // A rejection has to say what arrived, or the next surprise costs another run.
+  assert.throws(() => publishedFromOutput(JSON.stringify({}), pkg), /empty object/);
+  assert.throws(() => publishedFromOutput(JSON.stringify({ [pkg.name]: { id: 'x' } }), pkg), /object\{id\}/);
+  assert.throws(() => publishedFromOutput(JSON.stringify({ [pkg.name]: '9.9.9' }), pkg), /string "9\.9\.9"/);
+});
+
+test('a failure that precedes the request is sent again, exactly once', async t => {
+  const fixture = artifactFixture(t);
+  const logged = [];
+  const calls = [];
+  await publish(fixture.root, options(fixture.plan), settings(fixture, (args) => {
+    calls.push(args[1]);
+    const pkg = fixture.manifest.packages.find(item => args[1].endsWith(item.filename));
+    // Fails the way npm does when it cannot read the OIDC token, then works.
+    if (calls.filter(file => file === args[1]).length === 1 && pkg === fixture.manifest.packages[0]) {
+      return { status: 1, stderr: 'npm error code IDENTITY_TOKEN_READ_ERROR\nnpm error error retrieving identity token' };
+    }
+    return { status: 0, stdout: JSON.stringify({ [pkg.name]: pkg }) };
+  }, message => logged.push(message)));
+  assert.equal(calls.length, fixture.manifest.packages.length + 1, 'only the identity failure is sent again');
+  assert.match(logged.join('\n'), /retrying: IDENTITY_TOKEN_READ_ERROR/);
+  assert.equal(readJson(path.join(fixture.root, 'receipts/receipt.json')).status, 'published');
+});
+
+test('a failure the registry may have accepted is never sent again', async t => {
+  const fixture = artifactFixture(t);
+  const calls = [];
+  await assert.rejects(() => publish(fixture.root, options(fixture.plan), settings(fixture, (args) => {
+    calls.push(args[1]);
+    return { status: 1, stderr: 'npm error code E409\nnpm error 409 Conflict' };
+  })), /2 of 2 packages/);
+  assert.equal(calls.length, fixture.manifest.packages.length);
 });
 
 test('one unresolved package does not stop the rest, and each is attempted once', async t => {
