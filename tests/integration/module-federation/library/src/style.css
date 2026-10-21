@@ -1,0 +1,28 @@
+.library-signal {
+  background: #e9e5fa;
+  color: #393462;
+  border: 1px solid #c8bfe9;
+  border-radius: 18px;
+  padding: 26px;
+}
+.library-signal small {
+  font:
+    11px ui-monospace,
+    monospace;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+}
+.library-signal h2 {
+  font-size: 28px;
+  margin: 12px 0;
+  letter-spacing: -1px;
+}
+.library-signal button {
+  background: #514780;
+  color: white;
+  border: 0;
+  border-radius: 30px;
+  padding: 12px 20px;
+  font: inherit;
+  cursor: pointer;
+}

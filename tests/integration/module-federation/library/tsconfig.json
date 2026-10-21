@@ -1,0 +1,8 @@
+{
+  "extends": "@modern-js/tsconfig/base",
+  "compilerOptions": {
+    "jsx": "react-jsx",
+    "noEmit": true
+  },
+  "include": ["src", "*.ts"]
+}

@@ -1,0 +1,20 @@
+{
+  "name": "mf-lab-nested",
+  "private": true,
+  "scripts": {
+    "dev": "modern dev",
+    "build": "modern build"
+  },
+  "dependencies": {
+    "react": "^19.3.1",
+    "react-dom": "^19.3.1",
+    "@module-federation/modern-js-v3": "2.9.2",
+    "@modern-js/runtime": "workspace:*",
+    "@module-federation/runtime": "2.9.2",
+    "@module-federation/runtime-core": "2.9.2"
+  },
+  "devDependencies": {
+    "@modern-js/app-tools": "workspace:*",
+    "@modern-js/tsconfig": "workspace:*"
+  }
+}
