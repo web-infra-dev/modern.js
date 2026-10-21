@@ -75,11 +75,21 @@ export function publishedFromOutput(stdout, pkg) {
 // separates a missing trusted publisher from a rate limit or a permission
 // problem, and being a fixed shape it cannot carry registry text.
 const ERROR_CODE = /^\s*npm (?:error|ERR!) code ([A-Z][A-Z0-9_]{1,30})\s*$/m;
-// The one failure that proves npm never reached the registry: it could not read
-// the workflow identity token from GitHub, which happens before any request is
-// built. Run 52 lost a package to it. Every other failure may have been
-// accepted by the registry, so only this one may be sent again.
-const BEFORE_ANY_REQUEST = new Set(['IDENTITY_TOKEN_READ_ERROR']);
+// Failures in the machinery around the upload rather than in the upload: npm
+// could not read the workflow identity token from GitHub (run 52), or Sigstore
+// refused the transparency log entry (run 57, a 409 for an entry it already
+// held). Both are infrastructure having a bad minute, and both cost a package
+// in an otherwise complete release.
+//
+// Sending one of these again is safe for a reason that does not depend on
+// guessing how far the first attempt got: a version can never be published
+// twice, so a repeat either lands or is refused, and either way the registry
+// lookup below settles what is actually there by comparing the sha512 this job
+// built. Everything else is left to that lookup rather than repeated.
+const TRANSIENT_SUBMISSION = new Set([
+  'IDENTITY_TOKEN_READ_ERROR', 'TLOG_CREATE_ENTRY_ERROR',
+  'EAI_AGAIN', 'ECONNRESET', 'ETIMEDOUT', 'ENOTFOUND', 'ECONNREFUSED',
+]);
 const CODE = /^[A-Z][A-Z0-9_]{1,30}$/;
 
 export function npmErrorCode(result) {
@@ -376,8 +386,8 @@ export async function publish(root, options, {
       persist();
       const args = publishArguments(path.resolve(root, options.artifacts, pkg.filename));
       let result = npm(args, { cwd: temporary, env: npmEnv });
-      if (result.status !== 0 && BEFORE_ANY_REQUEST.has(npmErrorCode(result))) {
-        log(`[publish] ${pkg.name} retrying: ${npmErrorCode(result)} happens before npm contacts the registry`);
+      if (result.status !== 0 && TRANSIENT_SUBMISSION.has(npmErrorCode(result))) {
+        log(`[publish] ${pkg.name} retrying: ${npmErrorCode(result)} is the submission machinery, not a verdict`);
         result = npm(args, { cwd: temporary, env: npmEnv });
       }
       // Any other nonzero result can mean the registry accepted a request. Do not retry.
