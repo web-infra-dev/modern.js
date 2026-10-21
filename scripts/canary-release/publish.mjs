@@ -19,23 +19,37 @@ export function publishArguments(tarball) {
   return ['publish', tarball, '--tag', TAG, '--access', 'public', '--ignore-scripts', '--json', '--registry', REGISTRY];
 }
 
-// npm emits two shapes for `publish --json`, and which one depends on the code
-// path rather than on the version: a dry run on 11.21.0 returns an object keyed
-// by package name, a real publish on the same version returns the manifest
-// flat. Reading only the keyed shape rejected twenty seven packages that npm had
-// in fact accepted, so both are read and the fields decide, not the nesting.
-//
-// Integrity is checked when npm reports one and is not required, because the
-// authoritative check is not here: the next job reads the registry metadata and
-// re-hashes the downloaded tarball against this same manifest. What this
-// function has to establish is that npm accepted this exact name and version.
+// npm has now produced three different shapes for the same `publish --json`
+// command: the pack manifest flat, an object keyed by package name holding that
+// manifest, and an object keyed by package name holding only the version
+// string. Two runs were spent on readers that understood one shape and rejected
+// packages the registry had already accepted, so this one takes whichever field
+// carries this package's version and, when none does, reports the structure it
+// received. The response describes a tarball npm already holds and carries no
+// credential, so its shape is safe to put in the job log.
+function describeResponse(value, depth = 0) {
+  if (value === null || typeof value !== 'object') {
+    return typeof value === 'string' ? `string ${JSON.stringify(value.slice(0, 48))}` : String(value === null ? 'null' : typeof value);
+  }
+  if (Array.isArray(value)) return `array[${value.length}]`;
+  const keys = Object.keys(value).slice(0, 6);
+  if (depth >= 1) return `object{${keys.join(',')}}`;
+  return keys.map(key => `${key}: ${describeResponse(value[key], depth + 1)}`).join('; ').slice(0, 300) || 'empty object';
+}
+
 export function publishedFromOutput(stdout, pkg) {
   const result = JSON.parse(stdout);
-  const entry = result?.name === pkg.name ? result : result?.[pkg.name];
-  assert(entry && entry.name === pkg.name && entry.version === pkg.version,
-    `Unexpected npm publish response (top level keys: ${Object.keys(result ?? {}).slice(0, 6).join(', ') || 'none'})`);
-  if (entry.integrity !== undefined) assert.equal(entry.integrity, pkg.integrity, 'npm published integrity mismatch');
-  return `${pkg.name}@${pkg.version}`;
+  for (const candidate of [result, result?.[pkg.name]]) {
+    const entry = typeof candidate === 'string' ? { name: pkg.name, version: candidate } : candidate;
+    if (!entry || typeof entry !== 'object' || Array.isArray(entry)) continue;
+    if ((entry.name ?? pkg.name) !== pkg.name || entry.version !== pkg.version) continue;
+    // Checked when npm sends one, never required: the authoritative check is the
+    // next job, which reads the registry metadata and re-hashes the tarball it
+    // downloads against this same manifest.
+    if (entry.integrity !== undefined) assert.equal(entry.integrity, pkg.integrity, 'npm published integrity mismatch');
+    return `${pkg.name}@${pkg.version}`;
+  }
+  assert.fail(`Unexpected npm publish response (${describeResponse(result)})`);
 }
 
 // npm reports its machine readable cause as `npm error code E403`, or as
@@ -43,6 +57,11 @@ export function publishedFromOutput(stdout, pkg) {
 // separates a missing trusted publisher from a rate limit or a permission
 // problem, and being a fixed shape it cannot carry registry text.
 const ERROR_CODE = /^\s*npm (?:error|ERR!) code ([A-Z][A-Z0-9_]{1,30})\s*$/m;
+// The one failure that proves npm never reached the registry: it could not read
+// the workflow identity token from GitHub, which happens before any request is
+// built. Run 52 lost a package to it. Every other failure may have been
+// accepted by the registry, so only this one may be sent again.
+const BEFORE_ANY_REQUEST = new Set(['IDENTITY_TOKEN_READ_ERROR']);
 const CODE = /^[A-Z][A-Z0-9_]{1,30}$/;
 
 export function npmErrorCode(result) {
@@ -290,8 +309,13 @@ export async function publish(root, options, {
       const item = { name: pkg.name, version: pkg.version, integrity: pkg.integrity, status: 'unknown' };
       receipt.packages.push(item);
       persist();
-      const result = npm(publishArguments(path.resolve(root, options.artifacts, pkg.filename)), { cwd: temporary, env: npmEnv });
-      // Even a nonzero result can mean the registry accepted a request. Do not retry.
+      const args = publishArguments(path.resolve(root, options.artifacts, pkg.filename));
+      let result = npm(args, { cwd: temporary, env: npmEnv });
+      if (result.status !== 0 && BEFORE_ANY_REQUEST.has(npmErrorCode(result))) {
+        log(`[publish] ${pkg.name} retrying: ${npmErrorCode(result)} happens before npm contacts the registry`);
+        result = npm(args, { cwd: temporary, env: npmEnv });
+      }
+      // Any other nonzero result can mean the registry accepted a request. Do not retry.
       try {
         assert(!result.error && result.status === 0, 'npm exited nonzero');
         publishedFromOutput(result.stdout, pkg);
