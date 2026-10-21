@@ -1,6 +1,11 @@
 {
   "name": "@modern-js/plugin-styled-components",
   "description": "A Modern.js plugin for styled-components.",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/web-infra-dev/modern.js",
+    "directory": "packages/cli/plugin-styled-components"
+  },
   "license": "MIT",
   "keywords": [
     "react",

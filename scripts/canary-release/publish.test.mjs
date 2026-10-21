@@ -82,10 +82,18 @@ test('reruns fail closed because a published version can never be replaced', asy
 test('publish response must contain a matching identity and integrity', t => {
   const { manifest } = artifactFixture(t);
   const pkg = manifest.packages[0];
-  for (const result of [{}, { [pkg.name]: { ...pkg, version: '1.2.3' } }, { [pkg.name]: { ...pkg, integrity: 'wrong' } }]) {
+  for (const result of [
+    {}, { [pkg.name]: { ...pkg, version: '1.2.3' } }, { [pkg.name]: { ...pkg, integrity: 'wrong' } },
+    { ...pkg, version: '1.2.3' }, { ...pkg, integrity: 'wrong' }, { name: 'other', version: pkg.version },
+  ]) {
     assert.throws(() => publishedFromOutput(JSON.stringify(result), pkg));
   }
-  assert.equal(publishedFromOutput(JSON.stringify({ [pkg.name]: pkg }), pkg), `${pkg.name}@${pkg.version}`);
+  // Both shapes npm has been observed to emit, and a response without integrity,
+  // which the registry verification in the next job covers.
+  for (const result of [{ [pkg.name]: pkg }, pkg, { name: pkg.name, version: pkg.version }]) {
+    assert.equal(publishedFromOutput(JSON.stringify(result), pkg), `${pkg.name}@${pkg.version}`);
+  }
+  assert.throws(() => publishedFromOutput(JSON.stringify({}), pkg), /top level keys: none/);
 });
 
 test('one unresolved package does not stop the rest, and each is attempted once', async t => {
