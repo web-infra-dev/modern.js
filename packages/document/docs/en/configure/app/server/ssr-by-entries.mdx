@@ -27,5 +27,3 @@ export default defineConfig({
 ```
 
 In the above configuration, the project enables SSR as a whole, but the SSR rendering ability is disabled for the `page-a` entry.
-
-When streaming SSR and non-streaming entries share an application, the streaming script layout applies only to the streaming entries. CSR entries and entries with `mode: 'string'` retain their configured script loading and injection behavior. Enabling a streaming entry does not make their `defer` scripts asynchronous. Applications using RSC retain the RSC script layout.
