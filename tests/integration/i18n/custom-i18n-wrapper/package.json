@@ -1,7 +1,7 @@
 {
   "private": true,
   "name": "i18n-custom-i18n-wrapper",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "scripts": {
     "dev": "modern dev",
     "build": "modern build"

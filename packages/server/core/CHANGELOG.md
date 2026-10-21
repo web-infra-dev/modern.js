@@ -1,5 +1,31 @@
 # @modern-js/server-plugin
 
+## 3.10.2
+
+### Patch Changes
+
+- 2f314e5: fix: preserve literal characters when registering page render routes with Hono
+
+  fix: 向 Hono 注册页面渲染路由时保留路径中的字面字符，修复 HTML 路径及渲染中间件匹配失败
+
+- 23587d0: perf: write Node.js response bodies with a stream reader loop instead of `pipeTo(Writable.toWeb(res))`, `sendResponse` now resolves once `res.end()` is called
+
+  perf: 使用流读取循环代替 `pipeTo(Writable.toWeb(res))` 写入 Node.js 响应体，`sendResponse` 在调用 `res.end()` 后即完成
+
+- 3b42ce4: perf: trim per-request work in the render path and set Server-Timing with a single header update
+
+  perf: 减少渲染链路中每个请求的额外开销，并一次性写入 Server-Timing 响应头
+
+- 6a891f0: perf: create the public middleware once without sorting the shared routes on every request, and stat static files only once per request
+
+  perf: public 中间件只创建一次，不再在每次请求时排序共享的路由数组，静态文件每次请求只调用一次 stat
+
+- Updated dependencies [76c675d]
+- Updated dependencies [b1c1018]
+  - @modern-js/runtime-utils@3.10.2
+  - @modern-js/plugin@3.10.2
+  - @modern-js/utils@3.10.2
+
 ## 3.10.1
 
 ### Patch Changes

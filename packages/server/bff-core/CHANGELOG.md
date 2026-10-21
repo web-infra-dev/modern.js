@@ -1,5 +1,11 @@
 # @modern-js/bff-core
 
+## 3.10.2
+
+### Patch Changes
+
+- @modern-js/utils@3.10.2
+
 ## 3.10.1
 
 ### Patch Changes

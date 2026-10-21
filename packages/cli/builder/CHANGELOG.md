@@ -1,5 +1,15 @@
 # @modern-js/builder
 
+## 3.10.2
+
+### Patch Changes
+
+- 0c7dad2: perf: skip importing `html-minifier-terser` when HTML minification is disabled, such as in development
+
+  perf: 在 HTML 压缩未启用时（例如开发模式）跳过加载 `html-minifier-terser`
+
+  - @modern-js/utils@3.10.2
+
 ## 3.10.1
 
 ### Patch Changes
