@@ -117,7 +117,7 @@ Browser page errors fail the tests, except in the intentional recovery scenario.
 
 ## Dependency baseline
 
-The fixtures use the built-in adapter and pin the enhanced engine, bridge and runtime to 2.9.2. The published bridge package references runtime types without declaring those dependencies. Explicit runtime dependencies, TypeScript paths, and the runtime alias keep the fixture on one version when the workspace also contains older MF examples. The fixtures use the workspace Modern implementation and unpatched MF engine packages. Remote declaration files describe the fixture contracts, while remote DTS generation remains disabled.
+The fixtures use the built-in adapter and pin the MF engine, Bridge and related packages to `0.0.0-feat-enhanced-runtime-unification-20261021104729`. Runtime APIs and types come from `@module-federation/enhanced/runtime`. Bridge uses the same public entry, so the applications do not declare runtime or runtime-core dependencies or use runtime aliases and TypeScript path overrides. The legacy adapter remains at 2.9.2 for compatibility tests. The fixtures use the workspace Modern implementation and unpatched published MF packages. Remote declaration files describe the fixture contracts, while remote DTS generation remains disabled.
 
 ## Fault controls and recovery
 
@@ -133,7 +133,7 @@ Both comparison pages and Advanced scenarios provide a **Simulate failure** chec
 
 `tests/error-recovery.test.ts` runs independently in dev and production. It checks raw SSR HTML, actual HTTP failures, handling records, isolation, interactive neighbors, and successful loading before and after a fault. Normal regression tests retain their strict SSR and browser-error assertions.
 
-The underlying 2.9.2 bridge additionally reports one unhandled promise rejection when an intentionally failing client data loader runs through prefetch or data downgrade. The fault tests check its exact API error and count, alongside the visible adapter fallback. This known error is not ignored globally or treated as successful prefetching.
+The Bridge data-fetch implementation additionally reports one unhandled promise rejection when an intentionally failing client data loader runs through prefetch or data downgrade. The fault tests check its exact API error and count, alongside the visible adapter fallback. This known error is not ignored globally or treated as successful prefetching.
 
 ## Comparison timing metrics
 

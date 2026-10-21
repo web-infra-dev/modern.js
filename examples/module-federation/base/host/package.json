@@ -17,10 +17,8 @@
     "react": "^19.2.8",
     "react-dom": "^19.2.8",
     "react-router-dom": "^7.15.1",
-    "@module-federation/runtime": "2.9.2",
-    "@module-federation/enhanced": "2.9.2",
-    "@module-federation/bridge-react": "2.9.2",
-    "@module-federation/runtime-core": "2.9.2"
+    "@module-federation/enhanced": "0.0.0-feat-enhanced-runtime-unification-20261021104729",
+    "@module-federation/bridge-react": "0.0.0-feat-enhanced-runtime-unification-20261021104729"
   },
   "devDependencies": {
     "@modern-js/app-tools": "latest",
@@ -29,6 +27,6 @@
     "@types/react": "^19.2.17",
     "@types/react-dom": "^19.2.3",
     "rimraf": "^6.1.3",
-    "typescript": "~5.0.4"
+    "typescript": "^5.9.3"
   }
 }

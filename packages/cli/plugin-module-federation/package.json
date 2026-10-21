@@ -158,10 +158,10 @@
     "@modern-js/plugin": "workspace:*",
     "@modern-js/server": "workspace:*",
     "@modern-js/server-core": "workspace:*",
-    "@module-federation/bridge-react": "2.9.2",
-    "@module-federation/node": "2.7.52",
-    "@module-federation/rsbuild-plugin": "2.9.2",
-    "@module-federation/sdk": "2.9.2",
+    "@module-federation/bridge-react": "0.0.0-feat-enhanced-runtime-unification-20261021104729",
+    "@module-federation/node": "0.0.0-feat-enhanced-runtime-unification-20261021104729",
+    "@module-federation/rsbuild-plugin": "0.0.0-feat-enhanced-runtime-unification-20261021104729",
+    "@module-federation/sdk": "0.0.0-feat-enhanced-runtime-unification-20261021104729",
     "@rsbuild/core": "2.2.13",
     "@swc/helpers": "^0.5.17",
     "jiti": "^2.7.0"
@@ -169,7 +169,7 @@
   "devDependencies": {
     "@modern-js/rslib": "workspace:*",
     "@modern-js/server-runtime": "workspace:*",
-    "@module-federation/enhanced": "2.9.2",
+    "@module-federation/enhanced": "0.0.0-feat-enhanced-runtime-unification-20261021104729",
     "@rspack/core": "2.2.9",
     "@scripts/rstest-config": "workspace:*",
     "@types/node": "^20",
@@ -178,7 +178,7 @@
     "typescript": "^5"
   },
   "peerDependencies": {
-    "@module-federation/enhanced": "^2.9.2",
+    "@module-federation/enhanced": "0.0.0-feat-enhanced-runtime-unification-20261021104729",
     "react": ">=18.3.1",
     "react-dom": ">=18.3.1"
   },

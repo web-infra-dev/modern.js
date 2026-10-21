@@ -2,7 +2,7 @@
 
 The built-in adapter is applied by app-tools when module-federation.config.ts exists. Users install @module-federation/enhanced and configure MF without registering this package manually. Set moduleFederation to false to retain the legacy plugin. Simultaneous activation fails before legacy configuration evaluation.
 
-The adapter targets the existing modern-js-v3 2.9.2 behavior. The Node adapter has its own version line and is pinned to 2.7.52. New RFC runtime APIs, service apps and additional shared tree-shaking work are outside this migration.
+The adapter preserves the modern-js-v3 2.9.2 behavior and uses MF preview `0.0.0-feat-enhanced-runtime-unification-20261021104729` for the engine, Bridge, Node adapter and related packages. Runtime APIs and types use @module-federation/enhanced/runtime, without extra runtime or runtime-core application dependencies. New RFC runtime APIs, service apps and additional shared tree-shaking work are outside this migration.
 
 ## Package boundaries
 

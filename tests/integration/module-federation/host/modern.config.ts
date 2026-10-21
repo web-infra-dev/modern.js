@@ -35,12 +35,6 @@ export default defineConfig({
       'process.env.MF_LAB_PROVIDER_V2': origin('providerV2', 4304),
     },
   },
-  resolve: {
-    alias: {
-      '@module-federation/runtime$':
-        require.resolve('@module-federation/runtime'),
-    },
-  },
   performance: { buildCache: false },
   moduleFederation: { fetchServerQuery: { lab: 'federation' } },
   plugins: [appTools()],

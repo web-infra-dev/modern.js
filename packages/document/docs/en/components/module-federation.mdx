@@ -11,7 +11,7 @@ Modern.js provides an example project for Module Federation. Please refer to [mo
 Modern.js automatically enables Module Federation when `module-federation.config.ts` exists in the application directory. No Modern.js MF plugin installation or registration is required. Install the MF engine:
 
 ```bash
-pnpm add @module-federation/enhanced
+pnpm add @module-federation/enhanced@0.0.0-feat-enhanced-runtime-unification-20261021104729
 ```
 
 Keep the common MF configuration in its existing file:
@@ -68,7 +68,7 @@ The object accepts the existing adapter options:
 
 Remove the registration and dependency for `@module-federation/modern-js-v3`, then install `@module-federation/enhanced`. Import configuration helpers from enhanced and runtime APIs from `@module-federation/enhanced/runtime`.
 
-Import React Bridge APIs from `@module-federation/bridge-react`. Use `/v18` and `/v19` for version-specific entries, `/data-fetch` for data APIs and `/plugin` for the runtime plugin. Declare bridge-react as an application dependency when importing those APIs directly.
+Import React Bridge APIs from `@module-federation/bridge-react`. Use `/v18` and `/v19` for version-specific entries, `/data-fetch` for data APIs and `/plugin` for the runtime plugin. When importing those APIs directly, install bridge-react at the same preview version as enhanced. No direct runtime or runtime-core application dependencies are needed.
 
 For gradual migration, keep the legacy plugin and explicitly set `moduleFederation: false`. A project with an MF configuration file otherwise enables the built-in adapter automatically. Enabling both integrations fails with a migration message, including legacy registration through another plugin's `usePlugins`.
 

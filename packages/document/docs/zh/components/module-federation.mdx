@@ -11,7 +11,7 @@ Modern.js 提供了一个 Module Federation 的示例项目，请参考 [module-
 Modern.js 会在应用目录检测 `module-federation.config.ts`，存在该文件时自动启用 Module Federation。无需安装或手动注册 Modern.js MF 插件，仍需安装 MF 引擎：
 
 ```bash
-pnpm add @module-federation/enhanced
+pnpm add @module-federation/enhanced@0.0.0-feat-enhanced-runtime-unification-20261021104729
 ```
 
 通用 MF 配置继续放在原文件中：
@@ -68,7 +68,7 @@ export default defineConfig({
 
 移除 `@module-federation/modern-js-v3` 的插件注册及依赖，安装 `@module-federation/enhanced`。将配置辅助函数改从 enhanced 导入，将运行时 API 改从 `@module-federation/enhanced/runtime` 导入。
 
-React Bridge API 使用 `@module-federation/bridge-react`，React 版本入口使用 `/v18`、`/v19`，数据 API 使用 `/data-fetch`，运行时插件入口使用 `/plugin`。直接导入这些 API 的应用应声明 bridge-react 依赖。
+React Bridge API 使用 `@module-federation/bridge-react`，React 版本入口使用 `/v18`、`/v19`，数据 API 使用 `/data-fetch`，运行时插件入口使用 `/plugin`。直接导入这些 API 时，应安装与 enhanced 相同预览版本的 bridge-react，无需额外声明 runtime 或 runtime-core 应用依赖。
 
 渐进迁移时可以保留旧插件，同时显式设置 `moduleFederation: false`。存在 MF 配置文件时会自动启用内置适配器，因此只保留旧注册而未关闭内置能力会报错。内置 MF 与旧插件同时启用时始终报错，也会检测通过其他插件的 `usePlugins` 注册的旧插件。
 
