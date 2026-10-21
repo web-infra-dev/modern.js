@@ -1,8 +1,5 @@
-export default function Reload({
-  mfData,
-}: {
-  mfData?: { requestCount: number };
-}) {
+import { withRenderFailure } from '../../provider/src/render-failure';
+function Reload({ mfData }: { mfData?: { requestCount: number } }) {
   return (
     <div className="request-meter">
       <span>Hangzhou · Weather update</span>
@@ -13,3 +10,5 @@ export default function Reload({
     </div>
   );
 }
+
+export default withRenderFailure(Reload);

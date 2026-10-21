@@ -1,3 +1,4 @@
+import { labComponent } from '../failure/components';
 import {
   getInstance,
   loadRemote,
@@ -27,71 +28,98 @@ const fallback = ({ error }: { error: unknown }) => (
     Remote unavailable: {error instanceof Error ? error.message : String(error)}
   </p>
 );
-export const DynamicSignal = getInstance()!.createLazyComponent({
-  loader: () =>
-    requiredRemote<{ default: (props: { id?: string }) => React.JSX.Element }>(
-      'dynamic/Signal',
-    ),
-  loading,
-  fallback,
-});
-export const DynamicForecast = getInstance()!.createLazyComponent({
-  loader: () =>
-    requiredRemote<{ default: (props: { id?: string }) => React.JSX.Element }>(
-      'dynamic/Forecast',
-    ),
-  loading,
-  fallback,
-});
-export const DynamicNested = getInstance()!.createLazyComponent({
-  loader: () =>
-    requiredRemote<{ default: () => React.JSX.Element }>(
-      'dynamicNested/DynamicRelay',
-    ),
-  loading,
-  fallback,
-});
-export const Forecast = getInstance()!.createLazyComponent({
-  loader: () => import('provider/Forecast'),
-  loading,
-  fallback,
-});
-export const ClientForecast = getInstance()!.createLazyComponent({
-  noSSR: true,
-  loader: () => import('library/Forecast'),
-  loading,
-  fallback,
-});
-export const ClientRecovery = getInstance()!.createLazyComponent({
-  loader: () => import('provider/ClientRecovery'),
-  loading,
-  fallback,
-});
-export const ServerRecovery = getInstance()!.createLazyComponent({
-  loader: () => import('provider/ServerRecovery'),
-  loading,
-  fallback,
-});
-export const NoData = getInstance()!.createLazyComponent({
-  noSSR: true,
-  loader: () => {
-    if (typeof window !== 'undefined') {
-      const target = window as typeof window & { noDataLoads?: number };
-      target.noDataLoads = (target.noDataLoads || 0) + 1;
-    }
-    return import('library/NoData');
+export const DynamicSignal = labComponent(
+  {
+    loader: () =>
+      requiredRemote<{
+        default: (props: { id?: string }) => React.JSX.Element;
+      }>('dynamic/Signal'),
+    loading,
+    fallback,
   },
-  loading,
-  fallback,
-});
-export const Reload = getInstance()!.createLazyComponent({
-  noSSR: true,
-  loader: () =>
-    requiredRemote<{
-      default: (props: {
-        mfData?: { requestCount: number };
-      }) => React.JSX.Element;
-    }>('library/Reload'),
-  loading,
-  fallback,
-});
+  'dynamic/Signal',
+);
+export const DynamicForecast = labComponent(
+  {
+    loader: () =>
+      requiredRemote<{
+        default: (props: { id?: string }) => React.JSX.Element;
+      }>('dynamic/Forecast'),
+    loading,
+    fallback,
+  },
+  'dynamic/Forecast',
+);
+export const DynamicNested = labComponent(
+  {
+    loader: () =>
+      requiredRemote<{ default: () => React.JSX.Element }>(
+        'dynamicNested/DynamicRelay',
+      ),
+    loading,
+    fallback,
+  },
+  'dynamicNested/DynamicRelay',
+);
+export const Forecast = labComponent(
+  {
+    loader: () => import('provider/Forecast'),
+    loading,
+    fallback,
+  },
+  'provider/Forecast',
+);
+export const ClientForecast = labComponent(
+  {
+    noSSR: true,
+    loader: () => import('library/Forecast'),
+    loading,
+    fallback,
+  },
+  'library/Forecast',
+);
+export const ClientRecovery = labComponent(
+  {
+    loader: () => import('provider/ClientRecovery'),
+    loading,
+    fallback,
+  },
+  'provider/ClientRecovery',
+);
+export const ServerRecovery = labComponent(
+  {
+    loader: () => import('provider/ServerRecovery'),
+    loading,
+    fallback,
+  },
+  'provider/ServerRecovery',
+);
+export const NoData = labComponent(
+  {
+    noSSR: true,
+    loader: () => {
+      if (typeof window !== 'undefined') {
+        const target = window as typeof window & { noDataLoads?: number };
+        target.noDataLoads = (target.noDataLoads || 0) + 1;
+      }
+      return import('library/NoData');
+    },
+    loading,
+    fallback,
+  },
+  'library/NoData',
+);
+export const Reload = labComponent(
+  {
+    noSSR: true,
+    loader: () =>
+      requiredRemote<{
+        default: (props: {
+          mfData?: { requestCount: number };
+        }) => React.JSX.Element;
+      }>('library/Reload'),
+    loading,
+    fallback,
+  },
+  'library/Reload',
+);

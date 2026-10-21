@@ -1,3 +1,4 @@
+import { withRenderFailure } from '../../provider/src/render-failure';
 import { useState } from 'react';
 type Data = {
   source: string;
@@ -5,13 +6,7 @@ type Data = {
   weather?: 'sunny' | 'rainy';
 };
 const version = process.env.MF_LAB_VERSION || 'v1';
-export default function Forecast({
-  mfData,
-  id = 'forecast',
-}: {
-  mfData?: Data;
-  id?: string;
-}) {
+function Forecast({ mfData, id = 'forecast' }: { mfData?: Data; id?: string }) {
   const [readings, setReadings] = useState(0);
   const weather = mfData?.weather ?? (version === 'v2' ? 'rainy' : 'sunny');
   const temperature = mfData?.temperature ?? (version === 'v2' ? 16 : 24);
@@ -46,3 +41,5 @@ export default function Forecast({
     </article>
   );
 }
+
+export default withRenderFailure(Forecast);

@@ -1,3 +1,4 @@
+import { checkDataFailure } from './data-failure';
 import { useEffect, useState } from 'react';
 export type WeatherData = {
   temperature: number;
@@ -50,29 +51,37 @@ export function WeatherIcon({ rainy = false }: { rainy?: boolean }) {
 export function CurrentWeather({
   mfData,
   local = false,
+  labFailure,
 }: {
   mfData?: WeatherData;
   local?: boolean;
+  labFailure?: string;
 }) {
   const [data, setData] = useState(local ? fixture : mfData);
+  const [error, setError] = useState<Error>();
   const [ready, setReady] = useState(false);
   const [saved, setSaved] = useState(false);
   useEffect(() => {
     setReady(true);
     report('Client ready');
     if (!local && !mfData) {
-      fetch(`${process.env.MF_LAB_API}/weather`)
+      checkDataFailure({ labFailure })
+        .then(() => fetch(`${process.env.MF_LAB_API}/weather`))
         .then(response => {
           if (!response.ok) throw new Error('Weather API request failed');
           return response.json();
         })
         .then(setData)
-        .catch(() => report('Data request failed'));
+        .catch(error => {
+          report('Data request failed');
+          setError(error);
+        });
     }
   }, []);
   useEffect(() => {
     if (data) report('Weather ready');
   }, [data]);
+  if (error) throw error;
   return (
     <section
       className="current-weather"

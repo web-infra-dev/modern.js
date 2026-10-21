@@ -118,3 +118,19 @@ Browser page errors fail the tests, except in the intentional recovery scenario.
 ## Dependency baseline
 
 The fixtures pin the existing MF adapter and runtime to 2.9.2. The published bridge package references runtime types without declaring those dependencies. Explicit runtime dependencies, TypeScript paths, and the runtime alias keep the fixture on one version when the workspace also contains older MF examples. No MF or Modern implementation is patched. Remote declaration files describe the fixture contracts, while remote DTS generation remains disabled.
+
+## Fault controls and recovery
+
+Both comparison pages and Advanced scenarios provide a **Simulate failure** checkbox. Select a failure, then enable it. Changing an active failure or clearing the checkbox reloads the iframe documents. A badge in each panel header appears only after an actual recovery path reports its result.
+
+- Remote network failure requests a local manifest endpoint that returns HTTP 503. Synthetic remote names use the reload identifier, and their own `lab-fault` share scope keeps the offline station out of normal share initialization. The existing sharing strategy stays unchanged.
+- Server rendering failure throws inside the remote release only on the server. The raw HTML lacks that component. Modern's `onBeforeRender` hook observes React's actual failed streaming boundary before hydration, and the browser recovers the component.
+- Component code failure throws inside the remote release on both sides. A local React error boundary contains it. The MF adapter's loading/data fallback is tested separately, because it does not catch every render exception.
+- API failure and invalid API responses come from the local weather server. Real MF loaders receive request-scoped fault parameters. The four-panel comparison also covers ordinary client fetching.
+- Nested forecast and wind targets additionally offer an inner remote network failure. The outer remote remains loaded while the inner manifest request fails.
+- Version replacement applies a fault only when switching to the next release. The component-only replacement path preserves the original fixture's React lazy loading. Its MF `errorLoadRemote` hook can return a local fallback module.
+- Lifecycle faults apply on the next station remount. Parent updates and the initial load remain successful. The data-recovery scenario retains both existing client-loader and host-retry paths and reports each actual downgrade.
+
+`tests/error-recovery.test.ts` runs independently in dev and production. It checks raw SSR HTML, actual HTTP failures, handling records, isolation, interactive neighbors, and successful loading before and after a fault. Normal regression tests retain their strict SSR and browser-error assertions.
+
+The pinned 2.9.2 adapter additionally reports one unhandled promise rejection when an intentionally failing client data loader runs through prefetch or data downgrade. The fault tests check its exact API error and count, alongside the visible adapter fallback. This known error is not ignored globally or treated as successful prefetching.

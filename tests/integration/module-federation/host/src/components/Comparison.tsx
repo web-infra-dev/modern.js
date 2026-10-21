@@ -1,3 +1,8 @@
+import {
+  FailureControls,
+  renderFailures,
+  dataFailures,
+} from '../failure/Controls';
 import { useCallback, useEffect, useRef, useState } from 'react';
 import { Link } from '@modern-js/runtime/router';
 function inspectPaletteSeed() {
@@ -50,15 +55,24 @@ function Panel({
     );
   }, [paletteSeed]);
   useEffect(sendInspect, [inspect, run, sendInspect]);
+  const [recovery, setRecovery] = useState('');
   const [events, setEvents] = useState<Record<string, number>>({});
   useEffect(() => {
     setEvents({});
+    setRecovery('');
     function receive(event: MessageEvent) {
       if (
         event.origin !== window.location.origin ||
         event.source !== frame.current?.contentWindow
       )
         return;
+      if (
+        event.data?.type === 'mf-lab-recovery' &&
+        typeof event.data.status === 'string'
+      ) {
+        setRecovery(event.data.status);
+        return;
+      }
       if (event.data?.type === 'mf-lab-inspect-ready') {
         sendInspect();
         return;
@@ -90,7 +104,14 @@ function Panel({
         <div className="sky-cloud cloud-two" />
       </div>
       <header>
-        <h2>{name}</h2>
+        <h2>
+          {name}
+          {recovery && (
+            <small className="recovery-badge" role="status">
+              {recovery}
+            </small>
+          )}
+        </h2>
         <span>
           {events['Interaction verified'] !== undefined
             ? '● Interaction verified'
@@ -126,6 +147,9 @@ export default function Comparison({ data = false }: { data?: boolean }) {
   const [run, setRun] = useState(0);
   const [delay, setDelay] = useState(0);
   const [inspect, setInspect] = useState(false);
+  const [failureEnabled, setFailureEnabled] = useState(false);
+  const [failure, setFailure] = useState('network');
+  const [target, setTarget] = useState('provider/Weather');
   const [prefetch, setPrefetch] = useState(true);
   const [paletteSeed] = useState(inspectPaletteSeed);
   const panels = data
@@ -144,6 +168,48 @@ export default function Comparison({ data = false }: { data?: boolean }) {
       <LabNav />
       <header className="comparison-toolbar" aria-label="Comparison controls">
         <div className="comparison-controls">
+          <FailureControls
+            enabled={failureEnabled}
+            kind={failure}
+            options={
+              data
+                ? [...renderFailures, ...dataFailures]
+                : target.includes('nested/') ||
+                    target.includes('dynamicNested/')
+                  ? [
+                      ...renderFailures,
+                      ['inner-network', 'Inner remote network failure'],
+                    ]
+                  : renderFailures
+            }
+            onChange={(enabled, kind) => {
+              setFailureEnabled(enabled);
+              setFailure(kind);
+              if (enabled || enabled !== failureEnabled)
+                setRun(value => value + 1);
+            }}
+          />
+          {!data && (
+            <select
+              aria-label="Failure target"
+              value={target}
+              onChange={event => {
+                setTarget(event.target.value);
+                if (failure === 'inner-network') setFailure('network');
+                setRun(value => value + 1);
+              }}
+            >
+              <option value="provider/Weather">Current weather</option>
+              <option value="dynamic/WeatherHourly">
+                Dynamic hourly forecast
+              </option>
+              <option value="nested/WeatherDays">Nested daily forecast</option>
+              <option value="dynamicNested/WeatherWind">
+                Dynamic nested wind
+              </option>
+            </select>
+          )}
+
           <label className="inspect-control">
             <input
               type="checkbox"
@@ -192,7 +258,7 @@ export default function Comparison({ data = false }: { data?: boolean }) {
           <Panel
             key={name}
             name={name}
-            query={`${query}&delay=${delay}${data ? `&compact=1&prefetch=${prefetch ? '1' : '0'}` : ''}`}
+            query={`${query}&failure=${failureEnabled ? failure : ''}&target=${data ? 'provider/Weather' : target}&delay=${delay}${data ? `&compact=1&prefetch=${prefetch ? '1' : '0'}` : ''}`}
             run={run}
             inspect={inspect}
             paletteSeed={paletteSeed}

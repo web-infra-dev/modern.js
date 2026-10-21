@@ -1,3 +1,4 @@
+import { labComponent } from '../failure/components';
 import { useSearchParams } from '@modern-js/runtime/router';
 import {
   getInstance,
@@ -30,16 +31,24 @@ if (typeof window !== 'undefined') {
       },
       window.location.origin,
     );
-    void runtime.prefetch({ id: 'provider/WeatherData' }).catch(() => {
-      window.parent.postMessage(
-        {
-          type: 'mf-weather',
-          event: 'Data request failed',
-          at: Math.round(performance.now()),
+    void runtime
+      .prefetch({
+        id: 'provider/WeatherData',
+        dataFetchParams: {
+          isDowngrade: false,
+          labFailure: query.get('failure') || '',
         },
-        window.location.origin,
-      );
-    });
+      })
+      .catch(() => {
+        window.parent.postMessage(
+          {
+            type: 'mf-weather',
+            event: 'Data request failed',
+            at: Math.round(performance.now()),
+          },
+          window.location.origin,
+        );
+      });
   }
 }
 
@@ -52,34 +61,52 @@ async function remote<T>(name: string) {
   if (!module) throw new Error(name);
   return module;
 }
-const Current = runtime.createLazyComponent({
-  ...options,
-  loader: () => remote<Current>('provider/Weather'),
-});
-const Data = runtime.createLazyComponent({
-  ...options,
-  loader: () => remote<Current>('provider/WeatherData'),
-});
-const ClientData = runtime.createLazyComponent({
-  ...options,
-  noSSR: true,
-  loader: () => remote<Current>('provider/WeatherData'),
-});
-const Hourly = runtime.createLazyComponent({
-  ...options,
-  loader: () =>
-    remote<{ default: () => React.JSX.Element }>('dynamic/WeatherHourly'),
-});
-const Days = runtime.createLazyComponent({
-  ...options,
-  loader: () =>
-    remote<{ default: () => React.JSX.Element }>('nested/WeatherDays'),
-});
-const Wind = runtime.createLazyComponent({
-  ...options,
-  loader: () =>
-    remote<{ default: () => React.JSX.Element }>('dynamicNested/WeatherWind'),
-});
+const Current = labComponent(
+  {
+    ...options,
+    loader: () => remote<Current>('provider/Weather'),
+  },
+  'provider/Weather',
+);
+const Data = labComponent(
+  {
+    ...options,
+    loader: () => remote<Current>('provider/WeatherData'),
+  },
+  'provider/WeatherData',
+);
+const ClientData = labComponent(
+  {
+    ...options,
+    noSSR: true,
+    loader: () => remote<Current>('provider/WeatherData'),
+  },
+  'provider/WeatherData',
+);
+const Hourly = labComponent(
+  {
+    ...options,
+    loader: () =>
+      remote<{ default: () => React.JSX.Element }>('dynamic/WeatherHourly'),
+  },
+  'dynamic/WeatherHourly',
+);
+const Days = labComponent(
+  {
+    ...options,
+    loader: () =>
+      remote<{ default: () => React.JSX.Element }>('nested/WeatherDays'),
+  },
+  'nested/WeatherDays',
+);
+const Wind = labComponent(
+  {
+    ...options,
+    loader: () =>
+      remote<{ default: () => React.JSX.Element }>('dynamicNested/WeatherWind'),
+  },
+  'dynamicNested/WeatherWind',
+);
 export default function WeatherPage() {
   const [params] = useSearchParams();
   const compact = params.get('compact') === '1';

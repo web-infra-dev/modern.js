@@ -1305,3 +1305,58 @@
   outline: 2px solid var(--inspect-color);
   outline-offset: 2px;
 }
+
+.failure-controls {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}
+.failure-controls label {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  white-space: nowrap;
+}
+.comparison-controls {
+  flex-wrap: wrap;
+}
+.recovery-badge {
+  display: inline-flex;
+  align-items: center;
+  margin-left: 10px;
+  padding: 4px 8px;
+  border-radius: 20px;
+  background: #fff0ce;
+  color: #785018;
+  font:
+    600 12px/1.2 -apple-system,
+    BlinkMacSystemFont,
+    sans-serif;
+  letter-spacing: 0;
+  vertical-align: middle;
+}
+.recovery-card {
+  min-height: 160px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  gap: 8px;
+  color: white;
+  background: rgb(47 91 132 / 55%);
+}
+.recovery-card > span {
+  font-size: 42px;
+}
+.recovery-card p,
+.recovery-card h2 {
+  margin: 0;
+}
+.recovery-card small {
+  opacity: 0.8;
+}
+
+.lab-remote-slot {
+  display: contents;
+}

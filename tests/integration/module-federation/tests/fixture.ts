@@ -78,6 +78,8 @@ export function setupLab(mode: 'dev' | 'production') {
   const consoleErrors: string[] = [];
   const pendingRequests = new Set<string>();
   let expectsRecovery = false;
+  let expectedErrorGroups: { pattern: RegExp; count: number }[] | undefined;
+  let expectedErrors: { pattern: RegExp; min: number; max: number } | undefined;
   beforeAll(async () => {
     workspace = await createWorkspace();
     lab = await startLab(mode, false, workspace);
@@ -116,11 +118,26 @@ export function setupLab(mode: 'dev' | 'production') {
       consoleErrors.push(`${request.url()}: ${request.failure()?.errorText}`);
     });
     expectsRecovery = false;
+    expectedErrors = undefined;
+    expectedErrorGroups = undefined;
     page.on('pageerror', error => browserErrors.push(String(error)));
   });
   afterEach(async () => {
     await page?.close();
-    if (expectsRecovery) {
+    if (expectedErrorGroups) {
+      expect(browserErrors).toHaveLength(
+        expectedErrorGroups.reduce((sum, group) => sum + group.count, 0),
+      );
+      for (const group of expectedErrorGroups)
+        expect(
+          browserErrors.filter(error => group.pattern.test(error)),
+        ).toHaveLength(group.count);
+    } else if (expectedErrors) {
+      expect(browserErrors.length).toBeGreaterThanOrEqual(expectedErrors.min);
+      expect(browserErrors.length).toBeLessThanOrEqual(expectedErrors.max);
+      for (const error of browserErrors)
+        expect(error).toMatch(expectedErrors.pattern);
+    } else if (expectsRecovery) {
       // The existing adapter renders the error fallback on the server. React
       // reports recoverable hydration errors when the two client retries succeed.
       expect(browserErrors).toHaveLength(2);
@@ -222,6 +239,12 @@ export function setupLab(mode: 'dev' | 'production') {
     relayTools,
     weatherFrames,
     selector,
+    expectErrorGroups(groups: { pattern: RegExp; count: number }[]) {
+      expectedErrorGroups = groups;
+    },
+    expectErrors(pattern: RegExp, min: number, max: number) {
+      expectedErrors = { pattern, min, max };
+    },
     expectRecovery() {
       expectsRecovery = true;
     },

@@ -1,1 +1,3 @@
-export { DaysWeather as default } from '../weather-ui';
+import { DaysWeather } from '../weather-ui';
+import { withRenderFailure } from '../render-failure';
+export default withRenderFailure(DaysWeather);

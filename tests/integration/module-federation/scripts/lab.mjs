@@ -167,6 +167,14 @@ export async function startLab(
   }
   try {
     const gateway = createServer(async (req, res) => {
+      if (req.url.startsWith('/_lab/offline/')) {
+        res.setHeader('Access-Control-Allow-Origin', '*');
+        res.setHeader('Cache-Control', 'no-store');
+        res
+          .writeHead(503, { 'Content-Type': 'application/json' })
+          .end(JSON.stringify({ error: 'LAB_REMOTE_OFFLINE' }));
+        return;
+      }
       const referer = req.headers.referer;
       if (
         referer &&
@@ -218,8 +226,21 @@ export async function startLab(
     const api = createServer(async (req, res) => {
       res.setHeader('Access-Control-Allow-Origin', '*');
       res.setHeader('Cache-Control', 'no-store');
-      if (req.url !== '/weather') {
+      const url = new URL(req.url, 'http://localhost');
+      if (url.pathname !== '/weather') {
         res.writeHead(404).end();
+        return;
+      }
+      if (url.searchParams.get('failure') === 'data') {
+        res
+          .writeHead(503, { 'Content-Type': 'application/json' })
+          .end(JSON.stringify({ error: 'Weather service unavailable' }));
+        return;
+      }
+      if (url.searchParams.get('failure') === 'invalid') {
+        res
+          .writeHead(200, { 'Content-Type': 'application/json' })
+          .end(JSON.stringify({ temperature: null }));
         return;
       }
       const id = ++requestId;

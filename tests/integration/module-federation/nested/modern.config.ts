@@ -14,6 +14,7 @@ export default defineConfig({
   dev: { assetPrefix: `${origin(name, 4302)}/`, lazyCompilation: false },
   source: {
     globalVars: {
+      'process.env.MF_LAB_ORIGIN': origin('host', 4300),
       'process.env.MF_LAB_LIBRARY': origin('library', 4303),
       'process.env.MF_LAB_LIBRARY_V2': origin('libraryV2', 4305),
       'process.env.MF_LAB_PROVIDER_V2': origin('providerV2', 4304),

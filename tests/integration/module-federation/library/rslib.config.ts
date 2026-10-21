@@ -26,7 +26,12 @@ export default defineConfig({
       },
     },
   },
-  source: { define: { 'process.env.MF_LAB_VERSION': JSON.stringify(version) } },
+  source: {
+    define: {
+      'process.env.MF_LAB_API': JSON.stringify(origin('api', 4306)),
+      'process.env.MF_LAB_VERSION': JSON.stringify(version),
+    },
+  },
   plugins: [
     pluginReact(),
     pluginModuleFederation(

@@ -1,5 +1,7 @@
+import { checkDataFailure } from '../data-failure';
 const version = process.env.MF_LAB_VERSION || 'v1';
-export async function fetchData() {
+export async function fetchData(params?: { labFailure?: string }) {
+  await checkDataFailure(params);
   return {
     source: 'modern-server',
     temperature: version === 'v2' ? 16 : 24,

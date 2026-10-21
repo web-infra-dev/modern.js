@@ -1,10 +1,5 @@
-import {
-  lazy,
-  Suspense,
-  useState,
-  type ComponentType,
-  type LazyExoticComponent,
-} from 'react';
+import { labComponent } from '../failure/components';
+import { Suspense, useState, useEffect, type ComponentType } from 'react';
 import {
   loadRemote,
   registerRemotes,
@@ -30,8 +25,9 @@ async function loadForecast(name: string): Promise<ForecastModule> {
   return module;
 }
 function Replacement({ dynamic }: { dynamic: boolean }) {
-  const [Component, setComponent] =
-    useState<LazyExoticComponent<ForecastModule['default']>>();
+  const [ready, setReady] = useState(false);
+  useEffect(() => setReady(true), []);
+  const [Component, setComponent] = useState<ComponentType<{ id?: string }>>();
   const [status, setStatus] = useState('Version one');
   const name = dynamic ? 'dynamic' : 'provider';
   const forecastId = `${name}-forecast`;
@@ -46,7 +42,15 @@ function Replacement({ dynamic }: { dynamic: boolean }) {
       ],
       { force: true },
     );
-    setComponent(lazy(() => loadForecast(name)));
+    const ReplacementForecast = labComponent<{ id?: string }>(
+      {
+        loader: () => loadForecast(name),
+        loading: <p>Switching versions…</p>,
+        componentOnly: true,
+      },
+      `replacement/${name}`,
+    );
+    setComponent(() => ReplacementForecast);
     setStatus('Version two');
   }
   return (
@@ -59,7 +63,7 @@ function Replacement({ dynamic }: { dynamic: boolean }) {
         <button
           data-testid={`replace-${name}`}
           onClick={replace}
-          disabled={Boolean(Component)}
+          disabled={!ready || Boolean(Component)}
         >
           Switch to rainy forecast ↗
         </button>
@@ -100,7 +104,7 @@ function Lifecycle() {
           </button>
         </div>
       </div>
-      <Reload key={mount} />
+      <Reload key={mount} labRemounted={mount > 0} />
       <NoData />
     </>
   );

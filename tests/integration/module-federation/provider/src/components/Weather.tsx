@@ -1,4 +1,13 @@
+import { withRenderFailure } from '../render-failure';
 import { CurrentWeather } from '../weather-ui';
-export default function Weather({ local = false }: { local?: boolean }) {
-  return <CurrentWeather local={local} />;
+function Weather({
+  local = false,
+  labFailure,
+}: {
+  local?: boolean;
+  labFailure?: string;
+}) {
+  return <CurrentWeather local={local} labFailure={labFailure} />;
 }
+
+export default withRenderFailure(Weather);
