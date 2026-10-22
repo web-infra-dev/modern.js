@@ -51,4 +51,4 @@ Select an existing Chrome installation with PUPPETEER_EXECUTABLE_PATH if require
 
 Applications using React Bridge install @module-federation/bridge-react directly and import its public entries, including /v19 when needed. This internal adapter does not provide Bridge forwarding entries.
 
-Only the root CLI registration and configuration types, plus package metadata, are exported. Internal config, SSR, server and injected runtime files are resolved within the adapter. The adapter does not forward Enhanced runtime APIs or provide the future framework MF facade. Future framework APIs will use the app context metaName when configuring runtime aliases.
+The package exports root CLI registration, config-plugin, ssr-plugin, data-fetch-server-plugin, configuration types and package metadata. Injected server and runtime files resolve within the adapter. The adapter does not forward Enhanced runtime APIs or provide the future framework MF facade. Future framework APIs will use the app context metaName when configuring runtime aliases.

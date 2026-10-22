@@ -27,6 +27,26 @@
       "import": "./dist/esm-node/cli/index.mjs",
       "require": "./dist/cjs/cli/index.js"
     },
+    "./config-plugin": {
+      "types": "./dist/types/cli/configPlugin.d.ts",
+      "import": "./dist/esm-node/cli/configPlugin.mjs",
+      "require": "./dist/cjs/cli/configPlugin.js"
+    },
+    "./ssr-plugin": {
+      "types": "./dist/types/cli/ssrPlugin.d.ts",
+      "import": "./dist/esm-node/cli/ssrPlugin.mjs",
+      "require": "./dist/cjs/cli/ssrPlugin.js"
+    },
+    "./data-fetch-server-plugin": {
+      "types": "./dist/types/cli/server/data-fetch-server-plugin.d.ts",
+      "import": "./dist/esm-node/cli/server/data-fetch-server-plugin.mjs",
+      "require": "./dist/cjs/cli/server/data-fetch-server-plugin.js",
+      "default": "./dist/cjs/cli/server/data-fetch-server-plugin.js"
+    },
+    "./types": {
+      "types": "./dist/types/types/index.d.ts",
+      "default": "./dist/cjs/types/index.js"
+    },
     "./package.json": "./package.json"
   },
   "main": "./dist/cjs/cli/index.js",
@@ -77,5 +97,24 @@
       "optional": true
     }
   },
-  "description": "Built-in Modern.js Module Federation integration"
+  "description": "Built-in Modern.js Module Federation integration",
+  "typesVersions": {
+    "*": {
+      ".": [
+        "./dist/types/cli/index.d.ts"
+      ],
+      "config-plugin": [
+        "./dist/types/cli/configPlugin.d.ts"
+      ],
+      "ssr-plugin": [
+        "./dist/types/cli/ssrPlugin.d.ts"
+      ],
+      "data-fetch-server-plugin": [
+        "./dist/types/cli/server/data-fetch-server-plugin.d.ts"
+      ],
+      "types": [
+        "./dist/types/types/index.d.ts"
+      ]
+    }
+  }
 }
