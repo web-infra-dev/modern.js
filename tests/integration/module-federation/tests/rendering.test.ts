@@ -109,7 +109,9 @@ describeLab('Rendering and assets', getContext => {
       const original = await readFile(source, 'utf8');
       const marker = 'Updated signal from the remote.';
       expect(original).toContain('A signal from another origin.');
-      const before = await (await fetch(`${lab.url}/static`)).text();
+      const before = await (
+        await fetch(`${lab.url}/static`, { signal: AbortSignal.timeout(10000) })
+      ).text();
       expect(before).toContain('A signal from another origin.');
       try {
         await writeFile(
@@ -119,7 +121,9 @@ describeLab('Rendering and assets', getContext => {
         await expect
           .poll(
             async () => {
-              const response = await fetch(`${lab.url}/static`);
+              const response = await fetch(`${lab.url}/static`, {
+                signal: AbortSignal.timeout(10000),
+              });
               return (await response.text()).includes(marker);
             },
             { timeout: 30000 },
@@ -130,12 +134,18 @@ describeLab('Rendering and assets', getContext => {
         await expect
           .poll(
             async () =>
-              (await (await fetch(`${lab.url}/static`)).text()).includes(
-                'A signal from another origin.',
-              ),
+              (
+                await (
+                  await fetch(`${lab.url}/static`, {
+                    signal: AbortSignal.timeout(10000),
+                  })
+                ).text()
+              ).includes('A signal from another origin.'),
             { timeout: 30000 },
           )
           .toBe(true);
       }
-    });
+      // Both rebuild polls have their own 30-second budget, in addition to
+      // the initial request and source restoration.
+    }, 120000);
 });
