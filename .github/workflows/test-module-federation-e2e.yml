@@ -1,0 +1,57 @@
+name: Module Federation E2E
+
+on:
+  pull_request:
+    branches: [main, feat/module-federation-builtin]
+    types: [opened, synchronize, reopened, ready_for_review]
+  push:
+    branches: [main, feat/module-federation-builtin]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: mf-e2e-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  module-federation-e2e:
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+    env:
+      NX_DAEMON: 'false'
+      NX_REJECT_UNKNOWN_LOCAL_CACHE: '0'
+    steps:
+      - name: Checkout
+        uses: actions/checkout@08eba0b27e820071cde6df949e0beb9ba4906955 # v4
+
+      - name: Install pnpm
+        uses: pnpm/action-setup@b906affcce14559ad1aafd4ab0e942779e9f58b1 # v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4.4.0
+        with:
+          node-version: 22.x
+          cache: pnpm
+
+      - name: Install dependencies
+        run: pnpm install --ignore-scripts --frozen-lockfile
+
+      - name: Nx cache
+        uses: actions/cache@6f8efc29b200d32929f49075959781ed54ec270c # v3
+        with:
+          path: .nx/cache
+          key: nx-mf-e2e-${{ github.ref_name }}-${{ github.sha }}
+          restore-keys: |
+            nx-mf-e2e-${{ github.ref_name }}-
+            nx-mf-e2e-
+
+      - name: Build Modern.js and its dependencies
+        run: pnpm exec nx run-many --target=build --projects=@modern-js/app-tools,@modern-js/runtime --parallel=2
+
+      - name: Install Chrome
+        run: pnpm --filter mf-lab-tests exec puppeteer browsers install chrome
+
+      - name: Test MF development and production
+        run: pnpm --filter mf-lab-tests test

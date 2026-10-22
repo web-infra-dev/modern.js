@@ -13,7 +13,7 @@ pnpm --filter mf-lab-tests test
 
 The interactive lab opens at http://localhost:4300. Stop it with Ctrl+C. Add `--production` to the dev script to inspect production builds. Set `MF_LAB_MODE=dev` or `MF_LAB_MODE=production` to run one test mode. Use `PUPPETEER_EXECUTABLE_PATH` to select an existing Chrome installation when needed. Set `MF_LAB_VERBOSE=1` to print child-process logs.
 
-The test command runs the same assertions against Modern development servers and production build + serve. It uses available ports, starts providers before consumers, waits for HTTP readiness, and stops child processes after failures. The root framework suite also discovers these tests.
+The test command runs the same assertions against Modern development servers and production build + serve. It uses available ports, starts providers before consumers, waits for HTTP readiness, and stops child processes after failures. The dedicated MF test command uses its own serial execution and setup timeout. These tests are excluded from the general framework suite.
 
 ## Test organization
 
@@ -46,13 +46,13 @@ Watch a test file:
 MF_LAB_MODE=dev pnpm --filter mf-lab-tests test tests/data-fetch.test.ts --watch
 ```
 
-The repository framework entry supports the same file and case filters:
+## CI
 
-```sh
-MF_LAB_MODE=dev pnpm test:framework integration/module-federation/tests/data-fetch.test.ts -t prefetches
-```
+The Module Federation E2E workflow runs automatically for pull requests targeting `feat/module-federation-builtin` or `main`, and for pushes to those branches. This allows feature pull requests to be checked before the integration branch is merged into main. A new commit on an open pull request triggers a new run and cancels its older run.
 
-Normal `it.only` and `describe.only` selection also works directly inside each file. The root framework command discovers these same `.test.ts` files, with no aggregator entry or separate test runner.
+The Linux job builds `app-tools`, `runtime` and their workspace dependencies, installs the Chrome version pinned by Puppeteer, and runs `pnpm --filter mf-lab-tests test`. It uses this package's Rstest configuration, including one worker and a ten-minute setup timeout, and covers both development and production. The workflow also declares `workflow_dispatch` for manual runs once GitHub exposes it from the default branch.
+
+Normal `it.only` and `describe.only` selection also works directly inside each file. Use the dedicated package command for file and case filters.
 
 ## Weather comparison pages
 
