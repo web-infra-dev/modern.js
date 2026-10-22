@@ -41,5 +41,11 @@ export type FederationAPI = Pick<
   | 'onDevCompileDone'
   | 'addWatchFiles'
   | 'isPluginExists'
-> & { getAppContext(): { appDirectory: string } };
+> & {
+  getAppContext(): {
+    appDirectory: string;
+    distDirectory: string;
+    port?: number;
+  };
+};
 export type FederationCliPlugin = Plugin<FederationAPI>;

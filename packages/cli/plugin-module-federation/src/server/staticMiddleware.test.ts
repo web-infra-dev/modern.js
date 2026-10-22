@@ -259,3 +259,35 @@ describe('staticMiddleware', () => {
     expect(mockContext.body).toHaveBeenCalledWith(content, 200);
   });
 });
+
+it.each(['/ssr/nested', 'https://cdn.example.com/ssr/nested'])(
+  'serves the configured server directory with asset prefix %s',
+  async assetPrefix => {
+    rs.clearAllMocks();
+    rs.mocked(access).mockResolvedValue(undefined);
+    rs.mocked(fileCache.getFile).mockResolvedValue({
+      content: 'export {}',
+      lastModified: 1,
+    });
+    const context = {
+      req: { path: '/ssr/nested/server-output/chunks/remote.js' },
+      header: rs.fn(),
+      body: rs.fn(),
+    } as any;
+    const next = rs.fn();
+    const middleware = createStaticMiddleware({
+      assetPrefix,
+      pwd: '/build',
+      serverDirectory: 'server-output',
+    });
+    await middleware(context, next);
+    expect(access).toHaveBeenCalledWith(
+      '/build/server-output/chunks/remote.js',
+    );
+    expect(context.body).toHaveBeenCalledWith('export {}', 200);
+    expect(next).not.toHaveBeenCalled();
+    context.req.path = '/ssr/nested/bundles/remote.js';
+    await middleware(context, next);
+    expect(next).toHaveBeenCalledOnce();
+  },
+);

@@ -136,43 +136,6 @@ const injectRuntimePlugins = (
   }
 };
 
-const patchDTSConfig = (
-  mfConfig: moduleFederationPlugin.ModuleFederationPluginOptions,
-  isServer: boolean,
-) => {
-  if (isServer) {
-    return;
-  }
-  const ModernJSRuntime = '@modern-js/plugin-module-federation/runtime';
-  if (mfConfig.dts !== false) {
-    if (typeof mfConfig.dts === 'boolean' || mfConfig.dts === undefined) {
-      mfConfig.dts = {
-        consumeTypes: {
-          runtimePkgs: [ModernJSRuntime],
-        },
-      };
-    } else if (
-      mfConfig.dts?.consumeTypes ||
-      mfConfig.dts?.consumeTypes === undefined
-    ) {
-      if (
-        typeof mfConfig.dts.consumeTypes === 'boolean' ||
-        mfConfig.dts?.consumeTypes === undefined
-      ) {
-        mfConfig.dts.consumeTypes = {
-          runtimePkgs: [ModernJSRuntime],
-        };
-      } else {
-        mfConfig.dts.consumeTypes.runtimePkgs =
-          mfConfig.dts.consumeTypes.runtimePkgs || [];
-        if (!mfConfig.dts.consumeTypes.runtimePkgs.includes(ModernJSRuntime)) {
-          mfConfig.dts.consumeTypes.runtimePkgs.push(ModernJSRuntime);
-        }
-      }
-    }
-  }
-};
-
 export const patchMFConfig = (
   mfConfig: moduleFederationPlugin.ModuleFederationPluginOptions,
   isServer: boolean,
@@ -195,8 +158,6 @@ export const patchMFConfig = (
   const runtimePlugins = [
     ...(mfConfig.runtimePlugins || []),
   ] as RuntimePluginEntry[];
-
-  patchDTSConfig(mfConfig, isServer);
 
   mfConfig.shareStrategy ??= 'loaded-first';
 
@@ -326,8 +287,10 @@ export function patchBundlerConfig(options: {
   modernjsConfig: AppUserConfig;
   mfConfig: moduleFederationPlugin.ModuleFederationPluginOptions;
   enableSSR: boolean;
+  port?: number;
 }) {
-  const { chain, modernjsConfig, isServer, mfConfig, enableSSR } = options;
+  const { chain, modernjsConfig, isServer, mfConfig, enableSSR, port } =
+    options;
 
   chain.optimization.delete('runtimeChunk');
 
@@ -361,9 +324,11 @@ export function patchBundlerConfig(options: {
     }
   }
 
-  if (isDev() && chain.output.get('publicPath') === 'auto') {
-    // TODO: only in dev temp
-    const port = modernjsConfig.server?.port || 8080;
+  if (
+    isDev() &&
+    port !== undefined &&
+    chain.output.get('publicPath') === 'auto'
+  ) {
     const publicPath = `http://localhost:${port}/`;
     chain.output.publicPath(publicPath);
   }
@@ -440,15 +405,12 @@ export const moduleFederationConfigPlugin = (
         modernjsConfig,
         mfConfig,
         enableSSR,
+        port: api.getAppContext().port ?? modernjsConfig.server?.port,
       });
 
       if (isWeb) {
         userConfig.distOutputDir =
-          chain.output.get('path') ||
-          path.resolve(
-            api.getAppContext().appDirectory,
-            modernjsConfig.output?.distPath?.root || 'dist',
-          );
+          chain.output.get('path') || api.getAppContext().distDirectory;
       } else if (enableSSR) {
         userConfig.userConfig ||= {};
         userConfig.userConfig.ssr ||= {};
@@ -458,8 +420,7 @@ export const moduleFederationConfigPlugin = (
         userConfig.userConfig.ssr.distOutputDir =
           chain.output.get('path') ||
           path.resolve(
-            api.getAppContext().appDirectory,
-            modernjsConfig.output?.distPath?.root || 'dist',
+            api.getAppContext().distDirectory,
             modernjsConfig.output?.distPath?.server || SERVER_BUNDLE_DIRECTORY,
           );
       }
@@ -508,13 +469,6 @@ export const moduleFederationConfigPlugin = (
         tools: {
           devServer: {
             headers: corsHeaders,
-          },
-        },
-        resolve: {
-          alias: {
-            // TODO: deprecated
-            '@modern-js/runtime/mf':
-              require.resolve('@modern-js/plugin-module-federation/runtime'),
           },
         },
         source: {

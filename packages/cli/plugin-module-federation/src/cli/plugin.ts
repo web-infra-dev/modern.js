@@ -71,7 +71,3 @@ export const moduleFederationPlugin = (
 };
 
 export default moduleFederationPlugin;
-
-export { createModuleFederationConfig } from '@module-federation/enhanced';
-
-export type { ModuleFederationRuntimePlugin } from '@module-federation/enhanced/runtime';

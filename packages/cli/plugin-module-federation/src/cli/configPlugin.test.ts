@@ -108,11 +108,6 @@ describe('patchMFConfig', async () => {
           singleton: true,
         },
       },
-      dts: {
-        consumeTypes: {
-          runtimePkgs: ['@modern-js/plugin-module-federation/runtime'],
-        },
-      },
     });
   });
 });
@@ -344,7 +339,13 @@ describe('resolved output directories', () => {
       const modifyBundlerChain = rs.fn();
       await moduleFederationConfigPlugin(options).setup!({
         getConfig: () => ({ server: { ssr: true }, output: { distPath } }),
-        getAppContext: () => ({ appDirectory: '/project' }),
+        getAppContext: () => ({
+          appDirectory: '/project',
+          distDirectory: distPath.root?.startsWith('/')
+            ? distPath.root
+            : `/project/${distPath.root || 'dist'}`,
+          port: 8080,
+        }),
         config: rs.fn(),
         modifyBundlerChain,
       } as any);
@@ -367,4 +368,45 @@ describe('resolved output directories', () => {
       ).toBe(expected);
     },
   );
+});
+
+it('uses the actual development port selected by Modern instead of the requested port', async () => {
+  rs.stubEnv('NODE_ENV', 'development');
+  try {
+    const modifyBundlerChain = rs.fn();
+    await moduleFederationConfigPlugin({
+      originPluginOptions: { config: { name: 'port-test', dts: false } },
+      userConfig: {},
+    } as any).setup!({
+      getConfig: () => ({ server: { port: 8080 } }),
+      getAppContext: () => ({ port: 8081, distDirectory: '/project/build' }),
+      config: rs.fn(),
+      modifyBundlerChain,
+    } as any);
+    const publicPath = rs.fn();
+    modifyBundlerChain.mock.calls[0][0]({
+      get: (key: string) => (key === 'target' ? 'web' : undefined),
+      watchOptions: rs.fn(),
+      ignoreWarnings: rs.fn(),
+      optimization: { delete: rs.fn(), splitChunks: { entries: () => ({}) } },
+      output: {
+        get: (key: string) => (key === 'publicPath' ? 'auto' : undefined),
+        chunkLoadingGlobal: rs.fn(),
+        uniqueName: rs.fn(),
+        publicPath,
+      },
+    });
+    expect(publicPath).toHaveBeenCalledWith('http://localhost:8081/');
+  } finally {
+    rs.unstubAllEnvs();
+  }
+});
+
+it('preserves explicit DTS options without adding an adapter runtime facade', () => {
+  const dts = { consumeTypes: { runtimePkgs: ['custom-runtime'] } };
+  const config = { name: 'dts-test', dts };
+  patchMFConfig(config, false);
+  expect(config.dts).toEqual({
+    consumeTypes: { runtimePkgs: ['custom-runtime'] },
+  });
 });

@@ -1,5 +1,6 @@
 import { access } from 'fs/promises';
 import path from 'node:path';
+import { SERVER_BUNDLE_DIRECTORY } from '@modern-js/utils';
 import { fileCache } from './fileCache';
 import type { MiddlewareHandler } from '@modern-js/server-runtime';
 
@@ -12,7 +13,6 @@ const pathExists = async (filepath: string): Promise<boolean> => {
   }
 };
 
-const bundlesAssetPrefix = '/bundles';
 // Remove domain name from assetPrefix if it exists
 // and remove trailing slash if it exists, if the url is a single slash, return it as empty string
 const removeHost = (url: string): string => {
@@ -33,8 +33,19 @@ const removeHost = (url: string): string => {
 const createStaticMiddleware = (options: {
   assetPrefix: string;
   pwd: string;
+  serverDirectory?: string;
 }): MiddlewareHandler => {
-  const { assetPrefix, pwd } = options;
+  const {
+    assetPrefix,
+    pwd,
+    serverDirectory = SERVER_BUNDLE_DIRECTORY,
+  } = options;
+  const prefixWithBundle = path.posix.join(
+    '/',
+    removeHost(assetPrefix),
+    serverDirectory,
+  );
+  const root = path.resolve(pwd, serverDirectory);
 
   return async (c, next) => {
     const pathname = c.req.path;
@@ -44,15 +55,12 @@ const createStaticMiddleware = (options: {
       return next();
     }
 
-    const prefixWithoutHost = removeHost(assetPrefix);
-    const prefixWithBundle = path.join(prefixWithoutHost, bundlesAssetPrefix);
-    // Skip if the request is not for asset prefix + `/bundles`
+    // Only serve JavaScript below the configured server output prefix.
     if (!pathname.startsWith(`${prefixWithBundle}/`)) {
       return next();
     }
 
     const pathnameWithoutPrefix = pathname.replace(prefixWithBundle, '');
-    const root = path.resolve(pwd, 'bundles');
     const filepath = path.resolve(root, `.${pathnameWithoutPrefix}`);
     if (!filepath.startsWith(`${root}${path.sep}`)) return next();
     if (!(await pathExists(filepath))) {

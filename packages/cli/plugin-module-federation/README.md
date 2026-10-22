@@ -10,7 +10,7 @@ The adapter defaults the top-level shareStrategy to loaded-first for browser and
 
 app-tools imports only the activation entry and configuration types. The activation entry checks config presence, explicit disabling, legacy registration and the application's engine dependency before dynamically importing the implementation. Configuration paths are relative to appDirectory.
 
-This package consumes lower-level builder, server and plugin APIs. Its structural CLI interface avoids a runtime, type or build dependency on app-tools or the Modern runtime package. Browser and SSR hooks are separate entries. Injected server/runtime entries resolve from this package so applications do not need to declare this adapter as a direct dependency.
+This package consumes lower-level builder, server and plugin APIs. Its structural CLI interface avoids a runtime, type or build dependency on app-tools or the Modern runtime package. Browser and SSR hooks are internal implementation files. Injected server/runtime entries resolve from this package so applications do not need to declare this adapter as a direct dependency.
 
 ## Capability and test mapping
 
@@ -50,3 +50,5 @@ MF_LAB_MODE=dev pnpm --filter mf-lab-tests test tests/data-fetch.test.ts -t pref
 Select an existing Chrome installation with PUPPETEER_EXECUTABLE_PATH if required. Build outputs, dependencies and writable caches belong to the task worktree. Keep errors strict outside explicitly asserted fault scenarios.
 
 Applications using React Bridge install @module-federation/bridge-react directly and import its public entries, including /v19 when needed. This internal adapter does not provide Bridge forwarding entries.
+
+Only the root CLI registration and configuration types, plus package metadata, are exported. Internal config, SSR, server and injected runtime files are resolved within the adapter. The adapter does not forward Enhanced runtime APIs or provide the future framework MF facade. Future framework APIs will use the app context metaName when configuring runtime aliases.

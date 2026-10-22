@@ -17,14 +17,14 @@ const staticServePlugin = (): ServerPlugin => ({
       const config = api.getServerConfig();
 
       const assetPrefix = config.output?.assetPrefix || '';
-      // When SSR is enabled, we need to serve the files in `bundle/` directory externally
-      // Modern.js will only serve the files in `static/` directory
+      // Serve federated JavaScript from the configured server output directory.
       if (config.server?.ssr) {
         const context = api.getServerContext();
         const pwd = context.distDirectory!;
         const serverStaticMiddleware = createStaticMiddleware({
           assetPrefix,
           pwd,
+          serverDirectory: config.output?.distPath?.server,
         });
         middlewares.push({
           name: 'module-federation-serve-manifest',
