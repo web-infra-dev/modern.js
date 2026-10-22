@@ -1,9 +1,6 @@
 import { labComponent } from '../failure/components';
 import { useSearchParams } from '@modern-js/runtime/router';
-import {
-  getInstance,
-  loadRemote,
-} from '@module-federation/modern-js-v3/runtime';
+import { getInstance, loadRemote } from '@module-federation/enhanced/runtime';
 import './remotes';
 import type { WeatherData } from '../../../provider/src/weather-ui';
 type Current = {

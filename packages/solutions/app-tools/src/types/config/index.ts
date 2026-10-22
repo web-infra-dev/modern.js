@@ -1,6 +1,7 @@
 import type { RsbuildPlugins } from '@modern-js/builder';
 import type { CLIPlugin, CLIPluginExtends } from '@modern-js/plugin';
 import type { BffUserConfig, ServerUserConfig } from '@modern-js/server-core';
+import type { ModuleFederationConfig } from '@modern-js/plugin-module-federation';
 import type { RsbuildConfig } from '@rsbuild/core';
 import type {
   AppToolsExtendAPI,
@@ -21,6 +22,8 @@ import type { ToolsUserConfig } from './tools';
 export * from './output';
 
 export interface AppToolsUserConfig {
+  /** Auto-enabled by module-federation.config.ts. Set false to use the legacy plugin. */
+  moduleFederation?: ModuleFederationConfig;
   resolve?: ResolveUserConfig;
   server?: ServerUserConfig;
   source?: SourceUserConfig;

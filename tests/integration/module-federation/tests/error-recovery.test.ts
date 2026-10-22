@@ -182,6 +182,7 @@ describeLab('Failure recovery', getContext => {
         );
       await page.setViewport({ width: 1440, height: 900 });
       await page.goto(`${lab.url}/compare`, { waitUntil: 'domcontentloaded' });
+      await page.waitForSelector('html[data-lab-ready="true"]');
       await page.waitForSelector('[aria-label="Simulate failure"]');
       async function readyFrames(value: string) {
         await page.waitForFunction(
@@ -249,7 +250,9 @@ describeLab('Failure recovery', getContext => {
       const { lab, page, expectErrors } = getContext();
       expectErrors(/Hydration failed|Minified React error #418/, 0, 1);
       const route = `/weather?render=ssr&data=mf&failure=${failure}&target=provider/Weather`;
-      const html = await (await fetch(`${lab.url}${route}`)).text();
+      const response = await fetch(`${lab.url}${route}`);
+      expect(response.status).toBe(200);
+      const html = await response.text();
       expect(html).toContain('data-handler="MF adapter fallback"');
       expect(html).not.toContain('data-testid="weather-current"');
       await page.goto(`${lab.url}${route}`, { waitUntil: 'domcontentloaded' });

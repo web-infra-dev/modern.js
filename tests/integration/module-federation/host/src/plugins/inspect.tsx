@@ -1,4 +1,4 @@
-import type { ModuleFederationRuntimePlugin } from '@module-federation/runtime-core';
+import type { ModuleFederationRuntimePlugin } from '@module-federation/enhanced/runtime';
 import type { RemoteInfo } from './inspect-boundary';
 
 export default function inspectPlugin(): ModuleFederationRuntimePlugin {
@@ -67,7 +67,7 @@ export default function inspectPlugin(): ModuleFederationRuntimePlugin {
           }
           const decorated = wrap(args.exposeModule, info);
           if (decorated === args.exposeModule) return;
-          // 2.9.2 onLoad accepts function overrides. A callable namespace retains
+          // onLoad accepts function overrides. A callable namespace retains
           // the normal .default / symbol contract for runtime loadRemote calls.
           return Object.defineProperties(
             () => decorated,

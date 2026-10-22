@@ -1,3 +1,4 @@
+import path from 'node:path';
 import type { CLIPluginAPI } from '@modern-js/plugin';
 import type { Plugin } from '@modern-js/plugin';
 import { loadServerPlugins as loadServerPluginInstances } from '@modern-js/prod-server';
@@ -21,9 +22,10 @@ export async function getServerPlugins(
   const hooks = api.getHooks();
   const { plugins } = await hooks._internalServerPlugins.call({ plugins: [] });
 
-  // filter plugins by metaName
-  const filtedPlugins = plugins.filter(plugin =>
-    plugin.name.includes(metaName),
+  // Absolute entries are framework-resolved internal plugins. Package names
+  // still follow metaName filtering for distributions built on Modern.
+  const filtedPlugins = plugins.filter(
+    plugin => path.isAbsolute(plugin.name) || plugin.name.includes(metaName),
   );
 
   api.updateAppContext({
