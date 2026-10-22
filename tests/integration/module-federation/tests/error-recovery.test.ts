@@ -242,9 +242,6 @@ describeLab('Failure recovery', getContext => {
       }
       expect(await page.$('.recovery-badge')).toBeNull();
     },
-    // Three complete iframe navigations share this budget. Each individual
-    // browser wait still fails after 30 seconds on a stalled transition.
-    120000,
   );
 
   it.each(['data', 'invalid'])(

@@ -145,7 +145,5 @@ describeLab('Rendering and assets', getContext => {
           )
           .toBe(true);
       }
-      // Both rebuild polls have their own 30-second budget, in addition to
-      // the initial request and source restoration.
-    }, 120000);
+    });
 });

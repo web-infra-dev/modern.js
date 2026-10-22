@@ -50,7 +50,9 @@ MF_LAB_MODE=dev pnpm --filter mf-lab-tests test tests/data-fetch.test.ts --watch
 
 The Module Federation E2E workflow runs automatically for pull requests targeting `feat/module-federation-builtin` or `main`, and for pushes to those branches. This allows feature pull requests to be checked before the integration branch is merged into main. A new commit on an open pull request triggers a new run and cancels its older run.
 
-The CI test run stops at the first failure and prints the fixture server and browser logs for diagnosis. Fixture listener ports are selected below the usual ephemeral client port range, so startup requests cannot claim ports intended for later servers.
+The CI test run stops at the first failure and prints the fixture server and browser logs for diagnosis. Fixture listener ports are selected below the usual ephemeral client port range to reduce collisions with startup connections. With `MF_LAB_DIAGNOSTICS=1`, each test also reports process CPU/memory and slow-request timings.
+
+Fixture tsconfigs explicitly exclude `node_modules`, `dist` and `dist-v2`. The type checker uses raw tsconfig exclusions for its directory watcher, so relying on TypeScript's implicit dependency exclusion makes it traverse the linked monorepo dependencies. Keep type checking enabled and preserve these exclusions to avoid sustained CPU use and memory growth during development tests.
 
 The Linux job builds `app-tools`, `runtime` and their workspace dependencies, installs the Chrome version pinned by Puppeteer, and runs `pnpm --filter mf-lab-tests test`. It uses this package's Rstest configuration, including one worker and a ten-minute setup timeout, and covers both development and production. The workflow also declares `workflow_dispatch` for manual runs once GitHub exposes it from the default branch.
 
