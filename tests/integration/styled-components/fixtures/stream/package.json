@@ -1,6 +1,6 @@
 {
   "name": "styled-components-stream",
-  "version": "2.66.1",
+  "version": "2.66.2",
   "private": true,
   "scripts": {
     "dev": "modern dev"
