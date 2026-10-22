@@ -82,7 +82,10 @@ describeLab('Data fetching', getContext => {
   it('prefetches CSR weather data by default and reuses one request when rendering', async () => {
     const { lab, page, weatherFrames } = getContext();
     await page.setViewport({ width: 1440, height: 900 });
-    await page.goto(`${lab.url}/compare-data`, { waitUntil: 'networkidle0' });
+    await page.goto(`${lab.url}/compare-data`, {
+      waitUntil: 'domcontentloaded',
+    });
+    await page.waitForSelector('html[data-lab-ready="true"]');
     await page.waitForSelector('.prefetch-control input');
     expect(
       await page.$eval(

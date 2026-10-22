@@ -54,4 +54,4 @@ jobs:
         run: pnpm --filter mf-lab-tests exec puppeteer browsers install chrome
 
       - name: Test MF development and production
-        run: pnpm --filter mf-lab-tests test
+        run: pnpm --filter mf-lab-tests test --bail=1

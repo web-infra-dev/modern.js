@@ -100,7 +100,18 @@ export function setupLab(mode: 'dev' | 'production') {
       }
     }
   });
-  beforeEach(async () => {
+  beforeEach(async context => {
+    context.onTestFailed(() => {
+      console.error(`[MF lab failure] ${mode}: ${context.task.name}`);
+      console.error(
+        JSON.stringify({
+          pendingRequests: [...pendingRequests],
+          browserErrors,
+          consoleErrors,
+        }),
+      );
+      for (const [name, log] of lab.logs) console.error(`[${name}]\n${log}`);
+    });
     page = await browser.newPage();
     browserErrors.length = 0;
     consoleErrors.length = 0;
@@ -196,6 +207,7 @@ export function setupLab(mode: 'dev' | 'production') {
     return page.$eval(selector(id), element => element.textContent);
   }
   async function click(id: string) {
+    await page.waitForSelector(`${selector(id)}:not(:disabled)`);
     await page.click(selector(id));
   }
   async function counter(id: string) {
