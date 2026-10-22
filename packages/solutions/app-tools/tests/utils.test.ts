@@ -1,5 +1,8 @@
 import * as utils from '@modern-js/utils' with { rstest: 'importActual' };
-import { getSelectedEntries } from '../src/utils/getSelectedEntries';
+import {
+  getSelectedEntries,
+  parseEntryOption,
+} from '../src/utils/getSelectedEntries';
 
 rstest.mock('@modern-js/utils', () => ({
   __esModule: true,
@@ -14,6 +17,24 @@ rstest.mock('@modern-js/utils', () => ({
 }));
 
 describe('test app-tools utils', () => {
+  it.each([
+    [['dev', '-e', 'a'], ['a']],
+    [['dev', '--entry', 'a'], ['a']],
+    [
+      ['dev', '-e', 'a,b'],
+      ['a', 'b'],
+    ],
+    [
+      ['dev', '--entry', 'a,b'],
+      ['a', 'b'],
+    ],
+    [['dev', '-e'], true],
+    [['dev', '--entry'], true],
+    [['dev'], false],
+  ])('should parse entry option from %j', (argv, expected) => {
+    expect(parseEntryOption(argv as string[])).toEqual(expected);
+  });
+
   it('should return all entryNames correctly', async () => {
     const checked = await getSelectedEntries(false, [
       { entryName: 'a' },
