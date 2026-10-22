@@ -20,6 +20,7 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 45
     env:
+      MF_LAB_DIAGNOSTICS: '1'
       NX_DAEMON: 'false'
       NX_REJECT_UNKNOWN_LOCAL_CACHE: '0'
     steps:
