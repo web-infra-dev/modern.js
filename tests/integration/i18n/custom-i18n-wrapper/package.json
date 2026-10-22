@@ -1,20 +1,20 @@
 {
   "private": true,
   "name": "i18n-custom-i18n-wrapper",
-  "version": "0.0.1",
+  "version": "0.0.0-canary-verify.r20261022-2fb57a025a7ca71cc9a7b5594f390e56",
   "scripts": {
     "dev": "modern dev",
     "build": "modern build"
   },
   "dependencies": {
-    "@modern-js/plugin-i18n": "workspace:*",
-    "@modern-js/runtime": "workspace:*",
+    "@modern-js/plugin-i18n": "workspace:0.0.0-canary-verify.r20261022-2fb57a025a7ca71cc9a7b5594f390e56",
+    "@modern-js/runtime": "workspace:0.0.0-canary-verify.r20261022-2fb57a025a7ca71cc9a7b5594f390e56",
     "i18next": "25.10.10",
     "react": "^19.3.0",
     "react-dom": "^19.3.0",
     "react-i18next": "15.7.4"
   },
   "devDependencies": {
-    "@modern-js/app-tools": "workspace:*"
+    "@modern-js/app-tools": "workspace:0.0.0-canary-verify.r20261022-2fb57a025a7ca71cc9a7b5594f390e56"
   }
 }

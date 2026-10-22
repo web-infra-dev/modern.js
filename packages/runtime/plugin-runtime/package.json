@@ -15,7 +15,7 @@
     "modern",
     "modern.js"
   ],
-  "version": "3.10.0",
+  "version": "0.0.0-canary-verify.r20261022-2fb57a025a7ca71cc9a7b5594f390e56",
   "engines": {
     "node": ">=20"
   },
@@ -210,12 +210,12 @@
   "dependencies": {
     "@loadable/component": "5.16.7",
     "@loadable/server": "5.16.7",
-    "@modern-js/plugin": "workspace:*",
-    "@modern-js/plugin-data-loader": "workspace:*",
-    "@modern-js/render": "workspace:*",
-    "@modern-js/runtime-utils": "workspace:*",
-    "@modern-js/types": "workspace:*",
-    "@modern-js/utils": "workspace:*",
+    "@modern-js/plugin": "workspace:0.0.0-canary-verify.r20261022-2fb57a025a7ca71cc9a7b5594f390e56",
+    "@modern-js/plugin-data-loader": "workspace:0.0.0-canary-verify.r20261022-2fb57a025a7ca71cc9a7b5594f390e56",
+    "@modern-js/render": "workspace:0.0.0-canary-verify.r20261022-2fb57a025a7ca71cc9a7b5594f390e56",
+    "@modern-js/runtime-utils": "workspace:0.0.0-canary-verify.r20261022-2fb57a025a7ca71cc9a7b5594f390e56",
+    "@modern-js/types": "workspace:0.0.0-canary-verify.r20261022-2fb57a025a7ca71cc9a7b5594f390e56",
+    "@modern-js/utils": "workspace:0.0.0-canary-verify.r20261022-2fb57a025a7ca71cc9a7b5594f390e56",
     "@swc/core": "1.16.18",
     "@swc/helpers": "^0.5.17",
     "@swc/plugin-loadable-components": "^12.0.0",
@@ -234,7 +234,7 @@
     "react-dom": ">=18.3.1"
   },
   "devDependencies": {
-    "@modern-js/app-tools": "workspace:*",
+    "@modern-js/app-tools": "workspace:0.0.0-canary-verify.r20261022-2fb57a025a7ca71cc9a7b5594f390e56",
     "@modern-js/rslib": "workspace:*",
     "@remix-run/web-fetch": "^4.1.3",
     "@rsbuild/core": "2.2.13",

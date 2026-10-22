@@ -14,9 +14,9 @@
     "pretest:rstest-adapter": "pnpm --dir integration/rstest/basic-app-rstest-browser exec playwright install chromium"
   },
   "devDependencies": {
-    "@modern-js/app-tools": "workspace:*",
-    "@modern-js/plugin-polyfill": "workspace:*",
-    "@modern-js/utils": "workspace:*",
+    "@modern-js/app-tools": "workspace:0.0.0-canary-verify.r20261022-2fb57a025a7ca71cc9a7b5594f390e56",
+    "@modern-js/plugin-polyfill": "workspace:0.0.0-canary-verify.r20261022-2fb57a025a7ca71cc9a7b5594f390e56",
+    "@modern-js/utils": "workspace:0.0.0-canary-verify.r20261022-2fb57a025a7ca71cc9a7b5594f390e56",
     "@swc/core": "1.16.18",
     "@types/node": "^20",
     "cross-spawn": "^7.0.6",
