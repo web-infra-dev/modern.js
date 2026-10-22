@@ -69,11 +69,6 @@
       "import": "./dist/esm-node/cli/ssrPlugin.mjs",
       "require": "./dist/cjs/cli/ssrPlugin.js"
     },
-    "./shared-strategy": {
-      "types": "./dist/types/cli/mfRuntimePlugins/shared-strategy.d.ts",
-      "import": "./dist/esm-node/cli/mfRuntimePlugins/shared-strategy.mjs",
-      "require": "./dist/cjs/cli/mfRuntimePlugins/shared-strategy.js"
-    },
     "./data-fetch-server-plugin": {
       "types": "./dist/types/cli/server/data-fetch-server-plugin.d.ts",
       "import": "./dist/esm-node/cli/server/data-fetch-server-plugin.mjs",
@@ -121,9 +116,6 @@
       "ssr-plugin": [
         "./dist/types/cli/ssrPlugin.d.ts"
       ],
-      "shared-strategy": [
-        "./dist/types/cli/mfRuntimePlugins/shared-strategy.d.ts"
-      ],
       "data-fetch-server-plugin": [
         "./dist/types/cli/server/data-fetch-server-plugin.d.ts"
       ],
@@ -150,10 +142,10 @@
     "@modern-js/plugin": "workspace:*",
     "@modern-js/server": "workspace:*",
     "@modern-js/server-core": "workspace:*",
-    "@module-federation/bridge-react": "0.0.0-feat-enhanced-runtime-unification-20261021104729",
-    "@module-federation/node": "0.0.0-feat-enhanced-runtime-unification-20261021104729",
-    "@module-federation/rsbuild-plugin": "0.0.0-feat-enhanced-runtime-unification-20261021104729",
-    "@module-federation/sdk": "0.0.0-feat-enhanced-runtime-unification-20261021104729",
+    "@module-federation/bridge-react": "0.0.0-feat-enhanced-runtime-unification-20261022085654",
+    "@module-federation/node": "0.0.0-feat-enhanced-runtime-unification-20261022085654",
+    "@module-federation/rsbuild-plugin": "0.0.0-feat-enhanced-runtime-unification-20261022085654",
+    "@module-federation/sdk": "0.0.0-feat-enhanced-runtime-unification-20261022085654",
     "@rsbuild/core": "2.2.13",
     "@swc/helpers": "^0.5.17",
     "jiti": "^2.7.0"
@@ -161,7 +153,7 @@
   "devDependencies": {
     "@modern-js/rslib": "workspace:*",
     "@modern-js/server-runtime": "workspace:*",
-    "@module-federation/enhanced": "0.0.0-feat-enhanced-runtime-unification-20261021104729",
+    "@module-federation/enhanced": "0.0.0-feat-enhanced-runtime-unification-20261022085654",
     "@rspack/core": "2.2.9",
     "@scripts/rstest-config": "workspace:*",
     "@types/node": "^20",
@@ -170,7 +162,7 @@
     "typescript": "^5"
   },
   "peerDependencies": {
-    "@module-federation/enhanced": "0.0.0-feat-enhanced-runtime-unification-20261021104729",
+    "@module-federation/enhanced": "0.0.0-feat-enhanced-runtime-unification-20261022085654",
     "react": ">=18.3.1",
     "react-dom": ">=18.3.1"
   },

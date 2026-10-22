@@ -67,13 +67,6 @@ const resolvePackageFile = (
   );
 };
 
-const resolveSharedStrategyPlugin = (): string =>
-  resolvePackageFile(
-    '@modern-js/plugin-module-federation',
-    'dist/esm/cli/mfRuntimePlugins/shared-strategy.mjs',
-    'dist/cjs/cli/mfRuntimePlugins/shared-strategy.js',
-  );
-
 const resolveNodeRuntimePlugin = (): string =>
   resolvePackageFile(
     '@module-federation/node',
@@ -205,7 +198,7 @@ export const patchMFConfig = (
 
   patchDTSConfig(mfConfig, isServer);
 
-  injectRuntimePlugins(resolveSharedStrategyPlugin(), runtimePlugins);
+  mfConfig.shareStrategy ??= 'loaded-first';
 
   if (isServer) {
     injectRuntimePlugins(resolveNodeRuntimePlugin(), runtimePlugins);

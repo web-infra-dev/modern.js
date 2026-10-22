@@ -8,13 +8,13 @@
   "dependencies": {
     "react": "^19.3.1",
     "react-dom": "^19.3.1",
-    "@module-federation/enhanced": "0.0.0-feat-enhanced-runtime-unification-20261021104729",
-    "@module-federation/bridge-react": "0.0.0-feat-enhanced-runtime-unification-20261021104729"
+    "@module-federation/enhanced": "0.0.0-feat-enhanced-runtime-unification-20261022085654",
+    "@module-federation/bridge-react": "0.0.0-feat-enhanced-runtime-unification-20261022085654"
   },
   "devDependencies": {
     "@rslib/core": "0.23.2",
     "@rsbuild/plugin-react": "1.4.5",
-    "@module-federation/rsbuild-plugin": "0.0.0-feat-enhanced-runtime-unification-20261021104729",
+    "@module-federation/rsbuild-plugin": "0.0.0-feat-enhanced-runtime-unification-20261022085654",
     "@modern-js/tsconfig": "workspace:*"
   }
 }

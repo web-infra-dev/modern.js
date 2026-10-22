@@ -30,6 +30,8 @@ export default createModuleFederationConfig({
 
 在 `modern.config.ts` 中注册 `appTools()` 即可。内置适配器会接入 CSR/SSR 构建、双端 manifest、SSR 数据获取、开发态远端更新以及服务端资源服务。
 
+适配器为浏览器和服务端构建默认设置顶层 `shareStrategy: 'loaded-first'`。可在 `module-federation.config.ts` 中显式设置 `shareStrategy` 覆盖默认值。各 shared 项由 MF runtime 继承该默认策略，无需额外的策略运行时插件。
+
 ### moduleFederation
 
 | 配置    | 行为                                 |

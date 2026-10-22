@@ -6,10 +6,10 @@ import {
 } from '@module-federation/enhanced/rspack';
 import UniverseEntryChunkTrackerPlugin from '@module-federation/node/universe-entry-chunk-tracker-plugin';
 import logger from '../logger';
-import { SSRPublicPathPlugin } from './SSRPublicPathPlugin';
 import { isDev } from './utils';
 import {
   updateStatsAndManifest,
+  SSRPublicPathPlugin,
   type StatsAssetResource,
 } from '@module-federation/rsbuild-plugin/utils';
 import {

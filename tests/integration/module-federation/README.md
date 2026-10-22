@@ -117,7 +117,7 @@ Browser page errors fail the tests, except in the intentional recovery scenario.
 
 ## Dependency baseline
 
-The fixtures use the built-in adapter and pin the MF engine, Bridge and related packages to `0.0.0-feat-enhanced-runtime-unification-20261021104729`. Runtime APIs and types come from `@module-federation/enhanced/runtime`. Bridge uses the same public entry, so the applications do not declare runtime or runtime-core dependencies or use runtime aliases and TypeScript path overrides. The legacy adapter remains at 2.9.2 for compatibility tests. The fixtures use the workspace Modern implementation and unpatched published MF packages. Remote declaration files describe the fixture contracts, while remote DTS generation remains disabled.
+The fixtures use the built-in adapter and pin the MF engine, Bridge and related packages to `0.0.0-feat-enhanced-runtime-unification-20261022085654`. Runtime APIs and types come from `@module-federation/enhanced/runtime`. Bridge uses the same public entry, so the applications do not declare runtime or runtime-core dependencies or use runtime aliases and TypeScript path overrides. The legacy adapter remains at 2.9.2 for compatibility tests. The fixtures use the workspace Modern implementation and unpatched published MF packages. Remote declaration files describe the fixture contracts, while remote DTS generation remains disabled.
 
 ## Fault controls and recovery
 

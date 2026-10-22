@@ -2,7 +2,9 @@
 
 The built-in adapter is applied by app-tools when module-federation.config.ts exists. Users install @module-federation/enhanced and configure MF without registering this package manually. Set moduleFederation to false to retain the legacy plugin. Simultaneous activation fails before legacy configuration evaluation.
 
-The adapter preserves the modern-js-v3 2.9.2 behavior and uses MF preview `0.0.0-feat-enhanced-runtime-unification-20261021104729` for the engine, Bridge, Node adapter and related packages. Runtime APIs and types use @module-federation/enhanced/runtime, without extra runtime or runtime-core application dependencies. New RFC runtime APIs, service apps and additional shared tree-shaking work are outside this migration.
+The adapter preserves the modern-js-v3 2.9.2 behavior and uses MF preview `0.0.0-feat-enhanced-runtime-unification-20261022085654` for the engine, Bridge, Node adapter and related packages. Runtime APIs and types use @module-federation/enhanced/runtime, without extra runtime or runtime-core application dependencies. New RFC runtime APIs, service apps and additional shared tree-shaking work are outside this migration.
+
+The adapter defaults the top-level shareStrategy to loaded-first for browser and server builds. Explicit strategy configuration is preserved. The MF runtime supplies this default to shared entries without an extra strategy runtime plugin.
 
 ## Package boundaries
 
@@ -17,7 +19,7 @@ This package consumes lower-level builder, server and plugin APIs. Its structura
 | Config loading, independent CSR/SSR patches, async entries, optimization defaults, producer lazy compilation | src/cli/configPlugin.ts                                           | configPlugin.test.ts, lab activation.test.ts                                               |
 | Automatic activation, disabling, inline/custom config and legacy conflict detection                          | src/cli/activation.ts, src/cli/index.ts                           | activation.test.ts, lab activation.test.ts                                                 |
 | Browser/server federation, manifests and static asset public paths                                           | src/cli/plugin.ts, src/cli/ssrPlugin.ts                           | ssrPlugin.test.ts, lab rendering.test.ts                                                   |
-| Runtime sharing and Node support                                                                             | src/cli/mfRuntimePlugins                                          | lab rendering and fault suites                                                             |
+| Runtime sharing and Node support                                                                             | src/cli/configPlugin.ts                                           | configPlugin.test.ts, lab rendering and fault suites                                       |
 | SSR data execution and client-to-server loader calls                                                         | src/ssr-runtime/injectDataFetchFunctionPlugin.tsx, src/cli/server | lab data-fetch.test.ts and error-recovery.test.ts                                          |
 | Development remote revalidation and flushing                                                                 | src/ssr-runtime/devPlugin.tsx                                     | lab rendering.test.ts                                                                      |
 | Production server chunks, CORS and bounded file caching                                                      | src/server                                                        | staticMiddleware.test.ts, fileCache.test.ts, fileCache.real.test.ts, lab rendering.test.ts |

@@ -7,6 +7,7 @@ import {
   getMFConfig,
 } from './configPlugin';
 import logger from '../logger';
+import { createInstance } from '@module-federation/enhanced/runtime';
 
 const mfConfig = {
   name: 'host',
@@ -66,8 +67,8 @@ describe('patchMFConfig', async () => {
         remote: `http://localhost:3000/remoteEntry.js`,
       },
       remoteType: 'script',
+      shareStrategy: 'loaded-first',
       runtimePlugins: [
-        require.resolve('@modern-js/plugin-module-federation/shared-strategy'),
         require.resolve('@module-federation/node/runtimePlugin'),
       ],
       shared: {
@@ -95,9 +96,8 @@ describe('patchMFConfig', async () => {
         remote: `http://localhost:3000/remoteEntry.js`,
       },
       remoteType: 'script',
-      runtimePlugins: [
-        require.resolve('@modern-js/plugin-module-federation/shared-strategy'),
-      ],
+      shareStrategy: 'loaded-first',
+      runtimePlugins: [],
       shared: {
         react: {
           eager: true,
@@ -115,6 +115,49 @@ describe('patchMFConfig', async () => {
       },
     });
   });
+});
+
+describe('shared strategy configuration', () => {
+  it.each([false, true])(
+    'preserves an explicit strategy (server: %s)',
+    isServer => {
+      const config = {
+        name: 'explicit-strategy',
+        shareStrategy: 'version-first' as const,
+        runtimePlugins: ['custom-runtime-plugin'],
+      };
+      patchMFConfig(config, isServer);
+      expect(config.shareStrategy).toBe('version-first');
+      expect(config.runtimePlugins).toContain('custom-runtime-plugin');
+    },
+  );
+
+  it.each([false, true])(
+    'passes the default strategy to runtime shared entries (server: %s)',
+    isServer => {
+      const config = { name: `default-strategy-${isServer}` };
+      const patched = patchMFConfig(config, isServer);
+      const instance = createInstance({
+        name: config.name,
+        shareStrategy: patched.shareStrategy,
+        shared: {
+          inherited: { version: '1.0.0', lib: () => ({}) },
+          explicit: {
+            version: '1.0.0',
+            lib: () => ({}),
+            strategy: 'version-first',
+          },
+        },
+      });
+      expect(instance.options.shareStrategy).toBe('loaded-first');
+      expect(instance.options.shared.inherited[0].strategy).toBe(
+        'loaded-first',
+      );
+      expect(instance.options.shared.explicit[0].strategy).toBe(
+        'version-first',
+      );
+    },
+  );
 });
 
 describe('setDefaultOptimizationTarget', () => {

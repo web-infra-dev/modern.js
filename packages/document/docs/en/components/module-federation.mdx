@@ -30,6 +30,8 @@ export default createModuleFederationConfig({
 
 Register `appTools()` in `modern.config.ts`. The built-in adapter integrates CSR/SSR builds, combined manifests, SSR data fetching, remote updates in development and server asset handling.
 
+The adapter defaults the top-level `shareStrategy` to `'loaded-first'` for both browser and server builds. Set `shareStrategy` explicitly in `module-federation.config.ts` to override it. Shared entries inherit this default through the MF runtime, without an additional strategy runtime plugin.
+
 ### moduleFederation
 
 | Value   | Behavior                                             |
