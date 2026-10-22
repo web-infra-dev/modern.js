@@ -980,6 +980,9 @@ importers:
       '@modern-js/server-core':
         specifier: workspace:*
         version: link:../../server/core
+      '@modern-js/utils':
+        specifier: workspace:*
+        version: link:../../toolkit/utils
       '@module-federation/bridge-react':
         specifier: 0.0.0-feat-enhanced-runtime-unification-20261022085654
         version: 0.0.0-feat-enhanced-runtime-unification-20261022085654(@module-federation/enhanced@0.0.0-feat-enhanced-runtime-unification-20261022085654(@rspack/core@2.2.9(@module-federation/runtime-tools@0.0.0-feat-enhanced-runtime-unification-20261022085654)(@swc/helpers@0.5.23))(bufferutil@4.1.0)(typescript@5.7.3)(utf-8-validate@5.0.10)(webpack@5.104.1(@swc/core@1.16.18(@swc/helpers@0.5.23))))(react-dom@19.3.1(react@19.3.1))(react-router-dom@7.18.4(react-dom@19.3.1(react@19.3.1))(react@19.3.1))(react-router@7.18.4(react-dom@19.3.1(react@19.3.1))(react@19.3.1))(react@19.3.1)

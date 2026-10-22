@@ -48,3 +48,5 @@ MF_LAB_MODE=dev pnpm --filter mf-lab-tests test tests/data-fetch.test.ts -t pref
 ```
 
 Select an existing Chrome installation with PUPPETEER_EXECUTABLE_PATH if required. Build outputs, dependencies and writable caches belong to the task worktree. Keep errors strict outside explicitly asserted fault scenarios.
+
+Applications using React Bridge install @module-federation/bridge-react directly and import its public entries, including /v19 when needed. This internal adapter does not provide Bridge forwarding entries.

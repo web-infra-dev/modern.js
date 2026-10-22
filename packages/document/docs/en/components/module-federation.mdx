@@ -11,8 +11,10 @@ Modern.js provides an example project for Module Federation. Please refer to [mo
 Modern.js automatically enables Module Federation when `module-federation.config.ts` exists in the application directory. No Modern.js MF plugin installation or registration is required. Install the MF engine:
 
 ```bash
-pnpm add @module-federation/enhanced@0.0.0-feat-enhanced-runtime-unification-20261021104729
+pnpm add @module-federation/enhanced@0.0.0-feat-enhanced-runtime-unification-20261022085654
 ```
+
+When using React Bridge, also install `@module-federation/bridge-react` at the same version as `@module-federation/enhanced` and import its public entry (or `/v19` for the React 19 adapter) directly. The internal Modern.js MF adapter does not re-export the Bridge package.
 
 Keep the common MF configuration in its existing file:
 

@@ -16,6 +16,7 @@ export interface FederationAppConfig {
     'assetPrefix' | 'lazyCompilation'
   > & { setupMiddlewares?: SetupMiddlewares };
   tools?: BuilderConfig['tools'];
+  output?: Pick<NonNullable<BuilderConfig['output']>, 'distPath'>;
   deploy?: {
     microFrontend?:
       | boolean

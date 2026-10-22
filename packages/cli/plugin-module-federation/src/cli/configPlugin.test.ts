@@ -301,3 +301,70 @@ it('preserves an explicitly configured Bridge router integration', () => {
   patchMFConfig(config, false);
   expect(config.bridge.enableBridgeRouter).toBe(true);
 });
+
+describe('resolved output directories', () => {
+  it.each([
+    {
+      target: 'node',
+      outputPath: '/final/server-output',
+      distPath: { root: 'build', server: 'ssr' },
+      expected: '/final/server-output',
+    },
+    {
+      target: 'node',
+      outputPath: undefined,
+      distPath: { root: 'build', server: 'ssr' },
+      expected: '/project/build/ssr',
+    },
+    {
+      target: 'node',
+      outputPath: undefined,
+      distPath: { root: '/external/build', server: 'server-render' },
+      expected: '/external/build/server-render',
+    },
+    {
+      target: 'node',
+      outputPath: undefined,
+      distPath: {},
+      expected: '/project/dist/bundles',
+    },
+    {
+      target: 'web',
+      outputPath: undefined,
+      distPath: { root: 'build', server: 'ssr' },
+      expected: '/project/build',
+    },
+  ])(
+    'uses $expected for $target output',
+    async ({ target, outputPath, distPath, expected }) => {
+      const options = {
+        originPluginOptions: { config: { name: 'output-path', dts: false } },
+        userConfig: {},
+      } as any;
+      const modifyBundlerChain = rs.fn();
+      await moduleFederationConfigPlugin(options).setup!({
+        getConfig: () => ({ server: { ssr: true }, output: { distPath } }),
+        getAppContext: () => ({ appDirectory: '/project' }),
+        config: rs.fn(),
+        modifyBundlerChain,
+      } as any);
+      const chain = {
+        get: (key: string) => (key === 'target' ? target : undefined),
+        watchOptions: rs.fn(),
+        ignoreWarnings: rs.fn(),
+        optimization: { delete: rs.fn(), splitChunks: { entries: () => ({}) } },
+        output: {
+          get: (key: string) => (key === 'path' ? outputPath : undefined),
+          chunkLoadingGlobal: rs.fn(),
+          uniqueName: rs.fn(),
+        },
+      };
+      modifyBundlerChain.mock.calls[0][0](chain);
+      expect(
+        target === 'web'
+          ? options.distOutputDir
+          : options.userConfig.ssr.distOutputDir,
+      ).toBe(expected);
+    },
+  );
+});

@@ -9,15 +9,15 @@ import {
   addDataFetchExposes,
 } from '@module-federation/rsbuild-plugin/utils';
 import logger from '../logger';
+import { SERVER_BUNDLE_DIRECTORY } from '@modern-js/utils';
 import { isDev } from './utils';
 
 import type { InternalModernPluginOptions } from '../types';
-import type { Rspack } from '@rsbuild/core';
+import type { Rspack, RspackChain } from '@rsbuild/core';
 import type {
   FederationAppConfig as AppUserConfig,
   FederationCliPlugin,
 } from '../types/cli';
-import type { BundlerChainConfig } from '../interfaces/bundler';
 
 // Clone containers without dropping function-valued MF options.
 export function cloneConfig<T>(value: T): T {
@@ -252,7 +252,7 @@ export const setDefaultOptimizationTarget = (
     enableSSR && isServer ? 'node' : 'web';
 };
 
-function patchIgnoreWarning(chain: BundlerChainConfig) {
+function patchIgnoreWarning(chain: RspackChain) {
   const ignoreWarnings = chain.get('ignoreWarnings') || [];
   const ignoredMsgs = [
     'external script',
@@ -269,7 +269,7 @@ function patchIgnoreWarning(chain: BundlerChainConfig) {
 }
 
 export function addMyTypes2Ignored(
-  chain: BundlerChainConfig,
+  chain: RspackChain,
   mfConfig: moduleFederationPlugin.ModuleFederationPluginOptions,
 ) {
   const watchOptions = chain.get(
@@ -321,7 +321,7 @@ export function addMyTypes2Ignored(
   });
 }
 export function patchBundlerConfig(options: {
-  chain: BundlerChainConfig;
+  chain: RspackChain;
   isServer: boolean;
   modernjsConfig: AppUserConfig;
   mfConfig: moduleFederationPlugin.ModuleFederationPluginOptions;
@@ -379,14 +379,6 @@ export function patchBundlerConfig(options: {
       const suffix = `${encodeName(uniqueName)}-[contenthash].js`;
       chain.output.chunkFilename(chunkFileName.replace('.js', suffix));
     }
-  }
-  // SSR development code shares the client entry. Keep Node-only modules out
-  // of the browser bundle regardless of the Node.js version running the build.
-  if (isDev() && enableSSR && !isServer) {
-    chain.resolve.fallback
-      .set('crypto', false)
-      .set('stream', false)
-      .set('vm', false);
   }
 
   if (
@@ -453,7 +445,10 @@ export const moduleFederationConfigPlugin = (
       if (isWeb) {
         userConfig.distOutputDir =
           chain.output.get('path') ||
-          path.resolve(api.getAppContext().appDirectory, 'dist');
+          path.resolve(
+            api.getAppContext().appDirectory,
+            modernjsConfig.output?.distPath?.root || 'dist',
+          );
       } else if (enableSSR) {
         userConfig.userConfig ||= {};
         userConfig.userConfig.ssr ||= {};
@@ -462,7 +457,11 @@ export const moduleFederationConfigPlugin = (
         }
         userConfig.userConfig.ssr.distOutputDir =
           chain.output.get('path') ||
-          path.resolve(api.getAppContext().appDirectory, 'dist/bundles');
+          path.resolve(
+            api.getAppContext().appDirectory,
+            modernjsConfig.output?.distPath?.root || 'dist',
+            modernjsConfig.output?.distPath?.server || SERVER_BUNDLE_DIRECTORY,
+          );
       }
     });
     api.config(() => {

@@ -11,8 +11,10 @@ Modern.js 提供了一个 Module Federation 的示例项目，请参考 [module-
 Modern.js 会在应用目录检测 `module-federation.config.ts`，存在该文件时自动启用 Module Federation。无需安装或手动注册 Modern.js MF 插件，仍需安装 MF 引擎：
 
 ```bash
-pnpm add @module-federation/enhanced@0.0.0-feat-enhanced-runtime-unification-20261021104729
+pnpm add @module-federation/enhanced@0.0.0-feat-enhanced-runtime-unification-20261022085654
 ```
+
+使用 React Bridge 时，额外安装与 `@module-federation/enhanced` 版本一致的 `@module-federation/bridge-react`，并直接从该包的公开入口导入 API。React 19 适配入口为 `/v19`。Modern.js 内部 MF 适配器不提供 Bridge 包的转发入口。
 
 通用 MF 配置继续放在原文件中：
 

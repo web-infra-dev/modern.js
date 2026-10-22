@@ -31,26 +31,6 @@
       "types": "./dist/types/runtime/index.d.ts",
       "default": "./dist/esm/runtime/index.mjs"
     },
-    "./data-fetch": {
-      "types": "./dist/types/react/data-fetch.d.ts",
-      "default": "./dist/esm/react/data-fetch.mjs"
-    },
-    "./react": {
-      "types": "./dist/types/react/index.d.ts",
-      "default": "./dist/esm/react/index.mjs"
-    },
-    "./react-v18": {
-      "types": "./dist/types/react/v18.d.ts",
-      "default": "./dist/esm/react/v18.mjs"
-    },
-    "./react-v19": {
-      "types": "./dist/types/react/v19.d.ts",
-      "default": "./dist/esm/react/v19.mjs"
-    },
-    "./react-plugin": {
-      "types": "./dist/types/react/plugin.d.ts",
-      "default": "./dist/esm/react/plugin.mjs"
-    },
     "./ssr-dev-plugin": {
       "types": "./dist/types/ssr-runtime/devPlugin.d.ts",
       "default": "./dist/esm-node/ssr-runtime/devPlugin.mjs"
@@ -95,21 +75,6 @@
       "runtime": [
         "./dist/types/runtime/index.d.ts"
       ],
-      "data-fetch": [
-        "./dist/types/react/data-fetch.d.ts"
-      ],
-      "react": [
-        "./dist/types/react/index.d.ts"
-      ],
-      "react-v18": [
-        "./dist/types/react/v18.d.ts"
-      ],
-      "react-v19": [
-        "./dist/types/react/v19.d.ts"
-      ],
-      "react-plugin": [
-        "./dist/types/react/plugin.d.ts"
-      ],
       "config-plugin": [
         "./dist/types/cli/configPlugin.d.ts"
       ],
@@ -142,6 +107,7 @@
     "@modern-js/plugin": "workspace:*",
     "@modern-js/server": "workspace:*",
     "@modern-js/server-core": "workspace:*",
+    "@modern-js/utils": "workspace:*",
     "@module-federation/bridge-react": "0.0.0-feat-enhanced-runtime-unification-20261022085654",
     "@module-federation/node": "0.0.0-feat-enhanced-runtime-unification-20261022085654",
     "@module-federation/rsbuild-plugin": "0.0.0-feat-enhanced-runtime-unification-20261022085654",
