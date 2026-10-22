@@ -3,6 +3,7 @@ import type { NodeRequest } from '@modern-js/types/server';
 import { cutNameByHyphen } from '@modern-js/utils/universal';
 import type { Router } from 'hono/router';
 import { TrieRouter } from 'hono/router/trie-router';
+import { getPath } from 'hono/utils/url';
 import { X_MODERNJS_RENDER } from '../../constants';
 import type { CacheConfig, UserConfig } from '../../types';
 import type { Render } from '../../types';
@@ -11,7 +12,6 @@ import { uniqueKeyByRoute } from '../../utils';
 import {
   ErrorDigest,
   createErrorHtml,
-  getPathname,
   getRuntimeEnv,
   parseHeaders,
   parseQuery,
@@ -144,7 +144,8 @@ export async function createRender({
       reporter,
     },
   ) => {
-    const forMatchpathname = matchPathname ?? getPathname(req);
+    // Match the normalized path used by Hono's outer middleware router.
+    const forMatchpathname = matchPathname ?? getPath(req);
     const [routeInfo, params] = matchRoute(
       router,
       forMatchpathname,
