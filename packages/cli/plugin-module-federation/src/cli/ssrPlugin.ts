@@ -6,6 +6,7 @@ import {
 } from '@module-federation/enhanced/rspack';
 import UniverseEntryChunkTrackerPlugin from '@module-federation/node/universe-entry-chunk-tracker-plugin';
 import logger from '../logger';
+import { SSRPublicPathPlugin } from './SSRPublicPathPlugin';
 import { isDev } from './utils';
 import {
   updateStatsAndManifest,
@@ -187,6 +188,10 @@ const mfSSRRsbuildPlugin = (
       };
       api.modifyRspackConfig((config, utils) => {
         modifySSRPublicPath(config, utils);
+        if (ssrEnv === utils.environment.name) {
+          config.plugins ||= [];
+          config.plugins.push(new SSRPublicPathPlugin());
+        }
         return config;
       });
 

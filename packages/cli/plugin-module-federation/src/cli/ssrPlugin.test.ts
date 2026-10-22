@@ -1,6 +1,6 @@
 import path from 'path';
 import { createRequire } from 'node:module';
-import { mkdtemp, mkdir, rm, writeFile } from 'fs/promises';
+import { mkdtemp, mkdir, readFile, rm, writeFile } from 'fs/promises';
 import { tmpdir } from 'os';
 import { describe, expect, it, rs } from '@rstest/core';
 
@@ -100,6 +100,53 @@ const runCompiler = (config: import('@rspack/core').Configuration) =>
   });
 
 describe('moduleFederationSSRPlugin', () => {
+  it('emits the configured public path for Node HTTP chunk loading without changing browser runtimes', async () => {
+    const outputDir = await mkdtemp(
+      path.join(tmpdir(), 'mf-ssr-runtime-path-'),
+    );
+    try {
+      await writeFile(
+        path.join(outputDir, 'entry.js'),
+        "module.exports = () => import('./chunk.js');",
+      );
+      await writeFile(path.join(outputDir, 'chunk.js'), 'module.exports = 42;');
+      const { rsbuildApi } = await createPluginHarness();
+      const modifyRspackConfig = rsbuildApi.modifyRspackConfig.mock.calls[0][0];
+      const browserConfig = {
+        output: { publicPath: 'https://cdn.example.com/app/' },
+      };
+      modifyRspackConfig(browserConfig, { environment: { name: 'web' } });
+      expect(browserConfig).toEqual({
+        output: { publicPath: 'https://cdn.example.com/app/' },
+      });
+
+      const config: import('@rspack/core').Configuration = {
+        mode: 'development',
+        context: outputDir,
+        target: 'async-node',
+        entry: './entry.js',
+        devtool: false,
+        output: {
+          path: path.join(outputDir, 'dist'),
+          filename: 'entry.js',
+          chunkLoading: 'async-node',
+          publicPath: 'https://cdn.example.com/app/',
+        },
+      };
+      modifyRspackConfig(config, { environment: { name: 'node' } });
+      await runCompiler(config);
+      const output = await readFile(
+        path.join(outputDir, 'dist/entry.js'),
+        'utf8',
+      );
+      expect(output).toContain(
+        '__webpack_require__.p = "https://cdn.example.com/app/bundles/"',
+      );
+    } finally {
+      await rm(outputDir, { recursive: true, force: true });
+    }
+  });
+
   it('keeps SSR JavaScript under bundles while asset/resource URLs use the browser static path', async () => {
     const outputDir = await mkdtemp(
       path.join(tmpdir(), 'modern-js-v3-ssr-public-path-'),
