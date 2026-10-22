@@ -21,7 +21,7 @@
     "build": "rs doc build",
     "preview": "rs doc preview"
   },
-  "version": "3.10.1",
+  "version": "3.10.2",
   "publishConfig": {
     "registry": "https://registry.npmjs.org/",
     "access": "public"

@@ -1,5 +1,25 @@
 # @modern-js/plugin-bff
 
+## 3.10.2
+
+### Patch Changes
+
+- 1a71148: perf: skip body parsing for GET and HEAD BFF requests and reuse per-route param names
+
+  perf: BFF 的 GET 和 HEAD 请求跳过请求体解析，并复用每个路由的参数名
+
+- Updated dependencies [0c7dad2]
+- Updated dependencies [2f314e5]
+- Updated dependencies [23587d0]
+- Updated dependencies [3b42ce4]
+- Updated dependencies [6a891f0]
+  - @modern-js/builder@3.10.2
+  - @modern-js/server-core@3.10.2
+  - @modern-js/create-request@3.10.2
+  - @modern-js/server-utils@3.10.2
+  - @modern-js/bff-core@3.10.2
+  - @modern-js/utils@3.10.2
+
 ## 3.10.1
 
 ### Patch Changes

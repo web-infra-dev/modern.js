@@ -1,6 +1,6 @@
 {
   "name": "ssr-useid-test",
-  "version": "2.66.0",
+  "version": "2.66.1",
   "private": true,
   "scripts": {
     "dev": "modern dev"
