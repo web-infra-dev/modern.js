@@ -21,31 +21,31 @@
   },
   "exports": {
     "./config": {
-      "types": "./dist/types/config.d.ts",
+      "types": "./dist/types/configuration/index.d.ts",
       "modern:source": "./src/configuration/index.ts",
       "import": "./dist/esm-node/config.mjs",
       "require": "./dist/cjs/config.cjs"
     },
     "./server": {
-      "types": "./dist/types/server.d.ts",
+      "types": "./dist/types/server/index.d.ts",
       "modern:source": "./src/server/index.ts",
       "import": "./dist/esm-node/server.mjs",
       "require": "./dist/cjs/server.cjs"
     },
     "./react": {
-      "types": "./dist/types/react.d.ts",
+      "types": "./dist/types/ui/react.d.ts",
       "modern:source": "./src/ui/react.ts",
       "import": "./dist/esm/react.mjs",
       "default": "./dist/esm/react.mjs"
     },
     "./hono": {
-      "types": "./dist/types/hono.d.ts",
+      "types": "./dist/types/server/hono.d.ts",
       "modern:source": "./src/server/hono.ts",
       "import": "./dist/esm-node/hono.mjs",
       "require": "./dist/cjs/hono.cjs"
     },
     "./bff": {
-      "types": "./dist/types/bff.d.ts",
+      "types": "./dist/types/server/bff.d.ts",
       "modern:source": "./src/server/bff.ts",
       "import": "./dist/esm-node/bff.mjs",
       "require": "./dist/cjs/bff.cjs"
@@ -92,27 +92,27 @@
     "registry": "https://registry.npmjs.org/",
     "exports": {
       "./config": {
-        "types": "./dist/types/config.d.ts",
+        "types": "./dist/types/configuration/index.d.ts",
         "import": "./dist/esm-node/config.mjs",
         "require": "./dist/cjs/config.cjs"
       },
       "./server": {
-        "types": "./dist/types/server.d.ts",
+        "types": "./dist/types/server/index.d.ts",
         "import": "./dist/esm-node/server.mjs",
         "require": "./dist/cjs/server.cjs"
       },
       "./react": {
-        "types": "./dist/types/react.d.ts",
+        "types": "./dist/types/ui/react.d.ts",
         "import": "./dist/esm/react.mjs",
         "default": "./dist/esm/react.mjs"
       },
       "./hono": {
-        "types": "./dist/types/hono.d.ts",
+        "types": "./dist/types/server/hono.d.ts",
         "import": "./dist/esm-node/hono.mjs",
         "require": "./dist/cjs/hono.cjs"
       },
       "./bff": {
-        "types": "./dist/types/bff.d.ts",
+        "types": "./dist/types/server/bff.d.ts",
         "import": "./dist/esm-node/bff.mjs",
         "require": "./dist/cjs/bff.cjs"
       }
@@ -121,19 +121,19 @@
   "typesVersions": {
     "*": {
       "config": [
-        "dist/types/config.d.ts"
+        "dist/types/configuration/index.d.ts"
       ],
       "server": [
-        "dist/types/server.d.ts"
+        "dist/types/server/index.d.ts"
       ],
       "react": [
-        "dist/types/react.d.ts"
+        "dist/types/ui/react.d.ts"
       ],
       "hono": [
-        "dist/types/hono.d.ts"
+        "dist/types/server/hono.d.ts"
       ],
       "bff": [
-        "dist/types/bff.d.ts"
+        "dist/types/server/bff.d.ts"
       ]
     }
   }
