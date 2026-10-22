@@ -8,8 +8,7 @@ import {
   autoDeleteSplitChunkCacheGroups,
   addDataFetchExposes,
 } from '@module-federation/rsbuild-plugin/utils';
-import logger from '../logger';
-import { SERVER_BUNDLE_DIRECTORY } from '@modern-js/utils';
+import { SERVER_BUNDLE_DIRECTORY, logger } from '@modern-js/utils';
 import { isDev } from './utils';
 
 import type { InternalModernPluginOptions } from '../types';

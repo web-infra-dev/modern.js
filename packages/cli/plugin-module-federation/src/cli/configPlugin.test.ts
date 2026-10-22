@@ -6,7 +6,7 @@ import {
   cloneConfig,
   getMFConfig,
 } from './configPlugin';
-import logger from '../logger';
+import { logger } from '@modern-js/utils';
 import { createInstance } from '@module-federation/enhanced/runtime';
 
 const mfConfig = {

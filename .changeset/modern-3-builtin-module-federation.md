@@ -8,3 +8,5 @@ Integrate Module Federation as a built-in Modern.js capability. Automatically de
 Resolve SSR output directories from the final bundler path or user distPath configuration with the framework default directory constant. Remove unused Bridge forwarding entries and obsolete browser fallbacks.
 
 Retain the CLI configuration, SSR, data-fetch server plugin and type entry points. Remove the broad Enhanced runtime forwarding facade. Use the resolved application output directory and development port, and honor the server output directory when serving federated JavaScript.
+
+Use the shared Modern.js CLI logger for configuration and bundler messages.

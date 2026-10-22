@@ -5,7 +5,7 @@ import {
   TreeShakingSharedPlugin as RspackTreeShakingSharedPlugin,
 } from '@module-federation/enhanced/rspack';
 import UniverseEntryChunkTrackerPlugin from '@module-federation/node/universe-entry-chunk-tracker-plugin';
-import logger from '../logger';
+import { logger } from '@modern-js/utils';
 import { isDev } from './utils';
 import {
   updateStatsAndManifest,
