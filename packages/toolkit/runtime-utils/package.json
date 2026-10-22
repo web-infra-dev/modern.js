@@ -15,7 +15,7 @@
     "modern",
     "modern.js"
   ],
-  "version": "3.10.0",
+  "version": "0.0.0-canary-verify.r20261022-2fb57a025a7ca71cc9a7b5594f390e56",
   "_comment": "Provide ESM and CJS exports, ESM is used by runtime package, for treeshaking",
   "exports": {
     "./router": {
@@ -161,8 +161,8 @@
     "test": "rstest --passWithNoTests"
   },
   "dependencies": {
-    "@modern-js/types": "workspace:*",
-    "@modern-js/utils": "workspace:*",
+    "@modern-js/types": "workspace:0.0.0-canary-verify.r20261022-2fb57a025a7ca71cc9a7b5594f390e56",
+    "@modern-js/utils": "workspace:0.0.0-canary-verify.r20261022-2fb57a025a7ca71cc9a7b5594f390e56",
     "@swc/helpers": "^0.5.17",
     "lru-cache": "^10.4.3",
     "react-router": "7.18.4",

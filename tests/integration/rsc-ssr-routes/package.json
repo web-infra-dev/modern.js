@@ -1,7 +1,7 @@
 {
   "private": true,
   "name": "rsc-ssr-routes",
-  "version": "2.66.0",
+  "version": "0.0.0-canary-verify.r20261022-2fb57a025a7ca71cc9a7b5594f390e56",
   "scripts": {
     "dev": "cross-env modern dev",
     "build": "cross-env modern build",
@@ -9,7 +9,7 @@
     "new": "modern new"
   },
   "dependencies": {
-    "@modern-js/runtime": "workspace:*",
+    "@modern-js/runtime": "workspace:0.0.0-canary-verify.r20261022-2fb57a025a7ca71cc9a7b5594f390e56",
     "client-only": "^0.0.1",
     "react": "^19.3.0",
     "react-dom": "^19.3.0",
@@ -17,7 +17,7 @@
     "server-only": "^0.0.1"
   },
   "devDependencies": {
-    "@modern-js/app-tools": "workspace:*",
+    "@modern-js/app-tools": "workspace:0.0.0-canary-verify.r20261022-2fb57a025a7ca71cc9a7b5594f390e56",
     "@types/node": "^20",
     "@types/react": "^19.3.0",
     "@types/react-dom": "^19.3.0",
