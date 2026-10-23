@@ -1,5 +1,17 @@
 # @modern-js/server-plugin
 
+## 3.10.3
+
+### Patch Changes
+
+- 52b4a4e: fix: use Hono's pathname normalization when matching render routes to handle encoded characters consistently
+
+  fix: 渲染路由匹配复用 Hono 的路径归一化，修复编码字符路径返回 404 的问题
+
+  - @modern-js/plugin@3.10.3
+  - @modern-js/runtime-utils@3.10.3
+  - @modern-js/utils@3.10.3
+
 ## 3.10.2
 
 ### Patch Changes

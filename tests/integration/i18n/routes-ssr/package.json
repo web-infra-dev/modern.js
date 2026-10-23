@@ -1,7 +1,7 @@
 {
   "private": true,
   "name": "i18n-routes-ssr",
-  "version": "2.66.1",
+  "version": "2.66.2",
   "scripts": {
     "dev": "modern dev",
     "build": "modern build -c modern.ssg.config.ts"
