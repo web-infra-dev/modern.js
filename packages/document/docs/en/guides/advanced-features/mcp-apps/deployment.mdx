@@ -1,0 +1,58 @@
+# Build and deploy
+
+`modern build` uses the MCP Apps plugin and server compiler to emit the root definition as `dist/mcp_apps.js`, preserving relative paths for imported handlers. `.mts` and `.cts` definitions emit `.mjs` and `.cjs` respectively.
+UI HTML is in `dist/mcp-apps/ui/`. `modern serve` uses those artifacts. `modern deploy` produces a
+relocatable `.output/` that runs with `node .output/index.js`, without source code.
+
+In MF mode, UI publishes ordinary MF artifacts independently. Remote URLs
+can use runtime environment variables; the local handler module set must stay
+unchanged since compilation. Files read at runtime, native addons and other
+application assets still require application-specific deployment handling.
+
+Without app-tools, pass a loaded definition to `createMcpHandler(definition)`.
+Use your application compiler for the definition and handlers; the core no longer
+provides a separate compiler.
+
+Persistent sessions, resumable SSE and cross-request cancellation are not provided
+yet. Standard MF is verified; target product hosts require their own compatibility checks.
+
+## Standalone Hono deployment
+
+Deploy the compiled definition, its imported handlers, `dist/mcp-apps/` resources and application static assets with an independent Hono app:
+
+```ts
+import path from 'node:path';
+import { Hono } from 'hono';
+import { mcpApps } from '@modern-js/mcp-apps/hono';
+import { loadMcpAppsConfig, bindUiResources } from '@modern-js/mcp-apps/server';
+
+const root = path.resolve('application');
+const definition = await loadMcpAppsConfig(path.join(root, 'mcp_apps.js'));
+const app = new Hono();
+app.all(
+  '/mcp',
+  mcpApps({
+    definition: bindUiResources(definition, {
+      directory: path.join(root, 'mcp-apps/ui'),
+      assetBase: 'request',
+    }),
+  }),
+);
+```
+
+The adapter does not start a listener; add authentication middleware in the app.
+Modern.js automatically mounts the MCP endpoint through BFF. An optional local `view.html` HTTPS URL lets the
+server read independently hosted HTML; use `view.csp` for its network permissions.
+Configure `dev.assetPrefix` for public development assets and `output.assetPrefix` for production assets. Configure `remotes[].baseUrl` separately with the manifest URL. MF resolves its assets using the manifest.
+
+Include `ts-node` (`^10.9.2`) in devDependencies for BFF TypeScript loading and
+API module hot reload on Node 20+. For ESM projects, use `"type": "module"` and
+TypeScript `module: "esnext"`, `moduleResolution: "bundler"` together.
+
+MF manifests and chunks are served by the application static server or a CDN. The MF scaffold includes `server/modern.server.ts` to configure CORS and OPTIONS for public `/static/*` assets in both development and production. It does not change `/mcp`. Configure CORS separately when publishing these assets to a CDN. The MCP plugin itself does not register MF asset routes or add CORS headers.
+
+For standalone local views, copy the complete `dist/` to `application/`, preserving package name, version, module type, and relative imported module paths. Serve `/static/*` separately or publish assets to the configured CDN. The adapter serves MCP requests, not static assets.
+
+All MF views require an explicit complete `remotes[].baseUrl` and CSP configuration. The address is passed unchanged to the MF runtime for loading. The tools-only template uses manual BFF compilation under `dist/api/`.
+
+For UI-only builds with an existing MCP Server, see [Use a user-managed MCP Server](./custom-server).

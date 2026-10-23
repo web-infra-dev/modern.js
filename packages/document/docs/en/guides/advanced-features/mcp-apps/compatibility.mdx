@@ -1,0 +1,34 @@
+# Host compatibility and protocol boundaries
+
+The implementation uses MCP SDK (`core`, `server`, and `client`) 2.3.1 and MCP Apps SDK 2.0.3. The HTTP endpoint supports [MCP 2026-07-28](https://modelcontextprotocol.io/specification/2026-07-28): the official SDK handles `server/discover`, per-request version and capability metadata, required header validation, and result/cache fields. A stateless JSON response path remains available for older protocols such as `2025-11-25`, including hosts that still initialize a connection.
+
+## Standard protocol and framework conventions
+
+Ordinary MCP clients can call tools and read results. Rendering interactive cards additionally requires MCP Apps support.
+
+Cards use MCP Apps `_meta.ui.resourceUri`, `text/html;profile=mcp-app`, and resource content `_meta.ui` for CSP and permissions. The framework does not automatically attach host-specific UI linkage metadata. The `version/tool/resource/args/viewProps` fields in result `_meta['modernjs.dev/mcp-app']` are Modern.js rendering conventions, not required MCP protocol fields. This namespace is reserved by the framework and currently uses version `1`. Hosts must forward result metadata to the card.
+
+```json
+{
+  "structuredContent": { "message": "Hello" },
+  "_meta": {
+    "modernjs.dev/mcp-app": {
+      "version": 1,
+      "args": { "name": "Ada" },
+      "viewProps": { "message": "Hello" }
+    }
+  }
+}
+```
+
+`structuredContent` preserves business JSON data unchanged, including for cards. Specify component props through `viewProps`, or explicitly reuse business data with `withViewProps()`. New runtimes still read legacy rendering payloads from structured content and text. New servers only emit versioned result metadata. Rebuild and deploy server and UI artifacts together when upgrading because old runtimes cannot read the new format.
+
+The endpoint accepts server requests without `Origin` and same-origin browser requests by default, rejecting other origins. For browser cross-origin access, explicitly configure BFF `mcpServer(definition, { allowedOrigins: ['https://host.example.com'] })` and application CORS as needed. The standalone Hono and core handlers also accept `allowedOrigins`. Authentication remains application middleware’s responsibility.
+
+## Capability negotiation and boundaries
+
+The Inspector uses the official Client SDK to negotiate protocol versions and advertise `io.modelcontextprotocol/ui`. When client capabilities are available, the server includes UI resource linkage only for clients that advertise MCP App HTML support. Legacy stateless HTTP requests do not carry initialization capabilities, so UI metadata is retained and text results remain available as fallback.
+
+Both local and MF components receive the official `App` instance. Check `getHostCapabilities()` before using optional host features. Configure guest capabilities before the handshake with `view.capabilities` or `viewDefaults.capabilities` locally, and `remotes[].capabilities` for MF. For app-provided tools, declare `tools: {}`, then register tools through the SDK and notify the host when the list changes.
+
+The default wrappers handle host themes, tool input, results and cancellation. Local and MF views share `useMcpApp()`, including partial input and teardown. New input clears previous result props while retaining the loaded MF resource. The hook exposes `partialInput` and merged `viewProps`. Messages, context updates, downloads, resource reads and sampling are available through the SDK when the host supports them. The Inspector has no model inference backend and does not advertise sampling.

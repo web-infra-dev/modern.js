@@ -1,0 +1,75 @@
+# MCP Apps Inspector
+
+Run `modern dev` and open the Inspector URL printed in the terminal, normally `http://localhost:8080/mcp/inspector`. This entry is generated only in development and is excluded from production builds.
+
+## Inspector workspace
+
+The inspector uses three independently scrolling columns and stacks them on narrow screens:
+
+| Area   | Purpose                                                                    |
+| ------ | -------------------------------------------------------------------------- |
+| Left   | Search and select tools, edit arguments below the tool list, and run calls |
+| Center | Preview the real UI card and interact with it                              |
+| Right  | Inspect request logs and the latest complete tool response                 |
+
+ENDPOINT displays the full server URL, such as `http://localhost:8080/mcp`. Opening the page connects automatically and selects the first tool without executing a business tool. Edit the URL and reconnect to use another endpoint.
+
+## Fill arguments from inputSchema
+
+Selecting a tool displays its property names, types, required or optional markers and descriptions. The inspector generates editable JSON using default, examples, const or enum values where available, and placeholders otherwise. When a required list exists, the template includes required fields and fields with defaults. Add optional fields manually as needed.
+
+For `greet`, replace the empty string with a name:
+
+```json
+{
+  "name": "Ada"
+}
+```
+
+Use standard JSON with double-quoted keys and strings. JavaScript object literals such as `{name: 'Ada'}` are not accepted. Generated templates do not guarantee validity against every Schema constraint. Edit them for your tool and expand **Tool schema and UI resource** to inspect the complete Schema.
+
+## Call tools and preview cards
+
+1. The page automatically connects to the default MCP endpoint and lists tools. Click **Connect & discover** to retry or connect after changing the address.
+2. Select a tool and expand **Tool schema and UI resource** to inspect its input schema and resource URI.
+3. Enter a JSON object in **Arguments (JSON)**, such as `{"name":"Ada"}` for `greet`.
+4. Click **Run tool** to inspect the status, duration and complete result.
+5. Successful tools with UI resources load their HTML in **Card preview**.
+
+The preview shows Local or Module Federation loading mode and the resource URI. After an MF tool runs, it also shows the manifest URL returned by the server so you can verify the connected project and asset source.
+
+Tool calls use the real MCP endpoint. The preview uses the official AppBridge for initialization, input and result delivery. Calls initiated by the card are forwarded to the same endpoint, allowing interactive tools to continue working. Running tools produces their normal business effects.
+
+JSON, HTTP, MCP and bridge errors appear in the error area. Results with `isError` show a tool error and do not load a new card. Inspect browser developer tools for script loading and CSP errors.
+
+## Simulate a local UI
+
+With `mcpAppsPlugin({ mode: 'ui-only' })`, the inspector starts in **Simulate local UI** mode. Select a local view, enter its arguments and **View props (JSON)**, then click **Preview card**.
+
+Simulation tests card rendering and the host handshake without executing server handlers. It does not support further server tool calls. To test the complete flow, disable simulation and connect to your existing MCP endpoint. Cross-origin endpoints must allow the inspector Origin and configure CORS.
+
+Simulation lists locally built component views. Use a real endpoint to test MF or explicit HTML views.
+
+## Disable the inspector
+
+```ts
+mcpAppsPlugin({ inspector: false });
+```
+
+The local inspector does not replace compatibility testing in your target host before release.
+
+## Request logs
+
+**Request logs** in the right column shows the latest 100 MCP requests in this page, including initialization, tool discovery, tool calls and resource reads. Calls initiated by the card are labeled Card → Server.
+
+Each entry includes its time, method, status and duration. Expand an entry to inspect its endpoint, request parameters and response result. Filter by Tool calls, Resource reads or Errors, or click Clear. Logs are kept in page memory and disappear on refresh. Large responses are truncated for display.
+
+## Standard host capabilities
+
+The Inspector runs a cross-origin sandbox proxy on a separate local port. HTML loads in a second iframe with response CSP headers restricting network requests, scripts, styles, fonts, nested frames and base URIs. Content-level `_meta.ui` takes precedence over listing metadata. Both text and base64 blob HTML are supported. Camera, microphone, geolocation and clipboard permissions are currently denied.
+
+The sandbox listens only on `127.0.0.1`, so open the Inspector on the same computer as the development server. It does not start during production builds. Development HMR WebSockets must also comply with CSP, and undeclared connections are blocked.
+
+Cards can update model context, send messages and logs, read server resources, open HTTP or HTTPS links, download resources, request display modes and request teardown. Context updates replace the previous value. Messages and logs appear locally without triggering a model response. Opening links and downloading files require user confirmation.
+
+Use **App-provided tools** to refresh and call tools registered by the card. Registrations expire when the iframe closes. Tool forwarding checks visibility and rejects calls from cards to model-only server tools. Preview replacement and shutdown send `ui/resource-teardown`. Use **Cancel** to cancel a running request.

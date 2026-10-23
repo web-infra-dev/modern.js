@@ -1,0 +1,8 @@
+{
+  "extends": "../tsconfig.json",
+  "compilerOptions": {
+    "noEmit": true,
+    "types": ["node", "@rsbuild/core/types", "@rstest/core/globals"]
+  },
+  "include": ["../src", "./view-props.types.ts", "./view-result.test.ts"]
+}

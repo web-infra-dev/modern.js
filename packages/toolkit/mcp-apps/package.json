@@ -1,0 +1,140 @@
+{
+  "name": "@modern-js/mcp-apps",
+  "version": "3.9.1",
+  "description": "Independently deployable MCP Apps servers and React views",
+  "license": "MIT",
+  "homepage": "https://modernjs.dev",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/web-infra-dev/modern.js",
+    "directory": "packages/toolkit/mcp-apps"
+  },
+  "files": [
+    "dist",
+    "README.md",
+    "NOTICE.md",
+    "THIRD-PARTY-LICENSE"
+  ],
+  "sideEffects": false,
+  "engines": {
+    "node": ">=20"
+  },
+  "exports": {
+    "./config": {
+      "types": "./dist/types/configuration/index.d.ts",
+      "modern:source": "./src/configuration/index.ts",
+      "import": "./dist/esm-node/config.mjs",
+      "require": "./dist/cjs/config.cjs"
+    },
+    "./server": {
+      "types": "./dist/types/server/index.d.ts",
+      "modern:source": "./src/server/index.ts",
+      "import": "./dist/esm-node/server.mjs",
+      "require": "./dist/cjs/server.cjs"
+    },
+    "./react": {
+      "types": "./dist/types/ui/react.d.ts",
+      "modern:source": "./src/ui/react.ts",
+      "import": "./dist/esm/react.mjs",
+      "default": "./dist/esm/react.mjs"
+    },
+    "./hono": {
+      "types": "./dist/types/server/hono.d.ts",
+      "modern:source": "./src/server/hono.ts",
+      "import": "./dist/esm-node/hono.mjs",
+      "require": "./dist/cjs/hono.cjs"
+    },
+    "./bff": {
+      "types": "./dist/types/server/bff.d.ts",
+      "modern:source": "./src/server/bff.ts",
+      "import": "./dist/esm-node/bff.mjs",
+      "require": "./dist/cjs/bff.cjs"
+    }
+  },
+  "scripts": {
+    "build": "pnpm build:runtime && rslib build",
+    "dev": "pnpm build:runtime && rslib build --watch",
+    "typecheck": "tsc --noEmit",
+    "build:runtime": "node scripts/build-runtime.mjs",
+    "test": "rstest"
+  },
+  "dependencies": {
+    "@modelcontextprotocol/core": "2.3.1",
+    "@modelcontextprotocol/ext-apps": "2.0.3",
+    "@modelcontextprotocol/server": "2.3.1",
+    "ajv": "^8.20.0",
+    "ajv-formats": "^3.0.1"
+  },
+  "peerDependencies": {
+    "react": "^18.0.0 || ^19.0.0"
+  },
+  "peerDependenciesMeta": {
+    "react": {
+      "optional": true
+    }
+  },
+  "devDependencies": {
+    "@module-federation/enhanced": "2.2.1",
+    "@rsbuild/core": "2.2.13",
+    "@rsbuild/plugin-react": "2.1.0",
+    "@rslib/core": "1.0.3",
+    "@scripts/rstest-config": "workspace:*",
+    "@types/node": "^20",
+    "@types/react": "^19.3.0",
+    "@types/react-dom": "^19.3.0",
+    "react": "^19.3.1",
+    "react-dom": "^19.3.1",
+    "typescript": "^5",
+    "@modelcontextprotocol/client": "2.3.1"
+  },
+  "publishConfig": {
+    "access": "public",
+    "registry": "https://registry.npmjs.org/",
+    "exports": {
+      "./config": {
+        "types": "./dist/types/configuration/index.d.ts",
+        "import": "./dist/esm-node/config.mjs",
+        "require": "./dist/cjs/config.cjs"
+      },
+      "./server": {
+        "types": "./dist/types/server/index.d.ts",
+        "import": "./dist/esm-node/server.mjs",
+        "require": "./dist/cjs/server.cjs"
+      },
+      "./react": {
+        "types": "./dist/types/ui/react.d.ts",
+        "import": "./dist/esm/react.mjs",
+        "default": "./dist/esm/react.mjs"
+      },
+      "./hono": {
+        "types": "./dist/types/server/hono.d.ts",
+        "import": "./dist/esm-node/hono.mjs",
+        "require": "./dist/cjs/hono.cjs"
+      },
+      "./bff": {
+        "types": "./dist/types/server/bff.d.ts",
+        "import": "./dist/esm-node/bff.mjs",
+        "require": "./dist/cjs/bff.cjs"
+      }
+    }
+  },
+  "typesVersions": {
+    "*": {
+      "config": [
+        "dist/types/configuration/index.d.ts"
+      ],
+      "server": [
+        "dist/types/server/index.d.ts"
+      ],
+      "react": [
+        "dist/types/ui/react.d.ts"
+      ],
+      "hono": [
+        "dist/types/server/hono.d.ts"
+      ],
+      "bff": [
+        "dist/types/server/bff.d.ts"
+      ]
+    }
+  }
+}

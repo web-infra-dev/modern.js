@@ -1,0 +1,94 @@
+# Use a user-managed MCP Server
+
+If you already maintain an MCP Server, use Modern.js to build React cards. Keep tool execution, authentication, and the MCP endpoint in your existing service, and connect each tool to its UI through the build manifest.
+
+## Configure a UI-only build
+
+Use `mcpAppsPlugin({ mode: 'ui-only' })` alongside `appTools()`. This mode does not require the BFF plugin, register an MCP endpoint, or compile the server definition. It disables default page entry discovery, so a homepage is not required.
+
+Declare local views in `mcp_apps.ts` without importing server handlers:
+
+```ts
+import { defineMcpUi } from '@modern-js/mcp-apps/config';
+
+export default defineMcpUi({
+  tools: [{ name: 'greet', view: { module: './src/components/Greeting.tsx' } }],
+});
+```
+
+Configure `output.assetPrefix` with the public static asset URL. After `modern build`, deploy the JS and CSS to that URL and give the server `dist/mcp-apps/ui-manifest.json` together with `dist/mcp-apps/ui/`. Development writes the manifest under `<internalDirectory>/mcp-apps/`.
+
+## Build outputs and tool mapping
+
+The version `1` manifest maps tool names to `resourceUri`, `mimeType`, `html`, `assetBase`, and `ui` metadata. HTML paths are relative to the manifest directory. Explicit HTTPS HTML URLs remain unchanged. This manifest covers local views, while MF views continue to use the standard MF manifest and exposes.
+
+```json
+{
+  "version": 1,
+  "tools": {
+    "greet": {
+      "resourceUri": "ui://app/greet",
+      "mimeType": "text/html;profile=mcp-app",
+      "html": "./ui/mcp-ui-231bf89d7268.html",
+      "assetBase": "https://cdn.example.com/",
+      "ui": {
+        "csp": { "connectDomains": [], "resourceDomains": [] },
+        "prefersBorder": true
+      }
+    }
+  }
+}
+```
+
+Look up `tools.greet.html` rather than computing hashed filenames. Preserve the relative paths between the manifest and HTML files when deploying. The resource reading helper adds the public asset origin to CSP.
+
+## Connect your server
+
+In your MCP server:
+
+1. Set each tool's `_meta.ui.resourceUri` from the manifest.
+2. Advertise the corresponding resource URI, MIME type and UI metadata.
+3. Handle resource reads by returning the HTML and UI metadata.
+4. Return tool arguments in `_meta['modernjs.dev/mcp-app'].args` and component props in `_meta['modernjs.dev/mcp-app'].viewProps`.
+
+Node servers can use these helpers:
+
+```ts
+import { readFile } from 'node:fs/promises';
+import path from 'node:path';
+import {
+  createMcpViewResult,
+  readUiManifestResource,
+  type McpUiManifest,
+} from '@modern-js/mcp-apps/server';
+
+const directory = path.resolve('dist/mcp-apps');
+const manifest: McpUiManifest = JSON.parse(
+  await readFile(path.join(directory, 'ui-manifest.json'), 'utf8'),
+);
+
+// Return this from the resource read handler for manifest.tools.greet.resourceUri.
+const resourceResult = {
+  contents: [
+    await readUiManifestResource(manifest, 'greet', {
+      directory,
+      assetBase: 'https://cdn.example.com/',
+    }),
+  ],
+};
+
+// Return this from your greet tool handler.
+const toolResult = createMcpViewResult(
+  { name: 'Ada' },
+  {
+    content: [{ type: 'text', text: 'Hello Ada' }],
+    viewProps: { message: 'Hello Ada' },
+  },
+);
+```
+
+`readUiManifestResource()` injects the asset base into HTML and adds its origin to CSP. Override the default `request` asset base with the public static asset URL. Servers in other languages can consume the JSON directly and implement the same HTML, CSP and result contracts.
+
+Integrated production BFF deployments also consume the manifest mapping. Development before compilation and older builds without a manifest retain the existing filename convention.
+
+UI-only projects also include the development inspector. Simulate arguments and viewProps to preview local cards, or switch to Live server and connect to your MCP Server. See [MCP Apps Inspector](./inspector).

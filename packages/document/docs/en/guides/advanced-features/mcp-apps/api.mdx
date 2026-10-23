@@ -1,0 +1,300 @@
+# API reference
+
+## defineMcpServer and defineTool
+
+Import configuration helpers from `@modern-js/mcp-apps/config`.
+`defineMcpServer()` requires top-level `name` and `version`, normalizes omitted
+`remotes` to `[]`, and preserves the tool definitions. It rejects empty identity
+fields and does not start a listener. `viewDefaults` applies only to tools with a view.
+
+Inline tools in `defineMcpServer` infer handler arguments from inputSchema. Use
+`defineTool({ name, inputSchema, handler })` for standalone tool definitions. Required/optional fields, primitives, enums, arrays, nested objects,
+`const`, `anyOf`, and `oneOf` are supported; unsupported forms remain `unknown`.
+Handlers may return a result or a Promise. The executor validates input before
+calling the handler, and optionally validates `structuredContent` against `outputSchema`.
+`InferToolInput<typeof tool>` and `InferToolOutput<typeof tool>` expose input and
+structured output types; this does not automatically type client SDK calls.
+Zod schemas are not currently accepted by this helper.
+
+The plugin registers `/mcp` automatically. Set `endpoint: false` before mounting manual BFF routes with `mcpServer(definition, options)` from
+`@modern-js/plugin-mcp-apps/bff`. The definition supplies the server identity;
+explicit endpoint `serverInfo` takes precedence. `allowedOrigins` and `onError`
+remain endpoint options. The separate Hono adapter remains `mcpApps({ definition })`.
+
+`defineMcpApps` and BFF `mcpApps` remain available for compatibility. A plain
+`RemoteToolHandler` still receives `unknown`; use inline tools or `defineTool` for inferred arguments.
+
+The following public types describe the definition, handler context, and result:
+
+```ts
+import type { McpUiAppCapabilities, McpUiResourceMeta } from '@modelcontextprotocol/ext-apps'
+import type {
+  CallToolResult,
+  ToolAnnotations,
+} from '@modelcontextprotocol/server';
+
+export interface McpServerDefinition {
+  name: string;
+  version: string;
+  viewDefaults?: McpAppsViewDefaults;
+  remotes?: RemoteConfig[];
+  tools: ToolConfig[];
+}
+
+export type McpAppsViewDefaults = Pick<
+  McpAppsViewConfig,
+  'assetBase' | 'csp' | 'exportName' | 'renderMode' | 'runtime' | 'permissions' | 'domain' | 'prefersBorder' | 'capabilities'
+>;
+
+export interface RemoteConfig {
+  /** Unique remote name referenced by a tool’s remote field. */
+  name: string;
+  /** Remote description for application use. */
+  description?: string;
+  /** Full URL of the standard MF manifest. */
+  baseUrl: string;
+  /** Browser entry URL; overrides baseUrl when provided. */
+  browserEntry?: string;
+  /** Card resource CSP declarations enforced by the host. */
+  csp?: {
+    /** Allowed origins for network connections such as fetch and WebSocket. */
+    connectDomains?: string[];
+    /** Allowed origins for assets such as scripts, styles, and images. */
+    resourceDomains?: string[];
+    /** Allowed origins for nested iframes embedded by the card. */
+    frameDomains?: string[];
+    /** Allowed origins for the HTML base URI. */
+    baseUriDomains?: string[];
+  };
+  /** Permissions requested by the card; the host decides whether to grant them. */
+  permissions?: McpUiResourceMeta['permissions'];
+  /** UI domain setting forwarded to the host; support depends on the host. */
+  domain?: string;
+  /** Hint requesting a card border from the host; defaults to true. */
+  prefersBorder?: boolean
+  capabilities?: McpUiAppCapabilities
+}
+
+export interface ToolConfig {
+  /** Unique tool name used in tools/call requests. */
+  name: string;
+  /** Optional display title for the tool. */
+  title?: string;
+  /** Description of the tool’s purpose to help the model select it. */
+  description?: string;
+  /** Input JSON Schema or property shorthand; configuration helpers infer supported forms. */
+  inputSchema?: JsonSchema;
+  /** JSON Schema for business structuredContent. Rendering metadata is stored separately. */
+  outputSchema?: JsonSchema;
+  /** Behavior hints such as read-only or destructive; not an authorization mechanism. */
+  annotations?: ToolAnnotations;
+  /** Additional tool metadata, including host invocation status text. */
+  _meta?: Record<string, unknown>;
+  /** Associated RemoteConfig.name; omit for cards built from application components. */
+  remote?: string;
+  /** Compatibility field; prefer view.module. */
+  module?: string;
+  /** Compatibility field; prefer view.exportName. */
+  exportName?: string;
+  /** Compatibility field; prefer view.renderMode. */
+  renderMode?: RenderMode;
+  /** Card configuration; omit for no UI. Provide at least a handler or view. */
+  view?: McpAppsViewConfig;
+  /** Business function or module loading configuration; prefer an imported function. */
+  handler?: McpAppsHandlerConfig | RemoteToolHandler;
+  /** Tool visibility to the model and card; defaults to ['model', 'app']. */
+  visibility?: Array<'model' | 'app'>;
+}
+
+/** JSON Schema object, validated using strict JSON Schema 2020-12. */
+export type JsonSchema = Record<string, unknown>;
+/** React component mode or an imperative mount mode provided by a remote module. */
+export type RenderMode = 'component' | 'mount';
+
+export interface McpAppsViewConfig {
+  /** Component path relative to the project root locally, or an MF expose name. */
+  module: string;
+  /** Component export name; defaults to default. */
+  exportName?: string;
+  /** Defaults to component; local entries only support component, while MF also supports mount. */
+  renderMode?: RenderMode;
+  /** View runtime; only browser is supported. */
+  runtime?: 'browser';
+  /** Compiled HTML path or independently hosted HTTPS HTML URL. */
+  html?: string;
+  /** Asset base URL; request uses the public MCP request origin. */
+  assetBase?: string;
+  /** CSP for local or independent HTML views; MF views use remote.csp. */
+  csp?: RemoteConfig['csp']
+  permissions?: McpUiResourceMeta['permissions']
+  domain?: string
+  prefersBorder?: boolean
+  capabilities?: McpUiAppCapabilities
+}
+
+export interface McpAppsHandlerConfig {
+  /** Handler module path relative to the definition directory. */
+  module: string;
+  /** Handler export name; defaults to default. */
+  exportName?: string;
+  /** Handler runtime; currently only local is supported. */
+  runtime?: 'local';
+  /** Execution timeout in milliseconds; falls back to server options, then 30000. */
+  timeoutMs?: number;
+}
+
+export interface RemoteToolHandlerContext {
+  /** Name of the tool being called. */
+  toolName: string;
+  /** Associated remote name; undefined when the tool has no remote. */
+  remoteName?: string;
+  /** Remote configuration associated with the tool. */
+  remote?: RemoteConfig;
+  /** Normalized module handler configuration; undefined for direct function handlers. */
+  handler?: Required<Pick<McpAppsHandlerConfig, 'module' | 'exportName'>> &
+    Pick<McpAppsHandlerConfig, 'runtime' | 'timeoutMs'>;
+  /** Additional context supplied by the MCP SDK for this tool call. */
+  extra: unknown;
+  /** Combined request, SDK cancellation, and timeout signal; business logic must honor it. */
+  signal: AbortSignal;
+  /** Standard fetch function; pass signal explicitly for cancellation. */
+  fetch: typeof fetch;
+  /** JSON request helper: serializes non-string bodies, parses JSON, and throws for non-OK responses. */
+  fetchJson: <T = unknown>(
+    /** Request URL. */
+    url: string,
+    /** Request options; body accepts JSON data. Pass signal for cancellation. */
+    init?: Omit<RequestInit, 'body'> & { body?: unknown },
+  ) => Promise<T>;
+  /** Origin of the current request URL. */
+  serverUrl?: string;
+  /** Current Web Request. */
+  request: Request;
+  /** Request-local application context; BFF/Hono adapters provide the Hono Context. */
+  context: unknown;
+}
+
+export interface RemoteToolHandlerResult {
+  /** MCP tool content, such as text or images. */
+  content?: CallToolResult['content'];
+  /** Structured business result, preserved unchanged even for tools with views. */
+  structuredContent?: unknown;
+  /** Additional tool result metadata. */
+  _meta?: Record<string, unknown>;
+  /** Card props, overriding tool arguments with the same names. */
+  viewProps?: Record<string, unknown>;
+  /** Whether this result represents a tool execution error. */
+  isError?: boolean;
+}
+
+/** Tool function returning a result synchronously or asynchronously. */
+export type RemoteToolHandler = (
+  /** Tool arguments validated against JSON Schema; narrow the type before use. */
+  input: unknown,
+  /** Context and request helpers for this call. */
+  context: RemoteToolHandlerContext,
+) => Promise<RemoteToolHandlerResult> | RemoteToolHandlerResult;
+```
+
+When using these types:
+
+- `name`, `version`, and `tools` are required by `defineMcpServer`; `remotes` is optional and defaults to `[]`. The server requires at least one tool, and each tool must define a `handler` or `view`.
+- Inline simple tools in `tools`; when splitting files, import tools created with `defineTool`. `McpAppsHandlerConfig` supports loading handlers from local modules.
+- `view.exportName` defaults to `default`, and `view.renderMode` defaults to `component`. Local component entries only support `component`. Top-level `module`, `exportName`, and `renderMode` are compatibility fields; use `view` for new definitions.
+- `outputSchema` validates the handler's business `structuredContent` and is advertised for tools with or without views. Rendering metadata lives separately in result `_meta` and does not change the business schema.
+- `visibility` defaults to `['model', 'app']`. It controls visibility to the model and card and does not replace server authorization. `annotations` provides tool behavior hints.
+- `context.request` is the current request. With BFF/Hono integration, `context.context` is its Hono Context. Asynchronous business operations should honor the cancellation signal in `context.signal`.
+
+When using `assetBase`, the HTML must contain a `<head>` element or reading the resource fails. The base is treated as a directory URL, with a trailing `/` added to its path when missing. Its origin is added to `resourceDomains` and `baseUriDomains`, but not automatically to `connectDomains`. Explicitly configure `csp.connectDomains` when fetching from that origin or loading an MF manifest.
+
+## Tool execution timeout and cancellation
+
+Timeouts are measured in milliseconds and resolved in this order:
+
+1. `handler.timeoutMs` for a module-based handler.
+2. The `handlerTimeoutMs` server option.
+3. The default of `30000`, or 30 seconds.
+
+The value must be an integer between `1` and `2147483647`. Function handlers use the server default and do not support a per-function `timeoutMs` setting.
+
+Set the server default with `createMcpHandler`:
+
+```ts
+import { createMcpHandler } from '@modern-js/mcp-apps/server'
+import definition from './mcp_apps'
+
+const handle = createMcpHandler(definition, {
+  handlerTimeoutMs: 10_000,
+})
+```
+
+A module-based handler can override the server default:
+
+```ts
+{
+  name: 'query_data',
+  handler: {
+    module: './handlers/query',
+    timeoutMs: 20_000,
+  },
+}
+```
+
+On timeout, the server stops waiting for the handler, aborts `context.signal`, and returns a tool result with `isError: true` and the text `Tool timed out`. This does not forcibly terminate business code or roll back completed writes. Synchronous blocking code also prevents the timer from firing promptly.
+
+`context.signal` also responds to request aborts and SDK cancellation. Asynchronous operations must honor the signal explicitly. Neither `context.fetch` nor `context.fetchJson` attaches it automatically:
+
+```ts
+import { defineTool } from '@modern-js/mcp-apps/config'
+
+export const queryData = defineTool({
+  name: 'query_data',
+  inputSchema: { type: 'object', properties: {} },
+  handler: async (_input, { signal, fetchJson }) => {
+    const data = await fetchJson('https://api.example.com/data', { signal })
+    return { structuredContent: { data } }
+  },
+})
+```
+
+For other asynchronous operations, use their cancellation APIs or call `signal.throwIfAborted()` at appropriate points.
+
+## Plugin options
+
+| Option      | Default       | Purpose                                                                                                              |
+| ----------- | ------------- | -------------------------------------------------------------------------------------------------------------------- |
+| `configPath`    | `mcp_apps.ts` | Definition relative to the project root                                                                              |
+| `endpoint`  | `/mcp`        | Full route path independent of the BFF prefix; `false` disables automatic registration                               |
+| `inspector` | `true`        | Generate the development-only `/mcp/inspector` page. Set to `false` to disable. See [MCP Apps Inspector](./inspector) |
+| `mode`      | `integrated`  | Use `ui-only` to build UI resources without BFF. See [Use a user-managed MCP Server](./custom-server)                |
+
+Development watches the definition file and reloads it after changes; production reads the compiled definition. Automatic routes must not conflict with existing BFF paths. Authentication middleware should run before BFF; handler `context.context` is the request-local Hono Context.
+
+For MF remote tools, the plugin also adds CORS headers and OPTIONS handling for public `/static/*` assets. This policy does not apply to `/mcp`.
+
+`inputSchema` accepts standard JSON Schema or property shorthand. Shorthand fields are required by default; `optional: true` marks optional fields, and extra properties are rejected. Use full JSON Schema for nested objects and fields named after schema keywords. See [Define tools and views](./configuration).
+
+MF tools require an explicit matching `remotes` entry. Set `baseUrl` to the complete MF manifest URL and configure CSP origins. The plugin does not infer the address.
+
+
+`_meta['modernjs.dev/mcp-app']` is reserved by the framework. Generating view metadata replaces the handler value at this key entirely and preserves other `_meta` fields.
+
+## withViewProps
+
+Import from `@modern-js/mcp-apps/server`. Use `withViewProps(result)` when business data and card props are identical, avoiding a duplicate `viewProps` declaration. Pass a mapping function to adapt the component interface. Its input type is inferred from the business result.
+
+```ts
+import { withViewProps } from '@modern-js/mcp-apps/server'
+
+const result = withViewProps({
+  content: [{ type: 'text', text: 'Query completed' }],
+  structuredContent: { orders: [], total: 0 },
+})
+
+const mapped = withViewProps(result, data => ({
+  items: data.orders,
+  totalCount: data.total,
+}))
+```
+
+The helper returns a new result object, preserving business data, content and metadata. The default mapping reuses the business object reference without deep cloning. Both `structuredContent` and the mapped props should be plain objects. Wrap arrays or scalars in `{ items }` or `{ value }`. The mapping runs synchronously and propagates errors to the caller. Existing prop precedence stays the same. Card props are stored in result metadata at `_meta['modernjs.dev/mcp-app'].viewProps`.

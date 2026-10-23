@@ -12,10 +12,26 @@
 
 Please follow [Quick Start](https://modernjs.dev/en/guides/get-started/quick-start) to get started with Modern.js.
 
+### MCP Apps templates
+
+```sh
+npx @modern-js/create@<version> my-app --template mcp-apps
+npx @modern-js/create@<version> my-mf-app --template mcp-apps --mf
+npx @modern-js/create@<version> my-server --template mcp-server
+```
+
+Replace `<version>` with a release containing MCP Apps support. Choose `mcp-apps` for interactive React cards, add `--mf` for Module Federation, or use `mcp-server` for tools without UI. See the [MCP Apps guide](https://modernjs.dev/en/guides/advanced-features/mcp-apps).
+
 ## Documentation
 
 - [English Documentation](https://modernjs.dev/en/)
 - [中文文档](https://modernjs.dev)
+
+## Template maintenance
+
+The existing `template/` directory contains the application template and shared project files. Each MCP variant has its own template directory: `templates/mcp-apps/`, `templates/mcp-apps-mf/` and `templates/mcp-server/`. The `--mf` flag selects `mcp-apps-mf` directly.
+
+The generator selects directories before copying. Each output file has one owner, and conflicting paths fail instead of overwriting existing files. No generated files are deleted or patched afterward.
 
 ## Contributing
 

@@ -1,0 +1,143 @@
+# Create a project
+
+This guide follows the current repository implementation. Choose a release containing these templates and APIs when installing published packages. Historical releases may not include them.
+
+Replace `<version>` below with a Modern.js release containing the MCP Apps templates, `@modern-js/mcp-apps`, and `@modern-js/plugin-mcp-apps`.
+
+## Create with an agent skill
+
+When using an AI coding assistant, install the [modernjs-create-mcp-apps](https://github.com/web-infra-dev/modern.js/tree/main/skills/modernjs-create-mcp-apps) skill to select a template, configure tools and cards, and run validation:
+
+```bash
+npx skills add web-infra-dev/modern.js --skill modernjs-create-mcp-apps
+```
+
+Then ask an agent that supports the skill, for example:
+
+```text
+Use modernjs-create-mcp-apps to create my-mcp-app with application React
+components and an interactive Todo list. Build it, verify the protocol,
+and explain how to connect it to a host for debugging.
+```
+
+Specify MF remote components or a tools-only MCP Server when needed. The skill uses the same CLI templates described below and requires a release that includes MCP Apps support. See the skill for working with unpublished source. Protocol checks and real host validation are reported separately.
+
+## Create MCP Apps with application React components
+
+```bash
+npx @modern-js/create@<version> my-mcp-app --template mcp-apps
+cd my-mcp-app
+pnpm install
+pnpm dev
+```
+
+The template configures BFF and MCP Apps with four tools: `list_todos`, `add_todo`, `update_todo` and `delete_todo`. Only `list_todos` opens `src/components/Todos.tsx`, passing list data with `withViewProps()`. The card supports adding, editing, changing completion status, deleting and filtering, then explicitly queries tools to refresh. Data lives in `server/store.ts` in process memory and resets on restart. Local components are compiled by the application builder without an MF manifest.
+
+## Create MCP Apps with MF remote components
+
+Add `--mf` to publish and load remote components through Module Federation:
+
+```bash
+npx @modern-js/create@<version> my-mf-app --template mcp-apps --mf
+cd my-mf-app
+pnpm install
+pnpm dev
+```
+
+The template also generates `module-federation.config.ts`, exposing only `./Todos`. Only `list_todos` references the explicitly configured remote with `remote: 'mcp_ui'`. Tools and storage are shared with local component mode. Set the complete manifest URL in `mcp_apps.ts`. `--mf` is only available with `mcp-apps`.
+
+Configure public asset prefixes in `modern.config.ts` when a host needs public URLs:
+
+```ts
+export default defineConfig({
+  dev: { assetPrefix: 'https://assets.example.com/' },
+  output: { assetPrefix: 'https://assets.example.com/' },
+  // Keep the template plugins.
+});
+```
+
+The template defaults to `http://localhost:8080/static/mf-manifest.json`. Set `MCP_UI_MANIFEST_URL` and `MCP_UI_ORIGIN`, or edit the remote definition for your deployment. Asset prefixes do not configure this manifest URL. Serve MF assets and configure CORS with your static server or CDN.
+
+## Create an MCP server with tools only
+
+```bash
+npx @modern-js/create@<version> my-mcp-server --template mcp-server
+cd my-mcp-server
+pnpm install
+pnpm dev
+```
+
+This template includes the same four Todo tools with storage in `api/server/store.ts`, without React cards or MF configuration.
+
+## Project files
+
+| File                          | Purpose                                                                                |
+| ----------------------------- | -------------------------------------------------------------------------------------- |
+| `modern.config.ts`            | Configure the MCP endpoint and plugins, including Module Federation in MF mode         |
+| `mcp_apps.ts`                 | Associate tools with input schemas, handlers, and views                                |
+| `src/components/Todos.tsx`    | Interactive Todo card, included only in UI templates                                   |
+| `server/store.ts`             | Shared in-memory storage, located at `api/server/store.ts` in the server-only template |
+| `module-federation.config.ts` | Remote component exposes, included only in MF mode                                     |
+
+Both MCP Apps UI templates use root `mcp_apps.ts` without an API directory. MF adds its plugin, exposes, and remote view references; the generated `server/modern.server.ts` configures CORS for public `/static/*` assets. The tools-only `mcp-server` template still uses `api/mcp_apps.ts` and `api/lambda/index.ts`, with explicit `configPath: 'api/mcp_apps.ts'` and `endpoint: false`.
+
+## Addresses after startup
+
+After `pnpm dev`, the terminal prints the application page URLs. For the application component template on the default port `8080`:
+
+```text
+Local:
+  index                   http://localhost:8080/
+  mcp-ui-07f5f0856acf      http://localhost:8080/mcp-ui-07f5f0856acf
+Network:
+  ...                     http://<machine-network-IP>:8080/...
+```
+
+Use `Local` on the development machine. `Network` lists the same service on its network interfaces; access from other devices depends on routing and firewall rules. Use the actual addresses and port printed in your terminal.
+
+| Address                                     | Purpose                                                                         | Verification                                                                                     |
+| ------------------------------------------- | ------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------ |
+| `http://localhost:8080/`                    | The template's application homepage with a project introduction and `/mcp` hint | Open it in a browser and look for `Modern.js MCP Todo`; this only checks the application page    |
+| `http://localhost:8080/mcp-ui-07f5f0856acf` | Card page entry for `list_todos`                                                | Use a browser or `curl` to check HTML availability; verify full interactions in an MCP Apps host |
+| `http://localhost:8080/mcp`                 | MCP endpoint for tool discovery, calls, and card resource reads                 | Use an MCP client; enter this URL in the host's MCP server configuration                         |
+
+The `mcp-ui-*` names are derived from tool names and are only generated for application component views. These pages connect to a host to receive tool inputs and results. Opening one as a standalone browser page may show `Connecting…` or a host connection error. HTTP 200 confirms page availability, not successful tool calls or card interactions.
+
+The MF template renders remote components without generating these application component entries. It also serves the following assets:
+
+| Address                                         | Purpose                                                  | Verification                                                                                                                |
+| ----------------------------------------------- | -------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------- |
+| `http://localhost:8080/static/mf-manifest.json` | Describes exposed MF components and their loading assets | Open it in a browser or run `curl -f http://localhost:8080/static/mf-manifest.json`; expect JSON with an expose for `Todos` |
+| `http://localhost:8080/static/remoteEntry.js`   | JavaScript entry used by the MF runtime                  | Run `curl -f http://localhost:8080/static/remoteEntry.js`; expect JavaScript. Its component chunks must also be accessible  |
+
+When MF assets use a public assetPrefix, verify these paths against the manifest publicPath. The MCP Server template only provides the protocol service, without a homepage, card entries, or MF assets.
+
+Protocol responses also contain resource identifiers such as `ui://app/list_todos`, or `ui://mf/app/mcp-ui/list_todos` in MF mode (`ui://mf/app/mcp-ui` is a remote-level alias). These are not browser URLs. The host reads their HTML through `resources/read` on `/mcp`.
+
+## Connect and verify
+
+### 1. Verify the protocol and tools
+
+Connect an MCP client to `http://localhost:8080/mcp` and check that `tools/list` returns four Todo tools. Call `add_todo` with `{ "title": "Read the docs" }`, then `list_todos` with `{}` to verify the added item. For UI templates, use `resources/read` with the URI from `list_todos` metadata to verify that it returns HTML.
+
+The template no longer includes a verification script. A browser GET to `/mcp` returns 405 as expected because the service uses HTTP POST. Protocol checks do not verify card rendering or interactions in a host.
+
+### 2. Debug in an agent host
+
+After local protocol checks pass, verify tool calls, card loading, and interactions in an agent host that supports MCP Apps. For ChatGPT:
+
+1. Expose the development server through an HTTPS tunnel or deploy it to an accessible HTTPS environment. Forward the tunnel to your application port, `8080` by default. See OpenAI's [public access guide](https://developers.openai.com/plugins/build/app-quickstart#expose-your-server-to-the-public-internet).
+2. Add `https://<public-host>/mcp` as the MCP server URL. Follow the official [ChatGPT connection instructions](https://developers.openai.com/plugins/build/app-quickstart#connect-your-mcp-server-in-chatgpt) for developer mode and setup.
+3. Add a todo through conversation, then open the list. Edit names, change completion status and delete items in the card. Query the list again through the host to verify shared state. Refresh the host connection after changing tool definitions or metadata.
+
+Alongside `/mcp`, the card's JS/CSS and MF resources must be accessible. Configure `dev.assetPrefix` for public development assets and `output.assetPrefix` for production, then restart or rebuild. For MF, explicitly configure the public manifest URL and the corresponding CSP origins. See [Build and deploy](./deployment).
+
+Check the public `/mcp` endpoint with an MCP client, then verify card loading and interactions in a host. For tools-only servers, check tool calls and results.
+
+The generated definition uses `defineMcpServer` with `name` and `version` from `package.json`. Local and backend-only tools omit `remotes`; MF tools reference an explicitly configured manifest URL by remote name. Tools may use synchronous or asynchronous handlers, and `view` is optional. See [Tools and views](./configuration).
+
+See [mcp-apps](https://github.com/web-infra-dev/modern.js/tree/main/examples/mcp-apps) for a complete example with four tools and one React card. Add todos through conversation, complete them in the card, and query the shared server state from either interaction.
+
+## Debug tools and cards locally
+
+After `modern dev`, open the Inspector URL printed in the terminal. The inspector connects automatically, generates argument templates from inputSchema, runs tools, previews cards and displays request logs such as `tools/call` and `resources/read` in the right column. See [MCP Apps Inspector](./inspector).

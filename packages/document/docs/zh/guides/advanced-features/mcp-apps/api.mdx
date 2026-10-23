@@ -1,0 +1,297 @@
+# API 参考
+
+## defineMcpServer 与 defineTool
+
+从 `@modern-js/mcp-apps/config` 导入配置辅助函数。
+`defineMcpServer()` 要求顶层填写 `name`、`version`，将省略的 `remotes` 补为 `[]`，
+保留工具定义；空名称和版本会报错。该函数不启动 HTTP listener，
+`viewDefaults` 仅作用于带 view 的工具。
+
+`defineMcpServer` 的内联 tools 自动根据 inputSchema 推导 handler 参数。独立定义工具时可使用 `defineTool({ name, inputSchema, handler })`。
+支持必填/可选字段、基础类型、枚举、数组、嵌套对象、`const`、`anyOf` 和 `oneOf`，
+未支持的形式保留为 `unknown`。handler 可以同步返回结果或返回 Promise。
+执行器在调用 handler 前校验输入，并可通过 `outputSchema` 校验 `structuredContent`。
+`InferToolInput<typeof tool>`、`InferToolOutput<typeof tool>` 分别提供输入和结构化输出类型；
+这些类型不会自动接入客户端 SDK 调用。当前辅助函数不接受 Zod schema。
+
+默认由 `mcpAppsPlugin()` 自动注册 `/mcp`。手写路由时设置 `endpoint: false`，从 `@modern-js/plugin-mcp-apps/bff` 导入 `mcpServer(definition, options)`。
+服务定义提供名称和版本，入口显式设置的 `serverInfo` 优先；`allowedOrigins`、`onError`
+仍属于入口配置。独立 Hono 适配器保持使用 `mcpApps({ definition })`。
+
+旧入口 `defineMcpApps` 和 BFF `mcpApps` 保留兼容。直接使用 `RemoteToolHandler` 时
+输入仍为 `unknown`；需要类型推导时使用内联 tools 或 `defineTool`。
+
+以下公共类型描述服务定义、handler 上下文及返回值：
+
+```ts
+import type { McpUiAppCapabilities, McpUiResourceMeta } from '@modelcontextprotocol/ext-apps'
+import type {
+  CallToolResult,
+  ToolAnnotations,
+} from '@modelcontextprotocol/server';
+
+export interface McpServerDefinition {
+  name: string;
+  version: string;
+  viewDefaults?: McpAppsViewDefaults;
+  remotes?: RemoteConfig[];
+  tools: ToolConfig[];
+}
+
+export type McpAppsViewDefaults = Pick<
+  McpAppsViewConfig,
+  'assetBase' | 'csp' | 'exportName' | 'renderMode' | 'runtime' | 'permissions' | 'domain' | 'prefersBorder' | 'capabilities'
+>;
+
+export interface RemoteConfig {
+  /** 远程资源的唯一名称，由工具的 remote 字段引用。 */
+  name: string;
+  /** 远程资源描述，供应用使用。 */
+  description?: string;
+  /** 标准 MF manifest 的完整 URL。 */
+  baseUrl: string;
+  /** 浏览器加载入口；设置后覆盖 baseUrl。 */
+  browserEntry?: string;
+  /** 卡片资源的 CSP 声明，由宿主实施。 */
+  csp?: {
+    /** 允许 fetch、WebSocket 等网络连接的来源。 */
+    connectDomains?: string[];
+    /** 允许加载脚本、样式、图片等资源的来源。 */
+    resourceDomains?: string[];
+    /** 允许卡片嵌入子 iframe 的来源。 */
+    frameDomains?: string[];
+    /** 允许 HTML base URI 使用的来源。 */
+    baseUriDomains?: string[];
+  };
+  /** 向宿主声明卡片请求的权限，是否授予由宿主决定。 */
+  permissions?: McpUiResourceMeta['permissions'];
+  /** 传给宿主的 UI 域名设置，具体支持由宿主决定。 */
+  domain?: string;
+  /** 是否希望宿主显示卡片边框，默认 true；属于展示提示。 */
+  prefersBorder?: boolean
+  capabilities?: McpUiAppCapabilities
+}
+
+export interface ToolConfig {
+  /** 工具唯一名称，用于 tools/call 调用。 */
+  name: string;
+  /** 可选的工具展示标题。 */
+  title?: string;
+  /** 工具用途说明，帮助模型选择工具。 */
+  description?: string;
+  /** 输入参数的 JSON Schema 或属性简写；配置辅助函数可推导支持的形式。 */
+  inputSchema?: JsonSchema;
+  /** 业务 structuredContent 的 JSON Schema。卡片渲染信息存放于结果元数据中。 */
+  outputSchema?: JsonSchema;
+  /** 只读、破坏性等行为提示，不代替权限控制。 */
+  annotations?: ToolAnnotations;
+  /** 工具扩展元数据，例如宿主调用状态文案。 */
+  _meta?: Record<string, unknown>;
+  /** 关联的 RemoteConfig.name；应用内组件卡片无需设置。 */
+  remote?: string;
+  /** 兼容字段，推荐改用 view.module。 */
+  module?: string;
+  /** 兼容字段，推荐改用 view.exportName。 */
+  exportName?: string;
+  /** 兼容字段，推荐改用 view.renderMode。 */
+  renderMode?: RenderMode;
+  /** 卡片配置；省略时不绑定 UI，handler 与 view 至少提供一个。 */
+  view?: McpAppsViewConfig;
+  /** 业务函数或模块加载配置；推荐直接传入导入的函数。 */
+  handler?: McpAppsHandlerConfig | RemoteToolHandler;
+  /** 工具对模型和卡片的可见性，默认 ['model', 'app']。 */
+  visibility?: Array<'model' | 'app'>;
+}
+
+/** JSON Schema 对象；当前使用严格的 JSON Schema 2020-12 校验。 */
+export type JsonSchema = Record<string, unknown>;
+/** React 组件模式，或远程模块提供的命令式挂载模式。 */
+export type RenderMode = 'component' | 'mount';
+
+export interface McpAppsViewConfig {
+  /** 本地模式为相对项目根目录的组件路径；MF 模式为 expose 名称。 */
+  module: string;
+  /** 组件导出名，默认 default。 */
+  exportName?: string;
+  /** 默认 component；本地入口仅支持 component，MF 也支持 mount。 */
+  renderMode?: RenderMode;
+  /** 视图运行环境，目前仅支持 browser。 */
+  runtime?: 'browser';
+  /** 构建后的 HTML 路径，或独立托管的 HTTPS HTML URL。 */
+  html?: string;
+  /** 静态资源基址；request 表示使用公开 MCP 请求 origin。 */
+  assetBase?: string;
+  /** 本地或独立 HTML 视图的 CSP；MF 视图使用 remote.csp。 */
+  csp?: RemoteConfig['csp']
+  permissions?: McpUiResourceMeta['permissions']
+  domain?: string
+  prefersBorder?: boolean
+  capabilities?: McpUiAppCapabilities
+}
+
+export interface McpAppsHandlerConfig {
+  /** handler 模块路径，相对定义文件目录解析。 */
+  module: string;
+  /** handler 导出名，默认 default。 */
+  exportName?: string;
+  /** handler 运行环境，当前仅支持 local。 */
+  runtime?: 'local';
+  /** 执行超时毫秒数；未设置时使用服务端配置，最终默认 30000。 */
+  timeoutMs?: number;
+}
+
+export interface RemoteToolHandlerContext {
+  /** 当前调用的工具名称。 */
+  toolName: string;
+  /** 工具关联的远程名称，无 remote 时为 undefined。 */
+  remoteName?: string;
+  /** 工具关联的远程配置。 */
+  remote?: RemoteConfig;
+  /** 规范化的模块 handler 配置；直接传入函数时为 undefined。 */
+  handler?: Required<Pick<McpAppsHandlerConfig, 'module' | 'exportName'>> &
+    Pick<McpAppsHandlerConfig, 'runtime' | 'timeoutMs'>;
+  /** MCP SDK 提供的本次工具调用附加上下文。 */
+  extra: unknown;
+  /** 请求中断、SDK 取消或执行超时的组合信号；业务逻辑需主动响应。 */
+  signal: AbortSignal;
+  /** 标准 fetch 函数；需要取消时自行传入 signal。 */
+  fetch: typeof fetch;
+  /** JSON 请求辅助函数：序列化非字符串 body、解析 JSON，非成功响应抛错。 */
+  fetchJson: <T = unknown>(
+    /** 请求地址。 */
+    url: string,
+    /** 请求选项；body 可传 JSON 数据，取消时传入 signal。 */
+    init?: Omit<RequestInit, 'body'> & { body?: unknown },
+  ) => Promise<T>;
+  /** 当前请求 URL 的 origin。 */
+  serverUrl?: string;
+  /** 当前 Web Request。 */
+  request: Request;
+  /** 请求级应用上下文；BFF/Hono 适配器传入 Hono Context。 */
+  context: unknown;
+}
+
+export interface RemoteToolHandlerResult {
+  /** MCP 工具内容，例如文本或图片。 */
+  content?: CallToolResult['content'];
+  /** 结构化业务结果。带视图时也保持原样。 */
+  structuredContent?: unknown;
+  /** 工具结果的附加元数据。 */
+  _meta?: Record<string, unknown>;
+  /** 传给卡片的属性，合并时覆盖同名工具输入参数。 */
+  viewProps?: Record<string, unknown>;
+  /** 是否为工具执行错误结果。 */
+  isError?: boolean;
+}
+
+/** 工具函数，可同步或异步返回结果。 */
+export type RemoteToolHandler = (
+  /** 经 JSON Schema 校验的工具参数，使用前需收窄类型。 */
+  input: unknown,
+  /** 本次调用的上下文及请求辅助函数。 */
+  context: RemoteToolHandlerContext,
+) => Promise<RemoteToolHandlerResult> | RemoteToolHandlerResult;
+```
+
+使用时注意：
+
+- `defineMcpServer` 要求 `name`、`version` 和 `tools`；`remotes` 可选，默认 `[]`。服务端要求至少一个工具，每个工具至少包含 `handler` 或 `view`。
+- 简单工具直接内联在 `tools` 中；拆分文件时，通过普通 import 引入 `defineTool` 创建的工具。`McpAppsHandlerConfig` 是按本地模块加载 handler 的形式。
+- `view.exportName` 默认为 `default`，`view.renderMode` 默认为 `component`；本地组件入口只支持 `component`。顶层 `module`、`exportName`、`renderMode` 是兼容字段，新配置应使用 `view`。
+- `outputSchema` 校验 handler 返回的业务 `structuredContent`，包括带视图的工具，并在工具列表中公开。渲染信息单独放在结果 `_meta` 中，不影响业务 schema。
+- `visibility` 默认是 `['model', 'app']`，控制工具对模型和卡片的可见性，不代替服务端鉴权。`annotations` 是工具行为提示。
+- `context.request` 是当前请求，`context.context` 在 BFF/Hono 接入中为请求对应的 Hono Context；异步业务操作应响应 `context.signal` 的取消信号。
+
+使用 `assetBase` 时，HTML 必须包含 `<head>` 元素，否则读取资源时报错。`assetBase` 按目录 URL 解析，路径末尾缺少 `/` 时会自动补齐。该地址的 origin 会加入 `resourceDomains` 和 `baseUriDomains`，不会自动加入 `connectDomains`。需要通过 fetch 请求该地址或加载 MF manifest 时，应显式配置对应的 `csp.connectDomains`。
+
+## 工具执行超时与取消
+
+超时时间单位为毫秒，按以下优先级取值：
+
+1. 模块形式 handler 的 `handler.timeoutMs`。
+2. 创建服务端时传入的 `handlerTimeoutMs`。
+3. 默认值 `30000`，即 30 秒。
+
+超时时间必须是 `1` 到 `2147483647` 之间的整数。函数形式的 handler 使用服务端默认值，不能在函数上配置 `timeoutMs`。
+
+通过 `createMcpHandler` 设置服务端默认值：
+
+```ts
+import { createMcpHandler } from '@modern-js/mcp-apps/server'
+import definition from './mcp_apps'
+
+const handle = createMcpHandler(definition, {
+  handlerTimeoutMs: 10_000,
+})
+```
+
+模块形式的 handler 可以覆盖服务端默认值：
+
+```ts
+{
+  name: 'query_data',
+  handler: {
+    module: './handlers/query',
+    timeoutMs: 20_000,
+  },
+}
+```
+
+执行超时后，服务端停止等待 handler，触发 `context.signal`，并返回 `isError: true`、文本为 `Tool timed out` 的工具结果。超时不会强行终止业务代码，也不会回滚已完成的写入。同步阻塞代码还会阻止定时器及时触发。
+
+`context.signal` 同时响应请求中断和 SDK 取消。异步操作需要主动使用该信号，`context.fetch` 和 `context.fetchJson` 不会自动附带它：
+
+```ts
+import { defineTool } from '@modern-js/mcp-apps/config'
+
+export const queryData = defineTool({
+  name: 'query_data',
+  inputSchema: { type: 'object', properties: {} },
+  handler: async (_input, { signal, fetchJson }) => {
+    const data = await fetchJson('https://api.example.com/data', { signal })
+    return { structuredContent: { data } }
+  },
+})
+```
+
+对其他异步操作，应使用其提供的取消接口，或在适当的位置调用 `signal.throwIfAborted()`。
+
+## 插件选项
+
+| 选项        | 默认值        | 用途                                                                                   |
+| ----------- | ------------- | -------------------------------------------------------------------------------------- |
+| `configPath`    | `mcp_apps.ts` | 相对项目根目录的定义文件                                                               |
+| `endpoint`  | `/mcp`        | 独立于 BFF 前缀的完整路由路径；`false` 关闭自动注册                                    |
+| `inspector` | `true`        | 开发环境生成 `/mcp/inspector` 调试页，设为 `false` 关闭，详见[MCP Apps Inspector](./inspector) |
+| `mode`      | `integrated`  | `ui-only` 仅构建 UI 资源，不依赖 BFF，详见[接入自建 MCP Server](./custom-server)       |
+
+开发时监听定义文件，更新后重新加载；生产环境读取构建后的定义。自动路由不能与已有 BFF 路径冲突。鉴权中间件应在 BFF 路由之前执行，handler 的 `context.context` 是当前请求的 Hono Context。
+
+使用 MF 远程工具时，插件额外为 `/static/*` 公共资源添加跨域响应及 OPTIONS 预检处理；该策略不应用于 `/mcp`。
+
+`inputSchema` 支持标准 JSON Schema 和属性简写。简写字段默认必填，使用 `optional: true` 标记可选；额外属性被禁止。嵌套对象及 Schema 关键字同名字段使用完整 JSON Schema，详见[定义工具与视图](./configuration)。
+
+MF 工具必须显式声明对应的 `remotes`，将 `baseUrl` 设置为完整的 MF manifest URL，并配置 CSP 域名。插件不会推断该地址。
+
+
+`_meta['modernjs.dev/mcp-app']` 是框架保留字段。生成界面元数据时会整体替换 handler 在该字段提供的值，其他 `_meta` 字段保持不变。
+
+## withViewProps
+
+从 `@modern-js/mcp-apps/server` 导入。当业务结果与卡片属性相同时，使用 `withViewProps(result)` 复用 `structuredContent`，避免重复声明 `viewProps`。需要转换组件属性时，传入映射函数，其参数类型由业务结果推导。
+
+```ts
+import { withViewProps } from '@modern-js/mcp-apps/server'
+
+const result = withViewProps({
+  content: [{ type: 'text', text: '查询完成' }],
+  structuredContent: { orders: [], total: 0 },
+})
+
+const mapped = withViewProps(result, data => ({
+  items: data.orders,
+  totalCount: data.total,
+}))
+```
+
+此函数返回新结果对象，保留业务数据、内容和元数据。默认映射复用业务对象引用，不会深拷贝。`structuredContent` 和映射结果应为普通对象，数组或标量需包装为 `{ items }` 或 `{ value }`。映射函数同步执行，异常向调用方传播。此函数不改变现有 props 合并规则。`viewProps` 写入工具结果的 `_meta['modernjs.dev/mcp-app'].viewProps`。

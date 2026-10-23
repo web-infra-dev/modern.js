@@ -1,0 +1,123 @@
+# Existing applications
+
+## Requirements and defaults
+
+In integrated mode, Modern.js provides both the MCP endpoint and card builds. The following requirements apply:
+
+| Item | Requirement and default behavior |
+| --- | --- |
+| Plugins | Enable both `bffPlugin()` and `mcpAppsPlugin()` alongside `appTools()`. BFF provides server routes, while the MCP Apps plugin integrates tools and builds cards |
+| Definition file | The default is `mcp_apps.ts` in the project root, with the result of `defineMcpServer()` as its default export. Change its path and name with the plugin's `configPath` option |
+| Server definition | `name` and `version` must be non-empty strings. `tools` must contain at least one tool |
+| Tool names | Names must be unique, contain 1–128 characters, and use only ASCII letters, digits, underscores `_`, dots `.`, and hyphens `-` |
+| Tool behavior | Every tool must provide a `handler` or a `view`, or both. Ordinary tools only need a handler and do not require a card |
+| Local cards | `view.module` resolves relative to the project root and selects the component's `default` export by default. Automatically generated local entries only support `component` rendering |
+| Type checking | Include the definition and handler files in the project's tsconfig through `include` or `files` |
+| Endpoint | `/mcp` is registered automatically. Override it with `endpoint`. The path is independent of the BFF prefix and must not conflict with an existing BFF route. The endpoint only accepts HTTP POST |
+| Clients | Ordinary MCP clients can call tools. Interactive cards additionally require MCP Apps support and forwarding tool result metadata to the card |
+
+`mcp_apps.ts` is a default filename, not a fixed requirement. For example, `mcpAppsPlugin({ configPath: 'mcp/server.ts', endpoint: '/api/mcp' })` reads `mcp/server.ts` relative to the project root and mounts the endpoint at `/api/mcp`.
+
+When Modern.js only builds the UI and a user-managed server provides MCP, use `mode: 'ui-only'`. This mode does not require `bffPlugin()`, but still needs a UI definition file. See [User-managed MCP servers](./custom-server) and the full options in the [API reference](./api).
+
+## Installation and configuration
+
+Install `@modern-js/mcp-apps` and `@modern-js/plugin-mcp-apps` in production
+dependencies, matching the installed app-tools version. Also install
+`@modern-js/plugin-bff`.
+
+```ts title="modern.config.ts"
+import { appTools, defineConfig } from '@modern-js/app-tools';
+import { bffPlugin } from '@modern-js/plugin-bff';
+import { mcpAppsPlugin } from '@modern-js/plugin-mcp-apps';
+
+export default defineConfig({
+  plugins: [appTools(), bffPlugin(), mcpAppsPlugin()],
+});
+```
+
+```ts title="mcp_apps.ts"
+import { defineMcpServer } from '@modern-js/mcp-apps/config';
+import { withViewProps } from '@modern-js/mcp-apps/server'
+
+export default defineMcpServer({
+  name: 'greeting-server',
+  version: '1.0.0',
+  tools: [
+    {
+      name: 'greet',
+      description: 'Greet someone.',
+      inputSchema: {
+        name: { type: 'string', minLength: 1 },
+      },
+      annotations: { readOnlyHint: true },
+      handler: async ({ name }) => {
+        const message = `Hello, ${name}!`;
+        return withViewProps({
+          content: [{ type: 'text', text: message }],
+          structuredContent: { message },
+        })
+      },
+    },
+  ],
+});
+```
+
+Include the definition and handler directory in tsconfig. Run `modern dev` and
+connect an MCP client to `/mcp`. A browser address-bar GET returns 405 because the
+current transport is stateless HTTP POST.
+
+## Application component views
+
+A view references a component with `view: { module: './src/components/Greeting.tsx' }` and can omit `remotes`.
+
+The plugin registers standard Modern.js auto-mounted entries, inheriting the
+application build, CSS processing, aliases, preEntry and runtime plugins. Resource
+HTML references ordinary application JS/CSS/chunks. Deploy those assets alongside
+the server or configure dev/output assetPrefix for a CDN. Existing filesystem
+route layouts and loaders are not implicitly attached to a component entry.
+
+## Interactive remote views
+
+Publish an expose with existing MF tooling. Add its manifest URL to `remotes`
+and reference it from a tool with `remote` and `view.module`:
+
+```ts
+remotes: [
+  {
+    name: 'catalog',
+    baseUrl: 'https://cdn.example.com/catalog/v1/mf-manifest.json',
+    csp: {
+      resourceDomains: ['https://cdn.example.com'],
+      connectDomains: ['https://cdn.example.com'],
+    },
+  },
+];
+// Corresponding tool: remote: 'catalog', view: { module: './Results' }
+```
+
+The MF renderer loads the component inside the host iframe and passes
+tool arguments, handler `viewProps`, and the connected `mcpApp`. Use
+`mcpApp.callServerTool()` for interactions; do not create a second useApp connection.
+No additional UI-manifest format is introduced.
+
+Keep the existing `bff.prefix`. The automatic MCP route uses `endpoint` directly, without adding the BFF prefix:
+
+```ts
+mcpAppsPlugin({ configPath: 'mcp_apps.ts', endpoint: '/api/mcp' });
+```
+
+The defaults are root `mcp_apps.ts` and `/mcp`. An existing BFF route at the same path causes a conflict error.
+
+### Keep a manual entry
+
+For custom endpoint options or an existing manual route, set `mcpAppsPlugin({ endpoint: false })`, then add:
+
+```ts title="api/lambda/mcp.ts"
+import { mcpServer } from '@modern-js/plugin-mcp-apps/bff';
+import definition from '../../mcp_apps';
+
+export const { POST, GET, DELETE, PUT, PATCH, OPTIONS } = mcpServer(definition);
+```
+
+This manual route follows the BFF prefix: `bff.prefix: '/api'` produces `/api/mcp`. Definition `name` and `version` provide server identity; `mcpServer` can override it with `serverInfo`.

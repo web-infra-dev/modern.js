@@ -1,0 +1,119 @@
+# 接入已有项目
+
+## 接入要求与默认约定
+
+默认集成模式由 Modern.js 同时提供 MCP 服务和卡片构建，需要满足以下条件：
+
+| 项目 | 要求与默认行为 |
+| --- | --- |
+| 插件 | 在 `appTools()` 基础上同时启用 `bffPlugin()` 和 `mcpAppsPlugin()`。BFF 提供服务端路由，MCP Apps 插件负责工具接入和卡片构建 |
+| 定义文件 | 默认读取项目根目录 `mcp_apps.ts`，默认导出 `defineMcpServer()` 的返回值。可通过插件的 `configPath` 修改文件位置和名称 |
+| 服务定义 | `name` 和 `version` 必须为非空字符串，`tools` 至少包含一个工具 |
+| 工具名 | 每个工具名称必须唯一，长度为 1～128，只允许英文字母、数字、下划线 `_`、点 `.` 和连字符 `-` |
+| 工具能力 | 每个工具至少提供 `handler` 或 `view`。普通工具只提供 handler 即可，不要求配置卡片 |
+| 本地卡片 | `view.module` 相对项目根目录解析，默认读取组件的 `default` 导出。自动生成的本地入口只支持 `component` 渲染模式 |
+| 类型检查 | 将定义文件和 handler 文件纳入项目 tsconfig 的 `include` 或 `files` 范围 |
+| 服务地址 | 默认自动注册 `/mcp`，可通过 `endpoint` 修改。该路径独立于 BFF 前缀，且不能与已有 BFF 路由冲突。endpoint 只接受 HTTP POST |
+| 客户端 | 普通 MCP 客户端可以调用工具。展示交互卡片还要求宿主支持 MCP Apps，并向卡片转发工具结果元数据 |
+
+`mcp_apps.ts` 是默认文件名，不是固定名称。例如 `mcpAppsPlugin({ configPath: 'mcp/server.ts', endpoint: '/api/mcp' })` 会读取项目根目录下的 `mcp/server.ts`，并将服务挂载到 `/api/mcp`。
+
+如果只用 Modern.js 构建 UI、MCP 服务由自建服务器提供，使用 `mode: 'ui-only'`，不要求启用 `bffPlugin()`。该模式仍需提供 UI 定义文件，具体见[接入自建 MCP Server](./custom-server)。完整选项见 [API 参考](./api)。
+
+## 安装与配置
+
+安装与 app-tools 版本一致的 `@modern-js/mcp-apps` 和
+`@modern-js/plugin-mcp-apps`，同时安装 `@modern-js/plugin-bff`。以上包放在 dependencies 中。
+
+```ts title="modern.config.ts"
+import { appTools, defineConfig } from '@modern-js/app-tools';
+import { bffPlugin } from '@modern-js/plugin-bff';
+import { mcpAppsPlugin } from '@modern-js/plugin-mcp-apps';
+
+export default defineConfig({
+  plugins: [appTools(), bffPlugin(), mcpAppsPlugin()],
+});
+```
+
+```ts title="mcp_apps.ts"
+import { defineMcpServer } from '@modern-js/mcp-apps/config';
+import { withViewProps } from '@modern-js/mcp-apps/server'
+
+export default defineMcpServer({
+  name: 'greeting-server',
+  version: '1.0.0',
+  tools: [
+    {
+      name: 'greet',
+      description: 'Greet someone.',
+      inputSchema: {
+        name: { type: 'string', minLength: 1 },
+      },
+      annotations: { readOnlyHint: true },
+      handler: async ({ name }) => {
+        const message = `Hello, ${name}!`;
+        return withViewProps({
+          content: [{ type: 'text', text: message }],
+          structuredContent: { message },
+        })
+      },
+    },
+  ],
+});
+```
+
+将 `mcp_apps.ts` 和 handler 目录加入 tsconfig 的 include。运行 `modern dev` 后，
+通过 MCP 客户端连接 `/mcp`。直接在浏览器地址栏访问该路由会返回 405，因为当前
+实现使用无状态 HTTP POST。
+
+## 添加交互视图
+
+默认直接给工具增加 `view: { module: './src/components/Greeting.tsx' }`，
+本地视图无需配置 `remotes`。组件注册为标准 Modern.js 自动挂载入口，继承应用构建、
+别名、样式、环境变量、preEntry 和运行时插件。HTML 通过 `ui://app/<tool>`
+资源返回，宿主加载标准 JS/CSS/chunk。组件接收工具参数、`viewProps` 和 `mcpApp`。
+这不会自动附加原页面的文件系统路由 layout 或 loader。
+
+### 可选 MF 模式
+
+使用已有 MF 工具发布组件 expose。将其 manifest URL 写入 `remotes`，工具
+通过 `remote` 和 `view.module` 引用它：
+
+```ts
+remotes: [
+  {
+    name: 'catalog',
+    baseUrl: 'https://cdn.example.com/catalog/v1/mf-manifest.json',
+    csp: {
+      resourceDomains: ['https://cdn.example.com'],
+      connectDomains: ['https://cdn.example.com'],
+    },
+  },
+];
+// 对应工具配置：remote: 'catalog', view: { module: './Results' }
+```
+
+MF 渲染器在宿主 iframe 内加载组件，传入工具参数、handler 返回的
+`viewProps` 和已连接的 `mcpApp`。组件通过 `mcpApp.callServerTool()` 调用工具，
+不应再创建第二个 useApp 连接。没有额外的 `ui-manifest.json`。
+
+已有 BFF 项目保留原 `bff.prefix`。自动 MCP 路由独立使用 `endpoint`，不会给它追加 BFF 前缀：
+
+```ts
+mcpAppsPlugin({ configPath: 'mcp_apps.ts', endpoint: '/api/mcp' });
+```
+
+默认值为根目录 `mcp_apps.ts` 和 `/mcp`。如果已有同路径 BFF 路由，插件会报冲突。
+
+### 保留手写入口
+
+需要自定义入口选项或兼容现有路由时，设置 `mcpAppsPlugin({ endpoint: false })`，再添加：
+
+```ts title="api/lambda/mcp.ts"
+import { mcpServer } from '@modern-js/plugin-mcp-apps/bff';
+import definition from '../../mcp_apps';
+
+export const { POST, GET, DELETE, PUT, PATCH, OPTIONS } = mcpServer(definition);
+```
+
+该手写路由遵循 BFF 前缀：`bff.prefix: '/api'` 时地址为 `/api/mcp`。定义中的 `name`、`version` 提供服务身份；`mcpServer` 的 `serverInfo` 可显式覆盖。

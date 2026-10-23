@@ -1,0 +1,9 @@
+{
+  "extends": "@modern-js/tsconfig/base",
+  "compilerOptions": {
+    "types": ["@modern-js/app-tools/types"],
+    "jsx": "preserve",
+    "noEmit": true
+  },
+  "include": ["src", "server", "mcp_apps.ts", "modern.config.ts"]
+}

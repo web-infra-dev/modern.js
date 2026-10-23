@@ -1,0 +1,142 @@
+# 创建项目
+
+本文对齐仓库当前实现。使用发布包时，请选择包含下述模板与 API 的版本，不能假定所有历史版本均已支持。
+
+以下命令中的 `<version>` 请替换为包含 MCP Apps 模板、`@modern-js/mcp-apps` 和 `@modern-js/plugin-mcp-apps` 的 Modern.js 发布版本。
+
+## 通过 Agent Skill 创建
+
+使用 AI 编程助手时，可以安装 [modernjs-create-mcp-apps](https://github.com/web-infra-dev/modern.js/tree/main/skills/modernjs-create-mcp-apps) Skill，让 Agent 按项目需求选择模板、配置工具与卡片，并执行验证：
+
+```bash
+npx skills add web-infra-dev/modern.js --skill modernjs-create-mcp-apps
+```
+
+安装后，在支持该 Skill 的 Agent 中提出需求，例如：
+
+```text
+使用 modernjs-create-mcp-apps 创建 my-mcp-app，使用应用内 React 组件，
+提供待办清单及交互卡片，完成本地构建与协议验证，并说明如何连接到宿主调试。
+```
+
+需要 MF 远程组件或纯工具 MCP Server 时，在需求中明确指定。Skill 使用下文相同的 CLI 模板，需要包含 MCP Apps 功能的发布版本；未发布实现的源码仓库使用方式见 Skill。协议验证和真实宿主验证会分别报告。
+
+## 创建 MCP Apps 项目（应用内 React 组件）
+
+```bash
+npx @modern-js/create@<version> my-mcp-app --template mcp-apps
+cd my-mcp-app
+pnpm install
+pnpm dev
+```
+
+模板已配置 BFF 和 MCP Apps 插件，包含 `list_todos`、`add_todo`、`update_todo`、`delete_todo` 四个工具。只有 `list_todos` 绑定 `src/components/Todos.tsx`，通过 `withViewProps()` 传递清单数据。卡片支持添加、编辑、修改完成状态、删除和筛选，修改后主动调用工具刷新。数据保存在 `server/store.ts` 的进程内存中，重启后重置。本地组件由应用构建器编译，无须配置 MF manifest。
+
+## 创建 MCP Apps 项目（MF 远程组件）
+
+需要通过 Module Federation 发布和加载远程组件时，增加 `--mf`：
+
+```bash
+npx @modern-js/create@<version> my-mf-app --template mcp-apps --mf
+cd my-mf-app
+pnpm install
+pnpm dev
+```
+
+模板额外生成 `module-federation.config.ts`，仅暴露 `./Todos`。`list_todos` 通过 `remote: 'mcp_ui'` 关联显式声明的 `remotes`，其他工具不绑定卡片。工具和存储与本地组件模式一致。在 `mcp_apps.ts` 中配置完整的 manifest URL。`--mf` 仅适用于 `mcp-apps` 模板。
+
+宿主通过公网地址访问资源时，在 `modern.config.ts` 中配置公开资源前缀：
+
+```ts
+export default defineConfig({
+  dev: { assetPrefix: 'https://assets.example.com/' },
+  output: { assetPrefix: 'https://assets.example.com/' },
+  // 保留模板中的 plugins。
+});
+```
+
+模板默认地址为 `http://localhost:8080/static/mf-manifest.json`。可通过 `MCP_UI_MANIFEST_URL`、`MCP_UI_ORIGIN` 或直接修改 remote 定义配置部署地址。资源前缀不会设置此 manifest URL。MF 资产托管和 CORS 由静态服务器或 CDN 配置。
+
+## 创建 MCP Server 项目（仅工具）
+
+```bash
+npx @modern-js/create@<version> my-mcp-server --template mcp-server
+cd my-mcp-server
+pnpm install
+pnpm dev
+```
+
+该模板包含相同的四个 Todo 工具，数据保存在 `api/server/store.ts`，不生成 React 卡片或 MF 配置。
+
+## 项目文件
+
+| 文件                          | 用途                                                                 |
+| ----------------------------- | -------------------------------------------------------------------- |
+| `modern.config.ts`            | 配置 MCP endpoint 和插件；MF 模式还会启用 Module Federation          |
+| `mcp_apps.ts`                 | 定义工具、输入 schema、handler 和 view 的关联                        |
+| `src/components/Todos.tsx`    | 待办清单卡片，仅 UI 模板包含                                         |
+| `server/store.ts`             | 共享内存存储，仅 UI 模板包含，纯服务端模板位于 `api/server/store.ts` |
+| `module-federation.config.ts` | 远程组件 exposes，仅 MF 模式包含                                     |
+
+MCP Apps 的两种 UI 模板均使用根目录 `mcp_apps.ts`，无需 API 目录。MF 模板额外启用 MF 插件、exposes 和远程视图引用；模板通过 `server/modern.server.ts` 为公共 `/static/*` 资源配置 CORS，改用 CDN 时需同步配置。纯 `mcp-server` 模板目前仍使用 `api/mcp_apps.ts` 和 `api/lambda/index.ts`，并显式设置 `configPath: 'api/mcp_apps.ts'`、`endpoint: false`。
+
+## 启动后的地址
+
+执行 `pnpm dev` 后，终端会打印应用页面的访问地址。以默认端口 `8080` 的应用内组件模板为例：
+
+```text
+Local:
+  index                   http://localhost:8080/
+  mcp-ui-07f5f0856acf      http://localhost:8080/mcp-ui-07f5f0856acf
+Network:
+  ...                     http://<本机网络 IP>:8080/...
+```
+
+`Local` 用于本机访问；`Network` 是同一服务在本机各网络接口上的地址，其他设备能否访问取决于网络连通性和防火墙。实际端口和地址以终端输出为准。
+
+| 地址                                        | 用途                                               | 如何验证                                                                       |
+| ------------------------------------------- | -------------------------------------------------- | ------------------------------------------------------------------------------ |
+| `http://localhost:8080/`                    | 模板的普通应用首页，显示项目介绍和 `/mcp` 提示     | 浏览器打开后应看到 `Modern.js MCP Todo`；这里只验证应用页面可访问              |
+| `http://localhost:8080/mcp-ui-07f5f0856acf` | `list_todos` 的卡片页面入口                        | 浏览器或 `curl` 可以检查 HTML 是否可访问；完整卡片交互需在 MCP Apps 宿主中验证 |
+| `http://localhost:8080/mcp`                 | MCP 协议接口，供客户端发现和调用工具、读取卡片资源 | 使用 MCP 客户端；在宿主的 MCP 服务配置中填写此地址                             |
+
+`mcp-ui-*` 由工具名称生成，只为应用内组件视图创建。它们需要与宿主建立连接并接收工具输入和结果；直接作为普通网页打开时，可能显示 `Connecting…` 或宿主连接错误。HTTP 200 只说明页面可访问，不代表工具调用和卡片交互已通过验证。
+
+MF 模板通过远程组件渲染卡片，不生成上述应用内组件入口，另外提供以下资源地址：
+
+| 地址                                            | 用途                                    | 如何验证                                                                                                                |
+| ----------------------------------------------- | --------------------------------------- | ----------------------------------------------------------------------------------------------------------------------- |
+| `http://localhost:8080/static/mf-manifest.json` | 描述 MF 暴露的组件和加载资源            | 浏览器打开或执行 `curl -f http://localhost:8080/static/mf-manifest.json`，应返回 JSON，包含 `Todos` 对应的 exposes 信息 |
+| `http://localhost:8080/static/remoteEntry.js`   | MF 运行时加载远程组件的 JavaScript 入口 | 执行 `curl -f http://localhost:8080/static/remoteEntry.js`，应返回 JavaScript；组件依赖的 chunks 也需要可访问           |
+
+MF 资源使用公开 assetPrefix 时，请使用 manifest 的实际 publicPath 验证上述资源。MCP Server 模板只提供协议服务，没有首页、卡片入口或 MF 资源。
+
+协议响应中还会出现 `ui://app/list_todos` 或 MF 模式的 `ui://mf/app/mcp-ui/list_todos`（`ui://mf/app/mcp-ui` 为 remote 级别别名）。它们是 MCP 资源标识，不是浏览器网址。宿主通过 `/mcp` 的 `resources/read` 读取对应 HTML。
+
+## 连接与验证
+
+### 1. 验证 MCP 协议和工具
+
+使用 MCP 客户端连接 `http://localhost:8080/mcp`，检查 `tools/list` 返回四个 Todo 工具。调用 `add_todo`（参数 `{ "title": "阅读文档" }`），再调用 `list_todos`（参数 `{}`）确认返回新增事项。对于 UI 模板，读取 `list_todos` 元数据中的资源 URI，验证 `resources/read` 返回 HTML。
+
+模板不再附带验证脚本。浏览器地址栏 GET `/mcp` 返回 405 是预期行为，当前服务使用 HTTP POST。协议验证不等同于宿主内的卡片渲染和交互验证。
+
+### 2. 在 Agent 宿主中调试
+
+本地协议验证通过后，还需要在支持 MCP Apps 的 Agent 宿主中验证工具调用、卡片加载和交互。以 ChatGPT 为例：
+
+1. 将开发服务通过 HTTPS 隧道暴露到公网，或部署到可访问的 HTTPS 环境。隧道应转发到当前应用端口，默认是 `8080`。具体操作参考 OpenAI 的[将服务暴露到公网](https://developers.openai.com/plugins/build/app-quickstart#expose-your-server-to-the-public-internet)。
+2. 在宿主中添加 MCP 服务，填写 `https://<公开域名>/mcp`。ChatGPT 的开发者模式和连接操作参考[在 ChatGPT 中连接 MCP 服务](https://developers.openai.com/plugins/build/app-quickstart#connect-your-mcp-server-in-chatgpt)。
+3. 在对话中添加一项待办，再查看待办清单。检查卡片能否编辑名称、修改完成状态和删除事项，再让宿主重新查询清单以确认数据一致。修改工具定义或元数据后，刷新宿主中的连接。
+
+公开 `/mcp` 的同时，卡片引用的 JS/CSS 和 MF 资源也必须可访问。公开开发资源配置 `dev.assetPrefix`，生产构建配置 `output.assetPrefix`，然后重新启动或构建。MF 模式还需显式配置公开的 manifest URL 和对应 CSP 域名，详见[构建与部署](./deployment)。
+
+使用 MCP 客户端检查公网 `/mcp`，再验证宿主内的卡片加载和交互。纯 MCP Server 项目只需检查工具调用和结果。
+
+生成的定义使用 `defineMcpServer`，`name`、`version` 读取项目 `package.json`。本地视图和纯工具省略 `remotes`，MF 工具通过 remote 引用显式配置的 manifest URL。handler 支持同步或异步返回，`view` 可选。详见[定义工具与视图](./configuration)。
+
+完整的待办清单示例见 [mcp-apps](https://github.com/web-infra-dev/modern.js/tree/main/examples/mcp-apps)。它通过四个工具和一个 React 卡片，演示对话添加待办、卡片完成待办，以及双方共享服务端状态。
+
+## 在本地调试工具与卡片
+
+运行 `modern dev` 后，打开启动日志中的 Inspector 地址。调试页自动连接 MCP endpoint，可根据 inputSchema 填写参数、执行工具、预览 UI，并在右侧查看 `tools/call`、`resources/read` 等请求日志。详见[MCP Apps Inspector](./inspector)。

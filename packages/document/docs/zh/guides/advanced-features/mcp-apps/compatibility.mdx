@@ -1,0 +1,34 @@
+# 宿主兼容性与协议边界
+
+当前使用 MCP SDK（`core`、`server`、`client`）2.3.1 和 MCP Apps SDK 2.0.3。HTTP endpoint 支持 [MCP 2026-07-28](https://modelcontextprotocol.io/specification/2026-07-28)：由官方 SDK 处理 `server/discover`、每次请求的版本和能力元数据、必需请求头校验，以及结果的 `resultType` 和缓存字段。同时保留 `2025-11-25` 等旧协议的无状态 JSON 响应路径，兼容仍使用初始化握手的宿主。
+
+## 标准协议与框架约定
+
+支持普通 MCP 工具的客户端可以调用工具、读取结果。展示交互卡片还需要客户端支持 MCP Apps。
+
+卡片使用 MCP Apps 的 `_meta.ui.resourceUri`、`text/html;profile=mcp-app` 和资源内容上的 `_meta.ui`（CSP、权限等）。框架不自动附加宿主专有的 UI 关联元数据。工具结果 `_meta['modernjs.dev/mcp-app']` 中的 `version/tool/resource/args/viewProps` 是 Modern.js 的渲染约定，不是 MCP 协议必填字段。该命名空间由框架保留，当前版本为 `1`。宿主需将结果元数据转发给卡片。
+
+```json
+{
+  "structuredContent": { "message": "Hello" },
+  "_meta": {
+    "modernjs.dev/mcp-app": {
+      "version": 1,
+      "args": { "name": "Ada" },
+      "viewProps": { "message": "Hello" }
+    }
+  }
+}
+```
+
+`structuredContent` 保留业务 JSON 数据，带卡片时也不改变其结构。组件属性通过 `viewProps` 指定，或用 `withViewProps()` 显式复用业务数据。新运行时仍可读取旧版 `structuredContent` 和文本中的渲染数据，但新服务端只生成版本化结果元数据。升级时应同时重新构建、部署服务端和 UI 产物，旧运行时不认识新格式。
+
+endpoint 默认允许无 `Origin` 的服务端请求和同源浏览器请求，拒绝其他来源。需要浏览器跨域调用时，在 BFF 的 `mcpServer(definition, { allowedOrigins: ['https://host.example.com'] })` 中显式允许来源，并按应用需求配置 CORS；独立 Hono 和核心 handler 也支持 `allowedOrigins`。鉴权仍通过应用中间件实现。
+
+## 能力协商与边界
+
+Inspector 使用官方 Client SDK 协商协议版本并声明 `io.modelcontextprotocol/ui`。服务端在能够取得客户端能力时，仅向声明支持 MCP App HTML 的客户端返回 UI 资源关联。旧版无状态 HTTP 请求不携带初始化能力，保留工具 UI 元数据，并始终提供文本结果作为回退。
+
+本地组件和 MF 组件均接收官方 `App` 实例。使用可选宿主能力前，应通过 `getHostCapabilities()` 检查。组件声明的 `capabilities` 配置在握手前生效，本地模式使用 `view.capabilities` 或 `viewDefaults.capabilities`，MF 模式使用 `remotes[].capabilities`。例如 App 提供工具时声明 `tools: {}`，随后通过 SDK 注册工具并通知列表变化。
+
+本地和 MF 包装共用 `useMcpApp()`，处理宿主主题、流式输入、完整输入、结果、取消和销毁。收到新输入时清除上一次结果属性，保留已加载的 MF 资源，避免重复加载。`useMcpApp()` 提供 `partialInput` 和合并后的 `viewProps`。SDK 支持消息、上下文更新、下载、资源读取和 sampling，但实际可用能力由宿主决定。Inspector 不提供模型推理后端，不声明 sampling。
