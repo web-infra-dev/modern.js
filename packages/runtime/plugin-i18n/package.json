@@ -96,7 +96,7 @@
     "i18next-chained-backend": "^4.6.3",
     "i18next-fs-backend": "^2.6.9",
     "i18next-http-backend": "^4.0.4",
-    "i18next-http-middleware": "^3.9.9"
+    "i18next-http-middleware": "^3.9.10"
   },
   "peerDependencies": {
     "react": ">=18.3.1",
