@@ -64,7 +64,7 @@
     "@modern-js/runtime-utils": "workspace:*",
     "@modern-js/utils": "workspace:*",
     "@swc/helpers": "^0.5.17",
-    "encoding": "^0.1.13",
+    "encoding": "^0.1.14",
     "path-to-regexp": "^6.3.0",
     "qs": "^6.16.1"
   },
