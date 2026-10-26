@@ -15,8 +15,8 @@ import {
 // gate buys. The release is therefore public the moment npm accepts it, and its
 // isolation rests on the 0.0.0 version, which no semver range matches, and on a
 // dist-tag of its own, which leaves `latest` untouched.
-export function publishArguments(tarball) {
-  return ['publish', tarball, '--tag', TAG, '--access', 'public', '--ignore-scripts', '--json', '--registry', REGISTRY];
+export function publishArguments(tarball, tag = TAG) {
+  return ['publish', tarball, '--tag', tag, '--access', 'public', '--ignore-scripts', '--json', '--registry', REGISTRY];
 }
 
 // npm has now produced three different shapes for the same `publish --json`
@@ -366,6 +366,7 @@ export async function publish(root, options, {
     const manifest = verifyArtifacts(path.resolve(root, options.artifacts), plan, options.expectedPlanHash, env.GITHUB_SHA);
     receipt.releaseId = plan.releaseId;
     receipt.version = plan.version;
+    receipt.tag = plan.tag;
     validateSource(root, plan, env.GITHUB_SHA);
     validateTrigger(plan, env);
     validatePackageSet(plan, workspaces(root));
@@ -384,7 +385,7 @@ export async function publish(root, options, {
       const item = { name: pkg.name, version: pkg.version, integrity: pkg.integrity, status: 'unknown' };
       receipt.packages.push(item);
       persist();
-      const args = publishArguments(path.resolve(root, options.artifacts, pkg.filename));
+      const args = publishArguments(path.resolve(root, options.artifacts, pkg.filename), plan.tag);
       let result = npm(args, { cwd: temporary, env: npmEnv });
       if (result.status !== 0 && TRANSIENT_SUBMISSION.has(npmErrorCode(result))) {
         log(`[publish] ${pkg.name} retrying: ${npmErrorCode(result)} is the submission machinery, not a verdict`);

@@ -2,7 +2,12 @@ name: Modern.js Release
 
 on:
   push:
-    branches: ['release-canary-verify/**']
+    # One prefix per release channel. The prefix is not a label: the plan on the
+    # branch names its channel, and release.mjs refuses to run unless the ref it
+    # was triggered on is exactly the branch that channel prescribes for that
+    # release id. A push to any other release-*/ branch therefore starts a run
+    # that stops at the first step instead of publishing anything.
+    branches: ['release-*/**']
     paths: ['.release/canary-plan.json']
   workflow_dispatch:
     inputs:
@@ -20,7 +25,7 @@ concurrency:
 
 jobs:
   build:
-    if: startsWith(github.ref, 'refs/heads/release-canary-verify/')
+    if: startsWith(github.ref, 'refs/heads/release-')
     runs-on: ubuntu-24.04
     timeout-minutes: 90
     permissions:
@@ -87,7 +92,7 @@ jobs:
 
   publish:
     needs: build
-    if: startsWith(github.ref, 'refs/heads/release-canary-verify/')
+    if: startsWith(github.ref, 'refs/heads/release-')
     runs-on: ubuntu-24.04
     timeout-minutes: 45
     permissions:

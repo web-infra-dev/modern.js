@@ -3,10 +3,11 @@ import fs from 'node:fs';
 import path from 'node:path';
 import test from 'node:test';
 import {
-  RELEASE_ID, assertSource, assertTrigger, planHash, publishable, stableStringify,
-  validateDependencies, validatePackageSet, validatePlan, validateTarball, verifyArtifacts, writeJson,
+  RELEASE_ID, assertSource, assertTrigger, channelFor, planHash, publishable, releaseBranch,
+  stableStringify, validateDependencies, validatePackageSet, validatePlan, validateTarball,
+  verifyArtifacts, versionFor, writeJson,
 } from './core.mjs';
-import { artifactFixture, githubEnvironment, makePlan, pushEvent, sourceSha, version } from './fixtures.mjs';
+import { artifactFixture, githubEnvironment, makePlan, pushEvent, releaseId, sourceSha, version } from './fixtures.mjs';
 
 test('canonical JSON sorts every object, preserves arrays and hashes UTF-8', () => {
   assert.equal(stableStringify({ z: [2, { b: 0, a: 'x' }], a: 1 }), '{"a":1,"z":[2,{"a":"x","b":0}]}');
@@ -23,7 +24,7 @@ test('any nonzero major, minor or patch baseline is rejected even when every pac
     const plan = makePlan();
     plan.version = version.replace('0.0.0', baseline);
     for (const pkg of plan.packages) pkg.version = plan.version;
-    assert.throws(() => validatePlan(plan), /shared cross-repository canary version/);
+    assert.throws(() => validatePlan(plan), /version this channel produces/);
   }
 });
 
@@ -171,5 +172,60 @@ test('the release id shape is the one the pipeline mints, and never a UUID', () 
     `r20261022-${'ab12cd34'.repeat(4)} `, `release-${'ab12cd34'.repeat(4)}`,
   ]) {
     assert.ok(!RELEASE_ID.test(rejected), rejected);
+  }
+});
+
+test('a channel owns its dist-tag, its version shape and the branch that may trigger it', () => {
+  const canary = channelFor('canary');
+  const latest = channelFor('latest');
+  const custom = channelFor('custom', 'pia-trial');
+  assert.equal(versionFor(canary, releaseId), `0.0.0-canary-verify.${releaseId}`);
+  assert.equal(versionFor(latest, releaseId, '3.11.0'), '3.11.0');
+  assert.equal(versionFor(custom, releaseId), `0.0.0-pia-trial.${releaseId}`);
+  assert.equal(releaseBranch({ channel: 'canary', releaseId }), `release-canary-verify/${releaseId}`);
+  assert.equal(releaseBranch({ channel: 'latest', releaseId }), `release-latest/${releaseId}`);
+  assert.equal(releaseBranch({ channel: 'custom', tag: 'pia-trial', releaseId }), `release-pia-trial/${releaseId}`);
+});
+
+test('a stable channel publishes only a plain major.minor.patch the caller supplies', () => {
+  for (const bumped of [undefined, '', '3.11', 'v3.11.0', '3.11.0-alpha.1', '03.11.0', `0.0.0-latest.${releaseId}`]) {
+    assert.throws(() => versionFor(channelFor('latest'), releaseId, bumped), /plain major\.minor\.patch/);
+  }
+});
+
+test('an unknown channel, or a custom one borrowing a reserved tag, is refused', () => {
+  for (const [name, tag] of [['stable'], ['next'], ['Canary'], ['custom'], ['custom', 'latest'], ['custom', 'canary-verify'], ['custom', 'A'], ['custom', 'x']]) {
+    assert.throws(() => channelFor(name, tag));
+  }
+  assert.equal(channelFor('custom', 'pia-trial').tag, 'pia-trial');
+  assert.equal(channelFor().name, 'canary');
+});
+
+test('a plan is validated against its own channel, not against canary', () => {
+  const stable = { ...makePlan(), channel: 'latest', tag: 'latest', version: '3.11.0' };
+  stable.packages = stable.packages.map(pkg => ({ ...pkg, version: '3.11.0' }));
+  assert.deepEqual(validatePlan(stable), stable);
+  // The tag has to be the one the channel grants, and the version has to be the
+  // shape it produces: a plan cannot claim a wider channel than it was cut for.
+  assert.throws(() => validatePlan({ ...stable, tag: 'canary-verify' }), /tag must be the one/);
+  assert.throws(() => validatePlan({ ...stable, channel: 'canary' }), /tag must be the one/);
+  assert.throws(() => validatePlan({ ...stable, version: `0.0.0-latest.${releaseId}`, packages: stable.packages.map(pkg => ({ ...pkg, version: `0.0.0-latest.${releaseId}` })) }), /plain major\.minor\.patch/);
+  assert.throws(() => validatePlan({ ...makePlan(), channel: 'nope' }), /Unknown release channel/);
+});
+
+test('only the branch its own channel prescribes may trigger a publish', () => {
+  const stable = { ...makePlan(), channel: 'latest', tag: 'latest', version: '3.11.0' };
+  const event = { created: true, forced: false, deleted: false, before: '0'.repeat(40), after: 'b'.repeat(40) };
+  const base = {
+    GITHUB_REF_TYPE: 'branch', GITHUB_EVENT_NAME: 'push', GITHUB_SHA: 'b'.repeat(40),
+  };
+  assertTrigger(stable, { ...base, GITHUB_REF: `refs/heads/release-latest/${releaseId}` }, event);
+  for (const ref of [
+    `refs/heads/release-canary-verify/${releaseId}`,
+    'refs/heads/release-latest/other',
+    `refs/heads/release-latest/${releaseId}/x`,
+    `refs/heads/main`,
+  ]) {
+    assert.throws(() => assertTrigger(stable, { ...base, GITHUB_REF: ref }, event), /prepared release branch/);
   }
 });
