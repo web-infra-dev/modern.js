@@ -10,6 +10,15 @@ import {
 import { startInspectorSandbox } from '@modern-js/mcp-apps-inspector/server';
 import { createUiManifest, viewEntryName, type MfManifest } from './build';
 
+// The development server can retain middleware across CLI plugin reloads.
+// Share only the currently active sandbox for each application in this process.
+const sandboxRegistryKey = Symbol.for('@modern-js/plugin-mcp-apps/sandboxes');
+const sandboxes: Map<
+  string,
+  Awaited<ReturnType<typeof startInspectorSandbox>>
+> = Reflect.get(globalThis, sandboxRegistryKey) ?? new Map();
+Reflect.set(globalThis, sandboxRegistryKey, sandboxes);
+
 export interface McpAppsPluginOptions {
   /** JSON UI configuration, relative to the application root. */
   views?: string;
@@ -50,9 +59,48 @@ export const mcpAppsPlugin = (
         )
         .join('\n'),
     }));
-    api.onBeforeExit(async () => {
-      await sandbox?.close();
-    });
+    const closeSandbox = async () => {
+      const current = sandbox;
+      sandbox = undefined;
+      const appDirectory = api.getAppContext().appDirectory;
+      if (sandboxes.get(appDirectory) === current)
+        sandboxes.delete(appDirectory);
+      await current?.close();
+    };
+    api.onBeforeExit(closeSandbox);
+    api.onBeforeRestart(closeSandbox);
+    api.config(() => ({
+      dev: {
+        setupMiddlewares: [
+          middlewares => {
+            middlewares.unshift((request, response, next) => {
+              if (
+                request.url?.split('?')[0] !== '/__modern_mcp_apps__/sandbox'
+              ) {
+                next();
+                return;
+              }
+              response.setHeader('Cache-Control', 'no-store');
+              response.setHeader('Content-Type', 'application/json');
+              const activeSandbox = sandboxes.get(
+                api.getAppContext().appDirectory,
+              );
+              if (!activeSandbox || options.inspector === false) {
+                next();
+                return;
+              }
+              if (request.method !== 'GET') {
+                response.statusCode = 405;
+                response.setHeader('Allow', 'GET');
+                response.end();
+                return;
+              }
+              response.end(JSON.stringify({ url: activeSandbox.url }));
+            });
+          },
+        ],
+      },
+    }));
     api.modifyEntrypoints(async ({ entrypoints }) => {
       entries.clear();
       const ctx = api.getAppContext();
@@ -224,10 +272,11 @@ createRoot(document.getElementById('root')).render(React.createElement(createMfV
         ['dev', 'start'].includes(ctx.command)
       ) {
         sandbox ??= await startInspectorSandbox();
+        sandboxes.set(ctx.appDirectory, sandbox);
         const require = createRequire(import.meta.url);
         const props = {
           endpoint: options.inspector?.endpoint ?? '/api/mcp',
-          sandboxUrl: sandbox.url,
+          sandboxEndpoint: '/__modern_mcp_apps__/sandbox',
           views: [...entries].map(([entry, name]) => ({
             name,
             url: `/${entry}`,

@@ -52,6 +52,7 @@ function logJson(value: unknown) {
 export interface McpInspectorProps {
   endpoint?: string;
   sandboxUrl?: string;
+  sandboxEndpoint?: string;
   views?: Array<{ name: string; url: string }>;
 }
 
@@ -60,6 +61,7 @@ export function McpInspector({
   endpoint = '',
   views = [],
   sandboxUrl,
+  sandboxEndpoint,
 }: McpInspectorProps) {
   const [modelContext, setModelContext] = useState<unknown>();
   const [messages, setMessages] = useState<unknown[]>([]);
@@ -447,9 +449,17 @@ export function McpInspector({
         'The UI resource was received, but the card did not complete its host handshake. Check iframe script loading and the browser console.',
       );
     }, 15000);
-    if (!sandboxUrl)
+    let currentSandboxUrl = sandboxUrl;
+    if (sandboxEndpoint) {
+      const response = await fetch(sandboxEndpoint, { cache: 'no-store' });
+      if (!response.ok)
+        throw new Error(`Inspector sandbox: HTTP ${response.status}`);
+      const config: { url?: string } = await response.json();
+      currentSandboxUrl = config.url;
+    }
+    if (!currentSandboxUrl)
       throw new Error('Inspector requires a cross-origin sandbox URL');
-    const sandbox = new URL(sandboxUrl);
+    const sandbox = new URL(currentSandboxUrl);
     if (sandbox.origin === location.origin)
       throw new Error('Sandbox must have a different origin');
     sandbox.searchParams.set('parentOrigin', location.origin);

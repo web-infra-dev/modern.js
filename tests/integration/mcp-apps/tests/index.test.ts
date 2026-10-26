@@ -1,5 +1,5 @@
 import path from 'node:path';
-import { readFile } from 'node:fs/promises';
+import { readFile, writeFile } from 'node:fs/promises';
 import puppeteer, { type Browser, type Page } from 'puppeteer';
 import {
   getPort,
@@ -40,10 +40,15 @@ describe('manifest-based MCP Apps', () => {
   let port: number;
   let browser: Browser;
   let page: Page;
+  let originalViews: string | undefined;
   afterEach(async () => {
     if (app) {
       await killApp(app);
       app = undefined;
+    }
+    if (originalViews !== undefined) {
+      await writeFile(path.join(appDir, 'mcp-views.json'), originalViews);
+      originalViews = undefined;
     }
   });
   afterAll(async () => {
@@ -102,7 +107,48 @@ describe('manifest-based MCP Apps', () => {
         (arg: string) => arg !== '--disable-web-security',
       ),
     } as any);
+    const sandboxConfig = await fetch(
+      `http://localhost:${port}/__modern_mcp_apps__/sandbox`,
+    );
+    expect(sandboxConfig.headers.get('cache-control')).toBe('no-store');
+    const initialSandbox = (await sandboxConfig.json()) as { url: string };
+    // A config restart must close the old proxy and publish a fresh address.
+    const viewsPath = path.join(appDir, 'mcp-views.json');
+    originalViews = await readFile(viewsPath, 'utf8');
+    await writeFile(viewsPath, originalViews + '\n');
+    let sandbox = initialSandbox;
+    for (let attempt = 0; attempt < 150; attempt++) {
+      try {
+        const response = await fetch(
+          `http://localhost:${port}/__modern_mcp_apps__/sandbox`,
+        );
+        if (response.ok) sandbox = (await response.json()) as { url: string };
+        if (sandbox.url !== initialSandbox.url) break;
+      } catch {
+        /* The main listener may be restarting. */
+      }
+      await new Promise(resolve => setTimeout(resolve, 100));
+    }
+    expect(sandbox.url).not.toBe(initialSandbox.url);
+    await expect(fetch(initialSandbox.url)).rejects.toThrow();
+    const proxy = new URL(sandbox.url);
+    proxy.searchParams.set('parentOrigin', `http://localhost:${port}`);
+    expect((await fetch(proxy)).status).toBe(200);
+    const inspectorEntry = await readFile(
+      path.join(
+        appDir,
+        'node_modules/.modern-js/mcp-apps/entries/mcp-inspector.jsx',
+      ),
+      'utf8',
+    );
+    expect(inspectorEntry).not.toContain(sandbox.url);
+    expect(inspectorEntry).toContain('sandboxEndpoint');
     page = await browser.newPage();
+    let sandboxLookups = 0;
+    page.on('request', request => {
+      if (new URL(request.url()).pathname === '/__modern_mcp_apps__/sandbox')
+        sandboxLookups++;
+    });
     page.on('console', message => {
       if (message.type() === 'error') console.error('Browser:', message.text());
     });
@@ -202,6 +248,7 @@ describe('manifest-based MCP Apps', () => {
         `Todo from ${toolName}`,
       );
     }
+    expect(sandboxLookups).toBe(3);
     await page.close();
   });
 });
