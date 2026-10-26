@@ -1,5 +1,5 @@
 import './DynamicRelay';
-import { loadRemote } from '@module-federation/modern-js-v3/runtime';
+import { loadRemote } from '@module-federation/enhanced/runtime';
 import { labComponent } from '../../host/src/failure/components';
 export default labComponent(
   {

@@ -48,6 +48,10 @@ describeLab('Advanced scenarios', getContext => {
     await frame.waitForSelector(
       '[data-testid="provider-forecast"][data-version="v1"]',
     );
+    // SSR content can be visible before the replacement control hydrates.
+    await frame.waitForSelector(
+      '[data-testid="replace-provider"]:not(:disabled)',
+    );
     await frame.click('[data-testid="replace-provider"]');
     await frame.waitForSelector(
       '[data-testid="provider-forecast"][data-version="v2"]',

@@ -1,3 +1,5 @@
+import { readFile, writeFile } from 'node:fs/promises';
+import path from 'node:path';
 import { describeLab } from './fixture';
 
 describeLab('Rendering and assets', getContext => {
@@ -100,4 +102,48 @@ describeLab('Rendering and assets', getContext => {
     expect(response.status).toBe(200);
     expect(await response.text()).toContain('lab_provider');
   });
+  if (getContext().mode === 'dev')
+    it('revalidates an updated remote in development without stale server HTML', async () => {
+      const { lab, workspace } = getContext();
+      const source = path.join(workspace, 'provider/src/components/Signal.tsx');
+      const original = await readFile(source, 'utf8');
+      const marker = 'Updated signal from the remote.';
+      expect(original).toContain('A signal from another origin.');
+      const before = await (
+        await fetch(`${lab.url}/static`, { signal: AbortSignal.timeout(10000) })
+      ).text();
+      expect(before).toContain('A signal from another origin.');
+      try {
+        await writeFile(
+          source,
+          original.replace('A signal from another origin.', marker),
+        );
+        await expect
+          .poll(
+            async () => {
+              const response = await fetch(`${lab.url}/static`, {
+                signal: AbortSignal.timeout(10000),
+              });
+              return (await response.text()).includes(marker);
+            },
+            { timeout: 30000 },
+          )
+          .toBe(true);
+      } finally {
+        await writeFile(source, original);
+        await expect
+          .poll(
+            async () =>
+              (
+                await (
+                  await fetch(`${lab.url}/static`, {
+                    signal: AbortSignal.timeout(10000),
+                  })
+                ).text()
+              ).includes('A signal from another origin.'),
+            { timeout: 30000 },
+          )
+          .toBe(true);
+      }
+    });
 });

@@ -3,8 +3,8 @@ import {
   getInstance,
   loadRemote,
   registerRemotes,
-} from '@module-federation/modern-js-v3/runtime';
-import { lazyLoadComponentPlugin } from '@module-federation/modern-js-v3/react';
+} from '@module-federation/enhanced/runtime';
+import { lazyLoadComponentPlugin } from '@module-federation/bridge-react';
 async function requiredRemote<T>(id: string): Promise<T> {
   const module = await loadRemote<T>(id);
   if (!module) throw new Error(`Remote ${id} returned no module`);

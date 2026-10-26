@@ -12,7 +12,7 @@ import {
   getInstance,
   loadRemote,
   registerRemotes,
-} from '@module-federation/modern-js-v3/runtime';
+} from '@module-federation/enhanced/runtime';
 import { reportRecovery } from './events';
 
 type LazyOptions = Parameters<

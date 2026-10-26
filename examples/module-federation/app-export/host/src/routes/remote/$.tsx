@@ -1,5 +1,5 @@
-import { createRemoteAppComponent } from '@module-federation/modern-js-v3/react';
-import { loadRemote } from '@module-federation/modern-js-v3/runtime';
+import { createRemoteAppComponent } from '@module-federation/bridge-react';
+import { loadRemote } from '@module-federation/enhanced/runtime';
 
 // 定义 FallbackErrorComp 组件
 const ErrorBoundary = (info?: { error: { message: string } }) => {

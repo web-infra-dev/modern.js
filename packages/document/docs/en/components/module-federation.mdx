@@ -5,3 +5,77 @@ Module Federation solves the problem of code duplication across multiple fronten
 Module Federation 2.0 supports [Rspack](https://rspack.rs/) build tools, and provides enhanced features such as dynamic type hints, Manifest, Federation Runtime, runtime plugin system, and Chrome Devtools support for better development experience and debugging capabilities. You can visit the [Module Federation official documentation](https://module-federation.io/) to learn more.
 
 Modern.js provides an example project for Module Federation. Please refer to [module-federation-examples - modernjs](https://github.com/module-federation/module-federation-examples/tree/db5bdbeee56f779999a2c591fc553eb94eb20b36/modernjs).
+
+## Built-in integration
+
+Modern.js automatically enables Module Federation when `module-federation.config.ts` exists in the application directory. No Modern.js MF plugin installation or registration is required. Install the MF engine:
+
+```bash
+pnpm add @module-federation/enhanced@0.0.0-feat-enhanced-runtime-unification-20261022085654
+```
+
+When using React Bridge, also install `@module-federation/bridge-react` at the same version as `@module-federation/enhanced` and import its public entry (or `/v19` for the React 19 adapter) directly. The internal Modern.js MF adapter does not re-export the Bridge package.
+
+Keep the common MF configuration in its existing file:
+
+{/* prettier-ignore */}
+```ts title="module-federation.config.ts"
+import { createModuleFederationConfig } from '@module-federation/enhanced'
+
+export default createModuleFederationConfig({
+  name: 'host',
+  remotes: {
+    remote: 'remote@http://localhost:3001/mf-manifest.json',
+  },
+})
+```
+
+Register `appTools()` in `modern.config.ts`. The built-in adapter integrates CSR/SSR builds, combined manifests, SSR data fetching, remote updates in development and server asset handling.
+
+The adapter defaults the top-level `shareStrategy` to `'loaded-first'` for both browser and server builds. Set `shareStrategy` explicitly in `module-federation.config.ts` to override it. Shared entries inherit this default through the MF runtime, without an additional strategy runtime plugin.
+
+### moduleFederation
+
+| Value   | Behavior                                             |
+| ------- | ---------------------------------------------------- |
+| Omitted | Enable when the default MF configuration file exists |
+| `false` | Disable built-in MF, allowing the legacy plugin      |
+| `true`  | Read the default file and fail if it is missing      |
+| Object  | Enable MF and configure its Modern.js adapter        |
+
+{/* prettier-ignore */}
+```ts title="modern.config.ts"
+import { appTools, defineConfig } from '@modern-js/app-tools'
+
+export default defineConfig({
+  moduleFederation: {
+    fetchServerQuery: { source: 'host' },
+  },
+  plugins: [appTools()],
+})
+```
+
+The object accepts the existing adapter options:
+
+| Option                       | Description                                                                                              |
+| ---------------------------- | -------------------------------------------------------------------------------------------------------- |
+| `config`                     | Inline MF configuration, taking priority over the file                                                   |
+| `configPath`                 | Custom MF configuration path, relative to the application directory                                      |
+| `ssr`                        | Enable MF SSR, following `server.ssr` by default, or provide `{ distOutputDir }`                         |
+| `fetchServerQuery`           | Additional query parameters for client calls to server data functions                                    |
+| `autoOptimization`           | Set client/server optimization targets automatically, enabled by default and preserving explicit targets |
+| `secondarySharedTreeShaking` | Preserve the existing plugin switch, disabled by default                                                 |
+
+`server.ssr` still controls SSR for the Modern application. Keep common options such as `exposes`, `shared`, `runtimePlugins`, `dts` and manifests in the MF configuration file.
+
+### Migrating from the legacy plugin
+
+Remove the registration and dependency for `@module-federation/modern-js-v3`, then install `@module-federation/enhanced`. Import configuration helpers from enhanced and runtime APIs from `@module-federation/enhanced/runtime`.
+
+Import React Bridge APIs from `@module-federation/bridge-react`. Use `/v18` and `/v19` for version-specific entries, `/data-fetch` for data APIs and `/plugin` for the runtime plugin. When importing those APIs directly, install bridge-react at the same preview version as enhanced. No direct runtime or runtime-core application dependencies are needed.
+
+For gradual migration, keep the legacy plugin and explicitly set `moduleFederation: false`. A project with an MF configuration file otherwise enables the built-in adapter automatically. Enabling both integrations fails with a migration message, including legacy registration through another plugin's `usePlugins`.
+
+This stage does not introduce `createReactRemote`, `ReactRemote`, `updateRemotes` or service app APIs.
+
+Modern disables dependency-based automatic Bridge router aliases by default because it manages routing itself. Explicit bridge.enableBridgeRouter configuration is preserved.
