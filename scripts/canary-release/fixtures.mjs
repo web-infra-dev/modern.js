@@ -7,7 +7,7 @@ export const releaseId = 'r20261018-123456781234423482341234567890ab';
 export const sourceSha = 'b'.repeat(40);
 export const version = `0.0.0-canary-verify.${releaseId}`;
 export const makePlan = () => ({
-  schemaVersion: 1, releaseId, tag: 'canary-verify', version, baseSha: 'a'.repeat(40),
+  schemaVersion: 1, releaseId, channel: 'canary', tag: 'canary-verify', version, baseSha: 'a'.repeat(40),
   packages: ['a', 'b'].map(name => ({ name: `@modern-js/${name}`, version, path: `packages/${name}` })),
   mode: 'publish', requiredTargets: ['npm'],
 });

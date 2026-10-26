@@ -55,7 +55,7 @@ export function pack(root, output, expectedPlanHash) {
 export async function main(argv = process.argv.slice(2)) {
   const [command, ...args] = argv;
   const definitions = {
-    prepare: { 'release-id': { type: 'string' }, 'base-sha': { type: 'string' } },
+    prepare: { 'release-id': { type: 'string' }, 'base-sha': { type: 'string' }, channel: { type: 'string' }, 'custom-tag': { type: 'string' } },
     install: {},
     verify: { 'expected-plan-hash': { type: 'string' } },
     pack: { out: { type: 'string', default: '.release/artifacts' }, 'expected-plan-hash': { type: 'string' } },
@@ -70,14 +70,18 @@ export async function main(argv = process.argv.slice(2)) {
   const { values } = parseArgs({ args, options: definitions[command], strict: true, allowPositionals: false });
   const root = fs.realpathSync(process.cwd());
   if (command === 'prepare') {
-    const result = prepare(root, values['release-id'], values['base-sha']);
-    console.log(JSON.stringify({ releaseId: result.plan.releaseId, version: result.plan.version, planHash: result.planHash, predicted: result.predicted.packages }));
+    const result = prepare(root, values['release-id'], values['base-sha'], undefined,
+      { channel: values.channel, customTag: values['custom-tag'] });
+    console.log(JSON.stringify({
+      releaseId: result.plan.releaseId, channel: result.plan.channel, tag: result.plan.tag,
+      version: result.plan.version, planHash: result.planHash, predicted: result.predicted.packages,
+    }));
   } else if (command === 'install') {
     install(root);
   } else if (command === 'verify') {
     const result = verify(root, values['expected-plan-hash']);
-    if (process.env.GITHUB_OUTPUT) fs.appendFileSync(process.env.GITHUB_OUTPUT, `plan_hash=${result.planHash}\nrelease_id=${result.plan.releaseId}\n`);
-    console.log(JSON.stringify({ releaseId: result.plan.releaseId, planHash: result.planHash, packages: result.plan.packages.length }));
+    if (process.env.GITHUB_OUTPUT) fs.appendFileSync(process.env.GITHUB_OUTPUT, `plan_hash=${result.planHash}\nrelease_id=${result.plan.releaseId}\nchannel=${result.plan.channel}\ntag=${result.plan.tag}\n`);
+    console.log(JSON.stringify({ releaseId: result.plan.releaseId, channel: result.plan.channel, tag: result.plan.tag, planHash: result.planHash, packages: result.plan.packages.length }));
   } else if (command === 'pack') {
     assert(values['expected-plan-hash'], '--expected-plan-hash is required');
     pack(root, values.out, values['expected-plan-hash']);
