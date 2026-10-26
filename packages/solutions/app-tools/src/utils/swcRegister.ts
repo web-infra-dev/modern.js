@@ -123,6 +123,10 @@ export const registerSwc = (options: SwcRegisterOptions) => {
     return;
   }
 
+  // The compiled code moves lines around (e.g. rewritten imports), so map
+  // error stack traces back to the source through the inline source maps.
+  process.setSourceMapsEnabled(true);
+
   const extensions = (Module as any)._extensions as Record<
     string,
     ExtensionHandler

@@ -132,6 +132,36 @@ export class Controller { constructor(public dep: Dep) {} }
     delete (Reflect as any).metadata;
   });
 
+  test('reports source line numbers in error stacks', () => {
+    write(
+      'src/stack.ts',
+      `import path from 'path';
+import fs from 'fs';
+type Unused = { a: string };
+
+
+export function boom() {
+  throw new Error('boom');
+}
+`,
+    );
+    const file = path.join(appDir, 'src/stack.ts');
+
+    // The test runner formats stacks with its own `Error.prepareStackTrace`,
+    // which skips Node's source map support, so restore the default here.
+    const { prepareStackTrace } = Error;
+    Error.prepareStackTrace = undefined;
+    let stack = '';
+    try {
+      nodeRequire(file).boom();
+    } catch (error) {
+      stack = (error as Error).stack || '';
+    } finally {
+      Error.prepareStackTrace = prepareStackTrace;
+    }
+    expect(stack).toContain(`${file}:7:`);
+  });
+
   test('reloads changed files after their require cache is cleared', () => {
     write('src/reload/dep.ts', "export const msg: string = 'dep-v1';\n");
     write(
