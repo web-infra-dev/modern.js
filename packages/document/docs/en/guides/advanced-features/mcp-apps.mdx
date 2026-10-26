@@ -10,7 +10,7 @@ npx @modern-js/create@latest my-mf-mcp --template mcp-apps --mf
 npx @modern-js/create@latest my-server --template mcp-server
 ```
 
-Choose a release containing MCP Apps support. Run `pnpm dev`. The explicit BFF route is `/api/mcp`. UI projects include `/mcp/inspector` during development.
+Choose a release containing MCP Apps support. Run `pnpm dev`. The explicit BFF route is `/api/mcp`.
 
 ## Build cards
 
@@ -114,6 +114,6 @@ The version 1 manifest contains `assetBase`, `remotes` and `views`. A local view
 
 An absolute `output.assetPrefix` becomes `assetBase`. Otherwise request-origin resolution is used. Override `assetBase` in `registerUiResources` for a separate static origin or deployment path prefix. Request mode honors sanitized `x-forwarded-proto` headers. Reverse proxies must preserve the public host and sanitize forwarded headers.
 
-Required asset, connection and base URI origins are added to CSP. MF entry origins are also added to connection permissions. Declare any additional API, chunk/CDN or iframe origins explicitly. Deploy the manifest and HTML together with the application static assets and MF output. The Inspector is excluded from production builds.
+Required asset, connection and base URI origins are added to CSP. MF entry origins are also added to connection permissions. Declare any additional API, chunk/CDN or iframe origins explicitly. Deploy the manifest and HTML together with the application static assets and MF output.
 
 Platforms may rewrite file and MF addresses to absolute URLs and combine cards into another manifest of the same version. Unknown versions are rejected.

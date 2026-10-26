@@ -1,6 +1,6 @@
 import path from 'node:path';
-import { readFile, writeFile } from 'node:fs/promises';
 import puppeteer, { type Browser, type Page } from 'puppeteer';
+import { readFile, writeFile, readdir } from 'node:fs/promises';
 import {
   getPort,
   killApp,
@@ -21,8 +21,8 @@ async function rpc(port: number, method: string, params?: unknown) {
     headers,
     body: JSON.stringify({ jsonrpc: '2.0', id: 1, method, params }),
   });
-  expect(response.status).toBe(200);
   const text = await response.text();
+  expect(response.status, text).toBe(200);
   const message = JSON.parse(
     text.startsWith('event:')
       ? text
@@ -35,24 +35,68 @@ async function rpc(port: number, method: string, params?: unknown) {
   return message.result;
 }
 
+async function mountCard(page: Page, html: string) {
+  await page.evaluate(html => {
+    document.querySelector('iframe')?.remove();
+    const iframe = document.createElement('iframe');
+    iframe.setAttribute('sandbox', 'allow-scripts');
+    window.onmessage = event => {
+      if (event.source !== iframe.contentWindow) return;
+      const message = event.data;
+      if (message.method === 'ui/initialize') {
+        iframe.contentWindow!.postMessage(
+          {
+            jsonrpc: '2.0',
+            id: message.id,
+            result: {
+              protocolVersion: message.params.protocolVersion,
+              hostInfo: { name: 'integration-test', version: '1' },
+              hostCapabilities: {},
+              hostContext: { theme: 'light', displayMode: 'inline' },
+            },
+          },
+          '*',
+        );
+      } else if (message.method === 'ui/notifications/initialized') {
+        iframe.contentWindow!.postMessage(
+          {
+            jsonrpc: '2.0',
+            method: 'ui/notifications/tool-result',
+            params: { content: [], structuredContent: { todos: [] } },
+          },
+          '*',
+        );
+      }
+    };
+    iframe.srcdoc = html;
+    document.body.append(iframe);
+  }, html);
+  return page.waitForFrame(
+    frame =>
+      frame.parentFrame() === page.mainFrame() &&
+      frame.url() === 'about:srcdoc',
+  );
+}
+
 describe('manifest-based MCP Apps', () => {
   let app: unknown;
   let port: number;
-  let browser: Browser;
-  let page: Page;
-  let originalViews: string | undefined;
+  let browser: Browser | undefined;
+  let originalLabel: string | undefined;
   afterEach(async () => {
+    await browser?.close();
+    browser = undefined;
     if (app) {
       await killApp(app);
       app = undefined;
     }
-    if (originalViews !== undefined) {
-      await writeFile(path.join(appDir, 'mcp-views.json'), originalViews);
-      originalViews = undefined;
+    if (originalLabel !== undefined) {
+      await writeFile(
+        path.join(appDir, 'src/components/local-label.ts'),
+        originalLabel,
+      );
+      originalLabel = undefined;
     }
-  });
-  afterAll(async () => {
-    await browser?.close();
   });
 
   it('builds without evaluating server code and serves both kinds of cards in production', async () => {
@@ -67,11 +111,25 @@ describe('manifest-based MCP Apps', () => {
         'utf8',
       ),
     );
-    expect(manifest.views.local.html).toMatch(/^\.\/ui\//);
-    expect(manifest.views.todos).toMatchObject({
-      remote: 'mcp_ui',
-      expose: './Todos',
+    expect(manifest.views.local.html).toMatch(/^\.\/ui\/mcp-ui-local-/);
+    const htmlFiles = await readdir(path.join(appDir, 'dist/html'), {
+      recursive: true,
     });
+    expect(htmlFiles.some(file => file.includes('mcp-ui-local-'))).toBe(true);
+    expect(htmlFiles.some(file => file.includes('inspector'))).toBe(false);
+    expect(manifest.views.local.html).not.toBe(manifest.views.localAlt.html);
+    for (const name of ['local', 'localAlt']) {
+      const html = manifest.views[name].html;
+      const entry = path.basename(html, '.html');
+      expect(
+        await readFile(path.join(appDir, 'dist/mcp-apps', html), 'utf8'),
+      ).toBe(
+        await readFile(
+          path.join(appDir, 'dist/html', entry, 'index.html'),
+          'utf8',
+        ),
+      );
+    }
     port = await getPort();
     app = await modernServe(appDir, port);
     const tools = await rpc(port, 'tools/list');
@@ -85,7 +143,7 @@ describe('manifest-based MCP Apps', () => {
     });
     expect(result.structuredContent).toEqual({ todos: [] });
     expect(result._meta).toBeUndefined();
-    for (const name of ['local', 'todos']) {
+    for (const name of ['local', 'localAlt', 'todos']) {
       const resource = await rpc(port, 'resources/read', {
         uri: `ui://app/${name}`,
       });
@@ -98,157 +156,93 @@ describe('manifest-based MCP Apps', () => {
     }
   });
 
-  it('renders local and MF components with hooks in the development Inspector', async () => {
+  it('boots a local multi-entry card and rebuilds its dependencies', async () => {
     port = await getPort();
     app = await launchApp(appDir, port);
+    const initial = await rpc(port, 'resources/read', {
+      uri: 'ui://app/local',
+    });
     browser = await puppeteer.launch({
       ...launchOptions,
       args: launchOptions.args.filter(
         (arg: string) => arg !== '--disable-web-security',
       ),
     } as any);
-    const sandboxConfig = await fetch(
-      `http://localhost:${port}/__modern_mcp_apps__/sandbox`,
-    );
-    expect(sandboxConfig.headers.get('cache-control')).toBe('no-store');
-    const initialSandbox = (await sandboxConfig.json()) as { url: string };
-    // A config restart must close the old proxy and publish a fresh address.
-    const viewsPath = path.join(appDir, 'mcp-views.json');
-    originalViews = await readFile(viewsPath, 'utf8');
-    await writeFile(viewsPath, originalViews + '\n');
-    let sandbox = initialSandbox;
-    for (let attempt = 0; attempt < 150; attempt++) {
-      try {
-        const response = await fetch(
-          `http://localhost:${port}/__modern_mcp_apps__/sandbox`,
-        );
-        if (response.ok) sandbox = (await response.json()) as { url: string };
-        if (sandbox.url !== initialSandbox.url) break;
-      } catch {
-        /* The main listener may be restarting. */
-      }
-      await new Promise(resolve => setTimeout(resolve, 100));
-    }
-    expect(sandbox.url).not.toBe(initialSandbox.url);
-    await expect(fetch(initialSandbox.url)).rejects.toThrow();
-    const proxy = new URL(sandbox.url);
-    proxy.searchParams.set('parentOrigin', `http://localhost:${port}`);
-    expect((await fetch(proxy)).status).toBe(200);
-    const inspectorEntry = await readFile(
-      path.join(
-        appDir,
-        'node_modules/.modern-js/mcp-apps/entries/mcp-inspector.jsx',
-      ),
-      'utf8',
-    );
-    expect(inspectorEntry).not.toContain(sandbox.url);
-    expect(inspectorEntry).toContain('sandboxEndpoint');
-    page = await browser.newPage();
-    let sandboxLookups = 0;
-    page.on('request', request => {
-      if (new URL(request.url()).pathname === '/__modern_mcp_apps__/sandbox')
-        sandboxLookups++;
-    });
+    const page = await browser.newPage();
+    page.on('pageerror', error => console.error('Page error:', error.message));
     page.on('console', message => {
       if (message.type() === 'error') console.error('Browser:', message.text());
     });
-    page.on('pageerror', error => console.error('Page error:', error.message));
-    page.on('requestfailed', request =>
-      console.error(
-        'Request failed:',
-        request.url(),
-        request.failure()?.errorText,
+    await page.setCacheEnabled(false);
+    // Use a real loopback response to preserve the browser's local address-space
+    // classification, then install a minimal test host without application HMR.
+    await page.goto(`http://localhost:${port}/static/mf-manifest.json`);
+    await page.setContent('<html><body></body></html>');
+    const initialFrame = await mountCard(page, initial.contents[0].text);
+    await initialFrame
+      .waitForFunction(
+        () => document.body.textContent?.includes('Local card initial label'),
+        { timeout: 15000 },
+      )
+      .catch(async error => {
+        console.error(
+          'Frame state:',
+          await initialFrame.evaluate(() => ({
+            body: document.body.innerHTML.slice(0, 1000),
+            resources: performance
+              .getEntriesByType('resource')
+              .map(r => r.name),
+          })),
+        );
+        throw error;
+      });
+    const labelPath = path.join(appDir, 'src/components/local-label.ts');
+    originalLabel = await readFile(labelPath, 'utf8');
+    await writeFile(
+      labelPath,
+      originalLabel.replace(
+        'Local card initial label',
+        'Local card updated label',
       ),
     );
-    await page.goto(`http://localhost:${port}/mcp/inspector`);
-    await page.waitForSelector('.connection .primary');
-    await page.click('.connection .primary');
-    await page.waitForFunction(
-      () => document.querySelectorAll('button.tool').length === 3,
-    );
-    for (const toolName of ['list_todos', 'local_todos', 'list_todos']) {
-      await page.evaluate(name => {
-        const button = Array.from(
-          document.querySelectorAll<HTMLButtonElement>('button.tool'),
-        ).find(button => button.querySelector('strong')?.textContent === name);
-        button?.click();
-      }, toolName);
-      await page.waitForFunction(
-        () =>
-          !document.querySelector<HTMLButtonElement>('.actions .primary')
-            ?.disabled,
-      );
-      const previousFrameUrl = await page.$eval(
-        '.canvas',
-        canvas => canvas.querySelector('iframe')?.src ?? '',
-      );
-      await page.click('.actions .primary');
-      await page.waitForFunction(
-        (previous: string) => {
-          const iframe =
-            document.querySelector<HTMLIFrameElement>('.canvas iframe');
-          return iframe && iframe.src !== previous;
-        },
-        {},
-        previousFrameUrl,
-      );
-      const currentFrameUrl = await page.$eval(
-        '.canvas iframe',
-        iframe => (iframe as HTMLIFrameElement).src,
-      );
-      // Only inspect the current sandbox, never a previous card's retiring frame.
-      const waitForCard = async () => {
-        for (const frame of page.frames()) {
-          if (frame.parentFrame()?.url() !== currentFrameUrl) continue;
-          try {
-            const input = await frame.$('input[aria-label="Todo title"]');
-            if (input) return frame;
-          } catch (error) {
-            if (!/context was destroyed|detached/i.test(String(error)))
-              throw error;
-          }
-        }
-        return undefined;
-      };
-      let frame;
-      for (let attempt = 0; attempt < 100 && !frame; attempt++) {
-        frame = await waitForCard();
-        if (!frame) await new Promise(resolve => setTimeout(resolve, 100));
+    let updated = false;
+    for (let attempt = 0; attempt < 100; attempt++) {
+      let resource;
+      try {
+        resource = await rpc(port, 'resources/read', { uri: 'ui://app/local' });
+      } catch {
+        await new Promise(resolve => setTimeout(resolve, 100));
+        continue;
       }
-      if (!frame) {
-        for (const current of page.frames())
-          console.error(
-            'Card frame:',
-            toolName,
-            current.url(),
-            await current
-              .evaluate(() =>
-                JSON.stringify({
-                  body: document.body.innerText.slice(-600),
-                  root: document.getElementById('root')?.innerHTML,
-                  ready: document.readyState,
-                  resources: performance
-                    .getEntriesByType('resource')
-                    .map(item => item.name),
-                }),
-              )
-              .catch(() => 'Frame navigated'),
-          );
+      const frame = await mountCard(page, resource.contents[0].text);
+      await new Promise(resolve => setTimeout(resolve, 500));
+      if (
+        await frame.evaluate(() =>
+          document.body.textContent?.includes('Local card updated label'),
+        )
+      ) {
+        updated = true;
+        break;
       }
-      expect(frame).toBeDefined();
-      await frame!.type(
-        'input[aria-label="Todo title"]',
-        `Todo from ${toolName}`,
-      );
-      await frame!.click('button[type="submit"]');
-      await frame!.waitForFunction(
-        (text: string) =>
-          document.querySelector('ul')?.textContent?.includes(text),
-        { timeout: 10000 },
-        `Todo from ${toolName}`,
-      );
+      await new Promise(resolve => setTimeout(resolve, 100));
     }
-    expect(sandboxLookups).toBe(3);
-    await page.close();
+    expect(updated).toBe(true);
+    const alternate = await rpc(port, 'resources/read', {
+      uri: 'ui://app/localAlt',
+    });
+    const alternateFrame = await mountCard(page, alternate.contents[0].text);
+    await alternateFrame.waitForFunction(() =>
+      document.body.textContent?.includes('Local card updated label'),
+    );
+
+    const manifest = JSON.parse(
+      await readFile(
+        path.join(appDir, 'node_modules/.modern-js/mcp-apps/ui-manifest.json'),
+        'utf8',
+      ),
+    );
+    expect(manifest.views.local.html).toMatch(/^\.\/ui\/mcp-ui-local-/);
+    const remote = await rpc(port, 'resources/read', { uri: 'ui://app/todos' });
+    expect(remote.contents[0].text).toContain('modern-mcp-config');
   });
 });

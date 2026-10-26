@@ -1023,9 +1023,6 @@ importers:
       '@modern-js/mcp-apps':
         specifier: workspace:*
         version: link:../../toolkit/mcp-apps
-      '@modern-js/mcp-apps-inspector':
-        specifier: workspace:*
-        version: link:../../toolkit/mcp-apps-inspector
       '@rsbuild/core':
         specifier: 2.2.13
         version: 2.2.13(@module-federation/runtime-tools@2.0.0)(core-js@3.50.0)
@@ -2006,37 +2003,6 @@ importers:
       zod:
         specifier: ^4.2.0
         version: 4.6.7
-
-  packages/toolkit/mcp-apps-inspector:
-    dependencies:
-      '@modelcontextprotocol/client':
-        specifier: 2.3.1
-        version: 2.3.1
-      '@modelcontextprotocol/ext-apps':
-        specifier: 2.0.3
-        version: 2.0.3(@modelcontextprotocol/client@2.3.1)(@modelcontextprotocol/core@2.3.1)(@modelcontextprotocol/server@2.3.1)(react-dom@19.3.1(react@19.3.1))(react@19.3.1)(zod@4.6.7)
-    devDependencies:
-      '@rsbuild/core':
-        specifier: 2.2.13
-        version: 2.2.13(@module-federation/runtime-tools@2.0.0)(core-js@3.50.0)
-      '@rslib/core':
-        specifier: 1.0.4
-        version: 1.0.4(@module-federation/runtime-tools@2.0.0)(core-js@3.50.0)(typescript@5.7.3)
-      '@scripts/rstest-config':
-        specifier: workspace:*
-        version: link:../../../scripts/rstest-config
-      '@types/node':
-        specifier: ^20
-        version: 20.19.43
-      '@types/react':
-        specifier: ^19.3.0
-        version: 19.3.0
-      react:
-        specifier: ^19.3.1
-        version: 19.3.1
-      typescript:
-        specifier: ^5
-        version: 5.7.3
 
   packages/toolkit/plugin:
     dependencies:

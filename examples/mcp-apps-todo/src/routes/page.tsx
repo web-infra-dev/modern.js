@@ -11,21 +11,7 @@ export default function Page() {
     >
       <h1>Modern.js MCP Apps · Todo</h1>
       <p>本地 React 卡片和 Module Federation 卡片共用同一份 Todo 数据。</p>
-      <p>
-        <a href="/mcp/inspector">打开 MCP Apps Inspector →</a>
-      </p>
-      <ol>
-        <li>点击 Connect &amp; discover 发现 tools。</li>
-        <li>
-          选择 <code>local_todos</code>，点击 Run tool 查看本地卡片。
-        </li>
-        <li>
-          在卡片内输入标题，点击 Add todo 调用 <code>add_todo</code>。
-        </li>
-        <li>
-          选择 <code>list_todos</code>，查看 MF 卡片和刚才新增的数据。
-        </li>
-      </ol>
+      <p>使用支持 MCP Apps 的客户端连接下方 MCP 地址，调用工具并展示卡片。</p>
       <p>
         MCP 地址：<code>/api/mcp</code>
       </p>

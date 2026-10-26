@@ -9,14 +9,13 @@
 ```bash
 pnpm install
 pnpm --filter @modern-js/mcp-apps build
-pnpm --filter @modern-js/mcp-apps-inspector build
 pnpm --filter @modern-js/plugin-mcp-apps build
 pnpm --filter @examples/mcp-apps-todo dev
 ```
 
-打开 http://localhost:8088 查看说明，打开 http://localhost:8088/mcp/inspector 调试。MCP 客户端连接 http://localhost:8088/api/mcp。
+打开 http://localhost:8088 查看说明。MCP 客户端连接 http://localhost:8088/api/mcp。
 
-点击 `Connect & discover`，选择 `local_todos` 或 `list_todos`，点击 `Run tool`。在一张卡片内添加 Todo，再运行另一张卡片即可看到相同数据。
+在支持 MCP Apps 的客户端中调用 `local_todos` 或 `list_todos` 展示卡片。在一张卡片内添加 Todo，再运行另一张卡片即可看到相同数据。
 
 ## 代码入口
 
@@ -34,6 +33,6 @@ pnpm --filter @examples/mcp-apps-todo build
 pnpm --filter @examples/mcp-apps-todo serve
 ```
 
-构建生成 `dist/mcp-apps/ui-manifest.json`、本地卡片 HTML 和 MF shell，静态文件与 MF manifest 使用标准应用产物。生产模式不包含 Inspector。
+构建生成 `dist/mcp-apps/ui-manifest.json`、本地卡片 HTML 和 MF shell，静态文件与 MF manifest 使用标准应用产物。
 
 使用 `PORT=8090 pnpm --filter @examples/mcp-apps-todo dev` 可以切换端口。

@@ -3,7 +3,8 @@
     "todos": {
       "expose": "./Todos"
     },
-    "local": "./src/components/Todos.tsx"
+    "local": "./src/components/LocalTodos.tsx",
+    "localAlt": "./src/components/LocalTodos.tsx"
   },
   "csp": {
     "resourceDomains": [],

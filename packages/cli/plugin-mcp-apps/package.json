@@ -31,7 +31,6 @@
   },
   "dependencies": {
     "@modern-js/mcp-apps": "workspace:*",
-    "@modern-js/mcp-apps-inspector": "workspace:*",
     "@rsbuild/core": "2.2.13"
   },
   "devDependencies": {

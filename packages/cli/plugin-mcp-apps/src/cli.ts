@@ -7,23 +7,11 @@ import {
   validateViewsConfig,
   type McpViewsConfig,
 } from '@modern-js/mcp-apps/manifest';
-import { startInspectorSandbox } from '@modern-js/mcp-apps-inspector/server';
 import { createUiManifest, viewEntryName, type MfManifest } from './build';
-
-// The development server can retain middleware across CLI plugin reloads.
-// Share only the currently active sandbox for each application in this process.
-const sandboxRegistryKey = Symbol.for('@modern-js/plugin-mcp-apps/sandboxes');
-const sandboxes: Map<
-  string,
-  Awaited<ReturnType<typeof startInspectorSandbox>>
-> = Reflect.get(globalThis, sandboxRegistryKey) ?? new Map();
-Reflect.set(globalThis, sandboxRegistryKey, sandboxes);
 
 export interface McpAppsPluginOptions {
   /** JSON UI configuration, relative to the application root. */
   views?: string;
-  /** Development Inspector options. Disabled with false. */
-  inspector?: false | { endpoint?: string };
 }
 async function writeArtifact(filename: string, contents: string | Uint8Array) {
   await fs.mkdir(path.dirname(filename), { recursive: true });
@@ -37,72 +25,20 @@ export const mcpAppsPlugin = (
   post: ['@modern-js/runtime'],
   setup(api) {
     let definition: McpViewsConfig;
-    const cardHtml = new Map<string, string>();
-    const cardAssets = new Map<string, Buffer>();
-    let buildCards: (() => Promise<void>) | undefined;
-    const entries = new Map<string, string>();
-    let sandbox: Awaited<ReturnType<typeof startInspectorSandbox>> | undefined;
+    const attachedCompilers = new WeakSet<object>();
+    const shellHtml = new Map<string, string>();
+    const shellAssets = new Map<string, Buffer>();
+    let buildShell: (() => Promise<void>) | undefined;
+    let shellDirty = true;
+    let shellBuild: Promise<void> | undefined;
+    const localEntries = new Set<string>();
     const configPath = () =>
       path.resolve(
         api.getAppContext().appDirectory,
         options.views ?? 'mcp-views.json',
       );
     api.addWatchFiles(() => [configPath()]);
-    api.onBeforePrintInstructions(({ instructions }) => ({
-      instructions: instructions
-        .split('\n')
-        .filter(
-          line =>
-            ![...entries.keys()].some(
-              name => name !== 'mcp/inspector' && line.includes(name),
-            ),
-        )
-        .join('\n'),
-    }));
-    const closeSandbox = async () => {
-      const current = sandbox;
-      sandbox = undefined;
-      const appDirectory = api.getAppContext().appDirectory;
-      if (sandboxes.get(appDirectory) === current)
-        sandboxes.delete(appDirectory);
-      await current?.close();
-    };
-    api.onBeforeExit(closeSandbox);
-    api.onBeforeRestart(closeSandbox);
-    api.config(() => ({
-      dev: {
-        setupMiddlewares: [
-          middlewares => {
-            middlewares.unshift((request, response, next) => {
-              if (
-                request.url?.split('?')[0] !== '/__modern_mcp_apps__/sandbox'
-              ) {
-                next();
-                return;
-              }
-              response.setHeader('Cache-Control', 'no-store');
-              response.setHeader('Content-Type', 'application/json');
-              const activeSandbox = sandboxes.get(
-                api.getAppContext().appDirectory,
-              );
-              if (!activeSandbox || options.inspector === false) {
-                next();
-                return;
-              }
-              if (request.method !== 'GET') {
-                response.statusCode = 405;
-                response.setHeader('Allow', 'GET');
-                response.end();
-                return;
-              }
-              response.end(JSON.stringify({ url: activeSandbox.url }));
-            });
-          },
-        ],
-      },
-    }));
     api.modifyEntrypoints(async ({ entrypoints }) => {
-      entries.clear();
       const ctx = api.getAppContext();
       const source: unknown = JSON.parse(
         await fs.readFile(configPath(), 'utf8'),
@@ -112,82 +48,68 @@ export const mcpAppsPlugin = (
       const appRequire = createRequire(
         path.join(ctx.appDirectory, 'package.json'),
       );
-      const addEntry = async (name: string, code: string, label: string) => {
-        if (entrypoints.some(entry => entry.entryName === name))
+      const needsMf = Object.values(definition.views).some(
+        view => typeof view !== 'string',
+      );
+      localEntries.clear();
+      shellHtml.clear();
+      shellAssets.clear();
+      buildShell = undefined;
+      shellDirty = true;
+      const shellEntries: Record<string, string> = {};
+      for (const [name, source] of Object.entries(definition.views)) {
+        if (typeof source !== 'string') continue;
+        const entryName = viewEntryName(name);
+        if (entrypoints.some(entry => entry.entryName === entryName))
           throw new Error(
-            `MCP entry conflicts with application entry: ${name}`,
+            `MCP entry conflicts with application entry: ${entryName}`,
           );
         const entry = path.join(
           ctx.internalDirectory,
           'mcp-apps/entries',
-          `${name.replaceAll('/', '-')}.jsx`,
+          `${entryName}.jsx`,
         );
-        await writeArtifact(entry, code);
-        entries.set(name, label);
-        entrypoints.push({
-          entryName: name,
-          entry,
-          isMainEntry: false,
-          isAutoMount: true,
-          absoluteEntryDir: path.dirname(entry),
-        });
-      };
-      let needsMf = false;
-      for (const [name, source] of Object.entries(definition.views)) {
-        if (typeof source !== 'string') {
-          needsMf = true;
-          continue;
-        }
-        const component = path.resolve(path.dirname(configPath()), source);
-        await fs.access(component);
-        await addEntry(
-          viewEntryName(name),
-          `import { createMcpView } from ${JSON.stringify(appRequire.resolve('@modern-js/mcp-apps/react'))};\nimport View from ${JSON.stringify(component)};\nexport default createMcpView(View, ${JSON.stringify({ name, version: '1.0.0' })});\n`,
-          name,
-        );
-      }
-      cardHtml.clear();
-      cardAssets.clear();
-      buildCards = undefined;
-      const standaloneEntries: Record<string, string> = {};
-      for (const [name, source] of Object.entries(definition.views)) {
-        if (typeof source !== 'string') continue;
-        const entryName = viewEntryName(name);
-        const entry = path.join(
-          ctx.internalDirectory,
-          'mcp-apps/entries',
-          `${entryName}-standalone.js`,
+        const mountEntry = path.join(
+          path.dirname(entry),
+          `${entryName}-mount.jsx`,
         );
         await writeArtifact(
-          entry,
-          `import React from ${JSON.stringify(appRequire.resolve('react'))};
-import { createRoot } from ${JSON.stringify(appRequire.resolve('react-dom/client'))};
-import { createMcpView } from ${JSON.stringify(appRequire.resolve('@modern-js/mcp-apps/react'))};
-import View from ${JSON.stringify(path.resolve(path.dirname(configPath()), source))};
-createRoot(document.getElementById('root')).render(React.createElement(createMcpView(View, ${JSON.stringify({ name, version: '1.0.0' })})));
-`,
+          mountEntry,
+          `import React from ${JSON.stringify(appRequire.resolve('react'))};\nimport { createRoot } from ${JSON.stringify(appRequire.resolve('react-dom/client'))};\nimport { createMcpView } from ${JSON.stringify(appRequire.resolve('@modern-js/mcp-apps/react'))};\nimport View from ${JSON.stringify(path.resolve(path.dirname(configPath()), source))};\ncreateRoot(document.getElementById('root')).render(React.createElement(createMcpView(View, ${JSON.stringify({ name, version: '1.0.0' })})));\n`,
         );
-        standaloneEntries[entryName] = entry;
+        // Keep MF shared initialization asynchronous without loading the framework's
+        // page runtime, which reads cookies unavailable in an opaque app sandbox.
+        await writeArtifact(entry, `import(${JSON.stringify(mountEntry)});\n`);
+        localEntries.add(entryName);
+        entrypoints.push({
+          entryName,
+          entry,
+          isMainEntry: false,
+          isAutoMount: false,
+          absoluteEntryDir: path.dirname(entry),
+        });
       }
+      console.log('-------entrypoints', entrypoints);
       if (needsMf) {
-        standaloneEntries['mcp-shell'] = appRequire.resolve(
+        shellEntries['mcp-shell'] = appRequire.resolve(
           '@modern-js/mcp-apps/internal/mf-entry',
         );
       }
-      if (Object.keys(standaloneEntries).length) {
-        const cardsOutput = path.join(ctx.internalDirectory, 'mcp-apps/cards');
+      console.log('-----shellEntries', shellEntries);
+      if (Object.keys(shellEntries).length) {
+        const shellOutput = path.join(ctx.internalDirectory, 'mcp-apps/shell');
         const config = api.getNormalizedConfig();
         const development = ['dev', 'start'].includes(ctx.command);
         const assetPrefix = development
           ? config.dev.assetPrefix
           : config.output.assetPrefix;
-        const cards = await createRsbuild({
+        const shell = await createRsbuild({
           cwd: ctx.appDirectory,
           rsbuildConfig: {
             mode: 'production',
             html: { inject: 'body', title: 'MCP App' },
             source: {
-              entry: standaloneEntries,
+              entry: shellEntries,
               define: {
                 ...config.source.define,
                 'process.env.NODE_ENV': JSON.stringify(
@@ -211,7 +133,7 @@ createRoot(document.getElementById('root')).render(React.createElement(createMcp
               },
             },
             output: {
-              distPath: { root: cardsOutput },
+              distPath: { root: shellOutput },
               assetPrefix:
                 typeof assetPrefix === 'string' ? assetPrefix : undefined,
               inlineScripts: true,
@@ -229,65 +151,56 @@ createRoot(document.getElementById('root')).render(React.createElement(createMcp
             },
           },
         });
-        buildCards = async () => {
-          await cards.build();
-          cardAssets.clear();
-          for (const filename of await fs.readdir(cardsOutput, {
+        const compileShell = async () => {
+          const result = await shell.build();
+          await result.close();
+          shellAssets.clear();
+          for (const filename of await fs.readdir(shellOutput, {
             recursive: true,
           })) {
-            const absolute = path.join(cardsOutput, filename);
+            const absolute = path.join(shellOutput, filename);
             if (
               filename.endsWith('.html') ||
               !(await fs.stat(absolute)).isFile()
             )
               continue;
-            cardAssets.set(
+            shellAssets.set(
               filename.replaceAll(path.sep, '/'),
               await fs.readFile(absolute),
             );
           }
-          for (const name of Object.keys(standaloneEntries)) {
-            cardHtml.set(
+          for (const name of Object.keys(shellEntries)) {
+            shellHtml.set(
               name,
-              await fs.readFile(path.join(cardsOutput, `${name}.html`), 'utf8'),
+              await fs.readFile(path.join(shellOutput, `${name}.html`), 'utf8'),
             );
           }
         };
-      }
-      if (
-        options.inspector !== false &&
-        ['dev', 'start'].includes(ctx.command)
-      ) {
-        sandbox ??= await startInspectorSandbox();
-        sandboxes.set(ctx.appDirectory, sandbox);
-        const require = createRequire(import.meta.url);
-        const props = {
-          endpoint: options.inspector?.endpoint ?? '/api/mcp',
-          sandboxEndpoint: '/__modern_mcp_apps__/sandbox',
-          views: [...entries].map(([entry, name]) => ({
-            name,
-            url: `/${entry}`,
-          })),
+        buildShell = () => {
+          if (shellBuild) return shellBuild;
+          if (!shellDirty) return Promise.resolve();
+          shellDirty = false;
+          shellBuild = compileShell()
+            .catch(error => {
+              shellDirty = true;
+              throw error;
+            })
+            .finally(() => {
+              shellBuild = undefined;
+            });
+          return shellBuild;
         };
-        await addEntry(
-          'mcp/inspector',
-          `import { McpInspector } from ${JSON.stringify(require.resolve('@modern-js/mcp-apps-inspector'))};\nexport default function Inspector() { return <McpInspector {...${JSON.stringify(props)}} />; }\n`,
-          'Inspector',
-        );
       }
+      // Local cards use the application multi-entry pipeline. Only the MF host is isolated.
       return { entrypoints };
     });
-    // Card bootstraps cannot depend on HMR notifications to finish compilation
-    // inside a host's sandbox. Keep normal application imports lazy.
     api.modifyRsbuildConfig(config => {
       const lazy = config.dev?.lazyCompilation;
       if (!lazy) return config;
       const current = typeof lazy === 'object' ? lazy : {};
       const test = current.test;
       const internal = api.getAppContext().internalDirectory;
-      const eager = [...entries.keys()].map(
-        name => path.join(internal, name) + path.sep,
-      );
+      const eager = [path.join(internal, 'mcp-apps/entries') + path.sep];
       config.dev = {
         ...config.dev,
         lazyCompilation: {
@@ -319,13 +232,18 @@ createRoot(document.getElementById('root')).render(React.createElement(createMcp
       const compilers =
         'compilers' in compiler ? compiler.compilers : [compiler];
       for (const child of compilers) {
+        if (attachedCompilers.has(child)) continue;
         const environment = environments[child.name ?? 'client'];
         if (!environment || environment.config.output.target !== 'web')
           continue;
+        attachedCompilers.add(child);
+        child.hooks.invalid.tap('modern-mcp-card-invalidate', () => {
+          shellDirty = true;
+        });
         child.hooks.beforeCompile.tapPromise(
           'modern-mcp-card-build',
           async () => {
-            await buildCards?.();
+            await buildShell?.();
           },
         );
         child.hooks.thisCompilation.tap('modern-mcp-card-html', compilation => {
@@ -335,19 +253,11 @@ createRoot(document.getElementById('root')).render(React.createElement(createMcp
               stage: child.webpack.Compilation.PROCESS_ASSETS_STAGE_REPORT,
             },
             () => {
-              for (const [filename, contents] of cardAssets) {
+              for (const [filename, contents] of shellAssets) {
                 if (!compilation.getAsset(filename))
                   compilation.emitAsset(
                     filename,
                     new child.webpack.sources.RawSource(contents),
-                  );
-              }
-              for (const [name, html] of cardHtml) {
-                const htmlPath = environment.htmlPaths[name];
-                if (htmlPath && compilation.getAsset(htmlPath))
-                  compilation.updateAsset(
-                    htmlPath,
-                    new child.webpack.sources.RawSource(html),
                   );
               }
             },
@@ -393,26 +303,25 @@ createRoot(document.getElementById('root')).render(React.createElement(createMcp
                 }
               }
             }
-            const mfShellHtml = cardHtml.get('mcp-shell');
-            if (mfShellHtml)
-              await writeArtifact(
-                path.join(output, 'ui/mcp-shell.html'),
-                mfShellHtml,
-              );
             const config = api.getNormalizedConfig();
             const manifest = createUiManifest(
               definition,
               development ? config.dev.assetPrefix : config.output.assetPrefix,
               mf,
             );
-            for (const [name] of entries) {
-              if (name === 'mcp/inspector') continue;
+            for (const name of localEntries) {
               const htmlPath = environment.htmlPaths[name];
               const html = htmlPath && compilation.getAsset(htmlPath);
               if (!html) throw new Error(`Missing MCP HTML output: ${name}`);
               await writeArtifact(
                 path.join(output, 'ui', `${name}.html`),
                 html.source.source(),
+              );
+            }
+            for (const [name, html] of shellHtml) {
+              await writeArtifact(
+                path.join(output, 'ui', `${name}.html`),
+                html,
               );
             }
             await writeArtifact(
