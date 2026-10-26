@@ -1,4 +1,11 @@
-import puppeteer, { type Browser, type Page } from 'puppeteer';
+import puppeteer, {
+  type Browser,
+  type HTTPRequest,
+  type Page,
+} from 'puppeteer';
+import { execFile } from 'node:child_process';
+import { promisify } from 'node:util';
+import { freemem, loadavg } from 'node:os';
 import { startLab } from '../scripts/lab.mjs';
 import {
   cp,
@@ -77,6 +84,36 @@ export function setupLab(mode: 'dev' | 'production') {
   const browserErrors: string[] = [];
   const consoleErrors: string[] = [];
   const pendingRequests = new Set<string>();
+  const requestStarts = new Map<HTTPRequest, number>();
+  const slowRequests: object[] = [];
+  async function reportDiagnostics() {
+    if (!process.env.MF_LAB_DIAGNOSTICS) return;
+    const { stdout } = await promisify(execFile)('ps', [
+      '-axo',
+      'pid,ppid,pcpu,rss,etime,comm',
+    ]);
+    const rows = stdout.split('\n').flatMap(line => {
+      const match = line.match(/^\s*(\d+)\s+(\d+)\s+(.+)$/);
+      return match
+        ? [{ pid: Number(match[1]), parent: Number(match[2]), line }]
+        : [];
+    });
+    const owned = new Set([process.pid]);
+    let previousSize;
+    do {
+      previousSize = owned.size;
+      for (const row of rows) if (owned.has(row.parent)) owned.add(row.pid);
+    } while (previousSize !== owned.size);
+    console.error(
+      '[MF resources]',
+      JSON.stringify({
+        freeMemory: freemem(),
+        loadAverage: loadavg(),
+        processes: rows.filter(row => owned.has(row.pid)).map(row => row.line),
+      }),
+    );
+    console.error('[MF slow requests]', JSON.stringify(slowRequests));
+  }
   let expectsRecovery = false;
   let expectedErrorGroups: { pattern: RegExp; count: number }[] | undefined;
   let expectedErrors: { pattern: RegExp; min: number; max: number } | undefined;
@@ -100,21 +137,50 @@ export function setupLab(mode: 'dev' | 'production') {
       }
     }
   });
-  beforeEach(async () => {
+  beforeEach(async context => {
+    context.onTestFailed(() => {
+      console.error(`[MF lab failure] ${mode}: ${context.task.name}`);
+      console.error(
+        JSON.stringify({
+          pendingRequests: [...pendingRequests],
+          browserErrors,
+          consoleErrors,
+          pendingAges: [...requestStarts].map(([request, start]) => ({
+            url: request.url(),
+            age: Date.now() - start,
+          })),
+        }),
+      );
+      for (const [name, log] of lab.logs) console.error(`[${name}]\n${log}`);
+    });
     page = await browser.newPage();
     browserErrors.length = 0;
     consoleErrors.length = 0;
     pendingRequests.clear();
+    requestStarts.clear();
+    slowRequests.length = 0;
     page.on('console', message => {
       if (message.type() === 'error')
         consoleErrors.push(message.text().slice(0, 1000));
     });
-    page.on('request', request => pendingRequests.add(request.url()));
-    page.on('requestfinished', request =>
-      pendingRequests.delete(request.url()),
-    );
+    page.on('request', request => {
+      pendingRequests.add(request.url());
+      requestStarts.set(request, Date.now());
+    });
+    page.on('requestfinished', request => {
+      pendingRequests.delete(request.url());
+      const duration = Date.now() - (requestStarts.get(request) ?? Date.now());
+      if (duration > 2000)
+        slowRequests.push({
+          url: request.url(),
+          duration,
+          timing: request.response()?.timing(),
+        });
+      requestStarts.delete(request);
+    });
     page.on('requestfailed', request => {
       pendingRequests.delete(request.url());
+      requestStarts.delete(request);
       consoleErrors.push(`${request.url()}: ${request.failure()?.errorText}`);
     });
     expectsRecovery = false;
@@ -123,6 +189,7 @@ export function setupLab(mode: 'dev' | 'production') {
     page.on('pageerror', error => browserErrors.push(String(error)));
   });
   afterEach(async () => {
+    await reportDiagnostics();
     await page?.close();
     if (expectedErrorGroups) {
       expect(browserErrors).toHaveLength(
@@ -196,6 +263,7 @@ export function setupLab(mode: 'dev' | 'production') {
     return page.$eval(selector(id), element => element.textContent);
   }
   async function click(id: string) {
+    await page.waitForSelector(`${selector(id)}:not(:disabled)`);
     await page.click(selector(id));
   }
   async function counter(id: string) {
@@ -231,6 +299,8 @@ export function setupLab(mode: 'dev' | 'production') {
   }
   return () => ({
     lab,
+    workspace,
+    mode,
     page,
     visit,
     text,

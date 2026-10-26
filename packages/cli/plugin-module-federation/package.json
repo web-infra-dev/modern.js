@@ -1,0 +1,120 @@
+{
+  "name": "@modern-js/plugin-module-federation",
+  "version": "3.10.1",
+  "files": [
+    "dist",
+    "LICENSE",
+    "README.md"
+  ],
+  "publishConfig": {
+    "access": "public",
+    "types": "./dist/types/cli/index.d.ts"
+  },
+  "scripts": {
+    "build": "rs lib",
+    "dev": "rs lib --watch",
+    "test": "rstest",
+    "prepublishOnly": "only-allow-pnpm"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/web-infra-dev/modern.js",
+    "directory": "packages/cli/plugin-module-federation"
+  },
+  "exports": {
+    ".": {
+      "types": "./dist/types/cli/index.d.ts",
+      "import": "./dist/esm-node/cli/index.mjs",
+      "require": "./dist/cjs/cli/index.js"
+    },
+    "./config-plugin": {
+      "types": "./dist/types/cli/configPlugin.d.ts",
+      "import": "./dist/esm-node/cli/configPlugin.mjs",
+      "require": "./dist/cjs/cli/configPlugin.js"
+    },
+    "./ssr-plugin": {
+      "types": "./dist/types/cli/ssrPlugin.d.ts",
+      "import": "./dist/esm-node/cli/ssrPlugin.mjs",
+      "require": "./dist/cjs/cli/ssrPlugin.js"
+    },
+    "./data-fetch-server-plugin": {
+      "types": "./dist/types/cli/server/data-fetch-server-plugin.d.ts",
+      "import": "./dist/esm-node/cli/server/data-fetch-server-plugin.mjs",
+      "require": "./dist/cjs/cli/server/data-fetch-server-plugin.js",
+      "default": "./dist/cjs/cli/server/data-fetch-server-plugin.js"
+    },
+    "./types": {
+      "types": "./dist/types/types/index.d.ts",
+      "default": "./dist/cjs/types/index.js"
+    },
+    "./package.json": "./package.json"
+  },
+  "main": "./dist/cjs/cli/index.js",
+  "types": "./src/cli/index.ts",
+  "author": "hanric <hanric.zhang@gmail.com>",
+  "license": "MIT",
+  "engines": {
+    "node": ">=20"
+  },
+  "dependencies": {
+    "@modern-js/builder": "workspace:*",
+    "@modern-js/plugin": "workspace:*",
+    "@modern-js/server": "workspace:*",
+    "@modern-js/server-core": "workspace:*",
+    "@modern-js/utils": "workspace:*",
+    "@module-federation/bridge-react": "0.0.0-feat-enhanced-runtime-unification-20261022085654",
+    "@module-federation/node": "0.0.0-feat-enhanced-runtime-unification-20261022085654",
+    "@module-federation/rsbuild-plugin": "0.0.0-feat-enhanced-runtime-unification-20261022085654",
+    "@module-federation/sdk": "0.0.0-feat-enhanced-runtime-unification-20261022085654",
+    "@rsbuild/core": "2.2.13",
+    "@swc/helpers": "^0.5.17",
+    "jiti": "^2.7.0"
+  },
+  "devDependencies": {
+    "@modern-js/rslib": "workspace:*",
+    "@modern-js/server-runtime": "workspace:*",
+    "@module-federation/enhanced": "0.0.0-feat-enhanced-runtime-unification-20261022085654",
+    "@rspack/core": "2.2.9",
+    "@scripts/rstest-config": "workspace:*",
+    "@types/node": "^20",
+    "react": "^19.3.1",
+    "react-dom": "^19.3.1",
+    "typescript": "^5"
+  },
+  "peerDependencies": {
+    "@module-federation/enhanced": "0.0.0-feat-enhanced-runtime-unification-20261022085654",
+    "react": ">=18.3.1",
+    "react-dom": ">=18.3.1"
+  },
+  "peerDependenciesMeta": {
+    "@module-federation/enhanced": {
+      "optional": true
+    },
+    "react": {
+      "optional": true
+    },
+    "react-dom": {
+      "optional": true
+    }
+  },
+  "description": "Built-in Modern.js Module Federation integration",
+  "typesVersions": {
+    "*": {
+      ".": [
+        "./dist/types/cli/index.d.ts"
+      ],
+      "config-plugin": [
+        "./dist/types/cli/configPlugin.d.ts"
+      ],
+      "ssr-plugin": [
+        "./dist/types/cli/ssrPlugin.d.ts"
+      ],
+      "data-fetch-server-plugin": [
+        "./dist/types/cli/server/data-fetch-server-plugin.d.ts"
+      ],
+      "types": [
+        "./dist/types/types/index.d.ts"
+      ]
+    }
+  }
+}

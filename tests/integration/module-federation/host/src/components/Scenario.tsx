@@ -3,7 +3,7 @@ import { Suspense, useState, useEffect, type ComponentType } from 'react';
 import {
   loadRemote,
   registerRemotes,
-} from '@module-federation/modern-js-v3/runtime';
+} from '@module-federation/enhanced/runtime';
 import Signal from 'provider/Signal';
 import Relay from 'nested/Relay';
 import {

@@ -1,6 +1,6 @@
 # Federation lab
 
-A combined SSR and data-fetch regression playground for the existing `@module-federation/modern-js-v3@2.9.2` plugin. This project establishes a baseline before moving the adapter into Modern.js. Shared tree shaking and the new RFC runtime APIs are outside its scope.
+A combined SSR and data-fetch regression playground for built-in Modern.js Module Federation. The migration baseline was the existing `@module-federation/modern-js-v3@2.9.2` adapter. Shared tree shaking and the new RFC runtime APIs are outside its scope.
 
 ## Run
 
@@ -13,7 +13,7 @@ pnpm --filter mf-lab-tests test
 
 The interactive lab opens at http://localhost:4300. Stop it with Ctrl+C. Add `--production` to the dev script to inspect production builds. Set `MF_LAB_MODE=dev` or `MF_LAB_MODE=production` to run one test mode. Use `PUPPETEER_EXECUTABLE_PATH` to select an existing Chrome installation when needed. Set `MF_LAB_VERBOSE=1` to print child-process logs.
 
-The test command runs the same assertions against Modern development servers and production build + serve. It uses available ports, starts providers before consumers, waits for HTTP readiness, and stops child processes after failures. The root framework suite also discovers these tests.
+The test command runs the same assertions against Modern development servers and production build + serve. It uses available ports, starts providers before consumers, waits for HTTP readiness, and stops child processes after failures. The dedicated MF test command uses its own serial execution and setup timeout. These tests are excluded from the general framework suite.
 
 ## Test organization
 
@@ -46,13 +46,17 @@ Watch a test file:
 MF_LAB_MODE=dev pnpm --filter mf-lab-tests test tests/data-fetch.test.ts --watch
 ```
 
-The repository framework entry supports the same file and case filters:
+## CI
 
-```sh
-MF_LAB_MODE=dev pnpm test:framework integration/module-federation/tests/data-fetch.test.ts -t prefetches
-```
+The Module Federation E2E workflow runs automatically for pull requests targeting `feat/module-federation-builtin` or `main`, and for pushes to those branches. This allows feature pull requests to be checked before the integration branch is merged into main. A new commit on an open pull request triggers a new run and cancels its older run.
 
-Normal `it.only` and `describe.only` selection also works directly inside each file. The root framework command discovers these same `.test.ts` files, with no aggregator entry or separate test runner.
+The CI test run stops at the first failure and prints the fixture server and browser logs for diagnosis. Fixture listener ports are selected below the usual ephemeral client port range to reduce collisions with startup connections. With `MF_LAB_DIAGNOSTICS=1`, each test also reports process CPU/memory and slow-request timings.
+
+Fixture tsconfigs explicitly exclude `node_modules`, `dist` and `dist-v2`. The type checker uses raw tsconfig exclusions for its directory watcher, so relying on TypeScript's implicit dependency exclusion makes it traverse the linked monorepo dependencies. Keep type checking enabled and preserve these exclusions to avoid sustained CPU use and memory growth during development tests.
+
+The Linux job builds `app-tools`, `runtime` and their workspace dependencies, installs the Chrome version pinned by Puppeteer, and runs `pnpm --filter mf-lab-tests test`. It uses this package's Rstest configuration, including one worker and a ten-minute setup timeout, and covers both development and production. The workflow also declares `workflow_dispatch` for manual runs once GitHub exposes it from the default branch.
+
+Normal `it.only` and `describe.only` selection also works directly inside each file. Use the dedicated package command for file and case filters.
 
 ## Weather comparison pages
 
@@ -66,7 +70,7 @@ Both comparison pages fit a desktop viewport. Smaller screens stack the panels. 
 
 The shell renders no remote weather components itself. Each panel supplies one animated sky behind its translucent glass header and transparent weather iframe, so the clouds remain continuous across both areas. Standalone weather routes retain their own sky. Each iframe has independent React and MF state and always runs JavaScript. Changing the startup delay or reloading recreates the documents. The default is No delay. The test runner proxies the host and delays the actual host entry script by 0, 1500 or 3000 ms, with caching disabled for that entry. This is a network delay, not a simulated loading screen.
 
-**Data prefetch** defaults to on in the four-way comparison. It calls the existing MF runtime's `prefetch()` while the CSR data route initializes, before React renders its lazy remote. Turning it off reloads the frames and leaves normal data fetching enabled. SSR + data-fetch continues fetching on the server in either mode. With this adapter, CSR prefetch invokes the raw loader without retaining its return value, so the demo's weather loader reuses its promise by MF data key within a browser document. Failed requests are evicted and server requests are never cached. Tests verify one API request per client panel with either setting and fresh requests after reload. Prefetch changes startup behavior, not the final forecast; the difference is visible during loading rather than after all data arrives.
+**Data prefetch** defaults to on in the four-way comparison. It calls the existing MF runtime's `prefetch()` while the CSR data route initializes, before React renders its lazy remote. Turning it off reloads the frames and leaves normal data fetching enabled. SSR + data-fetch continues fetching on the server in either mode. With this adapter, CSR prefetch invokes the raw loader without retaining its return value, so the demo's weather loader reuses its promise by MF data key within a browser document. Failed requests are evicted and server requests are never cached. Tests verify one API request per client panel with either setting and fresh requests after reload. Prefetch changes startup behavior and preserves the final forecast. The difference is visible during loading rather than after all data arrives.
 
 The local API returns deterministic weather after 900 ms and assigns a request ID. It is started and stopped with the test applications. In interactive mode, the public gateway is port 4300, the API is 4306 and the underlying Modern host is 4307. CI allocates these ports independently. Weather icons and procedural cloud imagery are bundled SVG, and fonts use the system stack. No public weather, image, map or font service is required.
 
@@ -93,7 +97,7 @@ The decorator keeps a `display: contents` boundary in both SSR and CSR. Inspecti
 | `nested`   | An independent Modern build with static and dynamic nested consumption |
 | `library`  | Rslib dual-target producer for dynamic loading and CSR data fetching   |
 
-The provider and library each build a second version from the same source, into `provider/dist-v2` and `library/dist/v2`. These are served at separate origins for browser replacement tests. The second Modern version is a CSR build. The library serves real Rslib dual-target build artifacts in both test modes. The primary Modern applications use development servers in dev mode and build + serve in production mode. The SSR producer keeps the default `dist` output because the existing adapter’s development manifest middleware reads that directory.
+The provider and library each build a second version from the same source, into `provider/dist-v2` and `library/dist/v2`. These are served at separate origins for browser replacement tests. The second Modern version is a CSR build. The library serves real Rslib dual-target build artifacts in both test modes. The primary Modern applications use development servers in dev mode and build + serve in production mode. The built-in adapter resolves the development manifest directory from the actual browser build output.
 
 ## Original coverage mapping
 
@@ -117,7 +121,7 @@ Browser page errors fail the tests, except in the intentional recovery scenario.
 
 ## Dependency baseline
 
-The fixtures pin the existing MF adapter and runtime to 2.9.2. The published bridge package references runtime types without declaring those dependencies. Explicit runtime dependencies, TypeScript paths, and the runtime alias keep the fixture on one version when the workspace also contains older MF examples. No MF or Modern implementation is patched. Remote declaration files describe the fixture contracts, while remote DTS generation remains disabled.
+The fixtures use the built-in adapter and pin the MF engine, Bridge and related packages to `0.0.0-feat-enhanced-runtime-unification-20261022085654`. Runtime APIs and types come from `@module-federation/enhanced/runtime`. Bridge uses the same public entry, so the applications do not declare runtime or runtime-core dependencies or use runtime aliases and TypeScript path overrides. The legacy adapter remains at 2.9.2 for compatibility tests. The fixtures use the workspace Modern implementation and unpatched published MF packages. Remote declaration files describe the fixture contracts, while remote DTS generation remains disabled.
 
 ## Fault controls and recovery
 
@@ -133,7 +137,7 @@ Both comparison pages and Advanced scenarios provide a **Simulate failure** chec
 
 `tests/error-recovery.test.ts` runs independently in dev and production. It checks raw SSR HTML, actual HTTP failures, handling records, isolation, interactive neighbors, and successful loading before and after a fault. Normal regression tests retain their strict SSR and browser-error assertions.
 
-The pinned 2.9.2 adapter additionally reports one unhandled promise rejection when an intentionally failing client data loader runs through prefetch or data downgrade. The fault tests check its exact API error and count, alongside the visible adapter fallback. This known error is not ignored globally or treated as successful prefetching.
+The Bridge data-fetch implementation additionally reports one unhandled promise rejection when an intentionally failing client data loader runs through prefetch or data downgrade. The fault tests check its exact API error and count, alongside the visible adapter fallback. This known error is not ignored globally or treated as successful prefetching.
 
 ## Comparison timing metrics
 
@@ -144,3 +148,9 @@ The footer displays only **Data visible** and **Client ready**, both measured fr
 - Clicking remains covered by e2e assertions on saved station and wind state. Interaction verified is no longer a timing metric or panel-header status.
 
 Comparison tests hold the application entry request while verifying that SSR data is already painted and the button remains disabled. They then release it and verify client readiness and actual interaction. Additional tests hold the client data request to verify that pending content produces neither metric, and exercise the visibility estimate when Element Timing is unavailable. Metric records are retained in the child document and replayed on a parent handshake so an early SSR paint is not lost while the comparison shell hydrates.
+
+## Built-in adapter checks
+
+The adapter package and lab add unit and real CLI coverage for activation, disabling, custom and inline configuration, missing dependencies and duplicate registration. The i18n MF fixtures explicitly disable built-in MF to retain legacy-plugin compatibility coverage.
+
+The rendering suite edits a remote only inside its private temporary workspace and checks the original response HTML after recompilation and restoration. The prefetch comparison holds the same component download until the same navigation age in both runs and compares actual Element Timing Data visible values after real local API requests. Request marks and business promise reuse are not the timing assertion.

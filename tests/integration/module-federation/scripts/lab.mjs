@@ -31,16 +31,21 @@ export async function startLab(
   );
   /** @type {Record<string, number>} */
   const ports = {};
+  const portRangeStart = 12000 + Math.floor(Math.random() * 8000);
   for (const [index, name] of names.entries()) {
     ports[name] = fixedPorts
       ? 4300 + index
       : await getPort({
+          // Ephemeral client connections can claim port-0 allocations before
+          // the later dev servers bind. Keep fixture listeners below that range.
+          port: getPort.makeRange(portRangeStart, 25000),
           exclude: Object.values(ports),
         });
   }
   const processes = [];
   const servers = [];
   const failures = [];
+  let stopping = false;
   const logs = new Map();
   const env = {
     ...process.env,
@@ -75,8 +80,11 @@ export async function startLab(
     return new Promise((resolve, reject) => {
       child.on('error', reject);
       child.on('exit', (code, signal) => {
-        if (continuous && !signal)
-          failures.push(`${key} exited (${code})\n${logs.get(key)}`);
+        if (continuous && !stopping) {
+          const failure = `${key} exited (code: ${code}, signal: ${signal})\n${logs.get(key)}`;
+          failures.push(failure);
+          console.error(failure);
+        }
         if (!continuous)
           code === 0
             ? resolve()
@@ -145,6 +153,7 @@ export async function startLab(
     await new Promise(resolve => server.listen(port, resolve));
   }
   async function stop() {
+    stopping = true;
     await Promise.all(
       servers.map(
         server =>
@@ -213,7 +222,9 @@ export async function startLab(
           response.pipe(res);
         },
       );
-      upstream.on('error', () => {
+      upstream.on('error', error => {
+        if (!res.destroyed)
+          console.error(`MF gateway failed: ${req.url}`, error);
         if (!res.headersSent) res.writeHead(502);
         res.end();
       });

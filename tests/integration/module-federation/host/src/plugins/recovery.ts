@@ -1,4 +1,4 @@
-import type { ModuleFederationRuntimePlugin } from '@module-federation/runtime-core';
+import type { ModuleFederationRuntimePlugin } from '@module-federation/enhanced/runtime';
 export default function recoveryPlugin(): ModuleFederationRuntimePlugin {
   return {
     name: 'mf-lab-recovery',

@@ -1,6 +1,7 @@
 import path from 'path';
 import { castArray } from '@modern-js/builder';
 import { getLocaleLanguage } from '@modern-js/i18n-utils/language-detector';
+import { builtinModuleFederationPlugin } from '@modern-js/plugin-module-federation';
 import { createAsyncHook } from '@modern-js/plugin';
 import {
   cleanRequireCache,
@@ -48,11 +49,13 @@ export const appTools = (): CliPlugin<AppTools> => ({
   usePlugins: [
     compatPlugin(),
     initializePlugin(),
+    builtinModuleFederationPlugin(),
     analyzePlugin(),
     serverBuildPlugin(),
     deployPlugin(),
   ],
   post: [
+    '@modern-js/builtin-module-federation',
     '@modern-js/plugin-initialize',
     '@modern-js/plugin-analyze',
     '@modern-js/plugin-ssr',
