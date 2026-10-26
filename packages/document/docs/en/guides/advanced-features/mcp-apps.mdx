@@ -1,0 +1,121 @@
+# MCP Apps
+
+Modern.js builds React cards for MCP hosts. UI builds and servers exchange only `ui-manifest.json`. Servers use the official MCP SDK directly.
+
+## Create a project
+
+```bash
+npx @modern-js/create@latest my-mcp --template mcp-apps
+npx @modern-js/create@latest my-mf-mcp --template mcp-apps --mf
+npx @modern-js/create@latest my-server --template mcp-server
+```
+
+Choose a release containing MCP Apps support. Run `pnpm dev`. The explicit BFF route is `/api/mcp`. UI projects include `/mcp/inspector` during development.
+
+## Build cards
+
+Declare local default-export React components or this project's MF exposes in `mcp-views.json`:
+
+```json
+{
+  "views": {
+    "todos": "./src/components/Todos.tsx",
+    "stats": { "expose": "./Stats" }
+  },
+  "csp": { "resourceDomains": [], "connectDomains": [] },
+  "prefersBorder": true
+}
+```
+
+Add `mcpAppsPlugin({ views: './mcp-views.json' })` to your Modern.js plugins. Paths resolve relative to the JSON file. MF cards require the Modern.js MF plugin with manifest output enabled. The UI plugin validates exposes against the actual emitted MF manifest and builds the shell with the application's React dependencies.
+
+{/* prettier-ignore */}
+```tsx
+import type { McpViewProps } from '@modern-js/mcp-apps/react'
+
+export default function Todos({
+  todos = [],
+  mcpApp,
+}: McpViewProps<{ todos: string[] }>) {
+  return (
+    <section>
+      <ul>
+        {todos.map(todo => (
+          <li key={todo}>{todo}</li>
+        ))}
+      </ul>
+      <button
+        onClick={() =>
+          mcpApp.callServerTool({ name: 'refresh', arguments: {} })
+        }
+      >
+        Refresh
+      </button>
+    </section>
+  )
+}
+```
+
+Props come from successful `structuredContent`. The reserved `mcpApp` prop is injected by the wrapper. Input arguments are not merged into props. New input, cancellation and teardown clear previous output. The wrapper manages connection, host styling and loading/error states. Results from tools called inside a card must be handled by the component itself.
+
+## Write the server
+
+Enable `bffPlugin()` and create `api/lambda/mcp.ts`. The UI plugin does not register any HTTP route.
+
+{/* prettier-ignore */}
+```ts
+import { McpServer } from '@modelcontextprotocol/server'
+import { registerAppTool } from '@modelcontextprotocol/ext-apps/server'
+import {
+  createBffHandlers,
+  loadUiManifest,
+  registerUiResources,
+} from '@modern-js/mcp-apps/server'
+import { z } from 'zod'
+
+async function createServer(request: Request) {
+  const server = new McpServer({ name: 'todos', version: '1.0.0' })
+  const manifest = await loadUiManifest()
+  const ui = registerUiResources(server, manifest, { request })
+  registerAppTool(
+    server,
+    'list_todos',
+    {
+      inputSchema: z.object({}),
+      _meta: { ui: { resourceUri: ui.todos } },
+    },
+    async () => ({
+      content: [{ type: 'text', text: 'Todo list' }],
+      structuredContent: { todos: ['Read the MCP Apps guide'] },
+    }),
+  )
+  return server
+}
+
+export const { POST, GET, DELETE } = createBffHandlers(createServer)
+```
+
+The adapter reconstructs BFF's consumed JSON body and returns the SDK Response. The official SDK owns protocol serving and tool validation. Serving is stateless, so unsupported session operations such as GET and DELETE are rejected by the SDK. Return a fresh server per request. Put authentication and authorization in surrounding middleware or the factory, and persist business data in an external store.
+
+For independent Hono servers, create `handle = createFetchHandler(createServer)` and mount `app.all('/mcp', c => handle(c.req.raw))`. Foreign browser origins are rejected unless listed in `allowedOrigins` in the adapter's second argument.
+
+## Manifest and deployment
+
+Builds emit `dist/mcp-apps/ui-manifest.json` and `dist/mcp-apps/ui/*.html`. Static JavaScript, CSS and MF files remain in the application's standard output. MF-only projects also emit a UI manifest. Local HTML filenames use a stable hash of the view name. MF cards share `mcp-shell.html`.
+
+The version 1 manifest contains `assetBase`, `remotes` and `views`. A local view has `{ html, ui }`. An MF view has `{ remote, expose, ui }`, with its remote declaring `{ entry, shell }`.
+
+- HTML and shell paths resolve relative to the manifest location
+- MF entry paths resolve relative to `assetBase`
+- Absolute HTTP(S) sources are supported for independent deployments
+- `ui` preserves CSP, permissions, domain and border preferences
+- Resource URIs are generated as `ui://app/<encoded-view-name>` by the server, and multiple tools can share a card
+- MF configuration is injected into resource HTML instead of tool results
+
+`loadUiManifest()` is asynchronous. Defaults are `dist/mcp-apps/ui-manifest.json` in production and `node_modules/.modern-js/mcp-apps/ui-manifest.json` in development. Pass a file path or HTTP(S) URL for custom output directories or independent servers. In-memory manifests with relative HTML require `manifestUrl` when registering resources.
+
+An absolute `output.assetPrefix` becomes `assetBase`. Otherwise request-origin resolution is used. Override `assetBase` in `registerUiResources` for a separate static origin or deployment path prefix. Request mode honors sanitized `x-forwarded-proto` headers. Reverse proxies must preserve the public host and sanitize forwarded headers.
+
+Required asset, connection and base URI origins are added to CSP. MF entry origins are also added to connection permissions. Declare any additional API, chunk/CDN or iframe origins explicitly. Deploy the manifest and HTML together with the application static assets and MF output. The Inspector is excluded from production builds.
+
+Platforms may rewrite file and MF addresses to absolute URLs and combine cards into another manifest of the same version. Unknown versions are rejected.

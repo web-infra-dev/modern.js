@@ -1,0 +1,10 @@
+{
+  "views": {
+    "todos": "./src/components/Todos.tsx"
+  },
+  "csp": {
+    "resourceDomains": [],
+    "connectDomains": []
+  },
+  "prefersBorder": true
+}

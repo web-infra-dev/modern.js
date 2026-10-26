@@ -1,0 +1,25 @@
+{
+  "extends": "@modern-js/tsconfig/base",
+  "compilerOptions": {
+    "types": ["@modern-js/app-tools/types"],
+    "declaration": false,
+    "jsx": "preserve",
+    "baseUrl": "./",
+    "paths": {
+      "@/*": ["./src/*"],
+      "@shared/*": ["./shared/*"]
+    },
+    "module": "NodeNext",
+    "moduleResolution": "NodeNext"
+  },
+  "include": [
+    "src",
+    "shared",
+    "config",
+    "modern.config.ts",
+    "server",
+    "api",
+    "module-federation.config.ts"
+  ],
+  "exclude": ["**/node_modules"]
+}

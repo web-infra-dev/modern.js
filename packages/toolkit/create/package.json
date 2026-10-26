@@ -30,7 +30,8 @@
   "files": [
     "template",
     "dist",
-    "bin.js"
+    "bin.js",
+    "templates"
   ],
   "scripts": {
     "build": "rs lib",
