@@ -3,7 +3,7 @@ import { describeLab } from './fixture';
 describeLab('Advanced scenarios', getContext => {
   it('replaces static and dynamic remotes with independently built version two', async () => {
     const { page, visit, text, click, selector } = getContext();
-    await visit('replace', 'provider-forecast');
+    await visit('weather?scenario=replace', 'provider-forecast');
     await page.waitForSelector(selector('dynamic-forecast'));
     async function forecast(
       name: string,
@@ -44,7 +44,9 @@ describeLab('Advanced scenarios', getContext => {
           '[data-testid="provider-forecast"][data-version="v1"]',
         ),
     );
-    let frame = page.frames().find(frame => frame.url().includes('/replace?'))!;
+    let frame = page
+      .frames()
+      .find(frame => frame.url().includes('scenario=replace'))!;
     await frame.waitForSelector(
       '[data-testid="provider-forecast"][data-version="v1"]',
     );
@@ -62,7 +64,9 @@ describeLab('Advanced scenarios', getContext => {
         .querySelector('iframe')
         ?.contentDocument?.querySelector('[data-testid="request-count"]'),
     );
-    frame = page.frames().find(frame => frame.url().includes('/lifecycle?'))!;
+    frame = page
+      .frames()
+      .find(frame => frame.url().includes('scenario=lifecycle'))!;
     await frame.waitForSelector('[data-testid="request-count"]');
     expect(
       await frame.$eval(

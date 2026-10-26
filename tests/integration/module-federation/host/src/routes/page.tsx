@@ -1,1 +1,1 @@
-export { default } from './compare/page';
+export { default } from '../components/Comparison';

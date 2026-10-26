@@ -1,156 +1,84 @@
-# Federation lab
+# Weather Lab
 
-A combined SSR and data-fetch regression playground for built-in Modern.js Module Federation. The migration baseline was the existing `@module-federation/modern-js-v3@2.9.2` adapter. Shared tree shaking and the new RFC runtime APIs are outside its scope.
+The built-in Modern.js Module Federation playground uses the unified React APIs from `@modern-js/runtime/mf`. The weather UI is the demo and the browser E2E fixture. Old signal pages and their sidebar layout have been removed.
 
 ## Run
 
-From the repository root, after installing dependencies and building the Modern.js workspace packages:
+After installing dependencies and building the Modern.js workspace packages, run from the repository root:
 
 ```sh
 pnpm --filter mf-lab-tests dev
 pnpm --filter mf-lab-tests test
 ```
 
-The interactive lab opens at http://localhost:4300. Stop it with Ctrl+C. Add `--production` to the dev script to inspect production builds. Set `MF_LAB_MODE=dev` or `MF_LAB_MODE=production` to run one test mode. Use `PUPPETEER_EXECUTABLE_PATH` to select an existing Chrome installation when needed. Set `MF_LAB_VERBOSE=1` to print child-process logs.
+Open http://localhost:4300/. Stop the interactive lab with Ctrl+C. Add `--production` to the dev command to inspect production builds. Select an existing Chrome installation with `PUPPETEER_EXECUTABLE_PATH` when needed. `MF_LAB_VERBOSE=1` prints child-process logs.
 
-The test command runs the same assertions against Modern development servers and production build + serve. It uses available ports, starts providers before consumers, waits for HTTP readiness, and stops child processes after failures. The dedicated MF test command uses its own serial execution and setup timeout. These tests are excluded from the general framework suite.
+| Route       | Purpose                                                                                                            |
+| ----------- | ------------------------------------------------------------------------------------------------------------------ |
+| `/`         | Rendering comparison, CSR and SSR weather documents                                                                |
+| `/data`     | CSR, SSR, CSR with MF data and SSR with MF data                                                                    |
+| `/advanced` | Weather release replacement, data recovery, loader lifecycle, remote data sources and independent weather stations |
+| `/weather`  | Internal weather document used by the comparison and advanced frames                                               |
 
-## Test organization
+Advanced frames select their experiment through `/weather?scenario=...`. These share the weather layout and do not add separate demo routes. Removed routes such as `/static`, `/recovery`, `/compare` and `/unified` return 404. Navigation and history are tested from the root Weather Lab.
 
-Browser end-to-end coverage lives in independently runnable `tests/*.test.ts` files:
+## Unified API integration
 
-- `rendering.test.ts`: static, dynamic and nested SSR, hydration, styles/assets, routing and custom manifests.
-- `data-fetch.test.ts`: server/client loaders, recovery, lifecycle and explicit prefetch.
-- `comparison.test.ts`: two-panel/four-panel comparisons, local-only requests, script delay and desktop layout.
-- `inspect.test.ts`: remote identities, expandable chains, colors and state/request preservation.
-- `advanced.test.ts`: version replacement and experiment switching.
-- `fixture.ts`: shared setup/cleanup implementation, per-test browser pages, error checks and interaction helpers.
+Ordinary and nested weather consumers call `createReactRemote` with registered `alias/Expose` strings. The framework API selects the renderer from the producer manifest before loading the exposed module. Components use the existing SSR, hydration, CSS/assets and data-fetch pipeline. Fault wrappers supply request-specific props and data-fetch parameters without mutating a loaded component or server-wide flag.
 
-Each file registers its own development and production suites. Each mode builds a fresh temporary copy of the fixture sources, linking installed packages individually without modifying them and keeping writable dependency caches local to that copy. Builds and server processes are isolated between files, so the framework runner can run files concurrently without overwriting another file's manifests or the interactive demo. Temporary sources and outputs are deleted after the suite, including failed setups.
+`Independent weather stations` uses the same factory API and the declarative `ReactRemote` API. Its producer imports `createBridgeComponent` from the framework entry. The manifest marks that expose with `render: 'bridge'` and `isService: false`. Server HTML contains placeholders, and each client mount owns a separate producer Root. Renaming a station preserves its observations, disconnecting destroys it, and reconnecting creates a fresh station. Bridge SSR is outside this phase.
 
-Run one file:
+Runtime registration and prefetch continue using Enhanced and the existing data-prefetch plugin. The fixture does not call the old `createLazyComponent` consumer API. Each producer has one canonical runtime name with an alias. Registering the same container under multiple names would evaluate a second server entry against an existing instance and can break remote chunk initialization.
+
+The MF dependencies remain pinned in package manifests. These APIs require a Core preview containing the unified consumers and per-expose manifest metadata. During cross-repository development, build and pack Core locally in an isolated worktree, override the MF package graph only for local installation, and restore the committed manifests and lockfile before creating or updating a PR. No local paths belong in the PR. Verify the published preview again after updating the pinned versions.
+
+## Weather scenarios
+
+Rendering compares two iframe documents containing current weather from a Modern producer, hourly weather from a dynamically registered Rslib producer, daily weather through an independent nested Modern build, and wind through nested Modern and dynamic Rslib consumption. Smaller viewports omit the decorative cards to keep the interactive modules visible.
+
+The data page compares four documents. Ordinary client fetching and MF data loading use the same local weather API. SSR with MF data includes the actual result in the response HTML. Data prefetch starts before the CSR remote component renders. It defaults to on, reuses a promise by MF data key within one browser document, evicts failed requests and never caches server requests. Tests verify the real request count with prefetch on and off, fresh requests after reload, and Element Timing under a controlled component-download delay.
+
+Advanced scenarios retain the existing raw runtime registration experiment for switching independently built weather releases. Its rendering-only expose has no data-loader sibling, preserving the original component-only experiment while using the unified consumer. This does not implement the future `updateRemotes` API or promise automatic cache invalidation. Data recovery exercises the client-loader and host-retry paths. Lifecycle compares parent updates with a remote remount and checks the no-data-loader module separately. Remote data sources compare Modern and Rslib server loaders.
+
+## Faults and diagnostics
+
+The comparison pages and advanced experiments expose actual remote HTTP 503, server-rendering, component-rendering, weather API and invalid-response failures. Nested weather also supports an inner remote HTTP failure. Clearing a fault reloads its isolated document. Recovery badges only appear after a real recovery path reports an event.
+
+`createReactRemote` supplies the consumer error fallback. MF runtime hooks remain visible for remote loading failures. React still reports errors for intentionally failed streaming boundaries. Data-prefetch failures may also report the existing rejected data-loader promise. Fault tests check the specific errors and counts. Other page errors fail the tests, and no global suppression is used.
+
+Inspect defaults to off and uses the existing runtime `onLoad` decorator. Labels identify each ordinary remote, its manifest and nested chain. Producer colors are shared across frames and survive reloads. Toggling Inspect must preserve remote state and data requests. Bridge provider factories are excluded from the component decorator using manifest protocol metadata.
+
+The local API returns deterministic weather after 900 ms and assigns a request ID. Interactive ports are 4300 for the gateway, 4306 for the API and 4307 for the underlying host. Provider and library version-two builds use separate origins. Weather SVGs, remote station images, CSS and cloud imagery are local. No public weather, font or image service is required.
+
+## Timing metrics
+
+`Data visible` measures the later first paint of the actual temperature and condition through Element Timing. Placeholders and error cards do not create this metric. Browsers without Element Timing show a visibility estimate marked `≈`.
+
+`Client ready` records key weather controls completing hydration or mounting through their effects. Interaction remains verified by saving a station, choosing an hourly forecast and adjusting the wind. These are diagnostic observations, not a performance ranking.
+
+The script-delay control delays the actual host entry request by 0, 1500 or 3000 ms with caching disabled. Tests hold that request while checking server-painted weather and disabled controls, then release it and verify hydration and interaction. Frame messages validate origin and source, and a handshake replays metrics painted before the parent UI mounts.
+
+## E2E mapping
+
+| File                     | Coverage                                                                                                                                                                                              |
+| ------------------------ | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `rendering.test.ts`      | Ordinary SSR, remote CSS and image origins, dynamic hourly interactions, nested daily weather, nested wind, root navigation/history, removed-route 404s, custom manifests and dev remote revalidation |
+| `data-fetch.test.ts`     | Modern and Rslib data sources, host query forwarding, client/host recovery, rerender/remount, no-data-loader behavior and actual prefetch effects                                                     |
+| `comparison.test.ts`     | Two/four weather panels, raw SSR differences, local requests, script delay, Element Timing, visibility estimates and desktop bounds                                                                   |
+| `inspect.test.ts`        | Real remote identities, expandable nested chains, consistent colors, state/request preservation and data-frame inspection                                                                             |
+| `advanced.test.ts`       | Independent producer release replacement and experiment isolation                                                                                                                                     |
+| `error-recovery.test.ts` | HTTP/render/data failures, handling events, interactive neighbors and recovery after clearing faults                                                                                                  |
+| `unified.test.ts`        | Weather expose protocols, factory/declarative Bridge stations, server placeholders, independent state, prop updates and destroy/remount through Advanced                                              |
+| `activation.test.ts`     | Real CLI activation, disabling, config/dependency errors, legacy coexistence, DTS output and native ESM builds                                                                                        |
+
+Each browser file runs dev and production suites, retry 0, with one worker in the dedicated Rstest configuration. Every file owns a temporary source copy and writable caches. Installed packages are linked individually and are never modified by the tests. The runner starts producers before consumers, waits for HTTP readiness and cleans up after failures. Temporary workspaces keep tests independent of the interactive demo.
 
 ```sh
-pnpm --filter mf-lab-tests test tests/data-fetch.test.ts
+MF_LAB_MODE=dev pnpm --filter mf-lab-tests test tests/rendering.test.ts
+MF_LAB_MODE=production pnpm --filter mf-lab-tests test tests/unified.test.ts
+pnpm --filter mf-lab-tests test tests/data-fetch.test.ts -t prefetches
 ```
 
-Run one case in development mode:
+Type checking remains enabled. Fixture tsconfigs exclude `node_modules`, `dist` and `dist-v2` so directory watchers do not traverse linked monorepo dependencies. With `MF_LAB_DIAGNOSTICS=1`, failures also report owned processes and slow requests.
 
-```sh
-MF_LAB_MODE=dev pnpm --filter mf-lab-tests test tests/data-fetch.test.ts -t prefetches
-```
-
-Watch a test file:
-
-```sh
-MF_LAB_MODE=dev pnpm --filter mf-lab-tests test tests/data-fetch.test.ts --watch
-```
-
-## CI
-
-The Module Federation E2E workflow runs automatically for pull requests targeting `feat/module-federation-builtin` or `main`, and for pushes to those branches. This allows feature pull requests to be checked before the integration branch is merged into main. A new commit on an open pull request triggers a new run and cancels its older run.
-
-The CI test run stops at the first failure and prints the fixture server and browser logs for diagnosis. Fixture listener ports are selected below the usual ephemeral client port range to reduce collisions with startup connections. With `MF_LAB_DIAGNOSTICS=1`, each test also reports process CPU/memory and slow-request timings.
-
-Fixture tsconfigs explicitly exclude `node_modules`, `dist` and `dist-v2`. The type checker uses raw tsconfig exclusions for its directory watcher, so relying on TypeScript's implicit dependency exclusion makes it traverse the linked monorepo dependencies. Keep type checking enabled and preserve these exclusions to avoid sustained CPU use and memory growth during development tests.
-
-The Linux job builds `app-tools`, `runtime` and their workspace dependencies, installs the Chrome version pinned by Puppeteer, and runs `pnpm --filter mf-lab-tests test`. It uses this package's Rstest configuration, including one worker and a ten-minute setup timeout, and covers both development and production. The workflow also declares `workflow_dispatch` for manual runs once GitHub exposes it from the default branch.
-
-Normal `it.only` and `describe.only` selection also works directly inside each file. Use the dedicated package command for file and case filters.
-
-## Weather comparison pages
-
-The main navigation has three destinations. The original regression routes remain directly accessible for focused tests.
-
-- `/compare`: side-by-side CSR and SSR documents with the same local fixture data. Current weather is a static Modern remote, hourly weather is a dynamically registered Rslib remote, the five-day forecast passes through the nested Modern build, and the wind dial passes through dynamically loaded nested and Rslib builds.
-- `/compare-data`: four isolated documents for CSR, SSR, CSR + MF data-fetch and SSR + MF data-fetch. The first two request weather after mounting. The latter two use the real remote `WeatherData.data` loader. SSR + data-fetch includes the API result in its HTML. CSR + data-fetch uses the adapter's `noSSR` component boundary and runs its loader in the browser.
-- `/advanced`: weather version replacement, data recovery and lifecycle experiments in one selector.
-
-Both comparison pages fit a desktop viewport. Smaller screens stack the panels. On shorter desktops the decorative air-quality, UV and sunset cards are omitted so the four rendering modules remain visible. The compact four-way comparison omits nested modules.
-
-The shell renders no remote weather components itself. Each panel supplies one animated sky behind its translucent glass header and transparent weather iframe, so the clouds remain continuous across both areas. Standalone weather routes retain their own sky. Each iframe has independent React and MF state and always runs JavaScript. Changing the startup delay or reloading recreates the documents. The default is No delay. The test runner proxies the host and delays the actual host entry script by 0, 1500 or 3000 ms, with caching disabled for that entry. This is a network delay, not a simulated loading screen.
-
-**Data prefetch** defaults to on in the four-way comparison. It calls the existing MF runtime's `prefetch()` while the CSR data route initializes, before React renders its lazy remote. Turning it off reloads the frames and leaves normal data fetching enabled. SSR + data-fetch continues fetching on the server in either mode. With this adapter, CSR prefetch invokes the raw loader without retaining its return value, so the demo's weather loader reuses its promise by MF data key within a browser document. Failed requests are evicted and server requests are never cached. Tests verify one API request per client panel with either setting and fresh requests after reload. Prefetch changes startup behavior and preserves the final forecast. The difference is visible during loading rather than after all data arrives.
-
-The local API returns deterministic weather after 900 ms and assigns a request ID. It is started and stopped with the test applications. In interactive mode, the public gateway is port 4300, the API is 4306 and the underlying Modern host is 4307. CI allocates these ports independently. Weather icons and procedural cloud imagery are bundled SVG, and fonts use the system stack. No public weather, image, map or font service is required.
-
-Frame messages validate origin and source. Client takeover is reported after mounting, while interaction is only verified after a real save, forecast selection or wind adjustment. Times are measured from each document's navigation start, and data readiness is a client observation rather than a server paint measurement. Tests inspect the raw HTML separately to verify server-rendered content. These are diagnostic timings, not a performance ranking.
-
-The comparison tests check HTML differences, actual API and MF loader use, independent interactive frames, the script-delay response, local-only requests and desktop viewport bounds. The original regression assertions remain in place.
-
-### Inspect remotes
-
-Enable **Inspect** in either comparison page to outline the remote components. Labels show the first remote loaded by the host, its exposed module and registered manifest URL. Re-exported boundaries sharing the same visible element use one outline. Expand the source label to reveal the nested producer and its own manifest link, connected beneath the first source with a producer-colored dot. Escape or a click outside collapses it. Single-source components have no expand control. Hover a link for its full URL and runtime request details.
-
-Colors are generated from a random session palette keyed by the remote container name. All frames and modules from the same remote share one color, and frame reloads keep that color. A re-exported component uses the first remote's color, which stays unchanged when its source chain is expanded.
-
-The host and nested consumer register the same runtime plugin through `runtimePlugins`. Its `apply(instance)` / `onLoad` hooks decorate React component exports using runtime metadata, including dynamically registered remotes. Data loaders are excluded. Module property descriptors preserve named exports and non-enumerable MF module IDs. The React inspection UI loads asynchronously after remote initialization to avoid consuming React during runtime bootstrap.
-
-The decorator keeps a `display: contents` boundary in both SSR and CSR. Inspection adds a portal overlay measured with ResizeObserver rather than changing the weather layout. Toggling it sends origin/source-checked messages into the existing frames and does not remount components, reload documents or fetch weather again. Inspection defaults to off and remains selected across frame reloads.
-
-## Build boundaries
-
-| Source     | Role                                                                   |
-| ---------- | ---------------------------------------------------------------------- |
-| `host`     | One Modern consumer with routes for both original suites               |
-| `provider` | Modern SSR producer with static components and data loaders            |
-| `nested`   | An independent Modern build with static and dynamic nested consumption |
-| `library`  | Rslib dual-target producer for dynamic loading and CSR data fetching   |
-
-The provider and library each build a second version from the same source, into `provider/dist-v2` and `library/dist/v2`. These are served at separate origins for browser replacement tests. The second Modern version is a CSR build. The library serves real Rslib dual-target build artifacts in both test modes. The primary Modern applications use development servers in dev mode and build + serve in production mode. The built-in adapter resolves the development manifest directory from the actual browser build output.
-
-## Original coverage mapping
-
-Sources are the MF core repository's `apps/modernjs-ssr` and `apps/modern-component-data-fetch`.
-
-| Original scenario                  | Lab route                           | Assertions                                                                                                           |
-| ---------------------------------- | ----------------------------------- | -------------------------------------------------------------------------------------------------------------------- |
-| Static remote                      | `/static`                           | Remote HTML in the server response, hydrated interaction, CSS and image origin                                       |
-| Dynamic remote                     | `/dynamic`                          | Runtime registration, Rslib SSR, hydrated interaction, CSS                                                           |
-| Nested remote                      | `/nested`                           | Real host → nested build → provider chain, SSR, independently split child components and interaction                 |
-| Dynamic nested remote              | `/dynamic-nested`                   | Runtime loading at both boundaries, SSR, CSS, async child components and interaction                                 |
-| Client routing                     | `/static` ↔ `/nested`               | Back/forward and interaction without a document reload                                                               |
-| Static/dynamic version replacement | `/replace`                          | Sunny 24° version one changes to rainy 16° version two through forced registration, with interaction after each load |
-| Custom manifest and entry paths    | Provider `/static/mf-manifest.json` | Manifest metadata and accessible server entry                                                                        |
-| SSR data fetching                  | `/data`                             | Server data in the first HTML response and hydrated interaction                                                      |
-| CSR with server data               | `/csr`                              | Component absent from server HTML, data request through host, forwarded query                                        |
-| Client/server downgrade            | `/recovery`                         | Intentional initial failures recover through the two distinct loaders                                                |
-| Data-loader lifecycle              | `/lifecycle`                        | Parent rerender preserves data, remount refetches, no-data loader runs once                                          |
-
-Browser page errors fail the tests, except in the intentional recovery scenario. The existing adapter renders an error fallback on the server and recovers data in the browser, so React 19 reports two recoverable hydration mismatches. That test explicitly checks both reports and both successful data results. Other page errors still fail it. No fixed sleeps are used as readiness assertions. The visual design uses local system fonts and bundled styles, with no external image or font requests.
-
-## Dependency baseline
-
-The fixtures use the built-in adapter and pin the MF engine, Bridge and related packages to `0.0.0-feat-enhanced-runtime-unification-20261022085654`. Runtime APIs and types come from `@module-federation/enhanced/runtime`. Bridge uses the same public entry, so the applications do not declare runtime or runtime-core dependencies or use runtime aliases and TypeScript path overrides. The legacy adapter remains at 2.9.2 for compatibility tests. The fixtures use the workspace Modern implementation and unpatched published MF packages. Remote declaration files describe the fixture contracts, while remote DTS generation remains disabled.
-
-## Fault controls and recovery
-
-Both comparison pages and Advanced scenarios provide a **Simulate failure** checkbox. Select a failure, then enable it. Changing an active failure or clearing the checkbox reloads the iframe documents. A badge in each panel header appears only after an actual recovery path reports its result.
-
-- Remote network failure requests a local manifest endpoint that returns HTTP 503. Synthetic remote names use the reload identifier, and their own `lab-fault` share scope keeps the offline station out of normal share initialization. The existing sharing strategy stays unchanged.
-- Server rendering failure throws inside the remote release only on the server. The raw HTML lacks that component. Modern's `onBeforeRender` hook observes React's actual failed streaming boundary before hydration, and the browser recovers the component.
-- Component code failure throws inside the remote release on both sides. A local React error boundary contains it. The MF adapter's loading/data fallback is tested separately, because it does not catch every render exception.
-- API failure and invalid API responses come from the local weather server. Real MF loaders receive request-scoped fault parameters. The four-panel comparison also covers ordinary client fetching.
-- Nested forecast and wind targets additionally offer an inner remote network failure. The outer remote remains loaded while the inner manifest request fails.
-- Version replacement applies a fault only when switching to the next release. The component-only replacement path preserves the original fixture's React lazy loading. Its MF `errorLoadRemote` hook can return a local fallback module.
-- Lifecycle faults apply on the next station remount. Parent updates and the initial load remain successful. The data-recovery scenario retains both existing client-loader and host-retry paths and reports each actual downgrade.
-
-`tests/error-recovery.test.ts` runs independently in dev and production. It checks raw SSR HTML, actual HTTP failures, handling records, isolation, interactive neighbors, and successful loading before and after a fault. Normal regression tests retain their strict SSR and browser-error assertions.
-
-The Bridge data-fetch implementation additionally reports one unhandled promise rejection when an intentionally failing client data loader runs through prefetch or data downgrade. The fault tests check its exact API error and count, alongside the visible adapter fallback. This known error is not ignored globally or treated as successful prefetching.
-
-## Comparison timing metrics
-
-The footer displays only **Data visible** and **Client ready**, both measured from each iframe's navigation time origin.
-
-- **Data visible** records the later first-paint timestamp of the real temperature and condition text using Element Timing. The observer is installed in the document head independently of the application entry, so SSR data can be measured before hydration. Placeholders and error cards have no timing targets. Browsers without Element Timing use intersection plus a paint opportunity as an estimate, labeled with `≈` and an explanatory tooltip.
-- **Client ready** is a custom measure of key controls completing hydration (SSR) or mounting (CSR). Each component reports through an effect after its controls are enabled. The screen records the last report from current weather, hourly forecast, and wind (wind is absent on compact screens). It does not explicitly wait for weather data. A component suspended by its MF data loader still cannot report until it mounts. This is not a standard browser metric or a claim that every resource has finished loading.
-- Clicking remains covered by e2e assertions on saved station and wind state. Interaction verified is no longer a timing metric or panel-header status.
-
-Comparison tests hold the application entry request while verifying that SSR data is already painted and the button remains disabled. They then release it and verify client readiness and actual interaction. Additional tests hold the client data request to verify that pending content produces neither metric, and exercise the visibility estimate when Element Timing is unavailable. Metric records are retained in the child document and replayed on a parent handshake so an early SSR paint is not lost while the comparison shell hydrates.
-
-## Built-in adapter checks
-
-The adapter package and lab add unit and real CLI coverage for activation, disabling, custom and inline configuration, missing dependencies and duplicate registration. The i18n MF fixtures explicitly disable built-in MF to retain legacy-plugin compatibility coverage.
-
-The rendering suite edits a remote only inside its private temporary workspace and checks the original response HTML after recompilation and restoration. The prefetch comparison holds the same component download until the same navigation age in both runs and compares actual Element Timing Data visible values after real local API requests. Request marks and business promise reuse are not the timing assertion.
+The Module Federation E2E workflow targets pull requests and pushes to `feat/module-federation-builtin` and `main`. It builds app-tools, runtime and their dependencies, installs the pinned Puppeteer browser and runs the complete suite. The workflow also declares manual dispatch. Sources of the original coverage are Core's `apps/modernjs-ssr` and `apps/modern-component-data-fetch`, with their assertions now expressed through weather components and the unified framework API.

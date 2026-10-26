@@ -55,7 +55,7 @@ describeLab('Failure recovery', getContext => {
       `${lab.url}/weather?render=csr&csr=1&data=local&failure=network&target=dynamic/WeatherHourly`,
       { waitUntil: 'domcontentloaded' },
     );
-    await page.waitForSelector('[data-handler="MF adapter fallback"]');
+    await page.waitForSelector('[data-handler="React remote fallback"]');
     expect(failures).toContain(503);
     expect(
       await page.evaluate(() =>
@@ -95,7 +95,7 @@ describeLab('Failure recovery', getContext => {
       `${lab.url}/weather?render=csr&csr=1&data=local&failure=render&target=provider/Weather`,
       { waitUntil: 'domcontentloaded' },
     );
-    await page.waitForSelector('[data-handler="React error boundary"]');
+    await page.waitForSelector('[data-handler="React remote fallback"]');
     expect(await page.$('[data-testid="weather-current"]')).toBeNull();
     await page.waitForSelector('.hourly-weather');
     expect(
@@ -127,13 +127,13 @@ describeLab('Failure recovery', getContext => {
         `${lab.url}/weather?render=csr&csr=1&data=mf&prefetch=1&failure=${failure}&target=provider/Weather`,
         { waitUntil: 'domcontentloaded' },
       );
-      await page.waitForSelector('[data-handler="MF adapter fallback"]');
+      await page.waitForSelector('[data-handler="React remote fallback"]');
       expect(responses).toContain(failure === 'data' ? 503 : 200);
       expect(await page.$('[data-testid="weather-current"]')).toBeNull();
     },
   );
 
-  it.each(['nested/WeatherDays', 'dynamicNested/WeatherWind'])(
+  it.each(['nested/WeatherDays', 'nested/WeatherWind'])(
     'isolates an inner network failure in %s',
     async target => {
       const { lab, page } = getContext();
@@ -145,7 +145,7 @@ describeLab('Failure recovery', getContext => {
         `${lab.url}/weather?csr=1&render=csr&data=local&failure=inner-network&target=${target}`,
         { waitUntil: 'domcontentloaded' },
       );
-      await page.waitForSelector('[data-handler="MF adapter fallback"]');
+      await page.waitForSelector('[data-handler="React remote fallback"]');
       const inner =
         target === 'nested/WeatherDays'
           ? 'provider_WeatherDays'
@@ -181,7 +181,7 @@ describeLab('Failure recovery', getContext => {
           2,
         );
       await page.setViewport({ width: 1440, height: 900 });
-      await page.goto(`${lab.url}/compare`, { waitUntil: 'domcontentloaded' });
+      await page.goto(`${lab.url}/`, { waitUntil: 'domcontentloaded' });
       await page.waitForSelector('html[data-lab-ready="true"]');
       await page.waitForSelector('[aria-label="Simulate failure"]');
       async function readyFrames(value: string) {
@@ -253,10 +253,10 @@ describeLab('Failure recovery', getContext => {
       const response = await fetch(`${lab.url}${route}`);
       expect(response.status).toBe(200);
       const html = await response.text();
-      expect(html).toContain('data-handler="MF adapter fallback"');
+      expect(html).toContain('data-handler="React remote fallback"');
       expect(html).not.toContain('data-testid="weather-current"');
       await page.goto(`${lab.url}${route}`, { waitUntil: 'domcontentloaded' });
-      await page.waitForSelector('[data-handler="MF adapter fallback"]');
+      await page.waitForSelector('[data-handler="React remote fallback"]');
       await page.waitForFunction(() =>
         (window as any).labRecoveries?.some(
           (event: any) => event.status === 'Data fallback',
@@ -307,7 +307,8 @@ describeLab('Failure recovery', getContext => {
               try {
                 const url = new URL(frame!.contentWindow!.location.href);
                 return (
-                  url.pathname === `/${scenario}` &&
+                  url.pathname === '/weather' &&
+                  url.searchParams.get('scenario') === scenario &&
                   url.searchParams.get('failure') === (enabled ? kind : '')
                 );
               } catch {
@@ -341,7 +342,7 @@ describeLab('Failure recovery', getContext => {
           });
         return page
           .frames()
-          .find(frame => frame.url().includes(`/${scenario}?`))!;
+          .find(frame => frame.url().includes(`scenario=${scenario}`))!;
       }
       let frame = await currentFrame(true);
       await frame.waitForFunction(
@@ -372,7 +373,7 @@ describeLab('Failure recovery', getContext => {
         .waitForSelector(
           scenario === 'replace'
             ? '[data-handler="MF runtime fallback"]'
-            : '[data-handler="MF adapter fallback"]',
+            : '[data-handler="React remote fallback"]',
         )
         .catch(async error => {
           throw new Error(
@@ -433,7 +434,7 @@ describeLab('Failure recovery', getContext => {
       2,
     );
     await page.setViewport({ width: 1440, height: 900 });
-    await page.goto(`${lab.url}/compare-data`, { waitUntil: 'networkidle0' });
+    await page.goto(`${lab.url}/data`, { waitUntil: 'networkidle0' });
     for (const frame of await weatherFrames(4))
       await frame.waitForSelector(
         '[data-testid="weather-save"]:not(:disabled)',

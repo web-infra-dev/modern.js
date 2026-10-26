@@ -5,7 +5,7 @@ describeLab('Inspect', getContext => {
     const { lab, page, weatherFrames } = getContext();
     const colors = new Map<string, string>();
     await page.setViewport({ width: 1440, height: 900 });
-    await page.goto(`${lab.url}/compare`, { waitUntil: 'networkidle0' });
+    await page.goto(`${lab.url}/`, { waitUntil: 'networkidle0' });
     const frames = await weatherFrames(2);
     for (const frame of frames) {
       await frame.waitForSelector(
@@ -171,7 +171,7 @@ describeLab('Inspect', getContext => {
   it('inspects data-fetch components without wrapping loaders or repeating data requests', async () => {
     const { lab, page, weatherFrames } = getContext();
     await page.setViewport({ width: 1440, height: 900 });
-    await page.goto(`${lab.url}/compare-data`, { waitUntil: 'networkidle0' });
+    await page.goto(`${lab.url}/data`, { waitUntil: 'networkidle0' });
     const frames = await weatherFrames(4);
     const initial = [];
     for (const frame of frames) {

@@ -1,7 +1,8 @@
 import { describeLab } from './fixture';
 
-describeLab('Unified React remote API', getContext => {
-  it('publishes per-expose Bridge metadata and preserves ordinary exposes', async () => {
+const route = 'weather?scenario=bridge';
+describeLab('Independent weather applications', getContext => {
+  it('marks the weather Bridge provider and preserves ordinary weather expose metadata', async () => {
     const { lab } = getContext();
     const manifest = await (
       await fetch(
@@ -14,72 +15,86 @@ describeLab('Unified React remote API', getContext => {
       ),
     ).toMatchObject({ render: 'bridge', isService: false });
     expect(
-      manifest.exposes.find((item: { name: string }) => item.name === 'Signal')
+      manifest.exposes.find((item: { name: string }) => item.name === 'Weather')
         .render,
     ).toBeUndefined();
   });
-  it('SSR renders ordinary components and data while Bridge applications mount only in the client', async () => {
-    const { lab, page, visit, counter } = getContext();
-    const html = await (await fetch(`${lab.url}/unified`)).text();
-    expect(html).toContain('A signal from another origin.');
-    expect(html).toContain('modern-server');
-    expect(html).toContain('Loading client application');
-    expect(html).not.toContain('Bridge count:');
-    await visit('unified', 'unified-bridge');
-    await counter('signal');
-    await page.waitForSelector('[data-testid="forecast"]');
+  it('selects client Bridge rendering automatically and mounts independent weather station roots', async () => {
+    const { lab, page, visit } = getContext();
+    const html = await (await fetch(`${lab.url}/${route}`)).text();
+    expect(html).toContain('Connecting to independent weather station');
+    expect(html).toContain('data-mf-bridge');
+    expect(html).not.toContain('Observations saved:');
+    await visit(route, 'bridge-station');
     await page.waitForFunction(
       () =>
-        document.querySelectorAll('[data-testid="unified-bridge"]').length ===
+        document.querySelectorAll('[data-testid="bridge-station"]').length ===
         2,
     );
-    const cards = await page.$$('[data-testid="unified-bridge"]');
-    await cards[0].$('button').then(button => button!.click());
+    const stations = await page.$$('[data-testid="bridge-station"]');
+    await stations[0]
+      .$('[data-testid="station-observation"]')
+      .then(button => button!.click());
     await page.waitForFunction(() =>
       document
-        .querySelectorAll('[data-testid="unified-bridge"]')[0]
-        ?.textContent?.includes('Bridge count: 1'),
+        .querySelectorAll('[data-testid="bridge-station"]')[0]
+        ?.textContent?.includes('Observations saved: 1'),
     );
-    expect(await cards[1].evaluate(element => element.textContent)).toContain(
-      'Bridge count: 0',
+    expect(await stations[1].evaluate(el => el.textContent)).toContain(
+      'Observations saved: 0',
+    );
+    await page.waitForSelector(
+      '[data-testid="bridge-station"] [data-testid="weather-save"]:not(:disabled)',
+    );
+    await page.click(
+      '[data-testid="bridge-station"] [data-testid="weather-save"]',
+    );
+    expect(await stations[0].evaluate(el => el.textContent)).toContain(
+      'Station saved',
+    );
+    expect(await stations[1].evaluate(el => el.textContent)).toContain(
+      'Save station',
     );
   });
-  it('updates Bridge props without replacing its root and remounts a fresh instance', async () => {
-    const { page, visit, selector } = getContext();
-    await visit('unified', 'unified-bridge');
+  it('updates station props without replacing its root and reconnects a fresh instance through Advanced', async () => {
+    const { lab, page } = getContext();
+    await page.goto(`${lab.url}/advanced`, { waitUntil: 'networkidle0' });
+    await page.select('[aria-label="Advanced scenarios"]', 'bridge');
     await page.waitForFunction(
       () =>
-        document.querySelectorAll('[data-testid="unified-bridge"]').length ===
-        2,
+        document
+          .querySelector('iframe')
+          ?.contentDocument?.querySelectorAll('[data-testid="bridge-station"]')
+          .length === 2,
     );
-    await page.click('[data-testid="unified-bridge"] button');
-    await page.click(selector('unified-update'));
-    await page.waitForFunction(() => {
+    const frame = page
+      .frames()
+      .find(frame => frame.url().includes('scenario=bridge'))!;
+    await frame.click('[data-testid="station-observation"]');
+    await frame.click('[data-testid="station-update"]');
+    await frame.waitForFunction(() => {
       const text = document.querySelector(
-        '[data-testid="unified-bridge"]',
+        '[data-testid="bridge-station"]',
       )?.textContent;
       return (
-        text?.includes('Updated application') &&
-        text.includes('Bridge count: 1')
+        text?.includes('Lakeside station') &&
+        text.includes('Observations saved: 1')
       );
     });
-    await page.click(selector('unified-toggle'));
-    await page.waitForFunction(
+    await frame.click('[data-testid="station-toggle"]');
+    await frame.waitForFunction(
       () =>
-        document.querySelectorAll('[data-testid="unified-bridge"]').length ===
+        document.querySelectorAll('[data-testid="bridge-station"]').length ===
         1,
     );
-    await page.click(selector('unified-toggle'));
-    await page.waitForFunction(
+    await frame.click('[data-testid="station-toggle"]');
+    await frame.waitForFunction(
       () =>
-        document.querySelectorAll('[data-testid="unified-bridge"]').length ===
+        document.querySelectorAll('[data-testid="bridge-station"]').length ===
         2,
     );
     expect(
-      await page.$eval(
-        '[data-testid="unified-bridge"]',
-        element => element.textContent,
-      ),
-    ).toContain('Bridge count: 0');
+      await frame.$eval('[data-testid="bridge-station"]', el => el.textContent),
+    ).toContain('Observations saved: 0');
   });
 });

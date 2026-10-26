@@ -1360,3 +1360,26 @@
 .lab-remote-slot {
   display: contents;
 }
+
+.independent-station {
+  color: white;
+  background: #4a92c9 url('./clouds.svg') center top/cover;
+  border-radius: 20px;
+  text-align: center;
+  padding: 20px;
+}
+.independent-station > h2 {
+  font-size: 19px;
+  font-weight: 400;
+}
+.independent-station .current-weather {
+  height: auto;
+}
+.independent-station > button {
+  color: white;
+  border: 1px solid #ffffff70;
+  background: #ffffff20;
+  border-radius: 20px;
+  padding: 8px 18px;
+  cursor: pointer;
+}

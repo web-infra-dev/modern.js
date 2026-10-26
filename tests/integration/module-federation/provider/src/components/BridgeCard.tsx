@@ -1,16 +1,19 @@
 import { useState } from 'react';
 import { createBridgeComponent } from '@modern-js/runtime/mf';
-
-function BridgeCard({ label = 'Remote application' }: { label?: string }) {
+import { CurrentWeather } from '../weather-ui';
+function WeatherStation({ label = 'Weather station' }: { label?: string }) {
   const [count, setCount] = useState(0);
   return (
-    <section data-testid="unified-bridge">
-      <p>{label}</p>
-      <button onClick={() => setCount(value => value + 1)}>
-        Bridge count: {count}
+    <section className="independent-station" data-testid="bridge-station">
+      <h2>{label}</h2>
+      <CurrentWeather local />
+      <button
+        data-testid="station-observation"
+        onClick={() => setCount(value => value + 1)}
+      >
+        Observations saved: {count}
       </button>
     </section>
   );
 }
-
-export default createBridgeComponent({ rootComponent: BridgeCard });
+export default createBridgeComponent({ rootComponent: WeatherStation });

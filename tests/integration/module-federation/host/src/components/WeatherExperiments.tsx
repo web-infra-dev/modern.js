@@ -1,15 +1,9 @@
 import { labComponent } from '../failure/components';
 import { Suspense, useState, useEffect, type ComponentType } from 'react';
+import { registerRemotes } from '@module-federation/enhanced/runtime';
 import {
-  loadRemote,
-  registerRemotes,
-} from '@module-federation/enhanced/runtime';
-import Signal from 'provider/Signal';
-import Relay from 'nested/Relay';
-import {
-  DynamicSignal,
-  DynamicForecast,
-  DynamicNested,
+  ModernRelease,
+  DynamicRelease,
   Forecast,
   ClientForecast,
   ClientRecovery,
@@ -17,13 +11,7 @@ import {
   NoData,
   Reload,
 } from './remotes';
-import type { ScenarioName } from './scenarios';
-type ForecastModule = { default: ComponentType<{ id?: string }> };
-async function loadForecast(name: string): Promise<ForecastModule> {
-  const module = await loadRemote<ForecastModule>(`${name}/Forecast`);
-  if (!module) throw new Error(`Remote ${name}/Forecast returned no module`);
-  return module;
-}
+import BridgeStations from './BridgeStations';
 function Replacement({ dynamic }: { dynamic: boolean }) {
   const [ready, setReady] = useState(false);
   useEffect(() => setReady(true), []);
@@ -35,8 +23,8 @@ function Replacement({ dynamic }: { dynamic: boolean }) {
     registerRemotes(
       [
         {
-          name: dynamic ? 'dynamic' : 'lab_provider',
-          alias: dynamic ? undefined : 'provider',
+          name: dynamic ? 'lab_library' : 'lab_provider',
+          alias: dynamic ? 'dynamic' : 'provider',
           entry: `${dynamic ? process.env.MF_LAB_LIBRARY_V2 : process.env.MF_LAB_PROVIDER_V2}/${dynamic ? '' : 'static/'}mf-manifest.json`,
         },
       ],
@@ -44,10 +32,9 @@ function Replacement({ dynamic }: { dynamic: boolean }) {
     );
     const ReplacementForecast = labComponent<{ id?: string }>(
       {
-        loader: () => loadForecast(name),
         loading: <p>Switching versions…</p>,
-        componentOnly: true,
       },
+      `${name}/WeatherRelease`,
       `replacement/${name}`,
     );
     setComponent(() => ReplacementForecast);
@@ -72,9 +59,9 @@ function Replacement({ dynamic }: { dynamic: boolean }) {
         {Component ? (
           <Component id={forecastId} />
         ) : dynamic ? (
-          <DynamicForecast id={forecastId} />
+          <DynamicRelease id={forecastId} />
         ) : (
-          <Forecast id={forecastId} />
+          <ModernRelease id={forecastId} />
         )}
       </Suspense>
     </section>
@@ -109,20 +96,12 @@ function Lifecycle() {
     </>
   );
 }
-export function Scenario({ name }: { name: ScenarioName }) {
+export function WeatherExperiments({
+  name,
+}: {
+  name: 'replace' | 'recovery' | 'lifecycle' | 'bridge' | 'data';
+}) {
   switch (name) {
-    case 'static':
-      return <Signal />;
-    case 'dynamic':
-      return <DynamicSignal />;
-    case 'nested':
-      return <Relay />;
-    case 'dynamic-nested':
-      return <DynamicNested />;
-    case 'data':
-      return <Forecast />;
-    case 'csr':
-      return <ClientForecast />;
     case 'recovery':
       return (
         <div className="recovery-grid">
@@ -132,6 +111,15 @@ export function Scenario({ name }: { name: ScenarioName }) {
       );
     case 'lifecycle':
       return <Lifecycle />;
+    case 'data':
+      return (
+        <>
+          <Forecast id="provider-forecast" />
+          <ClientForecast id="library-forecast" />
+        </>
+      );
+    case 'bridge':
+      return <BridgeStations />;
     case 'replace':
       return (
         <>

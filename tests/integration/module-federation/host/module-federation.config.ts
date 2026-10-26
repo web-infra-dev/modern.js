@@ -10,7 +10,6 @@ export default createModuleFederationConfig({
   remotes: {
     provider: `lab_provider@${origin('provider', 4301)}/static/mf-manifest.json`,
     nested: `lab_nested@${origin('nested', 4302)}/static/mf-manifest.json`,
-    library: `lab_library@${origin('library', 4303)}/mf-manifest.json`,
   },
   shared,
 });

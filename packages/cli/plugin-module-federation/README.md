@@ -2,7 +2,7 @@
 
 The built-in adapter is applied by app-tools when module-federation.config.ts exists. Users install @module-federation/enhanced and configure MF without registering this package manually. Set moduleFederation to false to retain the legacy plugin. Simultaneous activation fails before legacy configuration evaluation.
 
-The adapter preserves the modern-js-v3 2.9.2 behavior and uses MF preview `0.0.0-feat-enhanced-runtime-unification-20261022085654` for the engine, Bridge, Node adapter and related packages. Runtime APIs and types use @module-federation/enhanced/runtime, without extra runtime or runtime-core application dependencies. New RFC runtime APIs, service apps and additional shared tree-shaking work are outside this migration.
+The adapter preserves the modern-js-v3 2.9.2 behavior and uses MF preview `0.0.0-feat-enhanced-runtime-unification-20261022085654` for the engine, Bridge, Node adapter and related packages. Runtime APIs and types use @module-federation/enhanced/runtime, without extra runtime or runtime-core application dependencies. Unified React consumers require a Core preview containing the consumers and expose protocol metadata. Bridge SSR, Service App execution and additional shared tree-shaking work remain outside this phase.
 
 The adapter defaults the top-level shareStrategy to loaded-first for browser and server builds. Explicit strategy configuration is preserved. The MF runtime supplies this default to shared entries without an extra strategy runtime plugin.
 
@@ -43,7 +43,7 @@ pnpm --filter @modern-js/plugin-module-federation build
 pnpm --filter @modern-js/plugin-module-federation test
 pnpm --filter @modern-js/app-tools build
 pnpm --filter @modern-js/app-tools test
-pnpm --filter mf-lab-tests test --pool.maxWorkers=2
+pnpm --filter mf-lab-tests test
 MF_LAB_MODE=dev pnpm --filter mf-lab-tests test tests/data-fetch.test.ts -t prefetch
 ```
 
