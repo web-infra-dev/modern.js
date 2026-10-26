@@ -6,6 +6,58 @@ import path from 'node:path';
 
 export const TAG = 'canary-verify';
 export const REGISTRY = 'https://registry.npmjs.org/';
+
+/**
+ * A release channel decides three things: the dist-tag the packages carry, how
+ * their version is arrived at, and which branch the workflow will accept as
+ * the trigger. Nothing else in these scripts decides any of them separately.
+ *
+ * `snapshot` discards the changesets and builds 0.0.0-<tag>.<release id>: the
+ * major is zero and the whole string is a prerelease, so no range in any
+ * consumer resolves to it and nothing is written back to the repository.
+ * `stable` keeps what `pnpm run bump` produced - consumed changesets, bumped
+ * versions, written changelogs - and publishes that. Every @modern-js package
+ * is in one fixed changesets group, so a stable release is still a single
+ * version shared by the whole set, which is the invariant the rest of this
+ * code is built on.
+ */
+export const CHANNELS = {
+  canary: { tag: TAG, scheme: 'snapshot', branchPrefix: 'release-canary-verify' },
+  latest: { tag: 'latest', scheme: 'stable', branchPrefix: 'release-latest' },
+};
+export const DEFAULT_CHANNEL = 'canary';
+export const STABLE_VERSION = /^(0|[1-9]\d*)\.(0|[1-9]\d*)\.(0|[1-9]\d*)$/;
+// A channel named by the caller, for a line that needs a dist-tag of its own.
+// It publishes a snapshot version, so however it is named no range can resolve
+// to it, and it may not borrow the name of a channel in the table.
+const CUSTOM_TAG = /^[a-z][a-z0-9-]{1,30}$/;
+
+export function channelFor(name = DEFAULT_CHANNEL, customTag) {
+  assert(typeof name === 'string' && name.length > 0, 'A release channel is required');
+  if (Object.hasOwn(CHANNELS, name)) {
+    assert(customTag === undefined || customTag === CHANNELS[name].tag, `Channel ${name} publishes under ${CHANNELS[name].tag}`);
+    return { name, ...CHANNELS[name] };
+  }
+  assert.equal(name, 'custom', `Unknown release channel: ${name}`);
+  assert(typeof customTag === 'string' && CUSTOM_TAG.test(customTag), 'A custom channel needs a dist-tag of its own');
+  assert(!Object.values(CHANNELS).some(channel => channel.tag === customTag), 'A custom channel may not borrow a reserved dist-tag');
+  return { name, tag: customTag, scheme: 'snapshot', branchPrefix: `release-${customTag}` };
+}
+
+export function planChannel(plan) {
+  return channelFor(plan.channel, plan.channel === 'custom' ? plan.tag : undefined);
+}
+
+export function releaseBranch(plan) {
+  return `${planChannel(plan).branchPrefix}/${plan.releaseId}`;
+}
+
+export function versionFor(channel, releaseId, bumped) {
+  if (channel.scheme === 'snapshot') return `0.0.0-${channel.tag}.${releaseId}`;
+  assert(typeof bumped === 'string' && STABLE_VERSION.test(bumped),
+    'A stable release publishes the version changesets computed, as plain major.minor.patch');
+  return bumped;
+}
 // A date and sixteen random bytes, deliberately not grouped like a UUID: npm
 // redacts UUID shaped values out of its own `publish --json` output, so a
 // release id in that shape comes back as [REDACTED_UUID] and no published
@@ -68,11 +120,13 @@ export function validatePath(value) {
 }
 
 export function validatePlan(plan) {
-  keys(plan, ['schemaVersion', 'releaseId', 'tag', 'version', 'baseSha', 'packages', 'mode', 'requiredTargets'], 'plan');
+  keys(plan, ['schemaVersion', 'releaseId', 'channel', 'tag', 'version', 'baseSha', 'packages', 'mode', 'requiredTargets'], 'plan');
   assert.equal(plan.schemaVersion, 1, 'Unsupported plan schema');
   assert(RELEASE_ID.test(plan.releaseId), 'releaseId must be r, a date and 16 lowercase hex bytes, with no UUID grouping');
-  assert.equal(plan.tag, TAG, 'Only the canary-verify tag is allowed');
-  assert.equal(plan.version, `0.0.0-${TAG}.${plan.releaseId}`, 'Expected the shared cross-repository canary version');
+  const channel = planChannel(plan);
+  assert.equal(plan.tag, channel.tag, 'The tag must be the one this channel publishes under');
+  assert.equal(plan.version, versionFor(channel, plan.releaseId, plan.version),
+    'Expected the version this channel produces for this release');
   assert(SHA.test(plan.baseSha), 'Invalid baseSha');
   assert.equal(plan.mode, 'publish', 'Only publish mode is allowed');
   assert.deepEqual(plan.requiredTargets, ['npm'], 'Only npm is allowed');
@@ -83,7 +137,7 @@ export function validatePlan(plan) {
     keys(pkg, ['name', 'version', 'path'], 'plan package');
     assert(NAME.test(pkg.name), 'Only @modern-js packages are allowed');
     validatePath(pkg.path);
-    assert.equal(pkg.version, plan.version, 'Every package must have exactly the shared canary version');
+    assert.equal(pkg.version, plan.version, 'Every package must have exactly the shared release version');
     assert(!names.has(pkg.name) && !paths.has(pkg.path), 'Duplicate package');
     names.add(pkg.name);
     paths.add(pkg.path);
@@ -143,7 +197,7 @@ export function assertSource(root, plan, expectedSha, execute = run) {
 }
 
 export function assertTrigger(plan, env = process.env, event = readJson(env.GITHUB_EVENT_PATH)) {
-  assert.equal(env.GITHUB_REF, `refs/heads/release-canary-verify/${plan.releaseId}`, 'Only a prepared release branch may publish');
+  assert.equal(env.GITHUB_REF, `refs/heads/${releaseBranch(plan)}`, 'Only a prepared release branch may publish');
   assert.equal(env.GITHUB_REF_TYPE, 'branch', 'Expected branch ref');
   if (env.GITHUB_EVENT_NAME === 'push') {
     assert.equal(event.created, true, 'Prepared branches must be written once');
@@ -168,13 +222,13 @@ export function validateTarball(json, pkg, plan) {
   assert.equal(json.name, pkg.name, 'Tarball name mismatch');
   assert.equal(json.version, pkg.version, 'Tarball version mismatch');
   assert(json.private !== true, 'Private tarball');
-  if (json.tag !== undefined) assert.equal(json.tag, TAG, 'Unexpected top-level publish tag');
+  if (json.tag !== undefined) assert.equal(json.tag, plan.tag, 'Unexpected top-level publish tag');
   validateDependencies(json, plan, { packed: true });
   const safeConfig = new Set(['registry', 'access', 'tag', 'types', 'typings', 'main', 'module', 'exports', 'bin', 'executableFiles']);
   for (const key of Object.keys(json.publishConfig ?? {})) assert(safeConfig.has(key), `Unsafe publishConfig: ${key}`);
   if (json.publishConfig?.registry) assert.equal(json.publishConfig.registry, REGISTRY, 'Non-public registry');
   if (json.publishConfig?.access) assert.equal(json.publishConfig.access, 'public', 'Non-public access');
-  if (json.publishConfig?.tag) assert.equal(json.publishConfig.tag, TAG, 'Unexpected publish tag');
+  if (json.publishConfig?.tag) assert.equal(json.publishConfig.tag, plan.tag, 'Unexpected publish tag');
 }
 
 export function verifyArtifacts(directory, plan, expectedHash, sourceSha) {
@@ -185,7 +239,7 @@ export function verifyArtifacts(directory, plan, expectedHash, sourceSha) {
   keys(manifest, ['schemaVersion', 'releaseId', 'tag', 'version', 'sourceSha', 'planHash', 'packages'], 'manifest');
   assert.equal(manifest.schemaVersion, 1);
   assert.equal(manifest.releaseId, plan.releaseId);
-  assert.equal(manifest.tag, TAG);
+  assert.equal(manifest.tag, plan.tag);
   assert.equal(manifest.version, plan.version, 'Artifact shared version mismatch');
   assert.equal(manifest.sourceSha, sourceSha, 'Artifact source mismatch');
   assert.equal(manifest.planHash, expectedHash, 'Artifact plan mismatch');

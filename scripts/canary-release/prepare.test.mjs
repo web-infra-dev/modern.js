@@ -31,18 +31,18 @@ function fixture(t, { changeset = true, baseline = '3.10.0' } = {}) {
   return root;
 }
 
-function fakeRunner(root, { failSnapshot = false, snapshots = [], baseline = '3.10.0' } = {}) {
+function fakeRunner(root, { failSnapshot = false, snapshots = [], baseline = '3.10.0', tag = 'canary-verify' } = {}) {
   return (command, args) => {
     if (command === 'git') return '';
     if (args.includes('list')) return JSON.stringify(['a', 'b', 'private'].map(name => ({ path: path.join(root, 'packages', name) })));
     if (args.includes('bump')) {
       if (args.includes('--snapshot')) {
         assert.equal(readJson(path.join(root, '.changeset/config.json')).snapshot.useCalculatedVersion, false);
-        assert.equal(readJson(path.join(root, '.changeset/config.json')).snapshot.prereleaseTemplate, 'canary-verify.{tag}');
+        assert.equal(readJson(path.join(root, '.changeset/config.json')).snapshot.prereleaseTemplate, `${tag}.{tag}`);
         assert.equal(args.at(-1), releaseId);
         assert(fs.readFileSync(path.join(root, '.changeset/original.md'), 'utf8').includes('Original real change'));
         assert.equal(readJson(path.join(root, 'packages/a/package.json')).version, baseline);
-        const seed = fs.readFileSync(path.join(root, '.changeset/canary-verify-coverage.md'), 'utf8');
+        const seed = fs.readFileSync(path.join(root, `.changeset/${tag}-coverage.md`), 'utf8');
         assert(seed.includes('"@modern-js/a": patch') && seed.includes('"@modern-js/b": patch'));
         assert(!seed.includes('@modern-js/private') && !seed.includes('not-a-workspace'));
         snapshots.push(seed);
@@ -53,7 +53,7 @@ function fakeRunner(root, { failSnapshot = false, snapshots = [], baseline = '3.
       for (const name of ['a', 'b']) {
         const file = path.join(root, `packages/${name}/package.json`);
         const json = readJson(file);
-        json.version = args.includes('--snapshot') ? version : '3.11.0';
+        json.version = args.includes('--snapshot') ? `0.0.0-${tag}.${releaseId}` : '3.11.0';
         writeJson(file, json);
       }
       return '';
@@ -167,3 +167,50 @@ for (const changeset of [true, false]) {
     assert.equal(packed.dependencies['@modern-js/b'], version);
   });
 }
+
+test('a stable release keeps what the bump produced and publishes that version', t => {
+  const root = fixture(t);
+  const result = prepare(root, releaseId, 'a'.repeat(40), fakeRunner(root), { channel: 'latest' });
+  assert.equal(result.plan.channel, 'latest');
+  assert.equal(result.plan.tag, 'latest');
+  assert.equal(result.plan.version, '3.11.0');
+  assert(result.plan.packages.every(pkg => pkg.version === '3.11.0'));
+  // The consumed changesets are the point of a stable release: they are what
+  // the release commit carries back to the trunk.
+  assert(!fs.existsSync(path.join(root, '.changeset/original.md')));
+  assert(!fs.existsSync(path.join(root, '.changeset/latest-coverage.md')));
+  assert.equal(readJson(path.join(root, 'packages/a/package.json')).dependencies['@modern-js/b'], 'workspace:3.11.0');
+  assert.equal(result.planHash, planHash(readJson(path.join(root, '.release/canary-plan.json'))));
+});
+
+test('a snapshot release leaves the trunk untouched; a stable one does not', t => {
+  const canaryRoot = fixture(t);
+  prepare(canaryRoot, releaseId, 'a'.repeat(40), fakeRunner(canaryRoot));
+  assert(fs.existsSync(path.join(canaryRoot, '.changeset/original.md')), 'a snapshot restores the changesets it consumed');
+  const stableRoot = fixture(t);
+  prepare(stableRoot, releaseId, 'a'.repeat(40), fakeRunner(stableRoot), { channel: 'latest' });
+  assert(!fs.existsSync(path.join(stableRoot, '.changeset/original.md')), 'a stable release consumes them for good');
+});
+
+test('a custom channel publishes a snapshot under a dist-tag of its own', t => {
+  const root = fixture(t);
+  const snapshots = [];
+  const runner = fakeRunner(root, { snapshots, tag: 'pia-trial' });
+  const result = prepare(root, releaseId, 'a'.repeat(40), runner, { channel: 'custom', customTag: 'pia-trial' });
+  assert.equal(result.plan.tag, 'pia-trial');
+  assert.equal(result.plan.version, `0.0.0-pia-trial.${releaseId}`);
+  assert(fs.existsSync(path.join(root, '.changeset/original.md')), 'a custom channel is still a snapshot');
+});
+
+test('an unknown channel, or a custom one borrowing a reserved tag, never reaches the bump', t => {
+  for (const options of [
+    { channel: 'stable' }, { channel: 'next' }, { channel: 'custom' },
+    { channel: 'custom', customTag: 'latest' }, { channel: 'custom', customTag: 'canary-verify' },
+    { channel: 'custom', customTag: 'Has Caps' }, { channel: 'latest', customTag: 'something-else' },
+  ]) {
+    const root = fixture(t);
+    assert.throws(() => prepare(root, releaseId, 'a'.repeat(40), () => {
+      throw new Error('the channel must be rejected before anything runs');
+    }, options));
+  }
+});
