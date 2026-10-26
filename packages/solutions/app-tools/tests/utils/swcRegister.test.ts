@@ -18,7 +18,11 @@ describe('swcRegister', () => {
   let nodeRequire: NodeJS.Require;
 
   beforeAll(() => {
-    appDir = fs.mkdtempSync(path.join(os.tmpdir(), 'modern-swc-register-'));
+    // Use the real path: `require.cache` is keyed by it, and the tmp dir is a
+    // symlink on macOS (/var -> /private/var).
+    appDir = fs.realpathSync(
+      fs.mkdtempSync(path.join(os.tmpdir(), 'modern-swc-register-')),
+    );
     write(
       'node_modules/@scope/tsconfig/base.json',
       JSON.stringify({
