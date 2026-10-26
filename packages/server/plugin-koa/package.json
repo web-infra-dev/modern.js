@@ -97,7 +97,7 @@
     "koa": "2.16.3",
     "supertest": "^6.1.6",
     "typescript": "^5",
-    "zod": "^3.22.3"
+    "zod": "^4.0.0"
   },
   "peerDependencies": {
     "koa": "^2.16.4"
