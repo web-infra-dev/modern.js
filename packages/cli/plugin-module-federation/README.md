@@ -49,6 +49,12 @@ MF_LAB_MODE=dev pnpm --filter mf-lab-tests test tests/data-fetch.test.ts -t pref
 
 Select an existing Chrome installation with PUPPETEER_EXECUTABLE_PATH if required. Build outputs, dependencies and writable caches belong to the task worktree. Keep errors strict outside explicitly asserted fault scenarios.
 
-Applications using React Bridge install @module-federation/bridge-react directly and import its public entries, including /v19 when needed. This internal adapter does not provide Bridge forwarding entries.
+Applications use createBridgeComponent, createReactRemote and ReactRemote from
+@modern-js/runtime/mf. Modern supplies Bridge, while applications install Enhanced.
+Direct Bridge imports remain supported for existing integrations.
 
-The package exports root CLI registration, config-plugin, ssr-plugin, data-fetch-server-plugin, configuration types and package metadata. Injected server and runtime files resolve within the adapter. The adapter does not forward Enhanced runtime APIs or provide the future framework MF facade. Future framework APIs will use the app context metaName when configuring runtime aliases.
+The package exports root CLI registration, config-plugin, ssr-plugin, data-fetch-server-plugin, configuration types and package metadata. Injected server and runtime files resolve within the adapter. Runtime aliases use the app context metaName.
+The framework MF entry only exposes the three React APIs and their types.
+General runtime APIs continue to come from @module-federation/enhanced/runtime.
+The producer registers its framework import with the engine's manifest analyzer.
+Bridge SSR, Service App execution and remote version replacement are separate capabilities.
