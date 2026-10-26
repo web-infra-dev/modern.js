@@ -11,7 +11,7 @@ import {
 } from '@modern-js/utils';
 import type { ConfigChain } from '@rsbuild/core';
 
-type TsRuntimeRegisterMode = 'ts-node' | 'node-loader' | 'unsupported';
+type TsRuntimeRegisterMode = 'ts-node' | 'swc' | 'node-loader' | 'unsupported';
 
 interface TsRuntimeSetupOptions {
   moduleType?: string;
@@ -130,12 +130,21 @@ const createRuntimePaths = ({
 };
 
 // Describes final runtime selection policy.
-// Prefer ts-node when available, otherwise use Node.js native TypeScript support.
+// Prefer ts-node when available. Otherwise CommonJS projects compile with swc,
+// and module projects use Node.js native TypeScript support.
 export const resolveTsRuntimeRegisterMode = (
   hasTsNode: boolean,
+  moduleType?: string,
 ): TsRuntimeRegisterMode => {
   if (hasTsNode) {
     return 'ts-node';
+  }
+
+  // Native type stripping loads files with ESM syntax as ES modules, which
+  // can't be evicted from the module cache, so the dev server could never
+  // reload them. Compile to CommonJS instead.
+  if (moduleType !== 'module') {
+    return 'swc';
   }
 
   const hasNativeTypeScriptSupport = (process as any).features?.typescript;
@@ -154,7 +163,8 @@ export const resolveTsRuntimeRegisterMode = (
 
 /**
  * Setup TypeScript runtime support.
- * Register ts-node for compilation and tsconfig-paths for path alias resolution.
+ * Register ts-node (or swc when ts-node is not installed) for compilation and
+ * tsconfig-paths for path alias resolution.
  */
 export const setupTsRuntime = async (
   appDir: string,
@@ -170,7 +180,10 @@ export const setupTsRuntime = async (
     return;
   }
 
-  const registerMode = resolveTsRuntimeRegisterMode(hasTsNode);
+  const registerMode = resolveTsRuntimeRegisterMode(
+    hasTsNode,
+    options.moduleType,
+  );
 
   const aliasConfig = getAliasConfig(alias, {
     appDirectory: appDir,
@@ -221,6 +234,18 @@ export const setupTsRuntime = async (
         `(?:^|/)${path.relative(appDir, distDir)}/`,
       ],
       ...tsNodeOptions,
+    });
+  } else if (registerMode === 'swc') {
+    const { register } = await import('@modern-js/utils/tsconfig-paths');
+    register({
+      baseUrl: absoluteBaseUrl || './',
+      paths: runtimePaths,
+    });
+
+    const { readCompilerOptions, registerSwc } = await import('./swcRegister');
+    registerSwc({
+      distDir,
+      compilerOptions: readCompilerOptions(tsconfigPath),
     });
   } else if (registerMode === 'node-loader') {
     const { registerPathsLoader } = await import('../esm/register-esm.mjs');
