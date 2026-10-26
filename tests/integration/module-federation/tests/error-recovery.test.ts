@@ -346,7 +346,7 @@ describeLab('Failure recovery', getContext => {
       }
       let frame = await currentFrame(true);
       await frame.waitForFunction(
-        () => document.documentElement.dataset.labReady === 'true',
+        () => document.documentElement?.dataset.labReady === 'true',
       );
       if (scenario === 'replace') {
         await frame.waitForSelector(
@@ -401,7 +401,7 @@ describeLab('Failure recovery', getContext => {
       await page.click('[aria-label="Simulate failure"]');
       frame = await currentFrame(false);
       await frame.waitForFunction(
-        () => document.documentElement.dataset.labReady === 'true',
+        () => document.documentElement?.dataset.labReady === 'true',
       );
       await frame.waitForSelector(
         `[data-testid="${scenario === 'replace' ? 'provider-forecast' : scenario === 'lifecycle' ? 'request-count' : 'server-recovery'}"]`,
