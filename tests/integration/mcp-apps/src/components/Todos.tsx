@@ -1,3 +1,4 @@
+import type { McpCapabilities } from '@modern-js/mcp-apps/react';
 import { useState } from 'react';
 import type { McpViewProps } from '@modern-js/mcp-apps/react';
 interface Todo {
@@ -52,3 +53,7 @@ export default function Todos({
     </section>
   );
 }
+
+export const mcpCapabilities = {
+  experimental: { fixture: { source: 'mf' } },
+} satisfies McpCapabilities;

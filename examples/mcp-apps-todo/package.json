@@ -5,7 +5,8 @@
   "scripts": {
     "dev": "modern dev",
     "build": "modern build",
-    "serve": "modern serve"
+    "serve": "modern serve",
+    "inspect": "npx --yes @modelcontextprotocol/inspector@2.12.0 --transport http --server-url http://localhost:8088/api/mcp"
   },
   "dependencies": {
     "@modern-js/runtime": "workspace:*",

@@ -6,7 +6,7 @@ import { createFetchHandler, createBffHandlers } from '../src/server';
 const requestContext = rs.hoisted(() => ({
   raw: undefined as Request | undefined,
 }));
-rs.mock('@modern-js/server-core', () => ({
+rs.mock('@modern-js/server-runtime', () => ({
   useHonoContext: () => ({ req: { raw: requestContext.raw } }),
 }));
 const factory = () => {

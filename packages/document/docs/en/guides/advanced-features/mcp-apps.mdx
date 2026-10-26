@@ -12,6 +12,8 @@ npx @modern-js/create@latest my-server --template mcp-server
 
 Choose a release containing MCP Apps support. Run `pnpm dev`. The explicit BFF route is `/api/mcp`.
 
+The application must install the peers `@modelcontextprotocol/server` and `@modelcontextprotocol/ext-apps` so tools, resources and HTTP handling use the application's SDK versions. `@modern-js/server-runtime` is an optional peer, loaded only when invoking a BFF handler. Standalone Fetch servers do not require it. The project templates already declare these dependencies.
+
 ## Build cards
 
 Declare local default-export React components or this project's MF exposes in `mcp-views.json`:
@@ -112,8 +114,43 @@ The version 1 manifest contains `assetBase`, `remotes` and `views`. A local view
 
 `registerUiResources()` loads the manifest asynchronously. Defaults are `dist/mcp-apps/ui-manifest.json` in production and `node_modules/.modern-js/mcp-apps/ui-manifest.json` in development. Set its `manifest` option to a file path or HTTP(S) URL for custom output directories or independent servers. Relative HTML resolves against that location.
 
+Manifests are cached by source URL and environment. Production caches successful loads for the process lifetime, so updating the same location requires a process restart. Development detects local file changes and caches remote manifests for 60 seconds. Concurrent loads are coalesced and failures can be retried. HTML is read per resource request, and request-specific URLs and metadata remain isolated.
+
 An absolute `output.assetPrefix` becomes `assetBase`. Otherwise request-origin resolution is used. Override `assetBase` in `registerUiResources` for a separate static origin or deployment path prefix. Request mode honors sanitized `x-forwarded-proto` headers. Reverse proxies must preserve the public host and sanitize forwarded headers.
 
 Required asset, connection and base URI origins are added to CSP. MF entry origins are also added to connection permissions. Declare any additional API, chunk/CDN or iframe origins explicitly. Deploy the manifest and HTML together with the application static assets and MF output.
 
 Platforms may rewrite file and MF addresses to absolute URLs and combine cards into another manifest of the same version. Unknown versions are rejected.
+
+## Card capabilities
+
+Cards advertise `inline` and `fullscreen` by default. Both local component modules and MF exposes can export `mcpCapabilities` to declare additional capabilities or override the display modes.
+
+{/* prettier-ignore */}
+```tsx
+import type { McpCapabilities } from '@modern-js/mcp-apps/react'
+
+export const mcpCapabilities = {
+  availableDisplayModes: ['inline'],
+} satisfies McpCapabilities
+
+export default function Card() {
+  return <div>My card</div>
+}
+```
+
+You can also pass capabilities as the third argument to `createMcpView`. Explicit display mode arrays replace the defaults. MF modules are loaded before initialization so the handshake includes their capabilities. Declaring fullscreen support does not add a fullscreen button or switch modes automatically.
+
+## Debug with the official MCP Inspector
+
+Start the application with `pnpm dev`. In a second terminal, run `pnpm inspect` in a generated MCP project. The command launches the official Inspector as a separate development process with the Streamable HTTP endpoint preconfigured. Existing projects can run:
+
+```bash
+npx --yes @modelcontextprotocol/inspector@2.12.0 --transport http --server-url http://localhost:8080/api/mcp
+```
+
+Open the address printed by the Inspector and connect the server. Override the address with `pnpm inspect --server-url http://localhost:9090/api/mcp` when using a custom port. Inspector 2.12.0 requires Node.js 22.19.0 or newer. It is downloaded on demand and is not a production dependency or an embedded framework page.
+
+Inspector 2.12.0 includes an Apps page that discovers tools linked to UI resources and renders their cards. Use it to test local and MF views, then inspect Tools, Resources and protocol logs for debugging.
+
+[OpenAI testing guide](https://developers.openai.com/plugins/build/app-quickstart#test-with-mcp-inspector)

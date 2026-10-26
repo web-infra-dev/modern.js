@@ -1,6 +1,5 @@
 import type { McpServer } from '@modelcontextprotocol/server';
 import { createMcpHandler } from '@modelcontextprotocol/server';
-import { useHonoContext } from '@modern-js/server-core';
 import { requestOrigin } from './resources';
 
 export { registerUiResources } from './resources';
@@ -49,6 +48,8 @@ export function createBffHandlers(
 ) {
   const handle = createFetchHandler(createServer, options);
   const route = async (input: { data?: unknown }) => {
+    // Keep the optional Modern.js runtime out of standalone Fetch services.
+    const { useHonoContext } = await import('@modern-js/server-runtime');
     const raw = useHonoContext().req.raw;
     const headers = new Headers(raw.headers);
     headers.delete('content-length');

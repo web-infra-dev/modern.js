@@ -4,7 +4,7 @@ import * as ReactDOM from 'react-dom';
 import * as ReactDOMClient from 'react-dom/client';
 import * as JsxRuntime from 'react/jsx-runtime';
 import * as JsxDevRuntime from 'react/jsx-dev-runtime';
-import { createMcpView } from './react';
+import { createMcpView, type McpCapabilities } from './react';
 
 export interface MfViewConfig {
   name: string;
@@ -39,6 +39,7 @@ export function createMfView(config: MfViewConfig) {
   const Remote = React.lazy(async () => {
     const mod = await runtime.loadRemote<{
       default: React.ComponentType<Record<string, unknown>>;
+      mcpCapabilities?: McpCapabilities;
     }>(
       config.expose === './'
         ? config.name
@@ -46,14 +47,20 @@ export function createMfView(config: MfViewConfig) {
     );
     if (!mod?.default)
       throw new Error(`Missing default export for ${config.expose}`);
-    return { default: mod.default };
+    // Read capabilities before the wrapped component initiates the handshake.
+    return {
+      default: createMcpView(
+        mod.default,
+        { name: config.name, version: '1.0.0' },
+        mod.mcpCapabilities,
+      ),
+    };
   });
-  const View = createMcpView(Remote, { name: config.name, version: '1.0.0' });
   return function MfView() {
     return (
       <MfErrorBoundary>
         <React.Suspense fallback={<p role="status">Loading component…</p>}>
-          <View />
+          <Remote />
         </React.Suspense>
       </MfErrorBoundary>
     );

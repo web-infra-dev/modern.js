@@ -1,4 +1,4 @@
-import { readFile } from 'node:fs/promises';
+import { readFile, stat } from 'node:fs/promises';
 import path from 'node:path';
 import { pathToFileURL, fileURLToPath } from 'node:url';
 import type { McpServer } from '@modelcontextprotocol/server';
@@ -13,18 +13,53 @@ import {
   type UiMetadata,
 } from '../manifest';
 
+interface ManifestCacheEntry {
+  version: string;
+  expiresAt: number;
+  value: Promise<{ manifest: UiManifest; location: URL }>;
+}
+const manifestCache = new Map<string, ManifestCacheEntry>();
+const remoteManifestTtl = 60_000;
+
 /** Relative resource files are resolved against this manifest's location. */
 async function loadUiManifest(source: string | URL = defaultManifestPath()) {
   const url =
     source instanceof URL
-      ? source
+      ? new URL(source.href)
       : /^https?:\/\//.test(source)
         ? new URL(source)
         : pathToFileURL(path.resolve(source));
-  const text = await readSource(url);
-  const manifest: unknown = JSON.parse(text);
-  validateUiManifest(manifest);
-  return { manifest, location: url };
+  const production = process.env.NODE_ENV === 'production';
+  const key = `${production ? 'production' : 'development'}:${url.href}`;
+  let version = 'process';
+  if (!production && url.protocol === 'file:') {
+    // Include inode and ctime to detect atomic build-output replacement too.
+    const info = await stat(fileURLToPath(url), { bigint: true });
+    version = `${info.ino}:${info.size}:${info.mtimeNs}:${info.ctimeNs}`;
+  }
+  const cached = manifestCache.get(key);
+  if (cached?.version === version && cached.expiresAt > Date.now())
+    return cached.value;
+
+  const entry: ManifestCacheEntry = {
+    version,
+    expiresAt: Infinity,
+    value: readSource(url)
+      .then(text => {
+        const manifest: unknown = JSON.parse(text);
+        validateUiManifest(manifest);
+        if (!production && url.protocol !== 'file:')
+          entry.expiresAt = Date.now() + remoteManifestTtl;
+        return { manifest, location: url };
+      })
+      .catch(error => {
+        // An older failed load must not evict a newer file version's cache entry.
+        if (manifestCache.get(key) === entry) manifestCache.delete(key);
+        throw error;
+      }),
+  };
+  manifestCache.set(key, entry);
+  return entry.value;
 }
 
 function defaultManifestPath() {
@@ -93,6 +128,12 @@ export async function registerUiResources(
 ): Promise<Record<string, string>> {
   const { manifest, location } = await loadUiManifest(options.manifest);
   const base = publicBase(manifest, options);
+  const devSocket =
+    process.env.NODE_ENV === 'development' && options.request
+      ? new URL(requestOrigin(options.request))
+      : undefined;
+  if (devSocket)
+    devSocket.protocol = devSocket.protocol === 'https:' ? 'wss:' : 'ws:';
   const uris: Record<string, string> = Object.create(null);
   for (const [name, view] of Object.entries(manifest.views)) {
     const uri = `ui://app/${encodeURIComponent(name)}`;
@@ -118,6 +159,7 @@ export async function registerUiResources(
             ...(view.ui.csp?.connectDomains ?? []),
             base.origin,
             ...(entry ? [new URL(entry).origin] : []),
+            ...(devSocket ? [devSocket.origin] : []),
           ]),
         ],
       },

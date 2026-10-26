@@ -44,6 +44,9 @@ async function mountCard(page: Page, html: string) {
       if (event.source !== iframe.contentWindow) return;
       const message = event.data;
       if (message.method === 'ui/initialize') {
+        iframe.dataset.capabilities = JSON.stringify(
+          message.params.appCapabilities,
+        );
         iframe.contentWindow!.postMessage(
           {
             jsonrpc: '2.0',
@@ -196,6 +199,14 @@ describe('manifest-based MCP Apps', () => {
         );
         throw error;
       });
+    expect(
+      await page.$eval('iframe', iframe =>
+        JSON.parse(iframe.dataset.capabilities!),
+      ),
+    ).toEqual({
+      availableDisplayModes: ['inline'],
+      experimental: { fixture: { source: 'local' } },
+    });
     const labelPath = path.join(appDir, 'src/components/local-label.ts');
     originalLabel = await readFile(labelPath, 'utf8');
     await writeFile(
@@ -227,6 +238,24 @@ describe('manifest-based MCP Apps', () => {
       await new Promise(resolve => setTimeout(resolve, 100));
     }
     expect(updated).toBe(true);
+    const currentResource = await rpc(port, 'resources/read', {
+      uri: 'ui://app/local',
+    });
+    const currentPage = await fetch(
+      `http://localhost:${port}/mcp-ui-local-25bf8e1a2393`,
+    );
+    const scripts = (html: string) =>
+      Array.from(
+        html.matchAll(/<script\b[^>]*\bsrc="([^"]+)"/g),
+        match => match[1],
+      );
+    expect(scripts(currentResource.contents[0].text)).toEqual(
+      scripts(await currentPage.text()),
+    );
+    expect(currentResource.contents[0]._meta.ui.csp.connectDomains).toContain(
+      `ws://localhost:${port}`,
+    );
+
     const alternate = await rpc(port, 'resources/read', {
       uri: 'ui://app/localAlt',
     });
@@ -244,5 +273,15 @@ describe('manifest-based MCP Apps', () => {
     expect(manifest.views.local.html).toMatch(/^\.\/ui\/mcp-ui-local-/);
     const remote = await rpc(port, 'resources/read', { uri: 'ui://app/todos' });
     expect(remote.contents[0].text).toContain('modern-mcp-config');
+    const mfFrame = await mountCard(page, remote.contents[0].text);
+    await mfFrame.waitForSelector('input[aria-label="Todo title"]');
+    expect(
+      await page.$eval('iframe', iframe =>
+        JSON.parse(iframe.dataset.capabilities!),
+      ),
+    ).toEqual({
+      availableDisplayModes: ['inline', 'fullscreen'],
+      experimental: { fixture: { source: 'mf' } },
+    });
   });
 });

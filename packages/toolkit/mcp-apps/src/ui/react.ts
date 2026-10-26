@@ -14,6 +14,8 @@ export {
   useHostStyleVariables,
 } from '@modelcontextprotocol/ext-apps/react';
 export type { App } from '@modelcontextprotocol/ext-apps';
+export type McpCapabilities = NonNullable<UseAppOptions['capabilities']>;
+
 export type McpViewProps<T extends object = Record<string, unknown>> = Omit<
   T,
   'mcpApp'
@@ -41,10 +43,15 @@ export function useMcpApp(options: Omit<UseAppOptions, 'onAppCreated'>) {
 export function createMcpView<P extends object>(
   View: ComponentType<P>,
   appInfo: { name: string; version: string },
+  capabilities: McpCapabilities = {},
 ) {
+  const appCapabilities: McpCapabilities = {
+    availableDisplayModes: ['inline', 'fullscreen'],
+    ...capabilities,
+  };
   return function McpView() {
     const { app, isConnected, error, cancelled, result, viewProps } = useMcpApp(
-      { appInfo, capabilities: {} },
+      { appInfo, capabilities: appCapabilities },
     );
     if (error) return createElement('p', { role: 'alert' }, error.message);
     if (cancelled)

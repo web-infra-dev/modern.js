@@ -75,7 +75,7 @@ export const mcpAppsPlugin = (
         );
         await writeArtifact(
           mountEntry,
-          `import React from ${JSON.stringify(appRequire.resolve('react'))};\nimport { createRoot } from ${JSON.stringify(appRequire.resolve('react-dom/client'))};\nimport { createMcpView } from ${JSON.stringify(appRequire.resolve('@modern-js/mcp-apps/react'))};\nimport View from ${JSON.stringify(path.resolve(path.dirname(configPath()), source))};\ncreateRoot(document.getElementById('root')).render(React.createElement(createMcpView(View, ${JSON.stringify({ name, version: '1.0.0' })})));\n`,
+          `import React from ${JSON.stringify(appRequire.resolve('react'))};\nimport { createRoot } from ${JSON.stringify(appRequire.resolve('react-dom/client'))};\nimport { createMcpView } from ${JSON.stringify(appRequire.resolve('@modern-js/mcp-apps/react'))};\nimport View, * as viewModule from ${JSON.stringify(path.resolve(path.dirname(configPath()), source))};\ncreateRoot(document.getElementById('root')).render(React.createElement(createMcpView(View, ${JSON.stringify({ name, version: '1.0.0' })}, Reflect.get(viewModule, 'mcpCapabilities'))));\n`,
         );
         // Keep MF shared initialization asynchronous without loading the framework's
         // page runtime, which reads cookies unavailable in an opaque app sandbox.

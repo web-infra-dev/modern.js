@@ -57,15 +57,13 @@
     "test": "rstest",
     "typecheck": "tsc --noEmit"
   },
-  "dependencies": {
-    "@modelcontextprotocol/server": "2.3.1",
-    "@modelcontextprotocol/ext-apps": "2.0.3",
-    "@modern-js/server-core": "workspace:*"
-  },
   "peerDependencies": {
     "react": "^18.0.0 || ^19.0.0",
     "react-dom": "^18.0.0 || ^19.0.0",
-    "@module-federation/enhanced": "^2.0.0"
+    "@module-federation/enhanced": "^2.0.0",
+    "@modelcontextprotocol/server": "^2.3.1",
+    "@modelcontextprotocol/ext-apps": "^2.0.3",
+    "@modern-js/server-runtime": "workspace:^3.10.3"
   },
   "peerDependenciesMeta": {
     "react": {
@@ -75,6 +73,9 @@
       "optional": true
     },
     "@module-federation/enhanced": {
+      "optional": true
+    },
+    "@modern-js/server-runtime": {
       "optional": true
     }
   },
@@ -90,7 +91,10 @@
     "react-dom": "^19.3.1",
     "typescript": "^5",
     "@modelcontextprotocol/client": "2.3.1",
-    "zod": "^4.2.0"
+    "zod": "^4.2.0",
+    "@modelcontextprotocol/server": "2.3.1",
+    "@modelcontextprotocol/ext-apps": "2.0.3",
+    "@modern-js/server-runtime": "workspace:*"
   },
   "publishConfig": {
     "access": "public",

@@ -208,3 +208,77 @@ it('rejects missing or invalid manifests during resource registration', async ()
     registerUiResources(server, { manifest: filename }),
   ).rejects.toThrow('version');
 });
+
+it('keeps request origins isolated when servers share a cached manifest', async () => {
+  const filename = path.join(directory, 'shared-origins.json');
+  await writeFile(filename, JSON.stringify(manifest()));
+  const first = await connect(filename, {
+    request: new Request('https://first.example/api/mcp'),
+  });
+  const second = await connect(filename, {
+    request: new Request('https://second.example/api/mcp'),
+  });
+  try {
+    for (const [session, origin] of [
+      [first, 'https://first.example'],
+      [second, 'https://second.example'],
+    ] as const) {
+      const resource = await session.client.readResource({
+        uri: session.uris.remote,
+      });
+      expect(String(resource.contents[0].text)).toContain(
+        `<base href="${origin}/">`,
+      );
+      expect(String(resource.contents[0].text)).toContain(
+        `"entry":"${origin}/static/mf-manifest.json"`,
+      );
+    }
+  } finally {
+    await first.close();
+    await second.close();
+  }
+});
+
+it.each([
+  [
+    'development',
+    'http://app.example:8088/api/mcp',
+    {},
+    'ws://app.example:8088',
+  ],
+  [
+    'development',
+    'http://app.example/api/mcp',
+    { 'x-forwarded-proto': 'https' },
+    'wss://app.example',
+  ],
+  ['production', 'https://app.example/api/mcp', {}, undefined],
+])(
+  'limits automatic HMR WebSocket permissions to development',
+  async (mode, url, headers, expected) => {
+    const previous = process.env.NODE_ENV;
+    process.env.NODE_ENV = mode;
+    try {
+      const session = await connect(manifest(), {
+        request: new Request(url, { headers }),
+      });
+      try {
+        const resource = await session.client.readResource({
+          uri: session.uris.local,
+        });
+        const domains = (
+          resource.contents[0]._meta as {
+            ui: { csp: { connectDomains: string[] } };
+          }
+        ).ui.csp.connectDomains;
+        if (expected) expect(domains).toContain(expected);
+        else expect(domains.some(domain => /^wss?:/.test(domain))).toBe(false);
+      } finally {
+        await session.close();
+      }
+    } finally {
+      if (previous === undefined) delete process.env.NODE_ENV;
+      else process.env.NODE_ENV = previous;
+    }
+  },
+);
