@@ -170,22 +170,9 @@ createRoot(document.getElementById('root')).render(React.createElement(createMcp
         standaloneEntries[entryName] = entry;
       }
       if (needsMf) {
-        // Compile the shell with project dependencies in an independent host.
-        const entry = path.join(
-          ctx.internalDirectory,
-          'mcp-apps/entries/mcp-shell.js',
+        standaloneEntries['mcp-shell'] = appRequire.resolve(
+          '@modern-js/mcp-apps/internal/mf-entry',
         );
-
-        await writeArtifact(
-          entry,
-          `import React from ${JSON.stringify(appRequire.resolve('react'))};
-import { createRoot } from ${JSON.stringify(appRequire.resolve('react-dom/client'))};
-import { createMfView } from ${JSON.stringify(appRequire.resolve('@modern-js/mcp-apps/mf'))};
-const config = JSON.parse(document.getElementById('modern-mcp-config').textContent);
-createRoot(document.getElementById('root')).render(React.createElement(createMfView(config)));
-`,
-        );
-        standaloneEntries['mcp-shell'] = entry;
       }
       if (Object.keys(standaloneEntries).length) {
         const cardsOutput = path.join(ctx.internalDirectory, 'mcp-apps/cards');

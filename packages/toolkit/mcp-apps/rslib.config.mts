@@ -22,7 +22,13 @@ export default defineConfig({
     {
       format: 'esm',
       syntax: 'es2022',
-      source: { entry: { react: './src/ui/react.ts', mf: './src/ui/mf.tsx' } },
+      source: {
+        entry: {
+          react: './src/ui/react.ts',
+          mf: './src/ui/mf.tsx',
+          'mf-entry': './src/ui/mf-entry.ts',
+        },
+      },
       output: { target: 'web', distPath: { root: 'dist/esm' } },
       dts: { distPath: 'dist/types' },
       autoExtension: true,

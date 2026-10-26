@@ -13,7 +13,10 @@
     "dist",
     "README.md"
   ],
-  "sideEffects": false,
+  "sideEffects": [
+    "./src/ui/mf-entry.ts",
+    "./dist/esm/mf-entry.mjs"
+  ],
   "engines": {
     "node": ">=20"
   },
@@ -41,6 +44,12 @@
       "modern:source": "./src/ui/mf.tsx",
       "import": "./dist/esm/mf.mjs",
       "default": "./dist/esm/mf.mjs"
+    },
+    "./internal/mf-entry": {
+      "types": "./dist/types/ui/mf-entry.d.ts",
+      "modern:source": "./src/ui/mf-entry.ts",
+      "import": "./dist/esm/mf-entry.mjs",
+      "default": "./dist/esm/mf-entry.mjs"
     }
   },
   "scripts": {
@@ -106,6 +115,11 @@
         "types": "./dist/types/ui/mf.d.ts",
         "import": "./dist/esm/mf.mjs",
         "default": "./dist/esm/mf.mjs"
+      },
+      "./internal/mf-entry": {
+        "types": "./dist/types/ui/mf-entry.d.ts",
+        "import": "./dist/esm/mf-entry.mjs",
+        "default": "./dist/esm/mf-entry.mjs"
       }
     }
   },
