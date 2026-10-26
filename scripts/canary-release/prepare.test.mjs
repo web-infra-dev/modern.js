@@ -214,3 +214,56 @@ test('an unknown channel, or a custom one borrowing a reserved tag, never reache
     }, options));
   }
 });
+
+test('packages on different baselines still prepare to one snapshot version', t => {
+  // The repository really does contain packages on different baselines - an
+  // alpha line beside a released one - and a snapshot exists to flatten them.
+  // Requiring the bump to agree before discarding it rejected that, and the
+  // fake runner did not catch it because only the real toolchain performs a
+  // bump that leaves the baselines where they were.
+  const root = fixture(t);
+  writeJson(path.join(root, 'packages/b/package.json'), { name: '@modern-js/b', version: '3.6.0' });
+  const runner = (command, args) => {
+    if (command === 'git') return '';
+    if (args.includes('list')) return JSON.stringify(['a', 'b', 'private'].map(name => ({ path: path.join(root, 'packages', name) })));
+    if (args.includes('bump')) {
+      if (!args.includes('--snapshot')) {
+        // A bump that leaves the two packages on different versions, which is
+        // what the real Changesets does when only one has a changeset.
+        fs.rmSync(path.join(root, '.changeset/original.md'));
+        const file = path.join(root, 'packages/a/package.json');
+        writeJson(file, { ...readJson(file), version: '3.11.0' });
+        return '';
+      }
+      for (const name of ['a', 'b']) {
+        const file = path.join(root, `packages/${name}/package.json`);
+        writeJson(file, { ...readJson(file), version });
+      }
+      return '';
+    }
+    fs.writeFileSync(path.join(root, 'pnpm-lock.yaml'), 'generated lockfile\n');
+    return '';
+  };
+  const result = prepare(root, releaseId, 'a'.repeat(40), runner);
+  assert.equal(result.plan.version, version);
+  assert(result.plan.packages.every(pkg => pkg.version === version));
+  assert.equal(result.predicted.packages[0].version, '3.11.0');
+  assert.equal(result.predicted.packages[1].version, '3.6.0', 'the prediction keeps what the bump actually produced');
+});
+
+test('a stable release still refuses a bump whose versions disagree', t => {
+  const root = fixture(t);
+  const runner = (command, args) => {
+    if (command === 'git') return '';
+    if (args.includes('list')) return JSON.stringify(['a', 'b', 'private'].map(name => ({ path: path.join(root, 'packages', name) })));
+    if (args.includes('bump')) {
+      fs.rmSync(path.join(root, '.changeset/original.md'), { force: true });
+      const file = path.join(root, 'packages/a/package.json');
+      writeJson(file, { ...readJson(file), version: '3.11.0' });
+      return '';
+    }
+    return '';
+  };
+  assert.throws(() => prepare(root, releaseId, 'a'.repeat(40), runner, { channel: 'latest' }),
+    /Expected one version across the release set/);
+});

@@ -87,7 +87,13 @@ export function prepare(root, releaseId, baseSha, execute = run, { channel: chan
         version: readJson(path.join(root, pkg.path, 'package.json')).version,
       })),
     };
-    const bumpedVersion = sharedVersion(publishable(bumped));
+    // Only a stable release publishes what the bump produced, so only there
+    // do the bumped versions have to agree. A snapshot throws them away and
+    // re-versions from the untouched changesets, and the repositories this
+    // runs against do contain packages sitting on different baselines - an
+    // alpha line beside a released one - which is precisely the case the
+    // snapshot exists to flatten.
+    const bumpedVersion = stable ? sharedVersion(publishable(bumped)) : undefined;
     let versioned = bumped;
     if (!stable) {
       // The snapshot must see the original changesets and versions, not the consumed bump.
