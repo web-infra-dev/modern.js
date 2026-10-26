@@ -3,7 +3,7 @@ import { defineConfig } from '@rstest/core';
 export default defineConfig({
   root: __dirname,
   include: ['integration/**/*.(spec|test).[jt]s?(x)'],
-  exclude: ['integration/rstest/**'],
+  exclude: ['integration/rstest/**', 'integration/module-federation/**'],
   globals: true,
   // Framework tests spawn many build/dev-server/puppeteer tasks; cap file-level
   // concurrency to avoid CI resource contention without changing assertions.

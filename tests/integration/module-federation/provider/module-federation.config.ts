@@ -1,4 +1,4 @@
-import { createModuleFederationConfig } from '@module-federation/modern-js-v3';
+import { createModuleFederationConfig } from '@module-federation/enhanced';
 import { shared } from '../ports';
 export default createModuleFederationConfig({
   name: 'lab_provider',
