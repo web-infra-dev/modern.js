@@ -3,7 +3,7 @@ import { createMcpHandler } from '@modelcontextprotocol/server';
 import { useHonoContext } from '@modern-js/server-core';
 import { requestOrigin } from './resources';
 
-export { loadUiManifest, registerUiResources } from './resources';
+export { registerUiResources } from './resources';
 export type { RegisterUiOptions } from './resources';
 export type { UiManifest, UiMetadata } from '../manifest';
 

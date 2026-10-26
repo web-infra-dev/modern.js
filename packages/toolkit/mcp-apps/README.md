@@ -3,14 +3,14 @@
 Build React MCP cards with Modern.js and write servers with the official MCP SDK.
 The UI build and the server exchange only `ui-manifest.json`.
 
-- `@modern-js/mcp-apps/server` exports `loadUiManifest`, `registerUiResources`, `createFetchHandler` and `createBffHandlers`
+- `@modern-js/mcp-apps/server` exports `registerUiResources`, `createFetchHandler` and `createBffHandlers`
 - `@modern-js/mcp-apps/react` exports `McpViewProps`, `createMcpView`, `useMcpApp` and official host styling hooks
 - `@modern-js/mcp-apps/manifest` exports the versioned manifest types and validation functions
 - `@modern-js/mcp-apps/mf` provides the shell runtime compiled with the application's own React dependencies
 
-`loadUiManifest()` is asynchronous. Its default is `dist/mcp-apps/ui-manifest.json` in production and `node_modules/.modern-js/mcp-apps/ui-manifest.json` in development. Pass a path or HTTP(S) URL for independent deployments or custom output directories. Relative HTML and shell files resolve against that location. In-memory manifests require `manifestUrl` when registering relative files.
+`registerUiResources()` loads the manifest asynchronously. Its default is `dist/mcp-apps/ui-manifest.json` in production and `node_modules/.modern-js/mcp-apps/ui-manifest.json` in development. Set the `manifest` option to a path or HTTP(S) URL for independent deployments or custom output directories. Relative HTML and shell files resolve against that location.
 
-`registerUiResources(server, manifest, { request })` returns view names mapped to `ui://app/<encoded-name>`. Register tools with the official `registerAppTool` helper and put the chosen URI in `_meta.ui.resourceUri`. MF selection is injected into the resource HTML rather than tool results.
+`await registerUiResources(server, { request })` returns view names mapped to `ui://app/<encoded-name>`. Register tools with the official `registerAppTool` helper and put the chosen URI in `_meta.ui.resourceUri`. MF selection is injected into the resource HTML rather than tool results.
 
 `assetBase` is a public directory URL or `request`. Request mode uses the request origin, honoring a sanitized `x-forwarded-proto`. Override `assetBase` at registration for an external static origin or path prefix. Resources add their required asset, connection and base URI origins to CSP while preserving configured metadata. Additional chunk/CDN origins must be declared explicitly.
 

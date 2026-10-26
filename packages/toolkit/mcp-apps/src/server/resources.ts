@@ -13,12 +13,8 @@ import {
   type UiMetadata,
 } from '../manifest';
 
-const sources = new WeakMap<UiManifest, URL>();
-
 /** Relative resource files are resolved against this manifest's location. */
-export async function loadUiManifest(
-  source: string | URL = defaultManifestPath(),
-): Promise<UiManifest> {
+async function loadUiManifest(source: string | URL = defaultManifestPath()) {
   const url =
     source instanceof URL
       ? source
@@ -28,8 +24,7 @@ export async function loadUiManifest(
   const text = await readSource(url);
   const manifest: unknown = JSON.parse(text);
   validateUiManifest(manifest);
-  sources.set(manifest, url);
-  return manifest;
+  return { manifest, location: url };
 }
 
 function defaultManifestPath() {
@@ -57,8 +52,8 @@ async function readSource(url: URL, signal?: AbortSignal) {
 
 export interface RegisterUiOptions {
   request?: Request;
-  /** Required for in-memory manifests with relative HTML files. */
-  manifestUrl?: string | URL;
+  /** Manifest file path or HTTP(S) URL. Defaults to the current build output. */
+  manifest?: string | URL;
   /** Public deployment root, including any path prefix. */
   assetBase?: string;
 }
@@ -92,19 +87,11 @@ function escapeAttribute(value: string) {
     .replace(/</g, '&lt;');
 }
 
-export function registerUiResources(
+export async function registerUiResources(
   server: Pick<McpServer, 'registerResource'>,
-  manifest: UiManifest,
   options: RegisterUiOptions = {},
-): Record<string, string> {
-  validateUiManifest(manifest);
-  const location = options.manifestUrl
-    ? options.manifestUrl instanceof URL
-      ? options.manifestUrl
-      : /^https?:\/\//.test(options.manifestUrl)
-        ? new URL(options.manifestUrl)
-        : pathToFileURL(path.resolve(options.manifestUrl))
-    : sources.get(manifest);
+): Promise<Record<string, string>> {
+  const { manifest, location } = await loadUiManifest(options.manifest);
   const base = publicBase(manifest, options);
   const uris: Record<string, string> = Object.create(null);
   for (const [name, view] of Object.entries(manifest.views)) {
@@ -142,10 +129,6 @@ export function registerUiResources(
       { _meta: { ui } },
       async (_uri, extra) => {
         const source = 'html' in view ? view.html : remote!.shell;
-        if (!/^https?:\/\//.test(source) && !location)
-          throw new Error(
-            'Relative UI files require loadUiManifest() or manifestUrl',
-          );
         const sourceUrl = /^https?:\/\//.test(source)
           ? new URL(source)
           : new URL(source, location);

@@ -5,7 +5,7 @@ import os from 'node:os';
 import { McpServer } from '@modelcontextprotocol/server';
 import { Client } from '@modelcontextprotocol/client';
 import { InMemoryTransport } from '@modelcontextprotocol/server';
-import { loadUiManifest, registerUiResources } from '../src/server/resources';
+import { registerUiResources } from '../src/server/resources';
 import { validateUiManifest, type UiManifest } from '../src/manifest';
 
 let directory: string;
@@ -39,11 +39,18 @@ const manifest = (): UiManifest => ({
   },
 });
 async function connect(
-  value: UiManifest,
-  options: Parameters<typeof registerUiResources>[2],
+  value: UiManifest | string | URL,
+  options: Parameters<typeof registerUiResources>[1],
 ) {
   const server = new McpServer({ name: 'test', version: '1' });
-  const uris = registerUiResources(server, value, options);
+  const filename = path.join(directory, `manifest-${crypto.randomUUID()}.json`);
+  if (typeof value === 'object' && !(value instanceof URL))
+    await writeFile(filename, JSON.stringify(value));
+  const uris = await registerUiResources(server, {
+    ...options,
+    manifest:
+      typeof value === 'string' || value instanceof URL ? value : filename,
+  });
   const client = new Client({ name: 'test-client', version: '1' });
   const [a, b] = InMemoryTransport.createLinkedPair();
   await server.connect(a);
@@ -60,8 +67,7 @@ async function connect(
 it('resolves files relative to their manifest and keeps UI metadata', async () => {
   const filename = path.join(directory, 'ui-manifest.json');
   await writeFile(filename, JSON.stringify(manifest()));
-  const loaded = await loadUiManifest(filename);
-  const session = await connect(loaded, {
+  const session = await connect(filename, {
     request: new Request('https://app.example/api/mcp'),
   });
   try {
@@ -88,7 +94,6 @@ it('resolves files relative to their manifest and keeps UI metadata', async () =
 });
 it('injects fixed MF configuration in the resource, without a tool result', async () => {
   const session = await connect(manifest(), {
-    manifestUrl: path.join(directory, 'ui-manifest.json'),
     assetBase: 'https://cdn.example/project',
   });
   try {
@@ -116,7 +121,6 @@ it('supports independent absolute remote entries and request HTTPS termination',
   const value = manifest();
   value.remotes.app.entry = 'https://mf.example/mf-manifest.json';
   const session = await connect(value, {
-    manifestUrl: path.join(directory, 'ui-manifest.json'),
     request: new Request('http://app.example/api/mcp', {
       headers: { 'x-forwarded-proto': 'https' },
     }),
@@ -168,10 +172,10 @@ it('loads a hosted manifest and resolves relative HTML from its URL', async () =
   await new Promise<void>(resolve => http.listen(0, '127.0.0.1', resolve));
   const address = http.address() as { port: number };
   try {
-    const loaded = await loadUiManifest(
+    const session = await connect(
       `http://127.0.0.1:${address.port}/cards/ui-manifest.json`,
+      {},
     );
-    const session = await connect(loaded, {});
     try {
       const result = await session.client.readResource({
         uri: session.uris.hosted,
@@ -189,4 +193,18 @@ it('loads a hosted manifest and resolves relative HTML from its URL', async () =
       http.close(error => (error ? reject(error) : resolve())),
     );
   }
+});
+
+it('rejects missing or invalid manifests during resource registration', async () => {
+  const server = new McpServer({ name: 'test', version: '1' });
+  await expect(
+    registerUiResources(server, {
+      manifest: path.join(directory, 'missing.json'),
+    }),
+  ).rejects.toThrow('ENOENT');
+  const filename = path.join(directory, 'invalid.json');
+  await writeFile(filename, JSON.stringify({ ...manifest(), version: 2 }));
+  await expect(
+    registerUiResources(server, { manifest: filename }),
+  ).rejects.toThrow('version');
 });

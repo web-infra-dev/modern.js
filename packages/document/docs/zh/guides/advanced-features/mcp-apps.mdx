@@ -72,15 +72,13 @@ import { McpServer } from '@modelcontextprotocol/server'
 import { registerAppTool } from '@modelcontextprotocol/ext-apps/server'
 import {
   createBffHandlers,
-  loadUiManifest,
   registerUiResources,
 } from '@modern-js/mcp-apps/server'
 import { z } from 'zod'
 
 async function createServer(request: Request) {
   const server = new McpServer({ name: 'todos', version: '1.0.0' })
-  const manifest = await loadUiManifest()
-  const ui = registerUiResources(server, manifest, { request })
+  const ui = await registerUiResources(server, { request })
   registerAppTool(
     server,
     'list_todos',
@@ -146,7 +144,7 @@ dist/
 - 清单不记录 tool 或 resource URI，服务端生成 `ui://app/<编码后的卡片名>`，多个 tool 可以复用同一 URI
 - MF 配置在读取 resource 时注入 shell，不需要 tool result 携带框架元数据
 
-`loadUiManifest()` 为异步 API。生产默认读取 `dist/mcp-apps/ui-manifest.json`，开发默认读取 `node_modules/.modern-js/mcp-apps/ui-manifest.json`。自定义构建目录或部署到独立服务时，传入文件路径或 HTTP(S) URL。内存清单应通过 `registerUiResources` 的 `manifestUrl` 指定相对文件的解析位置。
+`registerUiResources()` 内部异步加载清单。生产默认读取 `dist/mcp-apps/ui-manifest.json`，开发默认读取 `node_modules/.modern-js/mcp-apps/ui-manifest.json`。自定义构建目录或部署到独立服务时，通过 `manifest` 选项传入文件路径或 HTTP(S) URL，相对 HTML 路径以该清单位置为基准解析。
 
 `output.assetPrefix` 为绝对地址时用于推导 `assetBase`。`request` 表示使用请求的公开 origin，支持经过代理清理的 `x-forwarded-proto`。子路径或外部静态资源部署可以通过 `registerUiResources` 的 `assetBase` 显式覆盖。反向代理必须保留公开 host 并清理转发头。
 

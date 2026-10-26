@@ -68,15 +68,13 @@ import { McpServer } from '@modelcontextprotocol/server'
 import { registerAppTool } from '@modelcontextprotocol/ext-apps/server'
 import {
   createBffHandlers,
-  loadUiManifest,
   registerUiResources,
 } from '@modern-js/mcp-apps/server'
 import { z } from 'zod'
 
 async function createServer(request: Request) {
   const server = new McpServer({ name: 'todos', version: '1.0.0' })
-  const manifest = await loadUiManifest()
-  const ui = registerUiResources(server, manifest, { request })
+  const ui = await registerUiResources(server, { request })
   registerAppTool(
     server,
     'list_todos',
@@ -112,7 +110,7 @@ The version 1 manifest contains `assetBase`, `remotes` and `views`. A local view
 - Resource URIs are generated as `ui://app/<encoded-view-name>` by the server, and multiple tools can share a card
 - MF configuration is injected into resource HTML instead of tool results
 
-`loadUiManifest()` is asynchronous. Defaults are `dist/mcp-apps/ui-manifest.json` in production and `node_modules/.modern-js/mcp-apps/ui-manifest.json` in development. Pass a file path or HTTP(S) URL for custom output directories or independent servers. In-memory manifests with relative HTML require `manifestUrl` when registering resources.
+`registerUiResources()` loads the manifest asynchronously. Defaults are `dist/mcp-apps/ui-manifest.json` in production and `node_modules/.modern-js/mcp-apps/ui-manifest.json` in development. Set its `manifest` option to a file path or HTTP(S) URL for custom output directories or independent servers. Relative HTML resolves against that location.
 
 An absolute `output.assetPrefix` becomes `assetBase`. Otherwise request-origin resolution is used. Override `assetBase` in `registerUiResources` for a separate static origin or deployment path prefix. Request mode honors sanitized `x-forwarded-proto` headers. Reverse proxies must preserve the public host and sanitize forwarded headers.
 

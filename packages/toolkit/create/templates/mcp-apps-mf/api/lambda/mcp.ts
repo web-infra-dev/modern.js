@@ -2,7 +2,6 @@ import { McpServer } from '@modelcontextprotocol/server';
 import { registerAppTool } from '@modelcontextprotocol/ext-apps/server';
 import {
   createBffHandlers,
-  loadUiManifest,
   registerUiResources,
 } from '@modern-js/mcp-apps/server';
 import { z } from 'zod';
@@ -10,8 +9,7 @@ import { listTodos, addTodo } from '../server/store';
 
 async function createServer(request: Request) {
   const server = new McpServer({ name: 'todo-mcp', version: '1.0.0' });
-  const manifest = await loadUiManifest();
-  const ui = registerUiResources(server, manifest, { request });
+  const ui = await registerUiResources(server, { request });
   registerAppTool(
     server,
     'list_todos',
