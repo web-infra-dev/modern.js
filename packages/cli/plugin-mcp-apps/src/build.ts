@@ -6,7 +6,15 @@ import {
 } from '@modern-js/mcp-apps/manifest';
 
 export function viewEntryName(name: string) {
-  return `mcp-ui-${createHash('sha256').update(name).digest('hex').slice(0, 12)}`;
+  const label =
+    name
+      .toLowerCase()
+      .replace(/[^a-z0-9-]+/g, '-')
+      .replace(/-+/g, '-')
+      .slice(0, 48)
+      .replace(/^-+|-+$/g, '') || 'view';
+  const hash = createHash('sha256').update(name).digest('hex').slice(0, 12);
+  return `mcp-ui-${label}-${hash}`;
 }
 export interface MfManifest {
   name: string;

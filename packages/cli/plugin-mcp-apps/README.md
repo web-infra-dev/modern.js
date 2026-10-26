@@ -20,3 +20,5 @@ The plugin builds HTML and emits `dist/mcp-apps/ui-manifest.json`, including MF-
 The development Inspector is available at `/mcp/inspector`. Disable it with `inspector: false` or configure its initial server address with `inspector: { endpoint: '/custom/mcp' }`. Its previews use an isolated origin. Production builds do not include the Inspector.
 
 The build manifest uses relative HTML and shell paths, MF manifest paths relative to `assetBase`, and version `1`. An absolute `output.assetPrefix` becomes `assetBase`. Other prefixes use request-origin resolution. The server must deploy the manifest and HTML together, and serve the application's static assets separately.
+
+Local card filenames use `mcp-ui-<normalized-view-name>-<name-hash>.html`. The label is limited to 48 ASCII characters, with `view` as the fallback. The hash is derived from the original view name to distinguish labels that normalize to the same value. Component paths do not affect the filename.

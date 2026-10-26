@@ -1,5 +1,5 @@
 import { describe, it, expect } from '@rstest/core';
-import { createUiManifest } from '../src/build';
+import { createUiManifest, viewEntryName } from '../src/build';
 import {
   validateUiManifest,
   validateViewsConfig,
@@ -29,7 +29,7 @@ describe('UI build contract', () => {
       ui: { prefersBorder: false },
     });
     expect(manifest.views.todos).toMatchObject({
-      html: expect.stringMatching(/^\.\/ui\/mcp-ui-.*\.html$/),
+      html: `./ui/${viewEntryName('todos')}.html`,
     });
     expect(() => validateUiManifest(manifest)).not.toThrow();
   });
@@ -64,5 +64,26 @@ describe('UI build contract', () => {
     expect(() =>
       validateViewsConfig({ views: { a: { expose: './A', html: 'a.html' } } }),
     ).toThrow('Invalid view');
+  });
+});
+
+describe('view entry names', () => {
+  it('includes a readable label and stable name hash', () => {
+    expect(viewEntryName('local')).toBe('mcp-ui-local-25bf8e1a2393');
+    expect(viewEntryName('Order / Detail')).toMatch(
+      /^mcp-ui-order-detail-[a-f0-9]{12}$/,
+    );
+    expect(viewEntryName('Order / Detail')).not.toBe(
+      viewEntryName('order-detail'),
+    );
+  });
+  it('keeps filenames safe and bounded for arbitrary view names', () => {
+    expect(viewEntryName('../../订单 ?')).toMatch(/^mcp-ui-view-[a-f0-9]{12}$/);
+    expect(viewEntryName('A'.repeat(200))).toMatch(
+      /^mcp-ui-a{48}-[a-f0-9]{12}$/,
+    );
+    expect(viewEntryName('A'.repeat(200))).not.toBe(
+      viewEntryName('A'.repeat(201)),
+    );
   });
 });
