@@ -1,7 +1,7 @@
 {
   "name": "@modern-js/rslib",
   "private": true,
-  "version": "2.68.10",
+  "version": "0.0.0-canary-verify.r20261027-b46eafb6085ec0122b020909e209464c",
   "main": "./dist/cjs/index.js",
   "types": "./dist/types/index.d.ts",
   "scripts": {

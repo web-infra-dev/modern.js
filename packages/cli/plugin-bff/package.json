@@ -15,7 +15,7 @@
     "modern",
     "modern.js"
   ],
-  "version": "3.10.0",
+  "version": "0.0.0-canary-verify.r20261027-b46eafb6085ec0122b020909e209464c",
   "types": "./src/cli.ts",
   "main": "./dist/cjs/cli.js",
   "exports": {
@@ -82,23 +82,23 @@
     "test": "rstest --passWithNoTests"
   },
   "dependencies": {
-    "@modern-js/bff-core": "workspace:*",
-    "@modern-js/builder": "workspace:*",
-    "@modern-js/create-request": "workspace:*",
-    "@modern-js/server-core": "workspace:*",
-    "@modern-js/server-utils": "workspace:*",
-    "@modern-js/utils": "workspace:*",
+    "@modern-js/bff-core": "workspace:0.0.0-canary-verify.r20261027-b46eafb6085ec0122b020909e209464c",
+    "@modern-js/builder": "workspace:0.0.0-canary-verify.r20261027-b46eafb6085ec0122b020909e209464c",
+    "@modern-js/create-request": "workspace:0.0.0-canary-verify.r20261027-b46eafb6085ec0122b020909e209464c",
+    "@modern-js/server-core": "workspace:0.0.0-canary-verify.r20261027-b46eafb6085ec0122b020909e209464c",
+    "@modern-js/server-utils": "workspace:0.0.0-canary-verify.r20261027-b46eafb6085ec0122b020909e209464c",
+    "@modern-js/utils": "workspace:0.0.0-canary-verify.r20261027-b46eafb6085ec0122b020909e209464c",
     "@swc/helpers": "^0.5.17",
     "qs": "^6.16.0",
     "type-is": "^1.6.18"
   },
   "devDependencies": {
-    "@modern-js/app-tools": "workspace:*",
-    "@modern-js/bff-runtime": "workspace:*",
-    "@modern-js/plugin": "workspace:*",
+    "@modern-js/app-tools": "workspace:0.0.0-canary-verify.r20261027-b46eafb6085ec0122b020909e209464c",
+    "@modern-js/bff-runtime": "workspace:0.0.0-canary-verify.r20261027-b46eafb6085ec0122b020909e209464c",
+    "@modern-js/plugin": "workspace:0.0.0-canary-verify.r20261027-b46eafb6085ec0122b020909e209464c",
     "@modern-js/rslib": "workspace:*",
-    "@modern-js/runtime": "workspace:*",
-    "@modern-js/types": "workspace:*",
+    "@modern-js/runtime": "workspace:0.0.0-canary-verify.r20261027-b46eafb6085ec0122b020909e209464c",
+    "@modern-js/types": "workspace:0.0.0-canary-verify.r20261027-b46eafb6085ec0122b020909e209464c",
     "@rsbuild/core": "2.2.13",
     "@scripts/rstest-config": "workspace:*",
     "@types/node": "^20",
