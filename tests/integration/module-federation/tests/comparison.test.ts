@@ -25,7 +25,7 @@ describeLab('Comparison UI', getContext => {
         delays.push(response.headers()['x-lab-script-delay']);
     });
     await page.setViewport({ width: 1440, height: 900 });
-    await page.goto(`${lab.url}/compare`, { waitUntil: 'networkidle0' });
+    await page.goto(`${lab.url}/`, { waitUntil: 'networkidle0' });
     await page.waitForSelector('select[aria-label="JavaScript startup delay"]');
     expect(
       await page.$eval(
@@ -167,7 +167,7 @@ describeLab('Comparison UI', getContext => {
         dataRequests.push(request.url());
     });
     await page.setViewport({ width: 1440, height: 900 });
-    await page.goto(`${lab.url}/compare-data`, { waitUntil: 'networkidle0' });
+    await page.goto(`${lab.url}/data`, { waitUntil: 'networkidle0' });
     const frames = await weatherFrames(4);
     expect(frames).toHaveLength(4);
     for (const frame of frames) {

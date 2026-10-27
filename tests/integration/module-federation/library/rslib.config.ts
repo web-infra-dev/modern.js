@@ -39,9 +39,9 @@ export default defineConfig({
         name: 'lab_library',
         dts: false,
         exposes: {
+          './WeatherRelease': './src/WeatherRelease.tsx',
           './WeatherHourly': './src/WeatherHourly.tsx',
           './WeatherWind': './src/WeatherWind.tsx',
-          './Signal': './src/Signal.tsx',
           './Forecast': './src/Forecast.tsx',
           './NoData': './src/NoData.tsx',
           './Reload': './src/Reload.tsx',

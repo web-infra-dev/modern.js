@@ -266,37 +266,6 @@ export function setupLab(mode: 'dev' | 'production') {
     await page.waitForSelector(`${selector(id)}:not(:disabled)`);
     await page.click(selector(id));
   }
-  async function counter(id: string) {
-    await click(`${id}-counter`);
-    await page.waitForFunction(
-      sel => document.querySelector(sel)?.textContent === 'Signals received: 1',
-      {},
-      selector(`${id}-counter`),
-    );
-  }
-  async function relayTools() {
-    for (const [id, label] of [
-      ['relay-ping', 'Relay pings'],
-      ['relay-pulse', 'Local pulses'],
-    ]) {
-      await page.waitForSelector(selector(id)).catch(async error => {
-        throw new Error(
-          `Remote ${id} did not render: ${JSON.stringify({
-            body: await page.$eval('body', element =>
-              element.textContent?.slice(-3000),
-            ),
-            pending: [...pendingRequests],
-            consoleErrors,
-            host: lab.logs.get('host-v1')?.slice(-2000),
-            nested: lab.logs.get('nested-v1')?.slice(-2000),
-          })}`,
-          { cause: error },
-        );
-      });
-      await click(id);
-      expect(await text(id)).toBe(`${label}: 1`);
-    }
-  }
   return () => ({
     lab,
     workspace,
@@ -305,8 +274,6 @@ export function setupLab(mode: 'dev' | 'production') {
     visit,
     text,
     click,
-    counter,
-    relayTools,
     weatherFrames,
     selector,
     expectErrorGroups(groups: { pattern: RegExp; count: number }[]) {
@@ -331,7 +298,7 @@ export function describeLab(
     ? [process.env.MF_LAB_MODE as 'dev' | 'production']
     : (['dev', 'production'] as const);
   for (const mode of modes) {
-    describe(`Federation lab (${mode})`, () => {
+    describe(`Weather Lab (${mode})`, () => {
       describe(name, () => register(setupLab(mode)));
     });
   }

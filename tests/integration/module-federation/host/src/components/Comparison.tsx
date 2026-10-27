@@ -21,12 +21,12 @@ function inspectPaletteSeed() {
 export function LabNav() {
   return (
     <nav className="weather-nav" aria-label="Comparison pages">
-      <Link className="weather-brand" to="/compare">
+      <Link className="weather-brand" to="/">
         ◈ Weather Lab
       </Link>
       <div>
-        <Link to="/compare">Rendering</Link>
-        <Link to="/compare-data">Data fetching</Link>
+        <Link to="/">Rendering</Link>
+        <Link to="/data">Data fetching</Link>
         <Link to="/advanced">Advanced scenarios</Link>
       </div>
     </nav>
@@ -197,8 +197,7 @@ export default function Comparison({ data = false }: { data?: boolean }) {
             options={
               data
                 ? [...renderFailures, ...dataFailures]
-                : target.includes('nested/') ||
-                    target.includes('dynamicNested/')
+                : target.includes('nested/')
                   ? [
                       ...renderFailures,
                       ['inner-network', 'Inner remote network failure'],
@@ -227,9 +226,7 @@ export default function Comparison({ data = false }: { data?: boolean }) {
                 Dynamic hourly forecast
               </option>
               <option value="nested/WeatherDays">Nested daily forecast</option>
-              <option value="dynamicNested/WeatherWind">
-                Dynamic nested wind
-              </option>
+              <option value="nested/WeatherWind">Dynamic nested wind</option>
             </select>
           )}
 

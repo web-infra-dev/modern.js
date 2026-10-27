@@ -44,6 +44,18 @@ export default function inspectPlugin(): ModuleFederationRuntimePlugin {
       return {
         async onLoad(args) {
           if (/\.data(?:\.client)?$/.test(args.expose)) return;
+          const snapshot = instance.snapshotHandler.getGlobalRemoteInfo(
+            args.options.remoteInfo,
+          ).remoteSnapshot;
+          if (
+            snapshot &&
+            'modules' in snapshot &&
+            snapshot.modules.some(
+              module =>
+                module.modulePath === args.expose && module.render === 'bridge',
+            )
+          )
+            return;
           // Runtime plugins initialize before React's share scope. Load the UI
           // only after a remote is ready, never from the runtime bootstrap.
           createComponent = (await import('./inspect-boundary'))

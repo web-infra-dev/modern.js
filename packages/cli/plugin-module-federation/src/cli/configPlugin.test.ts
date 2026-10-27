@@ -8,6 +8,12 @@ import {
 } from './configPlugin';
 import { logger } from '@modern-js/utils';
 import { createInstance } from '@module-federation/enhanced/runtime';
+import * as originalUtils from './utils' with { rstest: 'importActual' };
+
+rs.mock('./utils', () => ({
+  ...originalUtils,
+  resolveInternalPlugin: (relativePath: string) => `/built/${relativePath}`,
+}));
 
 const mfConfig = {
   name: 'host',
@@ -38,6 +44,7 @@ const getModernJsConfig = async (
       configCallbacks.push(callback);
     }),
     getConfig: rs.fn(() => modernjsConfig),
+    getAppContext: rs.fn(() => ({ metaName: 'modern-js' })),
     modifyBundlerChain: rs.fn(),
   } as any);
 
@@ -49,6 +56,40 @@ afterEach(() => {
 });
 
 describe('patchMFConfig', async () => {
+  it('preserves manifest options without enabling router aliases', () => {
+    const config: any = {
+      name: 'producer',
+      manifest: {
+        filePath: 'static',
+      },
+    };
+    patchMFConfig(config, false);
+    patchMFConfig(config, false);
+    expect(config.manifest).toEqual({
+      filePath: 'static',
+    });
+    expect(config.bridge.enableBridgeRouter).toBe(false);
+    const disabled: any = { name: 'producer', manifest: false };
+    patchMFConfig(disabled, false);
+    expect(disabled.manifest).toBe(false);
+  });
+
+  it('uses the app metadata name for the framework runtime alias', async () => {
+    const callbacks: Array<() => any> = [];
+    const plugin = moduleFederationConfigPlugin({
+      originPluginOptions: { config: { name: 'host' } },
+      userConfig: {},
+    } as any);
+    await plugin.setup!({
+      getConfig: () => ({}),
+      getAppContext: () => ({ metaName: 'custom' }),
+      modifyBundlerChain: rs.fn(),
+      config: (callback: () => any) => callbacks.push(callback),
+    } as any);
+    expect(callbacks[0]().resolve.alias).toEqual({
+      '@custom/runtime/mf$': expect.stringContaining('runtime/mf'),
+    });
+  });
   it('patchMFConfig: server', async () => {
     const patchedConfig = JSON.parse(JSON.stringify(mfConfig));
     patchMFConfig(patchedConfig, true);

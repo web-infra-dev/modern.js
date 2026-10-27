@@ -1,25 +1,13 @@
-import {
-  Component,
-  lazy,
-  Suspense,
-  useEffect,
-  useMemo,
-  type ComponentType,
-  type ReactNode,
-} from 'react';
+import { Suspense, useEffect, useMemo, type ComponentType } from 'react';
 import { useSearchParams } from '@modern-js/runtime/router';
-import {
-  getInstance,
-  loadRemote,
-  registerRemotes,
-} from '@module-federation/enhanced/runtime';
+import { registerRemotes } from '@module-federation/enhanced/runtime';
 import { reportRecovery } from './events';
+import {
+  createReactRemote,
+  type CreateReactRemoteOptions,
+} from '@modern-js/runtime/mf';
 
-type LazyOptions = Parameters<
-  NonNullable<ReturnType<typeof getInstance>>['createLazyComponent']
->[0];
-type Options = Omit<LazyOptions, 'fallback'> &
-  Partial<Pick<LazyOptions, 'fallback'>> & { componentOnly?: boolean };
+type Options = Omit<CreateReactRemoteOptions, 'remote' | 'fallback'>;
 export function RecoveryCard({
   status,
   remote,
@@ -50,30 +38,6 @@ export function RecoveryCard({
     </section>
   );
 }
-class RemoteBoundary extends Component<
-  { children: ReactNode; remote: string },
-  { error?: Error }
-> {
-  state: { error?: Error } = {};
-  static getDerivedStateFromError(error: Error) {
-    return { error };
-  }
-  render() {
-    return this.state.error ? (
-      <RecoveryCard
-        status={
-          this.state.error.message.includes('LAB_WEATHER_API')
-            ? 'Data fallback'
-            : 'Component fallback'
-        }
-        remote={this.props.remote}
-        handler="React error boundary"
-      />
-    ) : (
-      this.props.children
-    );
-  }
-}
 // Each mounted instance owns its params and loader cache. SSR requests never
 // mutate a process-wide failure flag or a previously loaded production remote.
 export function labComponent<P extends object = Record<string, unknown>>(
@@ -100,38 +64,28 @@ export function labComponent<P extends object = Record<string, unknown>>(
       nested && selected === 'inner-network' ? 'network' : selected;
     const run = query.get('run') || '0';
     const Lazy = useMemo(() => {
-      const loader =
-        failure === 'network'
-          ? async () => {
-              const name = `offline_${id.replace(/\W/g, '_')}_${run.replace(/\W/g, '_')}`;
-              registerRemotes([
-                {
-                  name,
-                  shareScope: 'lab-fault',
-                  entry: `${process.env.MF_LAB_ORIGIN}/_lab/offline/${name}/mf-manifest.json`,
-                },
-              ]);
-              const module = await loadRemote(`${name}/Weather`);
-              if (!module) throw new Error('LAB_REMOTE_OFFLINE');
-              return module;
-            }
-          : options.loader;
-      if (options.componentOnly)
-        return lazy(
-          async () =>
-            (await loader()) as {
-              default: ComponentType<P & { labFailure?: string }>;
-            },
-        );
-      return getInstance()!.createLazyComponent({
+      let remote = id;
+      if (failure === 'network') {
+        const faultId = scope.startsWith('replacement/') ? scope : id;
+        const name = `offline_${faultId.replace(/\W/g, '_')}_${run.replace(/\W/g, '_')}`;
+        registerRemotes([
+          {
+            name,
+            shareScope: 'lab-fault',
+            entry: `${process.env.MF_LAB_ORIGIN}/_lab/offline/${name}/mf-manifest.json`,
+          },
+        ]);
+        remote = `${name}/Weather`;
+      }
+      return createReactRemote<P & { labFailure?: string; labRun?: string }>({
         ...options,
-        loader,
+        remote,
         dataFetchParams: {
           isDowngrade: false,
           ...options.dataFetchParams,
           labFailure: failure,
         },
-        fallback: (error: unknown) => (
+        fallback: ({ error }) => (
           <RecoveryCard
             detail={JSON.stringify(error, (_key, value) =>
               value instanceof Error ? { message: value.message } : value,
@@ -139,21 +93,21 @@ export function labComponent<P extends object = Record<string, unknown>>(
             status={
               failure === 'data' || failure === 'invalid'
                 ? 'Data fallback'
-                : 'Remote fallback'
+                : failure === 'render'
+                  ? 'Component fallback'
+                  : 'Remote fallback'
             }
             remote={id}
-            handler="MF adapter fallback"
+            handler="React remote fallback"
           />
         ),
       }) as ComponentType<P & { labFailure?: string }>;
     }, [failure, run]);
     return (
       <div className="lab-remote-slot" data-lab-remote={id}>
-        <RemoteBoundary key={`${failure}:${run}`} remote={id}>
-          <Suspense fallback={options.loading}>
-            <Lazy {...props} labFailure={failure} labRun={run} />
-          </Suspense>
-        </RemoteBoundary>
+        <Suspense fallback={options.loading}>
+          <Lazy {...props} labFailure={failure} labRun={run} />
+        </Suspense>
       </div>
     );
   }

@@ -2,31 +2,37 @@ import { describeLab } from './fixture';
 
 describeLab('Data fetching', getContext => {
   it('serializes server-fetched remote data into the first HTML response', async () => {
-    const { lab, visit, text, click } = getContext();
-    const html = await (await fetch(`${lab.url}/data`)).text();
+    const { lab, page, visit, text, click } = getContext();
+    const html = await (await fetch(`${lab.url}/weather?scenario=data`)).text();
     expect(html).toContain('modern-server');
-    await visit('data', 'forecast');
-    expect(await text('data-source')).toBe('modern-server');
-    await click('forecast-counter');
-    expect(await text('forecast-counter')).toBe('Readings saved: 1');
+    await visit('weather?scenario=data', 'provider-forecast');
+    expect(
+      await page.$eval(
+        '[data-testid="provider-forecast"] [data-testid="data-source"]',
+        el => el.textContent,
+      ),
+    ).toBe('modern-server');
+    await click('provider-forecast-counter');
+    expect(await text('provider-forecast-counter')).toBe('Readings saved: 1');
   });
   it('renders a CSR-only component and fetches data through the host server', async () => {
     const { lab, page, visit, text, click } = getContext();
-    const html = await (await fetch(`${lab.url}/csr`)).text();
-    expect(html).not.toContain('data-testid="forecast"');
+    const html = await (await fetch(`${lab.url}/weather?scenario=data`)).text();
+    expect(html).not.toContain('data-testid="library-forecast"');
     const requests: string[] = [];
     page.on('request', request => {
       if (request.url().includes('x-mf-data-fetch'))
         requests.push(request.url());
     });
-    await visit('csr', 'forecast');
+    await visit('weather?scenario=data', 'library-forecast');
     await page.waitForFunction(
       () =>
-        document.querySelector('[data-testid="data-source"]')?.textContent ===
-        'rslib-server',
+        document.querySelector(
+          '[data-testid="library-forecast"] [data-testid="data-source"]',
+        )?.textContent === 'rslib-server',
     );
-    await click('forecast-counter');
-    expect(await text('forecast-counter')).toBe('Readings saved: 1');
+    await click('library-forecast-counter');
+    expect(await text('library-forecast-counter')).toBe('Readings saved: 1');
     expect(requests.length).toBeGreaterThan(0);
     expect(new URL(requests[0]).origin).toBe(lab.url);
     expect(new URL(requests[0]).searchParams.get('lab')).toBe('"federation"');
@@ -34,7 +40,7 @@ describeLab('Data fetching', getContext => {
   it('recovers server failures using the client loader and the host retry', async () => {
     const { page, visit, expectRecovery } = getContext();
     expectRecovery();
-    await visit('recovery', 'client-recovery');
+    await visit('weather?scenario=recovery', 'client-recovery');
     await page.waitForFunction(
       () =>
         document.querySelector(
@@ -52,7 +58,7 @@ describeLab('Data fetching', getContext => {
       if (decodeURIComponent(request.url()).includes('NoData.data'))
         noDataRequests += 1;
     });
-    await visit('lifecycle', 'request-count');
+    await visit('weather?scenario=lifecycle', 'request-count');
     await page.waitForFunction(() =>
       /\d/.test(
         document.querySelector('[data-testid="request-count"]')?.textContent ||
@@ -82,7 +88,7 @@ describeLab('Data fetching', getContext => {
   it('prefetches CSR weather data by default and reuses one request when rendering', async () => {
     const { lab, page, weatherFrames } = getContext();
     await page.setViewport({ width: 1440, height: 900 });
-    await page.goto(`${lab.url}/compare-data`, {
+    await page.goto(`${lab.url}/data`, {
       waitUntil: 'domcontentloaded',
     });
     await page.waitForSelector('html[data-lab-ready="true"]');
