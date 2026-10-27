@@ -24,13 +24,13 @@ Advanced frames select their experiment through `/weather?scenario=...`. These s
 
 ## Unified API integration
 
-Ordinary and nested weather consumers call `createReactRemote` with registered `alias/Expose` strings. The framework API selects the renderer from the producer manifest before loading the exposed module. Components use the existing SSR, hydration, CSS/assets and data-fetch pipeline. Fault wrappers supply request-specific props and data-fetch parameters without mutating a loaded component or server-wide flag.
+Ordinary and nested weather consumers call `createReactRemote` with registered `alias/Expose` strings. The framework API selects the renderer from the Snapshot returned by the completed runtime resolution chain before executing the exposed module. Components use the existing SSR, hydration, CSS/assets and data-fetch pipeline. Fault wrappers supply request-specific props and data-fetch parameters without mutating a loaded component or server-wide flag.
 
 `Independent weather stations` uses the same factory API and the declarative `ReactRemote` API. Its producer imports `createBridgeComponent` from the framework entry. The manifest marks that expose with `render: 'bridge'` and `isService: false`. Server HTML contains placeholders, and each client mount owns a separate producer Root. Renaming a station preserves its observations, disconnecting destroys it, and reconnecting creates a fresh station. Bridge SSR is outside this phase.
 
 Runtime registration and prefetch continue using Enhanced and the existing data-prefetch plugin. The fixture does not call the old `createLazyComponent` consumer API. Each producer has one canonical runtime name with an alias. Registering the same container under multiple names would evaluate a second server entry against an existing instance and can break remote chunk initialization.
 
-The MF dependencies remain pinned in package manifests. These APIs require a Core preview containing the unified consumers and per-expose manifest metadata. During cross-repository development, build and pack Core locally in an isolated worktree, override the MF package graph only for local installation, and restore the committed manifests and lockfile before creating or updating a PR. No local paths belong in the PR. Verify the published preview again after updating the pinned versions.
+The MF dependencies are pinned to published preview `0.0.0-feat-enhanced-runtime-unification-20261027114159`, which contains the unified consumers and per-expose protocol metadata. Keep the integration, examples and runtime peer versions aligned. Validate the registry packages without local overrides when updating these pins.
 
 ## Weather scenarios
 

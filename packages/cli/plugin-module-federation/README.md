@@ -2,7 +2,7 @@
 
 The built-in adapter is applied by app-tools when module-federation.config.ts exists. Users install @module-federation/enhanced and configure MF without registering this package manually. Set moduleFederation to false to retain the legacy plugin. Simultaneous activation fails before legacy configuration evaluation.
 
-The adapter preserves the modern-js-v3 2.9.2 behavior and uses MF preview `0.0.0-feat-enhanced-runtime-unification-20261022085654` for the engine, Bridge, Node adapter and related packages. Runtime APIs and types use @module-federation/enhanced/runtime, without extra runtime or runtime-core application dependencies. Unified React consumers require a Core preview containing the consumers and expose protocol metadata. Bridge SSR, Service App execution and additional shared tree-shaking work remain outside this phase.
+The adapter preserves the modern-js-v3 2.9.2 behavior and uses MF preview `0.0.0-feat-enhanced-runtime-unification-20261027114159` for the engine, Bridge, Node adapter and related packages. Runtime APIs and types use @module-federation/enhanced/runtime, without extra runtime or runtime-core application dependencies. This preview includes the unified React consumers and expose protocol metadata. Bridge SSR, Service App execution and additional shared tree-shaking work remain outside this phase.
 
 The adapter defaults the top-level shareStrategy to loaded-first for browser and server builds. Explicit strategy configuration is preserved. The MF runtime supplies this default to shared entries without an extra strategy runtime plugin.
 
