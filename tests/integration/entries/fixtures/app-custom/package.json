@@ -1,13 +1,13 @@
 {
   "private": true,
   "name": "app-custom",
-  "version": "2.66.0",
+  "version": "0.0.0-canary-verify.r20261027-b46eafb6085ec0122b020909e209464c",
   "scripts": {
     "dev": "modern dev"
   },
   "dependencies": {
-    "@modern-js/app-tools": "workspace:*",
-    "@modern-js/runtime": "workspace:*",
+    "@modern-js/app-tools": "workspace:0.0.0-canary-verify.r20261027-b46eafb6085ec0122b020909e209464c",
+    "@modern-js/runtime": "workspace:0.0.0-canary-verify.r20261027-b46eafb6085ec0122b020909e209464c",
     "react": "^19.3.0",
     "react-dom": "^19.3.0"
   }

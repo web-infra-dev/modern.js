@@ -15,7 +15,7 @@
     "modern",
     "modern.js"
   ],
-  "version": "3.10.0",
+  "version": "0.0.0-canary-verify.r20261027-b46eafb6085ec0122b020909e209464c",
   "types": "./dist/types/index.d.ts",
   "main": "./dist/cjs/index.js",
   "exports": {
@@ -35,7 +35,7 @@
     "test": "rstest --passWithNoTests"
   },
   "dependencies": {
-    "@modern-js/utils": "workspace:*",
+    "@modern-js/utils": "workspace:0.0.0-canary-verify.r20261027-b46eafb6085ec0122b020909e209464c",
     "@swc/helpers": "^0.5.17",
     "koa-compose": "^4.1.0",
     "reflect-metadata": "^0.2.2",
@@ -43,7 +43,7 @@
   },
   "devDependencies": {
     "@modern-js/rslib": "workspace:*",
-    "@modern-js/types": "workspace:*",
+    "@modern-js/types": "workspace:0.0.0-canary-verify.r20261027-b46eafb6085ec0122b020909e209464c",
     "@scripts/rstest-config": "workspace:*",
     "@types/koa-compose": "^3.2.9",
     "@types/node": "^20",
