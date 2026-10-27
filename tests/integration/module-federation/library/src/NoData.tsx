@@ -1,3 +1,7 @@
+if (typeof window !== 'undefined') {
+  const target = window as typeof window & { noDataLoads?: number };
+  target.noDataLoads = (target.noDataLoads || 0) + 1;
+}
 export default function NoData() {
   return (
     <p data-testid="no-data">

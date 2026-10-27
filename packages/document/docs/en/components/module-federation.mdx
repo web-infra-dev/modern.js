@@ -11,10 +11,10 @@ Modern.js provides an example project for Module Federation. Please refer to [mo
 Modern.js automatically enables Module Federation when `module-federation.config.ts` exists in the application directory. No Modern.js MF plugin installation or registration is required. Install the MF engine:
 
 ```bash
-pnpm add @module-federation/enhanced@0.0.0-feat-enhanced-runtime-unification-20261022085654
+pnpm add @module-federation/enhanced@0.0.0-feat-enhanced-runtime-unification-20261027114159
 ```
 
-When using React Bridge, also install `@module-federation/bridge-react` at the same version as `@module-federation/enhanced` and import its public entry (or `/v19` for the React 19 adapter) directly. The internal Modern.js MF adapter does not re-export the Bridge package.
+Import unified React consumers from `@modern-js/runtime/mf`. Modern manages Bridge, while applications install an Enhanced version supporting these APIs and expose protocol metadata. Existing direct Bridge imports remain supported.
 
 Keep the common MF configuration in its existing file:
 
@@ -72,10 +72,46 @@ The object accepts the existing adapter options:
 
 Remove the registration and dependency for `@module-federation/modern-js-v3`, then install `@module-federation/enhanced`. Import configuration helpers from enhanced and runtime APIs from `@module-federation/enhanced/runtime`.
 
-Import React Bridge APIs from `@module-federation/bridge-react`. Use `/v18` and `/v19` for version-specific entries, `/data-fetch` for data APIs and `/plugin` for the runtime plugin. When importing those APIs directly, install bridge-react at the same preview version as enhanced. No direct runtime or runtime-core application dependencies are needed.
+Existing integrations may continue importing React Bridge APIs from `@module-federation/bridge-react`. Use `/v18` and `/v19` for version-specific entries, `/data-fetch` for data APIs and `/plugin` for the runtime plugin. When importing those APIs directly, install bridge-react at the same preview version as enhanced. No direct runtime or runtime-core application dependencies are needed.
 
 For gradual migration, keep the legacy plugin and explicitly set `moduleFederation: false`. A project with an MF configuration file otherwise enables the built-in adapter automatically. Enabling both integrations fails with a migration message, including legacy registration through another plugin's `usePlugins`.
 
-This stage does not introduce `createReactRemote`, `ReactRemote`, `updateRemotes` or service app APIs.
+### Unified React consumers
+
+```tsx
+import { createReactRemote, ReactRemote } from '@modern-js/runtime/mf'
+
+const Card = createReactRemote<{ label: string }>({
+  remote: 'remote/Card',
+  loading: <span>Loading</span>,
+  fallback: ({ error, retry }) => <button onClick={retry}>{error.message}</button>,
+})
+
+<Card label="Example" />
+<ReactRemote remote="remote/Card" props={{ label: 'Example' }} />
+```
+
+The consumer selects an adapter from the manifest expose protocol. Ordinary React
+components render in the Host tree with the existing SSR, hydration and data-loading
+integration. Default provider exports created with `createBridgeComponent` publish
+`render: 'bridge'` and `isService: false`, and mount in independent client Roots.
+Each mounted instance owns its provider, reuses its Root for props updates and
+releases it on unmount.
+
+Producers keep standard exposes. The build analyzer follows imported factory
+bindings, aliases and static re-exports without executing producer code. Default
+provider exports must be statically analyzable. Ambiguous wrappers, dynamic options
+and conflicting protocol metadata produce build diagnostics.
+
+`exportName` defaults to `default` and supports ordinary named component exports.
+Unmarked legacy components retain the component path. Legacy Bridge providers can
+set `render: 'bridge'` explicitly. Hints conflicting with reliable metadata fail.
+General registration and loading APIs remain in `@module-federation/enhanced/runtime`.
+
+Bridge only emits a placeholder on the server in this API version. Bridge SSR,
+Service App execution and `updateRemotes` are separate capabilities. Use an
+alias/expose string for automatic SSR selection. CSR loaders must return an MF
+module namespace with its module identity. Retry resets failed loading and instance
+state without promising a re-download or automatic business-loader replay.
 
 Modern disables dependency-based automatic Bridge router aliases by default because it manages routing itself. Explicit bridge.enableBridgeRouter configuration is preserved.

@@ -1,4 +1,4 @@
-import { Scenario } from '../../components/Scenario';
+import Comparison from '../../components/Comparison';
 export default function Page() {
-  return <Scenario name="data" />;
+  return <Comparison data />;
 }

@@ -1,10 +1,7 @@
-import './DynamicRelay';
+import './remotes';
 import { labComponent } from '../../host/src/failure/components';
 export default labComponent(
-  {
-    loader: () => import('provider/WeatherDays'),
-    loading: <p>Loading daily forecast…</p>,
-  },
+  { loading: <p>Loading weather…</p> },
   'provider/WeatherDays',
   'nested/WeatherDays',
   true,

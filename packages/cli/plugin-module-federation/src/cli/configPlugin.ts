@@ -1,6 +1,6 @@
 import fs from 'fs';
 import path from 'path';
-import { isWebTarget, skipByTarget } from './utils';
+import { isWebTarget, skipByTarget, resolveInternalPlugin } from './utils';
 import { moduleFederationPlugin, encodeName } from '@module-federation/sdk';
 import { PluginOptions } from '../types';
 import { PLUGIN_IDENTIFIER } from '../constant';
@@ -465,6 +465,12 @@ export const moduleFederationConfigPlugin = (
         : undefined;
 
       return {
+        resolve: {
+          alias: {
+            [`@${api.getAppContext().metaName}/runtime/mf$`]:
+              resolveInternalPlugin('../runtime/mf'),
+          },
+        },
         tools: {
           devServer: {
             headers: corsHeaders,

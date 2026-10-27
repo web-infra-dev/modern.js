@@ -1,3 +1,5 @@
+import stationIcon from './station.svg';
+import styles from './weather.module.css';
 import { checkDataFailure } from './data-failure';
 import { useEffect, useState } from 'react';
 export type WeatherData = {
@@ -98,7 +100,15 @@ export function CurrentWeather({
       data-testid="weather-current"
       data-source={data?.source || 'pending'}
     >
-      <span className="location-label">⌖ My location</span>
+      <span className="location-label">
+        <img
+          className={styles.locationIcon}
+          src={stationIcon}
+          alt=""
+          data-testid="weather-station-icon"
+        />{' '}
+        My location
+      </span>
       <h1>Hangzhou</h1>
       <div
         className="current-temperature"
