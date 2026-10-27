@@ -311,134 +311,183 @@ describeLab('Failure recovery', getContext => {
           );
         });
       }
-      const kind = scenario === 'replace' ? 'network' : 'data';
-      await page.select('[aria-label="Failure scenario"]', kind);
-      await page.click('[aria-label="Simulate failure"]');
-      async function currentFrame(enabled: boolean) {
-        await page
-          .waitForFunction(
-            ({ scenario, enabled, kind }) => {
-              const frame = document.querySelector('iframe');
-              try {
-                const url = new URL(frame!.contentWindow!.location.href);
-                return (
-                  url.pathname === '/weather' &&
-                  url.searchParams.get('scenario') === scenario &&
-                  url.searchParams.get('failure') === (enabled ? kind : '')
-                );
-              } catch {
-                return false;
-              }
-            },
-            {},
-            { scenario, enabled, kind },
+      let resumeNeighbor = () => {};
+      let neighborRequested: ReturnType<typeof page.waitForRequest> | undefined;
+      if (scenario === 'replace') {
+        // A fast replacement failure can precede the independent station's
+        // first load. Hold its actual chunk to exercise that ordering.
+        const gate = new Promise<void>(resolve => {
+          resumeNeighbor = resolve;
+        });
+        const isNeighbor = (url: string) => {
+          const asset = new URL(url);
+          return (
+            asset.port === String(lab.ports.library) &&
+            asset.pathname.includes('__federation_expose_WeatherRelease')
+          );
+        };
+        await page.setCacheEnabled(false);
+        await page.setRequestInterception(true);
+        neighborRequested = page.waitForRequest(request =>
+          isNeighbor(request.url()),
+        );
+        page.on('request', async request => {
+          if (isNeighbor(request.url())) await gate;
+          await request.continue();
+        });
+      }
+      try {
+        const kind = scenario === 'replace' ? 'network' : 'data';
+        await page.select('[aria-label="Failure scenario"]', kind);
+        await page.click('[aria-label="Simulate failure"]');
+        async function currentFrame(enabled: boolean) {
+          await page
+            .waitForFunction(
+              ({ scenario, enabled, kind }) => {
+                const frame = document.querySelector('iframe');
+                try {
+                  const url = new URL(frame!.contentWindow!.location.href);
+                  return (
+                    url.pathname === '/weather' &&
+                    url.searchParams.get('scenario') === scenario &&
+                    url.searchParams.get('failure') === (enabled ? kind : '')
+                  );
+                } catch {
+                  return false;
+                }
+              },
+              {},
+              { scenario, enabled, kind },
+            )
+            .catch(async error => {
+              throw new Error(
+                JSON.stringify(
+                  await page.evaluate(() => ({
+                    src: document.querySelector('iframe')?.src,
+                    url: document.querySelector('iframe')?.contentWindow
+                      ?.location.href,
+                    checked: (
+                      document.querySelector(
+                        '[aria-label="Simulate failure"]',
+                      ) as HTMLInputElement
+                    )?.checked,
+                    kind: (
+                      document.querySelector(
+                        '[aria-label="Failure scenario"]',
+                      ) as HTMLSelectElement
+                    )?.value,
+                  })),
+                ),
+                { cause: error },
+              );
+            });
+          return page
+            .frames()
+            .find(frame => frame.url().includes(`scenario=${scenario}`))!;
+        }
+        let frame = await currentFrame(true);
+        await frame.waitForFunction(
+          () => document.documentElement?.dataset.labReady === 'true',
+        );
+        if (scenario === 'replace') {
+          await frame.waitForSelector(
+            '[data-testid="provider-forecast"][data-version="v1"]',
+          );
+          expect(await frame.$('[data-testid="recovery-card"]')).toBeNull();
+          await frame.waitForSelector(
+            '[data-testid="replace-provider"]:not(:disabled)',
+          );
+          await frame.click('[data-testid="replace-provider"]');
+        } else if (scenario === 'lifecycle') {
+          await frame.waitForSelector('[data-testid="request-count"]');
+          await frame.waitForFunction(() =>
+            /\d/.test(
+              document.querySelector('[data-testid="request-count"]')
+                ?.textContent || '',
+            ),
+          );
+          await frame.click('[data-testid="rerender"]');
+          expect(await frame.$('[data-testid="recovery-card"]')).toBeNull();
+          await frame.click('[data-testid="remount"]');
+        }
+        await frame
+          .waitForSelector(
+            scenario === 'replace'
+              ? '[data-handler="MF runtime fallback"]'
+              : '[data-handler="React remote fallback"]',
           )
           .catch(async error => {
             throw new Error(
               JSON.stringify(
-                await page.evaluate(() => ({
-                  src: document.querySelector('iframe')?.src,
-                  url: document.querySelector('iframe')?.contentWindow?.location
-                    .href,
-                  checked: (
-                    document.querySelector(
-                      '[aria-label="Simulate failure"]',
-                    ) as HTMLInputElement
-                  )?.checked,
-                  kind: (
-                    document.querySelector(
-                      '[aria-label="Failure scenario"]',
-                    ) as HTMLSelectElement
-                  )?.value,
+                await frame.evaluate(() => ({
+                  body: document.body.innerText,
+                  events: (window as any).labRecoveries,
                 })),
               ),
               { cause: error },
             );
           });
-        return page
-          .frames()
-          .find(frame => frame.url().includes(`scenario=${scenario}`))!;
-      }
-      let frame = await currentFrame(true);
-      await frame.waitForFunction(
-        () => document.documentElement?.dataset.labReady === 'true',
-      );
-      if (scenario === 'replace') {
-        await frame.waitForSelector(
-          '[data-testid="provider-forecast"][data-version="v1"]',
+        await page.waitForFunction(
+          expected =>
+            document.querySelector('.recovery-badge')?.textContent === expected,
+          {},
+          scenario === 'replace' ? 'Remote fallback' : 'Data fallback',
         );
-        expect(await frame.$('[data-testid="recovery-card"]')).toBeNull();
-        await frame.waitForSelector(
-          '[data-testid="replace-provider"]:not(:disabled)',
-        );
-        await frame.click('[data-testid="replace-provider"]');
-      } else if (scenario === 'lifecycle') {
-        await frame.waitForSelector('[data-testid="request-count"]');
-        await frame.waitForFunction(() =>
-          /\d/.test(
-            document.querySelector('[data-testid="request-count"]')
-              ?.textContent || '',
-          ),
-        );
-        await frame.click('[data-testid="rerender"]');
-        expect(await frame.$('[data-testid="recovery-card"]')).toBeNull();
-        await frame.click('[data-testid="remount"]');
-      }
-      await frame
-        .waitForSelector(
-          scenario === 'replace'
-            ? '[data-handler="MF runtime fallback"]'
-            : '[data-handler="React remote fallback"]',
-        )
-        .catch(async error => {
-          throw new Error(
-            JSON.stringify(
-              await frame.evaluate(() => ({
-                body: document.body.innerText,
-                events: (window as any).labRecoveries,
-              })),
-            ),
-            { cause: error },
+        if (scenario === 'replace') {
+          await neighborRequested;
+          resumeNeighbor();
+          await frame.waitForSelector(
+            '[data-testid="dynamic-forecast"][data-version="v1"]',
           );
-        });
-      await page.waitForFunction(
-        expected =>
-          document.querySelector('.recovery-badge')?.textContent === expected,
-        {},
-        scenario === 'replace' ? 'Remote fallback' : 'Data fallback',
-      );
-      if (scenario === 'replace')
-        expect(
-          await frame.$('[data-testid="dynamic-forecast"][data-version="v1"]'),
-        ).not.toBeNull();
-      if (scenario === 'lifecycle')
-        expect(await frame.$('[data-testid="no-data"]')).not.toBeNull();
-      await page.click('[aria-label="Simulate failure"]');
-      frame = await currentFrame(false);
-      await frame.waitForFunction(
-        () => document.documentElement?.dataset.labReady === 'true',
-      );
-      await frame.waitForSelector(
-        `[data-testid="${scenario === 'replace' ? 'provider-forecast' : scenario === 'lifecycle' ? 'request-count' : 'server-recovery'}"]`,
-      );
-      if (scenario === 'recovery') {
-        await frame.waitForFunction(
-          () =>
-            document.querySelector(
-              '[data-testid="server-recovery"] [data-testid="data-source"]',
-            )?.textContent === 'server-recovery',
-        );
-        await frame.waitForFunction(
-          () =>
-            (window as any).labRecoveries?.some(
-              (event: any) => event.status === 'Client loader fallback',
-            ) &&
-            (window as any).labRecoveries?.some(
-              (event: any) => event.status === 'Host retry fallback',
+          expect(
+            await frame.$(
+              '[data-testid="dynamic-forecast"][data-version="v1"]',
             ),
+          ).not.toBeNull();
+          await frame.waitForSelector(
+            '[data-testid="dynamic-forecast-counter"]:not(:disabled)',
+          );
+          await frame.click('[data-testid="dynamic-forecast-counter"]');
+          expect(
+            await frame.$eval(
+              '[data-testid="dynamic-forecast-counter"]',
+              button => button.textContent,
+            ),
+          ).toBe('Readings saved: 1');
+        }
+        if (scenario === 'lifecycle') {
+          await frame.waitForSelector('[data-testid="no-data"]');
+          expect(await frame.$('[data-testid="no-data"]')).not.toBeNull();
+        }
+        await page.click('[aria-label="Simulate failure"]');
+        frame = await currentFrame(false);
+        await frame.waitForFunction(
+          () => document.documentElement?.dataset.labReady === 'true',
         );
+        await frame.waitForSelector(
+          `[data-testid="${scenario === 'replace' ? 'provider-forecast' : scenario === 'lifecycle' ? 'request-count' : 'server-recovery'}"]`,
+        );
+        if (scenario === 'recovery') {
+          await frame.waitForFunction(
+            () =>
+              document.querySelector(
+                '[data-testid="server-recovery"] [data-testid="data-source"]',
+              )?.textContent === 'server-recovery',
+          );
+          await frame.waitForFunction(
+            () =>
+              (window as any).labRecoveries?.some(
+                (event: any) => event.status === 'Client loader fallback',
+              ) &&
+              (window as any).labRecoveries?.some(
+                (event: any) => event.status === 'Host retry fallback',
+              ),
+          );
+        }
+        expect(await frame.$('[data-testid="recovery-card"]')).toBeNull();
+      } finally {
+        resumeNeighbor();
       }
-      expect(await frame.$('[data-testid="recovery-card"]')).toBeNull();
     },
   );
   it('shows actual data fallbacks in all four panels and restores prefetched data', async () => {
