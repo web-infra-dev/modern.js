@@ -56,23 +56,21 @@ afterEach(() => {
 });
 
 describe('patchMFConfig', async () => {
-  it('registers framework provider imports without enabling router aliases', () => {
+  it('preserves manifest options without enabling router aliases', () => {
     const config: any = {
       name: 'producer',
       manifest: {
         filePath: 'static',
-        bridgeProviderModules: ['custom-provider'],
       },
     };
-    patchMFConfig(config, false, '@custom/runtime/mf');
-    patchMFConfig(config, false, '@custom/runtime/mf');
+    patchMFConfig(config, false);
+    patchMFConfig(config, false);
     expect(config.manifest).toEqual({
       filePath: 'static',
-      bridgeProviderModules: ['custom-provider', '@custom/runtime/mf'],
     });
     expect(config.bridge.enableBridgeRouter).toBe(false);
     const disabled: any = { name: 'producer', manifest: false };
-    patchMFConfig(disabled, false, '@custom/runtime/mf');
+    patchMFConfig(disabled, false);
     expect(disabled.manifest).toBe(false);
   });
 

@@ -138,18 +138,7 @@ const injectRuntimePlugins = (
 export const patchMFConfig = (
   mfConfig: moduleFederationPlugin.ModuleFederationPluginOptions,
   isServer: boolean,
-  providerModule?: string,
 ) => {
-  if (providerModule && mfConfig.manifest !== false) {
-    const manifest =
-      typeof mfConfig.manifest === 'object' ? mfConfig.manifest : {};
-    mfConfig.manifest = {
-      ...manifest,
-      bridgeProviderModules: [
-        ...new Set([...(manifest.bridgeProviderModules || []), providerModule]),
-      ],
-    };
-  }
   addDataFetchExposes(mfConfig.exposes, isServer);
 
   // Modern owns router integration. Direct Bridge imports must not activate
@@ -399,12 +388,7 @@ export const moduleFederationConfigPlugin = (
         !isWeb,
         userConfig.originPluginOptions.autoOptimization,
       );
-      const { metaName } = api.getAppContext();
-      patchMFConfig(
-        targetMFConfig,
-        !isWeb,
-        metaName ? `@${metaName}/runtime/mf` : undefined,
-      );
+      patchMFConfig(targetMFConfig, !isWeb);
 
       if (
         modernjsConfig.source?.enableAsyncEntry !== true &&
