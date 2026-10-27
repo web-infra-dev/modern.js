@@ -1,0 +1,79 @@
+:root {
+  --ink: #203c5b;
+  --muted: #62798f;
+  --line: #d7e3ed;
+  font-family:
+    -apple-system, BlinkMacSystemFont, 'Helvetica Neue', 'PingFang SC',
+    sans-serif;
+  color: var(--ink);
+  background: #edf3f8;
+}
+* {
+  box-sizing: border-box;
+}
+body {
+  margin: 0;
+}
+a {
+  color: inherit;
+}
+button,
+input,
+select {
+  font: inherit;
+}
+button:focus-visible,
+a:focus-visible {
+  outline: 3px solid #147d79;
+  outline-offset: 5px;
+}
+.controls {
+  display: flex;
+  justify-content: space-between;
+  gap: 16px;
+  align-items: center;
+  flex-wrap: wrap;
+  margin-bottom: 22px;
+}
+.controls button,
+.forecast button {
+  border: 1px solid #becfdd;
+  background: white;
+  color: var(--ink);
+  padding: 10px 14px;
+  border-radius: 9px;
+  cursor: pointer;
+  margin: 3px;
+}
+.controls button:disabled {
+  opacity: 0.5;
+  cursor: default;
+}
+.forecast .temperature {
+  font-size: 80px;
+  line-height: 1;
+  letter-spacing: -6px;
+  margin: 18px 0;
+}
+.temperature .degree {
+  font-size: 50px;
+  vertical-align: top;
+}
+.recovery-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 18px;
+}
+@media (max-width: 640px) {
+  .recovery-grid {
+    grid-template-columns: 1fr;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    transition: none !important;
+    animation: none !important;
+  }
+}

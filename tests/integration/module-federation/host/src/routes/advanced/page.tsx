@@ -7,7 +7,7 @@ import { useState, useEffect, useRef } from 'react';
 import { LabNav } from '../../components/Comparison';
 export default function Page() {
   const [scenario, setScenario] = useState<
-    'recovery' | 'lifecycle' | 'replace'
+    'recovery' | 'lifecycle' | 'replace' | 'bridge' | 'data'
   >('replace');
   const [failureEnabled, setFailureEnabled] = useState(false);
   const [failure, setFailure] = useState('network');
@@ -42,24 +42,29 @@ export default function Page() {
               </small>
             )}
           </h1>
-          <p>Remote replacement, data recovery and loader lifecycle.</p>
+          <p>
+            Remote replacement, data recovery, loader lifecycle and independent
+            weather stations.
+          </p>
         </div>
-        <FailureControls
-          enabled={failureEnabled}
-          kind={failure}
-          options={[
-            ...renderFailures.filter(
-              ([kind]) => scenario === 'recovery' || kind !== 'server',
-            ),
-            ...(scenario === 'replace' ? [] : dataFailures),
-          ]}
-          onChange={(enabled, kind) => {
-            setFailureEnabled(enabled);
-            setFailure(kind);
-            if (enabled || enabled !== failureEnabled)
-              setRun(value => value + 1);
-          }}
-        />
+        {scenario !== 'bridge' && (
+          <FailureControls
+            enabled={failureEnabled}
+            kind={failure}
+            options={[
+              ...renderFailures.filter(
+                ([kind]) => scenario === 'recovery' || kind !== 'server',
+              ),
+              ...(scenario === 'replace' ? [] : dataFailures),
+            ]}
+            onChange={(enabled, kind) => {
+              setFailureEnabled(enabled);
+              setFailure(kind);
+              if (enabled || enabled !== failureEnabled)
+                setRun(value => value + 1);
+            }}
+          />
+        )}
         <select
           aria-label="Advanced scenarios"
           value={scenario}
@@ -72,6 +77,8 @@ export default function Page() {
           <option value="replace">Remote replacement</option>
           <option value="recovery">Data recovery</option>
           <option value="lifecycle">Data lifecycle</option>
+          <option value="data">Remote data sources</option>
+          <option value="bridge">Independent weather stations</option>
         </select>
       </header>
       <iframe
@@ -79,7 +86,7 @@ export default function Page() {
         ref={frame}
         className="advanced-frame"
         title="Advanced weather experiment"
-        src={`/${scenario}?embedded=1&failure=${failureEnabled ? failure : ''}&run=${run}&after=${scenario === 'lifecycle' ? 'remount' : ''}&target=${scenario === 'replace' ? 'replacement/' : scenario === 'lifecycle' ? 'library/Reload' : ''}`}
+        src={`/weather?scenario=${scenario}&failure=${failureEnabled ? failure : ''}&run=${run}&after=${scenario === 'lifecycle' ? 'remount' : ''}&target=${scenario === 'replace' ? 'replacement/' : scenario === 'lifecycle' ? 'dynamic/Reload' : ''}`}
       />
     </div>
   );

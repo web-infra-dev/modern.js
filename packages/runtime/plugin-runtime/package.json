@@ -128,6 +128,10 @@
         "require": "./dist/cjs/exports/config-routes.js"
       },
       "default": "./dist/cjs/exports/config-routes.js"
+    },
+    "./mf": {
+      "types": "./dist/types/mf.d.ts",
+      "default": "./dist/esm/mf.mjs"
     }
   },
   "typesVersions": {
@@ -197,6 +201,9 @@
       ],
       "config-routes": [
         "./dist/types/exports/config-routes.d.ts"
+      ],
+      "mf": [
+        "./dist/types/mf.d.ts"
       ]
     }
   },
@@ -216,6 +223,7 @@
     "@modern-js/runtime-utils": "workspace:*",
     "@modern-js/types": "workspace:*",
     "@modern-js/utils": "workspace:*",
+    "@module-federation/bridge-react": "0.0.0-feat-enhanced-runtime-unification-20261027114159",
     "@swc/core": "1.16.18",
     "@swc/helpers": "^0.5.17",
     "@swc/plugin-loadable-components": "^12.0.0",
@@ -230,6 +238,7 @@
     "react-is": "^18.3.1"
   },
   "peerDependencies": {
+    "@module-federation/enhanced": "0.0.0-feat-enhanced-runtime-unification-20261027114159",
     "react": ">=18.3.1",
     "react-dom": ">=18.3.1"
   },
@@ -255,5 +264,10 @@
     "registry": "https://registry.npmjs.org/",
     "access": "public",
     "types": "./dist/types/index.d.ts"
+  },
+  "peerDependenciesMeta": {
+    "@module-federation/enhanced": {
+      "optional": true
+    }
   }
 }

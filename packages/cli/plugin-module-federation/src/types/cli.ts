@@ -46,6 +46,7 @@ export type FederationAPI = Pick<
     appDirectory: string;
     distDirectory: string;
     port?: number;
+    metaName: string;
   };
 };
 export type FederationCliPlugin = Plugin<FederationAPI>;

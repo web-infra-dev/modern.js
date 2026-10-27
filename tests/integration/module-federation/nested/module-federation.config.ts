@@ -15,8 +15,6 @@ export default createModuleFederationConfig({
   exposes: {
     './WeatherDays': './src/WeatherDays.tsx',
     './WeatherWind': './src/WeatherWind.tsx',
-    './Relay': './src/Relay.tsx',
-    './DynamicRelay': './src/DynamicRelay.tsx',
   },
   shared,
 });

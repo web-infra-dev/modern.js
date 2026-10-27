@@ -6,10 +6,11 @@ export default createModuleFederationConfig({
   manifest: { filePath: 'static' },
   filename: 'static/remoteEntry.js',
   exposes: {
+    './BridgeCard': './src/components/BridgeCard.tsx',
+    './WeatherRelease': './src/WeatherRelease.tsx',
     './Weather': './src/components/Weather.tsx',
     './WeatherData': './src/components/WeatherData.tsx',
     './WeatherDays': './src/components/WeatherDays.tsx',
-    './Signal': './src/components/Signal.tsx',
     './Forecast': './src/components/Forecast.tsx',
     './ClientRecovery': './src/components/ClientRecovery.tsx',
     './ServerRecovery': './src/components/ServerRecovery.tsx',

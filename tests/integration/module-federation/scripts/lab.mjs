@@ -292,11 +292,11 @@ export async function startLab(
         true,
       );
       await wait(
-        `http://localhost:${ports[key]}/${name === 'host' ? 'static' : 'static/mf-manifest.json'}`,
+        `http://localhost:${ports[key]}/${name === 'host' ? '' : 'static/mf-manifest.json'}`,
         name !== 'host',
       );
     }
-    await wait(`http://localhost:${ports.host}/static`);
+    await wait(`http://localhost:${ports.host}/`);
     return { ports, url: `http://localhost:${ports.host}`, stop, logs };
   } catch (error) {
     await stop();

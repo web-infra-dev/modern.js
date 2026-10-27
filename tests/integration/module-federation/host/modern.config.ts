@@ -4,7 +4,7 @@ import { port, origin } from '../ports';
 const name = 'host';
 export default defineConfig({
   html: {
-    title: 'Federation lab · SSR & data fetching',
+    title: 'Weather Lab · Module Federation',
     tags: [
       {
         tag: 'script',
@@ -29,7 +29,6 @@ export default defineConfig({
     globalVars: {
       'process.env.MF_LAB_ORIGIN': origin('host', 4300),
       'process.env.MF_LAB_API': origin('api', 4306),
-      'process.env.MF_LAB_NESTED': origin('nested', 4302),
       'process.env.MF_LAB_LIBRARY': origin('library', 4303),
       'process.env.MF_LAB_LIBRARY_V2': origin('libraryV2', 4305),
       'process.env.MF_LAB_PROVIDER_V2': origin('providerV2', 4304),

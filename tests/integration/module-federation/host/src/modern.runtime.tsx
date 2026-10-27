@@ -8,7 +8,9 @@ const recoveryObserver = (): RuntimePlugin => ({
       App =>
         function LabRoot(props) {
           useEffect(() => {
-            document.documentElement.dataset.labReady = 'true';
+            // A comparison iframe may navigate before passive effects flush.
+            const element = document.documentElement;
+            if (element) element.dataset.labReady = 'true';
           }, []);
           return <App {...props} />;
         },
