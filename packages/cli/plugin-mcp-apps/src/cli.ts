@@ -24,6 +24,21 @@ export const mcpAppsPlugin = (
   name: '@modern-js/plugin-mcp-apps',
   post: ['@modern-js/runtime'],
   setup(api) {
+    api._internalServerPlugins(({ plugins }) => {
+      const ctx = api.getAppContext();
+      plugins.push({
+        name: '@modern-js/plugin-mcp-apps/server-plugin',
+        options: ['dev', 'start'].includes(ctx.command)
+          ? {
+              developmentManifest: path.join(
+                ctx.internalDirectory,
+                'mcp-apps/ui-manifest.json',
+              ),
+            }
+          : {},
+      });
+      return { plugins };
+    });
     let definition: McpViewsConfig;
     const attachedCompilers = new WeakSet<object>();
     const shellHtml = new Map<string, string>();

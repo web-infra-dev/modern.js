@@ -112,7 +112,7 @@ The version 1 manifest contains `assetBase`, `remotes` and `views`. A local view
 - Resource URIs are generated as `ui://app/<encoded-view-name>` by the server, and multiple tools can share a card
 - MF configuration is injected into resource HTML instead of tool results
 
-`registerUiResources()` loads the manifest asynchronously. Defaults are `dist/mcp-apps/ui-manifest.json` in production and `node_modules/.modern-js/mcp-apps/ui-manifest.json` in development. Set its `manifest` option to a file path or HTTP(S) URL for custom output directories or independent servers. Relative HTML resolves against that location.
+`createBffHandlers()` associates the server plugin’s manifest path and runtime mode with the current request. Call `registerUiResources(server, { request })` to resolve them automatically. Development uses the framework internal directory and production uses the runtime output directory. Explicit options override injected configuration. Independent services must provide a `manifest` file path or HTTP(S) URL. The `mode` option defaults to `production`. Relative HTML resolves against the manifest location.
 
 Manifests are cached by source URL and environment. Production caches successful loads for the process lifetime, so updating the same location requires a process restart. Development detects local file changes and caches remote manifests for 60 seconds. Concurrent loads are coalesced and failures can be retried. HTML is read per resource request, and request-specific URLs and metadata remain isolated.
 

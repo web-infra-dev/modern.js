@@ -261,6 +261,7 @@ it.each([
     try {
       const session = await connect(manifest(), {
         request: new Request(url, { headers }),
+        mode,
       });
       try {
         const resource = await session.client.readResource({
@@ -282,3 +283,10 @@ it.each([
     }
   },
 );
+
+it('requires an explicit manifest instead of guessing from the working directory', async () => {
+  const server = new McpServer({ name: 'missing-manifest', version: '1' });
+  await expect(registerUiResources(server)).rejects.toThrow(
+    'MCP UI manifest is required',
+  );
+});

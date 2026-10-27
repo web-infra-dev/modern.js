@@ -3,6 +3,7 @@ export default defineConfig({
   source: {
     entry: {
       cli: './src/cli.ts',
+      server: './src/server.ts',
     },
   },
   lib: [

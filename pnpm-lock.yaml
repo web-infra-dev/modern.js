@@ -1030,6 +1030,9 @@ importers:
       '@modern-js/app-tools':
         specifier: workspace:*
         version: link:../../solutions/app-tools
+      '@modern-js/server-runtime':
+        specifier: workspace:*
+        version: link:../../server/server-runtime
       '@rslib/core':
         specifier: 1.0.4
         version: 1.0.4(@module-federation/runtime-tools@2.0.0)(core-js@3.50.0)(typescript@5.7.3)

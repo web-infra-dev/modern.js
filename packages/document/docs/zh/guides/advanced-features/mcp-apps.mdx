@@ -146,7 +146,7 @@ dist/
 - 清单不记录 tool 或 resource URI，服务端生成 `ui://app/<编码后的卡片名>`，多个 tool 可以复用同一 URI
 - MF 配置在读取 resource 时注入 shell，不需要 tool result 携带框架元数据
 
-`registerUiResources()` 内部异步加载清单。生产默认读取 `dist/mcp-apps/ui-manifest.json`，开发默认读取 `node_modules/.modern-js/mcp-apps/ui-manifest.json`。自定义构建目录或部署到独立服务时，通过 `manifest` 选项传入文件路径或 HTTP(S) URL，相对 HTML 路径以该清单位置为基准解析。
+`createBffHandlers()` 将服务端插件提供的清单路径和运行模式关联到当前请求。调用 `registerUiResources(server, { request })` 即可自动获取配置。开发使用框架的内部目录，生产使用运行时的实际输出目录。显式选项优先于注入配置。独立服务必须显式配置 `manifest` 文件路径或 HTTP(S) URL，`mode` 默认为 `production`。相对 HTML 路径以清单位置为基准解析。
 
 清单按来源地址和环境缓存。生产环境在进程生命周期内复用，原地址更新清单后需重启进程。开发环境检查本地文件状态，文件变化后重新加载，远程清单缓存 60 秒。并发加载会合并，加载失败后允许重试。HTML 仍在读取资源时加载，请求相关的地址和 metadata 不会跨请求复用。
 

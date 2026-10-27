@@ -1,6 +1,7 @@
 import type { McpServer } from '@modelcontextprotocol/server';
 import { createMcpHandler } from '@modelcontextprotocol/server';
 import { requestOrigin } from './resources';
+import { requestUiOptions } from './context';
 
 export { registerUiResources } from './resources';
 export type { RegisterUiOptions } from './resources';
@@ -46,11 +47,18 @@ export function createBffHandlers(
   createServer: McpServerFactory,
   options: FetchHandlerOptions = {},
 ) {
-  const handle = createFetchHandler(createServer, options);
+  const handle = createFetchHandler(async request => {
+    const { useHonoContext } = await import('@modern-js/server-runtime');
+    const uiOptions = useHonoContext().get('locals')?.modernMcpApps;
+    // The SDK may clone the incoming request before invoking its factory.
+    if (uiOptions) requestUiOptions.set(request, uiOptions);
+    return createServer(request);
+  }, options);
   const route = async (input: { data?: unknown }) => {
     // Keep the optional Modern.js runtime out of standalone Fetch services.
     const { useHonoContext } = await import('@modern-js/server-runtime');
-    const raw = useHonoContext().req.raw;
+    const context = useHonoContext();
+    const raw = context.req.raw;
     const headers = new Headers(raw.headers);
     headers.delete('content-length');
     // BFF consumes JSON before invoking the function. Reconstruct only its body.

@@ -22,6 +22,12 @@
       "modern:source": "./src/cli.ts",
       "import": "./dist/esm-node/cli.mjs",
       "require": "./dist/cjs/cli.cjs"
+    },
+    "./server-plugin": {
+      "types": "./dist/types/server.d.ts",
+      "modern:source": "./src/server.ts",
+      "import": "./dist/esm-node/server.mjs",
+      "require": "./dist/cjs/server.cjs"
     }
   },
   "scripts": {
@@ -38,7 +44,8 @@
     "@rslib/core": "1.0.4",
     "@scripts/rstest-config": "workspace:*",
     "@types/node": "^20",
-    "typescript": "^5"
+    "typescript": "^5",
+    "@modern-js/server-runtime": "workspace:*"
   },
   "publishConfig": {
     "access": "public",
@@ -48,6 +55,11 @@
         "types": "./dist/types/cli.d.ts",
         "import": "./dist/esm-node/cli.mjs",
         "require": "./dist/cjs/cli.cjs"
+      },
+      "./server-plugin": {
+        "types": "./dist/types/server.d.ts",
+        "import": "./dist/esm-node/server.mjs",
+        "require": "./dist/cjs/server.cjs"
       }
     }
   },

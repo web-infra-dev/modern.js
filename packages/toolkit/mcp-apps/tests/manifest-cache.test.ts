@@ -27,6 +27,7 @@ const manifest = (name = 'first') => ({
 const register = (source: string | URL) =>
   registerUiResources(new McpServer({ name: 'cache-test', version: '1' }), {
     manifest: source,
+    mode: process.env.NODE_ENV === 'production' ? 'production' : 'development',
   });
 const remoteUrl = () =>
   `https://assets.example/${crypto.randomUUID()}/manifest.json`;

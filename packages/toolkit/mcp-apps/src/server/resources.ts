@@ -1,3 +1,4 @@
+import { requestUiOptions } from './context';
 import { readFile, stat } from 'node:fs/promises';
 import path from 'node:path';
 import { pathToFileURL, fileURLToPath } from 'node:url';
@@ -22,14 +23,17 @@ const manifestCache = new Map<string, ManifestCacheEntry>();
 const remoteManifestTtl = 60_000;
 
 /** Relative resource files are resolved against this manifest's location. */
-async function loadUiManifest(source: string | URL = defaultManifestPath()) {
+async function loadUiManifest(
+  source: string | URL,
+  mode: 'development' | 'production',
+) {
   const url =
     source instanceof URL
       ? new URL(source.href)
       : /^https?:\/\//.test(source)
         ? new URL(source)
         : pathToFileURL(path.resolve(source));
-  const production = process.env.NODE_ENV === 'production';
+  const production = mode === 'production';
   const key = `${production ? 'production' : 'development'}:${url.href}`;
   let version = 'process';
   if (!production && url.protocol === 'file:') {
@@ -62,15 +66,6 @@ async function loadUiManifest(source: string | URL = defaultManifestPath()) {
   return entry.value;
 }
 
-function defaultManifestPath() {
-  return path.resolve(
-    process.cwd(),
-    process.env.NODE_ENV === 'production'
-      ? 'dist/mcp-apps/ui-manifest.json'
-      : 'node_modules/.modern-js/mcp-apps/ui-manifest.json',
-  );
-}
-
 async function readSource(url: URL, signal?: AbortSignal) {
   if (url.protocol === 'file:')
     return readFile(fileURLToPath(url), { encoding: 'utf8', signal });
@@ -87,7 +82,9 @@ async function readSource(url: URL, signal?: AbortSignal) {
 
 export interface RegisterUiOptions {
   request?: Request;
-  /** Manifest file path or HTTP(S) URL. Defaults to the current build output. */
+  /** Runtime mode. Standalone services default to production. */
+  mode?: 'development' | 'production';
+  /** Manifest file path or HTTP(S) URL. Provided by the Modern.js server plugin or explicitly by the caller. */
   manifest?: string | URL;
   /** Public deployment root, including any path prefix. */
   assetBase?: string;
@@ -126,10 +123,23 @@ export async function registerUiResources(
   server: Pick<McpServer, 'registerResource'>,
   options: RegisterUiOptions = {},
 ): Promise<Record<string, string>> {
-  const { manifest, location } = await loadUiManifest(options.manifest);
+  const injected = options.request && requestUiOptions.get(options.request);
+  options = {
+    ...options,
+    manifest: options.manifest ?? injected?.manifest,
+    mode: options.mode ?? injected?.mode,
+  };
+  if (!options.manifest)
+    throw new Error(
+      'MCP UI manifest is required. Use the Modern.js MCP Apps server plugin with a request or pass an explicit manifest path or URL',
+    );
+  const { manifest, location } = await loadUiManifest(
+    options.manifest,
+    options.mode ?? 'production',
+  );
   const base = publicBase(manifest, options);
   const devSocket =
-    process.env.NODE_ENV === 'development' && options.request
+    options.mode === 'development' && options.request
       ? new URL(requestOrigin(options.request))
       : undefined;
   if (devSocket)
