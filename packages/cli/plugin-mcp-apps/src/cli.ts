@@ -89,13 +89,11 @@ export const mcpAppsPlugin = (
           absoluteEntryDir: path.dirname(entry),
         });
       }
-      console.log('-------entrypoints', entrypoints);
       if (needsMf) {
         shellEntries['mcp-shell'] = appRequire.resolve(
           '@modern-js/mcp-apps/internal/mf-entry',
         );
       }
-      console.log('-----shellEntries', shellEntries);
       if (Object.keys(shellEntries).length) {
         const shellOutput = path.join(ctx.internalDirectory, 'mcp-apps/shell');
         const config = api.getNormalizedConfig();
