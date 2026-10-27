@@ -296,6 +296,21 @@ describeLab('Failure recovery', getContext => {
         {},
         scenario,
       );
+      if (scenario === 'recovery') {
+        // SSR markup can appear before the two client recoveries finish.
+        // Finish this navigation before the failure toggle replaces its iframe.
+        await page.waitForFunction(() => {
+          const events = (
+            document.querySelector('iframe')?.contentWindow as any
+          )?.labRecoveries;
+          return (
+            events?.some(
+              (event: any) => event.status === 'Client loader fallback',
+            ) &&
+            events?.some((event: any) => event.status === 'Host retry fallback')
+          );
+        });
+      }
       const kind = scenario === 'replace' ? 'network' : 'data';
       await page.select('[aria-label="Failure scenario"]', kind);
       await page.click('[aria-label="Simulate failure"]');
