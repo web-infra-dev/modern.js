@@ -1,6 +1,6 @@
 {
   "name": "@scripts/release-node",
-  "version": "2.66.0",
+  "version": "0.0.0-canary-verify.r20261028-ceeae38124f3e65058fcbfd593d0b894",
   "private": true,
   "scripts": {
     "dev": "tsc --watch",
@@ -9,7 +9,7 @@
   },
   "dependencies": {
     "@changesets/read": "^0.6.7",
-    "@modern-js/utils": "workspace:*",
+    "@modern-js/utils": "workspace:0.0.0-canary-verify.r20261028-ceeae38124f3e65058fcbfd593d0b894",
     "axios": "^1.20.0"
   },
   "devDependencies": {

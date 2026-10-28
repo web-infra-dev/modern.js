@@ -15,7 +15,7 @@
     "modern",
     "modern.js"
   ],
-  "version": "3.10.0",
+  "version": "0.0.0-canary-verify.r20261028-ceeae38124f3e65058fcbfd593d0b894",
   "types": "./src/index.ts",
   "main": "./dist/cjs/index.js",
   "exports": {
@@ -43,11 +43,11 @@
     "test": "rstest"
   },
   "dependencies": {
-    "@modern-js/runtime-utils": "workspace:*",
-    "@modern-js/server-core": "workspace:*",
-    "@modern-js/server-utils": "workspace:*",
-    "@modern-js/types": "workspace:*",
-    "@modern-js/utils": "workspace:*",
+    "@modern-js/runtime-utils": "workspace:0.0.0-canary-verify.r20261028-ceeae38124f3e65058fcbfd593d0b894",
+    "@modern-js/server-core": "workspace:0.0.0-canary-verify.r20261028-ceeae38124f3e65058fcbfd593d0b894",
+    "@modern-js/server-utils": "workspace:0.0.0-canary-verify.r20261028-ceeae38124f3e65058fcbfd593d0b894",
+    "@modern-js/types": "workspace:0.0.0-canary-verify.r20261028-ceeae38124f3e65058fcbfd593d0b894",
+    "@modern-js/utils": "workspace:0.0.0-canary-verify.r20261028-ceeae38124f3e65058fcbfd593d0b894",
     "@swc/helpers": "^0.5.17",
     "axios": "^1.20.0",
     "connect-history-api-fallback": "^2.0.0",
@@ -57,7 +57,7 @@
     "ws": "^8.22.0"
   },
   "devDependencies": {
-    "@modern-js/builder": "workspace:*",
+    "@modern-js/builder": "workspace:0.0.0-canary-verify.r20261028-ceeae38124f3e65058fcbfd593d0b894",
     "@modern-js/rslib": "workspace:*",
     "@scripts/rstest-config": "workspace:*",
     "@types/connect-history-api-fallback": "^1.5.4",

@@ -1,7 +1,7 @@
 {
   "private": true,
   "name": "deploy-server",
-  "version": "2.66.0",
+  "version": "0.0.0-canary-verify.r20261028-ceeae38124f3e65058fcbfd593d0b894",
   "scripts": {
     "dev": "modern dev",
     "dev:bff": "modern dev --api-only",
@@ -12,9 +12,9 @@
     "new": "modern new"
   },
   "dependencies": {
-    "@modern-js/plugin-bff": "workspace:*",
-    "@modern-js/runtime": "workspace:*",
-    "@modern-js/server-runtime": "workspace:*",
+    "@modern-js/plugin-bff": "workspace:0.0.0-canary-verify.r20261028-ceeae38124f3e65058fcbfd593d0b894",
+    "@modern-js/runtime": "workspace:0.0.0-canary-verify.r20261028-ceeae38124f3e65058fcbfd593d0b894",
+    "@modern-js/server-runtime": "workspace:0.0.0-canary-verify.r20261028-ceeae38124f3e65058fcbfd593d0b894",
     "koa": "3.2.1",
     "react": "^19.3.0",
     "react-dom": "^19.3.0",
@@ -23,7 +23,7 @@
     "zod": "^3.25.76"
   },
   "devDependencies": {
-    "@modern-js/app-tools": "workspace:*",
+    "@modern-js/app-tools": "workspace:0.0.0-canary-verify.r20261028-ceeae38124f3e65058fcbfd593d0b894",
     "@types/koa": "2.15.2",
     "@types/node": "^20",
     "@types/react": "^19.3.0",

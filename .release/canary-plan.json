@@ -1,0 +1,159 @@
+{
+  "schemaVersion": 1,
+  "releaseId": "r20261028-ceeae38124f3e65058fcbfd593d0b894",
+  "channel": "canary",
+  "tag": "canary-verify",
+  "version": "0.0.0-canary-verify.r20261028-ceeae38124f3e65058fcbfd593d0b894",
+  "baseSha": "2746eb66235f4401f9452eb9d9cf91dd6fd569a4",
+  "packages": [
+    {
+      "name": "@modern-js/adapter-rstest",
+      "version": "0.0.0-canary-verify.r20261028-ceeae38124f3e65058fcbfd593d0b894",
+      "path": "packages/cli/adapter-rstest"
+    },
+    {
+      "name": "@modern-js/app-tools",
+      "version": "0.0.0-canary-verify.r20261028-ceeae38124f3e65058fcbfd593d0b894",
+      "path": "packages/solutions/app-tools"
+    },
+    {
+      "name": "@modern-js/bff-core",
+      "version": "0.0.0-canary-verify.r20261028-ceeae38124f3e65058fcbfd593d0b894",
+      "path": "packages/server/bff-core"
+    },
+    {
+      "name": "@modern-js/bff-runtime",
+      "version": "0.0.0-canary-verify.r20261028-ceeae38124f3e65058fcbfd593d0b894",
+      "path": "packages/server/bff-runtime"
+    },
+    {
+      "name": "@modern-js/builder",
+      "version": "0.0.0-canary-verify.r20261028-ceeae38124f3e65058fcbfd593d0b894",
+      "path": "packages/cli/builder"
+    },
+    {
+      "name": "@modern-js/create",
+      "version": "0.0.0-canary-verify.r20261028-ceeae38124f3e65058fcbfd593d0b894",
+      "path": "packages/toolkit/create"
+    },
+    {
+      "name": "@modern-js/create-request",
+      "version": "0.0.0-canary-verify.r20261028-ceeae38124f3e65058fcbfd593d0b894",
+      "path": "packages/server/create-request"
+    },
+    {
+      "name": "@modern-js/i18n-utils",
+      "version": "0.0.0-canary-verify.r20261028-ceeae38124f3e65058fcbfd593d0b894",
+      "path": "packages/toolkit/i18n-utils"
+    },
+    {
+      "name": "@modern-js/image",
+      "version": "0.0.0-canary-verify.r20261028-ceeae38124f3e65058fcbfd593d0b894",
+      "path": "packages/runtime/plugin-image"
+    },
+    {
+      "name": "@modern-js/main-doc",
+      "version": "0.0.0-canary-verify.r20261028-ceeae38124f3e65058fcbfd593d0b894",
+      "path": "packages/document"
+    },
+    {
+      "name": "@modern-js/plugin",
+      "version": "0.0.0-canary-verify.r20261028-ceeae38124f3e65058fcbfd593d0b894",
+      "path": "packages/toolkit/plugin"
+    },
+    {
+      "name": "@modern-js/plugin-bff",
+      "version": "0.0.0-canary-verify.r20261028-ceeae38124f3e65058fcbfd593d0b894",
+      "path": "packages/cli/plugin-bff"
+    },
+    {
+      "name": "@modern-js/plugin-data-loader",
+      "version": "0.0.0-canary-verify.r20261028-ceeae38124f3e65058fcbfd593d0b894",
+      "path": "packages/cli/plugin-data-loader"
+    },
+    {
+      "name": "@modern-js/plugin-i18n",
+      "version": "0.0.0-canary-verify.r20261028-ceeae38124f3e65058fcbfd593d0b894",
+      "path": "packages/runtime/plugin-i18n"
+    },
+    {
+      "name": "@modern-js/plugin-polyfill",
+      "version": "0.0.0-canary-verify.r20261028-ceeae38124f3e65058fcbfd593d0b894",
+      "path": "packages/server/plugin-polyfill"
+    },
+    {
+      "name": "@modern-js/plugin-ssg",
+      "version": "0.0.0-canary-verify.r20261028-ceeae38124f3e65058fcbfd593d0b894",
+      "path": "packages/cli/plugin-ssg"
+    },
+    {
+      "name": "@modern-js/plugin-styled-components",
+      "version": "0.0.0-canary-verify.r20261028-ceeae38124f3e65058fcbfd593d0b894",
+      "path": "packages/cli/plugin-styled-components"
+    },
+    {
+      "name": "@modern-js/prod-server",
+      "version": "0.0.0-canary-verify.r20261028-ceeae38124f3e65058fcbfd593d0b894",
+      "path": "packages/server/prod-server"
+    },
+    {
+      "name": "@modern-js/render",
+      "version": "0.0.0-canary-verify.r20261028-ceeae38124f3e65058fcbfd593d0b894",
+      "path": "packages/runtime/render"
+    },
+    {
+      "name": "@modern-js/runtime",
+      "version": "0.0.0-canary-verify.r20261028-ceeae38124f3e65058fcbfd593d0b894",
+      "path": "packages/runtime/plugin-runtime"
+    },
+    {
+      "name": "@modern-js/runtime-utils",
+      "version": "0.0.0-canary-verify.r20261028-ceeae38124f3e65058fcbfd593d0b894",
+      "path": "packages/toolkit/runtime-utils"
+    },
+    {
+      "name": "@modern-js/sandpack-react",
+      "version": "0.0.0-canary-verify.r20261028-ceeae38124f3e65058fcbfd593d0b894",
+      "path": "packages/toolkit/sandpack-react"
+    },
+    {
+      "name": "@modern-js/server",
+      "version": "0.0.0-canary-verify.r20261028-ceeae38124f3e65058fcbfd593d0b894",
+      "path": "packages/server/server"
+    },
+    {
+      "name": "@modern-js/server-core",
+      "version": "0.0.0-canary-verify.r20261028-ceeae38124f3e65058fcbfd593d0b894",
+      "path": "packages/server/core"
+    },
+    {
+      "name": "@modern-js/server-runtime",
+      "version": "0.0.0-canary-verify.r20261028-ceeae38124f3e65058fcbfd593d0b894",
+      "path": "packages/server/server-runtime"
+    },
+    {
+      "name": "@modern-js/server-utils",
+      "version": "0.0.0-canary-verify.r20261028-ceeae38124f3e65058fcbfd593d0b894",
+      "path": "packages/server/utils"
+    },
+    {
+      "name": "@modern-js/tsconfig",
+      "version": "0.0.0-canary-verify.r20261028-ceeae38124f3e65058fcbfd593d0b894",
+      "path": "packages/tsconfig"
+    },
+    {
+      "name": "@modern-js/types",
+      "version": "0.0.0-canary-verify.r20261028-ceeae38124f3e65058fcbfd593d0b894",
+      "path": "packages/toolkit/types"
+    },
+    {
+      "name": "@modern-js/utils",
+      "version": "0.0.0-canary-verify.r20261028-ceeae38124f3e65058fcbfd593d0b894",
+      "path": "packages/toolkit/utils"
+    }
+  ],
+  "mode": "publish",
+  "requiredTargets": [
+    "npm"
+  ]
+}
