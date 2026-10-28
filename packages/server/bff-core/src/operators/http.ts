@@ -17,7 +17,7 @@ export interface ResponseMeta {
 
 const validateInput = async <Schema extends z.ZodType>(
   schema: Schema,
-  input: z.input<Schema>,
+  input: unknown,
 ): Promise<z.output<Schema>> => {
   try {
     return await schema.parseAsync(input);
