@@ -311,8 +311,8 @@ importers:
         specifier: ^5.108.0
         version: 5.108.0(@swc/core@1.15.8(@swc/helpers@0.5.17))(esbuild@0.25.5)
       zod:
-        specifier: ^3.22.3
-        version: 3.22.3
+        specifier: ^4.0.0
+        version: 4.6.7
 
   packages/cli/plugin-changeset:
     dependencies:
@@ -3042,8 +3042,8 @@ importers:
         specifier: ^5
         version: 5.6.3
       zod:
-        specifier: ^3.22.3
-        version: 3.22.3
+        specifier: ^4.0.0
+        version: 4.6.7
 
   packages/server/bff-runtime:
     dependencies:
@@ -3301,8 +3301,8 @@ importers:
         specifier: ^5
         version: 5.6.3
       zod:
-        specifier: ^3.22.3
-        version: 3.22.3
+        specifier: ^4.0.0
+        version: 4.6.7
 
   packages/server/plugin-koa:
     dependencies:
@@ -3380,8 +3380,8 @@ importers:
         specifier: ^5
         version: 5.6.3
       zod:
-        specifier: ^3.22.3
-        version: 3.22.3
+        specifier: ^4.0.0
+        version: 4.6.7
 
   packages/server/plugin-polyfill:
     dependencies:
@@ -5583,8 +5583,8 @@ importers:
         specifier: 3.14.1
         version: 3.14.1
       zod:
-        specifier: ^3.22.3
-        version: 3.22.3
+        specifier: ^4.0.0
+        version: 4.6.7
     devDependencies:
       '@modern-js/app-tools':
         specifier: workspace:*
@@ -5638,8 +5638,8 @@ importers:
         specifier: 3.14.1
         version: 3.14.1
       zod:
-        specifier: ^3.22.3
-        version: 3.22.3
+        specifier: ^4.0.0
+        version: 4.6.7
     devDependencies:
       '@modern-js/app-tools':
         specifier: workspace:*
@@ -5696,8 +5696,8 @@ importers:
         specifier: 3.14.1
         version: 3.14.1
       zod:
-        specifier: ^3.22.3
-        version: 3.22.3
+        specifier: ^4.0.0
+        version: 4.6.7
     devDependencies:
       '@modern-js/app-tools':
         specifier: workspace:*
@@ -5748,8 +5748,8 @@ importers:
         specifier: 3.14.1
         version: 3.14.1
       zod:
-        specifier: ^3.22.3
-        version: 3.22.3
+        specifier: ^4.0.0
+        version: 4.6.7
     devDependencies:
       '@modern-js/app-tools':
         specifier: workspace:*
@@ -6052,8 +6052,8 @@ importers:
         specifier: 3.14.1
         version: 3.14.1
       zod:
-        specifier: ^3.22.3
-        version: 3.22.3
+        specifier: ^4.0.0
+        version: 4.6.7
     devDependencies:
       '@modern-js/app-tools':
         specifier: workspace:*
@@ -6782,8 +6782,8 @@ importers:
         specifier: ^18.3.1
         version: 18.3.1(react@18.3.1)
       zod:
-        specifier: ^3.22.3
-        version: 3.22.3
+        specifier: ^4.0.0
+        version: 4.6.7
     devDependencies:
       '@modern-js/app-tools':
         specifier: workspace:*
@@ -26059,11 +26059,11 @@ packages:
     engines: {node: '>=8.0.0'}
     hasBin: true
 
-  zod@3.22.3:
-    resolution: {integrity: sha512-EjIevzuJRiRPbVH4mGc8nApb/lVLKVpmUhAaR5R5doKGfAnGJ6Gr3CViAVjP+4FWSxCsybeWQdcgCtbX+7oZug==}
-
   zod@3.25.49:
     resolution: {integrity: sha512-JMMPMy9ZBk3XFEdbM3iL1brx4NUSejd6xr3ELrrGEfGb355gjhiAWtG3K5o+AViV/3ZfkIrCzXsZn6SbLwTR8Q==}
+
+  zod@4.6.7:
+    resolution: {integrity: sha512-g8W2D2kU6a8untc053fX1uVBKzM7yqAxW/3zwk83+6RyF2+SKOuV+c0wBDhUwzV1PaGapmZH+rmcUzPf+3CGwg==}
 
   zwitch@1.0.5:
     resolution: {integrity: sha512-V50KMwwzqJV0NpZIZFwfOD5/lyny3WlSzRiXgA0G7VUnRlqttta1L6UQIHzd6EuBY/cHGfwTIck7w1yH6Q5zUw==}
@@ -50031,9 +50031,9 @@ snapshots:
     optionalDependencies:
       commander: 9.5.0
 
-  zod@3.22.3: {}
-
   zod@3.25.49: {}
+
+  zod@4.6.7: {}
 
   zwitch@1.0.5: {}
 

@@ -82,7 +82,7 @@
     "jest": "^29",
     "supertest": "^6.1.6",
     "typescript": "^5",
-    "zod": "^3.22.3"
+    "zod": "^4.0.0"
   },
   "peerDependencies": {
     "express": "^4.21.2"
