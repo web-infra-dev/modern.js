@@ -28,6 +28,9 @@ export default function Todos({
     if (todo) setItems(previous => [...previous, todo]);
     setTitle('');
   }
+  const submit = () => {
+    void add().catch(() => setError('Could not add todo'));
+  };
   return (
     <section>
       <h1>Todos</h1>
@@ -36,19 +39,20 @@ export default function Todos({
           <li key={todo.id}>{todo.title}</li>
         ))}
       </ul>
-      <form
-        onSubmit={event => {
-          event.preventDefault();
-          void add().catch(() => setError('Could not add todo'));
-        }}
-      >
+      {/* MCP hosts sandbox cards without allow-forms, which blocks form submission. */}
+      <div>
         <input
           aria-label="Todo title"
           value={title}
           onChange={event => setTitle(event.target.value)}
+          onKeyDown={event => {
+            if (event.key === 'Enter') submit();
+          }}
         />
-        <button type="submit">Add todo</button>
-      </form>
+        <button type="button" onClick={submit}>
+          Add todo
+        </button>
+      </div>
       {error && <p role="alert">{error}</p>}
     </section>
   );

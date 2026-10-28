@@ -54,7 +54,7 @@ async function mountCard(page: Page, html: string) {
             result: {
               protocolVersion: message.params.protocolVersion,
               hostInfo: { name: 'integration-test', version: '1' },
-              hostCapabilities: {},
+              hostCapabilities: { serverTools: {} },
               hostContext: { theme: 'light', displayMode: 'inline' },
             },
           },
@@ -68,6 +68,17 @@ async function mountCard(page: Page, html: string) {
             params: { content: [], structuredContent: { todos: [] } },
           },
           '*',
+        );
+      } else if (message.method === 'tools/call') {
+        // Forward card tool calls to the MCP server, like a real host.
+        const { forwardToolCall } = window as unknown as {
+          forwardToolCall: (params: unknown) => Promise<unknown>;
+        };
+        void forwardToolCall(message.params).then(result =>
+          iframe.contentWindow!.postMessage(
+            { jsonrpc: '2.0', id: message.id, result },
+            '*',
+          ),
         );
       }
     };
@@ -177,6 +188,9 @@ describe('manifest-based MCP Apps', () => {
       if (message.type() === 'error') console.error('Browser:', message.text());
     });
     await page.setCacheEnabled(false);
+    await page.exposeFunction('forwardToolCall', (params: unknown) =>
+      rpc(port, 'tools/call', params),
+    );
     // Use a real loopback response to preserve the browser's local address-space
     // classification, then install a minimal test host without application HMR.
     await page.goto(`http://localhost:${port}/static/mf-manifest.json`);
@@ -275,6 +289,12 @@ describe('manifest-based MCP Apps', () => {
     expect(remote.contents[0].text).toContain('modern-mcp-config');
     const mfFrame = await mountCard(page, remote.contents[0].text);
     await mfFrame.waitForSelector('input[aria-label="Todo title"]');
+    // Hosts sandbox cards without allow-forms, so adding must not submit a form.
+    await mfFrame.type('input[aria-label="Todo title"]', 'Added from the card');
+    await mfFrame.click('button');
+    await mfFrame.waitForFunction(() =>
+      document.body.textContent?.includes('Added from the card'),
+    );
     expect(
       await page.$eval('iframe', iframe =>
         JSON.parse(iframe.dataset.capabilities!),
