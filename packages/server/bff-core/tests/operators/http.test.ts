@@ -5,10 +5,13 @@ import {
   Get,
   HttpCode,
   HttpMetadata,
+  Headers,
+  Params,
   Query,
   Redirect,
   ResponseMetaType,
   SetHeaders,
+  Upload,
   ValidationError,
 } from '../../src';
 
@@ -17,6 +20,48 @@ type Assert<T1, T2> = T1 extends T2 ? (T2 extends T1 ? true : false) : false;
 type Expect<T extends true> = T;
 
 describe('test api function', () => {
+  test.each([
+    ['data', Data],
+    ['query', Query],
+    ['params', Params],
+    ['headers', Headers],
+  ] as const)(
+    'should validate and transform %s input',
+    async (key, operator) => {
+      const schema = z.object({
+        value: z.string().transform(value => Number(value)),
+      });
+      const handler = Api(operator(schema), inputs => inputs);
+
+      expect(await handler({ [key]: { value: '42' } } as any)).toEqual({
+        [key]: { value: 42 },
+      });
+      await expect(handler({ [key]: { value: 42 } } as any)).rejects.toThrow(
+        ValidationError,
+      );
+    },
+  );
+
+  test('should validate and transform upload input', async () => {
+    const schema = z.object({
+      value: z.string().transform(value => Number(value)),
+    });
+    const operator = Upload('/upload', schema);
+    const helper = { inputs: { formData: { value: '42' } } };
+    const next = rs.fn();
+
+    await operator.validate!(helper as any, next);
+
+    expect(helper.inputs).toEqual({
+      formData: { value: '42' },
+      files: { value: 42 },
+    });
+    expect(next).toHaveBeenCalledTimes(1);
+    await expect(
+      operator.validate!({ inputs: { formData: { value: 42 } } }, next),
+    ).rejects.toThrow(ValidationError);
+  });
+
   test('should works correctly', async () => {
     const DataSchema = z.object({
       stars: z.number(),
