@@ -1,3 +1,4 @@
+import { performance } from 'node:perf_hooks';
 import { analyzeRootExport } from '../../src/cli/federation/analyze';
 import {
   normalizeScopePath,
@@ -182,6 +183,37 @@ export default provider;
 `;
 
 describe('Modern root expose analysis', () => {
+  it('keeps SWC analysis of 100 large expose modules within its build budget', () => {
+    // Each module has 600 unrelated top-level declarations, about 32 KiB.
+    // Include binding resolution as well as parsing, without following imports.
+    const inputs = Array.from({ length: 100 }, (_, moduleIndex) => ({
+      filename: `expose-${moduleIndex}.tsx`,
+      code:
+        source("{ route: '/product' }") +
+        Array.from(
+          { length: 600 },
+          (_, index) =>
+            `const field${index} = {label: 'weather-${moduleIndex}', value: ${index}};`,
+        ).join('\n'),
+    }));
+    const analyze = () =>
+      inputs.map(input =>
+        analyzeRootExport(input.code, input.filename, 'modern-js'),
+      );
+    expect(analyze().every(result => result?.route === '/product')).toBe(true);
+    const times = Array.from({ length: 5 }, () => {
+      const start = performance.now();
+      analyze();
+      return performance.now() - start;
+    }).sort((a, b) => a - b);
+    const median = times[2];
+    // Leave headroom for shared CI runners and report the measured baseline.
+    const budgetMs = 2_000;
+    console.info(
+      `[route-scope performance] analyzeRootExport: 100 modules, median ${median.toFixed(1)}ms, budget ${budgetMs}ms`,
+    );
+    expect(median).toBeLessThan(budgetMs);
+  });
   it('accepts the existing Core Bridge entry and shorthand rootComponent syntax', () => {
     const input = source("{ route: '/product' }")
       .replace(
