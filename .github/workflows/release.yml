@@ -30,6 +30,14 @@ on:
         description: SHA256 of stableStringify(plan) for this prepared branch
         required: true
         type: string
+      reconcile:
+        description: >-
+          Finish a release whose publish stopped part way. The registry is asked
+          which versions of this release it already serves and only the rest are
+          published; a version it serves with other contents stops the run.
+        required: false
+        default: false
+        type: boolean
 
 permissions:
   contents: read
@@ -95,7 +103,13 @@ jobs:
       - name: Verify all artifacts and publish through OIDC
         env:
           EXPECTED_PLAN_HASH: ${{ steps.plan.outputs.plan_hash }}
-        run: node scripts/canary-release/release.mjs publish --expected-plan-hash "$EXPECTED_PLAN_HASH"
+          RECONCILE: ${{ inputs.reconcile }}
+        run: |
+          if [ "${RECONCILE:-false}" = "true" ]; then
+            node scripts/canary-release/release.mjs publish --expected-plan-hash "$EXPECTED_PLAN_HASH" --reconcile
+          else
+            node scripts/canary-release/release.mjs publish --expected-plan-hash "$EXPECTED_PLAN_HASH"
+          fi
       - name: Persist publish receipts even on partial failure
         if: always()
         uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02

@@ -115,6 +115,9 @@ export async function main(argv = process.argv.slice(2)) {
       artifacts: { type: 'string', default: '.release/artifacts' },
       'receipt-dir': { type: 'string', default: '.release/receipts' },
       'expected-plan-hash': { type: 'string' },
+      // Finishes a release whose publish stopped part way: the registry is
+      // asked which versions it already serves and only the rest are sent.
+      reconcile: { type: 'boolean', default: false },
     },
   };
   assert(Object.hasOwn(definitions, command), `Usage: release.mjs <${Object.keys(definitions).join('|')}> [options]`);
@@ -150,6 +153,7 @@ export async function main(argv = process.argv.slice(2)) {
   } else if (command === 'publish') {
     await publish(root, {
       artifacts: values.artifacts, receiptDir: values['receipt-dir'], expectedPlanHash: values['expected-plan-hash'],
+      reconcile: values.reconcile,
     });
   }
 }

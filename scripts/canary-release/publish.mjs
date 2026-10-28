@@ -331,6 +331,39 @@ export async function confirmFromRegistry(items, {
   return [...pending];
 }
 
+// A release that stops in the middle leaves every package before it public and
+// unreplaceable, which is why rerunning this job is refused above. What is left
+// is to ask the registry which versions of this release it already serves and
+// send only the rest. Run 37 lost one package of 29 to a 409 from the
+// transparency log; cutting a whole new release to deliver that one package
+// costs a build, a second set of 29 versions and another round of downstream
+// testing.
+//
+// One look per package and no budget: this runs before anything is published,
+// so a version the registry does not have yet is simply one to publish, and a
+// lookup that fails stops the job instead of guessing.
+export async function missingFromRegistry(packages, {
+  request = (...args) => fetch(...args),
+  log = () => {},
+} = {}) {
+  const missing = [];
+  for (const pkg of packages) {
+    const url = new URL(`/${escapeName(pkg.name)}/${encodeURIComponent(pkg.version)}`, REGISTRY).href;
+    const response = await request(url, { headers: { Accept: 'application/json' }, signal: AbortSignal.timeout(PROBE_TIMEOUT) });
+    if (response.status === 404) {
+      missing.push(pkg);
+      continue;
+    }
+    assert.ok(response.ok, `The registry answered ${response.status} for ${pkg.name}@${pkg.version}`);
+    const metadata = await response.json();
+    // The same version holding other bytes is not a package to publish over:
+    // npm would refuse, and the release this job carries is not the release the
+    // registry serves. Stop and let a person look.
+    assert.equal(metadata?.dist?.integrity, pkg.integrity, `${pkg.name}@${pkg.version} is on the registry with different contents`);
+  }
+  return missing;
+}
+
 export async function publish(root, options, {
   env = process.env,
   validateSource = assertSource,
@@ -341,13 +374,16 @@ export async function publish(root, options, {
   log = message => console.error(message),
   verifyTrust = assertTrustedPublishers,
   confirm = confirmFromRegistry,
+  missing = missingFromRegistry,
 } = {}) {
   const receiptDir = path.resolve(root, options.receiptDir);
   fs.mkdirSync(receiptDir, { recursive: true });
-  const receiptFile = path.join(receiptDir, 'receipt.json');
+  // A reconcile run writes its own receipt: the publish it completes already
+  // produced one, and neither should overwrite the other.
+  const receiptFile = path.join(receiptDir, options.reconcile ? 'receipt-reconcile.json' : 'receipt.json');
   assert(!fs.existsSync(receiptFile), 'Existing receipt: inspect it before retrying with a new releaseId');
   const receipt = {
-    schemaVersion: 1, mode: 'publish', publicAvailable: true, status: 'validating',
+    schemaVersion: 1, mode: options.reconcile ? 'reconcile' : 'publish', publicAvailable: true, status: 'validating',
     sourceSha: env.GITHUB_SHA ?? null, planHash: options.expectedPlanHash ?? null,
     releaseId: null, tag: TAG, version: null, runId: env.GITHUB_RUN_ID ?? null,
     runAttempt: env.GITHUB_RUN_ATTEMPT ?? null, packages: [],
@@ -377,11 +413,20 @@ export async function publish(root, options, {
     assert.equal(execute('npm', ['--version'], { cwd: temporary, env: npmEnv }), '11.21.0', 'npm 11.21.0 is required');
     // Everything checkable offline has passed; ask the registry last, and only
     // about whether it would accept this workflow for each package.
-    await verifyTrust(manifest.packages.map(pkg => pkg.name), { env, log });
+    const targets = options.reconcile ? await missing(manifest.packages, { log }) : manifest.packages;
+    if (options.reconcile) {
+      log(`[publish] reconcile: the registry already serves ${manifest.packages.length - targets.length} of ${manifest.packages.length} packages of this release`);
+    }
+    await verifyTrust(targets.map(pkg => pkg.name), { env, log });
     receipt.status = 'publishing';
+    // Recorded once the run is past everything that can refuse it, so a
+    // receipt listing packages always means the publishing started.
+    for (const pkg of manifest.packages.filter(item => !targets.includes(item))) {
+      receipt.packages.push({ name: pkg.name, version: pkg.version, integrity: pkg.integrity, status: 'published', confirmedBy: 'registry' });
+    }
     persist();
     const unsure = [];
-    for (const pkg of manifest.packages) {
+    for (const pkg of targets) {
       const item = { name: pkg.name, version: pkg.version, integrity: pkg.integrity, status: 'unknown' };
       receipt.packages.push(item);
       persist();

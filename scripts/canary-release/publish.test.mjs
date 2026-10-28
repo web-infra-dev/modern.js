@@ -5,7 +5,7 @@ import test from 'node:test';
 import { planHash, readJson } from './core.mjs';
 import { artifactFixture, githubEnvironment } from './fixtures.mjs';
 import {
-  ATTEMPTS, assertTrustedPublishers, confirmFromRegistry, diagnostic, isolatedNpmEnvironment, npmErrorCode, retryAfterMs, sameValue,
+  ATTEMPTS, assertTrustedPublishers, confirmFromRegistry, diagnostic, isolatedNpmEnvironment, missingFromRegistry, npmErrorCode, retryAfterMs, sameValue,
   publish, publishArguments, publishedFromOutput, repairInstructions,
 } from './publish.mjs';
 
@@ -392,4 +392,56 @@ test('registry confirmation turns a doubtful publish into a published receipt', 
   const receipt = await publish(fixture.root, options(fixture.plan), deps);
   assert.equal(receipt.status, 'published');
   assert.ok(readJson(path.join(fixture.root, 'receipts/receipt.json')).packages.every(item => item.status === 'published'));
+});
+
+test('the reconcile lookup keeps what the registry serves, sends what is absent and stops on other contents', async () => {
+  const packages = [
+    { name: '@modern-js/a', version: '0.0.0-x', integrity: 'sha512-aaa' },
+    { name: '@modern-js/b', version: '0.0.0-x', integrity: 'sha512-bbb' },
+  ];
+  const served = url => Promise.resolve(url.includes('%2fa')
+    ? { ok: true, status: 200, json: () => Promise.resolve({ dist: { integrity: 'sha512-aaa' } }) }
+    : { ok: false, status: 404 });
+  assert.deepEqual((await missingFromRegistry(packages, { request: served })).map(pkg => pkg.name), ['@modern-js/b']);
+
+  const other = () => Promise.resolve({ ok: true, status: 200, json: () => Promise.resolve({ dist: { integrity: 'sha512-someone-else' } }) });
+  await assert.rejects(() => missingFromRegistry(packages, { request: other }), /different contents/);
+
+  // An unreadable answer is not an absent version: publishing on a guess is
+  // the one mistake that cannot be taken back.
+  const broken = () => Promise.resolve({ ok: false, status: 500 });
+  await assert.rejects(() => missingFromRegistry(packages, { request: broken }), /answered 500/);
+});
+
+test('reconcile sends only the missing package and writes its own receipt', async t => {
+  const fixture = artifactFixture(t);
+  const [first, second] = fixture.manifest.packages;
+  const sent = [];
+  const probed = [];
+  const deps = settings(fixture, args => {
+    sent.push(args[1]);
+    return { status: 0, stdout: JSON.stringify({ [second.name]: { ...second } }) };
+  });
+  deps.missing = async items => items.filter(pkg => pkg.name === second.name);
+  deps.verifyTrust = names => { probed.push(...names); };
+  const receipt = await publish(fixture.root, { ...options(fixture.plan), reconcile: true }, deps);
+
+  assert.equal(sent.length, 1, 'the package the registry already serves is not sent again');
+  assert.deepEqual(probed, [second.name], 'only what will be published is probed for a trusted publisher');
+  assert.equal(receipt.mode, 'reconcile');
+  assert.equal(receipt.status, 'published');
+  assert.deepEqual(receipt.packages.map(item => [item.name, item.status, item.confirmedBy ?? null]),
+    [[first.name, 'published', 'registry'], [second.name, 'published', null]]);
+  assert.ok(fs.existsSync(path.join(fixture.root, 'receipts/receipt-reconcile.json')));
+  assert.ok(!fs.existsSync(path.join(fixture.root, 'receipts/receipt.json')), 'the receipt of the publish it finishes is left alone');
+});
+
+test('reconcile with nothing missing publishes nothing and still reports the release', async t => {
+  const fixture = artifactFixture(t);
+  const deps = settings(fixture, () => assert.fail('npm must not be called'));
+  deps.missing = async () => [];
+  const receipt = await publish(fixture.root, { ...options(fixture.plan), reconcile: true }, deps);
+  assert.equal(receipt.status, 'published');
+  assert.equal(receipt.packages.length, fixture.manifest.packages.length);
+  assert.ok(receipt.packages.every(item => item.confirmedBy === 'registry'));
 });
