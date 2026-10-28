@@ -14,6 +14,16 @@ export function registerPlugin(
   internalPlugins: RuntimePlugin[],
   runtimeConfig?: RuntimeConfig,
 ) {
+  const runtimeContext = createRuntime(internalPlugins, runtimeConfig);
+  setGlobalInternalRuntimeContext(runtimeContext);
+  return runtimeContext;
+}
+
+/** Create an embedded instance without replacing the registered application. */
+export function createRuntime(
+  internalPlugins: RuntimePlugin[],
+  runtimeConfig?: RuntimeConfig,
+) {
   const { plugins = [] } = runtimeConfig || {};
   const { runtimeContext } = runtime.run({
     plugins: [
@@ -25,10 +35,7 @@ export function registerPlugin(
     config: runtimeConfig || {},
     handleSetupResult,
   });
-  setGlobalInternalRuntimeContext(
-    runtimeContext as unknown as InternalRuntimeContext<RuntimeExtends>,
-  );
-  return runtimeContext;
+  return runtimeContext as unknown as InternalRuntimeContext<RuntimeExtends>;
 }
 
 export function mergeConfig(

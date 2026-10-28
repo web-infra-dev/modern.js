@@ -14,6 +14,27 @@ export const builderPluginAlias = ({
 }): RsbuildPlugin => ({
   name: 'runtime:alias',
   setup(api) {
+    api.modifyRspackConfig(config => {
+      config.module ||= {};
+      config.module.rules ||= [];
+      config.module.rules.push({
+        resourceQuery: /(?:\?|&)modern-mf-root(?:&|$)/,
+        enforce: 'pre',
+        use: [
+          {
+            loader: require.resolve('./federation/loader'),
+            options: {
+              internalDirectory,
+              metaName,
+              entrypoints: entrypoints.map(({ entryName, isMainEntry }) => ({
+                entryName,
+                isMainEntry,
+              })),
+            },
+          },
+        ],
+      });
+    });
     api.modifyRsbuildConfig((userConfig, { mergeRsbuildConfig }) => {
       const entrypointsAlias: Record<string, string> = {};
       // main entry alias need to be placed at the end of alias object
