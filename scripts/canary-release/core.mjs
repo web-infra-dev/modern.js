@@ -52,6 +52,19 @@ export function releaseBranch(plan) {
   return `${planChannel(plan).branchPrefix}/${plan.releaseId}`;
 }
 
+/**
+ * Where preparation lands, and where the build half of a release runs.
+ *
+ * It is deliberately outside the release branch namespace the publishing
+ * workflow watches: the same commit is pushed here first so that it can be built,
+ * packed and tested while nothing is published, and only later to the branch
+ * that publishes it. The name has no channel in it because nothing is
+ * published from here, whatever the channel.
+ */
+export function stagingBranch(plan) {
+  return `canary-staging/${plan.releaseId}`;
+}
+
 export function versionFor(channel, releaseId, bumped) {
   if (channel.scheme === 'snapshot') return `0.0.0-${channel.tag}.${releaseId}`;
   assert(typeof bumped === 'string' && STABLE_VERSION.test(bumped),
@@ -196,8 +209,8 @@ export function assertSource(root, plan, expectedSha, execute = run) {
   assert.equal(execute('git', ['status', '--porcelain', '--untracked-files=no'], { cwd: root }), '', 'Tracked source has changed');
 }
 
-export function assertTrigger(plan, env = process.env, event = readJson(env.GITHUB_EVENT_PATH)) {
-  assert.equal(env.GITHUB_REF, `refs/heads/${releaseBranch(plan)}`, 'Only a prepared release branch may publish');
+export function assertTrigger(plan, env = process.env, event = readJson(env.GITHUB_EVENT_PATH), branch = releaseBranch(plan)) {
+  assert.equal(env.GITHUB_REF, `refs/heads/${branch}`, 'Only a prepared release branch may publish');
   assert.equal(env.GITHUB_REF_TYPE, 'branch', 'Expected branch ref');
   if (env.GITHUB_EVENT_NAME === 'push') {
     assert.equal(event.created, true, 'Prepared branches must be written once');
