@@ -17,8 +17,13 @@ on:
     # was triggered on is exactly the branch that channel prescribes for that
     # release id. A push to any other release-*/ branch therefore starts a run
     # that stops at the first step instead of publishing anything.
+    # No path filter. The branch is created pointing at the commit the build
+    # ran on, and a push that creates a branch at a commit the repository
+    # already has carries no file changes for a filter to match - the
+    # workflow simply never started. Every push to this namespace therefore
+    # starts a run, and the run stops at its first assertion unless the
+    # branch is the one the plan prescribes.
     branches: ['release-*/**']
-    paths: ['.release/canary-plan.json']
   workflow_dispatch:
     inputs:
       expected_plan_hash:
@@ -35,7 +40,9 @@ concurrency:
 
 jobs:
   publish:
-    if: startsWith(github.ref, 'refs/heads/release-')
+    # The version-bump branch lives in the same namespace and publishes
+    # nothing, so it is skipped rather than started and failed.
+    if: startsWith(github.ref, 'refs/heads/release-') && !endsWith(github.ref, '-bump')
     runs-on: ubuntu-24.04
     timeout-minutes: 45
     permissions:
