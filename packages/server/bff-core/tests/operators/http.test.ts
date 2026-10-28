@@ -3,8 +3,10 @@ import {
   Api,
   Data,
   Get,
+  Headers,
   HttpCode,
   HttpMetadata,
+  Params,
   Query,
   Redirect,
   ResponseMetaType,
@@ -128,6 +130,46 @@ describe('test api function', () => {
         },
       }),
     ).rejects.toThrow(ValidationError);
+  });
+
+  test('should preserve input and output types for async transforms', async () => {
+    const Schema = z.string().transform(async value => Number(value));
+    const handler = Api(
+      Data(Schema),
+      Query(Schema),
+      Params(Schema),
+      Headers(Schema),
+      async inputs => inputs,
+    );
+
+    type Input = Expect<
+      Assert<
+        Parameters<typeof handler>[0],
+        { data: string; query: string; params: string; headers: string }
+      >
+    >;
+    type Output = Expect<
+      Assert<
+        Awaited<ReturnType<typeof handler>>,
+        { data: number; query: number; params: number; headers: number }
+      >
+    >;
+
+    await expect(
+      handler({ data: '1', query: '2', params: '3', headers: '4' }),
+    ).resolves.toEqual({ data: 1, query: 2, params: 3, headers: 4 });
+
+    for (const field of ['data', 'query', 'params', 'headers']) {
+      await expect(
+        handler({
+          data: '1',
+          query: '2',
+          params: '3',
+          headers: '4',
+          [field]: 123,
+        }),
+      ).rejects.toThrow(ValidationError);
+    }
   });
 
   test('should support lazy', async () => {
