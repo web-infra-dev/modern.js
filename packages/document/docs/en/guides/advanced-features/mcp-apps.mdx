@@ -133,7 +133,7 @@ Manifests are cached by source URL and environment. Production caches successful
 
 An absolute `output.assetPrefix` becomes `assetBase`. Otherwise request-origin resolution is used. Override `assetBase` in `registerUiResources` for a separate static origin or deployment path prefix. Request mode honors sanitized `x-forwarded-proto` headers. Reverse proxies must preserve the public host and sanitize forwarded headers.
 
-Required asset, connection and base URI origins are added to CSP. MF entry origins are also added to connection permissions. Declare any additional API, chunk/CDN or iframe origins explicitly. Deploy the manifest and HTML together with the application static assets and MF output.
+Required asset, connection and base URI origins are added to CSP. MF entry origins are also added to connection permissions. The origin of an absolute or protocol-relative `output.assetPrefix` is added at build time, with `//cdn.example/` treated as `https://cdn.example`. Declare any other API, chunk/CDN or iframe origins in `mcp-views.json`, or pass domains computed in the config through `mcpAppsPlugin({ csp })`. Both are merged into every view. Deploy the manifest and HTML together with the application static assets and MF output.
 
 Platforms may rewrite file and MF addresses to absolute URLs and combine cards into another manifest of the same version. Unknown versions are rejected.
 

@@ -166,7 +166,7 @@ dist/
 
 `output.assetPrefix` 为绝对地址时用于推导 `assetBase`。`request` 表示使用请求的公开 origin，支持经过代理清理的 `x-forwarded-proto`。子路径或外部静态资源部署可以通过 `registerUiResources` 的 `assetBase` 显式覆盖。反向代理必须保留公开 host 并清理转发头。
 
-服务端把资源根地址加入 CSP 的 resourceDomains、connectDomains 和 baseUriDomains，把 MF entry 的 origin 加入 connectDomains 和 resourceDomains。其他 CDN、接口和 iframe 域名需显式声明。生产部署必须保留清单、HTML、应用静态资源和 MF 产物。
+服务端把资源根地址加入 CSP 的 resourceDomains、connectDomains 和 baseUriDomains，把 MF entry 的 origin 加入 connectDomains 和 resourceDomains。构建时还会把绝对地址或不带协议的 `output.assetPrefix` 的 origin 加入 CSP，`//cdn.example/` 按 `https://cdn.example` 处理。其他 CDN、接口和 iframe 域名需在 `mcp-views.json` 中声明，或在配置中计算后通过 `mcpAppsPlugin({ csp })` 传入，两者都会合并到每张卡片。生产部署必须保留清单、HTML、应用静态资源和 MF 产物。
 
 平台可以把已构建的卡片文件和 MF 地址转换为绝对地址，组合成同版本的新清单，再由独立服务端消费。未知清单版本会被拒绝。
 

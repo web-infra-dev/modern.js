@@ -29,6 +29,9 @@ Component paths resolve relative to the JSON file. Components must have a defaul
 
 - `mf.manifestFile` is the MF manifest filename in the web build output. It defaults to `mf-manifest.json` and must match exactly one emitted file.
 - `mf.runtime` is the module, resolved from the application, that the MF shell imports `createInstance` from. It defaults to `@module-federation/enhanced/runtime`.
+- `csp` adds CSP domains to every view, merged with the `csp` in `mcp-views.json`. Use it for domains computed in the framework or application config.
+
+The build also adds the origin of an absolute or protocol-relative asset prefix (`//cdn.example/app/` becomes `https://cdn.example`) to every view's `resourceDomains` and `connectDomains`, because card scripts and chunks load from it. A protocol-relative prefix keeps `assetBase` request-relative, so the UI manifest and MF manifest still load from the server.
 
 Local card entries mount React directly through `createMcpView` without the framework page runtime, because an opaque MCP Apps sandbox cannot read page cookies. With `source.enableAsyncEntry`, which the MF plugin enables, each entry adds a dynamic import boundary for MF shared initialization.
 
@@ -38,7 +41,7 @@ Local card entries mount React directly through `createMcpView` without the fram
 
 `await registerUiResources(server, { request })` returns view names mapped to `ui://app/<encoded-name>`. Register tools with the official `registerAppTool` helper and put the chosen URI in `_meta.ui.resourceUri`. MF selection is injected into the resource HTML rather than tool results.
 
-`assetBase` is a public directory URL or `request`. Request mode uses the request origin, honoring a sanitized `x-forwarded-proto`. Override `assetBase` at registration for an external static origin or path prefix. Resources add their required asset, connection and base URI origins to CSP while preserving configured metadata. Additional chunk/CDN origins must be declared explicitly.
+`assetBase` is a public directory URL or `request`. Request mode uses the request origin, honoring a sanitized `x-forwarded-proto`. Override `assetBase` at registration for an external static origin or path prefix. Resources add their required asset, connection and base URI origins to CSP while preserving configured metadata. Other chunk/CDN origins must be declared in `csp` or `mcp-views.json`.
 
 `createFetchHandler(createServer)` returns a standard Request/Response handler. It uses the SDK's stateless HTTP serving and rejects foreign browser origins unless configured through `allowedOrigins`. Authentication and authorization belong to the surrounding middleware or server factory. `createServer` must return a fresh official `McpServer` per request. `createBffHandlers` adapts the same factory to Modern BFF's consumed request body and exports POST, GET and DELETE handlers. The stateless SDK rejects unsupported session operations.
 

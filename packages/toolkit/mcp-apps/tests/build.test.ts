@@ -27,7 +27,13 @@ describe('UI build contract', () => {
     expect(manifest.views.stats).toEqual({
       remote: 'todo_ui',
       expose: './Stats',
-      ui: { prefersBorder: false },
+      ui: {
+        prefersBorder: false,
+        csp: {
+          resourceDomains: ['https://cdn.example'],
+          connectDomains: ['https://cdn.example'],
+        },
+      },
     });
     expect(manifest.views.todos).toMatchObject({
       html: `./ui/${viewEntryName('todos')}.html`,
@@ -65,6 +71,61 @@ describe('UI build contract', () => {
     expect(() =>
       validateViewsConfig({ views: { a: { expose: './A', html: 'a.html' } } }),
     ).toThrow('Invalid view');
+  });
+});
+
+describe('createUiManifest CSP', () => {
+  const views = { views: { local: './Local.tsx' } };
+  it('adds the origin of a protocol-relative asset prefix and keeps assetBase request-relative', () => {
+    const manifest = createUiManifest(views, '//cdn.example/app/');
+    expect(manifest.assetBase).toBe('request');
+    expect(manifest.views.local.ui.csp).toEqual({
+      resourceDomains: ['https://cdn.example'],
+      connectDomains: ['https://cdn.example'],
+    });
+  });
+  it('adds the origin of an absolute asset prefix', () => {
+    const manifest = createUiManifest(views, 'http://cdn.example/app/');
+    expect(manifest.assetBase).toBe('http://cdn.example/app/');
+    expect(manifest.views.local.ui.csp?.resourceDomains).toEqual([
+      'http://cdn.example',
+    ]);
+  });
+  it('adds no asset origin for a path prefix', () => {
+    expect(createUiManifest(views, '/').views.local.ui.csp).toBeUndefined();
+  });
+  it('merges the csp option with the views file and asset origin without duplicates', () => {
+    const manifest = createUiManifest(
+      {
+        ...views,
+        csp: {
+          resourceDomains: ['https://img.example'],
+          frameDomains: ['https://frame.example'],
+        },
+      },
+      '//cdn.example/',
+      undefined,
+      {
+        resourceDomains: ['https://img.example', 'https://shell.example'],
+        connectDomains: ['https://api.example'],
+      },
+    );
+    expect(manifest.views.local.ui.csp).toEqual({
+      resourceDomains: [
+        'https://img.example',
+        'https://shell.example',
+        'https://cdn.example',
+      ],
+      frameDomains: ['https://frame.example'],
+      connectDomains: ['https://api.example', 'https://cdn.example'],
+    });
+  });
+  it('rejects an invalid csp option', () => {
+    expect(() =>
+      createUiManifest(views, '/', undefined, {
+        scriptDomains: ['https://x.example'],
+      } as never),
+    ).toThrow('Invalid CSP field: scriptDomains');
   });
 });
 

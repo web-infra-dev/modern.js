@@ -10,11 +10,14 @@ import {
   findMfManifest,
   viewEntryName,
   type MfManifest,
+  type UiCsp,
 } from './build';
 
 export interface McpAppsPluginOptions {
   /** JSON UI configuration, relative to the application root. */
   views?: string;
+  /** CSP domains added to every view, merged with the csp in the views file. */
+  csp?: UiCsp;
   mf?: {
     /** MF manifest filename in the build output. Defaults to 'mf-manifest.json'. */
     manifestFile?: string;
@@ -333,6 +336,7 @@ export const mcpAppsPlugin = (
               definition,
               development ? config.dev.assetPrefix : config.output.assetPrefix,
               mf,
+              options.csp,
             );
             for (const name of localEntries) {
               const htmlPath = environment.htmlPaths[name];

@@ -1,10 +1,30 @@
 import { createHash } from 'node:crypto';
 import path from 'node:path';
 import {
+  validateUiMetadata,
   validateViewsConfig,
   type UiManifest,
+  type UiMetadata,
   type McpViewsConfig,
 } from '../manifest';
+
+export type UiCsp = NonNullable<UiMetadata['csp']>;
+
+/** Origin of an absolute or protocol-relative asset prefix. */
+function assetPrefixOrigin(prefix: unknown) {
+  if (typeof prefix !== 'string') return undefined;
+  if (prefix.startsWith('//')) return new URL(`https:${prefix}`).origin;
+  if (/^https?:\/\//.test(prefix)) return new URL(prefix).origin;
+  return undefined;
+}
+
+function mergeCsp(...sources: Array<UiCsp | undefined>): UiCsp | undefined {
+  const merged: Record<string, string[]> = {};
+  for (const source of sources)
+    for (const [key, domains] of Object.entries(source ?? {}))
+      merged[key] = [...new Set([...(merged[key] ?? []), ...(domains ?? [])])];
+  return Object.keys(merged).length ? (merged as UiCsp) : undefined;
+}
 
 export function viewEntryName(name: string) {
   const label =
@@ -50,10 +70,26 @@ export function createUiManifest(
   config: McpViewsConfig,
   prefix: unknown,
   mf?: { manifest: MfManifest; filename: string },
+  csp?: UiCsp,
 ): UiManifest {
   validateViewsConfig(config);
+  if (csp !== undefined) validateUiMetadata({ csp });
   const { views, ...metadata } = config;
-  const ui = { prefersBorder: true, ...metadata };
+  // Scripts and chunks load from the asset prefix even when assetBase stays
+  // request-relative, such as with a protocol-relative CDN prefix.
+  const assetOrigin = assetPrefixOrigin(prefix);
+  const mergedCsp = mergeCsp(
+    metadata.csp,
+    csp,
+    assetOrigin
+      ? { resourceDomains: [assetOrigin], connectDomains: [assetOrigin] }
+      : undefined,
+  );
+  const ui = {
+    prefersBorder: true,
+    ...metadata,
+    ...(mergedCsp ? { csp: mergedCsp } : {}),
+  };
   const manifest: UiManifest = {
     version: 1,
     assetBase:
