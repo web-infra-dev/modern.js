@@ -33,6 +33,8 @@ it.each(['mcp-apps', 'mcp-apps-mf'])(
       fs.readFileSync(path.join(directory, 'package.json'), 'utf8'),
     );
     expect(pkg.dependencies['@modelcontextprotocol/server']).toBe('2.3.1');
+    // createBffHandlers loads it by default to read the BFF request context.
+    expect(pkg.dependencies['@modern-js/server-runtime']).toMatch(/^\d/);
     expect(pkg.devDependencies.typescript).toBe('~5.9.3');
     const route = fs.readFileSync(
       path.join(directory, 'api/lambda/mcp.ts'),
