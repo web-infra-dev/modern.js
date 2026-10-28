@@ -25,6 +25,7 @@ import { getGlobalIsRscClient } from '../../core/context';
 
 import {
   type RouterExtendsHooks,
+  createRouterHooks,
   modifyRoutes as modifyRoutesHook,
   onBeforeCreateRoutes as onBeforeCreateRoutesHook,
 } from './hooks';
@@ -36,6 +37,7 @@ import {
 } from './memory';
 import { createClientRouterFromPayload } from './rsc-router';
 import type { MemoryRouterConfig, RouterConfig, Routes } from './types';
+import { scopeTopology, assertScopeTopology } from './scope';
 import {
   createRouteObjectsFromConfig,
   deserializeErrors,
@@ -72,19 +74,25 @@ interface UseRouterCreationOptions {
   memory?: MemoryRouterConfig;
   selectBasePath: (pathname: string) => string;
   basename: string;
+  routesConfig: RouterConfig['routesConfig'];
+  selected?: boolean;
 }
 
 export const routerPlugin = (
   userConfig: Partial<RouterConfig> = {},
+  rootConfig?: RouterConfig['routesConfig'],
+  selected = false,
 ): RuntimePlugin<{
   extendHooks: RouterExtendsHooks;
 }> => {
   return {
     name: '@modern-js/plugin-router',
-    registryHooks: {
-      modifyRoutes: modifyRoutesHook,
-      onBeforeCreateRoutes: onBeforeCreateRoutesHook,
-    },
+    registryHooks: rootConfig
+      ? createRouterHooks()
+      : {
+          modifyRoutes: modifyRoutesHook,
+          onBeforeCreateRoutes: onBeforeCreateRoutesHook,
+        },
     setup: api => {
       const routesContainer = {
         current: [] as RouteObject[],
@@ -102,6 +110,7 @@ export const routerPlugin = (
         // We add a configuration to support the page to reload.
         if (
           !isMemoryRouter &&
+          !context._routeScope &&
           window._SSR_DATA &&
           userConfig.unstable_reloadOnURLMismatch
         ) {
@@ -130,12 +139,13 @@ export const routerPlugin = (
         // Prefetch Link will use routes for match next route
         Object.defineProperty(context, 'routes', {
           get() {
-            return routesContainer.current;
+            return context._routeScope?.routes || routesContainer.current;
           },
           enumerable: true,
         });
       });
       api.wrapRoot(App => {
+        const scope = Boolean(rootConfig);
         const mergedConfig = merge(
           api.getRuntimeConfig().router || {},
           userConfig,
@@ -152,15 +162,22 @@ export const routerPlugin = (
         const useTransitions =
           mergedConfig.useTransitions ?? future?.v7_startTransition;
 
-        finalRouteConfig = {
-          routes: getGlobalRoutes(),
-          globalApp: getGlobalLayoutApp(),
-          ...routesConfig,
-        };
+        const rootRouteConfig = rootConfig
+          ? { ...rootConfig, ...(!selected && routesConfig) }
+          : {
+              routes: getGlobalRoutes(),
+              globalApp: getGlobalLayoutApp(),
+              ...routesConfig,
+            };
+        if (!scope) finalRouteConfig = rootRouteConfig;
 
-        if (!finalRouteConfig.routes && !createRoutes) {
+        if (!rootRouteConfig.routes && !createRoutes) {
           return App;
         }
+        if (selected && createRoutes)
+          throw new Error(
+            'createRoot route exports cannot replace the build-time graph with router.createRoutes.',
+          );
 
         const selectBasePath = (pathname: string) => {
           const match = serverBase.find(baseUrl =>
@@ -187,6 +204,8 @@ export const routerPlugin = (
               memory,
               selectBasePath,
               basename,
+              routesConfig: rootRouteConfig,
+              selected,
             },
           );
 
@@ -207,25 +226,25 @@ export const routerPlugin = (
 
           routesContainer.current = routes;
 
-          beforeCreateRouter = false;
+          if (!scope) beforeCreateRouter = false;
 
           // To match the node tree about https://github.com/web-infra-dev/modern.js/blob/v2.59.0/packages/runtime/plugin-runtime/src/router/runtime/plugin.node.tsx#L150-L168
           // According to react [useId generation algorithm](https://github.com/facebook/react/pull/22644), `useId` will generate id with the react node react struct.
           // To void hydration failed, we must guarantee that the node tree when browser hydrate must have same struct with node tree when ssr render.
-          const RouterContent = () => (
-            <ActiveMemoryRouteContext.Provider value={memoryState}>
-              <RouterProvider router={router} useTransitions={useTransitions} />
-              <EmptyComponent />
-              <EmptyComponent />
-            </ActiveMemoryRouteContext.Provider>
-          );
-
           return App ? (
             <App>
-              <RouterContent />
+              <RouterContent
+                router={router}
+                useTransitions={useTransitions}
+                memoryState={memoryState}
+              />
             </App>
           ) : (
-            <RouterContent />
+            <RouterContent
+              router={router}
+              useTransitions={useTransitions}
+              memoryState={memoryState}
+            />
           );
         };
 
@@ -236,6 +255,17 @@ export const routerPlugin = (
 };
 
 const EmptyComponent = () => null;
+const RouterContent = ({
+  router,
+  useTransitions,
+  memoryState,
+}: RouterProviderProps & { memoryState: MemoryRouteState }) => (
+  <ActiveMemoryRouteContext.Provider value={memoryState}>
+    <RouterProvider router={router} useTransitions={useTransitions} />
+    <EmptyComponent />
+    <EmptyComponent />
+  </ActiveMemoryRouteContext.Provider>
+);
 
 const safeUse = (promise: Promise<unknown>) => {
   const useProp = 'use';
@@ -265,9 +295,11 @@ function useRouterCreation(props: any, options: UseRouterCreationOptions) {
     memory,
     selectBasePath,
     basename,
+    routesConfig,
   } = options;
   const runtimeContext = useContext(InternalRuntimeContext);
   const memoryRouteContext = useContext(MemoryRouteContext);
+  const scope = runtimeContext._routeScope;
 
   const memoryInput: MemoryRouterConfig | undefined =
     props?.memoryRoute ??
@@ -275,9 +307,13 @@ function useRouterCreation(props: any, options: UseRouterCreationOptions) {
     runtimeContext._internalMemoryRoute ??
     memory;
 
-  const baseUrl = selectBasePath(location.pathname).replace(/^\/*/, '/');
-  const defaultBasename =
-    baseUrl === '/'
+  const baseUrl = (scope ? '/' : selectBasePath(location.pathname)).replace(
+    /^\/*/,
+    '/',
+  );
+  const defaultBasename = scope
+    ? '/'
+    : baseUrl === '/'
       ? urlJoin(
           baseUrl,
           runtimeContext._internalRouterBaseName || basename || '',
@@ -285,20 +321,29 @@ function useRouterCreation(props: any, options: UseRouterCreationOptions) {
       : baseUrl;
 
   const currentBrowserPath = `${location.pathname}${location.search}${location.hash}`;
-  const normalizedMemory = normalizeMemoryRouterConfig(
-    memoryInput,
-    currentBrowserPath,
-    defaultBasename,
-  );
+  const normalizedMemory = scope
+    ? undefined
+    : normalizeMemoryRouterConfig(
+        memoryInput,
+        currentBrowserPath,
+        defaultBasename,
+      );
   const _basename = normalizedMemory?.basename ?? defaultBasename;
-  const memoryState: MemoryRouteState = normalizedMemory
+  const memoryState: MemoryRouteState = scope
     ? {
         enabled: true,
-        initialEntries: normalizedMemory.initialEntries,
-        initialIndex: normalizedMemory.initialIndex,
-        basename: _basename,
+        initialEntries: [scope.initialUrl],
+        initialIndex: 0,
+        basename: '/',
       }
-    : { enabled: false };
+    : normalizedMemory
+      ? {
+          enabled: true,
+          initialEntries: normalizedMemory.initialEntries,
+          initialIndex: normalizedMemory.initialIndex,
+          basename: _basename,
+        }
+      : { enabled: false };
 
   const { unstable_getBlockNavState: getBlockNavState } = runtimeContext;
   // Keep the define expression inline at every RSC branch. Rspack can then
@@ -308,11 +353,15 @@ function useRouterCreation(props: any, options: UseRouterCreationOptions) {
       ? safeUse(props.rscPayload)
       : null;
 
-  let hydrationData = process.env.MODERN_ENABLE_RSC
-    ? window._ROUTER_DATA || rscPayload
-    : window._ROUTER_DATA;
+  let hydrationData = scope
+    ? undefined
+    : process.env.MODERN_ENABLE_RSC
+      ? window._ROUTER_DATA || rscPayload
+      : window._ROUTER_DATA;
 
   return useMemo(() => {
+    if (scope?.router)
+      return { router: scope.router, routes: scope.routes || [], memoryState };
     if (hydrationData?.errors) {
       hydrationData = {
         ...hydrationData,
@@ -325,14 +374,14 @@ function useRouterCreation(props: any, options: UseRouterCreationOptions) {
       routes = createRoutes
         ? createRoutes()
         : createRouteObjectsFromConfig({
-            routesConfig: finalRouteConfig,
+            routesConfig,
           });
     } else {
       routes = createRoutes
         ? createRoutes()
         : createRoutesFromElements(
             renderRoutes({
-              routesConfig: finalRouteConfig,
+              routesConfig,
               props,
             }),
           );
@@ -362,24 +411,34 @@ function useRouterCreation(props: any, options: UseRouterCreationOptions) {
       }
     }
 
+    const topology = options.selected ? scopeTopology(routes) : undefined;
     const modifiedRoutes = hooks.modifyRoutes.call(routes);
+    if (topology) assertScopeTopology(modifiedRoutes, topology);
 
-    const router = normalizedMemory
+    const router = scope
       ? createMemoryRouter(modifiedRoutes, {
-          basename: _basename,
-          initialEntries: normalizedMemory.initialEntries,
-          initialIndex: normalizedMemory.initialIndex,
-          hydrationData,
+          initialEntries: [scope.initialUrl],
         })
-      : supportHtml5History
-        ? createBrowserRouter(modifiedRoutes, {
+      : normalizedMemory
+        ? createMemoryRouter(modifiedRoutes, {
             basename: _basename,
+            initialEntries: normalizedMemory.initialEntries,
+            initialIndex: normalizedMemory.initialIndex,
             hydrationData,
           })
-        : createHashRouter(modifiedRoutes, {
-            basename: _basename,
-            hydrationData,
-          });
+        : supportHtml5History
+          ? createBrowserRouter(modifiedRoutes, {
+              basename: _basename,
+              hydrationData,
+            })
+          : createHashRouter(modifiedRoutes, {
+              basename: _basename,
+              hydrationData,
+            });
+    if (scope) {
+      scope.router = router;
+      scope.routes = modifiedRoutes;
+    }
 
     const originSubscribe = router.subscribe;
     router.subscribe = (listener: RouterSubscriber) => {
@@ -399,11 +458,12 @@ function useRouterCreation(props: any, options: UseRouterCreationOptions) {
       memoryState,
     };
   }, [
-    finalRouteConfig,
+    routesConfig,
     props,
     _basename,
     hydrationData,
     getBlockNavState,
+    scope,
     memoryInput,
   ]);
 }

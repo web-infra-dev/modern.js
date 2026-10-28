@@ -26,6 +26,7 @@ export default {
         'tests/router/prefetch.test.tsx',
         'tests/router/memoryRouter.test.tsx',
         'tests/router/memoryRouter.node.test.tsx',
+        'tests/router/routeScopeBrowser.test.tsx',
       ],
       extends: commonConfig,
       plugins: [
@@ -81,6 +82,7 @@ export default {
       include: [
         'tests/router/prefetch.test.tsx',
         'tests/router/memoryRouter.test.tsx',
+        'tests/router/routeScopeBrowser.test.tsx',
       ],
       extends: commonConfig,
       plugins: [

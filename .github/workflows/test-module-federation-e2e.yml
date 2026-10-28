@@ -51,6 +51,11 @@ jobs:
       - name: Build Modern.js and its dependencies
         run: pnpm exec nx run-many --target=build --projects=@modern-js/app-tools,@modern-js/runtime --parallel=2
 
+      - name: Test producer discovery and analysis budgets
+        run: |
+          pnpm --filter @modern-js/plugin-module-federation test src/cli/rootExposes.test.ts --reporter=verbose
+          pnpm --filter @modern-js/runtime test tests/router/routeScope.test.ts --reporter=verbose
+
       - name: Install Chrome
         run: pnpm --filter mf-lab-tests exec puppeteer browsers install chrome
 

@@ -4,8 +4,28 @@ import { isBrowser } from '../../common';
 import { ROUTER_DATA_JSON_ID, SSR_DATA_JSON_ID } from '../constants';
 import { getGlobalApp, getGlobalInternalRuntimeContext } from '../context';
 
-export function createRoot(UserApp?: React.ComponentType | null) {
-  const App = UserApp || getGlobalApp();
+export interface CreateRootOptions {
+  route?: string;
+}
+
+export function createRoot(
+  options?: CreateRootOptions,
+): React.ComponentType<any>;
+export function createRoot(
+  UserApp?: React.ComponentType | null,
+): React.ComponentType<any>;
+export function createRoot(
+  UserApp?: React.ComponentType | CreateRootOptions | null,
+) {
+  if (UserApp && typeof UserApp === 'object' && !('$$typeof' in UserApp)) {
+    if (UserApp.route !== undefined) {
+      throw new Error(
+        'createRoot({ route }) must be statically defined in a Modern Module Federation expose with a registry import.',
+      );
+    }
+    UserApp = undefined;
+  }
+  const App = (UserApp || getGlobalApp()) as React.ComponentType | undefined;
 
   if (isBrowser()) {
     // we should get data from HTMLElement when set server.useJsonScript = true
