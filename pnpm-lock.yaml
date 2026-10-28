@@ -672,7 +672,7 @@ importers:
         version: 5.0.4
       vitest:
         specifier: ^2.0.5
-        version: 2.1.9(@types/node@20.19.27)(happy-dom@20.14.6(bufferutil@4.1.0)(utf-8-validate@5.0.10))(jsdom@25.0.1(bufferutil@4.1.0)(utf-8-validate@5.0.10))(less@4.9.1)(lightningcss@1.32.0)(sass-embedded@1.100.0)(sass@1.105.2)(terser@5.51.2)
+        version: 2.1.9(@types/node@20.19.27)(happy-dom@21.0.4(bufferutil@4.1.0)(utf-8-validate@5.0.10))(jsdom@25.0.1(bufferutil@4.1.0)(utf-8-validate@5.0.10))(less@4.9.1)(lightningcss@1.32.0)(sass-embedded@1.100.0)(sass@1.105.2)(terser@5.51.2)
 
   packages/cli/adapter-rstest:
     dependencies:
@@ -2059,8 +2059,8 @@ importers:
         specifier: ^20
         version: 20.19.27
       happy-dom:
-        specifier: ^20.14.6
-        version: 20.14.6(bufferutil@4.1.0)(utf-8-validate@5.0.10)
+        specifier: ^21.0.0
+        version: 21.0.4(bufferutil@4.1.0)(utf-8-validate@5.0.10)
       typescript:
         specifier: ^5
         version: 5.9.3
@@ -4096,7 +4096,7 @@ importers:
         version: link:../../../../packages/cli/plugin-bff
       '@rstest/core':
         specifier: 0.12.3
-        version: 0.12.3(@module-federation/runtime-tools@2.0.0)(core-js@3.50.0)(happy-dom@20.14.6(bufferutil@4.1.0)(utf-8-validate@5.0.10))(jsdom@25.0.1(bufferutil@4.1.0)(utf-8-validate@5.0.10))
+        version: 0.12.3(@module-federation/runtime-tools@2.0.0)(core-js@3.50.0)(happy-dom@21.0.4(bufferutil@4.1.0)(utf-8-validate@5.0.10))(jsdom@25.0.1(bufferutil@4.1.0)(utf-8-validate@5.0.10))
       '@testing-library/jest-dom':
         specifier: ^6.9.1
         version: 6.9.1
@@ -4113,8 +4113,8 @@ importers:
         specifier: ^19.3.0
         version: 19.3.0(@types/react@19.3.0)
       happy-dom:
-        specifier: ^20.14.6
-        version: 20.14.6(bufferutil@4.1.0)(utf-8-validate@5.0.10)
+        specifier: ^21.0.0
+        version: 21.0.4(bufferutil@4.1.0)(utf-8-validate@5.0.10)
       typescript:
         specifier: ^5
         version: 5.9.3
@@ -12261,6 +12261,10 @@ packages:
 
   happy-dom@20.14.6:
     resolution: {integrity: sha512-5DDsf4QmEIlRL6NkCv/fxSjYHHkZceL/IaYQdJc2h3G7DRTEai++VTjbfL0LB9geW2VrA3+vrjF3Efx+OTtX0Q==}
+    engines: {node: '>=20.0.0'}
+
+  happy-dom@21.0.4:
+    resolution: {integrity: sha512-tFm+GaLBgo6o0awHnvHaNoraVo27qJ+2tZEtZ+cIa08hXbeitrxAJajLI05hsUy/2/YTKcUjQYzHe5mCcraLBw==}
     engines: {node: '>=20.0.0'}
 
   has-flag@3.0.0:
@@ -22532,6 +22536,18 @@ snapshots:
       - '@module-federation/runtime-tools'
       - core-js
 
+  '@rstest/core@0.12.3(@module-federation/runtime-tools@2.0.0)(core-js@3.50.0)(happy-dom@21.0.4(bufferutil@4.1.0)(utf-8-validate@5.0.10))(jsdom@25.0.1(bufferutil@4.1.0)(utf-8-validate@5.0.10))':
+    dependencies:
+      '@rsbuild/core': 2.2.13(@module-federation/runtime-tools@2.0.0)(core-js@3.50.0)
+      '@types/chai': 5.2.3
+      cjs-module-lexer: 2.3.0
+    optionalDependencies:
+      happy-dom: 21.0.4(bufferutil@4.1.0)(utf-8-validate@5.0.10)
+      jsdom: 25.0.1(bufferutil@4.1.0)(utf-8-validate@5.0.10)
+    transitivePeerDependencies:
+      - '@module-federation/runtime-tools'
+      - core-js
+
   '@rstest/core@0.12.4(@module-federation/runtime-tools@2.0.0)(core-js@3.50.0)(happy-dom@20.14.6(bufferutil@4.1.0)(utf-8-validate@5.0.10))(jsdom@25.0.1(bufferutil@4.1.0)(utf-8-validate@5.0.10))':
     dependencies:
       '@rsbuild/core': 2.2.13(@module-federation/runtime-tools@2.0.0)(core-js@3.50.0)
@@ -26870,6 +26886,20 @@ snapshots:
       uglify-js: 3.19.3
 
   happy-dom@20.14.6(bufferutil@4.1.0)(utf-8-validate@5.0.10):
+    dependencies:
+      '@types/node': 20.19.43
+      '@types/whatwg-mimetype': 3.0.2
+      '@types/ws': 8.18.2
+      buffer-image-size: 0.6.4
+      entities: 7.0.1
+      whatwg-mimetype: 3.0.0
+      ws: 8.22.0(bufferutil@4.1.0)(utf-8-validate@5.0.10)
+    transitivePeerDependencies:
+      - bufferutil
+      - utf-8-validate
+    optional: true
+
+  happy-dom@21.0.4(bufferutil@4.1.0)(utf-8-validate@5.0.10):
     dependencies:
       '@types/node': 20.19.43
       '@types/whatwg-mimetype': 3.0.2
@@ -33001,7 +33031,7 @@ snapshots:
       sass-embedded: 1.100.0
       terser: 5.51.2
 
-  vitest@2.1.9(@types/node@20.19.27)(happy-dom@20.14.6(bufferutil@4.1.0)(utf-8-validate@5.0.10))(jsdom@25.0.1(bufferutil@4.1.0)(utf-8-validate@5.0.10))(less@4.9.1)(lightningcss@1.32.0)(sass-embedded@1.100.0)(sass@1.105.2)(terser@5.51.2):
+  vitest@2.1.9(@types/node@20.19.27)(happy-dom@21.0.4(bufferutil@4.1.0)(utf-8-validate@5.0.10))(jsdom@25.0.1(bufferutil@4.1.0)(utf-8-validate@5.0.10))(less@4.9.1)(lightningcss@1.32.0)(sass-embedded@1.100.0)(sass@1.105.2)(terser@5.51.2):
     dependencies:
       '@vitest/expect': 2.1.9
       '@vitest/mocker': 2.1.9(vite@5.4.21(@types/node@20.19.27)(less@4.9.1)(lightningcss@1.32.0)(sass-embedded@1.100.0)(sass@1.105.2)(terser@5.51.2))
@@ -33025,7 +33055,7 @@ snapshots:
       why-is-node-running: 2.3.0
     optionalDependencies:
       '@types/node': 20.19.27
-      happy-dom: 20.14.6(bufferutil@4.1.0)(utf-8-validate@5.0.10)
+      happy-dom: 21.0.4(bufferutil@4.1.0)(utf-8-validate@5.0.10)
       jsdom: 25.0.1(bufferutil@4.1.0)(utf-8-validate@5.0.10)
     transitivePeerDependencies:
       - less
