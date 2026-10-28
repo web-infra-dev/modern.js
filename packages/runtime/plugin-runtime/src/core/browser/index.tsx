@@ -67,7 +67,7 @@ function isClientArgs(id: unknown): id is HTMLElement | string {
 export type RenderFunc = typeof render;
 
 export async function render(
-  App: React.ReactElement<{ basename: string }>,
+  App: React.ReactElement,
   id?: HTMLElement | string,
 ) {
   const context: TRuntimeContext = getInitialContext();
@@ -85,7 +85,7 @@ export async function render(
 
     Object.assign(context, {
       // garfish plugin params
-      _internalRouterBaseName: App.props.basename,
+      _internalRouterBaseName: (App.props as { basename?: string }).basename,
       ssrContext: ssrData.context,
       initialData: ssrData.data?.initialData,
     });

@@ -100,3 +100,36 @@ const Card = createReactRemote<{ label: string }>({
 本版本的 Bridge 在服务端只输出占位，客户端再挂载。Bridge SSR、Service App 与 `updateRemotes` 不属于本次能力。自动 SSR 分流使用 `remote: 'alias/Expose'`，客户端 loader 仅支持携带 MF 模块身份的模块命名空间。重试重建失败加载和实例状态，不保证重新下载模块或重新执行业务数据函数。
 
 Modern 默认关闭 MF 引擎根据 bridge-react 依赖自动设置路由别名的行为，路由由 Modern 管理。显式配置 bridge.enableBridgeRouter 时保留用户选项。
+
+## 导出 Modern 路由范围
+
+在独立的 expose 文件中使用 `createRoot({ route })`，将返回的 ModernRoot 作为 `createBridgeComponent` 的 `rootComponent`：
+
+<!-- prettier-ignore -->
+```tsx title="src/export-product.tsx"
+import '@modern-js/runtime/registry/index'
+import { createRoot } from '@modern-js/runtime/react'
+import { render } from '@modern-js/runtime/browser'
+import { createBridgeComponent } from '@modern-js/runtime/mf'
+
+const ModernRoot = createRoot({ route: '/product' })
+
+export default createBridgeComponent({
+  rootComponent: ModernRoot,
+  render: (Component, dom) => render(Component, dom),
+})
+```
+
+将该文件加入 MF 配置的 `exposes`。registry 仍由用户显式导入，多入口使用各自的 registry，例如 `@modern-js/runtime/registry/admin`。
+
+`route` 是生产者的固定路由定义路径。构建时保留该节点全部子路由，以及祖先 Layout、Loader、错误边界和必要的 index、无路径包装，移除无关兄弟分支。范围内部的原始路径和 route ID 不变，`/product/detail/:id` 仍匹配 `/product/detail/42`。`route` 不指定消费者的挂载路径，本版本不自动推导 basename 或同步宿主导航。
+
+省略 `route` 或调用 `createRoot()` 时导出对应 registry 的整应用。`createRoot(UserApp)` 的组件调用继续兼容。不同导出使用独立路由定义，每次挂载使用独立的 memory Router 和运行时上下文，更新 props 保留页面状态，卸载后重新挂载会创建新实例。
+
+选区在生成页面 import 之前完成。范围出口不会因为路由配置引入无关页面，但同次构建中的整应用入口、其他 exposes 或业务模块直接 import 的页面仍可能出现在 dist 中。
+
+首版要求 registry 导入、`createRoot` 调用和默认导出的 `createBridgeComponent` provider 在同一个 expose 定义文件中，每个文件定义一个应用 Root。支持导入别名、字面量和可解析的局部常量。路径不存在、包含动态参数或通配符、存在独立同路径分支、无法静态解析的选项都会产生构建错误。固定范围内部的动态子路由允许保留。
+
+显式范围使用构建期路由图，不能通过 `runtime.router.createRoutes` 替换它，运行时路由 hooks 也不能改变选区拓扑。RSC 范围导出暂不支持。
+
+服务端 Loader 继续使用 Modern 数据接口，请求指向生产者资源配置的 origin，并保留入口 base 和原路由路径。部署时该 origin 需要提供对应数据接口，跨源访问需要生产者显式配置 CORS 或通过同源代理提供接口。仅部署静态资源的 CDN 不会自动获得 Loader 服务。Bridge 在宿主服务端仍只输出占位，本能力不包含 Bridge SSR。

@@ -36,6 +36,10 @@
       "types": "./dist/types/internal.d.ts",
       "default": "./dist/esm/internal.mjs"
     },
+    "./internal/route-scope": {
+      "types": "./dist/types/core/react/scope.d.ts",
+      "default": "./dist/esm/core/react/scope.mjs"
+    },
     "./package.json": "./package.json",
     "./context": {
       "types": "./dist/types/core/context/index.d.ts",
@@ -144,6 +148,9 @@
       ],
       "internal": [
         "./dist/types/internal.d.ts"
+      ],
+      "internal/route-scope": [
+        "./dist/types/core/react/scope.d.ts"
       ],
       "loadable": [
         "./dist/types/exports/loadable.d.ts"

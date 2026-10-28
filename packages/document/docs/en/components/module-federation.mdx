@@ -115,3 +115,36 @@ module namespace with its module identity. Retry resets failed loading and insta
 state without promising a re-download or automatic business-loader replay.
 
 Modern disables dependency-based automatic Bridge router aliases by default because it manages routing itself. Explicit bridge.enableBridgeRouter configuration is preserved.
+
+## Export a Modern route scope
+
+Use `createRoot({ route })` in a dedicated expose module and pass the returned ModernRoot to `createBridgeComponent`:
+
+<!-- prettier-ignore -->
+```tsx title="src/export-product.tsx"
+import '@modern-js/runtime/registry/index'
+import { createRoot } from '@modern-js/runtime/react'
+import { render } from '@modern-js/runtime/browser'
+import { createBridgeComponent } from '@modern-js/runtime/mf'
+
+const ModernRoot = createRoot({ route: '/product' })
+
+export default createBridgeComponent({
+  rootComponent: ModernRoot,
+  render: (Component, dom) => render(Component, dom),
+})
+```
+
+Add this module to the MF `exposes` configuration. Import the registry explicitly. Multiple entries use their own registry, such as `@modern-js/runtime/registry/admin`.
+
+`route` selects a fixed producer route definition. The build retains all descendants, ancestor layouts, loaders, error boundaries, and necessary index and pathless wrappers. Unrelated sibling branches are removed before generating page imports. Original paths and route IDs remain unchanged, so `/product/detail/:id` still matches `/product/detail/42`. The selector does not specify the consumer mount path. Automatic basename inference and Host navigation synchronization are not included.
+
+Omitting `route`, including calling `createRoot()`, exports the registry's complete application. The existing `createRoot(UserApp)` component overload remains supported. Each export has its own route definition and each mount owns a separate memory router and runtime context. Props updates preserve page state, and remounting creates a fresh instance.
+
+The selected expose does not import unrelated pages through its route configuration. Those pages may still appear in dist when another entry, expose, or business import needs them.
+
+For this version, keep the registry import, `createRoot` call and default `createBridgeComponent` provider in the same expose definition module, with one application Root per module. Imported aliases, literals and resolvable local constants are supported. Missing paths, dynamic or wildcard selectors, independent same-path branches and non-static options produce build errors. Dynamic children inside a fixed scope remain supported.
+
+Explicit scopes use the build-time route graph. They cannot replace it with `runtime.router.createRoutes`, and runtime route hooks cannot change the selected topology. RSC scope exports are not supported yet.
+
+Server loaders continue using Modern data endpoints at the producer asset origin, preserving the entry base and original route paths. Deploy the matching data endpoints at that origin and configure cross-origin access explicitly, or provide a same-origin proxy. A static-only CDN does not automatically provide a loader service. Bridge still emits a placeholder on the Host server, and this feature does not enable Bridge SSR.

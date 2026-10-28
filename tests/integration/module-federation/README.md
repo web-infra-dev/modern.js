@@ -13,12 +13,13 @@ pnpm --filter mf-lab-tests test
 
 Open http://localhost:4300/. Stop the interactive lab with Ctrl+C. Add `--production` to the dev command to inspect production builds. Select an existing Chrome installation with `PUPPETEER_EXECUTABLE_PATH` when needed. `MF_LAB_VERBOSE=1` prints child-process logs.
 
-| Route       | Purpose                                                                                                            |
-| ----------- | ------------------------------------------------------------------------------------------------------------------ |
-| `/`         | Rendering comparison, CSR and SSR weather documents                                                                |
-| `/data`     | CSR, SSR, CSR with MF data and SSR with MF data                                                                    |
-| `/advanced` | Weather release replacement, data recovery, loader lifecycle, remote data sources and independent weather stations |
-| `/weather`  | Internal weather document used by the comparison and advanced frames                                               |
+| Route            | Purpose                                                                                                            |
+| ---------------- | ------------------------------------------------------------------------------------------------------------------ |
+| `/`              | Rendering comparison, CSR and SSR weather documents                                                                |
+| `/data`          | CSR, SSR, CSR with MF data and SSR with MF data                                                                    |
+| `/advanced`      | Weather release replacement, data recovery, loader lifecycle, remote data sources and independent weather stations |
+| `/route-exports` | Complete Modern application, product scope twice, orders scope, loaders, navigation and independent state          |
+| `/weather`       | Internal weather document used by the comparison and advanced frames                                               |
 
 Advanced frames select their experiment through `/weather?scenario=...`. These share the weather layout and do not add separate demo routes. Removed routes such as `/static`, `/recovery`, `/compare` and `/unified` return 404. Navigation and history are tested from the root Weather Lab.
 
@@ -70,6 +71,7 @@ The script-delay control delays the actual host entry request by 0, 1500 or 3000
 | `error-recovery.test.ts` | HTTP/render/data failures, handling events, interactive neighbors and recovery after clearing faults                                                                                                  |
 | `unified.test.ts`        | Weather expose protocols, factory/declarative Bridge stations, server placeholders, independent state, prop updates and destroy/remount through Advanced                                              |
 | `activation.test.ts`     | Real CLI activation, disabling, config/dependency errors, legacy coexistence, DTS output and native ESM builds                                                                                        |
+| `route-scope.test.ts`    | Actual compiler dependency graphs, full and selected app exports, ancestor and dynamic child loaders, error recovery, state updates and instance isolation                                            |
 
 Each browser file runs dev and production suites, retry 0, with one worker in the dedicated Rstest configuration. Every file owns a temporary source copy and writable caches. Installed packages are linked individually and are never modified by the tests. The runner starts producers before consumers, waits for HTTP readiness and cleans up after failures. Temporary workspaces keep tests independent of the interactive demo.
 

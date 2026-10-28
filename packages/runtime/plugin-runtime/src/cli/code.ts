@@ -278,6 +278,30 @@ export const generateCode = async (
           `./${entryName}/${ENTRY_POINT_RUNTIME_GLOBAL_CONTEXT_FILE_NAME}.js`,
         );
         await fs.outputFile(contextFile, contextCode, 'utf8');
+        if (!nestedRoutesEntry && !entrypoint.pageRoutesEntry) {
+          await fs.outputJSON(
+            path.join(internalDirectory, entryName, 'route-scope.json'),
+            {
+              routes: [],
+              entryName,
+              metaName,
+              basename:
+                serverRoutes.find(route => route.entryName === entryName)
+                  ?.urlPath || '/',
+              enableRsc: Boolean(config.server.rsc),
+              ssrMode: false,
+              app: formatImportPath(
+                customEntry
+                  ? entry
+                      .replace(/entry\.[tj]sx/, 'App')
+                      .replace(srcDirectory, internalSrcAlias)
+                  : entry
+                      .replace(srcDirectory, internalSrcAlias)
+                      .replace(/\.[tj]sx/, ''),
+              ),
+            },
+          );
+        }
       }
     }),
   );

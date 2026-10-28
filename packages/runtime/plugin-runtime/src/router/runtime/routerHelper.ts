@@ -1,12 +1,16 @@
-import type Module from 'module';
 import type { ShouldRevalidateFunction } from '@modern-js/runtime-utils/router';
 import { ROUTE_MODULES } from '@modern-js/utils/universal/constants';
 
 export const createShouldRevalidate = (
   routeId: string,
+  moduleCache?: Record<string, unknown>,
 ): ShouldRevalidateFunction => {
   return arg => {
-    const routeModule = window?.[ROUTE_MODULES as keyof Window]?.[routeId];
+    const routeModule = (
+      moduleCache
+        ? moduleCache[routeId]
+        : window?.[ROUTE_MODULES as keyof Window]?.[routeId]
+    ) as { shouldRevalidate?: ShouldRevalidateFunction } | undefined;
     if (routeModule && typeof routeModule.shouldRevalidate === 'function') {
       return routeModule.shouldRevalidate(arg);
     }
@@ -15,8 +19,13 @@ export const createShouldRevalidate = (
   };
 };
 
-export const handleRouteModule = (routeModule: Module, routeId: string) => {
-  if (typeof document !== 'undefined') {
+export const handleRouteModule = <T>(
+  routeModule: T,
+  routeId: string,
+  moduleCache?: Record<string, unknown>,
+) => {
+  if (moduleCache) moduleCache[routeId] = routeModule;
+  else if (typeof document !== 'undefined') {
     (window as any)[ROUTE_MODULES][routeId] = routeModule;
   }
   return routeModule;
