@@ -1,7 +1,7 @@
 {
   "name": "@scripts/prebundle",
   "private": true,
-  "version": "2.66.0",
+  "version": "0.0.0-canary-verify.r20261028-24668c8fce26002acbc4ad35ad974f8f",
   "main": "./dist/index.js",
   "scripts": {
     "dev": "tsc --watch",
@@ -10,7 +10,7 @@
   },
   "dependencies": {
     "@babel/core": "^7.29.7",
-    "@modern-js/tsconfig": "workspace:*",
+    "@modern-js/tsconfig": "workspace:0.0.0-canary-verify.r20261028-24668c8fce26002acbc4ad35ad974f8f",
     "@types/node": "^20",
     "@vercel/ncc": "0.45.0",
     "dts-packer": "0.0.3",

@@ -15,7 +15,7 @@
     "modern",
     "modern.js"
   ],
-  "version": "3.10.0",
+  "version": "0.0.0-canary-verify.r20261028-24668c8fce26002acbc4ad35ad974f8f",
   "modern:source": "./src/node.ts",
   "types": "./src/browser.ts",
   "main": "./dist/cjs/node.js",
@@ -61,8 +61,8 @@
     "test": "rstest --passWithNoTests"
   },
   "dependencies": {
-    "@modern-js/runtime-utils": "workspace:*",
-    "@modern-js/utils": "workspace:*",
+    "@modern-js/runtime-utils": "workspace:0.0.0-canary-verify.r20261028-24668c8fce26002acbc4ad35ad974f8f",
+    "@modern-js/utils": "workspace:0.0.0-canary-verify.r20261028-24668c8fce26002acbc4ad35ad974f8f",
     "@swc/helpers": "^0.5.17",
     "encoding": "^0.1.13",
     "path-to-regexp": "^6.3.0",
@@ -70,7 +70,7 @@
   },
   "devDependencies": {
     "@modern-js/rslib": "workspace:*",
-    "@modern-js/types": "workspace:*",
+    "@modern-js/types": "workspace:0.0.0-canary-verify.r20261028-24668c8fce26002acbc4ad35ad974f8f",
     "@scripts/rstest-config": "workspace:*",
     "@types/node": "^20",
     "@types/qs": "^6.15.1",

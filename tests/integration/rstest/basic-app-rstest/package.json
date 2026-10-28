@@ -1,7 +1,7 @@
 {
   "private": true,
   "name": "basic-app-rstest",
-  "version": "2.66.0",
+  "version": "0.0.0-canary-verify.r20261028-24668c8fce26002acbc4ad35ad974f8f",
   "type": "module",
   "scripts": {
     "dev": "modern dev",
@@ -11,14 +11,14 @@
     "test": "rstest"
   },
   "dependencies": {
-    "@modern-js/runtime": "workspace:*",
+    "@modern-js/runtime": "workspace:0.0.0-canary-verify.r20261028-24668c8fce26002acbc4ad35ad974f8f",
     "react": "^19.3.0",
     "react-dom": "^19.3.0"
   },
   "devDependencies": {
-    "@modern-js/app-tools": "workspace:*",
-    "@modern-js/plugin-bff": "workspace:*",
-    "@modern-js/adapter-rstest": "workspace:*",
+    "@modern-js/app-tools": "workspace:0.0.0-canary-verify.r20261028-24668c8fce26002acbc4ad35ad974f8f",
+    "@modern-js/plugin-bff": "workspace:0.0.0-canary-verify.r20261028-24668c8fce26002acbc4ad35ad974f8f",
+    "@modern-js/adapter-rstest": "workspace:0.0.0-canary-verify.r20261028-24668c8fce26002acbc4ad35ad974f8f",
     "@rstest/core": "0.12.3",
     "@testing-library/react": "^16.3.3",
     "@testing-library/jest-dom": "^6.9.1",

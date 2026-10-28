@@ -1,18 +1,18 @@
 {
   "name": "ssr-streaming-test",
-  "version": "2.66.0",
+  "version": "0.0.0-canary-verify.r20261028-24668c8fce26002acbc4ad35ad974f8f",
   "private": true,
   "scripts": {
     "dev": "modern dev"
   },
   "dependencies": {
-    "@modern-js/runtime": "workspace:*",
+    "@modern-js/runtime": "workspace:0.0.0-canary-verify.r20261028-24668c8fce26002acbc4ad35ad974f8f",
     "react": "^19.3.0",
     "react-dom": "^19.3.0"
   },
   "devDependencies": {
-    "@modern-js/app-tools": "workspace:*",
-    "@modern-js/tsconfig": "workspace:*",
+    "@modern-js/app-tools": "workspace:0.0.0-canary-verify.r20261028-24668c8fce26002acbc4ad35ad974f8f",
+    "@modern-js/tsconfig": "workspace:0.0.0-canary-verify.r20261028-24668c8fce26002acbc4ad35ad974f8f",
     "@types/react": "^19.3.0",
     "@types/react-dom": "^19.3.0",
     "typescript": "^5"

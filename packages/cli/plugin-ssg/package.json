@@ -15,7 +15,7 @@
     "modern",
     "modern.js"
   ],
-  "version": "3.10.0",
+  "version": "0.0.0-canary-verify.r20261028-24668c8fce26002acbc4ad35ad974f8f",
   "types": "./src/index.ts",
   "main": "./dist/cjs/index.js",
   "typesVersions": {
@@ -50,8 +50,8 @@
     "test": "rstest --passWithNoTests"
   },
   "dependencies": {
-    "@modern-js/prod-server": "workspace:*",
-    "@modern-js/utils": "workspace:*",
+    "@modern-js/prod-server": "workspace:0.0.0-canary-verify.r20261028-24668c8fce26002acbc4ad35ad974f8f",
+    "@modern-js/utils": "workspace:0.0.0-canary-verify.r20261028-24668c8fce26002acbc4ad35ad974f8f",
     "@swc/helpers": "^0.5.17",
     "node-mocks-http": "^1.18.1",
     "normalize-path": "3.0.0"
@@ -65,9 +65,9 @@
     }
   },
   "devDependencies": {
-    "@modern-js/app-tools": "workspace:*",
+    "@modern-js/app-tools": "workspace:0.0.0-canary-verify.r20261028-24668c8fce26002acbc4ad35ad974f8f",
     "@modern-js/rslib": "workspace:*",
-    "@modern-js/types": "workspace:*",
+    "@modern-js/types": "workspace:0.0.0-canary-verify.r20261028-24668c8fce26002acbc4ad35ad974f8f",
     "@scripts/rstest-config": "workspace:*",
     "@types/node": "^20",
     "react": "^19.3.0",

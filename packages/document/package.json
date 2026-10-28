@@ -21,13 +21,13 @@
     "build": "rs doc build",
     "preview": "rs doc preview"
   },
-  "version": "3.10.0",
+  "version": "0.0.0-canary-verify.r20261028-24668c8fce26002acbc4ad35ad974f8f",
   "publishConfig": {
     "registry": "https://registry.npmjs.org/",
     "access": "public"
   },
   "dependencies": {
-    "@modern-js/sandpack-react": "workspace:*",
+    "@modern-js/sandpack-react": "workspace:0.0.0-canary-verify.r20261028-24668c8fce26002acbc4ad35ad974f8f",
     "mermaid": "^11.17.2"
   },
   "devDependencies": {

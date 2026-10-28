@@ -1,7 +1,7 @@
 {
   "private": true,
   "name": "bff-hono",
-  "version": "2.65.2",
+  "version": "0.0.0-canary-verify.r20261028-24668c8fce26002acbc4ad35ad974f8f",
   "scripts": {
     "dev": "modern dev",
     "dev:bff": "modern dev --api-only",
@@ -11,9 +11,9 @@
     "new": "modern new"
   },
   "dependencies": {
-    "@modern-js/plugin-bff": "workspace:*",
-    "@modern-js/runtime": "workspace:*",
-    "@modern-js/server-runtime": "workspace:*",
+    "@modern-js/plugin-bff": "workspace:0.0.0-canary-verify.r20261028-24668c8fce26002acbc4ad35ad974f8f",
+    "@modern-js/runtime": "workspace:0.0.0-canary-verify.r20261028-24668c8fce26002acbc4ad35ad974f8f",
+    "@modern-js/server-runtime": "workspace:0.0.0-canary-verify.r20261028-24668c8fce26002acbc4ad35ad974f8f",
     "hono": "^4.11.7",
     "react": "^19.3.0",
     "react-dom": "^19.3.0",
@@ -22,7 +22,7 @@
     "zod": "^3.25.76"
   },
   "devDependencies": {
-    "@modern-js/app-tools": "workspace:*",
+    "@modern-js/app-tools": "workspace:0.0.0-canary-verify.r20261028-24668c8fce26002acbc4ad35ad974f8f",
     "@types/node": "^20",
     "@types/react": "^19.3.0",
     "@types/react-dom": "^19.3.0",
