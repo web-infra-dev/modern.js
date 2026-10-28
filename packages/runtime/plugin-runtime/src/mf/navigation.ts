@@ -95,12 +95,14 @@ export function connectRemoteRouter(
     options?: any,
   ) => {
     if (!active || !attached) return Promise.resolve();
-    ++revision;
+    const current = ++revision;
+    requested = undefined;
     hostPending = false;
     if (typeof to === 'number') {
       return Promise.resolve()
         .then(() => {
-          if (active) return host.navigate(to);
+          if (active && attached && current === revision)
+            return host.navigate(to);
         })
         .catch(report);
     }

@@ -13,13 +13,15 @@ pnpm --filter mf-lab-tests test
 
 Open http://localhost:4300/. Stop the interactive lab with Ctrl+C. Add `--production` to the dev command to inspect production builds. Select an existing Chrome installation with `PUPPETEER_EXECUTABLE_PATH` when needed. `MF_LAB_VERBOSE=1` prints child-process logs.
 
-| Route            | Purpose                                                                                                            |
-| ---------------- | ------------------------------------------------------------------------------------------------------------------ |
-| `/`              | Rendering comparison, CSR and SSR weather documents                                                                |
-| `/data`          | CSR, SSR, CSR with MF data and SSR with MF data                                                                    |
-| `/advanced`      | Weather release replacement, data recovery, loader lifecycle, remote data sources and independent weather stations |
-| `/route-exports` | Complete Modern application, product scope twice, orders scope, loaders, navigation and independent state          |
-| `/weather`       | Internal weather document used by the comparison and advanced frames                                               |
+| Route                          | Purpose                                                                                                            |
+| ------------------------------ | ------------------------------------------------------------------------------------------------------------------ |
+| `/`                            | Rendering comparison, CSR and SSR weather documents                                                                |
+| `/data`                        | CSR, SSR, CSR with MF data and SSR with MF data                                                                    |
+| `/advanced`                    | Weather release replacement, data recovery, loader lifecycle, remote data sources and independent weather stations |
+| `/stores/:storeId/inventory/*` | Route-mounted product application, automatic basename, host/remote navigation and independent memory cards         |
+| `/stores/:storeId/retry/*`     | One-time provider failure and retry with isolated neighboring mounts                                               |
+| `/route-exports`               | Complete Modern application, product scope twice, orders scope, loaders, navigation and independent state          |
+| `/weather`                     | Internal weather document used by the comparison and advanced frames                                               |
 
 Advanced frames select their experiment through `/weather?scenario=...`. These share the weather layout and do not add separate demo routes. Removed routes such as `/static`, `/recovery`, `/compare` and `/unified` return 404. Navigation and history are tested from the root Weather Lab.
 
@@ -41,6 +43,12 @@ The data page compares four documents. Ordinary client fetching and MF data load
 
 Advanced scenarios retain the existing raw runtime registration experiment for switching independently built weather releases. Its rendering-only expose has no data-loader sibling, preserving the original component-only experiment while using the unified consumer. This does not implement the future `updateRemotes` API or promise automatic cache invalidation. Data recovery exercises the client-loader and host-retry paths. Lifecycle compares parent updates with a remote remount and checks the no-data-loader module separately. Remote data sources compare Modern and Rslib server loaders.
 
+## Route-mounted applications
+
+`createModernReactRemote` reads the local Modern route boundary and connects that mount to host history. An E2E host basename of `/admin` and the route `/stores/:storeId/inventory/*` produce `/admin/stores/100/inventory` as the mount prefix. The producer keeps its `/product` route, so a direct URL is `/admin/stores/100/inventory/product/detail/42?tab=stock#summary`. Selecting a producer scope does not rewrite its route graph or business links.
+
+The adjacent cards use `createReactRemote` without a basename and keep independent memory navigation. The routed application exposes host and remote push/replace/history controls, dynamic store changes, props updates and mount toggling. Hash Router coverage uses a CSR host because URL fragments are unavailable during SSR. Bridge SSR remains outside this fixture's scope.
+
 ## Faults and diagnostics
 
 The comparison pages and advanced experiments expose actual remote HTTP 503, server-rendering, component-rendering, weather API and invalid-response failures. Nested weather also supports an inner remote HTTP failure. Clearing a fault reloads its isolated document. Recovery badges only appear after a real recovery path reports an event.
@@ -61,17 +69,18 @@ The script-delay control delays the actual host entry request by 0, 1500 or 3000
 
 ## E2E mapping
 
-| File                     | Coverage                                                                                                                                                                                              |
-| ------------------------ | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `rendering.test.ts`      | Ordinary SSR, remote CSS and image origins, dynamic hourly interactions, nested daily weather, nested wind, root navigation/history, removed-route 404s, custom manifests and dev remote revalidation |
-| `data-fetch.test.ts`     | Modern and Rslib data sources, host query forwarding, client/host recovery, rerender/remount, no-data-loader behavior and actual prefetch effects                                                     |
-| `comparison.test.ts`     | Two/four weather panels, raw SSR differences, local requests, script delay, Element Timing, visibility estimates and desktop bounds                                                                   |
-| `inspect.test.ts`        | Real remote identities, expandable nested chains, consistent colors, state/request preservation and data-frame inspection                                                                             |
-| `advanced.test.ts`       | Independent producer release replacement and experiment isolation                                                                                                                                     |
-| `error-recovery.test.ts` | HTTP/render/data failures, handling events, interactive neighbors and recovery after clearing faults                                                                                                  |
-| `unified.test.ts`        | Weather expose protocols, factory/declarative Bridge stations, server placeholders, independent state, prop updates and destroy/remount through Advanced                                              |
-| `activation.test.ts`     | Real CLI activation, disabling, config/dependency errors, legacy coexistence, DTS output and native ESM builds                                                                                        |
-| `route-scope.test.ts`    | Actual compiler dependency graphs, full and selected app exports, ancestor and dynamic child loaders, error recovery, state updates and instance isolation                                            |
+| File                       | Coverage                                                                                                                                                                                              |
+| -------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `rendering.test.ts`        | Ordinary SSR, remote CSS and image origins, dynamic hourly interactions, nested daily weather, nested wind, root navigation/history, removed-route 404s, custom manifests and dev remote revalidation |
+| `data-fetch.test.ts`       | Modern and Rslib data sources, host query forwarding, client/host recovery, rerender/remount, no-data-loader behavior and actual prefetch effects                                                     |
+| `comparison.test.ts`       | Two/four weather panels, raw SSR differences, local requests, script delay, Element Timing, visibility estimates and desktop bounds                                                                   |
+| `inspect.test.ts`          | Real remote identities, expandable nested chains, consistent colors, state/request preservation and data-frame inspection                                                                             |
+| `advanced.test.ts`         | Independent producer release replacement and experiment isolation                                                                                                                                     |
+| `error-recovery.test.ts`   | HTTP/render/data failures, handling events, interactive neighbors and recovery after clearing faults                                                                                                  |
+| `unified.test.ts`          | Weather expose protocols, factory/declarative Bridge stations, server placeholders, independent state, prop updates and destroy/remount through Advanced                                              |
+| `activation.test.ts`       | Real CLI activation, disabling, config/dependency errors, legacy coexistence, DTS output and native ESM builds                                                                                        |
+| `route-navigation.test.ts` | Host basename, deep links, query/hash, retained producer paths, bidirectional history, dynamic prefixes, state/props, retries, loader cancellation and memory isolation                               |
+| `route-scope.test.ts`      | Actual compiler dependency graphs, full and selected app exports, ancestor and dynamic child loaders, error recovery, state updates and instance isolation                                            |
 
 Each browser file runs dev and production suites, retry 0, with one worker in the dedicated Rstest configuration. Every file owns a temporary source copy and writable caches. Installed packages are linked individually and are never modified by the tests. The runner starts producers before consumers, waits for HTTP readiness and cleans up after failures. Temporary workspaces keep tests independent of the interactive demo.
 

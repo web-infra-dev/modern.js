@@ -191,12 +191,56 @@ it('cancels an older host navigation when a newer location returns to the curren
 it('does not forward a queued remote navigation after disconnecting', async () => {
   const router = remoteRouter('/product');
   const host = hostRouter('/inventory/product');
-  const stop = connectRemoteRouter(router, '/inventory', host.host, rstest.fn());
+  const stop = connectRemoteRouter(
+    router,
+    '/inventory',
+    host.host,
+    rstest.fn(),
+  );
   const pending = router.navigate('/product/detail/42');
   stop();
   await pending;
   await Promise.resolve();
   expect(host.calls).toHaveLength(0);
   expect(host.listeners.size).toBe(0);
+  router.dispose();
+});
+
+it('forwards the latest request when the same target is navigated synchronously twice', async () => {
+  const router = remoteRouter('/product');
+  const host = hostRouter('/inventory/product');
+  const stop = connectRemoteRouter(
+    router,
+    '/inventory',
+    host.host,
+    rstest.fn(),
+  );
+  await Promise.all([
+    router.navigate('/product/detail/42'),
+    router.navigate('/product/detail/42', { replace: true }),
+  ]);
+  await waitFor(() =>
+    expect(host.calls).toEqual([
+      { to: '/inventory/product/detail/42', replace: true },
+    ]),
+  );
+  stop();
+  router.dispose();
+});
+
+it('does not forward queued history intent after the host leaves the mount', async () => {
+  const router = remoteRouter('/product');
+  const host = hostRouter('/inventory/product');
+  const stop = connectRemoteRouter(
+    router,
+    '/inventory',
+    host.host,
+    rstest.fn(),
+  );
+  const pending = router.navigate(-1);
+  host.update('/dashboard');
+  await pending;
+  expect(host.calls).toHaveLength(0);
+  stop();
   router.dispose();
 });

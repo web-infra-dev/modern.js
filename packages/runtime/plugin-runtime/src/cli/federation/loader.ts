@@ -1,5 +1,5 @@
 import path from 'node:path';
-import { createHash } from 'node:crypto';
+import { createHash, randomUUID } from 'node:crypto';
 import { parseSync, printSync } from '@swc/core';
 import type {
   Entrypoint,
@@ -30,8 +30,17 @@ interface ScopeGraph extends Omit<
 }
 
 async function output(filename: string, content: string) {
-  if ((await fs.readFile(filename, 'utf8').catch(() => undefined)) !== content)
-    await fs.outputFile(filename, content);
+  if ((await fs.readFile(filename, 'utf8').catch(() => undefined)) === content)
+    return;
+  // Exposes of the same scope can generate this module concurrently. Publish
+  // complete files so the compiler never caches an empty or partial module.
+  const temporary = `${filename}.${randomUUID()}.tmp`;
+  try {
+    await fs.outputFile(temporary, content);
+    await fs.rename(temporary, filename);
+  } finally {
+    await fs.remove(temporary);
+  }
 }
 
 /** An expose-only resource variant keeps ordinary imports of the source intact. */
@@ -77,6 +86,7 @@ export default async function loader(
       routes,
       internalDirectory: directory,
       isolated: true,
+      writeOutput: output,
     });
     await output(path.join(directory, 'routes.js'), scopedCode);
     const runtimeFile = path.join(
