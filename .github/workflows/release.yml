@@ -1,5 +1,15 @@
 name: Modern.js Release
 
+# The publish half of a release. The packages were built, tested and packed by
+# release-build.yml on the staging branch, and everything downstream - EdenX in
+# another repository among it - was built and tested against those exact
+# tarballs before this branch was ever created. This workflow therefore builds
+# nothing: it re-verifies the prepared source and the plan, fetches the
+# artifacts that one build produced for this very commit, and publishes them.
+#
+# This file stays the one npm trusts, so the publishing identity does not move
+# and the per-package Trusted Publishing bindings keep working.
+
 on:
   push:
     # One prefix per release channel. The prefix is not a label: the plan on the
@@ -24,79 +34,13 @@ concurrency:
   cancel-in-progress: false
 
 jobs:
-  build:
-    if: startsWith(github.ref, 'refs/heads/release-')
-    runs-on: ubuntu-24.04
-    timeout-minutes: 90
-    permissions:
-      contents: read
-    outputs:
-      plan_hash: ${{ steps.plan.outputs.plan_hash }}
-      release_id: ${{ steps.plan.outputs.release_id }}
-    steps:
-      - name: Checkout exact source
-        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
-        with:
-          ref: ${{ github.sha }}
-          fetch-depth: 0
-          persist-credentials: false
-      - name: Set up Node
-        uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020
-        with:
-          node-version: '24.21.0'
-      - name: Install pinned pnpm
-        run: npm install --global pnpm@10.13.1 --ignore-scripts
-      - name: Test canary contracts
-        run: node --test scripts/canary-release/*.test.mjs
-      - name: Verify prepared source and plan
-        id: plan
-        env:
-          EXPECTED_PLAN_HASH: ${{ inputs.expected_plan_hash }}
-        run: node scripts/canary-release/release.mjs verify --expected-plan-hash "$EXPECTED_PLAN_HASH"
-      - name: Install dependencies with native scripts
-        run: node scripts/canary-release/release.mjs install
-      - name: Test real Changesets and pnpm packing contracts
-        env:
-          CANARY_TEST_TOOLCHAIN: .
-        run: node --test scripts/canary-release/prepare.test.mjs
-      - name: Build packages
-        run: pnpm run prepare-build
-      - name: Unit tests
-        run: pnpm run test:ut
-      - name: Build documentation
-        run: pnpm run build:docs
-      - name: Check documentation bundle
-        run: pnpm run check-doc-bundle
-      - name: Pack and verify all canary tarballs
-        env:
-          EXPECTED_PLAN_HASH: ${{ steps.plan.outputs.plan_hash }}
-        run: node scripts/canary-release/release.mjs pack --expected-plan-hash "$EXPECTED_PLAN_HASH"
-      - name: Upload verified tarballs and manifest
-        # Verified via GitHub API: actions/upload-artifact git/ref/tags/v4.
-        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
-        with:
-          name: canary-tarballs-${{ github.run_id }}-${{ github.run_attempt }}
-          path: .release/artifacts/*
-          include-hidden-files: true
-          if-no-files-found: error
-          retention-days: 14
-          compression-level: 0
-      - name: Upload manifest for the trigger client
-        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
-        with:
-          name: canary-manifest-${{ steps.plan.outputs.release_id }}
-          path: .release/artifacts/manifest.json
-          include-hidden-files: true
-          if-no-files-found: error
-          retention-days: 30
-
   publish:
-    needs: build
     if: startsWith(github.ref, 'refs/heads/release-')
     runs-on: ubuntu-24.04
     timeout-minutes: 45
     permissions:
       contents: read
+      actions: read
       id-token: write
     steps:
       - name: Checkout exact source
@@ -111,15 +55,39 @@ jobs:
           node-version: '24.21.0'
       - name: Install pinned clients without repository dependencies
         run: npm install --global npm@11.21.0 pnpm@10.13.1 --ignore-scripts
-      - name: Download this run's verified artifacts
+      - name: Test canary contracts
+        run: node --test scripts/canary-release/*.test.mjs
+      - name: Verify prepared source and plan
+        id: plan
+        env:
+          EXPECTED_PLAN_HASH: ${{ inputs.expected_plan_hash }}
+        run: node scripts/canary-release/release.mjs verify --expected-plan-hash "$EXPECTED_PLAN_HASH"
+      - name: Find the build that packed this exact commit
+        id: build
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+        run: node scripts/canary-release/release.mjs locate-build
+      - name: Download that build's verified artifacts
         # Verified via GitHub API: actions/download-artifact git/ref/tags/v4.
         uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093
         with:
-          name: canary-tarballs-${{ github.run_id }}-${{ github.run_attempt }}
+          name: canary-tarballs-${{ steps.build.outputs.build_run_id }}-${{ steps.build.outputs.build_run_attempt }}
           path: .release/artifacts
+          run-id: ${{ steps.build.outputs.build_run_id }}
+          github-token: ${{ github.token }}
+      - name: Upload the manifest for the trigger client
+        # The client reads what was published from the run that published it,
+        # so this travels with the publish as well as with the build.
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: canary-manifest-${{ steps.plan.outputs.release_id }}
+          path: .release/artifacts/manifest.json
+          include-hidden-files: true
+          if-no-files-found: error
+          retention-days: 30
       - name: Verify all artifacts and publish through OIDC
         env:
-          EXPECTED_PLAN_HASH: ${{ needs.build.outputs.plan_hash }}
+          EXPECTED_PLAN_HASH: ${{ steps.plan.outputs.plan_hash }}
         run: node scripts/canary-release/release.mjs publish --expected-plan-hash "$EXPECTED_PLAN_HASH"
       - name: Persist publish receipts even on partial failure
         if: always()
