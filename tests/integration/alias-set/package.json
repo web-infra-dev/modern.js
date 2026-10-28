@@ -1,18 +1,18 @@
 {
   "private": true,
   "name": "@integration-test/alias-set",
-  "version": "2.66.0",
+  "version": "0.0.0-canary-verify.r20261028-bfae325bdd7f87a3c867cb4124d8f84d",
   "scripts": {
     "dev": "modern dev",
     "build": "modern build"
   },
   "dependencies": {
-    "@modern-js/runtime": "workspace:*",
+    "@modern-js/runtime": "workspace:0.0.0-canary-verify.r20261028-bfae325bdd7f87a3c867cb4124d8f84d",
     "react": "^19.3.0",
     "react-dom": "^19.3.0"
   },
   "devDependencies": {
-    "@modern-js/app-tools": "workspace:*",
+    "@modern-js/app-tools": "workspace:0.0.0-canary-verify.r20261028-bfae325bdd7f87a3c867cb4124d8f84d",
     "@types/node": "^20",
     "@types/react": "^19.3.0",
     "@types/react-dom": "^19.3.0",
