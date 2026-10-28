@@ -33,7 +33,7 @@ Ordinary and nested weather consumers call `createReactRemote` with registered `
 
 Runtime registration and prefetch continue using Enhanced and the existing data-prefetch plugin. The fixture does not call the old `createLazyComponent` consumer API. Each producer has one canonical runtime name with an alias. Registering the same container under multiple names would evaluate a second server entry against an existing instance and can break remote chunk initialization.
 
-The MF dependencies are pinned to published preview `0.0.0-feat-enhanced-runtime-unification-20261027114159`, which contains the unified consumers and per-expose protocol metadata. Keep the integration, examples and runtime peer versions aligned. Validate the registry packages without local overrides when updating these pins.
+The MF dependencies are pinned to published preview `0.0.0-feat-bridge-route-navigation-20261028125233`, which contains the unified consumers and per-expose protocol metadata. Keep the integration, examples and runtime peer versions aligned. Validate the registry packages without local overrides when updating these pins.
 
 ## Weather scenarios
 
