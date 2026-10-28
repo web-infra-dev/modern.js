@@ -5,6 +5,7 @@ import {
   removeBasename,
   connectRemoteRouter,
   routerLocation,
+  translateLocation,
 } from '../../src/mf/navigation';
 
 const waitFor = rstest.waitFor;
@@ -243,4 +244,87 @@ it('does not forward queued history intent after the host leaves the mount', asy
   expect(host.calls).toHaveLength(0);
   stop();
   router.dispose();
+});
+
+it('mounts a selected application at the consumer path without exposing its selector', async () => {
+  const host = hostRouter(
+    '/admin/stores/100/inventory/detail/42?tab=stock#summary',
+  );
+  const router = remoteRouter();
+  const errors = rstest.fn();
+  const stop = connectRemoteRouter(
+    router,
+    '/admin/stores/100/inventory',
+    host.host,
+    errors,
+    '/product',
+  );
+  try {
+    await waitFor(() =>
+      expect(routerLocation(router)).toBe(
+        '/product/detail/42?tab=stock#summary',
+      ),
+    );
+    host.update('/admin/stores/100/inventory/detail/43?tab=price#chart');
+    await waitFor(() =>
+      expect(routerLocation(router)).toBe('/product/detail/43?tab=price#chart'),
+    );
+    expect(host.calls).toHaveLength(0);
+    await router.navigate('/product/detail/44', { replace: true });
+    expect(host.calls).toEqual([
+      { to: '/admin/stores/100/inventory/detail/44', replace: true },
+    ]);
+    await router.navigate('/orders');
+    expect(host.calls).toHaveLength(1);
+    expect(errors).not.toHaveBeenCalled();
+  } finally {
+    stop();
+    router.dispose();
+  }
+});
+
+it('maps a selected application home, producer redirect and host history without repeating the selector', async () => {
+  const host = hostRouter('/inventory?tab=stock#summary');
+  const router = remoteRouter('/product?tab=stock#summary');
+  const stop = connectRemoteRouter(
+    router,
+    '/inventory',
+    host.host,
+    rstest.fn(),
+    '/product',
+  );
+  try {
+    expect(routerLocation(router)).toBe('/product?tab=stock#summary');
+    host.update('/inventory/redirect');
+    await waitFor(() =>
+      expect(host.host.getLocation()).toBe('/inventory/detail/99'),
+    );
+    await router.navigate(-1);
+    expect(host.calls.at(-1)).toEqual({ to: -1, replace: undefined });
+  } finally {
+    stop();
+    router.dispose();
+  }
+});
+
+it('translates complete path segments and retains query, hash and encoding', () => {
+  expect(
+    translateLocation(
+      '/inventory/detail/a%2Fb?tab=a/b#chart',
+      '/inventory',
+      '/product',
+    ),
+  ).toBe('/product/detail/a%2Fb?tab=a/b#chart');
+  expect(
+    translateLocation('/product?tab=stock#summary', '/product', '/inventory'),
+  ).toBe('/inventory?tab=stock#summary');
+  expect(
+    translateLocation('/product-other/detail/42', '/product', '/inventory'),
+  ).toBeUndefined();
+  expect(translateLocation('/detail/42', '/', '/inventory')).toBe(
+    '/inventory/detail/42',
+  );
+  expect(translateLocation('/inventory', '/inventory', '/product')).toBe(
+    '/product',
+  );
 });

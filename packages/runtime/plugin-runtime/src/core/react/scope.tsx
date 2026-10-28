@@ -2,7 +2,7 @@ import { useBridgeRouter } from '@module-federation/bridge-react/base';
 import {
   addBasename,
   connectRemoteRouter,
-  removeBasename,
+  translateLocation,
 } from '../../mf/navigation';
 import type { NestedRoute, PageRoute } from '@modern-js/types';
 import React, { useContext, useEffect, useState } from 'react';
@@ -84,7 +84,13 @@ export function createScopedRoot(
       const mount = { basename: navigation ? basename : '/', navigation };
       context._routeScope = {
         projectHref: href => {
-          const target = addBasename(href, mount.basename);
+          const target = mount.navigation
+            ? (translateLocation(
+                href,
+                definition.route || '/',
+                mount.basename,
+              ) ?? addBasename(href, mount.basename))
+            : href;
           return mount.navigation?.createHref?.(target) ?? target;
         },
         config: {
@@ -94,7 +100,11 @@ export function createScopedRoot(
         initialUrl:
           bridge?.memoryRoute?.entryPath ??
           (navigation
-            ? (removeBasename(navigation.getLocation(), basename) ??
+            ? (translateLocation(
+                navigation.getLocation(),
+                basename,
+                definition.route || '/',
+              ) ??
               definition.route ??
               '/')
             : definition.route || '/'),
@@ -146,6 +156,7 @@ export function createScopedRoot(
           context={instance.context}
           basename={basename}
           navigation={navigation}
+          selectedRoute={definition.route}
           onError={setFailure}
         />
       </ScopedRootPropsContext.Provider>,
@@ -188,17 +199,25 @@ function ScopeNavigation({
   context,
   basename,
   navigation,
+  selectedRoute,
   onError,
 }: {
   context: ReturnType<typeof getInitialContext>;
   basename: string;
   navigation: NonNullable<ReturnType<typeof useBridgeRouter>>['navigation'];
+  selectedRoute?: string;
   onError: (error: unknown) => void;
 }) {
   useEffect(() => {
     const router = context._routeScope?.router;
     if (router && navigation)
-      return connectRemoteRouter(router, basename, navigation, onError);
-  }, [context, basename, navigation, onError]);
+      return connectRemoteRouter(
+        router,
+        basename,
+        navigation,
+        onError,
+        selectedRoute,
+      );
+  }, [context, basename, navigation, onError, selectedRoute]);
   return null;
 }

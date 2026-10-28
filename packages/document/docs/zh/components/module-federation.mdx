@@ -123,7 +123,7 @@ export default createBridgeComponent({
 
 将该文件加入 MF 配置的 `exposes`。registry 仍由用户显式导入，多入口使用各自的 registry，例如 `@modern-js/runtime/registry/admin`。
 
-`route` 是生产者的固定路由定义路径。构建时保留该节点全部子路由，以及祖先 Layout、Loader、错误边界和必要的 index、无路径包装，移除无关兄弟分支。范围内部的原始路径和 route ID 不变，`/product/detail/:id` 仍匹配 `/product/detail/42`。`route` 不指定消费者的挂载路径，消费者可通过下文的 Modern 路由消费入口自动计算 basename 并同步导航。
+`route` 是生产者的固定路由定义路径。构建时保留该节点全部子路由，以及祖先 Layout、Loader、错误边界和必要的 index、无路径包装，移除无关兄弟分支。`route` 只选择导出内容，生产者原有路由定义、route ID 和单独运行行为不变，也不新增生产者 basename。选中的内容作为一个应用交给消费者，挂载方式与导出完整应用一致。消费者可通过下文的 Modern 路由消费入口自动计算 basename 并同步导航。
 
 省略 `route` 或调用 `createRoot()` 时导出对应 registry 的整应用。`createRoot(UserApp)` 的组件调用继续兼容。不同导出使用独立路由定义，每次挂载使用独立的 memory Router 和运行时上下文，更新 props 保留页面状态，卸载后重新挂载会创建新实例。
 
@@ -148,7 +148,7 @@ export default createModernReactRemote({
 })
 ```
 
-它在组件渲染时读取当前局部路由匹配，自动计算挂载 basename，并同步 Host 与远程应用的导航。Host Router basename 为 `/admin` 时，访问 `/admin/stores/100/inventory/product/detail/42?tab=stock#summary` 得到挂载前缀 `/admin/stores/100/inventory`。动态参数使用当前实际匹配值，无路径 Layout 和 index 不增加路径段，通配符匹配的尾部不计入前缀。用户仍需为远程子路径配置通配路由。
+它在组件渲染时读取当前局部路由匹配，自动计算挂载 basename，并同步 Host 与远程应用的导航。Host Router basename 为 `/admin` 时，访问 `/admin/stores/100/inventory/detail/42?tab=stock#summary` 得到挂载前缀 `/admin/stores/100/inventory`。动态参数使用当前实际匹配值，无路径 Layout 和 index 不增加路径段，通配符匹配的尾部不计入前缀。用户仍需为远程子路径配置通配路由。
 
 `useRemoteBasename()` 提供同一计算能力。显式传入的 basename 优先于自动计算，basename 是包含 Host Router basename 的完整路径前缀：
 
@@ -166,9 +166,11 @@ export default function Page() {
 
 ### 生产者的路由责任
 
-`createRoot({ route: '/product' })` 只选择生产者导出范围，不决定消费者的挂载位置。框架保留原始路由定义，不将选区路径自动改成 `/`，不删除业务导航中的 `/product`，也不提供保留原始前缀的配置开关。
+`createRoot({ route: '/product' })` 只决定导出哪个应用内容，挂载路径由消费者决定。它不设置生产者 basename，也不改变生产者原应用的路由行为。
 
-例如，保留 `/product/detail/:id` 的导出应用挂在 `/inventory` 后，对应浏览器地址 `/inventory/product/detail/42`，内部路由地址为 `/product/detail/42`。它不会自动变成 `/inventory/detail/42`。若需要后一种地址，生产者作者需要自行保证路由定义与挂载方式匹配。
+例如，导出 `/product` 范围后挂到 `/inventory`，详情页的浏览器地址为 `/inventory/detail/42`。框架在挂载边界将该地址对应到原路由图中的 `/product/detail/42`，反向导航也使用消费者路径。选区信息已存在于该导出的应用定义中，消费者无需再传 `/product`，manifest 和 Snapshot 也不新增路径字段。祖先 Layout、Loader 和页面状态继续保留。
+
+生产者单独运行时仍使用原地址 `/product/detail/42`。框架只处理应用挂载边界，不改写业务源码。
 
 可复用的生产者应优先使用相对 Link、navigate 和 redirect，并自行适配依赖 basename 或 pathname 的逻辑。相对导航解决地址生成，不能替代路由表自身的匹配。框架不会扫描或改写写死的绝对路径，无法匹配的路径按正常路由错误处理。
 

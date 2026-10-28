@@ -16,7 +16,7 @@ export default function StoreLayout() {
   const location = useLocation();
   const navigate = useNavigate();
   const { storeId } = useParams();
-  const root = `/stores/${storeId}/inventory/product`;
+  const root = `/stores/${storeId}/inventory`;
   return (
     <main>
       <h1>Store inventory routing</h1>
@@ -47,7 +47,7 @@ export default function StoreLayout() {
       <button
         data-testid="route-host-store"
         onClick={() =>
-          navigate('/stores/200/inventory/product/detail/42?tab=stock#summary')
+          navigate('/stores/200/inventory/detail/42?tab=stock#summary')
         }
       >
         Change store

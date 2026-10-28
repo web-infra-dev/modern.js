@@ -6,10 +6,29 @@ const remoteLocation = `${main} [data-testid="route-remote-location"]`;
 describeLab(
   'Modern route-mounted applications',
   getContext => {
+    it('keeps the producer standalone route and relative links unchanged', async () => {
+      const { page, lab } = getContext();
+      await page.goto(
+        `http://localhost:${lab.ports.provider}/product/detail/42?tab=stock`,
+        { waitUntil: 'networkidle0' },
+      );
+      await page.waitForSelector('[data-testid="scope-detail"]');
+      expect(
+        await page.$eval(
+          '[data-testid="scope-detail"]',
+          node => node.textContent,
+        ),
+      ).toContain('Weather station 42');
+      expect(new URL(page.url()).pathname).toBe('/product/detail/42');
+      await page.click('[data-testid="scope-product-link"]');
+      await page.waitForSelector('[data-testid="scope-product-list"]');
+      expect(new URL(page.url()).pathname).toBe('/product');
+    });
+
     it('deep-links with basename, query and hash while keeping memory cards isolated', async () => {
       const { page, visit } = getContext();
       await visit(
-        `${prefix.slice(1)}/product/detail/42?tab=stock#summary`,
+        `${prefix.slice(1)}/detail/42?tab=stock#summary`,
         'route-remote-location',
       );
       expect(await page.$eval(remoteLocation, node => node.textContent)).toBe(
@@ -19,7 +38,7 @@ describeLab(
         await page.$eval(`${main} [data-testid="scope-product-link"]`, node =>
           node.getAttribute('href'),
         ),
-      ).toBe(`${prefix}/product`);
+      ).toBe(prefix);
       await page.waitForSelector(
         '[data-testid="route-card-b"] [data-testid="scope-product-list"]',
       );
@@ -29,9 +48,7 @@ describeLab(
       await page.waitForSelector(
         '[data-testid="route-card-a"] [data-testid="scope-detail"]',
       );
-      expect(page.url()).toContain(
-        `${prefix}/product/detail/42?tab=stock#summary`,
-      );
+      expect(page.url()).toContain(`${prefix}/detail/42?tab=stock#summary`);
       expect(
         await page.$(
           '[data-testid="route-card-b"] [data-testid="scope-product-list"]',
@@ -42,11 +59,14 @@ describeLab(
           '[data-testid="route-orders"] [data-testid="scope-orders"]',
         ),
       ).not.toBeNull();
+      await page.click(`${main} [data-testid="scope-product-link"]`);
+      await page.waitForSelector(`${main} [data-testid="scope-product-list"]`);
+      expect(new URL(page.url()).pathname).toBe(prefix);
     });
 
-    it('keeps producer route paths intact instead of silently removing the selected prefix', async () => {
+    it('treats the selector as the exported root and rejects a repeated selector in the host URL', async () => {
       const { page, visit } = getContext();
-      await visit(`${prefix.slice(1)}/detail/42`, 'route-main');
+      await visit(`${prefix.slice(1)}/product/detail/42`, 'route-main');
       await page.waitForFunction(
         selector =>
           document.querySelector(selector)?.textContent?.includes('404'),
@@ -54,7 +74,7 @@ describeLab(
         main,
       );
       expect(await page.$(remoteLocation)).toBeNull();
-      expect(page.url()).toContain(`${prefix}/detail/42`);
+      expect(page.url()).toContain(`${prefix}/product/detail/42`);
       expect(
         await page.$(
           '[data-testid="route-card-b"] [data-testid="scope-product-list"]',
@@ -65,7 +85,7 @@ describeLab(
     it('synchronizes push, replace, both history directions and remote history intent', async () => {
       const { page, visit, click } = getContext();
       await visit(
-        `${prefix.slice(1)}/product/detail/42?tab=stock#summary`,
+        `${prefix.slice(1)}/detail/42?tab=stock#summary`,
         'route-remote-location',
       );
       const historySize = await page.evaluate(() => history.length);
@@ -90,7 +110,7 @@ describeLab(
       await page.click(`${main} [data-testid="route-remote-next"]`);
       await page.waitForFunction(
         () =>
-          location.pathname.endsWith('/product/detail/43') &&
+          location.pathname.endsWith('/detail/43') &&
           location.search === '?tab=remote' &&
           location.hash === '#forecast',
       );
@@ -98,7 +118,7 @@ describeLab(
       await page.click(`${main} [data-testid="route-remote-replace"]`);
       await page.waitForFunction(
         () =>
-          location.pathname.endsWith('/product/detail/44') &&
+          location.pathname.endsWith('/detail/44') &&
           location.search === '?tab=remote-replace',
       );
       expect(await page.evaluate(() => history.length)).toBe(historySize + 2);
@@ -130,10 +150,7 @@ describeLab(
 
     it('preserves state through props and dynamic mount updates, then cleans up on unmount', async () => {
       const { page, visit, click } = getContext();
-      await visit(
-        `${prefix.slice(1)}/product/detail/42`,
-        'route-remote-location',
-      );
+      await visit(`${prefix.slice(1)}/detail/42`, 'route-remote-location');
       await page.click(`${main} [data-testid="scope-count"]`);
       await click('route-props');
       await page.waitForFunction(
@@ -159,11 +176,10 @@ describeLab(
         await page.$eval(`${main} [data-testid="scope-product-link"]`, node =>
           node.getAttribute('href'),
         ),
-      ).toBe('/admin/stores/200/inventory/product');
+      ).toBe('/admin/stores/200/inventory');
       await page.click(`${main} [data-testid="route-remote-next"]`);
       await page.waitForFunction(
-        () =>
-          location.pathname === '/admin/stores/200/inventory/product/detail/43',
+        () => location.pathname === '/admin/stores/200/inventory/detail/43',
       );
       await click('route-toggle');
       await page.waitForFunction(
@@ -185,10 +201,7 @@ describeLab(
 
     it('aborts an in-flight loader when its instance is unmounted', async () => {
       const { page, visit, click, lab } = getContext();
-      await visit(
-        `${prefix.slice(1)}/product/detail/42`,
-        'route-remote-location',
-      );
+      await visit(`${prefix.slice(1)}/detail/42`, 'route-remote-location');
       await page.setRequestInterception(true);
       let release!: () => Promise<void>;
       const loading = new Promise<void>(resolve => {
@@ -236,7 +249,7 @@ describeLab(
     it('retries a failed provider without affecting independent mounts', async () => {
       const { page, visit } = getContext();
       await visit(
-        'admin/stores/100/retry/product/detail/42?tab=stock#summary',
+        'admin/stores/100/retry/detail/42?tab=stock#summary',
         'route-retry',
       );
       expect(
@@ -266,7 +279,7 @@ describeLab(
     it('uses logical locations for deep links, remote navigation and browser history', async () => {
       const { page, lab } = getContext();
       await page.goto(
-        `${lab.url}/#/admin/stores/100/inventory/product/detail/42?tab=stock#summary`,
+        `${lab.url}/#/admin/stores/100/inventory/detail/42?tab=stock#summary`,
         { waitUntil: 'networkidle0' },
       );
       await page.waitForSelector(remoteLocation);
@@ -277,12 +290,12 @@ describeLab(
         await page.$eval(`${main} [data-testid="scope-product-link"]`, node =>
           node.getAttribute('href'),
         ),
-      ).toBe('#/admin/stores/100/inventory/product');
+      ).toBe('#/admin/stores/100/inventory');
       await page.click(`${main} [data-testid="route-remote-next"]`);
       await page.waitForFunction(
         () =>
           location.hash ===
-          '#/admin/stores/100/inventory/product/detail/43?tab=remote#forecast',
+          '#/admin/stores/100/inventory/detail/43?tab=remote#forecast',
       );
       await page.goBack();
       await page.waitForFunction(

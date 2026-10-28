@@ -27,6 +27,16 @@ export function addBasename(url: string, basename: string) {
   return base === '/' ? url : `${base}${url}`;
 }
 
+/** Translate between a selected application's original paths and its host mount. */
+export function translateLocation(url: string, from: string, to: string) {
+  const suffix = removeBasename(url, from);
+  if (suffix === undefined) return;
+  const destination = normalizeBasename(to);
+  if (destination === '/') return suffix;
+  // A selected application root maps to the mount itself, including query/hash.
+  return `${destination}${suffix === '/' ? '' : /^\/[?#]/.test(suffix) ? suffix.slice(1) : suffix}`;
+}
+
 export function routerLocation(router: DataRouter) {
   const { pathname, search, hash } = router.state.location;
   return `${pathname}${search}${hash}`;
@@ -38,6 +48,7 @@ export function connectRemoteRouter(
   basename: string,
   host: BridgeNavigation,
   onError: (error: unknown) => void,
+  selectedRoute = '/',
 ) {
   let active = true;
   let revision = 0;
@@ -56,8 +67,17 @@ export function connectRemoteRouter(
       router.state.navigation.state !== 'idle'
     )
       return;
-    const target = addBasename(routerLocation(router), basename);
-    if (target === host.getLocation() || target === requested) return;
+    const target = translateLocation(
+      routerLocation(router),
+      selectedRoute,
+      basename,
+    );
+    if (
+      target === undefined ||
+      target === host.getLocation() ||
+      target === requested
+    )
+      return;
     requested = target;
     const current = revision;
     Promise.resolve()
@@ -69,7 +89,11 @@ export function connectRemoteRouter(
   };
   const sync = () => {
     if (!active) return;
-    const target = removeBasename(host.getLocation(), basename);
+    const target = translateLocation(
+      host.getLocation(),
+      basename,
+      selectedRoute,
+    );
     attached = target !== undefined;
     requested = undefined;
     const current = ++revision;

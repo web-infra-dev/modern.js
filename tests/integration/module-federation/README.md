@@ -45,7 +45,7 @@ Advanced scenarios retain the existing raw runtime registration experiment for s
 
 ## Route-mounted applications
 
-`createModernReactRemote` reads the local Modern route boundary and connects that mount to host history. An E2E host basename of `/admin` and the route `/stores/:storeId/inventory/*` produce `/admin/stores/100/inventory` as the mount prefix. The producer keeps its `/product` route, so a direct URL is `/admin/stores/100/inventory/product/detail/42?tab=stock#summary`. Selecting a producer scope does not rewrite its route graph or business links.
+`createModernReactRemote` reads the local Modern route boundary and connects that mount to host history. An E2E host basename of `/admin` and the route `/stores/:storeId/inventory/*` produce `/admin/stores/100/inventory` as the mount prefix. A direct URL is `/admin/stores/100/inventory/detail/42?tab=stock#summary`. The `/product` selector only chooses exported application content. The mount maps this URL to `/product/detail/42?tab=stock#summary` in the original route graph without adding a producer basename or changing standalone behavior. Business navigation uses relative links and remains the producer's responsibility.
 
 The adjacent cards use `createReactRemote` without a basename and keep independent memory navigation. The routed application exposes host and remote push/replace/history controls, dynamic store changes, props updates and mount toggling. Hash Router coverage uses a CSR host because URL fragments are unavailable during SSR. Bridge SSR remains outside this fixture's scope.
 
