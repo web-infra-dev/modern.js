@@ -2,9 +2,8 @@ import fs from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 import mcpAppsPackage from '../../mcp-apps/package.json';
-import mcpPluginPackage from '../../../cli/plugin-mcp-apps/package.json';
 
-type Template = 'app' | 'mcp-apps' | 'mcp-server';
+type Template = 'app' | 'mcp-apps';
 
 export function parseTemplate(args: string[]): Template {
   const values: string[] = [];
@@ -15,9 +14,9 @@ export function parseTemplate(args: string[]): Template {
   }
   if (
     values.length > 1 ||
-    (values.length && !['app', 'mcp-apps', 'mcp-server'].includes(values[0]))
+    (values.length && !['app', 'mcp-apps'].includes(values[0]))
   ) {
-    throw new Error('--template must be one of: app, mcp-apps, mcp-server');
+    throw new Error('--template must be one of: app, mcp-apps');
   }
   return (values[0] ?? 'app') as Template;
 }
@@ -35,16 +34,11 @@ export function createProject(
   },
 ) {
   const { template, mf } = options;
-  const isMcp = template !== 'app';
-  const hasUi = template !== 'mcp-server';
+  const isMcp = template === 'mcp-apps';
   const data = {
     ...options,
     isMcp,
-    hasUi,
-    isMcpUi: template === 'mcp-apps',
-    isMcpServer: template === 'mcp-server',
     mcpAppsVersion: mcpAppsPackage.version,
-    mcpPluginVersion: mcpPluginPackage.version,
   };
   const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
   copyTemplate(path.join(root, 'template'), targetDir, data);
@@ -124,7 +118,6 @@ function copyTemplate(
           )
         )
           continue;
-        if (!data.hasUi && relative === 'src') continue;
       }
       const srcPath = path.join(srcDir, entry.name);
       let destPath = path.join(destDir, entry.name);
@@ -141,9 +134,6 @@ function copyTemplate(
           let rendered = renderTemplate(templateContent, data);
           if (entry.name === 'tsconfig.json' && data.isMcp) {
             const config = JSON.parse(rendered);
-            config.include = config.include.filter(
-              (item: string) => data.hasUi || item !== 'src',
-            );
             config.include.push('api');
             config.compilerOptions.module = 'NodeNext';
             config.compilerOptions.moduleResolution = 'NodeNext';

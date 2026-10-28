@@ -12,7 +12,7 @@ afterEach(() => {
   fs.rmSync(workdir, { recursive: true, force: true });
 });
 
-it.each(['mcp-apps', 'mcp-apps-mf', 'mcp-server'])(
+it.each(['mcp-apps', 'mcp-apps-mf'])(
   'scaffolds %s with official SDK routes',
   variant => {
     const mf = variant === 'mcp-apps-mf';
@@ -22,7 +22,7 @@ it.each(['mcp-apps', 'mcp-apps-mf', 'mcp-server'])(
         bin,
         'app',
         '--template',
-        mf ? 'mcp-apps' : variant,
+        'mcp-apps',
         ...(mf ? ['--mf'] : []),
         '--no-agents-md',
       ],
@@ -41,9 +41,7 @@ it.each(['mcp-apps', 'mcp-apps-mf', 'mcp-server'])(
     expect(route).toContain('new McpServer(');
     expect(route).toContain('createBffHandlers(createServer)');
     expect(fs.existsSync(path.join(directory, 'mcp_apps.ts'))).toBe(false);
-    expect(fs.existsSync(path.join(directory, 'mcp-views.json'))).toBe(
-      variant !== 'mcp-server',
-    );
+    expect(fs.existsSync(path.join(directory, 'mcp-views.json'))).toBe(true);
     expect(
       fs.existsSync(path.join(directory, 'module-federation.config.ts')),
     ).toBe(mf);
@@ -51,15 +49,15 @@ it.each(['mcp-apps', 'mcp-apps-mf', 'mcp-server'])(
       JSON.parse(fs.readFileSync(path.join(directory, 'tsconfig.json'), 'utf8'))
         .include,
     ).toContain('api');
-    if (variant !== 'mcp-server') {
-      expect(
-        fs.readFileSync(
-          path.join(directory, 'src/components/Todos.tsx'),
-          'utf8',
-        ),
-      ).toContain('McpViewProps');
-      expect(pkg.devDependencies['@modern-js/plugin-mcp-apps']).toBeDefined();
-    }
+    expect(
+      fs.readFileSync(path.join(directory, 'src/components/Todos.tsx'), 'utf8'),
+    ).toContain('McpViewProps');
+    expect(
+      fs.readFileSync(path.join(directory, 'modern.config.ts'), 'utf8'),
+    ).toContain("from '@modern-js/mcp-apps/cli'");
+    expect(pkg.dependencies['@modern-js/mcp-apps']).toMatch(/^\d/);
+    expect(pkg.devDependencies['@modern-js/plugin-mcp-apps']).toBeUndefined();
+    expect(pkg.scripts.inspect).toBeUndefined();
   },
 );
 it('supports template flags before the project name', () => {
@@ -69,12 +67,19 @@ it('supports template flags before the project name', () => {
   });
   expect(fs.existsSync(path.join(workdir, 'app/api/lambda/mcp.ts'))).toBe(true);
 });
-it('rejects MF without a UI template', () => {
+it('rejects MF without the mcp-apps template', () => {
   expect(() =>
-    execFileSync(
-      process.execPath,
-      [bin, 'app', '--template', 'mcp-server', '--mf'],
-      { cwd: workdir, stdio: 'pipe' },
-    ),
-  ).toThrow();
+    execFileSync(process.execPath, [bin, 'app', '--mf'], {
+      cwd: workdir,
+      stdio: 'pipe',
+    }),
+  ).toThrow('--mf requires --template mcp-apps');
+});
+it('rejects the removed mcp-server template', () => {
+  expect(() =>
+    execFileSync(process.execPath, [bin, 'app', '--template', 'mcp-server'], {
+      cwd: workdir,
+      stdio: 'pipe',
+    }),
+  ).toThrow('--template must be one of: app, mcp-apps');
 });

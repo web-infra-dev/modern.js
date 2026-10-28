@@ -36,3 +36,20 @@ it('loads the optional runtime only when invoking a BFF handler', async () => {
     'Optional server-runtime is not installed',
   );
 });
+
+it('createBffHandlers uses the provided useContext without loading the optional runtime', async () => {
+  const data = { jsonrpc: '2.0', id: 1, method: 'tools/list' };
+  const raw = new Request('https://app.example/api/mcp', {
+    method: 'POST',
+    headers: {
+      'content-type': 'application/json',
+      accept: 'application/json, text/event-stream',
+    },
+  });
+  const useContext = rs.fn(() => ({ req: { raw }, get: () => undefined }));
+  const { POST } = createBffHandlers(factory, { useContext });
+  const response = await POST({ data });
+  expect(response.status).toBe(200);
+  expect(await response.text()).toContain('ping');
+  expect(useContext).toHaveBeenCalled();
+});

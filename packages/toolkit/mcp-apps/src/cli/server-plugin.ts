@@ -6,7 +6,7 @@ export interface McpAppsServerOptions {
 }
 
 export default (options: McpAppsServerOptions = {}): ServerPlugin => ({
-  name: '@modern-js/plugin-mcp-apps',
+  name: '@modern-js/mcp-apps/server-plugin',
   setup(api) {
     api.onPrepare(() => {
       const { middlewares, distDirectory } = api.getServerContext();

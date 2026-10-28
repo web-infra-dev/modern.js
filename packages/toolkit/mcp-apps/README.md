@@ -3,12 +3,36 @@
 Build React MCP cards with Modern.js and write servers with the official MCP SDK.
 The UI build and the server exchange only `ui-manifest.json`.
 
-Install `@modelcontextprotocol/server` and `@modelcontextprotocol/ext-apps` in the application. They are required peers so resource registration and HTTP handling use the application's SDK versions. `@modern-js/server-runtime` is an optional peer required only for `createBffHandlers`, and is loaded when a BFF handler is invoked. Standalone Fetch servers do not need it.
+Install `react`, `react-dom`, `@modelcontextprotocol/server` and `@modelcontextprotocol/ext-apps` in the application. They are required peers so cards use the application's React and resource registration and HTTP handling use the application's SDK versions. `@modern-js/server-runtime` is an optional peer that provides the default `useContext` for `createBffHandlers`, loaded when a BFF handler is invoked. Standalone Fetch servers do not need it. `@module-federation/enhanced` is an optional peer that provides the default MF shell runtime.
 
+- `@modern-js/mcp-apps/cli` exports the `mcpAppsPlugin` build plugin
+- `@modern-js/mcp-apps/server-plugin` is the server plugin, loaded by name by the framework
 - `@modern-js/mcp-apps/server` exports `registerUiResources`, `createFetchHandler` and `createBffHandlers`
 - `@modern-js/mcp-apps/react` exports `McpViewProps`, `createMcpView`, `useMcpApp` and official host styling hooks
-- `@modern-js/mcp-apps/manifest` exports the versioned manifest types and validation functions
-- `@modern-js/mcp-apps/mf` provides the shell runtime compiled with the application's own React dependencies
+
+## Build plugin
+
+Declare React cards in `mcp-views.json` and enable `mcpAppsPlugin({ views: './mcp-views.json' })`.
+
+```json
+{
+  "views": {
+    "todos": "./src/components/Todos.tsx",
+    "stats": { "expose": "./Stats" }
+  },
+  "csp": { "resourceDomains": [], "connectDomains": [] },
+  "prefersBorder": true
+}
+```
+
+Component paths resolve relative to the JSON file. Components must have a default export. MF exposes refer to this application's MF manifest output and must also have a default component export. Local cards are added as application entries and reuse the framework's multi-entry compilation, including its loaders, styles and build plugins. Only the MF shell uses a separate Rsbuild compilation with the application's React dependencies, with its startup scripts and styles inlined. The plugin emits `dist/mcp-apps/ui-manifest.json` and never registers HTTP routes.
+
+- `mf.manifestFile` is the MF manifest filename in the web build output. It defaults to `mf-manifest.json` and must match exactly one emitted file.
+- `mf.runtime` is the module, resolved from the application, that the MF shell imports `createInstance` from. It defaults to `@module-federation/enhanced/runtime`.
+
+Local card entries mount React directly through `createMcpView` without the framework page runtime, because an opaque MCP Apps sandbox cannot read page cookies. With `source.enableAsyncEntry`, which the MF plugin enables, each entry adds a dynamic import boundary for MF shared initialization.
+
+`createBffHandlers(createServer, { useContext })` accepts the function returning the current Hono context. It defaults to `useHonoContext` from `@modern-js/server-runtime`. Frameworks wrapping Modern.js pass their own implementation.
 
 `registerUiResources()` loads the manifest asynchronously. The Modern.js server plugin provides the manifest path and runtime mode through the request created by `createBffHandlers`. Call `registerUiResources(server, { request })` to resolve them automatically. Explicit options override injected configuration. Standalone services must set `manifest` to a path or HTTP(S) URL and may set `mode` to `development` for live updates. The default mode is `production`. Relative HTML and shell files resolve against that location. Parsed manifests are cached per source URL and environment. Production keeps successful loads for the process lifetime, so updating a manifest at the same location requires a process restart. Development checks local file metadata on each registration and caches remote manifests for 60 seconds. Concurrent loads share one request and failures are retried. HTML is still read when a resource is requested, and request-specific origins are never cached.
 

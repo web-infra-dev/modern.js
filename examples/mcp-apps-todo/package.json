@@ -5,8 +5,7 @@
   "scripts": {
     "dev": "modern dev",
     "build": "modern build",
-    "serve": "modern serve",
-    "inspect": "npx --yes @modelcontextprotocol/inspector@2.12.0 --transport http --server-url http://localhost:8088/api/mcp"
+    "serve": "modern serve"
   },
   "dependencies": {
     "@modern-js/runtime": "workspace:*",
@@ -22,7 +21,6 @@
   },
   "devDependencies": {
     "@modern-js/app-tools": "workspace:*",
-    "@modern-js/plugin-mcp-apps": "workspace:*",
     "@module-federation/modern-js-v3": "2.0.0",
     "@types/react": "^19.3.0",
     "@types/react-dom": "^19.3.0",

@@ -1,9 +1,10 @@
 import { describe, it, expect } from '@rstest/core';
-import { createUiManifest, viewEntryName } from '../src/build';
 import {
-  validateUiManifest,
-  validateViewsConfig,
-} from '@modern-js/mcp-apps/manifest';
+  createUiManifest,
+  findMfManifest,
+  viewEntryName,
+} from '../src/cli/build';
+import { validateUiManifest, validateViewsConfig } from '../src/manifest';
 
 describe('UI build contract', () => {
   it('emits local and MF cards without tools or server definitions', () => {
@@ -64,6 +65,65 @@ describe('UI build contract', () => {
     expect(() =>
       validateViewsConfig({ views: { a: { expose: './A', html: 'a.html' } } }),
     ).toThrow('Invalid view');
+  });
+});
+
+describe('findMfManifest', () => {
+  const asset = (
+    name: string,
+    value: unknown = { name: 'ui', exposes: [] },
+  ) => ({
+    name,
+    source: { source: () => JSON.stringify(value) },
+  });
+  const stats = { name: 'ui', exposes: [], metaData: { remoteEntry: {} } };
+  it('selects the default manifest and ignores stats files of the same shape', () => {
+    expect(
+      findMfManifest(
+        [
+          asset('static/mf-stats.json', stats),
+          asset('static/mf-manifest.json'),
+          asset('static/other.json', stats),
+        ],
+        'mf-manifest.json',
+      ),
+    ).toEqual({
+      filename: 'static/mf-manifest.json',
+      manifest: { name: 'ui', exposes: [] },
+    });
+  });
+  it('selects a custom manifest filename next to its stats file', () => {
+    expect(
+      findMfManifest(
+        [
+          asset('vmok-manifest-stats.json', stats),
+          asset('vmok-manifest.json'),
+          asset('mf-manifest.json'),
+        ],
+        'vmok-manifest.json',
+      ).filename,
+    ).toBe('vmok-manifest.json');
+  });
+  it('rejects a missing or ambiguous manifest and points to mf.manifestFile', () => {
+    expect(() =>
+      findMfManifest([asset('vmok-manifest.json')], 'mf-manifest.json'),
+    ).toThrow(
+      'Expected one MF manifest named mf-manifest.json in the web compilation, found 0. Set mf.manifestFile',
+    );
+    expect(() =>
+      findMfManifest(
+        [asset('a/mf-manifest.json'), asset('b/mf-manifest.json')],
+        'mf-manifest.json',
+      ),
+    ).toThrow('found 2: a/mf-manifest.json, b/mf-manifest.json');
+  });
+  it('rejects a matched file that is not an MF manifest', () => {
+    expect(() =>
+      findMfManifest(
+        [asset('mf-manifest.json', { name: 'ui' })],
+        'mf-manifest.json',
+      ),
+    ).toThrow('Invalid MF manifest: mf-manifest.json');
   });
 });
 

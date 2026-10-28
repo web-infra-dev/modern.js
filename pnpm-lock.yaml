@@ -228,9 +228,6 @@ importers:
       '@modern-js/app-tools':
         specifier: workspace:*
         version: link:../../packages/solutions/app-tools
-      '@modern-js/plugin-mcp-apps':
-        specifier: workspace:*
-        version: link:../../packages/cli/plugin-mcp-apps
       '@module-federation/modern-js-v3':
         specifier: 2.0.0
         version: 2.0.0(@rspack/core@2.3.0-beta.1(@module-federation/runtime-tools@2.0.0)(@swc/helpers@0.5.23))(bufferutil@4.1.0)(react-dom@19.3.1(react@19.3.1))(react-router-dom@7.18.4(react-dom@19.3.1(react@19.3.1))(react@19.3.1))(react-router@7.18.4(react-dom@19.3.1(react@19.3.1))(react@19.3.1))(react@19.3.1)(typescript@5.9.3)(utf-8-validate@5.0.10)(webpack@5.104.1(@swc/core@1.16.20(@swc/helpers@0.5.23)))
@@ -1017,34 +1014,6 @@ importers:
       typescript:
         specifier: ^5
         version: 5.9.3
-
-  packages/cli/plugin-mcp-apps:
-    dependencies:
-      '@modern-js/mcp-apps':
-        specifier: workspace:*
-        version: link:../../toolkit/mcp-apps
-      '@rsbuild/core':
-        specifier: 2.2.13
-        version: 2.2.13(@module-federation/runtime-tools@2.0.0)(core-js@3.50.0)
-    devDependencies:
-      '@modern-js/app-tools':
-        specifier: workspace:*
-        version: link:../../solutions/app-tools
-      '@modern-js/server-runtime':
-        specifier: workspace:*
-        version: link:../../server/server-runtime
-      '@rslib/core':
-        specifier: 1.0.4
-        version: 1.0.4(@module-federation/runtime-tools@2.0.0)(core-js@3.50.0)(typescript@5.7.3)
-      '@scripts/rstest-config':
-        specifier: workspace:*
-        version: link:../../../scripts/rstest-config
-      '@types/node':
-        specifier: ^20
-        version: 20.19.43
-      typescript:
-        specifier: ^5
-        version: 5.7.3
 
   packages/cli/plugin-ssg:
     dependencies:
@@ -1959,6 +1928,10 @@ importers:
         version: 5.9.3
 
   packages/toolkit/mcp-apps:
+    dependencies:
+      '@rsbuild/core':
+        specifier: 2.2.13
+        version: 2.2.13(@module-federation/runtime-tools@2.0.0)(core-js@3.50.0)
     devDependencies:
       '@modelcontextprotocol/client':
         specifier: 2.3.1
@@ -1969,15 +1942,15 @@ importers:
       '@modelcontextprotocol/server':
         specifier: 2.3.1
         version: 2.3.1
+      '@modern-js/app-tools':
+        specifier: workspace:*
+        version: link:../../solutions/app-tools
       '@modern-js/server-runtime':
         specifier: workspace:*
         version: link:../../server/server-runtime
       '@module-federation/enhanced':
         specifier: 2.0.0
         version: 2.0.0(@rspack/core@2.3.0-beta.1(@module-federation/runtime-tools@2.0.0)(@swc/helpers@0.5.23))(bufferutil@4.1.0)(react-dom@19.3.1(react@19.3.1))(react@19.3.1)(typescript@5.7.3)(utf-8-validate@5.0.10)(webpack@5.104.1(@swc/core@1.16.20(@swc/helpers@0.5.23)))
-      '@rsbuild/core':
-        specifier: 2.2.13
-        version: 2.2.13(@module-federation/runtime-tools@2.0.0)(core-js@3.50.0)
       '@rslib/core':
         specifier: 1.0.4
         version: 1.0.4(@module-federation/runtime-tools@2.0.0)(core-js@3.50.0)(typescript@5.7.3)
@@ -3898,9 +3871,6 @@ importers:
       '@modern-js/app-tools':
         specifier: workspace:*
         version: link:../../../packages/solutions/app-tools
-      '@modern-js/plugin-mcp-apps':
-        specifier: workspace:*
-        version: link:../../../packages/cli/plugin-mcp-apps
       '@module-federation/modern-js-v3':
         specifier: 2.0.0
         version: 2.0.0(@rspack/core@2.3.0-beta.1(@module-federation/runtime-tools@2.0.0)(@swc/helpers@0.5.23))(bufferutil@4.1.0)(react-dom@19.3.1(react@19.3.1))(react-router-dom@7.18.4(react-dom@19.3.1(react@19.3.1))(react@19.3.1))(react-router@7.18.4(react-dom@19.3.1(react@19.3.1))(react@19.3.1))(react@19.3.1)(typescript@5.9.3)(utf-8-validate@5.0.10)(webpack@5.104.1(@swc/core@1.16.20(@swc/helpers@0.5.23)))

@@ -1,6 +1,6 @@
 import { appTools } from '@modern-js/app-tools';
 import { bffPlugin } from '@modern-js/plugin-bff';
-import { mcpAppsPlugin } from '@modern-js/plugin-mcp-apps';
+import { mcpAppsPlugin } from '@modern-js/mcp-apps/cli';
 
 export default {
   server: { port: Number(process.env.PORT ?? 8080) },

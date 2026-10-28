@@ -8,13 +8,11 @@ Modern.js 可以把 React 组件构建为 MCP 卡片。UI 构建与服务端通�
 npx @modern-js/create@latest my-mcp --template mcp-apps
 # 复用本项目的 Module Federation expose
 npx @modern-js/create@latest my-mf-mcp --template mcp-apps --mf
-# 仅创建服务端
-npx @modern-js/create@latest my-server --template mcp-server
 ```
 
 使用包含 MCP Apps 支持的版本。运行 `pnpm dev` 后，MCP 地址为 `/api/mcp`。
 
-应用需安装 peer 依赖 `@modelcontextprotocol/server` 和 `@modelcontextprotocol/ext-apps`，让工具、资源注册和 HTTP 处理使用应用安装的 SDK。`@modern-js/server-runtime` 是可选 peer，仅执行 BFF handler 时加载，独立 Fetch 服务无需安装。脚手架模板已声明这些依赖。
+构建插件、服务端插件、服务端适配器和卡片运行时都由 `@modern-js/mcp-apps` 提供，分别从 `./cli`、`./server-plugin`、`./server` 和 `./react` 导入。应用需安装 peer 依赖 `react`、`react-dom`、`@modelcontextprotocol/server` 和 `@modelcontextprotocol/ext-apps`，让卡片使用应用的 React，工具、资源注册和 HTTP 处理使用应用安装的 SDK。`@modern-js/server-runtime` 和 `@module-federation/enhanced` 是可选 peer，分别作为 BFF handler 获取请求上下文和 MF shell 运行时的默认实现。脚手架模板已声明这些依赖。
 
 ## 声明卡片
 
@@ -31,7 +29,23 @@ npx @modern-js/create@latest my-server --template mcp-server
 }
 ```
 
-在 `modern.config.ts` 中加入 `mcpAppsPlugin({ views: './mcp-views.json' })`。本地卡片仅需该插件，MF 卡片还需启用 `@module-federation/modern-js-v3` 插件并开启 manifest 输出。插件读取实际 MF 构建产物，验证 expose 存在，生成项目自身构建的 shell。
+在 `modern.config.ts` 中从 `@modern-js/mcp-apps/cli` 导入并加入 `mcpAppsPlugin({ views: './mcp-views.json' })`。本地卡片仅需该插件，MF 卡片还需启用 `@module-federation/modern-js-v3` 插件并开启 manifest 输出。插件读取实际 MF 构建产物，验证 expose 存在，生成项目自身构建的 shell。
+
+插件按文件名在 web 构建产物中查找 MF manifest，默认为 `mf-manifest.json`，必须恰好匹配一个文件。shell 默认从 `@module-federation/enhanced/runtime` 导入 `createInstance`。使用其他 MF 实现时，可以通过 `mf` 参数替换：
+
+```ts
+mcpAppsPlugin({
+  views: './mcp-views.json',
+  mf: {
+    // 构建产物中 MF manifest 的文件名
+    manifestFile: 'vmok-manifest.json',
+    // 从应用解析，需导出兼容的 createInstance
+    runtime: '@vmok/kit/runtime',
+  },
+});
+```
+
+本地卡片以独立入口构建，不加载框架的页面运行时。`source.enableAsyncEntry` 开启时，入口通过动态 import 建立异步边界，供 MF 共享依赖完成初始化。MF 插件会自动开启该选项。未开启时直接挂载卡片，不增加额外请求。
 
 卡片必须默认导出 React 组件。props 来自 tool 返回的 `structuredContent`，`mcpApp` 为框架保留的注入字段。
 
@@ -99,7 +113,7 @@ async function createServer(request: Request) {
 export const { POST, GET, DELETE } = createBffHandlers(createServer)
 ```
 
-需要启用 `bffPlugin()`。适配器根据 BFF 已解析的 JSON 重建请求，返回 SDK 的原始 Response。默认无状态 HTTP 模式由官方 SDK 处理协议和参数校验，GET、DELETE 等不支持的会话操作由 SDK 返回错误。认证与业务授权放在 HTTP 中间件或 `createServer` 中。每个请求创建独立的 server，业务数据需要持久化到外部存储。
+需要启用 `bffPlugin()`。适配器根据 BFF 已解析的 JSON 重建请求，返回 SDK 的原始 Response。适配器通过 `@modern-js/server-runtime` 的 `useHonoContext` 获取原始请求，基于 Modern.js 封装的框架可以通过 `createBffHandlers(createServer, { useContext })` 传入自己的实现。默认无状态 HTTP 模式由官方 SDK 处理协议和参数校验，GET、DELETE 等不支持的会话操作由 SDK 返回错误。认证与业务授权放在 HTTP 中间件或 `createServer` 中。每个请求创建独立的 server，业务数据需要持久化到外部存储。
 
 独立 Hono 服务可通过 `app.all('/mcp', c => handle(c.req.raw))` 挂载 `createFetchHandler(createServer)`。适配器默认只允许同源浏览器请求，额外来源通过第二个参数的 `allowedOrigins` 配置。
 
@@ -174,17 +188,3 @@ export default function Card() {
 ```
 
 手动使用 `createMcpView` 时，也可以通过第三个参数传入能力声明。显式的展示模式数组会替换默认值。MF 模块在初始化前加载，确保握手包含该模块的能力。声明支持全屏不会自动添加全屏按钮或切换展示模式。
-
-## 使用官方 MCP Inspector 调试
-
-先通过 `pnpm dev` 启动应用。在脚手架生成的 MCP 项目中，另开一个终端运行 `pnpm inspect`，以独立开发进程启动官方 Inspector，并预填 Streamable HTTP 地址。已有项目可执行：
-
-```bash
-npx --yes @modelcontextprotocol/inspector@2.12.0 --transport http --server-url http://localhost:8080/api/mcp
-```
-
-打开 Inspector 终端打印的地址并连接服务。端口不同时，可使用 `pnpm inspect --server-url http://localhost:9090/api/mcp` 覆盖。Inspector 2.12.0 要求 Node.js 22.19.0 或更高版本，按需下载运行，不进入生产依赖，也不内嵌到框架页面中。
-
-Inspector 2.12.0 的 Apps 页面可识别关联 UI resource 的工具并渲染卡片，支持验证本地及 MF 视图。Tools、Resources 和协议日志用于排查调用和资源加载。
-
-[OpenAI 调试指南](https://developers.openai.com/plugins/build/app-quickstart#test-with-mcp-inspector)

@@ -5,8 +5,7 @@
     "dev": "modern dev",
     "build": "modern build",
     "serve": "modern serve"{{#if isMcp}},
-    "deploy": "modern deploy",
-    "inspect": "npx --yes @modelcontextprotocol/inspector@2.12.0 --transport http --server-url http://localhost:8080/api/mcp"{{/if}}{{#unless isSubproject}},
+    "deploy": "modern deploy"{{/if}}{{#unless isSubproject}},
     "prepare": "rs hooks",
     "check": "rs check",
     "lint": "rs lint",
@@ -16,10 +15,10 @@
     "node": "^22.18.0 || >=24.3.0"
   },
   "dependencies": {
-{{#unless isMcpServer}}    "@modern-js/runtime": "{{version}}",
+    "@modern-js/runtime": "{{version}}",
     "react": "^19.2.3",
-    "react-dom": "^19.2.0"{{/unless}}{{#if isMcpUi}},{{/if}}
-{{#if isMcp}}    "@modern-js/mcp-apps": "{{mcpAppsVersion}}",
+    "react-dom": "^19.2.0"{{#if isMcp}},
+    "@modern-js/mcp-apps": "{{mcpAppsVersion}}",
     "@modern-js/plugin-bff": "{{version}}",
     "@modelcontextprotocol/server": "2.3.1",
     "@modelcontextprotocol/ext-apps": "2.0.3",
@@ -32,11 +31,10 @@
     "@modern-js/tsconfig": "{{version}}",
     "typescript": "{{#if isMcp}}~5.9.3{{/if}}{{#unless isMcp}}~5.7.3{{/unless}}",
     "@types/node": "^20"{{#unless isSubproject}},
-    "rstack": "0.8.2"{{/unless}}{{#unless isMcpServer}},
+    "rstack": "0.8.2"{{/unless}},
     "@types/react": "^19.1.8",
-    "@types/react-dom": "^19.1.6"{{/unless}}{{#if isMcp}},
-    "ts-node": "^10.9.2"{{/if}}{{#if isMcpUi}},
-    "@modern-js/plugin-mcp-apps": "{{mcpPluginVersion}}"{{/if}}{{#if mf}},
+    "@types/react-dom": "^19.1.6"{{#if isMcp}},
+    "ts-node": "^10.9.2"{{/if}}{{#if mf}},
     "@module-federation/modern-js-v3": "2.0.0"{{/if}}
   }
 }

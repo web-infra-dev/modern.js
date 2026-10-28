@@ -1,9 +1,10 @@
 import { createHash } from 'node:crypto';
+import path from 'node:path';
 import {
   validateViewsConfig,
   type UiManifest,
   type McpViewsConfig,
-} from '@modern-js/mcp-apps/manifest';
+} from '../manifest';
 
 export function viewEntryName(name: string) {
   const label =
@@ -19,6 +20,31 @@ export function viewEntryName(name: string) {
 export interface MfManifest {
   name: string;
   exposes: Array<{ name: string }>;
+}
+/** Identify the MF manifest by filename. Stats files share its shape. */
+export function findMfManifest(
+  assets: ReadonlyArray<{
+    name: string;
+    source: { source(): string | Buffer };
+  }>,
+  manifestFile: string,
+): { filename: string; manifest: MfManifest } {
+  const matches = assets.filter(
+    asset => path.posix.basename(asset.name) === manifestFile,
+  );
+  if (matches.length !== 1)
+    throw new Error(
+      `Expected one MF manifest named ${manifestFile} in the web compilation, found ${matches.length}${matches.length ? `: ${matches.map(asset => asset.name).join(', ')}` : ''}. Set mf.manifestFile to the manifest filename`,
+    );
+  const [asset] = matches;
+  const manifest: unknown = JSON.parse(String(asset.source.source()));
+  if (
+    !manifest ||
+    typeof (manifest as MfManifest).name !== 'string' ||
+    !Array.isArray((manifest as MfManifest).exposes)
+  )
+    throw new Error(`Invalid MF manifest: ${asset.name}`);
+  return { filename: asset.name, manifest: manifest as MfManifest };
 }
 export function createUiManifest(
   config: McpViewsConfig,

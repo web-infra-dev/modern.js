@@ -7,12 +7,11 @@ Modern.js builds React cards for MCP hosts. UI builds and servers exchange only 
 ```bash
 npx @modern-js/create@latest my-mcp --template mcp-apps
 npx @modern-js/create@latest my-mf-mcp --template mcp-apps --mf
-npx @modern-js/create@latest my-server --template mcp-server
 ```
 
 Choose a release containing MCP Apps support. Run `pnpm dev`. The explicit BFF route is `/api/mcp`.
 
-The application must install the peers `@modelcontextprotocol/server` and `@modelcontextprotocol/ext-apps` so tools, resources and HTTP handling use the application's SDK versions. `@modern-js/server-runtime` is an optional peer, loaded only when invoking a BFF handler. Standalone Fetch servers do not require it. The project templates already declare these dependencies.
+`@modern-js/mcp-apps` provides the build plugin, server plugin, server adapters and card runtime through `./cli`, `./server-plugin`, `./server` and `./react`. The application must install the peers `react`, `react-dom`, `@modelcontextprotocol/server` and `@modelcontextprotocol/ext-apps`, so cards use the application's React and tools, resources and HTTP handling use the application's SDK versions. `@modern-js/server-runtime` and `@module-federation/enhanced` are optional peers that provide the default request context for BFF handlers and the default MF shell runtime. The project templates already declare these dependencies.
 
 ## Build cards
 
@@ -29,7 +28,23 @@ Declare local default-export React components or this project's MF exposes in `m
 }
 ```
 
-Add `mcpAppsPlugin({ views: './mcp-views.json' })` to your Modern.js plugins. Paths resolve relative to the JSON file. MF cards require the Modern.js MF plugin with manifest output enabled. The UI plugin validates exposes against the actual emitted MF manifest and builds the shell with the application's React dependencies.
+Import `mcpAppsPlugin` from `@modern-js/mcp-apps/cli` and add `mcpAppsPlugin({ views: './mcp-views.json' })` to your Modern.js plugins. Paths resolve relative to the JSON file. MF cards require the Modern.js MF plugin with manifest output enabled. The UI plugin validates exposes against the actual emitted MF manifest and builds the shell with the application's React dependencies.
+
+The plugin finds the MF manifest in the web build output by filename, `mf-manifest.json` by default, and requires exactly one match. The shell imports `createInstance` from `@module-federation/enhanced/runtime` by default. Other MF implementations can replace both through the `mf` option:
+
+```ts
+mcpAppsPlugin({
+  views: './mcp-views.json',
+  mf: {
+    // MF manifest filename in the build output
+    manifestFile: 'vmok-manifest.json',
+    // Resolved from the application. Must export a compatible createInstance
+    runtime: '@vmok/kit/runtime',
+  },
+});
+```
+
+Local cards build as separate entries without the framework page runtime. With `source.enableAsyncEntry`, each entry adds a dynamic import boundary so MF shared dependencies can initialize. The MF plugin enables this option automatically. Otherwise cards mount directly without an extra request.
 
 {/* prettier-ignore */}
 ```tsx
@@ -95,7 +110,7 @@ async function createServer(request: Request) {
 export const { POST, GET, DELETE } = createBffHandlers(createServer)
 ```
 
-The adapter reconstructs BFF's consumed JSON body and returns the SDK Response. The official SDK owns protocol serving and tool validation. Serving is stateless, so unsupported session operations such as GET and DELETE are rejected by the SDK. Return a fresh server per request. Put authentication and authorization in surrounding middleware or the factory, and persist business data in an external store.
+The adapter reconstructs BFF's consumed JSON body and returns the SDK Response. It reads the raw request through `useHonoContext` from `@modern-js/server-runtime`. Frameworks built on Modern.js can pass their own implementation with `createBffHandlers(createServer, { useContext })`. The official SDK owns protocol serving and tool validation. Serving is stateless, so unsupported session operations such as GET and DELETE are rejected by the SDK. Return a fresh server per request. Put authentication and authorization in surrounding middleware or the factory, and persist business data in an external store.
 
 For independent Hono servers, create `handle = createFetchHandler(createServer)` and mount `app.all('/mcp', c => handle(c.req.raw))`. Foreign browser origins are rejected unless listed in `allowedOrigins` in the adapter's second argument.
 
@@ -140,17 +155,3 @@ export default function Card() {
 ```
 
 You can also pass capabilities as the third argument to `createMcpView`. Explicit display mode arrays replace the defaults. MF modules are loaded before initialization so the handshake includes their capabilities. Declaring fullscreen support does not add a fullscreen button or switch modes automatically.
-
-## Debug with the official MCP Inspector
-
-Start the application with `pnpm dev`. In a second terminal, run `pnpm inspect` in a generated MCP project. The command launches the official Inspector as a separate development process with the Streamable HTTP endpoint preconfigured. Existing projects can run:
-
-```bash
-npx --yes @modelcontextprotocol/inspector@2.12.0 --transport http --server-url http://localhost:8080/api/mcp
-```
-
-Open the address printed by the Inspector and connect the server. Override the address with `pnpm inspect --server-url http://localhost:9090/api/mcp` when using a custom port. Inspector 2.12.0 requires Node.js 22.19.0 or newer. It is downloaded on demand and is not a production dependency or an embedded framework page.
-
-Inspector 2.12.0 includes an Apps page that discovers tools linked to UI resources and renders their cards. Use it to test local and MF views, then inspect Tools, Resources and protocol logs for debugging.
-
-[OpenAI testing guide](https://developers.openai.com/plugins/build/app-quickstart#test-with-mcp-inspector)

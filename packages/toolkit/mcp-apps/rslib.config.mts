@@ -6,8 +6,9 @@ export default defineConfig({
       syntax: 'es2022' as const,
       source: {
         entry: {
+          cli: './src/cli/index.ts',
+          'server-plugin': './src/cli/server-plugin.ts',
           server: './src/server/index.ts',
-          manifest: './src/manifest.ts',
         },
       },
       output: {
@@ -25,7 +26,6 @@ export default defineConfig({
       source: {
         entry: {
           react: './src/ui/react.ts',
-          mf: './src/ui/mf.tsx',
           'mf-entry': './src/ui/mf-entry.ts',
         },
       },

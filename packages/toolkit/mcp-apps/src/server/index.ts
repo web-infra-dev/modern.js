@@ -2,6 +2,7 @@ import type { McpServer } from '@modelcontextprotocol/server';
 import { createMcpHandler } from '@modelcontextprotocol/server';
 import { requestOrigin } from './resources';
 import { requestUiOptions } from './context';
+import type { RegisterUiOptions } from './resources';
 
 export { registerUiResources } from './resources';
 export type { RegisterUiOptions } from './resources';
@@ -13,6 +14,23 @@ export type McpServerFactory = (
 export interface FetchHandlerOptions {
   allowedOrigins?: string[];
   onError?: (error: Error) => void;
+}
+/** The parts of the Hono request context used by BFF handlers. */
+export interface HonoLikeContext {
+  req: { raw: Request };
+  get(key: 'locals'): Record<string, unknown> | undefined;
+}
+export interface BffHandlerOptions extends FetchHandlerOptions {
+  /** Returns the current Hono context. Defaults to `useHonoContext` from `@modern-js/server-runtime`. */
+  useContext?: () => HonoLikeContext;
+}
+async function currentContext(
+  useContext?: () => HonoLikeContext,
+): Promise<HonoLikeContext> {
+  if (useContext) return useContext();
+  // Keep the optional Modern.js runtime out of standalone Fetch services.
+  const { useHonoContext } = await import('@modern-js/server-runtime');
+  return useHonoContext();
 }
 
 /** Stateless HTTP adapter. Tool registration and validation belong to the SDK. */
@@ -45,19 +63,19 @@ export function createFetchHandler(
 /** Export these functions from api/lambda/mcp.ts to expose /api/mcp. */
 export function createBffHandlers(
   createServer: McpServerFactory,
-  options: FetchHandlerOptions = {},
+  options: BffHandlerOptions = {},
 ) {
+  const { useContext, ...fetchOptions } = options;
   const handle = createFetchHandler(async request => {
-    const { useHonoContext } = await import('@modern-js/server-runtime');
-    const uiOptions = useHonoContext().get('locals')?.modernMcpApps;
+    const uiOptions = (await currentContext(useContext)).get('locals')
+      ?.modernMcpApps as
+      Pick<RegisterUiOptions, 'manifest' | 'mode'> | undefined;
     // The SDK may clone the incoming request before invoking its factory.
     if (uiOptions) requestUiOptions.set(request, uiOptions);
     return createServer(request);
-  }, options);
+  }, fetchOptions);
   const route = async (input: { data?: unknown }) => {
-    // Keep the optional Modern.js runtime out of standalone Fetch services.
-    const { useHonoContext } = await import('@modern-js/server-runtime');
-    const context = useHonoContext();
+    const context = await currentContext(useContext);
     const raw = context.req.raw;
     const headers = new Headers(raw.headers);
     headers.delete('content-length');

@@ -32,7 +32,7 @@ export const ZH_LOCALE = {
   },
   help: {
     optionTemplate:
-      '  --template <name>  app（默认）、mcp-apps（UI + 服务端）或 mcp-server（独立服务端）',
+      '  --template <name>  app（默认）或 mcp-apps（带卡片的 MCP Apps）',
     title: '🚀 Modern.js 项目创建工具',
     description: '快速创建一个新的 Modern.js 项目',
     usage: '📖 用法:',
