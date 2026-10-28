@@ -75,8 +75,13 @@ export async function locateBuild({
   assert(SHA.test(sha ?? ''), 'A full commit SHA is required to find its build');
   assert(REPOSITORY.test(repository ?? ''), 'A repository is required to find a build');
   assert(typeof token === 'string' && token.length > 0, 'A token that may read Actions runs is required');
-  const url = `https://api.github.com/repos/${repository}/actions/workflows/${BUILD_WORKFLOW}`
-    + `/runs?head_sha=${sha}&status=success&per_page=100`;
+  // Listed by commit rather than through /actions/workflows/<file>/runs: that
+  // endpoint answers 404 for a workflow that is not on the default branch,
+  // which is exactly the situation while this machinery lives on a branch.
+  // The general listing carries each run's workflow path, so the filtering is
+  // the same and the lookup works either way.
+  const url = `https://api.github.com/repos/${repository}/actions/runs`
+    + `?head_sha=${sha}&status=success&per_page=100`;
   const response = await fetchImpl(url, {
     headers: {
       authorization: `Bearer ${token}`,
@@ -88,6 +93,7 @@ export async function locateBuild({
   const body = await response.json();
   const runs = (body.workflow_runs ?? []).filter(run => run.head_sha === sha
     && run.conclusion === 'success'
+    && run.path === `.github/workflows/${BUILD_WORKFLOW}`
     && (branch === undefined || run.head_branch === branch));
   assert(runs.length > 0, `No successful ${BUILD_WORKFLOW} run packed ${sha}`);
   const run = runs.reduce((latest, candidate) => (candidate.run_number > latest.run_number ? candidate : latest));

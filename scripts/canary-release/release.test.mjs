@@ -8,7 +8,10 @@ const REPOSITORY = 'web-infra-dev/modern.js';
 
 function listing(runs) {
   return async url => {
-    assert.ok(url.includes('/actions/workflows/release-build.yml/runs'), url);
+    // Not the per-workflow endpoint: it 404s for a workflow that is not on
+    // the default branch, which is where this machinery lives today.
+    assert.ok(url.includes('/actions/runs?'), url);
+    assert.ok(!url.includes('/actions/workflows/'), url);
     assert.ok(url.includes(`head_sha=${sourceSha}`), url);
     return { ok: true, status: 200, json: async () => ({ workflow_runs: runs }) };
   };
@@ -16,6 +19,7 @@ function listing(runs) {
 
 const buildRun = (overrides = {}) => ({
   id: 40510322539, run_attempt: 1, run_number: 7, conclusion: 'success',
+  path: '.github/workflows/release-build.yml',
   head_sha: sourceSha, head_branch: stagingBranch(makePlan()), ...overrides,
 });
 
@@ -59,6 +63,7 @@ test('a build of another commit, another branch or another outcome is not accept
     buildRun({ head_sha: 'c'.repeat(40) }),
     buildRun({ conclusion: 'failure' }),
     buildRun({ head_branch: 'main' }),
+    buildRun({ path: '.github/workflows/release.yml' }),
   ]) {
     await assert.rejects(locateBuild(options([run])), /No successful release-build/);
   }
