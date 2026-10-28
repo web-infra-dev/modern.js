@@ -23,6 +23,7 @@ export async function startLab(
   mode = 'dev',
   fixedPorts = false,
   root = fixtureRoot,
+  hostBase = '',
 ) {
   const hostRequire = createRequire(path.join(root, 'host/package.json'));
   const modern = path.resolve(
@@ -292,11 +293,11 @@ export async function startLab(
         true,
       );
       await wait(
-        `http://localhost:${ports[key]}/${name === 'host' ? '' : 'static/mf-manifest.json'}`,
+        `http://localhost:${ports[key]}/${name === 'host' ? hostBase.replace(/^\//, '') : 'static/mf-manifest.json'}`,
         name !== 'host',
       );
     }
-    await wait(`http://localhost:${ports.host}/`);
+    await wait(`http://localhost:${ports.host}${hostBase}/`);
     return { ports, url: `http://localhost:${ports.host}`, stop, logs };
   } catch (error) {
     await stop();

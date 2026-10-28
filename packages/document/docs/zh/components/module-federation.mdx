@@ -78,6 +78,7 @@ export default defineConfig({
 
 ### 统一 React 消费
 
+{/* prettier-ignore */}
 ```tsx
 import { createReactRemote, ReactRemote } from '@modern-js/runtime/mf'
 
@@ -122,7 +123,7 @@ export default createBridgeComponent({
 
 将该文件加入 MF 配置的 `exposes`。registry 仍由用户显式导入，多入口使用各自的 registry，例如 `@modern-js/runtime/registry/admin`。
 
-`route` 是生产者的固定路由定义路径。构建时保留该节点全部子路由，以及祖先 Layout、Loader、错误边界和必要的 index、无路径包装，移除无关兄弟分支。范围内部的原始路径和 route ID 不变，`/product/detail/:id` 仍匹配 `/product/detail/42`。`route` 不指定消费者的挂载路径，本版本不自动推导 basename 或同步宿主导航。
+`route` 是生产者的固定路由定义路径。构建时保留该节点全部子路由，以及祖先 Layout、Loader、错误边界和必要的 index、无路径包装，移除无关兄弟分支。范围内部的原始路径和 route ID 不变，`/product/detail/:id` 仍匹配 `/product/detail/42`。`route` 不指定消费者的挂载路径，消费者可通过下文的 Modern 路由消费入口自动计算 basename 并同步导航。
 
 省略 `route` 或调用 `createRoot()` 时导出对应 registry 的整应用。`createRoot(UserApp)` 的组件调用继续兼容。不同导出使用独立路由定义，每次挂载使用独立的 memory Router 和运行时上下文，更新 props 保留页面状态，卸载后重新挂载会创建新实例。
 
@@ -133,3 +134,48 @@ export default createBridgeComponent({
 显式范围使用构建期路由图，不能通过 `runtime.router.createRoutes` 替换它，运行时路由 hooks 也不能改变选区拓扑。RSC 范围导出暂不支持。
 
 服务端 Loader 继续使用 Modern 数据接口，请求指向生产者资源配置的 origin，并保留入口 base 和原路由路径。部署时该 origin 需要提供对应数据接口，跨源访问需要生产者显式配置 CORS 或通过同源代理提供接口。仅部署静态资源的 CDN 不会自动获得 Loader 服务。Bridge 在宿主服务端仍只输出占位，本能力不包含 Bridge SSR。
+
+## 挂载到 Modern 路由
+
+在承载远程应用的通配路由中使用 `createModernReactRemote`：
+
+{/* prettier-ignore */}
+```tsx title="src/routes/stores/[storeId]/inventory/$.tsx"
+import { createModernReactRemote } from '@modern-js/runtime/mf'
+
+export default createModernReactRemote({
+  remote: 'shop/Product',
+})
+```
+
+它在组件渲染时读取当前局部路由匹配，自动计算挂载 basename，并同步 Host 与远程应用的导航。Host Router basename 为 `/admin` 时，访问 `/admin/stores/100/inventory/product/detail/42?tab=stock#summary` 得到挂载前缀 `/admin/stores/100/inventory`。动态参数使用当前实际匹配值，无路径 Layout 和 index 不增加路径段，通配符匹配的尾部不计入前缀。用户仍需为远程子路径配置通配路由。
+
+`useRemoteBasename()` 提供同一计算能力。显式传入的 basename 优先于自动计算，basename 是包含 Host Router basename 的完整路径前缀：
+
+{/* prettier-ignore */}
+```tsx
+import { ReactRemote, useRemoteBasename } from '@modern-js/runtime/mf'
+
+export default function Page() {
+  const basename = useRemoteBasename()
+  return <ReactRemote remote="shop/Product" basename={basename} />
+}
+```
+
+普通 `createReactRemote` 和 `ReactRemote` 不会因位于路由组件内部而自动接管 URL。不传 basename 的应用导出继续使用独立 memory 导航，适合 Dashboard 卡片和同一导出的多个实例。业务 props 与 basename、navigation、memoryRoute 控制参数分开传递。props、地址和动态挂载参数更新复用现有 Root，卸载释放该实例订阅和 Loader 请求，重试不会复用已失败实例。
+
+### 生产者的路由责任
+
+`createRoot({ route: '/product' })` 只选择生产者导出范围，不决定消费者的挂载位置。框架保留原始路由定义，不将选区路径自动改成 `/`，不删除业务导航中的 `/product`，也不提供保留原始前缀的配置开关。
+
+例如，保留 `/product/detail/:id` 的导出应用挂在 `/inventory` 后，对应浏览器地址 `/inventory/product/detail/42`，内部路由地址为 `/product/detail/42`。它不会自动变成 `/inventory/detail/42`。若需要后一种地址，生产者作者需要自行保证路由定义与挂载方式匹配。
+
+可复用的生产者应优先使用相对 Link、navigate 和 redirect，并自行适配依赖 basename 或 pathname 的逻辑。相对导航解决地址生成，不能替代路由表自身的匹配。框架不会扫描或改写写死的绝对路径，无法匹配的路径按正常路由错误处理。
+
+### 其他 Router 与兼容边界
+
+不用 Modern Router 时，可以给 `createReactRemote` 或 `ReactRemote` 手动传 basename。普通浏览器 history 场景监听 popstate，并将远程 push、replace 和历史移动写入浏览器。自定义 Router 若通过 pushState 导航却不发布位置变化，需要提供 `navigation` Adapter 的 `getLocation`、`subscribe` 和 `navigate`，仅传路径字符串不能订阅任意 Router。
+
+CSR 宿主中的 Modern 自带 Hash Router 使用 Router 的逻辑路径计算和导航，不将带 `#` 的 href 作为 pathname 拼接。其他 Hash Router 需要对应 Adapter。fragment 不会发送给服务端，因此 Hash 深层入口在客户端确定，本版不支持 Hash Router 宿主的 SSR 水合。
+
+旧 Bridge 产物继续使用其原有 Router 行为，缺少新 navigation 集成时不会自动获得双向同步。无协议标记的旧产物仍需 `render: 'bridge'`。普通组件继续进入 Host React 树。Bridge 在 SSR Host 中仍输出占位，浏览器挂载后同步导航，本能力不实现 Bridge SSR、Service App 或远程版本替换。

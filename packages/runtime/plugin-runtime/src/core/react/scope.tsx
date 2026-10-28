@@ -1,3 +1,9 @@
+import { useBridgeRouter } from '@module-federation/bridge-react/base';
+import {
+  addBasename,
+  connectRemoteRouter,
+  removeBasename,
+} from '../../mf/navigation';
 import type { NestedRoute, PageRoute } from '@modern-js/types';
 import React, { useContext, useEffect, useState } from 'react';
 import { createRoot as createReactRoot, type Root } from 'react-dom/client';
@@ -70,14 +76,28 @@ export function createScopedRoot(
   definition: ScopedRootDefinition,
 ): React.ComponentType<any> {
   return function ModernScopedRoot(props: Record<string, unknown>) {
+    const bridge = useBridgeRouter();
+    const navigation = bridge?.memoryRoute ? undefined : bridge?.navigation;
+    const basename = typeof props.basename === 'string' ? props.basename : '/';
     const [instance] = useState(() => {
       const context = getInitialContext(true, { routeAssets: {} });
+      const mount = { basename: navigation ? basename : '/', navigation };
       context._routeScope = {
+        projectHref: href => {
+          const target = addBasename(href, mount.basename);
+          return mount.navigation?.createHref?.(target) ?? target;
+        },
         config: {
           routes: instanceRoutes(definition),
           globalApp: definition.globalApp,
         },
-        initialUrl: definition.route || '/',
+        initialUrl:
+          bridge?.memoryRoute?.entryPath ??
+          (navigation
+            ? (removeBasename(navigation.getLocation(), basename) ??
+              definition.route ??
+              '/')
+            : definition.route || '/'),
       };
       const runtime = definition.createRuntime(
         context._routeScope.config,
@@ -88,8 +108,10 @@ export function createScopedRoot(
       const WrappedRoot = runtime.hooks.wrapRoot.call(
         definition.App!,
       ) as React.ComponentType<any>;
-      return { context, runtime, WrappedRoot };
+      return { context, runtime, WrappedRoot, mount };
     });
+    instance.mount.basename = navigation ? basename : '/';
+    instance.mount.navigation = navigation;
     const [ready, setReady] = useState(false);
     const [failure, setFailure] = useState<unknown>();
     useEffect(() => {
@@ -120,6 +142,12 @@ export function createScopedRoot(
     return wrapRuntimeContextProvider(
       <ScopedRootPropsContext.Provider value={props}>
         <WrappedRoot {...props} />
+        <ScopeNavigation
+          context={instance.context}
+          basename={basename}
+          navigation={navigation}
+          onError={setFailure}
+        />
       </ScopedRootPropsContext.Provider>,
       instance.context,
     );
@@ -154,4 +182,23 @@ export function createScopedRender() {
     root.render(element);
     return root;
   };
+}
+
+function ScopeNavigation({
+  context,
+  basename,
+  navigation,
+  onError,
+}: {
+  context: ReturnType<typeof getInitialContext>;
+  basename: string;
+  navigation: NonNullable<ReturnType<typeof useBridgeRouter>>['navigation'];
+  onError: (error: unknown) => void;
+}) {
+  useEffect(() => {
+    const router = context._routeScope?.router;
+    if (router && navigation)
+      return connectRemoteRouter(router, basename, navigation, onError);
+  }, [context, basename, navigation, onError]);
+  return null;
 }

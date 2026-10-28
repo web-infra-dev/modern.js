@@ -2,7 +2,9 @@ export { createBridgeComponent } from '@module-federation/bridge-react/v18';
 export {
   createReactRemote,
   ReactRemote,
-} from '@module-federation/bridge-react/base';
+  createModernReactRemote,
+  useRemoteBasename,
+} from './mf/remote';
 export type {
   CreateReactRemoteOptions,
   ReactRemoteProps,

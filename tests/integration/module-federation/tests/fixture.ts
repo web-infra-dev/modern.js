@@ -14,6 +14,8 @@ import {
   readdir,
   rm,
   stat,
+  readFile,
+  writeFile,
   symlink,
 } from 'node:fs/promises';
 import { tmpdir } from 'node:os';
@@ -76,7 +78,10 @@ async function createWorkspace() {
 
 const selector = (id: string) => `[data-testid="${id}"]`;
 
-export function setupLab(mode: 'dev' | 'production') {
+export function setupLab(
+  mode: 'dev' | 'production',
+  options: { basename?: string; hash?: boolean } = {},
+) {
   let lab: Awaited<ReturnType<typeof startLab>>;
   let browser: Browser;
   let workspace: string;
@@ -119,7 +124,28 @@ export function setupLab(mode: 'dev' | 'production') {
   let expectedErrors: { pattern: RegExp; min: number; max: number } | undefined;
   beforeAll(async () => {
     workspace = await createWorkspace();
-    lab = await startLab(mode, false, workspace);
+    if (options.basename || options.hash) {
+      const runtime = path.join(workspace, 'host/src/modern.runtime.tsx');
+      const source = await readFile(runtime, 'utf8');
+      await writeFile(
+        runtime,
+        source.replace(
+          'plugins: [recoveryObserver()]',
+          `router: { basename: ${JSON.stringify(options.basename || '/')}, supportHtml5History: ${!options.hash} }, plugins: [recoveryObserver()]`,
+        ),
+      );
+    }
+    if (options.hash) {
+      const config = path.join(workspace, 'host/modern.config.ts');
+      await writeFile(
+        config,
+        (await readFile(config, 'utf8')).replace(
+          "ssr: { mode: 'stream', forceCSR: true }",
+          'ssr: false',
+        ),
+      );
+    }
+    lab = await startLab(mode, false, workspace, options.basename || '');
     browser = await puppeteer.launch({
       headless: true,
       executablePath: process.env.PUPPETEER_EXECUTABLE_PATH,
@@ -292,6 +318,7 @@ export type LabContext = ReturnType<typeof setupLab>;
 export function describeLab(
   name: string,
   register: (getContext: LabContext) => void,
+  options: { basename?: string; hash?: boolean } = {},
 ) {
   rstest.setConfig({ testTimeout: 60000, hookTimeout: 600000, retry: 0 });
   const modes = process.env.MF_LAB_MODE
@@ -299,7 +326,7 @@ export function describeLab(
     : (['dev', 'production'] as const);
   for (const mode of modes) {
     describe(`Weather Lab (${mode})`, () => {
-      describe(name, () => register(setupLab(mode)));
+      describe(name, () => register(setupLab(mode, options)));
     });
   }
 }
