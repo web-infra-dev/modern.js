@@ -10,6 +10,7 @@ import {
 } from '@module-federation/rsbuild-plugin/utils';
 import { SERVER_BUNDLE_DIRECTORY, logger } from '@modern-js/utils';
 import { isDev } from './utils';
+import { markRootExposes } from './rootExposes';
 
 import type { InternalModernPluginOptions } from '../types';
 import type { Rspack, RspackChain } from '@rsbuild/core';
@@ -365,6 +366,14 @@ export const moduleFederationConfigPlugin = (
   setup: async api => {
     const modernjsConfig = api.getConfig();
     const mfConfig = await getMFConfig(userConfig.originPluginOptions);
+    if (mfConfig.exposes && Object.keys(mfConfig.exposes).length) {
+      const { appDirectory, metaName } = api.getAppContext();
+      mfConfig.exposes = markRootExposes(
+        mfConfig.exposes,
+        appDirectory,
+        metaName,
+      );
+    }
     const csrConfig = userConfig.csrConfig || cloneConfig(mfConfig);
     const ssrConfig = userConfig.ssrConfig || cloneConfig(mfConfig);
     userConfig.ssrConfig = ssrConfig;

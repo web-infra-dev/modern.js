@@ -44,7 +44,10 @@ const getModernJsConfig = async (
       configCallbacks.push(callback);
     }),
     getConfig: rs.fn(() => modernjsConfig),
-    getAppContext: rs.fn(() => ({ metaName: 'modern-js' })),
+    getAppContext: rs.fn(() => ({
+      metaName: 'modern-js',
+      appDirectory: process.cwd(),
+    })),
     modifyBundlerChain: rs.fn(),
   } as any);
 

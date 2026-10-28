@@ -9,6 +9,13 @@ const onBeforeCreateRoutes =
 
 export { modifyRoutes, onBeforeCreateRoutes };
 
+export function createRouterHooks() {
+  return {
+    modifyRoutes: createSyncHook<(routes: RouteObject[]) => RouteObject[]>(),
+    onBeforeCreateRoutes: createSyncHook<(context: TRuntimeContext) => void>(),
+  };
+}
+
 export type RouterExtendsHooks = {
   modifyRoutes: typeof modifyRoutes;
   onBeforeCreateRoutes: typeof onBeforeCreateRoutes;

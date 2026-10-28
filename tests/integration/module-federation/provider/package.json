@@ -13,6 +13,8 @@
     "@module-federation/bridge-react": "0.0.0-feat-enhanced-runtime-unification-20261027114159"
   },
   "devDependencies": {
+    "typescript": "^5",
+    "@modern-js/server-runtime": "workspace:*",
     "@modern-js/app-tools": "workspace:*",
     "@modern-js/tsconfig": "workspace:*"
   }

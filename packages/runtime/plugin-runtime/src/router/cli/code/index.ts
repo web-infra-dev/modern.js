@@ -47,6 +47,7 @@ export async function generateRoutesForEntry(
 
   if (entrypoint.nestedRoutesEntry) {
     const nestedRoutes = await walk({
+      preserveScopeDefinitions: true,
       dirname: entrypoint.nestedRoutesEntry,
       rootDir: entrypoint.nestedRoutesEntry,
       alias: {
@@ -200,6 +201,27 @@ export const generateCode = async (
           entrypoint,
           routes: markedRoutes,
         });
+
+        // The expose loader consumes the final graph, never the pre-hook tree.
+        await fs.outputJSON(
+          path.join(internalDirectory, entryName, 'route-scope.json'),
+          {
+            routes,
+            entryName,
+            metaName,
+            nestedRoutesEntry,
+            globalApp: entrypoint.fileSystemRoutes?.globalApp,
+            basename:
+              appContext.serverRoutes.find(
+                route => route.entryName === entryName,
+              )?.urlPath || '/',
+            ssrMode,
+            enableRsc: isUseRsc(config),
+            srcDirectory,
+            internalSrcAlias,
+            splitRouteChunks: config.output?.splitRouteChunks,
+          },
+        );
 
         // Collect route component files from the FINAL routes (after every
         // `modifyFileSystemRoutes` consumer ran), so the SSR builder plugin can

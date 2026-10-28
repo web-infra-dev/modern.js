@@ -190,6 +190,7 @@ export const fileSystemRoutes = async ({
   isRscClientBundle = false,
   srcDirectory,
   internalSrcAlias,
+  isolated = false,
 }: {
   metaName: string;
   routes: RouteLegacy[] | (NestedRouteForCli | PageRoute)[];
@@ -201,6 +202,7 @@ export const fileSystemRoutes = async ({
   isRscClientBundle?: boolean;
   srcDirectory?: string;
   internalSrcAlias?: string;
+  isolated?: boolean;
 }) => {
   const components: string[] = [];
   const loadings: string[] = [];
@@ -280,7 +282,7 @@ export const fileSystemRoutes = async ({
         ? `/* webpackMode: "eager" */  `
         : '';
 
-    return `() => import(${importOptions}'${componentPath}').then(routeModule => handleRouteModule(routeModule, "${routeId}"))`;
+    return `() => import(${importOptions}'${componentPath}').then(routeModule => handleRouteModule(routeModule, "${routeId}"${isolated ? ', routeModuleCache' : ''}))`;
   };
 
   const traverseRouteTree = async (
@@ -405,6 +407,7 @@ export const fileSystemRoutes = async ({
       ...(shouldIncludeClientBundle && { lazyImport }),
       ...(shouldIncludeClientBundle && route._component && { component }),
     };
+    delete finalRoute._scopeAncestors;
     /**
      * All routing components with loader will add shouldRevalidate
      * but when routeModule does not have a corresponding shouldRevalidate
@@ -415,7 +418,7 @@ export const fileSystemRoutes = async ({
       route._component &&
       (route.loader || route.data)
     ) {
-      finalRoute.shouldRevalidate = `createShouldRevalidate("${route.id}")`;
+      finalRoute.shouldRevalidate = `createShouldRevalidate("${route.id}"${isolated ? ', routeModuleCache' : ''})`;
     }
     return finalRoute;
   };
@@ -532,7 +535,9 @@ export const fileSystemRoutes = async ({
   const importRuntimeRouterCode = `
     import { createShouldRevalidate, handleRouteModule } from '@${metaName}/runtime/routerHelper';
   `;
-  const routeModulesCode = `
+  const routeModulesCode = isolated
+    ? 'const routeModuleCache = Object.create(null);'
+    : `
     if(typeof document !== 'undefined'){
       window.${ROUTE_MODULES} = {}
     }
