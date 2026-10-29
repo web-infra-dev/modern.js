@@ -1,6 +1,7 @@
-import { Api, HttpCode, SetHeaders } from '@modern-js/bff-core';
+import { Api, HttpCode, SetHeaders, Upload } from '@modern-js/bff-core';
 import { Hono } from '@modern-js/server-core';
 import { rs } from '@rstest/core';
+import { z } from 'zod';
 import createHonoRoutes from '../src/utils/createHonoRoutes';
 
 function createApp(handlerInfos: any[]) {
@@ -129,6 +130,55 @@ describe('createHonoRoutes', () => {
 
     expect((await post('{"a":1}', 'text/plain')).body).toEqual({ a: 1 });
     expect((await post('not json', 'text/plain')).body).toBeNull();
+  });
+
+  it('validates multipart files in Upload handlers with Zod 4', async () => {
+    const onUpload = rs.fn(
+      async ({ formData }: { formData: { images: File; params: string } }) => ({
+        file_name: formData.images.name,
+        file_type: formData.images.type,
+        file_content: await formData.images.text(),
+        params: JSON.parse(formData.params),
+      }),
+    );
+    const handler = Api(
+      Upload('/api/upload', z.object({ images: z.file(), params: z.string() })),
+      onUpload,
+    );
+    const app = createApp([
+      { routePath: '/api/upload', httpMethod: 'POST', handler },
+    ]);
+    const formData = new FormData();
+    formData.append(
+      'images',
+      new File(['image contents'], 'mock_image.png', { type: 'image/png' }),
+    );
+    formData.append('params', JSON.stringify({ id: 1 }));
+
+    const response = await app.request('/api/upload', {
+      method: 'POST',
+      body: formData,
+    });
+
+    expect(response.status).toBe(200);
+    expect(await response.json()).toEqual({
+      file_name: 'mock_image.png',
+      file_type: 'image/png',
+      file_content: 'image contents',
+      params: { id: 1 },
+    });
+
+    const invalidFormData = new FormData();
+    invalidFormData.append('images', 'not a file');
+    invalidFormData.append('params', '{}');
+    const invalidResponse = await app.request('/api/upload', {
+      method: 'POST',
+      body: invalidFormData,
+    });
+
+    expect(invalidResponse.status).toBe(400);
+    expect((await invalidResponse.json()).message).toContain('expected file');
+    expect(onUpload).toHaveBeenCalledTimes(1);
   });
 
   it('falls back to a null body for other requests without a body', async () => {
