@@ -118,6 +118,9 @@ export async function main(argv = process.argv.slice(2)) {
       // Finishes a release whose publish stopped part way: the registry is
       // asked which versions it already serves and only the rest are sent.
       reconcile: { type: 'boolean', default: false },
+      // How many packages are sent at once. Lower it to one to put a release
+      // back on the old one-at-a-time path without changing this script.
+      concurrency: { type: 'string' },
     },
   };
   assert(Object.hasOwn(definitions, command), `Usage: release.mjs <${Object.keys(definitions).join('|')}> [options]`);
@@ -154,6 +157,7 @@ export async function main(argv = process.argv.slice(2)) {
     await publish(root, {
       artifacts: values.artifacts, receiptDir: values['receipt-dir'], expectedPlanHash: values['expected-plan-hash'],
       reconcile: values.reconcile,
+      ...(values.concurrency === undefined ? {} : { concurrency: Number(values.concurrency) }),
     });
   }
 }

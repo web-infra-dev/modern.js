@@ -1,5 +1,5 @@
 import assert from 'node:assert/strict';
-import { spawnSync } from 'node:child_process';
+import { spawn, spawnSync } from 'node:child_process';
 import fs from 'node:fs';
 import os from 'node:os';
 import path from 'node:path';
@@ -364,18 +364,70 @@ export async function missingFromRegistry(packages, {
   return missing;
 }
 
+// npm publish is one HTTPS round trip per package and a Sigstore signature,
+// and it spends nearly all of that waiting. Measured on the 2026-10-28
+// release: 29 packages, 996 seconds, 34 seconds each, strictly one after
+// another. Sending a few at a time turns that into minutes without changing
+// what any single publish does - each one is still its own npm process, its
+// own tarball and its own signature.
+//
+// Four, not more: the ceiling is npm's and Sigstore's, not this machine's,
+// and a release is not the place to find where it is. The number is an
+// option so a run can lower it without a release of this script.
+export const PUBLISH_CONCURRENCY = 4;
+
+/**
+ * `npm` as a promise, so several can be in flight at once.
+ *
+ * Returns the same shape spawnSync does - status, stdout, stderr, error - so
+ * the callers and the test doubles see no difference. Output past the cap is
+ * reported as an error rather than silently truncated, which is what
+ * spawnSync's maxBuffer does and what the registry confirmation then covers.
+ */
+const MAX_OUTPUT = 16 * 1024 * 1024;
+
+export function spawnNpm(args, settings, { launch = spawn } = {}) {
+  return new Promise(resolve => {
+    let child;
+    try {
+      child = launch('npm', args, settings);
+    } catch (error) {
+      resolve({ status: null, stdout: '', stderr: '', error });
+      return;
+    }
+    const chunks = { stdout: '', stderr: '' };
+    let overflow = null;
+    for (const stream of ['stdout', 'stderr']) {
+      child[stream]?.setEncoding('utf8');
+      child[stream]?.on('data', text => {
+        if (overflow) return;
+        chunks[stream] += text;
+        if (chunks[stream].length > MAX_OUTPUT) {
+          overflow = new Error(`npm wrote more than ${MAX_OUTPUT} bytes on ${stream}`);
+          child.kill();
+        }
+      });
+    }
+    child.once('error', error => resolve({ status: null, ...chunks, error }));
+    child.once('close', status => resolve({ status, ...chunks, ...(overflow ? { error: overflow, status: null } : {}) }));
+  });
+}
+
 export async function publish(root, options, {
   env = process.env,
   validateSource = assertSource,
   validateTrigger = assertTrigger,
   workspaces = listWorkspaces,
   execute = run,
-  npm = (args, settings) => spawnSync('npm', args, { ...settings, encoding: 'utf8', maxBuffer: 16 * 1024 * 1024 }),
+  npm = (args, settings) => spawnNpm(args, settings),
   log = message => console.error(message),
   verifyTrust = assertTrustedPublishers,
   confirm = confirmFromRegistry,
   missing = missingFromRegistry,
 } = {}) {
+  const concurrency = options.concurrency ?? PUBLISH_CONCURRENCY;
+  assert.ok(Number.isInteger(concurrency) && concurrency >= 1 && concurrency <= 8,
+    `publish concurrency must be an integer between 1 and 8, got ${concurrency}`);
   const receiptDir = path.resolve(root, options.receiptDir);
   fs.mkdirSync(receiptDir, { recursive: true });
   // A reconcile run writes its own receipt: the publish it completes already
@@ -421,20 +473,29 @@ export async function publish(root, options, {
     receipt.status = 'publishing';
     // Recorded once the run is past everything that can refuse it, so a
     // receipt listing packages always means the publishing started.
-    for (const pkg of manifest.packages.filter(item => !targets.includes(item))) {
-      receipt.packages.push({ name: pkg.name, version: pkg.version, integrity: pkg.integrity, status: 'published', confirmedBy: 'registry' });
-    }
+    const confirmed = manifest.packages.filter(item => !targets.includes(item))
+      .map(pkg => ({ name: pkg.name, version: pkg.version, integrity: pkg.integrity, status: 'published', confirmedBy: 'registry' }));
+    receipt.packages = [...confirmed];
     persist();
-    const unsure = [];
-    for (const pkg of targets) {
-      const item = { name: pkg.name, version: pkg.version, integrity: pkg.integrity, status: 'unknown' };
-      receipt.packages.push(item);
+    // Publishes finish in whatever order the registry answers, but the
+    // receipt is read by people and by the reconcile path, so it is assembled
+    // in manifest order every time and holds a row only for a package whose
+    // publish has actually started.
+    const started = new Map();
+    const record = () => {
+      receipt.packages = [...confirmed, ...targets.filter(pkg => started.has(pkg)).map(pkg => started.get(pkg))];
       persist();
+    };
+    const unsure = [];
+    const send = async pkg => {
+      const item = { name: pkg.name, version: pkg.version, integrity: pkg.integrity, status: 'unknown' };
+      started.set(pkg, item);
+      record();
       const args = publishArguments(path.resolve(root, options.artifacts, pkg.filename), plan.tag);
-      let result = npm(args, { cwd: temporary, env: npmEnv });
+      let result = await npm(args, { cwd: temporary, env: npmEnv });
       if (result.status !== 0 && TRANSIENT_SUBMISSION.has(npmErrorCode(result))) {
         log(`[publish] ${pkg.name} retrying: ${npmErrorCode(result)} is the submission machinery, not a verdict`);
-        result = npm(args, { cwd: temporary, env: npmEnv });
+        result = await npm(args, { cwd: temporary, env: npmEnv });
       }
       // Any other nonzero result can mean the registry accepted a request. Do not retry.
       try {
@@ -448,8 +509,17 @@ export async function publish(root, options, {
         log(`[publish] ${pkg.name} unresolved: ${String(error.message).replace(SECRET, '[redacted]')}`);
         log(diagnostic(result));
       }
-      persist();
-    }
+      record();
+    };
+    // One failure must not leave the others half-sent and unrecorded, so every
+    // worker drains the queue and the outcome is decided from the receipt
+    // afterwards, exactly as it was when this ran one at a time.
+    const queue = targets.slice();
+    const lanes = Math.max(1, Math.min(concurrency, queue.length));
+    await Promise.all(Array.from({ length: lanes }, async () => {
+      for (let pkg = queue.shift(); pkg !== undefined; pkg = queue.shift()) await send(pkg);
+    }));
+    if (lanes > 1) log(`[publish] sent ${targets.length} packages ${lanes} at a time`);
     // Ask the registry about everything npm left in doubt, before deciding.
     const unresolved = unsure.length ? await confirm(unsure, { log }) : [];
     persist();
