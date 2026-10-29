@@ -15,7 +15,7 @@
     "modern",
     "modern.js"
   ],
-  "version": "3.10.0",
+  "version": "0.0.0-canary-verify.r20261029-7176e229f251d7883d6fd64669cee55b",
   "types": "./src/cli.ts",
   "main": "./dist/cjs/cli.js",
   "exports": {
@@ -65,16 +65,16 @@
   },
   "dependencies": {
     "@modern-js/polyfill-lib": "^1.0.2",
-    "@modern-js/utils": "workspace:*",
+    "@modern-js/utils": "workspace:0.0.0-canary-verify.r20261029-7176e229f251d7883d6fd64669cee55b",
     "@swc/helpers": "^0.5.17",
     "lru-cache": "^6.0.0",
     "ua-parser-js": "^0.7.41"
   },
   "devDependencies": {
-    "@modern-js/app-tools": "workspace:*",
+    "@modern-js/app-tools": "workspace:0.0.0-canary-verify.r20261029-7176e229f251d7883d6fd64669cee55b",
     "@modern-js/rslib": "workspace:*",
-    "@modern-js/server-core": "workspace:*",
-    "@modern-js/types": "workspace:*",
+    "@modern-js/server-core": "workspace:0.0.0-canary-verify.r20261029-7176e229f251d7883d6fd64669cee55b",
+    "@modern-js/types": "workspace:0.0.0-canary-verify.r20261029-7176e229f251d7883d6fd64669cee55b",
     "@scripts/rstest-config": "workspace:*",
     "@types/lru-cache": "^5.1.1",
     "@types/node": "^20",

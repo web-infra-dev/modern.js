@@ -15,7 +15,7 @@
     "modern",
     "modern.js"
   ],
-  "version": "3.10.0",
+  "version": "0.0.0-canary-verify.r20261029-7176e229f251d7883d6fd64669cee55b",
   "engines": {
     "node": ">=20"
   },
@@ -85,12 +85,12 @@
     "test": "rstest"
   },
   "dependencies": {
-    "@modern-js/plugin": "workspace:*",
-    "@modern-js/runtime-utils": "workspace:*",
-    "@modern-js/server-core": "workspace:*",
-    "@modern-js/server-runtime": "workspace:*",
-    "@modern-js/types": "workspace:*",
-    "@modern-js/utils": "workspace:*",
+    "@modern-js/plugin": "workspace:0.0.0-canary-verify.r20261029-7176e229f251d7883d6fd64669cee55b",
+    "@modern-js/runtime-utils": "workspace:0.0.0-canary-verify.r20261029-7176e229f251d7883d6fd64669cee55b",
+    "@modern-js/server-core": "workspace:0.0.0-canary-verify.r20261029-7176e229f251d7883d6fd64669cee55b",
+    "@modern-js/server-runtime": "workspace:0.0.0-canary-verify.r20261029-7176e229f251d7883d6fd64669cee55b",
+    "@modern-js/types": "workspace:0.0.0-canary-verify.r20261029-7176e229f251d7883d6fd64669cee55b",
+    "@modern-js/utils": "workspace:0.0.0-canary-verify.r20261029-7176e229f251d7883d6fd64669cee55b",
     "@swc/helpers": "^0.5.17",
     "i18next-browser-languagedetector": "^8.2.1",
     "i18next-chained-backend": "^4.6.3",
@@ -103,7 +103,7 @@
     "react-dom": ">=18.3.1",
     "i18next": ">=25.10.10",
     "react-i18next": ">=15.7.4",
-    "@modern-js/runtime": "workspace:^3.10.0"
+    "@modern-js/runtime": "workspace:0.0.0-canary-verify.r20261029-7176e229f251d7883d6fd64669cee55b"
   },
   "peerDependenciesMeta": {
     "i18next": {
@@ -114,9 +114,9 @@
     }
   },
   "devDependencies": {
-    "@modern-js/app-tools": "workspace:*",
+    "@modern-js/app-tools": "workspace:0.0.0-canary-verify.r20261029-7176e229f251d7883d6fd64669cee55b",
     "@modern-js/rslib": "workspace:*",
-    "@modern-js/runtime": "workspace:*",
+    "@modern-js/runtime": "workspace:0.0.0-canary-verify.r20261029-7176e229f251d7883d6fd64669cee55b",
     "@types/node": "^20",
     "i18next": "25.10.10",
     "react": "^19.3.0",

@@ -1,12 +1,12 @@
 {
   "name": "@scripts/rstest-config",
   "private": true,
-  "version": "2.66.0",
+  "version": "0.0.0-canary-verify.r20261029-7176e229f251d7883d6fd64669cee55b",
   "type": "module",
   "main": "src/index.ts",
   "typings": "src/index.ts",
   "dependencies": {
-    "@modern-js/tsconfig": "workspace:*",
+    "@modern-js/tsconfig": "workspace:0.0.0-canary-verify.r20261029-7176e229f251d7883d6fd64669cee55b",
     "@types/node": "^20",
     "path-serializer": "0.7.0",
     "typescript": "^5"

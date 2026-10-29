@@ -15,7 +15,7 @@
     "modern",
     "modern.js"
   ],
-  "version": "3.10.0",
+  "version": "0.0.0-canary-verify.r20261029-7176e229f251d7883d6fd64669cee55b",
   "types": "./src/index.ts",
   "main": "./dist/cjs/index.js",
   "exports": {
@@ -55,9 +55,9 @@
     "test": "rstest --passWithNoTests"
   },
   "dependencies": {
-    "@modern-js/runtime-utils": "workspace:*",
-    "@modern-js/server-core": "workspace:*",
-    "@modern-js/types": "workspace:*",
+    "@modern-js/runtime-utils": "workspace:0.0.0-canary-verify.r20261029-7176e229f251d7883d6fd64669cee55b",
+    "@modern-js/server-core": "workspace:0.0.0-canary-verify.r20261029-7176e229f251d7883d6fd64669cee55b",
+    "@modern-js/types": "workspace:0.0.0-canary-verify.r20261029-7176e229f251d7883d6fd64669cee55b",
     "@swc/helpers": "^0.5.17"
   },
   "devDependencies": {

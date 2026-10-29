@@ -1,12 +1,12 @@
 {
   "private": true,
   "name": "entries-app-builder",
-  "version": "2.66.0",
+  "version": "0.0.0-canary-verify.r20261029-7176e229f251d7883d6fd64669cee55b",
   "scripts": {
     "dev": "modern dev"
   },
   "dependencies": {
-    "@modern-js/app-tools": "workspace:*",
+    "@modern-js/app-tools": "workspace:0.0.0-canary-verify.r20261029-7176e229f251d7883d6fd64669cee55b",
     "react": "^19.3.0",
     "react-dom": "^19.3.0"
   }

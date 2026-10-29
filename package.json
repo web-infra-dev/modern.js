@@ -62,7 +62,7 @@
     "@changesets/cli": "^2.31.1",
     "@commitlint/cli": "^20.5.3",
     "@commitlint/config-conventional": "^20.5.3",
-    "@modern-js/tsconfig": "workspace:*",
+    "@modern-js/tsconfig": "workspace:0.0.0-canary-verify.r20261029-7176e229f251d7883d6fd64669cee55b",
     "@rstest/core": "0.12.3",
     "@scripts/build": "workspace:*",
     "@types/react": "^19.3.0",
