@@ -1,7 +1,7 @@
 {
   "private": true,
   "name": "i18n-app-ssr",
-  "version": "2.66.0",
+  "version": "2.66.2",
   "scripts": {
     "dev": "modern dev",
     "build": "modern build -c modern.ssg.config.ts",
@@ -10,9 +10,9 @@
   "dependencies": {
     "@modern-js/plugin-i18n": "workspace:*",
     "@modern-js/runtime": "workspace:*",
-    "i18next": "25.7.4",
-    "react": "^19.2.8",
-    "react-dom": "^19.2.8",
+    "i18next": "25.10.10",
+    "react": "^19.3.1",
+    "react-dom": "^19.3.1",
     "react-i18next": "15.7.4"
   },
   "devDependencies": {

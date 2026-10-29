@@ -34,6 +34,5 @@ export function getI18nSdkBackendId(target: unknown): string | undefined {
   }
 
   return (target as Record<string, unknown>)[I18N_SDK_BACKEND_ID_KEY] as
-    | string
-    | undefined;
+    string | undefined;
 }

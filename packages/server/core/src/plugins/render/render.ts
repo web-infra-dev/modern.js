@@ -3,6 +3,7 @@ import type { NodeRequest } from '@modern-js/types/server';
 import { cutNameByHyphen } from '@modern-js/utils/universal';
 import type { Router } from 'hono/router';
 import { TrieRouter } from 'hono/router/trie-router';
+import { getPath } from 'hono/utils/url';
 import { X_MODERNJS_RENDER } from '../../constants';
 import type { CacheConfig, UserConfig } from '../../types';
 import type { Render } from '../../types';
@@ -11,7 +12,6 @@ import { uniqueKeyByRoute } from '../../utils';
 import {
   ErrorDigest,
   createErrorHtml,
-  getPathname,
   getRuntimeEnv,
   parseHeaders,
   parseQuery,
@@ -123,6 +123,8 @@ export async function createRender({
   config,
 }: CreateRenderOptions): Promise<Render> {
   const router = getRouter(routes);
+  const framework = cutNameByHyphen(metaName || 'modern-js');
+  const fallbackHeader = `x-${framework}-ssr-fallback`;
 
   return async (
     req,
@@ -142,14 +144,13 @@ export async function createRender({
       reporter,
     },
   ) => {
-    const forMatchpathname = matchPathname ?? getPathname(req);
+    // Match the normalized path used by Hono's outer middleware router.
+    const forMatchpathname = matchPathname ?? getPath(req);
     const [routeInfo, params] = matchRoute(
       router,
       forMatchpathname,
       matchEntryName,
     );
-    const framework = cutNameByHyphen(metaName || 'modern-js');
-    const fallbackHeader = `x-${framework}-ssr-fallback`;
     let fallbackReason = null;
 
     const fallbackWrapper: FallbackWrapper = reason => {
@@ -191,8 +192,6 @@ export async function createRender({
       contextForceCSR,
     );
 
-    const headerData = parseHeaders(req);
-
     const onError = (e: unknown, key?: string) => {
       monitors?.error(
         `SSR Error - ${
@@ -200,7 +199,7 @@ export async function createRender({
         }, error = %s, req.url = %s, req.headers = %o`,
         e instanceof Error ? e.stack || e.message : e,
         forMatchpathname,
-        getHeadersWithoutCookie(headerData),
+        getHeadersWithoutCookie(parseHeaders(req)),
       );
     };
 

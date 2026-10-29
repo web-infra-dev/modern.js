@@ -1,5 +1,104 @@
 # @modern-js/app-tools
 
+## 3.10.3
+
+### Patch Changes
+
+- Updated dependencies [52b4a4e]
+  - @modern-js/server-core@3.10.3
+  - @modern-js/plugin-data-loader@3.10.3
+  - @modern-js/prod-server@3.10.3
+  - @modern-js/server@3.10.3
+  - @modern-js/server-utils@3.10.3
+  - @modern-js/builder@3.10.3
+  - @modern-js/i18n-utils@3.10.3
+  - @modern-js/plugin@3.10.3
+  - @modern-js/types@3.10.3
+  - @modern-js/utils@3.10.3
+
+## 3.10.2
+
+### Patch Changes
+
+- 031e081: perf: load `ndepe` lazily in deploy presets so CLI startup no longer pays for it on every command
+
+  perf: 部署预设中按需加载 `ndepe`，避免每个 CLI 命令启动时都加载它
+
+- 8304ce7: perf: collect public folder routes in linear time without a stat call per file
+
+  perf: 以线性时间收集 public 目录路由，不再对每个文件调用 stat
+
+- a04362d: fix(app-tools): scope streaming HTML script rewriting to each entry so CSR and string SSR pages retain their script order and injection settings in mixed applications.
+
+  fix(app-tools): 按入口处理流式 HTML 脚本改写，避免混用应用中的 CSR 和字符串 SSR 页面丢失脚本执行顺序或插入位置配置。
+
+- Updated dependencies [0c7dad2]
+- Updated dependencies [76c675d]
+- Updated dependencies [2f314e5]
+- Updated dependencies [23587d0]
+- Updated dependencies [3b42ce4]
+- Updated dependencies [6a891f0]
+  - @modern-js/builder@3.10.2
+  - @modern-js/plugin-data-loader@3.10.2
+  - @modern-js/server-core@3.10.2
+  - @modern-js/server@3.10.2
+  - @modern-js/plugin@3.10.2
+  - @modern-js/prod-server@3.10.2
+  - @modern-js/server-utils@3.10.2
+  - @modern-js/i18n-utils@3.10.2
+  - @modern-js/types@3.10.2
+  - @modern-js/utils@3.10.2
+
+## 3.10.1
+
+### Patch Changes
+
+- Updated dependencies [e046a11]
+  - @modern-js/server-core@3.10.1
+  - @modern-js/server@3.10.1
+  - @modern-js/plugin-data-loader@3.10.1
+  - @modern-js/prod-server@3.10.1
+  - @modern-js/server-utils@3.10.1
+  - @modern-js/builder@3.10.1
+  - @modern-js/i18n-utils@3.10.1
+  - @modern-js/plugin@3.10.1
+  - @modern-js/types@3.10.1
+  - @modern-js/utils@3.10.1
+
+## 3.10.0
+
+### Patch Changes
+
+- da0fe78: chore: upgrade Rsbuild to v2.2.13
+
+  chore: 升级 Rsbuild 至 v2.2.13
+
+- 430b31e: Move the runtime script to the body before production inlining so streaming SSR hydration waits for initial router data. When runtime extraction is disabled, move the entry containing the runtime to the body and preload it from the head to preserve early downloading.
+- 14c23d0: chore: remove obsolete Jest test plugin hooks, configuration types, and the unused `testing` and `tools.jest` configuration options.
+
+  chore: 移除已废弃的 Jest 测试插件钩子、配置类型以及无用的 `testing` 和 `tools.jest` 配置项。
+
+- 7d9f0bb: chore(deps): upgrade Rsbuild to v2.2.12.
+
+  chore(deps): 升级 Rsbuild 到 v2.2.12。
+
+- Updated dependencies [da0fe78]
+- Updated dependencies [b5f56d5]
+- Updated dependencies [14c23d0]
+- Updated dependencies [9a766ec]
+- Updated dependencies [1d7a38e]
+- Updated dependencies [7d9f0bb]
+  - @modern-js/plugin-data-loader@3.10.0
+  - @modern-js/plugin@3.10.0
+  - @modern-js/builder@3.10.0
+  - @modern-js/server-core@3.10.0
+  - @modern-js/types@3.10.0
+  - @modern-js/server@3.10.0
+  - @modern-js/prod-server@3.10.0
+  - @modern-js/server-utils@3.10.0
+  - @modern-js/utils@3.10.0
+  - @modern-js/i18n-utils@3.10.0
+
 ## 3.9.3
 
 ### Patch Changes

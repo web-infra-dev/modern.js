@@ -1,7 +1,7 @@
 {
   "private": true,
   "name": "deploy-server",
-  "version": "2.66.0",
+  "version": "2.66.2",
   "scripts": {
     "dev": "modern dev",
     "dev:bff": "modern dev --api-only",
@@ -15,12 +15,12 @@
     "@modern-js/plugin-bff": "workspace:*",
     "@modern-js/runtime": "workspace:*",
     "@modern-js/server-runtime": "workspace:*",
-    "koa": "3.1.2",
-    "react": "^19.2.8",
-    "react-dom": "^19.2.8",
+    "koa": "3.2.1",
+    "react": "^19.3.1",
+    "react-dom": "^19.3.1",
     "ts-node": "^10.9.2",
     "tsconfig-paths": "3.15.0",
-    "zod": "^3.25.76"
+    "zod": "^4.0.0"
   },
   "devDependencies": {
     "@modern-js/app-tools": "workspace:*",

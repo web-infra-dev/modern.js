@@ -10,10 +10,10 @@ pnpm install
 
 ## Get Started
 
-Start the start server:
+Start the development server:
 
 ```bash
-pnpm start
+pnpm dev
 ```
 
 Build the app for production:
@@ -29,4 +29,3 @@ pnpm serve
 ```
 
 For more information, see the [Modern.js documentation](https://modernjs.dev/en).
-

@@ -1,5 +1,44 @@
 # @modern-js/plugin-data-loader
 
+## 3.10.3
+
+### Patch Changes
+
+- @modern-js/runtime-utils@3.10.3
+- @modern-js/utils@3.10.3
+
+## 3.10.2
+
+### Patch Changes
+
+- 76c675d: perf: reuse the static handler of data loader requests and match the entry without sorting the server routes on every request
+
+  perf: 数据加载请求复用 static handler，并且匹配入口时不再在每次请求时排序服务端路由
+
+- Updated dependencies [76c675d]
+- Updated dependencies [b1c1018]
+  - @modern-js/runtime-utils@3.10.2
+  - @modern-js/utils@3.10.2
+
+## 3.10.1
+
+### Patch Changes
+
+- @modern-js/runtime-utils@3.10.1
+- @modern-js/utils@3.10.1
+
+## 3.10.0
+
+### Patch Changes
+
+- da0fe78: chore: upgrade Rsbuild to v2.2.13
+
+  chore: 升级 Rsbuild 至 v2.2.13
+
+- Updated dependencies [9a766ec]
+  - @modern-js/runtime-utils@3.10.0
+  - @modern-js/utils@3.10.0
+
 ## 3.9.3
 
 ### Patch Changes

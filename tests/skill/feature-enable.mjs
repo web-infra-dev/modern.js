@@ -177,7 +177,7 @@ try {
     '[stale-doc] report.deprecated 标注 modern new/upgrade 已移除',
     Boolean(
       report.deprecated?.removedCommands?.includes('modern new') &&
-        /other\.md/.test(report.deprecated?.evidence ?? ''),
+      /other\.md/.test(report.deprecated?.evidence ?? ''),
     ),
   );
 

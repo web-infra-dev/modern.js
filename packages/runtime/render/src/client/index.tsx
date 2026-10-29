@@ -27,7 +27,9 @@ export { setServerCallback };
 
 export function RscClientRoot({
   rscPayload,
-}: { rscPayload: Promise<React.ReactNode> }) {
+}: {
+  rscPayload: Promise<React.ReactNode>;
+}) {
   const elements = React.use(rscPayload);
   const [root, setRoot] = useState<React.ReactNode>(elements);
   return (

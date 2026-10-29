@@ -36,13 +36,6 @@ nvm alias default 22
 nvm use 22
 ```
 
-### Install pnpm
-
-```sh
-# Enable pnpm with corepack, only available on Node.js >= `v14.19.0`
-corepack enable
-```
-
 ### Install Dependencies
 
 ```sh
@@ -56,28 +49,6 @@ What this will do:
 - Run the `prepare` script to build all packages (this will take some time, but is necessary to make ensure all packages are built)
 
 > A full rebuild of all packages is generally not required after this. If a new feature you are developing requires an updated version of another package, it is usually sufficient to build the changed dependencies.
-
-### Set Git Email
-
-Please make sure you have your email set up in `<https://github.com/settings/emails>`. This will be needed later when you want to submit a pull request.
-
-Check that your git client is already configured the email:
-
-```sh
-git config --list | grep email
-```
-
-Set the email to global config:
-
-```sh
-git config --global user.email "SOME_EMAIL@example.com"
-```
-
-Set the email for local repo:
-
-```sh
-git config user.email "SOME_EMAIL@example.com"
-```
 
 ## Making Changes and Building
 
@@ -132,7 +103,7 @@ Modern.js uses [Rstest](https://rstest.rs/) for unit tests across the repository
 Before submitting a pull request, it's important to make sure that the changes haven't introduced any regressions or bugs. You can run the unit tests for the project by executing the following command:
 
 ```sh
-pnpm run test
+pnpm run test:ut
 ```
 
 Alternatively, you can run the unit tests of single package using the `--filter` option:
@@ -145,10 +116,11 @@ pnpm run --filter @modern-js/some-package test
 
 In addition to the unit tests, the Modern.js also includes end-to-end (E2E) tests, which checks the functionality of the application as a whole.
 
-You can run the `test:e2e` command to run the E2E tests:
+Run the framework integration tests and Builder E2E tests with the following commands:
 
 ```sh
-pnpm run test:e2e
+pnpm run test:framework
+pnpm run test:builder
 ```
 
 If you need to run a specified test, you can add keywords to filter:
@@ -160,13 +132,21 @@ npx rstest copy-assets
 
 ## Linting
 
-To help maintain consistency and readability of the codebase, we use a ESLint to lint the codes.
+To help maintain consistency and readability across the codebase, we use [Rstack CLI](https://rstack.rs/) for linting and formatting.
 
 You can run the Linter by executing the following command:
 
 ```sh
 pnpm run lint
 ```
+
+Run the formatter from the repository root:
+
+```sh
+pnpm run format
+```
+
+Append a file or directory path to either command to limit its scope.
 
 ## Benchmarking
 
@@ -248,6 +228,8 @@ pnpm run prepare
 ```sh
 pnpm run bump
 ```
+
+After Changesets updates the package versions, this command synchronizes internal `peerDependencies` ranges to `workspace:^<dependency version>` to satisfy the changeset validation.
 
 5. Commit the version change.
 

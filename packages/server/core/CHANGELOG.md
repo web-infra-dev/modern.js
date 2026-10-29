@@ -1,5 +1,69 @@
 # @modern-js/server-plugin
 
+## 3.10.3
+
+### Patch Changes
+
+- 52b4a4e: fix: use Hono's pathname normalization when matching render routes to handle encoded characters consistently
+
+  fix: 渲染路由匹配复用 Hono 的路径归一化，修复编码字符路径返回 404 的问题
+
+  - @modern-js/plugin@3.10.3
+  - @modern-js/runtime-utils@3.10.3
+  - @modern-js/utils@3.10.3
+
+## 3.10.2
+
+### Patch Changes
+
+- 2f314e5: fix: preserve literal characters when registering page render routes with Hono
+
+  fix: 向 Hono 注册页面渲染路由时保留路径中的字面字符，修复 HTML 路径及渲染中间件匹配失败
+
+- 23587d0: perf: write Node.js response bodies with a stream reader loop instead of `pipeTo(Writable.toWeb(res))`, `sendResponse` now resolves once `res.end()` is called
+
+  perf: 使用流读取循环代替 `pipeTo(Writable.toWeb(res))` 写入 Node.js 响应体，`sendResponse` 在调用 `res.end()` 后即完成
+
+- 3b42ce4: perf: trim per-request work in the render path and set Server-Timing with a single header update
+
+  perf: 减少渲染链路中每个请求的额外开销，并一次性写入 Server-Timing 响应头
+
+- 6a891f0: perf: create the public middleware once without sorting the shared routes on every request, and stat static files only once per request
+
+  perf: public 中间件只创建一次，不再在每次请求时排序共享的路由数组，静态文件每次请求只调用一次 stat
+
+- Updated dependencies [76c675d]
+- Updated dependencies [b1c1018]
+  - @modern-js/runtime-utils@3.10.2
+  - @modern-js/plugin@3.10.2
+  - @modern-js/utils@3.10.2
+
+## 3.10.1
+
+### Patch Changes
+
+- e046a11: Pass the server-core fileReader singleton from the runtime server into development helpers so HTML templates, static resources, compiler filesystem initialization and rebuild invalidation use the same reader even when the two packages resolve different runtime-utils copies.
+  - @modern-js/plugin@3.10.1
+  - @modern-js/runtime-utils@3.10.1
+  - @modern-js/utils@3.10.1
+
+## 3.10.0
+
+### Patch Changes
+
+- b5f56d5: 修复共享 Rslib 配置中多个构建目标并发写入同一声明目录导致的类型文件损坏问题。
+- 9a766ec: Wait for existing Node production SSR bundle warmup before starting the server, and preserve required SSR entry loading errors instead of starting with missing render modules. Non-SSR/static routes are not treated as required SSR entries. Missing optional loader bundles and manifests remain supported; CSR-only, RSC and development startup behavior is unchanged. Lazy route modules are not eagerly loaded.
+- 1d7a38e: fix(server-core): discard the AsyncLocalStorage callback result when registering request middleware so an unfinished Hono Context cannot escape as the response.
+
+  fix(server-core): 注册请求上下文中间件时，不再返回 AsyncLocalStorage 回调的结果，避免未完成的 Hono Context 被当作响应返回。
+
+- Updated dependencies [da0fe78]
+- Updated dependencies [9a766ec]
+- Updated dependencies [7d9f0bb]
+  - @modern-js/plugin@3.10.0
+  - @modern-js/runtime-utils@3.10.0
+  - @modern-js/utils@3.10.0
+
 ## 3.9.3
 
 ### Patch Changes

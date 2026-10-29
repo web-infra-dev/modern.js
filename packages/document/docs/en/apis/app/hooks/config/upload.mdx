@@ -2,6 +2,7 @@
 title: upload/
 sidebar_position: 4
 ---
+
 # upload/
 
 Any static assets can be placed in the `upload/` directory.
@@ -30,9 +31,7 @@ In React components, you can add this prefix through [Environment Variables](/gu
 
 ```tsx
 export default () => {
-  return (
-    <img src={`${process.env.ASSET_PREFIX}/upload/banner.png`}></img>
-  );
+  return <img src={`${process.env.ASSET_PREFIX}/upload/banner.png`}></img>;
 };
 ```
 

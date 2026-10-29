@@ -1,7 +1,7 @@
 {
   "private": true,
   "name": "pure-esm-project",
-  "version": "2.66.0",
+  "version": "2.66.2",
   "type": "module",
   "scripts": {
     "dev": "modern dev",
@@ -16,9 +16,9 @@
     "@modern-js/runtime": "workspace:*",
     "@modern-js/server-runtime": "workspace:*",
     "lodash-es": "^4.18.1",
-    "react": "^19.2.8",
-    "react-dom": "^19.2.8",
-    "zod": "^3.25.76"
+    "react": "^19.3.1",
+    "react-dom": "^19.3.1",
+    "zod": "^4.0.0"
   },
   "devDependencies": {
     "@modern-js/app-tools": "workspace:*",

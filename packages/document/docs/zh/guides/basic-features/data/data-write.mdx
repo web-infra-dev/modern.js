@@ -33,7 +33,7 @@ export const action: ActionFunction = async ({ request }) => {
   const newUser = await request.json();
   const name = newUser.name;
   return updateUserProfile(name);
-}
+};
 ```
 
 在路由组件中，你可以通过 `useFetcher` 获取对应 `submit` 函数，执行并触发 Data Action：
@@ -43,7 +43,7 @@ import {
   useFetcher,
   useLoaderData,
   useParams,
-  Outlet
+  Outlet,
 } from '@modern-js/runtime/router';
 
 export default () => {
@@ -51,23 +51,21 @@ export default () => {
   const { submit } = useFetcher();
   const editUser = () => {
     const newUser = {
-      name: 'Modern.js'
-    }
+      name: 'Modern.js',
+    };
     return submit(newUser, {
       method: 'post',
       encType: 'application/json',
-    })
-  }
+    });
+  };
   return (
     <div>
       <button onClick={editUser}>edit user</button>
-      <div className="user-profile">
-        {userInfo}
-      </div>
+      <div className="user-profile">{userInfo}</div>
       <Outlet context={userInfo}></Outlet>
     </div>
-  )
-}
+  );
+};
 ```
 
 当执行 `submit` 后，会触发定义的 `action` 函数。在 `action` 函数中，可以通过[入参](/guides/basic-features/data/data-write.html#入参)获取提交的数据，最终发送数据到服务端。
@@ -124,17 +122,18 @@ useSubmit:
 
 ```ts
 const submit = useSubmit();
-submit(null, { method: "post", action: "/logout" });
+submit(null, { method: 'post', action: '/logout' });
 ```
 
 useFetcher:
 
 ```ts
 const { submit } = useFetcher();
-submit(null, { method: "post", action: "/logout" });
+submit(null, { method: 'post', action: '/logout' });
 ```
 
 `submit` 函数有两个入参，第一个入参是传递到服务端的 `formData`。第二个入参是可选参数，其中
+
 - `method` 相当于表单提交时的 `method`，大部分写入数据的场景下，`method` 可以传入 `post`。
 - `action` 用来指定触发哪个路由组件的 Data Action，如果未传入 `action` 入参，默认会触发当前路由组件的 action，即 `user/page.tsx` 组件或子组件中执行 submit，会触发 `user/page.data.ts` 中定义的 action。
 
@@ -144,7 +143,6 @@ submit(null, { method: "post", action: "/logout" });
 
 :::
 
-
 ### 数据类型
 
 `submit` 函数的第一个入参，可以接受不同类型的值。
@@ -153,7 +151,7 @@ submit(null, { method: "post", action: "/logout" });
 
 ```ts
 let formData = new FormData();
-formData.append("cheese", "gouda");
+formData.append('cheese', 'gouda');
 submit(formData);
 // In the action, you can get the data by request.json
 ```
@@ -162,7 +160,7 @@ submit(formData);
 
 ```ts
 let searchParams = new URLSearchParams();
-searchParams.append("cheese", "gouda");
+searchParams.append('cheese', 'gouda');
 submit(searchParams);
 // In the action, you can get the data by request.json
 ```
@@ -170,10 +168,10 @@ submit(searchParams);
 或任意 `URLSearchParams` 构造函数可接受的值：
 
 ```ts
-submit("cheese=gouda&toasted=yes");
+submit('cheese=gouda&toasted=yes');
 submit([
-  ["cheese", "gouda"],
-  ["toasted", "yes"],
+  ['cheese', 'gouda'],
+  ['toasted', 'yes'],
 ]);
 // In the action, you can get the data by request.json
 ```
@@ -182,11 +180,11 @@ submit([
 
 ```ts
 submit(
-  { key: "value" },
+  { key: 'value' },
   {
-    method: "post",
-    encType: "application/x-www-form-urlencoded",
-  }
+    method: 'post',
+    encType: 'application/x-www-form-urlencoded',
+  },
 );
 
 // In the action, you can get the data by request.formData
@@ -195,14 +193,11 @@ submit(
 你也可以通过第二个参数，指定为编码方式：
 
 ```tsx
-submit(
-  { key: "value" },
-  { method: "post", encType: "application/json" }
-);
+submit({ key: 'value' }, { method: 'post', encType: 'application/json' });
 
 submit('{"key":"value"}', {
-  method: "post",
-  encType: "application/json",
+  method: 'post',
+  encType: 'application/json',
 });
 
 // In the action, you can get the data by request.json
@@ -211,7 +206,7 @@ submit('{"key":"value"}', {
 或提交纯文本：
 
 ```ts
-submit("value", { method: "post", encType: "text/plain" });
+submit('value', { method: 'post', encType: 'text/plain' });
 // In the action, you can get the data by request.text
 ```
 
@@ -227,7 +222,6 @@ Modern.js 中提供 Data Action 主要是为了使 UI 和服务器的状态能�
 ![state manage](https://lf3-static.bytednsdoc.com/obj/eden-cn/ulkl/ljhwZthlaukjlkulzlp/action-state-manage1.png)
 
 如果项目中组件共享的数据主要来自于服务端的状态，则无需在项目引入浏览器端状态管理库。可以使用 Data Loader 请求数据，通过 [`useRouteLoaderData`](/guides/basic-features/data/data-fetch.md) 在子组件中共享数据，使用 Data Action 修改和同步服务端的状态。
-
 
 ## CSR 和 SSR
 

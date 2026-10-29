@@ -163,6 +163,17 @@ export function shouldUseCache(request: Request): boolean {
   return !(hasRSCAction || hasRSCTree || hasLoaderQuery);
 }
 
+const cacheKeyRegExps = new Map<string, RegExp>();
+
+function getCacheKeyRegExp(key: string): RegExp {
+  let regExp = cacheKeyRegExps.get(key);
+  if (!regExp) {
+    regExp = new RegExp(key);
+    cacheKeyRegExps.set(key, regExp);
+  }
+  return regExp;
+}
+
 export function matchCacheControl(
   cacheOption?: CacheOption,
   // TODO: remove nodeReq
@@ -179,7 +190,7 @@ export function matchCacheControl(
     const options = Object.entries(cacheOption);
 
     for (const [key, option] of options) {
-      if (key === '*' || new RegExp(key).test(url)) {
+      if (key === '*' || getCacheKeyRegExp(key).test(url)) {
         if (typeof option === 'function') {
           return option(req);
         } else {

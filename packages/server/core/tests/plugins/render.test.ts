@@ -1,11 +1,22 @@
 import path from 'path';
-import type { Logger, MonitorEvent, ServerRoute } from '@modern-js/types';
+import type {
+  Logger,
+  MonitorEvent,
+  Monitors,
+  ServerRoute,
+} from '@modern-js/types';
+import type { NodeRequest } from '@modern-js/types/server';
 import { TrieRouter } from 'hono/router/trie-router';
 import { injectResourcePlugin } from '../../src/adapters/node/plugins';
 import { createDefaultPlugins, renderPlugin } from '../../src/plugins';
-import { matchRoute } from '../../src/plugins/render/render';
+import { createRender, matchRoute } from '../../src/plugins/render/render';
 import { createServerBase } from '../../src/serverBase';
-import type { ServerPlugin, ServerUserConfig } from '../../src/types';
+import type {
+  ServerManifest,
+  ServerPlugin,
+  ServerUserConfig,
+  UserConfig,
+} from '../../src/types';
 import { getDefaultAppContext, getDefaultConfig } from '../helpers';
 
 const logger: Logger = {
@@ -346,5 +357,112 @@ describe('should render html correctly', () => {
       ),
     ).toBe(true);
     expectFallbackReport(monitorEvents, 'error');
+  });
+});
+
+describe('createRender', () => {
+  const route = {
+    urlPath: '/',
+    entryName: 'main',
+    entryPath: 'index.html',
+    isSSR: true,
+  } as ServerRoute;
+  const html = '<html><head></head><body><div id="root"></div></body></html>';
+
+  const createMonitors = () =>
+    ({
+      push: rstest.fn(),
+      error: rstest.fn(),
+      warn: rstest.fn(),
+      debug: rstest.fn(),
+      info: rstest.fn(),
+      trace: rstest.fn(),
+      timing: rstest.fn(),
+      counter: rstest.fn(),
+    }) satisfies Monitors;
+
+  async function createTestRender(
+    metaName: string,
+    requestHandler: (request: Request) => Response,
+  ) {
+    const render = await createRender({
+      routes: [route],
+      pwd: '',
+      config: {} as UserConfig,
+      metaName,
+      forceCSR: true,
+    });
+    const serverManifest = {
+      renderBundles: { main: { requestHandler } },
+    } as unknown as ServerManifest;
+
+    return (
+      headers: Record<string, string>,
+      request = new Request('http://localhost/', { headers }),
+    ) => {
+      const monitors = createMonitors();
+      return render(request, {
+        monitors,
+        templates: { 'main-/': html },
+        serverManifest,
+        nodeReq: { headers, url: '/' } as unknown as NodeRequest,
+      }).then(async response => ({
+        monitors,
+        headers: response.headers,
+        html: await response.text(),
+      }));
+    };
+  }
+
+  it('reads and sets the fallback header named after metaName', async () => {
+    const render = await createTestRender('my-app', () => new Response('SSR'));
+
+    for (const reason of ['first', 'second']) {
+      const result = await render({
+        'x-my-ssr-fallback': `1;reason=${reason}`,
+      });
+
+      expect(result.headers.get('x-my-ssr-fallback')).toBe(
+        `1;reason=header,${reason}`,
+      );
+      expect(result.html).toContain(
+        `<script id="__my_ssr_fallback_reason__" type="application/json">{"reason":"header,${reason}"}</script>`,
+      );
+    }
+    expect((await render({})).html).toBe('SSR');
+  });
+
+  it('only reads the request headers to report an error', async () => {
+    const headers = { 'x-custom': 'custom' };
+    const request = new Request('http://localhost/', { headers });
+    const forEach = rstest.spyOn(request.headers, 'forEach');
+    const render = await createTestRender(
+      'modern-js',
+      () => new Response('SSR'),
+    );
+
+    expect((await render(headers, request)).html).toBe('SSR');
+    expect(forEach).not.toHaveBeenCalled();
+  });
+
+  it('reports render errors with the request headers except cookie', async () => {
+    const error = new Error('render failed');
+    const render = await createTestRender('modern-js', () => {
+      throw error;
+    });
+
+    const result = await render({
+      cookie: 'token=secret',
+      'x-custom': 'custom',
+    });
+
+    expect(result.headers.get('x-modern-ssr-fallback')).toBe('1;reason=error');
+    expect(result.monitors.error).toHaveBeenCalledTimes(1);
+    expect(result.monitors.error).toHaveBeenCalledWith(
+      expect.stringContaining('SSR Error - '),
+      error.stack,
+      '/',
+      { 'x-custom': 'custom' },
+    );
   });
 });

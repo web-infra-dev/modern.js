@@ -1,5 +1,59 @@
 # @modern-js/server
 
+## 3.10.3
+
+### Patch Changes
+
+- Updated dependencies [52b4a4e]
+  - @modern-js/server-core@3.10.3
+  - @modern-js/server-utils@3.10.3
+  - @modern-js/runtime-utils@3.10.3
+  - @modern-js/types@3.10.3
+  - @modern-js/utils@3.10.3
+
+## 3.10.2
+
+### Patch Changes
+
+- Updated dependencies [76c675d]
+- Updated dependencies [2f314e5]
+- Updated dependencies [b1c1018]
+- Updated dependencies [23587d0]
+- Updated dependencies [3b42ce4]
+- Updated dependencies [6a891f0]
+  - @modern-js/runtime-utils@3.10.2
+  - @modern-js/server-core@3.10.2
+  - @modern-js/server-utils@3.10.2
+  - @modern-js/types@3.10.2
+  - @modern-js/utils@3.10.2
+
+## 3.10.1
+
+### Patch Changes
+
+- e046a11: Pass the server-core fileReader singleton from the runtime server into development helpers so HTML templates, static resources, compiler filesystem initialization and rebuild invalidation use the same reader even when the two packages resolve different runtime-utils copies.
+- Updated dependencies [e046a11]
+  - @modern-js/server-core@3.10.1
+  - @modern-js/server-utils@3.10.1
+  - @modern-js/runtime-utils@3.10.1
+  - @modern-js/types@3.10.1
+  - @modern-js/utils@3.10.1
+
+## 3.10.0
+
+### Patch Changes
+
+- Updated dependencies [b5f56d5]
+- Updated dependencies [14c23d0]
+- Updated dependencies [9a766ec]
+- Updated dependencies [9a766ec]
+- Updated dependencies [1d7a38e]
+  - @modern-js/server-core@3.10.0
+  - @modern-js/types@3.10.0
+  - @modern-js/runtime-utils@3.10.0
+  - @modern-js/server-utils@3.10.0
+  - @modern-js/utils@3.10.0
+
 ## 3.9.3
 
 ### Patch Changes

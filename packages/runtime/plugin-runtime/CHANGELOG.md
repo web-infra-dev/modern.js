@@ -1,5 +1,89 @@
 # @modern-js/runtime
 
+## 3.10.3
+
+### Patch Changes
+
+- @modern-js/plugin-data-loader@3.10.3
+- @modern-js/render@3.10.3
+- @modern-js/plugin@3.10.3
+- @modern-js/runtime-utils@3.10.3
+- @modern-js/types@3.10.3
+- @modern-js/utils@3.10.3
+
+## 3.10.2
+
+### Patch Changes
+
+- 7139d1d: perf: skip parsing nested route data files that cannot export `action` when generating routes
+
+  perf: 生成路由时跳过不可能导出 `action` 的 data 文件的解析
+
+- cbcf4d9: perf: cache the inlined css and js assets read during SSR instead of reading them on every request
+
+  perf: SSR 内联 CSS 和 JS 资源时缓存文件内容，不再在每次请求时读取文件
+
+- 7de5ba6: perf: search only newly streamed text for the shell end marker in streaming SSR instead of re-decoding and re-scanning the whole buffered shell for every chunk
+
+  perf: 流式 SSR 查找 shell 结束标记时只搜索新到达的内容，不再为每个 chunk 重新解码并扫描整个已缓冲的 shell
+
+- 6990078: perf: skip HTML tokenizing of streaming SSR output when no deferred resolver script can be inserted, and skip the end tag search inside inline script and style text until a `<` shows up
+
+  perf: 流式 SSR 在不会插入任何 deferred resolver 脚本时跳过对输出的 HTML 逐字符解析，并且在内联 script 和 style 文本中遇到 `<` 之前不再进行结束标签匹配
+
+- 358a003: perf: apply the template replacements before inserting the app html in string SSR
+
+  perf: 字符串 SSR 在插入应用 HTML 之前完成模板替换，避免反复扫描和复制完整文档
+
+- Updated dependencies [76c675d]
+- Updated dependencies [b1c1018]
+  - @modern-js/plugin-data-loader@3.10.2
+  - @modern-js/runtime-utils@3.10.2
+  - @modern-js/plugin@3.10.2
+  - @modern-js/render@3.10.2
+  - @modern-js/types@3.10.2
+  - @modern-js/utils@3.10.2
+
+## 3.10.1
+
+### Patch Changes
+
+- @modern-js/plugin-data-loader@3.10.1
+- @modern-js/render@3.10.1
+- @modern-js/plugin@3.10.1
+- @modern-js/runtime-utils@3.10.1
+- @modern-js/types@3.10.1
+- @modern-js/utils@3.10.1
+
+## 3.10.0
+
+### Patch Changes
+
+- da0fe78: chore: upgrade Rsbuild to v2.2.13
+
+  chore: 升级 Rsbuild 至 v2.2.13
+
+- 743f1b5: fix: keep loadable hydration aligned with `output.chunkLoadingGlobal` customized by Rspack plugins
+
+  fix: 确保 loadable 水合使用 Rspack 插件自定义的 `output.chunkLoadingGlobal`
+
+- 9a766ec: fix(runtime): keep the original error when a route module fails to load
+  fix(runtime): 路由模块加载失败时保留原始错误
+
+  Preserve module initialization errors across preloads and repeated imports in SSR server bundles, without changing browser bundle error handling.
+  SSR server bundle 在 preload 和重复 import 后仍保留模块初始化的原始 error，不改变 browser bundle 的错误处理。
+
+- Updated dependencies [da0fe78]
+- Updated dependencies [14c23d0]
+- Updated dependencies [9a766ec]
+- Updated dependencies [7d9f0bb]
+  - @modern-js/plugin-data-loader@3.10.0
+  - @modern-js/plugin@3.10.0
+  - @modern-js/types@3.10.0
+  - @modern-js/runtime-utils@3.10.0
+  - @modern-js/render@3.10.0
+  - @modern-js/utils@3.10.0
+
 ## 3.9.3
 
 ### Patch Changes

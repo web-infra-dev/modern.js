@@ -1,6 +1,6 @@
 {
   "name": "@scripts/release-node",
-  "version": "2.66.0",
+  "version": "2.66.2",
   "private": true,
   "scripts": {
     "dev": "tsc --watch",
@@ -10,7 +10,7 @@
   "dependencies": {
     "@changesets/read": "^0.6.7",
     "@modern-js/utils": "workspace:*",
-    "axios": "^1.15.2"
+    "axios": "^1.20.0"
   },
   "devDependencies": {
     "@types/node": "^20",

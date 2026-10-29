@@ -3,6 +3,7 @@ import {
   type TInternalRuntimeContext,
   getGlobalBasename,
 } from '@modern-js/runtime/context';
+import { useLocation, useNavigate, useParams } from '@modern-js/runtime/router';
 
 export const getPathname = (context: TInternalRuntimeContext): string => {
   if (isBrowser()) {
@@ -141,11 +142,6 @@ export const shouldIgnoreRedirect = (
 // Safe hook wrapper to handle cases where router context is not available
 export const useRouterHooks = () => {
   try {
-    const {
-      useLocation,
-      useNavigate,
-      useParams,
-    } = require('@modern-js/runtime/router');
     return {
       navigate: useNavigate(),
       location: useLocation(),

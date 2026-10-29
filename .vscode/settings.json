@@ -28,10 +28,10 @@
   "css.validate": false,
   "scss.validate": false,
   "less.validate": false,
-  "editor.defaultFormatter": "biomejs.biome",
+  "editor.defaultFormatter": "rstack.rstack",
   "editor.formatOnSave": true,
   "editor.codeActionsOnSave": {
-    "quickfix.biome": "explicit"
+    "source.fixAll.rslint": "explicit"
   },
   "emmet.triggerExpansionOnTab": true,
   "typescript.tsdk": "node_modules/typescript/lib",
@@ -42,42 +42,22 @@
     "**/node_modules": false
   },
   "[typescript]": {
-    "editor.defaultFormatter": "biomejs.biome",
-    "editor.codeActionsOnSave": {
-      "quickfix.biome": "explicit",
-      "source.organizeImports": "never",
-      "source.organizeImports.biome": "explicit"
-    },
+    "editor.defaultFormatter": "rstack.rstack"
   },
   "[typescriptreact]": {
-    "editor.defaultFormatter": "biomejs.biome",
-    "editor.codeActionsOnSave": {
-      "quickfix.biome": "explicit",
-      "source.organizeImports": "never",
-      "source.organizeImports.biome": "explicit"
-    },
+    "editor.defaultFormatter": "rstack.rstack"
   },
   "[json]": {
-    "editor.defaultFormatter": "biomejs.biome"
+    "editor.defaultFormatter": "rstack.rstack"
   },
   "[jsonc]": {
-    "editor.defaultFormatter": "biomejs.biome"
+    "editor.defaultFormatter": "rstack.rstack"
   },
   "[javascriptreact]": {
-    "editor.defaultFormatter": "biomejs.biome",
-    "editor.codeActionsOnSave": {
-      "quickfix.biome": "explicit",
-      "source.organizeImports": "never",
-      "source.organizeImports.biome": "explicit"
-    },
+    "editor.defaultFormatter": "rstack.rstack"
   },
   "[javascript]": {
-    "editor.defaultFormatter": "biomejs.biome",
-    "editor.codeActionsOnSave": {
-      "quickfix.biome": "explicit",
-      "source.organizeImports": "never",
-      "source.organizeImports.biome": "explicit"
-    },
+    "editor.defaultFormatter": "rstack.rstack"
   },
   "rust-analyzer.linkedProjects": [
     "./packages/cli/flight-server-transform-plugin/Cargo.toml"
@@ -86,6 +66,6 @@
     "editor.defaultFormatter": "rust-lang.rust-analyzer"
   },
   "[mdx]": {
-    "editor.defaultFormatter": "esbenp.prettier-vscode"
+    "editor.defaultFormatter": "rstack.rstack"
   }
 }

@@ -1,6 +1,6 @@
 {
   "name": "bff-api-app",
-  "version": "2.66.0",
+  "version": "2.66.2",
   "scripts": {
     "dev": "modern dev",
     "dev:bff": "modern dev --api-only",
@@ -16,11 +16,11 @@
     "@modern-js/server-runtime": "workspace:*",
     "express": "^4.22.3",
     "hono": "^4.11.7",
-    "react": "^19.2.8",
-    "react-dom": "^19.2.8",
+    "react": "^19.3.1",
+    "react-dom": "^19.3.1",
     "ts-node": "^10.9.2",
     "tsconfig-paths": "3.15.0",
-    "zod": "^3.25.76"
+    "zod": "^4.0.0"
   },
   "devDependencies": {
     "@modern-js/app-tools": "workspace:*",

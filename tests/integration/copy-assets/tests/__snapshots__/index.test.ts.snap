@@ -1,7 +1,7 @@
 // Rstest Snapshot v1
 
 exports[`copy assets > should copy public html and replace the assetPrefix variable in rspack 1`] = `
-"<!DOCTYPE html>
+"<!doctype html>
 <html>
   <head>
     <script>

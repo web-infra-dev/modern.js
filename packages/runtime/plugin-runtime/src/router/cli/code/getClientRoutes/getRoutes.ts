@@ -196,12 +196,9 @@ export const getClientRoutes = ({
     );
   }
 
-  if (
-    !(
-      fs.existsSync(pageRoutesEntry) &&
-      fs.statSync(pageRoutesEntry).isDirectory()
-    )
-  ) {
+  if (!(
+    fs.existsSync(pageRoutesEntry) && fs.statSync(pageRoutesEntry).isDirectory()
+  )) {
     throw new Error(
       `generate file system routes error, ${pageRoutesEntry} should be directory.`,
     );

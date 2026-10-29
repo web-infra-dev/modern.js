@@ -1,7 +1,7 @@
 {
   "private": true,
   "name": "server-config",
-  "version": "2.66.0",
+  "version": "2.66.2",
   "scripts": {
     "dev": "modern dev",
     "build": "modern build",
@@ -11,8 +11,8 @@
   "dependencies": {
     "@modern-js/runtime": "workspace:*",
     "@modern-js/server-runtime": "workspace:*",
-    "react": "^19.2.8",
-    "react-dom": "^19.2.8"
+    "react": "^19.3.1",
+    "react-dom": "^19.3.1"
   },
   "devDependencies": {
     "ts-node": "^10.9.2",

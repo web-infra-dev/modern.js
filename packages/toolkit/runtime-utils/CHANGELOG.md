@@ -1,5 +1,48 @@
 # @modern-js/runtime-utils
 
+## 3.10.3
+
+### Patch Changes
+
+- @modern-js/types@3.10.3
+- @modern-js/utils@3.10.3
+
+## 3.10.2
+
+### Patch Changes
+
+- 76c675d: perf: reuse the static handler of data loader requests and match the entry without sorting the server routes on every request
+
+  perf: 数据加载请求复用 static handler，并且匹配入口时不再在每次请求时排序服务端路由
+
+- b1c1018: perf: calculate the size of Buffer and string values in the memory cache without `JSON.stringify`, binary files are now counted by their real size, so the default 256 MB cache can hold up to 256 MB of them instead of about 71 MB
+
+  perf: 内存缓存计算 Buffer 和字符串大小时不再使用 `JSON.stringify` 序列化，二进制文件按真实大小计算，默认 256 MB 缓存可以存放约 256 MB 的文件，而不是原来的约 71 MB
+
+  - @modern-js/types@3.10.2
+  - @modern-js/utils@3.10.2
+
+## 3.10.1
+
+### Patch Changes
+
+- @modern-js/types@3.10.1
+- @modern-js/utils@3.10.1
+
+## 3.10.0
+
+### Patch Changes
+
+- 9a766ec: fix(runtime): keep the original error when a route module fails to load
+  fix(runtime): 路由模块加载失败时保留原始错误
+
+  Preserve module initialization errors across preloads and repeated imports in SSR server bundles, without changing browser bundle error handling.
+  SSR server bundle 在 preload 和重复 import 后仍保留模块初始化的原始 error，不改变 browser bundle 的错误处理。
+
+- Updated dependencies [14c23d0]
+  - @modern-js/types@3.10.0
+  - @modern-js/utils@3.10.0
+
 ## 3.9.3
 
 ### Patch Changes

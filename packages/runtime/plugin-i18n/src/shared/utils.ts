@@ -11,8 +11,7 @@ export function getEntryConfig<T extends Record<string, any>>(
   entryKey: string,
 ): T | undefined {
   const entryConfigMap = (config as any)[entryKey] as
-    | Record<string, T>
-    | undefined;
+    Record<string, T> | undefined;
   return entryConfigMap?.[entryName];
 }
 

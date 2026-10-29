@@ -5,7 +5,7 @@ import type {
   Http2ServerResponse,
 } from 'node:http2';
 import type { Server as NodeHttpsServer } from 'node:https';
-import { Readable, Writable } from 'node:stream';
+import { Readable } from 'node:stream';
 import type { NodeRequest, NodeResponse } from '@modern-js/types/server';
 import cloneable from 'cloneable-readable';
 import type { RequestHandler } from '../../types';
@@ -103,6 +103,101 @@ export const createWebRequest = (
   return originalRequest;
 };
 
+const noop = () => {};
+
+// `Http2ServerResponse` has no `destroyed`, its stream has.
+const isDestroyed = (res: NodeResponse) =>
+  'stream' in res ? res.stream.destroyed : res.destroyed;
+
+const createAbortError = () =>
+  Object.assign(new Error('The operation was aborted'), {
+    name: 'AbortError',
+    code: 'ABORT_ERR',
+  });
+
+/**
+ * Write the body with a reader loop, which is much cheaper than
+ * `body.pipeTo(Writable.toWeb(res))`, while keeping the same semantics:
+ * - wait for 'drain' when `res.write()` returns false;
+ * - destroy `res` with the error if the body errors;
+ * - cancel the body if `res` closes, errors or throws before the body is
+ *   fully written, and reject with that error (an `ABORT_ERR` when the client
+ *   disconnects).
+ * Unlike `pipeTo`, it resolves once `res.end()` is called instead of waiting
+ * for the response to finish.
+ */
+const writeBody = async (
+  body: ReadableStream<Uint8Array>,
+  res: NodeResponse,
+) => {
+  const reader = body.getReader();
+  let abortError: unknown;
+  let cancelled: Promise<void> | undefined;
+  let resume: (() => void) | undefined;
+  let waitsForDrain = false;
+  const onDrain = () => resume?.();
+  const abort = (error: unknown) => {
+    if (cancelled) {
+      return;
+    }
+    abortError = error;
+    cancelled = reader.cancel(error);
+    cancelled.catch(noop);
+    resume?.();
+  };
+  const onClose = () => abort(createAbortError());
+
+  res.on('close', onClose);
+  res.on('error', abort);
+  try {
+    if (isDestroyed(res)) {
+      onClose();
+    }
+    while (!cancelled) {
+      let result: ReadableStreamReadResult<Uint8Array>;
+      try {
+        result = await reader.read();
+      } catch (error) {
+        res.destroy(error as Error);
+        throw error;
+      }
+      if (result.done || cancelled) {
+        break;
+      }
+      try {
+        if (!(res as ServerResponse).write(result.value) && !cancelled) {
+          if (!waitsForDrain) {
+            // Listen once per response: a compression middleware may forward
+            // `drain` listeners to its own stream, where `res.off()` can't
+            // remove them.
+            waitsForDrain = true;
+            res.on('drain', onDrain);
+          }
+          await new Promise<void>(resolve => {
+            resume = resolve;
+          });
+          resume = undefined;
+        }
+      } catch (error) {
+        abort(error);
+      }
+    }
+    if (cancelled) {
+      await cancelled;
+      throw abortError;
+    }
+    res.end();
+  } finally {
+    res.off('close', onClose);
+    res.off('error', abort);
+    if (waitsForDrain) {
+      res.off('drain', onDrain);
+    }
+    // Unlock the body like `pipeTo` does, so it can still be cancelled.
+    reader.releaseLock();
+  }
+};
+
 export const sendResponse = async (response: Response, res: NodeResponse) => {
   res.statusMessage = response.statusText;
   res.statusCode = response.status;
@@ -128,8 +223,7 @@ export const sendResponse = async (response: Response, res: NodeResponse) => {
   }
 
   if (response.body) {
-    const writable = Writable.toWeb(res);
-    await response.body.pipeTo(writable);
+    await writeBody(response.body, res);
   } else {
     res.end();
   }

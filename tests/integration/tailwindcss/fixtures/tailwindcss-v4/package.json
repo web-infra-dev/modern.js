@@ -2,7 +2,7 @@
   "private": true,
   "type": "module",
   "name": "integration-tailwindcss-v4",
-  "version": "2.66.0",
+  "version": "2.66.2",
   "scripts": {
     "dev": "modern dev",
     "build": "modern build",
@@ -12,10 +12,10 @@
   "dependencies": {
     "@modern-js/app-tools": "workspace:*",
     "@modern-js/runtime": "workspace:*",
-    "postcss": "^8.5.28",
-    "react": "^19.2.8",
-    "react-dom": "^19.2.8",
-    "@tailwindcss/postcss": "^4.1.18",
-    "tailwindcss": "^4.1.18"
+    "postcss": "^8.5.31",
+    "react": "^19.3.1",
+    "react-dom": "^19.3.1",
+    "@tailwindcss/postcss": "^4.3.3",
+    "tailwindcss": "^4.3.3"
   }
 }

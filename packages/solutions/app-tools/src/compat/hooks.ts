@@ -85,18 +85,6 @@ export function getHookRunners(
       const result = await (hooks as any)?.appendEntryCode.call(params);
       return result;
     },
-    // test plugin hooks
-    jestConfig: async (utils: any) => {
-      const result = await (hooks as any)?.jestConfig.call(
-        utils,
-        (utils: any) => utils,
-      );
-      return result;
-    },
-    afterTest: async () => {
-      return (hooks as any).afterTest.call();
-    },
-
     /**
      * common hooks
      */
@@ -132,24 +120,16 @@ export function getHookRunners(
     }) => {
       return hooks.onFileChanged.call(params);
     },
-    beforeCreateCompiler: async (params: {
-      bundlerConfigs?: any[];
-    }) => {
+    beforeCreateCompiler: async (params: { bundlerConfigs?: any[] }) => {
       return hooks.onBeforeCreateCompiler.call(params as any);
     },
-    afterCreateCompiler: async (params: {
-      compiler?: any;
-    }) => {
+    afterCreateCompiler: async (params: { compiler?: any }) => {
       return hooks.onAfterCreateCompiler.call(params as any);
     },
-    beforeBuild: async (params: {
-      bundlerConfigs?: any[];
-    }) => {
+    beforeBuild: async (params: { bundlerConfigs?: any[] }) => {
       return hooks.onBeforeBuild.call(params as any);
     },
-    afterBuild: async (params: {
-      stats?: any;
-    }) => {
+    afterBuild: async (params: { stats?: any }) => {
       return hooks.onAfterBuild.call(params as any);
     },
     beforeDev: async () => {

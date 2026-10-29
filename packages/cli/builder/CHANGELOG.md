@@ -1,5 +1,41 @@
 # @modern-js/builder
 
+## 3.10.3
+
+### Patch Changes
+
+- @modern-js/utils@3.10.3
+
+## 3.10.2
+
+### Patch Changes
+
+- 0c7dad2: perf: skip importing `html-minifier-terser` when HTML minification is disabled, such as in development
+
+  perf: 在 HTML 压缩未启用时（例如开发模式）跳过加载 `html-minifier-terser`
+
+  - @modern-js/utils@3.10.2
+
+## 3.10.1
+
+### Patch Changes
+
+- @modern-js/utils@3.10.1
+
+## 3.10.0
+
+### Patch Changes
+
+- da0fe78: chore: upgrade Rsbuild to v2.2.13
+
+  chore: 升级 Rsbuild 至 v2.2.13
+
+- 7d9f0bb: chore(deps): upgrade Rsbuild to v2.2.12.
+
+  chore(deps): 升级 Rsbuild 到 v2.2.12。
+
+  - @modern-js/utils@3.10.0
+
 ## 3.9.3
 
 ### Patch Changes
