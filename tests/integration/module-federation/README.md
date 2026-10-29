@@ -36,7 +36,7 @@ The `/input-forms` fixture covers registered strings, MF loader functions, and s
 
 Runtime registration and prefetch continue using Enhanced and the existing data-prefetch plugin. The fixture does not call the old `createLazyComponent` consumer API. Each producer has one canonical runtime name with an alias. Registering the same container under multiple names would evaluate a second server entry against an existing instance and can break remote chunk initialization.
 
-The checked-in MF dependencies remain pinned to published preview `0.0.0-feat-bridge-route-navigation-20261028125233`, which contains the unified consumers and per-expose protocol metadata. The new function-input SSR, preloaded-export identity and generated props inference require matching newer Core packages. Validation of these additions currently uses locally built Core packages and does not establish support in the older published preview. Before release, update the integration, examples and runtime peer versions together, then rerun the regressions against registry packages without local overrides.
+The checked-in MF dependencies are pinned to published preview `0.0.0-feat-bridge-route-navigation-20261029103538`, including matching function-input SSR, preloaded-export identity and generated props inference. Integration apps, examples, runtime peers and the adapter use the same preview. Regression runs must install from the checked-in lockfile without local Core overrides.
 
 ## Weather scenarios
 
