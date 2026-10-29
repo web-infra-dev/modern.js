@@ -2,7 +2,7 @@ import { Api, Upload } from '@modern-js/plugin-bff/server';
 import { z } from 'zod';
 
 const FileSchema = z.object({
-  images: z.record(z.string(), z.any()),
+  images: z.file(),
   params: z.string(),
 });
 
