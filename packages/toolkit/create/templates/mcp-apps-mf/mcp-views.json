@@ -1,0 +1,12 @@
+{
+  "views": {
+    "todos": {
+      "expose": "./Todos"
+    }
+  },
+  "csp": {
+    "resourceDomains": [],
+    "connectDomains": []
+  },
+  "prefersBorder": true
+}

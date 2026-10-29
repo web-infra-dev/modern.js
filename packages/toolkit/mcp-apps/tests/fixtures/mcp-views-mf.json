@@ -1,0 +1,3 @@
+{
+  "views": { "stats": { "expose": "./Stats" } }
+}

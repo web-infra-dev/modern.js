@@ -6,6 +6,8 @@ const ignoreDeps = [
   'typescript',
   'lru-cache',
   'tsx',
+  // MCP SDK requires zod >=4.2, while existing BFF APIs still use zod 3.
+  'zod',
 ];
 
 // examples/ intentionally track the published packages (`latest`) and mirror

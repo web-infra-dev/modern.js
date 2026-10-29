@@ -1,0 +1,13 @@
+{
+  "views": {
+    "todos": {
+      "expose": "./Todos"
+    },
+    "local": "./src/components/Todos.tsx"
+  },
+  "csp": {
+    "resourceDomains": [],
+    "connectDomains": []
+  },
+  "prefersBorder": true
+}

@@ -1,0 +1,32 @@
+{
+  "private": true,
+  "name": "@examples/mcp-apps-todo",
+  "version": "0.1.0",
+  "scripts": {
+    "dev": "modern dev",
+    "build": "modern build",
+    "serve": "modern serve"
+  },
+  "dependencies": {
+    "@modern-js/runtime": "workspace:*",
+    "@modern-js/mcp-apps": "workspace:*",
+    "@modern-js/server-runtime": "workspace:*",
+    "@modern-js/plugin-bff": "workspace:*",
+    "@modelcontextprotocol/server": "2.3.1",
+    "@modelcontextprotocol/ext-apps": "2.0.3",
+    "@module-federation/enhanced": "2.0.0",
+    "react": "^19.3.1",
+    "react-dom": "^19.3.1",
+    "zod": "^4.2.0"
+  },
+  "devDependencies": {
+    "@modern-js/app-tools": "workspace:*",
+    "@module-federation/modern-js-v3": "2.0.0",
+    "@types/react": "^19.3.0",
+    "@types/react-dom": "^19.3.0",
+    "@types/node": "^20",
+    "typescript": "~5.9.3",
+    "ts-node": "^10.9.2",
+    "tsconfig-paths": "^4.2.0"
+  }
+}

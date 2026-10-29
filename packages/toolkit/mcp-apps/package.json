@@ -1,0 +1,132 @@
+{
+  "name": "@modern-js/mcp-apps",
+  "version": "3.10.3",
+  "description": "Build, serve and render MCP Apps in Modern.js applications",
+  "license": "MIT",
+  "homepage": "https://modernjs.dev",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/web-infra-dev/modern.js",
+    "directory": "packages/toolkit/mcp-apps"
+  },
+  "files": [
+    "dist",
+    "README.md"
+  ],
+  "sideEffects": [
+    "./src/ui/mf-entry.ts",
+    "./dist/esm/mf-entry.mjs"
+  ],
+  "engines": {
+    "node": ">=20"
+  },
+  "exports": {
+    "./cli": {
+      "types": "./dist/types/cli/index.d.ts",
+      "modern:source": "./src/cli/index.ts",
+      "import": "./dist/esm-node/cli.mjs",
+      "require": "./dist/cjs/cli.cjs"
+    },
+    "./server-plugin": {
+      "types": "./dist/types/cli/server-plugin.d.ts",
+      "modern:source": "./src/cli/server-plugin.ts",
+      "import": "./dist/esm-node/server-plugin.mjs",
+      "require": "./dist/cjs/server-plugin.cjs"
+    },
+    "./server": {
+      "types": "./dist/types/server/index.d.ts",
+      "modern:source": "./src/server/index.ts",
+      "import": "./dist/esm-node/server.mjs",
+      "require": "./dist/cjs/server.cjs"
+    },
+    "./react": {
+      "types": "./dist/types/ui/react.d.ts",
+      "modern:source": "./src/ui/react.ts",
+      "import": "./dist/esm/react.mjs",
+      "default": "./dist/esm/react.mjs"
+    }
+  },
+  "scripts": {
+    "build": "rslib build",
+    "test": "rstest",
+    "typecheck": "tsc --noEmit"
+  },
+  "dependencies": {
+    "@rsbuild/core": "2.2.13"
+  },
+  "peerDependencies": {
+    "react": "^18.0.0 || ^19.0.0",
+    "react-dom": "^18.0.0 || ^19.0.0",
+    "@module-federation/enhanced": "^2.0.0",
+    "@modelcontextprotocol/server": "^2.3.1",
+    "@modelcontextprotocol/ext-apps": "^2.0.3",
+    "@modern-js/server-runtime": "workspace:^3.10.3"
+  },
+  "peerDependenciesMeta": {
+    "@module-federation/enhanced": {
+      "optional": true
+    },
+    "@modern-js/server-runtime": {
+      "optional": true
+    }
+  },
+  "devDependencies": {
+    "@module-federation/enhanced": "2.0.0",
+    "@rslib/core": "1.0.4",
+    "@scripts/rstest-config": "workspace:*",
+    "@types/node": "^20",
+    "@types/react": "^19.3.0",
+    "@types/react-dom": "^19.3.0",
+    "react": "^19.3.1",
+    "react-dom": "^19.3.1",
+    "typescript": "^5",
+    "@modelcontextprotocol/client": "2.3.1",
+    "zod": "^4.2.0",
+    "@modelcontextprotocol/server": "2.3.1",
+    "@modelcontextprotocol/ext-apps": "2.0.3",
+    "@modern-js/server-runtime": "workspace:*",
+    "@modern-js/app-tools": "workspace:*"
+  },
+  "publishConfig": {
+    "access": "public",
+    "registry": "https://registry.npmjs.org/",
+    "exports": {
+      "./cli": {
+        "types": "./dist/types/cli/index.d.ts",
+        "import": "./dist/esm-node/cli.mjs",
+        "require": "./dist/cjs/cli.cjs"
+      },
+      "./server-plugin": {
+        "types": "./dist/types/cli/server-plugin.d.ts",
+        "import": "./dist/esm-node/server-plugin.mjs",
+        "require": "./dist/cjs/server-plugin.cjs"
+      },
+      "./server": {
+        "types": "./dist/types/server/index.d.ts",
+        "import": "./dist/esm-node/server.mjs",
+        "require": "./dist/cjs/server.cjs"
+      },
+      "./react": {
+        "types": "./dist/types/ui/react.d.ts",
+        "import": "./dist/esm/react.mjs",
+        "default": "./dist/esm/react.mjs"
+      }
+    }
+  },
+  "typesVersions": {
+    "*": {
+      "cli": [
+        "./dist/types/cli/index.d.ts"
+      ],
+      "server-plugin": [
+        "./dist/types/cli/server-plugin.d.ts"
+      ],
+      "server": [
+        "./dist/types/server/index.d.ts"
+      ],
+      "react": [
+        "./dist/types/ui/react.d.ts"
+      ]
+    }
+  }
+}

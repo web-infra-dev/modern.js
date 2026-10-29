@@ -5,9 +5,9 @@ import { fileURLToPath } from 'node:url';
 import { getLocaleLanguage } from '@modern-js/i18n-utils/language-detector';
 import { runAgentsMd } from './agents-md';
 import { i18n, localeKeys } from './locale';
+import { createProject, parseTemplate } from './template';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
-const templateDir = path.resolve(__dirname, '..', 'template');
 
 const detectLanguage = (): 'zh' | 'en' => {
   const langIndex = process.argv.findIndex(
@@ -27,27 +27,6 @@ const detectLanguage = (): 'zh' | 'en' => {
 };
 
 i18n.changeLanguage({ locale: detectLanguage() });
-
-function renderTemplate(template: string, data: Record<string, any>): string {
-  let result = template;
-
-  const unlessRegex = /\{\{#unless\s+(\w+)\}\}([\s\S]*?)\{\{\/unless\}\}/g;
-  result = result.replace(unlessRegex, (match, condition, content) => {
-    const value = data[condition];
-    if (!value) {
-      return content;
-    }
-    return '';
-  });
-
-  const varRegex = /\{\{(\w+)\}\}/g;
-  result = result.replace(varRegex, (match, key) => {
-    const value = data[key];
-    return value !== undefined && value !== null ? String(value) : match;
-  });
-
-  return result;
-}
 
 function showVersion() {
   const createPackageJson = path.resolve(__dirname, '..', 'package.json');
@@ -71,6 +50,10 @@ function showHelp() {
   console.log(i18n.t(localeKeys.help.optionSub));
   console.log(i18n.t(localeKeys.help.optionNoAgentsMd));
   console.log(i18n.t(localeKeys.help.optionAgentsMdOnly));
+  console.log(i18n.t(localeKeys.help.optionTemplate));
+  console.log(
+    '  --mf                 Enable Module Federation for --template mcp-apps',
+  );
   console.log('');
   console.log(i18n.t(localeKeys.help.examples));
   console.log(i18n.t(localeKeys.help.example1));
@@ -100,7 +83,7 @@ function promptInput(question: string): Promise<string> {
 }
 
 // flags that consume the next argument as their value
-const VALUE_FLAGS = ['--lang', '-l'];
+const VALUE_FLAGS = ['--lang', '-l', '--template'];
 // flags that stand alone
 const BOOLEAN_FLAGS = [
   '--help',
@@ -110,6 +93,7 @@ const BOOLEAN_FLAGS = [
   '--sub',
   '-s',
   '--no-sub',
+  '--mf',
   '--no-agents-md',
   '--agents-md-only',
 ];
@@ -153,6 +137,7 @@ async function getProjectName(): Promise<{
     (arg, index) =>
       !VALUE_FLAGS.includes(arg) &&
       !BOOLEAN_FLAGS.includes(arg) &&
+      !arg.startsWith('--template=') &&
       !(index > 0 && VALUE_FLAGS.includes(args[index - 1])),
   );
 
@@ -189,6 +174,11 @@ async function main() {
     return;
   }
 
+  const template = parseTemplate(args);
+  const mf = args.includes('--mf');
+  if (mf && template !== 'mcp-apps')
+    throw new Error('--mf requires --template mcp-apps');
+
   // Mode for existing projects: add/refresh AGENTS.md in the
   // current directory so agents pick up the bundled docs after an upgrade
   // (idempotent). A flag rather than a positional, so it never collides with
@@ -198,11 +188,15 @@ async function main() {
       (arg, index) =>
         !arg.startsWith('-') && !VALUE_FLAGS.includes(args[index - 1]),
     );
-    if (hasProjectName || args.includes('--no-agents-md')) {
+    if (
+      hasProjectName ||
+      args.includes('--no-agents-md') ||
+      template !== 'app'
+    ) {
       console.error(i18n.t(localeKeys.error.agentsMdOnlyConflict));
       process.exit(1);
     }
-    runAgentsMd(templateDir, process.cwd());
+    runAgentsMd(path.resolve(__dirname, '../template'), process.cwd());
     return;
   }
 
@@ -230,21 +224,14 @@ async function main() {
   const isSubproject = subprojectFlag === true;
   const noAgentsMd = detectNoAgentsMdFlag();
 
-  copyTemplate(templateDir, targetDir, {
+  createProject(targetDir, {
     packageName: projectName,
     version,
     isSubproject,
     noAgentsMd,
+    template,
+    mf,
   });
-
-  const targetPackageJson = path.join(targetDir, 'package.json');
-  const packageJson = JSON.parse(fs.readFileSync(targetPackageJson, 'utf-8'));
-  packageJson.name = projectName;
-
-  fs.writeFileSync(
-    targetPackageJson,
-    `${JSON.stringify(packageJson, null, 2)}\n`,
-  );
 
   // ANSI escape codes: \x1b[2m = dim, \x1b[3m = italic, \x1b[0m = reset
   const dim = '\x1b[2m\x1b[3m';
@@ -262,66 +249,6 @@ async function main() {
   }
   console.log(`${dim}   ${i18n.t(localeKeys.message.step2)}${reset}`);
   console.log(`${dim}   ${i18n.t(localeKeys.message.step3)}${reset}\n`);
-}
-
-function copyTemplate(
-  src: string,
-  dest: string,
-  options: {
-    packageName: string;
-    version: string;
-    isSubproject: boolean;
-    noAgentsMd: boolean;
-  },
-) {
-  fs.mkdirSync(dest, { recursive: true });
-
-  const excludeInSubproject = [
-    '.rstack',
-    '.vscode',
-    '.gitignore.handlebars',
-    'rstack.config.mts',
-    '.npmrc',
-    '.nvmrc',
-    // agent files are managed at the monorepo root in subproject setups
-    'AGENTS.md',
-  ];
-
-  function copyRecursive(srcDir: string, destDir: string) {
-    const entries = fs.readdirSync(srcDir, { withFileTypes: true });
-
-    for (const entry of entries) {
-      if (options.isSubproject && excludeInSubproject.includes(entry.name)) {
-        continue;
-      }
-      if (options.noAgentsMd && entry.name === 'AGENTS.md') {
-        continue;
-      }
-
-      const srcPath = path.join(srcDir, entry.name);
-      let destPath = path.join(destDir, entry.name);
-
-      if (entry.isDirectory()) {
-        fs.mkdirSync(destPath, { recursive: true });
-        copyRecursive(srcPath, destPath);
-      } else {
-        if (entry.name.endsWith('.handlebars')) {
-          const templateContent = fs.readFileSync(srcPath, 'utf-8');
-          const rendered = renderTemplate(templateContent, {
-            packageName: options.packageName,
-            version: options.version,
-            isSubproject: options.isSubproject,
-          });
-          destPath = destPath.replace(/\.handlebars$/, '');
-          fs.writeFileSync(destPath, rendered, 'utf-8');
-        } else {
-          fs.copyFileSync(srcPath, destPath);
-        }
-      }
-    }
-  }
-
-  copyRecursive(src, dest);
 }
 
 main().catch(error => {

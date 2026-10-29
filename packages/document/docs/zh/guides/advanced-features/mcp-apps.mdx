@@ -1,0 +1,190 @@
+# MCP Apps
+
+Modern.js 可以把 React 组件构建为 MCP 卡片。UI 构建与服务端通过 `ui-manifest.json` 关联，服务端直接使用官方 MCP SDK。
+
+## 创建项目
+
+```bash
+npx @modern-js/create@latest my-mcp --template mcp-apps
+# 复用本项目的 Module Federation expose
+npx @modern-js/create@latest my-mf-mcp --template mcp-apps --mf
+```
+
+使用包含 MCP Apps 支持的版本。运行 `pnpm dev` 后，MCP 地址为 `/api/mcp`。
+
+构建插件、服务端插件、服务端适配器和卡片运行时都由 `@modern-js/mcp-apps` 提供，分别从 `./cli`、`./server-plugin`、`./server` 和 `./react` 导入。应用需安装 peer 依赖 `react`、`react-dom`、`@modelcontextprotocol/server` 和 `@modelcontextprotocol/ext-apps`，让卡片使用应用的 React，工具、资源注册和 HTTP 处理使用应用安装的 SDK。`@modern-js/server-runtime` 和 `@module-federation/enhanced` 是可选 peer，分别作为 BFF handler 获取请求上下文和 MF shell 运行时的默认实现。脚手架模板已声明这些依赖。
+
+## 声明卡片
+
+创建 `mcp-views.json`。字符串路径相对该 JSON 文件解析。对象仅支持引用本项目 MF 配置中已有的 expose。
+
+```json
+{
+  "views": {
+    "todos": "./src/components/Todos.tsx",
+    "stats": { "expose": "./Stats" }
+  },
+  "csp": { "resourceDomains": [], "connectDomains": [] },
+  "prefersBorder": true
+}
+```
+
+在 `modern.config.ts` 中从 `@modern-js/mcp-apps/cli` 导入并加入 `mcpAppsPlugin({ views: './mcp-views.json' })`。本地卡片仅需该插件，MF 卡片还需启用 `@module-federation/modern-js-v3` 插件并开启 manifest 输出。插件读取实际 MF 构建产物，验证 expose 存在，生成项目自身构建的 shell。
+
+插件按文件名在 web 构建产物中查找 MF manifest，默认为 `mf-manifest.json`，必须恰好匹配一个文件。shell 默认从 `@module-federation/enhanced/runtime` 导入 `createInstance`。使用其他 MF 实现时，可以通过 `mf` 参数替换：
+
+```ts
+mcpAppsPlugin({
+  views: './mcp-views.json',
+  mf: {
+    // 构建产物中 MF manifest 的文件名
+    manifestFile: 'vmok-manifest.json',
+    // 从应用解析，需导出兼容的 createInstance
+    runtime: '@vmok/kit/runtime',
+  },
+});
+```
+
+本地卡片以独立入口构建，不加载框架的页面运行时。`source.enableAsyncEntry` 开启时，入口通过动态 import 建立异步边界，供 MF 共享依赖完成初始化。MF 插件会自动开启该选项。未开启时直接挂载卡片，不增加额外请求。
+
+卡片必须默认导出 React 组件。props 来自 tool 返回的 `structuredContent`，`mcpApp` 为框架保留的注入字段。
+
+{/* prettier-ignore */}
+```tsx
+import type { McpViewProps } from '@modern-js/mcp-apps/react'
+
+export default function Todos({
+  todos = [],
+  mcpApp,
+}: McpViewProps<{ todos: string[] }>) {
+  return (
+    <section>
+      <ul>
+        {todos.map(todo => (
+          <li key={todo}>{todo}</li>
+        ))}
+      </ul>
+      <button
+        onClick={() =>
+          mcpApp.callServerTool({ name: 'refresh', arguments: {} })
+        }
+      >
+        刷新
+      </button>
+    </section>
+  )
+}
+```
+
+默认包装器处理连接、主题、加载、错误、取消和 teardown。开始新一轮 tool 调用时会清空旧结果，不把输入参数合并进 props。卡片内调用 tool 返回的结果由组件自己处理，不会自动替换当前卡片数据。
+
+## 编写服务端
+
+创建 `api/lambda/mcp.ts`，使用官方 `McpServer`、`registerAppTool` 和 zod。UI 插件不自动挂载任何 MCP 路由。
+
+{/* prettier-ignore */}
+```ts
+import { McpServer } from '@modelcontextprotocol/server'
+import { registerAppTool } from '@modelcontextprotocol/ext-apps/server'
+import {
+  createBffHandlers,
+  registerUiResources,
+} from '@modern-js/mcp-apps/server'
+import { z } from 'zod'
+
+async function createServer(request: Request) {
+  const server = new McpServer({ name: 'todos', version: '1.0.0' })
+  const ui = await registerUiResources(server, { request })
+  registerAppTool(
+    server,
+    'list_todos',
+    {
+      inputSchema: z.object({}),
+      _meta: { ui: { resourceUri: ui.todos } },
+    },
+    async () => ({
+      content: [{ type: 'text', text: 'Todo list' }],
+      structuredContent: { todos: ['Read the MCP Apps guide'] },
+    }),
+  )
+  return server
+}
+
+export const { POST, GET, DELETE } = createBffHandlers(createServer)
+```
+
+需要启用 `bffPlugin()`。适配器根据 BFF 已解析的 JSON 重建请求，返回 SDK 的原始 Response。适配器通过 `@modern-js/server-runtime` 的 `useHonoContext` 获取原始请求，基于 Modern.js 封装的框架可以通过 `createBffHandlers(createServer, { useContext })` 传入自己的实现。默认无状态 HTTP 模式由官方 SDK 处理协议和参数校验，GET、DELETE 等不支持的会话操作由 SDK 返回错误。认证与业务授权放在 HTTP 中间件或 `createServer` 中。每个请求创建独立的 server，业务数据需要持久化到外部存储。
+
+独立 Hono 服务可通过 `app.all('/mcp', c => handle(c.req.raw))` 挂载 `createFetchHandler(createServer)`。适配器默认只允许同源浏览器请求，额外来源通过第二个参数的 `allowedOrigins` 配置。
+
+## 清单与部署
+
+```text
+dist/
+├─ mcp-apps/
+│  ├─ ui-manifest.json
+│  └─ ui/
+│     ├─ mcp-ui-<name>-<hash>.html
+│     └─ mcp-shell.html
+└─ static/
+   └─ mf-manifest.json
+```
+
+本地卡片文件名由卡片名生成稳定 hash，避免文件名冲突与路径注入。MF 卡片共用 shell。
+
+清单契约为：
+
+```json
+{
+  "version": 1,
+  "assetBase": "request",
+  "remotes": {
+    "todo_ui": {
+      "entry": "static/mf-manifest.json",
+      "shell": "./ui/mcp-shell.html"
+    }
+  },
+  "views": {
+    "todos": {
+      "html": "./ui/mcp-ui-local-25bf8e1a2393.html",
+      "ui": { "prefersBorder": true }
+    },
+    "stats": { "remote": "todo_ui", "expose": "./Stats", "ui": {} }
+  }
+}
+```
+
+- `html`、`shell` 相对清单文件位置解析，也支持绝对 HTTP(S) 地址
+- `entry` 相对 `assetBase` 解析，也支持绝对 HTTP(S) 地址
+- `ui` 保留卡片的 CSP、permissions、domain、prefersBorder 元数据
+- 清单不记录 tool 或 resource URI，服务端生成 `ui://app/<编码后的卡片名>`，多个 tool 可以复用同一 URI
+- MF 配置在读取 resource 时注入 shell，不需要 tool result 携带框架元数据
+
+`createBffHandlers()` 将服务端插件提供的清单路径和运行模式关联到当前请求。调用 `registerUiResources(server, { request })` 即可自动获取配置。开发使用框架的内部目录，生产使用运行时的实际输出目录。显式选项优先于注入配置。独立服务必须显式配置 `manifest` 文件路径或 HTTP(S) URL，`mode` 默认为 `production`。相对 HTML 路径以清单位置为基准解析。
+
+清单按来源地址和环境缓存。生产环境在进程生命周期内复用，原地址更新清单后需重启进程。开发环境检查本地文件状态，文件变化后重新加载，远程清单缓存 60 秒。并发加载会合并，加载失败后允许重试。HTML 仍在读取资源时加载，请求相关的地址和 metadata 不会跨请求复用。
+
+`output.assetPrefix` 为绝对地址时用于推导 `assetBase`。`request` 表示使用请求的公开 origin，支持经过代理清理的 `x-forwarded-proto`。子路径或外部静态资源部署可以通过 `registerUiResources` 的 `assetBase` 显式覆盖。反向代理必须保留公开 host 并清理转发头。
+
+服务端把资源根地址加入 CSP 的 resourceDomains、connectDomains 和 baseUriDomains，把 MF entry 的 origin 加入 connectDomains 和 resourceDomains。构建时还会把绝对地址或不带协议的 `output.assetPrefix` 的 origin 加入 CSP，`//cdn.example/` 按 `https://cdn.example` 处理。其他 CDN、接口和 iframe 域名需在 `mcp-views.json` 中声明，或在配置中计算后通过 `mcpAppsPlugin({ csp })` 传入，两者都会合并到每张卡片。生产部署必须保留清单、HTML、应用静态资源和 MF 产物。
+
+平台可以把已构建的卡片文件和 MF 地址转换为绝对地址，组合成同版本的新清单，再由独立服务端消费。未知清单版本会被拒绝。
+
+## 卡片能力声明
+
+卡片默认声明支持 `inline` 和 `fullscreen`。本地组件模块及 MF expose 都可以导出 `mcpCapabilities`，补充能力或覆盖展示模式。
+
+{/* prettier-ignore */}
+```tsx
+import type { McpCapabilities } from '@modern-js/mcp-apps/react'
+
+export const mcpCapabilities = {
+  availableDisplayModes: ['inline'],
+} satisfies McpCapabilities
+
+export default function Card() {
+  return <div>My card</div>
+}
+```
+
+手动使用 `createMcpView` 时，也可以通过第三个参数传入能力声明。显式的展示模式数组会替换默认值。MF 模块在初始化前加载，确保握手包含该模块的能力。声明支持全屏不会自动添加全屏按钮或切换展示模式。
