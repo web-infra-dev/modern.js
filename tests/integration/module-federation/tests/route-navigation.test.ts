@@ -114,12 +114,24 @@ describeLab(
           location.search === '?tab=remote' &&
           location.hash === '#forecast',
       );
+      await page.waitForFunction(
+        () =>
+          document.querySelector('[data-testid="route-host-location"]')
+            ?.textContent ===
+          location.pathname.replace(/^\/admin/, '') + location.search,
+      );
       expect(await page.evaluate(() => history.length)).toBe(historySize + 2);
       await page.click(`${main} [data-testid="route-remote-replace"]`);
       await page.waitForFunction(
         () =>
           location.pathname.endsWith('/detail/44') &&
           location.search === '?tab=remote-replace',
+      );
+      await page.waitForFunction(
+        () =>
+          document.querySelector('[data-testid="route-host-location"]')
+            ?.textContent ===
+          location.pathname.replace(/^\/admin/, '') + location.search,
       );
       expect(await page.evaluate(() => history.length)).toBe(historySize + 2);
       await page.goBack();

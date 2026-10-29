@@ -1,7 +1,9 @@
 import { useBridgeRouter } from '@module-federation/bridge-react/base';
 import {
   addBasename,
-  connectRemoteRouter,
+  connectBrowserRouter,
+  createMountWindow,
+  normalizeBasename,
   removeBasename,
 } from '../../mf/navigation';
 import type { NestedRoute, PageRoute } from '@modern-js/types';
@@ -32,7 +34,10 @@ export interface ScopedRootDefinition {
   getDataBase: () => string;
 }
 
-function instanceRoutes(definition: ScopedRootDefinition) {
+function instanceRoutes(
+  definition: ScopedRootDefinition,
+  routeBasename: string,
+) {
   const copy = (
     nodes: ScopedRootDefinition['routes'],
   ): ScopedRootDefinition['routes'] =>
@@ -57,11 +62,15 @@ function instanceRoutes(definition: ScopedRootDefinition) {
           const url = new URL(args.request.url);
           const producer = new URL(definition.getDataBase());
           url.protocol = producer.protocol;
-          url.host = producer.host;
+          url.hostname = producer.hostname;
+          url.port = producer.port;
           // Server endpoints retain the producer's standalone route paths.
           // This translation is confined to data requests, never Router location.
           url.pathname = addBasename(
-            addBasename(url.pathname, definition.dataRoute || '/'),
+            addBasename(
+              removeBasename(url.pathname, routeBasename) ?? url.pathname,
+              definition.dataRoute || '/',
+            ),
             definition.basename || '/',
           );
           return loader({ ...args, request: new Request(url, args.request) });
@@ -79,26 +88,34 @@ export function createScopedRoot(
   return function ModernScopedRoot(props: Record<string, unknown>) {
     const bridge = useBridgeRouter();
     const navigation = bridge?.memoryRoute ? undefined : bridge?.navigation;
-    const basename = typeof props.basename === 'string' ? props.basename : '/';
+    const basename = normalizeBasename(
+      bridge?.basename ??
+        (typeof props.basename === 'string' ? props.basename : '/'),
+    );
     const [instance] = useState(() => {
       const context = getInitialContext(true, { routeAssets: {} });
-      const mount = { basename: navigation ? basename : '/', navigation };
+      const memory = Boolean(bridge?.memoryRoute);
+      const routeBasename = memory ? '/' : basename;
+      const mount = { basename };
+      const mountWindow = memory
+        ? undefined
+        : createMountWindow(
+            routeBasename,
+            () => mount.basename,
+            () => context._routeScope?.router,
+          );
       context._routeScope = {
         projectHref: href => {
-          const target = mount.navigation
-            ? addBasename(href, mount.basename)
-            : href;
-          return mount.navigation?.createHref?.(target) ?? target;
+          return mountWindow?.projectHref(href) ?? href;
         },
         config: {
-          routes: instanceRoutes(definition),
+          routes: instanceRoutes(definition, routeBasename),
           globalApp: definition.globalApp,
         },
-        initialUrl:
-          bridge?.memoryRoute?.entryPath ??
-          (navigation
-            ? (removeBasename(navigation.getLocation(), basename) ?? '/')
-            : '/'),
+        memory,
+        basename: routeBasename,
+        getWindow: mountWindow ? () => mountWindow.window : undefined,
+        initialUrl: bridge?.memoryRoute?.entryPath ?? '/',
       };
       const runtime = definition.createRuntime(
         context._routeScope.config,
@@ -111,8 +128,7 @@ export function createScopedRoot(
       ) as React.ComponentType<any>;
       return { context, runtime, WrappedRoot, mount };
     });
-    instance.mount.basename = navigation ? basename : '/';
-    instance.mount.navigation = navigation;
+    instance.mount.basename = basename;
     const [ready, setReady] = useState(false);
     const [failure, setFailure] = useState<unknown>();
     useEffect(() => {
@@ -198,8 +214,8 @@ function ScopeNavigation({
 }) {
   useEffect(() => {
     const router = context._routeScope?.router;
-    if (router && navigation)
-      return connectRemoteRouter(router, basename, navigation, onError);
+    if (router && !context._routeScope?.memory)
+      return connectBrowserRouter(router, basename, navigation, onError);
   }, [context, basename, navigation, onError]);
   return null;
 }

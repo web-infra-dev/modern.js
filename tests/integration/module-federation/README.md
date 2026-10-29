@@ -21,7 +21,7 @@ Open http://localhost:4300/. Stop the interactive lab with Ctrl+C. Add `--produc
 | `/stores/:storeId/inventory/*` | Route-mounted product application, automatic basename, host/remote navigation and independent memory cards             |
 | `/stores/:storeId/retry/*`     | One-time provider failure and retry with isolated neighboring mounts                                                   |
 | `/input-forms`                 | Literal IDs, MF loader functions and preloaded namespace/default functions through both APIs, SSR/CSR, noSSR and retry |
-| `/route-exports`               | Complete Modern application, product scope twice, orders scope, loaders, navigation and independent state              |
+| `/route-exports`               | Explicit memory cards for complete and selected Modern applications, loaders, navigation and independent state         |
 | `/weather`                     | Internal weather document used by the comparison and advanced frames                                                   |
 
 Advanced frames select their experiment through `/weather?scenario=...`. These share the weather layout and do not add separate demo routes. Removed routes such as `/static`, `/recovery`, `/compare` and `/unified` return 404. Navigation and history are tested from the root Weather Lab.
@@ -98,3 +98,5 @@ pnpm --filter mf-lab-tests test tests/data-fetch.test.ts -t prefetches
 Type checking remains enabled. Fixture tsconfigs exclude `node_modules`, `dist` and `dist-v2` so directory watchers do not traverse linked monorepo dependencies. With `MF_LAB_DIAGNOSTICS=1`, failures also report owned processes and slow requests.
 
 The Module Federation E2E workflow targets pull requests and pushes to `feat/module-federation-builtin` and `main`. It builds app-tools, runtime and their dependencies, installs the pinned Puppeteer browser and runs the complete suite. The workflow also declares manual dispatch. Sources of the original coverage are Core's `apps/modernjs-ssr` and `apps/modern-component-data-fetch`, with their assertions now expressed through weather components and the unified framework API.
+
+Exported applications use the producer Browser/Hash Router configuration by default. Independent cards explicitly set `memoryRoute`. URL-connected Hash mounts configure both Host and producer as Hash Routers. Browser instances share window history.

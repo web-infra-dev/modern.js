@@ -136,6 +136,10 @@ export function setupLab(
       );
     }
     if (options.hash) {
+      await writeFile(
+        path.join(workspace, 'provider/src/modern.runtime.tsx'),
+        "import { defineRuntimeConfig } from '@modern-js/runtime'\nexport default defineRuntimeConfig({ router: { supportHtml5History: false } })\n",
+      );
       const config = path.join(workspace, 'host/modern.config.ts');
       await writeFile(
         config,

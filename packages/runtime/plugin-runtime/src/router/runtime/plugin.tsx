@@ -269,7 +269,7 @@ function useRouterCreation(props: any, options: UseRouterCreationOptions) {
     '/',
   );
   const _basename = scope
-    ? '/'
+    ? scope.basename || '/'
     : baseUrl === '/'
       ? urlJoin(
           baseUrl,
@@ -346,7 +346,7 @@ function useRouterCreation(props: any, options: UseRouterCreationOptions) {
     const modifiedRoutes = hooks.modifyRoutes.call(routes);
     if (topology) assertScopeTopology(modifiedRoutes, topology);
 
-    const router = scope
+    const router = scope?.memory
       ? createMemoryRouter(modifiedRoutes, {
           initialEntries: [scope.initialUrl],
         })
@@ -354,10 +354,12 @@ function useRouterCreation(props: any, options: UseRouterCreationOptions) {
         ? createBrowserRouter(modifiedRoutes, {
             basename: _basename,
             hydrationData,
+            window: scope?.getWindow?.(),
           })
         : createHashRouter(modifiedRoutes, {
             basename: _basename,
             hydrationData,
+            window: scope?.getWindow?.(),
           });
     if (scope) {
       if (scope.projectHref) {

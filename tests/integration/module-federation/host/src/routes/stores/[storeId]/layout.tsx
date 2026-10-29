@@ -8,8 +8,12 @@ import {
 import { createReactRemote } from '@modern-js/runtime/mf';
 const Card = createReactRemote<{ label: string }>({
   remote: 'provider/ProductApp',
+  memoryRoute: { entryPath: '/' },
 });
-const Orders = createReactRemote({ remote: 'provider/OrdersApp' });
+const Orders = createReactRemote({
+  remote: 'provider/OrdersApp',
+  memoryRoute: { entryPath: '/' },
+});
 export default function StoreLayout() {
   const [label, setLabel] = useState('Store products');
   const [mounted, setMounted] = useState(true);
