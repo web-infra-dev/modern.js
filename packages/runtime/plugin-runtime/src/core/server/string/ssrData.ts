@@ -1,12 +1,12 @@
 import type { IncomingHttpHeaders } from 'http';
-import { serializeJson } from '@modern-js/runtime-utils/node';
+import { createDataScript } from '@modern-js/render/html';
 import type { StaticHandlerContext } from '@modern-js/runtime-utils/router';
 import type { HeadersData } from '@modern-js/runtime-utils/universal/request';
 import { ROUTER_DATA_JSON_ID, SSR_DATA_JSON_ID } from '../../constants';
 import type { TRuntimeContext } from '../../context';
 import type { SSRContainer, SSRServerContext } from '../../types';
 import type { SSRConfig } from '../shared';
-import { attributesToString, serializeErrors } from '../utils';
+import { serializeErrors } from '../utils';
 import type { ChunkSet, Collector } from './types';
 
 export interface SSRDataCreatorOptions {
@@ -85,22 +85,24 @@ export class SSRDataCollector implements Collector {
   }
 
   #getSSRDataScripts(
-    ssrData: Record<string, any>,
-    routerData?: Record<string, any>,
+    ssrData: SSRContainer,
+    routerData?: Record<string, unknown>,
   ) {
     const { nonce, useJsonScript = false } = this.#options;
-    const serializeSSRData = serializeJson(ssrData);
-    const attrsStr = attributesToString({ nonce });
-
-    let ssrDataScripts = useJsonScript
-      ? `<script type="application/json" id="${SSR_DATA_JSON_ID}">${serializeSSRData}</script>`
-      : `<script${attrsStr}>window._SSR_DATA = ${serializeSSRData}</script>`;
+    let ssrDataScripts = createDataScript({
+      data: ssrData,
+      ...(useJsonScript
+        ? { id: SSR_DATA_JSON_ID }
+        : { global: '_SSR_DATA', nonce }),
+    });
 
     if (routerData) {
-      const serializedRouterData = serializeJson(routerData);
-      ssrDataScripts += useJsonScript
-        ? `\n<script type="application/json" id="${ROUTER_DATA_JSON_ID}">${serializedRouterData}</script>`
-        : `\n<script${attrsStr}>window._ROUTER_DATA = ${serializedRouterData}</script>`;
+      ssrDataScripts += `\n${createDataScript({
+        data: routerData,
+        ...(useJsonScript
+          ? { id: ROUTER_DATA_JSON_ID }
+          : { global: '_ROUTER_DATA', nonce }),
+      })}`;
     }
     return ssrDataScripts;
   }
