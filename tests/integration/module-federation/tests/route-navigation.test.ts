@@ -32,7 +32,7 @@ describeLab(
         'route-remote-location',
       );
       expect(await page.$eval(remoteLocation, node => node.textContent)).toBe(
-        '/product/detail/42?tab=stock#summary',
+        '/detail/42?tab=stock#summary',
       );
       expect(
         await page.$eval(`${main} [data-testid="scope-product-link"]`, node =>
@@ -93,7 +93,7 @@ describeLab(
       await page.waitForFunction(
         selector =>
           document.querySelector(selector)?.textContent ===
-          '/product/detail/43?tab=price#chart',
+          '/detail/43?tab=price#chart',
         {},
         remoteLocation,
       );
@@ -102,7 +102,7 @@ describeLab(
       await page.waitForFunction(
         selector =>
           document.querySelector(selector)?.textContent ===
-          '/product/detail/44?tab=replace#chart',
+          '/detail/44?tab=replace#chart',
         {},
         remoteLocation,
       );
@@ -126,7 +126,7 @@ describeLab(
       await page.waitForFunction(
         selector =>
           document.querySelector(selector)?.textContent ===
-          '/product/detail/44?tab=replace#chart',
+          '/detail/44?tab=replace#chart',
         {},
         remoteLocation,
       );
@@ -134,7 +134,7 @@ describeLab(
       await page.waitForFunction(
         selector =>
           document.querySelector(selector)?.textContent ===
-          '/product/detail/44?tab=remote-replace#forecast',
+          '/detail/44?tab=remote-replace#forecast',
         {},
         remoteLocation,
       );
@@ -142,7 +142,7 @@ describeLab(
       await page.waitForFunction(
         selector =>
           document.querySelector(selector)?.textContent ===
-          '/product/detail/44?tab=replace#chart',
+          '/detail/44?tab=replace#chart',
         {},
         remoteLocation,
       );
@@ -165,7 +165,7 @@ describeLab(
       await page.waitForFunction(
         selector =>
           document.querySelector(selector)?.textContent ===
-          '/product/detail/42?tab=stock#summary',
+          '/detail/42?tab=stock#summary',
         {},
         remoteLocation,
       );
@@ -195,7 +195,7 @@ describeLab(
         'Observations: 0',
       );
       expect(await page.$eval(remoteLocation, node => node.textContent)).toBe(
-        '/product/detail/43?tab=price#chart',
+        '/detail/43?tab=price#chart',
       );
     });
 
@@ -240,7 +240,7 @@ describeLab(
       await click('route-toggle');
       await page.waitForSelector(remoteLocation);
       expect(await page.$eval(remoteLocation, node => node.textContent)).toBe(
-        '/product/detail/43?tab=price#chart',
+        '/detail/43?tab=price#chart',
       );
       // The fetch is already cancelled, so its interception no longer needs releasing.
       expect(typeof release).toBe('function');
@@ -261,7 +261,7 @@ describeLab(
       await page.click('[data-testid="route-retry"]');
       await page.waitForSelector(remoteLocation);
       expect(await page.$eval(remoteLocation, node => node.textContent)).toBe(
-        '/product/detail/42?tab=stock#summary',
+        '/detail/42?tab=stock#summary',
       );
       expect(
         await page.$(
@@ -284,7 +284,7 @@ describeLab(
       );
       await page.waitForSelector(remoteLocation);
       expect(await page.$eval(remoteLocation, node => node.textContent)).toBe(
-        '/product/detail/42?tab=stock#summary',
+        '/detail/42?tab=stock#summary',
       );
       expect(
         await page.$eval(`${main} [data-testid="scope-product-link"]`, node =>
@@ -301,7 +301,7 @@ describeLab(
       await page.waitForFunction(
         selector =>
           document.querySelector(selector)?.textContent ===
-          '/product/detail/42?tab=stock#summary',
+          '/detail/42?tab=stock#summary',
         {},
         remoteLocation,
       );

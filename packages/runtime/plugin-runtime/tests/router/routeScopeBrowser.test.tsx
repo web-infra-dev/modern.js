@@ -1,6 +1,11 @@
 import React, { useState } from 'react';
 import { fireEvent, render, waitFor } from '@testing-library/react';
-import { Link, Outlet, useLoaderData } from '@modern-js/runtime-utils/router';
+import {
+  Link,
+  Outlet,
+  useLoaderData,
+  useLocation,
+} from '@modern-js/runtime-utils/router';
 import { createScopedRoot } from '../../src/core/react/scope';
 import { createRuntime, registerPlugin } from '../../src/core/plugin';
 import { createRoot } from '../../src/core/react';
@@ -25,13 +30,14 @@ it('isolates hooks, loaders and navigation across two mounts of the same exporte
         <button onClick={() => setCount(value => value + 1)}>
           Count {count}
         </button>
-        <Link to="/product/detail/42">Detail</Link>
+        <Link to="detail/42">Detail</Link>
         <Outlet />
       </section>
     );
   }
   const Root = createScopedRoot({
-    route: '/product',
+    selected: true,
+    dataRoute: '/product',
     basename: '/',
     serverLoaders: false,
     getDataBase: () => 'http://producer',
@@ -49,7 +55,7 @@ it('isolates hooks, loaders and navigation across two mounts of the same exporte
             id: 'product',
             type: 'nested',
             origin: 'file-system',
-            path: 'product',
+            path: '/',
             component: () => <Outlet />,
             children: [
               {
@@ -68,7 +74,10 @@ it('isolates hooks, loaders and navigation across two mounts of the same exporte
                   requests.push(request.url);
                   return null;
                 },
-                component: () => <p>Detail page</p>,
+                component: () => {
+                  const location = useLocation();
+                  return <p>Detail page {location.pathname}</p>;
+                },
               },
             ],
           },
@@ -110,6 +119,9 @@ it('isolates hooks, loaders and navigation across two mounts of the same exporte
     expect(first.container.textContent).toContain('Detail page');
     expect(initialized).toHaveBeenCalledTimes(2);
     expect(requests).toHaveLength(1);
+    expect(new URL(requests[0]).pathname).toBe('/detail/42');
+    expect(first.container.textContent).toContain('Detail page /detail/42');
+    expect(first.container.textContent).not.toContain('/product');
   } finally {
     first.unmount();
     second.unmount();
@@ -134,7 +146,8 @@ it('keeps legacy component, memo, null and whole-application calls compatible', 
 it('aborts only the unmounted instance loader', async () => {
   const signals: AbortSignal[] = [];
   const Root = createScopedRoot({
-    route: '/product',
+    selected: true,
+    dataRoute: '/product',
     basename: '/',
     serverLoaders: false,
     getDataBase: () => 'http://producer',
@@ -143,7 +156,7 @@ it('aborts only the unmounted instance loader', async () => {
         id: 'product',
         type: 'nested',
         origin: 'config',
-        path: '/product',
+        path: '/',
         component: () => <p>Product</p>,
         loader: ({ request }: { request: Request }) =>
           new Promise(resolve => {
@@ -169,3 +182,110 @@ it('aborts only the unmounted instance loader', async () => {
     second.unmount();
   }
 });
+
+it.each(['', '/producer'])(
+  'keeps server loader source URLs with basename %s separate from local route locations and client loaders',
+  async producerBase => {
+    const serverRequests: Request[] = [];
+    const clientRequests: Request[] = [];
+    function Layout() {
+      return (
+        <>
+          <Link to="detail/a%2Fb?tab=stock#summary">Detail</Link>
+          <Outlet />
+        </>
+      );
+    }
+    function Detail() {
+      const location = useLocation();
+      const data = useLoaderData() as { id: string };
+      return (
+        <p>
+          {location.pathname}
+          {location.search}
+          {location.hash} id={data.id}
+        </p>
+      );
+    }
+    const Root = createScopedRoot({
+      selected: true,
+      dataRoute: '/product',
+      basename: producerBase,
+      serverLoaders: true,
+      getDataBase: () => 'https://producer.example',
+      routes: [
+        {
+          id: 'root',
+          type: 'nested',
+          origin: 'config',
+          isRoot: true,
+          component: Layout,
+          loader: ({ request }: { request: Request }) => {
+            serverRequests.push(request);
+            return null;
+          },
+          children: [
+            {
+              id: 'product',
+              type: 'nested',
+              origin: 'config',
+              path: '/',
+              clientData: true,
+              component: Outlet,
+              loader: ({ request }: { request: Request }) => {
+                clientRequests.push(request);
+                return null;
+              },
+              children: [
+                {
+                  id: 'product/detail/($id)',
+                  type: 'nested',
+                  origin: 'config',
+                  path: 'detail/:id',
+                  component: Detail,
+                  loader: ({
+                    request,
+                    params,
+                  }: {
+                    request: Request;
+                    params: { id: string };
+                  }) => {
+                    serverRequests.push(request);
+                    return { id: params.id };
+                  },
+                },
+              ],
+            },
+          ],
+        },
+      ],
+      createRuntime: (config, selected) =>
+        createRuntime([routerPlugin({}, config, selected)]),
+    });
+    const view = render(<Root />);
+    try {
+      await waitFor(() =>
+        expect(view.container.querySelector('a')).not.toBeNull(),
+      );
+      expect(serverRequests[0].url).toBe(
+        `https://producer.example${producerBase}/product`,
+      );
+      expect(new URL(clientRequests[0].url).pathname).toBe('/');
+      fireEvent.click(view.container.querySelector('a')!);
+      await waitFor(() =>
+        expect(view.container.textContent).toContain(
+          '/detail/a%2Fb?tab=stock#summary id=a/b',
+        ),
+      );
+      expect(serverRequests.at(-1)!.url).toBe(
+        `https://producer.example${producerBase}/product/detail/a%2Fb?tab=stock`,
+      );
+      expect(new URL(clientRequests.at(-1)!.url).pathname).toBe(
+        '/detail/a%2Fb',
+      );
+      expect(view.container.textContent).not.toContain('/product');
+    } finally {
+      view.unmount();
+    }
+  },
+);

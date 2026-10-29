@@ -123,7 +123,7 @@ export default createBridgeComponent({
 
 将该文件加入 MF 配置的 `exposes`。registry 仍由用户显式导入，多入口使用各自的 registry，例如 `@modern-js/runtime/registry/admin`。
 
-`route` 是生产者的固定路由定义路径。构建时保留该节点全部子路由，以及祖先 Layout、Loader、错误边界和必要的 index、无路径包装，移除无关兄弟分支。`route` 只选择导出内容，生产者原有路由定义、route ID 和单独运行行为不变，也不新增生产者 basename。选中的内容作为一个应用交给消费者，挂载方式与导出完整应用一致。消费者可通过下文的 Modern 路由消费入口自动计算 basename 并同步导航。
+`route` 是生产者的固定路由定义路径。构建时保留该节点全部子路由，以及祖先 Layout、Loader、错误边界和必要的 index、无路径包装，移除无关兄弟分支。`route` 只选择导出内容。构建器为该导出生成应用局部路由，保留 route ID，生产者单独运行的路由表不变。选区路径不会成为导出应用的 basename。选中的内容作为一个应用交给消费者，挂载方式与导出完整应用一致。消费者可通过下文的 Modern 路由消费入口自动计算 basename 并同步导航。
 
 省略 `route` 或调用 `createRoot()` 时导出对应 registry 的整应用。`createRoot(UserApp)` 的组件调用继续兼容。不同导出使用独立路由定义，每次挂载使用独立的 memory Router 和运行时上下文，更新 props 保留页面状态，卸载后重新挂载会创建新实例。
 
@@ -162,15 +162,15 @@ export default function Page() {
 }
 ```
 
-普通 `createReactRemote` 和 `ReactRemote` 不会因位于路由组件内部而自动接管 URL。不传 basename 的应用导出继续使用独立 memory 导航，适合 Dashboard 卡片和同一导出的多个实例。业务 props 与 basename、navigation、memoryRoute 控制参数分开传递。props、地址和动态挂载参数更新复用现有 Root，卸载释放该实例订阅和 Loader 请求，重试不会复用已失败实例。
+从 `@modern-js/runtime/mf` 导入的普通 `createReactRemote` 和 `ReactRemote` 不会因位于路由组件内部而自动接管 URL。不传 basename 的应用导出继续使用独立 memory 导航，适合 Dashboard 卡片和同一导出的多个实例。业务 props 与 basename、navigation、memoryRoute 控制参数分开传递。props、地址和动态挂载参数更新复用现有 Root，卸载释放该实例订阅和 Loader 请求，重试不会复用已失败实例。
 
 ### 生产者的路由责任
 
 `createRoot({ route: '/product' })` 只决定导出哪个应用内容，挂载路径由消费者决定。它不设置生产者 basename，也不改变生产者原应用的路由行为。
 
-例如，导出 `/product` 范围后挂到 `/inventory`，详情页的浏览器地址为 `/inventory/detail/42`。框架在挂载边界将该地址对应到原路由图中的 `/product/detail/42`，反向导航也使用消费者路径。选区信息已存在于该导出的应用定义中，消费者无需再传 `/product`，manifest 和 Snapshot 也不新增路径字段。祖先 Layout、Loader 和页面状态继续保留。
+例如，导出 `/product` 范围后，应用内部的详情路由和 `useLocation().pathname` 为 `/detail/42`。消费者挂到 `/inventory` 后，浏览器地址为 `/inventory/detail/42`。导航只添加或移除消费者的 basename，不还原 `/product`。消费者无需再传选区路径，manifest 和 Snapshot 也不新增路径字段。祖先 Layout、Loader 和页面状态继续保留。
 
-生产者单独运行时仍使用原地址 `/product/detail/42`。框架只处理应用挂载边界，不改写业务源码。
+生产者单独运行时仍使用原地址 `/product/detail/42`。服务端 Loader 仍请求生产者原数据地址，这与应用内部导航路径分开处理。独立 memory 应用的 `memoryRoute.entryPath` 也使用局部路径，例如 `/detail/42?tab=stock`。框架不改写业务源码。
 
 可复用的生产者应优先使用相对 Link、navigate 和 redirect，并自行适配依赖 basename 或 pathname 的逻辑。相对导航解决地址生成，不能替代路由表自身的匹配。框架不会扫描或改写写死的绝对路径，无法匹配的路径按正常路由错误处理。
 

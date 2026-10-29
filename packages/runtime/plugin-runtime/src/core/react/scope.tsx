@@ -2,7 +2,7 @@ import { useBridgeRouter } from '@module-federation/bridge-react/base';
 import {
   addBasename,
   connectRemoteRouter,
-  translateLocation,
+  removeBasename,
 } from '../../mf/navigation';
 import type { NestedRoute, PageRoute } from '@modern-js/types';
 import React, { useContext, useEffect, useState } from 'react';
@@ -24,7 +24,9 @@ export interface ScopedRootDefinition {
     routesConfig: RouterConfig['routesConfig'],
     selected: boolean,
   ) => ReturnType<typeof createRuntime>;
-  route?: string;
+  selected: boolean;
+  /** Original producer path used only when requesting server loader data. */
+  dataRoute?: string;
   basename: string;
   serverLoaders: boolean;
   getDataBase: () => string;
@@ -56,13 +58,12 @@ function instanceRoutes(definition: ScopedRootDefinition) {
           const producer = new URL(definition.getDataBase());
           url.protocol = producer.protocol;
           url.host = producer.host;
-          const base = definition.basename.replace(/\/$/, '');
-          if (
-            base &&
-            !url.pathname.startsWith(`${base}/`) &&
-            url.pathname !== base
-          )
-            url.pathname = `${base}${url.pathname}`;
+          // Server endpoints retain the producer's standalone route paths.
+          // This translation is confined to data requests, never Router location.
+          url.pathname = addBasename(
+            addBasename(url.pathname, definition.dataRoute || '/'),
+            definition.basename || '/',
+          );
           return loader({ ...args, request: new Request(url, args.request) });
         };
       }
@@ -85,11 +86,7 @@ export function createScopedRoot(
       context._routeScope = {
         projectHref: href => {
           const target = mount.navigation
-            ? (translateLocation(
-                href,
-                definition.route || '/',
-                mount.basename,
-              ) ?? addBasename(href, mount.basename))
+            ? addBasename(href, mount.basename)
             : href;
           return mount.navigation?.createHref?.(target) ?? target;
         },
@@ -100,18 +97,12 @@ export function createScopedRoot(
         initialUrl:
           bridge?.memoryRoute?.entryPath ??
           (navigation
-            ? (translateLocation(
-                navigation.getLocation(),
-                basename,
-                definition.route || '/',
-              ) ??
-              definition.route ??
-              '/')
-            : definition.route || '/'),
+            ? (removeBasename(navigation.getLocation(), basename) ?? '/')
+            : '/'),
       };
       const runtime = definition.createRuntime(
         context._routeScope.config,
-        definition.route !== undefined,
+        definition.selected,
       );
       runtime.pluginAPI!.updateRuntimeContext(context);
       context._internalContext = runtime;
@@ -156,7 +147,6 @@ export function createScopedRoot(
           context={instance.context}
           basename={basename}
           navigation={navigation}
-          selectedRoute={definition.route}
           onError={setFailure}
         />
       </ScopedRootPropsContext.Provider>,
@@ -199,25 +189,17 @@ function ScopeNavigation({
   context,
   basename,
   navigation,
-  selectedRoute,
   onError,
 }: {
   context: ReturnType<typeof getInitialContext>;
   basename: string;
   navigation: NonNullable<ReturnType<typeof useBridgeRouter>>['navigation'];
-  selectedRoute?: string;
   onError: (error: unknown) => void;
 }) {
   useEffect(() => {
     const router = context._routeScope?.router;
     if (router && navigation)
-      return connectRemoteRouter(
-        router,
-        basename,
-        navigation,
-        onError,
-        selectedRoute,
-      );
-  }, [context, basename, navigation, onError, selectedRoute]);
+      return connectRemoteRouter(router, basename, navigation, onError);
+  }, [context, basename, navigation, onError]);
   return null;
 }

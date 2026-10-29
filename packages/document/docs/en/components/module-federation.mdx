@@ -138,7 +138,7 @@ export default createBridgeComponent({
 
 Add this module to the MF `exposes` configuration. Import the registry explicitly. Multiple entries use their own registry, such as `@modern-js/runtime/registry/admin`.
 
-`route` selects a fixed producer route definition. The build retains all descendants, ancestor layouts, loaders, error boundaries, and necessary index and pathless wrappers. Unrelated sibling branches are removed before generating page imports. The selector only chooses the exported content. The producer's original route definitions, route IDs, and standalone behavior are unchanged, and no producer basename is introduced. Consumers mount the selected content as an application, using the same mounting contract as a complete application export. The Modern route consumer below can infer the mount basename and synchronize navigation.
+`route` selects a fixed producer route definition. The build retains all descendants, ancestor layouts, loaders, error boundaries, and necessary index and pathless wrappers. Unrelated sibling branches are removed before generating page imports. The selector only chooses the exported content. The build generates application-local routes for this export while preserving route IDs and the producer's standalone route table. The selected source path does not become an application basename. Consumers mount the selected content as an application, using the same mounting contract as a complete application export. The Modern route consumer below can infer the mount basename and synchronize navigation.
 
 Omitting `route`, including calling `createRoot()`, exports the registry's complete application. The existing `createRoot(UserApp)` component overload remains supported. Each export has its own route definition and each mount owns a separate memory router and runtime context. Props updates preserve page state, and remounting creates a fresh instance.
 
@@ -175,15 +175,15 @@ export default function Page() {
 }
 ```
 
-Generic `createReactRemote` and `ReactRemote` do not take over the URL merely because they appear inside a route. Application exports without a basename retain independent memory navigation for dashboard cards and multiple mounts. Keep business props separate from basename, navigation, and memoryRoute controls. Props, URLs, and dynamic mount parameters update the existing Root. Unmount releases that instance's subscriptions and loader requests. Retry creates a fresh failed instance.
+Generic `createReactRemote` and `ReactRemote` imported from `@modern-js/runtime/mf` do not take over the URL merely because they appear inside a route. Application exports without a basename retain independent memory navigation for dashboard cards and multiple mounts. Keep business props separate from basename, navigation, and memoryRoute controls. Props, URLs, and dynamic mount parameters update the existing Root. Unmount releases that instance's subscriptions and loader requests. Retry creates a fresh failed instance.
 
 ### Producer routing responsibility
 
 `createRoot({ route: '/product' })` only chooses the exported application content. The consumer owns its mount path. The selector does not set a producer basename or change the producer application's standalone routing.
 
-For an application selected from `/product` and mounted at `/inventory`, the browser detail URL is `/inventory/detail/42`. The framework maps that mount to `/product/detail/42` in the original route graph and maps outgoing navigation back to the consumer path. The selected application definition already contains the selection information, so consumers do not repeat `/product` and manifests or Snapshots need no new path metadata. Ancestor layouts, loaders, and page state remain available.
+For an application selected from `/product`, the local detail route and `useLocation().pathname` are `/detail/42`. When mounted at `/inventory`, the browser detail URL is `/inventory/detail/42`. Navigation only adds or removes the consumer basename and never restores `/product`. Consumers do not pass the selection path, and manifests or Snapshots need no new path metadata. Ancestor layouts, loaders, and page state remain available.
 
-The standalone producer still uses `/product/detail/42`. The framework handles the application boundary without rewriting business source code.
+The standalone producer still uses `/product/detail/42`. Server loaders continue to request the original producer data endpoints, independently of application navigation. An independent memory application also uses local paths for `memoryRoute.entryPath`, such as `/detail/42?tab=stock`. The framework does not rewrite business source code.
 
 Prefer relative Link, navigate, and redirect targets in portable producers. Producers also own compatibility for code depending on basename or pathname. Relative navigation generates URLs but does not change the route graph. Hard-coded absolute paths are not scanned or rewritten. Unmatched paths follow normal route error handling.
 

@@ -159,7 +159,7 @@ import { routes } from './routes';
 import { createRegistryRuntime } from './runtime';
 ${layoutImport}
 ${graph.app ? `import App from ${JSON.stringify(graph.app)};` : 'const App = undefined;'}
-const definition = { routes, globalApp, App, createRuntime: createRegistryRuntime, route: ${JSON.stringify(root.route)}, basename: ${JSON.stringify(graph.basename)}, serverLoaders: ${Boolean(graph.ssrMode)}, getDataBase: () => new URL(__webpack_public_path__, window.location.href).origin };
+const definition = { routes, globalApp, App, createRuntime: createRegistryRuntime, selected: ${root.route !== undefined}, dataRoute: ${JSON.stringify(root.route)}, basename: ${JSON.stringify(graph.basename)}, serverLoaders: ${Boolean(graph.ssrMode)}, getDataBase: () => new URL(__webpack_public_path__, window.location.href).origin };
 export const createRoot = () => createScopedRoot(definition);
 export const render = createScopedRender();
 `,

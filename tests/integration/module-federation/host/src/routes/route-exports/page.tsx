@@ -7,6 +7,10 @@ const WeatherApp = createReactRemote<{ label: string }>({
 const ProductApp = createReactRemote<{ label: string }>({
   remote: 'provider/ProductApp',
 });
+const ProductEntry = createReactRemote({
+  remote: 'provider/ProductApp',
+  memoryRoute: { entryPath: '/detail/45?tab=memory#start' },
+});
 const OrdersApp = createReactRemote<{ label: string }>({
   remote: 'provider/OrdersApp',
 });
@@ -37,6 +41,9 @@ export default function RouteExports() {
       </section>
       <section data-testid="app-product-b">
         <ProductApp label="Riverside products" />
+      </section>
+      <section data-testid="app-product-entry">
+        <ProductEntry />
       </section>
       <section data-testid="app-orders">
         <OrdersApp label="Weather orders" />

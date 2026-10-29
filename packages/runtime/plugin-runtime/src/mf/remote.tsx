@@ -14,10 +14,11 @@ import {
 import { addBasename, normalizeBasename, removeBasename } from './navigation';
 
 /** The local route boundary, not the deepest global match or the splat location. */
-export function useRemoteBasename(explicit?: string) {
+function useMountBasename(explicit: string | undefined, infer: boolean) {
   const navigation = useContext(UNSAFE_NavigationContext);
   const { matches } = useContext(UNSAFE_RouteContext);
   if (explicit !== undefined) return normalizeBasename(explicit);
+  if (!infer) return undefined;
   if (!navigation || !matches.length)
     throw new Error(
       'useRemoteBasename requires a Modern route context. Pass basename to createReactRemote outside a Modern route.',
@@ -26,11 +27,16 @@ export function useRemoteBasename(explicit?: string) {
   return normalizeBasename(addBasename(local, navigation.basename));
 }
 
+export function useRemoteBasename(explicit?: string) {
+  return useMountBasename(explicit, true)!;
+}
+
 function RoutedRemote<P extends object>({
   props,
+  inferBasename = false,
   ...options
-}: ReactRemoteProps<P>) {
-  const basename = useRemoteBasename(options.basename);
+}: ReactRemoteProps<P> & { inferBasename?: boolean }) {
+  const basename = useMountBasename(options.basename, inferBasename);
   const context = useContext(UNSAFE_NavigationContext);
   const location = useLocation();
   const navigate = useNavigate();
@@ -80,7 +86,12 @@ function RoutedRemote<P extends object>({
     <CoreReactRemote
       {...options}
       basename={basename}
-      navigation={options.navigation ?? state.adapter}
+      navigation={
+        options.navigation ??
+        (basename !== undefined && !options.memoryRoute
+          ? state.adapter
+          : undefined)
+      }
       props={props}
     />
   );
@@ -91,20 +102,11 @@ export function ReactRemote<P extends object = Record<string, unknown>>(
   options: ReactRemoteProps<P>,
 ) {
   const context = useContext(UNSAFE_NavigationContext);
-  if (
-    options.basename !== undefined &&
-    context &&
-    !options.memoryRoute &&
-    !options.navigation
-  )
-    return <RoutedRemote {...options} />;
-  if (
-    options.basename !== undefined &&
-    !options.memoryRoute &&
-    !options.navigation
-  )
-    return <BrowserRemote {...options} />;
-  return <CoreReactRemote {...options} />;
+  return context ? (
+    <RoutedRemote {...options} />
+  ) : (
+    <BrowserRemote {...options} />
+  );
 }
 
 export function createReactRemote<P extends object = Record<string, unknown>>(
@@ -117,7 +119,7 @@ export function createReactRemote<P extends object = Record<string, unknown>>(
 export function createModernReactRemote<
   P extends object = Record<string, unknown>,
 >(options: CreateReactRemoteOptions): React.ComponentType<P> {
-  return props => <RoutedRemote {...options} props={props} />;
+  return props => <RoutedRemote {...options} inferBasename props={props} />;
 }
 
 /** Browser history compatibility for explicit mounts without a Modern Router. */
@@ -149,5 +151,15 @@ function BrowserRemote<P extends object>(options: ReactRemoteProps<P>) {
     }),
     [],
   );
-  return <CoreReactRemote {...options} navigation={navigation} />;
+  return (
+    <CoreReactRemote
+      {...options}
+      navigation={
+        options.navigation ??
+        (options.basename !== undefined && !options.memoryRoute
+          ? navigation
+          : undefined)
+      }
+    />
+  );
 }

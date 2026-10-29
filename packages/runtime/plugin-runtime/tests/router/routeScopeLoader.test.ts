@@ -101,6 +101,11 @@ export default createBridgeComponent({ rootComponent: App, render });
     expect(scopedRoutes).toContain('/app/product.tsx');
     expect(scopedRoutes).toContain('/app/root.tsx');
     expect(scopedRoutes).not.toContain('/app/orders.tsx');
+    expect(scopedRoutes).not.toContain('"path": "product"');
+    expect(fullRoutes).toContain('"path": "product"');
+    const definition = await fs.readFile(registryPath(selected), 'utf8');
+    expect(definition).toContain('selected: true, dataRoute: "/product"');
+    expect(definition).not.toContain(' route:');
     expect(scopedRoutes).toContain(
       'const routeModuleCache = Object.create(null)',
     );

@@ -18,7 +18,7 @@ export default function Layout({
         Observations: {count}
       </button>
       <nav>
-        <Link to="product" data-testid="scope-product-link">
+        <Link to="product" data-testid="scope-root-product-link">
           Products
         </Link>{' '}
         <Link to="orders" data-testid="scope-orders-link">

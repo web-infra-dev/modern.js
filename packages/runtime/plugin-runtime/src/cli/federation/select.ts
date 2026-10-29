@@ -21,7 +21,7 @@ export function normalizeScopePath(value: unknown): string {
   return value.replace(/\/+$/, '') || '/';
 }
 
-/** Keep the selected subtree and its ancestors, without mutating the entry. */
+/** Export a local route tree while preserving ancestor behavior and route IDs. */
 export function selectRouteScope(routes: Route[], value: string): Route[] {
   const selectedPath = normalizeScopePath(value);
   const candidates: {
@@ -41,7 +41,8 @@ export function selectRouteScope(routes: Route[], value: string): Route[] {
         origin =>
           origin.path &&
           join(base, origin.path) === selectedPath &&
-          (normalized === selectedPath ||
+          (selectedPath === '/' ||
+            normalized === selectedPath ||
             normalized.startsWith(`${selectedPath}/`)),
       );
       if (origin)
@@ -74,14 +75,30 @@ export function selectRouteScope(routes: Route[], value: string): Route[] {
   const allowed = new Set(
     roots.flatMap(root => [...root.ancestors, root.node]),
   );
-  const copy = (nodes: Route[], inside = false): Route[] =>
+  const copy = (nodes: Route[], base = '', inside = false): Route[] =>
     nodes.flatMap(node => {
       if (!inside && !allowed.has(node)) return [];
       const selected = inside || targets.has(node);
       const result = { ...node };
+      const originalPath = join(base, node.path || '');
+      if (selectedPath !== '/') {
+        if (!selected) {
+          // Ancestor layouts/loaders still run, but do not consume URL segments.
+          delete result.path;
+        } else if (targets.has(node) || node.path?.startsWith('/')) {
+          if (originalPath === selectedPath) result.path = '/';
+          else if (originalPath.startsWith(`${selectedPath}/`))
+            result.path = originalPath.slice(selectedPath.length);
+          else
+            throw new Error(
+              `Route "${originalPath}" is outside selected application "${selectedPath}".`,
+            );
+        }
+      }
       if (result.type === 'nested' && result.children)
         result.children = copy(
           result.children,
+          originalPath,
           selected,
         ) as NestedRouteForCli[];
       return [result];
