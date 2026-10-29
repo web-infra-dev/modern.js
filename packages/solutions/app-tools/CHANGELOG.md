@@ -1,5 +1,28 @@
 # @modern-js/app-tools
 
+## 3.10.4
+
+### Patch Changes
+
+- 9c94a22: fix(app-tools): recognize `-e` as an alias of `--entry` when selecting dev entries
+
+  fix(app-tools): 选择开发入口时，将 `-e` 识别为 `--entry` 的别名
+
+- ea77774: fix: compile server TypeScript files to CommonJS with swc when ts-node is not installed, so the dev server can reload them and syntax like enum and decorators works on every Node.js version
+
+  fix: 未安装 ts-node 时用 swc 把服务端 TypeScript 文件编译为 CommonJS，使 dev server 能热更新这些文件，并在所有 Node.js 版本下支持 enum、装饰器等语法
+
+  - @modern-js/builder@3.10.4
+  - @modern-js/plugin-data-loader@3.10.4
+  - @modern-js/server-core@3.10.4
+  - @modern-js/prod-server@3.10.4
+  - @modern-js/server@3.10.4
+  - @modern-js/server-utils@3.10.4
+  - @modern-js/i18n-utils@3.10.4
+  - @modern-js/plugin@3.10.4
+  - @modern-js/types@3.10.4
+  - @modern-js/utils@3.10.4
+
 ## 3.10.3
 
 ### Patch Changes

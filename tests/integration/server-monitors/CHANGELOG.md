@@ -1,5 +1,12 @@
 # server-monitors
 
+## 2.66.3
+
+### Patch Changes
+
+- @modern-js/runtime@3.10.4
+- @modern-js/server-runtime@3.10.4
+
 ## 2.66.2
 
 ### Patch Changes

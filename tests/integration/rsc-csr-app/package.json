@@ -1,7 +1,7 @@
 {
   "private": true,
   "name": "rsc-csr-app",
-  "version": "2.66.2",
+  "version": "2.66.3",
   "scripts": {
     "dev": "cross-env modern dev",
     "build": "cross-env modern build",
