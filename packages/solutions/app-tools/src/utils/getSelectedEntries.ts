@@ -1,6 +1,14 @@
 import type { Entrypoint } from '@modern-js/types';
-import { chalk, inquirer } from '@modern-js/utils';
+import { chalk, inquirer, minimist } from '@modern-js/utils';
 import { i18n, localeKeys } from '../locale';
+
+export const parseEntryOption = (argv: string[]): string[] | boolean => {
+  const { entry } = minimist<{ entry?: string | boolean }>(argv, {
+    alias: { e: 'entry' },
+  });
+
+  return typeof entry === 'string' ? entry.split(',') : (entry ?? false);
+};
 
 /**
  * Allow user to select entrypoints to build.
