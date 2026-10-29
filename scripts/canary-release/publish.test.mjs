@@ -4,9 +4,10 @@ import path from 'node:path';
 import test from 'node:test';
 import { planHash, readJson } from './core.mjs';
 import { artifactFixture, githubEnvironment } from './fixtures.mjs';
+import { EventEmitter } from 'node:events';
 import {
-  ATTEMPTS, assertTrustedPublishers, confirmFromRegistry, diagnostic, isolatedNpmEnvironment, missingFromRegistry, npmErrorCode, retryAfterMs, sameValue,
-  publish, publishArguments, publishedFromOutput, repairInstructions,
+  ATTEMPTS, PUBLISH_CONCURRENCY, assertTrustedPublishers, confirmFromRegistry, diagnostic, isolatedNpmEnvironment, missingFromRegistry, npmErrorCode, retryAfterMs, sameValue,
+  publish, publishArguments, publishedFromOutput, repairInstructions, spawnNpm,
 } from './publish.mjs';
 
 function settings(fixture, npm, log = () => {}) {
@@ -444,4 +445,101 @@ test('reconcile with nothing missing publishes nothing and still reports the rel
   assert.equal(receipt.status, 'published');
   assert.equal(receipt.packages.length, fixture.manifest.packages.length);
   assert.ok(receipt.packages.every(item => item.confirmedBy === 'registry'));
+});
+
+// A child process that this test drives: nothing is spawned, the streams and
+// the close are produced on demand.
+function fakeChild() {
+  const child = new EventEmitter();
+  for (const name of ['stdout', 'stderr']) {
+    const stream = new EventEmitter();
+    stream.setEncoding = () => {};
+    child[name] = stream;
+  }
+  child.kill = () => { child.killed = true; };
+  return child;
+}
+
+test('several packages are published at once and the receipt still reads in manifest order', async t => {
+  const fixture = artifactFixture(t);
+  const [first, second] = fixture.manifest.packages;
+  let live = 0;
+  let peak = 0;
+  const waiting = new Map();
+  const deps = settings(fixture, args => {
+    const name = args[1].includes(first.filename) ? first.name : second.name;
+    live += 1;
+    peak = Math.max(peak, live);
+    return new Promise(resolve => {
+      waiting.set(name, () => {
+        live -= 1;
+        resolve({ status: 0, stdout: JSON.stringify({ [name]: { version: fixture.plan.version } }) });
+      });
+    });
+  });
+  // The second package answers first, which is the ordering a receipt
+  // assembled as the answers arrive would record.
+  const settled = publish(fixture.root, options(fixture.plan), deps);
+  await new Promise(resolve => setImmediate(resolve));
+  assert.equal(peak, 2, 'both packages were in flight before either answered');
+  waiting.get(second.name)();
+  await new Promise(resolve => setImmediate(resolve));
+  waiting.get(first.name)();
+  const receipt = await settled;
+
+  assert.equal(receipt.status, 'published');
+  assert.deepEqual(receipt.packages.map(item => item.name), [first.name, second.name]);
+  assert.ok(receipt.packages.every(item => item.status === 'published'));
+  assert.deepEqual(readJson(path.join(fixture.root, 'receipts/receipt.json')).packages.map(item => item.name),
+    [first.name, second.name], 'the receipt on disk reads the same way');
+});
+
+test('concurrency 1 sends one package at a time', async t => {
+  const fixture = artifactFixture(t);
+  let live = 0;
+  let peak = 0;
+  const deps = settings(fixture, async () => {
+    live += 1;
+    peak = Math.max(peak, live);
+    await new Promise(resolve => setImmediate(resolve));
+    live -= 1;
+    return { status: 0, stdout: JSON.stringify({ version: fixture.plan.version }) };
+  });
+  await publish(fixture.root, { ...options(fixture.plan), concurrency: 1 }, deps);
+  assert.equal(peak, 1);
+});
+
+test('a concurrency this script will not vouch for is refused before anything is sent', async t => {
+  for (const concurrency of [0, 9, 1.5, '4']) {
+    const fixture = artifactFixture(t);
+    const deps = settings(fixture, () => assert.fail('npm must not be called'));
+    await assert.rejects(publish(fixture.root, { ...options(fixture.plan), concurrency }, deps),
+      /publish concurrency must be an integer between 1 and 8/);
+  }
+  assert.equal(PUBLISH_CONCURRENCY, 4);
+});
+
+test('spawnNpm reports what the child said, and a child that never starts as an error', async () => {
+  const child = fakeChild();
+  const result = spawnNpm(['publish'], {}, { launch: () => child });
+  child.stdout.emit('data', '{"ok":');
+  child.stdout.emit('data', 'true}');
+  child.stderr.emit('data', 'npm notice');
+  child.emit('close', 0);
+  assert.deepEqual(await result, { status: 0, stdout: '{"ok":true}', stderr: 'npm notice' });
+
+  const broken = await spawnNpm(['publish'], {}, { launch: () => { throw new Error('ENOENT'); } });
+  assert.equal(broken.status, null);
+  assert.match(broken.error.message, /ENOENT/);
+});
+
+test('spawnNpm refuses output it cannot hold rather than returning half of it', async () => {
+  const child = fakeChild();
+  const result = spawnNpm(['publish'], {}, { launch: () => child });
+  child.stdout.emit('data', 'x'.repeat(17 * 1024 * 1024));
+  assert.equal(child.killed, true, 'the child is stopped once it has written too much');
+  child.emit('close', null);
+  const settled = await result;
+  assert.equal(settled.status, null);
+  assert.match(settled.error.message, /wrote more than/);
 });
