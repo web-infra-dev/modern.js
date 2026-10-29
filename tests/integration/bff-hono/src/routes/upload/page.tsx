@@ -35,12 +35,12 @@ const Page = () => {
   };
 
   const click = () => {
-    if (!file) {
+    if (!file?.length) {
       return;
     }
     upload({
       files: {
-        images: file,
+        images: file[0],
       },
     });
   };

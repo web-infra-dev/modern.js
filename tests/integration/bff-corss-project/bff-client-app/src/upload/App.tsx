@@ -35,12 +35,12 @@ const Index = (): React.ReactElement => {
   };
 
   const click = async () => {
-    if (!file) {
+    if (!file?.length) {
       return;
     }
     const res = await upload({
       files: {
-        images: file,
+        images: file[0],
         params: JSON.stringify({
           a: 1,
           b: 2,

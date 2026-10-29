@@ -109,6 +109,23 @@ describe('bff hono tests', () => {
       expect(text).toBe('mock_image.png');
     });
 
+    test.each(['missing', 'text'])(
+      'rejects %s upload files',
+      async invalidInput => {
+        const formData = new FormData();
+        if (invalidInput === 'text') {
+          formData.append('images', 'not a file');
+        }
+        const response = await fetch(`${host}:${port}${prefix}/upload`, {
+          method: 'POST',
+          body: formData,
+        });
+
+        expect(response.status).toBe(400);
+        expect((await response.json()).message).toContain('images');
+      },
+    );
+
     test('custom res', async () => {
       await page.goto(`${host}:${port}/${BASE_PAGE}`);
       await new Promise(resolve => setTimeout(resolve, 1000));
@@ -277,6 +294,23 @@ describe('bff hono tests', () => {
       const text = await page.$eval('.mock_file', el => el?.textContent);
       expect(text).toBe('mock_image.png');
     });
+
+    test.each(['missing', 'text'])(
+      'rejects %s upload files',
+      async invalidInput => {
+        const formData = new FormData();
+        if (invalidInput === 'text') {
+          formData.append('images', 'not a file');
+        }
+        const response = await fetch(`${host}:${port}${prefix}/upload`, {
+          method: 'POST',
+          body: formData,
+        });
+
+        expect(response.status).toBe(400);
+        expect((await response.json()).message).toContain('images');
+      },
+    );
 
     test('custom res', async () => {
       await page.goto(`${host}:${port}/${BASE_PAGE}`);
