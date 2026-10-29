@@ -92,13 +92,42 @@ const Card = createReactRemote<{ label: string }>({
 <ReactRemote remote="remote/Card" props={{ label: 'Example' }} />
 ```
 
+`remote` 支持三类输入：注册的 `alias/Expose` 字符串、调用 MF `loadRemote` 的函数，以及返回已加载 MF 模块或其组件导出的函数。函数可以同步或异步返回，工厂与声明式 API 使用相同的行为。
+
+{/* prettier-ignore */}
+```tsx
+import { loadRemote } from '@module-federation/enhanced/runtime'
+import Shop, * as ShopModule from 'shop/Card'
+import { createReactRemote, ReactRemote } from '@modern-js/runtime/mf'
+
+const ById = createReactRemote({ remote: 'shop/Card' })
+const ByLoader = createReactRemote({
+  remote: () => loadRemote('shop/Card'),
+})
+const loadShop = () => ShopModule
+const ByModule = createReactRemote({ remote: loadShop })
+const ByComponent = createReactRemote({ remote: async () => Shop })
+
+<ReactRemote remote={loadShop} props={{ label: 'Example' }} />
+```
+
+函数输入始终通过 thunk 传递，即 `remote: () => Shop`。返回值须来自 MF 的加载链路或静态远程 import，框架使用已有来源信息识别组件和 Bridge 协议，不要求用户添加模块标记。直接传组件函数或模块对象不是上述输入形式。预加载组件导出的来源识别由配套版本的消费者 Runtime 提供，不要求生产者重新构建或添加新标记。
+
+声明式 `ReactRemote` 的函数输入应保持引用稳定，可像上例一样定义在模块作用域，或使用 `useCallback`。仅更新业务 props 时复用同一个函数。更换函数引用会被视为新的加载来源，并重置该消费实例的加载和组件状态。
+
+预加载结果须来自消费入口使用的同一个 Runtime 实例。如果同一组件引用对应多个 expose 或版本，自动识别会报歧义错误，可改用字符串指定来源。旧 Runtime 仍可通过带有 MF 身份的模块命名空间兼容，预加载默认导出的识别需要配套的新 Runtime。
+
+启用并消费 MF 生成的类型映射后，字符串字面量可推导 expose 的 props。函数输入从返回模块或组件的类型推导 props，`exportName` 只接受对应模块中的可渲染导出。两种工厂和 `ReactRemote` 使用同一套类型约束。动态字符串或缺少远端类型时，仍可显式指定业务 props，例如 `createReactRemote<{ label: string }>(...)`。
+
 框架从 manifest 的 expose 协议选择适配器。普通组件进入 Host React 树，保留现有 SSR、水合和数据加载能力。由 `createBridgeComponent` 默认导出的 provider 会被构建标记为 `render: 'bridge'`、`isService: false`，在客户端使用生产者的独立 Root。每次挂载单独管理 provider，props 更新复用 Root，卸载时销毁。
 
 生产者仍使用标准 exposes。框架识别 `createBridgeComponent` 的导入绑定、别名与静态 re-export，不执行业务代码探测类型。默认导出应可静态分析，复杂包装、动态选项和元信息冲突会产生构建诊断。
 
 `exportName` 默认 `default`，支持普通组件具名导出。无协议的旧组件继续走普通组件路径，旧 Bridge 可显式设置 `render: 'bridge'`。可靠元信息与提示冲突时报错。通用注册和加载 API 继续从 `@module-federation/enhanced/runtime` 导入。
 
-本版本的 Bridge 在服务端只输出占位，客户端再挂载。Bridge SSR、Service App 与 `updateRemotes` 不属于本次能力。自动 SSR 分流使用 `remote: 'alias/Expose'`，客户端 loader 仅支持携带 MF 模块身份的模块命名空间。重试重建失败加载和实例状态，不保证重新下载模块或重新执行业务数据函数。
+上述三类输入都支持普通组件 SSR，前提是函数及其加载的模块能够在 Node 中执行。普通组件继续使用相同的数据加载、资源输出和水合链路。`noSSR: true` 在服务端输出 loading 占位，并将函数调用和组件渲染留到客户端。已经在消费 API 之外执行的静态 import 或预加载不会被 `noSSR` 撤销。
+
+本版本的 Bridge 在服务端只输出占位，客户端再创建 provider 和独立 Root。函数输入在服务端可能需要先加载模块以识别其协议，但不会因此执行 Bridge 渲染。字符串输入可以先读取元信息选中 Bridge 占位，无需加载 expose。Bridge SSR、Service App 与 `updateRemotes` 不属于本次能力。重试会重新调用失败的输入函数并重建失败实例，不保证重新下载已经缓存的 MF 模块或重新执行业务数据函数。
 
 Modern 默认关闭 MF 引擎根据 bridge-react 依赖自动设置路由别名的行为，路由由 Modern 管理。显式配置 bridge.enableBridgeRouter 时保留用户选项。
 

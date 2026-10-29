@@ -9,4 +9,10 @@ export type {
   CreateReactRemoteOptions,
   ReactRemoteProps,
   ReactRemoteErrorInfo,
+  CreateReactRemote,
+  ReactRemoteComponent,
+  RemoteSource,
+  RemoteExportName,
+  InferRemoteProps,
+  BridgeProvider,
 } from '@module-federation/bridge-react/base';

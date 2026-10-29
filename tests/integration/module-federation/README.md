@@ -13,27 +13,30 @@ pnpm --filter mf-lab-tests test
 
 Open http://localhost:4300/. Stop the interactive lab with Ctrl+C. Add `--production` to the dev command to inspect production builds. Select an existing Chrome installation with `PUPPETEER_EXECUTABLE_PATH` when needed. `MF_LAB_VERBOSE=1` prints child-process logs.
 
-| Route                          | Purpose                                                                                                            |
-| ------------------------------ | ------------------------------------------------------------------------------------------------------------------ |
-| `/`                            | Rendering comparison, CSR and SSR weather documents                                                                |
-| `/data`                        | CSR, SSR, CSR with MF data and SSR with MF data                                                                    |
-| `/advanced`                    | Weather release replacement, data recovery, loader lifecycle, remote data sources and independent weather stations |
-| `/stores/:storeId/inventory/*` | Route-mounted product application, automatic basename, host/remote navigation and independent memory cards         |
-| `/stores/:storeId/retry/*`     | One-time provider failure and retry with isolated neighboring mounts                                               |
-| `/route-exports`               | Complete Modern application, product scope twice, orders scope, loaders, navigation and independent state          |
-| `/weather`                     | Internal weather document used by the comparison and advanced frames                                               |
+| Route                          | Purpose                                                                                                                |
+| ------------------------------ | ---------------------------------------------------------------------------------------------------------------------- |
+| `/`                            | Rendering comparison, CSR and SSR weather documents                                                                    |
+| `/data`                        | CSR, SSR, CSR with MF data and SSR with MF data                                                                        |
+| `/advanced`                    | Weather release replacement, data recovery, loader lifecycle, remote data sources and independent weather stations     |
+| `/stores/:storeId/inventory/*` | Route-mounted product application, automatic basename, host/remote navigation and independent memory cards             |
+| `/stores/:storeId/retry/*`     | One-time provider failure and retry with isolated neighboring mounts                                                   |
+| `/input-forms`                 | Literal IDs, MF loader functions and preloaded namespace/default functions through both APIs, SSR/CSR, noSSR and retry |
+| `/route-exports`               | Complete Modern application, product scope twice, orders scope, loaders, navigation and independent state              |
+| `/weather`                     | Internal weather document used by the comparison and advanced frames                                                   |
 
 Advanced frames select their experiment through `/weather?scenario=...`. These share the weather layout and do not add separate demo routes. Removed routes such as `/static`, `/recovery`, `/compare` and `/unified` return 404. Navigation and history are tested from the root Weather Lab.
 
 ## Unified API integration
 
-Ordinary and nested weather consumers call `createReactRemote` with registered `alias/Expose` strings. The framework API selects the renderer from the Snapshot returned by the completed runtime resolution chain before executing the exposed module. Components use the existing SSR, hydration, CSS/assets and data-fetch pipeline. Fault wrappers supply request-specific props and data-fetch parameters without mutating a loaded component or server-wide flag.
+Ordinary and nested weather consumers call `createReactRemote` with registered `alias/Expose` strings. The framework API selects the renderer from the Snapshot returned by the completed runtime resolution chain before executing the exposed module for these string inputs. Components use the existing SSR, hydration, CSS/assets and data-fetch pipeline. Fault wrappers supply request-specific props and data-fetch parameters without mutating a loaded component or server-wide flag.
 
 `Independent weather stations` uses the same factory API and the declarative `ReactRemote` API. Its producer imports `createBridgeComponent` from the framework entry. The manifest marks that expose with `render: 'bridge'` and `isService: false`. Server HTML contains placeholders, and each client mount owns a separate producer Root. Renaming a station preserves its observations, disconnecting destroys it, and reconnecting creates a fresh station. Bridge SSR is outside this phase.
 
+The `/input-forms` fixture covers registered strings, MF loader functions, and synchronous or asynchronous functions returning preloaded MF namespaces or default components. It uses static MF imports for the preloaded values and does not add identity markers. Every ordinary input runs through factory and declarative consumers in both SSR and CSR, preserving local state across props updates. Function inputs are Node-loadable in the SSR cases. A guarded noSSR function fails if called on the server, and Bridge loader inputs still emit server placeholders. Intentional function failures appear only after a user action and exercise retry without disturbing neighboring instances. The matching consumer Runtime supplies provenance for preloaded exports, without producer protocol changes.
+
 Runtime registration and prefetch continue using Enhanced and the existing data-prefetch plugin. The fixture does not call the old `createLazyComponent` consumer API. Each producer has one canonical runtime name with an alias. Registering the same container under multiple names would evaluate a second server entry against an existing instance and can break remote chunk initialization.
 
-The MF dependencies are pinned to published preview `0.0.0-feat-bridge-route-navigation-20261028125233`, which contains the unified consumers and per-expose protocol metadata. Keep the integration, examples and runtime peer versions aligned. Validate the registry packages without local overrides when updating these pins.
+The checked-in MF dependencies remain pinned to published preview `0.0.0-feat-bridge-route-navigation-20261028125233`, which contains the unified consumers and per-expose protocol metadata. The new function-input SSR, preloaded-export identity and generated props inference require matching newer Core packages. Validation of these additions currently uses locally built Core packages and does not establish support in the older published preview. Before release, update the integration, examples and runtime peer versions together, then rerun the regressions against registry packages without local overrides.
 
 ## Weather scenarios
 
@@ -78,8 +81,10 @@ The script-delay control delays the actual host entry request by 0, 1500 or 3000
 | `advanced.test.ts`         | Independent producer release replacement and experiment isolation                                                                                                                                     |
 | `error-recovery.test.ts`   | HTTP/render/data failures, handling events, interactive neighbors and recovery after clearing faults                                                                                                  |
 | `unified.test.ts`          | Weather expose protocols, factory/declarative Bridge stations, server placeholders, independent state, prop updates and destroy/remount through Advanced                                              |
+| `input-types.test.ts`      | Actual MF producer/consumer API type generation, Modern public factories and declarative consumer, strict ESM/CJS positive and negative props/export checks                                           |
+| `input-forms.test.ts`      | Literal and function inputs, preloaded namespace/default values, SSR/CSR, noSSR deferral, Bridge placeholders, props/state and retry parity                                                           |
 | `activation.test.ts`       | Real CLI activation, disabling, config/dependency errors, legacy coexistence, DTS output and native ESM builds                                                                                        |
-| `route-navigation.test.ts` | Host basename, deep links, query/hash, retained producer paths, bidirectional history, dynamic prefixes, state/props, retries, loader cancellation and memory isolation                               |
+| `route-navigation.test.ts` | Host basename, deep links, query/hash, local selected-app paths, bidirectional history, dynamic prefixes, state/props, retries, loader cancellation and memory isolation                              |
 | `route-scope.test.ts`      | Actual compiler dependency graphs, full and selected app exports, ancestor and dynamic child loaders, error recovery, state updates and instance isolation                                            |
 
 Each browser file runs dev and production suites, retry 0, with one worker in the dedicated Rstest configuration. Every file owns a temporary source copy and writable caches. Installed packages are linked individually and are never modified by the tests. The runner starts producers before consumers, waits for HTTP readiness and cleans up after failures. Temporary workspaces keep tests independent of the interactive demo.

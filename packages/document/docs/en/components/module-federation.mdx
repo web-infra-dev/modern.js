@@ -92,6 +92,33 @@ const Card = createReactRemote<{ label: string }>({
 <ReactRemote remote="remote/Card" props={{ label: 'Example' }} />
 ```
 
+`remote` accepts three input forms: a registered `alias/Expose` string, a function calling MF `loadRemote`, or a function returning a preloaded MF namespace or component export. Functions can return synchronously or asynchronously. Factory and declarative consumers use the same behavior.
+
+{/* prettier-ignore */}
+```tsx
+import { loadRemote } from '@module-federation/enhanced/runtime'
+import Shop, * as ShopModule from 'shop/Card'
+import { createReactRemote, ReactRemote } from '@modern-js/runtime/mf'
+
+const ById = createReactRemote({ remote: 'shop/Card' })
+const ByLoader = createReactRemote({
+  remote: () => loadRemote('shop/Card'),
+})
+const loadShop = () => ShopModule
+const ByModule = createReactRemote({ remote: loadShop })
+const ByComponent = createReactRemote({ remote: async () => Shop })
+
+<ReactRemote remote={loadShop} props={{ label: 'Example' }} />
+```
+
+Always wrap function inputs in a thunk, such as `remote: () => Shop`. The returned value must come from MF loading or a static remote import. The consumer uses its existing source information to identify the component or Bridge protocol. Users do not add module markers. Passing a component function or namespace object directly is not one of these input forms. Preloaded component provenance is supplied by the matching consumer Runtime version, without rebuilding producers or adding producer markers.
+
+Keep function inputs to `ReactRemote` stable across renders by defining them at module scope, as above, or using `useCallback`. Reuse the same function when only business props change. Replacing the function reference selects a new loading source and resets that consumer instance's loading and component state.
+
+Preloaded values must come from the same Runtime instance used by the consumer. A component reference shared by multiple exposes or versions is ambiguous, so use a remote ID string to select its source. Older runtimes retain compatibility through MF-identified namespaces, while preloaded default exports require the matching newer Runtime.
+
+With MF-generated type mappings included in the consumer project, literal remote IDs infer expose props. Function inputs infer props from the returned namespace or component, and `exportName` accepts its renderable exports. Both factories and `ReactRemote` share these checks. Dynamic strings or remotes without declarations can retain an explicit props type, such as `createReactRemote<{ label: string }>(...)`.
+
 The consumer selects an adapter from the manifest expose protocol. Ordinary React
 components render in the Host tree with the existing SSR, hydration and data-loading
 integration. Default provider exports created with `createBridgeComponent` publish
@@ -109,11 +136,9 @@ Unmarked legacy components retain the component path. Legacy Bridge providers ca
 set `render: 'bridge'` explicitly. Hints conflicting with reliable metadata fail.
 General registration and loading APIs remain in `@module-federation/enhanced/runtime`.
 
-Bridge only emits a placeholder on the server in this API version. Bridge SSR,
-Service App execution and `updateRemotes` are separate capabilities. Use an
-alias/expose string for automatic SSR selection. CSR loaders must return an MF
-module namespace with its module identity. Retry resets failed loading and instance
-state without promising a re-download or automatic business-loader replay.
+All three forms support ordinary component SSR when the function and loaded modules can execute in Node. Components use the same data-loading, asset and hydration pipeline. With `noSSR: true`, the server emits the loading placeholder and the consumer calls the function and renders the component on the client. Static imports and preloading performed outside the consumer are not undone by `noSSR`.
+
+Bridge only emits a placeholder on the server in this API version. The client creates its provider and independent Root. A function input may load the module to identify its protocol on the server, but does not render the Bridge application. A string input can select Bridge from metadata before loading the expose. Bridge SSR, Service App execution and `updateRemotes` remain separate capabilities. Retry invokes a failed input function again and resets the failed instance, without promising to download an already cached MF module or replay business data loaders.
 
 Modern disables dependency-based automatic Bridge router aliases by default because it manages routing itself. Explicit bridge.enableBridgeRouter configuration is preserved.
 
