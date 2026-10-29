@@ -81,9 +81,16 @@ function RoutedRemote({
     };
     return { adapter, listeners };
   }, []);
+  const previousBasename = useRef(basename);
   useEffect(() => {
+    if (previousBasename.current !== basename) {
+      previousBasename.current = basename;
+      // The provider renders in another Root. Its new basename must reach that
+      // Root before synchronizing the URL through the rebound subscription.
+      return;
+    }
     for (const listener of state.listeners) listener();
-  }, [state, fullLocation]);
+  }, [state, fullLocation, location.key, basename]);
   return (
     <CoreReactRemote
       {...options}

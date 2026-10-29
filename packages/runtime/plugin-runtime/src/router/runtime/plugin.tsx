@@ -346,6 +346,7 @@ function useRouterCreation(props: any, options: UseRouterCreationOptions) {
     const modifiedRoutes = hooks.modifyRoutes.call(routes);
     if (topology) assertScopeTopology(modifiedRoutes, topology);
 
+    if (scope) scope.hash = !supportHtml5History;
     const router = scope?.memory
       ? createMemoryRouter(modifiedRoutes, {
           initialEntries: [scope.initialUrl],

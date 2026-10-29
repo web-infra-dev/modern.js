@@ -316,17 +316,30 @@ it.each(['', '/producer'])(
   },
 );
 
-it.each([true, false])(
-  'uses the configured browser history (HTML5: %s) and preserves a dynamic mount',
-  async html5 => {
+it.each([
+  { html5: true, uppercase: false, baseElement: false },
+  { html5: false, uppercase: false, baseElement: false },
+  { html5: true, uppercase: true, baseElement: false },
+  { html5: false, uppercase: false, baseElement: true },
+])(
+  'preserves a dynamic mount with history configuration %j',
+  async ({ html5, uppercase, baseElement }) => {
     const initial = '/admin/stores/100/inventory';
     const next = '/admin/stores/200/inventory';
     const physical = (path: string) => (html5 ? path : '/#' + path);
     window.history.replaceState(
       null,
       '',
-      physical(initial + '/detail/42?tab=stock#summary'),
+      physical(
+        (uppercase ? initial.toUpperCase() : initial) +
+          '/detail/42?tab=stock#summary',
+      ),
     );
+    const base = document.createElement('base');
+    if (baseElement) {
+      base.href = '/';
+      document.head.append(base);
+    }
     const requests: Request[] = [];
     const initialized = rstest.fn();
     const listeners = new Set<() => void>();
@@ -425,7 +438,10 @@ it.each([true, false])(
         'https://producer.example/producer/product/detail/42?tab=stock',
       );
       expect(view.container.querySelector('a')!.getAttribute('href')).toBe(
-        (html5 ? '' : '#') + initial + '/detail/43?tab=next#forecast',
+        (baseElement ? window.location.href.split('#')[0] : '') +
+          (html5 ? '' : '#') +
+          initial +
+          '/detail/43?tab=next#forecast',
       );
       fireEvent.click(view.container.querySelector('button')!);
       const historySize = window.history.length;
@@ -436,6 +452,7 @@ it.each([true, false])(
         ),
       );
       expect(window.history.length).toBe(historySize + 1);
+      expect(requests).toHaveLength(2);
       expect(window.location.href).toContain(
         physical(initial + '/detail/43?tab=next#forecast'),
       );
@@ -492,10 +509,217 @@ it.each([true, false])(
       expect(listeners.size).toBe(1);
     } finally {
       view.unmount();
+      base.remove();
     }
     expect(listeners.size).toBe(0);
   },
 );
+
+it.each(['/outside', '/inventory/detail/42'])(
+  'cancels pending remote navigation after a Host move to %s',
+  async target => {
+    window.history.replaceState(null, '', '/inventory/detail/42');
+    let hostLocation = '/inventory/detail/42';
+    const listeners = new Set<() => void>();
+    routing.current = {
+      navigation: {
+        getLocation: () => hostLocation,
+        createHref: (to: string) => to,
+        subscribe: (listener: () => void) => {
+          listeners.add(listener);
+          return () => listeners.delete(listener);
+        },
+        navigate: rstest.fn(),
+      },
+    };
+    let release!: () => void;
+    let signal!: AbortSignal;
+    const initialized = rstest.fn();
+    const Root = createScopedRoot({
+      selected: true,
+      dataRoute: '/product',
+      basename: '/',
+      serverLoaders: false,
+      getDataBase: () => 'https://producer.example',
+      routes: [
+        {
+          id: 'root',
+          type: 'nested',
+          origin: 'config',
+          path: '/',
+          component: Outlet,
+          children: [
+            {
+              id: 'detail',
+              type: 'nested',
+              origin: 'config',
+              path: 'detail/:id',
+              component: () => <p>Detail</p>,
+            },
+            {
+              id: 'slow',
+              type: 'nested',
+              origin: 'config',
+              path: 'slow',
+              loader: ({ request }: { request: Request }) =>
+                new Promise(resolve => {
+                  signal = request.signal;
+                  release = () => resolve(null);
+                }),
+            },
+          ],
+        },
+      ],
+      createRuntime: (config, selected) =>
+        createRuntime([
+          routerPlugin({}, config, selected),
+          {
+            name: 'observe',
+            setup(api) {
+              api.onBeforeRender(initialized);
+            },
+          },
+        ]),
+    });
+    const view = render(<Root basename="/inventory" />);
+    let pending: Promise<void> | undefined;
+    try {
+      await waitFor(() => expect(view.container.textContent).toBe('Detail'));
+      const router = initialized.mock.calls[0][0]._routeScope.router;
+      act(() => {
+        pending = router.navigate('/slow');
+      });
+      await waitFor(() => expect(signal).toBeDefined());
+      const size = window.history.length;
+      act(() => {
+        window.history.pushState(null, '', target);
+        hostLocation = target;
+        for (const listener of listeners) listener();
+      });
+      expect(signal.aborted).toBe(true);
+      await act(async () => {
+        release();
+        await pending;
+      });
+      expect(window.location.pathname).toBe(target);
+      expect(window.history.length).toBe(size + 1);
+      expect(initialized).toHaveBeenCalledTimes(1);
+    } finally {
+      release?.();
+      await pending;
+      view.unmount();
+    }
+    expect(listeners.size).toBe(0);
+  },
+);
+
+it('notifies a Browser Host when the initial redirect finishes before the subscription', async () => {
+  window.history.replaceState(null, '', '/inventory/start');
+  const host = createBrowserRouter([{ path: '*' }]);
+  const remote = createBrowserRouter(
+    [
+      {
+        path: '/start',
+        loader: () =>
+          new Response(null, {
+            status: 302,
+            headers: { Location: '/detail/42' },
+          }),
+      },
+      { path: '/detail/:id' },
+    ],
+    { basename: '/inventory' },
+  );
+  let stop: (() => void) | undefined;
+  try {
+    await waitFor(() =>
+      expect(remote.state.location.pathname).toBe('/inventory/detail/42'),
+    );
+    expect(host.state.location.pathname).toBe('/inventory/start');
+    const size = window.history.length;
+    const push = rstest.spyOn(window.history, 'pushState');
+    const replace = rstest.spyOn(window.history, 'replaceState');
+    try {
+      stop = connectBrowserRouter(
+        remote,
+        {
+          getLocation: () => host.state.location.pathname,
+          createHref: to => to,
+          subscribe: listener => host.subscribe(listener),
+          navigate: rstest.fn(),
+        },
+        error => {
+          throw error;
+        },
+      );
+      await waitFor(() =>
+        expect(host.state.location.pathname).toBe('/inventory/detail/42'),
+      );
+      expect(window.history.length).toBe(size);
+      expect(push).not.toHaveBeenCalled();
+      expect(replace).not.toHaveBeenCalled();
+    } finally {
+      push.mockRestore();
+      replace.mockRestore();
+    }
+  } finally {
+    stop?.();
+    remote.dispose();
+    host.dispose();
+  }
+});
+
+it('keeps an initial pending loader running when the Host has not navigated', async () => {
+  window.history.replaceState(null, '', '/inventory');
+  const listeners = new Set<() => void>();
+  routing.current = {
+    navigation: {
+      getLocation: () => '/inventory',
+      createHref: (to: string) => to,
+      subscribe: (listener: () => void) => {
+        listeners.add(listener);
+        return () => listeners.delete(listener);
+      },
+      navigate: rstest.fn(),
+    },
+  };
+  const requests: Request[] = [];
+  let release!: () => void;
+  const Root = createScopedRoot({
+    selected: true,
+    basename: '/',
+    serverLoaders: false,
+    getDataBase: () => 'https://producer.example',
+    routes: [
+      {
+        id: 'root',
+        type: 'nested',
+        origin: 'config',
+        path: '/',
+        component: () => <p>Ready</p>,
+        loader: ({ request }: { request: Request }) =>
+          new Promise(resolve => {
+            requests.push(request);
+            release = () => resolve(null);
+          }),
+      },
+    ],
+    createRuntime: (config, selected) =>
+      createRuntime([routerPlugin({}, config, selected)]),
+  });
+  const view = render(<Root basename="/inventory" />);
+  try {
+    await waitFor(() => expect(listeners.size).toBe(1));
+    expect(requests).toHaveLength(1);
+    expect(requests[0].signal.aborted).toBe(false);
+    await act(async () => release());
+    await waitFor(() => expect(view.container.textContent).toBe('Ready'));
+  } finally {
+    release?.();
+    view.unmount();
+  }
+  expect(listeners.size).toBe(0);
+});
 
 it.each([true, false])(
   'reports mixed Host/Remote Router modes without writing history (Browser remote: %s)',
@@ -508,7 +732,6 @@ it.each([true, false])(
     const writes = rstest.spyOn(window.history, 'pushState');
     const stop = connectBrowserRouter(
       router,
-      '/inventory',
       {
         getLocation: () => '/inventory',
         createHref: target => (browser ? '#' + target : target),
@@ -516,6 +739,7 @@ it.each([true, false])(
         navigate: rstest.fn(),
       },
       errors,
+      !browser,
     );
     try {
       expect(errors.mock.calls[0][0].message).toContain(

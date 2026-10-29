@@ -27,6 +27,7 @@ export interface TInternalRuntimeContext extends TRuntimeContext {
     config: RouterConfig['routesConfig'];
     initialUrl: string;
     memory?: boolean;
+    hash?: boolean;
     basename?: string;
     getWindow?: () => Window;
     projectHref?: (href: string) => string;

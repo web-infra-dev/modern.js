@@ -16,7 +16,7 @@ export function removeBasename(
 ): string | undefined {
   const base = normalizeBasename(basename);
   if (base === '/') return url;
-  if (!url.startsWith(base)) return;
+  if (!url.toLowerCase().startsWith(base.toLowerCase())) return;
   const suffix = url.slice(base.length);
   if (suffix && !['/', '?', '#'].includes(suffix[0])) return;
   return suffix.startsWith('/') ? suffix : `/${suffix}`;
@@ -33,26 +33,39 @@ export function routerLocation(router: DataRouter) {
   return `${pathname}${search}${hash}`;
 }
 
+function browserLocation(
+  location: Window['location'] | URL,
+  hashRouter: boolean,
+) {
+  if (!hashRouter)
+    return `${location.pathname}${location.search}${location.hash}`;
+  const value = location.hash.slice(1) || '/';
+  return value.startsWith('/') || value.startsWith('.') ? value : `/${value}`;
+}
+
 /** Keep the Router stable when a dynamic parent changes the physical mount. */
 export function createMountWindow(
   routerBase: string,
   getMountBase: () => string,
   getRouter: () => DataRouter | undefined,
+  isHashRouter: () => boolean,
 ) {
   const translate = (value: string, from: string, to: string) => {
     const local = removeBasename(value, from);
     return local === undefined ? value : addBasename(local, to);
   };
   const projectHref = (href: string) => {
-    if (href.startsWith('#/'))
-      return `#${translate(href.slice(1), routerBase, getMountBase())}`;
+    if (isHashRouter()) {
+      const index = href.indexOf('#');
+      return `${href.slice(0, index + 1)}${translate(href.slice(index + 1), routerBase, getMountBase())}`;
+    }
     return translate(href, routerBase, getMountBase());
   };
   const location = () => {
     const url = new URL(window.location.href);
-    url.pathname = translate(url.pathname, getMountBase(), routerBase);
-    if (url.hash.startsWith('#/'))
+    if (isHashRouter())
       url.hash = `#${translate(url.hash.slice(1), getMountBase(), routerBase)}`;
+    else url.pathname = translate(url.pathname, getMountBase(), routerBase);
     return url;
   };
   const history = new Proxy(window.history, {
@@ -61,8 +74,8 @@ export function createMountWindow(
         return (state: unknown, unused: string, href?: string | URL | null) => {
           const url = href == null ? href : new URL(href, window.location.href);
           if (url) {
-            url.pathname = projectHref(url.pathname);
-            if (url.hash.startsWith('#/')) url.hash = projectHref(url.hash);
+            if (isHashRouter()) url.hash = projectHref(url.hash);
+            else url.pathname = projectHref(url.pathname);
           }
           target[property](state, unused, url);
         };
@@ -97,11 +110,7 @@ export function createMountWindow(
           const wrapped: EventListener = event => {
             const router = getRouter();
             const url = location();
-            const next = router
-              ?.createHref(router.state.location)
-              .startsWith('#/')
-              ? url.hash.slice(1) || '/'
-              : url.pathname + url.search + url.hash;
+            const next = browserLocation(url, isHashRouter());
             // A synthetic POP informs peers after a write. The writer already
             // has this location, so do not run its loaders a second time.
             if (
@@ -145,16 +154,16 @@ export function createMountWindow(
 /** Browser history owns writes. POP only notifies the other Router instances. */
 export function connectBrowserRouter(
   router: DataRouter,
-  basename: string,
   host: BridgeNavigation | undefined,
   onError: (error: unknown) => void,
+  hashRouter = false,
 ) {
   let active = true;
   const physicalLocation = () => {
-    const current = router.window?.location || window.location;
-    return router.createHref(router.state.location).startsWith('#/')
-      ? `${current.hash.slice(1) || '/'}`
-      : `${current.pathname}${current.search}${current.hash}`;
+    return browserLocation(
+      router.window?.location || window.location,
+      hashRouter,
+    );
   };
   const notify = () => {
     if (active)
@@ -170,15 +179,14 @@ export function connectBrowserRouter(
     previous = next;
     if (state.historyAction !== 'POP') notify();
   });
-  const sync = () => {
+  const sync = (initial = false) => {
     if (!active || !host) return;
     const target = host.getLocation();
-    if (removeBasename(target, basename) === undefined) return;
-    const href = host.createHref?.(target) ?? target;
-    const browser = `${window.location.pathname}${window.location.search}${window.location.hash}`;
+    const href = host.createHref?.(target);
     if (
-      href.startsWith('#/') !==
-      router.createHref(router.state.location).startsWith('#/')
+      href !== undefined &&
+      (new URL(href, window.location.href).hash.slice(1) === target) !==
+        hashRouter
     ) {
       onError(
         new Error(
@@ -188,15 +196,33 @@ export function connectBrowserRouter(
       return;
     }
     if (
-      physicalLocation() !== routerLocation(router) &&
-      (href.startsWith('#/') || browser === target)
+      initial &&
+      router.state.initialized &&
+      router.state.navigation.state === 'idle' &&
+      router.state.historyAction !== 'POP' &&
+      physicalLocation() === routerLocation(router) &&
+      browserLocation(window.location, hashRouter) !== target
+    ) {
+      // An initial loader redirect may finish before this effect subscribes.
+      // History already contains the result, so only notify the Host.
+      notify();
+      return;
+    }
+    if (
+      (physicalLocation() !== routerLocation(router) ||
+        (!initial && router.state.navigation.state !== 'idle') ||
+        router.state.location.key !==
+          (window.history.state?.key ?? 'default')) &&
+      browserLocation(window.location, hashRouter) === target
     )
+      // POP also handles locations outside the mount. React Router aborts the
+      // previous navigation before matching, without another history write.
       router.window?.dispatchEvent(
         new PopStateEvent('popstate', { state: window.history.state }),
       );
   };
-  const stopHost = host?.subscribe(sync);
-  sync();
+  const stopHost = host?.subscribe(() => sync());
+  sync(true);
   return () => {
     active = false;
     stopRouter();

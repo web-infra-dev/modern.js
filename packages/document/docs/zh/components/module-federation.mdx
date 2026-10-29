@@ -201,12 +201,14 @@ export default function Page() {
 
 生产者单独运行时仍使用原地址 `/product/detail/42`。服务端 Loader 仍请求生产者原数据地址，这与应用内部导航路径分开处理。独立 memory 应用的 `memoryRoute.entryPath` 也使用局部路径，例如 `/detail/42?tab=stock`。框架不改写业务源码。
 
+持久挂载的导出实例也会接收挂载范围外的宿主地址。React Router 处理新地址前会取消此前在途导航，旧 Loader 完成后不会把宿主带回。若首次 Loader 重定向在导出提交前完成，挂载时只通知最终地址，不再写入 history。挂载前缀遵循 React Router 忽略大小写的 basename 匹配语义，并保留路由段编码。
+
 可复用的生产者应优先使用相对 Link、navigate 和 redirect，并自行适配依赖 basename 或 pathname 的逻辑。相对导航解决地址生成，不能替代路由表自身的匹配。框架不会扫描或改写写死的绝对路径，无法匹配的路径按正常路由错误处理。
 
 ### 其他 Router 与兼容边界
 
 不用 Modern Router 时，可以给 `createReactRemote` 或 `ReactRemote` 手动传 basename。Remote Browser Router 的 push 或 replace 只写入一次 history，随后通过 popstate 通知宿主 Router 和其他 Browser 实例。宿主通知只更新 Remote 位置，不再次写入 history。动态挂载前缀通过实例内的浏览器窗口适配层更新，复用同一个 Root 和 Router。卸载清理 Router、在途 Loader 和订阅。自定义 Router 若通过 pushState 导航却不发布位置变化，需要提供 `navigation` Adapter 的 `getLocation`、`subscribe` 和 `navigate`，仅传路径字符串不能订阅任意 Router。
 
-需要同步地址的宿主与 Remote 应使用一致的 Browser 或 Hash Router 模式。CSR Hash Router 宿主挂载需要同步地址的应用时，生产者也应配置 `router.supportHtml5History: false`。默认 Browser Router Remote 不会把宿主的 hash 当作 pathname，独立卡片可改用显式 `memoryRoute`。Hash href 不会当作 pathname 拼接。不写入浏览器 history 的自定义适配器不在此 Browser Router 同步契约内。fragment 不会发送给服务端，因此 Hash 深层入口在客户端确定，本版不支持 Hash Router 宿主的 SSR 水合。
+需要同步地址的宿主与 Remote 应使用一致的 Browser 或 Hash Router 模式。CSR Hash Router 宿主挂载需要同步地址的应用时，生产者也应配置 `router.supportHtml5History: false`。默认 Browser Router Remote 不会把宿主的 hash 当作 pathname，独立卡片可改用显式 `memoryRoute`。Hash href 不会当作 pathname 拼接。 Modern 自定义文档可以包含 `<base>` 元素，此时 Hash Router 可能生成完整 href URL，同步仍按配置的 Hash 模式处理。不写入浏览器 history 的自定义适配器不在此 Browser Router 同步契约内。fragment 不会发送给服务端，因此 Hash 深层入口在客户端确定，本版不支持 Hash Router 宿主的 SSR 水合。
 
 旧 Bridge 产物继续使用其原有 Router 行为，缺少新 navigation 集成时不会自动获得双向同步。无协议标记的旧产物仍需 `render: 'bridge'`。普通组件继续进入 Host React 树。Bridge 在 SSR Host 中仍输出占位，浏览器挂载后同步导航，本能力不实现 Bridge SSR、Service App 或远程版本替换。

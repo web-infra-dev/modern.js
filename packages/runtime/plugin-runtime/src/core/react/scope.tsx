@@ -103,6 +103,7 @@ export function createScopedRoot(
             routeBasename,
             () => mount.basename,
             () => context._routeScope?.router,
+            () => context._routeScope?.hash === true,
           );
       context._routeScope = {
         projectHref: href => {
@@ -215,7 +216,12 @@ function ScopeNavigation({
   useEffect(() => {
     const router = context._routeScope?.router;
     if (router && !context._routeScope?.memory)
-      return connectBrowserRouter(router, basename, navigation, onError);
+      return connectBrowserRouter(
+        router,
+        navigation,
+        onError,
+        context._routeScope?.hash,
+      );
   }, [context, basename, navigation, onError]);
   return null;
 }

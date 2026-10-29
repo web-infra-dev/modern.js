@@ -8,6 +8,11 @@ it('preserves query, hash and encoded segments while matching basename at a segm
     '/?tab=stock#part',
   );
   expect(removeBasename('/inventory-other', '/inventory')).toBeUndefined();
+  expect(removeBasename('/INVENTORY/a%2Fb?tab=A/B#Part', '/inventory')).toBe(
+    '/a%2Fb?tab=A/B#Part',
+  );
+  expect(removeBasename('/INVENTORY-other', '/inventory')).toBeUndefined();
+  expect(removeBasename('/inventory%2Fdetail', '/inventory')).toBeUndefined();
   expect(addBasename('/detail/42?tab=stock#part', '/inventory/')).toBe(
     '/inventory/detail/42?tab=stock#part',
   );
