@@ -156,6 +156,9 @@ export const createActionRequest = (routeId: string) => {
     }
 
     const res: Response = await fetch(url, init);
+    if (isRedirectResponse(res)) {
+      return handleRedirectResponse(res);
+    }
     if (!res.ok) {
       throw res;
     }
