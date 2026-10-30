@@ -58,8 +58,7 @@ export function createMcpView<P extends object>(
       return createElement('p', { role: 'status' }, 'Tool cancelled');
     if (result?.isError)
       return createElement('p', { role: 'alert' }, 'Tool execution failed');
-    if (!app || !isConnected || !result)
-      return createElement('p', { role: 'status' }, 'Loading…');
+    if (!app || !isConnected || !result) return null;
     return createElement(View, { ...viewProps, mcpApp: app } as P);
   };
 }
