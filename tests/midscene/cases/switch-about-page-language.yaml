@@ -1,0 +1,11 @@
+cases:
+  - name: switch-about-page-language (dev)
+    tags: [switch-about-page-language, dev]
+    steps:
+      - app.open:
+          fixture: i18n/app-csr
+          mode: dev
+          path: /about
+      - aiWaitFor: 'The page displays “About”.'
+      - aiAct: 'Click the button to switch to Chinese.'
+      - aiAssert: 'The About heading now reads “关于”.'

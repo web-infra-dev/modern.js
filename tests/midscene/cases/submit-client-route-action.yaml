@@ -1,0 +1,21 @@
+cases:
+  - name: submit-client-route-action (dev)
+    tags: [submit-client-route-action, dev]
+    steps:
+      - app.open:
+          fixture: routes
+          mode: dev
+          path: /four/user/profile
+      - aiWaitFor: 'The page displays “profile page”.'
+      - aiAct: 'Click the action button and wait for its result.'
+      - aiAssert: 'The page displays both “profile page” and “modern_four_action”.'
+  - name: submit-client-route-action (build)
+    tags: [submit-client-route-action, build]
+    steps:
+      - app.open:
+          fixture: routes
+          mode: build
+          path: /four/user/profile
+      - aiWaitFor: 'The page displays “profile page”.'
+      - aiAct: 'Click the action button and wait for its result.'
+      - aiAssert: 'The page displays both “profile page” and “modern_four_action”.'

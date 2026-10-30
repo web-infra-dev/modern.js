@@ -1,0 +1,164 @@
+name: E2E Testing by Midscene
+
+# AI-native visual E2E against synthetic local fixtures.
+# Model credentials are scoped to verification and case execution.
+
+on:
+  pull_request:
+    paths:
+      [
+        'packages/**',
+        'tests/integration/**',
+        'tests/utils/**',
+        'tests/midscene/**',
+        '.github/workflows/midscene.yml',
+        'pnpm-lock.yaml',
+        'pnpm-workspace.yaml',
+      ]
+  push:
+    branches: [main]
+    paths:
+      [
+        'packages/**',
+        'tests/integration/**',
+        'tests/utils/**',
+        'tests/midscene/**',
+        '.github/workflows/midscene.yml',
+        'pnpm-lock.yaml',
+        'pnpm-workspace.yaml',
+      ]
+  workflow_dispatch:
+    inputs:
+      publish_pages:
+        description: Publish reports to Cloudflare Workers
+        required: false
+        type: boolean
+        default: true
+
+# Model runs use relevant upstream main pushes or manually selected branches.
+# Cloudflare publication is optional; configured credentials enable it by default.
+
+permissions:
+  contents: read
+
+# PR checks are independent; billable model runs are serialized.
+concurrency:
+  group: ${{ github.event_name == 'pull_request' && format('midscene-e2e-pr-{0}', github.event.pull_request.number) || 'midscene-e2e' }}
+  cancel-in-progress: ${{ github.event_name == 'pull_request' }}
+
+jobs:
+  validate:
+    if: github.event_name == 'pull_request'
+    name: Validate AI E2E definitions
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
+        with:
+          persist-credentials: false
+      - uses: pnpm/action-setup@a8198c4bff370c8506180b035930dea56dbd5288 # v5
+      - uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7
+        with:
+          node-version: '24'
+          cache: pnpm
+      - run: pnpm --filter modernjs-midscene-e2e install --frozen-lockfile --ignore-scripts
+      - run: pnpm --filter modernjs-midscene-e2e typecheck
+      - name: Explain pull request coverage
+        if: github.event_name == 'pull_request'
+        run: |
+          echo '## Midscene E2E definitions validated' >> "$GITHUB_STEP_SUMMARY"
+          echo 'This PR check does not call a model. AI E2E runs on relevant upstream main pushes or manual dispatch. Fork PR code never receives model credentials.' >> "$GITHUB_STEP_SUMMARY"
+
+  midscene:
+    name: Midscene E2E
+    environment:
+      name: Model
+      deployment: false
+    if: >-
+      (github.event_name != 'pull_request') &&
+      (github.repository == 'web-infra-dev/modern.js' && github.ref == 'refs/heads/main' ||
+      (github.event_name == 'workflow_dispatch' && github.repository != 'web-infra-dev/modern.js'))
+    runs-on: ubuntu-24.04
+    timeout-minutes: 45
+    env:
+      HEADLESS: 'true'
+      MIDSCENE_FILE_CONCURRENCY: '5'
+      # Allow the endpoint's minute-based quota to recover; case retries stay off.
+      MIDSCENE_MODEL_RETRY_COUNT: '4'
+      MIDSCENE_MODEL_RETRY_INTERVAL: '65000'
+      # The model endpoint is reachable over IPv4; avoid family-race timeouts.
+      NODE_OPTIONS: '--dns-result-order=ipv4first --no-network-family-autoselection'
+    steps:
+      - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6
+        with:
+          persist-credentials: false
+
+      # pnpm must exist before setup-node resolves the pnpm store for its
+      # cache; without a version it reads the root `packageManager` field.
+      - name: Enable pnpm
+        uses: pnpm/action-setup@a8198c4bff370c8506180b035930dea56dbd5288 # v5
+
+      - name: Activate Node.js 24 and pnpm
+        uses: actions/setup-node@249970729cb0ef3589644e2896645e5dc5ba9c38 # v6
+        with:
+          node-version: '24'
+          cache: pnpm
+
+      - name: Install workspace dependencies
+        run: pnpm install --frozen-lockfile --ignore-scripts
+
+      - name: Build checked-out Modern.js packages
+        run: pnpm run prepare-build
+
+      - name: Install Chromium for Midscene
+        working-directory: tests/midscene
+        run: pnpm exec playwright install --with-deps chromium
+
+      - name: Validate fixture support before model access
+        working-directory: tests/midscene
+        run: pnpm run typecheck
+
+      - name: Verify Midscene model compatibility
+        working-directory: tests/midscene
+        # Only model verification and case execution receive model credentials.
+        env:
+          MIDSCENE_MODEL_API_KEY: ${{ secrets.MIDSCENE_MODEL_API_KEY }}
+          MIDSCENE_MODEL_NAME: ${{ vars.MIDSCENE_MODEL_NAME || secrets.MIDSCENE_MODEL_NAME }}
+          MIDSCENE_MODEL_BASE_URL: ${{ vars.MIDSCENE_MODEL_BASE_URL || secrets.MIDSCENE_MODEL_BASE_URL }}
+          MIDSCENE_MODEL_FAMILY: ${{ vars.MIDSCENE_MODEL_FAMILY || secrets.MIDSCENE_MODEL_FAMILY }}
+        run: pnpm run check:model
+
+      - name: Configure optional report publication
+        id: report-publication
+        env:
+          PUBLISH_REQUESTED: ${{ github.event_name != 'workflow_dispatch' || inputs.publish_pages }}
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          CLOUDFLARE_ACCOUNT_ID: ${{ vars.CLOUDFLARE_ACCOUNT_ID }}
+        run: |
+          if [[ "$PUBLISH_REQUESTED" == true && -n "$CLOUDFLARE_API_TOKEN" && -n "$CLOUDFLARE_ACCOUNT_ID" ]]; then
+            echo 'enabled=true' >> "$GITHUB_OUTPUT"
+          else
+            echo 'enabled=false' >> "$GITHUB_OUTPUT"
+            echo '::notice::Online reports are disabled or Cloudflare credentials are missing. Tests, Summary, and report artifacts remain enabled.'
+            echo 'Online HTML publication is disabled or Cloudflare credentials are missing. Test results and downloadable report artifacts remain available below.' >> "$GITHUB_STEP_SUMMARY"
+          fi
+
+      - name: Run all Midscene cases
+        id: midscene-test
+        uses: web-infra-dev/midscene-action@5ef922b20a69d69a0f34639c4c867ba2049f6ede # v1
+        env:
+          MIDSCENE_MODEL_API_KEY: ${{ secrets.MIDSCENE_MODEL_API_KEY }}
+          MIDSCENE_MODEL_NAME: ${{ vars.MIDSCENE_MODEL_NAME || secrets.MIDSCENE_MODEL_NAME }}
+          MIDSCENE_MODEL_BASE_URL: ${{ vars.MIDSCENE_MODEL_BASE_URL || secrets.MIDSCENE_MODEL_BASE_URL }}
+          MIDSCENE_MODEL_FAMILY: ${{ vars.MIDSCENE_MODEL_FAMILY || secrets.MIDSCENE_MODEL_FAMILY }}
+          MIDSCENE_REPLANNING_CYCLE_LIMIT: '40'
+          MIDSCENE_RETRY: '0'
+        with:
+          working-directory: tests/midscene
+          command: timeout --signal=TERM --kill-after=10s 30m pnpm exec midscene-test
+          artifact-name: midscene-results
+          retention-days: '14'
+          publish-pages: ${{ steps.report-publication.outputs.enabled }}
+          cloudflare-api-token: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          cloudflare-account-id: ${{ vars.CLOUDFLARE_ACCOUNT_ID }}
+          cloudflare-worker-name: modernjs-midscene-reports

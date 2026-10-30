@@ -15,6 +15,7 @@ packages:
   - 'packages/toolkit/compiler/*'
   - 'scripts/*'
   - 'tests'
+  - 'tests/midscene'
   - 'tests/integration/**/*'
   - 'tests/e2e/**/*'
   - 'website/*'

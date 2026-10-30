@@ -1,0 +1,11 @@
+cases:
+  - name: navigate-to-server-loaded-page (dev)
+    tags: [navigate-to-server-loaded-page, dev]
+    steps:
+      - app.open:
+          fixture: ssr/fixtures/partial
+          mode: dev
+          path: /one/a
+      - aiWaitFor: 'The page displays “PageA Data”.'
+      - aiAct: 'Click the button to navigate to page B.'
+      - aiAssert: 'Page B displays “PageB Data”.'
