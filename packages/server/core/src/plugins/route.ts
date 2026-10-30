@@ -40,13 +40,13 @@ export const injectRoutePlugin = (): ServerPlugin => ({
       // inject current route info into hono context
       for (const route of pageRoutes) {
         const { urlPath: originUrlPath, entryName = MAIN_ENTRY_NAME } = route;
-        for (const urlPath of getRoutePaths(route)) {
-          middlewares.push({
+        middlewares.push(
+          ...getRoutePaths(route).map(urlPath => ({
             name: 'inject-route-info',
             path: urlPath,
             handler: injectRoute({ entryName, urlPath: originUrlPath }),
-          });
-        }
+          })),
+        );
       }
     });
   },
