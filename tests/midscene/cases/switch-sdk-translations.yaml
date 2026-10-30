@@ -1,0 +1,13 @@
+cases:
+  - name: switch-sdk-translations (dev)
+    tags: [switch-sdk-translations, dev]
+    steps:
+      - app.open:
+          fixture: i18n/custom-i18n-wrapper
+          mode: dev
+          path: /csr/en
+      - aiWaitFor: 'The page displays “Hello World from SDK”.'
+      - aiAct: 'Click 切换到中文.'
+      - aiAssert: 'The main SDK heading reads either “你好，世界（HTTP）” or “你好，世界（SDK）”.'
+      - aiAct: Click Switch to EN.
+      - aiAssert: The main SDK heading reads either “Hello World from HTTP” or “Hello World from SDK”.

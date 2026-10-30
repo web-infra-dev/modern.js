@@ -95,18 +95,6 @@ async function retryPageAction<T>(action: () => Promise<T>) {
   throw lastError;
 }
 
-async function navigateHomeAndReadData(page: Page, userUrl: string) {
-  return retryPageAction(async () => {
-    await page.goto(userUrl, {
-      waitUntil: ['domcontentloaded'],
-    });
-    await page.waitForSelector('#home-btn', { timeout: 10_000 });
-    await page.click('#home-btn');
-    await page.waitForSelector('#data', { timeout: 10_000 });
-    return page.$eval('#data', el => el?.textContent);
-  });
-}
-
 describe('pure-esm-project in dev', () => {
   let port = 8080;
   const host = `http://localhost`;
@@ -132,11 +120,6 @@ describe('pure-esm-project in dev', () => {
     );
     const text = await page.$eval('#data', el => el?.textContent);
     expect(text).toMatch('name: bytedance, age: 18');
-  });
-
-  test('stream ssr with bff handle web, client nav', async () => {
-    const text = await navigateHomeAndReadData(page, `${host}:${port}/user`);
-    expect(text).toMatch('name: modernjs, age: 18');
   });
 
   test('api service should serve normally', async () => {
@@ -179,11 +162,6 @@ describe('pure-esm-project in prod', () => {
     );
     const text = await page.$eval('#data', el => el?.textContent);
     expect(text).toMatch('name: bytedance, age: 18');
-  });
-
-  test('stream ssr with bff handle web, client nav', async () => {
-    const text = await navigateHomeAndReadData(page, `${host}:${port}/user`);
-    expect(text).toMatch('name: modernjs, age: 18');
   });
 
   test('api service should serve normally', async () => {

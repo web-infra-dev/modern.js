@@ -1,0 +1,19 @@
+cases:
+  - name: navigate-back-home (dev)
+    tags: [navigate-back-home, dev]
+    steps:
+      - app.open:
+          fixture: pure-esm-project
+          mode: dev
+          path: /user
+      - aiAct: 'Click the home button to return to the home page.'
+      - aiWaitFor: 'The page displays “name: modernjs, age: 18”.'
+  - name: navigate-back-home (build)
+    tags: [navigate-back-home, build]
+    steps:
+      - app.open:
+          fixture: pure-esm-project
+          mode: build
+          path: /user
+      - aiAct: 'Click the home button to return to the home page.'
+      - aiWaitFor: 'The page displays “name: modernjs, age: 18”.'

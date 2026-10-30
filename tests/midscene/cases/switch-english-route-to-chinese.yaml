@@ -1,0 +1,11 @@
+cases:
+  - name: switch-english-route-to-chinese (dev)
+    tags: [switch-english-route-to-chinese, dev]
+    steps:
+      - app.open:
+          fixture: i18n/routes-csr
+          mode: dev
+          path: /en/about
+      - aiWaitFor: 'The page displays “About”.'
+      - aiAct: 'Click the Chinese language button.'
+      - aiAssert: 'The About heading now reads “关于”.'

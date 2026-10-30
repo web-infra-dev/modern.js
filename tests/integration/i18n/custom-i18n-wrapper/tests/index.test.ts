@@ -72,37 +72,6 @@ describe('i18n-custom-i18n-wrapper', () => {
     expect(await getText('#sdk-text')).toBe('Hello World from SDK');
   });
 
-  test('updates context translations when switching languages', async () => {
-    await page.goto(`http://localhost:${appPort}/csr/en`, {
-      waitUntil: 'networkidle0',
-    });
-    await page.waitForFunction(
-      () =>
-        document.querySelector('#sdk-text')?.textContent ===
-        'Hello World from SDK',
-    );
-
-    await page.click('#switch-zh');
-    await page.waitForFunction(() =>
-      ['你好，世界（HTTP）', '你好，世界（SDK）'].includes(
-        document.querySelector('#sdk-text')?.textContent ?? '',
-      ),
-    );
-    expect(['你好，世界（HTTP）', '你好，世界（SDK）']).toContain(
-      await getText('#sdk-text'),
-    );
-
-    await page.click('#switch-en');
-    await page.waitForFunction(() =>
-      ['Hello World from HTTP', 'Hello World from SDK'].includes(
-        document.querySelector('#sdk-text')?.textContent ?? '',
-      ),
-    );
-    expect(['Hello World from HTTP', 'Hello World from SDK']).toContain(
-      await getText('#sdk-text'),
-    );
-  });
-
   test.each([
     { source: 'query', query: '?lng=zh-Hant-TW', headers: new Headers() },
     {

@@ -1,0 +1,11 @@
+cases:
+  - name: switch-homepage-language (dev)
+    tags: [switch-homepage-language, dev]
+    steps:
+      - app.open:
+          fixture: i18n/app-csr
+          mode: dev
+          path: /
+      - aiWaitFor: 'The page displays “Hello World”.'
+      - aiAct: 'Click the button to switch to Chinese.'
+      - aiAssert: 'The main greeting is exactly “你好，世界”.'
