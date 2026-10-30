@@ -75,7 +75,7 @@ export const createServer = async (
   pageRoutes: ModernRoute[],
   apiRoutes: ModernRoute[],
   options: AppNormalizedConfig,
-): Promise<string[]> => {
+): Promise<(string | undefined)[]> => {
   // this side of the shallow copy of a route for subsequent render processing, to prevent the modification of the current field
   // manually enable the server-side rendering configuration for all routes that require SSG
   const entries = ssgRoutes.map(route => route.entryName!);
@@ -111,7 +111,7 @@ export const createServer = async (
     const requestHandler = nodeServer.getRequestHandler();
 
     const chunkedRoutes = chunkArray(ssgRoutes, MAX_CONCURRENT_REQUESTS);
-    const results: string[] = [];
+    const results: (string | undefined)[] = [];
 
     for (const routes of chunkedRoutes) {
       const promises = routes.map(async route => {
@@ -134,6 +134,14 @@ export const createServer = async (
             res: mockRes,
           },
         });
+
+        if (!response.ok) {
+          logger.warn(
+            `Skipping SSG route ${route.urlPath}: received HTTP ${response.status}.`,
+          );
+          await response.body?.cancel();
+          return undefined;
+        }
 
         return await response.text();
       });

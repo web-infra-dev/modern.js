@@ -19,6 +19,7 @@ export function replaceRoute(ssgRoutes: SsgRoute[], pageRoutes: ModernRoute[]) {
     const { output, headers, ...cleanSsgRoute } = ssgRoute;
     return Object.assign(
       cleanSsgRoute,
+      { isSSG: true },
       output ? { entryPath: output } : {},
     ) as ModernRoute;
   });
@@ -34,6 +35,7 @@ export function replaceRoute(ssgRoutes: SsgRoute[], pageRoutes: ModernRoute[]) {
     } else {
       // overwrite original entry
       pageRoutes[index].entryPath = ssgRoute.entryPath;
+      pageRoutes[index].isSSG = true;
     }
   });
 

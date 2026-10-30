@@ -13,6 +13,7 @@ export default defineConfig({
               cookies: 'name=modernjs',
             },
           },
+          '/user/missing',
           '/user/1',
         ],
       },

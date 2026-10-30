@@ -9,6 +9,8 @@ export interface ServerRoute {
   isSPA?: boolean;
   // if route is ssr page
   isSSR?: boolean;
+  // if route is an exactly matched, prerendered page
+  isSSG?: boolean;
   // if route is rsc page
   isRSC?: boolean;
   // if route is stream response
