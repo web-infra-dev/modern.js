@@ -13,16 +13,17 @@ pnpm --filter mf-lab-tests test
 
 Open http://localhost:4300/. Stop the interactive lab with Ctrl+C. Add `--production` to the dev command to inspect production builds. Select an existing Chrome installation with `PUPPETEER_EXECUTABLE_PATH` when needed. `MF_LAB_VERBOSE=1` prints child-process logs.
 
-| Route                          | Purpose                                                                                                                |
-| ------------------------------ | ---------------------------------------------------------------------------------------------------------------------- |
-| `/`                            | Rendering comparison, CSR and SSR weather documents                                                                    |
-| `/data`                        | CSR, SSR, CSR with MF data and SSR with MF data                                                                        |
-| `/advanced`                    | Weather release replacement, data recovery, loader lifecycle, remote data sources and independent weather stations     |
-| `/stores/:storeId/inventory/*` | Route-mounted product application, automatic basename, host/remote navigation and independent memory cards             |
-| `/stores/:storeId/retry/*`     | One-time provider failure and retry with isolated neighboring mounts                                                   |
-| `/input-forms`                 | Literal IDs, MF loader functions and preloaded namespace/default functions through both APIs, SSR/CSR, noSSR and retry |
-| `/route-exports`               | Explicit memory cards for complete and selected Modern applications, loaders, navigation and independent state         |
-| `/weather`                     | Internal weather document used by the comparison and advanced frames                                                   |
+| Route                                  | Purpose                                                                                                                                      |
+| -------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------- |
+| `/`                                    | Rendering comparison, CSR and SSR weather documents                                                                                          |
+| `/data`                                | CSR, SSR, CSR with MF data and SSR with MF data                                                                                              |
+| `/advanced`                            | Weather release replacement, data recovery, loader lifecycle, remote data sources and independent weather stations                           |
+| `/stores/:storeId/inventory/*`         | Route-mounted product application, automatic basename, host/remote navigation and independent memory cards                                   |
+| `/stores/:storeId/retry/*`             | One-time provider failure and retry with isolated neighboring mounts                                                                         |
+| `/input-forms`                         | Literal IDs, MF loader functions and preloaded namespace/default functions through both APIs, SSR/CSR, noSSR and retry                       |
+| `/browser-consumer/{adapter,direct}/*` | Separate React roots consuming a Modern application through the browser adapter or Core without navigation, with a live Host Router observer |
+| `/route-exports`                       | Explicit memory cards for complete and selected Modern applications, loaders, navigation and independent state                               |
+| `/weather`                             | Internal weather document used by the comparison and advanced frames                                                                         |
 
 Advanced frames select their experiment through `/weather?scenario=...`. These share the weather layout and do not add separate demo routes. Removed routes such as `/static`, `/recovery`, `/compare` and `/unified` return 404. Navigation and history are tested from the root Weather Lab.
 
@@ -50,7 +51,7 @@ Advanced scenarios retain the existing raw runtime registration experiment for s
 
 `createModernReactRemote` reads the local Modern route boundary and connects that mount to host history. An E2E host basename of `/admin` and the route `/stores/:storeId/inventory/*` produce `/admin/stores/100/inventory` as the mount prefix. A direct URL is `/admin/stores/100/inventory/detail/42?tab=stock#summary`. The `/product` selector only chooses exported application content. The exported application matches `/detail/42?tab=stock#summary` locally, including the location exposed to its components. Navigation adds or removes only the consumer mount prefix. The standalone producer and server loader data endpoints keep their original paths. Business navigation uses relative links and remains the producer's responsibility.
 
-The adjacent cards use `createReactRemote` without a basename and keep independent memory navigation. The routed application exposes host and remote push/replace/history controls, dynamic store changes, props updates and mount toggling. Hash Router coverage uses a CSR host because URL fragments are unavailable during SSR. Bridge SSR remains outside this fixture's scope.
+The adjacent cards use `createReactRemote` with explicit `memoryRoute` and keep independent navigation. The routed application exposes host and remote push/replace/history controls, dynamic store changes, props updates and mount toggling. Native back navigation checks both browser loader requests and the local service count to reject duplicate requests or unintended cancellation. Separate React roots cover the real browser adapter and Core consumption without a navigation adapter. Initial redirects must notify the Host even while a loading chunk delays the Remote commit. Hash Router coverage uses a CSR host because URL fragments are unavailable during SSR. Bridge SSR remains outside this fixture's scope.
 
 ## Faults and diagnostics
 

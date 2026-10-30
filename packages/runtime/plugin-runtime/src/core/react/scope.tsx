@@ -1,7 +1,7 @@
 import { useBridgeRouter } from '@module-federation/bridge-react/base';
 import {
   addBasename,
-  connectBrowserRouter,
+  createBrowserRouterConnector,
   createMountWindow,
   normalizeBasename,
   removeBasename,
@@ -127,20 +127,45 @@ export function createScopedRoot(
       const WrappedRoot = runtime.hooks.wrapRoot.call(
         definition.App!,
       ) as React.ComponentType<any>;
-      return { context, runtime, WrappedRoot, mount };
+      return {
+        context,
+        runtime,
+        WrappedRoot,
+        mount,
+        notifyPeers: mountWindow?.notifyPeers,
+        initialization: undefined as Promise<unknown> | undefined,
+        connection: undefined as
+          ReturnType<typeof createBrowserRouterConnector> | undefined,
+      };
     });
     instance.mount.basename = basename;
-    const [ready, setReady] = useState(false);
+    const [ready, setReady] = useState(0);
     const [failure, setFailure] = useState<unknown>();
     useEffect(() => {
       let active = true;
+      const scope = instance.context._routeScope!;
+      const connection = scope.memory
+        ? undefined
+        : createBrowserRouterConnector(
+            undefined,
+            setFailure,
+            () => scope.hash === true,
+            instance.notifyPeers,
+          );
+      instance.connection = connection;
+      // This owner is committed before ready renders the Router. Attaching
+      // observes immediately, while Core queues notifications outside render.
+      scope.onRouterCreated = connection?.attach;
       Promise.resolve()
-        .then(() =>
-          instance.runtime.hooks.onBeforeRender.call(instance.context),
-        )
+        .then(() => {
+          // StrictMode may clean up this setup before its microtask runs.
+          if (active)
+            return (instance.initialization ??=
+              instance.runtime.hooks.onBeforeRender.call(instance.context));
+        })
         .then(
           () => {
-            if (active) setReady(true);
+            if (active) setReady(version => version + 1);
           },
           error => {
             if (active)
@@ -151,21 +176,25 @@ export function createScopedRoot(
         );
       return () => {
         active = false;
-        instance.context._routeScope?.router?.dispose();
+        connection?.dispose();
+        instance.connection = undefined;
+        scope.onRouterCreated = undefined;
+        scope.router?.dispose();
+        scope.router = undefined;
+        scope.routes = undefined;
       };
     }, [instance]);
+    useEffect(() => {
+      // A dynamic mount changes the Window projection even when the Host
+      // adapter identity stays stable. Reconcile only after receiving it.
+      instance.connection?.setNavigation(navigation);
+    }, [instance, basename, navigation]);
     if (failure) throw failure;
     if (!ready) return null;
     const { WrappedRoot } = instance;
     return wrapRuntimeContextProvider(
       <ScopedRootPropsContext.Provider value={props}>
         <WrappedRoot {...props} />
-        <ScopeNavigation
-          context={instance.context}
-          basename={basename}
-          navigation={navigation}
-          onError={setFailure}
-        />
       </ScopedRootPropsContext.Provider>,
       instance.context,
     );
@@ -200,28 +229,4 @@ export function createScopedRender() {
     root.render(element);
     return root;
   };
-}
-
-function ScopeNavigation({
-  context,
-  basename,
-  navigation,
-  onError,
-}: {
-  context: ReturnType<typeof getInitialContext>;
-  basename: string;
-  navigation: NonNullable<ReturnType<typeof useBridgeRouter>>['navigation'];
-  onError: (error: unknown) => void;
-}) {
-  useEffect(() => {
-    const router = context._routeScope?.router;
-    if (router && !context._routeScope?.memory)
-      return connectBrowserRouter(
-        router,
-        navigation,
-        onError,
-        context._routeScope?.hash,
-      );
-  }, [context, basename, navigation, onError]);
-  return null;
 }

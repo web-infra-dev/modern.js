@@ -324,6 +324,87 @@ describeLab(
       );
     });
 
+    it('loads a native history.back destination once without aborting its loader', async () => {
+      const { page, visit, lab } = getContext();
+      const probe = `native-back-${Date.now()}`;
+      const target = `/detail/42?routeProbe=${probe}#summary`;
+      await visit(`${prefix.slice(1)}${target}`, 'route-remote-location');
+      expect(
+        lab.routeRequests.filter(request => request.probe === probe),
+      ).toEqual([
+        { probe, path: '/product/detail/42', completed: true, aborted: false },
+      ]);
+      await page.click(`${main} [data-testid="route-remote-next"]`);
+      await page.waitForFunction(
+        selector =>
+          document.querySelector(selector)?.textContent ===
+          '/detail/43?tab=remote#forecast',
+        {},
+        remoteLocation,
+      );
+      const size = await page.evaluate(() => history.length);
+      const requests: import('puppeteer').HTTPRequest[] = [];
+      const observe = (request: import('puppeteer').HTTPRequest) => {
+        const url = new URL(request.url());
+        if (
+          url.port === String(lab.ports.provider) &&
+          url.pathname.includes('/product/detail/42') &&
+          url.searchParams.get('routeProbe') === probe
+        )
+          requests.push(request);
+      };
+      page.on('request', observe);
+      try {
+        // Exercise the native POP notification delivered to both real Routers.
+        await page.goBack();
+        await page.waitForFunction(
+          (selector, expected) =>
+            document.querySelector(selector)?.textContent === expected,
+          {},
+          remoteLocation,
+          target,
+        );
+        await page.waitForNetworkIdle({ idleTime: 300 });
+        // Ancestor layout loaders use this URL too. Count the destination's
+        // loader identity, retaining all repeated requests for that identity.
+        const detailRequests = requests.filter(
+          request =>
+            request.method() === 'GET' &&
+            new URL(request.url()).searchParams.get('__loader') ===
+              'product/detail/(id)/page',
+        );
+        expect(detailRequests).toHaveLength(1);
+        expect(detailRequests[0].failure()).toBeNull();
+        expect(detailRequests[0].response()?.status()).toBe(200);
+        expect(
+          lab.routeRequests.filter(request => request.probe === probe),
+        ).toEqual([
+          {
+            probe,
+            path: '/product/detail/42',
+            completed: true,
+            aborted: false,
+          },
+          {
+            probe,
+            path: '/product/detail/42',
+            completed: true,
+            aborted: false,
+          },
+        ]);
+        expect(await page.evaluate(() => history.length)).toBe(size);
+        expect(page.url()).toContain(`${prefix}${target}`);
+        expect(
+          await page.$eval(
+            '[data-testid="route-host-location"]',
+            node => node.textContent,
+          ),
+        ).toBe(`/stores/100/inventory/detail/42?routeProbe=${probe}`);
+      } finally {
+        page.off('request', observe);
+      }
+    });
+
     it('preserves state through props and dynamic mount updates, then cleans up on unmount', async () => {
       const { page, visit, click } = getContext();
       await visit(`${prefix.slice(1)}/detail/42`, 'route-remote-location');
@@ -452,7 +533,7 @@ describeLab(
 describeLab(
   'Immediate client-loader redirects',
   getContext => {
-    it('notifies the Host after initial loaders finish while a lazy loading component delays commit', async () => {
+    it('notifies the Host while a lazy loading component delays the Remote commit', async () => {
       const { page, lab } = getContext();
       await page.setRequestInterception(true);
       let pending: import('puppeteer').HTTPRequest | undefined;
@@ -473,12 +554,12 @@ describeLab(
           () => location.pathname === '/admin/persistent/inventory/detail/42',
         );
         expect(pending).toBeDefined();
-        expect(
-          await page.$eval(
-            '[data-testid="persistent-host-location"]',
-            node => node.textContent,
-          ),
-        ).toBe('/persistent/inventory/start');
+        await page.waitForFunction(
+          () =>
+            document.querySelector('[data-testid="persistent-host-location"]')
+              ?.textContent ===
+            '/persistent/inventory/detail/42?tab=initial#summary',
+        );
         await pending!.continue();
         pending = undefined;
         await page.waitForFunction(
@@ -501,6 +582,60 @@ describeLab(
         await page.setRequestInterception(false);
       }
     });
+    it.each(['adapter', 'direct'])(
+      'notifies the Browser Host before a separate-root consumer commits (%s)',
+      async variant => {
+        const { page, lab } = getContext();
+        await page.setRequestInterception(true);
+        let pending: import('puppeteer').HTTPRequest | undefined;
+        const intercept = (request: import('puppeteer').HTTPRequest) => {
+          if (
+            request.url().includes('initial-loading') &&
+            request.resourceType() === 'script'
+          )
+            pending = request;
+          else void request.continue();
+        };
+        page.on('request', intercept);
+        const mount = `/browser-consumer/${variant}`;
+        try {
+          await page.goto(`${lab.url}/admin${mount}/start`, {
+            waitUntil: 'domcontentloaded',
+          });
+          await page.waitForFunction(
+            expected => location.pathname === expected,
+            {},
+            `/admin${mount}/detail/42`,
+          );
+          expect(pending).toBeDefined();
+          // The Host must receive the already committed history write even
+          // when there is no Modern adapter or no navigation adapter at all.
+          await page.waitForFunction(
+            expected =>
+              document.querySelector(
+                '[data-testid="browser-consumer-host-location"]',
+              )?.textContent === expected,
+            {},
+            `${mount}/detail/42?tab=initial#summary`,
+          );
+          await pending!.continue();
+          pending = undefined;
+          await page.waitForFunction(
+            () =>
+              document.querySelector(
+                '[data-testid="browser-consumer-remote"] [data-testid="route-remote-location"]',
+              )?.textContent === '/detail/42?tab=initial#summary',
+          );
+          expect(page.url()).toContain(
+            `/admin${mount}/detail/42?tab=initial#summary`,
+          );
+        } finally {
+          page.off('request', intercept);
+          if (pending) await pending.continue().catch(() => {});
+          await page.setRequestInterception(false);
+        }
+      },
+    );
   },
   { basename: '/admin', clientLayoutLoaders: true },
 );

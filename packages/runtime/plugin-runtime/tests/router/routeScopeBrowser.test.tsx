@@ -13,12 +13,16 @@ import { createRuntime, registerPlugin } from '../../src/core/plugin';
 import { createRoot } from '../../src/core/react';
 import { setGlobalContext } from '../../src/core/context';
 import { routerPlugin } from '../../src/router/runtime/plugin';
-import { connectBrowserRouter } from '../../src/mf/navigation';
+import {
+  createBrowserRouterConnector,
+  createMountWindow,
+} from '../../src/mf/navigation';
 
 const { routing } = rstest.hoisted(() => ({
   routing: { current: undefined as any },
 }));
 rstest.mock('@module-federation/bridge-react/base', () => ({
+  ...rstest.requireActual('@module-federation/bridge-react/base'),
   useBridgeRouter: () => routing.current,
 }));
 const originalURL = window.location.href;
@@ -515,19 +519,29 @@ it.each([
   },
 );
 
-it.each(['/outside', '/inventory/detail/42'])(
-  'cancels pending remote navigation after a Host move to %s',
-  async target => {
-    window.history.replaceState(null, '', '/inventory/detail/42');
-    let hostLocation = '/inventory/detail/42';
+it.each(
+  ['/outside', '/inventory/detail/42'].flatMap(target =>
+    ['push', 'replace', 'back'].map(action => ({ target, action })),
+  ),
+)(
+  'cancels pending remote navigation after a Host move (%j)',
+  async ({ target, action }) => {
+    const initial = '/inventory/detail/42';
+    window.history.replaceState(null, '', action === 'back' ? target : initial);
+    const host = createBrowserRouter([{ path: '*' }]);
+    if (action === 'back') await host.navigate(initial);
     const listeners = new Set<() => void>();
     routing.current = {
       navigation: {
-        getLocation: () => hostLocation,
+        getLocation: () => host.state.location.pathname,
         createHref: (to: string) => to,
         subscribe: (listener: () => void) => {
           listeners.add(listener);
-          return () => listeners.delete(listener);
+          const stop = host.subscribe(listener);
+          return () => {
+            stop();
+            listeners.delete(listener);
+          };
         },
         navigate: rstest.fn(),
       },
@@ -591,23 +605,33 @@ it.each(['/outside', '/inventory/detail/42'])(
       });
       await waitFor(() => expect(signal).toBeDefined());
       const size = window.history.length;
-      act(() => {
-        window.history.pushState(null, '', target);
-        hostLocation = target;
-        for (const listener of listeners) listener();
+      const previousKey = host.state.location.key;
+      const published = new Promise<void>(resolve => {
+        const stop = host.subscribe(state => {
+          if (state.location.key === previousKey) return;
+          // Resolve in the same Host notification turn, before the connector's
+          // microtask. The old loader must still lose to this navigation.
+          release();
+          stop();
+          resolve();
+        });
       });
-      expect(signal.aborted).toBe(true);
       await act(async () => {
-        release();
+        if (action === 'back') await host.navigate(-1);
+        else await host.navigate(target, { replace: action === 'replace' });
+        await published;
         await pending;
       });
+      expect(signal.aborted).toBe(true);
       expect(window.location.pathname).toBe(target);
-      expect(window.history.length).toBe(size + 1);
+      expect(window.history.length).toBe(size + (action === 'push' ? 1 : 0));
+      expect(host.state.location.key).not.toBe(previousKey);
       expect(initialized).toHaveBeenCalledTimes(1);
     } finally {
       release?.();
       await pending;
       view.unmount();
+      host.dispose();
     }
     expect(listeners.size).toBe(0);
   },
@@ -640,8 +664,7 @@ it('notifies a Browser Host when the initial redirect finishes before the subscr
     const push = rstest.spyOn(window.history, 'pushState');
     const replace = rstest.spyOn(window.history, 'replaceState');
     try {
-      stop = connectBrowserRouter(
-        remote,
+      const connection = createBrowserRouterConnector(
         {
           getLocation: () => host.state.location.pathname,
           createHref: to => to,
@@ -652,6 +675,8 @@ it('notifies a Browser Host when the initial redirect finishes before the subscr
           throw error;
         },
       );
+      connection.attach(remote);
+      stop = connection.dispose;
       await waitFor(() =>
         expect(host.state.location.pathname).toBe('/inventory/detail/42'),
       );
@@ -710,6 +735,7 @@ it('keeps an initial pending loader running when the Host has not navigated', as
   const view = render(<Root basename="/inventory" />);
   try {
     await waitFor(() => expect(listeners.size).toBe(1));
+    await waitFor(() => expect(requests).toHaveLength(1));
     expect(requests).toHaveLength(1);
     expect(requests[0].signal.aborted).toBe(false);
     await act(async () => release());
@@ -721,17 +747,258 @@ it('keeps an initial pending loader running when the Host has not navigated', as
   expect(listeners.size).toBe(0);
 });
 
+it.each([
+  { withAdapter: false, strict: false },
+  { withAdapter: true, strict: false },
+  { withAdapter: false, strict: true },
+  { withAdapter: true, strict: true },
+])(
+  'notifies a browser-only Host before suspended Remote content commits (%j)',
+  async ({ withAdapter, strict }) => {
+    window.history.replaceState(null, '', '/inventory/start');
+    const host = createBrowserRouter([{ path: '*' }]);
+    const hostListeners = new Set<() => void>();
+    routing.current = withAdapter
+      ? {
+          navigation: {
+            getLocation: () => window.location.pathname,
+            subscribe: (listener: () => void) => {
+              hostListeners.add(listener);
+              window.addEventListener('popstate', listener);
+              return () => {
+                hostListeners.delete(listener);
+                window.removeEventListener('popstate', listener);
+              };
+            },
+            navigate: rstest.fn(),
+          },
+        }
+      : undefined;
+    let release!: () => void;
+    const App = React.lazy(
+      () =>
+        new Promise<{ default: React.ComponentType<React.PropsWithChildren> }>(
+          resolve => {
+            release = () => resolve({ default: ({ children }) => children });
+          },
+        ),
+    );
+    const requests = rstest.fn(() => null);
+    const Root = createScopedRoot({
+      selected: true,
+      basename: '/',
+      serverLoaders: false,
+      getDataBase: () => 'https://producer.example',
+      App,
+      routes: [
+        {
+          id: 'start',
+          type: 'nested',
+          origin: 'config',
+          path: '/start',
+          loader: () =>
+            new Response(null, {
+              status: 302,
+              headers: { Location: '/detail/42' },
+            }),
+        },
+        {
+          id: 'detail',
+          type: 'nested',
+          origin: 'config',
+          path: '/detail/:id',
+          loader: requests,
+          component: () => <Link to="../detail/43">Detail</Link>,
+        },
+      ],
+      createRuntime: (config, selected) =>
+        createRuntime([routerPlugin({}, config, selected)]),
+    });
+    const content = (
+      <React.Suspense fallback={<p>Loading Remote content</p>}>
+        <Root basename="/inventory" />
+      </React.Suspense>
+    );
+    const view = render(
+      strict ? <React.StrictMode>{content}</React.StrictMode> : content,
+    );
+    try {
+      await waitFor(() =>
+        expect(window.location.pathname).toBe('/inventory/detail/42'),
+      );
+      expect(view.container.textContent).toContain('Loading Remote content');
+      await waitFor(() =>
+        expect(host.state.location.pathname).toBe('/inventory/detail/42'),
+      );
+      expect(requests).toHaveBeenCalledTimes(1);
+      await act(async () => release());
+      await waitFor(() => expect(view.container.textContent).toBe('Detail'));
+      const previousRequests = requests.mock.calls.length;
+      fireEvent.click(view.container.querySelector('a')!);
+      await waitFor(() =>
+        expect(host.state.location.pathname).toBe('/inventory/detail/43'),
+      );
+      expect(requests).toHaveBeenCalledTimes(previousRequests + 1);
+    } finally {
+      release?.();
+      view.unmount();
+      host.dispose();
+    }
+    expect(hostListeners.size).toBe(0);
+  },
+);
+
+it('aborts a suspended instance and discards a late initial redirect on unmount', async () => {
+  window.history.replaceState(null, '', '/inventory/start');
+  routing.current = undefined;
+  let request!: Request;
+  let release!: () => void;
+  const App = React.lazy(() => new Promise<never>(() => {}));
+  const Root = createScopedRoot({
+    selected: true,
+    basename: '/',
+    serverLoaders: false,
+    getDataBase: () => 'https://producer.example',
+    App,
+    routes: [
+      {
+        id: 'start',
+        type: 'nested',
+        origin: 'config',
+        path: '/start',
+        loader: (args: { request: Request }) =>
+          new Promise(resolve => {
+            request = args.request;
+            release = () =>
+              resolve(
+                new Response(null, {
+                  status: 302,
+                  headers: { Location: '/late' },
+                }),
+              );
+          }),
+      },
+      {
+        id: 'late',
+        type: 'nested',
+        origin: 'config',
+        path: '/late',
+        component: () => <p>Late</p>,
+      },
+    ],
+    createRuntime: (config, selected) =>
+      createRuntime([routerPlugin({}, config, selected)]),
+  });
+  const notified = rstest.fn();
+  window.addEventListener('popstate', notified);
+  const view = render(
+    <React.Suspense fallback={<p>Loading Remote content</p>}>
+      <Root basename="/inventory" />
+    </React.Suspense>,
+  );
+  try {
+    await waitFor(() => expect(request).toBeDefined());
+    expect(view.container.textContent).toContain('Loading Remote content');
+    const size = window.history.length;
+    view.unmount();
+    expect(request.signal.aborted).toBe(true);
+    await act(async () => release());
+    expect(window.location.pathname).toBe('/inventory/start');
+    expect(window.history.length).toBe(size);
+    expect(notified).not.toHaveBeenCalled();
+  } finally {
+    release?.();
+    view.unmount();
+    window.removeEventListener('popstate', notified);
+  }
+});
+
+it('deduplicates pending native POPs by target URL and history key, but accepts new Host entries', async () => {
+  window.history.replaceState(null, '', '/inventory');
+  routing.current = undefined;
+  const requests: Request[] = [];
+  const releases: (() => void)[] = [];
+  const Root = createScopedRoot({
+    selected: true,
+    basename: '/',
+    serverLoaders: false,
+    getDataBase: () => 'https://producer.example',
+    routes: [
+      {
+        id: 'home',
+        type: 'nested',
+        origin: 'config',
+        path: '/',
+        component: () => <p>Home</p>,
+      },
+      {
+        id: 'slow',
+        type: 'nested',
+        origin: 'config',
+        path: '/slow',
+        loader: ({ request }: { request: Request }) =>
+          new Promise(resolve => {
+            requests.push(request);
+            releases.push(() => resolve(null));
+          }),
+      },
+      {
+        id: 'outside',
+        type: 'nested',
+        origin: 'config',
+        path: '*',
+        component: () => null,
+      },
+    ],
+    createRuntime: (config, selected) =>
+      createRuntime([routerPlugin({}, config, selected)]),
+  });
+  const view = render(<Root basename="/inventory" />);
+  const pop = () =>
+    window.dispatchEvent(
+      new PopStateEvent('popstate', { state: window.history.state }),
+    );
+  try {
+    await waitFor(() => expect(view.container.textContent).toBe('Home'));
+    act(() => {
+      window.history.pushState({ key: 'first' }, '', '/inventory/slow');
+      pop();
+    });
+    await waitFor(() => expect(requests).toHaveLength(1));
+    act(pop);
+    expect(requests).toHaveLength(1);
+    expect(requests[0].signal.aborted).toBe(false);
+    act(() => {
+      window.history.pushState({ key: 'second' }, '', '/inventory/slow');
+      pop();
+    });
+    await waitFor(() => expect(requests).toHaveLength(2));
+    expect(requests[0].signal.aborted).toBe(true);
+    expect(requests[1].signal.aborted).toBe(false);
+    act(() => {
+      window.history.pushState({ key: 'outside' }, '', '/outside');
+      pop();
+    });
+    expect(requests[1].signal.aborted).toBe(true);
+    expect(window.location.pathname).toBe('/outside');
+  } finally {
+    await act(async () => {
+      for (const release of releases) release();
+    });
+    view.unmount();
+  }
+});
+
 it.each([true, false])(
   'reports mixed Host/Remote Router modes without writing history (Browser remote: %s)',
-  browser => {
+  async browser => {
     window.history.replaceState(null, '', '/inventory');
     const router = (browser ? createBrowserRouter : createHashRouter)([
       { path: '*' },
     ]);
     const errors = rstest.fn();
     const writes = rstest.spyOn(window.history, 'pushState');
-    const stop = connectBrowserRouter(
-      router,
+    const connection = createBrowserRouterConnector(
       {
         getLocation: () => '/inventory',
         createHref: target => (browser ? '#' + target : target),
@@ -739,17 +1006,183 @@ it.each([true, false])(
         navigate: rstest.fn(),
       },
       errors,
-      !browser,
+      () => !browser,
     );
+    connection.attach(router);
     try {
+      await waitFor(() => expect(errors).toHaveBeenCalled());
       expect(errors.mock.calls[0][0].message).toContain(
         'Host and Remote must use the same Browser or Hash Router mode',
       );
       expect(writes).not.toHaveBeenCalled();
     } finally {
-      stop();
+      connection.dispose();
       router.dispose();
       writes.mockRestore();
     }
   },
 );
+
+it.each([false, true])(
+  'publishes a committed entry while the next navigation loads (Host adapter: %s)',
+  async withAdapter => {
+    window.history.replaceState(null, '', '/inventory');
+    const host = createBrowserRouter([{ path: '*' }]);
+    let remote: ReturnType<typeof createBrowserRouter> | undefined;
+    let release: (() => void) | undefined;
+    let pending: Promise<void> | undefined;
+    const requests: Request[] = [];
+    const mount = createMountWindow(
+      '/inventory',
+      () => '/inventory',
+      () => remote,
+      () => false,
+    );
+    remote = createBrowserRouter(
+      [
+        { path: '/' },
+        { path: '/first' },
+        {
+          path: '/slow',
+          loader: ({ request }) =>
+            new Promise(resolve => {
+              requests.push(request);
+              release = () => resolve(null);
+            }),
+        },
+      ],
+      { basename: '/inventory', window: mount.window },
+    );
+    const connection = createBrowserRouterConnector(
+      withAdapter
+        ? {
+            getLocation: () => host.state.location.pathname,
+            subscribe: listener => host.subscribe(listener),
+            createHref: target => target,
+            navigate: rstest.fn(),
+          }
+        : undefined,
+      error => {
+        throw error;
+      },
+      () => false,
+      mount.notifyPeers,
+    );
+    connection.attach(remote);
+    try {
+      await Promise.resolve();
+      const size = window.history.length;
+      // Both snapshots reach the connector before its queued notification runs.
+      const first = remote.navigate('/first');
+      pending = remote.navigate('/slow');
+      await first;
+      await waitFor(() =>
+        expect(host.state.location.pathname).toBe('/inventory/first'),
+      );
+      expect(window.location.pathname).toBe('/inventory/first');
+      expect(window.history.length).toBe(size + 1);
+      expect(remote.state.location.pathname).toBe('/inventory/first');
+      expect(remote.state.navigation.location?.pathname).toBe(
+        '/inventory/slow',
+      );
+      expect(requests).toHaveLength(1);
+      expect(requests[0].signal.aborted).toBe(false);
+      release!();
+      await pending;
+      await waitFor(() =>
+        expect(host.state.location.pathname).toBe('/inventory/slow'),
+      );
+      expect(window.history.length).toBe(size + 2);
+    } finally {
+      connection.dispose();
+      remote.dispose();
+      host.dispose();
+      release?.();
+      await pending;
+    }
+  },
+);
+
+it('keeps the next Remote loader running when a Host loader finishes echoing the prior entry', async () => {
+  window.history.replaceState(null, '', '/inventory');
+  let releaseHost: (() => void) | undefined;
+  let releaseRemote: (() => void) | undefined;
+  let pending: Promise<void> | undefined;
+  const requests: Request[] = [];
+  const host = createBrowserRouter([
+    {
+      path: '*',
+      loader: ({ request }) => {
+        if (new URL(request.url).pathname === '/inventory/first')
+          return new Promise(resolve => {
+            releaseHost = () => resolve(null);
+          });
+        return null;
+      },
+    },
+  ]);
+  let remote: ReturnType<typeof createBrowserRouter> | undefined;
+  const mount = createMountWindow(
+    '/inventory',
+    () => '/inventory',
+    () => remote,
+    () => false,
+  );
+  remote = createBrowserRouter(
+    [
+      { path: '/' },
+      { path: '/first' },
+      {
+        path: '/slow',
+        loader: ({ request }) =>
+          new Promise(resolve => {
+            requests.push(request);
+            releaseRemote = () => resolve(null);
+          }),
+      },
+    ],
+    { basename: '/inventory', window: mount.window },
+  );
+  const connection = createBrowserRouterConnector(
+    {
+      getLocation: () => host.state.location.pathname,
+      subscribe: listener => host.subscribe(listener),
+      createHref: target => target,
+      navigate: rstest.fn(),
+    },
+    error => {
+      throw error;
+    },
+    () => false,
+    mount.notifyPeers,
+  );
+  connection.attach(remote);
+  try {
+    await waitFor(() => expect(host.state.initialized).toBe(true));
+    await remote.navigate('/first');
+    await waitFor(() =>
+      expect(host.state.navigation.location?.pathname).toBe('/inventory/first'),
+    );
+    pending = remote.navigate('/slow');
+    await waitFor(() => expect(requests).toHaveLength(1));
+    releaseHost!();
+    await waitFor(() =>
+      expect(host.state.location.pathname).toBe('/inventory/first'),
+    );
+    expect(window.location.pathname).toBe('/inventory/first');
+    expect(remote.state.navigation.location?.pathname).toBe('/inventory/slow');
+    expect(requests[0].signal.aborted).toBe(false);
+    releaseRemote!();
+    await pending;
+    await waitFor(() =>
+      expect(host.state.location.pathname).toBe('/inventory/slow'),
+    );
+  } finally {
+    connection.dispose();
+    remote.dispose();
+    host.dispose();
+    releaseHost?.();
+    releaseRemote?.();
+    await pending;
+  }
+});

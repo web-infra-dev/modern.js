@@ -192,13 +192,14 @@ export const routerPlugin = (
 
           // Only cache router instance, routes are always from routerResult
           const router = useMemo(() => {
+            if (scope) return routerResult.router;
             if (cachedRouter) {
               return cachedRouter;
             }
 
             cachedRouter = routerResult.router;
             return cachedRouter;
-          }, []);
+          }, [scope, routerResult.router]);
           const { routes } = routerResult;
 
           routesContainer.current = routes;
@@ -291,7 +292,7 @@ function useRouterCreation(props: any, options: UseRouterCreationOptions) {
       ? window._ROUTER_DATA || rscPayload
       : window._ROUTER_DATA;
 
-  return useMemo(() => {
+  const createRouter = () => {
     if (scope?.router)
       return { router: scope.router, routes: scope.routes || [] };
     if (hydrationData?.errors) {
@@ -382,10 +383,22 @@ function useRouterCreation(props: any, options: UseRouterCreationOptions) {
       };
       return originSubscribe(wrappedListener);
     };
+    scope?.onRouterCreated?.(router);
 
     return {
       router,
       routes: modifiedRoutes,
     };
-  }, [routesConfig, props, _basename, hydrationData, getBlockNavState, scope]);
+  };
+  // Scoped Routers belong to the mount lifecycle. Its cache can be cleared by
+  // cleanup and recreated on effect replay without retaining a disposed Router.
+  return useMemo(createRouter, [
+    routesConfig,
+    props,
+    _basename,
+    hydrationData,
+    getBlockNavState,
+    scope,
+    scope?.router,
+  ]);
 }
