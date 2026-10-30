@@ -42,6 +42,9 @@ jobs:
           cd benchmark/bundle-diff
           RSDOCTOR=1 pnpm run build
 
+      - name: Verify render build output
+        run: pnpm --filter @modern-js/render test:build
+
       - name: Report Compressed Size
         uses: web-infra-dev/rsdoctor-action@8fd3b03827afc9de3acf17810be26bb87b6ca6b5 # main
         with:

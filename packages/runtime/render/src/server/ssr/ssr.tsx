@@ -9,6 +9,8 @@ import type { ReactDOMServerReadableStream } from 'react-dom/server';
 import { renderToReadableStream } from 'react-dom/server.edge';
 import { ServerElementsProvider } from '../../client/index';
 
+declare const RSPACK_RSC_MANIFEST: typeof __rspack_rsc_manifest__;
+
 function CSSLinks({ cssFiles }: { cssFiles: string[] }) {
   if (cssFiles.length === 0) {
     return null;
@@ -46,10 +48,9 @@ export const renderSSRStream = async (
   options: Options & { rscRoot: React.ReactElement },
 ): Promise<ReturnType<typeof renderToReadableStream>> => {
   const { rscRoot, routes } = options;
-  const clientManifest = __rspack_rsc_manifest__?.clientManifest;
-  const serverConsumerModuleMap =
-    __rspack_rsc_manifest__?.serverConsumerModuleMap;
-  const entryCssFiles = __rspack_rsc_manifest__?.entryCssFiles;
+  const clientManifest = RSPACK_RSC_MANIFEST?.clientManifest;
+  const serverConsumerModuleMap = RSPACK_RSC_MANIFEST?.serverConsumerModuleMap;
+  const entryCssFiles = RSPACK_RSC_MANIFEST?.entryCssFiles;
 
   const hasRoutes = Boolean(routes && routes.length > 0);
 
