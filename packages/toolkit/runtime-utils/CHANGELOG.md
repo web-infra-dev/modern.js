@@ -1,5 +1,16 @@
 # @modern-js/runtime-utils
 
+## 3.11.0
+
+### Patch Changes
+
+- 6a50ea0: fix: keep "=" characters inside cookie values when parsing the SSR request cookie header
+
+  fix: 解析 SSR 请求的 Cookie 请求头时保留 Cookie 值中的 "=" 字符
+
+  - @modern-js/types@3.11.0
+  - @modern-js/utils@3.11.0
+
 ## 3.10.4
 
 ### Patch Changes

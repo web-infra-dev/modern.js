@@ -1,6 +1,6 @@
 {
   "name": "@modern-js/mcp-apps",
-  "version": "3.10.3",
+  "version": "3.11.0",
   "description": "Build, serve and render MCP Apps in Modern.js applications",
   "license": "MIT",
   "homepage": "https://modernjs.dev",
@@ -60,7 +60,7 @@
     "@module-federation/enhanced": "^2.0.0",
     "@modelcontextprotocol/server": "^2.3.1",
     "@modelcontextprotocol/ext-apps": "^2.0.3",
-    "@modern-js/server-runtime": "workspace:^3.10.3"
+    "@modern-js/server-runtime": "workspace:^3.11.0"
   },
   "peerDependenciesMeta": {
     "@module-federation/enhanced": {

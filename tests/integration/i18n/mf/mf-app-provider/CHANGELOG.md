@@ -1,5 +1,12 @@
 # i18n-mf-app-provider
 
+## 2.66.4
+
+### Patch Changes
+
+- @modern-js/plugin-i18n@3.11.0
+- @modern-js/runtime@3.11.0
+
 ## 2.66.3
 
 ### Patch Changes

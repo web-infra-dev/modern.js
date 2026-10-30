@@ -1,5 +1,11 @@
 # ssr-base-async-pre-entry-test
 
+## 2.66.4
+
+### Patch Changes
+
+- @modern-js/runtime@3.11.0
+
 ## 2.66.3
 
 ### Patch Changes
