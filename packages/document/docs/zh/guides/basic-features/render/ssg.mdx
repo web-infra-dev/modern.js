@@ -115,11 +115,61 @@ export default defineConfig({
 });
 ```
 
-## 未预渲染的路径和渲染错误
+## 父子路由的 SSG 匹配
 
-内置生产服务器按 `route.json` 中的路径精确匹配 SSG 页面。其他路径使用可用入口路由的 SSR 或 CSR 行为，没有匹配的入口路由时返回 404。如果入口本身也被预渲染，它同样只精确匹配，不再提供通配回退。
+以博客为例，`src/routes/blog/page.tsx` 是列表页，`src/routes/blog/[slug]/page.tsx` 是文章页。启用 SSG 后，可以同时预渲染列表页和指定的文章页：
 
-如果预渲染返回非 2xx 响应，构建会输出包含路径和状态码的警告，不会写入该响应的 HTML 文件，也不会注册对应的 SSG 路由。
+{/* prettier-ignore */}
+```ts title="modern.config.ts"
+export default defineConfig({
+  output: {
+    ssg: {
+      routes: ['/blog', '/blog/hello'],
+    },
+  },
+})
+```
+
+两条路径分别生成自己的静态 HTML。使用内置生产服务器访问时，SSG 页面按路径精确匹配：
+
+| 请求路径               | 处理方式                          |
+| ---------------------- | --------------------------------- |
+| `/blog`                | 返回博客列表页的静态 HTML         |
+| `/blog/hello`          | 返回文章页的静态 HTML             |
+| `/blog/does-not-exist` | 未命中 SSG 页面，交给可用入口处理 |
+
+`/blog` 的 SSG 页面不会作为 `/blog/*` 的回退页面。即使应用定义了 `[slug]` 动态路由，也不会自动为所有 slug 生成静态 HTML，需要在 `routes` 中列出具体路径。
+
+上例没有启用 SSR，也没有预渲染根入口 `/`，因此未命中的路径会返回根入口的 CSR 页面壳，由浏览器中的路由继续处理。此时初始 HTML 响应通常为 HTTP 200，不会因为路径中包含未知 slug 就在服务端返回 404。
+
+如果存在匹配的 SSR 入口，则由 SSR 渲染决定响应内容和状态码。没有可用入口时，服务器返回 404。如果将根入口 `/` 也配置为 SSG，它同样只匹配自身，不再提供通配回退。
+
+## 处理预渲染时的 404
+
+继续上例，如果将 `/blog/scheduled` 加入 `output.ssg.routes`，但文章尚未发布，loader 可以在构建时抛出 404。以下示例中，`getPost` 是业务侧的文章查询函数，`publishedAt` 是以毫秒为单位的发布时间戳：
+
+{/* prettier-ignore */}
+```ts title="src/routes/blog/[slug]/page.data.ts"
+import { getPost } from '@/data/posts'
+
+export const loader = async ({ params }: { params: { slug: string } }) => {
+  const post = await getPost(params.slug)
+  if (!post || post.publishedAt > Date.now()) {
+    throw new Response('Not Found', { status: 404 })
+  }
+  return post
+}
+```
+
+预渲染收到 404 或其他非 2xx 响应时，会：
+
+- 输出包含路径和状态码的构建警告。
+- 跳过该页面的静态 HTML 文件和 SSG 路由注册。
+- 继续生成其他正常响应的页面。
+
+因此，错误页面不会被保存成之后以 HTTP 200 返回的静态页面。访问 `/blog/scheduled` 时，会按照上一节的入口回退规则处理，构建时的 404 不会被保存为该路径的运行时响应状态。
+
+SSG 只在构建时生成页面，文章到达发布时间后不会自动补生成静态 HTML。需要重新构建并部署，才能生成该文章的 SSG 页面。
 
 ## 多入口
 

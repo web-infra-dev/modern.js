@@ -114,11 +114,61 @@ export default defineConfig({
 });
 ```
 
-## Unmatched Paths and Rendering Errors
+## SSG Matching for Parent and Child Routes
 
-The built-in production server matches each SSG page using its exact path in `route.json`. Other paths use an available entry route's SSR or CSR behavior, or return 404 if no entry route matches. An entry that is itself prerendered also matches exactly and no longer acts as a wildcard fallback.
+For a blog, `src/routes/blog/page.tsx` renders the list and `src/routes/blog/[slug]/page.tsx` renders an article. After enabling SSG, you can prerender both the list and selected articles:
 
-If prerendering returns a non-2xx response, the build logs a warning with the path and status. It skips the HTML file and SSG route registration for that response.
+{/* prettier-ignore */}
+```ts title="modern.config.ts"
+export default defineConfig({
+  output: {
+    ssg: {
+      routes: ['/blog', '/blog/hello'],
+    },
+  },
+})
+```
+
+Each path generates its own static HTML. The built-in production server matches SSG pages by their exact paths:
+
+| Request path           | Behavior                                                        |
+| ---------------------- | --------------------------------------------------------------- |
+| `/blog`                | Returns the static HTML for the blog list                       |
+| `/blog/hello`          | Returns the static HTML for the article                         |
+| `/blog/does-not-exist` | Does not match an SSG page and falls back to an available entry |
+
+The SSG page at `/blog` does not act as a fallback for `/blog/*`. Defining a `[slug]` route does not automatically generate static HTML for every slug. List the concrete paths in `routes`.
+
+This example does not enable SSR or prerender the root entry `/`. An unmatched path therefore receives the root entry's CSR shell, and routing continues in the browser. The initial HTML response is typically HTTP 200. An unknown slug alone does not cause the server to return 404.
+
+If a matching SSR entry exists, SSR determines the response content and status. If no entry matches, the server returns 404. If you also configure the root entry `/` for SSG, it only matches its own path and no longer provides a wildcard fallback.
+
+## Handling 404 Responses During Prerendering
+
+Continuing the example, suppose you add `/blog/scheduled` to `output.ssg.routes`, but the article has not been published yet. Its loader can throw a 404 during the build. Here, `getPost` is your application's article lookup function, and `publishedAt` is the publication timestamp in milliseconds:
+
+{/* prettier-ignore */}
+```ts title="src/routes/blog/[slug]/page.data.ts"
+import { getPost } from '@/data/posts'
+
+export const loader = async ({ params }: { params: { slug: string } }) => {
+  const post = await getPost(params.slug)
+  if (!post || post.publishedAt > Date.now()) {
+    throw new Response('Not Found', { status: 404 })
+  }
+  return post
+}
+```
+
+When prerendering returns 404 or another non-2xx response, the build:
+
+- Logs a warning containing the path and status code.
+- Skips the page's static HTML file and SSG route registration.
+- Continues generating pages with successful responses.
+
+The error page is therefore not saved as static HTML that would later be served with HTTP 200. Requests to `/blog/scheduled` follow the entry fallback rules above. The build-time 404 is not stored as the path's runtime response status.
+
+SSG only generates pages during a build. Reaching the publication time does not automatically generate the missing static HTML. Rebuild and redeploy to generate the article's SSG page.
 
 ## Multi-entry
 
