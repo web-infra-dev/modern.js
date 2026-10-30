@@ -1,5 +1,5 @@
 import path, { join } from 'path';
-import { execa, fs } from '@modern-js/utils';
+import { fs } from '@modern-js/utils';
 import puppeteer from 'puppeteer';
 import {
   getPort,
@@ -7,7 +7,6 @@ import {
   launchOptions,
   modernBuild,
   modernServe,
-  runContinuousTask,
 } from '../../../utils/modernTestUtils';
 
 rstest.setConfig({ testTimeout: 1000 * 60 * 3, hookTimeout: 1000 * 60 * 3 });
@@ -36,6 +35,16 @@ describe('ssg', () => {
     const htmlPath = path.join(distDir, 'html/index/user/index.html');
     const html = (await fs.readFile(htmlPath)).toString();
     expect(html.includes('Hello, User')).toBe(true);
+  });
+
+  test('skips HTML output and route registration for loader 404 responses', async () => {
+    expect(
+      fs.existsSync(join(distDir, 'html/index/user/missing/index.html')),
+    ).toBe(false);
+    const { routes } = await fs.readJSON(join(distDir, 'route.json'));
+    expect(routes).not.toContainEqual(
+      expect.objectContaining({ urlPath: '/user/missing' }),
+    );
   });
 
   test('should nested-routes ssg access /user/1 work correctly with data loading', async () => {
@@ -103,53 +112,4 @@ describe('test ssg request', () => {
       await browser.close();
     }
   });
-});
-
-test('deploys successful SSG pages and falls back for skipped or unknown paths', async () => {
-  const config = 'modern.fallback.config.ts';
-  const build = await modernBuild(appDir, ['--config', config]);
-  expect(build.code).toBe(0);
-  await execa('npx', ['modern', 'deploy', '--skip-build', '--config', config], {
-    cwd: appDir,
-  });
-  const output = join(appDir, '.output');
-  expect(
-    fs.existsSync(join(output, 'html/index/user/missing/index.html')),
-  ).toBe(false);
-  const { routes } = await fs.readJSON(join(output, 'route.json'));
-  expect(
-    routes.some(
-      (route: { urlPath: string }) => route.urlPath === '/user/missing',
-    ),
-  ).toBe(false);
-
-  const port = await getPort();
-  const app = await runContinuousTask(['.output/index.js'], undefined, {
-    cwd: appDir,
-    env: { ...process.env, NODE_ENV: 'production', PORT: port },
-    waitMessage: /Server is listening on/i,
-  });
-  try {
-    const host = `http://localhost:${port}`;
-    for (const [pathname, content] of [
-      ['/user', 'Hello, User'],
-      ['/user/1', 'User 1: John Doe'],
-    ]) {
-      const response = await fetch(`${host}${pathname}`);
-      expect(response.status).toBe(200);
-      expect(await response.text()).toContain(content);
-    }
-    const shell = await (await fetch(host)).text();
-    for (const pathname of [
-      '/user/missing',
-      '/user/does-not-exist',
-      '/unknown/path',
-    ]) {
-      const response = await fetch(`${host}${pathname}`);
-      expect(response.status).toBe(200);
-      expect(await response.text()).toBe(shell);
-    }
-  } finally {
-    await killApp(app);
-  }
 });

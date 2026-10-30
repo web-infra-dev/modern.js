@@ -7,7 +7,6 @@ export function writeHtmlFile(
   ssgRoutes: SsgRoute[],
   baseDir: string,
 ) {
-  const renderedRoutes: SsgRoute[] = [];
   htmlAry.forEach((html, index) => {
     if (html === undefined) {
       return;
@@ -19,7 +18,5 @@ export function writeHtmlFile(
     }
 
     fs.writeFileSync(filepath, html);
-    renderedRoutes.push(ssgRoute);
   });
-  return renderedRoutes;
 }

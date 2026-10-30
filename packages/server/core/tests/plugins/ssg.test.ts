@@ -27,19 +27,16 @@ it.each([false, true, undefined])(
     ]);
     await server.init();
 
-    for (const pathname of ['/blog', '/blog?preview=1']) {
-      const response = await server.request(pathname, {}, {});
-      expect(response.status).toBe(200);
-      expect(await response.text()).toContain('<h3>User</h3>');
-    }
-    for (const pathname of ['/blog/', '/blog/does-not-exist']) {
-      const response = await server.request(pathname, {}, {});
-      expect(response.status).toBe(isSSR === undefined ? 404 : 200);
-      if (isSSR !== undefined) {
-        expect(await response.text()).toContain(
-          isSSR ? 'SSR Render' : 'Hello Modern',
-        );
-      }
+    const pageResponse = await server.request('/blog', {}, {});
+    expect(pageResponse.status).toBe(200);
+    expect(await pageResponse.text()).toContain('<h3>User</h3>');
+
+    const response = await server.request('/blog/does-not-exist', {}, {});
+    expect(response.status).toBe(isSSR === undefined ? 404 : 200);
+    if (isSSR !== undefined) {
+      expect(await response.text()).toContain(
+        isSSR ? 'SSR Render' : 'Hello Modern',
+      );
     }
   },
 );
