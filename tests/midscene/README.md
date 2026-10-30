@@ -41,5 +41,8 @@ setting skips publication without failing tests. Download and extract the
 artifact to view reports locally. Invalid configured credentials still fail
 publication. Manual `publish_pages=false` also disables publication.
 
+Eight UI scenarios replace ten existing test registrations across the i18n,
+pure-ESM, partial-SSR navigation, and CSR action fixtures. The ESM navigation
+and CSR action scenarios each run in both dev and build modes.
 SSR responses, URL contracts, request counts, hydration timing, and build
 assertions remain in the deterministic integration suite.

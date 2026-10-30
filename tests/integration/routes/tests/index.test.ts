@@ -404,22 +404,6 @@ const hasHashCorrectly = async (appDir: string) => {
   expect(threeHtml.includes(hash)).toBe(true);
 };
 
-const supportActionInCSR = async (
-  page: Page,
-  errors: string[],
-  appPort: number,
-) => {
-  await page.goto(`http://localhost:${appPort}/four/user/profile`, {
-    waitUntil: ['networkidle0'],
-  });
-  const rootElm = await page.$('#root');
-  await page.click('.action-btn');
-  await page.waitForSelector('.data-wrapper');
-  const text = await page.evaluate(el => el?.textContent, rootElm);
-  expect(text?.includes('profile page')).toBeTruthy();
-  expect(text?.includes('modern_four_action')).toBeTruthy();
-};
-
 const supportActionInSSR = async (
   page: Page,
   errors: string[],
@@ -807,9 +791,6 @@ describe('dev with rspack', () => {
   });
 
   describe('support action', () => {
-    test('support action in CSR', async () => {
-      await supportActionInCSR(page, errors, appPort);
-    });
     test('support action in SSR', async () => {
       await supportActionInSSR(page, errors, appPort);
     });
@@ -944,9 +925,6 @@ describe('build with rspack', () => {
   });
 
   describe('support action', () => {
-    test('support action in CSR', async () => {
-      await supportActionInCSR(page, errors, appPort);
-    });
     test('support action in SSR', async () => {
       await supportActionInSSR(page, errors, appPort);
     });

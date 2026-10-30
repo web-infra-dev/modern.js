@@ -74,17 +74,6 @@ describe('test partial ssr', () => {
     expect(pageContent).toContain('PageB Data');
   });
 
-  // This test case ensures that the data loader for b is executed on the server side
-  test('should navigate to /b correctly', async () => {
-    await page.goto(`http://localhost:${appPort}/one/a`, {
-      waitUntil: ['networkidle0'],
-    });
-    await Promise.all([page.click('.b-btn'), page.waitForSelector('.page-b')]);
-    const pageBElm = await page.$('.page-b');
-    const text = await page.evaluate(el => el?.textContent, pageBElm);
-    expect(text).toContain('PageB Data');
-  });
-
   test('should render nested route with CSR', async () => {
     const res = await axios.get(`http://localhost:${appPort}/one/b/d`);
     const content = res.data;
