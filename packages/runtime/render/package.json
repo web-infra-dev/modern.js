@@ -22,9 +22,10 @@
   ],
   "scripts": {
     "prepublishOnly": "only-allow-pnpm",
-    "dev": "modern-lib build --watch",
-    "build": "modern-lib build",
-    "test": "rstest --passWithNoTests"
+    "dev": "rs lib --watch",
+    "build": "rs lib",
+    "test": "rstest --passWithNoTests",
+    "test:build": "pnpm run build && node --test tests/build.test.mjs"
   },
   "dependencies": {
     "@modern-js/types": "workspace:*",
@@ -34,8 +35,6 @@
   "devDependencies": {
     "@modern-js/rslib": "workspace:*",
     "@modern-js/server-core": "workspace:*",
-    "@rslib/core": "1.0.4",
-    "@scripts/build": "workspace:*",
     "@scripts/rstest-config": "workspace:*",
     "@types/react": "^19.3.0",
     "@types/react-dom": "^19.3.0",

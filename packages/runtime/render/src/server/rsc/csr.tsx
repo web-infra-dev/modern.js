@@ -2,8 +2,7 @@ import type { ReactElement } from 'react';
 import { injectCSS, injectRSCPayload } from '../../rsc-html-stream/server';
 import { renderRsc } from './rsc';
 
-// @ts-ignore - __rspack_rsc_manifest__ is injected at build time
-declare const __rspack_rsc_manifest__:
+declare const RSPACK_RSC_MANIFEST:
   | {
       entryCssFiles?: Record<string, string[]>;
     }
@@ -14,7 +13,7 @@ export async function renderCSRWithRSC(options: {
   rscRoot: ReactElement;
 }): Promise<Response> {
   // Collect CSS files from entryCssFiles
-  const entryCssFiles = __rspack_rsc_manifest__?.entryCssFiles;
+  const entryCssFiles = RSPACK_RSC_MANIFEST?.entryCssFiles;
   const cssFiles = entryCssFiles ? Object.values(entryCssFiles).flat() : [];
 
   // Render RSC stream

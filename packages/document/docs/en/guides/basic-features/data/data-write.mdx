@@ -111,6 +111,12 @@ export const action = async ({ request }: ActionFunctionArgs) => {
 
 The return value of the `action` function can be any serializable content or a [Fetch Response](https://developer.mozilla.org/en-US/docs/Web/API/Response) instance. You can access the content via [`useActionData`](https://reactrouter.com/en/main/hooks/use-action-data).
 
+### Redirects
+
+An action can return or throw `redirect('/dashboard')` imported from `@modern-js/runtime/router` to navigate after a submission. This also applies to submissions made with `useFetcher`.
+
+Actions run when a form or `submit` triggers a mutation request. Visiting a route alone does not run its action. To redirect when loading a route, use `redirect` in its loader.
+
 ## useSubmit and useFetcher
 
 ### Difference
