@@ -9,7 +9,7 @@ import type {
   ServerEnv,
   ServerPlugin,
 } from '../../types';
-import { getRoutePaths, sortRoutes } from '../../utils';
+import { sortRoutes } from '../../utils';
 import { requestLatencyMiddleware } from '../monitors';
 
 export * from './inject';
@@ -33,7 +33,15 @@ export const renderPlugin = (): ServerPlugin => ({
         handler: requestLatencyMiddleware(),
       });
 
-      for (const urlPath of pageRoutes.flatMap(getRoutePaths)) {
+      for (const route of pageRoutes) {
+        const { urlPath: originUrlPath } = route;
+        // Hono accepts route paths and handles regex escaping internally.
+        const urlPath = route.isSSG
+          ? originUrlPath
+          : originUrlPath.endsWith('/')
+            ? `${originUrlPath}*`
+            : `${originUrlPath}/*`;
+
         // config.renderMiddlewares can register by server config and prepare hook
         renderMiddlewares?.forEach(m => {
           middlewares.push({

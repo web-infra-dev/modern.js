@@ -13,7 +13,6 @@ import {
   ErrorDigest,
   createErrorHtml,
   getRuntimeEnv,
-  getRoutePaths,
   parseHeaders,
   parseQuery,
   sortRoutes,
@@ -62,9 +61,14 @@ function getRouter(routes: ServerRoute[]): Router<ServerRoute> {
   const router = new TrieRouter<ServerRoute>();
 
   for (const route of finalRoutes) {
-    for (const urlPath of getRoutePaths(route)) {
-      router.add('*', urlPath, route);
-    }
+    const { urlPath: originUrlPath } = route;
+
+    const urlPath = route.isSSG
+      ? originUrlPath
+      : originUrlPath.endsWith('/')
+        ? `${originUrlPath}*`
+        : `${originUrlPath}/*`;
+    router.add('*', urlPath, route);
   }
 
   return router;

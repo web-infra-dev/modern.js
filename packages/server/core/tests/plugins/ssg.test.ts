@@ -12,7 +12,7 @@ it.each([false, true, undefined])(
     const [entry, page]: ServerRoute[] = require(path.join(pwd, 'route.json'));
     const routes = [
       ...(isSSR === undefined ? [] : [{ ...entry, isSSR }]),
-      { ...page, urlPath: '/blog/', isSSR: false, isSSG: true },
+      { ...page, urlPath: '/blog', isSSR: false, isSSG: true },
     ];
     const server = createServerBase({
       pwd,
@@ -27,17 +27,19 @@ it.each([false, true, undefined])(
     ]);
     await server.init();
 
-    for (const pathname of ['/blog', '/blog/', '/blog?preview=1']) {
+    for (const pathname of ['/blog', '/blog?preview=1']) {
       const response = await server.request(pathname, {}, {});
       expect(response.status).toBe(200);
       expect(await response.text()).toContain('<h3>User</h3>');
     }
-    const response = await server.request('/blog/does-not-exist', {}, {});
-    expect(response.status).toBe(isSSR === undefined ? 404 : 200);
-    if (isSSR !== undefined) {
-      expect(await response.text()).toContain(
-        isSSR ? 'SSR Render' : 'Hello Modern',
-      );
+    for (const pathname of ['/blog/', '/blog/does-not-exist']) {
+      const response = await server.request(pathname, {}, {});
+      expect(response.status).toBe(isSSR === undefined ? 404 : 200);
+      if (isSSR !== undefined) {
+        expect(await response.text()).toContain(
+          isSSR ? 'SSR Render' : 'Hello Modern',
+        );
+      }
     }
   },
 );
