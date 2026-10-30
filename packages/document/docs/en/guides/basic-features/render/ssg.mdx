@@ -137,6 +137,8 @@ Each path generates its own static HTML. The built-in production server matches 
 | `/blog/hello`          | Returns the static HTML for the article                         |
 | `/blog/does-not-exist` | Does not match an SSG page and falls back to an available entry |
 
+Requests to a trailing-slash URL such as `/blog/` receive an HTTP 308 redirect to `/blog`, preserving the query string. For example, `/blog/?preview=1` redirects to `/blog?preview=1`.
+
 The SSG page at `/blog` does not act as a fallback for `/blog/*`. Defining a `[slug]` route does not automatically generate static HTML for every slug. List the concrete paths in `routes`.
 
 This example does not enable SSR or prerender the root entry `/`. An unmatched path therefore receives the root entry's CSR shell, and routing continues in the browser. The initial HTML response is typically HTTP 200. An unknown slug alone does not cause the server to return 404.

@@ -138,6 +138,8 @@ export default defineConfig({
 | `/blog/hello`          | 返回文章页的静态 HTML             |
 | `/blog/does-not-exist` | 未命中 SSG 页面，交给可用入口处理 |
 
+访问 `/blog/` 这样的尾部斜杠形式时，服务器会通过 HTTP 308 重定向到 `/blog`，并保留查询参数。例如，`/blog/?preview=1` 会重定向到 `/blog?preview=1`。
+
 `/blog` 的 SSG 页面不会作为 `/blog/*` 的回退页面。即使应用定义了 `[slug]` 动态路由，也不会自动为所有 slug 生成静态 HTML，需要在 `routes` 中列出具体路径。
 
 上例没有启用 SSR，也没有预渲染根入口 `/`，因此未命中的路径会返回根入口的 CSR 页面壳，由浏览器中的路由继续处理。此时初始 HTML 响应通常为 HTTP 200，不会因为路径中包含未知 slug 就在服务端返回 404。

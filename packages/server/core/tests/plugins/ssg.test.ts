@@ -31,6 +31,16 @@ it.each([false, true, undefined])(
     expect(pageResponse.status).toBe(200);
     expect(await pageResponse.text()).toContain('<h3>User</h3>');
 
+    for (const search of ['', '?preview=1&tag=a%2Fb&tag=c+d']) {
+      const redirect = await server.request(`/blog/${search}`, {}, {});
+      expect(redirect.status).toBe(308);
+      const location = redirect.headers.get('location');
+      expect(location).toBe(`/blog${search}`);
+      const redirectedPage = await server.request(location!, {}, {});
+      expect(redirectedPage.status).toBe(200);
+      expect(await redirectedPage.text()).toContain('<h3>User</h3>');
+    }
+
     const response = await server.request('/blog/does-not-exist', {}, {});
     expect(response.status).toBe(isSSR === undefined ? 404 : 200);
     if (isSSR !== undefined) {
