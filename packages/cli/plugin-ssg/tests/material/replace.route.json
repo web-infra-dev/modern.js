@@ -37,21 +37,6 @@
     {
       "urlPath": "/lib/entry",
       "entryPath": "html/entry/index.html",
-      "entryName": "entry"
-    },
-    {
-      "urlPath": "/lib/home",
-      "entryPath": "html/home/index.html",
-      "entryName": "home"
-    },
-    {
-      "urlPath": "/lib/mobile",
-      "entryPath": "html/mobile/index.html",
-      "entryName": "mobile"
-    },
-    {
-      "urlPath": "/lib/entry",
-      "entryPath": "html/entry/index.html",
       "entryName": "entry",
       "isSSG": true
     },
@@ -60,6 +45,11 @@
       "entryPath": "html/home.html",
       "entryName": "home",
       "isSSG": true
+    },
+    {
+      "urlPath": "/lib/mobile",
+      "entryPath": "html/mobile/index.html",
+      "entryName": "mobile"
     },
     {
       "urlPath": "/lib/pc",

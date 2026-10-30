@@ -1,15 +1,12 @@
 import type { ServerRoute } from '@modern-js/types';
 
 export const sortRoutes = (route1: ServerRoute, route2: ServerRoute) => {
-  return (
-    route2.urlPath.length - route1.urlPath.length ||
-    Number(Boolean(route2.isSSG)) - Number(Boolean(route1.isSSG))
-  );
+  return route2.urlPath.length - route1.urlPath.length;
 };
 
-// Keep prerendered HTML separate from the entry fallback at the same URL.
+// Because the same entryName may have different urlPath(ssg), so we need to add urlPath as key
 export const uniqueKeyByRoute = (route: ServerRoute) => {
-  return `${route.isSSG ? 'ssg:' : ''}${route.entryName!}-${route.urlPath}`;
+  return `${route.entryName!}-${route.urlPath}`;
 };
 
 // SSG pages match only their concrete URL, with either trailing-slash form.

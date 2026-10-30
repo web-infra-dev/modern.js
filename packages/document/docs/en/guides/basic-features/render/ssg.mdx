@@ -116,11 +116,9 @@ export default defineConfig({
 
 ## Unmatched Paths and Rendering Errors
 
-The built-in production server serves a prerendered page only at its exact path, with or without a trailing slash. Paths without a prerendered page fall back to the entry route. An SSR entry renders the requested path on the server, while a CSR entry returns its original HTML shell for client-side routing. A CSR fallback can return HTTP 200 even when the client router displays a not-found page.
+The built-in production server matches SSG pages exactly, with or without a trailing slash. Other paths use an available entry route's SSR or CSR behavior, or return 404 if no entry route matches. An entry that is itself prerendered also matches exactly and no longer acts as a wildcard fallback.
 
-If a route returns a non-2xx response during SSG, including a loader 404 or a redirect, the build logs a warning with the path and status code. It does not write that response as a static page or register an SSG route for it. Requests for that path use the entry fallback.
-
-SSG does not regenerate pages automatically when content or publication dates change. Rebuild to update the generated pages.
+If prerendering returns a non-2xx response, the build logs a warning with the path and status. It skips the HTML file and SSG route registration for that response.
 
 ## Multi-entry
 

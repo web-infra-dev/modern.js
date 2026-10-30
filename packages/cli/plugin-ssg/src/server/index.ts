@@ -137,7 +137,7 @@ export const createServer = async (
 
         if (!response.ok) {
           logger.warn(
-            `Skipping SSG route ${route.urlPath}: received HTTP ${response.status}. Falling back to the entry route.`,
+            `Skipping SSG route ${route.urlPath}: received HTTP ${response.status}.`,
           );
           await response.body?.cancel();
           return undefined;
