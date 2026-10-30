@@ -1,5 +1,14 @@
 # ssr-script-loading
 
+## 2.66.3
+
+### Patch Changes
+
+- Updated dependencies [9c94a22]
+- Updated dependencies [ea77774]
+  - @modern-js/app-tools@3.10.4
+  - @modern-js/runtime@3.10.4
+
 ## 2.66.2
 
 ### Patch Changes

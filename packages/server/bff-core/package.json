@@ -15,7 +15,7 @@
     "modern",
     "modern.js"
   ],
-  "version": "3.10.3",
+  "version": "3.10.4",
   "types": "./dist/types/index.d.ts",
   "main": "./dist/cjs/index.js",
   "exports": {
@@ -55,7 +55,7 @@
   "peerDependencies": {
     "ts-node": "^10.9.2",
     "tsconfig-paths": "^4.2.0",
-    "zod": "^4.6.7"
+    "zod": "^3.25.76 || ^4.6.7"
   },
   "peerDependenciesMeta": {
     "zod": {

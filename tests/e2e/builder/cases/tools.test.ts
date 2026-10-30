@@ -30,7 +30,7 @@ test('postcss plugins overwrite', async ({ page }) => {
   builder.close();
 });
 
-test('bundlerChain - set alias config', async ({ page }) => {
+test('bundlerChain - set alias config', async ({ page }, testInfo) => {
   const builder = await build({
     cwd: join(fixtures, 'source/basic'),
     entry: {
@@ -38,6 +38,11 @@ test('bundlerChain - set alias config', async ({ page }) => {
     },
     runServer: true,
     builderConfig: {
+      output: {
+        distPath: {
+          root: testInfo.outputPath('dist'),
+        },
+      },
       tools: {
         bundlerChain: chain => {
           chain.resolve.alias.merge({

@@ -1,5 +1,12 @@
 # i18n-app-ssr
 
+## 2.66.3
+
+### Patch Changes
+
+- @modern-js/plugin-i18n@3.10.4
+- @modern-js/runtime@3.10.4
+
 ## 2.66.2
 
 ### Patch Changes

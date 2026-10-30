@@ -1,5 +1,15 @@
 # @modern-js/bff-core
 
+## 3.10.4
+
+### Patch Changes
+
+- 1a6805d: fix(bff-core): accept unknown input during schema validation to support Zod 4 declaration generation.
+
+  fix(bff-core)：校验时接收未知输入，修复升级 Zod 4 后的类型声明构建失败。
+
+  - @modern-js/utils@3.10.4
+
 ## 3.10.3
 
 ### Patch Changes

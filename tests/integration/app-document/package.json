@@ -1,6 +1,6 @@
 {
   "name": "app-document",
-  "version": "2.66.2",
+  "version": "2.66.3",
   "private": true,
   "scripts": {
     "dev": "modern dev",
