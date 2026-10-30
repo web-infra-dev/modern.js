@@ -8,11 +8,7 @@ Install the dependencies:
 pnpm install
 ```
 
-This also installs Chromium for Playwright. Set
-`PLAYWRIGHT_SKIP_BROWSER_DOWNLOAD=1` to skip the browser download. The release
-pipeline's existing `PUPPETEER_SKIP_DOWNLOAD=true` flag also skips this download.
-
-If the download was skipped, install Chromium before running browser tests:
+Install Chromium before running Playwright tests:
 
 ```bash
 pnpm exec playwright install chromium
