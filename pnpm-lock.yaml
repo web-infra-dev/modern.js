@@ -269,11 +269,11 @@ importers:
         specifier: latest
         version: 3.10.4(@module-federation/runtime-tools@2.9.2)(core-js@3.50.0)(react-dom@19.2.8(react@19.2.8))(react-server-dom-rspack@0.1.0(@rspack/core@2.2.9(@module-federation/runtime-tools@2.9.2)(@swc/helpers@0.5.23))(react-dom@19.2.8(react@19.2.8))(react@19.2.8))(react@19.2.8)
       '@module-federation/bridge-react':
-        specifier: 0.0.0-feat-bridge-route-navigation-20261029103538
-        version: 0.0.0-feat-bridge-route-navigation-20261029103538(@module-federation/enhanced@0.0.0-feat-bridge-route-navigation-20261029103538(@rspack/core@2.2.9(@module-federation/runtime-tools@2.9.2)(@swc/helpers@0.5.23))(bufferutil@4.1.0)(typescript@5.9.3)(utf-8-validate@5.0.10)(webpack@5.104.1(@swc/core@1.16.20(@swc/helpers@0.5.23))(postcss@8.5.31)))(react-dom@19.2.8(react@19.2.8))(react-router-dom@7.16.0(react-dom@19.2.8(react@19.2.8))(react@19.2.8))(react-router@7.15.1(react-dom@19.2.8(react@19.2.8))(react@19.2.8))(react@19.2.8)
+        specifier: 0.0.0-feat-bridge-route-navigation-20261030085657
+        version: 0.0.0-feat-bridge-route-navigation-20261030085657(@module-federation/enhanced@0.0.0-feat-bridge-route-navigation-20261030085657(@rspack/core@2.2.9(@module-federation/runtime-tools@2.9.2)(@swc/helpers@0.5.23))(bufferutil@4.1.0)(typescript@5.9.3)(utf-8-validate@5.0.10)(webpack@5.104.1(@swc/core@1.16.20(@swc/helpers@0.5.23))(postcss@8.5.31)))(react-dom@19.2.8(react@19.2.8))(react-router-dom@7.16.0(react-dom@19.2.8(react@19.2.8))(react@19.2.8))(react-router@7.15.1(react-dom@19.2.8(react@19.2.8))(react@19.2.8))(react@19.2.8)
       '@module-federation/enhanced':
-        specifier: 0.0.0-feat-bridge-route-navigation-20261029103538
-        version: 0.0.0-feat-bridge-route-navigation-20261029103538(@rspack/core@2.2.9(@module-federation/runtime-tools@2.9.2)(@swc/helpers@0.5.23))(bufferutil@4.1.0)(typescript@5.9.3)(utf-8-validate@5.0.10)(webpack@5.104.1(@swc/core@1.16.20(@swc/helpers@0.5.23))(postcss@8.5.31))
+        specifier: 0.0.0-feat-bridge-route-navigation-20261030085657
+        version: 0.0.0-feat-bridge-route-navigation-20261030085657(@rspack/core@2.2.9(@module-federation/runtime-tools@2.9.2)(@swc/helpers@0.5.23))(bufferutil@4.1.0)(typescript@5.9.3)(utf-8-validate@5.0.10)(webpack@5.104.1(@swc/core@1.16.20(@swc/helpers@0.5.23))(postcss@8.5.31))
       react:
         specifier: ^19.2.8
         version: 19.2.8
@@ -315,11 +315,11 @@ importers:
         specifier: latest
         version: 3.10.4(@module-federation/runtime-tools@2.9.2)(core-js@3.50.0)(react-dom@19.2.8(react@19.2.8))(react-server-dom-rspack@0.1.0(@rspack/core@2.2.9(@module-federation/runtime-tools@2.9.2)(@swc/helpers@0.5.23))(react-dom@19.2.8(react@19.2.8))(react@19.2.8))(react@19.2.8)
       '@module-federation/bridge-react':
-        specifier: 0.0.0-feat-bridge-route-navigation-20261029103538
-        version: 0.0.0-feat-bridge-route-navigation-20261029103538(@module-federation/enhanced@0.0.0-feat-bridge-route-navigation-20261029103538(@rspack/core@2.2.9(@module-federation/runtime-tools@2.9.2)(@swc/helpers@0.5.23))(bufferutil@4.1.0)(typescript@5.9.3)(utf-8-validate@5.0.10)(webpack@5.104.1(@swc/core@1.16.20(@swc/helpers@0.5.23))(postcss@8.5.31)))(react-dom@19.2.8(react@19.2.8))(react-router-dom@7.18.4(react-dom@19.2.8(react@19.2.8))(react@19.2.8))(react-router@7.18.4(react-dom@19.2.8(react@19.2.8))(react@19.2.8))(react@19.2.8)
+        specifier: 0.0.0-feat-bridge-route-navigation-20261030085657
+        version: 0.0.0-feat-bridge-route-navigation-20261030085657(@module-federation/enhanced@0.0.0-feat-bridge-route-navigation-20261030085657(@rspack/core@2.2.9(@module-federation/runtime-tools@2.9.2)(@swc/helpers@0.5.23))(bufferutil@4.1.0)(typescript@5.9.3)(utf-8-validate@5.0.10)(webpack@5.104.1(@swc/core@1.16.20(@swc/helpers@0.5.23))(postcss@8.5.31)))(react-dom@19.2.8(react@19.2.8))(react-router-dom@7.18.4(react-dom@19.2.8(react@19.2.8))(react@19.2.8))(react-router@7.18.4(react-dom@19.2.8(react@19.2.8))(react@19.2.8))(react@19.2.8)
       '@module-federation/enhanced':
-        specifier: 0.0.0-feat-bridge-route-navigation-20261029103538
-        version: 0.0.0-feat-bridge-route-navigation-20261029103538(@rspack/core@2.2.9(@module-federation/runtime-tools@2.9.2)(@swc/helpers@0.5.23))(bufferutil@4.1.0)(typescript@5.9.3)(utf-8-validate@5.0.10)(webpack@5.104.1(@swc/core@1.16.20(@swc/helpers@0.5.23))(postcss@8.5.31))
+        specifier: 0.0.0-feat-bridge-route-navigation-20261030085657
+        version: 0.0.0-feat-bridge-route-navigation-20261030085657(@rspack/core@2.2.9(@module-federation/runtime-tools@2.9.2)(@swc/helpers@0.5.23))(bufferutil@4.1.0)(typescript@5.9.3)(utf-8-validate@5.0.10)(webpack@5.104.1(@swc/core@1.16.20(@swc/helpers@0.5.23))(postcss@8.5.31))
       react:
         specifier: ^19.2.8
         version: 19.2.8
@@ -355,11 +355,11 @@ importers:
         specifier: latest
         version: 3.10.4(@module-federation/runtime-tools@2.9.2)(core-js@3.50.0)(react-dom@19.2.8(react@19.2.8))(react-server-dom-rspack@0.1.0(@rspack/core@2.2.9(@module-federation/runtime-tools@2.9.2)(@swc/helpers@0.5.23))(react-dom@19.2.8(react@19.2.8))(react@19.2.8))(react@19.2.8)
       '@module-federation/bridge-react':
-        specifier: 0.0.0-feat-bridge-route-navigation-20261029103538
-        version: 0.0.0-feat-bridge-route-navigation-20261029103538(@module-federation/enhanced@0.0.0-feat-bridge-route-navigation-20261029103538(@rspack/core@2.2.9(@module-federation/runtime-tools@2.9.2)(@swc/helpers@0.5.23))(bufferutil@4.1.0)(typescript@5.9.3)(utf-8-validate@5.0.10)(webpack@5.104.1(@swc/core@1.16.20(@swc/helpers@0.5.23))(postcss@8.5.31)))(react-dom@19.2.8(react@19.2.8))(react-router-dom@7.16.0(react-dom@19.2.8(react@19.2.8))(react@19.2.8))(react-router@7.18.4(react-dom@19.2.8(react@19.2.8))(react@19.2.8))(react@19.2.8)
+        specifier: 0.0.0-feat-bridge-route-navigation-20261030085657
+        version: 0.0.0-feat-bridge-route-navigation-20261030085657(@module-federation/enhanced@0.0.0-feat-bridge-route-navigation-20261030085657(@rspack/core@2.2.9(@module-federation/runtime-tools@2.9.2)(@swc/helpers@0.5.23))(bufferutil@4.1.0)(typescript@5.9.3)(utf-8-validate@5.0.10)(webpack@5.104.1(@swc/core@1.16.20(@swc/helpers@0.5.23))(postcss@8.5.31)))(react-dom@19.2.8(react@19.2.8))(react-router-dom@7.16.0(react-dom@19.2.8(react@19.2.8))(react@19.2.8))(react-router@7.18.4(react-dom@19.2.8(react@19.2.8))(react@19.2.8))(react@19.2.8)
       '@module-federation/enhanced':
-        specifier: 0.0.0-feat-bridge-route-navigation-20261029103538
-        version: 0.0.0-feat-bridge-route-navigation-20261029103538(@rspack/core@2.2.9(@module-federation/runtime-tools@2.9.2)(@swc/helpers@0.5.23))(bufferutil@4.1.0)(typescript@5.9.3)(utf-8-validate@5.0.10)(webpack@5.104.1(@swc/core@1.16.20(@swc/helpers@0.5.23))(postcss@8.5.31))
+        specifier: 0.0.0-feat-bridge-route-navigation-20261030085657
+        version: 0.0.0-feat-bridge-route-navigation-20261030085657(@rspack/core@2.2.9(@module-federation/runtime-tools@2.9.2)(@swc/helpers@0.5.23))(bufferutil@4.1.0)(typescript@5.9.3)(utf-8-validate@5.0.10)(webpack@5.104.1(@swc/core@1.16.20(@swc/helpers@0.5.23))(postcss@8.5.31))
       react:
         specifier: ^19.2.8
         version: 19.2.8
@@ -398,11 +398,11 @@ importers:
         specifier: latest
         version: 3.10.4(@module-federation/runtime-tools@2.9.2)(core-js@3.50.0)(react-dom@19.2.8(react@19.2.8))(react-server-dom-rspack@0.1.0(@rspack/core@2.2.9(@module-federation/runtime-tools@2.9.2)(@swc/helpers@0.5.23))(react-dom@19.2.8(react@19.2.8))(react@19.2.8))(react@19.2.8)
       '@module-federation/bridge-react':
-        specifier: 0.0.0-feat-bridge-route-navigation-20261029103538
-        version: 0.0.0-feat-bridge-route-navigation-20261029103538(@module-federation/enhanced@0.0.0-feat-bridge-route-navigation-20261029103538(@rspack/core@2.2.9(@module-federation/runtime-tools@2.9.2)(@swc/helpers@0.5.23))(bufferutil@4.1.0)(typescript@5.9.3)(utf-8-validate@5.0.10)(webpack@5.104.1(@swc/core@1.16.20(@swc/helpers@0.5.23))(postcss@8.5.31)))(react-dom@19.2.8(react@19.2.8))(react-router-dom@7.18.4(react-dom@19.2.8(react@19.2.8))(react@19.2.8))(react-router@7.18.4(react-dom@19.2.8(react@19.2.8))(react@19.2.8))(react@19.2.8)
+        specifier: 0.0.0-feat-bridge-route-navigation-20261030085657
+        version: 0.0.0-feat-bridge-route-navigation-20261030085657(@module-federation/enhanced@0.0.0-feat-bridge-route-navigation-20261030085657(@rspack/core@2.2.9(@module-federation/runtime-tools@2.9.2)(@swc/helpers@0.5.23))(bufferutil@4.1.0)(typescript@5.9.3)(utf-8-validate@5.0.10)(webpack@5.104.1(@swc/core@1.16.20(@swc/helpers@0.5.23))(postcss@8.5.31)))(react-dom@19.2.8(react@19.2.8))(react-router-dom@7.18.4(react-dom@19.2.8(react@19.2.8))(react@19.2.8))(react-router@7.18.4(react-dom@19.2.8(react@19.2.8))(react@19.2.8))(react@19.2.8)
       '@module-federation/enhanced':
-        specifier: 0.0.0-feat-bridge-route-navigation-20261029103538
-        version: 0.0.0-feat-bridge-route-navigation-20261029103538(@rspack/core@2.2.9(@module-federation/runtime-tools@2.9.2)(@swc/helpers@0.5.23))(bufferutil@4.1.0)(typescript@5.9.3)(utf-8-validate@5.0.10)(webpack@5.104.1(@swc/core@1.16.20(@swc/helpers@0.5.23))(postcss@8.5.31))
+        specifier: 0.0.0-feat-bridge-route-navigation-20261030085657
+        version: 0.0.0-feat-bridge-route-navigation-20261030085657(@rspack/core@2.2.9(@module-federation/runtime-tools@2.9.2)(@swc/helpers@0.5.23))(bufferutil@4.1.0)(typescript@5.9.3)(utf-8-validate@5.0.10)(webpack@5.104.1(@swc/core@1.16.20(@swc/helpers@0.5.23))(postcss@8.5.31))
       react:
         specifier: ^19.2.8
         version: 19.2.8
@@ -984,20 +984,20 @@ importers:
         specifier: workspace:*
         version: link:../../toolkit/utils
       '@module-federation/bridge-react':
-        specifier: 0.0.0-feat-bridge-route-navigation-20261029103538
-        version: 0.0.0-feat-bridge-route-navigation-20261029103538(@module-federation/enhanced@0.0.0-feat-bridge-route-navigation-20261029103538(@rspack/core@2.2.9(@module-federation/runtime-tools@0.0.0-feat-bridge-route-navigation-20261029103538)(@swc/helpers@0.5.23))(bufferutil@4.1.0)(typescript@5.7.3)(utf-8-validate@5.0.10)(webpack@5.104.1(@swc/core@1.16.20(@swc/helpers@0.5.23))))(react-dom@19.3.1(react@19.3.1))(react-router-dom@7.18.4(react-dom@19.3.1(react@19.3.1))(react@19.3.1))(react-router@7.18.4(react-dom@19.3.1(react@19.3.1))(react@19.3.1))(react@19.3.1)
+        specifier: 0.0.0-feat-bridge-route-navigation-20261030085657
+        version: 0.0.0-feat-bridge-route-navigation-20261030085657(@module-federation/enhanced@0.0.0-feat-bridge-route-navigation-20261030085657(@rspack/core@2.2.9(@module-federation/runtime-tools@0.0.0-feat-bridge-route-navigation-20261030085657)(@swc/helpers@0.5.23))(bufferutil@4.1.0)(typescript@5.7.3)(utf-8-validate@5.0.10)(webpack@5.104.1(@swc/core@1.16.20(@swc/helpers@0.5.23))))(react-dom@19.3.1(react@19.3.1))(react-router-dom@7.18.4(react-dom@19.3.1(react@19.3.1))(react@19.3.1))(react-router@7.18.4(react-dom@19.3.1(react@19.3.1))(react@19.3.1))(react@19.3.1)
       '@module-federation/node':
-        specifier: 0.0.0-feat-bridge-route-navigation-20261029103538
-        version: 0.0.0-feat-bridge-route-navigation-20261029103538(@rspack/core@2.2.9(@module-federation/runtime-tools@0.0.0-feat-bridge-route-navigation-20261029103538)(@swc/helpers@0.5.23))(bufferutil@4.1.0)(typescript@5.7.3)(utf-8-validate@5.0.10)(webpack@5.104.1(@swc/core@1.16.20(@swc/helpers@0.5.23)))
+        specifier: 0.0.0-feat-bridge-route-navigation-20261030085657
+        version: 0.0.0-feat-bridge-route-navigation-20261030085657(@rspack/core@2.2.9(@module-federation/runtime-tools@0.0.0-feat-bridge-route-navigation-20261030085657)(@swc/helpers@0.5.23))(bufferutil@4.1.0)(typescript@5.7.3)(utf-8-validate@5.0.10)(webpack@5.104.1(@swc/core@1.16.20(@swc/helpers@0.5.23)))
       '@module-federation/rsbuild-plugin':
-        specifier: 0.0.0-feat-bridge-route-navigation-20261029103538
-        version: 0.0.0-feat-bridge-route-navigation-20261029103538(@rsbuild/core@2.2.13(@module-federation/runtime-tools@0.0.0-feat-bridge-route-navigation-20261029103538)(core-js@3.50.0))(@rspack/core@2.2.9(@module-federation/runtime-tools@0.0.0-feat-bridge-route-navigation-20261029103538)(@swc/helpers@0.5.23))(bufferutil@4.1.0)(typescript@5.7.3)(utf-8-validate@5.0.10)(webpack@5.104.1(@swc/core@1.16.20(@swc/helpers@0.5.23)))
+        specifier: 0.0.0-feat-bridge-route-navigation-20261030085657
+        version: 0.0.0-feat-bridge-route-navigation-20261030085657(@rsbuild/core@2.2.13(@module-federation/runtime-tools@0.0.0-feat-bridge-route-navigation-20261030085657)(core-js@3.50.0))(@rspack/core@2.2.9(@module-federation/runtime-tools@0.0.0-feat-bridge-route-navigation-20261030085657)(@swc/helpers@0.5.23))(bufferutil@4.1.0)(typescript@5.7.3)(utf-8-validate@5.0.10)(webpack@5.104.1(@swc/core@1.16.20(@swc/helpers@0.5.23)))
       '@module-federation/sdk':
-        specifier: 0.0.0-feat-bridge-route-navigation-20261029103538
-        version: 0.0.0-feat-bridge-route-navigation-20261029103538
+        specifier: 0.0.0-feat-bridge-route-navigation-20261030085657
+        version: 0.0.0-feat-bridge-route-navigation-20261030085657
       '@rsbuild/core':
         specifier: 2.2.13
-        version: 2.2.13(@module-federation/runtime-tools@0.0.0-feat-bridge-route-navigation-20261029103538)(core-js@3.50.0)
+        version: 2.2.13(@module-federation/runtime-tools@0.0.0-feat-bridge-route-navigation-20261030085657)(core-js@3.50.0)
       '@swc/helpers':
         specifier: ^0.5.17
         version: 0.5.23
@@ -1012,11 +1012,11 @@ importers:
         specifier: workspace:*
         version: link:../../server/server-runtime
       '@module-federation/enhanced':
-        specifier: 0.0.0-feat-bridge-route-navigation-20261029103538
-        version: 0.0.0-feat-bridge-route-navigation-20261029103538(@rspack/core@2.2.9(@module-federation/runtime-tools@0.0.0-feat-bridge-route-navigation-20261029103538)(@swc/helpers@0.5.23))(bufferutil@4.1.0)(typescript@5.7.3)(utf-8-validate@5.0.10)(webpack@5.104.1(@swc/core@1.16.20(@swc/helpers@0.5.23)))
+        specifier: 0.0.0-feat-bridge-route-navigation-20261030085657
+        version: 0.0.0-feat-bridge-route-navigation-20261030085657(@rspack/core@2.2.9(@module-federation/runtime-tools@0.0.0-feat-bridge-route-navigation-20261030085657)(@swc/helpers@0.5.23))(bufferutil@4.1.0)(typescript@5.7.3)(utf-8-validate@5.0.10)(webpack@5.104.1(@swc/core@1.16.20(@swc/helpers@0.5.23)))
       '@rspack/core':
         specifier: 2.2.9
-        version: 2.2.9(@module-federation/runtime-tools@0.0.0-feat-bridge-route-navigation-20261029103538)(@swc/helpers@0.5.23)
+        version: 2.2.9(@module-federation/runtime-tools@0.0.0-feat-bridge-route-navigation-20261030085657)(@swc/helpers@0.5.23)
       '@scripts/rstest-config':
         specifier: workspace:*
         version: link:../../../scripts/rstest-config
@@ -1293,11 +1293,11 @@ importers:
         specifier: workspace:*
         version: link:../../toolkit/utils
       '@module-federation/bridge-react':
-        specifier: 0.0.0-feat-bridge-route-navigation-20261029103538
-        version: 0.0.0-feat-bridge-route-navigation-20261029103538(@module-federation/enhanced@0.0.0-feat-bridge-route-navigation-20261029103538(@rspack/core@2.2.9(@module-federation/runtime-tools@2.9.2)(@swc/helpers@0.5.23))(bufferutil@4.1.0)(typescript@5.9.3)(utf-8-validate@5.0.10)(webpack@5.104.1(@swc/core@1.16.18(@swc/helpers@0.5.23))))(react-dom@19.3.1(react@19.3.1))(react-router-dom@7.18.4(react-dom@19.3.1(react@19.3.1))(react@19.3.1))(react-router@7.18.4(react-dom@19.3.1(react@19.3.1))(react@19.3.1))(react@19.3.1)
+        specifier: 0.0.0-feat-bridge-route-navigation-20261030085657
+        version: 0.0.0-feat-bridge-route-navigation-20261030085657(@module-federation/enhanced@0.0.0-feat-bridge-route-navigation-20261030085657(@rspack/core@2.2.9(@module-federation/runtime-tools@2.9.2)(@swc/helpers@0.5.23))(bufferutil@4.1.0)(typescript@5.9.3)(utf-8-validate@5.0.10)(webpack@5.104.1(@swc/core@1.16.18(@swc/helpers@0.5.23))))(react-dom@19.3.1(react@19.3.1))(react-router-dom@7.18.4(react-dom@19.3.1(react@19.3.1))(react@19.3.1))(react-router@7.18.4(react-dom@19.3.1(react@19.3.1))(react@19.3.1))(react@19.3.1)
       '@module-federation/enhanced':
-        specifier: 0.0.0-feat-bridge-route-navigation-20261029103538
-        version: 0.0.0-feat-bridge-route-navigation-20261029103538(@rspack/core@2.2.9(@module-federation/runtime-tools@2.9.2)(@swc/helpers@0.5.23))(bufferutil@4.1.0)(typescript@5.9.3)(utf-8-validate@5.0.10)(webpack@5.104.1(@swc/core@1.16.18(@swc/helpers@0.5.23)))
+        specifier: 0.0.0-feat-bridge-route-navigation-20261030085657
+        version: 0.0.0-feat-bridge-route-navigation-20261030085657(@rspack/core@2.2.9(@module-federation/runtime-tools@2.9.2)(@swc/helpers@0.5.23))(bufferutil@4.1.0)(typescript@5.9.3)(utf-8-validate@5.0.10)(webpack@5.104.1(@swc/core@1.16.18(@swc/helpers@0.5.23)))
       '@swc/core':
         specifier: 1.16.18
         version: 1.16.18(@swc/helpers@0.5.23)
@@ -3837,11 +3837,11 @@ importers:
         specifier: workspace:*
         version: link:../../../../packages/runtime/plugin-runtime
       '@module-federation/bridge-react':
-        specifier: 0.0.0-feat-bridge-route-navigation-20261029103538
-        version: 0.0.0-feat-bridge-route-navigation-20261029103538(@module-federation/enhanced@0.0.0-feat-bridge-route-navigation-20261029103538(@rspack/core@2.2.9(@module-federation/runtime-tools@2.9.2)(@swc/helpers@0.5.23))(bufferutil@4.1.0)(typescript@5.9.3)(utf-8-validate@5.0.10)(webpack@5.104.1(@swc/core@1.16.20(@swc/helpers@0.5.23))))(react-dom@19.3.1(react@19.3.1))(react-router-dom@7.18.4(react-dom@19.3.1(react@19.3.1))(react@19.3.1))(react-router@7.18.4(react-dom@19.3.1(react@19.3.1))(react@19.3.1))(react@19.3.1)
+        specifier: 0.0.0-feat-bridge-route-navigation-20261030085657
+        version: 0.0.0-feat-bridge-route-navigation-20261030085657(@module-federation/enhanced@0.0.0-feat-bridge-route-navigation-20261030085657(@rspack/core@2.2.9(@module-federation/runtime-tools@2.9.2)(@swc/helpers@0.5.23))(bufferutil@4.1.0)(typescript@5.9.3)(utf-8-validate@5.0.10)(webpack@5.104.1(@swc/core@1.16.20(@swc/helpers@0.5.23))))(react-dom@19.3.1(react@19.3.1))(react-router-dom@7.18.4(react-dom@19.3.1(react@19.3.1))(react@19.3.1))(react-router@7.18.4(react-dom@19.3.1(react@19.3.1))(react@19.3.1))(react@19.3.1)
       '@module-federation/enhanced':
-        specifier: 0.0.0-feat-bridge-route-navigation-20261029103538
-        version: 0.0.0-feat-bridge-route-navigation-20261029103538(@rspack/core@2.2.9(@module-federation/runtime-tools@2.9.2)(@swc/helpers@0.5.23))(bufferutil@4.1.0)(typescript@5.9.3)(utf-8-validate@5.0.10)(webpack@5.104.1(@swc/core@1.16.20(@swc/helpers@0.5.23)))
+        specifier: 0.0.0-feat-bridge-route-navigation-20261030085657
+        version: 0.0.0-feat-bridge-route-navigation-20261030085657(@rspack/core@2.2.9(@module-federation/runtime-tools@2.9.2)(@swc/helpers@0.5.23))(bufferutil@4.1.0)(typescript@5.9.3)(utf-8-validate@5.0.10)(webpack@5.104.1(@swc/core@1.16.20(@swc/helpers@0.5.23)))
       react:
         specifier: ^19.3.1
         version: 19.3.1
@@ -3859,11 +3859,11 @@ importers:
   tests/integration/module-federation/library:
     dependencies:
       '@module-federation/bridge-react':
-        specifier: 0.0.0-feat-bridge-route-navigation-20261029103538
-        version: 0.0.0-feat-bridge-route-navigation-20261029103538(@module-federation/enhanced@0.0.0-feat-bridge-route-navigation-20261029103538(@rspack/core@2.2.9(@module-federation/runtime-tools@2.9.2)(@swc/helpers@0.5.23))(bufferutil@4.1.0)(typescript@5.9.3)(utf-8-validate@5.0.10)(webpack@5.104.1(@swc/core@1.16.20(@swc/helpers@0.5.23))))(react-dom@19.3.1(react@19.3.1))(react-router-dom@7.18.4(react-dom@19.3.1(react@19.3.1))(react@19.3.1))(react-router@7.18.4(react-dom@19.3.1(react@19.3.1))(react@19.3.1))(react@19.3.1)
+        specifier: 0.0.0-feat-bridge-route-navigation-20261030085657
+        version: 0.0.0-feat-bridge-route-navigation-20261030085657(@module-federation/enhanced@0.0.0-feat-bridge-route-navigation-20261030085657(@rspack/core@2.2.9(@module-federation/runtime-tools@2.9.2)(@swc/helpers@0.5.23))(bufferutil@4.1.0)(typescript@5.9.3)(utf-8-validate@5.0.10)(webpack@5.104.1(@swc/core@1.16.20(@swc/helpers@0.5.23))))(react-dom@19.3.1(react@19.3.1))(react-router-dom@7.18.4(react-dom@19.3.1(react@19.3.1))(react@19.3.1))(react-router@7.18.4(react-dom@19.3.1(react@19.3.1))(react@19.3.1))(react@19.3.1)
       '@module-federation/enhanced':
-        specifier: 0.0.0-feat-bridge-route-navigation-20261029103538
-        version: 0.0.0-feat-bridge-route-navigation-20261029103538(@rspack/core@2.2.9(@module-federation/runtime-tools@2.9.2)(@swc/helpers@0.5.23))(bufferutil@4.1.0)(typescript@5.9.3)(utf-8-validate@5.0.10)(webpack@5.104.1(@swc/core@1.16.20(@swc/helpers@0.5.23)))
+        specifier: 0.0.0-feat-bridge-route-navigation-20261030085657
+        version: 0.0.0-feat-bridge-route-navigation-20261030085657(@rspack/core@2.2.9(@module-federation/runtime-tools@2.9.2)(@swc/helpers@0.5.23))(bufferutil@4.1.0)(typescript@5.9.3)(utf-8-validate@5.0.10)(webpack@5.104.1(@swc/core@1.16.20(@swc/helpers@0.5.23)))
       react:
         specifier: ^19.3.1
         version: 19.3.1
@@ -3875,8 +3875,8 @@ importers:
         specifier: workspace:*
         version: link:../../../../packages/tsconfig
       '@module-federation/rsbuild-plugin':
-        specifier: 0.0.0-feat-bridge-route-navigation-20261029103538
-        version: 0.0.0-feat-bridge-route-navigation-20261029103538(@rsbuild/core@2.1.13(@module-federation/runtime-tools@2.9.2)(core-js@3.50.0))(@rspack/core@2.2.9(@module-federation/runtime-tools@2.9.2)(@swc/helpers@0.5.23))(bufferutil@4.1.0)(typescript@5.9.3)(utf-8-validate@5.0.10)(webpack@5.104.1(@swc/core@1.16.20(@swc/helpers@0.5.23)))
+        specifier: 0.0.0-feat-bridge-route-navigation-20261030085657
+        version: 0.0.0-feat-bridge-route-navigation-20261030085657(@rsbuild/core@2.1.13(@module-federation/runtime-tools@2.9.2)(core-js@3.50.0))(@rspack/core@2.2.9(@module-federation/runtime-tools@2.9.2)(@swc/helpers@0.5.23))(bufferutil@4.1.0)(typescript@5.9.3)(utf-8-validate@5.0.10)(webpack@5.104.1(@swc/core@1.16.20(@swc/helpers@0.5.23)))
       '@rsbuild/plugin-react':
         specifier: 1.4.5
         version: 1.4.5(@rsbuild/core@2.1.13(@module-federation/runtime-tools@2.9.2)(core-js@3.50.0))
@@ -3890,11 +3890,11 @@ importers:
         specifier: workspace:*
         version: link:../../../../packages/runtime/plugin-runtime
       '@module-federation/bridge-react':
-        specifier: 0.0.0-feat-bridge-route-navigation-20261029103538
-        version: 0.0.0-feat-bridge-route-navigation-20261029103538(@module-federation/enhanced@0.0.0-feat-bridge-route-navigation-20261029103538(@rspack/core@2.2.9(@module-federation/runtime-tools@2.9.2)(@swc/helpers@0.5.23))(bufferutil@4.1.0)(typescript@5.9.3)(utf-8-validate@5.0.10)(webpack@5.104.1(@swc/core@1.16.20(@swc/helpers@0.5.23))))(react-dom@19.3.1(react@19.3.1))(react-router-dom@7.18.4(react-dom@19.3.1(react@19.3.1))(react@19.3.1))(react-router@7.18.4(react-dom@19.3.1(react@19.3.1))(react@19.3.1))(react@19.3.1)
+        specifier: 0.0.0-feat-bridge-route-navigation-20261030085657
+        version: 0.0.0-feat-bridge-route-navigation-20261030085657(@module-federation/enhanced@0.0.0-feat-bridge-route-navigation-20261030085657(@rspack/core@2.2.9(@module-federation/runtime-tools@2.9.2)(@swc/helpers@0.5.23))(bufferutil@4.1.0)(typescript@5.9.3)(utf-8-validate@5.0.10)(webpack@5.104.1(@swc/core@1.16.20(@swc/helpers@0.5.23))))(react-dom@19.3.1(react@19.3.1))(react-router-dom@7.18.4(react-dom@19.3.1(react@19.3.1))(react@19.3.1))(react-router@7.18.4(react-dom@19.3.1(react@19.3.1))(react@19.3.1))(react@19.3.1)
       '@module-federation/enhanced':
-        specifier: 0.0.0-feat-bridge-route-navigation-20261029103538
-        version: 0.0.0-feat-bridge-route-navigation-20261029103538(@rspack/core@2.2.9(@module-federation/runtime-tools@2.9.2)(@swc/helpers@0.5.23))(bufferutil@4.1.0)(typescript@5.9.3)(utf-8-validate@5.0.10)(webpack@5.104.1(@swc/core@1.16.20(@swc/helpers@0.5.23)))
+        specifier: 0.0.0-feat-bridge-route-navigation-20261030085657
+        version: 0.0.0-feat-bridge-route-navigation-20261030085657(@rspack/core@2.2.9(@module-federation/runtime-tools@2.9.2)(@swc/helpers@0.5.23))(bufferutil@4.1.0)(typescript@5.9.3)(utf-8-validate@5.0.10)(webpack@5.104.1(@swc/core@1.16.20(@swc/helpers@0.5.23)))
       react:
         specifier: ^19.3.1
         version: 19.3.1
@@ -3915,11 +3915,11 @@ importers:
         specifier: workspace:*
         version: link:../../../../packages/runtime/plugin-runtime
       '@module-federation/bridge-react':
-        specifier: 0.0.0-feat-bridge-route-navigation-20261029103538
-        version: 0.0.0-feat-bridge-route-navigation-20261029103538(@module-federation/enhanced@0.0.0-feat-bridge-route-navigation-20261029103538(@rspack/core@2.2.9(@module-federation/runtime-tools@2.9.2)(@swc/helpers@0.5.23))(bufferutil@4.1.0)(typescript@5.9.3)(utf-8-validate@5.0.10)(webpack@5.104.1(@swc/core@1.16.20(@swc/helpers@0.5.23))))(react-dom@19.3.1(react@19.3.1))(react-router-dom@7.18.4(react-dom@19.3.1(react@19.3.1))(react@19.3.1))(react-router@7.18.4(react-dom@19.3.1(react@19.3.1))(react@19.3.1))(react@19.3.1)
+        specifier: 0.0.0-feat-bridge-route-navigation-20261030085657
+        version: 0.0.0-feat-bridge-route-navigation-20261030085657(@module-federation/enhanced@0.0.0-feat-bridge-route-navigation-20261030085657(@rspack/core@2.2.9(@module-federation/runtime-tools@2.9.2)(@swc/helpers@0.5.23))(bufferutil@4.1.0)(typescript@5.9.3)(utf-8-validate@5.0.10)(webpack@5.104.1(@swc/core@1.16.20(@swc/helpers@0.5.23))))(react-dom@19.3.1(react@19.3.1))(react-router-dom@7.18.4(react-dom@19.3.1(react@19.3.1))(react@19.3.1))(react-router@7.18.4(react-dom@19.3.1(react@19.3.1))(react@19.3.1))(react@19.3.1)
       '@module-federation/enhanced':
-        specifier: 0.0.0-feat-bridge-route-navigation-20261029103538
-        version: 0.0.0-feat-bridge-route-navigation-20261029103538(@rspack/core@2.2.9(@module-federation/runtime-tools@2.9.2)(@swc/helpers@0.5.23))(bufferutil@4.1.0)(typescript@5.9.3)(utf-8-validate@5.0.10)(webpack@5.104.1(@swc/core@1.16.20(@swc/helpers@0.5.23)))
+        specifier: 0.0.0-feat-bridge-route-navigation-20261030085657
+        version: 0.0.0-feat-bridge-route-navigation-20261030085657(@rspack/core@2.2.9(@module-federation/runtime-tools@2.9.2)(@swc/helpers@0.5.23))(bufferutil@4.1.0)(typescript@5.9.3)(utf-8-validate@5.0.10)(webpack@5.104.1(@swc/core@1.16.20(@swc/helpers@0.5.23)))
       react:
         specifier: ^19.3.1
         version: 19.3.1
@@ -7313,8 +7313,8 @@ packages:
     peerDependencies:
       webpack: ^5.0.0-beta.16
 
-  '@module-federation/bridge-react-webpack-plugin@0.0.0-feat-bridge-route-navigation-20261029103538':
-    resolution: {integrity: sha512-8VMRvYBhL8CZ+WusSQfn7dosuC9+w63+l+Yz1b/L6WWia1xH1QBqFVPviL7fwp1YQR8AP9Z/jlu5CZbJPvY4zw==}
+  '@module-federation/bridge-react-webpack-plugin@0.0.0-feat-bridge-route-navigation-20261030085657':
+    resolution: {integrity: sha512-wk6Vwx2YVIXZoNmgjTSCNaZIzUFt3paEKd9Qa8d8DS68CcF9HOdALHNedtLuK9pxQHU7XkGRK/WWeS8drMIrKQ==}
 
   '@module-federation/bridge-react-webpack-plugin@2.0.0':
     resolution: {integrity: sha512-AVT/rZK6RHva6ZTYfsyQ8oP4xYNTws3OzqKW/YxWaLXwQ3oG9ZbF7fKl4jIKoMKuuy2L9MGVXS4CYPZy0s8fXg==}
@@ -7322,10 +7322,10 @@ packages:
   '@module-federation/bridge-react-webpack-plugin@2.9.2':
     resolution: {integrity: sha512-6ikuvP1639g8jzSxveDLz/BOk0VTIkO7aSuvrZgq0waB0h553zFtkTJAXQETezzO+s1taHGhEvFoCtl6DJWu6A==}
 
-  '@module-federation/bridge-react@0.0.0-feat-bridge-route-navigation-20261029103538':
-    resolution: {integrity: sha512-09eNkg+AMUm+ybWBy+IVQ8C9e1HO6qPL8dnCW6Rduapwe9aI/40aFaV4uFvpRoNOPqxNlXyxjUpFqEvfv1NXhw==}
+  '@module-federation/bridge-react@0.0.0-feat-bridge-route-navigation-20261030085657':
+    resolution: {integrity: sha512-slSju265MLM2uh46ooz50Qr8feEm615W2C+9iZXEnePNXd0eoiu2ttlKei8ISdXmn/h0t8BxXKpMo7iaS27yTA==}
     peerDependencies:
-      '@module-federation/enhanced': ^0.0.0-feat-bridge-route-navigation-20261029103538
+      '@module-federation/enhanced': ^0.0.0-feat-bridge-route-navigation-20261030085657
       react: '>=16.9.0'
       react-dom: '>=16.9.0'
       react-router: ^6 || ^7
@@ -7362,11 +7362,14 @@ packages:
       react-router-dom:
         optional: true
 
+  '@module-federation/bridge-shared@0.0.0-feat-bridge-route-navigation-20261030085657':
+    resolution: {integrity: sha512-NfBFadYK264VTtZMJhPctH1Z/ZgFKWUmC6BGXAJfFRUEQlIdPYpqzA4DVWLCaEd5HgSzgZB0eLsT+p5XG86OSg==}
+
   '@module-federation/bridge-shared@2.0.0':
     resolution: {integrity: sha512-kid2tyGOjX02da/kjjHtkw035M7NHiD8UGynBfZBi9mznAWUUReT0n8EHyvTIdBpj7S4AQKHpwppPCrg7Rv3ZA==}
 
-  '@module-federation/cli@0.0.0-feat-bridge-route-navigation-20261029103538':
-    resolution: {integrity: sha512-5FaWFrmJ9cknElRbvJ4rb8Po/X1+F5ntgMxtRygHKo6KI6XSM6/HeiEIW+UzL4VUzdMShV7hlmmBIJW/cHZjBw==}
+  '@module-federation/cli@0.0.0-feat-bridge-route-navigation-20261030085657':
+    resolution: {integrity: sha512-Ad+LeXxOhGO/twzghRh4h8oOBcGbyAq7TtCe1JP8S+o9BJ3KQS3+zg5DtQF+fs35LpmfvxSdFboL8ewsYlDbdA==}
     engines: {node: '>=16.0.0'}
     hasBin: true
 
@@ -7391,8 +7394,8 @@ packages:
       react-dom:
         optional: true
 
-  '@module-federation/dts-plugin@0.0.0-feat-bridge-route-navigation-20261029103538':
-    resolution: {integrity: sha512-7s9dW96DLNYBGU46UwivETgi1nf7UeM7/gD6GBtCDH/41RsBvpQsr9WlLJoJYPVu2wCIcvMLFT+qa0JZzY97+Q==}
+  '@module-federation/dts-plugin@0.0.0-feat-bridge-route-navigation-20261030085657':
+    resolution: {integrity: sha512-M8F4N8wn6+gR5AECvm2mr3gs64RumixkCzvExAXS64WGyh8Fno9yPrDK6O+oBys2oV5obbI0lIqmztoAyFQZDg==}
     peerDependencies:
       typescript: ^4.9.0 || ^5.0.0 || ^6.0.0 || ^7.0.0
       vue-tsc: '>=1.0.24'
@@ -7418,8 +7421,8 @@ packages:
       vue-tsc:
         optional: true
 
-  '@module-federation/enhanced@0.0.0-feat-bridge-route-navigation-20261029103538':
-    resolution: {integrity: sha512-lhOuB4sR2017ekP6R/xrjiTv3Ik+X58srqmyml1VbQZEKKKg299puo6bpMLl/wGDPJHuhNNGFSGBBosT9+kvKQ==}
+  '@module-federation/enhanced@0.0.0-feat-bridge-route-navigation-20261030085657':
+    resolution: {integrity: sha512-xQaCHpfDBus7tJ1DGlRyD/Xyvoo0GTJVHdN+6iYadFZOpjt5ouFmCEKsM0HSkqPj8+wBu+UzGVYzsv9bncN5jw==}
     hasBin: true
     peerDependencies:
       typescript: ^4.9.0 || ^5.0.0 || ^6.0.0 || ^7.0.0
@@ -7463,8 +7466,8 @@ packages:
       webpack:
         optional: true
 
-  '@module-federation/error-codes@0.0.0-feat-bridge-route-navigation-20261029103538':
-    resolution: {integrity: sha512-u1QdKxs5WClnaxRibVQ0kq1rP8fVcmDej3H/QSW7IfLISRuk6uSNAbK7+Fg0i1hjTykfYCqc9KCmGv1AB0FL4w==}
+  '@module-federation/error-codes@0.0.0-feat-bridge-route-navigation-20261030085657':
+    resolution: {integrity: sha512-y+rKduB1ly2hyLOCuHTB1Pb+rU4n4zUNesqOS2Ky2/iT+WDjuRkOgLSFt24KkOFFMcUhZCKIg1yH7pL9VNPioQ==}
 
   '@module-federation/error-codes@2.0.0':
     resolution: {integrity: sha512-9oE+hXuPv2zej7AxJ5hOgeRqlPs98meooV2FiutTfftLAyy2N6+Kwmmz5NR9d9t91weJj8N0cSHFoyenNHKTVg==}
@@ -7472,10 +7475,10 @@ packages:
   '@module-federation/error-codes@2.9.2':
     resolution: {integrity: sha512-MTpKubqsJSBgnuw+2Pli1kHL4INeHD5cGnHL84oRANwQAWK7b6lN3ZZTmL3FL6lYn65ImineqZNqGWBv5GQVLQ==}
 
-  '@module-federation/inject-external-runtime-core-plugin@0.0.0-feat-bridge-route-navigation-20261029103538':
-    resolution: {integrity: sha512-8yuKqEupxAHwg7UmY3mtcyplVquxEPqpaaIlkILeFcjvcDWV9AxF9/URrYNXRP6XamPcVrH1DvVN4YhB6z8JiQ==}
+  '@module-federation/inject-external-runtime-core-plugin@0.0.0-feat-bridge-route-navigation-20261030085657':
+    resolution: {integrity: sha512-SzIwSoiRUin5+hCxJnZ/xaXH9Xun4aKxREctxA49pGm6bMh29HbVmC0GytrygRnDXpdg7Uctnx6/7RyzhCT7sg==}
     peerDependencies:
-      '@module-federation/runtime-tools': 0.0.0-feat-bridge-route-navigation-20261029103538
+      '@module-federation/runtime-tools': 0.0.0-feat-bridge-route-navigation-20261030085657
 
   '@module-federation/inject-external-runtime-core-plugin@2.0.0':
     resolution: {integrity: sha512-aZ6f4UU7KM5zBnHf3xsb2guqsfaEd6IlmuldbpED3JPk4ITwZk0DbvxRMr4prde7cfj8RH0nKMz2kmMncp+lIQ==}
@@ -7487,8 +7490,8 @@ packages:
     peerDependencies:
       '@module-federation/runtime-tools': 2.9.2
 
-  '@module-federation/managers@0.0.0-feat-bridge-route-navigation-20261029103538':
-    resolution: {integrity: sha512-f44UcR6RxvP7fsx5smrToj1UopEqXttIQxQuVpuJv9xQeCrm8uibwwO6hbvNGRG8G/UGfKiRfJuJZ8EZn/K/Og==}
+  '@module-federation/managers@0.0.0-feat-bridge-route-navigation-20261030085657':
+    resolution: {integrity: sha512-8rzEn8LEXIkPEY7WWaVpQkUVIG3SbsDgEXWEt+3SFp/vmQjp8uLSp4ShUniAfKPiKQ9sXrFMHfo/+NWyxPfGEg==}
 
   '@module-federation/managers@2.0.0':
     resolution: {integrity: sha512-ZmkRIujH+T3xvkmy04TNvviFH8xFOrNeKCLb4tlH4ifU/kLfjTu+PYO/KAEIsgtmrDnd52zTf22dg3ok85OAHA==}
@@ -7496,8 +7499,8 @@ packages:
   '@module-federation/managers@2.9.2':
     resolution: {integrity: sha512-VtSKLkT2EA1wqCMFXNiklC+XF+5bZPYY3sUQ9LCFHqKS7v7NOJDrwMV6Qtw3fxH4Y6Pe6P28MiU8D9dlzknCKQ==}
 
-  '@module-federation/manifest@0.0.0-feat-bridge-route-navigation-20261029103538':
-    resolution: {integrity: sha512-o2PIu9cEEm8vn9od1XCT0RyH2ntbQSXMiOyONhy3vl1+c1CWkZG7IZ/16SaaMn+74QFq9T+9aBXcXPCaxMTBmQ==}
+  '@module-federation/manifest@0.0.0-feat-bridge-route-navigation-20261030085657':
+    resolution: {integrity: sha512-fI95MQl+DqIKTMFDMPULoGJ67Q0mOqj7lxPluuWaAtuKnZu8r1UXgx1gYY+8bOsYcFUoxq39jD03mOmKbDEqdQ==}
 
   '@module-federation/manifest@2.0.0':
     resolution: {integrity: sha512-AXwYyGiDJdfP9MteKyIdJrLwG5tp4qKaq0uOPiWHilYN3/21G0DM7f30HgJqgx3WSTFSh7hcq0a3V3EZHH/9TA==}
@@ -7544,8 +7547,8 @@ packages:
       vue-tsc:
         optional: true
 
-  '@module-federation/node@0.0.0-feat-bridge-route-navigation-20261029103538':
-    resolution: {integrity: sha512-4CXF/cRtZHwkfqGfiW+3OnwWkblOdd0HhMemb9T9PUeO/y4ikHbXVe1g9fQKqgJS1zjkmQX7iRcx3dFCWFkl9w==}
+  '@module-federation/node@0.0.0-feat-bridge-route-navigation-20261030085657':
+    resolution: {integrity: sha512-f9PZ5dmAxVssFJ7MgD3hgfV8/O9fYO67Drv9MHw41UJQJ9iFCKm0UNSindnd673ldTXdK0XTg0W4Ja2IxH+W+g==}
     peerDependencies:
       webpack: ^5.40.0
     peerDependenciesMeta:
@@ -7568,8 +7571,8 @@ packages:
       webpack:
         optional: true
 
-  '@module-federation/rsbuild-plugin@0.0.0-feat-bridge-route-navigation-20261029103538':
-    resolution: {integrity: sha512-o4rcWNTx9jq4I5DVkKPjg9JurzOrVBmdjcFHEcOcXgQ4HQIp6l+j8CA97Ex+nMnl2m1vhFMgyJ+v+lpUtfuHIw==}
+  '@module-federation/rsbuild-plugin@0.0.0-feat-bridge-route-navigation-20261030085657':
+    resolution: {integrity: sha512-wkW2yYNC+AIROPvAnPWspptYMtZSh3uQtBEB0r+vCNFmhE+OfAZlt2n579aNI1Yrd6/6jBko0XDVc02lHy0WfA==}
     engines: {node: '>=16.0.0'}
     peerDependencies:
       '@rsbuild/core': ^1.3.21 || ^2.0.0-0
@@ -7595,8 +7598,8 @@ packages:
       '@rsbuild/core':
         optional: true
 
-  '@module-federation/rspack@0.0.0-feat-bridge-route-navigation-20261029103538':
-    resolution: {integrity: sha512-6TvabcUmTe26JWlkukceBUIe9OxCI0Jng3u1Etce5y2WDqM9AV4D/pCnINxHTtcUIj53fcvSAnB0YKaRlyQBLA==}
+  '@module-federation/rspack@0.0.0-feat-bridge-route-navigation-20261030085657':
+    resolution: {integrity: sha512-7BKFZ7krEILwf+TJblmCcm9EGLDOAJ8M3QtcxPuM3I5goMB0X3khlGEQxH/ziwYGcmtLH3PVdWI2AEfXrRHNqA==}
     peerDependencies:
       '@rspack/core': ^0.7.0 || ^1.0.0 || ^2.0.0-0
       typescript: ^4.9.0 || ^5.0.0 || ^6.0.0 || ^7.0.0
@@ -7631,8 +7634,8 @@ packages:
       vue-tsc:
         optional: true
 
-  '@module-federation/runtime-core@0.0.0-feat-bridge-route-navigation-20261029103538':
-    resolution: {integrity: sha512-Deu5UYXm6zgxk9zjjYtrP4rRHAa9yjcfRSuHQA7TFO928+5Nl8utfmxEbMQY4detM5c2j1tLfLFQRkkkFYBP/Q==}
+  '@module-federation/runtime-core@0.0.0-feat-bridge-route-navigation-20261030085657':
+    resolution: {integrity: sha512-/z9AXNo0LUDFbREi0BpE1q9xOspDmsX39+Pb2sMbBlJDbrj0umUUYbVdUh8uynIQZUpVEDtGIV49hgElXdreQw==}
 
   '@module-federation/runtime-core@2.0.0':
     resolution: {integrity: sha512-UhIGUs7Mg+TwMI2lgaLnj4UehpoyXbR7HDb2+vLikgBulPmFtodeWfsxCgENEwKsIY1vS0lOun15lNOn1vo3Xg==}
@@ -7640,8 +7643,8 @@ packages:
   '@module-federation/runtime-core@2.9.2':
     resolution: {integrity: sha512-S9roTDqLtAWaaDBuug69ZnXXGEx0pUq/yG06J759bjRgfAg2P9+dWEv1q7rB2eMIp7HH4L6s3ColDRYdL6tJ9w==}
 
-  '@module-federation/runtime-tools@0.0.0-feat-bridge-route-navigation-20261029103538':
-    resolution: {integrity: sha512-OMJDh5cdQ/bnByPDL9ClW3aHjYul3f+e549pB3RJePXmOPjd2OJ4Z8ahfyQtB48y41FK6ip37TdsboDubDf9jg==}
+  '@module-federation/runtime-tools@0.0.0-feat-bridge-route-navigation-20261030085657':
+    resolution: {integrity: sha512-vAywQSZfXE3nAouUhpjn/e8ryErEtiJalk63NSkixL/RoTydUAiBv+0yEghYNyM7J9K3hgex7lujtZwBi6J85Q==}
 
   '@module-federation/runtime-tools@2.0.0':
     resolution: {integrity: sha512-eMDQN4hYpwvUnCNMjfQdtPVzYaO2DdauemHVc4HnyibgqijRzBwJh9bI2ph4R1xfYEm18+QmTrfXrRlaK2Xizw==}
@@ -7649,8 +7652,8 @@ packages:
   '@module-federation/runtime-tools@2.9.2':
     resolution: {integrity: sha512-rhOvimSLLnnocfOVUfAzH2xDq1pHMw4f/nSC+JQhSztEgP/1UslPPvcBcenx3B8/6CoYmBbGa2OIBTJ225ZHAg==}
 
-  '@module-federation/runtime@0.0.0-feat-bridge-route-navigation-20261029103538':
-    resolution: {integrity: sha512-uFHVpfLOQ15TyfYvQDdd4vZ2XXsotewlcSydYXICxXXYxiCnrIkPF+QzFJXQo+Z4yGHDigIMmRbDCkE851DP2A==}
+  '@module-federation/runtime@0.0.0-feat-bridge-route-navigation-20261030085657':
+    resolution: {integrity: sha512-P7ywTdxkCY3IlTHEEkNO00znRhx/qi1ohBY7ocvt2xQXSUU49SxHsmJn4roIbyzTtx/wNNy2vjHFXcAb5hdsnA==}
 
   '@module-federation/runtime@2.0.0':
     resolution: {integrity: sha512-vPxQrmQNq3Z1T+1fkHEvFwTdJq9wuCLvdp/lpu9k2Oy7QP/Pj6QoQ/S7J5MCIAoRwj8Wj3z3ma21/DyHwLGvzA==}
@@ -7658,8 +7661,8 @@ packages:
   '@module-federation/runtime@2.9.2':
     resolution: {integrity: sha512-1lPZVy7TkMTTBMkkjgQt7jA+9FAx226yQqEz+X0lFAIbpxIWfpzNQLD+7IydEe83ZhDJpK3cv/9bn3jjQBZeqQ==}
 
-  '@module-federation/sdk@0.0.0-feat-bridge-route-navigation-20261029103538':
-    resolution: {integrity: sha512-ZYpYfm5hjXVYvI53qP0uMxuhmuwIkz0LK1x3/f8SbQGteEP1vwo9y/3unNrztHjjXl6A0fIZx3FUIKU18TFSMQ==}
+  '@module-federation/sdk@0.0.0-feat-bridge-route-navigation-20261030085657':
+    resolution: {integrity: sha512-6PinZ7nj0f5q4saVdNwYaET0g7jW26NsLTWZWLEmGdTQysadaHveVMKjmnY6WFfGxKDl+mp0UBprzFI391dhbg==}
 
   '@module-federation/sdk@2.0.0':
     resolution: {integrity: sha512-JYd1wTulsaoLT7HTk2oXL5y5797Z+H4mzxuUEKnSJo7R34RZSqehsqPSND7n0HT/1nf7uyn0Rb4qBfR3BVvdHQ==}
@@ -7667,8 +7670,8 @@ packages:
   '@module-federation/sdk@2.9.2':
     resolution: {integrity: sha512-ILtBFPuYpVcRA/Qay1lJ2hMtZI8fDE/v1n7xiN17e5qx5rSBR3FaamTsmRpN1hIt+gVnoa76CzOP/Y73d8hHNg==}
 
-  '@module-federation/third-party-dts-extractor@0.0.0-feat-bridge-route-navigation-20261029103538':
-    resolution: {integrity: sha512-vwCfS2TFYsFAAVLnP+8F553bLOf0aJUVuIZZrhTNDGZbG/D+Dj4JyKVSGqHYd519nydqHHbMfukk2tjYxDYOEA==}
+  '@module-federation/third-party-dts-extractor@0.0.0-feat-bridge-route-navigation-20261030085657':
+    resolution: {integrity: sha512-mevP4X1c3AT4Wm//tkFCRBVyFWPKqnmsSf1rNx/dUp9aG2HuqeBmjVfsbMKCRS8bHgfG+AiLnwJ2yt3cORZj3w==}
 
   '@module-federation/third-party-dts-extractor@2.0.0':
     resolution: {integrity: sha512-B99+Wkbd2xIodVTjNCeFtFC89Uh2/AtYkSESlz4+6Cec42wyqrGxyfYm4qRY0LhJI+YmZXLk/RTm85m15eBKKg==}
@@ -7676,8 +7679,8 @@ packages:
   '@module-federation/third-party-dts-extractor@2.9.2':
     resolution: {integrity: sha512-FKJVGx+/jIe16RfmwoyIDVMPAttIFJv6AJCLkKf05IRNvI3RJFqQ1tLP1YjcfGuumCbYuWGa4QKnMla7YjVpqg==}
 
-  '@module-federation/webpack-bundler-runtime@0.0.0-feat-bridge-route-navigation-20261029103538':
-    resolution: {integrity: sha512-4j6XWhWf1CHoe+8t3dUFUUeRAnAT8Tm/K7sd4886om1trzl9vXXhvO4ZoPFzkEKlDMc3UBx8bcjUYTOaIxcCGQ==}
+  '@module-federation/webpack-bundler-runtime@0.0.0-feat-bridge-route-navigation-20261030085657':
+    resolution: {integrity: sha512-AUfohkSG+2ei1WEnhjQj3Tuqf6C9avpJ/P/sA93xXdAiqUvWLRdDyMx6Bh5cOTS24GI6zNGEST528LWD0x9hlw==}
 
   '@module-federation/webpack-bundler-runtime@2.0.0':
     resolution: {integrity: sha512-XxiFR/A1G1fa9hTyylWNbs6yEU2hC7FqHAArFptD4U9qp/xyoLgqbK4M8LwltOAyAM8hRofcMdSyiRKVlWqAfQ==}
@@ -21134,9 +21137,9 @@ snapshots:
       find-package-json: 1.2.0
       webpack: 5.104.1(@swc/core@1.16.20(@swc/helpers@0.5.23))(postcss@8.5.31)
 
-  '@module-federation/bridge-react-webpack-plugin@0.0.0-feat-bridge-route-navigation-20261029103538':
+  '@module-federation/bridge-react-webpack-plugin@0.0.0-feat-bridge-route-navigation-20261030085657':
     dependencies:
-      '@module-federation/sdk': 0.0.0-feat-bridge-route-navigation-20261029103538
+      '@module-federation/sdk': 0.0.0-feat-bridge-route-navigation-20261030085657
 
   '@module-federation/bridge-react-webpack-plugin@2.0.0':
     dependencies:
@@ -21148,60 +21151,66 @@ snapshots:
     dependencies:
       '@module-federation/sdk': 2.9.2
 
-  '@module-federation/bridge-react@0.0.0-feat-bridge-route-navigation-20261029103538(@module-federation/enhanced@0.0.0-feat-bridge-route-navigation-20261029103538(@rspack/core@2.2.9(@module-federation/runtime-tools@0.0.0-feat-bridge-route-navigation-20261029103538)(@swc/helpers@0.5.23))(bufferutil@4.1.0)(typescript@5.7.3)(utf-8-validate@5.0.10)(webpack@5.104.1(@swc/core@1.16.20(@swc/helpers@0.5.23))))(react-dom@19.3.1(react@19.3.1))(react-router-dom@7.18.4(react-dom@19.3.1(react@19.3.1))(react@19.3.1))(react-router@7.18.4(react-dom@19.3.1(react@19.3.1))(react@19.3.1))(react@19.3.1)':
+  '@module-federation/bridge-react@0.0.0-feat-bridge-route-navigation-20261030085657(@module-federation/enhanced@0.0.0-feat-bridge-route-navigation-20261030085657(@rspack/core@2.2.9(@module-federation/runtime-tools@0.0.0-feat-bridge-route-navigation-20261030085657)(@swc/helpers@0.5.23))(bufferutil@4.1.0)(typescript@5.7.3)(utf-8-validate@5.0.10)(webpack@5.104.1(@swc/core@1.16.20(@swc/helpers@0.5.23))))(react-dom@19.3.1(react@19.3.1))(react-router-dom@7.18.4(react-dom@19.3.1(react@19.3.1))(react@19.3.1))(react-router@7.18.4(react-dom@19.3.1(react@19.3.1))(react@19.3.1))(react@19.3.1)':
     dependencies:
-      '@module-federation/enhanced': 0.0.0-feat-bridge-route-navigation-20261029103538(@rspack/core@2.2.9(@module-federation/runtime-tools@0.0.0-feat-bridge-route-navigation-20261029103538)(@swc/helpers@0.5.23))(bufferutil@4.1.0)(typescript@5.7.3)(utf-8-validate@5.0.10)(webpack@5.104.1(@swc/core@1.16.20(@swc/helpers@0.5.23)))
-      '@module-federation/sdk': 0.0.0-feat-bridge-route-navigation-20261029103538
+      '@module-federation/bridge-shared': 0.0.0-feat-bridge-route-navigation-20261030085657
+      '@module-federation/enhanced': 0.0.0-feat-bridge-route-navigation-20261030085657(@rspack/core@2.2.9(@module-federation/runtime-tools@0.0.0-feat-bridge-route-navigation-20261030085657)(@swc/helpers@0.5.23))(bufferutil@4.1.0)(typescript@5.7.3)(utf-8-validate@5.0.10)(webpack@5.104.1(@swc/core@1.16.20(@swc/helpers@0.5.23)))
+      '@module-federation/sdk': 0.0.0-feat-bridge-route-navigation-20261030085657
       react: 19.3.1
       react-dom: 19.3.1(react@19.3.1)
     optionalDependencies:
       react-router: 7.18.4(react-dom@19.3.1(react@19.3.1))(react@19.3.1)
       react-router-dom: 7.18.4(react-dom@19.3.1(react@19.3.1))(react@19.3.1)
 
-  '@module-federation/bridge-react@0.0.0-feat-bridge-route-navigation-20261029103538(@module-federation/enhanced@0.0.0-feat-bridge-route-navigation-20261029103538(@rspack/core@2.2.9(@module-federation/runtime-tools@2.9.2)(@swc/helpers@0.5.23))(bufferutil@4.1.0)(typescript@5.9.3)(utf-8-validate@5.0.10)(webpack@5.104.1(@swc/core@1.16.18(@swc/helpers@0.5.23))))(react-dom@19.3.1(react@19.3.1))(react-router-dom@7.18.4(react-dom@19.3.1(react@19.3.1))(react@19.3.1))(react-router@7.18.4(react-dom@19.3.1(react@19.3.1))(react@19.3.1))(react@19.3.1)':
+  '@module-federation/bridge-react@0.0.0-feat-bridge-route-navigation-20261030085657(@module-federation/enhanced@0.0.0-feat-bridge-route-navigation-20261030085657(@rspack/core@2.2.9(@module-federation/runtime-tools@2.9.2)(@swc/helpers@0.5.23))(bufferutil@4.1.0)(typescript@5.9.3)(utf-8-validate@5.0.10)(webpack@5.104.1(@swc/core@1.16.18(@swc/helpers@0.5.23))))(react-dom@19.3.1(react@19.3.1))(react-router-dom@7.18.4(react-dom@19.3.1(react@19.3.1))(react@19.3.1))(react-router@7.18.4(react-dom@19.3.1(react@19.3.1))(react@19.3.1))(react@19.3.1)':
     dependencies:
-      '@module-federation/enhanced': 0.0.0-feat-bridge-route-navigation-20261029103538(@rspack/core@2.2.9(@module-federation/runtime-tools@2.9.2)(@swc/helpers@0.5.23))(bufferutil@4.1.0)(typescript@5.9.3)(utf-8-validate@5.0.10)(webpack@5.104.1(@swc/core@1.16.18(@swc/helpers@0.5.23)))
-      '@module-federation/sdk': 0.0.0-feat-bridge-route-navigation-20261029103538
+      '@module-federation/bridge-shared': 0.0.0-feat-bridge-route-navigation-20261030085657
+      '@module-federation/enhanced': 0.0.0-feat-bridge-route-navigation-20261030085657(@rspack/core@2.2.9(@module-federation/runtime-tools@2.9.2)(@swc/helpers@0.5.23))(bufferutil@4.1.0)(typescript@5.9.3)(utf-8-validate@5.0.10)(webpack@5.104.1(@swc/core@1.16.18(@swc/helpers@0.5.23)))
+      '@module-federation/sdk': 0.0.0-feat-bridge-route-navigation-20261030085657
       react: 19.3.1
       react-dom: 19.3.1(react@19.3.1)
     optionalDependencies:
       react-router: 7.18.4(react-dom@19.3.1(react@19.3.1))(react@19.3.1)
       react-router-dom: 7.18.4(react-dom@19.3.1(react@19.3.1))(react@19.3.1)
 
-  '@module-federation/bridge-react@0.0.0-feat-bridge-route-navigation-20261029103538(@module-federation/enhanced@0.0.0-feat-bridge-route-navigation-20261029103538(@rspack/core@2.2.9(@module-federation/runtime-tools@2.9.2)(@swc/helpers@0.5.23))(bufferutil@4.1.0)(typescript@5.9.3)(utf-8-validate@5.0.10)(webpack@5.104.1(@swc/core@1.16.20(@swc/helpers@0.5.23))(postcss@8.5.31)))(react-dom@19.2.8(react@19.2.8))(react-router-dom@7.16.0(react-dom@19.2.8(react@19.2.8))(react@19.2.8))(react-router@7.15.1(react-dom@19.2.8(react@19.2.8))(react@19.2.8))(react@19.2.8)':
+  '@module-federation/bridge-react@0.0.0-feat-bridge-route-navigation-20261030085657(@module-federation/enhanced@0.0.0-feat-bridge-route-navigation-20261030085657(@rspack/core@2.2.9(@module-federation/runtime-tools@2.9.2)(@swc/helpers@0.5.23))(bufferutil@4.1.0)(typescript@5.9.3)(utf-8-validate@5.0.10)(webpack@5.104.1(@swc/core@1.16.20(@swc/helpers@0.5.23))(postcss@8.5.31)))(react-dom@19.2.8(react@19.2.8))(react-router-dom@7.16.0(react-dom@19.2.8(react@19.2.8))(react@19.2.8))(react-router@7.15.1(react-dom@19.2.8(react@19.2.8))(react@19.2.8))(react@19.2.8)':
     dependencies:
-      '@module-federation/enhanced': 0.0.0-feat-bridge-route-navigation-20261029103538(@rspack/core@2.2.9(@module-federation/runtime-tools@2.9.2)(@swc/helpers@0.5.23))(bufferutil@4.1.0)(typescript@5.9.3)(utf-8-validate@5.0.10)(webpack@5.104.1(@swc/core@1.16.20(@swc/helpers@0.5.23))(postcss@8.5.31))
-      '@module-federation/sdk': 0.0.0-feat-bridge-route-navigation-20261029103538
+      '@module-federation/bridge-shared': 0.0.0-feat-bridge-route-navigation-20261030085657
+      '@module-federation/enhanced': 0.0.0-feat-bridge-route-navigation-20261030085657(@rspack/core@2.2.9(@module-federation/runtime-tools@2.9.2)(@swc/helpers@0.5.23))(bufferutil@4.1.0)(typescript@5.9.3)(utf-8-validate@5.0.10)(webpack@5.104.1(@swc/core@1.16.20(@swc/helpers@0.5.23))(postcss@8.5.31))
+      '@module-federation/sdk': 0.0.0-feat-bridge-route-navigation-20261030085657
       react: 19.2.8
       react-dom: 19.2.8(react@19.2.8)
     optionalDependencies:
       react-router: 7.15.1(react-dom@19.2.8(react@19.2.8))(react@19.2.8)
       react-router-dom: 7.16.0(react-dom@19.2.8(react@19.2.8))(react@19.2.8)
 
-  '@module-federation/bridge-react@0.0.0-feat-bridge-route-navigation-20261029103538(@module-federation/enhanced@0.0.0-feat-bridge-route-navigation-20261029103538(@rspack/core@2.2.9(@module-federation/runtime-tools@2.9.2)(@swc/helpers@0.5.23))(bufferutil@4.1.0)(typescript@5.9.3)(utf-8-validate@5.0.10)(webpack@5.104.1(@swc/core@1.16.20(@swc/helpers@0.5.23))(postcss@8.5.31)))(react-dom@19.2.8(react@19.2.8))(react-router-dom@7.16.0(react-dom@19.2.8(react@19.2.8))(react@19.2.8))(react-router@7.18.4(react-dom@19.2.8(react@19.2.8))(react@19.2.8))(react@19.2.8)':
+  '@module-federation/bridge-react@0.0.0-feat-bridge-route-navigation-20261030085657(@module-federation/enhanced@0.0.0-feat-bridge-route-navigation-20261030085657(@rspack/core@2.2.9(@module-federation/runtime-tools@2.9.2)(@swc/helpers@0.5.23))(bufferutil@4.1.0)(typescript@5.9.3)(utf-8-validate@5.0.10)(webpack@5.104.1(@swc/core@1.16.20(@swc/helpers@0.5.23))(postcss@8.5.31)))(react-dom@19.2.8(react@19.2.8))(react-router-dom@7.16.0(react-dom@19.2.8(react@19.2.8))(react@19.2.8))(react-router@7.18.4(react-dom@19.2.8(react@19.2.8))(react@19.2.8))(react@19.2.8)':
     dependencies:
-      '@module-federation/enhanced': 0.0.0-feat-bridge-route-navigation-20261029103538(@rspack/core@2.2.9(@module-federation/runtime-tools@2.9.2)(@swc/helpers@0.5.23))(bufferutil@4.1.0)(typescript@5.9.3)(utf-8-validate@5.0.10)(webpack@5.104.1(@swc/core@1.16.20(@swc/helpers@0.5.23))(postcss@8.5.31))
-      '@module-federation/sdk': 0.0.0-feat-bridge-route-navigation-20261029103538
+      '@module-federation/bridge-shared': 0.0.0-feat-bridge-route-navigation-20261030085657
+      '@module-federation/enhanced': 0.0.0-feat-bridge-route-navigation-20261030085657(@rspack/core@2.2.9(@module-federation/runtime-tools@2.9.2)(@swc/helpers@0.5.23))(bufferutil@4.1.0)(typescript@5.9.3)(utf-8-validate@5.0.10)(webpack@5.104.1(@swc/core@1.16.20(@swc/helpers@0.5.23))(postcss@8.5.31))
+      '@module-federation/sdk': 0.0.0-feat-bridge-route-navigation-20261030085657
       react: 19.2.8
       react-dom: 19.2.8(react@19.2.8)
     optionalDependencies:
       react-router: 7.18.4(react-dom@19.2.8(react@19.2.8))(react@19.2.8)
       react-router-dom: 7.16.0(react-dom@19.2.8(react@19.2.8))(react@19.2.8)
 
-  '@module-federation/bridge-react@0.0.0-feat-bridge-route-navigation-20261029103538(@module-federation/enhanced@0.0.0-feat-bridge-route-navigation-20261029103538(@rspack/core@2.2.9(@module-federation/runtime-tools@2.9.2)(@swc/helpers@0.5.23))(bufferutil@4.1.0)(typescript@5.9.3)(utf-8-validate@5.0.10)(webpack@5.104.1(@swc/core@1.16.20(@swc/helpers@0.5.23))(postcss@8.5.31)))(react-dom@19.2.8(react@19.2.8))(react-router-dom@7.18.4(react-dom@19.2.8(react@19.2.8))(react@19.2.8))(react-router@7.18.4(react-dom@19.2.8(react@19.2.8))(react@19.2.8))(react@19.2.8)':
+  '@module-federation/bridge-react@0.0.0-feat-bridge-route-navigation-20261030085657(@module-federation/enhanced@0.0.0-feat-bridge-route-navigation-20261030085657(@rspack/core@2.2.9(@module-federation/runtime-tools@2.9.2)(@swc/helpers@0.5.23))(bufferutil@4.1.0)(typescript@5.9.3)(utf-8-validate@5.0.10)(webpack@5.104.1(@swc/core@1.16.20(@swc/helpers@0.5.23))(postcss@8.5.31)))(react-dom@19.2.8(react@19.2.8))(react-router-dom@7.18.4(react-dom@19.2.8(react@19.2.8))(react@19.2.8))(react-router@7.18.4(react-dom@19.2.8(react@19.2.8))(react@19.2.8))(react@19.2.8)':
     dependencies:
-      '@module-federation/enhanced': 0.0.0-feat-bridge-route-navigation-20261029103538(@rspack/core@2.2.9(@module-federation/runtime-tools@2.9.2)(@swc/helpers@0.5.23))(bufferutil@4.1.0)(typescript@5.9.3)(utf-8-validate@5.0.10)(webpack@5.104.1(@swc/core@1.16.20(@swc/helpers@0.5.23))(postcss@8.5.31))
-      '@module-federation/sdk': 0.0.0-feat-bridge-route-navigation-20261029103538
+      '@module-federation/bridge-shared': 0.0.0-feat-bridge-route-navigation-20261030085657
+      '@module-federation/enhanced': 0.0.0-feat-bridge-route-navigation-20261030085657(@rspack/core@2.2.9(@module-federation/runtime-tools@2.9.2)(@swc/helpers@0.5.23))(bufferutil@4.1.0)(typescript@5.9.3)(utf-8-validate@5.0.10)(webpack@5.104.1(@swc/core@1.16.20(@swc/helpers@0.5.23))(postcss@8.5.31))
+      '@module-federation/sdk': 0.0.0-feat-bridge-route-navigation-20261030085657
       react: 19.2.8
       react-dom: 19.2.8(react@19.2.8)
     optionalDependencies:
       react-router: 7.18.4(react-dom@19.2.8(react@19.2.8))(react@19.2.8)
       react-router-dom: 7.18.4(react-dom@19.2.8(react@19.2.8))(react@19.2.8)
 
-  '@module-federation/bridge-react@0.0.0-feat-bridge-route-navigation-20261029103538(@module-federation/enhanced@0.0.0-feat-bridge-route-navigation-20261029103538(@rspack/core@2.2.9(@module-federation/runtime-tools@2.9.2)(@swc/helpers@0.5.23))(bufferutil@4.1.0)(typescript@5.9.3)(utf-8-validate@5.0.10)(webpack@5.104.1(@swc/core@1.16.20(@swc/helpers@0.5.23))))(react-dom@19.3.1(react@19.3.1))(react-router-dom@7.18.4(react-dom@19.3.1(react@19.3.1))(react@19.3.1))(react-router@7.18.4(react-dom@19.3.1(react@19.3.1))(react@19.3.1))(react@19.3.1)':
+  '@module-federation/bridge-react@0.0.0-feat-bridge-route-navigation-20261030085657(@module-federation/enhanced@0.0.0-feat-bridge-route-navigation-20261030085657(@rspack/core@2.2.9(@module-federation/runtime-tools@2.9.2)(@swc/helpers@0.5.23))(bufferutil@4.1.0)(typescript@5.9.3)(utf-8-validate@5.0.10)(webpack@5.104.1(@swc/core@1.16.20(@swc/helpers@0.5.23))))(react-dom@19.3.1(react@19.3.1))(react-router-dom@7.18.4(react-dom@19.3.1(react@19.3.1))(react@19.3.1))(react-router@7.18.4(react-dom@19.3.1(react@19.3.1))(react@19.3.1))(react@19.3.1)':
     dependencies:
-      '@module-federation/enhanced': 0.0.0-feat-bridge-route-navigation-20261029103538(@rspack/core@2.2.9(@module-federation/runtime-tools@2.9.2)(@swc/helpers@0.5.23))(bufferutil@4.1.0)(typescript@5.9.3)(utf-8-validate@5.0.10)(webpack@5.104.1(@swc/core@1.16.20(@swc/helpers@0.5.23)))
-      '@module-federation/sdk': 0.0.0-feat-bridge-route-navigation-20261029103538
+      '@module-federation/bridge-shared': 0.0.0-feat-bridge-route-navigation-20261030085657
+      '@module-federation/enhanced': 0.0.0-feat-bridge-route-navigation-20261030085657(@rspack/core@2.2.9(@module-federation/runtime-tools@2.9.2)(@swc/helpers@0.5.23))(bufferutil@4.1.0)(typescript@5.9.3)(utf-8-validate@5.0.10)(webpack@5.104.1(@swc/core@1.16.20(@swc/helpers@0.5.23)))
+      '@module-federation/sdk': 0.0.0-feat-bridge-route-navigation-20261030085657
       react: 19.3.1
       react-dom: 19.3.1(react@19.3.1)
     optionalDependencies:
@@ -21229,12 +21238,14 @@ snapshots:
       react-router: 7.18.4(react-dom@19.3.1(react@19.3.1))(react@19.3.1)
       react-router-dom: 7.18.4(react-dom@19.3.1(react@19.3.1))(react@19.3.1)
 
+  '@module-federation/bridge-shared@0.0.0-feat-bridge-route-navigation-20261030085657': {}
+
   '@module-federation/bridge-shared@2.0.0': {}
 
-  '@module-federation/cli@0.0.0-feat-bridge-route-navigation-20261029103538(bufferutil@4.1.0)(typescript@5.7.3)(utf-8-validate@5.0.10)':
+  '@module-federation/cli@0.0.0-feat-bridge-route-navigation-20261030085657(bufferutil@4.1.0)(typescript@5.7.3)(utf-8-validate@5.0.10)':
     dependencies:
-      '@module-federation/dts-plugin': 0.0.0-feat-bridge-route-navigation-20261029103538(bufferutil@4.1.0)(typescript@5.7.3)(utf-8-validate@5.0.10)
-      '@module-federation/sdk': 0.0.0-feat-bridge-route-navigation-20261029103538
+      '@module-federation/dts-plugin': 0.0.0-feat-bridge-route-navigation-20261030085657(bufferutil@4.1.0)(typescript@5.7.3)(utf-8-validate@5.0.10)
+      '@module-federation/sdk': 0.0.0-feat-bridge-route-navigation-20261030085657
       commander: 11.1.0
       jiti: 2.4.2
     transitivePeerDependencies:
@@ -21243,10 +21254,10 @@ snapshots:
       - utf-8-validate
       - vue-tsc
 
-  '@module-federation/cli@0.0.0-feat-bridge-route-navigation-20261029103538(bufferutil@4.1.0)(typescript@5.9.3)(utf-8-validate@5.0.10)':
+  '@module-federation/cli@0.0.0-feat-bridge-route-navigation-20261030085657(bufferutil@4.1.0)(typescript@5.9.3)(utf-8-validate@5.0.10)':
     dependencies:
-      '@module-federation/dts-plugin': 0.0.0-feat-bridge-route-navigation-20261029103538(bufferutil@4.1.0)(typescript@5.9.3)(utf-8-validate@5.0.10)
-      '@module-federation/sdk': 0.0.0-feat-bridge-route-navigation-20261029103538
+      '@module-federation/dts-plugin': 0.0.0-feat-bridge-route-navigation-20261030085657(bufferutil@4.1.0)(typescript@5.9.3)(utf-8-validate@5.0.10)
+      '@module-federation/sdk': 0.0.0-feat-bridge-route-navigation-20261030085657
       commander: 11.1.0
       jiti: 2.4.2
     transitivePeerDependencies:
@@ -21291,12 +21302,12 @@ snapshots:
       react: 19.3.1
       react-dom: 19.3.1(react@19.3.1)
 
-  '@module-federation/dts-plugin@0.0.0-feat-bridge-route-navigation-20261029103538(bufferutil@4.1.0)(typescript@5.7.3)(utf-8-validate@5.0.10)':
+  '@module-federation/dts-plugin@0.0.0-feat-bridge-route-navigation-20261030085657(bufferutil@4.1.0)(typescript@5.7.3)(utf-8-validate@5.0.10)':
     dependencies:
-      '@module-federation/error-codes': 0.0.0-feat-bridge-route-navigation-20261029103538
-      '@module-federation/managers': 0.0.0-feat-bridge-route-navigation-20261029103538
-      '@module-federation/sdk': 0.0.0-feat-bridge-route-navigation-20261029103538
-      '@module-federation/third-party-dts-extractor': 0.0.0-feat-bridge-route-navigation-20261029103538
+      '@module-federation/error-codes': 0.0.0-feat-bridge-route-navigation-20261030085657
+      '@module-federation/managers': 0.0.0-feat-bridge-route-navigation-20261030085657
+      '@module-federation/sdk': 0.0.0-feat-bridge-route-navigation-20261030085657
+      '@module-federation/third-party-dts-extractor': 0.0.0-feat-bridge-route-navigation-20261030085657
       adm-zip: 0.6.1
       isomorphic-ws: 5.0.0(ws@8.21.3(bufferutil@4.1.0)(utf-8-validate@5.0.10))
       typescript: 5.7.3
@@ -21306,12 +21317,12 @@ snapshots:
       - bufferutil
       - utf-8-validate
 
-  '@module-federation/dts-plugin@0.0.0-feat-bridge-route-navigation-20261029103538(bufferutil@4.1.0)(typescript@5.9.3)(utf-8-validate@5.0.10)':
+  '@module-federation/dts-plugin@0.0.0-feat-bridge-route-navigation-20261030085657(bufferutil@4.1.0)(typescript@5.9.3)(utf-8-validate@5.0.10)':
     dependencies:
-      '@module-federation/error-codes': 0.0.0-feat-bridge-route-navigation-20261029103538
-      '@module-federation/managers': 0.0.0-feat-bridge-route-navigation-20261029103538
-      '@module-federation/sdk': 0.0.0-feat-bridge-route-navigation-20261029103538
-      '@module-federation/third-party-dts-extractor': 0.0.0-feat-bridge-route-navigation-20261029103538
+      '@module-federation/error-codes': 0.0.0-feat-bridge-route-navigation-20261030085657
+      '@module-federation/managers': 0.0.0-feat-bridge-route-navigation-20261030085657
+      '@module-federation/sdk': 0.0.0-feat-bridge-route-navigation-20261030085657
+      '@module-federation/third-party-dts-extractor': 0.0.0-feat-bridge-route-navigation-20261030085657
       adm-zip: 0.6.1
       isomorphic-ws: 5.0.0(ws@8.21.3(bufferutil@4.1.0)(utf-8-validate@5.0.10))
       typescript: 5.9.3
@@ -21361,19 +21372,19 @@ snapshots:
       - bufferutil
       - utf-8-validate
 
-  '@module-federation/enhanced@0.0.0-feat-bridge-route-navigation-20261029103538(@rspack/core@2.2.9(@module-federation/runtime-tools@0.0.0-feat-bridge-route-navigation-20261029103538)(@swc/helpers@0.5.23))(bufferutil@4.1.0)(typescript@5.7.3)(utf-8-validate@5.0.10)(webpack@5.104.1(@swc/core@1.16.20(@swc/helpers@0.5.23)))':
+  '@module-federation/enhanced@0.0.0-feat-bridge-route-navigation-20261030085657(@rspack/core@2.2.9(@module-federation/runtime-tools@0.0.0-feat-bridge-route-navigation-20261030085657)(@swc/helpers@0.5.23))(bufferutil@4.1.0)(typescript@5.7.3)(utf-8-validate@5.0.10)(webpack@5.104.1(@swc/core@1.16.20(@swc/helpers@0.5.23)))':
     dependencies:
-      '@module-federation/bridge-react-webpack-plugin': 0.0.0-feat-bridge-route-navigation-20261029103538
-      '@module-federation/cli': 0.0.0-feat-bridge-route-navigation-20261029103538(bufferutil@4.1.0)(typescript@5.7.3)(utf-8-validate@5.0.10)
-      '@module-federation/dts-plugin': 0.0.0-feat-bridge-route-navigation-20261029103538(bufferutil@4.1.0)(typescript@5.7.3)(utf-8-validate@5.0.10)
-      '@module-federation/error-codes': 0.0.0-feat-bridge-route-navigation-20261029103538
-      '@module-federation/inject-external-runtime-core-plugin': 0.0.0-feat-bridge-route-navigation-20261029103538(@module-federation/runtime-tools@0.0.0-feat-bridge-route-navigation-20261029103538)
-      '@module-federation/managers': 0.0.0-feat-bridge-route-navigation-20261029103538
-      '@module-federation/manifest': 0.0.0-feat-bridge-route-navigation-20261029103538(bufferutil@4.1.0)(typescript@5.7.3)(utf-8-validate@5.0.10)
-      '@module-federation/rspack': 0.0.0-feat-bridge-route-navigation-20261029103538(@rspack/core@2.2.9(@module-federation/runtime-tools@0.0.0-feat-bridge-route-navigation-20261029103538)(@swc/helpers@0.5.23))(bufferutil@4.1.0)(typescript@5.7.3)(utf-8-validate@5.0.10)
-      '@module-federation/runtime-tools': 0.0.0-feat-bridge-route-navigation-20261029103538
-      '@module-federation/sdk': 0.0.0-feat-bridge-route-navigation-20261029103538
-      '@module-federation/webpack-bundler-runtime': 0.0.0-feat-bridge-route-navigation-20261029103538
+      '@module-federation/bridge-react-webpack-plugin': 0.0.0-feat-bridge-route-navigation-20261030085657
+      '@module-federation/cli': 0.0.0-feat-bridge-route-navigation-20261030085657(bufferutil@4.1.0)(typescript@5.7.3)(utf-8-validate@5.0.10)
+      '@module-federation/dts-plugin': 0.0.0-feat-bridge-route-navigation-20261030085657(bufferutil@4.1.0)(typescript@5.7.3)(utf-8-validate@5.0.10)
+      '@module-federation/error-codes': 0.0.0-feat-bridge-route-navigation-20261030085657
+      '@module-federation/inject-external-runtime-core-plugin': 0.0.0-feat-bridge-route-navigation-20261030085657(@module-federation/runtime-tools@0.0.0-feat-bridge-route-navigation-20261030085657)
+      '@module-federation/managers': 0.0.0-feat-bridge-route-navigation-20261030085657
+      '@module-federation/manifest': 0.0.0-feat-bridge-route-navigation-20261030085657(bufferutil@4.1.0)(typescript@5.7.3)(utf-8-validate@5.0.10)
+      '@module-federation/rspack': 0.0.0-feat-bridge-route-navigation-20261030085657(@rspack/core@2.2.9(@module-federation/runtime-tools@0.0.0-feat-bridge-route-navigation-20261030085657)(@swc/helpers@0.5.23))(bufferutil@4.1.0)(typescript@5.7.3)(utf-8-validate@5.0.10)
+      '@module-federation/runtime-tools': 0.0.0-feat-bridge-route-navigation-20261030085657
+      '@module-federation/sdk': 0.0.0-feat-bridge-route-navigation-20261030085657
+      '@module-federation/webpack-bundler-runtime': 0.0.0-feat-bridge-route-navigation-20261030085657
       schema-utils: 4.5.0
       tapable: 2.3.0
     optionalDependencies:
@@ -21384,19 +21395,19 @@ snapshots:
       - bufferutil
       - utf-8-validate
 
-  '@module-federation/enhanced@0.0.0-feat-bridge-route-navigation-20261029103538(@rspack/core@2.2.9(@module-federation/runtime-tools@2.9.2)(@swc/helpers@0.5.23))(bufferutil@4.1.0)(typescript@5.9.3)(utf-8-validate@5.0.10)(webpack@5.104.1(@swc/core@1.16.18(@swc/helpers@0.5.23)))':
+  '@module-federation/enhanced@0.0.0-feat-bridge-route-navigation-20261030085657(@rspack/core@2.2.9(@module-federation/runtime-tools@2.9.2)(@swc/helpers@0.5.23))(bufferutil@4.1.0)(typescript@5.9.3)(utf-8-validate@5.0.10)(webpack@5.104.1(@swc/core@1.16.18(@swc/helpers@0.5.23)))':
     dependencies:
-      '@module-federation/bridge-react-webpack-plugin': 0.0.0-feat-bridge-route-navigation-20261029103538
-      '@module-federation/cli': 0.0.0-feat-bridge-route-navigation-20261029103538(bufferutil@4.1.0)(typescript@5.9.3)(utf-8-validate@5.0.10)
-      '@module-federation/dts-plugin': 0.0.0-feat-bridge-route-navigation-20261029103538(bufferutil@4.1.0)(typescript@5.9.3)(utf-8-validate@5.0.10)
-      '@module-federation/error-codes': 0.0.0-feat-bridge-route-navigation-20261029103538
-      '@module-federation/inject-external-runtime-core-plugin': 0.0.0-feat-bridge-route-navigation-20261029103538(@module-federation/runtime-tools@0.0.0-feat-bridge-route-navigation-20261029103538)
-      '@module-federation/managers': 0.0.0-feat-bridge-route-navigation-20261029103538
-      '@module-federation/manifest': 0.0.0-feat-bridge-route-navigation-20261029103538(bufferutil@4.1.0)(typescript@5.9.3)(utf-8-validate@5.0.10)
-      '@module-federation/rspack': 0.0.0-feat-bridge-route-navigation-20261029103538(@rspack/core@2.2.9(@module-federation/runtime-tools@2.9.2)(@swc/helpers@0.5.23))(bufferutil@4.1.0)(typescript@5.9.3)(utf-8-validate@5.0.10)
-      '@module-federation/runtime-tools': 0.0.0-feat-bridge-route-navigation-20261029103538
-      '@module-federation/sdk': 0.0.0-feat-bridge-route-navigation-20261029103538
-      '@module-federation/webpack-bundler-runtime': 0.0.0-feat-bridge-route-navigation-20261029103538
+      '@module-federation/bridge-react-webpack-plugin': 0.0.0-feat-bridge-route-navigation-20261030085657
+      '@module-federation/cli': 0.0.0-feat-bridge-route-navigation-20261030085657(bufferutil@4.1.0)(typescript@5.9.3)(utf-8-validate@5.0.10)
+      '@module-federation/dts-plugin': 0.0.0-feat-bridge-route-navigation-20261030085657(bufferutil@4.1.0)(typescript@5.9.3)(utf-8-validate@5.0.10)
+      '@module-federation/error-codes': 0.0.0-feat-bridge-route-navigation-20261030085657
+      '@module-federation/inject-external-runtime-core-plugin': 0.0.0-feat-bridge-route-navigation-20261030085657(@module-federation/runtime-tools@0.0.0-feat-bridge-route-navigation-20261030085657)
+      '@module-federation/managers': 0.0.0-feat-bridge-route-navigation-20261030085657
+      '@module-federation/manifest': 0.0.0-feat-bridge-route-navigation-20261030085657(bufferutil@4.1.0)(typescript@5.9.3)(utf-8-validate@5.0.10)
+      '@module-federation/rspack': 0.0.0-feat-bridge-route-navigation-20261030085657(@rspack/core@2.2.9(@module-federation/runtime-tools@2.9.2)(@swc/helpers@0.5.23))(bufferutil@4.1.0)(typescript@5.9.3)(utf-8-validate@5.0.10)
+      '@module-federation/runtime-tools': 0.0.0-feat-bridge-route-navigation-20261030085657
+      '@module-federation/sdk': 0.0.0-feat-bridge-route-navigation-20261030085657
+      '@module-federation/webpack-bundler-runtime': 0.0.0-feat-bridge-route-navigation-20261030085657
       schema-utils: 4.5.0
       tapable: 2.3.0
     optionalDependencies:
@@ -21407,19 +21418,19 @@ snapshots:
       - bufferutil
       - utf-8-validate
 
-  '@module-federation/enhanced@0.0.0-feat-bridge-route-navigation-20261029103538(@rspack/core@2.2.9(@module-federation/runtime-tools@2.9.2)(@swc/helpers@0.5.23))(bufferutil@4.1.0)(typescript@5.9.3)(utf-8-validate@5.0.10)(webpack@5.104.1(@swc/core@1.16.20(@swc/helpers@0.5.23))(postcss@8.5.31))':
+  '@module-federation/enhanced@0.0.0-feat-bridge-route-navigation-20261030085657(@rspack/core@2.2.9(@module-federation/runtime-tools@2.9.2)(@swc/helpers@0.5.23))(bufferutil@4.1.0)(typescript@5.9.3)(utf-8-validate@5.0.10)(webpack@5.104.1(@swc/core@1.16.20(@swc/helpers@0.5.23))(postcss@8.5.31))':
     dependencies:
-      '@module-federation/bridge-react-webpack-plugin': 0.0.0-feat-bridge-route-navigation-20261029103538
-      '@module-federation/cli': 0.0.0-feat-bridge-route-navigation-20261029103538(bufferutil@4.1.0)(typescript@5.9.3)(utf-8-validate@5.0.10)
-      '@module-federation/dts-plugin': 0.0.0-feat-bridge-route-navigation-20261029103538(bufferutil@4.1.0)(typescript@5.9.3)(utf-8-validate@5.0.10)
-      '@module-federation/error-codes': 0.0.0-feat-bridge-route-navigation-20261029103538
-      '@module-federation/inject-external-runtime-core-plugin': 0.0.0-feat-bridge-route-navigation-20261029103538(@module-federation/runtime-tools@0.0.0-feat-bridge-route-navigation-20261029103538)
-      '@module-federation/managers': 0.0.0-feat-bridge-route-navigation-20261029103538
-      '@module-federation/manifest': 0.0.0-feat-bridge-route-navigation-20261029103538(bufferutil@4.1.0)(typescript@5.9.3)(utf-8-validate@5.0.10)
-      '@module-federation/rspack': 0.0.0-feat-bridge-route-navigation-20261029103538(@rspack/core@2.2.9(@module-federation/runtime-tools@2.9.2)(@swc/helpers@0.5.23))(bufferutil@4.1.0)(typescript@5.9.3)(utf-8-validate@5.0.10)
-      '@module-federation/runtime-tools': 0.0.0-feat-bridge-route-navigation-20261029103538
-      '@module-federation/sdk': 0.0.0-feat-bridge-route-navigation-20261029103538
-      '@module-federation/webpack-bundler-runtime': 0.0.0-feat-bridge-route-navigation-20261029103538
+      '@module-federation/bridge-react-webpack-plugin': 0.0.0-feat-bridge-route-navigation-20261030085657
+      '@module-federation/cli': 0.0.0-feat-bridge-route-navigation-20261030085657(bufferutil@4.1.0)(typescript@5.9.3)(utf-8-validate@5.0.10)
+      '@module-federation/dts-plugin': 0.0.0-feat-bridge-route-navigation-20261030085657(bufferutil@4.1.0)(typescript@5.9.3)(utf-8-validate@5.0.10)
+      '@module-federation/error-codes': 0.0.0-feat-bridge-route-navigation-20261030085657
+      '@module-federation/inject-external-runtime-core-plugin': 0.0.0-feat-bridge-route-navigation-20261030085657(@module-federation/runtime-tools@0.0.0-feat-bridge-route-navigation-20261030085657)
+      '@module-federation/managers': 0.0.0-feat-bridge-route-navigation-20261030085657
+      '@module-federation/manifest': 0.0.0-feat-bridge-route-navigation-20261030085657(bufferutil@4.1.0)(typescript@5.9.3)(utf-8-validate@5.0.10)
+      '@module-federation/rspack': 0.0.0-feat-bridge-route-navigation-20261030085657(@rspack/core@2.2.9(@module-federation/runtime-tools@2.9.2)(@swc/helpers@0.5.23))(bufferutil@4.1.0)(typescript@5.9.3)(utf-8-validate@5.0.10)
+      '@module-federation/runtime-tools': 0.0.0-feat-bridge-route-navigation-20261030085657
+      '@module-federation/sdk': 0.0.0-feat-bridge-route-navigation-20261030085657
+      '@module-federation/webpack-bundler-runtime': 0.0.0-feat-bridge-route-navigation-20261030085657
       schema-utils: 4.5.0
       tapable: 2.3.0
     optionalDependencies:
@@ -21430,19 +21441,19 @@ snapshots:
       - bufferutil
       - utf-8-validate
 
-  '@module-federation/enhanced@0.0.0-feat-bridge-route-navigation-20261029103538(@rspack/core@2.2.9(@module-federation/runtime-tools@2.9.2)(@swc/helpers@0.5.23))(bufferutil@4.1.0)(typescript@5.9.3)(utf-8-validate@5.0.10)(webpack@5.104.1(@swc/core@1.16.20(@swc/helpers@0.5.23)))':
+  '@module-federation/enhanced@0.0.0-feat-bridge-route-navigation-20261030085657(@rspack/core@2.2.9(@module-federation/runtime-tools@2.9.2)(@swc/helpers@0.5.23))(bufferutil@4.1.0)(typescript@5.9.3)(utf-8-validate@5.0.10)(webpack@5.104.1(@swc/core@1.16.20(@swc/helpers@0.5.23)))':
     dependencies:
-      '@module-federation/bridge-react-webpack-plugin': 0.0.0-feat-bridge-route-navigation-20261029103538
-      '@module-federation/cli': 0.0.0-feat-bridge-route-navigation-20261029103538(bufferutil@4.1.0)(typescript@5.9.3)(utf-8-validate@5.0.10)
-      '@module-federation/dts-plugin': 0.0.0-feat-bridge-route-navigation-20261029103538(bufferutil@4.1.0)(typescript@5.9.3)(utf-8-validate@5.0.10)
-      '@module-federation/error-codes': 0.0.0-feat-bridge-route-navigation-20261029103538
-      '@module-federation/inject-external-runtime-core-plugin': 0.0.0-feat-bridge-route-navigation-20261029103538(@module-federation/runtime-tools@0.0.0-feat-bridge-route-navigation-20261029103538)
-      '@module-federation/managers': 0.0.0-feat-bridge-route-navigation-20261029103538
-      '@module-federation/manifest': 0.0.0-feat-bridge-route-navigation-20261029103538(bufferutil@4.1.0)(typescript@5.9.3)(utf-8-validate@5.0.10)
-      '@module-federation/rspack': 0.0.0-feat-bridge-route-navigation-20261029103538(@rspack/core@2.2.9(@module-federation/runtime-tools@2.9.2)(@swc/helpers@0.5.23))(bufferutil@4.1.0)(typescript@5.9.3)(utf-8-validate@5.0.10)
-      '@module-federation/runtime-tools': 0.0.0-feat-bridge-route-navigation-20261029103538
-      '@module-federation/sdk': 0.0.0-feat-bridge-route-navigation-20261029103538
-      '@module-federation/webpack-bundler-runtime': 0.0.0-feat-bridge-route-navigation-20261029103538
+      '@module-federation/bridge-react-webpack-plugin': 0.0.0-feat-bridge-route-navigation-20261030085657
+      '@module-federation/cli': 0.0.0-feat-bridge-route-navigation-20261030085657(bufferutil@4.1.0)(typescript@5.9.3)(utf-8-validate@5.0.10)
+      '@module-federation/dts-plugin': 0.0.0-feat-bridge-route-navigation-20261030085657(bufferutil@4.1.0)(typescript@5.9.3)(utf-8-validate@5.0.10)
+      '@module-federation/error-codes': 0.0.0-feat-bridge-route-navigation-20261030085657
+      '@module-federation/inject-external-runtime-core-plugin': 0.0.0-feat-bridge-route-navigation-20261030085657(@module-federation/runtime-tools@0.0.0-feat-bridge-route-navigation-20261030085657)
+      '@module-federation/managers': 0.0.0-feat-bridge-route-navigation-20261030085657
+      '@module-federation/manifest': 0.0.0-feat-bridge-route-navigation-20261030085657(bufferutil@4.1.0)(typescript@5.9.3)(utf-8-validate@5.0.10)
+      '@module-federation/rspack': 0.0.0-feat-bridge-route-navigation-20261030085657(@rspack/core@2.2.9(@module-federation/runtime-tools@2.9.2)(@swc/helpers@0.5.23))(bufferutil@4.1.0)(typescript@5.9.3)(utf-8-validate@5.0.10)
+      '@module-federation/runtime-tools': 0.0.0-feat-bridge-route-navigation-20261030085657
+      '@module-federation/sdk': 0.0.0-feat-bridge-route-navigation-20261030085657
+      '@module-federation/webpack-bundler-runtime': 0.0.0-feat-bridge-route-navigation-20261030085657
       schema-utils: 4.5.0
       tapable: 2.3.0
     optionalDependencies:
@@ -21532,15 +21543,15 @@ snapshots:
       - bufferutil
       - utf-8-validate
 
-  '@module-federation/error-codes@0.0.0-feat-bridge-route-navigation-20261029103538': {}
+  '@module-federation/error-codes@0.0.0-feat-bridge-route-navigation-20261030085657': {}
 
   '@module-federation/error-codes@2.0.0': {}
 
   '@module-federation/error-codes@2.9.2': {}
 
-  '@module-federation/inject-external-runtime-core-plugin@0.0.0-feat-bridge-route-navigation-20261029103538(@module-federation/runtime-tools@0.0.0-feat-bridge-route-navigation-20261029103538)':
+  '@module-federation/inject-external-runtime-core-plugin@0.0.0-feat-bridge-route-navigation-20261030085657(@module-federation/runtime-tools@0.0.0-feat-bridge-route-navigation-20261030085657)':
     dependencies:
-      '@module-federation/runtime-tools': 0.0.0-feat-bridge-route-navigation-20261029103538
+      '@module-federation/runtime-tools': 0.0.0-feat-bridge-route-navigation-20261030085657
 
   '@module-federation/inject-external-runtime-core-plugin@2.0.0(@module-federation/runtime-tools@2.0.0)':
     dependencies:
@@ -21550,9 +21561,9 @@ snapshots:
     dependencies:
       '@module-federation/runtime-tools': 2.9.2
 
-  '@module-federation/managers@0.0.0-feat-bridge-route-navigation-20261029103538':
+  '@module-federation/managers@0.0.0-feat-bridge-route-navigation-20261030085657':
     dependencies:
-      '@module-federation/sdk': 0.0.0-feat-bridge-route-navigation-20261029103538
+      '@module-federation/sdk': 0.0.0-feat-bridge-route-navigation-20261030085657
 
   '@module-federation/managers@2.0.0':
     dependencies:
@@ -21564,24 +21575,24 @@ snapshots:
     dependencies:
       '@module-federation/sdk': 2.9.2
 
-  '@module-federation/manifest@0.0.0-feat-bridge-route-navigation-20261029103538(bufferutil@4.1.0)(typescript@5.7.3)(utf-8-validate@5.0.10)':
+  '@module-federation/manifest@0.0.0-feat-bridge-route-navigation-20261030085657(bufferutil@4.1.0)(typescript@5.7.3)(utf-8-validate@5.0.10)':
     dependencies:
       '@babel/parser': 7.29.9
-      '@module-federation/dts-plugin': 0.0.0-feat-bridge-route-navigation-20261029103538(bufferutil@4.1.0)(typescript@5.7.3)(utf-8-validate@5.0.10)
-      '@module-federation/managers': 0.0.0-feat-bridge-route-navigation-20261029103538
-      '@module-federation/sdk': 0.0.0-feat-bridge-route-navigation-20261029103538
+      '@module-federation/dts-plugin': 0.0.0-feat-bridge-route-navigation-20261030085657(bufferutil@4.1.0)(typescript@5.7.3)(utf-8-validate@5.0.10)
+      '@module-federation/managers': 0.0.0-feat-bridge-route-navigation-20261030085657
+      '@module-federation/sdk': 0.0.0-feat-bridge-route-navigation-20261030085657
     transitivePeerDependencies:
       - bufferutil
       - typescript
       - utf-8-validate
       - vue-tsc
 
-  '@module-federation/manifest@0.0.0-feat-bridge-route-navigation-20261029103538(bufferutil@4.1.0)(typescript@5.9.3)(utf-8-validate@5.0.10)':
+  '@module-federation/manifest@0.0.0-feat-bridge-route-navigation-20261030085657(bufferutil@4.1.0)(typescript@5.9.3)(utf-8-validate@5.0.10)':
     dependencies:
       '@babel/parser': 7.29.9
-      '@module-federation/dts-plugin': 0.0.0-feat-bridge-route-navigation-20261029103538(bufferutil@4.1.0)(typescript@5.9.3)(utf-8-validate@5.0.10)
-      '@module-federation/managers': 0.0.0-feat-bridge-route-navigation-20261029103538
-      '@module-federation/sdk': 0.0.0-feat-bridge-route-navigation-20261029103538
+      '@module-federation/dts-plugin': 0.0.0-feat-bridge-route-navigation-20261030085657(bufferutil@4.1.0)(typescript@5.9.3)(utf-8-validate@5.0.10)
+      '@module-federation/managers': 0.0.0-feat-bridge-route-navigation-20261030085657
+      '@module-federation/sdk': 0.0.0-feat-bridge-route-navigation-20261030085657
     transitivePeerDependencies:
       - bufferutil
       - typescript
@@ -21698,11 +21709,11 @@ snapshots:
       - utf-8-validate
       - webpack
 
-  '@module-federation/node@0.0.0-feat-bridge-route-navigation-20261029103538(@rspack/core@2.2.9(@module-federation/runtime-tools@0.0.0-feat-bridge-route-navigation-20261029103538)(@swc/helpers@0.5.23))(bufferutil@4.1.0)(typescript@5.7.3)(utf-8-validate@5.0.10)(webpack@5.104.1(@swc/core@1.16.20(@swc/helpers@0.5.23)))':
+  '@module-federation/node@0.0.0-feat-bridge-route-navigation-20261030085657(@rspack/core@2.2.9(@module-federation/runtime-tools@0.0.0-feat-bridge-route-navigation-20261030085657)(@swc/helpers@0.5.23))(bufferutil@4.1.0)(typescript@5.7.3)(utf-8-validate@5.0.10)(webpack@5.104.1(@swc/core@1.16.20(@swc/helpers@0.5.23)))':
     dependencies:
-      '@module-federation/enhanced': 0.0.0-feat-bridge-route-navigation-20261029103538(@rspack/core@2.2.9(@module-federation/runtime-tools@0.0.0-feat-bridge-route-navigation-20261029103538)(@swc/helpers@0.5.23))(bufferutil@4.1.0)(typescript@5.7.3)(utf-8-validate@5.0.10)(webpack@5.104.1(@swc/core@1.16.20(@swc/helpers@0.5.23)))
-      '@module-federation/runtime': 0.0.0-feat-bridge-route-navigation-20261029103538
-      '@module-federation/sdk': 0.0.0-feat-bridge-route-navigation-20261029103538
+      '@module-federation/enhanced': 0.0.0-feat-bridge-route-navigation-20261030085657(@rspack/core@2.2.9(@module-federation/runtime-tools@0.0.0-feat-bridge-route-navigation-20261030085657)(@swc/helpers@0.5.23))(bufferutil@4.1.0)(typescript@5.7.3)(utf-8-validate@5.0.10)(webpack@5.104.1(@swc/core@1.16.20(@swc/helpers@0.5.23)))
+      '@module-federation/runtime': 0.0.0-feat-bridge-route-navigation-20261030085657
+      '@module-federation/sdk': 0.0.0-feat-bridge-route-navigation-20261030085657
       encoding: 0.1.13
       node-fetch: 2.7.0(encoding@0.1.13)
       tapable: 2.3.0
@@ -21715,11 +21726,11 @@ snapshots:
       - utf-8-validate
       - vue-tsc
 
-  '@module-federation/node@0.0.0-feat-bridge-route-navigation-20261029103538(@rspack/core@2.2.9(@module-federation/runtime-tools@2.9.2)(@swc/helpers@0.5.23))(bufferutil@4.1.0)(typescript@5.9.3)(utf-8-validate@5.0.10)(webpack@5.104.1(@swc/core@1.16.20(@swc/helpers@0.5.23)))':
+  '@module-federation/node@0.0.0-feat-bridge-route-navigation-20261030085657(@rspack/core@2.2.9(@module-federation/runtime-tools@2.9.2)(@swc/helpers@0.5.23))(bufferutil@4.1.0)(typescript@5.9.3)(utf-8-validate@5.0.10)(webpack@5.104.1(@swc/core@1.16.20(@swc/helpers@0.5.23)))':
     dependencies:
-      '@module-federation/enhanced': 0.0.0-feat-bridge-route-navigation-20261029103538(@rspack/core@2.2.9(@module-federation/runtime-tools@2.9.2)(@swc/helpers@0.5.23))(bufferutil@4.1.0)(typescript@5.9.3)(utf-8-validate@5.0.10)(webpack@5.104.1(@swc/core@1.16.20(@swc/helpers@0.5.23)))
-      '@module-federation/runtime': 0.0.0-feat-bridge-route-navigation-20261029103538
-      '@module-federation/sdk': 0.0.0-feat-bridge-route-navigation-20261029103538
+      '@module-federation/enhanced': 0.0.0-feat-bridge-route-navigation-20261030085657(@rspack/core@2.2.9(@module-federation/runtime-tools@2.9.2)(@swc/helpers@0.5.23))(bufferutil@4.1.0)(typescript@5.9.3)(utf-8-validate@5.0.10)(webpack@5.104.1(@swc/core@1.16.20(@swc/helpers@0.5.23)))
+      '@module-federation/runtime': 0.0.0-feat-bridge-route-navigation-20261030085657
+      '@module-federation/sdk': 0.0.0-feat-bridge-route-navigation-20261030085657
       encoding: 0.1.13
       node-fetch: 2.7.0(encoding@0.1.13)
       tapable: 2.3.0
@@ -21738,8 +21749,8 @@ snapshots:
       '@module-federation/runtime': 2.0.0
       '@module-federation/sdk': 2.0.0
       btoa: 1.2.1
-      encoding: 0.1.13
-      node-fetch: 2.7.0(encoding@0.1.13)
+      encoding: 0.1.14
+      node-fetch: 2.7.0(encoding@0.1.14)
     optionalDependencies:
       webpack: 5.104.1(@swc/core@1.16.20(@swc/helpers@0.5.23))
     transitivePeerDependencies:
@@ -21759,8 +21770,8 @@ snapshots:
       '@module-federation/runtime': 2.0.0
       '@module-federation/sdk': 2.0.0
       btoa: 1.2.1
-      encoding: 0.1.13
-      node-fetch: 2.7.0(encoding@0.1.13)
+      encoding: 0.1.14
+      node-fetch: 2.7.0(encoding@0.1.14)
     optionalDependencies:
       webpack: 5.104.1(@swc/core@1.16.20(@swc/helpers@0.5.23))
     transitivePeerDependencies:
@@ -21791,11 +21802,11 @@ snapshots:
       - utf-8-validate
       - vue-tsc
 
-  '@module-federation/rsbuild-plugin@0.0.0-feat-bridge-route-navigation-20261029103538(@rsbuild/core@2.1.13(@module-federation/runtime-tools@2.9.2)(core-js@3.50.0))(@rspack/core@2.2.9(@module-federation/runtime-tools@2.9.2)(@swc/helpers@0.5.23))(bufferutil@4.1.0)(typescript@5.9.3)(utf-8-validate@5.0.10)(webpack@5.104.1(@swc/core@1.16.20(@swc/helpers@0.5.23)))':
+  '@module-federation/rsbuild-plugin@0.0.0-feat-bridge-route-navigation-20261030085657(@rsbuild/core@2.1.13(@module-federation/runtime-tools@2.9.2)(core-js@3.50.0))(@rspack/core@2.2.9(@module-federation/runtime-tools@2.9.2)(@swc/helpers@0.5.23))(bufferutil@4.1.0)(typescript@5.9.3)(utf-8-validate@5.0.10)(webpack@5.104.1(@swc/core@1.16.20(@swc/helpers@0.5.23)))':
     dependencies:
-      '@module-federation/enhanced': 0.0.0-feat-bridge-route-navigation-20261029103538(@rspack/core@2.2.9(@module-federation/runtime-tools@2.9.2)(@swc/helpers@0.5.23))(bufferutil@4.1.0)(typescript@5.9.3)(utf-8-validate@5.0.10)(webpack@5.104.1(@swc/core@1.16.20(@swc/helpers@0.5.23)))
-      '@module-federation/node': 0.0.0-feat-bridge-route-navigation-20261029103538(@rspack/core@2.2.9(@module-federation/runtime-tools@2.9.2)(@swc/helpers@0.5.23))(bufferutil@4.1.0)(typescript@5.9.3)(utf-8-validate@5.0.10)(webpack@5.104.1(@swc/core@1.16.20(@swc/helpers@0.5.23)))
-      '@module-federation/sdk': 0.0.0-feat-bridge-route-navigation-20261029103538
+      '@module-federation/enhanced': 0.0.0-feat-bridge-route-navigation-20261030085657(@rspack/core@2.2.9(@module-federation/runtime-tools@2.9.2)(@swc/helpers@0.5.23))(bufferutil@4.1.0)(typescript@5.9.3)(utf-8-validate@5.0.10)(webpack@5.104.1(@swc/core@1.16.20(@swc/helpers@0.5.23)))
+      '@module-federation/node': 0.0.0-feat-bridge-route-navigation-20261030085657(@rspack/core@2.2.9(@module-federation/runtime-tools@2.9.2)(@swc/helpers@0.5.23))(bufferutil@4.1.0)(typescript@5.9.3)(utf-8-validate@5.0.10)(webpack@5.104.1(@swc/core@1.16.20(@swc/helpers@0.5.23)))
+      '@module-federation/sdk': 0.0.0-feat-bridge-route-navigation-20261030085657
     optionalDependencies:
       '@rsbuild/core': 2.1.13(@module-federation/runtime-tools@2.9.2)(core-js@3.50.0)
     transitivePeerDependencies:
@@ -21806,13 +21817,13 @@ snapshots:
       - vue-tsc
       - webpack
 
-  '@module-federation/rsbuild-plugin@0.0.0-feat-bridge-route-navigation-20261029103538(@rsbuild/core@2.2.13(@module-federation/runtime-tools@0.0.0-feat-bridge-route-navigation-20261029103538)(core-js@3.50.0))(@rspack/core@2.2.9(@module-federation/runtime-tools@0.0.0-feat-bridge-route-navigation-20261029103538)(@swc/helpers@0.5.23))(bufferutil@4.1.0)(typescript@5.7.3)(utf-8-validate@5.0.10)(webpack@5.104.1(@swc/core@1.16.20(@swc/helpers@0.5.23)))':
+  '@module-federation/rsbuild-plugin@0.0.0-feat-bridge-route-navigation-20261030085657(@rsbuild/core@2.2.13(@module-federation/runtime-tools@0.0.0-feat-bridge-route-navigation-20261030085657)(core-js@3.50.0))(@rspack/core@2.2.9(@module-federation/runtime-tools@0.0.0-feat-bridge-route-navigation-20261030085657)(@swc/helpers@0.5.23))(bufferutil@4.1.0)(typescript@5.7.3)(utf-8-validate@5.0.10)(webpack@5.104.1(@swc/core@1.16.20(@swc/helpers@0.5.23)))':
     dependencies:
-      '@module-federation/enhanced': 0.0.0-feat-bridge-route-navigation-20261029103538(@rspack/core@2.2.9(@module-federation/runtime-tools@0.0.0-feat-bridge-route-navigation-20261029103538)(@swc/helpers@0.5.23))(bufferutil@4.1.0)(typescript@5.7.3)(utf-8-validate@5.0.10)(webpack@5.104.1(@swc/core@1.16.20(@swc/helpers@0.5.23)))
-      '@module-federation/node': 0.0.0-feat-bridge-route-navigation-20261029103538(@rspack/core@2.2.9(@module-federation/runtime-tools@0.0.0-feat-bridge-route-navigation-20261029103538)(@swc/helpers@0.5.23))(bufferutil@4.1.0)(typescript@5.7.3)(utf-8-validate@5.0.10)(webpack@5.104.1(@swc/core@1.16.20(@swc/helpers@0.5.23)))
-      '@module-federation/sdk': 0.0.0-feat-bridge-route-navigation-20261029103538
+      '@module-federation/enhanced': 0.0.0-feat-bridge-route-navigation-20261030085657(@rspack/core@2.2.9(@module-federation/runtime-tools@0.0.0-feat-bridge-route-navigation-20261030085657)(@swc/helpers@0.5.23))(bufferutil@4.1.0)(typescript@5.7.3)(utf-8-validate@5.0.10)(webpack@5.104.1(@swc/core@1.16.20(@swc/helpers@0.5.23)))
+      '@module-federation/node': 0.0.0-feat-bridge-route-navigation-20261030085657(@rspack/core@2.2.9(@module-federation/runtime-tools@0.0.0-feat-bridge-route-navigation-20261030085657)(@swc/helpers@0.5.23))(bufferutil@4.1.0)(typescript@5.7.3)(utf-8-validate@5.0.10)(webpack@5.104.1(@swc/core@1.16.20(@swc/helpers@0.5.23)))
+      '@module-federation/sdk': 0.0.0-feat-bridge-route-navigation-20261030085657
     optionalDependencies:
-      '@rsbuild/core': 2.2.13(@module-federation/runtime-tools@0.0.0-feat-bridge-route-navigation-20261029103538)(core-js@3.50.0)
+      '@rsbuild/core': 2.2.13(@module-federation/runtime-tools@0.0.0-feat-bridge-route-navigation-20261030085657)(core-js@3.50.0)
     transitivePeerDependencies:
       - '@rspack/core'
       - bufferutil
@@ -21872,31 +21883,31 @@ snapshots:
       - vue-tsc
       - webpack
 
-  '@module-federation/rspack@0.0.0-feat-bridge-route-navigation-20261029103538(@rspack/core@2.2.9(@module-federation/runtime-tools@0.0.0-feat-bridge-route-navigation-20261029103538)(@swc/helpers@0.5.23))(bufferutil@4.1.0)(typescript@5.7.3)(utf-8-validate@5.0.10)':
+  '@module-federation/rspack@0.0.0-feat-bridge-route-navigation-20261030085657(@rspack/core@2.2.9(@module-federation/runtime-tools@0.0.0-feat-bridge-route-navigation-20261030085657)(@swc/helpers@0.5.23))(bufferutil@4.1.0)(typescript@5.7.3)(utf-8-validate@5.0.10)':
     dependencies:
-      '@module-federation/bridge-react-webpack-plugin': 0.0.0-feat-bridge-route-navigation-20261029103538
-      '@module-federation/dts-plugin': 0.0.0-feat-bridge-route-navigation-20261029103538(bufferutil@4.1.0)(typescript@5.7.3)(utf-8-validate@5.0.10)
-      '@module-federation/inject-external-runtime-core-plugin': 0.0.0-feat-bridge-route-navigation-20261029103538(@module-federation/runtime-tools@0.0.0-feat-bridge-route-navigation-20261029103538)
-      '@module-federation/managers': 0.0.0-feat-bridge-route-navigation-20261029103538
-      '@module-federation/manifest': 0.0.0-feat-bridge-route-navigation-20261029103538(bufferutil@4.1.0)(typescript@5.7.3)(utf-8-validate@5.0.10)
-      '@module-federation/runtime-tools': 0.0.0-feat-bridge-route-navigation-20261029103538
-      '@module-federation/sdk': 0.0.0-feat-bridge-route-navigation-20261029103538
-      '@rspack/core': 2.2.9(@module-federation/runtime-tools@0.0.0-feat-bridge-route-navigation-20261029103538)(@swc/helpers@0.5.23)
+      '@module-federation/bridge-react-webpack-plugin': 0.0.0-feat-bridge-route-navigation-20261030085657
+      '@module-federation/dts-plugin': 0.0.0-feat-bridge-route-navigation-20261030085657(bufferutil@4.1.0)(typescript@5.7.3)(utf-8-validate@5.0.10)
+      '@module-federation/inject-external-runtime-core-plugin': 0.0.0-feat-bridge-route-navigation-20261030085657(@module-federation/runtime-tools@0.0.0-feat-bridge-route-navigation-20261030085657)
+      '@module-federation/managers': 0.0.0-feat-bridge-route-navigation-20261030085657
+      '@module-federation/manifest': 0.0.0-feat-bridge-route-navigation-20261030085657(bufferutil@4.1.0)(typescript@5.7.3)(utf-8-validate@5.0.10)
+      '@module-federation/runtime-tools': 0.0.0-feat-bridge-route-navigation-20261030085657
+      '@module-federation/sdk': 0.0.0-feat-bridge-route-navigation-20261030085657
+      '@rspack/core': 2.2.9(@module-federation/runtime-tools@0.0.0-feat-bridge-route-navigation-20261030085657)(@swc/helpers@0.5.23)
     optionalDependencies:
       typescript: 5.7.3
     transitivePeerDependencies:
       - bufferutil
       - utf-8-validate
 
-  '@module-federation/rspack@0.0.0-feat-bridge-route-navigation-20261029103538(@rspack/core@2.2.9(@module-federation/runtime-tools@2.9.2)(@swc/helpers@0.5.23))(bufferutil@4.1.0)(typescript@5.9.3)(utf-8-validate@5.0.10)':
+  '@module-federation/rspack@0.0.0-feat-bridge-route-navigation-20261030085657(@rspack/core@2.2.9(@module-federation/runtime-tools@2.9.2)(@swc/helpers@0.5.23))(bufferutil@4.1.0)(typescript@5.9.3)(utf-8-validate@5.0.10)':
     dependencies:
-      '@module-federation/bridge-react-webpack-plugin': 0.0.0-feat-bridge-route-navigation-20261029103538
-      '@module-federation/dts-plugin': 0.0.0-feat-bridge-route-navigation-20261029103538(bufferutil@4.1.0)(typescript@5.9.3)(utf-8-validate@5.0.10)
-      '@module-federation/inject-external-runtime-core-plugin': 0.0.0-feat-bridge-route-navigation-20261029103538(@module-federation/runtime-tools@0.0.0-feat-bridge-route-navigation-20261029103538)
-      '@module-federation/managers': 0.0.0-feat-bridge-route-navigation-20261029103538
-      '@module-federation/manifest': 0.0.0-feat-bridge-route-navigation-20261029103538(bufferutil@4.1.0)(typescript@5.9.3)(utf-8-validate@5.0.10)
-      '@module-federation/runtime-tools': 0.0.0-feat-bridge-route-navigation-20261029103538
-      '@module-federation/sdk': 0.0.0-feat-bridge-route-navigation-20261029103538
+      '@module-federation/bridge-react-webpack-plugin': 0.0.0-feat-bridge-route-navigation-20261030085657
+      '@module-federation/dts-plugin': 0.0.0-feat-bridge-route-navigation-20261030085657(bufferutil@4.1.0)(typescript@5.9.3)(utf-8-validate@5.0.10)
+      '@module-federation/inject-external-runtime-core-plugin': 0.0.0-feat-bridge-route-navigation-20261030085657(@module-federation/runtime-tools@0.0.0-feat-bridge-route-navigation-20261030085657)
+      '@module-federation/managers': 0.0.0-feat-bridge-route-navigation-20261030085657
+      '@module-federation/manifest': 0.0.0-feat-bridge-route-navigation-20261030085657(bufferutil@4.1.0)(typescript@5.9.3)(utf-8-validate@5.0.10)
+      '@module-federation/runtime-tools': 0.0.0-feat-bridge-route-navigation-20261030085657
+      '@module-federation/sdk': 0.0.0-feat-bridge-route-navigation-20261030085657
       '@rspack/core': 2.2.9(@module-federation/runtime-tools@2.9.2)(@swc/helpers@0.5.23)
     optionalDependencies:
       typescript: 5.9.3
@@ -21958,10 +21969,10 @@ snapshots:
       - bufferutil
       - utf-8-validate
 
-  '@module-federation/runtime-core@0.0.0-feat-bridge-route-navigation-20261029103538':
+  '@module-federation/runtime-core@0.0.0-feat-bridge-route-navigation-20261030085657':
     dependencies:
-      '@module-federation/error-codes': 0.0.0-feat-bridge-route-navigation-20261029103538
-      '@module-federation/sdk': 0.0.0-feat-bridge-route-navigation-20261029103538
+      '@module-federation/error-codes': 0.0.0-feat-bridge-route-navigation-20261030085657
+      '@module-federation/sdk': 0.0.0-feat-bridge-route-navigation-20261030085657
 
   '@module-federation/runtime-core@2.0.0':
     dependencies:
@@ -21973,10 +21984,10 @@ snapshots:
       '@module-federation/error-codes': 2.9.2
       '@module-federation/sdk': 2.9.2
 
-  '@module-federation/runtime-tools@0.0.0-feat-bridge-route-navigation-20261029103538':
+  '@module-federation/runtime-tools@0.0.0-feat-bridge-route-navigation-20261030085657':
     dependencies:
-      '@module-federation/runtime': 0.0.0-feat-bridge-route-navigation-20261029103538
-      '@module-federation/webpack-bundler-runtime': 0.0.0-feat-bridge-route-navigation-20261029103538
+      '@module-federation/runtime': 0.0.0-feat-bridge-route-navigation-20261030085657
+      '@module-federation/webpack-bundler-runtime': 0.0.0-feat-bridge-route-navigation-20261030085657
 
   '@module-federation/runtime-tools@2.0.0':
     dependencies:
@@ -21988,11 +21999,11 @@ snapshots:
       '@module-federation/runtime': 2.9.2
       '@module-federation/webpack-bundler-runtime': 2.9.2
 
-  '@module-federation/runtime@0.0.0-feat-bridge-route-navigation-20261029103538':
+  '@module-federation/runtime@0.0.0-feat-bridge-route-navigation-20261030085657':
     dependencies:
-      '@module-federation/error-codes': 0.0.0-feat-bridge-route-navigation-20261029103538
-      '@module-federation/runtime-core': 0.0.0-feat-bridge-route-navigation-20261029103538
-      '@module-federation/sdk': 0.0.0-feat-bridge-route-navigation-20261029103538
+      '@module-federation/error-codes': 0.0.0-feat-bridge-route-navigation-20261030085657
+      '@module-federation/runtime-core': 0.0.0-feat-bridge-route-navigation-20261030085657
+      '@module-federation/sdk': 0.0.0-feat-bridge-route-navigation-20261030085657
 
   '@module-federation/runtime@2.0.0':
     dependencies:
@@ -22006,13 +22017,13 @@ snapshots:
       '@module-federation/runtime-core': 2.9.2
       '@module-federation/sdk': 2.9.2
 
-  '@module-federation/sdk@0.0.0-feat-bridge-route-navigation-20261029103538': {}
+  '@module-federation/sdk@0.0.0-feat-bridge-route-navigation-20261030085657': {}
 
   '@module-federation/sdk@2.0.0': {}
 
   '@module-federation/sdk@2.9.2': {}
 
-  '@module-federation/third-party-dts-extractor@0.0.0-feat-bridge-route-navigation-20261029103538': {}
+  '@module-federation/third-party-dts-extractor@0.0.0-feat-bridge-route-navigation-20261030085657': {}
 
   '@module-federation/third-party-dts-extractor@2.0.0':
     dependencies:
@@ -22022,11 +22033,11 @@ snapshots:
 
   '@module-federation/third-party-dts-extractor@2.9.2': {}
 
-  '@module-federation/webpack-bundler-runtime@0.0.0-feat-bridge-route-navigation-20261029103538':
+  '@module-federation/webpack-bundler-runtime@0.0.0-feat-bridge-route-navigation-20261030085657':
     dependencies:
-      '@module-federation/error-codes': 0.0.0-feat-bridge-route-navigation-20261029103538
-      '@module-federation/runtime': 0.0.0-feat-bridge-route-navigation-20261029103538
-      '@module-federation/sdk': 0.0.0-feat-bridge-route-navigation-20261029103538
+      '@module-federation/error-codes': 0.0.0-feat-bridge-route-navigation-20261030085657
+      '@module-federation/runtime': 0.0.0-feat-bridge-route-navigation-20261030085657
+      '@module-federation/sdk': 0.0.0-feat-bridge-route-navigation-20261030085657
 
   '@module-federation/webpack-bundler-runtime@2.0.0':
     dependencies:
@@ -22692,9 +22703,9 @@ snapshots:
     transitivePeerDependencies:
       - '@module-federation/runtime-tools'
 
-  '@rsbuild/core@2.2.13(@module-federation/runtime-tools@0.0.0-feat-bridge-route-navigation-20261029103538)(core-js@3.50.0)':
+  '@rsbuild/core@2.2.13(@module-federation/runtime-tools@0.0.0-feat-bridge-route-navigation-20261030085657)(core-js@3.50.0)':
     dependencies:
-      '@rspack/core': 2.2.9(@module-federation/runtime-tools@0.0.0-feat-bridge-route-navigation-20261029103538)(@swc/helpers@0.5.23)
+      '@rspack/core': 2.2.9(@module-federation/runtime-tools@0.0.0-feat-bridge-route-navigation-20261030085657)(@swc/helpers@0.5.23)
       '@swc/helpers': 0.5.23
     optionalDependencies:
       core-js: 3.50.0
@@ -23383,11 +23394,11 @@ snapshots:
       '@module-federation/runtime-tools': 2.9.2
       '@swc/helpers': 0.5.23
 
-  '@rspack/core@2.2.9(@module-federation/runtime-tools@0.0.0-feat-bridge-route-navigation-20261029103538)(@swc/helpers@0.5.23)':
+  '@rspack/core@2.2.9(@module-federation/runtime-tools@0.0.0-feat-bridge-route-navigation-20261030085657)(@swc/helpers@0.5.23)':
     dependencies:
       '@rspack/binding': 2.2.9
     optionalDependencies:
-      '@module-federation/runtime-tools': 0.0.0-feat-bridge-route-navigation-20261029103538
+      '@module-federation/runtime-tools': 0.0.0-feat-bridge-route-navigation-20261030085657
       '@swc/helpers': 0.5.23
 
   '@rspack/core@2.2.9(@module-federation/runtime-tools@2.0.0)(@swc/helpers@0.5.23)':
