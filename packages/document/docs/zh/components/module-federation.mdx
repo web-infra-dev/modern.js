@@ -191,7 +191,7 @@ export default function Page() {
 }
 ```
 
-从 `@modern-js/runtime/mf` 导入的普通 `createReactRemote` 和 `ReactRemote` 不会因位于路由组件内部而自动推导挂载 basename。省略 basename 不会启用独立导航。Dashboard 卡片应显式传入 `memoryRoute: { entryPath: '/' }`，只有这个参数才启用独立 Memory Router，使用局部初始路径且不与宿主地址同步。模式和初始路径在挂载时确定，切换模式或重置初始路径需要重新挂载。业务 props 与 basename、navigation、memoryRoute 控制参数分开传递。props、地址和动态挂载参数更新复用现有 Root，卸载释放该实例订阅和 Loader 请求，重试不会复用已失败实例。
+从 `@modern-js/runtime/mf` 导入的普通 `createReactRemote` 和 `ReactRemote` 不会因位于路由组件内部而自动推导挂载 basename。省略 basename 不会启用独立导航。Dashboard 卡片应显式传入 `memoryRoute: { entryPath: '/' }`，只有这个参数才启用独立 Memory Router，使用局部初始路径且不与宿主地址同步。模式和初始路径在挂载时确定，切换模式或重置初始路径需要重新挂载。业务 props 与 basename、navigation、memoryRoute 控制参数分开传递。一次挂载期间 basename 固定，普通 props 更新和应用内部导航复用现有 Root 并保留页面状态。实际挂载 basename 改变时销毁旧挂载并创建新实例，不保留跨挂载位置的 Router 或页面状态。卸载释放该实例订阅和 Loader 请求，重试不会复用已失败实例。
 
 ### 生产者的路由责任
 
@@ -207,7 +207,7 @@ export default function Page() {
 
 ### 其他 Router 与兼容边界
 
-不用 Modern Router 时，可以给 `createReactRemote` 或 `ReactRemote` 手动传 basename。Remote Browser Router 的 push 或 replace 只写入一次 history，随后通过 popstate 通知宿主 Router 和其他 Browser 实例。宿主通知只更新 Remote 位置，不再次写入 history。动态挂载前缀通过实例内的浏览器窗口适配层更新，复用同一个 Root 和 Router。卸载清理 Router、在途 Loader 和订阅。自定义 Router 若通过 pushState 导航却不发布位置变化，需要提供 `navigation` Adapter 的 `getLocation`、`subscribe` 和 `navigate`，仅传路径字符串不能订阅任意 Router。
+不用 Modern Router 时，可以给 `createReactRemote` 或 `ReactRemote` 手动传 basename。Remote Browser Router 的 push 或 replace 只写入一次 history，随后通过 popstate 通知宿主 Router 和其他 Browser 实例。宿主通知只更新 Remote 位置，不再次写入 history。Host 决定挂载位置，并在初次挂载时传入实际 basename。Remote 使用自己的 Router 管理内部路径和业务导航。basename 改变时重新挂载，旧 Router、在途 Loader 和订阅随旧实例清理。自定义 Router 若通过 pushState 导航却不发布位置变化，需要提供 `navigation` Adapter 的 `getLocation`、`subscribe` 和 `navigate`，仅传路径字符串不能订阅任意 Router。
 
 同一 URL 的新导航通过 history 条目的 key 与旧通知区分。自定义浏览器 Router 应在 push 或 replace 时生成新的 `history.state.key`，前进后退时保留原条目的 key。使用 `pushState(null, '', sameURL)` 后仅发布相同路径字符串，无法区分新导航与延迟到达的旧通知。
 

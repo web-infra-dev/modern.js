@@ -364,10 +364,6 @@ function useRouterCreation(props: any, options: UseRouterCreationOptions) {
             window: scope?.getWindow?.(),
           });
     if (scope) {
-      if (scope.projectHref) {
-        const createHref = router.createHref;
-        router.createHref = to => scope.projectHref!(createHref(to));
-      }
       scope.router = router;
       scope.routes = modifiedRoutes;
     }

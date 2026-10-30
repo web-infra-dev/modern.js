@@ -86,12 +86,20 @@ describeLab(
       );
     });
 
-    it('cancels stale loading while changing a dynamic mount without losing state', async () => {
+    it('remounts at a new basename and cancels the old instance loading', async () => {
       const { page, visit, click, lab } = getContext();
       await visit(`${prefix.slice(1)}/detail/42`, 'route-remote-location');
       await page.click(`${main} [data-testid="scope-count"]`);
+      await page.waitForSelector(
+        '[data-testid="route-card-a"] [data-testid="scope-count"]',
+      );
+      await page.click(
+        '[data-testid="route-card-a"] [data-testid="scope-count"]',
+      );
+      const previousRoot = await page.$(`${main} [data-testid="scope-root"]`);
+      expect(previousRoot).not.toBeNull();
       await page.setRequestInterception(true);
-      let pending: import('puppeteer').HTTPRequest | undefined;
+      const pending: import('puppeteer').HTTPRequest[] = [];
       let arrived!: () => void;
       const loading = new Promise<void>(resolve => {
         arrived = resolve;
@@ -102,7 +110,7 @@ describeLab(
           url.port === String(lab.ports.provider) &&
           url.pathname.includes('/product/detail/slow')
         ) {
-          pending = request;
+          pending.push(request);
           arrived();
         } else void request.continue();
       };
@@ -111,9 +119,11 @@ describeLab(
         await page.click(`${main} [data-testid="route-remote-slow"]`);
         await loading;
         await click('route-host-store');
-        await rstest.waitFor(() =>
-          expect(pending?.failure()?.errorText).toBe('net::ERR_ABORTED'),
-        );
+        await rstest.waitFor(() => {
+          expect(pending.length).toBeGreaterThan(0);
+          for (const request of pending)
+            expect(request.failure()?.errorText).toBe('net::ERR_ABORTED');
+        });
         await page.waitForFunction(
           selector =>
             document.querySelector(selector)?.textContent ===
@@ -125,13 +135,44 @@ describeLab(
           '/admin/stores/200/inventory/detail/42',
         );
         expect(await page.$eval(main, node => node.textContent)).toContain(
-          'Observations: 1',
+          'Observations: 0',
+        );
+        expect(await previousRoot!.evaluate(node => node.isConnected)).toBe(
+          false,
+        );
+        expect(
+          await page.$eval(
+            '[data-testid="route-card-a"]',
+            node => node.textContent,
+          ),
+        ).toContain('Observations: 1');
+        expect(
+          await page.$eval(`${main} [data-testid="scope-product-link"]`, node =>
+            node.getAttribute('href'),
+          ),
+        ).toBe('/admin/stores/200/inventory');
+        await page.click(`${main} [data-testid="route-remote-next"]`);
+        await page.waitForFunction(
+          selector =>
+            document.querySelector(selector)?.textContent ===
+            '/detail/43?tab=remote#forecast',
+          {},
+          remoteLocation,
+        );
+        await page.waitForFunction(
+          () =>
+            document.querySelector('[data-testid="route-host-location"]')
+              ?.textContent === '/stores/200/inventory/detail/43?tab=remote',
+        );
+        expect(page.url()).toContain(
+          '/admin/stores/200/inventory/detail/43?tab=remote#forecast',
         );
       } finally {
         page.off('request', intercept);
-        if (pending && !pending.failure())
-          await pending.continue().catch(() => {});
+        for (const request of pending)
+          if (!request.failure()) await request.continue().catch(() => {});
         await page.setRequestInterception(false);
+        await previousRoot?.dispose();
       }
     });
 
@@ -405,7 +446,7 @@ describeLab(
       }
     });
 
-    it('preserves state through props and dynamic mount updates, then cleans up on unmount', async () => {
+    it('preserves state through props and internal navigation, then cleans up on unmount', async () => {
       const { page, visit, click } = getContext();
       await visit(`${prefix.slice(1)}/detail/42`, 'route-remote-location');
       await page.click(`${main} [data-testid="scope-count"]`);
@@ -418,14 +459,6 @@ describeLab(
         {},
         main,
       );
-      await click('route-host-store');
-      await page.waitForFunction(
-        selector =>
-          document.querySelector(selector)?.textContent ===
-          '/detail/42?tab=stock#summary',
-        {},
-        remoteLocation,
-      );
       expect(await page.$eval(main, node => node.textContent)).toContain(
         'Observations: 1',
       );
@@ -433,10 +466,18 @@ describeLab(
         await page.$eval(`${main} [data-testid="scope-product-link"]`, node =>
           node.getAttribute('href'),
         ),
-      ).toBe('/admin/stores/200/inventory');
+      ).toBe(prefix);
       await page.click(`${main} [data-testid="route-remote-next"]`);
       await page.waitForFunction(
-        () => location.pathname === '/admin/stores/200/inventory/detail/43',
+        selector =>
+          document.querySelector(selector)?.textContent ===
+          '/detail/43?tab=remote#forecast',
+        {},
+        remoteLocation,
+      );
+      expect(new URL(page.url()).pathname).toBe(`${prefix}/detail/43`);
+      expect(await page.$eval(main, node => node.textContent)).toContain(
+        'Observations: 1',
       );
       await click('route-toggle');
       await page.waitForFunction(

@@ -42,63 +42,15 @@ function browserLocation(
   return value.startsWith('/') || value.startsWith('.') ? value : `/${value}`;
 }
 
-/** Keep the Router stable when a dynamic parent changes the physical mount. */
+/** Adapt POP events per mount without changing browser locations or history. */
 export function createMountWindow(
-  routerBase: string,
-  getMountBase: () => string,
   getRouter: () => DataRouter | undefined,
   isHashRouter: () => boolean,
 ) {
-  const translate = (value: string, from: string, to: string) => {
-    const local = removeBasename(value, from);
-    return local === undefined ? value : addBasename(local, to);
-  };
-  const projectHref = (href: string) => {
-    if (isHashRouter()) {
-      const index = href.indexOf('#');
-      return `${href.slice(0, index + 1)}${translate(href.slice(index + 1), routerBase, getMountBase())}`;
-    }
-    return translate(href, routerBase, getMountBase());
-  };
-  const location = () => {
-    const url = new URL(window.location.href);
-    if (isHashRouter())
-      url.hash = `#${translate(url.hash.slice(1), getMountBase(), routerBase)}`;
-    else url.pathname = translate(url.pathname, getMountBase(), routerBase);
-    return url;
-  };
-  const history = new Proxy(window.history, {
-    get(target, property) {
-      if (property === 'pushState' || property === 'replaceState')
-        return (state: unknown, unused: string, href?: string | URL | null) => {
-          const url = href == null ? href : new URL(href, window.location.href);
-          if (url) {
-            if (isHashRouter()) url.hash = projectHref(url.hash);
-            else url.pathname = projectHref(url.pathname);
-          }
-          target[property](state, unused, url);
-        };
-      const value = Reflect.get(target, property);
-      return typeof value === 'function' ? value.bind(target) : value;
-    },
-  });
   const popListeners = new Map<EventListener, EventListener>();
   let notifyingPeers = false;
   const mountWindow = new Proxy(window, {
     get(target, property) {
-      if (property === 'location')
-        return new Proxy(target.location, {
-          get(current, key) {
-            if (
-              ['href', 'pathname', 'search', 'hash', 'origin'].includes(
-                String(key),
-              )
-            )
-              return Reflect.get(location(), key);
-            const value = Reflect.get(current, key);
-            return typeof value === 'function' ? value.bind(current) : value;
-          },
-        });
       if (property === 'addEventListener')
         return (
           type: string,
@@ -110,8 +62,7 @@ export function createMountWindow(
           const wrapped: EventListener = event => {
             if (notifyingPeers) return;
             const router = getRouter();
-            const url = location();
-            const next = browserLocation(url, isHashRouter());
+            const next = browserLocation(target.location, isHashRouter());
             const pending = router?.state.navigation.location;
             const current = pending ?? router?.state.location;
             // Both peers and native history can repeat a POP while its loader
@@ -145,14 +96,12 @@ export function createMountWindow(
           );
           popListeners.delete(listener);
         };
-      if (property === 'history') return history;
       const value = Reflect.get(target, property);
       return typeof value === 'function' ? value.bind(target) : value;
     },
   });
   return {
     window: mountWindow,
-    projectHref,
     notifyPeers() {
       // Publishing an already committed entry must not interrupt this writer's
       // next navigation. Other mounted Routers still receive the same POP.
@@ -168,7 +117,7 @@ export function createMountWindow(
   };
 }
 
-/** Adapt Modern's Router and projected browser window to Core's coordinator. */
+/** Adapt Modern's Router and browser history to Core's coordinator. */
 export function createBrowserRouterConnector(
   host: BridgeNavigation | undefined,
   onError: (error: unknown) => void,
@@ -222,14 +171,8 @@ export function createBrowserRouterConnector(
         }),
         subscribe: listener => router.subscribe(listener),
         getHistoryLocation: () => ({
-          location: {
-            url: browserLocation(
-              router.window?.location || window.location,
-              isHashRouter(),
-            ),
-            key: window.history.state?.key ?? 'default',
-          },
-          hostUrl: browserLocation(window.location, isHashRouter()),
+          url: browserLocation(window.location, isHashRouter()),
+          key: window.history.state?.key ?? 'default',
         }),
         syncFromHistory: () => router.window?.dispatchEvent(pop()),
         notifyPeers: notifyPeers ?? (() => window.dispatchEvent(pop())),

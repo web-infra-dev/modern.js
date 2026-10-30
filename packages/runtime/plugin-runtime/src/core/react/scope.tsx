@@ -85,30 +85,27 @@ function instanceRoutes(
 export function createScopedRoot(
   definition: ScopedRootDefinition,
 ): React.ComponentType<any> {
-  return function ModernScopedRoot(props: Record<string, unknown>) {
-    const bridge = useBridgeRouter();
+  function ScopedRootInstance({
+    props,
+    bridge,
+    basename,
+  }: {
+    props: Record<string, unknown>;
+    bridge: ReturnType<typeof useBridgeRouter>;
+    basename: string;
+  }) {
     const navigation = bridge?.memoryRoute ? undefined : bridge?.navigation;
-    const basename = normalizeBasename(
-      bridge?.basename ??
-        (typeof props.basename === 'string' ? props.basename : '/'),
-    );
     const [instance] = useState(() => {
       const context = getInitialContext(true, { routeAssets: {} });
       const memory = Boolean(bridge?.memoryRoute);
       const routeBasename = memory ? '/' : basename;
-      const mount = { basename };
       const mountWindow = memory
         ? undefined
         : createMountWindow(
-            routeBasename,
-            () => mount.basename,
             () => context._routeScope?.router,
             () => context._routeScope?.hash === true,
           );
       context._routeScope = {
-        projectHref: href => {
-          return mountWindow?.projectHref(href) ?? href;
-        },
         config: {
           routes: instanceRoutes(definition, routeBasename),
           globalApp: definition.globalApp,
@@ -131,14 +128,12 @@ export function createScopedRoot(
         context,
         runtime,
         WrappedRoot,
-        mount,
         notifyPeers: mountWindow?.notifyPeers,
         initialization: undefined as Promise<unknown> | undefined,
         connection: undefined as
           ReturnType<typeof createBrowserRouterConnector> | undefined,
       };
     });
-    instance.mount.basename = basename;
     const [ready, setReady] = useState(0);
     const [failure, setFailure] = useState<unknown>();
     useEffect(() => {
@@ -185,10 +180,8 @@ export function createScopedRoot(
       };
     }, [instance]);
     useEffect(() => {
-      // A dynamic mount changes the Window projection even when the Host
-      // adapter identity stays stable. Reconcile only after receiving it.
       instance.connection?.setNavigation(navigation);
-    }, [instance, basename, navigation]);
+    }, [instance, navigation]);
     if (failure) throw failure;
     if (!ready) return null;
     const { WrappedRoot } = instance;
@@ -197,6 +190,21 @@ export function createScopedRoot(
         <WrappedRoot {...props} />
       </ScopedRootPropsContext.Provider>,
       instance.context,
+    );
+  }
+  return function ModernScopedRoot(props: Record<string, unknown>) {
+    const bridge = useBridgeRouter();
+    const basename = normalizeBasename(
+      bridge?.basename ??
+        (typeof props.basename === 'string' ? props.basename : '/'),
+    );
+    return (
+      <ScopedRootInstance
+        key={basename}
+        props={props}
+        bridge={bridge}
+        basename={basename}
+      />
     );
   };
 }

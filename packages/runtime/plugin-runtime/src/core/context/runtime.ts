@@ -30,7 +30,6 @@ export interface TInternalRuntimeContext extends TRuntimeContext {
     hash?: boolean;
     basename?: string;
     getWindow?: () => Window;
-    projectHref?: (href: string) => string;
     onRouterCreated?: (router: DataRouter) => void;
     router?: DataRouter;
     routes?: RouteObject[];

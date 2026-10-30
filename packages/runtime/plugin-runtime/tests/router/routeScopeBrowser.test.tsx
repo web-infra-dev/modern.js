@@ -326,7 +326,7 @@ it.each([
   { html5: true, uppercase: true, baseElement: false },
   { html5: false, uppercase: false, baseElement: true },
 ])(
-  'preserves a dynamic mount with history configuration %j',
+  'recreates a changed mount and disposes its Router with history configuration %j',
   async ({ html5, uppercase, baseElement }) => {
     const initial = '/admin/stores/100/inventory';
     const next = '/admin/stores/200/inventory';
@@ -346,6 +346,9 @@ it.each([
     }
     const requests: Request[] = [];
     const initialized = rstest.fn();
+    let slowRequest: Request | undefined;
+    let releaseSlow: (() => void) | undefined;
+    let pending: Promise<void> | undefined;
     const listeners = new Set<() => void>();
     let hostLocation = initial + '/detail/42?tab=stock#summary';
     const hostNavigate = rstest.fn();
@@ -360,10 +363,11 @@ it.each([
         navigate: hostNavigate,
       },
     };
-    function Layout() {
+    function Layout({ label }: { label?: string }) {
       const [count, setCount] = useState(0);
       return (
         <>
+          <span>{label}</span>
           <button onClick={() => setCount(count + 1)}>Count {count}</button>
           <Link to="detail/43?tab=next#forecast">Next</Link>
           <Outlet />
@@ -395,6 +399,23 @@ it.each([
           path: '/',
           component: Layout,
           children: [
+            {
+              id: 'slow',
+              type: 'nested',
+              origin: 'config',
+              path: 'slow',
+              loader: ({ request }: { request: Request }) =>
+                new Promise(resolve => {
+                  slowRequest = request;
+                  releaseSlow = () =>
+                    resolve(
+                      new Response(null, {
+                        status: 302,
+                        headers: { Location: '/detail/98' },
+                      }),
+                    );
+                }),
+            },
             {
               id: 'redirect',
               type: 'nested',
@@ -461,6 +482,22 @@ it.each([
         physical(initial + '/detail/43?tab=next#forecast'),
       );
       expect(hostNavigate).not.toHaveBeenCalled();
+      const firstContext = initialized.mock.calls[0][0];
+      const firstRouter = firstContext._routeScope.router;
+      const disposed = rstest.spyOn(firstRouter, 'dispose');
+      const firstListener = [...listeners][0];
+      view.rerender(<Root basename={initial} label="same mount" />);
+      await waitFor(() =>
+        expect(view.container.textContent).toContain('same mount'),
+      );
+      expect(view.container.textContent).toContain('Count 1');
+      expect(initialized).toHaveBeenCalledTimes(1);
+      expect(firstContext._routeScope.router).toBe(firstRouter);
+      act(() => {
+        pending = firstRouter.navigate('/slow');
+      });
+      await waitFor(() => expect(slowRequest).toBeDefined());
+      expect(slowRequest!.signal.aborted).toBe(false);
       window.history.pushState(
         null,
         '',
@@ -473,8 +510,22 @@ it.each([
           '/detail/42?tab=stock#summary',
         ),
       );
-      expect(view.container.textContent).toContain('Count 1');
-      expect(initialized).toHaveBeenCalledTimes(1);
+      expect(view.container.textContent).toContain('Count 0');
+      expect(initialized).toHaveBeenCalledTimes(2);
+      expect(disposed).toHaveBeenCalledTimes(1);
+      expect(firstContext._routeScope.router).toBeUndefined();
+      expect(listeners.has(firstListener)).toBe(false);
+      expect(listeners.size).toBe(1);
+      expect(slowRequest!.signal.aborted).toBe(true);
+      const router = initialized.mock.calls[1][0]._routeScope.router;
+      expect(router).not.toBe(firstRouter);
+      await act(async () => {
+        releaseSlow!();
+        await pending;
+      });
+      expect(window.location.href).toContain(
+        physical(next + '/detail/42?tab=stock#summary'),
+      );
       fireEvent.click(view.container.querySelector('a')!);
       await waitFor(() =>
         expect(window.location.href).toContain(
@@ -484,7 +535,6 @@ it.each([
       expect(requests.at(-1)!.url).toBe(
         'https://producer.example/producer/product/detail/43?tab=next',
       );
-      const router = initialized.mock.calls[0][0]._routeScope.router;
       await act(async () => {
         await router.navigate('/redirect');
       });
@@ -492,8 +542,8 @@ it.each([
         expect(view.container.textContent).toContain('/detail/99'),
       );
       expect(window.location.href).toContain(physical(next + '/detail/99'));
-      expect(view.container.textContent).toContain('Count 1');
-      expect(initialized.mock.calls[0][0]._routeScope.router).toBe(router);
+      expect(view.container.textContent).toContain('Count 0');
+      expect(initialized.mock.calls[1][0]._routeScope.router).toBe(router);
       const notified = rstest.fn();
       window.addEventListener('popstate', notified);
       const beforeReplace = window.history.length;
@@ -512,6 +562,8 @@ it.each([
       }
       expect(listeners.size).toBe(1);
     } finally {
+      releaseSlow?.();
+      await pending;
       view.unmount();
       base.remove();
     }
@@ -1033,8 +1085,6 @@ it.each([false, true])(
     let pending: Promise<void> | undefined;
     const requests: Request[] = [];
     const mount = createMountWindow(
-      '/inventory',
-      () => '/inventory',
       () => remote,
       () => false,
     );
@@ -1123,8 +1173,6 @@ it('keeps the next Remote loader running when a Host loader finishes echoing the
   ]);
   let remote: ReturnType<typeof createBrowserRouter> | undefined;
   const mount = createMountWindow(
-    '/inventory',
-    () => '/inventory',
     () => remote,
     () => false,
   );

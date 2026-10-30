@@ -28,46 +28,53 @@ export default function StoreLayout() {
         {location.pathname}
         {location.search}
       </p>
-      <button
-        data-testid="route-host-detail"
-        onClick={() => navigate(`${root}/detail/43?tab=price#chart`)}
-      >
-        Host detail
-      </button>
-      <button
-        data-testid="route-host-slow"
-        onClick={() => navigate(`${root}/detail/slow`)}
-      >
-        Slow station
-      </button>
-      <button
-        data-testid="route-host-replace"
-        onClick={() =>
-          navigate(`${root}/detail/44?tab=replace#chart`, { replace: true })
-        }
-      >
-        Host replace
-      </button>
-      <button
-        data-testid="route-host-store"
-        onClick={() =>
-          navigate('/stores/200/inventory/detail/42?tab=stock#summary')
-        }
-      >
-        Change store
-      </button>
-      <button
-        data-testid="route-props"
-        onClick={() => setLabel('Updated store products')}
-      >
-        Update props
-      </button>
-      <button
-        data-testid="route-toggle"
-        onClick={() => setMounted(value => !value)}
-      >
-        Toggle routed application
-      </button>
+      <fieldset>
+        <legend>Host routing protocol tests</legend>
+        <p>
+          These controls test Host history notifications and mount changes.
+          Product navigation belongs to the remote application below.
+        </p>
+        <button
+          data-testid="route-host-detail"
+          onClick={() => navigate(`${root}/detail/43?tab=price#chart`)}
+        >
+          Host push
+        </button>
+        <button
+          data-testid="route-host-slow"
+          onClick={() => navigate(`${root}/detail/slow`)}
+        >
+          Host slow navigation
+        </button>
+        <button
+          data-testid="route-host-replace"
+          onClick={() =>
+            navigate(`${root}/detail/44?tab=replace#chart`, { replace: true })
+          }
+        >
+          Host replace
+        </button>
+        <button
+          data-testid="route-host-store"
+          onClick={() =>
+            navigate('/stores/200/inventory/detail/42?tab=stock#summary')
+          }
+        >
+          Change mount basename
+        </button>
+        <button
+          data-testid="route-props"
+          onClick={() => setLabel('Updated store products')}
+        >
+          Update props
+        </button>
+        <button
+          data-testid="route-toggle"
+          onClick={() => setMounted(value => !value)}
+        >
+          Toggle routed application
+        </button>
+      </fieldset>
       <section data-testid="route-main">
         <Outlet context={{ label, mounted }} />
       </section>

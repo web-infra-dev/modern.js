@@ -81,18 +81,12 @@ function RoutedRemote({
     };
     return { adapter, listeners };
   }, []);
-  const previousBasename = useRef(basename);
   useEffect(() => {
-    if (previousBasename.current !== basename) {
-      previousBasename.current = basename;
-      // The provider renders in another Root. Its new basename must reach that
-      // Root before synchronizing the URL through the rebound subscription.
-      return;
-    }
     for (const listener of state.listeners) listener();
-  }, [state, fullLocation, location.key, basename]);
+  }, [state, fullLocation, location.key]);
   return (
     <CoreReactRemote
+      key={basename}
       {...options}
       basename={basename}
       navigation={
@@ -133,6 +127,10 @@ export const createModernReactRemote = ((options: CreateReactRemoteOptions) =>
 
 /** Browser history compatibility for explicit mounts without a Modern Router. */
 function BrowserRemote(options: ReactRemoteProps) {
+  const basename =
+    options.basename === undefined
+      ? undefined
+      : normalizeBasename(options.basename);
   const navigation = useMemo<BridgeNavigation>(
     () => ({
       getLocation: () =>
@@ -162,10 +160,12 @@ function BrowserRemote(options: ReactRemoteProps) {
   );
   return (
     <CoreReactRemote
+      key={basename}
       {...options}
+      basename={basename}
       navigation={
         options.navigation ??
-        (options.basename !== undefined && !options.memoryRoute
+        (basename !== undefined && !options.memoryRoute
           ? navigation
           : undefined)
       }
