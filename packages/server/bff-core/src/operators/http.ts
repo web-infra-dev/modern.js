@@ -1,4 +1,3 @@
-import type { z } from 'zod';
 import { ValidationError } from '../errors/http';
 import {
   HttpMetadata,
@@ -9,24 +8,42 @@ import {
   ResponseMetaType,
   TriggerType,
 } from '../types';
+import type {
+  InferSchemaInput,
+  InferSchemaOutput,
+  StandardSchemaV1,
+  ValidationSchema,
+} from './standardSchema';
 
 export interface ResponseMeta {
   type: ResponseMetaType;
   value: unknown;
 }
 
-const validateInput = async <Schema extends z.ZodType>(
+const validateInput = async <Schema extends ValidationSchema>(
   schema: Schema,
   input: unknown,
-): Promise<z.output<Schema>> => {
-  try {
-    return await schema.parseAsync(input);
-  } catch (error: any) {
-    if ('name' in error && error.name === 'ZodError') {
-      throw new ValidationError(400, error.message);
+): Promise<InferSchemaOutput<Schema>> => {
+  // Zod schemas keep using their own parser, so transforms, async refinements
+  // and error messages stay the same as before.
+  if (typeof (schema as any).parseAsync === 'function') {
+    try {
+      return await (schema as any).parseAsync(input);
+    } catch (error: any) {
+      if ('name' in error && error.name === 'ZodError') {
+        throw new ValidationError(400, error.message);
+      }
+      throw error;
     }
-    throw error;
   }
+
+  const result = await (schema as StandardSchemaV1)['~standard'].validate(
+    input,
+  );
+  if (result.issues) {
+    throw new ValidationError(400, JSON.stringify(result.issues, null, 2));
+  }
+  return result.value as InferSchemaOutput<Schema>;
 };
 
 export const createHttpOperator = (method: HttpMethod) => {
@@ -54,14 +71,14 @@ export const Patch = createHttpOperator(HttpMethod.Patch);
 export const Options = createHttpOperator(HttpMethod.Options);
 export const Head = createHttpOperator(HttpMethod.Head);
 
-export const Data = <Schema extends z.ZodType>(
+export const Data = <Schema extends ValidationSchema>(
   schema: Schema,
 ): Operator<
   {
-    data: z.input<Schema>;
+    data: InferSchemaInput<Schema>;
   },
   {
-    data: z.output<Schema>;
+    data: InferSchemaOutput<Schema>;
   }
 > => {
   return {
@@ -83,14 +100,14 @@ export const Data = <Schema extends z.ZodType>(
   };
 };
 
-export const Query = <Schema extends z.ZodType>(
+export const Query = <Schema extends ValidationSchema>(
   schema: Schema,
 ): Operator<
   {
-    query: z.input<Schema>;
+    query: InferSchemaInput<Schema>;
   },
   {
-    query: z.output<Schema>;
+    query: InferSchemaOutput<Schema>;
   }
 > => {
   return {
@@ -112,14 +129,14 @@ export const Query = <Schema extends z.ZodType>(
   };
 };
 
-export const Params = <Schema extends z.ZodType>(
+export const Params = <Schema extends ValidationSchema>(
   schema: Schema,
 ): Operator<
   {
-    params: z.input<Schema>;
+    params: InferSchemaInput<Schema>;
   },
   {
-    params: z.output<Schema>;
+    params: InferSchemaOutput<Schema>;
   }
 > => {
   return {
@@ -141,14 +158,14 @@ export const Params = <Schema extends z.ZodType>(
   };
 };
 
-export const Headers = <Schema extends z.ZodType>(
+export const Headers = <Schema extends ValidationSchema>(
   schema: Schema,
 ): Operator<
   {
-    headers: z.input<Schema>;
+    headers: InferSchemaInput<Schema>;
   },
   {
-    headers: z.output<Schema>;
+    headers: InferSchemaOutput<Schema>;
   }
 > => {
   return {
@@ -214,15 +231,15 @@ export const Redirect = (url: string): Operator<void> => {
   };
 };
 
-export const Upload = <Schema extends z.ZodType>(
+export const Upload = <Schema extends ValidationSchema>(
   urlPath: string,
   schema?: Schema,
 ): Operator<
   {
-    files: z.input<Schema>;
+    files: InferSchemaInput<Schema>;
   },
   {
-    formData: z.output<Schema>;
+    formData: InferSchemaOutput<Schema>;
   }
 > => {
   return {
