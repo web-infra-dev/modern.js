@@ -181,10 +181,15 @@ export const ssgPlugin = (): CliPlugin<AppTools> => ({
       );
 
       // write to dist file
-      writeHtmlFile(htmlAry, ssgRoutes, buildDir);
+      const renderedRoutes = writeHtmlFile(
+        htmlAry,
+        ssgRoutes,
+        buildDir,
+        pageRoutes,
+      );
 
       // format route info, side effect
-      replaceRoute(ssgRoutes, pageRoutes);
+      replaceRoute(renderedRoutes, pageRoutes);
 
       // write routes to spec file
       writeJSONSpec(buildDir, pageRoutes.concat(apiRoutes));

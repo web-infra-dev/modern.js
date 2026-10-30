@@ -9,7 +9,7 @@ import type {
   ServerEnv,
   ServerPlugin,
 } from '../../types';
-import { sortRoutes } from '../../utils';
+import { getRoutePaths, sortRoutes } from '../../utils';
 import { requestLatencyMiddleware } from '../monitors';
 
 export * from './inject';
@@ -34,27 +34,23 @@ export const renderPlugin = (): ServerPlugin => ({
       });
 
       for (const route of pageRoutes) {
-        const { urlPath: originUrlPath } = route;
-        // Hono accepts route paths and handles regex escaping internally.
-        const urlPath = originUrlPath.endsWith('/')
-          ? `${originUrlPath}*`
-          : `${originUrlPath}/*`;
-
-        // config.renderMiddlewares can register by server config and prepare hook
-        renderMiddlewares?.forEach(m => {
-          middlewares.push({
-            name: m.name,
-            path: urlPath,
-            handler: m.handler,
+        for (const urlPath of getRoutePaths(route)) {
+          // config.renderMiddlewares can register by server config and prepare hook
+          renderMiddlewares?.forEach(m => {
+            middlewares.push({
+              name: m.name,
+              path: urlPath,
+              handler: m.handler,
+            });
           });
-        });
 
-        render &&
-          middlewares.push({
-            name: `render`,
-            path: urlPath,
-            handler: createRenderHandler(render),
-          });
+          render &&
+            middlewares.push({
+              name: `render`,
+              path: urlPath,
+              handler: createRenderHandler(render),
+            });
+        }
       }
     });
   },

@@ -6,7 +6,7 @@ export function exist(route: ModernRoute, pageRoutes: ModernRoute[]): number {
   return pageRoutes.slice().findIndex(pageRoute => {
     const urlEqual = normalize(pageRoute.urlPath) === normalize(route.urlPath);
     const entryEqual = pageRoute.entryName === route.entryName;
-    if (urlEqual && entryEqual) {
+    if (urlEqual && entryEqual && pageRoute.isSSG === route.isSSG) {
       return true;
     }
     return false;
@@ -19,6 +19,7 @@ export function replaceRoute(ssgRoutes: SsgRoute[], pageRoutes: ModernRoute[]) {
     const { output, headers, ...cleanSsgRoute } = ssgRoute;
     return Object.assign(
       cleanSsgRoute,
+      { isSSG: true },
       output ? { entryPath: output } : {},
     ) as ModernRoute;
   });
@@ -32,8 +33,8 @@ export function replaceRoute(ssgRoutes: SsgRoute[], pageRoutes: ModernRoute[]) {
       // new route
       freshRoutes.push({ ...ssgRoute });
     } else {
-      // overwrite original entry
-      pageRoutes[index].entryPath = ssgRoute.entryPath;
+      // Replace only an existing prerendered route, keeping the entry fallback.
+      pageRoutes[index] = ssgRoute;
     }
   });
 

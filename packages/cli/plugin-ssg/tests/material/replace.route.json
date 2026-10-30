@@ -41,7 +41,7 @@
     },
     {
       "urlPath": "/lib/home",
-      "entryPath": "html/home.html",
+      "entryPath": "html/home/index.html",
       "entryName": "home"
     },
     {
@@ -50,9 +50,22 @@
       "entryName": "mobile"
     },
     {
+      "urlPath": "/lib/entry",
+      "entryPath": "html/entry/index.html",
+      "entryName": "entry",
+      "isSSG": true
+    },
+    {
+      "urlPath": "/lib/home",
+      "entryPath": "html/home.html",
+      "entryName": "home",
+      "isSSG": true
+    },
+    {
       "urlPath": "/lib/pc",
       "entryPath": "html/pc/index.html",
-      "entryName": "pc"
+      "entryName": "pc",
+      "isSSG": true
     }
   ]
 }
