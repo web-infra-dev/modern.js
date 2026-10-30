@@ -38,6 +38,12 @@ export default function ProductDetail() {
       <button data-testid="route-remote-back" onClick={() => navigate(-1)}>
         Back
       </button>
+      <button
+        data-testid="route-remote-slow"
+        onClick={() => navigate('../slow', { relative: 'path' })}
+      >
+        Slow station
+      </button>
 
       <Link data-testid="scope-fail-link" to="?fail=1">
         Fail detail loader

@@ -83,9 +83,10 @@ function RoutedRemote({
   }, []);
   useEffect(() => {
     for (const listener of state.listeners) listener();
-  }, [state, fullLocation]);
+  }, [state, fullLocation, location.key]);
   return (
     <CoreReactRemote
+      key={basename}
       {...options}
       basename={basename}
       navigation={
@@ -126,6 +127,10 @@ export const createModernReactRemote = ((options: CreateReactRemoteOptions) =>
 
 /** Browser history compatibility for explicit mounts without a Modern Router. */
 function BrowserRemote(options: ReactRemoteProps) {
+  const basename =
+    options.basename === undefined
+      ? undefined
+      : normalizeBasename(options.basename);
   const navigation = useMemo<BridgeNavigation>(
     () => ({
       getLocation: () =>
@@ -155,10 +160,12 @@ function BrowserRemote(options: ReactRemoteProps) {
   );
   return (
     <CoreReactRemote
+      key={basename}
       {...options}
+      basename={basename}
       navigation={
         options.navigation ??
-        (options.basename !== undefined && !options.memoryRoute
+        (basename !== undefined && !options.memoryRoute
           ? navigation
           : undefined)
       }

@@ -16,8 +16,8 @@
     "@modern-js/runtime": "latest",
     "react": "^19.2.8",
     "react-dom": "^19.2.8",
-    "@module-federation/enhanced": "0.0.0-feat-bridge-route-navigation-20261028125233",
-    "@module-federation/bridge-react": "0.0.0-feat-bridge-route-navigation-20261028125233"
+    "@module-federation/enhanced": "0.0.0-feat-bridge-route-navigation-20261030085657",
+    "@module-federation/bridge-react": "0.0.0-feat-bridge-route-navigation-20261030085657"
   },
   "devDependencies": {
     "@modern-js/app-tools": "latest",

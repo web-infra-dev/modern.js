@@ -10,7 +10,7 @@ import {
 import { ReactRemote } from '../../src/mf/remote';
 
 it.each([false, true])(
-  'preserves the provider, Root and page state when navigation controls change (Modern Router: %s)',
+  'preserves props and adapter updates but replaces the provider when basename changes (Modern Router: %s)',
   async withRouter => {
     function App({ label }: { label: string }) {
       const routing = useBridgeRouter();
@@ -134,11 +134,6 @@ it.each([false, true])(
         expect(view.getByTestId('counter').textContent).toBe('memory: 1'),
       );
       expect(view.getByTestId('location').textContent).toBe('memory');
-      view.rerender(element({}, 'card'));
-      await waitFor(() =>
-        expect(view.getByTestId('counter').textContent).toBe('card: 1'),
-      );
-      expect(view.getByTestId('location').textContent).toBe('memory');
       view.rerender(element({ basename: '/inventory' }, 'restored'));
       await waitFor(() =>
         expect(view.getByTestId('counter').textContent).toBe('restored: 1'),
@@ -146,6 +141,22 @@ it.each([false, true])(
       expect(factory).toHaveBeenCalledTimes(1);
       expect(loadRemote).toHaveBeenCalledTimes(1);
       expect(destroyed).not.toHaveBeenCalled();
+      view.rerender(element({ basename: '/inventory/' }, 'normalized'));
+      await waitFor(() =>
+        expect(view.getByTestId('counter').textContent).toBe('normalized: 1'),
+      );
+      expect(factory).toHaveBeenCalledTimes(1);
+      view.rerender(
+        element({ basename: '/inventory', navigation: custom }, 'old mount'),
+      );
+      await waitFor(() => expect(listeners.size).toBe(1));
+      view.rerender(element({ basename: '/warehouse' }, 'new mount'));
+      await waitFor(() =>
+        expect(view.getByTestId('counter').textContent).toBe('new mount: 0'),
+      );
+      expect(factory).toHaveBeenCalledTimes(2);
+      expect(destroyed).toHaveBeenCalledTimes(1);
+      expect(listeners.size).toBe(0);
     } finally {
       await act(async () => {
         view.unmount();
@@ -153,6 +164,6 @@ it.each([false, true])(
       window.history.replaceState(null, '', original);
     }
     expect(listeners.size).toBe(0);
-    expect(destroyed).toHaveBeenCalledTimes(1);
+    expect(destroyed).toHaveBeenCalledTimes(2);
   },
 );

@@ -3,9 +3,11 @@ import { createReactRemote } from '@modern-js/runtime/mf';
 
 const WeatherApp = createReactRemote<{ label: string }>({
   remote: 'provider/WeatherApp',
+  memoryRoute: { entryPath: '/' },
 });
 const ProductApp = createReactRemote<{ label: string }>({
   remote: 'provider/ProductApp',
+  memoryRoute: { entryPath: '/' },
 });
 const ProductEntry = createReactRemote({
   remote: 'provider/ProductApp',
@@ -13,6 +15,7 @@ const ProductEntry = createReactRemote({
 });
 const OrdersApp = createReactRemote<{ label: string }>({
   remote: 'provider/OrdersApp',
+  memoryRoute: { entryPath: '/' },
 });
 
 export default function RouteExports() {

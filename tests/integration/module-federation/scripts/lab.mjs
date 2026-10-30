@@ -48,6 +48,8 @@ export async function startLab(
   const failures = [];
   let stopping = false;
   const logs = new Map();
+  /** @type {{ probe: string; path: string; completed: boolean; aborted: boolean }[]} */
+  const routeRequests = [];
   const env = {
     ...process.env,
     MF_LAB_PORTS: JSON.stringify(ports),
@@ -239,6 +241,24 @@ export async function startLab(
       res.setHeader('Access-Control-Allow-Origin', '*');
       res.setHeader('Cache-Control', 'no-store');
       const url = new URL(req.url, 'http://localhost');
+      if (url.pathname === '/route-loader') {
+        const record = {
+          probe: url.searchParams.get('probe') || '',
+          path: url.searchParams.get('path') || '',
+          completed: false,
+          aborted: false,
+        };
+        routeRequests.push(record);
+        res.on('close', () => {
+          if (!res.writableFinished) record.aborted = true;
+        });
+        await sleep(250);
+        if (res.destroyed) return;
+        record.completed = true;
+        res.writeHead(200, { 'Content-Type': 'application/json' });
+        res.end(JSON.stringify({ path: record.path }));
+        return;
+      }
       if (url.pathname !== '/weather') {
         res.writeHead(404).end();
         return;
@@ -298,7 +318,13 @@ export async function startLab(
       );
     }
     await wait(`http://localhost:${ports.host}${hostBase}/`);
-    return { ports, url: `http://localhost:${ports.host}`, stop, logs };
+    return {
+      ports,
+      url: `http://localhost:${ports.host}`,
+      stop,
+      logs,
+      routeRequests,
+    };
   } catch (error) {
     await stop();
     throw error;

@@ -1,7 +1,9 @@
 import { useBridgeRouter } from '@module-federation/bridge-react/base';
 import {
   addBasename,
-  connectRemoteRouter,
+  createBrowserRouterConnector,
+  createMountWindow,
+  normalizeBasename,
   removeBasename,
 } from '../../mf/navigation';
 import type { NestedRoute, PageRoute } from '@modern-js/types';
@@ -32,7 +34,10 @@ export interface ScopedRootDefinition {
   getDataBase: () => string;
 }
 
-function instanceRoutes(definition: ScopedRootDefinition) {
+function instanceRoutes(
+  definition: ScopedRootDefinition,
+  routeBasename: string,
+) {
   const copy = (
     nodes: ScopedRootDefinition['routes'],
   ): ScopedRootDefinition['routes'] =>
@@ -57,11 +62,15 @@ function instanceRoutes(definition: ScopedRootDefinition) {
           const url = new URL(args.request.url);
           const producer = new URL(definition.getDataBase());
           url.protocol = producer.protocol;
-          url.host = producer.host;
+          url.hostname = producer.hostname;
+          url.port = producer.port;
           // Server endpoints retain the producer's standalone route paths.
           // This translation is confined to data requests, never Router location.
           url.pathname = addBasename(
-            addBasename(url.pathname, definition.dataRoute || '/'),
+            addBasename(
+              removeBasename(url.pathname, routeBasename) ?? url.pathname,
+              definition.dataRoute || '/',
+            ),
             definition.basename || '/',
           );
           return loader({ ...args, request: new Request(url, args.request) });
@@ -76,29 +85,35 @@ function instanceRoutes(definition: ScopedRootDefinition) {
 export function createScopedRoot(
   definition: ScopedRootDefinition,
 ): React.ComponentType<any> {
-  return function ModernScopedRoot(props: Record<string, unknown>) {
-    const bridge = useBridgeRouter();
+  function ScopedRootInstance({
+    props,
+    bridge,
+    basename,
+  }: {
+    props: Record<string, unknown>;
+    bridge: ReturnType<typeof useBridgeRouter>;
+    basename: string;
+  }) {
     const navigation = bridge?.memoryRoute ? undefined : bridge?.navigation;
-    const basename = typeof props.basename === 'string' ? props.basename : '/';
     const [instance] = useState(() => {
       const context = getInitialContext(true, { routeAssets: {} });
-      const mount = { basename: navigation ? basename : '/', navigation };
+      const memory = Boolean(bridge?.memoryRoute);
+      const routeBasename = memory ? '/' : basename;
+      const mountWindow = memory
+        ? undefined
+        : createMountWindow(
+            () => context._routeScope?.router,
+            () => context._routeScope?.hash === true,
+          );
       context._routeScope = {
-        projectHref: href => {
-          const target = mount.navigation
-            ? addBasename(href, mount.basename)
-            : href;
-          return mount.navigation?.createHref?.(target) ?? target;
-        },
         config: {
-          routes: instanceRoutes(definition),
+          routes: instanceRoutes(definition, routeBasename),
           globalApp: definition.globalApp,
         },
-        initialUrl:
-          bridge?.memoryRoute?.entryPath ??
-          (navigation
-            ? (removeBasename(navigation.getLocation(), basename) ?? '/')
-            : '/'),
+        memory,
+        basename: routeBasename,
+        getWindow: mountWindow ? () => mountWindow.window : undefined,
+        initialUrl: bridge?.memoryRoute?.entryPath ?? '/',
       };
       const runtime = definition.createRuntime(
         context._routeScope.config,
@@ -109,21 +124,43 @@ export function createScopedRoot(
       const WrappedRoot = runtime.hooks.wrapRoot.call(
         definition.App!,
       ) as React.ComponentType<any>;
-      return { context, runtime, WrappedRoot, mount };
+      return {
+        context,
+        runtime,
+        WrappedRoot,
+        notifyPeers: mountWindow?.notifyPeers,
+        initialization: undefined as Promise<unknown> | undefined,
+        connection: undefined as
+          ReturnType<typeof createBrowserRouterConnector> | undefined,
+      };
     });
-    instance.mount.basename = navigation ? basename : '/';
-    instance.mount.navigation = navigation;
-    const [ready, setReady] = useState(false);
+    const [ready, setReady] = useState(0);
     const [failure, setFailure] = useState<unknown>();
     useEffect(() => {
       let active = true;
+      const scope = instance.context._routeScope!;
+      const connection = scope.memory
+        ? undefined
+        : createBrowserRouterConnector(
+            undefined,
+            setFailure,
+            () => scope.hash === true,
+            instance.notifyPeers,
+          );
+      instance.connection = connection;
+      // This owner is committed before ready renders the Router. Attaching
+      // observes immediately, while Core queues notifications outside render.
+      scope.onRouterCreated = connection?.attach;
       Promise.resolve()
-        .then(() =>
-          instance.runtime.hooks.onBeforeRender.call(instance.context),
-        )
+        .then(() => {
+          // StrictMode may clean up this setup before its microtask runs.
+          if (active)
+            return (instance.initialization ??=
+              instance.runtime.hooks.onBeforeRender.call(instance.context));
+        })
         .then(
           () => {
-            if (active) setReady(true);
+            if (active) setReady(version => version + 1);
           },
           error => {
             if (active)
@@ -134,23 +171,40 @@ export function createScopedRoot(
         );
       return () => {
         active = false;
-        instance.context._routeScope?.router?.dispose();
+        connection?.dispose();
+        instance.connection = undefined;
+        scope.onRouterCreated = undefined;
+        scope.router?.dispose();
+        scope.router = undefined;
+        scope.routes = undefined;
       };
     }, [instance]);
+    useEffect(() => {
+      instance.connection?.setNavigation(navigation);
+    }, [instance, navigation]);
     if (failure) throw failure;
     if (!ready) return null;
     const { WrappedRoot } = instance;
     return wrapRuntimeContextProvider(
       <ScopedRootPropsContext.Provider value={props}>
         <WrappedRoot {...props} />
-        <ScopeNavigation
-          context={instance.context}
-          basename={basename}
-          navigation={navigation}
-          onError={setFailure}
-        />
       </ScopedRootPropsContext.Provider>,
       instance.context,
+    );
+  }
+  return function ModernScopedRoot(props: Record<string, unknown>) {
+    const bridge = useBridgeRouter();
+    const basename = normalizeBasename(
+      bridge?.basename ??
+        (typeof props.basename === 'string' ? props.basename : '/'),
+    );
+    return (
+      <ScopedRootInstance
+        key={basename}
+        props={props}
+        bridge={bridge}
+        basename={basename}
+      />
     );
   };
 }
@@ -183,23 +237,4 @@ export function createScopedRender() {
     root.render(element);
     return root;
   };
-}
-
-function ScopeNavigation({
-  context,
-  basename,
-  navigation,
-  onError,
-}: {
-  context: ReturnType<typeof getInitialContext>;
-  basename: string;
-  navigation: NonNullable<ReturnType<typeof useBridgeRouter>>['navigation'];
-  onError: (error: unknown) => void;
-}) {
-  useEffect(() => {
-    const router = context._routeScope?.router;
-    if (router && navigation)
-      return connectRemoteRouter(router, basename, navigation, onError);
-  }, [context, basename, navigation, onError]);
-  return null;
 }

@@ -80,7 +80,12 @@ const selector = (id: string) => `[data-testid="${id}"]`;
 
 export function setupLab(
   mode: 'dev' | 'production',
-  options: { basename?: string; hash?: boolean } = {},
+  options: {
+    basename?: string;
+    hash?: boolean;
+    documentBase?: string;
+    clientLayoutLoaders?: boolean;
+  } = {},
 ) {
   let lab: Awaited<ReturnType<typeof startLab>>;
   let browser: Browser;
@@ -124,6 +129,42 @@ export function setupLab(
   let expectedErrors: { pattern: RegExp; min: number; max: number } | undefined;
   beforeAll(async () => {
     workspace = await createWorkspace();
+    if (options.clientLayoutLoaders) {
+      await writeFile(
+        path.join(workspace, 'provider/src/routes/layout.data.client.ts'),
+        "export const loader = () => ({ root: 'Root loader retained' })\n",
+      );
+      await writeFile(
+        path.join(
+          workspace,
+          'provider/src/routes/product/layout.data.client.ts',
+        ),
+        "export const loader = () => ({ product: 'Product loader retained' })\n",
+      );
+      await writeFile(
+        path.join(workspace, 'provider/src/routes/loading.tsx'),
+        `
+import { lazy } from 'react'
+const Loading = lazy(() => import(/* webpackChunkName: "initial-loading" */ '../components/InitialLoading'))
+export default function Fallback() { return <Loading /> }
+`,
+      );
+      await writeFile(
+        path.join(workspace, 'provider/src/components/InitialLoading.tsx'),
+        'export default function Loading() { return <p>Loading station</p> }\n',
+      );
+    }
+    if (options.documentBase !== undefined) {
+      await writeFile(
+        path.join(workspace, 'host/src/Document.tsx'),
+        `
+import { Html, Head, Body, Root } from '@modern-js/runtime/document'
+export default function Document() {
+  return <Html><Head><base href={${JSON.stringify(options.documentBase)}} /></Head><Body><Root /></Body></Html>
+}
+`,
+      );
+    }
     if (options.basename || options.hash) {
       const runtime = path.join(workspace, 'host/src/modern.runtime.tsx');
       const source = await readFile(runtime, 'utf8');
@@ -136,6 +177,10 @@ export function setupLab(
       );
     }
     if (options.hash) {
+      await writeFile(
+        path.join(workspace, 'provider/src/modern.runtime.tsx'),
+        "import { defineRuntimeConfig } from '@modern-js/runtime'\nexport default defineRuntimeConfig({ router: { supportHtml5History: false } })\n",
+      );
       const config = path.join(workspace, 'host/modern.config.ts');
       await writeFile(
         config,
@@ -318,7 +363,12 @@ export type LabContext = ReturnType<typeof setupLab>;
 export function describeLab(
   name: string,
   register: (getContext: LabContext) => void,
-  options: { basename?: string; hash?: boolean } = {},
+  options: {
+    basename?: string;
+    hash?: boolean;
+    documentBase?: string;
+    clientLayoutLoaders?: boolean;
+  } = {},
 ) {
   rstest.setConfig({ testTimeout: 60000, hookTimeout: 600000, retry: 0 });
   const modes = process.env.MF_LAB_MODE

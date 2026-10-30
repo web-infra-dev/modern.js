@@ -1,4 +1,8 @@
-import type { BridgeNavigation } from '@module-federation/bridge-react/base';
+import {
+  createBridgeRouterConnector,
+  type BridgeNavigation,
+  type BridgeRouterAdapter,
+} from '@module-federation/bridge-react/base';
 import type { DataRouter } from '@modern-js/runtime-utils/router';
 
 export function normalizeBasename(value: string) {
@@ -16,7 +20,7 @@ export function removeBasename(
 ): string | undefined {
   const base = normalizeBasename(basename);
   if (base === '/') return url;
-  if (!url.startsWith(base)) return;
+  if (!url.toLowerCase().startsWith(base.toLowerCase())) return;
   const suffix = url.slice(base.length);
   if (suffix && !['/', '?', '#'].includes(suffix[0])) return;
   return suffix.startsWith('/') ? suffix : `/${suffix}`;
@@ -28,98 +32,156 @@ export function addBasename(url: string, basename: string) {
   return `${base}${url === '/' ? '' : /^\/[?#]/.test(url) ? url.slice(1) : url}`;
 }
 
-export function routerLocation(router: DataRouter) {
-  const { pathname, search, hash } = router.state.location;
-  return `${pathname}${search}${hash}`;
+function browserLocation(
+  location: Window['location'] | URL,
+  hashRouter: boolean,
+) {
+  if (!hashRouter)
+    return `${location.pathname}${location.search}${location.hash}`;
+  const value = location.hash.slice(1) || '/';
+  return value.startsWith('/') || value.startsWith('.') ? value : `/${value}`;
 }
 
-/** Connect an existing memory router. Host history is the navigation authority. */
-export function connectRemoteRouter(
-  router: DataRouter,
-  basename: string,
-  host: BridgeNavigation,
-  onError: (error: unknown) => void,
+/** Adapt POP events per mount without changing browser locations or history. */
+export function createMountWindow(
+  getRouter: () => DataRouter | undefined,
+  isHashRouter: () => boolean,
 ) {
-  let active = true;
-  let revision = 0;
-  let hostPending = false;
-  let attached = false;
-  let requested: string | undefined;
-  const navigate = router.navigate;
-  const report = (error: unknown) => {
-    if (active) onError(error);
+  const popListeners = new Map<EventListener, EventListener>();
+  let notifyingPeers = false;
+  const mountWindow = new Proxy(window, {
+    get(target, property) {
+      if (property === 'addEventListener')
+        return (
+          type: string,
+          listener: EventListener,
+          options?: AddEventListenerOptions,
+        ) => {
+          if (type !== 'popstate')
+            return target.addEventListener(type, listener, options);
+          const wrapped: EventListener = event => {
+            if (notifyingPeers) return;
+            const router = getRouter();
+            const next = browserLocation(target.location, isHashRouter());
+            const pending = router?.state.navigation.location;
+            const current = pending ?? router?.state.location;
+            // Both peers and native history can repeat a POP while its loader
+            // is pending. A new entry with the same URL still has a new key.
+            if (
+              current &&
+              `${current.pathname}${current.search}${current.hash}` === next &&
+              current.key === (target.history.state?.key ?? 'default')
+            )
+              return;
+            listener(event);
+          };
+          popListeners.set(listener, wrapped);
+          target.addEventListener(type, wrapped, options);
+        };
+      if (property === 'dispatchEvent')
+        return (event: Event) => {
+          for (const listener of popListeners.values()) listener(event);
+          return true;
+        };
+      if (property === 'removeEventListener')
+        return (
+          type: string,
+          listener: EventListener,
+          options?: EventListenerOptions,
+        ) => {
+          target.removeEventListener(
+            type,
+            popListeners.get(listener) ?? listener,
+            options,
+          );
+          popListeners.delete(listener);
+        };
+      const value = Reflect.get(target, property);
+      return typeof value === 'function' ? value.bind(target) : value;
+    },
+  });
+  return {
+    window: mountWindow,
+    notifyPeers() {
+      // Publishing an already committed entry must not interrupt this writer's
+      // next navigation. Other mounted Routers still receive the same POP.
+      notifyingPeers = true;
+      try {
+        window.dispatchEvent(
+          new PopStateEvent('popstate', { state: window.history.state }),
+        );
+      } finally {
+        notifyingPeers = false;
+      }
+    },
   };
-  const forward = (replace: boolean) => {
-    if (
-      !active ||
-      !attached ||
-      hostPending ||
-      router.state.navigation.state !== 'idle'
-    )
-      return;
-    const target = addBasename(routerLocation(router), basename);
-    if (target === host.getLocation() || target === requested) return;
-    requested = target;
-    const current = revision;
-    Promise.resolve()
-      .then(() => {
-        if (active && attached && current === revision)
-          return host.navigate(target, { replace });
-      })
-      .catch(report);
+}
+
+/** Adapt Modern's Router and browser history to Core's coordinator. */
+export function createBrowserRouterConnector(
+  host: BridgeNavigation | undefined,
+  onError: (error: unknown) => void,
+  isHashRouter: () => boolean = () => false,
+  notifyPeers?: () => void,
+) {
+  let previousHost: BridgeNavigation | undefined;
+  let adaptedHost:
+    Pick<BridgeNavigation, 'getLocation' | 'subscribe'> | undefined;
+  const adaptHost = (navigation: BridgeNavigation | undefined) => {
+    if (navigation === previousHost) return adaptedHost;
+    previousHost = navigation;
+    adaptedHost = navigation && {
+      subscribe: listener => navigation.subscribe(listener),
+      getLocation: () => {
+        const target = navigation.getLocation();
+        const href = navigation.createHref?.(target);
+        if (
+          href !== undefined &&
+          (new URL(href, window.location.href).hash.slice(1) === target) !==
+            isHashRouter()
+        )
+          throw new Error(
+            'URL-connected Host and Remote must use the same Browser or Hash Router mode. Configure the producer router or use an explicit memoryRoute card.',
+          );
+        return target;
+      },
+    };
+    return adaptedHost;
   };
-  const sync = () => {
-    if (!active) return;
-    const target = removeBasename(host.getLocation(), basename);
-    attached = target !== undefined;
-    requested = undefined;
-    const current = ++revision;
-    hostPending = false;
-    if (
-      target === undefined ||
-      (target === routerLocation(router) &&
-        router.state.navigation.state === 'idle')
-    )
-      return;
-    hostPending = true;
-    Promise.resolve(navigate(target, { replace: true }))
-      .then(() => {
-        if (!active || current !== revision) return;
-        hostPending = false;
-        // A producer loader can redirect an incoming host location.
-        forward(true);
-      })
-      .catch(report);
-  };
-  const wrappedNavigate: DataRouter['navigate'] = ((
-    to: string | number,
-    options?: any,
-  ) => {
-    if (!active || !attached) return Promise.resolve();
-    const current = ++revision;
-    requested = undefined;
-    hostPending = false;
-    if (typeof to === 'number') {
-      return Promise.resolve()
-        .then(() => {
-          if (active && attached && current === revision)
-            return host.navigate(to);
-        })
-        .catch(report);
-    }
-    return navigate(to, options);
-  }) as DataRouter['navigate'];
-  router.navigate = wrappedNavigate;
-  const stopRouter = router.subscribe(() =>
-    forward(router.state.historyAction !== 'PUSH'),
-  );
-  const stopHost = host.subscribe(sync);
-  sync();
-  return () => {
-    active = false;
-    ++revision;
-    stopRouter();
-    stopHost();
-    if (router.navigate === wrappedNavigate) router.navigate = navigate;
+  const connector = createBridgeRouterConnector({
+    navigation: adaptHost(host),
+    onError,
+  });
+  return {
+    attach(router: DataRouter) {
+      const location = (value: DataRouter['state']['location']) => ({
+        url: `${value.pathname}${value.search}${value.hash}`,
+        key: value.key,
+      });
+      const pop = () =>
+        new PopStateEvent('popstate', { state: window.history.state });
+      const adapter: BridgeRouterAdapter = {
+        getSnapshot: () => ({
+          location: location(router.state.location),
+          pendingLocation: router.state.navigation.location
+            ? location(router.state.navigation.location)
+            : undefined,
+          action: router.state.historyAction,
+          initialized: router.state.initialized,
+        }),
+        subscribe: listener => router.subscribe(listener),
+        getHistoryLocation: () => ({
+          url: browserLocation(window.location, isHashRouter()),
+          key: window.history.state?.key ?? 'default',
+        }),
+        syncFromHistory: () => router.window?.dispatchEvent(pop()),
+        notifyPeers: notifyPeers ?? (() => window.dispatchEvent(pop())),
+      };
+      connector.attach(adapter);
+    },
+    setNavigation(navigation: BridgeNavigation | undefined) {
+      connector.setNavigation(adaptHost(navigation));
+    },
+    dispose: () => connector.dispose(),
   };
 }

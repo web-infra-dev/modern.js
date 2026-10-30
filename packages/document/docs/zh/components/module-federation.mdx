@@ -11,7 +11,7 @@ Modern.js 提供了一个 Module Federation 的示例项目，请参考 [module-
 Modern.js 会在应用目录检测 `module-federation.config.ts`，存在该文件时自动启用 Module Federation。无需安装或手动注册 Modern.js MF 插件，仍需安装 MF 引擎：
 
 ```bash
-pnpm add @module-federation/enhanced@0.0.0-feat-bridge-route-navigation-20261028125233
+pnpm add @module-federation/enhanced@0.0.0-feat-bridge-route-navigation-20261030085657
 ```
 
 统一 React 消费 API 从 `@modern-js/runtime/mf` 导入，Modern 管理其 Bridge 依赖。用户仍需安装支持该 API 与 expose 协议元信息的 Enhanced 版本。现有 Bridge 直接导入方式继续保留。
@@ -154,7 +154,7 @@ export default createBridgeComponent({
 
 `route` 是生产者的固定路由定义路径。构建时保留该节点全部子路由，以及祖先 Layout、Loader、错误边界和必要的 index、无路径包装，移除无关兄弟分支。`route` 只选择导出内容。构建器为该导出生成应用局部路由，保留 route ID，生产者单独运行的路由表不变。选区路径不会成为导出应用的 basename。选中的内容作为一个应用交给消费者，挂载方式与导出完整应用一致。消费者可通过下文的 Modern 路由消费入口自动计算 basename 并同步导航。
 
-省略 `route` 或调用 `createRoot()` 时导出对应 registry 的整应用。`createRoot(UserApp)` 的组件调用继续兼容。不同导出使用独立路由定义，每次挂载使用独立的 memory Router 和运行时上下文，更新 props 保留页面状态，卸载后重新挂载会创建新实例。
+省略 `route` 或调用 `createRoot()` 时导出对应 registry 的整应用。`createRoot(UserApp)` 的组件调用继续兼容。不同导出使用独立路由定义，每次挂载使用独立的 Router 和运行时上下文。导出应用默认使用 Browser Router，也保留生产者运行时的 Hash Router 配置，选择 route 不会启用 Memory Router。Browser 实例共享窗口地址与历史记录。更新 props 保留页面状态，卸载后重新挂载会创建新实例。
 
 选区在生成页面 import 之前完成。范围出口不会因为路由配置引入无关页面，但同次构建中的整应用入口、其他 exposes 或业务模块直接 import 的页面仍可能出现在 dist 中。
 
@@ -191,7 +191,7 @@ export default function Page() {
 }
 ```
 
-从 `@modern-js/runtime/mf` 导入的普通 `createReactRemote` 和 `ReactRemote` 不会因位于路由组件内部而自动接管 URL。不传 basename 的应用导出继续使用独立 memory 导航，适合 Dashboard 卡片和同一导出的多个实例。业务 props 与 basename、navigation、memoryRoute 控制参数分开传递。props、地址和动态挂载参数更新复用现有 Root，卸载释放该实例订阅和 Loader 请求，重试不会复用已失败实例。
+从 `@modern-js/runtime/mf` 导入的普通 `createReactRemote` 和 `ReactRemote` 不会因位于路由组件内部而自动推导挂载 basename。省略 basename 不会启用独立导航。Dashboard 卡片应显式传入 `memoryRoute: { entryPath: '/' }`，只有这个参数才启用独立 Memory Router，使用局部初始路径且不与宿主地址同步。模式和初始路径在挂载时确定，切换模式或重置初始路径需要重新挂载。业务 props 与 basename、navigation、memoryRoute 控制参数分开传递。一次挂载期间 basename 固定，普通 props 更新和应用内部导航复用现有 Root 并保留页面状态。实际挂载 basename 改变时销毁旧挂载并创建新实例，不保留跨挂载位置的 Router 或页面状态。卸载释放该实例订阅和 Loader 请求，重试不会复用已失败实例。
 
 ### 生产者的路由责任
 
@@ -201,12 +201,16 @@ export default function Page() {
 
 生产者单独运行时仍使用原地址 `/product/detail/42`。服务端 Loader 仍请求生产者原数据地址，这与应用内部导航路径分开处理。独立 memory 应用的 `memoryRoute.entryPath` 也使用局部路径，例如 `/detail/42?tab=stock`。框架不改写业务源码。
 
+持久挂载的导出实例也会接收挂载范围外的宿主地址。React Router 处理新地址前会取消此前在途导航，旧 Loader 完成后不会把宿主带回。即使首次 Loader 在页面内容加载完成前重定向，宿主也会收到最终地址，不再写入 history。手动传 basename 的浏览器宿主同样支持此行为，无需为此额外提供 navigation。同一 history 条目的重复通知不会重启在途 Loader，同一 URL 的新 history 条目仍按新导航处理。挂载前缀遵循 React Router 忽略大小写的 basename 匹配语义，并保留路由段编码。
+
 可复用的生产者应优先使用相对 Link、navigate 和 redirect，并自行适配依赖 basename 或 pathname 的逻辑。相对导航解决地址生成，不能替代路由表自身的匹配。框架不会扫描或改写写死的绝对路径，无法匹配的路径按正常路由错误处理。
 
 ### 其他 Router 与兼容边界
 
-不用 Modern Router 时，可以给 `createReactRemote` 或 `ReactRemote` 手动传 basename。普通浏览器 history 场景监听 popstate，并将远程 push、replace 和历史移动写入浏览器。自定义 Router 若通过 pushState 导航却不发布位置变化，需要提供 `navigation` Adapter 的 `getLocation`、`subscribe` 和 `navigate`，仅传路径字符串不能订阅任意 Router。
+不用 Modern Router 时，可以给 `createReactRemote` 或 `ReactRemote` 手动传 basename。Remote Browser Router 的 push 或 replace 只写入一次 history，随后通过 popstate 通知宿主 Router 和其他 Browser 实例。宿主通知只更新 Remote 位置，不再次写入 history。Host 决定挂载位置，并在初次挂载时传入实际 basename。Remote 使用自己的 Router 管理内部路径和业务导航。basename 改变时重新挂载，旧 Router、在途 Loader 和订阅随旧实例清理。自定义 Router 若通过 pushState 导航却不发布位置变化，需要提供 `navigation` Adapter 的 `getLocation`、`subscribe` 和 `navigate`，仅传路径字符串不能订阅任意 Router。
 
-CSR 宿主中的 Modern 自带 Hash Router 使用 Router 的逻辑路径计算和导航，不将带 `#` 的 href 作为 pathname 拼接。其他 Hash Router 需要对应 Adapter。fragment 不会发送给服务端，因此 Hash 深层入口在客户端确定，本版不支持 Hash Router 宿主的 SSR 水合。
+同一 URL 的新导航通过 history 条目的 key 与旧通知区分。自定义浏览器 Router 应在 push 或 replace 时生成新的 `history.state.key`，前进后退时保留原条目的 key。使用 `pushState(null, '', sameURL)` 后仅发布相同路径字符串，无法区分新导航与延迟到达的旧通知。
+
+需要同步地址的宿主与 Remote 应使用一致的 Browser 或 Hash Router 模式。CSR Hash Router 宿主挂载需要同步地址的应用时，生产者也应配置 `router.supportHtml5History: false`。默认 Browser Router Remote 不会把宿主的 hash 当作 pathname，独立卡片可改用显式 `memoryRoute`。Hash href 不会当作 pathname 拼接。 Modern 自定义文档可以包含 `<base>` 元素，此时 Hash Router 可能生成完整 href URL，同步仍按配置的 Hash 模式处理。不写入浏览器 history 的自定义适配器不在此 Browser Router 同步契约内。fragment 不会发送给服务端，因此 Hash 深层入口在客户端确定，本版不支持 Hash Router 宿主的 SSR 水合。
 
 旧 Bridge 产物继续使用其原有 Router 行为，缺少新 navigation 集成时不会自动获得双向同步。无协议标记的旧产物仍需 `render: 'bridge'`。普通组件继续进入 Host React 树。Bridge 在 SSR Host 中仍输出占位，浏览器挂载后同步导航，本能力不实现 Bridge SSR、Service App 或远程版本替换。
