@@ -60,7 +60,7 @@
     "@module-federation/enhanced": "^2.0.0",
     "@modelcontextprotocol/server": "^2.3.1",
     "@modelcontextprotocol/ext-apps": "^2.0.3",
-    "@modern-js/server-runtime": "workspace:^3.10.3"
+    "@modern-js/server-runtime": "workspace:^3.10.4"
   },
   "peerDependenciesMeta": {
     "@module-federation/enhanced": {
