@@ -1,5 +1,20 @@
 # @modern-js/app-tools
 
+## 3.11.0
+
+### Patch Changes
+
+- @modern-js/plugin-data-loader@3.11.0
+- @modern-js/server-core@3.11.0
+- @modern-js/prod-server@3.11.0
+- @modern-js/server@3.11.0
+- @modern-js/plugin@3.11.0
+- @modern-js/server-utils@3.11.0
+- @modern-js/builder@3.11.0
+- @modern-js/i18n-utils@3.11.0
+- @modern-js/types@3.11.0
+- @modern-js/utils@3.11.0
+
 ## 3.10.4
 
 ### Patch Changes

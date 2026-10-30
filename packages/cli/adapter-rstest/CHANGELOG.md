@@ -1,5 +1,11 @@
 # @modern-js/adapter-rstest
 
+## 3.11.0
+
+### Patch Changes
+
+- @modern-js/app-tools@3.11.0
+
 ## 3.10.4
 
 ### Patch Changes
