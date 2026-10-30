@@ -111,6 +111,12 @@ export const action = async ({ request }: ActionFunctionArgs) => {
 `action` 函数的返回值可以是任何可序列化的内容，也可以是一个 [Fetch Response](https://developer.mozilla.org/en-US/docs/Web/API/Response) 实例，
 可以通过 [`useActionData`](https://reactrouter.com/en/main/hooks/use-action-data) 访问 response 中内容。
 
+### 重定向
+
+在 action 中，可以从 `@modern-js/runtime/router` 导入 `redirect`，通过 `return redirect('/dashboard')` 或 `throw redirect('/dashboard')` 在提交后跳转。这也适用于通过 `useFetcher` 发起的提交。
+
+action 在表单或 `submit` 发起数据写入请求时执行。仅访问路由不会触发 action。如果需要在加载路由时重定向，请在 loader 中使用 `redirect`。
+
 ## useSubmit 和 useFetcher
 
 ### 区别
