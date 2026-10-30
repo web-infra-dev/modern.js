@@ -25,6 +25,8 @@ export default {
       exclude: [
         'tests/router/prefetch.test.tsx',
         'tests/router/routeScopeBrowser.test.tsx',
+        'tests/router/remoteNavigation.test.tsx',
+        'tests/router/remoteNavigationIdentity.test.tsx',
       ],
       extends: commonConfig,
       plugins: [
@@ -52,6 +54,8 @@ export default {
       include: [
         'tests/router/prefetch.test.tsx',
         'tests/router/routeScopeBrowser.test.tsx',
+        'tests/router/remoteNavigation.test.tsx',
+        'tests/router/remoteNavigationIdentity.test.tsx',
       ],
       extends: commonConfig,
       plugins: [
