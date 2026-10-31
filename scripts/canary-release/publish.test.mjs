@@ -6,7 +6,7 @@ import { planHash, readJson } from './core.mjs';
 import { artifactFixture, githubEnvironment } from './fixtures.mjs';
 import { EventEmitter } from 'node:events';
 import {
-  ATTEMPTS, PUBLISH_CONCURRENCY, assertTrustedPublishers, confirmFromRegistry, diagnostic, isolatedNpmEnvironment, missingFromRegistry, npmErrorCode, retryAfterMs, sameValue,
+  ATTEMPTS, PUBLISH_CONCURRENCY, SUBMISSION_ATTEMPTS, assertTrustedPublishers, confirmFromRegistry, diagnostic, isolatedNpmEnvironment, missingFromRegistry, npmErrorCode, retryAfterMs, sameValue,
   publish, publishArguments, publishedFromOutput, repairInstructions, spawnNpm,
 } from './publish.mjs';
 
@@ -16,6 +16,7 @@ function settings(fixture, npm, log = () => {}) {
     workspaces: () => fixture.plan.packages, execute: () => '11.21.0', verifyTrust: () => {}, npm, log,
     // The registry is asked for real in its own test; here nothing is confirmed.
     confirm: async items => items,
+    wait: async () => {},
   };
 }
 const options = plan => ({ artifacts: 'artifacts', receiptDir: 'receipts', expectedPlanHash: planHash(plan) });
@@ -114,7 +115,7 @@ test('publish response must contain a matching identity and integrity', t => {
   assert.throws(() => publishedFromOutput(JSON.stringify({ [pkg.name]: '9.9.9' }), pkg), /string "9\.9\.9"/);
 });
 
-test('a failure that precedes the request is sent again, exactly once', async t => {
+test('a failure that precedes the request is sent again', async t => {
   const fixture = artifactFixture(t);
   const logged = [];
   const calls = [];
@@ -128,8 +129,45 @@ test('a failure that precedes the request is sent again, exactly once', async t 
     return { status: 0, stdout: JSON.stringify({ [pkg.name]: pkg }) };
   }, message => logged.push(message)));
   assert.equal(calls.length, fixture.manifest.packages.length + 1, 'only the identity failure is sent again');
-  assert.match(logged.join('\n'), /retrying: TLOG_CREATE_ENTRY_ERROR/);
+  assert.match(logged.join('\n'), /retrying in 20s: TLOG_CREATE_ENTRY_ERROR/);
   assert.equal(readJson(path.join(fixture.root, 'receipts/receipt.json')).status, 'published');
+});
+
+// What cost that release a package was the spacing, not the number of tries:
+// the one repeat it had went out 42 seconds after the refusal, while Sigstore
+// was still refusing, and the package stayed unpublished.
+test('a submission that keeps being refused is sent again on a widening gap', async t => {
+  const fixture = artifactFixture(t);
+  const gaps = [];
+  const calls = [];
+  await assert.rejects(() => publish(fixture.root, { ...options(fixture.plan), concurrency: 1 }, {
+    ...settings(fixture, args => {
+      calls.push(args[1]);
+      return { status: 1, stderr: 'npm error code TLOG_CREATE_ENTRY_ERROR\nnpm error error creating tlog entry - (409) an equivalent entry already exists' };
+    }),
+    wait: async ms => { gaps.push(ms); },
+  }), /2 of 2 packages/);
+  assert.equal(calls.length, fixture.manifest.packages.length * SUBMISSION_ATTEMPTS);
+  assert.deepEqual(gaps, [20_000, 40_000, 80_000, 20_000, 40_000, 80_000]);
+});
+
+test('the repeats share one budget, so a service refusing everything stops the release instead of holding the runner', async t => {
+  const fixture = artifactFixture(t);
+  const calls = [];
+  const logged = [];
+  // Every npm call costs five minutes, so the six minute budget is spent inside
+  // the first package and the rest of the release is not sent again at all.
+  let clock = 0;
+  await assert.rejects(() => publish(fixture.root, { ...options(fixture.plan), concurrency: 1 }, {
+    ...settings(fixture, args => {
+      calls.push(args[1]);
+      clock += 5 * 60_000;
+      return { status: 1, stderr: 'npm error code TLOG_CREATE_ENTRY_ERROR' };
+    }, message => logged.push(message)),
+    now: () => clock,
+  }), /2 of 2 packages/);
+  assert.equal(calls.length, fixture.manifest.packages.length + 1, 'one repeat fitted in the budget');
+  assert.match(logged.join('\n'), /not sent again: the 6 minute repeat budget is spent/);
 });
 
 test('a failure the registry may have accepted is never sent again', async t => {
