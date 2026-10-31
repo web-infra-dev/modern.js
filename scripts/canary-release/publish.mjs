@@ -90,6 +90,18 @@ const TRANSIENT_SUBMISSION = new Set([
   'IDENTITY_TOKEN_READ_ERROR', 'TLOG_CREATE_ENTRY_ERROR',
   'EAI_AGAIN', 'ECONNRESET', 'ETIMEDOUT', 'ENOTFOUND', 'ECONNREFUSED',
 ]);
+// One immediate repeat is not enough, because the thing that refused the first
+// one is usually still refusing. The release of 2026-10-28 lost a package of 29
+// this way: Sigstore refused the transparency log entry for three packages
+// inside the same two minutes, the two whose repeat happened to fall after that
+// window published, and the one repeated 42 seconds later was refused again and
+// left the release incomplete for a reconcile run to finish. The repeats
+// are therefore spaced, and they share one budget, so a service that is
+// refusing everything cannot hold the runner open for every package's full
+// schedule - the release stops instead and says which packages are in doubt.
+export const SUBMISSION_ATTEMPTS = 4;
+const SUBMISSION_BACKOFF = 20_000;
+const SUBMISSION_BUDGET = 6 * 60_000;
 const CODE = /^[A-Z][A-Z0-9_]{1,30}$/;
 
 export function npmErrorCode(result) {
@@ -424,6 +436,8 @@ export async function publish(root, options, {
   verifyTrust = assertTrustedPublishers,
   confirm = confirmFromRegistry,
   missing = missingFromRegistry,
+  wait = delay,
+  now = () => Date.now(),
 } = {}) {
   const concurrency = options.concurrency ?? PUBLISH_CONCURRENCY;
   assert.ok(Number.isInteger(concurrency) && concurrency >= 1 && concurrency <= 8,
@@ -487,14 +501,22 @@ export async function publish(root, options, {
       persist();
     };
     const unsure = [];
+    const submissionDeadline = now() + SUBMISSION_BUDGET;
     const send = async pkg => {
       const item = { name: pkg.name, version: pkg.version, integrity: pkg.integrity, status: 'unknown' };
       started.set(pkg, item);
       record();
       const args = publishArguments(path.resolve(root, options.artifacts, pkg.filename), plan.tag);
       let result = await npm(args, { cwd: temporary, env: npmEnv });
-      if (result.status !== 0 && TRANSIENT_SUBMISSION.has(npmErrorCode(result))) {
-        log(`[publish] ${pkg.name} retrying: ${npmErrorCode(result)} is the submission machinery, not a verdict`);
+      for (let attempt = 1; attempt < SUBMISSION_ATTEMPTS; attempt++) {
+        if (result.status === 0 || !TRANSIENT_SUBMISSION.has(npmErrorCode(result))) break;
+        if (now() >= submissionDeadline) {
+          log(`[publish] ${pkg.name} not sent again: the ${SUBMISSION_BUDGET / 60_000} minute repeat budget is spent`);
+          break;
+        }
+        const backoff = SUBMISSION_BACKOFF * 2 ** (attempt - 1);
+        log(`[publish] ${pkg.name} retrying in ${backoff / 1000}s: ${npmErrorCode(result)} is the submission machinery, not a verdict`);
+        await wait(backoff);
         result = await npm(args, { cwd: temporary, env: npmEnv });
       }
       // Any other nonzero result can mean the registry accepted a request. Do not retry.
