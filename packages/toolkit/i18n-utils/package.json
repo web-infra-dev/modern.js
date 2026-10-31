@@ -15,7 +15,7 @@
     "modern",
     "modern.js"
   ],
-  "version": "3.10.0",
+  "version": "0.0.0-canary-verify.r20261031-0ccb72dd16699407ceab7d0a19d2c25d",
   "types": "./src/index.ts",
   "main": "./dist/cjs/index.js",
   "typesVersions": {
@@ -55,7 +55,7 @@
     "test": "rstest --passWithNoTests"
   },
   "dependencies": {
-    "@modern-js/utils": "workspace:*",
+    "@modern-js/utils": "workspace:0.0.0-canary-verify.r20261031-0ccb72dd16699407ceab7d0a19d2c25d",
     "@swc/helpers": "^0.5.17"
   },
   "devDependencies": {

@@ -1,15 +1,15 @@
 {
   "private": true,
   "name": "i18n-mf-app-provider",
-  "version": "2.66.0",
+  "version": "0.0.0-canary-verify.r20261031-0ccb72dd16699407ceab7d0a19d2c25d",
   "scripts": {
     "dev": "modern dev",
     "build": "modern build",
     "new": "modern new"
   },
   "dependencies": {
-    "@modern-js/plugin-i18n": "workspace:*",
-    "@modern-js/runtime": "workspace:*",
+    "@modern-js/plugin-i18n": "workspace:0.0.0-canary-verify.r20261031-0ccb72dd16699407ceab7d0a19d2c25d",
+    "@modern-js/runtime": "workspace:0.0.0-canary-verify.r20261031-0ccb72dd16699407ceab7d0a19d2c25d",
     "@module-federation/modern-js-v3": "2.0.0",
     "i18next": "25.10.10",
     "react": "^19.3.0",
@@ -17,7 +17,7 @@
     "react-i18next": "15.7.4"
   },
   "devDependencies": {
-    "@modern-js/app-tools": "workspace:*",
-    "@modern-js/plugin-ssg": "workspace:*"
+    "@modern-js/app-tools": "workspace:0.0.0-canary-verify.r20261031-0ccb72dd16699407ceab7d0a19d2c25d",
+    "@modern-js/plugin-ssg": "workspace:0.0.0-canary-verify.r20261031-0ccb72dd16699407ceab7d0a19d2c25d"
   }
 }

@@ -1,7 +1,7 @@
 {
   "private": true,
   "name": "basic-app-rstest-browser",
-  "version": "2.66.0",
+  "version": "0.0.0-canary-verify.r20261031-0ccb72dd16699407ceab7d0a19d2c25d",
   "type": "module",
   "scripts": {
     "dev": "modern dev",
@@ -11,13 +11,13 @@
     "test": "rstest"
   },
   "dependencies": {
-    "@modern-js/runtime": "workspace:*",
+    "@modern-js/runtime": "workspace:0.0.0-canary-verify.r20261031-0ccb72dd16699407ceab7d0a19d2c25d",
     "react": "^19.3.0",
     "react-dom": "^19.3.0"
   },
   "devDependencies": {
-    "@modern-js/app-tools": "workspace:*",
-    "@modern-js/adapter-rstest": "workspace:*",
+    "@modern-js/app-tools": "workspace:0.0.0-canary-verify.r20261031-0ccb72dd16699407ceab7d0a19d2c25d",
+    "@modern-js/adapter-rstest": "workspace:0.0.0-canary-verify.r20261031-0ccb72dd16699407ceab7d0a19d2c25d",
     "@rstest/browser": "0.12.3",
     "@rstest/browser-react": "0.12.3",
     "@rstest/core": "0.12.3",

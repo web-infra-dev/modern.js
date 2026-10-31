@@ -15,7 +15,7 @@
     "modern",
     "modern.js"
   ],
-  "version": "3.10.0",
+  "version": "0.0.0-canary-verify.r20261031-0ccb72dd16699407ceab7d0a19d2c25d",
   "types": "./src/index.ts",
   "main": "./dist/cjs/index.js",
   "exports": {
@@ -88,15 +88,15 @@
     "test": "rstest"
   },
   "dependencies": {
-    "@modern-js/runtime-utils": "workspace:*",
-    "@modern-js/types": "workspace:*",
-    "@modern-js/utils": "workspace:*",
+    "@modern-js/runtime-utils": "workspace:0.0.0-canary-verify.r20261031-0ccb72dd16699407ceab7d0a19d2c25d",
+    "@modern-js/types": "workspace:0.0.0-canary-verify.r20261031-0ccb72dd16699407ceab7d0a19d2c25d",
+    "@modern-js/utils": "workspace:0.0.0-canary-verify.r20261031-0ccb72dd16699407ceab7d0a19d2c25d",
     "@rsbuild/core": "2.2.13",
     "@swc/helpers": "^0.5.17",
     "jiti": "^2.7.0"
   },
   "devDependencies": {
-    "@modern-js/builder": "workspace:*",
+    "@modern-js/builder": "workspace:0.0.0-canary-verify.r20261031-0ccb72dd16699407ceab7d0a19d2c25d",
     "@modern-js/rslib": "workspace:*",
     "@types/node": "^20",
     "@types/react": "^19.3.0",

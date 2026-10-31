@@ -1,19 +1,19 @@
 {
   "private": true,
   "name": "integration-clean-dist-path",
-  "version": "2.66.0",
+  "version": "0.0.0-canary-verify.r20261031-0ccb72dd16699407ceab7d0a19d2c25d",
   "scripts": {
     "dev": "modern dev",
     "build": "modern build",
     "serve": "modern serve"
   },
   "dependencies": {
-    "@modern-js/runtime": "workspace:*",
+    "@modern-js/runtime": "workspace:0.0.0-canary-verify.r20261031-0ccb72dd16699407ceab7d0a19d2c25d",
     "react": "^19.3.0",
     "react-dom": "^19.3.0"
   },
   "devDependencies": {
-    "@modern-js/app-tools": "workspace:*",
+    "@modern-js/app-tools": "workspace:0.0.0-canary-verify.r20261031-0ccb72dd16699407ceab7d0a19d2c25d",
     "@types/node": "^20",
     "@types/react": "^19.3.0",
     "@types/react-dom": "^19.3.0",

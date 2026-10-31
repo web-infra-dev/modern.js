@@ -18,13 +18,13 @@
     "dist/"
   ],
   "dependencies": {
-    "@modern-js/runtime": "latest",
+    "@modern-js/runtime": "workspace:0.0.0-canary-verify.r20261031-0ccb72dd16699407ceab7d0a19d2c25d",
     "react": "^19.2.8",
     "react-dom": "^19.2.8"
   },
   "devDependencies": {
-    "@modern-js/app-tools": "latest",
-    "@modern-js/tsconfig": "latest",
+    "@modern-js/app-tools": "workspace:0.0.0-canary-verify.r20261031-0ccb72dd16699407ceab7d0a19d2c25d",
+    "@modern-js/tsconfig": "workspace:0.0.0-canary-verify.r20261031-0ccb72dd16699407ceab7d0a19d2c25d",
     "@testing-library/dom": "^10.4.1",
     "@testing-library/react": "^16.3.2",
     "@types/node": "^20",
