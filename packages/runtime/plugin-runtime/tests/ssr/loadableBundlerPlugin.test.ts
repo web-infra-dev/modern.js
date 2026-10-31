@@ -23,7 +23,10 @@ const getIds = (manifest: any) => ({
 describe('LoadableBundlerPlugin chunk ID normalization', () => {
   it('converts numeric string IDs into numbers for Rspack 2.0 compatibility', () => {
     const manifest = buildManifest({
-      chunks: [{ id: '1', files: ['1.js'] }, { id: '512', files: ['512.js'] }],
+      chunks: [
+        { id: '1', files: ['1.js'] },
+        { id: '512', files: ['512.js'] },
+      ],
       namedChunkGroups: { app: { chunks: ['1', '512'] } },
       entrypoints: { main: { chunks: ['1'] } },
     });
