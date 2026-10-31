@@ -72,7 +72,7 @@
   },
   "devDependencies": {
     "@module-federation/enhanced": "2.0.0",
-    "@rslib/core": "1.0.4",
+    "@rslib/core": "1.0.5",
     "@scripts/rstest-config": "workspace:*",
     "@types/node": "^20",
     "@types/react": "^19.3.0",
