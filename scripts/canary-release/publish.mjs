@@ -101,7 +101,15 @@ const TRANSIENT_SUBMISSION = new Set([
 // schedule - the release stops instead and says which packages are in doubt.
 export const SUBMISSION_ATTEMPTS = 4;
 const SUBMISSION_BACKOFF = 20_000;
-const SUBMISSION_BUDGET = 6 * 60_000;
+// The waiting is pooled across packages instead of given to each one, and it
+// is counted as it is granted rather than measured against a clock that starts
+// with the first package. Both choices come from the same arithmetic: 29
+// packages take about eight minutes to send four at a time, so a window timed
+// from the start would leave the last packages with no repeat at all, and 29
+// packages each waiting out their own schedule would add half an hour to a job
+// that has 45 minutes for everything. Four full schedules fit in this pool,
+// one more than the three packages that one bad Sigstore minute refused.
+const REPEAT_WAIT_BUDGET = 10 * 60_000;
 const CODE = /^[A-Z][A-Z0-9_]{1,30}$/;
 
 export function npmErrorCode(result) {
@@ -437,11 +445,14 @@ export async function publish(root, options, {
   confirm = confirmFromRegistry,
   missing = missingFromRegistry,
   wait = delay,
-  now = () => Date.now(),
 } = {}) {
   const concurrency = options.concurrency ?? PUBLISH_CONCURRENCY;
   assert.ok(Number.isInteger(concurrency) && concurrency >= 1 && concurrency <= 8,
     `publish concurrency must be an integer between 1 and 8, got ${concurrency}`);
+  // All the waiting the repeats may share, in milliseconds.
+  let repeatWait = options.repeatWaitBudget ?? REPEAT_WAIT_BUDGET;
+  assert.ok(Number.isInteger(repeatWait) && repeatWait >= 0 && repeatWait <= 30 * 60_000,
+    `repeat wait budget must be an integer between 0 and 1800000 ms, got ${repeatWait}`);
   const receiptDir = path.resolve(root, options.receiptDir);
   fs.mkdirSync(receiptDir, { recursive: true });
   // A reconcile run writes its own receipt: the publish it completes already
@@ -501,7 +512,6 @@ export async function publish(root, options, {
       persist();
     };
     const unsure = [];
-    const submissionDeadline = now() + SUBMISSION_BUDGET;
     const send = async pkg => {
       const item = { name: pkg.name, version: pkg.version, integrity: pkg.integrity, status: 'unknown' };
       started.set(pkg, item);
@@ -510,11 +520,12 @@ export async function publish(root, options, {
       let result = await npm(args, { cwd: temporary, env: npmEnv });
       for (let attempt = 1; attempt < SUBMISSION_ATTEMPTS; attempt++) {
         if (result.status === 0 || !TRANSIENT_SUBMISSION.has(npmErrorCode(result))) break;
-        if (now() >= submissionDeadline) {
-          log(`[publish] ${pkg.name} not sent again: the ${SUBMISSION_BUDGET / 60_000} minute repeat budget is spent`);
+        const backoff = SUBMISSION_BACKOFF * 2 ** (attempt - 1);
+        if (backoff > repeatWait) {
+          log(`[publish] ${pkg.name} not sent again: the release has spent the waiting its repeats share`);
           break;
         }
-        const backoff = SUBMISSION_BACKOFF * 2 ** (attempt - 1);
+        repeatWait -= backoff;
         log(`[publish] ${pkg.name} retrying in ${backoff / 1000}s: ${npmErrorCode(result)} is the submission machinery, not a verdict`);
         await wait(backoff);
         result = await npm(args, { cwd: temporary, env: npmEnv });
