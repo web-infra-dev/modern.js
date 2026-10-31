@@ -1,5 +1,5 @@
 import type { IncomingHttpHeaders } from 'http';
-import { serializeJson } from '@modern-js/runtime-utils/node';
+import { createDataScript } from '@modern-js/render/html';
 import type { HeadersData } from '@modern-js/runtime-utils/universal/request';
 import { type RenderLevel, SSR_DATA_JSON_ID } from '../../constants';
 import type { TInternalRuntimeContext } from '../../context';
@@ -7,7 +7,7 @@ import type { SSRContainer } from '../../types';
 import { SSR_DATA_PLACEHOLDER } from '../constants';
 import type { HandleRequestConfig } from '../requestHandler';
 import { type BuildHtmlCb, type SSRConfig, buildHtml } from '../shared';
-import { attributesToString, safeReplace } from '../utils';
+import { safeReplace } from '../utils';
 
 export type BuildShellAfterTemplateOptions = {
   runtimeContext: TInternalRuntimeContext;
@@ -107,12 +107,12 @@ function createReplaceSSRData(options: {
     mode: 'stream',
     renderLevel,
   };
-  const attrsStr = attributesToString({ nonce });
-  const serializeSSRData = serializeJson(ssrData);
-
-  const ssrDataScript = useJsonScript
-    ? `<script type="application/json" id="${SSR_DATA_JSON_ID}">${serializeSSRData}</script>`
-    : `<script${attrsStr}>window._SSR_DATA = ${serializeSSRData}</script>`;
+  const ssrDataScript = createDataScript({
+    data: ssrData,
+    ...(useJsonScript
+      ? { id: SSR_DATA_JSON_ID }
+      : { global: '_SSR_DATA', nonce }),
+  });
 
   return (template: string) =>
     safeReplace(template, SSR_DATA_PLACEHOLDER, ssrDataScript);

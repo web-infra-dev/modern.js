@@ -1,5 +1,5 @@
+import { createShellEndMarkSplitter as createSharedSplitter } from '@modern-js/render/html/stream';
 import type { OnError } from '@modern-js/app-tools';
-import { time } from '@modern-js/runtime-utils/time';
 import type {
   ClientManifest as RscClientManifest,
   SSRManifest as RscSSRManifest,
@@ -32,6 +32,7 @@ export type CreateReadableStreamFromElementOptions = {
   onShellReady?: () => void;
   onShellError?: (error: unknown) => void;
   onAllReady?: () => void;
+  onTiming?: (phase: 'shell' | 'all', duration: number) => void;
   onError: OnError;
 };
 
@@ -46,41 +47,8 @@ export enum ShellChunkStatus {
   FINISH = 1,
 }
 
-/**
- * Buffers the decoded shell text until `ESCAPED_SHELL_STREAM_END_MARK` shows up,
- * then splits the buffered text at the marker.
- *
- * The marker can straddle two chunks, but the buffered text has already been
- * searched, so a match must end inside the new text: searching the new text
- * plus the last `marker.length - 1` buffered chars is enough. This keeps
- * buffering linear in the shell size instead of re-joining and re-scanning the
- * whole shell for every chunk.
- */
 export function createShellEndMarkSplitter() {
-  const marker = ESCAPED_SHELL_STREAM_END_MARK;
-  const shellChunks: string[] = [];
-  let tail = '';
-
-  return (
-    text: string,
-  ): { beforeMark: string; afterMark: string } | undefined => {
-    const searchText = tail + text;
-    const markerIndex = searchText.indexOf(marker);
-    if (markerIndex === -1) {
-      shellChunks.push(text);
-      tail = searchText.slice(-(marker.length - 1));
-      return undefined;
-    }
-
-    // `tail` is always a suffix of the buffered shell text.
-    const buffered = shellChunks.join('');
-    return {
-      beforeMark:
-        buffered.slice(0, buffered.length - tail.length) +
-        searchText.slice(0, markerIndex),
-      afterMark: searchText.slice(markerIndex + marker.length),
-    };
-  };
+  return createSharedSplitter(ESCAPED_SHELL_STREAM_END_MARK);
 }
 
 const SHOULD_STREAM_ALL_HEADER = 'x-should-stream-all';
@@ -161,7 +129,6 @@ export function createRenderStreaming(
   return async (request, serverRoot, options) => {
     const createReadableStreamFromElement = await createReadableStreamPromise;
 
-    const end = time();
     const { runtimeContext, config, resource } = options;
     const { onError, onTiming } = options;
 
@@ -205,13 +172,11 @@ export function createRenderStreaming(
       rscSSRManifest: options.rscSSRManifest,
       rscServerManifest: options.rscServerManifest,
       rscRoot: options.rscRoot,
-      onShellReady() {
-        const cost = end();
-        onTiming(SSRTimings.RENDER_SHELL, cost);
-      },
-      onAllReady() {
-        const cost = end();
-        onTiming(SSRTimings.RENDER_HTML, cost);
+      onTiming(phase, cost) {
+        onTiming(
+          phase === 'shell' ? SSRTimings.RENDER_SHELL : SSRTimings.RENDER_HTML,
+          cost,
+        );
       },
       onShellError(error) {
         onError(error, SSRErrors.RENDER_SHELL);

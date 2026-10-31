@@ -48,7 +48,66 @@
     "react-dom": ">=18.3.1",
     "react-server-dom-rspack": "0.1.0"
   },
+  "peerDependenciesMeta": {
+    "react-server-dom-rspack": {
+      "optional": true
+    }
+  },
   "exports": {
+    "./html/node": {
+      "types": "./dist/types/html/node.d.ts",
+      "modern:source": "./src/html/node.ts",
+      "node": {
+        "import": "./dist/esm-node/html/node.mjs",
+        "require": "./dist/cjs/html/node.js"
+      },
+      "default": "./dist/esm/html/node.js"
+    },
+    "./html/edge": {
+      "types": "./dist/types/html/edge.d.ts",
+      "modern:source": "./src/html/edge.ts",
+      "node": {
+        "import": "./dist/esm-node/html/edge.node.mjs",
+        "require": "./dist/cjs/html/edge.node.js"
+      },
+      "default": "./dist/esm/html/edge.js"
+    },
+    "./html/stream": {
+      "types": "./dist/types/html/stream/index.d.ts",
+      "modern:source": "./src/html/stream/index.ts",
+      "node": {
+        "import": "./dist/esm-node/html/stream/index.mjs",
+        "require": "./dist/cjs/html/stream/index.js"
+      },
+      "default": "./dist/esm/html/stream/index.js"
+    },
+    "./html": {
+      "types": "./dist/types/html/index.d.ts",
+      "modern:source": "./src/html/index.ts",
+      "node": {
+        "import": "./dist/esm-node/html/index.mjs",
+        "require": "./dist/cjs/html/index.js"
+      },
+      "default": "./dist/esm/html/index.js"
+    },
+    "./html/server": {
+      "types": "./dist/types/html/server.d.ts",
+      "modern:source": "./src/html/server.ts",
+      "node": {
+        "import": "./dist/esm-node/html/server.mjs",
+        "require": "./dist/cjs/html/server.js"
+      },
+      "default": "./dist/esm/html/server.js"
+    },
+    "./html/browser": {
+      "types": "./dist/types/html/browser.d.ts",
+      "modern:source": "./src/html/browser.ts",
+      "node": {
+        "import": "./dist/esm-node/html/browser.mjs",
+        "require": "./dist/cjs/html/browser.js"
+      },
+      "default": "./dist/esm/html/browser.js"
+    },
     "./ssr": {
       "types": "./dist/types/server/ssr/index.d.ts",
       "default": "./dist/esm/server/ssr/index.js"
@@ -64,6 +123,24 @@
   },
   "typesVersions": {
     "*": {
+      "html/node": [
+        "./dist/types/html/node.d.ts"
+      ],
+      "html/edge": [
+        "./dist/types/html/edge.d.ts"
+      ],
+      "html/stream": [
+        "./dist/types/html/stream/index.d.ts"
+      ],
+      "html": [
+        "./dist/types/html/index.d.ts"
+      ],
+      "html/server": [
+        "./dist/types/html/server.d.ts"
+      ],
+      "html/browser": [
+        "./dist/types/html/browser.d.ts"
+      ],
       "ssr": [
         "./dist/types/server/ssr/index.d.ts"
       ],
