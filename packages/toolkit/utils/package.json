@@ -15,7 +15,7 @@
     "modern",
     "modern.js"
   ],
-  "version": "3.10.0",
+  "version": "0.0.0-canary-verify.r20261031-bd8512391685a6ae15c8c48210a4d3b3",
   "types": "./src/index.ts",
   "main": "./dist/cjs/index.js",
   "module": "./dist/esm/index.mjs",
@@ -150,7 +150,7 @@
   },
   "devDependencies": {
     "@modern-js/rslib": "workspace:*",
-    "@modern-js/types": "workspace:*",
+    "@modern-js/types": "workspace:0.0.0-canary-verify.r20261031-bd8512391685a6ae15c8c48210a4d3b3",
     "@scripts/rstest-config": "workspace:*",
     "@types/node": "^20",
     "happy-dom": "^20.14.6",

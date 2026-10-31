@@ -15,13 +15,13 @@
     "node": ">=20.19.5"
   },
   "dependencies": {
-    "@modern-js/runtime": "latest",
+    "@modern-js/runtime": "workspace:0.0.0-canary-verify.r20261031-bd8512391685a6ae15c8c48210a4d3b3",
     "react": "^19.2.8",
     "react-dom": "^19.2.8"
   },
   "devDependencies": {
-    "@modern-js/app-tools": "latest",
-    "@modern-js/tsconfig": "latest",
+    "@modern-js/app-tools": "workspace:0.0.0-canary-verify.r20261031-bd8512391685a6ae15c8c48210a4d3b3",
+    "@modern-js/tsconfig": "workspace:0.0.0-canary-verify.r20261031-bd8512391685a6ae15c8c48210a4d3b3",
     "@types/node": "^20",
     "@types/react": "^19.2.17",
     "@types/react-dom": "^19.2.3",
