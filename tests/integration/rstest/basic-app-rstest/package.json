@@ -22,7 +22,7 @@
     "@rstest/core": "0.12.3",
     "@testing-library/react": "^16.3.3",
     "@testing-library/jest-dom": "^6.9.1",
-    "happy-dom": "^21.0.0",
+    "happy-dom": "^21.0.4",
     "@types/node": "^20",
     "@types/react": "^19.3.0",
     "@types/react-dom": "^19.3.0",
