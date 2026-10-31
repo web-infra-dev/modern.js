@@ -151,23 +151,32 @@ test('a submission that keeps being refused is sent again on a widening gap', as
   assert.deepEqual(gaps, [20_000, 40_000, 80_000, 20_000, 40_000, 80_000]);
 });
 
-test('the repeats share one budget, so a service refusing everything stops the release instead of holding the runner', async t => {
+test('the repeats share the waiting, so a service refusing everything stops the release instead of holding the runner', async t => {
   const fixture = artifactFixture(t);
   const calls = [];
+  const gaps = [];
   const logged = [];
-  // Every npm call costs five minutes, so the six minute budget is spent inside
-  // the first package and the rest of the release is not sent again at all.
-  let clock = 0;
-  await assert.rejects(() => publish(fixture.root, { ...options(fixture.plan), concurrency: 1 }, {
+  // Thirty seconds of waiting for the whole release: the first package's first
+  // repeat takes twenty of them, its second would need forty and is refused,
+  // and the package after it gets none.
+  await assert.rejects(() => publish(fixture.root, { ...options(fixture.plan), concurrency: 1, repeatWaitBudget: 30_000 }, {
     ...settings(fixture, args => {
       calls.push(args[1]);
-      clock += 5 * 60_000;
       return { status: 1, stderr: 'npm error code TLOG_CREATE_ENTRY_ERROR' };
     }, message => logged.push(message)),
-    now: () => clock,
+    wait: async ms => { gaps.push(ms); },
   }), /2 of 2 packages/);
-  assert.equal(calls.length, fixture.manifest.packages.length + 1, 'one repeat fitted in the budget');
-  assert.match(logged.join('\n'), /not sent again: the 6 minute repeat budget is spent/);
+  assert.deepEqual(gaps, [20_000]);
+  assert.equal(calls.length, fixture.manifest.packages.length + 1, 'one repeat fitted in the shared waiting');
+  assert.match(logged.join('\n'), /not sent again: the release has spent the waiting its repeats share/);
+});
+
+test('an unusable repeat budget is refused before anything is sent', async t => {
+  const fixture = artifactFixture(t);
+  for (const repeatWaitBudget of [-1, 1.5, 31 * 60_000]) {
+    await assert.rejects(() => publish(fixture.root, { ...options(fixture.plan), repeatWaitBudget },
+      settings(fixture, () => assert.fail('nothing may be sent'))), /repeat wait budget/);
+  }
 });
 
 test('a failure the registry may have accepted is never sent again', async t => {
