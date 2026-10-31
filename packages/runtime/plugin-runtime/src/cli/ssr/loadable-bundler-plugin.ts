@@ -29,8 +29,18 @@ type Compiler = Rspack.Compiler;
 
 type Compilation = Rspack.Compilation;
 
-const normalizeChunkId = (id: string | number | null | undefined) =>
-  typeof id === 'string' && /^\d+$/.test(id) ? Number(id) : id;
+// Chunk IDs reported by Rspack 2.0 can be numeric strings (for example `"1"`)
+// while the emitted runtime registers them as numbers, so they need converting.
+// The conversion must stay lossless: `compact-hashed` ids such as `"01"` only
+// match themselves as strings, and `Number()` would collapse them to `1`, which
+// then never satisfies `loadableReady`'s strict `indexOf` lookup.
+const normalizeChunkId = (id: string | number | null | undefined) => {
+  if (typeof id !== 'string' || !/^\d+$/.test(id)) {
+    return id;
+  }
+  const num = Number(id);
+  return String(num) === id ? num : id;
+};
 
 const normalizeChunkGroup = (
   group: Record<string, any>,
