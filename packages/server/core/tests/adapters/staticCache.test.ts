@@ -1,5 +1,6 @@
 import os from 'node:os';
 import path from 'node:path';
+import { fileReader } from '@modern-js/runtime-utils/fileReader';
 import type { ServerRoute } from '@modern-js/types';
 import { fs } from '@modern-js/utils';
 import { Hono } from 'hono';
@@ -10,7 +11,6 @@ const IMMUTABLE = 'public, max-age=31536000, immutable';
 
 describe('static file cache headers', () => {
   let pwd: string;
-  const readFile = rstest.fn();
 
   beforeAll(async () => {
     pwd = await fs.mkdtemp(path.join(os.tmpdir(), 'modern-static-cache-'));
@@ -28,7 +28,6 @@ describe('static file cache headers', () => {
 
   beforeEach(() => {
     rstest.stubEnv('NODE_ENV', 'production');
-    readFile.mockClear();
   });
 
   afterEach(() => {
@@ -43,6 +42,7 @@ describe('static file cache headers', () => {
       isSSR: false,
       responseHeaders: { 'Cache-Control': 'public, max-age=60' },
     },
+    { urlPath: '/memory.txt', entryPath: 'public/memory.txt', isSSR: false },
   ];
 
   const createApp = (server: ServerNormalizedConfig = {}) => {
@@ -86,13 +86,18 @@ describe('static file cache headers', () => {
     }
   });
 
-  it('should send validators for every static file', async () => {
+  it('should derive the ETag from the content that is sent', async () => {
     const app = createApp();
-    for (const pathname of ['/static/js/main.3f2a1b9c0d.js', '/robots.txt']) {
-      const res = await app.request(pathname);
-      expect(res.headers.get('etag')).toMatch(/^W\/"[0-9a-f]+-[0-9a-f]+"$/);
-      expect(Date.parse(res.headers.get('last-modified') || '')).not.toBeNaN();
-    }
+    const etagOf = async (pathname: string) =>
+      (await app.request(pathname)).headers.get('etag');
+    const etag = await etagOf('/static/js/main.3f2a1b9c0d.js');
+    expect(etag).toMatch(/^W\/"[0-9a-f]+-[\w-]{22}"$/);
+    expect(await etagOf('/static/js/main.3f2a1b9c0d.js')).toBe(etag);
+    expect(await etagOf('/static/js/plain.js')).not.toBe(etag);
+    // No `Last-Modified`, it would come from file stats rather than the body.
+    expect(
+      (await app.request('/robots.txt')).headers.get('last-modified'),
+    ).toBeNull();
   });
 
   it.each(['/static/js/main.3f2a1b9c0d.js', '/robots.txt'])(
@@ -101,34 +106,48 @@ describe('static file cache headers', () => {
       const app = createApp();
       const first = await app.request(pathname);
       const etag = first.headers.get('etag')!;
-      const lastModified = first.headers.get('last-modified')!;
 
-      const byEtag = await app.request(pathname, {
+      const matched = await app.request(pathname, {
         headers: { 'If-None-Match': `"other", ${etag}` },
       });
-      expect(byEtag.status).toBe(304);
-      expect(await byEtag.text()).toBe('');
-      expect(byEtag.headers.get('etag')).toBe(etag);
-      expect(byEtag.headers.get('cache-control')).toBe(
+      expect(matched.status).toBe(304);
+      expect(await matched.text()).toBe('');
+      expect(matched.headers.get('etag')).toBe(etag);
+      expect(matched.headers.get('cache-control')).toBe(
         first.headers.get('cache-control'),
       );
-
-      const byDate = await app.request(pathname, {
-        headers: { 'If-Modified-Since': lastModified },
-      });
-      expect(byDate.status).toBe(304);
 
       const changed = await app.request(pathname, {
         headers: { 'If-None-Match': 'W/"0-0"' },
       });
       expect(changed.status).toBe(200);
-
-      const old = await app.request(pathname, {
-        headers: { 'If-Modified-Since': new Date(0).toUTCString() },
-      });
-      expect(old.status).toBe(200);
     },
   );
+
+  it('should serve public files that only exist in the in-memory filesystem', async () => {
+    // e.g. `dev.writeToDisk: false`, where `fileReader` reads from the
+    // compiler's filesystem and the file is not on disk.
+    const content = Buffer.from('in memory');
+    const memoryFs = {
+      stat: (_: string, callback: (err: Error | null, stats?: any) => void) =>
+        callback(null, { isFile: () => true }),
+      promises: { readFile: async () => content },
+    };
+    await fileReader.reset(memoryFs as any);
+    try {
+      const app = createApp();
+      const res = await app.request('/memory.txt');
+      expect(res.status).toBe(200);
+      expect(await res.text()).toBe('in memory');
+      const etag = res.headers.get('etag')!;
+      const revalidated = await app.request('/memory.txt', {
+        headers: { 'If-None-Match': etag },
+      });
+      expect(revalidated.status).toBe(304);
+    } finally {
+      await fileReader.reset(fs as any);
+    }
+  });
 
   it('should let route response headers override the default', async () => {
     const res = await createApp().request('/custom.txt');
@@ -156,8 +175,6 @@ describe('static file cache headers', () => {
     const app = createApp({ staticCacheControl: false });
     const res = await app.request('/static/js/main.3f2a1b9c0d.js');
     expect(res.headers.get('cache-control')).toBeNull();
-    // Would allow browsers to cache the file heuristically.
-    expect(res.headers.get('last-modified')).toBeNull();
     const etag = res.headers.get('etag')!;
     expect(etag).not.toBeNull();
 

@@ -72,16 +72,15 @@ export function createPublicMiddleware({
     if (route) {
       const { entryPath } = route;
       const filename = path.join(pwd, entryPath);
-      const stat = await fs.stat(filename).catch(() => null);
-      const data = stat?.isFile()
-        ? await fileReader.readFile(filename, 'buffer')
-        : null;
+      // In development, `fileReader` may read from the compiler's in-memory
+      // filesystem, so the file isn't stat-ed on disk.
+      const data = await fileReader.readFile(filename, 'buffer');
       const mimeType = getMimeType(filename);
 
-      if (stat && data !== null) {
+      if (data !== null) {
         const notModified = setStaticFileHeaders(
           c,
-          stat,
+          data,
           cacheControl?.unhashed,
         );
         // Hono's `Data` type does not accept Node.js `Buffer<ArrayBufferLike>` directly.
@@ -244,22 +243,21 @@ export function createStaticMiddleware(
         // So we call next().
         return next();
       }
+      // serve static middleware always read file from real filesystem.
+      const chunk = await fileReader.readFileFromSystem(filepath, 'buffer');
+      if (chunk === null) {
+        return next();
+      }
       const notModified = setStaticFileHeaders(
         c,
-        stat,
+        chunk,
         cacheControl &&
           (isHashedAsset(relativePath)
             ? cacheControl.hashed
             : cacheControl.unhashed),
       );
       if (notModified) {
-        // The file is not read at all.
         return c.body(null, 304);
-      }
-      // serve static middleware always read file from real filesystem.
-      const chunk = await fileReader.readFileFromSystem(filepath, 'buffer');
-      if (chunk === null) {
-        return next();
       }
       const mimeType = getMimeType(filepath);
       if (mimeType) {

@@ -117,7 +117,7 @@ MODERN_SERVER_LOG_LEVEL=verbose node .output/index
 
 ### 静态资源缓存
 
-内置 Node.js 生产服务器会为文件名包含内容哈希的构建产物设置 `Cache-Control: public, max-age=31536000, immutable`，为其他静态文件设置 `no-cache`。所有静态文件还会带上 `ETag` 和 `Last-Modified`，未变化的文件会通过 `304` 响应重新验证。HTML 页面不受影响。
+内置 Node.js 生产服务器会为文件名包含内容哈希的构建产物设置 `Cache-Control: public, max-age=31536000, immutable`，为其他静态文件设置 `no-cache`。所有静态文件还会带上 `ETag`，未变化的文件会通过 `304` 响应重新验证。HTML 页面不受影响。
 
 如需修改或关闭这些响应头，请参阅 [`server.staticCacheControl`](/configure/app/server/static-cache-control)。
 

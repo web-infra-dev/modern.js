@@ -118,7 +118,7 @@ This environment variable controls the built-in server logger. It does not overr
 
 ### Static asset caching
 
-The built-in Node.js production server sets `Cache-Control: public, max-age=31536000, immutable` for build assets with a content hash in the file name, and `no-cache` for other static files. Every static file also gets `ETag` and `Last-Modified`, so unchanged files are revalidated with a `304` response. HTML pages are not changed.
+The built-in Node.js production server sets `Cache-Control: public, max-age=31536000, immutable` for build assets with a content hash in the file name, and `no-cache` for other static files. Every static file also gets an `ETag`, so unchanged files are revalidated with a `304` response. HTML pages are not changed.
 
 To change or disable these headers, see [`server.staticCacheControl`](/configure/app/server/static-cache-control).
 

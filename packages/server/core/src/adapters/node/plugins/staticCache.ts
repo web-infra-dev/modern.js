@@ -1,3 +1,4 @@
+import { createHash } from 'node:crypto';
 import path from 'path';
 import type { Context } from 'hono';
 import type { ServerNormalizedConfig } from '../../../types';
@@ -9,7 +10,7 @@ export type ResolvedStaticCacheControl = {
 
 const DEFAULT_HASHED_CACHE_CONTROL = 'public, max-age=31536000, immutable';
 
-// Cached, but revalidated with `ETag` / `Last-Modified` on every use.
+// Cached, but revalidated with the `ETag` on every use.
 const DEFAULT_UNHASHED_CACHE_CONTROL = 'no-cache';
 
 // e.g. `main.3f2a1b9c0d.js` or `logo.3f2a1b9c.png`
@@ -51,47 +52,51 @@ export function createHashedAssetMatcher(assetDirs: string[]) {
     CONTENT_HASH_REGEX.test(path.basename(relativePath));
 }
 
-type FileStats = { size: number; mtimeMs: number; mtime: Date };
+// Keyed by the content buffer that `fileReader` caches, so the hash of a file
+// is computed once and dropped together with the buffer.
+const etags = new WeakMap<Buffer, string>();
+
+/**
+ * The `ETag` is computed from the bytes that are sent, not from file stats:
+ * `fileReader` may serve a cached copy of a changed file, or read it from the
+ * compiler's in-memory filesystem in development, and the validator must
+ * always describe the body it is sent with. Weak, since the same file may be
+ * sent with different encodings.
+ */
+function getETag(data: Buffer) {
+  let etag = etags.get(data);
+  if (!etag) {
+    const hash = createHash('sha1').update(data).digest('base64url');
+    etag = `W/"${data.byteLength.toString(16)}-${hash.slice(0, 22)}"`;
+    etags.set(data, etag);
+  }
+  return etag;
+}
 
 const stripWeak = (etag: string) => etag.trim().replace(/^W\//, '');
 
 /**
- * Set `ETag`, `Last-Modified` and `Cache-Control` of a static file, and
- * return whether the request can be answered with `304 Not Modified`.
+ * Set `ETag` and `Cache-Control` of a static file, and return whether the
+ * request can be answered with `304 Not Modified`.
  */
 export function setStaticFileHeaders(
   c: Context,
-  stats: FileStats,
+  data: Buffer,
   cacheControl?: string,
 ): boolean {
-  // Weak, since the same file may be sent with different encodings.
-  const etag = `W/"${stats.size.toString(16)}-${Math.floor(stats.mtimeMs).toString(16)}"`;
+  const etag = getETag(data);
   c.header('ETag', etag);
-  // Without `Cache-Control`, browsers may cache a response that has
-  // `Last-Modified` for a heuristic time without revalidating it.
   if (cacheControl) {
     c.header('Cache-Control', cacheControl);
-    c.header('Last-Modified', stats.mtime.toUTCString());
   }
 
   const { method } = c.req;
-  if (method !== 'GET' && method !== 'HEAD') {
-    return false;
-  }
   const ifNoneMatch = c.req.header('If-None-Match');
-  if (ifNoneMatch) {
-    return (
-      ifNoneMatch.trim() === '*' ||
-      ifNoneMatch.split(',').some(value => stripWeak(value) === stripWeak(etag))
-    );
-  }
-  if (!cacheControl) {
+  if ((method !== 'GET' && method !== 'HEAD') || !ifNoneMatch) {
     return false;
   }
-  const ifModifiedSince = Date.parse(c.req.header('If-Modified-Since') || '');
-  // HTTP dates have a precision of one second.
   return (
-    !Number.isNaN(ifModifiedSince) &&
-    Math.floor(stats.mtimeMs / 1000) * 1000 <= ifModifiedSince
+    ifNoneMatch.trim() === '*' ||
+    ifNoneMatch.split(',').some(value => stripWeak(value) === stripWeak(etag))
   );
 }
