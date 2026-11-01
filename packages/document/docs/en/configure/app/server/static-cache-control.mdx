@@ -16,7 +16,7 @@ By default:
 | Build assets with a content hash in the file name, such as `static/js/main.3f2a1b9c0d.js`                | `public, max-age=31536000, immutable` |
 | Other static files, such as files in `config/public` and `config/upload`, or build assets without a hash | `no-cache`                            |
 
-A file is treated as hashed only when it is in a build output directory (`static/` or a custom [`output.distPath`](/configure/app/output/dist-path) for JS, CSS and media) and its name contains a content hash. With `no-cache`, browsers keep the file but check with the server before using it, which costs a request but no download when the file hasn't changed.
+A file is treated as hashed only when it is in a build output directory (`static/` or a custom [`output.distPath`](/configure/app/output/dist-path) for JS, CSS and media) and its name contains a content hash. Files from `config/public`, `config/upload` and `server.publicDir` are never treated as hashed. With `no-cache`, browsers keep the file but check with the server before using it, which costs a request but no download when the file hasn't changed.
 
 Every static file also gets an `ETag`, computed from the content that is sent, and a request with a matching `If-None-Match` header is answered with `304 Not Modified` without a body. The content comes from the server's file cache, so a `304` doesn't read the file from disk again.
 

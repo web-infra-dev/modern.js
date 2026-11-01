@@ -182,7 +182,9 @@ export function createStaticMiddleware(
   // Convert publicDir paths to regex patterns for matching
   // e.g., './locales' or 'locales' -> 'locales/'
   const publicDirPatterns = getPublicDirPatterns(publicDir);
+  // `config/public` and `config/upload` are copied to `public/` and `upload/`.
   const isHashedAsset = createHashedAssetMatcher(staticFiles as string[], [
+    'public/',
     'upload/',
     ...publicDirPatterns,
   ]);

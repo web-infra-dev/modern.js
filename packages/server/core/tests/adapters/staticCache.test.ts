@@ -21,6 +21,12 @@ describe('static file cache headers', () => {
     await fs.outputFile(path.join(pwd, 'public/robots.txt'), 'robots');
     await fs.outputFile(path.join(pwd, 'public/custom.txt'), 'custom');
     await fs.outputFile(path.join(pwd, 'public/tagged.txt'), 'tagged');
+    await fs.outputFile(path.join(pwd, 'public/comma.txt'), 'comma');
+    await fs.outputFile(path.join(pwd, 'public/report.20261101.pdf'), 'pdf');
+    await fs.outputFile(
+      path.join(pwd, 'static/locales/messages.20261101.json'),
+      '{}',
+    );
     await fs.outputFile(path.join(pwd, 'root.3f2a1b9c.js'), 'root');
   });
 
@@ -50,6 +56,12 @@ describe('static file cache headers', () => {
       entryPath: 'public/tagged.txt',
       isSSR: false,
       responseHeaders: { ETag: '"custom-tag"' },
+    },
+    {
+      urlPath: '/comma.txt',
+      entryPath: 'public/comma.txt',
+      isSSR: false,
+      responseHeaders: { ETag: '"version,1"' },
     },
   ];
 
@@ -94,6 +106,18 @@ describe('static file cache headers', () => {
     expect(matched.status).toBe(304);
   });
 
+  it('should match an ETag that contains a comma', async () => {
+    const app = createApp();
+    const matched = await app.request('/comma.txt', {
+      headers: { 'If-None-Match': '"other", "version,1"' },
+    });
+    expect(matched.status).toBe(304);
+    const changed = await app.request('/comma.txt', {
+      headers: { 'If-None-Match': '"version"' },
+    });
+    expect(changed.status).toBe(200);
+  });
+
   it('should treat hashed files in a root output directory as build assets', async () => {
     const app = createApp({}, { distPath: { js: '.' } });
     expect(
@@ -104,6 +128,28 @@ describe('static file cache headers', () => {
         'cache-control',
       ),
     ).toBe('no-cache');
+    expect(
+      (await app.request('/public/report.20261101.pdf')).headers.get(
+        'cache-control',
+      ),
+    ).toBe('no-cache');
+  });
+
+  it('should revalidate hashed files in a public directory inside a build asset directory', async () => {
+    const app = createApp(
+      { publicDir: 'static/locales' },
+      { distPath: { js: '.' } },
+    );
+    expect(
+      (await app.request('/static/locales/messages.20261101.json')).headers.get(
+        'cache-control',
+      ),
+    ).toBe('no-cache');
+    expect(
+      (await app.request('/static/js/main.3f2a1b9c0d.js')).headers.get(
+        'cache-control',
+      ),
+    ).toBe(IMMUTABLE);
   });
 
   it('should cache hashed build assets as immutable', async () => {

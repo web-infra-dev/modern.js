@@ -46,9 +46,10 @@ const normalizeDir = (dir: string) => {
 /**
  * Build assets live in the build output directories and have a content hash
  * in the file name. Requiring both keeps files like
- * `upload/report.20261101.pdf` from being cached as immutable. When assets are
- * emitted to the output root, every directory except the ones holding user
- * files (`userDirs`) counts as a build output directory.
+ * `upload/report.20261101.pdf` from being cached as immutable. Files in the
+ * directories holding user files (`userDirs`) are never build assets, even
+ * inside a build output directory. When assets are emitted to the output root,
+ * every other directory counts as a build output directory.
  */
 export function createHashedAssetMatcher(
   assetDirs: string[],
@@ -56,11 +57,8 @@ export function createHashedAssetMatcher(
 ) {
   const dirs = ['static/', ...assetDirs.map(normalizeDir)];
   const isInAssetDir = (relativePath: string) =>
-    dirs.some(dir =>
-      dir
-        ? relativePath.startsWith(dir)
-        : !userDirs.some(userDir => relativePath.startsWith(userDir)),
-    );
+    !userDirs.some(userDir => relativePath.startsWith(userDir)) &&
+    dirs.some(dir => !dir || relativePath.startsWith(dir));
   return (relativePath: string) =>
     isInAssetDir(relativePath) &&
     CONTENT_HASH_REGEX.test(path.basename(relativePath));
@@ -89,6 +87,10 @@ function getETag(data: Buffer) {
 
 const stripWeak = (etag: string) => etag.trim().replace(/^W\//, '');
 
+// Quoted entity tags may contain commas, e.g. `"version,1"`, so the header is
+// not split on commas.
+const ENTITY_TAG_REGEX = /(?:W\/)?"[^"]*"/g;
+
 /**
  * Set `ETag` and `Cache-Control` of a static file, and return whether the
  * request can be answered with `304 Not Modified`. Headers that are already
@@ -116,8 +118,11 @@ export function setStaticFileHeaders(
   if ((method !== 'GET' && method !== 'HEAD') || !ifNoneMatch) {
     return false;
   }
+  const expected = stripWeak(etag);
   return (
     ifNoneMatch.trim() === '*' ||
-    ifNoneMatch.split(',').some(value => stripWeak(value) === stripWeak(etag))
+    (ifNoneMatch.match(ENTITY_TAG_REGEX) || []).some(
+      value => stripWeak(value) === expected,
+    )
   );
 }

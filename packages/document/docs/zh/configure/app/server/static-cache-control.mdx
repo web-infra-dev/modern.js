@@ -16,7 +16,7 @@ title: staticCacheControl
 | 文件名包含内容哈希的构建产物，例如 `static/js/main.3f2a1b9c0d.js`                    | `public, max-age=31536000, immutable` |
 | 其他静态文件，例如 `config/public` 和 `config/upload` 中的文件，或不带哈希的构建产物 | `no-cache`                            |
 
-只有位于构建产物目录（`static/` 或自定义的 JS、CSS、媒体资源 [`output.distPath`](/configure/app/output/dist-path)）中，并且文件名包含内容哈希的文件，才会被视为带哈希的构建产物。使用 `no-cache` 时，浏览器会缓存文件，但每次使用前都会向服务器确认。文件未变化时只需一次请求，不需要重新下载。
+只有位于构建产物目录（`static/` 或自定义的 JS、CSS、媒体资源 [`output.distPath`](/configure/app/output/dist-path)）中，并且文件名包含内容哈希的文件，才会被视为带哈希的构建产物。来自 `config/public`、`config/upload` 和 `server.publicDir` 的文件始终不会被视为带哈希的构建产物。使用 `no-cache` 时，浏览器会缓存文件，但每次使用前都会向服务器确认。文件未变化时只需一次请求，不需要重新下载。
 
 所有静态文件都会带上根据实际返回内容计算的 `ETag`。如果请求中的 `If-None-Match` 与之匹配，服务器会直接返回不带响应体的 `304 Not Modified`。文件内容来自服务器的文件缓存，返回 `304` 时不会再次从磁盘读取文件。
 
