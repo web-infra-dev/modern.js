@@ -13,8 +13,15 @@ import type {
 } from '../../../types';
 import { sortRoutes } from '../../../utils';
 import { getPublicDirPatterns } from '../../../utils/publicDir';
+import { type ResolvedCompressOptions, compressStaticFile } from './compress';
 
-export const serverStaticPlugin = (): ServerPlugin => ({
+export type ServerStaticPluginOptions = {
+  compress?: ResolvedCompressOptions;
+};
+
+export const serverStaticPlugin = (
+  pluginOptions: ServerStaticPluginOptions = {},
+): ServerPlugin => ({
   name: '@modern-js/plugin-server-static',
 
   setup(api) {
@@ -33,6 +40,7 @@ export const serverStaticPlugin = (): ServerPlugin => ({
         output: config.output || {},
         html: config.html || {},
         server: config.server || {},
+        compress: pluginOptions.compress,
       });
 
       middlewares.push({
@@ -47,11 +55,13 @@ export const serverStaticPlugin = (): ServerPlugin => ({
 export type PublicMiddlewareOptions = {
   pwd: string;
   routes: ServerRoute[];
+  compress?: ResolvedCompressOptions;
 };
 
 export function createPublicMiddleware({
   pwd,
   routes,
+  compress,
 }: PublicMiddlewareOptions): Middleware {
   // Filter and sort a copy once, the routes array is shared with other plugins.
   const publicRoutes = routes
@@ -64,10 +74,17 @@ export function createPublicMiddleware({
     if (route) {
       const { entryPath } = route;
       const filename = path.join(pwd, entryPath);
-      const data = await fileReader.readFile(filename, 'buffer');
+      const content = await fileReader.readFile(filename, 'buffer');
       const mimeType = getMimeType(filename);
 
-      if (data !== null) {
+      if (content !== null) {
+        const data = await compressStaticFile(
+          c,
+          filename,
+          content,
+          mimeType,
+          compress,
+        );
         // Hono's `Data` type does not accept Node.js `Buffer<ArrayBufferLike>` directly.
         // Convert Buffer to `Uint8Array<ArrayBuffer>` without copying.
         const body = new Uint8Array(
@@ -78,6 +95,8 @@ export function createPublicMiddleware({
         if (mimeType) {
           c.header('Content-Type', mimeType);
         }
+        // Lets the compress middleware skip files below the threshold.
+        c.header('Content-Length', String(data.byteLength));
 
         Object.entries(route.responseHeaders || {}).forEach(([k, v]) => {
           c.header(k, v as string);
@@ -131,6 +150,7 @@ export interface ServerStaticOptions {
   html: HtmlNormalizedConfig;
   server: ServerNormalizedConfig;
   routes?: ServerRoute[];
+  compress?: ResolvedCompressOptions;
 }
 
 /**
@@ -145,7 +165,7 @@ export interface ServerStaticOptions {
 export function createStaticMiddleware(
   options: ServerStaticOptions,
 ): Middleware {
-  const { pwd, routes } = options;
+  const { pwd, routes, compress } = options;
   const prefix = options.output.assetPrefix || '/';
   const pathPrefix = extractPathname(prefix);
 
@@ -178,6 +198,7 @@ export function createStaticMiddleware(
   const publicMiddleware = createPublicMiddleware({
     pwd,
     routes: routes || [],
+    compress,
   });
 
   /**
@@ -221,11 +242,18 @@ export function createStaticMiddleware(
         return next();
       }
       // serve static middleware always read file from real filesystem.
-      const chunk = await fileReader.readFileFromSystem(filepath, 'buffer');
-      if (chunk === null) {
+      const content = await fileReader.readFileFromSystem(filepath, 'buffer');
+      if (content === null) {
         return next();
       }
       const mimeType = getMimeType(filepath);
+      const chunk = await compressStaticFile(
+        c,
+        filepath,
+        content,
+        mimeType,
+        compress,
+      );
       if (mimeType) {
         c.header('Content-Type', mimeType);
       }

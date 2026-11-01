@@ -115,6 +115,12 @@ MODERN_SERVER_LOG_LEVEL=verbose node .output/index
 
 该环境变量仅控制内置的服务器 logger，不会覆盖自定义 logger，也不会在 `server.logger` 为 `false` 时启用日志。
 
+### 响应压缩
+
+内置 Node.js 生产服务器默认会根据请求头 `Accept-Encoding`，使用 Brotli 或 gzip 压缩响应，包括 SSR 和 SSG 页面、静态资源以及 BFF 响应。已经包含 `Content-Encoding` 头的响应不会被再次压缩，因此自定义的压缩中间件仍然可以正常工作。
+
+如果由反向代理或 CDN 负责压缩，可以将 [`server.compress`](/configure/app/server/compress) 设置为 `false` 来关闭该功能。
+
 ## Netlify
 
 Netlify 是一个流行的 Web 开发平台，专为构建、发布和维护现代 Web 项目而设计。在 Netlify 上部署，通常需要配置 `netlify.toml` 文件，你可以根据项目复杂度，渐进地配置该文件。

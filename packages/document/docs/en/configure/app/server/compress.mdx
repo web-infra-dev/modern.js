@@ -1,0 +1,52 @@
+---
+title: compress
+---
+
+# server.compress
+
+- **Type:** `boolean | object`
+- **Default:** `true` for the built-in Node.js production server
+
+Compress the responses of the production server with Brotli or gzip, including SSR and SSG pages, static assets and BFF responses.
+
+The built-in Node.js production server, used by `modern serve` and `node .output/index`, enables compression by default. The development server is not affected. Other runtimes, such as Netlify Functions, usually compress responses at the edge, so compression is disabled there by default and can be enabled by setting `compress` to `true`.
+
+The server picks the first encoding from `encodings` that the client accepts in the `Accept-Encoding` request header, and adds `Vary: Accept-Encoding` to compressible responses. A response is left unchanged when:
+
+- it already has a `Content-Encoding` header, for example when a custom middleware has compressed it
+- its content type is not compressible, such as images, or it is a server-sent events stream
+- its `Content-Length` is smaller than `threshold`
+- it is a response to a `HEAD` request, or has no body
+- it has a `Cache-Control: no-transform` header
+
+Static assets are compressed once and served from memory afterwards. Streaming responses, such as streaming SSR, are flushed after every chunk, so the client receives each chunk as soon as it is rendered.
+
+### Disable compression
+
+If compression is handled by a reverse proxy or CDN, you can disable it:
+
+```ts title="modern.config.ts"
+export default defineConfig({
+  server: {
+    compress: false,
+  },
+});
+```
+
+### Options
+
+| Name        | Type                    | Default          | Description                                                    |
+| ----------- | ----------------------- | ---------------- | -------------------------------------------------------------- |
+| `threshold` | `number`                | `1024`           | Responses smaller than this size, in bytes, are not compressed |
+| `encodings` | `Array<'br' \| 'gzip'>` | `['br', 'gzip']` | Supported encodings, in order of server preference             |
+
+```ts title="modern.config.ts"
+export default defineConfig({
+  server: {
+    compress: {
+      threshold: 2048,
+      encodings: ['gzip'],
+    },
+  },
+});
+```
