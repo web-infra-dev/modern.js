@@ -32,11 +32,16 @@ afterEach(() => {
   rstest.unstubAllEnvs();
 });
 
+type CompressConfig = ProdServerOptions['config']['server']['compress'];
+
 async function createServer({
   compress,
+  serverCompress,
   nodeServer = true,
 }: {
-  compress?: ProdServerOptions['config']['server']['compress'];
+  compress?: CompressConfig;
+  /** `server.compress` in `server/modern.server.ts`. */
+  serverCompress?: CompressConfig;
   nodeServer?: boolean;
 } = {}) {
   const options: ProdServerOptions = {
@@ -57,6 +62,8 @@ async function createServer({
     ],
     serverConfigPath: '',
     serverConfig: {
+      // Only set when given, an explicit `undefined` would override `modern.config.ts`.
+      server: serverCompress === undefined ? {} : { compress: serverCompress },
       middlewares: [
         {
           name: 'test-page',
@@ -143,6 +150,22 @@ it('can be disabled with server.compress', async () => {
     expect(res.headers.get('content-encoding')).toBeNull();
     expect(res.headers.get('vary')).toBeNull();
   }
+});
+
+it('lets server/modern.server.ts override modern.config.ts', async () => {
+  const disabled = await createServer({
+    compress: true,
+    serverCompress: false,
+  });
+  const res = await request(disabled, '/page');
+  expect(res.headers.get('content-encoding')).toBeNull();
+
+  const lowThreshold = await createServer({
+    compress: { threshold: 1024 * 1024 },
+    serverCompress: { threshold: 0 },
+  });
+  const page = await request(lowThreshold, '/page');
+  expect(page.headers.get('content-encoding')).toBe('br');
 });
 
 it('is disabled by default outside of the Node.js server', async () => {

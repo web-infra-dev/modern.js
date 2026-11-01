@@ -83,6 +83,25 @@ describe('compress middleware', () => {
     return app;
   };
 
+  it('should weaken a strong ETag of a compressed response', async () => {
+    const app = createApp(app => {
+      app.get('/strong', c => c.html(html, 200, { ETag: '"page"' }));
+      app.get('/weak', c => c.html(html, 200, { ETag: 'W/"page"' }));
+    });
+    const compressed = await app.request('/strong', {
+      headers: { 'Accept-Encoding': 'br' },
+    });
+    expect(compressed.headers.get('content-encoding')).toBe('br');
+    expect(compressed.headers.get('etag')).toBe('W/"page"');
+    const weak = await app.request('/weak', {
+      headers: { 'Accept-Encoding': 'gzip' },
+    });
+    expect(weak.headers.get('etag')).toBe('W/"page"');
+    const identity = await app.request('/strong');
+    expect(identity.headers.get('content-encoding')).toBeNull();
+    expect(identity.headers.get('etag')).toBe('"page"');
+  });
+
   it.each(['br', 'gzip'])('should compress with %s', async encoding => {
     const app = createApp(app => app.get('/', c => c.html(html)));
     const res = await app.request('/', {

@@ -10,7 +10,6 @@ export { createNodeServer, sendResponse, createWebRequest } from './node';
 export {
   serverStaticPlugin,
   compressPlugin,
-  resolveCompressOptions,
   injectResourcePlugin,
   getHtmlTemplates,
   getServerManifest,

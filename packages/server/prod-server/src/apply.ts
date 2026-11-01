@@ -16,7 +16,6 @@ import {
   injectResourcePlugin,
   injectRscManifestPlugin,
   loadCacheConfig,
-  resolveCompressOptions,
   serverStaticPlugin,
 } from '@modern-js/server-core/node';
 import { createLogger, isProd, logger } from '@modern-js/utils';
@@ -45,12 +44,6 @@ export async function applyPlugins(
   const { pwd, appContext, config, logger: optLogger, serverConfig } = options;
 
   const enableRsc = config.server?.rsc ?? serverConfig?.server?.rsc ?? false;
-
-  // Enabled by default only for the Node.js server, other runtimes (e.g. Netlify) usually compress at the edge.
-  const compress = resolveCompressOptions(
-    config.server?.compress ?? serverConfig?.server?.compress,
-    Boolean(nodeServer),
-  );
 
   const serverErrorHandler = options.serverConfig?.onError;
   const loadCachePwd = isProd() ? pwd : appContext.appDirectory || pwd;
@@ -96,7 +89,8 @@ export async function applyPlugins(
 
   const plugins = [
     ...(nodeServer ? [injectNodeSeverPlugin({ nodeServer })] : []),
-    compressPlugin(compress),
+    // Enabled by default only for the Node.js server, other runtimes (e.g. Netlify) usually compress at the edge.
+    compressPlugin({ enabledByDefault: Boolean(nodeServer) }),
     ...createDefaultPlugins({
       cacheConfig,
       staticGenerate: options.staticGenerate,

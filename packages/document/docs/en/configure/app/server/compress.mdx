@@ -19,6 +19,8 @@ The server picks the first encoding from `encodings` that the client accepts in 
 - it is a response to a `HEAD` request, or has no body
 - it has a `Cache-Control: no-transform` header
 
+A strong `ETag` on a compressed response, for example one set by a custom middleware, is changed to a weak one, since the compressed bytes differ from the original ones.
+
 Static assets are compressed once and served from memory afterwards. Streaming responses, such as streaming SSR, are flushed after every chunk, so the client receives each chunk as soon as it is rendered.
 
 ### Disable compression

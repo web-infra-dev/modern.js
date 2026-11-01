@@ -110,6 +110,15 @@ function appendVary(headers: Headers) {
   }
 }
 
+// The compressed bytes differ from the uncompressed ones, so a strong `ETag`
+// set by a route or middleware can't be shared between them.
+function weakenETag(headers: Headers) {
+  const etag = headers.get('ETag');
+  if (etag && !etag.startsWith('W/')) {
+    headers.set('ETag', `W/${etag}`);
+  }
+}
+
 type CompressedFile = {
   source: Buffer;
   results: Partial<Record<CompressEncoding, Promise<Buffer>>>;
@@ -424,20 +433,34 @@ export function createCompressMiddleware(
       // The original body has been read ahead.
       c.res = new Response(body, res);
     }
+    if (encoding) {
+      weakenETag(c.res.headers);
+    }
     appendVary(c.res.headers);
   };
 }
 
-export const compressPlugin = (
-  options?: ResolvedCompressOptions,
-): ServerPlugin => ({
+export type CompressPluginOptions = {
+  /** Whether to compress when `server.compress` is not set. */
+  enabledByDefault: boolean;
+};
+
+export const compressPlugin = ({
+  enabledByDefault,
+}: CompressPluginOptions): ServerPlugin => ({
   name: '@modern-js/plugin-compress',
 
   setup(api) {
-    if (!options) {
-      return;
-    }
     api.onPrepare(() => {
+      // Resolved from the merged config, where `server/modern.server.ts`
+      // takes precedence over `modern.config.ts`.
+      const options = resolveCompressOptions(
+        api.getServerConfig().server?.compress,
+        enabledByDefault,
+      );
+      if (!options) {
+        return;
+      }
       const { middlewares } = api.getServerContext();
 
       middlewares.push({
