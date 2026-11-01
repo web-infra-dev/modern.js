@@ -13,6 +13,12 @@ import type {
 } from '../../../types';
 import { sortRoutes } from '../../../utils';
 import { getPublicDirPatterns } from '../../../utils/publicDir';
+import {
+  type ResolvedStaticCacheControl,
+  createHashedAssetMatcher,
+  resolveStaticCacheControl,
+  setStaticFileHeaders,
+} from './staticCache';
 
 export const serverStaticPlugin = (): ServerPlugin => ({
   name: '@modern-js/plugin-server-static',
@@ -47,11 +53,13 @@ export const serverStaticPlugin = (): ServerPlugin => ({
 export type PublicMiddlewareOptions = {
   pwd: string;
   routes: ServerRoute[];
+  cacheControl?: ResolvedStaticCacheControl;
 };
 
 export function createPublicMiddleware({
   pwd,
   routes,
+  cacheControl,
 }: PublicMiddlewareOptions): Middleware {
   // Filter and sort a copy once, the routes array is shared with other plugins.
   const publicRoutes = routes
@@ -64,10 +72,18 @@ export function createPublicMiddleware({
     if (route) {
       const { entryPath } = route;
       const filename = path.join(pwd, entryPath);
-      const data = await fileReader.readFile(filename, 'buffer');
+      const stat = await fs.stat(filename).catch(() => null);
+      const data = stat?.isFile()
+        ? await fileReader.readFile(filename, 'buffer')
+        : null;
       const mimeType = getMimeType(filename);
 
-      if (data !== null) {
+      if (stat && data !== null) {
+        const notModified = setStaticFileHeaders(
+          c,
+          stat,
+          cacheControl?.unhashed,
+        );
         // Hono's `Data` type does not accept Node.js `Buffer<ArrayBufferLike>` directly.
         // Convert Buffer to `Uint8Array<ArrayBuffer>` without copying.
         const body = new Uint8Array(
@@ -83,6 +99,9 @@ export function createPublicMiddleware({
           c.header(k, v as string);
         });
 
+        if (notModified) {
+          return c.body(null, 304);
+        }
         return c.body(body, 200);
       }
     }
@@ -146,6 +165,9 @@ export function createStaticMiddleware(
   options: ServerStaticOptions,
 ): Middleware {
   const { pwd, routes } = options;
+  const cacheControl = resolveStaticCacheControl(
+    options.server.staticCacheControl,
+  );
   const prefix = options.output.assetPrefix || '/';
   const pathPrefix = extractPathname(prefix);
 
@@ -155,6 +177,7 @@ export function createStaticMiddleware(
   const { publicDir } = options.server;
   const favicons = prepareFavicons(favicon);
   const staticFiles = [cssPath, jsPath, mediaPath].filter(v => Boolean(v));
+  const isHashedAsset = createHashedAssetMatcher(staticFiles as string[]);
 
   // Handle custom publicDir: string | string[]
   // Convert publicDir paths to regex patterns for matching
@@ -178,6 +201,7 @@ export function createStaticMiddleware(
   const publicMiddleware = createPublicMiddleware({
     pwd,
     routes: routes || [],
+    cacheControl,
   });
 
   /**
@@ -200,10 +224,10 @@ export function createStaticMiddleware(
 
     // FIXME: shoudn't hit, when cssPath, jsPath, mediaPath as '.'
     if (hit) {
-      const filepath = path.join(
-        pwd,
-        pathname.replace(pathPrefix, () => ''),
-      );
+      const relativePath = pathname
+        .replace(pathPrefix, () => '')
+        .replace(/^\/+/, '');
+      const filepath = path.join(pwd, relativePath);
       // Prevent path traversal: `pathname` is user-controlled and may contain
       // `../` sequences (Hono decodes `%2e%2e` in `c.req.path`), which
       // `path.join` resolves. Reject any resolved path that escapes `pwd`.
@@ -219,6 +243,18 @@ export function createStaticMiddleware(
         // In some case, page route would hit the staticPathRegExp.
         // So we call next().
         return next();
+      }
+      const notModified = setStaticFileHeaders(
+        c,
+        stat,
+        cacheControl &&
+          (isHashedAsset(relativePath)
+            ? cacheControl.hashed
+            : cacheControl.unhashed),
+      );
+      if (notModified) {
+        // The file is not read at all.
+        return c.body(null, 304);
       }
       // serve static middleware always read file from real filesystem.
       const chunk = await fileReader.readFileFromSystem(filepath, 'buffer');

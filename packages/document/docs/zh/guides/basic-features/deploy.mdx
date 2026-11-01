@@ -115,6 +115,12 @@ MODERN_SERVER_LOG_LEVEL=verbose node .output/index
 
 该环境变量仅控制内置的服务器 logger，不会覆盖自定义 logger，也不会在 `server.logger` 为 `false` 时启用日志。
 
+### 静态资源缓存
+
+内置 Node.js 生产服务器会为文件名包含内容哈希的构建产物设置 `Cache-Control: public, max-age=31536000, immutable`，为其他静态文件设置 `no-cache`。所有静态文件还会带上 `ETag` 和 `Last-Modified`，未变化的文件会通过 `304` 响应重新验证。HTML 页面不受影响。
+
+如需修改或关闭这些响应头，请参阅 [`server.staticCacheControl`](/configure/app/server/static-cache-control)。
+
 ## Netlify
 
 Netlify 是一个流行的 Web 开发平台，专为构建、发布和维护现代 Web 项目而设计。在 Netlify 上部署，通常需要配置 `netlify.toml` 文件，你可以根据项目复杂度，渐进地配置该文件。

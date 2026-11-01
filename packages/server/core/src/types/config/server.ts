@@ -23,6 +23,19 @@ export type SSR =
 
 export type SSRByEntries = Record<string, SSR>;
 
+export type StaticCacheControlOptions = {
+  /**
+   * @description `Cache-Control` of build assets with a content hash in the file name
+   * @default 'public, max-age=31536000, immutable'
+   */
+  hashed?: string;
+  /**
+   * @description `Cache-Control` of other static files, such as files in `config/public` and `config/upload`
+   * @default 'no-cache'
+   */
+  unhashed?: string;
+};
+
 export interface ServerUserConfig {
   publicDir?: string | string[];
   routes?: Routes;
@@ -44,6 +57,11 @@ export interface ServerUserConfig {
    */
   useJsonScript?: boolean;
   logger?: boolean | Record<string, unknown>;
+  /**
+   * @description set `Cache-Control` for static files served by the production server
+   * @default true
+   */
+  staticCacheControl?: boolean | StaticCacheControlOptions;
   /**
    * @description disable hook middleware for performance
    * @default false
