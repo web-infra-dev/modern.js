@@ -107,7 +107,7 @@ export async function applyPlugins(
     ...(options.plugins || []),
     injectResourcePlugin(),
     injectRscManifestPlugin(enableRsc),
-    serverStaticPlugin({ compress }),
+    serverStaticPlugin(),
     faviconPlugin(),
     renderPlugin(),
   ];

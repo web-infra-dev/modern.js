@@ -1,5 +1,4 @@
 import zlib from 'node:zlib';
-import type { Context } from 'hono';
 import { COMPRESSIBLE_CONTENT_TYPE_REGEX } from 'hono/utils/compress';
 import type {
   CompressEncoding,
@@ -206,44 +205,27 @@ function compressFile(
   return compressed;
 }
 
-const getHeader = (headers: Record<string, unknown>, name: string) =>
-  Object.entries(headers).find(([key]) => key.toLowerCase() === name)?.[1];
+// Bodies of static file responses, with the file they were read from. The
+// compress middleware decides on the final response headers, so a header set
+// by any middleware is respected, and then serves the cached compressed
+// content of the file instead of compressing the body again.
+const staticFileBodies = new WeakMap<
+  ReadableStream,
+  { filepath: string; data: Buffer }
+>();
 
 /**
- * Compress the content of a static file for the current request, the result
- * is cached. Sets `Content-Encoding` and `Vary`, so the compress middleware
- * leaves the response as it is. `headers` are the extra response headers of
- * the file, e.g. of a public route, which may mark it as already encoded.
+ * Mark a response as the content of a static file. Returns the response.
  */
-export async function compressStaticFile(
-  c: Context,
+export function registerStaticFile(
+  res: Response,
   filepath: string,
   data: Buffer,
-  contentType: string | undefined,
-  options?: ResolvedCompressOptions,
-  headers: Record<string, unknown> = {},
-): Promise<Buffer> {
-  if (
-    !options ||
-    data.byteLength < options.threshold ||
-    !isCompressible(contentType) ||
-    getHeader(headers, 'content-encoding') ||
-    getHeader(headers, 'content-range') ||
-    NO_TRANSFORM_REGEX.test(String(getHeader(headers, 'cache-control') ?? ''))
-  ) {
-    return data;
+) {
+  if (res.body) {
+    staticFileBodies.set(res.body, { filepath, data });
   }
-  c.header('Vary', 'Accept-Encoding', { append: true });
-  const encoding = negotiateEncoding(
-    c.req.header('Accept-Encoding'),
-    options.encodings,
-  );
-  if (!encoding) {
-    return data;
-  }
-  const compressed = await compressFile(filepath, data, encoding);
-  c.header('Content-Encoding', encoding);
-  return compressed;
+  return res;
 }
 
 /**
@@ -288,7 +270,11 @@ function createCompressStream(
       });
     });
 
-  return new TransformStream({
+  // `cancel` is part of the Streams standard, but not of TypeScript's
+  // `Transformer` type yet.
+  const transformer: Transformer<Uint8Array, Uint8Array> & {
+    cancel?: (reason: unknown) => void;
+  } = {
     transform(chunk, controller) {
       return run(controller, done => {
         zstream.write(chunk);
@@ -301,7 +287,13 @@ function createCompressStream(
         zstream.end();
       });
     },
-  });
+    // Called when the client disconnects or the source body errors while no
+    // chunk is being compressed, so the native zlib stream is released.
+    cancel() {
+      zstream.destroy();
+    },
+  };
+  return new TransformStream(transformer);
 }
 
 const NOT_READY = Symbol('not ready');
@@ -401,7 +393,25 @@ export function createCompressMiddleware(
       c.req.header('Accept-Encoding'),
       options.encodings,
     );
-    if (encoding) {
+    const staticFile = staticFileBodies.get(originalBody);
+    if (encoding && staticFile) {
+      const compressed = await compressFile(
+        staticFile.filepath,
+        staticFile.data,
+        encoding,
+      );
+      originalBody.cancel().catch(() => {});
+      c.res = new Response(
+        new Uint8Array(
+          compressed.buffer as ArrayBuffer,
+          compressed.byteOffset,
+          compressed.byteLength,
+        ),
+        res,
+      );
+      c.res.headers.set('Content-Length', String(compressed.byteLength));
+      c.res.headers.set('Content-Encoding', encoding);
+    } else if (encoding) {
       c.res = new Response(
         body.pipeThrough(createCompressStream(encoding)),
         res,

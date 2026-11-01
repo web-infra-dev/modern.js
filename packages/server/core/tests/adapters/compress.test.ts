@@ -211,6 +211,7 @@ describe('static middleware compression', () => {
     pwd = await fs.mkdtemp(path.join(os.tmpdir(), 'modern-compress-'));
     await fs.outputFile(path.join(pwd, 'static/js/main.js'), js);
     await fs.outputFile(path.join(pwd, 'static/js/cached.js'), js);
+    await fs.outputFile(path.join(pwd, 'static/js/head.js'), js);
     await fs.outputFile(path.join(pwd, 'static/js/tiny.js'), 'tiny');
     await fs.outputFile(path.join(pwd, 'static/image/a.png'), 'x'.repeat(4096));
     await fs.outputFile(
@@ -223,8 +224,15 @@ describe('static middleware compression', () => {
     await fs.remove(pwd);
   });
 
-  const createApp = (compress?: ResolvedCompressOptions) => {
+  const createApp = (
+    compress?: ResolvedCompressOptions,
+    before?: (app: Hono) => void,
+  ) => {
     const app = new Hono();
+    if (compress) {
+      app.use(createCompressMiddleware(compress) as any);
+    }
+    before?.(app);
     app.use(
       createStaticMiddleware({
         pwd,
@@ -232,7 +240,6 @@ describe('static middleware compression', () => {
         output: {},
         html: {},
         server: {},
-        compress,
       }) as any,
     );
     return app;
@@ -278,6 +285,42 @@ describe('static middleware compression', () => {
     expect(decompress('br', bodies[0]).toString()).toBe(js);
     brotli.mockRestore();
   });
+
+  it('should not compress static files for HEAD requests', async () => {
+    const brotli = rstest.spyOn(zlib, 'brotliCompress');
+    const res = await createApp(options).request('/static/js/head.js', {
+      method: 'HEAD',
+      headers: { 'Accept-Encoding': 'br' },
+    });
+    expect(res.headers.get('content-encoding')).toBeNull();
+    expect(brotli).not.toHaveBeenCalled();
+    brotli.mockRestore();
+  });
+
+  it.each([
+    ['before', 'before'],
+    ['after', 'after'],
+  ])(
+    'should respect no-transform set by a middleware %s await next()',
+    async (_, when) => {
+      const app = createApp(options, app =>
+        app.use(async (c, next) => {
+          if (when === 'before') {
+            c.header('Cache-Control', 'no-transform');
+          }
+          await next();
+          if (when === 'after') {
+            c.res.headers.set('Cache-Control', 'no-transform');
+          }
+        }),
+      );
+      const res = await app.request('/static/js/main.js', {
+        headers: { 'Accept-Encoding': 'br' },
+      });
+      expect(res.headers.get('content-encoding')).toBeNull();
+      expect(await res.text()).toBe(js);
+    },
+  );
 
   it('should skip small, binary or uncompressed static files', async () => {
     const headers = { 'Accept-Encoding': 'br, gzip' };
@@ -363,6 +406,48 @@ describe('compress middleware edge cases', () => {
       expect(errors).toEqual([]);
     },
   );
+
+  it('should release zlib when a response is cancelled between chunks', async () => {
+    const createGzip = zlib.createGzip;
+    const streams: zlib.Gzip[] = [];
+    const spy = rstest.spyOn(zlib, 'createGzip').mockImplementation(opts => {
+      const zstream = createGzip(opts);
+      streams.push(zstream);
+      return zstream;
+    });
+    let release!: () => void;
+    const gate = new Promise<void>(resolve => {
+      release = resolve;
+    });
+    const app = new Hono();
+    app.use(createCompressMiddleware(options) as any);
+    app.get('/', c =>
+      c.body(
+        new ReadableStream<Uint8Array>({
+          async start(controller) {
+            controller.enqueue(new TextEncoder().encode(html));
+            await gate;
+            controller.close();
+          },
+        }),
+        200,
+        { 'Content-Type': 'text/html' },
+      ),
+    );
+    try {
+      const res = await app.request('/', {
+        headers: { 'Accept-Encoding': 'gzip' },
+      });
+      const reader = res.body!.getReader();
+      await reader.read();
+      await reader.cancel(new Error('client gone'));
+      expect(streams).toHaveLength(1);
+      expect(streams[0].destroyed).toBe(true);
+    } finally {
+      release();
+      spy.mockRestore();
+    }
+  });
 });
 
 describe('static compression cache and route headers', () => {
@@ -385,6 +470,7 @@ describe('static compression cache and route headers', () => {
 
   const createApp = () => {
     const app = new Hono();
+    app.use(createCompressMiddleware(options) as any);
     app.use(
       createStaticMiddleware({
         pwd,
@@ -403,7 +489,6 @@ describe('static compression cache and route headers', () => {
         output: {},
         html: {},
         server: {},
-        compress: options,
       }) as any,
     );
     return app;
