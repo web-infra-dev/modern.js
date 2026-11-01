@@ -1,7 +1,7 @@
 {
   "private": true,
   "name": "integration-tailwindcss-v3",
-  "version": "2.66.0",
+  "version": "0.0.0-canary-verify.r20261101-47ae6f4a8454278a2c62566dff3dfb0f",
   "scripts": {
     "dev": "modern dev",
     "build": "modern build",
@@ -9,8 +9,8 @@
     "new": "modern new"
   },
   "dependencies": {
-    "@modern-js/app-tools": "workspace:*",
-    "@modern-js/runtime": "workspace:*",
+    "@modern-js/app-tools": "workspace:0.0.0-canary-verify.r20261101-47ae6f4a8454278a2c62566dff3dfb0f",
+    "@modern-js/runtime": "workspace:0.0.0-canary-verify.r20261101-47ae6f4a8454278a2c62566dff3dfb0f",
     "@rsbuild/plugin-babel": "2.1.0",
     "react": "^19.3.0",
     "react-dom": "^19.3.0",
