@@ -22,7 +22,7 @@ Every static file also gets an `ETag`, computed from the content that is sent, a
 
 The values above apply in production. During development every static file gets `no-cache`, so edited files are never served from the browser cache. The header is not added to HTML pages. Use a [custom middleware](/guides/advanced-features/web-server) if you need it there.
 
-A `Cache-Control` header set by a route's response headers or by a custom middleware after `await next()` takes precedence.
+A `Cache-Control` or `ETag` header set by a route's response headers, or a `Cache-Control` set by a custom middleware before or after `await next()`, takes precedence.
 
 ### Custom values
 

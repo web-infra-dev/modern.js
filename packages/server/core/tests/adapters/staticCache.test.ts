@@ -20,6 +20,8 @@ describe('static file cache headers', () => {
     await fs.outputFile(path.join(pwd, 'upload/report.20261101.pdf'), 'report');
     await fs.outputFile(path.join(pwd, 'public/robots.txt'), 'robots');
     await fs.outputFile(path.join(pwd, 'public/custom.txt'), 'custom');
+    await fs.outputFile(path.join(pwd, 'public/tagged.txt'), 'tagged');
+    await fs.outputFile(path.join(pwd, 'root.3f2a1b9c.js'), 'root');
   });
 
   afterAll(async () => {
@@ -43,15 +45,26 @@ describe('static file cache headers', () => {
       responseHeaders: { 'Cache-Control': 'public, max-age=60' },
     },
     { urlPath: '/memory.txt', entryPath: 'public/memory.txt', isSSR: false },
+    {
+      urlPath: '/tagged.txt',
+      entryPath: 'public/tagged.txt',
+      isSSR: false,
+      responseHeaders: { ETag: '"custom-tag"' },
+    },
   ];
 
-  const createApp = (server: ServerNormalizedConfig = {}) => {
+  const createApp = (
+    server: ServerNormalizedConfig = {},
+    output: Record<string, unknown> = {},
+    before?: (app: Hono) => void,
+  ) => {
     const app = new Hono();
+    before?.(app);
     app.use(
       createStaticMiddleware({
         pwd,
         routes,
-        output: {},
+        output,
         html: {},
         server,
       }) as any,
@@ -59,6 +72,39 @@ describe('static file cache headers', () => {
     app.all('*', c => c.text('fallback', 404));
     return app;
   };
+
+  it('should keep a Cache-Control set before the static middleware', async () => {
+    const app = createApp({}, {}, app =>
+      app.use(async (c, next) => {
+        c.header('Cache-Control', 'private, no-store');
+        await next();
+      }),
+    );
+    const res = await app.request('/static/js/main.3f2a1b9c0d.js');
+    expect(res.headers.get('cache-control')).toBe('private, no-store');
+  });
+
+  it("should revalidate with a public route's own ETag", async () => {
+    const app = createApp();
+    const res = await app.request('/tagged.txt');
+    expect(res.headers.get('etag')).toBe('"custom-tag"');
+    const matched = await app.request('/tagged.txt', {
+      headers: { 'If-None-Match': '"custom-tag"' },
+    });
+    expect(matched.status).toBe(304);
+  });
+
+  it('should treat hashed files in a root output directory as build assets', async () => {
+    const app = createApp({}, { distPath: { js: '.' } });
+    expect(
+      (await app.request('/root.3f2a1b9c.js')).headers.get('cache-control'),
+    ).toBe(IMMUTABLE);
+    expect(
+      (await app.request('/upload/report.20261101.pdf')).headers.get(
+        'cache-control',
+      ),
+    ).toBe('no-cache');
+  });
 
   it('should cache hashed build assets as immutable', async () => {
     const app = createApp();

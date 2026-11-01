@@ -78,6 +78,14 @@ export function createPublicMiddleware({
       const mimeType = getMimeType(filename);
 
       if (data !== null) {
+        if (mimeType) {
+          c.header('Content-Type', mimeType);
+        }
+        // Applied first, so that the route's own `Cache-Control` and `ETag`
+        // are kept and its `ETag` is used for revalidation.
+        Object.entries(route.responseHeaders || {}).forEach(([k, v]) => {
+          c.header(k, v as string);
+        });
         const notModified = setStaticFileHeaders(
           c,
           data,
@@ -90,13 +98,6 @@ export function createPublicMiddleware({
           data.byteOffset,
           data.byteLength,
         );
-        if (mimeType) {
-          c.header('Content-Type', mimeType);
-        }
-
-        Object.entries(route.responseHeaders || {}).forEach(([k, v]) => {
-          c.header(k, v as string);
-        });
 
         if (notModified) {
           return c.body(null, 304);
@@ -176,12 +177,15 @@ export function createStaticMiddleware(
   const { publicDir } = options.server;
   const favicons = prepareFavicons(favicon);
   const staticFiles = [cssPath, jsPath, mediaPath].filter(v => Boolean(v));
-  const isHashedAsset = createHashedAssetMatcher(staticFiles as string[]);
 
   // Handle custom publicDir: string | string[]
   // Convert publicDir paths to regex patterns for matching
   // e.g., './locales' or 'locales' -> 'locales/'
   const publicDirPatterns = getPublicDirPatterns(publicDir);
+  const isHashedAsset = createHashedAssetMatcher(staticFiles as string[], [
+    'upload/',
+    ...publicDirPatterns,
+  ]);
 
   // TODO: If possible, we should not use `...staticFiles` here, file should only be read in static and upload dir.
   const staticReg = [

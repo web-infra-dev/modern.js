@@ -37,18 +37,32 @@ export function resolveStaticCacheControl(
   };
 }
 
-const normalizeDir = (dir: string) =>
-  `${dir.replace(/^\.?\//, '').replace(/\/+$/, '')}/`;
+// '' for the output root, e.g. `output.distPath.js: '.'`.
+const normalizeDir = (dir: string) => {
+  const normalized = dir.replace(/^\.?\/?/, '').replace(/\/+$/, '');
+  return normalized ? `${normalized}/` : '';
+};
 
 /**
  * Build assets live in the build output directories and have a content hash
  * in the file name. Requiring both keeps files like
- * `upload/report.20261101.pdf` from being cached as immutable.
+ * `upload/report.20261101.pdf` from being cached as immutable. When assets are
+ * emitted to the output root, every directory except the ones holding user
+ * files (`userDirs`) counts as a build output directory.
  */
-export function createHashedAssetMatcher(assetDirs: string[]) {
+export function createHashedAssetMatcher(
+  assetDirs: string[],
+  userDirs: string[] = [],
+) {
   const dirs = ['static/', ...assetDirs.map(normalizeDir)];
+  const isInAssetDir = (relativePath: string) =>
+    dirs.some(dir =>
+      dir
+        ? relativePath.startsWith(dir)
+        : !userDirs.some(userDir => relativePath.startsWith(userDir)),
+    );
   return (relativePath: string) =>
-    dirs.some(dir => relativePath.startsWith(dir)) &&
+    isInAssetDir(relativePath) &&
     CONTENT_HASH_REGEX.test(path.basename(relativePath));
 }
 
@@ -77,16 +91,23 @@ const stripWeak = (etag: string) => etag.trim().replace(/^W\//, '');
 
 /**
  * Set `ETag` and `Cache-Control` of a static file, and return whether the
- * request can be answered with `304 Not Modified`.
+ * request can be answered with `304 Not Modified`. Headers that are already
+ * set, e.g. by a middleware before `await next()` or by a public route, are
+ * kept, and an existing `ETag` is the one that is compared.
  */
 export function setStaticFileHeaders(
   c: Context,
   data: Buffer,
   cacheControl?: string,
 ): boolean {
-  const etag = getETag(data);
-  c.header('ETag', etag);
-  if (cacheControl) {
+  // Includes the headers set with `c.header()` before the response is created.
+  const { headers } = c.res;
+  let etag = headers.get('ETag');
+  if (!etag) {
+    etag = getETag(data);
+    c.header('ETag', etag);
+  }
+  if (cacheControl && !headers.has('Cache-Control')) {
     c.header('Cache-Control', cacheControl);
   }
 

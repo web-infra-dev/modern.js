@@ -22,7 +22,7 @@ title: staticCacheControl
 
 以上取值在生产环境中生效。开发环境中所有静态文件都使用 `no-cache`，修改后的文件不会从浏览器缓存中读取。HTML 页面不会添加该响应头，如有需要，可以通过[自定义中间件](/guides/advanced-features/web-server)设置。
 
-路由的响应头，或在自定义中间件中 `await next()` 之后设置的 `Cache-Control`，会优先生效。
+路由响应头中设置的 `Cache-Control` 或 `ETag`，以及在自定义中间件中 `await next()` 之前或之后设置的 `Cache-Control`，会优先生效。
 
 ### 自定义取值
 
