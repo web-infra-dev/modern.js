@@ -78,12 +78,27 @@ export function createPublicMiddleware({
       const mimeType = getMimeType(filename);
 
       if (content !== null) {
+        const responseHeaders = route.responseHeaders || {};
+        if (mimeType) {
+          c.header('Content-Type', mimeType);
+        }
+        // Applied before compression, so that `Vary: Accept-Encoding` is
+        // added to the route's own `Vary`, and a file the route marks as
+        // already encoded is sent as it is.
+        Object.entries(responseHeaders).forEach(([k, v]) => {
+          c.header(k, v as string);
+        });
+
+        const contentType = Object.entries(responseHeaders).find(
+          ([k]) => k.toLowerCase() === 'content-type',
+        )?.[1] as string | undefined;
         const data = await compressStaticFile(
           c,
           filename,
           content,
-          mimeType,
+          contentType ?? mimeType,
           compress,
+          responseHeaders,
         );
         // Hono's `Data` type does not accept Node.js `Buffer<ArrayBufferLike>` directly.
         // Convert Buffer to `Uint8Array<ArrayBuffer>` without copying.
@@ -92,15 +107,8 @@ export function createPublicMiddleware({
           data.byteOffset,
           data.byteLength,
         );
-        if (mimeType) {
-          c.header('Content-Type', mimeType);
-        }
         // Lets the compress middleware skip files below the threshold.
         c.header('Content-Length', String(data.byteLength));
-
-        Object.entries(route.responseHeaders || {}).forEach(([k, v]) => {
-          c.header(k, v as string);
-        });
 
         return c.body(body, 200);
       }

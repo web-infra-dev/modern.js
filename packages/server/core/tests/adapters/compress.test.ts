@@ -6,8 +6,10 @@ import { Hono } from 'hono';
 import {
   type ResolvedCompressOptions,
   createCompressMiddleware,
+  getCompressedFileCacheSize,
   negotiateEncoding,
   resolveCompressOptions,
+  setCompressedFileCacheLimit,
 } from '../../src/adapters/node/plugins/compress';
 import { createStaticMiddleware } from '../../src/adapters/node/plugins/static';
 
@@ -42,6 +44,11 @@ describe('negotiateEncoding', () => {
     expect(negotiateEncoding('*;q=0, gzip', ['br', 'gzip'])).toBe('gzip');
     expect(negotiateEncoding('identity', ['br', 'gzip'])).toBeUndefined();
     expect(negotiateEncoding(undefined, ['br', 'gzip'])).toBeUndefined();
+  });
+
+  it('should allow whitespace around the parameters', () => {
+    expect(negotiateEncoding('br ;q=0, *;q=1', ['br', 'gzip'])).toBe('gzip');
+    expect(negotiateEncoding('gzip ; q = 0.5', ['br', 'gzip'])).toBe('gzip');
   });
 });
 
@@ -285,5 +292,156 @@ describe('static middleware compression', () => {
     expect(disabled.headers.get('content-encoding')).toBeNull();
     expect(disabled.headers.get('vary')).toBeNull();
     expect(await disabled.text()).toBe(js);
+  });
+});
+
+describe('compress middleware edge cases', () => {
+  const createApp = (setup: (app: Hono) => void) => {
+    const app = new Hono();
+    app.use(createCompressMiddleware(options) as any);
+    setup(app);
+    return app;
+  };
+
+  it('should not compress small responses without Content-Length', async () => {
+    const app = createApp(app => app.get('/', c => c.json({ ok: true })));
+    for (const headers of [{ 'Accept-Encoding': 'br' }, {}]) {
+      const res = await app.request('/', { headers });
+      expect(res.headers.get('content-encoding')).toBeNull();
+      expect(res.headers.get('vary')).toBeNull();
+      expect(res.headers.get('content-length')).toBe('11');
+      expect(await res.json()).toEqual({ ok: true });
+    }
+  });
+
+  it('should keep the body when the client accepts no encoding', async () => {
+    const app = createApp(app => app.get('/', c => c.html(html)));
+    const res = await app.request('/', {
+      headers: { 'Accept-Encoding': 'identity' },
+    });
+    expect(res.headers.get('content-encoding')).toBeNull();
+    expect(await res.text()).toBe(html);
+  });
+
+  it.each(['br', 'gzip'])(
+    'should not throw when the response is cancelled while compressing with %s',
+    async encoding => {
+      const errors: unknown[] = [];
+      const onError = (error: unknown) => errors.push(error);
+      process.on('uncaughtException', onError);
+      process.on('unhandledRejection', onError);
+      const chunk = new Uint8Array(1024 * 1024).map((_, i) => (i * 7919) % 251);
+      const app = createApp(app =>
+        app.get('/', c =>
+          c.body(
+            new ReadableStream<Uint8Array>({
+              pull(controller) {
+                controller.enqueue(chunk);
+              },
+            }),
+            200,
+            { 'Content-Type': 'text/html' },
+          ),
+        ),
+      );
+      try {
+        for (let i = 0; i < 10; i++) {
+          const res = await app.request('/', {
+            headers: { 'Accept-Encoding': encoding },
+          });
+          const reader = res.body!.getReader();
+          await reader.read();
+          reader.read().catch(() => {});
+          await new Promise(resolve => setImmediate(resolve));
+          await reader.cancel(new Error('client gone')).catch(() => {});
+        }
+        await new Promise(resolve => setTimeout(resolve, 500));
+      } finally {
+        process.off('uncaughtException', onError);
+        process.off('unhandledRejection', onError);
+      }
+      expect(errors).toEqual([]);
+    },
+  );
+});
+
+describe('static compression cache and route headers', () => {
+  let pwd: string;
+  const js = 'console.log("cached");\n'.repeat(200);
+
+  beforeAll(async () => {
+    pwd = await fs.mkdtemp(path.join(os.tmpdir(), 'modern-compress-cache-'));
+    for (let i = 0; i < 5; i++) {
+      await fs.outputFile(path.join(pwd, `static/js/file${i}.js`), js + i);
+    }
+    await fs.outputFile(path.join(pwd, 'public/pre.js'), zlib.gzipSync(js));
+    await fs.outputFile(path.join(pwd, 'public/cors.js'), js);
+  });
+
+  afterAll(async () => {
+    setCompressedFileCacheLimit(64 * 1024 * 1024);
+    await fs.remove(pwd);
+  });
+
+  const createApp = () => {
+    const app = new Hono();
+    app.use(
+      createStaticMiddleware({
+        pwd,
+        routes: [
+          {
+            urlPath: '/pre.js',
+            entryPath: 'public/pre.js',
+            responseHeaders: { 'Content-Encoding': 'gzip' },
+          },
+          {
+            urlPath: '/cors.js',
+            entryPath: 'public/cors.js',
+            responseHeaders: { Vary: 'Origin' },
+          },
+        ],
+        output: {},
+        html: {},
+        server: {},
+        compress: options,
+      }) as any,
+    );
+    return app;
+  };
+
+  it('should bound the memory used by compressed files', async () => {
+    const app = createApp();
+    const fileSize = Buffer.byteLength(js) + 1;
+    // Room for about two files with their compressed content.
+    setCompressedFileCacheLimit(fileSize * 2 + 512);
+    for (let i = 0; i < 5; i++) {
+      const res = await app.request(`/static/js/file${i}.js`, {
+        headers: { 'Accept-Encoding': 'br' },
+      });
+      expect(
+        decompress('br', Buffer.from(await res.arrayBuffer())).toString(),
+      ).toBe(js + i);
+      expect(getCompressedFileCacheSize()).toBeLessThanOrEqual(
+        fileSize * 2 + 512,
+      );
+    }
+  });
+
+  it('should send files a route marks as encoded as they are', async () => {
+    const res = await createApp().request('/pre.js', {
+      headers: { 'Accept-Encoding': 'br, gzip' },
+    });
+    expect(res.headers.get('content-encoding')).toBe('gzip');
+    expect(
+      zlib.gunzipSync(Buffer.from(await res.arrayBuffer())).toString(),
+    ).toBe(js);
+  });
+
+  it("should keep the route's Vary header", async () => {
+    const res = await createApp().request('/cors.js', {
+      headers: { 'Accept-Encoding': 'br' },
+    });
+    expect(res.headers.get('content-encoding')).toBe('br');
+    expect(res.headers.get('vary')).toBe('Origin, Accept-Encoding');
   });
 });

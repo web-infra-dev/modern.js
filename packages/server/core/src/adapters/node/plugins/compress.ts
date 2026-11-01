@@ -76,13 +76,16 @@ export function negotiateEncoding(
   }
   const qualities = new Map<string, number>();
   for (const part of acceptEncoding.split(',')) {
-    const [name, ...params] = part.trim().toLowerCase().split(';');
+    // Whitespace is allowed around `;`, e.g. `br ;q=0`.
+    const [name, ...params] = part
+      .split(';')
+      .map(token => token.trim().toLowerCase());
     if (!name) {
       continue;
     }
     let quality = 1;
     for (const param of params) {
-      const [key, value] = param.trim().split('=');
+      const [key, value] = param.split('=').map(token => token.trim());
       if (key === 'q') {
         quality = Number(value);
       }
@@ -111,12 +114,53 @@ function appendVary(headers: Headers) {
 type CompressedFile = {
   source: Buffer;
   results: Partial<Record<CompressEncoding, Promise<Buffer>>>;
+  // Bytes of the source and the compressed results held by this entry.
+  size: number;
 };
 
-// Keyed by file path. Concurrent first requests may read a file into
-// different buffers, so the content is compared when the buffer changes,
-// and a changed file is compressed again.
+let maxCachedBytes = 64 * 1024 * 1024;
+
+/**
+ * @internal for tests
+ */
+export function setCompressedFileCacheLimit(bytes: number) {
+  maxCachedBytes = bytes;
+}
+
+/**
+ * @internal for tests
+ */
+export function getCompressedFileCacheSize() {
+  return cachedBytes;
+}
+
+// Keyed by file path, in least recently used order. Concurrent first requests
+// may read a file into different buffers, so the content is compared when the
+// buffer changes, and a changed file is compressed again.
 const compressedFiles = new Map<string, CompressedFile>();
+
+let cachedBytes = 0;
+
+function removeFile(filepath: string, file: CompressedFile) {
+  if (compressedFiles.get(filepath) === file) {
+    compressedFiles.delete(filepath);
+    cachedBytes -= file.size;
+  }
+}
+
+function addCachedBytes(filepath: string, file: CompressedFile, bytes: number) {
+  if (compressedFiles.get(filepath) !== file) {
+    return;
+  }
+  file.size += bytes;
+  cachedBytes += bytes;
+  for (const [key, entry] of compressedFiles) {
+    if (cachedBytes <= maxCachedBytes) {
+      break;
+    }
+    removeFile(key, entry);
+  }
+}
 
 function compressFile(
   filepath: string,
@@ -124,15 +168,23 @@ function compressFile(
   encoding: CompressEncoding,
 ) {
   let file = compressedFiles.get(filepath);
-  if (!file || (file.source !== data && !file.source.equals(data))) {
-    file = { source: data, results: {} };
-    compressedFiles.set(filepath, file);
+  if (file && file.source !== data && !file.source.equals(data)) {
+    removeFile(filepath, file);
+    file = undefined;
   }
-  // Keep the buffer that `fileReader` caches now, so the next lookup is an
-  // identity check.
-  file.source = data;
-  const entry = file.results;
-  let compressed = entry[encoding];
+  if (file) {
+    // Keep the buffer that `fileReader` caches now, so the next lookup is an
+    // identity check, and mark the entry as recently used.
+    file.source = data;
+    compressedFiles.delete(filepath);
+    compressedFiles.set(filepath, file);
+  } else {
+    file = { source: data, results: {}, size: 0 };
+    compressedFiles.set(filepath, file);
+    addCachedBytes(filepath, file, data.byteLength);
+  }
+  const current = file;
+  let compressed = current.results[encoding];
   if (!compressed) {
     compressed = new Promise<Buffer>((resolve, reject) => {
       const callback = (error: Error | null, result: Buffer) =>
@@ -143,18 +195,25 @@ function compressFile(
         zlib.gzip(data, GZIP_OPTIONS, callback);
       }
     });
-    entry[encoding] = compressed;
-    compressed.catch(() => {
-      delete entry[encoding];
-    });
+    current.results[encoding] = compressed;
+    compressed.then(
+      result => addCachedBytes(filepath, current, result.byteLength),
+      () => {
+        delete current.results[encoding];
+      },
+    );
   }
   return compressed;
 }
 
+const getHeader = (headers: Record<string, unknown>, name: string) =>
+  Object.entries(headers).find(([key]) => key.toLowerCase() === name)?.[1];
+
 /**
  * Compress the content of a static file for the current request, the result
  * is cached. Sets `Content-Encoding` and `Vary`, so the compress middleware
- * leaves the response as it is.
+ * leaves the response as it is. `headers` are the extra response headers of
+ * the file, e.g. of a public route, which may mark it as already encoded.
  */
 export async function compressStaticFile(
   c: Context,
@@ -162,11 +221,15 @@ export async function compressStaticFile(
   data: Buffer,
   contentType: string | undefined,
   options?: ResolvedCompressOptions,
+  headers: Record<string, unknown> = {},
 ): Promise<Buffer> {
   if (
     !options ||
     data.byteLength < options.threshold ||
-    !isCompressible(contentType)
+    !isCompressible(contentType) ||
+    getHeader(headers, 'content-encoding') ||
+    getHeader(headers, 'content-range') ||
+    NO_TRANSFORM_REGEX.test(String(getHeader(headers, 'cache-control') ?? ''))
   ) {
     return data;
   }
@@ -207,13 +270,21 @@ function createCompressStream(
     new Promise<void>((resolve, reject) => {
       fail = reject;
       operation(() => {
-        if (output.length > 0) {
-          controller.enqueue(
-            output.length === 1 ? output[0] : Buffer.concat(output),
-          );
-          output = [];
+        try {
+          if (output.length > 0) {
+            controller.enqueue(
+              output.length === 1 ? output[0] : Buffer.concat(output),
+            );
+            output = [];
+          }
+          resolve();
+        } catch (error) {
+          // The response was cancelled, e.g. the client disconnected while
+          // the chunk was being compressed. Throwing here would escape the
+          // zlib callback and crash the process.
+          zstream.destroy();
+          reject(error);
         }
-        resolve();
       });
     });
 
@@ -233,6 +304,65 @@ function createCompressStream(
   });
 }
 
+const NOT_READY = Symbol('not ready');
+
+const nextTick = () =>
+  new Promise<typeof NOT_READY>(resolve => setImmediate(resolve, NOT_READY));
+
+/**
+ * Read the chunks of `body` that are already available, until `limit` bytes.
+ * Responses like `c.json()` have no `Content-Length`, so this tells whether
+ * they are below the threshold, without waiting for the next chunk of a
+ * streaming response.
+ */
+async function readAhead(body: ReadableStream<Uint8Array>, limit: number) {
+  const reader = body.getReader();
+  const chunks: Uint8Array[] = [];
+  let size = 0;
+  let done = false;
+  let pending = reader.read();
+  pending.catch(() => {});
+  while (size < limit) {
+    const result = await Promise.race([pending, nextTick()]);
+    if (result === NOT_READY) {
+      break;
+    }
+    if (result.done) {
+      done = true;
+      break;
+    }
+    chunks.push(result.value);
+    size += result.value.byteLength;
+    pending = reader.read();
+    pending.catch(() => {});
+  }
+
+  const stream = new ReadableStream<Uint8Array>({
+    start(controller) {
+      for (const chunk of chunks) {
+        controller.enqueue(chunk);
+      }
+      if (done) {
+        controller.close();
+      }
+    },
+    async pull(controller) {
+      const result = await pending;
+      if (result.done) {
+        controller.close();
+      } else {
+        controller.enqueue(result.value);
+        pending = reader.read();
+        pending.catch(() => {});
+      }
+    },
+    cancel(reason) {
+      return reader.cancel(reason);
+    },
+  });
+  return { stream, size, done };
+}
+
 export function createCompressMiddleware(
   options: ResolvedCompressOptions,
 ): Middleware {
@@ -240,9 +370,9 @@ export function createCompressMiddleware(
     await next();
 
     const { res } = c;
-    const { headers } = res;
+    const { headers, body: originalBody } = res;
     if (
-      !res.body ||
+      !originalBody ||
       c.req.method === 'HEAD' ||
       headers.has('Content-Encoding') ||
       headers.has('Content-Range') ||
@@ -251,9 +381,20 @@ export function createCompressMiddleware(
     ) {
       return;
     }
+    let body: ReadableStream<Uint8Array> = originalBody;
     const contentLength = headers.get('Content-Length');
-    if (contentLength !== null && Number(contentLength) < options.threshold) {
-      return;
+    if (contentLength !== null) {
+      if (Number(contentLength) < options.threshold) {
+        return;
+      }
+    } else {
+      const ahead = await readAhead(body, options.threshold);
+      if (ahead.done && ahead.size < options.threshold) {
+        c.res = new Response(ahead.stream, res);
+        c.res.headers.set('Content-Length', String(ahead.size));
+        return;
+      }
+      ({ stream: body } = ahead);
     }
 
     const encoding = negotiateEncoding(
@@ -262,13 +403,16 @@ export function createCompressMiddleware(
     );
     if (encoding) {
       c.res = new Response(
-        res.body.pipeThrough(createCompressStream(encoding)),
+        body.pipeThrough(createCompressStream(encoding)),
         res,
       );
       // Hono copies the headers of the previous response when `c.res` is
       // replaced, so update them after the assignment.
       c.res.headers.delete('Content-Length');
       c.res.headers.set('Content-Encoding', encoding);
+    } else if (body !== originalBody) {
+      // The original body has been read ahead.
+      c.res = new Response(body, res);
     }
     appendVary(c.res.headers);
   };
