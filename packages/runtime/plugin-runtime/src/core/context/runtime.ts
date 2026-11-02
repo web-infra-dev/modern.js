@@ -26,6 +26,7 @@ export interface TInternalRuntimeContext extends TRuntimeContext {
   _routeScope?: {
     config: RouterConfig['routesConfig'];
     initialUrl: string;
+    hydrationData?: import('../types').RouterSSRData;
     memory?: boolean;
     hash?: boolean;
     basename?: string;

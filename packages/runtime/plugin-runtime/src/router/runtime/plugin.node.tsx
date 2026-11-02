@@ -28,6 +28,7 @@ import { setServerPayload } from '../../core/context/serverPayload/index.server'
 import DeferredDataScripts from './DeferredDataScripts.node';
 import {
   type RouterExtendsHooks,
+  createRouterHooks,
   modifyRoutes as modifyRoutesHook,
   onBeforeCreateRoutes as onBeforeCreateRoutesHook,
 } from './hooks';
@@ -38,6 +39,7 @@ import {
   prepareRSCRoutes,
 } from './rsc-router';
 import type { RouterConfig } from './types';
+import { scopeTopology, assertScopeTopology } from './scope';
 import { createRouteObjectsFromConfig, renderRoutes, urlJoin } from './utils';
 
 function createRemixRequest(request: Request) {
@@ -53,15 +55,19 @@ function createRemixRequest(request: Request) {
 
 export const routerPlugin = (
   userConfig: Partial<RouterConfig> = {},
+  rootConfig?: RouterConfig['routesConfig'],
+  selected = false,
 ): RuntimePlugin<{
   extendHooks: RouterExtendsHooks;
 }> => {
   return {
     name: '@modern-js/plugin-router',
-    registryHooks: {
-      modifyRoutes: modifyRoutesHook,
-      onBeforeCreateRoutes: onBeforeCreateRoutesHook,
-    },
+    registryHooks: rootConfig
+      ? createRouterHooks()
+      : {
+          modifyRoutes: modifyRoutesHook,
+          onBeforeCreateRoutes: onBeforeCreateRoutesHook,
+        },
     setup: api => {
       let finalRouteConfig: any = {};
 
@@ -72,11 +78,17 @@ export const routerPlugin = (
           routesConfig,
           createRoutes,
         } = merge(pluginConfig.router || {}, userConfig);
-        finalRouteConfig = {
-          routes: getGlobalRoutes(),
-          globalApp: getGlobalLayoutApp(),
-          ...routesConfig,
-        };
+        finalRouteConfig = rootConfig
+          ? { ...rootConfig, ...(!selected && routesConfig) }
+          : {
+              routes: getGlobalRoutes(),
+              globalApp: getGlobalLayoutApp(),
+              ...routesConfig,
+            };
+        if (selected && createRoutes)
+          throw new Error(
+            'createRoot route exports cannot replace the build-time graph with router.createRoutes.',
+          );
         // can not get routes config, skip wrapping React Router.
         // e.g. App.tsx as the entrypoint
         if (!finalRouteConfig.routes && !createRoutes) {
@@ -96,8 +108,11 @@ export const routerPlugin = (
           loaderFailureMode = 'errorBoundary',
           baseUrl,
         } = context.ssrContext!;
-        const _basename =
-          baseUrl === '/' ? urlJoin(baseUrl, basename) : baseUrl;
+        const _basename = context._routeScope
+          ? context._routeScope.basename || '/'
+          : baseUrl === '/'
+            ? urlJoin(baseUrl, basename)
+            : baseUrl;
 
         const requestContext = createRequestContext(
           context.ssrContext?.loaderContext,
@@ -127,7 +142,9 @@ export const routerPlugin = (
               );
         }
 
+        const topology = selected ? scopeTopology(routes) : undefined;
         routes = hooks.modifyRoutes.call(routes);
+        if (topology) assertScopeTopology(routes, topology);
 
         const { query } = createStaticHandler(routes, {
           basename: _basename,
@@ -229,7 +246,7 @@ export const routerPlugin = (
                     hydrate={false}
                   />
 
-                  {mode === 'stream' && (
+                  {mode === 'stream' && !context._routeScope && (
                     // ROUTER_DATA will inject in `packages/runtime/plugin-runtime/src/core/server/string/ssrData.ts` in string ssr
                     // So we can inject it only when streaming ssr
                     <DeferredDataScripts

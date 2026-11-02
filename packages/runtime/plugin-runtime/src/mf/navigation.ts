@@ -46,10 +46,11 @@ function browserLocation(
 export function createMountWindow(
   getRouter: () => DataRouter | undefined,
   isHashRouter: () => boolean,
+  sourceWindow: Window = window,
 ) {
   const popListeners = new Map<EventListener, EventListener>();
   let notifyingPeers = false;
-  const mountWindow = new Proxy(window, {
+  const mountWindow = new Proxy(sourceWindow, {
     get(target, property) {
       if (property === 'addEventListener')
         return (
@@ -123,6 +124,7 @@ export function createBrowserRouterConnector(
   onError: (error: unknown) => void,
   isHashRouter: () => boolean = () => false,
   notifyPeers?: () => void,
+  sourceWindow: Window = window,
 ) {
   let previousHost: BridgeNavigation | undefined;
   let adaptedHost:
@@ -171,8 +173,8 @@ export function createBrowserRouterConnector(
         }),
         subscribe: listener => router.subscribe(listener),
         getHistoryLocation: () => ({
-          url: browserLocation(window.location, isHashRouter()),
-          key: window.history.state?.key ?? 'default',
+          url: browserLocation(sourceWindow.location, isHashRouter()),
+          key: sourceWindow.history.state?.key ?? 'default',
         }),
         syncFromHistory: () => router.window?.dispatchEvent(pop()),
         notifyPeers: notifyPeers ?? (() => window.dispatchEvent(pop())),

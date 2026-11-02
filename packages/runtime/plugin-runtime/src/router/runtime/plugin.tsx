@@ -287,7 +287,7 @@ function useRouterCreation(props: any, options: UseRouterCreationOptions) {
       : null;
 
   let hydrationData = scope
-    ? undefined
+    ? scope.hydrationData
     : process.env.MODERN_ENABLE_RSC
       ? window._ROUTER_DATA || rscPayload
       : window._ROUTER_DATA;
@@ -351,6 +351,7 @@ function useRouterCreation(props: any, options: UseRouterCreationOptions) {
     const router = scope?.memory
       ? createMemoryRouter(modifiedRoutes, {
           initialEntries: [scope.initialUrl],
+          hydrationData,
         })
       : supportHtml5History
         ? createBrowserRouter(modifiedRoutes, {
