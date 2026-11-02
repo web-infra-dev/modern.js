@@ -85,6 +85,7 @@ export function setupLab(
     hash?: boolean;
     documentBase?: string;
     clientLayoutLoaders?: boolean;
+    conditionalClientRedirect?: boolean;
     initialRouteNoSSR?: boolean;
   } = {},
 ) {
@@ -130,6 +131,19 @@ export function setupLab(
   let expectedErrors: { pattern: RegExp; min: number; max: number } | undefined;
   beforeAll(async () => {
     workspace = await createWorkspace();
+    if (options.conditionalClientRedirect) {
+      const loader = path.join(
+        workspace,
+        'provider/src/routes/product/start/page.data.client.ts',
+      );
+      await writeFile(
+        loader,
+        (await readFile(loader, 'utf8')).replace(
+          'const shouldRedirect = true;',
+          "const shouldRedirect = sessionStorage.getItem('mf-lab-redirect-enabled') === 'true';",
+        ),
+      );
+    }
     if (options.initialRouteNoSSR) {
       const consumer = path.join(workspace, 'host/src/routes/persistent/$.tsx');
       const source = await readFile(consumer, 'utf8');
@@ -380,6 +394,7 @@ export function describeLab(
     hash?: boolean;
     documentBase?: string;
     clientLayoutLoaders?: boolean;
+    conditionalClientRedirect?: boolean;
     initialRouteNoSSR?: boolean;
   } = {},
 ) {
