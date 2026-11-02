@@ -115,6 +115,31 @@ async function run(
   }
 }
 describe('CLI built-in MF activation', () => {
+  it.each(['', "server: { ssr: { mode: 'stream' } },"])(
+    'keeps ordinary build output free of Bridge SSR runtime with config %s',
+    async config => {
+      const result = await run(
+        `output: { disableTsChecker: true }, ${config}`,
+        {
+          dependencies: false,
+          command: 'build',
+        },
+      );
+      expect(result.code, result.output).toBe(0);
+      const outputDirectory = path.join(result.directory, 'dist');
+      const files = await readdir(outputDirectory, { recursive: true });
+      const scripts = await Promise.all(
+        files
+          .filter(file => /\.(?:m?js|html)$/.test(file))
+          .map(file => readFile(path.join(outputDirectory, file), 'utf8')),
+      );
+      expect(scripts.length).toBeGreaterThan(0);
+      expect(scripts.join('\n')).not.toMatch(
+        /__MF_BRIDGE_SSR__|BridgeSSRContext|mf-bridge-producer\/1/,
+      );
+    },
+  );
+
   it('does not require enhanced for an ordinary app or explicit false', async () => {
     expect((await run('', { dependencies: false })).code).toBe(0);
     expect(

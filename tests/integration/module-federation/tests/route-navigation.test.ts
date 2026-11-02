@@ -6,6 +6,167 @@ const remoteLocation = `${main} [data-testid="route-remote-location"]`;
 describeLab(
   'Modern route-mounted applications',
   getContext => {
+    async function visitSSRRoute(
+      route: string,
+      detailSelector: string,
+      expectedLocation?: string,
+    ) {
+      const { page, lab } = getContext();
+      const documents: string[] = [];
+      const loaders: string[] = [];
+      let release!: () => void;
+      const gate = new Promise<void>(resolve => {
+        release = resolve;
+      });
+      const observe = async (request: import('puppeteer').HTTPRequest) => {
+        const url = new URL(request.url());
+        if (
+          request.isNavigationRequest() &&
+          request.frame() === page.mainFrame()
+        )
+          documents.push(request.url());
+        if (
+          url.port === String(lab.ports.provider) &&
+          url.searchParams.has('__loader')
+        )
+          loaders.push(request.url());
+        if (
+          url.origin === lab.url &&
+          /^\/static\/js\/index(?:\.[\w]+)?\.js$/.test(url.pathname)
+        )
+          await gate;
+        if (!request.isInterceptResolutionHandled()) await request.continue();
+      };
+      await page.setRequestInterception(true);
+      page.on('request', observe);
+      const firstDocument = page.waitForResponse(
+        response =>
+          response.request().isNavigationRequest() &&
+          response.request().frame() === page.mainFrame(),
+      );
+      const navigation = page.goto(`${lab.url}/${route}`, {
+        waitUntil: 'networkidle0',
+      });
+      try {
+        // The receiver inserts server HTML while the Host entry is still held.
+        // Saving the actual page node also detects a Suspense boundary fallback.
+        await page.waitForSelector(detailSelector);
+        expect(
+          await page.evaluate(() => document.documentElement.dataset.labReady),
+        ).toBeUndefined();
+        if (expectedLocation !== undefined) {
+          expect(
+            await page.$eval(
+              `${detailSelector} [data-testid="route-remote-location"]`,
+              node => node.textContent,
+            ),
+          ).toBe(expectedLocation.replace(/#.*$/, ''));
+        }
+        await page.evaluate(selector => {
+          (window as any).__routeServerDetail =
+            document.querySelector(selector);
+        }, detailSelector);
+        const response = await firstDocument;
+        expect(response.status()).toBe(200);
+        const html = await response.text();
+        expect(html).toContain('"type":"html"');
+        expect(html).toContain(
+          expectedLocation === undefined ? 'scope-root' : 'scope-detail',
+        );
+        release();
+        await navigation;
+        expect(documents).toHaveLength(1);
+        expect(new URL(page.url()).searchParams.has('csr')).toBe(false);
+        if (expectedLocation !== undefined) {
+          await page.waitForFunction(
+            (selector, expected) =>
+              document.querySelector(
+                `${selector} [data-testid="route-remote-location"]`,
+              )?.textContent === expected,
+            {},
+            detailSelector,
+            expectedLocation,
+          );
+        }
+        expect(
+          await page.evaluate(
+            selector =>
+              (window as any).__routeServerDetail ===
+              document.querySelector(selector),
+            detailSelector,
+          ),
+        ).toBe(true);
+        expect(loaders).toEqual([]);
+        return html;
+      } finally {
+        release();
+        await navigation.catch(() => {});
+        page.off('request', observe);
+        await page.setRequestInterception(false);
+      }
+    }
+
+    it('restores a successful null SSR loader result and runs the client loader only on later navigation', async () => {
+      const { page, click } = getContext();
+      await page.evaluateOnNewDocument(() => {
+        (window as any).__initialClientLoaderCalls = 0;
+        window.addEventListener('mf-lab-initial-client-loader', () => {
+          (window as any).__initialClientLoaderCalls++;
+        });
+      });
+      const html = await visitSSRRoute(
+        'admin/persistent/inventory/start',
+        '[data-testid="scope-root"]',
+      );
+      const frames = [
+        ...html.matchAll(
+          /window\.__MF_BRIDGE_SSR__\.accept\.apply\(window\.__MF_BRIDGE_SSR__,(\[[\s\S]*?\])\)<\/script>/g,
+        ),
+      ].map(match => JSON.parse(match[1]));
+      const snapshot = frames.find(([, frame]) => frame.type === 'ready')?.[1]
+        .snapshot;
+      expect(snapshot.routerData.loaderData['product/start/page']).toBeNull();
+      expect(new URL(page.url()).pathname).toBe(
+        '/admin/persistent/inventory/start',
+      );
+      expect(
+        await page.evaluate(() => (window as any).__initialClientLoaderCalls),
+      ).toBe(0);
+      expect(await page.$('[data-testid="route-remote-location"]')).toBeNull();
+      await click('scope-count');
+      await click('persistent-stay');
+      await page.waitForSelector('[data-testid="scope-detail"]');
+      await click('scope-start-link');
+      await page.waitForFunction(
+        () =>
+          document.querySelector('[data-testid="route-remote-location"]')
+            ?.textContent === '/detail/42?tab=initial#summary',
+      );
+      await page.waitForFunction(
+        () =>
+          document.querySelector('[data-testid="persistent-host-location"]')
+            ?.textContent ===
+          '/persistent/inventory/detail/42?tab=initial#summary',
+      );
+      expect(
+        await page.evaluate(() => (window as any).__initialClientLoaderCalls),
+      ).toBe(1);
+      expect(
+        await page.$eval(
+          '[data-testid="scope-count"]',
+          node => node.textContent,
+        ),
+      ).toBe('Observations: 1');
+      expect(
+        await page.evaluate(
+          () =>
+            (window as any).__routeServerDetail ===
+            document.querySelector('[data-testid="scope-root"]'),
+        ),
+      ).toBe(true);
+      expect(new URL(page.url()).searchParams.has('csr')).toBe(false);
+    });
+
     it.each(['outside', 'stay'])(
       'cancels Remote loading after a persistent Host navigation (%s)',
       async target => {
@@ -66,25 +227,6 @@ describeLab(
         }
       },
     );
-
-    it('notifies the Host after an initial client loader redirect', async () => {
-      const { page, visit } = getContext();
-      await visit('admin/persistent/inventory/start', 'route-remote-location');
-      await page.waitForFunction(
-        () =>
-          document.querySelector('[data-testid="route-remote-location"]')
-            ?.textContent === '/detail/42?tab=initial#summary',
-      );
-      await page.waitForFunction(
-        () =>
-          document.querySelector('[data-testid="persistent-host-location"]')
-            ?.textContent ===
-          '/persistent/inventory/detail/42?tab=initial#summary',
-      );
-      expect(page.url()).toContain(
-        '/admin/persistent/inventory/detail/42?tab=initial#summary',
-      );
-    });
 
     it('remounts at a new basename and cancels the old instance loading', async () => {
       const { page, visit, click, lab } = getContext();
@@ -177,21 +319,23 @@ describeLab(
     });
 
     it('strips an explicit basename case-insensitively without changing encoded loader paths', async () => {
-      const { page, visit, lab } = getContext();
+      const { page, lab } = getContext();
       const paths: string[] = [];
       const observe = (request: import('puppeteer').HTTPRequest) => {
         const url = new URL(request.url());
         if (
           url.port === String(lab.ports.provider) &&
-          url.pathname.includes('/product/')
+          url.pathname.includes('/product/') &&
+          url.searchParams.has('__loader')
         )
           paths.push(url.pathname);
       };
       page.on('request', observe);
       try {
-        await visit(
+        await visitSSRRoute(
           'admin/PERSISTENT/INVENTORY/detail/a%2Fb?tab=stock#summary',
-          'scope-detail',
+          '[data-testid="scope-detail"]',
+          '/detail/a%2Fb?tab=stock#summary',
         );
         expect(
           await page.$eval(
@@ -199,12 +343,30 @@ describeLab(
             node => node.textContent,
           ),
         ).toContain('Weather station a/b');
+        // Initial data comes from the server snapshot. No browser loader URL
+        // should be reconstructed from the differently cased consumer prefix.
+        expect(paths).toEqual([]);
+        expect(page.url()).toContain(
+          '/admin/PERSISTENT/INVENTORY/detail/a%2Fb?tab=stock#summary',
+        );
+        await page.click('[data-testid="route-remote-next"]');
+        await page.waitForFunction(
+          () =>
+            document.querySelector('[data-testid="route-remote-location"]')
+              ?.textContent === '/detail/43?tab=remote#forecast',
+        );
+        await page.goBack();
+        await page.waitForFunction(
+          () =>
+            document.querySelector('[data-testid="route-remote-location"]')
+              ?.textContent === '/detail/a%2Fb?tab=stock#summary',
+        );
+        await page.waitForNetworkIdle({ idleTime: 300 });
+        // A later browser navigation still uses the producer's data endpoint
+        // and preserves the encoded route parameter.
         expect(paths).toContain('/product/detail/a%2Fb');
         expect(paths.some(path => /persistent|inventory/i.test(path))).toBe(
           false,
-        );
-        expect(page.url()).toContain(
-          '/admin/PERSISTENT/INVENTORY/detail/a%2Fb?tab=stock#summary',
         );
       } finally {
         page.off('request', observe);
@@ -231,10 +393,11 @@ describeLab(
     });
 
     it('deep-links with basename, query and hash while keeping memory cards isolated', async () => {
-      const { page, visit } = getContext();
-      await visit(
+      const { page } = getContext();
+      await visitSSRRoute(
         `${prefix.slice(1)}/detail/42?tab=stock#summary`,
-        'route-remote-location',
+        `${main} [data-testid="scope-detail"]`,
+        '/detail/42?tab=stock#summary',
       );
       expect(await page.$eval(remoteLocation, node => node.textContent)).toBe(
         '/detail/42?tab=stock#summary',
@@ -366,14 +529,18 @@ describeLab(
     });
 
     it('loads a native history.back destination once without aborting its loader', async () => {
-      const { page, visit, lab } = getContext();
+      const { page, lab } = getContext();
       const probe = `native-back-${Date.now()}`;
       const target = `/detail/42?routeProbe=${probe}#summary`;
-      await visit(`${prefix.slice(1)}${target}`, 'route-remote-location');
+      await visitSSRRoute(
+        `${prefix.slice(1)}${target}`,
+        `${main} [data-testid="scope-detail"]`,
+        target,
+      );
       expect(
         lab.routeRequests.filter(request => request.probe === probe),
       ).toEqual([
-        { probe, path: '/product/detail/42', completed: true, aborted: false },
+        { probe, path: `${prefix}/detail/42`, completed: true, aborted: false },
       ]);
       await page.click(`${main} [data-testid="route-remote-next"]`);
       await page.waitForFunction(
@@ -422,7 +589,7 @@ describeLab(
         ).toEqual([
           {
             probe,
-            path: '/product/detail/42',
+            path: `${prefix}/detail/42`,
             completed: true,
             aborted: false,
           },
@@ -574,6 +741,25 @@ describeLab(
 describeLab(
   'Immediate client-loader redirects',
   getContext => {
+    it('notifies the Host after an initial client loader redirect', async () => {
+      const { page, visit } = getContext();
+      await visit('admin/persistent/inventory/start', 'route-remote-location');
+      await page.waitForFunction(
+        () =>
+          document.querySelector('[data-testid="route-remote-location"]')
+            ?.textContent === '/detail/42?tab=initial#summary',
+      );
+      await page.waitForFunction(
+        () =>
+          document.querySelector('[data-testid="persistent-host-location"]')
+            ?.textContent ===
+          '/persistent/inventory/detail/42?tab=initial#summary',
+      );
+      expect(page.url()).toContain(
+        '/admin/persistent/inventory/detail/42?tab=initial#summary',
+      );
+    });
+
     it('notifies the Host while a lazy loading component delays the Remote commit', async () => {
       const { page, lab } = getContext();
       await page.setRequestInterception(true);
@@ -678,7 +864,7 @@ describeLab(
       },
     );
   },
-  { basename: '/admin', clientLayoutLoaders: true },
+  { basename: '/admin', clientLayoutLoaders: true, initialRouteNoSSR: true },
 );
 
 for (const documentBase of [undefined, '/'])
