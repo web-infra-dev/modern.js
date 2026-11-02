@@ -2,7 +2,7 @@
 
 The built-in adapter is applied by app-tools when module-federation.config.ts exists. Users install @module-federation/enhanced and configure MF without registering this package manually. Set moduleFederation to false to retain the legacy plugin. Simultaneous activation fails before legacy configuration evaluation.
 
-The adapter preserves the modern-js-v3 2.9.2 behavior and uses MF preview `0.0.0-feat-bridge-route-navigation-20261028125233` for the engine, Bridge, Node adapter and related packages. Runtime APIs and types use @module-federation/enhanced/runtime, without extra runtime or runtime-core application dependencies. This preview includes the unified React consumers and expose protocol metadata. Bridge SSR, Service App execution and additional shared tree-shaking work remain outside this phase.
+The adapter preserves the modern-js-v3 2.9.2 component integration and uses matching MF engine, Bridge, Node adapter and related packages. Runtime APIs and types use @module-federation/enhanced/runtime, without extra runtime or runtime-core application dependencies. Bridge application SSR additionally requires the engine's renderer callbacks and shared stream support. Service App execution and additional shared tree-shaking work remain separate capabilities.
 
 The adapter defaults the top-level shareStrategy to loaded-first for browser and server builds. Explicit strategy configuration is preserved. The MF runtime supplies this default to shared entries without an extra strategy runtime plugin.
 
@@ -54,7 +54,50 @@ Applications use createBridgeComponent, createReactRemote and ReactRemote from
 Direct Bridge imports remain supported for existing integrations.
 
 The package exports root CLI registration, config-plugin, ssr-plugin, data-fetch-server-plugin, configuration types and package metadata. Injected server and runtime files resolve within the adapter. Runtime aliases use the app context metaName.
-The framework MF entry only exposes the three React APIs and their types.
+The framework MF entry also provides Modern application renderer callbacks and a provider helper.
 General runtime APIs continue to come from @module-federation/enhanced/runtime.
 The producer registers its framework import with the engine's manifest analyzer.
-Bridge SSR, Service App execution and remote version replacement are separate capabilities.
+Service App execution and remote version replacement remain separate capabilities.
+
+## Modern application SSR
+
+Export a Modern Root through the provider helper to use framework rendering,
+loader snapshots and independent hydration with the shared Bridge implementation:
+
+```tsx
+import '@modern-js/runtime/registry';
+import { createRoot } from '@modern-js/runtime/react';
+import { createModernBridgeComponent } from '@modern-js/runtime/mf';
+
+const Root = createRoot({ route: '/product' });
+export default createModernBridgeComponent({ rootComponent: Root });
+```
+
+The existing `createBridgeComponent` remains available. An explicit equivalent
+passes `render`, `hydrate` and `renderStream` from `@modern-js/runtime/mf` to it.
+Generic CSR providers do not need these callbacks. The Node build selects the
+server callbacks while the browser uses the existing Browser Router, or the
+configured Hash Router. Only an explicit `memoryRoute` selects independent memory
+navigation.
+
+`route` selects exported content. Mounting this Root at `/inventory` exposes its
+detail page at `/inventory/detail/42`. The initial server request, restored loader
+data and browser Router use that same mount. The original `/product` path is only
+relevant to the producer's standalone application and its separate data endpoints.
+Props updates retain the hydrated Root and Router. A changed mount basename
+creates a new instance and cleans up the previous one.
+
+The Host adapter supplies request and document lifecycle information to Core's
+shared stream engine. It does not implement another consumer or change Router
+package aliases. Browser and Node exports use the same application definition,
+and browser entrypoints do not import the Node stream engine. Hash navigation
+retains its CSR behavior because the initial HTTP request does not carry the URL
+fragment.
+
+The initial Modern Bridge SSR validation baseline is React and React DOM 19.3.1,
+with matching producer server and browser versions. Unpatched React 18.3.1 has a
+Node streaming UTF-8 boundary bug that can emit NUL bytes and corrupt HTML in
+development and production. See [React #26228](https://github.com/facebook/react/pull/26228)
+and [React #31134](https://github.com/facebook/react/issues/31134). It is outside
+the initial SSR support boundary. The adapter does not patch React, strip bytes,
+or add a runtime version guard. Existing CSR support remains unchanged.

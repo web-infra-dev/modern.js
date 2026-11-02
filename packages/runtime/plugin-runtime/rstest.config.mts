@@ -27,6 +27,7 @@ export default {
       },
       exclude: [
         'tests/application/browser.test.tsx',
+        'tests/mf/browser.test.tsx',
         'tests/ssr/browserHydration.test.tsx',
         'tests/router/prefetch.test.tsx',
         'tests/router/routeScopeBrowser.test.tsx',
@@ -61,6 +62,7 @@ export default {
       },
       include: [
         'tests/application/browser.test.tsx',
+        'tests/mf/browser.test.tsx',
         'tests/ssr/browserHydration.test.tsx',
         'tests/router/prefetch.test.tsx',
         'tests/router/routeScopeBrowser.test.tsx',

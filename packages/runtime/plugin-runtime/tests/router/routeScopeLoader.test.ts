@@ -82,10 +82,18 @@ export default createBridgeComponent({ rootComponent: App, render });
       context,
       source("{ route: '/product' }"),
     );
+    const modernHelper = await loader.call(
+      context,
+      source("{ route: '/product' }").replaceAll(
+        'createBridgeComponent',
+        'createModernBridgeComponent',
+      ),
+    );
     const registryPath = (code: string) =>
       (parseSync(code).body[0] as import('@swc/core').ImportDeclaration).source
         .value;
     expect(registryPath(full)).not.toBe(registryPath(selected));
+    expect(registryPath(modernHelper)).toBe(registryPath(selected));
     expect(selected).toMatch(
       /import \{ hydrateWithReact \} from ['"]@modern-js\/runtime\/browser['"]/,
     );

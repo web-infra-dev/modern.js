@@ -50,6 +50,15 @@ export async function startLab(
   const logs = new Map();
   /** @type {{ probe: string; path: string; completed: boolean; aborted: boolean }[]} */
   const routeRequests = [];
+  /** @type {{ probe: string; completed: boolean; aborted: boolean }[]} */
+  const bridgeRequests = [];
+  const bridgeGates = new Map();
+  const releasedBridgeGates = new Set();
+  const releaseBridge = probe => {
+    releasedBridgeGates.add(probe);
+    bridgeGates.get(probe)?.();
+    bridgeGates.delete(probe);
+  };
   const env = {
     ...process.env,
     MF_LAB_PORTS: JSON.stringify(ports),
@@ -241,6 +250,24 @@ export async function startLab(
       res.setHeader('Access-Control-Allow-Origin', '*');
       res.setHeader('Cache-Control', 'no-store');
       const url = new URL(req.url, 'http://localhost');
+      if (url.pathname === '/bridge-data') {
+        const probe = url.searchParams.get('probe') || '';
+        const record = { probe, completed: false, aborted: false };
+        bridgeRequests.push(record);
+        res.on('close', () => {
+          if (!res.writableFinished) record.aborted = true;
+          bridgeGates.get(probe)?.();
+          bridgeGates.delete(probe);
+        });
+        if (url.searchParams.has('hold') && !releasedBridgeGates.has(probe)) {
+          await new Promise(resolve => bridgeGates.set(probe, resolve));
+        }
+        if (res.destroyed) return;
+        record.completed = true;
+        res.writeHead(200, { 'Content-Type': 'application/json' });
+        res.end(JSON.stringify({ detail: `Resolved ${probe}` }));
+        return;
+      }
       if (url.pathname === '/route-loader') {
         const record = {
           probe: url.searchParams.get('probe') || '',
@@ -324,6 +351,8 @@ export async function startLab(
       stop,
       logs,
       routeRequests,
+      bridgeRequests,
+      releaseBridge,
     };
   } catch (error) {
     await stop();
