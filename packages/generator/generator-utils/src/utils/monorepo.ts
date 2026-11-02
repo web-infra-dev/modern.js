@@ -1,6 +1,6 @@
 import fs from 'fs';
 import path from 'path';
-import glob from 'glob';
+import { globSync } from 'glob';
 import yaml from 'js-yaml';
 
 const PACKAGE_MAX_DEPTH = 5;
@@ -77,8 +77,9 @@ export const getMonorepoPackages = (
     return packages
       .map(name =>
         // The trailing / ensures only dirs are picked up
-        glob.sync(path.join(root, `${name}/`), {
+        globSync(path.join(root, `${name}/`), {
           ignore: ['**/node_modules/**'],
+          windowsPathsNoEscape: true,
         }),
       )
       .reduce((acc, val) => acc.concat(val), [])
