@@ -78,6 +78,10 @@ export type CreateRequestHandler = (
   handleRequest: HandleRequest,
   options?: {
     enableRsc?: boolean;
+    /** Explicit application scope. Ordinary page requests retain the registry path. */
+    runtimeContext?: TInternalRuntimeContext;
+    runtime?: ReturnType<typeof getGlobalInternalRuntimeContext>;
+    root?: React.ComponentType<any>;
   },
 ) => Promise<RequestHandler>;
 
@@ -240,17 +244,17 @@ export const createRequestHandler: CreateRequestHandler = async (
         serverPayload: undefined,
       },
       async () => {
-        const Root = createRoot();
+        const Root = createRequestOptions?.root || createRoot();
 
-        const internalRuntimeContext = getGlobalInternalRuntimeContext();
+        const internalRuntimeContext =
+          createRequestOptions?.runtime || getGlobalInternalRuntimeContext();
         const hooks = internalRuntimeContext.hooks;
 
         const { routeManifest } = options.resource;
 
-        const context: TInternalRuntimeContext = getInitialContext(
-          false,
-          routeManifest as any,
-        );
+        const context: TInternalRuntimeContext =
+          createRequestOptions?.runtimeContext ||
+          getInitialContext(false, routeManifest as any);
 
         const runBeforeRender = async (
           context: TInternalRuntimeContext,
