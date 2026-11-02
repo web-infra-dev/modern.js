@@ -3612,8 +3612,8 @@ importers:
         specifier: 1.0.6
         version: 1.0.6
       minimatch:
-        specifier: ^3.1.2
-        version: 3.1.5
+        specifier: ^11.0.0
+        version: 11.0.3
       path-to-regexp:
         specifier: ^6.3.0
         version: 6.3.0
@@ -4104,8 +4104,8 @@ importers:
         specifier: ^0.14.2
         version: 0.14.2
       minimatch:
-        specifier: ^9.0.5
-        version: 9.0.7
+        specifier: ^11.0.0
+        version: 11.0.3
       react-docgen:
         specifier: 6.0.0-alpha.3
         version: 6.0.0-alpha.3
