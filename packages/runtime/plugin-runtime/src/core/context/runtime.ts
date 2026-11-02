@@ -31,6 +31,11 @@ export interface TInternalRuntimeContext extends TRuntimeContext {
   _routeScope?: {
     config: RouterConfig['routesConfig'];
     initialUrl: string;
+    memory?: boolean;
+    hash?: boolean;
+    basename?: string;
+    getWindow?: () => Window;
+    onRouterCreated?: (router: DataRouter) => void;
     router?: DataRouter;
     routes?: RouteObject[];
   };

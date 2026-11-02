@@ -1,5 +1,5 @@
 import path from 'node:path';
-import { createHash } from 'node:crypto';
+import { createHash, randomUUID } from 'node:crypto';
 import { parseSync, printSync } from '@swc/core';
 import type {
   Entrypoint,
@@ -30,8 +30,17 @@ interface ScopeGraph extends Omit<
 }
 
 async function output(filename: string, content: string) {
-  if ((await fs.readFile(filename, 'utf8').catch(() => undefined)) !== content)
-    await fs.outputFile(filename, content);
+  if ((await fs.readFile(filename, 'utf8').catch(() => undefined)) === content)
+    return;
+  // Exposes of the same scope can generate this module concurrently. Publish
+  // complete files so the compiler never caches an empty or partial module.
+  const temporary = `${filename}.${randomUUID()}.tmp`;
+  try {
+    await fs.outputFile(temporary, content);
+    await fs.rename(temporary, filename);
+  } finally {
+    await fs.remove(temporary);
+  }
 }
 
 /** An expose-only resource variant keeps ordinary imports of the source intact. */
@@ -77,6 +86,7 @@ export default async function loader(
       routes,
       internalDirectory: directory,
       isolated: true,
+      writeOutput: output,
     });
     await output(path.join(directory, 'routes.js'), scopedCode);
     const runtimeFile = path.join(
@@ -149,7 +159,7 @@ import { routes } from './routes';
 import { createRegistryRuntime } from './runtime';
 ${layoutImport}
 ${graph.app ? `import App from ${JSON.stringify(graph.app)};` : 'const App = undefined;'}
-const definition = { routes, globalApp, App, createRuntime: createRegistryRuntime, route: ${JSON.stringify(root.route)}, basename: ${JSON.stringify(graph.basename)}, serverLoaders: ${Boolean(graph.ssrMode)}, getDataBase: () => new URL(__webpack_public_path__, window.location.href).origin };
+const definition = { routes, globalApp, App, createRuntime: createRegistryRuntime, selected: ${root.route !== undefined}, dataRoute: ${JSON.stringify(root.route)}, basename: ${JSON.stringify(graph.basename)}, serverLoaders: ${Boolean(graph.ssrMode)}, getDataBase: () => new URL(__webpack_public_path__, window.location.href).origin };
 export const createRoot = () => createScopedRoot(definition);
 export const render = createScopedRender();
 `,

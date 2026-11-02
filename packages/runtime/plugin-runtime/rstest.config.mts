@@ -27,6 +27,8 @@ export default {
         'tests/router/memoryRouter.test.tsx',
         'tests/router/memoryRouter.node.test.tsx',
         'tests/router/routeScopeBrowser.test.tsx',
+        'tests/router/remoteNavigation.test.tsx',
+        'tests/router/remoteNavigationIdentity.test.tsx',
       ],
       extends: commonConfig,
       plugins: [
@@ -83,6 +85,8 @@ export default {
         'tests/router/prefetch.test.tsx',
         'tests/router/memoryRouter.test.tsx',
         'tests/router/routeScopeBrowser.test.tsx',
+        'tests/router/remoteNavigation.test.tsx',
+        'tests/router/remoteNavigationIdentity.test.tsx',
       ],
       extends: commonConfig,
       plugins: [

@@ -205,6 +205,7 @@ export const fileSystemRoutes = async ({
   srcDirectory,
   internalSrcAlias,
   isolated = false,
+  writeOutput,
 }: {
   metaName: string;
   routes: RouteLegacy[] | (NestedRouteForCli | PageRoute)[];
@@ -217,6 +218,7 @@ export const fileSystemRoutes = async ({
   srcDirectory?: string;
   internalSrcAlias?: string;
   isolated?: boolean;
+  writeOutput?: (filename: string, content: string) => Promise<void>;
 }) => {
   const components: string[] = [];
   const loadings: string[] = [];
@@ -544,8 +546,12 @@ export const fileSystemRoutes = async ({
     importConfigsCode += `import * as ${key} from "${slash(configPath)}";\n`;
   }
 
-  await fs.ensureFile(loadersMapFile);
-  await fs.writeJSON(loadersMapFile, loadersMap);
+  if (writeOutput) {
+    await writeOutput(loadersMapFile, `${JSON.stringify(loadersMap)}\n`);
+  } else {
+    await fs.ensureFile(loadersMapFile);
+    await fs.writeJSON(loadersMapFile, loadersMap);
+  }
 
   const importRuntimeRouterCode = `
     import { createShouldRevalidate, handleRouteModule } from '@${metaName}/runtime/routerHelper';

@@ -212,17 +212,26 @@ export const routerPlugin = (
           // Memory routers stay isolated per mounted instance; browser/hash
           // routers keep the existing closure cache.
           const router = useMemo(() => {
+<<<<<<< HEAD
             if (routerResult.memoryState.enabled) {
               return routerResult.router;
             }
+=======
+            if (scope) return routerResult.router;
+>>>>>>> fa47c86c37 (feat(module-federation): support routed applications and typed remote sources (#9073))
             if (cachedRouter) {
               return cachedRouter;
             }
 
             cachedRouter = routerResult.router;
             return cachedRouter;
+<<<<<<< HEAD
           }, []);
           const { routes, memoryState } = routerResult;
+=======
+          }, [scope, routerResult.router]);
+          const { routes } = routerResult;
+>>>>>>> fa47c86c37 (feat(module-federation): support routed applications and typed remote sources (#9073))
 
           routesContainer.current = routes;
 
@@ -312,7 +321,7 @@ function useRouterCreation(props: any, options: UseRouterCreationOptions) {
     '/',
   );
   const defaultBasename = scope
-    ? '/'
+    ? scope.basename || '/'
     : baseUrl === '/'
       ? urlJoin(
           baseUrl,
@@ -329,12 +338,12 @@ function useRouterCreation(props: any, options: UseRouterCreationOptions) {
         defaultBasename,
       );
   const _basename = normalizedMemory?.basename ?? defaultBasename;
-  const memoryState: MemoryRouteState = scope
+  const memoryState: MemoryRouteState = scope?.memory
     ? {
         enabled: true,
         initialEntries: [scope.initialUrl],
         initialIndex: 0,
-        basename: '/',
+        basename: _basename,
       }
     : normalizedMemory
       ? {
@@ -359,7 +368,7 @@ function useRouterCreation(props: any, options: UseRouterCreationOptions) {
       ? window._ROUTER_DATA || rscPayload
       : window._ROUTER_DATA;
 
-  return useMemo(() => {
+  const createRouter = () => {
     if (scope?.router)
       return { router: scope.router, routes: scope.routes || [], memoryState };
     if (hydrationData?.errors) {
@@ -415,7 +424,8 @@ function useRouterCreation(props: any, options: UseRouterCreationOptions) {
     const modifiedRoutes = hooks.modifyRoutes.call(routes);
     if (topology) assertScopeTopology(modifiedRoutes, topology);
 
-    const router = scope
+    if (scope) scope.hash = !supportHtml5History;
+    const router = scope?.memory
       ? createMemoryRouter(modifiedRoutes, {
           initialEntries: [scope.initialUrl],
         })
@@ -430,10 +440,12 @@ function useRouterCreation(props: any, options: UseRouterCreationOptions) {
           ? createBrowserRouter(modifiedRoutes, {
               basename: _basename,
               hydrationData,
+              window: scope?.getWindow?.(),
             })
           : createHashRouter(modifiedRoutes, {
               basename: _basename,
               hydrationData,
+              window: scope?.getWindow?.(),
             });
     if (scope) {
       scope.router = router;
@@ -451,19 +463,31 @@ function useRouterCreation(props: any, options: UseRouterCreationOptions) {
       };
       return originSubscribe(wrappedListener);
     };
+    scope?.onRouterCreated?.(router);
 
     return {
       router,
       routes: modifiedRoutes,
       memoryState,
     };
+<<<<<<< HEAD
   }, [
+=======
+  };
+  // Scoped Routers belong to the mount lifecycle. Its cache can be cleared by
+  // cleanup and recreated on effect replay without retaining a disposed Router.
+  return useMemo(createRouter, [
+>>>>>>> fa47c86c37 (feat(module-federation): support routed applications and typed remote sources (#9073))
     routesConfig,
     props,
     _basename,
     hydrationData,
     getBlockNavState,
     scope,
+<<<<<<< HEAD
     memoryInput,
+=======
+    scope?.router,
+>>>>>>> fa47c86c37 (feat(module-federation): support routed applications and typed remote sources (#9073))
   ]);
 }

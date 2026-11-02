@@ -9,8 +9,8 @@
     "react": "^19.3.1",
     "react-dom": "^19.3.1",
     "@modern-js/runtime": "workspace:*",
-    "@module-federation/enhanced": "0.0.0-feat-enhanced-runtime-unification-20261027114159",
-    "@module-federation/bridge-react": "0.0.0-feat-enhanced-runtime-unification-20261027114159"
+    "@module-federation/enhanced": "0.0.0-feat-bridge-route-navigation-20261030085657",
+    "@module-federation/bridge-react": "0.0.0-feat-bridge-route-navigation-20261030085657"
   },
   "devDependencies": {
     "@modern-js/app-tools": "workspace:*",

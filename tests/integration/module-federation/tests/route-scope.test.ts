@@ -1,6 +1,31 @@
 import { describeLab } from './fixture';
 
 describeLab('Modern producer route exports', getContext => {
+  it('starts selected memory applications at local entry paths without changing the host URL', async () => {
+    const { page, visit } = getContext();
+    await visit('route-exports', 'scope-product-list');
+    const entry = '[data-testid="app-product-entry"]';
+    const location = `${entry} [data-testid="route-remote-location"]`;
+    await page.waitForSelector(location);
+    expect(await page.$eval(location, node => node.textContent)).toBe(
+      '/detail/45?tab=memory#start',
+    );
+    const hostUrl = page.url();
+    await page.click(`${entry} [data-testid="route-remote-next"]`);
+    await page.waitForFunction(
+      selector =>
+        document.querySelector(selector)?.textContent ===
+        '/detail/43?tab=remote#forecast',
+      {},
+      location,
+    );
+    expect(page.url()).toBe(hostUrl);
+    expect(
+      await page.$(
+        '[data-testid="app-product-a"] [data-testid="scope-product-list"]',
+      ),
+    ).not.toBeNull();
+  });
   it('retains the product error boundary and recovers without affecting another instance', async () => {
     const { page, visit } = getContext();
     await visit('route-exports', 'scope-product-list');
