@@ -119,8 +119,8 @@
     "test": "rstest"
   },
   "dependencies": {
-    "@babel/parser": "^7.29.11",
-    "@babel/traverse": "^7.29.10",
+    "@babel/parser": "^7.29.12",
+    "@babel/traverse": "^7.29.12",
     "@babel/types": "^7.29.11",
     "@modern-js/builder": "workspace:*",
     "@modern-js/i18n-utils": "workspace:*",
