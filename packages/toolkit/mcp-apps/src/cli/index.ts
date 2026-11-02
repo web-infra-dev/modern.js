@@ -321,9 +321,10 @@ export const mcpAppsPlugin = (
               'mcp-apps',
             );
             let mf: { filename: string; manifest: MfManifest } | undefined;
+            // Only exposes of this application need its MF build output.
             if (
               Object.values(definition.views).some(
-                view => typeof view !== 'string',
+                view => typeof view !== 'string' && view.remote === undefined,
               )
             ) {
               mf = findMfManifest(

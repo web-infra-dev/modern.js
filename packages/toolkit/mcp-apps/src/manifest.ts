@@ -2,7 +2,8 @@ import type { McpUiResourceMeta } from '@modelcontextprotocol/ext-apps';
 
 export type UiMetadata = McpUiResourceMeta;
 export interface McpViewsConfig extends UiMetadata {
-  views: Record<string, string | { expose: string }>;
+  /** A component path, an expose of this application, or an expose of a deployed remote. */
+  views: Record<string, string | { expose: string; remote?: string }>;
 }
 export interface UiManifest {
   version: 1;
@@ -65,13 +66,33 @@ export function validateViewsConfig(
       isRecord(view) &&
       typeof view.expose === 'string' &&
       view.expose.startsWith('./') &&
-      Object.keys(view).length === 1
-    )
-      continue;
+      Object.keys(view).every(key => key === 'expose' || key === 'remote')
+    ) {
+      if (!('remote' in view)) continue;
+      if (typeof view.remote === 'string') {
+        parseRemote(view.remote);
+        continue;
+      }
+    }
     throw new Error(
-      `Invalid view: ${name}. Use a component path or { expose: './Name' }`,
+      `Invalid view: ${name}. Use a component path, { expose: './Name' } or { remote: 'name@https://host/mf-manifest.json', expose: './Name' }`,
     );
   }
+}
+/**
+ * Parses a deployed MF remote in the `name@url` form. The name must match the
+ * remote's MF name, which may be scoped (`@scope/name@https://...`).
+ */
+export function parseRemote(remote: string): { name: string; entry: string } {
+  const separator = remote.indexOf('@', 1);
+  const name = remote.slice(0, separator).trim();
+  const entry = remote.slice(separator + 1);
+  if (separator < 0 || !name || !/^https?:\/\//.test(entry))
+    throw new Error(
+      `Invalid MF remote: ${remote}. Use name@https://host/mf-manifest.json`,
+    );
+  assertHttpUrl(entry);
+  return { name, entry };
 }
 export function assertHttpUrl(source: string): URL {
   const url = new URL(source);
