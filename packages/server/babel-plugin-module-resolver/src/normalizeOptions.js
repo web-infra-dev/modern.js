@@ -1,6 +1,6 @@
 import fs from 'fs';
 import path from 'path';
-import glob from 'glob';
+import { globSync, hasMagic } from 'glob';
 import pkgUp from 'pkg-up';
 import { createSelector } from 'reselect';
 
@@ -62,10 +62,10 @@ function normalizeRoot(optsRoot, cwd) {
   return rootArray
     .map(dirPath => path.resolve(cwd, dirPath))
     .reduce((resolvedDirs, absDirPath) => {
-      if (glob.hasMagic(absDirPath)) {
-        const roots = glob
-          .sync(absDirPath)
-          .filter(resolvedPath => fs.lstatSync(resolvedPath).isDirectory());
+      if (hasMagic(absDirPath, { windowsPathsNoEscape: true })) {
+        const roots = globSync(absDirPath, {
+          windowsPathsNoEscape: true,
+        }).filter(resolvedPath => fs.lstatSync(resolvedPath).isDirectory());
 
         return [...resolvedDirs, ...roots];
       }
