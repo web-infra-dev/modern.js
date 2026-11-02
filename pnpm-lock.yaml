@@ -1685,8 +1685,8 @@ importers:
         specifier: 1.0.6
         version: 1.0.6
       minimatch:
-        specifier: ^3.1.5
-        version: 3.1.5
+        specifier: ^11.0.0
+        version: 11.0.3
       path-to-regexp:
         specifier: ^6.3.0
         version: 6.3.0
