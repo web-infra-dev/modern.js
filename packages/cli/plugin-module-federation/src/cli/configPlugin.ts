@@ -477,7 +477,7 @@ export const moduleFederationConfigPlugin = (
         resolve: {
           alias: {
             [`@${api.getAppContext().metaName}/runtime/mf$`]:
-              resolveInternalPlugin('../runtime/mf'),
+              '@modern-js/runtime/mf',
           },
         },
         tools: {

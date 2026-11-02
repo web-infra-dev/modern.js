@@ -90,7 +90,7 @@ describe('patchMFConfig', async () => {
       config: (callback: () => any) => callbacks.push(callback),
     } as any);
     expect(callbacks[0]().resolve.alias).toEqual({
-      '@custom/runtime/mf$': expect.stringContaining('runtime/mf'),
+      '@custom/runtime/mf$': '@modern-js/runtime/mf',
     });
   });
   it('patchMFConfig: server', async () => {

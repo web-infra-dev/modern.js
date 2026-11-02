@@ -4,7 +4,7 @@ export default function ProductError() {
   return (
     <section data-testid="scope-error">
       <p>{error.message}</p>
-      <Link to="/product" data-testid="scope-recover-link">
+      <Link to="." data-testid="scope-recover-link">
         Return to products
       </Link>
     </section>
