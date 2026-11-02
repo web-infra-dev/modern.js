@@ -1,3 +1,4 @@
+import { pathToFileURL } from 'node:url';
 import type { CLIPluginAPI } from '@modern-js/plugin';
 import type { Plugin } from '@modern-js/plugin';
 import { loadServerPlugins as loadServerPluginInstances } from '@modern-js/prod-server';
@@ -56,8 +57,14 @@ const resolveCliPlugin = async (
   try {
     module = await compatibleRequire(path);
   } catch (e) {
-    // load esm module
-    ({ default: module } = await dynamicImport(path));
+    // load esm module, `import()` requires a file URL for absolute paths on
+    // Windows. When the fallback fails as well, the first error is the useful
+    // one, so surface it instead of the URL scheme error from the fallback.
+    try {
+      ({ default: module } = await dynamicImport(pathToFileURL(path).href));
+    } catch {
+      throw e;
+    }
   }
 
   // handle string plugin
