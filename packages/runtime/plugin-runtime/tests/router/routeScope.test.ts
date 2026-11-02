@@ -1,3 +1,4 @@
+import { matchRoutes, type RouteObject } from '@modern-js/runtime-utils/router';
 import { performance } from 'node:perf_hooks';
 import { analyzeRootExport } from '../../src/cli/federation/analyze';
 import {
@@ -104,7 +105,48 @@ describe('Modern producer route selection', () => {
     expect(JSON.stringify(selected)).toContain('detail/:id');
     expect(JSON.stringify(selected)).toContain('list');
     expect(JSON.stringify(selected)).not.toContain('orders-loader');
+    expect(
+      matchRoutes(selected as RouteObject[], '/detail/42')?.at(-1)?.route.id,
+    ).toBe('detail');
+    expect(matchRoutes(selected as RouteObject[], '/')?.at(-1)?.route.id).toBe(
+      'list',
+    );
+    expect(
+      matchRoutes(selected as RouteObject[], '/product/detail/42'),
+    ).toBeNull();
   });
+  it.each([false, true])(
+    'keeps every branch when selecting an optimized transparent root with index %s',
+    withIndex => {
+      const input = tree();
+      delete input[0]._component;
+      delete input[0].loader;
+      if (withIndex)
+        input[0].children!.unshift({
+          id: 'home',
+          type: 'nested',
+          origin: 'config',
+          index: true,
+          _component: 'home-page',
+        });
+      const optimized = optimizeRoute(input[0], true);
+      const before = JSON.stringify(optimized);
+      const selected = selectRouteScope(optimized, '/');
+      expect(selected).toEqual(optimized);
+      expect(
+        matchRoutes(selected as RouteObject[], '/product/detail/42')?.at(-1)
+          ?.route.id,
+      ).toBe('detail');
+      expect(
+        matchRoutes(selected as RouteObject[], '/orders')?.at(-1)?.route.id,
+      ).toBe('orders');
+      if (withIndex)
+        expect(
+          matchRoutes(selected as RouteObject[], '/')?.at(-1)?.route.id,
+        ).toBe('home');
+      expect(JSON.stringify(optimized)).toBe(before);
+    },
+  );
   it('keeps parallel index/pathless descendants inside an unambiguous range', () => {
     const input = tree();
     input[0].children![0].children!.push({
@@ -129,13 +171,64 @@ describe('Modern producer route selection', () => {
     const routes = tree();
     const before = JSON.stringify(routes);
     const selected = selectRouteScope(routes, '/product/');
-    expect(selected).toEqual([
-      { ...routes[0], children: [routes[0].children![0]] },
+    expect(selected[0].path).toBeUndefined();
+    expect(selected[0].loader).toBe('root-loader');
+    expect(selected[0].children![0].path).toBe('/');
+    expect(selected[0].children![0].error).toBe('product-error');
+    const matches = matchRoutes(selected as RouteObject[], '/detail/42');
+    expect(matches?.map(match => match.route.id)).toEqual([
+      'root',
+      'product',
+      'shell',
+      'detail',
     ]);
+    expect(matches?.at(-1)?.params.id).toBe('42');
+    expect(matchRoutes(selected as RouteObject[], '/')?.at(-1)?.route.id).toBe(
+      'list',
+    );
+    expect(
+      matchRoutes(selected as RouteObject[], '/product/detail/42'),
+    ).toBeNull();
+    expect(
+      matchRoutes(routes as RouteObject[], '/product/detail/42')?.at(-1)?.route
+        .id,
+    ).toBe('detail');
     expect(selected[0]).not.toBe(routes[0]);
     expect(JSON.stringify(routes)).toBe(before);
     expect(selectRouteScope(routes, '/')).toEqual(routes);
     expect(selectRouteScope(routes, '/orders')[0].children).toHaveLength(1);
+  });
+  it('keeps ancestor behavior and absolute descendant definitions in a local nested selection', () => {
+    const routes = tree();
+    const product = routes[0].children![0];
+    routes[0].children = [
+      {
+        id: 'catalog',
+        type: 'nested',
+        origin: 'config',
+        path: 'catalog',
+        _component: 'catalog-layout',
+        loader: 'catalog-loader',
+        children: [product],
+      },
+    ];
+    product.children![1].children![0].path = '/catalog/product/detail/:id';
+    const before = JSON.stringify(routes);
+    const selected = selectRouteScope(routes, '/catalog/product');
+    const matches = matchRoutes(selected as RouteObject[], '/detail/42');
+    expect(matches?.map(match => match.route.id)).toEqual([
+      'root',
+      'catalog',
+      'product',
+      'shell',
+      'detail',
+    ]);
+    expect(selected[0].children![0].path).toBeUndefined();
+    expect(selected[0].children![0].loader).toBe('catalog-loader');
+    expect(
+      matchRoutes(selected as RouteObject[], '/catalog/product/detail/42'),
+    ).toBeNull();
+    expect(JSON.stringify(routes)).toBe(before);
   });
   it.each([
     '/stores/:id',
