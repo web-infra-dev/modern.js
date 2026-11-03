@@ -1,4 +1,4 @@
-import minimatch from 'minimatch';
+import { match } from 'minimatch';
 
 export const defaultIgnores = [
   '**/coverage/**',
@@ -88,7 +88,7 @@ export class DependencyTree {
       Boolean(
         this.ignore.find(
           rule =>
-            minimatch.match([path], rule, {
+            match([path], rule, {
               dot: true,
             }).length > 0,
         ),
