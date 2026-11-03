@@ -1,7 +1,7 @@
 import { PassThrough, Readable } from 'node:stream';
 import type { RequestHandlerOptions } from '@modern-js/app-tools';
 import React from 'react';
-import { renderToPipeableStream } from 'react-dom/server';
+import { renderToPipeableStream } from 'react-dom/server.node';
 import { createScopedRoot } from '../core/react/scope.node';
 import {
   createScopeRuntime,

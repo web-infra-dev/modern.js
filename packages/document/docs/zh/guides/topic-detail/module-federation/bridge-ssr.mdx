@@ -2,6 +2,8 @@
 
 内置 Module Federation 可以通过共享 Bridge 渲染 Modern 应用，并在浏览器复用服务端 DOM、恢复路由和 loader 数据。生产者与消费者均需开启 `server.ssr: { mode: 'stream' }`，并使用支持 Bridge SSR 的配套 MF 包版本。
 
+消费者如需在 SSR 失败后通过 Modern 的降级请求恢复，配置 `server.ssr: { mode: 'stream', forceCSR: true }`。`forceCSR` 允许显式降级请求，不会关闭正常 SSR。
+
 ## 导出应用
 
 在 MF 的 `exposes` 中配置以下生产者模块：
@@ -36,6 +38,12 @@ export default createBridgeComponent({
 ```
 
 回调接收由 `createRoot` 和 registry 生成的应用。普通 CSR Bridge 生产者仍可以使用原有 `createBridgeComponent`，无需添加这些回调。
+
+### 浏览器和 Node 产物
+
+同一个生产者模块分别编译为浏览器和 Node 产物。内置 MF 插件为 Node 构建选择 `@modern-js/runtime/mf/server`，并将显式的 `@module-federation/bridge-react/v18`、`/v19` 生产者入口切换到 `/server`。Core 的默认入口和 `/base` 使用 package exports 的 `node` 条件。普通浏览器构建继续使用浏览器入口，无需业务配置 `.server.ts` alias。
+
+浏览器入口包含 `render`、`hydrate` 和后续更新、卸载实现，Node 入口包含 `renderStream` 和请求流处理。两端复用应用定义与纯渲染树构造逻辑，不互相导入另一端的实现。三个回调的导出名称保留一致，错误端调用只提供明确报错的轻量函数。自定义构建器需要分别选择这两个入口，文件名后缀本身不会自动完成隔离。
 
 ## 消费应用
 

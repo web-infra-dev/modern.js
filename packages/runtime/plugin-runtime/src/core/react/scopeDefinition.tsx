@@ -2,7 +2,7 @@ import type { NestedRoute, PageRoute } from '@modern-js/types';
 import React, { createContext, useContext, useEffect } from 'react';
 import type { createRuntime } from '../plugin';
 import { getInitialContext, ScopedRootPropsContext } from '../context/runtime';
-import { addBasename, removeBasename } from '../../mf/navigation';
+import { addBasename, removeBasename } from '../../mf/location';
 import type {
   LoaderFunction,
   LoaderFunctionArgs,

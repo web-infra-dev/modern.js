@@ -7,7 +7,7 @@ export {
   ReactRemote,
   createModernReactRemote,
   useRemoteBasename,
-} from './mf/remote';
+} from './mf/remote.node';
 export type {
   CreateReactRemoteOptions,
   ReactRemoteProps,

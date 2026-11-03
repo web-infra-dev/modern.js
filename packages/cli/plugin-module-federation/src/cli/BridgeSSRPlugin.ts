@@ -69,6 +69,12 @@ export class BridgeSSRPlugin {
           // This entry contains no Router, provider or request-global state.
           data.request = contextModule;
         } else if (
+          /^@module-federation\/bridge-react\/v(?:18|19)$/.test(data.request)
+        ) {
+          // An expose's Node artifact uses the stream producer, even when its
+          // source names the React-version browser entry. Web builds keep it.
+          data.request = '@module-federation/bridge-react/server';
+        } else if (
           data.request === `@${this.metaName}/runtime/mf` ||
           data.request === '@modern-js/runtime/mf'
         ) {

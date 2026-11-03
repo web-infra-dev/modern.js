@@ -57,8 +57,15 @@ export default {
     withTestPreset({
       name: 'plugin-runtime-client',
       testEnvironment: 'happy-dom',
+      resolve: {
+        conditionNames: ['modern:source', 'browser', 'import', 'default'],
+      },
       output: {
-        bundleDependencies: ['@modern-js/render', 'react-server-dom-rspack'],
+        bundleDependencies: [
+          '@modern-js/render',
+          'react-server-dom-rspack',
+          '@module-federation/bridge-react',
+        ],
       },
       include: [
         'tests/application/browser.test.tsx',
