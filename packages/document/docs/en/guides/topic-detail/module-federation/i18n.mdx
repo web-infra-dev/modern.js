@@ -17,6 +17,16 @@ In Module Federation scenarios, producers and consumers need to share or indepen
 1. **Shared I18n Instance**: Producers and consumers use the same i18n instance, and language switching will be synchronized
 2. **Independent I18n Instance**: Producers and consumers maintain their own independent i18n instances and can switch languages independently
 
+Sharing the `i18next` dependency code is separate from sharing a mutable `i18nInstance`. Each application manages its own translations. Modern.js does not automatically merge the consumer's dictionaries into a producer. Applications share language state only when they explicitly pass the same `i18nInstance`.
+
+### Instance isolation with built-in Bridge SSR
+
+Applications exported through built-in Module Federation and Bridge SSR have a separate application context for each mount. The server language travels in that instance's application snapshot and is restored before hydration to match the existing DOM. Multiple mounts of the same producer can use different languages with independent instances. An instance without a local SSR snapshot detects its language from its own configuration, without reading the consumer's SSR language.
+
+During SSR, an explicitly supplied i18next instance is cloned before applying a request's language. Existing resources remain shared according to i18next's cloning behavior. Custom i18n wrappers need `cloneInstance` to isolate SSR requests. Explicit instance sharing remains supported in the browser and shares language changes. Use independent instances when mounts need different languages. Applications continue to configure their own dictionaries and resource loading.
+
+The examples below use `@module-federation/modern-js-v3` to explain shared and independent instances. For built-in Bridge SSR entry points and support, see [Application Modules](/guides/topic-detail/module-federation/application) and [Built-in Application SSR](/guides/topic-detail/module-federation/bridge-ssr).
+
 :::tip
 
 For component scenarios, we recommend using a shared I18n instance, because components are ultimately rendered on the same React tree, and sharing an instance ensures consistency in language switching.

@@ -67,6 +67,9 @@ const install = (loader: (args: { request: Request }) => unknown) => {
               context.initialData = {
                 request: storage.useContext().headers?.['x-request'],
               };
+              context.__i18nData__ = {
+                lng: storage.useContext().headers?.['accept-language'] || 'en',
+              };
             });
           },
         },
@@ -114,6 +117,7 @@ it('streams the real router and restores deferred loader data from the initial s
   expect(await loader.pending).toBe('resolved-stock');
   await restored.done;
   expect(rendered).not.toHaveProperty('snapshot');
+  expect(snapshot.i18nData).toEqual({ lng: 'en' });
 });
 
 it('isolates concurrent request headers, prefixes, and loader results', async () => {
@@ -125,7 +129,12 @@ it('isolates concurrent request headers, prefixes, and loader results', async ()
   const results = await Promise.all(
     ['a', 'b'].map(async id => {
       const rendered = await renderApplication(
-        new Request('http://products/', { headers: { 'x-request': id } }),
+        new Request('http://products/', {
+          headers: {
+            'x-request': id,
+            'accept-language': id === 'a' ? 'en' : 'zh',
+          },
+        }),
         {
           identifierPrefix: `${id}-`,
         },
@@ -145,6 +154,10 @@ it('isolates concurrent request headers, prefixes, and loader results', async ()
   expect(results.map(result => result.snapshot.initialData?.request)).toEqual([
     'a',
     'b',
+  ]);
+  expect(results.map(result => result.snapshot.i18nData)).toEqual([
+    { lng: 'en' },
+    { lng: 'zh' },
   ]);
 });
 
@@ -178,6 +191,7 @@ it('publishes the complete shell and initial loader snapshot before deferred val
   expect(shell).toContain('<template id="early-shell"></template>');
   expect(rendered.hydration!.shellMarker).toBe('early-shell');
   expect(snapshot.protocol).toBe(APPLICATION_SNAPSHOT_PROTOCOL);
+  expect(snapshot.i18nData).toEqual({ lng: 'en' });
   expect(snapshot.routerData?.loaderData.page).toEqual({
     label: 'early-products',
     pending: null,

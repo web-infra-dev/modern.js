@@ -7,6 +7,21 @@ import { useLocation, useNavigate, useParams } from '@modern-js/runtime/router';
 
 export const getPathname = (context: TInternalRuntimeContext): string => {
   if (isBrowser()) {
+    const scope = context._routeScope;
+    if (scope) {
+      const pathname =
+        scope.router?.state.location.pathname ||
+        new URL(scope.initialUrl, window.location.href).pathname;
+      const basename = scope.basename?.replace(/\/+$/, '') || '';
+      if (
+        basename &&
+        pathname.toLowerCase().startsWith(basename.toLowerCase()) &&
+        (!pathname[basename.length] || pathname[basename.length] === '/')
+      ) {
+        return pathname.slice(basename.length) || '/';
+      }
+      return pathname;
+    }
     return window.location.pathname;
   }
   return context.ssrContext?.request?.pathname || '/';
@@ -70,6 +85,7 @@ export const detectLanguageFromPath = (
   pathname: string,
   languages: string[],
   localePathRedirect: boolean,
+  entryPath = getEntryPath(),
 ): {
   detected: boolean;
   language?: string;
@@ -78,7 +94,6 @@ export const detectLanguageFromPath = (
     return { detected: false };
   }
 
-  const entryPath = getEntryPath();
   const relativePath = pathname.replace(entryPath, '');
   const segments = relativePath.split('/').filter(Boolean);
 

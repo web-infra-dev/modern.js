@@ -7,18 +7,20 @@ import {
   NavLink as RouterNavLink,
   type NavLinkProps as RouterNavLinkProps,
   matchRoutes,
-  useHref,
+  UNSAFE_NavigationContext,
   useMatches,
+  useLocation,
   useResolvedPath,
 } from '@modern-js/runtime-utils/router';
-import React, { useContext, useMemo } from 'react';
+import React, { useContext, useEffect, useMemo } from 'react';
 import type {
   FocusEventHandler,
   MouseEventHandler,
   TouchEventHandler,
 } from 'react';
 import { InternalRuntimeContext } from '../../core/context';
-import type { RouteAssets, RouteManifest } from './types';
+import type { TInternalRuntimeContext } from '../../core/context/runtime';
+import type { ModernRouteObject, RouteAssets } from './types';
 
 interface PrefetchHandlers {
   onFocus?: FocusEventHandler<Element>;
@@ -126,7 +128,8 @@ function usePrefetchBehavior(
 async function loadRouteModule(
   route: RouteObject,
   routeAssets: RouteAssets,
-): Promise<string[] | void> {
+  loadChunk?: (chunkId: string | number) => Promise<unknown>,
+): Promise<void> {
   const routeId = route.id;
   if (!routeId) {
     return;
@@ -138,127 +141,116 @@ async function loadRouteModule(
 
   const { chunkIds } = routeAssets[routeId];
 
-  if (!chunkIds) {
+  if (!chunkIds || !loadChunk) {
     return;
   }
 
   try {
-    await Promise.all(
-      chunkIds.map(chunkId => {
-        // @ts-ignore
-        return WEBPACK_CHUNK_LOAD?.(chunkId);
-      }),
-    );
+    await Promise.all(chunkIds.map(chunkId => loadChunk(chunkId)));
   } catch (error) {
     console.error(error);
   }
 }
 
-const getRequestUrl = (pathname: string, routeId: string) => {
-  const LOADER_ID_PARAM = '__loader';
-  const DIRECT_PARAM = '__ssrDirect';
-  const { protocol, host } = window.location;
-  const url = new URL(pathname, `${protocol}//${host}`);
-  url.searchParams.append(LOADER_ID_PARAM, routeId);
-  url.searchParams.append(DIRECT_PARAM, 'true');
-  return url;
-};
-
-const createDataHref = (href: string) => {
-  return <link key={href} rel="prefetch" as="fetch" href={href} />;
-};
-
-const getDataHref = (
-  route: RouteObject,
-  pathname: string,
-  basename: string,
-) => {
-  const { id } = route;
-
-  const path = basename === '/' ? pathname : `${basename}${pathname}`;
-
-  const url = getRequestUrl(path, id!);
-  return createDataHref(url.toString());
-};
-
 const PrefetchPageLinks: React.FC<{ path: Path }> = ({ path }) => {
   const { pathname } = path;
   const context = useContext(InternalRuntimeContext);
-  const { routeManifest, routes } = context;
+  const { routeManifest, routes, _routeScope: scope } = context;
   const { routeAssets } = routeManifest || {};
-  const matches = Array.isArray(routes) ? matchRoutes(routes, pathname) : [];
-  if (Array.isArray(matches) && routeAssets) {
-    matches?.forEach(match => loadRouteModule(match.route, routeAssets));
-  }
-
-  if (!window._SSR_DATA) {
-    return null;
-  }
-
-  return (
-    <PrefetchDataLinks
-      matches={matches}
-      path={path}
-      routeManifest={routeManifest!}
-    />
+  const matches = useMemo(
+    () => (Array.isArray(routes) ? matchRoutes(routes, pathname) : []),
+    [routes, pathname],
   );
+  useEffect(() => {
+    if (!Array.isArray(matches) || !routeAssets) return;
+    // Chunk IDs belong to the producer compilation. The runtime package itself
+    // may be shared, so scoped applications also supply their own chunk loader.
+    const loadChunk = scope
+      ? scope.loadRouteChunk
+      : // @ts-ignore Replaced with the current bundler's chunk loader.
+        WEBPACK_CHUNK_LOAD;
+    matches.forEach(match =>
+      loadRouteModule(match.route, routeAssets, loadChunk),
+    );
+  }, [matches, routeAssets, scope]);
+
+  const serverLoaders = scope ? scope.serverLoaders : Boolean(context.ssr);
+  if (!serverLoaders) return null;
+
+  return <PrefetchDataLinks matches={matches} path={path} context={context} />;
 };
 
 const PrefetchDataLinks: React.FC<{
   matches: ReturnType<typeof matchRoutes>;
   path: Path;
-  routeManifest: RouteManifest;
-}> = ({ matches, path, routeManifest }) => {
+  context: TInternalRuntimeContext;
+}> = ({ matches, path, context }) => {
   const { pathname, search, hash } = path;
   const currentMatches = useMatches();
-  const basename = useHref('/');
+  const currentLocation = useLocation();
+  const navigation = useContext(UNSAFE_NavigationContext);
+  const scope = context._routeScope;
+  const basename = scope ? scope.basename || '/' : navigation.basename;
   const dataHrefs = useMemo(() => {
+    const routeUrl = (path: Path) =>
+      new URL(
+        `${basename === '/' ? '' : basename.replace(/\/$/, '')}${path.pathname}${path.search}${path.hash}`,
+        window.location.origin,
+      );
     return matches
       ?.filter((match, index) => {
+        const route = match.route as ModernRouteObject;
         if (
-          !match.route.loader ||
-          typeof match.route.loader !== 'function' ||
-          match.route.loader.length === 0
+          route.hasClientLoader ||
+          typeof route.loader !== 'function' ||
+          route.loader.length === 0
         ) {
           return false;
         }
 
-        if (match.route.shouldRevalidate) {
-          const currentUrl = new URL(
-            location.pathname + location.search + location.hash,
-            window.origin,
-          );
-          const nextUrl = new URL(pathname + search + hash, window.origin);
-          const shouldLoad = match.route.shouldRevalidate({
-            currentUrl,
+        if (route.shouldRevalidate) {
+          const shouldLoad = route.shouldRevalidate({
+            currentUrl: routeUrl(currentLocation),
             currentParams: currentMatches[0]?.params || {},
-            nextUrl,
+            nextUrl: routeUrl(path),
             nextParams: match.params,
             defaultShouldRevalidate: true,
           });
 
-          if (typeof shouldLoad === 'boolean') {
-            return shouldLoad;
-          }
+          if (typeof shouldLoad === 'boolean') return shouldLoad;
         }
 
         const currentMatch = currentMatches[index];
-        if (!currentMatch || currentMatch.id !== match.route.id) {
-          return true;
-        }
-        if (currentMatch.pathname !== match.pathname) {
-          return true;
-        }
+        if (!currentMatch || currentMatch.id !== route.id) return true;
+        if (currentMatch.pathname !== match.pathname) return true;
         if (
           currentMatch.pathname.endsWith('*') &&
           currentMatch.params['*'] !== match.params['*']
-        ) {
+        )
           return true;
-        }
-        return false;
+        return currentLocation.search !== search;
       })
-      .map(match => getDataHref(match.route, pathname, basename));
-  }, [matches, pathname, routeManifest]);
+      .map(match => {
+        const mountedUrl = routeUrl(path);
+        const url = scope?.getDataUrl
+          ? scope.getDataUrl(mountedUrl)
+          : mountedUrl;
+        url.hash = '';
+        url.searchParams.append('__loader', match.route.id!);
+        url.searchParams.append('__ssrDirect', 'true');
+        const href = url.toString();
+        return <link key={href} rel="prefetch" as="fetch" href={href} />;
+      });
+  }, [
+    matches,
+    pathname,
+    search,
+    hash,
+    basename,
+    scope,
+    currentMatches,
+    currentLocation,
+  ]);
 
   return <>{dataHrefs}</>;
 };
@@ -289,9 +281,7 @@ const createPrefetchLink = <T extends typeof RouterLink | typeof RouterNavLink>(
             {...(props as any)}
             {...prefetchHandlers}
           />
-          {shouldPrefetch && // @ts-ignore
-          WEBPACK_CHUNK_LOAD &&
-          !isAbsolute ? (
+          {shouldPrefetch && !isAbsolute ? (
             <PrefetchPageLinks path={resolvedPath} />
           ) : null}
         </>

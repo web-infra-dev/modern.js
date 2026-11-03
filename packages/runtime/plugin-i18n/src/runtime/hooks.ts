@@ -1,5 +1,5 @@
 import { isBrowser } from '@modern-js/runtime';
-import type { TRuntimeContext } from '@modern-js/runtime';
+import type { TInternalRuntimeContext } from '@modern-js/runtime/internal';
 import type React from 'react';
 import { useEffect, useRef } from 'react';
 import type { I18nInstance } from './i18n';
@@ -18,7 +18,7 @@ import {
   useRouterHooks,
 } from './utils';
 
-interface RuntimeContextWithI18n extends TRuntimeContext {
+interface RuntimeContextWithI18n extends TInternalRuntimeContext {
   i18nInstance?: I18nInstance;
 }
 
@@ -162,6 +162,7 @@ export function useClientSideRedirect(
   languages: string[],
   fallbackLanguage: string,
   ignoreRedirectRoutes?: string[] | ((pathname: string) => boolean),
+  runtimeContext?: TInternalRuntimeContext,
 ) {
   const hasRedirectedRef = useRef(false);
   // Get router hooks safely
@@ -175,13 +176,8 @@ export function useClientSideRedirect(
       return;
     }
 
-    try {
-      const ssrData = (window as any)._SSR_DATA;
-      if (ssrData) {
-        return;
-      }
-    } catch {
-      // Ignore errors when checking SSR data
+    if (runtimeContext?.__i18nData__) {
+      return;
     }
 
     if (hasRedirectedRef.current) {
@@ -200,7 +196,7 @@ export function useClientSideRedirect(
     const currentHash =
       hasRouter && location ? location.hash : window.location.hash;
 
-    const entryPath = getEntryPath();
+    const entryPath = runtimeContext?._routeScope ? '' : getEntryPath();
     const relativePath = currentPathname.replace(entryPath, '');
 
     if (shouldIgnoreRedirect(relativePath, languages, ignoreRedirectRoutes)) {
@@ -211,6 +207,7 @@ export function useClientSideRedirect(
       currentPathname,
       languages,
       localePathRedirect,
+      entryPath,
     );
 
     if (pathDetection.detected) {
@@ -244,6 +241,7 @@ export function useClientSideRedirect(
     languages,
     fallbackLanguage,
     ignoreRedirectRoutes,
+    runtimeContext,
   ]);
 }
 
@@ -266,6 +264,7 @@ export function useLanguageSync(
         currentPathname,
         languages,
         localePathRedirect,
+        runtimeContextRef.current._routeScope ? '' : undefined,
       );
       if (pathDetection.detected && pathDetection.language) {
         const currentLang = pathDetection.language;
