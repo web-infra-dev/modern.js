@@ -233,7 +233,7 @@
   "scripts": {
     "dev": "rs lib --watch",
     "prepublishOnly": "only-allow-pnpm",
-    "build": "rs lib && pnpm run gen-static",
+    "build": "rs lib && pnpm run gen-static && node scripts/check-mf-entry-boundaries.mjs",
     "gen-static": "ts-node ./scripts/gen-static.ts",
     "test": "rstest"
   },

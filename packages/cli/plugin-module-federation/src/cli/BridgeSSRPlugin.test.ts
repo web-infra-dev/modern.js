@@ -64,6 +64,7 @@ const requests = [
   '@modern-js/runtime/internal/route-scope',
   '/runtime/ssr-runtime/bridgeStreamPlugin.mjs',
   '@module-federation/bridge-react/v18',
+  '@module-federation/bridge-react/v19',
   '@module-federation/bridge-react/base',
   '@modern-js/runtime/router',
 ];
@@ -74,7 +75,9 @@ it('selects Modern Node implementations without replacing shared consumers or Ro
     '@modern-js/runtime/mf/server',
     '@modern-js/runtime/internal/route-scope/server',
     '/runtime/ssr-runtime/bridgeStreamPlugin.node.mjs',
-    ...requests.slice(4),
+    '@module-federation/bridge-react/server',
+    '@module-federation/bridge-react/server',
+    ...requests.slice(6),
   ]);
 });
 

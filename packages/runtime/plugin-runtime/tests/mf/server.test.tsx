@@ -6,7 +6,7 @@ import { routerPlugin } from '../../src/router/runtime/plugin.node';
 import { renderStream } from '../../src/mf/callbacks.node';
 import { render, hydrate } from '../../src/mf/callbacks.node';
 import { createModernBridgeComponent } from '../../src/mf/provider.node';
-import { createBridgeComponent } from '@module-federation/bridge-react/v18';
+import { createBridgeComponent } from '@module-federation/bridge-react/server';
 
 it('runs the selected Root at the consumer basename and transports loader data without restoring the selection prefix', async () => {
   const requests: string[] = [];
@@ -82,6 +82,7 @@ it.each(['Modern helper', 'explicit callbacks'])(
           });
     const provider = factory();
     const result = await provider.renderStream!({
+      instanceId: 'inventory-test',
       url: 'http://host/inventory',
       basename: '/inventory',
       identifierPrefix: 'inventory-',
@@ -89,19 +90,23 @@ it.each(['Modern helper', 'explicit callbacks'])(
       signal: new AbortController().signal,
     });
     let html = '';
+    let snapshot: unknown;
     if ('protocol' in result) {
       const reader = result.messages.getReader();
       for (;;) {
         const { done, value } = await reader.read();
         if (done) break;
         if (value.type === 'html') html += value.html;
+        if (value.type === 'data' || value.type === 'ready')
+          snapshot = value.snapshot;
       }
     } else {
       html = await new Response(result.stream).text();
+      snapshot = await result.snapshot;
     }
     expect(html).toContain('Hello');
     expect(html).toContain('Lake');
-    expect(await result.snapshot).toMatchObject({
+    expect(snapshot).toMatchObject({
       props: { name: 'Lake' },
       basename: '/inventory',
     });

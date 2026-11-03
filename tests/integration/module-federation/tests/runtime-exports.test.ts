@@ -55,20 +55,26 @@ const Root = createScopedRoot({
 export async function run() {
   const provider = createBridgeComponent({ rootComponent: Root, render, hydrate, renderStream })();
   const result = await provider.renderStream({
+    instanceId: 'built-inventory',
     url: 'http://host/inventory/detail/42', basename: '/inventory',
     identifierPrefix: 'built-', props: { label: 'Built' },
     signal: new AbortController().signal,
   });
   let html = '';
+  let snapshot;
   if ('protocol' in result) {
     const reader = result.messages.getReader();
     for (;;) {
       const {done, value} = await reader.read();
       if (done) break;
       if (value.type === 'html') html += value.html;
+      if (value.type === 'data' || value.type === 'ready') snapshot = value.snapshot;
     }
-  } else html = await new Response(result.stream).text();
-  return { html, snapshot: await result.snapshot };
+  } else {
+    html = await new Response(result.stream).text();
+    snapshot = await result.snapshot;
+  }
+  return { html, snapshot };
 }
 `,
     );
