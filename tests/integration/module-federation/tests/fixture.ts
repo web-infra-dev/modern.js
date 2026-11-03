@@ -87,6 +87,7 @@ export function setupLab(
     clientLayoutLoaders?: boolean;
     conditionalClientRedirect?: boolean;
     initialRouteNoSSR?: boolean;
+    applicationIsolation?: boolean;
   } = {},
 ) {
   let lab: Awaited<ReturnType<typeof startLab>>;
@@ -131,6 +132,39 @@ export function setupLab(
   let expectedErrors: { pattern: RegExp; min: number; max: number } | undefined;
   beforeAll(async () => {
     workspace = await createWorkspace();
+    if (options.applicationIsolation) {
+      for (const app of ['host', 'provider']) {
+        await cp(
+          fileURLToPath(
+            new URL(
+              `../fixtures/application-isolation/${app}`,
+              import.meta.url,
+            ),
+          ),
+          path.join(workspace, app),
+          { recursive: true },
+        );
+        const config = path.join(workspace, app, 'modern.config.ts');
+        await writeFile(
+          config,
+          `import { i18nPlugin } from '@modern-js/plugin-i18n'\n${await readFile(config, 'utf8')}`.replace(
+            'plugins: [appTools()]',
+            `plugins: [appTools(), i18nPlugin({ localeDetection: { localePathRedirect: true, i18nextDetector: false, languages: ['en', 'fr', 'zh'], fallbackLanguage: '${app === 'host' ? 'zh' : 'en'}', ignoreRedirectRoutes: ['/isolation', '/'] } })]`,
+          ),
+        );
+      }
+      const federation = path.join(
+        workspace,
+        'provider/module-federation.config.ts',
+      );
+      await writeFile(
+        federation,
+        (await readFile(federation, 'utf8')).replace(
+          'exposes: {',
+          "exposes: { './IsolationApp': './src/exports/IsolationApp.tsx',",
+        ),
+      );
+    }
     if (options.conditionalClientRedirect) {
       const loader = path.join(
         workspace,
@@ -396,6 +430,7 @@ export function describeLab(
     clientLayoutLoaders?: boolean;
     conditionalClientRedirect?: boolean;
     initialRouteNoSSR?: boolean;
+    applicationIsolation?: boolean;
   } = {},
 ) {
   rstest.setConfig({ testTimeout: 60000, hookTimeout: 600000, retry: 0 });

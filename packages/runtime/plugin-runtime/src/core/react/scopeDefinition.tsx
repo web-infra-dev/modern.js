@@ -7,6 +7,7 @@ import type {
   LoaderFunction,
   LoaderFunctionArgs,
   RouterConfig,
+  RouteManifest,
 } from '../../router/runtime/types';
 
 export interface ScopedRootDefinition {
@@ -24,6 +25,8 @@ export interface ScopedRootDefinition {
   basename: string;
   serverLoaders: boolean;
   getDataBase: () => string;
+  getRouteManifest?: () => RouteManifest;
+  loadRouteChunk?: (chunkId: string | number) => Promise<unknown>;
 }
 
 interface RouteCommitObservation {
@@ -91,19 +94,10 @@ export function instanceRoutes(
       ) {
         const loader = node.loader as LoaderFunction;
         (result as NestedRoute).loader = (args: LoaderFunctionArgs) => {
-          const url = new URL(args.request.url);
-          const producer = new URL(definition.getDataBase());
-          url.protocol = producer.protocol;
-          url.hostname = producer.hostname;
-          url.port = producer.port;
-          // Server endpoints retain the producer's standalone route paths.
-          // This translation is confined to data requests, never Router location.
-          url.pathname = addBasename(
-            addBasename(
-              removeBasename(url.pathname, routeBasename) ?? url.pathname,
-              definition.dataRoute || '/',
-            ),
-            definition.basename || '/',
+          const url = getScopeDataUrl(
+            definition,
+            routeBasename,
+            new URL(args.request.url),
           );
           return loader({ ...args, request: new Request(url, args.request) });
         };
@@ -111,6 +105,27 @@ export function instanceRoutes(
       return result;
     });
   return copy(definition.routes);
+}
+
+/** Translate only data requests to the producer's standalone route endpoint. */
+export function getScopeDataUrl(
+  definition: ScopedRootDefinition,
+  routeBasename: string,
+  input: URL,
+): URL {
+  const url = new URL(input);
+  const producer = new URL(definition.getDataBase());
+  url.protocol = producer.protocol;
+  url.hostname = producer.hostname;
+  url.port = producer.port;
+  url.pathname = addBasename(
+    addBasename(
+      removeBasename(url.pathname, routeBasename) ?? url.pathname,
+      definition.dataRoute || '/',
+    ),
+    definition.basename || '/',
+  );
+  return url;
 }
 
 const definitions = new WeakMap<
@@ -139,7 +154,12 @@ export function createScopeRuntime(
     onRouteCommit?: (id: string, error: boolean) => void;
   },
 ) {
-  const context = getInitialContext(options.isBrowser, { routeAssets: {} });
+  const context = getInitialContext(
+    options.isBrowser,
+    options.isBrowser && definition.getRouteManifest
+      ? definition.getRouteManifest() || { routeAssets: {} }
+      : { routeAssets: {} },
+  );
   const routeCommits = options.observeRouteCommits
     ? {
         routes: new Set<string>(),
@@ -160,6 +180,9 @@ export function createScopeRuntime(
     basename: options.basename,
     initialUrl: options.initialUrl,
     memory: options.memory,
+    serverLoaders: definition.serverLoaders,
+    getDataUrl: url => getScopeDataUrl(definition, options.basename, url),
+    loadRouteChunk: definition.loadRouteChunk,
   };
   const runtime = definition.createRuntime(
     context._routeScope.config,

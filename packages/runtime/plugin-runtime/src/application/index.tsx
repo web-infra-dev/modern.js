@@ -243,6 +243,7 @@ export function createApplication(
     }
     Object.assign(context, {
       initialData: snapshot?.initialData,
+      __i18nData__: snapshot?.i18nData ? { ...snapshot.i18nData } : undefined,
       ssrContext: {
         request: {
           url: url.href,

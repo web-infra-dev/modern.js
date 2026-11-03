@@ -139,6 +139,7 @@ export async function renderApplication(
           ...(options.memoryRoute ? { memoryRoute: options.memoryRoute } : {}),
           props,
           initialData: runtimeContext.initialData,
+          i18nData: runtimeContext.__i18nData__,
           routerData: router
             ? {
                 loaderData: router.loaderData,

@@ -10,6 +10,7 @@ import { routerPlugin as nodeRouterPlugin } from '../../src/router/runtime/plugi
 import { createApplication as createScopedApplication } from '../../src/application';
 import type { ScopedRootDefinition } from '../../src/core/react/scopeDefinition';
 import { createRuntime } from '../../src/core/plugin';
+import { useRuntimeContext } from '../../src/core/context/runtime';
 import { routerPlugin } from '../../src/router/runtime/plugin';
 
 let definition: ScopedRootDefinition;
@@ -27,6 +28,77 @@ function setDefinition({ routes }: { routes: any[]; entryName: string }) {
 const createApplication = () =>
   createScopedApplication(undefined, { definition });
 beforeEach(() => window.history.replaceState(null, '', '/'));
+
+it('restores each application language before plugins run without borrowing Host data', async () => {
+  const hostData = { data: { i18nData: { lng: 'host-language' } } };
+  window._SSR_DATA = hostData as any;
+  const languages: unknown[] = [];
+  function Page() {
+    const context = useRuntimeContext();
+    return (
+      <p>{String((context.__i18nData__ as any)?.lng || 'csr-language')}</p>
+    );
+  }
+  definition = {
+    routes: [],
+    App: Page,
+    selected: false,
+    basename: '/',
+    serverLoaders: false,
+    getDataBase: () => 'http://producer',
+    createRuntime: () =>
+      createRuntime([
+        {
+          name: 'capture-application-language',
+          setup(api) {
+            api.onBeforeRender(context => {
+              languages.push(context.__i18nData__);
+            });
+          },
+        },
+      ]),
+  };
+  const apps = [createApplication(), createApplication(), createApplication()];
+  const containers = ['en', 'zh', 'csr-language'].map(language => {
+    const container = document.createElement('div');
+    container.innerHTML = `<p>${language}</p>`;
+    document.body.append(container);
+    return container;
+  });
+  const paragraphs = containers.map(container => container.firstChild);
+  const errors: unknown[] = [];
+  try {
+    for (const [index, lng] of ['en', 'zh'].entries()) {
+      await apps[index].hydrate(
+        containers[index],
+        {
+          protocol: 'modern-application/1',
+          reactVersion: React.version,
+          identifierPrefix: `language-${index}-`,
+          url: 'http://producer/',
+          basename: '/',
+          props: {},
+          i18nData: { lng },
+        },
+        { onRecoverableError: error => errors.push(error) },
+      );
+      expect(containers[index].firstChild).toBe(paragraphs[index]);
+    }
+    await apps[2].mount(containers[2], { url: 'http://producer/' });
+    expect(languages).toEqual([{ lng: 'en' }, { lng: 'zh' }, undefined]);
+    expect(containers.map(container => container.textContent)).toEqual([
+      'en',
+      'zh',
+      'csr-language',
+    ]);
+    expect(errors).toEqual([]);
+    expect(window._SSR_DATA).toBe(hostData);
+  } finally {
+    apps.forEach(app => app.destroy());
+    containers.forEach(container => container.remove());
+    delete window._SSR_DATA;
+  }
+});
 
 it('mounts independent real routers without reading or replacing host hydration globals', async () => {
   const hostData = { loaderData: { page: 'host-state' }, errors: null };

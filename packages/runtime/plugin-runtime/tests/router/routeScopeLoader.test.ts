@@ -114,6 +114,12 @@ export default createBridgeComponent({ rootComponent: App, render });
     const definition = await fs.readFile(registryPath(selected), 'utf8');
     expect(definition).toContain('selected: true, dataRoute: "/product"');
     expect(definition).not.toContain(' route:');
+    expect(definition).toContain(
+      'getRouteManifest: () => __webpack_require__.modernRouteManifest',
+    );
+    expect(definition).toContain(
+      'loadRouteChunk: chunkId => __webpack_chunk_load__(chunkId)',
+    );
     expect(scopedRoutes).toContain(
       'const routeModuleCache = Object.create(null)',
     );

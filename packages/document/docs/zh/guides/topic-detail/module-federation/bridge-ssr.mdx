@@ -67,6 +67,12 @@ const Product = createReactRemote({
 
 成功 SSR 后，首次水合复用服务端 loader 数据，不会重新执行 `.data.client`。后续浏览器导航仍按 Modern 既有规则执行 client loader。若需要首屏在浏览器执行 loader，例如客户端重定向，可对该消费者使用 `noSSR`。
 
+## 语言与路由预取
+
+每个应用实例通过自己的快照恢复 SSR 初始语言，不读取消费者的全局 SSR 语言。文案仍由各应用管理，显式共享 `i18nInstance` 和独立实例的使用方式见[集成国际化能力](/guides/topic-detail/module-federation/i18n)。
+
+应用内的 `Link` 默认 `prefetch="none"`。在浏览器使用 `prefetch="intent"` 或 `prefetch="render"` 时，框架使用当前生产者的路由资源和服务端 loader 能力。数据请求采用与导航 loader 相同的生产者地址和路径换算，例如消费者的 `/inventory/detail/42` 对应生产者的 `/product/detail/42`。路由 JS 也由生产者自身的构建运行时加载。`noSSR` 挂载仍可预取生产者支持的服务端 loader，纯客户端 loader 不会生成服务端数据预取请求。
+
 ## 支持边界
 
 浏览器保持 Browser Router 或原有 Hash 配置，只有显式 `memoryRoute` 启用独立 memory 导航。Browser Router 的水合首帧使用服务端请求快照，提交后接回真实浏览器地址及 fragment，保留创建时订阅和同一个 Router。
