@@ -23,6 +23,7 @@ export default {
       name: 'plugin-runtime-node',
       testEnvironment: 'node',
       exclude: [
+        'tests/ssr/browserHydration.test.tsx',
         'tests/router/prefetch.test.tsx',
         'tests/router/routeScopeBrowser.test.tsx',
         'tests/router/remoteNavigation.test.tsx',
@@ -52,6 +53,7 @@ export default {
       name: 'plugin-runtime-client',
       testEnvironment: 'happy-dom',
       include: [
+        'tests/ssr/browserHydration.test.tsx',
         'tests/router/prefetch.test.tsx',
         'tests/router/routeScopeBrowser.test.tsx',
         'tests/router/remoteNavigation.test.tsx',

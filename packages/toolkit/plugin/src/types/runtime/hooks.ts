@@ -29,13 +29,31 @@ export interface StreamSSRExtender {
   init?: (params: {
     rootElement: React.ReactElement;
     forceStream2String: boolean;
+    /** Existing shell boundary, shared by all stream extenders. */
+    shellEndMarker?: string;
+    identifierPrefix?: string;
+    request?: Request;
+    nonce?: string;
+    runtimeContext?: {
+      ssrContext?: {
+        onError?: (error: unknown, key?: string) => void;
+        request: { url: string; raw?: Request; headers?: unknown };
+      };
+      [key: string]: unknown;
+    };
   }) => void;
 
   modifyRootElement?: (rootElement: React.ReactElement) => React.ReactElement;
 
   getStyleTags?: () => string;
 
+  /** Initial receiver markup, emitted before async entry scripts and stream messages. */
+  getBootstrapScripts?: () => string;
+
   processStream?: (stream: NodeJS.ReadWriteStream) => NodeJS.ReadWriteStream;
+
+  /** Release work when the shell fails, the request aborts, or output is cancelled. */
+  abort?: (reason?: unknown) => void;
 }
 
 export type ExtendStreamSSRFn = () => StreamSSRExtender;
