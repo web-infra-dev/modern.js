@@ -32,6 +32,7 @@ export default defineConfig({
 | unsafeHeaders       | `string[]`                      | `[]`            | 为了安全考虑，Modern.js 不会往 SSR_DATA 添加过多的内容。开发者可以通过该配置，对需要注入的 headers 进行配置                                                                                                                                                                                                                               |
 | loaderFailureMode   | `clientRender \| errorBoundary` | `errorBoundary` | 当 [data loader](/guides/basic-features/data/data-fetch.html#data-loader推荐) 中出错时，默认会渲染路由 [`Error`](/guides/basic-features/routes/routes#错误处理) 组件，配置为 `'clientRender'` 时，有一个 data loader 抛错，就降级到客户端渲染，可以与 [Client Loader](/guides/basic-features/data/data-fetch.html#client-loader) 配合使用 |
 | preloadRouteScripts | `boolean`                       | `true`          | 仅对流式渲染生效。默认会在 HTML head 中为本次请求命中的路由输出 `<link rel="preload" as="script">`，让路由组件的 JS 与入口 JS 并行下载。只处理命中路由本身，不包含路由组件内部懒加载的模块。配置为 `false` 可关闭                                                                                                                         |
+| earlyHints          | `boolean`                       | `false`         | 在执行 data loader 之前，先发送 `103 Early Hints` 响应，用 `Link` 头预加载 HTML 模板里的脚本、样式表，以及本次请求命中路由的 JS 和 CSS。仅在 Node.js 运行时生效，详见[Early Hints](#early-hints)                                                                                                                                          |
 
 ```ts title="modern.config.ts"
 export default defineConfig({
@@ -45,6 +46,30 @@ export default defineConfig({
   },
 });
 ```
+
+### Early Hints
+
+开启 `earlyHints` 后，服务端在执行 data loader 之前，先发送一个 `103 Early Hints` 响应。浏览器在等待 loader 的同时，就可以开始下载首屏资源。资源包括：
+
+- HTML 模板里的 `<script src>` 和 `<link rel="stylesheet">`。
+- 按请求 URL 匹配到的嵌套路由的 JS 和 CSS。匹配只用 URL，不执行 loader。
+
+```ts title="modern.config.ts"
+export default defineConfig({
+  server: {
+    ssr: {
+      earlyHints: true,
+    },
+  },
+});
+```
+
+注意事项：
+
+- `103` 不会提交最终状态码，loader 里的重定向和错误状态码照常生效。重定向时，已经提前下载的资源会被浪费。
+- 只在 Node.js 运行时生效，运行时没有 `writeEarlyHints` 时会跳过。
+- 浏览器只在 HTTP/2 及以上的连接里处理 `103`。如果应用前面有 CDN、网关或反向代理，需要先确认它们会把 `103` 转发给浏览器。
+- 收益大约等于 loader 的执行时长，最多不超过首屏资源的下载时长。loader 很快或网络很快时，基本没有收益。
 
 ### 主动降级
 

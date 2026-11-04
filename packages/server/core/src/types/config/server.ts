@@ -25,6 +25,13 @@ export type SSR =
        * @default true
        */
       preloadRouteScripts?: boolean;
+      /**
+       * Send a `103 Early Hints` response with `Link: rel=preload` headers for
+       * the scripts and stylesheets of the HTML template and of the matched
+       * routes, before the data loaders run. Only works on Node.js.
+       * @default false
+       */
+      earlyHints?: boolean;
     };
 
 export type SSRByEntries = Record<string, SSR>;
