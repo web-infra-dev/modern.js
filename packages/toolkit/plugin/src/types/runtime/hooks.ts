@@ -36,7 +36,6 @@ export interface StreamSSRExtender {
     nonce?: string;
     runtimeContext?: {
       ssrContext?: {
-        nonce?: string;
         onError?: (error: unknown, key?: string) => void;
         request: { url: string; raw?: Request; headers?: unknown };
       };
