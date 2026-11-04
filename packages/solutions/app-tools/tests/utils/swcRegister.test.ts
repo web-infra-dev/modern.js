@@ -2,6 +2,7 @@ import { createRequire } from 'node:module';
 import os from 'node:os';
 import path from 'node:path';
 import { fs } from '@modern-js/utils';
+import { transformSync } from '@swc/core';
 import {
   createSwcOptions,
   readCompilerOptions,
@@ -60,6 +61,16 @@ describe('swcRegister', () => {
       emitDecoratorMetadata: true,
       jsx: 'preserve',
     });
+  });
+
+  test('keeps dynamic import so ESM-only packages load from CommonJS', () => {
+    const source = `export async function load() {
+  return import('esm-only-pkg');
+}
+`;
+    const { code } = transformSync(source, createSwcOptions('a.ts'));
+    expect(code).toMatch(/import\(['"]esm-only-pkg['"]\)/);
+    expect(code).not.toMatch(/require\(['"]esm-only-pkg['"]\)/);
   });
 
   test('derives class field semantics from the target', () => {

@@ -87,7 +87,9 @@ export const createSwcOptions = (
     swcrc: false,
     configFile: false,
     sourceMaps: 'inline',
-    module: { type: 'commonjs' },
+    // ESM-only packages can only load through `await import()`. Without
+    // `ignoreDynamic`, swc rewrites that call to `require()` and it fails.
+    module: { type: 'commonjs', ignoreDynamic: true },
     jsc: {
       target: 'es2022',
       parser: {
