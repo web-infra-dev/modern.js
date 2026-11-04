@@ -26,7 +26,10 @@ type Options = {
   scriptLoading?: ScriptLoading;
   nonce?: string;
   useRsc?: boolean;
+  routeCssScope?: RouteCssScope;
 };
+
+export type RouteCssScope = 'descendants' | 'direct';
 
 const generateContentHash = (content: string) => {
   return createHash('md5').update(content).digest('hex').slice(0, 8);
@@ -49,6 +52,8 @@ export class RouterPlugin {
 
   private useRsc: boolean;
 
+  private routeCssScope: RouteCssScope;
+
   constructor({
     staticJsDir = 'static/js',
     HtmlBundlerPlugin,
@@ -57,6 +62,7 @@ export class RouterPlugin {
     scriptLoading = 'defer',
     nonce,
     useRsc = false,
+    routeCssScope = 'descendants',
   }: Options) {
     this.HtmlBundlerPlugin = HtmlBundlerPlugin;
     this.enableInlineRouteManifests = enableInlineRouteManifests;
@@ -65,6 +71,7 @@ export class RouterPlugin {
     this.scriptLoading = scriptLoading;
     this.nonce = nonce;
     this.useRsc = useRsc;
+    this.routeCssScope = routeCssScope;
   }
 
   private isTargetNodeOrWebWorker(target: Compiler['options']['target']) {
@@ -170,7 +177,9 @@ export class RouterPlugin {
           // Walk descendant chunk groups (reached via dynamic import / React.lazy)
           // to collect their CSS, so streaming SSR can inject them into the
           // shell and avoid a flash of unstyled content when the lazy chunk
-          // arrives on the client.
+          // arrives on the client. With `routeCssScope: 'direct'` only the CSS
+          // of the chunk group itself is recorded, and the CSS of lazy chunks
+          // is loaded together with their JS on the client.
           const namedChunkGroupInstances = new Map<string, any>();
           for (const cg of (compilation as any).chunkGroups || []) {
             if (cg.name) {
@@ -223,9 +232,12 @@ export class RouterPlugin {
             const directCssAssets = assets.filter(asset =>
               /\.css$/.test(asset),
             );
-            const descendantCssAssets = collectDescendantCssAssets(name).filter(
-              asset => !directCssAssets.includes(asset),
-            );
+            const descendantCssAssets =
+              this.routeCssScope === 'direct'
+                ? []
+                : collectDescendantCssAssets(name).filter(
+                    asset => !directCssAssets.includes(asset),
+                  );
             const referenceCssAssets = [
               ...directCssAssets,
               ...descendantCssAssets,
