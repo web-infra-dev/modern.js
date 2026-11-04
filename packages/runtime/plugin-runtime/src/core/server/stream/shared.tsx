@@ -7,11 +7,9 @@ import type {
 } from '@modern-js/types/server';
 import checkIsBot from 'isbot';
 import type React from 'react';
-import {
-  ESCAPED_SHELL_STREAM_END_MARK,
-  JSX_SHELL_STREAM_END_MARK,
-} from '../../../common';
+import { ESCAPED_SHELL_STREAM_END_MARK } from '../../../common';
 import type { TRuntimeContext } from '../../context';
+import { StreamRoot } from '../../react/streamRoot';
 import { wrapRuntimeContextProvider } from '../../react/wrapper';
 import type { HandleRequestConfig } from '../requestHandler';
 import type { RenderStreaming, SSRConfig } from '../shared';
@@ -173,27 +171,12 @@ export function createRenderStreaming(
       config.ssrByEntries,
     );
 
-    const StreamServerRootWrapper = ({
-      children,
-    }: {
-      children: React.ReactNode;
-    }) => {
-      return (
-        <>
-          {children}
-          {JSX_SHELL_STREAM_END_MARK}
-        </>
-      );
-    };
-
     let rootElement = wrapRuntimeContextProvider(
       serverRoot,
       Object.assign(runtimeContext, { ssr: true }),
     );
 
-    rootElement = (
-      <StreamServerRootWrapper>{rootElement}</StreamServerRootWrapper>
-    );
+    rootElement = <StreamRoot includeMarker>{rootElement}</StreamRoot>;
 
     const stream = await createReadableStreamFromElement(request, rootElement, {
       config,

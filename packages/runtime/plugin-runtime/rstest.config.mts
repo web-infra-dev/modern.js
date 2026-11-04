@@ -23,6 +23,7 @@ export default {
       name: 'plugin-runtime-node',
       testEnvironment: 'node',
       exclude: [
+        'tests/ssr/browserHydration.test.tsx',
         'tests/router/prefetch.test.tsx',
         'tests/router/memoryRouter.test.tsx',
         'tests/router/memoryRouter.node.test.tsx',
@@ -82,6 +83,7 @@ export default {
         bundleDependencies: ['@modern-js/render', 'react-server-dom-rspack'],
       },
       include: [
+        'tests/ssr/browserHydration.test.tsx',
         'tests/router/prefetch.test.tsx',
         'tests/router/memoryRouter.test.tsx',
         'tests/router/routeScopeBrowser.test.tsx',
