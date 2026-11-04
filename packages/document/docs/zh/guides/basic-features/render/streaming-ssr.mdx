@@ -235,6 +235,27 @@ function ErrorElement() {
 }
 ```
 
+## 路由 JS 预加载
+
+使用约定式路由时，流式渲染会在 HTML head 中为本次请求命中的路由（如 `user/layout`、`user/[id]/page`）输出 `<link rel="preload" as="script">`。这样浏览器在解析 HTML 时就开始下载这些路由组件的 JS，不必等入口 JS 执行、渲染到路由组件时才开始下载。
+
+- 入口已经通过 `<script>` 加载的文件，以及 HTML 中已有 `<script src>` 或 `preload` 的文件不会重复输出。
+- 只预加载命中的路由本身，路由组件内部通过 `import()`、`React.lazy` 懒加载的模块不会预加载。
+- 路由模块本身按默认优先级预加载；从它的依赖里拆出来的 chunk 带 `fetchpriority="low"`，避免和入口脚本、样式表抢带宽。
+- 标签带上 [`security.nonce`](/configure/app/security/nonce)。配置 [`html.crossorigin`](/configure/app/html/crossorigin) 时，`crossorigin` 属性与运行时加载 chunk 的方式保持一致。
+
+可以通过 [`server.ssr.preloadRouteScripts`](/configure/app/server/ssr) 关闭：
+
+```ts title="modern.config.ts"
+export default defineConfig({
+  server: {
+    ssr: {
+      preloadRouteScripts: false,
+    },
+  },
+});
+```
+
 ## 控制是否等待全部内容再输出
 
 流式传输可以提高用户体验，因为当页面内容可用时，用户可以及时感知到它们。但在部分场景下（例如 SEO 爬虫、特定 AB 实验或合规页面）希望等所有内容完成后再一次性输出。
