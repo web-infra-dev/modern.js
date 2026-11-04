@@ -1,3 +1,6 @@
+import { once } from 'node:events';
+import { createServer } from 'node:http';
+import type { AddressInfo } from 'node:net';
 import { storage } from '@modern-js/runtime-utils/node';
 import { Await, useLoaderData } from '@modern-js/runtime-utils/router';
 import React, { Suspense, useId } from 'react';
@@ -172,6 +175,67 @@ it('aborts HTML and deferred data when the consumer cancels', async () => {
   rendered.cancel(new Error('consumer disconnected'));
   await expect(updates.read()).rejects.toThrow('consumer disconnected');
   await expect(reader.read()).rejects.toThrow('consumer disconnected');
+});
+
+it('cancels a real deferred loader fetch after the initial shell has returned', async () => {
+  let connected!: () => void;
+  const started = new Promise<void>(resolve => {
+    connected = resolve;
+  });
+  let disconnected!: () => void;
+  const closed = new Promise<boolean>(resolve => {
+    disconnected = () => resolve(true);
+  });
+  const server = createServer((_request, response) => {
+    response.write('pending detail');
+    response.once('close', () => {
+      if (!response.writableFinished) disconnected();
+    });
+    connected();
+  });
+  server.listen(0, '127.0.0.1');
+  await once(server, 'listening');
+  const endpoint = `http://127.0.0.1:${(server.address() as AddressInfo).port}`;
+  const controller = new AbortController();
+  let reader: ReadableStreamDefaultReader<Uint8Array> | undefined;
+  let timeout: ReturnType<typeof setTimeout> | undefined;
+  try {
+    install(({ request }) => ({
+      label: 'deferred network request',
+      pending: fetch(endpoint, { signal: request.signal }).then(response =>
+        response.text(),
+      ),
+    }));
+    const rendered = await renderApplication(new Request('http://products/'), {
+      identifierPrefix: 'cancel-deferred-fetch-',
+      signal: controller.signal,
+    });
+    reader = rendered.stream.getReader();
+    expect(new TextDecoder().decode((await reader.read()).value)).toContain(
+      'loading-details',
+    );
+    await started;
+    controller.abort(new Error('consumer disconnected after shell'));
+    await expect(reader.read()).rejects.toThrow(
+      'consumer disconnected after shell',
+    );
+    expect(
+      await Promise.race([
+        closed,
+        new Promise<boolean>(resolve => {
+          timeout = setTimeout(() => resolve(false), 1000);
+        }),
+      ]),
+    ).toBe(true);
+  } finally {
+    clearTimeout(timeout);
+    controller.abort();
+    await reader?.cancel().catch(() => {});
+    server.closeAllConnections();
+    await new Promise<void>((resolve, reject) =>
+      server.close(error => (error ? reject(error) : resolve())),
+    );
+  }
 });
 
 it('publishes the complete shell and initial loader snapshot before deferred values settle', async () => {
