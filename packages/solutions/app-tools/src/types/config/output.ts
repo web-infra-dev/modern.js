@@ -33,6 +33,16 @@ export interface OutputUserConfig extends UnwrapBuilderConfig<
    */
   disableInlineRouteManifests?: boolean;
   /**
+   * Which CSS of a convention-based route is recorded in the route manifest
+   * and injected by streaming SSR into the HTML shell.
+   * - `descendants`: the CSS of the route chunk and of all chunks it loads
+   *   lazily (dynamic import / React.lazy), at any depth.
+   * - `direct`: only the CSS of the route chunk itself. The CSS of lazy chunks
+   *   is loaded with their JS on the client.
+   * @default 'descendants'
+   */
+  routeCssScope?: 'descendants' | 'direct';
+  /**
    * Specify the temporary directory for framework generated files.
    */
   tempDir?: string;

@@ -1,0 +1,25 @@
+---
+title: routeCssScope
+---
+
+# output.routeCssScope
+
+- **Type:** `'descendants' | 'direct'`
+- **Default:** `'descendants'`
+
+When using convention-based routing, the framework records the CSS needed by each route in the route manifest. In Streaming SSR, the server outputs the CSS recorded for the matched routes as `<link rel="stylesheet">` in the HTML head. This option controls which CSS is recorded:
+
+- `'descendants'`: the CSS of the route chunk, plus the CSS of every chunk it loads through dynamic `import()` or `React.lazy`, at any depth. Lazy components rendered by the server inside Suspense have no flash of unstyled content. When the lazy import chain is deep, the head contains many render-blocking stylesheets, including CSS the first screen does not use (for example a dialog loaded after a click).
+- `'direct'`: only the CSS of the route chunk itself. The CSS of a lazy chunk is loaded together with its JS on the client. A lazy component rendered by the server inside Suspense may be unstyled until its CSS is downloaded.
+
+If the routes of your app load many lazy components that the first screen does not render, you can set it to `'direct'`, and check that the first screen has no flash of unstyled content.
+
+Example:
+
+```ts
+export default {
+  output: {
+    routeCssScope: 'direct',
+  },
+};
+```
