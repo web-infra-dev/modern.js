@@ -15,31 +15,20 @@ import {
 import { wrapRuntimeContextProvider } from '../core/react/wrapper';
 import { ApplicationShell } from './ApplicationShell';
 import { restoreApplicationData } from './data';
-import {
-  APPLICATION_SNAPSHOT_PROTOCOL,
-  APPLICATION_PROGRESSIVE_SNAPSHOT_PROTOCOL,
-} from './constants';
-import type {
-  ApplicationOptions,
-  ApplicationSnapshot,
-  ApplicationSnapshotV2,
-} from './types';
+import { APPLICATION_SNAPSHOT_PROTOCOL } from './constants';
+import type { ApplicationOptions, ApplicationSnapshot } from './types';
 
-export type {
-  ApplicationOptions,
-  ApplicationSnapshot,
-  ApplicationSnapshotV2,
-} from './types';
+export type { ApplicationOptions, ApplicationSnapshot } from './types';
 
 export interface ApplicationInstance {
   hydrate: (
     container: HTMLElement,
-    snapshot: ApplicationSnapshot | ApplicationSnapshotV2,
-    options?: Pick<
+    snapshot: ApplicationSnapshot,
+    options: Pick<
       ApplicationOptions,
       'signal' | 'onRecoverableError' | 'memoryRoute' | 'navigation'
     > & {
-      updates?: ReadableStream<unknown>;
+      updates: ReadableStream<unknown>;
     },
   ) => Promise<void>;
   mount: (container: HTMLElement, options: ApplicationOptions) => Promise<void>;
@@ -106,7 +95,7 @@ export function createApplication(
   const initialize = async (
     container: HTMLElement,
     inputOptions: ApplicationOptions & { updates?: ReadableStream<unknown> },
-    inputSnapshot?: ApplicationSnapshot | ApplicationSnapshotV2,
+    inputSnapshot?: ApplicationSnapshot,
   ) => {
     let options = inputOptions;
     let snapshot = inputSnapshot;
@@ -128,7 +117,7 @@ export function createApplication(
         `Application React version mismatch: ${snapshot.reactVersion} / ${React.version}`,
       );
     }
-    if (snapshot?.protocol === APPLICATION_PROGRESSIVE_SNAPSHOT_PROTOCOL) {
+    if (snapshot) {
       if (!options.updates)
         throw new Error(
           'Progressive application hydration requires a data stream',
@@ -313,11 +302,8 @@ export function createApplication(
   };
 
   return {
-    hydrate(container, snapshot, options = {}) {
-      if (
-        snapshot.protocol !== APPLICATION_SNAPSHOT_PROTOCOL &&
-        snapshot.protocol !== APPLICATION_PROGRESSIVE_SNAPSHOT_PROTOCOL
-      ) {
+    hydrate(container, snapshot, options) {
+      if (snapshot.protocol !== APPLICATION_SNAPSHOT_PROTOCOL) {
         return Promise.reject(
           new Error('Unsupported Modern application snapshot'),
         );

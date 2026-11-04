@@ -1,7 +1,7 @@
 import type {
   ApplicationDataPatch,
   ApplicationPendingValue,
-  ApplicationSnapshotV2,
+  ApplicationSnapshot,
 } from './types';
 
 type Pending = {
@@ -13,7 +13,7 @@ type Pending = {
 
 /** All Promise state belongs to this application instance, never to window. */
 export function restoreApplicationData(
-  snapshot: ApplicationSnapshotV2,
+  snapshot: ApplicationSnapshot,
   updates: ReadableStream<unknown>,
 ) {
   const values = new Map<string, Pending>();
@@ -63,12 +63,12 @@ export function restoreApplicationData(
   };
   // A snapshot can be used for multiple containers; never insert Promises into
   // the caller's serialized copy.
-  let materialized: ApplicationSnapshotV2;
+  let materialized: ApplicationSnapshot;
   try {
     materialized = restore(
       JSON.parse(JSON.stringify(snapshot)),
       snapshot.pending,
-    ) as ApplicationSnapshotV2;
+    ) as ApplicationSnapshot;
   } catch (error) {
     void updates.cancel(error).catch(() => {});
     throw error;

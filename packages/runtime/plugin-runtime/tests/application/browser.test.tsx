@@ -10,10 +10,7 @@ import { routerPlugin as nodeRouterPlugin } from '../../src/router/runtime/plugi
 import { createApplication as createScopedApplication } from '../../src/application';
 import type { ScopedRootDefinition } from '../../src/core/react/scopeDefinition';
 import { createRuntime } from '../../src/core/plugin';
-import {
-  APPLICATION_SNAPSHOT_PROTOCOL,
-  APPLICATION_PROGRESSIVE_SNAPSHOT_PROTOCOL,
-} from '../../src/application/constants';
+import { APPLICATION_SNAPSHOT_PROTOCOL } from '../../src/application/constants';
 import { routerPlugin } from '../../src/router/runtime/plugin';
 
 let definition: ScopedRootDefinition;
@@ -31,6 +28,12 @@ function setDefinition({ routes }: { routes: any[]; entryName: string }) {
 const createApplication = () =>
   createScopedApplication(undefined, { definition });
 beforeEach(() => window.history.replaceState(null, '', '/'));
+const closedUpdates = () =>
+  new ReadableStream<unknown>({
+    start(controller) {
+      controller.close();
+    },
+  });
 
 it('mounts independent real routers without reading or replacing host hydration globals', async () => {
   const hostData = { loaderData: { page: 'host-state' }, errors: null };
@@ -119,7 +122,8 @@ it('hydrates from the explicit snapshot and preserves the existing DOM', async (
     ],
   });
   const container = document.createElement('div');
-  container.innerHTML = '<p>server-product</p>';
+  container.innerHTML =
+    '<p>server-product</p><template id="hydrated-shell"></template>';
   document.body.append(container);
   const paragraph = container.firstChild;
   const errors: unknown[] = [];
@@ -130,6 +134,8 @@ it('hydrates from the explicit snapshot and preserves the existing DOM', async (
       protocol: APPLICATION_SNAPSHOT_PROTOCOL,
       reactVersion: React.version,
       identifierPrefix: 'hydrated-',
+      shellMarker: 'hydrated-shell',
+      pending: [],
       url: 'http://example/',
       basename: '/',
       props: {},
@@ -139,6 +145,7 @@ it('hydrates from the explicit snapshot and preserves the existing DOM', async (
       },
     },
     {
+      updates: closedUpdates(),
       onRecoverableError: error => {
         errors.push(error);
       },
@@ -176,7 +183,8 @@ it('restores a successful null server loader value and runs the client loader on
     ],
   });
   const container = document.createElement('div');
-  container.innerHTML = '<p>server-null</p>';
+  container.innerHTML =
+    '<p>server-null</p><template id="null-shell"></template>';
   document.body.append(container);
   const paragraph = container.firstElementChild;
   const errors: unknown[] = [];
@@ -188,12 +196,17 @@ it('restores a successful null server loader value and runs the client loader on
         protocol: APPLICATION_SNAPSHOT_PROTOCOL,
         reactVersion: React.version,
         identifierPrefix: 'null-',
+        shellMarker: 'null-shell',
+        pending: [],
         url: window.location.href,
         basename: '/',
         props: {},
         routerData: { loaderData: { page: null }, errors: null },
       },
-      { onRecoverableError: error => errors.push(error) },
+      {
+        updates: closedUpdates(),
+        onRecoverableError: error => errors.push(error),
+      },
     );
     expect(container.firstElementChild).toBe(paragraph);
     expect(paragraph?.textContent).toBe('server-null');
@@ -254,7 +267,7 @@ it.each(['fulfilled', 'invalid-update', 'truncated', 'destroy'])(
     const shell =
       '<main><button>0</button><!--$?--><template id="early-browser-B:0"></template><p>waiting for statistics</p><!--/$--></main><template id="early-browser-shell"></template>';
     const initial = {
-      protocol: APPLICATION_PROGRESSIVE_SNAPSHOT_PROTOCOL,
+      protocol: APPLICATION_SNAPSHOT_PROTOCOL,
       reactVersion: React.version,
       identifierPrefix: 'early-browser-',
       shellMarker: 'early-browser-shell',
@@ -392,11 +405,10 @@ it.each(['fragment', 'lazy fragment', 'in-flight Host navigation'])(
         basename: '/inventory',
         identifierPrefix: 'actual-',
         props: { title: 'server' },
-        progressiveHydration: true,
       },
     );
     const html = await new Response(rendered.stream).text();
-    const snapshot = await rendered.snapshot;
+    const snapshot = await rendered.hydration.snapshot;
     expect(html).toContain('server:42:/detail/42?tab=stock:0');
     expect(serverLoads).toBe(1);
     let clientLoads = 0;
@@ -459,6 +471,7 @@ it.each(['fragment', 'lazy fragment', 'in-flight Host navigation'])(
     };
     const app = createApplication();
     const pending = app.hydrate(container, snapshot, {
+      updates: rendered.hydration.updates,
       navigation,
       onRecoverableError: error => errors.push(error),
     });
@@ -574,11 +587,10 @@ it.each(['custom', 'default'])(
         definition: serverDefinition,
         basename: '/inventory',
         identifierPrefix: 'error-',
-        progressiveHydration: true,
       },
     );
     const html = await new Response(rendered.stream).text();
-    const snapshot = await rendered.snapshot;
+    const snapshot = await rendered.hydration.snapshot;
     const container = document.createElement('div');
     container.innerHTML = html;
     document.body.append(container);
@@ -617,6 +629,7 @@ it.each(['custom', 'default'])(
     const app = createApplication();
     try {
       await app.hydrate(container, snapshot, {
+        updates: rendered.hydration.updates,
         onRecoverableError: error => errors.push(error),
       });
       await expect.poll(() => router?.state.location.hash).toBe('#summary');
@@ -676,7 +689,7 @@ it('releases a failed hydration snapshot so a fresh CSR instance can recover in 
     broken.hydrate(
       container,
       {
-        protocol: APPLICATION_PROGRESSIVE_SNAPSHOT_PROTOCOL,
+        protocol: APPLICATION_SNAPSHOT_PROTOCOL,
         reactVersion: React.version,
         identifierPrefix: 'broken-',
         shellMarker: 'broken-shell',

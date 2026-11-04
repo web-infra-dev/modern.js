@@ -1,13 +1,13 @@
 import { restoreApplicationData } from '../../src/application/data';
 import { createApplicationData } from '../../src/application/data.server';
-import { APPLICATION_PROGRESSIVE_SNAPSHOT_PROTOCOL } from '../../src/application/constants';
+import { APPLICATION_SNAPSHOT_PROTOCOL } from '../../src/application/constants';
 import type {
   ApplicationDataPatch,
-  ApplicationSnapshotV2,
+  ApplicationSnapshot,
 } from '../../src/application/types';
 
-const snapshot = (value: unknown): Omit<ApplicationSnapshotV2, 'pending'> => ({
-  protocol: APPLICATION_PROGRESSIVE_SNAPSHOT_PROTOCOL,
+const snapshot = (value: unknown): Omit<ApplicationSnapshot, 'pending'> => ({
+  protocol: APPLICATION_SNAPSHOT_PROTOCOL,
   reactVersion: '19.2.8',
   identifierPrefix: 'test-',
   shellMarker: 'test-shell',
@@ -73,7 +73,7 @@ it('restores rejection as a real Error without failing the data transport', asyn
 });
 
 it('rejects unresolved values if the transport ends early', async () => {
-  const initial: ApplicationSnapshotV2 = {
+  const initial: ApplicationSnapshot = {
     ...snapshot(null),
     pending: [{ id: '0', path: ['props', 'value'] }],
   };
@@ -95,7 +95,7 @@ it('rejects unresolved values if the transport ends early', async () => {
 
 it('cancels the reader and rejects pending values on application destroy', async () => {
   let reason: unknown;
-  const initial: ApplicationSnapshotV2 = {
+  const initial: ApplicationSnapshot = {
     ...snapshot(null),
     pending: [{ id: '0', path: ['props', 'value'] }],
   };
@@ -150,7 +150,7 @@ it('cancels malformed initial data without leaving the transport locked', () => 
       cancelled = true;
     },
   });
-  const initial: ApplicationSnapshotV2 = {
+  const initial: ApplicationSnapshot = {
     ...snapshot(null),
     pending: [{ id: '0', path: ['props', 'missing'] }],
   };

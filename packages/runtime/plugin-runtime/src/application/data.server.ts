@@ -1,12 +1,12 @@
 import type {
   ApplicationDataPatch,
   ApplicationPendingValue,
-  ApplicationSnapshotV2,
+  ApplicationSnapshot,
 } from './types';
 
 /** Encode pending values separately instead of waiting for every loader. */
 export function createApplicationData(
-  value: Omit<ApplicationSnapshotV2, 'pending'>,
+  value: Omit<ApplicationSnapshot, 'pending'>,
 ) {
   let controller!: ReadableStreamDefaultController<ApplicationDataPatch>;
   let active = 0;
@@ -113,10 +113,10 @@ export function createApplicationData(
   try {
     const pending: ApplicationPendingValue[] = [];
     const encoded = encode(value, [], pending) as Omit<
-      ApplicationSnapshotV2,
+      ApplicationSnapshot,
       'pending'
     >;
-    const snapshot: ApplicationSnapshotV2 = JSON.parse(
+    const snapshot: ApplicationSnapshot = JSON.parse(
       JSON.stringify({ ...encoded, pending }),
     );
     finish();

@@ -6,7 +6,8 @@ import {
   type RenderApplicationOptions,
 } from '../../src/application/server';
 import type { ScopedRootDefinition } from '../../src/core/react/scopeDefinition';
-import { APPLICATION_PROGRESSIVE_SNAPSHOT_PROTOCOL } from '../../src/application/constants';
+import { APPLICATION_SNAPSHOT_PROTOCOL } from '../../src/application/constants';
+import { restoreApplicationData } from '../../src/application/data';
 import { useRuntimeContext } from '../../src/core/context/runtime';
 import { createRuntime } from '../../src/core/plugin';
 import { routerPlugin } from '../../src/router/runtime/plugin.node';
@@ -73,7 +74,7 @@ const install = (loader: (args: { request: Request }) => unknown) => {
   };
 };
 
-it('streams the real router and deferred loader before the JSON snapshot completes', async () => {
+it('streams the real router and restores deferred loader data from the initial snapshot', async () => {
   let finish!: (value: string) => void;
   const pending = new Promise<string>(resolve => {
     finish = resolve;
@@ -94,12 +95,13 @@ it('streams the real router and deferred loader before the JSON snapshot complet
   expect(first).toContain('loading-details');
   expect(first).toContain('product-one-');
   expect(first).not.toContain('_ROUTER_DATA');
-  let completed = false;
-  void rendered.snapshot.then(() => {
-    completed = true;
-  });
-  await Promise.resolve();
-  expect(completed).toBe(false);
+  const snapshot = await rendered.hydration.snapshot;
+  expect(snapshot.routerData?.loaderData.page.pending).toBeNull();
+  expect(snapshot.initialData).toEqual({ request: 'one' });
+  expect(JSON.parse(JSON.stringify(snapshot))).toEqual(snapshot);
+  const restored = restoreApplicationData(snapshot, rendered.hydration.updates);
+  const loader = restored.snapshot.routerData!.loaderData.page;
+  expect(loader.pending).toBeInstanceOf(Promise);
   finish('resolved-stock');
   let tail = '';
   for (;;) {
@@ -108,13 +110,10 @@ it('streams the real router and deferred loader before the JSON snapshot complet
     tail += new TextDecoder().decode(next.value);
   }
   expect(tail).toContain('resolved-stock');
-  const snapshot = await rendered.snapshot;
-  expect(snapshot.routerData?.loaderData.page).toEqual({
-    label: 'product-list',
-    pending: 'resolved-stock',
-  });
-  expect(snapshot.initialData).toEqual({ request: 'one' });
-  expect(JSON.parse(JSON.stringify(snapshot))).toEqual(snapshot);
+  expect(loader.label).toBe('product-list');
+  expect(await loader.pending).toBe('resolved-stock');
+  await restored.done;
+  expect(rendered).not.toHaveProperty('snapshot');
 });
 
 it('isolates concurrent request headers, prefixes, and loader results', async () => {
@@ -132,7 +131,12 @@ it('isolates concurrent request headers, prefixes, and loader results', async ()
         },
       );
       const html = await new Response(rendered.stream).text();
-      return { html, snapshot: await rendered.snapshot };
+      const restored = restoreApplicationData(
+        await rendered.hydration.snapshot,
+        rendered.hydration.updates,
+      );
+      await restored.done;
+      return { html, snapshot: restored.snapshot };
     }),
   );
   expect(results[0].html).toContain('result-a');
@@ -144,15 +148,16 @@ it('isolates concurrent request headers, prefixes, and loader results', async ()
   ]);
 });
 
-it('aborts the render and rejects its snapshot when the consumer cancels', async () => {
+it('aborts HTML and deferred data when the consumer cancels', async () => {
   install(() => ({ label: 'abort', pending: new Promise(() => {}) }));
   const rendered = await renderApplication(new Request('http://products/'), {
     identifierPrefix: 'abort-',
   });
   const reader = rendered.stream.getReader();
   await reader.read();
+  const updates = rendered.hydration.updates.getReader();
   rendered.cancel(new Error('consumer disconnected'));
-  await expect(rendered.snapshot).rejects.toThrow('consumer disconnected');
+  await expect(updates.read()).rejects.toThrow('consumer disconnected');
   await expect(reader.read()).rejects.toThrow('consumer disconnected');
 });
 
@@ -164,7 +169,6 @@ it('publishes the complete shell and initial loader snapshot before deferred val
   install(() => ({ label: 'early-products', pending }));
   const rendered = await renderApplication(new Request('http://products/'), {
     identifierPrefix: 'early-',
-    progressiveHydration: true,
   });
   const reader = rendered.stream.getReader();
   const shell = new TextDecoder().decode((await reader.read()).value);
@@ -173,7 +177,7 @@ it('publishes the complete shell and initial loader snapshot before deferred val
   expect(shell).toContain('loading-details');
   expect(shell).toContain('<template id="early-shell"></template>');
   expect(rendered.hydration!.shellMarker).toBe('early-shell');
-  expect(snapshot.protocol).toBe(APPLICATION_PROGRESSIVE_SNAPSHOT_PROTOCOL);
+  expect(snapshot.protocol).toBe(APPLICATION_SNAPSHOT_PROTOCOL);
   expect(snapshot.routerData?.loaderData.page).toEqual({
     label: 'early-products',
     pending: null,
@@ -197,9 +201,7 @@ it('publishes the complete shell and initial loader snapshot before deferred val
     tail += new TextDecoder().decode(next.value);
   }
   expect(tail).toContain('later-stock');
-  expect((await rendered.snapshot).routerData?.loaderData.page.pending).toBe(
-    'later-stock',
-  );
+  expect(rendered).not.toHaveProperty('snapshot');
 });
 
 it('transports a rejected deferred value without failing its Await error boundary', async () => {
@@ -210,7 +212,6 @@ it('transports a rejected deferred value without failing its Await error boundar
   install(() => ({ label: 'products', pending }));
   const rendered = await renderApplication(new Request('http://products/'), {
     identifierPrefix: 'rejected-',
-    progressiveHydration: true,
   });
   const html = new Response(rendered.stream).text();
   const updates = rendered.hydration!.updates.getReader();
@@ -222,14 +223,12 @@ it('transports a rejected deferred value without failing its Await error boundar
   });
   expect((await updates.read()).done).toBe(true);
   expect(await html).toContain('loader-error');
-  await expect(rendered.snapshot).rejects.toThrow('statistics failed');
 });
 
 it('errors the progressive data channel when rendering is cancelled after the shell', async () => {
   install(() => ({ label: 'abort', pending: new Promise(() => {}) }));
   const rendered = await renderApplication(new Request('http://products/'), {
     identifierPrefix: 'abort-early-',
-    progressiveHydration: true,
   });
   const reader = rendered.stream.getReader();
   await reader.read();
@@ -239,7 +238,29 @@ it('errors the progressive data channel when rendering is cancelled after the sh
   rendered.cancel(new Error('request disconnected'));
   await expect(updates.read()).rejects.toThrow('request disconnected');
   await expect(reader.read()).rejects.toThrow('request disconnected');
-  await expect(rendered.snapshot).rejects.toThrow('request disconnected');
+});
+
+it('serializes the initial snapshot once without computing a final snapshot after HTML ends', async () => {
+  install(() => ({ label: 'once', pending: Promise.resolve('stock') }));
+  let serializations = 0;
+  const rendered = await renderApplication(new Request('http://products/'), {
+    identifierPrefix: 'once-',
+    props: {
+      marker: {
+        toJSON() {
+          serializations++;
+          return 'captured';
+        },
+      },
+    },
+  });
+  const snapshot = await rendered.hydration.snapshot;
+  expect(snapshot.props.marker).toBe('captured');
+  const restored = restoreApplicationData(snapshot, rendered.hydration.updates);
+  await new Response(rendered.stream).text();
+  await restored.done;
+  expect(serializations).toBe(1);
+  expect(rendered).not.toHaveProperty('snapshot');
 });
 
 it('cancels before a request hook completes and does not start a late React render', async () => {
