@@ -154,6 +154,14 @@ export interface AppToolsExtendContext {
    * @private
    */
   eagerRouteComponentFilesByEntry?: EagerRouteComponentFilesByEntry;
+  /**
+   * Ids of the FINAL file-system routes (after all `modifyFileSystemRoutes`
+   * consumers ran), keyed by entry name. Populated by the router plugin during
+   * route generation; the route manifest plugin uses it to keep only route
+   * entries in the client route manifest.
+   * @private
+   */
+  routeIdsByEntry?: Map<string, Set<string>>;
 }
 
 export type AppToolsContext = AppContext<AppTools> & AppToolsExtendContext;

@@ -14,4 +14,10 @@ export type BuilderOptions = {
    * compilation. Explicit param instead of a direct `_internalContext` read.
    */
   eagerRouteComponentFilesByEntry?: EagerRouteComponentFilesByEntry;
+  /**
+   * Returns the route ids of the FINAL file-system routes keyed by entry name
+   * (`AppToolsContext.routeIdsByEntry`). A getter so that routes regenerated in
+   * dev are picked up by the next compilation.
+   */
+  getRouteIdsByEntry?: () => Map<string, Set<string>> | undefined;
 };
