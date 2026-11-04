@@ -229,6 +229,27 @@ function ErrorElement() {
 }
 ```
 
+## Route JS Preloading
+
+With conventional routing, streaming rendering outputs `<link rel="preload" as="script">` in the HTML head for the routes matched by the request (such as `user/layout` and `user/[id]/page`). The browser starts downloading the JS of these route components while parsing the HTML, instead of waiting until the entry JS runs and renders the route components.
+
+- Files already loaded by the entry `<script>` tags, and files already referenced by a `<script src>` or `preload` in the HTML, are not output again.
+- Only the matched routes are preloaded. Modules lazy loaded inside the route components with `import()` or `React.lazy` are not preloaded.
+- The route modules themselves are preloaded at the default priority. The chunks split out of their dependencies are preloaded with `fetchpriority="low"`, so they do not compete with the entry scripts and stylesheets.
+- The tags carry [`security.nonce`](/configure/app/security/nonce). When [`html.crossorigin`](/configure/app/html/crossorigin) is set, the `crossorigin` attribute matches the way the runtime loads chunks.
+
+It can be disabled with [`server.ssr.preloadRouteScripts`](/configure/app/server/ssr):
+
+```ts title="modern.config.ts"
+export default defineConfig({
+  server: {
+    ssr: {
+      preloadRouteScripts: false,
+    },
+  },
+});
+```
+
 ## Controlling When to Wait for Full HTML
 
 Streaming improves perceived speed, but in some cases (SEO crawlers, A/B buckets, compliance pages) you may want to wait for all content before sending the response.
