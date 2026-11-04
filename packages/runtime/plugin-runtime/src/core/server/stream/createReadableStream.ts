@@ -3,6 +3,7 @@ import { StringDecoder } from 'string_decoder';
 import { storage } from '@modern-js/runtime-utils/node';
 import { SSR_HYDRATION_ID_PREFIX } from '@modern-js/utils/universal/constants';
 import type { ReactElement } from 'react';
+import { ESCAPED_SHELL_STREAM_END_MARK } from '../../../common';
 import { RenderLevel } from '../../constants';
 import { getGlobalInternalRuntimeContext } from '../../context';
 import { getMonitors } from '../../context/monitors';
@@ -51,6 +52,11 @@ export const createReadableStreamFromElement: CreateReadableStreamFromElement =
         extender.init({
           rootElement,
           forceStream2String,
+          shellEndMarker: ESCAPED_SHELL_STREAM_END_MARK,
+          identifierPrefix: SSR_HYDRATION_ID_PREFIX,
+          nonce: config.nonce,
+          request,
+          runtimeContext,
         });
       }
     });
@@ -64,15 +70,55 @@ export const createReadableStreamFromElement: CreateReadableStreamFromElement =
 
     const splitAtShellEndMark = createShellEndMarkSplitter();
 
-    return new Promise(resolve => {
-      const { pipe: reactStreamingPipe } = renderToPipeableStream(
-        processedRootElement,
-        {
+    return new Promise((resolve, reject) => {
+      let stopped = false;
+      let abortReact: (reason?: unknown) => void = () => {};
+      const streams = new Set<
+        NodeJS.ReadWriteStream & { destroy?: (error?: Error) => unknown }
+      >();
+      const cleanup = () =>
+        request.signal.removeEventListener('abort', onRequestAbort);
+      const stop = (reason: unknown) => {
+        if (stopped) return;
+        stopped = true;
+        cleanup();
+        const error =
+          reason instanceof Error ? reason : new Error(String(reason));
+        extenders.forEach(extender => extender.abort?.(error));
+        // Close the transport before aborting React, which can synchronously
+        // emit recovery instructions for its pending boundaries.
+        streams.forEach(stream => stream.destroy?.(error));
+        abortReact(error);
+      };
+      const abort = (reason: unknown) => {
+        stop(reason);
+        reject(reason);
+      };
+      const onRequestAbort = () =>
+        abort(request.signal.reason || new Error('SSR request aborted'));
+      const track = <T extends NodeJS.ReadWriteStream>(stream: T): T => {
+        if (!streams.has(stream)) {
+          streams.add(stream);
+          stream.once('error', abort);
+        }
+        return stream;
+      };
+      request.signal.addEventListener('abort', onRequestAbort, { once: true });
+      if (request.signal.aborted) {
+        onRequestAbort();
+        return;
+      }
+      const { pipe: reactStreamingPipe, abort: abortRendered } =
+        renderToPipeableStream(processedRootElement, {
           nonce: config.nonce,
           identifierPrefix: SSR_HYDRATION_ID_PREFIX,
           [onReady]() {
+            if (stopped) return;
             let styledComponentsStyleTags = '';
+            let bootstrapScripts = '';
+
             extenders.forEach(extender => {
+              bootstrapScripts += extender.getBootstrapScripts?.() || '';
               if (extender.getStyleTags) {
                 styledComponentsStyleTags += extender.getStyleTags();
               }
@@ -88,98 +134,113 @@ export const createReadableStreamFromElement: CreateReadableStreamFromElement =
               config,
               entryName,
               styledComponentsStyleTags,
-            }).then(({ shellAfter, shellBefore }) => {
-              const decoder = new StringDecoder('utf8');
-              const pendingScripts: string[] = [];
-              const outputState: {
-                coordinator?: DeferredScriptOutputCoordinator;
-              } = {};
-              let deferredResolversComplete = Promise.resolve();
+              bootstrapScripts,
+            })
+              .then(({ shellAfter, shellBefore }) => {
+                if (stopped) return;
+                const decoder = new StringDecoder('utf8');
+                const pendingScripts: string[] = [];
+                const outputState: {
+                  coordinator?: DeferredScriptOutputCoordinator;
+                } = {};
+                let deferredResolversComplete = Promise.resolve();
 
-              const writeReact = (content: string) => {
-                if (!outputState.coordinator) {
-                  throw new Error('Deferred script coordinator is not ready');
-                }
-                outputState.coordinator.writeReact(content);
-              };
+                const writeReact = (content: string) => {
+                  if (!outputState.coordinator) {
+                    throw new Error('Deferred script coordinator is not ready');
+                  }
+                  outputState.coordinator.writeReact(content);
+                };
 
-              const body = new Transform({
-                transform(chunk, _encoding, callback) {
-                  try {
-                    if (shellChunkStatus !== ShellChunkStatus.FINISH) {
-                      /**
-                       * The shell content of App may be splitted by multiple chunks to transform,
-                       * when any node value's size is larger than the React limitation, refer to:
-                       * https://github.com/facebook/react/blob/v18.2.0/packages/react-server/src/ReactServerStreamConfigNode.js#L53.
-                       * So we use the `SHELL_STREAM_END_MARK` to mark the shell content' tail.
-                       *
-                       * The marker can also land in the middle of a chunk that already carries
-                       * suspense-boundary content emitted right after the shell (React's chunk
-                       * boundaries are byte-driven, not render-phase-driven). The splitter also
-                       * catches markers that straddle two chunks, then splits the buffered
-                       * content at the marker: everything before goes between shellBefore and
-                       * shellAfter; everything after goes out as-is so it lands past the
-                       * closing `</html>` instead of being swallowed inside it.
-                       */
-                      const shell = splitAtShellEndMark(
-                        decoder.write(
-                          Buffer.isBuffer(chunk) ? chunk : Buffer.from(chunk),
-                        ),
-                      );
-                      if (shell) {
-                        const { beforeMark, afterMark } = shell;
+                const body = new Transform({
+                  transform(chunk, _encoding, callback) {
+                    try {
+                      if (shellChunkStatus !== ShellChunkStatus.FINISH) {
+                        /**
+                         * The shell content of App may be splitted by multiple chunks to transform,
+                         * when any node value's size is larger than the React limitation, refer to:
+                         * https://github.com/facebook/react/blob/v18.2.0/packages/react-server/src/ReactServerStreamConfigNode.js#L53.
+                         * So we use the `SHELL_STREAM_END_MARK` to mark the shell content' tail.
+                         *
+                         * The marker can also land in the middle of a chunk that already carries
+                         * suspense-boundary content emitted right after the shell (React's chunk
+                         * boundaries are byte-driven, not render-phase-driven). The splitter also
+                         * catches markers that straddle two chunks, then splits the buffered
+                         * content at the marker: everything before goes between shellBefore and
+                         * shellAfter; everything after goes out as-is so it lands past the
+                         * closing `</html>` instead of being swallowed inside it.
+                         */
+                        const shell = splitAtShellEndMark(
+                          decoder.write(
+                            Buffer.isBuffer(chunk) ? chunk : Buffer.from(chunk),
+                          ),
+                        );
+                        if (shell) {
+                          const { beforeMark, afterMark } = shell;
 
-                        shellChunkStatus = ShellChunkStatus.FINISH;
-                        writeReact(`${shellBefore}${beforeMark}${shellAfter}`);
-                        if (afterMark) {
-                          writeReact(afterMark);
-                        }
-                        // FINISH retains its shell lifecycle meaning. The coordinator
-                        // becomes eligible only after this marker chunk's afterMark
-                        // bytes have been observed, preserving their original order.
-                        if (outputState.coordinator) {
-                          outputState.coordinator.markShellFinished();
-                          for (const script of pendingScripts) {
-                            outputState.coordinator.enqueueResolver(script);
+                          shellChunkStatus = ShellChunkStatus.FINISH;
+                          writeReact(
+                            `${shellBefore}${beforeMark}${shellAfter}`,
+                          );
+                          if (afterMark) {
+                            writeReact(afterMark);
                           }
-                          pendingScripts.length = 0;
+                          // FINISH retains its shell lifecycle meaning. The coordinator
+                          // becomes eligible only after this marker chunk's afterMark
+                          // bytes have been observed, preserving their original order.
+                          if (outputState.coordinator) {
+                            outputState.coordinator.markShellFinished();
+                            for (const script of pendingScripts) {
+                              outputState.coordinator.enqueueResolver(script);
+                            }
+                            pendingScripts.length = 0;
+                          }
                         }
+                      } else {
+                        const decodedChunk = decoder.write(
+                          Buffer.isBuffer(chunk) ? chunk : Buffer.from(chunk),
+                        );
+                        writeReact(decodedChunk);
                       }
-                    } else {
-                      const decodedChunk = decoder.write(
-                        Buffer.isBuffer(chunk) ? chunk : Buffer.from(chunk),
-                      );
-                      writeReact(decodedChunk);
+                      callback();
+                    } catch (e) {
+                      if (e instanceof Error) {
+                        callback(e);
+                      } else {
+                        callback(
+                          new Error('Received unknown error when streaming'),
+                        );
+                      }
                     }
-                    callback();
-                  } catch (e) {
-                    if (e instanceof Error) {
-                      callback(e);
-                    } else {
+                  },
+                  flush(callback) {
+                    try {
+                      writeReact(decoder.end());
+                    } catch (error) {
                       callback(
-                        new Error('Received unknown error when streaming'),
+                        error instanceof Error
+                          ? error
+                          : new Error('Received unknown error when streaming'),
                       );
+                      return;
                     }
-                  }
-                },
-                flush(callback) {
-                  try {
-                    writeReact(decoder.end());
-                  } catch (error) {
-                    callback(
-                      error instanceof Error
-                        ? error
-                        : new Error('Received unknown error when streaming'),
-                    );
-                    return;
-                  }
 
-                  deferredResolversComplete.then(
-                    () => {
-                      try {
-                        outputState.coordinator?.finish();
-                        callback();
-                      } catch (error) {
+                    deferredResolversComplete.then(
+                      () => {
+                        try {
+                          outputState.coordinator?.finish();
+                          callback();
+                        } catch (error) {
+                          callback(
+                            error instanceof Error
+                              ? error
+                              : new Error(
+                                  'Received unknown error when streaming',
+                                ),
+                          );
+                        }
+                      },
+                      error => {
                         callback(
                           error instanceof Error
                             ? error
@@ -187,93 +248,96 @@ export const createReadableStreamFromElement: CreateReadableStreamFromElement =
                                 'Received unknown error when streaming',
                               ),
                         );
+                      },
+                    );
+                  },
+                });
+
+                const coordinator = new DeferredScriptOutputCoordinator(
+                  content => {
+                    body.push(content);
+                  },
+                );
+                outputState.coordinator = coordinator;
+                track(body);
+                body.once('close', () => {
+                  coordinator.abort();
+                  if (!body.writableFinished)
+                    abort(new Error('SSR output cancelled'));
+                  else cleanup();
+                });
+
+                const passThrough = track(new PassThrough());
+
+                // Transform the Node.js readable stream to a Web ReadableStream
+                // For modern.js depend on hono.js, and we use Web standard
+                const stream = Readable.toWeb(
+                  body,
+                ) as ReadableStream<Uint8Array>;
+                resolve(stream);
+
+                let processedStream: NodeJS.ReadWriteStream = passThrough;
+                extenders.forEach(extender => {
+                  if (extender.processStream) {
+                    processedStream = track(
+                      extender.processStream(processedStream),
+                    );
+                  }
+                });
+
+                // Inject router data scripts, enqueue until shell finished
+                try {
+                  const storageContext = storage.useContext?.();
+                  const activeDeferreds = storageContext?.activeDeferreds;
+                  const deferredScriptKeys = storageContext?.deferredScriptKeys;
+
+                  /**
+                   * activeDeferreds is injected into storageContext by @modern-js/runtime.
+                   * @see packages/toolkit/runtime-utils/src/browser/nestedRoutes.tsx
+                   */
+                  const entries: Array<[string, unknown]> =
+                    activeDeferreds instanceof Map
+                      ? Array.from(activeDeferreds.entries())
+                      : [];
+
+                  if (hasDeferredResolvers(entries, deferredScriptKeys)) {
+                    const enqueueScript = (s: string) => {
+                      if (!outputState.coordinator) {
+                        throw new Error(
+                          'Deferred script coordinator is not ready',
+                        );
                       }
-                    },
-                    error => {
-                      callback(
-                        error instanceof Error
-                          ? error
-                          : new Error('Received unknown error when streaming'),
-                      );
-                    },
-                  );
-                },
-              });
+                      if (shellChunkStatus === ShellChunkStatus.FINISH) {
+                        outputState.coordinator.enqueueResolver(s);
+                      } else {
+                        pendingScripts.push(s);
+                      }
+                    };
 
-              const coordinator = new DeferredScriptOutputCoordinator(
-                content => {
-                  body.push(content);
-                },
-              );
-              outputState.coordinator = coordinator;
-              body.once('close', () => {
-                coordinator.abort();
-              });
-
-              const passThrough = new PassThrough();
-
-              // Transform the Node.js readable stream to a Web ReadableStream
-              // For modern.js depend on hono.js, and we use Web standard
-              const stream = Readable.toWeb(body) as ReadableStream<Uint8Array>;
-              resolve(stream);
-
-              let processedStream: NodeJS.ReadWriteStream = passThrough;
-              extenders.forEach(extender => {
-                if (extender.processStream) {
-                  processedStream = extender.processStream(processedStream);
+                    deferredResolversComplete = enqueueFromEntries(
+                      entries,
+                      deferredScriptKeys,
+                      config.nonce,
+                      enqueueScript,
+                    );
+                  } else {
+                    coordinator.markNoResolvers();
+                  }
+                } catch (err) {
+                  const monitors = getMonitors();
+                  monitors.error('cannot inject router data script', err);
                 }
-              });
 
-              // Inject router data scripts, enqueue until shell finished
-              try {
-                const storageContext = storage.useContext?.();
-                const activeDeferreds = storageContext?.activeDeferreds;
-                const deferredScriptKeys = storageContext?.deferredScriptKeys;
+                reactStreamingPipe(passThrough);
 
-                /**
-                 * activeDeferreds is injected into storageContext by @modern-js/runtime.
-                 * @see packages/toolkit/runtime-utils/src/browser/nestedRoutes.tsx
-                 */
-                const entries: Array<[string, unknown]> =
-                  activeDeferreds instanceof Map
-                    ? Array.from(activeDeferreds.entries())
-                    : [];
-
-                if (hasDeferredResolvers(entries, deferredScriptKeys)) {
-                  const enqueueScript = (s: string) => {
-                    if (!outputState.coordinator) {
-                      throw new Error(
-                        'Deferred script coordinator is not ready',
-                      );
-                    }
-                    if (shellChunkStatus === ShellChunkStatus.FINISH) {
-                      outputState.coordinator.enqueueResolver(s);
-                    } else {
-                      pendingScripts.push(s);
-                    }
-                  };
-
-                  deferredResolversComplete = enqueueFromEntries(
-                    entries,
-                    deferredScriptKeys,
-                    config.nonce,
-                    enqueueScript,
-                  );
-                } else {
-                  coordinator.markNoResolvers();
-                }
-              } catch (err) {
-                const monitors = getMonitors();
-                monitors.error('cannot inject router data script', err);
-              }
-
-              reactStreamingPipe(passThrough);
-
-              processedStream.pipe(body);
-            });
+                processedStream.pipe(body);
+              })
+              .catch(abort);
           },
 
           onShellError(error: unknown) {
+            if (stopped) return;
+            stop(error);
             renderLevel = RenderLevel.CLIENT_RENDER;
             getTemplates(htmlTemplate, {
               request,
@@ -282,20 +346,23 @@ export const createReadableStreamFromElement: CreateReadableStreamFromElement =
               runtimeContext,
               entryName,
               config,
-            }).then(({ shellAfter, shellBefore }) => {
-              const fallbackHtml = `${shellBefore}${shellAfter}`;
+            })
+              .then(({ shellAfter, shellBefore }) => {
+                const fallbackHtml = `${shellBefore}${shellAfter}`;
 
-              const readableStream = getReadableStreamFromString(fallbackHtml);
-              resolve(readableStream);
-              options?.onShellError?.(error);
-            });
+                const readableStream =
+                  getReadableStreamFromString(fallbackHtml);
+                resolve(readableStream);
+                options?.onShellError?.(error);
+              })
+              .catch(reject);
           },
           onError(error: unknown) {
             renderLevel = RenderLevel.CLIENT_RENDER;
 
             options?.onError?.(error);
           },
-        },
-      );
+        });
+      abortReact = abortRendered;
     });
   };

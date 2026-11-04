@@ -1,3 +1,5 @@
+import { parsedJSONFromElement } from '@modern-js/runtime-utils/parsed';
+import { ROUTER_DATA_JSON_ID, SSR_DATA_JSON_ID } from '../constants';
 import cookieTool from 'cookie';
 import type React from 'react';
 import { createRoot } from 'react-dom/client';
@@ -80,6 +82,15 @@ export async function render(
   };
 
   if (isClientArgs(id)) {
+    // Await shell data only. Remote streams and deferred boundaries may continue.
+    if (window._SSR_DATA_READY) {
+      await window._SSR_DATA_READY;
+      window._SSR_DATA =
+        window._SSR_DATA || parsedJSONFromElement(SSR_DATA_JSON_ID);
+      window._ROUTER_DATA =
+        window._ROUTER_DATA || parsedJSONFromElement(ROUTER_DATA_JSON_ID);
+    }
+
     // TODO: This field may suitable to be called `requestData`, because both SSR and CSR can get the context
     const ssrData = getSSRData();
 

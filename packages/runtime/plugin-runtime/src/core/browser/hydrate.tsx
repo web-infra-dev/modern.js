@@ -4,6 +4,7 @@ import type React from 'react';
 import { type Root, hydrateRoot as hydrateReactRoot } from 'react-dom/client';
 import { RenderLevel } from '../constants';
 import type { TRuntimeContext } from '../context/runtime';
+import { StreamRoot } from '../react/streamRoot';
 import { wrapRuntimeContextProvider } from '../react/wrapper';
 import { WithCallback } from './withCallback';
 
@@ -52,7 +53,9 @@ export function hydrateRoot(
         <WithCallback callback={callback}>{App}</WithCallback>
       );
       return ModernHydrate(
-        wrapRuntimeContextProvider(<SSRApp />, hydrateContext),
+        <StreamRoot>
+          {wrapRuntimeContextProvider(<SSRApp />, hydrateContext)}
+        </StreamRoot>,
       );
     } else {
       return ModernRender(wrapRuntimeContextProvider(App, context));
