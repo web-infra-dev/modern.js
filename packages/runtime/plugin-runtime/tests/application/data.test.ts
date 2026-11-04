@@ -1,12 +1,13 @@
 import { restoreApplicationData } from '../../src/application/data';
 import { createApplicationData } from '../../src/application/data.server';
+import { APPLICATION_PROGRESSIVE_SNAPSHOT_PROTOCOL } from '../../src/application/constants';
 import type {
   ApplicationDataPatch,
   ApplicationSnapshotV2,
 } from '../../src/application/types';
 
 const snapshot = (value: unknown): Omit<ApplicationSnapshotV2, 'pending'> => ({
-  protocol: 'modern-application/2',
+  protocol: APPLICATION_PROGRESSIVE_SNAPSHOT_PROTOCOL,
   reactVersion: '19.2.8',
   identifierPrefix: 'test-',
   shellMarker: 'test-shell',

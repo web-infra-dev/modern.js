@@ -6,6 +6,7 @@ import {
   type RenderApplicationOptions,
 } from '../../src/application/server';
 import type { ScopedRootDefinition } from '../../src/core/react/scopeDefinition';
+import { APPLICATION_PROGRESSIVE_SNAPSHOT_PROTOCOL } from '../../src/application/constants';
 import { useRuntimeContext } from '../../src/core/context/runtime';
 import { createRuntime } from '../../src/core/plugin';
 import { routerPlugin } from '../../src/router/runtime/plugin.node';
@@ -172,7 +173,7 @@ it('publishes the complete shell and initial loader snapshot before deferred val
   expect(shell).toContain('loading-details');
   expect(shell).toContain('<template id="early-shell"></template>');
   expect(rendered.hydration!.shellMarker).toBe('early-shell');
-  expect(snapshot.protocol).toBe('modern-application/2');
+  expect(snapshot.protocol).toBe(APPLICATION_PROGRESSIVE_SNAPSHOT_PROTOCOL);
   expect(snapshot.routerData?.loaderData.page).toEqual({
     label: 'early-products',
     pending: null,

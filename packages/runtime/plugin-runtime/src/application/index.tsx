@@ -15,6 +15,10 @@ import {
 import { wrapRuntimeContextProvider } from '../core/react/wrapper';
 import { ApplicationShell } from './ApplicationShell';
 import { restoreApplicationData } from './data';
+import {
+  APPLICATION_SNAPSHOT_PROTOCOL,
+  APPLICATION_PROGRESSIVE_SNAPSHOT_PROTOCOL,
+} from './constants';
 import type {
   ApplicationOptions,
   ApplicationSnapshot,
@@ -124,7 +128,7 @@ export function createApplication(
         `Application React version mismatch: ${snapshot.reactVersion} / ${React.version}`,
       );
     }
-    if (snapshot?.protocol === 'modern-application/2') {
+    if (snapshot?.protocol === APPLICATION_PROGRESSIVE_SNAPSHOT_PROTOCOL) {
       if (!options.updates)
         throw new Error(
           'Progressive application hydration requires a data stream',
@@ -311,8 +315,8 @@ export function createApplication(
   return {
     hydrate(container, snapshot, options = {}) {
       if (
-        snapshot.protocol !== 'modern-application/1' &&
-        snapshot.protocol !== 'modern-application/2'
+        snapshot.protocol !== APPLICATION_SNAPSHOT_PROTOCOL &&
+        snapshot.protocol !== APPLICATION_PROGRESSIVE_SNAPSHOT_PROTOCOL
       ) {
         return Promise.reject(
           new Error('Unsupported Modern application snapshot'),

@@ -13,6 +13,10 @@ import { createRequestHandler } from '../core/server/requestHandler';
 import { serializeErrors } from '../router/runtime/utils';
 import { ApplicationShell } from './ApplicationShell';
 import { createApplicationData } from './data.server';
+import {
+  APPLICATION_SNAPSHOT_PROTOCOL,
+  APPLICATION_PROGRESSIVE_SNAPSHOT_PROTOCOL,
+} from './constants';
 import type {
   ApplicationDataPatch,
   ApplicationSnapshot,
@@ -130,7 +134,7 @@ export async function renderApplication(
       const getSnapshot = (): ApplicationSnapshot => {
         const router = runtimeContext.routerContext;
         return {
-          protocol: 'modern-application/1',
+          protocol: APPLICATION_SNAPSHOT_PROTOCOL,
           reactVersion: React.version,
           identifierPrefix: options.identifierPrefix,
           ...(shellMarker ? { shellMarker } : {}),
@@ -199,7 +203,7 @@ export async function renderApplication(
               if (shellMarker) {
                 applicationData = createApplicationData({
                   ...getSnapshot(),
-                  protocol: 'modern-application/2',
+                  protocol: APPLICATION_PROGRESSIVE_SNAPSHOT_PROTOCOL,
                   shellMarker,
                 });
                 result!.hydration = {

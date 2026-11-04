@@ -10,6 +10,10 @@ import { routerPlugin as nodeRouterPlugin } from '../../src/router/runtime/plugi
 import { createApplication as createScopedApplication } from '../../src/application';
 import type { ScopedRootDefinition } from '../../src/core/react/scopeDefinition';
 import { createRuntime } from '../../src/core/plugin';
+import {
+  APPLICATION_SNAPSHOT_PROTOCOL,
+  APPLICATION_PROGRESSIVE_SNAPSHOT_PROTOCOL,
+} from '../../src/application/constants';
 import { routerPlugin } from '../../src/router/runtime/plugin';
 
 let definition: ScopedRootDefinition;
@@ -123,7 +127,7 @@ it('hydrates from the explicit snapshot and preserves the existing DOM', async (
   await app.hydrate(
     container,
     {
-      protocol: 'modern-application/1',
+      protocol: APPLICATION_SNAPSHOT_PROTOCOL,
       reactVersion: React.version,
       identifierPrefix: 'hydrated-',
       url: 'http://example/',
@@ -181,7 +185,7 @@ it('restores a successful null server loader value and runs the client loader on
     await app.hydrate(
       container,
       {
-        protocol: 'modern-application/1',
+        protocol: APPLICATION_SNAPSHOT_PROTOCOL,
         reactVersion: React.version,
         identifierPrefix: 'null-',
         url: window.location.href,
@@ -250,7 +254,7 @@ it.each(['fulfilled', 'invalid-update', 'truncated', 'destroy'])(
     const shell =
       '<main><button>0</button><!--$?--><template id="early-browser-B:0"></template><p>waiting for statistics</p><!--/$--></main><template id="early-browser-shell"></template>';
     const initial = {
-      protocol: 'modern-application/2' as const,
+      protocol: APPLICATION_PROGRESSIVE_SNAPSHOT_PROTOCOL,
       reactVersion: React.version,
       identifierPrefix: 'early-browser-',
       shellMarker: 'early-browser-shell',
@@ -672,7 +676,7 @@ it('releases a failed hydration snapshot so a fresh CSR instance can recover in 
     broken.hydrate(
       container,
       {
-        protocol: 'modern-application/2',
+        protocol: APPLICATION_PROGRESSIVE_SNAPSHOT_PROTOCOL,
         reactVersion: React.version,
         identifierPrefix: 'broken-',
         shellMarker: 'broken-shell',
