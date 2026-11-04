@@ -2,6 +2,76 @@ import { BridgeSSRPlugin, getBridgeSSRRuntimePlugin } from './BridgeSSRPlugin';
 import type { Rspack } from '@rsbuild/core';
 import { runtimeRegister } from '../../../../runtime/plugin-runtime/src/cli/template';
 import * as browserPlugin from '../ssr-runtime/bridgeStreamPlugin';
+import fs from 'node:fs';
+import os from 'node:os';
+import path from 'node:path';
+
+it.each(['legacy', 'conditional'])(
+  'resolves the installed Bridge SSR context from a %s export map',
+  format => {
+    const app = fs.mkdtempSync(
+      path.join(os.tmpdir(), 'modern-bridge-context-'),
+    );
+    const runtime = path.join(app, 'node_modules/@modern-js/runtime');
+    const bridge = path.join(
+      app,
+      'node_modules/@module-federation/bridge-react',
+    );
+    try {
+      fs.mkdirSync(runtime, { recursive: true });
+      fs.mkdirSync(bridge, { recursive: true });
+      fs.writeFileSync(
+        path.join(runtime, 'package.json'),
+        JSON.stringify({ name: '@modern-js/runtime' }),
+      );
+      fs.writeFileSync(
+        path.join(bridge, 'package.json'),
+        JSON.stringify({
+          name: '@module-federation/bridge-react',
+          exports: {
+            './package.json': './package.json',
+            './ssr': {
+              import:
+                format === 'legacy'
+                  ? './ssr.mjs'
+                  : { types: './ssr.d.mts', default: './ssr.mjs' },
+            },
+          },
+        }),
+      );
+      const context = path.join(bridge, 'ssr.mjs');
+      fs.writeFileSync(context, 'export {};');
+      let resolve = (_data: { request: string; context: string }) => {};
+      new BridgeSSRPlugin().apply({
+        context: app,
+        options: { target: 'node' },
+        hooks: {
+          normalModuleFactory: {
+            tap(_name: string, callback: (factory: unknown) => void) {
+              callback({
+                hooks: {
+                  beforeResolve: {
+                    tap(_name: string, fn: typeof resolve) {
+                      resolve = fn;
+                    },
+                  },
+                },
+              });
+            },
+          },
+        },
+      } as unknown as Rspack.Compiler);
+      const request = {
+        request: '@module-federation/bridge-react/ssr',
+        context: app,
+      };
+      resolve(request);
+      expect(request.request).toBe(fs.realpathSync(context));
+    } finally {
+      fs.rmSync(app, { recursive: true, force: true });
+    }
+  },
+);
 
 it.each(['cjs', 'esm-node'])(
   'generates the exported runtime name and the same ESM entry from the %s CLI',
@@ -86,15 +156,18 @@ it('unifies only the SSR context across package instances and module formats', (
     '@module-federation/bridge-react/ssr',
     './ssr.es.js',
     './ssr.cjs.js',
+    './ssr.mjs',
+    './ssr.cjs',
     '/other/bridge-react/dist/ssr.es.js',
+    '/other/bridge-react/dist/ssr.mjs',
+    '/other/bridge-react/dist/ssr.cjs',
   ];
   expect(resolveRequests('node', contextRequests)).toEqual(
     contextRequests.map(() => '/canonical/bridge-react/dist/ssr.es.js'),
   );
   expect(resolveRequests('web', contextRequests)).toEqual(contextRequests);
-  expect(resolveRequests('node', ['./ssr.es.js'], '/other/app')).toEqual([
-    './ssr.es.js',
-  ]);
+  const unrelated = ['./ssr.es.js', './ssr.mjs', './ssr.cjs'];
+  expect(resolveRequests('node', unrelated, '/other/app')).toEqual(unrelated);
 });
 
 it.each(['web', 'webworker'])('leaves %s module resolution intact', target => {

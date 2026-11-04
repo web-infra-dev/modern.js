@@ -29,7 +29,6 @@ export async function renderStream(
   const result = await renderApplication(request, {
     element,
     definition: applicationDefinition(info),
-    progressiveHydration: true,
     basename: info.memoryRoute ? '/' : info.basename,
     identifierPrefix: info.identifierPrefix,
     signal: info.signal,
@@ -39,7 +38,6 @@ export async function renderStream(
   });
   return {
     stream: result.stream,
-    snapshot: result.snapshot,
     hydration: result.hydration,
     abort: result.cancel,
   };

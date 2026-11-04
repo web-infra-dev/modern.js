@@ -65,6 +65,8 @@ The detail URL is `/inventory/detail/42`. The selection prefix `/product` is not
 
 The response contains remote HTML and recovery data. Each browser instance hydrates when its container and data are ready and handles subsequent stream data independently. Props updates and internal navigation preserve the Root, Router and page state. The basename stays fixed during a mount, and changing it disposes the old instance and mounts a new one.
 
+Modern application exports always use progressive hydration. They send an initial loader snapshot followed by deferred data updates, without computing a duplicate final snapshot. Ready regions can hydrate and respond to interactions before all deferred values settle. Ordinary Modern SSR without MF does not use this application recovery path.
+
 After successful SSR, initial hydration reuses server loader data and does not rerun `.data.client`. Subsequent browser navigation executes client loaders according to existing Modern semantics. Use `noSSR` for a consumer that requires its loader to run in the browser on the initial visit, such as a client-side redirect.
 
 ## Boundaries

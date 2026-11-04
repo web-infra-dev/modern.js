@@ -65,6 +65,8 @@ const Product = createReactRemote({
 
 服务端输出远端内容和恢复数据。浏览器等待对应容器和数据就绪后水合，各实例独立处理后续流数据。props 更新与内部导航保留同一个 Root、Router 和页面状态。basename 在一次挂载期间固定，实际改变时会卸载旧实例并重新挂载。
 
+Modern 导出应用统一使用渐进式水合：先发送初始 loader 快照，再逐个发送 deferred 数据的完成结果，不额外计算最终完整快照。已就绪的区域可以先水合并响应交互，无需等待全部 deferred 数据。未使用 MF 的普通 Modern SSR 不进入这条应用恢复路径。
+
 成功 SSR 后，首次水合复用服务端 loader 数据，不会重新执行 `.data.client`。后续浏览器导航仍按 Modern 既有规则执行 client loader。若需要首屏在浏览器执行 loader，例如客户端重定向，可对该消费者使用 `noSSR`。
 
 ## 支持边界

@@ -30,8 +30,12 @@ const resolveContextModule = (appDirectory: string) => {
     { paths: [consumerDirectory, __dirname] },
   );
   const { exports } = JSON.parse(fs.readFileSync(bridgePackage, 'utf8'));
+  const entry = exports['./ssr'].import;
   return require.resolve(
-    path.resolve(path.dirname(bridgePackage), exports['./ssr'].import),
+    path.resolve(
+      path.dirname(bridgePackage),
+      typeof entry === 'string' ? entry : entry.default,
+    ),
   );
 };
 
@@ -59,9 +63,9 @@ export class BridgeSSRPlugin {
         if (!data) return;
         if (
           data.request === '@module-federation/bridge-react/ssr' ||
-          (/^\.\/ssr\.(?:es|cjs)\.js$/.test(data.request) &&
+          (/^\.\/ssr\.(?:[mc]js|(?:es|cjs)\.js)$/.test(data.request) &&
             /[\\/]bridge-react[\\/]dist$/.test(data.context)) ||
-          /[\\/]bridge-react[\\/]dist[\\/]ssr\.(?:es|cjs)\.js$/.test(
+          /[\\/]bridge-react[\\/]dist[\\/]ssr\.(?:[mc]js|(?:es|cjs)\.js)$/.test(
             data.request,
           )
         ) {

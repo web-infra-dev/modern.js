@@ -37,6 +37,7 @@ describeLab('Bridge application SSR and hydration', getContext => {
     expect(frames.filter(([, frame]) => frame.type === 'ready')).toHaveLength(
       6,
     );
+    expect(frames.some(([, frame]) => frame.type === 'data')).toBe(false);
     expect(frames.some(([, frame]) => frame.type === 'error')).toBe(false);
     expect(body).toContain('bridge-client-placeholder');
     expect(html).not.toContain('Client only station');

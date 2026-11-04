@@ -52,7 +52,8 @@ it('runs the selected Root at the consumer basename and transports loader data w
   expect(html).toContain('42');
   expect(html).not.toContain('<html');
   expect(requests).toEqual(['http://host/inventory/detail/42?tab=stock']);
-  expect(await result.snapshot).toMatchObject({
+  expect(result).not.toHaveProperty('snapshot');
+  expect(await result.hydration.snapshot).toMatchObject({
     basename: '/inventory',
     url: 'http://host/inventory/detail/42?tab=stock',
     routerData: { loaderData: { detail: { id: '42' } } },
@@ -91,19 +92,21 @@ it.each(['Modern helper', 'explicit callbacks'])(
     });
     let html = '';
     let snapshot: unknown;
-    if ('protocol' in result) {
-      const reader = result.messages.getReader();
-      for (;;) {
-        const { done, value } = await reader.read();
-        if (done) break;
-        if (value.type === 'html') html += value.html;
-        if (value.type === 'data' || value.type === 'ready')
-          snapshot = value.snapshot;
-      }
-    } else {
-      html = await new Response(result.stream).text();
-      snapshot = await result.snapshot;
+    if (!('protocol' in result))
+      throw new Error('Expected normalized Bridge producer messages');
+    expect(result.hydration).toBe('progressive');
+    const reader = result.messages.getReader();
+    const types: string[] = [];
+    for (;;) {
+      const { done, value } = await reader.read();
+      if (done) break;
+      types.push(value.type);
+      if (value.type === 'html') html += value.html;
+      if (value.type === 'ready') snapshot = value.snapshot;
     }
+    expect(types).toContain('ready');
+    expect(types).not.toContain('data');
+    expect(types.at(-1)).toBe('done');
     expect(html).toContain('Hello');
     expect(html).toContain('Lake');
     expect(snapshot).toMatchObject({

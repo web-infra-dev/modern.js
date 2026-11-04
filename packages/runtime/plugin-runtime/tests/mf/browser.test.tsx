@@ -49,7 +49,8 @@ it('hydrates the supplied scoped Root with loader data and keeps DOM, state and 
   };
   const Root = createScopedRoot(definition);
   const container = document.createElement('div');
-  container.innerHTML = '<button>Lake:server:0</button>';
+  container.innerHTML =
+    '<button>Lake:server:0</button><template id="inventory-shell"></template>';
   document.body.append(container);
   const original = container.firstElementChild as HTMLButtonElement;
   const hostData = { loaderData: { page: 'host' }, errors: null };
@@ -70,11 +71,18 @@ it('hydrates the supplied scoped Root with loader data and keeps DOM, state and 
       protocol: APPLICATION_SNAPSHOT_PROTOCOL,
       reactVersion: React.version,
       identifierPrefix: 'inventory-',
+      shellMarker: 'inventory-shell',
+      pending: [],
       url: `${window.location.origin}/inventory`,
       basename: '/inventory',
       props: { name: 'Lake' },
       routerData: { loaderData: { page: { label: 'server' } }, errors: null },
     },
+    updates: new ReadableStream({
+      start(controller) {
+        controller.close();
+      },
+    }),
     rootOptions: { onRecoverableError: error => errors.push(error) },
   });
   expect(container.firstElementChild).toBe(original);

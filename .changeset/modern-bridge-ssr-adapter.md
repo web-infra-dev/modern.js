@@ -10,3 +10,7 @@ Add createModernBridgeComponent and public render, hydrate and renderStream call
 Separate browser and Node producer/consumer implementations and verify both ESM and CommonJS runtime import graphs during the runtime build. Keep shared remote selection, props inference and route basename calculation in common modules.
 
 拆分浏览器与 Node 的生产者和消费者实现，在构建时检查 ESM 与 CommonJS 入口依赖图。远端选择、props 推导及路由 basename 计算继续共享。
+
+Use progressive hydration exclusively for Modern application exports and require a Core version that accepts progressive results without a final snapshot. Resolve both legacy and conditional Core SSR export maps and unify their ESM and CommonJS context entries.
+
+Modern 应用导出统一使用渐进式水合，需要支持省略最终快照的配套 Core 版本。兼容 Core 的旧式和条件 SSR 导出表，并统一对应的 ESM 与 CommonJS 上下文入口。

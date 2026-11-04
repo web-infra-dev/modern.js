@@ -2,7 +2,6 @@ import React from 'react';
 import {
   type ApplicationInstance,
   type ApplicationSnapshot,
-  type ApplicationSnapshotV2,
   createApplication,
 } from '../application';
 import {
@@ -116,17 +115,15 @@ async function initialize(
   const initializeApplication = Promise.resolve().then(async () => {
     if (instance.disposed) return;
     if (hydration) {
-      await app.hydrate(
-        container,
-        hydration.snapshot as ApplicationSnapshot | ApplicationSnapshotV2,
-        {
-          signal: info.signal,
-          onRecoverableError: info.rootOptions?.onRecoverableError,
-          updates: hydration.updates,
-          memoryRoute: info.memoryRoute,
-          navigation: info.navigation,
-        },
-      );
+      if (!hydration.updates)
+        throw new Error('Modern Bridge hydration requires a data stream');
+      await app.hydrate(container, hydration.snapshot as ApplicationSnapshot, {
+        signal: info.signal,
+        onRecoverableError: info.rootOptions?.onRecoverableError,
+        updates: hydration.updates,
+        memoryRoute: info.memoryRoute,
+        navigation: info.navigation,
+      });
     } else {
       await app.mount(container, options(info));
     }

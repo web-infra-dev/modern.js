@@ -45,8 +45,7 @@ export type ModernBridgeComponentOptions<Props = Record<string, unknown>> =
 
 export interface BridgeStreamResult {
   stream: ReadableStream<Uint8Array>;
-  snapshot: Promise<unknown>;
-  hydration?: {
+  hydration: {
     snapshot: Promise<unknown>;
     updates: ReadableStream<unknown>;
     shellMarker: string;
