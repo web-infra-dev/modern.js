@@ -14,3 +14,7 @@ Separate browser and Node producer/consumer implementations and verify both ESM 
 Use progressive hydration exclusively for Modern application exports and require a Core version that accepts progressive results without a final snapshot. Resolve both legacy and conditional Core SSR export maps and unify their ESM and CommonJS context entries.
 
 Modern 应用导出统一使用渐进式水合，需要支持省略最终快照的配套 Core 版本。兼容 Core 的旧式和条件 SSR 导出表，并统一对应的 ESM 与 CommonJS 上下文入口。
+
+Use the published Core preview `0.0.0-feat-enhanced-runtime-unification-20261104092109`, including progressive SSR results without a final snapshot. Keep runtime, adapter, examples and integration applications on the matching preview.
+
+接入真实发布的 Core 预览版本 `0.0.0-feat-enhanced-runtime-unification-20261104092109`，支持省略最终快照的渐进式 SSR 结果。运行时、适配器、示例和集成应用统一使用配套预览版本。
