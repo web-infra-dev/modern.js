@@ -43,6 +43,9 @@ import { scopeTopology, assertScopeTopology } from './scope';
 import { createRouteObjectsFromConfig, renderRoutes, urlJoin } from './utils';
 
 function createRemixRequest(request: Request) {
+  // Keep the request owned by the SSR context. Extra copies can lose abort
+  // propagation after garbage collection in affected Node versions.
+  if (request.method === 'GET') return request;
   const method = 'GET';
   const { headers } = request;
 
