@@ -9,6 +9,7 @@ import { createScopedRoot } from '../../src/core/react/scope';
 import type { ScopedRootDefinition } from '../../src/core/react/scopeDefinition';
 import { routerPlugin } from '../../src/router/runtime/plugin';
 import { hydrate, render } from '../../src/mf/callbacks';
+import { APPLICATION_SNAPSHOT_PROTOCOL } from '../../src/application/constants';
 
 const tick = () => new Promise(resolve => setTimeout(resolve, 20));
 
@@ -66,7 +67,7 @@ it('hydrates the supplied scoped Root with loader data and keeps DOM, state and 
       },
     },
     snapshot: {
-      protocol: 'modern-application/1',
+      protocol: APPLICATION_SNAPSHOT_PROTOCOL,
       reactVersion: React.version,
       identifierPrefix: 'inventory-',
       url: `${window.location.origin}/inventory`,
