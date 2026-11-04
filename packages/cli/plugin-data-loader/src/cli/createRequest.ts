@@ -65,6 +65,30 @@ const isCatchResponse = (res: Response) => {
   return res.headers.get('X-Modernjs-Catch') != null;
 };
 
+const warnedNonLoaderRoutes = new Set<string>();
+
+// The data loader handler sets `X-Modernjs-Response` on every successful
+// response. A response without it was not produced by the data loader, e.g. a
+// server middleware or a proxy answered the request with an HTML page. It is
+// still returned as is, because a proxy may also strip the header.
+const warnNonLoaderResponse = (routeId: string, res: Response) => {
+  if (
+    process.env.NODE_ENV !== 'development' ||
+    res.headers.get('X-Modernjs-Response') != null ||
+    warnedNonLoaderRoutes.has(routeId)
+  ) {
+    return;
+  }
+  warnedNonLoaderRoutes.add(routeId);
+  console.warn(
+    `[Modern.js] The data loader request of route "${routeId}" got a response without the "X-Modernjs-Response" header (status: ${
+      res.status
+    }, content-type: ${
+      res.headers.get('Content-Type') || 'none'
+    }), so it was not returned by the data loader. A server middleware or proxy may have answered the request before the data loader (for example, with an HTML page), or a proxy removed the header. The response is still passed to the route as loader data.`,
+  );
+};
+
 const handleErrorResponse = async (res: Response) => {
   const data = await res.json();
   const error = new Error(data.message);
@@ -117,6 +141,8 @@ export const createRequest = (routeId: string, method = 'get') => {
     if (isOtherErrorResponse(res)) {
       return await handleNetworkErrorResponse(res);
     }
+
+    warnNonLoaderResponse(routeId, res);
 
     return res;
   };
