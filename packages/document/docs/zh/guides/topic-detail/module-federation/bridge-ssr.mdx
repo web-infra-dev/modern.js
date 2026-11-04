@@ -1,0 +1,84 @@
+# 内置 Module Federation 的应用 SSR
+
+内置 Module Federation 可以通过共享 Bridge 渲染 Modern 应用，并在浏览器复用服务端 DOM、恢复路由和 loader 数据。生产者与消费者均需开启 `server.ssr: { mode: 'stream' }`，并使用支持 Bridge SSR 的配套 MF 包版本。
+
+消费者如需在 SSR 失败后通过 Modern 的降级请求恢复，配置 `server.ssr: { mode: 'stream', forceCSR: true }`。`forceCSR` 允许显式降级请求，不会关闭正常 SSR。
+
+## 导出应用
+
+在 MF 的 `exposes` 中配置以下生产者模块：
+
+```tsx title="src/exports/ProductApp.tsx"
+import '@modern-js/runtime/registry';
+import { createRoot } from '@modern-js/runtime/react';
+import { createModernBridgeComponent } from '@modern-js/runtime/mf';
+
+const Root = createRoot({ route: '/product' });
+export default createModernBridgeComponent({ rootComponent: Root });
+```
+
+省略 `route` 即导出整应用。`route` 只选择导出的内容，不是消费者地址前缀。生产者业务应使用可迁移的相对链接，loader 的后续请求地址由生产者的数据接口配置决定。
+
+也可以显式把 Modern 的三个回调传给通用 Bridge 生产者：
+
+```tsx
+import {
+  createBridgeComponent,
+  render,
+  hydrate,
+  renderStream,
+} from '@modern-js/runtime/mf';
+
+export default createBridgeComponent({
+  rootComponent: Root,
+  render,
+  hydrate,
+  renderStream,
+});
+```
+
+回调接收由 `createRoot` 和 registry 生成的应用。普通 CSR Bridge 生产者仍可以使用原有 `createBridgeComponent`，无需添加这些回调。
+
+### 浏览器和 Node 产物
+
+同一个生产者模块分别编译为浏览器和 Node 产物。内置 MF 插件为 Node 构建选择 `@modern-js/runtime/mf/server`，并将显式的 `@module-federation/bridge-react/v18`、`/v19` 生产者入口切换到 `/server`。Core 的默认入口和 `/base` 使用 package exports 的 `node` 条件。普通浏览器构建继续使用浏览器入口，无需业务配置 `.server.ts` alias。
+
+浏览器入口包含 `render`、`hydrate` 和后续更新、卸载实现，Node 入口包含 `renderStream` 和请求流处理。两端复用应用定义与纯渲染树构造逻辑，不互相导入另一端的实现。三个回调的导出名称保留一致，错误端调用只提供明确报错的轻量函数。自定义构建器需要分别选择这两个入口，文件名后缀本身不会自动完成隔离。
+
+## 消费应用
+
+`createReactRemote` 和 `ReactRemote` 继续统一消费普通组件与 Bridge 应用：
+
+```tsx
+import { createReactRemote } from '@modern-js/runtime/mf';
+
+const Product = createReactRemote({
+  remote: 'shop/ProductApp',
+  basename: '/inventory',
+  loading: <p>正在加载商品</p>,
+});
+```
+
+这里的详情地址是 `/inventory/detail/42`，不会还原为 `/product/detail/42`。当消费者挂载在 Modern 路由中时，框架适配器连接两端导航。也可通过 `createModernReactRemote` 推导当前挂载路由的 basename。
+
+`remote` 还可以是 `() => loadRemote('shop/ProductApp')`，或 `() => Shop`，其中 `Shop` 是通过同一 MF 实例预先加载的导出。函数输入也能 SSR，渲染类型在加载完成后确定。带类型的加载结果继续推导业务 props。
+
+服务端输出远端内容和恢复数据。浏览器等待对应容器和数据就绪后水合，各实例独立处理后续流数据。props 更新与内部导航保留同一个 Root、Router 和页面状态。basename 在一次挂载期间固定，实际改变时会卸载旧实例并重新挂载。
+
+Modern 导出应用统一使用渐进式水合：先发送初始 loader 快照，再逐个发送 deferred 数据的完成结果，不额外计算最终完整快照。已就绪的区域可以先水合并响应交互，无需等待全部 deferred 数据。未使用 MF 的普通 Modern SSR 不进入这条应用恢复路径。
+
+成功 SSR 后，首次水合复用服务端 loader 数据，不会重新执行 `.data.client`。后续浏览器导航仍按 Modern 既有规则执行 client loader。若需要首屏在浏览器执行 loader，例如客户端重定向，可对该消费者使用 `noSSR`。
+
+## 支持边界
+
+浏览器保持 Browser Router 或原有 Hash 配置，只有显式 `memoryRoute` 启用独立 memory 导航。Browser Router 的水合首帧使用服务端请求快照，提交后接回真实浏览器地址及 fragment，保留创建时订阅和同一个 Router。
+
+Hash Router 通过 fragment 选择页面，而 fragment 不会随 HTTP 请求发送，不能用于首次服务端路由选择。此类页面使用 `noSSR`，既有 Hash 导航保持不变。
+
+首版 Modern Bridge SSR 的验证基线是 **React 和 React DOM 19.3.1**，生产者在服务端和浏览器端必须使用一致版本。
+
+未打补丁的 React 18.3.1 不属于首版 SSR 支持范围。它的 Node `renderToPipeableStream` 在多字节字符跨缓冲区边界时可能产生 NUL 字节并破坏 HTML，开发与生产模式均可复现。上游修复见 [React #26228](https://github.com/facebook/react/pull/26228)，18.3.1 的后续报告见 [React #31134](https://github.com/facebook/react/issues/31134)。此接入不修改 React、不删除输出中的 NUL 字节，也不添加按版本禁止运行的检查。已有 CSR 支持保持不变。
+
+`noSSR` 保留纯浏览器渲染，服务端不会执行该远端 loader。RSC 应用、Service App HTTP 部署与缓存不属于此接入范围。
+
+验证 SSR 时，应同时检查响应里的远端 HTML 帧与浏览器 DOM 复用。仅看到浏览器最终内容，不能证明远端完成了 SSR。

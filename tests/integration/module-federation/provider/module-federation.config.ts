@@ -8,6 +8,7 @@ export default createModuleFederationConfig({
   exposes: {
     './WeatherApp': './src/exports/WeatherApp.tsx',
     './ProductApp': './src/exports/ProductApp.tsx',
+    './FailedSSRApp': './src/exports/FailedSSRApp.tsx',
     './RetryProductApp': './src/exports/RetryProductApp.tsx',
     './OrdersApp': './src/exports/OrdersApp.tsx',
     './BridgeCard': './src/components/BridgeCard.tsx',

@@ -85,6 +85,7 @@ export function setupLab(
     hash?: boolean;
     documentBase?: string;
     clientLayoutLoaders?: boolean;
+    initialRouteNoSSR?: boolean;
   } = {},
 ) {
   let lab: Awaited<ReturnType<typeof startLab>>;
@@ -129,6 +130,17 @@ export function setupLab(
   let expectedErrors: { pattern: RegExp; min: number; max: number } | undefined;
   beforeAll(async () => {
     workspace = await createWorkspace();
+    if (options.initialRouteNoSSR) {
+      const consumer = path.join(workspace, 'host/src/routes/persistent/$.tsx');
+      const source = await readFile(consumer, 'utf8');
+      await writeFile(
+        consumer,
+        source.replace(
+          "remote: 'provider/ProductApp',",
+          "remote: 'provider/ProductApp', noSSR: true,",
+        ),
+      );
+    }
     if (options.clientLayoutLoaders) {
       await writeFile(
         path.join(workspace, 'provider/src/routes/layout.data.client.ts'),
@@ -368,6 +380,7 @@ export function describeLab(
     hash?: boolean;
     documentBase?: string;
     clientLayoutLoaders?: boolean;
+    initialRouteNoSSR?: boolean;
   } = {},
 ) {
   rstest.setConfig({ testTimeout: 60000, hookTimeout: 600000, retry: 0 });

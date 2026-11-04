@@ -38,7 +38,12 @@
     },
     "./internal/route-scope": {
       "types": "./dist/types/core/react/scope.d.ts",
+      "node": "./dist/esm/core/react/scope.node.mjs",
       "default": "./dist/esm/core/react/scope.mjs"
+    },
+    "./internal/route-scope/server": {
+      "types": "./dist/types/core/react/scope.node.d.ts",
+      "default": "./dist/esm/core/react/scope.node.mjs"
     },
     "./package.json": "./package.json",
     "./context": {
@@ -135,7 +140,12 @@
     },
     "./mf": {
       "types": "./dist/types/mf.d.ts",
+      "node": "./dist/esm/mf.node.mjs",
       "default": "./dist/esm/mf.mjs"
+    },
+    "./mf/server": {
+      "types": "./dist/types/mf.node.d.ts",
+      "default": "./dist/esm/mf.node.mjs"
     }
   },
   "typesVersions": {
@@ -151,6 +161,9 @@
       ],
       "internal/route-scope": [
         "./dist/types/core/react/scope.d.ts"
+      ],
+      "internal/route-scope/server": [
+        "./dist/types/core/react/scope.node.d.ts"
       ],
       "loadable": [
         "./dist/types/exports/loadable.d.ts"
@@ -211,13 +224,16 @@
       ],
       "mf": [
         "./dist/types/mf.d.ts"
+      ],
+      "mf/server": [
+        "./dist/types/mf.node.d.ts"
       ]
     }
   },
   "scripts": {
     "dev": "rs lib --watch",
     "prepublishOnly": "only-allow-pnpm",
-    "build": "rs lib && pnpm run gen-static",
+    "build": "rs lib && pnpm run gen-static && node scripts/check-mf-entry-boundaries.mjs",
     "gen-static": "ts-node ./scripts/gen-static.ts",
     "test": "rstest"
   },
@@ -230,7 +246,7 @@
     "@modern-js/runtime-utils": "workspace:*",
     "@modern-js/types": "workspace:*",
     "@modern-js/utils": "workspace:*",
-    "@module-federation/bridge-react": "0.0.0-feat-bridge-route-navigation-20261030085657",
+    "@module-federation/bridge-react": "0.0.0-feat-enhanced-runtime-unification-20261104092109",
     "@swc/core": "1.16.18",
     "@swc/helpers": "^0.5.17",
     "@swc/plugin-loadable-components": "^12.0.0",
@@ -245,7 +261,7 @@
     "react-is": "^18.3.1"
   },
   "peerDependencies": {
-    "@module-federation/enhanced": "0.0.0-feat-bridge-route-navigation-20261030085657",
+    "@module-federation/enhanced": "0.0.0-feat-enhanced-runtime-unification-20261104092109",
     "react": ">=18.3.1",
     "react-dom": ">=18.3.1"
   },
