@@ -9,6 +9,7 @@
 - Updated dependencies [7e376d0]
 - Updated dependencies [8f79d0b]
 - Updated dependencies [1391159]
+- Updated dependencies [2f19228]
   - @modern-js/mcp-apps@3.11.1
   - @modern-js/runtime@3.11.1
   - @modern-js/plugin-bff@3.11.1

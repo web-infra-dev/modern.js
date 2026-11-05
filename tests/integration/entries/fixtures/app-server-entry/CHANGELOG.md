@@ -6,6 +6,7 @@
 
 - Updated dependencies [fc6ee73]
 - Updated dependencies [8f79d0b]
+- Updated dependencies [2f19228]
   - @modern-js/app-tools@3.11.1
   - @modern-js/runtime@3.11.1
   - @modern-js/runtime-utils@3.11.1
