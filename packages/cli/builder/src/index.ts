@@ -17,6 +17,17 @@ export type {
 export { createRspackBuilder as createBuilder };
 
 export {
+  findDuplicatePackages,
+  pluginDuplicatePackages,
+  type DuplicatePackage,
+  type DuplicatePackagesOptions,
+} from './plugins/duplicatePackages';
+export {
+  pluginPrecompress,
+  type PrecompressOptions,
+} from './plugins/precompress';
+
+export {
   logger,
   type ConfigChain,
   type RsbuildPlugin,
