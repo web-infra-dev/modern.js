@@ -3,6 +3,9 @@ const fs = require('fs');
 
 export const loader = ({ params }: { params: { id: string } }) => {
   const { id } = params;
+  if (id === 'missing') {
+    throw new Response('Not Found', { status: 404 });
+  }
 
   // Simulate data fetching based on user ID
   const userData = {

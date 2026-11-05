@@ -87,6 +87,24 @@ Modern.js 3.0 默认使用 React Router v7 作为路由库。React Router v7 相
 
 如果需要使用 React Router v5 或 React Router v6，需要使用**自控式路由**模式。自控式路由允许你完全控制路由配置，不受 Modern.js 约定式路由的限制。
 
+### 路由更新默认使用 transition
+
+React Router v7 默认用 `React.startTransition` 包裹路由状态更新，在 v6 中需要开启 `future.v7_startTransition` 才有这一行为。升级后，首屏 Data Loader 完成后的页面挂载和路由跳转会从同步渲染变为并发渲染，渲染可能被丢弃后重新执行，渲染与提交之间也可能有间隔。
+
+如果项目在渲染过程中修改外部状态，升级后可能出现以下问题：
+
+- 在 `useMemo` 中创建实例并赋值给全局变量，重复执行后出现多个实例，依赖单例的逻辑报错。
+- 在页面内嵌套使用 React Router v6 的 `RouterProvider`。它在渲染时读取 router 状态、在 `useLayoutEffect` 中才订阅，可能错过初始化完成的通知，页面一直显示空白，参考 [React Router issue #14356](https://github.com/remix-run/react-router/issues/14356)。
+
+推荐按 React 的要求保持渲染过程没有副作用：
+
+- 创建实例、注册监听、上报埋点、修改全局变量等操作放到 `useEffect` 中执行。
+- 读取外部状态使用 [`useSyncExternalStore`](https://react.dev/reference/react/useSyncExternalStore)。
+- router、store 等对象在组件外创建。
+- 开发环境开启 `StrictMode`，提前暴露重复执行的问题。
+
+如果暂时无法改造，可以将 [`router.useTransitions`](/configure/app/runtime/router#usetransitions) 设置为 `false`，恢复同步渲染。
+
 ## 使用 @modern-js/create 创建 Monorepo 和 Modern.js Module
 
 Modern.js 3.0 不再支持通过 `@modern-js/create` 创建 Monorepo 项目和 Modern.js Module 项目。

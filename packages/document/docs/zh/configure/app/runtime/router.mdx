@@ -37,3 +37,40 @@ title: router
 当开启 SSR 时，不支持设置 `supportHtml5History`。
 
 :::
+
+## useTransitions
+
+- **类型：** `boolean`
+- **默认值：** `undefined`，与 React Router 的默认行为一致，即开启
+
+是否用 [`React.startTransition`](https://react.dev/reference/react/startTransition) 包裹路由状态更新。该值会透传给 React Router 的 [`<RouterProvider useTransitions>`](https://reactrouter.com/api/data-routers/RouterProvider)。
+
+开启时，首屏 Data Loader 完成后的页面挂载和每次路由跳转都以并发方式渲染，好处是：
+
+- 跳转时在新页面准备好之前保留旧页面，不会先显示加载状态。
+- 渲染过程可以让出主线程，页面切换期间仍能响应用户输入。
+
+同时会带来两个与同步渲染不同的行为：
+
+- 渲染可能被丢弃后重新执行。组件函数体、`useMemo` 和 `useState` 的初始化函数、类组件构造函数可能执行多次，其中修改外部状态的代码（例如创建实例并赋值给全局变量、注册事件监听、上报埋点）也会重复执行。
+- 渲染与提交之间可能有间隔。渲染时读取的外部状态，到 `useLayoutEffect` 中订阅时可能已经变化，间隔内发生的更新会丢失。
+
+如果应用中存在上述写法且暂时无法改造，可以设置为 `false`，路由状态更新会改为同步渲染：
+
+```ts title="src/modern.runtime.ts"
+import { defineRuntimeConfig } from '@modern-js/runtime';
+
+export default defineRuntimeConfig({
+  router: {
+    useTransitions: false,
+  },
+});
+```
+
+:::tip
+
+- 该配置只影响路由状态更新。在业务代码中调用 `startTransition` 或 `useTransition` 触发的更新不受影响。
+- 改造方式可参考 [React Router 文档](https://reactrouter.com/explanation/react-transitions)。
+- `future.v7_startTransition` 已废弃。未设置 `useTransitions` 时，会使用 `future.v7_startTransition` 的值。
+
+:::

@@ -37,12 +37,14 @@
     {
       "urlPath": "/lib/entry",
       "entryPath": "html/entry/index.html",
-      "entryName": "entry"
+      "entryName": "entry",
+      "isSSG": true
     },
     {
       "urlPath": "/lib/home",
       "entryPath": "html/home.html",
-      "entryName": "home"
+      "entryName": "home",
+      "isSSG": true
     },
     {
       "urlPath": "/lib/mobile",
@@ -52,7 +54,8 @@
     {
       "urlPath": "/lib/pc",
       "entryPath": "html/pc/index.html",
-      "entryName": "pc"
+      "entryName": "pc",
+      "isSSG": true
     }
   ]
 }
