@@ -8,3 +8,10 @@ export const sortRoutes = (route1: ServerRoute, route2: ServerRoute) => {
 export const uniqueKeyByRoute = (route: ServerRoute) => {
   return `${route.entryName!}-${route.urlPath}`;
 };
+
+export const getRoutePath = ({ urlPath, isSSG }: ServerRoute): string => {
+  if (isSSG) {
+    return urlPath;
+  }
+  return urlPath.endsWith('/') ? `${urlPath}*` : `${urlPath}/*`;
+};

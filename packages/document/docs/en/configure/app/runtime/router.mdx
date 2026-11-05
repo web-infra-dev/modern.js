@@ -37,3 +37,40 @@ If the value of `supportHtml5History` is `true`, `BrowserRouter` would be used, 
 When SSR is enabled, `supportHtml5History` is not supported.
 
 :::
+
+## useTransitions
+
+- **Type:** `boolean`
+- **Default:** `undefined`, which follows React Router's default behavior (enabled)
+
+Whether to wrap router state updates in [`React.startTransition`](https://react.dev/reference/react/startTransition). The value is passed to React Router's [`<RouterProvider useTransitions>`](https://reactrouter.com/api/data-routers/RouterProvider).
+
+When enabled, the page mount after the initial Data Loader finishes and every navigation are rendered concurrently. Benefits:
+
+- During navigation, the current page stays on screen until the next page is ready, instead of showing a loading state first.
+- Rendering can yield to the main thread, so the page keeps responding to user input while switching pages.
+
+It also introduces two behaviors that differ from synchronous rendering:
+
+- A render may be discarded and run again. Component bodies, `useMemo` and `useState` initializers, and class component constructors may run more than once, so code in them that changes external state (such as creating an instance and assigning it to a global variable, registering event listeners, or sending analytics) also runs more than once.
+- There may be a gap between render and commit. External state read during render may have changed by the time it is subscribed to in `useLayoutEffect`, and updates that happen in the gap are lost.
+
+If your application contains such code and cannot be refactored yet, set it to `false` to render router state updates synchronously:
+
+```ts title="src/modern.runtime.ts"
+import { defineRuntimeConfig } from '@modern-js/runtime';
+
+export default defineRuntimeConfig({
+  router: {
+    useTransitions: false,
+  },
+});
+```
+
+:::tip
+
+- This option only affects router state updates. Updates triggered by `startTransition` or `useTransition` in your own code are not affected.
+- See the [React Router documentation](https://reactrouter.com/explanation/react-transitions) for how to make your code transition-safe.
+- `future.v7_startTransition` is deprecated. When `useTransitions` is not set, the value of `future.v7_startTransition` is used.
+
+:::
