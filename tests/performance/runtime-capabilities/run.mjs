@@ -186,6 +186,11 @@ function summarize(samples) {
     p95: sorted[Math.floor((sorted.length - 1) * 0.95)],
   };
 }
+function isServerArtifact(file) {
+  return ['bundles/', 'server/', 'v1/ssr/', 'v2/ssr/'].some(prefix =>
+    file.startsWith(prefix),
+  );
+}
 async function artifacts(directory) {
   const files = await readdir(directory, { recursive: true });
   const rows = [];
@@ -205,17 +210,13 @@ async function artifacts(directory) {
   return {
     files: rows,
     browser: rows
-      .filter(
-        r => !r.file.startsWith('bundles/') && !r.file.startsWith('server/'),
-      )
+      .filter(r => !isServerArtifact(r.file))
       .reduce((a, r) => ({ raw: a.raw + r.raw, gzip: a.gzip + r.gzip }), {
         raw: 0,
         gzip: 0,
       }),
     server: rows
-      .filter(
-        r => r.file.startsWith('bundles/') || r.file.startsWith('server/'),
-      )
+      .filter(r => isServerArtifact(r.file))
       .reduce((a, r) => ({ raw: a.raw + r.raw, gzip: a.gzip + r.gzip }), {
         raw: 0,
         gzip: 0,

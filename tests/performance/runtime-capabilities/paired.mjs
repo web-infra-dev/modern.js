@@ -21,12 +21,21 @@ const require = createRequire(
 const treeKill = require('tree-kill');
 const sleep = ms => new Promise(r => setTimeout(r, ms));
 const active = [];
+const reverseLaunch = process.env.PAIRED_LAUNCH_ORDER === 'BA';
+const measuredConcurrency = Number(
+  process.env.PAIRED_MEASURED_CONCURRENCY || 16,
+);
+if (![1, 16].includes(measuredConcurrency))
+  throw Error('Measured concurrency must be 1 or 16');
+const claimedPorts = new Set();
 const result = {
   metadata: {
-    protocol: 'paired-fixed-artifacts-v1',
+    protocol: 'paired-fixed-artifacts-v2-launch-order',
+    launchOrder: reverseLaunch ? 'BA' : 'AB',
     warmupPairs: 50,
     measuredPairs: 100,
-    concurrency: 16,
+    concurrency: measuredConcurrency,
+    warmupConcurrency: 16,
     node: process.version,
     start: new Date().toISOString(),
     startLoad: os.loadavg(),
@@ -147,6 +156,11 @@ async function lab(root) {
     if (Number(x.match(/Local:\s+http:\/\/localhost:(\d+)/)[1]) !== ports[n])
       throw Error('noncontiguous recorded ports');
   }
+  for (const port of Object.values(ports)) {
+    if (claimedPorts.has(port))
+      throw Error('Paired fixture ports must be distinct');
+    claimedPorts.add(port);
+  }
   result.metadata[path.basename(root) + 'Ports'] = ports;
   const mod = await import(file);
   return await mod.startLab('production', false, dir, '', ports);
@@ -203,6 +217,7 @@ async function http(url) {
   };
 }
 async function measure(urlA, urlB, assertHTML, key) {
+  if (urlA === urlB) throw Error('Paired fixture URLs must be distinct');
   for (const [label, url] of [
     ['A', urlA],
     ['B', urlB],
@@ -211,9 +226,11 @@ async function measure(urlA, urlB, assertHTML, key) {
     assertHTML(r.body);
     await writeFile(path.join(out, key + '-' + label + '.html'), r.body);
   }
-  async function burst(url) {
+  async function burst(url, concurrency) {
     const start = performance.now();
-    const v = await Promise.all(Array.from({ length: 16 }, () => http(url)));
+    const v = await Promise.all(
+      Array.from({ length: concurrency }, () => http(url)),
+    );
     const elapsed = performance.now() - start;
     v.forEach(x => assertHTML(x.body));
     return {
@@ -234,7 +251,10 @@ async function measure(urlA, urlB, assertHTML, key) {
       const order = i % 2 ? ['B', 'A'] : ['A', 'B'];
       const row = { order };
       for (const label of order)
-        row[label] = await burst(label === 'A' ? urlA : urlB);
+        row[label] = await burst(
+          label === 'A' ? urlA : urlB,
+          rows === warmup ? 16 : measuredConcurrency,
+        );
       rows.push(row);
     }
   return { warmup, measured };
@@ -244,8 +264,13 @@ try {
     console.log(mode);
     let A, B;
     try {
-      A = await ordinary(a, mode);
-      B = await ordinary(b, mode);
+      if (reverseLaunch) {
+        B = await ordinary(b, mode);
+        A = await ordinary(a, mode);
+      } else {
+        A = await ordinary(a, mode);
+        B = await ordinary(b, mode);
+      }
       result.scenarios[mode] = await measure(
         A.url,
         B.url,
@@ -266,8 +291,13 @@ try {
   }
   let A, B;
   try {
-    A = await lab(a);
-    B = await lab(b);
+    if (reverseLaunch) {
+      B = await lab(b);
+      A = await lab(a);
+    } else {
+      A = await lab(a);
+      B = await lab(b);
+    }
     for (const count of [1, 8]) {
       console.log('bridge' + count);
       result.scenarios['bridge' + count] = await measure(

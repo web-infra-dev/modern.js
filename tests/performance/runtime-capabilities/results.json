@@ -1,0 +1,4001 @@
+{
+  "protocol": "#9120 versus optional-capability runtime, ABBA and paired fixed artifacts",
+  "runs": {
+    "A1": {
+      "metadata": {
+        "sha": "93befbdc5b3c0203d5c84a338ed0d34ab9e15ffa",
+        "sourceSha256": "13130e7e08344dd73bc0f0c84a0fad4849ba8d6b08cb17a85908ca08d5b744ec",
+        "distSha256": "4389feb37db44981f109cb7516a02df6efb9ded617cdaa83af763850fbfb25e2",
+        "harnessSha256": "abee881da92d3aac3473a015bea290c5a5c31c015b9027b7272881b1b271a31d",
+        "lockSha256": "abd3017603f87585ab9f2bb962dbb91637a49a6c6099e3579ab10d2f273bf095",
+        "node": "v24.18.1",
+        "pnpm": "10.13.1",
+        "chrome": "Chrome/149.0.7827.54",
+        "cpu": "Apple M5 Pro",
+        "build": "NODE_ENV=production, buildCache=false, default minification, stats modules enabled",
+        "protocolVersion": "actual-html-frames-v5-warmup-recording",
+        "concurrentWarmup": 50,
+        "concurrentRounds": 50,
+        "sourceEqualsDist": true,
+        "startedAt": "2026-11-05T10:31:50.408Z",
+        "finishedAt": "2026-11-05T10:32:31.746Z",
+        "startLoadAverage": [5.71533203125, 5.44677734375, 5.57470703125],
+        "endLoadAverage": [5.1513671875, 5.32861328125, 5.52392578125]
+      },
+      "artifacts": {
+        "csr": {
+          "browser": {
+            "raw": 496555,
+            "gzip": 158316
+          },
+          "server": {
+            "raw": 0,
+            "gzip": 0
+          }
+        },
+        "string": {
+          "browser": {
+            "raw": 509145,
+            "gzip": 163038
+          },
+          "server": {
+            "raw": 1930330,
+            "gzip": 376066
+          }
+        },
+        "stream": {
+          "browser": {
+            "raw": 508814,
+            "gzip": 162949
+          },
+          "server": {
+            "raw": 1829558,
+            "gzip": 358597
+          }
+        },
+        "host": {
+          "browser": {
+            "raw": 862747,
+            "gzip": 275925
+          },
+          "server": {
+            "raw": 3885597,
+            "gzip": 792390
+          }
+        },
+        "provider": {
+          "browser": {
+            "raw": 876451,
+            "gzip": 280881
+          },
+          "server": {
+            "raw": 3296607,
+            "gzip": 708474
+          }
+        },
+        "nested": {
+          "browser": {
+            "raw": 833372,
+            "gzip": 260907
+          },
+          "server": {
+            "raw": 3762237,
+            "gzip": 777784
+          }
+        },
+        "library": {
+          "browser": {
+            "raw": 498334,
+            "gzip": 116817
+          },
+          "server": {
+            "raw": 522772,
+            "gzip": 122369
+          }
+        }
+      },
+      "scenarios": {
+        "csr": {
+          "serialTTFB": [
+            1.2939590000000862, 2.03970900000013, 2.0004579999999805,
+            1.9146660000001248, 1.8775830000004134, 1.9422919999997248,
+            2.1209160000003067, 1.7956669999998667, 1.7998750000001564
+          ],
+          "serialFirstApplicationHTML": [
+            null,
+            null,
+            null,
+            null,
+            null,
+            null,
+            null,
+            null,
+            null
+          ],
+          "concurrentTTFBp50": 2.001833499999975,
+          "concurrentBurstP50": 2.5410629999998946,
+          "pageCommit": [
+            51.89999985694885, 52.200000047683716, 47.799999952316284,
+            52.200000047683716, 52.299999952316284, 48.799999952316284,
+            47.700000047683716, 47.700000047683716, 52.10000014305115
+          ],
+          "beforeToCommit": [
+            12.5, 12.400000095367432, 8.299999952316284, 12.400000095367432,
+            12.5, 8.299999952316284, 8.200000047683716, 8.399999856948853,
+            12.400000095367432
+          ],
+          "serverRssKB": {
+            "rssBefore": 129504,
+            "rssAfter": 174272
+          },
+          "resources": {
+            "mounted": {
+              "JSHeapUsedSize": 2323460,
+              "nodes": 31,
+              "jsEventListeners": 148,
+              "active": 1,
+              "cleaned": 0
+            },
+            "cycles": []
+          }
+        },
+        "string": {
+          "serialTTFB": [
+            1.7226250000003347, 2.579458000000159, 2.3481659999997646,
+            2.1868750000003274, 2.2678750000004584, 2.5145420000008016,
+            2.4637919999995574, 2.0378749999999854, 1.957999999999629
+          ],
+          "serialFirstApplicationHTML": [
+            1.7226250000003347, 2.579458000000159, 2.3481659999997646,
+            2.1868750000003274, 2.2678750000004584, 2.5145420000008016,
+            2.4637919999995574, 2.0378749999999854, 1.957999999999629
+          ],
+          "concurrentTTFBp50": 2.937457999999424,
+          "concurrentBurstP50": 4.073791999999685,
+          "pageCommit": [
+            48.69999980926514, 48.200000047683716, 48.30000019073486, 48,
+            47.89999985694885, 47.39999985694885, 47.89999985694885,
+            48.799999952316284, 47.89999985694885
+          ],
+          "beforeToCommit": [
+            5.3999998569488525, 5.3999998569488525, 5.5, 5.3999998569488525,
+            5.5, 5.299999952316284, 5.3999998569488525, 5.700000047683716,
+            5.3999998569488525
+          ],
+          "serverRssKB": {
+            "rssBefore": 135712,
+            "rssAfter": 315200
+          },
+          "resources": {
+            "mounted": {
+              "JSHeapUsedSize": 2240332,
+              "nodes": 44,
+              "jsEventListeners": 147,
+              "active": 1,
+              "cleaned": 0
+            },
+            "cycles": []
+          }
+        },
+        "stream": {
+          "serialTTFB": [
+            1.779540999999881, 2.46349999999984, 2.3942080000015267,
+            2.2854999999999563, 2.4539590000003955, 2.3913339999999152,
+            2.500083999999333, 2.1566670000011072, 2.1268329999984417
+          ],
+          "serialFirstApplicationHTML": [
+            1.779540999999881, 2.46349999999984, 2.3942080000015267,
+            2.2854999999999563, 2.4539590000003955, 2.3913339999999152,
+            2.500083999999333, 2.1566670000011072, 2.1268329999984417
+          ],
+          "concurrentTTFBp50": 2.89264650000041,
+          "concurrentBurstP50": 4.186770999998771,
+          "pageCommit": [
+            50.60000014305115, 51.5, 50.90000009536743, 50.60000014305115,
+            52.700000047683716, 50.60000014305115, 50.799999952316284,
+            50.80000019073486, 51.5
+          ],
+          "beforeToCommit": [
+            7.5, 7.700000047683716, 7.400000095367432, 7.6000001430511475, 7.5,
+            7.5, 7.199999809265137, 7.300000190734863, 7.400000095367432
+          ],
+          "serverRssKB": {
+            "rssBefore": 132896,
+            "rssAfter": 341232
+          },
+          "resources": {
+            "mounted": {
+              "JSHeapUsedSize": 2306836,
+              "nodes": 41,
+              "jsEventListeners": 147,
+              "active": 1,
+              "cleaned": 0
+            },
+            "cycles": []
+          }
+        },
+        "bridge1": {
+          "serialTTFB": [
+            4.530833000000712, 4.73462500000096, 5.191666999999143,
+            3.7527090000003227, 3.7107079999987036, 3.749041999999463,
+            3.6067499999990105, 3.359875000001921, 3.126124999998865
+          ],
+          "serialFirstApplicationHTML": [
+            4.57666700000118, 4.781582999999955, 5.361166999999114,
+            3.951042000000598, 3.8430420000004233, 3.796375000001717,
+            3.7645830000001297, 3.5094590000007884, 3.126124999998865
+          ],
+          "concurrentTTFBp50": 7.597124999998414,
+          "concurrentBurstP50": 12.60175000000163,
+          "pageCommit": [
+            114.60000014305115, 110.59999990463257, 97.39999985694885,
+            94.89999985694885, 95.70000004768372, 94.39999985694885, 95.5,
+            93.89999985694885, 94.70000004768372
+          ],
+          "beforeToCommit": [
+            53.90000009536743, 50.89999985694885, 37.700000047683716,
+            36.299999952316284, 35.59999990463257, 35.89999985694885,
+            37.40000009536743, 36.09999990463257, 36.799999952316284
+          ],
+          "serverRssKB": {
+            "rssBefore": 453072,
+            "rssAfter": 818544
+          },
+          "resources": {
+            "mounted": {
+              "JSHeapUsedSize": 4441832,
+              "nodes": 94,
+              "jsEventListeners": 303,
+              "active": 2,
+              "cleaned": 0
+            },
+            "afterUnmount": {
+              "JSHeapUsedSize": 6221328,
+              "nodes": 61,
+              "jsEventListeners": 293,
+              "active": 1,
+              "cleaned": 11
+            },
+            "cycles": [
+              {
+                "unmounted": {
+                  "JSHeapUsedSize": 4643976,
+                  "nodes": 61,
+                  "jsEventListeners": 293,
+                  "active": 1,
+                  "cleaned": 1
+                },
+                "remounted": {
+                  "JSHeapUsedSize": 5145740,
+                  "nodes": 88,
+                  "jsEventListeners": 446,
+                  "active": 2,
+                  "cleaned": 1
+                }
+              },
+              {
+                "unmounted": {
+                  "JSHeapUsedSize": 5102372,
+                  "nodes": 61,
+                  "jsEventListeners": 293,
+                  "active": 1,
+                  "cleaned": 2
+                },
+                "remounted": {
+                  "JSHeapUsedSize": 5404380,
+                  "nodes": 88,
+                  "jsEventListeners": 446,
+                  "active": 2,
+                  "cleaned": 2
+                }
+              },
+              {
+                "unmounted": {
+                  "JSHeapUsedSize": 5319904,
+                  "nodes": 61,
+                  "jsEventListeners": 293,
+                  "active": 1,
+                  "cleaned": 3
+                },
+                "remounted": {
+                  "JSHeapUsedSize": 5561732,
+                  "nodes": 88,
+                  "jsEventListeners": 446,
+                  "active": 2,
+                  "cleaned": 3
+                }
+              },
+              {
+                "unmounted": {
+                  "JSHeapUsedSize": 5473100,
+                  "nodes": 61,
+                  "jsEventListeners": 293,
+                  "active": 1,
+                  "cleaned": 4
+                },
+                "remounted": {
+                  "JSHeapUsedSize": 5743028,
+                  "nodes": 88,
+                  "jsEventListeners": 446,
+                  "active": 2,
+                  "cleaned": 4
+                }
+              },
+              {
+                "unmounted": {
+                  "JSHeapUsedSize": 5665120,
+                  "nodes": 61,
+                  "jsEventListeners": 293,
+                  "active": 1,
+                  "cleaned": 5
+                },
+                "remounted": {
+                  "JSHeapUsedSize": 5846792,
+                  "nodes": 88,
+                  "jsEventListeners": 446,
+                  "active": 2,
+                  "cleaned": 5
+                }
+              },
+              {
+                "unmounted": {
+                  "JSHeapUsedSize": 5754740,
+                  "nodes": 61,
+                  "jsEventListeners": 293,
+                  "active": 1,
+                  "cleaned": 6
+                },
+                "remounted": {
+                  "JSHeapUsedSize": 5869920,
+                  "nodes": 88,
+                  "jsEventListeners": 446,
+                  "active": 2,
+                  "cleaned": 6
+                }
+              },
+              {
+                "unmounted": {
+                  "JSHeapUsedSize": 5778984,
+                  "nodes": 61,
+                  "jsEventListeners": 293,
+                  "active": 1,
+                  "cleaned": 7
+                },
+                "remounted": {
+                  "JSHeapUsedSize": 5896424,
+                  "nodes": 88,
+                  "jsEventListeners": 446,
+                  "active": 2,
+                  "cleaned": 7
+                }
+              },
+              {
+                "unmounted": {
+                  "JSHeapUsedSize": 5805268,
+                  "nodes": 61,
+                  "jsEventListeners": 293,
+                  "active": 1,
+                  "cleaned": 8
+                },
+                "remounted": {
+                  "JSHeapUsedSize": 6160760,
+                  "nodes": 88,
+                  "jsEventListeners": 446,
+                  "active": 2,
+                  "cleaned": 8
+                }
+              },
+              {
+                "unmounted": {
+                  "JSHeapUsedSize": 6091608,
+                  "nodes": 61,
+                  "jsEventListeners": 293,
+                  "active": 1,
+                  "cleaned": 9
+                },
+                "remounted": {
+                  "JSHeapUsedSize": 6288684,
+                  "nodes": 88,
+                  "jsEventListeners": 446,
+                  "active": 2,
+                  "cleaned": 9
+                }
+              },
+              {
+                "unmounted": {
+                  "JSHeapUsedSize": 6198520,
+                  "nodes": 61,
+                  "jsEventListeners": 293,
+                  "active": 1,
+                  "cleaned": 10
+                },
+                "remounted": {
+                  "JSHeapUsedSize": 6309444,
+                  "nodes": 88,
+                  "jsEventListeners": 446,
+                  "active": 2,
+                  "cleaned": 10
+                }
+              }
+            ]
+          }
+        },
+        "bridge8": {
+          "serialTTFB": [
+            3.3007500000021537, 3.923416999998153, 4.353541000000405,
+            4.1085410000014235, 4.149832999999489, 3.8410000000003492,
+            4.173749999998108, 3.6582500000004075, 5.010333999998693
+          ],
+          "serialFirstApplicationHTML": [
+            3.5196670000004815, 4.12329200000022, 4.514999999999418,
+            4.4192499999990105, 4.3475409999991825, 4.10791700000118,
+            4.369707999998354, 3.8567499999990105, 5.248917000000802
+          ],
+          "concurrentTTFBp50": 17.913479499999085,
+          "concurrentBurstP50": 32.52679149999676,
+          "pageCommit": [
+            103.5, 103.89999985694885, 101.80000019073486, 100.80000019073486,
+            101.59999990463257, 105.60000014305115, 105.29999995231628, 102.5,
+            101.59999990463257
+          ],
+          "beforeToCommit": [
+            44.0, 43.0, 42.700000047683716, 41.80000019073486,
+            42.89999985694885, 45.700000047683716, 42.90000009536743,
+            43.60000014305115, 43.200000047683716
+          ],
+          "serverRssKB": {
+            "rssBefore": 787152,
+            "rssAfter": 958240
+          },
+          "resources": {
+            "mounted": {
+              "JSHeapUsedSize": 5750164,
+              "nodes": 416,
+              "jsEventListeners": 1367,
+              "active": 9,
+              "cleaned": 0
+            },
+            "afterUnmount": {
+              "JSHeapUsedSize": 6567928,
+              "nodes": 152,
+              "jsEventListeners": 1287,
+              "active": 1,
+              "cleaned": 88
+            },
+            "cycles": [
+              {
+                "unmounted": {
+                  "JSHeapUsedSize": 5407104,
+                  "nodes": 152,
+                  "jsEventListeners": 1287,
+                  "active": 1,
+                  "cleaned": 8
+                },
+                "remounted": {
+                  "JSHeapUsedSize": 6792284,
+                  "nodes": 368,
+                  "jsEventListeners": 2511,
+                  "active": 9,
+                  "cleaned": 8
+                }
+              },
+              {
+                "unmounted": {
+                  "JSHeapUsedSize": 6192300,
+                  "nodes": 152,
+                  "jsEventListeners": 1287,
+                  "active": 1,
+                  "cleaned": 16
+                },
+                "remounted": {
+                  "JSHeapUsedSize": 6959644,
+                  "nodes": 368,
+                  "jsEventListeners": 2511,
+                  "active": 9,
+                  "cleaned": 16
+                }
+              },
+              {
+                "unmounted": {
+                  "JSHeapUsedSize": 6345524,
+                  "nodes": 152,
+                  "jsEventListeners": 1287,
+                  "active": 1,
+                  "cleaned": 24
+                },
+                "remounted": {
+                  "JSHeapUsedSize": 6994948,
+                  "nodes": 368,
+                  "jsEventListeners": 2511,
+                  "active": 9,
+                  "cleaned": 24
+                }
+              },
+              {
+                "unmounted": {
+                  "JSHeapUsedSize": 6377528,
+                  "nodes": 152,
+                  "jsEventListeners": 1287,
+                  "active": 1,
+                  "cleaned": 32
+                },
+                "remounted": {
+                  "JSHeapUsedSize": 7040732,
+                  "nodes": 368,
+                  "jsEventListeners": 2511,
+                  "active": 9,
+                  "cleaned": 32
+                }
+              },
+              {
+                "unmounted": {
+                  "JSHeapUsedSize": 6429436,
+                  "nodes": 152,
+                  "jsEventListeners": 1287,
+                  "active": 1,
+                  "cleaned": 40
+                },
+                "remounted": {
+                  "JSHeapUsedSize": 7079352,
+                  "nodes": 368,
+                  "jsEventListeners": 2511,
+                  "active": 9,
+                  "cleaned": 40
+                }
+              },
+              {
+                "unmounted": {
+                  "JSHeapUsedSize": 6455928,
+                  "nodes": 152,
+                  "jsEventListeners": 1287,
+                  "active": 1,
+                  "cleaned": 48
+                },
+                "remounted": {
+                  "JSHeapUsedSize": 7113952,
+                  "nodes": 368,
+                  "jsEventListeners": 2511,
+                  "active": 9,
+                  "cleaned": 48
+                }
+              },
+              {
+                "unmounted": {
+                  "JSHeapUsedSize": 6495364,
+                  "nodes": 152,
+                  "jsEventListeners": 1287,
+                  "active": 1,
+                  "cleaned": 56
+                },
+                "remounted": {
+                  "JSHeapUsedSize": 7125152,
+                  "nodes": 368,
+                  "jsEventListeners": 2511,
+                  "active": 9,
+                  "cleaned": 56
+                }
+              },
+              {
+                "unmounted": {
+                  "JSHeapUsedSize": 6503004,
+                  "nodes": 152,
+                  "jsEventListeners": 1287,
+                  "active": 1,
+                  "cleaned": 64
+                },
+                "remounted": {
+                  "JSHeapUsedSize": 7141760,
+                  "nodes": 368,
+                  "jsEventListeners": 2511,
+                  "active": 9,
+                  "cleaned": 64
+                }
+              },
+              {
+                "unmounted": {
+                  "JSHeapUsedSize": 6520280,
+                  "nodes": 152,
+                  "jsEventListeners": 1287,
+                  "active": 1,
+                  "cleaned": 72
+                },
+                "remounted": {
+                  "JSHeapUsedSize": 7172936,
+                  "nodes": 368,
+                  "jsEventListeners": 2511,
+                  "active": 9,
+                  "cleaned": 72
+                }
+              },
+              {
+                "unmounted": {
+                  "JSHeapUsedSize": 6552192,
+                  "nodes": 152,
+                  "jsEventListeners": 1287,
+                  "active": 1,
+                  "cleaned": 80
+                },
+                "remounted": {
+                  "JSHeapUsedSize": 7195736,
+                  "nodes": 368,
+                  "jsEventListeners": 2511,
+                  "active": 9,
+                  "cleaned": 80
+                }
+              }
+            ]
+          }
+        }
+      }
+    },
+    "B1": {
+      "metadata": {
+        "sha": "58fa00809bba1ca25b6e4568110f18dd12776f55",
+        "sourceSha256": "1313dc98fdd068583522111806719577cb69bed846e2f3c3f4b55601a546b81c",
+        "distSha256": "d06a233ac00922277680523eb394f427098baff49031bfea837620bccbdedccd",
+        "harnessSha256": "abee881da92d3aac3473a015bea290c5a5c31c015b9027b7272881b1b271a31d",
+        "lockSha256": "abd3017603f87585ab9f2bb962dbb91637a49a6c6099e3579ab10d2f273bf095",
+        "node": "v24.18.1",
+        "pnpm": "10.13.1",
+        "chrome": "Chrome/149.0.7827.54",
+        "cpu": "Apple M5 Pro",
+        "build": "NODE_ENV=production, buildCache=false, default minification, stats modules enabled",
+        "protocolVersion": "actual-html-frames-v5-warmup-recording",
+        "concurrentWarmup": 50,
+        "concurrentRounds": 50,
+        "sourceEqualsDist": true,
+        "startedAt": "2026-11-05T10:32:32.003Z",
+        "finishedAt": "2026-11-05T10:33:13.275Z",
+        "startLoadAverage": [5.1513671875, 5.32861328125, 5.52392578125],
+        "endLoadAverage": [4.84033203125, 5.26220703125, 5.490234375]
+      },
+      "artifacts": {
+        "csr": {
+          "browser": {
+            "raw": 496378,
+            "gzip": 158068
+          },
+          "server": {
+            "raw": 0,
+            "gzip": 0
+          }
+        },
+        "string": {
+          "browser": {
+            "raw": 508931,
+            "gzip": 162793
+          },
+          "server": {
+            "raw": 1926906,
+            "gzip": 375974
+          }
+        },
+        "stream": {
+          "browser": {
+            "raw": 508601,
+            "gzip": 162703
+          },
+          "server": {
+            "raw": 1825774,
+            "gzip": 358470
+          }
+        },
+        "host": {
+          "browser": {
+            "raw": 862797,
+            "gzip": 275732
+          },
+          "server": {
+            "raw": 3878473,
+            "gzip": 792347
+          }
+        },
+        "provider": {
+          "browser": {
+            "raw": 877826,
+            "gzip": 281260
+          },
+          "server": {
+            "raw": 3294260,
+            "gzip": 709055
+          }
+        },
+        "nested": {
+          "browser": {
+            "raw": 833331,
+            "gzip": 260722
+          },
+          "server": {
+            "raw": 3755402,
+            "gzip": 777676
+          }
+        },
+        "library": {
+          "browser": {
+            "raw": 498382,
+            "gzip": 116805
+          },
+          "server": {
+            "raw": 522824,
+            "gzip": 122391
+          }
+        }
+      },
+      "scenarios": {
+        "csr": {
+          "serialTTFB": [
+            1.4243750000000546, 2.016457999999602, 1.9917920000002596,
+            1.943916000000172, 1.907083000000057, 1.9433750000002874,
+            2.07229099999995, 1.78912500000024, 1.857499999999618
+          ],
+          "serialFirstApplicationHTML": [
+            null,
+            null,
+            null,
+            null,
+            null,
+            null,
+            null,
+            null,
+            null
+          ],
+          "concurrentTTFBp50": 2.0182295000001886,
+          "concurrentBurstP50": 2.5389999999999873,
+          "pageCommit": [
+            47.5, 51.299999952316284, 51.09999990463257, 47.799999952316284,
+            46.69999980926514, 47.39999985694885, 349.2000000476837,
+            53.299999952316284, 47.19999980926514
+          ],
+          "beforeToCommit": [
+            8.399999856948853, 12.5, 12.400000095367432, 8.299999952316284,
+            8.099999904632568, 8.299999952316284, 310.2999999523163,
+            12.299999952316284, 8.299999952316284
+          ],
+          "serverRssKB": {
+            "rssBefore": 129296,
+            "rssAfter": 174288
+          },
+          "resources": {
+            "mounted": {
+              "JSHeapUsedSize": 2323916,
+              "nodes": 31,
+              "jsEventListeners": 148,
+              "active": 1,
+              "cleaned": 0
+            },
+            "cycles": []
+          }
+        },
+        "string": {
+          "serialTTFB": [
+            1.7508749999997235, 2.454458000000159, 2.2749579999999696,
+            2.271625000000313, 2.151625000000422, 2.28845900000033,
+            2.2887080000000424, 2.0201659999993353, 1.90533300000061
+          ],
+          "serialFirstApplicationHTML": [
+            1.7508749999997235, 2.454458000000159, 2.2749579999999696,
+            2.271625000000313, 2.151625000000422, 2.28845900000033,
+            2.2887080000000424, 2.0201659999993353, 1.90533300000061
+          ],
+          "concurrentTTFBp50": 2.9175209999998515,
+          "concurrentBurstP50": 4.0460000000002765,
+          "pageCommit": [
+            46.799999952316284, 47.39999985694885, 50.40000009536743,
+            47.10000014305115, 47, 47.299999952316284, 47.200000047683716,
+            47.59999990463257, 49.09999990463257
+          ],
+          "beforeToCommit": [
+            5.299999952316284, 5.599999904632568, 5.6000001430511475,
+            5.400000095367432, 5.299999952316284, 5.400000095367432,
+            5.400000095367432, 5.5, 5.599999904632568
+          ],
+          "serverRssKB": {
+            "rssBefore": 135744,
+            "rssAfter": 320240
+          },
+          "resources": {
+            "mounted": {
+              "JSHeapUsedSize": 2237808,
+              "nodes": 44,
+              "jsEventListeners": 147,
+              "active": 1,
+              "cleaned": 0
+            },
+            "cycles": []
+          }
+        },
+        "stream": {
+          "serialTTFB": [
+            1.8832920000004378, 2.5053329999991547, 2.3172080000003916,
+            2.238083000000188, 2.18170900000041, 2.304500000000189,
+            2.366874999999709, 2.0149580000015703, 2.042124999999942
+          ],
+          "serialFirstApplicationHTML": [
+            1.8832920000004378, 2.5053329999991547, 2.3172080000003916,
+            2.238083000000188, 2.18170900000041, 2.304500000000189,
+            2.366874999999709, 2.0149580000015703, 2.042124999999942
+          ],
+          "concurrentTTFBp50": 2.9993960000001607,
+          "concurrentBurstP50": 4.228104000000712,
+          "pageCommit": [
+            50.90000009536743, 50.200000047683716, 50.90000009536743,
+            51.200000047683716, 52.60000014305115, 54, 51.299999952316284,
+            52.60000014305115, 51
+          ],
+          "beforeToCommit": [
+            7.799999952316284, 7.299999952316284, 7.400000095367432,
+            7.400000095367432, 8.300000190734863, 7.5, 7.200000047683716,
+            7.900000095367432, 7.300000190734863
+          ],
+          "serverRssKB": {
+            "rssBefore": 133360,
+            "rssAfter": 341504
+          },
+          "resources": {
+            "mounted": {
+              "JSHeapUsedSize": 2305300,
+              "nodes": 41,
+              "jsEventListeners": 147,
+              "active": 1,
+              "cleaned": 0
+            },
+            "cycles": []
+          }
+        },
+        "bridge1": {
+          "serialTTFB": [
+            4.374959000000672, 4.353250000000116, 3.881207999998878,
+            3.8881660000006377, 3.914334000000963, 3.7342920000010054,
+            3.5769579999978305, 3.568165999997291, 3.10358400000041
+          ],
+          "serialFirstApplicationHTML": [
+            4.4276669999999285, 4.548666999999114, 3.921915999999328,
+            4.076165999998921, 4.10462500000358, 3.9151249999995343,
+            3.720499999999447, 3.7640409999985422, 3.269584000001487
+          ],
+          "concurrentTTFBp50": 7.229562000000442,
+          "concurrentBurstP50": 11.706291500000589,
+          "pageCommit": [
+            93.40000009536743, 94.5, 96.20000004768372, 95.29999995231628,
+            94.20000004768372, 93.29999995231628, 93.5, 93.70000004768372,
+            93.10000014305115
+          ],
+          "beforeToCommit": [
+            36.0, 35.5, 38.200000047683716, 36.299999952316284, 35.5,
+            35.799999952316284, 36.0, 36.700000047683716, 35.299999952316284
+          ],
+          "serverRssKB": {
+            "rssBefore": 457968,
+            "rssAfter": 908496
+          },
+          "resources": {
+            "mounted": {
+              "JSHeapUsedSize": 4440504,
+              "nodes": 94,
+              "jsEventListeners": 303,
+              "active": 2,
+              "cleaned": 0
+            },
+            "afterUnmount": {
+              "JSHeapUsedSize": 6221864,
+              "nodes": 61,
+              "jsEventListeners": 293,
+              "active": 1,
+              "cleaned": 11
+            },
+            "cycles": [
+              {
+                "unmounted": {
+                  "JSHeapUsedSize": 4641128,
+                  "nodes": 61,
+                  "jsEventListeners": 293,
+                  "active": 1,
+                  "cleaned": 1
+                },
+                "remounted": {
+                  "JSHeapUsedSize": 5151500,
+                  "nodes": 88,
+                  "jsEventListeners": 446,
+                  "active": 2,
+                  "cleaned": 1
+                }
+              },
+              {
+                "unmounted": {
+                  "JSHeapUsedSize": 5104232,
+                  "nodes": 61,
+                  "jsEventListeners": 293,
+                  "active": 1,
+                  "cleaned": 2
+                },
+                "remounted": {
+                  "JSHeapUsedSize": 5401120,
+                  "nodes": 88,
+                  "jsEventListeners": 446,
+                  "active": 2,
+                  "cleaned": 2
+                }
+              },
+              {
+                "unmounted": {
+                  "JSHeapUsedSize": 5316208,
+                  "nodes": 61,
+                  "jsEventListeners": 293,
+                  "active": 1,
+                  "cleaned": 3
+                },
+                "remounted": {
+                  "JSHeapUsedSize": 5561032,
+                  "nodes": 88,
+                  "jsEventListeners": 446,
+                  "active": 2,
+                  "cleaned": 3
+                }
+              },
+              {
+                "unmounted": {
+                  "JSHeapUsedSize": 5471172,
+                  "nodes": 61,
+                  "jsEventListeners": 293,
+                  "active": 1,
+                  "cleaned": 4
+                },
+                "remounted": {
+                  "JSHeapUsedSize": 5744896,
+                  "nodes": 88,
+                  "jsEventListeners": 446,
+                  "active": 2,
+                  "cleaned": 4
+                }
+              },
+              {
+                "unmounted": {
+                  "JSHeapUsedSize": 5665384,
+                  "nodes": 61,
+                  "jsEventListeners": 293,
+                  "active": 1,
+                  "cleaned": 5
+                },
+                "remounted": {
+                  "JSHeapUsedSize": 5848952,
+                  "nodes": 88,
+                  "jsEventListeners": 446,
+                  "active": 2,
+                  "cleaned": 5
+                }
+              },
+              {
+                "unmounted": {
+                  "JSHeapUsedSize": 5755516,
+                  "nodes": 61,
+                  "jsEventListeners": 293,
+                  "active": 1,
+                  "cleaned": 6
+                },
+                "remounted": {
+                  "JSHeapUsedSize": 5872044,
+                  "nodes": 88,
+                  "jsEventListeners": 446,
+                  "active": 2,
+                  "cleaned": 6
+                }
+              },
+              {
+                "unmounted": {
+                  "JSHeapUsedSize": 5779720,
+                  "nodes": 61,
+                  "jsEventListeners": 293,
+                  "active": 1,
+                  "cleaned": 7
+                },
+                "remounted": {
+                  "JSHeapUsedSize": 5905064,
+                  "nodes": 88,
+                  "jsEventListeners": 446,
+                  "active": 2,
+                  "cleaned": 7
+                }
+              },
+              {
+                "unmounted": {
+                  "JSHeapUsedSize": 5812236,
+                  "nodes": 61,
+                  "jsEventListeners": 293,
+                  "active": 1,
+                  "cleaned": 8
+                },
+                "remounted": {
+                  "JSHeapUsedSize": 6164036,
+                  "nodes": 88,
+                  "jsEventListeners": 446,
+                  "active": 2,
+                  "cleaned": 8
+                }
+              },
+              {
+                "unmounted": {
+                  "JSHeapUsedSize": 6094424,
+                  "nodes": 61,
+                  "jsEventListeners": 293,
+                  "active": 1,
+                  "cleaned": 9
+                },
+                "remounted": {
+                  "JSHeapUsedSize": 6290120,
+                  "nodes": 88,
+                  "jsEventListeners": 446,
+                  "active": 2,
+                  "cleaned": 9
+                }
+              },
+              {
+                "unmounted": {
+                  "JSHeapUsedSize": 6199544,
+                  "nodes": 61,
+                  "jsEventListeners": 293,
+                  "active": 1,
+                  "cleaned": 10
+                },
+                "remounted": {
+                  "JSHeapUsedSize": 6311100,
+                  "nodes": 88,
+                  "jsEventListeners": 446,
+                  "active": 2,
+                  "cleaned": 10
+                }
+              }
+            ]
+          }
+        },
+        "bridge8": {
+          "serialTTFB": [
+            3.0050830000000133, 3.571291000000201, 4.151332999997976,
+            4.707875000000058, 5.23883399999977, 6.0335830000003625,
+            4.001540999997815, 3.9940829999977723, 3.5692920000001322
+          ],
+          "serialFirstApplicationHTML": [
+            3.1759169999968435, 3.7779999999984284, 4.3339169999999285,
+            4.9227499999979045, 5.504209000002447, 6.254667000001064,
+            4.251915999997436, 4.20995799999946, 3.8028339999982563
+          ],
+          "concurrentTTFBp50": 17.012791500001185,
+          "concurrentBurstP50": 30.878271000001405,
+          "pageCommit": [
+            101.20000004768372, 102.09999990463257, 100.79999995231628,
+            103.29999995231628, 102.40000009536743, 102, 105, 101, 102
+          ],
+          "beforeToCommit": [
+            43.09999990463257, 43.700000047683716, 42.700000047683716,
+            44.40000009536743, 43.09999990463257, 43.200000047683716,
+            46.700000047683716, 42.59999990463257, 43.200000047683716
+          ],
+          "serverRssKB": {
+            "rssBefore": 905792,
+            "rssAfter": 1094624
+          },
+          "resources": {
+            "mounted": {
+              "JSHeapUsedSize": 5745636,
+              "nodes": 416,
+              "jsEventListeners": 1367,
+              "active": 9,
+              "cleaned": 0
+            },
+            "afterUnmount": {
+              "JSHeapUsedSize": 6568520,
+              "nodes": 152,
+              "jsEventListeners": 1287,
+              "active": 1,
+              "cleaned": 88
+            },
+            "cycles": [
+              {
+                "unmounted": {
+                  "JSHeapUsedSize": 5404336,
+                  "nodes": 152,
+                  "jsEventListeners": 1287,
+                  "active": 1,
+                  "cleaned": 8
+                },
+                "remounted": {
+                  "JSHeapUsedSize": 6799796,
+                  "nodes": 368,
+                  "jsEventListeners": 2511,
+                  "active": 9,
+                  "cleaned": 8
+                }
+              },
+              {
+                "unmounted": {
+                  "JSHeapUsedSize": 6190168,
+                  "nodes": 152,
+                  "jsEventListeners": 1287,
+                  "active": 1,
+                  "cleaned": 16
+                },
+                "remounted": {
+                  "JSHeapUsedSize": 6960100,
+                  "nodes": 368,
+                  "jsEventListeners": 2511,
+                  "active": 9,
+                  "cleaned": 16
+                }
+              },
+              {
+                "unmounted": {
+                  "JSHeapUsedSize": 6346500,
+                  "nodes": 152,
+                  "jsEventListeners": 1287,
+                  "active": 1,
+                  "cleaned": 24
+                },
+                "remounted": {
+                  "JSHeapUsedSize": 6996084,
+                  "nodes": 368,
+                  "jsEventListeners": 2511,
+                  "active": 9,
+                  "cleaned": 24
+                }
+              },
+              {
+                "unmounted": {
+                  "JSHeapUsedSize": 6378484,
+                  "nodes": 152,
+                  "jsEventListeners": 1287,
+                  "active": 1,
+                  "cleaned": 32
+                },
+                "remounted": {
+                  "JSHeapUsedSize": 7041464,
+                  "nodes": 368,
+                  "jsEventListeners": 2511,
+                  "active": 9,
+                  "cleaned": 32
+                }
+              },
+              {
+                "unmounted": {
+                  "JSHeapUsedSize": 6430964,
+                  "nodes": 152,
+                  "jsEventListeners": 1287,
+                  "active": 1,
+                  "cleaned": 40
+                },
+                "remounted": {
+                  "JSHeapUsedSize": 7081392,
+                  "nodes": 368,
+                  "jsEventListeners": 2511,
+                  "active": 9,
+                  "cleaned": 40
+                }
+              },
+              {
+                "unmounted": {
+                  "JSHeapUsedSize": 6456504,
+                  "nodes": 152,
+                  "jsEventListeners": 1287,
+                  "active": 1,
+                  "cleaned": 48
+                },
+                "remounted": {
+                  "JSHeapUsedSize": 7115392,
+                  "nodes": 368,
+                  "jsEventListeners": 2511,
+                  "active": 9,
+                  "cleaned": 48
+                }
+              },
+              {
+                "unmounted": {
+                  "JSHeapUsedSize": 6496576,
+                  "nodes": 152,
+                  "jsEventListeners": 1287,
+                  "active": 1,
+                  "cleaned": 56
+                },
+                "remounted": {
+                  "JSHeapUsedSize": 7126392,
+                  "nodes": 368,
+                  "jsEventListeners": 2511,
+                  "active": 9,
+                  "cleaned": 56
+                }
+              },
+              {
+                "unmounted": {
+                  "JSHeapUsedSize": 6506060,
+                  "nodes": 152,
+                  "jsEventListeners": 1287,
+                  "active": 1,
+                  "cleaned": 64
+                },
+                "remounted": {
+                  "JSHeapUsedSize": 7141120,
+                  "nodes": 368,
+                  "jsEventListeners": 2511,
+                  "active": 9,
+                  "cleaned": 64
+                }
+              },
+              {
+                "unmounted": {
+                  "JSHeapUsedSize": 6520232,
+                  "nodes": 152,
+                  "jsEventListeners": 1287,
+                  "active": 1,
+                  "cleaned": 72
+                },
+                "remounted": {
+                  "JSHeapUsedSize": 7178500,
+                  "nodes": 368,
+                  "jsEventListeners": 2511,
+                  "active": 9,
+                  "cleaned": 72
+                }
+              },
+              {
+                "unmounted": {
+                  "JSHeapUsedSize": 6552868,
+                  "nodes": 152,
+                  "jsEventListeners": 1287,
+                  "active": 1,
+                  "cleaned": 80
+                },
+                "remounted": {
+                  "JSHeapUsedSize": 7190108,
+                  "nodes": 368,
+                  "jsEventListeners": 2511,
+                  "active": 9,
+                  "cleaned": 80
+                }
+              }
+            ]
+          }
+        }
+      }
+    },
+    "B2": {
+      "metadata": {
+        "sha": "58fa00809bba1ca25b6e4568110f18dd12776f55",
+        "sourceSha256": "1313dc98fdd068583522111806719577cb69bed846e2f3c3f4b55601a546b81c",
+        "distSha256": "d06a233ac00922277680523eb394f427098baff49031bfea837620bccbdedccd",
+        "harnessSha256": "abee881da92d3aac3473a015bea290c5a5c31c015b9027b7272881b1b271a31d",
+        "lockSha256": "abd3017603f87585ab9f2bb962dbb91637a49a6c6099e3579ab10d2f273bf095",
+        "node": "v24.18.1",
+        "pnpm": "10.13.1",
+        "chrome": "Chrome/149.0.7827.54",
+        "cpu": "Apple M5 Pro",
+        "build": "NODE_ENV=production, buildCache=false, default minification, stats modules enabled",
+        "protocolVersion": "actual-html-frames-v5-warmup-recording",
+        "concurrentWarmup": 50,
+        "concurrentRounds": 50,
+        "sourceEqualsDist": true,
+        "startedAt": "2026-11-05T10:33:13.506Z",
+        "finishedAt": "2026-11-05T10:33:53.945Z",
+        "startLoadAverage": [4.84033203125, 5.26220703125, 5.490234375],
+        "endLoadAverage": [6.39501953125, 5.52783203125, 5.572265625]
+      },
+      "artifacts": {
+        "csr": {
+          "browser": {
+            "raw": 496378,
+            "gzip": 158068
+          },
+          "server": {
+            "raw": 0,
+            "gzip": 0
+          }
+        },
+        "string": {
+          "browser": {
+            "raw": 508931,
+            "gzip": 162793
+          },
+          "server": {
+            "raw": 1926906,
+            "gzip": 375974
+          }
+        },
+        "stream": {
+          "browser": {
+            "raw": 508601,
+            "gzip": 162703
+          },
+          "server": {
+            "raw": 1825774,
+            "gzip": 358470
+          }
+        },
+        "host": {
+          "browser": {
+            "raw": 862825,
+            "gzip": 275740
+          },
+          "server": {
+            "raw": 3878469,
+            "gzip": 792339
+          }
+        },
+        "provider": {
+          "browser": {
+            "raw": 877758,
+            "gzip": 281234
+          },
+          "server": {
+            "raw": 3294260,
+            "gzip": 709064
+          }
+        },
+        "nested": {
+          "browser": {
+            "raw": 833355,
+            "gzip": 260734
+          },
+          "server": {
+            "raw": 3755414,
+            "gzip": 777673
+          }
+        },
+        "library": {
+          "browser": {
+            "raw": 498382,
+            "gzip": 116801
+          },
+          "server": {
+            "raw": 522824,
+            "gzip": 122392
+          }
+        }
+      },
+      "scenarios": {
+        "csr": {
+          "serialTTFB": [
+            1.2826249999998254, 2.0599590000001626, 1.9383750000001783,
+            1.944999999999709, 1.8912909999999101, 1.9343750000002728,
+            2.009541999999783, 1.7716669999999795, 1.7955830000000788
+          ],
+          "serialFirstApplicationHTML": [
+            null,
+            null,
+            null,
+            null,
+            null,
+            null,
+            null,
+            null,
+            null
+          ],
+          "concurrentTTFBp50": 2.01647899999989,
+          "concurrentBurstP50": 2.582437499999969,
+          "pageCommit": [
+            50.799999952316284, 47.10000014305115, 51.5, 51.40000009536743,
+            50.799999952316284, 50.700000047683716, 47.5, 50.89999985694885,
+            51.60000014305115
+          ],
+          "beforeToCommit": [
+            12.299999952316284, 8.200000047683716, 12.599999904632568,
+            12.400000095367432, 12.099999904632568, 12.299999952316284,
+            8.299999952316284, 12.299999952316284, 12.400000095367432
+          ],
+          "serverRssKB": {
+            "rssBefore": 129024,
+            "rssAfter": 172848
+          },
+          "resources": {
+            "mounted": {
+              "JSHeapUsedSize": 2324248,
+              "nodes": 31,
+              "jsEventListeners": 148,
+              "active": 1,
+              "cleaned": 0
+            },
+            "cycles": []
+          }
+        },
+        "string": {
+          "serialTTFB": [
+            1.7520000000004075, 2.449416000000383, 2.251749999999447,
+            0.8449170000003505, 2.0715000000000146, 2.4205830000000788,
+            2.3928329999998823, 2.040874999999687, 2.005750000000262
+          ],
+          "serialFirstApplicationHTML": [
+            1.7520000000004075, 2.449416000000383, 2.251749999999447,
+            0.8449170000003505, 2.0715000000000146, 2.4205830000000788,
+            2.3928329999998823, 2.040874999999687, 2.005750000000262
+          ],
+          "concurrentTTFBp50": 2.861499999999978,
+          "concurrentBurstP50": 4.0405204999997295,
+          "pageCommit": [
+            47.09999990463257, 46.299999952316284, 47.299999952316284, 47,
+            47.299999952316284, 49.799999952316284, 47.700000047683716,
+            47.299999952316284, 47.10000014305115
+          ],
+          "beforeToCommit": [
+            5.599999904632568, 5.200000047683716, 5.299999952316284,
+            5.599999904632568, 5.299999952316284, 5.299999952316284, 5.5, 5.5,
+            5.200000047683716
+          ],
+          "serverRssKB": {
+            "rssBefore": 135616,
+            "rssAfter": 318224
+          },
+          "resources": {
+            "mounted": {
+              "JSHeapUsedSize": 2240072,
+              "nodes": 44,
+              "jsEventListeners": 147,
+              "active": 1,
+              "cleaned": 0
+            },
+            "cycles": []
+          }
+        },
+        "stream": {
+          "serialTTFB": [
+            1.6474999999991269, 1.1080829999991693, 2.231499999999869,
+            2.139832999999271, 2.0737910000007105, 2.2959590000009484,
+            2.4489580000008573, 2.124792000000525, 2.0403750000004948
+          ],
+          "serialFirstApplicationHTML": [
+            1.6474999999991269, 1.1080829999991693, 2.231499999999869,
+            2.139832999999271, 2.0737910000007105, 2.2959590000009484,
+            2.4489580000008573, 2.124792000000525, 2.0403750000004948
+          ],
+          "concurrentTTFBp50": 2.8837499999999636,
+          "concurrentBurstP50": 4.086104500000147,
+          "pageCommit": [
+            51.10000014305115, 50.19999980926514, 51, 50.40000009536743,
+            50.30000019073486, 50.799999952316284, 50.90000009536743, 50.5,
+            54.40000009536743
+          ],
+          "beforeToCommit": [
+            7.400000095367432, 7.599999904632568, 7.299999952316284,
+            7.200000047683716, 7.5, 7.5, 7.400000095367432, 7.299999952316284,
+            10.700000047683716
+          ],
+          "serverRssKB": {
+            "rssBefore": 133552,
+            "rssAfter": 340864
+          },
+          "resources": {
+            "mounted": {
+              "JSHeapUsedSize": 2305640,
+              "nodes": 41,
+              "jsEventListeners": 147,
+              "active": 1,
+              "cleaned": 0
+            },
+            "cycles": []
+          }
+        },
+        "bridge1": {
+          "serialTTFB": [
+            4.496125000001484, 4.522958999998082, 5.399166999999579,
+            3.7744170000005397, 3.5741669999988517, 3.7156250000007276,
+            3.6520000000018626, 3.5664580000011483, 3.1659160000017437
+          ],
+          "serialFirstApplicationHTML": [
+            4.538833000002342, 4.5692089999975, 5.4369169999990845,
+            3.969334000001254, 3.789375000000291, 3.765125000001717,
+            3.70600000000195, 3.7069159999991825, 3.459041000001889
+          ],
+          "concurrentTTFBp50": 7.236042000000452,
+          "concurrentBurstP50": 11.944604000000254,
+          "pageCommit": [
+            93.5, 93.79999995231628, 98.20000004768372, 95.69999980926514,
+            96.29999995231628, 93.5, 93.70000004768372, 92.80000019073486,
+            93.59999990463257
+          ],
+          "beforeToCommit": [
+            36.299999952316284, 36.10000014305115, 38.90000009536743,
+            36.799999952316284, 39.0, 36.200000047683716, 36.5, 35.5,
+            36.69999980926514
+          ],
+          "serverRssKB": {
+            "rssBefore": 456944,
+            "rssAfter": 820752
+          },
+          "resources": {
+            "mounted": {
+              "JSHeapUsedSize": 4440108,
+              "nodes": 94,
+              "jsEventListeners": 303,
+              "active": 2,
+              "cleaned": 0
+            },
+            "afterUnmount": {
+              "JSHeapUsedSize": 6220544,
+              "nodes": 61,
+              "jsEventListeners": 293,
+              "active": 1,
+              "cleaned": 11
+            },
+            "cycles": [
+              {
+                "unmounted": {
+                  "JSHeapUsedSize": 4640352,
+                  "nodes": 61,
+                  "jsEventListeners": 293,
+                  "active": 1,
+                  "cleaned": 1
+                },
+                "remounted": {
+                  "JSHeapUsedSize": 5150668,
+                  "nodes": 88,
+                  "jsEventListeners": 446,
+                  "active": 2,
+                  "cleaned": 1
+                }
+              },
+              {
+                "unmounted": {
+                  "JSHeapUsedSize": 5103336,
+                  "nodes": 61,
+                  "jsEventListeners": 293,
+                  "active": 1,
+                  "cleaned": 2
+                },
+                "remounted": {
+                  "JSHeapUsedSize": 5400228,
+                  "nodes": 88,
+                  "jsEventListeners": 446,
+                  "active": 2,
+                  "cleaned": 2
+                }
+              },
+              {
+                "unmounted": {
+                  "JSHeapUsedSize": 5315284,
+                  "nodes": 61,
+                  "jsEventListeners": 293,
+                  "active": 1,
+                  "cleaned": 3
+                },
+                "remounted": {
+                  "JSHeapUsedSize": 5560032,
+                  "nodes": 88,
+                  "jsEventListeners": 446,
+                  "active": 2,
+                  "cleaned": 3
+                }
+              },
+              {
+                "unmounted": {
+                  "JSHeapUsedSize": 5470172,
+                  "nodes": 61,
+                  "jsEventListeners": 293,
+                  "active": 1,
+                  "cleaned": 4
+                },
+                "remounted": {
+                  "JSHeapUsedSize": 5743852,
+                  "nodes": 88,
+                  "jsEventListeners": 446,
+                  "active": 2,
+                  "cleaned": 4
+                }
+              },
+              {
+                "unmounted": {
+                  "JSHeapUsedSize": 5664340,
+                  "nodes": 61,
+                  "jsEventListeners": 293,
+                  "active": 1,
+                  "cleaned": 5
+                },
+                "remounted": {
+                  "JSHeapUsedSize": 5847812,
+                  "nodes": 88,
+                  "jsEventListeners": 446,
+                  "active": 2,
+                  "cleaned": 5
+                }
+              },
+              {
+                "unmounted": {
+                  "JSHeapUsedSize": 5754376,
+                  "nodes": 61,
+                  "jsEventListeners": 293,
+                  "active": 1,
+                  "cleaned": 6
+                },
+                "remounted": {
+                  "JSHeapUsedSize": 5870872,
+                  "nodes": 88,
+                  "jsEventListeners": 446,
+                  "active": 2,
+                  "cleaned": 6
+                }
+              },
+              {
+                "unmounted": {
+                  "JSHeapUsedSize": 5778548,
+                  "nodes": 61,
+                  "jsEventListeners": 293,
+                  "active": 1,
+                  "cleaned": 7
+                },
+                "remounted": {
+                  "JSHeapUsedSize": 5903884,
+                  "nodes": 88,
+                  "jsEventListeners": 446,
+                  "active": 2,
+                  "cleaned": 7
+                }
+              },
+              {
+                "unmounted": {
+                  "JSHeapUsedSize": 5810752,
+                  "nodes": 61,
+                  "jsEventListeners": 293,
+                  "active": 1,
+                  "cleaned": 8
+                },
+                "remounted": {
+                  "JSHeapUsedSize": 6162768,
+                  "nodes": 88,
+                  "jsEventListeners": 446,
+                  "active": 2,
+                  "cleaned": 8
+                }
+              },
+              {
+                "unmounted": {
+                  "JSHeapUsedSize": 6092864,
+                  "nodes": 61,
+                  "jsEventListeners": 293,
+                  "active": 1,
+                  "cleaned": 9
+                },
+                "remounted": {
+                  "JSHeapUsedSize": 6288800,
+                  "nodes": 88,
+                  "jsEventListeners": 446,
+                  "active": 2,
+                  "cleaned": 9
+                }
+              },
+              {
+                "unmounted": {
+                  "JSHeapUsedSize": 6197932,
+                  "nodes": 61,
+                  "jsEventListeners": 293,
+                  "active": 1,
+                  "cleaned": 10
+                },
+                "remounted": {
+                  "JSHeapUsedSize": 6309780,
+                  "nodes": 88,
+                  "jsEventListeners": 446,
+                  "active": 2,
+                  "cleaned": 10
+                }
+              }
+            ]
+          }
+        },
+        "bridge8": {
+          "serialTTFB": [
+            3.3325000000004366, 4.4253329999992275, 4.076249999998254,
+            4.493500000000495, 4.399709000001167, 4.287709000000177,
+            4.329084000000876, 4.313249999999243, 5.486750000000029
+          ],
+          "serialFirstApplicationHTML": [
+            3.5322500000002037, 4.656208000000333, 4.247041999999055,
+            4.68133300000045, 4.591625000000931, 4.422624999999243,
+            4.53662500000064, 4.461749999998574, 5.8425829999978305
+          ],
+          "concurrentTTFBp50": 17.566707999994833,
+          "concurrentBurstP50": 31.260916500003077,
+          "pageCommit": [
+            101.60000014305115, 101.60000014305115, 101.79999995231628,
+            103.20000004768372, 101.39999985694885, 103.5, 104.09999990463257,
+            101.19999980926514, 101.10000014305115
+          ],
+          "beforeToCommit": [
+            43.40000009536743, 43.5, 43.5, 45.0, 43.200000047683716,
+            44.40000009536743, 45.19999980926514, 42.69999980926514, 43.0
+          ],
+          "serverRssKB": {
+            "rssBefore": 808336,
+            "rssAfter": 1048176
+          },
+          "resources": {
+            "mounted": {
+              "JSHeapUsedSize": 5745728,
+              "nodes": 416,
+              "jsEventListeners": 1367,
+              "active": 9,
+              "cleaned": 0
+            },
+            "afterUnmount": {
+              "JSHeapUsedSize": 6567744,
+              "nodes": 152,
+              "jsEventListeners": 1287,
+              "active": 1,
+              "cleaned": 88
+            },
+            "cycles": [
+              {
+                "unmounted": {
+                  "JSHeapUsedSize": 5404428,
+                  "nodes": 152,
+                  "jsEventListeners": 1287,
+                  "active": 1,
+                  "cleaned": 8
+                },
+                "remounted": {
+                  "JSHeapUsedSize": 6799888,
+                  "nodes": 368,
+                  "jsEventListeners": 2511,
+                  "active": 9,
+                  "cleaned": 8
+                }
+              },
+              {
+                "unmounted": {
+                  "JSHeapUsedSize": 6192236,
+                  "nodes": 152,
+                  "jsEventListeners": 1287,
+                  "active": 1,
+                  "cleaned": 16
+                },
+                "remounted": {
+                  "JSHeapUsedSize": 6960036,
+                  "nodes": 368,
+                  "jsEventListeners": 2511,
+                  "active": 9,
+                  "cleaned": 16
+                }
+              },
+              {
+                "unmounted": {
+                  "JSHeapUsedSize": 6347184,
+                  "nodes": 152,
+                  "jsEventListeners": 1287,
+                  "active": 1,
+                  "cleaned": 24
+                },
+                "remounted": {
+                  "JSHeapUsedSize": 6996008,
+                  "nodes": 368,
+                  "jsEventListeners": 2511,
+                  "active": 9,
+                  "cleaned": 24
+                }
+              },
+              {
+                "unmounted": {
+                  "JSHeapUsedSize": 6379192,
+                  "nodes": 152,
+                  "jsEventListeners": 1287,
+                  "active": 1,
+                  "cleaned": 32
+                },
+                "remounted": {
+                  "JSHeapUsedSize": 7041340,
+                  "nodes": 368,
+                  "jsEventListeners": 2511,
+                  "active": 9,
+                  "cleaned": 32
+                }
+              },
+              {
+                "unmounted": {
+                  "JSHeapUsedSize": 6430092,
+                  "nodes": 152,
+                  "jsEventListeners": 1287,
+                  "active": 1,
+                  "cleaned": 40
+                },
+                "remounted": {
+                  "JSHeapUsedSize": 7081244,
+                  "nodes": 368,
+                  "jsEventListeners": 2511,
+                  "active": 9,
+                  "cleaned": 40
+                }
+              },
+              {
+                "unmounted": {
+                  "JSHeapUsedSize": 6456356,
+                  "nodes": 152,
+                  "jsEventListeners": 1287,
+                  "active": 1,
+                  "cleaned": 48
+                },
+                "remounted": {
+                  "JSHeapUsedSize": 7114632,
+                  "nodes": 368,
+                  "jsEventListeners": 2511,
+                  "active": 9,
+                  "cleaned": 48
+                }
+              },
+              {
+                "unmounted": {
+                  "JSHeapUsedSize": 6495816,
+                  "nodes": 152,
+                  "jsEventListeners": 1287,
+                  "active": 1,
+                  "cleaned": 56
+                },
+                "remounted": {
+                  "JSHeapUsedSize": 7125664,
+                  "nodes": 368,
+                  "jsEventListeners": 2511,
+                  "active": 9,
+                  "cleaned": 56
+                }
+              },
+              {
+                "unmounted": {
+                  "JSHeapUsedSize": 6505356,
+                  "nodes": 152,
+                  "jsEventListeners": 1287,
+                  "active": 1,
+                  "cleaned": 64
+                },
+                "remounted": {
+                  "JSHeapUsedSize": 7140452,
+                  "nodes": 368,
+                  "jsEventListeners": 2511,
+                  "active": 9,
+                  "cleaned": 64
+                }
+              },
+              {
+                "unmounted": {
+                  "JSHeapUsedSize": 6519564,
+                  "nodes": 152,
+                  "jsEventListeners": 1287,
+                  "active": 1,
+                  "cleaned": 72
+                },
+                "remounted": {
+                  "JSHeapUsedSize": 7177784,
+                  "nodes": 368,
+                  "jsEventListeners": 2511,
+                  "active": 9,
+                  "cleaned": 72
+                }
+              },
+              {
+                "unmounted": {
+                  "JSHeapUsedSize": 6550212,
+                  "nodes": 152,
+                  "jsEventListeners": 1287,
+                  "active": 1,
+                  "cleaned": 80
+                },
+                "remounted": {
+                  "JSHeapUsedSize": 7189356,
+                  "nodes": 368,
+                  "jsEventListeners": 2511,
+                  "active": 9,
+                  "cleaned": 80
+                }
+              }
+            ]
+          }
+        }
+      }
+    },
+    "A2": {
+      "metadata": {
+        "sha": "93befbdc5b3c0203d5c84a338ed0d34ab9e15ffa",
+        "sourceSha256": "13130e7e08344dd73bc0f0c84a0fad4849ba8d6b08cb17a85908ca08d5b744ec",
+        "distSha256": "4389feb37db44981f109cb7516a02df6efb9ded617cdaa83af763850fbfb25e2",
+        "harnessSha256": "abee881da92d3aac3473a015bea290c5a5c31c015b9027b7272881b1b271a31d",
+        "lockSha256": "abd3017603f87585ab9f2bb962dbb91637a49a6c6099e3579ab10d2f273bf095",
+        "node": "v24.18.1",
+        "pnpm": "10.13.1",
+        "chrome": "Chrome/149.0.7827.54",
+        "cpu": "Apple M5 Pro",
+        "build": "NODE_ENV=production, buildCache=false, default minification, stats modules enabled",
+        "protocolVersion": "actual-html-frames-v5-warmup-recording",
+        "concurrentWarmup": 50,
+        "concurrentRounds": 50,
+        "sourceEqualsDist": true,
+        "startedAt": "2026-11-05T10:33:54.174Z",
+        "finishedAt": "2026-11-05T10:34:34.378Z",
+        "startLoadAverage": [6.39501953125, 5.52783203125, 5.572265625],
+        "endLoadAverage": [6.4990234375, 5.544921875, 5.5673828125]
+      },
+      "artifacts": {
+        "csr": {
+          "browser": {
+            "raw": 496555,
+            "gzip": 158316
+          },
+          "server": {
+            "raw": 0,
+            "gzip": 0
+          }
+        },
+        "string": {
+          "browser": {
+            "raw": 509145,
+            "gzip": 163038
+          },
+          "server": {
+            "raw": 1930330,
+            "gzip": 376066
+          }
+        },
+        "stream": {
+          "browser": {
+            "raw": 508814,
+            "gzip": 162949
+          },
+          "server": {
+            "raw": 1829558,
+            "gzip": 358597
+          }
+        },
+        "host": {
+          "browser": {
+            "raw": 862754,
+            "gzip": 275928
+          },
+          "server": {
+            "raw": 3885601,
+            "gzip": 792382
+          }
+        },
+        "provider": {
+          "browser": {
+            "raw": 876454,
+            "gzip": 280885
+          },
+          "server": {
+            "raw": 3296607,
+            "gzip": 708472
+          }
+        },
+        "nested": {
+          "browser": {
+            "raw": 833319,
+            "gzip": 260901
+          },
+          "server": {
+            "raw": 3762234,
+            "gzip": 777797
+          }
+        },
+        "library": {
+          "browser": {
+            "raw": 498334,
+            "gzip": 116817
+          },
+          "server": {
+            "raw": 522772,
+            "gzip": 122373
+          }
+        }
+      },
+      "scenarios": {
+        "csr": {
+          "serialTTFB": [
+            1.3740410000000338, 2.079791000000114, 1.9572079999998095,
+            1.9934580000003734, 1.9315420000002632, 1.9885840000001735,
+            2.068790999999692, 1.4250420000003032, 1.825249999999869
+          ],
+          "serialFirstApplicationHTML": [
+            null,
+            null,
+            null,
+            null,
+            null,
+            null,
+            null,
+            null,
+            null
+          ],
+          "concurrentTTFBp50": 2.027499999999918,
+          "concurrentBurstP50": 2.545333000000028,
+          "pageCommit": [
+            47.5, 52.09999990463257, 51.700000047683716, 46.700000047683716,
+            47.59999990463257, 50.59999990463257, 46.799999952316284,
+            46.89999985694885, 50.80000019073486
+          ],
+          "beforeToCommit": [
+            8.299999952316284, 12.599999904632568, 12.200000047683716,
+            8.100000143051147, 8.399999856948853, 12.200000047683716,
+            8.099999904632568, 8.099999904632568, 12.300000190734863
+          ],
+          "serverRssKB": {
+            "rssBefore": 128544,
+            "rssAfter": 174512
+          },
+          "resources": {
+            "mounted": {
+              "JSHeapUsedSize": 2323392,
+              "nodes": 31,
+              "jsEventListeners": 148,
+              "active": 1,
+              "cleaned": 0
+            },
+            "cycles": []
+          }
+        },
+        "string": {
+          "serialTTFB": [
+            1.6802499999994325, 2.391458999999486, 2.2463750000006257,
+            2.086250000000291, 2.034208000000035, 2.208082999999533,
+            2.2557919999999285, 1.9616249999999127, 2.0900830000000497
+          ],
+          "serialFirstApplicationHTML": [
+            1.6802499999994325, 2.391458999999486, 2.2463750000006257,
+            2.086250000000291, 2.034208000000035, 2.208082999999533,
+            2.2557919999999285, 1.9616249999999127, 2.0900830000000497
+          ],
+          "concurrentTTFBp50": 2.854395999999724,
+          "concurrentBurstP50": 4.071707999999489,
+          "pageCommit": [
+            47.200000047683716, 48.19999980926514, 47.89999985694885,
+            47.59999990463257, 48.40000009536743, 47.5, 48, 47.30000019073486,
+            47.299999952316284
+          ],
+          "beforeToCommit": [
+            5.400000095367432, 5.5, 5.299999952316284, 5.599999904632568,
+            5.400000095367432, 5.400000095367432, 5.5, 5.400000095367432,
+            5.3999998569488525
+          ],
+          "serverRssKB": {
+            "rssBefore": 135568,
+            "rssAfter": 315472
+          },
+          "resources": {
+            "mounted": {
+              "JSHeapUsedSize": 2240200,
+              "nodes": 44,
+              "jsEventListeners": 147,
+              "active": 1,
+              "cleaned": 0
+            },
+            "cycles": []
+          }
+        },
+        "stream": {
+          "serialTTFB": [
+            1.9120829999992566, 2.6312920000000304, 1.2130419999994047,
+            2.4696249999997235, 2.2324590000007447, 2.571291000000201,
+            2.38970800000061, 2.125625000000582, 2.1861659999995027
+          ],
+          "serialFirstApplicationHTML": [
+            1.9120829999992566, 2.6312920000000304, 1.2130419999994047,
+            2.4696249999997235, 2.2324590000007447, 2.571291000000201,
+            2.38970800000061, 2.125625000000582, 2.1861659999995027
+          ],
+          "concurrentTTFBp50": 2.931083000000399,
+          "concurrentBurstP50": 4.2734374999990905,
+          "pageCommit": [
+            50.59999990463257, 51.10000014305115, 54.799999952316284, 50.5,
+            50.39999985694885, 50.59999990463257, 50.200000047683716, 50.5, 51
+          ],
+          "beforeToCommit": [
+            7.5, 7.299999952316284, 7.299999952316284, 7.5, 7.299999952316284,
+            7.299999952316284, 7.5, 7.299999952316284, 7.300000190734863
+          ],
+          "serverRssKB": {
+            "rssBefore": 133424,
+            "rssAfter": 343088
+          },
+          "resources": {
+            "mounted": {
+              "JSHeapUsedSize": 2307040,
+              "nodes": 41,
+              "jsEventListeners": 147,
+              "active": 1,
+              "cleaned": 0
+            },
+            "cycles": []
+          }
+        },
+        "bridge1": {
+          "serialTTFB": [
+            4.5147500000020955, 4.2797910000008414, 4.533999999999651,
+            4.032833000001119, 3.728500000001077, 3.780457999997452,
+            3.6341670000001614, 3.682708000000275, 3.378499999998894
+          ],
+          "serialFirstApplicationHTML": [
+            4.5567080000000715, 4.326916000001802, 4.533999999999651,
+            4.081083000000945, 3.895457999999053, 3.957916999999725,
+            3.673125000001164, 3.982040999999299, 3.5947090000008757
+          ],
+          "concurrentTTFBp50": 7.118645999998989,
+          "concurrentBurstP50": 11.809250000000247,
+          "pageCommit": [
+            93.20000004768372, 94.59999990463257, 93.90000009536743,
+            95.70000004768372, 96, 95.29999995231628, 94.5, 94.20000004768372,
+            94.39999985694885
+          ],
+          "beforeToCommit": [
+            35.5, 36.90000009536743, 37.0, 36.5, 38.09999990463257,
+            37.299999952316284, 37.0, 36.59999990463257, 36.299999952316284
+          ],
+          "serverRssKB": {
+            "rssBefore": 456976,
+            "rssAfter": 893952
+          },
+          "resources": {
+            "mounted": {
+              "JSHeapUsedSize": 4441740,
+              "nodes": 94,
+              "jsEventListeners": 303,
+              "active": 2,
+              "cleaned": 0
+            },
+            "afterUnmount": {
+              "JSHeapUsedSize": 6221304,
+              "nodes": 61,
+              "jsEventListeners": 293,
+              "active": 1,
+              "cleaned": 11
+            },
+            "cycles": [
+              {
+                "unmounted": {
+                  "JSHeapUsedSize": 4643884,
+                  "nodes": 61,
+                  "jsEventListeners": 293,
+                  "active": 1,
+                  "cleaned": 1
+                },
+                "remounted": {
+                  "JSHeapUsedSize": 5145648,
+                  "nodes": 88,
+                  "jsEventListeners": 446,
+                  "active": 2,
+                  "cleaned": 1
+                }
+              },
+              {
+                "unmounted": {
+                  "JSHeapUsedSize": 5102376,
+                  "nodes": 61,
+                  "jsEventListeners": 293,
+                  "active": 1,
+                  "cleaned": 2
+                },
+                "remounted": {
+                  "JSHeapUsedSize": 5404288,
+                  "nodes": 88,
+                  "jsEventListeners": 446,
+                  "active": 2,
+                  "cleaned": 2
+                }
+              },
+              {
+                "unmounted": {
+                  "JSHeapUsedSize": 5319812,
+                  "nodes": 61,
+                  "jsEventListeners": 293,
+                  "active": 1,
+                  "cleaned": 3
+                },
+                "remounted": {
+                  "JSHeapUsedSize": 5561628,
+                  "nodes": 88,
+                  "jsEventListeners": 446,
+                  "active": 2,
+                  "cleaned": 3
+                }
+              },
+              {
+                "unmounted": {
+                  "JSHeapUsedSize": 5472712,
+                  "nodes": 61,
+                  "jsEventListeners": 293,
+                  "active": 1,
+                  "cleaned": 4
+                },
+                "remounted": {
+                  "JSHeapUsedSize": 5742968,
+                  "nodes": 88,
+                  "jsEventListeners": 446,
+                  "active": 2,
+                  "cleaned": 4
+                }
+              },
+              {
+                "unmounted": {
+                  "JSHeapUsedSize": 5665060,
+                  "nodes": 61,
+                  "jsEventListeners": 293,
+                  "active": 1,
+                  "cleaned": 5
+                },
+                "remounted": {
+                  "JSHeapUsedSize": 5846744,
+                  "nodes": 88,
+                  "jsEventListeners": 446,
+                  "active": 2,
+                  "cleaned": 5
+                }
+              },
+              {
+                "unmounted": {
+                  "JSHeapUsedSize": 5754692,
+                  "nodes": 61,
+                  "jsEventListeners": 293,
+                  "active": 1,
+                  "cleaned": 6
+                },
+                "remounted": {
+                  "JSHeapUsedSize": 5869888,
+                  "nodes": 88,
+                  "jsEventListeners": 446,
+                  "active": 2,
+                  "cleaned": 6
+                }
+              },
+              {
+                "unmounted": {
+                  "JSHeapUsedSize": 5778936,
+                  "nodes": 61,
+                  "jsEventListeners": 293,
+                  "active": 1,
+                  "cleaned": 7
+                },
+                "remounted": {
+                  "JSHeapUsedSize": 5896364,
+                  "nodes": 88,
+                  "jsEventListeners": 446,
+                  "active": 2,
+                  "cleaned": 7
+                }
+              },
+              {
+                "unmounted": {
+                  "JSHeapUsedSize": 5805208,
+                  "nodes": 61,
+                  "jsEventListeners": 293,
+                  "active": 1,
+                  "cleaned": 8
+                },
+                "remounted": {
+                  "JSHeapUsedSize": 6160736,
+                  "nodes": 88,
+                  "jsEventListeners": 446,
+                  "active": 2,
+                  "cleaned": 8
+                }
+              },
+              {
+                "unmounted": {
+                  "JSHeapUsedSize": 6091620,
+                  "nodes": 61,
+                  "jsEventListeners": 293,
+                  "active": 1,
+                  "cleaned": 9
+                },
+                "remounted": {
+                  "JSHeapUsedSize": 6288600,
+                  "nodes": 88,
+                  "jsEventListeners": 446,
+                  "active": 2,
+                  "cleaned": 9
+                }
+              },
+              {
+                "unmounted": {
+                  "JSHeapUsedSize": 6199244,
+                  "nodes": 61,
+                  "jsEventListeners": 293,
+                  "active": 1,
+                  "cleaned": 10
+                },
+                "remounted": {
+                  "JSHeapUsedSize": 6309348,
+                  "nodes": 88,
+                  "jsEventListeners": 446,
+                  "active": 2,
+                  "cleaned": 10
+                }
+              }
+            ]
+          }
+        },
+        "bridge8": {
+          "serialTTFB": [
+            3.2815000000009604, 4.025582999998733, 3.966959000001225,
+            3.7404999999998836, 3.909749999998894, 3.5623750000013388,
+            2.70233300000109, 3.7865830000009737, 3.663749999999709
+          ],
+          "serialFirstApplicationHTML": [
+            3.53412500000195, 4.302832999997918, 4.147000000000844,
+            3.985707999996521, 4.14495800000077, 3.8282080000026326,
+            2.865875000003143, 3.973541999999725, 3.918208000002778
+          ],
+          "concurrentTTFBp50": 17.122333499999513,
+          "concurrentBurstP50": 31.02283350000289,
+          "pageCommit": [
+            102, 102, 101.29999995231628, 102.5, 101.70000004768372,
+            102.20000004768372, 101.80000019073486, 103.19999980926514,
+            103.09999990463257
+          ],
+          "beforeToCommit": [
+            42.69999980926514, 43.60000014305115, 42.5, 43.200000047683716,
+            42.30000019073486, 43.700000047683716, 42.90000009536743,
+            43.69999980926514, 42.90000009536743
+          ],
+          "serverRssKB": {
+            "rssBefore": 883568,
+            "rssAfter": 1109232
+          },
+          "resources": {
+            "mounted": {
+              "JSHeapUsedSize": 5743724,
+              "nodes": 416,
+              "jsEventListeners": 1367,
+              "active": 9,
+              "cleaned": 0
+            },
+            "afterUnmount": {
+              "JSHeapUsedSize": 6567552,
+              "nodes": 152,
+              "jsEventListeners": 1287,
+              "active": 1,
+              "cleaned": 88
+            },
+            "cycles": [
+              {
+                "unmounted": {
+                  "JSHeapUsedSize": 5400664,
+                  "nodes": 152,
+                  "jsEventListeners": 1287,
+                  "active": 1,
+                  "cleaned": 8
+                },
+                "remounted": {
+                  "JSHeapUsedSize": 6792352,
+                  "nodes": 368,
+                  "jsEventListeners": 2511,
+                  "active": 9,
+                  "cleaned": 8
+                }
+              },
+              {
+                "unmounted": {
+                  "JSHeapUsedSize": 6192368,
+                  "nodes": 152,
+                  "jsEventListeners": 1287,
+                  "active": 1,
+                  "cleaned": 16
+                },
+                "remounted": {
+                  "JSHeapUsedSize": 6959668,
+                  "nodes": 368,
+                  "jsEventListeners": 2511,
+                  "active": 9,
+                  "cleaned": 16
+                }
+              },
+              {
+                "unmounted": {
+                  "JSHeapUsedSize": 6346296,
+                  "nodes": 152,
+                  "jsEventListeners": 1287,
+                  "active": 1,
+                  "cleaned": 24
+                },
+                "remounted": {
+                  "JSHeapUsedSize": 6994948,
+                  "nodes": 368,
+                  "jsEventListeners": 2511,
+                  "active": 9,
+                  "cleaned": 24
+                }
+              },
+              {
+                "unmounted": {
+                  "JSHeapUsedSize": 6377588,
+                  "nodes": 152,
+                  "jsEventListeners": 1287,
+                  "active": 1,
+                  "cleaned": 32
+                },
+                "remounted": {
+                  "JSHeapUsedSize": 7040756,
+                  "nodes": 368,
+                  "jsEventListeners": 2511,
+                  "active": 9,
+                  "cleaned": 32
+                }
+              },
+              {
+                "unmounted": {
+                  "JSHeapUsedSize": 6428940,
+                  "nodes": 152,
+                  "jsEventListeners": 1287,
+                  "active": 1,
+                  "cleaned": 40
+                },
+                "remounted": {
+                  "JSHeapUsedSize": 7079356,
+                  "nodes": 368,
+                  "jsEventListeners": 2511,
+                  "active": 9,
+                  "cleaned": 40
+                }
+              },
+              {
+                "unmounted": {
+                  "JSHeapUsedSize": 6455956,
+                  "nodes": 152,
+                  "jsEventListeners": 1287,
+                  "active": 1,
+                  "cleaned": 48
+                },
+                "remounted": {
+                  "JSHeapUsedSize": 7114336,
+                  "nodes": 368,
+                  "jsEventListeners": 2511,
+                  "active": 9,
+                  "cleaned": 48
+                }
+              },
+              {
+                "unmounted": {
+                  "JSHeapUsedSize": 6495780,
+                  "nodes": 152,
+                  "jsEventListeners": 1287,
+                  "active": 1,
+                  "cleaned": 56
+                },
+                "remounted": {
+                  "JSHeapUsedSize": 7125536,
+                  "nodes": 368,
+                  "jsEventListeners": 2511,
+                  "active": 9,
+                  "cleaned": 56
+                }
+              },
+              {
+                "unmounted": {
+                  "JSHeapUsedSize": 6503388,
+                  "nodes": 152,
+                  "jsEventListeners": 1287,
+                  "active": 1,
+                  "cleaned": 64
+                },
+                "remounted": {
+                  "JSHeapUsedSize": 7142120,
+                  "nodes": 368,
+                  "jsEventListeners": 2511,
+                  "active": 9,
+                  "cleaned": 64
+                }
+              },
+              {
+                "unmounted": {
+                  "JSHeapUsedSize": 6521400,
+                  "nodes": 152,
+                  "jsEventListeners": 1287,
+                  "active": 1,
+                  "cleaned": 72
+                },
+                "remounted": {
+                  "JSHeapUsedSize": 7173308,
+                  "nodes": 368,
+                  "jsEventListeners": 2511,
+                  "active": 9,
+                  "cleaned": 72
+                }
+              },
+              {
+                "unmounted": {
+                  "JSHeapUsedSize": 6552756,
+                  "nodes": 152,
+                  "jsEventListeners": 1287,
+                  "active": 1,
+                  "cleaned": 80
+                },
+                "remounted": {
+                  "JSHeapUsedSize": 7196120,
+                  "nodes": 368,
+                  "jsEventListeners": 2511,
+                  "active": 9,
+                  "cleaned": 80
+                }
+              }
+            ]
+          }
+        }
+      }
+    }
+  },
+  "micro": {
+    "base": [
+      [
+        {
+          "ordinaryInstance": 0.008483216800000002,
+          "bridgeInstance": 0.0086380584,
+          "ordinaryRequest": 0.006338675
+        },
+        {
+          "ordinaryInstance": 0.006043400000000009,
+          "bridgeInstance": 0.005795391599999994,
+          "ordinaryRequest": 0.006616658200000006
+        },
+        {
+          "ordinaryInstance": 0.0058641000000000075,
+          "bridgeInstance": 0.005796816599999989,
+          "ordinaryRequest": 0.006146325000000002
+        },
+        {
+          "ordinaryInstance": 0.005880508399999985,
+          "bridgeInstance": 0.005790100000000006,
+          "ordinaryRequest": 0.0063324331999999916
+        },
+        {
+          "ordinaryInstance": 0.005987258399999996,
+          "bridgeInstance": 0.005832799999999997,
+          "ordinaryRequest": 0.006269558200000006
+        },
+        {
+          "ordinaryInstance": 0.005803358400000002,
+          "bridgeInstance": 0.005765766799999983,
+          "ordinaryRequest": 0.006394149999999991
+        },
+        {
+          "ordinaryInstance": 0.00584875840000002,
+          "bridgeInstance": 0.005781066599999986,
+          "ordinaryRequest": 0.00629916659999999
+        },
+        {
+          "ordinaryInstance": 0.005882358199999999,
+          "bridgeInstance": 0.005745833399999992,
+          "ordinaryRequest": 0.00633215839999998
+        },
+        {
+          "ordinaryInstance": 0.006004799999999978,
+          "bridgeInstance": 0.005998591799999986,
+          "ordinaryRequest": 0.00629548319999999
+        }
+      ],
+      [
+        {
+          "ordinaryInstance": 0.008271575000000001,
+          "bridgeInstance": 0.008210583399999995,
+          "ordinaryRequest": 0.006043883199999993
+        },
+        {
+          "ordinaryInstance": 0.005751808400000004,
+          "bridgeInstance": 0.005623325,
+          "ordinaryRequest": 0.006319799999999998
+        },
+        {
+          "ordinaryInstance": 0.005669891600000005,
+          "bridgeInstance": 0.005615208200000006,
+          "ordinaryRequest": 0.005916991599999994
+        },
+        {
+          "ordinaryInstance": 0.005663366799999995,
+          "bridgeInstance": 0.005521524999999997,
+          "ordinaryRequest": 0.0060927749999999834
+        },
+        {
+          "ordinaryInstance": 0.005678199999999993,
+          "bridgeInstance": 0.00559837500000001,
+          "ordinaryRequest": 0.006025258199999985
+        },
+        {
+          "ordinaryInstance": 0.005629141600000003,
+          "bridgeInstance": 0.005539833399999998,
+          "ordinaryRequest": 0.006084066600000005
+        },
+        {
+          "ordinaryInstance": 0.005670541600000001,
+          "bridgeInstance": 0.005587741800000003,
+          "ordinaryRequest": 0.005983275000000003
+        },
+        {
+          "ordinaryInstance": 0.005680033400000002,
+          "bridgeInstance": 0.005470083399999999,
+          "ordinaryRequest": 0.0059226917999999846
+        },
+        {
+          "ordinaryInstance": 0.005597025000000008,
+          "bridgeInstance": 0.005598666799999956,
+          "ordinaryRequest": 0.005916533200000003
+        }
+      ]
+    ],
+    "head": [
+      [
+        {
+          "ordinaryInstance": 0.005631449999999995,
+          "bridgeInstance": 0.005846624999999994,
+          "ordinaryRequest": 0.00657885
+        },
+        {
+          "ordinaryInstance": 0.0059039500000000085,
+          "bridgeInstance": 0.006255066799999997,
+          "ordinaryRequest": 0.0067097668
+        },
+        {
+          "ordinaryInstance": 0.005223350000000005,
+          "bridgeInstance": 0.005875183400000015,
+          "ordinaryRequest": 0.0061684081999999986
+        },
+        {
+          "ordinaryInstance": 0.005081333400000017,
+          "bridgeInstance": 0.006088891599999988,
+          "ordinaryRequest": 0.006428116599999999
+        },
+        {
+          "ordinaryInstance": 0.004943241799999987,
+          "bridgeInstance": 0.005932191799999987,
+          "ordinaryRequest": 0.006048825000000011
+        },
+        {
+          "ordinaryInstance": 0.004997225000000003,
+          "bridgeInstance": 0.005803108400000019,
+          "ordinaryRequest": 0.0063548
+        },
+        {
+          "ordinaryInstance": 0.005145783400000005,
+          "bridgeInstance": 0.006079025000000002,
+          "ordinaryRequest": 0.006284666799999991
+        },
+        {
+          "ordinaryInstance": 0.004859433399999989,
+          "bridgeInstance": 0.00586747499999999,
+          "ordinaryRequest": 0.006192149999999993
+        },
+        {
+          "ordinaryInstance": 0.00520264159999997,
+          "bridgeInstance": 0.005827116800000021,
+          "ordinaryRequest": 0.006233041800000001
+        }
+      ],
+      [
+        {
+          "ordinaryInstance": 0.0054101584,
+          "bridgeInstance": 0.005649975000000001,
+          "ordinaryRequest": 0.006259699999999998
+        },
+        {
+          "ordinaryInstance": 0.005323758399999997,
+          "bridgeInstance": 0.005726691800000004,
+          "ordinaryRequest": 0.006254058199999997
+        },
+        {
+          "ordinaryInstance": 0.005058125000000007,
+          "bridgeInstance": 0.005662749999999994,
+          "ordinaryRequest": 0.006053316600000005
+        },
+        {
+          "ordinaryInstance": 0.004906899999999996,
+          "bridgeInstance": 0.005840791599999989,
+          "ordinaryRequest": 0.006058425000000011
+        },
+        {
+          "ordinaryInstance": 0.004734941600000002,
+          "bridgeInstance": 0.005547474999999986,
+          "ordinaryRequest": 0.005829733400000009
+        },
+        {
+          "ordinaryInstance": 0.004791525000000001,
+          "bridgeInstance": 0.005562291600000003,
+          "ordinaryRequest": 0.006091991800000005
+        },
+        {
+          "ordinaryInstance": 0.004798366600000008,
+          "bridgeInstance": 0.005604050000000006,
+          "ordinaryRequest": 0.006015541800000006
+        },
+        {
+          "ordinaryInstance": 0.0047694332000000035,
+          "bridgeInstance": 0.005679124999999999,
+          "ordinaryRequest": 0.006006266600000003
+        },
+        {
+          "ordinaryInstance": 0.0046957165999999915,
+          "bridgeInstance": 0.005555983199999992,
+          "ordinaryRequest": 0.005830975000000035
+        }
+      ]
+    ]
+  },
+  "memory": {
+    "base": [
+      [
+        {
+          "engine": {
+            "count": 1000,
+            "retainedBytes": 5751528,
+            "releasedHeapDelta": -11872,
+            "reachable": 0,
+            "reachableContexts": 0
+          },
+          "bridge": {
+            "count": 1000,
+            "retainedBytes": 6926664,
+            "releasedHeapDelta": 39120,
+            "reachable": 0,
+            "reachableContexts": 0
+          },
+          "bridgeServer": {
+            "count": 1000,
+            "retainedBytes": 7199848,
+            "releasedHeapDelta": -16496,
+            "reachable": 0,
+            "reachableContexts": 0
+          },
+          "owner": {
+            "count": 1000,
+            "retainedBytes": 6615768,
+            "releasedHeapDelta": 5584,
+            "reachable": 0,
+            "reachableContexts": 0
+          }
+        },
+        {
+          "engine": {
+            "count": 1000,
+            "retainedBytes": 5839168,
+            "releasedHeapDelta": 28752,
+            "reachable": 0,
+            "reachableContexts": 0
+          },
+          "bridge": {
+            "count": 1000,
+            "retainedBytes": 6857608,
+            "releasedHeapDelta": -29432,
+            "reachable": 0,
+            "reachableContexts": 0
+          },
+          "bridgeServer": {
+            "count": 1000,
+            "retainedBytes": 7243080,
+            "releasedHeapDelta": -1248,
+            "reachable": 0,
+            "reachableContexts": 0
+          },
+          "owner": {
+            "count": 1000,
+            "retainedBytes": 6635056,
+            "releasedHeapDelta": 32840,
+            "reachable": 0,
+            "reachableContexts": 0
+          }
+        },
+        {
+          "engine": {
+            "count": 1000,
+            "retainedBytes": 5788464,
+            "releasedHeapDelta": -34072,
+            "reachable": 0,
+            "reachableContexts": 0
+          },
+          "bridge": {
+            "count": 1000,
+            "retainedBytes": 6917064,
+            "releasedHeapDelta": 57672,
+            "reachable": 0,
+            "reachableContexts": 0
+          },
+          "bridgeServer": {
+            "count": 1000,
+            "retainedBytes": 7268032,
+            "releasedHeapDelta": 33152,
+            "reachable": 0,
+            "reachableContexts": 0
+          },
+          "owner": {
+            "count": 1000,
+            "retainedBytes": 6576192,
+            "releasedHeapDelta": -88416,
+            "reachable": 0,
+            "reachableContexts": 0
+          }
+        }
+      ],
+      [
+        {
+          "engine": {
+            "count": 1000,
+            "retainedBytes": 5751528,
+            "releasedHeapDelta": 2472,
+            "reachable": 0,
+            "reachableContexts": 0
+          },
+          "bridge": {
+            "count": 1000,
+            "retainedBytes": 6911584,
+            "releasedHeapDelta": 24040,
+            "reachable": 0,
+            "reachableContexts": 0
+          },
+          "bridgeServer": {
+            "count": 1000,
+            "retainedBytes": 7199840,
+            "releasedHeapDelta": -16504,
+            "reachable": 0,
+            "reachableContexts": 0
+          },
+          "owner": {
+            "count": 1000,
+            "retainedBytes": 6615704,
+            "releasedHeapDelta": 5520,
+            "reachable": 0,
+            "reachableContexts": 0
+          }
+        },
+        {
+          "engine": {
+            "count": 1000,
+            "retainedBytes": 5839232,
+            "releasedHeapDelta": 28816,
+            "reachable": 0,
+            "reachableContexts": 0
+          },
+          "bridge": {
+            "count": 1000,
+            "retainedBytes": 6857600,
+            "releasedHeapDelta": -29440,
+            "reachable": 0,
+            "reachableContexts": 0
+          },
+          "bridgeServer": {
+            "count": 1000,
+            "retainedBytes": 7243080,
+            "releasedHeapDelta": 456,
+            "reachable": 0,
+            "reachableContexts": 0
+          },
+          "owner": {
+            "count": 1000,
+            "retainedBytes": 6638384,
+            "releasedHeapDelta": 36168,
+            "reachable": 0,
+            "reachableContexts": 0
+          }
+        },
+        {
+          "engine": {
+            "count": 1000,
+            "retainedBytes": 5788464,
+            "releasedHeapDelta": -34072,
+            "reachable": 0,
+            "reachableContexts": 0
+          },
+          "bridge": {
+            "count": 1000,
+            "retainedBytes": 6917104,
+            "releasedHeapDelta": 47088,
+            "reachable": 0,
+            "reachableContexts": 0
+          },
+          "bridgeServer": {
+            "count": 1000,
+            "retainedBytes": 7272608,
+            "releasedHeapDelta": -27584,
+            "reachable": 0,
+            "reachableContexts": 0
+          },
+          "owner": {
+            "count": 1000,
+            "retainedBytes": 6599128,
+            "releasedHeapDelta": -19792,
+            "reachable": 0,
+            "reachableContexts": 0
+          }
+        }
+      ]
+    ],
+    "head": [
+      [
+        {
+          "engine": {
+            "count": 1000,
+            "retainedBytes": 4641240,
+            "releasedHeapDelta": -32040,
+            "reachable": 0,
+            "reachableContexts": 0
+          },
+          "bridge": {
+            "count": 1000,
+            "retainedBytes": 6258016,
+            "releasedHeapDelta": 5608,
+            "reachable": 0,
+            "reachableContexts": 0
+          },
+          "bridgeServer": {
+            "count": 1000,
+            "retainedBytes": 6619008,
+            "releasedHeapDelta": 20952,
+            "reachable": 0,
+            "reachableContexts": 0
+          },
+          "owner": {
+            "count": 1000,
+            "retainedBytes": 5034768,
+            "releasedHeapDelta": 4448,
+            "reachable": 0,
+            "reachableContexts": 0
+          }
+        },
+        {
+          "engine": {
+            "count": 1000,
+            "retainedBytes": 4719872,
+            "releasedHeapDelta": 2104,
+            "reachable": 0,
+            "reachableContexts": 0
+          },
+          "bridge": {
+            "count": 1000,
+            "retainedBytes": 6277688,
+            "releasedHeapDelta": 22552,
+            "reachable": 0,
+            "reachableContexts": 0
+          },
+          "bridgeServer": {
+            "count": 1000,
+            "retainedBytes": 6593576,
+            "releasedHeapDelta": -31384,
+            "reachable": 0,
+            "reachableContexts": 0
+          },
+          "owner": {
+            "count": 1000,
+            "retainedBytes": 5012704,
+            "releasedHeapDelta": -1688,
+            "reachable": 0,
+            "reachableContexts": 0
+          }
+        },
+        {
+          "engine": {
+            "count": 1000,
+            "retainedBytes": 4714952,
+            "releasedHeapDelta": -2752,
+            "reachable": 0,
+            "reachableContexts": 0
+          },
+          "bridge": {
+            "count": 1000,
+            "retainedBytes": 6305000,
+            "releasedHeapDelta": 57744,
+            "reachable": 0,
+            "reachableContexts": 0
+          },
+          "bridgeServer": {
+            "count": 1000,
+            "retainedBytes": 6542096,
+            "releasedHeapDelta": -74840,
+            "reachable": 0,
+            "reachableContexts": 0
+          },
+          "owner": {
+            "count": 1000,
+            "retainedBytes": 5025864,
+            "releasedHeapDelta": 9656,
+            "reachable": 0,
+            "reachableContexts": 0
+          }
+        }
+      ],
+      [
+        {
+          "engine": {
+            "count": 1000,
+            "retainedBytes": 4643512,
+            "releasedHeapDelta": -19840,
+            "reachable": 0,
+            "reachableContexts": 0
+          },
+          "bridge": {
+            "count": 1000,
+            "retainedBytes": 6249624,
+            "releasedHeapDelta": -2784,
+            "reachable": 0,
+            "reachableContexts": 0
+          },
+          "bridgeServer": {
+            "count": 1000,
+            "retainedBytes": 6619008,
+            "releasedHeapDelta": 20952,
+            "reachable": 0,
+            "reachableContexts": 0
+          },
+          "owner": {
+            "count": 1000,
+            "retainedBytes": 5022648,
+            "releasedHeapDelta": 4496,
+            "reachable": 0,
+            "reachableContexts": 0
+          }
+        },
+        {
+          "engine": {
+            "count": 1000,
+            "retainedBytes": 4719808,
+            "releasedHeapDelta": 2040,
+            "reachable": 0,
+            "reachableContexts": 0
+          },
+          "bridge": {
+            "count": 1000,
+            "retainedBytes": 6270912,
+            "releasedHeapDelta": 44624,
+            "reachable": 0,
+            "reachableContexts": 0
+          },
+          "bridgeServer": {
+            "count": 1000,
+            "retainedBytes": 6627584,
+            "releasedHeapDelta": 19600,
+            "reachable": 0,
+            "reachableContexts": 0
+          },
+          "owner": {
+            "count": 1000,
+            "retainedBytes": 4987288,
+            "releasedHeapDelta": -32752,
+            "reachable": 0,
+            "reachableContexts": 0
+          }
+        },
+        {
+          "engine": {
+            "count": 1000,
+            "retainedBytes": 4714808,
+            "releasedHeapDelta": -2896,
+            "reachable": 0,
+            "reachableContexts": 0
+          },
+          "bridge": {
+            "count": 1000,
+            "retainedBytes": 6298264,
+            "releasedHeapDelta": 68240,
+            "reachable": 0,
+            "reachableContexts": 0
+          },
+          "bridgeServer": {
+            "count": 1000,
+            "retainedBytes": 6627872,
+            "releasedHeapDelta": 49416,
+            "reachable": 0,
+            "reachableContexts": 0
+          },
+          "owner": {
+            "count": 1000,
+            "retainedBytes": 4987960,
+            "releasedHeapDelta": -65928,
+            "reachable": 0,
+            "reachableContexts": 0
+          }
+        }
+      ]
+    ]
+  },
+  "retained": {
+    "base": {
+      "ordinary": {
+        "before": {
+          "JSHeapUsedSize": 1132236,
+          "nodes": 11,
+          "jsEventListeners": 2,
+          "contexts": 0,
+          "payloads": 0,
+          "snapshots": 0,
+          "handles": 0
+        },
+        "retained": {
+          "JSHeapUsedSize": 1752728,
+          "nodes": 11,
+          "jsEventListeners": 3,
+          "contexts": 0,
+          "payloads": 0,
+          "snapshots": 0,
+          "handles": 50
+        },
+        "released": {
+          "JSHeapUsedSize": 1747820,
+          "nodes": 11,
+          "jsEventListeners": 3,
+          "contexts": 0,
+          "payloads": 0,
+          "snapshots": 0,
+          "handles": 0
+        },
+        "errors": []
+      },
+      "ordinary-hydrate": {
+        "before": {
+          "JSHeapUsedSize": 1132236,
+          "nodes": 11,
+          "jsEventListeners": 2,
+          "contexts": 0,
+          "payloads": 0,
+          "snapshots": 0,
+          "handles": 0
+        },
+        "retained": {
+          "JSHeapUsedSize": 1817120,
+          "nodes": 11,
+          "jsEventListeners": 3,
+          "contexts": 0,
+          "payloads": 0,
+          "snapshots": 0,
+          "handles": 50
+        },
+        "released": {
+          "JSHeapUsedSize": 1812384,
+          "nodes": 11,
+          "jsEventListeners": 3,
+          "contexts": 0,
+          "payloads": 0,
+          "snapshots": 0,
+          "handles": 0
+        },
+        "errors": []
+      },
+      "bridge": {
+        "before": {
+          "JSHeapUsedSize": 1132236,
+          "nodes": 11,
+          "jsEventListeners": 2,
+          "contexts": 0,
+          "payloads": 0,
+          "snapshots": 0,
+          "handles": 0
+        },
+        "retained": {
+          "JSHeapUsedSize": 1825220,
+          "nodes": 11,
+          "jsEventListeners": 3,
+          "contexts": 0,
+          "payloads": 0,
+          "snapshots": 0,
+          "handles": 50
+        },
+        "released": {
+          "JSHeapUsedSize": 1796468,
+          "nodes": 11,
+          "jsEventListeners": 3,
+          "contexts": 0,
+          "payloads": 0,
+          "snapshots": 0,
+          "handles": 0
+        },
+        "errors": []
+      },
+      "bridge-hydrate": {
+        "before": {
+          "JSHeapUsedSize": 1132236,
+          "nodes": 11,
+          "jsEventListeners": 2,
+          "contexts": 0,
+          "payloads": 0,
+          "snapshots": 0,
+          "handles": 0
+        },
+        "retained": {
+          "JSHeapUsedSize": 1862096,
+          "nodes": 11,
+          "jsEventListeners": 3,
+          "contexts": 0,
+          "payloads": 0,
+          "snapshots": 0,
+          "handles": 50
+        },
+        "released": {
+          "JSHeapUsedSize": 1833516,
+          "nodes": 11,
+          "jsEventListeners": 3,
+          "contexts": 0,
+          "payloads": 0,
+          "snapshots": 0,
+          "handles": 0
+        },
+        "errors": []
+      }
+    },
+    "head": {
+      "ordinary": {
+        "before": {
+          "JSHeapUsedSize": 1133296,
+          "nodes": 11,
+          "jsEventListeners": 2,
+          "contexts": 0,
+          "payloads": 0,
+          "snapshots": 0,
+          "handles": 0
+        },
+        "retained": {
+          "JSHeapUsedSize": 1743228,
+          "nodes": 11,
+          "jsEventListeners": 3,
+          "contexts": 0,
+          "payloads": 0,
+          "snapshots": 0,
+          "handles": 50
+        },
+        "released": {
+          "JSHeapUsedSize": 1738320,
+          "nodes": 11,
+          "jsEventListeners": 3,
+          "contexts": 0,
+          "payloads": 0,
+          "snapshots": 0,
+          "handles": 0
+        },
+        "errors": []
+      },
+      "ordinary-hydrate": {
+        "before": {
+          "JSHeapUsedSize": 1133296,
+          "nodes": 11,
+          "jsEventListeners": 2,
+          "contexts": 0,
+          "payloads": 0,
+          "snapshots": 0,
+          "handles": 0
+        },
+        "retained": {
+          "JSHeapUsedSize": 1802024,
+          "nodes": 11,
+          "jsEventListeners": 3,
+          "contexts": 0,
+          "payloads": 0,
+          "snapshots": 0,
+          "handles": 50
+        },
+        "released": {
+          "JSHeapUsedSize": 1797288,
+          "nodes": 11,
+          "jsEventListeners": 3,
+          "contexts": 0,
+          "payloads": 0,
+          "snapshots": 0,
+          "handles": 0
+        },
+        "errors": []
+      },
+      "bridge": {
+        "before": {
+          "JSHeapUsedSize": 1133320,
+          "nodes": 11,
+          "jsEventListeners": 2,
+          "contexts": 0,
+          "payloads": 0,
+          "snapshots": 0,
+          "handles": 0
+        },
+        "retained": {
+          "JSHeapUsedSize": 1824468,
+          "nodes": 11,
+          "jsEventListeners": 3,
+          "contexts": 0,
+          "payloads": 0,
+          "snapshots": 0,
+          "handles": 50
+        },
+        "released": {
+          "JSHeapUsedSize": 1802316,
+          "nodes": 11,
+          "jsEventListeners": 3,
+          "contexts": 0,
+          "payloads": 0,
+          "snapshots": 0,
+          "handles": 0
+        },
+        "errors": []
+      },
+      "bridge-hydrate": {
+        "before": {
+          "JSHeapUsedSize": 1133296,
+          "nodes": 11,
+          "jsEventListeners": 2,
+          "contexts": 0,
+          "payloads": 0,
+          "snapshots": 0,
+          "handles": 0
+        },
+        "retained": {
+          "JSHeapUsedSize": 1868112,
+          "nodes": 11,
+          "jsEventListeners": 3,
+          "contexts": 0,
+          "payloads": 0,
+          "snapshots": 0,
+          "handles": 50
+        },
+        "released": {
+          "JSHeapUsedSize": 1839532,
+          "nodes": 11,
+          "jsEventListeners": 3,
+          "contexts": 0,
+          "payloads": 0,
+          "snapshots": 0,
+          "handles": 0
+        },
+        "errors": []
+      }
+    }
+  },
+  "pairedControls": {
+    "accepted-paired": {
+      "protocol": "paired-fixed-artifacts-v1",
+      "harnessSha256": "30c8a0e89ec7883b7848b1a535f4daf1d1fb9293fd2dc9336d30e21c99aadc18",
+      "launchOrder": "AB",
+      "scenarios": {
+        "csr": {
+          "baselineElapsedP50": 2.72379200000006,
+          "headElapsedP50": 2.7035210000000234,
+          "pairedElapsedDeltaP50": -0.006729499999948985,
+          "resampled95": [-0.032958000000007814, 0.01704199999994671],
+          "baselineTTFBP50": 2.1148335000000316,
+          "headTTFBP50": 2.1116250000000605,
+          "orderDeltaP50": {
+            "AB": 0.005707999999913227,
+            "BA": -0.020271000000036565
+          }
+        },
+        "string": {
+          "baselineElapsedP50": 4.147083500000008,
+          "headElapsedP50": 4.326853999999912,
+          "pairedElapsedDeltaP50": 0.10581250000018372,
+          "resampled95": [0.030270499999915046, 0.2872079999997368],
+          "baselineTTFBP50": 2.9508335000000443,
+          "headTTFBP50": 3.0562915000002704,
+          "orderDeltaP50": {
+            "AB": 0.37824999999998,
+            "BA": -0.05570799999964038
+          }
+        },
+        "stream": {
+          "baselineElapsedP50": 4.522666999999728,
+          "headElapsedP50": 4.361041499999828,
+          "pairedElapsedDeltaP50": -0.1552704999994603,
+          "resampled95": [-0.23822949999976117, -0.07564599999932398],
+          "baselineTTFBP50": 3.1164795000004233,
+          "headTTFBP50": 3.077604500000234,
+          "orderDeltaP50": {
+            "AB": 0.040854000000763335,
+            "BA": -0.4804165000005014
+          }
+        },
+        "bridge1": {
+          "baselineElapsedP50": 12.819375000000036,
+          "headElapsedP50": 12.597687500000575,
+          "pairedElapsedDeltaP50": -0.15120850000039354,
+          "resampled95": [-0.42612499999995634, 0.015604000000166707],
+          "baselineTTFBP50": 7.715103999999883,
+          "headTTFBP50": 7.657062499999483,
+          "orderDeltaP50": {
+            "AB": 0.30920850000075006,
+            "BA": -0.4876040000008288
+          }
+        },
+        "bridge8": {
+          "baselineElapsedP50": 32.20168800000101,
+          "headElapsedP50": 32.05199999999968,
+          "pairedElapsedDeltaP50": -0.07145799999852898,
+          "resampled95": [-0.8197920000020531, 0.4906680000021879],
+          "baselineTTFBP50": 17.92639600000075,
+          "headTTFBP50": 17.70337549999931,
+          "orderDeltaP50": {
+            "AB": 1.128896000000168,
+            "BA": -1.3843335000001389
+          }
+        }
+      }
+    },
+    "accepted-paired-reverse": {
+      "protocol": "paired-fixed-artifacts-v2-launch-order",
+      "harnessSha256": "0815ea20db36c46f855c45592929a0cf6b88c3b975800e15118e54caa16bfc72",
+      "launchOrder": "BA",
+      "scenarios": {
+        "csr": {
+          "baselineElapsedP50": 2.7466669999999453,
+          "headElapsedP50": 2.741000500000041,
+          "pairedElapsedDeltaP50": 0.019646499999907974,
+          "resampled95": [-0.004791499999896587, 0.03600000000005821],
+          "baselineTTFBP50": 2.12420800000001,
+          "headTTFBP50": 2.1299165000000357,
+          "orderDeltaP50": {
+            "AB": 0.052311999999915315,
+            "BA": -0.04074999999988904
+          }
+        },
+        "string": {
+          "baselineElapsedP50": 4.28343800000016,
+          "headElapsedP50": 3.9222500000000764,
+          "pairedElapsedDeltaP50": -0.3979380000000674,
+          "resampled95": [-0.4816250000001219, -0.3340839999996206],
+          "baselineTTFBP50": 3.0361255000000256,
+          "headTTFBP50": 2.8131040000000667,
+          "orderDeltaP50": {
+            "AB": -0.30368750000002365,
+            "BA": -0.5318954999997914
+          }
+        },
+        "stream": {
+          "baselineElapsedP50": 4.397792000000209,
+          "headElapsedP50": 4.551103999999668,
+          "pairedElapsedDeltaP50": 0.16202099999964048,
+          "resampled95": [0.055208000000675383, 0.2762079999993148],
+          "baselineTTFBP50": 3.064624999999978,
+          "headTTFBP50": 3.1327710000005027,
+          "orderDeltaP50": {
+            "AB": 0.34756200000038007,
+            "BA": -0.19168750000017099
+          }
+        },
+        "bridge1": {
+          "baselineElapsedP50": 11.73412449999978,
+          "headElapsedP50": 12.038833499999782,
+          "pairedElapsedDeltaP50": 0.40750049999860494,
+          "resampled95": [0.08760350000102335, 0.625292000000627],
+          "baselineTTFBP50": 7.189229499999783,
+          "headTTFBP50": 7.406562000000122,
+          "orderDeltaP50": {
+            "AB": 0.9388125000004948,
+            "BA": 0.025874999999359716
+          }
+        },
+        "bridge8": {
+          "baselineElapsedP50": 30.9882290000005,
+          "headElapsedP50": 31.425646000000597,
+          "pairedElapsedDeltaP50": 0.5845419999986916,
+          "resampled95": [0.06037500000093132, 1.2700204999982816],
+          "baselineTTFBP50": 17.36364599999979,
+          "headTTFBP50": 17.291770499999984,
+          "orderDeltaP50": {
+            "AB": 1.8383955000008427,
+            "BA": -0.9272914999983186
+          }
+        }
+      }
+    },
+    "accepted-serial-warm": {
+      "protocol": "paired-fixed-artifacts-v2-launch-order",
+      "harnessSha256": "1f80b9886ec89aca234b79d5df62c83314aa451f091f13239f9c8ab8b5441d38",
+      "launchOrder": "AB",
+      "scenarios": {
+        "csr": {
+          "baselineElapsedP50": 1.4785420000000613,
+          "headElapsedP50": 1.4733335000000807,
+          "pairedElapsedDeltaP50": -0.0019789999998920393,
+          "resampled95": [-0.012707999999975073, 0.00687500000003638],
+          "baselineTTFBP50": 1.4709375000001046,
+          "headTTFBP50": 1.4650000000000318,
+          "orderDeltaP50": {
+            "AB": 0.018541500000083033,
+            "BA": -0.021291500000074848
+          }
+        },
+        "string": {
+          "baselineElapsedP50": 1.7147494999999253,
+          "headElapsedP50": 1.7713750000000346,
+          "pairedElapsedDeltaP50": 0.049375499999996464,
+          "resampled95": [0.006103500000108397, 0.09358300000030795],
+          "baselineTTFBP50": 1.7065624999997908,
+          "headTTFBP50": 1.7624374999998054,
+          "orderDeltaP50": {
+            "AB": 0.13585400000033587,
+            "BA": -0.035145499999771346
+          }
+        },
+        "stream": {
+          "baselineElapsedP50": 1.8747080000002825,
+          "headElapsedP50": 1.838812500000131,
+          "pairedElapsedDeltaP50": -0.039812500000152795,
+          "resampled95": [-0.0815205000003516, 0.01645799999960218],
+          "baselineTTFBP50": 1.8651669999994738,
+          "headTTFBP50": 1.8307084999996732,
+          "orderDeltaP50": {
+            "AB": 0.05437550000033298,
+            "BA": -0.11204099999986283
+          }
+        },
+        "bridge1": {
+          "baselineElapsedP50": 2.6156665000007706,
+          "headElapsedP50": 2.5996039999999994,
+          "pairedElapsedDeltaP50": 0.0028959999999642605,
+          "resampled95": [-0.08531250000032742, 0.069729499999994],
+          "baselineTTFBP50": 2.4569165000002613,
+          "headTTFBP50": 2.453228999998828,
+          "orderDeltaP50": {
+            "AB": 0.15220850000059727,
+            "BA": -0.1943540000002031
+          }
+        },
+        "bridge8": {
+          "baselineElapsedP50": 3.8075834999999643,
+          "headElapsedP50": 3.7472500000003492,
+          "pairedElapsedDeltaP50": -0.05525049999960174,
+          "resampled95": [-0.14191699999901175, 0.027166999998371466],
+          "baselineTTFBP50": 3.4931454999996276,
+          "headTTFBP50": 3.436729500000183,
+          "orderDeltaP50": {
+            "AB": 0.09918799999923067,
+            "BA": -0.2397499999988213
+          }
+        }
+      }
+    },
+    "accepted-serial-warm-reverse": {
+      "protocol": "paired-fixed-artifacts-v2-launch-order",
+      "harnessSha256": "1f80b9886ec89aca234b79d5df62c83314aa451f091f13239f9c8ab8b5441d38",
+      "launchOrder": "BA",
+      "scenarios": {
+        "csr": {
+          "baselineElapsedP50": 1.3945004999999355,
+          "headElapsedP50": 1.3928750000000036,
+          "pairedElapsedDeltaP50": -0.0014580000000705695,
+          "resampled95": [-0.00933350000025257, 0.009603499999911946],
+          "baselineTTFBP50": 1.3890829999999141,
+          "headTTFBP50": 1.3875205000000506,
+          "orderDeltaP50": {
+            "AB": 0.010582999999883214,
+            "BA": -0.016834499999959007
+          }
+        },
+        "string": {
+          "baselineElapsedP50": 1.8195210000001225,
+          "headElapsedP50": 1.8056040000001303,
+          "pairedElapsedDeltaP50": -0.003833499999700507,
+          "resampled95": [-0.04758300000003146, 0.04624999999987267],
+          "baselineTTFBP50": 1.8100415000001249,
+          "headTTFBP50": 1.7942709999997533,
+          "orderDeltaP50": {
+            "AB": 0.11754150000001573,
+            "BA": -0.09537449999993441
+          }
+        },
+        "stream": {
+          "baselineElapsedP50": 1.6933954999999514,
+          "headElapsedP50": 1.6667704999999842,
+          "pairedElapsedDeltaP50": -0.023521000000528147,
+          "resampled95": [-0.034249999999701686, -0.002375000000029104],
+          "baselineTTFBP50": 1.6854374999998072,
+          "headTTFBP50": 1.6610004999997727,
+          "orderDeltaP50": {
+            "AB": 0.01289649999989706,
+            "BA": -0.04906249999976353
+          }
+        },
+        "bridge1": {
+          "baselineElapsedP50": 2.4823124999993524,
+          "headElapsedP50": 2.4840830000002825,
+          "pairedElapsedDeltaP50": -0.011667000000670669,
+          "resampled95": [-0.05783350000092469, 0.03072950000023411],
+          "baselineTTFBP50": 2.332188000000315,
+          "headTTFBP50": 2.3473545000006197,
+          "orderDeltaP50": {
+            "AB": 0.0892295000003287,
+            "BA": -0.10750000000007276
+          }
+        },
+        "bridge8": {
+          "baselineElapsedP50": 3.6115619999991395,
+          "headElapsedP50": 3.6176040000000285,
+          "pairedElapsedDeltaP50": 0.014125000000603904,
+          "resampled95": [-0.09887499999967986, 0.08291700000063429],
+          "baselineTTFBP50": 3.3068750000002183,
+          "headTTFBP50": 3.315416500000538,
+          "orderDeltaP50": {
+            "AB": 0.20522899999923538,
+            "BA": -0.16725049999968178
+          }
+        }
+      }
+    }
+  },
+  "moduleComposition": {
+    "A1": {
+      "csr": {
+        "groups": {
+          "react-dom": {
+            "modules": 4,
+            "sourceBytes": 635226
+          },
+          "core-js": {
+            "modules": 520,
+            "sourceBytes": 505807
+          },
+          "react-router": {
+            "modules": 1,
+            "sourceBytes": 432695
+          },
+          "@modern-js/runtime": {
+            "modules": 23,
+            "sourceBytes": 43498
+          },
+          "react": {
+            "modules": 4,
+            "sourceBytes": 19412
+          },
+          "@modern-js/plugin": {
+            "modules": 7,
+            "sourceBytes": 17245
+          },
+          "application": {
+            "modules": 5,
+            "sourceBytes": 14634
+          },
+          "toolkit/runtime-utils": {
+            "modules": 7,
+            "sourceBytes": 12738
+          },
+          "scheduler": {
+            "modules": 2,
+            "sourceBytes": 10375
+          },
+          "cookie": {
+            "modules": 1,
+            "sourceBytes": 8166
+          },
+          ".modern-js": {
+            "modules": 6,
+            "sourceBytes": 2802
+          },
+          "toolkit/utils": {
+            "modules": 1,
+            "sourceBytes": 900
+          }
+        },
+        "bridgeRecoveryMatches": 0,
+        "nodeBuiltinMatches": 0,
+        "optionalCapabilityMatches": 0
+      },
+      "string": {
+        "groups": {
+          "react-dom": {
+            "modules": 4,
+            "sourceBytes": 635226
+          },
+          "core-js": {
+            "modules": 520,
+            "sourceBytes": 505807
+          },
+          "react-router": {
+            "modules": 1,
+            "sourceBytes": 432695
+          },
+          "@modern-js/runtime": {
+            "modules": 28,
+            "sourceBytes": 47629
+          },
+          "react": {
+            "modules": 4,
+            "sourceBytes": 19412
+          },
+          "@modern-js/plugin": {
+            "modules": 7,
+            "sourceBytes": 17245
+          },
+          "@loadable/component": {
+            "modules": 1,
+            "sourceBytes": 16518
+          },
+          "application": {
+            "modules": 5,
+            "sourceBytes": 14634
+          },
+          "toolkit/runtime-utils": {
+            "modules": 7,
+            "sourceBytes": 12738
+          },
+          "scheduler": {
+            "modules": 2,
+            "sourceBytes": 10375
+          },
+          "cookie": {
+            "modules": 1,
+            "sourceBytes": 8166
+          },
+          ".modern-js": {
+            "modules": 6,
+            "sourceBytes": 4444
+          },
+          "react-is": {
+            "modules": 2,
+            "sourceBytes": 2750
+          },
+          "hoist-non-react-statics": {
+            "modules": 1,
+            "sourceBytes": 2743
+          },
+          "@babel/runtime": {
+            "modules": 5,
+            "sourceBytes": 1257
+          },
+          "toolkit/utils": {
+            "modules": 1,
+            "sourceBytes": 900
+          }
+        },
+        "bridgeRecoveryMatches": 0,
+        "nodeBuiltinMatches": 0,
+        "optionalCapabilityMatches": 0
+      },
+      "stream": {
+        "groups": {
+          "react-dom": {
+            "modules": 4,
+            "sourceBytes": 635226
+          },
+          "core-js": {
+            "modules": 520,
+            "sourceBytes": 505807
+          },
+          "react-router": {
+            "modules": 1,
+            "sourceBytes": 432695
+          },
+          "@modern-js/runtime": {
+            "modules": 27,
+            "sourceBytes": 47494
+          },
+          "react": {
+            "modules": 4,
+            "sourceBytes": 19412
+          },
+          "@modern-js/plugin": {
+            "modules": 7,
+            "sourceBytes": 17245
+          },
+          "@loadable/component": {
+            "modules": 1,
+            "sourceBytes": 16518
+          },
+          "application": {
+            "modules": 5,
+            "sourceBytes": 14634
+          },
+          "toolkit/runtime-utils": {
+            "modules": 7,
+            "sourceBytes": 12738
+          },
+          "scheduler": {
+            "modules": 2,
+            "sourceBytes": 10375
+          },
+          "cookie": {
+            "modules": 1,
+            "sourceBytes": 8166
+          },
+          ".modern-js": {
+            "modules": 6,
+            "sourceBytes": 2802
+          },
+          "react-is": {
+            "modules": 2,
+            "sourceBytes": 2750
+          },
+          "hoist-non-react-statics": {
+            "modules": 1,
+            "sourceBytes": 2743
+          },
+          "@babel/runtime": {
+            "modules": 5,
+            "sourceBytes": 1257
+          },
+          "toolkit/utils": {
+            "modules": 1,
+            "sourceBytes": 900
+          }
+        },
+        "bridgeRecoveryMatches": 0,
+        "nodeBuiltinMatches": 0,
+        "optionalCapabilityMatches": 0
+      }
+    },
+    "B1": {
+      "csr": {
+        "groups": {
+          "react-dom": {
+            "modules": 4,
+            "sourceBytes": 635226
+          },
+          "core-js": {
+            "modules": 520,
+            "sourceBytes": 505807
+          },
+          "react-router": {
+            "modules": 1,
+            "sourceBytes": 432695
+          },
+          "@modern-js/runtime": {
+            "modules": 24,
+            "sourceBytes": 42552
+          },
+          "react": {
+            "modules": 4,
+            "sourceBytes": 19412
+          },
+          "@modern-js/plugin": {
+            "modules": 7,
+            "sourceBytes": 18074
+          },
+          "application": {
+            "modules": 5,
+            "sourceBytes": 14634
+          },
+          "toolkit/runtime-utils": {
+            "modules": 7,
+            "sourceBytes": 12738
+          },
+          "scheduler": {
+            "modules": 2,
+            "sourceBytes": 10375
+          },
+          "cookie": {
+            "modules": 1,
+            "sourceBytes": 8166
+          },
+          ".modern-js": {
+            "modules": 6,
+            "sourceBytes": 2836
+          },
+          "toolkit/utils": {
+            "modules": 1,
+            "sourceBytes": 900
+          }
+        },
+        "bridgeRecoveryMatches": 0,
+        "nodeBuiltinMatches": 0,
+        "optionalCapabilityMatches": 0
+      },
+      "string": {
+        "groups": {
+          "react-dom": {
+            "modules": 4,
+            "sourceBytes": 635226
+          },
+          "core-js": {
+            "modules": 520,
+            "sourceBytes": 505807
+          },
+          "react-router": {
+            "modules": 1,
+            "sourceBytes": 432695
+          },
+          "@modern-js/runtime": {
+            "modules": 29,
+            "sourceBytes": 46683
+          },
+          "react": {
+            "modules": 4,
+            "sourceBytes": 19412
+          },
+          "@modern-js/plugin": {
+            "modules": 7,
+            "sourceBytes": 18074
+          },
+          "@loadable/component": {
+            "modules": 1,
+            "sourceBytes": 16518
+          },
+          "application": {
+            "modules": 5,
+            "sourceBytes": 14634
+          },
+          "toolkit/runtime-utils": {
+            "modules": 7,
+            "sourceBytes": 12738
+          },
+          "scheduler": {
+            "modules": 2,
+            "sourceBytes": 10375
+          },
+          "cookie": {
+            "modules": 1,
+            "sourceBytes": 8166
+          },
+          ".modern-js": {
+            "modules": 6,
+            "sourceBytes": 4478
+          },
+          "react-is": {
+            "modules": 2,
+            "sourceBytes": 2750
+          },
+          "hoist-non-react-statics": {
+            "modules": 1,
+            "sourceBytes": 2743
+          },
+          "@babel/runtime": {
+            "modules": 5,
+            "sourceBytes": 1257
+          },
+          "toolkit/utils": {
+            "modules": 1,
+            "sourceBytes": 900
+          }
+        },
+        "bridgeRecoveryMatches": 0,
+        "nodeBuiltinMatches": 0,
+        "optionalCapabilityMatches": 0
+      },
+      "stream": {
+        "groups": {
+          "react-dom": {
+            "modules": 4,
+            "sourceBytes": 635226
+          },
+          "core-js": {
+            "modules": 520,
+            "sourceBytes": 505807
+          },
+          "react-router": {
+            "modules": 1,
+            "sourceBytes": 432695
+          },
+          "@modern-js/runtime": {
+            "modules": 28,
+            "sourceBytes": 46548
+          },
+          "react": {
+            "modules": 4,
+            "sourceBytes": 19412
+          },
+          "@modern-js/plugin": {
+            "modules": 7,
+            "sourceBytes": 18074
+          },
+          "@loadable/component": {
+            "modules": 1,
+            "sourceBytes": 16518
+          },
+          "application": {
+            "modules": 5,
+            "sourceBytes": 14634
+          },
+          "toolkit/runtime-utils": {
+            "modules": 7,
+            "sourceBytes": 12738
+          },
+          "scheduler": {
+            "modules": 2,
+            "sourceBytes": 10375
+          },
+          "cookie": {
+            "modules": 1,
+            "sourceBytes": 8166
+          },
+          ".modern-js": {
+            "modules": 6,
+            "sourceBytes": 2836
+          },
+          "react-is": {
+            "modules": 2,
+            "sourceBytes": 2750
+          },
+          "hoist-non-react-statics": {
+            "modules": 1,
+            "sourceBytes": 2743
+          },
+          "@babel/runtime": {
+            "modules": 5,
+            "sourceBytes": 1257
+          },
+          "toolkit/utils": {
+            "modules": 1,
+            "sourceBytes": 900
+          }
+        },
+        "bridgeRecoveryMatches": 0,
+        "nodeBuiltinMatches": 0,
+        "optionalCapabilityMatches": 0
+      }
+    }
+  },
+  "notes": [
+    "Browser/server artifact partition is derived from captured per-file bytes. Rslib v1/ssr and v2/ssr are server assets. Modern totals and all timings are unaffected by this inventory correction.",
+    "Node synthetic fixtures use eight identical plugins and empty routes, without DOM. bridgeServer additionally enables route commit metadata.",
+    "Page commit includes navigation and actual page effects. beforeToCommit is a preparation-to-effect window, not isolated React hydration CPU time.",
+    "All elapsed values use milliseconds. Micro cycle values use milliseconds per cycle. Memory uses bytes.",
+    "Full warmup and per-request raw samples, actual HTML and process metadata are kept in the local evidence package. Public data omits machine paths and process inventories."
+  ]
+}
