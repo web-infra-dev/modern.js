@@ -1,3 +1,4 @@
+import { getApplicationRoutes } from '../../src/router/runtime/application';
 import type { NestedRoute } from '@modern-js/types';
 import React from 'react';
 import { renderToString } from 'react-dom/server';
@@ -20,7 +21,8 @@ function definition(): ScopedRootDefinition {
     dataRoute: '/product',
     serverLoaders: true,
     getDataBase: () => 'http://producer',
-    createRuntime: context => createRuntime([], undefined, context),
+    createRuntime: (context, instancePlugins) =>
+      createRuntime([], undefined, context, instancePlugins),
     routes: [
       {
         id: 'root',
@@ -58,6 +60,10 @@ it('isolates the route graph while keeping document components unchanged and ada
     basename: '/inventory',
     observeRouteCommits: true,
   });
+  expect(document.context.application!.config).toBeUndefined();
+  getApplicationRoutes(document.context);
+  void fragment.runtime;
+  getApplicationRoutes(fragment.context);
   const original = application.routes[0] as NestedRoute;
   const page = document.context.application!.config.routes![0] as NestedRoute;
   const embedded = fragment.context.application!.config
@@ -88,6 +94,19 @@ it('isolates the route graph while keeping document components unchanged and ada
   expect(child.preload).toBe((original.children![0].component as any).preload);
   expect(fragment.routeCommits?.routes).toEqual(new Set(['root', 'child']));
   expect(fragment.routeCommits?.errors).toEqual(new Set(['root']));
+  const another = createScopeRuntime(application, {
+    isBrowser: false,
+    initialUrl: 'http://host/another/',
+    observeRouteCommits: true,
+  });
+  expect(fragment.definition).toBe(application);
+  expect(another.definition).toBe(application);
+  const anotherRoute = getApplicationRoutes(another.context)
+    .routes![0] as NestedRoute;
+  expect(anotherRoute).not.toBe(embedded);
+  expect(anotherRoute.component).toBe(embedded.component);
+  expect(anotherRoute.children![0].path).toBe('detail/:id');
+  another.dispose();
   fragment.dispose();
   document.dispose();
 });
@@ -115,9 +134,11 @@ it('translates fragment browser data requests without changing document or serve
     request: new Request('http://host/inventory/detail/42?language=de'),
     params: {},
   };
-  const routeLoader = (instance: typeof document) =>
-    (instance.context.application!.config.routes![0] as NestedRoute)
+  const routeLoader = (instance: typeof document) => {
+    void instance.runtime;
+    return (getApplicationRoutes(instance.context).routes![0] as NestedRoute)
       .loader as LoaderFunction;
+  };
 
   expect(await routeLoader(document)(args)).toBe(args.request.url);
   expect(await routeLoader(server)(args)).toBe(args.request.url);

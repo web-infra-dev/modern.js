@@ -12,6 +12,14 @@ Ordinary pages and Bridge exports share application definitions, instance creati
 
 Default registration stores the definition without executing instance `setup`. Each mount or request creates its own plugins. Keep language, loader results and request state out of module variables and the default registration. Static module caches may be shared, but must not contain dynamic instance data.
 
+## Optional Capabilities
+
+The shared instance prepares context, runs plugins and retains one Root. Optional behavior is supplied through the existing plugin registration and dependency mechanism. The normal browser entry does not import preparation cancellation, fragment routing, Bridge snapshots or stream recovery.
+
+Server request adapters and Bridge mount adapters inject a preparation-cancellation plugin. Its preparation wrapper owns the abort listener and pending cancellation race. Router initializes its mutable route declarations only when routing is used, and registers cleanup for the Router it owns. Bridge navigation and producer data endpoints belong to its adapter. The i18n plugin derives entry metadata from the current definition.
+
+These contributions use the same initializer and plugin order for pages and exports. Their absence does not select a second initialization implementation. Cleanup storage is allocated on the first `onDispose` registration. Synchronous plugin setup shares completed readiness rather than creating a separate readiness Promise for every instance.
+
 ## Execution Order
 
 1. Read the current data source and create the context. Pages restore their page SSR data, Bridge instances restore their progressive snapshots, and server instances receive the current Request.

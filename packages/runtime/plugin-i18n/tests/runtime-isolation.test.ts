@@ -160,7 +160,7 @@ test.each([false, true])(
     const context = await setup()({
       application: {
         output: 'document',
-        entryPath: '/workspace/account',
+        definition: { basename: '/workspace/account' },
         initialUrl: 'https://app.example/workspace/account/fr',
       },
       ssrContext: { request: { pathname: '/workspace/account/fr' } },

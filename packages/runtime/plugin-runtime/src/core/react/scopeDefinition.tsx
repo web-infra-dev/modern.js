@@ -1,3 +1,8 @@
+import { cancellationPlugin } from '../application/cancellation';
+import {
+  getApplicationRoutes,
+  cloneRoutes,
+} from '../../router/runtime/application';
 import type React from 'react';
 import { createContext, useContext, useEffect } from 'react';
 import type {
@@ -50,81 +55,141 @@ export function getScopeDataUrl(
   return url;
 }
 
+// These contain only static components and observed route identifiers, never request data.
+const scopedDefinitions = new WeakMap<
+  ScopedRootDefinition,
+  Array<{
+    definition: ScopedRootDefinition;
+    routes?: ReadonlySet<string>;
+    errors?: ReadonlySet<string>;
+  }>
+>();
+function getScopedDefinition(
+  definition: ScopedRootDefinition,
+  observe: boolean,
+) {
+  let variants = scopedDefinitions.get(definition);
+  if (!variants) scopedDefinitions.set(definition, (variants = []));
+  const index = Number(observe);
+  if (variants[index]) return variants[index];
+  const observedRoutes = observe ? new Set<string>() : undefined;
+  const observedErrors = observe ? new Set<string>() : undefined;
+  const routes = cloneRoutes(definition.routes, node => {
+    if (node.type !== 'nested') return;
+    if (node.isRoot && node.component) {
+      const Component = node.component as React.ComponentType<any>;
+      node.component = function ApplicationLayout(
+        props: Record<string, unknown> = {},
+      ) {
+        return <Component {...props} {...useContext(ScopedRootPropsContext)} />;
+      };
+    }
+    if (!observe || !node.id) return;
+    const wrap = (Component: React.ComponentType<any>, error: boolean) => {
+      (error ? observedErrors : observedRoutes)!.add(node.id!);
+      const ObservedRoute = (props: Record<string, unknown> = {}) => {
+        const instance = useContext(PreparedScopeContext);
+        useEffect(
+          () => instance?.routeCommits?.onCommit?.(node.id!, error),
+          [instance],
+        );
+        return <Component {...props} />;
+      };
+      if (Component.displayName === 'Loadable')
+        Object.assign(ObservedRoute, {
+          displayName: Component.displayName,
+          preload: (Component as any).preload,
+        });
+      return ObservedRoute;
+    };
+    if (node.component)
+      node.component = wrap(node.component as React.ComponentType<any>, false);
+    if (node.error)
+      node.error = wrap(node.error as React.ComponentType<any>, true);
+  })!;
+  return (variants[index] = {
+    definition: { ...definition, routes },
+    routes: observedRoutes,
+    errors: observedErrors,
+  });
+}
+
 export function createScopeRuntime(
   definition: ScopedRootDefinition,
-  options: Omit<ApplicationEnvironment, 'output' | 'decorateRoute'> & {
+  options: Omit<ApplicationEnvironment, 'output'> & {
+    basename?: string;
+    memory?: boolean;
+    signal?: AbortSignal;
+    onError?: (error: unknown) => void;
     observeRouteCommits?: boolean;
     onRouteCommit?: (id: string, error: boolean) => void;
   },
 ) {
-  const { observeRouteCommits, onRouteCommit, ...environment } = options;
-  const routeCommits = observeRouteCommits
-    ? {
-        routes: new Set<string>(),
-        errors: new Set<string>(),
-        onCommit: onRouteCommit,
-      }
+  const {
+    observeRouteCommits,
+    onRouteCommit,
+    signal,
+    onError,
+    basename = '/',
+    memory,
+    ...environment
+  } = options;
+  const compiled = getScopedDefinition(
+    definition,
+    Boolean(observeRouteCommits),
+  );
+  const getDataUrl = environment.isBrowser
+    ? (url: URL) => getScopeDataUrl(definition, basename, url)
     : undefined;
-  const basename = environment.basename || '/';
-  const getDataUrl = (url: URL) => getScopeDataUrl(definition, basename, url);
+  const data: import('../plugin').RuntimePlugin | undefined =
+    getDataUrl && definition.serverLoaders
+      ? {
+          name: '@modern-js/runtime-fragment-data',
+          setup(api) {
+            getApplicationRoutes(api.getRuntimeContext(), node => {
+              if (
+                node.type !== 'nested' ||
+                typeof node.loader !== 'function' ||
+                node.clientData
+              )
+                return;
+              const loader = node.loader as LoaderFunction;
+              node.loader = (args: LoaderFunctionArgs) =>
+                loader({
+                  ...args,
+                  request: new Request(
+                    getDataUrl(new URL(args.request.url)),
+                    args.request,
+                  ),
+                });
+            });
+          },
+        }
+      : undefined;
   const instance = createApplicationInstance(definition, {
     ...environment,
     output: 'fragment',
-    getDataUrl,
-    decorateRoute(node) {
-      if (node.type !== 'nested') return;
-      if (node.isRoot && node.component) {
-        const Component = node.component as React.ComponentType<any>;
-        node.component = function ApplicationLayout(
-          props: Record<string, unknown> = {},
-        ) {
-          return (
-            <Component {...props} {...useContext(ScopedRootPropsContext)} />
-          );
-        };
-      }
-      if (routeCommits && node.id) {
-        const observe = (
-          Component: React.ComponentType<any>,
-          error: boolean,
-        ) => {
-          (error ? routeCommits.errors : routeCommits.routes).add(node.id!);
-          const ObservedRoute = (props: Record<string, unknown> = {}) => {
-            useEffect(() => routeCommits.onCommit?.(node.id!, error), []);
-            return <Component {...props} />;
-          };
-          // Preserve the router renderer's Loadable/fallback selection.
-          if (Component.displayName === 'Loadable') {
-            Object.assign(ObservedRoute, {
-              displayName: Component.displayName,
-              preload: (Component as any).preload,
-            });
-          }
-          return ObservedRoute;
-        };
-        if (node.component)
-          node.component = observe(
-            node.component as React.ComponentType<any>,
-            false,
-          );
-        if (node.error)
-          node.error = observe(node.error as React.ComponentType<any>, true);
-      }
-      if (
-        typeof node.loader === 'function' &&
-        !node.clientData &&
-        definition.serverLoaders &&
-        environment.isBrowser
-      ) {
-        const loader = node.loader as LoaderFunction;
-        node.loader = (args: LoaderFunctionArgs) => {
-          const url = getDataUrl(new URL(args.request.url));
-          return loader({ ...args, request: new Request(url, args.request) });
-        };
-      }
-    },
+    plugins: [
+      cancellationPlugin(signal, onError),
+      ...(data ? [data] : []),
+      ...(environment.plugins || []),
+    ],
   });
-  return Object.assign(instance, { routeCommits });
+  Object.assign(instance.context.application!, {
+    definition: compiled.definition,
+    basename,
+    memory,
+  });
+  if (getDataUrl) instance.context.application!.getDataUrl = getDataUrl;
+  return Object.assign(instance, {
+    routeCommits: observeRouteCommits
+      ? {
+          routes: compiled.routes!,
+          errors: compiled.errors!,
+          onCommit: onRouteCommit,
+        }
+      : undefined,
+  });
 }
 export type PreparedScope = ReturnType<typeof createScopeRuntime> & {
   setNavigation?: (

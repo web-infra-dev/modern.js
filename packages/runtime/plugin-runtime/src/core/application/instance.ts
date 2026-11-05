@@ -1,33 +1,23 @@
-import { disposeAfterError, disposeResources } from './cleanup';
+import { disposeAfterError } from './cleanup';
 import type React from 'react';
 import {
   getInitialContext,
   type TInternalRuntimeContext,
 } from '../context/runtime';
-import {
-  instanceRoutes,
-  type ApplicationDefinition,
-  type InstanceRouteDecorator,
-} from './definition';
+import type { ApplicationDefinition } from './definition';
+import type { RuntimePlugin } from '../plugin';
 
 export interface ApplicationEnvironment {
   isBrowser: boolean;
   output: 'document' | 'fragment';
   initialUrl: string;
-  basename?: string;
-  memory?: boolean;
-  getDataUrl?: (url: URL) => URL;
   context?: Partial<TInternalRuntimeContext>;
-  signal?: AbortSignal;
-  onError?: (error: unknown) => void;
+  plugins?: RuntimePlugin[];
   /** A precomposed root supplied by the low-level render(element) API. */
   root?: React.ComponentType<any>;
-  /** Decorate the current instance's route nodes for its platform adapter. */
-  decorateRoute?: InstanceRouteDecorator;
 }
 
 type PreparationResult = { value: unknown; interrupted: boolean };
-
 export interface RuntimeApplicationInstance {
   definition: ApplicationDefinition;
   context: TInternalRuntimeContext;
@@ -37,139 +27,98 @@ export interface RuntimeApplicationInstance {
   dispose: () => void;
 }
 
-/** Shared accessors keep owners compact while their lifecycle closures stay bound. */
-class ApplicationInstance implements RuntimeApplicationInstance {
-  constructor(
-    public definition: ApplicationDefinition,
-    public context: TInternalRuntimeContext,
-    private readonly readRuntime: () => ReturnType<
-      ApplicationDefinition['createRuntime']
-    >,
-    private readonly readRoot: () => React.ComponentType<any>,
-    public prepare: () => Promise<PreparationResult>,
-    public dispose: () => void,
-  ) {}
-
-  get runtime() {
-    return this.readRuntime();
-  }
-
-  get Root() {
-    return this.readRoot();
-  }
-}
-
-/** The same owner and preparation sequence for pages, fragments and requests. */
+/** Context ownership and one preparation path, independent of optional capabilities. */
 export function createApplicationInstance(
   definition: ApplicationDefinition,
   environment: ApplicationEnvironment,
 ): RuntimeApplicationInstance {
-  const context = Object.assign(
-    getInitialContext(environment.isBrowser),
-    { ssr: !environment.isBrowser },
-    environment.context,
-  );
-  context.routeManifest ??= definition.getRouteManifest?.() || {
-    routeAssets: {},
-  };
-  context.application = {
-    output: environment.output,
-    selected: definition.selected,
-    enableRsc: definition.enableRsc,
-    isRscClient: definition.isRscClient,
-    entryPath:
-      environment.output === 'fragment' ? '' : definition.basename || '',
-    config: {
-      routes:
-        definition.routes &&
-        instanceRoutes(definition, environment.decorateRoute),
-      globalApp: definition.globalApp,
-    },
-    initialUrl: environment.initialUrl,
-    basename: environment.basename,
-    memory: environment.memory,
-    serverLoaders: definition.serverLoaders,
-    getDataUrl: environment.getDataUrl,
-    loadRouteChunk: definition.loadRouteChunk,
-  };
-  let runtime: ReturnType<ApplicationDefinition['createRuntime']> | undefined;
-  const getRuntime = () => {
-    if (!runtime) {
-      runtime = definition.createRuntime(context);
-      context._internalContext = runtime;
+  return new ApplicationInstance(definition, environment);
+}
+
+class ApplicationInstance implements RuntimeApplicationInstance {
+  declare private environment?: ApplicationEnvironment;
+  readonly context: TInternalRuntimeContext;
+  declare private internalRuntime?: ReturnType<
+    ApplicationDefinition['createRuntime']
+  >;
+  declare private prepared?: Promise<PreparationResult>;
+
+  constructor(
+    public definition: ApplicationDefinition,
+    environment: ApplicationEnvironment,
+  ) {
+    this.environment = environment;
+    const context = (this.context = Object.assign(
+      getInitialContext(environment.isBrowser),
+      { ssr: !environment.isBrowser },
+      environment.context,
+    ));
+    context.routeManifest ??= definition.getRouteManifest?.() || {
+      routeAssets: {},
+    };
+    context.application = {
+      definition,
+      output: environment.output,
+      initialUrl: environment.initialUrl,
+    };
+    this.prepare = this.prepare.bind(this);
+    this.dispose = this.dispose.bind(this);
+  }
+
+  get runtime() {
+    if (!this.internalRuntime) {
+      this.assertActive();
+      this.internalRuntime = this.definition.createRuntime(
+        this.context,
+        this.environment!.plugins,
+      );
+      this.context._internalContext = this.internalRuntime;
     }
-    return runtime;
-  };
-  let disposed = false;
-  let cancelPreparation: ((reason: unknown) => void) | undefined;
-  let preparation: Promise<PreparationResult> | undefined;
-  let Root: React.ComponentType<any> | undefined;
-  const dispose = () => {
-    if (disposed) return;
-    disposed = true;
-    cancelPreparation?.(
-      environment.signal?.reason ||
-        new Error('Application instance has been disposed'),
+    return this.internalRuntime;
+  }
+  get Root() {
+    const Root = this.context.application?.Root;
+    if (!Root) throw new Error('Application must be prepared before rendering');
+    return Root;
+  }
+  private assertActive() {
+    if (!this.environment || this.internalRuntime?.disposed)
+      throw new Error('Application instance has been disposed');
+  }
+  private async initialize() {
+    const runtime = this.runtime;
+    await runtime.ready;
+    this.assertActive();
+    const result = await runtime.hooks.onBeforeRender.callWithResult(
+      this.context,
     );
-    environment.signal?.removeEventListener('abort', onAbort);
-    const router = context.application?.router;
-    if (context.application) {
-      context.application.router = undefined;
-      context.application.routes = undefined;
+    this.assertActive();
+    if (!result.interrupted) {
+      this.context.application!.Root =
+        this.environment!.root ||
+        runtime.hooks.wrapRoot.call(this.definition.App!);
     }
-    disposeResources(
-      () => router?.dispose(),
-      () => runtime?.dispose(),
-    );
-  };
-  const assertActive = () => {
-    environment.signal?.throwIfAborted();
-    if (disposed) throw new Error('Application instance has been disposed');
-  };
-  const onAbort = () => {
-    try {
-      dispose();
-    } catch (error) {
-      (environment.onError || console.error)(error);
-    }
-  };
-  environment.signal?.addEventListener('abort', onAbort, { once: true });
-  if (environment.signal?.aborted) onAbort();
-  const prepare = () => {
-    if (preparation) return preparation;
-    const cancelled = new Promise<never>((_, reject) => {
-      cancelPreparation = reject;
-    });
-    const work = (async () => {
-      assertActive();
-      const runtime = getRuntime();
-      await runtime.ready;
-      assertActive();
-      const result = await runtime.hooks.onBeforeRender.callWithResult(context);
-      assertActive();
-      if (!result.interrupted) {
-        Root = environment.root || runtime.hooks.wrapRoot.call(definition.App!);
-        context.application!.Root = Root;
+    return result;
+  }
+  prepare() {
+    if (!this.prepared) {
+      let work: Promise<PreparationResult>;
+      try {
+        const initialize = () => this.initialize();
+        work = (
+          this.runtime.hooks.wrapPreparation?.call(initialize) || initialize
+        )();
+      } catch (error) {
+        work = Promise.reject(error);
       }
-      return result;
-    })();
-    preparation = Promise.race([work, cancelled])
-      .catch(error => disposeAfterError(error, dispose))
-      .finally(() => {
-        cancelPreparation = undefined;
-      });
-    return preparation;
-  };
-  return new ApplicationInstance(
-    definition,
-    context,
-    getRuntime,
-    () => {
-      if (!Root)
-        throw new Error('Application must be prepared before rendering');
-      return Root;
-    },
-    prepare,
-    dispose,
-  );
+      this.prepared = work.catch(error =>
+        disposeAfterError(error, this.dispose),
+      );
+    }
+    return this.prepared;
+  }
+  dispose() {
+    this.environment = undefined;
+    this.internalRuntime?.dispose();
+  }
 }

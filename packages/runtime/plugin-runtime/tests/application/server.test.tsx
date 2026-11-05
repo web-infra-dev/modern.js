@@ -1,3 +1,4 @@
+import { cancellationPlugin } from '../../src/core/application/cancellation';
 import { createApplicationInstance } from '../../src/core/application/instance';
 import {
   createPluginContract,
@@ -75,7 +76,7 @@ const install = (loader: (args: { request: Request }) => unknown) => {
     basename: '/',
     serverLoaders: false,
     getDataBase: () => 'http://products',
-    createRuntime: context =>
+    createRuntime: (context, instancePlugins) =>
       createRuntime(
         [
           routerPlugin({}),
@@ -97,6 +98,7 @@ const install = (loader: (args: { request: Request }) => unknown) => {
         ],
         undefined,
         context,
+        instancePlugins,
       ),
   };
 };
@@ -382,7 +384,7 @@ it('cancels before a request hook completes and does not start a late React rend
     basename: '/',
     serverLoaders: false,
     getDataBase: () => 'http://products',
-    createRuntime: context =>
+    createRuntime: (context, instancePlugins) =>
       createRuntime(
         [
           {
@@ -397,6 +399,7 @@ it('cancels before a request hook completes and does not start a late React rend
         ],
         undefined,
         context,
+        instancePlugins,
       ),
   };
   const controller = new AbortController();
@@ -473,8 +476,8 @@ async function renderContract(
   probe: ReturnType<typeof createPluginContract>,
   request: Request,
 ) {
-  const create = (context: any) =>
-    createRuntime(probe.plugins, undefined, context);
+  const create = (context: any, instancePlugins) =>
+    createRuntime(probe.plugins, undefined, context, instancePlugins);
   if (kind === 'Bridge') {
     const result = await renderScopedApplication(request, {
       identifierPrefix: 'contract-',
@@ -723,7 +726,7 @@ it('reports abort cleanup failures without throwing out of the AbortSignal liste
   const instance = createApplicationInstance(
     {
       App: () => null,
-      createRuntime: context =>
+      createRuntime: (context, instancePlugins) =>
         createRuntime(
           [
             {
@@ -739,14 +742,16 @@ it('reports abort cleanup failures without throwing out of the AbortSignal liste
           ],
           undefined,
           context,
+          instancePlugins,
         ),
     },
     {
       isBrowser: false,
       output: 'document',
       initialUrl: 'http://producer/',
-      signal: controller.signal,
-      onError: error => errors.push(error),
+      plugins: [
+        cancellationPlugin(controller.signal, error => errors.push(error)),
+      ],
     },
   );
   await instance.prepare();
@@ -766,7 +771,7 @@ it('keeps owner getters lazy and detached lifecycle methods bound to their insta
   const cleaned: TInternalRuntimeContext[] = [];
   const application = {
     App: () => null,
-    createRuntime(context: TInternalRuntimeContext) {
+    createRuntime(context: TInternalRuntimeContext, instancePlugins) {
       initialized.push(context);
       return createRuntime(
         [
@@ -780,6 +785,7 @@ it('keeps owner getters lazy and detached lifecycle methods bound to their insta
         ],
         undefined,
         context,
+        instancePlugins,
       );
     },
   };
@@ -823,7 +829,7 @@ it('captures each ordinary request handler definition before another application
       return <p>{`${label}:${String(useRuntimeContext().owner)}`}</p>;
     }
     setGlobalContext({ entryName: label, App: Page });
-    registerRuntimeDefinition(context =>
+    registerRuntimeDefinition((context, instancePlugins) =>
       createRuntime(
         [
           {
@@ -835,6 +841,7 @@ it('captures each ordinary request handler definition before another application
         ],
         undefined,
         context,
+        instancePlugins,
       ),
     );
     return createRequestHandler(
@@ -861,7 +868,9 @@ it('keeps shared resource templates unchanged across concurrent ordinary request
   const gate = contractGate();
   const seen: Array<{ resource: object; template: string }> = [];
   setGlobalContext({ App: () => <p>template owner</p> });
-  registerRuntimeDefinition(context => createRuntime([], undefined, context));
+  registerRuntimeDefinition((context, instancePlugins) =>
+    createRuntime([], undefined, context, instancePlugins),
+  );
   const handler = await createRequestHandler(async (_, _Root, options) => {
     seen.push({
       resource: options.resource,

@@ -23,7 +23,9 @@ export const makeRequestContext = (
 
 export const requestContextPlugin = (
   consumers: string[] = [],
+  capabilities: string[] = [],
 ): RuntimePlugin => ({
+  pre: capabilities,
   post: consumers,
   name: '@modern-js/runtime-plugin-request-context',
 

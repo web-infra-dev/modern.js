@@ -36,8 +36,8 @@ it('runs the selected Root at the consumer basename and transports loader data w
         'Server rendering must not call the browser data endpoint',
       );
     },
-    createRuntime: context =>
-      createRuntime([routerPlugin({})], undefined, context),
+    createRuntime: (context, instancePlugins) =>
+      createRuntime([routerPlugin({})], undefined, context, instancePlugins),
   });
   const result = await renderStream(<Root />, {
     rootComponent: Root,
@@ -70,7 +70,8 @@ it.each(['Modern helper', 'explicit callbacks'])(
       basename: '/',
       serverLoaders: false,
       getDataBase: () => 'http://remote',
-      createRuntime: context => createRuntime([], undefined, context),
+      createRuntime: (context, instancePlugins) =>
+        createRuntime([], undefined, context, instancePlugins),
     });
     const factory =
       kind === 'Modern helper'

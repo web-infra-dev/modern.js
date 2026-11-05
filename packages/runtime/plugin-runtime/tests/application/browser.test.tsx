@@ -33,8 +33,8 @@ function setDefinition({ routes }: { routes: any[]; entryName: string }) {
     basename: '/',
     serverLoaders: false,
     getDataBase: () => window.location.origin,
-    createRuntime: context =>
-      createRuntime([routerPlugin({})], undefined, context),
+    createRuntime: (context, instancePlugins) =>
+      createRuntime([routerPlugin({})], undefined, context, instancePlugins),
   };
 }
 const createApplication = () =>
@@ -64,7 +64,7 @@ it('restores each application language before plugins run without borrowing Host
     basename: '/',
     serverLoaders: false,
     getDataBase: () => 'http://producer',
-    createRuntime: context =>
+    createRuntime: (context, instancePlugins) =>
       createRuntime(
         [
           {
@@ -78,6 +78,7 @@ it('restores each application language before plugins run without borrowing Host
         ],
         undefined,
         context,
+        instancePlugins,
       ),
   };
   const apps = [createApplication(), createApplication(), createApplication()];
@@ -487,8 +488,13 @@ it.each(['fragment', 'lazy fragment', 'in-flight Host navigation'])(
       basename: '/',
       serverLoaders: false,
       getDataBase: () => window.location.origin,
-      createRuntime: context =>
-        createRuntime([nodeRouterPlugin({})], undefined, context),
+      createRuntime: (context, instancePlugins) =>
+        createRuntime(
+          [nodeRouterPlugin({})],
+          undefined,
+          context,
+          instancePlugins,
+        ),
     };
     const rendered = await renderApplication(
       new Request(`${window.location.origin}${initialPath}`),
@@ -524,7 +530,7 @@ it.each(['fragment', 'lazy fragment', 'in-flight Host navigation'])(
           return { product: params.id };
         },
       })),
-      createRuntime: context =>
+      createRuntime: (context, instancePlugins) =>
         createRuntime(
           [
             routerPlugin({}),
@@ -547,6 +553,7 @@ it.each(['fragment', 'lazy fragment', 'in-flight Host navigation'])(
           ],
           undefined,
           context,
+          instancePlugins,
         ),
     };
     const container = document.createElement('div');
@@ -674,8 +681,13 @@ it.each(['custom', 'default'])(
       basename: '/',
       serverLoaders: false,
       getDataBase: () => window.location.origin,
-      createRuntime: context =>
-        createRuntime([nodeRouterPlugin({})], undefined, context),
+      createRuntime: (context, instancePlugins) =>
+        createRuntime(
+          [nodeRouterPlugin({})],
+          undefined,
+          context,
+          instancePlugins,
+        ),
     };
     const rendered = await renderApplication(
       new Request(`${window.location.origin}/inventory`),
@@ -703,7 +715,7 @@ it.each(['custom', 'default'])(
           return null;
         },
       })),
-      createRuntime: context =>
+      createRuntime: (context, instancePlugins) =>
         createRuntime(
           [
             routerPlugin({}),
@@ -723,6 +735,7 @@ it.each(['custom', 'default'])(
           ],
           undefined,
           context,
+          instancePlugins,
         ),
     };
     const errors: unknown[] = [];
@@ -832,8 +845,8 @@ async function mountContract(
   probe: ReturnType<typeof createPluginContract>,
   container: HTMLElement,
 ) {
-  const create = (context: any) =>
-    createRuntime(probe.plugins, undefined, context);
+  const create = (context: any, instancePlugins) =>
+    createRuntime(probe.plugins, undefined, context, instancePlugins);
   if (kind === 'page') {
     setGlobalContext({ App: probe.Page });
     registerRuntimeDefinition(create);
@@ -968,8 +981,8 @@ it('cancels pending Bridge plugin preparation without running later hooks or mou
       basename: '/',
       serverLoaders: false,
       getDataBase: () => window.location.origin,
-      createRuntime: context =>
-        createRuntime(probe.plugins, undefined, context),
+      createRuntime: (context, instancePlugins) =>
+        createRuntime(probe.plugins, undefined, context, instancePlugins),
     },
   });
   const pending = app.mount(container, { url: window.location.href });
@@ -1040,7 +1053,7 @@ it('keeps raw render props and avoids wrapRoot while registered roots use the wr
     return <p>{label}</p>;
   }
   setGlobalContext({ App: Page });
-  registerRuntimeDefinition(context =>
+  registerRuntimeDefinition((context, instancePlugins) =>
     createRuntime(
       [
         {
@@ -1065,6 +1078,7 @@ it('keeps raw render props and avoids wrapRoot while registered roots use the wr
       ],
       undefined,
       context,
+      instancePlugins,
     ),
   );
   const containers = [
@@ -1121,8 +1135,8 @@ it.each(['page', 'Bridge'] as const)(
     document.body.append(container);
     const errors: unknown[] = [];
     let dispose: (() => void) | undefined;
-    const create = (context: any) =>
-      createRuntime(probe.plugins, undefined, context);
+    const create = (context: any, instancePlugins) =>
+      createRuntime(probe.plugins, undefined, context, instancePlugins);
     try {
       if (kind === 'page') {
         window._SSR_DATA = {

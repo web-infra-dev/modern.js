@@ -157,7 +157,13 @@ test.each([
     await act(() =>
       root.render(
         createElement(InternalRuntimeContext.Provider, {
-          value: { isBrowser: true, application } as any,
+          value: {
+            isBrowser: true,
+            application: {
+              ...application,
+              definition: { basename: application.entryPath },
+            },
+          } as any,
           children: createElement(ModernI18nProvider, {
             value: {
               language: 'en',

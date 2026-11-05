@@ -79,3 +79,46 @@ for (const [format, extension] of [
     );
   }
 }
+
+// The document kernel must not pull optional application/Bridge capabilities.
+for (const [format, extension] of [
+  ['esm', 'mjs'],
+  ['cjs', 'js'],
+]) {
+  const output = resolve(dist, format);
+  for (const entry of [
+    'core/browser/index',
+    'core/react/index',
+    'core/application/instance',
+  ]) {
+    const { files, imports } = await graph(output, `${entry}.${extension}`);
+    for (const file of files) {
+      assert(
+        !file.startsWith(resolve(output, 'application') + '/'),
+        `${entry} imported Bridge recovery: ${file}`,
+      );
+      assert(
+        !file.startsWith(resolve(output, 'mf') + '/'),
+        `${entry} imported MF: ${file}`,
+      );
+      assert(
+        !file.endsWith(`/core/application/cancellation.${extension}`),
+        `${entry} imported optional preparation cancellation`,
+      );
+      assert(
+        !file.endsWith(`/core/react/scopeDefinition.${extension}`),
+        `${entry} imported fragment routing`,
+      );
+    }
+    assert(
+      ![...imports].some(
+        name =>
+          name.startsWith('node:') || name.startsWith('@module-federation/'),
+      ),
+      `${entry} imported an optional platform`,
+    );
+    console.log(
+      `${format}/${entry}: document capability boundary passed (${files.size} local modules)`,
+    );
+  }
+}

@@ -14,6 +14,8 @@ export interface RuntimeConfig<Extends extends RuntimePluginExtends> {
   plugins?: RuntimePlugin<Extends>[];
 }
 
+const ready = Promise.resolve();
+
 export function initRuntimeContext(): RuntimeContext {
   return {};
 }
@@ -40,29 +42,30 @@ export function createRuntimeContext<Extends extends RuntimePluginExtends>({
         : cloneHook(registryHooks[hookName]);
     });
   });
-  const cleanups: Array<() => void> = [];
+  let cleanups: Array<() => void> | undefined;
   const context: Omit<InternalRuntimeContext<Extends>, 'disposed'> & {
     disposed: boolean;
   } = {
     runtimeContext,
-    ready: Promise.resolve(),
+    ready,
     disposed: false,
     onDispose(callback) {
       if (context.disposed) callback();
-      else cleanups.push(callback);
+      else (cleanups ||= []).push(callback);
     },
     dispose() {
       if (context.disposed) return;
       context.disposed = true;
-      const errors: unknown[] = [];
-      while (cleanups.length) {
+      let errors: unknown[] | undefined;
+      while (cleanups?.length) {
         try {
           cleanups.pop()!();
         } catch (error) {
-          errors.push(error);
+          (errors ||= []).push(error);
         }
       }
-      if (errors.length) {
+      cleanups = undefined;
+      if (errors) {
         throw new AggregateError(errors, 'Runtime cleanup failed');
       }
     },

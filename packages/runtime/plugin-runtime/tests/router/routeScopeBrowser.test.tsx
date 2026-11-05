@@ -112,7 +112,7 @@ it.each([true, false])(
           ],
         },
       ],
-      createRuntime: context =>
+      createRuntime: (context, instancePlugins) =>
         createRuntime(
           [
             routerPlugin({}),
@@ -125,6 +125,7 @@ it.each([true, false])(
           ],
           undefined,
           context,
+          instancePlugins,
         ),
     });
     const first = render(<Root label="First" />);
@@ -172,7 +173,9 @@ it('keeps legacy component, memo, null and whole-application calls compatible', 
   const App = () => <p>Legacy app</p>;
   const Memo = React.memo(App);
   setGlobalContext({ App });
-  registerRuntimeDefinition(context => createRuntime([], undefined, context));
+  registerRuntimeDefinition((context, instancePlugins) =>
+    createRuntime([], undefined, context, instancePlugins),
+  );
   for (const Root of [
     createRoot(),
     createRoot(undefined),
@@ -219,8 +222,8 @@ it('aborts only the unmounted instance loader', async () => {
           }),
       },
     ],
-    createRuntime: context =>
-      createRuntime([routerPlugin({})], undefined, context),
+    createRuntime: (context, instancePlugins) =>
+      createRuntime([routerPlugin({})], undefined, context, instancePlugins),
   });
   const first = render(<Root />);
   const second = render(<Root />);
@@ -261,7 +264,7 @@ it('releases every scope resource and reports cleanup errors after unmount', asy
         component: () => <p>Mounted scope</p>,
       },
     ],
-    createRuntime: context =>
+    createRuntime: (context, instancePlugins) =>
       createRuntime(
         [
           routerPlugin({}),
@@ -278,6 +281,7 @@ it('releases every scope resource and reports cleanup errors after unmount', asy
         ],
         undefined,
         context,
+        instancePlugins,
       ),
   });
   const view = render(<Root />);
@@ -387,8 +391,8 @@ it.each(['', '/producer'])(
           ],
         },
       ],
-      createRuntime: context =>
-        createRuntime([routerPlugin({})], undefined, context),
+      createRuntime: (context, instancePlugins) =>
+        createRuntime([routerPlugin({})], undefined, context, instancePlugins),
     });
     const view = render(<Root />);
     try {
@@ -539,7 +543,7 @@ it.each([
           ],
         },
       ],
-      createRuntime: context =>
+      createRuntime: (context, instancePlugins) =>
         createRuntime(
           [
             routerPlugin({ supportHtml5History: html5 }),
@@ -552,6 +556,7 @@ it.each([
           ],
           undefined,
           context,
+          instancePlugins,
         ),
     });
     const view = render(<Root basename={initial} />);
@@ -738,7 +743,7 @@ it.each(
           ],
         },
       ],
-      createRuntime: context =>
+      createRuntime: (context, instancePlugins) =>
         createRuntime(
           [
             routerPlugin({}),
@@ -751,6 +756,7 @@ it.each(
           ],
           undefined,
           context,
+          instancePlugins,
         ),
     });
     const view = render(<Root basename="/inventory" />);
@@ -887,8 +893,8 @@ it('keeps an initial pending loader running when the Host has not navigated', as
           }),
       },
     ],
-    createRuntime: context =>
-      createRuntime([routerPlugin({})], undefined, context),
+    createRuntime: (context, instancePlugins) =>
+      createRuntime([routerPlugin({})], undefined, context, instancePlugins),
   });
   const view = render(<Root basename="/inventory" />);
   try {
@@ -969,8 +975,8 @@ it.each([
           component: () => <Link to="../detail/43">Detail</Link>,
         },
       ],
-      createRuntime: context =>
-        createRuntime([routerPlugin({})], undefined, context),
+      createRuntime: (context, instancePlugins) =>
+        createRuntime([routerPlugin({})], undefined, context, instancePlugins),
     });
     const content = (
       <React.Suspense fallback={<p>Loading Remote content</p>}>
@@ -1044,8 +1050,8 @@ it('aborts a suspended instance and discards a late initial redirect on unmount'
         component: () => <p>Late</p>,
       },
     ],
-    createRuntime: context =>
-      createRuntime([routerPlugin({})], undefined, context),
+    createRuntime: (context, instancePlugins) =>
+      createRuntime([routerPlugin({})], undefined, context, instancePlugins),
   });
   const notified = rstest.fn();
   window.addEventListener('popstate', notified);
@@ -1108,8 +1114,8 @@ it('deduplicates pending native POPs by target URL and history key, but accepts 
         component: () => null,
       },
     ],
-    createRuntime: context =>
-      createRuntime([routerPlugin({})], undefined, context),
+    createRuntime: (context, instancePlugins) =>
+      createRuntime([routerPlugin({})], undefined, context, instancePlugins),
   });
   const view = render(<Root basename="/inventory" />);
   const pop = () =>

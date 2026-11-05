@@ -62,6 +62,8 @@ Returns lifecycle and extension hooks for the current instance. The framework ow
 
 Use a `registryHooks` factory to create fresh extension hooks for each instance. If `registryHooks` is a record of hooks created with the standard helpers, Modern clones their hook containers for each instance and preserves callbacks registered in the static definition. Arbitrary third-party custom hook closures cannot be copied automatically. Create those hooks inside the factory rather than returning a shared hook object.
 
+For factory-owned synchronous extension hooks, `createRuntimeSyncHook` from `@modern-js/plugin/runtime` creates a live hook record without static-definition cloning metadata. Its execution behavior matches `createSyncHook`. Use the root package helpers for reusable static definitions, and do not reuse another active runtime’s hook records as definitions.
+
 ## Lifecycle APIs
 
 ### `api.onBeforeRender`

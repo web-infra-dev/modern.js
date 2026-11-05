@@ -1,6 +1,6 @@
 import type { NestedRoute, PageRoute } from '@modern-js/types';
 import type React from 'react';
-import type { createRuntime } from '../plugin';
+import type { createRuntime, RuntimePlugin } from '../plugin';
 import type { TInternalRuntimeContext } from '../context/runtime';
 import type { RouteManifest } from '../../router/runtime/types';
 
@@ -12,6 +12,7 @@ export interface ApplicationDefinition {
   App?: React.ComponentType<any>;
   createRuntime: (
     context: TInternalRuntimeContext,
+    plugins?: RuntimePlugin[],
   ) => ReturnType<typeof createRuntime>;
   selected?: boolean;
   basename?: string;
@@ -24,23 +25,6 @@ export interface ApplicationDefinition {
 }
 
 export type InstanceRouteDecorator = (route: NestedRoute | PageRoute) => void;
-
-export function instanceRoutes(
-  definition: ApplicationDefinition,
-  decorateRoute?: InstanceRouteDecorator,
-): ApplicationDefinition['routes'] {
-  const copy = (
-    nodes: ApplicationDefinition['routes'],
-  ): ApplicationDefinition['routes'] =>
-    (nodes || []).map(node => {
-      const result = { ...node };
-      if ('children' in node && node.children)
-        (result as NestedRoute).children = copy(node.children) as NestedRoute[];
-      decorateRoute?.(result);
-      return result;
-    });
-  return copy(definition.routes);
-}
 
 const definitions = new WeakMap<
   React.ComponentType<any>,

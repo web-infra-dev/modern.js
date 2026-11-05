@@ -254,13 +254,13 @@ ${runtimePlugins
   .map(({ name, path }) => `import { ${name}Plugin } from '${path}';`)
   .join('\n')}
 
-export function createRegistryRuntime(context) {
+export function createRegistryRuntime(context, instancePlugins) {
   const runtimeConfig = typeof modernRuntime === 'function' ? modernRuntime(${JSON.stringify(entryName)}) : modernRuntime;
   const plugins = [];
   ${runtimePlugins
     .map(({ name, config }) => getRegisterRuntimePluginCode(name, config))
     .join('\n')}
-  return createRuntime(plugins, runtimeConfig, context);
+  return createRuntime(plugins, runtimeConfig, context, instancePlugins);
 }
 `;
 

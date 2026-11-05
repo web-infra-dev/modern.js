@@ -25,18 +25,13 @@ export interface TRuntimeContext {
  */
 export interface TInternalRuntimeContext extends TRuntimeContext {
   application?: {
+    definition: import('../application/definition').ApplicationDefinition;
     Root?: import('react').ComponentType<any>;
     output: 'document' | 'fragment';
-    selected?: boolean;
-    enableRsc?: boolean;
-    isRscClient?: boolean;
-    entryPath?: string;
-    config: RouterConfig['routesConfig'];
+    config?: RouterConfig['routesConfig'];
     initialUrl: string;
     hydrationData?: import('../types').RouterSSRData;
-    serverLoaders?: boolean;
     getDataUrl?: (url: URL) => URL;
-    loadRouteChunk?: (chunkId: string | number) => Promise<unknown>;
     memory?: boolean;
     hash?: boolean;
     basename?: string;

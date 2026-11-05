@@ -62,6 +62,8 @@ api.updateRuntimeContext({ feature: { enabled: false } })
 
 可以通过 `registryHooks` 工厂为每个实例创建新的扩展 hooks。如果 `registryHooks` 是由标准 helper 创建的 hooks 记录，Modern 会为每个实例复制 hook 容器，并保留静态定义中已注册的回调。任意第三方自定义 hook 的闭包无法自动复制，应在工厂内创建新 hook，不要返回共享的 hook 对象。
 
+工厂拥有的同步扩展 hook 可以使用 `@modern-js/plugin/runtime` 的 `createRuntimeSyncHook`，创建不携带静态定义复制元数据的实例记录，执行行为与 `createSyncHook` 一致。需要复用的静态定义继续使用根包的标准 helper，不要把另一个运行中实例的 hook 记录当作静态定义。
+
 ## 生命周期 API
 
 ### `api.onBeforeRender`

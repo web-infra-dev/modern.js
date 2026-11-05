@@ -63,7 +63,7 @@ function application({
   const manifest = {
     routeAssets: { detail: { chunkIds: [`${origin}/detail`] } },
   };
-  const context = scope
+  const instance = scope
     ? createScopeRuntime(
         {
           selected: true,
@@ -74,11 +74,14 @@ function application({
           getDataBase: () => origin,
           getRouteManifest: () => manifest,
           loadRouteChunk,
-          createRuntime: context => createRuntime([], undefined, context),
+          createRuntime: (context, instancePlugins) =>
+            createRuntime([], undefined, context, instancePlugins),
         },
         { isBrowser: true, basename, initialUrl: `${basename}/` },
-      ).context
-    : getInitialContext(true, manifest);
+      )
+    : undefined;
+  if (instance) void instance.runtime;
+  const context = instance?.context || getInitialContext(true, manifest);
   context.routes = routes;
   // Legacy CSR also has a synthetic ssrContext, but no SSR capability marker.
   context.ssrContext = {} as any;
@@ -89,8 +92,10 @@ function application({
       config: { routes: [] },
       initialUrl: window.location.href,
       basename,
-      serverLoaders,
-      loadRouteChunk: global.__webpack_chunk_load_test__,
+      definition: {
+        serverLoaders,
+        loadRouteChunk: global.__webpack_chunk_load_test__,
+      },
     };
   }
   if (hashRouter) window.history.replaceState(null, '', `/#${basename}/`);
@@ -271,7 +276,7 @@ describe('prefetch', () => {
       output: 'document',
       config: { routes: [] },
       initialUrl: window.location.href,
-      serverLoaders: true,
+      definition: { serverLoaders: true },
     };
     const router = createMemoryRouter(routes, {
       initialEntries: ['/shop/100'],
