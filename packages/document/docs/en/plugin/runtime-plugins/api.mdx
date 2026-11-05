@@ -1,193 +1,106 @@
 # Plugin API
 
-Modern.js's Runtime Plugins allow you to extend and modify the behavior of your application during its React code execution. With Runtime Plugins, you can easily perform initialization tasks, implement React Higher-Order Component (HOC) wrapping, and more.
+Runtime plugins extend initialization, root components and cleanup in ordinary pages and Bridge exports. Register them through [`plugins`](/configure/app/runtime/plugins) in `src/modern.runtime.ts`.
 
-:::info
+## Plugin Structure and Order
 
-Runtime plugins need to be configured via the [`plugins`](/configure/app/runtime/plugins) field in `src/modern.runtime.ts`.
+Each plugin has a unique `name`. `pre` lists plugins that must execute before it, while `post` lists plugins that must execute after it. `setup` receives the plugin API and may return a Promise. The framework waits for dependency setup to complete before continuing.
 
-:::
+{/* prettier-ignore */}
+```tsx
+import type { RuntimePlugin } from '@modern-js/runtime'
 
-## Plugin Structure
+export const preferencesPlugin = (): RuntimePlugin => ({
+  name: 'preferences',
+  pre: ['@modern-js/runtime-plugin-request-context'],
+  setup(api) {
+    const controller = new AbortController()
+    api.onDispose(() => controller.abort())
 
-A typical Runtime Plugin looks like this:
-
-```ts
-import type { RuntimePlugin } from '@modern-js/runtime';
-
-const myRuntimePlugin = (): RuntimePlugin => ({
-  name: 'my-runtime-plugin',
-  setup: api => {
-    // Use the api to register hooks
-    api.onBeforeRender(context => {
-      console.log('Before rendering:', context);
-    });
-
-    api.wrapRoot(App => {
-      return props => (
-        <MyContextProvider>
-          <App {...props} />
-        </MyContextProvider>
-      );
-    });
+    api.onBeforeRender(async context => {
+      const url = new URL('/api/preferences', context.requestContext.request.url)
+      const response = await fetch(url, { signal: controller.signal })
+      context.preferences = await response.json()
+    })
   },
-});
-
-export default myRuntimePlugin;
+})
 ```
 
-- `name`: A unique identifier for the plugin.
-- `setup`: A function that receives an `api` object, which provides all available Runtime plugin APIs.
+Setup runs separately for each mount or server request. Do not store the current language, Request or loader results in module variables. See [Life Cycle](./life-cycle) for ownership and the full execution sequence.
 
-## API Overview
+## Reading and Updating Data
 
-The Runtime Plugin API is primarily divided into the following categories:
+### `api.getRuntimeConfig`
 
-- **Information Retrieval**: Getting runtime configuration and hook functions.
-- **Lifecycle Hooks**: Executing custom logic at different stages of the application's rendering process.
+Returns the current runtime configuration. Treat it as read-only data. Do not mutate it to store request state. Configuration is not React state.
 
-### Information Retrieval
+### `api.getRuntimeContext`
 
-#### `api.getRuntimeConfig`
+Returns the context owned by the current instance. It is the same object passed to `onBeforeRender`. Page data, Bridge snapshots and server Requests enter through their respective data sources. Built-in plugins consume the current instance fields rather than another application's SSR globals.
 
-Gets the runtime configuration defined by the user in the `modern.runtime.ts` file.
+The built-in request context plugin prepares `requestContext` during `setup`, before application plugins execute. Initial application data and asset capabilities enter the context during instance creation. Router adds route matches and loader results during initialization.
 
-- **Usage**:
+### `api.updateRuntimeContext`
 
+Deeply merges a patch into the current context. It does not bind the supplied object as the context or track later changes to that object.
+
+{/* prettier-ignore */}
 ```ts
-const config = api.getRuntimeConfig();
-console.log(config.myCustomSetting);
+const patch = { feature: { enabled: true } }
+api.updateRuntimeContext(patch)
+// Submit another patch, or mutate the current context, for later changes
+api.updateRuntimeContext({ feature: { enabled: false } })
 ```
 
-:::warning
+The internal React Provider uses the current context. The public `RuntimeContext` exposes a stable view that hides framework fields, without maintaining a second data copy. Field mutations do not trigger React renders automatically. Use React state or a subscription for reactive updates.
 
-This method returns a _copy_ of the user's configuration. Modifying the returned value will not affect the original configuration.
-:::
+### `api.getHooks`
 
-#### `api.getHooks`
+Returns lifecycle and extension hooks for the current instance. The framework owns normal application initialization. Do not repeat initialization hooks during component updates.
 
-Gets the hook functions that can be triggered manually.
+## Lifecycle APIs
 
-- **Type:**
+### `api.onBeforeRender`
 
+Registers an initialization callback. The framework executes and awaits callbacks in plugin dependency order, then runs `wrapRoot`. Browser props updates and internal navigation do not repeat this phase.
+
+Callbacks may mutate the current context. Thrown errors and rejected Promises stop initialization. Use the second argument, `interrupt`, to stop explicitly. The platform adapter handles the result without running later hooks or mounting the application.
+
+{/* prettier-ignore */}
 ```ts
-() => {
-  onBeforeRender: {
-    call: (context: any) => Promise<void>;
+api.onBeforeRender((context, interrupt) => {
+  if (context.requestContext.request.headers['x-maintenance'] === 'true') {
+    return interrupt(new Response('Temporarily unavailable', { status: 503 }))
   }
-  // Other hooks...
-};
+})
 ```
 
-- **Usage:**
+### `api.wrapRoot`
 
-```ts
-const hooks = api.getHooks();
-await hooks.onBeforeRender.call(myContext);
+Registers a root component wrapper. It runs once after successful initialization, and its resulting component remains stable for the lifetime of the instance. Forward props to the original App to preserve application behavior and state across updates and navigation.
+
+{/* prettier-ignore */}
+```tsx
+import { RuntimeContext } from '@modern-js/runtime'
+import { useContext } from 'react'
+
+api.wrapRoot(App => {
+  function PreferencesRoot(props) {
+    const context = useContext(RuntimeContext)
+    return (
+      <PreferencesProvider value={context.preferences}>
+        <App {...props} />
+      </PreferencesProvider>
+    )
+  }
+  return PreferencesRoot
+})
 ```
 
-### Lifecycle Hooks
+Use the Router plugin's `api.modifyRoutes` hook to modify instance routes. Declare a dependency on the Router plugin instead of using a mutable module-level route table.
 
-#### `api.onBeforeRender`
+### `api.onDispose`
 
-Executes before the application renders (including both server-side rendering and client-side rendering). You can use this hook to perform data prefetching, modify the rendering context, etc.
+Registers synchronous cleanup for the current instance. Remove listeners, clear timers, cancel pending work and release resources created by the plugin. Cleanup runs once per instance in reverse registration order.
 
-- **Type:**
-
-  ```ts
-  type OnBeforeRenderFn<RuntimeContext> = (
-    context: RuntimeContext,
-  ) => Promise<void> | void;
-  ```
-
-  `RuntimeContext` contains contextual information about the current request, such as the request object, response object, etc.
-
-- **Usage:**
-
-  ```ts
-  api.onBeforeRender(async context => {
-    const data = await fetchData(context.req);
-    context.data = data; // Add the data to the context
-  });
-  ```
-
-:::warning
-
-- This hook executes before **every** render, so avoid performing long-running operations.
-- You can modify the `context` object in this hook, and the modified `context` will be passed to subsequent rendering processes.
-
-:::
-
-#### `api.wrapRoot`
-
-Allows you to wrap the application's root component with a custom React component. This is commonly used to add global Providers, layout components, etc.
-
-- **Type:**
-
-  ```ts
-  type WrapRootFn = (App: React.ComponentType<any>) => React.ComponentType<any>;
-  ```
-
-- **Usage:**
-
-      ```ts
-      api.wrapRoot((App) => {
-        const AppWrapper = (props) => {
-          return (
-            <MyGlobalProvider>
-              <Layout>
-                <App {...props} /> {/* Make sure to pass props */}
-              </Layout>
-            </MyGlobalProvider>
-          );
-        };
-        return AppWrapper;
-      });
-      ```
-
-  :::warning
-
-- **It is crucial to pass the `props` to the original `App` component**, otherwise, the application may not function correctly.
-- The component returned by `wrapRoot` is recreated on every render, so avoid defining complex logic or state within it.
-
-:::
-
-## Advanced Usage
-
-### Combining Hooks
-
-You can combine multiple hooks to implement more complex functionality. For example, you can use `onBeforeRender` to fetch data and then use `wrapRoot` to pass the data to the entire application via Context:
-
-```ts
-import { RuntimePlugin, RuntimeContext } from '@modern-js/runtime';
-import { useContext, createContext } from 'react';
-
-export const ThemeContext = createContext<{ theme: string } | null>(null);
-
-export const themePlugin = (): RuntimePlugin => {
-  return {
-    name: 'theme-plugin',
-    setup: api => {
-      api.onBeforeRender(async context => {
-        const userPreference = await fetch('/api/user/theme-settings').then(
-          res => res.json(),
-        );
-        context.data = {
-          theme: userPreference.theme,
-        };
-      });
-
-      api.wrapRoot(App => {
-        return props => {
-          const context = useContext(RuntimeContext);
-          return (
-            <ThemeContext.Provider value={context.data}>
-              <App {...props} />
-            </ThemeContext.Provider>
-          );
-        };
-      });
-    },
-  };
-};
-```
+Unmount, request output completion, failed initialization and cancellation dispose the instance. Registering cleanup on an already disposed instance executes it immediately, so register cleanup as soon as asynchronous work acquires a resource. Asynchronous operations must respond to AbortSignal rather than only ignoring React updates after unmount.

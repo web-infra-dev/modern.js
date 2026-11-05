@@ -2,7 +2,6 @@ import type { RouteObject } from '@modern-js/runtime-utils/router';
 import type { StaticHandlerContext } from '@modern-js/runtime-utils/router';
 import type { DataRouter } from '@modern-js/runtime-utils/router';
 import type { BaseSSRServerContext } from '@modern-js/types';
-import { ROUTE_MANIFEST } from '@modern-js/utils/universal/constants';
 import { createContext, useContext } from 'react';
 import type { RouteManifest, RouterConfig } from '../../router/runtime/types';
 import type { RequestContext, SSRServerContext } from '../types';
@@ -25,7 +24,13 @@ export interface TRuntimeContext {
  * InternalRuntimeContext used internally and by plugins
  */
 export interface TInternalRuntimeContext extends TRuntimeContext {
-  _routeScope?: {
+  application?: {
+    Root?: import('react').ComponentType<any>;
+    output: 'document' | 'fragment';
+    selected?: boolean;
+    enableRsc?: boolean;
+    isRscClient?: boolean;
+    entryPath?: string;
     config: RouterConfig['routesConfig'];
     initialUrl: string;
     hydrationData?: import('../types').RouterSSRData;
@@ -41,6 +46,7 @@ export interface TInternalRuntimeContext extends TRuntimeContext {
     routes?: RouteObject[];
   };
   routeManifest?: RouteManifest;
+  assetBase?: string;
   routerContext?: StaticHandlerContext;
   unstable_getBlockNavState?: () => boolean;
   ssrContext?: SSRServerContext;
@@ -72,9 +78,7 @@ export const getInitialContext = (
   };
   return {
     isBrowser,
-    routeManifest:
-      routeManifest ||
-      (typeof window !== 'undefined' && (window as any)[ROUTE_MANIFEST]),
+    routeManifest,
     requestContext,
     context: requestContext, // deprecated, keep for backward compatibility
   };

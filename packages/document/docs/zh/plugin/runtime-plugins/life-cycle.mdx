@@ -1,31 +1,34 @@
 # 生命周期
 
-import Mermaid from '@site/src/components/Mermaid';
+普通页面和 Bridge 导出应用使用相同的应用定义、实例创建和插件执行过程。框架内部的 `createApplicationInstance` 负责准备实例，页面文档与嵌入片段通过各自的适配器提供数据和输出能力。
 
-<Mermaid>
-{`
-flowchart TD
-    init{{"Runtime 初始化"}}
-    load_config(加载用户配置文件)
-    runtime_plugin(加载 Runtime 插件<br><sub>配置文件中注册的插件<br>CLI 插件注册的 Runtime 插件<br>插件中使用的插件</sub>)
-    registry_hooks(注册 Hooks 函数<br><sub>执行插件 setup 函数，注册插件中定义的 Hook, 插件 setup 中逻辑也会在这里执行</sub>)
+## 对象归属
 
-    wrapRoot(wrapRoot<br><sub>wrapRoot 中返回组件中的逻辑会在组件渲染时执行</sub>)
-    onBeforeRender(onBeforeRender)
+| 对象       | 生命周期           | 可保存的内容                             |
+| ---------- | ------------------ | ---------------------------------------- |
+| 应用定义   | 入口模块           | 组件、静态路由、插件工厂和资源加载能力   |
+| 浏览器实例 | 一次挂载           | Router、当前 context、插件闭包和清理函数 |
+| 服务端实例 | 一次请求及其输出流 | Request、loader 结果、响应信息和插件闭包 |
 
-    init --> load_config
-    load_config --> runtime_plugin
-    runtime_plugin --> registry_hooks
-    registry_hooks --> wrapRoot
-    wrapRoot --> onBeforeRender
+默认注册只保存应用定义，不执行实例的插件 `setup`。每个挂载或请求分别创建插件实例，不把语言、loader 数据或请求信息保存在模块变量和默认注册对象中。静态模块缓存可以复用，但不能包含这些动态数据。
 
-    style init fill:#FDE68A,font-size:10px;
-    style load_config stroke-dasharray:5 5,fill:#86EFAC,font-size:10px;
-    style runtime_plugin stroke-dasharray:5 5,fill:#86EFAC,font-size:10px;
-    style registry_hooks stroke-dasharray:5 5,fill:#9CA3AF,font-size:10px;
-    style wrapRoot font-size:10px;
-    style onBeforeRender font-size:10px;
+## 执行阶段
 
-`}
+1. 读取当前页面或片段的数据源，创建 context。页面恢复页面 SSR 数据，Bridge 恢复本实例的渐进快照，服务端使用当前 Request。
+2. 按插件的 `pre`、`post` 依赖顺序执行 `setup`。内置请求上下文插件在应用插件之前准备 `requestContext`。若 `setup` 返回 Promise，等待完成后再执行依赖它的插件。
+3. 按同一顺序执行并等待 `onBeforeRender`。Router、i18n 和预取能力消费当前实例的 context。
+4. 初始化成功后执行 `wrapRoot`，保存返回的根组件。错误、中断或已取消的实例不会进入挂载阶段。
+5. 页面或片段适配器执行 SSR、挂载或水合。Bridge 的渐进更新可以继续到达，不要求全部远端流结束后才开始水合。
+6. 卸载、请求输出结束或取消时释放实例资源，并执行 `onDispose` 注册的清理函数。
 
-</Mermaid>
+`pre` 列出必须先于当前插件执行的插件名，`post` 列出必须在当前插件之后执行的插件名。依赖其他插件初始化的数据时，应声明依赖关系，而不是依赖配置数组的偶然顺序。
+
+浏览器 props 更新和内部导航继续使用原实例，不重复运行 `setup`、`onBeforeRender` 或 `wrapRoot`。Bridge 挂载的 basename 改变时创建新实例，并清理旧实例。
+
+## 数据与清理
+
+`api.getRuntimeContext()` 和生命周期参数引用当前实例的同一个 context。`api.updateRuntimeContext()` 深合并数据到此对象，它不会把传入对象绑定为 context，也不会自动追踪传入对象之后的变化。内部 React Provider 使用该 context，公开 `RuntimeContext` 提供隐藏框架内部字段的稳定视图。修改字段不会自动触发 React 更新，需要响应式数据时使用 React state 或专门的订阅。
+
+插件在 `setup` 或异步初始化中获得资源后，应立即通过 `api.onDispose` 注册清理。清理同步执行，按注册顺序逆序调用，重复释放实例不会重复执行。初始化被取消后才获得的资源，也应注册清理，已释放实例会立即执行该清理函数。
+
+页面完整文档、Bridge 片段、浏览器 DOM 和服务端输出流仍有不同的适配边界。插件不得以 Bridge 数据缺失为由读取 Host 的 SSR 数据，也不得将当前 Request 或恢复数据写入共享模块状态。

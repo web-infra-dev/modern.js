@@ -50,7 +50,7 @@ const Root = createScopedRoot({
     },
     loader: ({ params }) => ({ id: params.id }),
   }],
-  createRuntime: (routesConfig, selected) => createRuntime([routerPlugin({}, routesConfig, selected)]),
+  createRuntime: context => createRuntime([routerPlugin()], undefined, context),
 });
 export async function run() {
   const provider = createBridgeComponent({ rootComponent: Root, render, hydrate, renderStream })();

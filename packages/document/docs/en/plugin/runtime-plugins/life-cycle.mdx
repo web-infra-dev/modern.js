@@ -1,31 +1,34 @@
 # Life Cycle
 
-import Mermaid from '@site/src/components/Mermaid';
+Ordinary pages and Bridge exports share application definitions, instance creation and plugin execution. Internally, `createApplicationInstance` prepares each instance. Page and fragment adapters provide their data sources and rendering capabilities.
 
-<Mermaid>
-{`
-flowchart TD
-    init{{"Runtime Initialization"}}
-    load_config(Load User Configuration File)
-    runtime_plugin(Load Runtime Plugins<br><sub>Plugins registered in the configuration file<br>Runtime plugins registered by CLI<br>Plugins used within plugins</sub>)
-    registry_hooks(Register Hooks Functions<br><sub>Execute the plugin setup function, register hooks defined in the plugin, and the logic in the plugin setup will also be executed here</sub>)
+## Ownership
 
-    wrapRoot(wrapRoot<br><sub>The logic returned in wrapRoot will be executed when the component is rendered</sub>)
-    onBeforeRender(onBeforeRender)
+| Object                 | Lifetime                          | Owned data                                                     |
+| ---------------------- | --------------------------------- | -------------------------------------------------------------- |
+| Application definition | Entry module                      | Components, static routes, plugin factories and asset loaders  |
+| Browser instance       | One mount                         | Router, current context, plugin closures and cleanup callbacks |
+| Server instance        | One request and its output stream | Request, loader results, response state and plugin closures    |
 
-    init --> load_config
-    load_config --> runtime_plugin
-    runtime_plugin --> registry_hooks
-    registry_hooks --> wrapRoot
-    wrapRoot --> onBeforeRender
+Default registration stores the definition without executing instance `setup`. Each mount or request creates its own plugins. Keep language, loader results and request state out of module variables and the default registration. Static module caches may be shared, but must not contain dynamic instance data.
 
-    style init fill:#FDE68A,font-size:10px;
-    style load_config stroke-dasharray:5 5,fill:#86EFAC,font-size:10px;
-    style runtime_plugin stroke-dasharray:5 5,fill:#86EFAC,font-size:10px;
-    style registry_hooks stroke-dasharray:5 5,fill:#9CA3AF,font-size:10px;
-    style wrapRoot font-size:10px;
-    style onBeforeRender font-size:10px;
+## Execution Order
 
-`}
+1. Read the current data source and create the context. Pages restore their page SSR data, Bridge instances restore their progressive snapshots, and server instances receive the current Request.
+2. Execute `setup` in the dependency order declared by `pre` and `post`. The built-in request context plugin prepares `requestContext` before application plugins execute. When setup returns a Promise, wait for it before executing dependent plugins.
+3. Execute and await `onBeforeRender` in the same order. Router, i18n and prefetch capabilities consume the current instance context.
+4. After successful initialization, execute `wrapRoot` and retain the resulting component. Errors, interruption and cancellation prevent the instance from mounting.
+5. The page or fragment adapter renders, mounts or hydrates the application. Progressive Bridge updates may continue arriving, without requiring all remote streams to finish before hydration starts.
+6. Release resources and execute `onDispose` callbacks when the mount is removed, the request output finishes or the instance is cancelled.
 
-</Mermaid>
+`pre` lists plugins that must run before the current plugin. `post` lists plugins that must run after it. Declare dependencies on data produced by other plugins instead of relying on their incidental position in the configuration array.
+
+Browser props updates and internal navigation reuse the instance. They do not repeat `setup`, `onBeforeRender` or `wrapRoot`. Changing the basename of a Bridge mount creates a new instance and disposes the previous one.
+
+## Context and Cleanup
+
+`api.getRuntimeContext()` and lifecycle arguments reference the same context for the current instance. `api.updateRuntimeContext()` deeply merges data into that object. It does not bind the supplied object as the context or track later changes to that object. The internal React Provider uses the context directly. The public `RuntimeContext` exposes a stable view that hides framework fields. Field mutations do not trigger React renders automatically. Use React state or a subscription when reactive updates are needed.
+
+Register resources with `api.onDispose` as soon as they are acquired, including during asynchronous initialization. Cleanup runs synchronously in reverse registration order, once per instance. If an asynchronous operation acquires a resource after cancellation, registering its cleanup on the disposed instance runs it immediately.
+
+Full page documents, Bridge fragments, browser DOM and server output streams retain their own adapter boundaries. Missing Bridge restoration data must not fall back to Host SSR data. Never write the current Request or restoration data into shared module state.

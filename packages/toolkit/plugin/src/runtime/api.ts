@@ -28,19 +28,13 @@ export function initPluginAPI<Extends extends RuntimePluginExtends>({
   const { hooks, extendsHooks } = context;
 
   function getRuntimeContext() {
-    if (context) {
-      const { hooks, extendsHooks, config, pluginAPI, ...runtimeContext } =
-        context;
-      runtimeContext._internalContext = context;
-      return runtimeContext as RuntimeContext & Extends['extendContext'];
-    }
-    throw new Error('Cannot access context');
+    return context.runtimeContext;
   }
 
   function updateRuntimeContext(
     updateContext: DeepPartial<RuntimeContext & Extends['extendContext']>,
   ) {
-    context = merge(context, updateContext);
+    merge(context.runtimeContext, updateContext);
   }
 
   function getHooks() {
@@ -83,6 +77,8 @@ export function initPluginAPI<Extends extends RuntimePluginExtends>({
 
   const pluginAPI = {
     updateRuntimeContext,
+    getRuntimeContext,
+    onDispose: context.onDispose,
     getHooks,
     getRuntimeConfig,
     config: hooks.config.tap,

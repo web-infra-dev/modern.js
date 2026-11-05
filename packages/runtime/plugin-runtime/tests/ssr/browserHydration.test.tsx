@@ -4,13 +4,18 @@ import type { Root } from 'react-dom/client';
 import { renderToString } from 'react-dom/server';
 import { ESCAPED_SHELL_STREAM_END_MARK } from '../../src/common';
 import { render } from '../../src/core/browser';
+import { hydrateRoot } from '../../src/core/browser/hydrate';
+import { getInitialContext } from '../../src/core/context/runtime';
 import {
   ROUTER_DATA_JSON_ID,
   RenderLevel,
   SSR_DATA_JSON_ID,
 } from '../../src/core/constants';
 import { setGlobalContext } from '../../src/core/context';
-import { registerPlugin } from '../../src/core/plugin';
+import {
+  registerRuntimeDefinition,
+  createRuntime,
+} from '../../src/core/plugin';
 import { StreamRoot } from '../../src/core/react/streamRoot';
 
 it.each([false, true])(
@@ -26,20 +31,26 @@ it.each([false, true])(
     });
     const beforeRenderData: unknown[] = [];
     setGlobalContext({ entryName: 'index' });
-    registerPlugin([
-      {
-        name: 'check-hydration-shell-context',
-        setup(api) {
-          api.onBeforeRender(context => {
-            beforeRenderData.push(
-              context.initialData,
-              context.__i18nData__,
-              window._ROUTER_DATA,
-            );
-          });
-        },
-      },
-    ]);
+    registerRuntimeDefinition(context =>
+      createRuntime(
+        [
+          {
+            name: 'check-hydration-shell-context',
+            setup(api) {
+              api.onBeforeRender(context => {
+                beforeRenderData.push(
+                  context.initialData,
+                  context.__i18nData__,
+                  window._ROUTER_DATA,
+                );
+              });
+            },
+          },
+        ],
+        undefined,
+        context,
+      ),
+    );
     function Page(_props: { basename: string }) {
       return <p id={useId()}>server shell</p>;
     }
@@ -120,17 +131,23 @@ it.each(['stream', 'string'] as const)(
     delete window._SSR_DATA_READY;
     setGlobalContext({ entryName: 'index' });
     const languages: unknown[] = [];
-    registerPlugin([
-      {
-        name: 'ordinary-page-language',
-        setup(api) {
-          api.onBeforeRender(context => {
-            languages.push(context.__i18nData__);
-            expect(context.ssr).toBe(true);
-          });
-        },
-      },
-    ]);
+    registerRuntimeDefinition(context =>
+      createRuntime(
+        [
+          {
+            name: 'ordinary-page-language',
+            setup(api) {
+              api.onBeforeRender(context => {
+                languages.push(context.__i18nData__);
+                expect(context.ssr).toBe(true);
+              });
+            },
+          },
+        ],
+        undefined,
+        context,
+      ),
+    );
     function Page() {
       return <p id={useId()}>ordinary page</p>;
     }
@@ -178,16 +195,25 @@ it('keeps ordinary CSR context without SSR language or server prefetch eligibili
   delete window._SSR_DATA_READY;
   setGlobalContext({ entryName: 'index' });
   const contexts: unknown[] = [];
-  registerPlugin([
-    {
-      name: 'ordinary-csr-context',
-      setup(api) {
-        api.onBeforeRender(context => {
-          contexts.push({ language: context.__i18nData__, ssr: context.ssr });
-        });
-      },
-    },
-  ]);
+  registerRuntimeDefinition(context =>
+    createRuntime(
+      [
+        {
+          name: 'ordinary-csr-context',
+          setup(api) {
+            api.onBeforeRender(context => {
+              contexts.push({
+                language: context.__i18nData__,
+                ssr: context.ssr,
+              });
+            });
+          },
+        },
+      ],
+      undefined,
+      context,
+    ),
+  );
   const container = document.createElement('div');
   document.body.append(container);
   let root: Root | undefined;
@@ -201,4 +227,135 @@ it('keeps ordinary CSR context without SSR language or server prefetch eligibili
     await act(async () => root?.unmount());
     container.remove();
   }
+});
+
+it.each(['string', 'stream'] as const)(
+  'rejects failed ordinary %s hydration and releases the instance',
+  async mode => {
+    const previousHydration = process.env.MODERN_ENABLE_HYDRATION;
+    const previousData = window._SSR_DATA;
+    const previousReady = window._SSR_DATA_READY;
+    process.env.MODERN_ENABLE_HYDRATION = 'true';
+    delete window._SSR_DATA_READY;
+    window._SSR_DATA = { mode, renderLevel: RenderLevel.SERVER_RENDER } as any;
+    const cleanup = rstest.fn();
+    let canonical: ReturnType<typeof getInitialContext> | undefined;
+    registerRuntimeDefinition(context =>
+      createRuntime(
+        [
+          {
+            name: 'failed-hydration-cleanup',
+            setup(api) {
+              canonical = api.getRuntimeContext();
+              api.onDispose(cleanup);
+            },
+          },
+        ],
+        undefined,
+        context,
+      ),
+    );
+    const App = () => <p>never mounted</p>;
+    setGlobalContext({ App });
+    try {
+      // React rejects the missing container after asynchronous instance setup.
+      // String hydration must forward that rejection through loadableReady too.
+      await expect(
+        render(<App />, 'missing-hydration-contract-container'),
+      ).rejects.toThrow('Target container');
+      expect(cleanup).toHaveBeenCalledTimes(1);
+      expect(canonical).not.toHaveProperty('_hydration');
+    } finally {
+      if (previousHydration === undefined)
+        delete process.env.MODERN_ENABLE_HYDRATION;
+      else process.env.MODERN_ENABLE_HYDRATION = previousHydration;
+      window._SSR_DATA = previousData;
+      window._SSR_DATA_READY = previousReady;
+    }
+  },
+);
+
+it.each(['string', 'stream'] as const)(
+  'keeps %s CSR, prefetch and missing-level fallbacks free of hydration state',
+  async mode => {
+    const previousData = window._SSR_DATA;
+    const warning = rstest.spyOn(console, 'warn').mockImplementation(() => {});
+    try {
+      for (const renderLevel of [RenderLevel.CLIENT_RENDER, 1, undefined]) {
+        window._SSR_DATA = { mode, renderLevel } as any;
+        const canonical = getInitialContext(true);
+        const root = { unmount() {} } as Root;
+        const renderClient = rstest.fn(async () => {
+          expect(canonical).not.toHaveProperty('_hydration');
+          return root;
+        });
+        const hydrateClient = rstest.fn(async () => root);
+        expect(
+          await hydrateRoot(
+            <p>fallback</p>,
+            canonical,
+            renderClient,
+            hydrateClient,
+          ),
+        ).toBe(root);
+        expect(renderClient).toHaveBeenCalledTimes(1);
+        expect(hydrateClient).not.toHaveBeenCalled();
+        expect(canonical).not.toHaveProperty('_hydration');
+      }
+    } finally {
+      window._SSR_DATA = previousData;
+      warning.mockRestore();
+    }
+  },
+);
+
+it('uses client rendering when hydration is disabled even if SSR data is present', async () => {
+  const previousHydration = process.env.MODERN_ENABLE_HYDRATION;
+  const previousData = window._SSR_DATA;
+  const previousReady = window._SSR_DATA_READY;
+  delete process.env.MODERN_ENABLE_HYDRATION;
+  delete window._SSR_DATA_READY;
+  window._SSR_DATA = {
+    mode: 'string',
+    renderLevel: RenderLevel.SERVER_RENDER,
+  } as any;
+  let canonical: ReturnType<typeof getInitialContext> | undefined;
+  const cleanup = rstest.fn();
+  registerRuntimeDefinition(context =>
+    createRuntime(
+      [
+        {
+          name: 'disabled-hydration',
+          setup(api) {
+            canonical = api.getRuntimeContext();
+            api.onDispose(cleanup);
+          },
+        },
+      ],
+      undefined,
+      context,
+    ),
+  );
+  const container = document.createElement('div');
+  container.innerHTML = '<p>server content</p>';
+  document.body.append(container);
+  const serverNode = container.firstElementChild;
+  let root: Root | undefined;
+  try {
+    await act(async () => {
+      root = await render(<p>client content</p>, container);
+    });
+    expect(container.textContent).toBe('client content');
+    expect(container.firstElementChild).not.toBe(serverNode);
+    expect(canonical).not.toHaveProperty('_hydration');
+  } finally {
+    await act(async () => root?.unmount());
+    container.remove();
+    if (previousHydration === undefined)
+      delete process.env.MODERN_ENABLE_HYDRATION;
+    else process.env.MODERN_ENABLE_HYDRATION = previousHydration;
+    window._SSR_DATA = previousData;
+    window._SSR_DATA_READY = previousReady;
+  }
+  expect(cleanup).toHaveBeenCalledTimes(1);
 });

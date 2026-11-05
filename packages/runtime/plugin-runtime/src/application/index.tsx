@@ -1,3 +1,8 @@
+import {
+  disposeAfterError,
+  disposeResources,
+} from '../core/application/cleanup';
+import { createBrowserRequestContext } from '../core/browser/data';
 import React, { startTransition, useEffect } from 'react';
 import { type Root, createRoot, hydrateRoot } from 'react-dom/client';
 import { type TInternalRuntimeContext } from '../core/context';
@@ -19,6 +24,8 @@ import { APPLICATION_SNAPSHOT_PROTOCOL } from './constants';
 import type { ApplicationOptions, ApplicationSnapshot } from './types';
 
 export type { ApplicationOptions, ApplicationSnapshot } from './types';
+
+const noop = () => {};
 
 export interface ApplicationInstance {
   hydrate: (
@@ -67,29 +74,48 @@ export function createApplication(
   let removeAbortListener: (() => void) | undefined;
   let destroyed = false;
   let pending = false;
-  let rejectInitialization: ((error: unknown) => void) | undefined;
   let rejectCommit: ((error: unknown) => void) | undefined;
-  let commit: () => void = () => {};
+  let commit: () => void = noop;
   let ready: Promise<void> = Promise.resolve();
   let data: ReturnType<typeof restoreApplicationData> | undefined;
   let finishHydration: (() => void) | undefined;
-  let prepared: PreparedScope;
+  let prepared: PreparedScope | undefined;
   let connection: ReturnType<typeof createBrowserRouterConnector> | undefined;
 
   const destroy = () => {
     if (destroyed) return;
     destroyed = true;
-    rejectInitialization?.(
-      new Error('Application destroyed before initialization'),
-    );
-    data?.cancel(new Error('Application destroyed before data completed'));
-    rejectCommit?.(new Error('Application destroyed before commit'));
-    removeAbortListener?.();
-    connection?.dispose();
-    context?._routeScope?.router?.dispose();
-    root?.unmount();
+    const currentRoot = root;
+    const currentData = data;
+    const currentPrepared = prepared;
+    const currentConnection = connection;
+    const removeAbort = removeAbortListener;
+    const rejectPendingCommit = rejectCommit;
     root = undefined;
     context = undefined;
+    data = undefined;
+    prepared = undefined;
+    connection = undefined;
+    removeAbortListener = undefined;
+    rejectCommit = undefined;
+    finishHydration = undefined;
+    appElement = undefined;
+    props = {};
+    shellMarker = undefined;
+    commit = noop;
+    ready = Promise.resolve();
+    disposeResources(
+      () =>
+        currentData?.cancel(
+          new Error('Application destroyed before data completed'),
+        ),
+      () =>
+        rejectPendingCommit?.(new Error('Application destroyed before commit')),
+      removeAbort,
+      () => currentConnection?.dispose(),
+      () => currentPrepared?.dispose(),
+      () => currentRoot?.unmount(),
+    );
   };
 
   const initialize = async (
@@ -103,14 +129,17 @@ export function createApplication(
       throw new Error('Application instance has already been used');
     pending = true;
     options.signal?.throwIfAborted();
-    const cancelled = new Promise<never>((_, reject) => {
-      rejectInitialization = reject;
-    });
-    void cancelled.catch(() => {});
     if (options.signal) {
-      options.signal.addEventListener('abort', destroy, { once: true });
+      const onAbort = () => {
+        try {
+          destroy();
+        } catch (error) {
+          (options.onRecoverableError || console.error)(error);
+        }
+      };
+      options.signal.addEventListener('abort', onAbort, { once: true });
       removeAbortListener = () =>
-        options.signal?.removeEventListener('abort', destroy);
+        options.signal?.removeEventListener('abort', onAbort);
     }
     if (snapshot && snapshot.reactVersion !== React.version) {
       throw new Error(
@@ -138,8 +167,10 @@ export function createApplication(
     let resumeLocation = () => {};
     props = options.props || {};
     shellMarker = snapshot?.shellMarker;
-    prepared = createScopeRuntime(config.definition, {
+    const instance: PreparedScope = createScopeRuntime(config.definition, {
       isBrowser: true,
+      signal: options.signal,
+      onError: options.onRecoverableError,
       basename: options.memoryRoute ? '/' : options.basename || '/',
       initialUrl:
         options.memoryRoute?.entryPath ??
@@ -151,8 +182,9 @@ export function createApplication(
         resumeLocation();
       },
     });
-    context = prepared.context;
-    const scope = context._routeScope!;
+    prepared = instance;
+    context = instance.context;
+    const scope = context.application!;
     scope.hydrationData = snapshot?.routerData;
     if (!scope.memory) {
       // The HTTP request has no fragment. Keep the first Browser Router render
@@ -203,13 +235,13 @@ export function createApplication(
               [...matches]
                 .reverse()
                 .find(match =>
-                  prepared.routeCommits?.routes.has(match.route.id),
+                  instance.routeCommits?.routes.has(match.route.id),
                 );
             if (match) {
               const kind = errorMatch ? 'error' : 'route';
               const observed = errorMatch
-                ? prepared.routeCommits?.errors
-                : prepared.routeCommits?.routes;
+                ? instance.routeCommits?.errors
+                : instance.routeCommits?.routes;
               initialRouteCommit = observed?.has(match.route.id)
                 ? `${kind}:${match.route.id}`
                 : undefined;
@@ -218,7 +250,7 @@ export function createApplication(
             resumeLocation();
           }
         : connection.attach;
-      prepared.setNavigation = connection.setNavigation;
+      instance.setNavigation = connection.setNavigation;
       finishHydration = () => {
         if (!hydrating) return;
         hydrating = false;
@@ -228,7 +260,7 @@ export function createApplication(
       };
       resumeLocation = () => {
         if (!shellCommitted) return;
-        if (!scope.router && prepared.routeCommits?.routes.size) return;
+        if (!scope.router && instance.routeCommits?.routes.size) return;
         if (initialRouteCommit && !committedRoutes.has(initialRouteCommit))
           return;
         finishHydration?.();
@@ -237,29 +269,11 @@ export function createApplication(
     Object.assign(context, {
       initialData: snapshot?.initialData,
       __i18nData__: snapshot?.i18nData ? { ...snapshot.i18nData } : undefined,
-      ssrContext: {
-        request: {
-          url: url.href,
-          pathname: url.pathname,
-          query: Object.fromEntries(url.searchParams),
-          params: {},
-          headers: {},
-          cookieMap: {},
-          cookie: '',
-          host: url.host,
-          userAgent: navigator.userAgent,
-          referer: document.referrer,
-        },
-        response: {},
-        mode: 'stream',
-      },
+      ssrContext: createBrowserRequestContext(url, undefined, 'stream'),
     });
     RootComponent = createScopedRoot(config.definition);
-    await Promise.race([
-      prepared.runtime.hooks.onBeforeRender.call(context),
-      cancelled,
-    ]);
-    rejectInitialization = undefined;
+    const preparation = await instance.prepare();
+    if (preparation.interrupted) throw preparation.value;
     if (destroyed || options.signal?.aborted) {
       options.signal?.throwIfAborted();
       throw new Error('Application was destroyed before mounting');
@@ -276,13 +290,13 @@ export function createApplication(
     const element = wrapRuntimeContextProvider(
       snapshot?.shellMarker ? (
         <ApplicationShell marker={snapshot.shellMarker} onCommit={commit}>
-          <PreparedScopeContext.Provider value={prepared}>
+          <PreparedScopeContext.Provider value={instance}>
             {appElement || <RootComponent {...props} />}
           </PreparedScopeContext.Provider>
         </ApplicationShell>
       ) : (
         <ApplicationCommit onCommit={commit}>
-          <PreparedScopeContext.Provider value={prepared}>
+          <PreparedScopeContext.Provider value={instance}>
             {appElement || <RootComponent {...props} />}
           </PreparedScopeContext.Provider>
         </ApplicationCommit>
@@ -310,27 +324,26 @@ export function createApplication(
         );
       }
       return initialize(container, { ...snapshot, ...options }, snapshot).catch(
-        error => {
-          data?.cancel(error);
-          destroy();
-          throw error;
-        },
+        error =>
+          disposeAfterError(error, () =>
+            disposeResources(() => data?.cancel(error), destroy),
+          ),
       );
     },
     mount: (container, options) =>
-      initialize(container, options).catch(error => {
-        destroy();
-        throw error;
-      }),
+      initialize(container, options).catch(error =>
+        disposeAfterError(error, destroy),
+      ),
     async update(options) {
       await ready;
-      if (!root || !context) throw new Error('Application has not mounted');
+      if (!root || !context || !prepared)
+        throw new Error('Application has not mounted');
       if ('navigation' in options)
         connection?.setNavigation(options.navigation);
-      if (options.url && context._routeScope?.memory) {
+      if (options.url && context.application?.memory) {
         const url = new URL(options.url, window.location.href);
         const pathname = `${url.pathname}${url.search}${url.hash}`;
-        const router = context._routeScope.router;
+        const router = context.application.router;
         const location =
           router?.state.navigation.location || router?.state.location;
         if (

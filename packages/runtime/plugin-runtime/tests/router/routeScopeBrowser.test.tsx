@@ -9,8 +9,13 @@ import {
   createHashRouter,
 } from '@modern-js/runtime-utils/router';
 import { createScopedRoot } from '../../src/core/react/scope';
-import { createRuntime, registerPlugin } from '../../src/core/plugin';
+import {
+  createRuntime,
+  registerRuntimeDefinition,
+} from '../../src/core/plugin';
 import { createRoot } from '../../src/core/react';
+import { getApplicationDefinition } from '../../src/core/application/definition';
+import { render as renderPage } from '../../src/core/browser';
 import { setGlobalContext } from '../../src/core/context';
 import { routerPlugin } from '../../src/router/runtime/plugin';
 import {
@@ -107,16 +112,20 @@ it.each([true, false])(
           ],
         },
       ],
-      createRuntime: config =>
-        createRuntime([
-          routerPlugin({}, config),
-          {
-            name: 'observe',
-            setup(api) {
-              api.onBeforeRender(initialized);
+      createRuntime: context =>
+        createRuntime(
+          [
+            routerPlugin({}),
+            {
+              name: 'observe',
+              setup(api) {
+                api.onBeforeRender(initialized);
+              },
             },
-          },
-        ]),
+          ],
+          undefined,
+          context,
+        ),
     });
     const first = render(<Root label="First" />);
     const second = render(<Root label="Second" />);
@@ -159,17 +168,30 @@ it.each([true, false])(
   },
 );
 
-it('keeps legacy component, memo, null and whole-application calls compatible', () => {
+it('keeps legacy component, memo, null and whole-application calls compatible', async () => {
   const App = () => <p>Legacy app</p>;
   const Memo = React.memo(App);
   setGlobalContext({ App });
-  registerPlugin([]);
-  expect(createRoot()).toBe(App);
-  expect(createRoot(undefined)).toBe(App);
-  expect(createRoot(null)).toBe(App);
-  expect(createRoot({})).toBe(App);
-  expect(createRoot(App)).toBe(App);
-  expect(createRoot(Memo)).toBe(Memo);
+  registerRuntimeDefinition(context => createRuntime([], undefined, context));
+  for (const Root of [
+    createRoot(),
+    createRoot(undefined),
+    createRoot(null),
+    createRoot({}),
+    createRoot(App),
+    createRoot(Memo),
+  ]) {
+    expect([App, Memo]).toContain(getApplicationDefinition(Root)?.App);
+    const container = document.createElement('div');
+    document.body.append(container);
+    let mounted: Awaited<ReturnType<typeof renderPage>>;
+    await act(async () => {
+      mounted = await renderPage(<Root />, container);
+    });
+    expect(container.textContent).toBe('Legacy app');
+    await act(async () => mounted.unmount());
+    container.remove();
+  }
   expect(() => createRoot({ route: '/product' })).toThrow('statically defined');
 });
 
@@ -197,8 +219,8 @@ it('aborts only the unmounted instance loader', async () => {
           }),
       },
     ],
-    createRuntime: (config, selected) =>
-      createRuntime([routerPlugin({}, config, selected)]),
+    createRuntime: context =>
+      createRuntime([routerPlugin({})], undefined, context),
   });
   const first = render(<Root />);
   const second = render(<Root />);
@@ -210,6 +232,82 @@ it('aborts only the unmounted instance loader', async () => {
   } finally {
     first.unmount();
     second.unmount();
+  }
+});
+
+it('releases every scope resource and reports cleanup errors after unmount', async () => {
+  const unsubscribe = rstest.fn();
+  routing.current = {
+    navigation: {
+      getLocation: () => '/',
+      subscribe: () => unsubscribe,
+      navigate: rstest.fn(),
+    },
+  };
+  const routerFailure = new Error('Router cleanup failed');
+  const pluginFailure = new Error('Plugin cleanup failed');
+  const cleanup = rstest.fn();
+  const initialized = rstest.fn();
+  const report = rstest.spyOn(console, 'error').mockImplementation(() => {});
+  const Root = createScopedRoot({
+    selected: true,
+    getDataBase: () => 'http://producer',
+    routes: [
+      {
+        id: 'root',
+        type: 'nested',
+        origin: 'config',
+        path: '/',
+        component: () => <p>Mounted scope</p>,
+      },
+    ],
+    createRuntime: context =>
+      createRuntime(
+        [
+          routerPlugin({}),
+          {
+            name: 'observe-cleanup',
+            setup(api) {
+              api.onBeforeRender(initialized);
+              api.onDispose(cleanup);
+              api.onDispose(() => {
+                throw pluginFailure;
+              });
+            },
+          },
+        ],
+        undefined,
+        context,
+      ),
+  });
+  const view = render(<Root />);
+  try {
+    await waitFor(() =>
+      expect(view.container.textContent).toContain('Mounted scope'),
+    );
+    const context = initialized.mock.calls[0][0];
+    const router = context.application.router;
+    const dispose = router.dispose.bind(router);
+    const disposed = rstest.spyOn(router, 'dispose').mockImplementation(() => {
+      dispose();
+      throw routerFailure;
+    });
+    await act(async () => view.unmount());
+    expect(unsubscribe).toHaveBeenCalledTimes(1);
+    expect(disposed).toHaveBeenCalledTimes(1);
+    expect(cleanup).toHaveBeenCalledTimes(1);
+    expect(context.application.router).toBeUndefined();
+    expect(context.application.routes).toBeUndefined();
+    expect(context.application.onRouterCreated).toBeUndefined();
+    const reported = report.mock.calls.map(([error]) => error);
+    expect(reported).toHaveLength(2);
+    expect(reported[0]).toBeInstanceOf(AggregateError);
+    expect(reported[0].errors).toContain(routerFailure);
+    expect(reported[1]).toBeInstanceOf(AggregateError);
+    expect(reported[1].errors[0].errors).toContain(pluginFailure);
+  } finally {
+    view.unmount();
+    report.mockRestore();
   }
 });
 
@@ -289,8 +387,8 @@ it.each(['', '/producer'])(
           ],
         },
       ],
-      createRuntime: (config, selected) =>
-        createRuntime([routerPlugin({}, config, selected)]),
+      createRuntime: context =>
+        createRuntime([routerPlugin({})], undefined, context),
     });
     const view = render(<Root />);
     try {
@@ -441,16 +539,20 @@ it.each([
           ],
         },
       ],
-      createRuntime: (config, selected) =>
-        createRuntime([
-          routerPlugin({ supportHtml5History: html5 }, config, selected),
-          {
-            name: 'observe',
-            setup(api) {
-              api.onBeforeRender(initialized);
+      createRuntime: context =>
+        createRuntime(
+          [
+            routerPlugin({ supportHtml5History: html5 }),
+            {
+              name: 'observe',
+              setup(api) {
+                api.onBeforeRender(initialized);
+              },
             },
-          },
-        ]),
+          ],
+          undefined,
+          context,
+        ),
     });
     const view = render(<Root basename={initial} />);
     try {
@@ -483,7 +585,7 @@ it.each([
       );
       expect(hostNavigate).not.toHaveBeenCalled();
       const firstContext = initialized.mock.calls[0][0];
-      const firstRouter = firstContext._routeScope.router;
+      const firstRouter = firstContext.application.router;
       const disposed = rstest.spyOn(firstRouter, 'dispose');
       const firstListener = [...listeners][0];
       view.rerender(<Root basename={initial} label="same mount" />);
@@ -492,7 +594,7 @@ it.each([
       );
       expect(view.container.textContent).toContain('Count 1');
       expect(initialized).toHaveBeenCalledTimes(1);
-      expect(firstContext._routeScope.router).toBe(firstRouter);
+      expect(firstContext.application.router).toBe(firstRouter);
       act(() => {
         pending = firstRouter.navigate('/slow');
       });
@@ -513,11 +615,11 @@ it.each([
       expect(view.container.textContent).toContain('Count 0');
       expect(initialized).toHaveBeenCalledTimes(2);
       expect(disposed).toHaveBeenCalledTimes(1);
-      expect(firstContext._routeScope.router).toBeUndefined();
+      expect(firstContext.application.router).toBeUndefined();
       expect(listeners.has(firstListener)).toBe(false);
       expect(listeners.size).toBe(1);
       expect(slowRequest!.signal.aborted).toBe(true);
-      const router = initialized.mock.calls[1][0]._routeScope.router;
+      const router = initialized.mock.calls[1][0].application.router;
       expect(router).not.toBe(firstRouter);
       await act(async () => {
         releaseSlow!();
@@ -543,7 +645,7 @@ it.each([
       );
       expect(window.location.href).toContain(physical(next + '/detail/99'));
       expect(view.container.textContent).toContain('Count 0');
-      expect(initialized.mock.calls[1][0]._routeScope.router).toBe(router);
+      expect(initialized.mock.calls[1][0].application.router).toBe(router);
       const notified = rstest.fn();
       window.addEventListener('popstate', notified);
       const beforeReplace = window.history.length;
@@ -636,22 +738,26 @@ it.each(
           ],
         },
       ],
-      createRuntime: (config, selected) =>
-        createRuntime([
-          routerPlugin({}, config, selected),
-          {
-            name: 'observe',
-            setup(api) {
-              api.onBeforeRender(initialized);
+      createRuntime: context =>
+        createRuntime(
+          [
+            routerPlugin({}),
+            {
+              name: 'observe',
+              setup(api) {
+                api.onBeforeRender(initialized);
+              },
             },
-          },
-        ]),
+          ],
+          undefined,
+          context,
+        ),
     });
     const view = render(<Root basename="/inventory" />);
     let pending: Promise<void> | undefined;
     try {
       await waitFor(() => expect(view.container.textContent).toBe('Detail'));
-      const router = initialized.mock.calls[0][0]._routeScope.router;
+      const router = initialized.mock.calls[0][0].application.router;
       act(() => {
         pending = router.navigate('/slow');
       });
@@ -781,8 +887,8 @@ it('keeps an initial pending loader running when the Host has not navigated', as
           }),
       },
     ],
-    createRuntime: (config, selected) =>
-      createRuntime([routerPlugin({}, config, selected)]),
+    createRuntime: context =>
+      createRuntime([routerPlugin({})], undefined, context),
   });
   const view = render(<Root basename="/inventory" />);
   try {
@@ -863,8 +969,8 @@ it.each([
           component: () => <Link to="../detail/43">Detail</Link>,
         },
       ],
-      createRuntime: (config, selected) =>
-        createRuntime([routerPlugin({}, config, selected)]),
+      createRuntime: context =>
+        createRuntime([routerPlugin({})], undefined, context),
     });
     const content = (
       <React.Suspense fallback={<p>Loading Remote content</p>}>
@@ -938,8 +1044,8 @@ it('aborts a suspended instance and discards a late initial redirect on unmount'
         component: () => <p>Late</p>,
       },
     ],
-    createRuntime: (config, selected) =>
-      createRuntime([routerPlugin({}, config, selected)]),
+    createRuntime: context =>
+      createRuntime([routerPlugin({})], undefined, context),
   });
   const notified = rstest.fn();
   window.addEventListener('popstate', notified);
@@ -1002,8 +1108,8 @@ it('deduplicates pending native POPs by target URL and history key, but accepts 
         component: () => null,
       },
     ],
-    createRuntime: (config, selected) =>
-      createRuntime([routerPlugin({}, config, selected)]),
+    createRuntime: context =>
+      createRuntime([routerPlugin({})], undefined, context),
   });
   const view = render(<Root basename="/inventory" />);
   const pop = () =>

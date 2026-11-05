@@ -21,14 +21,16 @@ export const makeRequestContext = (
   };
 };
 
-export const requestContextPlugin = (): RuntimePlugin => ({
+export const requestContextPlugin = (
+  consumers: string[] = [],
+): RuntimePlugin => ({
+  post: consumers,
   name: '@modern-js/runtime-plugin-request-context',
 
   setup(api) {
-    api.onBeforeRender(context => {
-      const requestContext = makeRequestContext(context);
-      context.requestContext = requestContext;
-      context.context = requestContext; // deprecated, keep for backward compatibility
-    });
+    const context = api.getRuntimeContext();
+    const requestContext = makeRequestContext(context);
+    context.requestContext = requestContext;
+    context.context = requestContext; // deprecated, keep for backward compatibility
   },
 });

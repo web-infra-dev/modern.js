@@ -155,7 +155,7 @@ async function loadRouteModule(
 const PrefetchPageLinks: React.FC<{ path: Path }> = ({ path }) => {
   const { pathname } = path;
   const context = useContext(InternalRuntimeContext);
-  const { routeManifest, routes, _routeScope: scope } = context;
+  const { routeManifest, routes, application: scope } = context;
   const { routeAssets } = routeManifest || {};
   const matches = useMemo(
     () => (Array.isArray(routes) ? matchRoutes(routes, pathname) : []),
@@ -163,18 +163,13 @@ const PrefetchPageLinks: React.FC<{ path: Path }> = ({ path }) => {
   );
   useEffect(() => {
     if (!Array.isArray(matches) || !routeAssets) return;
-    // Chunk IDs belong to the producer compilation. The runtime package itself
-    // may be shared, so scoped applications also supply their own chunk loader.
-    const loadChunk = scope
-      ? scope.loadRouteChunk
-      : // @ts-ignore Replaced with the current bundler's chunk loader.
-        WEBPACK_CHUNK_LOAD;
+    const loadChunk = scope?.loadRouteChunk;
     matches.forEach(match =>
       loadRouteModule(match.route, routeAssets, loadChunk),
     );
   }, [matches, routeAssets, scope]);
 
-  const serverLoaders = scope ? scope.serverLoaders : Boolean(context.ssr);
+  const serverLoaders = scope?.serverLoaders;
   if (!serverLoaders) return null;
 
   return <PrefetchDataLinks matches={matches} path={path} context={context} />;
@@ -189,8 +184,8 @@ const PrefetchDataLinks: React.FC<{
   const currentMatches = useMatches();
   const currentLocation = useLocation();
   const navigation = useContext(UNSAFE_NavigationContext);
-  const scope = context._routeScope;
-  const basename = scope ? scope.basename || '/' : navigation.basename;
+  const scope = context.application;
+  const basename = scope?.basename || navigation.basename;
   const dataHrefs = useMemo(() => {
     const routeUrl = (path: Path) =>
       new URL(

@@ -3,6 +3,7 @@ import type { RuntimePluginConfig } from '@modern-js/app-tools';
 import { JS_EXTENSIONS, findExists, formatImportPath } from '@modern-js/utils';
 import {
   ENTRY_POINT_RUNTIME_GLOBAL_CONTEXT_FILE_NAME,
+  ENTRY_POINT_RUNTIME_FACTORY_FILE_NAME,
   ENTRY_POINT_RUNTIME_REGISTER_FILE_NAME,
 } from './constants';
 
@@ -217,14 +218,12 @@ const getImportRuntimeConfigCode = (
       ),
     )
   ) {
-    return `import modernRuntime from '${internalSrcAlias}/${runtimeConfigFile}';
-const runtimeConfig = typeof modernRuntime === 'function' ? modernRuntime(getCurrentEntryName()) : modernRuntime`;
+    return `import modernRuntime from '${internalSrcAlias}/${runtimeConfigFile}';`;
   }
-  return `let runtimeConfig;`;
+  return 'const modernRuntime = undefined;';
 };
 
 const getRegisterRuntimePluginCode = (
-  entryName: string,
   configName: string,
   config: Record<string, any>,
 ) => {
@@ -233,7 +232,7 @@ const getRegisterRuntimePluginCode = (
   )}, (runtimeConfig || {})['${configName}'])));`;
 };
 
-export const runtimeRegister = ({
+export const runtimeFactory = ({
   entryName,
   srcDirectory,
   internalSrcAlias,
@@ -247,22 +246,28 @@ export const runtimeRegister = ({
   metaName: string;
   runtimeConfigFile: string | false;
   runtimePlugins: RuntimePluginConfig[];
-}) => `import { registerPlugin, mergeConfig } from '@${metaName}/runtime/plugin';
-import { getGlobalLayoutApp, getCurrentEntryName } from '@${metaName}/runtime/context';
+}) => `import { createRuntime, mergeConfig } from '@${metaName}/runtime/plugin';
 
 ${getImportRuntimeConfigCode(srcDirectory, internalSrcAlias, runtimeConfigFile)}
 
-const plugins = [];
-
 ${runtimePlugins
-  .map(
-    ({ name, path, config }) => `import { ${name}Plugin } from '${path}';
-
-${getRegisterRuntimePluginCode(entryName, name, config)}
-`,
-  )
+  .map(({ name, path }) => `import { ${name}Plugin } from '${path}';`)
   .join('\n')}
-registerPlugin(plugins, runtimeConfig);
+
+export function createRegistryRuntime(context) {
+  const runtimeConfig = typeof modernRuntime === 'function' ? modernRuntime(${JSON.stringify(entryName)}) : modernRuntime;
+  const plugins = [];
+  ${runtimePlugins
+    .map(({ name, config }) => getRegisterRuntimePluginCode(name, config))
+    .join('\n')}
+  return createRuntime(plugins, runtimeConfig, context);
+}
+`;
+
+export const runtimeRegister = ({ metaName }: { metaName: string }) => `
+import { registerRuntimeDefinition } from '@${metaName}/runtime/plugin';
+import { createRegistryRuntime } from './${ENTRY_POINT_RUNTIME_FACTORY_FILE_NAME}';
+registerRuntimeDefinition(createRegistryRuntime);
 `;
 
 export const runtimeGlobalContext = ({

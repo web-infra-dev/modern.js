@@ -105,7 +105,11 @@ async function initialize(
   const aborted = new Promise<never>((_, reject) => {
     if (!info.signal) return;
     const abort = () => {
-      dispose(container, instance);
+      try {
+        dispose(container, instance);
+      } catch (error) {
+        (info.rootOptions?.onRecoverableError || console.error)(error);
+      }
       reject(info.signal!.reason || new Error('Bridge application aborted'));
     };
     info.signal.addEventListener('abort', abort, { once: true });

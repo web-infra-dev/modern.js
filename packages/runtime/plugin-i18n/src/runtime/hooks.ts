@@ -73,6 +73,9 @@ export function useSdkResourcesLoader(
       return;
     }
 
+    let active = true;
+    const retries = new Set<ReturnType<typeof setTimeout>>();
+
     const handleSdkResourcesLoaded = (event: Event) => {
       const customEvent =
         event as CustomEvent<I18nSdkResourcesLoadedEventDetail>;
@@ -91,6 +94,7 @@ export function useSdkResourcesLoader(
       }
 
       const triggerUpdate = (retryCount = 0) => {
+        if (!active) return;
         const store = (i18nInstance as any).store;
         const hasResource = store?.data?.[language]?.[namespace];
 
@@ -110,6 +114,7 @@ export function useSdkResourcesLoader(
             i18nInstance
               .reloadResources(language, namespace)
               .then(() => {
+                if (!active) return;
                 if (typeof i18nInstance.emit === 'function') {
                   i18nInstance.emit('loaded', { language, namespace });
                 }
@@ -126,7 +131,11 @@ export function useSdkResourcesLoader(
 
           setForceUpdate(prev => prev + 1);
         } else {
-          setTimeout(() => triggerUpdate(retryCount + 1), 10);
+          const timer = setTimeout(() => {
+            retries.delete(timer);
+            triggerUpdate(retryCount + 1);
+          }, 10);
+          retries.add(timer);
         }
       };
 
@@ -139,6 +148,9 @@ export function useSdkResourcesLoader(
     );
 
     return () => {
+      active = false;
+      retries.forEach(clearTimeout);
+      retries.clear();
       window.removeEventListener(
         I18N_SDK_RESOURCES_LOADED_EVENT,
         handleSdkResourcesLoaded,
@@ -196,7 +208,7 @@ export function useClientSideRedirect(
     const currentHash =
       hasRouter && location ? location.hash : window.location.hash;
 
-    const entryPath = runtimeContext?._routeScope ? '' : getEntryPath();
+    const entryPath = getEntryPath(runtimeContext);
     const relativePath = currentPathname.replace(entryPath, '');
 
     if (shouldIgnoreRedirect(relativePath, languages, ignoreRedirectRoutes)) {
@@ -264,7 +276,7 @@ export function useLanguageSync(
         currentPathname,
         languages,
         localePathRedirect,
-        runtimeContextRef.current._routeScope ? '' : undefined,
+        getEntryPath(runtimeContextRef.current),
       );
       if (pathDetection.detected && pathDetection.language) {
         const currentLang = pathDetection.language;

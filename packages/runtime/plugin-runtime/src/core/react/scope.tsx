@@ -1,3 +1,4 @@
+import { createBrowserRequestContext } from '../browser/data';
 import { useBridgeRouter } from '@module-federation/bridge-react/base';
 import {
   createBrowserRouterConnector,
@@ -7,6 +8,7 @@ import {
 import React, { useContext, useEffect, useState } from 'react';
 import { createRoot as createReactRoot, type Root } from 'react-dom/client';
 import { ScopedRootPropsContext } from '../context/runtime';
+import { disposeResources } from '../application/cleanup';
 import { wrapRuntimeContextProvider } from './wrapper';
 
 export type { ScopedRootDefinition } from './scopeDefinition';
@@ -35,27 +37,38 @@ export function createScopedRoot(
     const navigation = bridge?.memoryRoute ? undefined : bridge?.navigation;
     const [instance] = useState(() => {
       const memory = Boolean(bridge?.memoryRoute);
+      const url = new URL(
+        bridge?.memoryRoute?.entryPath || window.location.href,
+        window.location.href,
+      );
       const instance = createScopeRuntime(definition, {
         isBrowser: true,
         basename: memory ? '/' : basename,
-        initialUrl: bridge?.memoryRoute?.entryPath ?? '/',
+        initialUrl: `${url.pathname}${url.search}${url.hash}`,
+        context: {
+          ssrContext: createBrowserRequestContext(url, undefined, 'stream'),
+        },
         memory,
       });
-      const { context, runtime, Root: WrappedRoot } = instance;
+      const { context } = instance;
       const mountWindow = memory
         ? undefined
         : createMountWindow(
-            () => context._routeScope?.router,
-            () => context._routeScope?.hash === true,
+            () => context.application?.router,
+            () => context.application?.hash === true,
           );
-      context._routeScope!.getWindow = mountWindow
+      context.application!.getWindow = mountWindow
         ? () => mountWindow.window
         : undefined;
       return {
         context,
-        runtime,
-        WrappedRoot,
+        get WrappedRoot() {
+          return instance.Root;
+        },
+        prepare: instance.prepare,
+        dispose: instance.dispose,
         notifyPeers: mountWindow?.notifyPeers,
+        effects: 0,
         initialization: undefined as Promise<unknown> | undefined,
         connection: undefined as
           ReturnType<typeof createBrowserRouterConnector> | undefined,
@@ -65,7 +78,8 @@ export function createScopedRoot(
     const [failure, setFailure] = useState<unknown>();
     useEffect(() => {
       let active = true;
-      const scope = instance.context._routeScope!;
+      const effect = ++instance.effects;
+      const scope = instance.context.application!;
       const connection = scope.memory
         ? undefined
         : createBrowserRouterConnector(
@@ -82,8 +96,11 @@ export function createScopedRoot(
         .then(() => {
           // StrictMode may clean up this setup before its microtask runs.
           if (active)
-            return (instance.initialization ??=
-              instance.runtime.hooks.onBeforeRender.call(instance.context));
+            return (instance.initialization ??= instance
+              .prepare()
+              .then(result => {
+                if (result.interrupted) throw result.value;
+              }));
         })
         .then(
           () => {
@@ -98,12 +115,29 @@ export function createScopedRoot(
         );
       return () => {
         active = false;
-        connection?.dispose();
+        const router = scope.router;
         instance.connection = undefined;
         scope.onRouterCreated = undefined;
-        scope.router?.dispose();
         scope.router = undefined;
         scope.routes = undefined;
+        try {
+          disposeResources(
+            () => connection?.dispose(),
+            () => router?.dispose(),
+          );
+        } catch (error) {
+          // This owner has unmounted. Report cleanup errors without updating
+          // its React state or preventing the remaining runtime cleanup.
+          console.error(error);
+        }
+        queueMicrotask(() => {
+          if (instance.effects !== effect) return;
+          try {
+            instance.dispose();
+          } catch (error) {
+            console.error(error);
+          }
+        });
       };
     }, [instance]);
     useEffect(() => {

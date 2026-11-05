@@ -16,6 +16,9 @@ import type { RuntimePluginExtends } from './plugin';
 export type RuntimePluginAPI<Extends extends RuntimePluginExtends> = Readonly<
   {
     updateRuntimeContext: (updateContext: DeepPartial<RuntimeContext>) => void;
+    getRuntimeContext: () => RuntimeContext & Extends['extendContext'];
+    /** Register synchronous instance cleanup, also run immediately after disposal. */
+    onDispose: (callback: () => void) => void;
     getHooks: () => Readonly<
       Hooks<Extends['config'], RuntimeContext & Extends['extendContext']> &
         Extends['extendHooks']

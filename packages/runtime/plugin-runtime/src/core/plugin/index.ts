@@ -3,36 +3,45 @@ import type { InternalRuntimeContext } from '@modern-js/plugin/runtime';
 import { runtime } from '@modern-js/plugin/runtime';
 import { merge } from '@modern-js/runtime-utils/merge';
 import { compatPlugin } from '../compat';
-import { handleSetupResult } from '../compat/hooks';
 import { requestContextPlugin } from '../compat/requestContext';
-import { setGlobalInternalRuntimeContext } from '../context';
+import { handleSetupResult } from '../compat/hooks';
+import type { TInternalRuntimeContext } from '../context/runtime';
 import type { RuntimeConfig, RuntimeExtends, RuntimePlugin } from './types';
 
 export type { RuntimePlugin };
-
-export function registerPlugin(
-  internalPlugins: RuntimePlugin[],
-  runtimeConfig?: RuntimeConfig,
-) {
-  const runtimeContext = createRuntime(internalPlugins, runtimeConfig);
-  setGlobalInternalRuntimeContext(runtimeContext);
-  return runtimeContext;
+export type RuntimeFactory = (
+  context: TInternalRuntimeContext,
+) => ReturnType<typeof createRuntime>;
+let defaultRuntimeFactory: RuntimeFactory | undefined;
+export function registerRuntimeDefinition(factory: RuntimeFactory) {
+  defaultRuntimeFactory = factory;
+}
+export function getRuntimeDefinition(): RuntimeFactory {
+  if (!defaultRuntimeFactory)
+    throw new Error('Modern application registry has not been imported');
+  return defaultRuntimeFactory;
 }
 
-/** Create an embedded instance without replacing the registered application. */
+/** Create instance-local hooks and context without replacing the definition. */
 export function createRuntime(
   internalPlugins: RuntimePlugin[],
   runtimeConfig?: RuntimeConfig,
+  context?: TInternalRuntimeContext,
 ) {
   const { plugins = [] } = runtimeConfig || {};
   const { runtimeContext } = runtime.run({
     plugins: [
       compatPlugin(),
-      requestContextPlugin(),
+      requestContextPlugin(
+        [...internalPlugins, ...plugins]
+          .filter(Boolean)
+          .map(plugin => plugin.name),
+      ),
       ...internalPlugins,
       ...plugins,
     ] as Plugin[],
     config: runtimeConfig || {},
+    runtimeContext: context,
     handleSetupResult,
   });
   return runtimeContext as unknown as InternalRuntimeContext<RuntimeExtends>;

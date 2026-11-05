@@ -5,19 +5,52 @@ import type {
   CollectAsyncHook,
   CollectSyncHook,
   SyncHook,
+  PluginHook,
 } from './types/hooks';
 import type { Tail, UnwrapPromise } from './types/utils';
 
+// A global symbol keeps hook definitions clonable across the runtime and root
+// package entries. Only static callbacks are copied into each runtime instance.
+const hookFactory = Symbol.for('modern-js.plugin.hook-factory');
+
+function withFactory<
+  Callback extends (...args: any[]) => any,
+  Hook extends PluginHook<Callback>,
+>(hook: Hook, callbacks: Callback[], create: () => Hook): Hook {
+  Object.defineProperty(hook, hookFactory, {
+    value: () => {
+      const instance = create();
+      callbacks.forEach(callback => instance.tap(callback));
+      return instance;
+    },
+  });
+  return hook;
+}
+
+export function cloneHook<Hook extends PluginHook<(...args: any[]) => any>>(
+  hook: Hook,
+): Hook {
+  const create = (hook as Hook & { [hookFactory]?: () => Hook })[hookFactory];
+  return create ? create() : hook;
+}
+
 export function createAsyncInterruptHook<
   Callback extends (...args: any[]) => any,
->(): AsyncInterruptHook<Callback> {
+>(
+  shouldContinue: () => boolean = () => true,
+  normalizeResult?: (
+    value: any,
+    current: any,
+    interrupt: (value: any) => void,
+  ) => any,
+): AsyncInterruptHook<Callback> {
   const callbacks: Callback[] = [];
 
   const tap = (cb: Callback) => {
     callbacks.push(cb);
   };
 
-  const call = async (...params: Tail<Parameters<Callback>>) => {
+  const callWithResult = async (...params: Tail<Parameters<Callback>>) => {
     let interrupted = false;
     let interruptResult: any;
 
@@ -27,21 +60,32 @@ export function createAsyncInterruptHook<
     };
 
     for (const callback of callbacks) {
+      if (!shouldContinue()) interrupted = true;
       if (interrupted) break;
       const result = await callback(...params, interrupt);
-
-      if (result !== undefined) {
-        params[0] = result;
+      if (!shouldContinue()) {
+        interrupted = true;
+        break;
+      }
+      if (result !== undefined && !interrupted) {
+        params[0] = normalizeResult
+          ? normalizeResult(result, params[0], interrupt)
+          : result;
       }
     }
+    if (!shouldContinue()) interrupted = true;
 
-    return interrupted ? interruptResult : params[0] || [];
+    return {
+      value: interrupted ? interruptResult : params[0] || [],
+      interrupted,
+    };
   };
+  const call = async (...params: Tail<Parameters<Callback>>) =>
+    (await callWithResult(...params)).value;
 
-  return {
-    tap,
-    call,
-  };
+  return withFactory({ tap, call, callWithResult }, callbacks, () =>
+    createAsyncInterruptHook<Callback>(shouldContinue, normalizeResult),
+  );
 }
 
 export function createSyncHook<
@@ -65,10 +109,7 @@ export function createSyncHook<
     return params[0];
   };
 
-  return {
-    tap,
-    call,
-  };
+  return withFactory({ tap, call }, callbacks, createSyncHook<Callback>);
 }
 
 export function createAsyncHook<
@@ -92,10 +133,7 @@ export function createAsyncHook<
     return params[0] || [];
   };
 
-  return {
-    tap,
-    call,
-  };
+  return withFactory({ tap, call }, callbacks, createAsyncHook<Callback>);
 }
 
 export function createCollectAsyncHook<
@@ -120,10 +158,11 @@ export function createCollectAsyncHook<
     return results;
   };
 
-  return {
-    tap,
-    call,
-  };
+  return withFactory(
+    { tap, call },
+    callbacks,
+    createCollectAsyncHook<Callback>,
+  );
 }
 
 export function createCollectSyncHook<
@@ -148,10 +187,7 @@ export function createCollectSyncHook<
     return results;
   };
 
-  return {
-    tap,
-    call,
-  };
+  return withFactory({ tap, call }, callbacks, createCollectSyncHook<Callback>);
 }
 
 export function createAsyncPipelineHook<
@@ -182,8 +218,9 @@ export function createAsyncPipelineHook<
     return (params[0] as Promise<UnwrapPromise<ReturnType<Callback>>>) || [];
   };
 
-  return {
-    tap,
-    call,
-  };
+  return withFactory(
+    { tap, call },
+    callbacks,
+    createAsyncPipelineHook<Callback>,
+  );
 }
