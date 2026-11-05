@@ -10,12 +10,12 @@ export PERF_CONCURRENT_WARMUP=50
 export PERF_CONCURRENT_ROUNDS=50
 node --expose-gc tests/performance/runtime-capabilities/run.mjs "$MEASURED_REPO" "$OUTPUT" all
 node tests/performance/runtime-capabilities/composition.mjs "$OUTPUT"
-node --expose-gc tests/performance/runtime-capabilities/memory-components.mjs "$MEASURED_REPO" "$OUTPUT/memory.json" head
+node --expose-gc tests/performance/runtime-capabilities/memory-components.mjs "$MEASURED_REPO" "$OUTPUT/memory.json"
 node --expose-gc tests/performance/runtime-capabilities/micro.mjs "$MEASURED_REPO" "$OUTPUT/micro.json"
-node tests/performance/runtime-capabilities/retained-handles.mjs "$MEASURED_REPO" "$OUTPUT/retained" head
+node tests/performance/runtime-capabilities/retained-handles.mjs "$MEASURED_REPO" "$OUTPUT/retained"
 ```
 
-Use `head` for **both** #9120 and its successor. The legacy `baseline` option targets the earlier pre-unification contract and is not a valid #9120 comparison. `PERF_SKIP_BROWSER=1` is only for artifact diagnostics. It cannot establish hydration or browser resource behavior.
+These scripts target the shared application contract present in both #9120 and its successor. `PERF_SKIP_BROWSER=1` is only for artifact diagnostics. It cannot establish hydration or browser resource behavior.
 
 - `run.mjs` builds ordinary CSR, string SSR and streaming SSR without MF, plus Weather Lab with one and eight Bridge applications. It records every browser JavaScript asset in raw and gzip bytes, original HTML, actual Bridge HTML frame content, per-stream ready/done events, HTTP first byte, first application HTML, 16-way concurrent SSR, browser setup/effect timestamps and repeated mount/unmount resource counters. Gzip totals sum each asset compressed independently. Full producer totals include every expose, rather than only the initial page's downloaded assets.
 - `composition.mjs` inventories retained modules from client/server stats. Source byte sizes explain composition but are not additive minified attribution.
