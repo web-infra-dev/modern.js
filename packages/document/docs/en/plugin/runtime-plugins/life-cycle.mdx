@@ -16,7 +16,7 @@ Default registration stores the definition without executing instance `setup`. E
 
 The shared instance prepares context, runs plugins and retains one Root. Optional behavior is supplied through the existing plugin registration and dependency mechanism. The normal browser entry does not import preparation cancellation, fragment routing, Bridge snapshots or stream recovery.
 
-Server request adapters and Bridge mount adapters inject a preparation-cancellation plugin. Its preparation wrapper owns the abort listener and pending cancellation race. Router initializes its mutable route declarations only when routing is used, and registers cleanup for the Router it owns. Bridge navigation and producer data endpoints belong to its adapter. The i18n plugin derives entry metadata from the current definition.
+The server request adapter injects preparation cancellation. The Bridge adapter injects one fragment platform plugin that reuses the same cancellation implementation and prepares fragment routes. Its preparation wrapper owns the abort listener and pending cancellation race. Router initializes its mutable route declarations only when routing is used, and registers cleanup for the Router it owns. Bridge navigation and producer data endpoints belong to its adapter. The i18n plugin derives entry metadata from the current definition.
 
 These contributions use the same initializer and plugin order for pages and exports. Their absence does not select a second initialization implementation. Cleanup storage is allocated on the first `onDispose` registration. Synchronous plugin setup shares completed readiness rather than creating a separate readiness Promise for every instance.
 

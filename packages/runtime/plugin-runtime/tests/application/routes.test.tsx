@@ -62,6 +62,8 @@ it('isolates the route graph while keeping document components unchanged and ada
   });
   expect(document.context.application!.config).toBeUndefined();
   getApplicationRoutes(document.context);
+  expect(fragment.context.application!.config).toBeUndefined();
+  expect(fragment.context.application!.definition).toBe(application);
   void fragment.runtime;
   getApplicationRoutes(fragment.context);
   const original = application.routes[0] as NestedRoute;
@@ -101,10 +103,11 @@ it('isolates the route graph while keeping document components unchanged and ada
   });
   expect(fragment.definition).toBe(application);
   expect(another.definition).toBe(application);
+  void another.runtime;
   const anotherRoute = getApplicationRoutes(another.context)
     .routes![0] as NestedRoute;
   expect(anotherRoute).not.toBe(embedded);
-  expect(anotherRoute.component).toBe(embedded.component);
+  expect(anotherRoute.component).not.toBe(embedded.component);
   expect(anotherRoute.children![0].path).toBe('detail/:id');
   another.dispose();
   fragment.dispose();
