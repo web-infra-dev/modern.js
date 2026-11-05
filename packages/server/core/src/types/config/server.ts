@@ -23,6 +23,21 @@ export type SSR =
 
 export type SSRByEntries = Record<string, SSR>;
 
+export type CompressEncoding = 'br' | 'gzip';
+
+export type CompressOptions = {
+  /**
+   * @description responses smaller than this size (in bytes) are not compressed
+   * @default 1024
+   */
+  threshold?: number;
+  /**
+   * @description supported encodings, in order of server preference
+   * @default ['br', 'gzip']
+   */
+  encodings?: CompressEncoding[];
+};
+
 export interface ServerUserConfig {
   publicDir?: string | string[];
   routes?: Routes;
@@ -44,6 +59,11 @@ export interface ServerUserConfig {
    */
   useJsonScript?: boolean;
   logger?: boolean | Record<string, unknown>;
+  /**
+   * @description compress responses of the production server with brotli or gzip
+   * @default true for the Node.js production server
+   */
+  compress?: boolean | CompressOptions;
   /**
    * @description disable hook middleware for performance
    * @default false
