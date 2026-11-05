@@ -31,6 +31,7 @@ When the value type is `Object`, the following properties can be configured:
 | forceCSR          | `boolean`                       | `false`         | which is off by default for forcing CSR rendering. Configure `true` to force CSR by adding `?csr=true` or adding `x-modern-ssr-fallback` header when accessing the page                                                                                                                                                                                                                                                                                                                        |
 | unsafeHeaders     | `string[]`                      | `[]`            | For safety reasons, Modern.js does not add excessive content to SSR_DATA. Developers can use this configuration to specify the headers that need to be injected                                                                                                                                                                                                                                                                                                                                |
 | loaderFailureMode | `clientRender \| errorBoundary` | `errorBoundary` | The default configuration is `'errorBoundary'`, when an error occurs in [data loader](/en/guides/basic-features/data/data-fetch.html#data-loader-recommended), it will default to rendering the [`Error`](/guides/basic-features/routes/routes#error-handling) component of the route. When configured as `'clientRender'`, if a loader throws an error, it switch to client-side rendering，you can use it with [Client Loader](/en/guides/basic-features/data/data-fetch.html#client-loader) |
+| deferredDataTimeout | `number` | `undefined` | String SSR only. How long the server waits for [deferred data](#deferred-data-in-string-ssr) (promises in the loader result) before rendering. Values still pending are loaded by the browser. Without a value the server waits for every promise |
 
 ```ts title="modern.config.ts"
 export default defineConfig({
@@ -39,6 +40,49 @@ export default defineConfig({
       forceCSR: true,
       mode: 'stream',
       unsafeHeaders: ['User-Agent'],
+    },
+  },
+});
+```
+
+### Deferred Data in String SSR
+
+A data loader can return an object whose values are promises, and render them with `<Await>`. Streaming SSR sends each value when it settles. String SSR sends the HTML in one piece, so before rendering the server waits for these promises:
+
+- Values that resolve within `deferredDataTimeout` are rendered on the server and serialized like any other loader data.
+- Values that are still pending, or that rejected, are left out of the serialized data. The server renders their `<Await>` fallback, and the browser calls that route's loader once more to get them. Only those regions render later. The rest of the page hydrates with the server data.
+
+This lets one slow data source delay only its own region instead of the whole page:
+
+```ts title="routes/page.data.ts"
+export const loader = async () => ({
+  user: getUser(), // usually fast
+  recommendations: getRecommendations(), // sometimes slow
+});
+```
+
+```tsx title="routes/page.tsx"
+import { Await, useLoaderData } from '@modern-js/runtime/router';
+import { Suspense } from 'react';
+
+export default function Page() {
+  const data = useLoaderData();
+  return (
+    <Suspense fallback={<Skeleton />}>
+      <Await resolve={data.recommendations} errorElement={<Retry />}>
+        {list => <Recommendations list={list} />}
+      </Await>
+    </Suspense>
+  );
+}
+```
+
+```ts title="modern.config.ts"
+export default defineConfig({
+  server: {
+    ssr: {
+      mode: 'string',
+      deferredDataTimeout: 300,
     },
   },
 });

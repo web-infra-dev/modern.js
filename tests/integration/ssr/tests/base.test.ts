@@ -205,4 +205,37 @@ describe('Traditional SSR', () => {
     const content1 = await page.content();
     expect(content1).not.toMatch(result);
   });
+  test('string SSR renders deferred data that settles within deferredDataTimeout', async () => {
+    const html = await (
+      await fetch(`http://localhost:${appPort}/deferred?no-cache=1`)
+    ).text();
+    expect(html).toContain('<p id="fast">fast from call');
+    expect(html).toContain('<p id="slow">loading</p>');
+    expect(html).toContain('<p id="broken">loading</p>');
+    // `/` is escaped by the serializer
+    expect(html).toContain(
+      '"deferredPending":{"deferred\\u002Fpage":["slow","broken"]}',
+    );
+    expect(html).not.toContain('slow from call');
+  });
+
+  test('the browser loads only the pending deferred data for its region', async () => {
+    const errors: string[] = [];
+    page.on('pageerror', error => errors.push(String(error)));
+    await page.goto(`http://localhost:${appPort}/deferred?no-cache=1`, {
+      waitUntil: ['networkidle0'],
+    });
+    await page.waitForFunction(
+      () => document.getElementById('slow')?.textContent !== 'loading',
+    );
+    const text = (id: string) =>
+      page.$eval(`#${id}`, element => element.textContent);
+    const serverCall = Number((await text('call'))!.replace('call ', ''));
+    expect(await text('fast')).toBe(`fast from call ${serverCall}`);
+    // loaded by the extra loader request (which may run in a separate server bundle
+    // instance, so its call counter is not comparable with the SSR one)
+    expect(await text('slow')).toMatch(/^slow from call \d+$/);
+    expect(await text('broken')).toBe('error');
+    expect(errors.join('\n')).toBe('');
+  });
 });

@@ -8,6 +8,7 @@ import {
   createBrowserRouter,
   createHashRouter,
   createRoutesFromElements,
+  matchRoutes,
   useHref,
   useLocation,
   useMatches,
@@ -28,6 +29,7 @@ import {
   modifyRoutes as modifyRoutesHook,
   onBeforeCreateRoutes as onBeforeCreateRoutesHook,
 } from './hooks';
+import { restoreDeferredPending } from './deferredData';
 import { createClientRouterFromPayload } from './rsc-router';
 import type { RouterConfig, Routes } from './types';
 import {
@@ -309,6 +311,25 @@ function useRouterCreation(props: any, options: UseRouterCreationOptions) {
     }
 
     const modifiedRoutes = hooks.modifyRoutes.call(routes);
+
+    // Deferred loader data that string SSR did not get in time: load it for its route.
+    if (hydrationData?.deferredPending) {
+      const matches =
+        matchRoutes(modifiedRoutes, window.location, _basename) || [];
+      hydrationData = {
+        ...hydrationData,
+        loaderData: restoreDeferredPending(
+          hydrationData.loaderData || {},
+          hydrationData.deferredPending,
+          modifiedRoutes,
+          {
+            url: window.location.href,
+            params: routeId =>
+              matches.find(match => match.route.id === routeId)?.params || {},
+          },
+        ),
+      };
+    }
 
     const router = supportHtml5History
       ? createBrowserRouter(modifiedRoutes, {
