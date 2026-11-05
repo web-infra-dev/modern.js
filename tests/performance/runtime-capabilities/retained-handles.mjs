@@ -26,7 +26,7 @@ const refs={contexts:[],payloads:[],snapshots:[]};window.__retained={refs,handle
 const observer={name:'retention-observer',setup(api){api.onBeforeRender(context=>{const payload=Array.from({length:10240},(_,i)=>i);context.__retentionPayload=payload;refs.contexts.push(new WeakRef(context));if(context.initialData)refs.snapshots.push(new WeakRef(context.initialData));refs.payloads.push(new WeakRef(payload));});}};
 registerRuntimeDefinition((context,capabilities)=>createRuntime([observer],undefined,context,capabilities));setGlobalContext({App});
 const definition={App,routes:[],basename:'/',serverLoaders:false,selected:false,getDataBase:()=> 'http://localhost',createRuntime:(context,capabilities)=>createRuntime([observer],undefined,context,capabilities)};
-window.runRetained=async(kind,count)=>{for(let i=0;i<count;i++){const container=document.createElement('div');document.body.appendChild(container);if(kind==='ordinary'){const root=await render(React.createElement(App),container);await new Promise(requestAnimationFrame);root.unmount();window.__retained.handles.push(root);}else{const app=createApplication(undefined,{definition});if(kind==='bridge-hydrate'){const shellMarker='probe-'+i;container.innerHTML='<button>application</button><template id="'+shellMarker+'"></template>';const node=container.firstChild;await app.hydrate(container,{protocol:APPLICATION_SNAPSHOT_PROTOCOL,reactVersion:React.version,identifierPrefix:shellMarker,shellMarker,url:'http://localhost/',basename:'/',memoryRoute:{entryPath:'/'},props:{},initialData:{large:Array.from({length:10240},(_,j)=>j),later:null},pending:[{id:'later',path:['initialData','later']}]},{updates:new ReadableStream(),memoryRoute:{entryPath:'/'},onRecoverableError:error=>{throw error;}});if(container.firstChild!==node)throw new Error('Hydration replaced the server node');}else await app.mount(container,{url:'http://localhost/',memoryRoute:{entryPath:'/'},props:{}});app.destroy();window.__retained.handles.push(app);}container.remove();}return window.__retained.handles.length;};
+window.runRetained=async(kind,count)=>{for(let i=0;i<count;i++){const container=document.createElement('div');document.body.appendChild(container);if(kind.startsWith('ordinary')){const hydrate=kind==='ordinary-hydrate';if(hydrate){window._SSR_DATA={mode:'string',data:{initialData:{large:Array.from({length:10240},(_,j)=>j)}}};container.innerHTML='<button>application</button>';}const node=container.firstChild;const root=await render(React.createElement(App),container);await new Promise(requestAnimationFrame);if(hydrate&&container.firstChild!==node)throw new Error('Ordinary hydration replaced the server node');root.unmount();window.__retained.handles.push(root);}else{const app=createApplication(undefined,{definition});if(kind==='bridge-hydrate'){const shellMarker='probe-'+i;container.innerHTML='<button>application</button><template id="'+shellMarker+'"></template>';const node=container.firstChild;await app.hydrate(container,{protocol:APPLICATION_SNAPSHOT_PROTOCOL,reactVersion:React.version,identifierPrefix:shellMarker,shellMarker,url:'http://localhost/',basename:'/',memoryRoute:{entryPath:'/'},props:{},initialData:{large:Array.from({length:10240},(_,j)=>j),later:null},pending:[{id:'later',path:['initialData','later']}]},{updates:new ReadableStream(),memoryRoute:{entryPath:'/'},onRecoverableError:error=>{throw error;}});if(container.firstChild!==node)throw new Error('Hydration replaced the server node');}else await app.mount(container,{url:'http://localhost/',memoryRoute:{entryPath:'/'},props:{}});app.destroy();window.__retained.handles.push(app);}container.remove();}return window.__retained.handles.length;};
 window.retainedCounts=()=>({contexts:refs.contexts.filter(x=>x.deref()).length,payloads:refs.payloads.filter(x=>x.deref()).length,snapshots:refs.snapshots.filter(x=>x.deref()).length,handles:window.__retained.handles.length});
 `;
 await esbuild.build({
@@ -42,7 +42,7 @@ await esbuild.build({
   outfile: path.join(out, 'bundle.js'),
   define: {
     'process.env.NODE_ENV': '"production"',
-    'process.env.MODERN_ENABLE_HYDRATION': 'false',
+    'process.env.MODERN_ENABLE_HYDRATION': 'true',
     __webpack_chunk_load__: 'window.__perfChunkLoad',
     WEBPACK_CHUNK_LOAD: 'window.__perfChunkLoad',
   },
@@ -62,7 +62,12 @@ const browser = await puppeteer.launch({
 });
 const results = { metadata: await fingerprint(repo), repo };
 try {
-  for (const kind of ['ordinary', 'bridge', 'bridge-hydrate']) {
+  for (const kind of [
+    'ordinary',
+    'ordinary-hydrate',
+    'bridge',
+    'bridge-hydrate',
+  ]) {
     const page = await browser.newPage();
     const errors = [];
     page.on('pageerror', e => errors.push(String(e)));
