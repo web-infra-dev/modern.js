@@ -25,6 +25,7 @@ export default {
       exclude: [
         'tests/router/prefetch.test.tsx',
         'tests/router/useTransitions.test.tsx',
+        'tests/core/prefetch-queue.test.ts',
       ],
       extends: commonConfig,
       plugins: [
@@ -52,6 +53,7 @@ export default {
       include: [
         'tests/router/prefetch.test.tsx',
         'tests/router/useTransitions.test.tsx',
+        'tests/core/prefetch-queue.test.ts',
       ],
       extends: commonConfig,
       plugins: [
