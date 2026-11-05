@@ -504,7 +504,10 @@ it.each(['page', 'Bridge'] as const)(
   '%s executes the same plugin contract with request-local context and releases after the response',
   async kind => {
     const gate = contractGate();
-    const probe = createPluginContract({ setupGate: gate.promise });
+    const probe = createPluginContract({
+      expectedSSR: true,
+      setupGate: gate.promise,
+    });
     const request = new Request('http://producer/contract');
     const pending = renderContract(kind, probe, request);
     await expect.poll(() => probe.records.length).toBe(1);
@@ -525,7 +528,7 @@ it.each(['page', 'Bridge'] as const)(
 it.each(['page', 'Bridge'] as const)(
   '%s keeps concurrent plugin instances and provider data separate',
   async kind => {
-    const probe = createPluginContract();
+    const probe = createPluginContract({ expectedSSR: true });
     const responses = await Promise.all(
       ['one', 'two'].map(value =>
         renderContract(kind, probe, new Request(`http://producer/${value}`)),
@@ -552,7 +555,10 @@ it.each(['page', 'Bridge'] as const)(
   '%s propagates Response interruption and plugin errors without rendering',
   async kind => {
     const stopped = new Response('contract interrupted', { status: 409 });
-    const probe = createPluginContract({ interrupt: stopped });
+    const probe = createPluginContract({
+      expectedSSR: true,
+      interrupt: stopped,
+    });
     if (kind === 'page') {
       const response = await renderContract(
         kind,
@@ -572,7 +578,7 @@ it.each(['page', 'Bridge'] as const)(
       ...disposalEvents,
     ]);
     const error = new Error('prepare failed');
-    const failed = createPluginContract({ error });
+    const failed = createPluginContract({ expectedSSR: true, error });
     await expect(
       renderContract(kind, failed, new Request('http://producer/')),
     ).rejects.toBe(error);
@@ -592,11 +598,12 @@ it.each([
   '%s immediately cancels pending %s without waiting for plugin code to settle',
   async (kind, phase) => {
     const gate = contractGate();
-    const probe = createPluginContract(
-      phase === 'setup'
+    const probe = createPluginContract({
+      expectedSSR: true,
+      ...(phase === 'setup'
         ? { setupGate: gate.promise }
-        : { hookGate: gate.promise },
-    );
+        : { hookGate: gate.promise }),
+    });
     const controller = new AbortController();
     const error = new Error('contract request aborted');
     const pending = renderContract(
@@ -666,7 +673,10 @@ it.each(['page', 'Bridge'] as const)(
           'Set-Cookie': 'language=zh; Path=/',
         },
       });
-      const probe = createPluginContract({ interrupt: stopped });
+      const probe = createPluginContract({
+        expectedSSR: true,
+        interrupt: stopped,
+      });
       let response: Response;
       if (kind === 'page')
         response = await renderContract(
@@ -829,7 +839,11 @@ it.each(['page', 'Bridge'] as const)(
   async kind => {
     const error = new Error('before-render failed');
     const cleanupError = new Error('cleanup also failed');
-    const probe = createPluginContract({ error, cleanupError });
+    const probe = createPluginContract({
+      expectedSSR: true,
+      error,
+      cleanupError,
+    });
     const failure = await renderContract(
       kind,
       probe,

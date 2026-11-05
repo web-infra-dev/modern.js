@@ -4,7 +4,11 @@ import {
   getInitialContext,
   type TInternalRuntimeContext,
 } from '../context/runtime';
-import { instanceRoutes, type ApplicationDefinition } from './definition';
+import {
+  instanceRoutes,
+  type ApplicationDefinition,
+  type InstanceRouteDecorator,
+} from './definition';
 
 export interface ApplicationEnvironment {
   isBrowser: boolean;
@@ -18,8 +22,8 @@ export interface ApplicationEnvironment {
   onError?: (error: unknown) => void;
   /** A precomposed root supplied by the low-level render(element) API. */
   root?: React.ComponentType<any>;
-  observeRouteCommits?: boolean;
-  onRouteCommit?: (id: string, error: boolean) => void;
+  /** Decorate the current instance's route nodes for its platform adapter. */
+  decorateRoute?: InstanceRouteDecorator;
 }
 
 /** The same owner and preparation sequence for pages, fragments and requests. */
@@ -29,15 +33,9 @@ export function createApplicationInstance(
 ) {
   const context = Object.assign(
     getInitialContext(environment.isBrowser),
+    { ssr: !environment.isBrowser },
     environment.context,
   );
-  const routeCommits = environment.observeRouteCommits
-    ? {
-        routes: new Set<string>(),
-        errors: new Set<string>(),
-        onCommit: environment.onRouteCommit,
-      }
-    : undefined;
   context.routeManifest ??= definition.getRouteManifest?.() || {
     routeAssets: {},
   };
@@ -51,13 +49,7 @@ export function createApplicationInstance(
     config: {
       routes:
         definition.routes &&
-        instanceRoutes(
-          definition,
-          !environment.isBrowser,
-          routeCommits,
-          environment.getDataUrl,
-          environment.output === 'fragment',
-        ),
+        instanceRoutes(definition, environment.decorateRoute),
       globalApp: definition.globalApp,
     },
     initialUrl: environment.initialUrl,
@@ -117,7 +109,6 @@ export function createApplicationInstance(
     get runtime() {
       return getRuntime();
     },
-    routeCommits,
     get Root() {
       if (!Root)
         throw new Error('Application must be prepared before rendering');

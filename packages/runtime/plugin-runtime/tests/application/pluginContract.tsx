@@ -11,16 +11,15 @@ export function contractGate() {
   return { promise, release };
 }
 
-export function createPluginContract(
-  options: {
-    setupGate?: Promise<void>;
-    hookGate?: Promise<void>;
-    error?: Error;
-    cleanupError?: Error;
-    interrupt?: unknown;
-    expectedQuery?: Record<string, string>;
-  } = {},
-) {
+export function createPluginContract(options: {
+  expectedSSR: boolean;
+  setupGate?: Promise<void>;
+  hookGate?: Promise<void>;
+  error?: Error;
+  cleanupError?: Error;
+  interrupt?: unknown;
+  expectedQuery?: Record<string, string>;
+}) {
   const records: Array<{
     context: TInternalRuntimeContext;
     events: string[];
@@ -32,6 +31,7 @@ export function createPluginContract(
     name: 'contract-source',
     async setup(api) {
       const context = api.getRuntimeContext();
+      expect(context.ssr).toBe(options.expectedSSR);
       const record = {
         context,
         events: ['setup:source'],
@@ -60,6 +60,7 @@ export function createPluginContract(
       });
       api.onBeforeRender(async (value, interrupt) => {
         expect(value).toBe(context);
+        expect(value.ssr).toBe(options.expectedSSR);
         expect(api.getRuntimeContext()).toBe(value);
         record.events.push('before:source');
         await options.hookGate;
@@ -77,6 +78,7 @@ export function createPluginContract(
     pre: ['contract-source'],
     setup(api) {
       const context = api.getRuntimeContext();
+      expect(context.ssr).toBe(options.expectedSSR);
       const record = records.find(item => item.context === context)!;
       expect((context.contract as any)?.phase).toBe('setup');
       record.events.push('setup:consumer');
@@ -86,6 +88,7 @@ export function createPluginContract(
       });
       api.onBeforeRender(value => {
         expect(value).toBe(context);
+        expect(value.ssr).toBe(options.expectedSSR);
         expect(api.getRuntimeContext()).toBe(value);
         expect((value.contract as any).phase).toBe('replacement');
         if (options.expectedQuery)
@@ -111,6 +114,8 @@ export function createPluginContract(
     const publicContext = useContext(RuntimeContext);
     const record = records.find(item => item.context === context)!;
     expect(record).toBeDefined();
+    expect(context.ssr).toBe(options.expectedSSR);
+    expect(publicContext.ssr).toBe(options.expectedSSR);
     record.provider = context;
     record.publicData = publicContext.contract;
     expect(publicContext.contract).toBe(context.contract);

@@ -82,7 +82,6 @@ export async function renderApplication(
     async (_request, Root, context) => {
       signal.throwIfAborted();
       const { runtimeContext } = context;
-      runtimeContext.ssr = true;
       const shellMarker = `${options.identifierPrefix}shell`;
       const app = (
         <PreparedScopeContext.Provider value={prepared}>

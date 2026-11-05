@@ -5,6 +5,7 @@ import {
   disposalEvents,
 } from './pluginContract';
 import { render as renderPage } from '../../src/core/browser';
+import { RenderLevel } from '../../src/core/constants';
 import { createRoot as createPageRoot } from '../../src/core/react';
 import { setGlobalContext } from '../../src/core/context';
 import { registerRuntimeDefinition } from '../../src/core/plugin';
@@ -861,7 +862,10 @@ it.each(['page', 'Bridge'] as const)(
     delete window._SSR_DATA;
     delete window._ROUTER_DATA;
     const gate = contractGate();
-    const probe = createPluginContract({ setupGate: gate.promise });
+    const probe = createPluginContract({
+      expectedSSR: false,
+      setupGate: gate.promise,
+    });
     const container = document.createElement('div');
     document.body.append(container);
     let dispose!: () => void;
@@ -896,6 +900,7 @@ it.each(['page', 'Bridge'] as const)(
       '/?encoded=a%20b&plus=a+b&token=a=b&flag&empty=&repeat=first&repeat=last&%E9%94%AE=%E5%80%BC',
     );
     const probe = createPluginContract({
+      expectedSSR: false,
       expectedQuery: {
         encoded: 'a b',
         plus: 'a b',
@@ -930,7 +935,7 @@ it.each(['page', 'Bridge'] as const)(
       { interrupt: new Response('stop', { status: 409 }) },
       { interrupt: undefined },
     ]) {
-      const probe = createPluginContract(options);
+      const probe = createPluginContract({ expectedSSR: false, ...options });
       const container = document.createElement('div');
       document.body.append(container);
       const pending = mountContract(kind, probe, container);
@@ -949,7 +954,10 @@ it.each(['page', 'Bridge'] as const)(
 
 it('cancels pending Bridge plugin preparation without running later hooks or mounting', async () => {
   const gate = contractGate();
-  const probe = createPluginContract({ hookGate: gate.promise });
+  const probe = createPluginContract({
+    expectedSSR: false,
+    hookGate: gate.promise,
+  });
   const container = document.createElement('div');
   document.body.append(container);
   const app = createScopedApplication(undefined, {
@@ -995,6 +1003,7 @@ it.each(['page', 'Bridge'] as const)(
   '%s unmounts its DOM and releases all plugins even when cleanup throws',
   async kind => {
     const probe = createPluginContract({
+      expectedSSR: false,
       cleanupError: new Error('cleanup failed'),
     });
     const container = document.createElement('div');
@@ -1092,3 +1101,93 @@ it('keeps raw render props and avoids wrapRoot while registered roots use the wr
   }
   expect(cleanups).toEqual(['dispose', 'dispose']);
 });
+
+it.each(['page', 'Bridge'] as const)(
+  '%s exposes SSR state before plugin setup and throughout hydration',
+  async kind => {
+    const previousHydration = process.env.MODERN_ENABLE_HYDRATION;
+    const previousData = window._SSR_DATA;
+    const previousRouterData = window._ROUTER_DATA;
+    const previousReady = window._SSR_DATA_READY;
+    process.env.MODERN_ENABLE_HYDRATION = 'true';
+    delete window._SSR_DATA_READY;
+    delete window._ROUTER_DATA;
+    const probe = createPluginContract({ expectedSSR: true });
+    const container = document.createElement('div');
+    container.innerHTML = '<section data-contract-wrapper><p></p></section>';
+    const serverNode = container.firstElementChild;
+    const serverParagraph = container.querySelector('p')!;
+    serverParagraph.textContent = `contract:ready:${window.location.href}`;
+    document.body.append(container);
+    const errors: unknown[] = [];
+    let dispose: (() => void) | undefined;
+    const create = (context: any) =>
+      createRuntime(probe.plugins, undefined, context);
+    try {
+      if (kind === 'page') {
+        window._SSR_DATA = {
+          mode: 'string',
+          renderLevel: RenderLevel.SERVER_RENDER,
+        } as any;
+        setGlobalContext({ App: probe.Page });
+        registerRuntimeDefinition(create);
+        const Root = createPageRoot();
+        const root = await renderPage(<Root />, container);
+        dispose = () => root.unmount();
+      } else {
+        delete window._SSR_DATA;
+        const marker = document.createElement('template');
+        marker.id = 'contract-shell';
+        container.append(marker);
+        const app = createScopedApplication(undefined, {
+          definition: {
+            routes: [],
+            App: probe.Page,
+            selected: false,
+            basename: '/',
+            serverLoaders: false,
+            getDataBase: () => window.location.origin,
+            createRuntime: create,
+          },
+        });
+        dispose = () => app.destroy();
+        await app.hydrate(
+          container,
+          {
+            protocol: APPLICATION_SNAPSHOT_PROTOCOL,
+            reactVersion: React.version,
+            identifierPrefix: 'contract-',
+            shellMarker: marker.id,
+            pending: [],
+            url: window.location.href,
+            basename: '/',
+            props: {},
+          },
+          {
+            updates: closedUpdates(),
+            onRecoverableError: error => errors.push(error),
+          },
+        );
+      }
+      await React.act(async () => {});
+      expect(probe.records[0].events).toEqual(preparationEvents);
+      expect(probe.records[0].provider).toBe(probe.records[0].context);
+      expect(container.firstElementChild).toBe(serverNode);
+      expect(container.querySelector('p')).toBe(serverParagraph);
+      expect(errors).toEqual([]);
+    } finally {
+      await React.act(async () => dispose?.());
+      container.remove();
+      if (previousHydration === undefined)
+        delete process.env.MODERN_ENABLE_HYDRATION;
+      else process.env.MODERN_ENABLE_HYDRATION = previousHydration;
+      window._SSR_DATA = previousData;
+      window._ROUTER_DATA = previousRouterData;
+      window._SSR_DATA_READY = previousReady;
+    }
+    expect(probe.records[0].events).toEqual([
+      ...preparationEvents,
+      ...disposalEvents,
+    ]);
+  },
+);

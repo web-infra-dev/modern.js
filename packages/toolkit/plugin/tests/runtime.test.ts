@@ -416,3 +416,54 @@ it('treats a returned runtime Response as an interrupt without copying it into c
   expect(result.interrupted).toBe(true);
   expect(canonical).toEqual({ initialData: 'untouched' });
 });
+
+it.each(['spread', 'assign', 'prototype'] as const)(
+  'preserves a %s wrapper while cloning standard hooks per runtime',
+  kind => {
+    const standard = createSyncHook<(value: string[]) => string[]>();
+    standard.tap(values => [...values, 'static']);
+    const customCall = (values: string[]) => [
+      ...standard.call(values),
+      'custom',
+    ];
+    const customTap = (callback: (value: string[]) => string[]) =>
+      standard.tap(callback);
+    const overrides = { call: customCall, tap: customTap };
+    const custom =
+      kind === 'spread'
+        ? { ...standard, ...overrides }
+        : Object.assign(
+            kind === 'assign' ? {} : Object.create(standard),
+            kind === 'assign' ? standard : {},
+            overrides,
+          );
+    let sequence = 0;
+    const plugin: RuntimePlugin<any> = {
+      name: 'wrapped-hook',
+      registryHooks: { standard, custom },
+      setup(api) {
+        const id = ++sequence;
+        api.standard((values: string[]) => [...values, String(id)]);
+      },
+    };
+    const engine = createRuntime<any>();
+    const first = engine.run({ config: {}, plugins: [plugin] }).runtimeContext;
+    const second = engine.run({ config: {}, plugins: [plugin] }).runtimeContext;
+    try {
+      for (const instance of [first, second]) {
+        expect(instance.hooks.custom).toBe(custom);
+        expect(instance.hooks.custom.call).toBe(customCall);
+        expect(instance.hooks.custom.tap).toBe(customTap);
+        expect(instance.hooks.custom.call([])).toEqual(['static', 'custom']);
+      }
+      expect(first.hooks.standard).not.toBe(standard);
+      expect(first.hooks.standard).not.toBe(second.hooks.standard);
+      expect(first.hooks.standard.call([])).toEqual(['static', '1']);
+      expect(second.hooks.standard.call([])).toEqual(['static', '2']);
+      expect(standard.call([])).toEqual(['static']);
+    } finally {
+      first.dispose();
+      second.dispose();
+    }
+  },
+);

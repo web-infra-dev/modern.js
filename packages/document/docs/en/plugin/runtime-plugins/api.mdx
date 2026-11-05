@@ -40,6 +40,8 @@ Returns the context owned by the current instance. It is the same object passed 
 
 The built-in request context plugin prepares `requestContext` during `setup`, before application plugins execute. Initial application data and asset capabilities enter the context during instance creation. Router adds route matches and loader results during initialization.
 
+The `ssr` field is ready before setup. It is true during server initialization. In the browser, it indicates that the current page or Bridge instance has server bootstrap data, rather than whether React hydration has completed. CSR without those data sets it to false.
+
 ### `api.updateRuntimeContext`
 
 Deeply merges a patch into the current context. It does not bind the supplied object as the context or track later changes to that object.
@@ -57,6 +59,8 @@ The internal React Provider uses the current context. The public `RuntimeContext
 ### `api.getHooks`
 
 Returns lifecycle and extension hooks for the current instance. The framework owns normal application initialization. Do not repeat initialization hooks during component updates.
+
+Use a `registryHooks` factory to create fresh extension hooks for each instance. If `registryHooks` is a record of hooks created with the standard helpers, Modern clones their hook containers for each instance and preserves callbacks registered in the static definition. Arbitrary third-party custom hook closures cannot be copied automatically. Create those hooks inside the factory rather than returning a shared hook object.
 
 ## Lifecycle APIs
 

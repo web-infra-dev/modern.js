@@ -260,7 +260,6 @@ export const createRequestHandler: CreateRequestHandler = async (
             onError: error => options.onError(error, SSRErrors.RENDER_HTML),
             context: {
               ssrContext,
-              ssr: true,
               routeManifest: options.resource.routeManifest as any,
             },
           });

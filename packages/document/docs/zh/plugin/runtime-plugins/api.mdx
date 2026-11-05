@@ -40,6 +40,8 @@ export const preferencesPlugin = (): RuntimePlugin => ({
 
 内置请求上下文插件在 `setup` 中准备 `requestContext`，并在应用插件之前执行。应用的初始化数据和资源能力在创建实例时进入 context，路由匹配和 loader 结果则由 Router 在初始化阶段补充。
 
+`ssr` 字段在 setup 前就绪，服务端初始化时为 true。在浏览器中，它表示当前页面或 Bridge 实例具有服务端初始化数据，不表示 React 水合是否已经完成。没有这些数据的 CSR 实例设为 false。
+
 ### `api.updateRuntimeContext`
 
 将补丁深合并到当前 context。它不会将传入对象绑定为 context，也不会追踪该对象后续的变化。
@@ -57,6 +59,8 @@ api.updateRuntimeContext({ feature: { enabled: false } })
 ### `api.getHooks`
 
 返回当前实例的生命周期及扩展 hooks。普通应用的初始化由框架执行，不要在组件更新时手动重复调用初始化 hooks。
+
+可以通过 `registryHooks` 工厂为每个实例创建新的扩展 hooks。如果 `registryHooks` 是由标准 helper 创建的 hooks 记录，Modern 会为每个实例复制 hook 容器，并保留静态定义中已注册的回调。任意第三方自定义 hook 的闭包无法自动复制，应在工厂内创建新 hook，不要返回共享的 hook 对象。
 
 ## 生命周期 API
 

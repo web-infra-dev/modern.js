@@ -59,10 +59,6 @@ export const InternalRuntimeContext = createContext<TInternalRuntimeContext>(
 );
 
 export const RuntimeContext = createContext<TRuntimeContext>({} as any);
-export const ScopedRootPropsContext = createContext<Record<string, unknown>>(
-  {},
-);
-
 /**
  * deprecated, use RuntimeContext instead
  */

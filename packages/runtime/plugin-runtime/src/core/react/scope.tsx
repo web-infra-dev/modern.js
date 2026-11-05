@@ -7,7 +7,6 @@ import {
 } from '../../mf/navigation';
 import React, { useContext, useEffect, useState } from 'react';
 import { createRoot as createReactRoot, type Root } from 'react-dom/client';
-import { ScopedRootPropsContext } from '../context/runtime';
 import { disposeResources } from '../application/cleanup';
 import { wrapRuntimeContextProvider } from './wrapper';
 
@@ -19,6 +18,7 @@ import {
   registerScopedRoot,
   PreparedScopeContext,
   PreparedScopedRoot,
+  ScopedRootPropsContext,
 } from './scopeDefinition';
 
 /** Static definitions may be shared. Context, hooks and router belong to a mount. */

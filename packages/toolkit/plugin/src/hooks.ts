@@ -17,21 +17,25 @@ function withFactory<
   Callback extends (...args: any[]) => any,
   Hook extends PluginHook<Callback>,
 >(hook: Hook, callbacks: Callback[], create: () => Hook): Hook {
-  Object.defineProperty(hook, hookFactory, {
-    value: () => {
+  (hook as Hook & { [hookFactory]?: (this: Hook) => Hook })[hookFactory] =
+    function (this: Hook) {
+      // Object spreads and prototype wrappers can carry this private factory.
+      // Their custom call/tap behavior cannot be cloned as a standard hook.
+      if (this !== hook) return this;
       const instance = create();
       callbacks.forEach(callback => instance.tap(callback));
       return instance;
-    },
-  });
+    };
   return hook;
 }
 
 export function cloneHook<Hook extends PluginHook<(...args: any[]) => any>>(
   hook: Hook,
 ): Hook {
-  const create = (hook as Hook & { [hookFactory]?: () => Hook })[hookFactory];
-  return create ? create() : hook;
+  const create = (hook as Hook & { [hookFactory]?: (this: Hook) => Hook })[
+    hookFactory
+  ];
+  return create ? create.call(hook) : hook;
 }
 
 export function createAsyncInterruptHook<
