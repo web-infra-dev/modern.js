@@ -1,5 +1,12 @@
 # i18n-custom-i18n-wrapper
 
+## 0.0.6
+
+### Patch Changes
+
+- @modern-js/plugin-i18n@3.11.1
+- @modern-js/runtime@3.11.1
+
 ## 0.0.5
 
 ### Patch Changes

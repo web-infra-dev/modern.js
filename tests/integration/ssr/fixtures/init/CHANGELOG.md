@@ -1,5 +1,14 @@
 # init
 
+## 2.66.5
+
+### Patch Changes
+
+- Updated dependencies [fc6ee73]
+  - @modern-js/app-tools@3.11.1
+  - @modern-js/runtime@3.11.1
+  - @modern-js/tsconfig@3.11.1
+
 ## 2.66.4
 
 ### Patch Changes

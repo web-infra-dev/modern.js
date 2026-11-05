@@ -1,5 +1,12 @@
 # i18n-mf-component-provider
 
+## 2.66.5
+
+### Patch Changes
+
+- @modern-js/plugin-i18n@3.11.1
+- @modern-js/runtime@3.11.1
+
 ## 2.66.4
 
 ### Patch Changes

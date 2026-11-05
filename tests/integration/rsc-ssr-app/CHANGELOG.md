@@ -1,5 +1,13 @@
 # rsc-ssr-app
 
+## 2.66.5
+
+### Patch Changes
+
+- Updated dependencies [67782a5]
+  - @modern-js/render@3.11.1
+  - @modern-js/runtime@3.11.1
+
 ## 2.66.4
 
 ### Patch Changes

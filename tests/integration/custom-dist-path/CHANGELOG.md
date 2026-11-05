@@ -1,5 +1,11 @@
 # integration-custom-dist-path
 
+## 2.66.5
+
+### Patch Changes
+
+- @modern-js/runtime@3.11.1
+
 ## 2.66.4
 
 ### Patch Changes
