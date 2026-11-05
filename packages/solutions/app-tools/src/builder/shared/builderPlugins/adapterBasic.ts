@@ -59,9 +59,21 @@ export const builderPluginAdapterBasic = (
         };
 
         config.resolve ??= {};
+        const currentAlias = config.resolve.extensionAlias ?? {};
+        // Keep entries already set for the same extension (e.g. Rsbuild's
+        // `.js -> .ts/.tsx` for TypeScript projects) after the server variants,
+        // so `import './foo.js'` still resolves `foo.ts` in node bundles.
         config.resolve.extensionAlias = {
-          ...config.resolve.extensionAlias,
-          ...extensionAlias,
+          ...currentAlias,
+          ...Object.fromEntries(
+            Object.entries(extensionAlias).map(([ext, serverExts]) => {
+              const current = currentAlias[ext] ?? [];
+              const rest = (
+                Array.isArray(current) ? current : [current]
+              ).filter(item => !serverExts.includes(item));
+              return [ext, [...serverExts, ...rest]];
+            }),
+          ),
         };
       }
     });
