@@ -94,6 +94,15 @@ try {
     const before = await collect();
     await page.evaluate(kind => window.runRetained(kind, 50), kind);
     const retained = await collect();
+    if (
+      retained.handles !== 50 ||
+      retained.contexts ||
+      retained.payloads ||
+      retained.snapshots
+    )
+      throw Error(
+        `Disposed ${kind} handles retained instance data: ${JSON.stringify(retained)}`,
+      );
     if (process.env.RETENTION_HEAP && kind === 'bridge') {
       const chunks = [];
       cdp.on('HeapProfiler.addHeapSnapshotChunk', ({ chunk }) =>

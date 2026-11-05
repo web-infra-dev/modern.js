@@ -3,6 +3,7 @@ import { createRequire } from 'node:module';
 import { writeFile } from 'node:fs/promises';
 import path from 'node:path';
 const [repo, out, variant] = process.argv.slice(2);
+if (!global.gc) throw Error('Run with --expose-gc');
 const require = createRequire(
   path.join(repo, 'packages/runtime/plugin-runtime/package.json'),
 );
@@ -110,12 +111,16 @@ for (let round = 0; round < 3; round++) {
       await new Promise(setImmediate);
       global.gc();
     }
+    const reachable = refs.filter(x => x.deref()).length;
+    const reachableContexts = contexts.filter(x => x.deref()).length;
+    if (reachable || reachableContexts)
+      throw Error(`${name} retained disposed owners or contexts`);
     row[name] = {
       count: 1000,
       retainedBytes: retained - before,
       releasedHeapDelta: process.memoryUsage().heapUsed - before,
-      reachable: refs.filter(x => x.deref()).length,
-      reachableContexts: contexts.filter(x => x.deref()).length,
+      reachable,
+      reachableContexts,
     };
   }
   results.rounds.push(row);
