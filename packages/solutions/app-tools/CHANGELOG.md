@@ -10,18 +10,19 @@
 
 - Updated dependencies [fc6ee73]
 - Updated dependencies [b7eaa44]
+- Updated dependencies [b11c3cd]
 - Updated dependencies [f74d24d]
 - Updated dependencies [1391159]
   - @modern-js/builder@3.11.1
   - @modern-js/plugin@3.11.1
   - @modern-js/server@3.11.1
+  - @modern-js/server-core@3.11.1
+  - @modern-js/types@3.11.1
   - @modern-js/plugin-data-loader@3.11.1
   - @modern-js/prod-server@3.11.1
-  - @modern-js/server-core@3.11.1
   - @modern-js/server-utils@3.11.1
-  - @modern-js/i18n-utils@3.11.1
-  - @modern-js/types@3.11.1
   - @modern-js/utils@3.11.1
+  - @modern-js/i18n-utils@3.11.1
 
 ## 3.11.0
 

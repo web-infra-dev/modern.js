@@ -4,7 +4,8 @@
 
 ### Patch Changes
 
-- @modern-js/runtime@3.11.1
+- Updated dependencies [8f79d0b]
+  - @modern-js/runtime@3.11.1
 
 ## 2.66.4
 

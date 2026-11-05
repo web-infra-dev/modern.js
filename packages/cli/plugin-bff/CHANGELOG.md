@@ -6,6 +6,7 @@
 
 - Updated dependencies [fc6ee73]
 - Updated dependencies [a1c2feb]
+- Updated dependencies [b11c3cd]
   - @modern-js/builder@3.11.1
   - @modern-js/bff-core@3.11.1
   - @modern-js/server-core@3.11.1

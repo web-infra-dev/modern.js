@@ -8,6 +8,7 @@
 
   fix(prod-server)：生产服务器默认使用 info 日志级别，并补充 MODERN_SERVER_LOG_LEVEL 文档。设置 MODERN_SERVER_LOG_LEVEL=verbose 可恢复逐请求日志。
 
+- Updated dependencies [b11c3cd]
   - @modern-js/server-core@3.11.1
   - @modern-js/runtime-utils@3.11.1
   - @modern-js/utils@3.11.1

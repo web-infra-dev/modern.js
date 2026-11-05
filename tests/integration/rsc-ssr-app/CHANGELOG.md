@@ -5,6 +5,7 @@
 ### Patch Changes
 
 - Updated dependencies [67782a5]
+- Updated dependencies [8f79d0b]
   - @modern-js/render@3.11.1
   - @modern-js/runtime@3.11.1
 

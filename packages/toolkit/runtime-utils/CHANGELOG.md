@@ -4,8 +4,9 @@
 
 ### Patch Changes
 
-- @modern-js/types@3.11.1
-- @modern-js/utils@3.11.1
+- Updated dependencies [b11c3cd]
+  - @modern-js/types@3.11.1
+  - @modern-js/utils@3.11.1
 
 ## 3.11.0
 

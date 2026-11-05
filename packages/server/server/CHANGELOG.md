@@ -8,10 +8,11 @@
 
   fix(server)：开发服务器 watcher 改用 minimatch 的具名导出，修复升级 minimatch 11 后原生 ESM 加载失败的问题。
 
+- Updated dependencies [b11c3cd]
   - @modern-js/server-core@3.11.1
+  - @modern-js/types@3.11.1
   - @modern-js/server-utils@3.11.1
   - @modern-js/runtime-utils@3.11.1
-  - @modern-js/types@3.11.1
   - @modern-js/utils@3.11.1
 
 ## 3.11.0

@@ -4,10 +4,11 @@
 
 ### Patch Changes
 
-- @modern-js/plugin-bff@3.11.1
-- @modern-js/runtime@3.11.1
-- bff-api-app@2.66.5
-- @modern-js/server-runtime@3.11.1
+- Updated dependencies [8f79d0b]
+  - @modern-js/runtime@3.11.1
+  - @modern-js/plugin-bff@3.11.1
+  - bff-api-app@2.66.5
+  - @modern-js/server-runtime@3.11.1
 
 ## 2.66.4
 

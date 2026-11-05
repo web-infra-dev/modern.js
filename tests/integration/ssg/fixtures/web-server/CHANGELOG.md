@@ -5,6 +5,8 @@
 ### Patch Changes
 
 - Updated dependencies [fc6ee73]
+- Updated dependencies [b11c3cd]
+- Updated dependencies [8f79d0b]
   - @modern-js/app-tools@3.11.1
   - @modern-js/plugin-ssg@3.11.1
   - @modern-js/runtime@3.11.1

@@ -5,6 +5,7 @@
 ### Patch Changes
 
 - Updated dependencies [fc6ee73]
+- Updated dependencies [8f79d0b]
   - @modern-js/app-tools@3.11.1
   - @modern-js/runtime@3.11.1
   - @modern-js/tsconfig@3.11.1

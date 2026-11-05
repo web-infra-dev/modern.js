@@ -4,8 +4,9 @@
 
 ### Patch Changes
 
-- @modern-js/plugin-i18n@3.11.1
-- @modern-js/runtime@3.11.1
+- Updated dependencies [8f79d0b]
+  - @modern-js/runtime@3.11.1
+  - @modern-js/plugin-i18n@3.11.1
 
 ## 0.0.5
 
