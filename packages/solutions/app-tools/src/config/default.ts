@@ -64,7 +64,7 @@ export function createDefaultConfig(
     meta: {
       charset: { charset: 'utf-8' },
       viewport:
-        'width=device-width, initial-scale=1.0, shrink-to-fit=no, viewport-fit=cover, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no',
+        'width=device-width, initial-scale=1.0, shrink-to-fit=no, viewport-fit=cover',
       'http-equiv': { 'http-equiv': 'x-ua-compatible', content: 'ie=edge' },
       renderer: 'webkit',
       layoutmode: 'standard',

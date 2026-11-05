@@ -4,6 +4,14 @@ import {
 } from '../../src/config';
 
 describe('createDefaultConfig', () => {
+  it('allows page zoom in the default viewport', () => {
+    const config = createDefaultConfig({ metaName: 'modern' } as any);
+
+    expect(config.html?.meta?.viewport).toBe(
+      'width=device-width, initial-scale=1.0, shrink-to-fit=no, viewport-fit=cover',
+    );
+  });
+
   it('uses config/mock as the default Mock directory', () => {
     const config = createDefaultConfig({ metaName: 'modern' } as any);
 
