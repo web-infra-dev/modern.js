@@ -1,0 +1,74 @@
+{
+  "name": "@modern-js/plugin-app-shell",
+  "description": "Build-time app shell prerendering for client-rendered Modern.js pages, with early input capture and replay.",
+  "homepage": "https://modernjs.dev",
+  "bugs": "https://github.com/web-infra-dev/modern.js/issues",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/web-infra-dev/modern.js",
+    "directory": "packages/cli/plugin-app-shell"
+  },
+  "license": "MIT",
+  "keywords": [
+    "react",
+    "framework",
+    "modern",
+    "modern.js",
+    "app-shell"
+  ],
+  "version": "3.11.0",
+  "types": "./src/index.ts",
+  "main": "./dist/cjs/index.js",
+  "typesVersions": {
+    "*": {
+      ".": [
+        "./dist/types/index.d.ts"
+      ]
+    }
+  },
+  "exports": {
+    ".": {
+      "types": "./dist/types/index.d.ts",
+      "node": {
+        "import": "./dist/esm-node/index.mjs",
+        "require": "./dist/cjs/index.js"
+      },
+      "default": "./dist/cjs/index.js"
+    }
+  },
+  "scripts": {
+    "prepublishOnly": "only-allow-pnpm",
+    "build": "rs lib",
+    "dev": "rs lib --watch",
+    "test": "rstest"
+  },
+  "dependencies": {
+    "@modern-js/utils": "workspace:*",
+    "@rsbuild/core": "2.3.1",
+    "@rsbuild/plugin-react": "2.1.0",
+    "@swc/helpers": "^0.5.17",
+    "beasties": "0.5.5",
+    "postcss": "^8.5.31"
+  },
+  "peerDependencies": {
+    "react": ">=18.0.0",
+    "react-dom": ">=18.0.0"
+  },
+  "devDependencies": {
+    "@modern-js/app-tools": "workspace:*",
+    "@modern-js/rslib": "workspace:*",
+    "@modern-js/types": "workspace:*",
+    "@scripts/rstest-config": "workspace:*",
+    "@types/node": "^20",
+    "happy-dom": "^21.0.4",
+    "react": "^19.3.1",
+    "react-dom": "^19.3.1",
+    "typescript": "^5"
+  },
+  "sideEffects": false,
+  "publishConfig": {
+    "registry": "https://registry.npmjs.org/",
+    "access": "public",
+    "types": "./dist/types/index.d.ts"
+  }
+}
