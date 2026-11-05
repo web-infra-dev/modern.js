@@ -92,6 +92,7 @@ export const renderString: RenderString = async (
     collectors,
     runtimeContext.ssrContext?.htmlModifiers || [],
     tracer,
+    hasDeferredLoaderData(routerContext),
   );
 
   return html;
@@ -104,6 +105,7 @@ async function generateHtml(
   collectors: Collector[],
   htmlModifiers: BuildHtmlCb[],
   { onError, onTiming }: Tracer,
+  hasDeferredData: boolean,
 ): Promise<string> {
   let html = '';
   let helmetData;
@@ -115,9 +117,10 @@ async function generateHtml(
   try {
     const end = time();
     // react render to string
-    html = ReactDomServer.renderToString(finalApp, {
-      identifierPrefix: SSR_HYDRATION_ID_PREFIX,
-    });
+    const renderOptions = { identifierPrefix: SSR_HYDRATION_ID_PREFIX };
+    html = hasDeferredData
+      ? ReactDomServer.renderToString(finalApp, renderOptions)
+      : await renderToStringAllReady(finalApp, renderOptions);
     chunkSet.renderLevel = RenderLevel.SERVER_RENDER;
     helmetData = ReactHelmet.renderStatic();
 
@@ -173,6 +176,88 @@ async function generateHtml(
   ]);
 
   return finalHtml;
+}
+
+/**
+ * String SSR does not render deferred loader data: an `<Await>` on a promise that
+ * is still pending renders its fallback, and the browser loads the data. Keep
+ * that by rendering such pages with `renderToString`, which never waits.
+ */
+const hasDeferredLoaderData = (routerContext?: StaticHandlerContext) =>
+  Object.values(routerContext?.loaderData ?? {}).some(
+    data =>
+      typeof data === 'object' &&
+      data !== null &&
+      Object.values(data).some(
+        value =>
+          typeof (value as PromiseLike<unknown> | undefined)?.then ===
+          'function',
+      ),
+  );
+
+// Upper bound for waiting on suspended content, so a promise that never settles
+// cannot hold the request. Boundaries still pending are left for the client.
+const SUSPENSE_WAIT_LIMIT = 3000;
+
+/**
+ * `renderToString` does not wait for suspended content. A `React.lazy`
+ * component is always suspended the first time it renders in a process, so its
+ * Suspense boundary is left for the client to render and hydration reports
+ * React error #419. Where `renderToPipeableStream` exists (Node), render with
+ * it and read the output after `onAllReady`: lazy components are rendered on
+ * the server, and since nothing is flushed before everything is ready, the
+ * output is the same complete HTML without streaming scripts.
+ */
+async function renderToStringAllReady(
+  element: React.ReactElement,
+  options: { identifierPrefix: string },
+): Promise<string> {
+  // Not available in the browser and edge builds of `react-dom/server`.
+  const { renderToPipeableStream } = ReactDomServer;
+  if (typeof renderToPipeableStream !== 'function') {
+    return ReactDomServer.renderToString(element, options);
+  }
+  return new Promise<string>((resolve, reject) => {
+    const decoder = new TextDecoder();
+    let html = '';
+    let timer: ReturnType<typeof setTimeout> | undefined;
+    const { pipe, abort } = renderToPipeableStream(element, {
+      ...options,
+      // Errors inside Suspense boundaries fall back to client rendering, as
+      // with `renderToString`, which does not report them either.
+      onError() {},
+      onShellError(error) {
+        clearTimeout(timer);
+        reject(error);
+      },
+      onAllReady() {
+        clearTimeout(timer);
+        // React only needs `write`, `end`, `on` and `destroy` from the
+        // destination, so collect into a string without a Node stream.
+        const destination = {
+          write(chunk: Uint8Array | string) {
+            html +=
+              typeof chunk === 'string'
+                ? chunk
+                : decoder.decode(chunk, { stream: true });
+            return true;
+          },
+          end() {
+            html += decoder.decode();
+            resolve(html);
+          },
+          on() {
+            return destination;
+          },
+          destroy(error?: unknown) {
+            reject(error);
+          },
+        };
+        pipe(destination as unknown as NodeJS.WritableStream);
+      },
+    });
+    timer = setTimeout(() => abort(), SUSPENSE_WAIT_LIMIT);
+  });
 }
 
 // Unique per process, so neither the template edits nor the app can produce them.
