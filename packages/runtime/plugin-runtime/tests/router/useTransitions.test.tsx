@@ -17,6 +17,10 @@ rstest.mock('@modern-js/runtime-utils/router', () => ({
   },
 }));
 
+rstest.mock('../../src/router/runtime/rsc-router', () => ({
+  createClientRouterFromPayload: () => null,
+}));
+
 const renderWithRouterConfig = (
   runtimeRouterConfig: Partial<RouterConfig> | undefined,
 ) => {
