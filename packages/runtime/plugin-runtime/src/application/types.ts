@@ -14,6 +14,8 @@ export interface ApplicationSnapshot {
   memoryRoute?: { entryPath: string };
   props: Record<string, unknown>;
   initialData?: Record<string, unknown>;
+  /** Initial language for this application, independent of the outer document. */
+  i18nData?: { lng: string };
   routerData?: RouterSSRData;
 }
 

@@ -31,7 +31,11 @@ it.each([false, true])(
         name: 'check-hydration-shell-context',
         setup(api) {
           api.onBeforeRender(context => {
-            beforeRenderData.push(context.initialData, window._ROUTER_DATA);
+            beforeRenderData.push(
+              context.initialData,
+              context.__i18nData__,
+              window._ROUTER_DATA,
+            );
           });
         },
       },
@@ -60,7 +64,7 @@ it.each([false, true])(
       const ssrData = {
         mode: 'stream' as const,
         renderLevel: RenderLevel.SERVER_RENDER,
-        data: { initialData: { source: 'server' } },
+        data: { initialData: { source: 'server' }, i18nData: { lng: 'zh' } },
       };
       const routerData = { loaderData: { page: 'server' }, errors: null };
       if (useJsonScript) {
@@ -85,7 +89,11 @@ it.each([false, true])(
         ready();
         root = (await pending) as Root;
       });
-      expect(beforeRenderData).toEqual([{ source: 'server' }, routerData]);
+      expect(beforeRenderData).toEqual([
+        { source: 'server' },
+        { lng: 'zh' },
+        routerData,
+      ]);
       expect(container.firstElementChild).toBe(original);
       expect(container.firstElementChild!.id).toBe(originalId);
     } finally {
@@ -111,7 +119,18 @@ it.each(['stream', 'string'] as const)(
     process.env.MODERN_ENABLE_HYDRATION = 'true';
     delete window._SSR_DATA_READY;
     setGlobalContext({ entryName: 'index' });
-    registerPlugin([]);
+    const languages: unknown[] = [];
+    registerPlugin([
+      {
+        name: 'ordinary-page-language',
+        setup(api) {
+          api.onBeforeRender(context => {
+            languages.push(context.__i18nData__);
+            expect(context.ssr).toBe(true);
+          });
+        },
+      },
+    ]);
     function Page() {
       return <p id={useId()}>ordinary page</p>;
     }
@@ -128,7 +147,11 @@ it.each(['stream', 'string'] as const)(
     document.body.append(container);
     const original = container.firstElementChild;
     const id = original!.id;
-    window._SSR_DATA = { mode, renderLevel: RenderLevel.SERVER_RENDER };
+    window._SSR_DATA = {
+      mode,
+      renderLevel: RenderLevel.SERVER_RENDER,
+      data: { i18nData: { lng: 'en' } },
+    };
     let root: Root | undefined;
     try {
       await act(async () => {
@@ -137,6 +160,7 @@ it.each(['stream', 'string'] as const)(
       expect(container.firstElementChild).toBe(original);
       expect(original!.id).toBe(id);
       expect(window._SSR_DATA_READY).toBeUndefined();
+      expect(languages).toEqual([{ lng: 'en' }]);
     } finally {
       await act(async () => root?.unmount());
       container.remove();
@@ -148,3 +172,33 @@ it.each(['stream', 'string'] as const)(
     }
   },
 );
+
+it('keeps ordinary CSR context without SSR language or server prefetch eligibility', async () => {
+  delete window._SSR_DATA;
+  delete window._SSR_DATA_READY;
+  setGlobalContext({ entryName: 'index' });
+  const contexts: unknown[] = [];
+  registerPlugin([
+    {
+      name: 'ordinary-csr-context',
+      setup(api) {
+        api.onBeforeRender(context => {
+          contexts.push({ language: context.__i18nData__, ssr: context.ssr });
+        });
+      },
+    },
+  ]);
+  const container = document.createElement('div');
+  document.body.append(container);
+  let root: Root | undefined;
+  try {
+    await act(async () => {
+      root = (await render(<p>client page</p>, container)) as Root;
+    });
+    expect(contexts).toEqual([{ language: undefined, ssr: false }]);
+    expect(container.textContent).toBe('client page');
+  } finally {
+    await act(async () => root?.unmount());
+    container.remove();
+  }
+});

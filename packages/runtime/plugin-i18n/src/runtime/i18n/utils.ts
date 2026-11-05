@@ -1,11 +1,7 @@
 import { isBrowser } from '@modern-js/runtime';
-import type { BaseBackendOptions } from '../../shared/type';
-import { mergeBackendOptions } from './backend';
 import { HttpBackendWithSave } from './backend/middleware';
-import { useI18nextBackend } from './backend/middleware';
 import { SdkBackend } from './backend/sdk-backend';
 import { cacheUserLanguage } from './detection';
-import { mergeDetectionOptions } from './detection';
 import type { I18nInitOptions, I18nInstance } from './instance';
 import {
   getActualI18nextInstance,
@@ -55,7 +51,6 @@ export const buildInitOptions = async (
     sanitizedUserInitOptions || {};
 
   const initOptions: I18nInitOptions = {
-    lng: finalLanguage,
     fallbackLng: fallbackLanguage,
     supportedLngs: languages,
     detection: mergedDetection,
@@ -71,6 +66,8 @@ export const buildInitOptions = async (
     },
     // Spread user options (without backend) to allow user options to override
     ...userOptionsWithoutBackend,
+    // Detected SSR/path language has already taken precedence over user lng.
+    lng: finalLanguage,
   };
 
   // For chained backend, we need to pass the backend config to init()
@@ -124,6 +121,36 @@ export const buildInitOptions = async (
 
   return initOptions;
 };
+
+const serverInstanceInitializations = new WeakMap<
+  I18nInstance,
+  Promise<void>
+>();
+
+/** Bootstrap an explicit shared instance with app config before cloning it. */
+export async function cloneServerI18nInstance(
+  instance: I18nInstance,
+  initialize: () => Promise<void>,
+): Promise<I18nInstance> {
+  if (!instance.cloneInstance) {
+    return instance;
+  }
+  // i18next requires initialized services to clone. Concurrent requests share
+  // only this app-config initialization, never their detected language.
+  if (!getActualI18nextInstance(instance).isInitialized) {
+    let pending = serverInstanceInitializations.get(instance);
+    if (!pending) {
+      pending = initialize();
+      serverInstanceInitializations.set(instance, pending);
+    }
+    try {
+      await pending;
+    } finally {
+      serverInstanceInitializations.delete(instance);
+    }
+  }
+  return instance.cloneInstance();
+}
 
 /**
  * Ensure i18n instance language matches the final detected language
@@ -276,58 +303,3 @@ function hasOptions(instance: I18nInstance): instance is I18nInstance & {
 } {
   return instance.options !== undefined && instance.options !== null;
 }
-
-/**
- * Setup cloned instance for SSR with backend support
- */
-export const setupClonedInstance = async (
-  i18nInstance: I18nInstance,
-  finalLanguage: string,
-  fallbackLanguage: string,
-  languages: string[],
-  backendEnabled: boolean,
-  backend: BaseBackendOptions | undefined,
-  i18nextDetector: boolean,
-  detection: any,
-  localePathRedirect: boolean,
-  userInitOptions: I18nInitOptions | undefined,
-): Promise<void> => {
-  const mergedBackend = mergeBackendOptions(backend, userInitOptions);
-  // Check if SDK is configured (allows standalone SDK usage even without locales directory)
-  const hasSdkConfig =
-    typeof userInitOptions?.backend?.sdk === 'function' ||
-    (mergedBackend?.sdk && typeof mergedBackend.sdk === 'function');
-
-  if (backendEnabled || hasSdkConfig) {
-    useI18nextBackend(i18nInstance, mergedBackend);
-    if (mergedBackend && hasOptions(i18nInstance)) {
-      i18nInstance.options.backend = {
-        ...i18nInstance.options.backend,
-        ...mergedBackend,
-      };
-    }
-
-    if (i18nInstance.isInitialized) {
-      await ensureLanguageMatch(i18nInstance, finalLanguage);
-    } else {
-      const mergedDetection = mergeDetectionOptions(
-        i18nextDetector,
-        detection,
-        localePathRedirect,
-        userInitOptions,
-      );
-      await initializeI18nInstance(
-        i18nInstance,
-        finalLanguage,
-        fallbackLanguage,
-        languages,
-        mergedDetection,
-        mergedBackend,
-        userInitOptions,
-        false, // SSR always uses false for useSuspense
-      );
-    }
-  } else {
-    await ensureLanguageMatch(i18nInstance, finalLanguage);
-  }
-};

@@ -9,6 +9,8 @@ import type { RequestContext, SSRServerContext } from '../types';
 
 export interface TRuntimeContext {
   initialData?: Record<string, unknown>;
+  /** Language serialized by this application's server render. */
+  __i18nData__?: { lng: string };
   isBrowser: boolean;
   routes?: RouteObject[];
   requestContext: RequestContext;
@@ -27,6 +29,9 @@ export interface TInternalRuntimeContext extends TRuntimeContext {
     config: RouterConfig['routesConfig'];
     initialUrl: string;
     hydrationData?: import('../types').RouterSSRData;
+    serverLoaders?: boolean;
+    getDataUrl?: (url: URL) => URL;
+    loadRouteChunk?: (chunkId: string | number) => Promise<unknown>;
     memory?: boolean;
     hash?: boolean;
     basename?: string;

@@ -69,6 +69,12 @@ Modern application exports always use progressive hydration. They send an initia
 
 After successful SSR, initial hydration reuses server loader data and does not rerun `.data.client`. Subsequent browser navigation executes client loaders according to existing Modern semantics. Use `noSSR` for a consumer that requires its loader to run in the browser on the initial visit, such as a client-side redirect.
 
+## Language and route prefetching
+
+Each application restores its initial SSR language from its own snapshot without reading the consumer's global SSR language. Applications still manage their own translations. See [Integrating Internationalization](/guides/topic-detail/module-federation/i18n) for explicit `i18nInstance` sharing and independent instances.
+
+Application `Link` components default to `prefetch="none"`. In the browser, `prefetch="intent"` and `prefetch="render"` use the current producer's route assets and server loader capability. Data requests use the same producer address and path translation as navigation loaders, such as consumer `/inventory/detail/42` mapping to producer `/product/detail/42`. Route JavaScript is loaded by the producer's own build runtime. A `noSSR` mount can still prefetch supported server loaders. Client-only loaders do not generate server data prefetch requests.
+
 ## Boundaries
 
 The browser retains Browser Router or the configured Hash mode. Only explicit `memoryRoute` enables independent memory navigation. Browser Router hydrates its first frame from the server request snapshot, then adopts the current browser URL and fragment after commit. Creation-time subscriptions and the same Router instance are preserved.
