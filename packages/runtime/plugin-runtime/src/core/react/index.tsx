@@ -1,4 +1,4 @@
-import { parsedJSONFromElement } from '@modern-js/runtime-utils/parsed';
+import { readDataScript } from '@modern-js/render/html';
 import type React from 'react';
 import { isBrowser } from '../../common';
 import { ROUTER_DATA_JSON_ID, SSR_DATA_JSON_ID } from '../constants';
@@ -9,11 +9,10 @@ export function createRoot(UserApp?: React.ComponentType | null) {
 
   if (isBrowser()) {
     // we should get data from HTMLElement when set server.useJsonScript = true
-    window._SSR_DATA =
-      window._SSR_DATA || parsedJSONFromElement(SSR_DATA_JSON_ID);
+    window._SSR_DATA = window._SSR_DATA || readInitialData(SSR_DATA_JSON_ID);
 
     window._ROUTER_DATA =
-      window._ROUTER_DATA || parsedJSONFromElement(ROUTER_DATA_JSON_ID);
+      window._ROUTER_DATA || readInitialData(ROUTER_DATA_JSON_ID);
   }
 
   const internalRuntimeContext = getGlobalInternalRuntimeContext();
@@ -23,4 +22,13 @@ export function createRoot(UserApp?: React.ComponentType | null) {
    */
   const WrapperApp = hooks.wrapRoot.call(App!);
   return WrapperApp;
+}
+
+function readInitialData<T>(id: string): T | undefined {
+  try {
+    return readDataScript<T>(document, { id, last: true });
+  } catch (error) {
+    console.error(`parse ${id} error`, error);
+    return undefined;
+  }
 }

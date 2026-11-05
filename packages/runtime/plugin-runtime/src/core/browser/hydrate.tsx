@@ -1,7 +1,8 @@
 import { loadableReady } from '@loadable/component';
+import { hydrateRenderRoot } from '@modern-js/render/html/browser';
 import { SSR_HYDRATION_ID_PREFIX } from '@modern-js/utils/universal/constants';
 import type React from 'react';
-import { type Root, hydrateRoot as hydrateReactRoot } from 'react-dom/client';
+import type { Root } from 'react-dom/client';
 import { RenderLevel } from '../constants';
 import type { TRuntimeContext } from '../context/runtime';
 import { wrapRuntimeContextProvider } from '../react/wrapper';
@@ -11,7 +12,7 @@ export async function hydrateWithReact(
   App: React.ReactElement,
   rootElement: HTMLElement,
 ) {
-  return hydrateReactRoot(rootElement, App, {
+  return hydrateRenderRoot(rootElement, App, {
     identifierPrefix: SSR_HYDRATION_ID_PREFIX,
   });
 }
