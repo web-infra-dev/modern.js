@@ -41,6 +41,12 @@ export interface RenderOptions {
 
   nodeReq?: NodeRequest;
   contextForceCSR?: string;
+
+  /**
+   * Writes a `103 Early Hints` response with the given `Link` header values.
+   * Only provided when the runtime supports it, e.g. Node.js `ServerResponse`.
+   */
+  writeEarlyHints?: (links: string[]) => void;
 }
 
 export type Render = (

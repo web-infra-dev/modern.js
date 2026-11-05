@@ -89,6 +89,17 @@ function createRenderHandler(
 
     const request = c.req.raw;
     const nodeReq = c.env.node?.req;
+    const nodeRes = c.env.node?.res;
+    // `writeEarlyHints` exists on Node.js `ServerResponse` (>= 18.11) and on
+    // the HTTP/2 compatibility API. Other runtimes skip early hints.
+    const writeEarlyHints =
+      typeof nodeRes?.writeEarlyHints === 'function'
+        ? (links: string[]) => {
+            if (!nodeRes.headersSent) {
+              nodeRes.writeEarlyHints({ link: links });
+            }
+          }
+        : undefined;
 
     const res = await render(request, {
       nodeReq,
@@ -104,6 +115,7 @@ function createRenderHandler(
       matchEntryName,
       contextForceCSR,
       reporter,
+      writeEarlyHints,
     });
 
     const { body, status, headers } = res;
