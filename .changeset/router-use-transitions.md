@@ -1,5 +1,5 @@
 ---
-'@modern-js/runtime': minor
+'@modern-js/runtime': patch
 ---
 
 feat(runtime): add `router.useTransitions` to control whether router state updates use `React.startTransition`
