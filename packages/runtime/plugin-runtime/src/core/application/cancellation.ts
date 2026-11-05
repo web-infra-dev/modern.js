@@ -8,6 +8,7 @@ export function cancellationPlugin(
 ): RuntimePlugin {
   return {
     name: '@modern-js/runtime-preparation-cancellation',
+    post: ['@modern-js/runtime-plugin-request-context'],
     registryHooks: () => ({
       wrapPreparation:
         createRuntimeSyncHook<

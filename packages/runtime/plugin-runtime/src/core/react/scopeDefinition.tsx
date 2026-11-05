@@ -145,6 +145,7 @@ export function createScopeRuntime(
     getDataUrl && definition.serverLoaders
       ? {
           name: '@modern-js/runtime-fragment-data',
+          post: ['@modern-js/runtime-plugin-request-context'],
           setup(api) {
             getApplicationRoutes(api.getRuntimeContext(), node => {
               if (

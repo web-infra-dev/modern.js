@@ -40,7 +40,6 @@ export function createRuntime(
         [...internalPlugins, ...plugins]
           .filter(Boolean)
           .map(plugin => plugin.name),
-        instancePlugins.map(plugin => plugin.name),
       ),
       ...internalPlugins,
       ...plugins,
