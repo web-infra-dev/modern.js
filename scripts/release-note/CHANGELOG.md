@@ -1,5 +1,11 @@
 # @scripts/release-node
 
+## 2.66.4
+
+### Patch Changes
+
+- @modern-js/utils@3.11.0
+
 ## 2.66.3
 
 ### Patch Changes

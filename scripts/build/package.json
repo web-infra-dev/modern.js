@@ -1,18 +1,9 @@
 {
   "name": "@scripts/build",
+  "description": "Workspace publish guard for pnpm.",
   "private": true,
   "version": "2.66.0",
-  "main": "./src/index.js",
-  "types": "index.d.ts",
   "bin": {
-    "modern-lib": "./bin/modern.js",
-    "mdn": "./bin/modern.js",
     "only-allow-pnpm": "./bin/onlyAllowPnpm.js"
-  },
-  "devDependencies": {
-    "@modern-js/core": "2.70.4",
-    "@modern-js/module-tools": "2.70.4",
-    "@types/node": "^20",
-    "typescript": "^5"
   }
 }

@@ -1,6 +1,6 @@
 {
   "name": "@modern-js/mcp-apps",
-  "version": "3.10.3",
+  "version": "3.11.0",
   "description": "Build, serve and render MCP Apps in Modern.js applications",
   "license": "MIT",
   "homepage": "https://modernjs.dev",
@@ -52,15 +52,15 @@
     "typecheck": "tsc --noEmit"
   },
   "dependencies": {
-    "@rsbuild/core": "2.2.13"
+    "@rsbuild/core": "2.3.1"
   },
   "peerDependencies": {
     "react": "^18.0.0 || ^19.0.0",
     "react-dom": "^18.0.0 || ^19.0.0",
     "@module-federation/enhanced": "^2.0.0",
     "@modelcontextprotocol/server": "^2.3.1",
-    "@modelcontextprotocol/ext-apps": "^2.0.3",
-    "@modern-js/server-runtime": "workspace:^3.10.4"
+    "@modelcontextprotocol/ext-apps": "^2.0.4",
+    "@modern-js/server-runtime": "workspace:^3.11.0"
   },
   "peerDependenciesMeta": {
     "@module-federation/enhanced": {
@@ -72,7 +72,7 @@
   },
   "devDependencies": {
     "@module-federation/enhanced": "2.0.0",
-    "@rslib/core": "1.0.4",
+    "@rslib/core": "1.0.5",
     "@scripts/rstest-config": "workspace:*",
     "@types/node": "^20",
     "@types/react": "^19.3.0",
@@ -83,7 +83,7 @@
     "@modelcontextprotocol/client": "2.3.1",
     "zod": "^4.2.0",
     "@modelcontextprotocol/server": "2.3.1",
-    "@modelcontextprotocol/ext-apps": "2.0.3",
+    "@modelcontextprotocol/ext-apps": "2.0.4",
     "@modern-js/server-runtime": "workspace:*",
     "@modern-js/app-tools": "workspace:*"
   },

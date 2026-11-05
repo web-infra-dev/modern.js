@@ -85,6 +85,37 @@ If you use Rush as your Monorepo management tool, you can add the following comm
 
 After the build is completed, Modern.js will generate all dependencies in the `.output/node_modules` directory of the project. Similarly, you can run the Modern.js server using `node .output/index`.
 
+### Production server logs
+
+The built-in Node.js production server defaults to the `info` log level. It prints informational messages, warnings and errors, without logging every page or static asset request.
+
+Set `MODERN_SERVER_LOG_LEVEL` when starting the server to change its log level:
+
+```bash
+MODERN_SERVER_LOG_LEVEL=warn node .output/index
+```
+
+The supported values are the [rslog](https://github.com/rstackjs/rslog) log levels:
+
+| Value     | Output                                                              |
+| --------- | ------------------------------------------------------------------- |
+| `silent`  | No logs                                                             |
+| `error`   | Errors only                                                         |
+| `warn`    | Warnings and errors                                                 |
+| `info`    | Informational messages, warnings and errors (default)               |
+| `log`     | Everything at `info`, plus messages written with `logger.log()`     |
+| `verbose` | All logs, including debug messages, request logs and timing details |
+
+To enable per-request logs, including static asset requests:
+
+```bash
+MODERN_SERVER_LOG_LEVEL=verbose node .output/index
+```
+
+Setting `DEBUG` to a non-empty value also enables `verbose` logging, unless `MODERN_SERVER_LOG_LEVEL` explicitly selects another level.
+
+This environment variable controls the built-in server logger. It does not override a custom logger or enable logging when `server.logger` is `false`.
+
 ## Netlify
 
 Netlify is a popular Web development platform designed for building, deploying, and maintaining modern web projects. Deploying on Netlify mainly requires configuring the `netlify.toml` file.

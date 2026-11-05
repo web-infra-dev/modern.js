@@ -1,7 +1,7 @@
 {
   "private": true,
   "name": "@examples/mcp-apps-todo",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "scripts": {
     "dev": "modern dev",
     "build": "modern build",

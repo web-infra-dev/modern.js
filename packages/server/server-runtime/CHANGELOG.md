@@ -1,5 +1,14 @@
 # @modern-js/server-runtime
 
+## 3.11.0
+
+### Patch Changes
+
+- Updated dependencies [6a50ea0]
+  - @modern-js/runtime-utils@3.11.0
+  - @modern-js/server-core@3.11.0
+  - @modern-js/types@3.11.0
+
 ## 3.10.4
 
 ### Patch Changes

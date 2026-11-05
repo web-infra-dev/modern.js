@@ -84,6 +84,37 @@ PORT=3000 node .output/index
 
 构建完成后，框架会将项目中所有的依赖生成在 `.output/node_modules` 目录下。你同样可以使用 `node .output/index` 运行 Modern.js 服务器。
 
+### 生产服务器日志
+
+内置 Node.js 生产服务器默认使用 `info` 日志级别，输出普通信息、警告和错误，不会为每个页面请求或静态资源请求打印日志。
+
+启动服务器时，可以通过 `MODERN_SERVER_LOG_LEVEL` 调整日志级别：
+
+```bash
+MODERN_SERVER_LOG_LEVEL=warn node .output/index
+```
+
+支持的值与 [rslog](https://github.com/rstackjs/rslog) 的日志级别一致：
+
+| 值        | 输出内容                                                  |
+| --------- | --------------------------------------------------------- |
+| `silent`  | 不输出日志                                                |
+| `error`   | 仅错误                                                    |
+| `warn`    | 警告和错误                                                |
+| `info`    | 普通信息、警告和错误，默认值                              |
+| `log`     | `info` 级别的全部日志，以及通过 `logger.log()` 输出的信息 |
+| `verbose` | 全部日志，包括调试信息、请求日志和耗时信息                |
+
+如果需要逐请求日志，包括静态资源请求日志，可以使用：
+
+```bash
+MODERN_SERVER_LOG_LEVEL=verbose node .output/index
+```
+
+将 `DEBUG` 设置为非空值也会启用 `verbose` 日志。如果同时设置了 `MODERN_SERVER_LOG_LEVEL`，则优先使用后者指定的级别。
+
+该环境变量仅控制内置的服务器 logger，不会覆盖自定义 logger，也不会在 `server.logger` 为 `false` 时启用日志。
+
 ## Netlify
 
 Netlify 是一个流行的 Web 开发平台，专为构建、发布和维护现代 Web 项目而设计。在 Netlify 上部署，通常需要配置 `netlify.toml` 文件，你可以根据项目复杂度，渐进地配置该文件。

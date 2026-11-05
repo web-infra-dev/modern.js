@@ -8,6 +8,12 @@ Install the dependencies:
 pnpm install
 ```
 
+Install Chromium before running Playwright tests:
+
+```bash
+pnpm exec playwright install chromium
+```
+
 ## Get Started
 
 Start the dev server:

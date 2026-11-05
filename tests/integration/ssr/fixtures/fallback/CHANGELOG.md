@@ -1,5 +1,12 @@
 # ssr-base-fallback-test
 
+## 2.66.4
+
+### Patch Changes
+
+- @modern-js/runtime@3.11.0
+- @modern-js/server-runtime@3.11.0
+
 ## 2.66.3
 
 ### Patch Changes
