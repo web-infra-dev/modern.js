@@ -27,7 +27,9 @@
 
 ## 数据与清理
 
-`api.getRuntimeContext()` 和生命周期参数引用当前实例的同一个 context。`api.updateRuntimeContext()` 深合并数据到此对象，它不会把传入对象绑定为 context，也不会自动追踪传入对象之后的变化。内部 React Provider 使用该 context，公开 `RuntimeContext` 提供隐藏框架内部字段的稳定视图。修改字段不会自动触发 React 更新，需要响应式数据时使用 React state 或专门的订阅。
+`api.getRuntimeContext()` 和生命周期参数引用当前实例的同一个 context。`api.updateRuntimeContext()` 深合并数据到此对象，不会绑定补丁的根对象。这不是深复制。数组，以及被合并工具识别为复杂实例的对象（如 i18next 实例），保留原有引用，修改这些值也会反映到 context 中。需要隔离的可变值应由各实例单独创建或复制。
+
+内部 React Provider 使用该 context，公开 `RuntimeContext` 提供隐藏框架内部字段的稳定视图。修改字段不会自动触发 React 更新，需要响应式数据时使用 React state 或专门的订阅。
 
 插件在 `setup` 或异步初始化中获得资源后，应立即通过 `api.onDispose` 注册清理。清理同步执行，按注册顺序逆序调用，重复释放实例不会重复执行。初始化被取消后才获得的资源，也应注册清理，已释放实例会立即执行该清理函数。
 

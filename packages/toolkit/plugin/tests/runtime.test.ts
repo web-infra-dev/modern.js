@@ -112,6 +112,23 @@ it('uses one canonical context while preserving deep merge without binding patch
   expect(JSON.stringify(canonical)).toBe(
     '{"data":{"before":true,"after":true},"nested":{"value":"original"}}',
   );
+  const items = [{ value: 'original' }];
+  const service = { init() {}, value: 'original' };
+  const references = { items, service };
+  api.updateRuntimeContext(references);
+  expect(api.getRuntimeContext().items).toBe(items);
+  expect(api.getRuntimeContext().service).toBe(service);
+  items.push({ value: 'added' });
+  service.value = 'changed';
+  expect(api.getRuntimeContext().items).toEqual([
+    { value: 'original' },
+    { value: 'added' },
+  ]);
+  expect(api.getRuntimeContext().service.value).toBe('changed');
+  references.items = [];
+  references.service = { init() {}, value: 'replacement' };
+  expect(api.getRuntimeContext().items).toBe(items);
+  expect(api.getRuntimeContext().service).toBe(service);
   await runtime.ready;
 });
 

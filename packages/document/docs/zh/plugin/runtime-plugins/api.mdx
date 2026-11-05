@@ -44,13 +44,13 @@ export const preferencesPlugin = (): RuntimePlugin => ({
 
 ### `api.updateRuntimeContext`
 
-将补丁深合并到当前 context。它不会将传入对象绑定为 context，也不会追踪该对象后续的变化。
+将补丁深合并到当前 context，不会把补丁的根对象绑定为 context。这不是深复制。数组，以及被合并工具识别为复杂实例的对象（如 i18next 实例），保留按引用赋值的语义，后续修改这些共享值也会反映到 context 中。需要由实例独占的可变值，应为该实例单独创建或复制。
 
 {/* prettier-ignore */}
 ```ts
 const patch = { feature: { enabled: true } }
 api.updateRuntimeContext(patch)
-// 后续修改需要提交新补丁，或直接修改当前 context
+// 更新此普通对象字段时，再次提交补丁或修改当前 context
 api.updateRuntimeContext({ feature: { enabled: false } })
 ```
 

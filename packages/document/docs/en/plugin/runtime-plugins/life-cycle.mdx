@@ -27,7 +27,9 @@ Browser props updates and internal navigation reuse the instance. They do not re
 
 ## Context and Cleanup
 
-`api.getRuntimeContext()` and lifecycle arguments reference the same context for the current instance. `api.updateRuntimeContext()` deeply merges data into that object. It does not bind the supplied object as the context or track later changes to that object. The internal React Provider uses the context directly. The public `RuntimeContext` exposes a stable view that hides framework fields. Field mutations do not trigger React renders automatically. Use React state or a subscription when reactive updates are needed.
+`api.getRuntimeContext()` and lifecycle arguments reference the same context for the current instance. `api.updateRuntimeContext()` deeply merges data into that object without binding the patch root object. It is not a deep copy. Arrays and objects recognized by the merge utility as complex instances, such as i18next instances, retain their references. Mutating those values remains visible through the context, so provide each instance with its own mutable values when isolation is required.
+
+The internal React Provider uses the context directly. The public `RuntimeContext` exposes a stable view that hides framework fields. Field mutations do not trigger React renders automatically. Use React state or a subscription when reactive updates are needed.
 
 Register resources with `api.onDispose` as soon as they are acquired, including during asynchronous initialization. Cleanup runs synchronously in reverse registration order, once per instance. If an asynchronous operation acquires a resource after cancellation, registering its cleanup on the disposed instance runs it immediately.
 

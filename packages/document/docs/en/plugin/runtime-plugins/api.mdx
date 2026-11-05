@@ -44,13 +44,13 @@ The `ssr` field is ready before setup. It is true during server initialization. 
 
 ### `api.updateRuntimeContext`
 
-Deeply merges a patch into the current context. It does not bind the supplied object as the context or track later changes to that object.
+Deeply merges a patch into the current context without binding the patch root object as the context. This is not a deep copy. Arrays and objects recognized by the merge utility as complex instances, such as i18next instances, are assigned by reference. Later mutations to those shared values remain visible through the context. Mutable values that must be private to an instance should be created or copied for that instance.
 
 {/* prettier-ignore */}
 ```ts
 const patch = { feature: { enabled: true } }
 api.updateRuntimeContext(patch)
-// Submit another patch, or mutate the current context, for later changes
+// Update this plain-object field with another patch or through the current context
 api.updateRuntimeContext({ feature: { enabled: false } })
 ```
 

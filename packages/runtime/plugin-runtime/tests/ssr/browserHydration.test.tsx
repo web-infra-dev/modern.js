@@ -4,6 +4,7 @@ import type { Root } from 'react-dom/client';
 import { renderToString } from 'react-dom/server';
 import { ESCAPED_SHELL_STREAM_END_MARK } from '../../src/common';
 import { render } from '../../src/core/browser';
+import { createRoot as createPageRoot } from '../../src/core/react';
 import { hydrateRoot } from '../../src/core/browser/hydrate';
 import { getInitialContext } from '../../src/core/context/runtime';
 import {
@@ -17,6 +18,120 @@ import {
   createRuntime,
 } from '../../src/core/plugin';
 import { StreamRoot } from '../../src/core/react/streamRoot';
+
+it('isolates bootstrap data and request objects across ordinary page mounts', async () => {
+  const previousData = window._SSR_DATA;
+  const previousRouterData = window._ROUTER_DATA;
+  const previousReady = window._SSR_DATA_READY;
+  const previousHydration = process.env.MODERN_ENABLE_HYDRATION;
+  delete window._SSR_DATA_READY;
+  delete window._ROUTER_DATA;
+  delete process.env.MODERN_ENABLE_HYDRATION;
+  const bootstrap = {
+    mode: 'string' as const,
+    renderLevel: RenderLevel.SERVER_RENDER,
+    data: { initialData: { profile: { name: 'bootstrap' } } },
+    context: {
+      request: {
+        headers: { 'x-source': 'bootstrap', 'set-cookie': ['original=1'] },
+        params: { id: 'bootstrap' },
+      },
+    },
+  };
+  window._SSR_DATA = bootstrap as any;
+  const records: Array<{
+    context: ReturnType<typeof getInitialContext>;
+    update: (patch: Record<string, unknown>) => void;
+  }> = [];
+  const Page = () => <p>Ordinary page</p>;
+  setGlobalContext({ App: Page });
+  registerRuntimeDefinition(context =>
+    createRuntime(
+      [
+        {
+          name: 'bootstrap-isolation',
+          setup(api) {
+            records.push({
+              context: api.getRuntimeContext(),
+              update: api.updateRuntimeContext,
+            });
+          },
+        },
+      ],
+      undefined,
+      context,
+    ),
+  );
+  const PageRoot = createPageRoot();
+  const containers = [
+    document.createElement('div'),
+    document.createElement('div'),
+  ];
+  document.body.append(...containers);
+  const roots: Root[] = [];
+  try {
+    await act(async () => {
+      for (const container of containers)
+        roots.push(await render(<PageRoot />, container));
+    });
+    expect(records).toHaveLength(2);
+    expect(containers.map(container => container.textContent)).toEqual([
+      'Ordinary page',
+      'Ordinary page',
+    ]);
+    records[0].update({
+      initialData: { profile: { name: 'first mount' } },
+      requestContext: {
+        request: {
+          headers: { 'x-source': 'first mount' },
+          params: { id: 'first mount' },
+        },
+      },
+    });
+    records[0].context.requestContext.request.headers['set-cookie']!.push(
+      'first=1',
+    );
+    const read = (context: (typeof records)[number]['context']) => ({
+      initialData: context.initialData,
+      headers: context.requestContext.request.headers,
+      params: context.requestContext.request.params,
+    });
+    const original = {
+      initialData: { profile: { name: 'bootstrap' } },
+      headers: { 'x-source': 'bootstrap', 'set-cookie': ['original=1'] },
+      params: { id: 'bootstrap' },
+    };
+    expect({
+      first: read(records[0].context),
+      second: read(records[1].context),
+      source: {
+        initialData: bootstrap.data.initialData,
+        headers: bootstrap.context.request.headers,
+        params: bootstrap.context.request.params,
+      },
+    }).toEqual({
+      first: {
+        initialData: { profile: { name: 'first mount' } },
+        headers: {
+          'x-source': 'first mount',
+          'set-cookie': ['original=1', 'first=1'],
+        },
+        params: { id: 'first mount' },
+      },
+      second: original,
+      source: original,
+    });
+  } finally {
+    await act(async () => roots.forEach(root => root.unmount()));
+    containers.forEach(container => container.remove());
+    window._SSR_DATA = previousData;
+    window._ROUTER_DATA = previousRouterData;
+    window._SSR_DATA_READY = previousReady;
+    if (previousHydration === undefined)
+      delete process.env.MODERN_ENABLE_HYDRATION;
+    else process.env.MODERN_ENABLE_HYDRATION = previousHydration;
+  }
+});
 
 it.each([false, true])(
   'hydrates the existing shell after late data arrives (JSON script: %s)',

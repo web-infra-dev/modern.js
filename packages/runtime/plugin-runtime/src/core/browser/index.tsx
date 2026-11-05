@@ -9,7 +9,7 @@ import { getApplicationDefinition } from '../application/definition';
 import { getDefaultApplicationDefinition } from '../application/default';
 
 import { wrapRuntimeContextProvider } from '../react/wrapper';
-import { createBrowserRequestContext } from './data';
+import { cloneBootstrapData, createBrowserRequestContext } from './data';
 import { hydrateRoot, hydrateWithReact } from './hydrate';
 
 declare const WEBPACK_CHUNK_LOAD:
@@ -81,7 +81,7 @@ export async function render(
             ssrData?.mode,
           ),
           ssr: Boolean(window._SSR_DATA),
-          initialData: ssrData?.data?.initialData,
+          initialData: cloneBootstrapData(ssrData?.data?.initialData),
           __i18nData__:
             typeof ssrData?.data?.i18nData?.lng === 'string'
               ? { lng: ssrData?.data.i18nData.lng }
