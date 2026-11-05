@@ -37,6 +37,16 @@ describe('ssg', () => {
     expect(html.includes('Hello, User')).toBe(true);
   });
 
+  test('skips HTML output and route registration for loader 404 responses', async () => {
+    expect(
+      fs.existsSync(join(distDir, 'html/index/user/missing/index.html')),
+    ).toBe(false);
+    const { routes } = await fs.readJSON(join(distDir, 'route.json'));
+    expect(routes).not.toContainEqual(
+      expect.objectContaining({ urlPath: '/user/missing' }),
+    );
+  });
+
   test('should nested-routes ssg access /user/1 work correctly with data loading', async () => {
     const htmlPath = path.join(distDir, 'html/index/user/1/index.html');
     const html = (await fs.readFile(htmlPath)).toString();
