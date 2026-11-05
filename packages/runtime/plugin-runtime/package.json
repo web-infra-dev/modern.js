@@ -57,6 +57,10 @@
       "types": "./dist/types/exports/loadable.d.ts",
       "default": "./dist/esm/exports/loadable.mjs"
     },
+    "./prefetch": {
+      "types": "./dist/types/exports/prefetch.d.ts",
+      "default": "./dist/esm/exports/prefetch.mjs"
+    },
     "./head": {
       "types": "./dist/types/exports/head.d.ts",
       "default": "./dist/esm/exports/head.mjs"
@@ -143,6 +147,9 @@
       ],
       "loadable": [
         "./dist/types/exports/loadable.d.ts"
+      ],
+      "prefetch": [
+        "./dist/types/exports/prefetch.d.ts"
       ],
       "cli": [
         "./dist/types/cli/index.d.ts"
