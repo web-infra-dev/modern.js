@@ -111,7 +111,7 @@ export function createPluginManager(): PluginManager {
   const getPlugins = () => {
     const visited = new Set();
     const temp = new Set();
-    let result: Plugin[] = [];
+    const result: Plugin[] = [];
     const visit = (name: string) => {
       if (temp.has(name)) {
         throw new Error(`Circular dependency detected: ${name}`);
@@ -127,14 +127,13 @@ export function createPluginManager(): PluginManager {
           }
         });
         const { pre } = dependencies.get(name)!;
-        // Process 'pre' dependencies that are not 'use' plugins
-        Array.from(pre.values())
-          .filter(dep => !dep.isUse)
-          .forEach(dep => visit(dep.name));
-        // Process 'use' plugins
-        Array.from(pre.values())
-          .filter(dep => dep.isUse)
-          .forEach(dep => visit(dep.name));
+        // Explicit dependencies precede usePlugins, preserving each insertion order.
+        for (const dependency of pre.values()) {
+          if (!dependency.isUse) visit(dependency.name);
+        }
+        for (const dependency of pre.values()) {
+          if (dependency.isUse) visit(dependency.name);
+        }
         temp.delete(name);
         visited.add(name);
         result.push(plugins.get(name)!);
@@ -154,8 +153,6 @@ export function createPluginManager(): PluginManager {
     plugins.forEach((_, name) => {
       visit(name);
     });
-
-    result = result.filter(result => result);
 
     return result;
   };

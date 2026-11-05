@@ -104,3 +104,19 @@ describe('plugin order', () => {
     );
   });
 });
+
+it('keeps explicit dependencies before use plugins across repeated order queries', () => {
+  const manager = createPluginManager();
+  manager.addPlugins([
+    {
+      name: 'consumer',
+      pre: ['second', 'first'],
+      usePlugins: [{ name: 'used' }],
+    },
+    { name: 'first' },
+    { name: 'second', required: ['first'] },
+  ]);
+  const order = () => manager.getPlugins().map(plugin => plugin.name);
+  expect(order()).toEqual(['second', 'first', 'used', 'consumer']);
+  expect(order()).toEqual(['second', 'first', 'used', 'consumer']);
+});
