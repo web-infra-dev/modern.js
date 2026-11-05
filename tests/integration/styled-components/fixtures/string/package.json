@@ -1,6 +1,6 @@
 {
   "name": "styled-components-string",
-  "version": "2.66.4",
+  "version": "2.66.5",
   "private": true,
   "scripts": {
     "dev": "modern dev"
