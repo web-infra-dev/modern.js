@@ -40,21 +40,20 @@ export function createRuntimeContext<Extends extends RuntimePluginExtends>({
         : cloneHook(registryHooks[hookName]);
     });
   });
-  let disposed = false;
   const cleanups: Array<() => void> = [];
-  const context: InternalRuntimeContext<Extends> = {
+  const context: Omit<InternalRuntimeContext<Extends>, 'disposed'> & {
+    disposed: boolean;
+  } = {
     runtimeContext,
     ready: Promise.resolve(),
-    get disposed() {
-      return disposed;
-    },
+    disposed: false,
     onDispose(callback) {
-      if (disposed) callback();
+      if (context.disposed) callback();
       else cleanups.push(callback);
     },
     dispose() {
-      if (disposed) return;
-      disposed = true;
+      if (context.disposed) return;
+      context.disposed = true;
       const errors: unknown[] = [];
       while (cleanups.length) {
         try {
@@ -71,7 +70,7 @@ export function createRuntimeContext<Extends extends RuntimePluginExtends>({
       ...initHooks<
         Extends['config'],
         RuntimeContext & Extends['extendContext']
-      >(() => !disposed, runtimeContext),
+      >(() => !context.disposed, runtimeContext),
       ...extendsHooks,
     },
     extendsHooks,

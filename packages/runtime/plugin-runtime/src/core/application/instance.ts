@@ -26,11 +26,44 @@ export interface ApplicationEnvironment {
   decorateRoute?: InstanceRouteDecorator;
 }
 
+type PreparationResult = { value: unknown; interrupted: boolean };
+
+export interface RuntimeApplicationInstance {
+  definition: ApplicationDefinition;
+  context: TInternalRuntimeContext;
+  readonly runtime: ReturnType<ApplicationDefinition['createRuntime']>;
+  readonly Root: React.ComponentType<any>;
+  prepare: () => Promise<PreparationResult>;
+  dispose: () => void;
+}
+
+/** Shared accessors keep owners compact while their lifecycle closures stay bound. */
+class ApplicationInstance implements RuntimeApplicationInstance {
+  constructor(
+    public definition: ApplicationDefinition,
+    public context: TInternalRuntimeContext,
+    private readonly readRuntime: () => ReturnType<
+      ApplicationDefinition['createRuntime']
+    >,
+    private readonly readRoot: () => React.ComponentType<any>,
+    public prepare: () => Promise<PreparationResult>,
+    public dispose: () => void,
+  ) {}
+
+  get runtime() {
+    return this.readRuntime();
+  }
+
+  get Root() {
+    return this.readRoot();
+  }
+}
+
 /** The same owner and preparation sequence for pages, fragments and requests. */
 export function createApplicationInstance(
   definition: ApplicationDefinition,
   environment: ApplicationEnvironment,
-) {
+): RuntimeApplicationInstance {
   const context = Object.assign(
     getInitialContext(environment.isBrowser),
     { ssr: !environment.isBrowser },
@@ -69,8 +102,7 @@ export function createApplicationInstance(
   };
   let disposed = false;
   let cancelPreparation: ((reason: unknown) => void) | undefined;
-  let preparation:
-    Promise<{ value: unknown; interrupted: boolean }> | undefined;
+  let preparation: Promise<PreparationResult> | undefined;
   let Root: React.ComponentType<any> | undefined;
   const dispose = () => {
     if (disposed) return;
@@ -103,47 +135,41 @@ export function createApplicationInstance(
   };
   environment.signal?.addEventListener('abort', onAbort, { once: true });
   if (environment.signal?.aborted) onAbort();
-  return {
+  const prepare = () => {
+    if (preparation) return preparation;
+    const cancelled = new Promise<never>((_, reject) => {
+      cancelPreparation = reject;
+    });
+    const work = (async () => {
+      assertActive();
+      const runtime = getRuntime();
+      await runtime.ready;
+      assertActive();
+      const result = await runtime.hooks.onBeforeRender.callWithResult(context);
+      assertActive();
+      if (!result.interrupted) {
+        Root = environment.root || runtime.hooks.wrapRoot.call(definition.App!);
+        context.application!.Root = Root;
+      }
+      return result;
+    })();
+    preparation = Promise.race([work, cancelled])
+      .catch(error => disposeAfterError(error, dispose))
+      .finally(() => {
+        cancelPreparation = undefined;
+      });
+    return preparation;
+  };
+  return new ApplicationInstance(
     definition,
     context,
-    get runtime() {
-      return getRuntime();
-    },
-    get Root() {
+    getRuntime,
+    () => {
       if (!Root)
         throw new Error('Application must be prepared before rendering');
       return Root;
     },
-    prepare() {
-      if (preparation) return preparation;
-      const cancelled = new Promise<never>((_, reject) => {
-        cancelPreparation = reject;
-      });
-      const work = (async () => {
-        assertActive();
-        const runtime = getRuntime();
-        await runtime.ready;
-        assertActive();
-        const result =
-          await runtime.hooks.onBeforeRender.callWithResult(context);
-        assertActive();
-        if (!result.interrupted) {
-          Root =
-            environment.root || runtime.hooks.wrapRoot.call(definition.App!);
-          context.application!.Root = Root;
-        }
-        return result;
-      })();
-      preparation = Promise.race([work, cancelled])
-        .catch(error => disposeAfterError(error, dispose))
-        .finally(() => {
-          cancelPreparation = undefined;
-        });
-      return preparation;
-    },
+    prepare,
     dispose,
-  };
+  );
 }
-export type RuntimeApplicationInstance = ReturnType<
-  typeof createApplicationInstance
->;

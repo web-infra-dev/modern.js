@@ -183,7 +183,7 @@ it('creates custom extension hooks for each runtime through a registry factory',
   expect(second.hooks.custom.call()).toHaveLength(1);
 });
 
-it('cleans up once in reverse order and releases registrations after disposal', () => {
+it('supports detached cleanup methods and releases registrations once in reverse order', () => {
   const calls: number[] = [];
   let api!: RuntimePluginAPI<any>;
   const runtime = createRuntime().run({
@@ -199,9 +199,12 @@ it('cleans up once in reverse order and releases registrations after disposal', 
       },
     ],
   }).runtimeContext;
+  const { dispose } = runtime;
+  const onDispose = api.onDispose;
+  expect(runtime.disposed).toBe(false);
+  dispose();
   runtime.dispose();
-  runtime.dispose();
-  api.onDispose(() => calls.push(3));
+  onDispose(() => calls.push(3));
   expect(runtime.disposed).toBe(true);
   expect(calls).toEqual([2, 1, 3]);
 });

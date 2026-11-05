@@ -24,7 +24,10 @@ import {
 import type { ScopedRootDefinition } from '../../src/core/react/scopeDefinition';
 import { APPLICATION_SNAPSHOT_PROTOCOL } from '../../src/application/constants';
 import { restoreApplicationData } from '../../src/application/data';
-import { useRuntimeContext } from '../../src/core/context/runtime';
+import {
+  useRuntimeContext,
+  type TInternalRuntimeContext,
+} from '../../src/core/context/runtime';
 import { createRuntime } from '../../src/core/plugin';
 import { routerPlugin } from '../../src/router/runtime/plugin.node';
 
@@ -756,6 +759,62 @@ it('reports abort cleanup failures without throwing out of the AbortSignal liste
   expect(instance.runtime.disposed).toBe(true);
   expect(() => instance.dispose()).not.toThrow();
   expect(errors).toHaveLength(1);
+});
+
+it('keeps owner getters lazy and detached lifecycle methods bound to their instance', async () => {
+  const initialized: TInternalRuntimeContext[] = [];
+  const cleaned: TInternalRuntimeContext[] = [];
+  const application = {
+    App: () => null,
+    createRuntime(context: TInternalRuntimeContext) {
+      initialized.push(context);
+      return createRuntime(
+        [
+          {
+            name: 'owner-lifecycle',
+            setup(api) {
+              api.onDispose(() => cleaned.push(context));
+              api.wrapRoot(App => props => <App {...props} />);
+            },
+          },
+        ],
+        undefined,
+        context,
+      );
+    },
+  };
+  const [first, second] = ['first', 'second'].map(name =>
+    createApplicationInstance(application, {
+      isBrowser: false,
+      output: 'document',
+      initialUrl: `http://producer/${name}`,
+    }),
+  );
+  expect(initialized).toEqual([]);
+  expect(() => first.Root).toThrow('must be prepared');
+  expect(initialized).toEqual([]);
+  const firstRuntime = first.runtime;
+  expect(first.runtime).toBe(firstRuntime);
+  expect(initialized).toEqual([first.context]);
+  const { prepare, dispose } = first;
+  const preparation = prepare();
+  expect(prepare()).toBe(preparation);
+  await preparation;
+  expect(first.Root).toBe(first.context.application?.Root);
+  expect(() => second.Root).toThrow('must be prepared');
+  expect(initialized).toEqual([first.context]);
+  const prepareSecond = second.prepare;
+  await prepareSecond();
+  expect(initialized).toEqual([first.context, second.context]);
+  expect(second.runtime).not.toBe(firstRuntime);
+  expect(second.Root).not.toBe(first.Root);
+  dispose();
+  first.dispose();
+  expect(firstRuntime.disposed).toBe(true);
+  expect(second.runtime.disposed).toBe(false);
+  const disposeSecond = second.dispose;
+  disposeSecond();
+  expect(cleaned).toEqual([first.context, second.context]);
 });
 
 it('captures each ordinary request handler definition before another application registers', async () => {
