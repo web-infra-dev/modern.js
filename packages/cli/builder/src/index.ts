@@ -23,6 +23,15 @@ export {
   type DuplicatePackagesOptions,
 } from './plugins/duplicatePackages';
 export {
+  checkBudgets,
+  collectPerformanceReport,
+  formatReportMarkdown,
+  pluginPerformanceBudget,
+  type PerformanceBudgetOptions,
+  type PerformanceBudgets,
+  type PerformanceReport,
+} from './plugins/performanceBudget';
+export {
   pluginPrecompress,
   type PrecompressOptions,
 } from './plugins/precompress';
