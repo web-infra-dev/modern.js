@@ -122,7 +122,7 @@ export const i18nPlugin = (options: I18nPluginOptions): RuntimePlugin => ({
         useI18nextBackend(i18nInstance, mergedBackend);
       }
 
-      const { finalLanguage } = await detectLanguageWithPriority(i18nInstance, {
+      let { finalLanguage } = await detectLanguageWithPriority(i18nInstance, {
         languages,
         fallbackLanguage,
         localePathRedirect,
@@ -133,6 +133,17 @@ export const i18nPlugin = (options: I18nPluginOptions): RuntimePlugin => ({
         pathname,
         ssrContext: context.ssrContext,
       });
+
+      // With partial prerendering, the prelude is prerendered per language
+      // and each request is served the prelude of its detected language.
+      const ppr = context.ssrContext?.ppr;
+      if (ppr) {
+        finalLanguage = ppr.vary(
+          'lng',
+          finalLanguage,
+          languages.length ? languages : [finalLanguage],
+        );
+      }
 
       await initializeI18nInstance(
         i18nInstance,

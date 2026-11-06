@@ -7,6 +7,7 @@ import type {
   ServerRoute,
 } from '@modern-js/types';
 import type {
+  PPRManifest,
   ClientManifest as RscClientManifest,
   SSRManifest as RscSSRManifest,
   ServerManifest as RscServerManifest,
@@ -68,6 +69,7 @@ export type ServerManifest = {
   loadableStats?: Record<string, any>;
   routeManifest?: Record<string, any>;
   nestedRoutesJson?: Record<string, any>;
+  pprManifest?: PPRManifest;
 };
 
 type ServerVariables = {

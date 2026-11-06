@@ -104,7 +104,9 @@ function createReplaceSSRData(options: {
         headers: headers as IncomingHttpHeaders,
       },
     },
-    mode: 'stream',
+    // Partially prerendered pages hydrate as streaming pages, plus the
+    // Suspense boundaries around routes with loaders, see `DynamicBoundary`.
+    mode: runtimeContext.ssrContext?.mode === 'ppr' ? 'ppr' : 'stream',
     renderLevel,
   };
   const attrsStr = attributesToString({ nonce });
