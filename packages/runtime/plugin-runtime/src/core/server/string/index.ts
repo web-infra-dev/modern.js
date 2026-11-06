@@ -5,7 +5,6 @@ import type React from 'react';
 import ReactDomServer from 'react-dom/server';
 import ReactHelmet from 'react-helmet';
 import { RenderLevel } from '../../constants';
-import { getGlobalInternalRuntimeContext } from '../../context';
 import { wrapRuntimeContextProvider } from '../../react/wrapper';
 import {
   CHUNK_CSS_PLACEHOLDER,
@@ -69,7 +68,7 @@ export const renderString: RenderString = async (
     }),
   ];
 
-  const internalRuntimeContext = getGlobalInternalRuntimeContext();
+  const internalRuntimeContext = runtimeContext._internalContext;
   const hooks = internalRuntimeContext.hooks;
 
   const extraCollectors = hooks.extendStringSSRCollectors.call({

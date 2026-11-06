@@ -10,3 +10,5 @@ export type {
   RuntimePluginExtends,
   Hooks,
 } from '../types/runtime';
+
+export { createRuntimeSyncHook } from '../hooks';

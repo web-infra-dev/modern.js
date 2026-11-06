@@ -1,7 +1,7 @@
 import { PassThrough } from 'node:stream';
 import { storage } from '@modern-js/runtime-utils/node';
 import React, { Suspense } from 'react';
-import { registerPlugin } from '../../src/core/plugin';
+import { createRuntime } from '../../src/core/plugin';
 import { StreamRoot } from '../../src/core/react/streamRoot';
 import { createReadableStreamFromElement } from '../../src/core/server/stream/createReadableStream';
 
@@ -20,23 +20,27 @@ function setup() {
   const aborted: unknown[] = [];
   let input: NodeJS.ReadWriteStream | undefined;
   let output: PassThrough | undefined;
-  registerPlugin([
-    {
-      name: 'stream-lifecycle-test',
-      setup(api) {
-        api.extendStreamSSR(() => ({
-          processStream(stream) {
-            input = stream;
-            output = new PassThrough();
-            return stream.pipe(output);
-          },
-          abort(reason) {
-            aborted.push(reason);
-          },
-        }));
+  createRuntime(
+    [
+      {
+        name: 'stream-lifecycle-test',
+        setup(api) {
+          api.extendStreamSSR(() => ({
+            processStream(stream) {
+              input = stream;
+              output = new PassThrough();
+              return stream.pipe(output);
+            },
+            abort(reason) {
+              aborted.push(reason);
+            },
+          }));
+        },
       },
-    },
-  ]);
+    ],
+    undefined,
+    options.runtimeContext,
+  );
   return {
     aborted,
     get input() {

@@ -13,3 +13,9 @@ declare module 'provider/Forecast' {
   const Forecast: ComponentType<{ id?: string }>;
   export default Forecast;
 }
+
+declare module 'provider/ProductApp' {
+  import type { BridgeProvider } from '@module-federation/bridge-react/base';
+  const ProductApp: BridgeProvider<{ label?: string }>;
+  export default ProductApp;
+}

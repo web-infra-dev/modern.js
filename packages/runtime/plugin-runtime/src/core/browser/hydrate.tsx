@@ -20,20 +20,12 @@ export async function hydrateWithReact(
 export function hydrateRoot(
   App: React.ReactElement,
   context: TRuntimeContext,
-  ModernRender: (App: React.ReactElement) => Promise<HTMLElement | Root>,
-  ModernHydrate: (App: React.ReactElement) => Promise<HTMLElement | Root>,
+  ModernRender: (App: React.ReactElement) => Promise<Root>,
+  ModernHydrate: (App: React.ReactElement) => Promise<Root>,
 ) {
-  const hydrateContext: TRuntimeContext & { __hydration?: boolean } = {
-    ...context,
-    get routes() {
-      return context.routes;
-    },
-    _hydration: true,
-  };
-
   const callback = () => {
     // won't cause component re-render because context's reference identity doesn't change
-    delete hydrateContext._hydration;
+    delete context._hydration;
   };
 
   // if render level not exist, use client render
@@ -48,13 +40,14 @@ export function hydrateRoot(
 
   function streamSSRHydrate() {
     if (renderLevel === RenderLevel.SERVER_RENDER) {
+      context._hydration = true;
       // callback: https://github.com/reactwg/react-18/discussions/5
       const SSRApp: React.FC = () => (
         <WithCallback callback={callback}>{App}</WithCallback>
       );
       return ModernHydrate(
         <StreamRoot>
-          {wrapRuntimeContextProvider(<SSRApp />, hydrateContext)}
+          {wrapRuntimeContextProvider(<SSRApp />, context)}
         </StreamRoot>,
       );
     } else {
@@ -69,18 +62,18 @@ export function hydrateRoot(
     if (renderLevel === RenderLevel.CLIENT_RENDER) {
       return ModernRender(wrapRuntimeContextProvider(App, context));
     } else if (renderLevel === RenderLevel.SERVER_RENDER) {
-      return new Promise<Root | HTMLElement>(resolve => {
+      context._hydration = true;
+      return new Promise<Root>((resolve, reject) => {
         loadableReady(
           () => {
             // callback: https://github.com/reactwg/react-18/discussions/5
             const SSRApp: React.FC = () => (
               <WithCallback callback={callback}>{App}</WithCallback>
             );
-            ModernHydrate(
-              wrapRuntimeContextProvider(<SSRApp />, hydrateContext),
-            ).then(root => {
-              resolve(root);
-            });
+            ModernHydrate(wrapRuntimeContextProvider(<SSRApp />, context)).then(
+              resolve,
+              reject,
+            );
           },
           {
             chunkLoadingGlobal: process.env.MODERN_CHUNK_LOADING_GLOBAL,

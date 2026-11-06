@@ -14,6 +14,7 @@ describe('secondary shared tree shaking compatibility', () => {
     let runtimeCallback: any;
     const api = {
       getConfig: () => ({ server: { ssr: true } }),
+      getAppContext: () => ({ metaName: 'modern-js' }),
       modifyBundlerChain: (callback: (chain: any) => void) =>
         callbacks.push(callback),
       config: rs.fn(),

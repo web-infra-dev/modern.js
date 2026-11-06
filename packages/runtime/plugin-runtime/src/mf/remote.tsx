@@ -9,29 +9,13 @@ import {
 } from '@module-federation/bridge-react/base';
 import {
   UNSAFE_NavigationContext,
-  UNSAFE_RouteContext,
   useLocation,
   useNavigate,
 } from '@modern-js/runtime-utils/router';
-import { addBasename, normalizeBasename, removeBasename } from './navigation';
+import { addBasename, normalizeBasename, removeBasename } from './location';
 
-/** The local route boundary, not the deepest global match or the splat location. */
-function useMountBasename(explicit: string | undefined, infer: boolean) {
-  const navigation = useContext(UNSAFE_NavigationContext);
-  const { matches } = useContext(UNSAFE_RouteContext);
-  if (explicit !== undefined) return normalizeBasename(explicit);
-  if (!infer) return undefined;
-  if (!navigation || !matches.length)
-    throw new Error(
-      'useRemoteBasename requires a Modern route context. Pass basename to createReactRemote outside a Modern route.',
-    );
-  const local = matches[matches.length - 1].pathnameBase;
-  return normalizeBasename(addBasename(local, navigation.basename));
-}
-
-export function useRemoteBasename(explicit?: string) {
-  return useMountBasename(explicit, true)!;
-}
+import { useMountBasename } from './remote.routing';
+export { useRemoteBasename } from './remote.routing';
 
 function RoutedRemote({
   props,

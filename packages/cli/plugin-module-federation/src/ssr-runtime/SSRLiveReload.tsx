@@ -1,10 +1,6 @@
 import React from 'react';
 
-declare global {
-  var shouldUpdate: boolean | undefined;
-}
-
-export function SSRLiveReload() {
+export function SSRLiveReload({ shouldUpdate }: { shouldUpdate: boolean }) {
   if (process.env.NODE_ENV !== 'development') {
     return null;
   }
@@ -13,7 +9,7 @@ export function SSRLiveReload() {
       suppressHydrationWarning
       dangerouslySetInnerHTML={{
         __html: String.raw`
-      if(${globalThis.shouldUpdate}){
+      if(${shouldUpdate}){
         location.reload();
       }
    `,
