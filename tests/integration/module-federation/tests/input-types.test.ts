@@ -117,7 +117,7 @@ declare module 'shop/Bridge' {
         `
 import React from 'react';
 import { loadRemote } from '@module-federation/enhanced/runtime';
-import { createBridgeComponent, createReactRemote, createModernReactRemote, ReactRemote, type CreateReactRemoteOptions } from '@modern-js/runtime/mf';
+import { createBridgeComponent, createModernBridgeComponent, createReactRemote, createModernReactRemote, ReactRemote, type CreateReactRemoteOptions } from '@modern-js/runtime/mf';
 import Shop, * as ShopModule from 'shop/Card';
 import Bridge from 'shop/Bridge';
 const Literal = createReactRemote({ remote: 'shop/Card' });
@@ -130,6 +130,24 @@ const App = createModernReactRemote({ remote: () => Bridge });
 const Producer = createBridgeComponent({
   rootComponent: ({ station }: { station: string }) => <p>{station}</p>,
 });
+const ModernProducer = createModernBridgeComponent({
+  rootComponent: ({ station }: { station: string }) => <p>{station}</p>,
+});
+const ModernApp = createReactRemote({ remote: () => ModernProducer });
+const LiteralBridge = createReactRemote({ remote: 'shop/Bridge' });
+const LoadedBridge = createReactRemote({ remote: () => loadRemote('shop/Bridge') });
+<ModernApp station="lakeside" />;
+<LiteralBridge station="lakeside" />;
+<LoadedBridge station="lakeside" />;
+<ReactRemote remote={() => ModernProducer} props={{ station: 'lakeside' }} />;
+// @ts-expect-error the SSR producer helper must infer its business props
+<ModernApp station={42} />;
+// @ts-expect-error the SSR producer helper retains required props
+<ReactRemote remote={() => ModernProducer} />;
+// @ts-expect-error literal Bridge inputs retain provider props
+<LiteralBridge station={42} />;
+// @ts-expect-error loader Bridge inputs retain required props
+<LoadedBridge />;
 const InferredProducer = createModernReactRemote({ remote: () => Producer });
 <InferredProducer station="lakeside" />;
 // @ts-expect-error Modern's producer factory must preserve business props
@@ -264,7 +282,9 @@ function declarativeWrapper<P extends object>(props: P) {
           path.join(directory, 'tsconfig.json'),
         ],
         { cwd: directory, timeout: 60000, maxBuffer: 2 * 1024 * 1024 },
-      );
+      ).catch((error: any) => {
+        throw new Error(error.stdout + error.stderr, { cause: error });
+      });
       expect(result.stdout + result.stderr).toBe('');
     } finally {
       await rm(directory, { recursive: true, force: true });

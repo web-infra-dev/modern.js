@@ -23,6 +23,7 @@ import { isWebTarget, skipByTarget, resolveInternalPlugin } from './utils';
 import type { RsbuildPlugin, ModifyRspackConfigFn } from '@rsbuild/core';
 import type { FederationCliPlugin } from '../types/cli';
 import type { AssetFileNames, InternalModernPluginOptions } from '../types';
+import { BridgeSSRPlugin, getBridgeSSRRuntimePlugin } from './BridgeSSRPlugin';
 
 export function setEnv() {
   process.env['MF_SSR_PRJ'] = 'true';
@@ -259,6 +260,7 @@ export const moduleFederationSSRPlugin = (
         return { entrypoint, plugins };
       }
       const { fetchServerQuery } = pluginOptions;
+      plugins.push(getBridgeSSRRuntimePlugin(__dirname));
       plugins.push({
         name: 'injectDataFetchFunction',
         path: resolveInternalPlugin(
@@ -298,6 +300,9 @@ export const moduleFederationSSRPlugin = (
       const isWeb = isWebTarget(target);
 
       if (!isWeb) {
+        chain
+          .plugin('modern-bridge-ssr')
+          .use(BridgeSSRPlugin, [api.getAppContext().metaName]);
         if (!chain.plugins.has(CHAIN_MF_PLUGIN_ID)) {
           if (secondarySharedTreeShaking) {
             chain

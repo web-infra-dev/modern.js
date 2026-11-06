@@ -21,7 +21,7 @@ export default defineConfig({
 为更好的性能体验，我们仅支持 Streaming SSR 情况使用这种能力组合。
 
 :::warning
-应用级别模块（使用 `createBridgeComponent` 和 `createRemoteAppComponent` 的模块）不支持服务端渲染（SSR）。如果你需要使用 SSR 功能，请使用组件级别的模块导出方式。
+本页的旧版 `@module-federation/modern-js-v3` 应用级别模块不支持 SSR。使用内置 Module Federation 的应用可以通过 [Modern Bridge SSR](/guides/topic-detail/module-federation/bridge-ssr) 导出并水合应用。
 :::
 
 ## 数据获取

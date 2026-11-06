@@ -49,7 +49,7 @@ jobs:
             nx-mf-e2e-
 
       - name: Build Modern.js and its dependencies
-        run: pnpm exec nx run-many --target=build --projects=@modern-js/app-tools,@modern-js/runtime --parallel=2
+        run: pnpm exec nx run-many --target=build --projects=@modern-js/app-tools,@modern-js/runtime,@modern-js/plugin-i18n --parallel=2
 
       - name: Test producer discovery and analysis budgets
         run: |

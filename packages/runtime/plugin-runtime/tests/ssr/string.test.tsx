@@ -4,10 +4,6 @@ import ReactDomServer from 'react-dom/server';
 import { Helmet } from 'react-helmet';
 import { RenderLevel } from '../../src/core/constants';
 import {
-  getGlobalInternalRuntimeContext,
-  setGlobalInternalRuntimeContext,
-} from '../../src/core/context';
-import {
   CHUNK_CSS_PLACEHOLDER,
   CHUNK_JS_PLACEHOLDER,
   HTML_PLACEHOLDER,
@@ -187,7 +183,23 @@ function createRenderOptions(
       loadableStats: undefined,
       routeManifest: undefined,
     },
-    runtimeContext: { ssrContext },
+    runtimeContext: {
+      ssrContext,
+      _internalContext: {
+        hooks: {
+          extendStringSSRCollectors: {
+            call: ({ chunkSet }: { chunkSet: ChunkSet }) => [
+              {
+                effect() {
+                  chunkSet.jsChunk += jsChunk;
+                  chunkSet.cssChunk += cssChunk;
+                },
+              },
+            ],
+          },
+        },
+      },
+    },
     config: { ssr: { mode: 'string' } },
     onError: rstest.fn(),
     onTiming: rstest.fn(),
@@ -237,29 +249,6 @@ async function renderWithPreviousOrder(
 }
 
 describe('renderString html building', () => {
-  const previousContext = getGlobalInternalRuntimeContext();
-
-  afterAll(() => {
-    setGlobalInternalRuntimeContext(previousContext);
-  });
-
-  beforeAll(() => {
-    setGlobalInternalRuntimeContext({
-      hooks: {
-        extendStringSSRCollectors: {
-          call: ({ chunkSet }: { chunkSet: ChunkSet }) => [
-            {
-              effect() {
-                chunkSet.jsChunk += jsChunk;
-                chunkSet.cssChunk += cssChunk;
-              },
-            },
-          ],
-        },
-      },
-    } as any);
-  });
-
   const cases = Object.keys(templates).flatMap(template =>
     Object.keys(apps).map(app => [template, app]),
   ) as [keyof typeof templates, keyof typeof apps][];

@@ -3,6 +3,7 @@ import { createRequire } from 'node:module';
 import { mkdtemp, mkdir, readFile, rm, writeFile } from 'fs/promises';
 import { tmpdir } from 'os';
 import { describe, expect, it, rs } from '@rstest/core';
+import { BridgeSSRPlugin } from './BridgeSSRPlugin';
 
 const nodeRequire = createRequire(__filename);
 
@@ -100,6 +101,59 @@ const runCompiler = (config: import('@rspack/core').Configuration) =>
   });
 
 describe('moduleFederationSSRPlugin', () => {
+  it('bundles one SSR context for consumer and plugin package copies across import and require', async () => {
+    const outputDir = await mkdtemp(path.join(tmpdir(), 'mf-context-copies-'));
+    const consumer = path.join(outputDir, 'consumer/bridge-react/dist');
+    const plugin = path.join(outputDir, 'plugin/bridge-react/dist');
+    try {
+      await mkdir(consumer, { recursive: true });
+      await mkdir(plugin, { recursive: true });
+      await writeFile(
+        path.join(consumer, 'ssr.es.js'),
+        'export const BridgeSSRContext = {};',
+      );
+      await writeFile(
+        path.join(plugin, 'ssr.cjs.js'),
+        'exports.BridgeSSRContext = {};',
+      );
+      await writeFile(
+        path.join(consumer, 'consumer.js'),
+        "export { BridgeSSRContext } from './ssr.es.js';",
+      );
+      await writeFile(
+        path.join(plugin, 'consumer.js'),
+        "module.exports = require('./ssr.cjs.js');",
+      );
+      await writeFile(
+        path.join(outputDir, 'entry.js'),
+        `import { BridgeSSRContext } from '@module-federation/bridge-react/ssr';
+import { BridgeSSRContext as consumer } from './consumer/bridge-react/dist/consumer.js';
+const plugin = require('./plugin/bridge-react/dist/consumer.js');
+export const same = consumer === BridgeSSRContext && consumer === plugin.BridgeSSRContext;`,
+      );
+      await runCompiler({
+        mode: 'development',
+        context: outputDir,
+        target: 'node',
+        entry: './entry.js',
+        devtool: false,
+        output: {
+          path: path.join(outputDir, 'dist'),
+          filename: 'entry.js',
+          library: { type: 'commonjs-module' },
+        },
+        plugins: [
+          new BridgeSSRPlugin('modern-js', path.join(consumer, 'ssr.es.js')),
+        ],
+      });
+      expect(nodeRequire(path.join(outputDir, 'dist/entry.js')).same).toBe(
+        true,
+      );
+    } finally {
+      await rm(outputDir, { recursive: true, force: true });
+    }
+  });
+
   it('emits the configured public path for Node HTTP chunk loading without changing browser runtimes', async () => {
     const outputDir = await mkdtemp(
       path.join(tmpdir(), 'mf-ssr-runtime-path-'),

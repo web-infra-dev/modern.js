@@ -3,9 +3,11 @@ import { StringDecoder } from 'string_decoder';
 import { storage } from '@modern-js/runtime-utils/node';
 import { SSR_HYDRATION_ID_PREFIX } from '@modern-js/utils/universal/constants';
 import type { ReactElement } from 'react';
+import type { TInternalRuntimeContext } from '../../context';
+import type { RuntimeExtends } from '../../plugin/types';
+import type { InternalRuntimeContext as PluginRuntime } from '@modern-js/plugin';
 import { ESCAPED_SHELL_STREAM_END_MARK } from '../../../common';
 import { RenderLevel } from '../../constants';
-import { getGlobalInternalRuntimeContext } from '../../context';
 import { getMonitors } from '../../context/monitors';
 import { enqueueFromEntries, hasDeferredResolvers } from './deferredScript';
 import { DeferredScriptOutputCoordinator } from './deferredScriptOutputCoordinator';
@@ -38,7 +40,8 @@ export const createReadableStreamFromElement: CreateReadableStreamFromElement =
 
     const { onReady } = resolveStreamingMode(request, forceStream2String);
 
-    const internalRuntimeContext = getGlobalInternalRuntimeContext();
+    const internalRuntimeContext = (runtimeContext as TInternalRuntimeContext)
+      ._internalContext as PluginRuntime<RuntimeExtends>;
     const hooks = internalRuntimeContext.hooks;
 
     const extenders = hooks.extendStreamSSR.call() || [];

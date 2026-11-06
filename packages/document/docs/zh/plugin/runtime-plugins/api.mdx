@@ -1,193 +1,114 @@
 # 插件 API
 
-Modern.js 的 Runtime 插件允许您在应用程序的 React 代码运行时扩展和修改其行为。通过 Runtime 插件，您可以轻松地执行初始化任务、实现 React 高阶组件（HOC）封装等功能。
+Runtime 插件扩展普通页面和 Bridge 导出应用的初始化、根组件和清理行为。在 `src/modern.runtime.ts` 的 [`plugins`](/configure/app/runtime/plugins) 字段中注册插件。
 
-:::info
+## 插件结构与顺序
 
-Runtime 插件需要通过 `src/modern.runtime.ts` 中的 [`plugins`](/configure/app/runtime/plugins) 字段配置。
+插件的 `name` 是唯一标识。`pre` 指定需要先于当前插件执行的插件名，`post` 指定需要在当前插件之后执行的插件名。`setup` 接收插件 API，可以返回 Promise。框架等待依赖插件的 setup 完成后再继续。
 
-:::
+{/* prettier-ignore */}
+```tsx
+import type { RuntimePlugin } from '@modern-js/runtime'
 
-## 插件结构
+export const preferencesPlugin = (): RuntimePlugin => ({
+  name: 'preferences',
+  pre: ['@modern-js/runtime-plugin-request-context'],
+  setup(api) {
+    const controller = new AbortController()
+    api.onDispose(() => controller.abort())
 
-一个典型的 Runtime 插件如下所示：
-
-```ts
-import type { RuntimePlugin } from '@modern-js/runtime';
-
-const myRuntimePlugin = (): RuntimePlugin => ({
-  name: 'my-runtime-plugin',
-  setup: api => {
-    // 使用 api 注册钩子
-    api.onBeforeRender(context => {
-      console.log('Before rendering:', context);
-    });
-
-    api.wrapRoot(App => {
-      return props => (
-        <MyContextProvider>
-          <App {...props} />
-        </MyContextProvider>
-      );
-    });
+    api.onBeforeRender(async context => {
+      const url = new URL('/api/preferences', context.requestContext.request.url)
+      const response = await fetch(url, { signal: controller.signal })
+      context.preferences = await response.json()
+    })
   },
-});
-
-export default myRuntimePlugin;
+})
 ```
 
-- `name`： 插件的唯一标识符。
-- `setup`： 函数接收一个 `api` 对象，该对象提供了所有可用的 Runtime 插件 API。
+每个挂载或服务端请求分别执行 setup。不要把当前语言、Request 或 loader 结果保存在模块级变量中。对象归属和完整阶段见[生命周期](./life-cycle)。
 
-## API 概览
+## 读取与更新
 
-Runtime 插件 API 主要分为以下几类：
+### `api.getRuntimeConfig`
 
-- **信息获取**：获取运行时配置和钩子函数。
-- **生命周期钩子**：在应用渲染的不同阶段执行自定义逻辑。
+返回当前 runtime 的配置。应将其视为只读数据，不能通过修改该对象存储请求状态。配置不是 React state。
 
-### 信息获取
+### `api.getRuntimeContext`
 
-#### `api.getRuntimeConfig`
+返回当前实例的 context，与 `onBeforeRender` 参数引用同一个对象。页面数据、Bridge snapshot 和服务端 Request 由各自的数据源接入。内置插件消费当前实例的字段，不读取其他应用的 SSR globals。
 
-获取用户在 `modern.runtime.ts` 文件中定义的运行时配置。
+内置请求上下文插件在 `setup` 中准备 `requestContext`，并在应用插件之前执行。应用的初始化数据和资源能力在创建实例时进入 context，路由匹配和 loader 结果则由 Router 在初始化阶段补充。
 
-- **用法**:
+`ssr` 字段在 setup 前就绪，服务端初始化时为 true。在浏览器中，它表示当前页面或 Bridge 实例具有服务端初始化数据，不表示 React 水合是否已经完成。没有这些数据的 CSR 实例设为 false。
 
+### `api.updateRuntimeContext`
+
+将补丁深合并到当前 context，不会把补丁的根对象绑定为 context。这不是深复制。数组，以及被合并工具识别为复杂实例的对象（如 i18next 实例），保留按引用赋值的语义，后续修改这些共享值也会反映到 context 中。需要由实例独占的可变值，应为该实例单独创建或复制。
+
+{/* prettier-ignore */}
 ```ts
-const config = api.getRuntimeConfig();
-console.log(config.myCustomSetting);
+const patch = { feature: { enabled: true } }
+api.updateRuntimeContext(patch)
+// 更新此普通对象字段时，再次提交补丁或修改当前 context
+api.updateRuntimeContext({ feature: { enabled: false } })
 ```
 
-:::warning
+内部 React Provider 使用当前 context，公开 `RuntimeContext` 提供隐藏框架字段的稳定视图，不维护第二份数据副本。直接修改字段不会自动触发 React 更新，需要响应式更新时使用 React state 或订阅。
 
-此方法返回的是用户配置的副本，修改返回值不会影响原始配置。
-:::
+### `api.getHooks`
 
-#### `api.getHooks`
+返回当前实例的生命周期及扩展 hooks。普通应用的初始化由框架执行，不要在组件更新时手动重复调用初始化 hooks。
 
-获取可用于手动触发的钩子函数。
+可以通过 `registryHooks` 工厂为每个实例创建新的扩展 hooks。如果 `registryHooks` 是由标准 helper 创建的 hooks 记录，Modern 会为每个实例复制 hook 容器，并保留静态定义中已注册的回调。任意第三方自定义 hook 的闭包无法自动复制，应在工厂内创建新 hook，不要返回共享的 hook 对象。
 
-- **类型：**
+工厂拥有的同步扩展 hook 可以使用 `@modern-js/plugin/runtime` 的 `createRuntimeSyncHook`，创建不携带静态定义复制元数据的实例记录，执行行为与 `createSyncHook` 一致。需要复用的静态定义继续使用根包的标准 helper，不要把另一个运行中实例的 hook 记录当作静态定义。
 
+## 生命周期 API
+
+### `api.onBeforeRender`
+
+注册初始化回调。框架按插件依赖顺序执行并等待回调，随后才执行 `wrapRoot`。浏览器 props 更新和内部导航不会重复执行此阶段。
+
+回调可以修改当前 context。抛出的错误或拒绝的 Promise 会终止初始化。需要主动中断时，使用第二个参数 `interrupt`。中断结果由平台适配器处理，不继续执行后续 hooks 或挂载。
+
+{/* prettier-ignore */}
 ```ts
-() => {
-  onBeforeRender: {
-    call: (context: any) => Promise<void>;
+api.onBeforeRender((context, interrupt) => {
+  if (context.requestContext.request.headers['x-maintenance'] === 'true') {
+    return interrupt(new Response('Temporarily unavailable', { status: 503 }))
   }
-  // 其他钩子...
-};
+})
 ```
 
-- **用法：**
+### `api.wrapRoot`
 
-```ts
-const hooks = api.getHooks();
-await hooks.onBeforeRender.call(myContext);
+注册根组件包装函数。它在初始化成功后调用一次，返回的组件在实例存续期间保持稳定。将 props 传给原始 App，保留更新和导航期间的页面状态。
+
+{/* prettier-ignore */}
+```tsx
+import { RuntimeContext } from '@modern-js/runtime'
+import { useContext } from 'react'
+
+api.wrapRoot(App => {
+  function PreferencesRoot(props) {
+    const context = useContext(RuntimeContext)
+    return (
+      <PreferencesProvider value={context.preferences}>
+        <App {...props} />
+      </PreferencesProvider>
+    )
+  }
+  return PreferencesRoot
+})
 ```
 
-### 生命周期钩子
+Router 插件的 `api.modifyRoutes` hook 负责修改实例路由。需要修改路由的插件应声明对 Router 插件的依赖，不使用模块级可变路由表。
 
-#### `api.onBeforeRender`
+### `api.onDispose`
 
-在应用渲染（包括服务器端渲染和客户端渲染）之前执行。您可以在此钩子中执行数据预取、修改渲染上下文等操作。
+注册当前实例的同步清理函数，用于移除监听器、清理定时器、取消在途工作和释放插件创建的资源。清理按注册顺序逆序执行，每个实例只执行一次。
 
-- **类型：**
+卸载、请求输出结束、初始化失败或取消都会释放实例。已释放实例中新注册的清理函数立即执行，因此异步获得资源后仍应立即注册清理。异步操作自身需要响应 AbortSignal，不应仅在卸载后忽略 React 更新。
 
-  ```ts
-  type OnBeforeRenderFn<RuntimeContext> = (
-    context: RuntimeContext,
-  ) => Promise<void> | void;
-  ```
-
-  `RuntimeContext` 包含当前请求的上下文信息，如请求对象、响应对象等。
-
-- **用法：**
-
-  ```ts
-  api.onBeforeRender(async context => {
-    const data = await fetchData(context.req);
-    context.data = data; // 将数据添加到上下文中
-  });
-  ```
-
-:::warning
-
-- 此钩子在每次渲染前都会执行，因此应避免执行耗时过长的操作。
-- 您可以在此钩子中修改 `context` 对象，并将修改后的 `context` 传递给后续的渲染过程。
-
-:::
-
-#### `api.wrapRoot`
-
-允许您使用自定义的 React 组件包裹应用的根组件。常用于添加全局的 Provider、布局组件等。
-
-- **类型：**
-
-  ```ts
-  type WrapRootFn = (App: React.ComponentType<any>) => React.ComponentType<any>;
-  ```
-
-- **用法：**
-
-  ```ts
-  api.wrapRoot(App => {
-    const AppWrapper = props => {
-      return (
-        <MyGlobalProvider>
-          <Layout>
-            <App {...props} /> {/* 确保传递 props */}
-          </Layout>
-        </MyGlobalProvider>
-      );
-    };
-    return AppWrapper;
-  });
-  ```
-
-:::warning
-
-- **务必将 `props` 传递给原始的 `App` 组件**，否则可能导致应用无法正常工作。
-- `wrapRoot` 返回的组件会在每次渲染时重新创建，因此应避免在其中定义复杂的逻辑或状态。
-
-:::
-
-## 进阶用法
-
-### 组合使用钩子
-
-您可以组合使用多个钩子来实现更复杂的功能。例如，您可以使用 `onBeforeRender` 获取数据，然后使用 `wrapRoot` 将数据通过 Context 传递给整个应用：
-
-```ts
-import { RuntimePlugin, RuntimeContext } from '@modern-js/runtime';
-import { useContext, createContext } from 'react';
-
-export const ThemeContext = createContext<{ theme: string } | null>(null);
-
-export const themePlugin = (): RuntimePlugin => {
-  return {
-    name: 'theme-plugin',
-    setup: api => {
-      api.onBeforeRender(async context => {
-        const userPreference = await fetch('/api/user/theme-settings').then(
-          res => res.json(),
-        );
-        context.data = {
-          theme: userPreference.theme,
-        };
-      });
-
-      api.wrapRoot(App => {
-        return props => {
-          const context = useContext(RuntimeContext);
-          return (
-            <ThemeContext.Provider value={context.data}>
-              <App {...props} />
-            </ThemeContext.Provider>
-          );
-        };
-      });
-    },
-  };
-};
-```
+清理函数接收可选的释放原因。释放后的注册也接收原始原因，重复释放不会替换它。

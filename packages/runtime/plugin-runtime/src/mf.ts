@@ -1,4 +1,7 @@
 export { createBridgeComponent } from '@module-federation/bridge-react/v18';
+export { createModernBridgeComponent } from './mf/provider';
+export { render, hydrate, renderStream } from './mf/callbacks';
+export type { ModernBridgeComponentOptions } from './mf/types';
 export {
   createReactRemote,
   ReactRemote,

@@ -85,13 +85,19 @@ export function analyzeRootExport(
   const exports = module.body.flatMap(item =>
     item.type === 'ExportDefaultExpression' ? [resolve(item.expression)] : [],
   );
-  const providers = exports.filter(expression =>
-    [
-      `@${metaName}/runtime/mf`,
-      '@module-federation/bridge-react',
-      '@module-federation/bridge-react/v18',
-      '@module-federation/bridge-react/v19',
-    ].some(from => isCall(expression, 'createBridgeComponent', from)),
+  const providers = exports.filter(
+    expression =>
+      isCall(
+        expression,
+        'createModernBridgeComponent',
+        `@${metaName}/runtime/mf`,
+      ) ||
+      [
+        `@${metaName}/runtime/mf`,
+        '@module-federation/bridge-react',
+        '@module-federation/bridge-react/v18',
+        '@module-federation/bridge-react/v19',
+      ].some(from => isCall(expression, 'createBridgeComponent', from)),
   );
   if (!providers.length) return;
   const provider = providers[0] as CallExpression;

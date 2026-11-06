@@ -21,7 +21,7 @@ export default defineConfig({
 For better performance, we only support using this capability combination in Streaming SSR scenarios.
 
 :::warning
-Application-level modules (modules using `createBridgeComponent` and `createRemoteAppComponent`) do not support server-side rendering (SSR). If you need to use SSR functionality, please use component-level module export methods instead.
+Application-level modules using the legacy `@module-federation/modern-js-v3` integration on this page do not support SSR. Applications using built-in Module Federation can export and hydrate applications with [Modern Bridge SSR](/guides/topic-detail/module-federation/bridge-ssr).
 :::
 
 ## Data Fetching

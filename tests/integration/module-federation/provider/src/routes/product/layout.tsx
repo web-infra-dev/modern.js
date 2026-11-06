@@ -7,6 +7,9 @@ export default function ProductLayout() {
       <Link to="." data-testid="scope-product-link">
         Products
       </Link>
+      <Link to="start" data-testid="scope-start-link">
+        Open initial station
+      </Link>
       <Outlet />
     </section>
   );

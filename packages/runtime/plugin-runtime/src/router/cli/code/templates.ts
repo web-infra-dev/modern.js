@@ -21,8 +21,11 @@ import {
   isSSGEntry,
   slash,
 } from '@modern-js/utils';
-import { ROUTE_MODULES } from '@modern-js/utils/universal/constants';
-import { APP_INIT_EXPORTED, TEMP_LOADERS_DIR } from '../constants';
+import {
+  APP_CONFIG_NAME,
+  APP_INIT_EXPORTED,
+  TEMP_LOADERS_DIR,
+} from '../constants';
 import {
   getPathWithoutExt,
   getServerLoadersFile,
@@ -204,7 +207,6 @@ export const fileSystemRoutes = async ({
   isRscClientBundle = false,
   srcDirectory,
   internalSrcAlias,
-  isolated = false,
   writeOutput,
 }: {
   metaName: string;
@@ -217,7 +219,6 @@ export const fileSystemRoutes = async ({
   isRscClientBundle?: boolean;
   srcDirectory?: string;
   internalSrcAlias?: string;
-  isolated?: boolean;
   writeOutput?: (filename: string, content: string) => Promise<void>;
 }) => {
   const components: string[] = [];
@@ -298,7 +299,7 @@ export const fileSystemRoutes = async ({
         ? `/* webpackMode: "eager" */  `
         : '';
 
-    return `() => import(${importOptions}'${formatImportPath(componentPath)}').then(routeModule => handleRouteModule(routeModule, "${routeId}"${isolated ? ', routeModuleCache' : ''}))`;
+    return `() => import(${importOptions}'${formatImportPath(componentPath)}').then(routeModule => handleRouteModule(routeModule, "${routeId}", routeModuleCache))`;
   };
 
   const traverseRouteTree = async (
@@ -435,7 +436,7 @@ export const fileSystemRoutes = async ({
       route._component &&
       (route.loader || route.data)
     ) {
-      finalRoute.shouldRevalidate = `createShouldRevalidate("${route.id}"${isolated ? ', routeModuleCache' : ''})`;
+      finalRoute.shouldRevalidate = `createShouldRevalidate("${route.id}", routeModuleCache)`;
     }
     return finalRoute;
   };
@@ -556,13 +557,7 @@ export const fileSystemRoutes = async ({
   const importRuntimeRouterCode = `
     import { createShouldRevalidate, handleRouteModule } from '@${metaName}/runtime/routerHelper';
   `;
-  const routeModulesCode = isolated
-    ? 'const routeModuleCache = Object.create(null);'
-    : `
-    if(typeof document !== 'undefined'){
-      window.${ROUTE_MODULES} = {}
-    }
-  `;
+  const routeModulesCode = 'const routeModuleCache = Object.create(null);';
 
   return `
     ${importLazyCode}

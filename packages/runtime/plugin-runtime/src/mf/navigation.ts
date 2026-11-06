@@ -5,32 +5,7 @@ import {
 } from '@module-federation/bridge-react/base';
 import type { DataRouter } from '@modern-js/runtime-utils/router';
 
-export function normalizeBasename(value: string) {
-  if (!value.startsWith('/') || value.includes('//') || /[?#\\]/.test(value))
-    throw new Error(
-      'Remote basename must be an absolute pathname without query or hash.',
-    );
-  return value.replace(/\/+$/, '') || '/';
-}
-
-/** Strip only a complete pathname prefix. Search, hash and encoded segments survive. */
-export function removeBasename(
-  url: string,
-  basename: string,
-): string | undefined {
-  const base = normalizeBasename(basename);
-  if (base === '/') return url;
-  if (!url.toLowerCase().startsWith(base.toLowerCase())) return;
-  const suffix = url.slice(base.length);
-  if (suffix && !['/', '?', '#'].includes(suffix[0])) return;
-  return suffix.startsWith('/') ? suffix : `/${suffix}`;
-}
-
-export function addBasename(url: string, basename: string) {
-  const base = normalizeBasename(basename);
-  if (base === '/') return url;
-  return `${base}${url === '/' ? '' : /^\/[?#]/.test(url) ? url.slice(1) : url}`;
-}
+export { normalizeBasename, addBasename, removeBasename } from './location';
 
 function browserLocation(
   location: Window['location'] | URL,
@@ -46,10 +21,11 @@ function browserLocation(
 export function createMountWindow(
   getRouter: () => DataRouter | undefined,
   isHashRouter: () => boolean,
+  sourceWindow: Window = window,
 ) {
   const popListeners = new Map<EventListener, EventListener>();
   let notifyingPeers = false;
-  const mountWindow = new Proxy(window, {
+  const mountWindow = new Proxy(sourceWindow, {
     get(target, property) {
       if (property === 'addEventListener')
         return (
@@ -123,6 +99,7 @@ export function createBrowserRouterConnector(
   onError: (error: unknown) => void,
   isHashRouter: () => boolean = () => false,
   notifyPeers?: () => void,
+  sourceWindow: Window = window,
 ) {
   let previousHost: BridgeNavigation | undefined;
   let adaptedHost:
@@ -171,8 +148,8 @@ export function createBrowserRouterConnector(
         }),
         subscribe: listener => router.subscribe(listener),
         getHistoryLocation: () => ({
-          url: browserLocation(window.location, isHashRouter()),
-          key: window.history.state?.key ?? 'default',
+          url: browserLocation(sourceWindow.location, isHashRouter()),
+          key: sourceWindow.history.state?.key ?? 'default',
         }),
         syncFromHistory: () => router.window?.dispatchEvent(pop()),
         notifyPeers: notifyPeers ?? (() => window.dispatchEvent(pop())),

@@ -3,10 +3,6 @@ import { DeferredData } from '@modern-js/runtime-utils/browser';
 import { storage } from '@modern-js/runtime-utils/node';
 import { createElement } from 'react';
 import { ESCAPED_SHELL_STREAM_END_MARK } from '../../src/common';
-import {
-  getGlobalInternalRuntimeContext,
-  setGlobalInternalRuntimeContext,
-} from '../../src/core/context';
 import { createReadableStreamFromElement } from '../../src/core/server/stream/createReadableStream';
 import {
   enqueueFromEntries,
@@ -447,12 +443,6 @@ describe('hasDeferredResolvers', () => {
 });
 
 describe('createReadableStreamFromElement deferred resolvers', () => {
-  const previousContext = getGlobalInternalRuntimeContext();
-
-  afterAll(() => {
-    setGlobalInternalRuntimeContext(previousContext);
-  });
-
   const SHELL_BEFORE = '<html><body><div id="root">';
   const SHELL_AFTER = '</div></body></html>';
   const options = {
@@ -472,7 +462,7 @@ describe('createReadableStreamFromElement deferred resolvers', () => {
   ) {
     // Replace the React output with a fixed document so the test controls it.
     const document = `${REPRESENTATIVE_HTML}${ESCAPED_SHELL_STREAM_END_MARK}<p>after</p>`;
-    setGlobalInternalRuntimeContext({
+    options.runtimeContext._internalContext = {
       hooks: {
         extendStreamSSR: {
           call: () => [
@@ -485,7 +475,7 @@ describe('createReadableStreamFromElement deferred resolvers', () => {
           ],
         },
       },
-    } as any);
+    };
 
     const stream = await storage.run(
       { activeDeferreds, deferredScriptKeys },
