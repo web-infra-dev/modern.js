@@ -12,6 +12,7 @@ import { uniqueKeyByRoute } from '../../utils';
 import {
   ErrorDigest,
   createErrorHtml,
+  getRoutePath,
   getRuntimeEnv,
   parseHeaders,
   parseQuery,
@@ -61,11 +62,7 @@ function getRouter(routes: ServerRoute[]): Router<ServerRoute> {
   const router = new TrieRouter<ServerRoute>();
 
   for (const route of finalRoutes) {
-    const { urlPath: originUrlPath } = route;
-
-    const urlPath = originUrlPath.endsWith('/')
-      ? `${originUrlPath}*`
-      : `${originUrlPath}/*`;
+    const urlPath = getRoutePath(route);
     router.add('*', urlPath, route);
   }
 

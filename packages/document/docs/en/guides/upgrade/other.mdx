@@ -87,6 +87,24 @@ Modern.js 3.0 uses React Router v7 as the default routing library. React Router 
 
 If you need to use React Router v5 or React Router v6, you need to use **self-controlled routing** mode. Self-controlled routing allows you to fully control routing configuration without being limited by Modern.js convention-based routing.
 
+### Router updates use transitions by default
+
+React Router v7 wraps router state updates in `React.startTransition` by default. In v6 this behavior required enabling `future.v7_startTransition`. After upgrading, the page mount after the initial Data Loader finishes and every navigation switch from synchronous rendering to concurrent rendering. A render may be discarded and run again, and there may be a gap between render and commit.
+
+If your project changes external state during render, you may see the following issues after upgrading:
+
+- An instance is created in `useMemo` and assigned to a global variable. After it runs again, multiple instances exist and logic that relies on a singleton throws.
+- A React Router v6 `RouterProvider` is nested inside a page. It reads the router state during render but only subscribes in `useLayoutEffect`, so it may miss the initialization notification and the page stays blank. See [React Router issue #14356](https://github.com/remix-run/react-router/issues/14356).
+
+Keep render free of side effects as React requires:
+
+- Create instances, register listeners, send analytics, and modify global variables in `useEffect`.
+- Read external state with [`useSyncExternalStore`](https://react.dev/reference/react/useSyncExternalStore).
+- Create objects such as routers and stores outside components.
+- Enable `StrictMode` in development to surface code that breaks when run twice.
+
+If your code cannot be refactored yet, set [`router.useTransitions`](/configure/app/runtime/router#usetransitions) to `false` to restore synchronous rendering.
+
 ## Using @modern-js/create to Create Monorepo and Modern.js Module
 
 Modern.js 3.0 no longer supports creating Monorepo projects and Modern.js Module projects through `@modern-js/create`.
