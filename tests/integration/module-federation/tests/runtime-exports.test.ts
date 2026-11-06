@@ -88,7 +88,9 @@ export async function run() {
         // Match Modern's Node extension selection, including its existing
         // async storage and server loader implementation.
         extensionAlias: { '.mjs': ['.node.mjs', '.server.mjs', '.mjs'] },
-        modules: [path.join(packageRoot, 'node_modules'), 'node_modules'],
+        // Keep each dependency's own resolution first. The temporary entry
+        // only needs the runtime package's dependencies as a fallback.
+        modules: ['node_modules', path.join(packageRoot, 'node_modules')],
       },
       output: {
         path: temporary,
