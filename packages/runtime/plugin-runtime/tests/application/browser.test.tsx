@@ -1205,3 +1205,85 @@ it.each(['page', 'Bridge'] as const)(
     ]);
   },
 );
+
+it('reports an early progressive transport error without aborting pending plugin preparation', async () => {
+  const gate = contractGate();
+  const entered = contractGate();
+  const failure = new Error('early transport failure');
+  const errors: unknown[] = [];
+  definition = {
+    routes: [],
+    App: () => <button>ready</button>,
+    selected: false,
+    basename: '/',
+    serverLoaders: false,
+    getDataBase: () => window.location.origin,
+    createRuntime: (context, plugins) =>
+      createRuntime(
+        [
+          {
+            name: 'pending-hydration-preparation',
+            setup(api) {
+              api.onBeforeRender(async () => {
+                entered.release();
+                await gate.promise;
+              });
+            },
+          },
+        ],
+        undefined,
+        context,
+        plugins,
+      ),
+  };
+  const container = document.createElement('div');
+  container.innerHTML =
+    '<button>ready</button><template id="early-stream-shell"></template>';
+  document.body.append(container);
+  const button = container.firstChild;
+  const app = createApplication();
+  let settled = false;
+  try {
+    const pending = app.hydrate(
+      container,
+      {
+        protocol: APPLICATION_SNAPSHOT_PROTOCOL,
+        reactVersion: React.version,
+        identifierPrefix: 'early-stream-',
+        shellMarker: 'early-stream-shell',
+        pending: [],
+        url: window.location.href,
+        basename: '/',
+        props: {},
+      },
+      {
+        updates: new ReadableStream({
+          start(controller) {
+            controller.error(failure);
+          },
+        }),
+        onRecoverableError: error => errors.push(error),
+      },
+    );
+    void pending.then(
+      () => {
+        settled = true;
+      },
+      () => {
+        settled = true;
+      },
+    );
+    await entered.promise;
+    await expect.poll(() => errors).toEqual([failure]);
+    expect(settled).toBe(false);
+    gate.release();
+    await pending;
+    expect(app.disposed).toBe(false);
+    expect(container.firstChild).toBe(button);
+    expect(errors).toEqual([failure]);
+  } finally {
+    gate.release();
+    app.destroy();
+    container.remove();
+  }
+});

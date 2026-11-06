@@ -83,8 +83,13 @@ export function createRuntimeAsyncInterruptHook<
       interrupted,
     };
   };
-  const call = async (...params: Tail<Parameters<Callback>>) =>
-    (await callWithResult(...params)).value;
+  // Forward arguments without allocating a second parameter array in browser
+  // targets that transpile rest parameters. The result API owns the arguments.
+  const call: AsyncInterruptHook<Callback>['call'] = function () {
+    return callWithResult
+      .apply(undefined, arguments as unknown as Tail<Parameters<Callback>>)
+      .then(result => result.value);
+  };
 
   return { tap, call, callWithResult };
 }

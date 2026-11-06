@@ -27,10 +27,8 @@ export type {
 
 type Instance = {
   app: ApplicationInstance;
-  disposed: boolean;
   ready: Promise<void>;
   root: BridgeRoot;
-  removeAbortListener?: () => void;
 };
 
 // render and hydrate must find the same instance when Bridge later updates it.
@@ -38,10 +36,7 @@ const instances = new WeakMap<HTMLElement, Instance>();
 
 function dispose(container: HTMLElement, instance: Instance) {
   if (instances.get(container) === instance) instances.delete(container);
-  if (instance.disposed) return;
-  instance.disposed = true;
-  instance.removeAbortListener?.();
-  instance.app.destroy();
+  if (!instance.app.disposed) instance.app.destroy();
 }
 
 function containerElement(container?: HTMLElement | string): HTMLElement {
@@ -66,19 +61,17 @@ function options(info: BridgeRenderInfo) {
   };
 }
 
-async function initialize(
+function initialize(
   element: React.ReactElement,
   container: HTMLElement,
   info: BridgeRenderInfo,
   hydration?: BridgeHydrateInfo,
 ): Promise<BridgeRoot> {
-  info.signal?.throwIfAborted();
   const app = createApplication(element, {
     definition: applicationDefinition(info),
   });
   const instance: Instance = {
     app,
-    disposed: false,
     ready: Promise.resolve(),
     root: {
       render(next) {
@@ -86,7 +79,7 @@ async function initialize(
           throw new Error('Modern Bridge requires a React element.');
         instance.ready = instance.ready
           .then(async () => {
-            if (!instance.disposed) await app.update({ element: next });
+            if (!instance.app.disposed) await app.update({ element: next });
           })
           .catch(error => {
             dispose(container, instance);
@@ -99,25 +92,7 @@ async function initialize(
     },
   };
   instances.set(container, instance);
-  // Bridge has no root handle until this async callback resolves. Listen before
-  // onBeforeRender so an unmount can cancel a pending hook and free the DOM for
-  // a new instance without waiting for user code to settle.
-  const aborted = new Promise<never>((_, reject) => {
-    if (!info.signal) return;
-    const abort = () => {
-      try {
-        dispose(container, instance);
-      } catch (error) {
-        (info.rootOptions?.onRecoverableError || console.error)(error);
-      }
-      reject(info.signal!.reason || new Error('Bridge application aborted'));
-    };
-    info.signal.addEventListener('abort', abort, { once: true });
-    instance.removeAbortListener = () =>
-      info.signal?.removeEventListener('abort', abort);
-  });
-  const initializeApplication = Promise.resolve().then(async () => {
-    if (instance.disposed) return;
+  const initializeApplication = (async () => {
     if (hydration) {
       if (!hydration.updates)
         throw new Error('Modern Bridge hydration requires a data stream');
@@ -131,18 +106,13 @@ async function initialize(
     } else {
       await app.mount(container, options(info));
     }
-    if (info.signal?.aborted) dispose(container, instance);
+    info.signal?.throwIfAborted();
+  })();
+  instance.ready = initializeApplication.catch(error => {
+    dispose(container, instance);
+    throw error;
   });
-  // race also observes a late failure of the abandoned hook, preventing an
-  // unhandled rejection or disposal of the newer instance in the same DOM.
-  instance.ready = Promise.race([initializeApplication, aborted]).catch(
-    error => {
-      dispose(container, instance);
-      throw error;
-    },
-  );
-  await instance.ready;
-  return instance.root;
+  return instance.ready.then(() => instance.root);
 }
 
 /** Mount or update one full Modern application in the producer's React root. */
@@ -154,11 +124,11 @@ export async function render(
   info.signal?.throwIfAborted();
   const dom = containerElement(container);
   const current = instances.get(dom);
-  if (!current) return initialize(element, dom, info);
+  if (!current || current.app.disposed) return initialize(element, dom, info);
   current.ready = current.ready
     .then(async () => {
       if (
-        current.disposed ||
+        current.app.disposed ||
         instances.get(dom) !== current ||
         info.signal?.aborted
       )
@@ -184,7 +154,8 @@ export async function hydrate(
   info: BridgeHydrateInfo,
 ): Promise<BridgeRoot> {
   info.signal?.throwIfAborted();
-  if (instances.has(container))
+  const current = instances.get(container);
+  if (current && !current.app.disposed)
     throw new Error('Bridge application is already mounted.');
   return initialize(element, container, info, info);
 }

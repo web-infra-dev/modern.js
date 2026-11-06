@@ -1,4 +1,5 @@
-import cookieTool from 'cookie';
+import { parseBrowserCookies } from './cookies';
+export { parseBrowserCookies } from './cookies';
 import type { SSRContainer, SSRServerContext } from '../types';
 
 /** Copy only data emitted by the server's serializeJson bootstrap transport. */
@@ -24,7 +25,7 @@ export function createBrowserRequestContext(
       host: request?.host || url.host,
       pathname: request?.pathname || url.pathname,
       headers: request?.headers || {},
-      cookieMap: cookieTool.parse(document.cookie || '') || {},
+      cookieMap: parseBrowserCookies(document.cookie || ''),
       cookie: document.cookie || '',
       userAgent: request?.headers?.['user-agent'] || navigator.userAgent,
       referer: document.referrer,

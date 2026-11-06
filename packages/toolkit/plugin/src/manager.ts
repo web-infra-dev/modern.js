@@ -28,144 +28,87 @@ function validatePlugin(plugin: unknown) {
 }
 
 export function createPluginManager(): PluginManager {
-  // Map to store all plugins by name
   const plugins = new Map<string, Plugin>();
-  // Map to store dependencies for each plugin
-  // 'pre': plugins that must run before the current plugin
-  // 'post': plugins that must run after the current plugin
+  // A boolean distinguishes usePlugins from explicit prerequisites without
+  // allocating a second object for each dependency edge.
   const dependencies = new Map<
     string,
-    {
-      pre: Map<string, { name: string; isUse: boolean }>; // isUse: if the plugin is used in the current plugin
-      post: Map<string, { name: string }>;
-    }
+    { pre: Map<string, boolean>; post: Set<string> }
   >();
-
-  // Adds a dependency relation between plugins
-  const addDependency = (
-    plugin: string,
-    dependency: string,
-    type: 'pre' | 'post' | 'use',
-  ) => {
-    if (!dependencies.has(dependency)) {
-      dependencies.set(dependency, {
-        pre: new Map(),
-        post: new Map(),
-      });
+  const dependency = (name: string) => {
+    let value = dependencies.get(name);
+    if (!value) {
+      value = { pre: new Map(), post: new Set() };
+      dependencies.set(name, value);
     }
-    if (type === 'pre') {
-      dependencies
-        .get(plugin)!
-        .pre.set(dependency, { name: dependency, isUse: false });
-    } else if (type === 'post') {
-      dependencies.get(plugin)!.post.set(dependency, { name: dependency });
-    } else if (type === 'use') {
-      // 'use' plugins are added to the 'pre' order if not already in 'post'
-      if (
-        !dependencies.get(plugin)!.post.has(dependency) &&
-        !dependencies.get(dependency)!.pre.has(plugin)
-      ) {
-        dependencies
-          .get(plugin)!
-          .pre.set(dependency, { name: dependency, isUse: true });
-      }
-    }
+    return value;
   };
-
-  const addPlugin = (newPlugin: Plugin | Falsy) => {
-    if (!newPlugin) {
-      return;
-    }
-    validatePlugin(newPlugin);
-    const { name, usePlugins = [], pre = [], post = [] } = newPlugin;
+  const addPlugin = (plugin: Plugin | Falsy) => {
+    if (!plugin) return;
+    validatePlugin(plugin);
+    const { name, pre = [], post = [], usePlugins = [] } = plugin;
     if (plugins.has(name)) {
       console.warn(`Plugin ${name} already exists.`);
       return;
     }
-    plugins.set(name, newPlugin);
-    dependencies.set(name, { pre: new Map(), post: new Map() });
-
-    pre.forEach(dep => {
-      addDependency(name, dep, 'pre');
-    });
-
-    post.forEach(dep => {
-      addDependency(name, dep, 'post');
-    });
-
-    // 'use' plugins are handled last to ensure correct dependency resolution
-    usePlugins.forEach(plugin => {
-      if (!plugins.has(plugin.name)) {
-        addPlugin(plugin);
-      }
-      addDependency(name, plugin.name, 'use');
-    });
-  };
-
-  const addPlugins = (newPlugins: Array<Plugin | Falsy>) => {
-    for (const newPlugin of newPlugins) {
-      addPlugin(newPlugin);
+    plugins.set(name, plugin);
+    const edges = { pre: new Map<string, boolean>(), post: new Set<string>() };
+    dependencies.set(name, edges);
+    for (const name of pre) {
+      dependency(name);
+      edges.pre.set(name, false);
+    }
+    for (const name of post) {
+      dependency(name);
+      edges.post.add(name);
+    }
+    for (const child of usePlugins) {
+      if (!plugins.has(child.name)) addPlugin(child);
+      if (!edges.post.has(child.name) && !dependency(child.name).pre.has(name))
+        edges.pre.set(child.name, true);
     }
   };
-
   const getPlugins = () => {
-    const visited = new Set();
-    const temp = new Set();
+    for (const name of plugins.keys()) {
+      for (const target of dependency(name).post) {
+        const pre = dependency(target).pre;
+        if (!pre.has(name)) pre.set(name, false);
+      }
+    }
+    const state = new Map<string, number>();
     const result: Plugin[] = [];
     const visit = (name: string) => {
-      if (temp.has(name)) {
+      const status = state.get(name);
+      if (status === 0)
         throw new Error(`Circular dependency detected: ${name}`);
+      const plugin = plugins.get(name);
+      if (status === 1 || !plugin) return;
+      state.set(name, 0);
+      for (const required of plugin.required || []) {
+        if (!plugins.has(required))
+          throw new Error(
+            `${name} plugin required plugin ${required}, but not found.`,
+          );
       }
-      if (!visited.has(name) && plugins.get(name)) {
-        temp.add(name);
-        const { required = [] } = plugins.get(name)!;
-        required.forEach(dep => {
-          if (!plugins.get(dep)) {
-            throw new Error(
-              `${name} plugin required plugin ${dep}, but not found.`,
-            );
-          }
-        });
-        const { pre } = dependencies.get(name)!;
-        // Explicit dependencies precede usePlugins, preserving each insertion order.
-        for (const dependency of pre.values()) {
-          if (!dependency.isUse) visit(dependency.name);
-        }
-        for (const dependency of pre.values()) {
-          if (dependency.isUse) visit(dependency.name);
-        }
-        temp.delete(name);
-        visited.add(name);
-        result.push(plugins.get(name)!);
-      }
+      const pre = dependency(name).pre;
+      // Explicit prerequisites precede usePlugins in their insertion order.
+      for (const [target, used] of pre) if (!used) visit(target);
+      for (const [target, used] of pre) if (used) visit(target);
+      state.set(name, 1);
+      result.push(plugin);
     };
-
-    // Convert 'post' dependencies to 'pre' dependencies for processing
-    plugins.forEach((_, name) => {
-      const { post } = dependencies.get(name)!;
-      post.forEach(dep => {
-        if (!dependencies.get(dep.name)!.pre.has(name)) {
-          dependencies.get(dep.name)!.pre.set(name, { name, isUse: false });
-        }
-      });
-    });
-
-    plugins.forEach((_, name) => {
-      visit(name);
-    });
-
+    for (const name of plugins.keys()) visit(name);
     return result;
   };
-
-  const clear = () => {
-    plugins.clear();
-    dependencies.clear();
-  };
-
   return {
     getPlugins,
-    addPlugins,
-    clear,
-    isPluginExists: (name: string) => plugins.has(name),
+    addPlugins: values => {
+      for (const value of values) addPlugin(value);
+    },
+    clear() {
+      plugins.clear();
+      dependencies.clear();
+    },
+    isPluginExists: name => plugins.has(name),
   };
 }

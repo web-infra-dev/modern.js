@@ -16,14 +16,14 @@ Default registration stores the definition without executing instance `setup`. E
 
 The shared instance prepares context, runs plugins and retains one Root. Optional behavior is supplied through the existing plugin registration and dependency mechanism. The normal browser entry does not import preparation cancellation, fragment routing, Bridge snapshots or stream recovery.
 
-The server request adapter injects preparation cancellation. The Bridge adapter injects one fragment platform plugin that reuses the same cancellation implementation and prepares fragment routes. Its preparation wrapper owns the abort listener and pending cancellation race. Router initializes its mutable route declarations only when routing is used, and registers cleanup for the Router it owns. Bridge navigation and producer data endpoints belong to its adapter. The i18n plugin derives entry metadata from the current definition.
+Document and fragment server adapters inject the same request-cancellation plugin. The fragment platform plugin prepares routes and does not install cancellation in the browser. A browser mount owns one abort subscription and one public operation covering preparation through React commit. Unmount rejects that operation immediately, while late setup completion remains observed and cannot mount the disposed instance. Router initializes its mutable route declarations only when routing is used, and registers cleanup for the Router it owns. Bridge navigation and producer data endpoints belong to its adapter. The i18n plugin derives entry metadata from the current definition.
 
 These contributions use the same initializer and plugin order for pages and exports. Their absence does not select a second initialization implementation. Cleanup storage is allocated on the first `onDispose` registration. Synchronous plugin setup shares completed readiness rather than creating a separate readiness Promise for every instance.
 
 ## Execution Order
 
 1. Read the current data source and create the context. Pages restore their page SSR data, Bridge instances restore their progressive snapshots, and server instances receive the current Request.
-2. Execute `setup` in the dependency order declared by `pre` and `post`. The built-in request context plugin prepares `requestContext` before application plugins execute. When setup returns a Promise, wait for it before executing dependent plugins.
+2. Execute `setup` in the dependency order declared by `pre` and `post`. `requestContext` and its deprecated `context` alias already refer to the current request before any capability or application plugin executes. There is no separate plugin that replaces these fields later. When setup returns a Promise, wait for it before executing dependent plugins.
 3. Execute and await `onBeforeRender` in the same order. Router, i18n and prefetch capabilities consume the current instance context.
 4. After successful initialization, execute `wrapRoot` and retain the resulting component. Errors, interruption and cancellation prevent the instance from mounting.
 5. The page or fragment adapter renders, mounts or hydrates the application. Progressive Bridge updates may continue arriving, without requiring all remote streams to finish before hydration starts.
@@ -42,3 +42,5 @@ The internal React Provider uses the context directly. The public `RuntimeContex
 Register resources with `api.onDispose` as soon as they are acquired, including during asynchronous initialization. Cleanup runs synchronously in reverse registration order, once per instance. If an asynchronous operation acquires a resource after cancellation, registering its cleanup on the disposed instance runs it immediately.
 
 Full page documents, Bridge fragments, browser DOM and server output streams retain their own adapter boundaries. Missing Bridge restoration data must not fall back to Host SSR data. Never write the current Request or restoration data into shared module state.
+
+Cleanup callbacks receive an optional disposal reason, including the original cancellation or initialization error. A callback registered after disposal receives the same reason. Repeated disposal does not replace it.

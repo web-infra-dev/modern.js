@@ -24,7 +24,7 @@ export interface RuntimeApplicationInstance {
   readonly runtime: ReturnType<ApplicationDefinition['createRuntime']>;
   readonly Root: React.ComponentType<any>;
   prepare: () => Promise<PreparationResult>;
-  dispose: () => void;
+  dispose: (reason?: unknown) => void;
 }
 
 /** Context ownership and one preparation path, independent of optional capabilities. */
@@ -49,7 +49,11 @@ class ApplicationInstance implements RuntimeApplicationInstance {
   ) {
     this.environment = environment;
     const context = (this.context = Object.assign(
-      getInitialContext(environment.isBrowser),
+      getInitialContext(
+        environment.isBrowser,
+        undefined,
+        environment.context?.ssrContext,
+      ),
       { ssr: !environment.isBrowser },
       environment.context,
     ));
@@ -72,7 +76,6 @@ class ApplicationInstance implements RuntimeApplicationInstance {
         this.context,
         this.environment!.plugins,
       );
-      this.context._internalContext = this.internalRuntime;
     }
     return this.internalRuntime;
   }
@@ -117,8 +120,8 @@ class ApplicationInstance implements RuntimeApplicationInstance {
     }
     return this.prepared;
   }
-  dispose() {
+  dispose(reason?: unknown) {
     this.environment = undefined;
-    this.internalRuntime?.dispose();
+    this.internalRuntime?.dispose(reason);
   }
 }

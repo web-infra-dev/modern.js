@@ -42,24 +42,26 @@ export function createRuntimeContext<Extends extends RuntimePluginExtends>({
         : cloneHook(registryHooks[hookName]);
     });
   });
-  let cleanups: Array<() => void> | undefined;
+  let cleanups: Array<(reason?: unknown) => void> | undefined;
   const context: Omit<InternalRuntimeContext<Extends>, 'disposed'> & {
     disposed: boolean;
+    disposeReason?: unknown;
   } = {
     runtimeContext,
     ready,
     disposed: false,
     onDispose(callback) {
-      if (context.disposed) callback();
+      if (context.disposed) callback(context.disposeReason);
       else (cleanups ||= []).push(callback);
     },
-    dispose() {
+    dispose(reason?: unknown) {
       if (context.disposed) return;
       context.disposed = true;
+      context.disposeReason = reason;
       let errors: unknown[] | undefined;
       while (cleanups?.length) {
         try {
-          cleanups.pop()!();
+          cleanups.pop()!(reason);
         } catch (error) {
           (errors ||= []).push(error);
         }

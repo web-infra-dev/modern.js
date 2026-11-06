@@ -122,12 +122,13 @@ export const routerPlugin = (
             'createRoot route exports cannot replace the build-time graph with router.createRoutes.',
           );
 
-        api.onDispose(() => {
+        const releaseRouter = (application.releaseRouter = () => {
           const router = application.router;
           application.router = undefined;
           application.routes = undefined;
           router?.dispose();
         });
+        api.onDispose(releaseRouter);
 
         const selectBasePath = (pathname: string) => {
           const match = serverBase.find(baseUrl =>

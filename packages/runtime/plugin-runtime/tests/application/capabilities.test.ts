@@ -127,3 +127,56 @@ it('preserves immediate disposal before the first initialization hook', async ()
   await expect(preparing).rejects.toThrow('disposed');
   expect(before).not.toHaveBeenCalled();
 });
+
+it.each([false, true])(
+  'prepares request aliases before capability setup (SSR %s)',
+  async ssr => {
+    const request = { url: 'https://request.example/' };
+    const response = {};
+    const observed: unknown[] = [];
+    const capability: RuntimePlugin = {
+      name: 'first-capability',
+      setup(api) {
+        const context = api.getRuntimeContext();
+        observed.push(context.requestContext);
+        expect(context.context).toBe(context.requestContext);
+        if (ssr) {
+          expect(context.requestContext.request).toBe(request);
+          expect(context.requestContext.response).toBe(response);
+        } else {
+          expect(context.requestContext).toEqual({ request: {}, response: {} });
+        }
+      },
+    };
+    const instance = createApplicationInstance(application([]), {
+      isBrowser: !ssr,
+      output: 'document',
+      initialUrl: '/',
+      context: ssr ? { ssrContext: { request, response } as any } : undefined,
+      plugins: [capability],
+    });
+    const original = instance.context.requestContext;
+    await instance.prepare();
+    expect(observed).toEqual([original]);
+    expect(instance.context.requestContext).toBe(original);
+    instance.dispose();
+  },
+);
+
+it('prepares legacy runtime request aliases when SSR data is supplied after context creation', () => {
+  const request = { url: 'https://legacy.example/' };
+  const response = {};
+  const context = { ssrContext: { request, response } } as any;
+  const runtime = createRuntime([], undefined, context, [
+    {
+      name: 'legacy-capability',
+      setup(api) {
+        expect(api.getRuntimeContext()).toBe(context);
+        expect(context.requestContext.request).toBe(request);
+        expect(context.requestContext.response).toBe(response);
+        expect(context.context).toBe(context.requestContext);
+      },
+    },
+  ]);
+  runtime.dispose();
+});

@@ -1,10 +1,10 @@
 import type { RouteObject } from '@modern-js/runtime-utils/router';
 import type { StaticHandlerContext } from '@modern-js/runtime-utils/router';
 import type { DataRouter } from '@modern-js/runtime-utils/router';
-import type { BaseSSRServerContext } from '@modern-js/types';
 import { createContext, useContext } from 'react';
 import type { RouteManifest, RouterConfig } from '../../router/runtime/types';
 import type { RequestContext, SSRServerContext } from '../types';
+import type { BaseSSRServerContext } from '@modern-js/types';
 
 export interface TRuntimeContext {
   initialData?: Record<string, unknown>;
@@ -38,6 +38,7 @@ export interface TInternalRuntimeContext extends TRuntimeContext {
     getWindow?: () => Window;
     onRouterCreated?: (router: DataRouter) => void;
     router?: DataRouter;
+    releaseRouter?: () => void;
     routes?: RouteObject[];
   };
   routeManifest?: RouteManifest;
@@ -62,11 +63,9 @@ export const ReactRuntimeContext = RuntimeContext;
 export const getInitialContext = (
   isBrowser = true,
   routeManifest?: RouteManifest,
+  ssrContext?: SSRServerContext,
 ): TInternalRuntimeContext => {
-  const requestContext = {
-    request: {} as BaseSSRServerContext['request'],
-    response: {} as BaseSSRServerContext['response'],
-  };
+  const requestContext = makeRequestContext(ssrContext);
   return {
     isBrowser,
     routeManifest,
@@ -81,3 +80,13 @@ export const getInitialContext = (
 export const useRuntimeContext = (): TRuntimeContext => {
   return useContext(RuntimeContext);
 };
+
+/** Derive request aliases before any capability or user plugin executes. */
+export function makeRequestContext(
+  ssrContext?: SSRServerContext,
+): RequestContext {
+  return {
+    request: ssrContext?.request || ({} as BaseSSRServerContext['request']),
+    response: ssrContext?.response || ({} as BaseSSRServerContext['response']),
+  };
+}

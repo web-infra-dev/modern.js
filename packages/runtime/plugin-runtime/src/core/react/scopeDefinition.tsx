@@ -1,7 +1,3 @@
-import {
-  initializeCancellation,
-  preparationHooks,
-} from '../application/cancellation';
 import { getApplicationRoutes } from '../../router/runtime/application';
 import type React from 'react';
 import { createContext, useContext, useEffect } from 'react';
@@ -60,8 +56,6 @@ export function createScopeRuntime(
   options: Omit<ApplicationEnvironment, 'output'> & {
     basename?: string;
     memory?: boolean;
-    signal?: AbortSignal;
-    onError?: (error: unknown) => void;
     observeRouteCommits?: boolean;
     onRouteCommit?: (id: string, error: boolean) => void;
   },
@@ -69,8 +63,6 @@ export function createScopeRuntime(
   const {
     observeRouteCommits,
     onRouteCommit,
-    signal,
-    onError,
     basename = '/',
     memory,
     ...environment
@@ -88,10 +80,7 @@ export function createScopeRuntime(
       : undefined;
   const routing: import('../plugin').RuntimePlugin = {
     name: '@modern-js/runtime-fragment',
-    registryHooks: preparationHooks,
-    post: ['@modern-js/runtime-plugin-request-context'],
     setup(api) {
-      initializeCancellation(api, signal, onError);
       getApplicationRoutes(api.getRuntimeContext(), node => {
         if (node.type !== 'nested') return;
         if (node.isRoot && node.component) {
@@ -150,7 +139,7 @@ export function createScopeRuntime(
   const instance = createApplicationInstance(definition, {
     ...environment,
     output: 'fragment',
-    plugins: [routing, ...(environment.plugins || [])],
+    plugins: [...(environment.plugins || []), routing],
   });
   Object.assign(instance.context.application!, {
     basename,

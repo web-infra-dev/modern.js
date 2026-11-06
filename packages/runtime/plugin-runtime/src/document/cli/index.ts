@@ -6,7 +6,7 @@ import type {
   CliPlugin,
   AppNormalizedConfig as NormalizedConfig,
 } from '@modern-js/app-tools';
-import type { Entrypoint } from '@modern-js/types/cli';
+import type { Entrypoint } from '@modern-js/types';
 import { fs, createDebugger, findExists, logger } from '@modern-js/utils';
 import type { Rspack, RspackChain } from '@rsbuild/core';
 import { decodeHTML } from 'entities';

@@ -487,3 +487,55 @@ it.each(['spread', 'assign', 'prototype'] as const)(
     }
   },
 );
+
+it('keeps a disposal cause for registered and late cleanup callbacks', () => {
+  const cause = new Error('request disconnected');
+  const received: unknown[] = [];
+  const { runtimeContext } = createRuntime().run({
+    plugins: [
+      {
+        name: 'cleanup-reason',
+        setup(api) {
+          api.onDispose(reason => {
+            received.push(reason);
+          });
+        },
+      },
+    ],
+  });
+  runtimeContext.dispose(cause);
+  runtimeContext.onDispose(reason => {
+    received.push(reason);
+  });
+  runtimeContext.dispose(new Error('second disposal'));
+  expect(received).toEqual([cause, cause]);
+});
+
+it.each([false, true])(
+  'passes the original setup failure to cleanup (async %s)',
+  async asynchronous => {
+    const failure = new Error('setup failed');
+    const reasons: unknown[] = [];
+    let late: ((callback: (reason?: unknown) => void) => void) | undefined;
+    const run = () =>
+      createRuntime().run({
+        config: {},
+        plugins: [
+          {
+            name: 'failing-owner',
+            setup(api: RuntimePluginAPI<any>) {
+              late = api.onDispose;
+              api.onDispose(reason => reasons.push(reason));
+              if (asynchronous) return Promise.reject(failure);
+              throw failure;
+            },
+          },
+        ],
+      });
+    if (asynchronous)
+      await expect(run().runtimeContext.ready).rejects.toBe(failure);
+    else expect(run).toThrow(failure);
+    late!(reason => reasons.push(reason));
+    expect(reasons).toEqual([failure, failure]);
+  },
+);

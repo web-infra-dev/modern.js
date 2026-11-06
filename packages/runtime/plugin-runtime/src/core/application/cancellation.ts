@@ -21,18 +21,22 @@ export function initializeCancellation(
 ) {
   signal?.throwIfAborted();
   let cancel: ((reason: unknown) => void) | undefined;
-  const abort = () => {
-    try {
-      api.getRuntimeContext()._internalContext.dispose();
-    } catch (error) {
-      (onError || console.error)(error);
-    }
-  };
-  signal?.addEventListener('abort', abort, { once: true });
-  api.onDispose(() => {
-    signal?.removeEventListener('abort', abort);
+  const abort =
+    signal &&
+    (() => {
+      try {
+        api.getRuntimeContext()._internalContext.dispose(signal.reason);
+      } catch (error) {
+        (onError || console.error)(error);
+      }
+    });
+  if (abort) signal!.addEventListener('abort', abort, { once: true });
+  api.onDispose(reason => {
+    if (abort) signal!.removeEventListener('abort', abort);
     cancel?.(
-      signal?.reason || new Error('Application instance has been disposed'),
+      reason ??
+        signal?.reason ??
+        new Error('Application instance has been disposed'),
     );
   });
   api.wrapPreparation!(prepare => () => {
@@ -51,7 +55,6 @@ export function cancellationPlugin(
 ): RuntimePlugin {
   return {
     name: '@modern-js/runtime-preparation-cancellation',
-    post: ['@modern-js/runtime-plugin-request-context'],
     registryHooks: preparationHooks,
     setup: api => initializeCancellation(api, signal, onError),
   };

@@ -36,6 +36,7 @@ for (const [format, extension] of [
         'mf/provider.node.mjs',
         'mf/remote.node.mjs',
         'application/server.mjs',
+        'core/application/cancellation.mjs',
       ],
     ],
     [

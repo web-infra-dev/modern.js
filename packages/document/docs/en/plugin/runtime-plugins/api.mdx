@@ -110,3 +110,5 @@ Use the Router plugin's `api.modifyRoutes` hook to modify instance routes. Decla
 Registers synchronous cleanup for the current instance. Remove listeners, clear timers, cancel pending work and release resources created by the plugin. Cleanup runs once per instance in reverse registration order.
 
 Unmount, request output completion, failed initialization and cancellation dispose the instance. Registering cleanup on an already disposed instance executes it immediately, so register cleanup as soon as asynchronous work acquires a resource. Asynchronous operations must respond to AbortSignal rather than only ignoring React updates after unmount.
+
+Cleanup receives an optional reason. Late registrations receive the original reason, and repeated disposal preserves it.

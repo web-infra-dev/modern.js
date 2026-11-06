@@ -38,7 +38,20 @@ export const createRuntime = <Extends extends RuntimePluginExtends>() => {
       if (context.disposed)
         throw new Error('Runtime was disposed during setup');
     };
-    const configure = () => {
+    const finish = (value: unknown) => {
+      assertActive();
+      return options.handleSetupResult?.(value, pluginAPI);
+    };
+    let index = 0;
+    const setup = (): void | Promise<void> => {
+      while (index < plugins.length) {
+        assertActive();
+        const result = plugins[index++].setup?.(pluginAPI);
+        const handled = isPromise(result)
+          ? Promise.resolve(result).then(finish)
+          : finish(result);
+        if (isPromise(handled)) return Promise.resolve(handled).then(setup);
+      }
       assertActive();
       const configs = context.hooks.config
         .call()
@@ -47,26 +60,9 @@ export const createRuntime = <Extends extends RuntimePluginExtends>() => {
         );
       context.config = merge({}, ...configs, context.config || {});
     };
-    const setup = (index: number): void | Promise<void> => {
-      for (; index < plugins.length; index++) {
-        assertActive();
-        const result = plugins[index].setup?.(pluginAPI);
-        const finish = (value: unknown) => {
-          assertActive();
-          return options.handleSetupResult?.(value, pluginAPI);
-        };
-        const handled = isPromise(result)
-          ? Promise.resolve(result).then(finish)
-          : finish(result);
-        if (isPromise(handled)) {
-          return Promise.resolve(handled).then(() => setup(index + 1));
-        }
-      }
-      configure();
-    };
     const fail = (error: unknown): never => {
       try {
-        context.dispose();
+        context.dispose(error);
       } catch (cleanupError) {
         throw new AggregateError([error, cleanupError], 'Runtime setup failed');
       }
@@ -74,7 +70,7 @@ export const createRuntime = <Extends extends RuntimePluginExtends>() => {
     };
 
     try {
-      const pending = setup(0);
+      const pending = setup();
       if (pending) {
         context.ready = pending.catch(fail);
         // Consumers still receive the rejection through ready. Attaching a

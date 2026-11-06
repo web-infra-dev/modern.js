@@ -15,9 +15,12 @@ export function disposeResources(
 }
 
 /** Cleanup must not hide the failure that stopped preparation or rendering. */
-export function disposeAfterError(error: unknown, dispose: () => void): never {
+export function disposeAfterError(
+  error: unknown,
+  dispose: (reason?: unknown) => void,
+): never {
   try {
-    dispose();
+    dispose(error);
   } catch (cleanupError) {
     throw new AggregateError(
       [error, cleanupError],

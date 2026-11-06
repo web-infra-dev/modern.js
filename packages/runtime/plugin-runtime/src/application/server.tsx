@@ -1,3 +1,4 @@
+import { cancellationPlugin } from '../core/application/cancellation';
 import { disposeAfterError } from '../core/application/cleanup';
 import { PassThrough, Readable } from 'node:stream';
 import type { RequestHandlerOptions } from '@modern-js/app-tools';
@@ -73,8 +74,7 @@ export async function renderApplication(
     initialUrl: request.url,
     memory: Boolean(options.memoryRoute),
     observeRouteCommits: true,
-    signal,
-    onError: options.onError,
+    plugins: [cancellationPlugin(signal, options.onError)],
   });
   const Root = createScopedRoot(options.definition);
 
