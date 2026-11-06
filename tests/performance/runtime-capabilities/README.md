@@ -26,6 +26,8 @@ The ordinary-owner and retained-handle probes target the shared application cont
 
 Record source and dist fingerprints, individual rounds and exclusions with the result. Repeat in alternating revision order. Report timings with their spread and avoid a speed claim when process/JIT/browser noise changes the direction. A successful final CSR view is not SSR evidence.
 
+The default server logging level is verbose in production. For separate sensitivity controls, set `PAIRED_WARMUP_PAIRS=500` to retain default logging with 8,000 warmup requests per server, or set `MODERN_SERVER_LOG_LEVEL=error` with the default 50 pairs to isolate logging. Apply the same setting to both revisions. Preserve the original default-parameter results and report every control separately.
+
 No MF or Core package publication is performed by these scripts. They use the checked-in registry dependencies, without local Core overrides.
 
 The measured comparison and its limits are in [RESULTS.md](RESULTS.md). The synthetic `bridgeServer` fixture enables commit metadata explicitly and is not the complete SSR renderer. Probe bundling uses the esbuild version locked in the workspace tooling store.
