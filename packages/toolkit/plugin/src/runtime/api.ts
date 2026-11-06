@@ -1,12 +1,7 @@
-import { merge } from '@modern-js/runtime-utils/merge';
 import type { PluginHook } from '../types';
+import { merge } from '@modern-js/runtime-utils/merge';
 import type { PluginManager } from '../types/plugin';
-import type {
-  AllKeysForRuntimePluginExtendsAPI,
-  AllValueForRuntimePluginExtendsAPI,
-  RuntimePluginAPI,
-  RuntimePluginExtendsAPI,
-} from '../types/runtime/api';
+import type { RuntimePluginAPI } from '../types/runtime/api';
 import type {
   InternalRuntimeContext,
   RuntimeContext,
@@ -40,7 +35,6 @@ export function initPluginAPI<Extends extends RuntimePluginExtends>({
   function getHooks() {
     return {
       ...hooks,
-      ...extendsHooks,
     };
   }
 
@@ -51,44 +45,37 @@ export function initPluginAPI<Extends extends RuntimePluginExtends>({
     throw new Error('Cannot access config');
   }
 
-  const extendsPluginApi: Partial<RuntimePluginExtendsAPI<Extends>> = {};
-
-  plugins.forEach(plugin => {
-    const { _registryApi } = plugin;
-    if (_registryApi) {
-      const apis = _registryApi(getRuntimeContext, updateRuntimeContext);
-      Object.keys(apis).forEach(apiName => {
-        extendsPluginApi[apiName as keyof RuntimePluginExtendsAPI<Extends>] =
-          apis[
-            apiName
-          ] as RuntimePluginExtendsAPI<Extends>[keyof RuntimePluginExtendsAPI<Extends>];
-      });
-    }
-  });
-
-  if (extendsHooks) {
-    Object.keys(extendsHooks!).forEach(hookName => {
-      extendsPluginApi[hookName as AllKeysForRuntimePluginExtendsAPI<Extends>] =
-        (extendsHooks as Record<string, PluginHook<(...args: any[]) => any>>)[
-          hookName
-        ].tap as AllValueForRuntimePluginExtendsAPI<Extends>;
-    });
-  }
-
-  const pluginAPI = {
+  const pluginAPI: Record<string, any> = {
     updateRuntimeContext,
     getRuntimeContext,
     onDispose: context.onDispose,
     getHooks,
     getRuntimeConfig,
-    config: hooks.config.tap,
-    onBeforeRender: hooks.onBeforeRender.tap,
-    wrapRoot: hooks.wrapRoot.tap,
-    pickContext: hooks.pickContext.tap,
-    extendStringSSRCollectors: hooks.extendStringSSRCollectors.tap,
-    extendStreamSSR: hooks.extendStreamSSR.tap,
-    ...extendsPluginApi,
   };
+  for (const name of [
+    'config',
+    'onBeforeRender',
+    'wrapRoot',
+    'pickContext',
+    'extendStringSSRCollectors',
+    'extendStreamSSR',
+  ] as const) {
+    pluginAPI[name] = hooks[name].tap;
+  }
+  for (const plugin of plugins) {
+    if (plugin._registryApi)
+      Object.assign(
+        pluginAPI,
+        plugin._registryApi(getRuntimeContext, updateRuntimeContext),
+      );
+  }
+  if (extendsHooks) {
+    for (const name of Object.keys(extendsHooks)) {
+      pluginAPI[name] = (
+        extendsHooks as Record<string, PluginHook<(...args: any[]) => any>>
+      )[name].tap;
+    }
+  }
 
   if (typeof Proxy === 'undefined') {
     return pluginAPI as RuntimePluginAPI<Extends>;

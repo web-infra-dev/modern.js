@@ -1,7 +1,7 @@
 import {
-  createAsyncInterruptHook,
-  createCollectSyncHook,
-  createSyncHook,
+  createRuntimeAsyncInterruptHook,
+  createRuntimeCollectSyncHook,
+  createRuntimeSyncHook,
 } from '../hooks';
 import type {
   ConfigFn,
@@ -19,7 +19,9 @@ export function initHooks<RuntimeConfig, RuntimeContext>(
   runtimeContext?: RuntimeContext,
 ): Hooks<RuntimeConfig, RuntimeContext> {
   return {
-    onBeforeRender: createAsyncInterruptHook<OnBeforeRenderFn<RuntimeContext>>(
+    onBeforeRender: createRuntimeAsyncInterruptHook<
+      OnBeforeRenderFn<RuntimeContext>
+    >(
       shouldContinue,
       runtimeContext === undefined
         ? undefined
@@ -48,13 +50,13 @@ export function initHooks<RuntimeConfig, RuntimeContext>(
             return runtimeContext;
           },
     ),
-    wrapRoot: createSyncHook<WrapRootFn>(),
-    pickContext: createSyncHook<PickContextFn<RuntimeContext>>(),
-    config: createCollectSyncHook<ConfigFn<RuntimeConfig>>(),
+    wrapRoot: createRuntimeSyncHook<WrapRootFn>(),
+    pickContext: createRuntimeSyncHook<PickContextFn<RuntimeContext>>(),
+    config: createRuntimeCollectSyncHook<ConfigFn<RuntimeConfig>>(),
     extendStringSSRCollectors:
-      createCollectSyncHook<
+      createRuntimeCollectSyncHook<
         ExtendStringSSRCollectorsFn<StringSSRCollectorsInfo>
       >(),
-    extendStreamSSR: createCollectSyncHook<ExtendStreamSSRFn>(),
+    extendStreamSSR: createRuntimeCollectSyncHook<ExtendStreamSSRFn>(),
   };
 }

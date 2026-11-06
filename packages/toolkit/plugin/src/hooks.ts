@@ -38,7 +38,7 @@ export function cloneHook<Hook extends PluginHook<(...args: any[]) => any>>(
   return create ? create.call(hook) : hook;
 }
 
-export function createAsyncInterruptHook<
+export function createRuntimeAsyncInterruptHook<
   Callback extends (...args: any[]) => any,
 >(
   shouldContinue: () => boolean = () => true,
@@ -47,9 +47,8 @@ export function createAsyncInterruptHook<
     current: any,
     interrupt: (value: any) => void,
   ) => any,
+  callbacks: Callback[] = [],
 ): AsyncInterruptHook<Callback> {
-  const callbacks: Callback[] = [];
-
   const tap = (cb: Callback) => {
     callbacks.push(cb);
   };
@@ -84,19 +83,20 @@ export function createAsyncInterruptHook<
       interrupted,
     };
   };
-  const call = async (...params: Tail<Parameters<Callback>>) =>
-    (await callWithResult(...params)).value;
+  // Forward arguments without allocating a second parameter array in browser
+  // targets that transpile rest parameters. The result API owns the arguments.
+  const call: AsyncInterruptHook<Callback>['call'] = function () {
+    return callWithResult
+      .apply(undefined, arguments as unknown as Tail<Parameters<Callback>>)
+      .then(result => result.value);
+  };
 
-  return withFactory({ tap, call, callWithResult }, callbacks, () =>
-    createAsyncInterruptHook<Callback>(shouldContinue, normalizeResult),
-  );
+  return { tap, call, callWithResult };
 }
 
-export function createSyncHook<
-  Callback extends (...args: any[]) => any,
->(): SyncHook<Callback> {
-  const callbacks: Callback[] = [];
-
+export function createRuntimeSyncHook<Callback extends (...args: any[]) => any>(
+  callbacks: Callback[] = [],
+): SyncHook<Callback> {
   const tap = (cb: Callback) => {
     callbacks.push(cb);
   };
@@ -113,7 +113,7 @@ export function createSyncHook<
     return params[0];
   };
 
-  return withFactory({ tap, call }, callbacks, createSyncHook<Callback>);
+  return { tap, call };
 }
 
 export function createAsyncHook<
@@ -169,11 +169,9 @@ export function createCollectAsyncHook<
   );
 }
 
-export function createCollectSyncHook<
+export function createRuntimeCollectSyncHook<
   Callback extends (...params: any[]) => any,
->(): CollectSyncHook<Callback> {
-  const callbacks: Callback[] = [];
-
+>(callbacks: Callback[] = []): CollectSyncHook<Callback> {
   const tap = (cb: Callback) => {
     callbacks.push(cb);
   };
@@ -191,7 +189,7 @@ export function createCollectSyncHook<
     return results;
   };
 
-  return withFactory({ tap, call }, callbacks, createCollectSyncHook<Callback>);
+  return { tap, call };
 }
 
 export function createAsyncPipelineHook<
@@ -226,5 +224,44 @@ export function createAsyncPipelineHook<
     { tap, call },
     callbacks,
     createAsyncPipelineHook<Callback>,
+  );
+}
+
+/** Static hook definitions carry cloning metadata. Runtime records do not. */
+export function createSyncHook<
+  Callback extends (...args: any[]) => any,
+>(): SyncHook<Callback> {
+  const callbacks: Callback[] = [];
+  return withFactory(
+    createRuntimeSyncHook(callbacks),
+    callbacks,
+    createSyncHook<Callback>,
+  );
+}
+export function createCollectSyncHook<
+  Callback extends (...args: any[]) => any,
+>(): CollectSyncHook<Callback> {
+  const callbacks: Callback[] = [];
+  return withFactory(
+    createRuntimeCollectSyncHook(callbacks),
+    callbacks,
+    createCollectSyncHook<Callback>,
+  );
+}
+export function createAsyncInterruptHook<
+  Callback extends (...args: any[]) => any,
+>(
+  shouldContinue?: () => boolean,
+  normalizeResult?: (
+    value: any,
+    current: any,
+    interrupt: (value: any) => void,
+  ) => any,
+): AsyncInterruptHook<Callback> {
+  const callbacks: Callback[] = [];
+  return withFactory(
+    createRuntimeAsyncInterruptHook(shouldContinue, normalizeResult, callbacks),
+    callbacks,
+    () => createAsyncInterruptHook<Callback>(shouldContinue, normalizeResult),
   );
 }

@@ -163,13 +163,13 @@ const PrefetchPageLinks: React.FC<{ path: Path }> = ({ path }) => {
   );
   useEffect(() => {
     if (!Array.isArray(matches) || !routeAssets) return;
-    const loadChunk = scope?.loadRouteChunk;
+    const loadChunk = scope?.definition?.loadRouteChunk;
     matches.forEach(match =>
       loadRouteModule(match.route, routeAssets, loadChunk),
     );
   }, [matches, routeAssets, scope]);
 
-  const serverLoaders = scope?.serverLoaders;
+  const serverLoaders = scope?.definition?.serverLoaders;
   if (!serverLoaders) return null;
 
   return <PrefetchDataLinks matches={matches} path={path} context={context} />;

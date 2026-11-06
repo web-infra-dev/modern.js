@@ -8,7 +8,7 @@ export function ApplicationShell({
   onCommit,
 }: {
   children: React.ReactNode;
-  marker: string;
+  marker?: string;
   onCommit?: () => void;
 }) {
   useEffect(() => {
@@ -17,7 +17,7 @@ export function ApplicationShell({
   return (
     <>
       {children}
-      <template id={marker} />
+      {marker ? <template id={marker} /> : null}
     </>
   );
 }

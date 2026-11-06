@@ -1,3 +1,4 @@
+import { cancellationPlugin } from '../application/cancellation';
 import { disposeAfterError } from '../application/cleanup';
 import type {
   RequestHandler,
@@ -256,8 +257,11 @@ export const createRequestHandler: CreateRequestHandler = async (
             isBrowser: false,
             output: 'document',
             initialUrl: request.url,
-            signal: request.signal,
-            onError: error => options.onError(error, SSRErrors.RENDER_HTML),
+            plugins: [
+              cancellationPlugin(request.signal, error =>
+                options.onError(error, SSRErrors.RENDER_HTML),
+              ),
+            ],
             context: {
               ssrContext,
               routeManifest: options.resource.routeManifest as any,

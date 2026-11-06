@@ -62,6 +62,8 @@ api.updateRuntimeContext({ feature: { enabled: false } })
 
 可以通过 `registryHooks` 工厂为每个实例创建新的扩展 hooks。如果 `registryHooks` 是由标准 helper 创建的 hooks 记录，Modern 会为每个实例复制 hook 容器，并保留静态定义中已注册的回调。任意第三方自定义 hook 的闭包无法自动复制，应在工厂内创建新 hook，不要返回共享的 hook 对象。
 
+工厂拥有的同步扩展 hook 可以使用 `@modern-js/plugin/runtime` 的 `createRuntimeSyncHook`，创建不携带静态定义复制元数据的实例记录，执行行为与 `createSyncHook` 一致。需要复用的静态定义继续使用根包的标准 helper，不要把另一个运行中实例的 hook 记录当作静态定义。
+
 ## 生命周期 API
 
 ### `api.onBeforeRender`
@@ -108,3 +110,5 @@ Router 插件的 `api.modifyRoutes` hook 负责修改实例路由。需要修改
 注册当前实例的同步清理函数，用于移除监听器、清理定时器、取消在途工作和释放插件创建的资源。清理按注册顺序逆序执行，每个实例只执行一次。
 
 卸载、请求输出结束、初始化失败或取消都会释放实例。已释放实例中新注册的清理函数立即执行，因此异步获得资源后仍应立即注册清理。异步操作自身需要响应 AbortSignal，不应仅在卸载后忽略 React 更新。
+
+清理函数接收可选的释放原因。释放后的注册也接收原始原因，重复释放不会替换它。

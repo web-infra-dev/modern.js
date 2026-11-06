@@ -1,3 +1,4 @@
+import { getApplicationRoutes } from './application';
 import type { RuntimePluginAPI } from '@modern-js/plugin/runtime';
 import { merge } from '@modern-js/runtime-utils/merge';
 import type { RouterSubscriber } from '@modern-js/runtime-utils/router';
@@ -94,7 +95,7 @@ export const routerPlugin = (
       api.wrapRoot(App => {
         const context = api.getRuntimeContext();
         const application = context.application!;
-        const selected = application.selected;
+        const selected = application.definition.selected;
         const mergedConfig = merge(
           api.getRuntimeConfig().router || {},
           userConfig,
@@ -108,7 +109,7 @@ export const routerPlugin = (
         } = mergedConfig;
 
         const rootRouteConfig = {
-          ...application.config,
+          ...getApplicationRoutes(context),
           ...(!selected && routesConfig),
         };
         application.config = rootRouteConfig;
@@ -120,6 +121,14 @@ export const routerPlugin = (
           throw new Error(
             'createRoot route exports cannot replace the build-time graph with router.createRoutes.',
           );
+
+        const releaseRouter = (application.releaseRouter = () => {
+          const router = application.router;
+          application.router = undefined;
+          application.routes = undefined;
+          router?.dispose();
+        });
+        api.onDispose(releaseRouter);
 
         const selectBasePath = (pathname: string) => {
           const match = serverBase.find(baseUrl =>
@@ -242,7 +251,7 @@ function useRouterCreation(props: any, options: UseRouterCreationOptions) {
     }
 
     let routes: RouteObject[] | null = null;
-    if (process.env.MODERN_ENABLE_RSC && scope?.isRscClient) {
+    if (process.env.MODERN_ENABLE_RSC && scope?.definition.isRscClient) {
       routes = createRoutes
         ? createRoutes()
         : createRouteObjectsFromConfig({

@@ -1,3 +1,4 @@
+import { disposeResources } from '../application/cleanup';
 import { createBrowserRequestContext } from '../browser/data';
 import { useBridgeRouter } from '@module-federation/bridge-react/base';
 import {
@@ -7,7 +8,6 @@ import {
 } from '../../mf/navigation';
 import React, { useContext, useEffect, useState } from 'react';
 import { createRoot as createReactRoot, type Root } from 'react-dom/client';
-import { disposeResources } from '../application/cleanup';
 import { wrapRuntimeContextProvider } from './wrapper';
 
 export type { ScopedRootDefinition } from './scopeDefinition';
@@ -60,19 +60,12 @@ export function createScopedRoot(
       context.application!.getWindow = mountWindow
         ? () => mountWindow.window
         : undefined;
-      return {
-        context,
-        get WrappedRoot() {
-          return instance.Root;
-        },
-        prepare: instance.prepare,
-        dispose: instance.dispose,
+      return Object.assign(instance, {
         notifyPeers: mountWindow?.notifyPeers,
         effects: 0,
-        initialization: undefined as Promise<unknown> | undefined,
         connection: undefined as
           ReturnType<typeof createBrowserRouterConnector> | undefined,
-      };
+      });
     });
     const [ready, setReady] = useState(0);
     const [failure, setFailure] = useState<unknown>();
@@ -96,11 +89,9 @@ export function createScopedRoot(
         .then(() => {
           // StrictMode may clean up this setup before its microtask runs.
           if (active)
-            return (instance.initialization ??= instance
-              .prepare()
-              .then(result => {
-                if (result.interrupted) throw result.value;
-              }));
+            return instance.prepare().then(result => {
+              if (result.interrupted) throw result.value;
+            });
         })
         .then(
           () => {
@@ -115,16 +106,10 @@ export function createScopedRoot(
         );
       return () => {
         active = false;
-        const router = scope.router;
         instance.connection = undefined;
         scope.onRouterCreated = undefined;
-        scope.router = undefined;
-        scope.routes = undefined;
         try {
-          disposeResources(
-            () => connection?.dispose(),
-            () => router?.dispose(),
-          );
+          disposeResources(() => connection?.dispose(), scope.releaseRouter);
         } catch (error) {
           // This owner has unmounted. Report cleanup errors without updating
           // its React state or preventing the remaining runtime cleanup.
@@ -145,7 +130,7 @@ export function createScopedRoot(
     }, [instance, navigation]);
     if (failure) throw failure;
     if (!ready) return null;
-    const { WrappedRoot } = instance;
+    const { Root: WrappedRoot } = instance;
     return wrapRuntimeContextProvider(
       <ScopedRootPropsContext.Provider value={props}>
         <WrappedRoot {...props} />
@@ -197,13 +182,11 @@ export function createScopedRender() {
       throw new Error('Modern application render requires a mount container.');
     let root = roots.get(dom);
     if (!root) {
-      const reactRoot = createReactRoot(dom);
-      root = {
-        render: next => reactRoot.render(next),
-        unmount: () => {
-          roots.delete(dom);
-          reactRoot.unmount();
-        },
+      root = createReactRoot(dom);
+      const unmount = root.unmount.bind(root);
+      root.unmount = () => {
+        roots.delete(dom);
+        unmount();
       };
       roots.set(dom, root);
     }

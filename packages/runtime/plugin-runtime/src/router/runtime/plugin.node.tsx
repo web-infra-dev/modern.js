@@ -1,3 +1,4 @@
+import { getApplicationRoutes } from './application';
 import { merge } from '@modern-js/runtime-utils/merge';
 import {
   createRequestContext,
@@ -62,9 +63,9 @@ export const routerPlugin = (
           createRoutes,
         } = merge(pluginConfig.router || {}, userConfig);
         const application = context.application!;
-        const selected = application.selected;
+        const selected = application.definition.selected;
         const finalRouteConfig = {
-          ...application.config,
+          ...getApplicationRoutes(context),
           ...(!selected && routesConfig),
         };
         application.config = finalRouteConfig;
@@ -78,7 +79,7 @@ export const routerPlugin = (
           return;
         }
 
-        const enableRsc = context.application?.enableRsc;
+        const enableRsc = context.application?.definition.enableRsc;
 
         if (enableRsc) {
           await prepareRSCRoutes(finalRouteConfig.routes);
@@ -212,7 +213,7 @@ export const routerPlugin = (
         }
 
         const getRouteApp = () => {
-          const enableRsc = context.application?.enableRsc;
+          const enableRsc = context.application?.definition.enableRsc;
           return (props => {
             const context = useContext(InternalRuntimeContext);
             const { routerContext, ssrContext, routes } = context;

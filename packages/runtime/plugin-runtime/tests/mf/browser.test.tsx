@@ -44,8 +44,8 @@ it('hydrates the supplied scoped Root with loader data and keeps DOM, state and 
     basename: '/',
     serverLoaders: false,
     getDataBase: () => window.location.origin,
-    createRuntime: context =>
-      createRuntime([routerPlugin({})], undefined, context),
+    createRuntime: (context, instancePlugins) =>
+      createRuntime([routerPlugin({})], undefined, context, instancePlugins),
   };
   const Root = createScopedRoot(definition);
   const container = document.createElement('div');
@@ -127,7 +127,7 @@ it('cancels initialization before commit and ignores its late completion after a
     basename: '/',
     serverLoaders: false,
     getDataBase: () => window.location.origin,
-    createRuntime: context =>
+    createRuntime: (context, instancePlugins) =>
       createRuntime(
         [
           {
@@ -144,6 +144,7 @@ it('cancels initialization before commit and ignores its late completion after a
         ],
         undefined,
         context,
+        instancePlugins,
       ),
   });
   const container = document.createElement('div');
@@ -197,8 +198,8 @@ it('retains memory navigation and page state when Bridge updates ordinary props'
     basename: '/',
     serverLoaders: false,
     getDataBase: () => window.location.origin,
-    createRuntime: context =>
-      createRuntime([routerPlugin({})], undefined, context),
+    createRuntime: (context, instancePlugins) =>
+      createRuntime([routerPlugin({})], undefined, context, instancePlugins),
   });
   const memoryRoute = { entryPath: '/' };
   const container = document.createElement('div');

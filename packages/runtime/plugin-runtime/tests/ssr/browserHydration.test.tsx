@@ -45,7 +45,7 @@ it('isolates bootstrap data and request objects across ordinary page mounts', as
   }> = [];
   const Page = () => <p>Ordinary page</p>;
   setGlobalContext({ App: Page });
-  registerRuntimeDefinition(context =>
+  registerRuntimeDefinition((context, instancePlugins) =>
     createRuntime(
       [
         {
@@ -60,6 +60,7 @@ it('isolates bootstrap data and request objects across ordinary page mounts', as
       ],
       undefined,
       context,
+      instancePlugins,
     ),
   );
   const PageRoot = createPageRoot();
@@ -146,7 +147,7 @@ it.each([false, true])(
     });
     const beforeRenderData: unknown[] = [];
     setGlobalContext({ entryName: 'index' });
-    registerRuntimeDefinition(context =>
+    registerRuntimeDefinition((context, instancePlugins) =>
       createRuntime(
         [
           {
@@ -164,6 +165,7 @@ it.each([false, true])(
         ],
         undefined,
         context,
+        instancePlugins,
       ),
     );
     function Page(_props: { basename: string }) {
@@ -246,7 +248,7 @@ it.each(['stream', 'string'] as const)(
     delete window._SSR_DATA_READY;
     setGlobalContext({ entryName: 'index' });
     const languages: unknown[] = [];
-    registerRuntimeDefinition(context =>
+    registerRuntimeDefinition((context, instancePlugins) =>
       createRuntime(
         [
           {
@@ -261,6 +263,7 @@ it.each(['stream', 'string'] as const)(
         ],
         undefined,
         context,
+        instancePlugins,
       ),
     );
     function Page() {
@@ -310,7 +313,7 @@ it('keeps ordinary CSR context without SSR language or server prefetch eligibili
   delete window._SSR_DATA_READY;
   setGlobalContext({ entryName: 'index' });
   const contexts: unknown[] = [];
-  registerRuntimeDefinition(context =>
+  registerRuntimeDefinition((context, instancePlugins) =>
     createRuntime(
       [
         {
@@ -327,6 +330,7 @@ it('keeps ordinary CSR context without SSR language or server prefetch eligibili
       ],
       undefined,
       context,
+      instancePlugins,
     ),
   );
   const container = document.createElement('div');
@@ -355,7 +359,7 @@ it.each(['string', 'stream'] as const)(
     window._SSR_DATA = { mode, renderLevel: RenderLevel.SERVER_RENDER } as any;
     const cleanup = rstest.fn();
     let canonical: ReturnType<typeof getInitialContext> | undefined;
-    registerRuntimeDefinition(context =>
+    registerRuntimeDefinition((context, instancePlugins) =>
       createRuntime(
         [
           {
@@ -368,6 +372,7 @@ it.each(['string', 'stream'] as const)(
         ],
         undefined,
         context,
+        instancePlugins,
       ),
     );
     const App = () => <p>never mounted</p>;
@@ -436,7 +441,7 @@ it('uses client rendering when hydration is disabled even if SSR data is present
   } as any;
   let canonical: ReturnType<typeof getInitialContext> | undefined;
   const cleanup = rstest.fn();
-  registerRuntimeDefinition(context =>
+  registerRuntimeDefinition((context, instancePlugins) =>
     createRuntime(
       [
         {
@@ -449,6 +454,7 @@ it('uses client rendering when hydration is disabled even if SSR data is present
       ],
       undefined,
       context,
+      instancePlugins,
     ),
   );
   const container = document.createElement('div');

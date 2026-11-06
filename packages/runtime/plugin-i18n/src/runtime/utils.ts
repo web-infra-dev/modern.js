@@ -24,7 +24,9 @@ export const getPathname = (context: TInternalRuntimeContext): string => {
 };
 
 export const getEntryPath = (context?: TInternalRuntimeContext): string => {
-  const basename = context?.application?.entryPath;
+  const application = context?.application;
+  const basename =
+    application?.output === 'fragment' ? '' : application?.definition?.basename;
   if (basename) {
     return basename === '/' ? '' : basename;
   }

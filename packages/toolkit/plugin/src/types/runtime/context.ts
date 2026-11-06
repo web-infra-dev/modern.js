@@ -12,8 +12,8 @@ export type InternalRuntimeContext<Extends extends RuntimePluginExtends> =
     ready: Promise<void>;
     readonly disposed: boolean;
     /** Release registered instance resources once, in reverse registration order. */
-    dispose: () => void;
-    onDispose: (callback: () => void) => void;
+    dispose: (reason?: unknown) => void;
+    onDispose: (callback: (reason?: unknown) => void) => void;
     /** All hooks. */
     hooks: Hooks<Extends['config'], RuntimeContext & Extends['extendContext']> &
       Extends['extendHooks'];

@@ -3,14 +3,16 @@ import type { InternalRuntimeContext } from '@modern-js/plugin/runtime';
 import { runtime } from '@modern-js/plugin/runtime';
 import { merge } from '@modern-js/runtime-utils/merge';
 import { compatPlugin } from '../compat';
-import { requestContextPlugin } from '../compat/requestContext';
+import { makeRequestContext } from '../context/runtime';
 import { handleSetupResult } from '../compat/hooks';
 import type { TInternalRuntimeContext } from '../context/runtime';
 import type { RuntimeConfig, RuntimeExtends, RuntimePlugin } from './types';
 
 export type { RuntimePlugin };
+const noPlugins: RuntimePlugin[] = [];
 export type RuntimeFactory = (
   context: TInternalRuntimeContext,
+  plugins?: RuntimePlugin[],
 ) => ReturnType<typeof createRuntime>;
 let defaultRuntimeFactory: RuntimeFactory | undefined;
 export function registerRuntimeDefinition(factory: RuntimeFactory) {
@@ -27,16 +29,24 @@ export function createRuntime(
   internalPlugins: RuntimePlugin[],
   runtimeConfig?: RuntimeConfig,
   context?: TInternalRuntimeContext,
+  instancePlugins: RuntimePlugin[] = noPlugins,
 ) {
   const { plugins = [] } = runtimeConfig || {};
+  context ||= {} as TInternalRuntimeContext;
+  const { ssrContext, requestContext } = context;
+  if (
+    !requestContext ||
+    (ssrContext &&
+      (requestContext.request !== ssrContext.request ||
+        requestContext.response !== ssrContext.response))
+  ) {
+    context.requestContext = makeRequestContext(ssrContext);
+  }
+  context.context = context.requestContext;
   const { runtimeContext } = runtime.run({
     plugins: [
+      ...instancePlugins,
       compatPlugin(),
-      requestContextPlugin(
-        [...internalPlugins, ...plugins]
-          .filter(Boolean)
-          .map(plugin => plugin.name),
-      ),
       ...internalPlugins,
       ...plugins,
     ] as Plugin[],

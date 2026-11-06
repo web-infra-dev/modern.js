@@ -62,6 +62,8 @@ Returns lifecycle and extension hooks for the current instance. The framework ow
 
 Use a `registryHooks` factory to create fresh extension hooks for each instance. If `registryHooks` is a record of hooks created with the standard helpers, Modern clones their hook containers for each instance and preserves callbacks registered in the static definition. Arbitrary third-party custom hook closures cannot be copied automatically. Create those hooks inside the factory rather than returning a shared hook object.
 
+For factory-owned synchronous extension hooks, `createRuntimeSyncHook` from `@modern-js/plugin/runtime` creates a live hook record without static-definition cloning metadata. Its execution behavior matches `createSyncHook`. Use the root package helpers for reusable static definitions, and do not reuse another active runtime’s hook records as definitions.
+
 ## Lifecycle APIs
 
 ### `api.onBeforeRender`
@@ -108,3 +110,5 @@ Use the Router plugin's `api.modifyRoutes` hook to modify instance routes. Decla
 Registers synchronous cleanup for the current instance. Remove listeners, clear timers, cancel pending work and release resources created by the plugin. Cleanup runs once per instance in reverse registration order.
 
 Unmount, request output completion, failed initialization and cancellation dispose the instance. Registering cleanup on an already disposed instance executes it immediately, so register cleanup as soon as asynchronous work acquires a resource. Asynchronous operations must respond to AbortSignal rather than only ignoring React updates after unmount.
+
+Cleanup receives an optional reason. Late registrations receive the original reason, and repeated disposal preserves it.
