@@ -40,7 +40,10 @@ export function createServerContext<Extends extends ServerPluginExtends>({
   const { plugins } = serverContext;
   const extendsHooks: Record<string, PluginHook<(...args: any[]) => any>> = {};
   plugins.forEach(plugin => {
-    const { registryHooks = {} } = plugin;
+    const registryHooks =
+      typeof plugin.registryHooks === 'function'
+        ? plugin.registryHooks()
+        : plugin.registryHooks || {};
     Object.keys(registryHooks).forEach(hookName => {
       extendsHooks[hookName] = registryHooks[hookName];
     });

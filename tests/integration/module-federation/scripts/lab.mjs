@@ -112,22 +112,30 @@ export async function startLab(
   );
   async function wait(url, json = false) {
     const deadline = Date.now() + 180000;
+    let lastResponse;
     while (Date.now() < deadline) {
       if (failures.length) throw new Error(failures.join('\n'));
       try {
         const response = await fetch(url, {
           signal: AbortSignal.timeout(4000),
         });
+        const body = await response.text();
+        lastResponse = {
+          status: response.status,
+          type: response.headers.get('content-type'),
+          body: body.slice(0, 300),
+        };
         if (response.ok) {
-          if (json) await response.json();
-          else await response.text();
+          if (json) JSON.parse(body);
           return;
         }
-      } catch {}
+      } catch (error) {
+        lastResponse = { ...lastResponse, error: String(error) };
+      }
       await sleep(200);
     }
     throw new Error(
-      `Readiness timed out: ${url}\n${[...logs].map(([key, log]) => `${key}:\n${log}`).join('\n')}`,
+      `Readiness timed out: ${url}\nLast response: ${JSON.stringify(lastResponse)}\n${[...logs].map(([key, log]) => `${key}:\n${log}`).join('\n')}`,
     );
   }
   async function serveArtifacts(name, output, port) {

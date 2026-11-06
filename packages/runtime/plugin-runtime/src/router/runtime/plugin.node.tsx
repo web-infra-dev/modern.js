@@ -1,3 +1,4 @@
+import { getApplicationRoutes } from './application';
 import { merge } from '@modern-js/runtime-utils/merge';
 import {
   createRequestContext,
@@ -17,21 +18,10 @@ import { LOADER_REPORTER_NAME } from '@modern-js/utils/universal/constants';
 import type React from 'react';
 import { useContext } from 'react';
 import type { RuntimePlugin } from '../../core';
-import {
-  InternalRuntimeContext,
-  type ServerPayload,
-  getGlobalEnableRsc,
-  getGlobalLayoutApp,
-  getGlobalRoutes,
-} from '../../core/context';
+import { InternalRuntimeContext, type ServerPayload } from '../../core/context';
 import { setServerPayload } from '../../core/context/serverPayload/index.server';
 import DeferredDataScripts from './DeferredDataScripts.node';
-import {
-  type RouterExtendsHooks,
-  createRouterHooks,
-  modifyRoutes as modifyRoutesHook,
-  onBeforeCreateRoutes as onBeforeCreateRoutesHook,
-} from './hooks';
+import { type RouterExtendsHooks, createRouterHooks } from './hooks';
 import {
   RSCStaticRouter,
   createServerPayload,
@@ -58,22 +48,13 @@ function createRemixRequest(request: Request) {
 
 export const routerPlugin = (
   userConfig: Partial<RouterConfig> = {},
-  rootConfig?: RouterConfig['routesConfig'],
-  selected = false,
 ): RuntimePlugin<{
   extendHooks: RouterExtendsHooks;
 }> => {
   return {
     name: '@modern-js/plugin-router',
-    registryHooks: rootConfig
-      ? createRouterHooks()
-      : {
-          modifyRoutes: modifyRoutesHook,
-          onBeforeCreateRoutes: onBeforeCreateRoutesHook,
-        },
+    registryHooks: createRouterHooks,
     setup: api => {
-      let finalRouteConfig: any = {};
-
       api.onBeforeRender(async (context, interrupt) => {
         const pluginConfig: Record<string, any> = api.getRuntimeConfig();
         const {
@@ -81,13 +62,13 @@ export const routerPlugin = (
           routesConfig,
           createRoutes,
         } = merge(pluginConfig.router || {}, userConfig);
-        finalRouteConfig = rootConfig
-          ? { ...rootConfig, ...(!selected && routesConfig) }
-          : {
-              routes: getGlobalRoutes(),
-              globalApp: getGlobalLayoutApp(),
-              ...routesConfig,
-            };
+        const application = context.application!;
+        const selected = application.definition.selected;
+        const finalRouteConfig = {
+          ...getApplicationRoutes(context),
+          ...(!selected && routesConfig),
+        };
+        application.config = finalRouteConfig;
         if (selected && createRoutes)
           throw new Error(
             'createRoot route exports cannot replace the build-time graph with router.createRoutes.',
@@ -98,7 +79,7 @@ export const routerPlugin = (
           return;
         }
 
-        const enableRsc = getGlobalEnableRsc();
+        const enableRsc = context.application?.definition.enableRsc;
 
         if (enableRsc) {
           await prepareRSCRoutes(finalRouteConfig.routes);
@@ -111,11 +92,10 @@ export const routerPlugin = (
           loaderFailureMode = 'errorBoundary',
           baseUrl,
         } = context.ssrContext!;
-        const _basename = context._routeScope
-          ? context._routeScope.basename || '/'
-          : baseUrl === '/'
-            ? urlJoin(baseUrl, basename)
-            : baseUrl;
+        const _basename =
+          application.basename ??
+          (baseUrl === '/' ? urlJoin(baseUrl, basename) : baseUrl);
+        application.basename = _basename;
 
         const requestContext = createRequestContext(
           context.ssrContext?.loaderContext,
@@ -227,12 +207,13 @@ export const routerPlugin = (
       api.wrapRoot(App => {
         // can not get routes config, skip wrapping React Router.
         // e.g. App.tsx as the entrypoint
-        if (!finalRouteConfig) {
+        const context = api.getRuntimeContext();
+        if (!context.routes) {
           return App;
         }
 
         const getRouteApp = () => {
-          const enableRsc = getGlobalEnableRsc();
+          const enableRsc = context.application?.definition.enableRsc;
           return (props => {
             const context = useContext(InternalRuntimeContext);
             const { routerContext, ssrContext, routes } = context;
@@ -249,15 +230,16 @@ export const routerPlugin = (
                     hydrate={false}
                   />
 
-                  {mode === 'stream' && !context._routeScope && (
-                    // ROUTER_DATA will inject in `packages/runtime/plugin-runtime/src/core/server/string/ssrData.ts` in string ssr
-                    // So we can inject it only when streaming ssr
-                    <DeferredDataScripts
-                      nonce={nonce}
-                      context={routerContext!}
-                      useJsonScript={useJsonScript}
-                    />
-                  )}
+                  {mode === 'stream' &&
+                    context.application?.output === 'document' && (
+                      // ROUTER_DATA will inject in `packages/runtime/plugin-runtime/src/core/server/string/ssrData.ts` in string ssr
+                      // So we can inject it only when streaming ssr
+                      <DeferredDataScripts
+                        nonce={nonce}
+                        context={routerContext!}
+                        useJsonScript={useJsonScript}
+                      />
+                    )}
                 </>
               );
               return App ? <App>{routerWrapper}</App> : routerWrapper;
@@ -277,8 +259,4 @@ export const routerPlugin = (
       });
     },
   };
-};
-
-export const modifyRoutes = () => {
-  // empty
 };

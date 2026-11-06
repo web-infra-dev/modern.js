@@ -8,25 +8,25 @@ export const mfSSRDevPlugin = (): RuntimePlugin<
   name: '@modern-js/builtin-module-federation',
 
   setup: api => {
+    let shouldUpdate = false;
     api.onBeforeRender(async () => {
       if (typeof window !== 'undefined') {
         return;
       }
-      globalThis.shouldUpdate = false;
+      shouldUpdate = false;
       const nodeUtils = await import('@module-federation/node/utils');
-      const shouldUpdate = await nodeUtils.revalidate();
+      shouldUpdate = await nodeUtils.revalidate();
       console.log('shouldUpdate: ', shouldUpdate);
       if (shouldUpdate) {
         console.log('should RELOAD', shouldUpdate);
         await nodeUtils.flushChunks();
         flushDataFetch();
-        globalThis.shouldUpdate = true;
       }
     });
     api.wrapRoot(App => {
       const AppWrapper = (props: any) => (
         <>
-          <SSRLiveReload />
+          <SSRLiveReload shouldUpdate={shouldUpdate} />
           <App {...props} />
         </>
       );

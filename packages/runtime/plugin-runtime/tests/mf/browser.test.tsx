@@ -44,8 +44,8 @@ it('hydrates the supplied scoped Root with loader data and keeps DOM, state and 
     basename: '/',
     serverLoaders: false,
     getDataBase: () => window.location.origin,
-    createRuntime: (routesConfig, selected) =>
-      createRuntime([routerPlugin({}, routesConfig, selected)]),
+    createRuntime: (context, instancePlugins) =>
+      createRuntime([routerPlugin({})], undefined, context, instancePlugins),
   };
   const Root = createScopedRoot(definition);
   const container = document.createElement('div');
@@ -127,20 +127,25 @@ it('cancels initialization before commit and ignores its late completion after a
     basename: '/',
     serverLoaders: false,
     getDataBase: () => window.location.origin,
-    createRuntime: () =>
-      createRuntime([
-        {
-          name: 'delayed-application-start',
-          setup(api) {
-            api.onBeforeRender(async () => {
-              if (++calls === 1) {
-                entered();
-                await waiting;
-              }
-            });
+    createRuntime: (context, instancePlugins) =>
+      createRuntime(
+        [
+          {
+            name: 'delayed-application-start',
+            setup(api) {
+              api.onBeforeRender(async () => {
+                if (++calls === 1) {
+                  entered();
+                  await waiting;
+                }
+              });
+            },
           },
-        },
-      ]),
+        ],
+        undefined,
+        context,
+        instancePlugins,
+      ),
   });
   const container = document.createElement('div');
   document.body.append(container);
@@ -193,8 +198,8 @@ it('retains memory navigation and page state when Bridge updates ordinary props'
     basename: '/',
     serverLoaders: false,
     getDataBase: () => window.location.origin,
-    createRuntime: (routesConfig, selected) =>
-      createRuntime([routerPlugin({}, routesConfig, selected)]),
+    createRuntime: (context, instancePlugins) =>
+      createRuntime([routerPlugin({})], undefined, context, instancePlugins),
   });
   const memoryRoute = { entryPath: '/' };
   const container = document.createElement('div');

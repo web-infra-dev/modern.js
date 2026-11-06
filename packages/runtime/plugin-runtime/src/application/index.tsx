@@ -1,4 +1,9 @@
-import React, { startTransition, useEffect } from 'react';
+import {
+  disposeAfterError,
+  disposeResources,
+} from '../core/application/cleanup';
+import { createBrowserRequestContext } from '../core/browser/data';
+import React, { startTransition } from 'react';
 import { type Root, createRoot, hydrateRoot } from 'react-dom/client';
 import { type TInternalRuntimeContext } from '../core/context';
 import { createScopedRoot } from '../core/react/scope';
@@ -20,7 +25,10 @@ import type { ApplicationOptions, ApplicationSnapshot } from './types';
 
 export type { ApplicationOptions, ApplicationSnapshot } from './types';
 
+const noop = () => {};
+
 export interface ApplicationInstance {
+  readonly disposed: boolean;
   hydrate: (
     container: HTMLElement,
     snapshot: ApplicationSnapshot,
@@ -39,18 +47,7 @@ export interface ApplicationInstance {
       element?: React.ReactElement;
     },
   ) => Promise<void>;
-  destroy: () => void;
-}
-
-function ApplicationCommit({
-  children,
-  onCommit,
-}: {
-  children: React.ReactNode;
-  onCommit: () => void;
-}) {
-  useEffect(onCommit, [onCommit]);
-  return <>{children}</>;
+  destroy: (reason?: unknown) => void;
 }
 
 /** Restore and retain one existing Modern scope for this Bridge mount. */
@@ -67,29 +64,71 @@ export function createApplication(
   let removeAbortListener: (() => void) | undefined;
   let destroyed = false;
   let pending = false;
-  let rejectInitialization: ((error: unknown) => void) | undefined;
-  let rejectCommit: ((error: unknown) => void) | undefined;
-  let commit: () => void = () => {};
-  let ready: Promise<void> = Promise.resolve();
+  let rejectPending: ((error: unknown) => void) | undefined;
+  let commit: () => void = noop;
+  let ready: Promise<void> | undefined;
   let data: ReturnType<typeof restoreApplicationData> | undefined;
   let finishHydration: (() => void) | undefined;
-  let prepared: PreparedScope;
+  let prepared: PreparedScope | undefined;
   let connection: ReturnType<typeof createBrowserRouterConnector> | undefined;
 
-  const destroy = () => {
+  const destroy = (reason?: unknown) => {
     if (destroyed) return;
     destroyed = true;
-    rejectInitialization?.(
-      new Error('Application destroyed before initialization'),
-    );
-    data?.cancel(new Error('Application destroyed before data completed'));
-    rejectCommit?.(new Error('Application destroyed before commit'));
-    removeAbortListener?.();
-    connection?.dispose();
-    context?._routeScope?.router?.dispose();
-    root?.unmount();
+    const currentRoot = root;
+    const currentData = data;
+    const currentPrepared = prepared;
+    const currentConnection = connection;
+    const removeAbort = removeAbortListener;
+    const rejectPendingCommit = rejectPending;
     root = undefined;
     context = undefined;
+    data = undefined;
+    prepared = undefined;
+    connection = undefined;
+    removeAbortListener = undefined;
+    rejectPending = undefined;
+    finishHydration = undefined;
+    appElement = undefined;
+    props = {};
+    shellMarker = undefined;
+    commit = noop;
+    ready = undefined;
+    disposeResources(
+      () =>
+        currentData?.cancel(
+          reason ?? new Error('Application destroyed before data completed'),
+        ),
+      () =>
+        rejectPendingCommit?.(
+          reason ??
+            new Error(
+              !currentPrepared
+                ? 'Application destroyed before initialization'
+                : currentRoot
+                  ? 'Application destroyed before commit'
+                  : 'Application instance has been disposed',
+            ),
+        ),
+      removeAbort,
+      () => currentConnection?.dispose(),
+      () => currentPrepared?.dispose(reason),
+      () => currentRoot?.unmount(),
+    );
+  };
+
+  const renderApplication = () => {
+    const content = (
+      <PreparedScopeContext.Provider value={prepared}>
+        {appElement || <RootComponent {...props} />}
+      </PreparedScopeContext.Provider>
+    );
+    return wrapRuntimeContextProvider(
+      <ApplicationShell marker={shellMarker} onCommit={commit}>
+        {content}
+      </ApplicationShell>,
+      context!,
+    );
   };
 
   const initialize = async (
@@ -99,19 +138,30 @@ export function createApplication(
   ) => {
     let options = inputOptions;
     let snapshot = inputSnapshot;
-    if (root || destroyed || pending)
+    if (destroyed || pending)
       throw new Error('Application instance has already been used');
     pending = true;
-    options.signal?.throwIfAborted();
-    const cancelled = new Promise<never>((_, reject) => {
-      rejectInitialization = reject;
-    });
-    void cancelled.catch(() => {});
-    if (options.signal) {
-      options.signal.addEventListener('abort', destroy, { once: true });
-      removeAbortListener = () =>
-        options.signal?.removeEventListener('abort', destroy);
+    const signal = inputOptions.signal;
+    signal?.throwIfAborted();
+    if (signal) {
+      const onAbort = () => {
+        try {
+          destroy(signal?.reason);
+        } catch (error) {
+          (options.onRecoverableError || console.error)(error);
+        }
+      };
+      signal.addEventListener('abort', onAbort, { once: true });
+      removeAbortListener = () => signal?.removeEventListener('abort', onAbort);
     }
+    // Install the owning abort subscription before yielding. No user setup
+    // runs until the callback adapter has published its pending operation.
+    await Promise.resolve();
+    if (destroyed)
+      throw (
+        signal?.reason ??
+        new Error('Application destroyed before initialization')
+      );
     if (snapshot && snapshot.reactVersion !== React.version) {
       throw new Error(
         `Application React version mismatch: ${snapshot.reactVersion} / ${React.version}`,
@@ -126,8 +176,8 @@ export function createApplication(
       snapshot = data.snapshot;
       options = { ...options, props: snapshot.props };
       void data.done.catch(error => {
-        if (destroyed || options.signal?.aborted) return;
-        if (rejectCommit) rejectCommit(error);
+        if (destroyed || signal?.aborted) return;
+        if (root && rejectPending) rejectPending(error);
         else options.onRecoverableError?.(error);
       });
     }
@@ -138,7 +188,7 @@ export function createApplication(
     let resumeLocation = () => {};
     props = options.props || {};
     shellMarker = snapshot?.shellMarker;
-    prepared = createScopeRuntime(config.definition, {
+    const instance: PreparedScope = createScopeRuntime(config.definition, {
       isBrowser: true,
       basename: options.memoryRoute ? '/' : options.basename || '/',
       initialUrl:
@@ -151,8 +201,9 @@ export function createApplication(
         resumeLocation();
       },
     });
-    context = prepared.context;
-    const scope = context._routeScope!;
+    prepared = instance;
+    context = instance.context;
+    const scope = context.application!;
     scope.hydrationData = snapshot?.routerData;
     if (!scope.memory) {
       // The HTTP request has no fragment. Keep the first Browser Router render
@@ -203,13 +254,13 @@ export function createApplication(
               [...matches]
                 .reverse()
                 .find(match =>
-                  prepared.routeCommits?.routes.has(match.route.id),
+                  instance.routeCommits?.routes.has(match.route.id),
                 );
             if (match) {
               const kind = errorMatch ? 'error' : 'route';
               const observed = errorMatch
-                ? prepared.routeCommits?.errors
-                : prepared.routeCommits?.routes;
+                ? instance.routeCommits?.errors
+                : instance.routeCommits?.routes;
               initialRouteCommit = observed?.has(match.route.id)
                 ? `${kind}:${match.route.id}`
                 : undefined;
@@ -218,7 +269,7 @@ export function createApplication(
             resumeLocation();
           }
         : connection.attach;
-      prepared.setNavigation = connection.setNavigation;
+      instance.setNavigation = connection.setNavigation;
       finishHydration = () => {
         if (!hydrating) return;
         hydrating = false;
@@ -228,67 +279,37 @@ export function createApplication(
       };
       resumeLocation = () => {
         if (!shellCommitted) return;
-        if (!scope.router && prepared.routeCommits?.routes.size) return;
+        if (!scope.router && instance.routeCommits?.routes.size) return;
         if (initialRouteCommit && !committedRoutes.has(initialRouteCommit))
           return;
         finishHydration?.();
       };
     }
     Object.assign(context, {
+      ssr: Boolean(snapshot),
       initialData: snapshot?.initialData,
       __i18nData__: snapshot?.i18nData ? { ...snapshot.i18nData } : undefined,
-      ssrContext: {
-        request: {
-          url: url.href,
-          pathname: url.pathname,
-          query: Object.fromEntries(url.searchParams),
-          params: {},
-          headers: {},
-          cookieMap: {},
-          cookie: '',
-          host: url.host,
-          userAgent: navigator.userAgent,
-          referer: document.referrer,
-        },
-        response: {},
-        mode: 'stream',
-      },
+      ssrContext: createBrowserRequestContext(url, undefined, 'stream'),
     });
-    RootComponent = createScopedRoot(config.definition);
-    await Promise.race([
-      prepared.runtime.hooks.onBeforeRender.call(context),
-      cancelled,
-    ]);
-    rejectInitialization = undefined;
-    if (destroyed || options.signal?.aborted) {
-      options.signal?.throwIfAborted();
-      throw new Error('Application was destroyed before mounting');
-    }
+    if (!appElement) RootComponent = createScopedRoot(config.definition);
+    const preparation = await instance.prepare();
+    if (preparation.interrupted) throw preparation.value;
+    const assertActive = () => {
+      signal?.throwIfAborted();
+      if (destroyed)
+        throw new Error('Application was destroyed before mounting');
+    };
+    assertActive();
     ready = new Promise<void>((resolve, reject) => {
-      rejectCommit = reject;
+      rejectPending = reject;
       commit = () => {
         shellCommitted = true;
         resumeLocation();
-        rejectCommit = undefined;
+        rejectPending = undefined;
         resolve();
       };
     });
-    const element = wrapRuntimeContextProvider(
-      snapshot?.shellMarker ? (
-        <ApplicationShell marker={snapshot.shellMarker} onCommit={commit}>
-          <PreparedScopeContext.Provider value={prepared}>
-            {appElement || <RootComponent {...props} />}
-          </PreparedScopeContext.Provider>
-        </ApplicationShell>
-      ) : (
-        <ApplicationCommit onCommit={commit}>
-          <PreparedScopeContext.Provider value={prepared}>
-            {appElement || <RootComponent {...props} />}
-          </PreparedScopeContext.Provider>
-        </ApplicationCommit>
-      ),
-      context,
-    );
+    const element = renderApplication();
     const rootOptions = {
       identifierPrefix: options.identifierPrefix || '',
       onRecoverableError: options.onRecoverableError,
@@ -300,37 +321,42 @@ export function createApplication(
       root.render(element);
     }
     await ready;
+    assertActive();
   };
 
+  // One public operation owns preparation through React commit. Disposal
+  // rejects it immediately, even when a user setup Promise has not settled.
+  // The shared instance still owns all setup, context and Root preparation.
+  const start: typeof initialize = (container, options, snapshot) =>
+    new Promise<void>((resolve, reject) => {
+      rejectPending = reject;
+      // Always observe late completion after cancellation or replacement.
+      initialize(container, options, snapshot).then(resolve, reject);
+    }).catch(error => disposeAfterError(error, destroy));
+
   return {
+    get disposed() {
+      return destroyed;
+    },
     hydrate(container, snapshot, options) {
       if (snapshot.protocol !== APPLICATION_SNAPSHOT_PROTOCOL) {
         return Promise.reject(
           new Error('Unsupported Modern application snapshot'),
         );
       }
-      return initialize(container, { ...snapshot, ...options }, snapshot).catch(
-        error => {
-          data?.cancel(error);
-          destroy();
-          throw error;
-        },
-      );
+      return start(container, { ...snapshot, ...options }, snapshot);
     },
-    mount: (container, options) =>
-      initialize(container, options).catch(error => {
-        destroy();
-        throw error;
-      }),
+    mount: (container, options) => start(container, options),
     async update(options) {
       await ready;
-      if (!root || !context) throw new Error('Application has not mounted');
+      if (!root || !context || !prepared)
+        throw new Error('Application has not mounted');
       if ('navigation' in options)
         connection?.setNavigation(options.navigation);
-      if (options.url && context._routeScope?.memory) {
+      if (options.url && context.application?.memory) {
         const url = new URL(options.url, window.location.href);
         const pathname = `${url.pathname}${url.search}${url.hash}`;
-        const router = context._routeScope.router;
+        const router = context.application.router;
         const location =
           router?.state.navigation.location || router?.state.location;
         if (
@@ -346,22 +372,7 @@ export function createApplication(
         // Keep pending server boundaries eligible for hydration when the Host
         // updates props after the shell commits but before its data arrives.
         const currentRoot = root;
-        const element = wrapRuntimeContextProvider(
-          shellMarker ? (
-            <ApplicationShell marker={shellMarker} onCommit={commit}>
-              <PreparedScopeContext.Provider value={prepared}>
-                {appElement || <RootComponent {...props} />}
-              </PreparedScopeContext.Provider>
-            </ApplicationShell>
-          ) : (
-            <ApplicationCommit onCommit={commit}>
-              <PreparedScopeContext.Provider value={prepared}>
-                {appElement || <RootComponent {...props} />}
-              </PreparedScopeContext.Provider>
-            </ApplicationCommit>
-          ),
-          context,
-        );
+        const element = renderApplication();
         startTransition(() => currentRoot.render(element));
       }
     },

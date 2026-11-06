@@ -1,3 +1,5 @@
+import { cancellationPlugin } from '../core/application/cancellation';
+import { disposeAfterError } from '../core/application/cleanup';
 import { PassThrough, Readable } from 'node:stream';
 import type { RequestHandlerOptions } from '@modern-js/app-tools';
 import React from 'react';
@@ -72,6 +74,7 @@ export async function renderApplication(
     initialUrl: request.url,
     memory: Boolean(options.memoryRoute),
     observeRouteCommits: true,
+    plugins: [cancellationPlugin(signal, options.onError)],
   });
   const Root = createScopedRoot(options.definition);
 
@@ -79,7 +82,6 @@ export async function renderApplication(
     async (_request, Root, context) => {
       signal.throwIfAborted();
       const { runtimeContext } = context;
-      runtimeContext.ssr = true;
       const shellMarker = `${options.identifierPrefix}shell`;
       const app = (
         <PreparedScopeContext.Provider value={prepared}>
@@ -130,6 +132,11 @@ export async function renderApplication(
         fail(signal.reason || new Error('Application render aborted'));
       signal.addEventListener('abort', abort, { once: true });
       output.once('close', () => {
+        try {
+          prepared.dispose();
+        } catch (error) {
+          (options.onError || console.error)(error);
+        }
         signal.removeEventListener('abort', abort);
         if (!output.writableFinished)
           fail(new Error('Application stream was cancelled'));
@@ -178,7 +185,7 @@ export async function renderApplication(
       });
       return new Response(stream);
     },
-    { runtimeContext: prepared.context, runtime: prepared.runtime, root: Root },
+    { instance: prepared, root: Root },
   );
   const entryName = options.definition.entryName || 'index';
   const noop = () => {};
@@ -206,27 +213,15 @@ export async function renderApplication(
     onError: options.onError || noop,
     onTiming: noop,
   } as unknown as RequestHandlerOptions;
-  let abortInitialization!: () => void;
-  const cancelled = new Promise<never>((_, reject) => {
-    abortInitialization = () =>
-      reject(signal.reason || new Error('Application request aborted'));
-    signal.addEventListener('abort', abortInitialization, { once: true });
-    if (signal.aborted) abortInitialization();
-  });
   let response: Response;
   try {
-    response = await Promise.race([
-      handler(request, handlerOptions),
-      cancelled,
-    ]);
-  } finally {
-    signal.removeEventListener('abort', abortInitialization);
+    response = await handler(request, handlerOptions);
+  } catch (error) {
+    disposeAfterError(error, prepared.dispose);
   }
   if (!result) {
     // Redirects and other short-circuit responses are not an application stream.
-    throw new Error(
-      `Application request returned HTTP ${response.status} before rendering`,
-    );
+    disposeAfterError(response, prepared.dispose);
   }
   return result;
 }

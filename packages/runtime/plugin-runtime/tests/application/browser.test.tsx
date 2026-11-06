@@ -1,4 +1,15 @@
 import {
+  createPluginContract,
+  contractGate,
+  preparationEvents,
+  disposalEvents,
+} from './pluginContract';
+import { render as renderPage } from '../../src/core/browser';
+import { RenderLevel } from '../../src/core/constants';
+import { createRoot as createPageRoot } from '../../src/core/react';
+import { setGlobalContext } from '../../src/core/context';
+import { registerRuntimeDefinition } from '../../src/core/plugin';
+import {
   Await,
   useLoaderData,
   useLocation,
@@ -22,8 +33,8 @@ function setDefinition({ routes }: { routes: any[]; entryName: string }) {
     basename: '/',
     serverLoaders: false,
     getDataBase: () => window.location.origin,
-    createRuntime: routesConfig =>
-      createRuntime([routerPlugin({}, routesConfig)]),
+    createRuntime: (context, instancePlugins) =>
+      createRuntime([routerPlugin({})], undefined, context, instancePlugins),
   };
 }
 const createApplication = () =>
@@ -53,17 +64,22 @@ it('restores each application language before plugins run without borrowing Host
     basename: '/',
     serverLoaders: false,
     getDataBase: () => 'http://producer',
-    createRuntime: () =>
-      createRuntime([
-        {
-          name: 'capture-application-language',
-          setup(api) {
-            api.onBeforeRender(context => {
-              languages.push(context.__i18nData__);
-            });
+    createRuntime: (context, instancePlugins) =>
+      createRuntime(
+        [
+          {
+            name: 'capture-application-language',
+            setup(api) {
+              api.onBeforeRender(context => {
+                languages.push(context.__i18nData__);
+              });
+            },
           },
-        },
-      ]),
+        ],
+        undefined,
+        context,
+        instancePlugins,
+      ),
   };
   const apps = [createApplication(), createApplication(), createApplication()];
   const containers = ['en', 'zh', 'csr-language'].map((language, index) => {
@@ -472,8 +488,13 @@ it.each(['fragment', 'lazy fragment', 'in-flight Host navigation'])(
       basename: '/',
       serverLoaders: false,
       getDataBase: () => window.location.origin,
-      createRuntime: (routesConfig, selected) =>
-        createRuntime([nodeRouterPlugin({}, routesConfig, selected)]),
+      createRuntime: (context, instancePlugins) =>
+        createRuntime(
+          [nodeRouterPlugin({})],
+          undefined,
+          context,
+          instancePlugins,
+        ),
     };
     const rendered = await renderApplication(
       new Request(`${window.location.origin}${initialPath}`),
@@ -509,26 +530,31 @@ it.each(['fragment', 'lazy fragment', 'in-flight Host navigation'])(
           return { product: params.id };
         },
       })),
-      createRuntime: (routesConfig, selected) =>
-        createRuntime([
-          routerPlugin({}, routesConfig, selected),
-          {
-            name: 'observe-hydration-initialization',
-            setup(api) {
-              api.onBeforeRender(async context => {
-                const scope = context._routeScope!;
-                const attach = scope.onRouterCreated!;
-                scope.onRouterCreated = router => {
-                  routers.push(router);
-                  initialLocations.push(router.state.location);
-                  attach(router);
-                };
-                entered();
-                await gate;
-              });
+      createRuntime: (context, instancePlugins) =>
+        createRuntime(
+          [
+            routerPlugin({}),
+            {
+              name: 'observe-hydration-initialization',
+              setup(api) {
+                api.onBeforeRender(async context => {
+                  const scope = context.application!;
+                  const attach = scope.onRouterCreated!;
+                  scope.onRouterCreated = router => {
+                    routers.push(router);
+                    initialLocations.push(router.state.location);
+                    attach(router);
+                  };
+                  entered();
+                  await gate;
+                });
+              },
             },
-          },
-        ]),
+          ],
+          undefined,
+          context,
+          instancePlugins,
+        ),
     };
     const container = document.createElement('div');
     container.innerHTML = html;
@@ -655,8 +681,13 @@ it.each(['custom', 'default'])(
       basename: '/',
       serverLoaders: false,
       getDataBase: () => window.location.origin,
-      createRuntime: (routesConfig, selected) =>
-        createRuntime([nodeRouterPlugin({}, routesConfig, selected)]),
+      createRuntime: (context, instancePlugins) =>
+        createRuntime(
+          [nodeRouterPlugin({})],
+          undefined,
+          context,
+          instancePlugins,
+        ),
     };
     const rendered = await renderApplication(
       new Request(`${window.location.origin}/inventory`),
@@ -684,23 +715,28 @@ it.each(['custom', 'default'])(
           return null;
         },
       })),
-      createRuntime: (routesConfig, selected) =>
-        createRuntime([
-          routerPlugin({}, routesConfig, selected),
-          {
-            name: 'observe-error-router',
-            setup(api) {
-              api.onBeforeRender(context => {
-                const scope = context._routeScope!;
-                const attach = scope.onRouterCreated!;
-                scope.onRouterCreated = value => {
-                  router = value;
-                  attach(value);
-                };
-              });
+      createRuntime: (context, instancePlugins) =>
+        createRuntime(
+          [
+            routerPlugin({}),
+            {
+              name: 'observe-error-router',
+              setup(api) {
+                api.onBeforeRender(context => {
+                  const scope = context.application!;
+                  const attach = scope.onRouterCreated!;
+                  scope.onRouterCreated = value => {
+                    router = value;
+                    attach(value);
+                  };
+                });
+              },
             },
-          },
-        ]),
+          ],
+          undefined,
+          context,
+          instancePlugins,
+        ),
     };
     const errors: unknown[] = [];
     const app = createApplication();
@@ -802,4 +838,452 @@ it('releases a failed hydration snapshot so a fresh CSR instance can recover in 
   recovered.destroy();
   expect(container.innerHTML).toBe('');
   container.remove();
+});
+
+async function mountContract(
+  kind: 'page' | 'Bridge',
+  probe: ReturnType<typeof createPluginContract>,
+  container: HTMLElement,
+) {
+  const create = (context: any, instancePlugins) =>
+    createRuntime(probe.plugins, undefined, context, instancePlugins);
+  if (kind === 'page') {
+    setGlobalContext({ App: probe.Page });
+    registerRuntimeDefinition(create);
+    const Root = createPageRoot();
+    const root = await renderPage(<Root />, container);
+    return () => root.unmount();
+  }
+  const app = createScopedApplication(undefined, {
+    definition: {
+      routes: [],
+      App: probe.Page,
+      selected: false,
+      basename: '/',
+      serverLoaders: false,
+      getDataBase: () => window.location.origin,
+      createRuntime: create,
+    },
+  });
+  await app.mount(container, { url: window.location.href });
+  return () => app.destroy();
+}
+
+it.each(['page', 'Bridge'] as const)(
+  '%s executes the same awaited plugin contract and owns Provider data and cleanup',
+  async kind => {
+    delete window._SSR_DATA;
+    delete window._ROUTER_DATA;
+    const gate = contractGate();
+    const probe = createPluginContract({
+      expectedSSR: false,
+      setupGate: gate.promise,
+    });
+    const container = document.createElement('div');
+    document.body.append(container);
+    let dispose!: () => void;
+    const pending = mountContract(kind, probe, container);
+    await expect.poll(() => probe.records.length).toBe(1);
+    expect(probe.records[0].events).toEqual(['setup:source']);
+    expect(container.childElementCount).toBe(0);
+    gate.release();
+    dispose = await pending;
+    await React.act(async () => {});
+    const record = probe.records[0];
+    expect(record.events).toEqual(preparationEvents);
+    expect(record.provider).toBe(record.context);
+    expect(record.publicData).toBe(record.context.contract);
+    expect(
+      container.querySelector('[data-contract-wrapper]')?.textContent,
+    ).toBe(`contract:ready:${window.location.href}`);
+    await React.act(async () => dispose());
+    expect(record.events).toEqual([...preparationEvents, ...disposalEvents]);
+    container.remove();
+  },
+);
+
+it.each(['page', 'Bridge'] as const)(
+  '%s provides decoded request queries throughout the shared plugin lifecycle',
+  async kind => {
+    delete window._SSR_DATA;
+    delete window._ROUTER_DATA;
+    window.history.replaceState(
+      null,
+      '',
+      '/?encoded=a%20b&plus=a+b&token=a=b&flag&empty=&repeat=first&repeat=last&%E9%94%AE=%E5%80%BC',
+    );
+    const probe = createPluginContract({
+      expectedSSR: false,
+      expectedQuery: {
+        encoded: 'a b',
+        plus: 'a b',
+        token: 'a=b',
+        flag: '',
+        empty: '',
+        repeat: 'last',
+        键: '值',
+      },
+    });
+    const container = document.createElement('div');
+    document.body.append(container);
+    let dispose: (() => void) | undefined;
+    try {
+      dispose = await mountContract(kind, probe, container);
+      await React.act(async () => {});
+      expect(probe.records[0].events).toEqual(preparationEvents);
+      expect(probe.records[0].provider).toBe(probe.records[0].context);
+    } finally {
+      await React.act(async () => dispose?.());
+      container.remove();
+      window.history.replaceState(null, '', '/');
+    }
+  },
+);
+
+it.each(['page', 'Bridge'] as const)(
+  '%s propagates plugin errors and interruption without mounting',
+  async kind => {
+    for (const options of [
+      { error: new Error('plugin failed') },
+      { interrupt: new Response('stop', { status: 409 }) },
+      { interrupt: undefined },
+    ]) {
+      const probe = createPluginContract({ expectedSSR: false, ...options });
+      const container = document.createElement('div');
+      document.body.append(container);
+      const pending = mountContract(kind, probe, container);
+      await expect(pending).rejects.toBe(
+        'error' in options ? options.error : options.interrupt,
+      );
+      expect(container.childElementCount).toBe(0);
+      expect(probe.records[0].events).toEqual([
+        ...preparationEvents.slice(0, 5),
+        ...disposalEvents,
+      ]);
+      container.remove();
+    }
+  },
+);
+
+it('cancels pending Bridge plugin preparation without running later hooks or mounting', async () => {
+  const gate = contractGate();
+  const probe = createPluginContract({
+    expectedSSR: false,
+    hookGate: gate.promise,
+  });
+  const container = document.createElement('div');
+  document.body.append(container);
+  const app = createScopedApplication(undefined, {
+    definition: {
+      routes: [],
+      App: probe.Page,
+      selected: false,
+      basename: '/',
+      serverLoaders: false,
+      getDataBase: () => window.location.origin,
+      createRuntime: (context, instancePlugins) =>
+        createRuntime(probe.plugins, undefined, context, instancePlugins),
+    },
+  });
+  const pending = app.mount(container, { url: window.location.href });
+  await expect
+    .poll(() => probe.records[0]?.events.includes('before:source'))
+    .toBe(true);
+  let rejection: unknown;
+  const settled = pending.catch(error => {
+    rejection = error;
+  });
+  try {
+    app.destroy();
+    await expect.poll(() => rejection).toBeInstanceOf(Error);
+    expect((rejection as Error).message).toBe(
+      'Application instance has been disposed',
+    );
+  } finally {
+    gate.release();
+    await settled;
+  }
+  await Promise.resolve();
+  expect(container.childElementCount).toBe(0);
+  expect(probe.records[0].events).toEqual([
+    ...preparationEvents.slice(0, 5),
+    ...disposalEvents,
+  ]);
+  container.remove();
+});
+
+it.each(['page', 'Bridge'] as const)(
+  '%s unmounts its DOM and releases all plugins even when cleanup throws',
+  async kind => {
+    const probe = createPluginContract({
+      expectedSSR: false,
+      cleanupError: new Error('cleanup failed'),
+    });
+    const container = document.createElement('div');
+    document.body.append(container);
+    const dispose = await mountContract(kind, probe, container);
+    await React.act(async () => {});
+    expect(container.querySelector('[data-contract-wrapper]')).not.toBeNull();
+    await React.act(async () => {
+      expect(dispose).toThrow();
+    });
+    expect(container.childElementCount).toBe(0);
+    expect(probe.records[0].events).toEqual([
+      ...preparationEvents,
+      ...disposalEvents,
+    ]);
+    expect(dispose).not.toThrow();
+    expect(probe.records[0].events).toEqual([
+      ...preparationEvents,
+      ...disposalEvents,
+    ]);
+    container.remove();
+  },
+);
+
+it('keeps raw render props and avoids wrapRoot while registered roots use the wrapper once', async () => {
+  const previousData = window._SSR_DATA;
+  const previousReady = window._SSR_DATA_READY;
+  delete window._SSR_DATA;
+  delete window._SSR_DATA_READY;
+  const wrappers: string[] = [];
+  const cleanups: string[] = [];
+  const prepared: string[] = [];
+  function Page({ label }: { label: string }) {
+    return <p>{label}</p>;
+  }
+  setGlobalContext({ App: Page });
+  registerRuntimeDefinition((context, instancePlugins) =>
+    createRuntime(
+      [
+        {
+          name: 'raw-render-contract',
+          setup(api) {
+            api.onBeforeRender(() => {
+              prepared.push('before');
+            });
+            api.wrapRoot(App => {
+              wrappers.push('wrap');
+              return props => (
+                <section data-wrapped>
+                  <App {...props} />
+                </section>
+              );
+            });
+            api.onDispose(() => {
+              cleanups.push('dispose');
+            });
+          },
+        },
+      ],
+      undefined,
+      context,
+      instancePlugins,
+    ),
+  );
+  const containers = [
+    document.createElement('div'),
+    document.createElement('div'),
+  ];
+  containers.forEach(container => document.body.append(container));
+  const roots: Array<{ unmount(): void }> = [];
+  try {
+    await React.act(async () => {
+      roots.push(await renderPage(<Page label="raw props" />, containers[0]));
+    });
+    expect(containers[0].textContent).toBe('raw props');
+    expect(containers[0].querySelector('[data-wrapped]')).toBeNull();
+    expect(wrappers).toEqual([]);
+    const Root = createPageRoot();
+    await React.act(async () => {
+      roots.push(
+        await renderPage(<Root label="registered props" />, containers[1]),
+      );
+    });
+    expect(containers[1].querySelector('[data-wrapped]')?.textContent).toBe(
+      'registered props',
+    );
+    expect(wrappers).toEqual(['wrap']);
+    expect(prepared).toEqual(['before', 'before']);
+  } finally {
+    await React.act(async () => {
+      roots.forEach(root => root.unmount());
+    });
+    containers.forEach(container => container.remove());
+    window._SSR_DATA = previousData;
+    window._SSR_DATA_READY = previousReady;
+  }
+  expect(cleanups).toEqual(['dispose', 'dispose']);
+});
+
+it.each(['page', 'Bridge'] as const)(
+  '%s exposes SSR state before plugin setup and throughout hydration',
+  async kind => {
+    const previousHydration = process.env.MODERN_ENABLE_HYDRATION;
+    const previousData = window._SSR_DATA;
+    const previousRouterData = window._ROUTER_DATA;
+    const previousReady = window._SSR_DATA_READY;
+    process.env.MODERN_ENABLE_HYDRATION = 'true';
+    delete window._SSR_DATA_READY;
+    delete window._ROUTER_DATA;
+    const probe = createPluginContract({ expectedSSR: true });
+    const container = document.createElement('div');
+    container.innerHTML = '<section data-contract-wrapper><p></p></section>';
+    const serverNode = container.firstElementChild;
+    const serverParagraph = container.querySelector('p')!;
+    serverParagraph.textContent = `contract:ready:${window.location.href}`;
+    document.body.append(container);
+    const errors: unknown[] = [];
+    let dispose: (() => void) | undefined;
+    const create = (context: any, instancePlugins) =>
+      createRuntime(probe.plugins, undefined, context, instancePlugins);
+    try {
+      if (kind === 'page') {
+        window._SSR_DATA = {
+          mode: 'string',
+          renderLevel: RenderLevel.SERVER_RENDER,
+        } as any;
+        setGlobalContext({ App: probe.Page });
+        registerRuntimeDefinition(create);
+        const Root = createPageRoot();
+        const root = await renderPage(<Root />, container);
+        dispose = () => root.unmount();
+      } else {
+        delete window._SSR_DATA;
+        const marker = document.createElement('template');
+        marker.id = 'contract-shell';
+        container.append(marker);
+        const app = createScopedApplication(undefined, {
+          definition: {
+            routes: [],
+            App: probe.Page,
+            selected: false,
+            basename: '/',
+            serverLoaders: false,
+            getDataBase: () => window.location.origin,
+            createRuntime: create,
+          },
+        });
+        dispose = () => app.destroy();
+        await app.hydrate(
+          container,
+          {
+            protocol: APPLICATION_SNAPSHOT_PROTOCOL,
+            reactVersion: React.version,
+            identifierPrefix: 'contract-',
+            shellMarker: marker.id,
+            pending: [],
+            url: window.location.href,
+            basename: '/',
+            props: {},
+          },
+          {
+            updates: closedUpdates(),
+            onRecoverableError: error => errors.push(error),
+          },
+        );
+      }
+      await React.act(async () => {});
+      expect(probe.records[0].events).toEqual(preparationEvents);
+      expect(probe.records[0].provider).toBe(probe.records[0].context);
+      expect(container.firstElementChild).toBe(serverNode);
+      expect(container.querySelector('p')).toBe(serverParagraph);
+      expect(errors).toEqual([]);
+    } finally {
+      await React.act(async () => dispose?.());
+      container.remove();
+      if (previousHydration === undefined)
+        delete process.env.MODERN_ENABLE_HYDRATION;
+      else process.env.MODERN_ENABLE_HYDRATION = previousHydration;
+      window._SSR_DATA = previousData;
+      window._ROUTER_DATA = previousRouterData;
+      window._SSR_DATA_READY = previousReady;
+    }
+    expect(probe.records[0].events).toEqual([
+      ...preparationEvents,
+      ...disposalEvents,
+    ]);
+  },
+);
+
+it('reports an early progressive transport error without aborting pending plugin preparation', async () => {
+  const gate = contractGate();
+  const entered = contractGate();
+  const failure = new Error('early transport failure');
+  const errors: unknown[] = [];
+  definition = {
+    routes: [],
+    App: () => <button>ready</button>,
+    selected: false,
+    basename: '/',
+    serverLoaders: false,
+    getDataBase: () => window.location.origin,
+    createRuntime: (context, plugins) =>
+      createRuntime(
+        [
+          {
+            name: 'pending-hydration-preparation',
+            setup(api) {
+              api.onBeforeRender(async () => {
+                entered.release();
+                await gate.promise;
+              });
+            },
+          },
+        ],
+        undefined,
+        context,
+        plugins,
+      ),
+  };
+  const container = document.createElement('div');
+  container.innerHTML =
+    '<button>ready</button><template id="early-stream-shell"></template>';
+  document.body.append(container);
+  const button = container.firstChild;
+  const app = createApplication();
+  let settled = false;
+  try {
+    const pending = app.hydrate(
+      container,
+      {
+        protocol: APPLICATION_SNAPSHOT_PROTOCOL,
+        reactVersion: React.version,
+        identifierPrefix: 'early-stream-',
+        shellMarker: 'early-stream-shell',
+        pending: [],
+        url: window.location.href,
+        basename: '/',
+        props: {},
+      },
+      {
+        updates: new ReadableStream({
+          start(controller) {
+            controller.error(failure);
+          },
+        }),
+        onRecoverableError: error => errors.push(error),
+      },
+    );
+    void pending.then(
+      () => {
+        settled = true;
+      },
+      () => {
+        settled = true;
+      },
+    );
+    await entered.promise;
+    await expect.poll(() => errors).toEqual([failure]);
+    expect(settled).toBe(false);
+    gate.release();
+    await pending;
+    expect(app.disposed).toBe(false);
+    expect(container.firstChild).toBe(button);
+    expect(errors).toEqual([failure]);
+  } finally {
+    gate.release();
+    app.destroy();
+    container.remove();
+  }
 });

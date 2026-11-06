@@ -211,7 +211,9 @@ export const initializeI18nInstance = async (
   mergedBackend: any,
   userInitOptions?: I18nInitOptions,
   useSuspense?: boolean,
+  signal?: AbortSignal,
 ): Promise<void> => {
+  signal?.throwIfAborted();
   if (!i18nInstance.isInitialized) {
     const initOptions = await buildInitOptions(
       finalLanguage,
@@ -223,6 +225,7 @@ export const initializeI18nInstance = async (
       useSuspense,
       i18nInstance,
     );
+    signal?.throwIfAborted();
 
     // For i18next, backend configuration must be passed to init() via initOptions.backend
     // The backend class is already registered via useI18nextBackend, but the config (loadPath, etc.)
@@ -235,6 +238,7 @@ export const initializeI18nInstance = async (
       Array.isArray(savedBackendConfig.backends);
 
     await i18nInstance.init(initOptions);
+    signal?.throwIfAborted();
 
     if (mergedBackend) {
       if (isI18nWrapperInstance(i18nInstance) && actualInstance?.options) {
@@ -282,13 +286,26 @@ export const initializeI18nInstance = async (
 
       let retries = 20;
       while (retries > 0) {
+        signal?.throwIfAborted();
         // Get the actual i18next instance to access store property
         const actualInstance = getActualI18nextInstance(i18nInstance);
         const store = (actualInstance as any).store;
         if (store?.data?.[finalLanguage]?.[ns]) {
           break;
         }
-        await new Promise(resolve => setTimeout(resolve, 100));
+        await new Promise<void>((resolve, reject) => {
+          const finish = () => {
+            signal?.removeEventListener('abort', abort);
+            resolve();
+          };
+          const timer = setTimeout(finish, 100);
+          const abort = () => {
+            clearTimeout(timer);
+            signal?.removeEventListener('abort', abort);
+            reject(signal?.reason);
+          };
+          signal?.addEventListener('abort', abort, { once: true });
+        });
         retries--;
       }
     }

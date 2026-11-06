@@ -50,7 +50,7 @@ const Root = createScopedRoot({
     },
     loader: ({ params }) => ({ id: params.id }),
   }],
-  createRuntime: (routesConfig, selected) => createRuntime([routerPlugin({}, routesConfig, selected)]),
+  createRuntime: (context, plugins) => createRuntime([routerPlugin()], undefined, context, plugins),
 });
 export async function run() {
   const provider = createBridgeComponent({ rootComponent: Root, render, hydrate, renderStream })();
@@ -88,7 +88,9 @@ export async function run() {
         // Match Modern's Node extension selection, including its existing
         // async storage and server loader implementation.
         extensionAlias: { '.mjs': ['.node.mjs', '.server.mjs', '.mjs'] },
-        modules: [path.join(packageRoot, 'node_modules'), 'node_modules'],
+        // Keep each dependency's own resolution first. The temporary entry
+        // only needs the runtime package's dependencies as a fallback.
+        modules: ['node_modules', path.join(packageRoot, 'node_modules')],
       },
       output: {
         path: temporary,

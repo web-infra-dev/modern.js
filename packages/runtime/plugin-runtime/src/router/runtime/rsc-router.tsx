@@ -360,16 +360,19 @@ function canSkipRscFetch(
 /**
  * Inject CSS for a route using routeManifest.routeAssets.
  */
-function injectRouteCss(routeId: string): void {
+function injectRouteCss(
+  routeId: string,
+  resources: { manifest?: RouteManifest; publicPath?: string },
+): void {
   if (typeof window === 'undefined') {
     return;
   }
   const cssAssets =
-    window._MODERNJS_ROUTE_MANIFEST?.routeAssets?.[routeId]?.referenceCssAssets;
+    resources.manifest?.routeAssets?.[routeId]?.referenceCssAssets;
   if (!cssAssets) {
     return;
   }
-  const publicPath = window.__webpack_public_path__ || '/';
+  const publicPath = resources.publicPath || '/';
   for (const css of cssAssets) {
     const href =
       css.startsWith('http') || css.startsWith('/') ? css : publicPath + css;
@@ -446,6 +449,7 @@ async function resolveClientOnlyNavigation(
   results: Record<string, DataStrategyResult>,
   originalRoutes: RouteObject[],
   routerState: RouterState,
+  resources: { manifest?: RouteManifest; publicPath?: string },
 ): Promise<Record<string, DataStrategyResult>> {
   // Only touch changed route segments. Unchanged parent routes may still
   // hold a server-rendered element with loaderData props that must not be
@@ -462,7 +466,7 @@ async function resolveClientOnlyNavigation(
 
   for (const match of changedMatches) {
     if (match.route.id) {
-      injectRouteCss(match.route.id);
+      injectRouteCss(match.route.id, resources);
     }
   }
 
@@ -473,6 +477,7 @@ export const createClientRouterFromPayload = (
   payload: ServerPayload,
   originalRoutes: RouteObject[],
   basename = '',
+  resources: { manifest?: RouteManifest; publicPath?: string } = {},
 ) => {
   const processedRoutes = payload.routes.reduceRight<PayloadRoute[]>(
     (previous, route) => {
@@ -504,6 +509,7 @@ export const createClientRouterFromPayload = (
           results,
           originalRoutes,
           router.state,
+          resources,
         );
       }
 

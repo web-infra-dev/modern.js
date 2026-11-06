@@ -1,8 +1,7 @@
-import { parsedJSONFromElement } from '@modern-js/runtime-utils/parsed';
-import type React from 'react';
-import { isBrowser } from '../../common';
-import { ROUTER_DATA_JSON_ID, SSR_DATA_JSON_ID } from '../constants';
-import { getGlobalApp, getGlobalInternalRuntimeContext } from '../context';
+import React, { useContext } from 'react';
+import { InternalRuntimeContext } from '../context';
+import { getDefaultApplicationDefinition } from '../application/default';
+import { registerApplicationRoot } from '../application/definition';
 
 export interface CreateRootOptions {
   route?: string;
@@ -25,22 +24,18 @@ export function createRoot(
     }
     UserApp = undefined;
   }
-  const App = (UserApp || getGlobalApp()) as React.ComponentType | undefined;
-
-  if (isBrowser()) {
-    // we should get data from HTMLElement when set server.useJsonScript = true
-    window._SSR_DATA =
-      window._SSR_DATA || parsedJSONFromElement(SSR_DATA_JSON_ID);
-
-    window._ROUTER_DATA =
-      window._ROUTER_DATA || parsedJSONFromElement(ROUTER_DATA_JSON_ID);
-  }
-
-  const internalRuntimeContext = getGlobalInternalRuntimeContext();
-  const hooks = internalRuntimeContext.hooks;
-  /**
-   * when use routes entry, after running router plugin, the App will be define
-   */
-  const WrapperApp = hooks.wrapRoot.call(App!);
-  return WrapperApp;
+  const definition = {
+    ...getDefaultApplicationDefinition(),
+    ...(UserApp ? { App: UserApp as React.ComponentType } : {}),
+  };
+  const ModernRoot = (props: Record<string, unknown>) => {
+    const context = useContext(InternalRuntimeContext);
+    const Root = context.application?.Root;
+    if (!Root)
+      throw new Error(
+        'Modern Root must be rendered by its application instance',
+      );
+    return <Root {...props} />;
+  };
+  return registerApplicationRoot(ModernRoot, definition);
 }

@@ -16,7 +16,9 @@ export type Plugin<PluginAPI = {}, Context = {}> = {
   /**
    * The plugins add new hooks to the plugin manager.
    */
-  registryHooks?: Record<string, PluginHook<(...args: any[]) => any>>;
+  registryHooks?:
+    | Record<string, PluginHook<(...args: any[]) => any>>
+    | (() => Record<string, PluginHook<(...args: any[]) => any>>);
   /**
    * The plugins add new apis to the plugin manager.
    */

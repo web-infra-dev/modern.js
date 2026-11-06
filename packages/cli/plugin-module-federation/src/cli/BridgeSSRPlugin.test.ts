@@ -1,6 +1,6 @@
 import { BridgeSSRPlugin, getBridgeSSRRuntimePlugin } from './BridgeSSRPlugin';
 import type { Rspack } from '@rsbuild/core';
-import { runtimeRegister } from '../../../../runtime/plugin-runtime/src/cli/template';
+import { runtimeFactory } from '../../../../runtime/plugin-runtime/src/cli/template';
 import * as browserPlugin from '../ssr-runtime/bridgeStreamPlugin';
 import fs from 'node:fs';
 import os from 'node:os';
@@ -80,7 +80,7 @@ it.each(['cjs', 'esm-node'])(
     expect(plugin.path).toBe(
       '/package/dist/esm/ssr-runtime/bridgeStreamPlugin.mjs',
     );
-    const generated = runtimeRegister({
+    const generated = runtimeFactory({
       entryName: 'main',
       srcDirectory: '/app/src',
       internalSrcAlias: '@',

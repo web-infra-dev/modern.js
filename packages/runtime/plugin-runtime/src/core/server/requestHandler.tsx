@@ -1,3 +1,5 @@
+import { cancellationPlugin } from '../application/cancellation';
+import { disposeAfterError } from '../application/cleanup';
 import type {
   RequestHandler,
   RequestHandlerOptions,
@@ -13,14 +15,13 @@ import {
 import React from 'react';
 import { Fragment } from 'react';
 import { handleRSCRedirect } from '../../router/runtime/rsc-router';
+import { type TInternalRuntimeContext } from '../context';
 import {
-  type TInternalRuntimeContext,
-  getGlobalInternalRuntimeContext,
-  getGlobalRSCRoot,
-} from '../context';
-import { getInitialContext } from '../context/runtime';
+  createApplicationInstance,
+  type RuntimeApplicationInstance,
+} from '../application/instance';
+import { getDefaultApplicationDefinition } from '../application/default';
 import { getServerPayload } from '../context/serverPayload';
-import { createRoot } from '../react';
 import type { SSRServerContext } from '../types';
 import { CHUNK_CSS_PLACEHOLDER } from './constants';
 import { SSRErrors } from './tracer';
@@ -32,6 +33,7 @@ async function handleRSCRequest(
   context: TInternalRuntimeContext,
   options: RequestHandlerOptions,
   handleRequest: HandleRequest,
+  App?: React.ComponentType,
 ): Promise<Response> {
   const serverPayload = getServerPayload();
 
@@ -43,7 +45,6 @@ async function handleRSCRequest(
     });
   }
 
-  const App = getGlobalRSCRoot();
   if (App) {
     return await handleRequest(request, Fragment, {
       ...options,
@@ -79,8 +80,7 @@ export type CreateRequestHandler = (
   options?: {
     enableRsc?: boolean;
     /** Explicit application scope. Ordinary page requests retain the registry path. */
-    runtimeContext?: TInternalRuntimeContext;
-    runtime?: ReturnType<typeof getGlobalInternalRuntimeContext>;
+    instance?: RuntimeApplicationInstance;
     root?: React.ComponentType<any>;
   },
 ) => Promise<RequestHandler>;
@@ -225,6 +225,9 @@ export const createRequestHandler: CreateRequestHandler = async (
   handleRequest,
   createRequestOptions,
 ) => {
+  const definition =
+    createRequestOptions?.instance?.definition ||
+    getDefaultApplicationDefinition();
   const requestHandler: RequestHandler = async (request, options) => {
     const headersData = parseHeaders(request);
     const responseProxy: ResponseProxy = {
@@ -244,138 +247,194 @@ export const createRequestHandler: CreateRequestHandler = async (
         serverPayload: undefined,
       },
       async () => {
-        const Root = createRequestOptions?.root || createRoot();
-
-        const internalRuntimeContext =
-          createRequestOptions?.runtime || getGlobalInternalRuntimeContext();
-        const hooks = internalRuntimeContext.hooks;
-
-        const { routeManifest } = options.resource;
-
-        const context: TInternalRuntimeContext =
-          createRequestOptions?.runtimeContext ||
-          getInitialContext(false, routeManifest as any);
-
-        const runBeforeRender = async (
-          context: TInternalRuntimeContext,
-        ): Promise<Response | undefined> => {
-          // when router is redirect, beforeRender will return a response
-          const result = await hooks.onBeforeRender.call(context);
-          if (typeof Response !== 'undefined' && result instanceof Response) {
-            return result;
-          }
-        };
-
         const ssrContext = createSSRContext(request, {
           ...options,
           responseProxy,
         });
+        const instance =
+          createRequestOptions?.instance ||
+          createApplicationInstance(definition, {
+            isBrowser: false,
+            output: 'document',
+            initialUrl: request.url,
+            plugins: [
+              cancellationPlugin(request.signal, error =>
+                options.onError(error, SSRErrors.RENDER_HTML),
+              ),
+            ],
+            context: {
+              ssrContext,
+              routeManifest: options.resource.routeManifest as any,
+            },
+          });
+        const context = instance.context;
+        const finishResponse = (response: Response) =>
+          context.application?.output === 'fragment'
+            ? response
+            : ownResponse(response, instance.dispose);
+        context.ssrContext = ssrContext;
+        try {
+          // Prepare redirect context once for all redirect handling
+          const redirectCtx: RedirectContext = {
+            enableRsc: !!createRequestOptions?.enableRsc,
+            isRSCNavigation: request.headers.get('x-rsc-tree') === 'true',
+            basename: ssrContext.baseUrl || '/',
+          };
 
-        Object.assign(context, {
-          ssrContext,
-          isBrowser: false,
-        });
-
-        // Prepare redirect context once for all redirect handling
-        const redirectCtx: RedirectContext = {
-          enableRsc: !!createRequestOptions?.enableRsc,
-          isRSCNavigation: request.headers.get('x-rsc-tree') === 'true',
-          basename: ssrContext.baseUrl || '/',
-        };
-
-        const beforeRenderResult = await runBeforeRender(context);
-
-        // Support data loader to return `new Response` and set status code
-        if (
-          context.routerContext?.statusCode &&
-          context.routerContext?.statusCode !== 200
-        ) {
-          context.ssrContext?.response.status(
-            context.routerContext?.statusCode,
-          );
-        }
-
-        // log error by monitors when data loader throw error
-        const errors = Object.values(
-          (context.routerContext?.errors || {}) as Record<string, Error>,
-        );
-        if (errors.length > 0) {
-          options.onError(errors[0], SSRErrors.LOADER_ERROR);
-        }
-
-        // Handle redirect from loader (beforeRenderResult)
-        if (
-          typeof Response !== 'undefined' &&
-          beforeRenderResult instanceof Response &&
-          isRedirectStatus(beforeRenderResult.status)
-        ) {
-          // Already in RSC format (from plugin.node.tsx), return directly
-          if (beforeRenderResult.headers.has('X-Modernjs-Redirect')) {
-            return beforeRenderResult;
+          const prepared = await instance.prepare();
+          const beforeRenderResult = prepared.interrupted
+            ? prepared.value
+            : undefined;
+          if (
+            prepared.interrupted &&
+            !(beforeRenderResult instanceof Response)
+          ) {
+            disposeAfterError(beforeRenderResult, instance.dispose);
           }
-          // Convert to appropriate format
-          const redirectUrl = beforeRenderResult.headers.get('Location') || '/';
-          return processRedirect(
-            new Headers({ Location: redirectUrl }),
-            beforeRenderResult.status,
-            redirectCtx,
-          );
-        }
+          const Root =
+            createRequestOptions?.root ||
+            (!prepared.interrupted ? instance.Root : Fragment);
 
-        if (!createRequestOptions?.enableRsc) {
-          const { htmlTemplate } = options.resource;
-          options.resource.htmlTemplate = htmlTemplate.replace(
-            '</head>',
-            `${CHUNK_CSS_PLACEHOLDER}</head>`,
-          );
-        }
+          // Support data loader to return `new Response` and set status code
+          if (
+            context.routerContext?.statusCode &&
+            context.routerContext?.statusCode !== 200
+          ) {
+            context.ssrContext?.response.status(
+              context.routerContext?.statusCode,
+            );
+          }
 
-        let response: Response;
-
-        if (createRequestOptions?.enableRsc) {
-          response = await handleRSCRequest(
-            request,
-            Root,
-            context,
-            options,
-            handleRequest,
+          // log error by monitors when data loader throw error
+          const errors = Object.values(
+            (context.routerContext?.errors || {}) as Record<string, Error>,
           );
-        } else {
-          response = await handleRequest(request, Root, {
-            ...options,
-            runtimeContext: context,
+          if (errors.length > 0) {
+            options.onError(errors[0], SSRErrors.LOADER_ERROR);
+          }
+
+          // RSC navigation has a different redirect transport. Ordinary HTTP
+          // responses keep their body, status text and complete headers.
+          if (
+            typeof Response !== 'undefined' &&
+            beforeRenderResult instanceof Response &&
+            isRedirectStatus(beforeRenderResult.status) &&
+            redirectCtx.enableRsc &&
+            redirectCtx.isRSCNavigation &&
+            !beforeRenderResult.headers.has('X-Modernjs-Redirect')
+          ) {
+            instance.dispose();
+            return processRedirect(
+              new Headers(beforeRenderResult.headers),
+              beforeRenderResult.status,
+              redirectCtx,
+            );
+          }
+
+          if (beforeRenderResult instanceof Response) {
+            return finishResponse(beforeRenderResult);
+          }
+          if (!createRequestOptions?.enableRsc) {
+            const { htmlTemplate } = options.resource;
+            options = {
+              ...options,
+              resource: {
+                ...options.resource,
+                htmlTemplate: htmlTemplate.replace(
+                  '</head>',
+                  `${CHUNK_CSS_PLACEHOLDER}</head>`,
+                ),
+              },
+            };
+          }
+
+          let response: Response;
+
+          if (createRequestOptions?.enableRsc) {
+            response = await handleRSCRequest(
+              request,
+              Root,
+              context,
+              options,
+              handleRequest,
+              instance.definition.RSCRoot,
+            );
+          } else {
+            response = await handleRequest(request, Root, {
+              ...options,
+              runtimeContext: context,
+            });
+          }
+
+          // Handle redirect from component render (via responseProxy)
+          if (
+            responseProxy.status !== -1 &&
+            isRedirectStatus(responseProxy.status) &&
+            responseProxy.headers.Location
+          ) {
+            instance.dispose();
+            return processRedirect(
+              new Headers(responseProxy.headers),
+              responseProxy.status,
+              redirectCtx,
+            );
+          }
+
+          // Apply non-redirect responseProxy headers/status to response
+          Object.entries(responseProxy.headers).forEach(([key, value]) => {
+            response.headers.set(key, value);
           });
+
+          if (responseProxy.status !== -1) {
+            return finishResponse(
+              new Response(response.body, {
+                status: responseProxy.status,
+                headers: response.headers,
+              }),
+            );
+          }
+
+          return finishResponse(response);
+        } catch (error) {
+          disposeAfterError(error, instance.dispose);
         }
-
-        // Handle redirect from component render (via responseProxy)
-        if (
-          responseProxy.status !== -1 &&
-          isRedirectStatus(responseProxy.status) &&
-          responseProxy.headers.Location
-        ) {
-          return processRedirect(
-            new Headers(responseProxy.headers),
-            responseProxy.status,
-            redirectCtx,
-          );
-        }
-
-        // Apply non-redirect responseProxy headers/status to response
-        Object.entries(responseProxy.headers).forEach(([key, value]) => {
-          response.headers.set(key, value);
-        });
-
-        if (responseProxy.status !== -1) {
-          return new Response(response.body, {
-            status: responseProxy.status,
-            headers: response.headers,
-          });
-        }
-
-        return response;
       },
     );
   };
 
   return requestHandler;
 };
+
+/** Release the request only when its streamed body completes or is cancelled. */
+function ownResponse(response: Response, dispose: () => void): Response {
+  if (!response.body) {
+    dispose();
+    return response;
+  }
+  const reader = response.body.getReader();
+  const body = new ReadableStream<Uint8Array>({
+    async pull(controller) {
+      try {
+        const result = await reader.read();
+        if (result.done) {
+          dispose();
+          controller.close();
+        } else controller.enqueue(result.value);
+      } catch (error) {
+        disposeAfterError(error, dispose);
+      }
+    },
+    async cancel(reason) {
+      try {
+        await reader.cancel(reason);
+      } finally {
+        dispose();
+      }
+    },
+  });
+  return new Response(body, {
+    status: response.status,
+    statusText: response.statusText,
+    headers: response.headers,
+  });
+}

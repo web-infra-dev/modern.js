@@ -1,15 +1,15 @@
 import { rstest } from '@rstest/core';
 import i18next from 'i18next';
 import { i18nPlugin, type I18nPluginOptions } from '../src/runtime';
+import { initializeI18nInstance } from '../src/runtime/i18n/utils';
 
 const environment = rstest.hoisted(() => ({ browser: false }));
 
 rstest.mock('@modern-js/runtime', () => ({
   isBrowser: () => environment.browser,
-  RuntimeContext: {},
 }));
 rstest.mock('@modern-js/runtime/context', () => ({
-  getGlobalBasename: () => '',
+  InternalRuntimeContext: {},
 }));
 rstest.mock('@modern-js/runtime/router', () => ({}));
 rstest.mock('@modern-js/runtime/head', () => ({ Helmet: () => null }));
@@ -37,8 +37,10 @@ function setup(options: I18nPluginOptions = {}) {
     },
     getRuntimeConfig: () => ({}),
     wrapRoot: () => {},
+    onDispose: () => {},
   } as any);
   return async (context: any = {}) => {
+    context.isBrowser = environment.browser;
     await beforeRender(context);
     return context;
   };
@@ -50,6 +52,38 @@ beforeEach(() => {
 
 afterEach(() => {
   rstest.unstubAllGlobals();
+  rstest.useRealTimers();
+});
+
+test('cancels resource-store polling when initialization is disposed', async () => {
+  rstest.useFakeTimers();
+  const controller = new AbortController();
+  const instance = {
+    language: 'en',
+    options: {},
+    store: { data: {} },
+    init: async () => {},
+    use: () => {},
+  };
+  const initialization = initializeI18nInstance(
+    instance,
+    'en',
+    'en',
+    ['en'],
+    {},
+    {},
+    {},
+    undefined,
+    controller.signal,
+  );
+  await Promise.resolve();
+  await Promise.resolve();
+  expect(rstest.getTimerCount()).toBe(1);
+  const reason = new Error('Application disposed');
+  const failure = expect(initialization).rejects.toBe(reason);
+  controller.abort(reason);
+  await failure;
+  expect(rstest.getTimerCount()).toBe(0);
 });
 
 test('restores each browser instance language ahead of Host data and configured language', async () => {
@@ -110,9 +144,30 @@ test.each([
       href: 'https://host.example/zh/host',
     },
   });
-  const context = await setup()({ _routeScope: scope });
+  const context = await setup()({
+    application: { ...scope, output: 'fragment', entryPath: '' },
+  });
   expect(context.i18nInstance.language).toBe('fr');
 });
+
+test.each([false, true])(
+  'uses the current document entry path during initialization (browser: %s)',
+  async browser => {
+    environment.browser = browser;
+    rstest.stubGlobal('window', {
+      location: { pathname: '/workspace/account/fr' },
+    });
+    const context = await setup()({
+      application: {
+        output: 'document',
+        definition: { basename: '/workspace/account' },
+        initialUrl: 'https://app.example/workspace/account/fr',
+      },
+      ssrContext: { request: { pathname: '/workspace/account/fr' } },
+    });
+    expect(context.i18nInstance.language).toBe('fr');
+  },
+);
 
 test('restores SSR language on an initialized browser instance without locale redirects', async () => {
   environment.browser = true;
