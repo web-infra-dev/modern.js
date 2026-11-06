@@ -6,9 +6,7 @@
     "jsx": "preserve",
     "baseUrl": "./",
     "isolatedModules": true,
-    "paths": {},
-    "module": "ESNext",
-    "moduleResolution": "Bundler"
+    "paths": {}
   },
   "include": ["src", "types"]
 }

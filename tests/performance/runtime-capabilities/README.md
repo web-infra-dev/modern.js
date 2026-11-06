@@ -2,7 +2,7 @@
 
 Run these opt-in benchmarks against two independently installed and built worktrees. They do not change source files or package dist. Fixture copies and build caches belong to the supplied output directory.
 
-The references are pre-unification `24b3752e8c8213b5b4166b77880065d8544e0025` and PR #9120 at `93befbdc5b3c0203d5c84a338ed0d34ab9e15ffa`. Use the same scripts, Node, pnpm, Chrome and build flags for all revisions. Preserve each revision's frozen lockfile. The successor changes only the runtime's build-time Cookie dependency and removes its old Cookie type package, with every other locked package unchanged. Build each revision before measuring and keep that worktree clean. Do not run builds or regression suites during timed measurements.
+The references are pre-unification `24b3752e8c8213b5b4166b77880065d8544e0025` and PR #9120 at `93befbdc5b3c0203d5c84a338ed0d34ab9e15ffa`. Use the same scripts, frozen lockfile, Node, pnpm, Chrome and build flags for all revisions. Build each revision before measuring and keep that worktree clean. Do not run builds or regression suites during timed measurements.
 
 ```sh
 export PUPPETEER_EXECUTABLE_PATH="/path/to/chrome"
@@ -32,8 +32,8 @@ No MF or Core package publication is performed by these scripts. They use the ch
 
 The measured comparison and its limits are in [RESULTS.md](RESULTS.md). The synthetic `bridgeServer` fixture enables commit metadata explicitly and is not the complete SSR renderer. Probe bundling uses the esbuild version locked in the workspace tooling store.
 
-`verify-manager.mjs REPO [REF]` compares 10,000 seeded plugin dependency graphs with the fixed reference manager, including 5,000 circular graphs. `verify-cookies.mjs PRE_UNIFICATION_REPO HEAD_REPO` compares the old Cookie parser with the emitted browser compatibility parser over 100,017 fixed and seeded inputs. Run both before timing measurements.
+`verify-manager.mjs REPO [REF]` compares 10,000 seeded plugin dependency graphs with the fixed reference manager, including 5,000 circular graphs. Run it before timing measurements.
 
 For the pre-unification revision, `memory-components.mjs` measures the legacy plugin runtime together with its external Provider context and the deep-merged plugin context. Fragment ownership is measured through its real legacy scope constructor. The ordinary isolated-owner row is omitted because that implementation reused a global registration. The JSON records this contract difference and tracks both context views after release. Unified revisions use the same canonical-context fixture, and server fragment fixtures install the request-cancellation capability when available.
 
-Cookie 2 is a build dependency. The runtime build bundles its unmodified parser into ESM and CJS, includes its license and checks that no external Cookie import or serialization implementation remains. Production dependency installation therefore retains Modern's Node range. To check Node 20 server behavior, run `PERF_SKIP_BROWSER=1 PERF_CONCURRENT_ROUNDS=1 "$NODE20" --expose-gc tests/performance/runtime-capabilities/run.mjs "$HEAD_REPO" "$OUTPUT" all`. This is compatibility verification, separate from timings measured on the fixed benchmark Node version.
+Cookie remains at its original version and uses the original import. No compatibility wrapper or dedicated Cookie bundling target is required. To check Node 20 server behavior, run `PERF_SKIP_BROWSER=1 PERF_CONCURRENT_ROUNDS=1 "$NODE20" --expose-gc tests/performance/runtime-capabilities/run.mjs "$HEAD_REPO" "$OUTPUT" all`. This is compatibility verification, separate from timings measured on the fixed benchmark Node version.

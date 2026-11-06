@@ -233,8 +233,8 @@
   "scripts": {
     "dev": "rs lib --watch",
     "prepublishOnly": "only-allow-pnpm",
-    "build": "rs lib && pnpm run gen-static && node scripts/check-mf-entry-boundaries.mjs && node scripts/check-cookie-artifacts.mjs",
-    "gen-static": "ts-node --project ./scripts/tsconfig.json ./scripts/gen-static.ts",
+    "build": "rs lib && pnpm run gen-static && node scripts/check-mf-entry-boundaries.mjs",
+    "gen-static": "ts-node ./scripts/gen-static.ts",
     "test": "rstest"
   },
   "dependencies": {
@@ -252,6 +252,7 @@
     "@swc/plugin-loadable-components": "^12.0.0",
     "@types/loadable__component": "^5.13.10",
     "@types/react-helmet": "^6.1.11",
+    "cookie": "0.7.2",
     "entities": "^7.0.1",
     "es-module-lexer": "^1.7.0",
     "invariant": "^2.2.4",
@@ -272,10 +273,10 @@
     "@scripts/rstest-config": "workspace:*",
     "@testing-library/dom": "^10.4.2",
     "@testing-library/react": "^16.3.3",
+    "@types/cookie": "0.6.0",
     "@types/invariant": "^2.2.37",
     "@types/loadable__server": "5.12.11",
     "@types/node": "^20",
-    "cookie": "2.0.2",
     "react": "^19.3.1",
     "react-dom": "^19.3.1",
     "ts-node": "^10.9.2",

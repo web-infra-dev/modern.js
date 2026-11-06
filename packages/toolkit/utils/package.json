@@ -46,7 +46,6 @@
       "default": "./dist/esm/universal/constants.mjs"
     },
     "./commander": {
-      "types": "./dist/compiled/commander/typings/index.d.ts",
       "import": "./dist/compiled/commander/index.mjs",
       "default": "./dist/compiled/commander/index.js"
     },
