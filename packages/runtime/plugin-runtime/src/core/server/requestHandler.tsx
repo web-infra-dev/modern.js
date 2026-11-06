@@ -23,8 +23,23 @@ import { getServerPayload } from '../context/serverPayload';
 import { createRoot } from '../react';
 import type { SSRServerContext } from '../types';
 import { CHUNK_CSS_PLACEHOLDER } from './constants';
+import {
+  PPR_PRERENDER_HEADER,
+  PPR_VARIANT_HEADER,
+  createPPRState,
+  findPPRArtifact,
+  getPrerenderResults,
+  isPPRSupported,
+  parseVariantHeader,
+} from './ppr/state';
 import { SSRErrors } from './tracer';
 import { getSSRConfigByEntry, getSSRMode } from './utils';
+
+// The PPR renderer uses Node.js streams; edge bundles drop it at build time.
+const loadPPRRender = () =>
+  process.env.MODERN_SSR_ENV === 'edge'
+    ? Promise.reject(new Error('Partial prerendering needs Node.js'))
+    : import('./ppr/render');
 
 async function handleRSCRequest(
   request: Request,
@@ -267,6 +282,30 @@ export const createRequestHandler: CreateRequestHandler = async (
           responseProxy,
         });
 
+        // Partial prerendering needs React's prerender/resume APIs and a
+        // Node.js runtime; otherwise the entry renders as a streaming page.
+        if (ssrContext.mode === 'ppr') {
+          if (
+            createRequestOptions?.enableRsc ||
+            process.env.MODERN_SSR_ENV === 'edge' ||
+            !isPPRSupported()
+          ) {
+            ssrContext.mode = 'stream';
+          }
+        }
+        const isPPR = ssrContext.mode === 'ppr';
+        const prerenderKey = request.headers.get(PPR_PRERENDER_HEADER);
+        const isPrerender =
+          isPPR && options.staticGenerate === true && Boolean(prerenderKey);
+        if (isPPR) {
+          ssrContext.ppr = createPPRState(
+            isPrerender ? 'prerender' : 'resume',
+            isPrerender
+              ? parseVariantHeader(request.headers.get(PPR_VARIANT_HEADER))
+              : undefined,
+          );
+        }
+
         Object.assign(context, {
           ssrContext,
           isBrowser: false,
@@ -279,7 +318,72 @@ export const createRequestHandler: CreateRequestHandler = async (
           basename: ssrContext.baseUrl || '/',
         };
 
-        const beforeRenderResult = await runBeforeRender(context);
+        let beforeRenderResult = await runBeforeRender(context);
+
+        if (!createRequestOptions?.enableRsc) {
+          const { htmlTemplate } = options.resource;
+          options.resource.htmlTemplate = htmlTemplate.replace(
+            '</head>',
+            `${CHUNK_CSS_PLACEHOLDER}</head>`,
+          );
+        }
+
+        const pprRenderOptions = () => ({
+          runtimeContext: context,
+          htmlTemplate: options.resource.htmlTemplate,
+          entryName: options.resource.entryName,
+          config: options.config,
+          ssrConfig: getSSRConfigByEntry(
+            options.resource.entryName,
+            options.config.ssr,
+            options.config.ssrByEntries,
+          ),
+          onError: options.onError,
+        });
+
+        if (isPrerender && !(beforeRenderResult instanceof Response)) {
+          const { prerenderPage } = await loadPPRRender();
+          const result = await prerenderPage(<Root />, pprRenderOptions());
+          getPrerenderResults().set(prerenderKey!, result);
+          return new Response(null, { status: 204 });
+        }
+
+        if (
+          isPPR &&
+          !isPrerender &&
+          !(beforeRenderResult instanceof Response)
+        ) {
+          // A status set before rendering (e.g. by a plugin) cannot be sent
+          // along with a shared prelude, so such requests stream instead.
+          const artifact =
+            responseProxy.status === -1
+              ? findPPRArtifact(
+                  options.resource.ppr,
+                  ssrContext.request.pathname,
+                  ssrContext.ppr!.variant,
+                )
+              : undefined;
+          if (artifact) {
+            ssrContext.ppr!.fromPrelude = true;
+            const { renderFromPrelude } = await loadPPRRender();
+            const body = renderFromPrelude(
+              request,
+              <Root />,
+              artifact,
+              pprRenderOptions(),
+            );
+            const response = new Response(body, {
+              headers: { 'content-type': 'text/html; charset=utf-8' },
+            });
+            Object.entries(responseProxy.headers).forEach(([key, value]) => {
+              response.headers.set(key, value);
+            });
+            return response;
+          }
+          // No prelude for this request: wait for the loaders and render it as
+          // a streaming page.
+          beforeRenderResult = await ssrContext.ppr!.pendingBeforeRender;
+        }
 
         // Support data loader to return `new Response` and set status code
         if (
@@ -315,14 +419,6 @@ export const createRequestHandler: CreateRequestHandler = async (
             new Headers({ Location: redirectUrl }),
             beforeRenderResult.status,
             redirectCtx,
-          );
-        }
-
-        if (!createRequestOptions?.enableRsc) {
-          const { htmlTemplate } = options.resource;
-          options.resource.htmlTemplate = htmlTemplate.replace(
-            '</head>',
-            `${CHUNK_CSS_PLACEHOLDER}</head>`,
           );
         }
 

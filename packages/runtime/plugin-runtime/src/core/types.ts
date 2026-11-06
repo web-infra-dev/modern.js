@@ -1,6 +1,7 @@
 import type { OnError, OnTiming } from '@modern-js/app-tools';
 import type { BaseSSRServerContext } from '@modern-js/types';
 import type { RenderLevel } from './constants';
+import type { PPRState } from './server/ppr/state';
 
 declare global {
   interface Window {
@@ -23,7 +24,7 @@ export interface RouterSSRData {
   errors: RouteData | null;
 }
 
-export type SSRMode = 'string' | 'stream';
+export type SSRMode = 'string' | 'stream' | 'ppr';
 
 export interface SSRContainer {
   renderLevel: RenderLevel;
@@ -55,6 +56,8 @@ export type SSRServerContext = Pick<
   };
   htmlModifiers: BuildHtmlCb[];
   loaderFailureMode?: 'clientRender' | 'errorBoundary';
+  /** Set when the entry uses `server.ssr.mode: 'ppr'` */
+  ppr?: PPRState;
   onError: OnError;
   onTiming: OnTiming;
   useJsonScript?: boolean;

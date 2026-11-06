@@ -41,7 +41,7 @@ export function hydrateRoot(
 
   const renderMode = window?._SSR_DATA?.mode || 'string';
 
-  if (renderMode === 'stream') {
+  if (renderMode === 'stream' || renderMode === 'ppr') {
     return streamSSRHydrate();
   }
 
