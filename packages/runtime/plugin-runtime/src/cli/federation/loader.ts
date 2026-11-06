@@ -1,6 +1,6 @@
 import path from 'node:path';
 import { createHash, randomUUID } from 'node:crypto';
-import { parseSync, printSync } from '@swc/core';
+import { printSync } from '@swc/core';
 import type {
   Entrypoint,
   NestedRouteForCli,
@@ -11,6 +11,7 @@ import { fs, formatImportPath } from '@modern-js/utils';
 import { fileSystemRoutes } from '../../router/cli/code/templates';
 import { analyzeRootExport } from './analyze';
 import { selectRouteScope } from './select';
+import { ENTRY_POINT_RUNTIME_FACTORY_FILE_NAME } from '../constants';
 
 interface Options {
   internalDirectory: string;
@@ -85,70 +86,15 @@ export default async function loader(
       ...graph,
       routes,
       internalDirectory: directory,
-      isolated: true,
       writeOutput: output,
     });
     await output(path.join(directory, 'routes.js'), scopedCode);
     const runtimeFile = path.join(
       internalDirectory,
       entryName,
-      'runtime-register.js',
+      ENTRY_POINT_RUNTIME_FACTORY_FILE_NAME,
     );
     this.addDependency(runtimeFile);
-    const runtime = parseSync(await fs.readFile(runtimeFile, 'utf8'));
-    const imports = runtime.body.filter(
-      item => item.type === 'ImportDeclaration',
-    );
-    const statements = runtime.body.filter(
-      item => item.type !== 'ImportDeclaration',
-    );
-    const runtimeImport = parseSync(
-      "import { createRuntime as registerPlugin } from 'runtime'",
-    ).body[0] as import('@swc/core').ImportDeclaration;
-    const runtimeSpecifier = runtimeImport.specifiers[0];
-    if (runtimeSpecifier.type !== 'ImportSpecifier')
-      throw new Error('Invalid runtime factory import.');
-    const parameter = (
-      parseSync('routerPlugin({}, routesConfig, selected)')
-        .body[0] as import('@swc/core').ExpressionStatement
-    ).expression as import('@swc/core').CallExpression;
-    const visit = (value: unknown): void => {
-      if (!value || typeof value !== 'object') return;
-      const node = value as {
-        type?: string;
-        callee?: { type: string; value?: string };
-        arguments?: unknown[];
-      };
-      if (
-        node.type === 'CallExpression' &&
-        node.callee?.type === 'Identifier' &&
-        node.callee.value === 'routerPlugin'
-      )
-        node.arguments!.push(...parameter.arguments.slice(1));
-      for (const child of Object.values(value))
-        if (Array.isArray(child)) child.forEach(visit);
-        else if (child && typeof child === 'object') visit(child);
-    };
-    statements.forEach(visit);
-    for (const item of imports) {
-      for (const specifier of item.specifiers)
-        if (
-          specifier.type === 'ImportSpecifier' &&
-          specifier.local.value === 'registerPlugin'
-        ) {
-          specifier.imported = runtimeSpecifier.imported;
-        }
-    }
-    const body = printSync({ ...runtime, body: statements })
-      .code.replace(/getCurrentEntryName\(\)/g, JSON.stringify(entryName))
-      .replace(
-        /registerPlugin\(plugins, runtimeConfig\);?/,
-        'return registerPlugin(plugins, runtimeConfig);',
-      );
-    await output(
-      path.join(directory, 'runtime.js'),
-      `${printSync({ ...runtime, body: imports }).code}\nexport function createRegistryRuntime(routesConfig, selected) {\n${body}\n}`,
-    );
     const layoutImport = graph.globalApp
       ? `import globalApp from ${JSON.stringify(graph.globalApp)};`
       : 'const globalApp = undefined;';
@@ -156,10 +102,10 @@ export default async function loader(
       registry,
       `import { createScopedRoot, createScopedRender } from '@${metaName}/runtime/internal/route-scope';
 import { routes } from './routes';
-import { createRegistryRuntime } from './runtime';
+import { createRegistryRuntime } from ${JSON.stringify(formatImportPath(runtimeFile))};
 ${layoutImport}
 ${graph.app ? `import App from ${JSON.stringify(graph.app)};` : 'const App = undefined;'}
-const definition = { routes, globalApp, App, createRuntime: createRegistryRuntime, selected: ${root.route !== undefined}, dataRoute: ${JSON.stringify(root.route)}, basename: ${JSON.stringify(graph.basename)}, serverLoaders: ${Boolean(graph.ssrMode)}, getDataBase: () => new URL(__webpack_public_path__, window.location.href).origin };
+const definition = { routes, globalApp, App, createRuntime: createRegistryRuntime, entryName: ${JSON.stringify(entryName)}, selected: ${root.route !== undefined}, dataRoute: ${JSON.stringify(root.route)}, basename: ${JSON.stringify(graph.basename)}, serverLoaders: ${Boolean(graph.ssrMode)}, getDataBase: () => new URL(__webpack_public_path__, window.location.href).origin, getRouteManifest: () => __webpack_require__.modernRouteManifest, loadRouteChunk: chunkId => __webpack_chunk_load__(chunkId) };
 export const createRoot = () => createScopedRoot(definition);
 export const render = createScopedRender();
 `,

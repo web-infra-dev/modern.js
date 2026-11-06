@@ -134,20 +134,11 @@ export function exportServerLngToWindow(context: TRuntimeContext, lng: string) {
   context.__i18nData__ = { lng };
 }
 
-export const getLanguageFromSSRData = (window: Window): string | undefined => {
-  try {
-    const ssrData = window._SSR_DATA;
-    // Check if SSR data exists and has valid structure
-    if (!ssrData || !ssrData.data || !ssrData.data.i18nData) {
-      return undefined;
-    }
-    const lng = ssrData.data.i18nData.lng;
-    // Return language only if it's a non-empty string
-    return typeof lng === 'string' && lng.trim() !== '' ? lng : undefined;
-  } catch (error) {
-    // If accessing window._SSR_DATA throws an error, return undefined
-    return undefined;
-  }
+export const getLanguageFromSSRData = (
+  i18nData?: TRuntimeContext['__i18nData__'],
+): string | undefined => {
+  const lng = i18nData?.lng;
+  return typeof lng === 'string' && lng.trim() !== '' ? lng : undefined;
 };
 
 export interface BaseLanguageDetectionOptions {
@@ -162,6 +153,8 @@ export interface BaseLanguageDetectionOptions {
 
 export interface LanguageDetectionOptions extends BaseLanguageDetectionOptions {
   pathname: string;
+  entryPath?: string;
+  i18nData?: TRuntimeContext['__i18nData__'];
   ssrContext?: any;
 }
 
@@ -237,21 +230,20 @@ const getSupportedLanguage = (
 
 /**
  * Priority 1: Detect language from SSR data
- * Try to get language from window._SSR_DATA first (both SSR and CSR projects)
+ * Restore the current application's server language before hydration
  * Returns undefined if SSR data is not available or invalid
  */
-const detectLanguageFromSSR = (languages: string[]): string | undefined => {
+const detectLanguageFromSSR = (
+  languages: string[],
+  i18nData?: TRuntimeContext['__i18nData__'],
+): string | undefined => {
   if (!isBrowser()) {
     return undefined;
   }
 
-  try {
-    const ssrLanguage = getLanguageFromSSRData(window);
-    if (ssrLanguage && isLanguageSupported(ssrLanguage, languages)) {
-      return ssrLanguage;
-    }
-  } catch (error) {
-    // Silently ignore errors
+  const ssrLanguage = getLanguageFromSSRData(i18nData);
+  if (ssrLanguage && isLanguageSupported(ssrLanguage, languages)) {
+    return ssrLanguage;
   }
 
   return undefined;
@@ -265,6 +257,7 @@ const detectLanguageFromPathPriority = (
   pathname: string,
   languages: string[],
   localePathRedirect: boolean,
+  entryPath?: string,
 ): string | undefined => {
   if (!localePathRedirect) {
     return undefined;
@@ -285,6 +278,7 @@ const detectLanguageFromPathPriority = (
       pathname,
       languages,
       localePathRedirect,
+      entryPath,
     );
     // Only return language if explicitly detected in path
     if (pathDetection.detected === true && pathDetection.language) {
@@ -493,7 +487,7 @@ const detectLanguageFromI18nextDetector = async (
 
 /**
  * Detect language with priority:
- * Priority 1: SSR data (try window._SSR_DATA first, works for both SSR and CSR)
+ * Priority 1: Current application's SSR language
  * Priority 2: Path detection
  * Priority 3: i18next detector (reads from cookie/localStorage)
  * Priority 4: User config language or fallback
@@ -510,14 +504,14 @@ export const detectLanguageWithPriority = async (
     detection,
     userInitOptions,
     pathname,
+    entryPath,
+    i18nData,
     ssrContext,
   } = options;
 
   let detectedLanguage: string | undefined;
 
-  // Priority 1: Try SSR data first (works for both SSR and CSR projects)
-  // For CSR projects, if SSR data exists in window, use it; otherwise continue to next priority
-  detectedLanguage = detectLanguageFromSSR(languages);
+  detectedLanguage = detectLanguageFromSSR(languages, i18nData);
 
   // Priority 2: Path detection
   if (!detectedLanguage) {
@@ -525,6 +519,7 @@ export const detectLanguageWithPriority = async (
       pathname,
       languages,
       localePathRedirect,
+      entryPath,
     );
   }
 

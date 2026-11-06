@@ -1,3 +1,4 @@
+import { getApplicationRoutes } from './application';
 import type { RuntimePluginAPI } from '@modern-js/plugin/runtime';
 import { merge } from '@modern-js/runtime-utils/merge';
 import type { RouterSubscriber } from '@modern-js/runtime-utils/router';
@@ -17,21 +18,11 @@ import { normalizePathname } from '@modern-js/runtime-utils/url';
 import * as React from 'react';
 import { useContext, useEffect, useMemo } from 'react';
 import { RuntimeContext, type RuntimePlugin } from '../../core';
-import {
-  InternalRuntimeContext,
-  getGlobalLayoutApp,
-  getGlobalRoutes,
-} from '../../core/context';
-import { getGlobalIsRscClient } from '../../core/context';
+import { InternalRuntimeContext } from '../../core/context';
 import type { TInternalRuntimeContext } from '../../core/context/runtime';
-import {
-  type RouterExtendsHooks,
-  createRouterHooks,
-  modifyRoutes as modifyRoutesHook,
-  onBeforeCreateRoutes as onBeforeCreateRoutesHook,
-} from './hooks';
+import { type RouterExtendsHooks, createRouterHooks } from './hooks';
 import { createClientRouterFromPayload } from './rsc-router';
-import type { RouterConfig, Routes } from './types';
+import type { RouterConfig } from './types';
 import { scopeTopology, assertScopeTopology } from './scope';
 import {
   createRouteObjectsFromConfig,
@@ -39,24 +30,6 @@ import {
   renderRoutes,
   urlJoin,
 } from './utils';
-
-export let finalRouteConfig: RouterConfig['routesConfig'] = {
-  routes: [],
-};
-export let beforeCreateRouter = true;
-// support csr only, it is not allowed to use in ssr app.
-// inhouse private, will deprecated
-export function modifyRoutes(modifyFunction: (routes: Routes) => Routes) {
-  if (beforeCreateRouter) {
-    const { routes: originRoutes } = finalRouteConfig;
-    const newRoutes = modifyFunction(originRoutes);
-    finalRouteConfig.routes = newRoutes;
-  } else {
-    console.error(
-      'It is not allowed to modify routes config after create router.',
-    );
-  }
-}
 
 type RouterPluginAPI = RuntimePluginAPI<{
   extendHooks: RouterExtendsHooks;
@@ -74,30 +47,19 @@ interface UseRouterCreationOptions {
 
 export const routerPlugin = (
   userConfig: Partial<RouterConfig> = {},
-  rootConfig?: RouterConfig['routesConfig'],
-  selected = false,
 ): RuntimePlugin<{
   extendHooks: RouterExtendsHooks;
 }> => {
   return {
     name: '@modern-js/plugin-router',
-    registryHooks: rootConfig
-      ? createRouterHooks()
-      : {
-          modifyRoutes: modifyRoutesHook,
-          onBeforeCreateRoutes: onBeforeCreateRoutesHook,
-        },
+    registryHooks: createRouterHooks,
     setup: api => {
-      const routesContainer = {
-        current: [] as RouteObject[],
-      };
-
       api.onBeforeRender(context => {
         // In some scenarios, the initial pathname and the current pathname do not match.
         // We add a configuration to support the page to reload.
         if (
-          !context._routeScope &&
-          window._SSR_DATA &&
+          context.application?.output === 'document' &&
+          context.ssr &&
           userConfig.unstable_reloadOnURLMismatch
         ) {
           const { ssrContext } = context;
@@ -125,13 +87,15 @@ export const routerPlugin = (
         // Prefetch Link will use routes for match next route
         Object.defineProperty(context, 'routes', {
           get() {
-            return context._routeScope?.routes || routesContainer.current;
+            return context.application?.routes;
           },
           enumerable: true,
         });
       });
       api.wrapRoot(App => {
-        const scope = Boolean(rootConfig);
+        const context = api.getRuntimeContext();
+        const application = context.application!;
+        const selected = application.definition.selected;
         const mergedConfig = merge(
           api.getRuntimeConfig().router || {},
           userConfig,
@@ -144,14 +108,11 @@ export const routerPlugin = (
           createRoutes,
         } = mergedConfig;
 
-        const rootRouteConfig = rootConfig
-          ? { ...rootConfig, ...(!selected && routesConfig) }
-          : {
-              routes: getGlobalRoutes(),
-              globalApp: getGlobalLayoutApp(),
-              ...routesConfig,
-            };
-        if (!scope) finalRouteConfig = rootRouteConfig;
+        const rootRouteConfig = {
+          ...getApplicationRoutes(context),
+          ...(!selected && routesConfig),
+        };
+        application.config = rootRouteConfig;
 
         if (!rootRouteConfig.routes && !createRoutes) {
           return App;
@@ -161,15 +122,20 @@ export const routerPlugin = (
             'createRoot route exports cannot replace the build-time graph with router.createRoutes.',
           );
 
+        const releaseRouter = (application.releaseRouter = () => {
+          const router = application.router;
+          application.router = undefined;
+          application.routes = undefined;
+          router?.dispose();
+        });
+        api.onDispose(releaseRouter);
+
         const selectBasePath = (pathname: string) => {
           const match = serverBase.find(baseUrl =>
             isSegmentPrefix(pathname, baseUrl),
           );
           return match || '/';
         };
-
-        // Cache router instance in closure to avoid recreating on parent re-render
-        let cachedRouter: any = null;
 
         const RouterWrapper = (props: any) => {
           const routerResult = useRouterCreation(
@@ -190,21 +156,7 @@ export const routerPlugin = (
             },
           );
 
-          // Only cache router instance, routes are always from routerResult
-          const router = useMemo(() => {
-            if (scope) return routerResult.router;
-            if (cachedRouter) {
-              return cachedRouter;
-            }
-
-            cachedRouter = routerResult.router;
-            return cachedRouter;
-          }, [scope, routerResult.router]);
-          const { routes } = routerResult;
-
-          routesContainer.current = routes;
-
-          if (!scope) beforeCreateRouter = false;
+          const { router } = routerResult;
 
           // To match the node tree about https://github.com/web-infra-dev/modern.js/blob/v2.59.0/packages/runtime/plugin-runtime/src/router/runtime/plugin.node.tsx#L150-L168
           // According to react [useId generation algorithm](https://github.com/facebook/react/pull/22644), `useId` will generate id with the react node react struct.
@@ -263,20 +215,18 @@ function useRouterCreation(props: any, options: UseRouterCreationOptions) {
     routesConfig,
   } = options;
   const runtimeContext = useContext(InternalRuntimeContext);
-  const scope = runtimeContext._routeScope;
+  const scope = runtimeContext.application;
 
-  const baseUrl = (scope ? '/' : selectBasePath(location.pathname)).replace(
-    /^\/*/,
-    '/',
-  );
-  const _basename = scope
-    ? scope.basename || '/'
-    : baseUrl === '/'
+  const baseUrl = selectBasePath(location.pathname).replace(/^\/*/, '/');
+  const _basename =
+    scope?.basename ??
+    (baseUrl === '/'
       ? urlJoin(
           baseUrl,
           runtimeContext._internalRouterBaseName || basename || '',
         )
-      : baseUrl;
+      : baseUrl);
+  if (scope) scope.basename = _basename;
 
   const { unstable_getBlockNavState: getBlockNavState } = runtimeContext;
   // Keep the define expression inline at every RSC branch. Rspack can then
@@ -286,11 +236,9 @@ function useRouterCreation(props: any, options: UseRouterCreationOptions) {
       ? safeUse(props.rscPayload)
       : null;
 
-  let hydrationData = scope
-    ? undefined
-    : process.env.MODERN_ENABLE_RSC
-      ? window._ROUTER_DATA || rscPayload
-      : window._ROUTER_DATA;
+  let hydrationData =
+    scope?.hydrationData ||
+    (process.env.MODERN_ENABLE_RSC ? rscPayload : undefined);
 
   const createRouter = () => {
     if (scope?.router)
@@ -303,7 +251,7 @@ function useRouterCreation(props: any, options: UseRouterCreationOptions) {
     }
 
     let routes: RouteObject[] | null = null;
-    if (process.env.MODERN_ENABLE_RSC && getGlobalIsRscClient()) {
+    if (process.env.MODERN_ENABLE_RSC && scope?.definition.isRscClient) {
       routes = createRoutes
         ? createRoutes()
         : createRouteObjectsFromConfig({
@@ -332,12 +280,17 @@ function useRouterCreation(props: any, options: UseRouterCreationOptions) {
           rscPayload,
           routes,
           _basename,
+          {
+            manifest: runtimeContext.routeManifest,
+            publicPath: runtimeContext.assetBase,
+          },
         );
 
-        return {
-          router,
-          routes: router.routes || [],
-        };
+        if (scope) {
+          scope.router = router;
+          scope.routes = router.routes || [];
+        }
+        return { router, routes: router.routes || [] };
       } catch (e) {
         console.error('Failed to create router from RSC payload:', e);
       }
@@ -351,6 +304,7 @@ function useRouterCreation(props: any, options: UseRouterCreationOptions) {
     const router = scope?.memory
       ? createMemoryRouter(modifiedRoutes, {
           initialEntries: [scope.initialUrl],
+          hydrationData,
         })
       : supportHtml5History
         ? createBrowserRouter(modifiedRoutes, {

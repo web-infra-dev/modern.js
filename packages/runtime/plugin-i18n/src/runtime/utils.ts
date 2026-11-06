@@ -1,19 +1,32 @@
-import { isBrowser } from '@modern-js/runtime';
-import {
-  type TInternalRuntimeContext,
-  getGlobalBasename,
-} from '@modern-js/runtime/context';
+import type { TInternalRuntimeContext } from '@modern-js/runtime/context';
 import { useLocation, useNavigate, useParams } from '@modern-js/runtime/router';
 
 export const getPathname = (context: TInternalRuntimeContext): string => {
-  if (isBrowser()) {
+  if (context.isBrowser) {
+    const scope = context.application;
+    if (scope?.output === 'fragment') {
+      const pathname =
+        scope.router?.state.location.pathname ||
+        new URL(scope.initialUrl, window.location.href).pathname;
+      const basename = scope.basename?.replace(/\/+$/, '') || '';
+      if (
+        basename &&
+        pathname.toLowerCase().startsWith(basename.toLowerCase()) &&
+        (!pathname[basename.length] || pathname[basename.length] === '/')
+      ) {
+        return pathname.slice(basename.length) || '/';
+      }
+      return pathname;
+    }
     return window.location.pathname;
   }
   return context.ssrContext?.request?.pathname || '/';
 };
 
-export const getEntryPath = (): string => {
-  const basename = getGlobalBasename();
+export const getEntryPath = (context?: TInternalRuntimeContext): string => {
+  const application = context?.application;
+  const basename =
+    application?.output === 'fragment' ? '' : application?.definition?.basename;
   if (basename) {
     return basename === '/' ? '' : basename;
   }
@@ -70,6 +83,7 @@ export const detectLanguageFromPath = (
   pathname: string,
   languages: string[],
   localePathRedirect: boolean,
+  entryPath = '',
 ): {
   detected: boolean;
   language?: string;
@@ -78,7 +92,6 @@ export const detectLanguageFromPath = (
     return { detected: false };
   }
 
-  const entryPath = getEntryPath();
   const relativePath = pathname.replace(entryPath, '');
   const segments = relativePath.split('/').filter(Boolean);
 

@@ -1,3 +1,4 @@
+import { getApplicationRoutes } from './application';
 import { merge } from '@modern-js/runtime-utils/merge';
 import {
   createRequestContext,
@@ -17,20 +18,10 @@ import { LOADER_REPORTER_NAME } from '@modern-js/utils/universal/constants';
 import type React from 'react';
 import { useContext } from 'react';
 import type { RuntimePlugin } from '../../core';
-import {
-  InternalRuntimeContext,
-  type ServerPayload,
-  getGlobalEnableRsc,
-  getGlobalLayoutApp,
-  getGlobalRoutes,
-} from '../../core/context';
+import { InternalRuntimeContext, type ServerPayload } from '../../core/context';
 import { setServerPayload } from '../../core/context/serverPayload/index.server';
 import DeferredDataScripts from './DeferredDataScripts.node';
-import {
-  type RouterExtendsHooks,
-  modifyRoutes as modifyRoutesHook,
-  onBeforeCreateRoutes as onBeforeCreateRoutesHook,
-} from './hooks';
+import { type RouterExtendsHooks, createRouterHooks } from './hooks';
 import {
   RSCStaticRouter,
   createServerPayload,
@@ -38,9 +29,13 @@ import {
   prepareRSCRoutes,
 } from './rsc-router';
 import type { RouterConfig } from './types';
+import { scopeTopology, assertScopeTopology } from './scope';
 import { createRouteObjectsFromConfig, renderRoutes, urlJoin } from './utils';
 
 function createRemixRequest(request: Request) {
+  // Keep the request owned by the SSR context. Extra copies can lose abort
+  // propagation after garbage collection in affected Node versions.
+  if (request.method === 'GET') return request;
   const method = 'GET';
   const { headers } = request;
 
@@ -58,13 +53,8 @@ export const routerPlugin = (
 }> => {
   return {
     name: '@modern-js/plugin-router',
-    registryHooks: {
-      modifyRoutes: modifyRoutesHook,
-      onBeforeCreateRoutes: onBeforeCreateRoutesHook,
-    },
+    registryHooks: createRouterHooks,
     setup: api => {
-      let finalRouteConfig: any = {};
-
       api.onBeforeRender(async (context, interrupt) => {
         const pluginConfig: Record<string, any> = api.getRuntimeConfig();
         const {
@@ -72,18 +62,24 @@ export const routerPlugin = (
           routesConfig,
           createRoutes,
         } = merge(pluginConfig.router || {}, userConfig);
-        finalRouteConfig = {
-          routes: getGlobalRoutes(),
-          globalApp: getGlobalLayoutApp(),
-          ...routesConfig,
+        const application = context.application!;
+        const selected = application.definition.selected;
+        const finalRouteConfig = {
+          ...getApplicationRoutes(context),
+          ...(!selected && routesConfig),
         };
+        application.config = finalRouteConfig;
+        if (selected && createRoutes)
+          throw new Error(
+            'createRoot route exports cannot replace the build-time graph with router.createRoutes.',
+          );
         // can not get routes config, skip wrapping React Router.
         // e.g. App.tsx as the entrypoint
         if (!finalRouteConfig.routes && !createRoutes) {
           return;
         }
 
-        const enableRsc = getGlobalEnableRsc();
+        const enableRsc = context.application?.definition.enableRsc;
 
         if (enableRsc) {
           await prepareRSCRoutes(finalRouteConfig.routes);
@@ -97,7 +93,9 @@ export const routerPlugin = (
           baseUrl,
         } = context.ssrContext!;
         const _basename =
-          baseUrl === '/' ? urlJoin(baseUrl, basename) : baseUrl;
+          application.basename ??
+          (baseUrl === '/' ? urlJoin(baseUrl, basename) : baseUrl);
+        application.basename = _basename;
 
         const requestContext = createRequestContext(
           context.ssrContext?.loaderContext,
@@ -127,7 +125,9 @@ export const routerPlugin = (
               );
         }
 
+        const topology = selected ? scopeTopology(routes) : undefined;
         routes = hooks.modifyRoutes.call(routes);
+        if (topology) assertScopeTopology(routes, topology);
 
         const { query } = createStaticHandler(routes, {
           basename: _basename,
@@ -207,12 +207,13 @@ export const routerPlugin = (
       api.wrapRoot(App => {
         // can not get routes config, skip wrapping React Router.
         // e.g. App.tsx as the entrypoint
-        if (!finalRouteConfig) {
+        const context = api.getRuntimeContext();
+        if (!context.routes) {
           return App;
         }
 
         const getRouteApp = () => {
-          const enableRsc = getGlobalEnableRsc();
+          const enableRsc = context.application?.definition.enableRsc;
           return (props => {
             const context = useContext(InternalRuntimeContext);
             const { routerContext, ssrContext, routes } = context;
@@ -229,15 +230,16 @@ export const routerPlugin = (
                     hydrate={false}
                   />
 
-                  {mode === 'stream' && (
-                    // ROUTER_DATA will inject in `packages/runtime/plugin-runtime/src/core/server/string/ssrData.ts` in string ssr
-                    // So we can inject it only when streaming ssr
-                    <DeferredDataScripts
-                      nonce={nonce}
-                      context={routerContext!}
-                      useJsonScript={useJsonScript}
-                    />
-                  )}
+                  {mode === 'stream' &&
+                    context.application?.output === 'document' && (
+                      // ROUTER_DATA will inject in `packages/runtime/plugin-runtime/src/core/server/string/ssrData.ts` in string ssr
+                      // So we can inject it only when streaming ssr
+                      <DeferredDataScripts
+                        nonce={nonce}
+                        context={routerContext!}
+                        useJsonScript={useJsonScript}
+                      />
+                    )}
                 </>
               );
               return App ? <App>{routerWrapper}</App> : routerWrapper;
@@ -257,8 +259,4 @@ export const routerPlugin = (
       });
     },
   };
-};
-
-export const modifyRoutes = () => {
-  // empty
 };

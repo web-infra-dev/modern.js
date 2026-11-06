@@ -1,11 +1,10 @@
-import {
-  RuntimeContext,
-  type RuntimePlugin,
-  isBrowser,
-} from '@modern-js/runtime';
+import { type RuntimePlugin } from '@modern-js/runtime';
 import { merge } from '@modern-js/runtime-utils/merge';
 import { Helmet } from '@modern-js/runtime/head';
-import type { TInternalRuntimeContext } from '@modern-js/runtime/internal';
+import {
+  InternalRuntimeContext,
+  type TInternalRuntimeContext,
+} from '@modern-js/runtime/context';
 import type React from 'react';
 import { useContext, useEffect, useMemo, useRef, useState } from 'react';
 import type {
@@ -36,11 +35,11 @@ import {
 } from './i18n/instance';
 import {
   changeI18nLanguage,
+  cloneServerI18nInstance,
   ensureLanguageMatch,
   initializeI18nInstance,
-  setupClonedInstance,
 } from './i18n/utils';
-import { getPathname } from './utils';
+import { getEntryPath, getPathname } from './utils';
 import './types';
 
 export type { I18nSdkLoader, I18nSdkLoadOptions } from '../shared/type';
@@ -65,6 +64,8 @@ interface RuntimeContextWithI18n extends TInternalRuntimeContext {
 export const i18nPlugin = (options: I18nPluginOptions): RuntimePlugin => ({
   name: '@modern-js/plugin-i18n',
   setup: api => {
+    const initialization = new AbortController();
+    api.onDispose(() => initialization.abort());
     const {
       entryName,
       i18nInstance: userI18nInstance,
@@ -85,21 +86,16 @@ export const i18nPlugin = (options: I18nPluginOptions): RuntimePlugin => ({
     let I18nextProvider: React.FunctionComponent<any> | null;
 
     api.onBeforeRender(async context => {
+      const { signal } = initialization;
+      signal.throwIfAborted();
       let i18nInstance = await getI18nInstance(userI18nInstance);
       const { i18n: otherConfig } = api.getRuntimeConfig();
       const { initOptions: otherInitOptions } = otherConfig || {};
       const userInitOptions = merge(otherInitOptions || {}, initOptions || {});
       const initReactI18next = await getInitReactI18next();
       I18nextProvider = await getI18nextProvider();
-      if (initReactI18next) {
-        i18nInstance.use(initReactI18next);
-      }
-
+      signal.throwIfAborted();
       const pathname = getPathname(context);
-
-      if (i18nextDetector) {
-        useI18nextLanguageDetector(i18nInstance);
-      }
 
       const mergedDetection = mergeDetectionOptions(
         i18nextDetector,
@@ -118,9 +114,34 @@ export const i18nPlugin = (options: I18nPluginOptions): RuntimePlugin => ({
       const hasSdkConfig =
         typeof userInitOptions?.backend?.sdk === 'function' ||
         (mergedBackend?.sdk && typeof mergedBackend.sdk === 'function');
-      if (mergedBackend && (backendEnabled || hasSdkConfig)) {
-        useI18nextBackend(i18nInstance, mergedBackend);
+      const configureInstance = (instance: I18nInstance) => {
+        if (initReactI18next) {
+          instance.use(initReactI18next);
+        }
+        if (i18nextDetector) {
+          useI18nextLanguageDetector(instance);
+        }
+        if (mergedBackend && (backendEnabled || hasSdkConfig)) {
+          useI18nextBackend(instance, mergedBackend);
+        }
+      };
+
+      if (!context.isBrowser && userI18nInstance) {
+        i18nInstance = await cloneServerI18nInstance(i18nInstance, async () => {
+          configureInstance(i18nInstance);
+          await initializeI18nInstance(
+            i18nInstance,
+            userInitOptions.lng || fallbackLanguage,
+            fallbackLanguage,
+            languages,
+            mergedDetection,
+            mergedBackend,
+            userInitOptions,
+          );
+        });
       }
+      signal.throwIfAborted();
+      configureInstance(i18nInstance);
 
       const { finalLanguage } = await detectLanguageWithPriority(i18nInstance, {
         languages,
@@ -131,8 +152,11 @@ export const i18nPlugin = (options: I18nPluginOptions): RuntimePlugin => ({
         userInitOptions,
         mergedBackend,
         pathname,
+        entryPath: getEntryPath(context),
+        i18nData: context.__i18nData__,
         ssrContext: context.ssrContext,
       });
+      signal.throwIfAborted();
 
       await initializeI18nInstance(
         i18nInstance,
@@ -142,29 +166,17 @@ export const i18nPlugin = (options: I18nPluginOptions): RuntimePlugin => ({
         mergedDetection,
         mergedBackend,
         userInitOptions,
+        undefined,
+        signal,
       );
+      signal.throwIfAborted();
 
-      if (!isBrowser() && i18nInstance.cloneInstance) {
-        i18nInstance = i18nInstance.cloneInstance();
-        await setupClonedInstance(
-          i18nInstance,
-          finalLanguage,
-          fallbackLanguage,
-          languages,
-          backendEnabled,
-          backend,
-          i18nextDetector,
-          detection,
-          localePathRedirect,
-          userInitOptions,
-        );
-      }
-
-      if (localePathRedirect) {
+      if (!context.isBrowser || context.__i18nData__ || localePathRedirect) {
         await ensureLanguageMatch(i18nInstance, finalLanguage);
       }
+      signal.throwIfAborted();
 
-      if (!isBrowser()) {
+      if (!context.isBrowser) {
         exportServerLngToWindow(context, finalLanguage);
       }
       context.i18nInstance = i18nInstance;
@@ -180,7 +192,7 @@ export const i18nPlugin = (options: I18nPluginOptions): RuntimePlugin => ({
     api.wrapRoot(App => {
       return props => {
         const runtimeContext = useContext(
-          RuntimeContext,
+          InternalRuntimeContext,
         ) as RuntimeContextWithI18n;
         const i18nInstance = runtimeContext.i18nInstance;
         const initialLang = useMemo(
@@ -225,6 +237,7 @@ export const i18nPlugin = (options: I18nPluginOptions): RuntimePlugin => ({
           languages,
           fallbackLanguage,
           ignoreRedirectRoutes,
+          runtimeContext,
         );
 
         const contextValue = useMemo(

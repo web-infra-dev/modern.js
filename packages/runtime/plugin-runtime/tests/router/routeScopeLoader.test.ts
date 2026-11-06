@@ -4,6 +4,40 @@ import path from 'node:path';
 import { parseSync } from '@swc/core';
 import { fs as modernFs } from '@modern-js/utils';
 import loader from '../../src/cli/federation/loader';
+import { fileSystemRoutes } from '../../src/router/cli/code/templates';
+
+it('generates an application-owned route module cache for ordinary entries', async () => {
+  const internalDirectory = await fs.mkdtemp(
+    path.join(os.tmpdir(), 'modern-page-routes-'),
+  );
+  try {
+    const source = await fileSystemRoutes({
+      metaName: 'modern-js',
+      entryName: 'index',
+      internalDirectory,
+      routes: [
+        {
+          id: 'page',
+          type: 'nested',
+          origin: 'file-system',
+          path: '/',
+          _component: '/app/page.tsx',
+          loader: '/app/page.loader.ts',
+        },
+      ],
+    });
+    expect(source).toContain('const routeModuleCache = Object.create(null)');
+    expect(source).toContain(
+      'handleRouteModule(routeModule, "page", routeModuleCache)',
+    );
+    expect(source).toContain(
+      'createShouldRevalidate("page", routeModuleCache)',
+    );
+    expect(source).not.toContain('window.');
+  } finally {
+    await fs.rm(internalDirectory, { recursive: true, force: true });
+  }
+});
 
 it('rewrites only the expose resource and emits independent complete and selected dependency graphs', async () => {
   const internalDirectory = await fs.mkdtemp(
@@ -47,18 +81,9 @@ it('rewrites only the expose resource and emits independent complete and selecte
         ],
       }),
     );
-    await fs.writeFile(
-      path.join(entryDirectory, 'runtime-register.js'),
-      `
-import { registerPlugin, mergeConfig } from '@modern-js/runtime/plugin';
-import { getCurrentEntryName } from '@modern-js/runtime/context';
-import { routerPlugin } from '@modern-js/runtime/router/internal';
-const plugins = [];
-const runtimeConfig = { entryName: getCurrentEntryName() };
-plugins.push(routerPlugin(mergeConfig({})));
-registerPlugin(plugins, runtimeConfig);
-`,
-    );
+    const runtimeFile = path.join(entryDirectory, 'runtime.js');
+    const runtimeCode = `export function createRegistryRuntime(context) { return context; }`;
+    await fs.writeFile(runtimeFile, runtimeCode);
     const source = (argument: string) => `
 import '@modern-js/runtime/registry/index';
 import { createRoot } from '@modern-js/runtime/react';
@@ -82,10 +107,18 @@ export default createBridgeComponent({ rootComponent: App, render });
       context,
       source("{ route: '/product' }"),
     );
+    const modernHelper = await loader.call(
+      context,
+      source("{ route: '/product' }").replaceAll(
+        'createBridgeComponent',
+        'createModernBridgeComponent',
+      ),
+    );
     const registryPath = (code: string) =>
       (parseSync(code).body[0] as import('@swc/core').ImportDeclaration).source
         .value;
     expect(registryPath(full)).not.toBe(registryPath(selected));
+    expect(registryPath(modernHelper)).toBe(registryPath(selected));
     expect(selected).toMatch(
       /import \{ hydrateWithReact \} from ['"]@modern-js\/runtime\/browser['"]/,
     );
@@ -106,17 +139,24 @@ export default createBridgeComponent({ rootComponent: App, render });
     const definition = await fs.readFile(registryPath(selected), 'utf8');
     expect(definition).toContain('selected: true, dataRoute: "/product"');
     expect(definition).not.toContain(' route:');
+    expect(definition).toContain(
+      'getRouteManifest: () => __webpack_require__.modernRouteManifest',
+    );
+    expect(definition).toContain(
+      'loadRouteChunk: chunkId => __webpack_chunk_load__(chunkId)',
+    );
     expect(scopedRoutes).toContain(
       'const routeModuleCache = Object.create(null)',
     );
     expect(scopedRoutes).not.toContain('window.');
-    const runtime = await fs.readFile(
-      path.join(path.dirname(registryPath(selected)), 'runtime.js'),
-      'utf8',
+    expect(definition).toContain(
+      `import { createRegistryRuntime } from ${JSON.stringify(runtimeFile)}`,
     );
-    expect(runtime).toContain('createRuntime as registerPlugin');
-    expect(runtime).toContain('routesConfig');
-    expect(runtime).not.toContain('getCurrentEntryName()');
+    expect(await fs.readFile(runtimeFile, 'utf8')).toBe(runtimeCode);
+    expect(
+      await fs.readdir(path.dirname(registryPath(selected))),
+    ).not.toContain('runtime.js');
+    expect(dependencies).toContain(runtimeFile);
     expect(dependencies).toContain(
       path.join(entryDirectory, 'route-scope.json'),
     );
@@ -168,8 +208,8 @@ export default createBridgeComponent({ rootComponent: App });`;
     try {
       await fs.writeFile(graphFile, JSON.stringify(graph));
       await fs.writeFile(
-        path.join(directory, 'runtime-register.js'),
-        `import { registerPlugin } from '@modern-js/runtime/plugin'; const plugins = []; registerPlugin(plugins, {});`,
+        path.join(directory, 'runtime.js'),
+        `export function createRegistryRuntime(context) { return context; }`,
       );
       const code = await loader.call(context, source);
       const registry = (
@@ -233,7 +273,6 @@ export default createBridgeComponent({ rootComponent: App });`;
         'index',
         'registry.js',
         'routes.js',
-        'runtime.js',
       ]);
     } finally {
       await fs.rm(internalDirectory, { recursive: true, force: true });

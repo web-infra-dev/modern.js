@@ -12,6 +12,7 @@ import {
   ENTRY_BOOTSTRAP_FILE_NAME,
   ENTRY_POINT_FILE_NAME,
   ENTRY_POINT_REGISTER_FILE_NAME,
+  ENTRY_POINT_RUNTIME_FACTORY_FILE_NAME,
   ENTRY_POINT_RUNTIME_GLOBAL_CONTEXT_FILE_NAME,
   ENTRY_POINT_RUNTIME_REGISTER_FILE_NAME,
   ENTRY_SERVER_BOOTSTRAP_FILE_NAME,
@@ -218,8 +219,8 @@ export const generateCode = async (
         );
         await fs.outputFile(registerFile, registerCode, 'utf8');
 
-        // runtime-register.js
-        const registerRuntimeCode = template.runtimeRegister({
+        // The definition is shared by page entries and application exports.
+        const runtimeFactoryCode = template.runtimeFactory({
           entryName,
           srcDirectory,
           internalSrcAlias,
@@ -227,6 +228,14 @@ export const generateCode = async (
           runtimeConfigFile,
           runtimePlugins,
         });
+        const runtimeFactoryFile = path.resolve(
+          internalDirectory,
+          `./${entryName}/${ENTRY_POINT_RUNTIME_FACTORY_FILE_NAME}`,
+        );
+        await fs.outputFile(runtimeFactoryFile, runtimeFactoryCode, 'utf8');
+
+        // Only the page registry installs the default definition.
+        const registerRuntimeCode = template.runtimeRegister({ metaName });
         const registerRuntimeFile = path.resolve(
           internalDirectory,
           `./${entryName}/${ENTRY_POINT_RUNTIME_REGISTER_FILE_NAME}`,

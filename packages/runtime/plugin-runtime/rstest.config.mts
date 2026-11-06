@@ -22,7 +22,12 @@ export default {
     withTestPreset({
       name: 'plugin-runtime-node',
       testEnvironment: 'node',
+      output: {
+        bundleDependencies: ['@modern-js/render', 'react-server-dom-rspack'],
+      },
       exclude: [
+        'tests/application/browser.test.tsx',
+        'tests/mf/browser.test.tsx',
         'tests/ssr/browserHydration.test.tsx',
         'tests/router/prefetch.test.tsx',
         'tests/router/routeScopeBrowser.test.tsx',
@@ -52,7 +57,19 @@ export default {
     withTestPreset({
       name: 'plugin-runtime-client',
       testEnvironment: 'happy-dom',
+      resolve: {
+        conditionNames: ['modern:source', 'browser', 'import', 'default'],
+      },
+      output: {
+        bundleDependencies: [
+          '@modern-js/render',
+          'react-server-dom-rspack',
+          '@module-federation/bridge-react',
+        ],
+      },
       include: [
+        'tests/application/browser.test.tsx',
+        'tests/mf/browser.test.tsx',
         'tests/ssr/browserHydration.test.tsx',
         'tests/router/prefetch.test.tsx',
         'tests/router/routeScopeBrowser.test.tsx',
