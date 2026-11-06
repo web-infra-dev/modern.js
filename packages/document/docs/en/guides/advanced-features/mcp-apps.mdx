@@ -15,7 +15,7 @@ Choose a release containing MCP Apps support. Run `pnpm dev`. The explicit BFF r
 
 ## Build cards
 
-Declare local default-export React components or this project's MF exposes in `mcp-views.json`:
+Declare local default-export React components, this project's MF exposes, or exposes of deployed remotes in `mcp-views.json`:
 
 ```json
 {
@@ -43,6 +43,31 @@ mcpAppsPlugin({
   },
 });
 ```
+
+### Reference deployed remotes
+
+When another project publishes the card as an MF remote, set `remote` to the manifest URL of the remote:
+
+```json
+{
+  "remote": "https://ui.example.com/mf-manifest.json",
+  "views": {
+    "todos": { "expose": "./Todos" },
+    "stats": { "expose": "./Stats" }
+  },
+  "csp": { "resourceDomains": ["https://cdn.example.com"] }
+}
+```
+
+The top-level `remote` is shared by all expose views. A view can set its own `remote` to override it. Component paths still reference local components. Without a top-level or view-level `remote`, exposes refer to this application. With a top-level `remote`, expose views in the same config cannot refer to this application's exposes. To mix both, omit the top-level `remote` and set `remote` only on the views that reference a deployed remote.
+
+- The URL must be an absolute HTTP(S) URL whose path ends with `.json`. Entries that are not manifests, such as `remoteEntry.js`, are not supported
+- The remote's name is not needed. The runtime reads it from the manifest
+- The shell reads the remote manifest and loads the expose when the card opens. Republishing the remote needs no rebuild or restart of the MCP server. Exposes are not checked at build time. A missing expose shows a load error in the card
+- This project does not need the MF plugin, but it must install the runtime that `mf.runtime` points to. Set `mf.runtime` as above when the remote uses another MF implementation
+- The manifest origin is added to CSP automatically. Declare other origins serving the remote's scripts and styles, such as a CDN, in `csp.resourceDomains`. The manifest and scripts must allow cross-origin requests
+- The remote must share React as a singleton so it uses the shell's React
+- Adding a card or changing `remote` or `expose` still requires rebuilding the MCP server
 
 Local cards build as separate entries without the framework page runtime. With `source.enableAsyncEntry`, each entry adds a dynamic import boundary so MF shared dependencies can initialize. The MF plugin enables this option automatically. Otherwise cards mount directly without an extra request.
 
