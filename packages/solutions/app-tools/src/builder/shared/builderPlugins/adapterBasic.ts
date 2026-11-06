@@ -34,9 +34,13 @@ export const builderPluginAdapterBasic = (
       const { appContext } = options;
       const { metaName } = appContext;
 
+      // Rspack treats string entries as globs, so the pattern must be a RegExp.
+      // Keep the array form so plugins that append glob entries still work.
       chain.watchOptions({
         ignored: [
-          `[\\\\/](?:node_modules(?![\\\\/]\\.${metaName})|.git)[\\\\/]`,
+          new RegExp(
+            `[\\\\/](?:node_modules(?![\\\\/]\\.${metaName})|\\.git)[\\\\/]`,
+          ),
         ],
       });
     });
