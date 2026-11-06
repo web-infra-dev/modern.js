@@ -83,9 +83,10 @@ describe('deployed MF remotes', () => {
   it('emits remote views without this application MF output', () => {
     const manifest = createUiManifest(
       {
+        remote,
         views: {
-          todos: { remote, expose: './Todos' },
-          summary: { remote, expose: './Summary' },
+          todos: { expose: './Todos' },
+          summary: { expose: './Summary' },
         },
       },
       '',
@@ -103,6 +104,37 @@ describe('deployed MF remotes', () => {
     });
     expect(manifest.views.summary).toMatchObject({ remote: '@demo/ui' });
     expect(() => validateUiManifest(manifest)).not.toThrow();
+  });
+  it('allows view overrides and keeps local components with a default remote', () => {
+    const manifest = createUiManifest(
+      {
+        remote,
+        views: {
+          local: './Local.tsx',
+          todos: { expose: './Todos' },
+          other: {
+            remote: 'other@https://other.example/m.json',
+            expose: './Other',
+          },
+        },
+      },
+      '',
+    );
+    expect(manifest.views.local).toHaveProperty('html');
+    expect(manifest.views.todos).toMatchObject({ remote: '@demo/ui' });
+    expect(manifest.views.other).toMatchObject({ remote: 'other' });
+    for (const view of Object.values(manifest.views))
+      expect(view.ui).toEqual({ prefersBorder: true });
+    expect(() => validateUiManifest(manifest)).not.toThrow();
+  });
+  it.each([
+    1,
+    null,
+    '',
+    'ui@/m.json',
+    'ui@https://user:pass@ui.example/m.json',
+  ])('rejects invalid default remote %s', remote => {
+    expect(() => validateViewsConfig({ remote, views: {} })).toThrow();
   });
   it('mixes deployed remotes with local cards and local exposes', () => {
     const manifest = createUiManifest(

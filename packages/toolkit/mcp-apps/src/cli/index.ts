@@ -324,7 +324,10 @@ export const mcpAppsPlugin = (
             // Only exposes of this application need its MF build output.
             if (
               Object.values(definition.views).some(
-                view => typeof view !== 'string' && view.remote === undefined,
+                view =>
+                  typeof view !== 'string' &&
+                  view.remote === undefined &&
+                  definition.remote === undefined,
               )
             ) {
               mf = findMfManifest(

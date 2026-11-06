@@ -51,15 +51,16 @@ mcpAppsPlugin({
 
 ```json
 {
+  "remote": "todo_ui@https://ui.example.com/mf-manifest.json",
   "views": {
-    "todos": {
-      "remote": "todo_ui@https://ui.example.com/mf-manifest.json",
-      "expose": "./Todos"
-    }
+    "todos": { "expose": "./Todos" },
+    "stats": { "expose": "./Stats" }
   },
   "csp": { "resourceDomains": ["https://cdn.example.com"] }
 }
 ```
+
+顶层 `remote` 与 `csp` 同级，供所有 expose 视图共用。单个视图可配置 `remote` 覆盖默认值。字符串路径仍引用本地组件。顶层和视图都未配置 `remote` 时，expose 引用本项目。配置顶层 `remote` 后，同一份配置中的 expose 视图无法再引用本项目的 expose。需要混用时，不配置顶层 `remote`，只在引用远程模块的视图上配置。
 
 - 名称必须与远程模块 MF 配置中的 `name` 一致，地址必须是绝对的 HTTP(S) 地址
 - shell 在卡片打开时读取远程 manifest 并加载 expose。远程模块重新发布后，MCP 服务无需重新构建或重启。构建时不检查 expose 是否存在，缺失时卡片显示加载错误

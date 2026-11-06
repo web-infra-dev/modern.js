@@ -75,7 +75,7 @@ export function createUiManifest(
 ): UiManifest {
   validateViewsConfig(config);
   if (csp !== undefined) validateUiMetadata({ csp });
-  const { views, ...metadata } = config;
+  const { views, remote: defaultRemote, ...metadata } = config;
   // Scripts and chunks load from the asset prefix even when assetBase stays
   // request-relative, such as with a protocol-relative CDN prefix.
   const assetOrigin = assetPrefixOrigin(prefix);
@@ -114,10 +114,11 @@ export function createUiManifest(
       continue;
     }
     let remote: string;
-    if (source.remote !== undefined) {
+    const deployedRemote = source.remote ?? defaultRemote;
+    if (deployedRemote !== undefined) {
       // The shell reads a deployed remote's manifest when the card opens, so
       // its exposes are checked at runtime and updates need no rebuild here.
-      const parsed = parseRemote(source.remote);
+      const parsed = parseRemote(deployedRemote);
       addRemote(parsed.name, parsed.entry);
       remote = parsed.name;
     } else {

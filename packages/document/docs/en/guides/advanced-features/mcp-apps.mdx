@@ -50,15 +50,16 @@ When another project publishes the card as an MF remote, set `remote` in the sam
 
 ```json
 {
+  "remote": "todo_ui@https://ui.example.com/mf-manifest.json",
   "views": {
-    "todos": {
-      "remote": "todo_ui@https://ui.example.com/mf-manifest.json",
-      "expose": "./Todos"
-    }
+    "todos": { "expose": "./Todos" },
+    "stats": { "expose": "./Stats" }
   },
   "csp": { "resourceDomains": ["https://cdn.example.com"] }
 }
 ```
+
+The top-level `remote` is shared by all expose views. A view can set its own `remote` to override it. Component paths still reference local components. Without a top-level or view-level `remote`, exposes refer to this application. With a top-level `remote`, expose views in the same config cannot refer to this application's exposes. To mix both, omit the top-level `remote` and set `remote` only on the views that reference a deployed remote.
 
 - The name must match the remote's MF `name`, and the URL must be an absolute HTTP(S) URL
 - The shell reads the remote manifest and loads the expose when the card opens. Republishing the remote needs no rebuild or restart of the MCP server. Exposes are not checked at build time. A missing expose shows a load error in the card

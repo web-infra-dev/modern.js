@@ -2,6 +2,8 @@ import type { McpUiResourceMeta } from '@modelcontextprotocol/ext-apps';
 
 export type UiMetadata = McpUiResourceMeta;
 export interface McpViewsConfig extends UiMetadata {
+  /** Default deployed MF remote for expose views. Individual views may override it. */
+  remote?: string;
   /** A component path, an expose of this application, or an expose of a deployed remote. */
   views: Record<string, string | { expose: string; remote?: string }>;
 }
@@ -53,9 +55,21 @@ export function validateViewsConfig(
   if (!isRecord(value) || !isRecord(value.views))
     throw new Error('mcp-views.json requires a views object');
   validateUiMetadata(value);
+  if (value.remote !== undefined) {
+    if (typeof value.remote !== 'string')
+      throw new Error('remote must be a string');
+    parseRemote(value.remote);
+  }
   for (const key of Object.keys(value)) {
     if (
-      !['views', 'csp', 'prefersBorder', 'permissions', 'domain'].includes(key)
+      ![
+        'views',
+        'remote',
+        'csp',
+        'prefersBorder',
+        'permissions',
+        'domain',
+      ].includes(key)
     )
       throw new Error(`Unknown MCP views option: ${key}`);
   }
