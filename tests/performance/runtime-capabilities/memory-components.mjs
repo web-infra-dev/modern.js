@@ -109,7 +109,7 @@ async function measure(make, count) {
   const refs = owners.map(x => new WeakRef(x));
   const contexts = owners.map(x => new WeakRef(x.context));
   const runtimeContexts = owners.map(
-    x => new WeakRef(x.runtime.runtimeContext),
+    x => new WeakRef(legacy ? x.runtime : x.runtime.runtimeContext),
   );
   for (const x of owners) x.dispose?.();
   return { before, retained, refs, contexts, runtimeContexts };
