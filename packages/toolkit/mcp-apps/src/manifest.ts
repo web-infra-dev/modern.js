@@ -58,7 +58,7 @@ export function validateViewsConfig(
   if (value.remote !== undefined) {
     if (typeof value.remote !== 'string')
       throw new Error('remote must be a string');
-    parseRemote(value.remote);
+    assertRemoteManifest(value.remote);
   }
   for (const key of Object.keys(value)) {
     if (
@@ -84,29 +84,28 @@ export function validateViewsConfig(
     ) {
       if (!('remote' in view)) continue;
       if (typeof view.remote === 'string') {
-        parseRemote(view.remote);
+        assertRemoteManifest(view.remote);
         continue;
       }
     }
     throw new Error(
-      `Invalid view: ${name}. Use a component path, { expose: './Name' } or { remote: 'name@https://host/mf-manifest.json', expose: './Name' }`,
+      `Invalid view: ${name}. Use a component path, { expose: './Name' } or { remote: 'https://host/mf-manifest.json', expose: './Name' }`,
     );
   }
 }
 /**
- * Parses a deployed MF remote in the `name@url` form. The name must match the
- * remote's MF name, which may be scoped (`@scope/name@https://...`).
+ * A deployed MF remote must be a manifest URL. The MF runtime finds the
+ * container through the manifest only for `.json` entries. Any other entry
+ * would need the remote's real MF name.
  */
-export function parseRemote(remote: string): { name: string; entry: string } {
-  const separator = remote.indexOf('@', 1);
-  const name = remote.slice(0, separator).trim();
-  const entry = remote.slice(separator + 1);
-  if (separator < 0 || !name || !/^https?:\/\//.test(entry))
+export function assertRemoteManifest(remote: string) {
+  if (
+    !/^https?:\/\//.test(remote) ||
+    !assertHttpUrl(remote).pathname.endsWith('.json')
+  )
     throw new Error(
-      `Invalid MF remote: ${remote}. Use name@https://host/mf-manifest.json`,
+      `Invalid MF remote: ${remote}. Use https://host/mf-manifest.json`,
     );
-  assertHttpUrl(entry);
-  return { name, entry };
 }
 export function assertHttpUrl(source: string): URL {
   const url = new URL(source);

@@ -1,7 +1,6 @@
 import { createHash } from 'node:crypto';
 import path from 'node:path';
 import {
-  parseRemote,
   validateUiMetadata,
   validateViewsConfig,
   type UiManifest,
@@ -100,27 +99,19 @@ export function createUiManifest(
     remotes: Object.create(null),
     views: Object.create(null),
   };
-  const addRemote = (remote: string, entry: string) => {
-    const existing = manifest.remotes[remote];
-    if (existing && existing.entry !== entry)
-      throw new Error(
-        `MF remote ${remote} has conflicting entries: ${existing.entry} and ${entry}`,
-      );
-    manifest.remotes[remote] = { entry, shell: './ui/mcp-shell.html' };
-  };
   for (const [name, source] of Object.entries(views)) {
     if (typeof source === 'string') {
       manifest.views[name] = { html: `./ui/${viewEntryName(name)}.html`, ui };
       continue;
     }
     let remote: string;
+    let entry: string;
     const deployedRemote = source.remote ?? defaultRemote;
     if (deployedRemote !== undefined) {
       // The shell reads a deployed remote's manifest when the card opens, so
       // its exposes are checked at runtime and updates need no rebuild here.
-      const parsed = parseRemote(deployedRemote);
-      addRemote(parsed.name, parsed.entry);
-      remote = parsed.name;
+      entry = deployedRemote;
+      remote = `mcp-remote-${createHash('sha256').update(entry).digest('hex').slice(0, 12)}`;
     } else {
       if (!mf)
         throw new Error(
@@ -140,12 +131,10 @@ export function createUiManifest(
         !prefix.startsWith('//')
           ? prefix.replace(/^\/+|\/+$/g, '')
           : '';
-      addRemote(
-        mf.manifest.name,
-        [assetPath, mf.filename].filter(Boolean).join('/'),
-      );
+      entry = [assetPath, mf.filename].filter(Boolean).join('/');
       remote = mf.manifest.name;
     }
+    manifest.remotes[remote] = { entry, shell: './ui/mcp-shell.html' };
     manifest.views[name] = { remote, expose: source.expose, ui };
   }
   return manifest;

@@ -47,11 +47,11 @@ mcpAppsPlugin({
 
 ### 引用已部署的远程模块
 
-卡片由另一个项目作为 MF 远程模块发布时，用 `remote` 指定远程模块，格式与 MF `remotes` 配置相同，为 `名称@manifest 地址`：
+卡片由另一个项目作为 MF 远程模块发布时，用 `remote` 指定远程模块的 manifest 地址：
 
 ```json
 {
-  "remote": "todo_ui@https://ui.example.com/mf-manifest.json",
+  "remote": "https://ui.example.com/mf-manifest.json",
   "views": {
     "todos": { "expose": "./Todos" },
     "stats": { "expose": "./Stats" }
@@ -62,7 +62,8 @@ mcpAppsPlugin({
 
 顶层 `remote` 与 `csp` 同级，供所有 expose 视图共用。单个视图可配置 `remote` 覆盖默认值。字符串路径仍引用本地组件。顶层和视图都未配置 `remote` 时，expose 引用本项目。配置顶层 `remote` 后，同一份配置中的 expose 视图无法再引用本项目的 expose。需要混用时，不配置顶层 `remote`，只在引用远程模块的视图上配置。
 
-- 名称必须与远程模块 MF 配置中的 `name` 一致，地址必须是绝对的 HTTP(S) 地址
+- 地址必须是绝对的 HTTP(S) 地址，路径以 `.json` 结尾。不支持直接引用 `remoteEntry.js` 等非 manifest 入口
+- 不需要填写远程模块的名称，运行时从 manifest 读取
 - shell 在卡片打开时读取远程 manifest 并加载 expose。远程模块重新发布后，MCP 服务无需重新构建或重启。构建时不检查 expose 是否存在，缺失时卡片显示加载错误
 - 本项目不需要启用 MF 插件，但需要安装 `mf.runtime` 指定的运行时。远程模块使用其他 MF 实现时，按上文设置 `mf.runtime`
 - manifest 所在的 origin 会自动加入 CSP。远程模块的脚本和样式由其他域名（例如 CDN）提供时，需要在 `csp.resourceDomains` 中声明。manifest 和脚本需允许跨域访问

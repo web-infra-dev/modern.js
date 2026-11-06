@@ -4,11 +4,7 @@ import {
   findMfManifest,
   viewEntryName,
 } from '../src/cli/build';
-import {
-  parseRemote,
-  validateUiManifest,
-  validateViewsConfig,
-} from '../src/manifest';
+import { validateUiManifest, validateViewsConfig } from '../src/manifest';
 
 describe('UI build contract', () => {
   it('emits local and MF cards without tools or server definitions', () => {
@@ -79,7 +75,7 @@ describe('UI build contract', () => {
 });
 
 describe('deployed MF remotes', () => {
-  const remote = '@demo/ui@https://ui.example/vmok-manifest.json';
+  const remote = 'https://ui.example/vmok-manifest.json';
   it('emits remote views without this application MF output', () => {
     const manifest = createUiManifest(
       {
@@ -91,50 +87,44 @@ describe('deployed MF remotes', () => {
       },
       '',
     );
-    expect(manifest.remotes).toEqual({
-      '@demo/ui': {
-        entry: 'https://ui.example/vmok-manifest.json',
-        shell: './ui/mcp-shell.html',
-      },
+    const [key, ...others] = Object.keys(manifest.remotes);
+    expect(others).toEqual([]);
+    expect(key).toMatch(/^mcp-remote-[0-9a-f]{12}$/);
+    expect(manifest.remotes[key]).toEqual({
+      entry: remote,
+      shell: './ui/mcp-shell.html',
     });
     expect(manifest.views.todos).toEqual({
-      remote: '@demo/ui',
+      remote: key,
       expose: './Todos',
       ui: { prefersBorder: true },
     });
-    expect(manifest.views.summary).toMatchObject({ remote: '@demo/ui' });
+    expect(manifest.views.summary).toMatchObject({ remote: key });
     expect(() => validateUiManifest(manifest)).not.toThrow();
   });
   it('allows view overrides and keeps local components with a default remote', () => {
+    const other = 'https://other.example/m.json';
     const manifest = createUiManifest(
       {
         remote,
         views: {
           local: './Local.tsx',
           todos: { expose: './Todos' },
-          other: {
-            remote: 'other@https://other.example/m.json',
-            expose: './Other',
-          },
+          other: { remote: other, expose: './Other' },
         },
       },
       '',
     );
+    const entryOf = (name: string) => {
+      const view = manifest.views[name];
+      return 'remote' in view ? manifest.remotes[view.remote].entry : undefined;
+    };
     expect(manifest.views.local).toHaveProperty('html');
-    expect(manifest.views.todos).toMatchObject({ remote: '@demo/ui' });
-    expect(manifest.views.other).toMatchObject({ remote: 'other' });
+    expect(entryOf('todos')).toBe(remote);
+    expect(entryOf('other')).toBe(other);
     for (const view of Object.values(manifest.views))
       expect(view.ui).toEqual({ prefersBorder: true });
     expect(() => validateUiManifest(manifest)).not.toThrow();
-  });
-  it.each([
-    1,
-    null,
-    '',
-    'ui@/m.json',
-    'ui@https://user:pass@ui.example/m.json',
-  ])('rejects invalid default remote %s', remote => {
-    expect(() => validateViewsConfig({ remote, views: {} })).toThrow();
   });
   it('mixes deployed remotes with local cards and local exposes', () => {
     const manifest = createUiManifest(
@@ -151,66 +141,57 @@ describe('deployed MF remotes', () => {
         manifest: { name: 'mcp_server', exposes: [{ name: './Stats' }] },
       },
     );
-    expect(Object.keys(manifest.remotes).sort()).toEqual([
-      '@demo/ui',
-      'mcp_server',
-    ]);
+    expect(Object.keys(manifest.remotes)).toHaveLength(2);
     expect(manifest.remotes.mcp_server.entry).toBe('mf-manifest.json');
+    expect(manifest.views.stats).toMatchObject({ remote: 'mcp_server' });
     expect(() => validateUiManifest(manifest)).not.toThrow();
   });
-  it('rejects one remote name with different entries', () => {
-    expect(() =>
+  it('keeps the key stable for one URL and separate for different URLs', () => {
+    const build = () =>
       createUiManifest(
         {
           views: {
             a: { remote, expose: './A' },
-            b: {
-              remote: '@demo/ui@https://other.example/m.json',
-              expose: './B',
-            },
+            b: { remote, expose: './B' },
+            c: { remote: 'https://other.example/m.json', expose: './C' },
           },
         },
         '',
-      ),
-    ).toThrow('MF remote @demo/ui has conflicting entries');
-    expect(() =>
-      createUiManifest(
-        {
-          views: {
-            a: { expose: './A' },
-            b: { remote: 'ui@https://ui.example/m.json', expose: './B' },
-          },
-        },
-        '',
-        {
-          filename: 'mf-manifest.json',
-          manifest: { name: 'ui', exposes: [{ name: './A' }] },
-        },
-      ),
-    ).toThrow('MF remote ui has conflicting entries');
-  });
-  it('parses scoped and plain remote names', () => {
-    expect(parseRemote(remote)).toEqual({
-      name: '@demo/ui',
-      entry: 'https://ui.example/vmok-manifest.json',
-    });
-    expect(parseRemote('ui@http://localhost:8080/mf-manifest.json')).toEqual({
-      name: 'ui',
-      entry: 'http://localhost:8080/mf-manifest.json',
-    });
+      );
+    const manifest = build();
+    expect(Object.keys(manifest.remotes)).toHaveLength(2);
+    expect(Object.keys(build().remotes)).toEqual(Object.keys(manifest.remotes));
   });
   it.each([
     'https://ui.example/m.json',
-    '@https://ui.example/m.json',
-    'ui@/m.json',
-    'ui@//ui.example/m.json',
-    'ui@ftp://ui.example/m.json',
-    'ui@https://user:pass@ui.example/m.json',
-  ])('rejects the remote %s', value => {
+    'http://localhost:8080/static/mf-manifest.json',
+    'https://ui.example/m.json?v=1',
+  ])('accepts the remote %s', value => {
+    expect(() =>
+      validateViewsConfig({ views: { a: { remote: value, expose: './A' } } }),
+    ).not.toThrow();
+  });
+  const invalidRemotes = [
+    '',
+    'ui@https://ui.example/m.json',
+    '/m.json',
+    '//ui.example/m.json',
+    'ftp://ui.example/m.json',
+    'https://user:pass@ui.example/m.json',
+    'https://ui.example/remoteEntry.js',
+    'https://ui.example/remoteEntry.js?a=.json',
+  ];
+  it.each(invalidRemotes)('rejects the remote %s', value => {
     expect(() =>
       validateViewsConfig({ views: { a: { remote: value, expose: './A' } } }),
     ).toThrow();
   });
+  it.each([1, null, ...invalidRemotes])(
+    'rejects the default remote %s',
+    value => {
+      expect(() => validateViewsConfig({ remote: value, views: {} })).toThrow();
+    },
+  );
   it('rejects remote views with invalid fields', () => {
     for (const view of [
       { remote: 1, expose: './A' },

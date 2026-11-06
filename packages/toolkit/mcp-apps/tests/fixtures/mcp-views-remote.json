@@ -1,5 +1,5 @@
 {
-  "remote": "@demo/ui@https://ui.example/vmok-manifest.json",
+  "remote": "https://ui.example/vmok-manifest.json",
   "views": {
     "todos": { "expose": "./Todos" }
   }
