@@ -22,6 +22,9 @@ const treeKill = require('tree-kill');
 const sleep = ms => new Promise(r => setTimeout(r, ms));
 const active = [];
 const reverseLaunch = process.env.PAIRED_LAUNCH_ORDER === 'BA';
+const warmupPairs = Number(process.env.PAIRED_WARMUP_PAIRS || 50);
+if (!Number.isSafeInteger(warmupPairs) || warmupPairs < 1)
+  throw Error('Warmup pairs must be a positive integer');
 const measuredConcurrency = Number(
   process.env.PAIRED_MEASURED_CONCURRENCY || 16,
 );
@@ -32,7 +35,8 @@ const result = {
   metadata: {
     protocol: 'paired-fixed-artifacts-v2-launch-order',
     launchOrder: reverseLaunch ? 'BA' : 'AB',
-    warmupPairs: 50,
+    warmupPairs,
+    serverLogLevel: process.env.MODERN_SERVER_LOG_LEVEL || 'verbose',
     measuredPairs: 100,
     concurrency: measuredConcurrency,
     warmupConcurrency: 16,
@@ -244,7 +248,7 @@ async function measure(urlA, urlB, assertHTML, key) {
   const warmup = [],
     measured = [];
   for (const [count, rows] of [
-    [50, warmup],
+    [warmupPairs, warmup],
     [100, measured],
   ])
     for (let i = 0; i < count; i++) {
