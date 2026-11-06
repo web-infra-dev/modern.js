@@ -94,6 +94,7 @@ export async function ssrRender(
       routeManifest,
       htmlTemplate: html,
       entryName: entryName || MAIN_ENTRY_NAME,
+      ppr: serverManifest.pprManifest?.entries?.[entryName || MAIN_ENTRY_NAME],
     },
     params,
     loaderContext,

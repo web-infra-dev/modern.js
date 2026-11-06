@@ -17,12 +17,21 @@ const HTML_SEPARATOR = '<!--<?- html ?>-->';
 type GetTemplatesOptions = BuildShellAfterTemplateOptions &
   BuildShellBeforeTemplateOptions;
 
+/**
+ * Splits the HTML template into the parts before and after the app root.
+ */
+export function splitHtmlTemplate(htmlTemplate: string) {
+  const [beforeAppTemplate = '', afterAppHtmlTemplate = ''] =
+    htmlTemplate.split(HTML_SEPARATOR) || [];
+  return { beforeAppTemplate, afterAppHtmlTemplate };
+}
+
 export const getTemplates = async (
   htmlTemplate: string,
   options: GetTemplatesOptions,
 ): Promise<InjectTemplate> => {
-  const [beforeAppTemplate = '', afterAppHtmlTemplate = ''] =
-    htmlTemplate.split(HTML_SEPARATOR) || [];
+  const { beforeAppTemplate, afterAppHtmlTemplate } =
+    splitHtmlTemplate(htmlTemplate);
 
   const builtBeforeTemplate = await buildShellBeforeTemplate(
     beforeAppTemplate,

@@ -23,6 +23,7 @@ import { i18n } from './locale';
 import analyzePlugin from './plugins/analyze';
 import deployPlugin from './plugins/deploy';
 import initializePlugin from './plugins/initialize';
+import pprPlugin from './plugins/ppr';
 import serverBuildPlugin from './plugins/serverBuild';
 import type { AppTools, CliPlugin } from './types';
 import type {
@@ -50,6 +51,7 @@ export const appTools = (): CliPlugin<AppTools> => ({
     initializePlugin(),
     analyzePlugin(),
     serverBuildPlugin(),
+    pprPlugin(),
     deployPlugin(),
   ],
   post: [

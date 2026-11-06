@@ -1,6 +1,7 @@
 import type { Logger, Metrics, Reporter, ServerRoute } from '@modern-js/types';
 import type {
   Monitors,
+  PPRArtifact,
   ClientManifest as RscClientManifest,
   SSRManifest as RscSSRManifest,
   ServerManifest as RscServerManifest,
@@ -13,6 +14,8 @@ export type Resource = {
   route: ServerRoute;
   htmlTemplate: string;
   entryName: string;
+  /** Partial prerendering artifacts of the entry, see `server.ssr.mode: 'ppr'` */
+  ppr?: PPRArtifact[];
 };
 
 export type Params = Record<string, any>;

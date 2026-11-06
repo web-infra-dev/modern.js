@@ -6,6 +6,7 @@ import {
   LOADABLE_STATS_FILE,
   MAIN_ENTRY_NAME,
   NESTED_ROUTE_SPEC_FILE,
+  PPR_MANIFEST_FILE,
   ROUTE_MANIFEST_FILE,
   SERVER_BUNDLE_DIRECTORY,
   compatibleRequire,
@@ -172,12 +173,17 @@ export async function getServerManifest(
     _ => ({}),
   );
 
+  const pprManifest = await compatibleRequire(
+    path.join(pwd, PPR_MANIFEST_FILE),
+  ).catch(_ => undefined);
+
   return {
     loaderBundles,
     renderBundles,
     loadableStats,
     routeManifest,
     nestedRoutesJson,
+    pprManifest,
   };
 }
 

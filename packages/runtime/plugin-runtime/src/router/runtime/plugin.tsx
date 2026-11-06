@@ -281,6 +281,13 @@ function useRouterCreation(props: any, options: UseRouterCreationOptions) {
             renderRoutes({
               routesConfig: finalRouteConfig,
               props,
+              // Partially prerendered pages wrap routes with data loaders in
+              // Suspense boundaries; render the same boundaries to hydrate.
+              ssrMode:
+                typeof window !== 'undefined' &&
+                window._SSR_DATA?.mode === 'ppr'
+                  ? 'ppr'
+                  : undefined,
             }),
           );
     }
