@@ -36,6 +36,8 @@ interface ResourceStagesConfig {
 
 各阶段的上限，超出时构建告警，不中断构建。`size` 按 gzip 后的字节数计算，`requests` 是文件数，`depth` 是从入口到声明的 chunk 经过几层异步加载。
 
+声明为 `critical` 的 chunk 按声明顺序计入这个上限，超出的改为在 `visible` 阶段预取并告警，避免首屏被拖慢。
+
 `critical` 默认上限：`size` 为目标网络在 `firstPaintTarget` 的三分之一时间内能下载的字节数，`requests` 为 8。路由 JS 的共享 chunk 也按这个上限分档。
 
 另外两项检查不需要配置：`critical` 加上入口文件的预计下载时间超过 `firstPaintTarget` 时告警；同一模块被打进不同阶段的 chunk 时告警。

@@ -36,6 +36,8 @@ The network used to estimate the download time of each stage. Defaults to `'fast
 
 Upper limits per stage. Exceeding one is a build warning and does not fail the build. `size` is gzip bytes, `requests` is the number of files, and `depth` is how many async levels lie between the entry and a declared chunk.
 
+Chunks declared `critical` fill this budget in declaration order; the ones over it are prefetched at `visible` instead, with a warning, so first paint is not delayed.
+
 The default `critical` budget is what the target network downloads in a third of `firstPaintTarget` for `size`, and 8 for `requests`. The shared chunks of route JS are staged by this budget too.
 
 Two checks need no config: a warning when the estimated download time of the entry files plus `critical` exceeds `firstPaintTarget`, and a warning when a module is bundled into chunks of different stages.
