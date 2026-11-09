@@ -2,7 +2,10 @@ import type { McpUiResourceMeta } from '@modelcontextprotocol/ext-apps';
 
 export type UiMetadata = McpUiResourceMeta;
 export interface McpViewsConfig extends UiMetadata {
-  views: Record<string, string | { expose: string }>;
+  /** Default deployed MF remote for expose views. Individual views may override it. */
+  remote?: string;
+  /** A component path, an expose of this application, or an expose of a deployed remote. */
+  views: Record<string, string | { expose: string; remote?: string }>;
 }
 export interface UiManifest {
   version: 1;
@@ -52,9 +55,21 @@ export function validateViewsConfig(
   if (!isRecord(value) || !isRecord(value.views))
     throw new Error('mcp-views.json requires a views object');
   validateUiMetadata(value);
+  if (value.remote !== undefined) {
+    if (typeof value.remote !== 'string')
+      throw new Error('remote must be a string');
+    assertRemoteManifest(value.remote);
+  }
   for (const key of Object.keys(value)) {
     if (
-      !['views', 'csp', 'prefersBorder', 'permissions', 'domain'].includes(key)
+      ![
+        'views',
+        'remote',
+        'csp',
+        'prefersBorder',
+        'permissions',
+        'domain',
+      ].includes(key)
     )
       throw new Error(`Unknown MCP views option: ${key}`);
   }
@@ -65,13 +80,32 @@ export function validateViewsConfig(
       isRecord(view) &&
       typeof view.expose === 'string' &&
       view.expose.startsWith('./') &&
-      Object.keys(view).length === 1
-    )
-      continue;
+      Object.keys(view).every(key => key === 'expose' || key === 'remote')
+    ) {
+      if (!('remote' in view)) continue;
+      if (typeof view.remote === 'string') {
+        assertRemoteManifest(view.remote);
+        continue;
+      }
+    }
     throw new Error(
-      `Invalid view: ${name}. Use a component path or { expose: './Name' }`,
+      `Invalid view: ${name}. Use a component path, { expose: './Name' } or { remote: 'https://host/mf-manifest.json', expose: './Name' }`,
     );
   }
+}
+/**
+ * A deployed MF remote must be a manifest URL. The MF runtime finds the
+ * container through the manifest only for `.json` entries. Any other entry
+ * would need the remote's real MF name.
+ */
+export function assertRemoteManifest(remote: string) {
+  if (
+    !/^https?:\/\//.test(remote) ||
+    !assertHttpUrl(remote).pathname.endsWith('.json')
+  )
+    throw new Error(
+      `Invalid MF remote: ${remote}. Use https://host/mf-manifest.json`,
+    );
 }
 export function assertHttpUrl(source: string): URL {
   const url = new URL(source);
