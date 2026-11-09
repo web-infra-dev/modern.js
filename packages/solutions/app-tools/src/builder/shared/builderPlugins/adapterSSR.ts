@@ -316,6 +316,7 @@ function applyResourceStagesPlugin(
       config: normalizedConfig.performance?.resourceStages,
       appDirectory: appContext.appDirectory,
       srcDirectory: appContext.srcDirectory,
+      internalDirectory: appContext.internalDirectory,
       isServerRendered: (entryName: string) =>
         Boolean(
           getEntryOptions(
