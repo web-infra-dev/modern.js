@@ -1,5 +1,13 @@
 # deploy-server
 
+## 2.66.6
+
+### Patch Changes
+
+- @modern-js/plugin-bff@3.11.2
+- @modern-js/runtime@3.11.2
+- @modern-js/server-runtime@3.11.2
+
 ## 2.66.5
 
 ### Patch Changes

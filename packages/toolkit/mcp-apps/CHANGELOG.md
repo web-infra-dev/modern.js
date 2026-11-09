@@ -1,5 +1,11 @@
 # @modern-js/mcp-apps
 
+## 3.11.2
+
+### Patch Changes
+
+- 2d8d502: feat(mcp-apps): reference deployed MF remotes in mcp-views.json with a top-level or per-view `remote` manifest URL, so republishing the card project needs no MCP server rebuild
+
 ## 3.11.1
 
 ### Patch Changes

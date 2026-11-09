@@ -1,5 +1,11 @@
 # @modern-js/i18n-utils
 
+## 3.11.2
+
+### Patch Changes
+
+- @modern-js/utils@3.11.2
+
 ## 3.11.1
 
 ### Patch Changes

@@ -1,5 +1,7 @@
 # @modern-js/plugin-styled-components
 
+## 3.11.2
+
 ## 3.11.1
 
 ## 3.11.0

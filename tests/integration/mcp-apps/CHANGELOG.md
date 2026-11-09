@@ -1,5 +1,15 @@
 # mcp-apps-integration
 
+## 0.0.3
+
+### Patch Changes
+
+- Updated dependencies [2d8d502]
+  - @modern-js/mcp-apps@3.11.2
+  - @modern-js/plugin-bff@3.11.2
+  - @modern-js/runtime@3.11.2
+  - @modern-js/server-runtime@3.11.2
+
 ## 0.0.2
 
 ### Patch Changes

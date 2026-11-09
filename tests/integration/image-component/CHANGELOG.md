@@ -1,5 +1,12 @@
 # @integration-test/image-component
 
+## 2.66.6
+
+### Patch Changes
+
+- @modern-js/image@3.11.2
+- @modern-js/runtime@3.11.2
+
 ## 2.66.5
 
 ### Patch Changes
