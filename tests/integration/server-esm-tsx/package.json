@@ -1,7 +1,7 @@
 {
   "private": true,
   "name": "server-esm-tsx",
-  "version": "2.66.4",
+  "version": "2.66.5",
   "type": "module",
   "scripts": {
     "dev": "modern dev",

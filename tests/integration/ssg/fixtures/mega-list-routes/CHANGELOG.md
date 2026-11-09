@@ -1,5 +1,17 @@
 # ssg-fixtures-mega-list-routes
 
+## 2.66.5
+
+### Patch Changes
+
+- Updated dependencies [fc6ee73]
+- Updated dependencies [b11c3cd]
+- Updated dependencies [8f79d0b]
+- Updated dependencies [2f19228]
+  - @modern-js/app-tools@3.11.1
+  - @modern-js/plugin-ssg@3.11.1
+  - @modern-js/runtime@3.11.1
+
 ## 2.66.4
 
 ### Patch Changes
