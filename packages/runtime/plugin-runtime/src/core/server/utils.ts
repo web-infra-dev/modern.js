@@ -1,3 +1,4 @@
+import { matchRoutes } from '@modern-js/runtime-utils/router';
 import type { ServerUserConfig } from '@modern-js/app-tools';
 import {
   type StaticHandlerContext,
@@ -184,4 +185,26 @@ export const getLoadedScriptUrls = (template: string) => {
     }
   }
   return urls;
+};
+
+/**
+ * Ids of the routes matched by the current request, outermost first. Empty
+ * when the entry has no router.
+ */
+export const getMatchedRouteIds = (runtimeContext: {
+  routes?: unknown;
+  routerContext?: { location: unknown; basename?: string };
+}): string[] => {
+  const { routes, routerContext } = runtimeContext;
+  if (!routes || !routerContext) {
+    return [];
+  }
+  const matches = matchRoutes(
+    routes as Parameters<typeof matchRoutes>[0],
+    routerContext.location as Parameters<typeof matchRoutes>[1],
+    routerContext.basename,
+  );
+  return (matches ?? [])
+    .map(match => match.route.id)
+    .filter((id): id is string => Boolean(id));
 };

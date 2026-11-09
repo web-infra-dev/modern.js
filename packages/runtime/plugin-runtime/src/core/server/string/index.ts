@@ -16,7 +16,14 @@ import {
 import { createReplaceHelemt, hasTitleTagBefore } from '../helmet';
 import { type BuildHtmlCb, type RenderString, buildHtml } from '../shared';
 import { SSRErrors, SSRTimings, type Tracer } from '../tracer';
-import { getSSRConfigByEntry, safeReplace } from '../utils';
+import { renderRouteStages } from '../../resources/html';
+import type { ResourceStagesManifest } from '../../resources/manifest';
+import {
+  getLoadedScriptUrls,
+  getMatchedRouteIds,
+  getSSRConfigByEntry,
+  safeReplace,
+} from '../utils';
 import { LoadableCollector } from './loadable';
 import { SSRDataCollector } from './ssrData';
 import type { ChunkSet, Collector } from './types';
@@ -69,6 +76,27 @@ export const renderString: RenderString = async (
     }),
   ];
 
+  // Resource stages of the matched routes, after the loadable chunks so the
+  // scripts loadable outputs are not preloaded again.
+  const appendResourceStages = () => {
+    const routeAssets = routeManifest?.routeAssets ?? {};
+    chunkSet.cssChunk += renderRouteStages(
+      routeManifest?.resourceStages as ResourceStagesManifest | undefined,
+      getMatchedRouteIds(runtimeContext),
+      {
+        mode: 'string',
+        template: htmlTemplate,
+        loadedUrls: new Set([
+          ...(routeAssets[entryName]?.assets ?? []),
+          ...getLoadedScriptUrls(htmlTemplate),
+          ...getLoadedScriptUrls(chunkSet.jsChunk),
+        ]),
+        nonce: config.nonce,
+        crossorigin: config.crossorigin,
+      },
+    );
+  };
+
   const internalRuntimeContext = getGlobalInternalRuntimeContext();
   const hooks = internalRuntimeContext.hooks;
 
@@ -92,6 +120,7 @@ export const renderString: RenderString = async (
     collectors,
     runtimeContext.ssrContext?.htmlModifiers || [],
     tracer,
+    appendResourceStages,
   );
 
   return html;
@@ -104,6 +133,7 @@ async function generateHtml(
   collectors: Collector[],
   htmlModifiers: BuildHtmlCb[],
   { onError, onTiming }: Tracer,
+  afterCollect?: () => void,
 ): Promise<string> {
   let html = '';
   let helmetData;
@@ -130,6 +160,7 @@ async function generateHtml(
 
   // collectors do effect
   await Promise.all(collectors.map(component => component.effect()));
+  afterCollect?.();
 
   const { ssrScripts, cssChunk, jsChunk } = chunkSet;
 

@@ -4,8 +4,13 @@ import { createRoot } from 'react-dom/client';
 import { getGlobalInternalRuntimeContext } from '../context';
 import { type TRuntimeContext, getInitialContext } from '../context/runtime';
 import { wrapRuntimeContextProvider } from '../react/wrapper';
+import {
+  markInteractiveStage,
+  startResourceStages,
+} from '../resources/stagedImport';
 import type { SSRContainer } from '../types';
 import { hydrateRoot, hydrateWithReact } from './hydrate';
+import { WithCallback } from './withCallback';
 
 export { hydrateWithReact };
 
@@ -80,6 +85,7 @@ export async function render(
   };
 
   if (isClientArgs(id)) {
+    startResourceStages();
     // TODO: This field may suitable to be called `requestData`, because both SSR and CSR can get the context
     const ssrData = getSSRData();
 
@@ -97,7 +103,11 @@ export async function render(
         : document.getElementById(id || 'root')!;
 
     async function ModernRender(App: React.ReactElement) {
-      return renderWithReact(App, rootElement);
+      // The first commit of a client render is when the page becomes interactive.
+      return renderWithReact(
+        <WithCallback callback={markInteractiveStage}>{App}</WithCallback>,
+        rootElement,
+      );
     }
 
     // we should hydrateRoot only when SSR or SSG is enabled

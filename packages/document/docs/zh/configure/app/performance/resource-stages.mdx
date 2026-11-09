@@ -1,0 +1,98 @@
+---
+title: resourceStages
+---
+
+# performance.resourceStages
+
+- **类型：**
+
+```ts
+type Stage = 'critical' | 'visible' | 'interactive' | 'idle' | string;
+
+interface ResourceStagesConfig {
+  targetNetwork?: 'slow-4g' | 'fast-4g' | 'wifi' | { downlink: number; rtt?: number };
+  budget?: Record<string, { size?: string | number; requests?: number; depth?: number }>;
+  stages?: Record<string, { after?: string; timeout?: number; manual?: boolean }>;
+  routes?: false | Record<string, 'critical' | 'visible' | 'interactive' | 'idle' | false>;
+  concurrency?: number;
+  inlineLimit?: string | number;
+  firstPaintTarget?: number;
+  idleQuietTime?: number;
+  baseline?: string;
+  baselineThreshold?: number;
+  include?: Array<string | RegExp>;
+}
+```
+
+- **默认值：** `undefined`
+
+配置[按阶段加载](/guides/advanced-features/page-performance/resource-stages)。代码里的 `stagedImport` 声明不需要这个配置也会生效；设置这个配置后，流式 SSR 的路由 JS 也按阶段输出，并启用预算检查。
+
+## targetNetwork
+
+推算各阶段下载时间用的网络，默认 `'fast-4g'`（9 Mbps，60 ms）。`'slow-4g'` 为 1.6 Mbps、150 ms，`'wifi'` 为 30 Mbps、20 ms，也可以传入 `{ downlink: Mbps, rtt: ms }`。
+
+## budget
+
+各阶段的上限，超出时构建告警，不中断构建。`size` 按 gzip 后的字节数计算，`requests` 是文件数，`depth` 是从入口到声明的 chunk 经过几层异步加载。
+
+`critical` 默认上限：`size` 为目标网络在 `firstPaintTarget` 的三分之一时间内能下载的字节数，`requests` 为 8。路由 JS 的共享 chunk 也按这个上限分档。
+
+另外两项检查不需要配置：`critical` 加上入口文件的预计下载时间超过 `firstPaintTarget` 时告警；同一模块被打进不同阶段的 chunk 时告警。
+
+## stages
+
+新增自定义阶段，或把内置阶段改为由应用通知：
+
+```ts
+export default defineConfig({
+  performance: {
+    resourceStages: {
+      stages: {
+        // 自定义阶段：排在 interactive 之后；应用一直没调用 mark() 时，interactive 到来 5 秒后自动触发
+        firstReply: { after: 'interactive', timeout: 5000 },
+        // 内置阶段改为由应用调用 stagedImport.interactive.mark() 通知
+        interactive: { manual: true },
+      },
+    },
+  },
+});
+```
+
+自定义阶段的 `after` 和 `timeout` 必填。配置了自定义阶段时，构建会在源码目录生成 `modern-resource-stages.d.ts`，`stagedImport.firstReply` 因此有类型提示。
+
+## routes
+
+流式 SSR 下，命中路由的 JS 由框架按阶段输出：路由组件自身的文件为 `critical`；它依赖的共享 chunk 按 chunk 组顺序计入 `critical` 预算，预算内的以低优先级 preload 输出，超出的放到 `visible` 阶段。
+
+按路由 id 指定阶段，或设为 `false` 关闭：
+
+```ts
+resourceStages: {
+  routes: {
+    'files/[id]/page': 'visible',
+  },
+}
+```
+
+`routes: false` 关闭整个规则，路由 JS 回到 [`server.ssr.preloadRouteScripts`](/configure/app/server/ssr) 的行为。字符串 SSR 已经输出命中路由的脚本，不受这个规则影响。
+
+## concurrency
+
+每个阶段同时进行的预取数量，默认 `4`。
+
+## inlineLimit
+
+写进 HTML 的阶段清单 gzip 后超过这个大小时，改为输出成带内容 hash 的独立文件，首次绘制之后低优先级加载，并在构建时告警。默认 `'2kB'`。
+
+## firstPaintTarget
+
+首次绘制的目标时间（毫秒），用于检查 `critical` 的预计下载时间，默认 `1800`。
+
+## idleQuietTime
+
+`load` 之后多少毫秒内没有新的资源请求，视为 `idle` 阶段到来，默认 `2000`。`load` 之后最多等 10 秒。
+
+## baseline
+
+上一次构建输出的 `resource-stages.json` 的路径。某个阶段的字节数比基线增长超过 `baselineThreshold`（默认 `10`，单位 %）时告警。
