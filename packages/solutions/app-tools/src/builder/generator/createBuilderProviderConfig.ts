@@ -1,3 +1,4 @@
+import { existsSync } from 'node:fs';
 import type { IncomingMessage } from 'node:http';
 import { DEFAULT_API_PREFIX } from '@modern-js/utils';
 import type { AppNormalizedConfig } from '../../types';
@@ -11,7 +12,16 @@ function modifyOutputConfig(
   const defaultCopyPattern = createUploadPattern(appContext, config);
   const { copy } = config.output;
   const copyOptions = Array.isArray(copy) ? copy : copy?.patterns;
-  const builderCopy = [...(copyOptions || []), defaultCopyPattern];
+  // The upload directory is optional; copying a missing directory makes Rspack
+  // watch a path that does not exist.
+  const builderCopy = [
+    ...(copyOptions || []),
+    ...(typeof defaultCopyPattern !== 'object' ||
+    !defaultCopyPattern.context ||
+    existsSync(defaultCopyPattern.context)
+      ? [defaultCopyPattern]
+      : []),
+  ];
 
   config.output = {
     ...config.output,
