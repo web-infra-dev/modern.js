@@ -18,7 +18,7 @@ if (typeof window === 'undefined') {
   ]) {
     for (const [kind, filename] of [
       ['export', `provider/src/exports/${name}App.tsx`],
-      ['page', `provider/src/weather/routes/${route}/page.tsx`],
+      ['page', `provider/src/routes/weather/${route}/page.tsx`],
     ]) {
       const target = path.join(workspace, filename);
       await writeFile(

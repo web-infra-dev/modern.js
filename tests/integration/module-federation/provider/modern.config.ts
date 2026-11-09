@@ -17,7 +17,6 @@ export default defineConfig({
   },
   dev: { assetPrefix: `${origin(name, 4301)}/`, lazyCompilation: false },
   source: {
-    entries: { weather: './src/weather/routes' },
     globalVars: {
       'process.env.MF_LAB_API': origin('api', 4306),
       'process.env.MF_LAB_VERSION': process.env.MF_LAB_VERSION || 'v1',

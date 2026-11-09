@@ -1,12 +1,9 @@
-import { Outlet } from '@modern-js/runtime/router';
+import { Outlet, useOutletContext } from '@modern-js/runtime/router';
 import { useEffect, useState } from 'react';
-import '../weather.css';
+import './weather.css';
 
-export default function WeatherLayout({
-  label = 'Hangzhou',
-}: {
-  label?: string;
-}) {
+export default function WeatherLayout() {
+  const { label = 'Hangzhou' } = useOutletContext<{ label?: string }>();
   const [saved, setSaved] = useState(false);
   const [ready, setReady] = useState(false);
   useEffect(() => setReady(true), []);

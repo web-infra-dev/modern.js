@@ -46,7 +46,9 @@ The checked-in MF dependencies are pinned to published preview `0.0.0-feat-enhan
 
 `WeatherApp` and `ProductApp` use `createModernBridgeComponent`, which binds Modern's `render`, `hydrate` and `renderStream` callbacks. `OrdersApp` passes those same callbacks explicitly to `createBridgeComponent`. Both forms use the shared Core Bridge consumer and stream compositor.
 
-`/bridge-ssr` is a weather dashboard, linked from the shared navigation on the homepage. It uses a separate Modern weather entry with three selected application exports. Every export calls `createModernBridgeComponent`, using the actual Bridge SSR and hydration adapters.
+`/bridge-ssr` is a weather dashboard, linked from the shared navigation on the homepage. Its three selected application exports use the default `src/routes` entry and `@modern-js/runtime/registry/index`. Every export calls `createModernBridgeComponent`, using the actual Bridge SSR and hydration adapters.
+
+The weather routes live under `src/routes/weather/{current,forecast,air}`, selected by `/weather/current`, `/weather/forecast` and `/weather/air`. The shared root layout only forwards application props through Outlet context. The weather branch owns its card layout, while the existing product and orders applications live under the `__applications` pathless layout with their existing loaders and controls. This keeps their `/product` and `/orders` URLs intact without adding another entry or including the old demo controls in the weather exports.
 
 | Weather module                                                    | Expose                        | Consumer input                                             |
 | ----------------------------------------------------------------- | ----------------------------- | ---------------------------------------------------------- |

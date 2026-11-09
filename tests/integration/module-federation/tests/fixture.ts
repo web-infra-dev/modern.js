@@ -171,7 +171,7 @@ export function setupLab(
     if (options.conditionalClientRedirect) {
       const loader = path.join(
         workspace,
-        'provider/src/routes/product/start/page.data.client.ts',
+        'provider/src/routes/__applications/product/start/page.data.client.ts',
       );
       await writeFile(
         loader,
@@ -194,13 +194,16 @@ export function setupLab(
     }
     if (options.clientLayoutLoaders) {
       await writeFile(
-        path.join(workspace, 'provider/src/routes/layout.data.client.ts'),
+        path.join(
+          workspace,
+          'provider/src/routes/__applications/layout.data.client.ts',
+        ),
         "export const loader = () => ({ root: 'Root loader retained' })\n",
       );
       await writeFile(
         path.join(
           workspace,
-          'provider/src/routes/product/layout.data.client.ts',
+          'provider/src/routes/__applications/product/layout.data.client.ts',
         ),
         "export const loader = () => ({ product: 'Product loader retained' })\n",
       );

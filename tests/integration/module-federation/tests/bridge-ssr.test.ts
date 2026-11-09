@@ -93,6 +93,8 @@ for (const api of ['factory', 'declarative']) {
           expect(html).toContain(input.content);
           expect(html).toContain(`data-testid="weather-${input.route}"`);
           expect(html).toContain('10:30 CST');
+          expect(html).not.toContain('data-testid="scope-root"');
+          expect(html).not.toContain('Root loader retained');
           for (const other of inputs.filter(other => other !== input)) {
             expect(html).not.toContain(`data-testid="weather-${other.route}"`);
           }
@@ -133,11 +135,12 @@ for (const api of ['factory', 'declarative']) {
           for (const input of inputs) {
             const graph = graphs[input.name].join('\n').replaceAll('\\', '/');
             expect(graph).toContain(
-              `/src/weather/routes/${input.route}/page.tsx`,
+              `/src/routes/weather/${input.route}/page.tsx`,
             );
+            expect(graph).not.toContain('/src/routes/__applications/');
             for (const other of inputs.filter(other => other !== input)) {
               expect(graph).not.toContain(
-                `/src/weather/routes/${other.route}/page.tsx`,
+                `/src/routes/weather/${other.route}/page.tsx`,
               );
               expect(graph).not.toContain(`/src/exports/${other.name}App.tsx`);
             }

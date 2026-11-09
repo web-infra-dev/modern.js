@@ -71,14 +71,27 @@ describeLab('Modern producer route exports', getContext => {
     ).json()) as Record<string, string[]>;
     const includesRoute = (scope: string, route: string) =>
       graphs[scope].some(id =>
-        id.replace(/\\/g, '/').includes(`/src/routes/${route}/page`),
+        id
+          .replace(/\\/g, '/')
+          .includes(`/src/routes/__applications/${route}/page`),
       );
     expect(includesRoute('Weather', 'orders')).toBe(true);
     expect(includesRoute('Weather', 'product')).toBe(true);
+    const fullApplication = graphs.Weather.join('\n').replaceAll('\\', '/');
+    for (const route of ['current', 'forecast', 'air']) {
+      expect(fullApplication).toContain(
+        `/src/routes/weather/${route}/page.tsx`,
+      );
+    }
     expect(includesRoute('Product', 'product')).toBe(true);
     expect(includesRoute('Product', 'orders')).toBe(false);
     expect(includesRoute('Orders', 'orders')).toBe(true);
     expect(includesRoute('Orders', 'product')).toBe(false);
+    for (const scope of ['Product', 'Orders']) {
+      expect(graphs[scope].join('\n').replaceAll('\\', '/')).not.toContain(
+        '/src/routes/weather/',
+      );
+    }
     expect(
       graphs.Product.some(id => /[/\\]index[/\\]routes\.js/.test(id)),
     ).toBe(false);
