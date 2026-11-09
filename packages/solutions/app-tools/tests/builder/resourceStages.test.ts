@@ -252,6 +252,25 @@ describe('planResourceStages', () => {
     expect(route.routeLists).toEqual({ visible: ['shared2'] });
   });
 
+  it('moves critical declarations over the budget to visible', () => {
+    const snapshot = createSnapshot();
+    snapshot.declarations.push({
+      stage: 'critical',
+      file: 'src/routes/page.tsx',
+      line: 9,
+      request: './Huge',
+      chunks: ['plugins'],
+      depth: 2,
+      declaringChunks: ['route'],
+    });
+    const plan = planResourceStages(snapshot, stages, { routeRule: false });
+    const route = plan.targets.find(target => target.kind === 'route')!;
+    // `panel` (5 kB) fits the 400 kB budget, `plugins` (900 kB) does not.
+    expect(route.critical).toEqual([{ h: '/static/js/panel.js', a: 'script' }]);
+    expect(route.lists.visible).toEqual(['plugins']);
+    expect(plan.warnings.join('\n')).toContain('exceed the critical budget');
+  });
+
   it('honors per-route stages', () => {
     const plan = planResourceStages(
       createSnapshot(),
