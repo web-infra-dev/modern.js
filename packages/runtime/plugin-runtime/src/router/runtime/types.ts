@@ -1,3 +1,4 @@
+import type { ResourceStagesManifest } from '../../core/resources/manifest';
 import type { RequestContext } from '@modern-js/runtime-utils/node';
 import type {
   Params,
@@ -57,6 +58,8 @@ export type Routes = RouterConfig['routesConfig']['routes'];
 
 export interface RouteManifest {
   routeAssets: RouteAssets;
+  /** Lists of `performance.resourceStages`, see `core/resources/manifest`. */
+  resourceStages?: ResourceStagesManifest;
 }
 
 export interface RouteAssets {

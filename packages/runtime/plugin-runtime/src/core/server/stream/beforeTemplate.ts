@@ -2,6 +2,8 @@
 import { matchRoutes } from '@modern-js/runtime-utils/router';
 import ReactHelmet, { type HelmetData } from 'react-helmet';
 import type { TInternalRuntimeContext } from '../../context';
+import { renderRouteStages } from '../../resources/html';
+import type { ResourceStagesManifest } from '../../resources/manifest';
 import { CHUNK_CSS_PLACEHOLDER } from '../constants';
 import { createReplaceHelemt } from '../helmet';
 import type { HandleRequestConfig } from '../requestHandler';
@@ -10,6 +12,7 @@ import {
   attributesToString,
   checkIsNode,
   getLoadedScriptUrls,
+  getMatchedRouteIds,
   hasStylesheetLink,
   readAssetWithCache,
   safeReplace,
@@ -111,12 +114,37 @@ export async function buildShellBeforeTemplate(
     if (styledComponentsStyleTags) {
       css += styledComponentsStyleTags;
     }
-    const scriptPreloads = getScriptPreloads(matchedRouteManifests);
+    const stagesManifest = runtimeContext.routeManifest?.resourceStages as
+      ResourceStagesManifest | undefined;
+    // With resource stages, route JS follows the stage rule instead.
+    const scriptPreloads = stagesManifest?.routeRule
+      ? ''
+      : getScriptPreloads(matchedRouteManifests);
+    const stages = renderRouteStages(
+      stagesManifest,
+      getMatchedRouteIds(runtimeContext),
+      {
+        mode: 'stream',
+        template,
+        loadedUrls: getEntryLoadedUrls(template),
+        nonce: config.nonce,
+        crossorigin: config.crossorigin,
+      },
+    );
     return safeReplace(
       template,
       CHUNK_CSS_PLACEHOLDER,
-      `${css}${scriptPreloads}`,
+      `${css}${scriptPreloads}${stages}`,
     );
+
+    function getEntryLoadedUrls(template: string) {
+      const routeAssets = runtimeContext.routeManifest?.routeAssets ?? {};
+      return new Set<string>([
+        ...(routeAssets[entryName]?.assets ?? []),
+        ...(routeAssets[`async-${entryName}`]?.assets ?? []),
+        ...getLoadedScriptUrls(template),
+      ]);
+    }
 
     function getMatchedRouteManifests(): RouteAssetsItem[] | undefined {
       const { routeManifest, routerContext, routes } = runtimeContext;

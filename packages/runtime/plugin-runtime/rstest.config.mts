@@ -22,7 +22,10 @@ export default {
     withTestPreset({
       name: 'plugin-runtime-node',
       testEnvironment: 'node',
-      exclude: ['tests/router/prefetch.test.tsx'],
+      exclude: [
+        'tests/router/prefetch.test.tsx',
+        'tests/resources/scheduler.test.ts',
+      ],
       extends: commonConfig,
       plugins: [
         {
@@ -46,7 +49,10 @@ export default {
     withTestPreset({
       name: 'plugin-runtime-client',
       testEnvironment: 'happy-dom',
-      include: ['tests/router/prefetch.test.tsx'],
+      include: [
+        'tests/router/prefetch.test.tsx',
+        'tests/resources/scheduler.test.ts',
+      ],
       extends: commonConfig,
       plugins: [
         {
@@ -73,6 +79,11 @@ export default {
       source: {
         define: {
           WEBPACK_CHUNK_LOAD: '__webpack_chunk_load_test__',
+          WEBPACK_SET_CHUNK_LOAD:
+            '(fn => { globalThis.__webpack_chunk_load_test__ = fn; })',
+          WEBPACK_GET_SCRIPT_FILENAME: '__webpack_get_script_filename_test__',
+          WEBPACK_PUBLIC_PATH: '__webpack_public_path_test__',
+          WEBPACK_NONCE: '__webpack_nonce_test__',
         },
       },
     }),

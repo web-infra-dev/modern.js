@@ -20,7 +20,11 @@ import { getServerCombinedModuleFile } from '../../../plugins/analyze/utils';
 import type { AppNormalizedConfig, ServerUserConfig } from '../../../types';
 import type { AppToolsContext } from '../../../types/plugin';
 import { isMainEntry } from '../../../utils/routes';
-import { HtmlAsyncChunkPlugin, RouterPlugin } from '../bundlerPlugins';
+import {
+  HtmlAsyncChunkPlugin,
+  ResourceStagesPlugin,
+  RouterPlugin,
+} from '../bundlerPlugins';
 import {
   aggregateEagerRouteComponentFiles,
   planSSRLazyCompilation,
@@ -92,6 +96,14 @@ export const builderPluginAdapterSSR = (
 
         const isServiceWorker =
           environment.name === SERVICE_WORKER_ENVIRONMENT_NAME;
+
+        if (!isHtmlDisabled(builderConfig, target)) {
+          applyResourceStagesPlugin(
+            chain,
+            options,
+            HtmlBundlerPlugin as unknown as typeof Rspack.HtmlRspackPlugin,
+          );
+        }
 
         if (target === 'node' || isServiceWorker) {
           applyFilterEntriesBySSRConfig({
@@ -288,6 +300,42 @@ function applyRouterPlugin(
       },
     ]);
   }
+}
+
+function applyResourceStagesPlugin(
+  chain: RspackChain,
+  options: Readonly<BuilderOptions>,
+  HtmlBundlerPlugin: typeof Rspack.HtmlRspackPlugin,
+) {
+  const { appContext, normalizedConfig } = options;
+  const { server, source } = normalizedConfig;
+  const crossOriginLoading = chain.output.get('crossOriginLoading');
+  chain.plugin('resource-stages-plugin').use(ResourceStagesPlugin, [
+    {
+      HtmlBundlerPlugin,
+      config: normalizedConfig.performance?.resourceStages,
+      appDirectory: appContext.appDirectory,
+      srcDirectory: appContext.srcDirectory,
+      isServerRendered: (entryName: string) =>
+        Boolean(
+          getEntryOptions(
+            entryName,
+            isMainEntry(entryName, source?.mainEntryName),
+            server?.ssr,
+            server?.ssrByEntries,
+            appContext.packageName,
+          ),
+        ),
+      staticJsDir: normalizedConfig.output?.distPath?.js,
+      disableFilenameHash: normalizedConfig.output?.filenameHash === false,
+      nonce: normalizedConfig.security?.nonce,
+      crossOriginLoading:
+        crossOriginLoading === 'anonymous' ||
+        crossOriginLoading === 'use-credentials'
+          ? crossOriginLoading
+          : undefined,
+    },
+  ]);
 }
 
 function applyFilterEntriesBySSRConfig({
