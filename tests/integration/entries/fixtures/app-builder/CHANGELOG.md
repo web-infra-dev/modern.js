@@ -1,5 +1,12 @@
 # entries-app-builder
 
+## 2.66.5
+
+### Patch Changes
+
+- Updated dependencies [fc6ee73]
+  - @modern-js/app-tools@3.11.1
+
 ## 2.66.4
 
 ### Patch Changes

@@ -1,5 +1,22 @@
 # @modern-js/mcp-apps
 
+## 3.11.1
+
+### Patch Changes
+
+- fc6ee73: Upgrade @rsbuild/core to 2.3.1.
+
+  将 @rsbuild/core 升级至 2.3.1。
+
+- f74d24d: fix(mcp-apps): align the server-runtime peer dependency with the current workspace version.
+
+  fix(mcp-apps): 将 server-runtime peer 依赖对齐到当前工作区版本。
+
+- 7e376d0: fix(mcp-apps): remove the default loading placeholder in createMcpView
+- 1391159: fix(mcp-apps): synchronize the server-runtime peer dependency with the workspace version after the 3.10.4 release.
+
+  fix(mcp-apps)：将 server-runtime 的 peer 依赖同步到 3.10.4 发布后的工作区版本。
+
 ## 3.11.0
 
 ### Minor Changes
