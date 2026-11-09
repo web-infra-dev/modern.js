@@ -6,6 +6,9 @@ export default createModuleFederationConfig({
   manifest: { filePath: 'static' },
   filename: 'static/remoteEntry.js',
   exposes: {
+    './CurrentWeatherApp': './src/exports/CurrentWeatherApp.tsx',
+    './WeatherForecastApp': './src/exports/WeatherForecastApp.tsx',
+    './AirQualityApp': './src/exports/AirQualityApp.tsx',
     './WeatherApp': './src/exports/WeatherApp.tsx',
     './ProductApp': './src/exports/ProductApp.tsx',
     './FailedSSRApp': './src/exports/FailedSSRApp.tsx',

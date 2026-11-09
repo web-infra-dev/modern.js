@@ -7,6 +7,7 @@ import { execFile } from 'node:child_process';
 import { promisify } from 'node:util';
 import { freemem, loadavg } from 'node:os';
 import { startLab } from '../scripts/lab.mjs';
+import { instrumentBridgeInputs } from './bridge-evidence';
 import {
   cp,
   mkdir,
@@ -88,6 +89,7 @@ export function setupLab(
     conditionalClientRedirect?: boolean;
     initialRouteNoSSR?: boolean;
     applicationIsolation?: boolean;
+    bridgeInputEvidence?: boolean;
   } = {},
 ) {
   let lab: Awaited<ReturnType<typeof startLab>>;
@@ -132,6 +134,7 @@ export function setupLab(
   let expectedErrors: { pattern: RegExp; min: number; max: number } | undefined;
   beforeAll(async () => {
     workspace = await createWorkspace();
+    if (options.bridgeInputEvidence) await instrumentBridgeInputs(workspace);
     if (options.applicationIsolation) {
       for (const app of ['host', 'provider']) {
         await cp(
@@ -402,6 +405,8 @@ export default function Document() {
     workspace,
     mode,
     page,
+    browserErrors,
+    consoleErrors,
     visit,
     text,
     click,
@@ -431,6 +436,7 @@ export function describeLab(
     conditionalClientRedirect?: boolean;
     initialRouteNoSSR?: boolean;
     applicationIsolation?: boolean;
+    bridgeInputEvidence?: boolean;
   } = {},
 ) {
   rstest.setConfig({ testTimeout: 60000, hookTimeout: 600000, retry: 0 });

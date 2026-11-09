@@ -17,6 +17,7 @@ export default defineConfig({
   },
   dev: { assetPrefix: `${origin(name, 4301)}/`, lazyCompilation: false },
   source: {
+    entries: { weather: './src/weather/routes' },
     globalVars: {
       'process.env.MF_LAB_API': origin('api', 4306),
       'process.env.MF_LAB_VERSION': process.env.MF_LAB_VERSION || 'v1',
@@ -43,7 +44,7 @@ export default defineConfig({
                 },
                 () => {
                   const roots = [...compilation.modules].filter(module =>
-                    /src[/\\]exports[/\\](Weather|Product|Orders)App\.tsx\?modern-mf-root/.test(
+                    /src[/\\]exports[/\\](Weather|Product|Orders|CurrentWeather|WeatherForecast|AirQuality)App\.tsx\?modern-mf-root$/.test(
                       module.identifier(),
                     ),
                   );
@@ -62,7 +63,9 @@ export default defineConfig({
                       return [
                         root
                           .identifier()
-                          .match(/(Weather|Product|Orders)App/)![1],
+                          .match(
+                            /(CurrentWeather|WeatherForecast|AirQuality|Weather|Product|Orders)App/,
+                          )![1],
                         [...visited].map(module => module.identifier()),
                       ];
                     }),

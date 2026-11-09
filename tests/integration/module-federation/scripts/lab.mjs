@@ -52,6 +52,8 @@ export async function startLab(
   const routeRequests = [];
   /** @type {{ probe: string; completed: boolean; aborted: boolean }[]} */
   const bridgeRequests = [];
+  /** @type {string[]} */
+  const weatherRequests = [];
   const bridgeGates = new Map();
   const releasedBridgeGates = new Set();
   const releaseBridge = probe => {
@@ -258,6 +260,60 @@ export async function startLab(
       res.setHeader('Access-Control-Allow-Origin', '*');
       res.setHeader('Cache-Control', 'no-store');
       const url = new URL(req.url, 'http://localhost');
+      if (url.pathname === '/bridge-weather') {
+        const kind = url.searchParams.get('kind') || '';
+        const bulletins = {
+          current: { temperature: 24, condition: 'Mostly sunny' },
+          forecast: {
+            days: [
+              {
+                day: 'Today',
+                condition: 'Mostly sunny',
+                high: 26,
+                low: 18,
+                rain: '10%',
+              },
+              {
+                day: 'Tue',
+                condition: 'Cloudy',
+                high: 24,
+                low: 17,
+                rain: '20%',
+              },
+              {
+                day: 'Wed',
+                condition: 'Light rain',
+                high: 21,
+                low: 16,
+                rain: '80%',
+              },
+              {
+                day: 'Thu',
+                condition: 'Sunny spells',
+                high: 23,
+                low: 16,
+                rain: '15%',
+              },
+              {
+                day: 'Fri',
+                condition: 'Clear skies',
+                high: 25,
+                low: 18,
+                rain: '5%',
+              },
+            ],
+          },
+          air: { aqi: 32 },
+        };
+        if (!Object.hasOwn(bulletins, kind)) {
+          res.writeHead(404).end();
+          return;
+        }
+        weatherRequests.push(kind);
+        res.writeHead(200, { 'Content-Type': 'application/json' });
+        res.end(JSON.stringify({ ...bulletins[kind], updatedAt: '10:30 CST' }));
+        return;
+      }
       if (url.pathname === '/bridge-data') {
         const probe = url.searchParams.get('probe') || '';
         const record = { probe, completed: false, aborted: false };
@@ -360,6 +416,7 @@ export async function startLab(
       logs,
       routeRequests,
       bridgeRequests,
+      weatherRequests,
       releaseBridge,
     };
   } catch (error) {
