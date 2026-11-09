@@ -196,7 +196,7 @@ export async function registerUiResources(
           throw new Error('UI HTML must not contain a base element');
         const config =
           remote && 'expose' in view
-            ? `<script type="application/json" id="modern-mcp-config">${JSON.stringify({ name: view.remote, entry, expose: view.expose }).replace(/</g, '\\u003c')}</script>`
+            ? `<script type="application/json" id="modern-mcp-config">${JSON.stringify({ name: view.remote, entry, expose: view.expose, view: name }).replace(/</g, '\\u003c')}</script>`
             : '';
         html = html.replace(
           /<head\b[^>]*>/i,
