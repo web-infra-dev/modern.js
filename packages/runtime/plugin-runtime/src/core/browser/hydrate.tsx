@@ -5,6 +5,7 @@ import { type Root, hydrateRoot as hydrateReactRoot } from 'react-dom/client';
 import { RenderLevel } from '../constants';
 import type { TRuntimeContext } from '../context/runtime';
 import { wrapRuntimeContextProvider } from '../react/wrapper';
+import { markInteractiveStage } from '../resources/stagedImport';
 import { WithCallback } from './withCallback';
 
 export async function hydrateWithReact(
@@ -33,6 +34,8 @@ export function hydrateRoot(
   const callback = () => {
     // won't cause component re-render because context's reference identity doesn't change
     delete hydrateContext._hydration;
+    // Hydration is committed, the page is interactive.
+    markInteractiveStage();
   };
 
   // if render level not exist, use client render

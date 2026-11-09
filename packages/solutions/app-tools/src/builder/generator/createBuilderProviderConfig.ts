@@ -42,8 +42,13 @@ export function createBuilderProviderConfig(
     serverConfig.cors = resolveConfig.dev?.server?.cors;
   }
 
+  // Handled by Modern.js, not a builder option.
+  const { resourceStages: _resourceStages, ...performanceConfig } =
+    resolveConfig.performance ?? {};
+
   const config = {
     ...resolveConfig,
+    performance: performanceConfig,
     plugins: [],
     resolve: {
       ...resolveConfig.resolve,
