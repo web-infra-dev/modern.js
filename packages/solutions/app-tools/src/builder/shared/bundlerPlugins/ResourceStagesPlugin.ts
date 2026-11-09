@@ -413,6 +413,32 @@ export {};
       }
     }
 
+    // Production builds concatenate modules: the chunk graph then has the
+    // concatenated module, not the inner module that declares.
+    const concatenatedOf = new Map<string, Module>();
+    for (const module of compilation.modules) {
+      const inner = (module as { modules?: Module[] }).modules;
+      if (!Array.isArray(inner)) {
+        continue;
+      }
+      for (const item of inner) {
+        const resource = getResourcePath(item);
+        if (resource) {
+          concatenatedOf.set(resource, module);
+        }
+      }
+    }
+    const chunksOfModule = (module: Module, resource: string) => {
+      let chunks = chunkGraph.getModuleChunks(module);
+      const concatenated = concatenatedOf.get(resource);
+      if (!chunks.length && concatenated) {
+        chunks = chunkGraph.getModuleChunks(concatenated);
+      }
+      return chunks
+        .map(chunk => chunk.id ?? undefined)
+        .filter((id): id is ChunkId => id !== undefined);
+    };
+
     const declarations: DeclarationInfo[] = [];
     const scanned = new Set<string>();
     for (const module of compilation.modules) {
@@ -433,10 +459,7 @@ export {};
       if (!result.declarations.length) {
         continue;
       }
-      const declaringChunks = chunkGraph
-        .getModuleChunks(module)
-        .map(chunk => chunk.id ?? undefined)
-        .filter((id): id is ChunkId => id !== undefined);
+      const declaringChunks = chunksOfModule(module, resource);
       const file = path.relative(this.options.appDirectory, resource);
       for (const declaration of result.declarations) {
         const groups =
