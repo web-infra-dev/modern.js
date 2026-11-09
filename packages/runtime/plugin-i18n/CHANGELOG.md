@@ -1,5 +1,16 @@
 # @modern-js/plugin-i18n
 
+## 3.11.2
+
+### Patch Changes
+
+- @modern-js/server-core@3.11.2
+- @modern-js/server-runtime@3.11.2
+- @modern-js/plugin@3.11.2
+- @modern-js/runtime-utils@3.11.2
+- @modern-js/types@3.11.2
+- @modern-js/utils@3.11.2
+
 ## 3.11.1
 
 ### Patch Changes

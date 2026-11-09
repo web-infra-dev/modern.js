@@ -1,7 +1,7 @@
 {
   "private": true,
   "name": "i18n-routes",
-  "version": "2.66.5",
+  "version": "2.66.6",
   "scripts": {
     "dev": "modern dev"
   },
