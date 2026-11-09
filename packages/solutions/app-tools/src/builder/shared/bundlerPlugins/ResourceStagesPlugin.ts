@@ -45,6 +45,12 @@ export interface ResourceStagesPluginOptions {
   /** `performance.resourceStages`; without it only declarations are handled. */
   config?: ResourceStagesUserConfig;
   appDirectory: string;
+  /**
+   * Generated code directory. A named chunk group is a route only when it is
+   * imported from the generated routes file there; the route manifest also
+   * lists other named chunk groups.
+   */
+  internalDirectory?: string;
   /** Where `modern-resource-stages.d.ts` is written for custom stages. */
   srcDirectory?: string;
   /** The server renders the entry and adds the route lists per request. */
@@ -295,13 +301,11 @@ export {};
     };
 
     const chunks = new Map<ChunkId, ChunkInfo>();
-    const chunkIdOf = new Map<unknown, ChunkId>();
     for (const chunk of compilation.chunks) {
       const id = chunk.id;
       if (id === undefined || id === null) {
         continue;
       }
-      chunkIdOf.set(chunk, id);
       const files = [...chunk.files].filter(
         file => !file.endsWith('.map') && !file.includes('.hot-update.'),
       );
@@ -316,27 +320,32 @@ export {};
         },
       });
     }
+    // Compare chunks by id: the binding returns a new wrapper object per call.
     const idsOf = (group: ChunkGroup) =>
       group.chunks
-        .map(chunk => chunkIdOf.get(chunk))
+        .map(chunk => chunk.id ?? undefined)
         .filter((id): id is ChunkId => id !== undefined);
 
+    // Groups are keyed by their chunk ids for the same reason.
+    const groupKey = (group: ChunkGroup) =>
+      `${group.name ?? ''}|${idsOf(group).join(',')}`;
     // Reachable chunks and async depth from each entry.
-    const depthOf = new Map<ChunkGroup, number>();
+    const depthOf = new Map<string, number>();
     const reachableFrom = (root: ChunkGroup, depth?: number) => {
       const reachable = new Set<ChunkId>();
-      const visited = new Set<ChunkGroup>();
+      const visited = new Set<string>();
       const stack: [ChunkGroup, number][] = [[root, 0]];
       while (stack.length) {
         const [group, level] = stack.pop()!;
-        if (visited.has(group)) {
+        const key = groupKey(group);
+        if (visited.has(key)) {
           continue;
         }
-        visited.add(group);
+        visited.add(key);
         if (depth !== undefined) {
-          const known = depthOf.get(group);
+          const known = depthOf.get(key);
           if (known === undefined || level < known) {
-            depthOf.set(group, level);
+            depthOf.set(key, level);
           }
         }
         for (const id of idsOf(group)) {
@@ -365,7 +374,7 @@ export {};
       }
       const group = compilation.namedChunkGroups.get(name) as
         ChunkGroup | undefined;
-      if (!group) {
+      if (!group || !this.isRouteGroup(group)) {
         continue;
       }
       const chunkIds = idsOf(group);
@@ -381,7 +390,7 @@ export {};
         own: new Set(
           group.chunks
             .filter(chunk => chunk.name === name)
-            .map(chunk => chunkIdOf.get(chunk))
+            .map(chunk => chunk.id ?? undefined)
             .filter((id): id is ChunkId => id !== undefined),
         ),
         reachable: reachableFrom(group),
@@ -426,7 +435,7 @@ export {};
       }
       const declaringChunks = chunkGraph
         .getModuleChunks(module)
-        .map(chunk => chunkIdOf.get(chunk))
+        .map(chunk => chunk.id ?? undefined)
         .filter((id): id is ChunkId => id !== undefined);
       const file = path.relative(this.options.appDirectory, resource);
       for (const declaration of result.declarations) {
@@ -437,13 +446,26 @@ export {};
           ...declaration,
           file,
           chunks: chunkIds,
-          depth: Math.max(0, ...groups.map(group => depthOf.get(group) ?? 0)),
+          depth: Math.max(
+            0,
+            ...groups.map(group => depthOf.get(groupKey(group)) ?? 0),
+          ),
           declaringChunks,
         });
       }
     }
 
     return { chunks, entries, routes, declarations };
+  }
+
+  private isRouteGroup(group: ChunkGroup) {
+    const { internalDirectory } = this.options;
+    if (!internalDirectory) {
+      return true;
+    }
+    return group.origins.some(origin =>
+      getResourcePath(origin.module)?.startsWith(internalDirectory),
+    );
   }
 
   private shouldScan(resource: string) {
