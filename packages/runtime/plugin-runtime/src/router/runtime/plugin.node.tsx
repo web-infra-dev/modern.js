@@ -26,6 +26,7 @@ import {
 } from '../../core/context';
 import { setServerPayload } from '../../core/context/serverPayload/index.server';
 import DeferredDataScripts from './DeferredDataScripts.node';
+import { setDeferredPending, settleDeferredLoaderData } from './deferredData';
 import {
   type RouterExtendsHooks,
   modifyRoutes as modifyRoutesHook,
@@ -94,6 +95,7 @@ export const routerPlugin = (
           mode: ssrMode,
           nonce,
           loaderFailureMode = 'errorBoundary',
+          deferredDataTimeout,
           baseUrl,
         } = context.ssrContext!;
         const _basename =
@@ -177,6 +179,19 @@ export const routerPlugin = (
         ) {
           routerContext.statusCode = 200;
           throw errors[0];
+        }
+
+        // String SSR sends the HTML in one piece: wait for deferred loader data (within
+        // `ssr.deferredDataTimeout`) so it can be rendered, and let the browser load what
+        // is still missing for its own region.
+        if (ssrMode === 'string') {
+          const pending = await settleDeferredLoaderData(
+            routerContext.loaderData as Record<string, unknown>,
+            deferredDataTimeout,
+          );
+          if (Object.keys(pending).length > 0) {
+            setDeferredPending(routerContext, pending);
+          }
         }
         context.routerContext = routerContext;
 
