@@ -326,10 +326,35 @@ export const planResourceStages = (
     const { plan } = target;
     const css: Record<string, string[]> = {};
     const byStage = new Map<string, ChunkId[]>();
-    for (const [chunkId, stage] of target.declared) {
+    // `critical` declarations share the budget with route JS. Chunks over it
+    // are moved to `visible` so a long declaration list cannot delay first
+    // paint; the budget warning still reports the declared size.
+    const routeCriticalUrls = new Set(plan.routeCritical.map(item => item.h));
+    let criticalBytes = [...snapshot.chunks.values()]
+      .filter(chunk =>
+        [...chunk.js, ...chunk.css].some(file => routeCriticalUrls.has(file)),
+      )
+      .reduce((sum, chunk) => sum + chunk.size, 0);
+    let criticalRequests = routeCriticalUrls.size;
+    const overflow: ChunkId[] = [];
+    for (const [chunkId, declaredStage] of target.declared) {
       const chunk = snapshot.chunks.get(chunkId);
       if (!chunk) {
         continue;
+      }
+      let stage = declaredStage;
+      if (stage === 'critical') {
+        const files = chunk.js.length + chunk.css.length;
+        if (
+          criticalBytes + chunk.size > budget.size ||
+          criticalRequests + files > budget.requests
+        ) {
+          stage = 'visible';
+          overflow.push(chunkId);
+        } else {
+          criticalBytes += chunk.size;
+          criticalRequests += files;
+        }
       }
       if (stage === 'critical') {
         plan.critical.push(...toPreloads(chunk));
@@ -340,6 +365,11 @@ export const planResourceStages = (
         }
       }
       byStage.set(stage, [...(byStage.get(stage) ?? []), chunkId]);
+    }
+    if (overflow.length) {
+      warnings.push(
+        `${plan.kind} "${plan.name}": ${overflow.length} chunks declared "critical" exceed the critical budget and are prefetched at "visible" instead.`,
+      );
     }
     for (const [stage, chunkIds] of Object.entries(plan.routeLists)) {
       for (const chunkId of chunkIds) {
