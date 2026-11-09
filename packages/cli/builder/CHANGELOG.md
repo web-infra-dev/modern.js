@@ -1,5 +1,15 @@
 # @modern-js/builder
 
+## 3.11.1
+
+### Patch Changes
+
+- fc6ee73: Upgrade @rsbuild/core to 2.3.1.
+
+  将 @rsbuild/core 升级至 2.3.1。
+
+  - @modern-js/utils@3.11.1
+
 ## 3.11.0
 
 ### Patch Changes

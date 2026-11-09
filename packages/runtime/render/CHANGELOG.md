@@ -1,5 +1,14 @@
 # @modern-js/render
 
+## 3.11.1
+
+### Patch Changes
+
+- 67782a5: Build render with Rslib while preserving public entry points and application RSC manifest references.
+- Updated dependencies [b11c3cd]
+  - @modern-js/types@3.11.1
+  - @modern-js/utils@3.11.1
+
 ## 3.11.0
 
 ### Patch Changes
