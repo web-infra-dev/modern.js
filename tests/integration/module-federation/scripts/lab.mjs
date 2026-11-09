@@ -7,6 +7,7 @@ import { fileURLToPath } from 'node:url';
 import { createRequire } from 'node:module';
 import getPort from 'get-port';
 import treeKill from 'tree-kill';
+import { createResponseGate } from './response-gate.mjs';
 const fixtureRoot = fileURLToPath(new URL('../', import.meta.url));
 const names = [
   'host',
@@ -50,13 +51,28 @@ export async function startLab(
   const logs = new Map();
   /** @type {{ probe: string; path: string; completed: boolean; aborted: boolean }[]} */
   const routeRequests = [];
-  /** @type {{ probe: string; completed: boolean; aborted: boolean }[]} */
+  /** @type {{ probe: string; completed: boolean; aborted: boolean; marker?: string }[]} */
   const bridgeRequests = [];
   /** @type {string[]} */
   const weatherRequests = [];
   const bridgeGates = new Map();
   const pendingOutlooks = new Map();
   const releasedBridgeGates = new Set();
+  const documentGates = new Map();
+  const responseGates = new Set();
+  const bridgeResults = new Map();
+  // These controls belong to one exact document/request sequence, and are
+  // registered by tests only. Public routes and cancellation are unchanged.
+  const gateDocument = pathname => {
+    const gate = createResponseGate();
+    documentGates.set(pathname, gate);
+    responseGates.add(gate);
+    return gate;
+  };
+  const queueBridgeResults = (probe, markers) => {
+    bridgeResults.set(probe, [...markers]);
+    return () => bridgeResults.delete(probe);
+  };
   const releaseBridge = probe => {
     releasedBridgeGates.add(probe);
     bridgeGates.get(probe)?.();
@@ -177,6 +193,10 @@ export async function startLab(
   }
   async function stop() {
     stopping = true;
+    for (const gate of responseGates) gate.dispose();
+    responseGates.clear();
+    documentGates.clear();
+    bridgeResults.clear();
     await Promise.all(
       servers.map(
         server =>
@@ -242,7 +262,11 @@ export async function startLab(
               ? { 'cache-control': 'no-store' }
               : {}),
           });
-          response.pipe(res);
+          const gate = documentGates.get(req.url);
+          if (gate) {
+            documentGates.delete(req.url);
+            gate.pipe(response, res);
+          } else response.pipe(res);
         },
       );
       upstream.on('error', error => {
@@ -322,9 +346,17 @@ export async function startLab(
       }
       if (url.pathname === '/bridge-data') {
         const probe = url.searchParams.get('probe') || '';
+        const markers = bridgeResults.get(probe);
+        const marker = markers?.shift();
+        if (markers && !markers.length) bridgeResults.delete(probe);
         const cancelToken = url.searchParams.get('cancelToken');
         if (cancelToken) pendingOutlooks.set(cancelToken, () => res.destroy());
-        const record = { probe, completed: false, aborted: false };
+        const record = {
+          probe,
+          completed: false,
+          aborted: false,
+          ...(marker ? { marker } : {}),
+        };
         bridgeRequests.push(record);
         res.on('close', () => {
           if (cancelToken) pendingOutlooks.delete(cancelToken);
@@ -357,7 +389,7 @@ export async function startLab(
         res.writeHead(200, { 'Content-Type': 'application/json' });
         res.end(
           JSON.stringify({
-            detail: `Resolved ${probe}`,
+            detail: `Resolved ${marker || probe}`,
             ...(url.searchParams.has('day')
               ? {
                   outlook: ['wed', 'fri'].includes(url.searchParams.get('day'))
@@ -455,6 +487,8 @@ export async function startLab(
       bridgeRequests,
       weatherRequests,
       releaseBridge,
+      gateDocument,
+      queueBridgeResults,
     };
   } catch (error) {
     await stop();

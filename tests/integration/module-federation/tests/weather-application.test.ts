@@ -325,7 +325,7 @@ describeLab(
       }
     });
 
-    it('cancels pending data on navigation and unmount, and does not apply late results to a new visit', async () => {
+    it('cancels pending data on navigation and unmount, then starts a fresh request on remount', async () => {
       const { lab, page, click } = getContext();
       const probe = `weather-cancel-${Date.now()}`;
       await page.goto(`${lab.url}/bridge-ssr/forecast/today?probe=${probe}`, {
@@ -378,6 +378,221 @@ describeLab(
           node => node.textContent,
         ),
       ).toBe('0');
+    });
+
+    it('delivers old deferred Bridge frames after remount without changing the new instance', async () => {
+      const { lab, page, click } = getContext();
+      const probe = `weather-late-${crypto.randomUUID()}`;
+      const markerA = `${probe}-A`;
+      const markerB = `${probe}-B`;
+      const route = `/bridge-ssr/forecast/today?probe=${probe}&hold=1`;
+      const gate = lab.gateDocument(route);
+      const clearResults = lab.queueBridgeResults(probe, [markerA, markerB]);
+      const navigation = page.goto(`${lab.url}${route}`, {
+        waitUntil: 'domcontentloaded',
+      });
+      // Always attach a rejection handler, including failures before cleanup.
+      void navigation.catch(() => {});
+      try {
+        await page.waitForSelector('[data-testid="outlook-pending"]');
+        await page.waitForSelector('.hours button:not(:disabled)');
+        expect(lab.bridgeRequests.filter(item => item.probe === probe)).toEqual(
+          [{ probe, marker: markerA, completed: false, aborted: false }],
+        );
+        const instanceA = await page.evaluate(() => {
+          const runtime = (window as any).__MF_BRIDGE_SSR__;
+          const node = document.querySelector(
+            '[data-testid="weather-application"]',
+          )!;
+          (window as any).__weatherVisitA = node;
+          (window as any).__weatherLateFrames = [];
+          const original = runtime.accept;
+          // Observation only: the real receiver gets every original argument.
+          // Record after it returns, so arrival is stronger than a network log.
+          runtime.accept = function (
+            id: string,
+            frame: { type: string; value?: unknown },
+          ) {
+            const result = original.call(this, id, frame);
+            (window as any).__weatherLateFrames.push({ id, frame });
+            return result;
+          };
+          (window as any).__restoreWeatherReceiver = () => {
+            runtime.accept = original;
+          };
+          return node.closest('[data-mf-bridge-ssr]')!.id;
+        });
+        expect(instanceA).not.toBe('');
+
+        // Finish A at the producer, but leave its genuine HTML/update/done
+        // frames in transit. A's API job can no longer be cancelled on unmount.
+        gate.hold();
+        lab.releaseBridge(probe);
+        await expect.poll(() => gate.ended).toBe(true);
+        const tail = gate.buffered;
+        const frames = [
+          ...tail.matchAll(
+            /window\.__MF_BRIDGE_SSR__\.accept\.apply\(window\.__MF_BRIDGE_SSR__,(\[[\s\S]*?\])\)<\/script>/g,
+          ),
+        ].map(
+          match =>
+            JSON.parse(match[1]) as [string, { type: string; value?: unknown }],
+        );
+        const updateA = frames.find(
+          ([id, frame]) =>
+            id === instanceA &&
+            frame.type === 'update' &&
+            JSON.stringify(frame.value).includes(markerA),
+        );
+        expect(updateA).toBeDefined();
+        expect(
+          frames.some(
+            ([id, frame]) => id === instanceA && frame.type === 'done',
+          ),
+        ).toBe(true);
+        expect(lab.bridgeRequests.filter(item => item.probe === probe)).toEqual(
+          [{ probe, marker: markerA, completed: true, aborted: false }],
+        );
+        expect(await page.$('[data-testid="outlook-resolved"]')).toBeNull();
+        expect(
+          await page.evaluate(() => (window as any).__weatherLateFrames),
+        ).toEqual([]);
+
+        await page.click('.weather-host-controls summary');
+        await click('application-toggle');
+        expect(await page.$('[data-testid="weather-application"]')).toBeNull();
+        await click('application-toggle');
+        await page.waitForFunction(
+          marker =>
+            document
+              .querySelector('[data-testid="outlook-resolved"]')
+              ?.textContent?.includes(marker),
+          {},
+          markerB,
+        );
+        await page.waitForSelector('.hours button:not(:disabled)');
+        await click('save-day');
+        await page.click('.hours button:nth-child(3)');
+        await page.evaluate(() => {
+          (window as any).__weatherVisitB = [
+            '[data-testid="weather-application"]',
+            '[data-testid="weather-detail"]',
+            '[data-testid="outlook-resolved"]',
+            '.hours button:nth-child(3)',
+          ].map(selector => ({
+            selector,
+            node: document.querySelector(selector),
+          }));
+        });
+        expect(
+          await page.evaluate(
+            () => (window as any).__weatherVisitA.isConnected,
+          ),
+        ).toBe(false);
+        expect(lab.bridgeRequests.filter(item => item.probe === probe)).toEqual(
+          [
+            { probe, marker: markerA, completed: true, aborted: false },
+            { probe, marker: markerB, completed: true, aborted: false },
+          ],
+        );
+        expect(
+          await page.evaluate(() => (window as any).__weatherLateFrames),
+        ).toEqual([]);
+
+        // B is ready and interactive. Send A's unmodified response bytes now.
+        gate.release();
+        const response = await navigation;
+        expect(response?.status()).toBe(200);
+        expect(response?.request().failure()).toBeNull();
+        await page.waitForFunction(
+          ({ id, marker }) => {
+            const frames = (window as any).__weatherLateFrames;
+            return (
+              frames.some(
+                (event: any) =>
+                  event.id === id &&
+                  event.frame.type === 'update' &&
+                  JSON.stringify(event.frame.value).includes(marker),
+              ) &&
+              frames.some(
+                (event: any) => event.id === id && event.frame.type === 'done',
+              )
+            );
+          },
+          {},
+          { id: instanceA, marker: markerA },
+        );
+        const arrived = await page.evaluate(
+          () => (window as any).__weatherLateFrames,
+        );
+        expect(arrived).toContainEqual({ id: updateA![0], frame: updateA![1] });
+        // Let React process any work triggered by those real frames, without a
+        // fixed sleep or writing application state from the test.
+        await page.evaluate(
+          () =>
+            new Promise<void>(resolve =>
+              requestAnimationFrame(() =>
+                requestAnimationFrame(() => resolve()),
+              ),
+            ),
+        );
+        expect(
+          await page.$eval(
+            '[data-testid="outlook-resolved"]',
+            node => node.textContent,
+          ),
+        ).toContain(markerB);
+        expect(
+          await page.$eval(
+            '[data-testid="weather-application"]',
+            node => node.textContent,
+          ),
+        ).not.toContain(markerA);
+        expect(
+          await page.evaluate(() =>
+            (window as any).__weatherVisitB.every(
+              ({ selector, node }: { selector: string; node: Element }) =>
+                node.isConnected && node === document.querySelector(selector),
+            ),
+          ),
+        ).toBe(true);
+        expect(
+          await page.$eval(
+            '[data-testid="favorite-count"]',
+            node => node.textContent,
+          ),
+        ).toBe('1');
+        expect(
+          await page.$eval('[data-testid="save-day"]', node =>
+            node.getAttribute('aria-pressed'),
+          ),
+        ).toBe('true');
+        expect(
+          await page.$eval('.hours button:nth-child(3)', node =>
+            node.getAttribute('aria-pressed'),
+          ),
+        ).toBe('true');
+        await page.click('.hours button:nth-child(4)');
+        expect(
+          await page.$eval('.hours button:nth-child(4)', node =>
+            node.getAttribute('aria-pressed'),
+          ),
+        ).toBe('true');
+        expect(new URL(page.url()).searchParams.has('csr')).toBe(false);
+      } finally {
+        lab.releaseBridge(probe);
+        gate.release();
+        clearResults();
+        try {
+          await navigation;
+        } finally {
+          gate.dispose();
+          if (!page.isClosed())
+            await page.evaluate(() =>
+              (window as any).__restoreWeatherReceiver?.(),
+            );
+        }
+      }
     });
   },
   { publicRoutesOnly: true },
