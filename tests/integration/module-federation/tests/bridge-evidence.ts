@@ -27,7 +27,7 @@ if (typeof window === 'undefined') {
       );
     }
   }
-  const page = path.join(workspace, 'host/src/routes/bridge-ssr/page.tsx');
+  const page = path.join(workspace, 'host/src/routes/bridge-inputs/page.tsx');
   await writeFile(
     page,
     (await readFile(page, 'utf8'))
@@ -53,7 +53,7 @@ if (typeof window === 'undefined') {
             compiler.hooks.thisCompilation.tap('BridgeInputEvidence', compilation => {
               let graph: { roots: string[]; reachable: string[]; remotes: { id: string; issuers: string[] }[] }
               compilation.hooks.finishModules.tap('BridgeInputEvidence', modules => {
-                const roots = [...modules].filter(module => /src[/\\\\\\\\]routes[/\\\\\\\\]bridge-ssr[/\\\\\\\\]page.tsx$/.test(module.identifier()))
+                const roots = [...modules].filter(module => /src[/\\\\\\\\]routes[/\\\\\\\\]bridge-inputs[/\\\\\\\\]page.tsx$/.test(module.identifier()))
                 const visited = new Set<(typeof roots)[number]>()
                 const visit = (module: (typeof roots)[number]) => {
                   if (visited.has(module)) return

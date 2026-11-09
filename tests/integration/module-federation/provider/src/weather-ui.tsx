@@ -1,7 +1,8 @@
 import stationIcon from './station.svg';
 import styles from './weather.module.css';
 import { checkDataFailure } from './data-failure';
-import { useEffect, useState } from 'react';
+import { useEffect, useState, type ReactNode } from 'react';
+import { forecastDays, type ForecastDay } from './weather-days';
 export type WeatherData = {
   temperature: number;
   condition: string;
@@ -69,15 +70,23 @@ export function CurrentWeather({
   mfData,
   local = false,
   labFailure,
+  saved: controlledSaved,
+  onSavedChange,
+  location = 'Hangzhou',
 }: {
   mfData?: WeatherData;
   local?: boolean;
   labFailure?: string;
+  saved?: boolean;
+  onSavedChange?: (saved: boolean) => void;
+  location?: string;
 }) {
-  const [data, setData] = useState(local ? fixture : mfData);
+  const [fetchedData, setData] = useState<WeatherData>();
+  const data = local ? fixture : (mfData ?? fetchedData);
   const [error, setError] = useState<Error>();
   const ready = useClientReady('current');
-  const [saved, setSaved] = useState(false);
+  const [localSaved, setSaved] = useState(false);
+  const saved = controlledSaved ?? localSaved;
   useEffect(() => {
     if (!local && !mfData) {
       checkDataFailure({ labFailure })
@@ -109,7 +118,7 @@ export function CurrentWeather({
         />{' '}
         My location
       </span>
-      <h1>Hangzhou</h1>
+      <h1>{location}</h1>
       <div
         className="current-temperature"
         key={data ? 'temperature-data' : 'temperature-pending'}
@@ -133,8 +142,10 @@ export function CurrentWeather({
       <button
         className="weather-save"
         disabled={!ready}
+        aria-pressed={saved}
         onClick={() => {
           setSaved(!saved);
+          onSavedChange?.(!saved);
         }}
         data-testid="weather-save"
       >
@@ -147,8 +158,17 @@ export function CurrentWeather({
     </section>
   );
 }
-export function HourlyWeather() {
-  const [selected, setSelected] = useState(0);
+export function HourlyWeather({
+  selected: controlledSelected,
+  onSelectedChange,
+  attribution = 'Dynamic remote · Rslib',
+}: {
+  selected?: number;
+  onSelectedChange?: (selected: number) => void;
+  attribution?: string;
+} = {}) {
+  const [localSelected, setSelected] = useState(0);
+  const selected = controlledSelected ?? localSelected;
   const ready = useClientReady('hourly');
   return (
     <section
@@ -156,7 +176,7 @@ export function HourlyWeather() {
       data-testid="weather-hourly"
     >
       <h2>
-        ◷ Hourly forecast <small>Dynamic remote · Rslib</small>
+        ◷ Hourly forecast <small>{attribution}</small>
       </h2>
       <div className="hours">
         {[30, 29, 28, 27, 26, 25, 24, 23].map((temperature, index) => (
@@ -166,6 +186,7 @@ export function HourlyWeather() {
             aria-pressed={selected === index}
             onClick={() => {
               setSelected(index);
+              onSelectedChange?.(index);
             }}
           >
             <span>{index === 0 ? 'Now' : `${index + 14}:00`}</span>
@@ -181,39 +202,56 @@ export function HourlyWeather() {
     </section>
   );
 }
-export function DaysWeather() {
+export function DaysWeather({
+  days = forecastDays,
+  renderDay,
+  attribution = 'Static nested · Modern',
+}: {
+  days?: ForecastDay[];
+  renderDay?: (day: ForecastDay) => ReactNode;
+  attribution?: string;
+} = {}) {
   return (
     <section className="weather-card days-weather" data-testid="weather-days">
       <h2>
-        ▦ 5-day forecast <small>Static nested · Modern</small>
+        ▦ 5-day forecast <small>{attribution}</small>
       </h2>
-      {['Today', 'Wed', 'Thu', 'Fri', 'Sat'].map((day, index) => (
-        <div className="day-row" key={day}>
-          <b>{day}</b>
-          <WeatherIcon rainy={index % 2 === 1} />
-          <span>{21 - index}°</span>
+      {days.map(day => (
+        <div className="day-row" key={day.id}>
+          <b>{renderDay ? renderDay(day) : day.day}</b>
+          <WeatherIcon rainy={day.rainy} />
+          <span>{day.low}°</span>
           <div className="temperature-track">
             <i
               style={{
-                marginLeft: `${index * 7}%`,
-                width: `${75 - index * 8}%`,
+                marginLeft: `${(30 - day.high) * 7}%`,
+                width: `${75 - (30 - day.high) * 8}%`,
               }}
             />
           </div>
-          <strong>{30 - index}°</strong>
+          <strong>{day.high}°</strong>
         </div>
       ))}
     </section>
   );
 }
-export function WindWeather() {
-  const [angle, setAngle] = useState(340);
+export function WindWeather({
+  angle: controlledAngle,
+  onAngleChange,
+  attribution = 'Dynamic nested · Rslib',
+}: {
+  angle?: number;
+  onAngleChange?: (angle: number) => void;
+  attribution?: string;
+} = {}) {
+  const [localAngle, setAngle] = useState(340);
+  const angle = controlledAngle ?? localAngle;
   const ready = useClientReady('wind');
   const [verified, setVerified] = useState(false);
   return (
     <section className="weather-card wind-weather" data-testid="weather-wind">
       <h2>
-        〰 Wind <small>Dynamic nested · Rslib</small>
+        〰 Wind <small>{attribution}</small>
       </h2>
       <div className="wind-body">
         <div>
@@ -311,6 +349,7 @@ export function WindWeather() {
           disabled={!ready}
           onChange={event => {
             setAngle(Number(event.target.value));
+            onAngleChange?.(Number(event.target.value));
             setVerified(true);
           }}
         />

@@ -1,3 +1,4 @@
+// Test-only streaming and cancellation consumer.
 import { useState } from 'react';
 import { ReactRemote } from '@modern-js/runtime/mf';
 import { useLocation } from '@modern-js/runtime/router';

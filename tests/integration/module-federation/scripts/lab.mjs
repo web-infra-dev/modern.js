@@ -55,6 +55,7 @@ export async function startLab(
   /** @type {string[]} */
   const weatherRequests = [];
   const bridgeGates = new Map();
+  const pendingOutlooks = new Map();
   const releasedBridgeGates = new Set();
   const releaseBridge = probe => {
     releasedBridgeGates.add(probe);
@@ -260,6 +261,11 @@ export async function startLab(
       res.setHeader('Access-Control-Allow-Origin', '*');
       res.setHeader('Cache-Control', 'no-store');
       const url = new URL(req.url, 'http://localhost');
+      if (url.pathname === '/bridge-data/cancel' && req.method === 'POST') {
+        pendingOutlooks.get(url.searchParams.get('token'))?.();
+        res.writeHead(204).end();
+        return;
+      }
       if (url.pathname === '/bridge-weather') {
         const kind = url.searchParams.get('kind') || '';
         const bulletins = {
@@ -316,9 +322,12 @@ export async function startLab(
       }
       if (url.pathname === '/bridge-data') {
         const probe = url.searchParams.get('probe') || '';
+        const cancelToken = url.searchParams.get('cancelToken');
+        if (cancelToken) pendingOutlooks.set(cancelToken, () => res.destroy());
         const record = { probe, completed: false, aborted: false };
         bridgeRequests.push(record);
         res.on('close', () => {
+          if (cancelToken) pendingOutlooks.delete(cancelToken);
           if (!res.writableFinished) record.aborted = true;
           bridgeGates.get(probe)?.();
           bridgeGates.delete(probe);
@@ -326,10 +335,38 @@ export async function startLab(
         if (url.searchParams.has('hold') && !releasedBridgeGates.has(probe)) {
           await new Promise(resolve => bridgeGates.set(probe, resolve));
         }
+        const delay = Math.min(
+          5000,
+          Math.max(0, Number(url.searchParams.get('delay')) || 0),
+        );
+        if (delay)
+          await new Promise(resolve => {
+            const timer = setTimeout(resolve, delay);
+            res.once('close', () => {
+              clearTimeout(timer);
+              resolve();
+            });
+          });
         if (res.destroyed) return;
         record.completed = true;
+        if (url.searchParams.get('failure') === 'data') {
+          res.writeHead(503, { 'Content-Type': 'application/json' });
+          res.end(JSON.stringify({ error: 'Detailed outlook unavailable' }));
+          return;
+        }
         res.writeHead(200, { 'Content-Type': 'application/json' });
-        res.end(JSON.stringify({ detail: `Resolved ${probe}` }));
+        res.end(
+          JSON.stringify({
+            detail: `Resolved ${probe}`,
+            ...(url.searchParams.has('day')
+              ? {
+                  outlook: ['wed', 'fri'].includes(url.searchParams.get('day'))
+                    ? 'Bring an umbrella for showers. Plan a short walk between rain spells.'
+                    : 'A good day for a lakeside walk. Bring sun protection and a light layer for the evening.',
+                }
+              : {}),
+          }),
+        );
         return;
       }
       if (url.pathname === '/route-loader') {

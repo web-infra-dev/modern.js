@@ -64,7 +64,7 @@ for (const api of ['factory', 'declarative']) {
         expect(evaluations()).not.toContain('export:WeatherForecast');
         const get = async (only: string) => {
           const response = await fetch(
-            `${lab.url}/bridge-ssr?api=${api}&only=${only}`,
+            `${lab.url}/bridge-inputs?api=${api}&only=${only}`,
           );
           expect(response.status).toBe(200);
           const body = await response.text();
@@ -181,7 +181,7 @@ for (const api of ['factory', 'declarative']) {
       it('returns three weather applications and SSR frames, while noSSR stays client-only', async () => {
         const { lab } = getContext();
         const body = await (
-          await fetch(`${lab.url}/bridge-ssr?api=${api}`)
+          await fetch(`${lab.url}/bridge-inputs?api=${api}`)
         ).text();
         const frames = bridgeFrames(body);
         const html = frames
@@ -223,7 +223,7 @@ for (const api of ['factory', 'declarative']) {
             await gate;
           if (!request.isInterceptResolutionHandled()) await request.continue();
         });
-        const navigation = page.goto(`${lab.url}/bridge-ssr?api=${api}`, {
+        const navigation = page.goto(`${lab.url}/bridge-inputs?api=${api}`, {
           waitUntil: 'domcontentloaded',
         });
         const roots =
@@ -367,7 +367,7 @@ for (const api of ['factory', 'declarative']) {
 
       it('isolates repeated mounts and destroys state only for disconnected panels', async () => {
         const { lab, page, consoleErrors, mode } = getContext();
-        await page.goto(`${lab.url}/bridge-ssr?api=${api}`, {
+        await page.goto(`${lab.url}/bridge-inputs?api=${api}`, {
           waitUntil: 'networkidle0',
         });
         await page.click('.weather-board-info summary');
@@ -430,11 +430,12 @@ for (const api of ['factory', 'declarative']) {
         expectConsole(consoleErrors, mode);
       });
 
-      it('makes the dashboard discoverable from the homepage and fits mobile screens', async () => {
+      it('keeps the input contract fixture usable on mobile screens', async () => {
         const { lab, page } = getContext();
         await page.setViewport({ width: 390, height: 844 });
-        await page.goto(lab.url, { waitUntil: 'networkidle0' });
-        await page.click('a[href="/bridge-ssr"]');
+        await page.goto(`${lab.url}/bridge-inputs`, {
+          waitUntil: 'networkidle0',
+        });
         await page.waitForSelector('[data-testid="weather-current"]');
         expect(await page.$eval('h1', node => node.textContent)).toBe(
           'Look up. Slow down.',

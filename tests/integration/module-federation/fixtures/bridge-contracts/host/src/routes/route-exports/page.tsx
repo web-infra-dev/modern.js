@@ -1,3 +1,4 @@
+// Test-only selected-route consumer.
 import { useState } from 'react';
 import { createReactRemote } from '@modern-js/runtime/mf';
 

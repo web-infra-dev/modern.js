@@ -90,6 +90,7 @@ export function setupLab(
     initialRouteNoSSR?: boolean;
     applicationIsolation?: boolean;
     bridgeInputEvidence?: boolean;
+    publicRoutesOnly?: boolean;
   } = {},
 ) {
   let lab: Awaited<ReturnType<typeof startLab>>;
@@ -134,6 +135,14 @@ export function setupLab(
   let expectedErrors: { pattern: RegExp; min: number; max: number } | undefined;
   beforeAll(async () => {
     workspace = await createWorkspace();
+    if (!options.publicRoutesOnly)
+      await cp(
+        fileURLToPath(
+          new URL('../fixtures/bridge-contracts/host', import.meta.url),
+        ),
+        path.join(workspace, 'host'),
+        { recursive: true },
+      );
     if (options.bridgeInputEvidence) await instrumentBridgeInputs(workspace);
     if (options.applicationIsolation) {
       for (const app of ['host', 'provider']) {
@@ -440,6 +449,7 @@ export function describeLab(
     initialRouteNoSSR?: boolean;
     applicationIsolation?: boolean;
     bridgeInputEvidence?: boolean;
+    publicRoutesOnly?: boolean;
   } = {},
 ) {
   rstest.setConfig({ testTimeout: 60000, hookTimeout: 600000, retry: 0 });

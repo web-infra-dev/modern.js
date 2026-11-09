@@ -130,13 +130,13 @@ export default function BridgeSSR() {
           </p>
           <nav aria-label="Bridge consumer API">
             <a
-              href="/bridge-ssr"
+              href="/bridge-inputs"
               aria-current={api === 'factory' ? 'page' : undefined}
             >
               createReactRemote
             </a>
             <a
-              href="/bridge-ssr?api=declarative"
+              href="/bridge-inputs?api=declarative"
               aria-current={api === 'declarative' ? 'page' : undefined}
             >
               ReactRemote

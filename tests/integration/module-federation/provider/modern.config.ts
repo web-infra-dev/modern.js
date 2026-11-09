@@ -43,7 +43,7 @@ export default defineConfig({
                 },
                 () => {
                   const roots = [...compilation.modules].filter(module =>
-                    /src[/\\]exports[/\\](Weather|Product|Orders|CurrentWeather|WeatherForecast|AirQuality)App\.tsx\?modern-mf-root$/.test(
+                    /src[/\\]exports[/\\](WeatherApplication|(?:Weather|Product|Orders|CurrentWeather|WeatherForecast|AirQuality)App)\.tsx\?modern-mf-root$/.test(
                       module.identifier(),
                     ),
                   );
@@ -53,6 +53,13 @@ export default defineConfig({
                       const visit = (module: typeof root) => {
                         if (visited.has(module)) return;
                         visited.add(module);
+                        // Production combines small modules into their importer.
+                        // Include those members in the same scope evidence.
+                        const combined = module as typeof module & {
+                          modules?: Iterable<typeof module>;
+                        };
+                        for (const child of combined.modules || [])
+                          visit(child);
                         for (const connection of compilation.moduleGraph.getOutgoingConnections(
                           module,
                         ))
@@ -62,9 +69,8 @@ export default defineConfig({
                       return [
                         root
                           .identifier()
-                          .match(
-                            /(CurrentWeather|WeatherForecast|AirQuality|Weather|Product|Orders)App/,
-                          )![1],
+                          .match(/[/\\]exports[/\\](\w+)\.tsx/)![1]
+                          .replace(/App$/, ''),
                         [...visited].map(module => module.identifier()),
                       ];
                     }),

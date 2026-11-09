@@ -1,6 +1,76 @@
 import { describeLab } from './fixture';
 
 describeLab('Modern producer route exports', getContext => {
+  it('isolates two complete weather applications through navigation, props and remounts', async () => {
+    const { page, visit, click } = getContext();
+    await visit('weather-instances', 'weather-instance-a');
+    const a = '[data-testid="weather-instance-a"]';
+    const b = '[data-testid="weather-instance-b"]';
+    await page.waitForSelector(
+      `${a} [data-testid="weather-save"]:not(:disabled)`,
+    );
+    await page.waitForSelector(
+      `${b} [data-testid="weather-save"]:not(:disabled)`,
+    );
+    await page.click(`${a} [data-testid="weather-save"]`);
+    await page.click(`${a} [data-testid="forecast-wed"]`);
+    await page.waitForSelector(`${a} [data-testid="outlook-resolved"]`);
+    await page.click(`${a} [data-testid="save-day"]`);
+    expect(
+      await page.$eval(
+        `${a} [data-testid="favorite-count"]`,
+        node => node.textContent,
+      ),
+    ).toBe('2');
+    expect(
+      await page.$eval(
+        `${b} [data-testid="favorite-count"]`,
+        node => node.textContent,
+      ),
+    ).toBe('0');
+    expect(
+      await page.$(`${b} [data-testid="weather-overview"]`),
+    ).not.toBeNull();
+    await click('instances-rename');
+    await page.waitForFunction(
+      selector =>
+        document.querySelector(selector)?.textContent?.includes('West Lake'),
+      {},
+      `${a} [data-testid="weather-detail"]`,
+    );
+    expect(
+      await page.$eval(
+        `${b} [data-testid="weather-current"] h1`,
+        node => node.textContent,
+      ),
+    ).toBe('Riverside');
+    await page.click(`${b} [data-testid="weather-save"]`);
+    await page.evaluate(selector => {
+      (window as any).__weatherNeighbor = document.querySelector(selector);
+    }, `${b} [data-testid="weather-application"]`);
+    await click('instances-toggle');
+    expect(await page.$(`${a} [data-testid="weather-application"]`)).toBeNull();
+    await click('instances-toggle');
+    await page.waitForSelector(
+      `${a} [data-testid="weather-save"]:not(:disabled)`,
+    );
+    expect(
+      await page.$eval(
+        `${a} [data-testid="favorite-count"]`,
+        node => node.textContent,
+      ),
+    ).toBe('0');
+    expect(
+      await page.$eval(
+        `${b} [data-testid="favorite-count"]`,
+        node => node.textContent,
+      ),
+    ).toBe('1');
+    expect(
+      await page.evaluate(() => (window as any).__weatherNeighbor.isConnected),
+    ).toBe(true);
+    expect(new URL(page.url()).pathname).toBe('/weather-instances');
+  });
   it('starts selected memory applications at local entry paths without changing the host URL', async () => {
     const { page, visit } = getContext();
     await visit('route-exports', 'scope-product-list');
@@ -87,6 +157,26 @@ describeLab('Modern producer route exports', getContext => {
     expect(includesRoute('Product', 'orders')).toBe(false);
     expect(includesRoute('Orders', 'orders')).toBe(true);
     expect(includesRoute('Orders', 'product')).toBe(false);
+    const application = graphs.WeatherApplication.join('\n').replaceAll(
+      '\\',
+      '/',
+    );
+    for (const route of [
+      'overview',
+      'forecast',
+      'forecast/[day]',
+      'favorites',
+    ]) {
+      expect(application).toContain(
+        `/src/routes/weather-application/${route}/page.tsx`,
+      );
+    }
+    expect(application).toContain('/src/weather-ui.tsx');
+    expect(application).toContain('/src/weather-cards.tsx');
+    expect(application).toContain('/src/weather-scene.css');
+    expect(application).not.toContain('/src/routes/__applications/');
+    expect(application).not.toContain('/src/routes/weather/');
+    expect(fullApplication).toContain('/src/routes/weather-application/');
     for (const scope of ['Product', 'Orders']) {
       expect(graphs[scope].join('\n').replaceAll('\\', '/')).not.toContain(
         '/src/routes/weather/',
