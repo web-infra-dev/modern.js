@@ -35,9 +35,9 @@ export const builderPluginAdapterBasic = (
       const { metaName } = appContext;
 
       chain.watchOptions({
-        ignored: [
-          `[\\\\/](?:node_modules(?![\\\\/]\\.${metaName})|.git)[\\\\/]`,
-        ],
+        ignored: new RegExp(
+          `[\\\\/](?:node_modules(?![\\\\/]\\.${metaName})|\\.git)[\\\\/]`,
+        ),
       });
     });
 
