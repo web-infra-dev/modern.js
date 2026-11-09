@@ -112,6 +112,23 @@ describe('ResourceStageScheduler', () => {
     expect(prefetched()).toEqual(['/p/js/shared.js']);
   });
 
+  it('resolves ready() after the stage and earlier stages are downloaded', async () => {
+    const scheduler = new ResourceStageScheduler([
+      { c: manual, s: { visible: ['v'], idle: ['i'] } },
+    ]);
+    let ready = false;
+    scheduler.whenDone('idle').then(() => {
+      ready = true;
+    });
+    scheduler.mark('idle');
+    await Promise.resolve();
+    expect(ready).toBe(false);
+    finish('/p/js/v.js');
+    finish('/p/js/i.js');
+    await Promise.resolve();
+    expect(ready).toBe(true);
+  });
+
   it('skips files the HTML already preloads', () => {
     document.head.innerHTML =
       '<link rel="preload" as="script" href="/p/js/a.js">';

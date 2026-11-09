@@ -66,6 +66,16 @@ chatStore.onFirstReply(() => stagedImport.firstReply.mark());
 
 应用有自己的生命周期时，可以把内置阶段改为 `manual: true`，再在对应时机调用 `stagedImport.interactive.mark()` 等。
 
+### 等待阶段完成
+
+`stagedImport.<阶段>.ready()` 在该阶段到来、且它和之前各阶段的文件都下载完成后 resolve。需要在某个阶段之后才执行的代码（例如空闲时预热模块）可以等它，执行时文件已经在缓存里，不会和前面的阶段抢带宽：
+
+```ts
+stagedImport.idle.ready().then(() => warmUpMessagePlugins());
+```
+
+服务端直接 resolve。
+
 ## 路由 JS
 
 流式 SSR 下，配置了 `performance.resourceStages` 后，命中路由的 JS 也按阶段输出，不需要声明：路由组件自身的文件为 `critical`，依赖的共享 chunk 按 `critical` 预算分到 `critical` 或 `visible`。见 [`routes`](/configure/app/performance/resource-stages#routes)。

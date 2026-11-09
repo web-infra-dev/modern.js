@@ -23,6 +23,13 @@ export type StageDeclaration = {
    * stages configured with `manual: true`.
    */
   mark: () => void;
+  /**
+   * Resolves when the stage arrived and the files of it and every earlier
+   * stage are downloaded. Use it to run code that should wait for the stage,
+   * e.g. warming up modules when the page is idle. Resolves at once on the
+   * server.
+   */
+  ready: () => Promise<void>;
 };
 
 export type StagedImport = { readonly [K in ResourceStage]: StageDeclaration };
@@ -85,6 +92,8 @@ const createStage = (stage: string): StageDeclaration => {
     mark: () => {
       getResourceStageScheduler()?.mark(stage);
     },
+    ready: () =>
+      getResourceStageScheduler()?.whenDone(stage) ?? Promise.resolve(),
   });
 };
 

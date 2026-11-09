@@ -105,6 +105,9 @@ export class ResourceStageScheduler {
 
   private afterVisible: (() => void)[] = [];
 
+  /** Stage -> callbacks waiting for the stage to finish downloading. */
+  private waiters = new Map<string, (() => void)[]>();
+
   constructor(payloads: StagePayload[]) {
     this.bundler = getBundlerRuntime();
     for (const payload of payloads) {
@@ -195,6 +198,42 @@ export class ResourceStageScheduler {
       this.urgent.push({ chunkId, stage });
     }
     this.pump();
+  }
+
+  /**
+   * Resolves when the stage arrived and the prefetches of it and every
+   * earlier stage finished, so code run then finds its files in the cache.
+   */
+  whenDone(stage: string): Promise<void> {
+    if (this.isDone(stage)) {
+      return Promise.resolve();
+    }
+    return new Promise(resolve => {
+      this.waiters.set(stage, [...(this.waiters.get(stage) ?? []), resolve]);
+    });
+  }
+
+  private isDone(stage: string) {
+    if (!this.arrived.has(stage)) {
+      return false;
+    }
+    const order = this.config.o;
+    const index = order.indexOf(stage);
+    const stages = index === -1 ? [stage] : order.slice(0, index + 1);
+    return stages.every(
+      item => !this.lists.get(item)?.length && !(this.inFlight.get(item) ?? 0),
+    );
+  }
+
+  private resolveWaiters() {
+    for (const [stage, callbacks] of this.waiters) {
+      if (this.isDone(stage)) {
+        this.waiters.delete(stage);
+        for (const callback of callbacks) {
+          callback();
+        }
+      }
+    }
   }
 
   onReport(callback: (report: ResourceStageReport) => void) {
@@ -322,12 +361,13 @@ export class ResourceStageScheduler {
     while (total < limit) {
       const item = this.nextItem();
       if (!item) {
-        return;
+        break;
       }
       if (this.prefetch(item)) {
         total++;
       }
     }
+    this.resolveWaiters();
   }
 
   private prefetch({ chunkId, stage }: QueueItem) {

@@ -66,6 +66,16 @@ chatStore.onFirstReply(() => stagedImport.firstReply.mark());
 
 An application with its own lifecycle can set built-in stages to `manual: true` and call `stagedImport.interactive.mark()` and so on at the right time.
 
+### Waiting for a stage
+
+`stagedImport.<stage>.ready()` resolves when the stage arrived and the files of it and every earlier stage are downloaded. Code that should run after a stage, such as warming up modules when idle, can wait for it; its files are then in the cache and it does not take bandwidth from earlier stages:
+
+```ts
+stagedImport.idle.ready().then(() => warmUpMessagePlugins());
+```
+
+It resolves at once on the server.
+
 ## Route JS
 
 With streaming SSR and `performance.resourceStages` set, the JS of the matched routes is staged without declarations: the route component's own file is `critical`, and the shared chunks it depends on go to `critical` or `visible` by the `critical` budget. See [`routes`](/configure/app/performance/resource-stages#routes).
