@@ -291,15 +291,23 @@ for (const api of ['factory', 'declarative']) {
           await page.waitForSelector(
             '[data-testid="bridge-client-only"] [data-testid="weather-air"]',
           );
+          const expectedEvaluations = inputs
+            .flatMap(input => [`export:${input.name}`, `page:${input.name}`])
+            .sort();
+          // A hydrated layout can be ready before its lazy page evaluates.
+          await page.waitForFunction(
+            expected =>
+              expected.every(value =>
+                (window as any).__bridgeEvaluations?.includes(value),
+              ),
+            {},
+            expectedEvaluations,
+          );
           expect(
             await page.evaluate(() =>
               (window as any).__bridgeEvaluations.slice().sort(),
             ),
-          ).toEqual(
-            inputs
-              .flatMap(input => [`export:${input.name}`, `page:${input.name}`])
-              .sort(),
-          );
+          ).toEqual(expectedEvaluations);
           // Three server requests plus only the deliberately client-only mount.
           expect(lab.weatherRequests.slice(start).sort()).toEqual([
             'air',

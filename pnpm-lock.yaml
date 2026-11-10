@@ -269,11 +269,11 @@ importers:
         specifier: latest
         version: 3.10.4(@module-federation/runtime-tools@2.9.2)(core-js@3.50.0)(react-dom@19.2.8(react@19.2.8))(react-server-dom-rspack@0.1.0(@rspack/core@2.2.9(@module-federation/runtime-tools@2.9.2)(@swc/helpers@0.5.23))(react-dom@19.2.8(react@19.2.8))(react@19.2.8))(react@19.2.8)
       '@module-federation/bridge-react':
-        specifier: 0.0.0-feat-enhanced-runtime-unification-20261104092109
-        version: 0.0.0-feat-enhanced-runtime-unification-20261104092109(@module-federation/enhanced@0.0.0-feat-enhanced-runtime-unification-20261104092109(@rspack/core@2.2.9(@module-federation/runtime-tools@2.9.2)(@swc/helpers@0.5.23))(bufferutil@4.1.0)(typescript@5.9.3)(utf-8-validate@5.0.10)(webpack@5.104.1(@swc/core@1.16.20(@swc/helpers@0.5.23))))(react-dom@19.2.8(react@19.2.8))(react-router-dom@7.16.0(react-dom@19.2.8(react@19.2.8))(react@19.2.8))(react-router@7.15.1(react-dom@19.2.8(react@19.2.8))(react@19.2.8))(react@19.2.8)
+        specifier: 0.0.0-feat-enhanced-runtime-unification-20261110060527
+        version: 0.0.0-feat-enhanced-runtime-unification-20261110060527(@module-federation/enhanced@0.0.0-feat-enhanced-runtime-unification-20261110060527(@rspack/core@2.2.9(@module-federation/runtime-tools@2.9.2)(@swc/helpers@0.5.23))(bufferutil@4.1.0)(typescript@5.9.3)(utf-8-validate@5.0.10)(webpack@5.104.1(@swc/core@1.16.20(@swc/helpers@0.5.23))))(react-dom@19.2.8(react@19.2.8))(react-router-dom@7.16.0(react-dom@19.2.8(react@19.2.8))(react@19.2.8))(react-router@7.15.1(react-dom@19.2.8(react@19.2.8))(react@19.2.8))(react@19.2.8)
       '@module-federation/enhanced':
-        specifier: 0.0.0-feat-enhanced-runtime-unification-20261104092109
-        version: 0.0.0-feat-enhanced-runtime-unification-20261104092109(@rspack/core@2.2.9(@module-federation/runtime-tools@2.9.2)(@swc/helpers@0.5.23))(bufferutil@4.1.0)(typescript@5.9.3)(utf-8-validate@5.0.10)(webpack@5.104.1(@swc/core@1.16.20(@swc/helpers@0.5.23)))
+        specifier: 0.0.0-feat-enhanced-runtime-unification-20261110060527
+        version: 0.0.0-feat-enhanced-runtime-unification-20261110060527(@rspack/core@2.2.9(@module-federation/runtime-tools@2.9.2)(@swc/helpers@0.5.23))(bufferutil@4.1.0)(typescript@5.9.3)(utf-8-validate@5.0.10)(webpack@5.104.1(@swc/core@1.16.20(@swc/helpers@0.5.23)))
       react:
         specifier: ^19.2.8
         version: 19.2.8
@@ -315,11 +315,11 @@ importers:
         specifier: latest
         version: 3.10.4(@module-federation/runtime-tools@2.9.2)(core-js@3.50.0)(react-dom@19.2.8(react@19.2.8))(react-server-dom-rspack@0.1.0(@rspack/core@2.2.9(@module-federation/runtime-tools@2.9.2)(@swc/helpers@0.5.23))(react-dom@19.2.8(react@19.2.8))(react@19.2.8))(react@19.2.8)
       '@module-federation/bridge-react':
-        specifier: 0.0.0-feat-enhanced-runtime-unification-20261104092109
-        version: 0.0.0-feat-enhanced-runtime-unification-20261104092109(@module-federation/enhanced@0.0.0-feat-enhanced-runtime-unification-20261104092109(@rspack/core@2.2.9(@module-federation/runtime-tools@2.9.2)(@swc/helpers@0.5.23))(bufferutil@4.1.0)(typescript@5.9.3)(utf-8-validate@5.0.10)(webpack@5.104.1(@swc/core@1.16.20(@swc/helpers@0.5.23))))(react-dom@19.2.8(react@19.2.8))(react-router-dom@7.18.4(react-dom@19.2.8(react@19.2.8))(react@19.2.8))(react-router@7.18.4(react-dom@19.2.8(react@19.2.8))(react@19.2.8))(react@19.2.8)
+        specifier: 0.0.0-feat-enhanced-runtime-unification-20261110060527
+        version: 0.0.0-feat-enhanced-runtime-unification-20261110060527(@module-federation/enhanced@0.0.0-feat-enhanced-runtime-unification-20261110060527(@rspack/core@2.2.9(@module-federation/runtime-tools@2.9.2)(@swc/helpers@0.5.23))(bufferutil@4.1.0)(typescript@5.9.3)(utf-8-validate@5.0.10)(webpack@5.104.1(@swc/core@1.16.20(@swc/helpers@0.5.23))))(react-dom@19.2.8(react@19.2.8))(react-router-dom@7.18.4(react-dom@19.2.8(react@19.2.8))(react@19.2.8))(react-router@7.18.4(react-dom@19.2.8(react@19.2.8))(react@19.2.8))(react@19.2.8)
       '@module-federation/enhanced':
-        specifier: 0.0.0-feat-enhanced-runtime-unification-20261104092109
-        version: 0.0.0-feat-enhanced-runtime-unification-20261104092109(@rspack/core@2.2.9(@module-federation/runtime-tools@2.9.2)(@swc/helpers@0.5.23))(bufferutil@4.1.0)(typescript@5.9.3)(utf-8-validate@5.0.10)(webpack@5.104.1(@swc/core@1.16.20(@swc/helpers@0.5.23)))
+        specifier: 0.0.0-feat-enhanced-runtime-unification-20261110060527
+        version: 0.0.0-feat-enhanced-runtime-unification-20261110060527(@rspack/core@2.2.9(@module-federation/runtime-tools@2.9.2)(@swc/helpers@0.5.23))(bufferutil@4.1.0)(typescript@5.9.3)(utf-8-validate@5.0.10)(webpack@5.104.1(@swc/core@1.16.20(@swc/helpers@0.5.23)))
       react:
         specifier: ^19.2.8
         version: 19.2.8
@@ -355,11 +355,11 @@ importers:
         specifier: latest
         version: 3.10.4(@module-federation/runtime-tools@2.9.2)(core-js@3.50.0)(react-dom@19.2.8(react@19.2.8))(react-server-dom-rspack@0.1.0(@rspack/core@2.2.9(@module-federation/runtime-tools@2.9.2)(@swc/helpers@0.5.23))(react-dom@19.2.8(react@19.2.8))(react@19.2.8))(react@19.2.8)
       '@module-federation/bridge-react':
-        specifier: 0.0.0-feat-enhanced-runtime-unification-20261104092109
-        version: 0.0.0-feat-enhanced-runtime-unification-20261104092109(@module-federation/enhanced@0.0.0-feat-enhanced-runtime-unification-20261104092109(@rspack/core@2.2.9(@module-federation/runtime-tools@2.9.2)(@swc/helpers@0.5.23))(bufferutil@4.1.0)(typescript@5.9.3)(utf-8-validate@5.0.10)(webpack@5.104.1(@swc/core@1.16.20(@swc/helpers@0.5.23))))(react-dom@19.2.8(react@19.2.8))(react-router-dom@7.16.0(react-dom@19.2.8(react@19.2.8))(react@19.2.8))(react-router@7.18.4(react-dom@19.2.8(react@19.2.8))(react@19.2.8))(react@19.2.8)
+        specifier: 0.0.0-feat-enhanced-runtime-unification-20261110060527
+        version: 0.0.0-feat-enhanced-runtime-unification-20261110060527(@module-federation/enhanced@0.0.0-feat-enhanced-runtime-unification-20261110060527(@rspack/core@2.2.9(@module-federation/runtime-tools@2.9.2)(@swc/helpers@0.5.23))(bufferutil@4.1.0)(typescript@5.9.3)(utf-8-validate@5.0.10)(webpack@5.104.1(@swc/core@1.16.20(@swc/helpers@0.5.23))))(react-dom@19.2.8(react@19.2.8))(react-router-dom@7.16.0(react-dom@19.2.8(react@19.2.8))(react@19.2.8))(react-router@7.18.4(react-dom@19.2.8(react@19.2.8))(react@19.2.8))(react@19.2.8)
       '@module-federation/enhanced':
-        specifier: 0.0.0-feat-enhanced-runtime-unification-20261104092109
-        version: 0.0.0-feat-enhanced-runtime-unification-20261104092109(@rspack/core@2.2.9(@module-federation/runtime-tools@2.9.2)(@swc/helpers@0.5.23))(bufferutil@4.1.0)(typescript@5.9.3)(utf-8-validate@5.0.10)(webpack@5.104.1(@swc/core@1.16.20(@swc/helpers@0.5.23)))
+        specifier: 0.0.0-feat-enhanced-runtime-unification-20261110060527
+        version: 0.0.0-feat-enhanced-runtime-unification-20261110060527(@rspack/core@2.2.9(@module-federation/runtime-tools@2.9.2)(@swc/helpers@0.5.23))(bufferutil@4.1.0)(typescript@5.9.3)(utf-8-validate@5.0.10)(webpack@5.104.1(@swc/core@1.16.20(@swc/helpers@0.5.23)))
       react:
         specifier: ^19.2.8
         version: 19.2.8
@@ -398,11 +398,11 @@ importers:
         specifier: latest
         version: 3.10.4(@module-federation/runtime-tools@2.9.2)(core-js@3.50.0)(react-dom@19.2.8(react@19.2.8))(react-server-dom-rspack@0.1.0(@rspack/core@2.2.9(@module-federation/runtime-tools@2.9.2)(@swc/helpers@0.5.23))(react-dom@19.2.8(react@19.2.8))(react@19.2.8))(react@19.2.8)
       '@module-federation/bridge-react':
-        specifier: 0.0.0-feat-enhanced-runtime-unification-20261104092109
-        version: 0.0.0-feat-enhanced-runtime-unification-20261104092109(@module-federation/enhanced@0.0.0-feat-enhanced-runtime-unification-20261104092109(@rspack/core@2.2.9(@module-federation/runtime-tools@2.9.2)(@swc/helpers@0.5.23))(bufferutil@4.1.0)(typescript@5.9.3)(utf-8-validate@5.0.10)(webpack@5.104.1(@swc/core@1.16.20(@swc/helpers@0.5.23))))(react-dom@19.2.8(react@19.2.8))(react-router-dom@7.18.4(react-dom@19.2.8(react@19.2.8))(react@19.2.8))(react-router@7.18.4(react-dom@19.2.8(react@19.2.8))(react@19.2.8))(react@19.2.8)
+        specifier: 0.0.0-feat-enhanced-runtime-unification-20261110060527
+        version: 0.0.0-feat-enhanced-runtime-unification-20261110060527(@module-federation/enhanced@0.0.0-feat-enhanced-runtime-unification-20261110060527(@rspack/core@2.2.9(@module-federation/runtime-tools@2.9.2)(@swc/helpers@0.5.23))(bufferutil@4.1.0)(typescript@5.9.3)(utf-8-validate@5.0.10)(webpack@5.104.1(@swc/core@1.16.20(@swc/helpers@0.5.23))))(react-dom@19.2.8(react@19.2.8))(react-router-dom@7.18.4(react-dom@19.2.8(react@19.2.8))(react@19.2.8))(react-router@7.18.4(react-dom@19.2.8(react@19.2.8))(react@19.2.8))(react@19.2.8)
       '@module-federation/enhanced':
-        specifier: 0.0.0-feat-enhanced-runtime-unification-20261104092109
-        version: 0.0.0-feat-enhanced-runtime-unification-20261104092109(@rspack/core@2.2.9(@module-federation/runtime-tools@2.9.2)(@swc/helpers@0.5.23))(bufferutil@4.1.0)(typescript@5.9.3)(utf-8-validate@5.0.10)(webpack@5.104.1(@swc/core@1.16.20(@swc/helpers@0.5.23)))
+        specifier: 0.0.0-feat-enhanced-runtime-unification-20261110060527
+        version: 0.0.0-feat-enhanced-runtime-unification-20261110060527(@rspack/core@2.2.9(@module-federation/runtime-tools@2.9.2)(@swc/helpers@0.5.23))(bufferutil@4.1.0)(typescript@5.9.3)(utf-8-validate@5.0.10)(webpack@5.104.1(@swc/core@1.16.20(@swc/helpers@0.5.23)))
       react:
         specifier: ^19.2.8
         version: 19.2.8
@@ -984,20 +984,20 @@ importers:
         specifier: workspace:*
         version: link:../../toolkit/utils
       '@module-federation/bridge-react':
-        specifier: 0.0.0-feat-enhanced-runtime-unification-20261104092109
-        version: 0.0.0-feat-enhanced-runtime-unification-20261104092109(@module-federation/enhanced@0.0.0-feat-enhanced-runtime-unification-20261104092109(@rspack/core@2.2.9(@module-federation/runtime-tools@0.0.0-feat-enhanced-runtime-unification-20261104092109)(@swc/helpers@0.5.23))(bufferutil@4.1.0)(typescript@5.7.3)(utf-8-validate@5.0.10)(webpack@5.104.1(@swc/core@1.16.20(@swc/helpers@0.5.23))))(react-dom@19.3.1(react@19.3.1))(react-router-dom@7.18.4(react-dom@19.3.1(react@19.3.1))(react@19.3.1))(react-router@7.18.4(react-dom@19.3.1(react@19.3.1))(react@19.3.1))(react@19.3.1)
+        specifier: 0.0.0-feat-enhanced-runtime-unification-20261110060527
+        version: 0.0.0-feat-enhanced-runtime-unification-20261110060527(@module-federation/enhanced@0.0.0-feat-enhanced-runtime-unification-20261110060527(@rspack/core@2.2.9(@module-federation/runtime-tools@0.0.0-feat-enhanced-runtime-unification-20261110060527)(@swc/helpers@0.5.23))(bufferutil@4.1.0)(typescript@5.7.3)(utf-8-validate@5.0.10)(webpack@5.104.1(@swc/core@1.16.20(@swc/helpers@0.5.23))))(react-dom@19.3.1(react@19.3.1))(react-router-dom@7.18.4(react-dom@19.3.1(react@19.3.1))(react@19.3.1))(react-router@7.18.4(react-dom@19.3.1(react@19.3.1))(react@19.3.1))(react@19.3.1)
       '@module-federation/node':
-        specifier: 0.0.0-feat-enhanced-runtime-unification-20261104092109
-        version: 0.0.0-feat-enhanced-runtime-unification-20261104092109(@rspack/core@2.2.9(@module-federation/runtime-tools@0.0.0-feat-enhanced-runtime-unification-20261104092109)(@swc/helpers@0.5.23))(bufferutil@4.1.0)(typescript@5.7.3)(utf-8-validate@5.0.10)(webpack@5.104.1(@swc/core@1.16.20(@swc/helpers@0.5.23)))
+        specifier: 0.0.0-feat-enhanced-runtime-unification-20261110060527
+        version: 0.0.0-feat-enhanced-runtime-unification-20261110060527(@rspack/core@2.2.9(@module-federation/runtime-tools@0.0.0-feat-enhanced-runtime-unification-20261110060527)(@swc/helpers@0.5.23))(bufferutil@4.1.0)(typescript@5.7.3)(utf-8-validate@5.0.10)(webpack@5.104.1(@swc/core@1.16.20(@swc/helpers@0.5.23)))
       '@module-federation/rsbuild-plugin':
-        specifier: 0.0.0-feat-enhanced-runtime-unification-20261104092109
-        version: 0.0.0-feat-enhanced-runtime-unification-20261104092109(@rsbuild/core@2.2.13(@module-federation/runtime-tools@0.0.0-feat-enhanced-runtime-unification-20261104092109)(core-js@3.50.0))(@rspack/core@2.2.9(@module-federation/runtime-tools@0.0.0-feat-enhanced-runtime-unification-20261104092109)(@swc/helpers@0.5.23))(bufferutil@4.1.0)(typescript@5.7.3)(utf-8-validate@5.0.10)(webpack@5.104.1(@swc/core@1.16.20(@swc/helpers@0.5.23)))
+        specifier: 0.0.0-feat-enhanced-runtime-unification-20261110060527
+        version: 0.0.0-feat-enhanced-runtime-unification-20261110060527(@rsbuild/core@2.2.13(@module-federation/runtime-tools@0.0.0-feat-enhanced-runtime-unification-20261110060527)(core-js@3.50.0))(@rspack/core@2.2.9(@module-federation/runtime-tools@0.0.0-feat-enhanced-runtime-unification-20261110060527)(@swc/helpers@0.5.23))(bufferutil@4.1.0)(typescript@5.7.3)(utf-8-validate@5.0.10)(webpack@5.104.1(@swc/core@1.16.20(@swc/helpers@0.5.23)))
       '@module-federation/sdk':
-        specifier: 0.0.0-feat-enhanced-runtime-unification-20261104092109
-        version: 0.0.0-feat-enhanced-runtime-unification-20261104092109
+        specifier: 0.0.0-feat-enhanced-runtime-unification-20261110060527
+        version: 0.0.0-feat-enhanced-runtime-unification-20261110060527
       '@rsbuild/core':
         specifier: 2.2.13
-        version: 2.2.13(@module-federation/runtime-tools@0.0.0-feat-enhanced-runtime-unification-20261104092109)(core-js@3.50.0)
+        version: 2.2.13(@module-federation/runtime-tools@0.0.0-feat-enhanced-runtime-unification-20261110060527)(core-js@3.50.0)
       '@swc/helpers':
         specifier: ^0.5.17
         version: 0.5.23
@@ -1012,11 +1012,11 @@ importers:
         specifier: workspace:*
         version: link:../../server/server-runtime
       '@module-federation/enhanced':
-        specifier: 0.0.0-feat-enhanced-runtime-unification-20261104092109
-        version: 0.0.0-feat-enhanced-runtime-unification-20261104092109(@rspack/core@2.2.9(@module-federation/runtime-tools@0.0.0-feat-enhanced-runtime-unification-20261104092109)(@swc/helpers@0.5.23))(bufferutil@4.1.0)(typescript@5.7.3)(utf-8-validate@5.0.10)(webpack@5.104.1(@swc/core@1.16.20(@swc/helpers@0.5.23)))
+        specifier: 0.0.0-feat-enhanced-runtime-unification-20261110060527
+        version: 0.0.0-feat-enhanced-runtime-unification-20261110060527(@rspack/core@2.2.9(@module-federation/runtime-tools@0.0.0-feat-enhanced-runtime-unification-20261110060527)(@swc/helpers@0.5.23))(bufferutil@4.1.0)(typescript@5.7.3)(utf-8-validate@5.0.10)(webpack@5.104.1(@swc/core@1.16.20(@swc/helpers@0.5.23)))
       '@rspack/core':
         specifier: 2.2.9
-        version: 2.2.9(@module-federation/runtime-tools@0.0.0-feat-enhanced-runtime-unification-20261104092109)(@swc/helpers@0.5.23)
+        version: 2.2.9(@module-federation/runtime-tools@0.0.0-feat-enhanced-runtime-unification-20261110060527)(@swc/helpers@0.5.23)
       '@scripts/rstest-config':
         specifier: workspace:*
         version: link:../../../scripts/rstest-config
@@ -1293,11 +1293,11 @@ importers:
         specifier: workspace:*
         version: link:../../toolkit/utils
       '@module-federation/bridge-react':
-        specifier: 0.0.0-feat-enhanced-runtime-unification-20261104092109
-        version: 0.0.0-feat-enhanced-runtime-unification-20261104092109(@module-federation/enhanced@0.0.0-feat-enhanced-runtime-unification-20261104092109(@rspack/core@2.2.9(@module-federation/runtime-tools@2.9.2)(@swc/helpers@0.5.23))(bufferutil@4.1.0)(typescript@5.9.3)(utf-8-validate@5.0.10)(webpack@5.104.1(@swc/core@1.16.18(@swc/helpers@0.5.23))))(react-dom@19.3.1(react@19.3.1))(react-router-dom@7.18.4(react-dom@19.3.1(react@19.3.1))(react@19.3.1))(react-router@7.18.4(react-dom@19.3.1(react@19.3.1))(react@19.3.1))(react@19.3.1)
+        specifier: 0.0.0-feat-enhanced-runtime-unification-20261110060527
+        version: 0.0.0-feat-enhanced-runtime-unification-20261110060527(@module-federation/enhanced@0.0.0-feat-enhanced-runtime-unification-20261110060527(@rspack/core@2.2.9(@module-federation/runtime-tools@2.9.2)(@swc/helpers@0.5.23))(bufferutil@4.1.0)(typescript@5.9.3)(utf-8-validate@5.0.10)(webpack@5.104.1(@swc/core@1.16.18(@swc/helpers@0.5.23))))(react-dom@19.3.1(react@19.3.1))(react-router-dom@7.18.4(react-dom@19.3.1(react@19.3.1))(react@19.3.1))(react-router@7.18.4(react-dom@19.3.1(react@19.3.1))(react@19.3.1))(react@19.3.1)
       '@module-federation/enhanced':
-        specifier: 0.0.0-feat-enhanced-runtime-unification-20261104092109
-        version: 0.0.0-feat-enhanced-runtime-unification-20261104092109(@rspack/core@2.2.9(@module-federation/runtime-tools@2.9.2)(@swc/helpers@0.5.23))(bufferutil@4.1.0)(typescript@5.9.3)(utf-8-validate@5.0.10)(webpack@5.104.1(@swc/core@1.16.18(@swc/helpers@0.5.23)))
+        specifier: 0.0.0-feat-enhanced-runtime-unification-20261110060527
+        version: 0.0.0-feat-enhanced-runtime-unification-20261110060527(@rspack/core@2.2.9(@module-federation/runtime-tools@2.9.2)(@swc/helpers@0.5.23))(bufferutil@4.1.0)(typescript@5.9.3)(utf-8-validate@5.0.10)(webpack@5.104.1(@swc/core@1.16.18(@swc/helpers@0.5.23)))
       '@swc/core':
         specifier: 1.16.18
         version: 1.16.18(@swc/helpers@0.5.23)
@@ -3840,11 +3840,11 @@ importers:
         specifier: workspace:*
         version: link:../../../../packages/runtime/plugin-runtime
       '@module-federation/bridge-react':
-        specifier: 0.0.0-feat-enhanced-runtime-unification-20261104092109
-        version: 0.0.0-feat-enhanced-runtime-unification-20261104092109(@module-federation/enhanced@0.0.0-feat-enhanced-runtime-unification-20261104092109(@rspack/core@2.2.9(@module-federation/runtime-tools@2.9.2)(@swc/helpers@0.5.23))(bufferutil@4.1.0)(typescript@5.9.3)(utf-8-validate@5.0.10)(webpack@5.104.1(@swc/core@1.16.20(@swc/helpers@0.5.23))))(react-dom@19.3.1(react@19.3.1))(react-router-dom@7.18.4(react-dom@19.3.1(react@19.3.1))(react@19.3.1))(react-router@7.18.4(react-dom@19.3.1(react@19.3.1))(react@19.3.1))(react@19.3.1)
+        specifier: 0.0.0-feat-enhanced-runtime-unification-20261110060527
+        version: 0.0.0-feat-enhanced-runtime-unification-20261110060527(@module-federation/enhanced@0.0.0-feat-enhanced-runtime-unification-20261110060527(@rspack/core@2.2.9(@module-federation/runtime-tools@2.9.2)(@swc/helpers@0.5.23))(bufferutil@4.1.0)(typescript@5.9.3)(utf-8-validate@5.0.10)(webpack@5.104.1(@swc/core@1.16.20(@swc/helpers@0.5.23))))(react-dom@19.3.1(react@19.3.1))(react-router-dom@7.18.4(react-dom@19.3.1(react@19.3.1))(react@19.3.1))(react-router@7.18.4(react-dom@19.3.1(react@19.3.1))(react@19.3.1))(react@19.3.1)
       '@module-federation/enhanced':
-        specifier: 0.0.0-feat-enhanced-runtime-unification-20261104092109
-        version: 0.0.0-feat-enhanced-runtime-unification-20261104092109(@rspack/core@2.2.9(@module-federation/runtime-tools@2.9.2)(@swc/helpers@0.5.23))(bufferutil@4.1.0)(typescript@5.9.3)(utf-8-validate@5.0.10)(webpack@5.104.1(@swc/core@1.16.20(@swc/helpers@0.5.23)))
+        specifier: 0.0.0-feat-enhanced-runtime-unification-20261110060527
+        version: 0.0.0-feat-enhanced-runtime-unification-20261110060527(@rspack/core@2.2.9(@module-federation/runtime-tools@2.9.2)(@swc/helpers@0.5.23))(bufferutil@4.1.0)(typescript@5.9.3)(utf-8-validate@5.0.10)(webpack@5.104.1(@swc/core@1.16.20(@swc/helpers@0.5.23)))
       i18next:
         specifier: 25.10.10
         version: 25.10.10(typescript@5.9.3)
@@ -3868,11 +3868,11 @@ importers:
   tests/integration/module-federation/library:
     dependencies:
       '@module-federation/bridge-react':
-        specifier: 0.0.0-feat-enhanced-runtime-unification-20261104092109
-        version: 0.0.0-feat-enhanced-runtime-unification-20261104092109(@module-federation/enhanced@0.0.0-feat-enhanced-runtime-unification-20261104092109(@rspack/core@2.2.9(@module-federation/runtime-tools@2.9.2)(@swc/helpers@0.5.23))(bufferutil@4.1.0)(typescript@5.9.3)(utf-8-validate@5.0.10)(webpack@5.104.1(@swc/core@1.16.20(@swc/helpers@0.5.23))))(react-dom@19.3.1(react@19.3.1))(react-router-dom@7.18.4(react-dom@19.3.1(react@19.3.1))(react@19.3.1))(react-router@7.18.4(react-dom@19.3.1(react@19.3.1))(react@19.3.1))(react@19.3.1)
+        specifier: 0.0.0-feat-enhanced-runtime-unification-20261110060527
+        version: 0.0.0-feat-enhanced-runtime-unification-20261110060527(@module-federation/enhanced@0.0.0-feat-enhanced-runtime-unification-20261110060527(@rspack/core@2.2.9(@module-federation/runtime-tools@2.9.2)(@swc/helpers@0.5.23))(bufferutil@4.1.0)(typescript@5.9.3)(utf-8-validate@5.0.10)(webpack@5.104.1(@swc/core@1.16.20(@swc/helpers@0.5.23))))(react-dom@19.3.1(react@19.3.1))(react-router-dom@7.18.4(react-dom@19.3.1(react@19.3.1))(react@19.3.1))(react-router@7.18.4(react-dom@19.3.1(react@19.3.1))(react@19.3.1))(react@19.3.1)
       '@module-federation/enhanced':
-        specifier: 0.0.0-feat-enhanced-runtime-unification-20261104092109
-        version: 0.0.0-feat-enhanced-runtime-unification-20261104092109(@rspack/core@2.2.9(@module-federation/runtime-tools@2.9.2)(@swc/helpers@0.5.23))(bufferutil@4.1.0)(typescript@5.9.3)(utf-8-validate@5.0.10)(webpack@5.104.1(@swc/core@1.16.20(@swc/helpers@0.5.23)))
+        specifier: 0.0.0-feat-enhanced-runtime-unification-20261110060527
+        version: 0.0.0-feat-enhanced-runtime-unification-20261110060527(@rspack/core@2.2.9(@module-federation/runtime-tools@2.9.2)(@swc/helpers@0.5.23))(bufferutil@4.1.0)(typescript@5.9.3)(utf-8-validate@5.0.10)(webpack@5.104.1(@swc/core@1.16.20(@swc/helpers@0.5.23)))
       react:
         specifier: ^19.3.1
         version: 19.3.1
@@ -3884,8 +3884,8 @@ importers:
         specifier: workspace:*
         version: link:../../../../packages/tsconfig
       '@module-federation/rsbuild-plugin':
-        specifier: 0.0.0-feat-enhanced-runtime-unification-20261104092109
-        version: 0.0.0-feat-enhanced-runtime-unification-20261104092109(@rsbuild/core@2.1.13(@module-federation/runtime-tools@2.9.2)(core-js@3.50.0))(@rspack/core@2.2.9(@module-federation/runtime-tools@2.9.2)(@swc/helpers@0.5.23))(bufferutil@4.1.0)(typescript@5.9.3)(utf-8-validate@5.0.10)(webpack@5.104.1(@swc/core@1.16.20(@swc/helpers@0.5.23)))
+        specifier: 0.0.0-feat-enhanced-runtime-unification-20261110060527
+        version: 0.0.0-feat-enhanced-runtime-unification-20261110060527(@rsbuild/core@2.1.13(@module-federation/runtime-tools@2.9.2)(core-js@3.50.0))(@rspack/core@2.2.9(@module-federation/runtime-tools@2.9.2)(@swc/helpers@0.5.23))(bufferutil@4.1.0)(typescript@5.9.3)(utf-8-validate@5.0.10)(webpack@5.104.1(@swc/core@1.16.20(@swc/helpers@0.5.23)))
       '@rsbuild/plugin-react':
         specifier: 1.4.5
         version: 1.4.5(@rsbuild/core@2.1.13(@module-federation/runtime-tools@2.9.2)(core-js@3.50.0))
@@ -3899,11 +3899,11 @@ importers:
         specifier: workspace:*
         version: link:../../../../packages/runtime/plugin-runtime
       '@module-federation/bridge-react':
-        specifier: 0.0.0-feat-enhanced-runtime-unification-20261104092109
-        version: 0.0.0-feat-enhanced-runtime-unification-20261104092109(@module-federation/enhanced@0.0.0-feat-enhanced-runtime-unification-20261104092109(@rspack/core@2.2.9(@module-federation/runtime-tools@2.9.2)(@swc/helpers@0.5.23))(bufferutil@4.1.0)(typescript@5.9.3)(utf-8-validate@5.0.10)(webpack@5.104.1(@swc/core@1.16.20(@swc/helpers@0.5.23))))(react-dom@19.3.1(react@19.3.1))(react-router-dom@7.18.4(react-dom@19.3.1(react@19.3.1))(react@19.3.1))(react-router@7.18.4(react-dom@19.3.1(react@19.3.1))(react@19.3.1))(react@19.3.1)
+        specifier: 0.0.0-feat-enhanced-runtime-unification-20261110060527
+        version: 0.0.0-feat-enhanced-runtime-unification-20261110060527(@module-federation/enhanced@0.0.0-feat-enhanced-runtime-unification-20261110060527(@rspack/core@2.2.9(@module-federation/runtime-tools@2.9.2)(@swc/helpers@0.5.23))(bufferutil@4.1.0)(typescript@5.9.3)(utf-8-validate@5.0.10)(webpack@5.104.1(@swc/core@1.16.20(@swc/helpers@0.5.23))))(react-dom@19.3.1(react@19.3.1))(react-router-dom@7.18.4(react-dom@19.3.1(react@19.3.1))(react@19.3.1))(react-router@7.18.4(react-dom@19.3.1(react@19.3.1))(react@19.3.1))(react@19.3.1)
       '@module-federation/enhanced':
-        specifier: 0.0.0-feat-enhanced-runtime-unification-20261104092109
-        version: 0.0.0-feat-enhanced-runtime-unification-20261104092109(@rspack/core@2.2.9(@module-federation/runtime-tools@2.9.2)(@swc/helpers@0.5.23))(bufferutil@4.1.0)(typescript@5.9.3)(utf-8-validate@5.0.10)(webpack@5.104.1(@swc/core@1.16.20(@swc/helpers@0.5.23)))
+        specifier: 0.0.0-feat-enhanced-runtime-unification-20261110060527
+        version: 0.0.0-feat-enhanced-runtime-unification-20261110060527(@rspack/core@2.2.9(@module-federation/runtime-tools@2.9.2)(@swc/helpers@0.5.23))(bufferutil@4.1.0)(typescript@5.9.3)(utf-8-validate@5.0.10)(webpack@5.104.1(@swc/core@1.16.20(@swc/helpers@0.5.23)))
       react:
         specifier: ^19.3.1
         version: 19.3.1
@@ -3927,11 +3927,11 @@ importers:
         specifier: workspace:*
         version: link:../../../../packages/runtime/plugin-runtime
       '@module-federation/bridge-react':
-        specifier: 0.0.0-feat-enhanced-runtime-unification-20261104092109
-        version: 0.0.0-feat-enhanced-runtime-unification-20261104092109(@module-federation/enhanced@0.0.0-feat-enhanced-runtime-unification-20261104092109(@rspack/core@2.2.9(@module-federation/runtime-tools@2.9.2)(@swc/helpers@0.5.23))(bufferutil@4.1.0)(typescript@5.9.3)(utf-8-validate@5.0.10)(webpack@5.104.1(@swc/core@1.16.20(@swc/helpers@0.5.23))))(react-dom@19.3.1(react@19.3.1))(react-router-dom@7.18.4(react-dom@19.3.1(react@19.3.1))(react@19.3.1))(react-router@7.18.4(react-dom@19.3.1(react@19.3.1))(react@19.3.1))(react@19.3.1)
+        specifier: 0.0.0-feat-enhanced-runtime-unification-20261110060527
+        version: 0.0.0-feat-enhanced-runtime-unification-20261110060527(@module-federation/enhanced@0.0.0-feat-enhanced-runtime-unification-20261110060527(@rspack/core@2.2.9(@module-federation/runtime-tools@2.9.2)(@swc/helpers@0.5.23))(bufferutil@4.1.0)(typescript@5.9.3)(utf-8-validate@5.0.10)(webpack@5.104.1(@swc/core@1.16.20(@swc/helpers@0.5.23))))(react-dom@19.3.1(react@19.3.1))(react-router-dom@7.18.4(react-dom@19.3.1(react@19.3.1))(react@19.3.1))(react-router@7.18.4(react-dom@19.3.1(react@19.3.1))(react@19.3.1))(react@19.3.1)
       '@module-federation/enhanced':
-        specifier: 0.0.0-feat-enhanced-runtime-unification-20261104092109
-        version: 0.0.0-feat-enhanced-runtime-unification-20261104092109(@rspack/core@2.2.9(@module-federation/runtime-tools@2.9.2)(@swc/helpers@0.5.23))(bufferutil@4.1.0)(typescript@5.9.3)(utf-8-validate@5.0.10)(webpack@5.104.1(@swc/core@1.16.20(@swc/helpers@0.5.23)))
+        specifier: 0.0.0-feat-enhanced-runtime-unification-20261110060527
+        version: 0.0.0-feat-enhanced-runtime-unification-20261110060527(@rspack/core@2.2.9(@module-federation/runtime-tools@2.9.2)(@swc/helpers@0.5.23))(bufferutil@4.1.0)(typescript@5.9.3)(utf-8-validate@5.0.10)(webpack@5.104.1(@swc/core@1.16.20(@swc/helpers@0.5.23)))
       i18next:
         specifier: 25.10.10
         version: 25.10.10(typescript@5.9.3)
@@ -7331,8 +7331,8 @@ packages:
     peerDependencies:
       webpack: ^5.0.0-beta.16
 
-  '@module-federation/bridge-react-webpack-plugin@0.0.0-feat-enhanced-runtime-unification-20261104092109':
-    resolution: {integrity: sha512-LOsX+pA5Ph74crhWXojWD9f+oAdclBJHU1aAidj22t5NXqmZ7o1OAUQXhsCinwFzp1N5OUDX3YCLUPo40tInWA==}
+  '@module-federation/bridge-react-webpack-plugin@0.0.0-feat-enhanced-runtime-unification-20261110060527':
+    resolution: {integrity: sha512-qPpD7q4BaEze+Hk5ulbM8r7pojjxYthhrrCdlUZVkKCW4SS0xulSp/8VG8vP14tlTZk+aQNuL3lcPXjTgwyBSg==}
 
   '@module-federation/bridge-react-webpack-plugin@2.0.0':
     resolution: {integrity: sha512-AVT/rZK6RHva6ZTYfsyQ8oP4xYNTws3OzqKW/YxWaLXwQ3oG9ZbF7fKl4jIKoMKuuy2L9MGVXS4CYPZy0s8fXg==}
@@ -7340,10 +7340,10 @@ packages:
   '@module-federation/bridge-react-webpack-plugin@2.9.2':
     resolution: {integrity: sha512-6ikuvP1639g8jzSxveDLz/BOk0VTIkO7aSuvrZgq0waB0h553zFtkTJAXQETezzO+s1taHGhEvFoCtl6DJWu6A==}
 
-  '@module-federation/bridge-react@0.0.0-feat-enhanced-runtime-unification-20261104092109':
-    resolution: {integrity: sha512-WP9hQn3cE3HN2Anh8Lpn/rdpBrxCrQJOzJYLYAask4rbELSoy1BWq7fofSkOuGKySf8huPwrjiXCQLV6zQ1GFg==}
+  '@module-federation/bridge-react@0.0.0-feat-enhanced-runtime-unification-20261110060527':
+    resolution: {integrity: sha512-sXrr2H+2Wd+dRGBbEmHOXc3LYNncfPkjdBGPuZpfeu9P0ju5CTkJ/i9g7WE8JbuDEWumcObAy3/PAaouDsWt3A==}
     peerDependencies:
-      '@module-federation/enhanced': ^0.0.0-feat-enhanced-runtime-unification-20261104092109
+      '@module-federation/enhanced': ^0.0.0-feat-enhanced-runtime-unification-20261110060527
       react: '>=16.9.0'
       react-dom: '>=16.9.0'
       react-router: ^6 || ^7
@@ -7380,14 +7380,14 @@ packages:
       react-router-dom:
         optional: true
 
-  '@module-federation/bridge-shared@0.0.0-feat-enhanced-runtime-unification-20261104092109':
-    resolution: {integrity: sha512-rIg4d/JUcMrITMakzLMjTX6SPuinHHaTp32WM9nBs6mWWzaP4y3NoRzzwz/pSdU/8ja1M6K+9h6OtQ2yUvFM9w==}
+  '@module-federation/bridge-shared@0.0.0-feat-enhanced-runtime-unification-20261110060527':
+    resolution: {integrity: sha512-0Gd+a0pDY7oetXTLKuJ0WMfNlWNd6BAfg6yOQ29L3VEiGJGTDUZ3zm820tC4v4YzjGSj7Jzxc/dL0BeW/hI2CQ==}
 
   '@module-federation/bridge-shared@2.0.0':
     resolution: {integrity: sha512-kid2tyGOjX02da/kjjHtkw035M7NHiD8UGynBfZBi9mznAWUUReT0n8EHyvTIdBpj7S4AQKHpwppPCrg7Rv3ZA==}
 
-  '@module-federation/cli@0.0.0-feat-enhanced-runtime-unification-20261104092109':
-    resolution: {integrity: sha512-a3H7PMJji6pq5FMcUeaD36lM1oXU+dgyY+0Hmsn8Oxb4fFw+5JIPLBmBWG2ezq3Z9M/sH960Afl8vbLbJClYng==}
+  '@module-federation/cli@0.0.0-feat-enhanced-runtime-unification-20261110060527':
+    resolution: {integrity: sha512-GrzgAdB8uup0n8p1E44xzqaxcGMEk8yxLKc23ZfJawJvCy806wDRXqyeNvzxy1QZiLYjfeYw6kZAJB2UFRVqzg==}
     engines: {node: '>=16.0.0'}
     hasBin: true
 
@@ -7412,8 +7412,8 @@ packages:
       react-dom:
         optional: true
 
-  '@module-federation/dts-plugin@0.0.0-feat-enhanced-runtime-unification-20261104092109':
-    resolution: {integrity: sha512-5jY3zsX97Ge/apu6RrTYUje9Er46GOzotJVnB4Km2InhQj7CmPC9yHgJvrg03lGodoyAh9PBT1wi9/A5E+KinA==}
+  '@module-federation/dts-plugin@0.0.0-feat-enhanced-runtime-unification-20261110060527':
+    resolution: {integrity: sha512-1FvJ5zLdorZZWt9QBFu5O10eiRy0ggei8JlAKDsR9nhXleUe++R46VKfOW9i6zOIIjBXpRSm0AwkByyiIm52vQ==}
     peerDependencies:
       typescript: ^4.9.0 || ^5.0.0 || ^6.0.0 || ^7.0.0
       vue-tsc: '>=1.0.24'
@@ -7439,8 +7439,8 @@ packages:
       vue-tsc:
         optional: true
 
-  '@module-federation/enhanced@0.0.0-feat-enhanced-runtime-unification-20261104092109':
-    resolution: {integrity: sha512-RAF3/M6Kgo/6xU/rucdO0AI0VRtrAZ3AIXImm7J6rM3wqsLdWLj2FKVWjFU+v2XyM5y5/k2MxekckAppAFqT5w==}
+  '@module-federation/enhanced@0.0.0-feat-enhanced-runtime-unification-20261110060527':
+    resolution: {integrity: sha512-7cPQVh8H+BTm7vQyAszqJqMlsCHWQS9N0yX8msJaMeq5zWdxB2QWHSmLVVN+GuK8eZBPYYCeJJDQfW1baOJ1Ow==}
     hasBin: true
     peerDependencies:
       typescript: ^4.9.0 || ^5.0.0 || ^6.0.0 || ^7.0.0
@@ -7484,8 +7484,8 @@ packages:
       webpack:
         optional: true
 
-  '@module-federation/error-codes@0.0.0-feat-enhanced-runtime-unification-20261104092109':
-    resolution: {integrity: sha512-GYPNr5q4zEk3mhyqgWPNmCaExRApH8ygOUvTNKRRM5gHtlvXzrQ1ny6YHz2AGwTJ+9aKYhfFhGtalisvyHfABA==}
+  '@module-federation/error-codes@0.0.0-feat-enhanced-runtime-unification-20261110060527':
+    resolution: {integrity: sha512-vmm8gLWvRzWCXj4HBXtWuhViehAOH0cOv6oTuj8lv+hJFshnH7ocJmXyx8Bnaey7Xhnv8ag0UEC0H/rev2WptQ==}
 
   '@module-federation/error-codes@2.0.0':
     resolution: {integrity: sha512-9oE+hXuPv2zej7AxJ5hOgeRqlPs98meooV2FiutTfftLAyy2N6+Kwmmz5NR9d9t91weJj8N0cSHFoyenNHKTVg==}
@@ -7493,10 +7493,10 @@ packages:
   '@module-federation/error-codes@2.9.2':
     resolution: {integrity: sha512-MTpKubqsJSBgnuw+2Pli1kHL4INeHD5cGnHL84oRANwQAWK7b6lN3ZZTmL3FL6lYn65ImineqZNqGWBv5GQVLQ==}
 
-  '@module-federation/inject-external-runtime-core-plugin@0.0.0-feat-enhanced-runtime-unification-20261104092109':
-    resolution: {integrity: sha512-HzmK39EukcZKLZyhXTGX7pkQbyQk7YWfm0eLed5OwJsuRlt5uKBbYZsYBQaNCWuuc/EaseHsx0UKiTjCrvxTew==}
+  '@module-federation/inject-external-runtime-core-plugin@0.0.0-feat-enhanced-runtime-unification-20261110060527':
+    resolution: {integrity: sha512-q4lFottP7hz0JuC6RrnymUChqFlVWWp4GHtgRz8Yu9T+nvr4QyojBDROA2Q87za5g5241UaWVJgPCELlvmUpVA==}
     peerDependencies:
-      '@module-federation/runtime-tools': 0.0.0-feat-enhanced-runtime-unification-20261104092109
+      '@module-federation/runtime-tools': 0.0.0-feat-enhanced-runtime-unification-20261110060527
 
   '@module-federation/inject-external-runtime-core-plugin@2.0.0':
     resolution: {integrity: sha512-aZ6f4UU7KM5zBnHf3xsb2guqsfaEd6IlmuldbpED3JPk4ITwZk0DbvxRMr4prde7cfj8RH0nKMz2kmMncp+lIQ==}
@@ -7508,8 +7508,8 @@ packages:
     peerDependencies:
       '@module-federation/runtime-tools': 2.9.2
 
-  '@module-federation/managers@0.0.0-feat-enhanced-runtime-unification-20261104092109':
-    resolution: {integrity: sha512-kENYvxw8SsdFocFp8wFxymcO4oPoCfg6L5+JjDQ2JjbE46sf1LMvmyhdPq06v5g6d/sEgDXxMiCkA9odBk9inw==}
+  '@module-federation/managers@0.0.0-feat-enhanced-runtime-unification-20261110060527':
+    resolution: {integrity: sha512-R1p2n7qkY1IMhgR6v9pliLl69g85mBHjEkkW/547yfN9hPU6tsBCu6QcmY+rDUepmg0p/htU4a2yItVLCMSMnw==}
 
   '@module-federation/managers@2.0.0':
     resolution: {integrity: sha512-ZmkRIujH+T3xvkmy04TNvviFH8xFOrNeKCLb4tlH4ifU/kLfjTu+PYO/KAEIsgtmrDnd52zTf22dg3ok85OAHA==}
@@ -7517,8 +7517,8 @@ packages:
   '@module-federation/managers@2.9.2':
     resolution: {integrity: sha512-VtSKLkT2EA1wqCMFXNiklC+XF+5bZPYY3sUQ9LCFHqKS7v7NOJDrwMV6Qtw3fxH4Y6Pe6P28MiU8D9dlzknCKQ==}
 
-  '@module-federation/manifest@0.0.0-feat-enhanced-runtime-unification-20261104092109':
-    resolution: {integrity: sha512-+l8zDTpZ5jqcpNynwe2eIuX6FTITQAIGa2LmNT+vu/e/A6LTv1PmyHIXyB1UVg9W3i4h5+mLJYQaFDTvPub49w==}
+  '@module-federation/manifest@0.0.0-feat-enhanced-runtime-unification-20261110060527':
+    resolution: {integrity: sha512-HOdju7M25NZQzzSmwQhadotVC+EYGWAcVOvizhEDK1vIXQdTtOP5bdOObF/LhybuVv+vtvoLmBvQ10tYuBZXUw==}
 
   '@module-federation/manifest@2.0.0':
     resolution: {integrity: sha512-AXwYyGiDJdfP9MteKyIdJrLwG5tp4qKaq0uOPiWHilYN3/21G0DM7f30HgJqgx3WSTFSh7hcq0a3V3EZHH/9TA==}
@@ -7565,8 +7565,8 @@ packages:
       vue-tsc:
         optional: true
 
-  '@module-federation/node@0.0.0-feat-enhanced-runtime-unification-20261104092109':
-    resolution: {integrity: sha512-jJclc8r4RWnIdKAWeQzZ4Rac8/Jefs8DVioWQkE6MQnWQyup++7qZaGBEo7ss9uAwLfzjdWYooFxRNQvdFyq/w==}
+  '@module-federation/node@0.0.0-feat-enhanced-runtime-unification-20261110060527':
+    resolution: {integrity: sha512-GjSx7EuLjSb7S24HmqOA7sAMfGoaID//zTuVaHEMZQFC55Qjhw5f2v2D18WOovoq+E15Xi4PTU4aqn2xmXR0gw==}
     peerDependencies:
       webpack: ^5.40.0
     peerDependenciesMeta:
@@ -7589,8 +7589,8 @@ packages:
       webpack:
         optional: true
 
-  '@module-federation/rsbuild-plugin@0.0.0-feat-enhanced-runtime-unification-20261104092109':
-    resolution: {integrity: sha512-BnKO5UDMyApWvI6nIFqXBb5zHTsDykdR0Ro7+Y0hpMjvKlwwD+oVbpggRFjobbi2iVPyD+EaGCXluLqX9VniqQ==}
+  '@module-federation/rsbuild-plugin@0.0.0-feat-enhanced-runtime-unification-20261110060527':
+    resolution: {integrity: sha512-tiZB2AgpTbIEYxsfYlIBQDhA77oSPGzmhPbQdxHUy+PkDeXP8/yRTDPrRxuLMMYvygVHLf40jQQViNueiybTGw==}
     engines: {node: '>=16.0.0'}
     peerDependencies:
       '@rsbuild/core': ^1.3.21 || ^2.0.0-0
@@ -7616,8 +7616,8 @@ packages:
       '@rsbuild/core':
         optional: true
 
-  '@module-federation/rspack@0.0.0-feat-enhanced-runtime-unification-20261104092109':
-    resolution: {integrity: sha512-obiOIXyxPpBcKB8kfw6t13C2i4xghsTsUNgt4huJiKAcATCRAY3cfUC878HA1Yvw2NNrbfzDMIWotpF3HQj18g==}
+  '@module-federation/rspack@0.0.0-feat-enhanced-runtime-unification-20261110060527':
+    resolution: {integrity: sha512-ICTqFHR/Jrh3P34nWtWJLgxDup6YPgKrlnFROcjFN5qD2qNvF/UlN3AWeSRNdO7TEkcZPy67Mom35HEePL+Wlw==}
     peerDependencies:
       '@rspack/core': ^0.7.0 || ^1.0.0 || ^2.0.0-0
       typescript: ^4.9.0 || ^5.0.0 || ^6.0.0 || ^7.0.0
@@ -7652,8 +7652,8 @@ packages:
       vue-tsc:
         optional: true
 
-  '@module-federation/runtime-core@0.0.0-feat-enhanced-runtime-unification-20261104092109':
-    resolution: {integrity: sha512-L8cmsmZas06YBCEon1iQVakDugq7vM1X0pLy0lmgMaMItCSRP65Ak7ZHkX06CBLc8BXJMCP5rlD/ElqJgnW3Dw==}
+  '@module-federation/runtime-core@0.0.0-feat-enhanced-runtime-unification-20261110060527':
+    resolution: {integrity: sha512-S8reEFsPyMfRJ+diddy7YBTo9A5yqYa4VHbCaVtK8Z709DmDXkBO8IhINCsBr7YWrPCMEHApSRIuLjBEwBpijg==}
 
   '@module-federation/runtime-core@2.0.0':
     resolution: {integrity: sha512-UhIGUs7Mg+TwMI2lgaLnj4UehpoyXbR7HDb2+vLikgBulPmFtodeWfsxCgENEwKsIY1vS0lOun15lNOn1vo3Xg==}
@@ -7661,8 +7661,8 @@ packages:
   '@module-federation/runtime-core@2.9.2':
     resolution: {integrity: sha512-S9roTDqLtAWaaDBuug69ZnXXGEx0pUq/yG06J759bjRgfAg2P9+dWEv1q7rB2eMIp7HH4L6s3ColDRYdL6tJ9w==}
 
-  '@module-federation/runtime-tools@0.0.0-feat-enhanced-runtime-unification-20261104092109':
-    resolution: {integrity: sha512-S7FfV5MnPt7iK9MdVi5uKecMALEbg60bYetA9IuxXMSLF7CvL3aFY8oCIl6EOCn/yQARoaE4LXUb5qKBbOvmwQ==}
+  '@module-federation/runtime-tools@0.0.0-feat-enhanced-runtime-unification-20261110060527':
+    resolution: {integrity: sha512-JKHpISrHqwHtR5pgOQV2GgnQ77z4QzgRONkyZesRHW4ztM0mNo8HomglwKc6UznvUAVkJlbDfL9EwY8m0IqzWg==}
 
   '@module-federation/runtime-tools@2.0.0':
     resolution: {integrity: sha512-eMDQN4hYpwvUnCNMjfQdtPVzYaO2DdauemHVc4HnyibgqijRzBwJh9bI2ph4R1xfYEm18+QmTrfXrRlaK2Xizw==}
@@ -7670,8 +7670,8 @@ packages:
   '@module-federation/runtime-tools@2.9.2':
     resolution: {integrity: sha512-rhOvimSLLnnocfOVUfAzH2xDq1pHMw4f/nSC+JQhSztEgP/1UslPPvcBcenx3B8/6CoYmBbGa2OIBTJ225ZHAg==}
 
-  '@module-federation/runtime@0.0.0-feat-enhanced-runtime-unification-20261104092109':
-    resolution: {integrity: sha512-IF/fPZ/07tTR4e0b/Fcyj1tK4fHNMBkF0qmjL42aakLxFUXpCz/oBRHsrqvzBS7h5443PBYGmBpaZKmCtkYqwg==}
+  '@module-federation/runtime@0.0.0-feat-enhanced-runtime-unification-20261110060527':
+    resolution: {integrity: sha512-h+aLks7ZjNfP2uUKxvlqZitvPKLWfgO5WMJyBRpxwUrtwRgdpekeqkEI9RBb+Xo7UNDfK9TKKHkvl7rE+Ax0hg==}
 
   '@module-federation/runtime@2.0.0':
     resolution: {integrity: sha512-vPxQrmQNq3Z1T+1fkHEvFwTdJq9wuCLvdp/lpu9k2Oy7QP/Pj6QoQ/S7J5MCIAoRwj8Wj3z3ma21/DyHwLGvzA==}
@@ -7679,8 +7679,8 @@ packages:
   '@module-federation/runtime@2.9.2':
     resolution: {integrity: sha512-1lPZVy7TkMTTBMkkjgQt7jA+9FAx226yQqEz+X0lFAIbpxIWfpzNQLD+7IydEe83ZhDJpK3cv/9bn3jjQBZeqQ==}
 
-  '@module-federation/sdk@0.0.0-feat-enhanced-runtime-unification-20261104092109':
-    resolution: {integrity: sha512-HhHQoMR8qiIbN9Z7tyvOkZjmbCRN2kBfYL5RPcz6yZHpHgaP3sTRbXZIEhWQZeo4pmYmtQRFgtd9VtrqPq1I7w==}
+  '@module-federation/sdk@0.0.0-feat-enhanced-runtime-unification-20261110060527':
+    resolution: {integrity: sha512-iV5R/1RM67VZ15omof0oovcRiYWiM8ZKimKKb5TDIKdk88mtm5UhN3radT7Q8mMYZ7RH9pQLx4OPkS4MFSSZCw==}
 
   '@module-federation/sdk@2.0.0':
     resolution: {integrity: sha512-JYd1wTulsaoLT7HTk2oXL5y5797Z+H4mzxuUEKnSJo7R34RZSqehsqPSND7n0HT/1nf7uyn0Rb4qBfR3BVvdHQ==}
@@ -7688,8 +7688,8 @@ packages:
   '@module-federation/sdk@2.9.2':
     resolution: {integrity: sha512-ILtBFPuYpVcRA/Qay1lJ2hMtZI8fDE/v1n7xiN17e5qx5rSBR3FaamTsmRpN1hIt+gVnoa76CzOP/Y73d8hHNg==}
 
-  '@module-federation/third-party-dts-extractor@0.0.0-feat-enhanced-runtime-unification-20261104092109':
-    resolution: {integrity: sha512-ffg+Dc94drRKFHdJkdnq5rtKma/CDhF/N0GFkJqUnhi6eJT6XWDR+qUn2wlnBb6Pu+T29sHdf25hDeo9N5o1jg==}
+  '@module-federation/third-party-dts-extractor@0.0.0-feat-enhanced-runtime-unification-20261110060527':
+    resolution: {integrity: sha512-2Ip/wC8keZacocpN3Rj6MDn7MDeMLoor8H1Qgjpbm607jcmCzD9dGF0hVzTkLiPabaWYvDrGStFxY1jawEPU6A==}
 
   '@module-federation/third-party-dts-extractor@2.0.0':
     resolution: {integrity: sha512-B99+Wkbd2xIodVTjNCeFtFC89Uh2/AtYkSESlz4+6Cec42wyqrGxyfYm4qRY0LhJI+YmZXLk/RTm85m15eBKKg==}
@@ -7697,8 +7697,8 @@ packages:
   '@module-federation/third-party-dts-extractor@2.9.2':
     resolution: {integrity: sha512-FKJVGx+/jIe16RfmwoyIDVMPAttIFJv6AJCLkKf05IRNvI3RJFqQ1tLP1YjcfGuumCbYuWGa4QKnMla7YjVpqg==}
 
-  '@module-federation/webpack-bundler-runtime@0.0.0-feat-enhanced-runtime-unification-20261104092109':
-    resolution: {integrity: sha512-oZQqX4VXPHtRJdCvGnNdNel7AN5NXBj1EnrqwgZ619Rh2cbfyQsTE1YrnvS6i+4T++sEorlGT8Ek2kGnzvAzjA==}
+  '@module-federation/webpack-bundler-runtime@0.0.0-feat-enhanced-runtime-unification-20261110060527':
+    resolution: {integrity: sha512-mE02RuQy1dpBIaoAMUEzJPHcJMlxcoBj1nR5DZJGpyeTVmVFv+KjUlq81ER/8ksIyO/NS5cu58IcqCAlcY600g==}
 
   '@module-federation/webpack-bundler-runtime@2.0.0':
     resolution: {integrity: sha512-XxiFR/A1G1fa9hTyylWNbs6yEU2hC7FqHAArFptD4U9qp/xyoLgqbK4M8LwltOAyAM8hRofcMdSyiRKVlWqAfQ==}
@@ -21039,9 +21039,9 @@ snapshots:
       find-package-json: 1.2.0
       webpack: 5.104.1(@swc/core@1.16.20(@swc/helpers@0.5.23))
 
-  '@module-federation/bridge-react-webpack-plugin@0.0.0-feat-enhanced-runtime-unification-20261104092109':
+  '@module-federation/bridge-react-webpack-plugin@0.0.0-feat-enhanced-runtime-unification-20261110060527':
     dependencies:
-      '@module-federation/sdk': 0.0.0-feat-enhanced-runtime-unification-20261104092109
+      '@module-federation/sdk': 0.0.0-feat-enhanced-runtime-unification-20261110060527
 
   '@module-federation/bridge-react-webpack-plugin@2.0.0':
     dependencies:
@@ -21053,11 +21053,11 @@ snapshots:
     dependencies:
       '@module-federation/sdk': 2.9.2
 
-  '@module-federation/bridge-react@0.0.0-feat-enhanced-runtime-unification-20261104092109(@module-federation/enhanced@0.0.0-feat-enhanced-runtime-unification-20261104092109(@rspack/core@2.2.9(@module-federation/runtime-tools@0.0.0-feat-enhanced-runtime-unification-20261104092109)(@swc/helpers@0.5.23))(bufferutil@4.1.0)(typescript@5.7.3)(utf-8-validate@5.0.10)(webpack@5.104.1(@swc/core@1.16.20(@swc/helpers@0.5.23))))(react-dom@19.3.1(react@19.3.1))(react-router-dom@7.18.4(react-dom@19.3.1(react@19.3.1))(react@19.3.1))(react-router@7.18.4(react-dom@19.3.1(react@19.3.1))(react@19.3.1))(react@19.3.1)':
+  '@module-federation/bridge-react@0.0.0-feat-enhanced-runtime-unification-20261110060527(@module-federation/enhanced@0.0.0-feat-enhanced-runtime-unification-20261110060527(@rspack/core@2.2.9(@module-federation/runtime-tools@0.0.0-feat-enhanced-runtime-unification-20261110060527)(@swc/helpers@0.5.23))(bufferutil@4.1.0)(typescript@5.7.3)(utf-8-validate@5.0.10)(webpack@5.104.1(@swc/core@1.16.20(@swc/helpers@0.5.23))))(react-dom@19.3.1(react@19.3.1))(react-router-dom@7.18.4(react-dom@19.3.1(react@19.3.1))(react@19.3.1))(react-router@7.18.4(react-dom@19.3.1(react@19.3.1))(react@19.3.1))(react@19.3.1)':
     dependencies:
-      '@module-federation/bridge-shared': 0.0.0-feat-enhanced-runtime-unification-20261104092109
-      '@module-federation/enhanced': 0.0.0-feat-enhanced-runtime-unification-20261104092109(@rspack/core@2.2.9(@module-federation/runtime-tools@0.0.0-feat-enhanced-runtime-unification-20261104092109)(@swc/helpers@0.5.23))(bufferutil@4.1.0)(typescript@5.7.3)(utf-8-validate@5.0.10)(webpack@5.104.1(@swc/core@1.16.20(@swc/helpers@0.5.23)))
-      '@module-federation/sdk': 0.0.0-feat-enhanced-runtime-unification-20261104092109
+      '@module-federation/bridge-shared': 0.0.0-feat-enhanced-runtime-unification-20261110060527
+      '@module-federation/enhanced': 0.0.0-feat-enhanced-runtime-unification-20261110060527(@rspack/core@2.2.9(@module-federation/runtime-tools@0.0.0-feat-enhanced-runtime-unification-20261110060527)(@swc/helpers@0.5.23))(bufferutil@4.1.0)(typescript@5.7.3)(utf-8-validate@5.0.10)(webpack@5.104.1(@swc/core@1.16.20(@swc/helpers@0.5.23)))
+      '@module-federation/sdk': 0.0.0-feat-enhanced-runtime-unification-20261110060527
       acorn: 8.15.0
       react: 19.3.1
       react-dom: 19.3.1(react@19.3.1)
@@ -21065,11 +21065,11 @@ snapshots:
       react-router: 7.18.4(react-dom@19.3.1(react@19.3.1))(react@19.3.1)
       react-router-dom: 7.18.4(react-dom@19.3.1(react@19.3.1))(react@19.3.1)
 
-  '@module-federation/bridge-react@0.0.0-feat-enhanced-runtime-unification-20261104092109(@module-federation/enhanced@0.0.0-feat-enhanced-runtime-unification-20261104092109(@rspack/core@2.2.9(@module-federation/runtime-tools@2.9.2)(@swc/helpers@0.5.23))(bufferutil@4.1.0)(typescript@5.9.3)(utf-8-validate@5.0.10)(webpack@5.104.1(@swc/core@1.16.18(@swc/helpers@0.5.23))))(react-dom@19.3.1(react@19.3.1))(react-router-dom@7.18.4(react-dom@19.3.1(react@19.3.1))(react@19.3.1))(react-router@7.18.4(react-dom@19.3.1(react@19.3.1))(react@19.3.1))(react@19.3.1)':
+  '@module-federation/bridge-react@0.0.0-feat-enhanced-runtime-unification-20261110060527(@module-federation/enhanced@0.0.0-feat-enhanced-runtime-unification-20261110060527(@rspack/core@2.2.9(@module-federation/runtime-tools@2.9.2)(@swc/helpers@0.5.23))(bufferutil@4.1.0)(typescript@5.9.3)(utf-8-validate@5.0.10)(webpack@5.104.1(@swc/core@1.16.18(@swc/helpers@0.5.23))))(react-dom@19.3.1(react@19.3.1))(react-router-dom@7.18.4(react-dom@19.3.1(react@19.3.1))(react@19.3.1))(react-router@7.18.4(react-dom@19.3.1(react@19.3.1))(react@19.3.1))(react@19.3.1)':
     dependencies:
-      '@module-federation/bridge-shared': 0.0.0-feat-enhanced-runtime-unification-20261104092109
-      '@module-federation/enhanced': 0.0.0-feat-enhanced-runtime-unification-20261104092109(@rspack/core@2.2.9(@module-federation/runtime-tools@2.9.2)(@swc/helpers@0.5.23))(bufferutil@4.1.0)(typescript@5.9.3)(utf-8-validate@5.0.10)(webpack@5.104.1(@swc/core@1.16.18(@swc/helpers@0.5.23)))
-      '@module-federation/sdk': 0.0.0-feat-enhanced-runtime-unification-20261104092109
+      '@module-federation/bridge-shared': 0.0.0-feat-enhanced-runtime-unification-20261110060527
+      '@module-federation/enhanced': 0.0.0-feat-enhanced-runtime-unification-20261110060527(@rspack/core@2.2.9(@module-federation/runtime-tools@2.9.2)(@swc/helpers@0.5.23))(bufferutil@4.1.0)(typescript@5.9.3)(utf-8-validate@5.0.10)(webpack@5.104.1(@swc/core@1.16.18(@swc/helpers@0.5.23)))
+      '@module-federation/sdk': 0.0.0-feat-enhanced-runtime-unification-20261110060527
       acorn: 8.15.0
       react: 19.3.1
       react-dom: 19.3.1(react@19.3.1)
@@ -21077,11 +21077,11 @@ snapshots:
       react-router: 7.18.4(react-dom@19.3.1(react@19.3.1))(react@19.3.1)
       react-router-dom: 7.18.4(react-dom@19.3.1(react@19.3.1))(react@19.3.1)
 
-  '@module-federation/bridge-react@0.0.0-feat-enhanced-runtime-unification-20261104092109(@module-federation/enhanced@0.0.0-feat-enhanced-runtime-unification-20261104092109(@rspack/core@2.2.9(@module-federation/runtime-tools@2.9.2)(@swc/helpers@0.5.23))(bufferutil@4.1.0)(typescript@5.9.3)(utf-8-validate@5.0.10)(webpack@5.104.1(@swc/core@1.16.20(@swc/helpers@0.5.23))))(react-dom@19.2.8(react@19.2.8))(react-router-dom@7.16.0(react-dom@19.2.8(react@19.2.8))(react@19.2.8))(react-router@7.15.1(react-dom@19.2.8(react@19.2.8))(react@19.2.8))(react@19.2.8)':
+  '@module-federation/bridge-react@0.0.0-feat-enhanced-runtime-unification-20261110060527(@module-federation/enhanced@0.0.0-feat-enhanced-runtime-unification-20261110060527(@rspack/core@2.2.9(@module-federation/runtime-tools@2.9.2)(@swc/helpers@0.5.23))(bufferutil@4.1.0)(typescript@5.9.3)(utf-8-validate@5.0.10)(webpack@5.104.1(@swc/core@1.16.20(@swc/helpers@0.5.23))))(react-dom@19.2.8(react@19.2.8))(react-router-dom@7.16.0(react-dom@19.2.8(react@19.2.8))(react@19.2.8))(react-router@7.15.1(react-dom@19.2.8(react@19.2.8))(react@19.2.8))(react@19.2.8)':
     dependencies:
-      '@module-federation/bridge-shared': 0.0.0-feat-enhanced-runtime-unification-20261104092109
-      '@module-federation/enhanced': 0.0.0-feat-enhanced-runtime-unification-20261104092109(@rspack/core@2.2.9(@module-federation/runtime-tools@2.9.2)(@swc/helpers@0.5.23))(bufferutil@4.1.0)(typescript@5.9.3)(utf-8-validate@5.0.10)(webpack@5.104.1(@swc/core@1.16.20(@swc/helpers@0.5.23)))
-      '@module-federation/sdk': 0.0.0-feat-enhanced-runtime-unification-20261104092109
+      '@module-federation/bridge-shared': 0.0.0-feat-enhanced-runtime-unification-20261110060527
+      '@module-federation/enhanced': 0.0.0-feat-enhanced-runtime-unification-20261110060527(@rspack/core@2.2.9(@module-federation/runtime-tools@2.9.2)(@swc/helpers@0.5.23))(bufferutil@4.1.0)(typescript@5.9.3)(utf-8-validate@5.0.10)(webpack@5.104.1(@swc/core@1.16.20(@swc/helpers@0.5.23)))
+      '@module-federation/sdk': 0.0.0-feat-enhanced-runtime-unification-20261110060527
       acorn: 8.15.0
       react: 19.2.8
       react-dom: 19.2.8(react@19.2.8)
@@ -21089,11 +21089,11 @@ snapshots:
       react-router: 7.15.1(react-dom@19.2.8(react@19.2.8))(react@19.2.8)
       react-router-dom: 7.16.0(react-dom@19.2.8(react@19.2.8))(react@19.2.8)
 
-  '@module-federation/bridge-react@0.0.0-feat-enhanced-runtime-unification-20261104092109(@module-federation/enhanced@0.0.0-feat-enhanced-runtime-unification-20261104092109(@rspack/core@2.2.9(@module-federation/runtime-tools@2.9.2)(@swc/helpers@0.5.23))(bufferutil@4.1.0)(typescript@5.9.3)(utf-8-validate@5.0.10)(webpack@5.104.1(@swc/core@1.16.20(@swc/helpers@0.5.23))))(react-dom@19.2.8(react@19.2.8))(react-router-dom@7.16.0(react-dom@19.2.8(react@19.2.8))(react@19.2.8))(react-router@7.18.4(react-dom@19.2.8(react@19.2.8))(react@19.2.8))(react@19.2.8)':
+  '@module-federation/bridge-react@0.0.0-feat-enhanced-runtime-unification-20261110060527(@module-federation/enhanced@0.0.0-feat-enhanced-runtime-unification-20261110060527(@rspack/core@2.2.9(@module-federation/runtime-tools@2.9.2)(@swc/helpers@0.5.23))(bufferutil@4.1.0)(typescript@5.9.3)(utf-8-validate@5.0.10)(webpack@5.104.1(@swc/core@1.16.20(@swc/helpers@0.5.23))))(react-dom@19.2.8(react@19.2.8))(react-router-dom@7.16.0(react-dom@19.2.8(react@19.2.8))(react@19.2.8))(react-router@7.18.4(react-dom@19.2.8(react@19.2.8))(react@19.2.8))(react@19.2.8)':
     dependencies:
-      '@module-federation/bridge-shared': 0.0.0-feat-enhanced-runtime-unification-20261104092109
-      '@module-federation/enhanced': 0.0.0-feat-enhanced-runtime-unification-20261104092109(@rspack/core@2.2.9(@module-federation/runtime-tools@2.9.2)(@swc/helpers@0.5.23))(bufferutil@4.1.0)(typescript@5.9.3)(utf-8-validate@5.0.10)(webpack@5.104.1(@swc/core@1.16.20(@swc/helpers@0.5.23)))
-      '@module-federation/sdk': 0.0.0-feat-enhanced-runtime-unification-20261104092109
+      '@module-federation/bridge-shared': 0.0.0-feat-enhanced-runtime-unification-20261110060527
+      '@module-federation/enhanced': 0.0.0-feat-enhanced-runtime-unification-20261110060527(@rspack/core@2.2.9(@module-federation/runtime-tools@2.9.2)(@swc/helpers@0.5.23))(bufferutil@4.1.0)(typescript@5.9.3)(utf-8-validate@5.0.10)(webpack@5.104.1(@swc/core@1.16.20(@swc/helpers@0.5.23)))
+      '@module-federation/sdk': 0.0.0-feat-enhanced-runtime-unification-20261110060527
       acorn: 8.15.0
       react: 19.2.8
       react-dom: 19.2.8(react@19.2.8)
@@ -21101,11 +21101,11 @@ snapshots:
       react-router: 7.18.4(react-dom@19.2.8(react@19.2.8))(react@19.2.8)
       react-router-dom: 7.16.0(react-dom@19.2.8(react@19.2.8))(react@19.2.8)
 
-  '@module-federation/bridge-react@0.0.0-feat-enhanced-runtime-unification-20261104092109(@module-federation/enhanced@0.0.0-feat-enhanced-runtime-unification-20261104092109(@rspack/core@2.2.9(@module-federation/runtime-tools@2.9.2)(@swc/helpers@0.5.23))(bufferutil@4.1.0)(typescript@5.9.3)(utf-8-validate@5.0.10)(webpack@5.104.1(@swc/core@1.16.20(@swc/helpers@0.5.23))))(react-dom@19.2.8(react@19.2.8))(react-router-dom@7.18.4(react-dom@19.2.8(react@19.2.8))(react@19.2.8))(react-router@7.18.4(react-dom@19.2.8(react@19.2.8))(react@19.2.8))(react@19.2.8)':
+  '@module-federation/bridge-react@0.0.0-feat-enhanced-runtime-unification-20261110060527(@module-federation/enhanced@0.0.0-feat-enhanced-runtime-unification-20261110060527(@rspack/core@2.2.9(@module-federation/runtime-tools@2.9.2)(@swc/helpers@0.5.23))(bufferutil@4.1.0)(typescript@5.9.3)(utf-8-validate@5.0.10)(webpack@5.104.1(@swc/core@1.16.20(@swc/helpers@0.5.23))))(react-dom@19.2.8(react@19.2.8))(react-router-dom@7.18.4(react-dom@19.2.8(react@19.2.8))(react@19.2.8))(react-router@7.18.4(react-dom@19.2.8(react@19.2.8))(react@19.2.8))(react@19.2.8)':
     dependencies:
-      '@module-federation/bridge-shared': 0.0.0-feat-enhanced-runtime-unification-20261104092109
-      '@module-federation/enhanced': 0.0.0-feat-enhanced-runtime-unification-20261104092109(@rspack/core@2.2.9(@module-federation/runtime-tools@2.9.2)(@swc/helpers@0.5.23))(bufferutil@4.1.0)(typescript@5.9.3)(utf-8-validate@5.0.10)(webpack@5.104.1(@swc/core@1.16.20(@swc/helpers@0.5.23)))
-      '@module-federation/sdk': 0.0.0-feat-enhanced-runtime-unification-20261104092109
+      '@module-federation/bridge-shared': 0.0.0-feat-enhanced-runtime-unification-20261110060527
+      '@module-federation/enhanced': 0.0.0-feat-enhanced-runtime-unification-20261110060527(@rspack/core@2.2.9(@module-federation/runtime-tools@2.9.2)(@swc/helpers@0.5.23))(bufferutil@4.1.0)(typescript@5.9.3)(utf-8-validate@5.0.10)(webpack@5.104.1(@swc/core@1.16.20(@swc/helpers@0.5.23)))
+      '@module-federation/sdk': 0.0.0-feat-enhanced-runtime-unification-20261110060527
       acorn: 8.15.0
       react: 19.2.8
       react-dom: 19.2.8(react@19.2.8)
@@ -21113,11 +21113,11 @@ snapshots:
       react-router: 7.18.4(react-dom@19.2.8(react@19.2.8))(react@19.2.8)
       react-router-dom: 7.18.4(react-dom@19.2.8(react@19.2.8))(react@19.2.8)
 
-  '@module-federation/bridge-react@0.0.0-feat-enhanced-runtime-unification-20261104092109(@module-federation/enhanced@0.0.0-feat-enhanced-runtime-unification-20261104092109(@rspack/core@2.2.9(@module-federation/runtime-tools@2.9.2)(@swc/helpers@0.5.23))(bufferutil@4.1.0)(typescript@5.9.3)(utf-8-validate@5.0.10)(webpack@5.104.1(@swc/core@1.16.20(@swc/helpers@0.5.23))))(react-dom@19.3.1(react@19.3.1))(react-router-dom@7.18.4(react-dom@19.3.1(react@19.3.1))(react@19.3.1))(react-router@7.18.4(react-dom@19.3.1(react@19.3.1))(react@19.3.1))(react@19.3.1)':
+  '@module-federation/bridge-react@0.0.0-feat-enhanced-runtime-unification-20261110060527(@module-federation/enhanced@0.0.0-feat-enhanced-runtime-unification-20261110060527(@rspack/core@2.2.9(@module-federation/runtime-tools@2.9.2)(@swc/helpers@0.5.23))(bufferutil@4.1.0)(typescript@5.9.3)(utf-8-validate@5.0.10)(webpack@5.104.1(@swc/core@1.16.20(@swc/helpers@0.5.23))))(react-dom@19.3.1(react@19.3.1))(react-router-dom@7.18.4(react-dom@19.3.1(react@19.3.1))(react@19.3.1))(react-router@7.18.4(react-dom@19.3.1(react@19.3.1))(react@19.3.1))(react@19.3.1)':
     dependencies:
-      '@module-federation/bridge-shared': 0.0.0-feat-enhanced-runtime-unification-20261104092109
-      '@module-federation/enhanced': 0.0.0-feat-enhanced-runtime-unification-20261104092109(@rspack/core@2.2.9(@module-federation/runtime-tools@2.9.2)(@swc/helpers@0.5.23))(bufferutil@4.1.0)(typescript@5.9.3)(utf-8-validate@5.0.10)(webpack@5.104.1(@swc/core@1.16.20(@swc/helpers@0.5.23)))
-      '@module-federation/sdk': 0.0.0-feat-enhanced-runtime-unification-20261104092109
+      '@module-federation/bridge-shared': 0.0.0-feat-enhanced-runtime-unification-20261110060527
+      '@module-federation/enhanced': 0.0.0-feat-enhanced-runtime-unification-20261110060527(@rspack/core@2.2.9(@module-federation/runtime-tools@2.9.2)(@swc/helpers@0.5.23))(bufferutil@4.1.0)(typescript@5.9.3)(utf-8-validate@5.0.10)(webpack@5.104.1(@swc/core@1.16.20(@swc/helpers@0.5.23)))
+      '@module-federation/sdk': 0.0.0-feat-enhanced-runtime-unification-20261110060527
       acorn: 8.15.0
       react: 19.3.1
       react-dom: 19.3.1(react@19.3.1)
@@ -21146,14 +21146,14 @@ snapshots:
       react-router: 7.18.4(react-dom@19.3.1(react@19.3.1))(react@19.3.1)
       react-router-dom: 7.18.4(react-dom@19.3.1(react@19.3.1))(react@19.3.1)
 
-  '@module-federation/bridge-shared@0.0.0-feat-enhanced-runtime-unification-20261104092109': {}
+  '@module-federation/bridge-shared@0.0.0-feat-enhanced-runtime-unification-20261110060527': {}
 
   '@module-federation/bridge-shared@2.0.0': {}
 
-  '@module-federation/cli@0.0.0-feat-enhanced-runtime-unification-20261104092109(bufferutil@4.1.0)(typescript@5.7.3)(utf-8-validate@5.0.10)':
+  '@module-federation/cli@0.0.0-feat-enhanced-runtime-unification-20261110060527(bufferutil@4.1.0)(typescript@5.7.3)(utf-8-validate@5.0.10)':
     dependencies:
-      '@module-federation/dts-plugin': 0.0.0-feat-enhanced-runtime-unification-20261104092109(bufferutil@4.1.0)(typescript@5.7.3)(utf-8-validate@5.0.10)
-      '@module-federation/sdk': 0.0.0-feat-enhanced-runtime-unification-20261104092109
+      '@module-federation/dts-plugin': 0.0.0-feat-enhanced-runtime-unification-20261110060527(bufferutil@4.1.0)(typescript@5.7.3)(utf-8-validate@5.0.10)
+      '@module-federation/sdk': 0.0.0-feat-enhanced-runtime-unification-20261110060527
       commander: 11.1.0
       jiti: 2.4.2
     transitivePeerDependencies:
@@ -21162,10 +21162,10 @@ snapshots:
       - utf-8-validate
       - vue-tsc
 
-  '@module-federation/cli@0.0.0-feat-enhanced-runtime-unification-20261104092109(bufferutil@4.1.0)(typescript@5.9.3)(utf-8-validate@5.0.10)':
+  '@module-federation/cli@0.0.0-feat-enhanced-runtime-unification-20261110060527(bufferutil@4.1.0)(typescript@5.9.3)(utf-8-validate@5.0.10)':
     dependencies:
-      '@module-federation/dts-plugin': 0.0.0-feat-enhanced-runtime-unification-20261104092109(bufferutil@4.1.0)(typescript@5.9.3)(utf-8-validate@5.0.10)
-      '@module-federation/sdk': 0.0.0-feat-enhanced-runtime-unification-20261104092109
+      '@module-federation/dts-plugin': 0.0.0-feat-enhanced-runtime-unification-20261110060527(bufferutil@4.1.0)(typescript@5.9.3)(utf-8-validate@5.0.10)
+      '@module-federation/sdk': 0.0.0-feat-enhanced-runtime-unification-20261110060527
       commander: 11.1.0
       jiti: 2.4.2
     transitivePeerDependencies:
@@ -21210,12 +21210,12 @@ snapshots:
       react: 19.3.1
       react-dom: 19.3.1(react@19.3.1)
 
-  '@module-federation/dts-plugin@0.0.0-feat-enhanced-runtime-unification-20261104092109(bufferutil@4.1.0)(typescript@5.7.3)(utf-8-validate@5.0.10)':
+  '@module-federation/dts-plugin@0.0.0-feat-enhanced-runtime-unification-20261110060527(bufferutil@4.1.0)(typescript@5.7.3)(utf-8-validate@5.0.10)':
     dependencies:
-      '@module-federation/error-codes': 0.0.0-feat-enhanced-runtime-unification-20261104092109
-      '@module-federation/managers': 0.0.0-feat-enhanced-runtime-unification-20261104092109
-      '@module-federation/sdk': 0.0.0-feat-enhanced-runtime-unification-20261104092109
-      '@module-federation/third-party-dts-extractor': 0.0.0-feat-enhanced-runtime-unification-20261104092109
+      '@module-federation/error-codes': 0.0.0-feat-enhanced-runtime-unification-20261110060527
+      '@module-federation/managers': 0.0.0-feat-enhanced-runtime-unification-20261110060527
+      '@module-federation/sdk': 0.0.0-feat-enhanced-runtime-unification-20261110060527
+      '@module-federation/third-party-dts-extractor': 0.0.0-feat-enhanced-runtime-unification-20261110060527
       adm-zip: 0.6.1
       isomorphic-ws: 5.0.0(ws@8.21.3(bufferutil@4.1.0)(utf-8-validate@5.0.10))
       typescript: 5.7.3
@@ -21225,12 +21225,12 @@ snapshots:
       - bufferutil
       - utf-8-validate
 
-  '@module-federation/dts-plugin@0.0.0-feat-enhanced-runtime-unification-20261104092109(bufferutil@4.1.0)(typescript@5.9.3)(utf-8-validate@5.0.10)':
+  '@module-federation/dts-plugin@0.0.0-feat-enhanced-runtime-unification-20261110060527(bufferutil@4.1.0)(typescript@5.9.3)(utf-8-validate@5.0.10)':
     dependencies:
-      '@module-federation/error-codes': 0.0.0-feat-enhanced-runtime-unification-20261104092109
-      '@module-federation/managers': 0.0.0-feat-enhanced-runtime-unification-20261104092109
-      '@module-federation/sdk': 0.0.0-feat-enhanced-runtime-unification-20261104092109
-      '@module-federation/third-party-dts-extractor': 0.0.0-feat-enhanced-runtime-unification-20261104092109
+      '@module-federation/error-codes': 0.0.0-feat-enhanced-runtime-unification-20261110060527
+      '@module-federation/managers': 0.0.0-feat-enhanced-runtime-unification-20261110060527
+      '@module-federation/sdk': 0.0.0-feat-enhanced-runtime-unification-20261110060527
+      '@module-federation/third-party-dts-extractor': 0.0.0-feat-enhanced-runtime-unification-20261110060527
       adm-zip: 0.6.1
       isomorphic-ws: 5.0.0(ws@8.21.3(bufferutil@4.1.0)(utf-8-validate@5.0.10))
       typescript: 5.9.3
@@ -21280,19 +21280,19 @@ snapshots:
       - bufferutil
       - utf-8-validate
 
-  '@module-federation/enhanced@0.0.0-feat-enhanced-runtime-unification-20261104092109(@rspack/core@2.2.9(@module-federation/runtime-tools@0.0.0-feat-enhanced-runtime-unification-20261104092109)(@swc/helpers@0.5.23))(bufferutil@4.1.0)(typescript@5.7.3)(utf-8-validate@5.0.10)(webpack@5.104.1(@swc/core@1.16.20(@swc/helpers@0.5.23)))':
+  '@module-federation/enhanced@0.0.0-feat-enhanced-runtime-unification-20261110060527(@rspack/core@2.2.9(@module-federation/runtime-tools@0.0.0-feat-enhanced-runtime-unification-20261110060527)(@swc/helpers@0.5.23))(bufferutil@4.1.0)(typescript@5.7.3)(utf-8-validate@5.0.10)(webpack@5.104.1(@swc/core@1.16.20(@swc/helpers@0.5.23)))':
     dependencies:
-      '@module-federation/bridge-react-webpack-plugin': 0.0.0-feat-enhanced-runtime-unification-20261104092109
-      '@module-federation/cli': 0.0.0-feat-enhanced-runtime-unification-20261104092109(bufferutil@4.1.0)(typescript@5.7.3)(utf-8-validate@5.0.10)
-      '@module-federation/dts-plugin': 0.0.0-feat-enhanced-runtime-unification-20261104092109(bufferutil@4.1.0)(typescript@5.7.3)(utf-8-validate@5.0.10)
-      '@module-federation/error-codes': 0.0.0-feat-enhanced-runtime-unification-20261104092109
-      '@module-federation/inject-external-runtime-core-plugin': 0.0.0-feat-enhanced-runtime-unification-20261104092109(@module-federation/runtime-tools@0.0.0-feat-enhanced-runtime-unification-20261104092109)
-      '@module-federation/managers': 0.0.0-feat-enhanced-runtime-unification-20261104092109
-      '@module-federation/manifest': 0.0.0-feat-enhanced-runtime-unification-20261104092109(bufferutil@4.1.0)(typescript@5.7.3)(utf-8-validate@5.0.10)
-      '@module-federation/rspack': 0.0.0-feat-enhanced-runtime-unification-20261104092109(@rspack/core@2.2.9(@module-federation/runtime-tools@0.0.0-feat-enhanced-runtime-unification-20261104092109)(@swc/helpers@0.5.23))(bufferutil@4.1.0)(typescript@5.7.3)(utf-8-validate@5.0.10)
-      '@module-federation/runtime-tools': 0.0.0-feat-enhanced-runtime-unification-20261104092109
-      '@module-federation/sdk': 0.0.0-feat-enhanced-runtime-unification-20261104092109
-      '@module-federation/webpack-bundler-runtime': 0.0.0-feat-enhanced-runtime-unification-20261104092109
+      '@module-federation/bridge-react-webpack-plugin': 0.0.0-feat-enhanced-runtime-unification-20261110060527
+      '@module-federation/cli': 0.0.0-feat-enhanced-runtime-unification-20261110060527(bufferutil@4.1.0)(typescript@5.7.3)(utf-8-validate@5.0.10)
+      '@module-federation/dts-plugin': 0.0.0-feat-enhanced-runtime-unification-20261110060527(bufferutil@4.1.0)(typescript@5.7.3)(utf-8-validate@5.0.10)
+      '@module-federation/error-codes': 0.0.0-feat-enhanced-runtime-unification-20261110060527
+      '@module-federation/inject-external-runtime-core-plugin': 0.0.0-feat-enhanced-runtime-unification-20261110060527(@module-federation/runtime-tools@0.0.0-feat-enhanced-runtime-unification-20261110060527)
+      '@module-federation/managers': 0.0.0-feat-enhanced-runtime-unification-20261110060527
+      '@module-federation/manifest': 0.0.0-feat-enhanced-runtime-unification-20261110060527(bufferutil@4.1.0)(typescript@5.7.3)(utf-8-validate@5.0.10)
+      '@module-federation/rspack': 0.0.0-feat-enhanced-runtime-unification-20261110060527(@rspack/core@2.2.9(@module-federation/runtime-tools@0.0.0-feat-enhanced-runtime-unification-20261110060527)(@swc/helpers@0.5.23))(bufferutil@4.1.0)(typescript@5.7.3)(utf-8-validate@5.0.10)
+      '@module-federation/runtime-tools': 0.0.0-feat-enhanced-runtime-unification-20261110060527
+      '@module-federation/sdk': 0.0.0-feat-enhanced-runtime-unification-20261110060527
+      '@module-federation/webpack-bundler-runtime': 0.0.0-feat-enhanced-runtime-unification-20261110060527
       schema-utils: 4.5.0
       tapable: 2.3.0
     optionalDependencies:
@@ -21303,19 +21303,19 @@ snapshots:
       - bufferutil
       - utf-8-validate
 
-  '@module-federation/enhanced@0.0.0-feat-enhanced-runtime-unification-20261104092109(@rspack/core@2.2.9(@module-federation/runtime-tools@2.9.2)(@swc/helpers@0.5.23))(bufferutil@4.1.0)(typescript@5.9.3)(utf-8-validate@5.0.10)(webpack@5.104.1(@swc/core@1.16.18(@swc/helpers@0.5.23)))':
+  '@module-federation/enhanced@0.0.0-feat-enhanced-runtime-unification-20261110060527(@rspack/core@2.2.9(@module-federation/runtime-tools@2.9.2)(@swc/helpers@0.5.23))(bufferutil@4.1.0)(typescript@5.9.3)(utf-8-validate@5.0.10)(webpack@5.104.1(@swc/core@1.16.18(@swc/helpers@0.5.23)))':
     dependencies:
-      '@module-federation/bridge-react-webpack-plugin': 0.0.0-feat-enhanced-runtime-unification-20261104092109
-      '@module-federation/cli': 0.0.0-feat-enhanced-runtime-unification-20261104092109(bufferutil@4.1.0)(typescript@5.9.3)(utf-8-validate@5.0.10)
-      '@module-federation/dts-plugin': 0.0.0-feat-enhanced-runtime-unification-20261104092109(bufferutil@4.1.0)(typescript@5.9.3)(utf-8-validate@5.0.10)
-      '@module-federation/error-codes': 0.0.0-feat-enhanced-runtime-unification-20261104092109
-      '@module-federation/inject-external-runtime-core-plugin': 0.0.0-feat-enhanced-runtime-unification-20261104092109(@module-federation/runtime-tools@0.0.0-feat-enhanced-runtime-unification-20261104092109)
-      '@module-federation/managers': 0.0.0-feat-enhanced-runtime-unification-20261104092109
-      '@module-federation/manifest': 0.0.0-feat-enhanced-runtime-unification-20261104092109(bufferutil@4.1.0)(typescript@5.9.3)(utf-8-validate@5.0.10)
-      '@module-federation/rspack': 0.0.0-feat-enhanced-runtime-unification-20261104092109(@rspack/core@2.2.9(@module-federation/runtime-tools@2.9.2)(@swc/helpers@0.5.23))(bufferutil@4.1.0)(typescript@5.9.3)(utf-8-validate@5.0.10)
-      '@module-federation/runtime-tools': 0.0.0-feat-enhanced-runtime-unification-20261104092109
-      '@module-federation/sdk': 0.0.0-feat-enhanced-runtime-unification-20261104092109
-      '@module-federation/webpack-bundler-runtime': 0.0.0-feat-enhanced-runtime-unification-20261104092109
+      '@module-federation/bridge-react-webpack-plugin': 0.0.0-feat-enhanced-runtime-unification-20261110060527
+      '@module-federation/cli': 0.0.0-feat-enhanced-runtime-unification-20261110060527(bufferutil@4.1.0)(typescript@5.9.3)(utf-8-validate@5.0.10)
+      '@module-federation/dts-plugin': 0.0.0-feat-enhanced-runtime-unification-20261110060527(bufferutil@4.1.0)(typescript@5.9.3)(utf-8-validate@5.0.10)
+      '@module-federation/error-codes': 0.0.0-feat-enhanced-runtime-unification-20261110060527
+      '@module-federation/inject-external-runtime-core-plugin': 0.0.0-feat-enhanced-runtime-unification-20261110060527(@module-federation/runtime-tools@0.0.0-feat-enhanced-runtime-unification-20261110060527)
+      '@module-federation/managers': 0.0.0-feat-enhanced-runtime-unification-20261110060527
+      '@module-federation/manifest': 0.0.0-feat-enhanced-runtime-unification-20261110060527(bufferutil@4.1.0)(typescript@5.9.3)(utf-8-validate@5.0.10)
+      '@module-federation/rspack': 0.0.0-feat-enhanced-runtime-unification-20261110060527(@rspack/core@2.2.9(@module-federation/runtime-tools@2.9.2)(@swc/helpers@0.5.23))(bufferutil@4.1.0)(typescript@5.9.3)(utf-8-validate@5.0.10)
+      '@module-federation/runtime-tools': 0.0.0-feat-enhanced-runtime-unification-20261110060527
+      '@module-federation/sdk': 0.0.0-feat-enhanced-runtime-unification-20261110060527
+      '@module-federation/webpack-bundler-runtime': 0.0.0-feat-enhanced-runtime-unification-20261110060527
       schema-utils: 4.5.0
       tapable: 2.3.0
     optionalDependencies:
@@ -21326,19 +21326,19 @@ snapshots:
       - bufferutil
       - utf-8-validate
 
-  '@module-federation/enhanced@0.0.0-feat-enhanced-runtime-unification-20261104092109(@rspack/core@2.2.9(@module-federation/runtime-tools@2.9.2)(@swc/helpers@0.5.23))(bufferutil@4.1.0)(typescript@5.9.3)(utf-8-validate@5.0.10)(webpack@5.104.1(@swc/core@1.16.20(@swc/helpers@0.5.23)))':
+  '@module-federation/enhanced@0.0.0-feat-enhanced-runtime-unification-20261110060527(@rspack/core@2.2.9(@module-federation/runtime-tools@2.9.2)(@swc/helpers@0.5.23))(bufferutil@4.1.0)(typescript@5.9.3)(utf-8-validate@5.0.10)(webpack@5.104.1(@swc/core@1.16.20(@swc/helpers@0.5.23)))':
     dependencies:
-      '@module-federation/bridge-react-webpack-plugin': 0.0.0-feat-enhanced-runtime-unification-20261104092109
-      '@module-federation/cli': 0.0.0-feat-enhanced-runtime-unification-20261104092109(bufferutil@4.1.0)(typescript@5.9.3)(utf-8-validate@5.0.10)
-      '@module-federation/dts-plugin': 0.0.0-feat-enhanced-runtime-unification-20261104092109(bufferutil@4.1.0)(typescript@5.9.3)(utf-8-validate@5.0.10)
-      '@module-federation/error-codes': 0.0.0-feat-enhanced-runtime-unification-20261104092109
-      '@module-federation/inject-external-runtime-core-plugin': 0.0.0-feat-enhanced-runtime-unification-20261104092109(@module-federation/runtime-tools@0.0.0-feat-enhanced-runtime-unification-20261104092109)
-      '@module-federation/managers': 0.0.0-feat-enhanced-runtime-unification-20261104092109
-      '@module-federation/manifest': 0.0.0-feat-enhanced-runtime-unification-20261104092109(bufferutil@4.1.0)(typescript@5.9.3)(utf-8-validate@5.0.10)
-      '@module-federation/rspack': 0.0.0-feat-enhanced-runtime-unification-20261104092109(@rspack/core@2.2.9(@module-federation/runtime-tools@2.9.2)(@swc/helpers@0.5.23))(bufferutil@4.1.0)(typescript@5.9.3)(utf-8-validate@5.0.10)
-      '@module-federation/runtime-tools': 0.0.0-feat-enhanced-runtime-unification-20261104092109
-      '@module-federation/sdk': 0.0.0-feat-enhanced-runtime-unification-20261104092109
-      '@module-federation/webpack-bundler-runtime': 0.0.0-feat-enhanced-runtime-unification-20261104092109
+      '@module-federation/bridge-react-webpack-plugin': 0.0.0-feat-enhanced-runtime-unification-20261110060527
+      '@module-federation/cli': 0.0.0-feat-enhanced-runtime-unification-20261110060527(bufferutil@4.1.0)(typescript@5.9.3)(utf-8-validate@5.0.10)
+      '@module-federation/dts-plugin': 0.0.0-feat-enhanced-runtime-unification-20261110060527(bufferutil@4.1.0)(typescript@5.9.3)(utf-8-validate@5.0.10)
+      '@module-federation/error-codes': 0.0.0-feat-enhanced-runtime-unification-20261110060527
+      '@module-federation/inject-external-runtime-core-plugin': 0.0.0-feat-enhanced-runtime-unification-20261110060527(@module-federation/runtime-tools@0.0.0-feat-enhanced-runtime-unification-20261110060527)
+      '@module-federation/managers': 0.0.0-feat-enhanced-runtime-unification-20261110060527
+      '@module-federation/manifest': 0.0.0-feat-enhanced-runtime-unification-20261110060527(bufferutil@4.1.0)(typescript@5.9.3)(utf-8-validate@5.0.10)
+      '@module-federation/rspack': 0.0.0-feat-enhanced-runtime-unification-20261110060527(@rspack/core@2.2.9(@module-federation/runtime-tools@2.9.2)(@swc/helpers@0.5.23))(bufferutil@4.1.0)(typescript@5.9.3)(utf-8-validate@5.0.10)
+      '@module-federation/runtime-tools': 0.0.0-feat-enhanced-runtime-unification-20261110060527
+      '@module-federation/sdk': 0.0.0-feat-enhanced-runtime-unification-20261110060527
+      '@module-federation/webpack-bundler-runtime': 0.0.0-feat-enhanced-runtime-unification-20261110060527
       schema-utils: 4.5.0
       tapable: 2.3.0
     optionalDependencies:
@@ -21428,15 +21428,15 @@ snapshots:
       - bufferutil
       - utf-8-validate
 
-  '@module-federation/error-codes@0.0.0-feat-enhanced-runtime-unification-20261104092109': {}
+  '@module-federation/error-codes@0.0.0-feat-enhanced-runtime-unification-20261110060527': {}
 
   '@module-federation/error-codes@2.0.0': {}
 
   '@module-federation/error-codes@2.9.2': {}
 
-  '@module-federation/inject-external-runtime-core-plugin@0.0.0-feat-enhanced-runtime-unification-20261104092109(@module-federation/runtime-tools@0.0.0-feat-enhanced-runtime-unification-20261104092109)':
+  '@module-federation/inject-external-runtime-core-plugin@0.0.0-feat-enhanced-runtime-unification-20261110060527(@module-federation/runtime-tools@0.0.0-feat-enhanced-runtime-unification-20261110060527)':
     dependencies:
-      '@module-federation/runtime-tools': 0.0.0-feat-enhanced-runtime-unification-20261104092109
+      '@module-federation/runtime-tools': 0.0.0-feat-enhanced-runtime-unification-20261110060527
 
   '@module-federation/inject-external-runtime-core-plugin@2.0.0(@module-federation/runtime-tools@2.0.0)':
     dependencies:
@@ -21446,9 +21446,9 @@ snapshots:
     dependencies:
       '@module-federation/runtime-tools': 2.9.2
 
-  '@module-federation/managers@0.0.0-feat-enhanced-runtime-unification-20261104092109':
+  '@module-federation/managers@0.0.0-feat-enhanced-runtime-unification-20261110060527':
     dependencies:
-      '@module-federation/sdk': 0.0.0-feat-enhanced-runtime-unification-20261104092109
+      '@module-federation/sdk': 0.0.0-feat-enhanced-runtime-unification-20261110060527
 
   '@module-federation/managers@2.0.0':
     dependencies:
@@ -21460,24 +21460,24 @@ snapshots:
     dependencies:
       '@module-federation/sdk': 2.9.2
 
-  '@module-federation/manifest@0.0.0-feat-enhanced-runtime-unification-20261104092109(bufferutil@4.1.0)(typescript@5.7.3)(utf-8-validate@5.0.10)':
+  '@module-federation/manifest@0.0.0-feat-enhanced-runtime-unification-20261110060527(bufferutil@4.1.0)(typescript@5.7.3)(utf-8-validate@5.0.10)':
     dependencies:
       '@babel/parser': 7.29.9
-      '@module-federation/dts-plugin': 0.0.0-feat-enhanced-runtime-unification-20261104092109(bufferutil@4.1.0)(typescript@5.7.3)(utf-8-validate@5.0.10)
-      '@module-federation/managers': 0.0.0-feat-enhanced-runtime-unification-20261104092109
-      '@module-federation/sdk': 0.0.0-feat-enhanced-runtime-unification-20261104092109
+      '@module-federation/dts-plugin': 0.0.0-feat-enhanced-runtime-unification-20261110060527(bufferutil@4.1.0)(typescript@5.7.3)(utf-8-validate@5.0.10)
+      '@module-federation/managers': 0.0.0-feat-enhanced-runtime-unification-20261110060527
+      '@module-federation/sdk': 0.0.0-feat-enhanced-runtime-unification-20261110060527
     transitivePeerDependencies:
       - bufferutil
       - typescript
       - utf-8-validate
       - vue-tsc
 
-  '@module-federation/manifest@0.0.0-feat-enhanced-runtime-unification-20261104092109(bufferutil@4.1.0)(typescript@5.9.3)(utf-8-validate@5.0.10)':
+  '@module-federation/manifest@0.0.0-feat-enhanced-runtime-unification-20261110060527(bufferutil@4.1.0)(typescript@5.9.3)(utf-8-validate@5.0.10)':
     dependencies:
       '@babel/parser': 7.29.9
-      '@module-federation/dts-plugin': 0.0.0-feat-enhanced-runtime-unification-20261104092109(bufferutil@4.1.0)(typescript@5.9.3)(utf-8-validate@5.0.10)
-      '@module-federation/managers': 0.0.0-feat-enhanced-runtime-unification-20261104092109
-      '@module-federation/sdk': 0.0.0-feat-enhanced-runtime-unification-20261104092109
+      '@module-federation/dts-plugin': 0.0.0-feat-enhanced-runtime-unification-20261110060527(bufferutil@4.1.0)(typescript@5.9.3)(utf-8-validate@5.0.10)
+      '@module-federation/managers': 0.0.0-feat-enhanced-runtime-unification-20261110060527
+      '@module-federation/sdk': 0.0.0-feat-enhanced-runtime-unification-20261110060527
     transitivePeerDependencies:
       - bufferutil
       - typescript
@@ -21594,11 +21594,11 @@ snapshots:
       - utf-8-validate
       - webpack
 
-  '@module-federation/node@0.0.0-feat-enhanced-runtime-unification-20261104092109(@rspack/core@2.2.9(@module-federation/runtime-tools@0.0.0-feat-enhanced-runtime-unification-20261104092109)(@swc/helpers@0.5.23))(bufferutil@4.1.0)(typescript@5.7.3)(utf-8-validate@5.0.10)(webpack@5.104.1(@swc/core@1.16.20(@swc/helpers@0.5.23)))':
+  '@module-federation/node@0.0.0-feat-enhanced-runtime-unification-20261110060527(@rspack/core@2.2.9(@module-federation/runtime-tools@0.0.0-feat-enhanced-runtime-unification-20261110060527)(@swc/helpers@0.5.23))(bufferutil@4.1.0)(typescript@5.7.3)(utf-8-validate@5.0.10)(webpack@5.104.1(@swc/core@1.16.20(@swc/helpers@0.5.23)))':
     dependencies:
-      '@module-federation/enhanced': 0.0.0-feat-enhanced-runtime-unification-20261104092109(@rspack/core@2.2.9(@module-federation/runtime-tools@0.0.0-feat-enhanced-runtime-unification-20261104092109)(@swc/helpers@0.5.23))(bufferutil@4.1.0)(typescript@5.7.3)(utf-8-validate@5.0.10)(webpack@5.104.1(@swc/core@1.16.20(@swc/helpers@0.5.23)))
-      '@module-federation/runtime': 0.0.0-feat-enhanced-runtime-unification-20261104092109
-      '@module-federation/sdk': 0.0.0-feat-enhanced-runtime-unification-20261104092109
+      '@module-federation/enhanced': 0.0.0-feat-enhanced-runtime-unification-20261110060527(@rspack/core@2.2.9(@module-federation/runtime-tools@0.0.0-feat-enhanced-runtime-unification-20261110060527)(@swc/helpers@0.5.23))(bufferutil@4.1.0)(typescript@5.7.3)(utf-8-validate@5.0.10)(webpack@5.104.1(@swc/core@1.16.20(@swc/helpers@0.5.23)))
+      '@module-federation/runtime': 0.0.0-feat-enhanced-runtime-unification-20261110060527
+      '@module-federation/sdk': 0.0.0-feat-enhanced-runtime-unification-20261110060527
       encoding: 0.1.13
       node-fetch: 2.7.0(encoding@0.1.13)
       tapable: 2.3.0
@@ -21611,11 +21611,11 @@ snapshots:
       - utf-8-validate
       - vue-tsc
 
-  '@module-federation/node@0.0.0-feat-enhanced-runtime-unification-20261104092109(@rspack/core@2.2.9(@module-federation/runtime-tools@2.9.2)(@swc/helpers@0.5.23))(bufferutil@4.1.0)(typescript@5.9.3)(utf-8-validate@5.0.10)(webpack@5.104.1(@swc/core@1.16.20(@swc/helpers@0.5.23)))':
+  '@module-federation/node@0.0.0-feat-enhanced-runtime-unification-20261110060527(@rspack/core@2.2.9(@module-federation/runtime-tools@2.9.2)(@swc/helpers@0.5.23))(bufferutil@4.1.0)(typescript@5.9.3)(utf-8-validate@5.0.10)(webpack@5.104.1(@swc/core@1.16.20(@swc/helpers@0.5.23)))':
     dependencies:
-      '@module-federation/enhanced': 0.0.0-feat-enhanced-runtime-unification-20261104092109(@rspack/core@2.2.9(@module-federation/runtime-tools@2.9.2)(@swc/helpers@0.5.23))(bufferutil@4.1.0)(typescript@5.9.3)(utf-8-validate@5.0.10)(webpack@5.104.1(@swc/core@1.16.20(@swc/helpers@0.5.23)))
-      '@module-federation/runtime': 0.0.0-feat-enhanced-runtime-unification-20261104092109
-      '@module-federation/sdk': 0.0.0-feat-enhanced-runtime-unification-20261104092109
+      '@module-federation/enhanced': 0.0.0-feat-enhanced-runtime-unification-20261110060527(@rspack/core@2.2.9(@module-federation/runtime-tools@2.9.2)(@swc/helpers@0.5.23))(bufferutil@4.1.0)(typescript@5.9.3)(utf-8-validate@5.0.10)(webpack@5.104.1(@swc/core@1.16.20(@swc/helpers@0.5.23)))
+      '@module-federation/runtime': 0.0.0-feat-enhanced-runtime-unification-20261110060527
+      '@module-federation/sdk': 0.0.0-feat-enhanced-runtime-unification-20261110060527
       encoding: 0.1.13
       node-fetch: 2.7.0(encoding@0.1.13)
       tapable: 2.3.0
@@ -21687,11 +21687,11 @@ snapshots:
       - utf-8-validate
       - vue-tsc
 
-  '@module-federation/rsbuild-plugin@0.0.0-feat-enhanced-runtime-unification-20261104092109(@rsbuild/core@2.1.13(@module-federation/runtime-tools@2.9.2)(core-js@3.50.0))(@rspack/core@2.2.9(@module-federation/runtime-tools@2.9.2)(@swc/helpers@0.5.23))(bufferutil@4.1.0)(typescript@5.9.3)(utf-8-validate@5.0.10)(webpack@5.104.1(@swc/core@1.16.20(@swc/helpers@0.5.23)))':
+  '@module-federation/rsbuild-plugin@0.0.0-feat-enhanced-runtime-unification-20261110060527(@rsbuild/core@2.1.13(@module-federation/runtime-tools@2.9.2)(core-js@3.50.0))(@rspack/core@2.2.9(@module-federation/runtime-tools@2.9.2)(@swc/helpers@0.5.23))(bufferutil@4.1.0)(typescript@5.9.3)(utf-8-validate@5.0.10)(webpack@5.104.1(@swc/core@1.16.20(@swc/helpers@0.5.23)))':
     dependencies:
-      '@module-federation/enhanced': 0.0.0-feat-enhanced-runtime-unification-20261104092109(@rspack/core@2.2.9(@module-federation/runtime-tools@2.9.2)(@swc/helpers@0.5.23))(bufferutil@4.1.0)(typescript@5.9.3)(utf-8-validate@5.0.10)(webpack@5.104.1(@swc/core@1.16.20(@swc/helpers@0.5.23)))
-      '@module-federation/node': 0.0.0-feat-enhanced-runtime-unification-20261104092109(@rspack/core@2.2.9(@module-federation/runtime-tools@2.9.2)(@swc/helpers@0.5.23))(bufferutil@4.1.0)(typescript@5.9.3)(utf-8-validate@5.0.10)(webpack@5.104.1(@swc/core@1.16.20(@swc/helpers@0.5.23)))
-      '@module-federation/sdk': 0.0.0-feat-enhanced-runtime-unification-20261104092109
+      '@module-federation/enhanced': 0.0.0-feat-enhanced-runtime-unification-20261110060527(@rspack/core@2.2.9(@module-federation/runtime-tools@2.9.2)(@swc/helpers@0.5.23))(bufferutil@4.1.0)(typescript@5.9.3)(utf-8-validate@5.0.10)(webpack@5.104.1(@swc/core@1.16.20(@swc/helpers@0.5.23)))
+      '@module-federation/node': 0.0.0-feat-enhanced-runtime-unification-20261110060527(@rspack/core@2.2.9(@module-federation/runtime-tools@2.9.2)(@swc/helpers@0.5.23))(bufferutil@4.1.0)(typescript@5.9.3)(utf-8-validate@5.0.10)(webpack@5.104.1(@swc/core@1.16.20(@swc/helpers@0.5.23)))
+      '@module-federation/sdk': 0.0.0-feat-enhanced-runtime-unification-20261110060527
     optionalDependencies:
       '@rsbuild/core': 2.1.13(@module-federation/runtime-tools@2.9.2)(core-js@3.50.0)
     transitivePeerDependencies:
@@ -21702,13 +21702,13 @@ snapshots:
       - vue-tsc
       - webpack
 
-  '@module-federation/rsbuild-plugin@0.0.0-feat-enhanced-runtime-unification-20261104092109(@rsbuild/core@2.2.13(@module-federation/runtime-tools@0.0.0-feat-enhanced-runtime-unification-20261104092109)(core-js@3.50.0))(@rspack/core@2.2.9(@module-federation/runtime-tools@0.0.0-feat-enhanced-runtime-unification-20261104092109)(@swc/helpers@0.5.23))(bufferutil@4.1.0)(typescript@5.7.3)(utf-8-validate@5.0.10)(webpack@5.104.1(@swc/core@1.16.20(@swc/helpers@0.5.23)))':
+  '@module-federation/rsbuild-plugin@0.0.0-feat-enhanced-runtime-unification-20261110060527(@rsbuild/core@2.2.13(@module-federation/runtime-tools@0.0.0-feat-enhanced-runtime-unification-20261110060527)(core-js@3.50.0))(@rspack/core@2.2.9(@module-federation/runtime-tools@0.0.0-feat-enhanced-runtime-unification-20261110060527)(@swc/helpers@0.5.23))(bufferutil@4.1.0)(typescript@5.7.3)(utf-8-validate@5.0.10)(webpack@5.104.1(@swc/core@1.16.20(@swc/helpers@0.5.23)))':
     dependencies:
-      '@module-federation/enhanced': 0.0.0-feat-enhanced-runtime-unification-20261104092109(@rspack/core@2.2.9(@module-federation/runtime-tools@0.0.0-feat-enhanced-runtime-unification-20261104092109)(@swc/helpers@0.5.23))(bufferutil@4.1.0)(typescript@5.7.3)(utf-8-validate@5.0.10)(webpack@5.104.1(@swc/core@1.16.20(@swc/helpers@0.5.23)))
-      '@module-federation/node': 0.0.0-feat-enhanced-runtime-unification-20261104092109(@rspack/core@2.2.9(@module-federation/runtime-tools@0.0.0-feat-enhanced-runtime-unification-20261104092109)(@swc/helpers@0.5.23))(bufferutil@4.1.0)(typescript@5.7.3)(utf-8-validate@5.0.10)(webpack@5.104.1(@swc/core@1.16.20(@swc/helpers@0.5.23)))
-      '@module-federation/sdk': 0.0.0-feat-enhanced-runtime-unification-20261104092109
+      '@module-federation/enhanced': 0.0.0-feat-enhanced-runtime-unification-20261110060527(@rspack/core@2.2.9(@module-federation/runtime-tools@0.0.0-feat-enhanced-runtime-unification-20261110060527)(@swc/helpers@0.5.23))(bufferutil@4.1.0)(typescript@5.7.3)(utf-8-validate@5.0.10)(webpack@5.104.1(@swc/core@1.16.20(@swc/helpers@0.5.23)))
+      '@module-federation/node': 0.0.0-feat-enhanced-runtime-unification-20261110060527(@rspack/core@2.2.9(@module-federation/runtime-tools@0.0.0-feat-enhanced-runtime-unification-20261110060527)(@swc/helpers@0.5.23))(bufferutil@4.1.0)(typescript@5.7.3)(utf-8-validate@5.0.10)(webpack@5.104.1(@swc/core@1.16.20(@swc/helpers@0.5.23)))
+      '@module-federation/sdk': 0.0.0-feat-enhanced-runtime-unification-20261110060527
     optionalDependencies:
-      '@rsbuild/core': 2.2.13(@module-federation/runtime-tools@0.0.0-feat-enhanced-runtime-unification-20261104092109)(core-js@3.50.0)
+      '@rsbuild/core': 2.2.13(@module-federation/runtime-tools@0.0.0-feat-enhanced-runtime-unification-20261110060527)(core-js@3.50.0)
     transitivePeerDependencies:
       - '@rspack/core'
       - bufferutil
@@ -21768,31 +21768,31 @@ snapshots:
       - vue-tsc
       - webpack
 
-  '@module-federation/rspack@0.0.0-feat-enhanced-runtime-unification-20261104092109(@rspack/core@2.2.9(@module-federation/runtime-tools@0.0.0-feat-enhanced-runtime-unification-20261104092109)(@swc/helpers@0.5.23))(bufferutil@4.1.0)(typescript@5.7.3)(utf-8-validate@5.0.10)':
+  '@module-federation/rspack@0.0.0-feat-enhanced-runtime-unification-20261110060527(@rspack/core@2.2.9(@module-federation/runtime-tools@0.0.0-feat-enhanced-runtime-unification-20261110060527)(@swc/helpers@0.5.23))(bufferutil@4.1.0)(typescript@5.7.3)(utf-8-validate@5.0.10)':
     dependencies:
-      '@module-federation/bridge-react-webpack-plugin': 0.0.0-feat-enhanced-runtime-unification-20261104092109
-      '@module-federation/dts-plugin': 0.0.0-feat-enhanced-runtime-unification-20261104092109(bufferutil@4.1.0)(typescript@5.7.3)(utf-8-validate@5.0.10)
-      '@module-federation/inject-external-runtime-core-plugin': 0.0.0-feat-enhanced-runtime-unification-20261104092109(@module-federation/runtime-tools@0.0.0-feat-enhanced-runtime-unification-20261104092109)
-      '@module-federation/managers': 0.0.0-feat-enhanced-runtime-unification-20261104092109
-      '@module-federation/manifest': 0.0.0-feat-enhanced-runtime-unification-20261104092109(bufferutil@4.1.0)(typescript@5.7.3)(utf-8-validate@5.0.10)
-      '@module-federation/runtime-tools': 0.0.0-feat-enhanced-runtime-unification-20261104092109
-      '@module-federation/sdk': 0.0.0-feat-enhanced-runtime-unification-20261104092109
-      '@rspack/core': 2.2.9(@module-federation/runtime-tools@0.0.0-feat-enhanced-runtime-unification-20261104092109)(@swc/helpers@0.5.23)
+      '@module-federation/bridge-react-webpack-plugin': 0.0.0-feat-enhanced-runtime-unification-20261110060527
+      '@module-federation/dts-plugin': 0.0.0-feat-enhanced-runtime-unification-20261110060527(bufferutil@4.1.0)(typescript@5.7.3)(utf-8-validate@5.0.10)
+      '@module-federation/inject-external-runtime-core-plugin': 0.0.0-feat-enhanced-runtime-unification-20261110060527(@module-federation/runtime-tools@0.0.0-feat-enhanced-runtime-unification-20261110060527)
+      '@module-federation/managers': 0.0.0-feat-enhanced-runtime-unification-20261110060527
+      '@module-federation/manifest': 0.0.0-feat-enhanced-runtime-unification-20261110060527(bufferutil@4.1.0)(typescript@5.7.3)(utf-8-validate@5.0.10)
+      '@module-federation/runtime-tools': 0.0.0-feat-enhanced-runtime-unification-20261110060527
+      '@module-federation/sdk': 0.0.0-feat-enhanced-runtime-unification-20261110060527
+      '@rspack/core': 2.2.9(@module-federation/runtime-tools@0.0.0-feat-enhanced-runtime-unification-20261110060527)(@swc/helpers@0.5.23)
     optionalDependencies:
       typescript: 5.7.3
     transitivePeerDependencies:
       - bufferutil
       - utf-8-validate
 
-  '@module-federation/rspack@0.0.0-feat-enhanced-runtime-unification-20261104092109(@rspack/core@2.2.9(@module-federation/runtime-tools@2.9.2)(@swc/helpers@0.5.23))(bufferutil@4.1.0)(typescript@5.9.3)(utf-8-validate@5.0.10)':
+  '@module-federation/rspack@0.0.0-feat-enhanced-runtime-unification-20261110060527(@rspack/core@2.2.9(@module-federation/runtime-tools@2.9.2)(@swc/helpers@0.5.23))(bufferutil@4.1.0)(typescript@5.9.3)(utf-8-validate@5.0.10)':
     dependencies:
-      '@module-federation/bridge-react-webpack-plugin': 0.0.0-feat-enhanced-runtime-unification-20261104092109
-      '@module-federation/dts-plugin': 0.0.0-feat-enhanced-runtime-unification-20261104092109(bufferutil@4.1.0)(typescript@5.9.3)(utf-8-validate@5.0.10)
-      '@module-federation/inject-external-runtime-core-plugin': 0.0.0-feat-enhanced-runtime-unification-20261104092109(@module-federation/runtime-tools@0.0.0-feat-enhanced-runtime-unification-20261104092109)
-      '@module-federation/managers': 0.0.0-feat-enhanced-runtime-unification-20261104092109
-      '@module-federation/manifest': 0.0.0-feat-enhanced-runtime-unification-20261104092109(bufferutil@4.1.0)(typescript@5.9.3)(utf-8-validate@5.0.10)
-      '@module-federation/runtime-tools': 0.0.0-feat-enhanced-runtime-unification-20261104092109
-      '@module-federation/sdk': 0.0.0-feat-enhanced-runtime-unification-20261104092109
+      '@module-federation/bridge-react-webpack-plugin': 0.0.0-feat-enhanced-runtime-unification-20261110060527
+      '@module-federation/dts-plugin': 0.0.0-feat-enhanced-runtime-unification-20261110060527(bufferutil@4.1.0)(typescript@5.9.3)(utf-8-validate@5.0.10)
+      '@module-federation/inject-external-runtime-core-plugin': 0.0.0-feat-enhanced-runtime-unification-20261110060527(@module-federation/runtime-tools@0.0.0-feat-enhanced-runtime-unification-20261110060527)
+      '@module-federation/managers': 0.0.0-feat-enhanced-runtime-unification-20261110060527
+      '@module-federation/manifest': 0.0.0-feat-enhanced-runtime-unification-20261110060527(bufferutil@4.1.0)(typescript@5.9.3)(utf-8-validate@5.0.10)
+      '@module-federation/runtime-tools': 0.0.0-feat-enhanced-runtime-unification-20261110060527
+      '@module-federation/sdk': 0.0.0-feat-enhanced-runtime-unification-20261110060527
       '@rspack/core': 2.2.9(@module-federation/runtime-tools@2.9.2)(@swc/helpers@0.5.23)
     optionalDependencies:
       typescript: 5.9.3
@@ -21854,10 +21854,10 @@ snapshots:
       - bufferutil
       - utf-8-validate
 
-  '@module-federation/runtime-core@0.0.0-feat-enhanced-runtime-unification-20261104092109':
+  '@module-federation/runtime-core@0.0.0-feat-enhanced-runtime-unification-20261110060527':
     dependencies:
-      '@module-federation/error-codes': 0.0.0-feat-enhanced-runtime-unification-20261104092109
-      '@module-federation/sdk': 0.0.0-feat-enhanced-runtime-unification-20261104092109
+      '@module-federation/error-codes': 0.0.0-feat-enhanced-runtime-unification-20261110060527
+      '@module-federation/sdk': 0.0.0-feat-enhanced-runtime-unification-20261110060527
 
   '@module-federation/runtime-core@2.0.0':
     dependencies:
@@ -21869,10 +21869,10 @@ snapshots:
       '@module-federation/error-codes': 2.9.2
       '@module-federation/sdk': 2.9.2
 
-  '@module-federation/runtime-tools@0.0.0-feat-enhanced-runtime-unification-20261104092109':
+  '@module-federation/runtime-tools@0.0.0-feat-enhanced-runtime-unification-20261110060527':
     dependencies:
-      '@module-federation/runtime': 0.0.0-feat-enhanced-runtime-unification-20261104092109
-      '@module-federation/webpack-bundler-runtime': 0.0.0-feat-enhanced-runtime-unification-20261104092109
+      '@module-federation/runtime': 0.0.0-feat-enhanced-runtime-unification-20261110060527
+      '@module-federation/webpack-bundler-runtime': 0.0.0-feat-enhanced-runtime-unification-20261110060527
 
   '@module-federation/runtime-tools@2.0.0':
     dependencies:
@@ -21884,11 +21884,11 @@ snapshots:
       '@module-federation/runtime': 2.9.2
       '@module-federation/webpack-bundler-runtime': 2.9.2
 
-  '@module-federation/runtime@0.0.0-feat-enhanced-runtime-unification-20261104092109':
+  '@module-federation/runtime@0.0.0-feat-enhanced-runtime-unification-20261110060527':
     dependencies:
-      '@module-federation/error-codes': 0.0.0-feat-enhanced-runtime-unification-20261104092109
-      '@module-federation/runtime-core': 0.0.0-feat-enhanced-runtime-unification-20261104092109
-      '@module-federation/sdk': 0.0.0-feat-enhanced-runtime-unification-20261104092109
+      '@module-federation/error-codes': 0.0.0-feat-enhanced-runtime-unification-20261110060527
+      '@module-federation/runtime-core': 0.0.0-feat-enhanced-runtime-unification-20261110060527
+      '@module-federation/sdk': 0.0.0-feat-enhanced-runtime-unification-20261110060527
 
   '@module-federation/runtime@2.0.0':
     dependencies:
@@ -21902,13 +21902,13 @@ snapshots:
       '@module-federation/runtime-core': 2.9.2
       '@module-federation/sdk': 2.9.2
 
-  '@module-federation/sdk@0.0.0-feat-enhanced-runtime-unification-20261104092109': {}
+  '@module-federation/sdk@0.0.0-feat-enhanced-runtime-unification-20261110060527': {}
 
   '@module-federation/sdk@2.0.0': {}
 
   '@module-federation/sdk@2.9.2': {}
 
-  '@module-federation/third-party-dts-extractor@0.0.0-feat-enhanced-runtime-unification-20261104092109': {}
+  '@module-federation/third-party-dts-extractor@0.0.0-feat-enhanced-runtime-unification-20261110060527': {}
 
   '@module-federation/third-party-dts-extractor@2.0.0':
     dependencies:
@@ -21918,11 +21918,11 @@ snapshots:
 
   '@module-federation/third-party-dts-extractor@2.9.2': {}
 
-  '@module-federation/webpack-bundler-runtime@0.0.0-feat-enhanced-runtime-unification-20261104092109':
+  '@module-federation/webpack-bundler-runtime@0.0.0-feat-enhanced-runtime-unification-20261110060527':
     dependencies:
-      '@module-federation/error-codes': 0.0.0-feat-enhanced-runtime-unification-20261104092109
-      '@module-federation/runtime': 0.0.0-feat-enhanced-runtime-unification-20261104092109
-      '@module-federation/sdk': 0.0.0-feat-enhanced-runtime-unification-20261104092109
+      '@module-federation/error-codes': 0.0.0-feat-enhanced-runtime-unification-20261110060527
+      '@module-federation/runtime': 0.0.0-feat-enhanced-runtime-unification-20261110060527
+      '@module-federation/sdk': 0.0.0-feat-enhanced-runtime-unification-20261110060527
 
   '@module-federation/webpack-bundler-runtime@2.0.0':
     dependencies:
@@ -22582,9 +22582,9 @@ snapshots:
     transitivePeerDependencies:
       - '@module-federation/runtime-tools'
 
-  '@rsbuild/core@2.2.13(@module-federation/runtime-tools@0.0.0-feat-enhanced-runtime-unification-20261104092109)(core-js@3.50.0)':
+  '@rsbuild/core@2.2.13(@module-federation/runtime-tools@0.0.0-feat-enhanced-runtime-unification-20261110060527)(core-js@3.50.0)':
     dependencies:
-      '@rspack/core': 2.2.9(@module-federation/runtime-tools@0.0.0-feat-enhanced-runtime-unification-20261104092109)(@swc/helpers@0.5.23)
+      '@rspack/core': 2.2.9(@module-federation/runtime-tools@0.0.0-feat-enhanced-runtime-unification-20261110060527)(@swc/helpers@0.5.23)
       '@swc/helpers': 0.5.23
     optionalDependencies:
       core-js: 3.50.0
@@ -23231,11 +23231,11 @@ snapshots:
       '@module-federation/runtime-tools': 2.9.2
       '@swc/helpers': 0.5.23
 
-  '@rspack/core@2.2.9(@module-federation/runtime-tools@0.0.0-feat-enhanced-runtime-unification-20261104092109)(@swc/helpers@0.5.23)':
+  '@rspack/core@2.2.9(@module-federation/runtime-tools@0.0.0-feat-enhanced-runtime-unification-20261110060527)(@swc/helpers@0.5.23)':
     dependencies:
       '@rspack/binding': 2.2.9
     optionalDependencies:
-      '@module-federation/runtime-tools': 0.0.0-feat-enhanced-runtime-unification-20261104092109
+      '@module-federation/runtime-tools': 0.0.0-feat-enhanced-runtime-unification-20261110060527
       '@swc/helpers': 0.5.23
 
   '@rspack/core@2.2.9(@module-federation/runtime-tools@2.0.0)(@swc/helpers@0.5.23)':
