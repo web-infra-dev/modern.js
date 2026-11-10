@@ -1,0 +1,106 @@
+/* Presentation only for the input-contract fixture. */
+.weather-board {
+  min-height: 100vh;
+  background: #f5f3ed;
+  color: #22372f;
+  font-family: 'Avenir Next', 'Trebuchet MS', sans-serif;
+}
+.weather-board-main {
+  max-width: 1440px;
+  margin: auto;
+  padding: 40px 28px;
+}
+.weather-board-heading,
+.weather-board-toolbar,
+.weather-board-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 24px;
+}
+.weather-board-grid {
+  display: grid;
+  grid-template-columns: 1.15fr 1.1fr 0.9fr;
+  gap: 18px;
+  align-items: stretch;
+}
+.weather-board-card {
+  border: 1px solid #dce0d6;
+  background: #fcfcf8;
+  border-radius: 18px;
+  overflow: hidden;
+  min-width: 0;
+}
+.weather-board-card > div {
+  height: 100%;
+}
+.weather-board-string {
+  background: #203d4a;
+  border-color: #203d4a;
+}
+.weather-board-string .bulletin {
+  color: #fff5dc;
+}
+.weather-board-string .bulletin-save {
+  border-color: #ffffff40;
+}
+.weather-board-string .bulletin-save[aria-pressed='true'] {
+  color: #203d4a;
+  background: #f3cf83;
+}
+.weather-board-preloaded {
+  background: #eef2e8;
+}
+.weather-board-info,
+.weather-board-note {
+  padding: 24px 0;
+  font-size: 13px;
+  line-height: 1.8;
+}
+.weather-board-info summary {
+  cursor: pointer;
+}
+.weather-board-info nav {
+  display: flex;
+  gap: 20px;
+}
+.weather-board-travel {
+  max-width: 430px;
+  margin-top: 20px;
+  border: 1px solid #dce0d6;
+  border-radius: 12px;
+  background: #fcfcf8;
+}
+@media (max-width: 650px) {
+  .weather-board .weather-nav {
+    height: auto;
+    min-height: 80px;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 12px;
+    padding: 14px 16px;
+  }
+  .weather-board .weather-nav > div {
+    width: 100%;
+    justify-content: space-between;
+    gap: 12px;
+    font-size: 10px;
+  }
+  .weather-board-main {
+    padding: 30px 16px 24px;
+  }
+  .weather-board-heading {
+    display: block;
+  }
+  .weather-board-toolbar {
+    font-size: 10px;
+    gap: 8px;
+  }
+  .weather-board-footer {
+    flex-wrap: wrap;
+    font-size: 9px;
+  }
+  .weather-board-grid {
+    grid-template-columns: 1fr;
+  }
+}

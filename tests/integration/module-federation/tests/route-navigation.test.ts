@@ -88,7 +88,9 @@ async function backToClientRedirect(
     const ids = destinationRequests.map(request =>
       new URL(request.url()).searchParams.get('__loader'),
     );
-    expect(ids.filter(id => id === 'product/detail/(id)/page')).toHaveLength(1);
+    expect(
+      ids.filter(id => id === '__applications/product/detail/(id)/page'),
+    ).toHaveLength(1);
     expect(new Set(ids).size).toBe(ids.length);
     for (const request of destinationRequests) {
       expect(request.failure()).toBeNull();
@@ -218,7 +220,9 @@ describeLab(
       ].map(match => JSON.parse(match[1]));
       const snapshot = frames.find(([, frame]) => frame.type === 'ready')?.[1]
         .snapshot;
-      expect(snapshot.routerData.loaderData['product/start/page']).toBeNull();
+      expect(
+        snapshot.routerData.loaderData['__applications/product/start/page'],
+      ).toBeNull();
       expect(new URL(page.url()).pathname).toBe(
         '/admin/persistent/inventory/start',
       );
@@ -669,7 +673,7 @@ describeLab(
           request =>
             request.method() === 'GET' &&
             new URL(request.url()).searchParams.get('__loader') ===
-              'product/detail/(id)/page',
+              '__applications/product/detail/(id)/page',
         );
         expect(detailRequests).toHaveLength(1);
         expect(detailRequests[0].failure()).toBeNull();
