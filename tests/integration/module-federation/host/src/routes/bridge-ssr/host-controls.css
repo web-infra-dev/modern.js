@@ -1,0 +1,18 @@
+.weather-host-controls {
+  padding: 12px 24px;
+  background: #edf3f8;
+  color: #203c5b;
+  font-size: 12px;
+}
+.weather-host-controls summary {
+  cursor: pointer;
+}
+.weather-host-controls button {
+  margin-right: 12px;
+  padding: 6px 12px;
+  border: 1px solid #becfdd;
+  border-radius: 8px;
+  background: white;
+  color: inherit;
+  cursor: pointer;
+}

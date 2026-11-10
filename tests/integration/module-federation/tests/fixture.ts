@@ -7,6 +7,7 @@ import { execFile } from 'node:child_process';
 import { promisify } from 'node:util';
 import { freemem, loadavg } from 'node:os';
 import { startLab } from '../scripts/lab.mjs';
+import { instrumentBridgeInputs } from './bridge-evidence';
 import {
   cp,
   mkdir,
@@ -88,6 +89,8 @@ export function setupLab(
     conditionalClientRedirect?: boolean;
     initialRouteNoSSR?: boolean;
     applicationIsolation?: boolean;
+    bridgeInputEvidence?: boolean;
+    publicRoutesOnly?: boolean;
   } = {},
 ) {
   let lab: Awaited<ReturnType<typeof startLab>>;
@@ -132,6 +135,15 @@ export function setupLab(
   let expectedErrors: { pattern: RegExp; min: number; max: number } | undefined;
   beforeAll(async () => {
     workspace = await createWorkspace();
+    if (!options.publicRoutesOnly)
+      await cp(
+        fileURLToPath(
+          new URL('../fixtures/bridge-contracts/host', import.meta.url),
+        ),
+        path.join(workspace, 'host'),
+        { recursive: true },
+      );
+    if (options.bridgeInputEvidence) await instrumentBridgeInputs(workspace);
     if (options.applicationIsolation) {
       for (const app of ['host', 'provider']) {
         await cp(
@@ -168,7 +180,7 @@ export function setupLab(
     if (options.conditionalClientRedirect) {
       const loader = path.join(
         workspace,
-        'provider/src/routes/product/start/page.data.client.ts',
+        'provider/src/routes/__applications/product/start/page.data.client.ts',
       );
       await writeFile(
         loader,
@@ -191,13 +203,16 @@ export function setupLab(
     }
     if (options.clientLayoutLoaders) {
       await writeFile(
-        path.join(workspace, 'provider/src/routes/layout.data.client.ts'),
+        path.join(
+          workspace,
+          'provider/src/routes/__applications/layout.data.client.ts',
+        ),
         "export const loader = () => ({ root: 'Root loader retained' })\n",
       );
       await writeFile(
         path.join(
           workspace,
-          'provider/src/routes/product/layout.data.client.ts',
+          'provider/src/routes/__applications/product/layout.data.client.ts',
         ),
         "export const loader = () => ({ product: 'Product loader retained' })\n",
       );
@@ -402,6 +417,8 @@ export default function Document() {
     workspace,
     mode,
     page,
+    browserErrors,
+    consoleErrors,
     visit,
     text,
     click,
@@ -431,6 +448,8 @@ export function describeLab(
     conditionalClientRedirect?: boolean;
     initialRouteNoSSR?: boolean;
     applicationIsolation?: boolean;
+    bridgeInputEvidence?: boolean;
+    publicRoutesOnly?: boolean;
   } = {},
 ) {
   rstest.setConfig({ testTimeout: 60000, hookTimeout: 600000, retry: 0 });

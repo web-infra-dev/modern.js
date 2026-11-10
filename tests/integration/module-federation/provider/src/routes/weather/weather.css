@@ -1,0 +1,272 @@
+.bulletin {
+  font-family: 'Avenir Next', 'Trebuchet MS', sans-serif;
+  color: #22372f;
+  padding: 28px;
+  height: 100%;
+}
+.bulletin button {
+  font: inherit;
+  cursor: pointer;
+}
+.bulletin button:disabled {
+  cursor: wait;
+}
+.bulletin button:focus-visible {
+  outline: 3px solid #b56828;
+  outline-offset: 4px;
+}
+.bulletin-location {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  margin-bottom: 30px;
+  font-size: 13px;
+}
+.bulletin-save {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  padding: 7px 10px;
+  border-radius: 20px;
+  border: 1px solid #c5d2c8;
+  background: transparent;
+  color: inherit;
+}
+.bulletin-save[aria-pressed='true'] {
+  background: #dae9dc;
+}
+.bulletin h2 {
+  font-family: 'Iowan Old Style', 'Palatino Linotype', Palatino, serif;
+  font-size: 29px;
+  line-height: 1.14;
+  font-weight: 500;
+  letter-spacing: -0.8px;
+  margin: 10px 0 14px;
+}
+.bulletin-eyebrow {
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 2px;
+  margin: 0;
+  opacity: 0.8;
+}
+.bulletin-description {
+  font-size: 13px;
+  line-height: 1.6;
+  color: #596d61;
+  margin: 0 0 25px;
+}
+.bulletin-footnote {
+  font-size: 11px;
+  opacity: 0.8;
+  margin-top: 24px;
+}
+.current-reading {
+  display: flex;
+  align-items: center;
+  gap: 18px;
+  position: relative;
+  padding: 12px 0 28px;
+}
+.bulletin-temperature {
+  font-size: 106px;
+  letter-spacing: -8px;
+  line-height: 1;
+  margin: 0;
+  font-weight: 400;
+}
+.current-reading p:not(.bulletin-temperature) {
+  margin: 9px 0 6px;
+  font-size: 15px;
+}
+.current-reading small {
+  font-size: 11px;
+}
+.temperature-unit {
+  border: 0;
+  background: #ffffff16;
+  color: inherit;
+  padding: 6px 10px;
+  border-radius: 6px;
+}
+.weather-orbit {
+  width: 82px;
+  height: 82px;
+  position: absolute;
+  right: 0;
+  top: -84px;
+  border: 1px solid #d6ba7866;
+  border-radius: 50%;
+  box-shadow:
+    0 0 0 15px #d6ba7810,
+    0 0 0 30px #d6ba7808;
+}
+.weather-orbit span {
+  position: absolute;
+  inset: 12px;
+  background: #f3cf83;
+  border-radius: 50%;
+  box-shadow: 0 0 30px #f3cf8333;
+}
+.current-metrics {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 16px;
+  border-top: 1px solid #ffffff30;
+  padding-top: 22px;
+  margin: 0;
+}
+.current-metrics dt {
+  font-size: 11px;
+  opacity: 0.75;
+  margin-bottom: 9px;
+}
+.current-metrics dd {
+  font-size: 23px;
+  margin: 0;
+}
+.current-metrics dd span {
+  font-size: 10px;
+  margin-left: 5px;
+}
+.forecast-days {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 4px;
+}
+.forecast-days button {
+  border: 1px solid transparent;
+  border-radius: 12px;
+  padding: 13px 3px;
+  color: inherit;
+  background: transparent;
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  gap: 18px;
+  font-size: 12px;
+}
+.forecast-days button[aria-pressed='true'] {
+  background: #e6eadf;
+  border-color: #d2d9c9;
+}
+.forecast-days button:hover {
+  background: #e6eadf;
+}
+.forecast-symbol {
+  font-size: 29px;
+  line-height: 36px;
+  color: #a56c1c;
+}
+.forecast-symbol.rain {
+  color: #5f7e8f;
+}
+.forecast-days strong {
+  font-size: 14px;
+  white-space: nowrap;
+}
+.forecast-days small {
+  font-size: 11px;
+  color: #546153;
+  font-weight: 400;
+}
+.forecast-detail {
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 8px;
+  padding: 16px 0;
+  margin-top: 15px;
+  border-bottom: 1px solid #dce0d7;
+  font-size: 12px;
+}
+.forecast-detail span {
+  color: #637065;
+}
+.air-reading {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  margin: 20px 0;
+}
+.air-reading > strong {
+  font-size: 70px;
+  font-weight: 400;
+  letter-spacing: -4px;
+  line-height: 1;
+}
+.air-reading p {
+  margin: 8px 0 0;
+  font-size: 11px;
+}
+.air-badge {
+  display: inline-block;
+  padding: 5px 12px;
+  border-radius: 20px;
+  color: #215d42;
+  background: #dcebdd;
+  font-size: 12px;
+  font-weight: 600;
+}
+.bulletin-air-scale {
+  height: 7px;
+  background: linear-gradient(
+    90deg,
+    #83ae93 0 25%,
+    #c6c28a 25% 50%,
+    #d5ac7f 50% 75%,
+    #b88e85 75%
+  );
+  border-radius: 5px;
+  position: relative;
+}
+.bulletin-air-scale > span {
+  position: absolute;
+  left: 12%;
+  top: -4px;
+  height: 15px;
+  width: 4px;
+  background: #294835;
+  border: 1px solid white;
+  border-radius: 2px;
+}
+.air-scale-labels {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 8px;
+  font-size: 10px;
+  color: #637065;
+}
+.air-advice {
+  font-size: 13px;
+  line-height: 1.8;
+  margin: 20px 0 14px;
+}
+.air-details {
+  border: 0;
+  border-bottom: 1px solid #93ab96;
+  color: #2c6546;
+  background: transparent;
+  padding: 4px 0;
+  font-size: 12px !important;
+}
+[data-testid='weather-pollutants'] {
+  font-size: 12px;
+}
+@media (max-width: 600px) {
+  .bulletin {
+    padding: 22px;
+  }
+  .bulletin h2 {
+    font-size: 28px;
+  }
+  .weather-orbit {
+    width: 60px;
+    height: 60px;
+    top: -70px;
+  }
+  .bulletin-temperature {
+    font-size: 96px;
+  }
+}

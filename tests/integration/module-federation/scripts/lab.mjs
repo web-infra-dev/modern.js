@@ -7,6 +7,7 @@ import { fileURLToPath } from 'node:url';
 import { createRequire } from 'node:module';
 import getPort from 'get-port';
 import treeKill from 'tree-kill';
+import { createResponseGate } from './response-gate.mjs';
 const fixtureRoot = fileURLToPath(new URL('../', import.meta.url));
 const names = [
   'host',
@@ -50,10 +51,28 @@ export async function startLab(
   const logs = new Map();
   /** @type {{ probe: string; path: string; completed: boolean; aborted: boolean }[]} */
   const routeRequests = [];
-  /** @type {{ probe: string; completed: boolean; aborted: boolean }[]} */
+  /** @type {{ probe: string; completed: boolean; aborted: boolean; marker?: string }[]} */
   const bridgeRequests = [];
+  /** @type {string[]} */
+  const weatherRequests = [];
   const bridgeGates = new Map();
+  const pendingOutlooks = new Map();
   const releasedBridgeGates = new Set();
+  const documentGates = new Map();
+  const responseGates = new Set();
+  const bridgeResults = new Map();
+  // These controls belong to one exact document/request sequence, and are
+  // registered by tests only. Public routes and cancellation are unchanged.
+  const gateDocument = pathname => {
+    const gate = createResponseGate();
+    documentGates.set(pathname, gate);
+    responseGates.add(gate);
+    return gate;
+  };
+  const queueBridgeResults = (probe, markers) => {
+    bridgeResults.set(probe, [...markers]);
+    return () => bridgeResults.delete(probe);
+  };
   const releaseBridge = probe => {
     releasedBridgeGates.add(probe);
     bridgeGates.get(probe)?.();
@@ -174,6 +193,10 @@ export async function startLab(
   }
   async function stop() {
     stopping = true;
+    for (const gate of responseGates) gate.dispose();
+    responseGates.clear();
+    documentGates.clear();
+    bridgeResults.clear();
     await Promise.all(
       servers.map(
         server =>
@@ -239,7 +262,11 @@ export async function startLab(
               ? { 'cache-control': 'no-store' }
               : {}),
           });
-          response.pipe(res);
+          const gate = documentGates.get(req.url);
+          if (gate) {
+            documentGates.delete(req.url);
+            gate.pipe(response, res);
+          } else response.pipe(res);
         },
       );
       upstream.on('error', error => {
@@ -258,11 +285,81 @@ export async function startLab(
       res.setHeader('Access-Control-Allow-Origin', '*');
       res.setHeader('Cache-Control', 'no-store');
       const url = new URL(req.url, 'http://localhost');
+      if (url.pathname === '/bridge-data/cancel' && req.method === 'POST') {
+        pendingOutlooks.get(url.searchParams.get('token'))?.();
+        res.writeHead(204).end();
+        return;
+      }
+      if (url.pathname === '/bridge-weather') {
+        const kind = url.searchParams.get('kind') || '';
+        const bulletins = {
+          current: { temperature: 24, condition: 'Mostly sunny' },
+          forecast: {
+            days: [
+              {
+                day: 'Today',
+                condition: 'Mostly sunny',
+                high: 26,
+                low: 18,
+                rain: '10%',
+              },
+              {
+                day: 'Tue',
+                condition: 'Cloudy',
+                high: 24,
+                low: 17,
+                rain: '20%',
+              },
+              {
+                day: 'Wed',
+                condition: 'Light rain',
+                high: 21,
+                low: 16,
+                rain: '80%',
+              },
+              {
+                day: 'Thu',
+                condition: 'Sunny spells',
+                high: 23,
+                low: 16,
+                rain: '15%',
+              },
+              {
+                day: 'Fri',
+                condition: 'Clear skies',
+                high: 25,
+                low: 18,
+                rain: '5%',
+              },
+            ],
+          },
+          air: { aqi: 32 },
+        };
+        if (!Object.hasOwn(bulletins, kind)) {
+          res.writeHead(404).end();
+          return;
+        }
+        weatherRequests.push(kind);
+        res.writeHead(200, { 'Content-Type': 'application/json' });
+        res.end(JSON.stringify({ ...bulletins[kind], updatedAt: '10:30 CST' }));
+        return;
+      }
       if (url.pathname === '/bridge-data') {
         const probe = url.searchParams.get('probe') || '';
-        const record = { probe, completed: false, aborted: false };
+        const markers = bridgeResults.get(probe);
+        const marker = markers?.shift();
+        if (markers && !markers.length) bridgeResults.delete(probe);
+        const cancelToken = url.searchParams.get('cancelToken');
+        if (cancelToken) pendingOutlooks.set(cancelToken, () => res.destroy());
+        const record = {
+          probe,
+          completed: false,
+          aborted: false,
+          ...(marker ? { marker } : {}),
+        };
         bridgeRequests.push(record);
         res.on('close', () => {
+          if (cancelToken) pendingOutlooks.delete(cancelToken);
           if (!res.writableFinished) record.aborted = true;
           bridgeGates.get(probe)?.();
           bridgeGates.delete(probe);
@@ -270,10 +367,38 @@ export async function startLab(
         if (url.searchParams.has('hold') && !releasedBridgeGates.has(probe)) {
           await new Promise(resolve => bridgeGates.set(probe, resolve));
         }
+        const delay = Math.min(
+          5000,
+          Math.max(0, Number(url.searchParams.get('delay')) || 0),
+        );
+        if (delay)
+          await new Promise(resolve => {
+            const timer = setTimeout(resolve, delay);
+            res.once('close', () => {
+              clearTimeout(timer);
+              resolve();
+            });
+          });
         if (res.destroyed) return;
         record.completed = true;
+        if (url.searchParams.get('failure') === 'data') {
+          res.writeHead(503, { 'Content-Type': 'application/json' });
+          res.end(JSON.stringify({ error: 'Detailed outlook unavailable' }));
+          return;
+        }
         res.writeHead(200, { 'Content-Type': 'application/json' });
-        res.end(JSON.stringify({ detail: `Resolved ${probe}` }));
+        res.end(
+          JSON.stringify({
+            detail: `Resolved ${marker || probe}`,
+            ...(url.searchParams.has('day')
+              ? {
+                  outlook: ['wed', 'fri'].includes(url.searchParams.get('day'))
+                    ? 'Bring an umbrella for showers. Plan a short walk between rain spells.'
+                    : 'A good day for a lakeside walk. Bring sun protection and a light layer for the evening.',
+                }
+              : {}),
+          }),
+        );
         return;
       }
       if (url.pathname === '/route-loader') {
@@ -360,7 +485,10 @@ export async function startLab(
       logs,
       routeRequests,
       bridgeRequests,
+      weatherRequests,
       releaseBridge,
+      gateDocument,
+      queueBridgeResults,
     };
   } catch (error) {
     await stop();
