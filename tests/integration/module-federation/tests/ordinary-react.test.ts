@@ -128,15 +128,25 @@ async function stop(child: ChildProcess | undefined) {
 
 describe('Ordinary React production builds without module federation', () => {
   let browser: Browser;
+  let browserProfile: string;
   beforeAll(async () => {
+    browserProfile = await mkdtemp(
+      path.join(tmpdir(), 'modern-ordinary-browser-'),
+    );
     browser = await puppeteer.launch({
       headless: true,
+      userDataDir: browserProfile,
       executablePath: process.env.PUPPETEER_EXECUTABLE_PATH,
       args: ['--no-sandbox', '--disable-dev-shm-usage'],
     });
   });
   afterAll(async () => {
-    await browser?.close();
+    try {
+      await browser?.close();
+    } finally {
+      if (browserProfile)
+        await rm(browserProfile, { recursive: true, force: true });
+    }
   });
 
   it.each(['csr', 'string', 'stream'] as const)(
