@@ -49,19 +49,21 @@ The browser entry implements `render`, `hydrate`, updates and unmounting. The No
 
 `createReactRemote` and `ReactRemote` continue to consume ordinary components and Bridge applications:
 
+{/* prettier-ignore */}
 ```tsx
-import { createReactRemote } from '@modern-js/runtime/mf';
+import { createReactRemote } from '@modern-js/runtime/mf'
+import { loadRemote } from '@module-federation/enhanced/runtime'
 
 const Product = createReactRemote({
-  remote: 'shop/ProductApp',
+  remote: () => loadRemote('shop/ProductApp'),
   basename: '/inventory',
   loading: <p>Loading products</p>,
-});
+})
 ```
 
 The detail URL is `/inventory/detail/42`. The selection prefix `/product` is not restored. Inside a Modern route, the framework adapter connects navigation in both directions. `createModernReactRemote` can infer the basename of the mounting route.
 
-`remote` also accepts `() => loadRemote('shop/ProductApp')` or `() => Shop`, where `Shop` is an MF export previously loaded by the same runtime instance. Function inputs support SSR. The renderer is selected after loading, and typed results preserve business prop inference.
+`remote` requires a function, such as `() => loadRemote('shop/ProductApp')` or `() => Shop`, where `Shop` is an MF export previously loaded by the same runtime instance. The renderer is selected after loading, and typed results preserve business prop inference. The Host reserves SSR work before the function completes, including delayed Bridge registration. Use `noSSR` to prevent the consumer from executing the loader and its module on the server. It does not undo static imports performed outside the consumer.
 
 The response contains remote HTML and recovery data. Each browser instance hydrates when its container and data are ready and handles subsequent stream data independently. Props updates and internal navigation preserve the Root, Router and page state. The basename stays fixed during a mount, and changing it disposes the old instance and mounts a new one.
 

@@ -1,9 +1,10 @@
 import { useLocation, useNavigate } from '@modern-js/runtime/router';
 import { createReactRemote } from '@modern-js/runtime/mf';
 import { useEffect, useState } from 'react';
+import { loadRemote } from '@module-federation/enhanced/runtime';
 
 const Product = createReactRemote({
-  remote: 'provider/ProductApp',
+  remote: () => loadRemote('provider/ProductApp'),
   basename: '/admin/persistent/inventory',
 });
 

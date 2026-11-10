@@ -2,6 +2,7 @@ import { useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Link, useLoaderData } from '@modern-js/runtime/router';
 import { createReactRemote } from '@modern-js/runtime/mf';
+import { loadRemote } from '@module-federation/enhanced/runtime';
 
 const instances = [
   { name: 'one', lang: 'en', noSSR: false },
@@ -10,7 +11,7 @@ const instances = [
 ].map(({ name, lang, noSSR }) => ({
   name,
   Remote: createReactRemote({
-    remote: 'provider/IsolationApp',
+    remote: () => loadRemote('provider/IsolationApp'),
     memoryRoute: { entryPath: `/${lang}?probe=${name}` },
     noSSR,
   }),

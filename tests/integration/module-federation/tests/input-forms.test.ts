@@ -1,7 +1,6 @@
 import { describeLab } from './fixture';
 
 const names = [
-  'alias',
   'mf-loader',
   'namespace',
   'async-namespace',
@@ -73,7 +72,7 @@ describeLab('Remote input forms', getContext => {
         for (const instance of instances)
           expect(html).not.toContain(`data-testid="input-${instance}"`);
       }
-      await visit(`input-forms${query}`, 'input-factory-alias');
+      await visit(`input-forms${query}`, 'input-factory-mf-loader');
       await page.waitForSelector('html[data-input-forms-ready="true"]');
       await page.waitForFunction(() =>
         ['input-preloaded-forecast', 'input-preloaded-forecast-module'].every(
@@ -136,7 +135,7 @@ describeLab('Remote input forms', getContext => {
 
   it('retries failed function sources through both APIs while preserving a neighboring component', async () => {
     const { page, visit, click } = getContext();
-    await visit('input-forms', 'input-factory-alias');
+    await visit('input-forms', 'input-factory-mf-loader');
     await page.waitForSelector('html[data-input-forms-ready="true"]');
     await page.waitForFunction(() =>
       ['input-preloaded-forecast', 'input-preloaded-forecast-module'].every(
@@ -146,7 +145,7 @@ describeLab('Remote input forms', getContext => {
           )?.textContent === 'modern-server',
       ),
     );
-    await click('input-factory-alias-count');
+    await click('input-factory-mf-loader-count');
     await click('input-show-retry');
     for (const api of ['factory', 'declarative']) {
       await page.waitForSelector(`[data-testid="input-retry-${api}"]`);
@@ -162,7 +161,7 @@ describeLab('Remote input forms', getContext => {
     }
     await click('input-rename');
     await page.waitForFunction(() =>
-      ['factory-alias', 'factory-retried', 'declarative-retried'].every(
+      ['factory-mf-loader', 'factory-retried', 'declarative-retried'].every(
         instance => {
           const element = document.querySelector(
             `[data-testid="input-${instance}"]`,
