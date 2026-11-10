@@ -19,6 +19,7 @@
     "typescript": "^5",
     "@modern-js/server-runtime": "workspace:*",
     "@modern-js/app-tools": "workspace:*",
-    "@modern-js/tsconfig": "workspace:*"
+    "@modern-js/tsconfig": "workspace:*",
+    "@modern-js/plugin-module-federation": "workspace:*"
   }
 }

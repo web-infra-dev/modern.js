@@ -3864,6 +3864,9 @@ importers:
       '@modern-js/tsconfig':
         specifier: workspace:*
         version: link:../../../../packages/tsconfig
+      typescript:
+        specifier: ^5
+        version: 5.9.3
 
   tests/integration/module-federation/library:
     dependencies:
@@ -3885,10 +3888,10 @@ importers:
         version: link:../../../../packages/tsconfig
       '@module-federation/rsbuild-plugin':
         specifier: 0.0.0-feat-enhanced-runtime-unification-20261110060527
-        version: 0.0.0-feat-enhanced-runtime-unification-20261110060527(@rsbuild/core@2.1.13(@module-federation/runtime-tools@2.9.2)(core-js@3.50.0))(@rspack/core@2.2.9(@module-federation/runtime-tools@2.9.2)(@swc/helpers@0.5.23))(bufferutil@4.1.0)(typescript@5.9.3)(utf-8-validate@5.0.10)(webpack@5.104.1(@swc/core@1.16.20(@swc/helpers@0.5.23)))
+        version: 0.0.0-feat-enhanced-runtime-unification-20261110060527(@rsbuild/core@2.2.13(@module-federation/runtime-tools@2.9.2)(core-js@3.50.0))(@rspack/core@2.2.9(@module-federation/runtime-tools@2.9.2)(@swc/helpers@0.5.23))(bufferutil@4.1.0)(typescript@5.9.3)(utf-8-validate@5.0.10)(webpack@5.104.1(@swc/core@1.16.20(@swc/helpers@0.5.23)))
       '@rsbuild/plugin-react':
         specifier: 1.4.5
-        version: 1.4.5(@rsbuild/core@2.1.13(@module-federation/runtime-tools@2.9.2)(core-js@3.50.0))
+        version: 1.4.5(@rsbuild/core@2.2.13(@module-federation/runtime-tools@2.9.2)(core-js@3.50.0))
       '@rslib/core':
         specifier: 0.23.2
         version: 0.23.2(@module-federation/runtime-tools@2.9.2)(core-js@3.50.0)(typescript@5.9.3)
@@ -3917,6 +3920,9 @@ importers:
       '@modern-js/tsconfig':
         specifier: workspace:*
         version: link:../../../../packages/tsconfig
+      typescript:
+        specifier: ^5
+        version: 5.9.3
 
   tests/integration/module-federation/provider:
     dependencies:
@@ -3948,6 +3954,9 @@ importers:
       '@modern-js/app-tools':
         specifier: workspace:*
         version: link:../../../../packages/solutions/app-tools
+      '@modern-js/plugin-module-federation':
+        specifier: workspace:*
+        version: link:../../../../packages/cli/plugin-module-federation
       '@modern-js/server-runtime':
         specifier: workspace:*
         version: link:../../../../packages/server/server-runtime
@@ -21687,13 +21696,13 @@ snapshots:
       - utf-8-validate
       - vue-tsc
 
-  '@module-federation/rsbuild-plugin@0.0.0-feat-enhanced-runtime-unification-20261110060527(@rsbuild/core@2.1.13(@module-federation/runtime-tools@2.9.2)(core-js@3.50.0))(@rspack/core@2.2.9(@module-federation/runtime-tools@2.9.2)(@swc/helpers@0.5.23))(bufferutil@4.1.0)(typescript@5.9.3)(utf-8-validate@5.0.10)(webpack@5.104.1(@swc/core@1.16.20(@swc/helpers@0.5.23)))':
+  '@module-federation/rsbuild-plugin@0.0.0-feat-enhanced-runtime-unification-20261110060527(@rsbuild/core@2.2.13(@module-federation/runtime-tools@0.0.0-feat-enhanced-runtime-unification-20261110060527)(core-js@3.50.0))(@rspack/core@2.2.9(@module-federation/runtime-tools@0.0.0-feat-enhanced-runtime-unification-20261110060527)(@swc/helpers@0.5.23))(bufferutil@4.1.0)(typescript@5.7.3)(utf-8-validate@5.0.10)(webpack@5.104.1(@swc/core@1.16.20(@swc/helpers@0.5.23)))':
     dependencies:
-      '@module-federation/enhanced': 0.0.0-feat-enhanced-runtime-unification-20261110060527(@rspack/core@2.2.9(@module-federation/runtime-tools@2.9.2)(@swc/helpers@0.5.23))(bufferutil@4.1.0)(typescript@5.9.3)(utf-8-validate@5.0.10)(webpack@5.104.1(@swc/core@1.16.20(@swc/helpers@0.5.23)))
-      '@module-federation/node': 0.0.0-feat-enhanced-runtime-unification-20261110060527(@rspack/core@2.2.9(@module-federation/runtime-tools@2.9.2)(@swc/helpers@0.5.23))(bufferutil@4.1.0)(typescript@5.9.3)(utf-8-validate@5.0.10)(webpack@5.104.1(@swc/core@1.16.20(@swc/helpers@0.5.23)))
+      '@module-federation/enhanced': 0.0.0-feat-enhanced-runtime-unification-20261110060527(@rspack/core@2.2.9(@module-federation/runtime-tools@0.0.0-feat-enhanced-runtime-unification-20261110060527)(@swc/helpers@0.5.23))(bufferutil@4.1.0)(typescript@5.7.3)(utf-8-validate@5.0.10)(webpack@5.104.1(@swc/core@1.16.20(@swc/helpers@0.5.23)))
+      '@module-federation/node': 0.0.0-feat-enhanced-runtime-unification-20261110060527(@rspack/core@2.2.9(@module-federation/runtime-tools@0.0.0-feat-enhanced-runtime-unification-20261110060527)(@swc/helpers@0.5.23))(bufferutil@4.1.0)(typescript@5.7.3)(utf-8-validate@5.0.10)(webpack@5.104.1(@swc/core@1.16.20(@swc/helpers@0.5.23)))
       '@module-federation/sdk': 0.0.0-feat-enhanced-runtime-unification-20261110060527
     optionalDependencies:
-      '@rsbuild/core': 2.1.13(@module-federation/runtime-tools@2.9.2)(core-js@3.50.0)
+      '@rsbuild/core': 2.2.13(@module-federation/runtime-tools@0.0.0-feat-enhanced-runtime-unification-20261110060527)(core-js@3.50.0)
     transitivePeerDependencies:
       - '@rspack/core'
       - bufferutil
@@ -21702,13 +21711,13 @@ snapshots:
       - vue-tsc
       - webpack
 
-  '@module-federation/rsbuild-plugin@0.0.0-feat-enhanced-runtime-unification-20261110060527(@rsbuild/core@2.2.13(@module-federation/runtime-tools@0.0.0-feat-enhanced-runtime-unification-20261110060527)(core-js@3.50.0))(@rspack/core@2.2.9(@module-federation/runtime-tools@0.0.0-feat-enhanced-runtime-unification-20261110060527)(@swc/helpers@0.5.23))(bufferutil@4.1.0)(typescript@5.7.3)(utf-8-validate@5.0.10)(webpack@5.104.1(@swc/core@1.16.20(@swc/helpers@0.5.23)))':
+  '@module-federation/rsbuild-plugin@0.0.0-feat-enhanced-runtime-unification-20261110060527(@rsbuild/core@2.2.13(@module-federation/runtime-tools@2.9.2)(core-js@3.50.0))(@rspack/core@2.2.9(@module-federation/runtime-tools@2.9.2)(@swc/helpers@0.5.23))(bufferutil@4.1.0)(typescript@5.9.3)(utf-8-validate@5.0.10)(webpack@5.104.1(@swc/core@1.16.20(@swc/helpers@0.5.23)))':
     dependencies:
-      '@module-federation/enhanced': 0.0.0-feat-enhanced-runtime-unification-20261110060527(@rspack/core@2.2.9(@module-federation/runtime-tools@0.0.0-feat-enhanced-runtime-unification-20261110060527)(@swc/helpers@0.5.23))(bufferutil@4.1.0)(typescript@5.7.3)(utf-8-validate@5.0.10)(webpack@5.104.1(@swc/core@1.16.20(@swc/helpers@0.5.23)))
-      '@module-federation/node': 0.0.0-feat-enhanced-runtime-unification-20261110060527(@rspack/core@2.2.9(@module-federation/runtime-tools@0.0.0-feat-enhanced-runtime-unification-20261110060527)(@swc/helpers@0.5.23))(bufferutil@4.1.0)(typescript@5.7.3)(utf-8-validate@5.0.10)(webpack@5.104.1(@swc/core@1.16.20(@swc/helpers@0.5.23)))
+      '@module-federation/enhanced': 0.0.0-feat-enhanced-runtime-unification-20261110060527(@rspack/core@2.2.9(@module-federation/runtime-tools@2.9.2)(@swc/helpers@0.5.23))(bufferutil@4.1.0)(typescript@5.9.3)(utf-8-validate@5.0.10)(webpack@5.104.1(@swc/core@1.16.20(@swc/helpers@0.5.23)))
+      '@module-federation/node': 0.0.0-feat-enhanced-runtime-unification-20261110060527(@rspack/core@2.2.9(@module-federation/runtime-tools@2.9.2)(@swc/helpers@0.5.23))(bufferutil@4.1.0)(typescript@5.9.3)(utf-8-validate@5.0.10)(webpack@5.104.1(@swc/core@1.16.20(@swc/helpers@0.5.23)))
       '@module-federation/sdk': 0.0.0-feat-enhanced-runtime-unification-20261110060527
     optionalDependencies:
-      '@rsbuild/core': 2.2.13(@module-federation/runtime-tools@0.0.0-feat-enhanced-runtime-unification-20261110060527)(core-js@3.50.0)
+      '@rsbuild/core': 2.2.13(@module-federation/runtime-tools@2.9.2)(core-js@3.50.0)
     transitivePeerDependencies:
       - '@rspack/core'
       - bufferutil
@@ -22748,9 +22757,9 @@ snapshots:
     optionalDependencies:
       '@rsbuild/core': 2.2.13(@module-federation/runtime-tools@2.9.2)(core-js@3.50.0)
 
-  '@rsbuild/plugin-react@1.4.5(@rsbuild/core@2.1.13(@module-federation/runtime-tools@2.9.2)(core-js@3.50.0))':
+  '@rsbuild/plugin-react@1.4.5(@rsbuild/core@2.2.13(@module-federation/runtime-tools@2.9.2)(core-js@3.50.0))':
     dependencies:
-      '@rsbuild/core': 2.1.13(@module-federation/runtime-tools@2.9.2)(core-js@3.50.0)
+      '@rsbuild/core': 2.2.13(@module-federation/runtime-tools@2.9.2)(core-js@3.50.0)
       '@rspack/plugin-react-refresh': 1.6.2(react-refresh@0.18.0)
       react-refresh: 0.18.0
     transitivePeerDependencies:

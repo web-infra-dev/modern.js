@@ -11,6 +11,7 @@ import {
 import { SERVER_BUNDLE_DIRECTORY, logger } from '@modern-js/utils';
 import { isDev } from './utils';
 import { markRootExposes } from './rootExposes';
+import { serviceIngressPath } from '../servicePath';
 
 import type { InternalModernPluginOptions } from '../types';
 import type { Rspack, RspackChain } from '@rsbuild/core';
@@ -376,6 +377,38 @@ export const moduleFederationConfigPlugin = (
     }
     const csrConfig = userConfig.csrConfig || cloneConfig(mfConfig);
     const ssrConfig = userConfig.ssrConfig || cloneConfig(mfConfig);
+    const services = userConfig.originPluginOptions.services;
+    if (services && Object.keys(services).length) {
+      if (mfConfig.shareStrategy === 'version-first')
+        throw new Error(
+          '[Modern.js Module Federation] Service App requires loaded-first sharing. version-first loads Node containers before expose selection.',
+        );
+      ssrConfig.runtimePlugins ||= [];
+      csrConfig.runtimePlugins ||= [];
+      ssrConfig.runtimePlugins.push([
+        require.resolve('@module-federation/bridge-react/service-runtime-plugin.node'),
+        services,
+      ]);
+      csrConfig.runtimePlugins.push([
+        require.resolve('@module-federation/bridge-react/service-runtime-plugin'),
+        Object.fromEntries(
+          Object.entries(services).map(([id, binding]) => [
+            id,
+            { url: serviceIngressPath(id), timeoutMs: binding.timeoutMs },
+          ]),
+        ),
+      ]);
+      api._internalServerPlugins(({ plugins }) => {
+        plugins.push({
+          name: resolveInternalPlugin('../server/servicePlugin'),
+          options: {
+            services,
+            origin: userConfig.originPluginOptions.serviceOrigin,
+          },
+        });
+        return { plugins };
+      });
+    }
     userConfig.ssrConfig = ssrConfig;
     userConfig.csrConfig = csrConfig;
     const enableSSR = Boolean(

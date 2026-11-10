@@ -1,0 +1,138 @@
+# Service App
+
+Service App 在生产者独立 HTTP 服务中执行应用 SSR 和首屏业务数据访问。SSR Host 将这些结果接入现有页面合流。CSR Host 保持 `server.ssr: false`，挂载后单独请求远端 HTML，并在慢数据完成前恢复已就绪区域的交互。
+
+两条路径复用现有应用定义、客户端 provider、Root、Router 和实例生命周期。纯静态 Host 仍需同源服务或网关。使用前需要配套包含 Service 能力的 Core 与 Modern 版本，本地产物联调不能代替真实发布包验收。
+
+## 导出应用
+
+{/* prettier-ignore */}
+```tsx
+import '@modern-js/runtime/registry/index'
+import { createRoot } from '@modern-js/runtime/react'
+import { createModernBridgeComponent } from '@modern-js/runtime/mf'
+
+const WeatherRoot = createRoot({ route: '/weather' })
+export default createModernBridgeComponent({
+  rootComponent: WeatherRoot,
+  isService: true,
+})
+```
+
+在 `module-federation.config.ts` 中按普通 expose 暴露该文件。省略 `route` 导出整应用。也可以向 `createBridgeComponent` 显式传入 Modern 的 `render`、`hydrate`、`renderStream` 回调。
+
+构建把当前 expose 的 `render: 'bridge'`、`isService: true` 写入 manifest 和 Snapshot。这些是公开能力信息，不包含服务地址或凭据。
+
+构建双端生产者产物时，使用已有的 `MF_BUILD_VERSION` 设置一次唯一构建身份，例如部署对应的提交标识。manifest、浏览器 provider、Node provider 和服务应一起部署。消费者自动从解析后的 Snapshot 取得预期身份，组件不用重复填写版本。生产者在渲染和缓存查找前校验身份，不匹配返回 409。Core 默认退到包版本，无法区分同一包版本的多次构建，因此部署流程必须提供可区分这些产物的身份。
+
+## 提供生产者服务
+
+直接导入服务助手时，声明对 `@modern-js/plugin-module-federation` 的直接依赖。在 `server/modern.server.ts` 中只创建一次中间件：
+
+{/* prettier-ignore */}
+```ts
+import { defineServerConfig } from '@modern-js/server-runtime'
+import { createBridgeServiceMiddleware } from '@modern-js/plugin-module-federation/service'
+
+const weather = createBridgeServiceMiddleware({
+  path: '/services/render',
+  manifest: 'https://assets.example.com/weather/mf-manifest.json',
+  module: 'weather_app/App',
+  authorize: authenticateServiceRequest,
+  cache: { maxAgeMs: 60000 },
+})
+
+export default defineServerConfig({
+  middlewares: [{ name: 'weather-service', handler: weather }],
+})
+```
+
+服务加载的模块由可信部署配置决定，调用方不能通过 HTTP 参数改选生产者。公开服务可以省略 `authorize`。配置后，该回调在每次缓存查找前执行，可返回 Response 拒绝请求。每次请求都必须执行的鉴权，应放在这里或前置网关，不能只放在会被缓存命中跳过的业务 loader 中。
+
+服务加载真实 Node expose，调用同一份应用的 `renderStream`。生产者只执行一次 HTML 分帧、React 更新脚本隔离和 ready 判定。HTTP 消费端只解码和校验完整消息，不重新解析生产者 HTML。协议复用 `module-federation/bridge-ssr/producer/v1`。
+
+## 配置 SSR Host 或 CSR Host
+
+{/* prettier-ignore */}
+```ts
+import { appTools, defineConfig } from '@modern-js/app-tools'
+
+export default defineConfig({
+  server: { ssr: { mode: 'stream' } },
+  moduleFederation: {
+    services: {
+      'weather/App': {
+        url: 'http://weather-service/services/render',
+        timeoutMs: 15000,
+        forwardHeaders: ['accept-language'],
+        serviceHeaders: { authorization: serviceCredential },
+      },
+    },
+  },
+  plugins: [appTools()],
+})
+```
+
+`module-federation.config.ts` 继续保留普通的 `remotes` manifest 配置。`services` 的键使用 Host 别名加 expose，生产者中间件的 `module` 使用生产者自身的 MF 名称。
+
+CSR Host 只需把 `server.ssr` 改为 `false`。Modern 自动提供 `/_modern/mf/service/<编码后的模块 ID>` 同源入口，校验来源、模块、页面 URL 和有界参数，并仅从可信配置选择上游。单独部署的静态页面可以在同源网关挂载导出的 `createBridgeServiceIngressMiddleware`，再注册对应的 Core 浏览器绑定。
+
+在网关终止 TLS 或改写 Host 时，配置 `moduleFederation.serviceOrigin` 为可信公开 Host origin，例如 `https://app.example.com`。来源与页面 URL 都按此配置校验，不自动信任客户端提供的转发头。独立网关助手使用第二个参数 `{ origin }`。
+
+`forwardHeaders` 默认空列表，选择可以传给业务 loader 的用户请求头。`serviceHeaders` 用于独立的上游服务认证，只进入 Node 配置。浏览器产物只取得同源地址和超时，不包含内部服务凭据。不要把凭据放进业务 props 或 manifest。
+
+Service 使用 `loaded-first` 共享策略，Modern 默认已经启用。显式 `version-first` 会在选择 expose 前加载 Node container 来发现共享，因此配置 Service 时会明确报错，不静默修改该配置。
+
+HTTP 默认超时 30 秒，持续覆盖到消息流完成，不会在收到 meta 后停止计时。外层 Bridge 任务时限仍然生效。首版不提供本地 Node 回退。meta 前后失败都使用既有 Bridge 恢复机制，显式 `csr=1` 恢复和 `noSSR` 会绕过 Service 请求，直接在浏览器渲染。
+
+## 使用现有消费 API
+
+{/* prettier-ignore */}
+```tsx
+import { createModernReactRemote, ReactRemote } from '@modern-js/runtime/mf'
+import { loadRemote } from '@module-federation/enhanced/runtime'
+import WeatherApp from 'weather/App'
+
+const Weather = createModernReactRemote({
+  remote: () => loadRemote('weather/App'),
+  loading: <p>正在连接天气服务…</p>,
+})
+
+export default function Page() {
+  return (
+    <>
+      <Weather city="Hangzhou" />
+      <ReactRemote remote={() => WeatherApp} props={{ city: 'Shanghai' }} />
+    </>
+  )
+}
+```
+
+也支持 `createReactRemote`。remote 仍然只接受函数，保留默认导出、模块 namespace 和业务 props 类型推导。Service props 必须可以 JSON 序列化，不传递 DOM、回调或闭包。
+
+Node runtime 在解析当前 expose 的 Snapshot 后，对 Service 返回轻量导出并短路代码加载。同 remote 的普通 expose 仍然加载真实 entry。模块描述可以复用，props、用户上下文、signal 和流分别属于本次渲染。
+
+CSR loading 位于目标容器外。Host 提交空容器后，现有接收器逐段插入 HTML、加载 CSS 并接收初始 snapshot 和 updates。客户端 provider 在初始内容就绪后只水合一次，HTTP 继续读取慢区域。已有 SSR 会话时直接恢复，不重复请求。后续 props、导航、多实例、卸载和重挂继续使用原生命周期。取消会释放接收会话、HTTP 和 provider，旧挂载的消息不能更新新实例。
+
+## 缓存与故障边界
+
+缓存默认关闭。开启后仅保存成功完成的生产者消息序列，包含渐进 ready 和 updates，不计算 Modern 最终完整 snapshot。默认最多保存 128 条、32 MiB，单条上限为 1 MiB 与总容量的较小值。通过 `maxEntries`、`maxBytes`、`maxEntryBytes` 调整容量。TTL 从完成时计时，读取不延长有效期，容量不足按 LRU 淘汰。
+
+缓存匹配完整序列化输入，包括模块、URL、路由、props、用户上下文、构建身份、实例身份、React 前缀和 nonce。真实页面只有这些输入匹配才会命中。重挂、cookie 或 nonce 变化都可能未命中，不能为命中而删除有效输入或改写缓存 ID。回放各自读取和取消，不影响其他消费者。失败、取消、截断和非法序列不入缓存。响应使用 `Cache-Control: no-store`，这与服务内部结果缓存分别生效。
+
+默认限制包括单条 HTTP 消息和请求体 3 MiB、生产者 HTML 单元 2 MiB，以及各生产者／传输待消费队列 4 MiB。单条缓存超限只停止记录，实时 SSR 继续。队列超限会取消对应请求。这些预算不包含 React、socket 缓冲和其他并发请求，不是进程总内存上限，也不是完整的端到端背压。
+
+嵌入应用的重定向、状态码和响应头不会自动接管 Host 响应。部署代理应及时转发逐段结果和断连。性能应使用同一应用比较本地 Bridge SSR、Service miss、Service hit，并记录网络量和两端 CPU／内存，不预先认为独立部署更快。
+
+## 迁移与验收
+
+旧实验中的专用 loader、手工 moduleId 改为函数 remote、expose 能力和部署绑定。手工 revision 改为已有构建身份。Modern CSR 只使用初始 snapshot 和 updates，不恢复完整 snapshot 水合分支，也不引入单独的 Service／browser 协议版本。
+
+Weather Service Lab 默认重新分配独立空闲端口：
+
+```sh
+node tests/integration/module-federation/scripts/service-lab.mjs
+node tests/integration/module-federation/scripts/service-lab.mjs --production
+```
+
+按输出访问 SSR Host、CSR Host、生产者和业务 API。验收应核对原始响应里的真实远端 HTML 帧、文档 complete 后晚挂载、慢区未完成时交互、DOM 身份、数据恢复、取消，以及真实页面 miss→hit 的业务请求变化。CSR 恢复成功不能当作 SSR 成功。首版 Modern SSR 仍以匹配的 React／React DOM 19.3.1 为验证范围，详见 [Bridge SSR](./bridge-ssr)。

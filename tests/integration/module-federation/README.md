@@ -28,6 +28,23 @@ Advanced frames select their experiment through `/weather?scenario=...`. These s
 
 The public `/bridge-stream`, `/route-exports`, `/bridge-failure` and `/input-forms` routes are removed and return 404. Their contract fixtures live in `fixtures/bridge-contracts` and are copied only into test workspaces. The former three-panel Bridge input demonstration lives there as `/bridge-inputs`, also unavailable in the public lab. The application suite disables those copies to verify the real public route set.
 
+## Independent Service App lab
+
+Service runs allocate a fresh free port group instead of the interactive Weather Lab ports. Start from the repository root:
+
+```sh
+node tests/integration/module-federation/scripts/service-lab.mjs
+node tests/integration/module-federation/scripts/service-lab.mjs --production
+```
+
+The output records the producer, business API, SSR Host and CSR Host ports, their process IDs and access URLs. The same configuration supplies manifest URLs, assets, loader requests, same-origin ingress and HMR. Only processes started by this run are stopped with Ctrl+C.
+
+Both Hosts consume the same route-selected weather application, declared with `isService: true`. The SSR response contains real producer HTML. The CSR Host disables page SSR and requests progressive HTML after mounting. Use `?late=1&delay=5000` to connect after document completion while a slow outlook remains pending. Station props, saved state, navigation and reconnect use the existing application instance. `?multi=1` mounts an independent second instance, `?declarative=1&static=1` selects the declarative/static input combination, and `?declarative=1&memory=1` uses an explicit memory route. Factory cases cover both `createModernReactRemote` with inferred basename and `createReactRemote` with explicit basename.
+
+The producer result cache is explicitly enabled for this fixture. Exact matching page requests can reuse a completed transcript, including ready and updates. Browser ingress uses trusted deployment bindings and keeps the fixture service credential out of browser artifacts. See the [Service App guide](../../../packages/document/docs/en/guides/topic-detail/module-federation/service-app.mdx) for deployment, TLS origin binding, limits and release requirements.
+
+Fault-only queries `serviceFault=early` and `serviceFault=late` exercise HTTP 503 and a real producer disconnect. Tests release the latter through the existing response gate only after proving interaction. A recovered `csr=1` document is a recovery assertion and is never counted as SSR success.
+
 ## Unified API integration
 
 Ordinary and nested weather consumers call `createReactRemote` with functions such as `() => loadRemote('alias/Expose')`. After the function resolves, the framework API selects the renderer from the loaded module's runtime provenance and Snapshot metadata. Components use the existing SSR, hydration, CSS/assets and data-fetch pipeline. Fault wrappers supply request-specific props and data-fetch parameters without mutating a loaded component or server-wide flag.
@@ -146,12 +163,12 @@ The Module Federation E2E workflow runs five test jobs on independent runners. E
 | `lab-production-B` |       57 |
 | `common`           |       22 |
 
-The common job also runs `rootExposes.test.ts` and `routeScope.test.ts` once each, using their existing package configurations. These unit cases are checked separately from the 229 MF cases.
+The common job also runs `rootExposes.test.ts` and `routeScope.test.ts` once each, using their existing package configurations. These unit cases are checked separately from the 259 MF cases.
 
 [`scripts/groups.mjs`](./scripts/groups.mjs) owns the A/B/common file assignments. Both Rstest selection and result verification use it. Unknown, duplicate and unassigned files, empty groups and invalid environment parameters fail before services start. When adding or removing cases, update the committed [`case-manifest.json`](./case-manifest.json) from a successful full serial report and review the identity diff.
 
 ```sh
-# All 229 MF cases, serially, with the original local entry point
+# All 259 MF cases, serially, with the original local entry point
 pnpm --filter mf-lab-tests test --bail=1
 
 # One file group and mode

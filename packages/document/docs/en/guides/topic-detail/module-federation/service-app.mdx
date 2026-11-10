@@ -1,0 +1,136 @@
+# Service Apps
+
+A Service App runs its SSR and initial business data access in a separate producer HTTP service. An SSR Host combines that output with its page. A CSR Host keeps `server.ssr: false` and requests remote HTML after mounting, then hydrates the ready regions while slower data continues arriving.
+
+Both use the existing application definition, browser provider, router and instance lifecycle. A static Host still needs a same-origin service or gateway. This capability requires coordinated Core and Modern versions containing Service support. Locally linked or packed artifacts do not establish published-package compatibility.
+
+## Export the application
+
+{/* prettier-ignore */}
+```tsx
+import '@modern-js/runtime/registry/index'
+import { createRoot } from '@modern-js/runtime/react'
+import { createModernBridgeComponent } from '@modern-js/runtime/mf'
+
+const WeatherRoot = createRoot({ route: '/weather' })
+export default createModernBridgeComponent({
+  rootComponent: WeatherRoot,
+  isService: true,
+})
+```
+
+Expose this file normally in `module-federation.config.ts`. Omit `route` for the whole application. `createBridgeComponent` with explicit Modern `render`, `hydrate` and `renderStream` callbacks is also supported. The manifest and Snapshot record the current expose's public Bridge/Service capability, without service credentials or deployment addresses.
+
+Set a unique existing `MF_BUILD_VERSION` once when building the paired producer artifacts, for example from the deployment's commit identity. Deploy that manifest, browser provider, Node provider and service together. Consumers obtain the expected identity from the resolved Snapshot, without component-level versions. The producer validates it before rendering or looking up cached output. Missing coordinated deployment identity cannot detect rebuilding the same package version, because Core's default identity falls back to package version.
+
+## Provide the producer endpoint
+
+Declare a direct dependency on `@modern-js/plugin-module-federation` when importing its server helper. Register the middleware once in `server/modern.server.ts`:
+
+{/* prettier-ignore */}
+```ts
+import { defineServerConfig } from '@modern-js/server-runtime'
+import { createBridgeServiceMiddleware } from '@modern-js/plugin-module-federation/service'
+
+const weather = createBridgeServiceMiddleware({
+  path: '/services/render',
+  manifest: 'https://assets.example.com/weather/mf-manifest.json',
+  module: 'weather_app/App',
+  authorize: authenticateServiceRequest,
+  cache: { maxAgeMs: 60000 },
+})
+
+export default defineServerConfig({
+  middlewares: [{ name: 'weather-service', handler: weather }],
+})
+```
+
+The module is a trusted deployment binding. HTTP callers cannot select another producer module. `authorize` is optional for publicly accessible services and runs before every cache lookup when configured. It can return a Response to reject the request. Per-request authentication must run here or in an earlier gateway, because cache hits skip application loaders.
+
+The service loads its actual Node expose and calls the same application `renderStream`. Producer framing and React script isolation happen once. Consumers receive already prepared messages using `module-federation/bridge-ssr/producer/v1`.
+
+## Configure either Host
+
+{/* prettier-ignore */}
+```ts
+import { appTools, defineConfig } from '@modern-js/app-tools'
+
+export default defineConfig({
+  server: { ssr: { mode: 'stream' } },
+  moduleFederation: {
+    services: {
+      'weather/App': {
+        url: 'http://weather-service/services/render',
+        timeoutMs: 15000,
+        forwardHeaders: ['accept-language'],
+        serviceHeaders: { authorization: serviceCredential },
+      },
+    },
+  },
+  plugins: [appTools()],
+})
+```
+
+Keep the normal `remotes` manifest binding in `module-federation.config.ts`. The `services` key uses the Host's remote alias plus expose. The producer middleware's `module` uses the producer's own MF name.
+
+For a CSR Host, change only `server.ssr` to `false`. Modern supplies `/_modern/mf/service/<encoded module ID>` as its same-origin ingress. That endpoint validates origin, module, page URL and bounded parameters, and chooses the upstream exclusively from trusted configuration. A separately hosted static page can mount the exported `createBridgeServiceIngressMiddleware` in its same-origin gateway and register the corresponding Core browser binding.
+
+When a trusted gateway terminates TLS or rewrites Host, configure `moduleFederation.serviceOrigin` with the public Host origin, such as `https://app.example.com`. Both source and page URL are checked against that value. Forwarded headers are not implicitly trusted. The standalone ingress helper accepts `{ origin }` as its second argument.
+
+`forwardHeaders` defaults to an empty list and selects business user context for loaders. `serviceHeaders` authenticates the upstream service separately and remains in Node configuration. Browser bundles receive only the same-origin URL and timeout. Do not put private service credentials in props or manifest metadata.
+
+Service uses loaded-first sharing, which Modern already defaults to. An explicit version-first configuration is diagnosed because it eagerly loads Node containers before expose selection. It is not silently rewritten.
+
+Timeout defaults to 30 seconds and includes reading the entire stream, not just receiving metadata. The outer Bridge task watchdog also applies. There is no local Node fallback. Before or after accepted metadata, failures use existing Bridge recovery. Explicit `csr=1` recovery and `noSSR` bypass the Service request and render directly in the browser.
+
+## Consume with existing APIs
+
+{/* prettier-ignore */}
+```tsx
+import { createModernReactRemote, ReactRemote } from '@modern-js/runtime/mf'
+import { loadRemote } from '@module-federation/enhanced/runtime'
+import WeatherApp from 'weather/App'
+
+const Weather = createModernReactRemote({
+  remote: () => loadRemote('weather/App'),
+  loading: <p>Connecting to the weather station…</p>,
+})
+
+export default function Page() {
+  return (
+    <>
+      <Weather city="Hangzhou" />
+      <ReactRemote remote={() => WeatherApp} props={{ city: 'Shanghai' }} />
+    </>
+  )
+}
+```
+
+`createReactRemote` is also supported. Remote inputs remain functions. Default exports, module namespaces and business-prop inference retain their existing contracts. Service business props must be JSON serializable. Do not pass DOM nodes, callbacks or closures across the HTTP boundary.
+
+The Node runtime short-circuits only the resolved Service expose before container loading. Normal exposes in the same remote still load normally. A Service module is only a reusable description, and each render owns its props, user context, signal and streams.
+
+CSR loading sits outside the target container. Once the Host commits that empty container, its existing receiver inserts HTML, acquires CSS and accepts initial snapshot plus updates. The browser provider hydrates once when initial content is ready, while HTTP reading continues. A supplied SSR session is restored without another request. Props changes, navigation, multi-instance mounting, unmounting and remounting use the existing Bridge lifecycle. Cancellation releases the receive session, HTTP request and provider.
+
+## Cache and failure boundaries
+
+Caching is off by default. A configured cache retains only successfully completed producer message sequences, including progressive ready and updates. It does not compute a final Modern snapshot. Defaults are 128 entries, 32 MiB retained output and min(1 MiB, maxBytes) per entry. `maxEntries`, `maxBytes` and `maxEntryBytes` override those capacities. TTL starts on completion, reads do not extend it, and capacity eviction uses LRU.
+
+The exact serialized request includes module, URL, route, props, user context, build identity, instance identity, React prefix and nonce. Matching real page visits can hit. Remounts, changed cookies or nonce may miss. Do not discard effective inputs or rewrite cached IDs to increase hits. Each replay reads independently. Failed, cancelled, truncated and illegal message sequences are not cached. HTTP responses remain `Cache-Control: no-store`, separately from this internal cache.
+
+Default limits cover 3 MiB per serialized HTTP message and request body, 2 MiB per producer HTML frame and 4 MiB per pending producer/transport queue. Exceeding a cache entry's capacity stops recording while live SSR continues. Queue limits cancel their own render. These limits exclude React, socket buffers and concurrent requests, so they are not a total process-memory bound or full end-to-end backpressure.
+
+Nested application redirects, status codes and response headers do not take over the Host response. Deployment proxies must forward chunks and disconnects promptly. Compare the same application using local Bridge SSR, Service miss and Service hit, including network and both processes' CPU/memory. Independent deployment does not imply lower latency.
+
+## Migration and verification
+
+Replace experimental dedicated loaders and manual module IDs with function remotes, expose metadata and deployment bindings. Replace manual revisions with the existing build identity. Modern CSR recovery uses initial snapshot plus updates, without the old complete-snapshot path or separate Service/browser protocol versions.
+
+Use the Weather Service Lab with fresh dynamically allocated ports:
+
+```sh
+node tests/integration/module-federation/scripts/service-lab.mjs
+node tests/integration/module-federation/scripts/service-lab.mjs --production
+```
+
+Inspect the printed SSR Host, CSR Host, producer and business API addresses. Validate raw SSR message HTML, complete-document late mounting, DOM identity, interaction before slow data, data restoration, cancellation and actual miss-to-hit business request counts. A successful CSR recovery is not a successful SSR result. The initial Modern SSR verification boundary remains matching React/React DOM 19.3.1, as described in [Bridge SSR](./bridge-ssr).

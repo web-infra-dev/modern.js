@@ -2,6 +2,18 @@ import type { moduleFederationPlugin } from '@module-federation/sdk';
 import type { StatsAssetResource } from '@module-federation/rsbuild-plugin/utils';
 
 export interface PluginOptions {
+  /** Public Host origin when a trusted gateway terminates TLS or rewrites Host. */
+  serviceOrigin?: string;
+  /** Deployment bindings. Private upstream headers are emitted only to Node. */
+  services?: Record<
+    string,
+    {
+      url: string;
+      timeoutMs?: number;
+      forwardHeaders?: string[];
+      serviceHeaders?: Record<string, string>;
+    }
+  >;
   config?: moduleFederationPlugin.ModuleFederationPluginOptions;
   configPath?: string;
   /**

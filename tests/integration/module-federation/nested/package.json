@@ -14,6 +14,7 @@
   },
   "devDependencies": {
     "@modern-js/app-tools": "workspace:*",
-    "@modern-js/tsconfig": "workspace:*"
+    "@modern-js/tsconfig": "workspace:*",
+    "typescript": "^5"
   }
 }

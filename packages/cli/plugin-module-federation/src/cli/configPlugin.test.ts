@@ -454,3 +454,60 @@ it('preserves explicit DTS options without adding an adapter runtime facade', ()
     consumeTypes: { runtimePkgs: ['custom-runtime'] },
   });
 });
+
+it('binds private Service deployment configuration to Node and exposes only the same-origin ingress to browsers', async () => {
+  const privateServices = {
+    'weather/App': {
+      url: 'http://private-producer.test/render',
+      timeoutMs: 15000,
+      serviceHeaders: { authorization: 'private-test-value' },
+      forwardHeaders: ['cookie'],
+    },
+  };
+  const state: any = {
+    originPluginOptions: {
+      config: { name: 'host' },
+      services: privateServices,
+    },
+    userConfig: {},
+  };
+  const serverPlugins: Array<(input: { plugins: unknown[] }) => unknown> = [];
+  await moduleFederationConfigPlugin(state).setup!({
+    getConfig: () => ({}),
+    getAppContext: () => ({
+      appDirectory: process.cwd(),
+      metaName: 'modern-js',
+    }),
+    config: rs.fn(),
+    modifyBundlerChain: rs.fn(),
+    _internalServerPlugins: (callback: any) => serverPlugins.push(callback),
+  } as any);
+  const browser = JSON.stringify(state.csrConfig.runtimePlugins);
+  expect(browser).toContain('/_modern/mf/service/weather%2FApp');
+  expect(browser).not.toContain('private-producer');
+  expect(browser).not.toContain('private-test-value');
+  expect(browser).not.toContain('cookie');
+  expect(JSON.stringify(state.ssrConfig.runtimePlugins)).toContain(
+    'private-test-value',
+  );
+  expect(serverPlugins).toHaveLength(1);
+});
+
+it('diagnoses explicit version-first sharing when Service deployment bindings are configured', async () => {
+  const plugin = moduleFederationConfigPlugin({
+    originPluginOptions: {
+      config: { name: 'host', shareStrategy: 'version-first' },
+      services: { 'weather/App': { url: 'http://producer.test/render' } },
+    },
+    userConfig: {},
+  } as any);
+  await expect(
+    plugin.setup!({
+      getConfig: () => ({}),
+      getAppContext: () => ({
+        appDirectory: process.cwd(),
+        metaName: 'modern-js',
+      }),
+    } as any),
+  ).rejects.toThrow('Service App requires loaded-first');
+});

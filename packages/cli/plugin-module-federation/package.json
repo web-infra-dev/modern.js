@@ -47,7 +47,12 @@
       "types": "./dist/types/types/index.d.ts",
       "default": "./dist/cjs/types/index.js"
     },
-    "./package.json": "./package.json"
+    "./package.json": "./package.json",
+    "./service": {
+      "types": "./dist/types/server/service.d.ts",
+      "import": "./dist/esm-node/server/service.mjs",
+      "require": "./dist/cjs/server/service.js"
+    }
   },
   "main": "./dist/cjs/cli/index.js",
   "types": "./src/cli/index.ts",
@@ -114,6 +119,9 @@
       ],
       "types": [
         "./dist/types/types/index.d.ts"
+      ],
+      "service": [
+        "./dist/types/server/service.d.ts"
       ]
     }
   }
