@@ -49,7 +49,10 @@ it.each([false, true])(
     const instance = {
       registerPlugins: rstest.fn(),
       remoteHandler: {
-        getRemoteModuleAndOptions: async () => ({
+        getLoadedRemoteInfo: () => ({
+          id: 'shop/App',
+          isModule: true,
+          recovered: false,
           remoteMatchInfo: {
             expose: './App',
             remoteSnapshot: {
@@ -57,7 +60,6 @@ it.each([false, true])(
             },
           },
         }),
-        loadRemote,
       },
     } as unknown as NonNullable<CreateReactRemoteOptions['instance']>;
     const listeners = new Set<() => void>();
@@ -82,7 +84,7 @@ it.each([false, true])(
     ) => {
       const remote = (
         <ReactRemote
-          remote="shop/App"
+          remote={loadRemote}
           instance={instance}
           {...routing}
           props={{ label }}

@@ -9,9 +9,9 @@ import './weather-board.css';
 const memoryRoute = { entryPath: '/' };
 const sources = [
   {
-    name: 'string',
+    name: 'current',
     id: 'CurrentWeatherApp',
-    remote: 'provider/CurrentWeatherApp',
+    remote: () => loadRemote('provider/CurrentWeatherApp'),
   },
   {
     name: 'loader',
@@ -145,14 +145,17 @@ export default function BridgeSSR() {
           <ul>
             {forms.map(({ name, id }) => (
               <li key={name}>
-                <code>{name}</code> → provider/{id}
+                <code>
+                  {name === 'preloaded' ? 'static import' : 'loadRemote'}
+                </code>{' '}
+                → provider/{id}
               </li>
             ))}
           </ul>
           <p>
-            Each input consumes a distinct export. The container, shared chunks
-            and Module Federation caches can still be shared. Switching API here
-            does not reset server caches.
+            The two input forms use distinct exports. The container, shared
+            chunks and Module Federation caches can still be shared. Switching
+            API here does not reset server caches.
           </p>
           <button
             data-testid="bridge-toggle"

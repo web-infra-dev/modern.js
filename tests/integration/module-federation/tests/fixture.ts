@@ -120,7 +120,7 @@ export function setupLab(
       previousSize = owned.size;
       for (const row of rows) if (owned.has(row.parent)) owned.add(row.pid);
     } while (previousSize !== owned.size);
-    console.error(
+    console.info(
       '[MF resources]',
       JSON.stringify({
         freeMemory: freemem(),
@@ -128,7 +128,7 @@ export function setupLab(
         processes: rows.filter(row => owned.has(row.pid)).map(row => row.line),
       }),
     );
-    console.error('[MF slow requests]', JSON.stringify(slowRequests));
+    console.info('[MF slow requests]', JSON.stringify(slowRequests));
   }
   let expectsRecovery = false;
   let expectedErrorGroups: { pattern: RegExp; count: number }[] | undefined;
@@ -196,8 +196,8 @@ export function setupLab(
       await writeFile(
         consumer,
         source.replace(
-          "remote: 'provider/ProductApp',",
-          "remote: 'provider/ProductApp', noSSR: true,",
+          "remote: () => loadRemote('provider/ProductApp'),",
+          "remote: () => loadRemote('provider/ProductApp'), noSSR: true,",
         ),
       );
     }

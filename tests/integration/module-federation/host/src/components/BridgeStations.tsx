@@ -1,7 +1,9 @@
 import { useState } from 'react';
 import { createReactRemote, ReactRemote } from '@modern-js/runtime/mf';
+import { loadRemote } from '@module-federation/enhanced/runtime';
+const loadStation = () => loadRemote('provider/BridgeCard');
 const Station = createReactRemote<{ label: string }>({
-  remote: 'provider/BridgeCard',
+  remote: loadStation,
   loading: (
     <p data-testid="station-loading">
       Connecting to independent weather station…
@@ -28,10 +30,7 @@ export default function BridgeStations() {
         </button>
       </div>
       {mounted && <Station label={label} />}
-      <ReactRemote
-        remote="provider/BridgeCard"
-        props={{ label: 'Hilltop station' }}
-      />
+      <ReactRemote remote={loadStation} props={{ label: 'Hilltop station' }} />
     </>
   );
 }
