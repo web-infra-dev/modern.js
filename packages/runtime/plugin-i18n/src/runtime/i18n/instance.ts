@@ -200,21 +200,3 @@ export async function getI18nInstance(
 
   throw new Error('No i18n instance found');
 }
-
-export async function getInitReactI18next() {
-  try {
-    const { initReactI18next } = await import('react-i18next');
-    return initReactI18next;
-  } catch (error) {
-    return null;
-  }
-}
-
-export async function getI18nextProvider() {
-  try {
-    const { I18nextProvider } = await import('react-i18next');
-    return I18nextProvider;
-  } catch (error) {
-    return null;
-  }
-}

@@ -29,11 +29,8 @@ import {
   mergeDetectionOptions,
 } from './i18n/detection';
 import { useI18nextLanguageDetector } from './i18n/detection/middleware';
-import {
-  getI18nextInstanceForProvider,
-  getI18nextProvider,
-  getInitReactI18next,
-} from './i18n/instance';
+import { getI18nextInstanceForProvider } from './i18n/instance';
+import { getI18nextProvider, getInitReactI18next } from './i18n/react-i18next';
 import {
   changeI18nLanguage,
   ensureLanguageMatch,
