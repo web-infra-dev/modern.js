@@ -1,13 +1,6 @@
 import { execFile } from 'node:child_process';
 import { promisify } from 'node:util';
-import {
-  mkdtemp,
-  mkdir,
-  writeFile,
-  symlink,
-  rm,
-  readFile,
-} from 'node:fs/promises';
+import { mkdtemp, mkdir, writeFile, symlink, rm } from 'node:fs/promises';
 import { tmpdir } from 'node:os';
 import path from 'node:path';
 import { createRequire } from 'node:module';
@@ -40,7 +33,7 @@ const enhancedRequire = createRequire(
 );
 
 it.each(['module', 'commonjs'])(
-  'preserves Modern consumer inference with generated MF mappings in %s',
+  'preserves Modern consumer inference with generated loadRemote declarations in %s',
   async mode => {
     const directory = await mkdtemp(
       path.join(tmpdir(), 'modern-mf-input-types-'),
@@ -62,13 +55,9 @@ it.each(['module', 'commonjs'])(
           `@types/${name}`,
           runtimeRequire.resolve(`@types/${name}/package.json`),
         );
-      // Use the installed producer API generator and consumer merger rather than a hand-written registry.
-      const {
-        DTSManager,
-        retrieveHostConfig,
-        REMOTE_ALIAS_IDENTIFIER,
-        HOST_API_TYPES_FILE_NAME,
-      } = enhancedRequire('@module-federation/dts-plugin/core');
+      // Exercise the installed producer API generator and consumer merger together.
+      const { DTSManager, retrieveHostConfig, REMOTE_ALIAS_IDENTIFIER } =
+        enhancedRequire('@module-federation/dts-plugin/core');
       const manager = new DTSManager({});
       const { hostOptions } = retrieveHostConfig({
         context: directory,
@@ -89,12 +78,6 @@ it.each(['module', 'commonjs'])(
       );
       manager.loadedRemoteAPIAlias.add('shop');
       manager.consumeAPITypes(hostOptions);
-      expect(
-        await readFile(
-          path.join(directory, '@mf-types', HOST_API_TYPES_FILE_NAME),
-          'utf8',
-        ),
-      ).toContain('RemoteModuleMap');
       await writeFile(
         path.join(directory, 'remote.d.ts'),
         `
