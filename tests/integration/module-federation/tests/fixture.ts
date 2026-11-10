@@ -268,6 +268,8 @@ export default function Document() {
     lab = await startLab(mode, false, workspace, options.basename || '');
     browser = await puppeteer.launch({
       headless: true,
+      // Remove the profile with this Lab only after Chrome has closed.
+      userDataDir: path.join(workspace, '.browser-profile'),
       executablePath: process.env.PUPPETEER_EXECUTABLE_PATH,
       args: ['--no-sandbox', '--disable-dev-shm-usage'],
     });

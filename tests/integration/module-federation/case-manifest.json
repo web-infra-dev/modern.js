@@ -1,0 +1,1884 @@
+{
+  "version": 1,
+  "counts": {
+    "dev": 104,
+    "production": 103,
+    "common": 22
+  },
+  "mf": [
+    [
+      "tests/integration/module-federation/tests/activation.test.ts",
+      "common",
+      ["CLI built-in MF activation"],
+      "automatically enables the default config and accepts explicit inline options",
+      "rstest"
+    ],
+    [
+      "tests/integration/module-federation/tests/activation.test.ts",
+      "common",
+      ["CLI built-in MF activation"],
+      "builds client and server entries through the native ESM adapter",
+      "rstest"
+    ],
+    [
+      "tests/integration/module-federation/tests/activation.test.ts",
+      "common",
+      ["CLI built-in MF activation"],
+      "builds usable remote declarations with DTS enabled and a custom output root",
+      "rstest"
+    ],
+    [
+      "tests/integration/module-federation/tests/activation.test.ts",
+      "common",
+      ["CLI built-in MF activation"],
+      "does not require enhanced for an ordinary app or explicit false",
+      "rstest"
+    ],
+    [
+      "tests/integration/module-federation/tests/activation.test.ts",
+      "common",
+      ["CLI built-in MF activation"],
+      "keeps ordinary build output free of Bridge SSR runtime with config ",
+      "rstest"
+    ],
+    [
+      "tests/integration/module-federation/tests/activation.test.ts",
+      "common",
+      ["CLI built-in MF activation"],
+      "keeps ordinary build output free of Bridge SSR runtime with config server: { ssr: { mode: 'stream' } },",
+      "rstest"
+    ],
+    [
+      "tests/integration/module-federation/tests/activation.test.ts",
+      "common",
+      ["CLI built-in MF activation"],
+      "keeps the legacy plugin working with explicit false",
+      "rstest"
+    ],
+    [
+      "tests/integration/module-federation/tests/activation.test.ts",
+      "common",
+      ["CLI built-in MF activation"],
+      "rejects both plugin registration orders, including nested usePlugins",
+      "rstest"
+    ],
+    [
+      "tests/integration/module-federation/tests/activation.test.ts",
+      "common",
+      ["CLI built-in MF activation"],
+      "reports simultaneous integration before evaluating the legacy config",
+      "rstest"
+    ],
+    [
+      "tests/integration/module-federation/tests/activation.test.ts",
+      "common",
+      ["CLI built-in MF activation"],
+      "reports the installation requirement only for enabled apps",
+      "rstest"
+    ],
+    [
+      "tests/integration/module-federation/tests/advanced.test.ts",
+      "dev",
+      ["Weather Lab (dev)", "Advanced scenarios"],
+      "isolates advanced replacement state when switching weather experiments",
+      "rstest"
+    ],
+    [
+      "tests/integration/module-federation/tests/advanced.test.ts",
+      "dev",
+      ["Weather Lab (dev)", "Advanced scenarios"],
+      "replaces static and dynamic remotes with independently built version two",
+      "rstest"
+    ],
+    [
+      "tests/integration/module-federation/tests/advanced.test.ts",
+      "production",
+      ["Weather Lab (production)", "Advanced scenarios"],
+      "isolates advanced replacement state when switching weather experiments",
+      "rstest"
+    ],
+    [
+      "tests/integration/module-federation/tests/advanced.test.ts",
+      "production",
+      ["Weather Lab (production)", "Advanced scenarios"],
+      "replaces static and dynamic remotes with independently built version two",
+      "rstest"
+    ],
+    [
+      "tests/integration/module-federation/tests/application-isolation.test.ts",
+      "dev",
+      ["Weather Lab (dev)", "Application i18n and route prefetch isolation"],
+      "keeps language changes and interaction local to one mount of the same producer",
+      "rstest"
+    ],
+    [
+      "tests/integration/module-federation/tests/application-isolation.test.ts",
+      "dev",
+      ["Weather Lab (dev)", "Application i18n and route prefetch isolation"],
+      "prefetches producer data and route code on render and intent while none/default stay idle",
+      "rstest"
+    ],
+    [
+      "tests/integration/module-federation/tests/application-isolation.test.ts",
+      "dev",
+      ["Weather Lab (dev)", "Application i18n and route prefetch isolation"],
+      "restores each server locale and loader result, retaining the streamed DOM beside a different Host locale",
+      "rstest"
+    ],
+    [
+      "tests/integration/module-federation/tests/application-isolation.test.ts",
+      "dev",
+      ["Weather Lab (dev)", "Application i18n and route prefetch isolation"],
+      "retains ordinary Host Link prefetch origin, paths and intent/render/none behavior",
+      "rstest"
+    ],
+    [
+      "tests/integration/module-federation/tests/application-isolation.test.ts",
+      "production",
+      [
+        "Weather Lab (production)",
+        "Application i18n and route prefetch isolation"
+      ],
+      "keeps language changes and interaction local to one mount of the same producer",
+      "rstest"
+    ],
+    [
+      "tests/integration/module-federation/tests/application-isolation.test.ts",
+      "production",
+      [
+        "Weather Lab (production)",
+        "Application i18n and route prefetch isolation"
+      ],
+      "prefetches producer data and route code on render and intent while none/default stay idle",
+      "rstest"
+    ],
+    [
+      "tests/integration/module-federation/tests/application-isolation.test.ts",
+      "production",
+      [
+        "Weather Lab (production)",
+        "Application i18n and route prefetch isolation"
+      ],
+      "restores each server locale and loader result, retaining the streamed DOM beside a different Host locale",
+      "rstest"
+    ],
+    [
+      "tests/integration/module-federation/tests/application-isolation.test.ts",
+      "production",
+      [
+        "Weather Lab (production)",
+        "Application i18n and route prefetch isolation"
+      ],
+      "retains ordinary Host Link prefetch origin, paths and intent/render/none behavior",
+      "rstest"
+    ],
+    [
+      "tests/integration/module-federation/tests/bridge-failure.test.ts",
+      "dev",
+      ["Weather Lab (dev)", "Bridge application SSR failure recovery"],
+      "reports a failed application stream in the response and recovers through a real CSR document",
+      "rstest"
+    ],
+    [
+      "tests/integration/module-federation/tests/bridge-failure.test.ts",
+      "production",
+      ["Weather Lab (production)", "Bridge application SSR failure recovery"],
+      "reports a failed application stream in the response and recovers through a real CSR document",
+      "rstest"
+    ],
+    [
+      "tests/integration/module-federation/tests/bridge-ssr.test.ts",
+      "dev",
+      ["Weather Lab (dev)", "Weather Bridge declarative"],
+      "first resolves distinct exports in a fresh service process, with compiled dependency evidence",
+      "rstest"
+    ],
+    [
+      "tests/integration/module-federation/tests/bridge-ssr.test.ts",
+      "dev",
+      ["Weather Lab (dev)", "Weather Bridge declarative"],
+      "isolates repeated mounts and destroys state only for disconnected panels",
+      "rstest"
+    ],
+    [
+      "tests/integration/module-federation/tests/bridge-ssr.test.ts",
+      "dev",
+      ["Weather Lab (dev)", "Weather Bridge declarative"],
+      "keeps the input contract fixture usable on mobile screens",
+      "rstest"
+    ],
+    [
+      "tests/integration/module-federation/tests/bridge-ssr.test.ts",
+      "dev",
+      ["Weather Lab (dev)", "Weather Bridge declarative"],
+      "keeps visible server DOM, restored data, Root, Router and state through hydration and props updates",
+      "rstest"
+    ],
+    [
+      "tests/integration/module-federation/tests/bridge-ssr.test.ts",
+      "dev",
+      ["Weather Lab (dev)", "Weather Bridge declarative"],
+      "returns three weather applications and SSR frames, while noSSR stays client-only",
+      "rstest"
+    ],
+    [
+      "tests/integration/module-federation/tests/bridge-ssr.test.ts",
+      "dev",
+      ["Weather Lab (dev)", "Weather Bridge factory"],
+      "first resolves distinct exports in a fresh service process, with compiled dependency evidence",
+      "rstest"
+    ],
+    [
+      "tests/integration/module-federation/tests/bridge-ssr.test.ts",
+      "dev",
+      ["Weather Lab (dev)", "Weather Bridge factory"],
+      "isolates repeated mounts and destroys state only for disconnected panels",
+      "rstest"
+    ],
+    [
+      "tests/integration/module-federation/tests/bridge-ssr.test.ts",
+      "dev",
+      ["Weather Lab (dev)", "Weather Bridge factory"],
+      "keeps the input contract fixture usable on mobile screens",
+      "rstest"
+    ],
+    [
+      "tests/integration/module-federation/tests/bridge-ssr.test.ts",
+      "dev",
+      ["Weather Lab (dev)", "Weather Bridge factory"],
+      "keeps visible server DOM, restored data, Root, Router and state through hydration and props updates",
+      "rstest"
+    ],
+    [
+      "tests/integration/module-federation/tests/bridge-ssr.test.ts",
+      "dev",
+      ["Weather Lab (dev)", "Weather Bridge factory"],
+      "returns three weather applications and SSR frames, while noSSR stays client-only",
+      "rstest"
+    ],
+    [
+      "tests/integration/module-federation/tests/bridge-ssr.test.ts",
+      "production",
+      ["Weather Lab (production)", "Weather Bridge declarative"],
+      "first resolves distinct exports in a fresh service process, with compiled dependency evidence",
+      "rstest"
+    ],
+    [
+      "tests/integration/module-federation/tests/bridge-ssr.test.ts",
+      "production",
+      ["Weather Lab (production)", "Weather Bridge declarative"],
+      "isolates repeated mounts and destroys state only for disconnected panels",
+      "rstest"
+    ],
+    [
+      "tests/integration/module-federation/tests/bridge-ssr.test.ts",
+      "production",
+      ["Weather Lab (production)", "Weather Bridge declarative"],
+      "keeps the input contract fixture usable on mobile screens",
+      "rstest"
+    ],
+    [
+      "tests/integration/module-federation/tests/bridge-ssr.test.ts",
+      "production",
+      ["Weather Lab (production)", "Weather Bridge declarative"],
+      "keeps visible server DOM, restored data, Root, Router and state through hydration and props updates",
+      "rstest"
+    ],
+    [
+      "tests/integration/module-federation/tests/bridge-ssr.test.ts",
+      "production",
+      ["Weather Lab (production)", "Weather Bridge declarative"],
+      "returns three weather applications and SSR frames, while noSSR stays client-only",
+      "rstest"
+    ],
+    [
+      "tests/integration/module-federation/tests/bridge-ssr.test.ts",
+      "production",
+      ["Weather Lab (production)", "Weather Bridge factory"],
+      "first resolves distinct exports in a fresh service process, with compiled dependency evidence",
+      "rstest"
+    ],
+    [
+      "tests/integration/module-federation/tests/bridge-ssr.test.ts",
+      "production",
+      ["Weather Lab (production)", "Weather Bridge factory"],
+      "isolates repeated mounts and destroys state only for disconnected panels",
+      "rstest"
+    ],
+    [
+      "tests/integration/module-federation/tests/bridge-ssr.test.ts",
+      "production",
+      ["Weather Lab (production)", "Weather Bridge factory"],
+      "keeps the input contract fixture usable on mobile screens",
+      "rstest"
+    ],
+    [
+      "tests/integration/module-federation/tests/bridge-ssr.test.ts",
+      "production",
+      ["Weather Lab (production)", "Weather Bridge factory"],
+      "keeps visible server DOM, restored data, Root, Router and state through hydration and props updates",
+      "rstest"
+    ],
+    [
+      "tests/integration/module-federation/tests/bridge-ssr.test.ts",
+      "production",
+      ["Weather Lab (production)", "Weather Bridge factory"],
+      "returns three weather applications and SSR frames, while noSSR stays client-only",
+      "rstest"
+    ],
+    [
+      "tests/integration/module-federation/tests/bridge-stream.test.ts",
+      "dev",
+      ["Weather Lab (dev)", "Full and selected Bridge applications"],
+      "renders full and selected applications and the consumer basename in the response",
+      "rstest"
+    ],
+    [
+      "tests/integration/module-federation/tests/bridge-stream.test.ts",
+      "dev",
+      ["Weather Lab (dev)", "Independent progressive Bridge roots"],
+      "cancels the remote loader when the HTTP consumer disconnects",
+      "rstest"
+    ],
+    [
+      "tests/integration/module-federation/tests/bridge-stream.test.ts",
+      "dev",
+      ["Weather Lab (dev)", "Independent progressive Bridge roots"],
+      "hydrates and updates one root while another stream is pending, then restores deferred data without fetching again",
+      "rstest"
+    ],
+    [
+      "tests/integration/module-federation/tests/bridge-stream.test.ts",
+      "dev",
+      ["Weather Lab (dev)", "Independent progressive Bridge roots"],
+      "ignores late stream messages after a pending browser instance is unmounted",
+      "rstest"
+    ],
+    [
+      "tests/integration/module-federation/tests/bridge-stream.test.ts",
+      "production",
+      ["Weather Lab (production)", "Full and selected Bridge applications"],
+      "renders full and selected applications and the consumer basename in the response",
+      "rstest"
+    ],
+    [
+      "tests/integration/module-federation/tests/bridge-stream.test.ts",
+      "production",
+      ["Weather Lab (production)", "Independent progressive Bridge roots"],
+      "cancels the remote loader when the HTTP consumer disconnects",
+      "rstest"
+    ],
+    [
+      "tests/integration/module-federation/tests/bridge-stream.test.ts",
+      "production",
+      ["Weather Lab (production)", "Independent progressive Bridge roots"],
+      "hydrates and updates one root while another stream is pending, then restores deferred data without fetching again",
+      "rstest"
+    ],
+    [
+      "tests/integration/module-federation/tests/bridge-stream.test.ts",
+      "production",
+      ["Weather Lab (production)", "Independent progressive Bridge roots"],
+      "ignores late stream messages after a pending browser instance is unmounted",
+      "rstest"
+    ],
+    [
+      "tests/integration/module-federation/tests/comparison.test.ts",
+      "dev",
+      ["Weather Lab (dev)", "Comparison UI"],
+      "compares four data paths using a local API and the MF data loader",
+      "rstest"
+    ],
+    [
+      "tests/integration/module-federation/tests/comparison.test.ts",
+      "dev",
+      ["Weather Lab (dev)", "Comparison UI"],
+      "compares real CSR/SSR documents and isolates interactive weather frames",
+      "rstest"
+    ],
+    [
+      "tests/integration/module-federation/tests/comparison.test.ts",
+      "dev",
+      ["Weather Lab (dev)", "Comparison UI"],
+      "records SSR data paint before hydration and reports client readiness only after controls are enabled",
+      "rstest"
+    ],
+    [
+      "tests/integration/module-federation/tests/comparison.test.ts",
+      "dev",
+      ["Weather Lab (dev)", "Comparison UI"],
+      "reports csr client readiness and permits interaction while data is pending",
+      "rstest"
+    ],
+    [
+      "tests/integration/module-federation/tests/comparison.test.ts",
+      "dev",
+      ["Weather Lab (dev)", "Comparison UI"],
+      "reports ssr client readiness and permits interaction while data is pending",
+      "rstest"
+    ],
+    [
+      "tests/integration/module-federation/tests/comparison.test.ts",
+      "dev",
+      ["Weather Lab (dev)", "Comparison UI"],
+      "uses a labeled visibility estimate when Element Timing is unavailable",
+      "rstest"
+    ],
+    [
+      "tests/integration/module-federation/tests/comparison.test.ts",
+      "dev",
+      ["Weather Lab (dev)", "Comparison UI"],
+      "waits for a delayed remote control before reporting the whole screen ready",
+      "rstest"
+    ],
+    [
+      "tests/integration/module-federation/tests/comparison.test.ts",
+      "production",
+      ["Weather Lab (production)", "Comparison UI"],
+      "compares four data paths using a local API and the MF data loader",
+      "rstest"
+    ],
+    [
+      "tests/integration/module-federation/tests/comparison.test.ts",
+      "production",
+      ["Weather Lab (production)", "Comparison UI"],
+      "compares real CSR/SSR documents and isolates interactive weather frames",
+      "rstest"
+    ],
+    [
+      "tests/integration/module-federation/tests/comparison.test.ts",
+      "production",
+      ["Weather Lab (production)", "Comparison UI"],
+      "records SSR data paint before hydration and reports client readiness only after controls are enabled",
+      "rstest"
+    ],
+    [
+      "tests/integration/module-federation/tests/comparison.test.ts",
+      "production",
+      ["Weather Lab (production)", "Comparison UI"],
+      "reports csr client readiness and permits interaction while data is pending",
+      "rstest"
+    ],
+    [
+      "tests/integration/module-federation/tests/comparison.test.ts",
+      "production",
+      ["Weather Lab (production)", "Comparison UI"],
+      "reports ssr client readiness and permits interaction while data is pending",
+      "rstest"
+    ],
+    [
+      "tests/integration/module-federation/tests/comparison.test.ts",
+      "production",
+      ["Weather Lab (production)", "Comparison UI"],
+      "uses a labeled visibility estimate when Element Timing is unavailable",
+      "rstest"
+    ],
+    [
+      "tests/integration/module-federation/tests/comparison.test.ts",
+      "production",
+      ["Weather Lab (production)", "Comparison UI"],
+      "waits for a delayed remote control before reporting the whole screen ready",
+      "rstest"
+    ],
+    [
+      "tests/integration/module-federation/tests/data-fetch.test.ts",
+      "dev",
+      ["Weather Lab (dev)", "Data fetching"],
+      "avoids refetching on parent rerenders and fetches again on remount",
+      "rstest"
+    ],
+    [
+      "tests/integration/module-federation/tests/data-fetch.test.ts",
+      "dev",
+      ["Weather Lab (dev)", "Data fetching"],
+      "makes prefetched data visible sooner from the same navigation start",
+      "rstest"
+    ],
+    [
+      "tests/integration/module-federation/tests/data-fetch.test.ts",
+      "dev",
+      ["Weather Lab (dev)", "Data fetching"],
+      "prefetches CSR weather data by default and reuses one request when rendering",
+      "rstest"
+    ],
+    [
+      "tests/integration/module-federation/tests/data-fetch.test.ts",
+      "dev",
+      ["Weather Lab (dev)", "Data fetching"],
+      "recovers server failures using the client loader and the host retry",
+      "rstest"
+    ],
+    [
+      "tests/integration/module-federation/tests/data-fetch.test.ts",
+      "dev",
+      ["Weather Lab (dev)", "Data fetching"],
+      "renders a CSR-only component and fetches data through the host server",
+      "rstest"
+    ],
+    [
+      "tests/integration/module-federation/tests/data-fetch.test.ts",
+      "dev",
+      ["Weather Lab (dev)", "Data fetching"],
+      "serializes server-fetched remote data into the first HTML response",
+      "rstest"
+    ],
+    [
+      "tests/integration/module-federation/tests/data-fetch.test.ts",
+      "production",
+      ["Weather Lab (production)", "Data fetching"],
+      "avoids refetching on parent rerenders and fetches again on remount",
+      "rstest"
+    ],
+    [
+      "tests/integration/module-federation/tests/data-fetch.test.ts",
+      "production",
+      ["Weather Lab (production)", "Data fetching"],
+      "makes prefetched data visible sooner from the same navigation start",
+      "rstest"
+    ],
+    [
+      "tests/integration/module-federation/tests/data-fetch.test.ts",
+      "production",
+      ["Weather Lab (production)", "Data fetching"],
+      "prefetches CSR weather data by default and reuses one request when rendering",
+      "rstest"
+    ],
+    [
+      "tests/integration/module-federation/tests/data-fetch.test.ts",
+      "production",
+      ["Weather Lab (production)", "Data fetching"],
+      "recovers server failures using the client loader and the host retry",
+      "rstest"
+    ],
+    [
+      "tests/integration/module-federation/tests/data-fetch.test.ts",
+      "production",
+      ["Weather Lab (production)", "Data fetching"],
+      "renders a CSR-only component and fetches data through the host server",
+      "rstest"
+    ],
+    [
+      "tests/integration/module-federation/tests/data-fetch.test.ts",
+      "production",
+      ["Weather Lab (production)", "Data fetching"],
+      "serializes server-fetched remote data into the first HTML response",
+      "rstest"
+    ],
+    [
+      "tests/integration/module-federation/tests/error-recovery.test.ts",
+      "dev",
+      ["Weather Lab (dev)", "Failure recovery"],
+      "contains a broken remote release in a component boundary",
+      "rstest"
+    ],
+    [
+      "tests/integration/module-federation/tests/error-recovery.test.ts",
+      "dev",
+      ["Weather Lab (dev)", "Failure recovery"],
+      "contains a data weather API failure in the MF data loader",
+      "rstest"
+    ],
+    [
+      "tests/integration/module-federation/tests/error-recovery.test.ts",
+      "dev",
+      ["Weather Lab (dev)", "Failure recovery"],
+      "contains a invalid weather API failure in the MF data loader",
+      "rstest"
+    ],
+    [
+      "tests/integration/module-federation/tests/error-recovery.test.ts",
+      "dev",
+      ["Weather Lab (dev)", "Failure recovery"],
+      "detects server-only rendering failure and recovers the remote in the client",
+      "rstest"
+    ],
+    [
+      "tests/integration/module-federation/tests/error-recovery.test.ts",
+      "dev",
+      ["Weather Lab (dev)", "Failure recovery"],
+      "exercises failure and restoration in advanced lifecycle",
+      "rstest"
+    ],
+    [
+      "tests/integration/module-federation/tests/error-recovery.test.ts",
+      "dev",
+      ["Weather Lab (dev)", "Failure recovery"],
+      "exercises failure and restoration in advanced recovery",
+      "rstest"
+    ],
+    [
+      "tests/integration/module-federation/tests/error-recovery.test.ts",
+      "dev",
+      ["Weather Lab (dev)", "Failure recovery"],
+      "exercises failure and restoration in advanced replace",
+      "rstest"
+    ],
+    [
+      "tests/integration/module-federation/tests/error-recovery.test.ts",
+      "dev",
+      ["Weather Lab (dev)", "Failure recovery"],
+      "handles a real remote 503 through the MF hook and adapter without breaking adjacent weather",
+      "rstest"
+    ],
+    [
+      "tests/integration/module-federation/tests/error-recovery.test.ts",
+      "dev",
+      ["Weather Lab (dev)", "Failure recovery"],
+      "handles data API failure during server data loading",
+      "rstest"
+    ],
+    [
+      "tests/integration/module-federation/tests/error-recovery.test.ts",
+      "dev",
+      ["Weather Lab (dev)", "Failure recovery"],
+      "handles invalid API failure during server data loading",
+      "rstest"
+    ],
+    [
+      "tests/integration/module-federation/tests/error-recovery.test.ts",
+      "dev",
+      ["Weather Lab (dev)", "Failure recovery"],
+      "isolates an inner network failure in nested/WeatherDays",
+      "rstest"
+    ],
+    [
+      "tests/integration/module-federation/tests/error-recovery.test.ts",
+      "dev",
+      ["Weather Lab (dev)", "Failure recovery"],
+      "isolates an inner network failure in nested/WeatherWind",
+      "rstest"
+    ],
+    [
+      "tests/integration/module-federation/tests/error-recovery.test.ts",
+      "dev",
+      ["Weather Lab (dev)", "Failure recovery"],
+      "shows actual data fallbacks in all four panels and restores prefetched data",
+      "rstest"
+    ],
+    [
+      "tests/integration/module-federation/tests/error-recovery.test.ts",
+      "dev",
+      ["Weather Lab (dev)", "Failure recovery"],
+      "switches successful cached comparisons through network failure and back",
+      "rstest"
+    ],
+    [
+      "tests/integration/module-federation/tests/error-recovery.test.ts",
+      "dev",
+      ["Weather Lab (dev)", "Failure recovery"],
+      "switches successful cached comparisons through render failure and back",
+      "rstest"
+    ],
+    [
+      "tests/integration/module-federation/tests/error-recovery.test.ts",
+      "dev",
+      ["Weather Lab (dev)", "Failure recovery"],
+      "switches successful cached comparisons through server failure and back",
+      "rstest"
+    ],
+    [
+      "tests/integration/module-federation/tests/error-recovery.test.ts",
+      "production",
+      ["Weather Lab (production)", "Failure recovery"],
+      "contains a broken remote release in a component boundary",
+      "rstest"
+    ],
+    [
+      "tests/integration/module-federation/tests/error-recovery.test.ts",
+      "production",
+      ["Weather Lab (production)", "Failure recovery"],
+      "contains a data weather API failure in the MF data loader",
+      "rstest"
+    ],
+    [
+      "tests/integration/module-federation/tests/error-recovery.test.ts",
+      "production",
+      ["Weather Lab (production)", "Failure recovery"],
+      "contains a invalid weather API failure in the MF data loader",
+      "rstest"
+    ],
+    [
+      "tests/integration/module-federation/tests/error-recovery.test.ts",
+      "production",
+      ["Weather Lab (production)", "Failure recovery"],
+      "detects server-only rendering failure and recovers the remote in the client",
+      "rstest"
+    ],
+    [
+      "tests/integration/module-federation/tests/error-recovery.test.ts",
+      "production",
+      ["Weather Lab (production)", "Failure recovery"],
+      "exercises failure and restoration in advanced lifecycle",
+      "rstest"
+    ],
+    [
+      "tests/integration/module-federation/tests/error-recovery.test.ts",
+      "production",
+      ["Weather Lab (production)", "Failure recovery"],
+      "exercises failure and restoration in advanced recovery",
+      "rstest"
+    ],
+    [
+      "tests/integration/module-federation/tests/error-recovery.test.ts",
+      "production",
+      ["Weather Lab (production)", "Failure recovery"],
+      "exercises failure and restoration in advanced replace",
+      "rstest"
+    ],
+    [
+      "tests/integration/module-federation/tests/error-recovery.test.ts",
+      "production",
+      ["Weather Lab (production)", "Failure recovery"],
+      "handles a real remote 503 through the MF hook and adapter without breaking adjacent weather",
+      "rstest"
+    ],
+    [
+      "tests/integration/module-federation/tests/error-recovery.test.ts",
+      "production",
+      ["Weather Lab (production)", "Failure recovery"],
+      "handles data API failure during server data loading",
+      "rstest"
+    ],
+    [
+      "tests/integration/module-federation/tests/error-recovery.test.ts",
+      "production",
+      ["Weather Lab (production)", "Failure recovery"],
+      "handles invalid API failure during server data loading",
+      "rstest"
+    ],
+    [
+      "tests/integration/module-federation/tests/error-recovery.test.ts",
+      "production",
+      ["Weather Lab (production)", "Failure recovery"],
+      "isolates an inner network failure in nested/WeatherDays",
+      "rstest"
+    ],
+    [
+      "tests/integration/module-federation/tests/error-recovery.test.ts",
+      "production",
+      ["Weather Lab (production)", "Failure recovery"],
+      "isolates an inner network failure in nested/WeatherWind",
+      "rstest"
+    ],
+    [
+      "tests/integration/module-federation/tests/error-recovery.test.ts",
+      "production",
+      ["Weather Lab (production)", "Failure recovery"],
+      "shows actual data fallbacks in all four panels and restores prefetched data",
+      "rstest"
+    ],
+    [
+      "tests/integration/module-federation/tests/error-recovery.test.ts",
+      "production",
+      ["Weather Lab (production)", "Failure recovery"],
+      "switches successful cached comparisons through network failure and back",
+      "rstest"
+    ],
+    [
+      "tests/integration/module-federation/tests/error-recovery.test.ts",
+      "production",
+      ["Weather Lab (production)", "Failure recovery"],
+      "switches successful cached comparisons through render failure and back",
+      "rstest"
+    ],
+    [
+      "tests/integration/module-federation/tests/error-recovery.test.ts",
+      "production",
+      ["Weather Lab (production)", "Failure recovery"],
+      "switches successful cached comparisons through server failure and back",
+      "rstest"
+    ],
+    [
+      "tests/integration/module-federation/tests/input-forms.test.ts",
+      "dev",
+      ["Weather Lab (dev)", "Remote input forms"],
+      "keeps Bridge loader and literal instances independent and preserves their state on prop updates",
+      "rstest"
+    ],
+    [
+      "tests/integration/module-federation/tests/input-forms.test.ts",
+      "dev",
+      ["Weather Lab (dev)", "Remote input forms"],
+      "keeps input-form component state and props after  rendering",
+      "rstest"
+    ],
+    [
+      "tests/integration/module-federation/tests/input-forms.test.ts",
+      "dev",
+      ["Weather Lab (dev)", "Remote input forms"],
+      "keeps input-form component state and props after ?csr=1 rendering",
+      "rstest"
+    ],
+    [
+      "tests/integration/module-federation/tests/input-forms.test.ts",
+      "dev",
+      ["Weather Lab (dev)", "Remote input forms"],
+      "renders every Node-loadable input in SSR and leaves noSSR and Bridge instances as placeholders",
+      "rstest"
+    ],
+    [
+      "tests/integration/module-federation/tests/input-forms.test.ts",
+      "dev",
+      ["Weather Lab (dev)", "Remote input forms"],
+      "retries failed function sources through both APIs while preserving a neighboring component",
+      "rstest"
+    ],
+    [
+      "tests/integration/module-federation/tests/input-forms.test.ts",
+      "production",
+      ["Weather Lab (production)", "Remote input forms"],
+      "keeps Bridge loader and literal instances independent and preserves their state on prop updates",
+      "rstest"
+    ],
+    [
+      "tests/integration/module-federation/tests/input-forms.test.ts",
+      "production",
+      ["Weather Lab (production)", "Remote input forms"],
+      "keeps input-form component state and props after  rendering",
+      "rstest"
+    ],
+    [
+      "tests/integration/module-federation/tests/input-forms.test.ts",
+      "production",
+      ["Weather Lab (production)", "Remote input forms"],
+      "keeps input-form component state and props after ?csr=1 rendering",
+      "rstest"
+    ],
+    [
+      "tests/integration/module-federation/tests/input-forms.test.ts",
+      "production",
+      ["Weather Lab (production)", "Remote input forms"],
+      "renders every Node-loadable input in SSR and leaves noSSR and Bridge instances as placeholders",
+      "rstest"
+    ],
+    [
+      "tests/integration/module-federation/tests/input-forms.test.ts",
+      "production",
+      ["Weather Lab (production)", "Remote input forms"],
+      "retries failed function sources through both APIs while preserving a neighboring component",
+      "rstest"
+    ],
+    [
+      "tests/integration/module-federation/tests/input-types.test.ts",
+      "common",
+      [],
+      "preserves Modern consumer inference with generated loadRemote declarations in commonjs",
+      "rstest"
+    ],
+    [
+      "tests/integration/module-federation/tests/input-types.test.ts",
+      "common",
+      [],
+      "preserves Modern consumer inference with generated loadRemote declarations in module",
+      "rstest"
+    ],
+    [
+      "tests/integration/module-federation/tests/inspect.test.ts",
+      "dev",
+      ["Weather Lab (dev)", "Inspect"],
+      "inspects data-fetch components without wrapping loaders or repeating data requests",
+      "rstest"
+    ],
+    [
+      "tests/integration/module-federation/tests/inspect.test.ts",
+      "dev",
+      ["Weather Lab (dev)", "Inspect"],
+      "inspects runtime remote identities and nested chains without remounting weather",
+      "rstest"
+    ],
+    [
+      "tests/integration/module-federation/tests/inspect.test.ts",
+      "production",
+      ["Weather Lab (production)", "Inspect"],
+      "inspects data-fetch components without wrapping loaders or repeating data requests",
+      "rstest"
+    ],
+    [
+      "tests/integration/module-federation/tests/inspect.test.ts",
+      "production",
+      ["Weather Lab (production)", "Inspect"],
+      "inspects runtime remote identities and nested chains without remounting weather",
+      "rstest"
+    ],
+    [
+      "tests/integration/module-federation/tests/ordinary-react.test.ts",
+      "common",
+      ["Ordinary React production builds without module federation"],
+      "csr preserves normal rendering and excludes the Bridge engine",
+      "rstest"
+    ],
+    [
+      "tests/integration/module-federation/tests/ordinary-react.test.ts",
+      "common",
+      ["Ordinary React production builds without module federation"],
+      "stream preserves normal rendering and excludes the Bridge engine",
+      "rstest"
+    ],
+    [
+      "tests/integration/module-federation/tests/ordinary-react.test.ts",
+      "common",
+      ["Ordinary React production builds without module federation"],
+      "string preserves normal rendering and excludes the Bridge engine",
+      "rstest"
+    ],
+    [
+      "tests/integration/module-federation/tests/rendering.test.ts",
+      "dev",
+      ["Weather Lab (dev)", "Weather rendering and assets"],
+      "hydrates a dynamically nested Rslib wind remote and preserves local state",
+      "rstest"
+    ],
+    [
+      "tests/integration/module-federation/tests/rendering.test.ts",
+      "dev",
+      ["Weather Lab (dev)", "Weather rendering and assets"],
+      "removes the legacy demo routes instead of exposing a second application shell",
+      "rstest"
+    ],
+    [
+      "tests/integration/module-federation/tests/rendering.test.ts",
+      "dev",
+      ["Weather Lab (dev)", "Weather rendering and assets"],
+      "renders a Modern weather remote in HTML, hydrates it and loads remote CSS and images",
+      "rstest"
+    ],
+    [
+      "tests/integration/module-federation/tests/rendering.test.ts",
+      "dev",
+      ["Weather Lab (dev)", "Weather rendering and assets"],
+      "renders daily weather through an independent nested Modern build",
+      "rstest"
+    ],
+    [
+      "tests/integration/module-federation/tests/rendering.test.ts",
+      "dev",
+      ["Weather Lab (dev)", "Weather rendering and assets"],
+      "renders dynamically registered Rslib hourly weather in HTML and hydrates it",
+      "rstest"
+    ],
+    [
+      "tests/integration/module-federation/tests/rendering.test.ts",
+      "dev",
+      ["Weather Lab (dev)", "Weather rendering and assets"],
+      "revalidates updated weather in development without stale server HTML",
+      "rstest"
+    ],
+    [
+      "tests/integration/module-federation/tests/rendering.test.ts",
+      "dev",
+      ["Weather Lab (dev)", "Weather rendering and assets"],
+      "serves custom manifest paths and all referenced server entry files",
+      "rstest"
+    ],
+    [
+      "tests/integration/module-federation/tests/rendering.test.ts",
+      "dev",
+      ["Weather Lab (dev)", "Weather rendering and assets"],
+      "uses the root Weather Lab and keeps its navigation within the client application",
+      "rstest"
+    ],
+    [
+      "tests/integration/module-federation/tests/rendering.test.ts",
+      "production",
+      ["Weather Lab (production)", "Weather rendering and assets"],
+      "hydrates a dynamically nested Rslib wind remote and preserves local state",
+      "rstest"
+    ],
+    [
+      "tests/integration/module-federation/tests/rendering.test.ts",
+      "production",
+      ["Weather Lab (production)", "Weather rendering and assets"],
+      "removes the legacy demo routes instead of exposing a second application shell",
+      "rstest"
+    ],
+    [
+      "tests/integration/module-federation/tests/rendering.test.ts",
+      "production",
+      ["Weather Lab (production)", "Weather rendering and assets"],
+      "renders a Modern weather remote in HTML, hydrates it and loads remote CSS and images",
+      "rstest"
+    ],
+    [
+      "tests/integration/module-federation/tests/rendering.test.ts",
+      "production",
+      ["Weather Lab (production)", "Weather rendering and assets"],
+      "renders daily weather through an independent nested Modern build",
+      "rstest"
+    ],
+    [
+      "tests/integration/module-federation/tests/rendering.test.ts",
+      "production",
+      ["Weather Lab (production)", "Weather rendering and assets"],
+      "renders dynamically registered Rslib hourly weather in HTML and hydrates it",
+      "rstest"
+    ],
+    [
+      "tests/integration/module-federation/tests/rendering.test.ts",
+      "production",
+      ["Weather Lab (production)", "Weather rendering and assets"],
+      "serves custom manifest paths and all referenced server entry files",
+      "rstest"
+    ],
+    [
+      "tests/integration/module-federation/tests/rendering.test.ts",
+      "production",
+      ["Weather Lab (production)", "Weather rendering and assets"],
+      "uses the root Weather Lab and keeps its navigation within the client application",
+      "rstest"
+    ],
+    [
+      "tests/integration/module-federation/tests/route-navigation.test.ts",
+      "dev",
+      ["Weather Lab (dev)", "Immediate client-loader redirects"],
+      "notifies the Browser Host before a separate-root consumer commits (adapter)",
+      "rstest"
+    ],
+    [
+      "tests/integration/module-federation/tests/route-navigation.test.ts",
+      "dev",
+      ["Weather Lab (dev)", "Immediate client-loader redirects"],
+      "notifies the Browser Host before a separate-root consumer commits (direct)",
+      "rstest"
+    ],
+    [
+      "tests/integration/module-federation/tests/route-navigation.test.ts",
+      "dev",
+      ["Weather Lab (dev)", "Immediate client-loader redirects"],
+      "notifies the Host after an initial client loader redirect",
+      "rstest"
+    ],
+    [
+      "tests/integration/module-federation/tests/route-navigation.test.ts",
+      "dev",
+      ["Weather Lab (dev)", "Immediate client-loader redirects"],
+      "notifies the Host while a lazy loading component delays the Remote commit",
+      "rstest"
+    ],
+    [
+      "tests/integration/module-federation/tests/route-navigation.test.ts",
+      "dev",
+      [
+        "Weather Lab (dev)",
+        "Modern Hash Router application mounts (Document base: /)"
+      ],
+      "uses logical locations for deep links, remote navigation and browser history",
+      "rstest"
+    ],
+    [
+      "tests/integration/module-federation/tests/route-navigation.test.ts",
+      "dev",
+      [
+        "Weather Lab (dev)",
+        "Modern Hash Router application mounts (Document base: none)"
+      ],
+      "uses logical locations for deep links, remote navigation and browser history",
+      "rstest"
+    ],
+    [
+      "tests/integration/module-federation/tests/route-navigation.test.ts",
+      "dev",
+      ["Weather Lab (dev)", "Modern route-mounted applications"],
+      "aborts an in-flight loader when its instance is unmounted",
+      "rstest"
+    ],
+    [
+      "tests/integration/module-federation/tests/route-navigation.test.ts",
+      "dev",
+      ["Weather Lab (dev)", "Modern route-mounted applications"],
+      "cancels Remote loading after a persistent Host navigation (outside)",
+      "rstest"
+    ],
+    [
+      "tests/integration/module-federation/tests/route-navigation.test.ts",
+      "dev",
+      ["Weather Lab (dev)", "Modern route-mounted applications"],
+      "cancels Remote loading after a persistent Host navigation (stay)",
+      "rstest"
+    ],
+    [
+      "tests/integration/module-federation/tests/route-navigation.test.ts",
+      "dev",
+      ["Weather Lab (dev)", "Modern route-mounted applications"],
+      "deep-links with basename, query and hash while keeping memory cards isolated",
+      "rstest"
+    ],
+    [
+      "tests/integration/module-federation/tests/route-navigation.test.ts",
+      "dev",
+      ["Weather Lab (dev)", "Modern route-mounted applications"],
+      "keeps the producer standalone route and relative links unchanged",
+      "rstest"
+    ],
+    [
+      "tests/integration/module-federation/tests/route-navigation.test.ts",
+      "dev",
+      ["Weather Lab (dev)", "Modern route-mounted applications"],
+      "loads a native history.back destination once without aborting its loader",
+      "rstest"
+    ],
+    [
+      "tests/integration/module-federation/tests/route-navigation.test.ts",
+      "dev",
+      ["Weather Lab (dev)", "Modern route-mounted applications"],
+      "preserves state through props and internal navigation, then cleans up on unmount",
+      "rstest"
+    ],
+    [
+      "tests/integration/module-federation/tests/route-navigation.test.ts",
+      "dev",
+      ["Weather Lab (dev)", "Modern route-mounted applications"],
+      "remounts at a new basename and cancels the old instance loading",
+      "rstest"
+    ],
+    [
+      "tests/integration/module-federation/tests/route-navigation.test.ts",
+      "dev",
+      ["Weather Lab (dev)", "Modern route-mounted applications"],
+      "restores null SSR data and completes a native POP client-loader redirect once",
+      "rstest"
+    ],
+    [
+      "tests/integration/module-federation/tests/route-navigation.test.ts",
+      "dev",
+      ["Weather Lab (dev)", "Modern route-mounted applications"],
+      "retries a failed provider without affecting independent mounts",
+      "rstest"
+    ],
+    [
+      "tests/integration/module-federation/tests/route-navigation.test.ts",
+      "dev",
+      ["Weather Lab (dev)", "Modern route-mounted applications"],
+      "strips an explicit basename case-insensitively without changing encoded loader paths",
+      "rstest"
+    ],
+    [
+      "tests/integration/module-federation/tests/route-navigation.test.ts",
+      "dev",
+      ["Weather Lab (dev)", "Modern route-mounted applications"],
+      "synchronizes push, replace, both history directions and remote history intent",
+      "rstest"
+    ],
+    [
+      "tests/integration/module-federation/tests/route-navigation.test.ts",
+      "dev",
+      ["Weather Lab (dev)", "Modern route-mounted applications"],
+      "treats the selector as the exported root and rejects a repeated selector in the host URL",
+      "rstest"
+    ],
+    [
+      "tests/integration/module-federation/tests/route-navigation.test.ts",
+      "dev",
+      [
+        "Weather Lab (dev)",
+        "Native POP client-loader redirects without SSR (Browser)"
+      ],
+      "consumes the source entry once when a conditional loader redirects",
+      "rstest"
+    ],
+    [
+      "tests/integration/module-federation/tests/route-navigation.test.ts",
+      "dev",
+      [
+        "Weather Lab (dev)",
+        "Native POP client-loader redirects without SSR (Hash)"
+      ],
+      "consumes the source entry once when a conditional loader redirects",
+      "rstest"
+    ],
+    [
+      "tests/integration/module-federation/tests/route-navigation.test.ts",
+      "production",
+      ["Weather Lab (production)", "Immediate client-loader redirects"],
+      "notifies the Browser Host before a separate-root consumer commits (adapter)",
+      "rstest"
+    ],
+    [
+      "tests/integration/module-federation/tests/route-navigation.test.ts",
+      "production",
+      ["Weather Lab (production)", "Immediate client-loader redirects"],
+      "notifies the Browser Host before a separate-root consumer commits (direct)",
+      "rstest"
+    ],
+    [
+      "tests/integration/module-federation/tests/route-navigation.test.ts",
+      "production",
+      ["Weather Lab (production)", "Immediate client-loader redirects"],
+      "notifies the Host after an initial client loader redirect",
+      "rstest"
+    ],
+    [
+      "tests/integration/module-federation/tests/route-navigation.test.ts",
+      "production",
+      ["Weather Lab (production)", "Immediate client-loader redirects"],
+      "notifies the Host while a lazy loading component delays the Remote commit",
+      "rstest"
+    ],
+    [
+      "tests/integration/module-federation/tests/route-navigation.test.ts",
+      "production",
+      [
+        "Weather Lab (production)",
+        "Modern Hash Router application mounts (Document base: /)"
+      ],
+      "uses logical locations for deep links, remote navigation and browser history",
+      "rstest"
+    ],
+    [
+      "tests/integration/module-federation/tests/route-navigation.test.ts",
+      "production",
+      [
+        "Weather Lab (production)",
+        "Modern Hash Router application mounts (Document base: none)"
+      ],
+      "uses logical locations for deep links, remote navigation and browser history",
+      "rstest"
+    ],
+    [
+      "tests/integration/module-federation/tests/route-navigation.test.ts",
+      "production",
+      ["Weather Lab (production)", "Modern route-mounted applications"],
+      "aborts an in-flight loader when its instance is unmounted",
+      "rstest"
+    ],
+    [
+      "tests/integration/module-federation/tests/route-navigation.test.ts",
+      "production",
+      ["Weather Lab (production)", "Modern route-mounted applications"],
+      "cancels Remote loading after a persistent Host navigation (outside)",
+      "rstest"
+    ],
+    [
+      "tests/integration/module-federation/tests/route-navigation.test.ts",
+      "production",
+      ["Weather Lab (production)", "Modern route-mounted applications"],
+      "cancels Remote loading after a persistent Host navigation (stay)",
+      "rstest"
+    ],
+    [
+      "tests/integration/module-federation/tests/route-navigation.test.ts",
+      "production",
+      ["Weather Lab (production)", "Modern route-mounted applications"],
+      "deep-links with basename, query and hash while keeping memory cards isolated",
+      "rstest"
+    ],
+    [
+      "tests/integration/module-federation/tests/route-navigation.test.ts",
+      "production",
+      ["Weather Lab (production)", "Modern route-mounted applications"],
+      "keeps the producer standalone route and relative links unchanged",
+      "rstest"
+    ],
+    [
+      "tests/integration/module-federation/tests/route-navigation.test.ts",
+      "production",
+      ["Weather Lab (production)", "Modern route-mounted applications"],
+      "loads a native history.back destination once without aborting its loader",
+      "rstest"
+    ],
+    [
+      "tests/integration/module-federation/tests/route-navigation.test.ts",
+      "production",
+      ["Weather Lab (production)", "Modern route-mounted applications"],
+      "preserves state through props and internal navigation, then cleans up on unmount",
+      "rstest"
+    ],
+    [
+      "tests/integration/module-federation/tests/route-navigation.test.ts",
+      "production",
+      ["Weather Lab (production)", "Modern route-mounted applications"],
+      "remounts at a new basename and cancels the old instance loading",
+      "rstest"
+    ],
+    [
+      "tests/integration/module-federation/tests/route-navigation.test.ts",
+      "production",
+      ["Weather Lab (production)", "Modern route-mounted applications"],
+      "restores null SSR data and completes a native POP client-loader redirect once",
+      "rstest"
+    ],
+    [
+      "tests/integration/module-federation/tests/route-navigation.test.ts",
+      "production",
+      ["Weather Lab (production)", "Modern route-mounted applications"],
+      "retries a failed provider without affecting independent mounts",
+      "rstest"
+    ],
+    [
+      "tests/integration/module-federation/tests/route-navigation.test.ts",
+      "production",
+      ["Weather Lab (production)", "Modern route-mounted applications"],
+      "strips an explicit basename case-insensitively without changing encoded loader paths",
+      "rstest"
+    ],
+    [
+      "tests/integration/module-federation/tests/route-navigation.test.ts",
+      "production",
+      ["Weather Lab (production)", "Modern route-mounted applications"],
+      "synchronizes push, replace, both history directions and remote history intent",
+      "rstest"
+    ],
+    [
+      "tests/integration/module-federation/tests/route-navigation.test.ts",
+      "production",
+      ["Weather Lab (production)", "Modern route-mounted applications"],
+      "treats the selector as the exported root and rejects a repeated selector in the host URL",
+      "rstest"
+    ],
+    [
+      "tests/integration/module-federation/tests/route-navigation.test.ts",
+      "production",
+      [
+        "Weather Lab (production)",
+        "Native POP client-loader redirects without SSR (Browser)"
+      ],
+      "consumes the source entry once when a conditional loader redirects",
+      "rstest"
+    ],
+    [
+      "tests/integration/module-federation/tests/route-navigation.test.ts",
+      "production",
+      [
+        "Weather Lab (production)",
+        "Native POP client-loader redirects without SSR (Hash)"
+      ],
+      "consumes the source entry once when a conditional loader redirects",
+      "rstest"
+    ],
+    [
+      "tests/integration/module-federation/tests/route-scope-build.test.ts",
+      "common",
+      ["Modern producer build diagnostics"],
+      "binds a whole-application export to its explicitly imported secondary registry",
+      "rstest"
+    ],
+    [
+      "tests/integration/module-federation/tests/route-scope-build.test.ts",
+      "common",
+      ["Modern producer build diagnostics"],
+      "diagnoses independent same-path configured branches",
+      "rstest"
+    ],
+    [
+      "tests/integration/module-federation/tests/route-scope-build.test.ts",
+      "common",
+      ["Modern producer build diagnostics"],
+      "fails the real build for {route: '/missing'}",
+      "rstest"
+    ],
+    [
+      "tests/integration/module-federation/tests/route-scope-build.test.ts",
+      "common",
+      ["Modern producer build diagnostics"],
+      "fails the real build for {route: '/product/detail/:id'}",
+      "rstest"
+    ],
+    [
+      "tests/integration/module-federation/tests/route-scope-build.test.ts",
+      "common",
+      ["Modern producer build diagnostics"],
+      "fails the real build for {route: String('/product')}",
+      "rstest"
+    ],
+    [
+      "tests/integration/module-federation/tests/route-scope-build.test.ts",
+      "common",
+      ["Modern producer build diagnostics"],
+      "keeps whole-application App component entries compatible and rejects a route without a graph",
+      "rstest"
+    ],
+    [
+      "tests/integration/module-federation/tests/route-scope.test.ts",
+      "dev",
+      ["Weather Lab (dev)", "Modern producer route exports"],
+      "isolates two complete weather applications through navigation, props and remounts",
+      "rstest"
+    ],
+    [
+      "tests/integration/module-federation/tests/route-scope.test.ts",
+      "dev",
+      ["Weather Lab (dev)", "Modern producer route exports"],
+      "keeps dynamic children and isolates navigation, updates, unmount and remount",
+      "rstest"
+    ],
+    [
+      "tests/integration/module-federation/tests/route-scope.test.ts",
+      "dev",
+      ["Weather Lab (dev)", "Modern producer route exports"],
+      "keeps the actual compiler dependency graph of each expose independent",
+      "rstest"
+    ],
+    [
+      "tests/integration/module-federation/tests/route-scope.test.ts",
+      "dev",
+      ["Weather Lab (dev)", "Modern producer route exports"],
+      "mounts the full application, two product instances and another scope with retained layouts and loaders",
+      "rstest"
+    ],
+    [
+      "tests/integration/module-federation/tests/route-scope.test.ts",
+      "dev",
+      ["Weather Lab (dev)", "Modern producer route exports"],
+      "removes sibling routes from the product scope while the whole application still reaches them",
+      "rstest"
+    ],
+    [
+      "tests/integration/module-federation/tests/route-scope.test.ts",
+      "dev",
+      ["Weather Lab (dev)", "Modern producer route exports"],
+      "retains the product error boundary and recovers without affecting another instance",
+      "rstest"
+    ],
+    [
+      "tests/integration/module-federation/tests/route-scope.test.ts",
+      "dev",
+      ["Weather Lab (dev)", "Modern producer route exports"],
+      "starts selected memory applications at local entry paths without changing the host URL",
+      "rstest"
+    ],
+    [
+      "tests/integration/module-federation/tests/route-scope.test.ts",
+      "production",
+      ["Weather Lab (production)", "Modern producer route exports"],
+      "isolates two complete weather applications through navigation, props and remounts",
+      "rstest"
+    ],
+    [
+      "tests/integration/module-federation/tests/route-scope.test.ts",
+      "production",
+      ["Weather Lab (production)", "Modern producer route exports"],
+      "keeps dynamic children and isolates navigation, updates, unmount and remount",
+      "rstest"
+    ],
+    [
+      "tests/integration/module-federation/tests/route-scope.test.ts",
+      "production",
+      ["Weather Lab (production)", "Modern producer route exports"],
+      "keeps the actual compiler dependency graph of each expose independent",
+      "rstest"
+    ],
+    [
+      "tests/integration/module-federation/tests/route-scope.test.ts",
+      "production",
+      ["Weather Lab (production)", "Modern producer route exports"],
+      "mounts the full application, two product instances and another scope with retained layouts and loaders",
+      "rstest"
+    ],
+    [
+      "tests/integration/module-federation/tests/route-scope.test.ts",
+      "production",
+      ["Weather Lab (production)", "Modern producer route exports"],
+      "removes sibling routes from the product scope while the whole application still reaches them",
+      "rstest"
+    ],
+    [
+      "tests/integration/module-federation/tests/route-scope.test.ts",
+      "production",
+      ["Weather Lab (production)", "Modern producer route exports"],
+      "retains the product error boundary and recovers without affecting another instance",
+      "rstest"
+    ],
+    [
+      "tests/integration/module-federation/tests/route-scope.test.ts",
+      "production",
+      ["Weather Lab (production)", "Modern producer route exports"],
+      "starts selected memory applications at local entry paths without changing the host URL",
+      "rstest"
+    ],
+    [
+      "tests/integration/module-federation/tests/runtime-exports.test.ts",
+      "common",
+      [],
+      "renders a registry scope through built Node callbacks and the existing router context",
+      "rstest"
+    ],
+    [
+      "tests/integration/module-federation/tests/unified.test.ts",
+      "dev",
+      ["Weather Lab (dev)", "Independent weather applications"],
+      "marks the weather Bridge provider and preserves ordinary weather expose metadata",
+      "rstest"
+    ],
+    [
+      "tests/integration/module-federation/tests/unified.test.ts",
+      "dev",
+      ["Weather Lab (dev)", "Independent weather applications"],
+      "selects client Bridge rendering automatically and mounts independent weather station roots",
+      "rstest"
+    ],
+    [
+      "tests/integration/module-federation/tests/unified.test.ts",
+      "dev",
+      ["Weather Lab (dev)", "Independent weather applications"],
+      "updates station props without replacing its root and reconnects a fresh instance through Advanced",
+      "rstest"
+    ],
+    [
+      "tests/integration/module-federation/tests/unified.test.ts",
+      "production",
+      ["Weather Lab (production)", "Independent weather applications"],
+      "marks the weather Bridge provider and preserves ordinary weather expose metadata",
+      "rstest"
+    ],
+    [
+      "tests/integration/module-federation/tests/unified.test.ts",
+      "production",
+      ["Weather Lab (production)", "Independent weather applications"],
+      "selects client Bridge rendering automatically and mounts independent weather station roots",
+      "rstest"
+    ],
+    [
+      "tests/integration/module-federation/tests/unified.test.ts",
+      "production",
+      ["Weather Lab (production)", "Independent weather applications"],
+      "updates station props without replacing its root and reconnects a fresh instance through Advanced",
+      "rstest"
+    ],
+    [
+      "tests/integration/module-federation/tests/weather-application.test.ts",
+      "dev",
+      ["Weather Lab (dev)", "Routed weather application"],
+      "cancels an initially streamed outlook when its hydrated page is left",
+      "rstest"
+    ],
+    [
+      "tests/integration/module-federation/tests/weather-application.test.ts",
+      "dev",
+      ["Weather Lab (dev)", "Routed weather application"],
+      "cancels pending data on navigation and unmount, then starts a fresh request on remount",
+      "rstest"
+    ],
+    [
+      "tests/integration/module-federation/tests/weather-application.test.ts",
+      "dev",
+      ["Weather Lab (dev)", "Routed weather application"],
+      "delivers old deferred Bridge frames after remount without changing the new instance",
+      "rstest"
+    ],
+    [
+      "tests/integration/module-federation/tests/weather-application.test.ts",
+      "dev",
+      ["Weather Lab (dev)", "Routed weather application"],
+      "keeps detail controls interactive during a real deferred request, then recovers a failed request",
+      "rstest"
+    ],
+    [
+      "tests/integration/module-federation/tests/weather-application.test.ts",
+      "dev",
+      ["Weather Lab (dev)", "Routed weather application"],
+      "keeps the public demo focused and serves the producer application independently",
+      "rstest"
+    ],
+    [
+      "tests/integration/module-federation/tests/weather-application.test.ts",
+      "dev",
+      ["Weather Lab (dev)", "Routed weather application"],
+      "navigates, filters, saves and retains selections through host history and props changes",
+      "rstest"
+    ],
+    [
+      "tests/integration/module-federation/tests/weather-application.test.ts",
+      "dev",
+      ["Weather Lab (dev)", "Routed weather application"],
+      "opens the core application from the homepage and fits a phone viewport",
+      "rstest"
+    ],
+    [
+      "tests/integration/module-federation/tests/weather-application.test.ts",
+      "dev",
+      ["Weather Lab (dev)", "Routed weather application"],
+      "renders styled deep-link SSR before host JavaScript and hydrates the same DOM without re-fetching",
+      "rstest"
+    ],
+    [
+      "tests/integration/module-federation/tests/weather-application.test.ts",
+      "production",
+      ["Weather Lab (production)", "Routed weather application"],
+      "cancels an initially streamed outlook when its hydrated page is left",
+      "rstest"
+    ],
+    [
+      "tests/integration/module-federation/tests/weather-application.test.ts",
+      "production",
+      ["Weather Lab (production)", "Routed weather application"],
+      "cancels pending data on navigation and unmount, then starts a fresh request on remount",
+      "rstest"
+    ],
+    [
+      "tests/integration/module-federation/tests/weather-application.test.ts",
+      "production",
+      ["Weather Lab (production)", "Routed weather application"],
+      "delivers old deferred Bridge frames after remount without changing the new instance",
+      "rstest"
+    ],
+    [
+      "tests/integration/module-federation/tests/weather-application.test.ts",
+      "production",
+      ["Weather Lab (production)", "Routed weather application"],
+      "keeps detail controls interactive during a real deferred request, then recovers a failed request",
+      "rstest"
+    ],
+    [
+      "tests/integration/module-federation/tests/weather-application.test.ts",
+      "production",
+      ["Weather Lab (production)", "Routed weather application"],
+      "keeps the public demo focused and serves the producer application independently",
+      "rstest"
+    ],
+    [
+      "tests/integration/module-federation/tests/weather-application.test.ts",
+      "production",
+      ["Weather Lab (production)", "Routed weather application"],
+      "navigates, filters, saves and retains selections through host history and props changes",
+      "rstest"
+    ],
+    [
+      "tests/integration/module-federation/tests/weather-application.test.ts",
+      "production",
+      ["Weather Lab (production)", "Routed weather application"],
+      "opens the core application from the homepage and fits a phone viewport",
+      "rstest"
+    ],
+    [
+      "tests/integration/module-federation/tests/weather-application.test.ts",
+      "production",
+      ["Weather Lab (production)", "Routed weather application"],
+      "renders styled deep-link SSR before host JavaScript and hydrates the same DOM without re-fetching",
+      "rstest"
+    ]
+  ],
+  "rootExposes": [
+    [
+      "packages/cli/plugin-module-federation/src/cli/rootExposes.test.ts",
+      "common",
+      [],
+      "does no filesystem work for empty exposes or requests with an existing query",
+      "rstest"
+    ],
+    [
+      "packages/cli/plugin-module-federation/src/cli/rootExposes.test.ts",
+      "common",
+      [],
+      "keeps discovery of 1,000 real expose files within its startup budget",
+      "rstest"
+    ],
+    [
+      "packages/cli/plugin-module-federation/src/cli/rootExposes.test.ts",
+      "common",
+      [],
+      "marks only Modern root candidates and leaves the caller config and ordinary exposes intact",
+      "rstest"
+    ]
+  ],
+  "routeScope": [
+    [
+      "packages/runtime/plugin-runtime/tests/router/routeScope.test.ts",
+      "common",
+      ["Modern producer route selection"],
+      "allows runtime decoration but rejects attempts to bring sibling routes back into a scope",
+      "plugin-runtime-node"
+    ],
+    [
+      "packages/runtime/plugin-runtime/tests/router/routeScope.test.ts",
+      "common",
+      ["Modern producer route selection"],
+      "isolates loaded module metadata for equal route IDs in different scopes",
+      "plugin-runtime-node"
+    ],
+    [
+      "packages/runtime/plugin-runtime/tests/router/routeScope.test.ts",
+      "common",
+      ["Modern producer route selection"],
+      "keeps a real transparent definition after the ordinary route optimizer folds it away",
+      "plugin-runtime-node"
+    ],
+    [
+      "packages/runtime/plugin-runtime/tests/router/routeScope.test.ts",
+      "common",
+      ["Modern producer route selection"],
+      "keeps ancestor behavior and absolute descendant definitions in a local nested selection",
+      "plugin-runtime-node"
+    ],
+    [
+      "packages/runtime/plugin-runtime/tests/router/routeScope.test.ts",
+      "common",
+      ["Modern producer route selection"],
+      "keeps ancestors, index, pathless shells, errors and dynamic descendants without mutating the entry",
+      "plugin-runtime-node"
+    ],
+    [
+      "packages/runtime/plugin-runtime/tests/router/routeScope.test.ts",
+      "common",
+      ["Modern producer route selection"],
+      "keeps every branch when selecting an optimized transparent root with index false",
+      "plugin-runtime-node"
+    ],
+    [
+      "packages/runtime/plugin-runtime/tests/router/routeScope.test.ts",
+      "common",
+      ["Modern producer route selection"],
+      "keeps every branch when selecting an optimized transparent root with index true",
+      "plugin-runtime-node"
+    ],
+    [
+      "packages/runtime/plugin-runtime/tests/router/routeScope.test.ts",
+      "common",
+      ["Modern producer route selection"],
+      "keeps parallel index/pathless descendants inside an unambiguous range",
+      "plugin-runtime-node"
+    ],
+    [
+      "packages/runtime/plugin-runtime/tests/router/routeScope.test.ts",
+      "common",
+      ["Modern producer route selection"],
+      "rejects independent same-path branches but accepts layout/index chains",
+      "plugin-runtime-node"
+    ],
+    [
+      "packages/runtime/plugin-runtime/tests/router/routeScope.test.ts",
+      "common",
+      ["Modern producer route selection"],
+      "rejects invalid selector ",
+      "plugin-runtime-node"
+    ],
+    [
+      "packages/runtime/plugin-runtime/tests/router/routeScope.test.ts",
+      "common",
+      ["Modern producer route selection"],
+      "rejects invalid selector //product",
+      "plugin-runtime-node"
+    ],
+    [
+      "packages/runtime/plugin-runtime/tests/router/routeScope.test.ts",
+      "common",
+      ["Modern producer route selection"],
+      "rejects invalid selector /product?tab=x",
+      "plugin-runtime-node"
+    ],
+    [
+      "packages/runtime/plugin-runtime/tests/router/routeScope.test.ts",
+      "common",
+      ["Modern producer route selection"],
+      "rejects invalid selector /product#x",
+      "plugin-runtime-node"
+    ],
+    [
+      "packages/runtime/plugin-runtime/tests/router/routeScope.test.ts",
+      "common",
+      ["Modern producer route selection"],
+      "rejects invalid selector /stores/:id",
+      "plugin-runtime-node"
+    ],
+    [
+      "packages/runtime/plugin-runtime/tests/router/routeScope.test.ts",
+      "common",
+      ["Modern producer route selection"],
+      "rejects invalid selector /stores/:id/product",
+      "plugin-runtime-node"
+    ],
+    [
+      "packages/runtime/plugin-runtime/tests/router/routeScope.test.ts",
+      "common",
+      ["Modern producer route selection"],
+      "rejects invalid selector /stores/[id]",
+      "plugin-runtime-node"
+    ],
+    [
+      "packages/runtime/plugin-runtime/tests/router/routeScope.test.ts",
+      "common",
+      ["Modern producer route selection"],
+      "rejects invalid selector /stores/*",
+      "plugin-runtime-node"
+    ],
+    [
+      "packages/runtime/plugin-runtime/tests/router/routeScope.test.ts",
+      "common",
+      ["Modern producer route selection"],
+      "rejects invalid selector product",
+      "plugin-runtime-node"
+    ],
+    [
+      "packages/runtime/plugin-runtime/tests/router/routeScope.test.ts",
+      "common",
+      ["Modern producer route selection"],
+      "selects definitions rather than matching a concrete dynamic URL or a string prefix",
+      "plugin-runtime-node"
+    ],
+    [
+      "packages/runtime/plugin-runtime/tests/router/routeScope.test.ts",
+      "common",
+      ["Modern root expose analysis"],
+      "accepts the existing Core Bridge entry and shorthand rootComponent syntax",
+      "plugin-runtime-node"
+    ],
+    [
+      "packages/runtime/plugin-runtime/tests/router/routeScope.test.ts",
+      "common",
+      ["Modern root expose analysis"],
+      "accepts whole applications and local static constants",
+      "plugin-runtime-node"
+    ],
+    [
+      "packages/runtime/plugin-runtime/tests/router/routeScope.test.ts",
+      "common",
+      ["Modern root expose analysis"],
+      "diagnoses missing or ambiguous registry imports",
+      "plugin-runtime-node"
+    ],
+    [
+      "packages/runtime/plugin-runtime/tests/router/routeScope.test.ts",
+      "common",
+      ["Modern root expose analysis"],
+      "does not mistake a business function or a legacy component overload for the runtime API",
+      "plugin-runtime-node"
+    ],
+    [
+      "packages/runtime/plugin-runtime/tests/router/routeScope.test.ts",
+      "common",
+      ["Modern root expose analysis"],
+      "follows imported aliases and provider bindings",
+      "plugin-runtime-node"
+    ],
+    [
+      "packages/runtime/plugin-runtime/tests/router/routeScope.test.ts",
+      "common",
+      ["Modern root expose analysis"],
+      "keeps SWC analysis of 100 large expose modules within its build budget",
+      "plugin-runtime-node"
+    ],
+    [
+      "packages/runtime/plugin-runtime/tests/router/routeScope.test.ts",
+      "common",
+      ["Modern root expose analysis"],
+      "rejects multiple independently created Roots in one module",
+      "plugin-runtime-node"
+    ],
+    [
+      "packages/runtime/plugin-runtime/tests/router/routeScope.test.ts",
+      "common",
+      ["Modern root expose analysis"],
+      "rejects unsupported options { ...options }",
+      "plugin-runtime-node"
+    ],
+    [
+      "packages/runtime/plugin-runtime/tests/router/routeScope.test.ts",
+      "common",
+      ["Modern root expose analysis"],
+      "rejects unsupported options { includeChildren: false }",
+      "plugin-runtime-node"
+    ],
+    [
+      "packages/runtime/plugin-runtime/tests/router/routeScope.test.ts",
+      "common",
+      ["Modern root expose analysis"],
+      "rejects unsupported options { route: '/stores/:id' }",
+      "plugin-runtime-node"
+    ],
+    [
+      "packages/runtime/plugin-runtime/tests/router/routeScope.test.ts",
+      "common",
+      ["Modern root expose analysis"],
+      "rejects unsupported options { route: getPath() }",
+      "plugin-runtime-node"
+    ]
+  ]
+}
