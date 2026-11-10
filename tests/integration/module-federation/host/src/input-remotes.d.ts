@@ -19,3 +19,15 @@ declare module 'provider/ProductApp' {
   const ProductApp: BridgeProvider<{ label?: string }>;
   export default ProductApp;
 }
+
+declare module 'provider/AirQualityApp' {
+  import type { BridgeProvider } from '@module-federation/bridge-react/base';
+  const App: BridgeProvider<{ label?: string }>;
+  export default App;
+}
+
+declare module 'provider/WeatherForecastApp' {
+  import type { BridgeProvider } from '@module-federation/bridge-react/base';
+  const App: BridgeProvider<{ label?: string }>;
+  export default App;
+}

@@ -3,6 +3,11 @@ import { useSearchParams } from '@modern-js/runtime/router';
 import { getInstance } from '@module-federation/enhanced/runtime';
 import './remotes';
 import { WeatherExperiments } from './WeatherExperiments';
+import {
+  AirWeather,
+  UVWeather,
+  SunsetWeather,
+} from '../../../provider/src/weather-cards';
 const runtime = getInstance()!;
 // Start the actual MF loader while the route module initializes, before React
 // renders its lazy component. SSR data is already provided in the HTML.
@@ -105,35 +110,9 @@ export default function WeatherPage() {
             <>
               <Days />
               <Wind />
-              <section className="weather-card air-weather">
-                <h2>◌ Air quality</h2>
-                <strong>49</strong>
-                <p>Good</p>
-                <div className="air-scale" />
-                <small>Current AQI (CN): 49.</small>
-              </section>
-              <section className="weather-card uv-weather">
-                <h2>☀ UV index</h2>
-                <strong>3</strong>
-                <p>Moderate</p>
-                <div className="air-scale" />
-                <small>Use sun protection this afternoon.</small>
-              </section>
-              <section className="weather-card sunset-weather">
-                <h2>☼ Sunset</h2>
-                <strong>17:24</strong>
-                <svg viewBox="0 0 200 60" aria-hidden="true">
-                  <path
-                    d="M0 55Q100 -45 200 55"
-                    fill="none"
-                    stroke="#9edaff"
-                    strokeWidth="4"
-                  />
-                  <path d="M0 40h200" stroke="#b9e6ff" />
-                  <circle cx="128" cy="13" r="5" fill="white" />
-                </svg>
-                <small>Sunrise: 6:05 AM</small>
-              </section>
+              <AirWeather />
+              <UVWeather />
+              <SunsetWeather />
             </>
           )}
         </div>
