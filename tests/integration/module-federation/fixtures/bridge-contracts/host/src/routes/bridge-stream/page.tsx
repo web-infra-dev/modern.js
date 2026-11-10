@@ -2,6 +2,8 @@
 import { useState } from 'react';
 import { ReactRemote } from '@modern-js/runtime/mf';
 import { useLocation } from '@modern-js/runtime/router';
+import { loadRemote } from '@module-federation/enhanced/runtime';
+const loadProduct = () => loadRemote('provider/ProductApp');
 export default function BridgeStream() {
   const probe =
     new URLSearchParams(useLocation().search).get('probe') || 'stream';
@@ -21,7 +23,7 @@ export default function BridgeStream() {
       </button>
       <section data-testid="bridge-fast">
         <ReactRemote
-          remote="provider/ProductApp"
+          remote={loadProduct}
           memoryRoute={{ entryPath: `/stream?probe=${probe}-fast` }}
           props={{ label }}
         />
@@ -29,7 +31,7 @@ export default function BridgeStream() {
       <section data-testid="bridge-slow">
         {slow && (
           <ReactRemote
-            remote="provider/ProductApp"
+            remote={loadProduct}
             memoryRoute={{ entryPath: `/stream?probe=${probe}-slow&hold=1` }}
             props={{ label }}
           />

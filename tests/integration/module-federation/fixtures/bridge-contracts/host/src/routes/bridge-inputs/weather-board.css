@@ -34,17 +34,17 @@
 .weather-board-card > div {
   height: 100%;
 }
-.weather-board-string {
+.weather-board-current {
   background: #203d4a;
   border-color: #203d4a;
 }
-.weather-board-string .bulletin {
+.weather-board-current .bulletin {
   color: #fff5dc;
 }
-.weather-board-string .bulletin-save {
+.weather-board-current .bulletin-save {
   border-color: #ffffff40;
 }
-.weather-board-string .bulletin-save[aria-pressed='true'] {
+.weather-board-current .bulletin-save[aria-pressed='true'] {
   color: #203d4a;
   background: #f3cf83;
 }

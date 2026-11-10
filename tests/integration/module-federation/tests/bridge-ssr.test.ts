@@ -27,7 +27,7 @@ function bridgeFrames(html: string) {
 
 const inputs = [
   {
-    source: 'string',
+    source: 'current',
     name: 'CurrentWeather',
     route: 'current',
     content: 'Mostly sunny',
@@ -78,7 +78,7 @@ for (const api of ['factory', 'declarative']) {
         expect(await get('none')).toEqual([]);
         expect(evaluations()).toEqual(['export:AirQuality']);
         expect(lab.weatherRequests).toEqual([]);
-        for (const source of ['preloaded', 'string', 'loader']) {
+        for (const source of ['preloaded', 'current', 'loader']) {
           const input = inputs.find(input => input.source === source)!;
           const before = evaluations();
           if (source !== 'preloaded') {
@@ -308,7 +308,7 @@ for (const api of ['factory', 'declarative']) {
             'forecast',
           ]);
           expect(browserLoaders).toHaveLength(1);
-          const current = '[data-testid="bridge-input-string"]';
+          const current = '[data-testid="bridge-input-current"]';
           const forecast = '[data-testid="bridge-input-loader"]';
           await page.click(`${current} [data-testid="weather-save"]`);
           await page.click(`${current} [data-testid="weather-unit"]`);

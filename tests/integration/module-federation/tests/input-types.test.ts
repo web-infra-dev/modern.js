@@ -120,9 +120,14 @@ import { loadRemote } from '@module-federation/enhanced/runtime';
 import { createBridgeComponent, createModernBridgeComponent, createReactRemote, createModernReactRemote, ReactRemote, type CreateReactRemoteOptions } from '@modern-js/runtime/mf';
 import Shop, * as ShopModule from 'shop/Card';
 import Bridge from 'shop/Bridge';
-const Literal = createReactRemote({ remote: 'shop/Card' });
-const Routed = createModernReactRemote({ remote: 'shop/Card' });
 const Loaded = createReactRemote({ remote: () => loadRemote('shop/Card') });
+const Routed = createModernReactRemote({ remote: () => loadRemote('shop/Card') });
+// @ts-expect-error direct remote strings are rejected
+createReactRemote({ remote: 'shop/Card' });
+// @ts-expect-error route consumers share the function-only contract
+createModernReactRemote({ remote: 'shop/Card' });
+// @ts-expect-error declarative consumers reject direct strings
+<ReactRemote remote="shop/Card" props={{ label: 'weather' }} />;
 const Namespace = createModernReactRemote({ remote: () => ShopModule });
 const Default = createReactRemote({ remote: async () => Shop });
 const Named = createModernReactRemote({ remote: async () => ShopModule, exportName: 'Badge' });
@@ -134,18 +139,16 @@ const ModernProducer = createModernBridgeComponent({
   rootComponent: ({ station }: { station: string }) => <p>{station}</p>,
 });
 const ModernApp = createReactRemote({ remote: () => ModernProducer });
-const LiteralBridge = createReactRemote({ remote: 'shop/Bridge' });
 const LoadedBridge = createReactRemote({ remote: () => loadRemote('shop/Bridge') });
 <ModernApp station="lakeside" />;
-<LiteralBridge station="lakeside" />;
 <LoadedBridge station="lakeside" />;
 <ReactRemote remote={() => ModernProducer} props={{ station: 'lakeside' }} />;
 // @ts-expect-error the SSR producer helper must infer its business props
 <ModernApp station={42} />;
 // @ts-expect-error the SSR producer helper retains required props
 <ReactRemote remote={() => ModernProducer} />;
-// @ts-expect-error literal Bridge inputs retain provider props
-<LiteralBridge station={42} />;
+// @ts-expect-error loader Bridge inputs retain provider props
+<LoadedBridge station={42} />;
 // @ts-expect-error loader Bridge inputs retain required props
 <LoadedBridge />;
 const InferredProducer = createModernReactRemote({ remote: () => Producer });
@@ -154,18 +157,15 @@ const InferredProducer = createModernReactRemote({ remote: () => Producer });
 <InferredProducer station={42} />;
 // @ts-expect-error Modern's producer factory must retain required props
 <ReactRemote remote={() => Producer} />;
-<Literal label="weather" />;
 <Routed label="weather" count={1} />;
 <Loaded label="weather" />;
 <Namespace label="weather" />;
 <Default label="weather" />;
 <Named tone="good" />;
 <App station="lakeside" />;
-<ReactRemote remote="shop/Card" props={{ label: 'weather' }} />;
+<ReactRemote remote={() => loadRemote('shop/Card')} props={{ label: 'weather' }} />;
 <ReactRemote remote={() => ShopModule} exportName="Badge" props={{ tone: 'bad' }} />;
 <ReactRemote remote={async () => Shop} props={{ label: 'weather' }} />;
-// @ts-expect-error literal inference must reject wrong props
-<Literal label={42} />;
 // @ts-expect-error Modern route wrapper must retain required props
 <Routed />;
 // @ts-expect-error generated loadRemote return types must reach the factory
@@ -178,22 +178,28 @@ const InferredProducer = createModernReactRemote({ remote: () => Producer });
 <Named tone="unknown" />;
 // @ts-expect-error Bridge provider props survive the Modern wrapper
 <App station={1} />;
-// @ts-expect-error declarative literal props are checked
-<ReactRemote remote="shop/Card" props={{ label: 42 }} />;
+// @ts-expect-error declarative loader props are checked
+<ReactRemote remote={() => loadRemote('shop/Card')} props={{ label: 42 }} />;
 // @ts-expect-error required declarative props cannot be omitted
 <ReactRemote remote={() => ShopModule} />;
 // @ts-expect-error non-component exports cannot be selected
-createReactRemote({ remote: 'shop/Card', exportName: 'metadata' });
+createReactRemote({ remote: () => loadRemote('shop/Card'), exportName: 'metadata' });
 // @ts-expect-error unknown exports cannot fall through to a permissive overload
 createModernReactRemote({ remote: () => ShopModule, exportName: 'missing' });
 // @ts-expect-error declarative named props are checked
 <ReactRemote remote={() => ShopModule} exportName="Badge" props={{ tone: 'unknown' }} />;
 declare const dynamicId: string;
-const Explicit = createReactRemote<{ label: string }>({ remote: dynamicId });
-const ExplicitRouted = createModernReactRemote<{ label: string }>({ remote: dynamicId });
+const Explicit = createReactRemote<{ label: string }>({ remote: () => loadRemote(dynamicId) });
+const ExplicitRouted = createModernReactRemote<{ label: string }>({ remote: () => loadRemote(dynamicId) });
+// @ts-expect-error explicit props do not permit string inputs
+createReactRemote<{ label: string }>({ remote: dynamicId });
+// @ts-expect-error route consumer explicit props do not permit strings
+createModernReactRemote<{ label: string }>({ remote: dynamicId });
+// @ts-expect-error declarative explicit props do not permit strings
+<ReactRemote<{ label: string }> remote={dynamicId} props={{ label: 'weather' }} />;
 <Explicit label="weather" />;
 <ExplicitRouted label="weather" />;
-<ReactRemote<{ label: string }> remote={dynamicId} props={{ label: 'weather' }} />;
+<ReactRemote<{ label: string }> remote={() => loadRemote(dynamicId)} props={{ label: 'weather' }} />;
 // @ts-expect-error explicit business generics remain checked
 <Explicit label={false} />;
 // @ts-expect-error explicit Modern route generics remain checked
@@ -209,7 +215,7 @@ function labComponent<P extends object = Record<string, unknown>>(
     const Card = React.useMemo(() =>
       createReactRemote<P & { labFailure?: string; labRun?: string }>({
         ...options,
-        remote,
+        remote: () => loadRemote(remote),
         dataFetchParams: {
           isDowngrade: false,
           ...options.dataFetchParams,
@@ -220,7 +226,7 @@ function labComponent<P extends object = Record<string, unknown>>(
     const RoutedCard = React.useMemo(() =>
       createModernReactRemote<P & { labFailure?: string; labRun?: string }>({
         ...options,
-        remote,
+        remote: () => loadRemote(remote),
         dataFetchParams: {
           isDowngrade: false,
           ...options.dataFetchParams,

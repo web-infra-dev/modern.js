@@ -6,12 +6,13 @@ import {
   useParams,
 } from '@modern-js/runtime/router';
 import { createReactRemote } from '@modern-js/runtime/mf';
+import { loadRemote } from '@module-federation/enhanced/runtime';
 const Card = createReactRemote<{ label: string }>({
-  remote: 'provider/ProductApp',
+  remote: () => loadRemote('provider/ProductApp'),
   memoryRoute: { entryPath: '/' },
 });
 const Orders = createReactRemote({
-  remote: 'provider/OrdersApp',
+  remote: () => loadRemote('provider/OrdersApp'),
   memoryRoute: { entryPath: '/' },
 });
 export default function StoreLayout() {

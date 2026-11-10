@@ -49,19 +49,21 @@ export default createBridgeComponent({
 
 `createReactRemote` 和 `ReactRemote` 继续统一消费普通组件与 Bridge 应用：
 
+{/* prettier-ignore */}
 ```tsx
-import { createReactRemote } from '@modern-js/runtime/mf';
+import { createReactRemote } from '@modern-js/runtime/mf'
+import { loadRemote } from '@module-federation/enhanced/runtime'
 
 const Product = createReactRemote({
-  remote: 'shop/ProductApp',
+  remote: () => loadRemote('shop/ProductApp'),
   basename: '/inventory',
   loading: <p>正在加载商品</p>,
-});
+})
 ```
 
 这里的详情地址是 `/inventory/detail/42`，不会还原为 `/product/detail/42`。当消费者挂载在 Modern 路由中时，框架适配器连接两端导航。也可通过 `createModernReactRemote` 推导当前挂载路由的 basename。
 
-`remote` 还可以是 `() => loadRemote('shop/ProductApp')`，或 `() => Shop`，其中 `Shop` 是通过同一 MF 实例预先加载的导出。函数输入也能 SSR，渲染类型在加载完成后确定。带类型的加载结果继续推导业务 props。
+`remote` 必须是函数，例如 `() => loadRemote('shop/ProductApp')` 或 `() => Shop`，其中 `Shop` 是通过同一 MF 实例预先加载的导出。渲染类型在加载完成后确定，带类型的加载结果继续推导业务 props。Host 会在函数完成前登记待处理 SSR 任务，并等待迟到的 Bridge 注册。使用 `noSSR` 可阻止消费入口在服务端执行 loader 及其模块，但不会撤销在消费入口之外执行的静态 import。
 
 服务端输出远端内容和恢复数据。浏览器等待对应容器和数据就绪后水合，各实例独立处理后续流数据。props 更新与内部导航保留同一个 Root、Router 和页面状态。basename 在一次挂载期间固定，实际改变时会卸载旧实例并重新挂载。
 

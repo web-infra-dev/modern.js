@@ -196,8 +196,8 @@ export function setupLab(
       await writeFile(
         consumer,
         source.replace(
-          "remote: 'provider/ProductApp',",
-          "remote: 'provider/ProductApp', noSSR: true,",
+          "remote: () => loadRemote('provider/ProductApp'),",
+          "remote: () => loadRemote('provider/ProductApp'), noSSR: true,",
         ),
       );
     }

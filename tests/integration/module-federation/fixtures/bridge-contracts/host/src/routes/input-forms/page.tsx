@@ -6,7 +6,6 @@ import type { InputCardProps } from 'provider/InputCard';
 import Forecast, * as ForecastModule from 'provider/Forecast';
 
 const sources = [
-  { name: 'alias', remote: 'provider/InputCard' },
   {
     name: 'mf-loader',
     remote: () => loadRemote<typeof ShopModule>('provider/InputCard'),
@@ -37,8 +36,9 @@ const ClientFactory = createReactRemote<InputCardProps>({
     <p data-testid="input-no-ssr-placeholder">Waiting for client input</p>
   ),
 });
+const loadBridge = () => loadRemote('provider/BridgeCard');
 const BridgeFactory = createReactRemote<{ label: string }>({
-  remote: () => loadRemote('provider/BridgeCard'),
+  remote: loadBridge,
   loading: (
     <p data-testid="input-bridge-placeholder">
       Waiting for independent station
@@ -122,7 +122,7 @@ export default function InputForms() {
       </section>
       <section data-testid="input-bridge-declarative">
         <ReactRemote
-          remote="provider/BridgeCard"
+          remote={loadBridge}
           loading={<p>Waiting for independent station</p>}
           props={{ label }}
         />

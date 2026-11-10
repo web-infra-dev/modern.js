@@ -81,18 +81,20 @@ For gradual migration, keep the legacy plugin and explicitly set `moduleFederati
 {/* prettier-ignore */}
 ```tsx
 import { createReactRemote, ReactRemote } from '@modern-js/runtime/mf'
+import { loadRemote } from '@module-federation/enhanced/runtime'
 
+const loadCard = () => loadRemote('remote/Card')
 const Card = createReactRemote<{ label: string }>({
-  remote: 'remote/Card',
+  remote: loadCard,
   loading: <span>Loading</span>,
   fallback: ({ error, retry }) => <button onClick={retry}>{error.message}</button>,
 })
 
 <Card label="Example" />
-<ReactRemote remote="remote/Card" props={{ label: 'Example' }} />
+<ReactRemote remote={loadCard} props={{ label: 'Example' }} />
 ```
 
-`remote` accepts three input forms: a registered `alias/Expose` string, a function calling MF `loadRemote`, or a function returning a preloaded MF namespace or component export. Functions can return synchronously or asynchronously. Factory and declarative consumers use the same behavior.
+`remote` requires a function returning a supported MF export or module namespace, or its Promise. The two main forms are `() => loadRemote('shop/Card')` and `() => Shop` for a static remote import. Both factories and the declarative API share this contract. Direct strings are rejected. Migrate `remote: 'shop/Card'` to `remote: () => loadRemote('shop/Card')`.
 
 {/* prettier-ignore */}
 ```tsx
@@ -100,7 +102,6 @@ import { loadRemote } from '@module-federation/enhanced/runtime'
 import Shop, * as ShopModule from 'shop/Card'
 import { createReactRemote, ReactRemote } from '@modern-js/runtime/mf'
 
-const ById = createReactRemote({ remote: 'shop/Card' })
 const ByLoader = createReactRemote({
   remote: () => loadRemote('shop/Card'),
 })
@@ -115,9 +116,9 @@ Always wrap function inputs in a thunk, such as `remote: () => Shop`. The return
 
 Keep function inputs to `ReactRemote` stable across renders by defining them at module scope, as above, or using `useCallback`. Reuse the same function when only business props change. Replacing the function reference selects a new loading source and resets that consumer instance's loading and component state.
 
-Preloaded values must come from the same Runtime instance used by the consumer. A component reference shared by multiple exposes or versions is ambiguous, so use a remote ID string to select its source. Older runtimes retain compatibility through MF-identified namespaces, while preloaded default exports require the matching newer Runtime.
+Preloaded values must come from the same Runtime instance used by the consumer. A component reference shared by multiple exposes or versions is ambiguous, so return an unambiguous MF namespace instead. Older runtimes retain compatibility through MF-identified namespaces, while preloaded default exports require the matching newer Runtime.
 
-With MF-generated type mappings included in the consumer project, literal remote IDs infer expose props. Function inputs infer props from the returned namespace or component, and `exportName` accepts its renderable exports. Both factories and `ReactRemote` share these checks. Dynamic strings or remotes without declarations can retain an explicit props type, such as `createReactRemote<{ label: string }>(...)`.
+Function inputs infer props from the returned namespace or component, including typed `loadRemote` results. `exportName` selects renderable component exports and defaults to `default`. Bridge providers must be the default export. Returning an individual export treats it as the default. Both factories and `ReactRemote` share these checks. Remotes without declarations can retain an explicit props type, such as `createReactRemote<{ label: string }>(...)`.
 
 The consumer selects an adapter from the manifest expose protocol. Ordinary React
 components render in the Host tree with the existing SSR, hydration and data-loading
@@ -136,7 +137,7 @@ Unmarked legacy components retain the component path. Legacy Bridge providers ca
 set `render: 'bridge'` explicitly. Hints conflicting with reliable metadata fail.
 General registration and loading APIs remain in `@module-federation/enhanced/runtime`.
 
-All three forms support ordinary component SSR when the function and loaded modules can execute in Node. Components use the same data-loading, asset and hydration pipeline. With `noSSR: true`, the server emits the loading placeholder and the consumer calls the function and renders the component on the client. Static imports and preloading performed outside the consumer are not undone by `noSSR`.
+Both function forms support ordinary component SSR when the function and loaded modules can execute in Node. Components use the same data-loading, asset and hydration pipeline. With `noSSR: true`, the server emits the loading placeholder and the consumer calls the function and renders the component on the client. Static imports and preloading performed outside the consumer are not undone by `noSSR`.
 
 Stream-capable Bridge producers can render application content and reuse its DOM through [Modern Bridge SSR](/guides/topic-detail/module-federation/bridge-ssr). Legacy producers without `renderStream` emit a server placeholder and create their provider and independent Root in the browser. Function inputs select their renderer after loading. Service App execution and `updateRemotes` are outside this integration. Retry invokes a failed input function again and resets the failed instance, without promising to download an already cached MF module or replay business data loaders.
 
@@ -182,8 +183,9 @@ Use `createModernReactRemote` in the wildcard route that owns the remote applica
 {/* prettier-ignore */}
 ```tsx title="src/routes/stores/[storeId]/inventory/$.tsx"
 import { createModernReactRemote } from '@modern-js/runtime/mf'
+import { loadRemote } from '@module-federation/enhanced/runtime'
 
-export default createModernReactRemote({ remote: 'shop/Product' })
+export default createModernReactRemote({ remote: () => loadRemote('shop/Product') })
 ```
 
 The component reads its local route match at render time, computes the mount basename, and connects host and remote navigation. With Host Router basename `/admin`, the URL `/admin/stores/100/inventory/detail/42?tab=stock#summary` has mount prefix `/admin/stores/100/inventory`. Dynamic parameters use their matched values. Pathless layouts and index routes add no segments. The wildcard tail is excluded. Configure the host wildcard route explicitly.
@@ -193,10 +195,12 @@ The component reads its local route match at render time, computes the mount bas
 {/* prettier-ignore */}
 ```tsx
 import { ReactRemote, useRemoteBasename } from '@modern-js/runtime/mf'
+import { loadRemote } from '@module-federation/enhanced/runtime'
+const loadProduct = () => loadRemote('shop/Product')
 
 export default function Page() {
   const basename = useRemoteBasename()
-  return <ReactRemote remote="shop/Product" basename={basename} />
+  return <ReactRemote remote={loadProduct} basename={basename} />
 }
 ```
 

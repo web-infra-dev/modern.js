@@ -1,21 +1,22 @@
 // Test-only selected-route consumer.
 import { useState } from 'react';
 import { createReactRemote } from '@modern-js/runtime/mf';
+import { loadRemote } from '@module-federation/enhanced/runtime';
 
 const WeatherApp = createReactRemote<{ label: string }>({
-  remote: 'provider/WeatherApp',
+  remote: () => loadRemote('provider/WeatherApp'),
   memoryRoute: { entryPath: '/' },
 });
 const ProductApp = createReactRemote<{ label: string }>({
-  remote: 'provider/ProductApp',
+  remote: () => loadRemote('provider/ProductApp'),
   memoryRoute: { entryPath: '/' },
 });
 const ProductEntry = createReactRemote({
-  remote: 'provider/ProductApp',
+  remote: () => loadRemote('provider/ProductApp'),
   memoryRoute: { entryPath: '/detail/45?tab=memory#start' },
 });
 const OrdersApp = createReactRemote<{ label: string }>({
-  remote: 'provider/OrdersApp',
+  remote: () => loadRemote('provider/OrdersApp'),
   memoryRoute: { entryPath: '/' },
 });
 

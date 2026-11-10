@@ -1,8 +1,9 @@
 import { useState } from 'react';
 import { createReactRemote } from '@modern-js/runtime/mf';
+import { loadRemote } from '@module-federation/enhanced/runtime';
 
 const Remote = createReactRemote<{ label: string }>({
-  remote: 'provider/FailedSSRApp',
+  remote: () => loadRemote('provider/FailedSSRApp'),
   memoryRoute: { entryPath: '/' },
   loading: <p data-testid="bridge-failed-loading">Loading station</p>,
 });
