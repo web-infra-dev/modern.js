@@ -8,14 +8,16 @@ import '../runtime/types';
 
 type BundlerChain = NonNullable<AppUserConfig['tools']>['bundlerChain'];
 
-// Before the first render the runtime loads react-i18next (and i18next when no
-// instance is passed) with dynamic imports. Bundle them eagerly so they don't
-// become extra async requests.
+// Before the first render the runtime loads react-i18next with a dynamic import.
+// Bundle that module eagerly so it doesn't become an extra async request. Only
+// runtime/i18n/react-i18next is matched: the i18next fallback import in
+// runtime/i18n/instance stays lazy, so apps that pass their own instance don't
+// get an unused copy of i18next in the initial chunk.
 const eagerReactI18next: BundlerChain = chain => {
   chain.module
     .rule('plugin-i18n-react-i18next')
     .test(
-      /[\\/]plugin-i18n[\\/]dist[\\/][^\\/]+[\\/]runtime[\\/]i18n[\\/]instance\.m?js$/,
+      /[\\/]plugin-i18n[\\/]dist[\\/][^\\/]+[\\/]runtime[\\/]i18n[\\/]react-i18next\.m?js$/,
     )
     .parser({ dynamicImportMode: 'eager' });
 };
