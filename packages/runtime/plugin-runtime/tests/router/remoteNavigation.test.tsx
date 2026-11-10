@@ -94,7 +94,7 @@ it('supports an explicit browser mount outside Modern Router and releases its lo
   const original = window.location.href;
   window.history.replaceState(null, '', '/inventory/product?tab=stock#summary');
   const view = render(
-    <ReactRemote remote="shop/Product" basename="/inventory" />,
+    <ReactRemote remote={() => null} basename="/inventory" />,
   );
   try {
     const navigation = bridgeRender.mock.lastCall![0].navigation!;
@@ -123,7 +123,7 @@ it('supports an explicit browser mount outside Modern Router and releases its lo
 });
 
 it('leaves memory cards independent and preserves an explicit custom Router adapter', () => {
-  const card = render(<ReactRemote remote="shop/Product" />);
+  const card = render(<ReactRemote remote={() => null} />);
   expect(bridgeRender.mock.lastCall![0].navigation).toBeUndefined();
   card.unmount();
   const navigation = {
@@ -133,7 +133,7 @@ it('leaves memory cards independent and preserves an explicit custom Router adap
   };
   const custom = render(
     <ReactRemote
-      remote="shop/Product"
+      remote={() => null}
       basename="/inventory"
       navigation={navigation}
     />,

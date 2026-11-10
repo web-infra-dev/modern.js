@@ -1,7 +1,8 @@
 import { useOutletContext } from '@modern-js/runtime/router';
 import { createModernReactRemote } from '@modern-js/runtime/mf';
+import { loadRemote } from '@module-federation/enhanced/runtime';
 const Product = createModernReactRemote<{ label: string }>({
-  remote: 'provider/ProductApp',
+  remote: () => loadRemote('provider/ProductApp'),
 });
 export default function Inventory() {
   const { label, mounted } = useOutletContext<{

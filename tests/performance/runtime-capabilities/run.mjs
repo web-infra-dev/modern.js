@@ -591,7 +591,7 @@ try {
     });
     await writeFile(
       path.join(labDir, 'host/src/routes/perf-bridge/page.tsx'),
-      `import {useState} from 'react';import {useLoaderData} from '@modern-js/runtime/router';import {createReactRemote} from '@modern-js/runtime/mf';const Remote=createReactRemote({remote:'provider/ProductApp',memoryRoute:{entryPath:'/'}});export default function Page(){const {count}=useLoaderData() as {count:number};const [show,setShow]=useState(true);return <main><button data-testid="perf-toggle" onClick={()=>setShow(!show)}>Toggle</button>{show&&Array.from({length:count},(_,i)=><Remote key={i} label={'Perf station '+i}/>)}</main>}`,
+      `import {useState} from 'react';import {useLoaderData} from '@modern-js/runtime/router';import {createReactRemote} from '@modern-js/runtime/mf';import {loadRemote} from '@module-federation/enhanced/runtime';const Remote=createReactRemote({remote:()=>loadRemote('provider/ProductApp'),memoryRoute:{entryPath:'/'}});export default function Page(){const {count}=useLoaderData() as {count:number};const [show,setShow]=useState(true);return <main><button data-testid="perf-toggle" onClick={()=>setShow(!show)}>Toggle</button>{show&&Array.from({length:count},(_,i)=><Remote key={i} label={'Perf station '+i}/>)}</main>}`,
     );
     await writeFile(
       path.join(labDir, 'host/src/routes/perf-bridge/page.data.ts'),

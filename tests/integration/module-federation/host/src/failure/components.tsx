@@ -1,6 +1,9 @@
 import { Suspense, useEffect, useMemo, type ComponentType } from 'react';
 import { useSearchParams } from '@modern-js/runtime/router';
-import { registerRemotes } from '@module-federation/enhanced/runtime';
+import {
+  loadRemote,
+  registerRemotes,
+} from '@module-federation/enhanced/runtime';
 import { reportRecovery } from './events';
 import {
   createReactRemote,
@@ -79,7 +82,7 @@ export function labComponent<P extends object = Record<string, unknown>>(
       }
       return createReactRemote<P & { labFailure?: string; labRun?: string }>({
         ...options,
-        remote,
+        remote: () => loadRemote(remote),
         dataFetchParams: {
           isDowngrade: false,
           ...options.dataFetchParams,

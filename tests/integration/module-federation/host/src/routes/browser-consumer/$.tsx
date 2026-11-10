@@ -2,16 +2,17 @@ import { useEffect, useRef, useState } from 'react';
 import { createRoot } from 'react-dom/client';
 import { useLocation } from '@modern-js/runtime/router';
 import { createReactRemote } from '@modern-js/runtime/mf';
-import { createReactRemote as createCoreRemote } from '@module-federation/bridge-react/base';
+import { createReactRemote as createCoreRemote } from '@module-federation/bridge-react';
+import { loadRemote } from '@module-federation/enhanced/runtime';
 
 // A separate React root has no Modern Router context. This exercises the real
 // BrowserRemote adapter and Core's supported adapter-free browser consumption.
 const BrowserAdapterProduct = createReactRemote({
-  remote: 'provider/ProductApp',
+  remote: () => loadRemote('provider/ProductApp'),
   basename: '/admin/browser-consumer/adapter',
 });
 const DirectProduct = createCoreRemote({
-  remote: 'provider/ProductApp',
+  remote: () => loadRemote('provider/ProductApp'),
   basename: '/admin/browser-consumer/direct',
 });
 

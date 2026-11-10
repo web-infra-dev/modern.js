@@ -27,7 +27,7 @@ function bridgeFrames(html: string) {
 
 const inputs = [
   {
-    source: 'string',
+    source: 'current',
     name: 'CurrentWeather',
     route: 'current',
     content: 'Mostly sunny',
@@ -78,7 +78,7 @@ for (const api of ['factory', 'declarative']) {
         expect(await get('none')).toEqual([]);
         expect(evaluations()).toEqual(['export:AirQuality']);
         expect(lab.weatherRequests).toEqual([]);
-        for (const source of ['preloaded', 'string', 'loader']) {
+        for (const source of ['preloaded', 'current', 'loader']) {
           const input = inputs.find(input => input.source === source)!;
           const before = evaluations();
           if (source !== 'preloaded') {
@@ -291,15 +291,23 @@ for (const api of ['factory', 'declarative']) {
           await page.waitForSelector(
             '[data-testid="bridge-client-only"] [data-testid="weather-air"]',
           );
+          const expectedEvaluations = inputs
+            .flatMap(input => [`export:${input.name}`, `page:${input.name}`])
+            .sort();
+          // A hydrated layout can be ready before its lazy page evaluates.
+          await page.waitForFunction(
+            expected =>
+              expected.every(value =>
+                (window as any).__bridgeEvaluations?.includes(value),
+              ),
+            {},
+            expectedEvaluations,
+          );
           expect(
             await page.evaluate(() =>
               (window as any).__bridgeEvaluations.slice().sort(),
             ),
-          ).toEqual(
-            inputs
-              .flatMap(input => [`export:${input.name}`, `page:${input.name}`])
-              .sort(),
-          );
+          ).toEqual(expectedEvaluations);
           // Three server requests plus only the deliberately client-only mount.
           expect(lab.weatherRequests.slice(start).sort()).toEqual([
             'air',
@@ -308,7 +316,7 @@ for (const api of ['factory', 'declarative']) {
             'forecast',
           ]);
           expect(browserLoaders).toHaveLength(1);
-          const current = '[data-testid="bridge-input-string"]';
+          const current = '[data-testid="bridge-input-current"]';
           const forecast = '[data-testid="bridge-input-loader"]';
           await page.click(`${current} [data-testid="weather-save"]`);
           await page.click(`${current} [data-testid="weather-unit"]`);

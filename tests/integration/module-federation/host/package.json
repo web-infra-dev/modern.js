@@ -12,8 +12,8 @@
     "@modern-js/plugin-i18n": "workspace:*",
     "i18next": "25.10.10",
     "react-i18next": "15.7.4",
-    "@module-federation/enhanced": "0.0.0-feat-enhanced-runtime-unification-20261104092109",
-    "@module-federation/bridge-react": "0.0.0-feat-enhanced-runtime-unification-20261104092109"
+    "@module-federation/enhanced": "0.0.0-feat-enhanced-runtime-unification-20261110060527",
+    "@module-federation/bridge-react": "0.0.0-feat-enhanced-runtime-unification-20261110060527"
   },
   "devDependencies": {
     "@modern-js/app-tools": "workspace:*",
