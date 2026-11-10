@@ -43,6 +43,8 @@ Both Hosts consume the same route-selected weather application, declared with `i
 
 The producer result cache is explicitly enabled for this fixture. Exact matching page requests can reuse a completed transcript, including ready and updates. Browser ingress uses trusted deployment bindings and keeps the fixture service credential out of browser artifacts. See the [Service App guide](../../../packages/document/docs/en/guides/topic-detail/module-federation/service-app.mdx) for deployment, TLS origin binding, limits and release requirements.
 
+For performance runs, `MF_SERVICE_WEATHER_DELAY=0` removes the station API's deliberate 900 ms wait in the Service lab. Use `delay=0` in the page URL to remove the independent detail delay as well. Record both delayed and zero-delay runs separately. This setting does not change the regular lab.
+
 Fault-only queries `serviceFault=early` and `serviceFault=late` exercise HTTP 503 and a real producer disconnect. Tests release the latter through the existing response gate only after proving interaction. A recovered `csr=1` document is a recovery assertion and is never counted as SSR success.
 
 ## Unified API integration

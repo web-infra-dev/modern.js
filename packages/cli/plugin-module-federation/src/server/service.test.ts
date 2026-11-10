@@ -1,8 +1,12 @@
-import { afterEach, describe, expect, it } from '@rstest/core';
+import { afterEach, describe, expect, it, rs } from '@rstest/core';
 import { createServer, type Server } from 'node:http';
 import { once } from 'node:events';
 import { Readable } from 'node:stream';
-import { createBridgeServiceHandler } from '@module-federation/bridge-react/service-node';
+import { createInstance } from '@module-federation/enhanced/runtime';
+import {
+  bridgeServicePlugin,
+  createBridgeServiceHandler,
+} from '@module-federation/bridge-react/service-node';
 import { createBridgeServiceIngressMiddleware } from './service';
 
 const servers: Server[] = [];
@@ -184,4 +188,43 @@ describe('Service same-origin ingress', () => {
     );
     expect(response?.status).toBe(400);
   });
+});
+
+it('diagnoses an unbound Service before Node entry while ordinary exposes still load', async () => {
+  const component = { default: () => null };
+  const entry = rs.fn(() => ({ init() {}, get: async () => () => component }));
+  const runtime = createInstance({
+    name: 'unconfigured-service-host',
+    shareStrategy: 'loaded-first',
+    remotes: [{ name: 'weather', entry: 'https://weather.test/entry.js' }],
+    plugins: [
+      bridgeServicePlugin({}),
+      {
+        name: 'test-resolved-service',
+        afterResolve: args => ({
+          ...args,
+          remoteSnapshot: {
+            buildVersion: 'build-1',
+            version: '1',
+            modules: [
+              {
+                modulePath: './App',
+                moduleName: 'App',
+                render: 'bridge',
+                isService: true,
+              },
+              { modulePath: './Card', moduleName: 'Card', render: 'component' },
+            ],
+          } as any,
+        }),
+        loadEntry: entry,
+      },
+    ],
+  });
+  await expect(runtime.loadRemote('weather/App')).rejects.toThrow(
+    'has no configured deployment binding',
+  );
+  expect(entry).not.toHaveBeenCalled();
+  expect(await runtime.loadRemote('weather/Card')).toBe(component);
+  expect(entry).toHaveBeenCalledTimes(1);
 });

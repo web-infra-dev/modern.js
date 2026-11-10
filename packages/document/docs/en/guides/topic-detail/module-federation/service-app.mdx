@@ -83,6 +83,8 @@ Service uses loaded-first sharing, which Modern already defaults to. An explicit
 
 Timeout defaults to 30 seconds and includes reading the entire stream, not just receiving metadata. The outer Bridge task watchdog also applies. There is no local Node fallback. Before or after accepted metadata, failures use existing Bridge recovery. Explicit `csr=1` recovery and `noSSR` bypass the Service request and render directly in the browser.
 
+Private upstream bindings are installed by the Modern server plugin before the SSR bundle loads. Public Node bundles carry only the federation runtime name, never upstream URLs or service credentials. Serve the generated server configuration as private server files.
+
 ## Consume with existing APIs
 
 {/* prettier-ignore */}
@@ -107,6 +109,8 @@ export default function Page() {
 ```
 
 `createReactRemote` is also supported. Remote inputs remain functions. Default exports, module namespaces and business-prop inference retain their existing contracts. Service business props must be JSON serializable. Do not pass DOM nodes, callbacks or closures across the HTTP boundary.
+
+An unbound Service fails before Node entry loading instead of silently executing local SSR in the Host.
 
 The Node runtime short-circuits only the resolved Service expose before container loading. Normal exposes in the same remote still load normally. A Service module is only a reusable description, and each render owns its props, user context, signal and streams.
 

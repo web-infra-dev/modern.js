@@ -16,7 +16,7 @@ describeLab(
   'Service weather application',
   getContext => {
     it('keeps the CSR document empty and includes real producer HTML in the SSR response', async () => {
-      const { lab } = getContext();
+      const { lab, mode } = getContext();
       const ssr = await (
         await fetch(
           `http://localhost:${lab.ports.serviceSSR}/service/forecast/wed?probe=raw-service`,
@@ -33,6 +33,18 @@ describeLab(
       expect(htmlMessages(ssr)).toContain('data-testid="outlook-resolved"');
       expect(csr).not.toContain('data-testid="weather-detail"');
       expect(csr).not.toContain('"protocol":"modern-application/2"');
+      if (mode === 'production') {
+        const nodeBundle = await (
+          await fetch(
+            `http://localhost:${lab.ports.serviceSSR}/bundles/index.js`,
+          )
+        ).text();
+        expect(nodeBundle).toContain('bridge-service');
+        expect(nodeBundle).not.toContain('local-service-test-key');
+        expect(nodeBundle).not.toContain(
+          `http://localhost:${lab.ports.provider}/services/weather`,
+        );
+      }
     });
 
     it('hydrates a complete-document late mount once while HTTP continues, preserving DOM and state', async () => {
@@ -88,6 +100,23 @@ describeLab(
           'West Lake',
       );
       await page.waitForSelector('[data-testid="outlook-resolved"]');
+      await page.waitForFunction(() => {
+        const roots = Array.from(
+          document.querySelectorAll('[data-mf-bridge-root]'),
+        );
+        const runtime = (
+          window as typeof window & {
+            __MF_BRIDGE_SSR__?: {
+              get(id: string): { complete: boolean } | undefined;
+            };
+          }
+        ).__MF_BRIDGE_SSR__;
+        return (
+          roots.length > 0 &&
+          roots.every(root => runtime?.get(root.id)?.complete)
+        );
+      });
+
       expect(
         await page.evaluate(
           () =>
@@ -380,6 +409,13 @@ describeLab(
           element => element.textContent,
         ),
       ).toBe('1');
+      expect(
+        lab.bridgeRequests.filter(record => record.probe === 'hash-service'),
+      ).toHaveLength(1);
+      const stats = await (
+        await fetch(`http://localhost:${lab.ports.api}/service-stats`)
+      ).json();
+      expect(stats.weather).toBe(1);
       expect(new URL(page.url()).searchParams.has('csr')).toBe(false);
     });
   },

@@ -49,6 +49,17 @@ export async function startLab(
           exclude: Object.values(ports),
         });
   }
+  const weatherDelay = serviceOnly
+    ? Number(process.env.MF_SERVICE_WEATHER_DELAY ?? 900)
+    : 900;
+  if (
+    !Number.isSafeInteger(weatherDelay) ||
+    weatherDelay < 0 ||
+    weatherDelay > 5000
+  )
+    throw Error(
+      'Service weather delay must be an integer between 0 and 5000 ms.',
+    );
   const processes = [];
   const processInfo = [];
   const servers = [];
@@ -474,7 +485,7 @@ export async function startLab(
         return;
       }
       const id = ++requestId;
-      await sleep(900);
+      if (weatherDelay) await sleep(weatherDelay);
       res.setHeader('Content-Type', 'application/json');
       res.end(
         JSON.stringify({

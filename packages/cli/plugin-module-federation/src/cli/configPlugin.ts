@@ -164,6 +164,12 @@ export const patchMFConfig = (
 
   if (isServer) {
     injectRuntimePlugins(resolveNodeRuntimePlugin(), runtimePlugins);
+    // Expose capability is discovered at runtime. Diagnose an unbound Service
+    // before entry loading, while leaving ordinary exposes on their usual path.
+    injectRuntimePlugins(
+      [resolveInternalPlugin('../server/serviceRuntimePlugin'), {}],
+      runtimePlugins,
+    );
     if (isDev()) {
       injectRuntimePlugins(resolveNodeRecordRemoteHashPlugin(), runtimePlugins);
     }
@@ -377,18 +383,18 @@ export const moduleFederationConfigPlugin = (
     }
     const csrConfig = userConfig.csrConfig || cloneConfig(mfConfig);
     const ssrConfig = userConfig.ssrConfig || cloneConfig(mfConfig);
-    const services = userConfig.originPluginOptions.services;
-    if (services && Object.keys(services).length) {
+    const services = userConfig.originPluginOptions.services || {};
+    if (Object.keys(services).length) {
       if (mfConfig.shareStrategy === 'version-first')
         throw new Error(
           '[Modern.js Module Federation] Service App requires loaded-first sharing. version-first loads Node containers before expose selection.',
         );
       ssrConfig.runtimePlugins ||= [];
-      csrConfig.runtimePlugins ||= [];
       ssrConfig.runtimePlugins.push([
-        require.resolve('@module-federation/bridge-react/service-runtime-plugin.node'),
-        services,
+        resolveInternalPlugin('../server/serviceRuntimePlugin'),
+        { name: ssrConfig.name },
       ]);
+      csrConfig.runtimePlugins ||= [];
       csrConfig.runtimePlugins.push([
         require.resolve('@module-federation/bridge-react/service-runtime-plugin'),
         Object.fromEntries(
@@ -402,6 +408,7 @@ export const moduleFederationConfigPlugin = (
         plugins.push({
           name: resolveInternalPlugin('../server/servicePlugin'),
           options: {
+            name: ssrConfig.name,
             services,
             origin: userConfig.originPluginOptions.serviceOrigin,
           },

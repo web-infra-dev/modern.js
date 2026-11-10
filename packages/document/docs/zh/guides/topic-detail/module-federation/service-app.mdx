@@ -81,6 +81,8 @@ CSR Host 只需把 `server.ssr` 改为 `false`。Modern 自动提供 `/_modern/m
 
 `forwardHeaders` 默认空列表，选择可以传给业务 loader 的用户请求头。`serviceHeaders` 用于独立的上游服务认证，只进入 Node 配置。浏览器产物只取得同源地址和超时，不包含内部服务凭据。不要把凭据放进业务 props 或 manifest。
 
+Modern 服务插件在加载 SSR 构建前注入私有上游绑定。公开 Node 构建仅携带 Federation 运行时名称，不携带上游地址或服务凭据。生成的服务端配置文件应作为私有服务文件部署。
+
 Service 使用 `loaded-first` 共享策略，Modern 默认已经启用。显式 `version-first` 会在选择 expose 前加载 Node container 来发现共享，因此配置 Service 时会明确报错，不静默修改该配置。
 
 HTTP 默认超时 30 秒，持续覆盖到消息流完成，不会在收到 meta 后停止计时。外层 Bridge 任务时限仍然生效。首版不提供本地 Node 回退。meta 前后失败都使用既有 Bridge 恢复机制，显式 `csr=1` 恢复和 `noSSR` 会绕过 Service 请求，直接在浏览器渲染。
@@ -109,6 +111,8 @@ export default function Page() {
 ```
 
 也支持 `createReactRemote`。remote 仍然只接受函数，保留默认导出、模块 namespace 和业务 props 类型推导。Service props 必须可以 JSON 序列化，不传递 DOM、回调或闭包。
+
+缺少部署绑定的 Service 会在 Node entry 加载前报错，不隐式转为 Host 本地 SSR。
 
 Node runtime 在解析当前 expose 的 Snapshot 后，对 Service 返回轻量导出并短路代码加载。同 remote 的普通 expose 仍然加载真实 entry。模块描述可以复用，props、用户上下文、signal 和流分别属于本次渲染。
 

@@ -114,6 +114,7 @@ describe('patchMFConfig', async () => {
       shareStrategy: 'loaded-first',
       runtimePlugins: [
         require.resolve('@module-federation/node/runtimePlugin'),
+        ['/built/../server/serviceRuntimePlugin', {}],
       ],
       shared: {
         react: {
@@ -487,9 +488,12 @@ it('binds private Service deployment configuration to Node and exposes only the 
   expect(browser).not.toContain('private-producer');
   expect(browser).not.toContain('private-test-value');
   expect(browser).not.toContain('cookie');
-  expect(JSON.stringify(state.ssrConfig.runtimePlugins)).toContain(
-    'private-test-value',
-  );
+  const node = JSON.stringify(state.ssrConfig.runtimePlugins);
+  expect(node).toContain('host');
+  expect(node).not.toContain('private-test-value');
+  expect(node).not.toContain('private-producer');
+  const installed: any = serverPlugins[0]({ plugins: [] });
+  expect(installed.plugins[0].options.services).toEqual(privateServices);
   expect(serverPlugins).toHaveLength(1);
 });
 
@@ -510,4 +514,34 @@ it('diagnoses explicit version-first sharing when Service deployment bindings ar
       }),
     } as any),
   ).rejects.toThrow('Service App requires loaded-first');
+});
+
+it('keeps the Node Service guard without deployment bindings and preserves ordinary sharing configuration', async () => {
+  const state: any = {
+    originPluginOptions: {
+      config: { name: 'ordinary-host', shareStrategy: 'version-first' },
+    },
+    userConfig: {},
+  };
+  const serverPlugins = rs.fn();
+  await moduleFederationConfigPlugin(state).setup!({
+    getConfig: () => ({}),
+    getAppContext: () => ({
+      appDirectory: process.cwd(),
+      metaName: 'modern-js',
+    }),
+    config: rs.fn(),
+    modifyBundlerChain: rs.fn(),
+    _internalServerPlugins: serverPlugins,
+  } as any);
+  patchMFConfig(state.ssrConfig, true);
+  expect(state.ssrConfig.runtimePlugins).toContainEqual([
+    '/built/../server/serviceRuntimePlugin',
+    {},
+  ]);
+  expect(state.ssrConfig.shareStrategy).toBe('version-first');
+  expect(JSON.stringify(state.csrConfig.runtimePlugins || [])).not.toContain(
+    'service-runtime-plugin',
+  );
+  expect(serverPlugins).not.toHaveBeenCalled();
 });
