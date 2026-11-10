@@ -463,7 +463,8 @@ export async function startLab(
     for (const [name, version, key] of [
       ['provider', 'v1', 'provider'],
       ['nested', 'v1', 'nested'],
-      ['host', 'v1', 'host'],
+      // Probe the Host listener directly before checking the public gateway.
+      ['host', 'v1', 'hostInternal'],
     ]) {
       if (mode === 'production') await launch(name, [modern, 'build'], version);
       await launch(
