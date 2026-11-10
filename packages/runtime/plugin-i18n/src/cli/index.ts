@@ -8,8 +8,9 @@ import '../runtime/types';
 
 type BundlerChain = NonNullable<AppUserConfig['tools']>['bundlerChain'];
 
-// The runtime loads react-i18next with a dynamic import before the first
-// render. Bundle it eagerly so it doesn't become an extra async request.
+// Before the first render the runtime loads react-i18next (and i18next when no
+// instance is passed) with dynamic imports. Bundle them eagerly so they don't
+// become extra async requests.
 const eagerReactI18next: BundlerChain = chain => {
   chain.module
     .rule('plugin-i18n-react-i18next')
