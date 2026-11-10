@@ -16,11 +16,22 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
-  module-federation-e2e:
+  mf-tests:
+    name: ${{ matrix.job }}
     runs-on: ubuntu-latest
     timeout-minutes: 45
+    strategy:
+      fail-fast: false
+      matrix:
+        job:
+          - lab-dev-A
+          - lab-dev-B
+          - lab-production-A
+          - lab-production-B
+          - common
     env:
       MF_LAB_DIAGNOSTICS: '1'
+      MF_LAB_SCREENSHOTS: '1'
       NX_DAEMON: 'false'
       NX_REJECT_UNKNOWN_LOCAL_CACHE: '0'
     steps:
@@ -36,11 +47,15 @@ jobs:
           node-version: 22.x
           cache: pnpm
 
+      - name: Validate MF scheduling contracts
+        run: node --test tests/integration/module-federation/scripts/parallelism.test.mjs
+
       - name: Install dependencies
         run: pnpm install --ignore-scripts --frozen-lockfile
 
-      - name: Nx cache
-        uses: actions/cache@6f8efc29b200d32929f49075959781ed54ec270c # v3
+      - name: Restore Nx cache
+        id: nx-cache
+        uses: actions/cache/restore@6f8efc29b200d32929f49075959781ed54ec270c # v3
         with:
           path: .nx/cache
           key: nx-mf-e2e-${{ github.ref_name }}-${{ github.sha }}
@@ -51,13 +66,54 @@ jobs:
       - name: Build Modern.js and its dependencies
         run: pnpm exec nx run-many --target=build --projects=@modern-js/app-tools,@modern-js/runtime,@modern-js/plugin-i18n --parallel=2
 
-      - name: Test producer discovery and analysis budgets
-        run: |
-          pnpm --filter @modern-js/plugin-module-federation test src/cli/rootExposes.test.ts --reporter=verbose
-          pnpm --filter @modern-js/runtime test tests/router/routeScope.test.ts --reporter=verbose
-
       - name: Install Chrome
         run: pnpm --filter mf-lab-tests exec puppeteer browsers install chrome
 
-      - name: Test MF development and production
-        run: pnpm --filter mf-lab-tests test --bail=1
+      - name: Test MF shard
+        env:
+          MF_SHARD_JOB: ${{ matrix.job }}
+        run: node tests/integration/module-federation/scripts/run.mjs "$MF_SHARD_JOB" "$RUNNER_TEMP/mf-artifacts/$MF_SHARD_JOB"
+
+      - name: Upload shard reports, logs and screenshots
+        if: always()
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
+        with:
+          name: mf-${{ matrix.job }}-${{ github.run_id }}-${{ github.run_attempt }}
+          path: ${{ runner.temp }}/mf-artifacts/${{ matrix.job }}
+          if-no-files-found: error
+          retention-days: 14
+
+      - name: Save Nx cache
+        if: success() && matrix.job == 'common' && steps.nx-cache.outputs.cache-hit != 'true'
+        uses: actions/cache/save@6f8efc29b200d32929f49075959781ed54ec270c # v3
+        with:
+          path: .nx/cache
+          key: ${{ steps.nx-cache.outputs.cache-primary-key }}
+
+  # Keep this stable name for branch protection and existing consumers.
+  module-federation-e2e:
+    name: module-federation-e2e
+    if: always()
+    needs: [mf-tests]
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - name: Checkout
+        uses: actions/checkout@08eba0b27e820071cde6df949e0beb9ba4906955 # v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4.4.0
+        with:
+          node-version: 22.x
+
+      - name: Download this attempt's shard artifacts
+        uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093 # v4
+        with:
+          pattern: mf-*-${{ github.run_id }}-${{ github.run_attempt }}
+          path: ${{ runner.temp }}/mf-results
+
+      - name: Check every job, report and case identity
+        if: always()
+        env:
+          MF_JOB_NEEDS: ${{ toJSON(needs) }}
+        run: node tests/integration/module-federation/scripts/results.mjs check "$RUNNER_TEMP/mf-results"
