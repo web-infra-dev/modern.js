@@ -1,4 +1,5 @@
 import { describeLab } from './fixture';
+import { screenshotPath } from '../scripts/artifacts.mjs';
 
 describeLab('Failure recovery', getContext => {
   it('detects server-only rendering failure and recovers the remote in the client', async () => {
@@ -533,7 +534,9 @@ describeLab('Failure recovery', getContext => {
       ),
     ).toBe(true);
     if (process.env.MF_LAB_SCREENSHOTS)
-      await page.screenshot({ path: '/tmp/mf-data-failure.png' });
+      await page.screenshot({
+        path: screenshotPath(getContext().mode, 'mf-data-failure.png'),
+      });
     await page.click('[aria-label="Simulate failure"]');
     await page.waitForFunction(() =>
       Array.from(document.querySelectorAll('iframe')).every(
@@ -551,6 +554,8 @@ describeLab('Failure recovery', getContext => {
     }
     expect(await page.$('.recovery-badge')).toBeNull();
     if (process.env.MF_LAB_SCREENSHOTS)
-      await page.screenshot({ path: '/tmp/mf-comparison-restored.png' });
+      await page.screenshot({
+        path: screenshotPath(getContext().mode, 'mf-comparison-restored.png'),
+      });
   });
 });

@@ -134,6 +134,51 @@ pnpm --filter mf-lab-tests test tests/data-fetch.test.ts -t prefetches
 
 Type checking remains enabled. Fixture tsconfigs exclude `node_modules`, `dist` and `dist-v2` so directory watchers do not traverse linked monorepo dependencies. With `MF_LAB_DIAGNOSTICS=1`, failures also report owned processes and slow requests.
 
-The Module Federation E2E workflow targets pull requests and pushes to `feat/module-federation-builtin` and `main`. It builds app-tools, runtime and their dependencies, installs the pinned Puppeteer browser and runs the complete suite. The workflow also declares manual dispatch. Sources of the original coverage are Core's `apps/modernjs-ssr` and `apps/modern-component-data-fetch`, with their assertions now expressed through weather components and the unified framework API.
+### Parallel CI and complete coverage
+
+The Module Federation E2E workflow runs five test jobs on independent runners. Every job keeps one worker and zero retries. Each Lab retains its own source copy, writable caches, Node services and browser. The build and service startup order inside a Lab, and the case order inside each `describeLab`, remain unchanged. Factory and declarative cold-load groups continue to start separate Node services.
+
+| Job                | MF cases |
+| ------------------ | -------: |
+| `lab-dev-A`        |       46 |
+| `lab-dev-B`        |       58 |
+| `lab-production-A` |       46 |
+| `lab-production-B` |       57 |
+| `common`           |       22 |
+
+The common job also runs `rootExposes.test.ts` and `routeScope.test.ts` once each, using their existing package configurations. These unit cases are checked separately from the 229 MF cases.
+
+[`scripts/groups.mjs`](./scripts/groups.mjs) owns the A/B/common file assignments. Both Rstest selection and result verification use it. Unknown, duplicate and unassigned files, empty groups and invalid environment parameters fail before services start. When adding or removing cases, update the committed [`case-manifest.json`](./case-manifest.json) from a successful full serial report and review the identity diff.
+
+```sh
+# All 229 MF cases, serially, with the original local entry point
+pnpm --filter mf-lab-tests test --bail=1
+
+# One file group and mode
+MF_LAB_SUITE=lab MF_LAB_MODE=dev MF_LAB_SHARD=A pnpm --filter mf-lab-tests test --bail=1
+MF_LAB_SUITE=lab MF_LAB_MODE=production MF_LAB_SHARD=B pnpm --filter mf-lab-tests test --bail=1
+MF_LAB_SUITE=common pnpm --filter mf-lab-tests test --bail=1
+
+# CI-equivalent execution with logs, identities, timings and cleanup audits
+node tests/integration/module-federation/scripts/run.mjs lab-dev-A /tmp/mf-dev-A-run-1
+node tests/integration/module-federation/scripts/run.mjs common /tmp/mf-common-run-1
+
+# Complete serial reference, including the two unit suites
+node tests/integration/module-federation/scripts/run.mjs serial /tmp/mf-serial-run-1
+node tests/integration/module-federation/scripts/results.mjs baseline /tmp/mf-serial-run-1 tests/integration/module-federation/case-manifest.json
+
+# Fast positive and negative checks, without starting services
+node --test tests/integration/module-federation/scripts/parallelism.test.mjs
+```
+
+`MF_LAB_SUITE` accepts `lab` or `common`. `MF_LAB_SHARD` accepts `A` or `B` and requires `MF_LAB_SUITE=lab`. Lab mode accepts `dev` or `production`, with both modes selected when omitted. The common suite rejects mode and shard parameters. An omitted suite preserves the original behavior, including common tests when only `MF_LAB_MODE` is set. Do not combine this partitioning with Rstest's native `--shard`.
+
+The report records repository-relative filenames, explicit mode, the complete suite path, expanded case name and Rstest project. The final `module-federation-e2e` check compares the complete identity multiset with the serial manifest. It requires all five jobs, every expected file result, zero failed/skipped/todo/retried cases, no hook or unhandled errors, successful resource audits and both unit reports. Reports must match the current commit, workflow run and attempt. Missing artifacts, cancelled jobs and unexpected skips fail the check. Rerun all jobs after a failed attempt so all five reports belong to the same attempt.
+
+Each artifact name includes its job, run ID and attempt. Logs, reports, cleanup evidence and optional screenshots live in that job's artifact directory. Screenshots also include their mode. Set `MF_LAB_SCREENSHOTS=1` to capture the existing recovery screenshots. Each Lab owns its browser profile inside its temporary workspace and removes it after Chrome closes. The ordinary React suite likewise owns and removes its own profile. `run.mjs` observes descendants, process groups and a dedicated temporary directory, records leaks before fallback cleanup, and fails when services, browsers or test workspaces remain after the command. A fresh artifact directory is required for each run.
+
+Every runner independently installs the lockfile, restores Nx cache, builds Modern.js and installs the pinned Puppeteer Chrome. Only the common job saves Nx cache. The summary shows measured MF and command durations. These exclude setup, installation, repository builds and artifact upload. Use GitHub's job start/end timestamps to compute total runner minutes and workflow elapsed time, including the summary job. The 12–16 minute workflow target remains an estimate until repeated CI measurements establish the actual result.
+
+The workflow targets pull requests and pushes to `feat/module-federation-builtin` and `main`, and supports manual dispatch. Sources of the original coverage are Core's `apps/modernjs-ssr` and `apps/modern-component-data-fetch`, with their assertions expressed through weather components and the unified framework API.
 
 Exported applications use the producer Browser/Hash Router configuration by default. Independent cards explicitly set `memoryRoute`. URL-connected Hash mounts configure both Host and producer as Hash Routers. Browser instances share window history.
