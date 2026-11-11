@@ -1,3 +1,4 @@
+import { createDevAssetMatcher } from './dev-tools/assetOwnership';
 import path from 'node:path';
 import type { Rspack } from '@modern-js/builder';
 import { type ServerBase, createServerBase } from '@modern-js/server-core';
@@ -49,8 +50,11 @@ export async function createDevServer(
    */
   let compiler: Rspack.Compiler | Rspack.MultiCompiler | null = null;
 
+  let assetPrefix: string | undefined;
+  const devAssets = createDevAssetMatcher(() => assetPrefix);
   builder?.onAfterCreateCompiler(context => {
     compiler = context.compiler;
+    devAssets.track(compiler);
   });
 
   const assetPrefixPromise = getDevAssetPrefix(builder);
@@ -62,7 +66,7 @@ export async function createDevServer(
   // Resolved once from the builder (the compiler exists after createDevServer).
   // Woven into every per-build fresh config by `createRuntimeServerOptions`,
   // never mutated onto the shared `prodServerOptions.config`.
-  const assetPrefix = await assetPrefixPromise;
+  assetPrefix = await assetPrefixPromise;
 
   /**
    * The currently-active runtime ServerBase. Process-level infra (the file
@@ -70,6 +74,7 @@ export async function createDevServer(
    * instead of closing over a single runtime instance.
    */
   let currentRuntimeServer: ServerBase | undefined;
+  const retiringRuntimes: ServerBase[] = [];
 
   let nodeServer: Awaited<ReturnType<typeof createNodeServer>> | undefined;
 
@@ -104,6 +109,11 @@ export async function createDevServer(
       },
       assetPrefix,
     );
+    runtimeOptions.deferSSRResources = true;
+    runtimeOptions.devControl = {
+      reload: () => builderDevServer?.sockWrite('full-reload'),
+      isAsset: devAssets.isAsset,
+    };
     const runtimeServer = createServerBase(runtimeOptions);
     runtimeServer.addPlugins([
       devRuntimeMiddlewarePlugin(
@@ -114,7 +124,10 @@ export async function createDevServer(
     ]);
     await applyPlugins(runtimeServer, runtimeOptions, nodeServer);
     await runtimeServer.init();
+    const previous = currentRuntimeServer;
+    if (previous) await runtimeServer.prepareSSRResources(() => {});
     currentRuntimeServer = runtimeServer;
+    if (previous) retiringRuntimes.push(previous);
     return runtimeServer.handle;
   };
 
@@ -127,6 +140,10 @@ export async function createDevServer(
   const reloadManager = createReloadManager({
     build: buildRuntimeServer,
     onReload: () => {
+      // The new handle is committed before retiring the old owner. A cleanup
+      // timeout must not roll the listener back to a permanently closed owner.
+      for (const previous of retiringRuntimes.splice(0))
+        void previous.close().catch(error => logger.error(error));
       const files = Array.from(pendingReloadFiles);
       pendingReloadFiles.clear();
       logger.info(
@@ -191,7 +208,10 @@ export async function createDevServer(
     },
     // On dev server close, stop the scheduler so a pending debounced reload
     // can't rebuild a runtime after the watcher / builder dev server are gone.
-    onClose: () => reloadManager.close(),
+    onClose: () => {
+      reloadManager.close();
+      void currentRuntimeServer?.close().catch(error => logger.error(error));
+    },
   });
 
   const afterListen = async () => {

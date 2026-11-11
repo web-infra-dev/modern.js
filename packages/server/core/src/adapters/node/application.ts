@@ -98,6 +98,10 @@ export async function createSSRApplication(options: SSRApplicationOptions) {
     get status() {
       return coordinator.status;
     },
+    /** Stop admission and drain work before the service releases its resources. */
+    close() {
+      return coordinator.close();
+    },
     /** Submit control-plane work after this request's response and producers finish. */
     defer<T>(operation: () => Promise<T>) {
       return coordinator.defer(operation);
@@ -111,7 +115,7 @@ export async function createSSRApplication(options: SSRApplicationOptions) {
       invalidate: (entries?: readonly string[]) => Promise<void>,
       entries?: readonly string[] | (() => readonly string[] | undefined),
     ) {
-      if (entries && !options.resolveScope)
+      if (entries && typeof entries !== 'function' && !options.resolveScope)
         return Promise.reject(
           new Error(
             'Scoped SSR updates require an owned request scope resolver',
@@ -121,35 +125,47 @@ export async function createSSRApplication(options: SSRApplicationOptions) {
         return Promise.reject(
           new TypeError('An owned module invalidator is required'),
         );
-      return coordinator.update(async scope => {
-        await invalidate(scope);
-        await options.dispose?.(resources, scope);
-        let candidate: SSRApplicationResources;
-        try {
-          candidate = await options.load(true, scope);
-        } catch (error) {
-          // The owner must also release any adapters created by a failed load.
+      return coordinator.update(
+        async scope => {
+          await invalidate(scope);
+          await options.dispose?.(resources, scope);
+          let candidate: SSRApplicationResources;
           try {
-            await options.dispose?.(resources, scope);
-          } catch (cleanupError) {
-            throw new AggregateError(
-              [error, cleanupError],
-              'SSR preparation and cleanup failed',
-            );
+            candidate = await options.load(true, scope);
+          } catch (error) {
+            // The owner must also release any adapters created by a failed load.
+            try {
+              await options.dispose?.(resources, scope);
+            } catch (cleanupError) {
+              throw new AggregateError(
+                [error, cleanupError],
+                'SSR preparation and cleanup failed',
+              );
+            }
+            throw error;
           }
-          throw error;
-        }
-        resources = candidate;
-        if (scope) {
-          const next = new Map(entryNamespaces);
-          for (const entry of scope) next.set(entry, randomUUID());
-          entryNamespaces = next;
-          cacheNamespace = randomUUID();
-        } else {
-          cacheNamespace = randomUUID();
-          entryNamespaces = new Map();
-        }
-      }, entries);
+          resources = candidate;
+          if (scope) {
+            const next = new Map(entryNamespaces);
+            for (const entry of scope) next.set(entry, randomUUID());
+            entryNamespaces = next;
+            cacheNamespace = randomUUID();
+          } else {
+            cacheNamespace = randomUUID();
+            entryNamespaces = new Map();
+          }
+        },
+        typeof entries === 'function'
+          ? () => {
+              const resolved = entries();
+              if (resolved && !options.resolveScope)
+                throw new Error(
+                  'Scoped SSR updates require an owned request scope resolver',
+                );
+              return resolved;
+            }
+          : entries,
+      );
     },
   };
 }

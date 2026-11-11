@@ -1,11 +1,15 @@
 import { AsyncLocalStorage } from 'node:async_hooks';
 import type { ModuleFederationRuntimePlugin } from '@module-federation/enhanced/runtime';
+import { createSSRUpdateSnapshotPlugin } from '../../server/ssrUpdateCandidates';
 
 export const ownershipKey = Symbol.for('modern-js.mf.ssr.consumption');
 export default function ssrOwnership(): ModuleFederationRuntimePlugin {
+  const candidates = createSSRUpdateSnapshotPlugin();
   const entries = new Map<string, { info: any; exports: any; loading: any }>();
   return {
     name: 'modern-ssr-consumption-owner',
+    loadSnapshot: candidates.loadSnapshot,
+    loadRemoteSnapshot: candidates.loadRemoteSnapshot,
     beforeInit(args) {
       const remotes = (globalThis as any)[
         Symbol.for('modern-js.mf.ssr.registrations')
@@ -14,7 +18,7 @@ export default function ssrOwnership(): ModuleFederationRuntimePlugin {
         args.userOptions.remotes = remotes.map((remote: any) => ({
           ...remote,
         }));
-      return args;
+      return candidates.beforeInit!(args);
     },
     afterLoadEntry({ remoteInfo, remoteEntryExports }) {
       if (!remoteEntryExports) return;

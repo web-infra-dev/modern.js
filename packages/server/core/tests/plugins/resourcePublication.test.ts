@@ -28,7 +28,7 @@ afterEach(async () => {
   );
 });
 const tick = () => new Promise(resolve => setImmediate(resolve));
-async function fixture() {
+async function fixture(deferred = false) {
   const pwd = await mkdtemp(
     path.join(tmpdir(), 'modern-selective-publication-'),
   );
@@ -62,6 +62,7 @@ async function fixture() {
   await writeManifests('old');
   const server = createServerBase({
     pwd,
+    deferSSRResources: deferred,
     config: getDefaultConfig(),
     appContext: getDefaultAppContext(),
     routes: ['a', 'b'].map(entry => ({
@@ -105,7 +106,9 @@ async function fixture() {
   return {
     pwd,
     server,
-    application,
+    get application() {
+      return application;
+    },
     reload,
     writeManifests,
     holdB(work: Promise<void>) {
@@ -178,4 +181,40 @@ it('rejects shared metadata mutation after a selective drain instead of publishi
   expect(current.resources.serverManifest.routeManifest).toEqual({
     revision: 'new',
   });
+});
+
+it('defers development resource loading until successful compilation and then refreshes through the owner', async () => {
+  const current = await fixture(true);
+  expect(current.application).toBeUndefined();
+  expect(current.resources).toBeUndefined();
+  let settled = false;
+  const request = current.server.request('/b/pending').then(response => {
+    settled = true;
+    return response;
+  });
+  await tick();
+  expect(settled).toBe(false);
+  const invalidator = rstest.fn(async () => {});
+  expect(await current.server.prepareSSRResources(invalidator)).toBe(true);
+  expect(invalidator).not.toHaveBeenCalled();
+  expect(current.application.status.phase).toBe('serving');
+  expect(await (await request).text()).toBe('old b');
+  const owner = current.application;
+  await current.server.prepareSSRResources(invalidator);
+  expect(current.application).toBe(owner);
+  expect(invalidator).toHaveBeenCalledTimes(1);
+  await current.server.close();
+});
+
+it('can retry resource initialization after an invalid first candidate', async () => {
+  const current = await fixture(true);
+  await rm(path.join(current.pwd, 'a.html'));
+  await expect(current.server.prepareSSRResources(() => {})).rejects.toThrow(
+    'Missing SSR template',
+  );
+  expect(current.application).toBeUndefined();
+  await writeFile(path.join(current.pwd, 'a.html'), '<html>a:recovered</html>');
+  await current.server.prepareSSRResources(() => {});
+  expect(current.application.status.phase).toBe('serving');
+  await current.server.close();
 });

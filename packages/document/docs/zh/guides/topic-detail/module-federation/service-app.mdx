@@ -80,7 +80,7 @@ export default defineConfig({
 
 `module-federation.config.ts` 继续保留普通的 `remotes` 配置。`services` 只提供可选请求策略，键使用 Host 别名或生产者名称加 expose，不再填写上游 URL。没有额外策略时可以完全省略 `services`。地址统一读取既有加载链路最终选定的 Snapshot，已有 Snapshot 优先，必要时才加载 manifest 并转换，不另行读取 manifest 覆盖 Snapshot。
 
-Host 配置中的 `runtimePlugins` 也用于同源入口的 Snapshot 选择。Modern 将这些用户插件及其本地 TypeScript 依赖编译为私有 Node 产物，因此 CSR Host 不依赖页面 SSR 构建，生产部署也不需要原始源码路径。插件需要能够在可信 Node 服务端执行，现有插件选项与别名解析继续生效。框架自动添加的 Node 和 Bridge 插件不会重复复制。开发时等待插件重新编译完成后才采用新 Snapshot，编译失败不会静默使用旧选择。本次不扩展运行时 `registerPlugins`、`updateRemotes` 或浏览器提供 Snapshot 的能力。
+Host 配置中的 `runtimePlugins` 也用于同源入口的 Snapshot 选择。Modern 将这些用户插件及其本地 TypeScript 依赖编译为私有 Node 产物，因此 CSR Host 不依赖页面 SSR 构建，生产部署也不需要原始源码路径。插件需要能够在可信 Node 服务端执行，现有插件选项与别名解析继续生效。框架自动添加的 Node 和 Bridge 插件不会重复复制。开发时等待插件重新编译完成后才采用新 Snapshot，编译失败不会静默使用旧选择。动态 `registerPlugins` 和浏览器提供 Snapshot 仍不属于此配置边界。需要更新服务端远端时，使用开启 `cacheUpdates` 后的 [Modern 更新 API](/guides/topic-detail/module-federation/ssr-update)，其中也说明了开发自动刷新和 Service 版本冲突恢复。
 
 CSR Host 只需把 `server.ssr` 改为 `false`。Modern 自动提供 `/_modern/mf/service/<编码后的模块 ID>` 同源入口，校验来源、模块、页面 URL 和有界参数，并从可信 remotes 对应的最终 Snapshot 选择上游。单独部署的静态页面可以在同源网关挂载导出的 `createBridgeServiceIngressMiddleware`，再注册对应的 Core 浏览器绑定。
 

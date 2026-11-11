@@ -234,7 +234,7 @@ export default (): CliPlugin<AppTools> => ({
 
         builder.onDevCompileDone(
           async ({ isFirstCompile, stats, environments }) => {
-            hooks.onDevCompileDone.call({
+            await hooks.onDevCompileDone.call({
               isFirstCompile,
               stats,
               environments,

@@ -399,3 +399,45 @@ it('plans at execution time after preceding updates and rejects invalid scopes b
   ).rejects.toThrow('scope');
   expect(gate.status.phase).toBe('serving');
 });
+
+it('closes admission before waiting for original producer work and rejects further updates', async () => {
+  const gate = coordinator();
+  const producer = deferred();
+  const response = await gate.handle(request(), async work => {
+    work.track(producer.promise);
+    return new Response('done');
+  });
+  await response.text();
+  let closed = false;
+  const close = gate.close().then(() => {
+    closed = true;
+  });
+  await tick();
+  const render = rstest.fn(async () => new Response('must not render'));
+  expect((await gate.handle(request(), render)).status).toBe(503);
+  expect(render).not.toHaveBeenCalled();
+  expect(closed).toBe(false);
+  await expect(gate.update(async () => {})).rejects.toThrow('closed');
+  expect(() => gate.defer(async () => {})).toThrow('closed');
+  producer.resolve();
+  await close;
+  expect(gate.status.activeRequests).toBe(0);
+  expect(gate.status.phase).toBe('unavailable');
+});
+
+it('keeps admission closed after close drain timeout and allows cleanup retry after work settles', async () => {
+  const gate = coordinator({ drainTimeoutMs: 10 });
+  const producer = deferred();
+  const response = await gate.handle(request(), async work => {
+    work.track(producer.promise);
+    return new Response('done');
+  });
+  await response.text();
+  await expect(gate.close()).rejects.toThrow('drain timed out');
+  expect(
+    (await gate.handle(request(), async () => new Response('unsafe'))).status,
+  ).toBe(503);
+  producer.resolve();
+  await gate.close();
+  expect(gate.status.activeRequests).toBe(0);
+});

@@ -1,3 +1,4 @@
+import { randomUUID } from 'node:crypto';
 import {
   createInstance,
   ModuleFederation,
@@ -16,6 +17,8 @@ import {
 import type { BridgeProviderInstance } from '@module-federation/bridge-react/ssr';
 import type { Manifest } from '@module-federation/sdk';
 import type { SSRRequestWork } from '@modern-js/server-core/node';
+import ssrOwnership from '../cli/mfRuntimePlugins/ssr-ownership';
+import { createSSRUpdateSnapshotPlugin } from './ssrUpdateCandidates';
 
 export interface BridgeServiceMiddlewareOptions {
   path: string;
@@ -43,6 +46,9 @@ function deployment(
   module: string,
 ) {
   const manifestUrl = typeof manifest === 'string' ? manifest : manifest.url;
+  // Independent middleware instances may expose the same remote under several
+  // routes. Shared ownership follows the consumer name, not the remote name.
+  const owner = randomUUID();
   // A scoped MF name includes one leading slash. Use the final module separator
   // resolved against the manifest's name instead of guessing an expose path.
   let runtime: ReturnType<typeof createInstance> | undefined;
@@ -68,12 +74,13 @@ function deployment(
       )
         throw Error('Service module must belong to its configured manifest.');
       runtime = createInstance({
-        name: `modern_service_${name}`,
+        name: `modern_service_${name}_${owner}`,
         remotes: [{ name, entry: manifestUrl }],
         // The producer's local build snapshot takes precedence over snapshots
         // retained by other runtimes, including after a development rebuild.
-        plugins:
-          typeof manifest === 'string'
+        plugins: [
+          ssrOwnership(),
+          ...(typeof manifest === 'string'
             ? []
             : [
                 {
@@ -104,8 +111,9 @@ function deployment(
                       remoteSnapshot: snapshot,
                     };
                   },
-                },
-              ],
+                } satisfies ModuleFederationRuntimePlugin,
+              ]),
+        ],
         shared: {},
         shareStrategy: 'loaded-first',
       });
@@ -131,11 +139,28 @@ function deployment(
         throw Error(
           'Service deployment requires a Bridge application expose with servicePath and serviceBaseUrl.',
         );
-    })().catch(error => {
+    })().catch(async error => {
+      try {
+        await runtime?.destroy();
+      } catch (disposalError) {
+        // Keep this runtime and the rejected preparation reachable for dispose()
+        // to retry. A new preparation must not overwrite an uncleared owner.
+        throw new AggregateError(
+          [error, disposalError],
+          'Service preparation and runtime cleanup failed.',
+        );
+      }
+      runtime = undefined;
       prepared = undefined;
       throw error;
     }));
   return {
+    async dispose() {
+      await prepared?.catch(() => {});
+      await runtime?.destroy();
+      runtime = undefined;
+      prepared = undefined;
+    },
     async buildVersion() {
       await prepare();
       const version = match.remoteSnapshot?.buildVersion;
@@ -191,13 +216,14 @@ export function createBridgeServiceMiddleware(
     authorize: options.authorize,
     onError: options.onError || console.error,
   });
-  return async (context: Context, next: () => Promise<void>) => {
+  const middleware = async (context: Context, next: () => Promise<void>) => {
     if (new URL(context.req.raw.url).pathname !== options.path) {
       await next();
       return;
     }
     return handler(context.req.raw, { work: context.get('ssrWork') });
   };
+  return Object.assign(middleware, { dispose: producer.dispose });
 }
 
 import { SERVICE_INGRESS_PREFIX, serviceIngressPath } from '../servicePath';
@@ -235,7 +261,10 @@ export function createBridgeServiceIngressMiddleware(
       runtime = new ModuleFederation({
         name: `${options.name || 'modern'}_service_ingress`,
         remotes: options.remotes || [],
-        plugins,
+        plugins: [
+          ...(plugins || []),
+          createSSRUpdateSnapshotPlugin(options.name || 'modern'),
+        ],
         shared: {},
         shareStrategy: 'loaded-first',
       });
@@ -265,7 +294,7 @@ export function createBridgeServiceIngressMiddleware(
       buildVersion: snapshot.buildVersion,
     };
   };
-  return async (context: Context, next: () => Promise<void>) => {
+  const middleware = async (context: Context, next: () => Promise<void>) => {
     const request = context.req.raw;
     const url = new URL(request.url);
     if (!url.pathname.startsWith(SERVICE_INGRESS_PREFIX)) {
@@ -309,6 +338,7 @@ export function createBridgeServiceIngressMiddleware(
       {};
     let deployment: Awaited<ReturnType<typeof resolve>>;
     const proxy = createBridgeServiceHandler({
+      forwardVersionMismatch: true,
       async buildVersion() {
         deployment = await resolve(id);
         return deployment.buildVersion;
@@ -336,4 +366,11 @@ export function createBridgeServiceIngressMiddleware(
     });
     return proxy(request, { work: context.get('ssrWork') });
   };
+  return Object.assign(middleware, {
+    async dispose() {
+      await runtime?.destroy();
+      runtime = undefined;
+      installedPlugins = undefined;
+    },
+  });
 }

@@ -9,6 +9,7 @@ const modernPackages = {
   '@modern-js/plugin-module-federation':
     'packages/cli/plugin-module-federation',
   '@modern-js/server-core': 'packages/server/core',
+  '@modern-js/server': 'packages/server/server',
   '@modern-js/prod-server': 'packages/server/prod-server',
   '@modern-js/tsconfig': 'packages/tsconfig',
 };
@@ -71,6 +72,9 @@ function packageAudit() {
     ),
     '@module-federation/enhanced': resolvePackageRoot(
       '@module-federation/enhanced',
+    ),
+    '@module-federation/bridge-react': packageRoot(
+      pluginRequire.resolve('@module-federation/bridge-react/service-node'),
     ),
   };
   return Object.fromEntries(

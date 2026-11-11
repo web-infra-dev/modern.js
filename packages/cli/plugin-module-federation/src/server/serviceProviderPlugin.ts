@@ -39,6 +39,8 @@ export default (options: Options): ServerPlugin => ({
         ReturnType<typeof createBridgeServiceMiddleware>
       >();
       let loading: Promise<void> | undefined;
+      const managed = () =>
+        Boolean((api.getServerContext() as any).ssrUpdateManager);
       const prepare = () =>
         (loading ||= (async () => {
           // Production output is immutable for the lifetime of this process.
@@ -91,11 +93,26 @@ export default (options: Options): ServerPlugin => ({
         })().finally(() => {
           loading = undefined;
         }));
+      const dispose = async () => {
+        await loading;
+        await Promise.all(
+          [...handlers.values()].map(handler => handler.dispose()),
+        );
+        handlers.clear();
+        modified = undefined;
+      };
+      const participants = (context as any).ssrUpdateParticipants || [];
+      api.updateServerContext({ ssrUpdateParticipants: participants });
+      participants.push({
+        dispose,
+        invalidate: dispose,
+        prepare,
+      });
       const handler: MiddlewareHandler = async (context, next) => {
         if (context.req.raw.method !== 'POST') return next();
         // The server is already listening and dev compilation has completed.
         // No startup-time fetch to the producer's own public origin is needed.
-        await prepare();
+        if (!managed() || modified === undefined) await prepare();
         const handler = handlers.get(new URL(context.req.raw.url).pathname);
         return handler ? handler(context, next) : next();
       };

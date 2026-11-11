@@ -19,3 +19,11 @@ export type {
   InferRemoteProps,
   BridgeProvider,
 } from '@module-federation/bridge-react/base';
+
+export { shouldUpdateRemote, updateRemotes } from './mf/update';
+export type {
+  RemoteUpdateTarget,
+  RemoteUpdateOptions,
+  RemoteUpdateReceipt,
+  RemoteUpdateResult,
+} from './mf/update';

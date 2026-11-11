@@ -1,3 +1,4 @@
+import { clearSSRUpdateCandidates } from './ssrUpdateCandidates';
 import { AsyncLocalStorage } from 'node:async_hooks';
 import { afterEach, describe, expect, it } from '@rstest/core';
 import { createSSRUpdateAdapter } from './ssrUpdate';
@@ -9,6 +10,7 @@ afterEach(() => {
   (globalThis as any)[key] = previous;
 });
 function fixture() {
+  clearSSRUpdateCandidates('host');
   const state = { dynamic: false, context: new AsyncLocalStorage() };
   const runtime = {
     federation: { instance: { [stateKey]: state } },
@@ -174,12 +176,20 @@ describe('SSR replacement recovery', () => {
   it('publishes a batch once and includes a previously failed target in whole-application recovery', async () => {
     const { adapter, runtime } = fixture();
     const instance = runtime.federation.instance as any;
-    instance.options = { remotes: [{ name: 'remote', entry: 'v1' }] };
+    instance.options = {
+      remotes: [
+        { name: 'remote', entry: 'v1' },
+        { name: 'new-a', entry: 'a1' },
+        { name: 'new-b', entry: 'b1' },
+      ],
+    };
     let fail = true;
     const batches: any[][] = [];
     instance.updateRemotes = async (remotes: any[]) => {
       batches.push(remotes);
-      instance.options.remotes = [];
+      instance.options.remotes = instance.options.remotes.filter(
+        (remote: any) => remote.name !== 'remote',
+      );
       if (fail) throw new Error('partial mutation');
       instance.options.remotes = remotes;
     };
@@ -479,196 +489,17 @@ describe('SSR replacement recovery', () => {
   });
 });
 
-describe('release checks and response-deferred notifications', () => {
-  function deferredFixture() {
-    const { adapter, runtime } = fixture();
-    const instance = runtime.federation.instance as any;
-    instance.options = {
-      remotes: [{ name: 'remote', alias: 'alias', entry: 'v1' }],
-    };
-    instance.updateRemotes = async (remotes: any[]) => {
-      instance.options.remotes = remotes;
-    };
-    let finish!: () => void;
-    const response = new Promise<void>(resolve => {
-      finish = resolve;
-    });
-    let publications = 0;
-    let insideRequest = true;
-    let fail = false;
-    const application = {
-      assertUpdateAllowed() {
-        if (insideRequest)
-          throw new Error('Cannot update SSR from a request being drained');
-      },
-      defer<T>(operation: () => Promise<T>) {
-        return { completed: response.then(operation) };
-      },
-      async update(
-        invalidate: (entries?: readonly string[]) => Promise<void>,
-        scope?: () => readonly string[] | undefined,
-      ) {
-        if (fail) throw new Error('candidate failed');
-        await invalidate(scope?.());
-        return ++publications;
-      },
-    };
-    return {
-      adapter,
-      application,
-      instance,
-      finish() {
-        insideRequest = false;
-        finish();
-      },
-      publications: () => publications,
-      fail() {
-        fail = true;
-      },
-    };
-  }
-
-  it('captures a deferred release, deduplicates aliases, and only advances the applied revision on publication', async () => {
-    const f = deferredFixture();
-    const remotes = [{ name: 'alias', entry: 'v2' }];
-    expect(
-      f.adapter.shouldUpdateRemotes(f.application, remotes, { revision: 2 }),
-    ).toBe(true);
-    expect(f.adapter.status(f.application)).toBeUndefined();
-    let microtaskRan = false;
-    queueMicrotask(() => {
-      microtaskRan = true;
-    });
-    const accepted = f.adapter.updateRemotes(f.application, remotes, {
-      revision: 2,
-      defer: 'after-response',
-    });
-    expect(accepted).toMatchObject({ phase: 'scheduled', revision: 2 });
-    expect(accepted).not.toHaveProperty('completed');
-    expect(accepted).not.toHaveProperty('then');
-    expect(microtaskRan).toBe(false);
-    expect(f.instance.options.remotes[0].entry).toBe('v1');
-    remotes[0].entry = 'mutated-by-caller';
-    const duplicate = f.adapter.updateRemotes(
-      f.application,
-      [{ name: 'remote', entry: 'v2' }],
-      { revision: 2, defer: 'after-response' },
-    );
-    expect(duplicate).toEqual(accepted);
-    expect(duplicate).not.toHaveProperty('then');
-    expect(
-      f.adapter.shouldUpdateRemotes(
-        f.application,
-        [{ name: 'remote', entry: 'v2' }],
-        { revision: 2 },
-      ),
-    ).toBe(true);
-    expect(f.publications()).toBe(0);
-    // Even a deduplicated update must reject when awaited inside the draining request.
-    await expect(
-      f.adapter.updateRemotes(
-        f.application,
-        [{ name: 'remote', entry: 'v2' }],
-        { revision: 2 },
-      ),
-    ).rejects.toThrow('request being drained');
-    f.finish();
-    await f.adapter.updateRemotes(
-      f.application,
-      [{ name: 'remote', entry: 'v2' }],
-      { revision: 2 },
-    );
-    expect(f.publications()).toBe(1);
-    expect(f.instance.options.remotes[0].entry).toBe('v2');
-    expect(
-      f.adapter.shouldUpdateRemotes(
-        f.application,
-        [{ name: 'alias', entry: 'v2' }],
-        { revision: 2 },
-      ),
-    ).toBe(false);
-    expect(
-      f.adapter.shouldUpdateRemotes(
-        f.application,
-        [{ name: 'remote', entry: 'v2' }],
-        { revision: 3 },
-      ),
-    ).toBe(true);
-    expect(
-      f.adapter.shouldUpdateRemotes(
-        f.application,
-        [{ name: 'remote', entry: 'v1' }],
-        { revision: 1 },
-      ),
-    ).toBe(false);
-    expect(() =>
-      f.adapter.shouldUpdateRemotes(
-        f.application,
-        [{ name: 'remote', entry: 'conflict' }],
-        { revision: 2 },
-      ),
-    ).toThrow('different replacement');
-  });
-
-  it('reports background failures and permits retry without claiming the revision was applied', async () => {
-    const f = deferredFixture();
-    f.fail();
-    f.adapter.updateRemotes(f.application, [{ name: 'remote', entry: 'v2' }], {
-      revision: 2,
-      defer: 'after-response',
-    });
-    f.finish();
-    await expect(
-      f.adapter.updateRemotes(
-        f.application,
-        [{ name: 'remote', entry: 'v2' }],
-        { revision: 2 },
-      ),
-    ).rejects.toThrow('candidate failed');
-    expect(f.adapter.status(f.application)).toMatchObject({
-      phase: 'failed',
-      appliedRevision: undefined,
-    });
-    expect(
-      f.adapter.shouldUpdateRemotes(
-        f.application,
-        [{ name: 'remote', entry: 'v2' }],
-        { revision: 2 },
-      ),
-    ).toBe(true);
-  });
-
-  it('does not replay an older deferred release after a newer notification', async () => {
-    const f = deferredFixture();
-    f.adapter.updateRemotes(f.application, [{ name: 'remote', entry: 'v2' }], {
-      revision: 2,
-      defer: 'after-response',
-    });
-    f.adapter.updateRemotes(f.application, [{ name: 'remote', entry: 'v3' }], {
-      revision: 3,
-      defer: 'after-response',
-    });
-    f.finish();
-    await f.adapter.updateRemotes(
-      f.application,
-      [{ name: 'remote', entry: 'v3' }],
-      { revision: 3 },
-    );
-    expect(f.publications()).toBe(1);
-    expect(f.instance.options.remotes[0].entry).toBe('v3');
-    expect(f.adapter.status(f.application)).toMatchObject({
-      phase: 'applied',
-      appliedRevision: 3,
-    });
-  });
-
-  it('keeps the compiled alias for selective planning while comparing canonical provider identity', async () => {
+// Formal async check/deferred/publication coverage lives in remoteUpdate.test.ts.
+// adapter.update above retains the legacy PoC revision compatibility contract.
+describe('registered update targets', () => {
+  it('keeps declared aliases for selective planning and strips candidate information before Core mutation', async () => {
     const { adapter, runtime } = fixture();
     const instance = runtime.federation.instance as any;
     instance.options = {
       remotes: [{ name: 'provider', alias: 'remote', entry: 'v1' }],
     };
     instance.updateRemotes = async (remotes: any[]) => {
+      expect(remotes[0]).not.toHaveProperty('moduleInfo');
       instance.options.remotes = remotes;
     };
     const application = {
@@ -682,192 +513,24 @@ describe('release checks and response-deferred notifications', () => {
         return 1;
       },
     };
+    const moduleInfo = { remoteEntry: 'v2.js', buildVersion: 'v2' };
     expect(
-      await adapter.updateRemotes(
-        application,
-        [{ name: 'remote', entry: 'v2' }],
-        { revision: 1 },
-      ),
-    ).toMatchObject({ mode: 'entries' });
-    expect(
-      adapter.shouldUpdateRemotes(
-        application,
-        [{ name: 'provider', entry: 'v2' }],
-        { revision: 1 },
-      ),
-    ).toBe(false);
-  });
-
-  it('normalizes batch ordering and client fields identically for checking and updating', async () => {
-    const { adapter, runtime } = fixture();
-    (runtime.federation.instance as any).options = {
-      remotes: [{ name: 'remote', entry: 'v1' }],
-    };
-    const application = { update: async () => 1 };
-    await adapter.updateRemotes(
-      application,
-      [
-        {
-          name: 'remote',
-          entry: 'v2',
-          client: { type: 'global', entry: '/v2.json' },
-        },
-        { name: 'another', entry: 'v2' },
-      ],
-      { revision: 1 },
-    );
-    expect(
-      adapter.shouldUpdateRemotes(
-        application,
-        [
-          { name: 'another', entry: 'v2' },
-          {
-            name: 'remote',
-            client: { entry: '/v2.json', type: 'global' },
-            entry: 'v2',
-          },
-        ],
-        { revision: 1 },
-      ),
-    ).toBe(false);
-    expect(() =>
-      adapter.shouldUpdateRemotes(
-        application,
-        [{ name: 'remote', entry: '' }],
-        { revision: 2 },
-      ),
-    ).toThrow('replacement entries');
-    expect(() =>
-      adapter.shouldUpdateRemotes(
-        application,
-        [{ name: 'remote', entry: 'v3' }],
-        { revision: NaN },
-      ),
-    ).toThrow('positive safe integer');
-  });
-
-  it('does not supersede an accepted release when the deferred queue rejects a newer submission', async () => {
-    const f = deferredFixture();
-    let submissions = 0;
-    const defer = f.application.defer;
-    f.application.defer = operation => {
-      if (++submissions > 1)
-        throw new Error('SSR deferred update queue is full');
-      return defer(operation);
-    };
-    const accepted = f.adapter.updateRemotes(
-      f.application,
-      [{ name: 'remote', entry: 'v2' }],
-      { revision: 2, defer: 'after-response' },
-    );
-    expect(() =>
-      f.adapter.updateRemotes(
-        f.application,
-        [{ name: 'remote', entry: 'v3' }],
-        { revision: 3, defer: 'after-response' },
-      ),
-    ).toThrow('queue is full');
-    expect(f.adapter.status(f.application)).toMatchObject({
-      revision: 2,
-      operationId: accepted.operationId,
-      phase: 'scheduled',
-    });
-    f.finish();
-    await f.adapter.updateRemotes(
-      f.application,
-      [{ name: 'remote', entry: 'v2' }],
-      { revision: 2 },
-    );
-    expect(f.publications()).toBe(1);
-    expect(f.instance.options.remotes[0].entry).toBe('v2');
-    expect(
-      f.adapter.shouldUpdateRemotes(
-        f.application,
-        [{ name: 'remote', entry: 'v3' }],
-        { revision: 3 },
-      ),
-    ).toBe(true);
-  });
-
-  it('throws for unsupported deferred integration without starting a mutation', () => {
-    const { adapter } = fixture();
-    let calls = 0;
-    const application = { update: async () => ++calls };
-    expect(() =>
-      adapter.updateRemotes(application, [{ name: 'remote', entry: 'v2' }], {
-        revision: 2,
-        defer: 'after-response',
+      await adapter.updateRemotes(application, [
+        { name: 'remote', entry: 'v2', moduleInfo },
+      ]),
+    ).toMatchObject({ mode: 'entries', changed: true });
+    await expect(
+      adapter.shouldUpdateRemote(application, {
+        name: 'provider',
+        entry: 'v2',
+        moduleInfo,
       }),
-    ).toThrow('does not support deferred');
-    expect(calls).toBe(0);
-    expect(adapter.status(application)).toBeUndefined();
-  });
-
-  it('throws deferred validation errors synchronously while ordinary updates reject asynchronously', async () => {
-    const f = deferredFixture();
-    f.finish();
-    const remotes = [{ name: 'remote', entry: '' }];
-    expect(() =>
-      f.adapter.updateRemotes(f.application, remotes, {
-        revision: 2,
-        defer: 'after-response',
-      }),
-    ).toThrow('replacement entries');
-    expect(() =>
-      f.adapter.updateRemotes(
-        f.application,
-        [{ name: 'remote', entry: 'v2' }],
-        {
-          revision: 0,
-          defer: 'after-response',
-        },
-      ),
-    ).toThrow('positive safe integer');
-    const ordinary = f.adapter.updateRemotes(f.application, remotes, {
-      revision: 2,
-    });
-    expect(ordinary).toBeInstanceOf(Promise);
-    await expect(ordinary).rejects.toThrow('replacement entries');
-    expect(f.adapter.status(f.application)).toBeUndefined();
-    expect(f.publications()).toBe(0);
-    expect(f.instance.options.remotes[0].entry).toBe('v1');
-  });
-
-  it('throws deferred revision conflicts synchronously without replacing an accepted receipt', async () => {
-    const f = deferredFixture();
-    const accepted = f.adapter.updateRemotes(
-      f.application,
-      [{ name: 'remote', entry: 'v2' }],
-      { revision: 2, defer: 'after-response' },
-    );
-    expect(() =>
-      f.adapter.updateRemotes(
-        f.application,
-        [{ name: 'remote', entry: 'conflict' }],
-        { revision: 2, defer: 'after-response' },
-      ),
-    ).toThrow('different replacement');
-    expect(() =>
-      f.adapter.updateRemotes(
-        f.application,
-        [{ name: 'remote', entry: 'v1' }],
-        { revision: 1, defer: 'after-response' },
-      ),
-    ).toThrow('Stale');
-    expect(f.adapter.status(f.application)).toMatchObject({
-      revision: 2,
-      phase: 'scheduled',
-      operationId: accepted.operationId,
-    });
-    expect(f.publications()).toBe(0);
-    f.finish();
-    await f.adapter.updateRemotes(
-      f.application,
-      [{ name: 'remote', entry: 'v2' }],
-      { revision: 2 },
-    );
-    expect(f.publications()).toBe(1);
-    expect(f.instance.options.remotes[0].entry).toBe('v2');
+    ).resolves.toBe(false);
+    await expect(
+      adapter.updateRemotes(application, [
+        { name: 'unregistered', entry: 'v2' },
+      ]),
+    ).rejects.toThrow('not registered');
   });
 });
 
@@ -920,4 +583,232 @@ describe('whole application instance handoff', () => {
     adapter.prepareResources({ templates: {} });
     expect(handoffs.has('host')).toBe(false);
   });
+});
+
+it('publishes an explicit client target even without initial hydration configuration', async () => {
+  const { adapter, runtime } = fixture();
+  const instance = runtime.federation.instance as any;
+  instance.options = { remotes: [{ name: 'remote', entry: 'v1' }] };
+  instance.updateRemotes = async (remotes: any[]) => {
+    instance.options.remotes = remotes;
+  };
+  const resources = { templates: { a: '<html><head></head></html>' } };
+  adapter.prepareResources(resources);
+  expect(resources.templates.a).not.toContain('data-modern-mf-release');
+  const application = {
+    async update(
+      invalidate: () => Promise<void>,
+      scope?: () => readonly string[] | undefined,
+    ) {
+      scope?.();
+      await invalidate();
+      adapter.prepareResources(resources);
+      return 1;
+    },
+  };
+  await adapter.updateRemotes(application, [
+    { name: 'remote', entry: 'v2', client: { entry: 'https://cdn/v2.json' } },
+  ]);
+  expect(resources.templates.a).toContain('data-modern-mf-release');
+  expect(resources.templates.a).toContain('https://cdn/v2.json');
+  expect(instance.options.remotes[0]).not.toHaveProperty('client');
+  await expect(
+    adapter.updateRemotes(application, [{ name: 'remote', entry: 'v3' }]),
+  ).rejects.toThrow('public client remote');
+});
+
+it('refreshes a registered Service ingress without an SSR bundler instance', async () => {
+  const oldRegistry = (globalThis as any)[key];
+  (globalThis as any)[key] = new Map();
+  const events: string[] = [];
+  const adapter = createSSRUpdateAdapter({
+    name: 'csr-service-host',
+    entries: [],
+    remotes: [{ name: 'service', entry: 'v1' }],
+    invalidate: async targets => {
+      events.push(`ingress:${targets[0].entry}`);
+    },
+  });
+  const application = {
+    async update(
+      invalidate: () => Promise<void>,
+      scope?: () => readonly string[] | undefined,
+    ) {
+      scope?.();
+      events.push('drained');
+      await invalidate();
+      events.push('resources-published');
+      return 1;
+    },
+  };
+  try {
+    await expect(
+      adapter.updateRemotes(application, [
+        {
+          name: 'service',
+          entry: 'v2',
+          moduleInfo: { remoteEntry: 'v2.js', buildVersion: 'v2' },
+        },
+      ]),
+    ).resolves.toMatchObject({ changed: true, mode: 'application' });
+    expect(events).toEqual(['drained', 'ingress:v2', 'resources-published']);
+    await expect(
+      adapter.shouldUpdateRemote(application, {
+        name: 'service',
+        entry: 'v2',
+        moduleInfo: { remoteEntry: 'v2.js', buildVersion: 'v2' },
+      }),
+    ).resolves.toBe(false);
+  } finally {
+    await adapter.dispose(undefined, { preserveRemotes: false });
+    (globalThis as any)[key] = oldRegistry;
+  }
+});
+
+it('publishes a whole-application adapter update through the real Modern owner without an entry scope resolver', async () => {
+  const { createSSRApplication } =
+    await import('../../../../server/core/src/adapters/node/application');
+  const adapter = createSSRUpdateAdapter({
+    name: 'real-owner-host',
+    entries: [],
+    remotes: [{ name: 'service', entry: 'v1' }],
+  });
+  let loaded = 0;
+  const application = await createSSRApplication({
+    maxPendingRequests: 2,
+    requestTimeoutMs: 1000,
+    drainTimeoutMs: 1000,
+    load: async () => {
+      loaded++;
+      return {
+        templates: {},
+        serverManifest: {},
+        render: async () => new Response('ready'),
+      };
+    },
+  });
+  try {
+    await expect(
+      adapter.updateRemotes(application, [
+        {
+          name: 'service',
+          entry: 'v2',
+          moduleInfo: { remoteEntry: 'v2.js', buildVersion: 'v2' },
+        },
+      ]),
+    ).resolves.toMatchObject({ generation: 1, mode: 'application' });
+    expect(loaded).toBe(2);
+    await expect(
+      application.update(
+        async () => {},
+        () => ['main'],
+      ),
+    ).rejects.toThrow('owned request scope resolver');
+  } finally {
+    await application.close();
+    await adapter.dispose(undefined, { preserveRemotes: false });
+  }
+});
+
+it('shares publication order and applied baselines between the compatibility and formal update entrances', async () => {
+  const { adapter, runtime } = fixture();
+  const instance = runtime.federation.instance as any;
+  instance.options = { remotes: [{ name: 'remote', entry: 'v1' }] };
+  instance.updateRemotes = async (remotes: any[]) => {
+    instance.options.remotes = remotes;
+  };
+  let release!: () => void;
+  let held = false;
+  let count = 0;
+  const barrier = new Promise<void>(resolve => {
+    release = resolve;
+  });
+  const application = {
+    async update(
+      invalidate: () => Promise<void>,
+      scope?: () => readonly string[] | undefined,
+    ) {
+      scope?.();
+      if (held) await barrier;
+      await invalidate();
+      return ++count;
+    },
+  };
+  await adapter.updateRemotes(application, [{ name: 'remote', entry: 'v2' }]);
+  await adapter.update(application, 'remote', { entry: 'v1' });
+  await expect(
+    adapter.updateRemotes(application, [{ name: 'remote', entry: 'v2' }]),
+  ).resolves.toMatchObject({ changed: true });
+  held = true;
+  const legacy = adapter.update(application, 'remote', { entry: 'v1' });
+  await expect(
+    adapter.shouldUpdateRemote(application, { name: 'remote', entry: 'v2' }),
+  ).resolves.toBe(true);
+  const formal = adapter.updateRemotes(application, [
+    { name: 'remote', entry: 'v2' },
+  ]);
+  release();
+  await Promise.all([legacy, formal]);
+  expect(instance.options.remotes[0].entry).toBe('v2');
+  await expect(
+    adapter.shouldUpdateRemote(application, { name: 'remote', entry: 'v2' }),
+  ).resolves.toBe(false);
+  expect(count).toBe(5);
+});
+
+it('keeps compatibility deferred receipts synchronous while sharing publication order and adopted targets', async () => {
+  const { adapter, runtime } = fixture();
+  const instance = runtime.federation.instance as any;
+  instance.options = { remotes: [{ name: 'remote', entry: 'v1' }] };
+  instance.updateRemotes = async (remotes: any[]) => {
+    instance.options.remotes = remotes;
+  };
+  let release!: () => void;
+  const response = new Promise<void>(resolve => {
+    release = resolve;
+  });
+  let count = 0;
+  let accepted = 0;
+  const application = {
+    defer<T>(operation: () => Promise<T>) {
+      if (++accepted > 1) throw new Error('queue is full');
+      return { completed: response.then(operation) };
+    },
+    async update(
+      invalidate: () => Promise<void>,
+      scope?: () => readonly string[] | undefined,
+    ) {
+      scope?.();
+      await invalidate();
+      return ++count;
+    },
+  };
+  await adapter.updateRemotes(application, [{ name: 'remote', entry: 'v2' }]);
+  const receipt = adapter.update(
+    application,
+    'remote',
+    { entry: 'v1' },
+    { defer: 'after-response' },
+  );
+  expect(receipt).toMatchObject({ phase: 'scheduled' });
+  expect(receipt).not.toHaveProperty('then');
+  expect(count).toBe(1);
+  expect(() =>
+    adapter.update(
+      application,
+      'remote',
+      { entry: 'v3' },
+      { revision: 3, defer: 'after-response' },
+    ),
+  ).toThrow('queue is full');
+  const followup = adapter.updateRemotes(application, [
+    { name: 'remote', entry: 'v2' },
+  ]);
+  release();
+  await followup;
+  expect(count).toBe(3);
+  expect(instance.options.remotes[0].entry).toBe('v2');
+  await expect(
+    adapter.shouldUpdateRemote(application, { name: 'remote', entry: 'v2' }),
+  ).resolves.toBe(false);
 });

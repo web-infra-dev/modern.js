@@ -1,4 +1,13 @@
 import {
+  setSSRUpdateCandidates,
+  clearSSRUpdateCandidates,
+  getSSRUpdateRegistration,
+} from './ssrUpdateCandidates';
+import {
+  createRemoteUpdateController,
+  type RemoteCheckOptions,
+} from './remoteUpdate';
+import {
   clientRemote,
   releaseScript,
   type SSRClientRemote,
@@ -28,8 +37,9 @@ export interface SSRRemoteReplacement {
   type?: string;
   entryGlobalName?: string;
   client?: Omit<SSRClientRemote, 'name'>;
+  moduleInfo?: Record<string, unknown>;
 }
-export interface SSRUpdateOptions {
+export interface SSRUpdateOptions extends RemoteCheckOptions {
   revision?: number;
   /** Submit from SSR without waiting for the response that must drain first. */
   defer?: 'after-response';
@@ -51,6 +61,9 @@ export function createSSRUpdateAdapter(options: {
   staticOnly?: boolean;
   /** Immutable public entries paired with the initial server release. */
   hydration?: { remotes: SSRClientRemote[] };
+  remotes?: SSRRemoteReplacement[];
+  maxPendingUpdates?: number;
+  invalidate?: (remotes: SSRRemoteReplacement[]) => Promise<void>;
 }) {
   options = { ...options, entries: [...options.entries] };
   const handoffKey = Symbol.for('modern-js.mf.ssr.registrations');
@@ -63,6 +76,7 @@ export function createSSRUpdateAdapter(options: {
     }),
   );
   let targetRevision = 0;
+  let hydrationEnabled = Boolean(options.hydration);
   const registry = () =>
     (globalThis as any)[Symbol.for('modern-js.mf.ssr.entries')] as
       Map<string, SSREntryRecord> | undefined;
@@ -199,6 +213,19 @@ export function createSSRUpdateAdapter(options: {
         application.update(
           async entries => {
             onStage('clear');
+            setSSRUpdateCandidates(
+              options.name,
+              changes.map(({ name, replacement }) => ({
+                ...replacement,
+                name: canonicalName(name),
+              })),
+            );
+            await options.invalidate?.(
+              changes.map(({ name, replacement }) => ({
+                name,
+                ...replacement,
+              })),
+            );
             if (!entries && selected.mode === 'entries')
               selected = {
                 mode: 'application',
@@ -212,7 +239,12 @@ export function createSSRUpdateAdapter(options: {
             for (const state of ownedStates) state.selective = Boolean(entries);
             const hosts = instances();
             if (!hosts.length) {
-              const previous = handoffs.get(options.name);
+              const previous =
+                handoffs.get(options.name) ||
+                options.remotes?.map(remote => ({
+                  ...remote,
+                  ...getSSRUpdateRegistration(options.name, remote.name),
+                }));
               if (!previous) throw new Error('Missing MF application instance');
               const targets = new Map(
                 previous.map(remote => [remote.name, remote]),
@@ -221,7 +253,11 @@ export function createSSRUpdateAdapter(options: {
                 const existing = previous.find(
                   remote => remote.name === name || remote.alias === name,
                 );
-                const { client: _client, ...server } = replacement;
+                const {
+                  client: _client,
+                  moduleInfo: _info,
+                  ...server
+                } = replacement;
                 targets.set(existing?.name || name, {
                   ...existing,
                   ...server,
@@ -247,7 +283,11 @@ export function createSSRUpdateAdapter(options: {
                   }
                   const previous = registered ||
                     remembered.get(name) || { name };
-                  const { client: _client, ...serverReplacement } = replacement;
+                  const {
+                    client: _client,
+                    moduleInfo: _info,
+                    ...serverReplacement
+                  } = replacement;
                   const target = {
                     ...previous,
                     ...serverReplacement,
@@ -292,7 +332,11 @@ export function createSSRUpdateAdapter(options: {
           () => {
             onStage('analyze');
             const hosts = instances();
-            if (!hosts.length && !handoffs.has(options.name))
+            if (
+              !hosts.length &&
+              !handoffs.has(options.name) &&
+              !options.remotes
+            )
               throw new Error('Missing MF application instance');
             recovering = application.status?.phase === 'unavailable';
             for (const instance of hosts) {
@@ -536,7 +580,10 @@ export function createSSRUpdateAdapter(options: {
     const execute = () => {
       // A newer notification may have arrived while the triggering SSR streamed.
       // Never apply this older release after the newer one.
-      if (revision < (updates.get(application)?.revision ?? revision))
+      if (
+        input?.defer &&
+        revision < (updates.get(application)?.revision ?? revision)
+      )
         return Promise.reject(new Error('Stale SSR update revision'));
       state.phase = 'pending';
       onStage('queue');
@@ -545,12 +592,17 @@ export function createSSRUpdateAdapter(options: {
         captured,
         () => {
           state.mutationStarted = true;
-          if (options.hydration) {
+          if (
+            options.hydration ||
+            captured.some(({ replacement }) => replacement.client)
+          ) {
+            hydrationEnabled = true;
             const normalized = canonicalClientTargets();
             clientTargets.clear();
             for (const [name, remote] of normalized)
               clientTargets.set(name, remote);
-            for (const { name, replacement } of captured)
+            for (const { name, replacement } of captured) {
+              if (!replacement.client) continue;
               clientTargets.set(
                 canonicalName(name),
                 clientRemote({
@@ -558,6 +610,7 @@ export function createSSRUpdateAdapter(options: {
                   name: canonicalName(name),
                 } as SSRClientRemote),
               );
+            }
             targetRevision = revision;
           }
         },
@@ -566,9 +619,17 @@ export function createSSRUpdateAdapter(options: {
     };
     let operation: Promise<Awaited<ReturnType<typeof performUpdate>>>;
     try {
-      operation = input?.defer
-        ? application.defer!(execute).completed
-        : execute();
+      operation = controller.runExternal(
+        application,
+        captured.map(({ name, replacement }) => ({
+          name: canonicalName(name),
+          ...replacement,
+        })),
+        execute,
+        input?.defer
+          ? scheduled => application.defer!(scheduled).completed
+          : undefined,
+      );
     } catch (error) {
       // Capacity rejection is not acceptance: keep an earlier accepted release
       // eligible to run, and allow this revision to be submitted again later.
@@ -631,6 +692,67 @@ export function createSSRUpdateAdapter(options: {
     }
     return state.promise;
   }
+  const controller = createRemoteUpdateController<
+    Application,
+    Awaited<ReturnType<typeof performUpdate>>
+  >({
+    maxPendingUpdates: options.maxPendingUpdates,
+    resolve(name) {
+      let registered = instances()
+        .flatMap(instance => [
+          ...(instance.options?.remotes || []),
+          ...(registrations.get(instance)?.values() || []),
+        ])
+        .concat(handoffs.get(options.name) || [], options.remotes || [])
+        .find(remote => remote.name === name || remote.alias === name);
+      if (!registered) return undefined;
+      Object.assign(
+        (registered = { ...registered }),
+        getSSRUpdateRegistration(options.name, registered.name),
+      );
+      const publicTarget = canonicalClientTargets().get(registered.name);
+      if (!publicTarget) return { ...registered };
+      const { name: _name, ...client } = publicTarget;
+      return { ...registered, client };
+    },
+    baseline(target) {
+      for (const instance of instances()) {
+        const manifest = instance.snapshotHandler?.manifestCache?.get(
+          target.entry,
+        );
+        if (manifest) return manifest;
+      }
+      return undefined;
+    },
+    apply(application, targets, onMutation, onStage) {
+      // Native graph keys are declared aliases; preserve them for scope planning.
+      const changes = targets.map(({ name, ...replacement }) => {
+        let registered = instances()
+          .flatMap(instance => instance.options?.remotes || [])
+          .find(remote => remote.name === name);
+        return { name: registered?.alias || name, replacement };
+      });
+      return performUpdate(
+        application,
+        changes,
+        () => {
+          onMutation();
+          if (options.hydration || targets.some(target => target.client)) {
+            hydrationEnabled = true;
+            for (const { name, ...target } of targets) {
+              if (!target.client) continue;
+              clientTargets.set(
+                name,
+                clientRemote({ ...target.client, name } as SSRClientRemote),
+              );
+            }
+            targetRevision++;
+          }
+        },
+        onStage,
+      );
+    },
+  });
   function updateRemotes(
     application: Application,
     remotes: SSRRemoteReplacement[],
@@ -640,52 +762,68 @@ export function createSSRUpdateAdapter(options: {
     application: Application,
     remotes: SSRRemoteReplacement[],
     input?: SSRUpdateOptions & { defer?: undefined },
-  ): Promise<Result>;
+  ): Promise<any>;
   function updateRemotes(
     application: Application,
     remotes: SSRRemoteReplacement[],
     input?: SSRUpdateOptions,
-  ): Promise<Result> | SSRUpdateReceipt;
+  ): Promise<any> | SSRUpdateReceipt;
   function updateRemotes(
     application: Application,
     remotes: SSRRemoteReplacement[],
     input?: SSRUpdateOptions,
-  ): Promise<Result> | SSRUpdateReceipt {
+  ): Promise<any> | SSRUpdateReceipt {
     try {
-      return submit(
-        application,
-        remotes.map(({ name, ...replacement }) => ({ name, replacement })),
-        input,
-      );
+      const targets = remotes.map(remote => {
+        if (
+          !options.hydration &&
+          !remote.client &&
+          !canonicalClientTargets().has(canonicalName(remote.name))
+        )
+          return remote;
+        const client = clientRemote({
+          ...remote.client,
+          name: remote.name,
+        } as SSRClientRemote);
+        const { name: _name, ...target } = client;
+        return { ...remote, client: target };
+      });
+      return controller.updateRemotes(application, targets, input);
     } catch (error) {
       if (input?.defer) throw error;
       return Promise.reject(error);
     }
   }
+  function update(
+    application: Application,
+    name: string,
+    replacement: Replacement,
+    input: Pick<SSRUpdateOptions, 'revision'> & { defer: 'after-response' },
+  ): SSRUpdateReceipt;
+  function update(
+    application: Application,
+    name: string,
+    replacement: Replacement,
+    input?: Pick<SSRUpdateOptions, 'revision'> & { defer?: undefined },
+  ): Promise<Result>;
+  function update(
+    application: Application,
+    name: string,
+    replacement: Replacement,
+    input?: Pick<SSRUpdateOptions, 'revision' | 'defer'>,
+  ): Promise<Result> | SSRUpdateReceipt {
+    return submit(application, [{ name, replacement }], input);
+  }
   return {
     plan,
-    /** Compare an application-wide release revision; never fetch or mutate caches. */
-    shouldUpdateRemotes(
-      application: Application,
-      remotes: SSRRemoteReplacement[],
-      input: { revision: number },
-    ): boolean {
-      const { fingerprint } = capture(
-        remotes.map(({ name, ...replacement }) => ({ name, replacement })),
-        input.revision,
-      );
-      const previous = updates.get(application);
-      if (!previous || input.revision > previous.revision) return true;
-      if (input.revision < previous.revision) return false;
-      if (fingerprint !== previous.fingerprint)
-        throw new Error('SSR revision already has a different replacement');
-      return previous.phase !== 'applied';
-    },
+    shouldUpdateRemote: controller.shouldUpdateRemote,
+    shouldUpdateRemotes: controller.shouldUpdateRemotes,
     updateRemotes,
+    whenIdle: controller.whenIdle,
     /** Run in Modern's unpublished resource validation hook, before publication. */
     prepareResources(resources: { templates: Record<string, string> }) {
       handoffs.delete(options.name);
-      if (!options.hydration) return;
+      if (!hydrationEnabled) return;
       const script = releaseScript(options.name, targetRevision, [
         ...canonicalClientTargets().values(),
       ]);
@@ -705,6 +843,8 @@ export function createSSRUpdateAdapter(options: {
       );
     },
     status(application: Application) {
+      const current = controller.status(application);
+      if (current) return current;
       const state = updates.get(application);
       return state
         ? {
@@ -720,15 +860,8 @@ export function createSSRUpdateAdapter(options: {
           }
         : undefined;
     },
-    /** Use an application-wide monotonic revision for external update messages. */
-    update(
-      application: Application,
-      name: string,
-      replacement: Replacement,
-      input?: { revision: number },
-    ): Promise<Result> {
-      return submit(application, [{ name, replacement }], input);
-    },
+    /** @deprecated PoC compatibility. Use the application-bound updateRemotes API. */
+    update,
     async reload(entry: string) {
       const record = registry()?.get(JSON.stringify([options.name, entry]));
       if (!record || record.reasons.length || record.rootIds.length !== 1)
@@ -753,7 +886,10 @@ export function createSSRUpdateAdapter(options: {
       const hosts = instances();
       // Carry only declarative registrations across generations, never factories
       // or plugins from the old application bundle.
-      if (!preserveRemotes) handoffs.delete(options.name);
+      if (!preserveRemotes) {
+        handoffs.delete(options.name);
+        clearSSRUpdateCandidates(options.name);
+      }
       if (preserveRemotes && hosts.length)
         handoffs.set(
           options.name,
@@ -845,3 +981,5 @@ export function createSSRUpdateAdapter(options: {
     },
   };
 }
+
+export { createSSRUpdateServerPlugin } from './ssrUpdateServer';

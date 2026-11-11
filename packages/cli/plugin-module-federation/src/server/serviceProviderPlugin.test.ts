@@ -6,8 +6,10 @@ import serviceProviderPlugin from './serviceProviderPlugin';
 import { createBridgeServiceMiddleware } from './service';
 
 rs.mock('./service', () => ({
-  createBridgeServiceMiddleware: rs.fn(
-    options => async () => new Response(options.module),
+  createBridgeServiceMiddleware: rs.fn(options =>
+    Object.assign(async () => new Response(options.module), {
+      dispose: rs.fn(async () => {}),
+    }),
   ),
 }));
 const directories: string[] = [];
@@ -21,6 +23,60 @@ afterEach(async () => {
 });
 
 describe('built-in Service producer server plugin', () => {
+  it('keeps admitted requests on the old Service until invalidation and preparation complete', async () => {
+    const directory = await mkdtemp(
+      path.join(tmpdir(), 'modern-service-generation-'),
+    );
+    directories.push(directory);
+    const filename = path.join(directory, 'mf-manifest.json');
+    const publish = (name: string) =>
+      writeFile(
+        filename,
+        JSON.stringify({
+          name,
+          metaData: { serviceBaseUrl: 'https://weather.example/' },
+          exposes: [{ name: 'App', path: './App', servicePath: 'render' }],
+        }),
+      );
+    await publish('weather_v1');
+    const context: any = {
+      distDirectory: directory,
+      middlewares: [],
+      ssrUpdateManager: {},
+    };
+    serviceProviderPlugin({
+      manifestFileName: 'mf-manifest.json',
+      basePaths: ['/'],
+    }).setup!({
+      onPrepare: (callback: () => void) => callback(),
+      getServerContext: () => ({ ...context }),
+      updateServerContext: (value: any) => Object.assign(context, value),
+    } as any);
+    const request = () =>
+      context.middlewares[0].handler(
+        {
+          req: {
+            raw: new Request('http://localhost/render', { method: 'POST' }),
+          },
+        },
+        rs.fn(),
+      );
+    expect(await (await request()).text()).toBe('weather_v1/App');
+    const oldHandler = rs.mocked(createBridgeServiceMiddleware).mock.results[0]
+      .value;
+    await publish('weather_v2');
+    expect(await (await request()).text()).toBe('weather_v1/App');
+    expect(oldHandler.dispose).not.toHaveBeenCalled();
+    await context.ssrUpdateParticipants[0].invalidate();
+    await context.ssrUpdateParticipants[0].prepare();
+    expect(oldHandler.dispose).toHaveBeenCalledTimes(1);
+    expect(await (await request()).text()).toBe('weather_v2/App');
+    const newHandler = rs.mocked(createBridgeServiceMiddleware).mock.results[1]
+      .value;
+    await context.ssrUpdateParticipants[0].dispose();
+    expect(newHandler.dispose).toHaveBeenCalledTimes(1);
+  });
+
   it.each([
     [
       'https://cdn.example/assets/',
@@ -59,6 +115,7 @@ describe('built-in Service producer server plugin', () => {
           callback();
         },
         getServerContext: () => ({ distDirectory: directory, middlewares }),
+        updateServerContext: rs.fn(),
       } as any);
       await middlewares[0].handler(
         {
@@ -92,6 +149,7 @@ describe('built-in Service producer server plugin', () => {
         callback();
       },
       getServerContext: () => ({ distDirectory: directory, middlewares }),
+      updateServerContext: rs.fn(),
     } as any);
     expect(createBridgeServiceMiddleware).not.toHaveBeenCalled();
     await mkdir(path.join(directory, 'static'));

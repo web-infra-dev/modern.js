@@ -405,6 +405,12 @@ export const moduleFederationConfigPlugin = (
         resolveInternalPlugin('./mfRuntimePlugins/ssr-release'),
         csrConfig.runtimePlugins,
       );
+      if (isDev() && csrConfig.dev !== false) {
+        csrConfig.dev = {
+          ...(typeof csrConfig.dev === 'object' ? csrConfig.dev : {}),
+          disableLiveReload: true,
+        };
+      }
     }
     let hasNodeBuild = false;
     if (mfConfig.exposes && Object.keys(mfConfig.exposes).length) {
@@ -448,11 +454,25 @@ export const moduleFederationConfigPlugin = (
     }
     const services = userConfig.originPluginOptions.services || {};
     const remotes = serviceRemotes(mfConfig.remotes);
+    if (
+      typeof userConfig.originPluginOptions.ssr === 'object' &&
+      userConfig.originPluginOptions.ssr.cacheUpdates
+    ) {
+      const application = userConfig.originPluginOptions.ssr.application;
+      api._internalServerPlugins(({ plugins }) => {
+        plugins.push({
+          name: resolveInternalPlugin('../server/updatePlugin'),
+          options: { name: ssrConfig.name, remotes, application },
+        });
+        return { plugins };
+      });
+    }
     if (remotes.length || Object.keys(services).length) {
       const runtimePlugins = configureServiceRuntimePlugins(
         api,
         mfConfig.runtimePlugins,
       );
+      userConfig.waitForServiceRuntimePlugins = runtimePlugins?.waitForBuild;
       ssrConfig.runtimePlugins ||= [];
       ssrConfig.runtimePlugins.push([
         resolveInternalPlugin('../server/serviceRuntimePlugin'),

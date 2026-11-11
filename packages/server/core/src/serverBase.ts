@@ -20,6 +20,9 @@ export interface ServerBaseOptions extends ServerCreateOptions {
   config: CliConfig;
   serverConfig?: ServerConfig;
   runMode?: 'apiOnly' | 'ssrOnly' | 'webOnly';
+  /** Internal dev control plane. Resource ownership starts after successful compilation. */
+  devControl?: { reload(): void; isAsset?(request: Request): boolean };
+  deferSSRResources?: boolean;
 }
 
 export class ServerBase<E extends Env = any> {
@@ -34,6 +37,8 @@ export class ServerBase<E extends Env = any> {
   private plugins: ServerPlugin[] = [];
 
   private serverContext: ServerContext | null = null;
+
+  private removeCloseListener?: () => void;
 
   constructor(options: ServerBaseOptions) {
     this.serverOptions = options;
@@ -70,11 +75,47 @@ export class ServerBase<E extends Env = any> {
     });
     (serverContext as Record<string, any>).serverBase = this;
     this.serverContext = serverContext as unknown as ServerContext;
+    Object.assign(serverContext, {
+      dev: this.serverOptions.devControl,
+      deferSSRResources: this.serverOptions.deferSSRResources,
+    });
     // need after serverContext to run onPrepare
     await serverContext.hooks.onPrepare.call();
     this.#applyMiddlewares();
+    const nodeServer = this.serverContext.nodeServer;
+    if (nodeServer) {
+      const close = () => {
+        void this.close().catch(error => console.error(error));
+      };
+      nodeServer.once('close', close);
+      this.removeCloseListener = () => nodeServer.off('close', close);
+    }
 
     return this;
+  }
+
+  /** Returns false when this runtime uses the legacy resource path. */
+  async prepareSSRResources(invalidate: () => void | Promise<void>) {
+    if (!this.serverContext?.prepareSSRResources) return false;
+    await this.serverContext.prepareSSRResources(invalidate);
+    return true;
+  }
+
+  async close() {
+    this.removeCloseListener?.();
+    this.removeCloseListener = undefined;
+    const callbacks = this.serverContext?.onServerClose?.splice(0) || [];
+    const results = await Promise.allSettled(
+      callbacks.map((callback: () => unknown) =>
+        Promise.resolve().then(callback),
+      ),
+    );
+    const failures = results.filter(result => result.status === 'rejected');
+    if (failures.length)
+      throw new AggregateError(
+        failures.map(result => result.reason),
+        'Server cleanup failed',
+      );
   }
 
   /** Install one outer request owner before both direct routes and plugin middleware. */

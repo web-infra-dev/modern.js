@@ -267,6 +267,34 @@ describe('setupDevInfra (process-level singletons)', () => {
     expect(first.hooks.onReset.call).toHaveBeenCalledTimes(1);
   });
 
+  it('waits for the managed resource owner before clearing rebuilt SSR caches and ignores failed compilations', async () => {
+    const runtime = makeFakeRuntimeServer();
+    let finish!: () => void;
+    const drained = new Promise<void>(resolve => {
+      finish = resolve;
+    });
+    runtime.prepareSSRResources = rstest.fn(async (invalidate: () => void) => {
+      await drained;
+      invalidate();
+      return true;
+    });
+    const { builder } = setup(() => runtime);
+    const onCompileDone = builder.onDevCompileDone.mock.calls[0][0];
+    await onCompileDone({
+      stats: { hasErrors: () => true, toJson: () => ({ name: 'client' }) },
+    });
+    expect(runtime.prepareSSRResources).not.toHaveBeenCalled();
+    const publication = onCompileDone({
+      stats: { hasErrors: () => false, toJson: () => ({ name: 'client' }) },
+    });
+    expect(runtime.prepareSSRResources).toHaveBeenCalledTimes(1);
+    expect(runtime.fileReader.reset).not.toHaveBeenCalled();
+    finish();
+    await publication;
+    expect(runtime.fileReader.reset).toHaveBeenCalledTimes(1);
+    expect(runtime.hooks.onReset.call).toHaveBeenCalledTimes(1);
+  });
+
   it('cancels a scheduled reload when the dev server closes (no build after close)', async () => {
     // Wire a real ReloadManager exactly like createDevServer: watcher change ->
     // schedule, dev server close -> reloadManager.close.

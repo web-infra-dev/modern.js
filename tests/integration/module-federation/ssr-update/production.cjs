@@ -337,7 +337,9 @@ const waitFor = async predicate => {
     const generation = application.status.generation;
     let receipt;
     assert.equal(
-      adapter.shouldUpdateRemotes(application, deferredTargets, { revision }),
+      await adapter.shouldUpdateRemotes(application, deferredTargets, {
+        revision,
+      }),
       true,
     );
     globalThis.__r6Loader = async () => {
@@ -360,7 +362,9 @@ const waitFor = async predicate => {
     assert.equal(application.status.generation, generation);
     assert.equal(adapter.status(application).mutationStarted, false);
     assert.equal(
-      adapter.shouldUpdateRemotes(application, deferredTargets, { revision }),
+      await adapter.shouldUpdateRemotes(application, deferredTargets, {
+        revision,
+      }),
       true,
     );
     deferredAbort.abort();
@@ -375,11 +379,13 @@ const waitFor = async predicate => {
     await waitFor(() => adapter.status(application).phase === 'applied');
     assert.equal(adapter.status(application).appliedRevision, revision);
     assert.equal(
-      adapter.shouldUpdateRemotes(application, deferredTargets, { revision }),
+      await adapter.shouldUpdateRemotes(application, deferredTargets, {
+        revision,
+      }),
       false,
     );
     assert.equal(
-      adapter.shouldUpdateRemotes(application, deferredTargets, {
+      await adapter.shouldUpdateRemotes(application, deferredTargets, {
         revision: revision - 1,
       }),
       false,
@@ -391,6 +397,12 @@ const waitFor = async predicate => {
     // Both aliases below use the same provider/container identity. Align their
     // release; simultaneous versions of one container are a separate scenario.
     await update('v2');
+    const runtimeHost = globalThis.__FEDERATION__.__INSTANCES__.find(
+      instance => instance.name === 'r6_host',
+    );
+    runtimeHost.registerRemotes([
+      { name: 'runtime_only', entry: `${assetURL}/v1/mf-manifest.json` },
+    ]);
     const dynamic = await adapter.updateRemotes(application, [
       {
         name: 'runtime_only',

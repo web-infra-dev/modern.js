@@ -104,6 +104,8 @@ export function createSSRRequestCoordinator(
   const waiters = new Set<Waiter>();
   const drainListeners = new Set<() => void>();
   let phase: SSRUpdatePhase = 'serving';
+  let closing = false;
+  let closePromise: Promise<void> | undefined;
   let active = 0;
   let resumed = 0;
   let pendingUpdates = 0;
@@ -111,7 +113,7 @@ export function createSSRRequestCoordinator(
   let closedScope: SSRRequestScope;
   const leases = new Map<object, SSRRequestScope>();
   const blocked = (scope: SSRRequestScope) =>
-    phase !== 'serving' && intersects(scope, closedScope);
+    closing || (phase !== 'serving' && intersects(scope, closedScope));
   let generation = 0;
   let updates: Promise<unknown> = Promise.resolve();
   let deferredUpdates: Promise<unknown> = Promise.resolve();
@@ -139,7 +141,7 @@ export function createSSRRequestCoordinator(
   ) =>
     new Promise<() => void>((resolve, reject) => {
       if (signal.aborted) return reject(signal.reason);
-      if (phase === 'unavailable' && blocked(scope))
+      if (closing || (phase === 'unavailable' && blocked(scope)))
         return reject(
           new AdmissionError('SSR application is unavailable', 'unavailable'),
         );
@@ -236,6 +238,7 @@ export function createSSRRequestCoordinator(
   };
 
   const assertUpdateAllowed = () => {
+    if (closing) throw new Error('SSR application is closed');
     if (evaluatingPolicy)
       throw new Error('Cannot update SSR from an admission policy');
     if (context.getStore()?.active)
@@ -262,6 +265,7 @@ export function createSSRRequestCoordinator(
 
     /** Accept work now and execute it outside the request after its complete lease settles. */
     defer<T>(operation: () => Promise<T>): SSRDeferredUpdate<T> {
+      if (closing) throw new Error('SSR application is closed');
       if (typeof operation !== 'function')
         throw new TypeError('A deferred update operation is required');
       if (evaluatingPolicy)
@@ -295,6 +299,7 @@ export function createSSRRequestCoordinator(
       requestScope?: readonly string[],
       renderCSR?: (context: SSRRequestPolicyContext) => Promise<Response>,
     ): Promise<Response> {
+      if (closing) return rejectRequest('SSR application is closed');
       if (
         context.getStore()?.active &&
         (context.getStore()?.updating || phase !== 'serving')
@@ -421,6 +426,31 @@ export function createSSRRequestCoordinator(
           release();
         }
       });
+    },
+
+    /** Stop admission permanently, then retire every original response/producer lease. */
+    close(): Promise<void> {
+      if (closePromise) return closePromise;
+      closing = true;
+      closedScope = undefined;
+      wake(new AdmissionError('SSR application is closed', 'unavailable'));
+      closePromise = updates
+        .then(async () => {
+          phase = 'draining';
+          closedScope = undefined;
+          try {
+            await drain();
+          } finally {
+            phase = 'unavailable';
+          }
+        })
+        .catch(error => {
+          // Keep admission closed. Once original work settles, cleanup may retry.
+          closePromise = undefined;
+          throw error;
+        });
+      updates = closePromise.catch(() => {});
+      return closePromise;
     },
 
     /** Serialize updates. A mutation failure stays closed; retry explicitly. */

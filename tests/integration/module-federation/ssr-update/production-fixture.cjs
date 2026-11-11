@@ -72,7 +72,9 @@ if (!root || !assetURL) throw new Error('Run the cache-updates E2E entry');
         : {
             name: 'r6_host',
             dts: false,
-            remotes: { remote: `r6_remote@${assetURL}/v1/mf-manifest.json` },
+            remotes: {
+              remote: `r6_remote@${process.env.SSR_CACHE_REMOTE_MANIFEST_URL || `${assetURL}/v1/mf-manifest.json`}`,
+            },
             shared: {
               react: { singleton: true },
               'react-dom': { singleton: true },
@@ -95,7 +97,7 @@ if (!root || !assetURL) throw new Error('Run the cache-updates E2E entry');
     if (app === 'host') {
       await fs.writeFile(
         path.join(dir, 'src/routes/page.data.ts'),
-        `export const loader = async ({request}) => {await globalThis.__r6Loader?.(request);return {data:'loader-ready'}}; export const action=async({request})=>{globalThis.__r6Actions=(globalThis.__r6Actions||0)+1;return {action:await request.text()}};`,
+        `${process.env.SSR_CACHE_FORMAL_API === '1' ? `import {shouldUpdateRemote,updateRemotes} from '@modern-js/runtime/mf'; globalThis.__r6FormalMF = {shouldUpdateRemote,updateRemotes};` : ''} export const loader = async ({request}) => {await globalThis.__r6Loader?.(request);return {data:'loader-ready'}}; export const action=async({request})=>{globalThis.__r6Actions=(globalThis.__r6Actions||0)+1;return {action:await request.text()}};`,
       );
       // This route can boot from a CSR shell without a gated server loader.
       // Keep the index route's real loader for drain/deferred-update coverage.

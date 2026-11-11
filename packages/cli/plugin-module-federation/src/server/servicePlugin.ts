@@ -25,18 +25,41 @@ export default (options: {
           order: 'pre',
           handler: denyServiceRuntimePluginAccess,
         });
-      api.getServerContext().middlewares.push({
+      const context = api.getServerContext();
+      const loadPlugins = createServiceRuntimePluginLoader(
+        context.distDirectory!,
+        options.runtimePluginsFile,
+        options.waitForRuntimePlugins,
+      );
+      let plugins: ReturnType<NonNullable<typeof loadPlugins>> | undefined;
+      const preparePlugins =
+        loadPlugins &&
+        (() => {
+          if (!(api.getServerContext() as any).ssrUpdateManager)
+            return loadPlugins();
+          return (plugins ||= loadPlugins());
+        });
+      const ingress = createBridgeServiceIngressMiddleware(options.services, {
+        origin: options.origin,
+        name: options.name,
+        remotes: options.remotes,
+        plugins: preparePlugins,
+      });
+      const participants = (context as any).ssrUpdateParticipants || [];
+      api.updateServerContext({ ssrUpdateParticipants: participants });
+      participants.push({
+        dispose: () => ingress.dispose(),
+        async invalidate() {
+          await ingress.dispose();
+          plugins = undefined;
+        },
+        prepare: async () => {
+          await preparePlugins?.();
+        },
+      });
+      context.middlewares.push({
         name: 'mf-service-ingress',
-        handler: createBridgeServiceIngressMiddleware(options.services, {
-          origin: options.origin,
-          name: options.name,
-          remotes: options.remotes,
-          plugins: createServiceRuntimePluginLoader(
-            api.getServerContext().distDirectory!,
-            options.runtimePluginsFile,
-            options.waitForRuntimePlugins,
-          ),
-        }),
+        handler: ingress,
       });
     });
   },

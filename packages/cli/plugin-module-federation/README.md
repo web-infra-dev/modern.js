@@ -57,7 +57,7 @@ The package exports root CLI registration, config-plugin, ssr-plugin, data-fetch
 The framework MF entry also provides Modern application renderer callbacks and a provider helper.
 General runtime APIs continue to come from @module-federation/enhanced/runtime.
 The producer registers its framework import with the engine's manifest analyzer.
-Service deployment is documented in the [Service App guide](../../document/docs/en/guides/topic-detail/module-federation/service-app.mdx). Experimental coordinated remote replacement is described below.
+Service deployment is documented in the [Service App guide](../../document/docs/en/guides/topic-detail/module-federation/service-app.mdx). Coordinated server remote replacement is described below.
 
 ## Modern application SSR
 
@@ -102,30 +102,107 @@ and [React #31134](https://github.com/facebook/react/issues/31134). It is outsid
 the initial SSR support boundary. The adapter does not patch React, strip bytes,
 or add a runtime version guard. Existing CSR support remains unchanged.
 
-## Experimental SSR cache updates
+## SSR cache updates
 
-Enable `moduleFederation.ssr.cacheUpdates` to emit server entry ownership and
-install the server ownership and browser release plugins. This requires matching
-Rspack and MF runtime builds with SSR invalidation support. An unsupported
-Rspack build is rejected during configuration.
+Set `moduleFederation: { ssr: { cacheUpdates: true } }` in `modern.config.ts` to
+enable server ownership tracking and the service-lifetime update manager. Modern
+binds the manager to its application resources, including Service ingress and
+producer caches. Application code does not need to connect the low-level
+`createSSRUpdateAdapter` manually.
 
-The `@modern-js/plugin-module-federation/ssr-update` export provides
-`createSSRUpdateAdapter`. Connect its `reload`, `dispose` and
-`prepareResources` methods to a `createProdServer({ ssrApplication })` resource
-owner before calling the adapter's `updateRemotes`. The current low-level API
-requires that application owner and retains the proof of concept's revision
-parameter. It does not expose the proposed framework-bound update API from
-`@modern-js/runtime/mf`, discover releases or notify development browsers.
+This work currently requires the locally built Rspack native binding and matching
+JavaScript package with SSR invalidation and `updateEntryExports` support, together
+with the matching MF runtime and Modern builds. An unsupported Rspack build is
+rejected during configuration. The local validation setup does not imply that
+these capabilities are available in an existing published version.
 
-The resource owner waits for affected response streams and registered producer
-work before invalidation. Complete static ownership allows selective entry
-reloads. Dynamic consumption or incomplete ownership requires an application
-rebuild. Browser release metadata must point to public immutable assets so old
-HTML can hydrate after a server update. A failed destructive update can leave
-SSR unavailable until recovery, with the last published client mapping available
-for the configured CSR policy.
+Server code imports the public APIs from `@modern-js/runtime/mf`:
 
-See the [server coordination contract](../../server/core/SSR_REQUEST_COORDINATION.md)
+<!-- prettier-ignore -->
+```ts
+import { shouldUpdateRemote, updateRemotes } from '@modern-js/runtime/mf'
+
+const remote = {
+  name: 'shop',
+  entry: 'https://cdn.example.com/shop/mf-manifest.json',
+}
+
+// Run from compiled Modern server code outside an active SSR request.
+if (await shouldUpdateRemote(remote, { revalidate: true })) {
+  const result = await updateRemotes([remote], { revalidate: true })
+  console.log(result.changed, result.generation)
+}
+```
+
+`shouldUpdateRemote` returns `Promise<boolean>` and checks candidate deployment
+data without changing the active runtime. The registered manifest URL can stay
+the same. A supplied `moduleInfo` contains a fresh manifest or provider snapshot.
+`updateRemotes` checks again when the operation executes and returns a
+`Promise<RemoteUpdateResult>`, including `operationId`, `changed` and the available
+generation or reload scope. Both APIs accept `signal`, `revalidate` and
+`application`. Use `application` to select the MF application name when several
+services share a process and there is no owning request context. These APIs
+require a running Modern server with the capability enabled and do not perform
+browser-side remote replacement.
+
+Import these APIs from Modern-compiled server code. A release controller can
+trigger that code through an application-controlled endpoint, which must use
+the after-response form when its request is owned by the update coordinator. The complete
+`mf` entry also exports React and rendering integrations and currently does not
+support direct import by an unbundled standalone Node script.
+
+Once an update selects candidate module information, Host runtimes and the
+application's Service ingress use that captured snapshot through rebuilding.
+User `afterResolve` plugins must preserve its deployment identity. Changes to
+request headers and other request policy remain supported. Capturing metadata
+does not retain overwritten artifact bytes, so production releases still need
+immutable versioned resources.
+
+An explicit remote `client` entry is embedded in HTML published after that update.
+Subsequent updates to that remote must also supply its matching client entry.
+Already-issued HTML is unchanged. Keeping those documents usable requires an
+initial release mapping and retained immutable browser assets.
+
+Inside an owning SSR request or loader, submit a deferred update instead:
+
+<!-- prettier-ignore -->
+```ts
+const receipt = updateRemotes([remote], { defer: 'after-response' })
+console.log(receipt.operationId, receipt.phase)
+```
+
+This overload returns a synchronous `RemoteUpdateReceipt`, not a completion
+Promise. It schedules execution after the request's response and registered
+producer work settle. A plain update from that active request is rejected because
+waiting for its own drain would deadlock. The receipt identifies accepted work,
+not successful publication. Its `revision` is diagnostic metadata, not a release
+ordering input.
+
+Production performs no automatic discovery or browser reload. A deployment
+controller calls these APIs explicitly. Development automatically checks configured
+manifest URLs in the background, applies a changed successful build, and only then
+asks connected consumer browsers to reload the document. Component, loader and
+CSS changes participate in the producer build identity. Failed compilation or
+publication does not send a success reload, and no extra watcher configuration is
+needed after enabling `cacheUpdates` on the cooperating apps.
+
+Service version conflicts use the reserved typed HTTP 409 protocol, not arbitrary
+business 409 responses. Modern ingress and Bridge error frames preserve that
+protocol. These errors reach the existing error UI without a generic CSR redirect,
+because CSR would still use the same Service protocol. In development,
+the next successful background update reloads the page, without replaying the
+failed Service POST. Production leaves recovery to the application's policy.
+
+The resource owner drains affected response streams and registered producer work
+before invalidation. Complete static ownership allows selective entry reloads.
+Dynamic consumption or incomplete ownership requires an application rebuild.
+A destructive failure can leave SSR unavailable until a later successful update.
+Neither cancellation nor an update failure guarantees restoration of already
+invalidated application state. Production deployments that retain old HTML also
+need matching immutable browser assets and release metadata.
+
+See the [SSR update guide](../../document/docs/zh/guides/topic-detail/module-federation/ssr-update.mdx),
+[server coordination contract](../../server/core/SSR_REQUEST_COORDINATION.md)
 and [local integration runners](../../../tests/integration/module-federation/ssr-update/README.md)
-for wiring, validation and limits. The work owner is server-local, including on
+for examples, validation and limits. The work owner is server-local, including on
 Service producers, and is never serialized into Service requests or responses.

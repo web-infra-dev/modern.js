@@ -1,0 +1,123 @@
+# SSR 缓存更新与本地开发刷新
+
+内置 Module Federation 可以在 Modern 服务进程内更新已经消费的远端，协调 SSR 请求、生产者工作和应用缓存。Bridge SSR 与 Service App 使用同一套更新入口。生产环境由业务发布流程主动调用，开发环境自动检查生产者变化并刷新消费者页面。
+
+:::warning 当前构建要求
+此能力目前需要本地构建的 Rspack 原生 binding 和配套 JavaScript 包，包含 SSR 缓存失效与 `updateEntryExports` 支持，同时链接配套的 MF Runtime 和 Modern 代码。不能仅替换 Rspack 的 JavaScript 包，也不能据此认为已有发布版本支持此功能。不支持的 Rspack 构建会在配置阶段报错。
+:::
+
+## 开启能力
+
+生产者和消费者保留已有 MF 配置，并在 `modern.config.ts` 中开启 `cacheUpdates`：
+
+{/* prettier-ignore */}
+```ts title="modern.config.ts"
+import { appTools, defineConfig } from '@modern-js/app-tools'
+
+export default defineConfig({
+  plugins: [appTools()],
+  server: { ssr: { mode: 'stream' } },
+  moduleFederation: {
+    ssr: { cacheUpdates: true },
+  },
+})
+```
+
+框架自动绑定服务生命周期内的更新管理器、SSR 资源和 Service 缓存，无需业务手动创建 `createSSRUpdateAdapter`。关闭能力时，不启用这条自动更新链路。
+
+Service App 的纯 CSR 消费者也可以开启此能力，不要求额外打开页面 SSR。
+
+## 生产环境主动更新
+
+从 `@modern-js/runtime/mf` 导入 `shouldUpdateRemote` 和 `updateRemotes`。两者用于已启动的 Modern 服务端，浏览器代码不能通过它们直接替换服务端远端。
+
+请在 Modern 编译的服务端代码中导入这些 API。发布控制器可以通过应用自行提供的受控入口触发调用。完整的 `mf` 入口还包含 React 和渲染集成，目前不支持未经打包的独立 Node 脚本直接导入。
+
+下例由本应用请求上下文之外的后台发布控制逻辑执行。如果通过本应用的 HTTP 接口提交更新，该请求同样受到排空管理，应使用下节的 `defer: 'after-response'` 并返回 receipt。
+
+{/* prettier-ignore */}
+```ts
+import {
+  shouldUpdateRemote,
+  updateRemotes,
+  type RemoteUpdateTarget,
+} from '@modern-js/runtime/mf'
+
+const remote: RemoteUpdateTarget = {
+  name: 'shop',
+  entry: 'https://cdn.example.com/shop/mf-manifest.json',
+}
+
+if (await shouldUpdateRemote(remote, { revalidate: true })) {
+  const result = await updateRemotes([remote], { revalidate: true })
+  console.log(result.operationId, result.changed, result.generation)
+}
+```
+
+`name` 是已经注册的远端名称或别名，`entry` 是 manifest 地址。生产者可以更新同一地址的 manifest，不要求每次修改消费者配置。框架比较部署元信息，包括构建标识、资源和 Service 地址，不使用 Runtime 可变的消费记录判断版本。
+
+| API                                                   | 返回值                        | 行为                                           |
+| ----------------------------------------------------- | ----------------------------- | ---------------------------------------------- |
+| `shouldUpdateRemote(remote, options)`                 | `Promise<boolean>`            | 读取并比较候选版本，不清除当前缓存或发布新版本 |
+| `updateRemotes(remotes, options)`                     | `Promise<RemoteUpdateResult>` | 排队执行，重新判断是否需要更新，成功后返回结果 |
+| `updateRemotes(remotes, { defer: 'after-response' })` | `RemoteUpdateReceipt`         | 同步接收延后执行的任务，不返回完成 Promise     |
+
+检查结果不会为后续更新保留一个已提交的版本。`updateRemotes` 自身会重新检查，因此也可以直接调用，并通过 `result.changed` 判断是否实际更新。相同候选可以合并，较晚提交的不同候选按管理器队列处理，业务不需要提供递增 revision。
+
+可选参数的用途如下：
+
+- `revalidate: true` 请求重新读取 manifest，避免复用 HTTP 缓存。
+- `signal` 用于取消候选读取等可中止工作。取消不保证恢复已经失效的应用状态。
+- `application` 选择服务端 MF 应用名称。单应用进程可省略，多个应用共享进程且调用方不在应用请求上下文中时需要显式指定。
+- 远端描述中的 `moduleInfo` 可传入调用方已经读取的新 manifest 或 provider snapshot。它是候选部署数据，不是浏览器提供的可信上游配置。
+- 远端描述中的 `client` 可携带配套的公开浏览器入口信息，成功更新后的 HTML 会携带该入口。对某个远端启用后，后续更新也必须提供配套的 `client`。首次调用之前已经发出的 HTML 不会被追溯修改，保留旧 HTML 的生产部署还需要初始版本映射及不可变的旧版本资源。
+
+`RemoteUpdateResult` 包含 `operationId` 和 `changed`，实际执行更新时还可能包含 `generation`、`mode`、`entries` 和 `reasons`。生产环境不会自动轮询发布，也不会因服务端更新而主动刷新已经打开的浏览器。
+
+更新选定候选模块信息后，Host 运行时和该应用的 Service ingress 在重建时使用同一份候选快照。用户的 `afterResolve` 插件需要保留这份快照选择的部署身份，仍然可以调整请求头等请求策略。固定模块信息不能保留被覆盖的产物字节，生产发布仍需要不可变的版本化资源。
+
+## 在 SSR 请求中延后执行
+
+正在执行的 SSR 请求本身也是更新需要等待的工作。直接在它的 loader 或渲染流程中等待普通 `updateRemotes` 会让请求等待自身排空，因此框架会拒绝这种调用。
+
+需要从请求内提交更新时，使用 `defer: 'after-response'`：
+
+{/* prettier-ignore */}
+```ts
+import { updateRemotes } from '@modern-js/runtime/mf'
+
+export async function loader() {
+  const receipt = updateRemotes(
+    [{ name: 'shop', entry: 'https://cdn.example.com/shop/mf-manifest.json' }],
+    { defer: 'after-response' },
+  )
+
+  return { updateOperation: receipt.operationId }
+}
+```
+
+此调用同步返回含 `operationId`、`revision` 和 `phase` 的 receipt。它表示任务已被接收，不表示新版本已生效，也不是可等待更新完成的 Promise。框架会在当前响应及其登记的生产者工作结束后，在请求之外执行更新。`revision` 仅用于诊断，不是调用方控制发布先后顺序的参数。
+
+## 本地开发自动刷新
+
+启用能力后，Modern 开发服务自动在后台检查配置的 manifest。生产者源码更新并成功编译后，组件、loader 和 CSS 产物都会参与构建标识。消费者在相同 manifest URL 下发现变化，先完成服务端更新，再通过开发连接通知已打开的浏览器整页刷新。
+
+业务不需要额外配置 watcher，也不需要手动调用更新 API 或刷新页面。编译失败不会发布成功版本或发送成功刷新通知，修复后进入下一轮检查。检查与更新属于服务生命周期，不会随每个 SSR 请求重复创建。
+
+开发刷新会重新创建页面状态。生产环境仍使用上文的手动更新流程，不启用开发轮询或浏览器自动刷新。
+
+## Service App 版本冲突
+
+旧页面可能在生产者更新后发送携带旧 `buildVersion` 的 Service 请求。生产者在渲染前检查版本，不匹配时返回专用 typed HTTP 409，Modern 同源入口会保留该协议。普通鉴权或业务逻辑返回的 409 不属于此版本冲突。
+
+`@module-federation/bridge-react/service` 和 `/service-node` 导出 `BridgeServiceVersionMismatchError`、`isBridgeServiceVersionMismatchError` 和 `BRIDGE_SERVICE_VERSION_MISMATCH`。错误携带 `expectedBuildVersion` 与 `actualBuildVersion`，用于区分请求版本和实际部署版本。
+
+版本冲突保留其错误类型并交给现有错误 UI，不触发通用的 `?csr=1` 降级跳转，因为 CSR 仍会使用同一个 Service 协议。开发环境继续由后台 manifest 检查完成更新，再整页刷新恢复。框架不会自动重放失败的 Service POST，也不会从该请求内发起需要等待自身的更新。生产环境的恢复交给业务策略决定。已经开始输出的流不会被改写成新的 409 响应。
+
+## 更新与失败边界
+
+更新先等待受影响的响应流和已登记生产者工作结束，再清除缓存并准备新资源。自动接入默认重建整个应用。底层适配器在显式配置静态消费约束、入口请求归属且所有权信息完整时，可以只重建受影响入口；动态消费或所有权不完整时仍使用整个应用重建。
+
+清理已开始后，如果新资源准备或发布失败，SSR 可能保持不可用，直到后续更新成功。框架不会把部分重建的应用当作完成版本放行，也不保证恢复已被清除的业务状态。业务全局副作用、第三方单例和旧版本浏览器资源的留存仍需要应用自身管理。
+
+应用渲染与路由约束见 [Modern Bridge SSR](/guides/topic-detail/module-federation/bridge-ssr)，Service 部署与同源入口配置见 [Service App](/guides/topic-detail/module-federation/service-app)。

@@ -24,6 +24,7 @@ import { isWebTarget, skipByTarget, resolveInternalPlugin } from './utils';
 import type { RsbuildPlugin, ModifyRspackConfigFn } from '@rsbuild/core';
 import type { FederationCliPlugin } from '../types/cli';
 import type { AssetFileNames, InternalModernPluginOptions } from '../types';
+import { hashDevAssets, stampDevManifest } from './devManifest';
 import { BridgeSSRPlugin, getBridgeSSRRuntimePlugin } from './BridgeSSRPlugin';
 
 export function setEnv() {
@@ -106,6 +107,21 @@ const mfSSRRsbuildPlugin = (
       let ssrOutputPath = '';
       let ssrEnv = '';
       let csrEnv = '';
+
+      if (isDev()) {
+        pluginOptions.devManifestReady = false;
+        api.onBeforeDevCompile(() => {
+          pluginOptions.devManifestReady = false;
+        });
+        // The server's default compile hook drains and prepares its generation.
+        // Publish the merged manifest over HTTP only after that hook completes.
+        api.onDevCompileDone({
+          order: 'post',
+          handler: ({ stats }) => {
+            pluginOptions.devManifestReady = !stats.hasErrors();
+          },
+        });
+      }
 
       const browserAssetFileNames =
         pluginOptions.assetFileNames.browser ||
@@ -214,6 +230,9 @@ const mfSSRRsbuildPlugin = (
             );
             if (browserAssets) {
               pluginOptions.assetResources.browser = browserAssets;
+              if (isDev())
+                (pluginOptions.devAssetHashes ||= {}).browser =
+                  hashDevAssets(assets);
             }
           }
 
@@ -229,6 +248,9 @@ const mfSSRRsbuildPlugin = (
             );
             if (nodeAssets) {
               pluginOptions.assetResources.node = nodeAssets;
+              if (isDev())
+                (pluginOptions.devAssetHashes ||= {}).node =
+                  hashDevAssets(assets);
             }
           }
         },
@@ -271,7 +293,11 @@ export const moduleFederationSSRPlugin = (
           fetchServerQuery,
         },
       });
-      if (!isDev()) {
+      if (
+        !isDev() ||
+        (typeof pluginOptions.userConfig.ssr === 'object' &&
+          pluginOptions.userConfig.ssr.cacheUpdates)
+      ) {
         return { entrypoint, plugins };
       }
       plugins.push({
@@ -381,7 +407,33 @@ export const moduleFederationSSRPlugin = (
                       )
                     )
                       return next();
+                    const manifests = [
+                      ...Object.values(
+                        pluginOptions.assetFileNames.browser ||
+                          getManifestAssetFileNames(
+                            pluginOptions.csrConfig.manifest,
+                          ),
+                      ),
+                      ...Object.values(
+                        pluginOptions.assetFileNames.node ||
+                          getManifestAssetFileNames(
+                            pluginOptions.ssrConfig.manifest,
+                          ),
+                      ),
+                    ];
+                    if (
+                      manifests.some(
+                        name => path.resolve(outputRoot, name) === filepath,
+                      ) &&
+                      !pluginOptions.devManifestReady
+                    ) {
+                      res.statusCode = 503;
+                      res.setHeader('Cache-Control', 'no-store');
+                      res.end('Federation build is not ready');
+                      return;
+                    }
                     fs.statSync(filepath);
+                    res.setHeader('Cache-Control', 'no-store');
                     res.setHeader('Access-Control-Allow-Origin', '*');
                     res.setHeader(
                       'Access-Control-Allow-Methods',
@@ -401,7 +453,7 @@ export const moduleFederationSSRPlugin = (
         },
       };
     });
-    const writeMergedManifest = () => {
+    const writeMergedManifest = async (compilation?: object) => {
       const { distOutputDir, assetResources } = pluginOptions;
       const browserAssets = assetResources.browser;
       const nodeAssets = assetResources.node;
@@ -410,18 +462,30 @@ export const moduleFederationSSRPlugin = (
         return;
       }
       try {
+        if (isDev()) {
+          await pluginOptions.waitForServiceRuntimePlugins?.(compilation);
+          const hashes = pluginOptions.devAssetHashes;
+          if (!hashes?.browser || !hashes.node) return;
+          await stampDevManifest({
+            browser: browserAssets,
+            node: nodeAssets,
+            hashes: { browser: hashes.browser, node: hashes.node },
+            distDirectory: distOutputDir,
+          });
+        }
         updateStatsAndManifest(nodeAssets, browserAssets, distOutputDir);
       } catch (err) {
         logger.error(err);
+        throw err;
       }
     };
 
-    api.onAfterBuild(() => {
-      writeMergedManifest();
+    api.onAfterBuild(async () => {
+      await writeMergedManifest();
     });
-    api.onDevCompileDone(() => {
-      // 热更后修改 manifest
-      writeMergedManifest();
+    api.onDevCompileDone(async ({ stats }) => {
+      if (stats.hasErrors()) return;
+      await writeMergedManifest(stats);
     });
   },
 });
