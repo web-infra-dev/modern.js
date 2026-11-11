@@ -1,7 +1,15 @@
 import type { moduleFederationPlugin } from '@module-federation/sdk';
 import type { StatsAssetResource } from '@module-federation/rsbuild-plugin/utils';
+import type { BridgeServices } from '@module-federation/bridge-react/service-node';
+import type { ServiceProviderOptions } from '../serviceProvider';
 
 export interface PluginOptions {
+  /** Automatically publish and serve isService Bridge exposes. */
+  serviceProvider?: ServiceProviderOptions;
+  /** Public Host origin when a trusted gateway terminates TLS or rewrites Host. */
+  serviceOrigin?: string;
+  /** Optional Host request policies. Service addresses come from the Snapshot. */
+  services?: BridgeServices;
   config?: moduleFederationPlugin.ModuleFederationPluginOptions;
   configPath?: string;
   /**

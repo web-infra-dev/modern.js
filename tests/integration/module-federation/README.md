@@ -28,17 +28,40 @@ Advanced frames select their experiment through `/weather?scenario=...`. These s
 
 The public `/bridge-stream`, `/route-exports`, `/bridge-failure` and `/input-forms` routes are removed and return 404. Their contract fixtures live in `fixtures/bridge-contracts` and are copied only into test workspaces. The former three-panel Bridge input demonstration lives there as `/bridge-inputs`, also unavailable in the public lab. The application suite disables those copies to verify the real public route set.
 
+## Independent Service App lab
+
+Service runs allocate a fresh free port group instead of the interactive Weather Lab ports. Start from the repository root:
+
+```sh
+node tests/integration/module-federation/scripts/service-lab.mjs
+node tests/integration/module-federation/scripts/service-lab.mjs --production
+```
+
+The output records the producer, business API, SSR Host and CSR Host ports, their process IDs and access URLs. The same configuration supplies manifest URLs, assets, loader requests, same-origin ingress and HMR. Only processes started by this run are stopped with Ctrl+C.
+
+Both Hosts consume the same route-selected weather application, declared with `isService: true`. The SSR response contains real producer HTML. The CSR Host disables page SSR and requests progressive HTML after mounting. Use `?late=1&delay=5000` to connect after document completion while a slow outlook remains pending. Station props, saved state, navigation and reconnect use the existing application instance. `?multi=1` mounts an independent second instance, `?declarative=1&static=1` selects the declarative/static input combination, and `?declarative=1&memory=1` uses an explicit memory route. Factory cases cover both `createModernReactRemote` with inferred basename and `createReactRemote` with explicit basename.
+
+The producer result cache is explicitly enabled for this fixture. Exact matching page requests can reuse a completed transcript, including ready and updates. The producer publishes its origin once, automatically serves its base URL aliases, and needs no handwritten Service handler. Browser ingress reads trusted Snapshots and keeps the fixture service credential out of browser artifacts. See the [Service App guide](../../../packages/document/docs/en/guides/topic-detail/module-federation/service-app.mdx) for deployment, TLS origin binding, limits and release requirements.
+
+`Disconnect` unmounts the application and cancels an unfinished Service request. `Connect` mounts a fresh instance. `Change station` switches the Host's label prop between Hangzhou and West Lake, so existing application state should survive that update.
+
+The first Service test in each fresh dev/production Lab requests Service SSR, then another page path with `?local=1` for ordinary Bridge SSR from the same producer, then Service SSR again. It requires real remote HTML and completed streams on every response, while the Host's Node entry probe records loading counts of 0, 1 and 1. The probe normally allows actual JS loading. `MF_SERVICE_BLOCK_NODE=1` retains the separate blocking control.
+
+For performance runs, `MF_SERVICE_WEATHER_DELAY=0` removes the station API's deliberate 900 ms wait in the Service lab. Use `delay=0` in the page URL to remove the independent detail delay as well. Record both delayed and zero-delay runs separately. This setting does not change the regular lab.
+
+Fault-only queries `serviceFault=early` and `serviceFault=late` exercise HTTP 503 and a real producer disconnect. Tests release the latter through the existing response gate only after proving interaction. A recovered `csr=1` document is a recovery assertion and is never counted as SSR success.
+
 ## Unified API integration
 
 Ordinary and nested weather consumers call `createReactRemote` with functions such as `() => loadRemote('alias/Expose')`. After the function resolves, the framework API selects the renderer from the loaded module's runtime provenance and Snapshot metadata. Components use the existing SSR, hydration, CSS/assets and data-fetch pipeline. Fault wrappers supply request-specific props and data-fetch parameters without mutating a loaded component or server-wide flag.
 
-`Independent weather stations` uses the same factory API and the declarative `ReactRemote` API. Its producer imports `createBridgeComponent` from the framework entry. The manifest marks that expose with `render: 'bridge'` and `isService: false`. Server HTML contains placeholders, and each client mount owns a separate producer Root. Renaming a station preserves its observations, disconnecting destroys it, and reconnecting creates a fresh station. This fixture remains a CSR-only Bridge regression. The full and selected Modern application exports use the SSR adapters described below.
+`Independent weather stations` uses the same factory API and the declarative `ReactRemote` API. Its producer imports `createBridgeComponent` from the framework entry. The manifest marks that expose with `render: 'bridge'` without a `servicePath`. Server HTML contains placeholders, and each client mount owns a separate producer Root. Renaming a station preserves its observations, disconnecting destroys it, and reconnecting creates a fresh station. This fixture remains a CSR-only Bridge regression. The full and selected Modern application exports use the SSR adapters described below.
 
 The `/input-forms` fixture covers MF loader functions and synchronous or asynchronous functions returning preloaded MF namespaces or default components. It uses static MF imports for the preloaded values and does not add identity markers. Every ordinary input runs through factory and declarative consumers in both SSR and CSR, preserving local state across props updates. Function inputs are Node-loadable in the SSR cases. A guarded noSSR function fails if called on the server, and Bridge loader inputs still emit server placeholders. Intentional function failures appear only after a user action and exercise retry without disturbing neighboring instances. The matching consumer Runtime supplies provenance for preloaded exports, without producer protocol changes.
 
 Runtime registration and prefetch continue using Enhanced and the existing data-prefetch plugin. The fixture does not call the old `createLazyComponent` consumer API. Each producer has one canonical runtime name with an alias. Registering the same container under multiple names would evaluate a second server entry against an existing instance and can break remote chunk initialization.
 
-The checked-in MF dependencies are pinned to published preview `0.0.0-feat-enhanced-runtime-unification-20261110060527`, including the function-only consumer contract, preloaded-export identity and generated `loadRemote` props inference without a global consumer type registry. Integration apps, examples, runtime peers and the adapter use the same preview. Published-package validation must install from the checked-in lockfile without local Core overrides. This preview includes the shared Router connector, the Bridge SSR engine and unified consumers, the native POP loader-redirect fix, and progressive producer results without a duplicate final snapshot. Release acceptance uses an independent registry installation without local Core overrides, including package exports, generated consumer types and the full development/production suite.
+The checked-in MF dependencies are pinned to published preview `0.0.0-feat-enhanced-runtime-unification-20261111082820`, including the function-only consumer contract, preloaded-export identity and generated `loadRemote` props inference without a global consumer type registry. Integration apps, examples, runtime peers and the adapter use the same preview. Published-package validation must install from the checked-in lockfile without local Core overrides. This preview includes the shared Router connector, the Bridge SSR engine and unified consumers, the native POP loader-redirect fix, and progressive producer results without a duplicate final snapshot. It also includes Service metadata, progressive HTTP rendering and deferred private policy lookup for ordinary nested Node containers. Release acceptance uses an independent registry installation without local Core overrides, including package exports, generated consumer types and the full development/production suite.
 
 ## Bridge application SSR
 
@@ -141,17 +164,17 @@ The Module Federation E2E workflow runs five test jobs on independent runners. E
 | Job                | MF cases |
 | ------------------ | -------: |
 | `lab-dev-A`        |       46 |
-| `lab-dev-B`        |       58 |
+| `lab-dev-B`        |       75 |
 | `lab-production-A` |       46 |
-| `lab-production-B` |       57 |
+| `lab-production-B` |       74 |
 | `common`           |       22 |
 
-The common job also runs `rootExposes.test.ts` and `routeScope.test.ts` once each, using their existing package configurations. These unit cases are checked separately from the 229 MF cases.
+The common job also runs `rootExposes.test.ts` and `routeScope.test.ts` once each, using their existing package configurations. These unit cases are checked separately from the 263 MF cases.
 
 [`scripts/groups.mjs`](./scripts/groups.mjs) owns the A/B/common file assignments. Both Rstest selection and result verification use it. Unknown, duplicate and unassigned files, empty groups and invalid environment parameters fail before services start. When adding or removing cases, update the committed [`case-manifest.json`](./case-manifest.json) from a successful full serial report and review the identity diff.
 
 ```sh
-# All 229 MF cases, serially, with the original local entry point
+# All 263 MF cases, serially, with the original local entry point
 pnpm --filter mf-lab-tests test --bail=1
 
 # One file group and mode

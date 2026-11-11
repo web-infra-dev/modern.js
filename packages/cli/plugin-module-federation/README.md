@@ -2,9 +2,9 @@
 
 The built-in adapter is applied by app-tools when module-federation.config.ts exists. Users install @module-federation/enhanced and configure MF without registering this package manually. Set moduleFederation to false to retain the legacy plugin. Simultaneous activation fails before legacy configuration evaluation.
 
-The adapter preserves the modern-js-v3 2.9.2 component integration and uses matching MF engine, Bridge, Node adapter and related packages. Runtime APIs and types use @module-federation/enhanced/runtime, without extra runtime or runtime-core application dependencies. Bridge application SSR additionally requires the engine's renderer callbacks and shared stream support. Service App execution and additional shared tree-shaking work remain separate capabilities.
+The adapter preserves the modern-js-v3 2.9.2 component integration and uses matching MF engine, Bridge, Node adapter and related packages. Runtime APIs and types use @module-federation/enhanced/runtime, without extra runtime or runtime-core application dependencies. Bridge application SSR additionally requires the engine's renderer callbacks and shared stream support. Service App deployment uses the same application providers and consumers with private service bindings. Additional shared tree-shaking work remains separate.
 
-The adapter defaults the top-level shareStrategy to loaded-first for browser and server builds. Explicit strategy configuration is preserved. The MF runtime supplies this default to shared entries without an extra strategy runtime plugin.
+The adapter defaults the top-level shareStrategy to loaded-first for browser and server builds. Explicit strategy configuration is preserved for ordinary remotes. Service App bindings reject version-first with a configuration diagnostic because it discovers containers before expose selection. The MF runtime supplies the loaded-first default to shared entries without an extra strategy runtime plugin.
 
 ## Package boundaries
 
@@ -53,11 +53,11 @@ Applications use createBridgeComponent, createReactRemote and ReactRemote from
 @modern-js/runtime/mf. Modern supplies Bridge, while applications install Enhanced.
 Direct Bridge imports remain supported for existing integrations.
 
-The package exports root CLI registration, config-plugin, ssr-plugin, data-fetch-server-plugin, configuration types and package metadata. Injected server and runtime files resolve within the adapter. Runtime aliases use the app context metaName.
+The package exports root CLI registration, config-plugin, ssr-plugin, data-fetch-server-plugin, Service HTTP middleware through service, configuration types and package metadata. Injected server and runtime files resolve within the adapter. Runtime aliases use the app context metaName.
 The framework MF entry also provides Modern application renderer callbacks and a provider helper.
 General runtime APIs continue to come from @module-federation/enhanced/runtime.
 The producer registers its framework import with the engine's manifest analyzer.
-Service App execution and remote version replacement remain separate capabilities.
+Service deployment is documented in the [Service App guide](../../document/docs/en/guides/topic-detail/module-federation/service-app.mdx). Remote version replacement remains separate.
 
 ## Modern application SSR
 

@@ -49,6 +49,7 @@ const getModernJsConfig = async (
       appDirectory: process.cwd(),
     })),
     modifyBundlerChain: rs.fn(),
+    _internalServerPlugins: rs.fn(),
   } as any);
 
   return configCallbacks[0]();
@@ -114,6 +115,7 @@ describe('patchMFConfig', async () => {
       shareStrategy: 'loaded-first',
       runtimePlugins: [
         require.resolve('@module-federation/node/runtimePlugin'),
+        ['/built/../server/serviceRuntimePlugin', {}],
       ],
       shared: {
         react: {
@@ -453,4 +455,144 @@ it('preserves explicit DTS options without adding an adapter runtime facade', ()
   expect(config.dts).toEqual({
     consumeTypes: { runtimePkgs: ['custom-runtime'] },
   });
+});
+
+it('binds private Service deployment configuration to Node and exposes only the same-origin ingress to browsers', async () => {
+  const privateServices = {
+    'weather/App': {
+      timeoutMs: 15000,
+      serviceHeaders: { authorization: 'private-test-value' },
+      forwardHeaders: ['cookie'],
+    },
+  };
+  const state: any = {
+    originPluginOptions: {
+      config: {
+        name: 'host',
+        remotes: { weather: 'producer@https://assets.test/mf-manifest.json' },
+      },
+      services: privateServices,
+    },
+    userConfig: {},
+  };
+  const serverPlugins: Array<(input: { plugins: unknown[] }) => unknown> = [];
+  await moduleFederationConfigPlugin(state).setup!({
+    getConfig: () => ({}),
+    getAppContext: () => ({
+      appDirectory: process.cwd(),
+      metaName: 'modern-js',
+    }),
+    config: rs.fn(),
+    modifyBundlerChain: rs.fn(),
+    _internalServerPlugins: (callback: any) => serverPlugins.push(callback),
+  } as any);
+  const browser = JSON.stringify(state.csrConfig.runtimePlugins);
+  expect(browser).toContain('/_modern/mf/service/');
+  expect(browser).toContain('weather/App');
+  expect(browser).not.toContain('private-producer');
+  expect(browser).not.toContain('private-test-value');
+  expect(browser).not.toContain('cookie');
+  const node = JSON.stringify(state.ssrConfig.runtimePlugins);
+  expect(node).toContain('host');
+  expect(node).not.toContain('private-test-value');
+  expect(node).not.toContain('private-producer');
+  const installed: any = serverPlugins[0]({ plugins: [] });
+  expect(installed.plugins[0].options.services).toEqual(privateServices);
+  expect(serverPlugins).toHaveLength(1);
+});
+
+it('preserves version-first with request policies until actual Service capability is resolved', async () => {
+  const state: any = {
+    originPluginOptions: {
+      config: {
+        name: 'ordinary-host-with-policy',
+        shareStrategy: 'version-first',
+        remotes: { weather: 'producer@https://assets.test/mf-manifest.json' },
+      },
+      services: { 'weather/App': {} },
+    },
+    userConfig: {},
+  };
+  await moduleFederationConfigPlugin(state).setup!({
+    getConfig: () => ({}),
+    getAppContext: () => ({
+      appDirectory: process.cwd(),
+      metaName: 'modern-js',
+    }),
+    config: rs.fn(),
+    modifyBundlerChain: rs.fn(),
+    _internalServerPlugins: rs.fn(),
+  } as any);
+  expect(state.ssrConfig.shareStrategy).toBe('version-first');
+  expect(state.csrConfig.shareStrategy).toBe('version-first');
+  expect(state.ssrConfig.runtimePlugins).toContainEqual([
+    '/built/../server/serviceRuntimePlugin',
+    { name: 'ordinary-host-with-policy' },
+  ]);
+});
+
+it('installs Service discovery and ingress for configured remotes without request policies', async () => {
+  const state: any = {
+    originPluginOptions: {
+      config: {
+        name: 'automatic-service-host',
+        remotes: { weather: 'producer@https://assets.test/mf-manifest.json' },
+      },
+    },
+    userConfig: {},
+  };
+  const serverPlugins: Array<(input: { plugins: unknown[] }) => any> = [];
+  await moduleFederationConfigPlugin(state).setup!({
+    getConfig: () => ({}),
+    getAppContext: () => ({
+      appDirectory: process.cwd(),
+      metaName: 'modern-js',
+    }),
+    config: rs.fn(),
+    modifyBundlerChain: rs.fn(),
+    _internalServerPlugins: (callback: any) => serverPlugins.push(callback),
+  } as any);
+  expect(state.csrConfig.runtimePlugins).toContainEqual([
+    require.resolve('@module-federation/bridge-react/service-runtime-plugin'),
+    { ingressPath: '/_modern/mf/service/', services: {} },
+  ]);
+  const installed = serverPlugins[0]({ plugins: [] }).plugins[0].options;
+  expect(installed.services).toEqual({});
+  expect(installed.remotes).toEqual([
+    {
+      name: 'producer',
+      alias: 'weather',
+      entry: 'https://assets.test/mf-manifest.json',
+    },
+  ]);
+});
+
+it('keeps the Node Service guard without deployment bindings and preserves ordinary sharing configuration', async () => {
+  const state: any = {
+    originPluginOptions: {
+      config: { name: 'ordinary-host', shareStrategy: 'version-first' },
+    },
+    userConfig: {},
+  };
+  const serverPlugins = rs.fn();
+  await moduleFederationConfigPlugin(state).setup!({
+    getConfig: () => ({}),
+    getAppContext: () => ({
+      appDirectory: process.cwd(),
+      metaName: 'modern-js',
+    }),
+    config: rs.fn(),
+    modifyBundlerChain: rs.fn(),
+    _internalServerPlugins: serverPlugins,
+  } as any);
+  patchMFConfig(state.ssrConfig, true);
+  expect(state.ssrConfig.runtimePlugins).toContainEqual([
+    '/built/../server/serviceRuntimePlugin',
+    {},
+  ]);
+  expect(state.ssrConfig.shareStrategy).toBe('version-first');
+  expect(JSON.stringify(state.csrConfig.runtimePlugins || [])).not.toContain(
+    'service-runtime-plugin',
+  );
+  expect(serverPlugins).not.toHaveBeenCalled();
 });

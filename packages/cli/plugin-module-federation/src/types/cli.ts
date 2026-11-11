@@ -9,12 +9,18 @@ import type { ModuleFederationConfig } from './index';
 // Keeping the adapter structural avoids a package/build dependency on app-tools.
 export interface FederationAppConfig {
   moduleFederation?: ModuleFederationConfig;
-  server?: Pick<ServerUserConfig, 'ssr' | 'port'>;
-  source?: { enableAsyncEntry?: boolean };
+  server?: Pick<ServerUserConfig, 'ssr' | 'port' | 'baseUrl'>;
+  source?: {
+    enableAsyncEntry?: boolean;
+    alias?: NonNullable<BuilderConfig['source']>['alias'];
+  };
   dev?: Pick<
     NonNullable<RsbuildConfig['dev']>,
     'assetPrefix' | 'lazyCompilation'
-  > & { setupMiddlewares?: SetupMiddlewares };
+  > &
+    Pick<NonNullable<BuilderConfig['dev']>, 'host' | 'https'> & {
+      setupMiddlewares?: SetupMiddlewares;
+    };
   tools?: BuilderConfig['tools'];
   output?: Pick<NonNullable<BuilderConfig['output']>, 'distPath'>;
   deploy?: {

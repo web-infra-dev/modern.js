@@ -127,10 +127,10 @@ test('five selections cover each intended file and mode once', () => {
   for (const id of Object.keys(jobs)) {
     assert.equal(
       selectFiles(jobEnv(id)).length,
-      id === 'common' ? 5 : id.endsWith('A') ? 6 : 9,
+      id === 'common' ? 5 : id.endsWith('A') ? 6 : 10,
     );
   }
-  assert.equal(selectFiles({ MF_LAB_SUITE: 'lab' }).length, 15);
+  assert.equal(selectFiles({ MF_LAB_SUITE: 'lab' }).length, 16);
 });
 
 for (const [name, change] of [

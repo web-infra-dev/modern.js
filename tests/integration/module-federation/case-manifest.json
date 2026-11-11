@@ -1,8 +1,8 @@
 {
   "version": 1,
   "counts": {
-    "dev": 104,
-    "production": 103,
+    "dev": 121,
+    "production": 120,
     "common": 22
   },
   "mf": [
@@ -1489,6 +1489,244 @@
       "common",
       [],
       "renders a registry scope through built Node callbacks and the existing router context",
+      "rstest"
+    ],
+    [
+      "tests/integration/module-federation/tests/service-app.test.ts",
+      "dev",
+      ["Weather Lab (dev)", "Service Hash routing"],
+      "hydrates the logical Hash location and keeps navigation in the same instance",
+      "rstest"
+    ],
+    [
+      "tests/integration/module-federation/tests/service-app.test.ts",
+      "dev",
+      ["Weather Lab (dev)", "Service weather application"],
+      "cancels an unfinished mount and reconnects with independent state",
+      "rstest"
+    ],
+    [
+      "tests/integration/module-federation/tests/service-app.test.ts",
+      "dev",
+      ["Weather Lab (dev)", "Service weather application"],
+      "hits the result cache on a matching real document without repeating business requests: serviceCSR",
+      "rstest"
+    ],
+    [
+      "tests/integration/module-federation/tests/service-app.test.ts",
+      "dev",
+      ["Weather Lab (dev)", "Service weather application"],
+      "hits the result cache on a matching real document without repeating business requests: serviceSSR",
+      "rstest"
+    ],
+    [
+      "tests/integration/module-federation/tests/service-app.test.ts",
+      "dev",
+      ["Weather Lab (dev)", "Service weather application"],
+      "hydrates a complete-document late mount once while HTTP continues, preserving DOM and state",
+      "rstest"
+    ],
+    [
+      "tests/integration/module-federation/tests/service-app.test.ts",
+      "dev",
+      ["Weather Lab (dev)", "Service weather application"],
+      "keeps an explicit memoryRoute independent of the Host URL",
+      "rstest"
+    ],
+    [
+      "tests/integration/module-federation/tests/service-app.test.ts",
+      "dev",
+      ["Weather Lab (dev)", "Service weather application"],
+      "keeps independent instances and state through connected navigation",
+      "rstest"
+    ],
+    [
+      "tests/integration/module-federation/tests/service-app.test.ts",
+      "dev",
+      ["Weather Lab (dev)", "Service weather application"],
+      "keeps Node entry loading cold for Service SSR, then renders an ordinary expose in the same Host process",
+      "rstest"
+    ],
+    [
+      "tests/integration/module-federation/tests/service-app.test.ts",
+      "dev",
+      ["Weather Lab (dev)", "Service weather application"],
+      "keeps the CSR document empty and includes real producer HTML in the SSR response",
+      "rstest"
+    ],
+    [
+      "tests/integration/module-federation/tests/service-app.test.ts",
+      "dev",
+      ["Weather Lab (dev)", "Service weather application"],
+      "preserves noSSR and explicit CSR recovery without entering a Service request loop",
+      "rstest"
+    ],
+    [
+      "tests/integration/module-federation/tests/service-app.test.ts",
+      "dev",
+      ["Weather Lab (dev)", "Service weather application"],
+      "publishes the producer address once and automatically serves the base URL aliases",
+      "rstest"
+    ],
+    [
+      "tests/integration/module-federation/tests/service-app.test.ts",
+      "dev",
+      ["Weather Lab (dev)", "Service weather application"],
+      "recovers a real Service HTTP early failure once through a CSR document",
+      "rstest"
+    ],
+    [
+      "tests/integration/module-federation/tests/service-app.test.ts",
+      "dev",
+      ["Weather Lab (dev)", "Service weather application"],
+      "recovers a real Service HTTP late failure once through a CSR document",
+      "rstest"
+    ],
+    [
+      "tests/integration/module-federation/tests/service-app.test.ts",
+      "dev",
+      ["Weather Lab (dev)", "Service weather application"],
+      "retains both function inputs and unified APIs: ",
+      "rstest"
+    ],
+    [
+      "tests/integration/module-federation/tests/service-app.test.ts",
+      "dev",
+      ["Weather Lab (dev)", "Service weather application"],
+      "retains both function inputs and unified APIs: &declarative=1",
+      "rstest"
+    ],
+    [
+      "tests/integration/module-federation/tests/service-app.test.ts",
+      "dev",
+      ["Weather Lab (dev)", "Service weather application"],
+      "retains both function inputs and unified APIs: &declarative=1&static=1",
+      "rstest"
+    ],
+    [
+      "tests/integration/module-federation/tests/service-app.test.ts",
+      "dev",
+      ["Weather Lab (dev)", "Service weather application"],
+      "retains both function inputs and unified APIs: &static=1",
+      "rstest"
+    ],
+    [
+      "tests/integration/module-federation/tests/service-app.test.ts",
+      "production",
+      ["Weather Lab (production)", "Service Hash routing"],
+      "hydrates the logical Hash location and keeps navigation in the same instance",
+      "rstest"
+    ],
+    [
+      "tests/integration/module-federation/tests/service-app.test.ts",
+      "production",
+      ["Weather Lab (production)", "Service weather application"],
+      "cancels an unfinished mount and reconnects with independent state",
+      "rstest"
+    ],
+    [
+      "tests/integration/module-federation/tests/service-app.test.ts",
+      "production",
+      ["Weather Lab (production)", "Service weather application"],
+      "hits the result cache on a matching real document without repeating business requests: serviceCSR",
+      "rstest"
+    ],
+    [
+      "tests/integration/module-federation/tests/service-app.test.ts",
+      "production",
+      ["Weather Lab (production)", "Service weather application"],
+      "hits the result cache on a matching real document without repeating business requests: serviceSSR",
+      "rstest"
+    ],
+    [
+      "tests/integration/module-federation/tests/service-app.test.ts",
+      "production",
+      ["Weather Lab (production)", "Service weather application"],
+      "hydrates a complete-document late mount once while HTTP continues, preserving DOM and state",
+      "rstest"
+    ],
+    [
+      "tests/integration/module-federation/tests/service-app.test.ts",
+      "production",
+      ["Weather Lab (production)", "Service weather application"],
+      "keeps an explicit memoryRoute independent of the Host URL",
+      "rstest"
+    ],
+    [
+      "tests/integration/module-federation/tests/service-app.test.ts",
+      "production",
+      ["Weather Lab (production)", "Service weather application"],
+      "keeps independent instances and state through connected navigation",
+      "rstest"
+    ],
+    [
+      "tests/integration/module-federation/tests/service-app.test.ts",
+      "production",
+      ["Weather Lab (production)", "Service weather application"],
+      "keeps Node entry loading cold for Service SSR, then renders an ordinary expose in the same Host process",
+      "rstest"
+    ],
+    [
+      "tests/integration/module-federation/tests/service-app.test.ts",
+      "production",
+      ["Weather Lab (production)", "Service weather application"],
+      "keeps the CSR document empty and includes real producer HTML in the SSR response",
+      "rstest"
+    ],
+    [
+      "tests/integration/module-federation/tests/service-app.test.ts",
+      "production",
+      ["Weather Lab (production)", "Service weather application"],
+      "preserves noSSR and explicit CSR recovery without entering a Service request loop",
+      "rstest"
+    ],
+    [
+      "tests/integration/module-federation/tests/service-app.test.ts",
+      "production",
+      ["Weather Lab (production)", "Service weather application"],
+      "publishes the producer address once and automatically serves the base URL aliases",
+      "rstest"
+    ],
+    [
+      "tests/integration/module-federation/tests/service-app.test.ts",
+      "production",
+      ["Weather Lab (production)", "Service weather application"],
+      "recovers a real Service HTTP early failure once through a CSR document",
+      "rstest"
+    ],
+    [
+      "tests/integration/module-federation/tests/service-app.test.ts",
+      "production",
+      ["Weather Lab (production)", "Service weather application"],
+      "recovers a real Service HTTP late failure once through a CSR document",
+      "rstest"
+    ],
+    [
+      "tests/integration/module-federation/tests/service-app.test.ts",
+      "production",
+      ["Weather Lab (production)", "Service weather application"],
+      "retains both function inputs and unified APIs: ",
+      "rstest"
+    ],
+    [
+      "tests/integration/module-federation/tests/service-app.test.ts",
+      "production",
+      ["Weather Lab (production)", "Service weather application"],
+      "retains both function inputs and unified APIs: &declarative=1",
+      "rstest"
+    ],
+    [
+      "tests/integration/module-federation/tests/service-app.test.ts",
+      "production",
+      ["Weather Lab (production)", "Service weather application"],
+      "retains both function inputs and unified APIs: &declarative=1&static=1",
+      "rstest"
+    ],
+    [
+      "tests/integration/module-federation/tests/service-app.test.ts",
+      "production",
+      ["Weather Lab (production)", "Service weather application"],
+      "retains both function inputs and unified APIs: &static=1",
       "rstest"
     ],
     [

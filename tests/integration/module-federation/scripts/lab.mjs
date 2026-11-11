@@ -9,7 +9,7 @@ import getPort from 'get-port';
 import treeKill from 'tree-kill';
 import { createResponseGate } from './response-gate.mjs';
 const fixtureRoot = fileURLToPath(new URL('../', import.meta.url));
-const names = [
+const regularNames = [
   'host',
   'provider',
   'nested',
@@ -25,7 +25,12 @@ export async function startLab(
   fixedPorts = false,
   root = fixtureRoot,
   hostBase = '',
+  serviceOnly = false,
+  portAttempt = 0,
 ) {
+  const names = serviceOnly
+    ? ['provider', 'api', 'serviceSSR', 'serviceCSR']
+    : regularNames;
   const hostRequire = createRequire(path.join(root, 'host/package.json'));
   const modern = path.resolve(
     path.dirname(hostRequire.resolve('@modern-js/app-tools')),
@@ -44,7 +49,19 @@ export async function startLab(
           exclude: Object.values(ports),
         });
   }
+  const weatherDelay = serviceOnly
+    ? Number(process.env.MF_SERVICE_WEATHER_DELAY ?? 900)
+    : 900;
+  if (
+    !Number.isSafeInteger(weatherDelay) ||
+    weatherDelay < 0 ||
+    weatherDelay > 5000
+  )
+    throw Error(
+      'Service weather delay must be an integer between 0 and 5000 ms.',
+    );
   const processes = [];
+  const processInfo = [];
   const servers = [];
   const failures = [];
   let stopping = false;
@@ -81,6 +98,7 @@ export async function startLab(
   const env = {
     ...process.env,
     MF_LAB_PORTS: JSON.stringify(ports),
+    MF_LAB_SERVICE: serviceOnly ? '1' : '',
     MODERN_MF_AUTO_CORS: '1',
     NO_COLOR: '1',
     MODERN_SERVER_LOG_LEVEL: 'warn',
@@ -93,6 +111,7 @@ export async function startLab(
       env: {
         ...env,
         MF_LAB_VERSION: version,
+        MF_LAB_HOST_MODE: name === 'service-csr' ? 'csr' : 'ssr',
         NODE_ENV:
           args.includes('build') || mode === 'production'
             ? 'production'
@@ -101,6 +120,7 @@ export async function startLab(
       stdio: ['ignore', 'pipe', 'pipe'],
     });
     processes.push(child);
+    processInfo.push({ name, key, pid: child.pid });
     logs.set(key, '');
     for (const stream of [child.stdout, child.stderr])
       stream.on('data', chunk => {
@@ -156,6 +176,26 @@ export async function startLab(
     throw new Error(
       `Readiness timed out: ${url}\nLast response: ${JSON.stringify(lastResponse)}\n${[...logs].map(([key, log]) => `${key}:\n${log}`).join('\n')}`,
     );
+  }
+  async function verifyServicePort(name, expected) {
+    if (!serviceOnly) return;
+    const key = `${name}-v1`;
+    const deadline = Date.now() + 180000;
+    while (Date.now() < deadline) {
+      if (failures.length) throw new Error(failures.join('\n'));
+      const advertised = logs
+        .get(key)
+        ?.match(/Local:\s+https?:\/\/localhost:(\d+)\//);
+      if (advertised) {
+        if (Number(advertised[1]) !== expected)
+          throw new Error(
+            `SERVICE_PORT_CHANGED: ${name} requested ${expected}, listening ${advertised[1]}`,
+          );
+        return;
+      }
+      await sleep(100);
+    }
+    throw new Error(`Service listener was not advertised: ${key}`);
   }
   async function serveArtifacts(name, output, port) {
     const dir = path.join(root, name, output);
@@ -278,13 +318,22 @@ export async function startLab(
       res.on('close', () => upstream.destroy());
       req.pipe(upstream);
     });
-    servers.push(gateway);
-    await new Promise(resolve => gateway.listen(ports.host, resolve));
+    if (!serviceOnly) {
+      servers.push(gateway);
+      await new Promise(resolve => gateway.listen(ports.host, resolve));
+    }
     let requestId = 0;
     const api = createServer(async (req, res) => {
       res.setHeader('Access-Control-Allow-Origin', '*');
       res.setHeader('Cache-Control', 'no-store');
       const url = new URL(req.url, 'http://localhost');
+      if (serviceOnly && url.pathname === '/service-stats') {
+        res.setHeader('Content-Type', 'application/json');
+        res.end(
+          JSON.stringify({ weather: requestId, details: bridgeRequests }),
+        );
+        return;
+      }
       if (url.pathname === '/bridge-data/cancel' && req.method === 'POST') {
         pendingOutlooks.get(url.searchParams.get('token'))?.();
         res.writeHead(204).end();
@@ -436,7 +485,7 @@ export async function startLab(
         return;
       }
       const id = ++requestId;
-      await sleep(900);
+      if (weatherDelay) await sleep(weatherDelay);
       res.setHeader('Content-Type', 'application/json');
       res.end(
         JSON.stringify({
@@ -448,8 +497,11 @@ export async function startLab(
       );
     });
     servers.push(api);
-    await new Promise(resolve => api.listen(ports.api, resolve));
-    for (const version of ['v1', 'v2']) {
+    await new Promise((resolve, reject) => {
+      api.once('error', reject);
+      api.listen(ports.api, resolve);
+    });
+    for (const version of serviceOnly ? [] : ['v1', 'v2']) {
       // Library builds are deterministic and serve the same emitted files in both modes.
       await launch('library', [rslib, 'build'], version);
       await serveArtifacts(
@@ -458,14 +510,18 @@ export async function startLab(
         version === 'v2' ? ports.libraryV2 : ports.library,
       );
     }
-    await launch('provider', [modern, 'build'], 'v2');
-    await serveArtifacts('provider', 'dist-v2', ports.providerV2);
-    for (const [name, version, key] of [
-      ['provider', 'v1', 'provider'],
-      ['nested', 'v1', 'nested'],
-      // Probe the Host listener directly before checking the public gateway.
-      ['host', 'v1', 'hostInternal'],
-    ]) {
+    if (!serviceOnly) {
+      await launch('provider', [modern, 'build'], 'v2');
+      await serveArtifacts('provider', 'dist-v2', ports.providerV2);
+    }
+    for (const [name, version, key] of serviceOnly
+      ? [['provider', 'v1', 'provider']]
+      : [
+          ['provider', 'v1', 'provider'],
+          ['nested', 'v1', 'nested'],
+          // Probe the Host listener directly before checking the public gateway.
+          ['host', 'v1', 'hostInternal'],
+        ]) {
       if (mode === 'production') await launch(name, [modern, 'build'], version);
       await launch(
         name,
@@ -473,15 +529,33 @@ export async function startLab(
         version,
         true,
       );
+      await verifyServicePort(name, ports[key]);
       await wait(
         `http://localhost:${ports[key]}/${name === 'host' ? hostBase.replace(/^\//, '') : 'static/mf-manifest.json'}`,
         name !== 'host',
       );
     }
-    await wait(`http://localhost:${ports.host}${hostBase}/`);
+    if (serviceOnly) {
+      for (const [name, key] of [
+        ['service-ssr', 'serviceSSR'],
+        ['service-csr', 'serviceCSR'],
+      ]) {
+        if (mode === 'production') await launch(name, [modern, 'build']);
+        await launch(
+          name,
+          [modern, mode === 'production' ? 'serve' : 'dev'],
+          'v1',
+          true,
+        );
+        await verifyServicePort(name, ports[key]);
+        await wait(`http://localhost:${ports[key]}/service?late=1`);
+      }
+    }
+    if (!serviceOnly) await wait(`http://localhost:${ports.host}${hostBase}/`);
     return {
       ports,
-      url: `http://localhost:${ports.host}`,
+      processInfo,
+      url: `http://localhost:${serviceOnly ? ports.serviceSSR : ports.host}`,
       stop,
       logs,
       routeRequests,
@@ -493,6 +567,14 @@ export async function startLab(
     };
   } catch (error) {
     await stop();
+    if (
+      serviceOnly &&
+      portAttempt < 3 &&
+      /EADDRINUSE|address already in use|SERVICE_PORT_CHANGED/i.test(
+        String(error),
+      )
+    )
+      return startLab(mode, false, root, hostBase, true, portAttempt + 1);
     throw error;
   }
 }
