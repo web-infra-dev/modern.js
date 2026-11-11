@@ -16,6 +16,7 @@ import {
   createBridgeServiceHandler,
 } from '@module-federation/bridge-react/service-node';
 import { createBridgeServiceIngressMiddleware } from './service';
+import { Hono, type ServerEnv } from '@modern-js/server-core';
 
 const servers: Server[] = [];
 afterEach(async () => {
@@ -48,6 +49,7 @@ function incoming(
   url = 'https://host.test/_modern/mf/service/weather%2FApp',
 ) {
   return {
+    get: () => undefined,
     req: {
       raw: new Request(url, {
         method: 'POST',
@@ -202,12 +204,23 @@ describe('Service same-origin ingress', () => {
       },
       { name: upstream.name, remotes: [upstream.remote] },
     );
-    const response = await ingress(
+    const tracked: Promise<unknown>[] = [];
+    const app = new Hono<ServerEnv>();
+    app.use('*', async (context, next) => {
+      context.set('ssrWork', {
+        track(task) {
+          tracked.push(task);
+          return task;
+        },
+      });
+      await next();
+    });
+    app.post('*', ingress);
+    const response = await app.request(
       incoming(requestBody(), {
         cookie: 'trusted-user-context',
         authorization: 'host-secret',
-      }),
-      async () => {},
+      }).req.raw,
     );
     expect(response?.status).toBe(200);
     const text = await response!.text();
@@ -228,6 +241,8 @@ describe('Service same-origin ingress', () => {
       service: 1,
     });
     expect(upstream.render).toHaveBeenCalledTimes(1);
+    expect(tracked.length).toBeGreaterThan(0);
+    expect(upstream.render.mock.calls[0][0].work).toBeUndefined();
   });
 
   it('serves a configured remote without a Host policy or a hand-written URL', async () => {

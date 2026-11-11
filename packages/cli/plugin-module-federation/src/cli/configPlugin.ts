@@ -391,6 +391,21 @@ export const moduleFederationConfigPlugin = (
     }
     const csrConfig = userConfig.csrConfig || cloneConfig(mfConfig);
     const ssrConfig = userConfig.ssrConfig || cloneConfig(mfConfig);
+    if (
+      typeof userConfig.originPluginOptions.ssr === 'object' &&
+      userConfig.originPluginOptions.ssr.cacheUpdates
+    ) {
+      ssrConfig.runtimePlugins ||= [];
+      injectRuntimePlugins(
+        resolveInternalPlugin('./mfRuntimePlugins/ssr-ownership'),
+        ssrConfig.runtimePlugins,
+      );
+      csrConfig.runtimePlugins ||= [];
+      injectRuntimePlugins(
+        resolveInternalPlugin('./mfRuntimePlugins/ssr-release'),
+        csrConfig.runtimePlugins,
+      );
+    }
     let hasNodeBuild = false;
     if (mfConfig.exposes && Object.keys(mfConfig.exposes).length) {
       const provider = userConfig.originPluginOptions.serviceProvider;

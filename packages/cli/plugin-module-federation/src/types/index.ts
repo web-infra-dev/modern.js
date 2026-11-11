@@ -21,6 +21,8 @@ export interface PluginOptions {
   ssr?:
     | {
         distOutputDir?: string;
+        /** Enable the experimental server entry invalidation integration. */
+        cacheUpdates?: boolean;
       }
     | boolean;
   fetchServerQuery?: Record<string, unknown>;

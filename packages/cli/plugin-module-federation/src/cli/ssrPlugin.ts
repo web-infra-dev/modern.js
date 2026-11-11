@@ -1,4 +1,5 @@
 import path from 'path';
+import { SSRDependencyPlugin } from './SSRDependencyPlugin';
 import fs from 'fs';
 import {
   ModuleFederationPlugin as RspackModuleFederationPlugin,
@@ -332,6 +333,19 @@ export const moduleFederationSSRPlugin = (
             .plugin('UniverseEntryChunkTrackerPlugin')
             .use(UniverseEntryChunkTrackerPlugin);
         }
+      }
+
+      if (
+        !isWeb &&
+        typeof pluginOptions.userConfig.ssr === 'object' &&
+        pluginOptions.userConfig.ssr.cacheUpdates
+      ) {
+        chain.plugin('modern-ssr-dependencies').use(SSRDependencyPlugin, [
+          {
+            name: pluginOptions.ssrConfig.name!,
+            remotes: Object.keys(pluginOptions.ssrConfig.remotes || {}),
+          },
+        ]);
       }
 
       if (isDev() && isWeb) {

@@ -1,5 +1,6 @@
 import { restoreApplicationData } from '../../src/application/data';
 import { createApplicationData } from '../../src/application/data.server';
+import { createSSRRequestCoordinator } from '../../../../server/core/src/adapters/node/requestCoordinator';
 import { APPLICATION_SNAPSHOT_PROTOCOL } from '../../src/application/constants';
 import type {
   ApplicationDataPatch,
@@ -24,6 +25,39 @@ const deferred = () => {
   });
   return { promise, resolve, reject };
 };
+
+it('keeps nested snapshot producer work leased after cancelling the data transport', async () => {
+  const gate = createSSRRequestCoordinator({
+    maxPendingRequests: 1,
+    requestTimeoutMs: 1000,
+    drainTimeoutMs: 1000,
+  });
+  const first = deferred();
+  const nested = deferred();
+  let encoded!: ReturnType<typeof createApplicationData>;
+  const response = await gate.handle(
+    new Request('http://example/'),
+    async work => {
+      encoded = createApplicationData(snapshot(first.promise), work);
+      return new Response('shell');
+    },
+  );
+  await response.text();
+  const reader = encoded.updates.getReader();
+  first.resolve({ nested: nested.promise });
+  expect((await reader.read()).value?.pending).toHaveLength(1);
+  await reader.cancel();
+  let updated = false;
+  const update = gate.update(async () => {
+    updated = true;
+  });
+  await new Promise(resolve => setImmediate(resolve));
+  expect(updated).toBe(false);
+  expect(gate.status.activeRequests).toBe(1);
+  nested.reject(new Error('producer failed after disconnect'));
+  await expect(update).resolves.toBe(1);
+  expect(updated).toBe(true);
+});
 
 it('restores nested deferred values without colliding with user data', async () => {
   const first = deferred();

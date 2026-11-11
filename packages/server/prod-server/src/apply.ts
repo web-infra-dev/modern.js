@@ -94,7 +94,7 @@ export async function applyPlugins(
     }),
     injectConfigMiddlewarePlugin(middlewares, renderMiddlewares),
     ...(options.plugins || []),
-    injectResourcePlugin(),
+    injectResourcePlugin(options.ssrApplication),
     injectRscManifestPlugin(enableRsc),
     serverStaticPlugin(),
     faviconPlugin(),

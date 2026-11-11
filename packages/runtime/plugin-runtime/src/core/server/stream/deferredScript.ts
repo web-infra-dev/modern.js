@@ -91,6 +91,7 @@ export function enqueueFromEntries(
   deferredScriptKeys: Map<string, string[]> | undefined,
   nonce: string | undefined,
   emit: (script: string) => void,
+  signal?: AbortSignal,
 ): Promise<void> {
   const pendingResolvers: Promise<void>[] = [];
 
@@ -107,9 +108,11 @@ export function enqueueFromEntries(
         pendingResolvers.push(
           Promise.resolve(tracked).then(
             (val: unknown) => {
+              if (signal?.aborted) return;
               emit(buildDeferredDataScript(nonce, [routeId, key, val]));
             },
             (err: unknown) => {
+              if (signal?.aborted) return;
               emit(
                 buildDeferredDataScript(nonce, [
                   routeId,
@@ -125,5 +128,8 @@ export function enqueueFromEntries(
     });
   });
 
-  return Promise.all(pendingResolvers).then(() => undefined);
+  return Promise.allSettled(pendingResolvers).then(results => {
+    const failed = results.find(result => result.status === 'rejected');
+    if (failed?.status === 'rejected') throw failed.reason;
+  });
 }

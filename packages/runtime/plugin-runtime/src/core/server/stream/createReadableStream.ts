@@ -1,4 +1,4 @@
-import { PassThrough, Readable, Transform } from 'stream';
+import { PassThrough, Readable, Transform, finished } from 'stream';
 import { StringDecoder } from 'string_decoder';
 import { storage } from '@modern-js/runtime-utils/node';
 import { SSR_HYDRATION_ID_PREFIX } from '@modern-js/utils/universal/constants';
@@ -28,6 +28,7 @@ const defaultExtender = {
 
 export const createReadableStreamFromElement: CreateReadableStreamFromElement =
   async (request, rootElement, options) => {
+    request.signal.throwIfAborted();
     const { renderToPipeableStream } = await import('react-dom/server');
     const { runtimeContext, htmlTemplate, config, ssrConfig, entryName } =
       options;
@@ -59,6 +60,7 @@ export const createReadableStreamFromElement: CreateReadableStreamFromElement =
           identifierPrefix: SSR_HYDRATION_ID_PREFIX,
           nonce: config.nonce,
           request,
+          work: options.work,
           runtimeContext,
         });
       }
@@ -75,6 +77,15 @@ export const createReadableStreamFromElement: CreateReadableStreamFromElement =
 
     return new Promise((resolve, reject) => {
       let stopped = false;
+      const cancellation = new AbortController();
+      let renderingDone = () => {};
+      if (options.work) {
+        options.work.track(
+          new Promise<void>(resolve => {
+            renderingDone = resolve;
+          }),
+        );
+      }
       let abortReact: (reason?: unknown) => void = () => {};
       const streams = new Set<
         NodeJS.ReadWriteStream & { destroy?: (error?: Error) => unknown }
@@ -85,13 +96,18 @@ export const createReadableStreamFromElement: CreateReadableStreamFromElement =
         if (stopped) return;
         stopped = true;
         cleanup();
+        cancellation.abort(reason);
         const error =
           reason instanceof Error ? reason : new Error(String(reason));
         extenders.forEach(extender => extender.abort?.(error));
         // Close the transport before aborting React, which can synchronously
         // emit recovery instructions for its pending boundaries.
         streams.forEach(stream => stream.destroy?.(error));
-        abortReact(error);
+        try {
+          abortReact(error);
+        } finally {
+          renderingDone();
+        }
       };
       const abort = (reason: unknown) => {
         stop(reason);
@@ -103,6 +119,16 @@ export const createReadableStreamFromElement: CreateReadableStreamFromElement =
         if (!streams.has(stream)) {
           streams.add(stream);
           stream.once('error', abort);
+          if (options.work) {
+            options.work.track(
+              new Promise<void>(resolve => {
+                const cleanup = finished(stream, () => {
+                  cleanup();
+                  resolve();
+                });
+              }),
+            );
+          }
         }
         return stream;
       };
@@ -115,7 +141,12 @@ export const createReadableStreamFromElement: CreateReadableStreamFromElement =
         renderToPipeableStream(processedRootElement, {
           nonce: config.nonce,
           identifierPrefix: SSR_HYDRATION_ID_PREFIX,
+          onAllReady() {
+            renderingDone();
+            if (!stopped) options.onAllReady?.();
+          },
           [onReady]() {
+            if (onReady === 'onAllReady') renderingDone();
             if (stopped) return;
             let styledComponentsStyleTags = '';
             let bootstrapScripts = '';
@@ -129,7 +160,7 @@ export const createReadableStreamFromElement: CreateReadableStreamFromElement =
 
             options[onReady]?.();
 
-            getTemplates(htmlTemplate, {
+            const templateWork = getTemplates(htmlTemplate, {
               request,
               ssrConfig,
               renderLevel,
@@ -322,7 +353,9 @@ export const createReadableStreamFromElement: CreateReadableStreamFromElement =
                       deferredScriptKeys,
                       config.nonce,
                       enqueueScript,
+                      cancellation.signal,
                     );
+                    options.work?.track(deferredResolversComplete);
                   } else {
                     coordinator.markNoResolvers();
                   }
@@ -336,13 +369,15 @@ export const createReadableStreamFromElement: CreateReadableStreamFromElement =
                 processedStream.pipe(body);
               })
               .catch(abort);
+            options.work?.track(templateWork);
           },
 
           onShellError(error: unknown) {
+            renderingDone();
             if (stopped) return;
             stop(error);
             renderLevel = RenderLevel.CLIENT_RENDER;
-            getTemplates(htmlTemplate, {
+            const templateWork = getTemplates(htmlTemplate, {
               request,
               ssrConfig,
               renderLevel,
@@ -359,6 +394,7 @@ export const createReadableStreamFromElement: CreateReadableStreamFromElement =
                 options?.onShellError?.(error);
               })
               .catch(reject);
+            options.work?.track(templateWork);
           },
           onError(error: unknown) {
             renderLevel = RenderLevel.CLIENT_RENDER;

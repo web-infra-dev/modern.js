@@ -35,7 +35,8 @@ interface CreateRenderOptions {
   nonce?: string;
 }
 
-type FallbackReason = 'error' | 'header' | 'query' | `header,${string}`;
+type FallbackReason =
+  'error' | 'header' | 'query' | 'updating' | `header,${string}`;
 
 type FallbackWrapper = (reason: FallbackReason) => void;
 
@@ -112,6 +113,62 @@ function getHeadersWithoutCookie(headers: Record<string, any>) {
   return _headers;
 }
 
+/** Render only a published HTML shell, without selecting SSR bundles or loaders. */
+export function createCSRRender(routes: ServerRoute[], metaName = 'modern-js') {
+  const router = getRouter(routes);
+  const framework = cutNameByHyphen(metaName);
+  return (
+    request: Request,
+    options: {
+      templates: Readonly<Record<string, string>>;
+      entryScope?: readonly string[];
+    },
+  ): Response => {
+    const url = new URL(request.url);
+    const accept = request.headers.get('accept');
+    if (
+      !['GET', 'HEAD'].includes(request.method) ||
+      url.searchParams.has('__loader') ||
+      request.headers.has('x-rsc-action') ||
+      request.headers.has('x-rsc-tree') ||
+      (accept && !accept.includes('text/html') && !accept.includes('*/*'))
+    )
+      return new Response('CSR fallback requires an HTML navigation', {
+        status: 503,
+        headers: { 'retry-after': '1' },
+      });
+
+    const [route] = matchRoute(router, url.pathname);
+    const html = route && options.templates[uniqueKeyByRoute(route)];
+    if (
+      !route?.entryName ||
+      route.isApi ||
+      route.isRSC ||
+      !html ||
+      (options.entryScope && !options.entryScope.includes(route.entryName))
+    )
+      return new Response('CSR fallback is unavailable for this route', {
+        status: 503,
+        headers: { 'retry-after': '1' },
+      });
+
+    const headers = new Headers();
+    for (const [key, value] of Object.entries(route.responseHeaders || {}))
+      headers.set(key, value as string);
+    headers.set('content-type', 'text/html; charset=UTF-8');
+    headers.set(X_MODERNJS_RENDER, 'client');
+    headers.set(`x-${framework}-ssr-fallback`, '1;reason=updating');
+    // An update-time decision must not turn into a cached response for later SSR.
+    headers.set('cache-control', 'no-store');
+    return new Response(
+      request.method === 'HEAD'
+        ? null
+        : injectFallbackReasonToHtml({ html, framework, reason: 'updating' }),
+      { status: 200, headers },
+    );
+  };
+}
+
 export async function createRender({
   routes,
   pwd,
@@ -140,6 +197,9 @@ export async function createRender({
       loaderContext,
       contextForceCSR,
       reporter,
+      work,
+      cacheNamespace,
+      entryScope,
     },
   ) => {
     const forMatchpathname = matchPathname ?? getPathname(req);
@@ -166,6 +226,12 @@ export async function createRender({
         },
       });
     }
+
+    // A rewrite must not move an admitted request into an entry it did not lease.
+    if (entryScope && !entryScope.includes(routeInfo.entryName || 'main'))
+      return new Response('SSR rewrite crossed the admitted entry scope', {
+        status: 503,
+      });
 
     const html = templates[uniqueKeyByRoute(routeInfo)];
     if (!html) {
@@ -231,6 +297,8 @@ export async function createRender({
       onError,
       onTiming,
       reporter,
+      work,
+      cacheNamespace,
     };
 
     if (fallbackReason) {

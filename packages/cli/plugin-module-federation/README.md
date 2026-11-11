@@ -57,7 +57,7 @@ The package exports root CLI registration, config-plugin, ssr-plugin, data-fetch
 The framework MF entry also provides Modern application renderer callbacks and a provider helper.
 General runtime APIs continue to come from @module-federation/enhanced/runtime.
 The producer registers its framework import with the engine's manifest analyzer.
-Service deployment is documented in the [Service App guide](../../document/docs/en/guides/topic-detail/module-federation/service-app.mdx). Remote version replacement remains separate.
+Service deployment is documented in the [Service App guide](../../document/docs/en/guides/topic-detail/module-federation/service-app.mdx). Experimental coordinated remote replacement is described below.
 
 ## Modern application SSR
 
@@ -101,3 +101,31 @@ development and production. See [React #26228](https://github.com/facebook/react
 and [React #31134](https://github.com/facebook/react/issues/31134). It is outside
 the initial SSR support boundary. The adapter does not patch React, strip bytes,
 or add a runtime version guard. Existing CSR support remains unchanged.
+
+## Experimental SSR cache updates
+
+Enable `moduleFederation.ssr.cacheUpdates` to emit server entry ownership and
+install the server ownership and browser release plugins. This requires matching
+Rspack and MF runtime builds with SSR invalidation support. An unsupported
+Rspack build is rejected during configuration.
+
+The `@modern-js/plugin-module-federation/ssr-update` export provides
+`createSSRUpdateAdapter`. Connect its `reload`, `dispose` and
+`prepareResources` methods to a `createProdServer({ ssrApplication })` resource
+owner before calling the adapter's `updateRemotes`. The current low-level API
+requires that application owner and retains the proof of concept's revision
+parameter. It does not expose the proposed framework-bound update API from
+`@modern-js/runtime/mf`, discover releases or notify development browsers.
+
+The resource owner waits for affected response streams and registered producer
+work before invalidation. Complete static ownership allows selective entry
+reloads. Dynamic consumption or incomplete ownership requires an application
+rebuild. Browser release metadata must point to public immutable assets so old
+HTML can hydrate after a server update. A failed destructive update can leave
+SSR unavailable until recovery, with the last published client mapping available
+for the configured CSR policy.
+
+See the [server coordination contract](../../server/core/SSR_REQUEST_COORDINATION.md)
+and [local integration runners](../../../tests/integration/module-federation/ssr-update/README.md)
+for wiring, validation and limits. The work owner is server-local, including on
+Service producers, and is never serialized into Service requests or responses.

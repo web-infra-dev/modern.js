@@ -48,6 +48,11 @@
       "default": "./dist/cjs/types/index.js"
     },
     "./package.json": "./package.json",
+    "./ssr-update": {
+      "types": "./dist/types/server/ssrUpdate.d.ts",
+      "import": "./dist/esm-node/server/ssrUpdate.mjs",
+      "require": "./dist/cjs/server/ssrUpdate.js"
+    },
     "./service": {
       "types": "./dist/types/server/service.d.ts",
       "import": "./dist/esm-node/server/service.mjs",
@@ -122,6 +127,9 @@
       ],
       "service": [
         "./dist/types/server/service.d.ts"
+      ],
+      "ssr-update": [
+        "./dist/types/server/ssrUpdate.d.ts"
       ]
     }
   }

@@ -15,6 +15,7 @@ import {
 } from '@module-federation/bridge-react/service-node';
 import type { BridgeProviderInstance } from '@module-federation/bridge-react/ssr';
 import type { Manifest } from '@module-federation/sdk';
+import type { SSRRequestWork } from '@modern-js/server-core/node';
 
 export interface BridgeServiceMiddlewareOptions {
   path: string;
@@ -24,7 +25,10 @@ export interface BridgeServiceMiddlewareOptions {
   onError?: (error: Error) => void;
   authorize?: (request: Request) => void | Response | Promise<void | Response>;
 }
-type Context = { req: { raw: Request } };
+type Context = {
+  req: { raw: Request };
+  get(name: 'ssrWork'): SSRRequestWork | undefined;
+};
 
 function resolveServiceAssetPrefix(prefix: string, origin: string): string {
   // Keep explicit deployment URLs unchanged, including CDN and signed URLs.
@@ -192,7 +196,7 @@ export function createBridgeServiceMiddleware(
       await next();
       return;
     }
-    return handler(context.req.raw);
+    return handler(context.req.raw, { work: context.get('ssrWork') });
   };
 }
 
@@ -330,6 +334,6 @@ export function createBridgeServiceIngressMiddleware(
         );
       },
     });
-    return proxy(request);
+    return proxy(request, { work: context.get('ssrWork') });
   };
 }

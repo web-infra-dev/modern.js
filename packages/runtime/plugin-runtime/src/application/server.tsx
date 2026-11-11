@@ -1,6 +1,6 @@
 import { cancellationPlugin } from '../core/application/cancellation';
 import { disposeAfterError } from '../core/application/cleanup';
-import { PassThrough, Readable } from 'node:stream';
+import { PassThrough, Readable, finished } from 'node:stream';
 import type { RequestHandlerOptions } from '@modern-js/app-tools';
 import React from 'react';
 import { renderToPipeableStream } from 'react-dom/server.node';
@@ -21,6 +21,8 @@ import type { ApplicationDataPatch, ApplicationSnapshot } from './types';
 export type { ApplicationDataPatch, ApplicationSnapshot } from './types';
 
 export interface RenderApplicationOptions {
+  /** Complete producer work owned by the invoking SSR request. */
+  work?: RequestHandlerOptions['work'];
   identifierPrefix: string;
   definition: ScopedRootDefinition;
   memoryRoute?: { entryPath: string };
@@ -74,7 +76,7 @@ export async function renderApplication(
     initialUrl: request.url,
     memory: Boolean(options.memoryRoute),
     observeRouteCommits: true,
-    plugins: [cancellationPlugin(signal, options.onError)],
+    plugins: [cancellationPlugin(signal, options.onError, options.work)],
   });
   const Root = createScopedRoot(options.definition);
 
@@ -115,6 +117,16 @@ export async function renderApplication(
       };
       let applicationData: ReturnType<typeof createApplicationData> | undefined;
       const output = new PassThrough();
+      if (options.work) {
+        options.work.track(
+          new Promise<void>(resolve => {
+            const cleanup = finished(output, () => {
+              cleanup();
+              resolve();
+            });
+          }),
+        );
+      }
       let abortRender: (reason?: unknown) => void = () => {};
       let failed = false;
       const fail = (reason: unknown) => {
@@ -148,7 +160,10 @@ export async function renderApplication(
           nonce: options.nonce,
           onShellReady() {
             try {
-              applicationData = createApplicationData(getSnapshot());
+              applicationData = createApplicationData(
+                getSnapshot(),
+                options.work,
+              );
               result = {
                 stream,
                 hydration: {
@@ -190,6 +205,7 @@ export async function renderApplication(
   const entryName = options.definition.entryName || 'index';
   const noop = () => {};
   const handlerOptions = {
+    work: options.work,
     resource: {
       entryName,
       route: { entryName, urlPath: basename, isSSR: true },

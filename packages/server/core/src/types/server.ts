@@ -18,6 +18,7 @@ import type {
   OnTiming,
   RequestHandlerOptions,
   Resource,
+  SSRRequestWork,
 } from './requestHandler';
 
 export type RequestHandler = (
@@ -33,6 +34,7 @@ export type ServerLoaderBundle = {
     routes: NestedRoute[];
     context: {
       monitors: Monitors;
+      work?: SSRRequestWork;
       reporter?: Reporter;
       loaderContext?: Map<string, unknown>;
     };
@@ -71,6 +73,9 @@ export type ServerManifest = {
 };
 
 type ServerVariables = {
+  ssrWork?: SSRRequestWork;
+  ssrCacheNamespace?: string;
+  ssrRender?: import('./render').Render;
   /** @deprecated */
   logger: Logger;
 
