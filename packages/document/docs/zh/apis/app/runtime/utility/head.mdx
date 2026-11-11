@@ -6,6 +6,10 @@ title: Head
 
 用于给 `<head>` 元素内添加 html 元素（如 title、meta、script 等），支持 `SSR`。
 
+字符串 SSR 和流式 SSR 为每次渲染独立收集 head 数据，并发渲染之间互不共享。框架自动提供收集上下文，无需手动添加 Provider。
+
+流式 SSR 在外壳就绪时读取 head。对于等待完整渲染的模式，在全部内容就绪时读取。外壳发送后才由 Suspense 渲染出的标签不会补发到已经发送的 head 中。
+
 ## 使用姿势
 
 ```tsx
@@ -36,4 +40,8 @@ export default IndexPage;
 
 ## 更多用法
 
-详见 [react-helmet](https://github.com/nfl/react-helmet)。
+组件属性用法可参考 [react-helmet-async](https://www.npmjs.com/package/react-helmet-async/v/2.0.5)。
+
+当前使用的 `react-helmet-async@2.0.5` 的 peer 声明尚未包含 React 19。React 19 项目在默认安装配置下可能收到 peer 警告，开启严格 peer 检查时可能安装失败。
+
+如果项目直接将 `react-helmet-async@2.0.5` 与 React 19 一起声明为依赖，npm 10 默认安装也可能因 `ERESOLVE` 失败。

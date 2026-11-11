@@ -23,6 +23,7 @@ export default {
       name: 'plugin-runtime-node',
       testEnvironment: 'node',
       exclude: [
+        'tests/head/**/*.test.tsx',
         'tests/router/prefetch.test.tsx',
         'tests/router/useTransitions.test.tsx',
       ],
@@ -50,6 +51,7 @@ export default {
       name: 'plugin-runtime-client',
       testEnvironment: 'happy-dom',
       include: [
+        'tests/head/**/*.test.tsx',
         'tests/router/prefetch.test.tsx',
         'tests/router/useTransitions.test.tsx',
       ],
