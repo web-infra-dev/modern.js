@@ -7,6 +7,7 @@ import {
 } from '@modern-js/runtime/mf';
 import { loadRemote } from '@module-federation/enhanced/runtime';
 import WeatherApp from 'provider/ServiceWeatherApplication';
+import './service.css';
 
 const load = () => loadRemote('provider/ServiceWeatherApplication');
 const preloaded = () => WeatherApp;
@@ -54,26 +55,54 @@ export default function ServiceWeather() {
           ? StaticWeather
           : Weather;
   return (
-    <main>
-      <h1>
-        Weather Service ·{' '}
-        {params.has('late') ? 'Mount after page load' : 'Live forecast'}
-      </h1>
-      <button
-        data-testid="service-toggle"
-        onClick={() => setMounted(value => !value)}
-      >
-        {mounted ? 'Disconnect' : 'Connect'}
-      </button>
-      <button
-        data-testid="service-props"
-        onClick={() =>
-          setLabel(value => (value === 'Hangzhou' ? 'West Lake' : 'Hangzhou'))
-        }
-      >
-        Change station
-      </button>
-      <input aria-label="Host note" defaultValue="" />
+    <main className="service-demo">
+      <header className="service-demo-header">
+        <div className="service-demo-heading">
+          <p>Weather Lab</p>
+          <h1>Weather Service</h1>
+          <span>
+            {params.has('late') ? 'Mount after page load' : 'Live forecast'}
+          </span>
+        </div>
+        <div
+          className="service-demo-controls"
+          role="group"
+          aria-label="Weather application controls"
+        >
+          <button
+            type="button"
+            className="service-demo-button service-demo-connection"
+            data-testid="service-toggle"
+            onClick={() => setMounted(value => !value)}
+          >
+            <svg viewBox="0 0 24 24" aria-hidden="true">
+              <path d="M12 3v9m-5-6.5a8 8 0 1 0 10 0" />
+            </svg>
+            {mounted ? 'Disconnect' : 'Connect'}
+          </button>
+          <button
+            type="button"
+            className="service-demo-button service-demo-station"
+            data-testid="service-props"
+            onClick={() =>
+              setLabel(value =>
+                value === 'Hangzhou' ? 'West Lake' : 'Hangzhou',
+              )
+            }
+          >
+            <svg viewBox="0 0 24 24" aria-hidden="true">
+              <path d="m16 3 4 4-4 4M4 7h16M8 21l-4-4 4-4m12 4H4" />
+            </svg>
+            Change station
+          </button>
+          <input
+            className="service-demo-note"
+            aria-label="Host note"
+            placeholder="Add a note…"
+            defaultValue=""
+          />
+        </div>
+      </header>
       {mounted &&
         (params.has('declarative') ? (
           <ReactRemote
