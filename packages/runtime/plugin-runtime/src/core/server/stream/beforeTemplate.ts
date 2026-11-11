@@ -1,6 +1,11 @@
 // Todo: This import will introduce router code, like remix, even if router config is false
 import { matchRoutes } from '@modern-js/runtime-utils/router';
-import ReactHelmet, { type HelmetData } from 'react-helmet';
+import { Fragment, createElement } from 'react';
+import { renderToStaticMarkup } from 'react-dom/server';
+import ReactHelmet, {
+  type HelmetData,
+  type HelmetProps,
+} from 'react-helmet';
 import type { TInternalRuntimeContext } from '../../context';
 import { renderRouteStages } from '../../resources/html';
 import type { ResourceStagesManifest } from '../../resources/manifest';
@@ -51,6 +56,32 @@ export interface BuildShellBeforeTemplateOptions {
   config: HandleRequestConfig;
   ssrConfig?: SSRConfig;
   styledComponentsStyleTags?: string;
+  /**
+   * The props of the `Helmet` rendered by this request. When it is not
+   * empty, the head is built from it instead of the module level state of
+   * react-helmet, which is shared by all requests. `Helmet` imported from
+   * react-helmet directly is not recorded and keeps using that state.
+   */
+  helmetProps?: HelmetProps[];
+}
+
+/**
+ * Mount the recorded props and read the result in one synchronous pass, so no
+ * other request can mount react-helmet in between.
+ */
+function renderHelmetData(helmetProps: HelmetProps[]): HelmetData {
+  // Drop what earlier renders left in the module level state.
+  ReactHelmet.renderStatic();
+  renderToStaticMarkup(
+    createElement(
+      Fragment,
+      null,
+      ...helmetProps.map((props, index) =>
+        createElement(ReactHelmet, { ...props, key: index }),
+      ),
+    ),
+  );
+  return ReactHelmet.renderStatic();
 }
 
 type RouteAssetsItem = {
@@ -92,9 +123,12 @@ export async function buildShellBeforeTemplate(
     runtimeContext,
     styledComponentsStyleTags,
     entryName,
+    helmetProps,
   } = options;
 
-  const helmetData: HelmetData = ReactHelmet.renderStatic();
+  const helmetData: HelmetData = helmetProps?.length
+    ? renderHelmetData(helmetProps)
+    : ReactHelmet.renderStatic();
 
   const callbacks: BuildHtmlCb[] = [
     createReplaceHelemt(helmetData),

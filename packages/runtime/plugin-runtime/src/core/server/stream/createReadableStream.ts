@@ -3,9 +3,11 @@ import { StringDecoder } from 'string_decoder';
 import { storage } from '@modern-js/runtime-utils/node';
 import { SSR_HYDRATION_ID_PREFIX } from '@modern-js/utils/universal/constants';
 import type { ReactElement } from 'react';
+import type { HelmetProps } from 'react-helmet';
 import { RenderLevel } from '../../constants';
 import { getGlobalInternalRuntimeContext } from '../../context';
 import { getMonitors } from '../../context/monitors';
+import { setRequestHelmetCollector } from '../../head/requestCollector';
 import { enqueueFromEntries, hasDeferredResolvers } from './deferredScript';
 import { DeferredScriptOutputCoordinator } from './deferredScriptOutputCoordinator';
 import {
@@ -16,6 +18,19 @@ import {
   resolveStreamingMode,
 } from './shared';
 import { getTemplates } from './template';
+
+type HelmetRequestStorage = { helmetProps?: HelmetProps[] };
+
+const getHelmetRequestStorage = (): HelmetRequestStorage | undefined => {
+  try {
+    // `useContext` throws when it is called out of a request.
+    return storage.useContext() as HelmetRequestStorage;
+  } catch {
+    return undefined;
+  }
+};
+
+setRequestHelmetCollector(() => getHelmetRequestStorage()?.helmetProps);
 
 const defaultExtender = {
   modifyRootElement: (rootElement: ReactElement) => rootElement,
@@ -55,6 +70,13 @@ export const createReadableStreamFromElement: CreateReadableStreamFromElement =
       }
     });
 
+    // Record the `Helmet` props of this request, see `head/requestCollector`.
+    const helmetProps: HelmetProps[] = [];
+    const requestStorage = getHelmetRequestStorage();
+    if (requestStorage) {
+      requestStorage.helmetProps = helmetProps;
+    }
+
     let processedRootElement = rootElement;
     extenders.forEach(extender => {
       if (extender.modifyRootElement) {
@@ -88,6 +110,7 @@ export const createReadableStreamFromElement: CreateReadableStreamFromElement =
               config,
               entryName,
               styledComponentsStyleTags,
+              helmetProps,
             }).then(({ shellAfter, shellBefore }) => {
               const decoder = new StringDecoder('utf8');
               const pendingScripts: string[] = [];
