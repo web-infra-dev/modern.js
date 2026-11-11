@@ -8,80 +8,18 @@ import { promisify } from 'node:util';
 import { freemem, loadavg } from 'node:os';
 import { startLab } from '../scripts/lab.mjs';
 import { instrumentBridgeInputs } from './bridge-evidence';
-import {
-  cp,
-  mkdir,
-  mkdtemp,
-  readdir,
-  rm,
-  stat,
-  readFile,
-  writeFile,
-  symlink,
-} from 'node:fs/promises';
-import { tmpdir } from 'node:os';
+import { cp, rm, readFile, writeFile } from 'node:fs/promises';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 
-// Link packages individually so node_modules/.cache remains local to each copy.
-async function linkDependencies(source: string, target: string) {
-  await mkdir(target, { recursive: true });
-  for (const entry of await readdir(source)) {
-    if (entry.startsWith('.') && !['.bin', '.pnpm'].includes(entry)) continue;
-    const original = path.join(source, entry);
-    const directory = (await stat(original)).isDirectory();
-    await symlink(
-      original,
-      path.join(target, entry),
-      directory ? (process.platform === 'win32' ? 'junction' : 'dir') : 'file',
-    );
-  }
-}
-
-// Each test file owns a writable copy: framework CI runs files concurrently,
-// and the adapter's dev manifest middleware requires its default dist path.
-async function createWorkspace() {
-  const source = fileURLToPath(new URL('../', import.meta.url));
-  const workspace = await mkdtemp(path.join(tmpdir(), 'modern-mf-'));
-  const excluded = new Set([
-    'node_modules',
-    'dist',
-    'dist-v2',
-    '.modern-js',
-    '.rsbuild',
-  ]);
-  try {
-    await linkDependencies(
-      path.resolve(source, '../../../node_modules'),
-      path.join(workspace, 'node_modules'),
-    );
-    for (const name of ['host', 'provider', 'nested', 'library']) {
-      await cp(path.join(source, name), path.join(workspace, name), {
-        recursive: true,
-        filter: filename => !excluded.has(path.basename(filename)),
-      });
-      await linkDependencies(
-        path.join(source, name, 'node_modules'),
-        path.join(workspace, name, 'node_modules'),
-      );
-    }
-    await cp(path.join(source, 'ports.ts'), path.join(workspace, 'ports.ts'));
-    await cp(
-      path.join(source, 'package.json'),
-      path.join(workspace, 'package.json'),
-    );
-    return workspace;
-  } catch (error) {
-    await rm(workspace, { recursive: true, force: true });
-    throw error;
-  }
-}
+import { createWorkspace } from '../scripts/workspace.mjs';
 
 const selector = (id: string) => `[data-testid="${id}"]`;
 
 export function setupLab(
   mode: 'dev' | 'production',
   options: {
+    service?: boolean;
     basename?: string;
     hash?: boolean;
     documentBase?: string;
@@ -134,7 +72,7 @@ export function setupLab(
   let expectedErrorGroups: { pattern: RegExp; count: number }[] | undefined;
   let expectedErrors: { pattern: RegExp; min: number; max: number } | undefined;
   beforeAll(async () => {
-    workspace = await createWorkspace();
+    workspace = await createWorkspace({ service: options.service });
     if (!options.publicRoutesOnly)
       await cp(
         fileURLToPath(
@@ -252,6 +190,13 @@ export default function Document() {
       );
     }
     if (options.hash) {
+      if (options.service) {
+        for (const name of ['service-ssr', 'service-csr'])
+          await writeFile(
+            path.join(workspace, name, 'src/modern.runtime.tsx'),
+            "import { defineRuntimeConfig } from '@modern-js/runtime'\nexport default defineRuntimeConfig({ router: { supportHtml5History: false } })\n",
+          );
+      }
       await writeFile(
         path.join(workspace, 'provider/src/modern.runtime.tsx'),
         "import { defineRuntimeConfig } from '@modern-js/runtime'\nexport default defineRuntimeConfig({ router: { supportHtml5History: false } })\n",
@@ -265,7 +210,13 @@ export default function Document() {
         ),
       );
     }
-    lab = await startLab(mode, false, workspace, options.basename || '');
+    lab = await startLab(
+      mode,
+      false,
+      workspace,
+      options.basename || '',
+      Boolean(options.service),
+    );
     browser = await puppeteer.launch({
       headless: true,
       // Remove the profile with this Lab only after Chrome has closed.
@@ -443,6 +394,7 @@ export function describeLab(
   name: string,
   register: (getContext: LabContext) => void,
   options: {
+    service?: boolean;
     basename?: string;
     hash?: boolean;
     documentBase?: string;
