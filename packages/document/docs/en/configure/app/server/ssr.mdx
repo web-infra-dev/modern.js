@@ -32,6 +32,7 @@ When the value type is `Object`, the following properties can be configured:
 | unsafeHeaders       | `string[]`                      | `[]`            | For safety reasons, Modern.js does not add excessive content to SSR_DATA. Developers can use this configuration to specify the headers that need to be injected                                                                                                                                                                                                                                                                                                                                |
 | loaderFailureMode   | `clientRender \| errorBoundary` | `errorBoundary` | The default configuration is `'errorBoundary'`, when an error occurs in [data loader](/en/guides/basic-features/data/data-fetch.html#data-loader-recommended), it will default to rendering the [`Error`](/guides/basic-features/routes/routes#error-handling) component of the route. When configured as `'clientRender'`, if a loader throws an error, it switch to client-side rendering，you can use it with [Client Loader](/en/guides/basic-features/data/data-fetch.html#client-loader) |
 | preloadRouteScripts | `boolean`                       | `true`          | Only works for streaming rendering. By default, `<link rel="preload" as="script">` is output in the HTML head for the routes matched by the request, so the JS of the route components downloads in parallel with the entry JS. Only the matched routes are included, not the modules lazy loaded inside the route components. Set to `false` to disable it                                                                                                                                    |
+| earlyHints          | `boolean`                       | `false`         | Send a `103 Early Hints` response before the data loaders run, with `Link` headers that preload the scripts and stylesheets of the HTML template and the JS and CSS of the routes matched by the request. Only works on the Node.js runtime, see [Early Hints](#early-hints)                                                                                                                                                                                                                   |
 
 ```ts title="modern.config.ts"
 export default defineConfig({
@@ -44,6 +45,30 @@ export default defineConfig({
   },
 });
 ```
+
+### Early Hints
+
+When `earlyHints` is enabled, the server sends a `103 Early Hints` response before running the data loaders, so the browser starts downloading the first screen assets while the server waits for the loaders. The hinted assets are:
+
+- the `<script src>` and `<link rel="stylesheet">` of the HTML template.
+- the JS and CSS of the nested routes matched by the request URL. Only the URL is used for matching, no loader runs.
+
+```ts title="modern.config.ts"
+export default defineConfig({
+  server: {
+    ssr: {
+      earlyHints: true,
+    },
+  },
+});
+```
+
+Notes:
+
+- `103` does not commit the final status code. Redirects and error status codes from loaders still work, and on a redirect the early downloaded assets are wasted.
+- It only works on the Node.js runtime, and is skipped when the runtime has no `writeEarlyHints`.
+- Browsers only handle `103` on HTTP/2 and above. If a CDN, gateway or reverse proxy sits in front of the app, check that it forwards `103` to the browser.
+- The gain is about the duration of the loaders, and at most the download time of the first screen assets. When the loaders or the network are fast, there is little gain.
 
 ### Active Fallback
 

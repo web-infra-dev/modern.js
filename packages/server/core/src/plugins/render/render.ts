@@ -20,6 +20,7 @@ import {
 } from '../../utils';
 import { csrRscRender } from './csrRscRender';
 import { dataHandler } from './dataHandler';
+import { getEarlyHintLinks, isEarlyHintsEnabled } from './earlyHints';
 import { renderRscHandler } from './renderRscHandler';
 import { serverActionHandler } from './serverActionHandler';
 import { type SSRRenderOptions, ssrRender } from './ssrRender';
@@ -139,6 +140,7 @@ export async function createRender({
       loaderContext,
       contextForceCSR,
       reporter,
+      writeEarlyHints,
     },
   ) => {
     // Match the normalized path used by Hono's outer middleware router.
@@ -259,6 +261,29 @@ export async function createRender({
         break;
       case 'ssr':
       case 'csr':
+        if (
+          renderMode === 'ssr' &&
+          writeEarlyHints &&
+          isEarlyHintsEnabled(config, routeInfo.entryName)
+        ) {
+          // Before the data loaders run, so the browser downloads the first
+          // screen assets while the server waits for the loaders. Early hints
+          // do not commit the status code, so loader redirects still work.
+          try {
+            const links = getEarlyHintLinks({
+              request: req,
+              html,
+              routeInfo,
+              serverManifest,
+              config,
+            });
+            if (links.length) {
+              writeEarlyHints(links);
+            }
+          } catch (e) {
+            onError(e, 'EarlyHints');
+          }
+        }
         response = await renderHandler(
           req,
           renderOptions,
