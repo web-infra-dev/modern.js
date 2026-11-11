@@ -1,6 +1,6 @@
 // 用于 react-helmet 正则替换
 import { EOL } from 'os';
-import type { HelmetData } from 'react-helmet';
+import type { HeadData } from '../head';
 import { safeReplace } from './utils';
 
 const RE_HTML_ATTR = /<html[^>]*>/;
@@ -16,14 +16,14 @@ export function hasTitleTagBefore(html: string, index: number) {
   return match !== null && match.index < index;
 }
 
-export function createReplaceHelemt(helmetData?: HelmetData) {
+export function createReplaceHelemt(helmetData?: HeadData) {
   return helmetData
     ? (template: string) => helmetReplace(template, helmetData)
     : (tempalte: string) => tempalte;
 }
 
 // 通过 react-helmet 修改模板
-export function helmetReplace(content: string, helmetData: HelmetData) {
+export function helmetReplace(content: string, helmetData: HeadData) {
   let result = content;
   const bodyAttributes = helmetData.bodyAttributes.toString();
   if (bodyAttributes) {

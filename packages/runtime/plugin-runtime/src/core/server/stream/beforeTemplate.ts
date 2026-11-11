@@ -1,6 +1,6 @@
 // Todo: This import will introduce router code, like remix, even if router config is false
 import { matchRoutes } from '@modern-js/runtime-utils/router';
-import ReactHelmet, { type HelmetData } from 'react-helmet';
+import type { HeadData } from '../../head';
 import type { TInternalRuntimeContext } from '../../context';
 import { CHUNK_CSS_PLACEHOLDER } from '../constants';
 import { createReplaceHelemt } from '../helmet';
@@ -41,6 +41,7 @@ const checkIsInline = (
 };
 
 export interface BuildShellBeforeTemplateOptions {
+  helmetData?: HeadData;
   runtimeContext: TInternalRuntimeContext;
   entryName: string;
   config: HandleRequestConfig;
@@ -51,10 +52,13 @@ export async function buildShellBeforeTemplate(
   beforeAppTemplate: string,
   options: BuildShellBeforeTemplateOptions,
 ) {
-  const { config, runtimeContext, styledComponentsStyleTags, entryName } =
-    options;
-
-  const helmetData: HelmetData = ReactHelmet.renderStatic();
+  const {
+    config,
+    runtimeContext,
+    styledComponentsStyleTags,
+    entryName,
+    helmetData,
+  } = options;
 
   const callbacks: BuildHtmlCb[] = [
     createReplaceHelemt(helmetData),

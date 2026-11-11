@@ -1,9 +1,10 @@
 'use client';
-import head from 'react-helmet';
+import type { ComponentClass } from 'react';
+import type { HelmetProps } from 'react-helmet';
+import { Helmet as RequestHelmet } from 'react-helmet-async';
 
-export default head;
-
-export { Helmet } from 'react-helmet';
+export const Helmet: ComponentClass<HelmetProps> = RequestHelmet;
+export default Helmet;
 export type {
   HelmetTags,
   HelmetProps,

@@ -1,7 +1,9 @@
 import { SSR_HYDRATION_ID_PREFIX } from '@modern-js/utils/universal/constants';
 import type React from 'react';
 import ReactDomServer from 'react-dom/server';
-import { Helmet } from 'react-helmet';
+import { HelmetProvider } from 'react-helmet-async';
+import type { HeadContext } from '../../src/core/head';
+import { Helmet } from '../../src/exports/head';
 import { RenderLevel } from '../../src/core/constants';
 import {
   getGlobalInternalRuntimeContext,
@@ -207,10 +209,14 @@ async function renderWithPreviousOrder(
   htmlTemplate: string,
   app: React.ReactElement,
 ) {
-  const html = ReactDomServer.renderToString(app, {
-    identifierPrefix: SSR_HYDRATION_ID_PREFIX,
-  });
-  const helmetData = Helmet.renderStatic();
+  const headContext: HeadContext = {};
+  const html = ReactDomServer.renderToString(
+    <HelmetProvider context={headContext}>{app}</HelmetProvider>,
+    {
+      identifierPrefix: SSR_HYDRATION_ID_PREFIX,
+    },
+  );
+  const helmetData = headContext.helmet;
   const { runtimeContext, config } = createRenderOptions(htmlTemplate);
   const chunkSet: ChunkSet = {
     renderLevel: RenderLevel.SERVER_RENDER,
@@ -289,7 +295,7 @@ describe('renderString html building', () => {
     const html = await render(defaultTemplate, <apps.reactTitle />);
 
     expect(html).toContain('<div id="root"><title>React Title</title><main>');
-    expect(html).not.toContain('<title data-react-helmet="true">');
+    expect(html).not.toContain('<title data-rh="true">');
   });
 
   it('should only replace the placeholders of the template', async () => {

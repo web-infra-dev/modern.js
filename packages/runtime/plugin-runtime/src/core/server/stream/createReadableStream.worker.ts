@@ -26,14 +26,16 @@ export const createReadableStreamFromElement: CreateReadableStreamFromElement =
       rscRoot,
     } = options;
 
-    const { shellBefore, shellAfter } = await getTemplates(htmlTemplate, {
-      renderLevel: RenderLevel.SERVER_RENDER,
-      runtimeContext,
-      ssrConfig,
-      request,
-      config,
-      entryName,
-    });
+    const buildTemplates = () =>
+      getTemplates(htmlTemplate, {
+        helmetData: options.headContext?.helmet,
+        renderLevel: RenderLevel.SERVER_RENDER,
+        runtimeContext,
+        ssrConfig,
+        request,
+        config,
+        entryName,
+      });
 
     try {
       const readableOriginal = await renderSSRStream(rootElement, {
@@ -71,6 +73,9 @@ export const createReadableStreamFromElement: CreateReadableStreamFromElement =
         // Prefer to wait for full content when instructed by middleware marker/env/isbot.
         await readableOriginal.allReady;
       }
+
+      // Read this render's head after the selected React readiness stage.
+      const { shellBefore, shellAfter } = await buildTemplates();
 
       const reader = readableOriginal.getReader();
       let coordinator: DeferredScriptOutputCoordinator | undefined;
@@ -215,6 +220,7 @@ export const createReadableStreamFromElement: CreateReadableStreamFromElement =
       return stream;
     } catch (e) {
       // Don't log error in `onShellError` callback, since it has been logged in `onError` callback
+      const { shellBefore, shellAfter } = await buildTemplates();
       const fallbackHtml = `${shellBefore}${shellAfter}`;
       const stream = getReadableStreamFromString(fallbackHtml);
       return stream;

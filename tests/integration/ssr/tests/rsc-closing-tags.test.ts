@@ -1,7 +1,9 @@
 import path, { join } from 'path';
+import { writeFile } from 'node:fs/promises';
 import { isVersionAtLeast18 } from '@modern-js/utils';
 import {
   getPort,
+  createIsolatedTestApp,
   killApp,
   launchApp,
   modernBuild,
@@ -100,6 +102,47 @@ describe('RSC dev HTML closing tags', () => {
     expect((html.match(/<\/body>/g) || []).length).toBe(1);
     expect((html.match(/<\/html>/g) || []).length).toBe(1);
     expect(html.trimEnd().endsWith('</html>')).toBe(true);
+    expectFlightScriptsBeforeClosingTags(html);
+  });
+});
+
+describe('RSC SSR head collection', () => {
+  let fixture: Awaited<ReturnType<typeof createIsolatedTestApp>>;
+  let app: Awaited<ReturnType<typeof modernServe>>;
+  let port: number;
+
+  beforeAll(async () => {
+    fixture = await createIsolatedTestApp(join(fixtureDir, 'rsc-closing-tags'));
+    await writeFile(
+      join(fixture.appDir, 'modern.config.ts'),
+      `import base from '../rsc-closing-tags/modern.config';
+export default { ...base, server: { ...base.server, ssr: true } };
+`,
+    );
+    const result = await modernBuild(fixture.appDir);
+    expect(result.code, result.stderr || result.stdout).toBe(0);
+    port = await getPort();
+    app = await modernServe(fixture.appDir, port);
+  });
+
+  afterAll(async () => {
+    try {
+      if (app) await killApp(app);
+    } finally {
+      await fixture?.cleanup();
+    }
+  });
+
+  test('collects framework Helmet inside the RSC tree before the all-ready template snapshot', async () => {
+    const response = await fetch(`http://127.0.0.1:${port}`, {
+      headers: { 'x-should-stream-all': 'true' },
+    });
+    expect(response.status).toBe(200);
+    const html = await response.text();
+    const head = html.slice(0, html.indexOf('</head>'));
+    expect(head).toContain('lang="en"');
+    expect(head).toContain('RSC head isolation</title>');
+    expect(head).toContain('rel="icon"');
     expectFlightScriptsBeforeClosingTags(html);
   });
 });

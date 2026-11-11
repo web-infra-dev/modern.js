@@ -6,6 +6,10 @@ title: Head
 
 Used to add html elements (such as title, meta, script, etc.) to the `<head>` element, supports SSR.
 
+String and streaming SSR collect head data separately for each render, so concurrent renders do not share state. The framework provides the collection context automatically, without requiring an additional Provider.
+
+Streaming SSR reads head data when the shell is ready, or when all content is ready in modes that wait for the complete render. Tags rendered inside Suspense after the shell has been sent are not added to the head that was already sent.
+
 ## Usage
 
 ```tsx
@@ -36,4 +40,4 @@ export default IndexPage;
 
 ## More
 
-For detail, see [react-helmet](https://github.com/nfl/react-helmet).
+For component props, see [react-helmet-async](https://www.npmjs.com/package/@slorber/react-helmet-async).
