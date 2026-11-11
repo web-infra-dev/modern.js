@@ -1,8 +1,8 @@
 {
   "version": 1,
   "counts": {
-    "dev": 119,
-    "production": 118,
+    "dev": 121,
+    "production": 120,
     "common": 22
   },
   "mf": [
@@ -1544,6 +1544,13 @@
       "tests/integration/module-federation/tests/service-app.test.ts",
       "dev",
       ["Weather Lab (dev)", "Service weather application"],
+      "keeps Node entry loading cold for Service SSR, then renders an ordinary expose in the same Host process",
+      "rstest"
+    ],
+    [
+      "tests/integration/module-federation/tests/service-app.test.ts",
+      "dev",
+      ["Weather Lab (dev)", "Service weather application"],
       "keeps the CSR document empty and includes real producer HTML in the SSR response",
       "rstest"
     ],
@@ -1552,6 +1559,13 @@
       "dev",
       ["Weather Lab (dev)", "Service weather application"],
       "preserves noSSR and explicit CSR recovery without entering a Service request loop",
+      "rstest"
+    ],
+    [
+      "tests/integration/module-federation/tests/service-app.test.ts",
+      "dev",
+      ["Weather Lab (dev)", "Service weather application"],
+      "publishes the producer address once and automatically serves the base URL aliases",
       "rstest"
     ],
     [
@@ -1649,6 +1663,13 @@
       "tests/integration/module-federation/tests/service-app.test.ts",
       "production",
       ["Weather Lab (production)", "Service weather application"],
+      "keeps Node entry loading cold for Service SSR, then renders an ordinary expose in the same Host process",
+      "rstest"
+    ],
+    [
+      "tests/integration/module-federation/tests/service-app.test.ts",
+      "production",
+      ["Weather Lab (production)", "Service weather application"],
       "keeps the CSR document empty and includes real producer HTML in the SSR response",
       "rstest"
     ],
@@ -1657,6 +1678,13 @@
       "production",
       ["Weather Lab (production)", "Service weather application"],
       "preserves noSSR and explicit CSR recovery without entering a Service request loop",
+      "rstest"
+    ],
+    [
+      "tests/integration/module-federation/tests/service-app.test.ts",
+      "production",
+      ["Weather Lab (production)", "Service weather application"],
+      "publishes the producer address once and automatically serves the base URL aliases",
       "rstest"
     ],
     [

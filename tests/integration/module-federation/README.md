@@ -164,17 +164,17 @@ The Module Federation E2E workflow runs five test jobs on independent runners. E
 | Job                | MF cases |
 | ------------------ | -------: |
 | `lab-dev-A`        |       46 |
-| `lab-dev-B`        |       58 |
+| `lab-dev-B`        |       75 |
 | `lab-production-A` |       46 |
-| `lab-production-B` |       57 |
+| `lab-production-B` |       74 |
 | `common`           |       22 |
 
-The common job also runs `rootExposes.test.ts` and `routeScope.test.ts` once each, using their existing package configurations. These unit cases are checked separately from the 259 MF cases.
+The common job also runs `rootExposes.test.ts` and `routeScope.test.ts` once each, using their existing package configurations. These unit cases are checked separately from the 263 MF cases.
 
 [`scripts/groups.mjs`](./scripts/groups.mjs) owns the A/B/common file assignments. Both Rstest selection and result verification use it. Unknown, duplicate and unassigned files, empty groups and invalid environment parameters fail before services start. When adding or removing cases, update the committed [`case-manifest.json`](./case-manifest.json) from a successful full serial report and review the identity diff.
 
 ```sh
-# All 259 MF cases, serially, with the original local entry point
+# All 263 MF cases, serially, with the original local entry point
 pnpm --filter mf-lab-tests test --bail=1
 
 # One file group and mode
