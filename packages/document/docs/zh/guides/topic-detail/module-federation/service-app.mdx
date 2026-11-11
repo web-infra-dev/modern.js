@@ -88,7 +88,9 @@ CSR Host 只需把 `server.ssr` 改为 `false`。Modern 自动提供 `/_modern/m
 
 `forwardHeaders` 默认空列表，选择可以传给业务 loader 的用户请求头。`serviceHeaders` 用于独立的上游服务认证，只进入 Node 配置。浏览器产物只取得同源地址和超时，不包含内部服务凭据。不要把凭据放进业务 props 或 manifest。
 
-Modern 服务插件在加载 SSR 构建前注入私有请求策略。公开 Node 构建仅携带 Federation 运行时名称，不携带服务凭据。服务地址属于公开元信息。生成的服务端配置文件应作为私有服务文件部署。
+Modern 服务插件在当前服务进程中注册应用的私有请求策略。运行时在解析 Snapshot 并确认当前 expose 是 Service 后才读取策略。普通 Node container 的加载不依赖其私有 Service 配置，包括配置了下游 remotes 的 container。
+
+策略归属于消费应用自身的 Federation 运行时名称。container 在另一个 Host 进程执行时，不会带入原服务器的内存配置，也不会继承 Host 的策略。真正消费 Service 时，如果该运行时未注册服务上下文，会明确报错。已注册上下文但未配置某个 expose 的额外策略时，仍使用默认策略。公开 Node 构建仅携带运行时名称，不携带服务凭据。服务地址属于公开元信息。生成的服务端配置文件应作为私有服务文件部署。
 
 Service 使用 `loaded-first` 共享策略，Modern 默认已经启用。显式 `version-first` 会在选择 expose 前加载 Node container 来发现共享，因此配置 Service 时会明确报错，不静默修改该配置。
 

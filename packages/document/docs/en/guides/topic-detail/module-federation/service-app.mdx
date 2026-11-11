@@ -90,7 +90,9 @@ Service uses loaded-first sharing, which Modern already defaults to. An explicit
 
 Timeout defaults to 30 seconds and includes reading the entire stream, not just receiving metadata. The outer Bridge task watchdog also applies. There is no local Node fallback. Before or after accepted metadata, failures use existing Bridge recovery. Explicit `csr=1` recovery and `noSSR` bypass the Service request and render directly in the browser.
 
-Private request policies are installed by the Modern server plugin before the SSR bundle loads. Public Node bundles carry only the federation runtime name, never service credentials. Service addresses are public metadata. Serve the generated server configuration as private server files.
+The Modern server plugin registers the application's private request policies in its server process. The runtime reads them only after the resolved Snapshot identifies the current expose as a Service. Loading an ordinary Node container, including one with downstream remotes, does not require its private Service configuration.
+
+Policies belong to the consuming application's federation runtime name. Loading a container in another Host process does not transfer its original server's configuration or inherit the Host's policies. Consuming a Service without that runtime's registered server context reports an error. A registered context with no policy for an expose still uses the defaults. Public Node bundles carry only the runtime name, never service credentials. Service addresses are public metadata. Serve the generated server configuration as private server files.
 
 ## Consume with existing APIs
 

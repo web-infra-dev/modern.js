@@ -12,7 +12,7 @@ export function getServiceConfig(name: string): BridgeServices {
   const services = registry.get(name);
   if (!services)
     throw new Error(
-      `Service runtime '${name}' has no server configuration. Start the Modern service server plugin before loading the SSR bundle.`,
+      `Service runtime '${name}' has no server configuration in this process. Register this runtime's Modern service server plugin before consuming a Service expose. Configuration from another runtime is not inherited.`,
     );
   return services;
 }

@@ -18,6 +18,18 @@ it('keeps private deployment bindings scoped to server runtime identity', () => 
   );
   expect(() =>
     serviceRuntimePlugin({ name: 'unregistered-private-runtime' }),
-  ).toThrow('no server configuration');
+  ).not.toThrow();
+  expect(() => getServiceConfig('unregistered-private-runtime')).toThrow(
+    "Service runtime 'unregistered-private-runtime' has no server configuration",
+  );
   expect(serviceRuntimePlugin({}).name).toBe('bridge-service');
+});
+
+it('distinguishes an unregistered runtime from a registered empty policy table', () => {
+  const services = {};
+  registerServiceConfig('private-defaults', services);
+  expect(getServiceConfig('private-defaults')).toBe(services);
+  expect(() => getServiceConfig('private-missing')).toThrow(
+    "Service runtime 'private-missing' has no server configuration",
+  );
 });
