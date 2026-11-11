@@ -15,6 +15,49 @@ const htmlMessages = (text: string) =>
 describeLab(
   'Service weather application',
   getContext => {
+    it('keeps Node entry loading cold for Service SSR, then renders an ordinary expose in the same Host process', async () => {
+      const { lab } = getContext();
+      const hostLog = () => lab.logs.get('service-ssr-v1') || '';
+      const entryAttempts = () =>
+        (hostLog().match(/SERVICE_NODE_ENTRY_ATTEMPT /g) || []).length;
+      const render = async (route: string) => {
+        const response = await fetch(
+          `http://localhost:${lab.ports.serviceSSR}${route}`,
+        );
+        expect(response.status).toBe(200);
+        const source = await response.text();
+        expect(htmlMessages(source)).toContain('data-testid="weather-detail"');
+        expect(htmlMessages(source)).toContain(
+          'data-testid="outlook-resolved"',
+        );
+        expect(
+          messages(source).filter(frame => frame.type === 'error'),
+        ).toEqual([]);
+        expect(messages(source).some(frame => frame.type === 'done')).toBe(
+          true,
+        );
+      };
+      // This is the first test in a new Lab, not a new browser context sharing
+      // an already-loaded Host container. Readiness uses an empty late mount.
+      expect(entryAttempts()).toBe(0);
+      await render('/service/forecast/wed?probe=mixed-service-first');
+      await expect
+        .poll(hostLog)
+        .toContain('provider/ServiceWeatherApplication');
+      expect(entryAttempts()).toBe(0);
+
+      // Another page route selects the ordinary application of the same remote.
+      // The probe observes entry loading but allows the real HTTP JS to execute.
+      await render('/service/forecast/thu?local=1&probe=mixed-local-second');
+      await expect.poll(entryAttempts).toBe(1);
+      await expect.poll(hostLog).toContain('provider/WeatherApplication');
+      expect(hostLog()).not.toContain('SERVICE_NODE_ENTRY_BLOCKED');
+
+      // Loading the real container must not disable the per-expose short circuit.
+      await render('/service/forecast/fri?probe=mixed-service-after-local');
+      expect(entryAttempts()).toBe(1);
+    });
+
     it('publishes the producer address once and automatically serves the base URL aliases', async () => {
       const { lab } = getContext();
       const producerOrigin = `http://localhost:${lab.ports.provider}`;

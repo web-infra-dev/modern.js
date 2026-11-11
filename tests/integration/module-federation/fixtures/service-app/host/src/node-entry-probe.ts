@@ -1,10 +1,12 @@
 import type { ModuleFederationRuntimePlugin } from '@module-federation/enhanced/runtime';
-export default (): ModuleFederationRuntimePlugin => ({
+export default (
+  options: { block?: boolean } = {},
+): ModuleFederationRuntimePlugin => ({
   name: 'service-node-entry-probe',
   loadEntry({ remoteInfo }) {
     if (typeof window === 'undefined' && remoteInfo.name === 'lab_provider') {
       console.error(`SERVICE_NODE_ENTRY_ATTEMPT ${remoteInfo.entry}`);
-      throw Error('SERVICE_NODE_ENTRY_BLOCKED');
+      if (options.block) throw Error('SERVICE_NODE_ENTRY_BLOCKED');
     }
   },
   afterLoadRemote({ id, expose, recovered, error }) {
