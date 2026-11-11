@@ -1,1 +1,10 @@
-["introduce", "usage", "application", "ssr", "bridge-ssr", "deploy", "i18n"]
+[
+  "introduce",
+  "usage",
+  "application",
+  "ssr",
+  "bridge-ssr",
+  "service-app",
+  "deploy",
+  "i18n"
+]

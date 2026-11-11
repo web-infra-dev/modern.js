@@ -11,7 +11,7 @@ Modern.js 提供了一个 Module Federation 的示例项目，请参考 [module-
 Modern.js 会在应用目录检测 `module-federation.config.ts`，存在该文件时自动启用 Module Federation。无需安装或手动注册 Modern.js MF 插件，仍需安装 MF 引擎：
 
 ```bash
-pnpm add @module-federation/enhanced@0.0.0-feat-enhanced-runtime-unification-20261110060527
+pnpm add @module-federation/enhanced@0.0.0-feat-enhanced-runtime-unification-20261111082820
 ```
 
 统一 React 消费 API 从 `@modern-js/runtime/mf` 导入，Modern 管理其 Bridge 依赖。用户仍需安装支持该 API 与 expose 协议元信息的 Enhanced 版本。现有 Bridge 直接导入方式继续保留。
@@ -128,7 +128,7 @@ const ByComponent = createReactRemote({ remote: async () => Shop })
 
 两种函数用法都支持普通组件 SSR，前提是函数及其加载的模块能够在 Node 中执行。普通组件继续使用相同的数据加载、资源输出和水合链路。`noSSR: true` 在服务端输出 loading 占位，并将函数调用和组件渲染留到客户端。已经在消费 API 之外执行的静态 import 或预加载不会被 `noSSR` 撤销。
 
-支持流式渲染的 Bridge 生产者可以通过 [Modern Bridge SSR](/guides/topic-detail/module-federation/bridge-ssr) 输出应用内容并在浏览器复用 DOM。没有 `renderStream` 的旧生产者继续在服务端输出占位，浏览器再创建 provider 和独立 Root。函数输入在加载后选择对应渲染器。Service App 与 `updateRemotes` 不属于此接入范围。重试会重新调用失败的输入函数并重建失败实例，不保证重新下载已经缓存的 MF 模块或重新执行业务数据函数。
+支持流式渲染的 Bridge 生产者可以通过 [Modern Bridge SSR](/guides/topic-detail/module-federation/bridge-ssr) 输出应用内容并在浏览器复用 DOM。没有 `renderStream` 的旧生产者继续在服务端输出占位，浏览器再创建 provider 和独立 Root。函数输入在加载后选择对应渲染器。Service 导出使用同样的函数输入，部署方式见 [Service App](/guides/topic-detail/module-federation/service-app)。`updateRemotes` 仍不属于此接入范围。重试会重新调用失败的输入函数并重建失败实例，不保证重新下载已经缓存的 MF 模块或重新执行业务数据函数。
 
 Modern 默认关闭 MF 引擎根据 bridge-react 依赖自动设置路由别名的行为，路由由 Modern 管理。显式配置 bridge.enableBridgeRouter 时保留用户选项。
 
@@ -217,4 +217,4 @@ export default function Page() {
 
 需要同步地址的宿主与 Remote 应使用一致的 Browser 或 Hash Router 模式。CSR Hash Router 宿主挂载需要同步地址的应用时，生产者也应配置 `router.supportHtml5History: false`。默认 Browser Router Remote 不会把宿主的 hash 当作 pathname，独立卡片可改用显式 `memoryRoute`。Hash href 不会当作 pathname 拼接。 Modern 自定义文档可以包含 `<base>` 元素，此时 Hash Router 可能生成完整 href URL，同步仍按配置的 Hash 模式处理。不写入浏览器 history 的自定义适配器不在此 Browser Router 同步契约内。fragment 不会发送给服务端，因此 Hash 深层入口在客户端确定，本版不支持 Hash Router 宿主的 SSR 水合。
 
-旧 Bridge 产物继续使用其原有 Router 行为，缺少新 navigation 集成时不会自动获得双向同步。无协议标记的旧产物仍需 `render: 'bridge'`。普通组件继续进入 Host React 树。没有流式渲染回调的旧 Bridge 在 SSR Host 中输出占位，浏览器挂载后同步导航。支持流式渲染的生产者使用 [Modern Bridge SSR](/guides/topic-detail/module-federation/bridge-ssr)。Service App 与远程版本替换不属于此接入范围。
+旧 Bridge 产物继续使用其原有 Router 行为，缺少新 navigation 集成时不会自动获得双向同步。无协议标记的旧产物仍需 `render: 'bridge'`。普通组件继续进入 Host React 树。没有流式渲染回调的旧 Bridge 在 SSR Host 中输出占位，浏览器挂载后同步导航。支持流式渲染的生产者使用 [Modern Bridge SSR](/guides/topic-detail/module-federation/bridge-ssr)。Service 导出的部署方式见 [Service App](/guides/topic-detail/module-federation/service-app)。远程版本替换仍不属于此接入范围。

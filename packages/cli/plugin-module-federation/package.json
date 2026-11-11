@@ -47,7 +47,12 @@
       "types": "./dist/types/types/index.d.ts",
       "default": "./dist/cjs/types/index.js"
     },
-    "./package.json": "./package.json"
+    "./package.json": "./package.json",
+    "./service": {
+      "types": "./dist/types/server/service.d.ts",
+      "import": "./dist/esm-node/server/service.mjs",
+      "require": "./dist/cjs/server/service.js"
+    }
   },
   "main": "./dist/cjs/cli/index.js",
   "types": "./src/cli/index.ts",
@@ -62,10 +67,10 @@
     "@modern-js/server": "workspace:*",
     "@modern-js/server-core": "workspace:*",
     "@modern-js/utils": "workspace:*",
-    "@module-federation/bridge-react": "0.0.0-feat-enhanced-runtime-unification-20261110060527",
-    "@module-federation/node": "0.0.0-feat-enhanced-runtime-unification-20261110060527",
-    "@module-federation/rsbuild-plugin": "0.0.0-feat-enhanced-runtime-unification-20261110060527",
-    "@module-federation/sdk": "0.0.0-feat-enhanced-runtime-unification-20261110060527",
+    "@module-federation/bridge-react": "0.0.0-feat-enhanced-runtime-unification-20261111082820",
+    "@module-federation/node": "0.0.0-feat-enhanced-runtime-unification-20261111082820",
+    "@module-federation/rsbuild-plugin": "0.0.0-feat-enhanced-runtime-unification-20261111082820",
+    "@module-federation/sdk": "0.0.0-feat-enhanced-runtime-unification-20261111082820",
     "@rsbuild/core": "2.2.13",
     "@swc/helpers": "^0.5.17",
     "jiti": "^2.7.0"
@@ -73,7 +78,7 @@
   "devDependencies": {
     "@modern-js/rslib": "workspace:*",
     "@modern-js/server-runtime": "workspace:*",
-    "@module-federation/enhanced": "0.0.0-feat-enhanced-runtime-unification-20261110060527",
+    "@module-federation/enhanced": "0.0.0-feat-enhanced-runtime-unification-20261111082820",
     "@rspack/core": "2.2.9",
     "@scripts/rstest-config": "workspace:*",
     "@types/node": "^20",
@@ -82,7 +87,7 @@
     "typescript": "^5"
   },
   "peerDependencies": {
-    "@module-federation/enhanced": "0.0.0-feat-enhanced-runtime-unification-20261110060527",
+    "@module-federation/enhanced": "0.0.0-feat-enhanced-runtime-unification-20261111082820",
     "react": ">=18.3.1",
     "react-dom": ">=18.3.1"
   },
@@ -114,6 +119,9 @@
       ],
       "types": [
         "./dist/types/types/index.d.ts"
+      ],
+      "service": [
+        "./dist/types/server/service.d.ts"
       ]
     }
   }

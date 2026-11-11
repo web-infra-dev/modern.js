@@ -1,0 +1,148 @@
+body {
+  margin: 0;
+}
+
+.service-demo {
+  min-height: 100dvh;
+  color: #203c5b;
+  background: #edf3f8;
+  font-family:
+    -apple-system, BlinkMacSystemFont, 'Helvetica Neue', 'PingFang SC',
+    sans-serif;
+}
+
+.service-demo-header {
+  box-sizing: border-box;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 24px;
+  max-width: 1120px;
+  margin: 0 auto;
+  padding: 22px 32px;
+}
+
+.service-demo-heading p {
+  margin: 0 0 5px;
+  color: #147d79;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+}
+
+.service-demo-heading h1 {
+  margin: 0 0 5px;
+  font-size: 23px;
+  font-weight: 600;
+  letter-spacing: -0.6px;
+  line-height: 1.2;
+}
+
+.service-demo-heading > span {
+  color: #62798f;
+  font-size: 12px;
+}
+
+.service-demo-controls {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.service-demo-button,
+.service-demo-note {
+  box-sizing: border-box;
+  height: 42px;
+  border: 1px solid #d7e3ed;
+  border-radius: 12px;
+  font: inherit;
+  font-size: 13px;
+}
+
+.service-demo-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 0 15px;
+  font-weight: 500;
+  white-space: nowrap;
+  cursor: pointer;
+  transition:
+    background-color 150ms,
+    border-color 150ms;
+}
+
+.service-demo-button svg {
+  width: 16px;
+  height: 16px;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.7;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.service-demo-connection {
+  color: #203c5b;
+  background: #fff;
+}
+
+.service-demo-connection:hover {
+  border-color: #62798f;
+  background: #f5f9fc;
+}
+
+.service-demo-station {
+  color: #fff;
+  border-color: #203c5b;
+  background: #203c5b;
+}
+
+.service-demo-station:hover {
+  border-color: #147d79;
+  background: #147d79;
+}
+
+.service-demo-note {
+  width: 150px;
+  padding: 0 13px;
+  color: #203c5b;
+  background: #fff;
+}
+
+.service-demo-note::placeholder {
+  color: #62798f;
+}
+
+.service-demo-button:focus-visible,
+.service-demo-note:focus-visible {
+  outline: 3px solid #147d79;
+  outline-offset: 3px;
+}
+
+@media (max-width: 760px) {
+  .service-demo-header {
+    align-items: stretch;
+    flex-direction: column;
+    gap: 18px;
+    padding: 22px 20px;
+  }
+
+  .service-demo-controls {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .service-demo-note {
+    grid-column: 1 / -1;
+    width: 100%;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .service-demo-button {
+    transition: none;
+  }
+}

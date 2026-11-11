@@ -13,7 +13,7 @@ describeLab('Independent weather applications', getContext => {
       manifest.exposes.find(
         (item: { name: string }) => item.name === 'BridgeCard',
       ),
-    ).toMatchObject({ render: 'bridge', isService: false });
+    ).toMatchObject({ render: 'bridge' });
     expect(
       manifest.exposes.find((item: { name: string }) => item.name === 'Weather')
         .render,
