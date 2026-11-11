@@ -1,5 +1,4 @@
 import { renderToString } from 'react-dom/server';
-import LegacyHelmet from 'react-helmet';
 import { HelmetProvider } from 'react-helmet-async';
 import type { HeadContext } from '../../src/core/head';
 import Head, { Helmet } from '../../src/exports/head';
@@ -10,8 +9,8 @@ describe('framework Helmet compatibility', () => {
   });
 
   it('preserves legacy head content, attributes, escaping and nested overrides', () => {
-    const render = (legacy: boolean) => {
-      const Component = legacy ? LegacyHelmet : Helmet;
+    const render = () => {
+      const Component = Helmet;
       return (
         <>
           <Component
@@ -34,28 +33,23 @@ describe('framework Helmet compatibility', () => {
         </>
       );
     };
-    renderToString(render(true));
-    const legacy = LegacyHelmet.renderStatic();
     const context: HeadContext = {};
     renderToString(
-      <HelmetProvider context={context}>{render(false)}</HelmetProvider>,
+      <HelmetProvider context={context}>{render()}</HelmetProvider>,
     );
     const current = context.helmet!;
-    for (const key of [
-      'title',
-      'htmlAttributes',
-      'bodyAttributes',
-      'meta',
-      'link',
-      'script',
-    ] as const) {
-      expect(
-        current[key].toString().replaceAll('data-rh', 'data-react-helmet'),
-      ).toBe(legacy[key].toString());
+    const expected = {
+      title: '<title data-rh="true">Child &amp; details | Modern</title>',
+      htmlAttributes: 'lang="en"',
+      bodyAttributes: 'class="dark"',
+      meta: '<meta data-rh="true" name="description" content="child"/>',
+      link: '<link data-rh="true" rel="canonical" href="https://example.com/child"/>',
+      script:
+        '<script data-rh="true" type="application/ld+json">{"name":"Child & details"}</script>',
+    };
+    for (const key of Object.keys(expected) as (keyof typeof expected)[]) {
+      expect(current[key].toString()).toBe(expected[key]);
     }
-    expect(current.title.toString()).toContain('Child &amp; details | Modern');
-    expect(current.meta.toString()).not.toContain('content="parent"');
-    expect(current.link.toString()).not.toContain('/parent');
   });
 
   it('keeps independently created collectors separate', () => {

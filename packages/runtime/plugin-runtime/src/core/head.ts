@@ -1,3 +1,5 @@
+import type { HelmetServerState } from 'react-helmet-async/lib/types';
+
 // Template replacement consumes serialization, never a library's toComponent().
 export type HeadData = Record<
   | 'base'
@@ -14,5 +16,5 @@ export type HeadData = Record<
 
 /** Owned by a single render, never serialized into the hydration payload. */
 export interface HeadContext {
-  helmet?: HeadData;
+  helmet?: HelmetServerState;
 }

@@ -1286,9 +1286,6 @@ importers:
       '@types/loadable__component':
         specifier: ^5.13.10
         version: 5.13.10
-      '@types/react-helmet':
-        specifier: ^6.1.11
-        version: 6.1.11
       cookie:
         specifier: 0.7.2
         version: 0.7.2
@@ -1304,12 +1301,9 @@ importers:
       isbot:
         specifier: 3.8.0
         version: 3.8.0
-      react-helmet:
-        specifier: ^6.1.0
-        version: 6.1.0(react@19.3.1)
       react-helmet-async:
-        specifier: npm:@slorber/react-helmet-async@1.3.0
-        version: '@slorber/react-helmet-async@1.3.0(react-dom@19.3.1(react@19.3.1))(react@19.3.1)'
+        specifier: 2.0.5
+        version: 2.0.5(react@19.3.1)
       react-is:
         specifier: ^18.3.1
         version: 18.3.1
@@ -8747,12 +8741,6 @@ packages:
     resolution: {integrity: sha512-tlqY9xq5ukxTUZBmoOp+m61cqwQD5pHJtFY3Mn8CA8ps6yghLH/Hw8UPdqg4OLmFW3IFlcXnQNmo/dh8HzXYIQ==}
     engines: {node: '>=18'}
 
-  '@slorber/react-helmet-async@1.3.0':
-    resolution: {integrity: sha512-e9/OK8VhwUSc67diWI8Rb3I0YgI9/SBQtnhe9aEuK6MhZm7ntZZimXgwXnd8W96YTmSOb9M4d8LwhRZyhWr/1A==}
-    peerDependencies:
-      react: ^16.6.0 || ^17.0.0 || ^18.0.0 || ^19.0.0
-      react-dom: ^16.6.0 || ^17.0.0 || ^18.0.0 || ^19.0.0
-
   '@socket.io/component-emitter@3.1.2':
     resolution: {integrity: sha512-9BCxFwvbGg/RsZK9tjXd8s4UcwR0MWeFQ1XEKIQVVvAGJyINdrqKMcTRyLoK8Rse1GjzLV9cwjWV1olXRWEXVA==}
 
@@ -15198,6 +15186,11 @@ packages:
 
   react-fast-compare@3.2.2:
     resolution: {integrity: sha512-nsO+KSNgo1SbJqJEYRE9ERzo7YtYbou/OqjSQKxV7jcKox7+usiUVZOAC+XnDOABXggQTno0Y1CpVnuWEc1boQ==}
+
+  react-helmet-async@2.0.5:
+    resolution: {integrity: sha512-rYUYHeus+i27MvFE+Jaa4WsyBKGkL6qVgbJvSBoX8mbsWoABJXdEO0bZyi0F6i+4f0NuIb8AvqPMj3iXFHkMwg==}
+    peerDependencies:
+      react: ^16.6.0 || ^17.0.0 || ^18.0.0
 
   react-helmet@6.1.0:
     resolution: {integrity: sha512-4uMzEY9nlDlgxr61NL3XbKRy1hEkXmKNXhjbAIOVw5vcFrsdYbH2FEwcNyWvWinl103nXgzYNlns9ca+8kFiWw==}
@@ -22936,16 +22929,6 @@ snapshots:
   '@sindresorhus/is@7.2.0': {}
 
   '@sindresorhus/merge-streams@4.0.0': {}
-
-  '@slorber/react-helmet-async@1.3.0(react-dom@19.3.1(react@19.3.1))(react@19.3.1)':
-    dependencies:
-      '@babel/runtime': 7.29.7
-      invariant: 2.2.4
-      prop-types: 15.8.1
-      react: 19.3.1
-      react-dom: 19.3.1(react@19.3.1)
-      react-fast-compare: 3.2.2
-      shallowequal: 1.1.0
 
   '@socket.io/component-emitter@3.1.2': {}
 
@@ -31086,6 +31069,13 @@ snapshots:
 
   react-fast-compare@3.2.2: {}
 
+  react-helmet-async@2.0.5(react@19.3.1):
+    dependencies:
+      invariant: 2.2.4
+      react: 19.3.1
+      react-fast-compare: 3.2.2
+      shallowequal: 1.1.0
+
   react-helmet@6.1.0(react@19.2.8):
     dependencies:
       object-assign: 4.1.1
@@ -31093,14 +31083,6 @@ snapshots:
       react: 19.2.8
       react-fast-compare: 3.2.2
       react-side-effect: 2.1.2(react@19.2.8)
-
-  react-helmet@6.1.0(react@19.3.1):
-    dependencies:
-      object-assign: 4.1.1
-      prop-types: 15.8.1
-      react: 19.3.1
-      react-fast-compare: 3.2.2
-      react-side-effect: 2.1.2(react@19.3.1)
 
   react-i18next@15.7.4(i18next@25.10.10(typescript@5.9.3))(react-dom@19.3.1(react@19.3.1))(react@19.3.1)(typescript@5.9.3):
     dependencies:
@@ -31212,10 +31194,6 @@ snapshots:
   react-side-effect@2.1.2(react@19.2.8):
     dependencies:
       react: 19.2.8
-
-  react-side-effect@2.1.2(react@19.3.1):
-    dependencies:
-      react: 19.3.1
 
   react@19.2.8: {}
 

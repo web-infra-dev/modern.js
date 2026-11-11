@@ -40,4 +40,8 @@ export default IndexPage;
 
 ## 更多用法
 
-组件属性用法可参考 [react-helmet-async](https://www.npmjs.com/package/@slorber/react-helmet-async)。
+组件属性用法可参考 [react-helmet-async](https://www.npmjs.com/package/react-helmet-async/v/2.0.5)。
+
+当前使用的 `react-helmet-async@2.0.5` 的 peer 声明尚未包含 React 19。React 19 项目在默认安装配置下可能收到 peer 警告，开启严格 peer 检查时可能安装失败。
+
+如果项目直接将 `react-helmet-async@2.0.5` 与 React 19 一起声明为依赖，npm 10 默认安装也可能因 `ERESOLVE` 失败。

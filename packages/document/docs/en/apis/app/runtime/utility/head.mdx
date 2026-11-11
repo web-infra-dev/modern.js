@@ -40,4 +40,8 @@ export default IndexPage;
 
 ## More
 
-For component props, see [react-helmet-async](https://www.npmjs.com/package/@slorber/react-helmet-async).
+For component props, see [react-helmet-async](https://www.npmjs.com/package/react-helmet-async/v/2.0.5).
+
+The peer dependency range of `react-helmet-async@2.0.5` does not include React 19. React 19 projects may receive peer warnings with default installation settings, and installation may fail when strict peer checks are enabled.
+
+If a project directly declares both `react-helmet-async@2.0.5` and React 19 as dependencies, npm 10 may also fail with `ERESOLVE` under its default installation settings.
