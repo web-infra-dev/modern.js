@@ -1,5 +1,15 @@
 # app-rsbuild-hooks
 
+## 2.66.7
+
+### Patch Changes
+
+- Updated dependencies [67d0de9]
+- Updated dependencies [4d498bb]
+- Updated dependencies [3d9233b]
+  - @modern-js/app-tools@3.11.3
+  - @modern-js/runtime@3.11.3
+
 ## 2.66.6
 
 ### Patch Changes

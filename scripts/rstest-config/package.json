@@ -1,7 +1,7 @@
 {
   "name": "@scripts/rstest-config",
   "private": true,
-  "version": "2.66.6",
+  "version": "2.66.7",
   "type": "module",
   "main": "src/index.ts",
   "typings": "src/index.ts",

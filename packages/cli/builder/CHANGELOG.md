@@ -1,5 +1,15 @@
 # @modern-js/builder
 
+## 3.11.3
+
+### Patch Changes
+
+- 4d498bb: Upgrade @rsbuild/core to 2.3.2, which includes Rspack 2.3.2.
+
+  将 @rsbuild/core 升级至 2.3.2，其中包含 Rspack 2.3.2。
+
+  - @modern-js/utils@3.11.3
+
 ## 3.11.2
 
 ### Patch Changes

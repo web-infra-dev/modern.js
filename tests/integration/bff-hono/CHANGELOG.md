@@ -1,5 +1,13 @@
 # bff-hono
 
+## 2.65.9
+
+### Patch Changes
+
+- @modern-js/plugin-bff@3.11.3
+- @modern-js/runtime@3.11.3
+- @modern-js/server-runtime@3.11.3
+
 ## 2.65.8
 
 ### Patch Changes

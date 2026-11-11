@@ -1,7 +1,7 @@
 {
   "private": true,
   "name": "pure-esm-project",
-  "version": "2.66.6",
+  "version": "2.66.7",
   "type": "module",
   "scripts": {
     "dev": "modern dev",
