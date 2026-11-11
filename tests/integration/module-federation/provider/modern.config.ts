@@ -5,6 +5,9 @@ export default defineConfig({
   html: { title: 'Federation lab · SSR & data fetching' },
   server: {
     tsconfigPath: './tsconfig.server.json',
+    baseUrl: process.env.MF_LAB_SERVICE
+      ? ['/weather-service', '/weather-service-alias', '/']
+      : '/',
     port: port(name, 4301),
     ssr: process.env.MF_LAB_VERSION === 'v2' ? false : { mode: 'stream' },
   },
@@ -88,5 +91,13 @@ export default defineConfig({
     },
   },
   performance: { buildCache: false },
+  moduleFederation: process.env.MF_LAB_SERVICE
+    ? {
+        serviceProvider: {
+          origin: origin(name, 0),
+          cache: { maxAgeMs: 60000, maxEntries: 16, maxBytes: 4 * 1024 * 1024 },
+        },
+      }
+    : undefined,
   plugins: [appTools()],
 });

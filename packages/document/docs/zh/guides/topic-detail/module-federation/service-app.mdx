@@ -21,33 +21,39 @@ export default createModernBridgeComponent({
 
 在 `module-federation.config.ts` 中按普通 expose 暴露该文件。省略 `route` 导出整应用。也可以向 `createBridgeComponent` 显式传入 Modern 的 `render`、`hydrate`、`renderStream` 回调。
 
-构建把当前 expose 的 `render: 'bridge'`、`isService: true` 写入 manifest 和 Snapshot。这些是公开能力信息，不包含服务地址或凭据。
+应用定义保留 `isService: true`。构建识别后，manifest expose 与 Snapshot module 使用 `render: 'bridge'` 和 `servicePath`，不再输出 `isService`。公开服务基址在 manifest 的 `metaData.serviceBaseUrl` 中记录一次，并转换为 Snapshot 的 `serviceBaseUrl`。这些地址信息不包含服务凭据。
 
 构建双端生产者产物时，使用已有的 `MF_BUILD_VERSION` 设置一次唯一构建身份，例如部署对应的提交标识。manifest、浏览器 provider、Node provider 和服务应一起部署。消费者自动从解析后的 Snapshot 取得预期身份，组件不用重复填写版本。生产者在渲染和缓存查找前校验身份，不匹配返回 409。Core 默认退到包版本，无法区分同一包版本的多次构建，因此部署流程必须提供可区分这些产物的身份。
 
 ## 提供生产者服务
 
-直接导入服务助手时，声明对 `@modern-js/plugin-module-federation` 的直接依赖。在 `server/modern.server.ts` 中只创建一次中间件：
+在生产者的 `modern.config.ts` 配置一次服务 origin，Modern 自动为 Service exposes 注册 HTTP 服务：
 
 {/* prettier-ignore */}
 ```ts
-import { defineServerConfig } from '@modern-js/server-runtime'
-import { createBridgeServiceMiddleware } from '@modern-js/plugin-module-federation/service'
+import { appTools, defineConfig } from '@modern-js/app-tools'
 
-const weather = createBridgeServiceMiddleware({
-  path: '/services/render',
-  manifest: 'https://assets.example.com/weather/mf-manifest.json',
-  module: 'weather_app/App',
-  authorize: authenticateServiceRequest,
-  cache: { maxAgeMs: 60000 },
-})
-
-export default defineServerConfig({
-  middlewares: [{ name: 'weather-service', handler: weather }],
+export default defineConfig({
+  server: { baseUrl: '/weather', ssr: { mode: 'stream' } },
+  moduleFederation: {
+    serviceProvider: {
+      origin: 'https://weather.example.com',
+      cache: { maxAgeMs: 60000 },
+    },
+  },
+  plugins: [appTools()],
 })
 ```
 
-服务加载的模块由可信部署配置决定，调用方不能通过 HTTP 参数改选生产者。公开服务可以省略 `authorize`。配置后，该回调在每次缓存查找前执行，可返回 Response 拒绝请求。每次请求都必须执行的鉴权，应放在这里或前置网关，不能只放在会被缓存命中跳过的业务 loader 中。
+`origin` 包含协议和可选端口，不包含路径或凭据。生产环境必须提供它，开发环境省略时使用实际开发服务器地址。服务基址由 origin 与 `server.baseUrl` 合成，和可能指向 CDN 的 `assetPrefix` 无关。`./App` 默认发布相对路径 `_modern/mf/service/App`，上例完整地址为 `https://weather.example.com/weather/_modern/mf/service/App`。
+
+静态资源默认与生产者同域。资源另域部署时沿用 `output.assetPrefix` 等现有资源配置，Service origin 不覆盖已有 CDN 地址。
+
+需要自定义路径时，在同一配置中使用 `serviceProvider.paths: { './App': 'render/weather' }`。路径相对于服务基址，不重复填写域名或 baseUrl。`server.baseUrl` 为数组时，首项是默认发布前缀，所有前缀都注册等价路由。构建校验每个 expose 的路径有效性和重复路径配置。根据最终 manifest 注册服务时，框架拒绝包括 baseUrl 别名和 `additionalData` 修改造成的路由冲突。`manifest.additionalData` 保留高级产物修改能力，框架根据最终本地 manifest 注册服务，不要求普通用户编写这个回调。
+
+生产者必须启用现有 SSR 构建，生成匹配的 Node provider。只声明 Service 不会自动开启生产者页面 SSR，没有 Node 构建时会明确诊断。默认接入无需 `server/modern.server.ts`，也无需手工填写 manifest 地址和 module ID。
+
+需要业务鉴权时，在现有 `server/modern.server.ts` 中添加 `order: 'pre'` 的业务中间件，或在前置网关鉴权。鉴权必须在内置服务 handler 和每次缓存查找之前执行，不能只放在会被缓存命中跳过的 loader 中。`serviceProvider` 是可序列化配置，不接收鉴权闭包。已有 `createBridgeServiceMiddleware` 仍可供自定义服务集成使用，普通生产者由框架自动注册。
 
 服务加载真实 Node expose，调用同一份应用的 `renderStream`。生产者只执行一次 HTML 分帧、React 更新脚本隔离和 ready 判定。HTTP 消费端只解码和校验完整消息，不重新解析生产者 HTML。协议复用 `module-federation/bridge-ssr/producer/v1`。
 
@@ -62,7 +68,6 @@ export default defineConfig({
   moduleFederation: {
     services: {
       'weather/App': {
-        url: 'http://weather-service/services/render',
         timeoutMs: 15000,
         forwardHeaders: ['accept-language'],
         serviceHeaders: { authorization: serviceCredential },
@@ -73,15 +78,17 @@ export default defineConfig({
 })
 ```
 
-`module-federation.config.ts` 继续保留普通的 `remotes` manifest 配置。`services` 的键使用 Host 别名加 expose，生产者中间件的 `module` 使用生产者自身的 MF 名称。
+`module-federation.config.ts` 继续保留普通的 `remotes` 配置。`services` 只提供可选请求策略，键使用 Host 别名或生产者名称加 expose，不再填写上游 URL。没有额外策略时可以完全省略 `services`。地址统一读取既有加载链路最终选定的 Snapshot，已有 Snapshot 优先，必要时才加载 manifest 并转换，不另行读取 manifest 覆盖 Snapshot。
 
-CSR Host 只需把 `server.ssr` 改为 `false`。Modern 自动提供 `/_modern/mf/service/<编码后的模块 ID>` 同源入口，校验来源、模块、页面 URL 和有界参数，并仅从可信配置选择上游。单独部署的静态页面可以在同源网关挂载导出的 `createBridgeServiceIngressMiddleware`，再注册对应的 Core 浏览器绑定。
+Host 配置中的 `runtimePlugins` 也用于同源入口的 Snapshot 选择。Modern 将这些用户插件及其本地 TypeScript 依赖编译为私有 Node 产物，因此 CSR Host 不依赖页面 SSR 构建，生产部署也不需要原始源码路径。插件需要能够在可信 Node 服务端执行，现有插件选项与别名解析继续生效。框架自动添加的 Node 和 Bridge 插件不会重复复制。开发时等待插件重新编译完成后才采用新 Snapshot，编译失败不会静默使用旧选择。本次不扩展运行时 `registerPlugins`、`updateRemotes` 或浏览器提供 Snapshot 的能力。
 
-在网关终止 TLS 或改写 Host 时，配置 `moduleFederation.serviceOrigin` 为可信公开 Host origin，例如 `https://app.example.com`。来源与页面 URL 都按此配置校验，不自动信任客户端提供的转发头。独立网关助手使用第二个参数 `{ origin }`。
+CSR Host 只需把 `server.ssr` 改为 `false`。Modern 自动提供 `/_modern/mf/service/<编码后的模块 ID>` 同源入口，校验来源、模块、页面 URL 和有界参数，并从可信 remotes 对应的最终 Snapshot 选择上游。单独部署的静态页面可以在同源网关挂载导出的 `createBridgeServiceIngressMiddleware`，再注册对应的 Core 浏览器绑定。
+
+在网关终止 TLS 或改写 Host 时，配置 `moduleFederation.serviceOrigin` 为可信公开 Host origin，例如 `https://app.example.com`。来源与页面 URL 都按此配置校验，不自动信任客户端提供的转发头。独立网关助手的第二个参数传入可信 `{ name, remotes, origin }`，其中 remotes 使用 MF runtime 的远端描述，不能从浏览器 POST 参数获取。
 
 `forwardHeaders` 默认空列表，选择可以传给业务 loader 的用户请求头。`serviceHeaders` 用于独立的上游服务认证，只进入 Node 配置。浏览器产物只取得同源地址和超时，不包含内部服务凭据。不要把凭据放进业务 props 或 manifest。
 
-Modern 服务插件在加载 SSR 构建前注入私有上游绑定。公开 Node 构建仅携带 Federation 运行时名称，不携带上游地址或服务凭据。生成的服务端配置文件应作为私有服务文件部署。
+Modern 服务插件在加载 SSR 构建前注入私有请求策略。公开 Node 构建仅携带 Federation 运行时名称，不携带服务凭据。服务地址属于公开元信息。生成的服务端配置文件应作为私有服务文件部署。
 
 Service 使用 `loaded-first` 共享策略，Modern 默认已经启用。显式 `version-first` 会在选择 expose 前加载 Node container 来发现共享，因此配置 Service 时会明确报错，不静默修改该配置。
 
@@ -112,7 +119,7 @@ export default function Page() {
 
 也支持 `createReactRemote`。remote 仍然只接受函数，保留默认导出、模块 namespace 和业务 props 类型推导。Service props 必须可以 JSON 序列化，不传递 DOM、回调或闭包。
 
-缺少部署绑定的 Service 会在 Node entry 加载前报错，不隐式转为 Host 本地 SSR。
+存在 `servicePath` 但路径或公共服务基址非法的 Service 会在 Node entry 加载前报错，不隐式转为 Host 本地 SSR。
 
 Node runtime 在解析当前 expose 的 Snapshot 后，对 Service 返回轻量导出并短路代码加载。同 remote 的普通 expose 仍然加载真实 entry。模块描述可以复用，props、用户上下文、signal 和流分别属于本次渲染。
 
@@ -120,7 +127,7 @@ CSR loading 位于目标容器外。Host 提交空容器后，现有接收器逐
 
 ## 缓存与故障边界
 
-缓存默认关闭。开启后仅保存成功完成的生产者消息序列，包含渐进 ready 和 updates，不计算 Modern 最终完整 snapshot。默认最多保存 128 条、32 MiB，单条上限为 1 MiB 与总容量的较小值。通过 `maxEntries`、`maxBytes`、`maxEntryBytes` 调整容量。TTL 从完成时计时，读取不延长有效期，容量不足按 LRU 淘汰。
+缓存默认关闭。开启后仅保存成功完成的生产者消息序列，包含渐进 ready 和 updates，不计算 Modern 最终完整 snapshot。默认最多保存 128 条、32 MiB，单条上限为 1 MiB 与总容量的较小值。通过 `maxEntries`、`maxBytes`、`maxEntryBytes` 调整容量。每个 Service HTTP 端点独立缓存，baseUrl 别名之间也不共享缓存，这些上限不是整个生产者进程的总上限。TTL 从完成时计时，读取不延长有效期，容量不足按 LRU 淘汰。
 
 缓存匹配完整序列化输入，包括模块、URL、路由、props、用户上下文、构建身份、实例身份、React 前缀和 nonce。真实页面只有这些输入匹配才会命中。重挂、cookie 或 nonce 变化都可能未命中，不能为命中而删除有效输入或改写缓存 ID。回放各自读取和取消，不影响其他消费者。失败、取消、截断和非法序列不入缓存。响应使用 `Cache-Control: no-store`，这与服务内部结果缓存分别生效。
 
@@ -130,7 +137,7 @@ CSR loading 位于目标容器外。Host 提交空容器后，现有接收器逐
 
 ## 迁移与验收
 
-旧实验中的专用 loader、手工 moduleId 改为函数 remote、expose 能力和部署绑定。手工 revision 改为已有构建身份。Modern CSR 只使用初始 snapshot 和 updates，不恢复完整 snapshot 水合分支，也不引入单独的 Service／browser 协议版本。
+旧实验中的专用 loader、手工 moduleId 改为函数 remote 与 expose 元信息。将 Host `services` 中的 URL 移到生产者一次性的 `serviceProvider.origin` 配置，移除通用生产者中间件注册。手工维护 manifest 或 Snapshot 的平台应使用 `servicePath` 与公共 `serviceBaseUrl` 替代产物中的 `isService`，应用定义仍保留 `isService`。手工 revision 改为已有构建身份。Modern CSR 只使用初始 snapshot 和 updates，不恢复完整 snapshot 水合分支，也不引入单独的 Service／browser 协议版本。
 
 Weather Service Lab 默认重新分配独立空闲端口：
 

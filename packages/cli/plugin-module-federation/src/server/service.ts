@@ -1,5 +1,12 @@
-import { createInstance } from '@module-federation/enhanced/runtime';
-import { getResourceUrl } from '@module-federation/sdk';
+import {
+  createInstance,
+  ModuleFederation,
+} from '@module-federation/enhanced/runtime';
+import {
+  generateSnapshotFromManifest,
+  getResourceUrl,
+  getServiceUrl,
+} from '@module-federation/sdk';
 import {
   createBridgeServiceHandler,
   fetchBridgeService,
@@ -7,10 +14,11 @@ import {
   type BridgeServices,
 } from '@module-federation/bridge-react/service-node';
 import type { BridgeProviderInstance } from '@module-federation/bridge-react/ssr';
+import type { Manifest } from '@module-federation/sdk';
 
 export interface BridgeServiceMiddlewareOptions {
   path: string;
-  manifest: string;
+  manifest: string | { url: string; data: Manifest };
   module: string;
   cache?: BridgeServiceCacheOptions;
   onError?: (error: Error) => void;
@@ -18,9 +26,19 @@ export interface BridgeServiceMiddlewareOptions {
 }
 type Context = { req: { raw: Request } };
 
+function resolveServiceAssetPrefix(prefix: string, origin: string): string {
+  // Keep explicit deployment URLs unchanged, including CDN and signed URLs.
+  if (/^[a-z][a-z\d+.-]*:/i.test(prefix)) return prefix;
+  return new URL(prefix, origin).href;
+}
+
 /** This runtime is producer-only: it loads the real Node application, with no
  * Service short-circuit plugin. The consumer runtime remains independent. */
-function deployment(manifest: string, module: string) {
+function deployment(
+  manifest: BridgeServiceMiddlewareOptions['manifest'],
+  module: string,
+) {
+  const manifestUrl = typeof manifest === 'string' ? manifest : manifest.url;
   // A scoped MF name includes one leading slash. Use the final module separator
   // resolved against the manifest's name instead of guessing an expose path.
   let runtime: ReturnType<typeof createInstance> | undefined;
@@ -32,16 +50,58 @@ function deployment(manifest: string, module: string) {
   let prepared: Promise<void> | undefined;
   const prepare = () =>
     (prepared ||= (async () => {
-      const response = await fetch(manifest);
-      if (!response.ok)
-        throw Error(`Service manifest returned HTTP ${response.status}`);
-      const data = await response.json();
+      let data: Manifest;
+      if (typeof manifest === 'string') {
+        const response = await fetch(manifest);
+        if (!response.ok)
+          throw Error(`Service manifest returned HTTP ${response.status}`);
+        data = await response.json();
+      } else data = manifest.data;
       const name = data.name;
-      if (typeof name !== 'string' || !module.startsWith(`${name}/`))
+      if (
+        typeof name !== 'string' ||
+        (module !== name && !module.startsWith(`${name}/`))
+      )
         throw Error('Service module must belong to its configured manifest.');
       runtime = createInstance({
         name: `modern_service_${name}`,
-        remotes: [{ name, entry: manifest }],
+        remotes: [{ name, entry: manifestUrl }],
+        // The producer's local build snapshot takes precedence over snapshots
+        // retained by other runtimes, including after a development rebuild.
+        plugins:
+          typeof manifest === 'string'
+            ? []
+            : [
+                {
+                  name: 'modern-service-local-snapshot',
+                  loadSnapshot(args) {
+                    if (args.moduleInfo.name !== name) return args;
+                    const snapshot = generateSnapshotFromManifest(data, {
+                      version: manifestUrl,
+                    });
+                    // Modern resource prefixes are independent of server.baseUrl.
+                    // Resolve each relative prefix from the producer origin, not
+                    // from another asset prefix or the manifest's directory.
+                    // Absolute CDN prefixes and SDK-resolved `auto` stay intact.
+                    const assetOrigin = `${new URL(data.metaData.serviceBaseUrl!).origin}/`;
+                    if ('publicPath' in snapshot) {
+                      snapshot.publicPath = resolveServiceAssetPrefix(
+                        snapshot.publicPath,
+                        assetOrigin,
+                      );
+                      if (typeof snapshot.ssrPublicPath === 'string')
+                        snapshot.ssrPublicPath = resolveServiceAssetPrefix(
+                          snapshot.ssrPublicPath,
+                          assetOrigin,
+                        );
+                    }
+                    return {
+                      ...args,
+                      remoteSnapshot: snapshot,
+                    };
+                  },
+                },
+              ],
         shared: {},
         shareStrategy: 'loaded-first',
       });
@@ -57,9 +117,15 @@ function deployment(manifest: string, module: string) {
                 item.moduleName === match.expose.replace(/^\.\//, ''),
             )
           : undefined;
-      if (!metadata?.isService || metadata.render !== 'bridge')
+      if (
+        !metadata?.servicePath ||
+        !snapshot ||
+        !('serviceBaseUrl' in snapshot) ||
+        !snapshot.serviceBaseUrl ||
+        metadata.render !== 'bridge'
+      )
         throw Error(
-          'Service deployment requires an isService Bridge application expose.',
+          'Service deployment requires a Bridge application expose with servicePath and serviceBaseUrl.',
         );
     })().catch(error => {
       prepared = undefined;
@@ -109,8 +175,8 @@ function deployment(manifest: string, module: string) {
   };
 }
 
-/** Register this once in server/modern.server.ts. Authentication runs before
- * every cache lookup. No request can select another producer module or URL. */
+/** Low-level middleware for custom deployments. Modern automatically registers
+ * ordinary Service producers. Authentication runs before every cache lookup. */
 export function createBridgeServiceMiddleware(
   options: BridgeServiceMiddlewareOptions,
 ) {
@@ -130,12 +196,21 @@ export function createBridgeServiceMiddleware(
   };
 }
 
-import { serviceIngressPath } from '../servicePath';
+import { SERVICE_INGRESS_PREFIX, serviceIngressPath } from '../servicePath';
+import type { ServiceRemote } from '../serviceRemotes';
+import type { ModuleFederationRuntimePlugin } from '@module-federation/enhanced/runtime';
 
-/** Trusted upstreams are supplied by deployment configuration, never POST data. */
+/** Resolve only configured remotes through the ordinary Snapshot-first runtime. */
 export function createBridgeServiceIngressMiddleware(
   services: BridgeServices,
-  options: { origin?: string } = {},
+  options: {
+    origin?: string;
+    name?: string;
+    remotes?: ServiceRemote[];
+    plugins?:
+      | ModuleFederationRuntimePlugin[]
+      | (() => Promise<ModuleFederationRuntimePlugin[]>);
+  } = {},
 ) {
   const publicOrigin = options.origin ? new URL(options.origin) : undefined;
   if (
@@ -144,15 +219,64 @@ export function createBridgeServiceIngressMiddleware(
       publicOrigin.origin !== options.origin)
   )
     throw Error('Service ingress origin must be an HTTP or HTTPS origin.');
+  let runtime: ModuleFederation | undefined;
+  let installedPlugins: ModuleFederationRuntimePlugin[] | undefined;
+  const resolve = async (id: string) => {
+    const plugins =
+      typeof options.plugins === 'function'
+        ? await options.plugins()
+        : options.plugins;
+    if (!runtime || plugins !== installedPlugins) {
+      // Scoped discovery does not retain old dev instances in the global registry.
+      runtime = new ModuleFederation({
+        name: `${options.name || 'modern'}_service_ingress`,
+        remotes: options.remotes || [],
+        plugins,
+        shared: {},
+        shareStrategy: 'loaded-first',
+      });
+      installedPlugins = plugins;
+    }
+    const selectedRuntime = runtime;
+    const { remoteMatchInfo: match } =
+      await selectedRuntime.remoteHandler.getRemoteModuleAndOptions({ id });
+    const snapshot = match.remoteSnapshot;
+    if (!snapshot || !('modules' in snapshot))
+      throw Error(`Service '${id}' has no module Snapshot.`);
+    const metadata = snapshot.modules.find(
+      item =>
+        item.modulePath === match.expose ||
+        item.moduleName === match.expose.replace(/^\.\//, ''),
+    );
+    if (
+      !metadata ||
+      !('servicePath' in metadata) ||
+      metadata.render !== 'bridge'
+    )
+      throw Error(`Module '${id}' is not a Service Bridge application.`);
+    if (!snapshot?.buildVersion)
+      throw Error(`Service '${id}' has no build identity.`);
+    return {
+      url: getServiceUrl(snapshot.serviceBaseUrl, metadata.servicePath!),
+      buildVersion: snapshot.buildVersion,
+    };
+  };
   return async (context: Context, next: () => Promise<void>) => {
     const request = context.req.raw;
     const url = new URL(request.url);
-    const id = Object.keys(services).find(
-      id => serviceIngressPath(id) === url.pathname,
-    );
-    if (!id) {
+    if (!url.pathname.startsWith(SERVICE_INGRESS_PREFIX)) {
       await next();
       return;
+    }
+    let id: string;
+    try {
+      id = decodeURIComponent(
+        url.pathname.slice(SERVICE_INGRESS_PREFIX.length),
+      );
+      if (serviceIngressPath(id) !== url.pathname)
+        throw Error('Invalid module encoding');
+    } catch {
+      return new Response('Invalid Service module', { status: 400 });
     }
     const expectedOrigin = publicOrigin?.origin || url.origin;
     if (
@@ -160,12 +284,30 @@ export function createBridgeServiceIngressMiddleware(
       request.headers.get('sec-fetch-site') === 'cross-site'
     )
       return new Response('Invalid Service request origin', { status: 403 });
-    const binding = services[id];
-    let expectedBuild = '';
+    const remote = options.remotes?.find(
+      remote =>
+        id === remote.name ||
+        id.startsWith(`${remote.name}/`) ||
+        (remote.alias &&
+          (id === remote.alias || id.startsWith(`${remote.alias}/`))),
+    );
+    if (!remote)
+      return new Response('Unconfigured Service remote', { status: 400 });
+    const prefix =
+      id === remote.name || id.startsWith(`${remote.name}/`)
+        ? remote.name
+        : remote.alias!;
+    const expose = id.slice(prefix.length);
+    const policy =
+      services[id] ||
+      services[remote.name + expose] ||
+      (remote.alias && services[remote.alias + expose]) ||
+      {};
+    let deployment: Awaited<ReturnType<typeof resolve>>;
     const proxy = createBridgeServiceHandler({
-      buildVersion: expected => {
-        expectedBuild = expected;
-        return expected;
+      async buildVersion() {
+        deployment = await resolve(id);
+        return deployment.buildVersion;
       },
       validate(info) {
         if (
@@ -178,13 +320,13 @@ export function createBridgeServiceIngressMiddleware(
       },
       async render(info) {
         const headers: Record<string, string> = {};
-        for (const name of binding.forwardHeaders || []) {
+        for (const name of policy.forwardHeaders || []) {
           const value = request.headers.get(name);
           if (value !== null) headers[name.toLowerCase()] = value;
         }
         return fetchBridgeService(
           { ...info, headers },
-          { ...binding, buildVersion: expectedBuild },
+          { ...policy, ...deployment },
         );
       },
     });

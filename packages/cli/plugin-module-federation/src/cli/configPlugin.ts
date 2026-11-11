@@ -1,7 +1,11 @@
 import fs from 'fs';
 import path from 'path';
 import { isWebTarget, skipByTarget, resolveInternalPlugin } from './utils';
-import { moduleFederationPlugin, encodeName } from '@module-federation/sdk';
+import {
+  moduleFederationPlugin,
+  encodeName,
+  getManifestFileName,
+} from '@module-federation/sdk';
 import { PluginOptions } from '../types';
 import { PLUGIN_IDENTIFIER } from '../constant';
 import {
@@ -11,7 +15,11 @@ import {
 import { SERVER_BUNDLE_DIRECTORY, logger } from '@modern-js/utils';
 import { isDev } from './utils';
 import { markRootExposes } from './rootExposes';
-import { serviceIngressPath } from '../servicePath';
+import { SERVICE_INGRESS_PREFIX } from '../servicePath';
+import { serviceRemotes } from '../serviceRemotes';
+import { configureServiceProvider } from './serviceProvider';
+import { serviceProviderBasePaths } from '../serviceProvider';
+import { configureServiceRuntimePlugins } from './serviceRuntimePlugins';
 
 import type { InternalModernPluginOptions } from '../types';
 import type { Rspack, RspackChain } from '@rsbuild/core';
@@ -383,12 +391,53 @@ export const moduleFederationConfigPlugin = (
     }
     const csrConfig = userConfig.csrConfig || cloneConfig(mfConfig);
     const ssrConfig = userConfig.ssrConfig || cloneConfig(mfConfig);
-    const services = userConfig.originPluginOptions.services || {};
-    if (Object.keys(services).length) {
-      if (mfConfig.shareStrategy === 'version-first')
-        throw new Error(
-          '[Modern.js Module Federation] Service App requires loaded-first sharing. version-first loads Node containers before expose selection.',
+    let hasNodeBuild = false;
+    if (mfConfig.exposes && Object.keys(mfConfig.exposes).length) {
+      const provider = userConfig.originPluginOptions.serviceProvider;
+      const developmentOrigin = () => {
+        if (!isDev()) return undefined;
+        const port = api.getAppContext().port ?? modernjsConfig.server?.port;
+        if (!port)
+          throw Error(
+            'The Service provider dev server port has not been resolved.',
+          );
+        let host = modernjsConfig.dev?.host || 'localhost';
+        if (host === '0.0.0.0' || host === '::') host = 'localhost';
+        if (host.includes(':') && !host.startsWith('[')) host = `[${host}]`;
+        return `${modernjsConfig.dev?.https ? 'https' : 'http'}://${host}:${port}`;
+      };
+      for (const config of [csrConfig, ssrConfig])
+        configureServiceProvider(
+          config,
+          provider,
+          modernjsConfig.server?.baseUrl,
+          developmentOrigin,
+          () => hasNodeBuild && enableSSR,
         );
+      if (csrConfig.manifest !== false) {
+        api._internalServerPlugins(({ plugins }) => {
+          plugins.push({
+            name: resolveInternalPlugin('../server/serviceProviderPlugin'),
+            options: {
+              manifestFileName: getManifestFileName(csrConfig.manifest)
+                .manifestFileName,
+              basePaths: serviceProviderBasePaths(
+                modernjsConfig.server?.baseUrl,
+              ),
+              cache: provider?.cache,
+            },
+          });
+          return { plugins };
+        });
+      }
+    }
+    const services = userConfig.originPluginOptions.services || {};
+    const remotes = serviceRemotes(mfConfig.remotes);
+    if (remotes.length || Object.keys(services).length) {
+      const runtimePlugins = configureServiceRuntimePlugins(
+        api,
+        mfConfig.runtimePlugins,
+      );
       ssrConfig.runtimePlugins ||= [];
       ssrConfig.runtimePlugins.push([
         resolveInternalPlugin('../server/serviceRuntimePlugin'),
@@ -397,19 +446,25 @@ export const moduleFederationConfigPlugin = (
       csrConfig.runtimePlugins ||= [];
       csrConfig.runtimePlugins.push([
         require.resolve('@module-federation/bridge-react/service-runtime-plugin'),
-        Object.fromEntries(
-          Object.entries(services).map(([id, binding]) => [
-            id,
-            { url: serviceIngressPath(id), timeoutMs: binding.timeoutMs },
-          ]),
-        ),
+        {
+          ingressPath: SERVICE_INGRESS_PREFIX,
+          services: Object.fromEntries(
+            Object.entries(services).map(([id, policy]) => [
+              id,
+              { timeoutMs: policy.timeoutMs },
+            ]),
+          ),
+        },
       ]);
       api._internalServerPlugins(({ plugins }) => {
         plugins.push({
           name: resolveInternalPlugin('../server/servicePlugin'),
           options: {
             name: ssrConfig.name,
+            remotes,
             services,
+            runtimePluginsFile: runtimePlugins?.filename,
+            waitForRuntimePlugins: runtimePlugins?.waitForBuild,
             origin: userConfig.originPluginOptions.serviceOrigin,
           },
         });
@@ -428,6 +483,7 @@ export const moduleFederationConfigPlugin = (
         return;
       }
       const isWeb = isWebTarget(target);
+      if (!isWeb) hasNodeBuild = true;
       addMyTypes2Ignored(chain, !isWeb ? ssrConfig : csrConfig);
 
       const targetMFConfig = !isWeb ? ssrConfig : csrConfig;

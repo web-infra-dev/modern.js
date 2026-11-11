@@ -13,7 +13,6 @@ export default defineConfig({
   moduleFederation: {
     services: {
       'provider/ServiceWeatherApplication': {
-        url: origin('provider', 0) + '/services/weather',
         timeoutMs: 15000,
         forwardHeaders: ['accept-language'],
         serviceHeaders: { 'x-weather-service-key': 'local-service-test-key' },

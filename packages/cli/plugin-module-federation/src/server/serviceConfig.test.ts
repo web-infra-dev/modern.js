@@ -5,11 +5,10 @@ import serviceRuntimePlugin from './serviceRuntimePlugin';
 it('keeps private deployment bindings scoped to server runtime identity', () => {
   const first = {
     'weather/App': {
-      url: 'http://first.test/render',
       serviceHeaders: { authorization: 'first-secret' },
     },
   };
-  const second = { 'weather/App': { url: 'http://second.test/render' } };
+  const second = { 'weather/App': { timeoutMs: 1234 } };
   registerServiceConfig('private-first', first);
   registerServiceConfig('private-second', second);
   expect(getServiceConfig('private-first')).toBe(first);

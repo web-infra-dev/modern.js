@@ -19,33 +19,39 @@ export default createModernBridgeComponent({
 })
 ```
 
-Expose this file normally in `module-federation.config.ts`. Omit `route` for the whole application. `createBridgeComponent` with explicit Modern `render`, `hydrate` and `renderStream` callbacks is also supported. The manifest and Snapshot record the current expose's public Bridge/Service capability, without service credentials or deployment addresses.
+Expose this file normally in `module-federation.config.ts`. Omit `route` for the whole application. `createBridgeComponent` with explicit Modern `render`, `hydrate` and `renderStream` callbacks is also supported. Keep `isService: true` in the application definition. Published manifest exposes and Snapshot modules instead use `render: 'bridge'` and `servicePath`, without an `isService` field. The producer base is stored once as manifest `metaData.serviceBaseUrl` and Snapshot `serviceBaseUrl`. Addresses are public metadata and contain no service credentials.
 
 Set a unique existing `MF_BUILD_VERSION` once when building the paired producer artifacts, for example from the deployment's commit identity. Deploy that manifest, browser provider, Node provider and service together. Consumers obtain the expected identity from the resolved Snapshot, without component-level versions. The producer validates it before rendering or looking up cached output. Missing coordinated deployment identity cannot detect rebuilding the same package version, because Core's default identity falls back to package version.
 
 ## Provide the producer endpoint
 
-Declare a direct dependency on `@modern-js/plugin-module-federation` when importing its server helper. Register the middleware once in `server/modern.server.ts`:
+Configure the producer origin once in `modern.config.ts`. Modern automatically registers the HTTP endpoints for Service exposes:
 
 {/* prettier-ignore */}
 ```ts
-import { defineServerConfig } from '@modern-js/server-runtime'
-import { createBridgeServiceMiddleware } from '@modern-js/plugin-module-federation/service'
+import { appTools, defineConfig } from '@modern-js/app-tools'
 
-const weather = createBridgeServiceMiddleware({
-  path: '/services/render',
-  manifest: 'https://assets.example.com/weather/mf-manifest.json',
-  module: 'weather_app/App',
-  authorize: authenticateServiceRequest,
-  cache: { maxAgeMs: 60000 },
-})
-
-export default defineServerConfig({
-  middlewares: [{ name: 'weather-service', handler: weather }],
+export default defineConfig({
+  server: { baseUrl: '/weather', ssr: { mode: 'stream' } },
+  moduleFederation: {
+    serviceProvider: {
+      origin: 'https://weather.example.com',
+      cache: { maxAgeMs: 60000 },
+    },
+  },
+  plugins: [appTools()],
 })
 ```
 
-The module is a trusted deployment binding. HTTP callers cannot select another producer module. `authorize` is optional for publicly accessible services and runs before every cache lookup when configured. It can return a Response to reject the request. Per-request authentication must run here or in an earlier gateway, because cache hits skip application loaders.
+The origin includes the protocol and optional port, without a path or credentials. It is required in production. Development defaults to the actual development server address. Modern combines it with `server.baseUrl`, independently of the static asset/CDN prefix. The default path for `./App` is `_modern/mf/service/App`, giving `https://weather.example.com/weather/_modern/mf/service/App` in this example.
+
+Static assets default to the producer origin. For a separate asset origin, use existing settings such as `output.assetPrefix`. The Service origin does not override explicit CDN metadata.
+
+Override individual relative paths with `serviceProvider.paths: { './App': 'render/weather' }`. Do not repeat the origin or baseUrl. For an array of `server.baseUrl` prefixes, the first is published by default and all prefixes receive equivalent routes. The build validates each expose's path and rejects duplicate path configuration. When registering the final manifest, Modern rejects route conflicts, including those introduced by baseUrl aliases or `additionalData` changes. `manifest.additionalData` remains available for advanced changes. The server registers routes from the final local manifest, so ordinary users do not need that callback.
+
+Enable the existing producer SSR build to generate a matching Node provider. Declaring a Service does not implicitly enable producer page SSR. A missing Node build is diagnosed. Ordinary Service integration requires no `server/modern.server.ts`, handwritten manifest URL or module ID.
+
+For business authentication, use an existing `order: 'pre'` middleware in `server/modern.server.ts` or an earlier gateway. Authentication must run before the built-in handler and every cache lookup. Application loaders are skipped on hits. `serviceProvider` is serializable configuration and does not accept authentication closures. The existing `createBridgeServiceMiddleware` helper remains available for custom server integrations.
 
 The service loads its actual Node expose and calls the same application `renderStream`. Producer framing and React script isolation happen once. Consumers receive already prepared messages using `module-federation/bridge-ssr/producer/v1`.
 
@@ -60,7 +66,6 @@ export default defineConfig({
   moduleFederation: {
     services: {
       'weather/App': {
-        url: 'http://weather-service/services/render',
         timeoutMs: 15000,
         forwardHeaders: ['accept-language'],
         serviceHeaders: { authorization: serviceCredential },
@@ -71,11 +76,13 @@ export default defineConfig({
 })
 ```
 
-Keep the normal `remotes` manifest binding in `module-federation.config.ts`. The `services` key uses the Host's remote alias plus expose. The producer middleware's `module` uses the producer's own MF name.
+Keep normal `remotes` in `module-federation.config.ts`. `services` contains optional request policies keyed by remote alias or producer name plus expose, without an upstream URL. Omit it entirely when no policies are needed. Consumers use the final Snapshot selected by the existing runtime. A supplied Snapshot takes priority, otherwise a manifest is loaded and converted. Service discovery never fetches a second manifest to override that Snapshot.
 
-For a CSR Host, change only `server.ssr` to `false`. Modern supplies `/_modern/mf/service/<encoded module ID>` as its same-origin ingress. That endpoint validates origin, module, page URL and bounded parameters, and chooses the upstream exclusively from trusted configuration. A separately hosted static page can mount the exported `createBridgeServiceIngressMiddleware` in its same-origin gateway and register the corresponding Core browser binding.
+Host-configured `runtimePlugins` also select the Snapshot used by the same-origin ingress. Modern compiles these user plugins and their local TypeScript dependencies into a private Node artifact. A CSR Host needs neither a page SSR bundle nor original source paths in production. Plugins must support execution in the trusted Node server, with their configured options and aliases. Modern's automatic Node and Bridge plugins are not copied. Development requests wait for plugin recompilation before using the new selection, and compilation failures remain visible. This does not add support for dynamic `registerPlugins`, `updateRemotes`, or browser-supplied Snapshots.
 
-When a trusted gateway terminates TLS or rewrites Host, configure `moduleFederation.serviceOrigin` with the public Host origin, such as `https://app.example.com`. Both source and page URL are checked against that value. Forwarded headers are not implicitly trusted. The standalone ingress helper accepts `{ origin }` as its second argument.
+For a CSR Host, change only `server.ssr` to `false`. Modern supplies `/_modern/mf/service/<encoded module ID>` as its same-origin ingress. That endpoint validates origin, module, page URL and bounded parameters, and chooses the upstream from the final Snapshot of a trusted configured remote. A separately hosted static page can mount the exported `createBridgeServiceIngressMiddleware` in its same-origin gateway and register the corresponding Core browser binding.
+
+When a trusted gateway terminates TLS or rewrites Host, configure `moduleFederation.serviceOrigin` with the public Host origin, such as `https://app.example.com`. Both source and page URL are checked against that value. Forwarded headers are not implicitly trusted. The standalone ingress helper accepts trusted `{ name, remotes, origin }` as its second argument. Use MF runtime remote descriptors, never remote URLs supplied by the browser POST body.
 
 `forwardHeaders` defaults to an empty list and selects business user context for loaders. `serviceHeaders` authenticates the upstream service separately and remains in Node configuration. Browser bundles receive only the same-origin URL and timeout. Do not put private service credentials in props or manifest metadata.
 
@@ -83,7 +90,7 @@ Service uses loaded-first sharing, which Modern already defaults to. An explicit
 
 Timeout defaults to 30 seconds and includes reading the entire stream, not just receiving metadata. The outer Bridge task watchdog also applies. There is no local Node fallback. Before or after accepted metadata, failures use existing Bridge recovery. Explicit `csr=1` recovery and `noSSR` bypass the Service request and render directly in the browser.
 
-Private upstream bindings are installed by the Modern server plugin before the SSR bundle loads. Public Node bundles carry only the federation runtime name, never upstream URLs or service credentials. Serve the generated server configuration as private server files.
+Private request policies are installed by the Modern server plugin before the SSR bundle loads. Public Node bundles carry only the federation runtime name, never service credentials. Service addresses are public metadata. Serve the generated server configuration as private server files.
 
 ## Consume with existing APIs
 
@@ -110,7 +117,7 @@ export default function Page() {
 
 `createReactRemote` is also supported. Remote inputs remain functions. Default exports, module namespaces and business-prop inference retain their existing contracts. Service business props must be JSON serializable. Do not pass DOM nodes, callbacks or closures across the HTTP boundary.
 
-An unbound Service fails before Node entry loading instead of silently executing local SSR in the Host.
+A Service with an invalid `servicePath` or public base fails before Node entry loading instead of silently executing local SSR in the Host.
 
 The Node runtime short-circuits only the resolved Service expose before container loading. Normal exposes in the same remote still load normally. A Service module is only a reusable description, and each render owns its props, user context, signal and streams.
 
@@ -118,7 +125,7 @@ CSR loading sits outside the target container. Once the Host commits that empty 
 
 ## Cache and failure boundaries
 
-Caching is off by default. A configured cache retains only successfully completed producer message sequences, including progressive ready and updates. It does not compute a final Modern snapshot. Defaults are 128 entries, 32 MiB retained output and min(1 MiB, maxBytes) per entry. `maxEntries`, `maxBytes` and `maxEntryBytes` override those capacities. TTL starts on completion, reads do not extend it, and capacity eviction uses LRU.
+Caching is off by default. A configured cache retains only successfully completed producer message sequences, including progressive ready and updates. It does not compute a final Modern snapshot. Defaults are 128 entries, 32 MiB retained output and min(1 MiB, maxBytes) per entry. `maxEntries`, `maxBytes` and `maxEntryBytes` override those capacities. Each Service HTTP endpoint has an independent cache, including separate baseUrl aliases. These limits do not bound the entire producer process. TTL starts on completion, reads do not extend it, and capacity eviction uses LRU.
 
 The exact serialized request includes module, URL, route, props, user context, build identity, instance identity, React prefix and nonce. Matching real page visits can hit. Remounts, changed cookies or nonce may miss. Do not discard effective inputs or rewrite cached IDs to increase hits. Each replay reads independently. Failed, cancelled, truncated and illegal message sequences are not cached. HTTP responses remain `Cache-Control: no-store`, separately from this internal cache.
 
@@ -128,7 +135,7 @@ Nested application redirects, status codes and response headers do not take over
 
 ## Migration and verification
 
-Replace experimental dedicated loaders and manual module IDs with function remotes, expose metadata and deployment bindings. Replace manual revisions with the existing build identity. Modern CSR recovery uses initial snapshot plus updates, without the old complete-snapshot path or separate Service/browser protocol versions.
+Replace experimental dedicated loaders and manual module IDs with function remotes and expose metadata. Move Host service URLs to the producer's single `serviceProvider.origin` configuration and remove generic producer middleware registration. Platforms maintaining manifests or Snapshots must replace their `isService` fields with `servicePath` and a shared `serviceBaseUrl`. Keep `isService` in application definitions. Replace manual revisions with the existing build identity. Modern CSR recovery uses initial snapshot plus updates, without the old complete-snapshot path or separate Service/browser protocol versions.
 
 Use the Weather Service Lab with fresh dynamically allocated ports:
 

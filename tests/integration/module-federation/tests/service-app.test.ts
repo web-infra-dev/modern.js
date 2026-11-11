@@ -15,6 +15,79 @@ const htmlMessages = (text: string) =>
 describeLab(
   'Service weather application',
   getContext => {
+    it('publishes the producer address once and automatically serves the base URL aliases', async () => {
+      const { lab } = getContext();
+      const producerOrigin = `http://localhost:${lab.ports.provider}`;
+      const manifest = await (
+        await fetch(`${producerOrigin}/static/mf-manifest.json`)
+      ).json();
+      const service = manifest.exposes.find(
+        (expose: { name: string }) =>
+          expose.name === 'ServiceWeatherApplication',
+      );
+      expect(manifest.metaData.serviceBaseUrl).toBe(
+        `${producerOrigin}/weather-service/`,
+      );
+      expect(service.servicePath).toBe(
+        '_modern/mf/service/ServiceWeatherApplication',
+      );
+      expect(
+        manifest.exposes.every((expose: object) => !('isService' in expose)),
+      ).toBe(true);
+      expect(
+        manifest.exposes.find(
+          (expose: { name: string }) => expose.name === 'WeatherApplication',
+        ).servicePath,
+      ).toBeUndefined();
+      const endpoint = new URL(
+        service.servicePath,
+        manifest.metaData.serviceBaseUrl,
+      );
+      const body = {
+        protocol: 'module-federation/bridge-ssr/producer/v1',
+        buildVersion: manifest.metaData.buildInfo.buildVersion,
+        request: {
+          instanceId: 'automatic-route',
+          identifierPrefix: 'automatic-route-',
+          moduleName: `${manifest.name}/ServiceWeatherApplication`,
+          url: `http://localhost:${lab.ports.serviceSSR}/service/forecast/wed?probe=automatic-route`,
+          basename: '/service',
+          props: {},
+        },
+      };
+      expect(
+        (await fetch(endpoint, { method: 'POST', body: JSON.stringify(body) }))
+          .status,
+      ).toBe(401);
+      for (const base of [
+        manifest.metaData.serviceBaseUrl,
+        `${producerOrigin}/weather-service-alias/`,
+      ]) {
+        const response = await fetch(new URL(service.servicePath, base), {
+          method: 'POST',
+          headers: {
+            'content-type': 'application/json',
+            'x-weather-service-key': 'local-service-test-key',
+          },
+          body: JSON.stringify(body),
+        });
+        expect(response.status).toBe(200);
+        const frames = (await response.text())
+          .trim()
+          .split('\n')
+          .map(line => JSON.parse(line));
+        expect(frames.some(frame => frame.type === 'ready')).toBe(true);
+        expect(frames.at(-1).type).toBe('done');
+        expect(frames.filter(frame => frame.type === 'error')).toEqual([]);
+        expect(
+          frames
+            .filter(frame => frame.type === 'html')
+            .map(frame => frame.html)
+            .join(''),
+        ).toContain('data-testid="weather-detail"');
+      }
+    });
+
     it('keeps the CSR document empty and includes real producer HTML in the SSR response', async () => {
       const { lab, mode } = getContext();
       const ssr = await (
@@ -41,9 +114,7 @@ describeLab(
         ).text();
         expect(nodeBundle).toContain('bridge-service');
         expect(nodeBundle).not.toContain('local-service-test-key');
-        expect(nodeBundle).not.toContain(
-          `http://localhost:${lab.ports.provider}/services/weather`,
-        );
+        expect(nodeBundle).not.toContain('x-weather-service-key');
       }
     });
 
