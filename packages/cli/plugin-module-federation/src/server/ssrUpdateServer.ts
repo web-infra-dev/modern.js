@@ -1,4 +1,5 @@
 import { AsyncLocalStorage } from 'node:async_hooks';
+import { logger } from '@modern-js/utils';
 import type { ServerPlugin, ServerContext } from '@modern-js/server-core';
 import type {
   SSRApplication,
@@ -54,6 +55,8 @@ export interface SSRUpdateServerPluginOptions extends Omit<
 > {
   entries?: string[];
   application?: Partial<SSRRequestCoordinatorOptions>;
+  beforeRequest?: (request: Request) => Promise<void>;
+  onAvailabilityChange?: (available: boolean) => void;
   onReady?: (
     manager: SSRUpdateManager,
     context: any,
@@ -114,6 +117,11 @@ export function createSSRUpdateServerPlugin(
           requestTimeoutMs: 30_000,
           drainTimeoutMs: 30_000,
           ...options.application,
+          onInitialError: context.dev
+            ? error => logger.error(error)
+            : undefined,
+          onAvailabilityChange: options.onAvailabilityChange,
+          beforeRequest: options.beforeRequest,
           reloadEntry: entry => adapter.reload(entry),
           dispose: (_resources, entries) => adapter.dispose(entries),
           validate: async resources => {

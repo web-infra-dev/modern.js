@@ -26,11 +26,17 @@ export interface SSRApplicationOptions extends SSRRequestCoordinatorOptions {
   resolveScope?: (request: Request) => readonly string[] | undefined;
   /** Release generation-owned adapters/state; must be safe to retry after failure. */
   dispose?: (
-    resources: SSRApplicationResources,
+    resources: SSRApplicationResources | undefined,
     entries?: readonly string[],
   ) => Promise<void>;
+  /** Opt into a recoverable, unavailable owner after an initial load failure. */
+  onInitialError?: (error: unknown) => void;
+  /** Resource readiness, including recovery without another local compilation. */
+  onAvailabilityChange?: (available: boolean) => void;
   /** Must respond directly; bypass handlers cannot fall through into application code. */
   bypass?: (request: Request) => Promise<Response | undefined>;
+  /** Control-plane synchronization before this request owns any SSR work. */
+  beforeRequest?: (request: Request) => Promise<void>;
   /** Server-owned HTML fallback. It must not execute application bundles or loaders. */
   renderCSR?: (
     request: Request,
@@ -43,17 +49,38 @@ export interface SSRApplicationOptions extends SSRRequestCoordinatorOptions {
 
 /** One process-local resource owner. Module invalidation belongs to its bundler adapter. */
 export async function createSSRApplication(options: SSRApplicationOptions) {
-  const coordinator = createSSRRequestCoordinator(options);
-  let resources = await options.load(false);
+  let resources: SSRApplicationResources | undefined;
+  try {
+    resources = await options.load(false);
+  } catch (error) {
+    if (!options.onInitialError) throw error;
+    let failure = error;
+    try {
+      await options.dispose?.(undefined);
+    } catch (cleanupError) {
+      failure = new AggregateError(
+        [error, cleanupError],
+        'SSR initialization and cleanup failed',
+      );
+    }
+    options.onInitialError(failure);
+  }
+  const coordinator = createSSRRequestCoordinator(
+    options,
+    resources ? 'serving' : 'unavailable',
+  );
+  options.onAvailabilityChange?.(Boolean(resources));
   let cacheNamespace = randomUUID();
   let entryNamespaces = new Map<string, string>();
   const middleware: Middleware<ServerEnv> = async (c, next) => {
     const bypass = await options.bypass?.(c.req.raw);
     if (bypass) return bypass;
+    await options.beforeRequest?.(c.req.raw);
     const scope = options.resolveScope?.(c.req.raw)?.slice();
     const response = await coordinator.handle(
       c.req.raw,
       async work => {
+        if (!resources) throw new Error('SSR resources are unavailable');
         if (scope?.length === 1 && !entryNamespaces.has(scope[0]))
           entryNamespaces.set(scope[0], cacheNamespace);
         // Admission must precede all resource selection, including captured promises.
@@ -81,13 +108,15 @@ export async function createSSRApplication(options: SSRApplicationOptions) {
       scope,
       options.renderCSR
         ? async context =>
-            options.renderCSR!(c.req.raw, {
-              ...context,
-              // Keep the last published client release until a new generation
-              // is ready. No retiring SSR handler is entered for this response.
-              templates: resources.templates,
-              entryScope: scope,
-            })
+            resources
+              ? options.renderCSR!(c.req.raw, {
+                  ...context,
+                  // Keep the last published client release until a new generation
+                  // is ready. No retiring SSR handler is entered for this response.
+                  templates: resources.templates,
+                  entryScope: scope,
+                })
+              : new Response('SSR application is unavailable', { status: 503 })
         : undefined,
     );
     c.res = response;
@@ -125,47 +154,54 @@ export async function createSSRApplication(options: SSRApplicationOptions) {
         return Promise.reject(
           new TypeError('An owned module invalidator is required'),
         );
-      return coordinator.update(
-        async scope => {
-          await invalidate(scope);
-          await options.dispose?.(resources, scope);
-          let candidate: SSRApplicationResources;
-          try {
-            candidate = await options.load(true, scope);
-          } catch (error) {
-            // The owner must also release any adapters created by a failed load.
+      options.onAvailabilityChange?.(false);
+      return coordinator
+        .update(
+          async scope => {
+            await invalidate(scope);
+            await options.dispose?.(resources, scope);
+            let candidate: SSRApplicationResources;
             try {
-              await options.dispose?.(resources, scope);
-            } catch (cleanupError) {
-              throw new AggregateError(
-                [error, cleanupError],
-                'SSR preparation and cleanup failed',
-              );
-            }
-            throw error;
-          }
-          resources = candidate;
-          if (scope) {
-            const next = new Map(entryNamespaces);
-            for (const entry of scope) next.set(entry, randomUUID());
-            entryNamespaces = next;
-            cacheNamespace = randomUUID();
-          } else {
-            cacheNamespace = randomUUID();
-            entryNamespaces = new Map();
-          }
-        },
-        typeof entries === 'function'
-          ? () => {
-              const resolved = entries();
-              if (resolved && !options.resolveScope)
-                throw new Error(
-                  'Scoped SSR updates require an owned request scope resolver',
+              candidate = await options.load(true, scope);
+            } catch (error) {
+              // The owner must also release any adapters created by a failed load.
+              try {
+                await options.dispose?.(resources, scope);
+              } catch (cleanupError) {
+                throw new AggregateError(
+                  [error, cleanupError],
+                  'SSR preparation and cleanup failed',
                 );
-              return resolved;
+              }
+              throw error;
             }
-          : entries,
-      );
+            resources = candidate;
+            if (scope) {
+              const next = new Map(entryNamespaces);
+              for (const entry of scope) next.set(entry, randomUUID());
+              entryNamespaces = next;
+              cacheNamespace = randomUUID();
+            } else {
+              cacheNamespace = randomUUID();
+              entryNamespaces = new Map();
+            }
+          },
+          typeof entries === 'function'
+            ? () => {
+                const resolved = entries();
+                if (resolved && !options.resolveScope)
+                  throw new Error(
+                    'Scoped SSR updates require an owned request scope resolver',
+                  );
+                return resolved;
+              }
+            : entries,
+        )
+        .finally(() => {
+          options.onAvailabilityChange?.(
+            coordinator.status.phase === 'serving',
+          );
+        });
     },
   };
 }

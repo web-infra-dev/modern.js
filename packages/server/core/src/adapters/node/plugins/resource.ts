@@ -685,7 +685,9 @@ export const injectResourcePlugin = (
                     : undefined;
                 }),
             );
-          applicationOptions.onReady(application);
+          // Service-lifetime subscriptions must not inherit this compilation's
+          // supersession check when they prepare later remote generations.
+          compilation.exit(() => applicationOptions.onReady(application));
           readyResolve();
         };
         context.prepareSSRResources = async (

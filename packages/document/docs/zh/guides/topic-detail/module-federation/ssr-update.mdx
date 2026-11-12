@@ -1,6 +1,6 @@
 # SSR 缓存更新与本地开发刷新
 
-内置 Module Federation 可以在 Modern 服务进程内更新已经消费的远端，协调 SSR 请求、生产者工作和应用缓存。普通 SSR 组件、Bridge SSR 与 Service App 使用同一套更新入口。生产环境由业务发布流程主动调用，开发环境自动检查生产者变化并刷新消费者页面。
+内置 Module Federation 可以在 Modern 服务进程内更新已经消费的远端，协调 SSR 请求、生产者工作和应用缓存。普通 SSR 组件、Bridge SSR 与 Service App 使用同一套更新入口。生产环境由业务发布流程主动调用，开发环境订阅生产者变化，并在无法订阅时通过请求前检查发现更新。
 
 :::warning 当前构建要求
 此能力目前需要本地构建的 Rspack 原生 binding 和配套 JavaScript 包，包含 SSR 缓存失效与 `updateEntryExports` 支持，同时链接配套的 MF Runtime 和 Modern 代码。不能仅替换 Rspack 的 JavaScript 包，也不能据此认为已有发布版本支持此功能。不支持的 Rspack 构建会在配置阶段报错。
@@ -76,7 +76,7 @@ if (await shouldUpdateRemote(remote, { revalidate: true })) {
 
 更新选定候选模块信息后，Host 运行时和该应用的 Service ingress 在重建时使用同一份候选快照。用户的 `afterResolve` 插件需要保留这份快照选择的部署身份，仍然可以调整请求头等请求策略。固定模块信息不能保留被覆盖的产物字节，生产发布仍需要不可变的版本化资源。
 
-同名生产者需要同时运行多个构建版本时，应在构建时提供不同的版本标识，例如设置 `MF_BUILD_VERSION`。构建插件会将其同时用于 manifest 和运行时的构建 ID，清理时据此定位旧版本。不要在构建完成后单独改写 manifest 的 `buildVersion`。
+manifest 默认使用产物内容摘要作为 `buildVersion`，浏览器和 Node 产物合并时生成对应的组合版本。单端更新不要求另一端重新编译。发布流程也可以设置 `MF_BUILD_VERSION`，显式标识整组产物版本。同名生产者的旧版本清理由实际容器与运行时绑定确定，Node 执行实例 ID 与 manifest 内容版本承担不同职责。不要在构建完成后单独改写 manifest 的 `buildVersion`。
 
 如果目标生产者已被另一个应用加载，新 Host 会在执行渲染器前，复用该生产者已加载且包版本相同的 singleton 记录，保证保留的组件和 Host 使用相同的运行时依赖。非 singleton 依赖及其他包版本仍按 MF 的正常规则选择。如果选中的多个生产者已经使用不同的 singleton 实例，初始化会报错。
 
@@ -102,13 +102,19 @@ export async function loader() {
 
 此调用同步返回含 `operationId`、`revision` 和 `phase` 的 receipt。它表示任务已被接收，不表示新版本已生效，也不是可等待更新完成的 Promise。框架会在当前响应及其登记的生产者工作结束后，在请求之外执行更新。`revision` 仅用于诊断，不是调用方控制发布先后顺序的参数。
 
-## 本地开发自动刷新
+## 本地开发更新
 
-启用能力后，Modern 开发服务自动在后台检查配置的 manifest。生产者每轮编译使用统一的构建版本，浏览器和服务端产物的运行时 ID 与 manifest 保持对应。组件、loader 或 CSS 更新都会触发新一轮编译，相关产物及服务端资源就绪后才发布 manifest。消费者在相同 manifest URL 下发现变化，先完成服务端更新，再通过开发连接通知已打开的浏览器整页刷新。
+启用能力后，Modern 复用 MF 开发 broker 建立独立的构建订阅。此通道不依赖类型生成，`dts: false` 仍可使用。订阅使用生产者名称和完整 manifest URL 区分生产者，端口及路径不同的同名应用不会相互覆盖。
 
-业务不需要额外配置 watcher，也不需要手动调用更新 API 或刷新页面。编译失败不会发布成功版本或发送成功刷新通知，修复后进入下一轮检查。检查与更新属于服务生命周期，不会随每个 SSR 请求重复创建。
+生产者在 manifest、资源及 Node 应用就绪后发送通知。消费者在后台排空旧请求并更新 Node 缓存，成功后再通知浏览器重新验证路由数据。普通组件和 Bridge 的兼容 React Fast Refresh 更新可以保留页面状态。关闭 HMR、使用静态产物或无法保证热替换时，消费者在 Node 更新成功后整页刷新。
 
-开发刷新会重新创建页面状态。生产环境仍使用上文的手动更新流程，不启用开发轮询或浏览器自动刷新。
+包含 Service expose 的生产者目前使用整页刷新，使浏览器 Service 描述与服务端 HTML 保持同一版本。这也保证卸载后再次挂载时不会继续发送旧版本请求，该路径会重新创建页面状态。
+
+完成初次同步且连接健康时，SSR 请求不重复扫描 manifest。生产者只有本地 `build + serve`、尚未启动、连接中断或 broker 不支持订阅时，消费者在新 SSR 请求进入排空管理之前检查 manifest。一次并发请求合并为同批检查，独立远端并行读取，服务端支持时使用条件请求。此时手动刷新也会触发检查并更新 Node 缓存，读取失败会记录错误，后续请求仍可重试。
+
+A→B→C 的依赖链会保留 A 的原始构建身份向下游传播，即使 B 本身未重新编译，C 仍能发现 A 的变化。请求兜底也会读取 manifest 中的嵌套依赖。嵌套依赖变化或删除时，更新释放旧依赖图并重建应用。
+
+编译失败不会发布成功版本。消费者先启动导致初次 SSR 资源加载失败时，开发服务保留订阅与恢复入口，生产者就绪后可以恢复，无需重新编译消费者。订阅和检查共享服务生命周期，停止服务时一并清理。生产环境不启用这条自动检查或浏览器更新链路，仍使用上文的主动更新流程。
 
 ## Service App 版本冲突
 
@@ -116,7 +122,7 @@ export async function loader() {
 
 `@module-federation/bridge-react/service` 和 `/service-node` 导出 `BridgeServiceVersionMismatchError`、`isBridgeServiceVersionMismatchError` 和 `BRIDGE_SERVICE_VERSION_MISMATCH`。错误携带 `expectedBuildVersion` 与 `actualBuildVersion`，用于区分请求版本和实际部署版本。
 
-版本冲突保留其错误类型并交给现有错误 UI，不触发通用的 `?csr=1` 降级跳转，因为 CSR 仍会使用同一个 Service 协议。开发环境继续由后台 manifest 检查完成更新，再整页刷新恢复。框架不会自动重放失败的 Service POST，也不会从该请求内发起需要等待自身的更新。生产环境的恢复交给业务策略决定。已经开始输出的流不会被改写成新的 409 响应。
+版本冲突保留其错误类型并交给现有错误 UI，不触发通用的 `?csr=1` 降级跳转，因为 CSR 仍会使用同一个 Service 协议。开发环境由构建订阅或请求前兜底完成更新，再整页刷新恢复。框架不会自动重放失败的 Service POST，也不会从该请求内发起需要等待自身的更新。生产环境的恢复交给业务策略决定。已经开始输出的流不会被改写成新的 409 响应。
 
 ## 更新与失败边界
 

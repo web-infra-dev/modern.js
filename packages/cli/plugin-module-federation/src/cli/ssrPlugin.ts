@@ -107,7 +107,7 @@ const mfSSRRsbuildPlugin = (
       if (isDev()) {
         pluginOptions.devManifestReady = false;
         api.onAfterCreateCompiler(({ compiler }) => {
-          pluginOptions.devBuildVersion?.attach(compiler, () => {
+          pluginOptions.devManifestPublication?.attach(compiler, () => {
             pluginOptions.devManifestReady = false;
           });
         });
@@ -119,10 +119,36 @@ const mfSSRRsbuildPlugin = (
         api.onDevCompileDone({
           order: 'post',
           handler: ({ stats }) => {
-            pluginOptions.devManifestReady =
+            const compiled =
               !stats.hasErrors() &&
-              (!pluginOptions.devBuildVersion ||
-                pluginOptions.devBuildVersion.isReadyFor(stats));
+              (!pluginOptions.devManifestPublication ||
+                pluginOptions.devManifestPublication.isReadyFor(stats));
+            pluginOptions.devManifestReady =
+              compiled &&
+              (pluginOptions.devManifestPublication?.ssrReady ?? true);
+            if (compiled && pluginOptions.devManifestPublication) {
+              const manifest = JSON.parse(
+                fs.readFileSync(
+                  path.resolve(
+                    pluginOptions.distOutputDir,
+                    browserAssetFileNames.manifestFileName,
+                  ),
+                  'utf8',
+                ),
+              );
+              pluginOptions.devManifestPublication.notifyReady(stats, {
+                buildVersion: manifest.metaData.buildInfo.buildVersion,
+                // Service mounts pair browser metadata with server HTML. HMR
+                // keeps the old descriptor, so those consumers need a fresh
+                // document after Node is ready, including later remounts.
+                hot:
+                  api.getNormalizedConfig().dev.hmr !== false &&
+                  !manifest.exposes?.some(
+                    (expose: { servicePath?: string }) =>
+                      typeof expose.servicePath === 'string',
+                  ),
+              });
+            }
           },
         });
       }
@@ -295,6 +321,17 @@ export const moduleFederationSSRPlugin = (
         },
       });
       if (
+        isDev() &&
+        typeof pluginOptions.userConfig.ssr === 'object' &&
+        pluginOptions.userConfig.ssr.cacheUpdates
+      ) {
+        plugins.push({
+          name: 'mfSSRUpdate',
+          path: resolveInternalPlugin('../ssr-runtime/updatePlugin'),
+          config: { name: pluginOptions.ssrConfig.name },
+        });
+      }
+      if (
         !isDev() ||
         (typeof pluginOptions.userConfig.ssr === 'object' &&
           pluginOptions.userConfig.ssr.cacheUpdates)
@@ -376,6 +413,16 @@ export const moduleFederationSSRPlugin = (
       }
 
       if (isDev() && isWeb) {
+        if (
+          typeof pluginOptions.userConfig.ssr === 'object' &&
+          pluginOptions.userConfig.ssr.cacheUpdates
+        ) {
+          chain.module
+            .rule('mf-react-refresh-renderers')
+            .test(/[/\\]react-refresh[/\\]runtime\.js$/)
+            .use('mf-react-refresh-renderers')
+            .loader(resolveInternalPlugin('./reactRefreshLoader'));
+        }
         chain.externals({
           '@module-federation/node/utils': 'NOT_USED_IN_BROWSER',
         });
@@ -463,14 +510,9 @@ export const moduleFederationSSRPlugin = (
         if (isDev()) {
           await pluginOptions.waitForServiceRuntimePlugins?.(compilation);
           if (
-            pluginOptions.devBuildVersion &&
+            pluginOptions.devManifestPublication &&
             (!compilation ||
-              !pluginOptions.devBuildVersion.publish(
-                [browserAssets, nodeAssets].filter(
-                  (resource): resource is StatsAssetResource => !!resource,
-                ),
-                compilation,
-              ))
+              !pluginOptions.devManifestPublication.publish(compilation))
           )
             return;
         }

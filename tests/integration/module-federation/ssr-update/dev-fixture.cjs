@@ -40,7 +40,9 @@ async function createFixture(root, mode, ports) {
   const providerURL = `http://localhost:${ports.provider}`;
   const hostURL = `http://localhost:${ports.host}`;
   const manifestURL = `http://localhost:${ports.manifest}/static/mf-manifest.json`;
-  for (const app of ['provider', 'host']) {
+  for (const app of ports.middle
+    ? ['provider', 'middle', 'host']
+    : ['provider', 'host']) {
     const directory = path.join(root, app);
     await fs.mkdir(path.join(directory, 'src/routes'), {
       recursive: true,
@@ -93,7 +95,12 @@ async function createFixture(root, mode, ports) {
       }),
     );
     const provider = app === 'provider';
-    const origin = provider ? providerURL : hostURL;
+    const middle = app === 'middle';
+    const origin = `http://localhost:${ports[app]}`;
+    const upstream =
+      ports.middle && app === 'host'
+        ? `dev_update_${modeKey}_middle@http://localhost:${ports.middle}/static/mf-manifest.json`
+        : `dev_update_${modeKey}_provider@${manifestURL}`;
     const federation = {
       name: `dev_update_${modeKey}_${app}`,
       dts: false,
@@ -114,8 +121,16 @@ async function createFixture(root, mode, ports) {
           }
         : {
             remotes: {
-              remote: `dev_update_${modeKey}_provider@${manifestURL}`,
+              remote: upstream,
             },
+            ...(middle
+              ? {
+                  exposes: {
+                    './App': './src/Remote.tsx',
+                    './Loader': './src/routes/page.data.ts',
+                  },
+                }
+              : {}),
           }),
     };
     await fs.writeFile(
@@ -173,10 +188,16 @@ export default function Host() {
     );
   }
   if (ordinary) {
-    await fs.writeFile(
-      path.join(root, 'host/src/routes/page.data.ts'),
-      `import {loader as remoteLoader} from 'remote/Loader'; export const loader = async (...args: any[]) => remoteLoader(...args);\n`,
-    );
+    for (const app of ports.middle ? ['host', 'middle'] : ['host'])
+      await fs.writeFile(
+        path.join(root, app, 'src/routes/page.data.ts'),
+        `import {loader as remoteLoader} from 'remote/Loader'; export const loader = async (...args: any[]) => remoteLoader(...args);\n`,
+      );
+    if (ports.middle)
+      await fs.writeFile(
+        path.join(root, 'middle/src/Remote.tsx'),
+        `export {default} from 'remote/App';\n`,
+      );
   }
   const route = path.join(root, 'provider/src/routes/remote');
   await fs.mkdir(route, { recursive: true });
@@ -205,9 +226,13 @@ export default function Remote(${ordinary ? '{data}: {data: {version: string}}' 
   ${ordinary ? '' : 'const data = useLoaderData() as {version: string};'}
   const [count, setCount] = useState(0);
   const button = useRef<HTMLButtonElement>(null);
-  useEffect(() => {button.current!.dataset.hydrated = 'true'}, []);
+  const [runtimeId, setRuntimeId] = useState('');
+  useEffect(() => {
+    button.current!.dataset.hydrated = 'true';
+    setRuntimeId(__webpack_require__.federation.instance.options.id);
+  }, []);
   return <section data-testid="dev-remote" data-ui={version} data-loader={data.version}
-    data-build-id={FEDERATION_BUILD_IDENTIFIER} data-runtime-id={__webpack_require__.federation.instance.options.id}>
+    data-build-id={FEDERATION_BUILD_IDENTIFIER} data-runtime-id={runtimeId}>
     <h2>Remote UI {version}</h2><p>Remote loader {data.version}</p>
     <button ref={button} id="dev-counter" onClick={() => setCount(value => value + 1)}>count:{count}</button>
   </section>;

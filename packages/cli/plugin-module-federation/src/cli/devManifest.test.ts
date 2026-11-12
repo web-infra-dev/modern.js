@@ -1,17 +1,6 @@
 import { describe, expect, it, rstest } from '@rstest/core';
 import type { Rspack } from '@rsbuild/core';
-import type { StatsAssetResource } from '@module-federation/rsbuild-plugin/utils';
-import { createDevBuildVersion } from './devManifest';
-
-const resource = (version: string) =>
-  ({
-    manifest: {
-      data: { metaData: { buildInfo: { buildVersion: version } } },
-    },
-    stats: {
-      data: { metaData: { buildInfo: { buildVersion: version } } },
-    },
-  }) as StatsAssetResource;
+import { createDevManifestPublication } from './devManifest';
 
 function compiler() {
   const invalid: (() => void)[] = [];
@@ -37,77 +26,108 @@ function compiler() {
   };
 }
 
-describe('development compilation identity', () => {
-  it('rebuilds the other environment for a one-sided source edit without an invalidation loop', () => {
+describe('development manifest publication', () => {
+  it('withholds failed Node resources and publishes recovery without another compilation', () => {
+    const source = compiler();
+    const publication = createDevManifestPublication();
+    publication.attach(source as unknown as Rspack.Compiler, () => {});
+    publication.setSSRReady(false);
+    const listener = rstest.fn();
+    publication.subscribe(listener);
+    const stats = source.build();
+    publication.publish(stats);
+    publication.notifyReady(stats, { buildVersion: 'a' });
+    expect(listener).toHaveBeenLastCalledWith(undefined);
+    publication.setSSRReady(true);
+    expect(listener).toHaveBeenLastCalledWith({ buildVersion: 'a' });
+    publication.setSSRReady(false);
+    expect(listener).toHaveBeenLastCalledWith(undefined);
+    source.watching.invalidate();
+    publication.setSSRReady(true);
+    expect(listener).toHaveBeenLastCalledWith(undefined);
+  });
+
+  it('notifies only after resource readiness, replays to late owners, and invalidates immediately', () => {
+    const source = compiler();
+    const publication = createDevManifestPublication();
+    publication.attach(source as unknown as Rspack.Compiler, () => {});
+    const listener = rstest.fn();
+    const unsubscribe = publication.subscribe(listener);
+    const stats = source.build();
+    publication.publish(stats);
+    expect(listener.mock.calls).toEqual([[undefined]]);
+    publication.notifyReady(stats, { buildVersion: 'a' });
+    const late = rstest.fn();
+    publication.subscribe(late);
+    expect(late).toHaveBeenLastCalledWith({ buildVersion: 'a' });
+    source.watching.invalidate();
+    expect(late).toHaveBeenLastCalledWith(undefined);
+    expect(publication.notifyReady(stats, { buildVersion: 'a' })).toBe(false);
+    unsubscribe();
+    const next = source.build();
+    publication.publish(next);
+    publication.notifyReady(next, { buildVersion: 'b' });
+    expect(listener).toHaveBeenCalledTimes(3);
+  });
+
+  it('publishes a one-sided rebuild with the unchanged peer without invalidating it', () => {
     const browser = compiler();
     const node = compiler();
-    const identity = createDevBuildVersion();
+    const publication = createDevManifestPublication();
     const onInvalid = rstest.fn();
-    identity.attach(
+    publication.attach(
       { compilers: [browser, node] } as unknown as Rspack.MultiCompiler,
       onInvalid,
     );
-    const first = identity.current;
-    const stats = { stats: [browser.build(), node.build()] };
-    expect(identity.publish([resource(first), resource(first)], stats)).toBe(
-      true,
-    );
-    expect(identity.isReadyFor(stats)).toBe(true);
+    const browserStats = browser.build();
+    const first = { stats: [browserStats, node.build()] };
+    expect(publication.publish(first)).toBe(true);
     node.watching.invalidate();
-    expect(identity.current).not.toBe(first);
-    expect(identity.isReadyFor(stats)).toBe(false);
-    expect(browser.watching.invalidate).toHaveBeenCalledTimes(1);
-    expect(node.watching.invalidate).toHaveBeenCalledTimes(1);
+    expect(publication.isReadyFor(first)).toBe(false);
+    expect(publication.publish(first)).toBe(false);
+    expect(browser.watching.invalidate).not.toHaveBeenCalled();
     expect(onInvalid).toHaveBeenCalledTimes(1);
-    const second = identity.current;
-    browser.watching.invalidate();
-    expect(identity.current).not.toBe(second);
-    expect(onInvalid).toHaveBeenCalledTimes(2);
+    const second = { stats: [browserStats, node.build()] };
+    expect(publication.publish(second)).toBe(true);
+    expect(publication.isReadyFor(second)).toBe(true);
+    expect(publication.isReadyFor(first)).toBe(false);
   });
 
-  it('rejects mixed outputs and late stats even after a newer compilation is published', () => {
+  it('rejects a save during compilation and a late asynchronous publication', () => {
     const browser = compiler();
     const node = compiler();
-    const identity = createDevBuildVersion();
-    identity.attach(
+    const publication = createDevManifestPublication();
+    publication.attach(
       { compilers: [browser, node] } as unknown as Rspack.MultiCompiler,
       () => {},
     );
-    const old = resource(identity.current);
-    const oldStats = { stats: [browser.build(), node.build()] };
+    const serverStats = node.build();
+    const stale = { stats: [browser.build(), serverStats] };
     browser.watching.invalidate();
-    const current = resource(identity.current);
-    const currentStats = { stats: [browser.build(), node.build()] };
-    expect(identity.publish([current, old], currentStats)).toBe(false);
-    expect(identity.publish([current, current], oldStats)).toBe(false);
-    expect(identity.ready).toBe(false);
-    expect(identity.publish([current, current], currentStats)).toBe(true);
-    expect(identity.isReadyFor(oldStats)).toBe(false);
-    expect(identity.isReadyFor(currentStats)).toBe(true);
-    // Publication validates the compiler's ID. It never stamps a new asset hash.
-    expect(current.manifest!.data.metaData.buildInfo.buildVersion).toBe(
-      identity.current,
-    );
-    expect(old.manifest!.data.metaData.buildInfo.buildVersion).not.toBe(
-      identity.current,
-    );
+    expect(publication.publish(stale)).toBe(false);
+    const latest = { stats: [browser.build(), serverStats] };
+    expect(publication.publish(latest)).toBe(true);
+    expect(publication.publish(stale)).toBe(false);
+    expect(publication.isReadyFor(latest)).toBe(true);
     browser.watching.invalidate();
-    expect(identity.ready).toBe(false);
-    expect(identity.isReadyFor(currentStats)).toBe(false);
+    expect(publication.ready).toBe(false);
   });
 
-  it('supports independent CSR-only consumers without an emitted manifest', () => {
-    const first = createDevBuildVersion();
-    const second = createDevBuildVersion();
+  it('keeps independent applications isolated and supports a single compiler', () => {
+    const first = createDevManifestPublication();
+    const second = createDevManifestPublication();
     const source = compiler();
+    const peer = compiler();
     first.attach(source as unknown as Rspack.Compiler, () => {});
-    const stable = second.current;
-    source.watching.invalidate();
-    expect(second.current).toBe(stable);
-    expect(first.current).not.toBe(stable);
+    second.attach(peer as unknown as Rspack.Compiler, () => {});
     const stats = source.build();
-    expect(first.publish([], stats)).toBe(true);
-    expect(first.isReadyFor(stats)).toBe(true);
+    const peerStats = peer.build();
+    expect(first.publish(stats)).toBe(true);
+    expect(second.publish(peerStats)).toBe(true);
+    source.watching.invalidate();
+    expect(first.ready).toBe(false);
+    expect(second.isReadyFor(peerStats)).toBe(true);
+    expect(first.publish(peerStats)).toBe(false);
     expect(first.isReadyFor({})).toBe(false);
   });
 });

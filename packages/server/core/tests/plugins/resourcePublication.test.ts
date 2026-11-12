@@ -35,6 +35,7 @@ async function fixture(
     gate?: (stats: unknown) => boolean;
     run?: <T>(operation: () => T) => T;
     validate?: () => void | Promise<void>;
+    onInitialError?: (error: unknown) => void;
   } = {},
 ) {
   const pwd = await mkdtemp(
@@ -105,6 +106,7 @@ async function fixture(
     },
     injectResourcePlugin({
       run: options.run,
+      onInitialError: options.onInitialError,
       maxPendingRequests: 2,
       requestTimeoutMs: 1000,
       drainTimeoutMs: 1000,
@@ -137,6 +139,28 @@ async function fixture(
     },
   };
 }
+
+it('establishes a recoverable owner after failed warmup and opens requests after recovery', async () => {
+  let unavailable = true;
+  const onInitialError = rstest.fn();
+  const current = await fixture(true, {
+    onInitialError,
+    validate: () => {
+      if (unavailable) throw new Error('provider unavailable');
+    },
+  });
+  await current.server.prepareSSRResources(() => {});
+  expect(current.application.status.phase).toBe('unavailable');
+  expect(onInitialError).toHaveBeenCalledTimes(1);
+  expect((await current.server.request('/b/pending')).status).toBe(503);
+  unavailable = false;
+  await current.application.update(async () => {});
+  expect(current.application.status.phase).toBe('serving');
+  expect(await (await current.server.request('/b/pending')).text()).toBe(
+    'old b',
+  );
+  await current.server.close();
+});
 
 it('removes a deleted optional loader only from the selected entry', async () => {
   const current = await fixture();

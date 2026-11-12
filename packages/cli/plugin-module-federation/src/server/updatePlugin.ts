@@ -1,31 +1,46 @@
 import { createSSRUpdateServerPlugin } from './ssrUpdate';
-import { startDevRemoteUpdates } from './devRemoteUpdates';
+import {
+  startDevRemoteUpdates,
+  type DevRemoteUpdatesOptions,
+} from './devRemoteUpdates';
 import { logger } from '@modern-js/utils';
+import { SSR_READY_EVENT } from '../ssr-runtime/devUpdateEvent';
 
-/** The production plugin binds APIs only. Automatic checks belong exclusively to dev. */
+/** Development subscriptions and request fallback share the production update owner. */
 export default function updatePlugin(
   options: Parameters<typeof createSSRUpdateServerPlugin>[0] & {
     canPrepareSSRResources?: (stats: unknown) => boolean;
+    devBuild?: DevRemoteUpdatesOptions['build'];
   },
 ) {
+  let watcher: ReturnType<typeof startDevRemoteUpdates> | undefined;
   const plugin = createSSRUpdateServerPlugin({
     ...options,
+    onAvailabilityChange: ready => options.devBuild?.setReady?.(ready),
+    beforeRequest: async () => {
+      await watcher?.check();
+    },
     onReady(manager, context) {
       if (!context.dev) return;
-      const watcher = startDevRemoteUpdates({
+      watcher = startDevRemoteUpdates({
+        build: options.devBuild,
         remotes: (options.remotes || []).filter(
           remote => 'entry' in remote && typeof remote.entry === 'string',
         ),
         shouldUpdateRemote: (remote, input) =>
           manager.shouldUpdateRemote(remote, input),
-        updateRemotes: remotes => manager.updateRemotes(remotes),
-        onReload: () => context.dev!.reload(),
+        updateRemotes: (remotes, input) =>
+          manager.updateRemotes(remotes, input),
+        onApplied: (_remotes, { reload }) => {
+          if (reload || !context.dev!.send) context.dev!.reload();
+          else context.dev!.send(SSR_READY_EVENT, { name: options.name });
+        },
         onError: error =>
           logger.error(
             error instanceof Error ? error : new Error(String(error)),
           ),
       });
-      return () => watcher.close();
+      return () => watcher!.close();
     },
   });
   return {

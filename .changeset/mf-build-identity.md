@@ -5,7 +5,7 @@
 '@modern-js/server': patch
 ---
 
-Isolate SSR remote updates by application ownership and federation build identity, keep development manifests aligned with their compiled runtimes, and recheck concurrent publications after asynchronous remote checks.
+Isolate SSR remote updates by application ownership and actual container bindings, publish development manifests only when their resources are ready, and recheck concurrent publications after asynchronous remote checks.
 
 Initialize rebuilt hosts with the selected live provider's loaded singletons of the same version so retained components and the host renderer use the same runtime dependencies.
 

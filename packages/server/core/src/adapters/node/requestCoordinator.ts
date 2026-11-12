@@ -76,6 +76,7 @@ class AdmissionError extends Error {
  */
 export function createSSRRequestCoordinator(
   options: SSRRequestCoordinatorOptions,
+  initialPhase: 'serving' | 'unavailable' = 'serving',
 ) {
   const {
     maxPendingRequests,
@@ -103,7 +104,7 @@ export function createSSRRequestCoordinator(
   }>();
   const waiters = new Set<Waiter>();
   const drainListeners = new Set<() => void>();
-  let phase: SSRUpdatePhase = 'serving';
+  let phase: SSRUpdatePhase = initialPhase;
   let closing = false;
   let closePromise: Promise<void> | undefined;
   let active = 0;

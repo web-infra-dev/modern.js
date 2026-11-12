@@ -1,39 +1,52 @@
-import { randomUUID } from 'node:crypto';
 import type { Rspack } from '@rsbuild/core';
-import type { StatsAssetResource } from '@module-federation/rsbuild-plugin/utils';
+import type { DevBuildPublication } from '@module-federation/enhanced/rspack';
 
-/** One identity for a coherent browser/Node build, chosen before either compiles. */
-export function createDevBuildVersion() {
-  let version = randomUUID();
-  let published: string | undefined;
-  let propagating = false;
-  const compilations = new WeakMap<object, string>();
-  const publications = new WeakMap<object, string>();
+/** Publish only completed outputs, allowing an unchanged peer compilation. */
+export function createDevManifestPublication() {
+  type State = { revision: number; compilation?: object };
+  const states: State[] = [];
+  const compilations = new WeakMap<
+    object,
+    { state: State; revision: number }
+  >();
+  let published: object | undefined;
+  let readyPublication: DevBuildPublication | undefined;
+  let ssrReady = true;
+  const listeners = new Set<
+    (publication: DevBuildPublication | undefined) => void
+  >();
+  const notify = () => {
+    for (const listener of listeners)
+      listener(ssrReady ? readyPublication : undefined);
+  };
   const isCurrent = (stats: any) => {
     const children = stats?.stats || [stats];
     return (
-      children.length > 0 &&
-      children.every(
-        (child: any) =>
-          child?.compilation && compilations.get(child.compilation) === version,
-      )
+      children.length === states.length &&
+      children.every((child: any) => {
+        const captured =
+          child?.compilation && compilations.get(child.compilation);
+        return (
+          captured &&
+          captured.revision === captured.state.revision &&
+          captured.state.compilation === child.compilation
+        );
+      })
     );
   };
   return {
-    get current() {
-      return version;
-    },
     get ready() {
-      return published === version;
+      return !!published && isCurrent(published);
     },
     isReadyFor(stats: unknown) {
-      return (
-        !!stats &&
-        typeof stats === 'object' &&
-        published === version &&
-        publications.get(stats) === version &&
-        isCurrent(stats)
-      );
+      return !!stats && published === stats && isCurrent(stats);
+    },
+    get ssrReady() {
+      return ssrReady;
+    },
+    setSSRReady(ready: boolean) {
+      ssrReady = ready;
+      notify();
     },
     attach(
       compiler: Rspack.Compiler | Rspack.MultiCompiler,
@@ -42,51 +55,49 @@ export function createDevBuildVersion() {
       const compilers =
         'compilers' in compiler ? compiler.compilers : [compiler];
       for (const origin of compilers) {
+        const state: State = { revision: 0 };
+        states.push(state);
         origin.hooks.thisCompilation.tap(
-          'ModernFederationBuildVersion',
+          'ModernFederationManifest',
           compilation => {
-            compilations.set(compilation, version);
+            state.compilation = compilation;
+            compilations.set(compilation, { state, revision: state.revision });
           },
         );
         origin.hooks.invalid.tap(
-          { name: 'ModernFederationBuildVersion', stage: -Infinity },
+          { name: 'ModernFederationManifest', stage: -Infinity },
           () => {
-            if (propagating) return;
-            version = randomUUID();
+            state.revision++;
             published = undefined;
+            readyPublication = undefined;
+            for (const listener of listeners) listener(undefined);
             invalidate();
-            // A loader-only or CSS-only edit must also change the peer runtime ID.
-            // Invalidate synchronously so both watchRun hooks see the same version.
-            propagating = true;
-            try {
-              for (const other of compilers) {
-                if (other !== origin) other.watching?.invalidate();
-              }
-            } finally {
-              propagating = false;
-            }
           },
         );
       }
     },
-    publish(resources: StatsAssetResource[], stats: object) {
+    publish(stats: object) {
       // A save during compilation or private-plugin preparation supersedes that
-      // generation. Never advertise a mixture of old and new compiler outputs.
-      if (
-        !isCurrent(stats) ||
-        resources.some(
-          resource =>
-            !resource.manifest ||
-            !resource.stats ||
-            resource.manifest.data.metaData.buildInfo.buildVersion !==
-              version ||
-            resource.stats.data.metaData.buildInfo.buildVersion !== version,
-        )
-      )
-        return false;
-      published = version;
-      publications.set(stats, version);
+      // output, even if the compiler finishes successfully afterwards.
+      if (!isCurrent(stats)) return false;
+      published = stats;
       return true;
+    },
+    /** Called after manifest, Service plugins and SSR resources are all ready. */
+    notifyReady(stats: object, publication: DevBuildPublication) {
+      if (published !== stats || !isCurrent(stats)) return false;
+      readyPublication = publication;
+      notify();
+      return true;
+    },
+    subscribe(
+      listener: (publication: DevBuildPublication | undefined) => void,
+    ) {
+      listeners.add(listener);
+      listener(ssrReady ? readyPublication : undefined);
+      return () => {
+        listeners.delete(listener);
+      };
     },
   };
 }

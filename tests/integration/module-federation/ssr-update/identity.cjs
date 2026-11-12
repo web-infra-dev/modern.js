@@ -10,6 +10,7 @@ const { createProdServer } = packageRequire('@modern-js/prod-server');
 const { createSSRUpdateServerPlugin } = packageRequire(
   '@modern-js/plugin-module-federation/ssr-update',
 );
+const { helpers } = packageRequire('@module-federation/enhanced/runtime');
 const deferred = () => {
   let resolve;
   const promise = new Promise(done => (resolve = done));
@@ -140,12 +141,28 @@ async function close(server) {
     await readPage(a, 'v1');
     await readPage(b, 'v2');
     const instances = () => globalThis.__FEDERATION__.__INSTANCES__;
-    const host = version =>
-      instances().find(
-        instance => instance.options.id === `r6_host:${version}`,
+    const ownerKey = Symbol.for('modern-js.mf.ssr.runtime-owner');
+    for (const app of apps) {
+      const runtime = instances().find(
+        instance =>
+          instance.name === 'r6_host' &&
+          instance.moduleCache.get('r6_remote')?.remoteInfo.version ===
+            target(app.version).entry,
       );
-    const originalA = host('host-a');
-    const originalB = host('host-b');
+      assert.ok(
+        runtime?.[ownerKey],
+        'The rendered runtime needs an application owner',
+      );
+      app.owner = runtime[ownerKey];
+    }
+    const host = app =>
+      instances().find(
+        instance =>
+          instance[ownerKey] === app.owner &&
+          instance.moduleCache.has('r6_remote'),
+      );
+    const originalA = host(a);
+    const originalB = host(b);
     assert.ok(
       originalA && originalB && originalA !== originalB,
       'Same-name builds must own distinct MF instances',
@@ -159,10 +176,17 @@ async function close(server) {
       'v2',
     );
     const originalBModule = originalB.moduleCache.get('r6_remote');
-    const providers = instances().filter(instance =>
-      ['r6_remote:v1', 'r6_remote:v2'].includes(instance.options.id),
-    );
-    assert.equal(providers.length, 2);
+    const providerFor = host => {
+      const module = host.moduleCache.get('r6_remote');
+      return helpers.global.getRemoteFederationInstance(
+        module.remoteInfo,
+        instances(),
+        module.remoteEntryExports || module.lib,
+      );
+    };
+    const providers = [providerFor(originalA), providerFor(originalB)];
+    assert.ok(providers.every(Boolean));
+    assert.equal(new Set(providers).size, 2);
     const disposedProviders = new Set();
     for (const provider of providers)
       provider.registerPlugins([
@@ -204,18 +228,14 @@ async function close(server) {
     await entered.promise;
     const update = await a.manager.updateRemotes([target('v2')]);
     assert.equal(update.changed, true);
-    assert.equal(host('host-b'), originalB, 'Updating A replaced B runtime');
+    assert.equal(host(b), originalB, 'Updating A replaced B runtime');
     assert.equal(originalB.disposed, false);
     assert.equal(
       originalB.moduleCache.get('r6_remote'),
       originalBModule,
       'Updating A cleared B remote cache',
     );
-    assert.notEqual(
-      host('host-a'),
-      originalA,
-      'A retained its old application root',
-    );
+    assert.notEqual(host(a), originalA, 'A retained its old application root');
     held.resolve();
     const heldResponse = await pendingRequest;
     assert.equal(heldResponse.status, 200, await heldResponse.text());
@@ -226,14 +246,12 @@ async function close(server) {
     await readPage(b, 'v2');
     assert.equal(originalB.moduleCache.get('r6_remote'), originalBModule);
     assert.ok(
-      instances().includes(
-        providers.find(provider => provider.options.id === 'r6_remote:v2'),
-      ),
+      instances().includes(providers[1]),
       'Leaving a shared provider retired the runtime still owned by B',
     );
     await close(a.server);
     await a.manager.close();
-    assert.equal(host('host-b'), originalB, 'Closing A retired B runtime');
+    assert.equal(host(b), originalB, 'Closing A retired B runtime');
     await readPage(b, 'v2');
     await b.manager.updateRemotes([target('v1')]);
     await readPage(b, 'v1');

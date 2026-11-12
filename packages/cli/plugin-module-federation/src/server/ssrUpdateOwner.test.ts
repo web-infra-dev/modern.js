@@ -261,3 +261,47 @@ it('propagates retained provider ownership through nested providers absent from 
     (globalThis as any).__FEDERATION__ = previous;
   }
 });
+
+it('disposes the transitive container graph even when only its root is directly cached', async () => {
+  const a = create('A');
+  const nested = {
+    name: 'nested',
+    options: { id: 'nested:v1' },
+    moduleCache: new Map(),
+    shareScopeMap: {},
+    destroy: rs.fn(async () => {}),
+  };
+  const direct = {
+    name: 'direct',
+    options: { id: 'direct:v1' },
+    moduleCache: new Map([
+      [
+        'nested',
+        {
+          remoteInfo: {
+            name: 'nested',
+            providerName: 'nested',
+            buildVersion: 'v1',
+          },
+        },
+      ],
+    ]),
+    shareScopeMap: {},
+    destroy: rs.fn(async () => {}),
+  };
+  a.instance.moduleCache.set('direct', {
+    remoteInfo: { name: 'direct', providerName: 'direct', buildVersion: 'v1' },
+  });
+  const previous = (globalThis as any).__FEDERATION__;
+  (globalThis as any).__FEDERATION__ = {
+    __INSTANCES__: [a.instance, direct, nested],
+    __SHARE__: {},
+  };
+  try {
+    await a.adapter.dispose();
+    expect(direct.destroy).toHaveBeenCalledTimes(1);
+    expect(nested.destroy).toHaveBeenCalledTimes(1);
+  } finally {
+    (globalThis as any).__FEDERATION__ = previous;
+  }
+});

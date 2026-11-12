@@ -112,6 +112,8 @@ export async function createDevServer(
     runtimeOptions.deferSSRResources = true;
     runtimeOptions.devControl = {
       reload: () => builderDevServer?.sockWrite('full-reload'),
+      send: (event, data) =>
+        builderDevServer?.sockWrite('custom', { event, data }),
       isAsset: devAssets.isAsset,
     };
     const runtimeServer = createServerBase(runtimeOptions);

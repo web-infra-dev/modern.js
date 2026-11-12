@@ -505,8 +505,11 @@ const waitFor = async predicate => {
       assert.ok(
         samples.every(
           s =>
-            s.instances === 2 &&
-            s.bindings.every(n => n === 2) &&
+            // The render and loader bundles own separate Node execution graphs.
+            // They share one loaded remote, not their application runtime.
+            s.instances === 3 &&
+            s.bindings.length === 2 &&
+            s.bindings.every(n => n === 1) &&
             s.status.activeRequests === 0 &&
             s.status.pendingRequests === 0,
         ),

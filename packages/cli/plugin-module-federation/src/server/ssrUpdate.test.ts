@@ -498,6 +498,51 @@ describe('SSR replacement recovery', () => {
 // Formal async check/deferred/publication coverage lives in remoteUpdate.test.ts.
 // adapter.update above retains the legacy PoC revision compatibility contract.
 describe('registered update targets', () => {
+  it('disposes the full graph for nested changes and dependency removal', async () => {
+    const { adapter, runtime } = fixture();
+    const instance = runtime.federation.instance as any;
+    instance.options = {
+      remotes: [{ name: 'provider', alias: 'remote', entry: 'v1' }],
+    };
+    instance.updateRemotes = async (remotes: any[]) => {
+      expect(remotes[0]).not.toHaveProperty('dependencies');
+      instance.options.remotes = remotes;
+    };
+    const scopes: (readonly string[] | undefined)[] = [];
+    const application = {
+      async update(
+        invalidate: (scope?: readonly string[]) => Promise<void>,
+        getScope?: () => readonly string[] | undefined,
+      ) {
+        const scope = getScope?.();
+        scopes.push(scope);
+        await invalidate(scope);
+        return scopes.length;
+      },
+    };
+    const remote = { name: 'remote', entry: 'v1' };
+    const nested = { name: 'nested', entry: 'nested.json', buildVersion: '1' };
+    for (const dependencies of [
+      [nested],
+      [{ ...nested, buildVersion: '2' }],
+      [],
+    ]) {
+      expect(
+        await adapter.updateRemotes(application, [{ ...remote, dependencies }]),
+      ).toMatchObject({
+        mode: 'application',
+        reasons: ['transitive-remote-dependencies'],
+      });
+    }
+    expect(scopes).toEqual([undefined, undefined, undefined]);
+    // An empty graph no longer needs the nested-container fallback.
+    expect(
+      await adapter.updateRemotes(application, [
+        { ...remote, entry: 'v2', dependencies: [] },
+      ]),
+    ).toMatchObject({ mode: 'entries' });
+  });
+
   it('keeps declared aliases for selective planning and strips candidate information before Core mutation', async () => {
     const { adapter, runtime } = fixture();
     const instance = runtime.federation.instance as any;

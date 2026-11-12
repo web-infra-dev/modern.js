@@ -20,7 +20,7 @@ import { serviceRemotes } from '../serviceRemotes';
 import { configureServiceProvider } from './serviceProvider';
 import { serviceProviderBasePaths } from '../serviceProvider';
 import { configureServiceRuntimePlugins } from './serviceRuntimePlugins';
-import { createDevBuildVersion } from './devManifest';
+import { createDevManifestPublication } from './devManifest';
 
 import type { InternalModernPluginOptions } from '../types';
 import type { Rspack, RspackChain } from '@rsbuild/core';
@@ -407,11 +407,7 @@ export const moduleFederationConfigPlugin = (
         csrConfig.runtimePlugins,
       );
       if (isDev()) {
-        const identity = (userConfig.devBuildVersion = createDevBuildVersion());
-        for (const config of [csrConfig, ssrConfig]) {
-          config.experiments ||= {};
-          config.experiments.buildVersion = () => identity.current;
-        }
+        userConfig.devManifestPublication = createDevManifestPublication();
       }
       if (isDev() && csrConfig.dev !== false) {
         csrConfig.dev = {
@@ -421,20 +417,20 @@ export const moduleFederationConfigPlugin = (
       }
     }
     let hasNodeBuild = false;
+    const developmentOrigin = () => {
+      if (!isDev()) return undefined;
+      const port = api.getAppContext().port ?? modernjsConfig.server?.port;
+      if (!port)
+        throw Error(
+          'The Service provider dev server port has not been resolved.',
+        );
+      let host = modernjsConfig.dev?.host || 'localhost';
+      if (host === '0.0.0.0' || host === '::') host = 'localhost';
+      if (host.includes(':') && !host.startsWith('[')) host = `[${host}]`;
+      return `${modernjsConfig.dev?.https ? 'https' : 'http'}://${host}:${port}`;
+    };
     if (mfConfig.exposes && Object.keys(mfConfig.exposes).length) {
       const provider = userConfig.originPluginOptions.serviceProvider;
-      const developmentOrigin = () => {
-        if (!isDev()) return undefined;
-        const port = api.getAppContext().port ?? modernjsConfig.server?.port;
-        if (!port)
-          throw Error(
-            'The Service provider dev server port has not been resolved.',
-          );
-        let host = modernjsConfig.dev?.host || 'localhost';
-        if (host === '0.0.0.0' || host === '::') host = 'localhost';
-        if (host.includes(':') && !host.startsWith('[')) host = `[${host}]`;
-        return `${modernjsConfig.dev?.https ? 'https' : 'http'}://${host}:${port}`;
-      };
       for (const config of [csrConfig, ssrConfig])
         configureServiceProvider(
           config,
@@ -467,6 +463,7 @@ export const moduleFederationConfigPlugin = (
       userConfig.originPluginOptions.ssr.cacheUpdates
     ) {
       const application = userConfig.originPluginOptions.ssr.application;
+      userConfig.devManifestPublication?.setSSRReady(false);
       api._internalServerPlugins(({ plugins }) => {
         plugins.push({
           name: resolveInternalPlugin('../server/updatePlugin'),
@@ -474,9 +471,24 @@ export const moduleFederationConfigPlugin = (
             name: ssrConfig.name,
             remotes,
             application,
-            ...(userConfig.devBuildVersion && {
+            ...(userConfig.devManifestPublication && {
               canPrepareSSRResources: (stats: unknown) =>
-                userConfig.devBuildVersion!.isReadyFor(stats),
+                userConfig.devManifestPublication!.isReadyFor(stats),
+              devBuild: {
+                publisher: () => ({
+                  name: ssrConfig.name,
+                  entry: new URL(
+                    getManifestFileName(csrConfig.manifest).manifestFileName,
+                    `${developmentOrigin()}/`,
+                  ).href,
+                }),
+                subscribe: userConfig.devManifestPublication.subscribe,
+                setReady: (ready: boolean) => {
+                  userConfig.devManifestPublication!.setSSRReady(ready);
+                  userConfig.devManifestReady =
+                    ready && userConfig.devManifestPublication!.ready;
+                },
+              },
             }),
           },
         });

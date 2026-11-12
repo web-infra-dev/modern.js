@@ -66,6 +66,8 @@ export default function ssrOwnership(): ModuleFederationRuntimePlugin {
               ? snapshot.globalName
               : '',
           buildVersion: snapshot.buildVersion,
+          version:
+            typeof snapshot.version === 'string' ? snapshot.version : undefined,
         });
         if (provider && !provider.disposed) sharedProviders.push(provider);
       }

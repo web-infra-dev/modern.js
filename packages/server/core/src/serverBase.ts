@@ -21,7 +21,11 @@ export interface ServerBaseOptions extends ServerCreateOptions {
   serverConfig?: ServerConfig;
   runMode?: 'apiOnly' | 'ssrOnly' | 'webOnly';
   /** Internal dev control plane. Resource ownership starts after successful compilation. */
-  devControl?: { reload(): void; isAsset?(request: Request): boolean };
+  devControl?: {
+    reload(): void;
+    send?(event: string, data: unknown): void;
+    isAsset?(request: Request): boolean;
+  };
   deferSSRResources?: boolean;
 }
 

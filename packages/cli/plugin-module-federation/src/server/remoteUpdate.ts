@@ -13,6 +13,8 @@ export interface RemoteUpdateTarget {
   client?: { entry: string; type?: string; entryGlobalName?: string };
   /** A fresh manifest or provider snapshot obtained by the caller. */
   moduleInfo?: Record<string, unknown>;
+  /** Applied transitive builds, independent of this provider's own manifest. */
+  dependencies?: { name: string; entry: string; buildVersion: string }[];
 }
 export interface RemoteCheckOptions {
   signal?: AbortSignal;
@@ -137,6 +139,47 @@ export async function readRemoteModuleInfo(
   return manifest as Record<string, unknown>;
 }
 
+/** Conditional candidates are service-local and never populate MF runtime caches. */
+export function createRemoteManifestReader() {
+  const cache = new Map<
+    string,
+    { moduleInfo: Record<string, unknown>; etag?: string; modified?: string }
+  >();
+  return async (
+    target: RemoteUpdateTarget,
+    options: RemoteCheckOptions = {},
+  ) => {
+    aborted(options.signal);
+    if (target.moduleInfo) return target.moduleInfo;
+    const previous = cache.get(target.entry);
+    const headers = new Headers();
+    if (previous?.etag) headers.set('If-None-Match', previous.etag);
+    else if (previous?.modified)
+      headers.set('If-Modified-Since', previous.modified);
+    const response = await fetch(target.entry, {
+      headers,
+      signal: options.signal,
+      cache: 'no-cache',
+    });
+    if (response.status === 304 && previous) return previous.moduleInfo;
+    if (!response.ok)
+      throw new Error(
+        `Remote manifest returned HTTP ${response.status}: ${target.entry}`,
+      );
+    const moduleInfo = await response.json();
+    aborted(options.signal);
+    if (!moduleInfo || typeof moduleInfo !== 'object' || !moduleInfo.metaData)
+      throw new TypeError(`Invalid remote manifest: ${target.entry}`);
+    moduleInfoFingerprint(moduleInfo, target.entry);
+    cache.set(target.entry, {
+      moduleInfo,
+      etag: response.headers.get('etag') || undefined,
+      modified: response.headers.get('last-modified') || undefined,
+    });
+    return moduleInfo as Record<string, unknown>;
+  };
+}
+
 export function createRemoteUpdateController<
   A extends UpdateApplication,
   R,
@@ -216,6 +259,9 @@ export function createRemoteUpdateController<
             ? { moduleInfo: structuredClone(target.moduleInfo) }
             : {}),
           ...(target.client ? { client: { ...target.client } } : {}),
+          ...(target.dependencies
+            ? { dependencies: structuredClone(target.dependencies) }
+            : {}),
         };
       })
       .sort((a, b) => a.name.localeCompare(b.name));
@@ -263,12 +309,23 @@ export function createRemoteUpdateController<
   ) {
     return (
       registrationChanged(current, target) ||
+      dependenciesChanged(current, target) ||
       Boolean(
         target.moduleInfo &&
         (!current.moduleInfo ||
           moduleInfoFingerprint(current.moduleInfo, current.entry) !==
             moduleInfoFingerprint(target.moduleInfo, target.entry)),
       )
+    );
+  }
+  function dependenciesChanged(
+    current: RemoteUpdateTarget,
+    target: RemoteUpdateTarget,
+  ) {
+    return (
+      target.dependencies !== undefined &&
+      JSON.stringify(stable(current.dependencies || [])) !==
+        JSON.stringify(stable(target.dependencies))
     );
   }
   async function changed(
@@ -299,6 +356,7 @@ export function createRemoteUpdateController<
     if (
       intent &&
       (registrationChanged(intent, captured) ||
+        dependenciesChanged(intent, captured) ||
         (intent.moduleInfo &&
           captured.moduleInfo &&
           moduleInfoFingerprint(intent.moduleInfo, intent.entry) !==
@@ -317,6 +375,7 @@ export function createRemoteUpdateController<
     return Boolean(
       latestIntent &&
       (registrationChanged(latestIntent, captured) ||
+        dependenciesChanged(latestIntent, captured) ||
         !latestIntent.moduleInfo ||
         !captured.moduleInfo ||
         moduleInfoFingerprint(latestIntent.moduleInfo, latestIntent.entry) !==

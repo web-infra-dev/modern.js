@@ -4,7 +4,7 @@ These checks cover the built-in Modern MF plugin and the current application run
 
 Build the task's Rspack native binding and JavaScript packages, MF Core packages, and Modern packages first. Install the locally packed Rspack and MF packages through temporary pnpm overrides in the isolated Modern checkout. Keep the native binding paired with its Rspack JavaScript package. Local package paths and generated validation lockfiles must not be committed as release dependencies.
 
-The host enables `moduleFederation.ssr.cacheUpdates`. The original static, production and Bridge runners connect the low-level `createSSRUpdateAdapter` to `createProdServer({ ssrApplication })` to exercise ownership and cache behavior directly. `formal-production.cjs` covers the application-bound `@modern-js/runtime/mf` APIs through the service-lifetime server plugin. The development runner uses the automatically installed plugin and its background manifest checks.
+The host enables `moduleFederation.ssr.cacheUpdates`. The original static, production and Bridge runners connect the low-level `createSSRUpdateAdapter` to `createProdServer({ ssrApplication })` to exercise ownership and cache behavior directly. `formal-production.cjs` covers the application-bound `@modern-js/runtime/mf` APIs through the service-lifetime server plugin. The development runners use the automatically installed plugin and its build subscriptions or request-time manifest fallback.
 
 Allocate and supervise the test's `HOST` and `ASSETS` ports before starting it. The runners read the actual allocated ports from `JO_PORT_HOST` and `JO_PORT_ASSETS`.
 
@@ -28,6 +28,25 @@ Run `node bridge.cjs` with a separately allocated `HOST` and `ASSETS` pair for t
 
 ## Development source updates
 
+`subscriptions.cjs` uses direct producer manifest addresses, with `dts: false` on every app. Allocate `HOST`, `PROVIDER` and `BROKER` ports, reserving the default broker port 16322. The nested mode also needs `MIDDLE`. Run these modes independently:
+
+```sh
+node tests/integration/module-federation/ssr-update/subscriptions.cjs ordinary
+node tests/integration/module-federation/ssr-update/subscriptions.cjs nested
+node tests/integration/module-federation/ssr-update/subscriptions.cjs bridge
+node tests/integration/module-federation/ssr-update/subscriptions.cjs service
+node tests/integration/module-federation/ssr-update/subscriptions.cjs service-csr
+node tests/integration/module-federation/ssr-update/subscriptions.cjs build-serve
+```
+
+Ordinary and nested modes deliberately start the consumer before its producer, require initial SSR preparation to fail, then verify recovery without a consumer rebuild. An independent subscriber waits for the Host to publish the applied provider version before the test sends its next HTTP request. Component dependencies, loader-only edits and component function edits must produce current SSR and interactive browser content. Ordinary, nested and Bridge modes require the same document and preserved counter state. Service and static-producer modes require a new document after each update. Bridge and Service modes also unmount and remount the updated remote.
+
+The nested fixture is A→B→C. Changing A must reach C while the build versions of B and C remain unchanged. `build-serve` serves real production producer artifacts through a static HTTP server with an explicit CORS allowance for the consumer. Rebuilding that producer produces no development notification. The next Host HTTP request must update its Node graph and trigger browser reload.
+
+The default browser driver uses the workspace Puppeteer dependency. `MF_DEV_BROWSER_DRIVER` can select an absolute path to a driver factory with `open`, `evaluate`, `click` and `close` methods for another browser environment. `MF_DEV_NO_BROWSER=1` runs only the Node assertions and does not establish browser behavior. Each fixture retains package roots, publications, source-edit results, browser state and process logs in its temporary directory.
+
+### Manifest gateway fallback
+
 Allocate and supervise a separate `HOST`, `PROVIDER` and `MANIFEST` port group. After the workspace packages are built and their local dependencies installed, run:
 
 ```sh
@@ -39,7 +58,7 @@ node tests/integration/module-federation/ssr-update/dev.cjs service-csr
 
 Omitting the argument runs Bridge and Service SSR sequentially. Run `service-csr` separately for a Service consumer with `server.ssr: false`. The runner requires `JO_PORT_HOST`, `JO_PORT_PROVIDER` and `JO_PORT_MANIFEST` and keeps its source copies, writable build caches and browser profile inside a temporary fixture directory. It links the existing workspace packages and does not install packages or run a production build. It verifies the advertised app ports and its manifest gateway listener against the allocated values.
 
-Both apps enable `moduleFederation.ssr.cacheUpdates`. The producer manifest URL remains unchanged throughout the run. The test edits the producer's component, loader and CSS sources, including separate CSS-only and loader-only changes, a syntax error followed by repair, and consecutive saves. Every successful update must automatically reload the already-open browser into an interactive document. SSR modes also require new HTTP SSR content. The ordinary mode uses a static React component import and a separately imported remote loader, requiring their direct HTML markers with no Bridge frames. Bridge and Service SSR decode the Bridge HTML frames and require the producer's component and loader markers before browser hydration. All modes compare the actual producer runtime instance ID and compiled build identifier against the manifest build version, both before hydration where applicable and in the interactive browser. The test never calls the update adapter or reloads the browser to make the assertion pass. A compilation error must keep the producer manifest unavailable with HTTP 503 and `no-store`, must not trigger document reload, and completed updates must settle without a reload loop.
+Both apps enable `moduleFederation.ssr.cacheUpdates`. The gateway address differs from the producer's published identity, so this runner exercises request-time fallback. The producer manifest URL remains unchanged throughout the run. The test edits the producer's component, loader and CSS sources, including separate CSS-only and loader-only changes, a syntax error followed by repair, and consecutive saves. Each update sends an HTTP request and requires the already-open browser to reload into an interactive document. SSR modes also require new HTTP SSR content. The ordinary mode uses a static React component import and a separately imported remote loader, requiring their direct HTML markers with no Bridge frames. Bridge and Service SSR decode the Bridge HTML frames and require the producer's component and loader markers before browser hydration. Compiler IDs and manifest content versions are recorded separately. The test never calls the update adapter or reloads the browser to make the assertion pass. A compilation error must keep the producer manifest unavailable with HTTP 503 and `no-store`, must not trigger document reload, and completed updates must settle without a reload loop.
 
 The CSR consumer must return an HTML shell without provider SSR frames. The browser must then make a real Service HTTP request whose NDJSON HTML frames contain the requested component and loader versions. Every update requires a fresh matching Service response after the source edit, including CSS-only changes. Browser appearance alone cannot satisfy this assertion, and these results do not claim Host SSR support.
 

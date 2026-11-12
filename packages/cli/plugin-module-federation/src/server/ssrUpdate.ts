@@ -48,6 +48,8 @@ export interface SSRRemoteReplacement {
   entryGlobalName?: string;
   client?: Omit<SSRClientRemote, 'name'>;
   moduleInfo?: Record<string, unknown>;
+  /** Development subscriptions retain transitive build identities separately. */
+  dependencies?: { name: string; entry: string; buildVersion: string }[];
 }
 export interface SSRUpdateOptions extends RemoteCheckOptions {
   revision?: number;
@@ -106,6 +108,9 @@ export function createSSRUpdateAdapter(options: {
     );
   const registrations = new WeakMap<object, Map<string, any>>();
   const retiringProviders = new Set<any>();
+  const dependencyGraphs = new Map(
+    options.remotes?.map(remote => [remote.name, remote.dependencies || []]),
+  );
   const canonicalName = (name: string) => {
     for (const instance of instances()) {
       const remote =
@@ -263,6 +268,7 @@ export function createSSRUpdateAdapter(options: {
                 const {
                   client: _client,
                   moduleInfo: _info,
+                  dependencies: _dependencies,
                   ...server
                 } = replacement;
                 targets.set(existing?.name || name, {
@@ -293,6 +299,7 @@ export function createSSRUpdateAdapter(options: {
                   const {
                     client: _client,
                     moduleInfo: _info,
+                    dependencies: _dependencies,
                     ...serverReplacement
                   } = replacement;
                   const target = {
@@ -337,6 +344,7 @@ export function createSSRUpdateAdapter(options: {
                         helpers.global.getRemoteFederationInstance(
                           module.remoteInfo,
                           known,
+                          module.remoteEntryExports || module.lib,
                         );
                       if (provider) retiringProviders.add(provider);
                     }
@@ -385,7 +393,20 @@ export function createSSRUpdateAdapter(options: {
               if (new Set(names).size !== names.length)
                 throw new Error('Multiple replacements target the same remote');
             }
-            const plans = changes.map(({ name }) => plan(name));
+            const plans = changes.map(({ name, replacement }) => {
+              // Native entry metadata proves only the direct import boundary.
+              // Nested containers need disposal, including when a dependency
+              // was removed from the newly published graph.
+              if (
+                replacement.dependencies?.length ||
+                dependencyGraphs.get(canonicalName(name))?.length
+              )
+                return {
+                  mode: 'application' as const,
+                  reasons: ['transitive-remote-dependencies'],
+                };
+              return plan(name);
+            });
             selected = plans.some(item => item.mode === 'application')
               ? {
                   mode: 'application',
@@ -435,6 +456,9 @@ export function createSSRUpdateAdapter(options: {
           );
         }
       }
+      for (const { name, replacement } of changes)
+        if (replacement.dependencies !== undefined)
+          dependencyGraphs.set(canonicalName(name), replacement.dependencies);
       return { ...selected, generation };
     } finally {
       for (const state of ownedStates)
@@ -485,7 +509,8 @@ export function createSSRUpdateAdapter(options: {
       );
     const captured = changes
       .map(({ name, replacement }) => {
-        const { entry, type, entryGlobalName, client } = replacement;
+        const { entry, type, entryGlobalName, client, dependencies } =
+          replacement;
         const publicTarget =
           options.hydration || client
             ? clientRemote({ ...client, name } as SSRClientRemote)
@@ -496,6 +521,9 @@ export function createSSRUpdateAdapter(options: {
             entry,
             ...(type !== undefined ? { type } : {}),
             ...(entryGlobalName !== undefined ? { entryGlobalName } : {}),
+            ...(dependencies !== undefined
+              ? { dependencies: structuredClone(dependencies) }
+              : {}),
             ...(publicTarget
               ? {
                   client: {
@@ -928,15 +956,35 @@ export function createSSRUpdateAdapter(options: {
       const globalInstances: any[] =
         (globalThis as any).__FEDERATION__?.__INSTANCES__ || [];
       const knownInstances = [...new Set([...globalInstances, ...providers])];
-      for (const host of hosts)
+      // Follow actual containers through the entire retiring graph. A direct
+      // provider can keep a nested provider alive even after our host detaches it.
+      const pendingProviders = [...hosts, ...providers];
+      const visitedProviders = new Set<any>();
+      for (const host of pendingProviders) {
+        if (visitedProviders.has(host)) continue;
+        visitedProviders.add(host);
         for (const module of host.moduleCache?.values() || []) {
           const info = module.remoteInfo;
           const provider = helpers.global.getRemoteFederationInstance(
             info,
             knownInstances,
+            module.remoteEntryExports || module.lib,
           );
-          if (provider) providers.add(provider);
+          if (
+            provider &&
+            !providers.has(provider) &&
+            !hosts.includes(provider)
+          ) {
+            providers.add(provider);
+            pendingProviders.push(provider);
+          }
         }
+        for (const provider of host.retainedProviders || [])
+          if (!providers.has(provider) && !hosts.includes(provider)) {
+            providers.add(provider);
+            pendingProviders.push(provider);
+          }
+      }
       const sharedRecords = (scope: any) =>
         Object.values(scope || {}).flatMap((packages: any) =>
           Object.values(packages).flatMap((versions: any) =>
@@ -983,6 +1031,7 @@ export function createSSRUpdateAdapter(options: {
                 helpers.global.getRemoteFederationInstance(
                   module.remoteInfo,
                   knownInstances,
+                  module.remoteEntryExports || module.lib,
                 ) === provider,
             ),
           );

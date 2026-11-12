@@ -55,6 +55,32 @@ function fixture() {
 }
 afterEach(() => rs.restoreAllMocks());
 describe('application remote target checks', () => {
+  it('updates changed transitive builds without changing the direct provider version', async () => {
+    const f = fixture();
+    const first = {
+      ...target('a'),
+      dependencies: [
+        {
+          name: 'nested',
+          entry: 'http://nested/manifest.json',
+          buildVersion: 'x',
+        },
+      ],
+    };
+    await f.controller.updateRemotes(f.application, [first]);
+    expect(f.apply).toHaveBeenCalledTimes(1);
+    await expect(
+      f.controller.shouldUpdateRemote(f.application, first),
+    ).resolves.toBe(false);
+    const second = {
+      ...first,
+      dependencies: [{ ...first.dependencies[0], buildVersion: 'y' }],
+    };
+    await f.controller.updateRemotes(f.application, [second]);
+    expect(f.apply).toHaveBeenCalledTimes(2);
+    expect(f.apply.mock.calls[1][1][0].moduleInfo!.buildVersion).toBe('a');
+  });
+
   it('always returns a promise, uses the registered URL fast path, and rejects unknown registrations', async () => {
     const f = fixture();
     const fetcher = rs.spyOn(globalThis, 'fetch');
