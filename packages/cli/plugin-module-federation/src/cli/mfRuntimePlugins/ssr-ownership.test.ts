@@ -1,5 +1,110 @@
 import { expect, it, rs } from '@rstest/core';
+import { createInstance, helpers } from '@module-federation/enhanced/runtime';
+import {
+  bindSSRRuntime,
+  createSSRUpdateOwner,
+  releaseSSRUpdateOwner,
+} from '../../server/ssrUpdateOwner';
+import {
+  clearSSRUpdateCandidates,
+  setSSRUpdateCandidates,
+} from '../../server/ssrUpdateCandidates';
 import plugin, { ownershipKey } from './ssr-ownership';
+
+it.each(['candidate', 'snapshot'])(
+  'adopts loaded singletons only from the selected provider build through %s',
+  async mode => {
+    const firstValue = {};
+    const selectedValue = {};
+    const localValue = {};
+    const first = createInstance({
+      name: 'singleton-provider',
+      id: 'singleton-provider:one',
+      shared: { library: { version: '1.0.0', lib: () => firstValue } },
+    });
+    const selected = createInstance({
+      name: 'singleton-provider',
+      id: 'singleton-provider:two',
+      shared: {
+        library: { version: '1.0.0', lib: () => selectedValue },
+        plain: { version: '1.0.0', lib: () => selectedValue },
+        differentVersion: { version: '2.0.0', lib: () => selectedValue },
+      },
+    });
+    const owner = createSSRUpdateOwner('singleton-consumer');
+    const snapshot = {
+      providerName: 'singleton-provider',
+      buildVersion: 'two',
+      version: 'https://provider.test/two/manifest.json',
+      remoteEntry: 'entry.js',
+      remotesInfo: {},
+    };
+    const resetSnapshot = helpers.global.addGlobalSnapshot(
+      mode === 'snapshot'
+        ? { [`registered-provider:${snapshot.version}`]: snapshot }
+        : {},
+    );
+    if (mode === 'candidate')
+      setSSRUpdateCandidates(owner.id, [
+        {
+          name: 'registered-provider',
+          entry: snapshot.version,
+          moduleInfo: snapshot,
+        },
+      ]);
+    const host = createInstance({
+      name: owner.name,
+      remotes: [
+        {
+          name: 'registered-provider',
+          entry:
+            mode === 'candidate'
+              ? 'https://provider.test/one/manifest.json'
+              : snapshot.version,
+        },
+      ],
+      shared: {
+        library: {
+          version: '1.0.0',
+          lib: () => localValue,
+          shareConfig: { singleton: true },
+        },
+        plain: { version: '1.0.0', lib: () => localValue },
+        differentVersion: {
+          version: '1.0.0',
+          lib: () => localValue,
+          shareConfig: { singleton: true },
+        },
+      },
+      plugins: [
+        {
+          name: 'bind-test-owner',
+          beforeInit(args) {
+            bindSSRRuntime(owner, args.origin);
+            return args;
+          },
+        },
+        plugin(),
+      ],
+    });
+    try {
+      expect(host.loadShareSync('library')()).toBe(selectedValue);
+      expect(host.shareScopeMap.default.library['1.0.0']).toBe(
+        selected.shareScopeMap.default.library['1.0.0'],
+      );
+      expect(host.loadShareSync('plain')()).toBe(localValue);
+      expect(host.loadShareSync('differentVersion')()).toBe(localValue);
+      expect(first.loadShareSync('library')()).toBe(firstValue);
+    } finally {
+      await host.destroy();
+      await first.destroy();
+      await selected.destroy();
+      clearSSRUpdateCandidates(owner.id);
+      releaseSSRUpdateOwner(owner);
+      resetSnapshot();
+    }
+  },
+);
 
 it('observes dynamic loads and rejects them before execution during selective updates', async () => {
   const load = rs.fn(async () => 'loaded');
@@ -131,4 +236,46 @@ it('forgets all removed remote URLs without clearing another remote or the repla
   expect(olderClear).not.toHaveBeenCalled();
   expect(otherClear).toHaveBeenCalledTimes(1);
   expect(newClear).toHaveBeenCalledTimes(1);
+});
+
+it('releases only its build entry promise when the URL and provider name are shared', async () => {
+  const previous = (globalThis as any).__FEDERATION__;
+  const previousLoading = (globalThis as any).__GLOBAL_LOADING_REMOTE_ENTRY__;
+  const globalName = 'ownershipVersionedEntry';
+  try {
+    (globalThis as any).__FEDERATION__ = { __INSTANCES__: [], __SHARE__: {} };
+    const oldEntry = { __webpack_clear_cache__: rs.fn() };
+    const newEntry = { __webpack_clear_cache__: rs.fn() };
+    const oldLoading = Promise.resolve(oldEntry);
+    const newLoading = Promise.resolve(newEntry);
+    (globalThis as any).__GLOBAL_LOADING_REMOTE_ENTRY__ = {
+      'remote:entry:v1': oldLoading,
+      'remote:entry:v2': newLoading,
+    };
+    (globalThis as any)[globalName] = newEntry;
+    const owner = plugin();
+    await owner.afterLoadEntry!({
+      remoteInfo: {
+        name: 'remote',
+        entry: 'entry',
+        buildVersion: 'v1',
+        entryGlobalName: globalName,
+      },
+      remoteEntryExports: oldEntry,
+    } as any);
+    await owner.dispose!({ origin: { name: 'host' } } as any);
+    expect(oldEntry.__webpack_clear_cache__).toHaveBeenCalledTimes(1);
+    expect(newEntry.__webpack_clear_cache__).not.toHaveBeenCalled();
+    expect(
+      (globalThis as any).__GLOBAL_LOADING_REMOTE_ENTRY__['remote:entry:v1'],
+    ).toBeUndefined();
+    expect(
+      (globalThis as any).__GLOBAL_LOADING_REMOTE_ENTRY__['remote:entry:v2'],
+    ).toBe(newLoading);
+    expect((globalThis as any)[globalName]).toBe(newEntry);
+  } finally {
+    (globalThis as any).__FEDERATION__ = previous;
+    (globalThis as any).__GLOBAL_LOADING_REMOTE_ENTRY__ = previousLoading;
+    delete (globalThis as any)[globalName];
+  }
 });

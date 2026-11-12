@@ -28,9 +28,10 @@ async function writeGeneration(
 }
 
 async function createFixture(root, mode, ports) {
-  if (!['bridge', 'service', 'service-csr'].includes(mode))
+  if (!['ordinary', 'bridge', 'service', 'service-csr'].includes(mode))
     throw new Error(`Unknown mode: ${mode}`);
   const service = mode.startsWith('service');
+  const ordinary = mode === 'ordinary';
   const modeKey = mode.replaceAll('-', '_');
   const appTools = modernPackage('@modern-js/app-tools');
   const runtime = modernPackage('@modern-js/runtime');
@@ -41,7 +42,9 @@ async function createFixture(root, mode, ports) {
   const manifestURL = `http://localhost:${ports.manifest}/static/mf-manifest.json`;
   for (const app of ['provider', 'host']) {
     const directory = path.join(root, app);
-    await fs.mkdir(path.join(directory, 'src/routes'), { recursive: true });
+    await fs.mkdir(path.join(directory, 'src/routes'), {
+      recursive: true,
+    });
     const modules = path.join(directory, 'node_modules');
     const packages = {
       '@modern-js/app-tools': appTools,
@@ -96,9 +99,19 @@ async function createFixture(root, mode, ports) {
       dts: false,
       filename: 'static/remoteEntry.js',
       manifest: { filePath: 'static' },
-      shared: { react: { singleton: true }, 'react-dom': { singleton: true } },
+      shared: {
+        react: { singleton: true },
+        'react-dom': { singleton: true },
+      },
       ...(provider
-        ? { exposes: { './App': './src/Remote.tsx' } }
+        ? {
+            exposes: {
+              './App': './src/Remote.tsx',
+              ...(ordinary
+                ? { './Loader': './src/routes/remote/page.data.ts' }
+                : {}),
+            },
+          }
         : {
             remotes: {
               remote: `dev_update_${modeKey}_provider@${manifestURL}`,
@@ -132,7 +145,16 @@ export default defineConfig({
       path.join(directory, 'src/routes/page.tsx'),
       provider
         ? `export default () => <p>Dev producer</p>;\n`
-        : `
+        : ordinary
+          ? `
+import Remote from 'remote/App';
+import { useLoaderData } from '@modern-js/runtime/router';
+export default function Host() {
+  const data = useLoaderData() as {version: string};
+  return <main><h1>Automatic ordinary development update</h1><Remote data={data}/></main>;
+}
+`
+          : `
 import { useState } from 'react';
 import { useLocation } from '@modern-js/runtime/router';
 import { ReactRemote } from '@modern-js/runtime/mf';
@@ -150,11 +172,19 @@ export default function Host() {
 `,
     );
   }
+  if (ordinary) {
+    await fs.writeFile(
+      path.join(root, 'host/src/routes/page.data.ts'),
+      `import {loader as remoteLoader} from 'remote/Loader'; export const loader = async (...args: any[]) => remoteLoader(...args);\n`,
+    );
+  }
   const route = path.join(root, 'provider/src/routes/remote');
   await fs.mkdir(route, { recursive: true });
   await fs.writeFile(
     path.join(root, 'provider/src/Remote.tsx'),
-    `
+    ordinary
+      ? `export {default} from './routes/remote/page';\n`
+      : `
 import '@modern-js/runtime/registry/index';
 import {createRoot} from '@modern-js/runtime/react';
 import {createModernBridgeComponent} from '@modern-js/runtime/mf';
@@ -166,15 +196,18 @@ export default createModernBridgeComponent({rootComponent: Root${service ? ', is
     path.join(route, 'page.tsx'),
     `
 import {useEffect, useRef, useState} from 'react';
-import {useLoaderData} from '@modern-js/runtime/router';
+${ordinary ? '' : "import {useLoaderData} from '@modern-js/runtime/router';"}
 import {version} from './version';
 import './remote.css';
-export default function Remote() {
-  const data = useLoaderData() as {version: string};
+declare const FEDERATION_BUILD_IDENTIFIER: string;
+declare const __webpack_require__: {federation: {instance: {options: {id: string}}}};
+export default function Remote(${ordinary ? '{data}: {data: {version: string}}' : ''}) {
+  ${ordinary ? '' : 'const data = useLoaderData() as {version: string};'}
   const [count, setCount] = useState(0);
   const button = useRef<HTMLButtonElement>(null);
   useEffect(() => {button.current!.dataset.hydrated = 'true'}, []);
-  return <section data-testid="dev-remote" data-ui={version} data-loader={data.version}>
+  return <section data-testid="dev-remote" data-ui={version} data-loader={data.version}
+    data-build-id={FEDERATION_BUILD_IDENTIFIER} data-runtime-id={__webpack_require__.federation.instance.options.id}>
     <h2>Remote UI {version}</h2><p>Remote loader {data.version}</p>
     <button ref={button} id="dev-counter" onClick={() => setCount(value => value + 1)}>count:{count}</button>
   </section>;

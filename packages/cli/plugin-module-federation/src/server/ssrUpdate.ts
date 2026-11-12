@@ -12,10 +12,20 @@ import {
   releaseScript,
   type SSRClientRemote,
 } from '../ssr-runtime/release';
+import { helpers } from '@module-federation/enhanced/runtime';
+import {
+  bindSSRRuntime,
+  createSSRUpdateOwner,
+  runWithSSRUpdateOwner,
+  releaseSSRUpdateOwner,
+  type SSRUpdateOwner,
+} from './ssrUpdateOwner';
 
 /** This protocol is owned by the Modern adapter, not the generic MF runtime. */
 export interface SSREntryRecord {
   application: string;
+  applicationOwner?: string;
+  readonly buildId?: string;
   entry: string;
   owner: string;
   rootIds: Array<string | number | null>;
@@ -58,6 +68,7 @@ export interface SSRUpdateReceipt {
 export function createSSRUpdateAdapter(options: {
   name: string;
   entries: string[];
+  owner?: SSRUpdateOwner;
   staticOnly?: boolean;
   /** Immutable public entries paired with the initial server release. */
   hydration?: { remotes: SSRClientRemote[] };
@@ -66,9 +77,12 @@ export function createSSRUpdateAdapter(options: {
   invalidate?: (remotes: SSRRemoteReplacement[]) => Promise<void>;
 }) {
   options = { ...options, entries: [...options.entries] };
-  const handoffKey = Symbol.for('modern-js.mf.ssr.registrations');
-  const handoffs: Map<string, any[]> = ((globalThis as any)[handoffKey] ||=
-    new Map());
+  const owner =
+    options.owner || createSSRUpdateOwner(options.name, options.entries);
+  for (const entry of options.entries) {
+    owner.entryNames.add(entry);
+    owner.entryNames.add(`${entry}-server-loaders`);
+  }
   const clientTargets = new Map(
     options.hydration?.remotes.map(value => {
       const remote = clientRemote(value);
@@ -77,20 +91,12 @@ export function createSSRUpdateAdapter(options: {
   );
   let targetRevision = 0;
   let hydrationEnabled = Boolean(options.hydration);
-  const registry = () =>
-    (globalThis as any)[Symbol.for('modern-js.mf.ssr.entries')] as
-      Map<string, SSREntryRecord> | undefined;
-  const records = () =>
-    [...(registry()?.entries() || [])]
-      .filter(([, record]) => record.application === options.name)
-      .map(([, record]) => record);
+  const records = () => [...owner.entries.values()];
   const instances = () => [
     ...new Set(
       [
         ...records().map(record => record.runtime.federation?.instance),
-        ...((globalThis as any).__FEDERATION__?.__INSTANCES__ || []).filter(
-          (instance: any) => instance.name === options.name,
-        ),
+        ...owner.instances,
       ].filter(Boolean),
     ),
   ];
@@ -99,6 +105,7 @@ export function createSSRUpdateAdapter(options: {
       instance => instance[Symbol.for('modern-js.mf.ssr.consumption')],
     );
   const registrations = new WeakMap<object, Map<string, any>>();
+  const retiringProviders = new Set<any>();
   const canonicalName = (name: string) => {
     for (const instance of instances()) {
       const remote =
@@ -214,7 +221,7 @@ export function createSSRUpdateAdapter(options: {
           async entries => {
             onStage('clear');
             setSSRUpdateCandidates(
-              options.name,
+              owner.id,
               changes.map(({ name, replacement }) => ({
                 ...replacement,
                 name: canonicalName(name),
@@ -240,10 +247,10 @@ export function createSSRUpdateAdapter(options: {
             const hosts = instances();
             if (!hosts.length) {
               const previous =
-                handoffs.get(options.name) ||
+                owner.registrations ||
                 options.remotes?.map(remote => ({
                   ...remote,
-                  ...getSSRUpdateRegistration(options.name, remote.name),
+                  ...getSSRUpdateRegistration(owner.id, remote.name),
                 }));
               if (!previous) throw new Error('Missing MF application instance');
               const targets = new Map(
@@ -264,7 +271,7 @@ export function createSSRUpdateAdapter(options: {
                   name: existing?.name || name,
                 });
               }
-              handoffs.set(options.name, [...targets.values()]);
+              owner.registrations = [...targets.values()];
               onMutation();
               onStage('rebuild');
               return;
@@ -313,6 +320,27 @@ export function createSSRUpdateAdapter(options: {
                           ).values(),
                         ]
                       : next;
+                  // Full application disposal follows invalidation. Capture the
+                  // provider objects before Core/bundler hooks detach them from
+                  // both the host cache and the global instance registry.
+                  if (!entries) {
+                    const known = [
+                      ...((globalThis as any).__FEDERATION__?.__INSTANCES__ ||
+                        []),
+                      ...(instance.retainedProviders || []),
+                      ...retiringProviders,
+                    ];
+                    for (const target of targets) {
+                      const module = instance.moduleCache?.get(target.name);
+                      if (!module) continue;
+                      const provider =
+                        helpers.global.getRemoteFederationInstance(
+                          module.remoteInfo,
+                          known,
+                        );
+                      if (provider) retiringProviders.add(provider);
+                    }
+                  }
                   await instance.updateRemotes(targets);
                 };
                 if (state) await state.context.run(token, replace);
@@ -332,11 +360,7 @@ export function createSSRUpdateAdapter(options: {
           () => {
             onStage('analyze');
             const hosts = instances();
-            if (
-              !hosts.length &&
-              !handoffs.has(options.name) &&
-              !options.remotes
-            )
+            if (!hosts.length && !owner.registrations && !options.remotes)
               throw new Error('Missing MF application instance');
             recovering = application.status?.phase === 'unavailable';
             for (const instance of hosts) {
@@ -703,12 +727,12 @@ export function createSSRUpdateAdapter(options: {
           ...(instance.options?.remotes || []),
           ...(registrations.get(instance)?.values() || []),
         ])
-        .concat(handoffs.get(options.name) || [], options.remotes || [])
+        .concat(owner.registrations || [], options.remotes || [])
         .find(remote => remote.name === name || remote.alias === name);
       if (!registered) return undefined;
       Object.assign(
         (registered = { ...registered }),
-        getSSRUpdateRegistration(options.name, registered.name),
+        getSSRUpdateRegistration(owner.id, registered.name),
       );
       const publicTarget = canonicalClientTargets().get(registered.name);
       if (!publicTarget) return { ...registered };
@@ -815,6 +839,9 @@ export function createSSRUpdateAdapter(options: {
     return submit(application, [{ name, replacement }], input);
   }
   return {
+    owner,
+    run: <T>(operation: () => T): T => runWithSSRUpdateOwner(owner, operation),
+    bindRuntime: (instance: any) => bindSSRRuntime(owner, instance),
     plan,
     shouldUpdateRemote: controller.shouldUpdateRemote,
     shouldUpdateRemotes: controller.shouldUpdateRemotes,
@@ -822,7 +849,7 @@ export function createSSRUpdateAdapter(options: {
     whenIdle: controller.whenIdle,
     /** Run in Modern's unpublished resource validation hook, before publication. */
     prepareResources(resources: { templates: Record<string, string> }) {
-      handoffs.delete(options.name);
+      owner.registrations = undefined;
       if (!hydrationEnabled) return;
       const script = releaseScript(options.name, targetRevision, [
         ...canonicalClientTargets().values(),
@@ -863,7 +890,7 @@ export function createSSRUpdateAdapter(options: {
     /** @deprecated PoC compatibility. Use the application-bound updateRemotes API. */
     update,
     async reload(entry: string) {
-      const record = registry()?.get(JSON.stringify([options.name, entry]));
+      const record = owner.entries.get(entry);
       if (!record || record.reasons.length || record.rootIds.length !== 1)
         throw new Error(`Missing reloadable SSR entry: ${entry}`);
       // Re-evaluate the invalidated root in its existing runtime, retaining
@@ -887,83 +914,87 @@ export function createSSRUpdateAdapter(options: {
       // Carry only declarative registrations across generations, never factories
       // or plugins from the old application bundle.
       if (!preserveRemotes) {
-        handoffs.delete(options.name);
-        clearSSRUpdateCandidates(options.name);
+        owner.registrations = undefined;
+        clearSSRUpdateCandidates(owner.id);
       }
       if (preserveRemotes && hosts.length)
-        handoffs.set(
-          options.name,
-          hosts[0].options.remotes.map((remote: any) => ({ ...remote })),
-        );
-      const providers = new Set<any>(
-        hosts.flatMap(host => [...(host.retainedProviders || [])]),
-      );
+        owner.registrations = hosts[0].options.remotes.map((remote: any) => ({
+          ...remote,
+        }));
+      const providers = new Set<any>([
+        ...retiringProviders,
+        ...hosts.flatMap(host => [...(host.retainedProviders || [])]),
+      ]);
       const globalInstances: any[] =
         (globalThis as any).__FEDERATION__?.__INSTANCES__ || [];
+      const knownInstances = [...new Set([...globalInstances, ...providers])];
       for (const host of hosts)
         for (const module of host.moduleCache?.values() || []) {
           const info = module.remoteInfo;
-          for (const candidate of globalInstances)
-            if (
-              [info.providerName, info.name, info.entryGlobalName].includes(
-                candidate.name,
-              )
-            )
-              providers.add(candidate);
+          const provider = helpers.global.getRemoteFederationInstance(
+            info,
+            knownInstances,
+          );
+          if (provider) providers.add(provider);
         }
-      const names = new Set(
-        [...hosts, ...providers].map(instance => instance.name),
-      );
-      // Full application rebuilds retire all consumers together. Release their
-      // shared usage before any provider decides whether its runtime must survive.
-      // Include registrations already removed from the instance registry by update.
-      const retiringNames = new Set([
-        ...names,
-        ...hosts.flatMap(host =>
-          (host.options.remotes || []).map((remote: any) => remote.name),
-        ),
-      ]);
-      const sharedScopes = (globalThis as any).__FEDERATION__?.__SHARE__ || {};
-      for (const scopes of Object.values(sharedScopes) as any[])
-        for (const packages of Object.values(scopes) as any[])
-          for (const versions of Object.values(packages) as any[])
-            for (const shared of Object.values(versions) as any[])
-              shared.useIn = (shared.useIn || []).filter(
-                (name: string) => !retiringNames.has(name),
-              );
-      for (const provider of providers) {
-        const scopes = (globalThis as any).__FEDERATION__?.__SHARE__ || {};
-        const externallyUsed = Object.values(scopes).some((scope: any) =>
-          Object.values(scope).some((packages: any) =>
-            Object.values(packages).some((versions: any) =>
-              Object.values(versions).some(
-                (shared: any) =>
-                  shared.from === provider.name &&
-                  shared.useIn?.some((name: string) => !names.has(name)),
-              ),
-            ),
+      const sharedRecords = (scope: any) =>
+        Object.values(scope || {}).flatMap((packages: any) =>
+          Object.values(packages).flatMap((versions: any) =>
+            Object.values(versions),
           ),
         );
-        const externallyLoaded = globalInstances.some(
-          other =>
-            !names.has(other.name) &&
-            !other.disposed &&
-            [...(other.moduleCache?.values() || [])].some((module: any) =>
-              [
-                module.remoteInfo.providerName,
-                module.remoteInfo.name,
-                module.remoteInfo.entryGlobalName,
-              ].includes(provider.name),
-            ),
+      const scopes = (globalThis as any).__FEDERATION__?.__SHARE__ || {};
+      // A retained provider can itself consume another retiring provider. Once it
+      // survives this update, propagate its ownership through that dependency
+      // graph until no additional runtime needs to survive.
+      let retained = true;
+      while (retained) {
+        retained = false;
+        const ownedInstances = new Set([...hosts, ...providers]);
+        const names = new Set(
+          [...ownedInstances].map(instance => instance.name),
         );
-        if (externallyUsed || externallyLoaded) providers.delete(provider);
+        const otherInstances = knownInstances.filter(
+          other => !ownedInstances.has(other),
+        );
+        for (const provider of providers) {
+          const providerShared = new Set([
+            ...sharedRecords(provider.shareScopeMap),
+            ...sharedRecords(scopes[provider.options.id]),
+          ]);
+          const externallyUsed = [...providerShared].some(
+            (shared: any) =>
+              shared.from === provider.name &&
+              ((shared.loading && !shared.loaded) ||
+                shared.useIn?.some((name: string) => {
+                  const consumers = otherInstances.filter(
+                    other => other.name === name,
+                  );
+                  return consumers.length
+                    ? consumers.some(other =>
+                        sharedRecords(other.shareScopeMap).includes(shared),
+                      )
+                    : !names.has(name);
+                })),
+          );
+          const externallyLoaded = otherInstances.some(other =>
+            [...(other.moduleCache?.values() || [])].some(
+              (module: any) =>
+                helpers.global.getRemoteFederationInstance(
+                  module.remoteInfo,
+                  knownInstances,
+                ) === provider,
+            ),
+          );
+          if (externallyUsed || externallyLoaded) {
+            providers.delete(provider);
+            retained = true;
+          }
+        }
       }
       for (const host of [...hosts, ...providers]) {
         const state = host[Symbol.for('modern-js.mf.ssr.consumption')];
-        if (state)
-          state.disposingNames = new Set(
-            [...hosts, ...providers].map(instance => instance.name),
-          );
+        if (state) state.disposingInstances = new Set([...hosts, ...providers]);
       }
       // Close the entire owned generation before releasing shared ownership.
       const disposed = await Promise.allSettled(
@@ -976,8 +1007,10 @@ export function createSSRUpdateAdapter(options: {
           'SSR instance disposal failed',
         );
       for (const runtime of runtimes) runtime.federation?.disposeClearCache?.();
-      for (const [key, record] of registry() || [])
-        if (owned.includes(record)) registry()!.delete(key);
+      for (const record of owned) owner.entries.delete(record.entry);
+      for (const host of hosts) owner.instances.delete(host);
+      retiringProviders.clear();
+      if (!preserveRemotes) releaseSSRUpdateOwner(owner);
     },
   };
 }

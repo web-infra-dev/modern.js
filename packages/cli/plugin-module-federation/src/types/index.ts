@@ -61,7 +61,9 @@ export interface InternalModernPluginOptions {
     browser?: StatsAssetResource;
     node?: StatsAssetResource;
   };
-  devAssetHashes?: { browser?: string; node?: string };
+  devBuildVersion?: ReturnType<
+    typeof import('../cli/devManifest').createDevBuildVersion
+  >;
   devManifestReady?: boolean;
   waitForServiceRuntimePlugins?: (compilation?: object) => Promise<void>;
   userConfig?: PluginOptions;

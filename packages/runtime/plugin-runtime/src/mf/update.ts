@@ -31,9 +31,21 @@ function manager(application?: string): any {
   const protocol = (globalThis as any)[
     Symbol.for('modern-js.mf.ssr.update-manager')
   ];
+  const matches = application
+    ? [...(protocol?.applications.values() || [])].filter(
+        (manager: any) => manager.name === application,
+      )
+    : [];
+  const current = protocol?.context.getStore();
+  if (matches.length > 1 && current?.name !== application)
+    throw new Error(
+      `Multiple SSR applications are named '${application}'; call this API inside the owning request context or use unique application names`,
+    );
   const selected = application
-    ? protocol?.applications.get(application)
-    : protocol?.context.getStore() ||
+    ? current?.name === application
+      ? current
+      : matches[0]
+    : current ||
       (protocol?.applications.size === 1
         ? protocol.applications.values().next().value
         : undefined);

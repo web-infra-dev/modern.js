@@ -10,6 +10,7 @@ import ssrOwnership from '../cli/mfRuntimePlugins/ssr-ownership';
 import { createBridgeServiceIngressMiddleware } from './service';
 import {
   clearSSRUpdateCandidates,
+  createSSRUpdateSnapshotPlugin,
   getSSRUpdateRegistration,
   setSSRUpdateCandidates,
 } from './ssrUpdateCandidates';
@@ -79,7 +80,7 @@ function fixture() {
     const runtime = new ModuleFederation({
       name: owner,
       remotes: [{ name, alias: 'selected', entry: registeredEntry }],
-      plugins: [fallback, ssrOwnership()],
+      plugins: [fallback, ssrOwnership(), createSSRUpdateSnapshotPlugin(owner)],
       shareStrategy: 'loaded-first',
     });
     disposals.push(() => runtime.destroy());
@@ -175,6 +176,7 @@ describe('application-owned SSR update candidates', () => {
       {},
       {
         name: f.application,
+        ownerId: f.application,
         remotes: [{ name: f.name, alias: 'selected', entry: f.entry }],
         plugins: [
           {
@@ -262,7 +264,7 @@ describe('application-owned SSR update candidates', () => {
           entry: 'https://second.invalid/A/entry.js',
         },
       ],
-      plugins: [ssrOwnership()],
+      plugins: [ssrOwnership(), createSSRUpdateSnapshotPlugin(f.application)],
       shareStrategy: 'loaded-first',
     });
     disposals.push(() => runtime.destroy());

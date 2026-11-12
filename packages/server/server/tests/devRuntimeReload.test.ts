@@ -285,7 +285,10 @@ describe('setupDevInfra (process-level singletons)', () => {
     });
     expect(runtime.prepareSSRResources).not.toHaveBeenCalled();
     const publication = onCompileDone({
-      stats: { hasErrors: () => false, toJson: () => ({ name: 'client' }) },
+      stats: {
+        hasErrors: () => false,
+        toJson: () => ({ name: 'client' }),
+      },
     });
     expect(runtime.prepareSSRResources).toHaveBeenCalledTimes(1);
     expect(runtime.fileReader.reset).not.toHaveBeenCalled();
@@ -293,6 +296,92 @@ describe('setupDevInfra (process-level singletons)', () => {
     await publication;
     expect(runtime.fileReader.reset).toHaveBeenCalledTimes(1);
     expect(runtime.hooks.onReset.call).toHaveBeenCalledTimes(1);
+  });
+
+  it('skips superseded compile results without clearing the serving generation', async () => {
+    const runtime = makeFakeRuntimeServer();
+    const current = {
+      hasErrors: () => false,
+      toJson: () => ({ name: 'client' }),
+    };
+    const stale = { ...current };
+    runtime.canPrepareSSRResources = rstest.fn(
+      (stats: unknown) => stats === current,
+    );
+    runtime.prepareSSRResources = rstest.fn(async (invalidate: () => void) => {
+      invalidate();
+      return true;
+    });
+    const { builder } = setup(() => runtime);
+    const onCompileDone = builder.onDevCompileDone.mock.calls[0][0];
+    await onCompileDone({ stats: stale });
+    expect(runtime.prepareSSRResources).not.toHaveBeenCalled();
+    expect(runtime.fileReader.reset).not.toHaveBeenCalled();
+    await onCompileDone({ stats: current });
+    expect(runtime.prepareSSRResources).toHaveBeenCalledWith(
+      expect.any(Function),
+      current,
+    );
+    expect(runtime.fileReader.reset).toHaveBeenCalledTimes(1);
+    await onCompileDone({ stats: stale });
+    expect(runtime.prepareSSRResources).toHaveBeenCalledTimes(1);
+  });
+
+  it('finishes a superseded preparation callback so the next compile can publish', async () => {
+    const runtime = makeFakeRuntimeServer();
+    const first = {
+      hasErrors: () => false,
+      toJson: () => ({ name: 'client' }),
+    };
+    const second = { ...first };
+    let current = first;
+    let finish!: () => void;
+    const preparing = new Promise<void>(resolve => {
+      finish = resolve;
+    });
+    runtime.canPrepareSSRResources = rstest.fn(
+      (stats: unknown) => stats === current,
+    );
+    runtime.prepareSSRResources = rstest
+      .fn()
+      .mockImplementationOnce(async () => {
+        await preparing;
+        throw new Error('SSR compilation was superseded');
+      })
+      .mockImplementationOnce(async (invalidate: () => void) => {
+        invalidate();
+        return true;
+      });
+    const { builder } = setup(() => runtime);
+    const onCompileDone = builder.onDevCompileDone.mock.calls[0][0];
+    const publication = onCompileDone({ stats: first });
+    current = second;
+    finish();
+    await expect(publication).resolves.toBeUndefined();
+    expect(runtime.fileReader.reset).not.toHaveBeenCalled();
+    await onCompileDone({ stats: second });
+    expect(runtime.prepareSSRResources).toHaveBeenCalledTimes(2);
+    expect(runtime.fileReader.reset).toHaveBeenCalledTimes(1);
+  });
+
+  it('propagates resource preparation failures for the current compilation', async () => {
+    const runtime = makeFakeRuntimeServer();
+    const error = new Error('invalid SSR resources');
+    runtime.canPrepareSSRResources = rstest.fn(() => true);
+    runtime.prepareSSRResources = rstest.fn(async () => {
+      throw error;
+    });
+    const { builder } = setup(() => runtime);
+    const onCompileDone = builder.onDevCompileDone.mock.calls[0][0];
+    await expect(
+      onCompileDone({
+        stats: {
+          hasErrors: () => false,
+          toJson: () => ({ name: 'client' }),
+        },
+      }),
+    ).rejects.toBe(error);
+    expect(runtime.fileReader.reset).not.toHaveBeenCalled();
   });
 
   it('cancels a scheduled reload when the dev server closes (no build after close)', async () => {

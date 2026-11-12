@@ -24,7 +24,6 @@ import { isWebTarget, skipByTarget, resolveInternalPlugin } from './utils';
 import type { RsbuildPlugin, ModifyRspackConfigFn } from '@rsbuild/core';
 import type { FederationCliPlugin } from '../types/cli';
 import type { AssetFileNames, InternalModernPluginOptions } from '../types';
-import { hashDevAssets, stampDevManifest } from './devManifest';
 import { BridgeSSRPlugin, getBridgeSSRRuntimePlugin } from './BridgeSSRPlugin';
 
 export function setEnv() {
@@ -100,9 +99,6 @@ const mfSSRRsbuildPlugin = (
     name: '@modern-js/plugin-mf-post-config',
     pre: ['@modern-js/builder-plugin-ssr'],
     setup(api) {
-      if (pluginOptions.csrConfig.getPublicPath) {
-        return;
-      }
       let csrOutputPath = '';
       let ssrOutputPath = '';
       let ssrEnv = '';
@@ -110,6 +106,11 @@ const mfSSRRsbuildPlugin = (
 
       if (isDev()) {
         pluginOptions.devManifestReady = false;
+        api.onAfterCreateCompiler(({ compiler }) => {
+          pluginOptions.devBuildVersion?.attach(compiler, () => {
+            pluginOptions.devManifestReady = false;
+          });
+        });
         api.onBeforeDevCompile(() => {
           pluginOptions.devManifestReady = false;
         });
@@ -118,7 +119,10 @@ const mfSSRRsbuildPlugin = (
         api.onDevCompileDone({
           order: 'post',
           handler: ({ stats }) => {
-            pluginOptions.devManifestReady = !stats.hasErrors();
+            pluginOptions.devManifestReady =
+              !stats.hasErrors() &&
+              (!pluginOptions.devBuildVersion ||
+                pluginOptions.devBuildVersion.isReadyFor(stats));
           },
         });
       }
@@ -205,6 +209,9 @@ const mfSSRRsbuildPlugin = (
         return config;
       };
       api.modifyRspackConfig((config, utils) => {
+        // Dynamic public paths own their runtime prefix. Identity and publication
+        // still participate in the same dev lifecycle as static public paths.
+        if (pluginOptions.csrConfig.getPublicPath) return config;
         modifySSRPublicPath(config, utils);
         if (ssrEnv === utils.environment.name) {
           config.plugins ||= [];
@@ -230,9 +237,6 @@ const mfSSRRsbuildPlugin = (
             );
             if (browserAssets) {
               pluginOptions.assetResources.browser = browserAssets;
-              if (isDev())
-                (pluginOptions.devAssetHashes ||= {}).browser =
-                  hashDevAssets(assets);
             }
           }
 
@@ -248,9 +252,6 @@ const mfSSRRsbuildPlugin = (
             );
             if (nodeAssets) {
               pluginOptions.assetResources.node = nodeAssets;
-              if (isDev())
-                (pluginOptions.devAssetHashes ||= {}).node =
-                  hashDevAssets(assets);
             }
           }
         },
@@ -458,22 +459,24 @@ export const moduleFederationSSRPlugin = (
       const browserAssets = assetResources.browser;
       const nodeAssets = assetResources.node;
 
-      if (!distOutputDir || !browserAssets || !nodeAssets) {
-        return;
-      }
       try {
         if (isDev()) {
           await pluginOptions.waitForServiceRuntimePlugins?.(compilation);
-          const hashes = pluginOptions.devAssetHashes;
-          if (!hashes?.browser || !hashes.node) return;
-          await stampDevManifest({
-            browser: browserAssets,
-            node: nodeAssets,
-            hashes: { browser: hashes.browser, node: hashes.node },
-            distDirectory: distOutputDir,
-          });
+          if (
+            pluginOptions.devBuildVersion &&
+            (!compilation ||
+              !pluginOptions.devBuildVersion.publish(
+                [browserAssets, nodeAssets].filter(
+                  (resource): resource is StatsAssetResource => !!resource,
+                ),
+                compilation,
+              ))
+          )
+            return;
         }
-        updateStatsAndManifest(nodeAssets, browserAssets, distOutputDir);
+        if (distOutputDir && browserAssets && nodeAssets) {
+          updateStatsAndManifest(nodeAssets, browserAssets, distOutputDir);
+        }
       } catch (err) {
         logger.error(err);
         throw err;

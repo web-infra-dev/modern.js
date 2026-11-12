@@ -238,14 +238,10 @@ export function createRemoteUpdateController<
     }
     return current;
   }
-  async function changed(
-    state: State,
+  function registrationChanged(
+    current: RemoteUpdateTarget,
     target: RemoteUpdateTarget,
-    input: RemoteCheckOptions,
-    read = true,
   ) {
-    aborted(input.signal);
-    const current = applied(state, target);
     if (current.entry !== target.entry) return true;
     if (
       target.client &&
@@ -259,15 +255,34 @@ export function createRemoteUpdateController<
         target.entryGlobalName !== current.entryGlobalName)
     )
       return true;
-    if (!read || (!target.moduleInfo && !/\.json(?:[?#]|$)/.test(target.entry)))
-      return false;
-    const info = await readRemoteModuleInfo(target, input);
-    target.moduleInfo = structuredClone(info);
+    return false;
+  }
+  function targetChanged(
+    current: RemoteUpdateTarget,
+    target: RemoteUpdateTarget,
+  ) {
     return (
-      !current.moduleInfo ||
-      moduleInfoFingerprint(current.moduleInfo, current.entry) !==
-        moduleInfoFingerprint(info, target.entry)
+      registrationChanged(current, target) ||
+      Boolean(
+        target.moduleInfo &&
+        (!current.moduleInfo ||
+          moduleInfoFingerprint(current.moduleInfo, current.entry) !==
+            moduleInfoFingerprint(target.moduleInfo, target.entry)),
+      )
     );
+  }
+  async function changed(
+    state: State,
+    target: RemoteUpdateTarget,
+    input: RemoteCheckOptions,
+  ) {
+    aborted(input.signal);
+    if (registrationChanged(applied(state, target), target)) return true;
+    if (!target.moduleInfo && /\.json(?:[?#]|$)/.test(target.entry)) {
+      const info = await readRemoteModuleInfo(target, input);
+      target.moduleInfo = structuredClone(info);
+    }
+    return targetChanged(applied(state, target), target);
   }
   async function shouldUpdateRemote(
     application: A,
@@ -283,22 +298,28 @@ export function createRemoteUpdateController<
       ?.targets.find(value => value.name === captured.name);
     if (
       intent &&
-      (intent.entry !== captured.entry ||
+      (registrationChanged(intent, captured) ||
         (intent.moduleInfo &&
           captured.moduleInfo &&
           moduleInfoFingerprint(intent.moduleInfo, intent.entry) !==
             moduleInfoFingerprint(captured.moduleInfo, captured.entry)))
     )
       return true;
-    const different = await changed(state, captured, input);
-    if (different) return true;
-    // A candidate may only become known after this read. Compare it with the
-    // newest queued intent, including an in-flight same-URL deployment.
+    await changed(state, captured, input);
+    aborted(input.signal);
+    // Both publication and accepted intent can change while reading a candidate.
+    // Recheck them together without another await or another manifest fetch.
+    if (application.status?.phase === 'unavailable') return true;
+    if (targetChanged(applied(state, captured), captured)) return true;
+    const latestIntent = state.pending
+      .get(captured.name)
+      ?.targets.find(value => value.name === captured.name);
     return Boolean(
-      intent &&
-      (!intent.moduleInfo ||
+      latestIntent &&
+      (registrationChanged(latestIntent, captured) ||
+        !latestIntent.moduleInfo ||
         !captured.moduleInfo ||
-        moduleInfoFingerprint(intent.moduleInfo, intent.entry) !==
+        moduleInfoFingerprint(latestIntent.moduleInfo, latestIntent.entry) !==
           moduleInfoFingerprint(captured.moduleInfo, captured.entry)),
     );
   }

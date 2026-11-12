@@ -193,6 +193,7 @@ test('compiled static imports reload their Modern entries while independent requ
       },
     }),
     injectResourcePlugin({
+      run: adapter.run,
       maxPendingRequests: 4,
       requestTimeoutMs: 3000,
       drainTimeoutMs: 3000,
@@ -305,6 +306,7 @@ test('compiled static imports reload their Modern entries while independent requ
     assert.equal(
       createSSRUpdateAdapter({
         name: 'static-host',
+        owner: adapter.owner,
         entries: ['a', 'b', 'c'],
       }).plan('remote').mode,
       'application',
@@ -326,9 +328,7 @@ test('compiled static imports reload their Modern entries while independent requ
     );
     assert.equal(await get('/a'), 'v2');
     const beforeFallback = globalThis.__staticRuns.b;
-    const records = [
-      ...globalThis[Symbol.for('modern-js.mf.ssr.entries')].values(),
-    ];
+    const records = [...adapter.owner.entries.values()];
     delete records.find(record => record.entry === 'a').runtime
       .remotesLoadingData.consumerModuleIdToParentModuleIds;
     const incomplete = await adapter.update(application, 'remote', {
@@ -351,6 +351,12 @@ test('compiled static imports reload their Modern entries while independent requ
     rebuiltInstance.registerRemotes([
       {
         name: 'dynamic',
+        entry: path.join(out, 'v1.cjs'),
+        type: 'commonjs-module',
+        entryGlobalName: 'v1',
+      },
+      {
+        name: 'new-dynamic',
         entry: path.join(out, 'v1.cjs'),
         type: 'commonjs-module',
         entryGlobalName: 'v1',

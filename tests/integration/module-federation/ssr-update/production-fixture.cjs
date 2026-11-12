@@ -9,33 +9,36 @@ const react = resolvePackageRoot('react');
 const reactDOM = resolvePackageRoot('react-dom');
 const assetURL = process.env.SSR_CACHE_ASSET_URL;
 if (!root || !assetURL) throw new Error('Run the cache-updates E2E entry');
+async function linkDependencies(dir) {
+  const modules = path.join(dir, 'node_modules');
+  if ((await fs.lstat(modules).catch(() => null))?.isSymbolicLink())
+    await fs.unlink(modules);
+  await fs.mkdir(modules, { recursive: true });
+  const overrides = {
+    '@modern-js/app-tools': appTools,
+    '@modern-js/runtime': runtime,
+    react,
+    'react-dom': reactDOM,
+  };
+  for (const name of [
+    '@modern-js/app-tools',
+    '@modern-js/runtime',
+    '@modern-js/plugin-module-federation',
+    '@modern-js/tsconfig',
+    '@module-federation/enhanced',
+    'react',
+    'react-dom',
+  ]) {
+    const target = path.join(modules, name);
+    await fs.mkdir(path.dirname(target), { recursive: true });
+    await fs.symlink(overrides[name] || resolvePackageRoot(name), target);
+  }
+}
 (async () => {
   for (const app of ['remote', 'host']) {
     const dir = path.join(root, app);
     await fs.mkdir(path.join(dir, 'src/routes'), { recursive: true });
-    const modules = path.join(dir, 'node_modules');
-    if ((await fs.lstat(modules).catch(() => null))?.isSymbolicLink())
-      await fs.unlink(modules);
-    await fs.mkdir(modules, { recursive: true });
-    const overrides = {
-      '@modern-js/app-tools': appTools,
-      '@modern-js/runtime': runtime,
-      react,
-      'react-dom': reactDOM,
-    };
-    for (const name of [
-      '@modern-js/app-tools',
-      '@modern-js/runtime',
-      '@modern-js/plugin-module-federation',
-      '@modern-js/tsconfig',
-      '@module-federation/enhanced',
-      'react',
-      'react-dom',
-    ]) {
-      const target = path.join(modules, name);
-      await fs.mkdir(path.dirname(target), { recursive: true });
-      await fs.symlink(overrides[name] || resolvePackageRoot(name), target);
-    }
+    await linkDependencies(dir);
     await fs.writeFile(
       path.join(dir, 'package.json'),
       JSON.stringify({
@@ -120,6 +123,7 @@ if (!root || !assetURL) throw new Error('Run the cache-updates E2E entry');
         env: {
           ...process.env,
           NODE_ENV: 'production',
+          MF_BUILD_VERSION: app === 'remote' ? 'v1' : 'host-a',
           TS_NODE_COMPILER: 'typescript-compiler',
         },
         stdio: 'inherit',
@@ -142,7 +146,11 @@ if (!root || !assetURL) throw new Error('Run the cache-updates E2E entry');
     [path.join(appTools, 'bin/modern.js'), 'build'],
     {
       cwd: dir,
-      env: { ...process.env, NODE_ENV: 'production' },
+      env: {
+        ...process.env,
+        NODE_ENV: 'production',
+        MF_BUILD_VERSION: 'v2',
+      },
       stdio: 'inherit',
     },
   );
@@ -153,4 +161,43 @@ if (!root || !assetURL) throw new Error('Run the cache-updates E2E entry');
   await fs.cp(path.join(dir, 'dist'), path.join(root, 'releases/v2'), {
     recursive: true,
   });
+  if (process.env.SSR_CACHE_IDENTITY === '1') {
+    const host = path.join(root, 'host');
+    const secondHost = path.join(root, 'host-b');
+    await fs.mkdir(secondHost, { recursive: true });
+    await fs.cp(path.join(host, 'src'), path.join(secondHost, 'src'), {
+      recursive: true,
+    });
+    for (const file of ['package.json', 'tsconfig.json'])
+      await fs.copyFile(path.join(host, file), path.join(secondHost, file));
+    await linkDependencies(secondHost);
+    const config = await fs.readFile(
+      path.join(host, 'modern.config.ts'),
+      'utf8',
+    );
+    await fs.writeFile(
+      path.join(secondHost, 'modern.config.ts'),
+      config.replaceAll(
+        `${assetURL}/v1/mf-manifest.json`,
+        `${assetURL}/v2/mf-manifest.json`,
+      ),
+    );
+    const build = spawnSync(
+      process.execPath,
+      [path.join(appTools, 'bin/modern.js'), 'build'],
+      {
+        cwd: secondHost,
+        env: {
+          ...process.env,
+          NODE_ENV: 'production',
+          MF_BUILD_VERSION: 'host-b',
+        },
+        stdio: 'inherit',
+      },
+    );
+    if (build.status !== 0)
+      throw new Error(
+        `Second host build failed: ${build.status ?? build.signal}`,
+      );
+  }
 })();

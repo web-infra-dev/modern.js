@@ -1,28 +1,107 @@
 import { AsyncLocalStorage } from 'node:async_hooks';
-import type { ModuleFederationRuntimePlugin } from '@module-federation/enhanced/runtime';
-import { createSSRUpdateSnapshotPlugin } from '../../server/ssrUpdateCandidates';
+import {
+  helpers,
+  type ModuleFederation,
+  type ModuleFederationRuntimePlugin,
+} from '@module-federation/enhanced/runtime';
+import {
+  createSSRUpdateSnapshotPlugin,
+  getSSRUpdateRegistration,
+} from '../../server/ssrUpdateCandidates';
+import {
+  bindSSRRuntime,
+  ownerOfSSRRuntime,
+  runtimeOwnerKey,
+} from '../../server/ssrUpdateOwner';
+
+declare const MODERN_SSR_FEDERATION_REQUIRE: any;
 
 export const ownershipKey = Symbol.for('modern-js.mf.ssr.consumption');
 export default function ssrOwnership(): ModuleFederationRuntimePlugin {
   const candidates = createSSRUpdateSnapshotPlugin();
   const entries = new Map<string, { info: any; exports: any; loading: any }>();
+  let sharedProviders: ModuleFederation[] = [];
   return {
     name: 'modern-ssr-consumption-owner',
     loadSnapshot: candidates.loadSnapshot,
     loadRemoteSnapshot: candidates.loadRemoteSnapshot,
     beforeInit(args) {
-      const remotes = (globalThis as any)[
-        Symbol.for('modern-js.mf.ssr.registrations')
-      ]?.get(args.origin.name);
+      const owner = ownerOfSSRRuntime(
+        typeof MODERN_SSR_FEDERATION_REQUIRE === 'undefined'
+          ? undefined
+          : MODERN_SSR_FEDERATION_REQUIRE,
+      );
+      if (owner) bindSSRRuntime(owner, args.origin);
+      const remotes = (args.origin as any)[runtimeOwnerKey]?.registrations;
       if (remotes)
         args.userOptions.remotes = remotes.map((remote: any) => ({
           ...remote,
         }));
-      return candidates.beforeInit!(args);
+      const selected = candidates.beforeInit!(args)!;
+      const ownerId = (args.origin as any)[runtimeOwnerKey]?.id;
+      sharedProviders = [];
+      for (const remote of selected.userOptions.remotes ??
+        selected.options.remotes) {
+        const candidate = ownerId
+          ? getSSRUpdateRegistration(ownerId, remote.name)
+          : undefined;
+        const snapshot =
+          candidate?.moduleInfo ||
+          helpers.global.getGlobalSnapshotInfoByModuleInfo(remote);
+        if (
+          !snapshot ||
+          !('buildVersion' in snapshot) ||
+          typeof snapshot.buildVersion !== 'string' ||
+          !snapshot.buildVersion
+        )
+          continue;
+        const provider = helpers.global.getRemoteFederationInstance({
+          name: remote.name,
+          providerName:
+            typeof snapshot.providerName === 'string'
+              ? snapshot.providerName
+              : undefined,
+          entryGlobalName:
+            'globalName' in snapshot && typeof snapshot.globalName === 'string'
+              ? snapshot.globalName
+              : '',
+          buildVersion: snapshot.buildVersion,
+        });
+        if (provider && !provider.disposed) sharedProviders.push(provider);
+      }
+      return selected;
+    },
+    beforeRegisterShare(args) {
+      const { origin, pkgName, shared } = args;
+      if (!shared.shareConfig.singleton) return args;
+      // A retained container's factories already close over its loaded
+      // singletons. Adopt those exact-version records before the new host
+      // evaluates its renderer, while retaining normal MF version selection.
+      for (const scope of shared.scope) {
+        const records = sharedProviders
+          .map(
+            provider =>
+              provider.shareScopeMap[scope]?.[pkgName]?.[shared.version],
+          )
+          .filter(record => record?.loaded && typeof record.lib === 'function');
+        const record = records[0];
+        if (!record) continue;
+        const versions = ((origin.shareScopeMap[scope] ||= {})[pkgName] ||= {});
+        const current = versions[shared.version];
+        if (
+          records.some(value => value.lib !== record.lib) ||
+          (current?.loaded && current.lib !== record.lib)
+        )
+          throw new Error(
+            `Selected federation providers use different loaded singletons for ${pkgName}@${shared.version}`,
+          );
+        versions[shared.version] = record;
+      }
+      return args;
     },
     afterLoadEntry({ remoteInfo, remoteEntryExports }) {
       if (!remoteEntryExports) return;
-      const key = remoteInfo.name + ':' + remoteInfo.entry;
+      const key = helpers.utils.getRemoteEntryUniqueKey(remoteInfo);
       entries.set(key, {
         info: remoteInfo,
         exports: remoteEntryExports,
@@ -36,8 +115,14 @@ export default function ssrOwnership(): ModuleFederationRuntimePlugin {
         if (entry.info.name === remote.name) entries.delete(key);
     },
     dispose({ origin }) {
-      const owners =
-        (origin as any)[ownershipKey]?.disposingNames || new Set([origin.name]);
+      const ownedInstances: Set<any> =
+        (origin as any)[ownershipKey]?.disposingInstances || new Set([origin]);
+      const owners = new Set(
+        [...ownedInstances].map(instance => instance.name),
+      );
+      const otherInstances = (
+        (globalThis as any).__FEDERATION__?.__INSTANCES__ || []
+      ).filter((instance: any) => !ownedInstances.has(instance));
       for (const [key, entry] of entries) {
         const providers = [
           entry.info.name,
@@ -52,20 +137,21 @@ export default function ssrOwnership(): ModuleFederationRuntimePlugin {
               Object.values(versions).some(
                 (shared: any) =>
                   providers.includes(shared.from) &&
-                  shared.useIn?.some((name: string) => !owners.has(name)),
+                  shared.useIn?.some(
+                    (name: string) =>
+                      !owners.has(name) ||
+                      otherInstances.some(
+                        (instance: any) => instance.name === name,
+                      ),
+                  ),
               ),
             ),
           ),
         );
-        const externallyLoaded = (
-          (globalThis as any).__FEDERATION__?.__INSTANCES__ || []
-        ).some(
-          (instance: any) =>
-            !owners.has(instance.name) &&
-            !instance.disposed &&
-            [...instance.moduleCache.values()].some(
-              (module: any) => module.remoteEntryExports === entry.exports,
-            ),
+        const externallyLoaded = otherInstances.some((instance: any) =>
+          [...instance.moduleCache.values()].some(
+            (module: any) => module.remoteEntryExports === entry.exports,
+          ),
         );
         if (externallyUsed || externallyLoaded) continue;
         entry.exports.__webpack_clear_cache__?.();
@@ -82,13 +168,13 @@ export default function ssrOwnership(): ModuleFederationRuntimePlugin {
         }
       }
       entries.clear();
+      sharedProviders = [];
       (origin as any)[ownershipKey]?.context.disable();
-      const registry = (globalThis as any)[
-        Symbol.for('modern-js.mf.ssr.entries')
-      ];
-      for (const [key, record] of registry || [])
+      const owner = (origin as any)[runtimeOwnerKey];
+      for (const [key, record] of owner?.entries || [])
         if (record.runtime.federation?.instance === origin)
-          registry.delete(key);
+          owner.entries.delete(key);
+      owner?.instances.delete(origin);
     },
     apply(instance) {
       const host = instance as any;

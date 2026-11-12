@@ -185,11 +185,19 @@ export function setupDevInfra({
     if (stats.toJson({ all: false }).name !== 'server') {
       const runtimeServer = getRuntimeServer();
       if (runtimeServer) {
+        if (runtimeServer.canPrepareSSRResources?.(stats) === false) return;
         const invalidate = () =>
           onRepack(distDir, runtimeServer.hooks, runtimeServer.fileReader);
         if (runtimeServer.prepareSSRResources) {
-          if (!(await runtimeServer.prepareSSRResources(invalidate)))
-            invalidate();
+          try {
+            if (!(await runtimeServer.prepareSSRResources(invalidate, stats)))
+              invalidate();
+          } catch (error) {
+            // Lazy compilation or another save can supersede preparation.
+            // Finish this callback so the watcher can publish the next build.
+            if (runtimeServer.canPrepareSSRResources?.(stats) !== false)
+              throw error;
+          }
         } else invalidate();
       }
     }

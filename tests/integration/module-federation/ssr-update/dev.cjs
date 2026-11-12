@@ -39,6 +39,7 @@ function allocatedPort(name) {
 
 async function run(mode) {
   const csr = mode === 'service-csr';
+  const ordinary = mode === 'ordinary';
   const ports = {
     host: allocatedPort('HOST'),
     provider: allocatedPort('PROVIDER'),
@@ -187,6 +188,8 @@ async function run(mode) {
       csr ? 'HTTP CSR document shell' : `HTTP SSR ${ui}/${loader}`,
       async () => {
         assertRunning();
+        const selectedManifest = await manifest();
+        if (!selectedManifest) return false;
         const response = await fetch(fixture.hostURL, {
           cache: 'no-store',
           signal: AbortSignal.timeout(10000),
@@ -213,10 +216,12 @@ async function run(mode) {
           await fs.writeFile(path.join(root, 'csr-shell.html'), html);
           return html;
         }
-        const providerHTML = frames
-          .filter(frame => frame.type === 'html')
-          .map(frame => frame.html)
-          .join('');
+        const providerHTML = ordinary
+          ? html
+          : frames
+              .filter(frame => frame.type === 'html')
+              .map(frame => frame.html)
+              .join('');
         evidence.lastSSR = {
           status: response.status,
           expectedUI: ui,
@@ -226,6 +231,9 @@ async function run(mode) {
           ui: providerHTML.includes(`data-ui="${ui}"`),
           loader: providerHTML.includes(`data-loader="${loader}"`),
           frames: frames.map(frame => frame.type),
+          expectedIdentity: `${fixture.providerName}:${selectedManifest.json.metaData.buildInfo.buildVersion}`,
+          runtimeIdentity: providerHTML.match(/data-runtime-id="([^"]+)"/)?.[1],
+          compiledIdentity: providerHTML.match(/data-build-id="([^"]+)"/)?.[1],
         };
         assert.ok(
           response.ok &&
@@ -233,7 +241,13 @@ async function run(mode) {
             evidence.lastSSR.provider &&
             evidence.lastSSR.ui &&
             evidence.lastSSR.loader &&
-            frames.some(frame => frame.type === 'done') &&
+            evidence.lastSSR.runtimeIdentity ===
+              evidence.lastSSR.expectedIdentity &&
+            evidence.lastSSR.compiledIdentity ===
+              evidence.lastSSR.expectedIdentity &&
+            (ordinary
+              ? !frames.length
+              : frames.some(frame => frame.type === 'done')) &&
             !frames.some(frame => frame.type === 'error'),
           `SSR provider/loader frames are not ready: ${JSON.stringify(evidence.lastSSR)}`,
         );
@@ -442,6 +456,27 @@ async function run(mode) {
         { timeout: 90000, polling: 100 },
         { ui, loader, color },
       );
+      const identity = await target.$eval(
+        '[data-testid="dev-remote"]',
+        node => ({
+          runtime: node.getAttribute('data-runtime-id'),
+          compiled: node.getAttribute('data-build-id'),
+        }),
+      );
+      const selected = await manifest();
+      const expectedIdentity = `${fixture.providerName}:${selected.json.metaData.buildInfo.buildVersion}`;
+      assert.deepEqual(
+        identity,
+        { runtime: expectedIdentity, compiled: expectedIdentity },
+        'Browser runtime instance and compiled ID must match the producer manifest',
+      );
+      evidence.identities ||= [];
+      evidence.identities.push({
+        ui,
+        loader,
+        ...identity,
+        manifestVersion: selected.json.metaData.buildInfo.buildVersion,
+      });
       const before = await target.$eval(
         '#dev-counter',
         node => node.textContent,
@@ -499,7 +534,13 @@ async function run(mode) {
         `${label}: successful compilation changes manifest`,
         async () => {
           const value = await manifest();
-          return value && value.hash !== before.hash && value;
+          return (
+            value &&
+            value.hash !== before.hash &&
+            value.json.metaData.buildInfo.buildVersion !==
+              before.json.metaData.buildInfo.buildVersion &&
+            value
+          );
         },
       );
       await expectHTTP(values.ui, values.loader);
@@ -529,6 +570,8 @@ async function run(mode) {
         elapsedMs: Date.now() - started,
         oldManifest: before.hash,
         newManifest: current.hash,
+        oldBuildVersion: before.json.metaData.buildInfo.buildVersion,
+        newBuildVersion: current.json.metaData.buildInfo.buildVersion,
         documentLoads: evidence.navigations.length - navigations,
       });
       await stableNavigation(label);
@@ -666,7 +709,10 @@ async function run(mode) {
           request.isNavigationRequest() &&
           request.frame() === latePage.mainFrame()
         )
-          recovery.navigations.push({ url: request.url(), at: Date.now() });
+          recovery.navigations.push({
+            url: request.url(),
+            at: Date.now(),
+          });
         if (
           awaitingService &&
           request.method() === 'POST' &&
@@ -720,7 +766,9 @@ async function run(mode) {
                   body: await response.clone().json(),
                 });
               } catch (error) {
-                await window.__recordServiceMismatch({ error: String(error) });
+                await window.__recordServiceMismatch({
+                  error: String(error),
+                });
               }
             }
             return response;

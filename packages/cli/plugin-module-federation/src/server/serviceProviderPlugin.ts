@@ -83,6 +83,7 @@ export default (options: Options): ServerPlugin => ({
                 route.path,
                 createBridgeServiceMiddleware({
                   ...route,
+                  ownerId: (api.getServerContext() as any).ssrUpdateOwnerId,
                   manifest: { url: manifestUrl, data: manifest },
                   cache: options.cache,
                 }),

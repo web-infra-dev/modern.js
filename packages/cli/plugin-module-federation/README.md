@@ -141,7 +141,9 @@ the same. A supplied `moduleInfo` contains a fresh manifest or provider snapshot
 `Promise<RemoteUpdateResult>`, including `operationId`, `changed` and the available
 generation or reload scope. Both APIs accept `signal`, `revalidate` and
 `application`. Use `application` to select the MF application name when several
-services share a process and there is no owning request context. These APIs
+services share a process and there is no owning request context. The name must
+select one service in that case. Same-name services remain isolated by their
+owning request context, and ambiguous background selections are rejected. These APIs
 require a running Modern server with the capability enabled and do not perform
 browser-side remote replacement.
 
@@ -157,6 +159,18 @@ User `afterResolve` plugins must preserve its deployment identity. Changes to
 request headers and other request policy remain supported. Capturing metadata
 does not retain overwritten artifact bytes, so production releases still need
 immutable versioned resources.
+
+Provider lookup reuses the MF build identifier derived from its provider name
+and manifest `buildVersion`. Concurrent versions of one provider need distinct
+build versions, such as a per-release `MF_BUILD_VERSION` supplied during build.
+Do not rewrite that manifest field independently of the compiled runtime.
+
+When a selected provider is already used by another application, a new Host
+adopts that provider's loaded singleton records of the same package version
+before evaluating its renderer. This keeps retained components and the Host on
+the same runtime dependencies. Non-singleton dependencies and other package
+versions retain their normal MF selection. Conflicting loaded singletons among
+the selected providers fail initialization.
 
 An explicit remote `client` entry is embedded in HTML published after that update.
 Subsequent updates to that remote must also supply its matching client entry.
@@ -182,7 +196,8 @@ Production performs no automatic discovery or browser reload. A deployment
 controller calls these APIs explicitly. Development automatically checks configured
 manifest URLs in the background, applies a changed successful build, and only then
 asks connected consumer browsers to reload the document. Component, loader and
-CSS changes participate in the producer build identity. Failed compilation or
+CSS edits create a new coordinated build version shared by browser and Node
+runtime identifiers and manifests. Failed compilation or
 publication does not send a success reload, and no extra watcher configuration is
 needed after enabling `cacheUpdates` on the cooperating apps.
 
@@ -200,6 +215,13 @@ A destructive failure can leave SSR unavailable until a later successful update.
 Neither cancellation nor an update failure guarantees restoration of already
 invalidated application state. Production deployments that retain old HTML also
 need matching immutable browser assets and release metadata.
+
+The low-level `createSSRUpdateAdapter` requires explicit runtime ownership.
+Execute compiled entry loading and reloading through `adapter.run`, including
+`run: adapter.run` in the resource application options. Bind consumers created
+through runtime APIs with `adapter.bindRuntime(instance)`. Instances are never
+adopted merely because their names match in the global federation registry.
+The automatically installed server plugin supplies this ownership for normal apps.
 
 See the [SSR update guide](../../document/docs/zh/guides/topic-detail/module-federation/ssr-update.mdx),
 [server coordination contract](../../server/core/SSR_REQUEST_COORDINATION.md)

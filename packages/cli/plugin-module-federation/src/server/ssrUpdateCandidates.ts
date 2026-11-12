@@ -6,6 +6,7 @@ import {
 } from '@module-federation/sdk';
 import type { ModuleFederationRuntimePlugin } from '@module-federation/enhanced/runtime';
 import type { RemoteUpdateTarget } from './remoteUpdate';
+import { runtimeOwnerKey } from './ssrUpdateOwner';
 
 type Candidate = {
   entry: string;
@@ -90,14 +91,17 @@ export function getSSRUpdateRegistration(
  * that adjust request headers or other non-identity policy remain supported.
  */
 export function createSSRUpdateSnapshotPlugin(
-  application?: string,
+  application?: string | (() => string | undefined),
 ): ModuleFederationRuntimePlugin {
+  let ownerId: string | undefined;
+  const explicitOwner = () =>
+    typeof application === 'function' ? application() : application;
   const select = (args: {
     options: { name: string };
     moduleInfo: { name: string; entry?: string };
   }) => {
     const candidate = registry()
-      .get(application ?? args.options.name)
+      .get(explicitOwner() ?? ownerId ?? '')
       ?.get(args.moduleInfo.name);
     if (!candidate?.snapshot || candidate.entry !== args.moduleInfo.entry)
       return;
@@ -107,7 +111,9 @@ export function createSSRUpdateSnapshotPlugin(
   return {
     name: 'modern-ssr-update-candidates',
     beforeInit(args) {
-      const candidates = registry().get(application ?? args.origin.name);
+      const owner = (args.origin as any)[runtimeOwnerKey];
+      if (owner) ownerId = owner.id;
+      const candidates = registry().get(explicitOwner() ?? ownerId ?? '');
       if (candidates && args.userOptions.remotes) {
         args.userOptions.remotes = args.userOptions.remotes.map(remote => {
           const candidate = candidates.get(remote.name);

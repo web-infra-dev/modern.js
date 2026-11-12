@@ -1,7 +1,10 @@
 import type { ServerPlugin } from '@modern-js/server-runtime';
 import type { BridgeServices } from '@module-federation/bridge-react/service-node';
 import { createBridgeServiceIngressMiddleware } from './service';
-import { registerServiceConfig } from './serviceConfig';
+import {
+  registerServiceConfig,
+  unregisterServiceConfig,
+} from './serviceConfig';
 import type { ServiceRemote } from '../serviceRemotes';
 import {
   createServiceRuntimePluginLoader,
@@ -18,7 +21,8 @@ export default (options: {
   name: '@modern-js/module-federation/service',
   setup(api) {
     api.onPrepare(() => {
-      registerServiceConfig(options.name, options.services);
+      const ownerId = (api.getServerContext() as any).ssrUpdateOwnerId;
+      registerServiceConfig(ownerId || options.name, options.services);
       if (options.runtimePluginsFile)
         api.getServerContext().middlewares.unshift({
           name: 'mf-service-private-runtime',
@@ -42,13 +46,17 @@ export default (options: {
       const ingress = createBridgeServiceIngressMiddleware(options.services, {
         origin: options.origin,
         name: options.name,
+        ownerId,
         remotes: options.remotes,
         plugins: preparePlugins,
       });
       const participants = (context as any).ssrUpdateParticipants || [];
       api.updateServerContext({ ssrUpdateParticipants: participants });
       participants.push({
-        dispose: () => ingress.dispose(),
+        dispose: async () => {
+          await ingress.dispose();
+          if (ownerId) unregisterServiceConfig(ownerId);
+        },
         async invalidate() {
           await ingress.dispose();
           plugins = undefined;

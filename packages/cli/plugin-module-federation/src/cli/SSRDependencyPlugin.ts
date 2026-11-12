@@ -18,6 +18,12 @@ export class SSRDependencyPlugin {
       throw new Error(
         'moduleFederation.ssr.cacheUpdates requires a Rspack build with SSR cache update support (updateEntryExports)',
       );
+    // Keep this macro free while building the plugin library. Resolving Rspack's
+    // special __webpack_require__ in that build would capture the library runtime
+    // instead of the application runtime that owns the SSR entries.
+    new compiler.webpack.DefinePlugin({
+      MODERN_SSR_FEDERATION_REQUIRE: '__webpack_require__',
+    }).apply(compiler);
     compiler.hooks.thisCompilation.tap(pluginName, compilation => {
       compilation.hooks.additionalTreeRuntimeRequirements.tap(
         pluginName,
@@ -106,8 +112,7 @@ export class SSRDependencyPlugin {
                   reasons: [...reasons],
                 };
               });
-              return `var key = Symbol.for('modern-js.mf.ssr.entries');
-var registry = globalThis[key] || (globalThis[key] = new Map());
+              return `var ownership = globalThis[Symbol.for('modern-js.mf.ssr.owners')];
 ${JSON.stringify(records)}.forEach(function(record) {
   record.runtime = __webpack_require__;
   record.load = async function() {
@@ -125,7 +130,7 @@ ${JSON.stringify(records)}.forEach(function(record) {
     }
     return exports;
   };
-  registry.set(JSON.stringify([${JSON.stringify(name)}, record.entry]), record);
+  if (ownership) ownership.registerEntry(record);
 });`;
             }
           }

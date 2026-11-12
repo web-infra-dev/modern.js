@@ -95,10 +95,18 @@ export class ServerBase<E extends Env = any> {
   }
 
   /** Returns false when this runtime uses the legacy resource path. */
-  async prepareSSRResources(invalidate: () => void | Promise<void>) {
+  async prepareSSRResources(
+    invalidate: () => void | Promise<void>,
+    stats?: unknown,
+  ) {
     if (!this.serverContext?.prepareSSRResources) return false;
-    await this.serverContext.prepareSSRResources(invalidate);
+    if (stats !== undefined && !this.canPrepareSSRResources(stats)) return true;
+    await this.serverContext.prepareSSRResources(invalidate, stats);
     return true;
+  }
+
+  canPrepareSSRResources(stats: unknown): boolean {
+    return this.serverContext?.canPrepareSSRResources?.(stats) ?? true;
   }
 
   async close() {

@@ -90,6 +90,36 @@ describe('application-bound public update API', () => {
     expect(await Promise.all(checks)).toEqual([false, false]);
     await Promise.all([a, b].map(f => f.context.ssrUpdateManager.close()));
   });
+  it('keeps same-name service managers distinct and rejects ambiguous explicit names', async () => {
+    (globalThis as any)[key] = undefined;
+    const a = fixture('same');
+    const b = fixture('same');
+    await a.init();
+    await b.init();
+    expect(a.context.ssrUpdateOwnerId).not.toBe(b.context.ssrUpdateOwnerId);
+    for (const f of [a, b])
+      f.context.ssrApplication.onReady({
+        status: { phase: 'serving' },
+        close: async () => {},
+        update: rs.fn(),
+      });
+    await expect(shouldUpdateRemote(remote)).rejects.toThrow('Multiple SSR');
+    await expect(
+      shouldUpdateRemote(remote, { application: 'same' }),
+    ).rejects.toThrow("Multiple SSR applications are named 'same'");
+    for (const f of [a, b])
+      await f.context.ssrApplication.run(async () => {
+        expect((globalThis as any)[key].context.getStore()).toBe(
+          f.context.ssrUpdateManager,
+        );
+        await expect(shouldUpdateRemote(remote)).resolves.toBe(false);
+      });
+    await a.context.ssrUpdateManager.close();
+    await expect(
+      shouldUpdateRemote(remote, { application: 'same' }),
+    ).resolves.toBe(false);
+    await b.context.ssrUpdateManager.close();
+  });
   it('awaits local refresh participant invalidation and prepare, then disposes all participants despite errors', async () => {
     (globalThis as any)[key] = undefined;
     const cleanup = rs.fn();

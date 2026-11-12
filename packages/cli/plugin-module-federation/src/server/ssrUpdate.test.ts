@@ -1,4 +1,4 @@
-import { clearSSRUpdateCandidates } from './ssrUpdateCandidates';
+import { createSSRUpdateOwner } from './ssrUpdateOwner';
 import { AsyncLocalStorage } from 'node:async_hooks';
 import { afterEach, describe, expect, it } from '@rstest/core';
 import { createSSRUpdateAdapter } from './ssrUpdate';
@@ -10,7 +10,7 @@ afterEach(() => {
   (globalThis as any)[key] = previous;
 });
 function fixture() {
-  clearSSRUpdateCandidates('host');
+  const owner = createSSRUpdateOwner('host');
   const state = { dynamic: false, context: new AsyncLocalStorage() };
   const runtime = {
     federation: { instance: { [stateKey]: state } },
@@ -44,13 +44,17 @@ function fixture() {
       record,
     ]),
   );
+  owner.entries.set(a.entry, a);
+  owner.entries.set(b.entry, b);
   return {
+    owner,
     state,
     runtime,
     a,
     b,
     adapter: createSSRUpdateAdapter({
       name: 'host',
+      owner,
       entries: ['a', 'b'],
       staticOnly: true,
     }),
@@ -74,16 +78,17 @@ describe('SSR static scope proof', () => {
     });
   });
   it('requires the complete entry inventory and explicit static-only contract', () => {
-    fixture();
+    const { owner } = fixture();
     expect(
       createSSRUpdateAdapter({
         name: 'host',
+        owner,
         entries: ['a', 'missing'],
         staticOnly: true,
       }).plan('remote').reasons,
     ).toContain('missing-entry-metadata');
     expect(
-      createSSRUpdateAdapter({ name: 'host', entries: ['a', 'b'] }).plan(
+      createSSRUpdateAdapter({ name: 'host', owner, entries: ['a', 'b'] }).plan(
         'remote',
       ).reasons,
     ).toContain('dynamic-or-mixed-consumption');
@@ -347,7 +352,7 @@ describe('SSR replacement recovery', () => {
   });
 
   it('publishes paired public targets once across alias changes and reports failure stages', async () => {
-    const { runtime } = fixture();
+    const { runtime, owner } = fixture();
     const instance = runtime.federation.instance as any;
     instance.options = {
       remotes: [{ name: 'remote', alias: 'alias', entry: 'private-v1' }],
@@ -357,6 +362,7 @@ describe('SSR replacement recovery', () => {
     };
     const adapter = createSSRUpdateAdapter({
       name: 'host',
+      owner,
       entries: ['a', 'b'],
       hydration: {
         remotes: [{ name: 'remote', entry: 'https://cdn.test/v1.json' }],
@@ -535,7 +541,7 @@ describe('registered update targets', () => {
 });
 
 describe('whole application instance handoff', () => {
-  it('releases the entire generation shared usage before destroying any instance', async () => {
+  it('leaves name-based shared ownership to Core when disposing a generation', async () => {
     const { adapter, runtime } = fixture();
     const host = runtime.federation.instance as any;
     host.name = 'host';
@@ -547,13 +553,13 @@ describe('whole application instance handoff', () => {
       __SHARE__: { host: { default: { react: { '1': shared } } } },
     };
     host.destroy = async () => {
-      expect(shared.useIn).toEqual([]);
+      expect(shared.useIn).toEqual(['host', 'remote']);
     };
     try {
       await adapter.dispose(['a']);
       expect(shared.useIn).toEqual(['host', 'remote']);
       await adapter.dispose();
-      expect(shared.useIn).toEqual([]);
+      expect(shared.useIn).toEqual(['host', 'remote']);
     } finally {
       (globalThis as any).__FEDERATION__ = previousFederation;
     }
@@ -572,16 +578,13 @@ describe('whole application instance handoff', () => {
     expect(disposed).toBe(false);
     await adapter.dispose();
     expect(disposed).toBe(true);
-    expect(
-      [...(globalThis as any)[key].values()].map((r: any) => r.application),
-    ).toEqual(['host:other']);
-    const handoffs = (globalThis as any)[
-      Symbol.for('modern-js.mf.ssr.registrations')
-    ];
-    expect(handoffs.get('host')).toEqual([{ name: 'remote', entry: 'v2' }]);
-    expect(handoffs.get('host')[0]).not.toBe(host.options.remotes[0]);
+    expect(adapter.owner.entries.size).toBe(0);
+    expect(adapter.owner.registrations).toEqual([
+      { name: 'remote', entry: 'v2' },
+    ]);
+    expect(adapter.owner.registrations![0]).not.toBe(host.options.remotes[0]);
     adapter.prepareResources({ templates: {} });
-    expect(handoffs.has('host')).toBe(false);
+    expect(adapter.owner.registrations).toBeUndefined();
   });
 });
 

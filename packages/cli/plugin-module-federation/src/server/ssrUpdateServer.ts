@@ -12,6 +12,7 @@ import {
   type SSRUpdateReceipt,
 } from './ssrUpdate';
 import type { RemoteCheckOptions } from './remoteUpdate';
+import { createSSRUpdateOwner } from './ssrUpdateOwner';
 
 const key = Symbol.for('modern-js.mf.ssr.update-manager');
 type Registry = {
@@ -77,8 +78,11 @@ export function createSSRUpdateServerPlugin(
         let manager: SSRUpdateManager | undefined;
         api.updateServerContext({ ssrUpdateParticipants: participants });
         const lifetime = new AbortController();
+        const owner = createSSRUpdateOwner(options.name);
+        api.updateServerContext({ ssrUpdateOwnerId: owner.id });
         const adapter = createSSRUpdateAdapter({
           ...options,
+          owner,
           maxPendingUpdates: options.application?.maxPendingUpdates,
           entries: options.entries || [
             ...new Set<string>(
@@ -100,7 +104,9 @@ export function createSSRUpdateServerPlugin(
             : lifetime.signal,
         });
         const run = <T>(operation: () => T): T =>
-          manager ? registry().context.run(manager, operation) : operation();
+          adapter.run(() =>
+            manager ? registry().context.run(manager, operation) : operation(),
+          );
         const resourceOptions: SSRResourceApplicationOptions & {
           run: typeof run;
         } = {
@@ -175,8 +181,6 @@ export function createSSRUpdateServerPlugin(
                   await (
                     application as SSRApplication & { close(): Promise<void> }
                   ).close();
-                  const ownsApplication =
-                    registry().applications.get(options.name) === manager;
                   for (const participant of participants) {
                     try {
                       await participant.dispose?.();
@@ -184,17 +188,14 @@ export function createSSRUpdateServerPlugin(
                       errors.push(error);
                     }
                   }
-                  if (ownsApplication) {
-                    try {
-                      await adapter.dispose(undefined, {
-                        preserveRemotes: false,
-                      });
-                    } catch (error) {
-                      errors.push(error);
-                    }
+                  try {
+                    await adapter.dispose(undefined, {
+                      preserveRemotes: false,
+                    });
+                  } catch (error) {
+                    errors.push(error);
                   }
-                  if (ownsApplication)
-                    registry().applications.delete(options.name);
+                  registry().applications.delete(owner.id);
                   if (errors.length)
                     throw new AggregateError(
                       errors,
@@ -207,7 +208,7 @@ export function createSSRUpdateServerPlugin(
                 return closing;
               },
             };
-            registry().applications.set(options.name, manager);
+            registry().applications.set(owner.id, manager);
             context.ssrUpdateManager = manager;
             api.updateServerContext({ ssrUpdateManager: manager });
             cleanup = options.onReady?.(manager, context);

@@ -20,6 +20,7 @@ import { serviceRemotes } from '../serviceRemotes';
 import { configureServiceProvider } from './serviceProvider';
 import { serviceProviderBasePaths } from '../serviceProvider';
 import { configureServiceRuntimePlugins } from './serviceRuntimePlugins';
+import { createDevBuildVersion } from './devManifest';
 
 import type { InternalModernPluginOptions } from '../types';
 import type { Rspack, RspackChain } from '@rsbuild/core';
@@ -405,6 +406,13 @@ export const moduleFederationConfigPlugin = (
         resolveInternalPlugin('./mfRuntimePlugins/ssr-release'),
         csrConfig.runtimePlugins,
       );
+      if (isDev()) {
+        const identity = (userConfig.devBuildVersion = createDevBuildVersion());
+        for (const config of [csrConfig, ssrConfig]) {
+          config.experiments ||= {};
+          config.experiments.buildVersion = () => identity.current;
+        }
+      }
       if (isDev() && csrConfig.dev !== false) {
         csrConfig.dev = {
           ...(typeof csrConfig.dev === 'object' ? csrConfig.dev : {}),
@@ -462,7 +470,15 @@ export const moduleFederationConfigPlugin = (
       api._internalServerPlugins(({ plugins }) => {
         plugins.push({
           name: resolveInternalPlugin('../server/updatePlugin'),
-          options: { name: ssrConfig.name, remotes, application },
+          options: {
+            name: ssrConfig.name,
+            remotes,
+            application,
+            ...(userConfig.devBuildVersion && {
+              canPrepareSSRResources: (stats: unknown) =>
+                userConfig.devBuildVersion!.isReadyFor(stats),
+            }),
+          },
         });
         return { plugins };
       });

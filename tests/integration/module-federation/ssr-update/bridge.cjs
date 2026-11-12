@@ -100,6 +100,7 @@ const waitFor = async predicate => {
         await fs.readFile(path.join(root, 'host/dist/route.json')),
       ).routes,
       ssrApplication: {
+        run: adapter.run,
         maxPendingRequests: 8,
         requestTimeoutMs: 5000,
         drainTimeoutMs: 5000,
@@ -212,9 +213,7 @@ const waitFor = async predicate => {
       .then(response => response.text())
       .catch(error => error);
     await waitFor(() => producerEntered);
-    const hosts = globalThis.__FEDERATION__.__INSTANCES__.filter(
-      instance => instance.name === 'bridge_update_host',
-    );
+    const hosts = [...adapter.owner.instances];
     let cleared = 0;
     for (const host of hosts)
       host.remoteHandler.hooks.lifecycle.removeRemote.on(() => {

@@ -4,9 +4,11 @@ import { logger } from '@modern-js/utils';
 
 /** The production plugin binds APIs only. Automatic checks belong exclusively to dev. */
 export default function updatePlugin(
-  options: Parameters<typeof createSSRUpdateServerPlugin>[0],
+  options: Parameters<typeof createSSRUpdateServerPlugin>[0] & {
+    canPrepareSSRResources?: (stats: unknown) => boolean;
+  },
 ) {
-  return createSSRUpdateServerPlugin({
+  const plugin = createSSRUpdateServerPlugin({
     ...options,
     onReady(manager, context) {
       if (!context.dev) return;
@@ -26,4 +28,16 @@ export default function updatePlugin(
       return () => watcher.close();
     },
   });
+  return {
+    ...plugin,
+    setup(api: Parameters<NonNullable<typeof plugin.setup>>[0]) {
+      api.onPrepare(() => {
+        if (api.getServerContext().dev && options.canPrepareSSRResources)
+          api.updateServerContext({
+            canPrepareSSRResources: options.canPrepareSSRResources,
+          });
+      });
+      plugin.setup!(api);
+    },
+  };
 }

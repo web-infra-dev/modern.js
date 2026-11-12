@@ -113,6 +113,7 @@ const waitFor = async predicate => {
         await fs.readFile(path.join(root, 'host/dist/route.json')),
       ).routes,
       ssrApplication: {
+        run: adapter.run,
         maxPendingRequests: 16,
         requestTimeoutMs: 500,
         drainTimeoutMs: 1000,
@@ -397,9 +398,7 @@ const waitFor = async predicate => {
     // Both aliases below use the same provider/container identity. Align their
     // release; simultaneous versions of one container are a separate scenario.
     await update('v2');
-    const runtimeHost = globalThis.__FEDERATION__.__INSTANCES__.find(
-      instance => instance.name === 'r6_host',
-    );
+    const runtimeHost = [...adapter.owner.instances][0];
     runtimeHost.registerRemotes([
       { name: 'runtime_only', entry: `${assetURL}/v1/mf-manifest.json` },
     ]);
@@ -412,9 +411,7 @@ const waitFor = async predicate => {
     ]);
     assert.equal(dynamic.mode, 'application');
     globalThis.__r6Loader = async () => {
-      const host = globalThis.__FEDERATION__.__INSTANCES__.find(
-        i => i.name === 'r6_host',
-      );
+      const host = [...adapter.owner.instances][0];
       const dynamicName = ['runtime', 'only'].join('_');
       const loaded = await host.loadRemote(dynamicName + '/Counter');
       assert.equal(loaded.release, 'v2');

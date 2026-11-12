@@ -19,8 +19,10 @@ import type { Manifest } from '@module-federation/sdk';
 import type { SSRRequestWork } from '@modern-js/server-core/node';
 import ssrOwnership from '../cli/mfRuntimePlugins/ssr-ownership';
 import { createSSRUpdateSnapshotPlugin } from './ssrUpdateCandidates';
+import { getSSRUpdateOwner, runWithSSRUpdateOwner } from './ssrUpdateOwner';
 
 export interface BridgeServiceMiddlewareOptions {
+  ownerId?: string;
   path: string;
   manifest: string | { url: string; data: Manifest };
   module: string;
@@ -221,7 +223,10 @@ export function createBridgeServiceMiddleware(
       await next();
       return;
     }
-    return handler(context.req.raw, { work: context.get('ssrWork') });
+    const invoke = () =>
+      handler(context.req.raw, { work: context.get('ssrWork') });
+    const owner = getSSRUpdateOwner(options.ownerId);
+    return owner ? runWithSSRUpdateOwner(owner, invoke) : invoke();
   };
   return Object.assign(middleware, { dispose: producer.dispose });
 }
@@ -236,6 +241,7 @@ export function createBridgeServiceIngressMiddleware(
   options: {
     origin?: string;
     name?: string;
+    ownerId?: string;
     remotes?: ServiceRemote[];
     plugins?:
       | ModuleFederationRuntimePlugin[]
@@ -243,6 +249,7 @@ export function createBridgeServiceIngressMiddleware(
   } = {},
 ) {
   const publicOrigin = options.origin ? new URL(options.origin) : undefined;
+  const consumerId = `${options.ownerId || 'service'}:${randomUUID()}`;
   if (
     publicOrigin &&
     (!['http:', 'https:'].includes(publicOrigin.protocol) ||
@@ -259,11 +266,14 @@ export function createBridgeServiceIngressMiddleware(
     if (!runtime || plugins !== installedPlugins) {
       // Scoped discovery does not retain old dev instances in the global registry.
       runtime = new ModuleFederation({
-        name: `${options.name || 'modern'}_service_ingress`,
+        id: `${consumerId}:${randomUUID()}`,
+        name: `${options.name || 'modern'}_service_ingress_${consumerId}`,
         remotes: options.remotes || [],
         plugins: [
           ...(plugins || []),
-          createSSRUpdateSnapshotPlugin(options.name || 'modern'),
+          createSSRUpdateSnapshotPlugin(
+            () => options.ownerId || getSSRUpdateOwner()?.id,
+          ),
         ],
         shared: {},
         shareStrategy: 'loaded-first',

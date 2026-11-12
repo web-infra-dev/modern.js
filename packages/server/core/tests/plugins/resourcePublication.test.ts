@@ -1,6 +1,7 @@
 import { mkdtemp, mkdir, writeFile, rm } from 'node:fs/promises';
 import { tmpdir } from 'node:os';
 import path from 'node:path';
+import { AsyncLocalStorage } from 'node:async_hooks';
 import { afterEach, expect, it, rstest } from '@rstest/core';
 import {
   LOADABLE_STATS_FILE,
@@ -28,7 +29,14 @@ afterEach(async () => {
   );
 });
 const tick = () => new Promise(resolve => setImmediate(resolve));
-async function fixture(deferred = false) {
+async function fixture(
+  deferred = false,
+  options: {
+    gate?: (stats: unknown) => boolean;
+    run?: <T>(operation: () => T) => T;
+    validate?: () => void | Promise<void>;
+  } = {},
+) {
   const pwd = await mkdtemp(
     path.join(tmpdir(), 'modern-selective-publication-'),
   );
@@ -87,7 +95,16 @@ async function fixture(deferred = false) {
   );
   server.addPlugins([
     ...createDefaultPlugins(),
+    {
+      name: 'test-publication-gate',
+      setup(api) {
+        api.onPrepare(() =>
+          api.updateServerContext({ canPrepareSSRResources: options.gate }),
+        );
+      },
+    },
     injectResourcePlugin({
+      run: options.run,
       maxPendingRequests: 2,
       requestTimeoutMs: 1000,
       drainTimeoutMs: 1000,
@@ -97,6 +114,7 @@ async function fixture(deferred = false) {
         application = owner;
       },
       async validate(candidate) {
+        await options.validate?.();
         resources = candidate;
       },
     }),
@@ -132,6 +150,74 @@ it('removes a deleted optional loader only from the selected entry', async () =>
   );
   expect(current.resources.serverManifest.loaderBundles!.b).toBe(other);
   expect(current.reload.mock.calls.map(([entry]) => entry)).toEqual(['a']);
+});
+
+it('establishes the resource owner context for both first load and subsequent resource validation', async () => {
+  const context = new AsyncLocalStorage<string>();
+  let validations = 0;
+  const current = await fixture(false, {
+    run: operation => context.run('owner', operation),
+    validate: () => {
+      expect(context.getStore()).toBe('owner');
+      validations++;
+    },
+  });
+  await current.server.prepareSSRResources(() => {});
+  expect(validations).toBe(2);
+  await current.server.close();
+});
+
+it('skips stale initial compilations and rechecks after request drain before invalidating', async () => {
+  const first = {};
+  const second = {};
+  let latest = first;
+  const current = await fixture(true, { gate: stats => stats === latest });
+  const invalidate = rstest.fn();
+  await current.server.prepareSSRResources(invalidate, second);
+  expect(current.application).toBeUndefined();
+  await current.server.prepareSSRResources(invalidate, first);
+  let finish!: () => void;
+  current.holdB(
+    new Promise<void>(resolve => {
+      finish = resolve;
+    }),
+  );
+  await (await current.server.request('/b/pending')).text();
+  const updating = current.server.prepareSSRResources(invalidate, first);
+  await tick();
+  latest = second;
+  finish();
+  await expect(updating).rejects.toThrow('superseded');
+  expect(invalidate).not.toHaveBeenCalled();
+  expect(current.application.status.phase).toBe('unavailable');
+  await current.server.prepareSSRResources(invalidate, second);
+  expect(current.application.status.phase).toBe('serving');
+  expect(invalidate).toHaveBeenCalledTimes(1);
+  await current.server.close();
+});
+
+it('rejects a compilation superseded during candidate validation before publishing its generation', async () => {
+  const first = {};
+  let latest = first;
+  let supersede = false;
+  const current = await fixture(true, {
+    gate: stats => stats === latest,
+    validate: () => {
+      if (supersede) latest = {};
+    },
+  });
+  await current.server.prepareSSRResources(() => {}, first);
+  const generation = current.application.status.generation;
+  supersede = true;
+  await expect(
+    current.server.prepareSSRResources(() => {}, first),
+  ).rejects.toThrow('superseded');
+  expect(current.application.status.generation).toBe(generation);
+  expect(current.application.status.phase).toBe('unavailable');
+  supersede = false;
+  await current.server.prepareSSRResources(() => {}, latest);
+  expect(current.application.status.generation).toBe(generation + 1);
+  await current.server.close();
 });
 
 it('expands a queued selective update before draining when shared host manifests changed', async () => {
