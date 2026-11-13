@@ -13,6 +13,7 @@ import type {
 } from '../../../types';
 import { sortRoutes } from '../../../utils';
 import { getPublicDirPatterns } from '../../../utils/publicDir';
+import { registerStaticFile } from './compress';
 
 export const serverStaticPlugin = (): ServerPlugin => ({
   name: '@modern-js/plugin-server-static',
@@ -78,12 +79,14 @@ export function createPublicMiddleware({
         if (mimeType) {
           c.header('Content-Type', mimeType);
         }
+        // Lets the compress middleware skip files below the threshold.
+        c.header('Content-Length', String(data.byteLength));
 
         Object.entries(route.responseHeaders || {}).forEach(([k, v]) => {
           c.header(k, v as string);
         });
 
-        return c.body(body, 200);
+        return registerStaticFile(c.body(body, 200), filename, data);
       }
     }
 
@@ -238,7 +241,7 @@ export function createStaticMiddleware(
         chunk.byteOffset,
         chunk.byteLength,
       );
-      return c.body(body, 200);
+      return registerStaticFile(c.body(body, 200), filepath, chunk);
     } else {
       return publicMiddleware(c, next);
     }

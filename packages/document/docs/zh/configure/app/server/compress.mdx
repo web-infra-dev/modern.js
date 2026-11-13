@@ -1,0 +1,54 @@
+---
+title: compress
+---
+
+# server.compress
+
+- **类型：** `boolean | object`
+- **默认值：** 内置 Node.js 生产服务器为 `true`
+
+使用 Brotli 或 gzip 压缩生产服务器的响应，包括 SSR 和 SSG 页面、静态资源以及 BFF 响应。
+
+内置 Node.js 生产服务器（`modern serve` 和 `node .output/index`）默认开启压缩，开发服务器不受影响。其他运行环境（例如 Netlify Functions）通常会在边缘节点压缩响应，因此默认不开启，可以将 `compress` 设置为 `true` 来开启。
+
+服务器会根据请求头 `Accept-Encoding`，从 `encodings` 中选择客户端支持的第一个编码，并为可压缩的响应添加 `Vary: Accept-Encoding`。以下情况不会压缩响应：
+
+- 响应已经包含 `Content-Encoding` 头，例如已被自定义中间件压缩
+- 响应的内容类型不可压缩（例如图片），或者是 Server-Sent Events 流
+- 响应的 `Content-Length` 小于 `threshold`
+- `HEAD` 请求的响应，或者没有响应体
+- 响应包含 `Cache-Control: no-transform` 头
+
+压缩后的内容与原始内容的字节不同，因此压缩响应上的强 `ETag`（例如由自定义中间件设置）会被改为弱 `ETag`。
+
+静态资源只会压缩一次，之后直接从内存中返回。流式响应（例如流式 SSR）会在每个分块之后立即刷新，客户端可以在分块渲染完成后马上收到内容。
+
+### 关闭压缩
+
+如果由反向代理或 CDN 负责压缩，可以关闭该功能：
+
+```ts title="modern.config.ts"
+export default defineConfig({
+  server: {
+    compress: false,
+  },
+});
+```
+
+### 配置项
+
+| 名称        | 类型                    | 默认值           | 说明                               |
+| ----------- | ----------------------- | ---------------- | ---------------------------------- |
+| `threshold` | `number`                | `1024`           | 小于该大小（字节）的响应不会被压缩 |
+| `encodings` | `Array<'br' \| 'gzip'>` | `['br', 'gzip']` | 支持的编码，按服务器优先级排序     |
+
+```ts title="modern.config.ts"
+export default defineConfig({
+  server: {
+    compress: {
+      threshold: 2048,
+      encodings: ['gzip'],
+    },
+  },
+});
+```
