@@ -9,6 +9,8 @@ export interface McpViewsConfig extends UiMetadata {
 }
 export interface UiManifest {
   version: 1;
+  /** Self-contained local HTML, without an HTTP asset base. */
+  inline?: boolean;
   assetBase: string;
   remotes: Record<string, { entry: string; shell: string }>;
   views: Record<
@@ -129,6 +131,8 @@ export function validateUiManifest(
     !isRecord(value.views)
   )
     throw new Error('Invalid MCP UI manifest');
+  if (value.inline !== undefined && typeof value.inline !== 'boolean')
+    throw new Error('inline must be a boolean');
   if (value.assetBase !== 'request') assertHttpUrl(value.assetBase);
   const checkSource = (source: unknown) => {
     if (typeof source !== 'string' || !source)

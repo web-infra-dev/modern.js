@@ -7,6 +7,9 @@ export default {
   plugins: [
     appTools(),
     bffPlugin(),
-    mcpAppsPlugin({ views: './mcp-views.json' }),
+    mcpAppsPlugin({
+      views: './mcp-views.json',
+      stdio: { server: './api/server/mcp.ts' },
+    }),
   ],
 };

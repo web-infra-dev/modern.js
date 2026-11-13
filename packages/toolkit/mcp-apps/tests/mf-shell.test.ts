@@ -49,6 +49,7 @@ async function buildShellConfig(
       dev: {},
       output: {},
     }),
+    addCommand: noop,
     addWatchFiles: noop,
     modifyEntrypoints: (fn: ModifyEntrypoints) => {
       modifyEntrypoints = fn;

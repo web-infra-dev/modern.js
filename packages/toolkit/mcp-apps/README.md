@@ -67,3 +67,13 @@ export default function Card() {
 `createMcpView(View, appInfo, capabilities)` accepts the same options directly. Properties are merged with the defaults, and an explicit `availableDisplayModes` array replaces the default array. MF modules are loaded before the handshake so their capabilities are included in initialization. Declaring fullscreen support does not add a fullscreen control or change the display mode automatically.
 
 Development resource CSP includes the request origin's `ws:` or `wss:` equivalent for the application HMR connection. Custom HMR hosts still need explicit `connectDomains` configuration. Production resources do not add this permission automatically.
+
+## Local stdio debugging
+
+For local component views, configure `mcpAppsPlugin({ stdio: { server: './api/server/mcp.ts' } })` and add `"mcp:prepare": "modern mcp-prepare"` to package scripts. The server module must default-export a factory accepting `RegisterUiOptions` and returning a fresh `McpServer`. Inside it, call `registerUiResources(server, options)` and register business tools. The HTTP route can reuse it with `createBffHandlers(request => createServer({ request }))`.
+
+Run `pnpm mcp:prepare`. This creates `dist-mcp/server.cjs`, `dist-mcp/ui-manifest.json` and self-contained UI HTML, then prints the Node command and absolute server argument for a local MCP connector. The host starts the process. No HTTP server, relay, or `modern dev` is required. Only JSON-RPC belongs on server stdout, so application diagnostics must use stderr. Keep application dependencies installed beside the output.
+
+The isolated production pipeline bundles local components with `createMcpView`, preserving exported `mcpCapabilities`, inlining JavaScript, CSS and imported assets. It respects `source.alias`, `source.define` and the application tsconfig. It does not run the application's Rsbuild plugins or its server middleware. Custom loaders and framework page runtime features are outside this mode. Module Federation views are rejected because they require hosted resources. Runtime API requests still require explicit endpoints and suitable CSP. Each HTML document must fit within 5 MiB.
+
+`stdio.output` defaults to `dist-mcp`, outside normal `dist` so dev/build cannot remove a running connector's entry. Ignore this directory in Git. Rebuild after editing, then restart the connector to load new server code and HTML. Inline manifests load local HTML at server startup, preserve configured UI metadata and do not inject HTTP base URLs or localhost CSP permissions. The normal HTTP manifest pipeline is unchanged.

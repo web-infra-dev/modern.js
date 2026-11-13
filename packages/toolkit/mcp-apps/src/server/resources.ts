@@ -137,6 +137,40 @@ export async function registerUiResources(
     options.manifest,
     options.mode ?? 'production',
   );
+  if (manifest.inline) {
+    if (
+      location.protocol !== 'file:' ||
+      Object.values(manifest.views).some(view => !('html' in view))
+    )
+      throw new Error('Inline UI manifests require local HTML views');
+    const uris: Record<string, string> = Object.create(null);
+    for (const [name, view] of Object.entries(manifest.views)) {
+      if (!('html' in view)) continue;
+      const source = new URL(view.html, location);
+      if (source.protocol !== 'file:')
+        throw new Error('Inline UI must use local HTML');
+      const html = await readSource(source);
+      const uri = `ui://app/${encodeURIComponent(name)}`;
+      uris[name] = uri;
+      registerAppResource(
+        server,
+        name,
+        uri,
+        { _meta: { ui: view.ui } },
+        async () => ({
+          contents: [
+            {
+              uri,
+              mimeType: RESOURCE_MIME_TYPE,
+              text: html,
+              _meta: { ui: view.ui },
+            },
+          ],
+        }),
+      );
+    }
+    return uris;
+  }
   const base = publicBase(manifest, options);
   const devSocket =
     options.mode === 'development' && options.request

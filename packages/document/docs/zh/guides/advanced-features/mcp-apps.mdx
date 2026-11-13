@@ -213,3 +213,22 @@ export default function Card() {
 ```
 
 手动使用 `createMcpView` 时，也可以通过第三个参数传入能力声明。显式的展示模式数组会替换默认值。MF 模块在初始化前加载，确保握手包含该模块的能力。声明支持全屏不会自动添加全屏按钮或切换展示模式。
+
+## 本机 stdio 调试
+
+本地组件视图可以直接构建成自包含 HTML，并由宿主启动 Node stdio 服务，不需要运行 HTTP 开发服务器。
+
+```ts
+mcpAppsPlugin({
+  views: './mcp-views.json',
+  stdio: { server: './api/server/mcp.ts' },
+});
+```
+
+在 package.json 增加 `"mcp:prepare": "modern mcp-prepare"`，执行 `pnpm mcp:prepare` 后，将输出的 command 和 args 填入本机 MCP 连接器。默认产物为独立的 `dist-mcp/`，不会被普通 dev/build 清理。`stdio.output` 可修改目录，但不能放在应用的 dist 内。将产物加入 Git 忽略列表。
+
+server 模块应默认导出接收 `RegisterUiOptions` 的异步工厂，在工厂里创建 McpServer，调用 `registerUiResources(server, options)` 并注册业务工具。HTTP 路由可通过 `createBffHandlers(request => createServer({ request }))` 复用同一工厂，不需要伪造 HTTP Request 来运行 stdio。
+
+构建保留 `createMcpView` 生命周期与组件导出的 mcpCapabilities，内联脚本、样式及导入的静态资源，每份 HTML 最大 5 MiB。此模式读取 source.alias、source.define 和应用 tsconfig，但不执行应用的 Rsbuild 插件或服务端中间件。需要自定义 loader、页面运行时或 Module Federation 远程资源时，请继续使用 HTTP 模式。业务中的网络请求仍需配置明确的 API 来源与 CSP。
+
+服务端 stdout 专用于 JSON-RPC，日志写入 stderr。产物仍依赖项目安装的 Node 包。修改后重新构建并重启连接器，服务启动时会读取 HTML，重启前继续使用旧页面。HTTP 的构建及部署流程保持原样。

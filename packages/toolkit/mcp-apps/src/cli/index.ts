@@ -2,6 +2,8 @@ import fs from 'node:fs/promises';
 import path from 'node:path';
 import { createRequire } from 'node:module';
 import { fileURLToPath } from 'node:url';
+import { prepareStdio, type McpStdioOptions } from './stdio';
+export type { McpStdioOptions } from './stdio';
 import { createRsbuild } from '@rsbuild/core';
 import type { AppTools, CliPlugin } from '@modern-js/app-tools';
 import { validateViewsConfig, type McpViewsConfig } from '../manifest';
@@ -18,6 +20,7 @@ export interface McpAppsPluginOptions {
   views?: string;
   /** CSP domains added to every view, merged with the csp in the views file. */
   csp?: UiCsp;
+  stdio?: McpStdioOptions;
   mf?: {
     /** MF manifest filename in the build output. Defaults to 'mf-manifest.json'. */
     manifestFile?: string;
@@ -46,6 +49,36 @@ export const mcpAppsPlugin = (
   name: '@modern-js/mcp-apps',
   post: ['@modern-js/runtime'],
   setup(api) {
+    api.addCommand(({ program }) => {
+      program
+        .command('mcp-prepare')
+        .description('Build self-contained MCP Apps and a local stdio server')
+        .action(async () => {
+          if (!options.stdio)
+            throw new Error(
+              'Configure mcpAppsPlugin({ stdio: { server: "./api/server/mcp.ts" } }) before running mcp-prepare',
+            );
+          const config = api.getNormalizedConfig();
+          const aliases: Record<string, string | string[]> = {};
+          const configuredAlias = config.source.alias;
+          const alias =
+            typeof configuredAlias === 'function'
+              ? (configuredAlias(aliases) ?? aliases)
+              : configuredAlias;
+          const connector = await prepareStdio({
+            root: api.getAppContext().appDirectory,
+            views: options.views ?? 'mcp-views.json',
+            stdio: options.stdio,
+            csp: options.csp,
+            applicationDist: api.getAppContext().distDirectory,
+            define: config.source.define,
+            alias,
+          });
+          console.log(
+            JSON.stringify({ mcpServers: { app: connector } }, null, 2),
+          );
+        });
+    });
     api._internalServerPlugins(({ plugins }) => {
       const ctx = api.getAppContext();
       plugins.push({
