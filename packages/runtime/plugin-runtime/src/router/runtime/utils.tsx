@@ -13,6 +13,7 @@ import type { NestedRoute, PageRoute, SSRMode } from '@modern-js/types';
 import React from 'react';
 import { DefaultNotFound } from './DefaultNotFound';
 import DeferredDataScripts from './DeferredDataScripts';
+import DynamicBoundary from './DynamicBoundary';
 import type { ModernRouteObject, RouterConfig } from './types';
 
 export function getRouteComponents(
@@ -41,6 +42,7 @@ export function getRouteComponents(
       const routeElement = renderNestedRoute(route, {
         DeferredDataComponent:
           ssrMode === 'stream' ? DeferredDataScripts : undefined,
+        DynamicBoundary: ssrMode === 'ppr' ? DynamicBoundary : undefined,
         props,
       });
       routeElements.push(routeElement);

@@ -99,14 +99,18 @@ export function getSSRConfigByEntry(
   return ssr || true;
 }
 
-export function getSSRMode(ssrConfig?: SSRConfig): 'string' | 'stream' | false {
+export function getSSRMode(
+  ssrConfig?: SSRConfig,
+): 'string' | 'stream' | 'ppr' | false {
   if (typeof ssrConfig === 'boolean') {
     const result = ssrConfig ? 'stream' : false;
     return result;
   }
 
-  const result = ssrConfig?.mode === 'string' ? 'string' : 'stream';
-  return result;
+  if (ssrConfig?.mode === 'string') {
+    return 'string';
+  }
+  return ssrConfig?.mode === 'ppr' ? 'ppr' : 'stream';
 }
 
 const getLinkAttributes = (linkTag: string) => {

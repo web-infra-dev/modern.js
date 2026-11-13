@@ -14,7 +14,9 @@ import { resolveSSRMode } from './mode';
 
 const hasStringSSREntry = (userConfig: AppToolsNormalizedConfig): boolean => {
   const isStreaming = (ssr: ServerUserConfig['ssr']) =>
-    ssr && typeof ssr === 'object' && ssr.mode === 'stream';
+    ssr &&
+    typeof ssr === 'object' &&
+    (ssr.mode === 'stream' || ssr.mode === 'ppr');
 
   const { server, output } = userConfig;
 
