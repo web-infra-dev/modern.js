@@ -7,6 +7,7 @@ const { tmpdir } = require('node:os');
 const { once } = require('node:events');
 const {
   modernPackage,
+  packageRequire,
   pluginRoot,
   runtimeToolsRoot,
   rspackEntry,
@@ -128,6 +129,7 @@ test('compiled static imports reload their Modern entries while independent requ
         implementation: runtimeToolsRoot,
         remotes: { remote: { external: `v1@${path.join(out, 'v1.cjs')}` } },
         runtimePlugins: [
+          packageRequire.resolve('@module-federation/node/runtimePlugin'),
           path.join(root, 'plugin.js'),
           path.join(
             pluginRoot,

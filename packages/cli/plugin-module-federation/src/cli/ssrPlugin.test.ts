@@ -147,7 +147,7 @@ describe('moduleFederationSSRPlugin', () => {
         expect(config).toEqual({ output: { publicPath: 'auto' } });
         for (const name of ['web', 'node']) {
           const json = JSON.stringify({
-            metaData: { buildInfo: { buildVersion: `completed-${name}` } },
+            metaData: { buildInfo: { buildVersion: 'completed-build' } },
             exposes: [
               {
                 name: 'App',
@@ -170,8 +170,7 @@ describe('moduleFederationSSRPlugin', () => {
         const publication = rs.fn();
         const unsubscribe = identity.subscribe(publication);
         expect(publication).toHaveBeenLastCalledWith({
-          buildVersion: 'completed-web',
-          ssrBuildVersion: 'completed-node',
+          buildVersion: 'completed-build',
           hot: !service,
         });
         unsubscribe();

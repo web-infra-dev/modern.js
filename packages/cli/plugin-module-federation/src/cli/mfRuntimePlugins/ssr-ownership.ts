@@ -57,14 +57,6 @@ export default function ssrOwnership(): ModuleFederationRuntimePlugin {
           continue;
         const provider = helpers.global.getRemoteFederationInstance({
           name: remote.name,
-          providerName:
-            typeof snapshot.providerName === 'string'
-              ? snapshot.providerName
-              : undefined,
-          entryGlobalName:
-            'globalName' in snapshot && typeof snapshot.globalName === 'string'
-              ? snapshot.globalName
-              : '',
           buildVersion: snapshot.buildVersion,
           version:
             typeof snapshot.version === 'string' ? snapshot.version : undefined,
@@ -126,11 +118,6 @@ export default function ssrOwnership(): ModuleFederationRuntimePlugin {
         (globalThis as any).__FEDERATION__?.__INSTANCES__ || []
       ).filter((instance: any) => !ownedInstances.has(instance));
       for (const [key, entry] of entries) {
-        const providers = [
-          entry.info.name,
-          entry.info.providerName,
-          entry.info.entryGlobalName,
-        ];
         const externallyUsed = Object.values(
           (globalThis as any).__FEDERATION__?.__SHARE__ || {},
         ).some((scopes: any) =>
@@ -138,7 +125,7 @@ export default function ssrOwnership(): ModuleFederationRuntimePlugin {
             Object.values(packages).some((versions: any) =>
               Object.values(versions).some(
                 (shared: any) =>
-                  providers.includes(shared.from) &&
+                  shared.from === entry.info.name &&
                   shared.useIn?.some(
                     (name: string) =>
                       !owners.has(name) ||

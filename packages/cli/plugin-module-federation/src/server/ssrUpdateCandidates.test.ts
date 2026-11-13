@@ -223,16 +223,13 @@ describe('application-owned SSR update candidates', () => {
       );
     const response = await invoke();
     expect(response?.status).toBe(409);
-    expect(await response!.json()).toMatchObject({
-      expectedBuildVersion: 'A',
-      actualBuildVersion: 'B',
-    });
+    expect(await response!.text()).toContain('buildVersion mismatch');
     expect(observedEntries).toEqual([selectedEntry]);
     await ingress.dispose();
     setSSRUpdateCandidates(f.application, [{ name: f.name, entry: f.entry }]);
     const latest = await invoke();
     expect(latest?.status).toBe(409);
-    expect(await latest!.json()).toMatchObject({ actualBuildVersion: 'C' });
+    expect(await latest!.text()).toContain('buildVersion mismatch');
     expect(observedEntries).toEqual([selectedEntry, f.entry]);
   });
 

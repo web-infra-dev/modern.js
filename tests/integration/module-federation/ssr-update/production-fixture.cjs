@@ -177,10 +177,12 @@ async function linkDependencies(dir) {
     );
     await fs.writeFile(
       path.join(secondHost, 'modern.config.ts'),
-      config.replaceAll(
-        `${assetURL}/v1/mf-manifest.json`,
-        `${assetURL}/v2/mf-manifest.json`,
-      ),
+      config
+        .replace('"name":"r6_host"', '"name":"r6_host_b"')
+        .replaceAll(
+          `${assetURL}/v1/mf-manifest.json`,
+          `${assetURL}/v2/mf-manifest.json`,
+        ),
     );
     const build = spawnSync(
       process.execPath,

@@ -249,7 +249,7 @@ async function run(mode) {
         );
         assert.equal(
           evidence.lastSSR.compiledIdentity,
-          `${fixture.providerName}:${selectedManifest.json.metaData.ssrRemoteEntry.buildVersion}`,
+          `${fixture.providerName}:${selectedManifest.json.metaData.buildInfo.buildVersion}`,
           'SSR executes the Node compilation selected by the manifest',
         );
         await fs.writeFile(path.join(root, `ssr-${ui}-${loader}.html`), html);
@@ -545,10 +545,8 @@ async function run(mode) {
           return (
             value &&
             value.hash !== before.hash &&
-            (value.json.metaData.buildInfo.buildVersion !==
-              before.json.metaData.buildInfo.buildVersion ||
-              value.json.metaData.ssrRemoteEntry?.buildVersion !==
-                before.json.metaData.ssrRemoteEntry?.buildVersion) &&
+            value.json.metaData.buildInfo.buildVersion !==
+              before.json.metaData.buildInfo.buildVersion &&
             value
           );
         },
@@ -582,10 +580,6 @@ async function run(mode) {
         newManifest: current.hash,
         oldBuildVersion: before.json.metaData.buildInfo.buildVersion,
         newBuildVersion: current.json.metaData.buildInfo.buildVersion,
-        oldServerBuildVersion:
-          before.json.metaData.ssrRemoteEntry?.buildVersion,
-        newServerBuildVersion:
-          current.json.metaData.ssrRemoteEntry?.buildVersion,
         documentLoads: evidence.navigations.length - navigations,
       });
       await stableNavigation(label);
@@ -691,7 +685,7 @@ async function run(mode) {
       latePage.on('console', message => {
         const text = message.text();
         const expectedMismatch =
-          /BridgeServiceVersionMismatchError|BRIDGE_SERVICE_VERSION_MISMATCH|buildVersion mismatch|Failed to load resource:.*409/.test(
+          /Bridge service returned HTTP 409|buildVersion mismatch|Failed to load resource:.*409/.test(
             text,
           );
         evidence.browserConsole.push({
@@ -756,7 +750,7 @@ async function run(mode) {
           else mismatch = value;
           frozenManifest = undefined;
           evidence.manifestGateway.push({
-            event: 'release-after-typed-409',
+            event: 'release-after-http-409',
             at: Date.now(),
           });
         });
@@ -766,18 +760,13 @@ async function run(mode) {
             const response = await originalFetch(...args);
             if (
               response.status === 409 &&
-              response.url.includes('/_modern/mf/service/') &&
-              response.headers
-                .get('content-type')
-                ?.startsWith(
-                  'application/vnd.module-federation.bridge-service-error+json',
-                )
+              response.url.includes('/_modern/mf/service/')
             ) {
               try {
                 await window.__recordServiceMismatch({
                   status: response.status,
                   headers: Object.fromEntries(response.headers),
-                  body: await response.clone().json(),
+                  body: await response.clone().text(),
                 });
               } catch (error) {
                 await window.__recordServiceMismatch({
@@ -808,8 +797,7 @@ async function run(mode) {
         );
         assert.equal(
           staleBody.buildVersion,
-          oldManifest.json.metaData.ssrRemoteEntry?.buildVersion ||
-            oldManifest.json.metaData.buildInfo.buildVersion,
+          oldManifest.json.metaData.buildInfo.buildVersion,
         );
         const navigations = recovery.navigations.length;
         await writeGeneration(root, {
@@ -838,39 +826,24 @@ async function run(mode) {
         heldServiceRequest = undefined;
         await pending.continue();
         await eventually(
-          'producer returns typed version mismatch through ingress',
+          'producer rejects the stale request through ingress',
           () => mismatch || mismatchError,
         );
         if (mismatchError) throw mismatchError;
-        assert.equal(
-          mismatch.body.protocol,
-          'module-federation/bridge-ssr/producer/v1',
-        );
-        assert.equal(mismatch.body.code, 'BRIDGE_SERVICE_VERSION_MISMATCH');
-        assert.equal(
-          mismatch.body.expectedBuildVersion,
-          staleBody.buildVersion,
-        );
-        assert.equal(
-          mismatch.body.actualBuildVersion,
-          nextManifest.json.metaData.ssrRemoteEntry?.buildVersion ||
-            nextManifest.json.metaData.buildInfo.buildVersion,
-        );
-        assert.notEqual(
-          mismatch.body.actualBuildVersion,
-          mismatch.body.expectedBuildVersion,
-        );
+        assert.equal(mismatch.status, 409);
+        assert.match(mismatch.body, /HTTP 409|buildVersion mismatch/);
+        assert.equal(mismatch.headers['cache-control'], 'no-store');
         recovery.response = mismatch;
         recovery.newManifest = nextManifest.hash;
         await expectHTTP('v6', 'v6');
         await eventually(
-          'typed Service mismatch automatically reloads the document',
+          'manifest discovery updates Node and reloads the document',
           () => recovery.navigations.length > navigations,
         );
         await expectBrowser('v6', 'v6', colors.first, latePage);
         assert.ok(
           recovery.navigations.length > navigations,
-          'Typed Service mismatch did not automatically reload the document',
+          'Manifest update did not reload the document',
         );
         assert.equal(new URL(latePage.url()).searchParams.has('csr'), false);
         const settled = recovery.navigations.length;
@@ -878,7 +851,7 @@ async function run(mode) {
         assert.equal(
           recovery.navigations.length,
           settled,
-          'Typed Service recovery entered a document reload loop',
+          'Service update entered a document reload loop',
         );
         recovery.documentLoads = settled - navigations;
         assert.equal(

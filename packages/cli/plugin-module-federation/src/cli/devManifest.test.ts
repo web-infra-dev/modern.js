@@ -2,6 +2,15 @@ import { describe, expect, it, rstest } from '@rstest/core';
 import type { Rspack } from '@rsbuild/core';
 import { createDevManifestPublication } from './devManifest';
 
+rstest.mock('@module-federation/enhanced/rspack', () => ({
+  setCompilationBuildVersion(
+    compilation: { buildVersion?: string },
+    value: string,
+  ) {
+    compilation.buildVersion = value;
+  },
+}));
+
 function compiler() {
   const invalid: (() => void)[] = [];
   const compilation: ((value: object) => void)[] = [];
@@ -19,7 +28,7 @@ function compiler() {
       invalidate: rstest.fn(() => invalid.forEach(callback => callback())),
     },
     build() {
-      const stats = { compilation: {} };
+      const stats = { compilation: { buildVersion: '' } };
       compilation.forEach(callback => callback(stats.compilation));
       return stats;
     },
@@ -70,7 +79,7 @@ describe('development manifest publication', () => {
     expect(listener).toHaveBeenCalledTimes(3);
   });
 
-  it('publishes a one-sided rebuild with the unchanged peer without invalidating it', () => {
+  it('coordinates both targets when only one target changes', () => {
     const browser = compiler();
     const node = compiler();
     const publication = createDevManifestPublication();
@@ -85,9 +94,19 @@ describe('development manifest publication', () => {
     node.watching.invalidate();
     expect(publication.isReadyFor(first)).toBe(false);
     expect(publication.publish(first)).toBe(false);
-    expect(browser.watching.invalidate).not.toHaveBeenCalled();
+    expect(browser.watching.invalidate).toHaveBeenCalledTimes(1);
     expect(onInvalid).toHaveBeenCalledTimes(1);
-    const second = { stats: [browserStats, node.build()] };
+    const nodeStats = node.build();
+    expect(publication.publish({ stats: [browserStats, nodeStats] })).toBe(
+      false,
+    );
+    const second = { stats: [browser.build(), nodeStats] };
+    expect(second.stats[0].compilation.buildVersion).toBe(
+      nodeStats.compilation.buildVersion,
+    );
+    expect(nodeStats.compilation.buildVersion).not.toBe(
+      browserStats.compilation.buildVersion,
+    );
     expect(publication.publish(second)).toBe(true);
     expect(publication.isReadyFor(second)).toBe(true);
     expect(publication.isReadyFor(first)).toBe(false);
@@ -105,7 +124,7 @@ describe('development manifest publication', () => {
     const stale = { stats: [browser.build(), serverStats] };
     browser.watching.invalidate();
     expect(publication.publish(stale)).toBe(false);
-    const latest = { stats: [browser.build(), serverStats] };
+    const latest = { stats: [browser.build(), node.build()] };
     expect(publication.publish(latest)).toBe(true);
     expect(publication.publish(stale)).toBe(false);
     expect(publication.isReadyFor(latest)).toBe(true);

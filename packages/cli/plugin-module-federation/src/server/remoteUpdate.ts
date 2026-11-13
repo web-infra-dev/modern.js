@@ -18,7 +18,6 @@ export interface RemoteUpdateTarget {
     name: string;
     entry: string;
     buildVersion: string;
-    ssrBuildVersion?: string;
   }[];
 }
 export interface RemoteCheckOptions {
@@ -73,9 +72,7 @@ export function moduleInfoFingerprint(
       'SSR update requires resolved provider module information',
     );
   const fields = [
-    'providerName',
     'buildVersion',
-    'ssrBuildVersion',
     'globalName',
     'remoteEntry',
     'remoteEntryType',

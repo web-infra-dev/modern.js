@@ -33,7 +33,6 @@ it.each(['candidate', 'snapshot'])(
     });
     const owner = createSSRUpdateOwner('singleton-consumer');
     const snapshot = {
-      providerName: 'singleton-provider',
       buildVersion: 'two',
       version: 'https://provider.test/two/manifest.json',
       remoteEntry: 'entry.js',
@@ -41,13 +40,13 @@ it.each(['candidate', 'snapshot'])(
     };
     const resetSnapshot = helpers.global.addGlobalSnapshot(
       mode === 'snapshot'
-        ? { [`registered-provider:${snapshot.version}`]: snapshot }
+        ? { [`singleton-provider:${snapshot.version}`]: snapshot }
         : {},
     );
     if (mode === 'candidate')
       setSSRUpdateCandidates(owner.id, [
         {
-          name: 'registered-provider',
+          name: 'singleton-provider',
           entry: snapshot.version,
           moduleInfo: snapshot,
         },
@@ -56,7 +55,8 @@ it.each(['candidate', 'snapshot'])(
       name: owner.name,
       remotes: [
         {
-          name: 'registered-provider',
+          name: 'singleton-provider',
+          alias: 'registered-provider',
           entry:
             mode === 'candidate'
               ? 'https://provider.test/one/manifest.json'

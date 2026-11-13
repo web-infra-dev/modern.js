@@ -45,10 +45,7 @@ it('loads real nested ordinary Node containers without private Service context, 
       const manifest = JSON.parse(
         await readFile(path.join(root, 'weather/mf-manifest.json'), 'utf8'),
       );
-      return (
-        manifest.metaData.ssrRemoteEntry?.buildVersion ||
-        manifest.metaData.buildInfo.buildVersion
-      );
+      return manifest.metaData.buildInfo.buildVersion;
     },
     authorize(request) {
       authenticated.push(Object.fromEntries(request.headers));

@@ -75,7 +75,6 @@ export function startDevRemoteUpdates(options: DevRemoteUpdatesOptions) {
           name: remote.name,
           entry: remote.entry,
           buildVersion: publication.buildVersion,
-          ssrBuildVersion: publication.ssrBuildVersion,
           hot: publication.hot,
         },
         ...(publication.sources || []),
@@ -158,8 +157,6 @@ export function startDevRemoteUpdates(options: DevRemoteUpdatesOptions) {
                 nested.push({
                   ...remote,
                   buildVersion: buildInfo.buildVersion,
-                  ssrBuildVersion: (info.metaData as any)?.ssrRemoteEntry
-                    ?.buildVersion,
                 });
               return info;
             }),
@@ -177,17 +174,10 @@ export function startDevRemoteUpdates(options: DevRemoteUpdatesOptions) {
               : undefined;
           const { buildVersion } =
             (moduleInfo.metaData as any)?.buildInfo || {};
-          const ssrBuildVersion = (moduleInfo.metaData as any)?.ssrRemoteEntry
-            ?.buildVersion;
-          if (
-            notified &&
-            (notified.buildVersion !== buildVersion ||
-              notified.ssrBuildVersion !== ssrBuildVersion)
-          )
+          if (notified && notified.buildVersion !== buildVersion)
             throw new Error(`Remote build was superseded: ${remote.entry}`);
           const publication = notified || {
             buildVersion,
-            ssrBuildVersion,
             sources: await readDependencies(remote, moduleInfo),
           };
           const dependencies = (publication.sources || [])
@@ -196,11 +186,10 @@ export function startDevRemoteUpdates(options: DevRemoteUpdatesOptions) {
                 identity(source) !== identity(remote) &&
                 (!publisher || identity(source) !== identity(publisher)),
             )
-            .map(({ name, entry, buildVersion, ssrBuildVersion }) => ({
+            .map(({ name, entry, buildVersion }) => ({
               name,
               entry,
               buildVersion,
-              ssrBuildVersion,
             }))
             .sort((a, b) => identity(a).localeCompare(identity(b)));
           const candidate = { ...remote, moduleInfo, dependencies };

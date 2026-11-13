@@ -53,7 +53,6 @@ export interface SSRRemoteReplacement {
     name: string;
     entry: string;
     buildVersion: string;
-    ssrBuildVersion?: string;
   }[];
 }
 export interface SSRUpdateOptions extends RemoteCheckOptions {
@@ -111,6 +110,15 @@ export function createSSRUpdateAdapter(options: {
     instances().map(
       instance => instance[Symbol.for('modern-js.mf.ssr.consumption')],
     );
+  const detachRuntimeAdapters = (hosts: any[]) => {
+    const runtimes = new Set(records().map(record => record.runtime));
+    for (const host of hosts)
+      for (const runtime of host[
+        Symbol.for('module-federation.clear-cache.adapters')
+      ]?.bindings || [])
+        runtimes.add(runtime);
+    for (const runtime of runtimes) runtime.federation?.disposeClearCache?.();
+  };
   const registrations = new WeakMap<object, Map<string, any>>();
   const retiringProviders = new Set<any>();
   const dependencyGraphs = new Map(
@@ -286,6 +294,13 @@ export function createSSRUpdateAdapter(options: {
               onMutation();
               onStage('rebuild');
               return;
+            }
+            if (!entries) {
+              // The drained generation will be discarded in full. Detach its
+              // native adapters before Core removes remotes: a fallback may
+              // have been selected precisely because its graph is incomplete.
+              onMutation();
+              detachRuntimeAdapters(hosts);
             }
             const outcomes = await Promise.allSettled(
               hosts.map(async instance => {
@@ -936,12 +951,6 @@ export function createSSRUpdateAdapter(options: {
       // Partial updates reuse runtimes. Full rebuilds release their registrations.
       if (entries) return;
       const owned = records();
-      const runtimes = new Set(owned.map(record => record.runtime));
-      for (const instance of instances())
-        for (const runtime of instance[
-          Symbol.for('module-federation.clear-cache.adapters')
-        ]?.bindings || [])
-          runtimes.add(runtime);
       const hosts = instances();
       // Carry only declarative registrations across generations, never factories
       // or plugins from the old application bundle.
@@ -1048,6 +1057,7 @@ export function createSSRUpdateAdapter(options: {
         if (state) state.disposingInstances = new Set([...hosts, ...providers]);
       }
       // Close the entire owned generation before releasing shared ownership.
+      detachRuntimeAdapters([...hosts, ...providers]);
       const disposed = await Promise.allSettled(
         [...new Set([...hosts, ...providers])].map(host => host.destroy()),
       );
@@ -1057,7 +1067,6 @@ export function createSSRUpdateAdapter(options: {
           failures.map(result => result.reason),
           'SSR instance disposal failed',
         );
-      for (const runtime of runtimes) runtime.federation?.disposeClearCache?.();
       for (const record of owned) owner.entries.delete(record.entry);
       for (const host of hosts) owner.instances.delete(host);
       retiringProviders.clear();

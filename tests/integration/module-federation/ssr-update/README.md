@@ -10,7 +10,7 @@ Allocate and supervise the test's `HOST` and `ASSETS` ports before starting it. 
 
 Run `node formal-production.cjs` to check the public asynchronous `shouldUpdateRemote` and `updateRemotes` APIs against a fixed manifest URL, no-op detection, rollback to a previous deployment and synchronous `after-response` receipts. Its request-context check rejects a normal update that would wait for its own request to drain.
 
-Run `node identity.cjs` with a registered `HOST`, `HOST_B` and `ASSETS` group to build two same-name hosts with distinct build IDs and consume two versions of the same provider. Updating and closing one host must preserve the other host's active request, runtime object, remote cache and rendered output. The request-bound API must select its own manager, while a background call using the ambiguous application name must reject. After both hosts consume v2, moving one back to v1 must preserve the other's v2 provider. The remaining host must still update after its sibling closes. Finally, every captured provider must complete disposal and the fixture's instance, shared and snapshot roots must be released.
+Run `node identity.cjs` with a registered `HOST`, `HOST_B` and `ASSETS` group to build two differently named hosts and consume two versions of the same provider. Updating and closing one host must preserve the other host's active request, runtime object, remote cache and rendered output. Request-bound and explicitly named API calls must select the corresponding application's manager. After both hosts consume v2, moving one back to v1 must preserve the other's v2 provider. The remaining host must still update after its sibling closes. Finally, every captured provider must complete disposal, instance and shared roots must be released, and global snapshots must no longer retain the removed remotes or the hosts' remote version selections.
 
 Run `static.test.cjs` with `node --test` in each of these modes:
 
@@ -47,7 +47,7 @@ The default browser driver uses the workspace Puppeteer dependency. `MF_DEV_BROW
 
 ### Manifest gateway fallback
 
-Allocate and supervise a separate `HOST`, `PROVIDER` and `MANIFEST` port group. After the workspace packages are built and their local dependencies installed, run:
+Allocate and supervise a separate `HOST`, `PROVIDER`, `MANIFEST` and `BROKER` port group, reserving broker port 16322 for the development applications. After the workspace packages are built and their local dependencies installed, run:
 
 ```sh
 node tests/integration/module-federation/ssr-update/dev.cjs ordinary
@@ -62,6 +62,6 @@ Both apps enable `moduleFederation.ssr.cacheUpdates`. The gateway address differ
 
 The CSR consumer must return an HTML shell without provider SSR frames. The browser must then make a real Service HTTP request whose NDJSON HTML frames contain the requested component and loader versions. Every update requires a fresh matching Service response after the source edit, including CSS-only changes. Browser appearance alone cannot satisfy this assertion, and these results do not claim Host SSR support.
 
-The manifest gateway forwards the producer's real manifest without modification. Only the Service mismatch case briefly holds the previous manifest to model delayed discovery. The runner pauses an actual browser Service POST, edits the producer, waits for its successful compilation and releases the unchanged POST. The new producer must reject its old build identity with the reserved typed 409 protocol through Modern's ingress. Manifest visibility resumes when that response arrives, and the consumer must automatically update and reload into interactive SSR without looping. Assets and Service requests always reach the real producer, and the runner clears the manifest hold and pending request on failure or cancellation.
+The manifest gateway forwards the producer's real manifest without modification. Only the Service mismatch case briefly holds the previous manifest to model delayed discovery. The runner pauses an actual browser Service POST, edits the producer, waits for its successful compilation and releases the unchanged POST. The new producer must reject its old build identity with HTTP 409 through Modern's ingress. Manifest visibility resumes when that response arrives. The next manifest check must update the consumer and reload into interactive SSR without looping. HTTP 409 itself does not trigger that update or replay the POST. Assets and Service requests always reach the real producer, and the runner clears the manifest hold and pending request on failure or cancellation.
 
 `packages.json` records the resolved compiler, native binding and MF package roots. `provider.log`, `host.log` and `result.json` retain process ownership, source-edit results, manifest fingerprints and build versions, runtime identity evidence, actual document navigation counts and Service HTTP observations. `last-ssr.html` saves the last raw HTTP body even on failure, and successful SSR responses are retained by component and loader version. These development checks are separate from the production release-retention assertions above.

@@ -8,7 +8,7 @@ afterEach(() => {
   for (const adapter of adapters.splice(0))
     releaseSSRUpdateOwner(adapter.owner);
 });
-function create(build: string) {
+function create(build: string, remoteName = 'remote') {
   const adapter = createSSRUpdateAdapter({
     name: 'same-host',
     entries: ['index'],
@@ -18,7 +18,7 @@ function create(build: string) {
     name: 'same-host',
     options: {
       id: `same-host:${build}`,
-      remotes: [{ name: 'remote', entry: `${build}.js` }],
+      remotes: [{ name: remoteName, entry: `${build}.js` }],
     },
     moduleCache: new Map(),
     destroy: rs.fn(async () => {}),
@@ -104,7 +104,7 @@ it('registers compiled roots through the owned context and shares ownership acro
 });
 
 it('disposes a replaced provider after invalidation removes its registry and module references', async () => {
-  const { adapter, instance, application } = create('A');
+  const { adapter, instance, application } = create('A', 'catalog');
   const provider = {
     name: 'catalog',
     options: { id: 'catalog:v1' },
@@ -112,10 +112,9 @@ it('disposes a replaced provider after invalidation removes its registry and mod
     moduleCache: new Map(),
     destroy: rs.fn(async () => {}),
   };
-  instance.moduleCache.set('remote', {
+  instance.moduleCache.set('catalog', {
     remoteInfo: {
-      name: 'remote',
-      providerName: 'catalog',
+      name: 'catalog',
       buildVersion: 'v1',
       entryGlobalName: 'catalog',
     },
@@ -132,7 +131,7 @@ it('disposes a replaced provider after invalidation removes its registry and mod
   });
   try {
     await adapter.updateRemotes(application, [
-      { name: 'remote', entry: 'v2.js' },
+      { name: 'catalog', entry: 'v2.js' },
     ]);
     await adapter.dispose();
     expect(provider.destroy).toHaveBeenCalledTimes(1);
@@ -142,8 +141,8 @@ it('disposes a replaced provider after invalidation removes its registry and mod
 });
 
 it('disposes the selected provider build without retaining it for another build with the same name', async () => {
-  const a = create('A');
-  const b = create('B');
+  const a = create('A', 'catalog');
+  const b = create('B', 'catalog');
   const provider = (build: string) => ({
     name: 'catalog',
     options: { id: `catalog:${build}` },
@@ -169,13 +168,12 @@ it('disposes the selected provider build without retaining it for another build 
   };
   (b.instance as any).shareScopeMap = second.shareScopeMap;
   const info = (build: string) => ({
-    name: 'remote',
-    providerName: 'catalog',
+    name: 'catalog',
     entryGlobalName: 'catalog',
     buildVersion: build,
   });
-  a.instance.moduleCache.set('remote', { remoteInfo: info('v1') });
-  b.instance.moduleCache.set('remote', { remoteInfo: info('v2') });
+  a.instance.moduleCache.set('catalog', { remoteInfo: info('v1') });
+  b.instance.moduleCache.set('catalog', { remoteInfo: info('v2') });
   const previous = (globalThis as any).__FEDERATION__;
   (globalThis as any).__FEDERATION__ = {
     __INSTANCES__: [a.instance, b.instance, first, second],
@@ -195,8 +193,8 @@ it('disposes the selected provider build without retaining it for another build 
 });
 
 it('retains an exact provider shared record owned by another same-name host without a loaded remote module', async () => {
-  const a = create('A');
-  const b = create('B');
+  const a = create('A', 'catalog');
+  const b = create('B', 'catalog');
   const shared = { from: 'catalog', useIn: ['same-host'], loaded: true };
   const scope = { default: { library: { '1.0.0': shared } } };
   const provider = {
@@ -208,8 +206,8 @@ it('retains an exact provider shared record owned by another same-name host with
   };
   (b.instance as any).shareScopeMap = scope;
   (b.instance as any).disposed = true; // Closing owners still retain their roots until removed from the registry.
-  a.instance.moduleCache.set('remote', {
-    remoteInfo: { name: 'remote', providerName: 'catalog', buildVersion: 'v1' },
+  a.instance.moduleCache.set('catalog', {
+    remoteInfo: { name: 'catalog', buildVersion: 'v1' },
   });
   const previous = (globalThis as any).__FEDERATION__;
   (globalThis as any).__FEDERATION__ = {
@@ -239,7 +237,7 @@ it('propagates retained provider ownership through nested providers absent from 
   const p = provider('provider-p');
   const q = provider('provider-q');
   const module = (name: string) => ({
-    remoteInfo: { name, providerName: name, buildVersion: 'v1' },
+    remoteInfo: { name, buildVersion: 'v1' },
   });
   q.moduleCache.set('p', module(p.name));
   b.instance.moduleCache.set('q', module(q.name));
@@ -280,7 +278,6 @@ it('disposes the transitive container graph even when only its root is directly 
         {
           remoteInfo: {
             name: 'nested',
-            providerName: 'nested',
             buildVersion: 'v1',
           },
         },
@@ -290,7 +287,7 @@ it('disposes the transitive container graph even when only its root is directly 
     destroy: rs.fn(async () => {}),
   };
   a.instance.moduleCache.set('direct', {
-    remoteInfo: { name: 'direct', providerName: 'direct', buildVersion: 'v1' },
+    remoteInfo: { name: 'direct', buildVersion: 'v1' },
   });
   const previous = (globalThis as any).__FEDERATION__;
   (globalThis as any).__FEDERATION__ = {

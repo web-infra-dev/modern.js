@@ -73,14 +73,14 @@ async function close(server) {
       name: 'remote',
       entry: `${assetURL}/${version}/mf-manifest.json`,
     });
-    for (const [directory, version, port] of [
-      ['host', 'v1', process.env.JO_PORT_HOST],
-      ['host-b', 'v2', process.env.JO_PORT_HOST_B],
+    for (const [directory, name, version, port] of [
+      ['host', 'r6_host', 'v1', process.env.JO_PORT_HOST],
+      ['host-b', 'r6_host_b', 'v2', process.env.JO_PORT_HOST_B],
     ]) {
-      const app = { directory, version };
+      const app = { directory, name, version };
       apps.push(app);
       const plugin = createSSRUpdateServerPlugin({
-        name: 'r6_host',
+        name,
         remotes: [{ ...target(version), name: 'r6_remote', alias: 'remote' }],
         application: { requestTimeoutMs: 5000, drainTimeoutMs: 5000 },
         onReady(manager) {
@@ -145,7 +145,7 @@ async function close(server) {
     for (const app of apps) {
       const runtime = instances().find(
         instance =>
-          instance.name === 'r6_host' &&
+          instance.name === app.name &&
           instance.moduleCache.get('r6_remote')?.remoteInfo.version ===
             target(app.version).entry,
       );
@@ -165,7 +165,7 @@ async function close(server) {
     const originalB = host(b);
     assert.ok(
       originalA && originalB && originalA !== originalB,
-      'Same-name builds must own distinct MF instances',
+      'Different applications must own distinct MF instances',
     );
     assert.equal(
       originalA.moduleCache.get('r6_remote').remoteInfo.buildVersion,
@@ -181,7 +181,6 @@ async function close(server) {
       return helpers.global.getRemoteFederationInstance(
         module.remoteInfo,
         instances(),
-        module.remoteEntryExports || module.lib,
       );
     };
     const providers = [providerFor(originalA), providerFor(originalB)];
@@ -198,9 +197,13 @@ async function close(server) {
         },
       ]);
     const { shouldUpdateRemote } = globalThis.__r6FormalMF;
-    await assert.rejects(
-      shouldUpdateRemote(target('v1'), { application: 'r6_host' }),
-      /ambiguous|multiple/i,
+    assert.equal(
+      await shouldUpdateRemote(target('v1'), { application: a.name }),
+      false,
+    );
+    assert.equal(
+      await shouldUpdateRemote(target('v1'), { application: b.name }),
+      true,
     );
     const selections = [];
     globalThis.__r6Loader = async request => {
@@ -220,7 +223,7 @@ async function close(server) {
     assert.deepEqual(
       selections,
       [false, true],
-      'Request context must select its own same-name manager',
+      'Request context must select its own application manager',
     );
     pendingRequest = fetch(`${b.url}/?__loader=page`, {
       headers: { 'x-hold-owner': 'b' },
@@ -264,29 +267,35 @@ async function close(server) {
       );
     assert.deepEqual(
       instances().filter(instance =>
-        ['r6_host', 'r6_remote'].includes(instance.name),
+        ['r6_host', 'r6_host_b', 'r6_remote'].includes(instance.name),
       ),
       [],
       'Closed fixture applications retained global instances',
     );
     assert.deepEqual(
       Object.keys(globalThis.__FEDERATION__.__SHARE__).filter(id =>
-        /^(r6_host|r6_remote):/.test(id),
+        /^(r6_host|r6_host_b|r6_remote):/.test(id),
       ),
       [],
       'Closed fixture applications retained shared roots',
     );
     assert.deepEqual(
       Object.keys(globalThis.__FEDERATION__.moduleInfo).filter(id =>
-        /^(r6_host|r6_remote)(:|$)/.test(id),
+        /^r6_remote(:|$)/.test(id),
       ),
       [],
-      'Closed fixture applications retained host or remote snapshots',
+      'Closed fixture applications retained remote snapshots',
     );
+    for (const app of apps)
+      assert.deepEqual(
+        globalThis.__FEDERATION__.moduleInfo[app.name]?.remotesInfo || {},
+        {},
+        'Closed fixture application retained a remote version selection',
+      );
     const result = {
       passed: true,
       packages: packageAudit(),
-      sameNameBuildsAreDistinct: true,
+      differentHostsUseDistinctProviderBuilds: true,
       requestOwnersSelectTheirOwnManager: selections,
       independentPendingRequestAndCacheSurvived: true,
       sharedProviderSurvivedSiblingSwitchingAway: true,

@@ -1,14 +1,20 @@
 import type { Rspack } from '@rsbuild/core';
-import type { DevBuildPublication } from '@module-federation/enhanced/rspack';
+import {
+  setCompilationBuildVersion,
+  type DevBuildPublication,
+} from '@module-federation/enhanced/rspack';
 
-/** Publish only completed outputs, allowing an unchanged peer compilation. */
+/** Compile and publish both targets with one application build identity. */
 export function createDevManifestPublication() {
-  type State = { revision: number; compilation?: object };
+  type State = { compilation?: object };
   const states: State[] = [];
   const compilations = new WeakMap<
     object,
-    { state: State; revision: number }
+    { state: State; buildVersion: string }
   >();
+  let version = Date.now();
+  let buildVersion = String(version);
+  let coordinating = false;
   let published: object | undefined;
   let readyPublication: DevBuildPublication | undefined;
   let ssrReady = true;
@@ -28,7 +34,7 @@ export function createDevManifestPublication() {
           child?.compilation && compilations.get(child.compilation);
         return (
           captured &&
-          captured.revision === captured.state.revision &&
+          captured.buildVersion === buildVersion &&
           captured.state.compilation === child.compilation
         );
       })
@@ -55,23 +61,45 @@ export function createDevManifestPublication() {
       const compilers =
         'compilers' in compiler ? compiler.compilers : [compiler];
       for (const origin of compilers) {
-        const state: State = { revision: 0 };
+        const state: State = {};
         states.push(state);
         origin.hooks.thisCompilation.tap(
-          'ModernFederationManifest',
+          { name: 'ModernFederationManifest', stage: -Infinity },
           compilation => {
+            setCompilationBuildVersion(compilation, buildVersion);
             state.compilation = compilation;
-            compilations.set(compilation, { state, revision: state.revision });
+            compilations.set(compilation, { state, buildVersion });
           },
         );
         origin.hooks.invalid.tap(
           { name: 'ModernFederationManifest', stage: -Infinity },
           () => {
-            state.revision++;
+            if (coordinating) return;
+            // Invalidations before either target starts belong to the same round.
+            // A save after compilation starts supersedes that whole round.
+            if (
+              states.some(
+                item =>
+                  item.compilation &&
+                  compilations.get(item.compilation)?.buildVersion ===
+                    buildVersion,
+              )
+            ) {
+              version = Math.max(Date.now(), version + 1);
+              buildVersion = String(version);
+            }
             published = undefined;
             readyPublication = undefined;
             for (const listener of listeners) listener(undefined);
             invalidate();
+            coordinating = true;
+            try {
+              for (const peer of compilers) {
+                if (peer !== origin) peer.watching?.invalidate();
+              }
+            } finally {
+              coordinating = false;
+            }
           },
         );
       }

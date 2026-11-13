@@ -142,8 +142,7 @@ the same. A supplied `moduleInfo` contains a fresh manifest or provider snapshot
 generation or reload scope. Both APIs accept `signal`, `revalidate` and
 `application`. Use `application` to select the MF application name when several
 services share a process and there is no owning request context. The name must
-select one service in that case. Same-name services remain isolated by their
-owning request context, and ambiguous background selections are rejected. These APIs
+select one service in that case. Give independent applications distinct names. These APIs
 require a running Modern server with the capability enabled and do not perform
 browser-side remote replacement.
 
@@ -165,10 +164,14 @@ and manifest `buildVersion`. Concurrent versions of one provider need distinct
 build versions, such as a per-release `MF_BUILD_VERSION` supplied during build.
 Do not rewrite that manifest field independently of the compiled runtime.
 
-Development manifests carry a separate `devRevision`. The framework compares
-and forwards this marker to detect recompilation while keeping release versions
-stable. Service requests use the development revision when present so a stale
-browser descriptor cannot render against a newer producer.
+In development, Modern assigns one `buildVersion` before each application build.
+The browser and Node compilations use that same value in their container identities
+and manifests. Invalidating one target also rebuilds the other target, and Modern
+publishes the merged manifest only after both outputs complete with the current
+version. Build subscriptions carry this version so consumers can update caches
+and refresh after producer edits. A stale Service request receives HTTP 409
+without replaying the request. Production keeps the configured release version
+and updates only when the application calls the update API.
 
 When a selected provider is already used by another application, a new Host
 adopts that provider's loaded singleton records of the same package version

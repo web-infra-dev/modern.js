@@ -11,4 +11,6 @@ Initialize rebuilt hosts with the selected live provider's loaded singletons of 
 
 Allow development compilation callbacks to finish when their SSR preparation is superseded, so a subsequent build can publish its resources and manifest.
 
-Compare and forward development revisions independently of release versions. Service requests use the development revision when present to detect stale browser descriptors.
+Assign one development build version before the browser and Node compilations start. Rebuild both targets after either target changes, and publish only their matching completed outputs. Service requests use the same version to reject stale descriptors with ordinary HTTP 409 without replaying the request.
+
+Detach drained application cache adapters before a full rebuild so missing native dependency metadata can fall back without skipping remote and snapshot cleanup.

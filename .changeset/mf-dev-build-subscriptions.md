@@ -8,4 +8,4 @@ Subscribe to ready remote builds independently of DTS generation. Update Node ap
 
 Recover from a producer starting after its consumer. Revalidate mounted routers after Node updates and preserve compatible React Fast Refresh state across remote runtimes. Reload after applying static builds or Service exposes so later mounts use matching Service metadata.
 
-Use artifact content versions without forcing unchanged compilers to rebuild, and release nested provider graphs when their dependencies change or are removed.
+Forward the producer's shared build version without rebuilding its consumers, and release nested provider graphs when their dependencies change or are removed.

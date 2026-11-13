@@ -55,7 +55,7 @@ function fixture() {
 }
 afterEach(() => rs.restoreAllMocks());
 describe('application remote target checks', () => {
-  it('detects server-only builds for direct and transitive providers', async () => {
+  it('detects new application builds for direct and transitive providers', async () => {
     const f = fixture();
     const first = {
       ...target('a'),
@@ -68,7 +68,6 @@ describe('application remote target checks', () => {
             path: '',
             name: 'server.js',
             type: 'commonjs-module',
-            buildVersion: '1',
           },
         },
       },
@@ -77,7 +76,6 @@ describe('application remote target checks', () => {
           name: 'nested',
           entry: 'http://nested/manifest.json',
           buildVersion: 'x',
-          ssrBuildVersion: '1',
         },
       ],
     };
@@ -86,12 +84,12 @@ describe('application remote target checks', () => {
       false,
     );
     const next = structuredClone(first);
-    next.moduleInfo.metaData.ssrRemoteEntry.buildVersion = '2';
+    next.moduleInfo.metaData.buildInfo.buildVersion = 'b';
     expect(await f.controller.shouldUpdateRemote(f.application, next)).toBe(
       true,
     );
     const nested = structuredClone(first);
-    nested.dependencies[0].ssrBuildVersion = '2';
+    nested.dependencies[0].buildVersion = 'y';
     expect(await f.controller.shouldUpdateRemote(f.application, nested)).toBe(
       true,
     );

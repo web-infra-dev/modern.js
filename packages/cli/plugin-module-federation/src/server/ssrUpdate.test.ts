@@ -1,6 +1,11 @@
 import { createSSRUpdateOwner } from './ssrUpdateOwner';
 import { AsyncLocalStorage } from 'node:async_hooks';
 import { afterEach, describe, expect, it } from '@rstest/core';
+import {
+  Module,
+  ModuleFederation,
+  helpers,
+} from '@module-federation/enhanced/runtime';
 import { createSSRUpdateAdapter } from './ssrUpdate';
 
 const key = Symbol.for('modern-js.mf.ssr.entries');
@@ -106,6 +111,121 @@ describe('SSR static scope proof', () => {
 });
 
 describe('SSR replacement recovery', () => {
+  it('detaches a missing native graph before Core clears the remote and snapshot for a full rebuild', async () => {
+    const { adapter, runtime, state } = fixture();
+    const remote = {
+      name: 'fallback-cleanup-remote',
+      alias: 'remote',
+      entry: 'https://producer.invalid/v1.js',
+    };
+    let attached = true;
+    let removed = false;
+    const host = new ModuleFederation({
+      name: 'fallback-cleanup-host',
+      remotes: [remote],
+      plugins: [
+        {
+          name: 'native-cache-adapter',
+          removeRemote() {
+            if (attached) throw new Error('Missing native parent graph');
+            removed = true;
+          },
+        },
+      ],
+    });
+    (host as any)[stateKey] = state;
+    (runtime.federation as any).instance = host;
+    (runtime.federation as any).disposeClearCache = () => {
+      attached = false;
+      delete (runtime.federation as any).disposeClearCache;
+    };
+    delete (runtime.remotesLoadingData as any)
+      .consumerModuleIdToParentModuleIds;
+    host.moduleCache.set(
+      remote.name,
+      new Module({
+        host,
+        remoteInfo: {
+          ...remote,
+          entryGlobalName: remote.name,
+          type: 'global',
+          shareScope: 'default',
+        },
+      }),
+    );
+    const snapshots = helpers.global.Global.__FEDERATION__.moduleInfo;
+    snapshots[host.name] = {
+      version: '',
+      remoteEntry: '',
+      remotesInfo: { [remote.name]: { matchedVersion: remote.entry } },
+    } as any;
+    snapshots[`${remote.name}:${remote.entry}`] = {
+      version: remote.entry,
+      remoteEntry: remote.entry,
+      remotesInfo: {},
+    } as any;
+    const application = {
+      async update(invalidate: () => Promise<void>, scope: () => unknown) {
+        expect(scope()).toBeUndefined();
+        await invalidate();
+        expect(removed).toBe(true);
+        expect(host.moduleCache.has(remote.name)).toBe(false);
+        expect(snapshots[`${remote.name}:${remote.entry}`]).toBeUndefined();
+        expect(snapshots[host.name].remotesInfo).toEqual({});
+        await adapter.dispose();
+        return 1;
+      },
+    };
+    try {
+      await expect(
+        adapter.update(application, 'remote', {
+          entry: 'https://producer.invalid/v2.js',
+        }),
+      ).resolves.toMatchObject({
+        mode: 'application',
+        reasons: ['missing-native-invalidation-graph'],
+      });
+      expect(adapter.owner.entries.size).toBe(0);
+      expect(adapter.owner.registrations?.[0].entry).toBe(
+        'https://producer.invalid/v2.js',
+      );
+    } finally {
+      await host.destroy();
+      delete snapshots[host.name];
+      delete snapshots[`${remote.name}:${remote.entry}`];
+    }
+  });
+
+  it('propagates a pending adapter failure before mutating or destroying the generation', async () => {
+    const { adapter, runtime, state } = fixture();
+    state.dynamic = true;
+    const host = runtime.federation.instance as any;
+    host.options = { remotes: [{ name: 'remote', entry: 'v1' }] };
+    let mutated = false;
+    host.updateRemotes = async () => {
+      mutated = true;
+    };
+    host.destroy = async () => {
+      mutated = true;
+    };
+    (runtime.federation as any).disposeClearCache = () => {
+      throw new Error('Cache cleanup is pending');
+    };
+    const application = {
+      async update(invalidate: () => Promise<void>, scope: () => unknown) {
+        scope();
+        await invalidate();
+        return 1;
+      },
+    };
+    await expect(
+      adapter.update(application, 'remote', { entry: 'v2' }),
+    ).rejects.toThrow('Cache cleanup is pending');
+    await expect(adapter.dispose()).rejects.toThrow('Cache cleanup is pending');
+    expect(mutated).toBe(false);
+    expect(adapter.owner.entries.size).toBe(2);
+  });
+
   it('honors a resource owner widening the update before invalidation', async () => {
     const { adapter, runtime, state } = fixture();
     const instance = runtime.federation.instance as any;
