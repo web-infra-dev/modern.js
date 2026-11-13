@@ -1,5 +1,7 @@
 # @modern-js/sandpack-react
 
+## 3.11.3
+
 ## 3.11.2
 
 ## 3.11.1

@@ -1,5 +1,33 @@
 # @modern-js/app-tools
 
+## 3.11.3
+
+### Patch Changes
+
+- 67d0de9: fix(app-tools): use a regular expression for watch ignores so node_modules and .git are ignored while generated files remain watched.
+
+  fix(app-tools)：将文件监听的忽略规则改为正则表达式，正确忽略 node_modules 和 .git，同时保留对生成文件的监听。
+
+- 4d498bb: Upgrade @rsbuild/core to 2.3.2, which includes Rspack 2.3.2.
+
+  将 @rsbuild/core 升级至 2.3.2，其中包含 Rspack 2.3.2。
+
+- 3d9233b: fix(app-tools): keep watching a custom output.tempDir inside node_modules and keep the watch ignore in array form so Module Federation does not replace it.
+
+  fix(app-tools): 自定义的 output.tempDir 在 node_modules 下时也保持监听，监听忽略规则保持数组形式，避免被 Module Federation 插件替换。
+
+- Updated dependencies [4d498bb]
+  - @modern-js/builder@3.11.3
+  - @modern-js/plugin@3.11.3
+  - @modern-js/server@3.11.3
+  - @modern-js/server-core@3.11.3
+  - @modern-js/plugin-data-loader@3.11.3
+  - @modern-js/prod-server@3.11.3
+  - @modern-js/server-utils@3.11.3
+  - @modern-js/i18n-utils@3.11.3
+  - @modern-js/types@3.11.3
+  - @modern-js/utils@3.11.3
+
 ## 3.11.2
 
 ### Patch Changes
