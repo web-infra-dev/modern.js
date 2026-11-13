@@ -1,6 +1,6 @@
 import { randomUUID } from 'node:crypto';
 import { afterEach, describe, expect, it } from '@rstest/core';
-import { ModuleFederation } from '@module-federation/enhanced/runtime';
+import { helpers, ModuleFederation } from '@module-federation/enhanced/runtime';
 import {
   generateSnapshotFromManifest,
   type Manifest,
@@ -83,7 +83,7 @@ function fixture() {
       plugins: [fallback, ssrOwnership(), createSSRUpdateSnapshotPlugin(owner)],
       shareStrategy: 'loaded-first',
     });
-    disposals.push(() => runtime.destroy());
+    disposals.push(() => helpers.dispose.notifyDispose(runtime));
     return runtime;
   };
   const selected = async (runtime: ModuleFederation) =>
@@ -114,7 +114,7 @@ describe('application-owned SSR update candidates', () => {
       'https://producer.invalid/B/server/node.js',
     );
     selected.remoteSnapshot!.buildVersion = 'runtime-mutation';
-    await first.destroy();
+    await helpers.dispose.notifyDispose(first);
     const rebuilt = await f.selected(f.host());
     expect(rebuilt.remoteSnapshot?.buildVersion).toBe('B');
     expect(rebuilt.remoteInfo.entry).toBe(
@@ -264,7 +264,7 @@ describe('application-owned SSR update candidates', () => {
       plugins: [ssrOwnership(), createSSRUpdateSnapshotPlugin(f.application)],
       shareStrategy: 'loaded-first',
     });
-    disposals.push(() => runtime.destroy());
+    disposals.push(() => helpers.dispose.notifyDispose(runtime));
     expect(runtime.options.remotes).toEqual(
       expect.arrayContaining([
         expect.objectContaining({

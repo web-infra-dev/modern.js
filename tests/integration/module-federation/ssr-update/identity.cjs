@@ -11,6 +11,9 @@ const { createSSRUpdateServerPlugin } = packageRequire(
   '@modern-js/plugin-module-federation/ssr-update',
 );
 const { helpers } = packageRequire('@module-federation/enhanced/runtime');
+const { getNodeInstanceLifecycle } = packageRequire(
+  '@module-federation/node/lifecycle',
+);
 const deferred = () => {
   let resolve;
   const promise = new Promise(done => (resolve = done));
@@ -232,7 +235,7 @@ async function close(server) {
     const update = await a.manager.updateRemotes([target('v2')]);
     assert.equal(update.changed, true);
     assert.equal(host(b), originalB, 'Updating A replaced B runtime');
-    assert.equal(originalB.disposed, false);
+    assert.equal(getNodeInstanceLifecycle(originalB).closed, false);
     assert.equal(
       originalB.moduleCache.get('r6_remote'),
       originalBModule,

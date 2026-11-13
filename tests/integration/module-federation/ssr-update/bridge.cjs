@@ -11,6 +11,9 @@ const { createSSRUpdateAdapter } = packageRequire(
   '@modern-js/plugin-module-federation/ssr-update',
 );
 
+const { getNodeInstanceLifecycle } = packageRequire(
+  '@module-federation/node/lifecycle',
+);
 const deferred = () => {
   let resolve;
   const promise = new Promise(done => {
@@ -238,14 +241,14 @@ const waitFor = async predicate => {
       'cache invalidation ran before original Bridge producer work settled',
     );
     assert.equal(adapter.status(application).mutationStarted, false);
-    assert.ok(hosts.every(host => !host.disposed));
+    assert.ok(hosts.every(host => !getNodeInstanceLifecycle(host).closed));
     delete globalThis.__bridgeUpdateGate;
     gate.resolve();
     const result = await update;
     assert.equal(completed, true);
     assert.equal(result.mode, 'application');
     assert.ok(cleared > 0);
-    assert.ok(hosts.every(host => host.disposed));
+    assert.ok(hosts.every(host => getNodeInstanceLifecycle(host).closed));
     assert.ok(application.status.generation > generation);
     assert.equal(application.status.activeRequests, 0);
     assert.equal(application.status.phase, 'serving');

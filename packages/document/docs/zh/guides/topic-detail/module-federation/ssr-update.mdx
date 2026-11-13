@@ -78,9 +78,11 @@ if (await shouldUpdateRemote(remote, { revalidate: true })) {
 
 开发构建为每次编译生成新的 `buildVersion`，manifest 和对应容器使用同一个值，不再增加独立的开发 revision。生产构建依次使用 `MF_BUILD_VERSION`、项目包版本和本地回退值。生产发布需要为不同部署分配可区分的版本。
 
-浏览器和 Node manifest 合并时，`buildInfo.buildVersion` 保留浏览器版本，`ssrRemoteEntry.buildVersion` 保留 Node 版本。SSR 更新比较 Node 版本，单端更新不要求另一端重新编译。生产者运行时按生产者名称和所选构建版本定位。不要在构建完成后单独改写 manifest 的 `buildVersion`。
+Modern 在编译前为浏览器和 Node 构建分配同一个 `buildVersion`，一端失效时同时更新另一端，仅发布两端版本一致且构建完成的 manifest。生产者运行时按生产者名称和所选构建版本定位。不要在构建完成后单独改写 manifest 的 `buildVersion`。
 
-Modern 负责排空请求和发布应用版本。`@module-federation/node/runtimePlugin` 负责 MF 实例、容器、共享依赖和 host snapshot 的生命周期。MF bundler adapter 将清理请求交给 Rspack，模块依赖图、模块缓存、chunk 状态和过期加载判断由 Rspack 原生 runtime 管理。
+Modern 负责排空请求和发布应用版本，并自动为 SSR 构建产物中的 MF 实例注入 `@module-federation/node/runtimePlugin`。整代替换时，Modern 通过 `@module-federation/node/lifecycle` 的 `destroyNodeInstance` 关闭旧实例、等待 MF 操作完成并释放容器和共享依赖。其他框架或原始 Rspack 构建的 Node 生产者，如果参与这套整代销毁，也需要显式安装 `@module-federation/node/runtimePlugin`，缺少该能力会明确报错。单个远端更新仍使用局部清理，不销毁整个消费者实例。MF bundler adapter 将清理请求交给 Rspack，模块依赖图、模块缓存、chunk 状态和过期加载判断由 Rspack 原生 runtime 管理。
+
+实例退出时，通用 `dispose` hook 通知各插件释放自身引用。纯 CSR 实例无需安装 Node runtime plugin，也不会被添加 Node 生命周期能力。Service 同源入口只解析 manifest，其查询实例在远端更新、插件替换或入口关闭时通知插件收尾并释放局部元数据，不清理其他消费者正在使用的生产者容器。
 
 如果目标生产者已被另一个应用加载，新 Host 会在执行渲染器前，复用该生产者已加载且包版本相同的 singleton 记录，保证保留的组件和 Host 使用相同的运行时依赖。非 singleton 依赖及其他包版本仍按 MF 的正常规则选择。如果选中的多个生产者已经使用不同的 singleton 实例，初始化会报错。
 

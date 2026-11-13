@@ -1,3 +1,4 @@
+import { destroyNodeInstance } from '@module-federation/node/lifecycle';
 import {
   setSSRUpdateCandidates,
   clearSSRUpdateCandidates,
@@ -15,6 +16,7 @@ import {
 import { helpers } from '@module-federation/enhanced/runtime';
 import {
   bindSSRRuntime,
+  requireSSRNodeLifecycle,
   createSSRUpdateOwner,
   runWithSSRUpdateOwner,
   releaseSSRUpdateOwner,
@@ -296,6 +298,26 @@ export function createSSRUpdateAdapter(options: {
               return;
             }
             if (!entries) {
+              const pending = [...hosts];
+              const seen = new Set();
+              const known = [
+                ...((globalThis as any).__FEDERATION__?.__INSTANCES__ || []),
+                ...hosts.flatMap(host => [...(host.retainedProviders || [])]),
+                ...retiringProviders,
+              ];
+              for (const instance of pending) {
+                if (seen.has(instance)) continue;
+                seen.add(instance);
+                requireSSRNodeLifecycle(instance);
+                for (const module of instance.moduleCache?.values() || []) {
+                  const provider = helpers.global.getRemoteFederationInstance(
+                    module.remoteInfo,
+                    known,
+                  );
+                  if (provider) pending.push(provider);
+                }
+                pending.push(...(instance.retainedProviders || []));
+              }
               // The drained generation will be discarded in full. Detach its
               // native adapters before Core removes remotes: a fallback may
               // have been selected precisely because its graph is incomplete.
@@ -365,7 +387,10 @@ export function createSSRUpdateAdapter(options: {
                           module.remoteInfo,
                           known,
                         );
-                      if (provider) retiringProviders.add(provider);
+                      if (provider) {
+                        requireSSRNodeLifecycle(provider);
+                        retiringProviders.add(provider);
+                      }
                     }
                   }
                   await instance.updateRemotes(targets);
@@ -1052,6 +1077,8 @@ export function createSSRUpdateAdapter(options: {
           }
         }
       }
+      for (const instance of [...hosts, ...providers])
+        requireSSRNodeLifecycle(instance);
       for (const host of [...hosts, ...providers]) {
         const state = host[Symbol.for('modern-js.mf.ssr.consumption')];
         if (state) state.disposingInstances = new Set([...hosts, ...providers]);
@@ -1059,7 +1086,9 @@ export function createSSRUpdateAdapter(options: {
       // Close the entire owned generation before releasing shared ownership.
       detachRuntimeAdapters([...hosts, ...providers]);
       const disposed = await Promise.allSettled(
-        [...new Set([...hosts, ...providers])].map(host => host.destroy()),
+        [...new Set([...hosts, ...providers])].map(host =>
+          destroyNodeInstance(host),
+        ),
       );
       const failures = disposed.filter(result => result.status === 'rejected');
       if (failures.length)

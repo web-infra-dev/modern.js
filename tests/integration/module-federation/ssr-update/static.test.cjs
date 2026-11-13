@@ -20,6 +20,9 @@ const { injectResourcePlugin, createNodeServer } = require(
 );
 
 const tick = () => new Promise(resolve => setImmediate(resolve));
+const { getNodeInstanceLifecycle } = packageRequire(
+  '@module-federation/node/lifecycle',
+);
 const deferred = () => {
   let resolve;
   const promise = new Promise(r => {
@@ -111,6 +114,9 @@ test('compiled static imports reload their Modern entries while independent requ
         filename: `${v}.cjs`,
         library: { type: 'commonjs-module' },
         exposes: { './Value': `./${v}.js` },
+        runtimePlugins: [
+          packageRequire.resolve('@module-federation/node/runtimePlugin'),
+        ],
       }),
     ],
   }));
@@ -349,7 +355,7 @@ test('compiled static imports reload their Modern entries while independent requ
     const rebuiltInstance = require(path.join(out, 'a.cjs')).req.federation
       .instance;
     assert.notEqual(rebuiltInstance, instance);
-    assert.equal(instance.disposed, true);
+    assert.equal(getNodeInstanceLifecycle(instance).closed, true);
     rebuiltInstance.registerRemotes([
       {
         name: 'dynamic',

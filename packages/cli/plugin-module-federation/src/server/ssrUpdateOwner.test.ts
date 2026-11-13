@@ -3,6 +3,21 @@ import { createSSRUpdateAdapter } from './ssrUpdate';
 import { getSSRUpdateRegistration } from './ssrUpdateCandidates';
 import { ownerOfSSRRuntime, releaseSSRUpdateOwner } from './ssrUpdateOwner';
 
+import * as originalLifecycle from '@module-federation/node/lifecycle' with {
+  rstest: 'importActual',
+};
+rs.mock('@module-federation/node/lifecycle', () => {
+  return {
+    ...originalLifecycle,
+    getNodeInstanceLifecycle: (instance: any) =>
+      instance.testLifecycle ||
+      originalLifecycle.getNodeInstanceLifecycle(instance),
+    destroyNodeInstance: (instance: any) =>
+      instance.testLifecycle
+        ? instance.testLifecycle.destroy()
+        : originalLifecycle.destroyNodeInstance(instance),
+  };
+});
 const adapters: ReturnType<typeof createSSRUpdateAdapter>[] = [];
 afterEach(() => {
   for (const adapter of adapters.splice(0))
@@ -21,7 +36,7 @@ function create(build: string, remoteName = 'remote') {
       remotes: [{ name: remoteName, entry: `${build}.js` }],
     },
     moduleCache: new Map(),
-    destroy: rs.fn(async () => {}),
+    testLifecycle: { closed: false, destroy: rs.fn(async () => {}) },
     updateRemotes: rs.fn(async (remotes: any[]) => {
       instance.options.remotes = remotes;
     }),
@@ -56,8 +71,8 @@ it('updates only the bound runtime when two hosts have the same name and differe
     getSSRUpdateRegistration(b.adapter.owner.id, 'remote'),
   ).toBeUndefined();
   await a.adapter.dispose();
-  expect(a.instance.destroy).toHaveBeenCalledTimes(1);
-  expect(b.instance.destroy).not.toHaveBeenCalled();
+  expect(a.instance.testLifecycle.destroy).toHaveBeenCalledTimes(1);
+  expect(b.instance.testLifecycle.destroy).not.toHaveBeenCalled();
   expect(a.adapter.owner.registrations?.[0].entry).toBe('A2.js');
   expect(b.adapter.owner.registrations).toBeUndefined();
   expect(() => b.adapter.bindRuntime(a.instance)).toThrow(
@@ -110,7 +125,7 @@ it('disposes a replaced provider after invalidation removes its registry and mod
     options: { id: 'catalog:v1' },
     shareScopeMap: {},
     moduleCache: new Map(),
-    destroy: rs.fn(async () => {}),
+    testLifecycle: { closed: false, destroy: rs.fn(async () => {}) },
   };
   instance.moduleCache.set('catalog', {
     remoteInfo: {
@@ -134,7 +149,7 @@ it('disposes a replaced provider after invalidation removes its registry and mod
       { name: 'catalog', entry: 'v2.js' },
     ]);
     await adapter.dispose();
-    expect(provider.destroy).toHaveBeenCalledTimes(1);
+    expect(provider.testLifecycle.destroy).toHaveBeenCalledTimes(1);
   } finally {
     (globalThis as any).__FEDERATION__ = previous;
   }
@@ -148,7 +163,7 @@ it('disposes the selected provider build without retaining it for another build 
     options: { id: `catalog:${build}` },
     moduleCache: new Map(),
     shareScopeMap: {},
-    destroy: rs.fn(async () => {}),
+    testLifecycle: { closed: false, destroy: rs.fn(async () => {}) },
   });
   const first = provider('v1');
   const second = provider('v2');
@@ -184,9 +199,9 @@ it('disposes the selected provider build without retaining it for another build 
   };
   try {
     await a.adapter.dispose();
-    expect(first.destroy).toHaveBeenCalledTimes(1);
-    expect(second.destroy).not.toHaveBeenCalled();
-    expect(b.instance.destroy).not.toHaveBeenCalled();
+    expect(first.testLifecycle.destroy).toHaveBeenCalledTimes(1);
+    expect(second.testLifecycle.destroy).not.toHaveBeenCalled();
+    expect(b.instance.testLifecycle.destroy).not.toHaveBeenCalled();
   } finally {
     (globalThis as any).__FEDERATION__ = previous;
   }
@@ -202,10 +217,10 @@ it('retains an exact provider shared record owned by another same-name host with
     options: { id: 'catalog:v1' },
     moduleCache: new Map(),
     shareScopeMap: scope,
-    destroy: rs.fn(async () => {}),
+    testLifecycle: { closed: false, destroy: rs.fn(async () => {}) },
   };
   (b.instance as any).shareScopeMap = scope;
-  (b.instance as any).disposed = true; // Closing owners still retain their roots until removed from the registry.
+  b.instance.testLifecycle.closed = true; // Closing owners still retain their roots until removed from the registry.
   a.instance.moduleCache.set('catalog', {
     remoteInfo: { name: 'catalog', buildVersion: 'v1' },
   });
@@ -216,8 +231,8 @@ it('retains an exact provider shared record owned by another same-name host with
   };
   try {
     await a.adapter.dispose();
-    expect(provider.destroy).not.toHaveBeenCalled();
-    expect(b.instance.destroy).not.toHaveBeenCalled();
+    expect(provider.testLifecycle.destroy).not.toHaveBeenCalled();
+    expect(b.instance.testLifecycle.destroy).not.toHaveBeenCalled();
     expect(shared.useIn).toEqual(['same-host']);
   } finally {
     (globalThis as any).__FEDERATION__ = previous;
@@ -232,7 +247,7 @@ it('propagates retained provider ownership through nested providers absent from 
     options: { id: `${name}:v1` },
     moduleCache: new Map(),
     shareScopeMap: {},
-    destroy: rs.fn(async () => {}),
+    testLifecycle: { closed: false, destroy: rs.fn(async () => {}) },
   });
   const p = provider('provider-p');
   const q = provider('provider-q');
@@ -251,10 +266,10 @@ it('propagates retained provider ownership through nested providers absent from 
   };
   try {
     await a.adapter.dispose();
-    expect(a.instance.destroy).toHaveBeenCalledTimes(1);
-    expect(q.destroy).not.toHaveBeenCalled();
-    expect(p.destroy).not.toHaveBeenCalled();
-    expect(b.instance.destroy).not.toHaveBeenCalled();
+    expect(a.instance.testLifecycle.destroy).toHaveBeenCalledTimes(1);
+    expect(q.testLifecycle.destroy).not.toHaveBeenCalled();
+    expect(p.testLifecycle.destroy).not.toHaveBeenCalled();
+    expect(b.instance.testLifecycle.destroy).not.toHaveBeenCalled();
   } finally {
     (globalThis as any).__FEDERATION__ = previous;
   }
@@ -267,7 +282,7 @@ it('disposes the transitive container graph even when only its root is directly 
     options: { id: 'nested:v1' },
     moduleCache: new Map(),
     shareScopeMap: {},
-    destroy: rs.fn(async () => {}),
+    testLifecycle: { closed: false, destroy: rs.fn(async () => {}) },
   };
   const direct = {
     name: 'direct',
@@ -284,7 +299,7 @@ it('disposes the transitive container graph even when only its root is directly 
       ],
     ]),
     shareScopeMap: {},
-    destroy: rs.fn(async () => {}),
+    testLifecycle: { closed: false, destroy: rs.fn(async () => {}) },
   };
   a.instance.moduleCache.set('direct', {
     remoteInfo: { name: 'direct', buildVersion: 'v1' },
@@ -296,8 +311,66 @@ it('disposes the transitive container graph even when only its root is directly 
   };
   try {
     await a.adapter.dispose();
-    expect(direct.destroy).toHaveBeenCalledTimes(1);
-    expect(nested.destroy).toHaveBeenCalledTimes(1);
+    expect(direct.testLifecycle.destroy).toHaveBeenCalledTimes(1);
+    expect(nested.testLifecycle.destroy).toHaveBeenCalledTimes(1);
+  } finally {
+    (globalThis as any).__FEDERATION__ = previous;
+  }
+});
+
+it('rejects unmanaged and closed instances before attaching an application owner', () => {
+  const { adapter, instance } = create('guard');
+  const unmanaged = { name: 'unmanaged', options: { remotes: [] } };
+  expect(() => adapter.bindRuntime(unmanaged)).toThrow('Node runtime plugin');
+  expect(adapter.owner.instances.has(unmanaged)).toBe(false);
+  const closed = {
+    ...instance,
+    testLifecycle: { ...instance.testLifecycle, closed: true },
+  };
+  expect(() => adapter.bindRuntime(closed)).toThrow('closed SSR instance');
+  expect(adapter.owner.instances.has(closed)).toBe(false);
+});
+
+it('detects an unmanaged producer before detaching or disposing its consumer', async () => {
+  const { adapter, instance, application } = create(
+    'guard-provider',
+    'catalog',
+  );
+  const provider = {
+    name: 'catalog',
+    options: { id: 'catalog:v1' },
+    shareScopeMap: {},
+    moduleCache: new Map(),
+  };
+  instance.moduleCache.set('catalog', {
+    remoteInfo: { name: 'catalog', buildVersion: 'v1' },
+  });
+  const detach = rs.fn();
+  adapter.owner.entries.set('index', {
+    application: 'same-host',
+    entry: 'index',
+    owner: 'index',
+    rootIds: [],
+    remoteNames: [],
+    chunks: [],
+    reasons: [],
+    load() {},
+    runtime: { federation: { instance, disposeClearCache: detach } },
+  });
+  const previous = (globalThis as any).__FEDERATION__;
+  (globalThis as any).__FEDERATION__ = {
+    __INSTANCES__: [instance, provider],
+    __SHARE__: {},
+  };
+  try {
+    await expect(
+      adapter.updateRemotes(application, [{ name: 'catalog', entry: 'v2.js' }]),
+    ).rejects.toThrow('Node runtime plugin');
+    expect(detach).not.toHaveBeenCalled();
+    expect(instance.updateRemotes).not.toHaveBeenCalled();
+    await expect(adapter.dispose()).rejects.toThrow('Node runtime plugin');
+    expect(detach).not.toHaveBeenCalled();
+    expect(instance.testLifecycle.destroy).not.toHaveBeenCalled();
   } finally {
     (globalThis as any).__FEDERATION__ = previous;
   }

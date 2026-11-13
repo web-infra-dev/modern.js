@@ -1,5 +1,6 @@
 import { AsyncLocalStorage } from 'node:async_hooks';
 import { randomUUID } from 'node:crypto';
+import { getNodeInstanceLifecycle } from '@module-federation/node/lifecycle';
 import type { SSREntryRecord } from './ssrUpdate';
 
 export interface SSRUpdateOwner {
@@ -79,7 +80,18 @@ export function runWithSSRUpdateOwner<T>(
 ): T {
   return protocol().context.run(owner, run);
 }
+export function requireSSRNodeLifecycle(instance: any) {
+  const lifecycle = getNodeInstanceLifecycle(instance);
+  if (!lifecycle)
+    throw new Error(
+      `SSR instance ${instance.name || instance.options?.name || '<unknown>'} requires the Module Federation Node runtime plugin`,
+    );
+  return lifecycle;
+}
 export function bindSSRRuntime(owner: SSRUpdateOwner, instance: any) {
+  const lifecycle = requireSSRNodeLifecycle(instance);
+  if (lifecycle.closed)
+    throw new Error(`Cannot bind closed SSR instance ${instance.name}`);
   const previous = instance[runtimeOwnerKey];
   if (previous && previous !== owner)
     throw new Error('MF runtime already belongs to another SSR application');

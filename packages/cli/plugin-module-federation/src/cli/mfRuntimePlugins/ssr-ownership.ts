@@ -1,3 +1,4 @@
+import { getNodeInstanceLifecycle } from '@module-federation/node/lifecycle';
 import { AsyncLocalStorage } from 'node:async_hooks';
 import {
   helpers,
@@ -10,6 +11,7 @@ import {
 } from '../../server/ssrUpdateCandidates';
 import {
   bindSSRRuntime,
+  requireSSRNodeLifecycle,
   ownerOfSSRRuntime,
   runtimeOwnerKey,
 } from '../../server/ssrUpdateOwner';
@@ -61,7 +63,8 @@ export default function ssrOwnership(): ModuleFederationRuntimePlugin {
           version:
             typeof snapshot.version === 'string' ? snapshot.version : undefined,
         });
-        if (provider && !provider.disposed) sharedProviders.push(provider);
+        if (provider && !getNodeInstanceLifecycle(provider)?.closed)
+          sharedProviders.push(provider);
       }
       return selected;
     },
@@ -92,6 +95,12 @@ export default function ssrOwnership(): ModuleFederationRuntimePlugin {
         versions[shared.version] = record;
       }
       return args;
+    },
+    onLoad({ moduleInstance }) {
+      const provider = helpers.global.getRemoteFederationInstance(
+        moduleInstance.remoteInfo,
+      );
+      if (provider) requireSSRNodeLifecycle(provider);
     },
     afterLoadEntry({ remoteInfo, remoteEntryExports }) {
       if (!remoteEntryExports) return;

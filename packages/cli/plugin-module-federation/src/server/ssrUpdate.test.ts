@@ -1,6 +1,8 @@
+import nodeRuntimePlugin from '@module-federation/node/runtimePlugin';
+import { destroyNodeInstance } from '@module-federation/node/lifecycle';
 import { createSSRUpdateOwner } from './ssrUpdateOwner';
 import { AsyncLocalStorage } from 'node:async_hooks';
-import { afterEach, describe, expect, it } from '@rstest/core';
+import { afterEach, describe, expect, it, rs } from '@rstest/core';
 import {
   Module,
   ModuleFederation,
@@ -8,6 +10,21 @@ import {
 } from '@module-federation/enhanced/runtime';
 import { createSSRUpdateAdapter } from './ssrUpdate';
 
+import * as originalLifecycle from '@module-federation/node/lifecycle' with {
+  rstest: 'importActual',
+};
+rs.mock('@module-federation/node/lifecycle', () => {
+  return {
+    ...originalLifecycle,
+    getNodeInstanceLifecycle: (instance: any) =>
+      instance.testLifecycle ||
+      originalLifecycle.getNodeInstanceLifecycle(instance),
+    destroyNodeInstance: (instance: any) =>
+      instance.testLifecycle
+        ? instance.testLifecycle.destroy()
+        : originalLifecycle.destroyNodeInstance(instance),
+  };
+});
 const key = Symbol.for('modern-js.mf.ssr.entries');
 const stateKey = Symbol.for('modern-js.mf.ssr.consumption');
 const previous = (globalThis as any)[key];
@@ -18,7 +35,12 @@ function fixture() {
   const owner = createSSRUpdateOwner('host');
   const state = { dynamic: false, context: new AsyncLocalStorage() };
   const runtime = {
-    federation: { instance: { [stateKey]: state } },
+    federation: {
+      instance: {
+        [stateKey]: state,
+        testLifecycle: { closed: false, destroy: async () => {} },
+      },
+    },
     remotesLoadingData: {
       remoteKeyToRemoteModuleIds: { remote: [1] },
       remoteModuleIdToConsumerModuleIds: { 1: [2] },
@@ -124,6 +146,7 @@ describe('SSR replacement recovery', () => {
       name: 'fallback-cleanup-host',
       remotes: [remote],
       plugins: [
+        nodeRuntimePlugin(),
         {
           name: 'native-cache-adapter',
           removeRemote() {
@@ -190,7 +213,7 @@ describe('SSR replacement recovery', () => {
         'https://producer.invalid/v2.js',
       );
     } finally {
-      await host.destroy();
+      await destroyNodeInstance(host);
       delete snapshots[host.name];
       delete snapshots[`${remote.name}:${remote.entry}`];
     }
@@ -205,7 +228,7 @@ describe('SSR replacement recovery', () => {
     host.updateRemotes = async () => {
       mutated = true;
     };
-    host.destroy = async () => {
+    host.testLifecycle.destroy = async () => {
       mutated = true;
     };
     (runtime.federation as any).disposeClearCache = () => {
@@ -706,7 +729,7 @@ describe('registered update targets', () => {
 });
 
 describe('whole application instance handoff', () => {
-  it('leaves name-based shared ownership to Core when disposing a generation', async () => {
+  it('leaves name-based shared ownership to the Node lifecycle when disposing a generation', async () => {
     const { adapter, runtime } = fixture();
     const host = runtime.federation.instance as any;
     host.name = 'host';
@@ -717,7 +740,7 @@ describe('whole application instance handoff', () => {
       __INSTANCES__: [host],
       __SHARE__: { host: { default: { react: { '1': shared } } } },
     };
-    host.destroy = async () => {
+    host.testLifecycle.destroy = async () => {
       expect(shared.useIn).toEqual(['host', 'remote']);
     };
     try {
@@ -735,7 +758,7 @@ describe('whole application instance handoff', () => {
     const host = runtime.federation.instance as any;
     host.options = { remotes: [{ name: 'remote', entry: 'v2' }] };
     let disposed = false;
-    host.destroy = async () => {
+    host.testLifecycle.destroy = async () => {
       await Promise.resolve();
       disposed = true;
     };

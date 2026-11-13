@@ -1,3 +1,5 @@
+import nodeRuntimePlugin from '@module-federation/node/runtimePlugin';
+import { destroyNodeInstance } from '@module-federation/node/lifecycle';
 import { expect, it, rs } from '@rstest/core';
 import { createInstance, helpers } from '@module-federation/enhanced/runtime';
 import {
@@ -20,11 +22,13 @@ it.each(['candidate', 'snapshot'])(
     const first = createInstance({
       name: 'singleton-provider',
       id: 'singleton-provider:one',
+      plugins: [nodeRuntimePlugin()],
       shared: { library: { version: '1.0.0', lib: () => firstValue } },
     });
     const selected = createInstance({
       name: 'singleton-provider',
       id: 'singleton-provider:two',
+      plugins: [nodeRuntimePlugin()],
       shared: {
         library: { version: '1.0.0', lib: () => selectedValue },
         plain: { version: '1.0.0', lib: () => selectedValue },
@@ -77,6 +81,7 @@ it.each(['candidate', 'snapshot'])(
         },
       },
       plugins: [
+        nodeRuntimePlugin(),
         {
           name: 'bind-test-owner',
           beforeInit(args) {
@@ -96,9 +101,9 @@ it.each(['candidate', 'snapshot'])(
       expect(host.loadShareSync('differentVersion')()).toBe(localValue);
       expect(first.loadShareSync('library')()).toBe(firstValue);
     } finally {
-      await host.destroy();
-      await first.destroy();
-      await selected.destroy();
+      await destroyNodeInstance(host);
+      await destroyNodeInstance(first);
+      await destroyNodeInstance(selected);
       clearSSRUpdateCandidates(owner.id);
       releaseSSRUpdateOwner(owner);
       resetSnapshot();
