@@ -170,7 +170,13 @@ When prerendering returns 404 or another non-2xx response, the build:
 
 The error page is therefore not saved as static HTML that would later be served with HTTP 200. Requests to `/blog/scheduled` follow the entry fallback rules above. The build-time 404 is not stored as the path's runtime response status.
 
-SSG only generates pages during a build. Reaching the publication time does not automatically generate the missing static HTML. Rebuild and redeploy to generate the article's SSG page.
+## Updating Generated Pages
+
+SSG is suitable for pages whose content stays the same after a build, or where rebuilding and redeploying is acceptable. Generated HTML reflects the data available at build time. Reaching a post's publication time does not rerun its loader or automatically generate or update its static HTML. Rebuild and redeploy to update SSG pages.
+
+For scheduled blog posts or frequently changing content, consider serving those pages with [SSR](/guides/basic-features/render/ssr) and [rendering cache](/guides/basic-features/render/ssr-cache). The server must be able to read the post data at runtime so the loader can check publication times when rendering. This requires an SSR deployment and does not update existing SSG HTML.
+
+Cache refreshes are triggered by requests, and cached content may still be served until it is refreshed. Rendering cache is not a scheduler and does not guarantee that a post becomes visible at its exact publication time. Choose cache durations according to how much delay your application can accept. See [Rendering Cache](/guides/basic-features/render/ssr-cache) for configuration and cache expiration behavior.
 
 ## Multi-entry
 

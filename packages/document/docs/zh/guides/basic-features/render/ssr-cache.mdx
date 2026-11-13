@@ -27,7 +27,13 @@ export const cacheOption: CacheOption = {
 
 缓存策略参考 [stale-while-revalidate](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Cache-Control) 进行实现。
 
-在 `maxAge` 时间内会直接返回缓存内容，超过 `maxAge` 但在 `staleWhileRevalidate` 内也会直接返回缓存内容，但同时会异步做一次重新渲染。
+缓存行为取决于请求到达的时间：
+
+- 在 `maxAge` 时间内，直接返回缓存内容，不重新渲染。
+- 超过 `maxAge` 后，在额外的 `staleWhileRevalidate` 时间窗口内，返回旧缓存内容，同时由该请求触发后台渲染以刷新缓存。
+- 如果没有缓存，或缓存时间超过 `maxAge + staleWhileRevalidate`，该请求需要重新渲染。
+
+缓存过期本身不会触发渲染。刷新由请求驱动，因此渲染缓存不能保证在某个指定时刻更新内容，例如博客文章的定时发布时间。
 
 **Object 类型**
 
