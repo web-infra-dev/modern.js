@@ -1,1 +1,1 @@
-["code-split", "inline-assets", "optimize-bundle", "react-compiler"]
+["code-split", "inline-assets", "resource-stages", "optimize-bundle", "react-compiler"]

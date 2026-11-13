@@ -1,3 +1,4 @@
+import { matchRoutes } from '@modern-js/runtime-utils/router';
 import type { ServerUserConfig } from '@modern-js/app-tools';
 import {
   type StaticHandlerContext,
@@ -109,15 +110,17 @@ export function getSSRMode(ssrConfig?: SSRConfig): 'string' | 'stream' | false {
   return result;
 }
 
-const getLinkAttributes = (linkTag: string) => {
+const getTagAttributes = (tag: string) => {
   const attributes = new Map<string, string>();
   const attributeRegExp =
     /([^\s"'<>/=]+)(?:\s*=\s*(?:"([^"]*)"|'([^']*)'|([^\s"'=<>`]+)))?/g;
+  // Skip the tag name itself, e.g. `<link` or `<script`.
+  const tagName = /^<\s*([^\s>/]+)/.exec(tag)?.[1]?.toLowerCase();
   let match: RegExpExecArray | null;
 
-  while ((match = attributeRegExp.exec(linkTag))) {
+  while ((match = attributeRegExp.exec(tag))) {
     const [, name, doubleQuotedValue, singleQuotedValue, unquotedValue] = match;
-    if (name.toLowerCase() === 'link') {
+    if (name.toLowerCase() === tagName) {
       continue;
     }
     attributes.set(
@@ -138,7 +141,7 @@ const getLinkAttributes = (linkTag: string) => {
 export const hasStylesheetLink = (template: string, href: string) => {
   const linkTags = template.match(/<link\b[^>]*>/gi) ?? [];
   return linkTags.some(linkTag => {
-    const attributes = getLinkAttributes(linkTag);
+    const attributes = getTagAttributes(linkTag);
     const linkHref = attributes.get('href');
     const rel = attributes.get('rel');
 
@@ -149,4 +152,59 @@ export const hasStylesheetLink = (template: string, href: string) => {
         .some(relToken => relToken.toLowerCase() === 'stylesheet')
     );
   });
+};
+
+const hasRelToken = (rel: string | undefined, token: string) =>
+  rel?.split(/\s+/).some(relToken => relToken.toLowerCase() === token) ?? false;
+
+/**
+ * Collect the script URLs the template already loads or preloads:
+ * `<script src>`, `<link rel="preload" as="script">` and `<link rel="modulepreload">`.
+ * `<link rel="prefetch">` is a low priority hint for later navigations, so it
+ * does not count.
+ */
+export const getLoadedScriptUrls = (template: string) => {
+  const urls = new Set<string>();
+  for (const scriptTag of template.match(/<script\b[^>]*>/gi) ?? []) {
+    const src = getTagAttributes(scriptTag).get('src');
+    if (src) {
+      urls.add(src);
+    }
+  }
+  for (const linkTag of template.match(/<link\b[^>]*>/gi) ?? []) {
+    const attributes = getTagAttributes(linkTag);
+    const href = attributes.get('href');
+    const rel = attributes.get('rel');
+    if (
+      href &&
+      (hasRelToken(rel, 'modulepreload') ||
+        (hasRelToken(rel, 'preload') &&
+          attributes.get('as')?.toLowerCase() === 'script'))
+    ) {
+      urls.add(href);
+    }
+  }
+  return urls;
+};
+
+/**
+ * Ids of the routes matched by the current request, outermost first. Empty
+ * when the entry has no router.
+ */
+export const getMatchedRouteIds = (runtimeContext: {
+  routes?: unknown;
+  routerContext?: { location: unknown; basename?: string };
+}): string[] => {
+  const { routes, routerContext } = runtimeContext;
+  if (!routes || !routerContext) {
+    return [];
+  }
+  const matches = matchRoutes(
+    routes as Parameters<typeof matchRoutes>[0],
+    routerContext.location as Parameters<typeof matchRoutes>[1],
+    routerContext.basename,
+  );
+  return (matches ?? [])
+    .map(match => match.route.id)
+    .filter((id): id is string => Boolean(id));
 };

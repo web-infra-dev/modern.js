@@ -4,6 +4,12 @@
 export const ROUTE_MANIFEST = `_MODERNJS_ROUTE_MANIFEST`;
 
 /**
+ * Property mounted on window that collects the resource stage lists written
+ * into the HTML, see `performance.resourceStages`
+ */
+export const RESOURCE_STAGES = `__MODERN_RS__`;
+
+/**
  * Property mounted on window that record all route modules
  */
 export const ROUTE_MODULES = `_routeModules`;

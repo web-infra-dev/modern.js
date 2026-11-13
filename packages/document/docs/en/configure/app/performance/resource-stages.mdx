@@ -1,0 +1,101 @@
+---
+title: resourceStages
+---
+
+# performance.resourceStages
+
+- **Type:**
+
+```ts
+type Stage = 'critical' | 'visible' | 'interactive' | 'idle' | string;
+
+interface ResourceStagesConfig {
+  targetNetwork?: 'slow-4g' | 'fast-4g' | 'wifi' | { downlink: number; rtt?: number };
+  budget?: Record<string, { size?: string | number; requests?: number; depth?: number }>;
+  stages?: Record<string, { after?: string; timeout?: number; manual?: boolean }>;
+  routes?: false | Record<string, 'critical' | 'visible' | 'interactive' | 'idle' | false>;
+  concurrency?: number;
+  inlineLimit?: string | number;
+  firstPaintTarget?: number;
+  idleQuietTime?: number;
+  baseline?: string;
+  baselineThreshold?: number;
+  include?: Array<string | RegExp>;
+}
+```
+
+- **Default:** `undefined`
+
+Configures [staged resource loading](/guides/advanced-features/page-performance/resource-stages). `stagedImport` declarations in code work without this option. Setting it also stages the route JS of streaming SSR and turns on the budget checks.
+
+## targetNetwork
+
+The network used to estimate the download time of each stage. Defaults to `'fast-4g'` (9 Mbps, 60 ms). `'slow-4g'` is 1.6 Mbps and 150 ms, `'wifi'` is 30 Mbps and 20 ms. You can also pass `{ downlink: Mbps, rtt: ms }`.
+
+## budget
+
+Upper limits per stage. Exceeding one is a build warning and does not fail the build. `size` is gzip bytes, `requests` is the number of files, and `depth` is how many async levels lie between the entry and a declared chunk.
+
+Chunks declared `critical` fill this budget in declaration order; the ones over it are prefetched at `visible` instead, with a warning, so first paint is not delayed.
+
+The default `critical` budget is what the target network downloads in a third of `firstPaintTarget` for `size`, and 8 for `requests`. The shared chunks of route JS are staged by this budget too.
+
+Two checks need no config: a warning when the estimated download time of the entry files plus `critical` exceeds `firstPaintTarget`, and a warning when a module is bundled into chunks of different stages.
+
+## stages
+
+Add custom stages, or let the application mark a built-in stage:
+
+```ts
+export default defineConfig({
+  performance: {
+    resourceStages: {
+      stages: {
+        // Custom stage after `interactive`. If the application never calls mark(),
+        // it is marked 5 seconds after `interactive`.
+        firstReply: { after: 'interactive', timeout: 5000 },
+        // The application calls stagedImport.interactive.mark() itself.
+        interactive: { manual: true },
+      },
+    },
+  },
+});
+```
+
+`after` and `timeout` are required for custom stages. With custom stages, the build writes `modern-resource-stages.d.ts` into the source directory so `stagedImport.firstReply` is typed.
+
+## routes
+
+With streaming SSR, the framework stages the JS of the matched routes: the route component's own file is `critical`; the shared chunks it depends on fill the `critical` budget in chunk group order and are preloaded at low priority, the rest goes to `visible`.
+
+Set the stage per route id, or `false` to turn it off for a route:
+
+```ts
+resourceStages: {
+  routes: {
+    'files/[id]/page': 'visible',
+  },
+}
+```
+
+`routes: false` turns the rule off, and route JS goes back to [`server.ssr.preloadRouteScripts`](/configure/app/server/ssr). String SSR already outputs the scripts of the matched routes and is not affected.
+
+## concurrency
+
+Prefetches in flight at the same time within a stage. Defaults to `4`.
+
+## inlineLimit
+
+When the stage list written into the HTML exceeds this size after gzip, it is written to a separate file with a content hash instead, fetched at low priority after first paint, with a build warning. Defaults to `'2kB'`.
+
+## firstPaintTarget
+
+Target first paint time in milliseconds, used to check the estimated download time of `critical`. Defaults to `1800`.
+
+## idleQuietTime
+
+`idle` arrives when no new resource request starts for this many milliseconds after `load`. Defaults to `2000`. It waits at most 10 seconds after `load`.
+
+## baseline
+
+Path of a `resource-stages.json` from an earlier build. A warning is shown when the bytes of a stage grow more than `baselineThreshold` percent (default `10`) over the baseline.

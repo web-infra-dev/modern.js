@@ -6,6 +6,7 @@
 
 - `modernjs-migrate-to-v3` —— Modern.js v2 → v3 迁移
 - `modernjs-feature-enable` —— 为 v3 应用启用 BFF / SSG / Tailwind / 自定义 Web Server
+- `modernjs-resource-stages` —— 分析按阶段加载的命中率和提前量，调整 `stagedImport` 声明
 
 ## 安装
 

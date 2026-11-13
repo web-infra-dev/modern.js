@@ -1,3 +1,4 @@
+import { setResourceStageRoutes } from '../../core/resources/stagedImport';
 import type { RuntimePluginAPI } from '@modern-js/plugin/runtime';
 import { merge } from '@modern-js/runtime-utils/merge';
 import type { RouterSubscriber } from '@modern-js/runtime-utils/router';
@@ -177,6 +178,13 @@ export const routerPlugin = (
             }
 
             cachedRouter = routerResult.router;
+            // Client rendered pages pick the resource stage lists of the
+            // matched routes here; server rendered pages got them in the HTML.
+            setResourceStageRoutes(
+              (cachedRouter?.state?.matches ?? []).map(
+                (match: { route: { id: string } }) => match.route.id,
+              ),
+            );
             return cachedRouter;
           }, []);
           const { routes } = routerResult;
