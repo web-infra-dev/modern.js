@@ -171,7 +171,13 @@ export const loader = async ({ params }: { params: { slug: string } }) => {
 
 因此，错误页面不会被保存成之后以 HTTP 200 返回的静态页面。访问 `/blog/scheduled` 时，会按照上一节的入口回退规则处理，构建时的 404 不会被保存为该路径的运行时响应状态。
 
-SSG 只在构建时生成页面，文章到达发布时间后不会自动补生成静态 HTML。需要重新构建并部署，才能生成该文章的 SSG 页面。
+## 更新生成的页面
+
+SSG 适合构建后内容保持不变，或可以接受重新构建并部署的页面。生成的 HTML 反映的是构建时的数据。文章到达发布时间后，不会重新执行 loader，也不会自动生成或更新静态 HTML。更新 SSG 页面需要重新构建并部署。
+
+对于定时发布的博客文章或频繁变化的内容，可以考虑使用 [SSR](/guides/basic-features/render/ssr) 和[渲染缓存](/guides/basic-features/render/ssr-cache)来提供这些页面。服务端必须能够在运行时读取文章数据，让 loader 在渲染时检查发布时间。这需要以 SSR 方式部署，不会更新已有的 SSG HTML。
+
+缓存刷新由请求触发，刷新完成前仍可能返回缓存内容。渲染缓存不是定时任务，不能保证文章在指定发布时间精确可见。请根据应用能够接受的延迟选择缓存时长。配置方式和缓存过期行为请参考[渲染缓存](/guides/basic-features/render/ssr-cache)。
 
 ## 多入口
 
