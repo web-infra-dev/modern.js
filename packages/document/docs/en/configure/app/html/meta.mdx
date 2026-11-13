@@ -10,18 +10,28 @@ title: meta
 ```js
 const defaultMeta = {
   charset: { charset: 'utf-8' },
-  viewport:
-    'width=device-width, initial-scale=1.0, shrink-to-fit=no, viewport-fit=cover, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no',
-  'http-equiv': { 'http-equiv': 'x-ua-compatible', content: 'ie=edge' },
-  renderer: 'webkit',
-  layoutmode: 'standard',
-  imagemode: 'force',
-  'wap-font-scale': 'no',
-  'format-detection': 'telephone=no',
+  viewport: 'width=device-width, initial-scale=1',
 };
 ```
 
 Configure the `<meta>` tag of the HTML.
+
+The default viewport allows users to zoom the page. If your app needs to fill the screen or disable automatic telephone number detection, configure those behaviors explicitly:
+
+```ts title="modern.config.ts"
+import { defineConfig } from '@modern-js/app-tools';
+
+export default defineConfig({
+  html: {
+    meta: {
+      viewport: 'width=device-width, initial-scale=1, viewport-fit=cover',
+      'format-detection': 'telephone=no',
+    },
+  },
+});
+```
+
+Setting `viewport` replaces the entire default string, so include `width=device-width` and `initial-scale=1` when customizing it. When using `viewport-fit=cover`, account for the device's safe areas in your page styles.
 
 import RsbuildConfig from '@site-docs-en/components/rsbuild-config-tooltip';
 
