@@ -1,8 +1,8 @@
 import type { StaticHandlerContext } from '@modern-js/runtime-utils/router';
-import { time } from '@modern-js/runtime-utils/time';
+import { renderDocument } from '@modern-js/render/html';
+import { renderStringElement } from '@modern-js/render/html/server';
 import { SSR_HYDRATION_ID_PREFIX } from '@modern-js/utils/universal/constants';
 import type React from 'react';
-import ReactDomServer from 'react-dom/server';
 import ReactHelmet from 'react-helmet';
 import { RenderLevel } from '../../constants';
 import { getGlobalInternalRuntimeContext } from '../../context';
@@ -16,7 +16,7 @@ import {
 import { createReplaceHelemt, hasTitleTagBefore } from '../helmet';
 import { type BuildHtmlCb, type RenderString, buildHtml } from '../shared';
 import { SSRErrors, SSRTimings, type Tracer } from '../tracer';
-import { getSSRConfigByEntry, safeReplace } from '../utils';
+import { getSSRConfigByEntry } from '../utils';
 import { LoadableCollector } from './loadable';
 import { SSRDataCollector } from './ssrData';
 import type { ChunkSet, Collector } from './types';
@@ -113,16 +113,14 @@ async function generateHtml(
     App,
   );
   try {
-    const end = time();
-    // react render to string
-    html = ReactDomServer.renderToString(finalApp, {
+    const rendered = renderStringElement(finalApp, {
       identifierPrefix: SSR_HYDRATION_ID_PREFIX,
+      collect: () => ReactHelmet.renderStatic(),
+      onTiming: cost => onTiming(SSRTimings.RENDER_HTML, cost),
     });
+    html = rendered.html;
+    helmetData = rendered.collected;
     chunkSet.renderLevel = RenderLevel.SERVER_RENDER;
-    helmetData = ReactHelmet.renderStatic();
-
-    const cost = end();
-    onTiming(SSRTimings.RENDER_HTML, cost);
   } catch (e) {
     chunkSet.renderLevel = RenderLevel.CLIENT_RENDER;
     onError(e, SSRErrors.RENDER_HTML);
@@ -133,10 +131,6 @@ async function generateHtml(
 
   const { ssrScripts, cssChunk, jsChunk } = chunkSet;
 
-  const replaceChunks = [
-    createReplaceChunkJs(jsChunk),
-    createReplaceChunkCss(cssChunk),
-  ];
   const replaceHelmet = createReplaceHelemt(helmetData);
 
   // Helmet uses the first <title> of the whole document, so keep the previous
@@ -145,55 +139,17 @@ async function generateHtml(
     html.includes('<title') &&
     !hasTitleTagBefore(htmlTemplate, htmlTemplate.indexOf(HTML_PLACEHOLDER));
 
-  const finalHtml = await buildHtml(htmlTemplate, [
-    ...(appHtmlMayHaveFirstTitle
-      ? [
-          createReplaceHtml(html),
-          ...replaceChunks,
-          createReplaceSSRDataScript(ssrScripts),
-          replaceHelmet,
-        ]
-      : [
-          // Insert the large SSR data and app html after the template edits, so
-          // they aren't scanned and copied by each edit. Mark their positions
-          // first, so content added by the edits can't take the placeholders.
-          (template: string) =>
-            safeReplace(
-              safeReplace(template, HTML_PLACEHOLDER, HTML_MARKER),
-              SSR_DATA_PLACEHOLDER,
-              SSR_DATA_MARKER,
-            ),
-          ...replaceChunks,
-          replaceHelmet,
-          (template: string) =>
-            safeReplace(template, SSR_DATA_MARKER, ssrScripts),
-          (template: string) => safeReplace(template, HTML_MARKER, html),
-        ]),
-    ...htmlModifiers,
-  ]);
-
-  return finalHtml;
-}
-
-// Unique per process, so neither the template edits nor the app can produce them.
-const markerId = Math.random().toString(36).slice(2);
-const HTML_MARKER = `<!--modern-html-${markerId}-->`;
-const SSR_DATA_MARKER = `<!--modern-ssr-data-${markerId}-->`;
-
-function createReplaceHtml(html: string): BuildHtmlCb {
-  return (template: string) => safeReplace(template, HTML_PLACEHOLDER, html);
-}
-
-function createReplaceSSRDataScript(data: string): BuildHtmlCb {
-  return (template: string) =>
-    safeReplace(template, SSR_DATA_PLACEHOLDER, data);
-}
-
-function createReplaceChunkJs(js: string): BuildHtmlCb {
-  return (template: string) => safeReplace(template, CHUNK_JS_PLACEHOLDER, js);
-}
-
-function createReplaceChunkCss(css: string): BuildHtmlCb {
-  return (template: string) =>
-    safeReplace(template, CHUNK_CSS_PLACEHOLDER, css);
+  return buildHtml(
+    renderDocument(htmlTemplate, {
+      app: { placeholder: HTML_PLACEHOLDER, content: html },
+      data: [{ placeholder: SSR_DATA_PLACEHOLDER, content: ssrScripts }],
+      assets: [
+        { placeholder: CHUNK_JS_PLACEHOLDER, content: jsChunk },
+        { placeholder: CHUNK_CSS_PLACEHOLDER, content: cssChunk },
+      ],
+      helmet: replaceHelmet,
+      appFirst: appHtmlMayHaveFirstTitle,
+    }),
+    htmlModifiers,
+  );
 }
