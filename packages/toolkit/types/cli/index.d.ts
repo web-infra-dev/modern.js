@@ -64,6 +64,8 @@ export interface NestedRoute<T = string | (() => JSX.Element)> extends Route {
   routeType?: 'page' | 'layout';
   parentId?: string;
   data?: string;
+  /** Data module exporting the build-time SSG parameter generator. */
+  ssgParams?: string;
   clientData?: string;
   children?: NestedRoute<T>[];
   filename?: string;
@@ -107,6 +109,11 @@ export type SSGRouteOptions =
       output?: string;
       headers?: Record<string, any>;
     };
+
+/** Generate complete parameter combinations for one page during SSG. */
+export type SSGParams = () =>
+  | Record<string, string | undefined>[]
+  | Promise<Record<string, string | undefined>[]>;
 
 export type SSGSingleEntryOptions =
   | boolean

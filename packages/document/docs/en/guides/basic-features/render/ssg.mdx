@@ -102,7 +102,7 @@ The above example introduces single-entry scenarios. For more information, refer
 
 ## Adding Dynamic Routes
 
-In manual routing or conventional routing with dynamic segments (e.g., `/user/[id]`), provide concrete paths directly in `routes`.
+For manual routing, provide concrete paths directly in `routes`. You can also use this configuration for conventional routing with dynamic segments (for example, `/user/[id]`).
 
 ```js
 export default defineConfig({
@@ -113,6 +113,61 @@ export default defineConfig({
   },
 });
 ```
+
+### Generating Parameters Alongside a Loader
+
+For file-system conventional routing, export `ssgParams` from the page's `page.data.ts` to generate paths from route parameters. Enable SSG and leave `routes` unset to use this convention. Generator discovery does not apply to config routes.
+
+Use an explicit named export or re-export, such as `export { ssgParams } from './params'`. Exports available only through `export *` are not discovered.
+
+For example, `src/routes/blog/[slug]/page.data.ts` can share the published-post selection logic with its loader:
+
+{/* prettier-ignore */}
+```ts title="src/routes/blog/[slug]/page.data.ts"
+import type { SSGParams } from '@modern-js/plugin-ssg'
+import { getPublishedPosts } from '@/data/posts'
+
+export const ssgParams: SSGParams = async () => {
+  const posts = await getPublishedPosts()
+  return posts.map(post => ({ slug: post.slug }))
+}
+
+export const loader = async ({ params }: { params: { slug: string } }) => {
+  const posts = await getPublishedPosts()
+  const post = posts.find(post => post.slug === params.slug)
+  if (!post) {
+    throw new Response('Not Found', { status: 404 })
+  }
+  return post
+}
+```
+
+If the published posts have the slugs `hello` and `getting-started`, Modern.js generates `/blog/hello` and `/blog/getting-started`. It also prerenders the entry's non-dynamic routes. The loader still reads data for one page and runs during prerendering. Its return value is not used to enumerate paths.
+
+`ssgParams` takes no arguments and returns an array of parameter objects, synchronously or asynchronously. It runs once per page route during the SSG build, in Node.js using the application's server compilation. It can use path aliases and server dependencies such as filesystem access. SSG uses the existing server data-loader boundary to keep the generator and its server dependencies out of browser bundles. When debugging code that imports Node.js dependencies, [enable SSR during development](#development-debugging). The function is not called by `dev` or `serve`.
+
+#### Parameter Values
+
+Return raw strings, without URL encoding. Values containing the literal sequence `%2F` (case-insensitive) are rejected because routing would decode it as `/`. Return a raw `/` instead of its encoded form. Modern.js encodes each dynamic segment and adds the entry's configured base path. For example, `{ slug: 'hello world' }` produces `/blog/hello%20world`. A slug containing a dot, such as `release.v3`, still generates an `index.html` inside that page's directory.
+
+| Route file                               | Parameter object                    | Generated path                   |
+| ---------------------------------------- | ----------------------------------- | -------------------------------- |
+| `routes/[lang]/blog/[slug]/page.data.ts` | `{ lang: 'en', slug: 'hello' }`     | `/en/blog/hello`                 |
+| `routes/blog/[slug$]/page.data.ts`       | `{}`                                | `/blog`                          |
+| `routes/blog/[slug$]/page.data.ts`       | `{ slug: 'hello' }`                 | `/blog/hello`                    |
+| `routes/docs/$.data.ts`                  | `{ '*': 'guides/getting started' }` | `/docs/guides/getting%20started` |
+
+For nested routes, each object must include all required parent and child parameters. Parameters are not collected or combined from `layout.data.ts`. Omit an optional parameter or set it to `undefined` to omit that segment. For a wildcard page (`$.tsx`), export `ssgParams` from `$.data.ts` and use the `'*'` key. Its value is split on `/`, with each segment encoded separately.
+
+An empty array generates no paths for that page. Duplicate paths are rendered once. Dynamic routes without `ssgParams` remain excluded from automatic SSG.
+
+A missing required parameter, a non-string value other than `undefined` for an optional parameter, an invalid result, or an exception fails the build with a route-specific error. Required values must not be empty. The segments `.` and `..`, and empty segments within a wildcard value, are rejected.
+
+#### Explicit Routes Take Priority
+
+A non-empty `output.ssg.routes` list remains the complete list of paths to prerender. Modern.js does not call `ssgParams` or add automatically discovered paths for that entry. The same rule applies to `output.ssgByEntries`.
+
+Omitting `routes` or setting `routes: []` uses automatic route collection. Disabling SSG for an entry also disables its parameter generators. To customize a generated path's output location or request headers, use an explicit route object in `routes`.
 
 ## SSG Matching for Parent and Child Routes
 
@@ -139,7 +194,7 @@ Each path generates its own static HTML. The built-in production server matches 
 
 Requests to a trailing-slash URL such as `/blog/` receive an HTTP 308 redirect to `/blog`, preserving the query string. For example, `/blog/?preview=1` redirects to `/blog?preview=1`.
 
-The SSG page at `/blog` does not act as a fallback for `/blog/*`. Defining a `[slug]` route does not automatically generate static HTML for every slug. List the concrete paths in `routes`.
+The SSG page at `/blog` does not act as a fallback for `/blog/*`. Defining a `[slug]` route does not automatically generate static HTML for every slug. List the concrete paths in `routes`, or use `ssgParams` without an explicit route list.
 
 This example does not enable SSR or prerender the root entry `/`. An unmatched path therefore receives the root entry's CSR shell, and routing continues in the browser. The initial HTML response is typically HTTP 200. An unknown slug alone does not cause the server to return 404.
 

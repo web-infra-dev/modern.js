@@ -34,15 +34,17 @@ export const renderPlugin = (): ServerPlugin => ({
       });
 
       for (const route of pageRoutes) {
-        // Hono accepts route paths and handles regex escaping internally.
         const urlPath = getRoutePath(route);
 
-        if (route.isSSG && !urlPath.endsWith('/')) {
+        if (route.isSSG && !route.urlPath.endsWith('/')) {
           middlewares.push({
             name: 'ssg-trailing-slash-redirect',
-            path: `${urlPath}/`,
+            path: getRoutePath({
+              ...route,
+              urlPath: `${route.urlPath}/`,
+            }),
             handler: async (c: Context) =>
-              c.redirect(`${urlPath}${new URL(c.req.url).search}`, 308),
+              c.redirect(`${route.urlPath}${new URL(c.req.url).search}`, 308),
           });
         }
 

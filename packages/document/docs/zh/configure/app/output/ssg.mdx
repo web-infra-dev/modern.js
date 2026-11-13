@@ -23,13 +23,13 @@ SSG 功能使用与路由关联性较大，建议使用前先了解[路由方案
 
 - 单入口建议使用 `output.ssg`。
 - 多入口建议优先使用 `output.ssgByEntries`。
-- 当 `output.ssg` 为 `true` 且未配置 `output.ssgByEntries` 时，所有入口下的所有路由都会作为 SSG 路由处理。
+- 当 `output.ssg` 为 `true` 且未配置 `output.ssgByEntries` 时，所有入口都会启用 SSG，并遵循下文的路由收集规则。
 
 :::
 
 ## Boolean 类型
 
-当该配置设置为 `true` 时，将会默认开启所有入口的 SSG 功能。对**自控式路由**而言，将会渲染入口的根路由。对**约定式路由**而言，将会渲染入口中每一条路由。
+当该配置设置为 `true` 时，将会默认开启所有入口的 SSG 功能。对**自控式路由**而言，将会渲染入口的根路由。对**约定式路由**而言，将会渲染非动态路由和页面级 `ssgParams` 生成的路径，未提供参数生成函数的动态路由会被跳过。
 
 ```js
 export default defineConfig({
@@ -58,6 +58,14 @@ type SSGOptions = {
   routes?: SSGRouteOptions[];
 };
 ```
+
+### 路由收集
+
+- 不设置 `routes` 或设置为 `[]` 时，约定式路由会自动包含非动态路由，以及文件系统路由的 `page.data.ts` 或 `$.data.ts` 中 `ssgParams` 生成的路径。配置式路由不参与参数生成函数的发现。
+- 非空的 `routes` 列表会替代该入口的自动收集，只渲染列出的路径，不调用 `ssgParams`。
+- 将入口的 SSG 配置设为 `false`，也会禁用其参数生成函数。
+
+这些规则同样适用于通过 `output.ssgByEntries` 配置的各个入口。参数类型、编码规则和示例请参考[在 Loader 旁生成路由参数](/guides/basic-features/render/ssg#在-loader-旁生成路由参数)。
 
 ### 示例
 

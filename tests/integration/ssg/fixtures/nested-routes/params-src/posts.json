@@ -1,0 +1,9 @@
+[
+  { "language": "en", "slug": "hello", "published": true },
+  { "language": "en", "slug": "*", "published": true },
+  { "language": "en", "slug": "release.v1", "published": true },
+  { "language": "zh", "slug": "你好 world?#%", "published": true },
+  { "language": "en", "slug": "a/b", "published": true },
+  { "language": "en", "slug": "hello", "published": true },
+  { "language": "en", "slug": "scheduled", "published": false }
+]

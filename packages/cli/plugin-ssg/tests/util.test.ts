@@ -1,4 +1,5 @@
 import {
+  flattenRoutes,
   formatOutput,
   formatPath,
   getOutput,
@@ -6,8 +7,75 @@ import {
   isDynamicUrl,
   openRouteSSR,
   replaceWithAlias,
+  selectRoutesForSSG,
   standardOptions,
 } from '../src/libs/util';
+import type { AgreedRoute } from '../src/types';
+
+describe('SSG route selection', () => {
+  it('keeps the first page generator when pathless layouts share its pathname', () => {
+    const routes: AgreedRoute[] = [
+      {
+        id: 'layout',
+        path: '/',
+        routeType: 'layout',
+        _component: '/src/routes/layout',
+        children: [
+          {
+            id: 'page',
+            index: true,
+            routeType: 'page',
+            _component: '/src/routes/page',
+            // The page must remain selected even if its generator returns [].
+            ssgParams: '/src/routes/page.data',
+          },
+          {
+            id: '__auth/layout',
+            routeType: 'layout',
+            _component: '/src/routes/__auth/layout',
+            children: [
+              {
+                id: '__auth/page',
+                index: true,
+                routeType: 'page',
+                _component: '/src/routes/__auth/page',
+                ssgParams: '/src/routes/__auth/page.data',
+              },
+              {
+                id: '__auth/login/page',
+                path: 'login',
+                routeType: 'page',
+                _component: '/src/routes/__auth/login/page',
+              },
+            ],
+          },
+        ],
+      },
+    ];
+
+    const selected = selectRoutesForSSG(flattenRoutes(routes));
+    expect(selected.map(route => route.id)).toEqual([
+      'page',
+      '__auth/login/page',
+    ]);
+    expect(selected[0].ssgParams).toBe('/src/routes/page.data');
+  });
+
+  it('prefers a nested index page over its dynamic layout', () => {
+    const layout: AgreedRoute = {
+      id: 'blog/(slug)/layout',
+      path: '/blog/:slug',
+      routeType: 'layout',
+    };
+    const page: AgreedRoute = {
+      id: 'blog/(slug)/page',
+      path: '/blog/:slug',
+      index: true,
+      ssgParams: '/src/routes/blog/[slug]/page.data',
+    };
+    expect(selectRoutesForSSG([layout, page, { ...layout }])).toEqual([page]);
+  });
+});
 
 describe('test ssg util function', () => {
   it('should return format path correctly', () => {
