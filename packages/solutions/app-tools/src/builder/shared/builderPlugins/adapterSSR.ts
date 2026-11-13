@@ -289,6 +289,7 @@ function applyRouterPlugin(
         scriptLoading: normalizedConfig.html?.scriptLoading,
         nonce: normalizedConfig.security?.nonce,
         useRsc: isUseRsc(normalizedConfig),
+        routeCssScope: normalizedConfig.output?.routeCssScope,
       },
     ]);
   }
