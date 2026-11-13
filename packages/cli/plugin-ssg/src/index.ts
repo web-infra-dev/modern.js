@@ -7,6 +7,7 @@ import type {
 } from '@modern-js/types';
 import { filterRoutesForServer, logger } from '@modern-js/utils';
 import { makeRoute } from './libs/make';
+import { createParamsResolver } from './libs/params';
 import { writeHtmlFile } from './libs/output';
 import { replaceRoute } from './libs/replace';
 import {
@@ -14,17 +15,19 @@ import {
   formatOutput,
   isDynamicUrl,
   readJSONSpec,
+  selectRoutesForSSG,
   standardOptions,
   writeJSONSpec,
 } from './libs/util';
 import { createServer } from './server';
 import type {
-  AgreedRoute,
   AgreedRouteMap,
   SSGConfig,
   SSGRouteOptions,
   SsgRoute,
 } from './types';
+
+export type { SSGParams } from '@modern-js/types';
 
 export const ssgPlugin = (): CliPlugin<AppTools> => ({
   name: '@modern-js/plugin-ssg',
@@ -79,8 +82,9 @@ export const ssgPlugin = (): CliPlugin<AppTools> => ({
       }
 
       const ssgRoutes: SsgRoute[] = [];
+      const resolveParams = createParamsResolver(buildDir);
       // each route will try to match the configuration
-      pageRoutes.forEach(pageRoute => {
+      for (const pageRoute of pageRoutes) {
         const { entryName, entryPath } = pageRoute;
         const agreedRoutes = agreedRouteMap[entryName as string];
         let entryOptions = (intermediateOptions[entryName as string] ||
@@ -89,7 +93,7 @@ export const ssgPlugin = (): CliPlugin<AppTools> => ({
         if (!agreedRoutes) {
           // default behavior for non-agreed route
           if (!entryOptions) {
-            return;
+            continue;
           }
 
           // only add entry route if entryOptions is true
@@ -107,7 +111,7 @@ export const ssgPlugin = (): CliPlugin<AppTools> => ({
           // Unless entryOptions is set to false
           // the default behavior is to add all file-based routes
           if (!entryOptions) {
-            return;
+            continue;
           }
 
           if (entryOptions === true) {
@@ -131,15 +135,40 @@ export const ssgPlugin = (): CliPlugin<AppTools> => ({
               },
             );
           } else {
-            // default: add all non-dynamic routes
-            agreedRoutes.forEach((route: AgreedRoute) => {
-              if (!isDynamicUrl(route.path!)) {
+            // Automatic SSG retains static routes and expands page parameters.
+            const seen = new Set<string>();
+            for (const route of selectRoutesForSSG(agreedRoutes)) {
+              if (route.ssgParams) {
+                const paths = await resolveParams(entryName!, route);
+                for (const url of paths) {
+                  if (seen.has(url)) {
+                    continue;
+                  }
+                  seen.add(url);
+                  const generatedRoute = makeRoute(
+                    pageRoute,
+                    url === '/' ? '' : url,
+                    headers,
+                  );
+                  // A slug such as "release.v1" is a directory, not a filename.
+                  generatedRoute.output = path.join(
+                    generatedRoute.output,
+                    'index.html',
+                  );
+                  ssgRoutes.push(generatedRoute);
+                }
+              } else if (!isDynamicUrl(route.path!)) {
+                const url = route.path || '/';
+                if (seen.has(url)) {
+                  continue;
+                }
+                seen.add(url);
                 ssgRoutes.push(makeRoute(pageRoute, route.path!, headers));
               }
-            });
+            }
           }
         }
-      });
+      }
 
       if (ssgRoutes.length === 0) {
         return;

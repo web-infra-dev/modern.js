@@ -5,6 +5,51 @@ import { createDefaultPlugins, renderPlugin } from '../../src/plugins';
 import { createServerBase } from '../../src/serverBase';
 import { getDefaultAppContext, getDefaultConfig } from '../helpers';
 
+it.each([
+  '你好 world',
+  '?#%',
+  'a/b',
+  ':slug',
+  '*',
+  'a*b',
+  '{slug}',
+  '(slug)',
+  '[slug]',
+  'a\\b',
+  '!+^$|',
+  '*{foo}(bar)@0#1',
+])('serves encoded SSG parameter %s as an exact literal path', async slug => {
+  const pwd = path.join(__dirname, '../fixtures/render/ssr');
+  const [, page]: ServerRoute[] = require(path.join(pwd, 'route.json'));
+  const urlPath = `/blog/${encodeURIComponent(slug).replace(/\*/g, '%2A')}`;
+  const server = createServerBase({
+    pwd,
+    routes: [{ ...page, urlPath, isSSR: false, isSSG: true }],
+    config: getDefaultConfig(),
+    appContext: getDefaultAppContext(),
+  });
+  server.addPlugins([
+    ...createDefaultPlugins({ logger: false }),
+    injectResourcePlugin(),
+    renderPlugin(),
+  ]);
+  await server.init();
+
+  const response = await server.request(urlPath, {}, {});
+  expect(response.status).toBe(200);
+  expect(await response.text()).toContain('<h3>User</h3>');
+
+  const search = '?preview=1&tag=a%2Fb';
+  const redirect = await server.request(`${urlPath}/${search}`, {}, {});
+  expect(redirect.status).toBe(308);
+  expect(redirect.headers.get('location')).toBe(`${urlPath}${search}`);
+
+  for (const unknown of [`${urlPath}/child`, '/blog/not-generated']) {
+    const missing = await server.request(unknown, {}, {});
+    expect(missing.status, unknown).toBe(404);
+  }
+});
+
 it.each([false, true, undefined])(
   'matches SSG paths exactly with entry SSR=%s',
   async isSSR => {

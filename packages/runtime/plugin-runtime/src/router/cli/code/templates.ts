@@ -36,11 +36,15 @@ import {
 
 export const routesForServer = ({
   routesForServerLoaderMatches,
+  ssg = false,
 }: {
   routesForServerLoaderMatches: (NestedRouteForCli | PageRoute)[];
+  ssg?: boolean;
 }) => {
   const loaders: string[] = [];
   const actions: string[] = [];
+  const ssgParamsImports: string[] = [];
+  const ssgParamsEntries: string[] = [];
   const loadersMap: Record<
     string,
     {
@@ -61,6 +65,13 @@ export const routesForServer = ({
     let action: string | undefined;
 
     if (route.type === 'nested') {
+      if (ssg && route.ssgParams && route.id && !route.inValidSSRRoute) {
+        const name = `ssgParams_${ssgParamsImports.length}`;
+        ssgParamsImports.push(
+          `import { ssgParams as ${name} } from ${JSON.stringify(slash(route.ssgParams))};`,
+        );
+        ssgParamsEntries.push(`${JSON.stringify(route.id)}: ${name}`);
+      }
       if (route.loader || route.data) {
         loaders.push(route.loader);
         const loaderId = loaders.length - 1;
@@ -87,6 +98,10 @@ export const routesForServer = ({
       action,
       children,
     };
+    // Parameter generators belong to the build, not to runtime route objects.
+    if ('ssgParams' in finalRoute) {
+      delete finalRoute.ssgParams;
+    }
     return finalRoute;
   };
 
@@ -132,10 +147,13 @@ export const routesForServer = ({
     }
   }
 
-  return `
+  const code = `
     ${importLoadersCode}
     ${routesCode}
   `;
+  return ssg
+    ? `${code}\n${ssgParamsImports.join('\n')}\nexport const ssgParams = {${ssgParamsEntries.join(',')}};\n`
+    : code;
 };
 
 const createMatchReg = (keyword: string) =>
@@ -405,6 +423,7 @@ export const fileSystemRoutes = async ({
       ...(shouldIncludeClientBundle && { lazyImport }),
       ...(shouldIncludeClientBundle && route._component && { component }),
     };
+    delete finalRoute.ssgParams;
     /**
      * All routing components with loader will add shouldRevalidate
      * but when routeModule does not have a corresponding shouldRevalidate

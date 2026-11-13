@@ -6,6 +6,8 @@ export const LOADER_EXPORT_NAME = 'loader';
 
 export const ACTION_EXPORT_NAME = 'action';
 
+export const SSG_PARAMS_EXPORT_NAME = 'ssgParams';
+
 export const TEMP_LOADERS_DIR = '__loaders__';
 
 export const FILE_SYSTEM_ROUTES_INDEX = 'index';

@@ -1,4 +1,4 @@
-import type { RouteLegacy } from '@modern-js/types/cli';
+import type { NestedRouteForCli, RouteLegacy } from '@modern-js/types/cli';
 import * as utils from '@modern-js/utils' with { rstest: 'importActual' };
 
 import {
@@ -91,6 +91,63 @@ describe('fileSystemRoutes', () => {
 });
 
 describe('routesForServer', () => {
+  test('exports parameter generators only from the SSG server loader module', async () => {
+    const routes: NestedRouteForCli[] = [
+      {
+        id: 'layout',
+        type: 'nested',
+        origin: 'file-system',
+        path: '/',
+        children: [
+          {
+            id: 'blog/(slug)/page',
+            type: 'nested',
+            origin: 'file-system',
+            routeType: 'page',
+            path: 'blog/:slug',
+            data: '@_modern_js_src/routes/blog/[slug]/page.data',
+            ssgParams: '@_modern_js_src/routes/blog/[slug]/page.data',
+          },
+          {
+            id: 'client/(id)/page',
+            type: 'nested',
+            origin: 'file-system',
+            inValidSSRRoute: true,
+            path: 'client/:id',
+            ssgParams: '@_modern_js_src/routes/client/[id]/page.data',
+          },
+        ],
+      },
+    ];
+
+    const serverCode = routesForServer({
+      routesForServerLoaderMatches: routes,
+      ssg: true,
+    });
+    expect(serverCode).toContain(
+      'import { ssgParams as ssgParams_0 } from "@_modern_js_src/routes/blog/[slug]/page.data";',
+    );
+    expect(serverCode).toContain(
+      'export const ssgParams = {"blog/(slug)/page": ssgParams_0};',
+    );
+    expect(serverCode).not.toContain('"ssgParams":');
+    expect(serverCode).not.toContain('routes/client/[id]/page.data');
+
+    const ssrCode = routesForServer({ routesForServerLoaderMatches: routes });
+    expect(ssrCode).not.toContain('ssgParams');
+
+    const clientCode = await fileSystemRoutes({
+      metaName: 'modern-js',
+      entryName: 'main',
+      nestedRoutesEntry: '/src/routes',
+      internalDirectory: '',
+      ssrMode: 'stream',
+      routes,
+    });
+    expect(clientCode).not.toContain('ssgParams');
+    expect(clientCode).toContain('?loaderId=');
+  });
+
   test('generate code for server', async () => {
     const routesForServerLoaderMatches = [
       {

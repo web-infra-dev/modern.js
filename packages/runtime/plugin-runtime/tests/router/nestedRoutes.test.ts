@@ -1,3 +1,5 @@
+import fs from 'node:fs/promises';
+import os from 'node:os';
 import path from 'path';
 import type { NestedRouteForCli } from '@modern-js/types';
 import { optimizeRoute, walk } from '../../src/router/cli/code/nestedRoutes';
@@ -209,5 +211,55 @@ describe('nested routes', () => {
       isMainEntry: true,
     });
     expect(route).toMatchSnapshot();
+  });
+
+  test('discovers page and splat SSG generators without executing them', async () => {
+    const routesDir = await fs.mkdtemp(path.join(os.tmpdir(), 'ssg-routes-'));
+    const files = {
+      'layout.tsx': 'export default () => null;',
+      'layout.data.ts': 'export const ssgParams = () => [];',
+      '__group/layout.tsx': 'export default () => null;',
+      '__group/[lang]/blog/[slug]/page.tsx': 'export default () => null;',
+      '__group/[lang]/blog/[slug]/page.data.ts':
+        'export async function ssgParams() { throw new Error("build only"); }',
+      'docs/$.tsx': 'export default () => null;',
+      'docs/$.data.ts': "export { generate as ssgParams } from './posts';",
+      'static/page.tsx': 'export default () => null;',
+      'static/page.data.ts': '// ssgParams\nexport const loader = () => null;',
+    };
+
+    try {
+      await Promise.all(
+        Object.entries(files).map(async ([name, source]) => {
+          const filename = path.join(routesDir, name);
+          await fs.mkdir(path.dirname(filename), { recursive: true });
+          await fs.writeFile(filename, source);
+        }),
+      );
+      const routes = await walk({
+        dirname: routesDir,
+        rootDir: routesDir,
+        alias: { name: '@_modern_js_src', basename: routesDir },
+        entryName: 'main',
+        isMainEntry: true,
+      });
+      const generators: Record<string, string> = {};
+      const collect = (route: NestedRouteForCli) => {
+        if (route.ssgParams) {
+          generators[route.id!] = route.ssgParams;
+          expect(route.routeType).toBe('page');
+        }
+        route.children?.forEach(collect);
+      };
+      (Array.isArray(routes) ? routes : [routes!]).forEach(collect);
+
+      expect(generators).toEqual({
+        '__group/(lang)/blog/(slug)/page':
+          '@_modern_js_src/__group/[lang]/blog/[slug]/page.data',
+        'docs/$': '@_modern_js_src/docs/$.data',
+      });
+    } finally {
+      await fs.rm(routesDir, { recursive: true, force: true });
+    }
   });
 });

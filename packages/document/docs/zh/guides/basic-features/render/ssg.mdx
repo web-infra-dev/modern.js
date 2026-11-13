@@ -103,7 +103,7 @@ export default defineConfig({
 
 ## 添加动态路由
 
-在自控式路由或包含动态段的约定式路由（如 `/user/[id]`）中，直接在 `routes` 中写入具体路径。
+在自控式路由中，直接在 `routes` 中写入具体路径。包含动态段的约定式路由（如 `/user/[id]`）也可以使用这一配置。
 
 ```js
 export default defineConfig({
@@ -114,6 +114,61 @@ export default defineConfig({
   },
 });
 ```
+
+### 在 Loader 旁生成路由参数
+
+基于文件系统的约定式路由支持在页面的 `page.data.ts` 中导出 `ssgParams`，根据路由参数生成路径。启用 SSG 并保持 `routes` 未设置，即可使用这一约定。配置式路由不参与参数生成函数的发现。
+
+请使用显式命名导出或重导出，例如 `export { ssgParams } from './params'`。仅通过 `export *` 导出的函数不会被发现。
+
+例如，`src/routes/blog/[slug]/page.data.ts` 可以与 loader 共享筛选已发布文章的逻辑：
+
+{/* prettier-ignore */}
+```ts title="src/routes/blog/[slug]/page.data.ts"
+import type { SSGParams } from '@modern-js/plugin-ssg'
+import { getPublishedPosts } from '@/data/posts'
+
+export const ssgParams: SSGParams = async () => {
+  const posts = await getPublishedPosts()
+  return posts.map(post => ({ slug: post.slug }))
+}
+
+export const loader = async ({ params }: { params: { slug: string } }) => {
+  const posts = await getPublishedPosts()
+  const post = posts.find(post => post.slug === params.slug)
+  if (!post) {
+    throw new Response('Not Found', { status: 404 })
+  }
+  return post
+}
+```
+
+如果已发布文章的 slug 是 `hello` 和 `getting-started`，Modern.js 会生成 `/blog/hello` 和 `/blog/getting-started`，同时继续预渲染入口中的非动态路由。loader 仍负责读取单个页面的数据，在预渲染时执行，其返回值不会用于枚举路径。
+
+`ssgParams` 不接收参数，可以同步或异步返回参数对象数组。SSG 构建时，每个页面路由的函数执行一次，使用应用的服务端编译结果在 Node.js 中运行，因此可以使用路径别名和文件系统访问等服务端依赖。SSG 沿用服务端 data loader 的隔离机制，使参数生成函数及其服务端依赖不进入浏览器产物。调试包含 Node.js 依赖的代码时，请[在开发阶段启用 SSR](#开发环境调试)。`dev` 和 `serve` 不会调用该函数。
+
+#### 参数值
+
+返回未经 URL 编码的原始字符串。包含字面序列 `%2F`（不区分大小写）的值会被拒绝，因为路由匹配时会将其再次解码为 `/`。请返回原始的 `/`，而非编码形式。Modern.js 会对每个动态段编码，并添加入口配置的基础路径。例如，`{ slug: 'hello world' }` 会生成 `/blog/hello%20world`。包含点号的 slug（如 `release.v3`）仍会在对应页面目录中生成 `index.html`。
+
+| 路由文件                                 | 参数对象                            | 生成路径                         |
+| ---------------------------------------- | ----------------------------------- | -------------------------------- |
+| `routes/[lang]/blog/[slug]/page.data.ts` | `{ lang: 'en', slug: 'hello' }`     | `/en/blog/hello`                 |
+| `routes/blog/[slug$]/page.data.ts`       | `{}`                                | `/blog`                          |
+| `routes/blog/[slug$]/page.data.ts`       | `{ slug: 'hello' }`                 | `/blog/hello`                    |
+| `routes/docs/$.data.ts`                  | `{ '*': 'guides/getting started' }` | `/docs/guides/getting%20started` |
+
+嵌套路由的每个对象必须包含父子路由所需的全部必填参数，不会从 `layout.data.ts` 收集或组合参数。可选参数可以省略或设为 `undefined`，对应的路径段也会省略。对于通配页面（`$.tsx`），在 `$.data.ts` 中导出 `ssgParams`，通过 `'*'` 键传入路径，其值会按 `/` 分段编码。
+
+返回空数组时，不为该页面生成路径。重复路径只渲染一次。没有导出 `ssgParams` 的动态路由仍不会参与自动 SSG。
+
+缺少必填参数、参数值不是字符串（可选参数的 `undefined` 除外）、返回结果无效或函数抛出异常时，构建会失败并报告对应路由。必填值不能为空。路径段 `.`、`..` 以及通配参数中的空路径段会被拒绝。
+
+#### 显式路径优先
+
+非空的 `output.ssg.routes` 仍是需要预渲染的完整路径列表。对于该入口，Modern.js 不会调用 `ssgParams`，也不会补充自动发现的路径。`output.ssgByEntries` 遵循同一规则。
+
+不设置 `routes` 或设置 `routes: []` 时，使用自动路由收集。关闭入口的 SSG 也会禁用其参数生成函数。如需自定义某个生成路径的输出位置或请求头，请在 `routes` 中使用显式路由对象。
 
 ## 父子路由的 SSG 匹配
 
@@ -140,7 +195,7 @@ export default defineConfig({
 
 访问 `/blog/` 这样的尾部斜杠形式时，服务器会通过 HTTP 308 重定向到 `/blog`，并保留查询参数。例如，`/blog/?preview=1` 会重定向到 `/blog?preview=1`。
 
-`/blog` 的 SSG 页面不会作为 `/blog/*` 的回退页面。即使应用定义了 `[slug]` 动态路由，也不会自动为所有 slug 生成静态 HTML，需要在 `routes` 中列出具体路径。
+`/blog` 的 SSG 页面不会作为 `/blog/*` 的回退页面。即使应用定义了 `[slug]` 动态路由，也不会自动为所有 slug 生成静态 HTML，需要在 `routes` 中列出具体路径，或在未配置显式路径列表时使用 `ssgParams`。
 
 上例没有启用 SSR，也没有预渲染根入口 `/`，因此未命中的路径会返回根入口的 CSR 页面壳，由浏览器中的路由继续处理。此时初始 HTML 响应通常为 HTTP 200，不会因为路径中包含未知 slug 就在服务端返回 404。
 

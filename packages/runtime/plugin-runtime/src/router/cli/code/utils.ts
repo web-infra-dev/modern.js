@@ -7,7 +7,11 @@ import {
 } from '@modern-js/utils';
 import { transform } from '@swc/core';
 import { parse } from 'es-module-lexer';
-import { ACTION_EXPORT_NAME, LOADER_EXPORT_NAME } from '../constants';
+import {
+  ACTION_EXPORT_NAME,
+  LOADER_EXPORT_NAME,
+  SSG_PARAMS_EXPORT_NAME,
+} from '../constants';
 
 export const walkDirectory = (dir: string): string[] =>
   fs.readdirSync(dir).reduce<string[]>((previous, filename) => {
@@ -103,6 +107,9 @@ export const hasLoader = (filename: string, source?: string) =>
 
 export const hasAction = (filename: string, source?: string) =>
   hasExport(filename, ACTION_EXPORT_NAME, source);
+
+export const hasSsgParams = (filename: string, source?: string) =>
+  hasExport(filename, SSG_PARAMS_EXPORT_NAME, source);
 
 export const getServerLoadersFile = (
   internalDirectory: string,

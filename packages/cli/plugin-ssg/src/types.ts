@@ -15,7 +15,11 @@ export type {
 };
 
 export type AgreedRoute = {
+  id?: string;
+  ssgParams?: string;
   path?: string;
+  routeType?: 'page' | 'layout';
+  index?: boolean;
   component?: string;
   _component?: string;
   children?: AgreedRoute[];

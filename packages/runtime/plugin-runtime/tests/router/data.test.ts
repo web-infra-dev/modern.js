@@ -1,6 +1,10 @@
 import path from 'path';
 import { transform } from '@swc/core';
-import { hasAction, hasLoader } from '../../src/router/cli/code/utils';
+import {
+  hasAction,
+  hasLoader,
+  hasSsgParams,
+} from '../../src/router/cli/code/utils';
 
 // Keep the real implementation but record the calls.
 rs.mock('@swc/core', { spy: true });
@@ -64,6 +68,19 @@ describe('hasAction and hasLoader', () => {
       ),
     ).toBe(true);
     expect(await hasLoader(filename, 'export const action = 1;')).toBe(false);
+  });
+
+  test.each([
+    ['export async function ssgParams() { return []; }', true],
+    ['const generate = () => []; export { generate as ssgParams };', true],
+    ["export { generate as ssgParams } from './posts';", true],
+    ["export { ssgParams } from './posts';", true],
+    ['export const \\u0073sgParams = () => [];', true],
+    ['// ssgParams\nexport const loader = () => null;', false],
+    ['export const ssgParamsOther = () => [];', false],
+    ["export * from './posts';", false],
+  ])('detects an explicit ssgParams export: %s', async (source, expected) => {
+    expect(await hasSsgParams(filename, source)).toBe(expected);
   });
 
   test('does not parse files that cannot export the name', async () => {

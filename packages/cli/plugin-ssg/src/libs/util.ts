@@ -242,6 +242,24 @@ export const flattenRoutes = (routes: AgreedRoute[]): AgreedRoute[] => {
   return newRoutes;
 };
 
+export function selectRoutesForSSG(routes: AgreedRoute[]): AgreedRoute[] {
+  const routesByPath = new Map<string, AgreedRoute>();
+  const isPage = (route: AgreedRoute) =>
+    route.routeType === 'page' || route.index === true;
+
+  for (const route of routes) {
+    const pathname = route.path || '/';
+    const selected = routesByPath.get(pathname);
+    // An index page takes precedence over its layout. Preserve the first page
+    // so a later pathless sibling cannot replace the page matched by the router.
+    if (!selected || (!isPage(selected) && isPage(route))) {
+      routesByPath.set(pathname, route);
+    }
+  }
+
+  return [...routesByPath.values()];
+}
+
 export function chunkArray<T>(arr: T[], size: number): T[][] {
   const result: T[][] = [];
   for (let i = 0; i < arr.length; i += size) {
