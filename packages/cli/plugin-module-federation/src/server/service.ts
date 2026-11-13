@@ -1,4 +1,5 @@
 import { randomUUID } from 'node:crypto';
+import nodeRuntimePlugin from '@module-federation/node/runtimePlugin';
 import {
   createInstance,
   ModuleFederation,
@@ -81,6 +82,7 @@ function deployment(
         // The producer's local build snapshot takes precedence over snapshots
         // retained by other runtimes, including after a development rebuild.
         plugins: [
+          nodeRuntimePlugin(),
           ssrOwnership(),
           ...(typeof manifest === 'string'
             ? []
@@ -166,7 +168,8 @@ function deployment(
     async buildVersion() {
       await prepare();
       const version =
-        match.remoteSnapshot?.devRevision || match.remoteSnapshot?.buildVersion;
+        match.remoteSnapshot?.ssrBuildVersion ||
+        match.remoteSnapshot?.buildVersion;
       if (!version) throw Error('Service manifest has no build identity.');
       return version;
     },
@@ -302,7 +305,7 @@ export function createBridgeServiceIngressMiddleware(
       throw Error(`Service '${id}' has no build identity.`);
     return {
       url: getServiceUrl(snapshot.serviceBaseUrl, metadata.servicePath!),
-      buildVersion: snapshot.devRevision || snapshot.buildVersion,
+      buildVersion: snapshot.ssrBuildVersion || snapshot.buildVersion,
     };
   };
   const middleware = async (context: Context, next: () => Promise<void>) => {

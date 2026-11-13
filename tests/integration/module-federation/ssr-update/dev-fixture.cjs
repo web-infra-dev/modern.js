@@ -226,13 +226,17 @@ export default function Remote(${ordinary ? '{data}: {data: {version: string}}' 
   ${ordinary ? '' : 'const data = useLoaderData() as {version: string};'}
   const [count, setCount] = useState(0);
   const button = useRef<HTMLButtonElement>(null);
+  const identity = useRef<HTMLOutputElement>(null);
   const [runtimeId, setRuntimeId] = useState('');
   useEffect(() => {
     button.current!.dataset.hydrated = 'true';
+    identity.current!.dataset.buildId = FEDERATION_BUILD_IDENTIFIER;
     setRuntimeId(__webpack_require__.federation.instance.options.id);
   }, []);
   return <section data-testid="dev-remote" data-ui={version} data-loader={data.version}
-    data-build-id={FEDERATION_BUILD_IDENTIFIER} data-runtime-id={runtimeId}>
+    data-runtime-id={runtimeId}>
+    {/* This diagnostic marker intentionally differs between Node and browser compilations. */}
+    <output ref={identity} hidden suppressHydrationWarning data-build-id={FEDERATION_BUILD_IDENTIFIER} />
     <h2>Remote UI {version}</h2><p>Remote loader {data.version}</p>
     <button ref={button} id="dev-counter" onClick={() => setCount(value => value + 1)}>count:{count}</button>
   </section>;

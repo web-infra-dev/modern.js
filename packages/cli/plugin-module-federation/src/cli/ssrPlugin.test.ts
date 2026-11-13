@@ -145,16 +145,16 @@ describe('moduleFederationSSRPlugin', () => {
           }),
         ).toBe(config);
         expect(config).toEqual({ output: { publicPath: 'auto' } });
-        const json = JSON.stringify({
-          metaData: { buildInfo: { buildVersion: 'completed-build' } },
-          exposes: [
-            {
-              name: 'App',
-              ...(service ? { servicePath: '/service/App' } : {}),
-            },
-          ],
-        });
         for (const name of ['web', 'node']) {
+          const json = JSON.stringify({
+            metaData: { buildInfo: { buildVersion: `completed-${name}` } },
+            exposes: [
+              {
+                name: 'App',
+                ...(service ? { servicePath: '/service/App' } : {}),
+              },
+            ],
+          });
           rsbuildApi.processAssets.mock.calls[0][1]({
             environment: { name },
             assets: {
@@ -170,7 +170,8 @@ describe('moduleFederationSSRPlugin', () => {
         const publication = rs.fn();
         const unsubscribe = identity.subscribe(publication);
         expect(publication).toHaveBeenLastCalledWith({
-          buildVersion: 'completed-build',
+          buildVersion: 'completed-web',
+          ssrBuildVersion: 'completed-node',
           hot: !service,
         });
         unsubscribe();

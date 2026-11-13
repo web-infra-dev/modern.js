@@ -55,7 +55,7 @@ function fixture() {
 }
 afterEach(() => rs.restoreAllMocks());
 describe('application remote target checks', () => {
-  it('detects direct and transitive dev revisions with unchanged release versions', async () => {
+  it('detects server-only builds for direct and transitive providers', async () => {
     const f = fixture();
     const first = {
       ...target('a'),
@@ -63,7 +63,13 @@ describe('application remote target checks', () => {
         ...manifest('a'),
         metaData: {
           ...manifest('a').metaData,
-          buildInfo: { buildVersion: 'a', devRevision: '1' },
+          buildInfo: { buildVersion: 'a' },
+          ssrRemoteEntry: {
+            path: '',
+            name: 'server.js',
+            type: 'commonjs-module',
+            buildVersion: '1',
+          },
         },
       },
       dependencies: [
@@ -71,7 +77,7 @@ describe('application remote target checks', () => {
           name: 'nested',
           entry: 'http://nested/manifest.json',
           buildVersion: 'x',
-          devRevision: '1',
+          ssrBuildVersion: '1',
         },
       ],
     };
@@ -80,12 +86,12 @@ describe('application remote target checks', () => {
       false,
     );
     const next = structuredClone(first);
-    next.moduleInfo.metaData.buildInfo.devRevision = '2';
+    next.moduleInfo.metaData.ssrRemoteEntry.buildVersion = '2';
     expect(await f.controller.shouldUpdateRemote(f.application, next)).toBe(
       true,
     );
     const nested = structuredClone(first);
-    nested.dependencies[0].devRevision = '2';
+    nested.dependencies[0].ssrBuildVersion = '2';
     expect(await f.controller.shouldUpdateRemote(f.application, nested)).toBe(
       true,
     );

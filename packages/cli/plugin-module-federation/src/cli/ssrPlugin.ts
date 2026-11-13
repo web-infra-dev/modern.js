@@ -138,7 +138,7 @@ const mfSSRRsbuildPlugin = (
               );
               pluginOptions.devManifestPublication.notifyReady(stats, {
                 buildVersion: manifest.metaData.buildInfo.buildVersion,
-                devRevision: manifest.metaData.buildInfo.devRevision,
+                ssrBuildVersion: manifest.metaData.ssrRemoteEntry?.buildVersion,
                 // Service mounts pair browser metadata with server HTML. HMR
                 // keeps the old descriptor, so those consumers need a fresh
                 // document after Node is ready, including later remounts.

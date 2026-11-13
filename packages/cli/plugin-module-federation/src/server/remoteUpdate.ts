@@ -18,7 +18,7 @@ export interface RemoteUpdateTarget {
     name: string;
     entry: string;
     buildVersion: string;
-    devRevision?: string;
+    ssrBuildVersion?: string;
   }[];
 }
 export interface RemoteCheckOptions {
@@ -75,7 +75,7 @@ export function moduleInfoFingerprint(
   const fields = [
     'providerName',
     'buildVersion',
-    'devRevision',
+    'ssrBuildVersion',
     'globalName',
     'remoteEntry',
     'remoteEntryType',

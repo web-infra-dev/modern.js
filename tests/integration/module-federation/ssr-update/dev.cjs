@@ -247,6 +247,11 @@ async function run(mode) {
             !frames.some(frame => frame.type === 'error'),
           `SSR provider/loader frames are not ready: ${JSON.stringify(evidence.lastSSR)}`,
         );
+        assert.equal(
+          evidence.lastSSR.compiledIdentity,
+          `${fixture.providerName}:${selectedManifest.json.metaData.ssrRemoteEntry.buildVersion}`,
+          'SSR executes the Node compilation selected by the manifest',
+        );
         await fs.writeFile(path.join(root, `ssr-${ui}-${loader}.html`), html);
         return html;
       },
@@ -456,7 +461,9 @@ async function run(mode) {
         '[data-testid="dev-remote"]',
         node => ({
           runtime: node.getAttribute('data-runtime-id'),
-          compiled: node.getAttribute('data-build-id'),
+          compiled: node
+            .querySelector('[data-build-id]')
+            .getAttribute('data-build-id'),
         }),
       );
       const selected = await manifest();
@@ -464,7 +471,12 @@ async function run(mode) {
       assert.equal(
         identity.runtime,
         identity.compiled,
-        'The browser keeps its compiler identity across content revisions',
+        'The browser runtime uses its own compilation identity',
+      );
+      assert.equal(
+        identity.compiled,
+        `${fixture.providerName}:${selected.json.metaData.buildInfo.buildVersion}`,
+        'The browser executes the browser compilation selected by the manifest',
       );
       evidence.identities ||= [];
       evidence.identities.push({
@@ -533,8 +545,10 @@ async function run(mode) {
           return (
             value &&
             value.hash !== before.hash &&
-            value.json.metaData.buildInfo.devRevision !==
-              before.json.metaData.buildInfo.devRevision &&
+            (value.json.metaData.buildInfo.buildVersion !==
+              before.json.metaData.buildInfo.buildVersion ||
+              value.json.metaData.ssrRemoteEntry?.buildVersion !==
+                before.json.metaData.ssrRemoteEntry?.buildVersion) &&
             value
           );
         },
@@ -568,8 +582,10 @@ async function run(mode) {
         newManifest: current.hash,
         oldBuildVersion: before.json.metaData.buildInfo.buildVersion,
         newBuildVersion: current.json.metaData.buildInfo.buildVersion,
-        oldDevRevision: before.json.metaData.buildInfo.devRevision,
-        newDevRevision: current.json.metaData.buildInfo.devRevision,
+        oldServerBuildVersion:
+          before.json.metaData.ssrRemoteEntry?.buildVersion,
+        newServerBuildVersion:
+          current.json.metaData.ssrRemoteEntry?.buildVersion,
         documentLoads: evidence.navigations.length - navigations,
       });
       await stableNavigation(label);
@@ -792,7 +808,8 @@ async function run(mode) {
         );
         assert.equal(
           staleBody.buildVersion,
-          oldManifest.json.metaData.buildInfo.devRevision,
+          oldManifest.json.metaData.ssrRemoteEntry?.buildVersion ||
+            oldManifest.json.metaData.buildInfo.buildVersion,
         );
         const navigations = recovery.navigations.length;
         await writeGeneration(root, {
@@ -836,7 +853,8 @@ async function run(mode) {
         );
         assert.equal(
           mismatch.body.actualBuildVersion,
-          nextManifest.json.metaData.buildInfo.devRevision,
+          nextManifest.json.metaData.ssrRemoteEntry?.buildVersion ||
+            nextManifest.json.metaData.buildInfo.buildVersion,
         );
         assert.notEqual(
           mismatch.body.actualBuildVersion,

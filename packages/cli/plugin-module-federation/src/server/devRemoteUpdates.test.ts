@@ -63,9 +63,11 @@ afterEach(() => {
 });
 
 describe('development build subscriptions and request fallback', () => {
-  it('rejects a superseded dev revision even when the package version is unchanged', async () => {
+  it('rejects a superseded Node build even when the browser build is unchanged', async () => {
     const current = manifest('release');
-    Object.assign(current.metaData.buildInfo, { devRevision: '2' });
+    Object.assign(current.metaData, {
+      ssrRemoteEntry: { name: 'server.js', buildVersion: '2' },
+    });
     rs.spyOn(globalThis, 'fetch').mockImplementation(async () =>
       Response.json(current),
     );
@@ -74,13 +76,13 @@ describe('development build subscriptions and request fallback', () => {
       await expect(
         transport.callbacks.onUpdate({
           remote: remote('weather'),
-          publication: { buildVersion: 'release', devRevision: '1' },
+          publication: { buildVersion: 'release', ssrBuildVersion: '1' },
         }),
       ).rejects.toThrow('superseded');
       expect(f.updateRemotes).not.toHaveBeenCalled();
       await transport.callbacks.onUpdate({
         remote: remote('weather'),
-        publication: { buildVersion: 'release', devRevision: '2' },
+        publication: { buildVersion: 'release', ssrBuildVersion: '2' },
       });
       expect(f.updateRemotes).toHaveBeenCalledTimes(1);
     } finally {

@@ -76,7 +76,11 @@ if (await shouldUpdateRemote(remote, { revalidate: true })) {
 
 更新选定候选模块信息后，Host 运行时和该应用的 Service ingress 在重建时使用同一份候选快照。用户的 `afterResolve` 插件需要保留这份快照选择的部署身份，仍然可以调整请求头等请求策略。固定模块信息不能保留被覆盖的产物字节，生产发布仍需要不可变的版本化资源。
 
-manifest 默认使用产物内容摘要作为 `buildVersion`，浏览器和 Node 产物合并时生成对应的组合版本。单端更新不要求另一端重新编译。发布流程也可以设置 `MF_BUILD_VERSION`，显式标识整组产物版本。同名生产者的旧版本清理由实际容器与运行时绑定确定，Node 执行实例 ID 与 manifest 内容版本承担不同职责。不要在构建完成后单独改写 manifest 的 `buildVersion`。
+开发构建为每次编译生成新的 `buildVersion`，manifest 和对应容器使用同一个值，不再增加独立的开发 revision。生产构建依次使用 `MF_BUILD_VERSION`、项目包版本和本地回退值。生产发布需要为不同部署分配可区分的版本。
+
+浏览器和 Node manifest 合并时，`buildInfo.buildVersion` 保留浏览器版本，`ssrRemoteEntry.buildVersion` 保留 Node 版本。SSR 更新比较 Node 版本，单端更新不要求另一端重新编译。生产者运行时按生产者名称和所选构建版本定位。不要在构建完成后单独改写 manifest 的 `buildVersion`。
+
+Modern 负责排空请求和发布应用版本。`@module-federation/node/runtimePlugin` 负责 MF 实例、容器、共享依赖和 host snapshot 的生命周期。MF bundler adapter 将清理请求交给 Rspack，模块依赖图、模块缓存、chunk 状态和过期加载判断由 Rspack 原生 runtime 管理。
 
 如果目标生产者已被另一个应用加载，新 Host 会在执行渲染器前，复用该生产者已加载且包版本相同的 singleton 记录，保证保留的组件和 Host 使用相同的运行时依赖。非 singleton 依赖及其他包版本仍按 MF 的正常规则选择。如果选中的多个生产者已经使用不同的 singleton 实例，初始化会报错。
 

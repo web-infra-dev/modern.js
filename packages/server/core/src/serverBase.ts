@@ -122,7 +122,9 @@ export class ServerBase<E extends Env = any> {
         Promise.resolve().then(callback),
       ),
     );
-    const failures = results.filter(result => result.status === 'rejected');
+    const failures = results.filter(
+      (result): result is PromiseRejectedResult => result.status === 'rejected',
+    );
     if (failures.length)
       throw new AggregateError(
         failures.map(result => result.reason),

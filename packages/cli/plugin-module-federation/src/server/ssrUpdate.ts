@@ -53,7 +53,7 @@ export interface SSRRemoteReplacement {
     name: string;
     entry: string;
     buildVersion: string;
-    devRevision?: string;
+    ssrBuildVersion?: string;
   }[];
 }
 export interface SSRUpdateOptions extends RemoteCheckOptions {
