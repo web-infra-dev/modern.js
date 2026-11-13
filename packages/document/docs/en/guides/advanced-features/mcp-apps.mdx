@@ -180,3 +180,22 @@ export default function Card() {
 ```
 
 You can also pass capabilities as the third argument to `createMcpView`. Explicit display mode arrays replace the defaults. MF modules are loaded before initialization so the handshake includes their capabilities. Declaring fullscreen support does not add a fullscreen button or switch modes automatically.
+
+## Local stdio debugging
+
+Local component views can be prepared as self-contained HTML and a Node stdio server without an HTTP development server.
+
+```ts
+mcpAppsPlugin({
+  views: './mcp-views.json',
+  stdio: { server: './api/server/mcp.ts' },
+});
+```
+
+Add `"mcp:prepare": "modern mcp-prepare"` to package scripts and run `pnpm mcp:prepare`. Copy the printed command and args into a local MCP connector. The host starts the process. Output defaults to `dist-mcp/`, separate from the normal dist directory. Configure `stdio.output` to choose another dedicated directory outside application dist, and ignore it in Git.
+
+The server module must default-export an async factory accepting `RegisterUiOptions`. Create a McpServer, call `registerUiResources(server, options)`, register business tools and return the server. The HTTP route can share this factory with `createBffHandlers(request => createServer({ request }))`. No synthetic HTTP Request is needed for stdio.
+
+The isolated build preserves createMcpView lifecycle and exported mcpCapabilities. JavaScript, styles and imported static assets are inlined, with a 5 MiB limit per HTML document. It uses source.alias, source.define and the application tsconfig, but does not execute application Rsbuild plugins or server middleware. Use HTTP for custom loaders, page runtime dependencies or Module Federation views. Runtime API requests still need explicit endpoints and suitable CSP.
+
+Reserve server stdout for JSON-RPC and send diagnostics to stderr. Keep application Node dependencies installed. Rebuild after changes and restart the connector to load updated code and HTML. HTTP builds and deployment remain unchanged.

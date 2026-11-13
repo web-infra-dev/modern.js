@@ -31,6 +31,7 @@ async function setupEntries(enableAsyncEntry: boolean) {
       command: 'build',
     }),
     getNormalizedConfig: () => ({ source: { enableAsyncEntry } }),
+    addCommand: noop,
     addWatchFiles: noop,
     modifyEntrypoints: (fn: ModifyEntrypoints) => {
       modifyEntrypoints = fn;

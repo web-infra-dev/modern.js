@@ -40,8 +40,14 @@ it.each(['mcp-apps', 'mcp-apps-mf'])(
       path.join(directory, 'api/lambda/mcp.ts'),
       'utf8',
     );
-    expect(route).toContain('new McpServer(');
-    expect(route).toContain('createBffHandlers(createServer)');
+    expect(route).toContain('createBffHandlers(');
+    const factory = mf
+      ? route
+      : fs.readFileSync(path.join(directory, 'api/server/mcp.ts'), 'utf8');
+    expect(factory).toContain('new McpServer(');
+    expect(pkg.scripts['mcp:prepare']).toBe(
+      mf ? undefined : 'modern mcp-prepare',
+    );
     expect(fs.existsSync(path.join(directory, 'mcp_apps.ts'))).toBe(false);
     expect(fs.existsSync(path.join(directory, 'mcp-views.json'))).toBe(true);
     expect(
