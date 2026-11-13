@@ -1,4 +1,3 @@
-import { pathToFileURL } from 'node:url';
 import type { CLIPluginAPI } from '@modern-js/plugin';
 import type { Plugin } from '@modern-js/plugin';
 import { loadServerPlugins as loadServerPluginInstances } from '@modern-js/prod-server';
@@ -8,7 +7,6 @@ import type { InternalPlugins } from '@modern-js/types';
 import {
   compatibleRequire,
   createDebugger,
-  dynamicImport,
   getInternalPlugins,
   tryResolve,
 } from '@modern-js/utils';
@@ -53,18 +51,7 @@ const resolveCliPlugin = async (
   const pkg = typeof p === 'string' ? p : p[0];
   const pluginOptions = typeof p === 'string' ? undefined : p[1];
   const path = tryResolve(pkg, appDirectory);
-  let module;
-  try {
-    module = await compatibleRequire(path);
-  } catch (e) {
-    try {
-      // Native import requires a file URL for absolute paths on Windows.
-      ({ default: module } = await dynamicImport(pathToFileURL(path).href));
-    } catch {
-      // Preserve the original plugin load error if the ESM fallback also fails.
-      throw e;
-    }
-  }
+  const module = await compatibleRequire(path);
 
   // handle string plugin
   if (typeof module === 'function') {

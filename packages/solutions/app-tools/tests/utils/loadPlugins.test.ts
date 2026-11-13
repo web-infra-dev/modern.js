@@ -1,19 +1,9 @@
-import { mkdtempSync, rmSync, writeFileSync } from 'node:fs';
-import { tmpdir } from 'node:os';
 import path from 'node:path';
-import { pathToFileURL } from 'node:url';
-import { compileFunction, constants } from 'node:vm';
 import type { InternalPlugins } from '@modern-js/types';
 import { loadInternalPlugins } from '../../src/utils/loadPlugins';
 
-// Bypass the test runner's import hook to exercise Node's file URL handling.
-const nativeImport = compileFunction(
-  'return import(modulePath)',
-  ['modulePath'],
-  { importModuleDynamically: constants.USE_MAIN_CONTEXT_DEFAULT_LOADER },
-) as (modulePath: string) => Promise<{ default: unknown }>;
 const mockCompatibleRequire = rstest.fn();
-const mockDynamicImport = rstest.fn(nativeImport);
+const mockDynamicImport = rstest.fn();
 
 rstest.mock('@modern-js/prod-server', () => ({
   loadServerPlugins: rstest.fn(),
@@ -31,17 +21,11 @@ rstest.mock('@modern-js/utils', () => ({
 }));
 
 describe('loadInternalPlugins', () => {
-  let appDirectory: string;
+  const appDirectory = path.resolve('test-app');
 
   beforeEach(() => {
     mockCompatibleRequire.mockReset();
     mockDynamicImport.mockReset();
-    mockDynamicImport.mockImplementation(nativeImport);
-    appDirectory = mkdtempSync(path.join(tmpdir(), 'modern-cli-plugins #%-'));
-  });
-
-  afterEach(() => {
-    rmSync(appDirectory, { recursive: true, force: true });
   });
 
   const loadPlugin = (pluginPath: string) =>
@@ -50,7 +34,7 @@ describe('loadInternalPlugins', () => {
     });
 
   it.each(['object', 'factory'])(
-    'loads a CommonJS plugin %s without using the ESM fallback',
+    'loads a plugin %s through compatibleRequire',
     async exportType => {
       const plugin = { name: 'commonjs-plugin' };
       const factory = rstest.fn(() => plugin);
@@ -58,46 +42,26 @@ describe('loadInternalPlugins', () => {
         exportType === 'factory' ? factory : plugin,
       );
 
-      await expect(
-        loadPlugin(path.join(appDirectory, 'plugin.cjs')),
-      ).resolves.toEqual([plugin]);
+      const pluginPath = path.join(appDirectory, 'plugin.cjs');
+      await expect(loadPlugin(pluginPath)).resolves.toEqual([plugin]);
 
+      expect(mockCompatibleRequire).toHaveBeenCalledWith(pluginPath);
       expect(mockDynamicImport).not.toHaveBeenCalled();
       expect(factory).toHaveBeenCalledTimes(exportType === 'factory' ? 1 : 0);
     },
   );
 
-  it('loads an ESM plugin from a path containing URL-sensitive characters', async () => {
-    const pluginPath = path.join(appDirectory, 'plugin #%.mjs');
-    writeFileSync(
-      pluginPath,
-      `await Promise.resolve();
-export default () => ({ name: 'esm-plugin' });
-`,
-    );
-    mockCompatibleRequire.mockRejectedValue(
-      new Error('require() cannot load this ESM plugin'),
-    );
-
-    await expect(loadPlugin(pluginPath)).resolves.toEqual([
-      { name: 'esm-plugin' },
-    ]);
-    expect(mockDynamicImport).toHaveBeenCalledWith(
-      pathToFileURL(pluginPath).href,
-    );
-  });
-
-  it('preserves the original error when the ESM fallback also fails', async () => {
+  it('propagates plugin load errors without retrying the module', async () => {
     const cause = new Error('native addon permission check failed');
     const originalError = Object.assign(
       new Error('real error from plugin', { cause }),
       { code: 'ERR_DLOPEN_FAILED' },
     );
     mockCompatibleRequire.mockRejectedValue(originalError);
-    mockDynamicImport.mockRejectedValue(new Error('ESM fallback failed'));
 
     await expect(
       loadPlugin(path.join(appDirectory, 'throwing.cjs')),
     ).rejects.toBe(originalError);
+    expect(mockDynamicImport).not.toHaveBeenCalled();
   });
 });
