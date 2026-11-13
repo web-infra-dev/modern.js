@@ -2,7 +2,7 @@
 
 Example projects for [Modern.js](https://modernjs.dev).
 
-Each example depends on the `latest` published Modern.js packages, so you can copy any example directory out of this repo and use it directly — `pnpm install && pnpm dev` just works, and you always get the newest release without editing versions.
+Most examples depend on the `latest` published Modern.js packages, so you can copy an example directory out of this repo and use it directly with `pnpm install && pnpm dev`. Examples that pin a version explain the compatibility target in their README.
 
 To run one inside this repo (examples are also members of the pnpm workspace, resolved against the published packages, pinned by the root lockfile):
 
@@ -22,6 +22,7 @@ pnpm dev
 | [deploy/self-built-node](./deploy/self-built-node)             | Deploying the build output on a self-hosted Node.js (Express) server                         |
 | [modern-js-deploy-csr](./modern-js-deploy-csr)                 | CSR app deployment (Vercel / Netlify configs included)                                       |
 | [modern-js-deploy-ssr](./modern-js-deploy-ssr)                 | SSR app deployment (Vercel / Netlify configs included)                                       |
+| [og-image](./og-image)                                         | Build-time or on-demand PNG share images with Satori, Resvg and SSR metadata                 |
 | [module-federation/base](./module-federation/base)             | Module Federation basics: host consumes a remote component                                   |
 | [module-federation/app-export](./module-federation/app-export) | Module Federation app-level export: remote exports a full app via bridge                     |
 | [react-compiler](./react-compiler)                             | Enabling React Compiler with `@rsbuild/plugin-babel`                                         |
