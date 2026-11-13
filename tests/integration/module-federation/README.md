@@ -115,6 +115,8 @@ Inspect defaults to off and uses the existing runtime `onLoad` decorator. Labels
 
 The local API returns deterministic weather after 900 ms and assigns a request ID. Interactive ports are 4300 for the gateway, 4306 for the API and 4307 for the underlying host. Provider and library version-two builds use separate origins. Weather SVGs, remote station images, CSS and cloud imagery are local. No public weather, font or image service is required.
 
+For externally reserved test ports, set `MF_LAB_PORTS` to a JSON object. Ordinary Labs require `host`, `provider`, `nested`, `library`, `providerV2`, `libraryV2`, `api` and `hostInternal`. Service Labs require `provider`, `api`, `serviceSSR` and `serviceCSR`. A combined object supports both suites. Each active service must have a distinct valid port. Explicit assignments are preserved and port conflicts fail instead of allocating replacements. Without this variable, tests keep their existing automatic port allocation.
+
 ## Timing metrics
 
 `Data visible` measures the later first paint of the actual temperature and condition through Element Timing. Placeholders and error cards do not create this metric. Browsers without Element Timing show a visibility estimate marked `≈`.

@@ -1,4 +1,7 @@
+import Module, { createRequire } from 'node:module';
 import path from 'path';
+import { isDeepStrictEqual } from 'node:util';
+import { AsyncLocalStorage } from 'node:async_hooks';
 import { fileReader } from '@modern-js/runtime-utils/fileReader';
 import type { Monitors, ServerRoute } from '@modern-js/types';
 import {
@@ -11,16 +14,43 @@ import {
   compatibleRequire,
   isProd,
 } from '@modern-js/utils';
+import { getRenderHandler } from '../../../plugins/render/inject';
+import { createCSRRender } from '../../../plugins/render/render';
 import type {
   Middleware,
   MiddlewareHandler,
   ServerEnv,
   ServerManifest,
   ServerPlugin,
+  ServerContext,
 } from '../../../types';
 import { uniqueKeyByRoute } from '../../../utils';
+import {
+  type SSRApplication,
+  type SSRApplicationOptions,
+  type SSRApplicationResources,
+  createSSRApplication,
+} from '../application';
+import { createStaticMiddleware } from './static';
 
-export async function getHtmlTemplates(pwd: string, routes: ServerRoute[]) {
+export interface SSRResourceApplicationOptions extends Omit<
+  SSRApplicationOptions,
+  'load'
+> {
+  onReady: (application: SSRApplication) => void;
+  /** Establish a service-owned context around admitted request work. */
+  run?: <T>(operation: () => T) => T;
+  /** Reacquire a compiled root in its existing runtime after selective invalidation. */
+  reloadEntry?: (entry: string) => Promise<any>;
+  /** Validate unpublished resources directly, without re-entering HTTP admission. */
+  validate?: (resources: SSRApplicationResources) => Promise<void>;
+}
+
+export async function getHtmlTemplates(
+  pwd: string,
+  routes: ServerRoute[],
+  options: { fresh?: boolean } = {},
+) {
   // Only process routes with entryName, which are HTML template routes.
   // Public static file routes don't have entryName and shouldn't be processed here.
   const htmlRoutes = routes.filter(route => route.entryName);
@@ -30,7 +60,9 @@ export async function getHtmlTemplates(pwd: string, routes: ServerRoute[]) {
       let html: string | undefined;
       try {
         const htmlPath = path.join(pwd, route.entryPath);
-        html = (await fileReader.readFile(htmlPath, 'utf-8'))?.toString();
+        html = options.fresh
+          ? await fs.readFile(htmlPath, 'utf-8')
+          : (await fileReader.readFile(htmlPath, 'utf-8'))?.toString();
       } catch (e) {
         // ignore error
       }
@@ -72,10 +104,32 @@ function reportBundleError(
   }
 }
 
+async function assertCommonJS(filepath: string) {
+  if (filepath.endsWith('.cjs')) return;
+  if (filepath.endsWith('.mjs'))
+    throw new Error(
+      `Native ESM application entries cannot be reloaded: ${filepath}`,
+    );
+  let directory = path.dirname(filepath);
+  for (;;) {
+    const packagePath = path.join(directory, 'package.json');
+    if (await fs.pathExists(packagePath)) {
+      if ((await fs.readJSON(packagePath)).type === 'module')
+        throw new Error(
+          `Native ESM application entries cannot be reloaded: ${filepath}`,
+        );
+      return;
+    }
+    const parent = path.dirname(directory);
+    if (parent === directory) return;
+    directory = parent;
+  }
+}
+
 const loadBundle = async (
   filepath: string,
   monitors?: Monitors,
-  { required = false, failOnError = false } = {},
+  { required = false, failOnError = false, reloadable = false } = {},
 ) => {
   // Required bundles go through the module loader even when absent, preserving
   // its original error code, message and stack. Optional bundles may be absent.
@@ -97,6 +151,12 @@ const loadBundle = async (
         throw e;
       }
     }
+    if (reloadable) {
+      const require = createRequire(path.resolve(filepath));
+      const resolved = require.resolve(path.resolve(filepath));
+      await assertCommonJS(resolved);
+      return require(resolved);
+    }
     const module = await compatibleRequire(filepath, false);
     return module;
   } catch (e) {
@@ -112,65 +172,116 @@ export async function getServerManifest(
   pwd: string,
   routes: ServerRoute[],
   monitors?: Monitors,
-  { failOnError = false } = {},
+  options: {
+    failOnError?: boolean;
+    reloadable?: boolean;
+    reloadEntry?: (entry: string) => Promise<any>;
+    onReloadedBundle?: (filename: string, exports: any) => void;
+  } = {},
 ): Promise<ServerManifest> {
+  const {
+    failOnError = false,
+    reloadable = false,
+    reloadEntry,
+    onReloadedBundle,
+  } = options;
   const loaderBundles: Record<string, any> = {};
   const renderBundles: Record<string, any> = {};
 
-  await Promise.all(
-    routes
-      .filter(route => Boolean(route.bundle))
-      .map(async route => {
-        // SSG can attach a bundle path even to static-file routes. A declared
-        // path alone does not make that route a required SSR render entry.
-        const failOnBundleError = failOnError && Boolean(route.isSSR);
-        const entryName = route.entryName || MAIN_ENTRY_NAME;
-        const renderBundlePath = path.join(pwd, route.bundle || '');
-        const loaderBundlePath = path.join(
-          pwd,
-          SERVER_BUNDLE_DIRECTORY,
-          `${entryName}-server-loaders.js`,
-        );
+  const preparations = routes
+    .filter(route => Boolean(route.bundle))
+    .map(async route => {
+      // SSG can attach a bundle path even to static-file routes. A declared
+      // path alone does not make that route a required SSR render entry.
+      const failOnBundleError =
+        (failOnError || reloadable) && Boolean(route.isSSR);
+      const entryName = route.entryName || MAIN_ENTRY_NAME;
+      const renderBundlePath = path.join(pwd, route.bundle || '');
+      const loaderBundlePath = path.join(
+        pwd,
+        SERVER_BUNDLE_DIRECTORY,
+        `${entryName}-server-loaders.js`,
+      );
 
-        const renderBundle = await loadBundle(renderBundlePath, monitors, {
-          required: failOnBundleError,
-          failOnError: failOnBundleError,
-        });
-        const loaderBundle = await loadBundle(loaderBundlePath, monitors, {
-          failOnError: failOnBundleError,
-        });
+      const renderBundle = reloadEntry
+        ? await reloadEntry(entryName)
+        : await loadBundle(renderBundlePath, monitors, {
+            required: failOnBundleError,
+            failOnError: failOnBundleError,
+            reloadable,
+          });
+      if (
+        reloadable &&
+        route.isSSR &&
+        typeof (await renderBundle?.requestHandler) !== 'function'
+      ) {
+        throw new Error(`Invalid SSR entry: ${entryName}`);
+      }
+      const loaderBundle =
+        reloadEntry && (await fs.pathExists(loaderBundlePath))
+          ? await reloadEntry(`${entryName}-server-loaders`)
+          : await loadBundle(loaderBundlePath, monitors, {
+              failOnError: failOnBundleError,
+              reloadable,
+            });
+      if (reloadEntry) {
+        onReloadedBundle?.(renderBundlePath, renderBundle);
+        if (loaderBundle) onReloadedBundle?.(loaderBundlePath, loaderBundle);
+      }
 
-        renderBundle && (renderBundles[entryName] = renderBundle);
-        if (loaderBundle) {
-          try {
-            loaderBundles[entryName] = loaderBundle.loadModules
-              ? await loaderBundle.loadModules()
-              : loaderBundle;
-          } catch (e) {
-            if (failOnBundleError) {
-              reportBundleError(loaderBundlePath, e, monitors);
-            }
-            throw e;
+      renderBundle && (renderBundles[entryName] = renderBundle);
+      if (loaderBundle) {
+        try {
+          loaderBundles[entryName] = loaderBundle.loadModules
+            ? await loaderBundle.loadModules()
+            : loaderBundle;
+        } catch (e) {
+          if (failOnBundleError) {
+            reportBundleError(loaderBundlePath, e, monitors);
           }
+          throw e;
         }
-      }),
-  );
+      }
+    });
 
+  if (reloadable) {
+    // Retire every preparation before reporting a failed unpublished generation.
+    const loaded = await Promise.allSettled(preparations);
+    const errors = loaded.filter(result => result.status === 'rejected');
+    if (errors.length)
+      throw new AggregateError(
+        errors.map(result => result.reason),
+        'SSR bundle preparation failed',
+      );
+  } else {
+    // Preserve the original startup error and stack for ordinary strict warmup.
+    await Promise.all(preparations);
+  }
+  const readManifest = async (filename: string) => {
+    try {
+      return await (options.reloadable
+        ? fs.readJSON(filename)
+        : compatibleRequire(filename));
+    } catch (error) {
+      if (
+        options.reloadable &&
+        (error as NodeJS.ErrnoException).code !== 'ENOENT'
+      )
+        throw error;
+      return {};
+    }
+  };
   const loadableUri = path.join(pwd, LOADABLE_STATS_FILE);
 
-  const loadableStats = await compatibleRequire(loadableUri).catch(_ => ({}));
+  const loadableStats = await readManifest(loadableUri);
 
   const routesManifestUri = path.join(pwd, ROUTE_MANIFEST_FILE);
 
-  const routeManifest = await compatibleRequire(routesManifestUri).catch(
-    _ => ({}),
-  );
+  const routeManifest = await readManifest(routesManifestUri);
 
   const nestedRoutesJsonPath = path.join(pwd, NESTED_ROUTE_SPEC_FILE);
 
-  const nestedRoutesJson = await compatibleRequire(nestedRoutesJsonPath).catch(
-    _ => ({}),
-  );
+  const nestedRoutesJson = await readManifest(nestedRoutesJsonPath);
 
   return {
     loaderBundles,
@@ -256,7 +367,9 @@ export const injectRscManifestPlugin = (enableRsc: boolean): ServerPlugin => ({
   },
 });
 
-export const injectResourcePlugin = (): ServerPlugin => ({
+export const injectResourcePlugin = (
+  configuredApplication?: SSRResourceApplicationOptions,
+): ServerPlugin => ({
   name: '@modern-js/plugin-inject-resource',
 
   setup(api) {
@@ -266,6 +379,368 @@ export const injectResourcePlugin = (): ServerPlugin => ({
         routes,
         distDirectory: pwd,
       } = api.getServerContext();
+
+      const context = api.getServerContext() as ServerContext;
+      const applicationOptions: SSRResourceApplicationOptions | undefined =
+        configuredApplication || context.ssrApplication;
+      if (applicationOptions) {
+        if (applicationOptions.resolveScope && !applicationOptions.reloadEntry)
+          throw new Error(
+            'Scoped SSR requests require a compiled entry reloader',
+          );
+        if (
+          api.getServerConfig().server?.rsc ||
+          routes.some(route => route.isRSC)
+        ) {
+          throw new Error(
+            'SSR application updates support ordinary HTML SSR only',
+          );
+        }
+        if (!context.getRenderOptions || !context.serverBase) {
+          throw new Error(
+            'SSR application requires the Modern render and server owners',
+          );
+        }
+        let requestOwner: Middleware<ServerEnv> | undefined;
+        let activeApplication: SSRApplication | undefined;
+        let pending: Promise<void> | undefined;
+        const compilation = new AsyncLocalStorage<() => void>();
+        let readyResolve!: () => void;
+        let readyReject!: (error: unknown) => void;
+        const ready = new Promise<void>((resolve, reject) => {
+          readyResolve = resolve;
+          readyReject = reject;
+        });
+        void ready.catch(() => {});
+        context.serverBase.setRequestMiddleware(async (c: any, next: any) => {
+          // Compiler transport must reach its existing middleware/readiness guard.
+          // It does not consume generation-owned SSR resources and may itself
+          // await the compile callback currently draining this application.
+          if (context.dev?.isAsset?.(c.req.raw)) return next();
+          await ready;
+          const execute = () => requestOwner!(c, next);
+          return applicationOptions.run
+            ? applicationOptions.run(execute)
+            : execute();
+        });
+        const initialize = async () => {
+          let published: SSRApplicationResources | undefined;
+          const sharedManifestFiles = {
+            loadableStats: LOADABLE_STATS_FILE,
+            routeManifest: ROUTE_MANIFEST_FILE,
+            nestedRoutesJson: NESTED_ROUTE_SPEC_FILE,
+          } as const;
+          const sharedManifestKeys = Object.keys(sharedManifestFiles) as Array<
+            keyof typeof sharedManifestFiles
+          >;
+          const sameSharedManifests = (candidate: ServerManifest) =>
+            sharedManifestKeys.every(key =>
+              isDeepStrictEqual(candidate[key], published?.serverManifest[key]),
+            );
+          const readSharedManifests = (): ServerManifest =>
+            Object.fromEntries(
+              Object.entries(sharedManifestFiles).map(([key, filename]) => {
+                try {
+                  return [key, fs.readJSONSync(path.join(pwd!, filename))];
+                } catch (error) {
+                  if ((error as NodeJS.ErrnoException).code !== 'ENOENT')
+                    throw error;
+                  return [key, {}];
+                }
+              }),
+            );
+          const application = await createSSRApplication({
+            ...applicationOptions,
+            renderCSR:
+              applicationOptions.renderCSR ||
+              createCSRRender(routes, context.metaName),
+            load: (rebuilding, entries) => {
+              const load = async () => {
+                compilation.getStore()?.();
+                const selectedRoutes = entries
+                  ? routes.filter(route =>
+                      entries.includes(route.entryName || MAIN_ENTRY_NAME),
+                    )
+                  : routes;
+                if (
+                  entries?.some(
+                    entry =>
+                      !selectedRoutes.some(
+                        route => (route.entryName || MAIN_ENTRY_NAME) === entry,
+                      ),
+                  )
+                )
+                  throw new Error('Unknown SSR entry in update scope');
+                if (entries && !applicationOptions.reloadEntry)
+                  throw new Error(
+                    'Selective SSR updates require a compiled entry reloader',
+                  );
+                if (rebuilding && !entries) {
+                  // These are the declared application roots. The invalidator owns
+                  // transitive bundler/module state and must preserve shared modules.
+                  for (const route of selectedRoutes) {
+                    if (!route.bundle) continue;
+                    const roots = [
+                      path.resolve(pwd!, route.bundle),
+                      path.resolve(
+                        pwd!,
+                        SERVER_BUNDLE_DIRECTORY,
+                        `${route.entryName || MAIN_ENTRY_NAME}-server-loaders.js`,
+                      ),
+                    ];
+                    for (const filename of roots) {
+                      if (!(await fs.pathExists(filename))) continue;
+                      const require = createRequire(filename);
+                      delete require.cache[require.resolve(filename)];
+                    }
+                  }
+                }
+                const reloadedBundles = new Map<string, any>();
+                // allSettled prevents a failed loader from abandoning concurrent preparation.
+                const loaded = await Promise.allSettled([
+                  getHtmlTemplates(pwd!, selectedRoutes, { fresh: true }),
+                  getServerManifest(pwd!, selectedRoutes, undefined, {
+                    reloadable: true,
+                    reloadEntry: entries
+                      ? applicationOptions.reloadEntry
+                      : undefined,
+                    onReloadedBundle: (filename, exports) => {
+                      reloadedBundles.set(filename, exports);
+                    },
+                  }),
+                  getRenderHandler(context.getRenderOptions),
+                ]);
+                const failures = loaded.filter(
+                  result => result.status === 'rejected',
+                );
+                if (failures.length)
+                  throw new AggregateError(
+                    failures.map(result => result.reason),
+                    'SSR resource preparation failed',
+                  );
+                const value = <T>(result: PromiseSettledResult<T>): T => {
+                  if (result.status === 'rejected') throw result.reason;
+                  return result.value;
+                };
+                const templates = {
+                  ...(entries ? published?.templates : {}),
+                  ...value(loaded[0]),
+                };
+                const loadedManifest = value(loaded[1]);
+                if (entries && !sameSharedManifests(loadedManifest)) {
+                  // A control-plane invalidator must not alter shared host metadata
+                  // after selective draining. It requires a whole-application retry.
+                  throw new Error(
+                    'Shared SSR manifests changed during a selective update',
+                  );
+                }
+                const loaderBundles = {
+                  ...published?.serverManifest.loaderBundles,
+                };
+                for (const entry of entries || []) delete loaderBundles[entry];
+                // Publish fresh maps; active unrelated requests keep their old snapshot.
+                const serverManifest = entries
+                  ? {
+                      ...loadedManifest,
+                      renderBundles: {
+                        ...published?.serverManifest.renderBundles,
+                        ...loadedManifest.renderBundles,
+                      },
+                      loaderBundles: {
+                        ...loaderBundles,
+                        ...loadedManifest.loaderBundles,
+                      },
+                    }
+                  : loadedManifest;
+                const render = value(loaded[2]);
+                for (const route of routes) {
+                  if (!route.entryName) continue;
+                  if (!templates[uniqueKeyByRoute(route)])
+                    throw new Error(`Missing SSR template: ${route.entryName}`);
+                  if (!route.isSSR) continue;
+                  const handler =
+                    await serverManifest.renderBundles?.[route.entryName]
+                      ?.requestHandler;
+                  if (typeof handler !== 'function')
+                    throw new Error(`Invalid SSR entry: ${route.entryName}`);
+                  const loaderPath = path.join(
+                    pwd!,
+                    SERVER_BUNDLE_DIRECTORY,
+                    `${route.entryName}-server-loaders.js`,
+                  );
+                  if (await fs.pathExists(loaderPath)) {
+                    if (
+                      typeof serverManifest.loaderBundles?.[route.entryName]
+                        ?.handleRequest !== 'function'
+                    )
+                      throw new Error(`Invalid SSR loader: ${route.entryName}`);
+                  }
+                }
+                const resources = { templates, serverManifest, render };
+                await applicationOptions.validate?.(resources);
+                compilation.getStore()?.();
+                // Publish Node's entry exports with the validated Modern resources.
+                // Keep the bundler runtime itself, and retain raw loader exports rather
+                // than the result of loadModules(). Preparation failures publish nothing.
+                const cacheUpdates: Array<[NodeModule, any]> = [];
+                for (const [filename, exports] of reloadedBundles) {
+                  const require = createRequire(path.resolve(filename));
+                  const cached =
+                    require.cache[require.resolve(path.resolve(filename))];
+                  if (cached) cacheUpdates.push([cached, exports]);
+                }
+                // Module.load also saves initial exports in a Node-private field.
+                // Replace its wrapper without re-executing the bundler runtime.
+                const replacements = new Map<NodeModule, NodeModule>();
+                const nodeCache = createRequire(
+                  path.resolve(pwd!, 'package.json'),
+                ).cache;
+                for (const [cached, exports] of cacheUpdates) {
+                  const next = new Module(
+                    cached.id,
+                    cached.parent || undefined,
+                  );
+                  next.filename = cached.filename;
+                  next.paths = cached.paths;
+                  next.loaded = cached.loaded;
+                  next.children = cached.children;
+                  next.exports = exports;
+                  replacements.set(cached, next);
+                }
+                const parents = new Set([
+                  ...Object.values(nodeCache),
+                  ...replacements.values(),
+                  ...cacheUpdates.map(([cached]) => cached.parent),
+                ]);
+                for (const parent of parents) {
+                  if (!parent) continue;
+                  if (parent.parent && replacements.has(parent.parent))
+                    parent.parent = replacements.get(parent.parent);
+                  parent.children = [
+                    ...new Set(
+                      parent.children.map(
+                        child => replacements.get(child) || child,
+                      ),
+                    ),
+                  ];
+                }
+                for (const [cached, next] of replacements) {
+                  if (nodeCache[cached.filename] === cached)
+                    nodeCache[cached.filename] = next;
+                }
+                published = resources;
+                return resources;
+              };
+              return applicationOptions.run
+                ? applicationOptions.run(load)
+                : load();
+            },
+          });
+          const config = api.getServerConfig();
+          const assets = createStaticMiddleware({
+            pwd: pwd!,
+            routes,
+            output: config.output || {},
+            html: config.html || {},
+            server: config.server || {},
+            buildAssetsOnly: true,
+          });
+          // Published browser chunks have no generation-owned SSR work. Keep their
+          // existing static-file path protections and let a cold CSR shell boot
+          // while SSR admission is closed. Public/uploads and business middleware
+          // still enter the gate; this is not a general middleware bypass.
+          const requestMiddleware: Middleware<ServerEnv> = async (c, next) => {
+            if (
+              context.dev ||
+              (c.req.method !== 'GET' && c.req.method !== 'HEAD')
+            )
+              return application.middleware(c, next);
+            return assets(c, async () => {
+              const response = await application.middleware(c, next);
+              if (response) c.res = response;
+            });
+          };
+          requestOwner = requestMiddleware;
+          activeApplication = application;
+          const update = application.update;
+          application.update = (invalidate, requestedScope) =>
+            update(
+              invalidate,
+              requestedScope &&
+                (() => {
+                  const entries =
+                    typeof requestedScope === 'function'
+                      ? requestedScope()
+                      : requestedScope;
+                  // Preserve coordinator validation of invalid scopes. Shared host
+                  // metadata changes require draining every entry before invalidation.
+                  if (
+                    !Array.isArray(entries) ||
+                    !entries.length ||
+                    entries.some(entry => typeof entry !== 'string' || !entry)
+                  )
+                    return entries;
+                  return sameSharedManifests(readSharedManifests())
+                    ? entries
+                    : undefined;
+                }),
+            );
+          // Service-lifetime subscriptions must not inherit this compilation's
+          // supersession check when they prepare later remote generations.
+          compilation.exit(() => applicationOptions.onReady(application));
+          readyResolve();
+        };
+        context.prepareSSRResources = async (
+          invalidate: () => void | Promise<void> = () => {},
+          stats?: unknown,
+        ) => {
+          const isCurrent = () =>
+            stats === undefined ||
+            (api.getServerContext().canPrepareSSRResources?.(stats) ?? true);
+          if (!isCurrent()) return;
+          const check = () => {
+            if (!isCurrent())
+              throw new Error(
+                'SSR compilation was superseded before resource publication',
+              );
+          };
+          if (activeApplication) {
+            const manager = api.getServerContext().ssrUpdateManager;
+            const clear = async () => {
+              check();
+              await invalidate();
+            };
+            await compilation.run(check, () =>
+              manager
+                ? manager.refresh(clear)
+                : activeApplication!.update(clear),
+            );
+            return;
+          }
+          if (pending) {
+            await pending.catch(() => {});
+            return context.prepareSSRResources(invalidate, stats);
+          }
+          pending = compilation.run(check, initialize).catch(error => {
+            // Failed first builds can retry after a later successful compile.
+            pending = undefined;
+            throw error;
+          });
+          await pending;
+        };
+        context.onServerClose ||= [];
+        context.onServerClose.push(() =>
+          readyReject(
+            new Error('SSR server closed before resources were ready'),
+          ),
+        );
+        api.updateServerContext({
+          prepareSSRResources: context.prepareSSRResources,
+          onServerClose: context.onServerClose,
+        });
+        if (!context.deferSSRResources) await context.prepareSSRResources();
+        return;
+      }
 
       // In Production, should warmup server bundles on prepare.
       let htmlTemplatePromise: ReturnType<typeof getHtmlTemplates> | undefined;

@@ -20,6 +20,7 @@ import { serviceRemotes } from '../serviceRemotes';
 import { configureServiceProvider } from './serviceProvider';
 import { serviceProviderBasePaths } from '../serviceProvider';
 import { configureServiceRuntimePlugins } from './serviceRuntimePlugins';
+import { createDevManifestPublication } from './devManifest';
 
 import type { InternalModernPluginOptions } from '../types';
 import type { Rspack, RspackChain } from '@rsbuild/core';
@@ -391,21 +392,45 @@ export const moduleFederationConfigPlugin = (
     }
     const csrConfig = userConfig.csrConfig || cloneConfig(mfConfig);
     const ssrConfig = userConfig.ssrConfig || cloneConfig(mfConfig);
+    if (
+      typeof userConfig.originPluginOptions.ssr === 'object' &&
+      userConfig.originPluginOptions.ssr.cacheUpdates
+    ) {
+      ssrConfig.runtimePlugins ||= [];
+      injectRuntimePlugins(
+        resolveInternalPlugin('./mfRuntimePlugins/ssr-ownership'),
+        ssrConfig.runtimePlugins,
+      );
+      csrConfig.runtimePlugins ||= [];
+      injectRuntimePlugins(
+        resolveInternalPlugin('./mfRuntimePlugins/ssr-release'),
+        csrConfig.runtimePlugins,
+      );
+      if (isDev()) {
+        userConfig.devManifestPublication = createDevManifestPublication();
+      }
+      if (isDev() && csrConfig.dev !== false) {
+        csrConfig.dev = {
+          ...(typeof csrConfig.dev === 'object' ? csrConfig.dev : {}),
+          disableLiveReload: true,
+        };
+      }
+    }
     let hasNodeBuild = false;
+    const developmentOrigin = () => {
+      if (!isDev()) return undefined;
+      const port = api.getAppContext().port ?? modernjsConfig.server?.port;
+      if (!port)
+        throw Error(
+          'The Service provider dev server port has not been resolved.',
+        );
+      let host = modernjsConfig.dev?.host || 'localhost';
+      if (host === '0.0.0.0' || host === '::') host = 'localhost';
+      if (host.includes(':') && !host.startsWith('[')) host = `[${host}]`;
+      return `${modernjsConfig.dev?.https ? 'https' : 'http'}://${host}:${port}`;
+    };
     if (mfConfig.exposes && Object.keys(mfConfig.exposes).length) {
       const provider = userConfig.originPluginOptions.serviceProvider;
-      const developmentOrigin = () => {
-        if (!isDev()) return undefined;
-        const port = api.getAppContext().port ?? modernjsConfig.server?.port;
-        if (!port)
-          throw Error(
-            'The Service provider dev server port has not been resolved.',
-          );
-        let host = modernjsConfig.dev?.host || 'localhost';
-        if (host === '0.0.0.0' || host === '::') host = 'localhost';
-        if (host.includes(':') && !host.startsWith('[')) host = `[${host}]`;
-        return `${modernjsConfig.dev?.https ? 'https' : 'http'}://${host}:${port}`;
-      };
       for (const config of [csrConfig, ssrConfig])
         configureServiceProvider(
           config,
@@ -433,11 +458,49 @@ export const moduleFederationConfigPlugin = (
     }
     const services = userConfig.originPluginOptions.services || {};
     const remotes = serviceRemotes(mfConfig.remotes);
+    if (
+      typeof userConfig.originPluginOptions.ssr === 'object' &&
+      userConfig.originPluginOptions.ssr.cacheUpdates
+    ) {
+      const application = userConfig.originPluginOptions.ssr.application;
+      userConfig.devManifestPublication?.setSSRReady(false);
+      api._internalServerPlugins(({ plugins }) => {
+        plugins.push({
+          name: resolveInternalPlugin('../server/updatePlugin'),
+          options: {
+            name: ssrConfig.name,
+            remotes,
+            application,
+            ...(userConfig.devManifestPublication && {
+              canPrepareSSRResources: (stats: unknown) =>
+                userConfig.devManifestPublication!.isReadyFor(stats),
+              devBuild: {
+                publisher: () => ({
+                  name: ssrConfig.name,
+                  entry: new URL(
+                    getManifestFileName(csrConfig.manifest).manifestFileName,
+                    `${developmentOrigin()}/`,
+                  ).href,
+                }),
+                subscribe: userConfig.devManifestPublication.subscribe,
+                setReady: (ready: boolean) => {
+                  userConfig.devManifestPublication!.setSSRReady(ready);
+                  userConfig.devManifestReady =
+                    ready && userConfig.devManifestPublication!.ready;
+                },
+              },
+            }),
+          },
+        });
+        return { plugins };
+      });
+    }
     if (remotes.length || Object.keys(services).length) {
       const runtimePlugins = configureServiceRuntimePlugins(
         api,
         mfConfig.runtimePlugins,
       );
+      userConfig.waitForServiceRuntimePlugins = runtimePlugins?.waitForBuild;
       ssrConfig.runtimePlugins ||= [];
       ssrConfig.runtimePlugins.push([
         resolveInternalPlugin('../server/serviceRuntimePlugin'),

@@ -41,7 +41,12 @@ it('loads real nested ordinary Node containers without private Service context, 
   const authenticated: Array<Record<string, string>> = [];
   const rendered: Array<Record<string, unknown>> = [];
   const producer = createBridgeServiceHandler({
-    buildVersion: 'nested-service-build',
+    async buildVersion() {
+      const manifest = JSON.parse(
+        await readFile(path.join(root, 'weather/mf-manifest.json'), 'utf8'),
+      );
+      return manifest.metaData.buildInfo.buildVersion;
+    },
     authorize(request) {
       authenticated.push(Object.fromEntries(request.headers));
       if (

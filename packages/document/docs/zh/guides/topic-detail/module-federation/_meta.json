@@ -5,6 +5,7 @@
   "ssr",
   "bridge-ssr",
   "service-app",
+  "ssr-update",
   "deploy",
   "i18n"
 ]

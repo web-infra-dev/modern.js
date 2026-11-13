@@ -244,6 +244,7 @@ export const createRequestHandler: CreateRequestHandler = async (
         responseProxy,
         activeDeferreds,
         deferredScriptKeys,
+        work: options.work,
         serverPayload: undefined,
       },
       async () => {
@@ -258,8 +259,10 @@ export const createRequestHandler: CreateRequestHandler = async (
             output: 'document',
             initialUrl: request.url,
             plugins: [
-              cancellationPlugin(request.signal, error =>
-                options.onError(error, SSRErrors.RENDER_HTML),
+              cancellationPlugin(
+                request.signal,
+                error => options.onError(error, SSRErrors.RENDER_HTML),
+                options.work,
               ),
             ],
             context: {
@@ -372,6 +375,15 @@ export const createRequestHandler: CreateRequestHandler = async (
             isRedirectStatus(responseProxy.status) &&
             responseProxy.headers.Location
           ) {
+            // A render can set a redirect after starting a producer stream.
+            // Return the redirect promptly, but retain its cancellation work.
+            if (response.body) {
+              const cancellation = response.body.cancel();
+              options.work?.track(cancellation);
+              void cancellation.catch(error =>
+                options.onError(error, SSRErrors.RENDER_HTML),
+              );
+            }
             instance.dispose();
             return processRedirect(
               new Headers(responseProxy.headers),

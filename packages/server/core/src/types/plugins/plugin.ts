@@ -37,6 +37,9 @@ export interface ServerPluginExtends extends BaseServerPluginExtends {
   extendContext: {
     middlewares: MiddlewareObj[];
     renderMiddlewares: MiddlewareObj[];
+    /** Internal compiler publication barrier, independent of request admission. */
+    canPrepareSSRResources?: (stats: unknown) => boolean;
+    ssrUpdateOwnerId?: string;
     [key: string]: any;
   };
   extendHooks: {

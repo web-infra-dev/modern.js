@@ -31,6 +31,7 @@ import {
 } from '../../src/core/context/runtime';
 import { createRuntime } from '../../src/core/plugin';
 import { routerPlugin } from '../../src/router/runtime/plugin.node';
+import { createSSRRequestCoordinator } from '../../../../server/core/src/adapters/node/requestCoordinator';
 
 let definition: ScopedRootDefinition;
 const renderApplication = (
@@ -471,15 +472,62 @@ function contractRequestOptions() {
     onTiming: noop,
   } as any;
 }
+
+it('cancels a discarded render stream and drains its original cancellation after returning a redirect', async () => {
+  const gate = createSSRRequestCoordinator({
+    maxPendingRequests: 1,
+    requestTimeoutMs: 1000,
+    drainTimeoutMs: 1000,
+  });
+  const cancellation = contractGate();
+  let cancelled = false;
+  setGlobalContext({ App: () => null });
+  registerRuntimeDefinition((context, plugins) =>
+    createRuntime([], undefined, context, plugins),
+  );
+  const handler = await createRequestHandler(
+    async (_, _Root, { runtimeContext }) => {
+      runtimeContext.ssrContext!.response.setHeader('Location', '/next');
+      runtimeContext.ssrContext!.response.status(302);
+      return new Response(
+        new ReadableStream({
+          cancel() {
+            cancelled = true;
+            return cancellation.promise;
+          },
+        }),
+      );
+    },
+  );
+  const request = new Request('http://producer/');
+  const response = await gate.handle(request, work =>
+    handler(request, { ...contractRequestOptions(), work }),
+  );
+  expect(response.status).toBe(302);
+  expect(response.headers.get('Location')).toBe('/next');
+  expect(cancelled).toBe(true);
+  let updated = false;
+  const update = gate.update(async () => {
+    updated = true;
+  });
+  await new Promise(resolve => setImmediate(resolve));
+  expect(updated).toBe(false);
+  cancellation.release();
+  await expect(update).resolves.toBe(1);
+  expect(updated).toBe(true);
+});
+
 async function renderContract(
   kind: 'page' | 'Bridge',
   probe: ReturnType<typeof createPluginContract>,
   request: Request,
+  work?: RenderApplicationOptions['work'],
 ) {
   const create = (context: any, instancePlugins) =>
     createRuntime(probe.plugins, undefined, context, instancePlugins);
   if (kind === 'Bridge') {
     const result = await renderScopedApplication(request, {
+      work,
       identifierPrefix: 'contract-',
       definition: {
         App: probe.Page,
@@ -503,8 +551,86 @@ async function renderContract(
         ),
       ),
   );
-  return handler(request, contractRequestOptions());
+  return handler(request, { ...contractRequestOptions(), work });
 }
+
+it.each(['page', 'Bridge'] as const)(
+  '%s keeps the original plugin preparation leased after request cancellation',
+  async kind => {
+    const gate = createSSRRequestCoordinator({
+      maxPendingRequests: 2,
+      requestTimeoutMs: 1000,
+      drainTimeoutMs: 1000,
+    });
+    const preparation = contractGate();
+    const probe = createPluginContract({
+      expectedSSR: true,
+      setupGate: preparation.promise,
+    });
+    const controller = new AbortController();
+    const request = new Request('http://producer/', {
+      signal: controller.signal,
+    });
+    const response = gate.handle(request, work =>
+      renderContract(kind, probe, request, work),
+    );
+    const rejected = expect(response).rejects.toThrow('disconnected');
+    await expect
+      .poll(() => probe.records[0]?.events.includes('setup:source'))
+      .toBe(true);
+    controller.abort(new Error('disconnected'));
+    await rejected;
+    let updated = false;
+    const update = gate.update(async () => {
+      updated = true;
+    });
+    await new Promise(resolve => setImmediate(resolve));
+    expect(updated).toBe(false);
+    expect(gate.status.activeRequests).toBe(1);
+    preparation.release();
+    await expect(update).resolves.toBe(1);
+    expect(updated).toBe(true);
+  },
+);
+
+it('retains the original application loader work after cancelling its HTML and snapshot', async () => {
+  const gate = createSSRRequestCoordinator({
+    maxPendingRequests: 2,
+    requestTimeoutMs: 1000,
+    drainTimeoutMs: 1000,
+  });
+  let finish!: (value: string) => void;
+  const pending = new Promise<string>(resolve => {
+    finish = resolve;
+  });
+  install(() => ({ label: 'products', pending }));
+  const controller = new AbortController();
+  const request = new Request('http://producer/', {
+    signal: controller.signal,
+  });
+  const response = await gate.handle(request, async work => {
+    const rendered = await renderApplication(request, {
+      identifierPrefix: 'owned-',
+      work,
+    });
+    return new Response(rendered.stream);
+  });
+  const reader = response.body!.getReader();
+  expect(new TextDecoder().decode((await reader.read()).value)).toContain(
+    'products',
+  );
+  controller.abort(new Error('disconnected'));
+  let updated = false;
+  const update = gate.update(async () => {
+    updated = true;
+  });
+  await new Promise(resolve => setImmediate(resolve));
+  expect(updated).toBe(false);
+  expect(gate.status.activeRequests).toBe(1);
+  finish('late result');
+  await expect(update).resolves.toBe(1);
+  expect(updated).toBe(true);
+});
 
 it.each(['page', 'Bridge'] as const)(
   '%s executes the same plugin contract with request-local context and releases after the response',

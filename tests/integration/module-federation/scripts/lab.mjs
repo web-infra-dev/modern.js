@@ -38,8 +38,34 @@ export async function startLab(
   );
   /** @type {Record<string, number>} */
   const ports = {};
+  const configuredPorts = process.env.MF_LAB_PORTS
+    ? JSON.parse(process.env.MF_LAB_PORTS)
+    : undefined;
+  if (
+    configuredPorts !== undefined &&
+    (!configuredPorts ||
+      typeof configuredPorts !== 'object' ||
+      Array.isArray(configuredPorts))
+  ) {
+    throw new Error('MF_LAB_PORTS must be a JSON object of service ports');
+  }
   const portRangeStart = 12000 + Math.floor(Math.random() * 8000);
   for (const [index, name] of names.entries()) {
+    if (configuredPorts) {
+      const port = configuredPorts[name];
+      if (
+        !Number.isSafeInteger(port) ||
+        port < 1 ||
+        port > 65535 ||
+        Object.values(ports).includes(port)
+      ) {
+        throw new Error(
+          `MF_LAB_PORTS requires a distinct valid port for ${name}`,
+        );
+      }
+      ports[name] = port;
+      continue;
+    }
     ports[name] = fixedPorts
       ? 4300 + index
       : await getPort({
@@ -569,6 +595,7 @@ export async function startLab(
     await stop();
     if (
       serviceOnly &&
+      !configuredPorts &&
       portAttempt < 3 &&
       /EADDRINUSE|address already in use|SERVICE_PORT_CHANGED/i.test(
         String(error),

@@ -42,9 +42,17 @@ export const httpCallBack2HonoMid = (handler: Handler) => {
     }
 
     if (isResFinalized(res)) {
-      // Fix: ensure context.res is initialized before setting finalized
-      // This prevents c.#res from being undefined in Hono
-      const _ = context.res;
+      await new Promise<void>(resolve => {
+        const finish = () => {
+          res.removeListener('finish', finish);
+          res.removeListener('close', finish);
+          resolve();
+        };
+        res.once('finish', finish);
+        res.once('close', finish);
+        if (res.writableFinished || res.destroyed) finish();
+      });
+      context.res = new Response(null);
       context.finalized = true;
     } else {
       await next();
@@ -63,19 +71,50 @@ type ConnectMiddleware =
 const noop = () => {};
 
 export const connectMid2HonoMid = (handler: ConnectMiddleware): Middleware => {
-  return async (context: Context<ServerNodeEnv>, next: Next) => {
-    return new Promise((resolve, reject) => {
+  return async (context: Context<ServerNodeEnv & ServerEnv>, next: Next) => {
+    return new Promise<void>((resolve, reject) => {
       const { req, res } = context.env.node;
-      if (handler.length < 3) {
-        resolve(handler(req, res, noop));
-      } else {
-        handler(req, res, err => {
-          if (err) {
-            reject(err);
-          } else {
-            resolve(next());
-          }
-        });
+      let settled = false;
+      let enteredNext = false;
+      const detach = () => {
+        res.removeListener('finish', finish);
+        res.removeListener('close', finish);
+      };
+      const settle = (error?: unknown) => {
+        if (settled) return;
+        settled = true;
+        detach();
+        if (error !== undefined) reject(error);
+        else resolve();
+      };
+      const finish = () => {
+        if (settled || enteredNext) return;
+        // Native Connect middleware owns the already-sent bytes. A bodyless
+        // placeholder retires Hono/SSR work without leaving an unread 404 body.
+        context.res = new Response(null);
+        context.finalized = true;
+        settle();
+      };
+      res.once('finish', finish);
+      res.once('close', finish);
+      try {
+        const result = handler(req, res, error => {
+          if (settled || enteredNext) return;
+          enteredNext = true;
+          detach();
+          if (error) settle(error);
+          else
+            Promise.resolve()
+              .then(next)
+              .then(() => settle(), settle);
+        }) as unknown;
+        if (result && typeof (result as Promise<unknown>).then === 'function') {
+          const producer = Promise.resolve(result);
+          const observed = context.get('ssrWork')?.track(producer) || producer;
+          void observed.catch(settle);
+        }
+      } catch (error) {
+        settle(error);
       }
     });
   };
@@ -86,31 +125,4 @@ export const connectMid2HonoMid = (handler: ConnectMiddleware): Middleware => {
  * And we supose mock handler always process the res directly
  * So we need to set the context.finalized = true and resolve the promise
  */
-export const connectMockMid2HonoMid = (
-  handler: ConnectMiddleware,
-): Middleware => {
-  return async (context: Context<ServerNodeEnv>, next: Next) => {
-    return new Promise((resolve, reject) => {
-      const { req, res } = context.env.node;
-      // The function lenth < 3 means the handler is not a function with next
-      if (handler.length < 3) {
-        res.once('finish', () => {
-          // Fix: ensure context.res is initialized before setting finalized
-          // This prevents c.#res from being undefined in Hono
-          const _ = context.res;
-          context.finalized = true;
-          resolve();
-        });
-        handler(req, res, noop);
-      } else {
-        handler(req, res, err => {
-          if (err) {
-            reject(err);
-          } else {
-            resolve(next());
-          }
-        });
-      }
-    });
-  };
-};
+export const connectMockMid2HonoMid = connectMid2HonoMid;

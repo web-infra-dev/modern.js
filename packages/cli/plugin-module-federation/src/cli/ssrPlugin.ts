@@ -1,4 +1,5 @@
 import path from 'path';
+import { SSRDependencyPlugin } from './SSRDependencyPlugin';
 import fs from 'fs';
 import {
   ModuleFederationPlugin as RspackModuleFederationPlugin,
@@ -98,13 +99,59 @@ const mfSSRRsbuildPlugin = (
     name: '@modern-js/plugin-mf-post-config',
     pre: ['@modern-js/builder-plugin-ssr'],
     setup(api) {
-      if (pluginOptions.csrConfig.getPublicPath) {
-        return;
-      }
       let csrOutputPath = '';
       let ssrOutputPath = '';
       let ssrEnv = '';
       let csrEnv = '';
+
+      if (isDev()) {
+        pluginOptions.devManifestReady = false;
+        api.onAfterCreateCompiler(({ compiler }) => {
+          pluginOptions.devManifestPublication?.attach(compiler, () => {
+            pluginOptions.devManifestReady = false;
+          });
+        });
+        api.onBeforeDevCompile(() => {
+          pluginOptions.devManifestReady = false;
+        });
+        // The server's default compile hook drains and prepares its generation.
+        // Publish the merged manifest over HTTP only after that hook completes.
+        api.onDevCompileDone({
+          order: 'post',
+          handler: ({ stats }) => {
+            const compiled =
+              !stats.hasErrors() &&
+              (!pluginOptions.devManifestPublication ||
+                pluginOptions.devManifestPublication.isReadyFor(stats));
+            pluginOptions.devManifestReady =
+              compiled &&
+              (pluginOptions.devManifestPublication?.ssrReady ?? true);
+            if (compiled && pluginOptions.devManifestPublication) {
+              const manifest = JSON.parse(
+                fs.readFileSync(
+                  path.resolve(
+                    pluginOptions.distOutputDir,
+                    browserAssetFileNames.manifestFileName,
+                  ),
+                  'utf8',
+                ),
+              );
+              pluginOptions.devManifestPublication.notifyReady(stats, {
+                buildVersion: manifest.metaData.buildInfo.buildVersion,
+                // Service mounts pair browser metadata with server HTML. HMR
+                // keeps the old descriptor, so those consumers need a fresh
+                // document after Node is ready, including later remounts.
+                hot:
+                  api.getNormalizedConfig().dev.hmr !== false &&
+                  !manifest.exposes?.some(
+                    (expose: { servicePath?: string }) =>
+                      typeof expose.servicePath === 'string',
+                  ),
+              });
+            }
+          },
+        });
+      }
 
       const browserAssetFileNames =
         pluginOptions.assetFileNames.browser ||
@@ -188,6 +235,9 @@ const mfSSRRsbuildPlugin = (
         return config;
       };
       api.modifyRspackConfig((config, utils) => {
+        // Dynamic public paths own their runtime prefix. Identity and publication
+        // still participate in the same dev lifecycle as static public paths.
+        if (pluginOptions.csrConfig.getPublicPath) return config;
         modifySSRPublicPath(config, utils);
         if (ssrEnv === utils.environment.name) {
           config.plugins ||= [];
@@ -270,7 +320,22 @@ export const moduleFederationSSRPlugin = (
           fetchServerQuery,
         },
       });
-      if (!isDev()) {
+      if (
+        isDev() &&
+        typeof pluginOptions.userConfig.ssr === 'object' &&
+        pluginOptions.userConfig.ssr.cacheUpdates
+      ) {
+        plugins.push({
+          name: 'mfSSRUpdate',
+          path: resolveInternalPlugin('../ssr-runtime/updatePlugin'),
+          config: { name: pluginOptions.ssrConfig.name },
+        });
+      }
+      if (
+        !isDev() ||
+        (typeof pluginOptions.userConfig.ssr === 'object' &&
+          pluginOptions.userConfig.ssr.cacheUpdates)
+      ) {
         return { entrypoint, plugins };
       }
       plugins.push({
@@ -334,7 +399,30 @@ export const moduleFederationSSRPlugin = (
         }
       }
 
+      if (
+        !isWeb &&
+        typeof pluginOptions.userConfig.ssr === 'object' &&
+        pluginOptions.userConfig.ssr.cacheUpdates
+      ) {
+        chain.plugin('modern-ssr-dependencies').use(SSRDependencyPlugin, [
+          {
+            name: pluginOptions.ssrConfig.name!,
+            remotes: Object.keys(pluginOptions.ssrConfig.remotes || {}),
+          },
+        ]);
+      }
+
       if (isDev() && isWeb) {
+        if (
+          typeof pluginOptions.userConfig.ssr === 'object' &&
+          pluginOptions.userConfig.ssr.cacheUpdates
+        ) {
+          chain.module
+            .rule('mf-react-refresh-renderers')
+            .test(/[/\\]react-refresh[/\\]runtime\.js$/)
+            .use('mf-react-refresh-renderers')
+            .loader(resolveInternalPlugin('./reactRefreshLoader'));
+        }
         chain.externals({
           '@module-federation/node/utils': 'NOT_USED_IN_BROWSER',
         });
@@ -367,7 +455,33 @@ export const moduleFederationSSRPlugin = (
                       )
                     )
                       return next();
+                    const manifests = [
+                      ...Object.values(
+                        pluginOptions.assetFileNames.browser ||
+                          getManifestAssetFileNames(
+                            pluginOptions.csrConfig.manifest,
+                          ),
+                      ),
+                      ...Object.values(
+                        pluginOptions.assetFileNames.node ||
+                          getManifestAssetFileNames(
+                            pluginOptions.ssrConfig.manifest,
+                          ),
+                      ),
+                    ];
+                    if (
+                      manifests.some(
+                        name => path.resolve(outputRoot, name) === filepath,
+                      ) &&
+                      !pluginOptions.devManifestReady
+                    ) {
+                      res.statusCode = 503;
+                      res.setHeader('Cache-Control', 'no-store');
+                      res.end('Federation build is not ready');
+                      return;
+                    }
                     fs.statSync(filepath);
+                    res.setHeader('Cache-Control', 'no-store');
                     res.setHeader('Access-Control-Allow-Origin', '*');
                     res.setHeader(
                       'Access-Control-Allow-Methods',
@@ -387,27 +501,36 @@ export const moduleFederationSSRPlugin = (
         },
       };
     });
-    const writeMergedManifest = () => {
+    const writeMergedManifest = async (compilation?: object) => {
       const { distOutputDir, assetResources } = pluginOptions;
       const browserAssets = assetResources.browser;
       const nodeAssets = assetResources.node;
 
-      if (!distOutputDir || !browserAssets || !nodeAssets) {
-        return;
-      }
       try {
-        updateStatsAndManifest(nodeAssets, browserAssets, distOutputDir);
+        if (isDev()) {
+          await pluginOptions.waitForServiceRuntimePlugins?.(compilation);
+          if (
+            pluginOptions.devManifestPublication &&
+            (!compilation ||
+              !pluginOptions.devManifestPublication.publish(compilation))
+          )
+            return;
+        }
+        if (distOutputDir && browserAssets && nodeAssets) {
+          updateStatsAndManifest(nodeAssets, browserAssets, distOutputDir);
+        }
       } catch (err) {
         logger.error(err);
+        throw err;
       }
     };
 
-    api.onAfterBuild(() => {
-      writeMergedManifest();
+    api.onAfterBuild(async () => {
+      await writeMergedManifest();
     });
-    api.onDevCompileDone(() => {
-      // 热更后修改 manifest
-      writeMergedManifest();
+    api.onDevCompileDone(async ({ stats }) => {
+      if (stats.hasErrors()) return;
+      await writeMergedManifest(stats);
     });
   },
 });

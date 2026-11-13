@@ -23,3 +23,25 @@ export {
   loadServerCliConfig,
   loadCacheConfig,
 } from './helper';
+
+export { createSSRRequestCoordinator } from './requestCoordinator';
+export type {
+  SSRRequestCoordinatorOptions,
+  SSRRequestScope,
+  SSRRequestWork,
+  SSRRequestPolicyDecision,
+  SSRRequestPolicyReason,
+  SSRRequestPolicyContext,
+  SSRRequestPolicy,
+  SSRUpdatePhase,
+  SSRDeferredUpdate,
+} from './requestCoordinator';
+
+export { createSSRApplication } from './application';
+export type {
+  SSRApplication,
+  SSRApplicationOptions,
+  SSRApplicationResources,
+} from './application';
+
+export type { SSRResourceApplicationOptions } from './plugins/resource';

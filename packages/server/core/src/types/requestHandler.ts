@@ -35,7 +35,15 @@ export type OnError = (err: unknown, key?: string) => void;
 
 export type OnTiming = (name: string, dur: number) => void;
 
+export interface SSRRequestWork {
+  /** Hold the request until the complete producer promise settles. */
+  track<T>(work: Promise<T>): Promise<T>;
+}
+
 export type RequestHandlerOptions = {
+  /** Framework producer work that may outlive the response or disconnect. */
+  work?: SSRRequestWork;
+
   resource: Resource;
 
   config: RequestHandlerConfig;

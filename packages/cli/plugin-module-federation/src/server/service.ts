@@ -1,6 +1,10 @@
+import { randomUUID } from 'node:crypto';
+import nodeRuntimePlugin from '@module-federation/node/runtimePlugin';
+import { destroyNodeInstance } from '@module-federation/node/lifecycle';
 import {
   createInstance,
   ModuleFederation,
+  helpers,
 } from '@module-federation/enhanced/runtime';
 import {
   generateSnapshotFromManifest,
@@ -15,8 +19,13 @@ import {
 } from '@module-federation/bridge-react/service-node';
 import type { BridgeProviderInstance } from '@module-federation/bridge-react/ssr';
 import type { Manifest } from '@module-federation/sdk';
+import type { SSRRequestWork } from '@modern-js/server-core/node';
+import ssrOwnership from '../cli/mfRuntimePlugins/ssr-ownership';
+import { createSSRUpdateSnapshotPlugin } from './ssrUpdateCandidates';
+import { getSSRUpdateOwner, runWithSSRUpdateOwner } from './ssrUpdateOwner';
 
 export interface BridgeServiceMiddlewareOptions {
+  ownerId?: string;
   path: string;
   manifest: string | { url: string; data: Manifest };
   module: string;
@@ -24,7 +33,10 @@ export interface BridgeServiceMiddlewareOptions {
   onError?: (error: Error) => void;
   authorize?: (request: Request) => void | Response | Promise<void | Response>;
 }
-type Context = { req: { raw: Request } };
+type Context = {
+  req: { raw: Request };
+  get(name: 'ssrWork'): SSRRequestWork | undefined;
+};
 
 function resolveServiceAssetPrefix(prefix: string, origin: string): string {
   // Keep explicit deployment URLs unchanged, including CDN and signed URLs.
@@ -39,6 +51,9 @@ function deployment(
   module: string,
 ) {
   const manifestUrl = typeof manifest === 'string' ? manifest : manifest.url;
+  // Independent middleware instances may expose the same remote under several
+  // routes. Shared ownership follows the consumer name, not the remote name.
+  const owner = randomUUID();
   // A scoped MF name includes one leading slash. Use the final module separator
   // resolved against the manifest's name instead of guessing an expose path.
   let runtime: ReturnType<typeof createInstance> | undefined;
@@ -64,12 +79,14 @@ function deployment(
       )
         throw Error('Service module must belong to its configured manifest.');
       runtime = createInstance({
-        name: `modern_service_${name}`,
+        name: `modern_service_${name}_${owner}`,
         remotes: [{ name, entry: manifestUrl }],
         // The producer's local build snapshot takes precedence over snapshots
         // retained by other runtimes, including after a development rebuild.
-        plugins:
-          typeof manifest === 'string'
+        plugins: [
+          nodeRuntimePlugin(),
+          ssrOwnership(),
+          ...(typeof manifest === 'string'
             ? []
             : [
                 {
@@ -100,8 +117,9 @@ function deployment(
                       remoteSnapshot: snapshot,
                     };
                   },
-                },
-              ],
+                } satisfies ModuleFederationRuntimePlugin,
+              ]),
+        ],
         shared: {},
         shareStrategy: 'loaded-first',
       });
@@ -127,11 +145,28 @@ function deployment(
         throw Error(
           'Service deployment requires a Bridge application expose with servicePath and serviceBaseUrl.',
         );
-    })().catch(error => {
+    })().catch(async error => {
+      try {
+        if (runtime) await destroyNodeInstance(runtime);
+      } catch (disposalError) {
+        // Keep this runtime and the rejected preparation reachable for dispose()
+        // to retry. A new preparation must not overwrite an uncleared owner.
+        throw new AggregateError(
+          [error, disposalError],
+          'Service preparation and runtime cleanup failed.',
+        );
+      }
+      runtime = undefined;
       prepared = undefined;
       throw error;
     }));
   return {
+    async dispose() {
+      await prepared?.catch(() => {});
+      if (runtime) await destroyNodeInstance(runtime);
+      runtime = undefined;
+      prepared = undefined;
+    },
     async buildVersion() {
       await prepare();
       const version = match.remoteSnapshot?.buildVersion;
@@ -187,13 +222,17 @@ export function createBridgeServiceMiddleware(
     authorize: options.authorize,
     onError: options.onError || console.error,
   });
-  return async (context: Context, next: () => Promise<void>) => {
+  const middleware = async (context: Context, next: () => Promise<void>) => {
     if (new URL(context.req.raw.url).pathname !== options.path) {
       await next();
       return;
     }
-    return handler(context.req.raw);
+    const invoke = () =>
+      handler(context.req.raw, { work: context.get('ssrWork') });
+    const owner = getSSRUpdateOwner(options.ownerId);
+    return owner ? runWithSSRUpdateOwner(owner, invoke) : invoke();
   };
+  return Object.assign(middleware, { dispose: producer.dispose });
 }
 
 import { SERVICE_INGRESS_PREFIX, serviceIngressPath } from '../servicePath';
@@ -206,6 +245,7 @@ export function createBridgeServiceIngressMiddleware(
   options: {
     origin?: string;
     name?: string;
+    ownerId?: string;
     remotes?: ServiceRemote[];
     plugins?:
       | ModuleFederationRuntimePlugin[]
@@ -213,55 +253,137 @@ export function createBridgeServiceIngressMiddleware(
   } = {},
 ) {
   const publicOrigin = options.origin ? new URL(options.origin) : undefined;
+  const consumerId = `${options.ownerId || 'service'}:${randomUUID()}`;
   if (
     publicOrigin &&
     (!['http:', 'https:'].includes(publicOrigin.protocol) ||
       publicOrigin.origin !== options.origin)
   )
     throw Error('Service ingress origin must be an HTTP or HTTPS origin.');
-  let runtime: ModuleFederation | undefined;
-  let installedPlugins: ModuleFederationRuntimePlugin[] | undefined;
-  const resolve = async (id: string) => {
-    const plugins =
-      typeof options.plugins === 'function'
-        ? await options.plugins()
-        : options.plugins;
-    if (!runtime || plugins !== installedPlugins) {
-      // Scoped discovery does not retain old dev instances in the global registry.
-      runtime = new ModuleFederation({
-        name: `${options.name || 'modern'}_service_ingress`,
-        remotes: options.remotes || [],
-        plugins,
-        shared: {},
-        shareStrategy: 'loaded-first',
-      });
-      installedPlugins = plugins;
-    }
-    const selectedRuntime = runtime;
-    const { remoteMatchInfo: match } =
-      await selectedRuntime.remoteHandler.getRemoteModuleAndOptions({ id });
-    const snapshot = match.remoteSnapshot;
-    if (!snapshot || !('modules' in snapshot))
-      throw Error(`Service '${id}' has no module Snapshot.`);
-    const metadata = snapshot.modules.find(
-      item =>
-        item.modulePath === match.expose ||
-        item.moduleName === match.expose.replace(/^\.\//, ''),
-    );
-    if (
-      !metadata ||
-      !('servicePath' in metadata) ||
-      metadata.render !== 'bridge'
-    )
-      throw Error(`Module '${id}' is not a Service Bridge application.`);
-    if (!snapshot?.buildVersion)
-      throw Error(`Service '${id}' has no build identity.`);
-    return {
-      url: getServiceUrl(snapshot.serviceBaseUrl, metadata.servicePath!),
-      buildVersion: snapshot.buildVersion,
-    };
+  type DiscoveryScope = {
+    runtime: ModuleFederation;
+    plugins: ModuleFederationRuntimePlugin[] | undefined;
+    pending: Set<Promise<void>>;
+    closing: boolean;
   };
-  return async (context: Context, next: () => Promise<void>) => {
+  let scope: DiscoveryScope | undefined;
+  let selections: Promise<unknown> = Promise.resolve();
+  let disposal: Promise<void> | undefined;
+  const releaseScope = async (current: DiscoveryScope) => {
+    current.closing = true;
+    await Promise.allSettled([...current.pending]);
+    const instance = current.runtime;
+    // Discovery owns only local metadata and plugin resources. It must never
+    // remove a remote or retire a producer loaded by another SSR consumer.
+    await helpers.dispose.notifyDispose(instance);
+    const shareScopes = helpers.share.getGlobalShareScope();
+    for (const [id, shares] of Object.entries(shareScopes))
+      if (shares === instance.shareScopeMap) delete shareScopes[id];
+    // This generated discovery name belongs only to this middleware scope.
+    delete helpers.global.getGlobalSnapshot()[instance.name];
+    instance.moduleCache.clear();
+    instance.remoteHandler.idToRemoteMap = {};
+    instance.snapshotHandler.manifestCache?.clear();
+    instance.snapshotHandler.loadingHostSnapshot = null;
+    instance.sharedHandler.initTokens = {};
+    instance.shareScopeMap = instance.sharedHandler.shareScopeMap = {};
+    instance.options.remotes = [];
+    instance.options.shared = {};
+    instance.options.plugins = [];
+    for (const system of [
+      instance.hooks,
+      instance.remoteHandler.hooks,
+      instance.sharedHandler.hooks,
+      instance.snapshotHandler.hooks,
+      instance.loaderHook,
+      instance.bridgeHook,
+    ]) {
+      for (const hook of Object.values(system.lifecycle)) hook.removeAll();
+      system.registerPlugins = {};
+    }
+  };
+  const acquireScope = () => {
+    const selected = selections.then(async () => {
+      const plugins =
+        typeof options.plugins === 'function'
+          ? await options.plugins()
+          : options.plugins;
+      if (!scope || scope.closing || plugins !== scope.plugins) {
+        if (scope) {
+          await releaseScope(scope);
+          scope = undefined;
+        }
+        // Scoped discovery never enters the global instance registry.
+        scope = {
+          runtime: new ModuleFederation({
+            id: `${consumerId}:${randomUUID()}`,
+            name: `${options.name || 'modern'}_service_ingress_${consumerId}`,
+            remotes: options.remotes || [],
+            plugins: [
+              ...(plugins || []),
+              createSSRUpdateSnapshotPlugin(
+                () => options.ownerId || getSSRUpdateOwner()?.id,
+              ),
+            ],
+            shared: {},
+            shareStrategy: 'loaded-first',
+          }),
+          plugins,
+          pending: new Set(),
+          closing: false,
+        };
+      }
+      const current = scope;
+      let finish!: () => void;
+      const work = new Promise<void>(resolve => {
+        finish = resolve;
+      });
+      current.pending.add(work);
+      return {
+        runtime: current.runtime,
+        release() {
+          current.pending.delete(work);
+          finish();
+        },
+      };
+    });
+    // A failed replacement stays reachable for an explicit cleanup retry.
+    selections = selected.then(
+      () => {},
+      () => {},
+    );
+    return selected;
+  };
+  const resolve = async (id: string) => {
+    const selected = await acquireScope();
+    try {
+      const { remoteMatchInfo: match } =
+        await selected.runtime.remoteHandler.getRemoteModuleAndOptions({ id });
+      const snapshot = match.remoteSnapshot;
+      if (!snapshot || !('modules' in snapshot))
+        throw Error(`Service '${id}' has no module Snapshot.`);
+      const metadata = snapshot.modules.find(
+        item =>
+          item.modulePath === match.expose ||
+          item.moduleName === match.expose.replace(/^\.\//, ''),
+      );
+      if (
+        !metadata ||
+        !('servicePath' in metadata) ||
+        metadata.render !== 'bridge'
+      )
+        throw Error(`Module '${id}' is not a Service Bridge application.`);
+      if (!snapshot?.buildVersion)
+        throw Error(`Service '${id}' has no build identity.`);
+      return {
+        url: getServiceUrl(snapshot.serviceBaseUrl, metadata.servicePath!),
+        buildVersion: snapshot.buildVersion,
+      };
+    } finally {
+      selected.release();
+    }
+  };
+  const middleware = async (context: Context, next: () => Promise<void>) => {
     const request = context.req.raw;
     const url = new URL(request.url);
     if (!url.pathname.startsWith(SERVICE_INGRESS_PREFIX)) {
@@ -305,6 +427,7 @@ export function createBridgeServiceIngressMiddleware(
       {};
     let deployment: Awaited<ReturnType<typeof resolve>>;
     const proxy = createBridgeServiceHandler({
+      forwardHttpErrors: true,
       async buildVersion() {
         deployment = await resolve(id);
         return deployment.buildVersion;
@@ -330,6 +453,25 @@ export function createBridgeServiceIngressMiddleware(
         );
       },
     });
-    return proxy(request);
+    return proxy(request, { work: context.get('ssrWork') });
   };
+  return Object.assign(middleware, {
+    dispose() {
+      if (disposal) return disposal;
+      // Updates release the current discovery generation but keep the HTTP
+      // middleware. Later requests queue behind cleanup and create a new scope.
+      const release = selections.then(async () => {
+        if (scope) await releaseScope(scope);
+        scope = undefined;
+      });
+      selections = release.then(
+        () => {},
+        () => {},
+      );
+      disposal = release.finally(() => {
+        disposal = undefined;
+      });
+      return disposal;
+    },
+  });
 }

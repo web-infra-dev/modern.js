@@ -7,6 +7,7 @@ import type {
 /** Encode pending values separately instead of waiting for every loader. */
 export function createApplicationData(
   value: Omit<ApplicationSnapshot, 'pending'>,
+  work?: { track<T>(task: Promise<T>): Promise<T> },
 ) {
   let controller!: ReadableStreamDefaultController<ApplicationDataPatch>;
   let active = 0;
@@ -48,7 +49,7 @@ export function createApplicationData(
         promises.set(promise as object, id);
         active++;
         const promiseId = id;
-        void Promise.resolve(promise).then(
+        const settlement = Promise.resolve(promise).then(
           result => {
             if (closed) return;
             try {
@@ -89,6 +90,7 @@ export function createApplicationData(
             finish();
           },
         );
+        work?.track(settlement);
       }
       pending.push({ id, path });
       return null;

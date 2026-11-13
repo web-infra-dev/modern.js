@@ -1,4 +1,5 @@
 import { createServerBase, useHonoContext } from '../src';
+import { createSSRApplication } from '../src/adapters/node/application';
 import {
   createDefaultServer,
   getDefaultAppContext,
@@ -23,10 +24,25 @@ describe('server base', () => {
     expect(response.body).toBe(null);
   });
 
-  it.each([false, true])(
-    'should return a Response for unfinalized middleware (read res: %s)',
-    async readResponse => {
+  it.each([
+    [false, false],
+    [true, false],
+    [false, true],
+    [true, true],
+  ])(
+    'should return a Response for unfinalized middleware (read res: %s, owner: %s)',
+    async (readResponse, owner) => {
       const server = createDefaultServer();
+      if (owner) {
+        const application = await createSSRApplication({
+          maxPendingRequests: 1,
+          requestTimeoutMs: 1000,
+          drainTimeoutMs: 1000,
+          load: async () =>
+            ({ templates: {}, serverManifest: {}, render: () => {} }) as any,
+        });
+        server.setRequestMiddleware(application.middleware);
+      }
       const onError = rs.fn((error, c) => c.text(error.message, 500));
       server.onError(onError);
       server.use('*', async (c, next) => {

@@ -4,6 +4,7 @@ import { mkdtemp, mkdir, readFile, rm, writeFile } from 'fs/promises';
 import { tmpdir } from 'os';
 import { describe, expect, it, rs } from '@rstest/core';
 import { BridgeSSRPlugin } from './BridgeSSRPlugin';
+import { createDevManifestPublication } from './devManifest';
 
 const nodeRequire = createRequire(__filename);
 
@@ -12,7 +13,7 @@ const { ModuleFederationPlugin } = nodeRequire(
   '@module-federation/enhanced/rspack',
 ) as typeof import('@module-federation/enhanced/rspack');
 
-const createPluginHarness = async () => {
+const createPluginHarness = async (overrides: Record<string, unknown> = {}) => {
   const { moduleFederationSSRPlugin } = await import('./ssrPlugin');
   const pluginOptions = {
     assetFileNames: {},
@@ -27,6 +28,7 @@ const createPluginHarness = async () => {
         distOutputDir: '/project/dist/bundles',
       },
     },
+    ...overrides,
   } as any;
 
   let rsbuildPlugin: any;
@@ -47,9 +49,13 @@ const createPluginHarness = async () => {
   await moduleFederationSSRPlugin(pluginOptions).setup!(api as any);
 
   const rsbuildApi = {
+    getNormalizedConfig: () => ({ dev: { hmr: true } }),
     modifyEnvironmentConfig: rs.fn(),
     modifyRspackConfig: rs.fn(),
     processAssets: rs.fn(),
+    onAfterCreateCompiler: rs.fn(),
+    onBeforeDevCompile: rs.fn(),
+    onDevCompileDone: rs.fn(),
   };
 
   rsbuildPlugin.setup(rsbuildApi);
@@ -75,7 +81,7 @@ const createPluginHarness = async () => {
     { name: 'node' },
   );
 
-  return { rsbuildApi };
+  return { rsbuildApi, api, pluginOptions };
 };
 
 const runCompiler = (config: import('@rspack/core').Configuration) =>
@@ -101,6 +107,83 @@ const runCompiler = (config: import('@rspack/core').Configuration) =>
   });
 
 describe('moduleFederationSSRPlugin', () => {
+  it.each([false, true])(
+    'publishes ready builds with matching browser capability (Service: %s)',
+    async service => {
+      rs.stubEnv('NODE_ENV', 'development');
+      const outputDir = await mkdtemp(path.join(tmpdir(), 'mf-ready-'));
+      try {
+        const identity = createDevManifestPublication();
+        const { rsbuildApi, api, pluginOptions } = await createPluginHarness({
+          csrConfig: {
+            getPublicPath: 'function() { return globalThis.assetBase; }',
+          },
+          devManifestPublication: identity,
+          distOutputDir: outputDir,
+        });
+        const callbacks: Record<string, (...args: any[]) => void> = {};
+        const compiler = {
+          hooks: Object.fromEntries(
+            ['invalid', 'thisCompilation'].map(name => [
+              name,
+              {
+                tap: (_: unknown, callback: (...args: any[]) => void) => {
+                  callbacks[name] = callback;
+                },
+              },
+            ]),
+          ),
+        };
+        rsbuildApi.onAfterCreateCompiler.mock.calls[0][0]({ compiler });
+        const compilation = {};
+        callbacks.thisCompilation(compilation);
+        const stats = { compilation, hasErrors: () => false };
+        const config = { output: { publicPath: 'auto' } };
+        expect(
+          rsbuildApi.modifyRspackConfig.mock.calls[0][0](config, {
+            environment: { name: 'node' },
+          }),
+        ).toBe(config);
+        expect(config).toEqual({ output: { publicPath: 'auto' } });
+        for (const name of ['web', 'node']) {
+          const json = JSON.stringify({
+            metaData: { buildInfo: { buildVersion: 'completed-build' } },
+            exposes: [
+              {
+                name: 'App',
+                ...(service ? { servicePath: '/service/App' } : {}),
+              },
+            ],
+          });
+          rsbuildApi.processAssets.mock.calls[0][1]({
+            environment: { name },
+            assets: {
+              'mf-manifest.json': { source: () => json },
+              'mf-stats.json': { source: () => json },
+            },
+          });
+        }
+        await api.onDevCompileDone.mock.calls[0][0]({ stats });
+        rsbuildApi.onDevCompileDone.mock.calls[0][0].handler({ stats });
+        expect(identity.isReadyFor(stats)).toBe(true);
+        expect(pluginOptions.devManifestReady).toBe(true);
+        const publication = rs.fn();
+        const unsubscribe = identity.subscribe(publication);
+        expect(publication).toHaveBeenLastCalledWith({
+          buildVersion: 'completed-build',
+          hot: !service,
+        });
+        unsubscribe();
+        callbacks.invalid();
+        expect(identity.isReadyFor(stats)).toBe(false);
+        expect(pluginOptions.devManifestReady).toBe(false);
+      } finally {
+        await rm(outputDir, { recursive: true, force: true });
+        rs.unstubAllEnvs();
+      }
+    },
+  );
+
   it('bundles one SSR context for consumer and plugin package copies across import and require', async () => {
     const outputDir = await mkdtemp(path.join(tmpdir(), 'mf-context-copies-'));
     const consumer = path.join(outputDir, 'consumer/bridge-react/dist');
