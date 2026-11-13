@@ -11,7 +11,7 @@ title: meta
 const defaultMeta = {
   charset: { charset: 'utf-8' },
   viewport:
-    'width=device-width, initial-scale=1.0, shrink-to-fit=no, viewport-fit=cover, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no',
+    'width=device-width, initial-scale=1.0, shrink-to-fit=no, viewport-fit=cover',
   'http-equiv': { 'http-equiv': 'x-ua-compatible', content: 'ie=edge' },
   renderer: 'webkit',
   layoutmode: 'standard',
@@ -22,6 +22,8 @@ const defaultMeta = {
 ```
 
 配置 HTML 页面的 `<meta>` 标签。
+
+默认的 viewport 允许用户缩放页面。你可以通过 `html.meta.viewport` 自定义。
 
 import RsbuildConfig from '@site-docs/components/rsbuild-config-tooltip';
 
