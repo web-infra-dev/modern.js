@@ -29,11 +29,8 @@ import {
   mergeDetectionOptions,
 } from './i18n/detection';
 import { useI18nextLanguageDetector } from './i18n/detection/middleware';
-import {
-  getI18nextInstanceForProvider,
-  getI18nextProvider,
-  getInitReactI18next,
-} from './i18n/instance';
+import { getI18nextInstanceForProvider } from './i18n/instance';
+import { getI18nextProvider, getInitReactI18next } from './i18n/react-i18next';
 import {
   changeI18nLanguage,
   ensureLanguageMatch,
@@ -61,6 +58,10 @@ interface RuntimeContextWithI18n extends TInternalRuntimeContext {
   i18nInstance?: I18nInstance;
   changeLanguage?: (lang: string) => Promise<void>;
 }
+
+// i18next appends third-party plugins on every `use()`, and the base instance
+// is shared across server requests, so register react-i18next only once.
+const reactI18nextInstances = new WeakSet<object>();
 
 export const i18nPlugin = (options: I18nPluginOptions): RuntimePlugin => ({
   name: '@modern-js/plugin-i18n',
@@ -91,8 +92,9 @@ export const i18nPlugin = (options: I18nPluginOptions): RuntimePlugin => ({
       const userInitOptions = merge(otherInitOptions || {}, initOptions || {});
       const initReactI18next = await getInitReactI18next();
       I18nextProvider = await getI18nextProvider();
-      if (initReactI18next) {
+      if (initReactI18next && !reactI18nextInstances.has(i18nInstance)) {
         i18nInstance.use(initReactI18next);
+        reactI18nextInstances.add(i18nInstance);
       }
 
       const pathname = getPathname(context);

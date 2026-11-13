@@ -1,5 +1,51 @@
 # @modern-js/runtime
 
+## 3.11.3
+
+### Patch Changes
+
+- Updated dependencies [4d498bb]
+  - @modern-js/plugin@3.11.3
+  - @modern-js/plugin-data-loader@3.11.3
+  - @modern-js/render@3.11.3
+  - @modern-js/runtime-utils@3.11.3
+  - @modern-js/types@3.11.3
+  - @modern-js/utils@3.11.3
+
+## 3.11.2
+
+### Patch Changes
+
+- @modern-js/plugin-data-loader@3.11.2
+- @modern-js/render@3.11.2
+- @modern-js/plugin@3.11.2
+- @modern-js/runtime-utils@3.11.2
+- @modern-js/types@3.11.2
+- @modern-js/utils@3.11.2
+
+## 3.11.1
+
+### Patch Changes
+
+- 8f79d0b: feat(runtime): add `router.useTransitions` to control whether router state updates use `React.startTransition`
+
+  feat(runtime): 新增 `router.useTransitions` 配置，控制路由状态更新是否使用 `React.startTransition`
+
+- 2f19228: fix(runtime): keep chunk IDs that would lose information when converted to numbers in `loadable-stats.json`, so `compact-hashed` IDs with leading zeros still match the ones registered by the runtime and string SSR hydration can finish.
+
+  fix(runtime): 修复 `loadable-stats.json` 将 `compact-hashed` 产生的前导零 chunk ID 转为数字，导致与实际注册的 ID 不匹配、string SSR 水合无法完成的问题。
+
+- Updated dependencies [fc6ee73]
+- Updated dependencies [67782a5]
+- Updated dependencies [b11c3cd]
+- Updated dependencies [f74d24d]
+  - @modern-js/plugin@3.11.1
+  - @modern-js/render@3.11.1
+  - @modern-js/types@3.11.1
+  - @modern-js/plugin-data-loader@3.11.1
+  - @modern-js/runtime-utils@3.11.1
+  - @modern-js/utils@3.11.1
+
 ## 3.11.0
 
 ### Patch Changes

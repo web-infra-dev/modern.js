@@ -1,5 +1,30 @@
 # @modern-js/plugin-data-loader
 
+## 3.11.3
+
+### Patch Changes
+
+- @modern-js/runtime-utils@3.11.3
+- @modern-js/utils@3.11.3
+
+## 3.11.2
+
+### Patch Changes
+
+- @modern-js/runtime-utils@3.11.2
+- @modern-js/utils@3.11.2
+
+## 3.11.1
+
+### Patch Changes
+
+- f74d24d: fix(data-loader): handle redirects returned or thrown by server actions during client submissions.
+
+  fix(data-loader): 修复客户端提交时服务端 action 返回或抛出的重定向无法触发页面跳转的问题。
+
+  - @modern-js/runtime-utils@3.11.1
+  - @modern-js/utils@3.11.1
+
 ## 3.11.0
 
 ### Patch Changes

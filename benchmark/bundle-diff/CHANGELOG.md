@@ -1,5 +1,25 @@
 # @modern-js/bundle-diff-benchmark
 
+## 3.11.3
+
+### Patch Changes
+
+- @modern-js/runtime@3.11.3
+
+## 3.11.2
+
+### Patch Changes
+
+- @modern-js/runtime@3.11.2
+
+## 3.11.1
+
+### Patch Changes
+
+- Updated dependencies [8f79d0b]
+- Updated dependencies [2f19228]
+  - @modern-js/runtime@3.11.1
+
 ## 3.11.0
 
 ### Patch Changes

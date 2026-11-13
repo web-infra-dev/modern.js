@@ -1,5 +1,42 @@
 # @modern-js/plugin-bff
 
+## 3.11.3
+
+### Patch Changes
+
+- Updated dependencies [4d498bb]
+  - @modern-js/builder@3.11.3
+  - @modern-js/server-core@3.11.3
+  - @modern-js/server-utils@3.11.3
+  - @modern-js/bff-core@3.11.3
+  - @modern-js/create-request@3.11.3
+  - @modern-js/utils@3.11.3
+
+## 3.11.2
+
+### Patch Changes
+
+- @modern-js/builder@3.11.2
+- @modern-js/bff-core@3.11.2
+- @modern-js/server-core@3.11.2
+- @modern-js/create-request@3.11.2
+- @modern-js/server-utils@3.11.2
+- @modern-js/utils@3.11.2
+
+## 3.11.1
+
+### Patch Changes
+
+- Updated dependencies [fc6ee73]
+- Updated dependencies [a1c2feb]
+- Updated dependencies [b11c3cd]
+  - @modern-js/builder@3.11.1
+  - @modern-js/bff-core@3.11.1
+  - @modern-js/server-core@3.11.1
+  - @modern-js/server-utils@3.11.1
+  - @modern-js/create-request@3.11.1
+  - @modern-js/utils@3.11.1
+
 ## 3.11.0
 
 ### Patch Changes
