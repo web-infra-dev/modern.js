@@ -50,11 +50,13 @@ async function compatibleRequireCJS(
       ? requiredModule.default
       : requiredModule;
   } catch (err: any) {
-    if (err.code === 'ERR_REQUIRE_ESM') {
+    if (
+      err?.code === 'ERR_REQUIRE_ESM' ||
+      err?.code === 'ERR_REQUIRE_ASYNC_MODULE'
+    ) {
       return await compatibleRequireESM(path, interop);
-    } else {
-      throw err;
     }
+    throw err;
   }
 }
 
