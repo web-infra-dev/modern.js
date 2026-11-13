@@ -3,8 +3,9 @@ const fs = require('node:fs/promises');
 const path = require('node:path');
 const os = require('node:os');
 const http = require('node:http');
-const { spawn } = require('node:child_process');
+const { fork, spawn } = require('node:child_process');
 const { once } = require('node:events');
+const { createRequire } = require('node:module');
 const { createFixture } = require('./dev-fixture.cjs');
 const { packageRequire, packageAudit, testRequire } = require('./packages.cjs');
 const { createDevBuildConnection } = packageRequire(
@@ -42,10 +43,10 @@ async function run(mode = 'ordinary') {
     host: port('HOST'),
     provider: port('PROVIDER'),
     manifest: port('PROVIDER'),
+    broker: port('BROKER'),
     ...(nested ? { middle: port('MIDDLE') } : {}),
   };
-  // Framework subscriptions use this local default. Do not borrow another task's broker.
-  assert.equal(port('BROKER'), 16322);
+  const brokerUrl = `ws://127.0.0.1:${ports.broker}`;
   const root = await fs.mkdtemp(
     path.join(os.tmpdir(), `mf-subscription-${mode}-`),
   );
@@ -62,10 +63,56 @@ async function run(mode = 'ordinary') {
   };
   let browser;
   let observer;
+  let broker;
   let staticServer;
   let closing;
   let failure;
   console.log(`Subscription ${mode} fixture: ${root}`);
+
+  async function startBroker() {
+    const enhancedRequire = createRequire(
+      packageRequire.resolve('@module-federation/enhanced/rspack'),
+    );
+    const entry = enhancedRequire.resolve(
+      '@module-federation/dts-plugin/dist/start-broker.js',
+    );
+    broker = fork(entry, [], {
+      cwd: root,
+      stdio: ['ignore', 'pipe', 'pipe', 'ipc'],
+    });
+    evidence.broker = { entry, pid: broker.pid, output: '' };
+    for (const stream of [broker.stdout, broker.stderr])
+      stream.on('data', chunk => {
+        evidence.broker.output += chunk;
+        if (process.env.MF_LAB_VERBOSE)
+          process.stdout.write(`[broker] ${chunk}`);
+      });
+    broker.on('error', error => {
+      failure = error;
+    });
+    broker.on('exit', (code, signal) => {
+      if (!closing)
+        failure = new Error(
+          `Broker exited ${code ?? signal}\n${evidence.broker.output}`,
+        );
+    });
+    const ready = new AbortController();
+    const timeout = setTimeout(
+      () => ready.abort(new Error('Broker startup timed out')),
+      10000,
+    );
+    try {
+      const message = once(broker, 'message', { signal: ready.signal });
+      const exited = once(broker, 'exit', { signal: ready.signal }).then(() => {
+        throw failure || new Error('Broker exited before ready');
+      });
+      broker.send({ kind: 'start', port: ports.broker });
+      assert.equal((await Promise.race([message, exited]))[0], 'ready');
+    } finally {
+      clearTimeout(timeout);
+      ready.abort();
+    }
+  }
 
   function launch(app, command = 'dev') {
     const child = spawn(
@@ -176,20 +223,28 @@ async function run(mode = 'ordinary') {
   async function stop() {
     if (closing) return closing;
     closing = (async () => {
-      await browser?.close();
-      await observer?.close();
-      if (staticServer?.listening) {
-        staticServer.closeAllConnections();
-        await new Promise(resolve => staticServer.close(resolve));
-      }
-      await Promise.all(
-        children.map(async ({ child }) => {
-          if (child.exitCode !== null || child.signalCode) return;
-          const exit = once(child, 'exit');
-          child.kill('SIGTERM');
+      try {
+        await browser?.close();
+        await observer?.close();
+        if (staticServer?.listening) {
+          staticServer.closeAllConnections();
+          await new Promise(resolve => staticServer.close(resolve));
+        }
+        await Promise.all(
+          children.map(async ({ child }) => {
+            if (child.exitCode !== null || child.signalCode) return;
+            const exit = once(child, 'exit');
+            child.kill('SIGTERM');
+            await exit;
+          }),
+        );
+      } finally {
+        if (broker && broker.exitCode === null && !broker.signalCode) {
+          const exit = once(broker, 'exit');
+          broker.kill('SIGTERM');
           await exit;
-        }),
-      );
+        }
+      }
       for (const [index, record] of children.entries())
         await fs.writeFile(
           path.join(root, `${index}-${record.app}-${record.command}.log`),
@@ -206,12 +261,15 @@ async function run(mode = 'ordinary') {
   process.once('SIGTERM', interrupt);
   process.once('SIGINT', interrupt);
   try {
+    await startBroker();
     observer = createDevBuildConnection(
       {
+        autoStartBroker: false,
         remotes: [
           {
             name: hostName,
             entry: `${fixture.hostURL}/static/mf-manifest.json`,
+            brokerUrl,
           },
         ],
       },

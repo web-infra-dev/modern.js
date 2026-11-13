@@ -40,6 +40,32 @@ async function createFixture(root, mode, ports) {
   const providerURL = `http://localhost:${ports.provider}`;
   const hostURL = `http://localhost:${ports.host}`;
   const manifestURL = `http://localhost:${ports.manifest}/static/mf-manifest.json`;
+  const brokerPlugin = ports.broker
+    ? `, {
+    name: 'mf-fixture-broker',
+    pre: ['@modern-js/builtin-module-federation'],
+    setup(api) {
+      api._internalServerPlugins(({ plugins }) => {
+        const update = plugins.find(plugin =>
+          ['updatePlugin.js', 'updatePlugin.mjs'].includes(path.basename(plugin.name)),
+        );
+        if (!update) throw new Error('Missing MF update plugin for isolated broker');
+        const brokerUrl = ${JSON.stringify(`ws://127.0.0.1:${ports.broker}`)};
+        update.options.remotes = (update.options.remotes || []).map(remote => ({
+          ...remote, brokerUrl,
+        }));
+        if (update.options.devBuild) {
+          const publisher = update.options.devBuild.publisher;
+          update.options.devBuild = {
+            ...update.options.devBuild,
+            publisher: () => ({ ...publisher(), brokerUrl }),
+          };
+        }
+        return { plugins };
+      });
+    },
+  }`
+    : '';
   for (const app of ports.middle
     ? ['provider', 'middle', 'host']
     : ['provider', 'host']) {
@@ -137,13 +163,14 @@ async function createFixture(root, mode, ports) {
       path.join(directory, 'modern.config.ts'),
       `
 import { appTools, defineConfig } from '@modern-js/app-tools';
+${ports.broker ? "import path from 'node:path';" : ''}
 export default defineConfig({
   server: { port: ${ports[app]}, ssr: ${!provider && mode === 'service-csr' ? 'false' : "{ mode: 'stream' }"} },
   output: { disableTsChecker: true, assetPrefix: ${JSON.stringify(origin + '/')} },
   dev: { assetPrefix: ${JSON.stringify(origin + '/')}, lazyCompilation: false },
   performance: { buildCache: false },
   source: { alias: { react: ${JSON.stringify(react)}, 'react-dom': ${JSON.stringify(reactDOM)} } },
-  plugins: [appTools()],
+  plugins: [appTools()${brokerPlugin}],
   moduleFederation: {
     ssr: { cacheUpdates: true },
     ${provider && service ? `serviceProvider: { origin: ${JSON.stringify(providerURL)} },` : ''}
