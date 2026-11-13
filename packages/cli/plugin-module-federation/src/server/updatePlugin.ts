@@ -12,7 +12,7 @@ export default function updatePlugin(
     canPrepareSSRResources?: (stats: unknown) => boolean;
     devBuild?: DevRemoteUpdatesOptions['build'];
   },
-) {
+): ReturnType<typeof createSSRUpdateServerPlugin> {
   let watcher: ReturnType<typeof startDevRemoteUpdates> | undefined;
   const plugin = createSSRUpdateServerPlugin({
     ...options,
@@ -23,6 +23,7 @@ export default function updatePlugin(
     onReady(manager, context) {
       if (!context.dev) return;
       watcher = startDevRemoteUpdates({
+        consumer: options.name,
         build: options.devBuild,
         remotes: (options.remotes || []).filter(
           remote => 'entry' in remote && typeof remote.entry === 'string',
@@ -37,7 +38,7 @@ export default function updatePlugin(
         },
         onError: error =>
           logger.error(
-            error instanceof Error ? error : new Error(String(error)),
+            `[MF] update failed: ${error instanceof Error ? error.message : String(error)}`,
           ),
       });
       return () => watcher!.close();
