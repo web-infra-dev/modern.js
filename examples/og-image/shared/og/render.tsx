@@ -2,10 +2,10 @@ import { readFileSync } from 'node:fs';
 import path from 'node:path';
 import { Resvg } from '@resvg/resvg-js';
 import satori from 'satori';
-import { type Post, imageSize } from '../shared/posts';
+import { type Post, imageSize } from '../posts';
 
-// Modern.js copies api assets into dist/api and then into .output/api.
-// Resolve from the module, so this also works outside the project's cwd.
+// The build plugin and optional BFF handler use the same renderer and fonts.
+// BFF builds copy shared assets into dist/shared and then .output/shared.
 const fonts = [
   {
     name: 'Inter',

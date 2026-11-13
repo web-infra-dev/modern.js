@@ -1,11 +1,17 @@
 import assert from 'node:assert/strict';
+import { createHash } from 'node:crypto';
 import { mkdir, writeFile } from 'node:fs/promises';
 import path from 'node:path';
 
-const baseUrl = new URL(process.argv[2] || 'http://localhost:8080');
-const outputDirectory = process.argv[3]
-  ? path.resolve(process.argv[3])
-  : undefined;
+const args = process.argv.slice(2);
+const isBff = args[0] === '--bff';
+if (isBff) args.shift();
+assert.ok(
+  args.length <= 2 && args.every(arg => !arg.startsWith('--')),
+  'Usage: node scripts/verify.mjs [--bff] [origin] [output-directory]',
+);
+const baseUrl = new URL(args[0] || 'http://localhost:8080');
+const outputDirectory = args[1] ? path.resolve(args[1]) : undefined;
 const pngSignature = Buffer.from([137, 80, 78, 71, 13, 10, 26, 10]);
 
 function decodeEntities(value) {
@@ -105,21 +111,36 @@ async function verifyArticle(slug) {
   assert.equal(absoluteUrl(canonical[0], 'canonical').href, pageUrl.href);
 
   const imageUrl = absoluteUrl(meta.get('og:image'), 'og:image');
+  if (isBff) {
+    assert.equal(imageUrl.pathname, `/api/og/${slug}`);
+    assert.ok(
+      imageUrl.searchParams.get('v'),
+      'BFF image URL must be versioned',
+    );
+  } else {
+    assert.equal(
+      imageUrl.search,
+      '',
+      'Static image URLs need no query version',
+    );
+  }
   const imageResponse = await request(imageUrl);
   assert.equal(imageResponse.status, 200, `${slug}: image status`);
   assert.match(
     imageResponse.headers.get('content-type') || '',
     /^image\/png(?:;|$)/i,
   );
-  const cacheControl = imageResponse.headers.get('cache-control') || '';
-  assert.match(
-    cacheControl,
-    /(?:^|,)\s*public\b/i,
-    'Images should be publicly cacheable',
-  );
-  assert.match(cacheControl, /(?:^|,)\s*max-age=[1-9]\d*\b/i);
-  assert.match(cacheControl, /(?:^|,)\s*s-maxage=[1-9]\d*\b/i);
-  assert.doesNotMatch(cacheControl, /\b(?:no-store|private)\b/i);
+  if (isBff) {
+    const cacheControl = imageResponse.headers.get('cache-control') || '';
+    assert.match(
+      cacheControl,
+      /(?:^|,)\s*public\b/i,
+      'BFF images should be publicly cacheable',
+    );
+    assert.match(cacheControl, /(?:^|,)\s*max-age=[1-9]\d*\b/i);
+    assert.match(cacheControl, /(?:^|,)\s*s-maxage=[1-9]\d*\b/i);
+    assert.doesNotMatch(cacheControl, /\b(?:no-store|private)\b/i);
+  }
   const png = Buffer.from(await imageResponse.arrayBuffer());
   assert.ok(png.length >= 45, `${slug}: truncated PNG`);
   assert.deepEqual(png.subarray(0, 8), pngSignature, `${slug}: PNG signature`);
@@ -128,6 +149,10 @@ async function verifyArticle(slug) {
   assert.equal(png.readUInt32BE(16), 1200, `${slug}: PNG width`);
   assert.equal(png.readUInt32BE(20), 630, `${slug}: PNG height`);
   assert.equal(png.toString('ascii', png.length - 8, png.length - 4), 'IEND');
+  if (!isBff) {
+    const hash = createHash('sha256').update(png).digest('hex').slice(0, 12);
+    assert.equal(imageUrl.pathname, `/static/og/${slug}.${hash}.png`);
+  }
 
   if (outputDirectory) {
     await Promise.all([
@@ -161,15 +186,30 @@ async function main() {
   console.log('PASS unknown article: HTTP 404, no OG image, noindex');
 
   const missingImage = await request(
-    new URL('/api/og/does-not-exist', baseUrl),
+    new URL(
+      isBff ? '/api/og/does-not-exist' : '/static/og/does-not-exist.png',
+      baseUrl,
+    ),
   );
   assert.equal(missingImage.status, 404, 'Unknown image status');
-  assert.match(
-    missingImage.headers.get('cache-control') || '',
-    /\bno-store\b/i,
-  );
+  if (isBff) {
+    assert.match(
+      missingImage.headers.get('cache-control') || '',
+      /\bno-store\b/i,
+    );
+  }
   await missingImage.arrayBuffer();
-  console.log('PASS unknown image: HTTP 404 and no-store');
+  console.log(`PASS unknown image: HTTP 404${isBff ? ' and no-store' : ''}`);
+  if (!isBff) {
+    const api = await request(new URL('/api/og/hello-modern', baseUrl));
+    assert.equal(
+      api.status,
+      404,
+      'Build-time mode must not expose a BFF image API',
+    );
+    await api.arrayBuffer();
+    console.log('PASS build-time mode: no BFF image API');
+  }
   console.log(
     `Verified ${baseUrl.origin}${outputDirectory ? ` • saved previews and HTML to ${outputDirectory}` : ''}`,
   );

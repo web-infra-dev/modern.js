@@ -9,6 +9,6 @@
       "@shared/*": ["./shared/*"]
     }
   },
-  "include": ["src", "shared", "api", "modern.config.ts"],
+  "include": ["src", "shared", "api", "config", "modern*.config.ts"],
   "exclude": ["**/node_modules", "dist", ".output"]
 }

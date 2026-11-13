@@ -1,5 +1,5 @@
+import { renderOgImage } from '../../../shared/og/render';
 import { getPost } from '../../../shared/posts';
-import { renderOgImage } from '../../og';
 
 export default async (slug: string) => {
   const post = getPost(slug);

@@ -34,9 +34,9 @@ export const getPost = (slug: string | undefined) =>
 
 export const imageSize = { width: 1200, height: 630 };
 
-// Increment this when the cover template or fonts change. Also version content
-// when integrating a CMS so existing crawler/CDN caches can be invalidated.
+// Used only by the BFF variant. Build-time images use a hash of the PNG bytes.
+// Increment this when BFF image content, the template or fonts change.
 export const imageVersion = '1';
 
-export const getImagePath = (slug: string) =>
+export const getBffImagePath = (slug: string) =>
   `/api/og/${encodeURIComponent(slug)}?v=${imageVersion}`;

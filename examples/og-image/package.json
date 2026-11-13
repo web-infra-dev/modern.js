@@ -7,8 +7,13 @@
     "build": "modern build",
     "serve": "modern serve",
     "deploy": "modern deploy",
+    "dev:bff": "modern dev --config modern.bff.config.ts",
+    "build:bff": "modern build --config modern.bff.config.ts",
+    "serve:bff": "modern serve --config modern.bff.config.ts",
+    "deploy:bff": "modern deploy --config modern.bff.config.ts",
     "typecheck": "tsc --noEmit",
-    "verify": "node scripts/verify.mjs"
+    "verify": "node scripts/verify.mjs",
+    "verify:bff": "node scripts/verify.mjs --bff"
   },
   "engines": {
     "node": "^22.18.0 || >=24.3.0"

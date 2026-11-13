@@ -1,5 +1,5 @@
 import type { LoaderFunctionArgs } from '@modern-js/runtime/router';
-import { getImagePath, getPost } from '@shared/posts';
+import { getPost } from '@shared/posts';
 
 export const loader = ({ params }: LoaderFunctionArgs) => {
   const post = getPost(params.slug);
@@ -10,6 +10,6 @@ export const loader = ({ params }: LoaderFunctionArgs) => {
   return {
     post,
     canonicalUrl: new URL(`/posts/${post.slug}`, process.env.SITE_URL).href,
-    imageUrl: new URL(getImagePath(post.slug), process.env.SITE_URL).href,
+    imageUrl: new URL(__OG_IMAGE_PATHS__[post.slug], process.env.SITE_URL).href,
   };
 };
