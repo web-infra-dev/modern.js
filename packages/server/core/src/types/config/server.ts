@@ -19,6 +19,12 @@ export type SSR =
       inlineScript?: boolean;
       unsafeHeaders?: string[];
       loaderFailureMode?: 'clientRender' | 'errorBoundary';
+      /**
+       * Streaming SSR only. Output `<link rel="preload" as="script">` in the
+       * HTML head for the JS chunks of the matched routes.
+       * @default true
+       */
+      preloadRouteScripts?: boolean;
     };
 
 export type SSRByEntries = Record<string, SSR>;
