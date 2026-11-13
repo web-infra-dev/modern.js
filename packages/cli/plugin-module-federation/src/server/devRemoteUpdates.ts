@@ -2,8 +2,10 @@ import {
   createDevBuildConnection,
   type DevBuildPublication,
   type DevBuildRemote,
+  type DevBuildResult,
   type DevBuildSource,
 } from '@module-federation/enhanced/rspack';
+import { logger } from '@modern-js/utils';
 import {
   createRemoteManifestReader,
   type RemoteCheckOptions,
@@ -11,6 +13,7 @@ import {
 } from './remoteUpdate';
 
 export interface DevRemoteUpdatesOptions {
+  consumer?: string;
   remotes: readonly RemoteUpdateTarget[];
   build?: {
     publisher(): DevBuildRemote;
@@ -26,7 +29,11 @@ export interface DevRemoteUpdatesOptions {
   updateRemotes(
     remotes: RemoteUpdateTarget[],
     options: RemoteCheckOptions,
-  ): Promise<{ changed?: boolean }>;
+  ): Promise<{
+    changed?: boolean;
+    operationId?: string;
+    timingsMs?: Record<string, number>;
+  }>;
   onApplied(remotes: RemoteUpdateTarget[], options: { reload: boolean }): void;
   onError(error: unknown): void;
   checkTimeoutMs?: number;
@@ -39,6 +46,14 @@ function identity(remote: DevBuildRemote) {
   return JSON.stringify([remote.name, url.href]);
 }
 
+function diagnose(action: () => void) {
+  try {
+    action();
+  } catch {
+    // Diagnostics must not change publication or update results.
+  }
+}
+
 /** One subscription owner, with coalesced request checks only while unsynchronized. */
 export function startDevRemoteUpdates(options: DevRemoteUpdatesOptions) {
   const lifetime = new AbortController();
@@ -48,15 +63,17 @@ export function startDevRemoteUpdates(options: DevRemoteUpdatesOptions) {
     /^https?:\/\/.*\.json(?:[?#]|$)/.test(remote.entry),
   );
   const publications = new Map<string, DevBuildPublication>();
+  const diagnosticsUrls = new Set<string>();
   let local: DevBuildPublication | undefined;
   let sent: string | undefined;
+  let announcedBuildVersion: string | undefined;
   let applying = false;
   let ready = true;
   let queue = Promise.resolve();
   let checking: Promise<void> | undefined;
   let closing: Promise<void> | undefined;
   const report = (error: unknown) => {
-    if (!lifetime.signal.aborted) options.onError(error);
+    if (!lifetime.signal.aborted) diagnose(() => options.onError(error));
   };
   const enqueue = (operation: () => Promise<void>) => {
     const result = queue.then(() => {
@@ -100,6 +117,10 @@ export function startDevRemoteUpdates(options: DevRemoteUpdatesOptions) {
     if (sent === fingerprint) return;
     connection.publish(publication);
     sent = fingerprint;
+    if (publisher && announcedBuildVersion !== local.buildVersion) {
+      announcedBuildVersion = local.buildVersion;
+      diagnose(() => logger.info(`[MF] ${publisher.name} ready`));
+    }
   };
   const apply = async (
     targets: RemoteUpdateTarget[],
@@ -112,6 +133,51 @@ export function startDevRemoteUpdates(options: DevRemoteUpdatesOptions) {
     );
     timer.unref?.();
     const signal = AbortSignal.any([lifetime.signal, deadline.signal]);
+    const trigger = notification ? 'notification' : 'manifest';
+    const versions = new Map<string, string>();
+    const failures = new Set<string>();
+    let failureTargets = targets;
+    let stage = 'check';
+    const result = (remote: DevBuildRemote, value: DevBuildResult) => {
+      if (!lifetime.signal.aborted)
+        diagnose(() =>
+          connection.reportResult(
+            {
+              name: remote.name,
+              entry: remote.entry,
+              ...(remote.brokerUrl ? { brokerUrl: remote.brokerUrl } : {}),
+            },
+            value,
+          ),
+        );
+    };
+    const fail = (remote: DevBuildRemote, error: unknown) => {
+      diagnose(() => {
+        const key = identity(remote);
+        if (failures.has(key)) return;
+        failures.add(key);
+        const detail = error as Partial<DevBuildResult> & {
+          failedStage?: string;
+        };
+        result(remote, {
+          outcome: 'failed',
+          trigger,
+          buildVersion: versions.get(key),
+          operationId: detail?.operationId,
+          stage: detail?.failedStage || detail?.stage || stage,
+          timingsMs: detail?.timingsMs,
+          error:
+            error instanceof Error
+              ? error.stack || error.message
+              : String(error),
+        });
+      });
+    };
+    if (notification)
+      versions.set(
+        identity(notification.remote),
+        notification.publication.buildVersion,
+      );
     try {
       const reads = new Map<string, Promise<Record<string, unknown>>>();
       const readOnce = (target: RemoteUpdateTarget) => {
@@ -174,6 +240,8 @@ export function startDevRemoteUpdates(options: DevRemoteUpdatesOptions) {
               : undefined;
           const { buildVersion } =
             (moduleInfo.metaData as any)?.buildInfo || {};
+          if (!notified && typeof buildVersion === 'string')
+            versions.set(identity(remote), buildVersion);
           if (notified && notified.buildVersion !== buildVersion)
             throw new Error(`Remote build was superseded: ${remote.entry}`);
           const publication = notified || {
@@ -202,28 +270,46 @@ export function startDevRemoteUpdates(options: DevRemoteUpdatesOptions) {
       );
       signal.throwIfAborted();
       const changes: RemoteUpdateTarget[] = [];
-      for (const result of results) {
+      for (const [index, result] of results.entries()) {
         if (result.status === 'rejected') {
+          fail(targets[index], result.reason);
           if (notification) throw result.reason;
           report(result.reason);
         } else if (result.value.changed) changes.push(result.value.candidate);
       }
       // The manifest deadline bounds reads, not draining existing SSR work.
       clearTimeout(timer);
+      failureTargets = changes;
+      stage = 'apply';
       if (changes.length) {
         applying = true;
         ready = false;
         connection.invalidate();
         sent = undefined;
-        const result = await options.updateRemotes(changes, {
+        const applied = await options.updateRemotes(changes, {
           signal: lifetime.signal,
         });
+        failureTargets = [];
         ready = true;
         applying = false;
-        if (!lifetime.signal.aborted && result.changed !== false)
+        if (!lifetime.signal.aborted && applied.changed !== false) {
+          for (const remote of changes)
+            result(remote, {
+              outcome: 'applied',
+              trigger,
+              buildVersion: versions.get(identity(remote)),
+              operationId: applied.operationId,
+              timingsMs: applied.timingsMs,
+            });
           options.onApplied(changes, {
             reload: notification?.publication.hot !== true,
           });
+          diagnose(() =>
+            logger.info(
+              `[MF] ${changes.map(remote => remote.name).join(', ')} updated`,
+            ),
+          );
+        }
       }
       if (lifetime.signal.aborted) return;
       for (const result of results)
@@ -236,13 +322,16 @@ export function startDevRemoteUpdates(options: DevRemoteUpdatesOptions) {
             result.value.publication,
           );
       publish();
+    } catch (error) {
+      for (const remote of failureTargets) fail(remote, error);
+      throw error;
     } finally {
       applying = false;
       clearTimeout(timer);
     }
   };
   const connection = createDevBuildConnection(
-    { publisher, remotes },
+    { publisher, remotes, consumer: options.consumer },
     {
       onUpdate: notification =>
         enqueue(async () => {
@@ -252,6 +341,11 @@ export function startDevRemoteUpdates(options: DevRemoteUpdatesOptions) {
           if (remote) await apply([remote], notification);
         }),
       onError: report,
+      onDiagnostics: ({ url }) => {
+        if (diagnosticsUrls.has(url)) return;
+        diagnosticsUrls.add(url);
+        diagnose(() => logger.info(`[MF] logs: ${url}`));
+      },
     },
   );
   const unsubscribe = options.build?.subscribe(publication => {

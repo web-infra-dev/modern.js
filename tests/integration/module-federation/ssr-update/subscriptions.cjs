@@ -76,6 +76,10 @@ async function run(mode = 'ordinary') {
         env: {
           ...process.env,
           NODE_ENV: command === 'dev' ? 'development' : 'production',
+          // Production builds need an explicit release identity between edits.
+          ...(command === 'build'
+            ? { MF_BUILD_VERSION: `fixture-${children.length}` }
+            : {}),
           MODERN_MF_AUTO_CORS: '1',
           NO_COLOR: '1',
         },
@@ -218,6 +222,9 @@ async function run(mode = 'ordinary') {
         onError(error) {
           evidence.observerError = String(error);
         },
+        onDiagnostics(diagnostics) {
+          evidence.diagnostics = diagnostics;
+        },
       },
     );
     if (staticProvider) {
@@ -279,6 +286,17 @@ async function run(mode = 'ordinary') {
       );
     // The first request after the notification must already use the ready graph.
     await expectHTTP('v1', 'v1');
+    await eventually('broker diagnostic discovery', () => evidence.diagnostics);
+    const diagnosticURL = evidence.diagnostics.url;
+    assert.equal(new URL(diagnosticURL).port, String(port('BROKER')));
+    const readDiagnostics = async () => {
+      const url = new URL(diagnosticURL);
+      url.searchParams.set('consumer', hostName);
+      url.searchParams.set('source', 'DevBuild');
+      const response = await fetch(url);
+      assert.equal(response.status, 200);
+      return response.json();
+    };
     const hostBuild = version(
       await manifest(`${fixture.hostURL}/static/mf-manifest.json`),
     );
@@ -346,6 +364,23 @@ async function run(mode = 'ordinary') {
           ),
           middleBuild,
         );
+      if (!nested) {
+        const result = await eventually(
+          `${label}: actual update diagnostics`,
+          async () => {
+            const snapshot = await readDiagnostics();
+            return snapshot.entries.find(
+              entry =>
+                entry.context?.outcome === 'applied' &&
+                entry.context?.remote === fixture.providerName &&
+                entry.context?.buildVersion === version(next),
+            );
+          },
+        );
+        evidence.updateResults ||= [];
+        evidence.updateResults.push(result);
+        assert.ok(host.log.includes(`[MF] ${fixture.providerName} updated`));
+      }
       let current;
       if (browser) {
         current = await eventually(`${label}: browser updated`, async () => {

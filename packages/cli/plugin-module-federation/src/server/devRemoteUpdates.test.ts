@@ -3,17 +3,23 @@ import { startDevRemoteUpdates } from './devRemoteUpdates';
 
 const transport = rs.hoisted(() => ({
   callbacks: undefined as any,
+  options: undefined as any,
   synchronized: new Set<string>(),
   publish: rs.fn(),
   invalidate: rs.fn(),
+  reportResult: rs.fn(),
   close: rs.fn(async () => {}),
 }));
+const logger = rs.hoisted(() => ({ info: rs.fn() }));
+rs.mock('@modern-js/utils', () => ({ logger }));
 rs.mock('@module-federation/enhanced/rspack', () => ({
-  createDevBuildConnection: (_options: unknown, callbacks: unknown) => {
+  createDevBuildConnection: (options: unknown, callbacks: unknown) => {
+    transport.options = options;
     transport.callbacks = callbacks;
     return {
       publish: transport.publish,
       invalidate: transport.invalidate,
+      reportResult: transport.reportResult,
       close: transport.close,
       isSynchronized: (remote: { entry: string }) =>
         transport.synchronized.has(remote.entry),
@@ -142,6 +148,22 @@ describe('development build subscriptions and request fallback', () => {
       expect.anything(),
     );
     expect(f.onError).toHaveBeenCalledTimes(1);
+    expect(transport.reportResult.mock.calls).toEqual([
+      [
+        remote('unavailable'),
+        expect.objectContaining({
+          outcome: 'failed',
+          trigger: 'manifest',
+          stage: 'check',
+          error: expect.stringContaining('Error: offline'),
+        }),
+      ],
+      [
+        expect.objectContaining({ name: 'weather' }),
+        expect.objectContaining({ outcome: 'applied', trigger: 'manifest' }),
+      ],
+    ]);
+    expect(logger.info).toHaveBeenCalledWith('[MF] weather updated');
     await f.watcher.close();
   });
 
@@ -160,6 +182,8 @@ describe('development build subscriptions and request fallback', () => {
     ).toBe('"a"');
     expect(f.updateRemotes).not.toHaveBeenCalled();
     expect(f.onApplied).not.toHaveBeenCalled();
+    expect(transport.reportResult).not.toHaveBeenCalled();
+    expect(logger.info).not.toHaveBeenCalled();
     await f.watcher.close();
   });
 
@@ -190,6 +214,7 @@ describe('development build subscriptions and request fallback', () => {
     });
     await entered.promise;
     expect(f.onApplied).not.toHaveBeenCalled();
+    expect(transport.reportResult).not.toHaveBeenCalled();
     expect(transport.invalidate).toHaveBeenCalledTimes(1);
     applied.resolve();
     await update;
@@ -205,6 +230,18 @@ describe('development build subscriptions and request fallback', () => {
       [expect.objectContaining({ dependencies: [source] })],
       expect.anything(),
     );
+    expect(transport.reportResult).toHaveBeenCalledWith(
+      expect.objectContaining({ name: 'weather' }),
+      expect.objectContaining({
+        outcome: 'applied',
+        trigger: 'notification',
+        buildVersion: 'b',
+      }),
+    );
+    expect(logger.info.mock.calls).toEqual([
+      ['[MF] host ready'],
+      ['[MF] weather updated'],
+    ]);
     await f.watcher.close();
   });
 
@@ -295,5 +332,184 @@ describe('development build subscriptions and request fallback', () => {
     expect(f.updateRemotes).not.toHaveBeenCalled();
     expect(f.onApplied).not.toHaveBeenCalled();
     expect(f.onError).not.toHaveBeenCalled();
+    expect(transport.reportResult).not.toHaveBeenCalled();
+  });
+
+  it('prints ready once per local build and uses the actual broker URL', async () => {
+    let publish!: (
+      value: { buildVersion: string; hot?: boolean } | undefined,
+    ) => void;
+    const f = fixture({
+      consumer: 'host',
+      build: {
+        publisher: () => remote('host'),
+        subscribe: listener => {
+          publish = listener;
+          return () => {};
+        },
+      },
+    });
+    expect(transport.options.consumer).toBe('host');
+    expect(logger.info).not.toHaveBeenCalled();
+    publish({ buildVersion: 'a' });
+    publish({ buildVersion: 'a' });
+    publish(undefined);
+    publish({ buildVersion: 'a' });
+    publish({ buildVersion: 'a', hot: true });
+    expect(transport.publish).toHaveBeenCalledTimes(3);
+    expect(logger.info.mock.calls).toEqual([['[MF] host ready']]);
+    publish({ buildVersion: 'b' });
+    transport.callbacks.onDiagnostics({
+      brokerId: 'remote-broker',
+      url: 'http://remote-machine:16322/__mf/logs',
+    });
+    transport.callbacks.onDiagnostics({
+      brokerId: 'restarted-remote-broker',
+      url: 'http://remote-machine:16322/__mf/logs',
+    });
+    expect(logger.info.mock.calls).toEqual([
+      ['[MF] host ready'],
+      ['[MF] host ready'],
+      ['[MF] logs: http://remote-machine:16322/__mf/logs'],
+    ]);
+    await f.watcher.close();
+  });
+
+  it('reports completed batches per remote but prints one short update line', async () => {
+    rs.spyOn(globalThis, 'fetch').mockImplementation(async () =>
+      Response.json(manifest('b')),
+    );
+    const f = fixture({
+      consumer: 'host',
+      remotes: [remote('shop'), remote('cart')],
+      updateRemotes: rs.fn(async () => ({
+        changed: true,
+        operationId: 'operation-1',
+        timingsMs: { total: 12 },
+      })),
+    });
+    await f.watcher.check();
+    expect(transport.options.consumer).toBe('host');
+    expect(f.onApplied).toHaveBeenCalledTimes(1);
+    expect(logger.info.mock.calls).toEqual([['[MF] shop, cart updated']]);
+    expect(transport.reportResult).toHaveBeenCalledTimes(2);
+    for (const name of ['shop', 'cart'])
+      expect(transport.reportResult).toHaveBeenCalledWith(
+        expect.objectContaining({ name }),
+        {
+          outcome: 'applied',
+          trigger: 'manifest',
+          buildVersion: 'b',
+          operationId: 'operation-1',
+          timingsMs: { total: 12 },
+        },
+      );
+    await f.watcher.close();
+  });
+
+  it('does not report an update when the owner resolves a duplicate as unchanged', async () => {
+    rs.spyOn(globalThis, 'fetch').mockImplementation(async () =>
+      Response.json(manifest()),
+    );
+    const f = fixture({
+      updateRemotes: rs.fn(async () => ({ changed: false })),
+    });
+    await f.watcher.check();
+    expect(f.onApplied).not.toHaveBeenCalled();
+    expect(transport.reportResult).not.toHaveBeenCalled();
+    expect(logger.info).not.toHaveBeenCalled();
+    await f.watcher.close();
+  });
+
+  it('reports update failure details without converting a failed notification to success', async () => {
+    rs.spyOn(globalThis, 'fetch').mockImplementation(async () =>
+      Response.json(manifest('b')),
+    );
+    const error = Object.assign(new Error('replacement failed'), {
+      operationId: 'failed-operation',
+      failedStage: 'clear',
+      timingsMs: { total: 10 },
+    });
+    const f = fixture({
+      updateRemotes: rs.fn(async () => {
+        throw error;
+      }),
+    });
+    await expect(
+      transport.callbacks.onUpdate({
+        remote: remote('weather'),
+        publication: { buildVersion: 'b' },
+      }),
+    ).rejects.toBe(error);
+    expect(transport.reportResult).toHaveBeenCalledTimes(1);
+    expect(transport.reportResult).toHaveBeenCalledWith(
+      expect.objectContaining({ name: 'weather' }),
+      {
+        outcome: 'failed',
+        trigger: 'notification',
+        buildVersion: 'b',
+        operationId: 'failed-operation',
+        stage: 'clear',
+        timingsMs: { total: 10 },
+        error: error.stack,
+      },
+    );
+    expect(f.onApplied).not.toHaveBeenCalled();
+    expect(logger.info).not.toHaveBeenCalled();
+    await f.watcher.close();
+  });
+
+  it('keeps updates working when terminal logging or broker result reporting fails', async () => {
+    rs.spyOn(globalThis, 'fetch').mockImplementation(async () =>
+      Response.json(manifest('b')),
+    );
+    const f = fixture();
+    logger.info.mockImplementationOnce(() => {
+      throw new Error('terminal closed');
+    });
+    expect(() =>
+      transport.callbacks.onDiagnostics({
+        brokerId: 'broker',
+        url: 'http://localhost:16322/__mf/logs',
+      }),
+    ).not.toThrow();
+    logger.info.mockImplementationOnce(() => {
+      throw new Error('terminal closed');
+    });
+    transport.reportResult.mockImplementationOnce(() => {
+      throw new Error('broker closed');
+    });
+    await transport.callbacks.onUpdate({
+      remote: remote('weather'),
+      publication: { buildVersion: 'b' },
+    });
+    expect(f.onApplied).toHaveBeenCalledTimes(1);
+    expect(f.onError).not.toHaveBeenCalled();
+    await f.watcher.close();
+  });
+
+  it('records the completed update even when notifying the browser throws', async () => {
+    rs.spyOn(globalThis, 'fetch').mockImplementation(async () =>
+      Response.json(manifest('b')),
+    );
+    const error = new Error('refresh notification failed');
+    const f = fixture({
+      onApplied: rs.fn(() => {
+        throw error;
+      }),
+    });
+    await expect(
+      transport.callbacks.onUpdate({
+        remote: remote('weather'),
+        publication: { buildVersion: 'b' },
+      }),
+    ).rejects.toBe(error);
+    expect(transport.reportResult).toHaveBeenCalledTimes(1);
+    expect(transport.reportResult).toHaveBeenCalledWith(
+      remote('weather'),
+      expect.objectContaining({ outcome: 'applied', buildVersion: 'b' }),
+    );
+    expect(logger.info).not.toHaveBeenCalled();
+    await f.watcher.close();
   });
 });
