@@ -55,6 +55,42 @@ function fixture() {
 }
 afterEach(() => rs.restoreAllMocks());
 describe('application remote target checks', () => {
+  it('detects direct and transitive dev revisions with unchanged release versions', async () => {
+    const f = fixture();
+    const first = {
+      ...target('a'),
+      moduleInfo: {
+        ...manifest('a'),
+        metaData: {
+          ...manifest('a').metaData,
+          buildInfo: { buildVersion: 'a', devRevision: '1' },
+        },
+      },
+      dependencies: [
+        {
+          name: 'nested',
+          entry: 'http://nested/manifest.json',
+          buildVersion: 'x',
+          devRevision: '1',
+        },
+      ],
+    };
+    await f.controller.updateRemotes(f.application, [first]);
+    expect(await f.controller.shouldUpdateRemote(f.application, first)).toBe(
+      false,
+    );
+    const next = structuredClone(first);
+    next.moduleInfo.metaData.buildInfo.devRevision = '2';
+    expect(await f.controller.shouldUpdateRemote(f.application, next)).toBe(
+      true,
+    );
+    const nested = structuredClone(first);
+    nested.dependencies[0].devRevision = '2';
+    expect(await f.controller.shouldUpdateRemote(f.application, nested)).toBe(
+      true,
+    );
+  });
+
   it('updates changed transitive builds without changing the direct provider version', async () => {
     const f = fixture();
     const first = {

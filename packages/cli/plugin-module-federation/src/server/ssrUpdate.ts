@@ -49,7 +49,12 @@ export interface SSRRemoteReplacement {
   client?: Omit<SSRClientRemote, 'name'>;
   moduleInfo?: Record<string, unknown>;
   /** Development subscriptions retain transitive build identities separately. */
-  dependencies?: { name: string; entry: string; buildVersion: string }[];
+  dependencies?: {
+    name: string;
+    entry: string;
+    buildVersion: string;
+    devRevision?: string;
+  }[];
 }
 export interface SSRUpdateOptions extends RemoteCheckOptions {
   revision?: number;
@@ -344,7 +349,6 @@ export function createSSRUpdateAdapter(options: {
                         helpers.global.getRemoteFederationInstance(
                           module.remoteInfo,
                           known,
-                          module.remoteEntryExports || module.lib,
                         );
                       if (provider) retiringProviders.add(provider);
                     }
@@ -968,7 +972,6 @@ export function createSSRUpdateAdapter(options: {
           const provider = helpers.global.getRemoteFederationInstance(
             info,
             knownInstances,
-            module.remoteEntryExports || module.lib,
           );
           if (
             provider &&
@@ -1031,7 +1034,6 @@ export function createSSRUpdateAdapter(options: {
                 helpers.global.getRemoteFederationInstance(
                   module.remoteInfo,
                   knownInstances,
-                  module.remoteEntryExports || module.lib,
                 ) === provider,
             ),
           );

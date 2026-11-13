@@ -75,6 +75,7 @@ export function startDevRemoteUpdates(options: DevRemoteUpdatesOptions) {
           name: remote.name,
           entry: remote.entry,
           buildVersion: publication.buildVersion,
+          devRevision: publication.devRevision,
           hot: publication.hot,
         },
         ...(publication.sources || []),
@@ -152,9 +153,13 @@ export function startDevRemoteUpdates(options: DevRemoteUpdatesOptions) {
           current = await Promise.all(
             next.map(async remote => {
               const info = await readOnce(remote);
-              const buildVersion = (info.metaData as any)?.buildInfo
-                ?.buildVersion;
-              if (buildVersion) nested.push({ ...remote, buildVersion });
+              const buildInfo = (info.metaData as any)?.buildInfo;
+              if (buildInfo?.buildVersion)
+                nested.push({
+                  ...remote,
+                  buildVersion: buildInfo.buildVersion,
+                  devRevision: buildInfo.devRevision,
+                });
               return info;
             }),
           );
@@ -169,12 +174,17 @@ export function startDevRemoteUpdates(options: DevRemoteUpdatesOptions) {
             identity(notification.remote) === identity(remote)
               ? notification.publication
               : undefined;
-          const buildVersion = (moduleInfo.metaData as any)?.buildInfo
-            ?.buildVersion;
-          if (notified && notified.buildVersion !== buildVersion)
+          const { buildVersion, devRevision } =
+            (moduleInfo.metaData as any)?.buildInfo || {};
+          if (
+            notified &&
+            (notified.buildVersion !== buildVersion ||
+              notified.devRevision !== devRevision)
+          )
             throw new Error(`Remote build was superseded: ${remote.entry}`);
           const publication = notified || {
             buildVersion,
+            devRevision,
             sources: await readDependencies(remote, moduleInfo),
           };
           const dependencies = (publication.sources || [])
@@ -183,10 +193,11 @@ export function startDevRemoteUpdates(options: DevRemoteUpdatesOptions) {
                 identity(source) !== identity(remote) &&
                 (!publisher || identity(source) !== identity(publisher)),
             )
-            .map(({ name, entry, buildVersion }) => ({
+            .map(({ name, entry, buildVersion, devRevision }) => ({
               name,
               entry,
               buildVersion,
+              devRevision,
             }))
             .sort((a, b) => identity(a).localeCompare(identity(b)));
           const candidate = { ...remote, moduleInfo, dependencies };

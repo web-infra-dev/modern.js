@@ -165,7 +165,8 @@ function deployment(
     },
     async buildVersion() {
       await prepare();
-      const version = match.remoteSnapshot?.buildVersion;
+      const version =
+        match.remoteSnapshot?.devRevision || match.remoteSnapshot?.buildVersion;
       if (!version) throw Error('Service manifest has no build identity.');
       return version;
     },
@@ -301,7 +302,7 @@ export function createBridgeServiceIngressMiddleware(
       throw Error(`Service '${id}' has no build identity.`);
     return {
       url: getServiceUrl(snapshot.serviceBaseUrl, metadata.servicePath!),
-      buildVersion: snapshot.buildVersion,
+      buildVersion: snapshot.devRevision || snapshot.buildVersion,
     };
   };
   const middleware = async (context: Context, next: () => Promise<void>) => {

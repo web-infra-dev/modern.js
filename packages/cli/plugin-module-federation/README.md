@@ -165,6 +165,11 @@ and manifest `buildVersion`. Concurrent versions of one provider need distinct
 build versions, such as a per-release `MF_BUILD_VERSION` supplied during build.
 Do not rewrite that manifest field independently of the compiled runtime.
 
+Development manifests carry a separate `devRevision`. The framework compares
+and forwards this marker to detect recompilation while keeping release versions
+stable. Service requests use the development revision when present so a stale
+browser descriptor cannot render against a newer producer.
+
 When a selected provider is already used by another application, a new Host
 adopts that provider's loaded singleton records of the same package version
 before evaluating its renderer. This keeps retained components and the Host on

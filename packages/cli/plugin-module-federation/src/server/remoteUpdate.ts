@@ -14,7 +14,12 @@ export interface RemoteUpdateTarget {
   /** A fresh manifest or provider snapshot obtained by the caller. */
   moduleInfo?: Record<string, unknown>;
   /** Applied transitive builds, independent of this provider's own manifest. */
-  dependencies?: { name: string; entry: string; buildVersion: string }[];
+  dependencies?: {
+    name: string;
+    entry: string;
+    buildVersion: string;
+    devRevision?: string;
+  }[];
 }
 export interface RemoteCheckOptions {
   signal?: AbortSignal;
@@ -70,6 +75,7 @@ export function moduleInfoFingerprint(
   const fields = [
     'providerName',
     'buildVersion',
+    'devRevision',
     'globalName',
     'remoteEntry',
     'remoteEntryType',

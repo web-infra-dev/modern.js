@@ -533,8 +533,8 @@ async function run(mode) {
           return (
             value &&
             value.hash !== before.hash &&
-            value.json.metaData.buildInfo.buildVersion !==
-              before.json.metaData.buildInfo.buildVersion &&
+            value.json.metaData.buildInfo.devRevision !==
+              before.json.metaData.buildInfo.devRevision &&
             value
           );
         },
@@ -568,6 +568,8 @@ async function run(mode) {
         newManifest: current.hash,
         oldBuildVersion: before.json.metaData.buildInfo.buildVersion,
         newBuildVersion: current.json.metaData.buildInfo.buildVersion,
+        oldDevRevision: before.json.metaData.buildInfo.devRevision,
+        newDevRevision: current.json.metaData.buildInfo.devRevision,
         documentLoads: evidence.navigations.length - navigations,
       });
       await stableNavigation(label);
@@ -790,7 +792,7 @@ async function run(mode) {
         );
         assert.equal(
           staleBody.buildVersion,
-          oldManifest.json.metaData.buildInfo.buildVersion,
+          oldManifest.json.metaData.buildInfo.devRevision,
         );
         const navigations = recovery.navigations.length;
         await writeGeneration(root, {
@@ -834,7 +836,7 @@ async function run(mode) {
         );
         assert.equal(
           mismatch.body.actualBuildVersion,
-          nextManifest.json.metaData.buildInfo.buildVersion,
+          nextManifest.json.metaData.buildInfo.devRevision,
         );
         assert.notEqual(
           mismatch.body.actualBuildVersion,
