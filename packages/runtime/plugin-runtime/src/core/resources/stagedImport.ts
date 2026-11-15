@@ -1,4 +1,4 @@
-import { getResourceStageScheduler } from './scheduler';
+import { getResourceStageScheduler, isSchedulerRuntime } from './scheduler';
 import type { ElementStage, ResourceStage, ResourceStageReport } from './types';
 
 type Loader<T> = () => Promise<T>;
@@ -81,10 +81,19 @@ const createTrigger = (stage: ElementStage, start: () => void) => {
 const createStage = (stage: string): StageDeclaration => {
   const declare = <T>(loader: Loader<T>): StagedLoader<T> => {
     const staged = (() => loader()) as StagedLoader<T>;
+    if (isBrowser()) {
+      // The lists are in the HTML; a declaration means the page uses them.
+      getResourceStageScheduler();
+    }
     staged.trigger = ELEMENT_STAGES.includes(stage as ElementStage)
-      ? createTrigger(stage as ElementStage, () =>
-          getResourceStageScheduler()?.prefetchLoader(loader, stage),
-        )
+      ? createTrigger(stage as ElementStage, () => {
+          const scheduler = getResourceStageScheduler();
+          // Capturing the chunk ids needs the wrapped chunk loading. In
+          // another bundle the loader would run the real import instead.
+          if (isSchedulerRuntime()) {
+            scheduler?.prefetchLoader(loader, stage);
+          }
+        })
       : () => undefined;
     return staged;
   };
@@ -137,25 +146,4 @@ export const onResourceStageReport = (
   callback: (report: ResourceStageReport) => void,
 ) => {
   getResourceStageScheduler()?.onReport(callback);
-};
-
-/** @internal Start the scheduler as early as the runtime starts. */
-export const startResourceStages = () => {
-  if (isBrowser()) {
-    getResourceStageScheduler();
-  }
-};
-
-/** @internal Client rendered pages pass the matched routes after routing. */
-export const setResourceStageRoutes = (routeIds: string[]) => {
-  if (isBrowser()) {
-    getResourceStageScheduler()?.setRoutes(routeIds);
-  }
-};
-
-/** @internal The framework marks `interactive` unless the application does. */
-export const markInteractiveStage = () => {
-  if (isBrowser()) {
-    getResourceStageScheduler()?.mark('interactive', true);
-  }
 };

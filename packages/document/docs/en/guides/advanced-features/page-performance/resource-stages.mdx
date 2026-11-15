@@ -26,14 +26,14 @@ The argument must be a function that directly returns `import('<static path>')`,
 
 ## Stages
 
-| Stage | When | How |
-| --- | --- | --- |
-| `critical` | Needed for the first screen | `<link rel="preload">` in the HTML, downloaded with the entry JS |
-| `visible` | After first contentful paint | `<link rel="prefetch">` inserted when the stage arrives |
-| `interactive` | After hydration; after the first commit for client rendering | Same |
-| `idle` | After `load`, once no new request starts for a while | Same |
-| `viewport` | The element enters the viewport | Same, triggered by the element |
-| `interaction` | The element is hovered, focused or touched | Same, triggered by the element |
+| Stage         | When                                                         | How                                                              |
+| ------------- | ------------------------------------------------------------ | ---------------------------------------------------------------- |
+| `critical`    | Needed for the first screen                                  | `<link rel="preload">` in the HTML, downloaded with the entry JS |
+| `visible`     | After first contentful paint                                 | `<link rel="prefetch">` inserted when the stage arrives          |
+| `interactive` | After hydration; after the first commit for client rendering | Same                                                             |
+| `idle`        | After `load`, once no new request starts for a while         | Same                                                             |
+| `viewport`    | The element enters the viewport                              | Same, triggered by the element                                   |
+| `interaction` | The element is hovered, focused or touched                   | Same, triggered by the element                                   |
 
 A later stage arriving means the earlier ones have arrived. At most 4 prefetches run at the same time in a stage by default. When `navigator.connection.saveData` is true or the network is 2G, `idle` and element stages are skipped.
 
@@ -59,7 +59,9 @@ When the element is hovered or focused, only the files of `MentionPanel` are dow
 After declaring them in [`performance.resourceStages.stages`](/configure/app/performance/resource-stages#stages):
 
 ```ts
-const MessageTools = lazy(stagedImport.firstReply(() => import('./MessageTools')));
+const MessageTools = lazy(
+  stagedImport.firstReply(() => import('./MessageTools')),
+);
 
 chatStore.onFirstReply(() => stagedImport.firstReply.mark());
 ```
@@ -79,6 +81,16 @@ It resolves at once on the server.
 ## Route JS
 
 With streaming SSR and `performance.resourceStages` set, the JS of the matched routes is staged without declarations: the route component's own file is `critical`, and the shared chunks it depends on go to `critical` or `visible` by the `critical` budget. See [`routes`](/configure/app/performance/resource-stages#routes).
+
+## Browser support and limits
+
+- **No cost when unused.** An application without `stagedImport` declarations and without `performance.resourceStages` gets no extra HTML and does not bundle the scheduler.
+- **Browsers without `<link rel="prefetch">`** (Safari) skip the prefetch of every stage; the stages are listed in `skipped` of the loading records. `critical` preloads still apply, `ready()` still resolves, and code is loaded when it is used, as without a declaration.
+- **A prefetch that reports neither load nor error** stops holding its place after 30 seconds, so later files and stages are not blocked.
+- **Stages marked by the application** (`manual: true`) should set a `timeout`. Without one, later stages wait until the application marks the stage or a later one.
+- **Declarations in code that is loaded later** take effect when that code runs: without `performance.resourceStages`, the scheduler starts with the first declaration that is evaluated.
+- **Server rendered entries that fall back to client rendering** only get the entry level lists; the route level lists are added by the server when it renders.
+- **Micro-frontend sub-applications and Module Federation remotes are not supported.** The lists are resolved with the chunk map of the application that owns the page. Declare stages in the host application; in a sub-application `stagedImport` loads the code on use, and element stages do not prefetch.
 
 ## Build output
 
