@@ -3,6 +3,15 @@ import path from 'path';
 import { fs, compatibleRequire, globby } from '@modern-js/utils';
 import { createJiti } from 'jiti';
 
+const jitiOptions = {
+  // Prefer Node.js native loading for regular dependencies. Some bundled CJS
+  // files can be falsely detected as ESM by jiti and break default interop.
+  tryNative: true,
+  // disable require cache to support restart CLI and read the new config
+  requireCache: false,
+  interopDefault: true,
+};
+
 export const getConfigFilePath = (
   appDirectory: string,
   configFilePath: string,
@@ -51,11 +60,7 @@ async function loadConfigContent<T>(configFile: string): Promise<T> {
     // @ts-ignore
     process.env.MODERN_LIB_FORMAT === 'esm' ? import.meta.url : __filename;
   // Create a jiti instance
-  const jiti = createJiti(jitiFrom, {
-    // disable require cache to support restart CLI and read the new config
-    requireCache: false,
-    interopDefault: true,
-  });
+  const jiti = createJiti(jitiFrom, jitiOptions);
   // Check if the file exists
   if (!fs.existsSync(configFile)) {
     throw new Error(`Configuration file does not exist: ${configFile}`);
@@ -95,10 +100,7 @@ async function loadConfigContent<T>(configFile: string): Promise<T> {
  * @returns {any} - The loaded module object
  */
 export const loadTypeScriptFile = (filePath: string): any => {
-  const jiti = createJiti(__filename, {
-    requireCache: false,
-    interopDefault: true,
-  });
+  const jiti = createJiti(__filename, jitiOptions);
 
   if (!fs.existsSync(filePath)) {
     throw new Error(`TypeScript file does not exist: ${filePath}`);
