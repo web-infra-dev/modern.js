@@ -1,4 +1,6 @@
 import type React from 'react';
+import { HelmetProvider } from 'react-helmet-async';
+import type { HeadContext } from '../head';
 import {
   InternalRuntimeContext,
   RuntimeContext,
@@ -9,6 +11,7 @@ import {
 export function wrapRuntimeContextProvider(
   App: React.ReactElement,
   contextValue: TRuntimeContext,
+  headContext?: HeadContext,
 ) {
   const {
     isBrowser,
@@ -37,7 +40,7 @@ export function wrapRuntimeContextProvider(
       value={contextValue as TInternalRuntimeContext}
     >
       <RuntimeContext.Provider value={runtimeContextValue}>
-        {App}
+        <HelmetProvider context={headContext}>{App}</HelmetProvider>
       </RuntimeContext.Provider>
     </InternalRuntimeContext.Provider>
   );

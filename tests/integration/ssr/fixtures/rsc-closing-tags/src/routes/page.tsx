@@ -3,7 +3,8 @@ import './index.css';
 
 const Index = () => (
   <div className="container-box">
-    <Helmet>
+    <Helmet htmlAttributes={{ lang: 'en' }}>
+      <title>RSC head isolation</title>
       <link
         rel="icon"
         type="image/x-icon"

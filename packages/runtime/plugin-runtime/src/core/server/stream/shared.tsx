@@ -12,6 +12,7 @@ import {
   JSX_SHELL_STREAM_END_MARK,
 } from '../../../common';
 import type { TRuntimeContext } from '../../context';
+import type { HeadContext } from '../../head';
 import { wrapRuntimeContextProvider } from '../../react/wrapper';
 import type { HandleRequestConfig } from '../requestHandler';
 import type { RenderStreaming, SSRConfig } from '../shared';
@@ -19,6 +20,7 @@ import { SSRErrors, SSRTimings } from '../tracer';
 import { getSSRConfigByEntry } from '../utils';
 
 export type CreateReadableStreamFromElementOptions = {
+  headContext?: HeadContext;
   runtimeContext: TRuntimeContext;
   config: HandleRequestConfig;
   ssrConfig: SSRConfig;
@@ -186,9 +188,11 @@ export function createRenderStreaming(
       );
     };
 
+    const headContext: HeadContext = {};
     let rootElement = wrapRuntimeContextProvider(
       serverRoot,
       Object.assign(runtimeContext, { ssr: true }),
+      headContext,
     );
 
     rootElement = (
@@ -196,6 +200,7 @@ export function createRenderStreaming(
     );
 
     const stream = await createReadableStreamFromElement(request, rootElement, {
+      headContext,
       config,
       htmlTemplate,
       runtimeContext,

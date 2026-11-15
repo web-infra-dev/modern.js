@@ -81,6 +81,7 @@ export const createReadableStreamFromElement: CreateReadableStreamFromElement =
             options[onReady]?.();
 
             getTemplates(htmlTemplate, {
+              helmetData: options.headContext?.helmet,
               request,
               ssrConfig,
               renderLevel,
@@ -276,6 +277,7 @@ export const createReadableStreamFromElement: CreateReadableStreamFromElement =
           onShellError(error: unknown) {
             renderLevel = RenderLevel.CLIENT_RENDER;
             getTemplates(htmlTemplate, {
+              helmetData: options.headContext?.helmet,
               request,
               ssrConfig,
               renderLevel,

@@ -3,9 +3,9 @@ import { time } from '@modern-js/runtime-utils/time';
 import { SSR_HYDRATION_ID_PREFIX } from '@modern-js/utils/universal/constants';
 import type React from 'react';
 import ReactDomServer from 'react-dom/server';
-import ReactHelmet from 'react-helmet';
 import { RenderLevel } from '../../constants';
 import { getGlobalInternalRuntimeContext } from '../../context';
+import type { HeadContext } from '../../head';
 import { wrapRuntimeContextProvider } from '../../react/wrapper';
 import {
   CHUNK_CSS_PLACEHOLDER,
@@ -80,9 +80,11 @@ export const renderString: RenderString = async (
     if (c) collectors.unshift(c);
   }
 
+  const headContext: HeadContext = {};
   const rootElement = wrapRuntimeContextProvider(
     serverRoot,
     Object.assign(runtimeContext, { ssr: true }),
+    headContext,
   );
 
   const html = await generateHtml(
@@ -92,6 +94,7 @@ export const renderString: RenderString = async (
     collectors,
     runtimeContext.ssrContext?.htmlModifiers || [],
     tracer,
+    headContext,
   );
 
   return html;
@@ -104,6 +107,7 @@ async function generateHtml(
   collectors: Collector[],
   htmlModifiers: BuildHtmlCb[],
   { onError, onTiming }: Tracer,
+  headContext: HeadContext,
 ): Promise<string> {
   let html = '';
   let helmetData;
@@ -119,7 +123,7 @@ async function generateHtml(
       identifierPrefix: SSR_HYDRATION_ID_PREFIX,
     });
     chunkSet.renderLevel = RenderLevel.SERVER_RENDER;
-    helmetData = ReactHelmet.renderStatic();
+    helmetData = headContext.helmet;
 
     const cost = end();
     onTiming(SSRTimings.RENDER_HTML, cost);
