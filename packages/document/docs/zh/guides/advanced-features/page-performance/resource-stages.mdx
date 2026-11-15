@@ -26,14 +26,14 @@ const loadPlugins = stagedImport.idle(() => import('./plugins'));
 
 ## 阶段
 
-| 阶段 | 什么时候 | 怎么下载 |
-| --- | --- | --- |
-| `critical` | 首屏必需 | 以 `<link rel="preload">` 写进 HTML，和入口 JS 同时下载 |
-| `visible` | 首次绘制（FCP）之后 | 阶段到来时插入 `<link rel="prefetch">` |
-| `interactive` | 水合完成之后；客户端渲染为首次提交之后 | 同上 |
-| `idle` | `load` 之后，且一段时间内没有新的资源请求 | 同上 |
-| `viewport` | 元素进入视口 | 同上，由元素触发 |
-| `interaction` | 元素被悬停、获得焦点或被触摸 | 同上，由元素触发 |
+| 阶段          | 什么时候                                  | 怎么下载                                                |
+| ------------- | ----------------------------------------- | ------------------------------------------------------- |
+| `critical`    | 首屏必需                                  | 以 `<link rel="preload">` 写进 HTML，和入口 JS 同时下载 |
+| `visible`     | 首次绘制（FCP）之后                       | 阶段到来时插入 `<link rel="prefetch">`                  |
+| `interactive` | 水合完成之后；客户端渲染为首次提交之后    | 同上                                                    |
+| `idle`        | `load` 之后，且一段时间内没有新的资源请求 | 同上                                                    |
+| `viewport`    | 元素进入视口                              | 同上，由元素触发                                        |
+| `interaction` | 元素被悬停、获得焦点或被触摸              | 同上，由元素触发                                        |
 
 后一个阶段到来，说明前面的阶段也已经到来。每个阶段内默认最多 4 个预取同时进行。`navigator.connection.saveData` 为真或网络为 2G 时，跳过 `idle` 和元素阶段。
 
@@ -59,7 +59,9 @@ function ChatInput() {
 在 [`performance.resourceStages.stages`](/configure/app/performance/resource-stages#stages) 里声明后：
 
 ```ts
-const MessageTools = lazy(stagedImport.firstReply(() => import('./MessageTools')));
+const MessageTools = lazy(
+  stagedImport.firstReply(() => import('./MessageTools')),
+);
 
 chatStore.onFirstReply(() => stagedImport.firstReply.mark());
 ```
@@ -79,6 +81,16 @@ stagedImport.idle.ready().then(() => warmUpMessagePlugins());
 ## 路由 JS
 
 流式 SSR 下，配置了 `performance.resourceStages` 后，命中路由的 JS 也按阶段输出，不需要声明：路由组件自身的文件为 `critical`，依赖的共享 chunk 按 `critical` 预算分到 `critical` 或 `visible`。见 [`routes`](/configure/app/performance/resource-stages#routes)。
+
+## 浏览器支持与限制
+
+- **不使用就没有成本。** 没有 `stagedImport` 声明、也没有配置 `performance.resourceStages` 的应用，HTML 不会多出内容，产物里也不包含调度器。
+- **不支持 `<link rel="prefetch">` 的浏览器**（Safari）会跳过所有阶段的预取，被跳过的阶段记录在加载记录的 `skipped` 里。`critical` 的预加载照常生效，`ready()` 照常 resolve，代码在用到时再加载，和没有声明时一样。
+- **既没有成功也没有失败的预取**在 30 秒后不再占用并发名额，后面的文件和阶段不会被卡住。
+- **由应用通知的阶段**（`manual: true`）建议同时设置 `timeout`。不设置时，后面的阶段会一直等到应用通知该阶段或更晚的阶段。
+- **写在后加载代码里的声明**在这段代码执行时才生效：没有配置 `performance.resourceStages` 时，调度器在第一个声明被执行时启动。
+- **服务端渲染的入口降级为客户端渲染时**只有入口级的清单；路由级的清单由服务端在渲染时写入。
+- **不支持微前端子应用和 Module Federation 的 remote。** 清单按页面所属应用的 chunk 表解析。请在主应用里声明阶段；子应用里的 `stagedImport` 会在用到时加载代码，元素阶段不预取。
 
 ## 构建产物
 

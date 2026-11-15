@@ -10,10 +10,19 @@ title: resourceStages
 type Stage = 'critical' | 'visible' | 'interactive' | 'idle' | string;
 
 interface ResourceStagesConfig {
-  targetNetwork?: 'slow-4g' | 'fast-4g' | 'wifi' | { downlink: number; rtt?: number };
-  budget?: Record<string, { size?: string | number; requests?: number; depth?: number }>;
-  stages?: Record<string, { after?: string; timeout?: number; manual?: boolean }>;
-  routes?: false | Record<string, 'critical' | 'visible' | 'interactive' | 'idle' | false>;
+  targetNetwork?:
+    'slow-4g' | 'fast-4g' | 'wifi' | { downlink: number; rtt?: number };
+  budget?: Record<
+    string,
+    { size?: string | number; requests?: number; depth?: number }
+  >;
+  stages?: Record<
+    string,
+    { after?: string; timeout?: number; manual?: boolean }
+  >;
+  routes?:
+    | false
+    | Record<string, 'critical' | 'visible' | 'interactive' | 'idle' | false>;
   concurrency?: number;
   inlineLimit?: string | number;
   firstPaintTarget?: number;

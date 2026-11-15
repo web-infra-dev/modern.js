@@ -117,6 +117,9 @@ const ssrBuilderPlugin = (
             'process.env.MODERN_ENABLE_RSC': JSON.stringify(
               Boolean(userConfig.server?.rsc),
             ),
+            'process.env.MODERN_RESOURCE_STAGES': JSON.stringify(
+              Boolean(userConfig.performance?.resourceStages),
+            ),
           },
         },
         output: {
