@@ -1,10 +1,26 @@
-import type { AppTools, CliPlugin } from '@modern-js/app-tools';
+import type { AppTools, AppUserConfig, CliPlugin } from '@modern-js/app-tools';
 import { getPublicDirRoutePrefixes } from '@modern-js/server-core';
 import type { Entrypoint } from '@modern-js/types';
 import type { BackendOptions, LocaleDetectionOptions } from '../shared/type';
 import { getBackendOptions, getLocaleDetectionOptions } from '../shared/utils';
 import { applyDetectedBackendPaths, detectLocalesDirectory } from './locales';
 import '../runtime/types';
+
+type BundlerChain = NonNullable<AppUserConfig['tools']>['bundlerChain'];
+
+// Before the first render the runtime loads react-i18next with a dynamic import.
+// Bundle that module eagerly so it doesn't become an extra async request. Only
+// runtime/i18n/react-i18next is matched: the i18next fallback import in
+// runtime/i18n/instance stays lazy, so apps that pass their own instance don't
+// get an unused copy of i18next in the initial chunk.
+const eagerReactI18next: BundlerChain = chain => {
+  chain.module
+    .rule('plugin-i18n-react-i18next')
+    .test(
+      /[\\/]plugin-i18n[\\/]dist[\\/][^\\/]+[\\/]runtime[\\/]i18n[\\/]react-i18next\.m?js$/,
+    )
+    .parser({ dynamicImportMode: 'eager' });
+};
 
 export type TransformRuntimeConfigFn = (
   extendedConfig: Record<string, any>,
@@ -39,6 +55,8 @@ export const i18nPlugin = (
       customPlugin,
       ...restOptions
     } = options;
+
+    api.config(() => ({ tools: { bundlerChain: eagerReactI18next } }));
 
     api._internalRuntimePlugins(({ entrypoint, plugins }) => {
       const localeDetectionOptions = localeDetection

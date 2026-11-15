@@ -1,5 +1,25 @@
 # @modern-js/plugin-i18n
 
+## 3.11.3
+
+### Patch Changes
+
+- 75631e4: fix(plugin-i18n): bundle the runtime's react-i18next import eagerly so it no longer adds an async chunk request before the first render.
+
+  fix(plugin-i18n): 运行时对 react-i18next 的动态引入改为打进当前 chunk，首屏渲染前不再多请求一个异步 chunk。
+
+- 6e86aac: fix(plugin-i18n): register react-i18next once per i18n instance so server requests no longer grow its plugin list.
+
+  fix(plugin-i18n): 每个 i18n 实例只注册一次 react-i18next，避免服务端每个请求都让插件列表变长。
+
+- Updated dependencies [4d498bb]
+  - @modern-js/plugin@3.11.3
+  - @modern-js/server-core@3.11.3
+  - @modern-js/server-runtime@3.11.3
+  - @modern-js/runtime-utils@3.11.3
+  - @modern-js/types@3.11.3
+  - @modern-js/utils@3.11.3
+
 ## 3.11.2
 
 ### Patch Changes
