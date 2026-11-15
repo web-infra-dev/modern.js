@@ -5,6 +5,18 @@ import mcpAppsPackage from '../../mcp-apps/package.json';
 
 type Template = 'app' | 'mcp-apps';
 
+// The documented `tsconfig.server.json` layout for CommonJS projects.
+const SERVER_TSCONFIG = {
+  extends: './tsconfig.json',
+  compilerOptions: {
+    module: 'NodeNext',
+    moduleResolution: 'NodeNext',
+    noEmit: false,
+    declaration: false,
+  },
+  include: ['api', 'server', 'shared'],
+};
+
 export function parseTemplate(args: string[]): Template {
   const values: string[] = [];
   for (let index = 0; index < args.length; index++) {
@@ -135,10 +147,15 @@ function copyTemplate(
           if (entry.name === 'tsconfig.json' && data.isMcp) {
             const config = JSON.parse(rendered);
             config.include.push('api');
-            config.compilerOptions.module = 'NodeNext';
-            config.compilerOptions.moduleResolution = 'NodeNext';
             if (data.mf) config.include.push('module-federation.config.ts');
             rendered = `${JSON.stringify(config, null, 2)}\n`;
+            // The main config stays in bundler mode; `api/` is compiled and
+            // run by ts-node with the server config, picked up by convention.
+            fs.writeFileSync(
+              path.join(destDir, 'tsconfig.server.json'),
+              `${JSON.stringify(SERVER_TSCONFIG, null, 2)}\n`,
+              { encoding: 'utf-8', flag: 'wx' },
+            );
           }
           destPath = destPath.replace(/\.handlebars$/, '');
           fs.writeFileSync(destPath, rendered, {
