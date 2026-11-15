@@ -1,4 +1,4 @@
-import { setResourceStageRoutes } from '../../core/resources/stagedImport';
+import { setResourceStageRoutes } from '../../core/resources/bridge';
 import type { RuntimePluginAPI } from '@modern-js/plugin/runtime';
 import { merge } from '@modern-js/runtime-utils/merge';
 import type { RouterSubscriber } from '@modern-js/runtime-utils/router';

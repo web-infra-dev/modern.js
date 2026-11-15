@@ -2,7 +2,7 @@
 import { matchRoutes } from '@modern-js/runtime-utils/router';
 import ReactHelmet, { type HelmetData } from 'react-helmet';
 import type { TInternalRuntimeContext } from '../../context';
-import { renderRouteStages } from '../../resources/html';
+import { getPreloadCrossOrigin, renderRouteStages } from '../../resources/html';
 import type { ResourceStagesManifest } from '../../resources/manifest';
 import { CHUNK_CSS_PLACEHOLDER } from '../constants';
 import { createReplaceHelemt } from '../helmet';
@@ -57,29 +57,6 @@ type RouteAssetsItem = {
   assets?: string[];
   ownAssets?: string[];
   referenceCssAssets?: string[];
-};
-
-/**
- * The `crossorigin` attribute of a preload must match the one the bundler
- * runtime puts on the chunk `<script>`, otherwise the browser cannot reuse the
- * preloaded response and downloads the chunk again. The runtime follows
- * `output.crossOriginLoading` (set from `html.crossorigin`): `use-credentials`
- * is always applied, other values only for chunks served from another origin.
- * An absolute chunk URL means `output.assetPrefix` points to another origin,
- * the same rule Rsbuild uses for its own preload tags.
- */
-const getPreloadCrossOrigin = (
-  href: string,
-  crossorigin: HandleRequestConfig['crossorigin'],
-) => {
-  if (!crossorigin) {
-    return undefined;
-  }
-  const value = crossorigin === true ? 'anonymous' : crossorigin;
-  if (value === 'use-credentials') {
-    return value;
-  }
-  return /^([a-z][a-z\d+\-.]*:)?\/\//i.test(href) ? value : undefined;
 };
 
 export async function buildShellBeforeTemplate(

@@ -331,9 +331,12 @@ export {};
       `${group.name ?? ''}|${idsOf(group).join(',')}`;
     // Reachable chunks and async depth from each entry.
     const depthOf = new Map<string, number>();
-    const reachableFrom = (root: ChunkGroup, depth?: number) => {
+    const reachableFrom = (
+      root: ChunkGroup,
+      depth?: number,
+      visited = new Set<string>(),
+    ) => {
       const reachable = new Set<ChunkId>();
-      const visited = new Set<string>();
       const stack: [ChunkGroup, number][] = [[root, 0]];
       while (stack.length) {
         const [group, level] = stack.pop()!;
@@ -359,10 +362,18 @@ export {};
     };
 
     const entries = new Map<string, EntryInfo>();
+    /** Entry -> chunk groups reachable from it. */
+    const groupsOfEntry = new Map<string, Set<string>>();
     for (const [name, entrypoint] of compilation.entrypoints) {
+      const groups = new Set<string>();
+      groupsOfEntry.set(name, groups);
       entries.set(name, {
         initial: new Set(idsOf(entrypoint as unknown as ChunkGroup)),
-        reachable: reachableFrom(entrypoint as unknown as ChunkGroup, 0),
+        reachable: reachableFrom(
+          entrypoint as unknown as ChunkGroup,
+          0,
+          groups,
+        ),
         serverRendered: this.options.isServerRendered(name),
       });
     }
@@ -378,8 +389,11 @@ export {};
         continue;
       }
       const chunkIds = idsOf(group);
-      const entry = [...entries].find(([, info]) =>
-        chunkIds.some(id => info.reachable.has(id)),
+      // The entry that imports the route. Entries can share chunks, so the
+      // chunk group decides, not its chunks.
+      const key = groupKey(group);
+      const entry = [...groupsOfEntry].find(([, groups]) =>
+        groups.has(key),
       )?.[0];
       if (!entry) {
         continue;
@@ -737,6 +751,14 @@ export {};
       );
       const payload: Record<string, unknown> = { c: runtimeConfig };
       const preloads: PreloadItem[] = [...(target?.critical ?? [])];
+      // Chunks without a JS file, so the browser does not request one.
+      const noScript = [...entry.reachable].filter(id => {
+        const chunk = snapshot.chunks.get(id);
+        return chunk && !chunk.js.length;
+      });
+      if (noScript.length) {
+        payload.d = noScript;
+      }
       if (target) {
         const merged = lists(target, false);
         if (Object.keys(merged).length) {
@@ -765,6 +787,7 @@ export {};
       if (
         !payload.s &&
         !payload.r &&
+        !payload.d &&
         !preloads.length &&
         !this.options.config
       ) {

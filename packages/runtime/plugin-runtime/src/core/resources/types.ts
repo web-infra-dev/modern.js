@@ -43,6 +43,15 @@ export interface StagePayload {
   >;
   /** URL of a payload moved out of the HTML because it was too large. */
   u?: string;
+  /** Entry level: chunk ids that have no JS file, e.g. CSS only chunks. */
+  d?: ChunkId[];
+  /**
+   * Pushed by the framework runtime: a stage it detected, and when
+   * (milliseconds since navigation start).
+   */
+  a?: [stage: string, time: number];
+  /** Pushed by the framework runtime: ids of the matched routes. */
+  q?: string[];
 }
 
 export interface RuntimeStageConfig {
@@ -77,6 +86,9 @@ export interface ResourceStageReport {
   /** Stage -> milliseconds since navigation start when it arrived. */
   stages: Record<string, number>;
   records: ResourceStageRecord[];
-  /** Stages skipped because of `saveData` or a 2G connection. */
+  /**
+   * Stages that were not prefetched: `saveData` or a 2G connection, or the
+   * browser does not support `<link rel="prefetch">`.
+   */
   skipped: string[];
 }

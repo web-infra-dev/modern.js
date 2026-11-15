@@ -5,9 +5,12 @@ import type { ChunkId, StagePayload } from './types';
 type CrossOrigin = boolean | 'anonymous' | 'use-credentials' | undefined;
 
 /**
- * Same rule as the bundler runtime: `use-credentials` always applies, other
- * values only to files from another origin. A preload whose `crossorigin`
- * differs from the later `<script>` is not reused.
+ * The `crossorigin` of a preload must match the one the bundler runtime puts
+ * on the chunk `<script>`, otherwise the browser downloads the chunk again.
+ * The runtime follows `output.crossOriginLoading` (set from `html.crossorigin`):
+ * `use-credentials` always applies, other values only to files from another
+ * origin. An absolute URL means `output.assetPrefix` points to another origin,
+ * the same rule Rsbuild uses for its own preload tags.
  */
 export const getPreloadCrossOrigin = (
   href: string,
