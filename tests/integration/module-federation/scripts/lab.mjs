@@ -224,8 +224,8 @@ export async function startLab(
       `Readiness timed out: ${url}\nLast response: ${JSON.stringify(lastResponse)}\n${[...logs].map(([key, log]) => `${key}:\n${log}`).join('\n')}`,
     );
   }
-  async function verifyServicePort(name, expected) {
-    if (!serviceOnly) return;
+  async function verifyServicePort(name, expected, always = false) {
+    if (!serviceOnly && !always) return;
     const key = `${name}-v1`;
     const deadline = Date.now() + 180000;
     while (Date.now() < deadline) {
@@ -556,13 +556,19 @@ export async function startLab(
         path.dirname(libraryRequire.resolve('@rslib/core/package.json')),
         'bin/rslib.js',
       );
-      // Library builds are deterministic and serve the same emitted files in both modes.
-      await launch('library', [rslib, 'build'], version);
-      await serveArtifacts(
-        'library',
-        version === 'v2' ? 'dist/v2' : 'dist/v1',
-        version === 'v2' ? ports.libraryV2 : ports.library,
-      );
+      if (mode === 'dev' && version === 'v1') {
+        await launch('library', [rslib, 'mf-dev'], version, true);
+        await verifyServicePort('library', ports.library, true);
+        await wait(`http://localhost:${ports.library}/mf-manifest.json`, true);
+      } else {
+        // Secondary releases stay immutable for explicit version-switch tests.
+        await launch('library', [rslib, 'build'], version);
+        await serveArtifacts(
+          'library',
+          version === 'v2' ? 'dist/v2' : 'dist/v1',
+          version === 'v2' ? ports.libraryV2 : ports.library,
+        );
+      }
     }
     if (!serviceOnly && !updateOnly && !(updates && mode === 'production')) {
       await launch('provider', [modern, 'build'], 'v2');

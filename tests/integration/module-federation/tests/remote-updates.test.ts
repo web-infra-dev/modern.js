@@ -1,3 +1,4 @@
+import { verifyNestedWindUpdate } from './wind-update';
 import { readFile, writeFile } from 'node:fs/promises';
 import path from 'node:path';
 import { describeLab } from './fixture';
@@ -159,6 +160,10 @@ for (const scenario of scenarios.filter(
               );
             }
             evidence.processesAfter = after;
+            if (scenario === 'ordinary') {
+              evidence.phase = 'nested-rslib-source-update-and-restore';
+              await verifyNestedWindUpdate(page, workspace, observer.documents);
+            }
             evidence.completed = true;
             evidence.phase = 'complete';
           } catch (error) {
