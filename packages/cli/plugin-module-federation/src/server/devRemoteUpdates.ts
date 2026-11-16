@@ -3,12 +3,17 @@ import {
   type DevBuildPublication,
   type DevBuildRemote,
   type DevBuildSource,
+  type DevBuildStatus,
 } from '@module-federation/enhanced/rspack';
 import {
   createRemoteManifestReader,
+  RemoteManifestUnavailableError,
   type RemoteCheckOptions,
   type RemoteUpdateTarget,
 } from './remoteUpdate';
+import { DEV_MANIFEST_WAIT_TIMEOUT } from '../ssr-runtime/devManifestWait';
+
+export class DevRemoteUnavailableError extends Error {}
 
 export interface DevRemoteUpdatesOptions {
   remotes: readonly RemoteUpdateTarget[];
@@ -30,6 +35,7 @@ export interface DevRemoteUpdatesOptions {
   onApplied(remotes: RemoteUpdateTarget[], options: { reload: boolean }): void;
   onError(error: unknown): void;
   checkTimeoutMs?: number;
+  requestTimeoutMs?: number;
 }
 
 function identity(remote: DevBuildRemote) {
@@ -42,12 +48,46 @@ function identity(remote: DevBuildRemote) {
 /** One subscription owner, with coalesced request checks only while unsynchronized. */
 export function startDevRemoteUpdates(options: DevRemoteUpdatesOptions) {
   const lifetime = new AbortController();
-  const read = createRemoteManifestReader();
+  const read = createRemoteManifestReader({ waitForDevReady: true });
   const publisher = options.build?.publisher();
   const remotes = options.remotes.filter(remote =>
     /^https?:\/\/.*\.json(?:[?#]|$)/.test(remote.entry),
   );
   const publications = new Map<string, DevBuildPublication>();
+  const known = new Set<string>();
+  const brokerReady = new Set<string>();
+  const statuses = new Map<string, DevBuildStatus>();
+  const unavailable = new Set<string>();
+  const statusListeners = new Set<() => void>();
+  const pendingPublication = () =>
+    remotes.some(remote => {
+      const key = identity(remote);
+      return (
+        brokerReady.has(key) &&
+        ['waiting', 'updating'].includes(statuses.get(key) || '')
+      );
+    });
+  const waitForPublication = (signal: AbortSignal): Promise<void> => {
+    if (signal.aborted) return Promise.reject(signal.reason);
+    if (!pendingPublication()) return Promise.resolve();
+    return new Promise((resolve, reject) => {
+      const cleanup = () => {
+        statusListeners.delete(changed);
+        signal.removeEventListener('abort', abort);
+      };
+      const changed = () => {
+        if (pendingPublication()) return;
+        cleanup();
+        resolve();
+      };
+      const abort = () => {
+        cleanup();
+        reject(signal.reason);
+      };
+      statusListeners.add(changed);
+      signal.addEventListener('abort', abort, { once: true });
+    });
+  };
   let local: DevBuildPublication | undefined;
   let sent: string | undefined;
   let applying = false;
@@ -88,7 +128,15 @@ export function startDevRemoteUpdates(options: DevRemoteUpdatesOptions) {
     );
   };
   const publish = () => {
-    if (!local || !ready || applying || lifetime.signal.aborted) return;
+    if (
+      !local ||
+      !ready ||
+      applying ||
+      lifetime.signal.aborted ||
+      pendingPublication() ||
+      unavailable.size > 0
+    )
+      return;
     const dependencies = sources();
     const publication = {
       ...local,
@@ -108,7 +156,7 @@ export function startDevRemoteUpdates(options: DevRemoteUpdatesOptions) {
     const deadline = new AbortController();
     const timer = setTimeout(
       () => deadline.abort(new Error('Remote manifest check timed out')),
-      options.checkTimeoutMs ?? 5000,
+      options.checkTimeoutMs ?? DEV_MANIFEST_WAIT_TIMEOUT,
     );
     timer.unref?.();
     const signal = AbortSignal.any([lifetime.signal, deadline.signal]);
@@ -200,13 +248,31 @@ export function startDevRemoteUpdates(options: DevRemoteUpdatesOptions) {
           };
         }),
       );
-      signal.throwIfAborted();
+      for (const [index, result] of results.entries()) {
+        const key = identity(targets[index]);
+        if (
+          result.status === 'rejected' &&
+          known.has(key) &&
+          (deadline.signal.aborted ||
+            result.reason instanceof RemoteManifestUnavailableError)
+        )
+          unavailable.add(key);
+      }
+      if (unavailable.size > 0 && sent !== undefined) {
+        connection.invalidate();
+        sent = undefined;
+      }
+      lifetime.signal.throwIfAborted();
       const changes: RemoteUpdateTarget[] = [];
-      for (const result of results) {
+      for (const [index, result] of results.entries()) {
         if (result.status === 'rejected') {
           if (notification) throw result.reason;
-          report(result.reason);
-        } else if (result.value.changed) changes.push(result.value.candidate);
+          if (!unavailable.has(identity(targets[index]))) report(result.reason);
+        } else {
+          known.add(identity(result.value.candidate));
+          unavailable.delete(identity(result.value.candidate));
+          if (result.value.changed) changes.push(result.value.candidate);
+        }
       }
       // The manifest deadline bounds reads, not draining existing SSR work.
       clearTimeout(timer);
@@ -236,6 +302,8 @@ export function startDevRemoteUpdates(options: DevRemoteUpdatesOptions) {
             result.value.publication,
           );
       publish();
+      if (unavailable.size > 0)
+        throw new DevRemoteUnavailableError('Remote build is not ready');
     } finally {
       applying = false;
       clearTimeout(timer);
@@ -250,8 +318,44 @@ export function startDevRemoteUpdates(options: DevRemoteUpdatesOptions) {
             remote => identity(remote) === identity(notification.remote),
           );
           if (remote) await apply([remote], notification);
+        }).catch(error => {
+          // A failed acknowledgement also becomes broker "waiting", but no new
+          // publication is guaranteed. Requests must recover through HTTP until
+          // a later successful acknowledgement establishes broker readiness.
+          brokerReady.delete(identity(notification.remote));
+          for (const listener of statusListeners) listener();
+          throw error;
         }),
       onError: report,
+      onStatus(remote, status) {
+        const key = identity(remote);
+        if (status === 'ready') {
+          known.add(key);
+          brokerReady.add(key);
+        }
+        statuses.set(key, status);
+        if (pendingPublication() && sent !== undefined) {
+          connection.invalidate();
+          sent = undefined;
+        }
+        if (
+          status === 'waiting' &&
+          brokerReady.has(key) &&
+          publisher &&
+          publications
+            .get(key)
+            ?.sources?.some(source => identity(source) === identity(publisher))
+        ) {
+          // An invalidation returned through a dependency cycle. Propagate it
+          // first, then use manifests to break the mutual ready dependency.
+          brokerReady.delete(key);
+          unavailable.add(key);
+          const target = remotes.find(remote => identity(remote) === key)!;
+          void enqueue(() => apply([target])).catch(report);
+        }
+        for (const listener of statusListeners) listener();
+        publish();
+      },
     },
   );
   const unsubscribe = options.build?.subscribe(publication => {
@@ -265,20 +369,77 @@ export function startDevRemoteUpdates(options: DevRemoteUpdatesOptions) {
     }
   });
   return {
-    check() {
-      if (lifetime.signal.aborted) return Promise.resolve();
-      if (checking) return checking;
-      checking = enqueue(async () => {
-        const pending = remotes.filter(
-          remote => !connection.isSynchronized(remote),
+    check(request?: Request): Promise<void> {
+      if (lifetime.signal.aborted)
+        return request
+          ? Promise.reject(
+              new DevRemoteUnavailableError(
+                'Development update owner is closed',
+              ),
+            )
+          : Promise.resolve();
+      if (!checking) {
+        const admission = new AbortController();
+        const timer = setTimeout(
+          () =>
+            admission.abort(
+              new DevRemoteUnavailableError('Remote build readiness timed out'),
+            ),
+          options.requestTimeoutMs ?? DEV_MANIFEST_WAIT_TIMEOUT,
         );
-        if (pending.length) await apply(pending);
-      })
-        .catch(report)
-        .finally(() => {
-          checking = undefined;
-        });
-      return checking;
+        timer.unref?.();
+        // Wait outside the mutation queue: the queued onUpdate must be able to
+        // rebuild Node and acknowledge ready before this request is admitted.
+        checking = waitForPublication(
+          AbortSignal.any([lifetime.signal, admission.signal]),
+        )
+          .finally(() => clearTimeout(timer))
+          .then(() =>
+            enqueue(async () => {
+              const pending = remotes.filter(
+                remote =>
+                  !connection.isSynchronized(remote) ||
+                  unavailable.has(identity(remote)),
+              );
+              if (pending.length) await apply(pending);
+            }),
+          )
+          .catch(error => {
+            if (error instanceof DevRemoteUnavailableError) throw error;
+            report(error);
+          })
+          .finally(() => {
+            checking = undefined;
+          });
+      }
+      if (!request) return checking;
+      const check = checking;
+      return new Promise((resolve, reject) => {
+        const timer = setTimeout(
+          () =>
+            finish(
+              new DevRemoteUnavailableError('Remote build readiness timed out'),
+            ),
+          options.requestTimeoutMs ?? DEV_MANIFEST_WAIT_TIMEOUT,
+        );
+        const finish = (error?: unknown) => {
+          clearTimeout(timer);
+          request.signal.removeEventListener('abort', abort);
+          lifetime.signal.removeEventListener('abort', closed);
+          if (error) reject(error);
+          else resolve();
+        };
+        const abort = () => finish(request.signal.reason);
+        const closed = () =>
+          finish(
+            new DevRemoteUnavailableError('Development update owner is closed'),
+          );
+        request.signal.addEventListener('abort', abort, { once: true });
+        lifetime.signal.addEventListener('abort', closed, { once: true });
+        if (request.signal.aborted) abort();
+        else if (lifetime.signal.aborted) closed();
+        check.then(() => finish(), finish);
+      });
     },
     close() {
       return (closing ||= (async () => {

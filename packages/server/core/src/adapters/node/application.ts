@@ -35,8 +35,8 @@ export interface SSRApplicationOptions extends SSRRequestCoordinatorOptions {
   onAvailabilityChange?: (available: boolean) => void;
   /** Must respond directly; bypass handlers cannot fall through into application code. */
   bypass?: (request: Request) => Promise<Response | undefined>;
-  /** Control-plane synchronization before this request owns any SSR work. */
-  beforeRequest?: (request: Request) => Promise<void>;
+  /** Synchronize before admission. A returned response bypasses all SSR/CSR work. */
+  beforeRequest?: (request: Request) => Promise<void | Response>;
   /** Server-owned HTML fallback. It must not execute application bundles or loaders. */
   renderCSR?: (
     request: Request,
@@ -75,7 +75,8 @@ export async function createSSRApplication(options: SSRApplicationOptions) {
   const middleware: Middleware<ServerEnv> = async (c, next) => {
     const bypass = await options.bypass?.(c.req.raw);
     if (bypass) return bypass;
-    await options.beforeRequest?.(c.req.raw);
+    const beforeRequest = await options.beforeRequest?.(c.req.raw);
+    if (beforeRequest) return beforeRequest;
     const scope = options.resolveScope?.(c.req.raw)?.slice();
     const response = await coordinator.handle(
       c.req.raw,

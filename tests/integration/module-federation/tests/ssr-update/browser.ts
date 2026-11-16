@@ -1,7 +1,7 @@
-const assert = require('node:assert/strict');
-const { testRequire } = require('./packages.cjs');
+import assert from 'node:assert/strict';
+import { testRequire } from './packages.mjs';
 
-async function verifyBrowser(baseURL) {
+export async function verifyBrowser(baseURL: string) {
   const puppeteer = testRequire('puppeteer');
   const browser = await puppeteer.launch({
     headless: true,
@@ -18,8 +18,8 @@ async function verifyBrowser(baseURL) {
     try {
       await page.waitForFunction(
         () =>
-          document.querySelector('#remote-counter')?.dataset.hydrated ===
-          'true',
+          document.querySelector<HTMLElement>('#remote-counter')?.dataset
+            .hydrated === 'true',
       );
     } catch (error) {
       console.error(
@@ -135,5 +135,3 @@ async function verifyBrowser(baseURL) {
     await browser.close();
   }
 }
-
-module.exports = { verifyBrowser };

@@ -55,7 +55,7 @@ export interface SSRUpdateServerPluginOptions extends Omit<
 > {
   entries?: string[];
   application?: Partial<SSRRequestCoordinatorOptions>;
-  beforeRequest?: (request: Request) => Promise<void>;
+  beforeRequest?: (request: Request) => Promise<void | Response>;
   onAvailabilityChange?: (available: boolean) => void;
   onReady?: (
     manager: SSRUpdateManager,

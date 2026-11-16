@@ -18,6 +18,7 @@ export default defineConfig({
     ],
   },
   server: {
+    tsconfigPath: './tsconfig.server.json',
     port: port('hostInternal', 4307),
     ssr: { mode: 'stream', forceCSR: true },
   },
@@ -38,6 +39,22 @@ export default defineConfig({
     },
   },
   performance: { buildCache: false },
-  moduleFederation: { fetchServerQuery: { lab: 'federation' } },
+  moduleFederation: {
+    fetchServerQuery: { lab: 'federation' },
+    ...(process.env.MF_LAB_UPDATES ? { ssr: { cacheUpdates: true } } : {}),
+    ...(process.env.MF_LAB_UPDATES === 'service'
+      ? {
+          services: {
+            'provider/ServiceWeatherApplication': {
+              timeoutMs: 15000,
+              forwardHeaders: ['accept-language'],
+              serviceHeaders: {
+                'x-weather-service-key': 'local-service-test-key',
+              },
+            },
+          },
+        }
+      : {}),
+  },
   plugins: [appTools()],
 });

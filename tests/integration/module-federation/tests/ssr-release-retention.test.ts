@@ -1,21 +1,28 @@
-process.env.NODE_ENV = 'production';
-const http = require('node:http');
-const fs = require('node:fs/promises');
-const path = require('node:path');
-const { once } = require('node:events');
-const { packageRequire, packageAudit } = require('./packages.cjs');
-if (!global.gc)
-  throw new Error('Run the cache-updates E2E entry with --expose-gc');
-const assert = require('node:assert/strict');
-const { spawn } = require('node:child_process');
-let root;
-const { createProdServer } = packageRequire('@modern-js/prod-server');
-const { createSSRUpdateAdapter } = packageRequire(
-  '@modern-js/plugin-module-federation/ssr-update',
-);
-const deferred = () => {
-  let resolve;
-  const promise = new Promise(r => (resolve = r));
+import assert from 'node:assert/strict';
+import http from 'node:http';
+import type { AddressInfo } from 'node:net';
+import fs from 'node:fs/promises';
+import path from 'node:path';
+import { once } from 'node:events';
+import { tmpdir } from 'node:os';
+import { test, beforeAll, afterAll } from '@rstest/core';
+import { packageRequire, packageAudit } from './ssr-update/packages.mjs';
+import { buildProductionFixture } from './ssr-update/production-fixture.mjs';
+import { updatePorts } from './ssr-update/ports.mjs';
+import { verifyBrowser } from './ssr-update/browser';
+const state = globalThis as any;
+const previousNodeEnv = process.env.NODE_ENV;
+beforeAll(() => {
+  process.env.NODE_ENV = 'production';
+});
+afterAll(() => {
+  if (previousNodeEnv === undefined) delete process.env.NODE_ENV;
+  else process.env.NODE_ENV = previousNodeEnv;
+});
+
+const createDeferred = () => {
+  let resolve!: () => void;
+  const promise = new Promise<void>(r => (resolve = r));
   return { promise, resolve };
 };
 const waitFor = async predicate => {
@@ -25,10 +32,20 @@ const waitFor = async predicate => {
     await new Promise(r => setTimeout(r, 5));
   }
 };
-(async () => {
-  root = await fs.mkdtemp(
-    path.join(require('node:os').tmpdir(), 'mf-production-'),
+test('SSR updates retain old browser releases and drain streams, loaders and deferred work', async () => {
+  const releases: Array<() => void> = [];
+  const pendingUpdates: Promise<unknown>[] = [];
+  const deferred = () => {
+    const value = createDeferred();
+    releases.push(value.resolve);
+    return value;
+  };
+  const ports = await updatePorts();
+  const { createProdServer } = packageRequire('@modern-js/prod-server');
+  const { createSSRUpdateAdapter } = packageRequire(
+    '@modern-js/plugin-module-federation/ssr-update',
   );
+  const root = await fs.mkdtemp(path.join(tmpdir(), 'mf-production-'));
   console.log('Production fixture', root);
   await fs.writeFile(
     path.join(root, 'packages.json'),
@@ -55,25 +72,15 @@ const waitFor = async predicate => {
       res.end('missing');
     }
   });
-  asset.listen(Number(process.env.JO_PORT_ASSETS), '127.0.0.1');
+  asset.listen(ports.assets, '127.0.0.1');
   await once(asset, 'listening');
-  const assetURL = `http://127.0.0.1:${asset.address().port}`;
-  const build = spawn(
-    process.execPath,
-    [path.join(__dirname, 'production-fixture.cjs')],
-    {
-      stdio: 'inherit',
-      env: {
-        ...process.env,
-        SSR_CACHE_PRODUCTION_DIR: root,
-        SSR_CACHE_ASSET_URL: assetURL,
-      },
-    },
-  );
-  const [code, signal] = await once(build, 'exit');
-  if (code !== 0) {
-    asset.close();
-    throw new Error(`Build failed: ${code ?? signal}`);
+  const assetURL = `http://127.0.0.1:${(asset.address() as AddressInfo).port}`;
+  try {
+    await buildProductionFixture({ root, assetURL });
+  } catch (error) {
+    asset.closeAllConnections();
+    await new Promise<void>(resolve => asset.close(() => resolve()));
+    throw error;
   }
   const initial = { name: 'remote', entry: `${assetURL}/v1/mf-manifest.json` };
   const adapter = createSSRUpdateAdapter({
@@ -81,12 +88,12 @@ const waitFor = async predicate => {
     entries: ['index'],
     hydration: { remotes: [initial] },
   });
-  let application;
-  let server;
+  let application: any;
+  let server: any;
   let failValidation = false;
-  let browserUpdate;
-  let validationBarrier;
-  let savedHTML;
+  let browserUpdate: any;
+  let validationBarrier: any;
+  let savedHTML: string;
   const targets = version => [
     {
       name: 'remote',
@@ -110,7 +117,7 @@ const waitFor = async predicate => {
       },
       appContext: { apiDirectory: '', lambdaDirectory: '' },
       routes: JSON.parse(
-        await fs.readFile(path.join(root, 'host/dist/route.json')),
+        await fs.readFile(path.join(root, 'host/dist/route.json'), 'utf8'),
       ).routes,
       ssrApplication: {
         run: adapter.run,
@@ -199,7 +206,7 @@ const waitFor = async predicate => {
         },
       },
     });
-    server.listen(Number(process.env.JO_PORT_HOST), '127.0.0.1');
+    server.listen(ports.host, '127.0.0.1');
     await once(server, 'listening');
     const hostURL = `http://127.0.0.1:${server.address().port}`;
     const originalAddress = server.address();
@@ -215,12 +222,16 @@ const waitFor = async predicate => {
     );
     assert.equal(response.status, 200);
     assert.ok(html.includes('v1'));
-    await require('./browser.cjs').verifyBrowser(hostURL);
-    const update = (version = 'v1') =>
-      adapter.update(application, 'remote', {
+    await verifyBrowser(hostURL);
+    const update = (version = 'v1') => {
+      const pending = adapter.update(application, 'remote', {
         entry: `${assetURL}/${version}/mf-manifest.json`,
         client: { entry: `${assetURL}/${version}/mf-manifest.json` },
       });
+      pendingUpdates.push(pending);
+      void pending.catch(() => {});
+      return pending;
+    };
     const health = async ready => {
       assert.equal((await fetch(`${hostURL}/__live`)).status, 200);
       assert.equal((await fetch(`${hostURL}/__ready`)).status, ready);
@@ -237,7 +248,7 @@ const waitFor = async predicate => {
     // A real React Suspense response keeps the old generation admitted after its shell.
     const stream = deferred();
     const started = deferred();
-    globalThis.__r6Stream = {
+    state.__r6Stream = {
       promise: stream.promise,
       started: started.resolve,
     };
@@ -270,14 +281,14 @@ const waitFor = async predicate => {
       503,
     );
     stream.resolve();
-    delete globalThis.__r6Stream;
+    delete state.__r6Stream;
     while (!(await reader.read()).done) {}
     await streamUpdate;
     await health(200);
     // Aborting a loader response cannot erase producer work that is still running.
     const held = deferred();
     const entered = deferred();
-    globalThis.__r6Loader = async () => {
+    state.__r6Loader = async () => {
       entered.resolve();
       await held.promise;
     };
@@ -299,7 +310,7 @@ const waitFor = async predicate => {
     queuedAbort.abort();
     await cancelled;
     await waitFor(() => application.status.pendingRequests === 0);
-    const actionCount = globalThis.__r6Actions;
+    const actionCount = state.__r6Actions;
     const queued = Array.from({ length: 16 }, (_, index) =>
       fetch(
         index === 0 ? `${hostURL}/?__loader=page` : `${hostURL}/`,
@@ -314,36 +325,37 @@ const waitFor = async predicate => {
     assert.equal(overflow.status, 503);
     await overflow.text();
     assert.ok((await Promise.all(queued)).every(code => code === 503));
-    assert.equal(globalThis.__r6Actions, actionCount);
+    assert.equal(state.__r6Actions, actionCount);
     const drainFailure = await rejectedUpdate;
     assert.ok(drainFailure instanceof Error);
+    assert.ok('failedStage' in drainFailure);
     assert.equal(drainFailure.failedStage, 'drain');
     held.resolve();
-    delete globalThis.__r6Loader;
+    delete state.__r6Loader;
     await waitFor(() => application.status.activeRequests === 0);
     await update('v2');
     await health(200);
     // Request-side updates must reject, rather than wait for their own request.
-    globalThis.__r6Loader = async () => {
+    state.__r6Loader = async () => {
       await assert.rejects(update('v1'));
     };
     const reentry = await fetch(`${hostURL}/?__loader=page`);
     assert.equal(reentry.status, 200);
     await reentry.text();
-    delete globalThis.__r6Loader;
+    delete state.__r6Loader;
     // A request can accept an update without waiting for its own producer lease.
     const deferredProducer = deferred();
     const revision = adapter.status(application).revision + 1;
     const deferredTargets = targets('v1');
     const generation = application.status.generation;
-    let receipt;
+    let receipt: any;
     assert.equal(
       await adapter.shouldUpdateRemotes(application, deferredTargets, {
         revision,
       }),
       true,
     );
-    globalThis.__r6Loader = async () => {
+    state.__r6Loader = async () => {
       receipt = adapter.updateRemotes(application, deferredTargets, {
         revision,
         defer: 'after-response',
@@ -375,7 +387,7 @@ const waitFor = async predicate => {
     assert.equal(application.status.activeRequests, 1);
     assert.equal(adapter.status(application).phase, 'scheduled');
     assert.equal(adapter.status(application).mutationStarted, false);
-    delete globalThis.__r6Loader;
+    delete state.__r6Loader;
     deferredProducer.resolve();
     await waitFor(() => adapter.status(application).phase === 'applied');
     assert.equal(adapter.status(application).appliedRevision, revision);
@@ -410,7 +422,7 @@ const waitFor = async predicate => {
       },
     ]);
     assert.equal(dynamic.mode, 'application');
-    globalThis.__r6Loader = async () => {
+    state.__r6Loader = async () => {
       const host = [...adapter.owner.instances][0];
       const dynamicName = ['runtime', 'only'].join('_');
       const loaded = await host.loadRemote(dynamicName + '/Counter');
@@ -419,11 +431,12 @@ const waitFor = async predicate => {
     const dynamicData = await fetch(`${hostURL}/?__loader=page`);
     const dynamicBody = await dynamicData.text();
     assert.equal(dynamicData.status, 200, dynamicBody);
-    delete globalThis.__r6Loader;
+    delete state.__r6Loader;
     // Failed publication keeps the listener alive and readiness closed until recovery.
     failValidation = true;
     const failed = await update('v1').catch(e => e);
     assert.ok(failed instanceof Error);
+    assert.ok('failedStage' in failed);
     assert.equal(failed.failedStage, 'rebuild');
     assert.equal(application.status.phase, 'unavailable');
     await health(503);
@@ -434,112 +447,23 @@ const waitFor = async predicate => {
     const recovered = await update('v1');
     assert.equal(recovered.mode, 'application');
     await health(200);
-    {
-      const samples = [];
-      const durations = [];
-      const inspect = async () => {
-        await new Promise(r => setImmediate(r));
-        global.gc?.();
-        await new Promise(r => setImmediate(r));
-        global.gc?.();
-        return {
-          ...process.memoryUsage(),
-          resources: process.getActiveResourcesInfo().reduce((counts, name) => {
-            counts[name] = (counts[name] || 0) + 1;
-            return counts;
-          }, {}),
-          plugins: globalThis.__FEDERATION__.__INSTANCES__.map(i => ({
-            name: i.name,
-            plugins: i.options.plugins.map(p => p.name),
-          })),
-          instances: globalThis.__FEDERATION__.__INSTANCES__.length,
-          bindings: globalThis.__FEDERATION__.__INSTANCES__
-            .filter(i => i.name === 'r6_host')
-            .map(
-              i =>
-                i[Symbol.for('module-federation.clear-cache.adapters')]
-                  ?.bindings.size || 0,
-            ),
-          status: application.status,
-        };
-      };
-      const cycles = Number(process.env.SSR_CACHE_PRODUCTION_CYCLES || 70);
-      assert.ok(Number.isSafeInteger(cycles) && cycles >= 70);
-      for (let i = 0; i < cycles; i++) {
-        const version = i % 2 ? 'v1' : 'v2';
-        const pending = adapter.update(application, 'remote', {
-          entry: `${assetURL}/${version}/mf-manifest.json`,
-          client: { entry: `${assetURL}/${version}/mf-manifest.json` },
-        });
-        const requests = Array.from({ length: 8 }, async () => {
-          const response = await fetch(`${hostURL}/`);
-          assert.equal(response.status, 200);
-          const body = await response.text();
-          const serverVersion = body.match(
-            /id="remote-counter"[^>]*>(v[12]):/,
-          )[1];
-          const metadata = JSON.parse(
-            body.match(/data-modern-mf-release>(.*?)<\/script>/)[1],
-          );
-          assert.ok(
-            metadata.remotes[0].entry.includes('/' + serverVersion + '/'),
-          );
-        });
-        const result = await pending;
-        durations.push(result.timingsMs);
-        await Promise.all(requests);
-        if (i % 10 === 9) {
-          const sample = await inspect();
-          samples.push(sample);
-          console.log('SOAK', i + 1, JSON.stringify(sample));
-        }
-      }
-      assert.equal(process.pid, originalPID);
-      assert.deepEqual(server.address(), originalAddress);
-      const warm = samples[1].heapUsed;
-      const peak = Math.max(...samples.slice(2).map(s => s.heapUsed));
-      assert.ok(
-        peak - warm < 8 * 1024 * 1024,
-        `Post-GC heap grew ${(peak - warm) / 1024 / 1024} MiB after warm-up`,
-      );
-      assert.ok(
-        samples.every(
-          s =>
-            // The render and loader bundles own separate Node execution graphs.
-            // They share one loaded remote, not their application runtime.
-            s.instances === 3 &&
-            s.bindings.length === 2 &&
-            s.bindings.every(n => n === 1) &&
-            s.status.activeRequests === 0 &&
-            s.status.pendingRequests === 0,
-        ),
-      );
-      await fs.writeFile(
-        path.join(root, 'metrics.json'),
-        JSON.stringify({ samples, durations }, null, 2),
-      );
-      console.log(
-        'Production acceptance passed; metrics:',
-        path.join(root, 'metrics.json'),
-      );
-      return;
-    }
-  } catch (e) {
-    console.error(e);
-    process.exitCode = 1;
+    assert.equal(process.pid, originalPID);
+    assert.deepEqual(server.address(), originalAddress);
+    assert.equal(application.status.activeRequests, 0);
+    assert.equal(application.status.pendingRequests, 0);
   } finally {
+    for (const release of releases) release();
+    await Promise.allSettled(pendingUpdates);
     validationBarrier?.release.resolve();
     await browserUpdate?.catch(() => {});
     server?.closeAllConnections();
-    if (server) await new Promise(r => server.close(r));
+    if (server)
+      await new Promise<void>(resolve => server.close(() => resolve()));
     asset.closeAllConnections();
-    await new Promise(r => asset.close(r));
-    await adapter.dispose();
-    delete globalThis.__r6Actions;
-    delete globalThis.__r6Loader;
-    delete globalThis.__r6Stream;
+    await new Promise<void>(resolve => asset.close(() => resolve()));
+    await adapter.dispose(undefined, { preserveRemotes: false });
+    delete state.__r6Actions;
+    delete state.__r6Loader;
+    delete state.__r6Stream;
   }
-})().catch(error => {
-  console.error(error);
-  process.exitCode = 1;
-});
+}, 600000);

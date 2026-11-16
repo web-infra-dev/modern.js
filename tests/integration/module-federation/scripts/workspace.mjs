@@ -42,7 +42,9 @@ export async function createWorkspace(options = {}) {
       path.resolve(source, '../../../node_modules'),
       path.join(workspace, 'node_modules'),
     );
-    for (const name of ['host', 'provider', 'nested', 'library']) {
+    for (const name of options.updates
+      ? ['host', 'provider']
+      : ['host', 'provider', 'nested', 'library']) {
       await cp(path.join(source, name), path.join(workspace, name), {
         recursive: true,
         filter: filename => !excluded.has(path.basename(filename)),
@@ -69,6 +71,13 @@ export async function createWorkspace(options = {}) {
           path.join(workspace, name, 'node_modules'),
         );
       }
+    }
+    if (options.updates === 'service') {
+      const probe = 'fixtures/service-app/host/src/node-entry-probe.ts';
+      await mkdir(path.dirname(path.join(workspace, probe)), {
+        recursive: true,
+      });
+      await cp(path.join(source, probe), path.join(workspace, probe));
     }
     await cp(path.join(source, 'ports.ts'), path.join(workspace, 'ports.ts'));
     await cp(

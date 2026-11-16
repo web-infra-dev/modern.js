@@ -1,13 +1,16 @@
-const assert = require('node:assert/strict');
-const fs = require('node:fs/promises');
-const path = require('node:path');
-const os = require('node:os');
-const http = require('node:http');
-const { spawn } = require('node:child_process');
-const { once } = require('node:events');
-const { createHash } = require('node:crypto');
-const { createFixture, writeGeneration, colors } = require('./dev-fixture.cjs');
-const { packageAudit, testRequire } = require('./packages.cjs');
+import assert from 'node:assert/strict';
+import fs from 'node:fs/promises';
+import path from 'node:path';
+import http from 'node:http';
+import { spawn } from 'node:child_process';
+import { createHash } from 'node:crypto';
+import { createFixture, writeGeneration, colors } from './dev-fixture.mjs';
+import { packageAudit, testRequire } from './packages.mjs';
+import {
+  allocateDevPorts,
+  scenarioDirectory,
+  stopProcesses,
+} from './dev-support.mjs';
 
 const pause = milliseconds =>
   new Promise(resolve => setTimeout(resolve, milliseconds));
@@ -28,25 +31,13 @@ async function eventually(label, predicate, timeout = 90000) {
   );
 }
 
-function allocatedPort(name) {
-  const port = Number(process.env[`JO_PORT_${name}`]);
-  assert.ok(
-    Number.isSafeInteger(port) && port > 0 && port < 65536,
-    `Allocate JO_PORT_${name} before starting the dev test`,
-  );
-  return port;
-}
-
-async function run(mode) {
+// Fixed manifest gateway deliberately differs from the publisher URL. It covers
+// discovery without a matching subscription and a stale Service descriptor.
+export async function runManifestFallbackScenario(mode) {
   const csr = mode === 'service-csr';
   const ordinary = mode === 'ordinary';
-  const ports = {
-    host: allocatedPort('HOST'),
-    provider: allocatedPort('PROVIDER'),
-    manifest: allocatedPort('MANIFEST'),
-  };
-  assert.equal(new Set(Object.values(ports)).size, 3);
-  const root = await fs.mkdtemp(path.join(os.tmpdir(), `mf-auto-dev-${mode}-`));
+  const ports = await allocateDevPorts({ gateway: true });
+  const root = await scenarioDirectory(`mf-manifest-fallback-${mode}-`);
   const fixture = await createFixture(root, mode, ports);
   await fs.writeFile(
     path.join(root, 'packages.json'),
@@ -93,6 +84,10 @@ async function run(mode) {
       const text =
         frozenManifest ??
         (await fetch(fixture.providerManifestURL, {
+          headers:
+            request.headers['x-modern-mf-dev-wait'] === '1'
+              ? { 'x-modern-mf-dev-wait': '1' }
+              : undefined,
           cache: 'no-store',
           signal: AbortSignal.timeout(5000),
         }).then(async upstream => {
@@ -113,7 +108,6 @@ async function run(mode) {
       [path.join(fixture.appTools, 'bin/modern.js'), 'dev'],
       {
         cwd: path.join(root, name),
-        detached: true,
         env: {
           ...process.env,
           NODE_ENV: 'development',
@@ -267,26 +261,7 @@ async function run(mode) {
       gateway.closeAllConnections();
       await closed;
     }
-    await Promise.all(
-      children.map(async ({ child }) => {
-        if (child.exitCode !== null || child.signalCode !== null) return;
-        const exited = once(child, 'exit');
-        try {
-          process.kill(-child.pid, 'SIGTERM');
-        } catch {}
-        if (
-          !(await Promise.race([
-            exited.then(() => true),
-            pause(5000).then(() => false),
-          ]))
-        ) {
-          try {
-            process.kill(-child.pid, 'SIGKILL');
-          } catch {}
-          await exited;
-        }
-      }),
-    );
+    await stopProcesses(children);
     await Promise.all(
       children.map(({ name, log }) =>
         fs.writeFile(path.join(root, `${name}.log`), log),
@@ -305,11 +280,6 @@ async function run(mode) {
       JSON.stringify(evidence, null, 2),
     );
   }
-  const interrupt = () => {
-    void stop().finally(() => process.exit(130));
-  };
-  process.once('SIGINT', interrupt);
-  process.once('SIGTERM', interrupt);
   try {
     await new Promise((resolve, reject) => {
       gateway.once('error', reject);
@@ -586,88 +556,95 @@ async function run(mode) {
     }
     await expectBrowser('v1', 'v1', colors.first);
     assert.ok(initialManifest.json);
-    await edit('component and loader change', {
-      ui: 'v2',
-      loader: 'v2',
-      color: colors.second,
-    });
-    await edit(
-      'CSS-only change',
-      { ui: 'v2', loader: 'v2', color: colors.css },
-      () =>
-        fs.writeFile(
-          path.join(root, 'provider/src/routes/remote/remote.css'),
-          `[data-testid="dev-remote"] { color: ${colors.css}; }\n`,
-        ),
-    );
-    await edit(
-      'loader-only change',
-      { ui: 'v2', loader: 'loader3', color: colors.css },
-      () =>
-        fs.writeFile(
-          path.join(root, 'provider/src/routes/remote/page.data.ts'),
-          `export const loader = async () => ({version: 'loader3'});\n`,
-        ),
-    );
+    if (!mode.startsWith('service')) {
+      await edit('component and loader change', {
+        ui: 'v2',
+        loader: 'v2',
+        color: colors.second,
+      });
+    }
+    if (mode === 'bridge') {
+      await edit(
+        'CSS-only change',
+        { ui: 'v2', loader: 'v2', color: colors.css },
+        () =>
+          fs.writeFile(
+            path.join(root, 'provider/src/routes/remote/remote.css'),
+            `[data-testid="dev-remote"] { color: ${colors.css}; }\n`,
+          ),
+      );
+      await edit(
+        'loader-only change',
+        { ui: 'v2', loader: 'loader3', color: colors.css },
+        () =>
+          fs.writeFile(
+            path.join(root, 'provider/src/routes/remote/page.data.ts'),
+            `export const loader = async () => ({version: 'loader3'});\n`,
+          ),
+      );
 
-    const syntaxFile = path.join(root, 'provider/src/routes/remote/version.ts');
-    const logStart = provider.log.length;
-    const navigationBeforeError = evidence.navigations.length;
-    intentionalCompilationFailure = true;
-    await fs.writeFile(syntaxFile, 'export const version = ;\n');
-    await eventually('producer reports syntax failure', () =>
-      /(?:Unexpected token|Expression expected|Expected|Syntax Error|Module build failed|error\s)/i.test(
-        provider.log.slice(logStart),
-      ),
-    );
-    await eventually(
-      'failed compilation keeps the producer manifest unavailable',
-      async () => {
-        const response = await fetch(fixture.providerManifestURL, {
-          cache: 'no-store',
-          signal: AbortSignal.timeout(5000),
-        });
-        const body = await response.text();
-        evidence.compilationFailure = {
-          manifestStatus: response.status,
-          cacheControl: response.headers.get('cache-control'),
-          body,
-        };
-        return (
-          response.status === 503 &&
-          response.headers.get('cache-control')?.includes('no-store')
-        );
-      },
-      15000,
-    );
-    await pause(2000);
-    assert.equal(
-      evidence.navigations.length,
-      navigationBeforeError,
-      'A failed producer compilation reloaded the consumer',
-    );
-    await edit('compilation error recovery', {
-      ui: 'v3',
-      loader: 'v3',
-      color: colors.first,
-    });
-    intentionalCompilationFailure = false;
-    await edit(
-      'rapid saves converge',
-      { ui: 'v5', loader: 'v5', color: colors.second },
-      async () => {
-        await writeGeneration(root, {
-          ui: 'v4',
-          loader: 'v4',
-          color: colors.first,
-        });
-        await writeGeneration(root, {
-          ui: 'v5',
-          loader: 'v5',
-          color: colors.second,
-        });
-      },
-    );
+      const syntaxFile = path.join(
+        root,
+        'provider/src/routes/remote/version.ts',
+      );
+      const logStart = provider.log.length;
+      const navigationBeforeError = evidence.navigations.length;
+      intentionalCompilationFailure = true;
+      await fs.writeFile(syntaxFile, 'export const version = ;\n');
+      await eventually('producer reports syntax failure', () =>
+        /(?:Unexpected token|Expression expected|Expected|Syntax Error|Module build failed|error\s)/i.test(
+          provider.log.slice(logStart),
+        ),
+      );
+      await eventually(
+        'failed compilation keeps the producer manifest unavailable',
+        async () => {
+          const response = await fetch(fixture.providerManifestURL, {
+            cache: 'no-store',
+            signal: AbortSignal.timeout(5000),
+          });
+          const body = await response.text();
+          evidence.compilationFailure = {
+            manifestStatus: response.status,
+            cacheControl: response.headers.get('cache-control'),
+            body,
+          };
+          return (
+            response.status === 503 &&
+            response.headers.get('cache-control')?.includes('no-store')
+          );
+        },
+        15000,
+      );
+      await pause(2000);
+      assert.equal(
+        evidence.navigations.length,
+        navigationBeforeError,
+        'A failed producer compilation reloaded the consumer',
+      );
+      await edit('compilation error recovery', {
+        ui: 'v3',
+        loader: 'v3',
+        color: colors.first,
+      });
+      intentionalCompilationFailure = false;
+      await edit(
+        'rapid saves converge',
+        { ui: 'v5', loader: 'v5', color: colors.second },
+        async () => {
+          await writeGeneration(root, {
+            ui: 'v4',
+            loader: 'v4',
+            color: colors.first,
+          });
+          await writeGeneration(root, {
+            ui: 'v5',
+            loader: 'v5',
+            color: colors.second,
+          });
+        },
+      );
+    }
     if (mode.startsWith('service')) {
       const latePage = await browser.newPage();
       const oldManifest = await manifest();
@@ -855,6 +832,11 @@ async function run(mode) {
         );
         recovery.documentLoads = settled - navigations;
         assert.equal(
+          recovery.documentLoads,
+          1,
+          'Service mismatch must recover with exactly one document reload',
+        );
+        assert.equal(
           recovery.serviceRequests.filter(
             request => request.body.buildVersion === staleBody.buildVersion,
           ).length,
@@ -872,26 +854,13 @@ async function run(mode) {
     }
     assert.deepEqual(errors, [], 'Unexpected browser execution errors');
     evidence.passed = true;
-    console.log(
-      `${mode}: automatic source updates, CSS, loaders, error recovery and reload stability passed`,
-    );
+    console.log(`Manifest fallback ${mode} passed: ${root}`);
   } catch (error) {
     evidence.failure = String(error.stack || error);
     for (const { name, log } of children)
       console.error(`[${name}]\n${log.slice(-16000)}`);
     throw error;
   } finally {
-    process.removeListener('SIGINT', interrupt);
-    process.removeListener('SIGTERM', interrupt);
     await stop();
   }
 }
-
-(async () => {
-  const modes =
-    process.argv.length > 2 ? process.argv.slice(2) : ['bridge', 'service'];
-  for (const mode of modes) await run(mode);
-})().catch(error => {
-  console.error(error);
-  process.exitCode = 1;
-});

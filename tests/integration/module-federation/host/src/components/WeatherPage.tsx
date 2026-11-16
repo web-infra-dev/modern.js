@@ -104,18 +104,20 @@ export default function WeatherPage() {
         ) : (
           <Current local={local} />
         )}
-        <div className="weather-grid">
-          <Hourly />
-          {!compact && (
-            <>
-              <Days />
-              <Wind />
-              <AirWeather />
-              <UVWeather />
-              <SunsetWeather />
-            </>
-          )}
-        </div>
+        {params.get('updates') !== '1' && (
+          <div className="weather-grid">
+            <Hourly />
+            {!compact && (
+              <>
+                <Days />
+                <Wind />
+                <AirWeather />
+                <UVWeather />
+                <SunsetWeather />
+              </>
+            )}
+          </div>
+        )}
       </div>
     </main>
   );

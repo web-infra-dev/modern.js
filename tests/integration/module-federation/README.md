@@ -18,6 +18,7 @@ Open http://localhost:4300/. Stop the interactive lab with Ctrl+C. Add `--produc
 | `/`                                    | Rendering comparison, CSR and SSR weather documents                                                                                          |
 | `/data`                                | CSR, SSR, CSR with MF data and SSR with MF data                                                                                              |
 | `/advanced`                            | Weather release replacement, data recovery, loader lifecycle, remote data sources and independent weather stations                           |
+| `/updates`                             | Producer update controls and an observed iframe for ordinary SSR, Bridge SSR or Service App                                                  |
 | `/bridge-ssr/*`                        | Complete remote weather application with overview, forecast details, favorites and real deferred loading and recovery                        |
 | `/stores/:storeId/inventory/*`         | Route-mounted product application, automatic basename, host/remote navigation and independent memory cards                                   |
 | `/stores/:storeId/retry/*`             | One-time provider failure and retry with isolated neighboring mounts                                                                         |
@@ -62,6 +63,42 @@ The `/input-forms` fixture covers MF loader functions and synchronous or asynchr
 Runtime registration and prefetch continue using Enhanced and the existing data-prefetch plugin. The fixture does not call the old `createLazyComponent` consumer API. Each producer has one canonical runtime name with an alias. Registering the same container under multiple names would evaluate a second server entry against an existing instance and can break remote chunk initialization.
 
 The checked-in MF dependencies are pinned to published preview `0.0.0-feat-enhanced-runtime-unification-20261111082820`, including the function-only consumer contract, preloaded-export identity and generated `loadRemote` props inference without a global consumer type registry. Integration apps, examples, runtime peers and the adapter use the same preview. Published-package validation must install from the checked-in lockfile without local Core overrides. This preview includes the shared Router connector, the Bridge SSR engine and unified consumers, the native POP loader-redirect fix, and progressive producer results without a duplicate final snapshot. It also includes Service metadata, progressive HTTP rendering and deferred private policy lookup for ordinary nested Node containers. Release acceptance uses an independent registry installation without local Core overrides, including package exports, generated consumer types and the full development/production suite.
+
+## Producer updates and SSR cache validation
+
+The existing Weather Lab shell has an `/updates` page with one iframe. Select a scenario when starting it:
+
+```sh
+pnpm --filter mf-lab-tests dev --updates=ordinary
+pnpm --filter mf-lab-tests dev --updates=bridge
+pnpm --filter mf-lab-tests dev --updates=service
+pnpm --filter mf-lab-tests dev --production --updates=service
+```
+
+Development starts the Host and one producer. Edit `tests/integration/module-federation/provider/src/update-version.tsx` from the repository root and watch the iframe change through the real development subscription and HMR or reload path. The shell observes the document without requesting an update or changing its URL. Ordinary React uses `/weather?render=ssr&data=local&updates=1`, Bridge uses `/bridge-ssr/forecast/today`, and Service uses `/service/forecast/today`.
+
+Production builds and serves two complete producer versions with distinct `MF_BUILD_VERSION` values shared by their Browser and Node builds. Choose v1 or v2 and click **Update and render**. A Host fixture endpoint calls public `shouldUpdateRemote` and submits `updateRemotes` with `defer: 'after-response'` from `@modern-js/runtime/mf/update`, supplying matching server and browser entry URLs. After that response ends, the shell checks whether the target is active and requests a fresh SSR document at the same URL. The control request never waits for its own work to drain. The endpoint does not clear private caches or restart the Host. **GC and sample memory** shows the actual service process PID, heap, RSS, external memory and buffers. Service mode includes both producer processes.
+
+`tests/remote-updates.test.ts` runs both modes with ordinary, Bridge and Service scenarios. Development requires automatic browser updates plus new raw SSR output. Production warms both releases, captures three post-GC baseline samples, alternates versions ten times, verifies each document and hydrated interaction, then captures three final samples. The actual process PIDs must remain unchanged. Service requests must execute in the producer and the Host must not load its Node container. Results include each round, baseline and final medians, ranges and byte differences. A positive delta is reported as an observation rather than hidden behind an arbitrary memory allowance. Ten rounds do not establish that a process cannot leak.
+
+```sh
+MF_LAB_MODE=dev pnpm --filter mf-lab-tests test tests/remote-updates.test.ts
+MF_LAB_MODE=production pnpm --filter mf-lab-tests test tests/remote-updates.test.ts
+```
+
+Set `MF_LAB_ARTIFACT_DIR` to retain HTML, measurements and Rstest results outside the temporary workspace. Set `PUPPETEER_EXECUTABLE_PATH` to use an installed Chrome. `MF_LAB_PORTS` supplies the actual allocated app ports. A supervised runner can also set `MF_LAB_RUNNER_PORT`. Development subscription tests need the MF broker port 16322 available for their own process.
+
+Additional regressions use the same Rstest entry point and live in `tests/`, with shared ESM builders under `tests/ssr-update/`:
+
+| Tests                                         | Coverage                                                                                                                                                     |
+| --------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| `ssr-static`                                  | Named, numeric and concatenated module graphs, affected and unrelated caches, drain, publication failure and whole-application fallback                      |
+| `ssr-update-api`, `ssr-update-identity`       | Asynchronous checks, explicit production updates, no-op, rollback, after-response and multiple Host/build ownership                                          |
+| `ssr-release-retention`, `ssr-bridge-release` | Old browser and saved HTML retention, cancellation, queued requests and producer work draining                                                               |
+| `ssr-dev-fallback`, `ssr-dev-subscriptions`   | Fixed manifest gateways, failed builds and recovery, nested propagation, late producers, static producers and Service 409 recovery without POST replay       |
+| `ssr-dev-admission`, `ssr-admission-response` | Request admission during rebuilds, cancellation and timeout, static producers, failed acknowledgement recovery, cyclic dependencies and early HTTP responses |
+
+These tests use the locally built Modern, MF and matching Rspack/native packages during joint development. Temporary dependency overrides and validation lockfiles are not release dependencies. Preview publication remains a separate step.
 
 ## Bridge application SSR
 
@@ -149,7 +186,7 @@ The script-delay control delays the actual host entry request by 0, 1500 or 3000
 | `runtime-exports.test.ts`       | Built Node callback exports and existing Router Context identity, without claiming published-package acceptance                                                                                        |
 | `application-isolation.test.ts` | Host/producer locales and dictionaries, repeated producer mounts, SSR DOM reuse, CSR without a local snapshot, producer route data/code prefetch and ordinary Host Link behavior                       |
 
-Each browser file runs dev and production suites, retry 0, with one worker in the dedicated Rstest configuration. Every `describeLab` registration owns a temporary source copy, writable caches and service processes. In particular the two Bridge input API registrations do not share a Node service process. Installed packages are linked individually and are never modified by the tests. The runner starts producers before consumers, waits for HTTP readiness and cleans up after failures. Temporary workspaces keep tests independent of the interactive demo.
+Each Lab file runs dev and production suites, retry 0, with one worker in the dedicated Rstest configuration. Common contract regressions run once. Every `describeLab` registration owns a temporary source copy, writable caches and service processes. In particular the two Bridge input API registrations do not share a Node service process. Installed packages are linked individually and are never modified by the tests. The runner starts producers before consumers, waits for HTTP readiness and cleans up after failures. Temporary workspaces keep tests independent of the interactive demo.
 
 ```sh
 MF_LAB_MODE=dev pnpm --filter mf-lab-tests test tests/rendering.test.ts
@@ -166,17 +203,17 @@ The Module Federation E2E workflow runs five test jobs on independent runners. E
 | Job                | MF cases |
 | ------------------ | -------: |
 | `lab-dev-A`        |       46 |
-| `lab-dev-B`        |       75 |
+| `lab-dev-B`        |       78 |
 | `lab-production-A` |       46 |
-| `lab-production-B` |       74 |
-| `common`           |       22 |
+| `lab-production-B` |       77 |
+| `common`           |       59 |
 
-The common job also runs `rootExposes.test.ts` and `routeScope.test.ts` once each, using their existing package configurations. These unit cases are checked separately from the 263 MF cases.
+The common job also runs `rootExposes.test.ts` and `routeScope.test.ts` once each, using their existing package configurations. These 33 unit cases are checked separately from the 306 MF cases.
 
 [`scripts/groups.mjs`](./scripts/groups.mjs) owns the A/B/common file assignments. Both Rstest selection and result verification use it. Unknown, duplicate and unassigned files, empty groups and invalid environment parameters fail before services start. When adding or removing cases, update the committed [`case-manifest.json`](./case-manifest.json) from a successful full serial report and review the identity diff.
 
 ```sh
-# All 263 MF cases, serially, with the original local entry point
+# All 306 MF cases, serially, with the original local entry point
 pnpm --filter mf-lab-tests test --bail=1
 
 # One file group and mode
@@ -193,14 +230,14 @@ node tests/integration/module-federation/scripts/run.mjs serial /tmp/mf-serial-r
 node tests/integration/module-federation/scripts/results.mjs baseline /tmp/mf-serial-run-1 tests/integration/module-federation/case-manifest.json
 
 # Fast positive and negative checks, without starting services
-node --test tests/integration/module-federation/scripts/parallelism.test.mjs
+node --test tests/integration/module-federation/scripts/parallelism.test.mjs tests/integration/module-federation/scripts/process-tracker.test.mjs
 ```
 
 `MF_LAB_SUITE` accepts `lab` or `common`. `MF_LAB_SHARD` accepts `A` or `B` and requires `MF_LAB_SUITE=lab`. Lab mode accepts `dev` or `production`, with both modes selected when omitted. The common suite rejects mode and shard parameters. An omitted suite preserves the original behavior, including common tests when only `MF_LAB_MODE` is set. Do not combine this partitioning with Rstest's native `--shard`.
 
 The report records repository-relative filenames, explicit mode, the complete suite path, expanded case name and Rstest project. The final `module-federation-e2e` check compares the complete identity multiset with the serial manifest. It requires all five jobs, every expected file result, zero failed/skipped/todo/retried cases, no hook or unhandled errors, successful resource audits and both unit reports. Reports must match the current commit, workflow run and attempt. Missing artifacts, cancelled jobs and unexpected skips fail the check. Rerun all jobs after a failed attempt so all five reports belong to the same attempt.
 
-Each artifact name includes its job, run ID and attempt. Logs, reports, cleanup evidence and optional screenshots live in that job's artifact directory. Screenshots also include their mode. Set `MF_LAB_SCREENSHOTS=1` to capture the existing recovery screenshots. Each Lab owns its browser profile inside its temporary workspace and removes it after Chrome closes. The ordinary React suite likewise owns and removes its own profile. `run.mjs` observes descendants, process groups and a dedicated temporary directory, records leaks before fallback cleanup, and fails when services, browsers or test workspaces remain after the command. A fresh artifact directory is required for each run.
+Each artifact name includes its job, run ID and attempt. Logs, reports, cleanup evidence and optional screenshots live in that job's artifact directory. Screenshots also include their mode. Set `MF_LAB_SCREENSHOTS=1` to capture the existing recovery screenshots. Each Lab owns its browser profile inside its temporary workspace and removes it after Chrome closes. The ordinary React suite likewise owns and removes its own profile. `run.mjs` observes descendants, process groups and a dedicated temporary directory, records leaks before fallback cleanup, and fails when services, browsers or test workspaces remain after the command. It tracks PID and process birth time, keeps its supervisor alive through the audit, and revalidates each process before signaling it so reused identifiers do not grant ownership of unrelated processes. A fresh artifact directory is required for each run.
 
 Every runner independently installs the lockfile, restores Nx cache, builds Modern.js and installs the pinned Puppeteer Chrome. Only the common job saves Nx cache. The summary shows measured MF and command durations. These exclude setup, installation, repository builds and artifact upload. Use GitHub's job start/end timestamps to compute total runner minutes and workflow elapsed time, including the summary job. The 12–16 minute workflow target remains an estimate until repeated CI measurements establish the actual result.
 

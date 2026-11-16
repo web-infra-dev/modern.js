@@ -1,20 +1,28 @@
-process.env.NODE_ENV = 'production';
-const assert = require('node:assert/strict');
-const http = require('node:http');
-const fs = require('node:fs/promises');
-const path = require('node:path');
-const { once } = require('node:events');
-const { spawn } = require('node:child_process');
-const { packageRequire, packageAudit } = require('./packages.cjs');
-const { createProdServer } = packageRequire('@modern-js/prod-server');
-const { createSSRUpdateServerPlugin } = packageRequire(
-  '@modern-js/plugin-module-federation/ssr-update',
-);
+import { test, beforeAll, afterAll } from '@rstest/core';
+import assert from 'node:assert/strict';
+import http from 'node:http';
+import type { AddressInfo } from 'node:net';
+import fs from 'node:fs/promises';
+import path from 'node:path';
+import { once } from 'node:events';
+import { tmpdir } from 'node:os';
+import { packageRequire, packageAudit } from './ssr-update/packages.mjs';
+import { buildProductionFixture } from './ssr-update/production-fixture.mjs';
+import { updatePorts } from './ssr-update/ports.mjs';
+const state = globalThis as any;
+const previousNodeEnv = process.env.NODE_ENV;
+beforeAll(() => {
+  process.env.NODE_ENV = 'production';
+});
+afterAll(() => {
+  if (previousNodeEnv === undefined) delete process.env.NODE_ENV;
+  else process.env.NODE_ENV = previousNodeEnv;
+});
 
 async function close(server) {
   if (!server?.listening) return;
   server.closeAllConnections();
-  await new Promise((resolve, reject) =>
+  await new Promise<void>((resolve, reject) =>
     server.close(error => (error ? reject(error) : resolve())),
   );
 }
@@ -26,10 +34,14 @@ async function waitFor(check) {
   }
 }
 
-(async () => {
-  const root = await fs.mkdtemp(
-    path.join(require('node:os').tmpdir(), 'mf-formal-production-'),
+test('production API checks are read-only and updates support no-op, rollback and deferred publication', async () => {
+  const ports = await updatePorts();
+  const { createProdServer } = packageRequire('@modern-js/prod-server');
+  const { createSSRUpdateServerPlugin } = packageRequire(
+    '@modern-js/plugin-module-federation/ssr-update',
   );
+
+  const root = await fs.mkdtemp(path.join(tmpdir(), 'mf-formal-production-'));
   console.log('Formal production fixture', root);
   await fs.writeFile(
     path.join(root, 'packages.json'),
@@ -37,8 +49,8 @@ async function waitFor(check) {
   );
   let published = 'v1';
   let manifestReads = 0;
-  let server;
-  let manager;
+  let server: any;
+  let manager: any;
   let flipDuringUpdate = false;
   let pinnedDuringUpdate = false;
   const asset = http.createServer(async (request, response) => {
@@ -65,26 +77,16 @@ async function waitFor(check) {
     }
   });
   try {
-    asset.listen(Number(process.env.JO_PORT_ASSETS), '127.0.0.1');
+    asset.listen(ports.assets, '127.0.0.1');
     await once(asset, 'listening');
-    const assetURL = `http://127.0.0.1:${asset.address().port}`;
+    const assetURL = `http://127.0.0.1:${(asset.address() as AddressInfo).port}`;
     const entry = `${assetURL}/current/mf-manifest.json`;
-    const build = spawn(
-      process.execPath,
-      [path.join(__dirname, 'production-fixture.cjs')],
-      {
-        stdio: 'inherit',
-        env: {
-          ...process.env,
-          SSR_CACHE_PRODUCTION_DIR: root,
-          SSR_CACHE_ASSET_URL: assetURL,
-          SSR_CACHE_REMOTE_MANIFEST_URL: entry,
-          SSR_CACHE_FORMAL_API: '1',
-        },
-      },
-    );
-    const [code, signal] = await once(build, 'exit');
-    assert.equal(code, 0, `Fixture build failed: ${code ?? signal}`);
+    await buildProductionFixture({
+      root,
+      assetURL,
+      manifestURL: entry,
+      formalAPI: true,
+    });
     const initial = { name: 'r6_remote', alias: 'remote', entry };
     const target = version => ({
       name: 'remote',
@@ -128,11 +130,11 @@ async function waitFor(check) {
       },
       appContext: { apiDirectory: '', lambdaDirectory: '' },
       routes: JSON.parse(
-        await fs.readFile(path.join(root, 'host/dist/route.json')),
+        await fs.readFile(path.join(root, 'host/dist/route.json'), 'utf8'),
       ).routes,
       plugins: [plugin],
     });
-    server.listen(Number(process.env.JO_PORT_HOST), '127.0.0.1');
+    server.listen(ports.host, '127.0.0.1');
     await once(server, 'listening');
     const hostURL = `http://127.0.0.1:${server.address().port}`;
     const address = server.address();
@@ -162,9 +164,9 @@ async function waitFor(check) {
     assert.ok(manager, 'Automatic server owner was not registered');
     // These functions are imported from the public entry by the real compiled
     // Modern page loader. The fixture exposes references for its release driver.
-    const { shouldUpdateRemote, updateRemotes } = globalThis.__r6FormalMF;
+    const { shouldUpdateRemote, updateRemotes } = state.__r6FormalMF;
     const runtime = () =>
-      globalThis.__FEDERATION__.__INSTANCES__.find(
+      state.__FEDERATION__.__INSTANCES__.find(
         instance => instance.name === 'r6_host',
       );
     const initialRuntime = runtime();
@@ -220,9 +222,9 @@ async function waitFor(check) {
 
     // The fixture's real page loader runs under the automatically selected
     // request owner, so it can submit a receipt without waiting on itself.
-    let receipt;
+    let receipt: any;
     published = 'v2';
-    globalThis.__r6Loader = async request => {
+    state.__r6Loader = async request => {
       if (request.headers.get('x-formal-defer') !== '1') return;
       await assert.rejects(
         updateRemotes([target('v2')]),
@@ -246,7 +248,7 @@ async function waitFor(check) {
         status.phase === 'applied'
       );
     });
-    delete globalThis.__r6Loader;
+    delete state.__r6Loader;
     await readPage('v2');
     assert.equal(process.pid, pid);
     assert.deepEqual(server.address(), address);
@@ -270,13 +272,10 @@ async function waitFor(check) {
       path.join(root, 'result.json'),
     );
   } finally {
-    delete globalThis.__r6Loader;
-    delete globalThis.__r6FormalMF;
+    delete state.__r6Loader;
+    delete state.__r6FormalMF;
     await close(server);
     await manager?.close();
     await close(asset);
   }
-})().catch(error => {
-  console.error(error);
-  process.exitCode = 1;
-});
+}, 600000);

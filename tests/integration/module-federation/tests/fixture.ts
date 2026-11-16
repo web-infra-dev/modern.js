@@ -29,6 +29,7 @@ export function setupLab(
     applicationIsolation?: boolean;
     bridgeInputEvidence?: boolean;
     publicRoutesOnly?: boolean;
+    updates?: 'ordinary' | 'bridge' | 'service';
   } = {},
 ) {
   let lab: Awaited<ReturnType<typeof startLab>>;
@@ -72,7 +73,10 @@ export function setupLab(
   let expectedErrorGroups: { pattern: RegExp; count: number }[] | undefined;
   let expectedErrors: { pattern: RegExp; min: number; max: number } | undefined;
   beforeAll(async () => {
-    workspace = await createWorkspace({ service: options.service });
+    workspace = await createWorkspace({
+      service: options.service,
+      updates: options.updates,
+    });
     if (!options.publicRoutesOnly)
       await cp(
         fileURLToPath(
@@ -216,6 +220,7 @@ export default function Document() {
       workspace,
       options.basename || '',
       Boolean(options.service),
+      { updates: options.updates },
     );
     browser = await puppeteer.launch({
       headless: true,
@@ -404,6 +409,7 @@ export function describeLab(
     applicationIsolation?: boolean;
     bridgeInputEvidence?: boolean;
     publicRoutesOnly?: boolean;
+    updates?: 'ordinary' | 'bridge' | 'service';
   } = {},
 ) {
   rstest.setConfig({ testTimeout: 60000, hookTimeout: 600000, retry: 0 });

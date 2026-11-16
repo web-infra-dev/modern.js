@@ -1,41 +1,53 @@
-process.env.NODE_ENV = 'production';
-const assert = require('node:assert/strict');
-const fs = require('node:fs/promises');
-const http = require('node:http');
-const path = require('node:path');
-const { once } = require('node:events');
-const { spawn } = require('node:child_process');
-const { packageRequire, packageAudit } = require('./packages.cjs');
-const { createProdServer } = packageRequire('@modern-js/prod-server');
-const { createSSRUpdateServerPlugin } = packageRequire(
-  '@modern-js/plugin-module-federation/ssr-update',
-);
-const { helpers } = packageRequire('@module-federation/enhanced/runtime');
-const { getNodeInstanceLifecycle } = packageRequire(
-  '@module-federation/node/lifecycle',
-);
+import { test, beforeAll, afterAll } from '@rstest/core';
+import assert from 'node:assert/strict';
+import fs from 'node:fs/promises';
+import http from 'node:http';
+import type { AddressInfo } from 'node:net';
+import path from 'node:path';
+import { once } from 'node:events';
+import { tmpdir } from 'node:os';
+import { packageRequire, packageAudit } from './ssr-update/packages.mjs';
+import { buildProductionFixture } from './ssr-update/production-fixture.mjs';
+import { updatePorts } from './ssr-update/ports.mjs';
+const state = globalThis as any;
+const previousNodeEnv = process.env.NODE_ENV;
+beforeAll(() => {
+  process.env.NODE_ENV = 'production';
+});
+afterAll(() => {
+  if (previousNodeEnv === undefined) delete process.env.NODE_ENV;
+  else process.env.NODE_ENV = previousNodeEnv;
+});
+
 const deferred = () => {
-  let resolve;
-  const promise = new Promise(done => (resolve = done));
+  let resolve!: () => void;
+  const promise = new Promise<void>(done => (resolve = done));
   return { promise, resolve };
 };
 async function close(server) {
   if (!server?.listening) return;
   server.closeAllConnections();
-  await new Promise((resolve, reject) =>
+  await new Promise<void>((resolve, reject) =>
     server.close(error => (error ? reject(error) : resolve())),
   );
 }
 
-(async () => {
-  const root = await fs.mkdtemp(
-    path.join(require('node:os').tmpdir(), 'mf-identity-'),
+test('applications own their provider build identities through updates and disposal', async () => {
+  const ports = await updatePorts();
+  const { createProdServer } = packageRequire('@modern-js/prod-server');
+  const { createSSRUpdateServerPlugin } = packageRequire(
+    '@modern-js/plugin-module-federation/ssr-update',
   );
+  const { helpers } = packageRequire('@module-federation/enhanced/runtime');
+  const { getNodeInstanceLifecycle } = packageRequire(
+    '@module-federation/node/lifecycle',
+  );
+  const root = await fs.mkdtemp(path.join(tmpdir(), 'mf-identity-'));
   console.log('Identity fixture', root);
-  const apps = [];
+  const apps: any[] = [];
   const held = deferred();
   const entered = deferred();
-  let pendingRequest;
+  let pendingRequest: any;
   const asset = http.createServer(async (request, response) => {
     try {
       const pathname = new URL(request.url, 'http://asset.invalid').pathname;
@@ -53,34 +65,24 @@ async function close(server) {
     }
   });
   try {
-    asset.listen(Number(process.env.JO_PORT_ASSETS), '127.0.0.1');
+    asset.listen(ports.assets, '127.0.0.1');
     await once(asset, 'listening');
-    const assetURL = `http://127.0.0.1:${asset.address().port}`;
-    const build = spawn(
-      process.execPath,
-      [path.join(__dirname, 'production-fixture.cjs')],
-      {
-        stdio: 'inherit',
-        env: {
-          ...process.env,
-          SSR_CACHE_PRODUCTION_DIR: root,
-          SSR_CACHE_ASSET_URL: assetURL,
-          SSR_CACHE_IDENTITY: '1',
-          SSR_CACHE_FORMAL_API: '1',
-        },
-      },
-    );
-    const [code, signal] = await once(build, 'exit');
-    assert.equal(code, 0, `Build failed: ${code ?? signal}`);
+    const assetURL = `http://127.0.0.1:${(asset.address() as AddressInfo).port}`;
+    await buildProductionFixture({
+      root,
+      assetURL,
+      identity: true,
+      formalAPI: true,
+    });
     const target = version => ({
       name: 'remote',
       entry: `${assetURL}/${version}/mf-manifest.json`,
     });
     for (const [directory, name, version, port] of [
-      ['host', 'r6_host', 'v1', process.env.JO_PORT_HOST],
-      ['host-b', 'r6_host_b', 'v2', process.env.JO_PORT_HOST_B],
+      ['host', 'r6_host', 'v1', ports.host],
+      ['host-b', 'r6_host_b', 'v2', ports.hostB],
     ]) {
-      const app = { directory, name, version };
+      const app: any = { directory, name, version };
       apps.push(app);
       const plugin = createSSRUpdateServerPlugin({
         name,
@@ -105,7 +107,10 @@ async function close(server) {
         },
         appContext: { apiDirectory: '', lambdaDirectory: '' },
         routes: JSON.parse(
-          await fs.readFile(path.join(root, directory, 'dist/route.json')),
+          await fs.readFile(
+            path.join(root, directory, 'dist/route.json'),
+            'utf8',
+          ),
         ).routes,
         plugins: [plugin],
       });
@@ -125,7 +130,7 @@ async function close(server) {
       await fs.writeFile(
         path.join(root, 'instances.json'),
         JSON.stringify(
-          globalThis.__FEDERATION__.__INSTANCES__.map(instance => ({
+          state.__FEDERATION__.__INSTANCES__.map(instance => ({
             name: instance.name,
             id: instance.options.id,
             remotes: instance.options.remotes,
@@ -143,7 +148,7 @@ async function close(server) {
     };
     await readPage(a, 'v1');
     await readPage(b, 'v2');
-    const instances = () => globalThis.__FEDERATION__.__INSTANCES__;
+    const instances = () => state.__FEDERATION__.__INSTANCES__;
     const ownerKey = Symbol.for('modern-js.mf.ssr.runtime-owner');
     for (const app of apps) {
       const runtime = instances().find(
@@ -199,7 +204,7 @@ async function close(server) {
           },
         },
       ]);
-    const { shouldUpdateRemote } = globalThis.__r6FormalMF;
+    const { shouldUpdateRemote } = state.__r6FormalMF;
     assert.equal(
       await shouldUpdateRemote(target('v1'), { application: a.name }),
       false,
@@ -209,7 +214,7 @@ async function close(server) {
       true,
     );
     const selections = [];
-    globalThis.__r6Loader = async request => {
+    state.__r6Loader = async request => {
       if (request.headers.get('x-check-owner') === '1')
         selections.push(await shouldUpdateRemote(target('v1')));
       if (request.headers.get('x-hold-owner') === 'b') {
@@ -276,14 +281,14 @@ async function close(server) {
       'Closed fixture applications retained global instances',
     );
     assert.deepEqual(
-      Object.keys(globalThis.__FEDERATION__.__SHARE__).filter(id =>
+      Object.keys(state.__FEDERATION__.__SHARE__).filter(id =>
         /^(r6_host|r6_host_b|r6_remote):/.test(id),
       ),
       [],
       'Closed fixture applications retained shared roots',
     );
     assert.deepEqual(
-      Object.keys(globalThis.__FEDERATION__.moduleInfo).filter(id =>
+      Object.keys(state.__FEDERATION__.moduleInfo).filter(id =>
         /^r6_remote(:|$)/.test(id),
       ),
       [],
@@ -291,7 +296,7 @@ async function close(server) {
     );
     for (const app of apps)
       assert.deepEqual(
-        globalThis.__FEDERATION__.moduleInfo[app.name]?.remotesInfo || {},
+        state.__FEDERATION__.moduleInfo[app.name]?.remotesInfo || {},
         {},
         'Closed fixture application retained a remote version selection',
       );
@@ -315,15 +320,12 @@ async function close(server) {
     await pendingRequest
       ?.then(response => response.body?.cancel())
       .catch(() => {});
-    delete globalThis.__r6Loader;
-    delete globalThis.__r6FormalMF;
+    delete state.__r6Loader;
+    delete state.__r6FormalMF;
     for (const app of apps) {
       await close(app.server);
       await app.manager?.close();
     }
     await close(asset);
   }
-})().catch(error => {
-  console.error(error);
-  process.exitCode = 1;
-});
+}, 600000);

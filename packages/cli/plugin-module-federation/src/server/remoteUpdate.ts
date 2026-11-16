@@ -3,6 +3,9 @@ import {
   isManifestProvider,
   type Manifest,
 } from '@module-federation/sdk';
+import { DEV_MANIFEST_WAIT_HEADER } from '../ssr-runtime/devManifestWait';
+
+export class RemoteManifestUnavailableError extends Error {}
 
 export interface RemoteUpdateTarget {
   name: string;
@@ -143,7 +146,7 @@ export async function readRemoteModuleInfo(
 }
 
 /** Conditional candidates are service-local and never populate MF runtime caches. */
-export function createRemoteManifestReader() {
+export function createRemoteManifestReader({ waitForDevReady = false } = {}) {
   const cache = new Map<
     string,
     { moduleInfo: Record<string, unknown>; etag?: string; modified?: string }
@@ -156,6 +159,7 @@ export function createRemoteManifestReader() {
     if (target.moduleInfo) return target.moduleInfo;
     const previous = cache.get(target.entry);
     const headers = new Headers();
+    if (waitForDevReady) headers.set(DEV_MANIFEST_WAIT_HEADER, '1');
     if (previous?.etag) headers.set('If-None-Match', previous.etag);
     else if (previous?.modified)
       headers.set('If-Modified-Since', previous.modified);
@@ -166,9 +170,9 @@ export function createRemoteManifestReader() {
     });
     if (response.status === 304 && previous) return previous.moduleInfo;
     if (!response.ok)
-      throw new Error(
-        `Remote manifest returned HTTP ${response.status}: ${target.entry}`,
-      );
+      throw new (
+        response.status === 503 ? RemoteManifestUnavailableError : Error
+      )(`Remote manifest returned HTTP ${response.status}: ${target.entry}`);
     const moduleInfo = await response.json();
     aborted(options.signal);
     if (!moduleInfo || typeof moduleInfo !== 'object' || !moduleInfo.metaData)

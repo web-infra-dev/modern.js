@@ -25,6 +25,10 @@ import type { RsbuildPlugin, ModifyRspackConfigFn } from '@rsbuild/core';
 import type { FederationCliPlugin } from '../types/cli';
 import type { AssetFileNames, InternalModernPluginOptions } from '../types';
 import { BridgeSSRPlugin, getBridgeSSRRuntimePlugin } from './BridgeSSRPlugin';
+import {
+  DEV_MANIFEST_WAIT_HEADER,
+  DEV_MANIFEST_WAIT_TIMEOUT,
+} from '../ssr-runtime/devManifestWait';
 
 export function setEnv() {
   process.env['MF_SSR_PRJ'] = 'true';
@@ -434,7 +438,7 @@ export const moduleFederationSSRPlugin = (
         dev: {
           setupMiddlewares: [
             middlewares =>
-              middlewares.unshift((req, res, next) => {
+              middlewares.unshift(async (req, res, next) => {
                 if (!enableSSR) {
                   next();
                   return;
@@ -475,10 +479,36 @@ export const moduleFederationSSRPlugin = (
                       ) &&
                       !pluginOptions.devManifestReady
                     ) {
-                      res.statusCode = 503;
-                      res.setHeader('Cache-Control', 'no-store');
-                      res.end('Federation build is not ready');
-                      return;
+                      if (
+                        req.headers[DEV_MANIFEST_WAIT_HEADER] === '1' &&
+                        pluginOptions.devManifestPublication
+                      ) {
+                        const disconnected = new AbortController();
+                        const cancel = () => disconnected.abort();
+                        req.once('aborted', cancel);
+                        res.once('close', cancel);
+                        if (req.aborted || res.destroyed) cancel();
+                        try {
+                          await pluginOptions.devManifestPublication.wait(
+                            AbortSignal.any([
+                              disconnected.signal,
+                              AbortSignal.timeout(DEV_MANIFEST_WAIT_TIMEOUT),
+                            ]),
+                          );
+                        } catch {
+                          // Timeout and disconnect never expose a stale manifest.
+                        } finally {
+                          req.off('aborted', cancel);
+                          res.off('close', cancel);
+                        }
+                        if (res.destroyed) return;
+                      }
+                      if (!pluginOptions.devManifestReady) {
+                        res.statusCode = 503;
+                        res.setHeader('Cache-Control', 'no-store');
+                        res.end('Federation build is not ready');
+                        return;
+                      }
                     }
                     fs.statSync(filepath);
                     res.setHeader('Cache-Control', 'no-store');

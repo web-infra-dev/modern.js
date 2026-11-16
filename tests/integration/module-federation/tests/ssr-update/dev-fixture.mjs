@@ -1,14 +1,14 @@
-const fs = require('node:fs/promises');
-const path = require('node:path');
-const { modernPackage, resolvePackageRoot } = require('./packages.cjs');
+import fs from 'node:fs/promises';
+import path from 'node:path';
+import { modernPackage, resolvePackageRoot } from './packages.mjs';
 
-const colors = {
+export const colors = {
   first: 'rgb(20, 80, 140)',
   second: 'rgb(140, 40, 20)',
   css: 'rgb(30, 120, 50)',
 };
 
-async function writeGeneration(
+export async function writeGeneration(
   root,
   { ui = 'v1', loader = 'v1', color = colors.first } = {},
 ) {
@@ -27,7 +27,7 @@ async function writeGeneration(
   );
 }
 
-async function createFixture(root, mode, ports) {
+export async function createFixture(root, mode, ports) {
   if (!['ordinary', 'bridge', 'service', 'service-csr'].includes(mode))
     throw new Error(`Unknown mode: ${mode}`);
   const service = mode.startsWith('service');
@@ -253,5 +253,3 @@ export default function Remote(${ordinary ? '{data}: {data: {version: string}}' 
     providerManifestURL: `${providerURL}/static/mf-manifest.json`,
   };
 }
-
-module.exports = { createFixture, writeGeneration, colors };

@@ -26,11 +26,24 @@ export async function startLab(
   root = fixtureRoot,
   hostBase = '',
   serviceOnly = false,
-  portAttempt = 0,
+  options = {},
 ) {
-  const names = serviceOnly
-    ? ['provider', 'api', 'serviceSSR', 'serviceCSR']
-    : regularNames;
+  const { updates, portAttempt = 0 } = options;
+  if (updates && !['ordinary', 'bridge', 'service'].includes(updates))
+    throw new Error(`Unknown update scenario: ${updates}`);
+  if (updates && serviceOnly)
+    throw new Error('Update scenarios use the Weather Lab host');
+  const names = updates
+    ? [
+        'host',
+        'hostInternal',
+        'provider',
+        'api',
+        ...(mode === 'production' ? ['providerV2'] : []),
+      ]
+    : serviceOnly
+      ? ['provider', 'api', 'serviceSSR', 'serviceCSR']
+      : regularNames;
   const hostRequire = createRequire(path.join(root, 'host/package.json'));
   const modern = path.resolve(
     path.dirname(hostRequire.resolve('@modern-js/app-tools')),
@@ -124,7 +137,9 @@ export async function startLab(
   const env = {
     ...process.env,
     MF_LAB_PORTS: JSON.stringify(ports),
-    MF_LAB_SERVICE: serviceOnly ? '1' : '',
+    MF_LAB_SERVICE: serviceOnly || updates === 'service' ? '1' : '',
+    MF_LAB_UPDATES: updates || '',
+    MF_LAB_MODE: mode,
     MODERN_MF_AUTO_CORS: '1',
     NO_COLOR: '1',
     MODERN_SERVER_LOG_LEVEL: 'warn',
@@ -132,19 +147,26 @@ export async function startLab(
   function launch(name, args, version = 'v1', continuous = false) {
     const cwd = path.join(root, name);
     const key = `${name}-${version}`;
-    const child = spawn(process.execPath, args, {
-      cwd,
-      env: {
-        ...env,
-        MF_LAB_VERSION: version,
-        MF_LAB_HOST_MODE: name === 'service-csr' ? 'csr' : 'ssr',
-        NODE_ENV:
-          args.includes('build') || mode === 'production'
-            ? 'production'
-            : 'development',
+    const child = spawn(
+      process.execPath,
+      updates && continuous ? ['--expose-gc', ...args] : args,
+      {
+        cwd,
+        env: {
+          ...env,
+          MF_LAB_VERSION: version,
+          ...(updates && mode === 'production'
+            ? { MF_BUILD_VERSION: version }
+            : {}),
+          MF_LAB_HOST_MODE: name === 'service-csr' ? 'csr' : 'ssr',
+          NODE_ENV:
+            args.includes('build') || mode === 'production'
+              ? 'production'
+              : 'development',
+        },
+        stdio: ['ignore', 'pipe', 'pipe'],
       },
-      stdio: ['ignore', 'pipe', 'pipe'],
-    });
+    );
     processes.push(child);
     processInfo.push({ name, key, pid: child.pid });
     logs.set(key, '');
@@ -170,11 +192,6 @@ export async function startLab(
       if (continuous) resolve(child);
     });
   }
-  const libraryRequire = createRequire(path.join(root, 'library/package.json'));
-  const rslib = path.join(
-    path.dirname(libraryRequire.resolve('@rslib/core/package.json')),
-    'bin/rslib.js',
-  );
   async function wait(url, json = false) {
     const deadline = Date.now() + 180000;
     let lastResponse;
@@ -527,7 +544,14 @@ export async function startLab(
       api.once('error', reject);
       api.listen(ports.api, resolve);
     });
-    for (const version of serviceOnly ? [] : ['v1', 'v2']) {
+    for (const version of serviceOnly || updates ? [] : ['v1', 'v2']) {
+      const libraryRequire = createRequire(
+        path.join(root, 'library/package.json'),
+      );
+      const rslib = path.join(
+        path.dirname(libraryRequire.resolve('@rslib/core/package.json')),
+        'bin/rslib.js',
+      );
       // Library builds are deterministic and serve the same emitted files in both modes.
       await launch('library', [rslib, 'build'], version);
       await serveArtifacts(
@@ -536,18 +560,24 @@ export async function startLab(
         version === 'v2' ? ports.libraryV2 : ports.library,
       );
     }
-    if (!serviceOnly) {
+    if (!serviceOnly && !updates) {
       await launch('provider', [modern, 'build'], 'v2');
       await serveArtifacts('provider', 'dist-v2', ports.providerV2);
     }
-    for (const [name, version, key] of serviceOnly
-      ? [['provider', 'v1', 'provider']]
-      : [
+    for (const [name, version, key] of updates
+      ? [
           ['provider', 'v1', 'provider'],
-          ['nested', 'v1', 'nested'],
-          // Probe the Host listener directly before checking the public gateway.
+          ...(mode === 'production' ? [['provider', 'v2', 'providerV2']] : []),
           ['host', 'v1', 'hostInternal'],
-        ]) {
+        ]
+      : serviceOnly
+        ? [['provider', 'v1', 'provider']]
+        : [
+            ['provider', 'v1', 'provider'],
+            ['nested', 'v1', 'nested'],
+            // Probe the Host listener directly before checking the public gateway.
+            ['host', 'v1', 'hostInternal'],
+          ]) {
       if (mode === 'production') await launch(name, [modern, 'build'], version);
       await launch(
         name,
@@ -557,7 +587,7 @@ export async function startLab(
       );
       await verifyServicePort(name, ports[key]);
       await wait(
-        `http://localhost:${ports[key]}/${name === 'host' ? hostBase.replace(/^\//, '') : 'static/mf-manifest.json'}`,
+        `http://localhost:${ports[key]}/${name === 'host' ? (updates ? '_lab/update/state' : hostBase.replace(/^\//, '')) : 'static/mf-manifest.json'}`,
         name !== 'host',
       );
     }
@@ -577,7 +607,10 @@ export async function startLab(
         await wait(`http://localhost:${ports[key]}/service?late=1`);
       }
     }
-    if (!serviceOnly) await wait(`http://localhost:${ports.host}${hostBase}/`);
+    if (!serviceOnly)
+      await wait(
+        `http://localhost:${ports.host}${updates ? '/_lab/update/state' : `${hostBase}/`}`,
+      );
     return {
       ports,
       processInfo,
@@ -601,7 +634,10 @@ export async function startLab(
         String(error),
       )
     )
-      return startLab(mode, false, root, hostBase, true, portAttempt + 1);
+      return startLab(mode, false, root, hostBase, true, {
+        ...options,
+        portAttempt: portAttempt + 1,
+      });
     throw error;
   }
 }

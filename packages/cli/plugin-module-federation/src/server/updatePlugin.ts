@@ -1,6 +1,7 @@
 import { createSSRUpdateServerPlugin } from './ssrUpdate';
 import {
   startDevRemoteUpdates,
+  DevRemoteUnavailableError,
   type DevRemoteUpdatesOptions,
 } from './devRemoteUpdates';
 import { logger } from '@modern-js/utils';
@@ -17,13 +18,22 @@ export default function updatePlugin(
   const plugin = createSSRUpdateServerPlugin({
     ...options,
     onAvailabilityChange: ready => options.devBuild?.setReady?.(ready),
-    beforeRequest: async () => {
-      await watcher?.check();
+    beforeRequest: async request => {
+      try {
+        await watcher?.check(request);
+      } catch (error) {
+        if (!(error instanceof DevRemoteUnavailableError)) throw error;
+        return new Response(error.message, {
+          status: 503,
+          headers: { 'Cache-Control': 'no-store' },
+        });
+      }
     },
     onReady(manager, context) {
       if (!context.dev) return;
       watcher = startDevRemoteUpdates({
         build: options.devBuild,
+        requestTimeoutMs: options.application?.requestTimeoutMs,
         remotes: (options.remotes || []).filter(
           remote => 'entry' in remote && typeof remote.entry === 'string',
         ),

@@ -3,6 +3,7 @@ import styles from './weather.module.css';
 import { checkDataFailure } from './data-failure';
 import { useEffect, useState, type ReactNode } from 'react';
 import { forecastDays, type ForecastDay } from './weather-days';
+import { UpdateVersion } from './update-version';
 export type WeatherData = {
   temperature: number;
   condition: string;
@@ -119,6 +120,7 @@ export function CurrentWeather({
         My location
       </span>
       <h1>{location}</h1>
+      <UpdateVersion />
       <div
         className="current-temperature"
         key={data ? 'temperature-data' : 'temperature-pending'}

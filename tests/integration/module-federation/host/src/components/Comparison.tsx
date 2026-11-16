@@ -29,6 +29,7 @@ export function LabNav() {
         <Link to="/data">Data fetching</Link>
         <Link to="/advanced">Advanced scenarios</Link>
         <Link to="/bridge-ssr">Weather application</Link>
+        <Link to="/updates">Producer updates</Link>
       </div>
     </nav>
   );

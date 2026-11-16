@@ -1,62 +1,11 @@
-const fs = require('node:fs/promises');
-const path = require('node:path');
-const { spawnSync } = require('node:child_process');
-const root = process.env.SSR_CACHE_BRIDGE_DIR;
-const { modernPackage, resolvePackageRoot } = require('./packages.cjs');
-const appTools = modernPackage('@modern-js/app-tools');
-const runtime = modernPackage('@modern-js/runtime');
-const react = resolvePackageRoot('react');
-const reactDOM = resolvePackageRoot('react-dom');
-const assetURL = process.env.SSR_CACHE_BRIDGE_ASSET_URL;
-if (!root || !assetURL) throw new Error('Run the cache-updates E2E entry');
-(async () => {
+import fs from 'node:fs/promises';
+import path from 'node:path';
+import { buildApp } from './build.mjs';
+import { appTools, react, reactDOM, prepareApp } from './fixture-app.mjs';
+export async function buildBridgeFixture({ root, assetURL }) {
   for (const app of ['remote', 'host']) {
     const dir = path.join(root, app);
-    await fs.mkdir(path.join(dir, 'src/routes'), { recursive: true });
-    const modules = path.join(dir, 'node_modules');
-    if ((await fs.lstat(modules).catch(() => null))?.isSymbolicLink())
-      await fs.unlink(modules);
-    await fs.mkdir(modules, { recursive: true });
-    const overrides = {
-      '@modern-js/app-tools': appTools,
-      '@modern-js/runtime': runtime,
-      react,
-      'react-dom': reactDOM,
-    };
-    for (const name of [
-      '@modern-js/app-tools',
-      '@modern-js/runtime',
-      '@modern-js/plugin-module-federation',
-      '@modern-js/tsconfig',
-      '@module-federation/enhanced',
-      'react',
-      'react-dom',
-    ]) {
-      const target = path.join(modules, name);
-      await fs.mkdir(path.dirname(target), { recursive: true });
-      await fs.symlink(overrides[name] || resolvePackageRoot(name), target);
-    }
-    await fs.writeFile(
-      path.join(dir, 'package.json'),
-      JSON.stringify({
-        name: `bridge-update-${app}`,
-        private: true,
-        dependencies: {
-          react: JSON.parse(await fs.readFile(path.join(react, 'package.json')))
-            .version,
-          'react-dom': JSON.parse(
-            await fs.readFile(path.join(reactDOM, 'package.json')),
-          ).version,
-          '@modern-js/runtime': JSON.parse(
-            await fs.readFile(path.join(runtime, 'package.json')),
-          ).version,
-        },
-      }),
-    );
-    await fs.writeFile(
-      path.join(dir, 'tsconfig.json'),
-      JSON.stringify({ compilerOptions: { jsx: 'react-jsx' } }),
-    );
+    await prepareApp(dir, `bridge-update-${app}`);
     const config =
       app === 'remote'
         ? {
@@ -83,10 +32,6 @@ if (!root || !assetURL) throw new Error('Run the cache-updates E2E entry');
     await fs.writeFile(
       path.join(dir, 'modern.config.ts'),
       `import {appTools,defineConfig} from '@modern-js/app-tools'; export default defineConfig({output:{disableTsChecker:true,${app === 'remote' ? `assetPrefix:'${assetURL}/v1/',` : ''}},source:{alias:{react:${JSON.stringify(react)}, 'react-dom':${JSON.stringify(reactDOM)}}},server:{ssr:{mode:'stream'}},plugins:[appTools()],moduleFederation:{ssr:{cacheUpdates:true},config:${JSON.stringify(config)}}});`,
-    );
-    await fs.writeFile(
-      path.join(dir, 'src/routes/layout.tsx'),
-      `import {Outlet} from '@modern-js/runtime/router'; export default () => <Outlet/>;`,
     );
     await fs.writeFile(
       path.join(dir, 'src/routes/page.tsx'),
@@ -135,7 +80,7 @@ export default function BridgeApp(){
 `,
       );
     }
-    const result = spawnSync(
+    const result = await buildApp(
       process.execPath,
       [path.join(appTools, 'bin/modern.js'), 'build'],
       {
@@ -165,7 +110,7 @@ export default function BridgeApp(){
     const text = await fs.readFile(path.join(dir, file), 'utf8');
     await fs.writeFile(path.join(dir, file), text.replaceAll('v1', 'v2'));
   }
-  const result = spawnSync(
+  const result = await buildApp(
     process.execPath,
     [path.join(appTools, 'bin/modern.js'), 'build'],
     {
@@ -181,4 +126,4 @@ export default function BridgeApp(){
   await fs.cp(path.join(dir, 'dist'), path.join(root, 'releases/v2'), {
     recursive: true,
   });
-})();
+}

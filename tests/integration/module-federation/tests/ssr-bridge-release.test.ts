@@ -1,22 +1,31 @@
-process.env.NODE_ENV = 'production';
-const assert = require('node:assert/strict');
-const http = require('node:http');
-const fs = require('node:fs/promises');
-const path = require('node:path');
-const { once } = require('node:events');
-const { spawn } = require('node:child_process');
-const { packageRequire, packageAudit, testRequire } = require('./packages.cjs');
-const { createProdServer } = packageRequire('@modern-js/prod-server');
-const { createSSRUpdateAdapter } = packageRequire(
-  '@modern-js/plugin-module-federation/ssr-update',
-);
+import { test, beforeAll, afterAll } from '@rstest/core';
+import assert from 'node:assert/strict';
+import http from 'node:http';
+import type { AddressInfo } from 'node:net';
+import fs from 'node:fs/promises';
+import path from 'node:path';
+import { once } from 'node:events';
+import { tmpdir } from 'node:os';
+import {
+  packageRequire,
+  packageAudit,
+  testRequire,
+} from './ssr-update/packages.mjs';
+import { buildBridgeFixture } from './ssr-update/bridge-fixture.mjs';
+import { updatePorts } from './ssr-update/ports.mjs';
+const state = globalThis as any;
+const previousNodeEnv = process.env.NODE_ENV;
+beforeAll(() => {
+  process.env.NODE_ENV = 'production';
+});
+afterAll(() => {
+  if (previousNodeEnv === undefined) delete process.env.NODE_ENV;
+  else process.env.NODE_ENV = previousNodeEnv;
+});
 
-const { getNodeInstanceLifecycle } = packageRequire(
-  '@module-federation/node/lifecycle',
-);
 const deferred = () => {
-  let resolve;
-  const promise = new Promise(done => {
+  let resolve!: () => void;
+  const promise = new Promise<void>(done => {
     resolve = done;
   });
   return { promise, resolve };
@@ -29,16 +38,23 @@ const waitFor = async predicate => {
   }
 };
 
-(async () => {
-  const root = await fs.mkdtemp(
-    path.join(require('node:os').tmpdir(), 'mf-bridge-update-'),
+test('Bridge updates drain original producer work and preserve hydrated old releases', async () => {
+  const ports = await updatePorts();
+  const { createProdServer } = packageRequire('@modern-js/prod-server');
+  const { createSSRUpdateAdapter } = packageRequire(
+    '@modern-js/plugin-module-federation/ssr-update',
   );
+
+  const { getNodeInstanceLifecycle } = packageRequire(
+    '@module-federation/node/lifecycle',
+  );
+  const root = await fs.mkdtemp(path.join(tmpdir(), 'mf-bridge-update-'));
   console.log('Bridge production fixture', root);
   await fs.writeFile(
     path.join(root, 'packages.json'),
     JSON.stringify(packageAudit(), null, 2),
   );
-  let server, browser, adapter, update, gate;
+  let server: any, browser: any, adapter: any, update: any, gate: any;
   const asset = http.createServer(async (request, response) => {
     try {
       const file = path.resolve(
@@ -60,23 +76,10 @@ const waitFor = async predicate => {
     }
   });
   try {
-    asset.listen(Number(process.env.JO_PORT_ASSETS), '127.0.0.1');
+    asset.listen(ports.assets, '127.0.0.1');
     await once(asset, 'listening');
-    const assetURL = `http://127.0.0.1:${asset.address().port}`;
-    const build = spawn(
-      process.execPath,
-      [path.join(__dirname, 'bridge-fixture.cjs')],
-      {
-        stdio: 'inherit',
-        env: {
-          ...process.env,
-          SSR_CACHE_BRIDGE_DIR: root,
-          SSR_CACHE_BRIDGE_ASSET_URL: assetURL,
-        },
-      },
-    );
-    const [code, signal] = await once(build, 'exit');
-    assert.equal(code, 0, `Bridge build failed: ${code ?? signal}`);
+    const assetURL = `http://127.0.0.1:${(asset.address() as AddressInfo).port}`;
+    await buildBridgeFixture({ root, assetURL });
     adapter = createSSRUpdateAdapter({
       name: 'bridge_update_host',
       entries: ['index'],
@@ -84,7 +87,7 @@ const waitFor = async predicate => {
         remotes: [{ name: 'remote', entry: `${assetURL}/v1/mf-manifest.json` }],
       },
     });
-    let application, savedHTML;
+    let application: any, savedHTML: string;
     server = await createProdServer({
       pwd: path.join(root, 'host/dist'),
       serverConfigPath: path.join(root, 'missing-config'),
@@ -100,7 +103,7 @@ const waitFor = async predicate => {
       },
       appContext: { apiDirectory: '', lambdaDirectory: '' },
       routes: JSON.parse(
-        await fs.readFile(path.join(root, 'host/dist/route.json')),
+        await fs.readFile(path.join(root, 'host/dist/route.json'), 'utf8'),
       ).routes,
       ssrApplication: {
         run: adapter.run,
@@ -127,7 +130,7 @@ const waitFor = async predicate => {
         },
       },
     });
-    server.listen(Number(process.env.JO_PORT_HOST), '127.0.0.1');
+    server.listen(ports.host, '127.0.0.1');
     await once(server, 'listening');
     const hostURL = `http://127.0.0.1:${server.address().port}`;
     const address = server.address();
@@ -138,8 +141,8 @@ const waitFor = async predicate => {
     await fs.writeFile(path.join(root, 'initial.html'), savedHTML);
     assert.match(savedHTML, /Bridge v1/);
     assert.match(savedHTML, /bridge-update-counter/);
-    const firstRoot = globalThis.__bridgeUpdateRoots.at(-1);
-    const firstContext = globalThis.__bridgeUpdateContexts.at(-1);
+    const firstRoot = state.__bridgeUpdateRoots.at(-1);
+    const firstContext = state.__bridgeUpdateContexts.at(-1);
     assert.equal(firstRoot.version, 'v1');
     assert.equal(firstContext.version, 'v1');
     assert.equal(firstContext.context.isBrowser, false);
@@ -166,8 +169,8 @@ const waitFor = async predicate => {
       await page.goto(url, { waitUntil: 'load' });
       await page.waitForFunction(
         () =>
-          document.querySelector('#bridge-update-counter')?.dataset.hydrated ===
-          'true',
+          document.querySelector<HTMLElement>('#bridge-update-counter')?.dataset
+            .hydrated === 'true',
       );
       assert.equal(
         await page.$eval('#bridge-update-counter', node => node.textContent),
@@ -196,7 +199,7 @@ const waitFor = async predicate => {
     gate = deferred();
     let producerEntered = false;
     let completed = false;
-    globalThis.__bridgeUpdateGate = {
+    state.__bridgeUpdateGate = {
       promise: gate.promise,
       entered() {
         producerEntered = true;
@@ -242,7 +245,7 @@ const waitFor = async predicate => {
     );
     assert.equal(adapter.status(application).mutationStarted, false);
     assert.ok(hosts.every(host => !getNodeInstanceLifecycle(host).closed));
-    delete globalThis.__bridgeUpdateGate;
+    delete state.__bridgeUpdateGate;
     gate.resolve();
     const result = await update;
     assert.equal(completed, true);
@@ -262,8 +265,8 @@ const waitFor = async predicate => {
       currentHTML.match(/data-modern-mf-release>(.*?)<\/script>/)[1],
     );
     assert.match(release.remotes[0].entry, /\/v2\//);
-    const nextRoot = globalThis.__bridgeUpdateRoots.at(-1);
-    const nextContext = globalThis.__bridgeUpdateContexts.at(-1);
+    const nextRoot = state.__bridgeUpdateRoots.at(-1);
+    const nextContext = state.__bridgeUpdateContexts.at(-1);
     assert.equal(nextRoot.version, 'v2');
     assert.notEqual(nextRoot.root, firstRoot.root);
     assert.equal(nextContext.version, 'v2');
@@ -311,19 +314,18 @@ const waitFor = async predicate => {
       path.join(root, 'result.json'),
     );
   } finally {
-    delete globalThis.__bridgeUpdateGate;
+    delete state.__bridgeUpdateGate;
     gate?.resolve();
     await update?.catch(() => {});
     await browser?.close();
     server?.closeAllConnections();
-    if (server) await new Promise(resolve => server.close(resolve));
+    if (server)
+      await new Promise<void>(resolve => server.close(() => resolve()));
     asset.closeAllConnections();
-    if (asset.listening) await new Promise(resolve => asset.close(resolve));
+    if (asset.listening)
+      await new Promise<void>(resolve => asset.close(() => resolve()));
     await adapter?.dispose(undefined, { preserveRemotes: false });
-    delete globalThis.__bridgeUpdateRoots;
-    delete globalThis.__bridgeUpdateContexts;
+    delete state.__bridgeUpdateRoots;
+    delete state.__bridgeUpdateContexts;
   }
-})().catch(error => {
-  console.error(error);
-  process.exitCode = 1;
-});
+}, 600000);

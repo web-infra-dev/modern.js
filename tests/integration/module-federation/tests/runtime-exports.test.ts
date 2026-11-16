@@ -2,6 +2,36 @@ import fs from 'node:fs/promises';
 import os from 'node:os';
 import path from 'node:path';
 import { createRequire } from 'node:module';
+import { execFile } from 'node:child_process';
+import { promisify } from 'node:util';
+
+it('loads the public update APIs in native Node ESM and CommonJS without UI rendering modules', async () => {
+  const cwd = path.resolve(__dirname, '../host');
+  for (const mode of ['module', 'commonjs']) {
+    const load =
+      mode === 'module'
+        ? "import { shouldUpdateRemote, updateRemotes } from '@modern-js/runtime/mf/update'"
+        : "const { shouldUpdateRemote, updateRemotes } = require('@modern-js/runtime/mf/update')";
+    await promisify(execFile)(
+      process.execPath,
+      [
+        '--input-type',
+        mode,
+        '--eval',
+        `${load};
+        const assert = ${mode === 'module' ? "(await import('node:assert/strict')).default" : "require('node:assert/strict')"};
+        assert.equal(typeof shouldUpdateRemote, 'function');
+        assert.equal(typeof updateRemotes, 'function');
+        Promise.all([
+          assert.rejects(shouldUpdateRemote({ name: 'weather', entry: 'https://example.invalid/mf-manifest.json' }), /No Modern SSR update manager/),
+          assert.rejects(updateRemotes([]), /No Modern SSR update manager/),
+        ]).catch(error => { console.error(error); process.exitCode = 1; });
+      `,
+      ],
+      { cwd },
+    );
+  }
+});
 
 it('renders a registry scope through built Node callbacks and the existing router context', async () => {
   const packageRoot = path.resolve(

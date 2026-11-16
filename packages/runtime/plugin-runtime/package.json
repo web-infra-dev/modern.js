@@ -146,6 +146,11 @@
     "./mf/server": {
       "types": "./dist/types/mf.node.d.ts",
       "default": "./dist/esm/mf.node.mjs"
+    },
+    "./mf/update": {
+      "types": "./dist/types/mf/update.d.ts",
+      "import": "./dist/esm/mf/update.mjs",
+      "require": "./dist/cjs/mf/update.js"
     }
   },
   "typesVersions": {
@@ -227,6 +232,9 @@
       ],
       "mf/server": [
         "./dist/types/mf.node.d.ts"
+      ],
+      "mf/update": [
+        "./dist/types/mf/update.d.ts"
       ]
     }
   },

@@ -1,22 +1,21 @@
-const assert = require('node:assert/strict');
-const fs = require('node:fs/promises');
-const path = require('node:path');
-const os = require('node:os');
-const http = require('node:http');
-const { spawn } = require('node:child_process');
-const { once } = require('node:events');
-const { createFixture } = require('./dev-fixture.cjs');
-const { packageRequire, packageAudit, testRequire } = require('./packages.cjs');
+import assert from 'node:assert/strict';
+import fs from 'node:fs/promises';
+import path from 'node:path';
+import http from 'node:http';
+import { spawn } from 'node:child_process';
+import { once } from 'node:events';
+import { createFixture } from './dev-fixture.mjs';
+import { packageRequire, packageAudit, testRequire } from './packages.mjs';
+import {
+  allocateDevPorts,
+  scenarioDirectory,
+  stopProcesses,
+} from './dev-support.mjs';
 const { createDevBuildConnection } = packageRequire(
   '@module-federation/enhanced/rspack',
 );
 
 const pause = ms => new Promise(resolve => setTimeout(resolve, ms));
-function port(name) {
-  const value = Number(process.env[`JO_PORT_${name}`]);
-  assert.ok(value > 0 && value < 65536, `Allocate JO_PORT_${name}`);
-  return value;
-}
 async function defaultBrowser(root) {
   const browser = await testRequire('puppeteer').launch({
     headless: true,
@@ -33,22 +32,13 @@ async function defaultBrowser(root) {
   };
 }
 
-async function run(mode = 'ordinary') {
+export async function runSubscriptionScenario(mode) {
   const nested = mode === 'nested';
   const staticProvider = mode === 'build-serve';
   const appMode = nested || staticProvider ? 'ordinary' : mode;
   const csr = appMode === 'service-csr';
-  const ports = {
-    host: port('HOST'),
-    provider: port('PROVIDER'),
-    manifest: port('PROVIDER'),
-    ...(nested ? { middle: port('MIDDLE') } : {}),
-  };
-  // Framework subscriptions use this local default. Do not borrow another task's broker.
-  assert.equal(port('BROKER'), 16322);
-  const root = await fs.mkdtemp(
-    path.join(os.tmpdir(), `mf-subscription-${mode}-`),
-  );
+  const ports = await allocateDevPorts({ nested });
+  const root = await scenarioDirectory(`mf-subscription-${mode}-`);
   const fixture = await createFixture(root, appMode, ports);
   const hostName = `dev_update_${appMode.replaceAll('-', '_')}_host`;
   const children = [];
@@ -65,6 +55,7 @@ async function run(mode = 'ordinary') {
   let staticServer;
   let closing;
   let failure;
+  let buildRevision = 0;
   console.log(`Subscription ${mode} fixture: ${root}`);
 
   function launch(app, command = 'dev') {
@@ -78,6 +69,11 @@ async function run(mode = 'ordinary') {
           NODE_ENV: command === 'dev' ? 'development' : 'production',
           MODERN_MF_AUTO_CORS: '1',
           NO_COLOR: '1',
+          // Production releases have an explicit deployment identity. A
+          // versionless fixture otherwise emits the same "local" ID forever.
+          ...(command === 'build'
+            ? { MF_BUILD_VERSION: `release-${++buildRevision}` }
+            : {}),
         },
         stdio: ['ignore', 'pipe', 'pipe'],
       },
@@ -178,14 +174,7 @@ async function run(mode = 'ordinary') {
         staticServer.closeAllConnections();
         await new Promise(resolve => staticServer.close(resolve));
       }
-      await Promise.all(
-        children.map(async ({ child }) => {
-          if (child.exitCode !== null || child.signalCode) return;
-          const exit = once(child, 'exit');
-          child.kill('SIGTERM');
-          await exit;
-        }),
-      );
+      await stopProcesses(children);
       for (const [index, record] of children.entries())
         await fs.writeFile(
           path.join(root, `${index}-${record.app}-${record.command}.log`),
@@ -198,9 +187,6 @@ async function run(mode = 'ordinary') {
     })();
     return closing;
   }
-  const interrupt = () => void stop().then(() => process.exit(130));
-  process.once('SIGTERM', interrupt);
-  process.once('SIGINT', interrupt);
   try {
     observer = createDevBuildConnection(
       {
@@ -289,10 +275,8 @@ async function run(mode = 'ordinary') {
           ),
         )
       : undefined;
-    if (!process.env.MF_DEV_NO_BROWSER) {
-      browser = process.env.MF_DEV_BROWSER_DRIVER
-        ? await require(path.resolve(process.env.MF_DEV_BROWSER_DRIVER))(root)
-        : await defaultBrowser(root);
+    {
+      browser = await defaultBrowser(root);
       await browser.open(fixture.hostURL);
       await eventually(
         'interactive initial browser',
@@ -438,13 +422,6 @@ async function run(mode = 'ordinary') {
     throw error;
   } finally {
     await stop();
-    process.removeListener('SIGTERM', interrupt);
-    process.removeListener('SIGINT', interrupt);
   }
   console.log(`PASS ${mode}: ${root}`);
 }
-
-run(process.argv[2]).catch(error => {
-  console.error(error);
-  process.exitCode = 1;
-});

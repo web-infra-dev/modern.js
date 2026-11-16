@@ -116,18 +116,18 @@ with the matching MF runtime and Modern builds. An unsupported Rspack build is
 rejected during configuration. The local validation setup does not imply that
 these capabilities are available in an existing published version.
 
-Server code imports the public APIs from `@modern-js/runtime/mf`:
+Server code imports the public APIs from `@modern-js/runtime/mf/update`:
 
 <!-- prettier-ignore -->
 ```ts
-import { shouldUpdateRemote, updateRemotes } from '@modern-js/runtime/mf'
+import { shouldUpdateRemote, updateRemotes } from '@modern-js/runtime/mf/update'
 
 const remote = {
   name: 'shop',
   entry: 'https://cdn.example.com/shop/mf-manifest.json',
 }
 
-// Run from compiled Modern server code outside an active SSR request.
+// Run outside an active SSR request in a running Modern server.
 if (await shouldUpdateRemote(remote, { revalidate: true })) {
   const result = await updateRemotes([remote], { revalidate: true })
   console.log(result.changed, result.generation)
@@ -146,11 +146,12 @@ select one service in that case. Give independent applications distinct names. T
 require a running Modern server with the capability enabled and do not perform
 browser-side remote replacement.
 
-Import these APIs from Modern-compiled server code. A release controller can
-trigger that code through an application-controlled endpoint, which must use
-the after-response form when its request is owned by the update coordinator. The complete
-`mf` entry also exports React and rendering integrations and currently does not
-support direct import by an unbundled standalone Node script.
+The lightweight `mf/update` entry supports native Node ESM and CommonJS imports
+without loading the React rendering integrations. It still requires the running
+Modern server described above. A release controller can trigger updates through
+an application-controlled endpoint, which must use the after-response form when
+its request is owned by the update coordinator. The complete `mf` entry retains
+the same API exports for compiled application code.
 
 Once an update selects candidate module information, Host runtimes and the
 application's Service ingress use that captured snapshot through rebuilding.
@@ -203,18 +204,19 @@ ordering input.
 Production performs no automatic discovery or browser reload. A deployment
 controller calls these APIs explicitly. Development automatically checks configured
 manifest URLs in the background, applies a changed successful build, and only then
-asks connected consumer browsers to reload the document. Component, loader and
+notifies connected consumers. Ordinary components and Bridge applications use
+HMR and router revalidation, with a document reload when required. Service
+applications and static producers reload the document. Component, loader and
 CSS edits create a new coordinated build version shared by browser and Node
 runtime identifiers and manifests. Failed compilation or
 publication does not send a success reload, and no extra watcher configuration is
 needed after enabling `cacheUpdates` on the cooperating apps.
 
-Service version conflicts use the reserved typed HTTP 409 protocol, not arbitrary
-business 409 responses. Modern ingress and Bridge error frames preserve that
-protocol. These errors reach the existing error UI without a generic CSR redirect,
-because CSR would still use the same Service protocol. In development,
-the next successful background update reloads the page, without replaying the
-failed Service POST. Production leaves recovery to the application's policy.
+Service endpoints reject stale version descriptors with HTTP 409. The existing
+Service error path reports the rejection without a generic CSR redirect. In
+development, the next successful manifest-driven update reloads the page without
+replaying the failed Service POST. Production leaves recovery to the
+application's policy.
 
 The resource owner drains affected response streams and registered producer work
 before invalidation. Complete static ownership allows selective entry reloads.
@@ -233,6 +235,6 @@ The automatically installed server plugin supplies this ownership for normal app
 
 See the [SSR update guide](../../document/docs/zh/guides/topic-detail/module-federation/ssr-update.mdx),
 [server coordination contract](../../server/core/SSR_REQUEST_COORDINATION.md)
-and [local integration runners](../../../tests/integration/module-federation/ssr-update/README.md)
+and [Weather Lab integration tests](../../../tests/integration/module-federation/README.md#producer-updates-and-ssr-cache-validation)
 for examples, validation and limits. The work owner is server-local, including on
 Service producers, and is never serialized into Service requests or responses.

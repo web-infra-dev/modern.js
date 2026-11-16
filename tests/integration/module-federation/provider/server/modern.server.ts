@@ -3,9 +3,43 @@ import {
   type MiddlewareHandler,
 } from '@modern-js/server-runtime';
 const hostOrigin = `http://localhost:${JSON.parse(process.env.MF_LAB_PORTS || '{}').host || 4300}`;
+let serviceRequests = 0;
 
 export default defineServerConfig({
   middlewares: [
+    {
+      name: 'weather-update-memory',
+      order: 'pre',
+      handler: async (context, next) => {
+        const url = new URL(context.req.raw.url);
+        if (
+          !process.env.MF_LAB_UPDATES ||
+          url.pathname !== '/_lab/update/memory'
+        )
+          return next();
+        if (url.searchParams.get('gc') === '1') {
+          if (!globalThis.gc)
+            return Response.json(
+              { error: 'Producer requires --expose-gc' },
+              { status: 500 },
+            );
+          for (let attempt = 0; attempt < 3; attempt++) {
+            globalThis.gc();
+            await new Promise<void>(resolve => setImmediate(resolve));
+          }
+        }
+        return Response.json(
+          {
+            role: `provider-${process.env.MF_LAB_VERSION || 'v1'}`,
+            pid: process.pid,
+            gcExposed: Boolean(globalThis.gc),
+            serviceRequests,
+            ...process.memoryUsage(),
+          },
+          { headers: { 'Cache-Control': 'no-store' } },
+        );
+      },
+    },
     ...(process.env.MF_LAB_SERVICE
       ? [
           {
@@ -20,6 +54,7 @@ export default defineServerConfig({
                 '/_modern/mf/service/ServiceWeatherApplication',
               );
               if (isService) {
+                if (request.method === 'POST') serviceRequests++;
                 if (
                   request.headers.get('x-weather-service-key') !==
                   'local-service-test-key'
@@ -134,7 +169,9 @@ export default defineServerConfig({
       order: 'pre',
       handler: async (context, next) => {
         if (
-          context.req.query('__loader') &&
+          (context.req.query('__loader') ||
+            (process.env.MF_LAB_UPDATES &&
+              context.req.path.startsWith('/static/'))) &&
           [
             hostOrigin,
             ...['serviceSSR', 'serviceCSR'].map(

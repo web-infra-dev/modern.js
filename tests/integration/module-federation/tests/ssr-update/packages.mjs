@@ -1,8 +1,12 @@
-const fs = require('node:fs');
-const path = require('node:path');
-const { createRequire } = require('node:module');
+import fs from 'node:fs';
+import path from 'node:path';
+import { createRequire } from 'node:module';
 
-const repository = path.resolve(__dirname, '../../../..');
+// Built Node output and Rspack's native binding deliberately use the Node require
+// condition. Test discovery and assertions themselves run as TS/ESM in Rstest.
+export const nodeRequire = createRequire(import.meta.url);
+
+const repository = path.resolve(import.meta.dirname, '../../../../..');
 const modernPackages = {
   '@modern-js/app-tools': 'packages/solutions/app-tools',
   '@modern-js/runtime': 'packages/runtime/plugin-runtime',
@@ -22,7 +26,9 @@ const providerRequire = createRequire(
     'tests/integration/module-federation/provider/package.json',
   ),
 );
-const testRequire = createRequire(path.join(repository, 'tests/package.json'));
+const testRequire = createRequire(
+  path.join(repository, 'tests/integration/module-federation/package.json'),
+);
 
 function packageRoot(entry) {
   let directory = path.dirname(entry);
@@ -40,7 +46,7 @@ function resolvePackageRoot(name) {
 }
 
 function packageRequire(name) {
-  if (modernPackages[name]) return require(modernPackage(name));
+  if (modernPackages[name]) return nodeRequire(modernPackage(name));
   return pluginRequire(name);
 }
 packageRequire.resolve = name => pluginRequire.resolve(name);
@@ -90,7 +96,7 @@ function packageAudit() {
   );
 }
 
-module.exports = {
+export {
   repository,
   modernPackage,
   pluginRoot,

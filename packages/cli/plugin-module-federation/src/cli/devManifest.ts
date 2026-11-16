@@ -127,5 +127,26 @@ export function createDevManifestPublication() {
         listeners.delete(listener);
       };
     },
+    wait(signal: AbortSignal): Promise<void> {
+      if (signal.aborted) return Promise.reject(signal.reason);
+      if (ssrReady && readyPublication) return Promise.resolve();
+      return new Promise((resolve, reject) => {
+        const cleanup = () => {
+          listeners.delete(listener);
+          signal.removeEventListener('abort', abort);
+        };
+        const listener = (publication: DevBuildPublication | undefined) => {
+          if (!publication) return;
+          cleanup();
+          resolve();
+        };
+        const abort = () => {
+          cleanup();
+          reject(signal.reason);
+        };
+        listeners.add(listener);
+        signal.addEventListener('abort', abort, { once: true });
+      });
+    },
   };
 }

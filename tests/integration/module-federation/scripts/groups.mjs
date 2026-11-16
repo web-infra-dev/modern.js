@@ -25,6 +25,7 @@ export const groups = {
     'inspect',
     'unified',
     'bridge-failure',
+    'remote-updates',
   ],
   common: [
     'activation',
@@ -32,6 +33,16 @@ export const groups = {
     'input-types',
     'route-scope-build',
     'runtime-exports',
+    'inspect-protocol',
+    'ssr-static',
+    'ssr-update-api',
+    'ssr-update-identity',
+    'ssr-release-retention',
+    'ssr-bridge-release',
+    'ssr-dev-fallback',
+    'ssr-dev-subscriptions',
+    'ssr-dev-admission',
+    'ssr-admission-response',
   ],
 };
 for (const group of Object.keys(groups)) {

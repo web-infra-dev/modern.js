@@ -8,6 +8,7 @@ import {
 } from '@modern-js/runtime/router';
 import type { WeatherData } from '../../weather-ui';
 import { WeatherContext } from './state';
+import { UpdateVersion } from '../../update-version';
 import '../../weather-scene.css';
 import './weather-application.css';
 
@@ -64,6 +65,7 @@ export default function WeatherLayout() {
             <div>
               <p>MY WEATHER / 杭州</p>
               <h1>{label}</h1>
+              <UpdateVersion />
               <span>Partly cloudy · A little room to slow down.</span>
             </div>
             <span>
