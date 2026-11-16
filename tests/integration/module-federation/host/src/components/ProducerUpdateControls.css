@@ -1,10 +1,7 @@
-.updates-shell {
+.producer-update-controls {
   margin: 0 auto;
   max-width: 1440px;
   padding: 24px;
-}
-.updates-shell h1 {
-  margin-bottom: 8px;
 }
 .updates-controls {
   display: flex;
@@ -16,20 +13,13 @@
 .updates-controls select {
   padding: 8px 12px;
 }
-.updates-shell iframe {
-  width: 100%;
-  height: 880px;
-  border: 1px solid #cad5df;
-  border-radius: 12px;
-  background: #dcecf4;
-}
-.updates-shell table {
+.producer-update-controls table {
   margin: 16px 0;
   border-collapse: collapse;
   font-variant-numeric: tabular-nums;
 }
-.updates-shell th,
-.updates-shell td {
+.producer-update-controls th,
+.producer-update-controls td {
   padding: 8px 16px;
   text-align: left;
   border-bottom: 1px solid #cad5df;

@@ -35,7 +35,8 @@ export async function startLab(
     throw new Error('The combined update lab is development-only');
   if (updates && serviceOnly)
     throw new Error('Update scenarios use the Weather Lab host');
-  const names = updates
+  const updateOnly = updates === 'bridge' || updates === 'service';
+  const names = updateOnly
     ? [
         'host',
         'hostInternal',
@@ -547,7 +548,7 @@ export async function startLab(
       api.once('error', reject);
       api.listen(ports.api, resolve);
     });
-    for (const version of serviceOnly || updates ? [] : ['v1', 'v2']) {
+    for (const version of serviceOnly || updateOnly ? [] : ['v1', 'v2']) {
       const libraryRequire = createRequire(
         path.join(root, 'library/package.json'),
       );
@@ -563,11 +564,11 @@ export async function startLab(
         version === 'v2' ? ports.libraryV2 : ports.library,
       );
     }
-    if (!serviceOnly && !updates) {
+    if (!serviceOnly && !updateOnly && !(updates && mode === 'production')) {
       await launch('provider', [modern, 'build'], 'v2');
       await serveArtifacts('provider', 'dist-v2', ports.providerV2);
     }
-    for (const [name, version, key] of updates
+    for (const [name, version, key] of updateOnly
       ? [
           ['provider', 'v1', 'provider'],
           ...(mode === 'production' ? [['provider', 'v2', 'providerV2']] : []),
@@ -578,6 +579,9 @@ export async function startLab(
         : [
             ['provider', 'v1', 'provider'],
             ['nested', 'v1', 'nested'],
+            ...(updates && mode === 'production'
+              ? [['provider', 'v2', 'providerV2']]
+              : []),
             // Probe the Host listener directly before checking the public gateway.
             ['host', 'v1', 'hostInternal'],
           ]) {

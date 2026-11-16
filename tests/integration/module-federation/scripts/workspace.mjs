@@ -42,7 +42,7 @@ export async function createWorkspace(options = {}) {
       path.resolve(source, '../../../node_modules'),
       path.join(workspace, 'node_modules'),
     );
-    for (const name of options.updates
+    for (const name of ['bridge', 'service'].includes(options.updates)
       ? ['host', 'provider']
       : ['host', 'provider', 'nested', 'library']) {
       await cp(path.join(source, name), path.join(workspace, name), {

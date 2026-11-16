@@ -1,3 +1,4 @@
+import { ProducerUpdateControls } from '../../components/ProducerUpdateControls';
 import { useState } from 'react';
 import { createModernReactRemote } from '@modern-js/runtime/mf';
 import { loadRemote } from '@module-federation/enhanced/runtime';
@@ -21,6 +22,7 @@ export default function BridgeWeather() {
   return (
     <div>
       <LabNav />
+      <ProducerUpdateControls scenario="bridge" />
       <details className="weather-host-controls">
         <summary>Application controls</summary>
         <p>

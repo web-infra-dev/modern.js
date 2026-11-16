@@ -20,12 +20,6 @@ const versions = (mode === 'production' ? ['v1', 'v2'] : ['v1']).map(
     url: `http://localhost:${ports[version === 'v2' ? 'providerV2' : 'provider']}/static/mf-manifest.json`,
   }),
 );
-const frameUrl = (selectedScenario: string | undefined) =>
-  selectedScenario === 'service'
-    ? '/service/forecast/today'
-    : selectedScenario === 'bridge'
-      ? '/bridge-ssr/forecast/today'
-      : '/weather?render=ssr&data=local&updates=1';
 let selectedVersion = 'v1';
 const state = (
   selectedScenario = scenario === 'all' ? 'ordinary' : scenario,
@@ -34,7 +28,6 @@ const state = (
   scenario: selectedScenario,
   selectedVersion,
   versions,
-  frameUrl: frameUrl(selectedScenario),
 });
 
 export default defineServerConfig({

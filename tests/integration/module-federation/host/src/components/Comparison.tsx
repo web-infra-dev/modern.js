@@ -1,3 +1,4 @@
+import { ProducerUpdateControls } from './ProducerUpdateControls';
 import {
   FailureControls,
   renderFailures,
@@ -29,7 +30,7 @@ export function LabNav() {
         <Link to="/data">Data fetching</Link>
         <Link to="/advanced">Advanced scenarios</Link>
         <Link to="/bridge-ssr">Weather application</Link>
-        <Link to="/updates">Producer updates</Link>
+        <Link to="/service/forecast/today">Weather service</Link>
       </div>
     </nav>
   );
@@ -40,12 +41,14 @@ function Panel({
   run,
   inspect,
   paletteSeed,
+  refresh,
 }: {
   name: string;
   query: string;
   run: number;
   inspect: boolean;
   paletteSeed: string;
+  refresh: number;
 }) {
   const frame = useRef<HTMLIFrameElement>(null);
   const inspectRef = useRef(inspect);
@@ -111,7 +114,7 @@ function Panel({
     }
     window.addEventListener('message', receive);
     return () => window.removeEventListener('message', receive);
-  }, [run, sendInspect]);
+  }, [run, refresh, sendInspect]);
   return (
     <section className="comparison-panel">
       <div className="comparison-sky" aria-hidden="true">
@@ -136,7 +139,8 @@ function Panel({
         </span>
       </header>
       <iframe
-        key={run}
+        key={`${run}:${refresh}`}
+        data-testid={name === 'SSR' ? 'ssr-frame' : undefined}
         ref={frame}
         title={name}
         onLoad={sendInspect}
@@ -170,6 +174,7 @@ function Panel({
 }
 export default function Comparison({ data = false }: { data?: boolean }) {
   const [run, setRun] = useState(0);
+  const [refresh, setRefresh] = useState(0);
   const [delay, setDelay] = useState(0);
   const [inspect, setInspect] = useState(false);
   const [failureEnabled, setFailureEnabled] = useState(false);
@@ -275,6 +280,12 @@ export default function Comparison({ data = false }: { data?: boolean }) {
           <button onClick={() => setRun(run + 1)}>↻ Reload</button>
         </div>
       </header>
+      {!data && (
+        <ProducerUpdateControls
+          scenario="ordinary"
+          onUpdate={() => setRefresh(value => value + 1)}
+        />
+      )}
       <div className={`comparison-grid ${data ? 'four-panels' : ''}`}>
         {panels.map(([name, query]) => (
           <Panel
@@ -282,6 +293,7 @@ export default function Comparison({ data = false }: { data?: boolean }) {
             name={name}
             query={`${query}&failure=${failureEnabled ? failure : ''}&target=${data ? 'provider/Weather' : target}&delay=${delay}${data ? `&compact=1&prefetch=${prefetch ? '1' : '0'}` : ''}`}
             run={run}
+            refresh={refresh}
             inspect={inspect}
             paletteSeed={paletteSeed}
           />

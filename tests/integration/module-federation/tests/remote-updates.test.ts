@@ -13,6 +13,7 @@ import {
   memorySample,
   observeDocuments,
   scenarios,
+  scenarioRoutes,
   waitForVersion,
   writeEvidence,
   type MemoryRound,
@@ -43,7 +44,7 @@ for (const scenario of scenarios.filter(
             "developmentRevision = 'updated'",
           );
           expect(changed).not.toBe(original);
-          const observer = observeDocuments(page);
+          const observer = observeDocuments(page, scenario);
           const evidence: Record<string, unknown> = {
             mode: 'dev',
             scenario,
@@ -51,7 +52,7 @@ for (const scenario of scenarios.filter(
           };
           try {
             evidence.phase = 'open-shell';
-            await page.goto(`${lab.url}/updates?scenario=${scenario}`, {
+            await page.goto(`${lab.url}${scenarioRoutes[scenario]}`, {
               waitUntil: 'networkidle0',
             });
             evidence.phase = 'initial-render-and-interaction';
@@ -63,10 +64,12 @@ for (const scenario of scenarios.filter(
             const before = await memorySample(lab.url, false);
             evidence.processesBefore = before;
             const shellUrl = page.url();
-            const originalFrameSource = await page.$eval(
-              '[data-testid="update-frame"]',
-              element => element.getAttribute('src'),
-            );
+            const originalFrameSource =
+              scenario === 'ordinary'
+                ? await page.$eval('[data-testid="ssr-frame"]', element =>
+                    element.getAttribute('src'),
+                  )
+                : undefined;
             const documentCount = observer.documents.length;
 
             // No test navigation, page.reload or iframe src assignment follows
@@ -77,11 +80,12 @@ for (const scenario of scenarios.filter(
             evidence.phase = 'updated-interaction';
             await assertInteraction(page, scenario, 'v1:updated');
             expect(page.url()).toBe(shellUrl);
-            expect(
-              await page.$eval('[data-testid="update-frame"]', element =>
-                element.getAttribute('src'),
-              ),
-            ).toBe(originalFrameSource);
+            if (scenario === 'ordinary')
+              expect(
+                await page.$eval('[data-testid="ssr-frame"]', element =>
+                  element.getAttribute('src'),
+                ),
+              ).toBe(originalFrameSource);
             expect(new URL(updatedFrame.url()).searchParams.has('csr')).toBe(
               false,
             );
@@ -180,7 +184,7 @@ for (const scenario of scenarios.filter(
           async () => {
             const { page, lab } = getContext();
             const directory = await artifactDirectory('production', scenario);
-            const observer = observeDocuments(page);
+            const observer = observeDocuments(page, scenario);
             const baseline: MemoryRound[] = [];
             const rounds: MemoryRound[] = [];
             const final: MemoryRound[] = [];
@@ -231,7 +235,7 @@ for (const scenario of scenarios.filter(
               }
               expect(buildVersions[0]).not.toBe(buildVersions[1]);
               evidence.phase = 'open-shell';
-              await page.goto(`${lab.url}/updates?scenario=${scenario}`, {
+              await page.goto(`${lab.url}${scenarioRoutes[scenario]}`, {
                 waitUntil: 'networkidle0',
               });
               evidence.phase = 'initial-render-and-interaction';
@@ -267,12 +271,6 @@ for (const scenario of scenarios.filter(
                 baseline.push({ label: `baseline-${index + 1}`, samples });
               }
               await snapshot('baseline');
-              const initialRenders = Number(
-                await page.$eval(
-                  '[data-testid="update-renders"]',
-                  element => element.textContent,
-                ),
-              );
 
               for (let index = 0; index < updateCount; index++) {
                 const version =
@@ -284,15 +282,6 @@ for (const scenario of scenarios.filter(
                 const documentCount = observer.documents.length;
                 evidence.phase = `update-${index + 1}-${version}-apply`;
                 await applyVersion(page, version);
-                await page.waitForFunction(
-                  expected =>
-                    Number(
-                      document.querySelector('[data-testid="update-renders"]')
-                        ?.textContent,
-                    ) === expected,
-                  {},
-                  initialRenders + index + 1,
-                );
                 evidence.phase = `update-${index + 1}-${version}-render-and-interaction`;
                 const url = await assertInteraction(
                   page,
@@ -351,14 +340,6 @@ for (const scenario of scenarios.filter(
                   false,
                 );
               }
-              expect(
-                Number(
-                  await page.$eval(
-                    '[data-testid="update-renders"]',
-                    element => element.textContent,
-                  ),
-                ) - initialRenders,
-              ).toBe(updateCount);
               expect(evidence.completedUpdates).toBe(updateCount);
               for (let index = 0; index < 3; index++) {
                 evidence.phase = `final-${index + 1}-gc`;

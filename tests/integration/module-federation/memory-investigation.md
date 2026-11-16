@@ -2,6 +2,8 @@
 
 Measured on 2026-11-16 using Node 24.18.1 and local builds of Modern, MF Core and Rspack, including the matching native binding. All 28 linked package roots and their build artifacts were audited against local outputs. MF Core revision: `ad02c97c4ba1040fc3bf33525647c7791912fe3f`. Rspack revision: `90113a33aa2006fcf74678102ddfb6d01ca1ab86`. Modern started from `8ac46254a3` with the diagnostic fixture changes in this commit.
 
+The measurements below used the earlier isolated update fixture. Its ordinary SSR view rendered the current-weather component without the hourly and nested components. Update tests now use the original complete comparison at `/`, with Bridge and Service on their original application routes. Re-running the commands uses that expanded view, so its absolute memory values are not directly comparable with the historical tables.
+
 ## Lifecycle correction
 
 The previously observed Undici timer retention is fixed in the application request owner. Undici 7.29.1 keeps a module-global `fastNowTimeout` and refreshes the same Node timer. That timer carries its creation-time AsyncLocalStorage frame, including Hono's Context. Leaving generation resources on that Context made completed requests retain retired render bundles.

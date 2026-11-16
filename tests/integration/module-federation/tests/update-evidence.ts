@@ -5,6 +5,11 @@ import type { HTTPRequest, HTTPResponse, Page } from 'puppeteer';
 
 export const scenarios = ['ordinary', 'bridge', 'service'] as const;
 export type Scenario = (typeof scenarios)[number];
+export const scenarioRoutes = {
+  ordinary: '/',
+  bridge: '/bridge-ssr/forecast/today',
+  service: '/service/forecast/today',
+} as const;
 export type MemorySample = {
   role: string;
   pid: number;
@@ -113,7 +118,7 @@ export async function writeEvidence(
   if (announce) console.info(`[MF update evidence] ${directory}`);
 }
 
-export function observeDocuments(page: Page) {
+export function observeDocuments(page: Page, scenario: Scenario) {
   const documents: DocumentEvidence[] = [];
   const requests = new Map<HTTPRequest, DocumentEvidence>();
   const pending = new Set<Promise<void>>();
@@ -122,7 +127,11 @@ export function observeDocuments(page: Page) {
     if (existing) return existing;
     if (
       !request.isNavigationRequest() ||
-      request.frame()?.parentFrame() !== page.mainFrame()
+      (scenario === 'ordinary'
+        ? request.frame()?.parentFrame() !== page.mainFrame() ||
+          new URL(request.url()).pathname !== '/weather' ||
+          new URL(request.url()).searchParams.has('csr')
+        : request.frame() !== page.mainFrame())
     )
       return;
     const document: DocumentEvidence = {
@@ -171,6 +180,11 @@ export function assertServerVersion(
   scenario: Scenario,
   expected: string,
 ) {
+  expect(html).not.toContain('Switched to client rendering');
+  if (scenario === 'ordinary') {
+    for (const component of ['weather-hourly', 'weather-days', 'weather-wind'])
+      expect(html).toContain(`data-testid="${component}"`);
+  }
   let rendered = html;
   if (scenario !== 'ordinary') {
     const frames = [
@@ -217,18 +231,17 @@ export async function waitForVersion(page: Page, expected: string) {
   await page.waitForFunction(
     version => {
       const frame = document.querySelector<HTMLIFrameElement>(
-        '[data-testid="update-frame"]',
+        '[data-testid="ssr-frame"]',
       );
+      const rendered = frame ? frame.contentDocument : document;
       return (
         Boolean(document.querySelector('[data-testid="update-error"]')) ||
-        (frame?.contentDocument
+        rendered
           ?.querySelector('[data-testid="update-version"]')
-          ?.textContent?.trim() === version &&
-          document.querySelector('[data-testid="update-visible"]')
-            ?.textContent === version)
+          ?.textContent?.trim() === version
       );
     },
-    { timeout: 60000 },
+    { polling: 100, timeout: 60000 },
     expected,
   );
   const error = await page.$('[data-testid="update-error"]');
@@ -238,8 +251,8 @@ export async function waitForVersion(page: Page, expected: string) {
         element => element.textContent || 'Producer update failed',
       ),
     );
-  const element = await page.$('[data-testid="update-frame"]');
-  const frame = await element!.contentFrame();
+  const element = await page.$('[data-testid="ssr-frame"]');
+  const frame = element ? await element.contentFrame() : page.mainFrame();
   if (!frame) throw new Error('The update iframe has no browsing context');
   expect(new URL(frame.url()).searchParams.has('csr')).toBe(false);
   return frame;
@@ -253,7 +266,13 @@ export async function assertInteraction(
   const frame = await waitForVersion(page, expected);
   const selector = `[data-testid="${scenario === 'ordinary' ? 'weather-save' : 'save-day'}"]`;
   await frame.waitForSelector(`${selector}:not(:disabled)`);
-  if (scenario !== 'ordinary') {
+  if (scenario === 'ordinary') {
+    await frame.waitForSelector(
+      '[data-testid="weather-hourly"] button:not(:disabled)',
+    );
+    await frame.waitForSelector('[data-testid="weather-days"]');
+    await frame.waitForSelector('[data-testid="weather-wind"]');
+  } else {
     await frame.waitForSelector('[data-testid="outlook-resolved"]');
     // save-day has server HTML without a disabled attribute. The existing
     // hourly widget enables its controls in an effect after hydration commits.

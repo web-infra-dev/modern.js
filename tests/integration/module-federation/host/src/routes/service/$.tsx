@@ -1,3 +1,4 @@
+import { ProducerUpdateControls } from '../../components/ProducerUpdateControls';
 import { createModernReactRemote } from '@modern-js/runtime/mf';
 import { loadRemote } from '@module-federation/enhanced/runtime';
 
@@ -8,5 +9,10 @@ const WeatherService = createModernReactRemote<{ label: string }>({
 });
 
 export default function ServiceWeather() {
-  return <WeatherService label="Hangzhou" />;
+  return (
+    <>
+      <ProducerUpdateControls scenario="service" />
+      <WeatherService label="Hangzhou" />
+    </>
+  );
 }

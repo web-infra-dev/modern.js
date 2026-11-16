@@ -10,10 +10,15 @@ const lab = await startLab(
   false,
   { updates },
 );
+const routes = {
+  ordinary: '/',
+  bridge: '/bridge-ssr/forecast/today',
+  service: '/service/forecast/today',
+};
 if (updates === 'all') {
-  for (const scenario of ['ordinary', 'bridge', 'service'])
-    console.log(`${scenario}: ${lab.url}/updates?scenario=${scenario}`);
-} else console.log(`Weather Lab: ${lab.url}${updates ? '/updates' : ''}`);
+  for (const [scenario, route] of Object.entries(routes))
+    console.log(`${scenario}: ${lab.url}${route}`);
+} else console.log(`Weather Lab: ${lab.url}${routes[updates] || '/'}`);
 for (const signal of ['SIGINT', 'SIGTERM'])
   process.once(signal, async () => {
     await lab.stop();
