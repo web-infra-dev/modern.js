@@ -11,6 +11,15 @@ with MF runtime invalidation. Server-core owns admission and resource publicatio
 The adapter owns the remote dependency graph, bundler caches, and MF instances.
 The primitives below are intended for server adapters and control planes.
 
+A request lease ends only after its response stream and registered producer work
+settle. At that boundary the application detaches its injected templates, server
+manifest, renderer and work handle from the request Context. HTTP pools and timers
+may retain that Context through AsyncLocalStorage after the request ends, but it
+must no longer retain a retired application generation. Business locals remain
+available. The coordinator's optional synchronous `onSettled` callback supports
+this adapter cleanup and runs once for an admitted request, before drain waiters
+and deferred updates resume.
+
 ## Configuration
 
 `SSRResourceApplicationOptions` is exported from `@modern-js/server-core/node`.

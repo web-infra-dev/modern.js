@@ -299,6 +299,8 @@ export function createSSRRequestCoordinator(
       render: (work: SSRRequestWork) => Promise<Response>,
       requestScope?: readonly string[],
       renderCSR?: (context: SSRRequestPolicyContext) => Promise<Response>,
+      /** Release request-owned references once transport and registered work settle. */
+      onSettled?: () => void,
     ): Promise<Response> {
       if (closing) return rejectRequest('SSR application is closed');
       if (
@@ -360,9 +362,13 @@ export function createSSRRequestCoordinator(
         lease.active = false;
         active--;
         leases.delete(lease);
-        for (const finish of Array.from(drainListeners)) finish();
-        releaseAdmission?.();
-        settle();
+        try {
+          onSettled?.();
+        } finally {
+          for (const finish of Array.from(drainListeners)) finish();
+          releaseAdmission?.();
+          settle();
+        }
       };
       const work: SSRRequestWork = {
         track<T>(task: Promise<T>) {

@@ -236,3 +236,91 @@ it('defers an application update until the submitting response and producer fini
   await expect(completed).resolves.toBe(1);
   expect(await (await app.request('/')).text()).toBe('new');
 });
+
+it('releases generation roots from a retained context only after the stream and producer finish', async () => {
+  const templates = { main: 'generation' };
+  const serverManifest = { renderBundles: {} };
+  const application = await createSSRApplication({
+    ...limits,
+    load: async () => ({
+      templates,
+      serverManifest,
+      render: async () => new Response('ok'),
+    }),
+  });
+  const app = new Hono();
+  app.use('*', application.middleware);
+  const producer = deferred();
+  let retained: any;
+  let body!: ReadableStreamDefaultController<Uint8Array>;
+  app.get('/', c => {
+    retained = c;
+    c.set('locals', { business: 'preserved' });
+    c.get('ssrWork').track(producer.promise);
+    return new Response(
+      new ReadableStream<Uint8Array>(
+        {
+          start(controller) {
+            body = controller;
+          },
+        },
+        { highWaterMark: 0 },
+      ),
+    );
+  });
+  const response = await app.request('/');
+  expect(retained.get('serverManifest')).toBe(serverManifest);
+  expect(retained.get('templates')).toBe(templates);
+  expect(typeof retained.get('ssrRender')).toBe('function');
+  body.enqueue(new TextEncoder().encode('complete'));
+  body.close();
+  expect(await response.text()).toBe('complete');
+  expect(retained.get('serverManifest')).toBe(serverManifest);
+  expect(application.status.activeRequests).toBe(1);
+  producer.resolve();
+  await tick();
+  expect(application.status.activeRequests).toBe(0);
+  for (const key of ['templates', 'serverManifest', 'ssrRender', 'ssrWork'])
+    expect(retained.get(key)).toBeUndefined();
+  expect(retained.get('locals')).toEqual({ business: 'preserved' });
+});
+
+for (const ending of ['cancel', 'error', 'bodyless'] as const) {
+  it(`releases retained context generation roots after ${ending}`, async () => {
+    const application = await createSSRApplication({
+      ...limits,
+      load: async () => ({
+        templates: {},
+        serverManifest: { renderBundles: {} },
+        render: async () => new Response('ok'),
+      }),
+    });
+    const app = new Hono();
+    app.use('*', application.middleware);
+    let retained: any;
+    app.get('/', c => {
+      retained = c;
+      if (ending === 'bodyless') return new Response(null, { status: 204 });
+      return new Response(
+        new ReadableStream(
+          {
+            pull(controller) {
+              if (ending === 'error')
+                controller.error(new Error('stream failed'));
+            },
+          },
+          { highWaterMark: 0 },
+        ),
+      );
+    });
+    const response = await app.request('/');
+    if (ending === 'cancel') await response.body!.cancel();
+    if (ending === 'error')
+      await expect(response.text()).rejects.toThrow('stream failed');
+    await tick();
+    expect(application.status.activeRequests).toBe(0);
+    for (const key of ['templates', 'serverManifest', 'ssrRender', 'ssrWork'])
+      expect(retained.get(key)).toBeUndefined();
+    await application.close();
+  });
+}

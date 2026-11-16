@@ -119,6 +119,14 @@ export async function createSSRApplication(options: SSRApplicationOptions) {
                 })
               : new Response('SSR application is unavailable', { status: 503 })
         : undefined,
+      () => {
+        // HTTP pools/timers may retain an ALS Context beyond its request lease.
+        // Detach only our generation roots after all response/producer work ends.
+        c.set('templates', undefined);
+        c.set('serverManifest', undefined);
+        c.set('ssrRender', undefined);
+        c.set('ssrWork', undefined);
+      },
     );
     c.res = response;
     return response;

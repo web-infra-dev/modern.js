@@ -2,6 +2,27 @@
 
 Measured on 2026-11-16 using Node 24.18.1 and local builds of Modern, MF Core and Rspack, including the matching native binding. All 28 linked package roots and their build artifacts were audited against local outputs. MF Core revision: `ad02c97c4ba1040fc3bf33525647c7791912fe3f`. Rspack revision: `90113a33aa2006fcf74678102ddfb6d01ca1ab86`. Modern started from `8ac46254a3` with the diagnostic fixture changes in this commit.
 
+## Lifecycle correction
+
+The previously observed Undici timer retention is fixed in the application request owner. Undici 7.29.1 keeps a module-global `fastNowTimeout` and refreshes the same Node timer. That timer carries its creation-time AsyncLocalStorage frame, including Hono's Context. Leaving generation resources on that Context made completed requests retain retired render bundles.
+
+The coordinator now runs an optional synchronous `onSettled` cleanup after both transport and registered producer work settle, before drain waiters and deferred updates resume. The application clears only its injected `templates`, `serverManifest`, `ssrRender` and `ssrWork` references. Business locals remain available. Undici internals and MF/Rspack cleanup are not changed.
+
+Two post-fix experiments each completed 100 real updates for ordinary SSR and Service Host. The first took no heap snapshots during memory measurements. The second captured baseline, round 10/50/100 and idle snapshots, and also passed the Bridge draining and old HTML/browser release-retention tests. All commands and cleanup audits passed. All 28 local package roots and artifacts, including Rspack's native binding, were re-audited. Thirty-seven coordinator/application regressions passed, including retained-context tests for stream/producer completion, cancellation, stream errors and bodyless responses.
+
+In both experiments, final idle snapshots contained only the current two ordinary MF instances or one Service Host instance. The old Host/producer pair previously reached through `fastNowTimeout → AsyncContextFrame → renderBundles` disappeared. During updates, transient HTTP request graphs can still outlive individual responses, but they did not remain as retired MF instances in the idle snapshots.
+
+Post-fix snapshot-free Host heap measurements, MiB:
+
+| Scenario     | Baseline | Round 100 + GC | Then idle 6 seconds + GC |
+| ------------ | -------: | -------------: | -----------------------: |
+| Ordinary SSR |    50.23 |          52.76 |                    49.99 |
+| Service Host |    46.50 |          48.76 |                    47.72 |
+
+The idle samples above precede the optional timing clear. Clearing resource timings afterward still released about 0.18–0.19 MiB. That separate bounded Node buffer is not cleared by the production fix. Remaining heap deltas include warm-up and other live allocations, and these measurements are not a claim of zero leaks under continuously new build identities.
+
+The original measurements and retained-reference descriptions below document the pre-fix state for comparison. Their old-generation retaining path is superseded by the lifecycle correction above.
+
 ## Experiment
 
 Ordinary SSR and Service Host each alternate two built producer versions 100 times, after warming both versions. Every round requires actual SSR HTML, matching browser release entry, hydrated interaction and unchanged service PIDs. Service validation also requires real producer HTTP requests and forbids a Host Node-container fallback. Memory is sampled after three GC passes. A separate control renders v1 100 times after the same warm-up and submits only no-op updates.
@@ -95,4 +116,4 @@ Set `MF_LAB_HEAP_DIR` to capture Host snapshots. Without `MF_LAB_HEAP_FINAL_ONLY
 
 ## Limits and conclusion
 
-The tested two-version cycle does not show linear accumulation of old MF/module cache generations over 100 updates. A bounded resource timing buffer and delayed request-context retention are directly observed, including one retired ordinary generation still retained by an Undici timer. Remaining small deltas vary across repeats and controls. This does not prove that all memory is released or that continuously new build identities cannot leak. The next distinct lifecycle investigation is the Undici timer's captured request context, not an unverified global cache purge.
+The tested two-version cycle does not show linear accumulation of old MF/module cache generations over 100 updates. A bounded resource timing buffer and delayed request-context retention are directly observed, including one retired ordinary generation still retained by an Undici timer. Remaining small deltas vary across repeats and controls. This does not prove that all memory is released or that continuously new build identities cannot leak. The captured request-context path was subsequently corrected as described above.
