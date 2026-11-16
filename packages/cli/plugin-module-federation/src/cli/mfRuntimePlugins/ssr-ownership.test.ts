@@ -13,7 +13,13 @@ import {
 } from '../../server/ssrUpdateCandidates';
 import plugin, { ownershipKey } from './ssr-ownership';
 
-it.each(['candidate', 'snapshot'])(
+it.each([
+  'candidate',
+  'snapshot',
+  'identity',
+  'changed-entry',
+  'candidate-over-identity',
+])(
   'adopts loaded singletons only from the selected provider build through %s',
   async mode => {
     const firstValue = {};
@@ -36,6 +42,16 @@ it.each(['candidate', 'snapshot'])(
       },
     });
     const owner = createSSRUpdateOwner('singleton-consumer');
+    if (['identity', 'changed-entry', 'candidate-over-identity'].includes(mode))
+      owner.providerIdentities = new Map([
+        [
+          'singleton-provider',
+          {
+            entry: `https://provider.test/${mode === 'identity' ? 'two' : 'one'}/manifest.json`,
+            buildVersion: mode === 'identity' ? 'two' : 'one',
+          },
+        ],
+      ]);
     const snapshot = {
       buildVersion: 'two',
       version: 'https://provider.test/two/manifest.json',
@@ -47,7 +63,7 @@ it.each(['candidate', 'snapshot'])(
         ? { [`singleton-provider:${snapshot.version}`]: snapshot }
         : {},
     );
-    if (mode === 'candidate')
+    if (mode === 'candidate' || mode === 'candidate-over-identity')
       setSSRUpdateCandidates(owner.id, [
         {
           name: 'singleton-provider',
@@ -57,12 +73,13 @@ it.each(['candidate', 'snapshot'])(
       ]);
     const host = createInstance({
       name: owner.name,
+      shareStrategy: 'loaded-first',
       remotes: [
         {
           name: 'singleton-provider',
           alias: 'registered-provider',
           entry:
-            mode === 'candidate'
+            mode === 'candidate' || mode === 'candidate-over-identity'
               ? 'https://provider.test/one/manifest.json'
               : snapshot.version,
         },
@@ -93,10 +110,13 @@ it.each(['candidate', 'snapshot'])(
       ],
     });
     try {
-      expect(host.loadShareSync('library')()).toBe(selectedValue);
-      expect(host.shareScopeMap.default.library['1.0.0']).toBe(
-        selected.shareScopeMap.default.library['1.0.0'],
+      expect(host.loadShareSync('library')()).toBe(
+        mode === 'changed-entry' ? localValue : selectedValue,
       );
+      if (mode !== 'changed-entry')
+        expect(host.shareScopeMap.default.library['1.0.0']).toBe(
+          selected.shareScopeMap.default.library['1.0.0'],
+        );
       expect(host.loadShareSync('plain')()).toBe(localValue);
       expect(host.loadShareSync('differentVersion')()).toBe(localValue);
       expect(first.loadShareSync('library')()).toBe(firstValue);

@@ -40,16 +40,20 @@ export default function ssrOwnership(): ModuleFederationRuntimePlugin {
           ...remote,
         }));
       const selected = candidates.beforeInit!(args)!;
-      const ownerId = (args.origin as any)[runtimeOwnerKey]?.id;
+      const runtimeOwner = (args.origin as any)[runtimeOwnerKey];
+      const ownerId = runtimeOwner?.id;
       sharedProviders = [];
       for (const remote of selected.userOptions.remotes ??
         selected.options.remotes) {
         const candidate = ownerId
           ? getSSRUpdateRegistration(ownerId, remote.name)
           : undefined;
+        const previous = runtimeOwner?.providerIdentities?.get(remote.name);
         const snapshot =
           candidate?.moduleInfo ||
-          helpers.global.getGlobalSnapshotInfoByModuleInfo(remote);
+          (!candidate && 'entry' in remote && previous?.entry === remote.entry
+            ? { buildVersion: previous.buildVersion, version: previous.entry }
+            : helpers.global.getGlobalSnapshotInfoByModuleInfo(remote));
         if (
           !snapshot ||
           !('buildVersion' in snapshot) ||

@@ -1,6 +1,6 @@
 import nodeRuntimePlugin from '@module-federation/node/runtimePlugin';
 import { destroyNodeInstance } from '@module-federation/node/lifecycle';
-import { createSSRUpdateOwner } from './ssrUpdateOwner';
+import { createSSRUpdateOwner, releaseSSRUpdateOwner } from './ssrUpdateOwner';
 import { AsyncLocalStorage } from 'node:async_hooks';
 import { afterEach, describe, expect, it, rs } from '@rstest/core';
 import {
@@ -757,6 +757,8 @@ describe('whole application instance handoff', () => {
     const { adapter, runtime } = fixture();
     const host = runtime.federation.instance as any;
     host.options = { remotes: [{ name: 'remote', entry: 'v2' }] };
+    const info = { name: 'remote', buildVersion: 'build-two' };
+    host.moduleCache = new Map([['remote', { remoteInfo: info }]]);
     let disposed = false;
     host.testLifecycle.destroy = async () => {
       await Promise.resolve();
@@ -771,8 +773,14 @@ describe('whole application instance handoff', () => {
       { name: 'remote', entry: 'v2' },
     ]);
     expect(adapter.owner.registrations![0]).not.toBe(host.options.remotes[0]);
+    info.buildVersion = 'mutated';
+    expect(adapter.owner.providerIdentities).toEqual(
+      new Map([['remote', { entry: 'v2', buildVersion: 'build-two' }]]),
+    );
     adapter.prepareResources({ templates: {} });
     expect(adapter.owner.registrations).toBeUndefined();
+    releaseSSRUpdateOwner(adapter.owner);
+    expect(adapter.owner.providerIdentities).toBeUndefined();
   });
 });
 

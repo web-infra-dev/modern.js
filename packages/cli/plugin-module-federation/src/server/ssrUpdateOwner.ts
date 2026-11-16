@@ -10,6 +10,8 @@ export interface SSRUpdateOwner {
   readonly instances: Set<any>;
   readonly entryNames: Set<string>;
   registrations?: any[];
+  /** Deployment metadata only, so retained containers can be found after snapshots retire. */
+  providerIdentities?: Map<string, { entry: string; buildVersion: string }>;
 }
 const key = Symbol.for('modern-js.mf.ssr.owners');
 export const runtimeOwnerKey = Symbol.for('modern-js.mf.ssr.runtime-owner');
@@ -108,4 +110,5 @@ export function releaseSSRUpdateOwner(owner: SSRUpdateOwner) {
   owner.entries.clear();
   owner.instances.clear();
   owner.registrations = undefined;
+  owner.providerIdentities = undefined;
 }

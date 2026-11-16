@@ -983,10 +983,26 @@ export function createSSRUpdateAdapter(options: {
         owner.registrations = undefined;
         clearSSRUpdateCandidates(owner.id);
       }
-      if (preserveRemotes && hosts.length)
+      if (preserveRemotes && hosts.length) {
         owner.registrations = hosts[0].options.remotes.map((remote: any) => ({
           ...remote,
         }));
+        owner.providerIdentities = new Map(
+          hosts.flatMap(host =>
+            host.options.remotes.flatMap((remote: any) => {
+              const info = host.moduleCache?.get(remote.name)?.remoteInfo;
+              return info?.buildVersion && remote.entry
+                ? [
+                    [
+                      remote.name,
+                      { entry: remote.entry, buildVersion: info.buildVersion },
+                    ] as const,
+                  ]
+                : [];
+            }),
+          ),
+        );
+      }
       const providers = new Set<any>([
         ...retiringProviders,
         ...hosts.flatMap(host => [...(host.retainedProviders || [])]),
