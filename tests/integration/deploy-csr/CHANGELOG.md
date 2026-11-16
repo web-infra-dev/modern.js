@@ -1,5 +1,11 @@
 # deploy
 
+## 2.66.7
+
+### Patch Changes
+
+- @modern-js/runtime@3.11.3
+
 ## 2.66.6
 
 ### Patch Changes

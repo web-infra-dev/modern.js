@@ -12,13 +12,18 @@ describe('watch ignored paths', () => {
           source: { entry: { main: __filename } },
           plugins: [
             builderPluginAdapterBasic({
-              appContext: { metaName },
+              appContext: {
+                metaName,
+                internalDirectory: `/app/node_modules/.${metaName}`,
+              },
             } as BuilderOptions),
           ],
         },
       });
       const [config] = await rsbuild.initConfigs();
-      const ignored = config.watchOptions?.ignored;
+      const watchIgnored = config.watchOptions?.ignored;
+      expect(Array.isArray(watchIgnored)).toBe(true);
+      const ignored = Array.isArray(watchIgnored) ? watchIgnored[0] : undefined;
 
       expect(ignored).toBeInstanceOf(RegExp);
       if (!(ignored instanceof RegExp)) {

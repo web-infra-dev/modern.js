@@ -13,6 +13,12 @@ import type {
 } from '../../../types';
 import { sortRoutes } from '../../../utils';
 import { getPublicDirPatterns } from '../../../utils/publicDir';
+import {
+  type ResolvedStaticCacheControl,
+  createHashedAssetMatcher,
+  resolveStaticCacheControl,
+  setStaticFileHeaders,
+} from './staticCache';
 
 export const serverStaticPlugin = (): ServerPlugin => ({
   name: '@modern-js/plugin-server-static',
@@ -47,11 +53,13 @@ export const serverStaticPlugin = (): ServerPlugin => ({
 export type PublicMiddlewareOptions = {
   pwd: string;
   routes: ServerRoute[];
+  cacheControl?: ResolvedStaticCacheControl;
 };
 
 export function createPublicMiddleware({
   pwd,
   routes,
+  cacheControl,
 }: PublicMiddlewareOptions): Middleware {
   // Filter and sort a copy once, the routes array is shared with other plugins.
   const publicRoutes = routes
@@ -64,10 +72,25 @@ export function createPublicMiddleware({
     if (route) {
       const { entryPath } = route;
       const filename = path.join(pwd, entryPath);
+      // In development, `fileReader` may read from the compiler's in-memory
+      // filesystem, so the file isn't stat-ed on disk.
       const data = await fileReader.readFile(filename, 'buffer');
       const mimeType = getMimeType(filename);
 
       if (data !== null) {
+        if (mimeType) {
+          c.header('Content-Type', mimeType);
+        }
+        // Applied first, so that the route's own `Cache-Control` and `ETag`
+        // are kept and its `ETag` is used for revalidation.
+        Object.entries(route.responseHeaders || {}).forEach(([k, v]) => {
+          c.header(k, v as string);
+        });
+        const notModified = setStaticFileHeaders(
+          c,
+          data,
+          cacheControl?.unhashed,
+        );
         // Hono's `Data` type does not accept Node.js `Buffer<ArrayBufferLike>` directly.
         // Convert Buffer to `Uint8Array<ArrayBuffer>` without copying.
         const body = new Uint8Array(
@@ -75,14 +98,10 @@ export function createPublicMiddleware({
           data.byteOffset,
           data.byteLength,
         );
-        if (mimeType) {
-          c.header('Content-Type', mimeType);
+
+        if (notModified) {
+          return c.body(null, 304);
         }
-
-        Object.entries(route.responseHeaders || {}).forEach(([k, v]) => {
-          c.header(k, v as string);
-        });
-
         return c.body(body, 200);
       }
     }
@@ -146,6 +165,9 @@ export function createStaticMiddleware(
   options: ServerStaticOptions,
 ): Middleware {
   const { pwd, routes } = options;
+  const cacheControl = resolveStaticCacheControl(
+    options.server.staticCacheControl,
+  );
   const prefix = options.output.assetPrefix || '/';
   const pathPrefix = extractPathname(prefix);
 
@@ -160,6 +182,12 @@ export function createStaticMiddleware(
   // Convert publicDir paths to regex patterns for matching
   // e.g., './locales' or 'locales' -> 'locales/'
   const publicDirPatterns = getPublicDirPatterns(publicDir);
+  // `config/public` and `config/upload` are copied to `public/` and `upload/`.
+  const isHashedAsset = createHashedAssetMatcher(staticFiles as string[], [
+    'public/',
+    'upload/',
+    ...publicDirPatterns,
+  ]);
 
   // TODO: If possible, we should not use `...staticFiles` here, file should only be read in static and upload dir.
   const staticReg = [
@@ -178,6 +206,7 @@ export function createStaticMiddleware(
   const publicMiddleware = createPublicMiddleware({
     pwd,
     routes: routes || [],
+    cacheControl,
   });
 
   /**
@@ -200,10 +229,10 @@ export function createStaticMiddleware(
 
     // FIXME: shoudn't hit, when cssPath, jsPath, mediaPath as '.'
     if (hit) {
-      const filepath = path.join(
-        pwd,
-        pathname.replace(pathPrefix, () => ''),
-      );
+      const relativePath = pathname
+        .replace(pathPrefix, () => '')
+        .replace(/^\/+/, '');
+      const filepath = path.join(pwd, relativePath);
       // Prevent path traversal: `pathname` is user-controlled and may contain
       // `../` sequences (Hono decodes `%2e%2e` in `c.req.path`), which
       // `path.join` resolves. Reject any resolved path that escapes `pwd`.
@@ -224,6 +253,17 @@ export function createStaticMiddleware(
       const chunk = await fileReader.readFileFromSystem(filepath, 'buffer');
       if (chunk === null) {
         return next();
+      }
+      const notModified = setStaticFileHeaders(
+        c,
+        chunk,
+        cacheControl &&
+          (isHashedAsset(relativePath)
+            ? cacheControl.hashed
+            : cacheControl.unhashed),
+      );
+      if (notModified) {
+        return c.body(null, 304);
       }
       const mimeType = getMimeType(filepath);
       if (mimeType) {

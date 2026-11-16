@@ -1,7 +1,7 @@
 {
   "name": "@scripts/prebundle",
   "private": true,
-  "version": "2.66.6",
+  "version": "2.66.7",
   "main": "./dist/index.js",
   "scripts": {
     "dev": "tsc --watch",

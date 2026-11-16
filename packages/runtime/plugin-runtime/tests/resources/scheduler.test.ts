@@ -1,3 +1,4 @@
+import { rs } from '@rstest/core';
 import { ResourceStageScheduler } from '../../src/core/resources/scheduler';
 
 type Loader = (chunkId: string | number) => Promise<unknown>;
@@ -30,7 +31,17 @@ const manual = {
 describe('ResourceStageScheduler', () => {
   let loaded: (string | number)[];
 
+  // jsdom reports no support for `rel="prefetch"`.
+  const relList = Object.getPrototypeOf(
+    document.createElement('link').relList,
+  ) as DOMTokenList;
+  const { supports } = relList;
+  afterEach(() => {
+    relList.supports = supports;
+  });
+
   beforeEach(() => {
+    relList.supports = () => true;
     document.head.innerHTML = '';
     loaded = [];
     g.__webpack_chunk_load_test__ = async chunkId => {
@@ -191,5 +202,119 @@ describe('ResourceStageScheduler', () => {
         configurable: true,
       });
     }
+  });
+
+  it('does not request a script for chunks without a JS file', () => {
+    const scheduler = new ResourceStageScheduler([
+      {
+        c: manual,
+        s: { visible: ['styles', 'empty', 'a'] },
+        k: { styles: ['/p/css/styles.css'] },
+        d: ['styles', 'empty'],
+      },
+    ]);
+    scheduler.mark('visible');
+    expect(prefetched()).toEqual(['/p/css/styles.css', '/p/js/a.js']);
+  });
+
+  it('skips prefetching when the browser does not support it', async () => {
+    relList.supports = () => false;
+    {
+      const scheduler = new ResourceStageScheduler([
+        { c: manual, s: { visible: ['v'], idle: ['i'] } },
+      ]);
+      let ready = false;
+      scheduler.whenDone('idle').then(() => {
+        ready = true;
+      });
+      scheduler.mark('idle');
+      scheduler.prefetchLoader(
+        () => g.__webpack_chunk_load_test__('m'),
+        'interaction',
+      );
+      await Promise.resolve();
+      expect(prefetched()).toEqual([]);
+      expect(loaded).toEqual([]);
+      expect(ready).toBe(true);
+      expect(scheduler.getReport().skipped).toEqual([
+        'visible',
+        'idle',
+        'interaction',
+      ]);
+    }
+  });
+
+  it('frees the slot of a prefetch that never settles', () => {
+    rs.useFakeTimers();
+    try {
+      const scheduler = new ResourceStageScheduler([
+        { c: { ...manual, n: 1 }, s: { visible: ['a', 'b'] } },
+      ]);
+      scheduler.mark('visible');
+      expect(prefetched()).toEqual(['/p/js/a.js']);
+      rs.advanceTimersByTime(30000);
+      expect(prefetched()).toEqual(['/p/js/a.js', '/p/js/b.js']);
+      // A late event of the first prefetch does not free a second slot.
+      finish('/p/js/a.js');
+      expect(
+        scheduler.getReport().records.find(record => record.chunkId === 'a')
+          ?.prefetchEnd,
+      ).toBeDefined();
+    } finally {
+      rs.useRealTimers();
+    }
+  });
+
+  it('takes the stage and the routes the framework runtime pushes', () => {
+    const scheduler = new ResourceStageScheduler([
+      {
+        c: { o: ['visible', 'interactive', 'idle'], m: ['idle'] },
+        s: { interactive: ['i'] },
+        r: { home: { s: { visible: ['h'] } } },
+      },
+      { q: ['layout', 'home'] },
+      { a: ['interactive', 120] },
+    ]);
+    expect(scheduler.getReport().stages).toMatchObject({
+      visible: 120,
+      interactive: 120,
+    });
+    expect(prefetched()).toEqual(['/p/js/h.js']);
+    finish('/p/js/h.js');
+    expect(prefetched()).toContain('/p/js/i.js');
+  });
+
+  it('leaves a manual stage to the application', () => {
+    const scheduler = new ResourceStageScheduler([
+      { c: manual, s: { interactive: ['i'] } },
+      { a: ['interactive', 120] },
+    ]);
+    expect(scheduler.getReport().stages).toEqual({});
+    expect(prefetched()).toEqual([]);
+  });
+
+  it('sets crossorigin like the bundler runtime', () => {
+    const crossOrigins = (x: 'anonymous' | 'use-credentials') => {
+      document.head.innerHTML = '';
+      g.__webpack_get_script_filename_test__ = chunkId =>
+        chunkId === 'cdn' ? '' : `js/${chunkId}.js`;
+      const scheduler = new ResourceStageScheduler([
+        {
+          c: { ...manual, x },
+          s: { visible: ['same', 'cdn'] },
+          k: { cdn: ['https://cdn.example.com/cdn.css'] },
+          d: ['cdn'],
+        },
+      ]);
+      scheduler.mark('visible');
+      return [...document.head.querySelectorAll('link[rel="prefetch"]')].map(
+        link => link.getAttribute('crossorigin'),
+      );
+    };
+    expect(crossOrigins('anonymous')).toEqual([null, 'anonymous']);
+    expect(crossOrigins('use-credentials')).toEqual([
+      'use-credentials',
+      'use-credentials',
+    ]);
   });
 });

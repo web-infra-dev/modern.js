@@ -53,8 +53,8 @@ export function createBuilderProviderConfig(
   }
 
   // Handled by Modern.js, not a builder option.
-  const { resourceStages: _resourceStages, ...performanceConfig } =
-    resolveConfig.performance ?? {};
+  const performanceConfig = { ...resolveConfig.performance };
+  delete performanceConfig.resourceStages;
 
   const config = {
     ...resolveConfig,

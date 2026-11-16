@@ -55,12 +55,41 @@ const getBundlerRuntime = (): BundlerRuntime | undefined => {
   }
 };
 
+/**
+ * Whether the scheduler wraps the chunk loading of the bundle this module is
+ * in. A page can run several bundles (micro-frontend sub-applications, Module
+ * Federation remotes) while the scheduler belongs to the first one.
+ */
+export const isSchedulerRuntime = () => {
+  try {
+    return Boolean(
+      typeof WEBPACK_CHUNK_LOAD === 'function' &&
+      (WEBPACK_CHUNK_LOAD as { __rs?: true }).__rs,
+    );
+  } catch {
+    return false;
+  }
+};
+
 export const DEFAULT_STAGE_ORDER = ['visible', 'interactive', 'idle'];
 const ELEMENT_STAGES = ['viewport', 'interaction'];
 const DEFAULT_CONCURRENCY = 4;
 const DEFAULT_IDLE_QUIET_MS = 2000;
 /** Upper bound after `load`, for pages that never stop requesting. */
 const IDLE_MAX_WAIT_MS = 10000;
+/** A prefetch that reports neither load nor error stops holding its slot. */
+const PREFETCH_TIMEOUT_MS = 30000;
+
+/** Safari does not implement `<link rel="prefetch">` and fires no event for it. */
+const supportsPrefetch = () => {
+  try {
+    const { relList } = document.createElement('link');
+    // Old browsers without `supports` do implement prefetch.
+    return !relList?.supports || relList.supports('prefetch');
+  } catch {
+    return true;
+  }
+};
 
 type QueueItem = { chunkId: ChunkId; stage: string };
 
@@ -77,6 +106,11 @@ export class ResourceStageScheduler {
 
   /** Chunk id -> URLs of its CSS files. */
   private cssFiles = new Map<ChunkId, string[]>();
+
+  /** Chunk ids without a JS file. */
+  private noScript = new Set<string>();
+
+  private canPrefetch = typeof document === 'undefined' || supportsPrefetch();
 
   private routeLists?: StagePayload['r'];
 
@@ -135,6 +169,15 @@ export class ResourceStageScheduler {
     if (payload.u) {
       this.loadExternalPayload(payload.u);
     }
+    for (const chunkId of payload.d ?? []) {
+      this.noScript.add(String(chunkId));
+    }
+    if (payload.a) {
+      this.mark(payload.a[0], true, payload.a[1]);
+    }
+    if (payload.q) {
+      this.setRoutes(payload.q);
+    }
     this.pump();
   }
 
@@ -158,7 +201,7 @@ export class ResourceStageScheduler {
   }
 
   /** A stage arrived. Later stages imply that earlier ones arrived too. */
-  mark(stage: string, auto = false) {
+  mark(stage: string, auto = false, time = now()) {
     if (auto && this.config.m?.includes(stage)) {
       return;
     }
@@ -167,7 +210,6 @@ export class ResourceStageScheduler {
     }
     const order = this.config.o;
     const index = order.indexOf(stage);
-    const time = now();
     for (let i = 0; i <= index; i++) {
       if (!this.arrived.has(order[i])) {
         this.arrived.set(order[i], time);
@@ -307,6 +349,10 @@ export class ResourceStageScheduler {
   }
 
   private shouldSkip(stage: string) {
+    if (!this.canPrefetch) {
+      this.skipped.add(stage);
+      return true;
+    }
     if (stage !== 'idle' && !ELEMENT_STAGES.includes(stage)) {
       return false;
     }
@@ -381,7 +427,14 @@ export class ResourceStageScheduler {
       return false;
     }
     const candidates: [string, string][] = [
-      [bundler.publicPath + bundler.filename(chunkId), 'script'],
+      ...(this.noScript.has(String(chunkId))
+        ? []
+        : [
+            [bundler.publicPath + bundler.filename(chunkId), 'script'] as [
+              string,
+              string,
+            ],
+          ]),
       ...(this.cssFiles.get(String(chunkId)) ?? []).map(
         url => [url, 'style'] as [string, string],
       ),
@@ -394,7 +447,7 @@ export class ResourceStageScheduler {
     record.prefetchStart = now();
     let remaining = urls.length;
     this.inFlight.set(stage, (this.inFlight.get(stage) ?? 0) + 1);
-    const done = () => {
+    const finish = () => {
       remaining--;
       if (remaining > 0) {
         return;
@@ -405,12 +458,21 @@ export class ResourceStageScheduler {
     };
     for (const [url, as] of urls) {
       const link = document.createElement('link');
+      let settled = false;
+      const timer = setTimeout(() => done(), PREFETCH_TIMEOUT_MS);
+      const done = () => {
+        if (!settled) {
+          settled = true;
+          clearTimeout(timer);
+          finish();
+        }
+      };
       link.rel = 'prefetch';
       link.as = as;
       link.href = url;
       // Same rule as the bundler runtime, so the cached response is reused.
-      if (this.config.x && url.indexOf(`${location.origin}/`) !== 0) {
-        link.crossOrigin = this.config.x;
+      if (this.shouldSetCrossOrigin(url)) {
+        link.crossOrigin = this.config.x!;
       }
       if (bundler.nonce) {
         link.nonce = bundler.nonce;
@@ -422,6 +484,19 @@ export class ResourceStageScheduler {
       document.head.appendChild(link);
     }
     return true;
+  }
+
+  /**
+   * The bundler runtime always sets `use-credentials`, and `anonymous` only
+   * for files from another origin.
+   */
+  private shouldSetCrossOrigin(url: string) {
+    const { x } = this.config;
+    return Boolean(
+      x &&
+      (x === 'use-credentials' ||
+        new URL(url, location.href).origin !== location.origin),
+    );
   }
 
   private getRecord(chunkId: ChunkId) {
@@ -619,8 +694,8 @@ export class ResourceStageScheduler {
       const script = document.createElement('script');
       script.src = url;
       script.async = true;
-      if (this.config.x && url.indexOf(`${location.origin}/`) !== 0) {
-        script.crossOrigin = this.config.x;
+      if (this.shouldSetCrossOrigin(url)) {
+        script.crossOrigin = this.config.x!;
       }
       if (this.bundler?.nonce) {
         script.nonce = this.bundler.nonce;

@@ -1,5 +1,13 @@
 # bff-api-app
 
+## 2.66.7
+
+### Patch Changes
+
+- @modern-js/plugin-bff@3.11.3
+- @modern-js/runtime@3.11.3
+- @modern-js/server-runtime@3.11.3
+
 ## 2.66.6
 
 ### Patch Changes

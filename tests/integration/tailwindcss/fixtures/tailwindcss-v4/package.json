@@ -2,7 +2,7 @@
   "private": true,
   "type": "module",
   "name": "integration-tailwindcss-v4",
-  "version": "2.66.6",
+  "version": "2.66.7",
   "scripts": {
     "dev": "modern dev",
     "build": "modern build",

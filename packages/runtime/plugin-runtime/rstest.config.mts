@@ -26,6 +26,7 @@ export default {
         'tests/router/prefetch.test.tsx',
         'tests/router/useTransitions.test.tsx',
         'tests/resources/scheduler.test.ts',
+        'tests/resources/bridge.test.ts',
       ],
       extends: commonConfig,
       plugins: [
@@ -54,6 +55,7 @@ export default {
         'tests/router/prefetch.test.tsx',
         'tests/router/useTransitions.test.tsx',
         'tests/resources/scheduler.test.ts',
+        'tests/resources/bridge.test.ts',
       ],
       extends: commonConfig,
       plugins: [

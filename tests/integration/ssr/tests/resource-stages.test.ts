@@ -1,5 +1,5 @@
 import type { ChildProcess } from 'node:child_process';
-import { mkdir, readFile, rm, writeFile } from 'node:fs/promises';
+import { mkdir, readFile, readdir, rm, writeFile } from 'node:fs/promises';
 import path from 'node:path';
 import puppeteer, { type Browser } from 'puppeteer';
 import {
@@ -256,5 +256,222 @@ describe.each([
         .filter(record => record.stage)
         .every(record => record.prefetchEnd !== undefined),
     ).toBe(true);
+  });
+});
+
+describe('resource stages (not used)', () => {
+  let fixture: Awaited<ReturnType<typeof createIsolatedTestApp>>;
+  let app: ChildProcess | undefined;
+  let browser: Browser;
+
+  afterAll(async () => {
+    await browser?.close();
+    if (app) {
+      await killApp(app);
+    }
+    await fixture?.cleanup?.();
+  });
+
+  test('adds nothing to an application without declarations and config', async () => {
+    fixture = await createIsolatedTestApp(fixtureDir);
+    const port = await getPort();
+    const result = await modernBuild(fixture.appDir);
+    expect(result.code, result.stderr || result.stdout).toBe(0);
+
+    const jsDir = path.join(fixture.appDir, 'dist/static/js');
+    const files = (await readdir(jsDir, { recursive: true })).filter(file =>
+      file.endsWith('.js'),
+    );
+    expect(files.length).toBeGreaterThan(0);
+    for (const file of files) {
+      // The flag the scheduler leaves on the chunk loader it wraps.
+      expect(await readFile(path.join(jsDir, file), 'utf-8')).not.toContain(
+        '__rs',
+      );
+    }
+
+    app = await modernServe(fixture.appDir, port);
+    browser = await puppeteer.launch(launchOptions as any);
+    const page = await browser.newPage();
+    const response = await page.goto(`http://127.0.0.1:${port}/about`, {
+      waitUntil: ['networkidle0'],
+    });
+    expect(await response!.text()).not.toContain('__MODERN_RS__');
+    expect(await page.evaluate(() => '__MODERN_RS__' in (window as any))).toBe(
+      false,
+    );
+  });
+});
+
+describe('resource stages (multiple entries)', () => {
+  let fixture: Awaited<ReturnType<typeof createIsolatedTestApp>>;
+  let app: ChildProcess | undefined;
+  let browser: Browser;
+  let port: number;
+  let report: Report;
+
+  const entryPage = (
+    name: string,
+  ) => `import { stagedImport } from '@modern-js/runtime/resources';
+import { shared } from '../../shared-lib';
+
+const load = stagedImport.idle(() => import('./${name}'));
+
+export default function Page() {
+  return <button id="load" type="button" onClick={() => load()}>{shared('${name}')}</button>;
+}
+`;
+
+  beforeAll(async () => {
+    fixture = await createIsolatedTestApp(fixtureDir);
+    const { appDir } = fixture;
+    await writeFile(
+      path.join(appDir, 'modern.config.ts'),
+      `import { applyBaseConfig } from '../../../../utils/applyBaseConfig';
+export default applyBaseConfig({
+  performance: { resourceStages: { idleQuietTime: 300 } },
+  tools: {
+    rspack(config) {
+      const splitChunks = config.optimization?.splitChunks;
+      if (splitChunks) {
+        splitChunks.cacheGroups = {
+          ...splitChunks.cacheGroups,
+          // A chunk both entries share, and a chunk with only CSS.
+          sharedLib: { test: /shared-lib/, name: 'shared-lib', chunks: 'all', enforce: true },
+          onlyStyles: { test: /\\.css$/, name: 'only-styles', chunks: 'async', enforce: true },
+        };
+      }
+      // Some CSS setups emit no JS file for a chunk with only CSS.
+      config.plugins?.push({
+        apply(compiler) {
+          compiler.hooks.thisCompilation.tap('drop-css-chunk-js', compilation => {
+            compilation.hooks.processAssets.tap(
+              { name: 'drop-css-chunk-js', stage: 1000 },
+              assets => {
+                for (const name of Object.keys(assets)) {
+                  if (/only-styles\\.[^.]+\\.js$/.test(name)) {
+                    compilation.deleteAsset(name);
+                  }
+                }
+              },
+            );
+          });
+        },
+      });
+    },
+  },
+});`,
+    );
+    await rm(path.join(appDir, 'src/routes'), { recursive: true });
+    await rm(path.join(appDir, 'src/entry.server.tsx'));
+    await writeFile(
+      path.join(appDir, 'src/shared-lib.ts'),
+      // A function, so the bundler cannot inline the export and drop the module.
+      `export const shared = (name: string) => ['shared', name].join(' ');\n`,
+    );
+    for (const entry of ['first', 'second']) {
+      const name = entry === 'first' ? 'First' : 'Second';
+      const dir = path.join(appDir, 'src', entry, 'routes');
+      await mkdir(dir, { recursive: true });
+      await writeFile(
+        path.join(dir, 'layout.tsx'),
+        `import { Outlet } from '@modern-js/runtime/router';
+export default () => <Outlet />;
+`,
+      );
+      await writeFile(path.join(dir, 'page.tsx'), entryPage(name));
+      await writeFile(path.join(dir, `${name}.tsx`), component(name, true));
+      await writeFile(
+        path.join(dir, `${name}.css`),
+        `#${name.toLowerCase()} { color: red; }`,
+      );
+    }
+    port = await getPort();
+    const result = await modernBuild(appDir);
+    expect(result.code, result.stderr || result.stdout).toBe(0);
+    report = JSON.parse(
+      await readFile(path.join(appDir, 'dist/resource-stages.json'), 'utf-8'),
+    );
+    app = await modernServe(appDir, port);
+    browser = await puppeteer.launch(launchOptions as any);
+  });
+
+  afterAll(async () => {
+    await browser?.close();
+    if (app) {
+      await killApp(app);
+    }
+    await fixture?.cleanup?.();
+  });
+
+  const idleChunks = (html: string) =>
+    payloads(html)
+      .flatMap(payload =>
+        Object.values(payload.r ?? {}).flatMap(
+          (route: any) => route.s?.idle ?? [],
+        ),
+      )
+      .map(String);
+  const chunksOf = (request: string) =>
+    report.declarations
+      .find(item => item.request === request)!
+      .chunks.map(chunk => String(chunk.id));
+
+  test('keeps the route lists with the entry that owns the route', async () => {
+    const htmlOf = async (entry: string) =>
+      (await fetch(`http://127.0.0.1:${port}/${entry}`)).text();
+    const first = idleChunks(await htmlOf('first'));
+    const second = idleChunks(await htmlOf('second'));
+    expect(first).toEqual(expect.arrayContaining(chunksOf('./First')));
+    expect(second).toEqual(expect.arrayContaining(chunksOf('./Second')));
+    expect(first).not.toEqual(expect.arrayContaining(chunksOf('./Second')));
+    expect(second).not.toEqual(expect.arrayContaining(chunksOf('./First')));
+  });
+
+  test('does not request a script for a chunk with only CSS', async () => {
+    const cssOnly = report.declarations
+      .flatMap(item => item.chunks)
+      .filter(chunk => !chunk.files.some(file => file.endsWith('.js')))
+      .map(chunk => String(chunk.id));
+    expect(cssOnly.length).toBeGreaterThan(0);
+
+    const html = await (await fetch(`http://127.0.0.1:${port}/second`)).text();
+    const listed = payloads(html).flatMap(payload =>
+      (payload.d ?? []).map(String),
+    );
+    expect(listed).toEqual(expect.arrayContaining(cssOnly));
+
+    const page = await browser.newPage();
+    const failed: string[] = [];
+    page.on('response', response => {
+      if (response.status() >= 400) {
+        failed.push(response.url());
+      }
+    });
+    await page.goto(`http://127.0.0.1:${port}/second`, {
+      waitUntil: ['networkidle0'],
+    });
+    await page.waitForFunction(
+      () => {
+        const report = (window as any).__MODERN_RS__?.report?.();
+        return (
+          report?.stages.idle !== undefined &&
+          report.records.some((record: any) => record.stage === 'idle') &&
+          report.records
+            .filter((record: any) => record.stage)
+            .every((record: any) => record.prefetchEnd !== undefined)
+        );
+      },
+      { timeout: 15000 },
+    );
+    const prefetched = await page.evaluate(() =>
+      [...document.querySelectorAll('link[rel="prefetch"]')].map(
+        link => (link as HTMLLinkElement).href,
+      ),
+    );
+    await page.close();
+    expect(failed).toEqual([]);
+    expect(prefetched.some(href => href.endsWith('.css'))).toBe(true);
+    expect(prefetched.join()).not.toContain('undefined');
   });
 });

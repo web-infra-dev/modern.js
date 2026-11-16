@@ -1,7 +1,7 @@
 {
   "private": true,
   "name": "i18n-mf-consumer",
-  "version": "2.66.6",
+  "version": "2.66.7",
   "scripts": {
     "dev": "modern dev",
     "build": "modern build"

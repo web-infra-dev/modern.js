@@ -5,7 +5,7 @@ import { type Root, hydrateRoot as hydrateReactRoot } from 'react-dom/client';
 import { RenderLevel } from '../constants';
 import type { TRuntimeContext } from '../context/runtime';
 import { wrapRuntimeContextProvider } from '../react/wrapper';
-import { markInteractiveStage } from '../resources/stagedImport';
+import { markInteractiveStage } from '../resources/bridge';
 import { WithCallback } from './withCallback';
 
 export async function hydrateWithReact(
