@@ -18,13 +18,16 @@ import {
 const fixtureDir = path.resolve(__dirname, '../fixtures/streaming');
 
 describe.each([
-  ['development', true],
-  ['production', true],
-  ['development', false],
-  ['production', false],
+  ['development', true, false],
+  ['production', true, false],
+  ['development', false, false],
+  ['production', false, false],
+  // A custom Document renders the script tags itself.
+  ['production', true, true],
+  ['production', false, true],
 ] as const)(
-  'Streaming SSR runtime (%s, separate runtime: %s)',
-  (mode, separateRuntime) => {
+  'Streaming SSR runtime (%s, separate runtime: %s, custom Document: %s)',
+  (mode, separateRuntime, customDocument) => {
     let fixture: Awaited<ReturnType<typeof createIsolatedTestApp>>;
     let app: ChildProcess | undefined;
     let origin: string;
@@ -33,6 +36,20 @@ describe.each([
     beforeAll(async () => {
       // Build/dev must not share generated files with the other streaming tests.
       fixture = await createIsolatedTestApp(fixtureDir);
+      if (customDocument) {
+        await writeFile(
+          path.join(fixture.appDir, 'src/Document.tsx'),
+          `import { Body, Head, Html, Root } from '@modern-js/runtime/document';
+export default () => (
+  <Html>
+    <Head />
+    <Body>
+      <Root />
+    </Body>
+  </Html>
+);`,
+        );
+      }
       if (!separateRuntime) {
         await writeFile(
           path.join(fixture.appDir, 'modern.config.ts'),

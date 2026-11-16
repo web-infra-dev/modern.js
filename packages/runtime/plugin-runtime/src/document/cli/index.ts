@@ -7,7 +7,15 @@ import type {
   AppNormalizedConfig as NormalizedConfig,
 } from '@modern-js/app-tools';
 import type { Entrypoint } from '@modern-js/types/cli';
-import { fs, createDebugger, findExists, logger } from '@modern-js/utils';
+import {
+  fs,
+  MAIN_ENTRY_NAME,
+  createDebugger,
+  findExists,
+  getEntryOptions,
+  isUseRsc,
+  logger,
+} from '@modern-js/utils';
 import type { Rspack, RspackChain } from '@rsbuild/core';
 import { decodeHTML } from 'entities';
 
@@ -197,6 +205,31 @@ const requireFromString = (code: string, filename: string) => {
   m._compile(code, filename);
 
   return m.exports;
+};
+
+/**
+ * Whether the entry's HTML is processed for streaming, the same rule app-tools
+ * uses to apply HtmlAsyncChunkPlugin.
+ */
+const isStreamingEntry = (
+  config: NormalizedConfig,
+  entryName: string,
+  packageName?: string,
+): boolean => {
+  if (isUseRsc(config)) {
+    return true;
+  }
+  const ssr = getEntryOptions(
+    entryName,
+    entryName === (config.source?.mainEntryName || MAIN_ENTRY_NAME),
+    config.server?.ssr,
+    config.server?.ssrByEntries,
+    packageName,
+  );
+  if (!ssr) {
+    return false;
+  }
+  return typeof ssr === 'boolean' ? ssr : ssr.mode !== 'string';
 };
 
 export const getDocumentByEntryName = function (
@@ -578,13 +611,17 @@ export const documentPlugin = (): CliPlugin<AppTools> => ({
     const extractHtmlTags = (
       htmlPlugin: HtmlRspackPlugin,
       templateParameters: Record<string, unknown>,
+      keepBodyTags: boolean,
     ) => {
-      const scripts = [
-        htmlPlugin.tags.headTags
-          .filter(item => item.tagName === 'script')
-          .join(''),
-        htmlPlugin.tags.bodyTags.toString(),
-      ].join('');
+      const headScripts = htmlPlugin.tags.headTags
+        .filter(item => item.tagName === 'script')
+        .join('');
+      const allBodyTags = htmlPlugin.tags.bodyTags.toString();
+      // Streaming entries move the script that starts the app into body, so it
+      // runs after the root node and the SSR data. Keep it at the end of body;
+      // other entries keep body tags at the Scripts placeholder as before.
+      const scripts = keepBodyTags ? headScripts : headScripts + allBodyTags;
+      const bodyTags = keepBodyTags ? allBodyTags : '';
 
       const links = htmlPlugin.tags.headTags
         .filter(item => item.tagName === 'link')
@@ -608,13 +645,14 @@ export const documentPlugin = (): CliPlugin<AppTools> => ({
         .replace('<title>', '')
         .replace('</title>', '');
 
-      return { scripts, links, metas, titles };
+      return { scripts, bodyTags, links, metas, titles };
     };
 
     const processPlaceholders = (
       html: string,
       config: NormalizedConfig,
       scripts: string,
+      bodyTags: string,
       links: string,
       metas: string,
       titles: string,
@@ -636,7 +674,8 @@ export const documentPlugin = (): CliPlugin<AppTools> => ({
         )
         .replace(
           DOCUMENT_SSRDATASCRIPT_PLACEHOLDER,
-          () => PLACEHOLDER_REPLACER_MAP[DOCUMENT_SSRDATASCRIPT_PLACEHOLDER],
+          () =>
+            `${PLACEHOLDER_REPLACER_MAP[DOCUMENT_SSRDATASCRIPT_PLACEHOLDER]}${bodyTags}`,
         )
         .replace(DOCUMENT_TITLE_PLACEHOLDER, () => titles);
     };
@@ -689,15 +728,21 @@ export const documentPlugin = (): CliPlugin<AppTools> => ({
             'Failed to get HTML plugin tags from template parameters.',
           );
         }
-        const { scripts, links, metas, titles } = extractHtmlTags(
+        const { scripts, bodyTags, links, metas, titles } = extractHtmlTags(
           htmlPlugin,
           templateParameters,
+          isStreamingEntry(
+            config as NormalizedConfig,
+            entryName,
+            api.getAppContext().packageName,
+          ),
         );
 
         return processPlaceholders(
           html,
           config as NormalizedConfig,
           scripts,
+          bodyTags,
           links,
           metas,
           titles,

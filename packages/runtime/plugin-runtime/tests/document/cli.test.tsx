@@ -11,10 +11,22 @@ import { rs } from '@rstest/core';
 import type { AppTools, AppToolsContext } from '@modern-js/app-tools';
 import { getBundleEntry } from '../../../../solutions/app-tools/src/plugins/analyze/getBundleEntry';
 import { documentPlugin, getDocumentByEntryName } from '../../src/document/cli';
+import {
+  DOCUMENT_SCRIPTS_PLACEHOLDER,
+  DOCUMENT_SSRDATASCRIPT_PLACEHOLDER,
+  DOCUMENT_SSR_PLACEHOLDER,
+  HTML_SSRDATASCRIPT_SEPARATOR,
+} from '../../src/document/constants';
 
 describe('plugin runtime cli', () => {
   let pluginAPI: CLIPluginAPI<AppTools>;
-  const setup = async ({ appDirectory }: { appDirectory: string }) => {
+  const setup = async ({
+    appDirectory,
+    normalizedConfig = {},
+  }: {
+    appDirectory: string;
+    normalizedConfig?: Record<string, unknown>;
+  }) => {
     const pluginManager = createPluginManager();
     pluginManager.addPlugins([documentPlugin() as Plugin]);
     const plugins = pluginManager.getPlugins();
@@ -24,7 +36,7 @@ describe('plugin runtime cli', () => {
         plugins,
       } as any,
       config: {},
-      normalizedConfig: { plugins: [] } as any,
+      normalizedConfig: { plugins: [], ...normalizedConfig } as any,
     });
     pluginAPI = initPluginAPI<AppTools>({
       context,
@@ -115,6 +127,86 @@ describe('plugin runtime cli', () => {
     });
     expect(() => JSON.stringify(documentParams.templateParams)).not.toThrow();
   });
+  describe('body tags', () => {
+    const entryScript = '<script src="/entry.js" async></script>';
+    const runtimeScript = '<script>runtime()</script>';
+    const render = async (server: Record<string, unknown>) => {
+      await setup({
+        appDirectory: path.join(__dirname, './feature'),
+        normalizedConfig: { server },
+      });
+      pluginAPI.updateAppContext({
+        internalDirectory: path.join(__dirname, './feature'),
+        appDirectory: path.join(__dirname, './feature'),
+        entrypoints: [
+          {
+            entryName: 'main',
+            absoluteEntryDir: path.join(__dirname, './feature'),
+          },
+        ],
+      });
+      const config = await pluginAPI.getHooks().config.call();
+      const { htmlPlugin } = (
+        config.find((item: any) => item.tools.htmlPlugin)! as any
+      ).tools;
+      const { templateContent } = htmlPlugin({}, { entryName: 'main' });
+      (global as any).__MODERN_DOC_RENDERERS__ = {
+        main: () =>
+          [
+            '<html><head>',
+            DOCUMENT_SCRIPTS_PLACEHOLDER,
+            '</head><body><div id="root">',
+            DOCUMENT_SSR_PLACEHOLDER,
+            '</div>',
+            DOCUMENT_SSRDATASCRIPT_PLACEHOLDER,
+            '</body></html>',
+          ].join(''),
+      };
+      return templateContent({
+        compilation: {},
+        htmlPlugin: {
+          tags: {
+            headTags: [{ tagName: 'script', toString: () => entryScript }],
+            bodyTags: { toString: () => runtimeScript },
+          },
+        },
+        rspackConfig: { name: 'client' },
+      }) as Promise<string>;
+    };
+
+    afterAll(async () => {
+      await setup({ appDirectory: path.join(__dirname, './feature') });
+    });
+
+    it.each([
+      ['ssr: true', { ssr: true }],
+      ['ssrByEntries', { ssrByEntries: { main: { mode: 'stream' } } }],
+      ['rsc', { rsc: true }],
+    ])(
+      'keeps them after the SSR data for streaming entries (%s)',
+      async (_, server) => {
+        const html = await render(server);
+        expect(html).toContain(`<head>${entryScript}</head>`);
+        expect(html).toContain(
+          `${HTML_SSRDATASCRIPT_SEPARATOR}${runtimeScript}</body>`,
+        );
+      },
+    );
+
+    it.each([
+      ['no ssr', {}],
+      ['string ssr', { ssr: { mode: 'string' } }],
+      ['another entry streams', { ssrByEntries: { other: true } }],
+    ])(
+      'leaves them at the Scripts placeholder otherwise (%s)',
+      async (_, server) => {
+        const html = await render(server);
+        expect(html).toContain(`<head>${entryScript}${runtimeScript}</head>`);
+        expect(html).toContain(`${HTML_SSRDATASCRIPT_SEPARATOR}</body>`);
+      },
+    );
+  });
+
   it('when user config set empty entries and disableDefaultEntries true, should get the ', async () => {
     const hooks: any = pluginAPI.getHooks();
     const entries = await getBundleEntry(
