@@ -1,3 +1,4 @@
+import path from 'node:path';
 import { compatibleRequire } from '@modern-js/utils';
 import { createParamsResolver, generatePaths } from '../src/libs/params';
 
@@ -118,7 +119,7 @@ describe('compiled SSG parameter exports', () => {
       expect(first).toHaveBeenCalledTimes(1);
       expect(second).toHaveBeenCalledTimes(1);
       expect(compatibleRequire).toHaveBeenCalledExactlyOnceWith(
-        '/app/dist/bundles/main-server-loaders.js',
+        path.normalize('/app/dist/bundles/main-server-loaders.js'),
         false,
       );
       expect(loadModules).toHaveBeenCalledTimes(asyncEntry ? 1 : 0);
