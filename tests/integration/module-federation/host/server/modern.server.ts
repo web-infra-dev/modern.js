@@ -1,3 +1,8 @@
+import { performance } from 'node:perf_hooks';
+import { writeHeapSnapshot } from 'node:v8';
+import { mkdirSync } from 'node:fs';
+import path from 'node:path';
+import { createRequire } from 'node:module';
 import { defineServerConfig } from '@modern-js/server-runtime';
 import {
   shouldUpdateRemote,
@@ -89,6 +94,34 @@ export default defineServerConfig({
           }
         }
         if (
+          request.method === 'POST' &&
+          url.pathname === '/_lab/update/heap' &&
+          process.env.MF_LAB_HEAP_DIR
+        ) {
+          const label = url.searchParams.get('label') || '';
+          if (!/^[a-z0-9-]+$/.test(label))
+            return json({ error: 'Invalid label' }, 400);
+          mkdirSync(process.env.MF_LAB_HEAP_DIR, { recursive: true });
+          const file = path.join(
+            process.env.MF_LAB_HEAP_DIR,
+            `${scenario}-${process.pid}-${label}.heapsnapshot`,
+          );
+          writeHeapSnapshot(file);
+          return json({ file, pid: process.pid });
+        }
+        if (
+          request.method === 'POST' &&
+          url.pathname === '/_lab/update/clear-timings' &&
+          process.env.MF_LAB_MEMORY_DIAGNOSTICS === '1'
+        ) {
+          const before = performance.getEntriesByType('resource').length;
+          performance.clearResourceTimings();
+          return json({
+            before,
+            after: performance.getEntriesByType('resource').length,
+          });
+        }
+        if (
           request.method === 'GET' &&
           url.pathname === '/_lab/update/memory'
         ) {
@@ -124,6 +157,44 @@ export default defineServerConfig({
                 role: 'host',
                 pid: process.pid,
                 gcExposed: Boolean(globalThis.gc),
+                diagnostics: {
+                  moduleInfoKeys: Object.keys(
+                    (globalThis as any).__FEDERATION__?.moduleInfo || {},
+                  ),
+                  manifestLoadingKeys: Object.keys(
+                    (globalThis as any).__FEDERATION__?.__MANIFEST_LOADING__ ||
+                      {},
+                  ),
+                  remoteEntryKeys: Object.keys(
+                    (globalThis as any).__GLOBAL_LOADING_REMOTE_ENTRY__ || {},
+                  ),
+                  resourceTimings:
+                    performance.getEntriesByType('resource').length,
+                  instances: (
+                    (globalThis as any).__FEDERATION__?.__INSTANCES__ || []
+                  ).map((instance: any) => ({
+                    name: instance.options?.name,
+                    id: instance.options?.id,
+                    modules: instance.moduleCache?.size,
+                    manifests: instance.snapshotHandler?.manifestCache?.size,
+                    retainedProviders: instance.retainedProviders?.size,
+                  })),
+                  shareScopeKeys: Object.keys(
+                    (globalThis as any).__FEDERATION__?.__SHARE__ || {},
+                  ),
+                  nodeCache: (() => {
+                    const cache = createRequire(
+                      path.join(process.cwd(), 'package.json'),
+                    ).cache;
+                    return {
+                      modules: Object.keys(cache).length,
+                      childEdges: Object.values(cache).reduce(
+                        (count, mod) => count + (mod?.children.length || 0),
+                        0,
+                      ),
+                    };
+                  })(),
+                },
                 ...process.memoryUsage(),
               },
               ...producers,
