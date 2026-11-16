@@ -44,7 +44,7 @@
     "sharp": "^0.35.5"
   },
   "peerDependencies": {
-    "@modern-js/app-tools": "workspace:^"
+    "@modern-js/app-tools": "workspace:^3.11.3"
   },
   "devDependencies": {
     "@modern-js/app-tools": "workspace:*",

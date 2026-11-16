@@ -57,7 +57,7 @@
     "normalize-path": "3.0.0"
   },
   "peerDependencies": {
-    "@modern-js/app-tools": "workspace:^",
+    "@modern-js/app-tools": "workspace:^3.11.3",
     "react-router-dom": ">=7.18.4"
   },
   "peerDependenciesMeta": {

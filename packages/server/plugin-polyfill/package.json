@@ -82,8 +82,8 @@
     "typescript": "^5"
   },
   "peerDependencies": {
-    "@modern-js/app-tools": "workspace:^",
-    "@modern-js/server-core": "workspace:^"
+    "@modern-js/app-tools": "workspace:^3.11.3",
+    "@modern-js/server-core": "workspace:^3.11.3"
   },
   "sideEffects": false,
   "publishConfig": {

@@ -43,8 +43,8 @@
     "typescript": "^5.3.3"
   },
   "peerDependencies": {
-    "@modern-js/app-tools": "workspace:^",
-    "@modern-js/runtime": "workspace:^",
+    "@modern-js/app-tools": "workspace:^3.11.3",
+    "@modern-js/runtime": "workspace:^3.11.3",
     "styled-components": "^5.3.1"
   },
   "exports": {

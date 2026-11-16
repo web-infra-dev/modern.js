@@ -68,7 +68,7 @@
     "typescript": "^5"
   },
   "peerDependencies": {
-    "@modern-js/server-core": "workspace:^",
+    "@modern-js/server-core": "workspace:^3.11.3",
     "@rsbuild/core": "^2.3.2",
     "react": ">=18.3.1"
   },

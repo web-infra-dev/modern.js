@@ -54,7 +54,7 @@
     "typescript": "^5"
   },
   "peerDependencies": {
-    "@modern-js/server-core": "workspace:^"
+    "@modern-js/server-core": "workspace:^3.11.3"
   },
   "sideEffects": false,
   "publishConfig": {
