@@ -3,6 +3,7 @@ import {
   normalizeResourceStages,
   parseSize,
 } from '../../src/builder/shared/resourceStages/config';
+import { renderPreloadTag } from '../../src/builder/shared/bundlerPlugins/ResourceStagesPlugin';
 import { parseStageDeclarations } from '../../src/builder/shared/resourceStages/parse';
 import {
   type ChunkInfo,
@@ -244,12 +245,56 @@ describe('planResourceStages', () => {
       routeRule: true,
     });
     const route = plan.targets.find(target => target.kind === 'route')!;
-    // The route's own chunk first, then shared chunks while they fit 400 kB.
+    // The route's own chunk first, then shared chunks while they fit 400 kB,
+    // all at low priority.
     expect(route.routeCritical).toEqual([
-      { h: '/static/js/route.js', a: 'script' },
+      { h: '/static/js/route.js', a: 'script', l: 1 },
       { h: '/static/js/shared1.js', a: 'script', l: 1 },
     ]);
     expect(route.routeLists).toEqual({ visible: ['shared2'] });
+  });
+
+  it('does not preload route CSS by the route rule', () => {
+    const snapshot = createSnapshot();
+    snapshot.chunks.set('route', chunk('route', 10_000, true));
+    snapshot.chunks.set('panel', chunk('panel', 5_000, true));
+    const plan = planResourceStages(snapshot, stages, { routeRule: true });
+    const route = plan.targets.find(target => target.kind === 'route')!;
+    // Streaming SSR already outputs the route CSS as a stylesheet.
+    expect(route.routeCritical).toEqual([
+      { h: '/static/js/route.js', a: 'script', l: 1 },
+      { h: '/static/js/shared1.js', a: 'script', l: 1 },
+    ]);
+    // A `critical` declaration is not route CSS and keeps its style preload.
+    expect(route.critical).toEqual([
+      { h: '/static/js/panel.js', a: 'script' },
+      { h: '/static/css/panel.css', a: 'style' },
+    ]);
+  });
+
+  it('carries the integrity of the files when the build has one', () => {
+    const snapshot = createSnapshot();
+    snapshot.chunks.set('route', {
+      ...chunk('route', 10_000),
+      integrity: { '/static/js/route.js': 'sha384-route' },
+    });
+    snapshot.chunks.set('panel', {
+      ...chunk('panel', 5_000, true),
+      integrity: {
+        '/static/js/panel.js': 'sha384-panel',
+        '/static/css/panel.css': 'sha384-panel-css',
+      },
+    });
+    const plan = planResourceStages(snapshot, stages, { routeRule: true });
+    const route = plan.targets.find(target => target.kind === 'route')!;
+    expect(route.routeCritical).toEqual([
+      { h: '/static/js/route.js', a: 'script', l: 1, i: 'sha384-route' },
+      { h: '/static/js/shared1.js', a: 'script', l: 1 },
+    ]);
+    expect(route.critical).toEqual([
+      { h: '/static/js/panel.js', a: 'script', i: 'sha384-panel' },
+      { h: '/static/css/panel.css', a: 'style', i: 'sha384-panel-css' },
+    ]);
   });
 
   it('moves critical declarations over the budget to visible', () => {
@@ -302,6 +347,44 @@ describe('planResourceStages', () => {
     );
     expect(checkBudgets(route, strict, 0).join('\n')).toContain(
       'stage "critical" downloads',
+    );
+  });
+});
+
+describe('renderPreloadTag', () => {
+  it('follows the crossorigin rule of the chunk loading runtime', () => {
+    const local = { h: '/static/js/a.js', a: 'script' as const };
+    const remote = {
+      h: 'https://cdn.example.com/a.js',
+      a: 'script' as const,
+      l: 1 as const,
+    };
+    expect(renderPreloadTag(local)).toBe(
+      '<link rel="preload" as="script" href="/static/js/a.js">',
+    );
+    expect(renderPreloadTag(local, 'anonymous')).toBe(
+      '<link rel="preload" as="script" href="/static/js/a.js">',
+    );
+    expect(renderPreloadTag(local, 'use-credentials')).toBe(
+      '<link rel="preload" as="script" href="/static/js/a.js" crossorigin="use-credentials">',
+    );
+    expect(renderPreloadTag(remote, 'anonymous')).toBe(
+      '<link rel="preload" as="script" href="https://cdn.example.com/a.js" crossorigin="anonymous" fetchpriority="low">',
+    );
+  });
+
+  it('outputs integrity with crossorigin when the build has one', () => {
+    const item = {
+      h: '/static/css/a.css',
+      a: 'style' as const,
+      i: 'sha384-abc',
+    };
+    // With integrity the runtime sets crossorigin on same origin files too.
+    expect(renderPreloadTag(item)).toBe(
+      '<link rel="preload" as="style" href="/static/css/a.css" crossorigin="anonymous" integrity="sha384-abc">',
+    );
+    expect(renderPreloadTag(item, 'use-credentials')).toBe(
+      '<link rel="preload" as="style" href="/static/css/a.css" crossorigin="use-credentials" integrity="sha384-abc">',
     );
   });
 });

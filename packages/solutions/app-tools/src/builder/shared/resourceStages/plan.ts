@@ -15,6 +15,11 @@ export interface ChunkInfo {
   css: string[];
   /** Compressed bytes of all files. */
   size: number;
+  /**
+   * File URL -> `integrity` of the file, when the build outputs Subresource
+   * Integrity hashes (`security.sri`).
+   */
+  integrity?: Record<string, string>;
 }
 
 export interface EntryInfo {
@@ -60,6 +65,7 @@ export interface PreloadItem {
   h: string;
   a: 'script' | 'style';
   l?: 1;
+  i?: string;
 }
 
 export interface StageStats {
@@ -101,18 +107,27 @@ export const createStageRank = (order: string[]) => (stage: string) =>
     ? 0
     : order.indexOf(stage) + 1 || Number.MAX_SAFE_INTEGER;
 
-const toPreloads = (chunk: ChunkInfo, low = false): PreloadItem[] => [
-  ...chunk.js.map(h => ({
+/**
+ * Preloads of a chunk's files. The bundler runtime loads a chunk with
+ * `integrity` when the build has Subresource Integrity hashes, and the browser
+ * only reuses a preload whose `integrity` matches, so the hash goes with it.
+ */
+const toPreloads = (
+  chunk: ChunkInfo,
+  { low = false, css = true }: { low?: boolean; css?: boolean } = {},
+): PreloadItem[] => {
+  const { integrity } = chunk;
+  const toItem = (h: string, a: PreloadItem['a']): PreloadItem => ({
     h,
-    a: 'script' as const,
+    a,
     ...(low ? { l: 1 as const } : {}),
-  })),
-  ...chunk.css.map(h => ({
-    h,
-    a: 'style' as const,
-    ...(low ? { l: 1 as const } : {}),
-  })),
-];
+    ...(integrity?.[h] ? { i: integrity[h] } : {}),
+  });
+  return [
+    ...chunk.js.map(h => toItem(h, 'script')),
+    ...(css ? chunk.css.map(h => toItem(h, 'style')) : []),
+  ];
+};
 
 /**
  * Default `critical` budget: what the target network downloads in a third of
@@ -142,7 +157,10 @@ export const getCriticalBudget = (stages: NormalizedResourceStages) => {
  *   route owns, belong to the entry.
  * - Route JS (streaming SSR, when enabled): the route's own chunk is
  *   `critical`; its shared chunks fill the `critical` budget in group order,
- *   the rest goes to `visible`.
+ *   the rest goes to `visible`. Every route JS preload has a low fetch
+ *   priority, so it does not compete with the entry scripts and stylesheets.
+ *   Route CSS is not preloaded: streaming SSR already outputs it as
+ *   `<link rel="stylesheet">`.
  */
 export const planResourceStages = (
   snapshot: Snapshot,
@@ -309,7 +327,7 @@ export const planResourceStages = (
           bytes += chunk.size;
           requests += chunk.js.length + chunk.css.length;
           target.plan.routeCritical.push(
-            ...toPreloads(chunk, !route.own.has(chunkId)),
+            ...toPreloads(chunk, { low: true, css: false }),
           );
         } else {
           const declared = target.declared.get(chunkId);

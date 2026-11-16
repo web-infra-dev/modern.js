@@ -7,14 +7,13 @@ import ReactHelmet, {
   type HelmetProps,
 } from 'react-helmet';
 import type { TInternalRuntimeContext } from '../../context';
-import { getPreloadCrossOrigin, renderRouteStages } from '../../resources/html';
+import { renderRouteStages } from '../../resources/html';
 import type { ResourceStagesManifest } from '../../resources/manifest';
 import { CHUNK_CSS_PLACEHOLDER } from '../constants';
 import { createReplaceHelemt } from '../helmet';
 import type { HandleRequestConfig } from '../requestHandler';
-import { type BuildHtmlCb, type SSRConfig, buildHtml } from '../shared';
+import { type BuildHtmlCb, buildHtml } from '../shared';
 import {
-  attributesToString,
   checkIsNode,
   getLoadedScriptUrls,
   getMatchedRouteIds,
@@ -54,7 +53,6 @@ export interface BuildShellBeforeTemplateOptions {
   runtimeContext: TInternalRuntimeContext;
   entryName: string;
   config: HandleRequestConfig;
-  ssrConfig?: SSRConfig;
   styledComponentsStyleTags?: string;
   /**
    * The props of the `Helmet` rendered by this request. When it is not
@@ -84,19 +82,12 @@ function renderHelmetData(helmetProps: HelmetProps[]): HelmetData {
   return ReactHelmet.renderStatic();
 }
 
-type RouteAssetsItem = {
-  assets?: string[];
-  ownAssets?: string[];
-  referenceCssAssets?: string[];
-};
-
 export async function buildShellBeforeTemplate(
   beforeAppTemplate: string,
   options: BuildShellBeforeTemplateOptions,
 ) {
   const {
     config,
-    ssrConfig,
     runtimeContext,
     styledComponentsStyleTags,
     entryName,
@@ -120,47 +111,51 @@ export async function buildShellBeforeTemplate(
     entryName: string,
     styledComponentsStyleTags?: string,
   ) {
-    const matchedRouteManifests = getMatchedRouteManifests();
-    let css = await getCssChunks(matchedRouteManifests);
+    let css = await getCssChunks();
     if (styledComponentsStyleTags) {
       css += styledComponentsStyleTags;
     }
-    const stagesManifest = runtimeContext.routeManifest?.resourceStages as
-      ResourceStagesManifest | undefined;
-    // With resource stages, route JS follows the stage rule instead.
-    const scriptPreloads = stagesManifest?.routeRule
-      ? ''
-      : getScriptPreloads(matchedRouteManifests);
-    const stages = renderRouteStages(
-      stagesManifest,
-      getMatchedRouteIds(runtimeContext),
-      {
-        mode: 'stream',
-        template,
-        loadedUrls: getEntryLoadedUrls(template),
-        nonce: config.nonce,
-        crossorigin: config.crossorigin,
-      },
-    );
     return safeReplace(
       template,
       CHUNK_CSS_PLACEHOLDER,
-      `${css}${scriptPreloads}${stages}`,
+      `${css}${getResourceStages()}`,
     );
 
-    function getEntryLoadedUrls(template: string) {
+    /**
+     * Preloads and stage lists of the matched routes. Nothing is output, and
+     * no route JS is preloaded, unless the build wrote `resourceStages` into
+     * the route manifest (`performance.resourceStages`).
+     */
+    function getResourceStages() {
+      const stagesManifest = runtimeContext.routeManifest?.resourceStages as
+        ResourceStagesManifest | undefined;
+      if (!stagesManifest) {
+        return '';
+      }
       const routeAssets = runtimeContext.routeManifest?.routeAssets ?? {};
-      return new Set<string>([
-        ...(routeAssets[entryName]?.assets ?? []),
-        ...(routeAssets[`async-${entryName}`]?.assets ?? []),
-        ...getLoadedScriptUrls(template),
-      ]);
+      return renderRouteStages(
+        stagesManifest,
+        getMatchedRouteIds(runtimeContext),
+        {
+          mode: 'stream',
+          template,
+          // The entry assets (merged with `async-${entryName}` when async
+          // entry is enabled) are already loaded by the entry `<script>` tags.
+          loadedUrls: new Set<string>([
+            ...(routeAssets[entryName]?.assets ?? []),
+            ...(routeAssets[`async-${entryName}`]?.assets ?? []),
+            ...getLoadedScriptUrls(template),
+          ]),
+          nonce: config.nonce,
+          crossorigin: config.crossorigin,
+        },
+      );
     }
 
-    function getMatchedRouteManifests(): RouteAssetsItem[] | undefined {
+    async function getCssChunks() {
       const { routeManifest, routerContext, routes } = runtimeContext;
       if (!routeManifest || !routerContext || !routes) {
-        return undefined;
+        return '';
       }
 
       const { routeAssets } = routeManifest;
@@ -170,7 +165,7 @@ export async function buildShellBeforeTemplate(
         routerContext.location,
         routerContext.basename,
       );
-      return matches
+      const matchedRouteManifests = matches
         ?.map((match, index) => {
           if (!index) {
             return;
@@ -182,32 +177,24 @@ export async function buildShellBeforeTemplate(
             return routeManifest;
           }
         })
-        .filter((item): item is RouteAssetsItem => Boolean(item));
-    }
-
-    async function getCssChunks(matchedRouteManifests?: RouteAssetsItem[]) {
-      if (!matchedRouteManifests) {
-        return '';
-      }
-
-      const { routeAssets } = runtimeContext.routeManifest!;
-      const cssRouteManifests = [...matchedRouteManifests];
+        .filter(Boolean);
       const asyncEntry = routeAssets[`async-${entryName}`];
       if (asyncEntry) {
-        cssRouteManifests.push(asyncEntry);
+        matchedRouteManifests?.push(asyncEntry);
       }
 
-      const cssChunks: string[] = cssRouteManifests.reduce(
-        (chunks, routeManifest) => {
-          const { referenceCssAssets = [] } = routeManifest;
-          const _cssChunks = referenceCssAssets.filter(
-            (asset?: string) =>
-              asset?.endsWith('.css') && !hasStylesheetLink(template, asset),
-          );
-          return [...chunks, ..._cssChunks];
-        },
-        [] as string[],
-      );
+      const cssChunks: string[] = matchedRouteManifests
+        ? matchedRouteManifests?.reduce((chunks, routeManifest) => {
+            const { referenceCssAssets = [] } = routeManifest as {
+              referenceCssAssets?: string[];
+            };
+            const _cssChunks = referenceCssAssets.filter(
+              (asset?: string) =>
+                asset?.endsWith('.css') && !hasStylesheetLink(template, asset),
+            );
+            return [...chunks, ..._cssChunks];
+          }, [] as string[])
+        : [];
 
       const { inlineStyles } = config;
 
@@ -228,59 +215,6 @@ export async function buildShellBeforeTemplate(
       );
 
       return `${styles.join('')}`;
-    }
-
-    /**
-     * Preload the JS of the matched routes, so the browser downloads the route
-     * components in parallel with the entry instead of after the entry runs and
-     * React reaches the lazy route component. Only the matched routes are
-     * preloaded, not the lazy chunks they import.
-     *
-     * The route module itself (`ownAssets`) is preloaded at the default
-     * priority. The chunks split out of its dependencies can be many and large,
-     * so they are preloaded with `fetchpriority="low"` to keep them from
-     * competing with the entry scripts and stylesheets.
-     */
-    function getScriptPreloads(matchedRouteManifests?: RouteAssetsItem[]) {
-      if (!matchedRouteManifests?.length) {
-        return '';
-      }
-      if (
-        typeof ssrConfig === 'object' &&
-        ssrConfig.preloadRouteScripts === false
-      ) {
-        return '';
-      }
-
-      const { routeAssets } = runtimeContext.routeManifest!;
-      // The entry assets (merged with `async-${entryName}` when async entry is
-      // enabled) are already loaded by the `<script>` tags of the entry.
-      const excluded = new Set<string>([
-        ...(routeAssets[entryName]?.assets ?? []),
-        ...(routeAssets[`async-${entryName}`]?.assets ?? []),
-        ...getLoadedScriptUrls(template),
-      ]);
-
-      const preloads: string[] = [];
-      for (const { assets = [], ownAssets } of matchedRouteManifests) {
-        // Manifests built before `ownAssets` existed keep the old behavior.
-        const own = new Set(ownAssets ?? assets);
-        for (const asset of assets) {
-          if (!asset.endsWith('.js') || excluded.has(asset)) {
-            continue;
-          }
-          excluded.add(asset);
-          const attributes = attributesToString({
-            nonce: config.nonce,
-            crossorigin: getPreloadCrossOrigin(asset, config.crossorigin),
-            fetchpriority: own.has(asset) ? undefined : 'low',
-          });
-          preloads.push(
-            `<link rel="preload" as="script" href="${asset}"${attributes} />`,
-          );
-        }
-      }
-      return preloads.join('');
     }
   }
 }

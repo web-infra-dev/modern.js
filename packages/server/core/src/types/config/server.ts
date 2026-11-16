@@ -20,12 +20,6 @@ export type SSR =
       unsafeHeaders?: string[];
       loaderFailureMode?: 'clientRender' | 'errorBoundary';
       /**
-       * Streaming SSR only. Output `<link rel="preload" as="script">` in the
-       * HTML head for the JS chunks of the matched routes.
-       * @default true
-       */
-      preloadRouteScripts?: boolean;
-      /**
        * Send a `103 Early Hints` response with `Link: rel=preload` headers for
        * the scripts and stylesheets of the HTML template and of the matched
        * routes, before the data loaders run. Only works on Node.js.
