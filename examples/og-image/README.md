@@ -2,22 +2,24 @@
 
 [中文说明](./README.zh-CN.md)
 
-An article page with a 1200 × 630 PNG share image, rendered from JSX with [Satori](https://github.com/vercel/satori) and [Resvg](https://github.com/thx/resvg-js). By default, images are generated during the build and served as static files. An optional configuration keeps the request-time BFF implementation.
+An article page with a 1200 × 630 PNG share image, rendered from JSX with [Satori](https://github.com/vercel/satori) and [Resvg](https://github.com/thx/resvg-js). By default, images are generated during the build and served as static files. Set `OG_IMAGE_MODE=bff` to generate images through BFF at request time.
 
-Both configurations use SSR for the article pages. Their initial HTML contains the title, description, canonical URL and absolute `og:image` URL, so share crawlers do not need to execute JavaScript. Image generation does not depend on SSG.
+Both modes use SSR for the article pages. Their initial HTML contains the title, description, canonical URL and absolute `og:image` URL, so share crawlers do not need to execute JavaScript. Image generation does not depend on SSG.
 
 ![Generated article share image](./preview.png)
 
 [Long-title preview](./preview-long-title.png). Both modes use the same template and bundled fonts to produce these images.
 
-|                                  | Build-time images (default)    | Request-time images (optional)      |
-| -------------------------------- | ------------------------------ | ----------------------------------- |
-| Configuration                    | `modern.config.ts`             | `modern.bff.config.ts`              |
-| Development                      | `pnpm dev`                     | `pnpm dev:bff`                      |
-| Build / preview                  | `pnpm build` / `pnpm serve`    | `pnpm build:bff` / `pnpm serve:bff` |
-| Image URL                        | `/static/og/<slug>.<hash>.png` | `/api/og/<slug>?v=1`                |
-| Image rendering after deployment | None                           | BFF handler on uncached requests    |
-| Page rendering                   | SSR                            | SSR                                 |
+|                                  | Build-time images (default)    | Request-time images (optional)                                  |
+| -------------------------------- | ------------------------------ | --------------------------------------------------------------- |
+| `OG_IMAGE_MODE`                  | `build` (default)              | `bff`                                                           |
+| Development                      | `pnpm dev`                     | `OG_IMAGE_MODE=bff pnpm dev`                                    |
+| Build / preview                  | `pnpm build` / `pnpm serve`    | `OG_IMAGE_MODE=bff pnpm build` / `OG_IMAGE_MODE=bff pnpm serve` |
+| Image URL                        | `/static/og/<slug>.<hash>.png` | `/api/og/<slug>?v=1`                                            |
+| Image rendering after deployment | None                           | BFF handler on uncached requests                                |
+| Page rendering                   | SSR                            | SSR                                                             |
+
+`modern.config.ts` selects the mode using `OG_IMAGE_MODE`, a variable defined by this example. Both modes use this one configuration file.
 
 ## Run
 
@@ -42,7 +44,7 @@ SITE_URL=https://journal.example.com pnpm build
 pnpm serve
 ```
 
-For local production checks, omit `SITE_URL` to use port 8080. Stop the running server before switching modes, and use matching build and serve commands.
+For local production checks, omit `SITE_URL` to use port 8080. Stop the running server before switching modes, and use the same `OG_IMAGE_MODE` when building and serving. Changing it requires a rebuild.
 
 ## Build-time images
 
@@ -55,7 +57,7 @@ For local production checks, omit `SITE_URL` to use port 8080. Stop the running 
 
 `pnpm build` produces the images without starting a server. Rendering failures fail the build. The default configuration does not import or register the BFF plugin, and does not compile an image API. It also does not enable an SSG plugin or prerender article HTML. The images can be hosted as ordinary static files, while this example continues to render pages through SSR.
 
-This is an example-level plugin with an explicit list of articles. Next.js supplies its own file convention and static/dynamic route analysis. To integrate a CMS here, fetch and enumerate the required content during generation, then rebuild when it changes. Request-specific or newly added content that is unavailable at build time needs a separate generation workflow, such as the optional BFF configuration.
+This is an example-level plugin with an explicit list of articles. Next.js supplies its own file convention and static/dynamic route analysis. To integrate a CMS here, fetch and enumerate the required content during generation, then rebuild when it changes. Request-specific or newly added content that is unavailable at build time needs a separate generation workflow, such as the optional BFF mode.
 
 ## Build and deploy
 
@@ -79,20 +81,20 @@ Resvg uses a native binary on the machine generating the images. For the default
 ## Optional BFF mode
 
 ```bash
-pnpm dev:bff
+OG_IMAGE_MODE=bff pnpm dev
 # Or build and preview
-pnpm build:bff
-pnpm serve:bff
+OG_IMAGE_MODE=bff pnpm build
+OG_IMAGE_MODE=bff pnpm serve
 # Or create deployment output
-SITE_URL=https://journal.example.com MODERNJS_DEPLOY=node pnpm run deploy:bff
+SITE_URL=https://journal.example.com MODERNJS_DEPLOY=node OG_IMAGE_MODE=bff pnpm run deploy
 PORT=8080 node .output/index
 ```
 
-`modern.bff.config.ts` enables the BFF plugin and supplies `/api/og/<slug>?v=1` paths to the same page loader. `api/lambda/og/[slug].ts` calls the shared renderer and returns a standard `Response` containing a `Uint8Array`, with `Content-Type: image/png`. Returning a bare `Buffer` would use BFF's ordinary JSON serialization instead of this binary response path. Unknown articles return 404 with `Cache-Control: no-store`.
+With `OG_IMAGE_MODE=bff`, `modern.config.ts` loads and enables the BFF plugin and supplies `/api/og/<slug>?v=1` paths to the same page loader. `api/lambda/og/[slug].ts` calls the shared renderer and returns a standard `Response` containing a `Uint8Array`, with `Content-Type: image/png`. Returning a bare `Buffer` would use BFF's ordinary JSON serialization instead of this binary response path. Unknown articles return 404 with `Cache-Control: no-store`.
 
 For this mode, the server build copies the shared renderer and `shared/og/assets` into `dist/shared`, then `.output/shared`. Fonts are resolved relative to `__dirname`, so the output can run from another working directory without source files or system fonts. Keep the accompanying font license with the deployment.
 
-The package includes `@modern-js/plugin-bff` for this optional mode only. A standalone project using only build-time generation can remove that dependency, `api`, `modern.bff.config.ts` and the `*:bff` scripts.
+The package includes `@modern-js/plugin-bff` for this optional mode only. A standalone project using only build-time generation can remove that dependency, the `api` directory and the BFF branch in `modern.config.ts`.
 
 ## Verify a running server
 

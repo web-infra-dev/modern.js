@@ -2,22 +2,24 @@
 
 [English](./README.md)
 
-本示例使用 [Satori](https://github.com/vercel/satori) 和 [Resvg](https://github.com/thx/resvg-js)，将 JSX 模板渲染为 1200 × 630 的 PNG 分享封面。默认在构建时生成图片，以静态文件提供访问，同时保留独立的 BFF 配置作为请求时生成方案。
+本示例使用 [Satori](https://github.com/vercel/satori) 和 [Resvg](https://github.com/thx/resvg-js)，将 JSX 模板渲染为 1200 × 630 的 PNG 分享封面。默认在构建时生成图片，以静态文件提供访问，设置 `OG_IMAGE_MODE=bff` 可切换到通过 BFF 在请求时生成图片。
 
-两种配置的文章页面都使用 SSR。初始 HTML 包含标题、描述、规范地址和绝对地址形式的 `og:image`，分享爬虫无需执行 JavaScript。图片生成不依赖 SSG。
+两种模式的文章页面都使用 SSR。初始 HTML 包含标题、描述、规范地址和绝对地址形式的 `og:image`，分享爬虫无需执行 JavaScript。图片生成不依赖 SSG。
 
 ![实际生成的文章分享封面](./preview.png)
 
 [长标题预览](./preview-long-title.png)。两种模式共用模板和随附字体，生成相同的图片。
 
-|                | 构建时生成（默认）             | 请求时生成（可选）                  |
-| -------------- | ------------------------------ | ----------------------------------- |
-| 配置文件       | `modern.config.ts`             | `modern.bff.config.ts`              |
-| 开发           | `pnpm dev`                     | `pnpm dev:bff`                      |
-| 构建 / 预览    | `pnpm build` / `pnpm serve`    | `pnpm build:bff` / `pnpm serve:bff` |
-| 图片地址       | `/static/og/<slug>.<hash>.png` | `/api/og/<slug>?v=1`                |
-| 部署后渲染图片 | 无需渲染                       | 未命中缓存时由 BFF 渲染             |
-| 页面渲染       | SSR                            | SSR                                 |
+|                 | 构建时生成（默认）             | 请求时生成（可选）                                              |
+| --------------- | ------------------------------ | --------------------------------------------------------------- |
+| `OG_IMAGE_MODE` | `build`（默认）                | `bff`                                                           |
+| 开发            | `pnpm dev`                     | `OG_IMAGE_MODE=bff pnpm dev`                                    |
+| 构建 / 预览     | `pnpm build` / `pnpm serve`    | `OG_IMAGE_MODE=bff pnpm build` / `OG_IMAGE_MODE=bff pnpm serve` |
+| 图片地址        | `/static/og/<slug>.<hash>.png` | `/api/og/<slug>?v=1`                                            |
+| 部署后渲染图片  | 无需渲染                       | 未命中缓存时由 BFF 渲染                                         |
+| 页面渲染        | SSR                            | SSR                                                             |
+
+`modern.config.ts` 使用本示例自行定义的环境变量 `OG_IMAGE_MODE` 选择模式，两种模式共用这一个配置文件。
 
 ## 运行
 
@@ -42,7 +44,7 @@ SITE_URL=https://journal.example.com pnpm build
 pnpm serve
 ```
 
-本地验证生产模式时可省略 `SITE_URL`，使用默认的 8080 端口。切换模式前停止正在运行的服务，并使用配套的构建和预览命令。
+本地验证生产模式时可省略 `SITE_URL`，使用默认的 8080 端口。切换模式前停止正在运行的服务，构建和预览时应使用相同的 `OG_IMAGE_MODE`，切换后需重新构建。
 
 ## 构建时生成图片
 
@@ -55,7 +57,7 @@ pnpm serve
 
 执行 `pnpm build` 即可生成图片，无需先启动服务。图片渲染失败会使构建失败。默认配置不导入或注册 BFF 插件，也不会编译图片 API。它没有启用 SSG 插件，也不会预渲染文章 HTML。图片可以交给普通静态文件服务托管，本示例的页面仍然使用 SSR。
 
-这里实现的是示例内插件，文章列表由代码显式提供。Next.js 则提供框架内置的文件约定和静态、动态路由分析。接入 CMS 时，应在生成阶段获取并枚举需要的内容，内容变化后重新构建。依赖请求信息或构建时尚不存在的内容，需要另行触发生成，也可以选用本示例的 BFF 配置。
+这里实现的是示例内插件，文章列表由代码显式提供。Next.js 则提供框架内置的文件约定和静态、动态路由分析。接入 CMS 时，应在生成阶段获取并枚举需要的内容，内容变化后重新构建。依赖请求信息或构建时尚不存在的内容，需要另行触发生成，也可以选用本示例的 BFF 模式。
 
 ## 构建和部署
 
@@ -79,20 +81,20 @@ Resvg 在执行图片生成的机器上需要原生二进制模块。默认模�
 ## 可选的 BFF 模式
 
 ```bash
-pnpm dev:bff
+OG_IMAGE_MODE=bff pnpm dev
 # 或构建后预览
-pnpm build:bff
-pnpm serve:bff
+OG_IMAGE_MODE=bff pnpm build
+OG_IMAGE_MODE=bff pnpm serve
 # 或生成部署产物
-SITE_URL=https://journal.example.com MODERNJS_DEPLOY=node pnpm run deploy:bff
+SITE_URL=https://journal.example.com MODERNJS_DEPLOY=node OG_IMAGE_MODE=bff pnpm run deploy
 PORT=8080 node .output/index
 ```
 
-`modern.bff.config.ts` 启用 BFF 插件，向同一个页面 loader 提供 `/api/og/<slug>?v=1` 形式的图片路径。`api/lambda/og/[slug].ts` 调用共享渲染器，返回包含 `Uint8Array` 的标准 `Response`，并设置 `Content-Type: image/png`。直接返回 `Buffer` 会进入 BFF 普通 JSON 序列化流程，无法得到这里需要的二进制响应。未知文章返回 404，并设置 `Cache-Control: no-store`。
+设置 `OG_IMAGE_MODE=bff` 后，`modern.config.ts` 加载并启用 BFF 插件，向同一个页面 loader 提供 `/api/og/<slug>?v=1` 形式的图片路径。`api/lambda/og/[slug].ts` 调用共享渲染器，返回包含 `Uint8Array` 的标准 `Response`，并设置 `Content-Type: image/png`。直接返回 `Buffer` 会进入 BFF 普通 JSON 序列化流程，无法得到这里需要的二进制响应。未知文章返回 404，并设置 `Cache-Control: no-store`。
 
 此模式的服务端构建会将共享渲染器和 `shared/og/assets` 复制到 `dist/shared`，部署时再复制到 `.output/shared`。字体相对于 `__dirname` 读取，因此在其他工作目录启动产物也不需要源码或系统字体。部署时保留随附的字体许可证。
 
-`package.json` 中保留 `@modern-js/plugin-bff` 仅用于这个可选方案。复制为只使用构建时生成的独立项目时，可以移除该依赖、`api` 目录、`modern.bff.config.ts` 和 `*:bff` 脚本。
+`package.json` 中保留 `@modern-js/plugin-bff` 仅用于这个可选方案。复制为只使用构建时生成的独立项目时，可以移除该依赖、`api` 目录和 `modern.config.ts` 中的 BFF 分支。
 
 ## 验证运行中的服务
 
