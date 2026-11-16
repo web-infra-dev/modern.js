@@ -12,7 +12,7 @@ import {
 
 const fixtureDir = path.resolve(__dirname, '../fixtures/streaming');
 
-type RouteAssets = Record<string, { assets?: string[]; ownAssets?: string[] }>;
+type RouteAssets = Record<string, { assets?: string[] }>;
 
 const getScriptPreloads = (html: string) =>
   [
@@ -129,7 +129,7 @@ describe.each([
       ).toEqual([]);
     });
 
-    test('preloads only the route module at the default priority', () => {
+    test('preloads the route js at low priority', () => {
       const lowPriority = new Set(
         [
           ...html.matchAll(
@@ -137,16 +137,8 @@ describe.each([
           ),
         ].map(match => match[1]),
       );
-      for (const id of matchedRouteIds) {
-        const own = routeAssets[id].ownAssets ?? [];
-        expect(
-          own.some(asset => asset.includes(`/async/${id}`)),
-          `${id} own chunk`,
-        ).toBe(true);
-        for (const asset of routeAssets[id].assets ?? []) {
-          if (!getScriptPreloads(html).includes(asset)) continue;
-          expect(lowPriority.has(asset), asset).toBe(!own.includes(asset));
-        }
+      for (const asset of getRouteScripts()) {
+        expect(lowPriority.has(asset), asset).toBe(true);
       }
     });
 

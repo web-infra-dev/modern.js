@@ -141,37 +141,15 @@ describe('stream SSR route script preload', () => {
       config: {},
     });
     expect(getPreloads(html)).toEqual([
-      '<link rel="preload" as="script" href="/static/js/async/shared.js" />',
-      '<link rel="preload" as="script" href="/static/js/async/user/layout.js" />',
-      '<link rel="preload" as="script" href="/static/js/async/user/[id]/page.js" />',
+      '<link rel="preload" as="script" href="/static/js/async/shared.js" fetchpriority="low" />',
+      '<link rel="preload" as="script" href="/static/js/async/user/layout.js" fetchpriority="low" />',
+      '<link rel="preload" as="script" href="/static/js/async/user/[id]/page.js" fetchpriority="low" />',
     ]);
     // Route css keeps working and stays before the preloads.
     expect(html).toContain(
       '<link href="/static/css/async/user/layout.css" rel="stylesheet" /><link rel="preload"',
     );
     expect(html).not.toContain('user/page.js');
-  });
-
-  test('preloads the chunks split out of route dependencies at low priority', async () => {
-    const runtimeContext = createRuntimeContext('/user/1');
-    const { routeAssets } = runtimeContext.routeManifest;
-    routeAssets['user/layout'].ownAssets = [
-      '/static/js/async/user/layout.js',
-      '/static/css/async/user/layout.css',
-    ];
-    routeAssets['user/[id]/page'].ownAssets = [
-      '/static/js/async/user/[id]/page.js',
-    ];
-    const html = await buildShellBeforeTemplate(template, {
-      runtimeContext,
-      entryName: 'main',
-      config: {},
-    });
-    expect(getPreloads(html)).toEqual([
-      '<link rel="preload" as="script" href="/static/js/async/shared.js" fetchpriority="low" />',
-      '<link rel="preload" as="script" href="/static/js/async/user/layout.js" />',
-      '<link rel="preload" as="script" href="/static/js/async/user/[id]/page.js" />',
-    ]);
   });
 
   test('skips scripts already loaded or preloaded by the template', async () => {
@@ -188,8 +166,8 @@ describe('stream SSR route script preload', () => {
     );
     expect(getPreloads(html)).toEqual([
       '<link rel="preload" as="script" href="/static/js/async/shared.js">',
-      '<link rel="preload" as="script" href="/static/js/async/user/layout.js" />',
-      '<link rel="preload" as="script" href="/static/js/async/user/[id]/page.js" />',
+      '<link rel="preload" as="script" href="/static/js/async/user/layout.js" fetchpriority="low" />',
+      '<link rel="preload" as="script" href="/static/js/async/user/[id]/page.js" fetchpriority="low" />',
     ]);
   });
 
@@ -235,9 +213,9 @@ describe('stream SSR route script preload', () => {
     });
     expect(getPreloads(html)).toEqual([
       // same origin chunk: the runtime does not set crossOrigin
-      '<link rel="preload" as="script" href="/static/js/async/shared.js" nonce="abc" />',
-      '<link rel="preload" as="script" href="/static/js/async/user/layout.js" nonce="abc" />',
-      '<link rel="preload" as="script" href="https://cdn.example.com/static/js/async/user/[id]/page.js" nonce="abc" crossorigin="anonymous" />',
+      '<link rel="preload" as="script" href="/static/js/async/shared.js" nonce="abc" fetchpriority="low" />',
+      '<link rel="preload" as="script" href="/static/js/async/user/layout.js" nonce="abc" fetchpriority="low" />',
+      '<link rel="preload" as="script" href="https://cdn.example.com/static/js/async/user/[id]/page.js" nonce="abc" crossorigin="anonymous" fetchpriority="low" />',
     ]);
 
     const credentials = await buildShellBeforeTemplate(template, {
@@ -246,7 +224,7 @@ describe('stream SSR route script preload', () => {
       config: { crossorigin: 'use-credentials' },
     });
     expect(credentials).toContain(
-      'href="/static/js/async/shared.js" crossorigin="use-credentials" />',
+      'href="/static/js/async/shared.js" crossorigin="use-credentials" fetchpriority="low" />',
     );
   });
 

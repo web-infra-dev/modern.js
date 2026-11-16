@@ -241,7 +241,7 @@ function ErrorElement() {
 
 - 入口已经通过 `<script>` 加载的文件，以及 HTML 中已有 `<script src>` 或 `preload` 的文件不会重复输出。
 - 只预加载命中的路由本身，路由组件内部通过 `import()`、`React.lazy` 懒加载的模块不会预加载。
-- 路由模块本身按默认优先级预加载；从它的依赖里拆出来的 chunk 带 `fetchpriority="low"`，避免和入口脚本、样式表抢带宽。
+- 这些 preload 都带 `fetchpriority="low"`，路由的 chunk 很多时不会和样式表等阻塞渲染的资源抢带宽。
 - 标签带上 [`security.nonce`](/configure/app/security/nonce)。配置 [`html.crossorigin`](/configure/app/html/crossorigin) 时，`crossorigin` 属性与运行时加载 chunk 的方式保持一致。
 
 可以通过 [`server.ssr.preloadRouteScripts`](/configure/app/server/ssr) 关闭：

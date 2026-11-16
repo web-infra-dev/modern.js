@@ -235,7 +235,7 @@ With conventional routing, streaming rendering outputs `<link rel="preload" as="
 
 - Files already loaded by the entry `<script>` tags, and files already referenced by a `<script src>` or `preload` in the HTML, are not output again.
 - Only the matched routes are preloaded. Modules lazy loaded inside the route components with `import()` or `React.lazy` are not preloaded.
-- The route modules themselves are preloaded at the default priority. The chunks split out of their dependencies are preloaded with `fetchpriority="low"`, so they do not compete with the entry scripts and stylesheets.
+- All of them are preloaded with `fetchpriority="low"`, so a route with many chunks does not take bandwidth from render-blocking resources such as stylesheets.
 - The tags carry [`security.nonce`](/configure/app/security/nonce). When [`html.crossorigin`](/configure/app/html/crossorigin) is set, the `crossorigin` attribute matches the way the runtime loads chunks.
 
 It can be disabled with [`server.ssr.preloadRouteScripts`](/configure/app/server/ssr):

@@ -52,7 +52,6 @@ export interface BuildShellBeforeTemplateOptions {
 
 type RouteAssetsItem = {
   assets?: string[];
-  ownAssets?: string[];
   referenceCssAssets?: string[];
 };
 
@@ -197,10 +196,9 @@ export async function buildShellBeforeTemplate(
      * React reaches the lazy route component. Only the matched routes are
      * preloaded, not the lazy chunks they import.
      *
-     * The route module itself (`ownAssets`) is preloaded at the default
-     * priority. The chunks split out of its dependencies can be many and large,
-     * so they are preloaded with `fetchpriority="low"` to keep them from
-     * competing with the entry scripts and stylesheets.
+     * A route can bring many chunks split out of its dependencies. All of them
+     * are preloaded with `fetchpriority="low"`, so they do not take bandwidth
+     * from render-blocking resources such as stylesheets.
      */
     function getScriptPreloads(matchedRouteManifests?: RouteAssetsItem[]) {
       if (!matchedRouteManifests?.length) {
@@ -223,9 +221,7 @@ export async function buildShellBeforeTemplate(
       ]);
 
       const preloads: string[] = [];
-      for (const { assets = [], ownAssets } of matchedRouteManifests) {
-        // Manifests built before `ownAssets` existed keep the old behavior.
-        const own = new Set(ownAssets ?? assets);
+      for (const { assets = [] } of matchedRouteManifests) {
         for (const asset of assets) {
           if (!asset.endsWith('.js') || excluded.has(asset)) {
             continue;
@@ -234,7 +230,7 @@ export async function buildShellBeforeTemplate(
           const attributes = attributesToString({
             nonce: config.nonce,
             crossorigin: getPreloadCrossOrigin(asset, config.crossorigin),
-            fetchpriority: own.has(asset) ? undefined : 'low',
+            fetchpriority: 'low',
           });
           preloads.push(
             `<link rel="preload" as="script" href="${asset}"${attributes} />`,
