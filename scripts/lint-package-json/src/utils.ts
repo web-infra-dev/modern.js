@@ -1,7 +1,7 @@
 import { join } from 'path';
 import chalk from 'chalk';
 
-export const ROOT = join(process.cwd(), '..', '..');
+export const ROOT = join(__dirname, '..', '..', '..');
 
 export function isArrayEqual(arr1: unknown[], arr2: unknown[]) {
   if (arr1.length !== arr2.length) {

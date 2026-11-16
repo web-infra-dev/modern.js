@@ -58,3 +58,7 @@ jobs:
       - name: Type Check
         if: ${{steps.skip-ci.outputs.RESULT != 'true'}}
         run: pnpm run prepare
+
+      - name: Check published package artifacts
+        if: ${{steps.skip-ci.outputs.RESULT != 'true'}}
+        run: pnpm run check-package-artifacts

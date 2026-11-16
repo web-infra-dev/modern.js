@@ -1,4 +1,4 @@
-import type { NodeRequest, NodeResponse } from '@modern-js/server-core/node';
+import type { NodeRequest, NodeResponse } from './server';
 import type { DevProxyOptions, NextFunction } from './utils';
 
 export type DevServerHttpsOptions = boolean | { key: string; cert: string };

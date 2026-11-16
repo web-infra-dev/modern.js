@@ -7,6 +7,7 @@ on:
   pull_request:
     branches:
       - main
+  merge_group:
 
 jobs:
   check:
@@ -28,7 +29,7 @@ jobs:
           cache: 'pnpm'
 
       - name: Install dependencies
-        run: pnpm install --ignore-scripts
+        run: pnpm install --ignore-scripts --frozen-lockfile
 
       - name: Check dependency version consistency
         run: pnpm run check-dependencies

@@ -105,8 +105,12 @@
     "@types/qs": "^6.15.1",
     "@types/type-is": "^1.6.7",
     "memfs": "^3.5.3",
+    "reflect-metadata": "^0.2.2",
     "typescript": "^5",
     "zod": "^4.0.0"
+  },
+  "peerDependencies": {
+    "@modern-js/app-tools": "workspace:^"
   },
   "sideEffects": false,
   "publishConfig": {

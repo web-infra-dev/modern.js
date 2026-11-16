@@ -46,4 +46,4 @@
 
 - 环境搭建与开发流程：见[贡献指南](packages/document/docs/zh/community/contributing-guide.mdx)。
 - 提交 PR：遵循 [PR 模板](.github/PULL_REQUEST_TEMPLATE.md)，说明改动、关联 issue 和验证结果。涉及用户行为或 API 的改动同步更新文档。提交信息和 PR 标题遵循 Conventional Commits。
-- 依赖排查：使用 [dependency-audit](.agents/skills/dependency-audit/SKILL.md)。
+- 依赖检查：执行 `pnpm check-dependencies` 和 `pnpm lint:package-json`；构建后执行 `pnpm check-package-artifacts`。规则与依赖归属说明见[检查指南](scripts/lint-package-json/README.md)。

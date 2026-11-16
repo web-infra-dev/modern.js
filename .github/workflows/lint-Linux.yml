@@ -39,9 +39,12 @@ jobs:
           cache: 'pnpm'
 
       - name: Install Dependencies
-        run: pnpm install --ignore-scripts
+        run: pnpm install --ignore-scripts --frozen-lockfile
 
-      - name: Lint package.json
+      - name: Test dependency checks
+        run: pnpm run test:dependencies
+
+      - name: Lint package.json and source dependencies
         run: pnpm run lint:package-json
 
       - name: Check Lint and Formatting

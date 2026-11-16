@@ -94,7 +94,7 @@
         "./dist/compiled/chalk/index.d.ts"
       ],
       "json5": [
-        "./dist/compiled/json5/index.d.ts"
+        "./dist/compiled/json5/lib/index.d.ts"
       ],
       "semver": [
         "./dist/compiled/semver/index.d.ts"
@@ -109,7 +109,7 @@
         "./dist/compiled/fs-extra/index.d.ts"
       ],
       "fast-glob": [
-        "./dist/compiled/fast-glob/index.d.ts"
+        "./dist/compiled/fast-glob/out/index.d.ts"
       ],
       "gzip-size": [
         "./dist/compiled/gzip-size/index.d.ts"
@@ -141,6 +141,7 @@
     "test": "rstest --passWithNoTests"
   },
   "dependencies": {
+    "@modern-js/types": "workspace:*",
     "@swc/helpers": "^0.5.17",
     "caniuse-lite": "^1.0.30001520",
     "import-meta-resolve": "^4.2.0",
@@ -150,13 +151,13 @@
   },
   "devDependencies": {
     "@modern-js/rslib": "workspace:*",
-    "@modern-js/types": "workspace:*",
     "@scripts/rstest-config": "workspace:*",
     "@types/node": "^20",
     "happy-dom": "^21.0.4",
     "typescript": "^5"
   },
   "peerDependencies": {
+    "@types/node": ">=20",
     "react": "^19.3.1",
     "react-dom": "^19.3.1"
   },

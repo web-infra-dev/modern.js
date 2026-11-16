@@ -46,8 +46,16 @@ define.lint(({ js, ts }) => [
 
 define.staged({
   '*.{md,mdx,json,json5,yml,yaml,css,less,scss,html}': 'rs fmt',
-  '*.{js,jsx,ts,tsx,cjs,mjs,mts}': ['rs lint', 'rs fmt'],
-  '**/package.json': ['pnpm check-dependencies'],
+  '*.{js,jsx,ts,tsx,cjs,mjs,mts,cts}': ['rs lint', 'rs fmt'],
+  '*.{js,jsx,ts,tsx,cjs,mjs,mts,cts,json,jsonc}': files => {
+    const manifestsChanged = files.some(file =>
+      file.replaceAll('\\', '/').endsWith('/package.json'),
+    );
+    return [
+      ...(manifestsChanged ? ['pnpm check-dependencies --staged'] : []),
+      'pnpm lint:package-json --staged',
+    ];
+  },
 });
 
 define.fmt({

@@ -21,7 +21,7 @@ tests/
 .idea/
 
 src/
-compiled/
+/compiled/
 
 modern.config.*
 .eslintrc.js

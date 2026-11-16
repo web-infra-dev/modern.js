@@ -1,50 +1,52 @@
-import { join } from 'path';
+import path from 'node:path';
 import logger from 'consola';
-import glob from 'fast-glob';
-import fs from 'fs-extra';
 import { lintExportsField } from './rules/lintExportsField';
 import { lintWorkspaceProtocol } from './rules/lintWorkspaceProtocol';
 import { noCyclicWorkspaceDependencies } from './rules/noCyclicWorkspaceDependencies';
+import type { PackageManifest } from './sourceDependencies';
+import {
+  checkSourceDependencies,
+  createSourceInput,
+  readManifests,
+} from './sourceDependencies';
 import { ROOT } from './utils';
 
-export type PackageJSON = {
+export interface PackageJSON {
   path: string;
-  content: {
-    name: string;
-    dependencies?: Record<string, string>;
-    devDependencies?: Record<string, string>;
-    [key: string]: any;
-  };
-};
-
-async function getAllPackageJson(): Promise<PackageJSON[]> {
-  const pattern = join(ROOT, 'packages', '**', 'package.json');
-  const files = glob.sync(pattern, {
-    ignore: ['**/node_modules/**'],
-  });
-
-  const contents = await Promise.all(files.map(file => fs.readJsonSync(file)));
-
-  return files.map((file, index) => ({
-    path: file,
-    content: contents[index],
-  }));
+  content: PackageManifest;
 }
 
 async function run() {
-  const packageJSONs = await getAllPackageJson();
+  const input = await createSourceInput(
+    ROOT,
+    process.argv.includes('--staged'),
+  );
+  const packageJSONs = await readManifests(input);
+  const selected = input.changed
+    ? packageJSONs.filter(item =>
+        input.changed!.some(file => item.path === path.join(ROOT, file)),
+      )
+    : packageJSONs;
   const result = [
-    lintExportsField(packageJSONs),
-    lintWorkspaceProtocol(packageJSONs),
+    lintExportsField(selected),
+    lintWorkspaceProtocol(selected),
     noCyclicWorkspaceDependencies(packageJSONs),
   ];
-
-  if (result.some(Boolean)) {
+  const issues = await checkSourceDependencies(input);
+  for (const issue of issues) {
+    logger.error(
+      `[undeclared-dependency] ${issue.package} ${issue.file}:${issue.line} imports undeclared ${issue.dependency}`,
+    );
+  }
+  if (result.some(Boolean) || issues.length > 0) {
     logger.fatal('Lint package.json failed, please fix the errors.');
-    process.exit(1);
+    process.exitCode = 1;
   } else {
     logger.success('Lint package.json passed.');
   }
 }
 
-run();
+run().catch(error => {
+  logger.error(error);
+  process.exitCode = 1;
+});

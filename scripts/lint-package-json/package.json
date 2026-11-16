@@ -5,7 +5,9 @@
   "scripts": {
     "dev": "tsc --watch",
     "build": "tsc",
-    "start": "tsx ./src/index.ts"
+    "start": "tsx ./src/index.ts",
+    "check-artifacts": "tsx ./src/checkArtifacts.ts",
+    "test": "rstest run"
   },
   "dependencies": {
     "@types/fs-extra": "9.0.13",
@@ -15,6 +17,9 @@
     "fs-extra": "^10.1.0"
   },
   "devDependencies": {
-    "tsx": "^3.14.0"
+    "@rstest/core": "0.12.3",
+    "@types/node": "^20",
+    "tsx": "^3.14.0",
+    "typescript": "^5"
   }
 }

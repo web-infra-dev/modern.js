@@ -230,6 +230,7 @@
     "react-is": "^18.3.1"
   },
   "peerDependencies": {
+    "@modern-js/app-tools": "workspace:^",
     "react": ">=18.3.1",
     "react-dom": ">=18.3.1"
   },

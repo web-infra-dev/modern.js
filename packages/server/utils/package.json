@@ -53,6 +53,9 @@
     "@types/node": "^20",
     "typescript": "^5"
   },
+  "peerDependencies": {
+    "@modern-js/server-core": "workspace:^"
+  },
   "sideEffects": false,
   "publishConfig": {
     "registry": "https://registry.npmjs.org/",

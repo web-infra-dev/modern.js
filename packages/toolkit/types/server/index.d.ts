@@ -5,6 +5,5 @@ export * from './route';
 export * from './bff';
 export * from './server';
 export * from './devServer';
-export * from './middleware';
 export * from './monitor';
 export * from './rsc';

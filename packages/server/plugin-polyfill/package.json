@@ -81,6 +81,10 @@
     "@types/ua-parser-js": "^0.7.39",
     "typescript": "^5"
   },
+  "peerDependencies": {
+    "@modern-js/app-tools": "workspace:^",
+    "@modern-js/server-core": "workspace:^"
+  },
   "sideEffects": false,
   "publishConfig": {
     "registry": "https://registry.npmjs.org/",

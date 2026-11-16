@@ -99,6 +99,7 @@
     "i18next-http-middleware": "^3.10.0"
   },
   "peerDependencies": {
+    "@modern-js/app-tools": "workspace:^",
     "react": ">=18.3.1",
     "react-dom": ">=18.3.1",
     "i18next": ">=25.10.10",
@@ -117,6 +118,7 @@
     "@modern-js/app-tools": "workspace:*",
     "@modern-js/rslib": "workspace:*",
     "@modern-js/runtime": "workspace:*",
+    "@scripts/rstest-config": "workspace:*",
     "@types/node": "^20",
     "i18next": "25.10.10",
     "react": "^19.3.1",

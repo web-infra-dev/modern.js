@@ -27,17 +27,20 @@
   },
   "dependencies": {
     "@modern-js/app-tools": "workspace:*",
+    "@rsbuild/core": "2.3.2",
     "@rstest/adapter-rsbuild": "^0.12.3"
   },
   "devDependencies": {
     "@modern-js/rslib": "workspace:*",
     "@modern-js/tsconfig": "workspace:*",
     "@modern-js/types": "workspace:*",
-    "@rsbuild/core": "2.3.2",
     "@rstest/core": "0.12.3",
     "@scripts/rstest-config": "workspace:*",
     "@types/node": "^20",
     "typescript": "^5"
+  },
+  "peerDependencies": {
+    "@rstest/core": "0.12.3"
   },
   "sideEffects": false,
   "publishConfig": {

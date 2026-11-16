@@ -1,6 +1,6 @@
 # 维护者 Skills
 
-本目录存放开发 Modern.js 仓库时使用的 Skills，目前提供 [dependency-audit](dependency-audit/SKILL.md) 做依赖健康检查。
+本目录用于存放仅供 Modern.js 仓库维护者使用的 Skills。依赖检查由仓库 scripts、Git hooks 和 CI 执行，入口见[检查指南](../../scripts/lint-package-json/README.md)。
 
 本目录的 Skill 在 frontmatter 中设置 `metadata.internal: true`，避免出现在 `skills` CLI 的默认安装列表中。
 

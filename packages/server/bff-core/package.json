@@ -35,6 +35,7 @@
     "test": "rstest --passWithNoTests"
   },
   "dependencies": {
+    "@modern-js/types": "workspace:*",
     "@modern-js/utils": "workspace:*",
     "@swc/helpers": "^0.5.17",
     "koa-compose": "^4.1.0",
@@ -43,7 +44,6 @@
   },
   "devDependencies": {
     "@modern-js/rslib": "workspace:*",
-    "@modern-js/types": "workspace:*",
     "@scripts/rstest-config": "workspace:*",
     "@types/koa-compose": "^3.2.9",
     "@types/node": "^20",

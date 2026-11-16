@@ -56,12 +56,12 @@
   "dependencies": {
     "@modern-js/runtime-utils": "workspace:*",
     "@modern-js/server-core": "workspace:*",
+    "@modern-js/types": "workspace:*",
     "@modern-js/utils": "workspace:*",
     "@swc/helpers": "^0.5.17"
   },
   "devDependencies": {
     "@modern-js/rslib": "workspace:*",
-    "@modern-js/types": "workspace:*",
     "@scripts/rstest-config": "workspace:*",
     "@types/merge-deep": "^3.0.3",
     "@types/node": "^20",

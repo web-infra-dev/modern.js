@@ -71,6 +71,7 @@
     "websocket": "^1.0.35"
   },
   "peerDependencies": {
+    "@modern-js/builder": "workspace:^",
     "devcert": "^1.2.3",
     "ts-node": "^10.9.2",
     "tsconfig-paths": ">= 3.0.0 || >= 4.0.0"

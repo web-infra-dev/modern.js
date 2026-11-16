@@ -62,6 +62,7 @@
   },
   "dependencies": {
     "@modern-js/runtime-utils": "workspace:*",
+    "@modern-js/types": "workspace:*",
     "@modern-js/utils": "workspace:*",
     "@swc/helpers": "^0.5.17",
     "encoding": "^0.1.14",
@@ -70,7 +71,6 @@
   },
   "devDependencies": {
     "@modern-js/rslib": "workspace:*",
-    "@modern-js/types": "workspace:*",
     "@scripts/rstest-config": "workspace:*",
     "@types/node": "^20",
     "@types/qs": "^6.15.1",

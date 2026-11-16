@@ -37,11 +37,13 @@
       ]
     }
   },
-  "devDependencies": {
-    "@types/babel__core": "^7.20.5",
-    "@types/node": "^20",
+  "dependencies": {
     "http-proxy-middleware": "^2.0.11",
     "type-fest": "2.19.0"
+  },
+  "devDependencies": {
+    "@types/babel__core": "^7.20.5",
+    "@types/node": "^20"
   },
   "sideEffects": false,
   "publishConfig": {
