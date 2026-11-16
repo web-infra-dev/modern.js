@@ -4,7 +4,7 @@ import type { Rspack } from '@modern-js/builder';
 export function createDevAssetMatcher(
   fallbackPrefix: () => string | undefined,
 ) {
-  const compilations = new Map<Rspack.Compiler, Rspack.Compilation>();
+  const current = new Map<Rspack.Compiler, Set<string>>();
   const completed = new Map<Rspack.Compiler, Set<string>>();
   const assets = (compilation: Rspack.Compilation) =>
     new Set(compilation.getAssets().map(asset => asset.name));
@@ -14,12 +14,19 @@ export function createDevAssetMatcher(
       child.hooks.thisCompilation.tap(
         'ModernDevAssetOwnership',
         compilation => {
-          compilations.set(child, compilation);
+          current.set(child, new Set());
+          // Native compilations may be invalidated by the next watch rebuild.
+          // Capture plain names inside compilation hooks, never in HTTP handlers.
+          compilation.hooks.processAssets.tap(
+            { name: 'ModernDevAssetOwnership', stage: Infinity },
+            () => current.set(child, assets(compilation)),
+          );
         },
       );
       child.hooks.done.tap('ModernDevAssetOwnership', stats => {
-        compilations.set(child, stats.compilation);
-        if (!stats.hasErrors()) completed.set(child, assets(stats.compilation));
+        const names = assets(stats.compilation);
+        current.set(child, names);
+        if (!stats.hasErrors()) completed.set(child, names);
       });
     }
   };
@@ -31,7 +38,7 @@ export function createDevAssetMatcher(
     } catch {
       return false;
     }
-    for (const [compiler, compilation] of compilations) {
+    for (const [compiler, names] of current) {
       const configured = compiler.options.output?.publicPath;
       const publicPath =
         typeof configured === 'string' && configured !== 'auto'
@@ -44,10 +51,7 @@ export function createDevAssetMatcher(
       if (!pathname.startsWith(prefix)) continue;
       const filename = pathname.slice(prefix.length);
       if (/\.html?$/i.test(filename)) continue;
-      if (
-        compilation.getAsset(filename) ||
-        completed.get(compiler)?.has(filename)
-      )
+      if (names.has(filename) || completed.get(compiler)?.has(filename))
         return true;
     }
     return false;

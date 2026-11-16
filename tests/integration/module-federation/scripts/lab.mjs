@@ -29,8 +29,10 @@ export async function startLab(
   options = {},
 ) {
   const { updates, portAttempt = 0 } = options;
-  if (updates && !['ordinary', 'bridge', 'service'].includes(updates))
+  if (updates && !['ordinary', 'bridge', 'service', 'all'].includes(updates))
     throw new Error(`Unknown update scenario: ${updates}`);
+  if (updates === 'all' && mode !== 'dev')
+    throw new Error('The combined update lab is development-only');
   if (updates && serviceOnly)
     throw new Error('Update scenarios use the Weather Lab host');
   const names = updates
@@ -137,7 +139,8 @@ export async function startLab(
   const env = {
     ...process.env,
     MF_LAB_PORTS: JSON.stringify(ports),
-    MF_LAB_SERVICE: serviceOnly || updates === 'service' ? '1' : '',
+    MF_LAB_SERVICE:
+      serviceOnly || updates === 'service' || updates === 'all' ? '1' : '',
     MF_LAB_UPDATES: updates || '',
     MF_LAB_MODE: mode,
     MODERN_MF_AUTO_CORS: '1',

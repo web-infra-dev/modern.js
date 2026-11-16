@@ -21,13 +21,30 @@ function compiler(publicPath: string) {
   return {
     value: value as any,
     compile(names: string[], failed = false) {
+      let expired = false;
+      let processAssets!: () => void;
       const compilation = {
-        getAssets: () => names.map(name => ({ name })),
-        getAsset: (name: string) =>
-          names.includes(name) ? { name } : undefined,
+        hooks: {
+          processAssets: {
+            tap: (_options: unknown, callback: () => void) => {
+              processAssets = callback;
+            },
+          },
+        },
+        getAssets: () => {
+          if (expired) throw new Error('Native compilation has expired');
+          return names.map(name => ({ name }));
+        },
+        getAsset: () => {
+          throw new Error(
+            'Native compilation must not be read by HTTP requests',
+          );
+        },
       };
       current(compilation);
+      processAssets();
       done({ compilation, hasErrors: () => failed });
+      expired = true;
     },
   };
 }
@@ -50,4 +67,21 @@ it('recognizes actual emitted assets under their compiler publicPath while retai
   client.compile(['new.js'], true);
   expect(isAsset('/assets/static/main.js')).toBe(true);
   expect(isAsset('/assets/new.js')).toBe(true);
+});
+
+it('replaces successful asset snapshots without retaining expired compilation objects', () => {
+  const matcher = createDevAssetMatcher(() => '/');
+  const child = compiler('auto');
+  matcher.track(child.value);
+  const asset = (name: string) =>
+    matcher.isAsset(new Request(`http://localhost/${name}`));
+  child.compile(['old.js']);
+  expect(asset('old.js')).toBe(true);
+  child.compile(['new.js']);
+  expect(asset('old.js')).toBe(false);
+  expect(asset('new.js')).toBe(true);
+  child.compile(['failed.js'], true);
+  expect(asset('new.js')).toBe(true);
+  expect(asset('failed.js')).toBe(true);
+  expect(asset('business.json')).toBe(false);
 });

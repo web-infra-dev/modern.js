@@ -20,14 +20,22 @@ const versions = (mode === 'production' ? ['v1', 'v2'] : ['v1']).map(
     url: `http://localhost:${ports[version === 'v2' ? 'providerV2' : 'provider']}/static/mf-manifest.json`,
   }),
 );
-const frameUrl =
-  scenario === 'service'
+const frameUrl = (selectedScenario: string | undefined) =>
+  selectedScenario === 'service'
     ? '/service/forecast/today'
-    : scenario === 'bridge'
+    : selectedScenario === 'bridge'
       ? '/bridge-ssr/forecast/today'
       : '/weather?render=ssr&data=local&updates=1';
 let selectedVersion = 'v1';
-const state = () => ({ mode, scenario, selectedVersion, versions, frameUrl });
+const state = (
+  selectedScenario = scenario === 'all' ? 'ordinary' : scenario,
+) => ({
+  mode,
+  scenario: selectedScenario,
+  selectedVersion,
+  versions,
+  frameUrl: frameUrl(selectedScenario),
+});
 
 export default defineServerConfig({
   middlewares: [
@@ -46,7 +54,19 @@ export default defineServerConfig({
           });
         if (request.method === 'GET' && url.pathname === '/_lab/update/state') {
           const version = url.searchParams.get('version');
-          if (!version) return json(state());
+          if (!version) {
+            const selectedScenario =
+              scenario === 'all'
+                ? url.searchParams.get('scenario') || 'ordinary'
+                : scenario;
+            if (
+              !['ordinary', 'bridge', 'service'].includes(
+                selectedScenario || '',
+              )
+            )
+              return json({ error: 'Unknown update scenario' }, 400);
+            return json(state(selectedScenario));
+          }
           const candidate = versions.find(item => item.version === version);
           if (!candidate)
             return json({ error: 'Unknown producer version' }, 400);

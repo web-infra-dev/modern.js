@@ -69,11 +69,14 @@ The checked-in MF dependencies are pinned to published preview `0.0.0-feat-enhan
 The existing Weather Lab shell has an `/updates` page with one iframe. Select a scenario when starting it:
 
 ```sh
+pnpm --filter mf-lab-tests dev --updates=all
 pnpm --filter mf-lab-tests dev --updates=ordinary
 pnpm --filter mf-lab-tests dev --updates=bridge
 pnpm --filter mf-lab-tests dev --updates=service
 pnpm --filter mf-lab-tests dev --production --updates=service
 ```
+
+`--updates=all` starts one development Host and producer directly from this repository's `host` and `provider` directories. Open `/updates?scenario=ordinary`, `/updates?scenario=bridge` or `/updates?scenario=service` on that Host. All three pages observe the same source edits, without copied workspaces or competing compilation outputs. This combined producer includes Service exposes, so its updates can require document reloads. The three single-scenario commands remain available for isolated scenarios. Combined mode is development-only.
 
 Development starts the Host and one producer. Edit `tests/integration/module-federation/provider/src/update-version.tsx` from the repository root and watch the iframe change through the real development subscription and HMR or reload path. The shell observes the document without requesting an update or changing its URL. Ordinary React uses `/weather?render=ssr&data=local&updates=1`, Bridge uses `/bridge-ssr/forecast/today`, and Service uses `/service/forecast/today`.
 
