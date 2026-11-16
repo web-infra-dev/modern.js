@@ -26,6 +26,14 @@ export const getPreloadCrossOrigin = (
   return /^([a-z][a-z\d+\-.]*:)?\/\//i.test(href) ? value : undefined;
 };
 
+/**
+ * With Subresource Integrity the bundler runtime sets `crossorigin` on every
+ * chunk it loads, same origin or not: `output.crossOriginLoading`, which
+ * Rsbuild defaults to `anonymous` when `security.sri` is enabled.
+ */
+export const getIntegrityCrossOrigin = (crossorigin: CrossOrigin) =>
+  crossorigin === 'use-credentials' ? crossorigin : 'anonymous';
+
 const escapeAttribute = (value: string) =>
   value.replace(/&/g, '&amp;').replace(/"/g, '&quot;');
 
@@ -43,12 +51,14 @@ export const renderPreloads = (
       return true;
     })
     .map(item => {
-      const cross = getPreloadCrossOrigin(item.h, crossorigin);
+      const cross = item.i
+        ? getIntegrityCrossOrigin(crossorigin)
+        : getPreloadCrossOrigin(item.h, crossorigin);
       return `<link rel="preload" as="${item.a}" href="${escapeAttribute(item.h)}"${
         cross ? ` crossorigin="${cross}"` : ''
-      }${nonce ? ` nonce="${escapeAttribute(nonce)}"` : ''}${
-        item.l ? ' fetchpriority="low"' : ''
-      } />`;
+      }${item.i ? ` integrity="${escapeAttribute(item.i)}"` : ''}${
+        nonce ? ` nonce="${escapeAttribute(nonce)}"` : ''
+      }${item.l ? ' fetchpriority="low"' : ''} />`;
     })
     .join('');
 };

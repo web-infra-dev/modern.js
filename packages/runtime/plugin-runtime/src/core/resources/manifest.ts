@@ -23,12 +23,21 @@ export interface PreloadItem {
   a: 'script' | 'style';
   /** Low fetch priority. */
   l?: 1;
+  /**
+   * `integrity` of the file, when the build outputs Subresource Integrity
+   * hashes (`security.sri`). The bundler runtime then loads the chunk with
+   * `integrity`, and the browser only reuses a preload that has the same one.
+   */
+  i?: string;
 }
 
 export interface RouteStages {
   /** `critical` declarations of the route. */
   c?: PreloadItem[];
-  /** Route JS that is `critical` by the route rule. */
+  /**
+   * Route JS that is `critical` by the route rule, all with a low fetch
+   * priority. JS only: streaming SSR outputs the route CSS as stylesheets.
+   */
   rc?: PreloadItem[];
   /** Declared stage -> chunk ids. */
   s?: Record<string, ChunkId[]>;

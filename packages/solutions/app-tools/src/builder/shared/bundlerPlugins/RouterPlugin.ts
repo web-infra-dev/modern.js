@@ -10,11 +10,6 @@ export interface RouteAssets {
   [routeId: string]: {
     chunkIds?: (string | number)[];
     assets?: string[];
-    /**
-     * Files of the chunks named after the chunk group, i.e. the route module
-     * itself. The rest of `assets` are chunks split out of its dependencies.
-     */
-    ownAssets?: string[];
     referenceCssAssets?: string[];
   };
 }
@@ -235,16 +230,9 @@ export class RouterPlugin {
               ...directCssAssets,
               ...descendantCssAssets,
             ];
-            const ownAssets = chunks
-              .filter(chunk => chunk.names?.includes(name))
-              .flatMap(chunk => chunk.files ?? [])
-              .map(file =>
-                publicPath ? normalizePath(publicPath) + file : file,
-              );
             routeAssets[name] = {
               chunkIds: chunkGroup.chunks,
               assets,
-              ownAssets,
               referenceCssAssets,
             };
 
@@ -322,9 +310,6 @@ export class RouterPlugin {
             const injectedContent = `
             ;(function(){
               window.${ROUTE_MANIFEST} = ${JSON.stringify(manifest, (k, v) => {
-                if (k === 'ownAssets') {
-                  return undefined;
-                }
                 if (
                   (k === 'assets' || k === 'referenceCssAssets') &&
                   Array.isArray(v)

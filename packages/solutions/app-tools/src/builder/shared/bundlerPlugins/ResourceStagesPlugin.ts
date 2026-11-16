@@ -93,6 +93,34 @@ const getResourcePath = (module: Module | null | undefined) => {
 };
 
 /**
+ * A preload is only reused when its `crossorigin` and `integrity` match the
+ * ones the bundler runtime puts on the chunk. Without Subresource Integrity
+ * the runtime sets `use-credentials` always and `anonymous` only for files
+ * from another origin; with it, `crossorigin` is always set (`anonymous`
+ * unless configured otherwise) together with `integrity`.
+ */
+export const renderPreloadTag = (
+  item: PreloadItem,
+  crossOriginLoading?: false | 'anonymous' | 'use-credentials',
+) => {
+  let crossorigin: string | undefined;
+  if (item.i) {
+    crossorigin = crossOriginLoading || 'anonymous';
+  } else if (
+    crossOriginLoading &&
+    (crossOriginLoading === 'use-credentials' ||
+      /^([a-z][a-z\d+\-.]*:)?\/\//i.test(item.h))
+  ) {
+    crossorigin = crossOriginLoading;
+  }
+  return `<link rel="preload" as="${item.a}" href="${item.h}"${
+    crossorigin ? ` crossorigin="${crossorigin}"` : ''
+  }${item.i ? ` integrity="${item.i}"` : ''}${
+    item.l ? ' fetchpriority="low"' : ''
+  }>`;
+};
+
+/**
  * Build half of `performance.resourceStages`: finds the `stagedImport`
  * declarations, maps them to chunks with the chunk graph, writes the entry
  * level preloads and stage lists into the HTML, the route level ones into the
@@ -156,17 +184,26 @@ export {};
     const { Compilation, sources, WebpackError } = compiler.rspack;
 
     compiler.hooks.thisCompilation.tap(PLUGIN_NAME, compilation => {
-      const htmlNames = new Map<string, string>();
+      // Applications that neither configure `performance.resourceStages` nor
+      // import the runtime keep their HTML untouched.
+      let active: boolean | undefined;
+      const isActive = () => {
+        active ??= this.isActive(compilation);
+        return active;
+      };
+      /** HTML file -> its entry chunks. */
+      const htmlNames = new Map<string, string[]>();
       this.options.HtmlBundlerPlugin.getCompilationHooks(
         compilation,
       ).beforeEmit.tapAsync(PLUGIN_NAME, (data, callback) => {
-        const chunks = (data.plugin.options?.chunks ?? []) as string[];
-        for (const chunk of Array.isArray(chunks) ? chunks : []) {
-          htmlNames.set(chunk, data.outputName);
+        if (isActive() && data.html.includes('</head>')) {
+          const chunks = data.plugin.options?.chunks;
+          htmlNames.set(
+            data.outputName,
+            Array.isArray(chunks) ? (chunks as string[]) : [],
+          );
+          data.html = data.html.replace('</head>', `${PLACEHOLDER}</head>`);
         }
-        data.html = data.html.includes('</head>')
-          ? data.html.replace('</head>', `${PLACEHOLDER}</head>`)
-          : data.html;
         callback(null, data);
       });
 
@@ -183,7 +220,9 @@ export {};
           };
           const htmlParts = new Map<string, string>();
           try {
-            const result = this.run(compilation, report);
+            const result = isActive()
+              ? this.run(compilation, report)
+              : undefined;
             if (result) {
               for (const [entry, html] of result.html) {
                 htmlParts.set(entry, html);
@@ -192,7 +231,7 @@ export {};
             }
           } finally {
             // Always remove the placeholder.
-            for (const [entry, htmlName] of htmlNames) {
+            for (const [htmlName, entries] of htmlNames) {
               const asset = compilation.getAsset(htmlName);
               if (!asset) {
                 continue;
@@ -204,7 +243,10 @@ export {};
               compilation.updateAsset(
                 htmlName,
                 new sources.RawSource(
-                  html.replace(PLACEHOLDER, htmlParts.get(entry) ?? ''),
+                  html.replace(
+                    PLACEHOLDER,
+                    entries.map(entry => htmlParts.get(entry) ?? '').join(''),
+                  ),
                 ),
               );
             }
@@ -214,17 +256,20 @@ export {};
     });
   }
 
+  /** Configured, or some module imports `stagedImport`. */
+  private isActive(compilation: Compilation) {
+    return (
+      Boolean(this.options.config) ||
+      [...compilation.modules].some(module =>
+        RUNTIME_MODULE.test(getResourcePath(module) ?? ''),
+      )
+    );
+  }
+
   private run(
     compilation: Compilation,
     report: (message: string, isError?: boolean) => void,
   ) {
-    const usesRuntime = [...compilation.modules].some(module =>
-      RUNTIME_MODULE.test(getResourcePath(module) ?? ''),
-    );
-    if (!usesRuntime && !this.options.config) {
-      return undefined;
-    }
-
     const { publicPath } = compilation
       .getStats()
       .toJson({ all: false, publicPath: true });
@@ -300,6 +345,19 @@ export {};
       return size;
     };
 
+    // The Subresource Integrity plugin (`security.sri`) records the hashes it
+    // puts on the chunk `<script>` in the asset info, next to the content hash.
+    const getIntegrity = (file: string) => {
+      const contenthash = compilation.getAsset(file)?.info.contenthash;
+      const hashes = (
+        Array.isArray(contenthash) ? contenthash : [contenthash]
+      ).filter(
+        (hash): hash is string =>
+          typeof hash === 'string' && /^sha\d+-/.test(hash),
+      );
+      return hashes.length ? hashes.join(' ') : undefined;
+    };
+
     const chunks = new Map<ChunkId, ChunkInfo>();
     for (const chunk of compilation.chunks) {
       const id = chunk.id;
@@ -317,6 +375,16 @@ export {};
         css: css.map(file => prefix + file),
         get size() {
           return [...js, ...css].reduce((sum, file) => sum + getSize(file), 0);
+        },
+        get integrity() {
+          const integrity: Record<string, string> = {};
+          for (const file of [...js, ...css]) {
+            const value = getIntegrity(file);
+            if (value) {
+              integrity[prefix + file] = value;
+            }
+          }
+          return integrity;
         },
       });
     }
@@ -803,16 +871,7 @@ export {};
       }
       const nonce = options.nonce ? ` nonce="${options.nonce}"` : '';
       const preloadTags = preloads
-        .map(
-          item =>
-            `<link rel="preload" as="${item.a}" href="${item.h}"${
-              options.crossOriginLoading &&
-              (options.crossOriginLoading === 'use-credentials' ||
-                /^([a-z][a-z\d+\-.]*:)?\/\//i.test(item.h))
-                ? ` crossorigin="${options.crossOriginLoading}"`
-                : ''
-            }${item.l ? ' fetchpriority="low"' : ''}>`,
-        )
+        .map(item => renderPreloadTag(item, options.crossOriginLoading))
         .join('');
       html.set(
         entryName,
