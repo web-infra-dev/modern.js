@@ -316,16 +316,16 @@ export const planResourceStages = (
         } else if (route.own.has(chunkId)) {
           stage = 'critical';
         } else {
-          const files = chunk.js.length + chunk.css.length;
+          // Only the JS is preloaded by the route rule, so only it counts.
           stage =
             bytes + chunk.size <= budget.size &&
-            requests + files <= budget.requests
+            requests + chunk.js.length <= budget.requests
               ? 'critical'
               : 'visible';
         }
         if (stage === 'critical') {
           bytes += chunk.size;
-          requests += chunk.js.length + chunk.css.length;
+          requests += chunk.js.length;
           target.plan.routeCritical.push(
             ...toPreloads(chunk, { low: true, css: false }),
           );
