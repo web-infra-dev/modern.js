@@ -173,7 +173,7 @@ describe('route-level ssgParams', () => {
         'utf8',
       );
       expect(html, url).toContain(content);
-      expect(matches[0].entryPath, url).toMatch(/\/index\.html$/);
+      expect(path.basename(matches[0].entryPath), url).toBe('index.html');
     }
     expect(
       generated.some(
