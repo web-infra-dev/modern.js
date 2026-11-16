@@ -272,6 +272,24 @@ describe('planResourceStages', () => {
     ]);
   });
 
+  it('counts only the preloaded JS toward the request budget of route JS', () => {
+    const snapshot = createSnapshot();
+    snapshot.chunks.set('route', chunk('route', 10_000, true));
+    const plan = planResourceStages(
+      snapshot,
+      normalizeResourceStages({
+        budget: { critical: { size: '400kB', requests: 2 } },
+      }),
+      { routeRule: true },
+    );
+    const route = plan.targets.find(target => target.kind === 'route')!;
+    // The route CSS is not preloaded, so it does not take a request slot.
+    expect(route.routeCritical).toEqual([
+      { h: '/static/js/route.js', a: 'script', l: 1 },
+      { h: '/static/js/shared1.js', a: 'script', l: 1 },
+    ]);
+  });
+
   it('carries the integrity of the files when the build has one', () => {
     const snapshot = createSnapshot();
     snapshot.chunks.set('route', {
