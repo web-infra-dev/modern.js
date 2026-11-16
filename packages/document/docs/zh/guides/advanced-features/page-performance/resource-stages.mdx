@@ -80,7 +80,7 @@ stagedImport.idle.ready().then(() => warmUpMessagePlugins());
 
 ## 路由 JS
 
-流式 SSR 下，配置了 `performance.resourceStages` 后，命中路由的 JS 也按阶段输出，不需要声明：路由组件自身的文件为 `critical`，依赖的共享 chunk 按 `critical` 预算分到 `critical` 或 `visible`。见 [`routes`](/configure/app/performance/resource-stages#routes)。
+流式 SSR 下，配置了 `performance.resourceStages` 后，命中路由的 JS 也按阶段输出，不需要声明：路由组件自身的文件为 `critical`，依赖的共享 chunk 按 `critical` 预算分到 `critical` 或 `visible`。`critical` 的路由 JS 以低优先级 preload 输出。没有配置 `performance.resourceStages` 时，不会输出路由 JS 的 preload。见 [`routes`](/configure/app/performance/resource-stages#routes)。
 
 ## 浏览器支持与限制
 
@@ -90,6 +90,7 @@ stagedImport.idle.ready().then(() => warmUpMessagePlugins());
 - **由应用通知的阶段**（`manual: true`）建议同时设置 `timeout`。不设置时，后面的阶段会一直等到应用通知该阶段或更晚的阶段。
 - **写在后加载代码里的声明**在这段代码执行时才生效：没有配置 `performance.resourceStages` 时，调度器在第一个声明被执行时启动。
 - **服务端渲染的入口降级为客户端渲染时**只有入口级的清单；路由级的清单由服务端在渲染时写入。
+- **子资源完整性**（[`security.sri`](/configure/app/security/sri)）：`critical` 的 preload 带有和加载该文件的 `<script>`、`<link>` 相同的 `integrity` 与 `crossorigin`，浏览器会复用预加载的文件。后续阶段预取的文件通过 HTTP 缓存复用。输出成独立文件的阶段清单（见 [`inlineLimit`](/configure/app/performance/resource-stages#inlinelimit)）加载时不带 `integrity`。
 - **不支持微前端子应用和 Module Federation 的 remote。** 清单按页面所属应用的 chunk 表解析。请在主应用里声明阶段；子应用里的 `stagedImport` 会在用到时加载代码，元素阶段不预取。
 
 ## 构建产物

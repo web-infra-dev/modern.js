@@ -74,7 +74,9 @@ export default defineConfig({
 
 ## routes
 
-流式 SSR 下，命中路由的 JS 由框架按阶段输出：路由组件自身的文件为 `critical`；它依赖的共享 chunk 按 chunk 组顺序计入 `critical` 预算，预算内的以低优先级 preload 输出，超出的放到 `visible` 阶段。
+流式 SSR 下，命中路由的 JS 由框架按阶段输出：路由组件自身的文件为 `critical`；它依赖的共享 chunk 按 chunk 组顺序计入 `critical` 预算，超出的放到 `visible` 阶段。`critical` 的路由 JS 以 `<link rel="preload" as="script" fetchpriority="low">` 输出，和入口 JS 并行下载，又不与入口脚本、样式表争抢带宽。路由 CSS 不输出 preload，流式 SSR 已经把它作为样式表输出。
+
+路由 JS 的 preload 只是 `performance.resourceStages` 的一部分。没有这项配置时，HTML 中不会有路由 JS 的 preload。
 
 按路由 id 指定阶段，或设为 `false` 关闭：
 
@@ -86,7 +88,7 @@ resourceStages: {
 }
 ```
 
-`routes: false` 关闭整个规则，路由 JS 回到 [`server.ssr.preloadRouteScripts`](/configure/app/server/ssr) 的行为。字符串 SSR 已经输出命中路由的脚本，不受这个规则影响。
+`routes: false` 关闭整个规则：框架不为路由 JS 输出 preload，和没有配置 `performance.resourceStages` 时一样。字符串 SSR 已经输出命中路由的脚本，不受这个规则影响。
 
 ## concurrency
 

@@ -75,7 +75,9 @@ export default defineConfig({
 
 ## routes
 
-With streaming SSR, the framework stages the JS of the matched routes: the route component's own file is `critical`; the shared chunks it depends on fill the `critical` budget in chunk group order and are preloaded at low priority, the rest goes to `visible`.
+With streaming SSR, the framework stages the JS of the matched routes: the route component's own file is `critical`; the shared chunks it depends on fill the `critical` budget in chunk group order, the rest goes to `visible`. The `critical` route JS is output as `<link rel="preload" as="script" fetchpriority="low">`, so it downloads in parallel with the entry JS without competing with the entry scripts and stylesheets. Route CSS is not preloaded, streaming SSR already outputs it as stylesheets.
+
+Route JS is only preloaded as part of `performance.resourceStages`. Without this config, the HTML has no preload for route JS.
 
 Set the stage per route id, or `false` to turn it off for a route:
 
@@ -87,7 +89,7 @@ resourceStages: {
 }
 ```
 
-`routes: false` turns the rule off, and route JS goes back to [`server.ssr.preloadRouteScripts`](/configure/app/server/ssr). String SSR already outputs the scripts of the matched routes and is not affected.
+`routes: false` turns the rule off: the framework does not preload route JS, the same as without `performance.resourceStages`. String SSR already outputs the scripts of the matched routes and is not affected.
 
 ## concurrency
 
