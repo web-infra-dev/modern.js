@@ -123,6 +123,7 @@ describe('moduleFederationSSRPlugin', () => {
         });
         const callbacks: Record<string, (...args: any[]) => void> = {};
         const compiler = {
+          options: { mode: 'development' },
           hooks: Object.fromEntries(
             ['invalid', 'thisCompilation'].map(name => [
               name,

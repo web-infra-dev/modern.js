@@ -1,20 +1,12 @@
 import type { Rspack } from '@rsbuild/core';
 import {
-  setCompilationBuildVersion,
+  createBuildVersionCoordinator,
   type DevBuildPublication,
 } from '@module-federation/enhanced/rspack';
 
 /** Compile and publish both targets with one application build identity. */
 export function createDevManifestPublication() {
-  type State = { compilation?: object };
-  const states: State[] = [];
-  const compilations = new WeakMap<
-    object,
-    { state: State; buildVersion: string }
-  >();
-  let version = Date.now();
-  let buildVersion = String(version);
-  let coordinating = false;
+  let builds: ReturnType<typeof createBuildVersionCoordinator> | undefined;
   let published: object | undefined;
   let readyPublication: DevBuildPublication | undefined;
   let ssrReady = true;
@@ -25,21 +17,7 @@ export function createDevManifestPublication() {
     for (const listener of listeners)
       listener(ssrReady ? readyPublication : undefined);
   };
-  const isCurrent = (stats: any) => {
-    const children = stats?.stats || [stats];
-    return (
-      children.length === states.length &&
-      children.every((child: any) => {
-        const captured =
-          child?.compilation && compilations.get(child.compilation);
-        return (
-          captured &&
-          captured.buildVersion === buildVersion &&
-          captured.state.compilation === child.compilation
-        );
-      })
-    );
-  };
+  const isCurrent = (stats: unknown) => builds?.isCurrent(stats) ?? false;
   return {
     get ready() {
       return !!published && isCurrent(published);
@@ -58,51 +36,17 @@ export function createDevManifestPublication() {
       compiler: Rspack.Compiler | Rspack.MultiCompiler,
       invalidate: () => void,
     ) {
+      builds = createBuildVersionCoordinator({
+        onInvalidate() {
+          published = undefined;
+          readyPublication = undefined;
+          for (const listener of listeners) listener(undefined);
+          invalidate();
+        },
+      });
       const compilers =
         'compilers' in compiler ? compiler.compilers : [compiler];
-      for (const origin of compilers) {
-        const state: State = {};
-        states.push(state);
-        origin.hooks.thisCompilation.tap(
-          { name: 'ModernFederationManifest', stage: -Infinity },
-          compilation => {
-            setCompilationBuildVersion(compilation, buildVersion);
-            state.compilation = compilation;
-            compilations.set(compilation, { state, buildVersion });
-          },
-        );
-        origin.hooks.invalid.tap(
-          { name: 'ModernFederationManifest', stage: -Infinity },
-          () => {
-            if (coordinating) return;
-            // Invalidations before either target starts belong to the same round.
-            // A save after compilation starts supersedes that whole round.
-            if (
-              states.some(
-                item =>
-                  item.compilation &&
-                  compilations.get(item.compilation)?.buildVersion ===
-                    buildVersion,
-              )
-            ) {
-              version = Math.max(Date.now(), version + 1);
-              buildVersion = String(version);
-            }
-            published = undefined;
-            readyPublication = undefined;
-            for (const listener of listeners) listener(undefined);
-            invalidate();
-            coordinating = true;
-            try {
-              for (const peer of compilers) {
-                if (peer !== origin) peer.watching?.invalidate();
-              }
-            } finally {
-              coordinating = false;
-            }
-          },
-        );
-      }
+      for (const origin of compilers) builds.apply(origin);
     },
     publish(stats: object) {
       // A save during compilation or private-plugin preparation supersedes that

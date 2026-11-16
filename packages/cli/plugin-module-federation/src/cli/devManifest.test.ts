@@ -2,19 +2,11 @@ import { describe, expect, it, rstest } from '@rstest/core';
 import type { Rspack } from '@rsbuild/core';
 import { createDevManifestPublication } from './devManifest';
 
-rstest.mock('@module-federation/enhanced/rspack', () => ({
-  setCompilationBuildVersion(
-    compilation: { buildVersion?: string },
-    value: string,
-  ) {
-    compilation.buildVersion = value;
-  },
-}));
-
 function compiler() {
   const invalid: (() => void)[] = [];
   const compilation: ((value: object) => void)[] = [];
   return {
+    options: { mode: 'development' },
     hooks: {
       invalid: {
         tap: (_: unknown, callback: () => void) => invalid.push(callback),
@@ -28,7 +20,7 @@ function compiler() {
       invalidate: rstest.fn(() => invalid.forEach(callback => callback())),
     },
     build() {
-      const stats = { compilation: { buildVersion: '' } };
+      const stats = { compilation: {} };
       compilation.forEach(callback => callback(stats.compilation));
       return stats;
     },
@@ -101,12 +93,6 @@ describe('development manifest publication', () => {
       false,
     );
     const second = { stats: [browser.build(), nodeStats] };
-    expect(second.stats[0].compilation.buildVersion).toBe(
-      nodeStats.compilation.buildVersion,
-    );
-    expect(nodeStats.compilation.buildVersion).not.toBe(
-      browserStats.compilation.buildVersion,
-    );
     expect(publication.publish(second)).toBe(true);
     expect(publication.isReadyFor(second)).toBe(true);
     expect(publication.isReadyFor(first)).toBe(false);
