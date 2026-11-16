@@ -1223,8 +1223,8 @@ importers:
         specifier: ^4.6.3
         version: 4.6.3
       i18next-fs-backend:
-        specifier: ^2.6.12
-        version: 2.6.12
+        specifier: ^2.6.9
+        version: 2.6.9
       i18next-http-backend:
         specifier: ^4.0.10
         version: 4.0.10
@@ -12615,8 +12615,8 @@ packages:
   i18next-chained-backend@4.6.3:
     resolution: {integrity: sha512-Yg4hAKg/98zRAMQs87vJSNevTzaPPrYF3Eb7Kpx+UEaaXLd3p69g7dulAL+hpmZQHeMQ/5gFqHVtdwva53mB0Q==}
 
-  i18next-fs-backend@2.6.12:
-    resolution: {integrity: sha512-dg2SfnepHuzqrmnGCbGM6fUlb/NTkObJqR2a8ih3OEzAnEKtREfn/X9iaimdRaCnD00dXf7xgMPMvcF4fbwxVQ==}
+  i18next-fs-backend@2.6.9:
+    resolution: {integrity: sha512-YZ5PQUV9xnAeh45CCSQW095wYDWZEwKse/1wr3m0z0Mij5zoCFMs67Q3M+w/9un8fUruubMR4DzETnDGH85heQ==}
 
   i18next-http-backend@4.0.10:
     resolution: {integrity: sha512-CfdQuwIVijbrS/fmiTAQYcYyje4nMbH9aIjKYhhm5bgVmWKWLOM1F7qrA1o63Jl1JxQcRjdtWhKlvDzyqV9aPg==}
@@ -27649,7 +27649,7 @@ snapshots:
     dependencies:
       '@babel/runtime': 7.28.4
 
-  i18next-fs-backend@2.6.12: {}
+  i18next-fs-backend@2.6.9: {}
 
   i18next-http-backend@4.0.10: {}
 
