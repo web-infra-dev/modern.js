@@ -79,9 +79,15 @@ export const renderString: RenderString = async (
   // Resource stages of the matched routes, after the loadable chunks so the
   // scripts loadable outputs are not preloaded again.
   const appendResourceStages = () => {
+    const stagesManifest = routeManifest?.resourceStages as
+      ResourceStagesManifest | undefined;
+    // Without `performance.resourceStages` there is nothing to add.
+    if (!stagesManifest) {
+      return;
+    }
     const routeAssets = routeManifest?.routeAssets ?? {};
     chunkSet.cssChunk += renderRouteStages(
-      routeManifest?.resourceStages as ResourceStagesManifest | undefined,
+      stagesManifest,
       getMatchedRouteIds(runtimeContext),
       {
         mode: 'string',

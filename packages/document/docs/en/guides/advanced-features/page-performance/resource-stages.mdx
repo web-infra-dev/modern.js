@@ -80,7 +80,7 @@ It resolves at once on the server.
 
 ## Route JS
 
-With streaming SSR and `performance.resourceStages` set, the JS of the matched routes is staged without declarations: the route component's own file is `critical`, and the shared chunks it depends on go to `critical` or `visible` by the `critical` budget. See [`routes`](/configure/app/performance/resource-stages#routes).
+With streaming SSR and `performance.resourceStages` set, the JS of the matched routes is staged without declarations: the route component's own file is `critical`, and the shared chunks it depends on go to `critical` or `visible` by the `critical` budget. `critical` route JS is preloaded at low priority. Without `performance.resourceStages`, route JS is not preloaded. See [`routes`](/configure/app/performance/resource-stages#routes).
 
 ## Browser support and limits
 
@@ -90,6 +90,7 @@ With streaming SSR and `performance.resourceStages` set, the JS of the matched r
 - **Stages marked by the application** (`manual: true`) should set a `timeout`. Without one, later stages wait until the application marks the stage or a later one.
 - **Declarations in code that is loaded later** take effect when that code runs: without `performance.resourceStages`, the scheduler starts with the first declaration that is evaluated.
 - **Server rendered entries that fall back to client rendering** only get the entry level lists; the route level lists are added by the server when it renders.
+- **Subresource Integrity** ([`security.sri`](/configure/app/security/sri)): `critical` preloads carry the same `integrity` and `crossorigin` as the `<script>` or `<link>` that loads the file, so the browser reuses the preloaded file. Files prefetched by later stages are reused from the HTTP cache. A stage list written to a separate file (see [`inlineLimit`](/configure/app/performance/resource-stages#inlinelimit)) is loaded without `integrity`.
 - **Micro-frontend sub-applications and Module Federation remotes are not supported.** The lists are resolved with the chunk map of the application that owns the page. Declare stages in the host application; in a sub-application `stagedImport` loads the code on use, and element stages do not prefetch.
 
 ## Build output

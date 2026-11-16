@@ -202,6 +202,23 @@ describe.each([
     }
   });
 
+  test('preloads route JS at low priority and no route CSS', () => {
+    if (mode !== 'stream') {
+      // The route rule only applies to streaming SSR.
+      return;
+    }
+    const tags = html.match(/<link\b[^>]*\brel="preload"[^>]*>/g) ?? [];
+    const declared = jsFiles('./Critical');
+    const routeTags = tags.filter(
+      tag => !declared.some(file => tag.includes(`href="${file}"`)),
+    );
+    expect(routeTags.length).toBeGreaterThan(0);
+    for (const tag of routeTags) {
+      expect(tag).toContain('as="script"');
+      expect(tag).toContain('fetchpriority="low"');
+    }
+  });
+
   test('prefetches each stage when it arrives', async () => {
     const page = await browser.newPage();
     const errors: string[] = [];
@@ -296,7 +313,10 @@ describe('resource stages (not used)', () => {
     const response = await page.goto(`http://127.0.0.1:${port}/about`, {
       waitUntil: ['networkidle0'],
     });
-    expect(await response!.text()).not.toContain('__MODERN_RS__');
+    const text = await response!.text();
+    expect(text).not.toContain('__MODERN_RS__');
+    // Route JS is only preloaded as part of resource stages.
+    expect(text).not.toMatch(/<link\b[^>]*\bas="script"/);
     expect(await page.evaluate(() => '__MODERN_RS__' in (window as any))).toBe(
       false,
     );
