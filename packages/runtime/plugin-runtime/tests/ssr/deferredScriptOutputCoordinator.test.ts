@@ -305,10 +305,7 @@ describe('DeferredScriptOutputCoordinator', () => {
   });
 
   test('forwards React chunks as-is without tokenizing when no resolver can be queued', () => {
-    const consume = rstest.spyOn(
-      DeferredScriptOutputCoordinator.prototype as any,
-      'consume',
-    );
+    const consume = rstest.spyOn(SharedCoordinator.prototype as any, 'consume');
     try {
       for (const size of [1, 7, 64, REPRESENTATIVE_HTML.length]) {
         const chunks = chunkString(REPRESENTATIVE_HTML, size);
@@ -510,7 +507,7 @@ describe('createReadableStreamFromElement deferred resolvers', () => {
     'does not tokenize the stream with %s',
     async (_name, activeDeferreds, deferredScriptKeys) => {
       const consume = rstest.spyOn(
-        DeferredScriptOutputCoordinator.prototype as any,
+        SharedCoordinator.prototype as any,
         'consume',
       );
       try {
@@ -525,10 +522,7 @@ describe('createReadableStreamFromElement deferred resolvers', () => {
   );
 
   test('tokenizes the stream and emits resolvers for pending deferred data', async () => {
-    const consume = rstest.spyOn(
-      DeferredScriptOutputCoordinator.prototype as any,
-      'consume',
-    );
+    const consume = rstest.spyOn(SharedCoordinator.prototype as any, 'consume');
     try {
       const html = await renderStream(
         new Map([
@@ -551,3 +545,4 @@ describe('createReadableStreamFromElement deferred resolvers', () => {
     }
   });
 });
+import { DeferredScriptOutputCoordinator as SharedCoordinator } from '@modern-js/render/html/stream';

@@ -1,35 +1,11 @@
+import { getDeferredBootstrapCode } from '@modern-js/render/html';
 import { ROUTER_DATA_JSON_ID } from '../../core/constants';
 
-/**
- * setup promises for deferred data
- * original function:
-  function setupDeferredPromise(routeId, key) {
-    _ROUTER_DATA.r  = _ROUTER_DATA.r || {};
-    _ROUTER_DATA.r[routeId] = _ROUTER_DATA.r[routeId] || {};
-    const promise = new Promise(function (resolve, reject) {
-      _ROUTER_DATA.r[routeId][key] = {
-        resolve,
-        reject,
-      };
-    });
-    return promise;
-  };
- *
- */
-export const setupFnStr = `function s(r,e){_ROUTER_DATA.r=_ROUTER_DATA.r||{},_ROUTER_DATA.r[r]=_ROUTER_DATA.r[r]||{};return new Promise((function(A,R){_ROUTER_DATA.r[r][e]={resolve:A,reject:R}}))};`;
+// Keep the router's s/r/p protocol as an adapter to the shared data store.
+// Route IDs remain owned by the router and form a separate source namespace.
+export const setupFnStr = `function s(r,e){return window.__MODERN_RENDER_DATA__.read("router:"+r,e)};`;
 
-/**
-   * resolve promises for deferred data
-   * original function:
-    function resolveDeferredPromise(routeId, key, data, error) {
-      if (error) {
-        _ROUTER_DATA.r[routeId][key].reject(error);
-      } else {
-        _ROUTER_DATA.r[routeId][key].resolve(data);
-      }
-    };
-   */
-export const resolveFnStr = `function r(e,r,o,A){A?_ROUTER_DATA.r[e][r].reject(A):_ROUTER_DATA.r[e][r].resolve(o)};`;
+export const resolveFnStr = `function r(e,r,o,A){window.__MODERN_RENDER_DATA__.resolve("router:"+e,r,o,A)};`;
 
 /**
    * update data for pre resolved promises
@@ -125,7 +101,7 @@ export const mergeLoaderDataStr = `function mergeLoaderData(e,n){var r=n.reduce(
       Object.assign(_ROUTER_DATA.loaderData[routeIdJsonStr], source);
     };
    */
-export const initRouterDataAttrs = `_ROUTER_DATA.s = ${setupFnStr}_ROUTER_DATA.r = ${resolveFnStr}_ROUTER_DATA.p = ${preResolvedFnStr}${mergeLoaderDataStr}`;
+export const initRouterDataAttrs = `${getDeferredBootstrapCode()}_ROUTER_DATA.s = ${setupFnStr}_ROUTER_DATA.r = ${resolveFnStr}_ROUTER_DATA.p = ${preResolvedFnStr}${mergeLoaderDataStr}`;
 
 /**
   function runWindowFn() {
