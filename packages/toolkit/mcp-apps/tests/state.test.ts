@@ -17,6 +17,7 @@ it('uses structured output and never leaks previous results into a new call', ()
   });
   expect(reduceViewState(state, { type: 'teardown' })).toEqual({
     cancelled: false,
+    tornDown: true,
   });
   expect(
     resultProps({
@@ -25,4 +26,14 @@ it('uses structured output and never leaks previous results into a new call', ()
       isError: true,
     }),
   ).toEqual({});
+});
+
+it('keeps application props while a connected view receives input', () => {
+  const state = {
+    cancelled: false,
+    result: { content: [], structuredContent: { route: '/a' } },
+  };
+  expect(reduceViewState(state, { type: 'input', keepResult: true })).toEqual(
+    state,
+  );
 });

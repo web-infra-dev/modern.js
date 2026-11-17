@@ -5,7 +5,8 @@
   "scripts": {
     "dev": "modern dev",
     "build": "modern build",
-    "serve": "modern serve"
+    "serve": "modern serve",
+    "mcp:prepare": "modern mcp-prepare"
   },
   "dependencies": {
     "@modern-js/runtime": "workspace:*",

@@ -1,21 +1,41 @@
 import type { McpUiResourceMeta } from '@modelcontextprotocol/ext-apps';
 
 export type UiMetadata = McpUiResourceMeta;
+export interface McpViewOptions {
+  ui?: UiMetadata;
+  /** Namespaced resource metadata, preserved in both transports. `ui` belongs above. */
+  resourceMeta?: Record<string, unknown>;
+  bootstrap?: 'tool-result' | 'connected';
+}
+export interface RouteView {
+  routes: string;
+  include?: string[];
+  home?: string;
+  shell?: string;
+}
 export interface McpViewsConfig extends UiMetadata {
+  viewOptions?: Record<string, McpViewOptions>;
   /** Default deployed MF remote for expose views. Individual views may override it. */
   remote?: string;
   /** A component path, an expose of this application, or an expose of a deployed remote. */
-  views: Record<string, string | { expose: string; remote?: string }>;
+  views: Record<
+    string,
+    string | RouteView | { expose: string; remote?: string }
+  >;
 }
 export interface UiManifest {
   version: 1;
-  /** Self-contained local HTML, without an HTTP asset base. */
+  /** Locally bundled HTML shells without an HTTP asset base. Remote modules may still use the network. */
   inline?: boolean;
   assetBase: string;
   remotes: Record<string, { entry: string; shell: string }>;
   views: Record<
     string,
-    ({ html: string } | { remote: string; expose: string }) & { ui: UiMetadata }
+    ({ html: string } | { remote: string; expose: string }) & {
+      ui: UiMetadata;
+      resourceMeta?: Record<string, unknown>;
+      bootstrap?: 'tool-result' | 'connected';
+    }
   >;
 }
 export function isRecord(value: unknown): value is Record<string, unknown> {
@@ -66,6 +86,7 @@ export function validateViewsConfig(
     if (
       ![
         'views',
+        'viewOptions',
         'remote',
         'csp',
         'prefersBorder',
@@ -75,9 +96,57 @@ export function validateViewsConfig(
     )
       throw new Error(`Unknown MCP views option: ${key}`);
   }
+  if (value.viewOptions !== undefined) {
+    if (!isRecord(value.viewOptions))
+      throw new Error('viewOptions must be an object');
+    for (const [name, options] of Object.entries(value.viewOptions)) {
+      if (!Object.hasOwn(value.views, name) || !isRecord(options))
+        throw new Error(`Unknown view options: ${name}`);
+      if (
+        Object.keys(options).some(
+          key => !['ui', 'resourceMeta', 'bootstrap'].includes(key),
+        )
+      )
+        throw new Error(`Unknown option for view ${name}`);
+      if (options.ui !== undefined) validateUiMetadata(options.ui);
+      if (
+        options.bootstrap !== undefined &&
+        !['tool-result', 'connected'].includes(options.bootstrap as string)
+      )
+        throw new Error(`Invalid bootstrap for ${name}`);
+      validateResourceMeta(options.resourceMeta);
+    }
+  }
   for (const [name, view] of Object.entries(value.views)) {
     if (!name.trim()) throw new Error('View names must be non-empty');
     if (typeof view === 'string' && view.trim()) continue;
+    if (
+      isRecord(view) &&
+      typeof view.routes === 'string' &&
+      view.routes.trim()
+    ) {
+      if (
+        Object.keys(view).some(
+          key => !['routes', 'include', 'home', 'shell'].includes(key),
+        ) ||
+        (view.shell !== undefined && typeof view.shell !== 'string') ||
+        (view.home !== undefined &&
+          (typeof view.home !== 'string' || !view.home.startsWith('/'))) ||
+        (view.include !== undefined &&
+          (!Array.isArray(view.include) ||
+            !view.include.length ||
+            view.include.some(
+              prefix =>
+                typeof prefix !== 'string' ||
+                !/^\/(?!\/)/.test(prefix) ||
+                /[?#\\]/.test(prefix) ||
+                (prefix !== '/' && prefix.endsWith('/')),
+            )))
+      )
+        throw new Error(`Invalid route view: ${name}`);
+      continue;
+    }
+
     if (
       isRecord(view) &&
       typeof view.expose === 'string' &&
@@ -152,9 +221,36 @@ export function validateUiManifest(
     checkSource(remote.entry);
     checkSource(remote.shell);
   }
+  if (value.viewOptions !== undefined) {
+    if (!isRecord(value.viewOptions))
+      throw new Error('viewOptions must be an object');
+    for (const [name, options] of Object.entries(value.viewOptions)) {
+      if (!Object.hasOwn(value.views, name) || !isRecord(options))
+        throw new Error(`Unknown view options: ${name}`);
+      if (
+        Object.keys(options).some(
+          key => !['ui', 'resourceMeta', 'bootstrap'].includes(key),
+        )
+      )
+        throw new Error(`Unknown option for view ${name}`);
+      if (options.ui !== undefined) validateUiMetadata(options.ui);
+      if (
+        options.bootstrap !== undefined &&
+        !['tool-result', 'connected'].includes(options.bootstrap as string)
+      )
+        throw new Error(`Invalid bootstrap for ${name}`);
+      validateResourceMeta(options.resourceMeta);
+    }
+  }
   for (const [name, view] of Object.entries(value.views)) {
     if (!name.trim() || !isRecord(view)) throw new Error('Invalid UI view');
     validateUiMetadata(view.ui);
+    validateResourceMeta(view.resourceMeta);
+    if (
+      view.bootstrap !== undefined &&
+      !['connected', 'tool-result'].includes(view.bootstrap as string)
+    )
+      throw new Error('Invalid view bootstrap');
     if ('html' in view && !('remote' in view) && !('expose' in view))
       checkSource(view.html);
     else if (
@@ -167,4 +263,19 @@ export function validateUiManifest(
       continue;
     else throw new Error(`Invalid UI manifest view: ${name}`);
   }
+}
+
+function validateResourceMeta(value: unknown) {
+  if (value === undefined) return;
+  if (
+    !isRecord(value) ||
+    Object.keys(value).some(
+      key =>
+        !key.includes('/') ||
+        ['__proto__', 'constructor', 'prototype'].includes(key),
+    )
+  )
+    throw new Error(
+      'resourceMeta must contain namespaced keys (standard metadata belongs in ui)',
+    );
 }

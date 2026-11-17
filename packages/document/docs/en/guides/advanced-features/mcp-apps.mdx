@@ -196,6 +196,22 @@ Add `"mcp:prepare": "modern mcp-prepare"` to package scripts and run `pnpm mcp:p
 
 The server module must default-export an async factory accepting `RegisterUiOptions`. Create a McpServer, call `registerUiResources(server, options)`, register business tools and return the server. The HTTP route can share this factory with `createBffHandlers(request => createServer({ request }))`. No synthetic HTTP Request is needed for stdio.
 
-The isolated build preserves createMcpView lifecycle and exported mcpCapabilities. JavaScript, styles and imported static assets are inlined, with a 5 MiB limit per HTML document. It uses source.alias, source.define and the application tsconfig, but does not execute application Rsbuild plugins or server middleware. Use HTTP for custom loaders, page runtime dependencies or Module Federation views. Runtime API requests still need explicit endpoints and suitable CSP.
+The isolated build preserves createMcpView lifecycle and exported mcpCapabilities. JavaScript, styles and imported static assets are inlined, with a 5 MiB limit per HTML document. It uses source.alias, source.define and the application tsconfig, but does not execute application Rsbuild plugins or server middleware. Use HTTP for custom loaders or page runtime dependencies. MF views support explicit remote manifest URLs. The loader shell is inlined, while manifests and remote chunks load over the network when the card opens. The remote origin is added to resourceDomains and connectDomains. Declare additional CDN origins in CSP. Same-project exposes require building and hosting their MF resources first. The mf.runtime option also applies to STDIO shells. Runtime API requests still need explicit endpoints and suitable CSP.
 
 Reserve server stdout for JSON-RPC and send diagnostics to stderr. Keep application Node dependencies installed. Rebuild after changes and restart the connector to load updated code and HTML. HTTP builds and deployment remain unchanged.
+
+
+## Application startup and per-view metadata
+
+`mcp-views.json` accepts a `viewOptions` map keyed by declared view names. Each entry can set `ui` (standard UI metadata), `resourceMeta` (namespaced resource metadata) and `bootstrap` (`tool-result` by default, or `connected`). Both HTTP and stdio preserve resource metadata. MF shells also preserve the selected startup mode.
+
+Connected views render after the official App handshake without requiring a tool result. They retain props during new input and unmount on teardown. Use `createMcpView(View, appInfo, capabilities, { bootstrap: 'connected' })` for direct wrappers.
+
+`useMcpOperation(app, getScopeKey)` provides `run`, `cancel` and cleanup. Pass the operation's signal to SDK calls. A changed scope key cancels pending calls and rejects late results. Reset business caches with the same trusted scope identity. Remote writes may still complete after cancellation, so the helper never retries them automatically.
+
+
+## Shared component routes and business actions
+
+A View can declare `{ "routes": "./src/routes", "include": ["/projects"], "home": "/projects", "shell": "./src/McpShell.tsx" }`. HTTP and stdio reuse selected page/layout modules in a generated MemoryRouter. The optional shell receives entry props and children. Shared layouts can use `useMcpViewContext()` to avoid creating a second browser-only provider. This adapter supports component routes with static directories, `[id]` parameters and `$` fallback pages. Web loaders/actions, SSR, configured routes and authentication are not automatically migrated, and unsupported route data modules are rejected.
+
+`defineAction` and `createActionClient` from `@modern-js/mcp-apps/actions` share a Zod input/output contract, tool name, description and explicit visibility. `registerActions` from `/server` binds server-only handlers and optional UI resources. Page methods validate responses and reject tool business errors. Expected handler failures use `ActionError`. Keep handlers and credentials out of shared contract files, and enforce authentication and object permissions on the server. Visibility controls discovery, not authorization.

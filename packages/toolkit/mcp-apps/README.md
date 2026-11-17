@@ -74,6 +74,82 @@ For local component views, configure `mcpAppsPlugin({ stdio: { server: './api/se
 
 Run `pnpm mcp:prepare`. This creates `dist-mcp/server.cjs`, `dist-mcp/ui-manifest.json` and self-contained UI HTML, then prints the Node command and absolute server argument for a local MCP connector. The host starts the process. No HTTP server, relay, or `modern dev` is required. Only JSON-RPC belongs on server stdout, so application diagnostics must use stderr. Keep application dependencies installed beside the output.
 
-The isolated production pipeline bundles local components with `createMcpView`, preserving exported `mcpCapabilities`, inlining JavaScript, CSS and imported assets. It respects `source.alias`, `source.define` and the application tsconfig. It does not run the application's Rsbuild plugins or its server middleware. Custom loaders and framework page runtime features are outside this mode. Module Federation views are rejected because they require hosted resources. Runtime API requests still require explicit endpoints and suitable CSP. Each HTML document must fit within 5 MiB.
+The isolated production pipeline bundles local components with `createMcpView`, preserving exported `mcpCapabilities`, inlining JavaScript, CSS and imported assets. It respects `source.alias`, `source.define` and the application tsconfig. JSX always uses the automatic React runtime, including applications configured with `jsx: preserve`, so components do not need a global React binding. It does not run the application's Rsbuild plugins or its server middleware. Custom loaders and framework page runtime features are outside this mode. Module Federation views with an explicit `remote` manifest URL are supported. Their loader shell is bundled inline, while the remote manifest and chunks are fetched when the card opens. The remote origin is added to resourceDomains and connectDomains. Declare additional CDN origins in CSP. Same-project exposes without a remote URL must be built and hosted first. `mf.runtime` also applies to STDIO shells. Runtime API requests still require explicit endpoints and suitable CSP. Each HTML document must fit within 5 MiB.
 
 `stdio.output` defaults to `dist-mcp`, outside normal `dist` so dev/build cannot remove a running connector's entry. Ignore this directory in Git. Rebuild after editing, then restart the connector to load new server code and HTML. Inline manifests load local HTML at server startup, preserve configured UI metadata and do not inject HTTP base URLs or localhost CSP permissions. The normal HTTP manifest pipeline is unchanged.
+
+## Application views and extension metadata
+
+Use `viewOptions` to configure individual entries while keeping existing string and MF view declarations compatible:
+
+```json
+{
+  "views": { "card": "./src/Card.tsx", "application": "./src/Application.tsx" },
+  "viewOptions": {
+    "card": {
+      "ui": { "prefersBorder": false },
+      "resourceMeta": { "doubao/ui": { "inlineExpansion": "sidebar" } }
+    },
+    "application": { "bootstrap": "connected" }
+  }
+}
+```
+
+`ui` overrides standard metadata per view, merging CSP domain lists. `resourceMeta` accepts namespaced resource metadata, preserved in resource listings and `resources/read` responses for HTTP, local stdio and MF shells. Standard `ui` cannot be overridden through this field. Tool entry declarations remain owned by the application's MCP tool registration and the host-specific SDK or adapter. Declaring metadata does not grant permissions or guarantee Host support.
+
+The default `tool-result` bootstrap waits for an entry result. `connected` mounts immediately after the official handshake and preserves props during new input notifications. Both modes unmount on teardown. Direct users can pass `{ bootstrap: 'connected' }` as the fourth argument of `createMcpView`. MF shells use the same startup mode.
+
+`useMcpOperation(app, getScopeKey)` returns a request scope. Call `scope.run(async ({ signal, assertCurrent }) => ...)`, passing the signal to the official SDK. Host context changes that alter the caller-provided primitive key abort pending requests. Cleanup also aborts them, and late results are rejected even if a remote ignores cancellation. Scope keys should represent trusted account/session/file identity, rather than ordinary presentation revisions. Use the same key to reset application caches. Cancellation does not roll back remote writes, and uncertain writes are never automatically replayed.
+
+## Reusing component routes
+
+A view may select an existing file-based route directory instead of a component:
+
+```json
+{
+  "views": {
+    "workspace": {
+      "routes": "./src/routes",
+      "include": ["/releases", "/projects"],
+      "home": "/releases",
+      "shell": "./src/McpShell.tsx"
+    }
+  }
+}
+```
+
+Both HTTP and stdio generate a MemoryRouter importing the same selected page and ancestor layout modules as the Web application. The optional shell receives the normal MCP view props and children inside that Router. The shell may export `mcpCapabilities`. Adding a supported page under a selected prefix requires no second MCP route table. `include` selects canonical route prefixes (for example `/projects/:id`), not filesystem paths or an authorization policy.
+
+This first component-route adapter supports `page` and `layout` modules in JS/JSX/TS/TSX, static directories, `[id]` parameters and `$.tsx` fallbacks. `home` must identify a selected static page. The root fallback is retained. It rejects symlinks, unsupported segment conventions, route loader/action exports and separate loader/data/action/config/error modules. It does not initialize the Web runtime, server loaders, SSR, configured routes, middleware or authentication. Browser-only providers and Web-runtime hooks must be adapted explicitly. `useMcpViewContext()` returns the connected App and entry props inside a generated MCP view, or null in ordinary Web rendering. A shared layout can use this to reuse the shell's provider rather than creating another browser data store.
+
+## Shared business actions
+
+Import `defineAction` and `createActionClient` from `@modern-js/mcp-apps/actions`. Shared contracts contain schemas and tool declarations, never server handlers:
+
+```ts
+export const actions = {
+  save: defineAction({
+    name: 'save_release',
+    description: 'Save a release',
+    input: SaveInputSchema,
+    output: SaveOutputSchema,
+    visibility: ['app'],
+  }),
+}
+```
+
+On the server, `registerActions(server, actions, handlers, bindings)` from `/server` registers tools with the contract's input/output schemas, description, read-only annotation and explicit visibility. Optional per-action bindings attach `resourceUri`. `handlers` is checked against the contract's parsed input and output types. It receives the SDK cancellation signal. Throw `ActionError` for expected business failures, which become `isError` tool results. Unexpected failures retain the SDK error path.
+
+On the page, `createActionClient(actions, (params, options) => app.callServerTool(params, options))` generates named typed methods. It validates input and structured output, forwards cancellation, and rejects `isError` results. The same contract drives both paths, so tool names and schema parsing do not need to be repeated in a page adapter. Use JSON-serializable object schemas and install the Zod peer. Wrap the transport with `scope.run` for stale-result protection. The action contract is an interface definition, not an authorization grant: authenticate and check object permissions in server handlers or middleware, including calls made by the model.
+
+### Display mode sizing
+
+`createMcpView` owns a stable root element with `data-mcp-display-mode`. In fullscreen mode it uses the Host's fixed `containerDimensions.height`, falling back to `100dvh`, and scrolls overflowing content internally. In inline mode it enables the SDK content size observer. Mode and theme updates do not remount the view. Observers are removed on mode changes and teardown. Low-level `useMcpApp` callers can explicitly set `autoResize` to override automatic mode selection.
+
+### Typed view configuration
+
+Import `defineMcpViews` from `@modern-js/mcp-apps/cli` and pass the result directly to `mcpAppsPlugin({ views })` in the framework configuration. A view can be a component path, a route definition, an MF expose, or `{ source, ui, resourceMeta, bootstrap }`. The helper colocates presentation options with each source and validates the normalized configuration. Reuse a route object for views with different presentation metadata. Object configuration paths resolve from the application root. Existing JSON paths remain supported and resolve sources from the JSON file's directory. Imported configuration modules use the framework's configuration loading lifecycle.
+
+### Checked view references
+
+`defineMcpViews` retains literal view names in its return type. `registerUiResources(server, { ...options, requiredViews: ['card', 'dashboard'] as const })` returns a URI map restricted to those names and checks that all required views exist before registering resources. This catches a configuration/manifest mismatch at startup. Applications can derive their required name list from the configuration type with a type-only import, keeping CLI code out of the server bundle. Calls without requiredViews retain the existing unrestricted map behavior.

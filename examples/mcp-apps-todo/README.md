@@ -22,7 +22,8 @@ pnpm --filter @examples/mcp-apps-todo dev
 - `modern.config.ts`：Modern.js、BFF、MF、MCP UI 构建插件
 - `module-federation.config.ts`：暴露 `./Todos`
 - `src/components/Todos.tsx`：通过 `McpViewProps` 接收 structuredContent 和 mcpApp
-- `api/lambda/mcp.ts`：官方 SDK 注册 tools，通过 UI 清单注册 resources，显式导出 BFF handlers
+- `api/server/mcp.ts`：HTTP 和 STDIO 共用的 server 工厂，注册 tools 和 UI resources
+- `api/lambda/mcp.ts`：调用 server 工厂，导出 HTTP BFF handlers
 - `api/server/store.ts`：内存数据
 
 ## 生产
@@ -37,3 +38,20 @@ pnpm --filter @examples/mcp-apps-todo serve
 使用 `PORT=8090 pnpm --filter @examples/mcp-apps-todo dev` 可以切换端口。
 
 同一项目目录只运行一个 `modern dev` 实例。多个实例会共享 `.modern-js` 中间产物，可能导致 UI HTML 与所连接开发服务器的脚本不匹配。重启前先退出已有 dev 进程，并让 MCP 客户端连接终端实际打印的服务端口。
+
+## STDIO 本地调试
+
+在当前分支中先构建 MCP Apps 包，再准备示例：
+
+```bash
+pnpm --filter @modern-js/mcp-apps build
+pnpm --filter @examples/mcp-apps-todo mcp:prepare
+```
+
+命令打印可填写到 MCP 客户端的 `command` 和 `args`。在豆包中选择 STDIO，把 `command` 填到命令栏，把 `args` 中的 `server.cjs` 绝对路径作为一个参数填写。仅测试本地卡片时无需启动 `modern dev`。
+
+产物位于本示例的 `dist-mcp/`，包括 `server.cjs`、`ui-manifest.json` 和内联 JS/CSS 的 UI HTML。修改源码后重新运行 `mcp:prepare`，再重启客户端连接器。运行产物仍需要保留本项目安装的 Node 依赖。
+
+STDIO 使用 `mcp-views.stdio.json`，注册本地卡片工具 `local_todos`、MF 卡片工具 `list_todos` 和普通工具 `add_todo`。MF 卡片使用 `http://localhost:8088/static/mf-manifest.json`，测试前另开终端运行 `pnpm --filter @examples/mcp-apps-todo dev` 托管远程模块。也可以把清单中的 remote 改成实际部署的 manifest URL 后重新 prepare。MF shell 内联打包，远程模块仍需网络访问。原来的 `dev`、`build` 和 `serve` 继续使用包含 MF 的 `mcp-views.json`。
+
+可以对豆包说：“请调用 Todo MCP 的 local_todos，打开待办卡片。”确认初始列表显示后，在卡片输入标题并点击 Add todo。再次调用 `local_todos` 应能看到新增项。重启连接器后，内存数据恢复初始值。

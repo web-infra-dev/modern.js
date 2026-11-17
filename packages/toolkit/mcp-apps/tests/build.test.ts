@@ -339,3 +339,41 @@ describe('view entry names', () => {
     );
   });
 });
+
+it('builds view-specific presentation and startup options without leaking them into standard UI metadata', () => {
+  const result = createUiManifest(
+    {
+      views: { inline: './Card.tsx', app: './Card.tsx' },
+      viewOptions: {
+        inline: {
+          resourceMeta: { 'doubao/ui': { inlineExpansion: 'sidebar' } },
+          ui: { prefersBorder: false },
+        },
+        app: { bootstrap: 'connected' },
+      },
+    },
+    undefined,
+  );
+  expect(result.views.inline.resourceMeta).toEqual({
+    'doubao/ui': { inlineExpansion: 'sidebar' },
+  });
+  expect(result.views.inline.ui.prefersBorder).toBe(false);
+  expect(result.views.app.ui.prefersBorder).toBe(true);
+  expect(result.views.app.bootstrap).toBe('connected');
+  expect(result.views.app.ui).not.toHaveProperty('viewOptions');
+  expect(() =>
+    createUiManifest(
+      { views: { app: './Card.tsx' }, viewOptions: { missing: {} } },
+      undefined,
+    ),
+  ).toThrow('Unknown view');
+  expect(() =>
+    createUiManifest(
+      {
+        views: { app: './Card.tsx' },
+        viewOptions: { app: { resourceMeta: { ui: {} } } },
+      },
+      undefined,
+    ),
+  ).toThrow('namespaced');
+});

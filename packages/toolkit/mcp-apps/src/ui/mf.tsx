@@ -12,6 +12,7 @@ export interface MfViewConfig {
   expose: string;
   /** The view name, reported to the host as the app name like local cards. */
   view: string;
+  bootstrap?: 'tool-result' | 'connected';
 }
 
 /** Executed in the application build, so the shell and exposes share its React. */
@@ -55,6 +56,7 @@ export function createMfView(config: MfViewConfig) {
         mod.default,
         { name: config.view, version: '1.0.0' },
         mod.mcpCapabilities,
+        { bootstrap: config.bootstrap },
       ),
     };
   });

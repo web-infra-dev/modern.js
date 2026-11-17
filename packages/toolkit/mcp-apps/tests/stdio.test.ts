@@ -89,6 +89,105 @@ describe('local stdio prepare', () => {
       await transport.close();
     }
   }, 60_000);
+  it('uses automatic JSX for applications with jsx:preserve and no React global', async () => {
+    const directory = await fs.mkdtemp(path.join(root, '.test-jsx-'));
+    try {
+      await fs.writeFile(
+        path.join(directory, 'tsconfig.json'),
+        JSON.stringify({ compilerOptions: { jsx: 'preserve' } }),
+      );
+      await fs.writeFile(
+        path.join(directory, 'views.json'),
+        JSON.stringify({ views: { card: '../tests/fixtures/stdio-view.tsx' } }),
+      );
+      await prepareStdio({
+        root: directory,
+        views: 'views.json',
+        stdio: {
+          server: '../tests/fixtures/stdio-server.ts',
+          output: 'prepared',
+        },
+      });
+      const manifest = JSON.parse(
+        await fs.readFile(
+          path.join(directory, 'prepared/ui-manifest.json'),
+          'utf8',
+        ),
+      );
+      const html = await fs.readFile(
+        path.resolve(directory, 'prepared', manifest.views.card.html),
+        'utf8',
+      );
+      expect(html).toContain('Inline assets');
+      expect(html).not.toMatch(/\bReact\.createElement\b/);
+    } finally {
+      await fs.rm(directory, { recursive: true, force: true });
+    }
+  }, 60_000);
+  it('prepares deployed MF shells alongside local views without fetching the remote', async () => {
+    const directory = await fs.mkdtemp(path.join(root, '.test-remote-'));
+    try {
+      const entry = 'https://remote.example/static/mf-manifest.json';
+      await fs.writeFile(
+        path.join(directory, 'views.json'),
+        JSON.stringify({
+          remote: entry,
+          views: {
+            local: '../tests/fixtures/stdio-view.tsx',
+            remote: { expose: './Todos' },
+          },
+          csp: { resourceDomains: ['https://cdn.example'] },
+        }),
+      );
+      const connector = await prepareStdio({
+        root,
+        views: path.join(directory, 'views.json'),
+        stdio: {
+          server: 'tests/fixtures/stdio-server.ts',
+          output: path.relative(root, path.join(directory, 'output')),
+        },
+      });
+      const client = new Client({ name: 'mf-stdio-test', version: '1' });
+      try {
+        await client.connect(
+          new StdioClientTransport({ ...connector, stderr: 'pipe' }),
+        );
+        const resource = (await client.readResource({ uri: 'ui://app/remote' }))
+          .contents[0];
+        const html = String(resource.text);
+        const config = JSON.parse(
+          html.match(/id="modern-mcp-config">(.*?)<\/script>/)![1],
+        );
+        expect(config).toMatchObject({
+          entry,
+          expose: './Todos',
+          view: 'remote',
+        });
+        expect(html).not.toMatch(/<script[^>]*\bsrc=|<base\b/);
+        expect(resource._meta).toMatchObject({
+          ui: {
+            csp: {
+              resourceDomains: [
+                'https://cdn.example',
+                'https://remote.example',
+              ],
+              connectDomains: ['https://remote.example'],
+            },
+          },
+        });
+        expect(
+          String(
+            (await client.readResource({ uri: 'ui://app/local' })).contents[0]
+              .text,
+          ),
+        ).not.toContain('modern-mcp-config');
+      } finally {
+        await client.close();
+      }
+    } finally {
+      await fs.rm(directory, { recursive: true, force: true });
+    }
+  }, 60_000);
   it('rejects output inside normal dist to avoid dev/build deleting the server', async () => {
     await expect(
       prepareStdio({
@@ -101,14 +200,14 @@ describe('local stdio prepare', () => {
       }),
     ).rejects.toThrow('outside the application dist');
   });
-  it('rejects MF views rather than shipping a network-dependent offline bundle', async () => {
+  it('rejects same-project MF views without a hosted manifest URL', async () => {
     await expect(
       prepareStdio({
         root,
         views: 'tests/fixtures/mcp-views-mf.json',
         stdio: { server: 'tests/fixtures/stdio-server.ts' },
       }),
-    ).rejects.toThrow('local component views');
+    ).rejects.toThrow('requires an explicit remote manifest URL');
   });
 });
 

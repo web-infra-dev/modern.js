@@ -119,10 +119,10 @@ function escapeAttribute(value: string) {
     .replace(/</g, '&lt;');
 }
 
-export async function registerUiResources(
+export async function registerUiResources<const Name extends string = string>(
   server: Pick<McpServer, 'registerResource'>,
-  options: RegisterUiOptions = {},
-): Promise<Record<string, string>> {
+  options: RegisterUiOptions & { requiredViews?: readonly Name[] } = {},
+): Promise<Record<Name, string>> {
   const injected = options.request && requestUiOptions.get(options.request);
   options = {
     ...options,
@@ -137,6 +137,12 @@ export async function registerUiResources(
     options.manifest,
     options.mode ?? 'production',
   );
+  for (const name of options.requiredViews ?? []) {
+    if (!Object.hasOwn(manifest.views, name))
+      throw new Error(
+        `Required MCP view "${name}" is missing from the UI manifest. Available views: ${Object.keys(manifest.views).join(', ')}`,
+      );
+  }
   if (manifest.inline) {
     if (
       location.protocol !== 'file:' ||
@@ -156,20 +162,20 @@ export async function registerUiResources(
         server,
         name,
         uri,
-        { _meta: { ui: view.ui } },
+        { _meta: { ...view.resourceMeta, ui: view.ui } },
         async () => ({
           contents: [
             {
               uri,
               mimeType: RESOURCE_MIME_TYPE,
               text: html,
-              _meta: { ui: view.ui },
+              _meta: { ...view.resourceMeta, ui: view.ui },
             },
           ],
         }),
       );
     }
-    return uris;
+    return uris as Record<Name, string>;
   }
   const base = publicBase(manifest, options);
   const devSocket =
@@ -212,7 +218,7 @@ export async function registerUiResources(
       server,
       name,
       uri,
-      { _meta: { ui } },
+      { _meta: { ...view.resourceMeta, ui } },
       async (_uri, extra) => {
         const source = 'html' in view ? view.html : remote!.shell;
         const sourceUrl = /^https?:\/\//.test(source)
@@ -230,7 +236,7 @@ export async function registerUiResources(
           throw new Error('UI HTML must not contain a base element');
         const config =
           remote && 'expose' in view
-            ? `<script type="application/json" id="modern-mcp-config">${JSON.stringify({ name: view.remote, entry, expose: view.expose, view: name }).replace(/</g, '\\u003c')}</script>`
+            ? `<script type="application/json" id="modern-mcp-config">${JSON.stringify({ name: view.remote, entry, expose: view.expose, view: name, bootstrap: view.bootstrap }).replace(/</g, '\\u003c')}</script>`
             : '';
         html = html.replace(
           /<head\b[^>]*>/i,
@@ -238,11 +244,16 @@ export async function registerUiResources(
         );
         return {
           contents: [
-            { uri, mimeType: RESOURCE_MIME_TYPE, text: html, _meta: { ui } },
+            {
+              uri,
+              mimeType: RESOURCE_MIME_TYPE,
+              text: html,
+              _meta: { ...view.resourceMeta, ui },
+            },
           ],
         };
       },
     );
   }
-  return uris;
+  return uris as Record<Name, string>;
 }

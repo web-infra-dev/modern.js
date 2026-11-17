@@ -1,3 +1,5 @@
+export { registerActions } from './actions';
+export type { ActionHandlers, ActionBindingOptions } from './actions';
 import type { McpServer } from '@modelcontextprotocol/server';
 import { createMcpHandler } from '@modelcontextprotocol/server';
 import { requestOrigin } from './resources';

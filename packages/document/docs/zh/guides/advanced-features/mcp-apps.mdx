@@ -229,6 +229,22 @@ mcpAppsPlugin({
 
 server 模块应默认导出接收 `RegisterUiOptions` 的异步工厂，在工厂里创建 McpServer，调用 `registerUiResources(server, options)` 并注册业务工具。HTTP 路由可通过 `createBffHandlers(request => createServer({ request }))` 复用同一工厂，不需要伪造 HTTP Request 来运行 stdio。
 
-构建保留 `createMcpView` 生命周期与组件导出的 mcpCapabilities，内联脚本、样式及导入的静态资源，每份 HTML 最大 5 MiB。此模式读取 source.alias、source.define 和应用 tsconfig，但不执行应用的 Rsbuild 插件或服务端中间件。需要自定义 loader、页面运行时或 Module Federation 远程资源时，请继续使用 HTTP 模式。业务中的网络请求仍需配置明确的 API 来源与 CSP。
+构建保留 `createMcpView` 生命周期与组件导出的 mcpCapabilities，内联脚本、样式及导入的静态资源，每份 HTML 最大 5 MiB。此模式读取 source.alias、source.define 和应用 tsconfig，但不执行应用的 Rsbuild 插件或服务端中间件。需要自定义 loader 或页面运行时时，请继续使用 HTTP 模式。MF 视图支持显式配置 remote manifest URL，加载 shell 内联打包，打开卡片时再请求远程 manifest 和模块。远程 origin 自动加入 resourceDomains 和 connectDomains，额外 CDN 域名需自行声明。本项目 expose 必须先构建并托管，再配置 remote URL。mf.runtime 同样适用于 STDIO shell。业务中的网络请求仍需配置明确的 API 来源与 CSP。
 
 服务端 stdout 专用于 JSON-RPC，日志写入 stderr。产物仍依赖项目安装的 Node 包。修改后重新构建并重启连接器，服务启动时会读取 HTML，重启前继续使用旧页面。HTTP 的构建及部署流程保持原样。
+
+
+## 应用启动与独立 View 元数据
+
+`mcp-views.json` 支持按 View 名称配置 `viewOptions`。每项可设置标准 `ui` 元数据、具有命名空间的 `resourceMeta` 资源元数据，以及 `bootstrap` 启动方式。默认启动方式为 `tool-result`，也可选择 `connected`。HTTP、stdio 和 MF 都保留对应资源配置。
+
+connected 模式在官方 App 握手成功后渲染，无需等待入口工具结果。接收新输入期间保留已有 props，teardown 时卸载。直接包装组件时，可使用 `createMcpView(View, appInfo, capabilities, { bootstrap: 'connected' })`。
+
+`useMcpOperation(app, getScopeKey)` 提供 `run`、`cancel` 与自动清理。将每次操作的 signal 传给官方 SDK，作用域键变化时取消请求并拒绝晚到结果。业务缓存应使用相同的可信账号、会话或文件身份重置。取消后远端写入仍可能完成，因此框架不会自动重试。
+
+
+## 共用组件路由与业务操作
+
+View 可声明 `{ "routes": "./src/routes", "include": ["/projects"], "home": "/projects", "shell": "./src/McpShell.tsx" }`。HTTP 与 stdio 从已有 page/layout 模块生成 MemoryRouter，可选 shell 接收入口 props 与 children。共用布局可通过 `useMcpViewContext()` 避免创建第二套浏览器数据 Provider。首版支持静态目录、[id] 参数与 $ 回退页面，不自动迁移 Web loader/action、SSR、配置式路由和认证，不支持的数据模块会直接报错。
+
+`@modern-js/mcp-apps/actions` 的 `defineAction` 和 `createActionClient` 共用 Zod 输入与输出契约、工具名、说明和显式可见性。`/server` 的 `registerActions` 绑定服务端处理函数与可选 UI resource，页面方法校验返回数据并拒绝工具业务错误。预期业务失败使用 `ActionError`。共享文件不应包含处理函数或凭据，服务端仍须校验认证与对象权限，可见性不构成授权。
