@@ -150,11 +150,11 @@ If the published posts have the slugs `hello` and `getting-started`, Modern.js g
 
 Each path segment can contain ASCII letters, digits, `-`, `.`, `_`, or `~`. Empty segments, `.`, and `..` are rejected. A slug such as `release.v3` generates an `index.html` inside that page's directory.
 
-| Route file                               | Parameter object                    | Generated path                   |
-| ---------------------------------------- | ----------------------------------- | -------------------------------- |
-| `routes/[lang]/blog/[slug]/page.data.ts` | `{ lang: 'en', slug: 'hello' }`     | `/en/blog/hello`                 |
-| `routes/blog/[slug$]/page.data.ts`       | `{}`                                | `/blog`                          |
-| `routes/blog/[slug$]/page.data.ts`       | `{ slug: 'hello' }`                 | `/blog/hello`                    |
+| Route file                               | Parameter object                    | Generated path                 |
+| ---------------------------------------- | ----------------------------------- | ------------------------------ |
+| `routes/[lang]/blog/[slug]/page.data.ts` | `{ lang: 'en', slug: 'hello' }`     | `/en/blog/hello`               |
+| `routes/blog/[slug$]/page.data.ts`       | `{}`                                | `/blog`                        |
+| `routes/blog/[slug$]/page.data.ts`       | `{ slug: 'hello' }`                 | `/blog/hello`                  |
 | `routes/docs/$.data.ts`                  | `{ '*': 'guides/getting-started' }` | `/docs/guides/getting-started` |
 
 For nested routes, each object must include all required parent and child parameters. Parameters are not collected or combined from `layout.data.ts`. Omit an optional parameter or set it to `undefined` to omit that segment. For a wildcard page (`$.tsx`), export `ssgParams` from `$.data.ts` and use the `'*'` key. Use `/` between segments of a wildcard value.

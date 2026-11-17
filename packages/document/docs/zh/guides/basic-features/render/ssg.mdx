@@ -151,11 +151,11 @@ export const loader = async ({ params }: { params: { slug: string } }) => {
 
 路径段可包含 ASCII 字母、数字、`-`、`.`、`_` 或 `~`。空路径段、`.` 和 `..` 会被拒绝。包含点号的 slug（如 `release.v3`）会在对应页面目录中生成 `index.html`。
 
-| 路由文件                                 | 参数对象                            | 生成路径                         |
-| ---------------------------------------- | ----------------------------------- | -------------------------------- |
-| `routes/[lang]/blog/[slug]/page.data.ts` | `{ lang: 'en', slug: 'hello' }`     | `/en/blog/hello`                 |
-| `routes/blog/[slug$]/page.data.ts`       | `{}`                                | `/blog`                          |
-| `routes/blog/[slug$]/page.data.ts`       | `{ slug: 'hello' }`                 | `/blog/hello`                    |
+| 路由文件                                 | 参数对象                            | 生成路径                       |
+| ---------------------------------------- | ----------------------------------- | ------------------------------ |
+| `routes/[lang]/blog/[slug]/page.data.ts` | `{ lang: 'en', slug: 'hello' }`     | `/en/blog/hello`               |
+| `routes/blog/[slug$]/page.data.ts`       | `{}`                                | `/blog`                        |
+| `routes/blog/[slug$]/page.data.ts`       | `{ slug: 'hello' }`                 | `/blog/hello`                  |
 | `routes/docs/$.data.ts`                  | `{ '*': 'guides/getting-started' }` | `/docs/guides/getting-started` |
 
 嵌套路由的每个对象必须包含父子路由所需的全部必填参数，不会从 `layout.data.ts` 收集或组合参数。可选参数可以省略或设为 `undefined`，对应的路径段也会省略。对于通配页面（`$.tsx`），在 `$.data.ts` 中导出 `ssgParams`，通过 `'*'` 键传入路径，用 `/` 分隔路径段。
