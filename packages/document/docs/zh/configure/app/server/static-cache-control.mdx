@@ -20,7 +20,7 @@ title: staticCacheControl
 
 所有静态文件都会带上根据实际返回内容计算的 `ETag`。如果请求中的 `If-None-Match` 与之匹配，服务器会直接返回不带响应体的 `304 Not Modified`。文件内容来自服务器的文件缓存，返回 `304` 时不会再次从磁盘读取文件。
 
-以上取值在生产环境中生效。开发环境中所有静态文件都使用 `no-cache`，修改后的文件不会从浏览器缓存中读取。HTML 页面不会添加该响应头，如有需要，可以通过[自定义中间件](/guides/advanced-features/web-server)设置。
+以上取值在生产环境中生效。开发环境中 `config/public` 中的文件使用 `no-cache`，修改后的文件不会从浏览器缓存中读取。构建产物以及其他由打包工具复制的文件（例如 `config/upload` 中的文件）由 Rsbuild 开发服务器提供，它会使用自己的 `ETag`，并且不设置 `Cache-Control`。HTML 页面不会添加该响应头，如有需要，可以通过[自定义中间件](/guides/advanced-features/web-server)设置。
 
 路由响应头中设置的 `Cache-Control` 或 `ETag`，以及在自定义中间件中 `await next()` 之前或之后设置的 `Cache-Control`，会优先生效。
 
