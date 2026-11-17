@@ -1,8 +1,9 @@
 import type { Rspack } from '@rsbuild/core';
-import {
-  createBuildVersionCoordinator,
-  type DevBuildPublication,
-} from '@module-federation/enhanced/rspack';
+import { createBuildVersionCoordinator } from '@module-federation/enhanced/rspack';
+
+interface DevBuildPublication {
+  buildVersion: string;
+}
 
 /** Compile and publish both targets with one application build identity. */
 export function createDevManifestPublication() {

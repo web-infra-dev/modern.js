@@ -1,3 +1,4 @@
+import { collectSSRRuntimeGraph } from './ssrRuntimeGraph';
 import { destroyNodeInstance } from '@module-federation/node/lifecycle';
 import {
   setSSRUpdateCandidates,
@@ -794,7 +795,9 @@ export function createSSRUpdateAdapter(options: {
   >({
     maxPendingUpdates: options.maxPendingUpdates,
     resolve(name) {
-      let registered = instances()
+      let registered = [
+        ...collectSSRRuntimeGraph([...instances(), ...owner.serviceInstances]),
+      ]
         .flatMap(instance => [
           ...(instance.options?.remotes || []),
           ...(registrations.get(instance)?.values() || []),
@@ -1012,32 +1015,10 @@ export function createSSRUpdateAdapter(options: {
       const knownInstances = [...new Set([...globalInstances, ...providers])];
       // Follow actual containers through the entire retiring graph. A direct
       // provider can keep a nested provider alive even after our host detaches it.
-      const pendingProviders = [...hosts, ...providers];
-      const visitedProviders = new Set<any>();
-      for (const host of pendingProviders) {
-        if (visitedProviders.has(host)) continue;
-        visitedProviders.add(host);
-        for (const module of host.moduleCache?.values() || []) {
-          const info = module.remoteInfo;
-          const provider = helpers.global.getRemoteFederationInstance(
-            info,
-            knownInstances,
-          );
-          if (
-            provider &&
-            !providers.has(provider) &&
-            !hosts.includes(provider)
-          ) {
-            providers.add(provider);
-            pendingProviders.push(provider);
-          }
-        }
-        for (const provider of host.retainedProviders || [])
-          if (!providers.has(provider) && !hosts.includes(provider)) {
-            providers.add(provider);
-            pendingProviders.push(provider);
-          }
-      }
+      for (const provider of collectSSRRuntimeGraph([...hosts, ...providers], {
+        includeRetained: true,
+      }))
+        if (!hosts.includes(provider)) providers.add(provider);
       const sharedRecords = (scope: any) =>
         Object.values(scope || {}).flatMap((packages: any) =>
           Object.values(packages).flatMap((versions: any) =>

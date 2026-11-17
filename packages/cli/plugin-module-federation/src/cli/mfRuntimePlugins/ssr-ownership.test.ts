@@ -6,6 +6,8 @@ import {
   bindSSRRuntime,
   createSSRUpdateOwner,
   releaseSSRUpdateOwner,
+  runWithSSRUpdateOwner,
+  runtimeOwnerKey,
 } from '../../server/ssrUpdateOwner';
 import {
   clearSSRUpdateCandidates,
@@ -302,5 +304,71 @@ it('releases only its build entry promise when the URL and provider name are sha
     (globalThis as any).__FEDERATION__ = previous;
     (globalThis as any).__GLOBAL_LOADING_REMOTE_ENTRY__ = previousLoading;
     delete (globalThis as any)[globalName];
+  }
+});
+
+it('inherits the request owner for dynamically created producer runtimes without replacing their registrations with Host roots', async () => {
+  const owner = createSSRUpdateOwner('service-host');
+  owner.registrations = [
+    { name: 'host-only', entry: 'https://host.test/root.json' },
+  ];
+  setSSRUpdateCandidates(owner.id, [
+    {
+      name: 'dynamic',
+      entry: 'https://remote.test/v2.json',
+      moduleInfo: {
+        remoteEntry: 'entry.js',
+        buildVersion: 'v2',
+        remotesInfo: {},
+      },
+    },
+  ]);
+  const child = runWithSSRUpdateOwner(owner, () =>
+    createInstance({
+      name: 'dynamically-created-producer',
+      remotes: [{ name: 'dynamic', entry: 'https://remote.test/v1.json' }],
+      plugins: [nodeRuntimePlugin(), plugin()],
+    }),
+  );
+  try {
+    expect((child as any)[runtimeOwnerKey]).toBe(owner);
+    expect(owner.instances.has(child)).toBe(false);
+    expect(
+      child.options.remotes.map(remote => [
+        remote.name,
+        'entry' in remote ? remote.entry : undefined,
+      ]),
+    ).toEqual([['dynamic', 'https://remote.test/v2.json']]);
+  } finally {
+    await destroyNodeInstance(child);
+    clearSSRUpdateCandidates(owner.id);
+    releaseSSRUpdateOwner(owner);
+  }
+});
+
+it('retains an existing producer owner when another application initializes the same build', async () => {
+  const first = createSSRUpdateOwner('first-consumer');
+  const second = createSSRUpdateOwner('second-consumer');
+  const provider = runWithSSRUpdateOwner(first, () =>
+    createInstance({
+      name: 'shared-producer-build',
+      plugins: [nodeRuntimePlugin(), plugin()],
+      remotes: [],
+    }),
+  );
+  try {
+    runWithSSRUpdateOwner(second, () =>
+      provider.initOptions({
+        name: provider.name,
+        remotes: [],
+      }),
+    );
+    expect((provider as any)[runtimeOwnerKey]).toBe(first);
+    expect(first.instances.has(provider)).toBe(false);
+    expect(second.instances.has(provider)).toBe(false);
+  } finally {
+    await destroyNodeInstance(provider);
+    releaseSSRUpdateOwner(first);
+    releaseSSRUpdateOwner(second);
   }
 });

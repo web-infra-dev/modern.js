@@ -195,7 +195,6 @@ describe('moduleFederationSSRPlugin', () => {
         const unsubscribe = identity.subscribe(publication);
         expect(publication).toHaveBeenLastCalledWith({
           buildVersion: 'completed-build',
-          hot: !service,
         });
         unsubscribe();
         callbacks.invalid();

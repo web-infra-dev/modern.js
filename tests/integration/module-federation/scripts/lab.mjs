@@ -28,7 +28,12 @@ export async function startLab(
   serviceOnly = false,
   options = {},
 ) {
-  const { updates, portAttempt = 0 } = options;
+  const {
+    updates,
+    portAttempt = 0,
+    serviceDeployment = false,
+    serviceNested = false,
+  } = options;
   if (updates && !['ordinary', 'bridge', 'service', 'all'].includes(updates))
     throw new Error(`Unknown update scenario: ${updates}`);
   if (updates === 'all' && mode !== 'dev')
@@ -141,8 +146,12 @@ export async function startLab(
     ...process.env,
     MF_LAB_PORTS: JSON.stringify(ports),
     MF_LAB_SERVICE:
-      serviceOnly || updates === 'service' || updates === 'all' ? '1' : '',
+      serviceOnly || updates === 'service' || updates === 'all' || serviceNested
+        ? '1'
+        : '',
+    MF_LAB_SERVICE_NESTED: serviceNested ? '1' : '',
     MF_LAB_UPDATES: updates || '',
+    MF_LAB_SERVICE_DEPLOYMENT: serviceDeployment ? '1' : '',
     MF_LAB_MODE: mode,
     MODERN_MF_AUTO_CORS: '1',
     NO_COLOR: '1',
@@ -370,10 +379,96 @@ export async function startLab(
       await new Promise(resolve => gateway.listen(ports.host, resolve));
     }
     let requestId = 0;
+    let serviceDeploymentVersion = 'v1';
+    let serviceDiscovery;
+    const serviceManifests = new Map();
+    const deploymentManifest = async version => {
+      if (!serviceManifests.has(version)) {
+        const port = version === 'v2' ? ports.providerV2 : ports.provider;
+        serviceManifests.set(
+          version,
+          await (
+            await fetch(`http://localhost:${port}/static/mf-manifest.json`)
+          ).json(),
+        );
+      }
+      return serviceManifests.get(version);
+    };
     const api = createServer(async (req, res) => {
       res.setHeader('Access-Control-Allow-Origin', '*');
       res.setHeader('Cache-Control', 'no-store');
       const url = new URL(req.url, 'http://localhost');
+      if (
+        serviceDeployment &&
+        url.pathname === '/service-deployment/select' &&
+        req.method === 'POST'
+      ) {
+        const version = url.searchParams.get('version');
+        if (!['v1', 'v2'].includes(version)) {
+          res.writeHead(400).end();
+          return;
+        }
+        serviceDeploymentVersion = version;
+        res.writeHead(204).end();
+        return;
+      }
+      if (
+        serviceDeployment &&
+        url.pathname === '/service-deployment/mf-manifest.json'
+      ) {
+        if (!serviceDiscovery) {
+          serviceDiscovery = structuredClone(await deploymentManifest('v1'));
+          serviceDiscovery.metaData.serviceBaseUrl = `http://localhost:${ports.api}/`;
+          for (const expose of serviceDiscovery.exposes)
+            if (typeof expose.servicePath === 'string')
+              expose.servicePath = `service-deployment/render/${encodeURIComponent(expose.name)}`;
+        }
+        res.setHeader('Content-Type', 'application/json');
+        res.end(JSON.stringify(serviceDiscovery));
+        return;
+      }
+      if (
+        serviceDeployment &&
+        url.pathname.startsWith('/service-deployment/render/')
+      ) {
+        const current = await deploymentManifest(serviceDeploymentVersion);
+        const expose = current.exposes.find(
+          expose =>
+            expose.name ===
+            decodeURIComponent(
+              url.pathname.slice('/service-deployment/render/'.length),
+            ),
+        );
+        if (!expose?.servicePath) {
+          res.writeHead(404).end();
+          return;
+        }
+        const target = new URL(
+          expose.servicePath,
+          current.metaData.serviceBaseUrl,
+        );
+        const upstream = request(
+          target,
+          {
+            method: req.method,
+            headers: {
+              ...req.headers,
+              host: target.host,
+              'content-type': req.headers['content-type'] || 'application/json',
+              accept: 'application/x-ndjson',
+            },
+          },
+          response => {
+            res.writeHead(response.statusCode || 500, response.headers);
+            response.pipe(res);
+          },
+        );
+        upstream.on('error', error => res.destroy(error));
+        req.once('aborted', () => upstream.destroy());
+        res.once('close', () => upstream.destroy());
+        req.pipe(upstream);
+        return;
+      }
       if (serviceOnly && url.pathname === '/service-stats') {
         res.setHeader('Content-Type', 'application/json');
         res.end(

@@ -56,6 +56,9 @@ export interface SSRUpdateServerPluginOptions extends Omit<
   entries?: string[];
   application?: Partial<SSRRequestCoordinatorOptions>;
   beforeRequest?: (request: Request) => Promise<void | Response>;
+  transformTemplates?: (
+    templates: Record<string, string>,
+  ) => Record<string, string>;
   onAvailabilityChange?: (available: boolean) => void;
   onReady?: (
     manager: SSRUpdateManager,
@@ -126,6 +129,10 @@ export function createSSRUpdateServerPlugin(
           dispose: (_resources, entries) => adapter.dispose(entries),
           validate: async resources => {
             adapter.prepareResources(resources);
+            if (context.dev && options.transformTemplates)
+              resources.templates = options.transformTemplates(
+                resources.templates,
+              );
             for (const participant of participants)
               await participant.prepare?.();
           },
@@ -219,7 +226,7 @@ export function createSSRUpdateServerPlugin(
             registry().applications.set(owner.id, manager);
             context.ssrUpdateManager = manager;
             api.updateServerContext({ ssrUpdateManager: manager });
-            cleanup = options.onReady?.(manager, context);
+            cleanup = options.onReady?.(manager, api.getServerContext());
           },
           run,
         };

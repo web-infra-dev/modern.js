@@ -1,5 +1,6 @@
 import { getNodeInstanceLifecycle } from '@module-federation/node/lifecycle';
 import { AsyncLocalStorage } from 'node:async_hooks';
+import { recordSSRRemoteSnapshot } from '../../server/ssrRuntimeGraph';
 import {
   helpers,
   type ModuleFederation,
@@ -11,6 +12,7 @@ import {
 } from '../../server/ssrUpdateCandidates';
 import {
   bindSSRRuntime,
+  currentSSRUpdateOwner,
   requireSSRNodeLifecycle,
   ownerOfSSRRuntime,
   runtimeOwnerKey,
@@ -25,16 +27,27 @@ export default function ssrOwnership(): ModuleFederationRuntimePlugin {
   let sharedProviders: ModuleFederation[] = [];
   return {
     name: 'modern-ssr-consumption-owner',
+    beforeLoadRemote({ origin, remote, remoteSnapshot }) {
+      if (remoteSnapshot)
+        recordSSRRemoteSnapshot(origin, remote.name, remoteSnapshot);
+    },
     loadSnapshot: candidates.loadSnapshot,
     loadRemoteSnapshot: candidates.loadRemoteSnapshot,
     beforeInit(args) {
-      const owner = ownerOfSSRRuntime(
+      const compiledOwner = ownerOfSSRRuntime(
         typeof MODERN_SSR_FEDERATION_REQUIRE === 'undefined'
           ? undefined
           : MODERN_SSR_FEDERATION_REQUIRE,
       );
-      if (owner) bindSSRRuntime(owner, args.origin);
-      const remotes = (args.origin as any)[runtimeOwnerKey]?.registrations;
+      // A build-identified container can already serve another application.
+      // Re-initialization must retain its physical owner rather than rebinding
+      // it to whichever consumer happens to be loading it now.
+      const owner =
+        compiledOwner ||
+        (args.origin as any)[runtimeOwnerKey] ||
+        currentSSRUpdateOwner();
+      if (owner) bindSSRRuntime(owner, args.origin, Boolean(compiledOwner));
+      const remotes = compiledOwner?.registrations;
       if (remotes)
         args.userOptions.remotes = remotes.map((remote: any) => ({
           ...remote,
@@ -177,6 +190,7 @@ export default function ssrOwnership(): ModuleFederationRuntimePlugin {
         if (record.runtime.federation?.instance === origin)
           owner.entries.delete(key);
       owner?.instances.delete(origin);
+      owner?.serviceInstances.delete(origin);
     },
     apply(instance) {
       const host = instance as any;

@@ -380,7 +380,7 @@ describe('Service same-origin ingress', () => {
     expect((globalThis as any).__FEDERATION__.__INSTANCES__).toEqual(before);
   });
 
-  it('rejects a stale browser build before contacting the producer renderer', async () => {
+  it('uses the current Service response when the browser retains an older build identity', async () => {
     const upstream = await producer();
     const ingress = createBridgeServiceIngressMiddleware(
       {},
@@ -390,10 +390,11 @@ describe('Service same-origin ingress', () => {
       incoming({ ...requestBody(), buildVersion: 'stale-build' }),
       async () => {},
     );
-    expect(response?.status).toBe(409);
+    expect(response?.status).toBe(200);
+    expect(await response!.text()).toContain('"type":"done"');
     expect(upstream.counts.manifest).toBe(1);
-    expect(upstream.counts.service).toBe(0);
-    expect(upstream.render).not.toHaveBeenCalled();
+    expect(upstream.counts.service).toBe(1);
+    expect(upstream.render).toHaveBeenCalledTimes(1);
   });
 
   it('uses an explicitly trusted public origin behind TLS termination', async () => {

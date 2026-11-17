@@ -30,6 +30,8 @@ export function setupLab(
     bridgeInputEvidence?: boolean;
     publicRoutesOnly?: boolean;
     updates?: 'ordinary' | 'bridge' | 'service';
+    serviceDeployment?: boolean;
+    serviceNested?: boolean;
   } = {},
 ) {
   let lab: Awaited<ReturnType<typeof startLab>>;
@@ -220,7 +222,11 @@ export default function Document() {
       workspace,
       options.basename || '',
       Boolean(options.service),
-      { updates: options.updates },
+      {
+        updates: options.updates,
+        serviceDeployment: options.serviceDeployment,
+        serviceNested: options.serviceNested,
+      },
     );
     browser = await puppeteer.launch({
       headless: true,
@@ -410,6 +416,8 @@ export function describeLab(
     bridgeInputEvidence?: boolean;
     publicRoutesOnly?: boolean;
     updates?: 'ordinary' | 'bridge' | 'service';
+    serviceDeployment?: boolean;
+    serviceNested?: boolean;
   } = {},
 ) {
   rstest.setConfig({ testTimeout: 60000, hookTimeout: 600000, retry: 0 });

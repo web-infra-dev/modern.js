@@ -12,6 +12,17 @@ import {
 } from '../../../../weather-ui';
 import type { ForecastDay } from '../../../../weather-days';
 import { useWeather } from '../../state';
+import { createModernReactRemote } from '@modern-js/runtime/mf';
+import { loadRemote } from '@module-federation/enhanced/runtime';
+
+const PlainRemote = createModernReactRemote({
+  remote: () => loadRemote('library/WeatherWind'),
+  loading: <p>Loading remote wind…</p>,
+});
+const NestedRemote = createModernReactRemote({
+  remote: () => loadRemote('nested/WeatherWind'),
+  loading: <p>Loading nested wind…</p>,
+});
 
 export default function ForecastDetail() {
   const { day, detail, cancelToken } = useLoaderData() as {
@@ -77,6 +88,15 @@ export default function ForecastDetail() {
         </button>
       </header>
       <div className="weather-app-detail-grid">
+        {params.has('remote') && (
+          <div data-testid="service-remote-child">
+            {params.get('remote') === 'nested' ? (
+              <NestedRemote />
+            ) : (
+              <PlainRemote />
+            )}
+          </div>
+        )}
         <HourlyWeather
           selected={state.selected}
           onSelectedChange={state.setSelected}

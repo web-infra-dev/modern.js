@@ -32,7 +32,7 @@ async function eventually(label, predicate, timeout = 90000) {
 }
 
 // Fixed manifest gateway deliberately differs from the publisher URL. It covers
-// discovery without a matching subscription and a stale Service descriptor.
+// request-time discovery and a stale Service discovery snapshot.
 export async function runManifestFallbackScenario(mode) {
   const csr = mode === 'service-csr';
   const ordinary = mode === 'ordinary';
@@ -665,10 +665,7 @@ export async function runManifestFallbackScenario(mode) {
       latePage.on('pageerror', error => errors.push(String(error)));
       latePage.on('console', message => {
         const text = message.text();
-        const expectedMismatch =
-          /Bridge service returned HTTP 409|buildVersion mismatch|Failed to load resource:.*409/.test(
-            text,
-          );
+        const expectedMismatch = false;
         evidence.browserConsole.push({
           page: 'stale-service',
           type: message.type(),
@@ -726,31 +723,34 @@ export async function runManifestFallbackScenario(mode) {
         await installServiceRecorder(latePage, 'stale-service');
         // Capture the actual response before automatic navigation discards its CDP body.
         // Only clone it for evidence. The original response still reaches Core unchanged.
-        await latePage.exposeFunction('__recordServiceMismatch', value => {
-          if (value.error) mismatchError = new Error(value.error);
-          else mismatch = value;
-          frozenManifest = undefined;
-          evidence.manifestGateway.push({
-            event: 'release-after-http-409',
-            at: Date.now(),
-          });
-        });
+        await latePage.exposeFunction(
+          '__recordSelectedServiceResponse',
+          value => {
+            if (value.error) mismatchError = new Error(value.error);
+            else mismatch = value;
+            frozenManifest = undefined;
+            evidence.manifestGateway.push({
+              event: 'release-after-selected-service-response',
+              at: Date.now(),
+            });
+          },
+        );
         await latePage.evaluateOnNewDocument(() => {
           const originalFetch = window.fetch.bind(window);
           window.fetch = async (...args) => {
             const response = await originalFetch(...args);
             if (
-              response.status === 409 &&
+              response.status === 200 &&
               response.url.includes('/_modern/mf/service/')
             ) {
               try {
-                await window.__recordServiceMismatch({
+                await window.__recordSelectedServiceResponse({
                   status: response.status,
                   headers: Object.fromEntries(response.headers),
                   body: await response.clone().text(),
                 });
               } catch (error) {
-                await window.__recordServiceMismatch({
+                await window.__recordSelectedServiceResponse({
                   error: String(error),
                 });
               }
@@ -776,10 +776,7 @@ export async function runManifestFallbackScenario(mode) {
           'actual browser Service POST is pending',
           () => heldServiceRequest,
         );
-        assert.equal(
-          staleBody.buildVersion,
-          oldManifest.json.metaData.buildInfo.buildVersion,
-        );
+        assert.equal(Object.hasOwn(staleBody, 'buildVersion'), false);
         const navigations = recovery.navigations.length;
         await writeGeneration(root, {
           ui: 'v6',
@@ -807,12 +804,30 @@ export async function runManifestFallbackScenario(mode) {
         heldServiceRequest = undefined;
         await pending.continue();
         await eventually(
-          'producer rejects the stale request through ingress',
+          'producer serves the current release through the unchanged ingress',
           () => mismatch || mismatchError,
         );
         if (mismatchError) throw mismatchError;
-        assert.equal(mismatch.status, 409);
-        assert.match(mismatch.body, /HTTP 409|buildVersion mismatch/);
+        assert.equal(mismatch.status, 200);
+        const selectedFrames = mismatch.body
+          .trim()
+          .split('\n')
+          .map(line => JSON.parse(line));
+        const selectedClient = selectedFrames.find(
+          frame => frame.type === 'meta',
+        ).client;
+        assert.equal(
+          selectedClient.snapshot.buildVersion,
+          nextManifest.json.metaData.buildInfo.buildVersion,
+        );
+        assert.ok(
+          selectedFrames
+            .filter(frame => frame.type === 'html')
+            .map(frame => frame.html)
+            .join('')
+            .includes('data-ui="v6"'),
+        );
+        await expectBrowser('v6', 'v6', colors.first, latePage);
         assert.equal(mismatch.headers['cache-control'], 'no-store');
         recovery.response = mismatch;
         recovery.newManifest = nextManifest.hash;
@@ -821,7 +836,7 @@ export async function runManifestFallbackScenario(mode) {
         assert.equal(
           recovery.navigations.length,
           navigations,
-          'Node readiness or HTTP 409 reloaded the stale browser',
+          'Node readiness or the Service response reloaded the browser',
         );
         await latePage.reload({ waitUntil: 'load' });
         await expectBrowser('v6', 'v6', colors.first, latePage);
@@ -841,10 +856,11 @@ export async function runManifestFallbackScenario(mode) {
         );
         assert.equal(
           recovery.serviceRequests.filter(
-            request => request.body.buildVersion === staleBody.buildVersion,
+            request =>
+              request.body.request.instanceId === staleBody.request.instanceId,
           ).length,
           1,
-          'The stale Service POST was replayed during recovery',
+          'The Service POST was replayed during deployment selection',
         );
         await expectBrowser('v6', 'v6', colors.first);
         await stableNavigation('Service recovery');

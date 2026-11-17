@@ -4,8 +4,8 @@
 '@modern-js/server': patch
 ---
 
-Subscribe to ready remote builds independently of DTS generation. Update Node applications in the background, propagate nested dependency changes without recompiling consumers, and check manifests before admitting development requests when subscriptions are unavailable.
+Check remote manifests before admitting development SSR requests and use document-local HMR hints to prepare Node caches in the background. Discover loaded and dynamically registered nested dependencies without a Broker SSR subscription.
 
-Recover from a producer starting after its consumer. Preserve compatible React Fast Refresh state across remote runtimes while keeping Node updates independent from browser navigation and router revalidation. Manual refreshes use the prepared SSR generation for components, Bridge applications and Service applications.
+Development and production share the same update queue and request drain. Preserve compatible React Fast Refresh state across remote runtimes while keeping Node readiness independent from browser navigation and router revalidation.
 
-Forward the producer's shared build version without rebuilding its consumers, and release nested provider graphs when their dependencies change or are removed.
+Service responses select their matching client provider and carry nested dependency snapshots with the stream. A stable Service endpoint can change deployment without a Host cache update or expected-version conflict. Emit content-addressed Service client entries for production builds.

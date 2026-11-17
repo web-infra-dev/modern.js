@@ -1,3 +1,4 @@
+import { createHash } from 'node:crypto';
 import path from 'path';
 import { SSRDependencyPlugin } from './SSRDependencyPlugin';
 import fs from 'fs';
@@ -142,15 +143,6 @@ const mfSSRRsbuildPlugin = (
               );
               pluginOptions.devManifestPublication.notifyReady(stats, {
                 buildVersion: manifest.metaData.buildInfo.buildVersion,
-                // Service mounts pair browser metadata with server HTML. HMR
-                // keeps the old descriptor, so those consumers need a fresh
-                // document after Node is ready, including later remounts.
-                hot:
-                  api.getNormalizedConfig().dev.hmr !== false &&
-                  !manifest.exposes?.some(
-                    (expose: { servicePath?: string }) =>
-                      typeof expose.servicePath === 'string',
-                  ),
               });
             }
           },
@@ -536,6 +528,39 @@ export const moduleFederationSSRPlugin = (
             return;
         }
         if (distOutputDir && browserAssets && nodeAssets) {
+          if (
+            !isDev() &&
+            browserAssets.manifest &&
+            browserAssets.stats &&
+            browserAssets.manifest.data.exposes?.some(
+              expose => typeof expose.servicePath === 'string',
+            )
+          ) {
+            // Keep an immutable entry beside the original so auto publicPath and
+            // chunk URLs stay valid after an independent Service deployment.
+            const entry = browserAssets.manifest.data.metaData.remoteEntry;
+            const filename = path.resolve(
+              distOutputDir,
+              entry.path,
+              entry.name,
+            );
+            const contents = fs.readFileSync(filename);
+            const digest = createHash('sha256')
+              .update(contents)
+              .digest('hex')
+              .slice(0, 20);
+            const extension = path.extname(entry.name);
+            const name = `${entry.name.slice(0, extension ? -extension.length : undefined)}.${digest}${extension}`;
+            fs.writeFileSync(
+              path.resolve(distOutputDir, entry.path, name),
+              contents,
+            );
+            browserAssets.manifest.data.metaData.remoteEntry = {
+              ...entry,
+              name,
+            };
+            browserAssets.stats.data.metaData.remoteEntry = { ...entry, name };
+          }
           updateStatsAndManifest(nodeAssets, browserAssets, distOutputDir);
         }
       } catch (err) {

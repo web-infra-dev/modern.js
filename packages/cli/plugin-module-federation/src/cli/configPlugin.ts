@@ -471,6 +471,11 @@ export const moduleFederationConfigPlugin = (
             name: ssrConfig.name,
             remotes,
             application,
+            ...(isDev() && {
+              devCheckPaths: serviceProviderBasePaths(
+                modernjsConfig.server?.baseUrl,
+              ),
+            }),
             ...(userConfig.devManifestPublication && {
               canPrepareSSRResources: (stats: unknown) =>
                 userConfig.devManifestPublication!.isReadyFor(stats),
@@ -482,7 +487,6 @@ export const moduleFederationConfigPlugin = (
                     `${developmentOrigin()}/`,
                   ).href,
                 }),
-                subscribe: userConfig.devManifestPublication.subscribe,
                 setReady: (ready: boolean) => {
                   userConfig.devManifestPublication!.setSSRReady(ready);
                   userConfig.devManifestReady =

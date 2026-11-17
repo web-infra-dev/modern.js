@@ -16,7 +16,10 @@ export default createModuleFederationConfig({
       : []),
   ],
   remotes: {
-    provider: `lab_provider@${origin('provider', 4301)}/static/mf-manifest.json`,
+    provider:
+      process.env.MF_LAB_SERVICE_DEPLOYMENT === '1'
+        ? `lab_provider@${origin('api', 4303)}/service-deployment/mf-manifest.json`
+        : `lab_provider@${origin('provider', 4301)}/static/mf-manifest.json`,
     nested: `lab_nested@${origin('nested', 4302)}/static/mf-manifest.json`,
   },
   shared,

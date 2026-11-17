@@ -1,16 +1,16 @@
 import { describe, it } from '@rstest/core';
 import { runSubscriptionScenario } from './ssr-update/dev-subscriptions.mjs';
 
-describe('Development subscription graph and fallback', () => {
+describe('Development request discovery and nested graph', () => {
   it('recovers when the producer starts after the host without recompiling the host', async () => {
     await runSubscriptionScenario('ordinary');
   }, 600000);
 
-  it('propagates nested producer changes without rebuilding either consumer', async () => {
+  it('discovers nested producer changes without rebuilding either consumer', async () => {
     await runSubscriptionScenario('nested');
   }, 600000);
 
-  it('discovers rebuilt static producer artifacts without a producer subscription', async () => {
+  it('discovers rebuilt static producer artifacts from manifest checks', async () => {
     await runSubscriptionScenario('build-serve');
   }, 600000);
 

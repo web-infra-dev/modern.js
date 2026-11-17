@@ -17,6 +17,7 @@ export const groups = {
   B: [
     'bridge-ssr',
     'service-app',
+    'service-deployment',
     'bridge-stream',
     'error-recovery',
     'weather-application',

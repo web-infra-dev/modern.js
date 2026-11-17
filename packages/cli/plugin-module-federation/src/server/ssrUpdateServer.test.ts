@@ -51,6 +51,9 @@ describe('application-bound public update API', () => {
     f.context.ssrApplication.onReady(application);
     expect(onReady).toHaveBeenCalledTimes(1);
     expect(onReady.mock.calls[0][0]).toBe(f.context.ssrUpdateManager);
+    expect(onReady.mock.calls[0][1].ssrUpdateOwnerId).toBe(
+      f.context.ssrUpdateOwnerId,
+    );
     await expect(shouldUpdateRemote(remote)).resolves.toBe(false);
     await expect(updateRemotes([remote])).resolves.toMatchObject({
       changed: false,

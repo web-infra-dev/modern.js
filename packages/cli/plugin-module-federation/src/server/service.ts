@@ -1,3 +1,8 @@
+import {
+  collectSSRRuntimeGraph,
+  isSSRRuntimeReferenced,
+  getSSRRemoteSnapshot,
+} from './ssrRuntimeGraph';
 import { randomUUID } from 'node:crypto';
 import nodeRuntimePlugin from '@module-federation/node/runtimePlugin';
 import { destroyNodeInstance } from '@module-federation/node/lifecycle';
@@ -18,11 +23,16 @@ import {
   type BridgeServices,
 } from '@module-federation/bridge-react/service-node';
 import type { BridgeProviderInstance } from '@module-federation/bridge-react/ssr';
+import { normalizeBridgeSSR } from '@module-federation/bridge-react/ssr-node';
 import type { Manifest } from '@module-federation/sdk';
 import type { SSRRequestWork } from '@modern-js/server-core/node';
 import ssrOwnership from '../cli/mfRuntimePlugins/ssr-ownership';
 import { createSSRUpdateSnapshotPlugin } from './ssrUpdateCandidates';
-import { getSSRUpdateOwner, runWithSSRUpdateOwner } from './ssrUpdateOwner';
+import {
+  currentSSRUpdateOwner,
+  getSSRUpdateOwner,
+  runWithSSRUpdateOwner,
+} from './ssrUpdateOwner';
 
 export interface BridgeServiceMiddlewareOptions {
   ownerId?: string;
@@ -123,6 +133,7 @@ function deployment(
         shared: {},
         shareStrategy: 'loaded-first',
       });
+      currentSSRUpdateOwner()?.serviceInstances.add(runtime);
       match = (
         await runtime.remoteHandler.getRemoteModuleAndOptions({ id: module })
       ).remoteMatchInfo;
@@ -163,7 +174,17 @@ function deployment(
   return {
     async dispose() {
       await prepared?.catch(() => {});
-      if (runtime) await destroyNodeInstance(runtime);
+      if (runtime) {
+        const graph = collectSSRRuntimeGraph([runtime], {
+          includeRetained: true,
+        });
+        await destroyNodeInstance(runtime);
+        for (const instance of graph) {
+          if (instance === runtime) continue;
+          if (isSSRRuntimeReferenced(instance, graph)) graph.delete(instance);
+          else await destroyNodeInstance(instance);
+        }
+      }
       runtime = undefined;
       prepared = undefined;
     },
@@ -200,8 +221,45 @@ function deployment(
               getResourceUrl(snapshot, asset),
             )
           : [];
+      const dependencies = () =>
+        [...collectSSRRuntimeGraph([runtime!])].flatMap(consumer =>
+          [...consumer.moduleCache.values()].flatMap(loaded => {
+            const info = loaded.remoteInfo;
+            if (info.name === match.remote.name) return [];
+            const selected = getSSRRemoteSnapshot(consumer, info.name);
+            return selected &&
+              'remoteEntry' in selected &&
+              'modules' in selected &&
+              'buildVersion' in selected
+              ? [{ name: info.name, snapshot: structuredClone(selected) }]
+              : [];
+          }),
+        );
+      const client = () => ({
+        name: match.remote.name,
+        expose: match.expose,
+        snapshot: structuredClone(snapshot!),
+        dependencies: dependencies(),
+      });
+      const initialClient = client();
+      let previous = JSON.stringify(initialClient);
+      const normalized = await normalizeBridgeSSR(result, info);
       return {
-        ...result,
+        ...normalized,
+        client: initialClient,
+        messages: normalized.messages.pipeThrough(
+          new TransformStream({
+            transform(message, controller) {
+              const current = client();
+              const serialized = JSON.stringify(current);
+              if (serialized !== previous) {
+                previous = serialized;
+                controller.enqueue({ type: 'client', client: current });
+              }
+              controller.enqueue(message);
+            },
+          }),
+        ),
         stylesheets: [
           ...new Set([...(result.stylesheets || []), ...stylesheets]),
         ],

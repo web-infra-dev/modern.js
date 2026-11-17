@@ -43,7 +43,8 @@ export default defineConfig({
   moduleFederation: {
     fetchServerQuery: { lab: 'federation' },
     ...(process.env.MF_LAB_UPDATES ? { ssr: { cacheUpdates: true } } : {}),
-    ...(['service', 'all'].includes(process.env.MF_LAB_UPDATES || '')
+    ...(['service', 'all'].includes(process.env.MF_LAB_UPDATES || '') ||
+    process.env.MF_LAB_SERVICE_NESTED
       ? {
           services: {
             'provider/ServiceWeatherApplication': {

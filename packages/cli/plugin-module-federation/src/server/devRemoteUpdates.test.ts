@@ -1,26 +1,6 @@
 import { afterEach, describe, expect, it, rs } from '@rstest/core';
 import { startDevRemoteUpdates } from './devRemoteUpdates';
 
-const transport = rs.hoisted(() => ({
-  callbacks: undefined as any,
-  synchronized: new Set<string>(),
-  publish: rs.fn(),
-  invalidate: rs.fn(),
-  close: rs.fn(async () => {}),
-}));
-rs.mock('@module-federation/enhanced/rspack', () => ({
-  createDevBuildConnection: (_options: unknown, callbacks: unknown) => {
-    transport.callbacks = callbacks;
-    return {
-      publish: transport.publish,
-      invalidate: transport.invalidate,
-      close: transport.close,
-      isSynchronized: (remote: { entry: string }) =>
-        transport.synchronized.has(remote.entry),
-    };
-  },
-}));
-
 const remote = (name: string) => ({
   name,
   entry: `http://${name}/mf-manifest.json`,
@@ -57,42 +37,33 @@ function fixture(
   return { ...options, watcher: startDevRemoteUpdates(options) };
 }
 afterEach(() => {
-  transport.synchronized.clear();
   rs.restoreAllMocks();
   rs.clearAllMocks();
 });
 
-describe('development build subscriptions and request fallback', () => {
-  it('rejects a superseded application build before updating', async () => {
-    const current = manifest('2');
+describe('request-driven development updates', () => {
+  it('reads the current manifest instead of accepting a browser supplied build version', async () => {
     rs.spyOn(globalThis, 'fetch').mockImplementation(async () =>
-      Response.json(current),
+      Response.json(manifest('2')),
     );
     const f = fixture();
-    try {
-      await expect(
-        transport.callbacks.onUpdate({
-          remote: remote('weather'),
-          publication: { buildVersion: '1' },
-        }),
-      ).rejects.toThrow('superseded');
-      expect(f.updateRemotes).not.toHaveBeenCalled();
-      await transport.callbacks.onUpdate({
-        remote: remote('weather'),
-        publication: { buildVersion: '2' },
-      });
-      expect(f.updateRemotes).toHaveBeenCalledTimes(1);
-    } finally {
-      await f.watcher.close();
-    }
+    await f.watcher.notify();
+    expect(f.updateRemotes).toHaveBeenCalledWith(
+      [expect.objectContaining({ moduleInfo: manifest('2') })],
+      expect.anything(),
+    );
+    await f.watcher.close();
   });
 
-  it('performs no background polling and skips synchronized remotes on requests', async () => {
-    const fetcher = rs.spyOn(globalThis, 'fetch');
-    transport.synchronized.add(remote('weather').entry);
-    const f = fixture();
-    await f.watcher.check();
+  it('performs no background polling but checks every new SSR admission', async () => {
+    const fetcher = rs
+      .spyOn(globalThis, 'fetch')
+      .mockImplementation(async () => Response.json(manifest()));
+    const f = fixture({ shouldUpdateRemote: rs.fn(async () => false) });
     expect(fetcher).not.toHaveBeenCalled();
+    await f.watcher.check();
+    await f.watcher.check();
+    expect(fetcher).toHaveBeenCalledTimes(2);
     expect(f.updateRemotes).not.toHaveBeenCalled();
     await f.watcher.close();
   });
@@ -123,7 +94,7 @@ describe('development build subscriptions and request fallback', () => {
     await f.watcher.close();
   });
 
-  it('checks independent remotes in parallel even when one endpoint fails', async () => {
+  it('checks independent remotes in parallel and rejects admission if a candidate fails', async () => {
     const ready = deferred<Response>();
     const fetcher = rs
       .spyOn(globalThis, 'fetch')
@@ -132,15 +103,12 @@ describe('development build subscriptions and request fallback', () => {
         return ready.promise;
       });
     const f = fixture({ remotes: [remote('unavailable'), remote('weather')] });
-    const check = f.watcher.check();
+    const check = expect(f.watcher.check()).rejects.toThrow('offline');
     await new Promise(resolve => setImmediate(resolve));
     expect(fetcher).toHaveBeenCalledTimes(2);
     ready.resolve(Response.json(manifest()));
     await check;
-    expect(f.updateRemotes).toHaveBeenCalledWith(
-      [expect.objectContaining({ name: 'weather' })],
-      expect.anything(),
-    );
+    expect(f.updateRemotes).not.toHaveBeenCalled();
     expect(f.onError).toHaveBeenCalledTimes(1);
     await f.watcher.close();
   });
@@ -163,52 +131,37 @@ describe('development build subscriptions and request fallback', () => {
     await f.watcher.close();
   });
 
-  it('acknowledges a subscription only after Node publication and forwards original nested sources', async () => {
-    rs.spyOn(globalThis, 'fetch').mockResolvedValue(
+  it('waits for Node preparation before releasing admission and records dynamic nested sources', async () => {
+    rs.spyOn(globalThis, 'fetch').mockImplementation(async () =>
       Response.json(manifest('b')),
     );
     const applied = deferred();
     const entered = deferred();
     const f = fixture({
-      build: {
-        publisher: () => remote('host'),
-        subscribe: listener => {
-          listener({ buildVersion: 'host-build' });
-          return () => {};
-        },
-      },
+      dependencies: r => (r.name === 'weather' ? [remote('nested')] : []),
       updateRemotes: rs.fn(async () => {
         entered.resolve();
         await applied.promise;
         return { changed: true };
       }),
     });
-    const source = { ...remote('nested'), buildVersion: 'nested-b' };
-    const update = transport.callbacks.onUpdate({
-      remote: remote('weather'),
-      publication: { buildVersion: 'b', sources: [source] },
-    });
+    const update = f.watcher.notify();
     await entered.promise;
     expect(f.onApplied).not.toHaveBeenCalled();
-    expect(transport.invalidate).toHaveBeenCalledTimes(1);
     applied.resolve();
     await update;
-    expect(transport.publish).toHaveBeenLastCalledWith({
-      buildVersion: 'host-build',
-      hot: false,
-      sources: [
-        source,
-        { ...remote('weather'), buildVersion: 'b', hot: undefined },
-      ],
-    });
     expect(f.updateRemotes).toHaveBeenCalledWith(
-      [expect.objectContaining({ dependencies: [source] })],
+      [
+        expect.objectContaining({
+          dependencies: [{ ...remote('nested'), buildVersion: 'b' }],
+        }),
+      ],
       expect.anything(),
     );
     await f.watcher.close();
   });
 
-  it('admits old SSR during compilation and waits only after a ready notification', async () => {
+  it('waits for Node preparation without requiring a broker notification', async () => {
     const fetcher = rs
       .spyOn(globalThis, 'fetch')
       .mockImplementation(async () => Response.json(manifest('b')));
@@ -222,16 +175,7 @@ describe('development build subscriptions and request fallback', () => {
       }),
     });
     try {
-      transport.synchronized.add(remote('weather').entry);
-      transport.callbacks.onStatus(remote('weather'), 'ready');
-      transport.synchronized.clear();
-      transport.callbacks.onStatus(remote('weather'), 'waiting');
-      await f.watcher.check(new Request('http://host/page'));
-      expect(fetcher).not.toHaveBeenCalled();
-      const update = transport.callbacks.onUpdate({
-        remote: remote('weather'),
-        publication: { buildVersion: 'b' },
-      });
+      const update = f.watcher.notify();
       await entered.promise;
       let admitted = false;
       const document = f.watcher
@@ -252,61 +196,50 @@ describe('development build subscriptions and request fallback', () => {
     }
   });
 
-  it.each(['waiting', 'updating'] as const)(
-    'checks Service readiness before SSR when the broker is %s, even before its notification arrives',
-    async status => {
-      let version = 'initial';
-      const compiling = deferred<Response>();
-      const entered = deferred();
-      let reading = false;
-      const serviceManifest = () => ({
-        ...manifest(version),
-        exposes: [{ name: 'App', path: './App', servicePath: '/service/App' }],
-      });
-      rs.spyOn(globalThis, 'fetch').mockImplementation(async () => {
-        if (reading) {
-          entered.resolve();
-          return compiling.promise;
-        }
-        return Response.json(serviceManifest());
-      });
-      const f = fixture();
-      try {
-        await transport.callbacks.onUpdate({
-          remote: remote('weather'),
-          publication: { buildVersion: 'initial' },
-        });
-        transport.synchronized.add(remote('weather').entry);
-        transport.callbacks.onStatus(remote('weather'), 'ready');
-        await f.watcher.check(new Request('http://host/service'));
-        const previous = f.updateRemotes.mock.calls.length;
-        transport.synchronized.clear();
-        transport.callbacks.onStatus(remote('weather'), status);
-        reading = true;
-        let admitted = false;
-        const document = f.watcher
-          .check(new Request('http://host/service'))
-          .then(() => {
-            admitted = true;
-          });
-        await entered.promise;
-        await new Promise(resolve => setImmediate(resolve));
-        expect(admitted).toBe(false);
-        expect(f.updateRemotes).toHaveBeenCalledTimes(previous);
-        version = 'next';
-        compiling.resolve(Response.json(serviceManifest()));
-        await document;
-        expect(f.updateRemotes).toHaveBeenCalledTimes(previous + 1);
-        expect(f.updateRemotes.mock.calls.at(-1)![0][0].moduleInfo).toEqual(
-          serviceManifest(),
-        );
-        expect(admitted).toBe(true);
-      } finally {
-        compiling.resolve(Response.json(serviceManifest()));
-        await f.watcher.close();
+  it('checks Service readiness before SSR without a notification', async () => {
+    let version = 'initial';
+    const compiling = deferred<Response>();
+    const entered = deferred();
+    let reading = false;
+    const serviceManifest = () => ({
+      ...manifest(version),
+      exposes: [{ name: 'App', path: './App', servicePath: '/service/App' }],
+    });
+    rs.spyOn(globalThis, 'fetch').mockImplementation(async () => {
+      if (reading) {
+        entered.resolve();
+        return compiling.promise;
       }
-    },
-  );
+      return Response.json(serviceManifest());
+    });
+    const f = fixture();
+    try {
+      await f.watcher.check(new Request('http://host/service'));
+      const previous = f.updateRemotes.mock.calls.length;
+      reading = true;
+      let admitted = false;
+      const document = f.watcher
+        .check(new Request('http://host/service'))
+        .then(() => {
+          admitted = true;
+        });
+      await entered.promise;
+      await new Promise(resolve => setImmediate(resolve));
+      expect(admitted).toBe(false);
+      expect(f.updateRemotes).toHaveBeenCalledTimes(previous);
+      version = 'next';
+      compiling.resolve(Response.json(serviceManifest()));
+      await document;
+      expect(f.updateRemotes).toHaveBeenCalledTimes(previous + 1);
+      expect(f.updateRemotes.mock.calls.at(-1)![0][0].moduleInfo).toEqual(
+        serviceManifest(),
+      );
+      expect(admitted).toBe(true);
+    } finally {
+      compiling.resolve(Response.json(serviceManifest()));
+      await f.watcher.close();
+    }
+  });
 
   it('keeps documents waiting across consecutive updates and coalesces queued notifications to the latest', async () => {
     let version = 'a';
@@ -329,13 +262,7 @@ describe('development build subscriptions and request fallback', () => {
         return { changed: true };
       }),
     });
-    const notify = (buildVersion: string) => {
-      transport.callbacks.onStatus(remote('weather'), 'updating');
-      return transport.callbacks.onUpdate({
-        remote: remote('weather'),
-        publication: { buildVersion },
-      });
-    };
+    const notify = (_buildVersion: string) => f.watcher.notify();
     try {
       const first = notify('a');
       await firstEntered.promise;
@@ -373,19 +300,15 @@ describe('development build subscriptions and request fallback', () => {
     );
     const f = fixture({ remotes: [remote('weather'), remote('other')] });
     try {
-      const updates = ['weather', 'other'].map(name => {
-        transport.callbacks.onStatus(remote(name), 'updating');
-        return transport.callbacks.onUpdate({
-          remote: remote(name),
-          publication: { buildVersion: 'next' },
-        });
-      });
+      const updates = [f.watcher.notify()];
       await Promise.all([
         ...updates,
         f.watcher.check(new Request('http://host/page')),
       ]);
       expect(
-        f.updateRemotes.mock.calls.map(([targets]) => targets[0].name),
+        f.updateRemotes.mock.calls.flatMap(([targets]) =>
+          targets.map(target => target.name),
+        ),
       ).toEqual(['weather', 'other']);
     } finally {
       await f.watcher.close();
@@ -404,22 +327,9 @@ describe('development build subscriptions and request fallback', () => {
         )
         .mockResolvedValue({ changed: true }),
     });
-    const notify = () =>
-      transport.callbacks.onUpdate({
-        remote: remote('weather'),
-        publication: { buildVersion: 'next' },
-      });
+    const notify = () => f.watcher.notify();
     try {
       await expect(notify()).rejects.toThrow('application recovery failed');
-      await expect(
-        f.watcher.check(new Request('http://host/page')),
-      ).rejects.toThrow('Node SSR update failed');
-      await expect(
-        f.watcher.check(new Request('http://host/page')),
-      ).rejects.toThrow('Node SSR update failed');
-      expect(f.updateRemotes).toHaveBeenCalledTimes(1);
-      await notify();
-      transport.synchronized.add(remote('weather').entry);
       await f.watcher.check(new Request('http://host/page'));
       expect(f.updateRemotes).toHaveBeenCalledTimes(2);
     } finally {
@@ -427,18 +337,18 @@ describe('development build subscriptions and request fallback', () => {
     }
   });
 
-  it('rejects superseded publication evidence without acknowledging success', async () => {
-    rs.spyOn(globalThis, 'fetch').mockResolvedValue(
-      Response.json(manifest('newer')),
-    );
-    const f = fixture();
-    await expect(
-      transport.callbacks.onUpdate({
-        remote: remote('weather'),
-        publication: { buildVersion: 'old' },
-      }),
-    ).rejects.toThrow('superseded');
-    expect(f.updateRemotes).not.toHaveBeenCalled();
+  it('discovers dynamically injected D on the next admission', async () => {
+    const remotes = [remote('weather')];
+    const fetcher = rs
+      .spyOn(globalThis, 'fetch')
+      .mockImplementation(async () => Response.json(manifest()));
+    const f = fixture({ remotes: () => remotes });
+    await f.watcher.check();
+    remotes.push(remote('D'));
+    await f.watcher.check();
+    expect(
+      fetcher.mock.calls.some(([url]) => String(url) === remote('D').entry),
+    ).toBe(true);
     await f.watcher.close();
   });
 
@@ -488,7 +398,7 @@ describe('development build subscriptions and request fallback', () => {
       });
     });
     const f = fixture();
-    const check = f.watcher.check();
+    const check = expect(f.watcher.check()).rejects.toThrow();
     await entered.promise;
     await f.watcher.close();
     await check;

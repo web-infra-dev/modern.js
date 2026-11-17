@@ -23,7 +23,7 @@ export default createModernBridgeComponent({
 
 应用定义保留 `isService: true`。构建识别后，manifest expose 与 Snapshot module 使用 `render: 'bridge'` 和 `servicePath`，不再输出 `isService`。公开服务基址在 manifest 的 `metaData.serviceBaseUrl` 中记录一次，并转换为 Snapshot 的 `serviceBaseUrl`。这些地址信息不包含服务凭据。
 
-构建双端生产者产物时，使用已有的 `MF_BUILD_VERSION` 设置一次唯一构建身份，例如部署对应的提交标识。manifest、浏览器 provider、Node provider 和服务应一起部署。消费者自动从解析后的 Snapshot 取得预期身份，组件不用重复填写版本。生产者在渲染和缓存查找前校验身份，不匹配返回 409。Core 默认退到包版本，无法区分同一包版本的多次构建，因此部署流程必须提供可区分这些产物的身份。
+构建双端生产者产物时，使用已有的 `MF_BUILD_VERSION` 设置一次唯一构建身份，例如部署对应的提交标识。manifest、浏览器 provider、Node provider 和服务应一起部署。每次 Service 响应携带本次渲染选择的客户端 Snapshot，浏览器据此加载匹配的 provider，外部 Host 不发送旧 manifest 中的预期版本，不做版本相等校验。稳定端点切换部署无需通知 Host。Modern 为生产 Service 生成带内容哈希的客户端入口，部署需要保留仍被旧 HTML 引用的入口和 chunk。
 
 ## 提供生产者服务
 
@@ -80,7 +80,7 @@ export default defineConfig({
 
 `module-federation.config.ts` 继续保留普通的 `remotes` 配置。`services` 只提供可选请求策略，键使用 Host 别名或生产者名称加 expose，不再填写上游 URL。没有额外策略时可以完全省略 `services`。地址统一读取既有加载链路最终选定的 Snapshot，已有 Snapshot 优先，必要时才加载 manifest 并转换，不另行读取 manifest 覆盖 Snapshot。
 
-Host 配置中的 `runtimePlugins` 也用于同源入口的 Snapshot 选择。Modern 将这些用户插件及其本地 TypeScript 依赖编译为私有 Node 产物，因此 CSR Host 不依赖页面 SSR 构建，生产部署也不需要原始源码路径。插件需要能够在可信 Node 服务端执行，现有插件选项与别名解析继续生效。框架自动添加的 Node 和 Bridge 插件不会重复复制。开发时等待插件重新编译完成后才采用新 Snapshot，编译失败不会静默使用旧选择。动态 `registerPlugins` 和浏览器提供 Snapshot 仍不属于此配置边界。需要更新服务端远端时，使用开启 `cacheUpdates` 后的 [Modern 更新 API](/guides/topic-detail/module-federation/ssr-update)，其中也说明了开发自动刷新和 Service 版本冲突恢复。
+Host 配置中的 `runtimePlugins` 也用于同源入口的 Snapshot 选择。Modern 将这些用户插件及其本地 TypeScript 依赖编译为私有 Node 产物，因此 CSR Host 不依赖页面 SSR 构建，生产部署也不需要原始源码路径。插件需要能够在可信 Node 服务端执行，现有插件选项与别名解析继续生效。框架自动添加的 Node 和 Bridge 插件不会重复复制。开发时等待插件重新编译完成后才采用新 Snapshot，编译失败不会静默使用旧选择。动态 `registerPlugins` 和浏览器提供 Snapshot 仍不属于此配置边界。需要更新服务端远端时，使用开启 `cacheUpdates` 后的 [Modern 更新 API](/guides/topic-detail/module-federation/ssr-update)，其中也说明了开发 HMR、请求准入与 Service 独立部署。
 
 CSR Host 只需把 `server.ssr` 改为 `false`。Modern 自动提供 `/_modern/mf/service/<编码后的模块 ID>` 同源入口，校验来源、模块、页面 URL 和有界参数，并从可信 remotes 对应的最终 Snapshot 选择上游。单独部署的静态页面可以在同源网关挂载导出的 `createBridgeServiceIngressMiddleware`，再注册对应的 Core 浏览器绑定。
 
@@ -131,7 +131,7 @@ CSR loading 位于目标容器外。Host 提交空容器后，现有接收器逐
 
 缓存默认关闭。开启后仅保存成功完成的生产者消息序列，包含渐进 ready 和 updates，不计算 Modern 最终完整 snapshot。默认最多保存 128 条、32 MiB，单条上限为 1 MiB 与总容量的较小值。通过 `maxEntries`、`maxBytes`、`maxEntryBytes` 调整容量。每个 Service HTTP 端点独立缓存，baseUrl 别名之间也不共享缓存，这些上限不是整个生产者进程的总上限。TTL 从完成时计时，读取不延长有效期，容量不足按 LRU 淘汰。
 
-缓存匹配完整序列化输入，包括模块、URL、路由、props、用户上下文、构建身份、实例身份、React 前缀和 nonce。真实页面只有这些输入匹配才会命中。重挂、cookie 或 nonce 变化都可能未命中，不能为命中而删除有效输入或改写缓存 ID。回放各自读取和取消，不影响其他消费者。失败、取消、截断和非法序列不入缓存。响应使用 `Cache-Control: no-store`，这与服务内部结果缓存分别生效。
+缓存匹配完整序列化输入，包括模块、URL、路由、props、用户上下文、实例身份、React 前缀和 nonce。缓存归属于当前生产者部署，更新时与旧应用一起释放。真实页面只有这些输入匹配才会命中。重挂、cookie 或 nonce 变化都可能未命中，不能为命中而删除有效输入或改写缓存 ID。回放各自读取和取消，不影响其他消费者。失败、取消、截断和非法序列不入缓存。响应使用 `Cache-Control: no-store`，这与服务内部结果缓存分别生效。
 
 默认限制包括单条 HTTP 消息和请求体 3 MiB、生产者 HTML 单元 2 MiB，以及各生产者／传输待消费队列 4 MiB。单条缓存超限只停止记录，实时 SSR 继续。队列超限会取消对应请求。这些预算不包含 React、socket 缓冲和其他并发请求，不是进程总内存上限，也不是完整的端到端背压。
 

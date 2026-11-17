@@ -3,7 +3,7 @@ import { runManifestFallbackScenario } from './ssr-update/manifest-fallback.mjs'
 
 // Normal development interactions live in Weather Lab's remote-updates suite.
 // These fixtures need a deliberately stale manifest gateway and a held POST.
-describe('Development manifest fallback and Service recovery', () => {
+describe('Development manifest admission and independent Service selection', () => {
   it('discovers ordinary SSR updates behind a fixed manifest URL', async () => {
     await runManifestFallbackScenario('ordinary');
   }, 600000);
@@ -13,7 +13,7 @@ describe('Development manifest fallback and Service recovery', () => {
   }, 600000);
 
   for (const mode of ['service', 'service-csr']) {
-    it(`${mode}: rejects a stale POST without automatic reload and recovers on manual refresh without replay`, async () => {
+    it(`${mode}: serves a held POST from the current deployment with matching hydration and no replay`, async () => {
       await runManifestFallbackScenario(mode);
     }, 600000);
   }

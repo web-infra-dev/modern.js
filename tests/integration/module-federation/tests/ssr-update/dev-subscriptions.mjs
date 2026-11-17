@@ -5,15 +5,12 @@ import http from 'node:http';
 import { spawn } from 'node:child_process';
 import { once } from 'node:events';
 import { createFixture } from './dev-fixture.mjs';
-import { packageRequire, packageAudit, testRequire } from './packages.mjs';
+import { packageAudit, testRequire } from './packages.mjs';
 import {
   allocateDevPorts,
   scenarioDirectory,
   stopProcesses,
 } from './dev-support.mjs';
-const { createDevBuildConnection } = packageRequire(
-  '@module-federation/enhanced/rspack',
-);
 
 const pause = ms => new Promise(resolve => setTimeout(resolve, ms));
 async function defaultBrowser(root) {
@@ -40,7 +37,6 @@ export async function runSubscriptionScenario(mode) {
   const ports = await allocateDevPorts({ nested });
   const root = await scenarioDirectory(`mf-subscription-${mode}-`);
   const fixture = await createFixture(root, appMode, ports);
-  const hostName = `dev_update_${appMode.replaceAll('-', '_')}_host`;
   const children = [];
   const evidence = {
     mode,
@@ -51,12 +47,11 @@ export async function runSubscriptionScenario(mode) {
     edits: [],
   };
   let browser;
-  let observer;
   let staticServer;
   let closing;
   let failure;
   let buildRevision = 0;
-  console.log(`Subscription ${mode} fixture: ${root}`);
+  console.log(`Development ${mode} fixture: ${root}`);
 
   function launch(app, command = 'dev') {
     const child = spawn(
@@ -169,7 +164,6 @@ export async function runSubscriptionScenario(mode) {
     if (closing) return closing;
     closing = (async () => {
       await browser?.close();
-      await observer?.close();
       if (staticServer?.listening) {
         staticServer.closeAllConnections();
         await new Promise(resolve => staticServer.close(resolve));
@@ -188,24 +182,6 @@ export async function runSubscriptionScenario(mode) {
     return closing;
   }
   try {
-    observer = createDevBuildConnection(
-      {
-        remotes: [
-          {
-            name: hostName,
-            entry: `${fixture.hostURL}/static/mf-manifest.json`,
-          },
-        ],
-      },
-      {
-        onUpdate(update) {
-          evidence.publications.push({ ...update, time: Date.now() });
-        },
-        onError(error) {
-          evidence.observerError = String(error);
-        },
-      },
-    );
     if (staticProvider) {
       await buildProvider();
       const output = path.join(root, 'provider/dist');
@@ -245,26 +221,13 @@ export async function runSubscriptionScenario(mode) {
     }
     if (!staticProvider) launch('provider');
     if (nested) launch('middle');
-    const initial = await eventually('producer publication', () =>
+    await eventually('producer manifest', () =>
       manifest(fixture.providerManifestURL),
     );
-    if (staticProvider)
-      await eventually('initial host HTTP', async () => {
-        await expectHTTP('v1', 'v1');
-        return true;
-      });
-    else
-      await eventually('initial host applied publication', () =>
-        evidence.publications.some(update =>
-          update.publication.sources?.some(
-            source =>
-              source.name === fixture.providerName &&
-              source.buildVersion === version(initial),
-          ),
-        ),
-      );
-    // The first request after the notification must already use the ready graph.
-    await expectHTTP('v1', 'v1');
+    await eventually('initial host HTTP', async () => {
+      await expectHTTP('v1', 'v1');
+      return true;
+    });
     const hostBuild = version(
       await manifest(`${fixture.hostURL}/static/mf-manifest.json`),
     );
@@ -292,7 +255,6 @@ export async function runSubscriptionScenario(mode) {
     const route = path.join(root, 'provider/src/routes/remote');
     async function edit(label, file, source, ui, loader, heading) {
       const previous = version(await manifest(fixture.providerManifestURL));
-      const before = evidence.publications.length;
       const beforeBrowser = browser ? await readBrowser() : undefined;
       await fs.writeFile(path.join(route, file), source);
       if (staticProvider) await buildProvider();
@@ -300,23 +262,8 @@ export async function runSubscriptionScenario(mode) {
         const next = await manifest(fixture.providerManifestURL);
         return next && version(next) !== previous && next;
       });
-      if (staticProvider) {
-        // No producer subscription exists. This request itself must discover v2.
-        await expectHTTP(ui, loader, heading);
-      } else {
-        await eventually(`${label}: host applied without a request`, () =>
-          evidence.publications
-            .slice(before)
-            .some(update =>
-              update.publication.sources?.some(
-                source =>
-                  source.name === fixture.providerName &&
-                  source.buildVersion === version(next),
-              ),
-            ),
-        );
-        await expectHTTP(ui, loader, heading);
-      }
+      // Admission discovers the manifest independently of producer notifications.
+      await expectHTTP(ui, loader, heading);
       assert.equal(
         version(await manifest(`${fixture.hostURL}/static/mf-manifest.json`)),
         hostBuild,

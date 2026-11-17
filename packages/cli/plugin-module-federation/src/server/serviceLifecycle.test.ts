@@ -1,5 +1,5 @@
 import { randomUUID } from 'node:crypto';
-import { afterEach, describe, expect, it } from '@rstest/core';
+import { afterEach, describe, expect, it, rs } from '@rstest/core';
 import type { Manifest } from '@module-federation/sdk';
 import type { ModuleFederation } from '@module-federation/enhanced/runtime';
 import { createBridgeServiceMiddleware } from './service';
@@ -7,6 +7,7 @@ import { createBridgeServiceMiddleware } from './service';
 const handlers: ReturnType<typeof createBridgeServiceMiddleware>[] = [];
 afterEach(async () => {
   await Promise.all(handlers.splice(0).map(handler => handler.dispose()));
+  rs.restoreAllMocks();
 });
 
 function fixture() {
@@ -45,6 +46,23 @@ function fixture() {
     shared: [],
     remotes: [],
   };
+  rs.spyOn(globalThis, 'fetch').mockImplementation(
+    async () =>
+      new Response(`module.exports = {
+    init() {},
+    get() { return Promise.resolve(() => ({ default: () => ({
+      render() {}, destroy() {},
+      async renderStream() { return {
+        protocol: 'module-federation/bridge-ssr/producer/v1', hydration: 'complete', abort() {},
+        messages: new ReadableStream({ start(controller) {
+          controller.enqueue({ type: 'html', html: '<h1>current service</h1>' });
+          controller.enqueue({ type: 'data', snapshot: {} });
+          controller.enqueue({ type: 'done' }); controller.close();
+        } }),
+      }; },
+    }) })); },
+  };`),
+  );
   const create = () => {
     const handler = createBridgeServiceMiddleware({
       path: '/render',
@@ -57,8 +75,8 @@ function fixture() {
     handlers.push(handler);
     return handler;
   };
-  const invoke = (handler: ReturnType<typeof create>) =>
-    handler(
+  const invoke = async (handler: ReturnType<typeof create>) => {
+    const response = await handler(
       {
         get: () => undefined,
         req: {
@@ -82,6 +100,10 @@ function fixture() {
         throw Error('Unexpected middleware fallthrough.');
       },
     );
+    if (response?.status === 200)
+      expect(await response.text()).toContain('"type":"done"');
+    return response;
+  };
   const instances = () =>
     (
       (globalThis as any).__FEDERATION__.__INSTANCES__ as ModuleFederation[]
@@ -94,8 +116,8 @@ describe('Service deployment runtime ownership', () => {
     const f = fixture();
     const first = f.create();
     const second = f.create();
-    expect((await f.invoke(first))?.status).toBe(409);
-    expect((await f.invoke(second))?.status).toBe(409);
+    expect((await f.invoke(first))?.status).toBe(200);
+    expect((await f.invoke(second))?.status).toBe(200);
     const instances = f.instances();
     expect(instances).toHaveLength(2);
     expect(new Set(instances.map(instance => instance.name)).size).toBe(2);
@@ -105,7 +127,7 @@ describe('Service deployment runtime ownership', () => {
       ]);
     await first.dispose();
     expect(f.instances()).toHaveLength(1);
-    expect((await f.invoke(second))?.status).toBe(409);
+    expect((await f.invoke(second))?.status).toBe(200);
     await second.dispose();
     expect(f.instances()).toHaveLength(0);
   });
@@ -119,7 +141,7 @@ describe('Service deployment runtime ownership', () => {
     );
     expect(f.instances()).toHaveLength(0);
     f.manifest.exposes[0].servicePath = 'render';
-    expect((await f.invoke(handler))?.status).toBe(409);
+    expect((await f.invoke(handler))?.status).toBe(200);
     expect(f.instances()).toHaveLength(1);
     await handler.dispose();
     expect(f.instances()).toHaveLength(0);

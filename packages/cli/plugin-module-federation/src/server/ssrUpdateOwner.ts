@@ -8,6 +8,7 @@ export interface SSRUpdateOwner {
   readonly name: string;
   readonly entries: Map<string, SSREntryRecord>;
   readonly instances: Set<any>;
+  readonly serviceInstances: Set<any>;
   readonly entryNames: Set<string>;
   registrations?: any[];
   /** Deployment metadata only, so retained containers can be found after snapshots retire. */
@@ -58,6 +59,7 @@ export function createSSRUpdateOwner(
     name,
     entries: new Map(),
     instances: new Set(),
+    serviceInstances: new Set(),
     entryNames: new Set(
       entries.flatMap(entry => [entry, `${entry}-server-loaders`]),
     ),
@@ -90,7 +92,11 @@ export function requireSSRNodeLifecycle(instance: any) {
     );
   return lifecycle;
 }
-export function bindSSRRuntime(owner: SSRUpdateOwner, instance: any) {
+export function bindSSRRuntime(
+  owner: SSRUpdateOwner,
+  instance: any,
+  root = true,
+) {
   const lifecycle = requireSSRNodeLifecycle(instance);
   if (lifecycle.closed)
     throw new Error(`Cannot bind closed SSR instance ${instance.name}`);
@@ -101,7 +107,7 @@ export function bindSSRRuntime(owner: SSRUpdateOwner, instance: any) {
     value: owner,
     configurable: true,
   });
-  owner.instances.add(instance);
+  if (root) owner.instances.add(instance);
 }
 export function releaseSSRUpdateOwner(owner: SSRUpdateOwner) {
   protocol().owners.delete(owner.id);
@@ -109,6 +115,7 @@ export function releaseSSRUpdateOwner(owner: SSRUpdateOwner) {
     record.runtime[runtimeOwnerKey] = undefined;
   owner.entries.clear();
   owner.instances.clear();
+  owner.serviceInstances.clear();
   owner.registrations = undefined;
   owner.providerIdentities = undefined;
 }
