@@ -50,7 +50,7 @@ export const compile: CompileFunc = async (
   modernConfig,
   compileOptions,
 ) => {
-  const { sourceDirs, distDir, tsconfigPath: _tsconfigPath } = compileOptions;
+  const { sourceDirs, distDir } = compileOptions;
   validateAbsolutePaths(
     sourceDirs,
     dir => `source dir ${dir} is not an absolute path.`,

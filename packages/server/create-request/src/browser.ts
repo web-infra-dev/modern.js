@@ -54,9 +54,7 @@ export const configure = (options: IOptions) => {
 export const createRequest: RequestCreator = ({
   path,
   method,
-  port: _port,
   httpMethodDecider = 'functionName', // 后续可能要修改，暂时先保留
-  fetch: _fetch = originFetch,
   domain,
   requestId = 'default',
 }) => {

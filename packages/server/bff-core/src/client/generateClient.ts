@@ -49,7 +49,6 @@ export const generateClient = async ({
   target,
   requestCreator,
   fetcher,
-  requireResolve: _requireResolve = require.resolve,
   httpMethodDecider,
   domain,
 }: GenClientOptions): Promise<GenClientResult> => {

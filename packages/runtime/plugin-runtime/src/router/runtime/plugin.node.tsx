@@ -87,7 +87,6 @@ export const routerPlugin = (
         }
 
         const {
-          request: _request,
           mode: ssrMode,
           nonce,
           loaderFailureMode = 'errorBoundary',
@@ -210,7 +209,7 @@ export const routerPlugin = (
 
         const getRouteApp = () => {
           const enableRsc = getGlobalEnableRsc();
-          return (_props => {
+          return (() => {
             const context = useContext(InternalRuntimeContext);
             const { routerContext, ssrContext, routes } = context;
             const { nonce, mode, useJsonScript } = ssrContext!;

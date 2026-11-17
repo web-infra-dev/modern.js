@@ -3,7 +3,7 @@ import { readFile } from './utils.server';
 
 const wait = (ms: number) => new Promise(resolve => setTimeout(resolve, ms));
 
-const loader: LoaderFunction = async ({ request: _request }) => {
+const loader: LoaderFunction = async _args => {
   await wait(10);
   // test for support .server.ts
   await readFile(__filename).toString();

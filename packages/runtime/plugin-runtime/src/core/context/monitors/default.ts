@@ -1,7 +1,7 @@
 import type { Monitors } from '@modern-js/types';
 
 export const defaultMonitors: Omit<Monitors, 'push'> = {
-  counter(_name: string, ..._args: any[]) {},
+  counter() {},
 
   info: console.info,
   debug: console.debug,
@@ -9,5 +9,5 @@ export const defaultMonitors: Omit<Monitors, 'push'> = {
   warn: console.warn,
   error: console.error,
 
-  timing(_name: string, _dur: number, ..._args: any[]) {},
+  timing() {},
 };

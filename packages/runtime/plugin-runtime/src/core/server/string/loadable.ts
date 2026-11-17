@@ -207,7 +207,7 @@ export class LoadableCollector implements Collector {
   }
 
   private async emitStyleAssets(chunks: Chunk[]) {
-    const { template, chunkSet, config, entryName: _entryName } = this.options;
+    const { template, chunkSet, config } = this.options;
 
     const { inlineStyles } = config;
 

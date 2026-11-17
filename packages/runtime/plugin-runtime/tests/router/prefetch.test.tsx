@@ -14,6 +14,7 @@ declare global {
   var _SSR_DATA: unknown;
 }
 
+// Data prefetching requires loaders with at least one parameter.
 const mockRoutes = [
   {
     id: 'root',
@@ -23,7 +24,7 @@ const mockRoutes = [
   {
     id: 'aa',
     path: 'aa',
-    loader: ({ request: _request }: LoaderFunctionArgs) => null,
+    loader: (_args: LoaderFunctionArgs) => null,
     element: <h1>idk</h1>,
   },
 ];
@@ -117,7 +118,7 @@ describe('prefetch', () => {
       {
         id: 'aa',
         path: 'aa',
-        loader: ({ request: _request }: LoaderFunctionArgs) => null,
+        loader: (_args: LoaderFunctionArgs) => null,
         element: <h1>idk</h1>,
       },
     ];
@@ -126,9 +127,7 @@ describe('prefetch', () => {
     act(() => {
       router = createMemoryRouter(mockRoutes);
     });
-    const { container: _container, unmount } = render(
-      <RouterProvider router={router as any} />,
-    );
+    const { unmount } = render(<RouterProvider router={router as any} />);
 
     act(() => {
       rstest.runAllTimers();

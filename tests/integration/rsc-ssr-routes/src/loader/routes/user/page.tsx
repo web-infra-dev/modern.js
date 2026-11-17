@@ -9,7 +9,6 @@ import './page.css';
 
 export default function UserPage({
   loaderData,
-  matches: _matches,
 }: {
   loaderData: any;
   matches: any[];

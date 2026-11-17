@@ -1,4 +1,4 @@
-export const loader = async ({ request: _request }: { request: Request }) => {
+export const loader = async (_args: { request: Request }) => {
   const user = new Promise(resolve =>
     setTimeout(() => resolve('user page data'), 1000),
   );

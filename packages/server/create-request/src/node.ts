@@ -61,7 +61,6 @@ export const createRequest: RequestCreator<Fetch> = ({
   method,
   port,
   httpMethodDecider = 'functionName', // 后续可能要修改，暂时先保留
-  fetch: _fetch = originFetch,
   requestId = 'default',
 }) => {
   const getFinalPath = compile(path, { encode: encodeURIComponent });

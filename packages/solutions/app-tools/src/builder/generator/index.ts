@@ -104,6 +104,4 @@ async function applyBuilderPlugins(
   builder.addPlugins([builderPluginAdapterCopy(options)], {
     environment: 'client',
   });
-
-  const { normalizedConfig: _normalizedConfig } = options;
 }

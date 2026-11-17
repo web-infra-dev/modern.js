@@ -34,7 +34,7 @@ export type PluginItem = [string, Record<string, any> | undefined];
 
 export const genPluginImportsCode = (plugins: PluginItem[], isESM = false) => {
   return plugins
-    .map(([name, _options], index) => {
+    .map(([name], index) => {
       const im = isESM
         ? `import * as plugin_${index}_ns from '${name}'`
         : `const plugin_${index}_ns = require('${name}')`;

@@ -52,3 +52,9 @@
 [2026-11-17] 任务 4 完成：首次单测发现 worktree 缺少 utils 和 bff-core 的本地构建产物，测试辅助包又指向原工作区，导致路径快照不匹配。补齐构建并让测试辅助包指向当前 worktree 后，`pnpm test:ut --changed HEAD --pool.maxWorkers 4 --reporters default` 通过全部 156 个测试文件，994 个用例通过，3 个跳过。根 package.json 的改动触发了全仓单测。
 
 [2026-11-17] 最终验证：`pnpm test:lint`、`pnpm lint`、`pnpm check`、`git diff --check`、`pnpm run lint:package-json` 和 `pnpm run check-changeset` 均通过。`pnpm --filter @modern-js/utils build`、`pnpm --filter @modern-js/bff-core build` 和 `pnpm --filter @modern-js/builder build` 均通过，包括声明文件生成。未执行框架集成测试和 builder e2e，本次没有改变框架运行时语义。主工作区 `git status --short` 为空。
+
+[2026-11-17] 根据用户的新偏好，后续清理优先直接删除无用绑定。移除 `matches: _matches` 等不承担 rest 属性排除作用的解构，以及没有参数约定需要保留的回调参数。保留 rest 排除项、编译期类型断言和决定公开 API 或泛型包装器输入类型的参数，避免改变传出的对象字段或函数调用类型。开始验证本轮清理。
+
+[2026-11-17] 本轮单测确认了参数数量约定：`PrefetchLink.tsx` 通过 `loader.length === 0` 判断是否跳过数据预取。删除 loader 的全部参数会导致四个预取用例失败，因此改为保留一个 `_args` 参数，同时移除无用的属性解构。该约定也适用于集成夹具中的 loader，已统一保留参数数量并在预取用例旁添加说明。缓存包装器通过泛型透传函数参数类型，其有意忽略的入参继续保留。
+
+[2026-11-17] 本轮验证完成：`pnpm check`、`pnpm test:lint`、`git diff --check` 均通过。`pnpm test:ut --pool.maxWorkers 4 --reporters default` 通过全部 156 个测试文件，994 个用例通过，3 个跳过。`@modern-js/runtime`、`@modern-js/create-request`、`@modern-js/plugin` 和 `@modern-js/server-core` 的构建及声明生成通过。后续提交将本轮无用绑定清理更新到同一个 PR。

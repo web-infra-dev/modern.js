@@ -71,7 +71,7 @@ test.skip('default & hmr (default true)', async ({ page }) => {
   await builder.server.close();
 });
 
-test('output.distPath', async ({ page: _page }) => {
+test('output.distPath', async () => {
   await build({
     cwd: join(fixtures, 'basic'),
     entry: {
