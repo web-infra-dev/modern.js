@@ -912,7 +912,7 @@ describe('publishable workspace scope', () => {
   it('prints package, packed path, line and rule and exits nonzero for an artifact violation', async () => {
     const root = await temporaryDirectory();
     const checker = resolve(__dirname, '..');
-    const isolatedChecker = join(root, 'scripts/lint-package-json');
+    const isolatedChecker = join(root, 'scripts/check-dependencies');
     await writeFiles(root, {
       'package.json': JSON.stringify({ name: 'fixture-root', private: true }),
       'pnpm-workspace.yaml': "packages:\n  - 'packages/*'\n",

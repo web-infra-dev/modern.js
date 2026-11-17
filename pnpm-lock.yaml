@@ -2260,7 +2260,7 @@ importers:
         specifier: ^5
         version: 5.7.3
 
-  scripts/lint-package-json:
+  scripts/check-dependencies:
     dependencies:
       '@types/fs-extra':
         specifier: 9.0.13

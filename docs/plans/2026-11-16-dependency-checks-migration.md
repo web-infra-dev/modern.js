@@ -1,5 +1,7 @@
 # 依赖检查迁移与维护者 skill 移除规划
 
+> 当前工具目录为 `scripts/check-dependencies`，包名为 `@scripts/check-dependencies`。下文保留迁移时的 `scripts/lint-package-json` 路径和包名作为历史记录。原有根目录命令保持不变。
+
 ## Decision Brief
 
 **Intent（意图）**：把已经认可的依赖规则变成开发流程中的自动保障，避免人工审计与自动检查维护两套不同规则。只防现有规则和历史实际出现过的错误，不发展通用依赖审计平台。
@@ -277,3 +279,7 @@
 [2026-11-16] 解释与最终核对：另一个 sub-agent 已使用 explain-pr 生成中文解释，已填写并读取验证 PR Summary，保留其他模板章节。最终 head 9319b5a814 上再次调用 explain-pr 确认说明仍准确。用户要求的切分支、实施、独立审核、提交、push、PR 和中文 Summary 已完成。仅本规划文档保持未跟踪，远端 CI 在后续 push 后重新执行，尚不能宣称全部 CI 已通过。
 
 [2026-11-16] 文档提交授权更新：用户要求将本规划文档一起提交，此要求取代前文记录的文档排除规则。本次仅提交规划文档，不改动实现代码。
+
+[2026-11-17] 工具重命名：用户选定 check-dependencies 并授权修改，将目录迁移为 scripts/check-dependencies，私有包名改为 @scripts/check-dependencies。更新根命令的包筛选、根 rstest 项目路径、隔离测试路径和维护者文档链接，原有命令名称、检查逻辑及 CI 调用保持不变。CHANGELOG 原文和已完成迁移规划保留为历史记录，文档顶部注明当前名称。
+
+[2026-11-17] 锁文件与验证：pnpm 离线自动更新最初因缺少缓存元数据失败，缓存优先更新带入无关依赖变化后已撤回，限定包范围的离线更新也因缓存版本缺失失败。经用户明确批准，仅将锁文件 importer 键从 scripts/lint-package-json 改为 scripts/check-dependencies，逐字节比对确认所有依赖解析数据不变。冻结锁文件离线安装、依赖回归 65/65、根单测 1059 通过及 3 跳过、检查工具 tsc --noEmit、完整版本一致性与源码检查、30 个发布包产物检查、pnpm check 和 git diff --check 均通过。20 个迁移文件仅包名及隔离测试路径两处内容发生预期变更，运行入口无旧名称残留。未重跑全仓构建、framework/e2e、原生 Windows 或当前工作区真实暂存流水线，未提交或推送。
