@@ -45,8 +45,8 @@ define.lint(({ js, ts }) => [
 ]);
 
 define.staged({
-  '*.{md,mdx,json,json5,yml,yaml,css,less,scss,html}': 'rs fmt',
-  '*.{js,jsx,ts,tsx,cjs,mjs,mts}': ['rs lint', 'rs fmt'],
+  '*.{md,mdx,json,json5,jsonc,yml,yaml,css,less,scss,html}': 'rs fmt',
+  '*.{js,jsx,ts,tsx,cjs,mjs,mts,cts}': ['rs lint', 'rs fmt'],
   '**/package.json': ['pnpm check-dependencies'],
 });
 
