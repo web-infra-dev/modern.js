@@ -59,6 +59,7 @@ export function startDevRemoteUpdates(options: DevRemoteUpdatesOptions) {
   const brokerReady = new Set<string>();
   const statuses = new Map<string, DevBuildStatus>();
   const unavailable = new Set<string>();
+  const services = new Set<string>();
   const pendingPublication = () =>
     remotes.some(remote => {
       const key = identity(remote);
@@ -78,7 +79,6 @@ export function startDevRemoteUpdates(options: DevRemoteUpdatesOptions) {
     if (!lifetime.signal.aborted) options.onError(error);
   };
   const enqueue = (operation: () => Promise<void>) => {
-    isRefreshing = true;
     const result = queue.then(() => {
       if (!lifetime.signal.aborted) return operation();
     });
@@ -239,6 +239,9 @@ export function startDevRemoteUpdates(options: DevRemoteUpdatesOptions) {
           return {
             candidate,
             publication,
+            service: (
+              (moduleInfo.exposes || []) as { servicePath?: string }[]
+            ).some(expose => typeof expose.servicePath === 'string'),
             changed: await options.shouldUpdateRemote(candidate, { signal }),
           };
         }),
@@ -264,14 +267,18 @@ export function startDevRemoteUpdates(options: DevRemoteUpdatesOptions) {
           if (notification) throw result.reason;
           if (!unavailable.has(identity(targets[index]))) report(result.reason);
         } else {
-          known.add(identity(result.value.candidate));
-          unavailable.delete(identity(result.value.candidate));
+          const key = identity(result.value.candidate);
+          known.add(key);
+          unavailable.delete(key);
+          if (result.value.service) services.add(key);
+          else services.delete(key);
           if (result.value.changed) changes.push(result.value.candidate);
         }
       }
       // The manifest deadline bounds reads, not draining existing SSR work.
       clearTimeout(timer);
       if (changes.length) {
+        isRefreshing = true;
         options.onUpdating?.(changes);
         ready = false;
         connection.invalidate();
@@ -313,6 +320,7 @@ export function startDevRemoteUpdates(options: DevRemoteUpdatesOptions) {
     { publisher, remotes },
     {
       onUpdate: notification => {
+        isRefreshing = true;
         const key = identity(notification.remote);
         const previous = pending.get(key);
         if (previous) {
@@ -391,9 +399,11 @@ export function startDevRemoteUpdates(options: DevRemoteUpdatesOptions) {
             return enqueue(async () => {
               const pending = remotes.filter(remote => {
                 const key = identity(remote);
-                // Invalidation means the producer is compiling. Until its ready
-                // notification arrives, the existing Node generation can serve.
+                // Cached JS can serve the old generation during compilation.
+                // A Service makes live HTTP calls: its producer may already have
+                // replaced that generation before the ready event reaches us.
                 if (
+                  !services.has(key) &&
                   !unavailable.has(key) &&
                   ((brokerReady.has(key) && statuses.get(key) === 'waiting') ||
                     (publications.has(key) && statuses.get(key) === 'updating'))

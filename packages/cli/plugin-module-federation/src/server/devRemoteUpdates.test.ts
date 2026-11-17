@@ -252,6 +252,62 @@ describe('development build subscriptions and request fallback', () => {
     }
   });
 
+  it.each(['waiting', 'updating'] as const)(
+    'checks Service readiness before SSR when the broker is %s, even before its notification arrives',
+    async status => {
+      let version = 'initial';
+      const compiling = deferred<Response>();
+      const entered = deferred();
+      let reading = false;
+      const serviceManifest = () => ({
+        ...manifest(version),
+        exposes: [{ name: 'App', path: './App', servicePath: '/service/App' }],
+      });
+      rs.spyOn(globalThis, 'fetch').mockImplementation(async () => {
+        if (reading) {
+          entered.resolve();
+          return compiling.promise;
+        }
+        return Response.json(serviceManifest());
+      });
+      const f = fixture();
+      try {
+        await transport.callbacks.onUpdate({
+          remote: remote('weather'),
+          publication: { buildVersion: 'initial' },
+        });
+        transport.synchronized.add(remote('weather').entry);
+        transport.callbacks.onStatus(remote('weather'), 'ready');
+        await f.watcher.check(new Request('http://host/service'));
+        const previous = f.updateRemotes.mock.calls.length;
+        transport.synchronized.clear();
+        transport.callbacks.onStatus(remote('weather'), status);
+        reading = true;
+        let admitted = false;
+        const document = f.watcher
+          .check(new Request('http://host/service'))
+          .then(() => {
+            admitted = true;
+          });
+        await entered.promise;
+        await new Promise(resolve => setImmediate(resolve));
+        expect(admitted).toBe(false);
+        expect(f.updateRemotes).toHaveBeenCalledTimes(previous);
+        version = 'next';
+        compiling.resolve(Response.json(serviceManifest()));
+        await document;
+        expect(f.updateRemotes).toHaveBeenCalledTimes(previous + 1);
+        expect(f.updateRemotes.mock.calls.at(-1)![0][0].moduleInfo).toEqual(
+          serviceManifest(),
+        );
+        expect(admitted).toBe(true);
+      } finally {
+        compiling.resolve(Response.json(serviceManifest()));
+        await f.watcher.close();
+      }
+    },
+  );
+
   it('keeps documents waiting across consecutive updates and coalesces queued notifications to the latest', async () => {
     let version = 'a';
     rs.spyOn(globalThis, 'fetch').mockImplementation(async () =>

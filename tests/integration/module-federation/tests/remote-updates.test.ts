@@ -32,6 +32,64 @@ for (const scenario of scenarios.filter(
     `Producer updates / ${scenario}`,
     getContext => {
       if (getContext().mode === 'dev') {
+        if (scenario === 'service') {
+          it('keeps a mixed-export layout reload on SSR while the Service producer updates', async () => {
+            const { page, lab, workspace } = getContext();
+            const source = path.join(
+              workspace,
+              'provider/src/routes/weather-application/layout.tsx',
+            );
+            const original = await readFile(source, 'utf8');
+            const marker = 'Service layout reload regression';
+            const changed = original.replace(
+              /<p>MY WEATHER \/[^<]*<\/p>/,
+              `<p>${marker}</p>`,
+            );
+            expect(changed).not.toBe(original);
+            const observer = observeDocuments(page, 'service');
+            try {
+              await page.goto(`${lab.url}${scenarioRoutes.service}`, {
+                waitUntil: 'networkidle0',
+              });
+              await assertInteraction(page, 'service', 'v1:initial');
+              await observer.settle();
+              const before = observer.documents.length;
+              await writeFile(source, changed);
+              // shouldRevalidate is a valid route export but is currently not a
+              // Refresh boundary. Its native reload must still receive fresh SSR.
+              await page.waitForFunction(
+                text =>
+                  document.querySelector('.weather-app-header p')
+                    ?.textContent === text,
+                { timeout: 60000 },
+                marker,
+              );
+              await observer.settle();
+              expect(new URL(page.url()).searchParams.has('csr')).toBe(false);
+              const documents = observer.documents
+                .slice(before)
+                .filter(
+                  document =>
+                    document.status === 200 && !document.requestFailure,
+                );
+              expect(documents.length).toBeGreaterThan(0);
+              for (const document of documents) {
+                assertServerVersion(document.html!, 'service', 'v1:initial');
+                expect(document.html).toContain(marker);
+              }
+              const response = await fetch(page.url());
+              expect(response.status).toBe(200);
+              const html = await response.text();
+              assertServerVersion(html, 'service', 'v1:initial');
+              expect(html).toContain(marker);
+              await assertInteraction(page, 'service', 'v1:initial');
+            } finally {
+              if ((await readFile(source, 'utf8')) === changed)
+                await writeFile(source, original);
+              observer.stop();
+            }
+          }, 120000);
+        }
         if (scenario === 'bridge') {
           it('waits for Node readiness on a manual refresh while an older SSR stream drains', async () => {
             const { lab, workspace } = getContext();
