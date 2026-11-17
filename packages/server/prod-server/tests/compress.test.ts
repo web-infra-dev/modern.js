@@ -98,23 +98,41 @@ const request = (
   pathname: string,
 ) => server.request(pathname, { headers: { 'Accept-Encoding': 'gzip, br' } });
 
-it('compresses pages and static assets with brotli by default', async () => {
-  const server = await createServer();
+const decode = async (res: Response) => {
+  const body = Buffer.from(await res.arrayBuffer());
+  const encoding = res.headers.get('content-encoding');
+  if (encoding === 'br') {
+    return zlib.brotliDecompressSync(body).toString();
+  }
+  return encoding === 'gzip'
+    ? zlib.gunzipSync(body).toString()
+    : body.toString();
+};
 
-  const page = await request(server, '/page');
-  expect(page.headers.get('content-encoding')).toBe('br');
-  expect(page.headers.get('vary')).toBe('Accept-Encoding');
-  expect(
-    zlib.brotliDecompressSync(Buffer.from(await page.arrayBuffer())).toString(),
-  ).toBe(html);
+it('compresses static files with brotli by default', async () => {
+  const server = await createServer();
 
   const asset = await request(server, '/static/js/app.js');
   expect(asset.headers.get('content-encoding')).toBe('br');
-  expect(
-    zlib
-      .brotliDecompressSync(Buffer.from(await asset.arrayBuffer()))
-      .toString(),
-  ).toBe(js);
+  expect(asset.headers.get('vary')).toBe('Accept-Encoding');
+  expect(await decode(asset)).toBe(js);
+
+  const identity = await server.request('/static/js/app.js');
+  expect(identity.headers.get('content-encoding')).toBeNull();
+  expect(identity.headers.get('vary')).toBe('Accept-Encoding');
+  expect(await identity.text()).toBe(js);
+});
+
+it('does not compress responses that are not static files', async () => {
+  const server = await createServer();
+  const page = await request(server, '/page');
+  expect(page.headers.get('content-encoding')).toBeNull();
+  expect(page.headers.get('vary')).toBeNull();
+  expect(await page.text()).toBe(html);
+
+  const encoded = await request(server, '/user-compressed');
+  expect(encoded.headers.get('content-encoding')).toBe('gzip');
+  expect(await decode(encoded)).toBe(html);
 });
 
 it('does not compress files below the threshold', async () => {
@@ -127,29 +145,16 @@ it('does not compress files below the threshold', async () => {
 
 it('respects the configured encodings', async () => {
   const server = await createServer({ compress: { encodings: ['gzip'] } });
-  const page = await request(server, '/page');
-  expect(page.headers.get('content-encoding')).toBe('gzip');
-  expect(
-    zlib.gunzipSync(Buffer.from(await page.arrayBuffer())).toString(),
-  ).toBe(html);
-});
-
-it('does not compress responses already encoded by a user middleware', async () => {
-  const server = await createServer();
-  const res = await request(server, '/user-compressed');
-  expect(res.headers.get('content-encoding')).toBe('gzip');
-  expect(zlib.gunzipSync(Buffer.from(await res.arrayBuffer())).toString()).toBe(
-    html,
-  );
+  const asset = await request(server, '/static/js/app.js');
+  expect(asset.headers.get('content-encoding')).toBe('gzip');
+  expect(await decode(asset)).toBe(js);
 });
 
 it('can be disabled with server.compress', async () => {
   const server = await createServer({ compress: false });
-  for (const pathname of ['/page', '/static/js/app.js']) {
-    const res = await request(server, pathname);
-    expect(res.headers.get('content-encoding')).toBeNull();
-    expect(res.headers.get('vary')).toBeNull();
-  }
+  const res = await request(server, '/static/js/app.js');
+  expect(res.headers.get('content-encoding')).toBeNull();
+  expect(res.headers.get('vary')).toBeNull();
 });
 
 it('lets server/modern.server.ts override modern.config.ts', async () => {
@@ -157,31 +162,31 @@ it('lets server/modern.server.ts override modern.config.ts', async () => {
     compress: true,
     serverCompress: false,
   });
-  const res = await request(disabled, '/page');
+  const res = await request(disabled, '/static/js/app.js');
   expect(res.headers.get('content-encoding')).toBeNull();
 
   const lowThreshold = await createServer({
     compress: { threshold: 1024 * 1024 },
     serverCompress: { threshold: 0 },
   });
-  const page = await request(lowThreshold, '/page');
-  expect(page.headers.get('content-encoding')).toBe('br');
+  const asset = await request(lowThreshold, '/static/js/app.js');
+  expect(asset.headers.get('content-encoding')).toBe('br');
 });
 
 it('is disabled by default outside of the Node.js server', async () => {
   const server = await createServer({ nodeServer: false });
-  const res = await request(server, '/page');
+  const res = await request(server, '/static/js/app.js');
   expect(res.headers.get('content-encoding')).toBeNull();
 
   const enabled = await createServer({ nodeServer: false, compress: true });
-  const compressed = await request(enabled, '/page');
+  const compressed = await request(enabled, '/static/js/app.js');
   expect(compressed.headers.get('content-encoding')).toBe('br');
 });
 
 it('is disabled in development', async () => {
   rstest.stubEnv('NODE_ENV', 'development');
   const server = await createServer({ compress: true });
-  const res = await request(server, '/page');
+  const res = await request(server, '/static/js/app.js');
   expect(res.headers.get('content-encoding')).toBeNull();
-  expect(await res.text()).toBe(html);
+  expect(await res.text()).toBe(js);
 });

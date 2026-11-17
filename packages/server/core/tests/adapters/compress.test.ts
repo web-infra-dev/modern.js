@@ -76,150 +76,24 @@ describe('resolveCompressOptions', () => {
 });
 
 describe('compress middleware', () => {
-  const createApp = (setup: (app: Hono) => void) => {
+  it('should leave responses that are not static files unchanged', async () => {
     const app = new Hono();
     app.use(createCompressMiddleware(options) as any);
-    setup(app);
-    return app;
-  };
-
-  it('should weaken a strong ETag of a compressed response', async () => {
-    const app = createApp(app => {
-      app.get('/strong', c => c.html(html, 200, { ETag: '"page"' }));
-      app.get('/weak', c => c.html(html, 200, { ETag: 'W/"page"' }));
-    });
-    const compressed = await app.request('/strong', {
+    app.get('/page', c => c.html(html, 200, { ETag: '"page"' }));
+    app.get('/api', c => c.json({ html }));
+    for (const pathname of ['/page', '/api']) {
+      const res = await app.request(pathname, {
+        headers: { 'Accept-Encoding': 'br, gzip' },
+      });
+      expect(res.headers.get('content-encoding')).toBeNull();
+      expect(res.headers.get('vary')).toBeNull();
+    }
+    const page = await app.request('/page', {
       headers: { 'Accept-Encoding': 'br' },
     });
-    expect(compressed.headers.get('content-encoding')).toBe('br');
-    expect(compressed.headers.get('etag')).toBe('W/"page"');
-    const weak = await app.request('/weak', {
-      headers: { 'Accept-Encoding': 'gzip' },
-    });
-    expect(weak.headers.get('etag')).toBe('W/"page"');
-    const identity = await app.request('/strong');
-    expect(identity.headers.get('content-encoding')).toBeNull();
-    expect(identity.headers.get('etag')).toBe('"page"');
+    expect(page.headers.get('etag')).toBe('"page"');
+    expect(await page.text()).toBe(html);
   });
-
-  it.each(['br', 'gzip'])('should compress with %s', async encoding => {
-    const app = createApp(app => app.get('/', c => c.html(html)));
-    const res = await app.request('/', {
-      headers: { 'Accept-Encoding': encoding },
-    });
-    expect(res.headers.get('content-encoding')).toBe(encoding);
-    expect(res.headers.get('content-length')).toBeNull();
-    expect(res.headers.get('vary')).toBe('Accept-Encoding');
-    expect(await readBody(res)).toBe(html);
-  });
-
-  it('should add vary but not compress when no encoding is accepted', async () => {
-    const app = createApp(app => app.get('/', c => c.html(html)));
-    const res = await app.request('/');
-    expect(res.headers.get('content-encoding')).toBeNull();
-    expect(res.headers.get('vary')).toBe('Accept-Encoding');
-    expect(await res.text()).toBe(html);
-  });
-
-  it('should skip responses that should not be compressed', async () => {
-    const app = createApp(app => {
-      app.get('/small', c => {
-        c.header('Content-Length', '5');
-        return c.text('small');
-      });
-      app.get('/image', c => {
-        c.header('Content-Type', 'image/png');
-        return c.body(new Uint8Array(4096));
-      });
-      app.get('/encoded', c => {
-        c.header('Content-Encoding', 'gzip');
-        return c.body(zlib.gzipSync(html), 200, {
-          'Content-Type': 'text/html',
-        });
-      });
-      app.get('/no-transform', c => {
-        c.header('Cache-Control', 'public, no-transform');
-        return c.html(html);
-      });
-      app.get('/sse', c => {
-        c.header('Content-Type', 'text/event-stream');
-        return c.body('data: hello\n\n'.repeat(200));
-      });
-      app.get('/empty', c => c.body(null, 204));
-    });
-    const headers = { 'Accept-Encoding': 'br, gzip' };
-    for (const pathname of ['/small', '/image', '/no-transform', '/sse']) {
-      const res = await app.request(pathname, { headers });
-      expect(res.headers.get('content-encoding')).toBeNull();
-    }
-    const encoded = await app.request('/encoded', { headers });
-    expect(encoded.headers.get('content-encoding')).toBe('gzip');
-    expect(await readBody(encoded)).toBe(html);
-    const empty = await app.request('/empty', { headers });
-    expect(empty.status).toBe(204);
-    expect(empty.headers.get('content-encoding')).toBeNull();
-    const head = await app.request('/no-transform', {
-      method: 'HEAD',
-      headers,
-    });
-    expect(head.headers.get('content-encoding')).toBeNull();
-  });
-
-  it.each(['br', 'gzip'])(
-    'should flush every chunk of a streaming response with %s',
-    async encoding => {
-      let sendRest!: () => void;
-      const rest = new Promise<void>(resolve => {
-        sendRest = resolve;
-      });
-      const app = createApp(app =>
-        app.get('/', c => {
-          const encoder = new TextEncoder();
-          const stream = new ReadableStream<Uint8Array>({
-            async start(controller) {
-              controller.enqueue(encoder.encode('<html><body>shell'));
-              await rest;
-              controller.enqueue(encoder.encode('content</body></html>'));
-              controller.close();
-            },
-          });
-          return c.body(stream, 200, {
-            'Content-Type': 'text/html; charset=utf-8',
-          });
-        }),
-      );
-      const res = await app.request('/', {
-        headers: { 'Accept-Encoding': encoding },
-      });
-      expect(res.headers.get('content-encoding')).toBe(encoding);
-
-      // The shell must be decodable before the rest of the stream is sent.
-      const reader = res.body!.getReader();
-      const { value } = await reader.read();
-      const partial =
-        encoding === 'br'
-          ? zlib.brotliDecompressSync(value!, {
-              finishFlush: zlib.constants.BROTLI_OPERATION_FLUSH,
-            })
-          : zlib.gunzipSync(value!, {
-              finishFlush: zlib.constants.Z_SYNC_FLUSH,
-            });
-      expect(partial.toString()).toBe('<html><body>shell');
-
-      sendRest();
-      const chunks = [Buffer.from(value!)];
-      for (;;) {
-        const result = await reader.read();
-        if (result.done) {
-          break;
-        }
-        chunks.push(Buffer.from(result.value));
-      }
-      expect(decompress(encoding, Buffer.concat(chunks)).toString()).toBe(
-        '<html><body>shellcontent</body></html>',
-      );
-    },
-  );
 });
 
 describe('static middleware compression', () => {
@@ -312,6 +186,7 @@ describe('static middleware compression', () => {
       headers: { 'Accept-Encoding': 'br' },
     });
     expect(res.headers.get('content-encoding')).toBeNull();
+    expect(res.headers.get('vary')).toBe('Accept-Encoding');
     expect(brotli).not.toHaveBeenCalled();
     brotli.mockRestore();
   });
@@ -341,12 +216,62 @@ describe('static middleware compression', () => {
     },
   );
 
+  it('should add vary to the uncompressed variant of a static file', async () => {
+    const app = createApp(options);
+    for (const headers of [{}, { 'Accept-Encoding': 'identity' }]) {
+      const res = await app.request('/static/js/main.js', { headers });
+      expect(res.headers.get('content-encoding')).toBeNull();
+      expect(res.headers.get('vary')).toBe('Accept-Encoding');
+      expect(await res.text()).toBe(js);
+    }
+  });
+
+  it('should add vary to a 304 response for a static file', async () => {
+    const app = createApp(options);
+    for (const pathname of ['/static/js/main.js', '/robots.txt']) {
+      const first = await app.request(pathname, {
+        headers: { 'Accept-Encoding': 'br' },
+      });
+      const res = await app.request(pathname, {
+        headers: {
+          'Accept-Encoding': 'br',
+          'If-None-Match': first.headers.get('etag')!,
+        },
+      });
+      expect(res.status).toBe(304);
+      expect(res.headers.get('vary')).toBe('Accept-Encoding');
+      expect(res.headers.get('content-encoding')).toBeNull();
+    }
+    const tiny = await app.request('/static/js/tiny.js');
+    const notModified = await app.request('/static/js/tiny.js', {
+      headers: { 'If-None-Match': tiny.headers.get('etag')! },
+    });
+    expect(notModified.status).toBe(304);
+    expect(notModified.headers.get('vary')).toBeNull();
+  });
+
+  it('should not compress a static file whose body a middleware replaced', async () => {
+    const app = createApp(options, app =>
+      app.use(async (c, next) => {
+        await next();
+        c.res = new Response(`${await c.res.text()}// changed`, c.res);
+      }),
+    );
+    const res = await app.request('/static/js/main.js', {
+      headers: { 'Accept-Encoding': 'br' },
+    });
+    expect(res.headers.get('content-encoding')).toBeNull();
+    expect(res.headers.get('vary')).toBeNull();
+    expect(await res.text()).toBe(`${js}// changed`);
+  });
+
   it('should skip small, binary or uncompressed static files', async () => {
     const headers = { 'Accept-Encoding': 'br, gzip' };
     const app = createApp(options);
     for (const pathname of ['/static/js/tiny.js', '/static/image/a.png']) {
       const res = await app.request(pathname, { headers });
       expect(res.headers.get('content-encoding')).toBeNull();
+      expect(res.headers.get('vary')).toBeNull();
     }
     const disabled = await createApp().request('/static/js/main.js', {
       headers,
@@ -354,118 +279,6 @@ describe('static middleware compression', () => {
     expect(disabled.headers.get('content-encoding')).toBeNull();
     expect(disabled.headers.get('vary')).toBeNull();
     expect(await disabled.text()).toBe(js);
-  });
-});
-
-describe('compress middleware edge cases', () => {
-  const createApp = (setup: (app: Hono) => void) => {
-    const app = new Hono();
-    app.use(createCompressMiddleware(options) as any);
-    setup(app);
-    return app;
-  };
-
-  it('should not compress small responses without Content-Length', async () => {
-    const app = createApp(app => app.get('/', c => c.json({ ok: true })));
-    for (const headers of [{ 'Accept-Encoding': 'br' }, {}]) {
-      const res = await app.request('/', { headers });
-      expect(res.headers.get('content-encoding')).toBeNull();
-      expect(res.headers.get('vary')).toBeNull();
-      expect(res.headers.get('content-length')).toBe('11');
-      expect(await res.json()).toEqual({ ok: true });
-    }
-  });
-
-  it('should keep the body when the client accepts no encoding', async () => {
-    const app = createApp(app => app.get('/', c => c.html(html)));
-    const res = await app.request('/', {
-      headers: { 'Accept-Encoding': 'identity' },
-    });
-    expect(res.headers.get('content-encoding')).toBeNull();
-    expect(await res.text()).toBe(html);
-  });
-
-  it.each(['br', 'gzip'])(
-    'should not throw when the response is cancelled while compressing with %s',
-    async encoding => {
-      const errors: unknown[] = [];
-      const onError = (error: unknown) => errors.push(error);
-      process.on('uncaughtException', onError);
-      process.on('unhandledRejection', onError);
-      const chunk = new Uint8Array(1024 * 1024).map((_, i) => (i * 7919) % 251);
-      const app = createApp(app =>
-        app.get('/', c =>
-          c.body(
-            new ReadableStream<Uint8Array>({
-              pull(controller) {
-                controller.enqueue(chunk);
-              },
-            }),
-            200,
-            { 'Content-Type': 'text/html' },
-          ),
-        ),
-      );
-      try {
-        for (let i = 0; i < 10; i++) {
-          const res = await app.request('/', {
-            headers: { 'Accept-Encoding': encoding },
-          });
-          const reader = res.body!.getReader();
-          await reader.read();
-          reader.read().catch(() => {});
-          await new Promise(resolve => setImmediate(resolve));
-          await reader.cancel(new Error('client gone')).catch(() => {});
-        }
-        await new Promise(resolve => setTimeout(resolve, 500));
-      } finally {
-        process.off('uncaughtException', onError);
-        process.off('unhandledRejection', onError);
-      }
-      expect(errors).toEqual([]);
-    },
-  );
-
-  it('should release zlib when a response is cancelled between chunks', async () => {
-    const createGzip = zlib.createGzip;
-    const streams: zlib.Gzip[] = [];
-    const spy = rstest.spyOn(zlib, 'createGzip').mockImplementation(opts => {
-      const zstream = createGzip(opts);
-      streams.push(zstream);
-      return zstream;
-    });
-    let release!: () => void;
-    const gate = new Promise<void>(resolve => {
-      release = resolve;
-    });
-    const app = new Hono();
-    app.use(createCompressMiddleware(options) as any);
-    app.get('/', c =>
-      c.body(
-        new ReadableStream<Uint8Array>({
-          async start(controller) {
-            controller.enqueue(new TextEncoder().encode(html));
-            await gate;
-            controller.close();
-          },
-        }),
-        200,
-        { 'Content-Type': 'text/html' },
-      ),
-    );
-    try {
-      const res = await app.request('/', {
-        headers: { 'Accept-Encoding': 'gzip' },
-      });
-      const reader = res.body!.getReader();
-      await reader.read();
-      await reader.cancel(new Error('client gone'));
-      expect(streams).toHaveLength(1);
-      expect(streams[0].destroyed).toBe(true);
-    } finally {
-      release();
-      spy.mockRestore();
-    }
   });
 });
 
@@ -503,6 +316,11 @@ describe('static compression cache and route headers', () => {
             urlPath: '/cors.js',
             entryPath: 'public/cors.js',
             responseHeaders: { Vary: 'Origin' },
+          },
+          {
+            urlPath: '/tagged.js',
+            entryPath: 'public/cors.js',
+            responseHeaders: { ETag: '"tagged"' },
           },
         ],
         output: {},
@@ -547,5 +365,17 @@ describe('static compression cache and route headers', () => {
     });
     expect(res.headers.get('content-encoding')).toBe('br');
     expect(res.headers.get('vary')).toBe('Origin, Accept-Encoding');
+  });
+
+  it("should weaken the route's strong ETag of a compressed file", async () => {
+    const app = createApp();
+    const compressed = await app.request('/tagged.js', {
+      headers: { 'Accept-Encoding': 'br' },
+    });
+    expect(compressed.headers.get('content-encoding')).toBe('br');
+    expect(compressed.headers.get('etag')).toBe('W/"tagged"');
+    const identity = await app.request('/tagged.js');
+    expect(identity.headers.get('content-encoding')).toBeNull();
+    expect(identity.headers.get('etag')).toBe('"tagged"');
   });
 });

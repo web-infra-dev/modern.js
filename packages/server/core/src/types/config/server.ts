@@ -27,7 +27,7 @@ export type CompressEncoding = 'br' | 'gzip';
 
 export type CompressOptions = {
   /**
-   * @description responses smaller than this size (in bytes) are not compressed
+   * @description files smaller than this size (in bytes) are not compressed
    * @default 1024
    */
   threshold?: number;
@@ -73,7 +73,7 @@ export interface ServerUserConfig {
   useJsonScript?: boolean;
   logger?: boolean | Record<string, unknown>;
   /**
-   * @description compress responses of the production server with brotli or gzip
+   * @description compress static files served by the production server with brotli or gzip
    * @default true for the Node.js production server
    */
   compress?: boolean | CompressOptions;

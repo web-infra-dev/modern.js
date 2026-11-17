@@ -3,6 +3,6 @@
 '@modern-js/prod-server': minor
 ---
 
-feat(prod-server): compress production server responses with Brotli or gzip by default, including pages, static assets and BFF responses. Static assets are compressed once and cached, streaming responses are flushed after every chunk. Set `server.compress` to `false` to disable it.
+feat(prod-server): compress static files served by the production server with Brotli or gzip by default. Each file is compressed once and cached, and gets `Vary: Accept-Encoding` whether it is sent compressed or not. SSR pages and BFF responses are not compressed. Set `server.compress` to `false` to disable it.
 
-feat(prod-server)：生产服务器默认使用 Brotli 或 gzip 压缩响应，包括页面、静态资源和 BFF 响应。静态资源只压缩一次并缓存，流式响应会在每个分块之后立即刷新。可以将 `server.compress` 设置为 `false` 来关闭。
+feat(prod-server)：生产服务器默认使用 Brotli 或 gzip 压缩其提供的静态文件。每个文件只压缩一次并缓存，无论是否被压缩都会带上 `Vary: Accept-Encoding`。SSR 页面和 BFF 响应不会被压缩。可以将 `server.compress` 设置为 `false` 来关闭。

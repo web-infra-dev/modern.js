@@ -7,21 +7,23 @@ title: compress
 - **Type:** `boolean | object`
 - **Default:** `true` for the built-in Node.js production server
 
-Compress the responses of the production server with Brotli or gzip, including SSR and SSG pages, static assets and BFF responses.
+Compress the static files served by the production server with Brotli or gzip. This covers build assets in `static/` and files from `config/public`, `config/upload` and `server.publicDir`.
+
+SSR pages, BFF responses and responses of custom middlewares are not compressed. If their encoding depended on the `Accept-Encoding` request header, every one of them would also need a `Vary: Accept-Encoding` header. To compress them, use a reverse proxy or a custom middleware.
 
 The built-in Node.js production server, used by `modern serve` and `node .output/index`, enables compression by default. The development server is not affected. Other runtimes, such as Netlify Functions, usually compress responses at the edge, so compression is disabled there by default and can be enabled by setting `compress` to `true`.
 
-The server picks the first encoding from `encodings` that the client accepts in the `Accept-Encoding` request header, and adds `Vary: Accept-Encoding` to compressible responses. A response is left unchanged when:
+The server picks the first encoding from `encodings` that the client accepts in the `Accept-Encoding` request header. A compressible file gets a `Vary: Accept-Encoding` header whether it is sent compressed or not, so caches keep both variants apart. A file is sent unchanged, without `Vary`, when:
 
-- it already has a `Content-Encoding` header, for example when a custom middleware has compressed it
-- its content type is not compressible, such as images, or it is a server-sent events stream
-- its `Content-Length` is smaller than `threshold`
-- it is a response to a `HEAD` request, or has no body
-- it has a `Cache-Control: no-transform` header
+- its response already has a `Content-Encoding` or `Content-Range` header, for example when a custom middleware has compressed it
+- its content type is not compressible, such as images
+- it is smaller than `threshold`
+- its response has a `Cache-Control: no-transform` header
+- a custom middleware has replaced its response body
 
-A strong `ETag` on a compressed response, for example one set by a custom middleware, is changed to a weak one, since the compressed bytes differ from the original ones.
+Responses to `HEAD` requests and `304 Not Modified` responses are not compressed, but get the same `Vary` header.
 
-Static assets are compressed once and served from memory afterwards. Streaming responses, such as streaming SSR, are flushed after every chunk, so the client receives each chunk as soon as it is rendered.
+Each file is compressed once and served from memory afterwards. A strong `ETag` on a compressed file, for example one set in `server.routes`, is changed to a weak one, since the compressed bytes differ from the original ones.
 
 ### Disable compression
 
@@ -37,10 +39,10 @@ export default defineConfig({
 
 ### Options
 
-| Name        | Type                    | Default          | Description                                                    |
-| ----------- | ----------------------- | ---------------- | -------------------------------------------------------------- |
-| `threshold` | `number`                | `1024`           | Responses smaller than this size, in bytes, are not compressed |
-| `encodings` | `Array<'br' \| 'gzip'>` | `['br', 'gzip']` | Supported encodings, in order of server preference             |
+| Name        | Type                    | Default          | Description                                                |
+| ----------- | ----------------------- | ---------------- | ---------------------------------------------------------- |
+| `threshold` | `number`                | `1024`           | Files smaller than this size, in bytes, are not compressed |
+| `encodings` | `Array<'br' \| 'gzip'>` | `['br', 'gzip']` | Supported encodings, in order of server preference         |
 
 ```ts title="modern.config.ts"
 export default defineConfig({

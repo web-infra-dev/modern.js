@@ -101,11 +101,16 @@ export function createPublicMiddleware({
         );
 
         if (notModified) {
-          return c.body(null, 304);
+          return registerStaticFile(
+            c.req.raw,
+            c.body(null, 304),
+            filename,
+            data,
+          );
         }
         // Lets the compress middleware skip files below the threshold.
         c.header('Content-Length', String(data.byteLength));
-        return registerStaticFile(c.body(body, 200), filename, data);
+        return registerStaticFile(c.req.raw, c.body(body, 200), filename, data);
       }
     }
 
@@ -266,7 +271,12 @@ export function createStaticMiddleware(
             : cacheControl.unhashed),
       );
       if (notModified) {
-        return c.body(null, 304);
+        return registerStaticFile(
+          c.req.raw,
+          c.body(null, 304),
+          filepath,
+          chunk,
+        );
       }
       const mimeType = getMimeType(filepath);
       if (mimeType) {
@@ -281,7 +291,7 @@ export function createStaticMiddleware(
         chunk.byteOffset,
         chunk.byteLength,
       );
-      return registerStaticFile(c.body(body, 200), filepath, chunk);
+      return registerStaticFile(c.req.raw, c.body(body, 200), filepath, chunk);
     } else {
       return publicMiddleware(c, next);
     }

@@ -1,5 +1,6 @@
 import zlib from 'node:zlib';
 import { COMPRESSIBLE_CONTENT_TYPE_REGEX } from 'hono/utils/compress';
+import { getMimeType } from 'hono/utils/mime';
 import type {
   CompressEncoding,
   Middleware,
@@ -16,15 +17,9 @@ const DEFAULT_THRESHOLD = 1024;
 
 const DEFAULT_ENCODINGS: CompressEncoding[] = ['br', 'gzip'];
 
-// Brotli quality 11 is too slow for responses compressed on every request,
-// quality 5 compresses about as fast as gzip level 6 with a smaller output.
-const STREAM_BROTLI_OPTIONS: zlib.BrotliOptions = {
-  params: { [zlib.constants.BROTLI_PARAM_QUALITY]: 5 },
-};
-
-// Static files are compressed once and then served from memory, quality 11
-// would delay the first request of a large file by about a second.
-const STATIC_BROTLI_OPTIONS: zlib.BrotliOptions = {
+// Files are compressed once and then served from memory, quality 11 would
+// delay the first request of a large file by about a second.
+const BROTLI_OPTIONS: zlib.BrotliOptions = {
   params: { [zlib.constants.BROTLI_PARAM_QUALITY]: 9 },
 };
 
@@ -34,8 +29,9 @@ const NO_TRANSFORM_REGEX = /(?:^|,)\s*no-transform\s*(?:,|$)/i;
 
 /**
  * Resolve `server.compress`. Compression is only applied by the production
- * server. It is enabled by default for the Node.js server, and must be
- * enabled explicitly for other runtimes, which usually compress at the edge.
+ * server, to the static files it serves. It is enabled by default for the
+ * Node.js server, and must be enabled explicitly for other runtimes, which
+ * usually compress at the edge.
  */
 export function resolveCompressOptions(
   compress: ServerNormalizedConfig['compress'],
@@ -57,7 +53,6 @@ export function resolveCompressOptions(
 }
 
 export function isCompressible(contentType?: string | null) {
-  // Excludes server-sent events, they must reach the client one at a time.
   return Boolean(
     contentType && COMPRESSIBLE_CONTENT_TYPE_REGEX.test(contentType),
   );
@@ -198,7 +193,7 @@ function compressFile(
       const callback = (error: Error | null, result: Buffer) =>
         error ? reject(error) : resolve(result);
       if (encoding === 'br') {
-        zlib.brotliCompress(data, STATIC_BROTLI_OPTIONS, callback);
+        zlib.brotliCompress(data, BROTLI_OPTIONS, callback);
       } else {
         zlib.gzip(data, GZIP_OPTIONS, callback);
       }
@@ -214,156 +209,39 @@ function compressFile(
   return compressed;
 }
 
-// Bodies of static file responses, with the file they were read from. The
-// compress middleware decides on the final response headers, so a header set
-// by any middleware is respected, and then serves the cached compressed
-// content of the file instead of compressing the body again.
-const staticFileBodies = new WeakMap<
-  ReadableStream,
-  { filepath: string; data: Buffer }
->();
+type StaticFile = {
+  filepath: string;
+  data: Buffer;
+  // `null` for a `304` response.
+  body: ReadableStream | null;
+};
+
+// Static file responses by request, with the file they were read from. Only
+// these responses are compressed. The compress middleware decides on the final
+// response headers, so a header set by any middleware is respected, and then
+// serves the cached compressed content of the file. The response is looked up
+// by request, since a `304` has no body to identify it.
+const staticFiles = new WeakMap<Request, StaticFile>();
 
 /**
- * Mark a response as the content of a static file. Returns the response.
+ * Mark a response as the content of a static file, or as a `304` for it.
+ * Returns the response.
  */
 export function registerStaticFile(
+  req: Request,
   res: Response,
   filepath: string,
   data: Buffer,
 ) {
-  if (res.body) {
-    staticFileBodies.set(res.body, { filepath, data });
-  }
+  staticFiles.set(req, { filepath, data, body: res.body });
   return res;
 }
 
 /**
- * Flush after every chunk, so a streaming response (e.g. streaming SSR)
- * reaches the client as soon as each chunk is rendered.
+ * Compress the static files served by `serverStaticPlugin`. Other responses,
+ * such as SSR pages and BFF responses, are left unchanged, so they don't need
+ * a `Vary: Accept-Encoding` header.
  */
-function createCompressStream(
-  encoding: CompressEncoding,
-): TransformStream<Uint8Array, Uint8Array> {
-  const zstream =
-    encoding === 'br'
-      ? zlib.createBrotliCompress(STREAM_BROTLI_OPTIONS)
-      : zlib.createGzip(GZIP_OPTIONS);
-  let output: Buffer[] = [];
-  let fail: ((error: Error) => void) | undefined;
-  zstream.on('data', (chunk: Buffer) => output.push(chunk));
-  zstream.on('error', error => fail?.(error));
-  // Enqueue the output of each operation as one chunk, so that every input
-  // chunk results in a single write to the response.
-  const run = (
-    controller: TransformStreamDefaultController<Uint8Array>,
-    operation: (done: () => void) => void,
-  ) =>
-    new Promise<void>((resolve, reject) => {
-      fail = reject;
-      operation(() => {
-        try {
-          if (output.length > 0) {
-            controller.enqueue(
-              output.length === 1 ? output[0] : Buffer.concat(output),
-            );
-            output = [];
-          }
-          resolve();
-        } catch (error) {
-          // The response was cancelled, e.g. the client disconnected while
-          // the chunk was being compressed. Throwing here would escape the
-          // zlib callback and crash the process.
-          zstream.destroy();
-          reject(error);
-        }
-      });
-    });
-
-  // `cancel` is part of the Streams standard, but not of TypeScript's
-  // `Transformer` type yet.
-  const transformer: Transformer<Uint8Array, Uint8Array> & {
-    cancel?: (reason: unknown) => void;
-  } = {
-    transform(chunk, controller) {
-      return run(controller, done => {
-        zstream.write(chunk);
-        zstream.flush(done);
-      });
-    },
-    flush(controller) {
-      return run(controller, done => {
-        zstream.once('end', done);
-        zstream.end();
-      });
-    },
-    // Called when the client disconnects or the source body errors while no
-    // chunk is being compressed, so the native zlib stream is released.
-    cancel() {
-      zstream.destroy();
-    },
-  };
-  return new TransformStream(transformer);
-}
-
-const NOT_READY = Symbol('not ready');
-
-const nextTick = () =>
-  new Promise<typeof NOT_READY>(resolve => setImmediate(resolve, NOT_READY));
-
-/**
- * Read the chunks of `body` that are already available, until `limit` bytes.
- * Responses like `c.json()` have no `Content-Length`, so this tells whether
- * they are below the threshold, without waiting for the next chunk of a
- * streaming response.
- */
-async function readAhead(body: ReadableStream<Uint8Array>, limit: number) {
-  const reader = body.getReader();
-  const chunks: Uint8Array[] = [];
-  let size = 0;
-  let done = false;
-  let pending = reader.read();
-  pending.catch(() => {});
-  while (size < limit) {
-    const result = await Promise.race([pending, nextTick()]);
-    if (result === NOT_READY) {
-      break;
-    }
-    if (result.done) {
-      done = true;
-      break;
-    }
-    chunks.push(result.value);
-    size += result.value.byteLength;
-    pending = reader.read();
-    pending.catch(() => {});
-  }
-
-  const stream = new ReadableStream<Uint8Array>({
-    start(controller) {
-      for (const chunk of chunks) {
-        controller.enqueue(chunk);
-      }
-      if (done) {
-        controller.close();
-      }
-    },
-    async pull(controller) {
-      const result = await pending;
-      if (result.done) {
-        controller.close();
-      } else {
-        controller.enqueue(result.value);
-        pending = reader.read();
-        pending.catch(() => {});
-      }
-    },
-    cancel(reason) {
-      return reader.cancel(reason);
-    },
-  });
-  return { stream, size, done };
-}
-
 export function createCompressMiddleware(
   options: ResolvedCompressOptions,
 ): Middleware {
@@ -371,72 +249,55 @@ export function createCompressMiddleware(
     await next();
 
     const { res } = c;
-    const { headers, body: originalBody } = res;
+    const { headers, body } = res;
+    const staticFile = staticFiles.get(c.req.raw);
+    const notModified = res.status === 304;
+    // The body is replaced when a middleware changes the content of a file.
+    if (!staticFile || (!notModified && (!body || body !== staticFile.body))) {
+      return;
+    }
+    // A `304` for a static file has no `Content-Type`.
+    const contentType =
+      headers.get('Content-Type') ??
+      (notModified ? getMimeType(staticFile.filepath) : undefined);
     if (
-      !originalBody ||
-      c.req.method === 'HEAD' ||
+      staticFile.data.byteLength < options.threshold ||
       headers.has('Content-Encoding') ||
       headers.has('Content-Range') ||
-      !isCompressible(headers.get('Content-Type')) ||
+      !isCompressible(contentType) ||
       NO_TRANSFORM_REGEX.test(headers.get('Cache-Control') || '')
     ) {
       return;
     }
-    let body: ReadableStream<Uint8Array> = originalBody;
-    const contentLength = headers.get('Content-Length');
-    if (contentLength !== null) {
-      if (Number(contentLength) < options.threshold) {
-        return;
-      }
-    } else {
-      const ahead = await readAhead(body, options.threshold);
-      if (ahead.done && ahead.size < options.threshold) {
-        c.res = new Response(ahead.stream, res);
-        c.res.headers.set('Content-Length', String(ahead.size));
-        return;
-      }
-      ({ stream: body } = ahead);
-    }
-
+    // Set on the uncompressed variant and on `304` responses too, so caches
+    // can tell the variants apart.
+    appendVary(headers);
     const encoding = negotiateEncoding(
       c.req.header('Accept-Encoding'),
       options.encodings,
     );
-    const staticFile = staticFileBodies.get(originalBody);
-    if (encoding && staticFile) {
-      const compressed = await compressFile(
-        staticFile.filepath,
-        staticFile.data,
-        encoding,
-      );
-      originalBody.cancel().catch(() => {});
-      c.res = new Response(
-        new Uint8Array(
-          compressed.buffer as ArrayBuffer,
-          compressed.byteOffset,
-          compressed.byteLength,
-        ),
-        res,
-      );
-      c.res.headers.set('Content-Length', String(compressed.byteLength));
-      c.res.headers.set('Content-Encoding', encoding);
-    } else if (encoding) {
-      c.res = new Response(
-        body.pipeThrough(createCompressStream(encoding)),
-        res,
-      );
-      // Hono copies the headers of the previous response when `c.res` is
-      // replaced, so update them after the assignment.
-      c.res.headers.delete('Content-Length');
-      c.res.headers.set('Content-Encoding', encoding);
-    } else if (body !== originalBody) {
-      // The original body has been read ahead.
-      c.res = new Response(body, res);
+    if (!encoding || !body || c.req.method === 'HEAD') {
+      return;
     }
-    if (encoding) {
-      weakenETag(c.res.headers);
-    }
-    appendVary(c.res.headers);
+    const compressed = await compressFile(
+      staticFile.filepath,
+      staticFile.data,
+      encoding,
+    );
+    body.cancel().catch(() => {});
+    c.res = new Response(
+      new Uint8Array(
+        compressed.buffer as ArrayBuffer,
+        compressed.byteOffset,
+        compressed.byteLength,
+      ),
+      res,
+    );
+    // Hono copies the headers of the previous response when `c.res` is
+    // replaced, so update them after the assignment.
+    c.res.headers.set('Content-Length', String(compressed.byteLength));
+    c.res.headers.set('Content-Encoding', encoding);
+    weakenETag(c.res.headers);
   };
 }
 
@@ -466,8 +327,8 @@ export const compressPlugin = ({
       middlewares.push({
         name: 'compress',
         handler: createCompressMiddleware(options),
-        // Run outermost, so that it compresses the responses of all other
-        // middlewares and skips the ones they have already encoded.
+        // Run outermost, so that it decides on the final headers of a file
+        // and skips the files other middlewares have already encoded.
         order: 'pre',
       });
     });
