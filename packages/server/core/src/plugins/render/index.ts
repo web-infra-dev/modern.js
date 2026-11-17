@@ -39,10 +39,7 @@ export const renderPlugin = (): ServerPlugin => ({
         if (route.isSSG && !route.urlPath.endsWith('/')) {
           middlewares.push({
             name: 'ssg-trailing-slash-redirect',
-            path: getRoutePath({
-              ...route,
-              urlPath: `${route.urlPath}/`,
-            }),
+            path: `${urlPath}/`,
             handler: async (c: Context) =>
               c.redirect(`${route.urlPath}${new URL(c.req.url).search}`, 308),
           });

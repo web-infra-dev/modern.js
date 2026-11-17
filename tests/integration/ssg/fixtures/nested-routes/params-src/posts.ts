@@ -16,6 +16,9 @@ export const generatePostParams = async () => {
   if (process.env.SSG_PARAMS_SCENARIO === 'invalid') {
     return { slug: 'invalid' };
   }
+  if (process.env.SSG_PARAMS_SCENARIO === 'route-syntax') {
+    return [{ language: 'en', slug: '*' }];
+  }
   if (process.env.SSG_PARAMS_SCENARIO === 'throws') {
     throw new Error('CMS unavailable during ssgParams');
   }

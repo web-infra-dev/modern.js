@@ -11,11 +11,10 @@ function encodeSegment(value: string): string {
   if (/%2f/i.test(value)) {
     throw new Error('parameters must use raw slashes instead of literal "%2F"');
   }
-  // Keep generated directory names portable, including a literal "*" on Windows.
-  return encodeURIComponent(value).replace(
-    /[!'()*]/g,
-    char => `%${char.charCodeAt(0).toString(16).toUpperCase()}`,
-  );
+  if (/[*:{}]/.test(value)) {
+    throw new Error('parameters must not contain "*", ":", "{" or "}"');
+  }
+  return encodeURIComponent(value);
 }
 
 export function generatePaths(pattern: string, result: unknown): string[] {

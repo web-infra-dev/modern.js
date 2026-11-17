@@ -161,7 +161,7 @@ For nested routes, each object must include all required parent and child parame
 
 An empty array adds no paths for that page. You can still list a path for it explicitly in `routes`. Duplicate generated paths are rendered once. Dynamic routes without `ssgParams` remain excluded from automatic SSG.
 
-A missing required parameter, a non-string value other than `undefined` for an optional parameter, an invalid result, or an exception fails the build with a route-specific error. Required values must not be empty. The segments `.` and `..`, and empty segments within a wildcard value, are rejected.
+A missing required parameter, a non-string value other than `undefined` for an optional parameter, an invalid result, or an exception fails the build with a route-specific error. Required values must not be empty. Values containing route syntax characters (`*`, `:`, `{`, `}`) are rejected, as are dot segments and empty segments within a wildcard value. Use `'*'` as the key for a wildcard parameter.
 
 #### Combining Explicit and Generated Paths
 

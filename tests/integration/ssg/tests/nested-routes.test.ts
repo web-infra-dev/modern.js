@@ -152,7 +152,6 @@ describe('route-level ssgParams', () => {
       ['/prefix', '<main>Static home</main>'],
       ['/prefix/about', '<main>About this site</main>'],
       ['/prefix/blog/en/hello', '<main>en: hello</main>'],
-      ['/prefix/blog/en/%2A', '<main>en: *</main>'],
       ['/prefix/blog/en/release.v1', '<main>en: release.v1</main>'],
       [`/prefix/blog/zh/${encodedSlug}`, '<main>zh: 你好 world?#%</main>'],
       ['/prefix/blog/en/a%2Fb', '<main>en: a/b</main>'],
@@ -236,7 +235,6 @@ describe('route-level ssgParams', () => {
       }
       for (const url of [
         '/prefix/blog/en/not-generated',
-        '/prefix/blog/en/*/child',
         '/prefix/files/guides/missing',
       ]) {
         const response = await fetch(`http://localhost:${port}${url}`);
@@ -294,13 +292,18 @@ describe('route-level ssgParams', () => {
     );
   });
 
-  test.each(['invalid', 'throws'])(
+  test.each(['invalid', 'route-syntax', 'throws'])(
     'fails the build for %s parameter generators',
     async scenario => {
       const result = await buildParams(scenario);
       expect(result.code).not.toBe(0);
       expect(result.stdout + result.stderr).toContain('ssgParams');
       expect(result.stdout + result.stderr).toContain('blog');
+      if (scenario === 'route-syntax') {
+        expect(result.stdout + result.stderr).toContain(
+          'parameters must not contain "*", ":", "{" or "}"',
+        );
+      }
       if (scenario === 'throws') {
         expect(result.stdout + result.stderr).toContain(
           'CMS unavailable during ssgParams',
