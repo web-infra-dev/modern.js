@@ -87,7 +87,7 @@ export const ssgPlugin = (): CliPlugin<AppTools> => ({
       for (const pageRoute of pageRoutes) {
         const { entryName, entryPath } = pageRoute;
         const agreedRoutes = agreedRouteMap[entryName as string];
-        let entryOptions = (intermediateOptions[entryName as string] ||
+        const entryOptions = (intermediateOptions[entryName as string] ||
           intermediateOptions[pageRoute.urlPath]) as SSGSingleEntryOptions;
 
         if (!agreedRoutes) {
@@ -108,63 +108,42 @@ export const ssgPlugin = (): CliPlugin<AppTools> => ({
             });
           }
         } else {
-          // Unless entryOptions is set to false
-          // the default behavior is to add all file-based routes
           if (!entryOptions) {
             continue;
           }
 
-          if (entryOptions === true) {
-            entryOptions = { routes: [], headers: {} };
+          const { routes: explicitRoutes = [], headers } =
+            entryOptions === true ? {} : entryOptions;
+          const seen = new Set<string>();
+          for (const route of explicitRoutes) {
+            const explicitRoute = makeRoute(pageRoute, route, headers);
+            seen.add(explicitRoute.urlPath);
+            ssgRoutes.push(explicitRoute);
           }
 
-          const { routes: userRoutes = [], headers } =
-            (entryOptions as {
-              routes?: SSGRouteOptions[];
-              headers?: Record<string, string>;
-            }) || {};
-          // if the user sets the routes, then only add them
-          if (userRoutes.length > 0) {
-            (userRoutes as SSGRouteOptions[]).forEach(
-              (route: SSGRouteOptions) => {
-                if (typeof route === 'string') {
-                  ssgRoutes.push(makeRoute(pageRoute, route, headers));
-                } else {
-                  ssgRoutes.push(makeRoute(pageRoute, route, headers));
-                }
-              },
-            );
-          } else {
-            // Automatic SSG retains static routes and expands page parameters.
-            const seen = new Set<string>();
-            for (const route of selectRoutesForSSG(agreedRoutes)) {
-              if (route.ssgParams) {
-                const paths = await resolveParams(entryName!, route);
-                for (const url of paths) {
-                  if (seen.has(url)) {
-                    continue;
-                  }
-                  seen.add(url);
-                  const generatedRoute = makeRoute(
-                    pageRoute,
-                    url === '/' ? '' : url,
-                    headers,
-                  );
-                  // A slug such as "release.v1" is a directory, not a filename.
-                  generatedRoute.output = path.join(
-                    generatedRoute.output,
-                    'index.html',
-                  );
-                  ssgRoutes.push(generatedRoute);
-                }
-              } else if (!isDynamicUrl(route.path!)) {
-                const url = route.path || '/';
-                if (seen.has(url)) {
-                  continue;
-                }
-                seen.add(url);
-                ssgRoutes.push(makeRoute(pageRoute, route.path!, headers));
+          for (const route of selectRoutesForSSG(agreedRoutes)) {
+            const { ssgParams, path: routePath = '/' } = route;
+            if (
+              !ssgParams &&
+              (explicitRoutes.length > 0 || isDynamicUrl(routePath))
+            ) {
+              continue;
+            }
+
+            const paths = ssgParams
+              ? await resolveParams(entryName!, route)
+              : [routePath];
+            for (const url of paths) {
+              const target = makeRoute(pageRoute, url, headers);
+              if (seen.has(target.urlPath)) {
+                continue;
               }
+              seen.add(target.urlPath);
+              if (ssgParams) {
+                // A slug such as "release.v1" is a directory, not a filename.
+                target.output = path.join(target.output, 'index.html');
+              }
+              ssgRoutes.push(target);
             }
           }
         }

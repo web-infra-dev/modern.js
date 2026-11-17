@@ -150,6 +150,7 @@ describe('route-level ssgParams', () => {
     const encodedSlug = encodeURIComponent('你好 world?#%');
     const expectedPages = [
       ['/prefix', '<main>Static home</main>'],
+      ['/prefix/about', '<main>About this site</main>'],
       ['/prefix/blog/en/hello', '<main>en: hello</main>'],
       ['/prefix/blog/en/%2A', '<main>en: *</main>'],
       ['/prefix/blog/en/release.v1', '<main>en: release.v1</main>'],
@@ -249,20 +250,38 @@ describe('route-level ssgParams', () => {
     );
   });
 
-  test('explicit routes remain authoritative and do not call parameter generators', async () => {
+  test('combines explicit and generated paths, with explicit options taking priority', async () => {
     const result = await buildParams('explicit');
     expect(result.code, result.stdout + result.stderr).toBe(0);
-    expect(await fs.pathExists(callsFile)).toBe(false);
+    expect(await fs.readFile(callsFile, 'utf8')).toBe(
+      'SSG_PARAMS_SERVER_ONLY\n',
+    );
+
     const { routes } = await fs.readJSON(join(paramsDistDir, 'route.json'));
     const generated = routes.filter(
       (route: { isSSG?: boolean }) => route.isSSG,
     );
+    const paths = generated.map((route: { urlPath: string }) => route.urlPath);
+    expect(paths).toEqual(
+      expect.arrayContaining([
+        '/prefix/about',
+        '/prefix/blog/en/explicit',
+        '/prefix/blog/en/hello',
+        '/prefix/blog/en/release.v1',
+      ]),
+    );
+    expect(paths).not.toContain('/prefix');
     expect(
-      generated.map((route: { urlPath: string }) => route.urlPath),
-    ).toEqual(['/prefix/blog/en/explicit']);
+      paths.filter((url: string) => url === '/prefix/blog/en/hello'),
+    ).toHaveLength(1);
+
+    const hello = generated.find(
+      (route: { urlPath: string }) => route.urlPath === '/prefix/blog/en/hello',
+    );
+    expect(hello.entryPath).toBe(path.join('custom', 'hello.html'));
     expect(
-      await fs.readFile(join(paramsDistDir, generated[0].entryPath), 'utf8'),
-    ).toContain('<main>Explicit route</main>');
+      await fs.readFile(join(paramsDistDir, hello.entryPath), 'utf8'),
+    ).toContain('<main>en: hello (preview)</main>');
   });
 
   test('disabling SSG does not execute parameter generators', async () => {

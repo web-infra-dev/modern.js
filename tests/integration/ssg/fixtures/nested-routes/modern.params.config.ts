@@ -17,7 +17,17 @@ export default defineConfig({
       scenario === 'disabled'
         ? false
         : scenario === 'explicit'
-          ? { routes: ['/blog/en/explicit'] }
+          ? {
+              routes: [
+                '/about',
+                '/blog/en/explicit',
+                {
+                  url: '/blog/en/hello/',
+                  headers: { 'x-ssg-variant': 'preview' },
+                  output: 'custom/hello.html',
+                },
+              ],
+            }
           : { routes: [] },
     polyfill: 'off',
     disableTsChecker: true,

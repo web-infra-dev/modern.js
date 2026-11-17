@@ -4,8 +4,10 @@ export const ssgParams = generatePostParams;
 
 export const loader = ({
   params,
+  request,
 }: {
   params: { language: string; slug: string };
+  request: Request;
 }) => {
   if (params.slug === 'explicit') {
     return 'Explicit route';
@@ -16,5 +18,8 @@ export const loader = ({
   if (!post) {
     throw new Response('Not Found', { status: 404 });
   }
-  return `${post.language}: ${post.slug}`;
+  const variant = request.headers.get('x-ssg-variant');
+  return variant
+    ? `${post.language}: ${post.slug} (${variant})`
+    : `${post.language}: ${post.slug}`;
 };

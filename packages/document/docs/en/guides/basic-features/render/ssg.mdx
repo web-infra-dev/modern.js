@@ -116,7 +116,7 @@ export default defineConfig({
 
 ### Generating Parameters Alongside a Loader
 
-For file-system conventional routing, export `ssgParams` from the page's `page.data.ts` to generate paths from route parameters. Enable SSG and leave `routes` unset to use this convention. Generator discovery does not apply to config routes.
+For file-system conventional routing, export `ssgParams` from the page's `page.data.ts` to generate paths from route parameters. Enable SSG to use this convention. Generator discovery does not apply to config routes.
 
 Use an explicit named export or re-export, such as `export { ssgParams } from './params'`. Exports available only through `export *` are not discovered.
 
@@ -142,7 +142,7 @@ export const loader = async ({ params }: { params: { slug: string } }) => {
 }
 ```
 
-If the published posts have the slugs `hello` and `getting-started`, Modern.js generates `/blog/hello` and `/blog/getting-started`. It also prerenders the entry's non-dynamic routes. The loader still reads data for one page and runs during prerendering. Its return value is not used to enumerate paths.
+If the published posts have the slugs `hello` and `getting-started`, Modern.js generates `/blog/hello` and `/blog/getting-started`. With `routes` omitted or empty, it also prerenders the entry's non-dynamic routes. The loader still reads data for one page and runs during prerendering. Its return value is not used to enumerate paths.
 
 `ssgParams` takes no arguments and returns an array of parameter objects, synchronously or asynchronously. It runs once per page route during the SSG build, in Node.js using the application's server compilation. It can use path aliases and server dependencies such as filesystem access. SSG uses the existing server data-loader boundary to keep the generator and its server dependencies out of browser bundles. When debugging code that imports Node.js dependencies, [enable SSR during development](#development-debugging). The function is not called by `dev` or `serve`.
 
@@ -159,15 +159,15 @@ Return raw strings, without URL encoding. Values containing the literal sequence
 
 For nested routes, each object must include all required parent and child parameters. Parameters are not collected or combined from `layout.data.ts`. Omit an optional parameter or set it to `undefined` to omit that segment. For a wildcard page (`$.tsx`), export `ssgParams` from `$.data.ts` and use the `'*'` key. Its value is split on `/`, with each segment encoded separately.
 
-An empty array generates no paths for that page. Duplicate paths are rendered once. Dynamic routes without `ssgParams` remain excluded from automatic SSG.
+An empty array adds no paths for that page. You can still list a path for it explicitly in `routes`. Duplicate generated paths are rendered once. Dynamic routes without `ssgParams` remain excluded from automatic SSG.
 
 A missing required parameter, a non-string value other than `undefined` for an optional parameter, an invalid result, or an exception fails the build with a route-specific error. Required values must not be empty. The segments `.` and `..`, and empty segments within a wildcard value, are rejected.
 
-#### Explicit Routes Take Priority
+#### Combining Explicit and Generated Paths
 
-A non-empty `output.ssg.routes` list remains the complete list of paths to prerender. Modern.js does not call `ssgParams` or add automatically discovered paths for that entry. The same rule applies to `output.ssgByEntries`.
+A non-empty `output.ssg.routes` list is combined with the paths returned by `ssgParams`. For example, with `routes: ['/about']` and the blog generator above, Modern.js prerenders `/about`, `/blog/hello`, and `/blog/getting-started`. Other non-dynamic paths are included only if explicitly listed or returned by a generator.
 
-Omitting `routes` or setting `routes: []` uses automatic route collection. Disabling SSG for an entry also disables its parameter generators. To customize a generated path's output location or request headers, use an explicit route object in `routes`.
+When both sources produce the same URL, Modern.js renders it once with the explicit route's options, including its `headers` and `output`. Omitting `routes` or setting `routes: []` also includes non-dynamic routes automatically. The same rules apply to `output.ssgByEntries`. Disabling SSG for an entry also disables its generators.
 
 ## SSG Matching for Parent and Child Routes
 
@@ -194,7 +194,7 @@ Each path generates its own static HTML. The built-in production server matches 
 
 Requests to a trailing-slash URL such as `/blog/` receive an HTTP 308 redirect to `/blog`, preserving the query string. For example, `/blog/?preview=1` redirects to `/blog?preview=1`.
 
-The SSG page at `/blog` does not act as a fallback for `/blog/*`. Defining a `[slug]` route does not automatically generate static HTML for every slug. List the concrete paths in `routes`, or use `ssgParams` without an explicit route list.
+The SSG page at `/blog` does not act as a fallback for `/blog/*`. Defining a `[slug]` route does not automatically generate static HTML for every slug. List concrete paths in `routes`, generate them with `ssgParams`, or combine both.
 
 This example does not enable SSR or prerender the root entry `/`. An unmatched path therefore receives the root entry's CSR shell, and routing continues in the browser. The initial HTML response is typically HTTP 200. An unknown slug alone does not cause the server to return 404.
 
