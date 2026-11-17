@@ -1,0 +1,1 @@
+Cache-Control is set by a middleware before await next().
