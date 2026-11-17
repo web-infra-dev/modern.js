@@ -1,5 +1,6 @@
 // Configuration guide: https://rstack.rs/config
 import { define } from 'rstack';
+import { modernLintPlugin } from './scripts/lint/no-unused-destructuring.mjs';
 
 const sharedIgnores = [
   // Preserve generated files.
@@ -13,6 +14,12 @@ const sharedIgnores = [
 define.lint(({ js, ts }) => [
   js.configs.recommended,
   ts.configs.recommended,
+  {
+    plugins: { modern: modernLintPlugin },
+    rules: {
+      'modern/no-unused-destructuring': 'error',
+    },
+  },
   {
     languageOptions: {
       parserOptions: {
