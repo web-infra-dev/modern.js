@@ -3,4 +3,4 @@
 '@modern-js/server-core': patch
 ---
 
-Wait for producer build readiness before admitting development SSR requests, including manifest fallback, so early browser reloads cannot render an outdated server generation. Allow the application admission hook to return a response directly when readiness fails.
+After receiving ready producer notifications, wait for queued Node updates before admitting new development SSR requests. Continue serving the existing generation while a known producer is still compiling, and discover ready static builds through manifest fallback. Allow the application admission hook to return a response directly when readiness fails.

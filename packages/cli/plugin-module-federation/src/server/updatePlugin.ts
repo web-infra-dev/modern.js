@@ -5,7 +5,6 @@ import {
   type DevRemoteUpdatesOptions,
 } from './devRemoteUpdates';
 import { logger } from '@modern-js/utils';
-import { SSR_READY_EVENT } from '../ssr-runtime/devUpdateEvent';
 
 /** Development subscriptions and request fallback share the production update owner. */
 export default function updatePlugin(
@@ -41,10 +40,14 @@ export default function updatePlugin(
           manager.shouldUpdateRemote(remote, input),
         updateRemotes: (remotes, input) =>
           manager.updateRemotes(remotes, input),
-        onApplied: (_remotes, { reload }) => {
-          if (reload || !context.dev!.send) context.dev!.reload();
-          else context.dev!.send(SSR_READY_EVENT, { name: options.name });
-        },
+        onUpdating: remotes =>
+          logger.info(
+            `[MF SSR] Updating ${remotes.map(remote => remote.name).join(', ')}`,
+          ),
+        onApplied: remotes =>
+          logger.info(
+            `[MF SSR] Ready ${remotes.map(remote => remote.name).join(', ')}`,
+          ),
         onError: error =>
           logger.error(
             error instanceof Error ? error : new Error(String(error)),

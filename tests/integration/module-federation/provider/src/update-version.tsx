@@ -1,5 +1,5 @@
 // A real producer source edit drives the development refresh tests.
-export const developmentRevision = 'initial';
+const developmentRevision = 'initial';
 
 export function UpdateVersion() {
   return (

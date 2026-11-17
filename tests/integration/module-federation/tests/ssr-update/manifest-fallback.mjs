@@ -522,10 +522,13 @@ export async function runManifestFallbackScenario(mode) {
         },
       );
       await expectHTTP(values.ui, values.loader);
-      await eventually(
-        `${label}: automatic document reload`,
-        () => evidence.navigations.length > navigations,
+      await stableNavigation(`${label}: Node update`);
+      assert.equal(
+        evidence.navigations.length,
+        navigations,
+        `${label}: Node readiness reloaded the browser`,
       );
+      await page.reload({ waitUntil: 'load' });
       await expectBrowser(
         values.ui,
         values.loader,
@@ -533,9 +536,10 @@ export async function runManifestFallbackScenario(mode) {
         page,
         started,
       );
-      assert.ok(
-        evidence.navigations.length > navigations,
-        `${label}: the existing browser did not automatically reload`,
+      assert.equal(
+        evidence.navigations.length,
+        navigations + 1,
+        `${label}: expected only the manual refresh`,
       );
       assert.equal(
         new URL(page.url()).searchParams.has('csr'),
@@ -813,15 +817,14 @@ export async function runManifestFallbackScenario(mode) {
         recovery.response = mismatch;
         recovery.newManifest = nextManifest.hash;
         await expectHTTP('v6', 'v6');
-        await eventually(
-          'manifest discovery updates Node and reloads the document',
-          () => recovery.navigations.length > navigations,
+        await pause(1000);
+        assert.equal(
+          recovery.navigations.length,
+          navigations,
+          'Node readiness or HTTP 409 reloaded the stale browser',
         );
+        await latePage.reload({ waitUntil: 'load' });
         await expectBrowser('v6', 'v6', colors.first, latePage);
-        assert.ok(
-          recovery.navigations.length > navigations,
-          'Manifest update did not reload the document',
-        );
         assert.equal(new URL(latePage.url()).searchParams.has('csr'), false);
         const settled = recovery.navigations.length;
         await pause(3000);
@@ -834,7 +837,7 @@ export async function runManifestFallbackScenario(mode) {
         assert.equal(
           recovery.documentLoads,
           1,
-          'Service mismatch must recover with exactly one document reload',
+          'Only the user refresh should reload the document',
         );
         assert.equal(
           recovery.serviceRequests.filter(

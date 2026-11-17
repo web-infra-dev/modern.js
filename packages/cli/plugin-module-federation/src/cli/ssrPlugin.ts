@@ -325,17 +325,6 @@ export const moduleFederationSSRPlugin = (
         },
       });
       if (
-        isDev() &&
-        typeof pluginOptions.userConfig.ssr === 'object' &&
-        pluginOptions.userConfig.ssr.cacheUpdates
-      ) {
-        plugins.push({
-          name: 'mfSSRUpdate',
-          path: resolveInternalPlugin('../ssr-runtime/updatePlugin'),
-          config: { name: pluginOptions.ssrConfig.name },
-        });
-      }
-      if (
         !isDev() ||
         (typeof pluginOptions.userConfig.ssr === 'object' &&
           pluginOptions.userConfig.ssr.cacheUpdates)

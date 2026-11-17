@@ -15,7 +15,7 @@ describe('Development subscription graph and fallback', () => {
   }, 600000);
 
   for (const mode of ['bridge', 'service', 'service-csr']) {
-    it(`${mode}: applies loader and component changes and remounts the selected release`, async () => {
+    it(`${mode}: prepares updated SSR without browser reload and serves the selected release on manual refresh`, async () => {
       await runSubscriptionScenario(mode);
     }, 600000);
   }

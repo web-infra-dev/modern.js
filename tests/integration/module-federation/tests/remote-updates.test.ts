@@ -32,6 +32,89 @@ for (const scenario of scenarios.filter(
     `Producer updates / ${scenario}`,
     getContext => {
       if (getContext().mode === 'dev') {
+        if (scenario === 'bridge') {
+          it('waits for Node readiness on a manual refresh while an older SSR stream drains', async () => {
+            const { lab, workspace } = getContext();
+            const source = path.join(
+              workspace,
+              'provider/src/update-version.tsx',
+            );
+            const original = await readFile(source, 'utf8');
+            const changed = original.replace(
+              "developmentRevision = 'initial'",
+              "developmentRevision = 'admission-ready'",
+            );
+            const probe = `ssr-update-admission-${Date.now()}`;
+            const controller = new AbortController();
+            const oldDocument = fetch(
+              `${lab.url}${scenarioRoutes.bridge}?probe=${probe}&hold=1`,
+              { signal: controller.signal },
+            ).then(response => response.text());
+            // Handle a cancelled fixture request even if an earlier assertion fails.
+            void oldDocument.catch(() => {});
+            try {
+              await expect
+                .poll(
+                  () =>
+                    lab.bridgeRequests.some(request => request.probe === probe),
+                  { timeout: 15000 },
+                )
+                .toBe(true);
+              const updating = () =>
+                (lab.logs.get('host-v1') || '').match(/\[MF SSR\] Updating/g)
+                  ?.length || 0;
+              const before = updating();
+              await writeFile(source, changed);
+              await expect
+                .poll(updating, { timeout: 30000 })
+                .toBeGreaterThan(before);
+              let admitted = false;
+              const refreshed = fetch(`${lab.url}${scenarioRoutes.bridge}`, {
+                signal: controller.signal,
+              }).then(async response => {
+                admitted = true;
+                expect(response.status).toBe(200);
+                return response.text();
+              });
+              void refreshed.catch(() => {});
+              // The response cannot begin while the current generation is held.
+              await new Promise(resolve => setTimeout(resolve, 200));
+              expect(admitted).toBe(false);
+              lab.releaseBridge(probe);
+              const [oldHTML, nextHTML] = await Promise.all([
+                oldDocument,
+                refreshed,
+              ]);
+              assertServerVersion(oldHTML, 'bridge', 'v1:initial');
+              assertServerVersion(nextHTML, 'bridge', 'v1:admission-ready');
+            } finally {
+              lab.releaseBridge(probe);
+              controller.abort();
+              if ((await readFile(source, 'utf8')) === changed)
+                await writeFile(source, original);
+              await expect
+                .poll(
+                  async () => {
+                    const response = await fetch(
+                      `${lab.url}${scenarioRoutes.bridge}`,
+                    );
+                    try {
+                      assertServerVersion(
+                        await response.text(),
+                        'bridge',
+                        'v1:initial',
+                      );
+                      return response.ok;
+                    } catch {
+                      return false;
+                    }
+                  },
+                  { timeout: 30000 },
+                )
+                .toBe(true);
+            }
+          }, 90000);
+        }
         it('observes producer edits through the shell and refreshes Node SSR without restarting', async () => {
           const { page, lab, workspace } = getContext();
           const directory = await artifactDirectory('dev', scenario);
@@ -74,7 +157,7 @@ for (const scenario of scenarios.filter(
             const documentCount = observer.documents.length;
 
             // No test navigation, page.reload or iframe src assignment follows
-            // this edit. The existing dev subscription / HMR owns the refresh.
+            // this edit. Browser HMR alone owns the rendered update.
             evidence.phase = 'edit-producer-and-wait-for-automatic-refresh';
             await writeFile(source, changed);
             const updatedFrame = await waitForVersion(page, 'v1:updated');
@@ -90,28 +173,9 @@ for (const scenario of scenarios.filter(
             expect(new URL(updatedFrame.url()).searchParams.has('csr')).toBe(
               false,
             );
-            evidence.phase = 'automatic-documents-contain-new-ssr';
+            evidence.phase = 'no-node-triggered-browser-navigation';
             await observer.settle();
-            // Fast Refresh can retain the document. A superseding dev reload
-            // may cancel a navigation, but each completed document must be new SSR.
-            const automaticDocuments = observer.documents.slice(documentCount);
-            const completedDocuments: DocumentEvidence[] = [];
-            for (const document of automaticDocuments) {
-              expect(new URL(document.url).searchParams.has('csr')).toBe(false);
-              if (document.requestFailure === 'net::ERR_ABORTED') continue;
-              expect(document.requestFailure).toBeUndefined();
-              expect(document.error).toBeUndefined();
-              expect(document.status).toBe(200);
-              expect(typeof document.html).toBe('string');
-              assertServerVersion(document.html!, scenario, 'v1:updated');
-              completedDocuments.push(document);
-            }
-            if (automaticDocuments.length)
-              expect(
-                completedDocuments.some(
-                  document => document.url === updatedFrame.url(),
-                ),
-              ).toBe(true);
+            expect(observer.documents.slice(documentCount)).toHaveLength(0);
 
             // HMR may keep the browser document. A separate raw request proves
             // the next Node SSR render also stopped serving the old module.
@@ -144,6 +208,17 @@ for (const scenario of scenarios.filter(
                 { timeout: 60000 },
               )
               .toBe(true);
+            // A user refresh receives the prepared Node generation. Node's
+            // completion must not reload or revalidate the mounted browser first.
+            await observer.settle();
+            expect(
+              observer.documents
+                .slice(documentCount)
+                .filter(document => document !== serverDocument),
+            ).toHaveLength(0);
+            await page.reload({ waitUntil: 'networkidle0' });
+            await waitForVersion(page, 'v1:updated');
+            await assertInteraction(page, scenario, 'v1:updated');
             evidence.phase = 'verify-process-and-service-transport';
             const after = await memorySample(lab.url, false);
             assertSameProcesses(before, after);

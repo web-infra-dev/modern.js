@@ -1,4 +1,7 @@
 import { afterEach, expect, it, rs } from '@rstest/core';
+import * as originalBuilds from '../../../../packages/cli/plugin-module-federation/node_modules/@module-federation/enhanced/dist/src/rspack.js' with {
+  rstest: 'importActual',
+};
 import { createDevManifestPublication } from '../../../../packages/cli/plugin-module-federation/src/cli/devManifest';
 import { startDevRemoteUpdates } from '../../../../packages/cli/plugin-module-federation/src/server/devRemoteUpdates';
 import updatePlugin from '../../../../packages/cli/plugin-module-federation/src/server/updatePlugin';
@@ -18,7 +21,7 @@ const transport = rs.hoisted(() => ({
 rs.mock(
   '../../../../packages/cli/plugin-module-federation/node_modules/@module-federation/enhanced/dist/src/rspack.js',
   () => ({
-    setCompilationBuildVersion: () => {},
+    createBuildVersionCoordinator: originalBuilds.createBuildVersionCoordinator,
     createDevBuildConnection: (options: unknown, callbacks: unknown) => {
       if (transport.connect) return transport.connect(options, callbacks);
       transport.callbacks = callbacks;
@@ -179,6 +182,12 @@ function buildRelay() {
   };
   return {
     publications,
+    debug: () =>
+      [...connections].map(c => [
+        c.options.publisher.name,
+        [...c.statuses],
+        publications.get(c.options.publisher.name),
+      ]),
     ready: () =>
       !queued &&
       !operations.size &&
@@ -209,7 +218,7 @@ for (const [label, graph] of [
   ['three-node cycle', { a: ['b'], b: ['c'], c: ['a'], d: ['b'] }],
   ['acyclic chain', { a: [], b: ['a'], d: ['b'] }],
 ] as const) {
-  it(`propagates a changed build through a ${label} before admitting its external consumer`, async () => {
+  it(`propagates a changed build through a ${label} while allowing old SSR until the ready notification`, async () => {
     const relay = buildRelay();
     const blocked = deferred();
     const compiled = deferred();
@@ -279,7 +288,9 @@ for (const [label, graph] of [
       }
       for (const node of nodes.values())
         node.local({ buildVersion: node.version, hot: true });
-      await flushUntil(relay.ready);
+      await flushUntil(relay.ready).catch(error => {
+        throw new Error(`${error.message}: ${JSON.stringify(relay.debug())}`);
+      });
 
       const producer = nodes.get('a');
       producer.ready = false;
@@ -292,18 +303,19 @@ for (const [label, graph] of [
       const check = consumer.watcher.check(request()).then(() => {
         admitted([...consumer.applied.values()]);
       });
-      await expectPending(check);
-      if (label !== 'acyclic chain') await blocked.promise;
-      expect(admitted).not.toHaveBeenCalled();
+      await check;
+      expect(admitted).toHaveBeenCalledTimes(1);
+      expect(JSON.stringify(admitted.mock.calls[0][0])).toContain('a1');
 
       producer.version = 'a2';
       producer.ready = true;
       compiled.resolve();
       producer.local({ buildVersion: 'a2', hot: true });
-      await check;
-      await flushUntil(relay.ready);
-      expect(admitted).toHaveBeenCalledTimes(1);
-      expect(JSON.stringify(admitted.mock.calls[0][0])).toContain('a2');
+      await flushUntil(relay.ready).catch(error => {
+        throw new Error(`${error.message}: ${JSON.stringify(relay.debug())}`);
+      });
+      await consumer.watcher.check(request());
+      expect(JSON.stringify([...consumer.applied.values()])).toContain('a2');
       expect(relay.publications.get('d').sources).toContainEqual(
         expect.objectContaining({ name: 'a', buildVersion: 'a2' }),
       );
@@ -316,7 +328,7 @@ for (const [label, graph] of [
   });
 }
 
-it('holds a new document until the queued Node update is ready without blocking that update', async () => {
+it('holds a new document until Node is ready, without waiting for broker acknowledgement', async () => {
   rs.spyOn(globalThis, 'fetch').mockResolvedValue(Response.json(manifest()));
   const entered = deferred();
   const rebuilt = deferred();
@@ -330,44 +342,57 @@ it('holds a new document until the queued Node update is ready without blocking 
   try {
     status('ready');
     status('waiting');
-    const admitted = rs.fn();
-    const check = f.watcher.check(request()).then(admitted);
-    await expectPending(check);
+    await f.watcher.check(request());
+    expect(f.updateRemotes).not.toHaveBeenCalled();
     status('updating');
     const update = transport.callbacks.onUpdate({
       remote: remote(),
-      publication: { buildVersion: 'next', hot: true },
+      publication: { buildVersion: 'next' },
     });
     await entered.promise;
-    expect(admitted).not.toHaveBeenCalled();
-    rebuilt.resolve();
-    await update;
+    const admitted = rs.fn();
+    const check = f.watcher.check(request()).then(admitted);
     await expectPending(check);
-    status('ready');
-    await check;
+    rebuilt.resolve();
+    await Promise.all([update, check]);
     expect(admitted).toHaveBeenCalledTimes(1);
     expect(f.updateRemotes).toHaveBeenCalledTimes(1);
   } finally {
+    rebuilt.resolve();
     await f.watcher.close();
   }
 });
 
-it('cancels one waiting document without cancelling another document', async () => {
-  const f = fixture();
+it('cancels one waiting document without cancelling another document or the Node update', async () => {
+  rs.spyOn(globalThis, 'fetch').mockResolvedValue(Response.json(manifest()));
+  const entered = deferred();
+  const rebuilt = deferred();
+  const f = fixture({
+    updateRemotes: rs.fn(async () => {
+      entered.resolve();
+      await rebuilt.promise;
+      return { changed: true };
+    }),
+  });
   const cancelled = new AbortController();
   try {
-    status('ready');
-    status('waiting');
+    status('updating');
+    const update = transport.callbacks.onUpdate({
+      remote: remote(),
+      publication: { buildVersion: 'next' },
+    });
+    await entered.promise;
     const first = f.watcher.check(request(cancelled.signal));
     const second = f.watcher.check(request());
     const rejected = expect(first).rejects.toThrow('document closed');
     cancelled.abort(new Error('document closed'));
     await rejected;
     await expectPending(second);
-    status('ready');
-    await second;
+    rebuilt.resolve();
+    await Promise.all([update, second]);
     expect(f.onError).not.toHaveBeenCalled();
   } finally {
+    rebuilt.resolve();
     await f.watcher.close();
   }
 });
@@ -386,10 +411,9 @@ it('does not gate a never-published remote and falls back when the broker discon
     await f.watcher.check(request());
     expect(fetcher).toHaveBeenCalledTimes(1);
     status('waiting');
-    const check = f.watcher.check(request());
-    await expectPending(check);
+    await f.watcher.check(request());
     status('disconnected');
-    await check;
+    await f.watcher.check(request());
     expect(f.updateRemotes).toHaveBeenCalledTimes(1);
     expect(
       new Headers(
@@ -509,17 +533,15 @@ it('recovers a failed broker acknowledgement through HTTP without requiring anot
     status('ready');
     const published = transport.publish.mock.calls.length;
     status('updating');
+    const update = transport.callbacks.onUpdate({
+      remote: remote(),
+      publication: { buildVersion: 'next' },
+    });
     const documents = Promise.allSettled([
       f.watcher.check(request()),
       f.watcher.check(request()),
     ]);
-    await expectPending(documents);
-    await expect(
-      transport.callbacks.onUpdate({
-        remote: remote(),
-        publication: { buildVersion: 'next' },
-      }),
-    ).rejects.toThrow('HTTP 503');
+    await expect(update).rejects.toThrow('HTTP 503');
     // Core reports a failed acknowledgement as waiting without republishing.
     status('waiting');
     for (const result of await documents) {
@@ -541,10 +563,8 @@ it('recovers a failed broker acknowledgement through HTTP without requiring anot
     status('ready');
     status('waiting');
     const gated = f.watcher.check(request());
-    await expectPending(gated);
-    expect(fetcher).toHaveBeenCalledTimes(before + 2);
-    status('ready');
     await gated;
+    expect(fetcher).toHaveBeenCalledTimes(before + 2);
   } finally {
     await f.watcher.close();
   }
@@ -558,15 +578,31 @@ for (const ending of ['timeout', 'close'] as const) {
       remotes: [remote()],
       application: { requestTimeoutMs: 50 },
     });
+    const rebuilding = deferred();
+    const entered = deferred();
+    rs.spyOn(globalThis, 'fetch').mockResolvedValue(Response.json(manifest()));
     const cleanup = transport.options.onReady(
       {
-        shouldUpdateRemote: rs.fn(),
-        updateRemotes: rs.fn(),
+        shouldUpdateRemote: rs.fn(async () => true),
+        updateRemotes: rs.fn(async (_targets, { signal }) => {
+          entered.resolve();
+          await Promise.race([
+            rebuilding.promise,
+            new Promise<void>(resolve =>
+              signal.addEventListener('abort', () => resolve(), { once: true }),
+            ),
+          ]);
+          return { changed: true };
+        }),
       },
       { dev: { reload: rs.fn(), send: rs.fn() } },
     );
-    status('ready');
-    status('waiting');
+    status('updating');
+    const update = transport.callbacks.onUpdate({
+      remote: remote(),
+      publication: { buildVersion: 'next' },
+    });
+    await entered.promise;
     const next = rs.fn();
     const response = transport.options
       .beforeRequest(request())
@@ -581,6 +617,8 @@ for (const ending of ['timeout', 'close'] as const) {
     expect(unavailable.status).toBe(503);
     expect(unavailable.headers.get('cache-control')).toBe('no-store');
     expect(next).not.toHaveBeenCalled();
+    rebuilding.resolve();
+    await update;
     await cleanup();
   });
 }
@@ -600,6 +638,37 @@ it('rejects a known producer 503 after a disconnected broker instead of admittin
     const response = await transport.options.beforeRequest(request());
     expect(response.status).toBe(503);
     expect(response.headers.get('cache-control')).toBe('no-store');
+  } finally {
+    await cleanup();
+  }
+});
+
+it('does not reload or revalidate the browser after Node updates finish', async () => {
+  rs.spyOn(globalThis, 'fetch').mockImplementation(async () =>
+    Response.json(manifest()),
+  );
+  updatePlugin({ name: 'host', remotes: [remote()] });
+  const dev = { reload: rs.fn(), send: rs.fn() };
+  const cleanup = transport.options.onReady(
+    {
+      shouldUpdateRemote: rs.fn(async () => true),
+      updateRemotes: rs.fn(async () => ({ changed: true })),
+    },
+    { dev },
+  );
+  try {
+    status('updating');
+    await transport.callbacks.onUpdate({
+      remote: remote(),
+      publication: { buildVersion: 'next', hot: true },
+    });
+    status('ready');
+    await transport.options.beforeRequest(request());
+    // Both HMR-capable and static publication used to initiate browser work.
+    status('disconnected');
+    await transport.options.beforeRequest(request());
+    expect(dev.reload).not.toHaveBeenCalled();
+    expect(dev.send).not.toHaveBeenCalled();
   } finally {
     await cleanup();
   }
@@ -629,6 +698,7 @@ function publicationFixture() {
   const publication = createDevManifestPublication();
   publication.attach(
     {
+      options: { mode: 'development' },
       hooks: {
         thisCompilation: {
           tap: (_: unknown, fn: typeof compile) => {

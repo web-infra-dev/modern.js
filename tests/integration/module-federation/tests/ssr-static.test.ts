@@ -34,9 +34,14 @@ const deferred = () => {
   return { promise, resolve };
 };
 
-test.each(['named', 'numeric', 'concatenated'] as const)(
-  'compiled %s imports invalidate affected entries and preserve unrelated caches',
-  async mode => {
+test.each([
+  ['named', false],
+  ['numeric', false],
+  ['concatenated', false],
+  ['named', true],
+] as const)(
+  'compiled %s imports invalidate entries and recover selective preparation failure: %s',
+  async (mode, recoverPreparation) => {
     const ports = await updatePorts();
     const { rspack, container } = require(rspackEntry);
     const { SSRDependencyPlugin } = require(
@@ -171,6 +176,7 @@ test.each(['named', 'numeric', 'concatenated'] as const)(
     });
     let application: any;
     let fail = false;
+    let failPreparationOnce = false;
     const server = createServerBase({
       pwd: out,
       config: {
@@ -220,6 +226,10 @@ test.each(['named', 'numeric', 'concatenated'] as const)(
           return adapter.dispose(entries);
         },
         async validate() {
+          if (failPreparationOnce) {
+            failPreparationOnce = false;
+            throw new Error('selective preparation failed');
+          }
           if (fail) throw new Error('candidate failed');
         },
       }),
@@ -260,6 +270,7 @@ test.each(['named', 'numeric', 'concatenated'] as const)(
         entry: path.join(out, 'v2.cjs'),
         entryGlobalName: 'v2',
       };
+      failPreparationOnce = recoverPreparation;
       const update = (pendingUpdate = adapter.update(
         application,
         'remote',
@@ -274,7 +285,7 @@ test.each(['named', 'numeric', 'concatenated'] as const)(
       assert.equal(application.status.phase, 'draining');
       assert.equal(await get('/b'), 'unrelated');
       assert.equal((await fetch(`${url}/b/rewrite`)).status, 503);
-      const waiting = get('/c');
+      const waiting = recoverPreparation ? undefined : get('/c');
       producer.resolve();
       const { timingsMs, ...updated } = await update;
       assert.ok(timingsMs.total >= 0);
@@ -283,6 +294,18 @@ test.each(['named', 'numeric', 'concatenated'] as const)(
           value => typeof value === 'number' && value >= 0,
         ),
       );
+      if (recoverPreparation) {
+        assert.equal(updated.mode, 'application');
+        assert.deepEqual(updated.reasons, ['failed-update-recovery']);
+        assert.equal(updated.generation, 1);
+        assert.equal(await get('/a'), 'v2');
+        assert.equal(await get('/c'), 'v2');
+        assert.equal(await get('/b'), 'unrelated');
+        assert.equal(application.status.phase, 'serving');
+        assert.ok(state.__staticRuns.b > before.b);
+        assert.deepEqual(http.address(), address);
+        return;
+      }
       assert.deepEqual(updated, {
         mode: 'entries',
         entries: ['a', 'c'],

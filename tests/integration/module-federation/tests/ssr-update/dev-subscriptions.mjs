@@ -332,33 +332,40 @@ export async function runSubscriptionScenario(mode) {
         );
       let current;
       if (browser) {
-        current = await eventually(`${label}: browser updated`, async () => {
-          const current = await readBrowser();
-          return (
-            current.ui === ui &&
-            current.loader === loader &&
-            current.hydrated === 'true' &&
-            (!(staticProvider || appMode.startsWith('service')) ||
-              current.timeOrigin !== beforeBrowser.timeOrigin) &&
-            (!heading || current.heading.includes(heading)) &&
-            current
-          );
-        });
-        if (!staticProvider && !appMode.startsWith('service')) {
-          assert.equal(
-            current.timeOrigin,
-            evidence.initialBrowser.timeOrigin,
-            'Unexpected document reload',
-          );
-          assert.equal(current.count, 'count:1', 'React state was lost');
-        } else {
-          assert.notEqual(
-            current.timeOrigin,
-            beforeBrowser.timeOrigin,
-            'Static artifacts and Service descriptors require reload',
-          );
-          assert.equal(current.count, 'count:0');
-        }
+        // Node readiness never initiates browser navigation or loader revalidation.
+        await pause(1000);
+        current = await readBrowser();
+        assert.equal(
+          current.timeOrigin,
+          beforeBrowser.timeOrigin,
+          'Node readiness reloaded the document',
+        );
+        assert.equal(
+          current.count,
+          'count:1',
+          'Node readiness reset browser state',
+        );
+        await browser.open(fixture.hostURL);
+        current = await eventually(
+          `${label}: manually refreshed browser`,
+          async () => {
+            const current = await readBrowser();
+            return (
+              current.ui === ui &&
+              current.loader === loader &&
+              current.hydrated === 'true' &&
+              current.timeOrigin !== beforeBrowser.timeOrigin &&
+              (!heading || current.heading.includes(heading)) &&
+              current
+            );
+          },
+        );
+        assert.equal(current.count, 'count:0');
+        await browser.click('#dev-counter');
+        await eventually(
+          'counter increment after manual refresh',
+          async () => (await readBrowser()).count === 'count:1',
+        );
       }
       evidence.edits.push({
         label,

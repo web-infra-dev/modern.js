@@ -13,7 +13,7 @@ describe('Development manifest fallback and Service recovery', () => {
   }, 600000);
 
   for (const mode of ['service', 'service-csr']) {
-    it(`${mode}: rejects a stale POST once and reloads exactly once without replay or CSR downgrade`, async () => {
+    it(`${mode}: rejects a stale POST without automatic reload and recovers on manual refresh without replay`, async () => {
       await runManifestFallbackScenario(mode);
     }, 600000);
   }

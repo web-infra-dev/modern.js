@@ -208,23 +208,167 @@ describe('development build subscriptions and request fallback', () => {
     await f.watcher.close();
   });
 
-  it('revalidates only after a live HMR publication and reloads a build-and-serve change', async () => {
+  it('admits old SSR during compilation and waits only after a ready notification', async () => {
+    const fetcher = rs
+      .spyOn(globalThis, 'fetch')
+      .mockImplementation(async () => Response.json(manifest('b')));
+    const entered = deferred();
+    const rebuilt = deferred();
+    const f = fixture({
+      updateRemotes: rs.fn(async () => {
+        entered.resolve();
+        await rebuilt.promise;
+        return { changed: true };
+      }),
+    });
+    try {
+      transport.synchronized.add(remote('weather').entry);
+      transport.callbacks.onStatus(remote('weather'), 'ready');
+      transport.synchronized.clear();
+      transport.callbacks.onStatus(remote('weather'), 'waiting');
+      await f.watcher.check(new Request('http://host/page'));
+      expect(fetcher).not.toHaveBeenCalled();
+      const update = transport.callbacks.onUpdate({
+        remote: remote('weather'),
+        publication: { buildVersion: 'b' },
+      });
+      await entered.promise;
+      let admitted = false;
+      const document = f.watcher
+        .check(new Request('http://host/page'))
+        .then(() => {
+          admitted = true;
+        });
+      await new Promise(resolve => setImmediate(resolve));
+      expect(admitted).toBe(false);
+      rebuilt.resolve();
+      await Promise.all([update, document]);
+      expect(admitted).toBe(true);
+      expect(f.updateRemotes).toHaveBeenCalledTimes(1);
+      expect(f.onApplied).toHaveBeenLastCalledWith(expect.any(Array));
+    } finally {
+      rebuilt.resolve();
+      await f.watcher.close();
+    }
+  });
+
+  it('keeps documents waiting across consecutive updates and coalesces queued notifications to the latest', async () => {
+    let version = 'a';
     rs.spyOn(globalThis, 'fetch').mockImplementation(async () =>
-      Response.json(manifest('b')),
+      Response.json(manifest(version)),
     );
-    const f = fixture();
-    await transport.callbacks.onUpdate({
-      remote: remote('weather'),
-      publication: { buildVersion: 'b', hot: true },
+    const firstEntered = deferred();
+    const firstReady = deferred();
+    const nextEntered = deferred();
+    const nextReady = deferred();
+    const f = fixture({
+      updateRemotes: rs.fn(async () => {
+        if (version === 'a') {
+          firstEntered.resolve();
+          await firstReady.promise;
+        } else {
+          nextEntered.resolve();
+          await nextReady.promise;
+        }
+        return { changed: true };
+      }),
     });
-    expect(f.onApplied).toHaveBeenLastCalledWith(expect.any(Array), {
-      reload: false,
+    const notify = (buildVersion: string) => {
+      transport.callbacks.onStatus(remote('weather'), 'updating');
+      return transport.callbacks.onUpdate({
+        remote: remote('weather'),
+        publication: { buildVersion },
+      });
+    };
+    try {
+      const first = notify('a');
+      await firstEntered.promise;
+      let admitted = false;
+      const document = f.watcher
+        .check(new Request('http://host/page'))
+        .then(() => {
+          admitted = true;
+        });
+      const second = notify('b');
+      const latest = notify('c');
+      version = 'c';
+      firstReady.resolve();
+      await nextEntered.promise;
+      await new Promise(resolve => setImmediate(resolve));
+      expect(admitted).toBe(false);
+      nextReady.resolve();
+      await Promise.all([first, second, latest, document]);
+      expect(f.updateRemotes).toHaveBeenCalledTimes(2);
+      expect(
+        f.updateRemotes.mock.calls[1][0][0].moduleInfo.metaData.buildInfo
+          .buildVersion,
+      ).toBe('c');
+      expect(admitted).toBe(true);
+    } finally {
+      firstReady.resolve();
+      nextReady.resolve();
+      await f.watcher.close();
+    }
+  });
+
+  it('retains queued updates from different producers', async () => {
+    rs.spyOn(globalThis, 'fetch').mockImplementation(async () =>
+      Response.json(manifest('next')),
+    );
+    const f = fixture({ remotes: [remote('weather'), remote('other')] });
+    try {
+      const updates = ['weather', 'other'].map(name => {
+        transport.callbacks.onStatus(remote(name), 'updating');
+        return transport.callbacks.onUpdate({
+          remote: remote(name),
+          publication: { buildVersion: 'next' },
+        });
+      });
+      await Promise.all([
+        ...updates,
+        f.watcher.check(new Request('http://host/page')),
+      ]);
+      expect(
+        f.updateRemotes.mock.calls.map(([targets]) => targets[0].name),
+      ).toEqual(['weather', 'other']);
+    } finally {
+      await f.watcher.close();
+    }
+  });
+
+  it('keeps SSR unavailable after application recovery fails until another update succeeds', async () => {
+    rs.spyOn(globalThis, 'fetch').mockImplementation(async () =>
+      Response.json(manifest('next')),
+    );
+    const f = fixture({
+      updateRemotes: rs
+        .fn()
+        .mockRejectedValueOnce(
+          new Error('SSR update and application recovery failed'),
+        )
+        .mockResolvedValue({ changed: true }),
     });
-    await f.watcher.check();
-    expect(f.onApplied).toHaveBeenLastCalledWith(expect.any(Array), {
-      reload: true,
-    });
-    await f.watcher.close();
+    const notify = () =>
+      transport.callbacks.onUpdate({
+        remote: remote('weather'),
+        publication: { buildVersion: 'next' },
+      });
+    try {
+      await expect(notify()).rejects.toThrow('application recovery failed');
+      await expect(
+        f.watcher.check(new Request('http://host/page')),
+      ).rejects.toThrow('Node SSR update failed');
+      await expect(
+        f.watcher.check(new Request('http://host/page')),
+      ).rejects.toThrow('Node SSR update failed');
+      expect(f.updateRemotes).toHaveBeenCalledTimes(1);
+      await notify();
+      transport.synchronized.add(remote('weather').entry);
+      await f.watcher.check(new Request('http://host/page'));
+      expect(f.updateRemotes).toHaveBeenCalledTimes(2);
+    } finally {
+      await f.watcher.close();
+    }
   });
 
   it('rejects superseded publication evidence without acknowledging success', async () => {

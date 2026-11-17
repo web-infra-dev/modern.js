@@ -4,6 +4,7 @@ import { mkdtemp, mkdir, readFile, rm, writeFile } from 'fs/promises';
 import { tmpdir } from 'os';
 import { describe, expect, it, rs } from '@rstest/core';
 import { BridgeSSRPlugin } from './BridgeSSRPlugin';
+import * as utils from './utils';
 import { createDevManifestPublication } from './devManifest';
 
 const nodeRequire = createRequire(__filename);
@@ -107,6 +108,28 @@ const runCompiler = (config: import('@rspack/core').Configuration) =>
   });
 
 describe('moduleFederationSSRPlugin', () => {
+  it('does not inject a browser SSR-ready revalidation listener for cache updates', async () => {
+    const resolve = rs
+      .spyOn(utils, 'resolveInternalPlugin')
+      .mockImplementation(value => value);
+    rs.stubEnv('NODE_ENV', 'development');
+    try {
+      const { api } = await createPluginHarness({
+        userConfig: { ssr: { cacheUpdates: true } },
+      });
+      const configure = api._internalRuntimePlugins.mock.calls[0][0];
+      const result = configure({ entrypoint: {}, plugins: [] });
+      expect(
+        result.plugins.some(
+          (plugin: { name: string }) => plugin.name === 'mfSSRUpdate',
+        ),
+      ).toBe(false);
+    } finally {
+      resolve.mockRestore();
+      rs.unstubAllEnvs();
+    }
+  });
+
   it.each([false, true])(
     'publishes ready builds with matching browser capability (Service: %s)',
     async service => {
