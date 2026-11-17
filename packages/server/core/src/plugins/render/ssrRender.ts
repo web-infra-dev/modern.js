@@ -1,5 +1,4 @@
-import type { IncomingMessage } from 'http';
-import type { Logger, Metrics, Reporter, ServerRoute } from '@modern-js/types';
+import type { Reporter, ServerRoute } from '@modern-js/types';
 import type {
   Monitors,
   ClientManifest as RscClientManifest,
@@ -14,7 +13,6 @@ import type {
   OnError,
   OnTiming,
   Params,
-  RequestHandlerConfig,
   RequestHandlerOptions,
 } from '../../types/requestHandler';
 import { getPathname } from '../../utils';

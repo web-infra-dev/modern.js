@@ -2,7 +2,7 @@
 import 'server-only';
 import { getCountState, setCountState } from './ServerState';
 
-export async function greet(name: string) {
+export async function greet(_name: string) {
   return 'Hi';
 }
 

@@ -75,8 +75,6 @@ export function isVersionUpgraded(
  * Handles prerelease versions, patch, minor, and major upgrades.
  */
 function getVersionsBetween(oldVersion: string, newVersion: string): string[] {
-  const versions: string[] = [];
-
   try {
     const oldPrerelease = semver.prerelease(oldVersion);
     const newPrerelease = semver.prerelease(newVersion);

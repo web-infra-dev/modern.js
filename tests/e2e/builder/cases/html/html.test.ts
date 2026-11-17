@@ -37,7 +37,6 @@ test.describe('html configure multi', () => {
 test.describe('html element set', () => {
   let builder: Awaited<ReturnType<typeof build>>;
   let mainContent: string;
-  let fooContent: string;
 
   test.beforeAll(async () => {
     builder = await build({
@@ -62,10 +61,7 @@ test.describe('html element set', () => {
       join(builder.distPath, 'html/main/index.html'),
       'utf-8',
     );
-    fooContent = await fs.readFile(
-      join(builder.distPath, 'html/foo/index.html'),
-      'utf-8',
-    );
+    await fs.readFile(join(builder.distPath, 'html/foo/index.html'), 'utf-8');
   });
 
   test.afterAll(() => {

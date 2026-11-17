@@ -278,7 +278,7 @@ export async function build({
 
 export const proxyConsole = (
   types: ConsoleType | ConsoleType[] = ['log', 'warn', 'info', 'error'],
-  keepAnsi = false,
+  _keepAnsi = false,
 ) => {
   const logs: string[] = [];
   const restores: Array<() => void> = [];

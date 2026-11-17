@@ -23,7 +23,7 @@ const mockRoutes = [
   {
     id: 'aa',
     path: 'aa',
-    loader: ({ request }: LoaderFunctionArgs) => null,
+    loader: ({ request: _request }: LoaderFunctionArgs) => null,
     element: <h1>idk</h1>,
   },
 ];
@@ -117,7 +117,7 @@ describe('prefetch', () => {
       {
         id: 'aa',
         path: 'aa',
-        loader: ({ request }: LoaderFunctionArgs) => null,
+        loader: ({ request: _request }: LoaderFunctionArgs) => null,
         element: <h1>idk</h1>,
       },
     ];
@@ -126,7 +126,7 @@ describe('prefetch', () => {
     act(() => {
       router = createMemoryRouter(mockRoutes);
     });
-    const { container, unmount } = render(
+    const { container: _container, unmount } = render(
       <RouterProvider router={router as any} />,
     );
 

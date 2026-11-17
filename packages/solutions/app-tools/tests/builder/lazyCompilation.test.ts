@@ -208,7 +208,7 @@ describe('route component collection uses FINAL routes (timing)', () => {
     // the route component. Collection must run on this FINAL value.
     const consumers: Array<(r: any) => any> = [
       r => r, // identity consumer
-      r => [{ _component: `${srcAlias}/routes/about/replaced.tsx` }], // replaces
+      _r => [{ _component: `${srcAlias}/routes/about/replaced.tsx` }], // replaces
     ];
     for (const consumer of consumers) {
       routes = consumer(routes);

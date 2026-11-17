@@ -18,7 +18,7 @@ const App = () => {
   });
 
   useEffect(() => {
-    user().then(res => setState(message));
+    user().then(_res => setState(message));
   }, []);
 
   const { message = 'bff-express' } = data || {};

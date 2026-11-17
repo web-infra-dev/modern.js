@@ -14,6 +14,12 @@ define.lint(({ js, ts }) => [
   js.configs.recommended,
   ts.configs.recommended,
   {
+    languageOptions: {
+      parserOptions: {
+        // Discover package tsconfigs so rules requiring a project can run.
+        projectService: true,
+      },
+    },
     // Disable rules with existing violations during migration; enable them gradually.
     rules: {
       '@typescript-eslint/ban-ts-comment': 'off',

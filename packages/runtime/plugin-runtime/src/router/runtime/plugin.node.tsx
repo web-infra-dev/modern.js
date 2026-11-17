@@ -1,8 +1,5 @@
 import { merge } from '@modern-js/runtime-utils/merge';
-import {
-  createRequestContext,
-  reporterCtx,
-} from '@modern-js/runtime-utils/node';
+import { createRequestContext } from '@modern-js/runtime-utils/node';
 import { createStaticHandler } from '@modern-js/runtime-utils/router';
 import {
   StaticRouterProvider,
@@ -90,7 +87,7 @@ export const routerPlugin = (
         }
 
         const {
-          request,
+          request: _request,
           mode: ssrMode,
           nonce,
           loaderFailureMode = 'errorBoundary',
@@ -213,7 +210,7 @@ export const routerPlugin = (
 
         const getRouteApp = () => {
           const enableRsc = getGlobalEnableRsc();
-          return (props => {
+          return (_props => {
             const context = useContext(InternalRuntimeContext);
             const { routerContext, ssrContext, routes } = context;
             const { nonce, mode, useJsonScript } = ssrContext!;

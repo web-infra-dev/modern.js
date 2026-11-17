@@ -147,7 +147,7 @@ export function detectLanguageFromRequest(
         }
       }
     }
-  } catch (error) {
+  } catch {
     // Silently ignore errors
   }
 

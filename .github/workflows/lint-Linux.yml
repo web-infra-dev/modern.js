@@ -47,5 +47,8 @@ jobs:
       - name: Check Lint and Formatting
         run: pnpm run check
 
+      - name: Test lint configuration
+        run: pnpm run test:lint
+
       - name: Check Changeset
         run: pnpm run check-changeset

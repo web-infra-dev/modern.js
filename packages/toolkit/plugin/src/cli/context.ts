@@ -20,7 +20,7 @@ export function initAppContext<Extends extends CLIPluginExtends>(params: {
   srcDir?: string;
   distDir?: string;
 }): AppContext<Extends> {
-  const { appDirectory, srcDir = 'src', distDir = 'dist' } = params;
+  const { appDirectory, srcDir = 'src', distDir: _distDir = 'dist' } = params;
   return {
     metaName: params.metaName,
     packageName: params.packageName,

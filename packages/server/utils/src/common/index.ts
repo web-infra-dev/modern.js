@@ -1,9 +1,5 @@
 import * as path from 'path';
-import type {
-  SourceNormalizedConfig,
-  ToolsNormalizedConfig,
-} from '@modern-js/server-core';
-import { fs } from '@modern-js/utils';
+import type { SourceNormalizedConfig } from '@modern-js/server-core';
 
 export interface Pattern {
   from: string;
@@ -54,7 +50,7 @@ export const compile: CompileFunc = async (
   modernConfig,
   compileOptions,
 ) => {
-  const { sourceDirs, distDir, tsconfigPath } = compileOptions;
+  const { sourceDirs, distDir, tsconfigPath: _tsconfigPath } = compileOptions;
   validateAbsolutePaths(
     sourceDirs,
     dir => `source dir ${dir} is not an absolute path.`,

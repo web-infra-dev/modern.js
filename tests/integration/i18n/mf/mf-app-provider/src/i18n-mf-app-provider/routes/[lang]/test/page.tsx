@@ -1,5 +1,5 @@
 import { useLoaderData } from '@modern-js/runtime/router';
-import i18next from '../../../i18n';
+
 import type { ProfileData } from './page.data';
 
 export default () => {

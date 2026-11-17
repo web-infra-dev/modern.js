@@ -4,11 +4,7 @@ import 'reflect-metadata';
 import type { HttpMethodDecider } from '@modern-js/types';
 import { HttpMethod, OperatorType, TriggerType, httpMethods } from '../types';
 import { INPUT_PARAMS_DECIDER, debug } from '../utils';
-import {
-  API_FILE_RULES,
-  FRAMEWORK_MODE_APP_DIR,
-  FRAMEWORK_MODE_LAMBDA_DIR,
-} from './constants';
+import { API_FILE_RULES, FRAMEWORK_MODE_LAMBDA_DIR } from './constants';
 import type { APIHandlerInfo, ApiHandler, ModuleInfo } from './types';
 import {
   getFiles,

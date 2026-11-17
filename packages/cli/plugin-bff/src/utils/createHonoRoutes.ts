@@ -6,7 +6,7 @@ import {
   ValidationError,
   isWithMetaHandler,
 } from '@modern-js/bff-core';
-import type { Context, Next } from '@modern-js/server-core';
+import type { Context } from '@modern-js/server-core';
 import { parse } from 'qs';
 import typeIs from 'type-is';
 
@@ -148,7 +148,7 @@ const getHonoInput = async (c: Context) => {
     } else {
       draft.body = await c.req.json();
     }
-  } catch (error) {
+  } catch {
     draft.body = null;
   }
   return draft;

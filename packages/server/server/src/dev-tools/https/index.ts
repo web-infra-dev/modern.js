@@ -17,7 +17,7 @@ export const genHttpsOptions = async (
 
     try {
       devcertPath = tryResolve('devcert', pwd, __dirname);
-    } catch (err) {
+    } catch {
       const packageManager = await getPackageManager(pwd);
       const command = chalk.yellow.bold(
         `${packageManager} add devcert@1.2.2 -D`,

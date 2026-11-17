@@ -25,7 +25,7 @@ export const routerPlugin = (): CliPlugin<AppTools> => ({
     const nestedRoutes: Record<string, unknown> = {};
     const nestedRoutesForServer: Record<string, unknown> = {};
 
-    const { metaName } = api.getAppContext();
+    const { metaName: _metaName } = api.getAppContext();
 
     api.addCommand(({ program }) => {
       program

@@ -36,7 +36,7 @@ export const clearFilesOverTime = async (
         }
       }
     }
-  } catch (err) {
+  } catch {
     // ignore error when clear files
   }
 };

@@ -8,7 +8,7 @@ export class ClassA extends React.Component {
   }
 }
 
-export function ComponentA(arg0) {
+export function ComponentA(_arg0) {
   return React.createElement(`div`);
 }
 

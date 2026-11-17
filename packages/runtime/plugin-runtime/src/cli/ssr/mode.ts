@@ -15,7 +15,12 @@ export function resolveSSRMode(params: {
   appDirectory?: string;
   nestedRoutesEntry?: string;
 }): SSRMode {
-  const { entry, config, appDirectory, nestedRoutesEntry } = params;
+  const {
+    entry,
+    config,
+    appDirectory: _appDirectory,
+    nestedRoutesEntry,
+  } = params;
 
   // 1. Check if SSG is enabled first (SSG takes precedence over SSR when both are configured)
   const isSsgEnabled =

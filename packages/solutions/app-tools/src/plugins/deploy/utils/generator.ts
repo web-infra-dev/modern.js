@@ -1,11 +1,6 @@
 import path from 'node:path';
 import type { ProdServerOptions } from '@modern-js/prod-server';
-import {
-  ROUTE_SPEC_FILE,
-  SERVER_DIR,
-  fs as fse,
-  getMeta,
-} from '@modern-js/utils';
+import { ROUTE_SPEC_FILE, SERVER_DIR, getMeta } from '@modern-js/utils';
 import { merge } from '@modern-js/utils/lodash';
 import { normalizePath } from '.';
 import type { AppToolsNormalizedConfig } from '../../../types';
@@ -39,7 +34,7 @@ export type PluginItem = [string, Record<string, any> | undefined];
 
 export const genPluginImportsCode = (plugins: PluginItem[], isESM = false) => {
   return plugins
-    .map(([name, options], index) => {
+    .map(([name, _options], index) => {
       const im = isESM
         ? `import * as plugin_${index}_ns from '${name}'`
         : `const plugin_${index}_ns = require('${name}')`;

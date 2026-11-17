@@ -10,7 +10,7 @@ export function isArray(obj: unknown): obj is any[] {
   return Array.isArray(obj);
 }
 
-export function isFunction(func: any): func is Function {
+export function isFunction(func: any): func is (...args: any[]) => any {
   return typeof func === 'function';
 }
 

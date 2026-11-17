@@ -105,5 +105,5 @@ async function applyBuilderPlugins(
     environment: 'client',
   });
 
-  const { normalizedConfig } = options;
+  const { normalizedConfig: _normalizedConfig } = options;
 }

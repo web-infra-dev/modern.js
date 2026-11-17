@@ -94,7 +94,7 @@ describe('createHonoRoutes', () => {
   });
 
   it('parses the bodies of POST requests by content type', async () => {
-    const handler = rs.fn(async (input: any) => ({ ok: true }));
+    const handler = rs.fn(async (_input: any) => ({ ok: true }));
     const app = createApp([
       { routePath: '/api/foo', httpMethod: 'POST', handler },
     ]);

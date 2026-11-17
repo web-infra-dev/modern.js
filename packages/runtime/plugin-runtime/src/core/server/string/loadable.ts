@@ -112,7 +112,7 @@ export class LoadableCollector implements Collector {
     if (config.enableAsyncEntry) {
       try {
         asyncChunks.push(...extractor.getChunkAssets([`async-${entryName}`]));
-      } catch (e) {
+      } catch {
         // TODO add log, now runtime not inject logger instance
       }
     }
@@ -207,7 +207,7 @@ export class LoadableCollector implements Collector {
   }
 
   private async emitStyleAssets(chunks: Chunk[]) {
-    const { template, chunkSet, config, entryName } = this.options;
+    const { template, chunkSet, config, entryName: _entryName } = this.options;
 
     const { inlineStyles } = config;
 

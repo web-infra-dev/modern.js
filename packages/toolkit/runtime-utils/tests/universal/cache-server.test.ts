@@ -167,7 +167,7 @@ describe('cache function', () => {
       const mockFn = rs.fn().mockResolvedValue('test data');
       const cachedFn = cache(mockFn);
 
-      const handler = withRequestCache(async (req: Request) => {
+      const handler = withRequestCache(async (_req: Request) => {
         const result1 = await cachedFn('param1');
         const result2 = await cachedFn('param1');
         const result3 = await cachedFn('param2');
@@ -190,7 +190,7 @@ describe('cache function', () => {
       const cachedFn1 = cache(mockFn1);
       const cachedFn2 = cache(mockFn2);
 
-      const handler = withRequestCache(async (req: Request) => {
+      const handler = withRequestCache(async (_req: Request) => {
         const result1 = await cachedFn1('sameParam');
         const result2 = await cachedFn2('sameParam');
         const result3 = await cachedFn1('sameParam');
@@ -240,7 +240,7 @@ describe('cache function', () => {
       const mockFn = rs.fn().mockResolvedValue('test data');
       const cachedFn = cache(mockFn);
 
-      const handler = withRequestCache(async (req: Request) => {
+      const handler = withRequestCache(async (_req: Request) => {
         return cachedFn('param1');
       });
 
@@ -257,10 +257,10 @@ describe('cache function', () => {
       const mockFn = rs.fn().mockRejectedValue(error);
       const cachedFn = cache(mockFn);
 
-      const handler = withRequestCache(async (req: Request) => {
+      const handler = withRequestCache(async (_req: Request) => {
         try {
           await cachedFn('param1');
-        } catch (e) {
+        } catch {
           await cachedFn('param1');
           return 'should not reach here';
         }
@@ -276,7 +276,7 @@ describe('cache function', () => {
       const mockFn = rs.fn().mockResolvedValue('test data');
       const cachedFn = cache(mockFn);
 
-      const innerHandler = withRequestCache(async (req: Request) => {
+      const innerHandler = withRequestCache(async (_req: Request) => {
         return cachedFn('param1');
       });
 
@@ -301,7 +301,7 @@ describe('cache function', () => {
       });
       const cachedFn = cache(mockFn);
 
-      const handler = withRequestCache(async (req: Request) => {
+      const handler = withRequestCache(async (_req: Request) => {
         return cachedFn('param1');
       });
 
@@ -321,7 +321,7 @@ describe('cache function', () => {
       const mockFn = rs.fn().mockResolvedValue('test data');
       const cachedFn = cache(mockFn);
 
-      const handler = withRequestCache(async (req: Request) => {
+      const handler = withRequestCache(async (_req: Request) => {
         return cachedFn('param1');
       });
 
@@ -713,7 +713,7 @@ describe('cache function', () => {
 
       const cachedFn = cache(mockFn);
 
-      const handler = withRequestCache(async (req: Request) => {
+      const handler = withRequestCache(async (_req: Request) => {
         const result1 = await cachedFn('param1');
         const result2 = await cachedFn('param1');
         return { result1, result2 };
@@ -744,7 +744,7 @@ describe('cache function', () => {
         unstable_shouldDisable: () => true,
       });
 
-      const handler = withRequestCache(async (req: Request) => {
+      const handler = withRequestCache(async (_req: Request) => {
         const result1 = await cachedFn('param1');
         const result2 = await cachedFn('param1');
         return { result1, result2 };
@@ -764,7 +764,7 @@ describe('cache function', () => {
         unstable_shouldDisable: () => false,
       });
 
-      const handler = withRequestCache(async (req: Request) => {
+      const handler = withRequestCache(async (_req: Request) => {
         const result1 = await cachedFn('param1');
         const result2 = await cachedFn('param1');
         return { result1, result2 };
@@ -786,13 +786,13 @@ describe('cache function', () => {
         },
       });
 
-      const handlerWithCache = withRequestCache(async (req: Request) => {
+      const handlerWithCache = withRequestCache(async (_req: Request) => {
         const result1 = await cachedFn('param1');
         const result2 = await cachedFn('param1');
         return { result1, result2 };
       });
 
-      const handlerWithoutCache = withRequestCache(async (req: Request) => {
+      const handlerWithoutCache = withRequestCache(async (_req: Request) => {
         const result1 = await cachedFn('param1');
         const result2 = await cachedFn('param1');
         return { result1, result2 };
@@ -817,7 +817,7 @@ describe('cache function', () => {
         unstable_shouldDisable: () => true,
       });
 
-      const handler = withRequestCache(async (req: Request) => {
+      const handler = withRequestCache(async (_req: Request) => {
         const result1 = await cachedFn('param1');
         const result2 = await cachedFn('param1');
         return { result1, result2 };
@@ -839,7 +839,7 @@ describe('cache function', () => {
         },
       });
 
-      const handler = withRequestCache(async (req: Request) => {
+      const handler = withRequestCache(async (_req: Request) => {
         const result1 = await cachedFn('param1');
         const result2 = await cachedFn('param1');
         return { result1, result2 };
@@ -864,7 +864,7 @@ describe('cache function', () => {
         unstable_shouldDisable: () => true,
       });
 
-      const handler = withRequestCache(async (req: Request) => {
+      const handler = withRequestCache(async (_req: Request) => {
         const result1 = await cachedFn('param1');
         const result2 = await cachedFn('param1');
         return { result1, result2 };

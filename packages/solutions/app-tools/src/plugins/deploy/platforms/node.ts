@@ -11,7 +11,7 @@ import type { CreatePreset } from './platform';
 export const createNodePreset: CreatePreset = ({
   appContext,
   modernConfig,
-  api,
+  api: _api,
 }) => {
   const { appDirectory, distDirectory, moduleType } = appContext;
   const isEsmProject = moduleType === 'module';
