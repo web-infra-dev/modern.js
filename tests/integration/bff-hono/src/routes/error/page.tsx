@@ -17,7 +17,7 @@ const serializeError = (error: any): string => {
     }
 
     return JSON.stringify(errorInfo, null, 2);
-  } catch (e) {
+  } catch {
     return `Error serialization failed: ${String(error)}`;
   }
 };

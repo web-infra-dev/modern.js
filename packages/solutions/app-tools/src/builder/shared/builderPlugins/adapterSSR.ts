@@ -17,11 +17,7 @@ import {
   mergeRsbuildConfig,
 } from '@rsbuild/core';
 import { getServerCombinedModuleFile } from '../../../plugins/analyze/utils';
-import type {
-  AppNormalizedConfig,
-  SSGMultiEntryOptions,
-  ServerUserConfig,
-} from '../../../types';
+import type { AppNormalizedConfig, ServerUserConfig } from '../../../types';
 import type { AppToolsContext } from '../../../types/plugin';
 import { isMainEntry } from '../../../utils/routes';
 import { HtmlAsyncChunkPlugin, RouterPlugin } from '../bundlerPlugins';
@@ -383,7 +379,7 @@ async function applySSRLoaderEntry(
           await fs.access(serverLoadersFile, fs.constants.F_OK);
           // if here is not occur error, it's means the file exists.
           chain.entry(`${entryName}-server-loaders`).add(serverLoadersFile);
-        } catch (err) {
+        } catch {
           // ignore the error
         }
       }

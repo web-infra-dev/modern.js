@@ -1,5 +1,5 @@
 import { AGGRED_DIR } from '@modern-js/server-core';
-import { DEFAULT_ENTRY_NAME, MAIN_ENTRY_NAME } from '@modern-js/utils';
+import { DEFAULT_ENTRY_NAME } from '@modern-js/utils';
 import type { AppUserConfig } from '../types';
 import type { AppToolsContext } from '../types/plugin';
 import { getAutoInjectEnv } from '../utils/env';
@@ -63,14 +63,7 @@ export function createDefaultConfig(
     mountId: 'root',
     meta: {
       charset: { charset: 'utf-8' },
-      viewport:
-        'width=device-width, initial-scale=1.0, shrink-to-fit=no, viewport-fit=cover, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no',
-      'http-equiv': { 'http-equiv': 'x-ua-compatible', content: 'ie=edge' },
-      renderer: 'webkit',
-      layoutmode: 'standard',
-      imagemode: 'force',
-      'wap-font-scale': 'no',
-      'format-detection': 'telephone=no',
+      viewport: 'width=device-width, initial-scale=1',
     },
   };
 

@@ -32,12 +32,11 @@ export const builderPluginAdapterBasic = (
       }
 
       const { appContext } = options;
-      const { metaName } = appContext;
 
+      // Keep the array form: plugins such as Module Federation append their
+      // own entries to an array, but replace a single RegExp.
       chain.watchOptions({
-        ignored: [
-          `[\\\\/](?:node_modules(?![\\\\/]\\.${metaName})|.git)[\\\\/]`,
-        ],
+        ignored: [createWatchIgnored(appContext.internalDirectory)],
       });
     });
 
@@ -98,4 +97,20 @@ function applyNodeCompat(isServiceWorker: boolean, chain: RspackChain) {
       chain.resolve.extensions.prepend(ext);
     }
   }
+}
+
+// Ignore node_modules and .git, but keep watching the generated internal
+// directory (`output.tempDir`), which usually lives inside node_modules.
+function createWatchIgnored(internalDirectory: string) {
+  const segments = internalDirectory.split(/[\\/]/);
+  const index = segments.lastIndexOf('node_modules');
+  const internalPath = segments
+    .slice(index + 1)
+    .map(segment => segment.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'))
+    .join('[\\\\/]');
+  const nodeModules =
+    index === -1 || !internalPath
+      ? 'node_modules'
+      : `node_modules(?![\\\\/]${internalPath}(?:[\\\\/]|$))`;
+  return new RegExp(`[\\\\/](?:${nodeModules}|\\.git)[\\\\/]`);
 }

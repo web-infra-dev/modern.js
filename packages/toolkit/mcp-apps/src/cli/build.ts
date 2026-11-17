@@ -74,7 +74,7 @@ export function createUiManifest(
 ): UiManifest {
   validateViewsConfig(config);
   if (csp !== undefined) validateUiMetadata({ csp });
-  const { views, ...metadata } = config;
+  const { views, remote: defaultRemote, ...metadata } = config;
   // Scripts and chunks load from the asset prefix even when assetBase stays
   // request-relative, such as with a protocol-relative CDN prefix.
   const assetOrigin = assetPrefixOrigin(prefix);
@@ -100,9 +100,19 @@ export function createUiManifest(
     views: Object.create(null),
   };
   for (const [name, source] of Object.entries(views)) {
-    if (typeof source === 'string')
+    if (typeof source === 'string') {
       manifest.views[name] = { html: `./ui/${viewEntryName(name)}.html`, ui };
-    else {
+      continue;
+    }
+    let remote: string;
+    let entry: string;
+    const deployedRemote = source.remote ?? defaultRemote;
+    if (deployedRemote !== undefined) {
+      // The shell reads a deployed remote's manifest when the card opens, so
+      // its exposes are checked at runtime and updates need no rebuild here.
+      entry = deployedRemote;
+      remote = `mcp-remote-${createHash('sha256').update(entry).digest('hex').slice(0, 12)}`;
+    } else {
       if (!mf)
         throw new Error(
           `View ${name} requires a Module Federation manifest. Enable the MF plugin and manifest output`,
@@ -121,16 +131,11 @@ export function createUiManifest(
         !prefix.startsWith('//')
           ? prefix.replace(/^\/+|\/+$/g, '')
           : '';
-      manifest.remotes[mf.manifest.name] = {
-        entry: [assetPath, mf.filename].filter(Boolean).join('/'),
-        shell: './ui/mcp-shell.html',
-      };
-      manifest.views[name] = {
-        remote: mf.manifest.name,
-        expose: source.expose,
-        ui,
-      };
+      entry = [assetPath, mf.filename].filter(Boolean).join('/');
+      remote = mf.manifest.name;
     }
+    manifest.remotes[remote] = { entry, shell: './ui/mcp-shell.html' };
+    manifest.views[name] = { remote, expose: source.expose, ui };
   }
   return manifest;
 }

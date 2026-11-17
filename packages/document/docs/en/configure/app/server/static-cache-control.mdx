@@ -1,0 +1,55 @@
+---
+title: staticCacheControl
+---
+
+# server.staticCacheControl
+
+- **Type:** `boolean | object`
+- **Default:** `true`
+
+Set the `Cache-Control` header of static files served by the production server.
+
+By default:
+
+| File                                                                                                     | `Cache-Control`                       |
+| -------------------------------------------------------------------------------------------------------- | ------------------------------------- |
+| Build assets with a content hash in the file name, such as `static/js/main.3f2a1b9c0d.js`                | `public, max-age=31536000, immutable` |
+| Other static files, such as files in `config/public` and `config/upload`, or build assets without a hash | `no-cache`                            |
+
+A file is treated as hashed only when it is in a build output directory (`static/` or a custom [`output.distPath`](/configure/app/output/dist-path) for JS, CSS and media) and its name contains a content hash. Files from `config/public`, `config/upload` and `server.publicDir` are never treated as hashed. With `no-cache`, browsers keep the file but check with the server before using it, which costs a request but no download when the file hasn't changed.
+
+Every static file also gets an `ETag`, computed from the content that is sent, and a request with a matching `If-None-Match` header is answered with `304 Not Modified` without a body. The content comes from the server's file cache, so a `304` doesn't read the file from disk again.
+
+The values above apply in production. During development every static file gets `no-cache`, so edited files are never served from the browser cache. The header is not added to HTML pages. Use a [custom middleware](/guides/advanced-features/web-server) if you need it there.
+
+A `Cache-Control` or `ETag` header set by a route's response headers, or a `Cache-Control` set by a custom middleware before or after `await next()`, takes precedence.
+
+### Custom values
+
+```ts title="modern.config.ts"
+export default defineConfig({
+  server: {
+    staticCacheControl: {
+      hashed: 'public, max-age=86400',
+      unhashed: 'public, max-age=300',
+    },
+  },
+});
+```
+
+| Name       | Type     | Default                               | Description                            |
+| ---------- | -------- | ------------------------------------- | -------------------------------------- |
+| `hashed`   | `string` | `public, max-age=31536000, immutable` | `Cache-Control` of hashed build assets |
+| `unhashed` | `string` | `no-cache`                            | `Cache-Control` of other static files  |
+
+### Disable
+
+```ts title="modern.config.ts"
+export default defineConfig({
+  server: {
+    staticCacheControl: false,
+  },
+});
+```
+
+Static files then only get an `ETag`, and conditional requests with `If-None-Match` are still answered with `304`.

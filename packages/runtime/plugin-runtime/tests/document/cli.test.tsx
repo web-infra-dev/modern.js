@@ -1,4 +1,3 @@
-import { existsSync } from 'fs';
 import path from 'path';
 import {
   type CLIPluginAPI,

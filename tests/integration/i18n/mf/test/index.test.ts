@@ -20,7 +20,7 @@ async function waitForAppReady(port: number, maxRetries = 30) {
         await new Promise(resolve => setTimeout(resolve, 2000));
         return;
       }
-    } catch (error) {}
+    } catch {}
     await new Promise(resolve => setTimeout(resolve, 1000));
   }
   throw new Error(`Application on port ${port} did not become ready`);

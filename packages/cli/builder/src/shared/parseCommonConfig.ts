@@ -84,7 +84,7 @@ export async function parseCommonConfig(
     } = {},
     dev = {},
     server = {},
-    security: { checkSyntax, sri, ...securityConfig } = {},
+    security: { checkSyntax, sri: _sri, ...securityConfig } = {},
     tools: {
       devServer,
       tsChecker,
@@ -93,7 +93,7 @@ export async function parseCommonConfig(
       sass,
       svgr,
       htmlPlugin,
-      autoprefixer,
+      autoprefixer: _autoprefixer,
       ...toolsConfig
     } = {},
     environments = {},
@@ -155,7 +155,7 @@ export async function parseCommonConfig(
     output.sourceMap.css ??= process.env.NODE_ENV !== 'production';
   }
 
-  const { server: _server, worker, ...rsbuildDistPath } = distPath;
+  const { server: _server, worker: _worker, ...rsbuildDistPath } = distPath;
 
   output.distPath = rsbuildDistPath;
   output.distPath.html ??= 'html';

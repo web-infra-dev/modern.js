@@ -31,11 +31,14 @@ afterEach(async () => {
   await rm(internalDirectory, { recursive: true, force: true });
 });
 
-async function buildShellConfig(mf?: McpAppsPluginOptions['mf']) {
+async function buildShellConfig(
+  mf?: McpAppsPluginOptions['mf'],
+  views = 'tests/fixtures/mcp-views-mf.json',
+) {
   internalDirectory = await mkdtemp(path.join(os.tmpdir(), 'mcp-shell-'));
   let modifyEntrypoints!: ModifyEntrypoints;
   const noop = () => {};
-  mcpAppsPlugin({ views: 'tests/fixtures/mcp-views-mf.json', mf }).setup!({
+  mcpAppsPlugin({ views, mf }).setup!({
     getAppContext: () => ({
       appDirectory: packageRoot,
       internalDirectory,
@@ -65,6 +68,14 @@ describe('mcpAppsPlugin MF shell build', () => {
     expect(config.source.entry).toEqual({
       'mcp-shell': path.join(packageRoot, 'dist/esm/mf-entry.mjs'),
     });
+  });
+
+  it('builds the shell for deployed remotes without a local expose', async () => {
+    const config = await buildShellConfig(
+      undefined,
+      'tests/fixtures/mcp-views-remote.json',
+    );
+    expect(config.source.entry).toHaveProperty('mcp-shell');
   });
 
   it('defaults the shell MF runtime to @module-federation/enhanced/runtime', async () => {

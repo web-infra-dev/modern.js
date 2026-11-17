@@ -95,7 +95,7 @@ export const getHello = Api(
     try {
       const c = useHonoContext();
       c.res.headers.set('x-bff-api', c.req.path);
-    } catch (error) {
+    } catch {
       return {
         query: 0,
       };

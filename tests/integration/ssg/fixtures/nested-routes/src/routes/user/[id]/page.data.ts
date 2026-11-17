@@ -1,5 +1,5 @@
 // Test dynamic route data loading for SSG
-const fs = require('fs');
+require('fs');
 
 export const loader = ({ params }: { params: { id: string } }) => {
   const { id } = params;

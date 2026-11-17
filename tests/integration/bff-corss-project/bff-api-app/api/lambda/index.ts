@@ -44,7 +44,7 @@ export const postHello = Api(
   Data(DataSchema),
   Headers(HeadersSchema),
   async ({ query, data, params, headers }) => {
-    const ctx = useHonoContext();
+    useHonoContext();
     return {
       params,
       query,

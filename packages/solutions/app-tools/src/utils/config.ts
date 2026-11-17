@@ -1,12 +1,6 @@
 import * as path from 'path';
-import type { ServerConfig } from '@modern-js/server-core';
-import {
-  fs,
-  CONFIG_FILE_EXTENSIONS,
-  OUTPUT_CONFIG_FILE,
-  ensureAbsolutePath,
-  getServerConfig,
-} from '@modern-js/utils';
+
+import { fs, OUTPUT_CONFIG_FILE, ensureAbsolutePath } from '@modern-js/utils';
 import { stringify } from 'flatted';
 import type { AppNormalizedConfig } from '../types';
 

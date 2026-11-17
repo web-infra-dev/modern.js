@@ -87,7 +87,7 @@ function createRenderHandler(
     const rscClientManifest = c.get('rscClientManifest');
     const rscSSRManifest = c.get('rscSSRManifest');
     const locals = c.get('locals');
-    const metrics = c.get('metrics');
+    c.get('metrics');
     const matchPathname = c.get('matchPathname');
     const matchEntryName = c.get('matchEntryName');
     const loaderContext = getLoaderCtx(c as Context);

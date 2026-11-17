@@ -115,9 +115,17 @@ MODERN_SERVER_LOG_LEVEL=verbose node .output/index
 
 该环境变量仅控制内置的服务器 logger，不会覆盖自定义 logger，也不会在 `server.logger` 为 `false` 时启用日志。
 
+### 静态资源缓存
+
+内置 Node.js 生产服务器会为文件名包含内容哈希的构建产物设置 `Cache-Control: public, max-age=31536000, immutable`，为其他静态文件设置 `no-cache`。所有静态文件还会带上 `ETag`，未变化的文件会通过 `304` 响应重新验证。HTML 页面不受影响。
+
+如需修改或关闭这些响应头，请参阅 [`server.staticCacheControl`](/configure/app/server/static-cache-control)。
+
 ### 响应压缩
 
-内置 Node.js 生产服务器默认会根据请求头 `Accept-Encoding`，使用 Brotli 或 gzip 压缩响应，包括 SSR 和 SSG 页面、静态资源以及 BFF 响应。已经包含 `Content-Encoding` 头的响应不会被再次压缩，因此自定义的压缩中间件仍然可以正常工作。
+内置 Node.js 生产服务器会根据请求头 `Accept-Encoding`，使用 Brotli 或 gzip 压缩其提供的静态文件，例如构建产物和 `config/public` 中的文件。每个文件只压缩一次，之后从内存中返回。无论是否被压缩，这些响应都会带上 `Vary: Accept-Encoding` 头。已经包含 `Content-Encoding` 头的文件不会被再次压缩。
+
+SSR 页面、BFF 响应以及自定义中间件的响应不会被压缩。如需压缩它们，可以使用反向代理或自定义中间件，并在它们的 `Vary` 头中加上 `Accept-Encoding`。
 
 如果由反向代理或 CDN 负责压缩，可以将 [`server.compress`](/configure/app/server/compress) 设置为 `false` 来关闭该功能。
 

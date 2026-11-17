@@ -1,5 +1,6 @@
 // Configuration guide: https://rstack.rs/config
 import { define } from 'rstack';
+import { modernLintPlugin } from './scripts/lint/no-unused-destructuring.mjs';
 
 const sharedIgnores = [
   // Preserve generated files.
@@ -14,6 +15,18 @@ define.lint(({ js, ts }) => [
   js.configs.recommended,
   ts.configs.recommended,
   {
+    plugins: { modern: modernLintPlugin },
+    rules: {
+      'modern/no-unused-destructuring': 'error',
+    },
+  },
+  {
+    languageOptions: {
+      parserOptions: {
+        // Discover package tsconfigs so rules requiring a project can run.
+        projectService: true,
+      },
+    },
     // Disable rules with existing violations during migration; enable them gradually.
     rules: {
       '@typescript-eslint/ban-ts-comment': 'off',

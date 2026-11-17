@@ -9,7 +9,7 @@ export const loader = async ({ params }: any): Promise<ProfileData> => {
   return { data: i18next.t('key_1', { lng: params.lang || i18next.language }) };
 };
 
-export const action: ActionFunction = async ({ request, params }) => {
+export const action: ActionFunction = async ({ request }) => {
   const { language } = await request.json();
   // 返回成功状态，action 执行完后会自动重新执行 loader
   return { success: true, language };

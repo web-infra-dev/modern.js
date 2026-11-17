@@ -144,7 +144,7 @@ export const getLanguageFromSSRData = (window: Window): string | undefined => {
     const lng = ssrData.data.i18nData.lng;
     // Return language only if it's a non-empty string
     return typeof lng === 'string' && lng.trim() !== '' ? lng : undefined;
-  } catch (error) {
+  } catch {
     // If accessing window._SSR_DATA throws an error, return undefined
     return undefined;
   }
@@ -250,7 +250,7 @@ const detectLanguageFromSSR = (languages: string[]): string | undefined => {
     if (ssrLanguage && isLanguageSupported(ssrLanguage, languages)) {
       return ssrLanguage;
     }
-  } catch (error) {
+  } catch {
     // Silently ignore errors
   }
 
@@ -290,7 +290,7 @@ const detectLanguageFromPathPriority = (
     if (pathDetection.detected === true && pathDetection.language) {
       return pathDetection.language;
     }
-  } catch (error) {
+  } catch {
     // Silently ignore errors, return undefined
   }
 
@@ -466,7 +466,7 @@ const detectLanguageFromI18nextDetector = async (
         return currentLang;
       }
     }
-  } catch (error) {
+  } catch {
     // Silently ignore errors
   } finally {
     // Clean up temporary instance to avoid affecting subsequent formal initialization

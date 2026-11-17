@@ -27,8 +27,13 @@ export function initPluginAPI<Extends extends ServerPluginExtends>({
   const { hooks, extendsHooks, plugins } = context;
   function getServerContext() {
     if (context) {
-      const { hooks, extendsHooks, config, pluginAPI, ...serverContext } =
-        context;
+      const {
+        hooks: _hooks,
+        extendsHooks: _extendsHooks,
+        config: _config,
+        pluginAPI: _pluginAPI,
+        ...serverContext
+      } = context;
       serverContext._internalContext = context;
       return serverContext as ServerContext<Extends> & Extends['extendContext'];
     }

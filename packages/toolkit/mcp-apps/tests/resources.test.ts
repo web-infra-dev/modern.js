@@ -105,6 +105,7 @@ it('injects fixed MF configuration in the resource, without a tool result', asyn
       '"entry":"https://cdn.example/project/static/mf-manifest.json"',
     );
     expect(html).toContain('"expose":"./Stats"');
+    expect(html).toContain('"view":"remote"');
     expect(result.contents[0]._meta).toMatchObject({
       ui: {
         csp: {

@@ -1,4 +1,4 @@
-import path, { join } from 'path';
+import path from 'path';
 import { fs } from '@modern-js/utils';
 import { modernBuild } from '../../../../utils/modernTestUtils';
 

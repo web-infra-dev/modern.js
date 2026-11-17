@@ -2,10 +2,7 @@ import type {
   CacheOption,
   Container,
   HttpMethodDecider,
-  Logger,
-  Metrics,
   MiddlewareContext,
-  Reporter,
   ServerRoute,
 } from '@modern-js/types';
 import type { Context, MiddlewareHandler } from 'hono';

@@ -116,9 +116,17 @@ Setting `DEBUG` to a non-empty value also enables `verbose` logging, unless `MOD
 
 This environment variable controls the built-in server logger. It does not override a custom logger or enable logging when `server.logger` is `false`.
 
+### Static asset caching
+
+The built-in Node.js production server sets `Cache-Control: public, max-age=31536000, immutable` for build assets with a content hash in the file name, and `no-cache` for other static files. Every static file also gets an `ETag`, so unchanged files are revalidated with a `304` response. HTML pages are not changed.
+
+To change or disable these headers, see [`server.staticCacheControl`](/configure/app/server/static-cache-control).
+
 ### Response compression
 
-The built-in Node.js production server compresses responses with Brotli or gzip by default, based on the `Accept-Encoding` request header. This covers SSR and SSG pages, static assets and BFF responses. Responses that already have a `Content-Encoding` header are left unchanged, so a custom compression middleware keeps working.
+The built-in Node.js production server compresses the static files it serves, such as build assets and files in `config/public`, with Brotli or gzip based on the `Accept-Encoding` request header. Each file is compressed once and then served from memory. These responses get a `Vary: Accept-Encoding` header, whether they are compressed or not. Files that already have a `Content-Encoding` header are left unchanged.
+
+SSR pages, BFF responses and responses of custom middlewares are not compressed. To compress them, use a reverse proxy or a custom middleware, and add `Accept-Encoding` to their `Vary` header.
 
 If compression is handled by a reverse proxy or CDN, set [`server.compress`](/configure/app/server/compress) to `false` to disable it.
 

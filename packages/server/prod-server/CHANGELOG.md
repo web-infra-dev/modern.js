@@ -1,5 +1,34 @@
 # @modern-js/prod-server
 
+## 3.11.3
+
+### Patch Changes
+
+- @modern-js/server-core@3.11.3
+- @modern-js/runtime-utils@3.11.3
+- @modern-js/utils@3.11.3
+
+## 3.11.2
+
+### Patch Changes
+
+- @modern-js/server-core@3.11.2
+- @modern-js/runtime-utils@3.11.2
+- @modern-js/utils@3.11.2
+
+## 3.11.1
+
+### Patch Changes
+
+- 1391159: fix(prod-server): default production server logging to info and document MODERN_SERVER_LOG_LEVEL. Set MODERN_SERVER_LOG_LEVEL=verbose to restore per-request logs.
+
+  fix(prod-server)：生产服务器默认使用 info 日志级别，并补充 MODERN_SERVER_LOG_LEVEL 文档。设置 MODERN_SERVER_LOG_LEVEL=verbose 可恢复逐请求日志。
+
+- Updated dependencies [b11c3cd]
+  - @modern-js/server-core@3.11.1
+  - @modern-js/runtime-utils@3.11.1
+  - @modern-js/utils@3.11.1
+
 ## 3.11.0
 
 ### Patch Changes

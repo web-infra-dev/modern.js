@@ -11,14 +11,12 @@ import type {
   PageRoute,
   Route,
   RouteLegacy,
-  SSRMode,
 } from '@modern-js/types';
 import {
   fs,
   type EagerRouteComponentFilesByEntry,
   collectRouteComponentFiles,
   getEntryOptions,
-  isSSGEntry,
   isUseRsc,
   isUseSSRBundle,
   logger,
@@ -137,7 +135,7 @@ export const generateCode = async (
     const { metaName } = api.getAppContext();
     if (isAutoMount) {
       const config = api.getNormalizedConfig();
-      const ssr = getEntryOptions(
+      getEntryOptions(
         entryName,
         isMainEntry,
         config.server.ssr,

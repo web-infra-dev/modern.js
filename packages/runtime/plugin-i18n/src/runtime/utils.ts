@@ -148,7 +148,7 @@ export const useRouterHooks = () => {
       params: useParams(),
       hasRouter: true,
     };
-  } catch (error) {
+  } catch {
     return {
       navigate: null,
       location: null,
