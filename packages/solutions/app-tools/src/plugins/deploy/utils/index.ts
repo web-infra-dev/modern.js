@@ -69,7 +69,7 @@ export const resolveESMDependency = async (entry: string) => {
         false,
       ).pathname.replace(/^\/(\w)\:/, '$1:'),
     );
-  } catch (err) {
+  } catch {
     // ignore
   }
 };

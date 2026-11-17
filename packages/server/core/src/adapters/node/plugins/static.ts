@@ -139,7 +139,7 @@ const extractPathname = (url: string): string => {
       return new URL(`http:${url}`).pathname || '/';
     }
     return url;
-  } catch (e) {
+  } catch {
     return url;
   }
 };

@@ -148,7 +148,7 @@ async function tryImportI18next(): Promise<I18nInstance | null> {
   try {
     const i18next = await import('i18next');
     return i18next.default as unknown as I18nInstance;
-  } catch (error) {
+  } catch {
     return null;
   }
 }
@@ -162,7 +162,7 @@ async function createI18nextInstance(): Promise<I18nInstance | null> {
     return i18next.createInstance?.({
       initImmediate: false,
     }) as unknown as I18nInstance;
-  } catch (error) {
+  } catch {
     return null;
   }
 }

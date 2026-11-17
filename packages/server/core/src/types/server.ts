@@ -11,7 +11,7 @@ import type {
   SSRManifest as RscSSRManifest,
   ServerManifest as RscServerManifest,
 } from '@modern-js/types/server';
-import type { SSRRenderOptions } from '../plugins/render/ssrRender';
+
 import type {
   RequestHandler as BundleRequestHandler,
   OnError,

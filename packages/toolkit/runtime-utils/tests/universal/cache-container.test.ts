@@ -172,11 +172,11 @@ describe('Custom Container Integration', () => {
       const redisContainer = new RedisContainer();
       configureCache({ container: redisContainer });
 
-      const mockFn1 = rs.fn(async (param: string): Promise<string> => {
+      const mockFn1 = rs.fn(async (_param: string): Promise<string> => {
         return 'data1';
       });
 
-      const mockFn2 = rs.fn(async (param: string): Promise<string> => {
+      const mockFn2 = rs.fn(async (_param: string): Promise<string> => {
         return 'data2';
       });
 
@@ -370,7 +370,7 @@ describe('Custom Container Integration', () => {
 
       const cachedFnWithoutOptions = cache(mockFn);
 
-      const handler = withRequestCache(async (req: Request) => {
+      const handler = withRequestCache(async (_req: Request) => {
         const result1 = await cachedFnWithOptions('param1');
         const result2 = await cachedFnWithoutOptions('param1');
         const result3 = await cachedFnWithoutOptions('param1');

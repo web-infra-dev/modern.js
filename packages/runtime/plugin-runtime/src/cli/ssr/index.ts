@@ -3,7 +3,6 @@ import type {
   AppTools,
   AppToolsNormalizedConfig,
   CliPlugin,
-  ServerUserConfig,
 } from '@modern-js/app-tools';
 import type { CLIPluginAPI } from '@modern-js/plugin';
 import type { Entrypoint } from '@modern-js/types';
@@ -11,39 +10,6 @@ import { LOADABLE_STATS_FILE, isUseSSRBundle } from '@modern-js/utils';
 import type { RsbuildPlugin } from '@rsbuild/core';
 import LoadableBundlerPlugin from './loadable-bundler-plugin';
 import { resolveSSRMode } from './mode';
-
-const hasStringSSREntry = (userConfig: AppToolsNormalizedConfig): boolean => {
-  const isStreaming = (ssr: ServerUserConfig['ssr']) =>
-    ssr && typeof ssr === 'object' && ssr.mode === 'stream';
-
-  const { server, output } = userConfig;
-
-  // ssg need use stringSSR.
-  if (output?.ssg) {
-    return true;
-  }
-
-  if (output?.ssgByEntries && Object.keys(output.ssgByEntries).length > 0) {
-    return true;
-  }
-
-  if (server?.ssr && !isStreaming(server.ssr)) {
-    return true;
-  }
-
-  if (server?.ssrByEntries && typeof server.ssrByEntries === 'object') {
-    for (const name of Object.keys(server.ssrByEntries)) {
-      if (
-        server.ssrByEntries[name] &&
-        !isStreaming(server.ssrByEntries[name])
-      ) {
-        return true;
-      }
-    }
-  }
-
-  return false;
-};
 
 /**
  * Check if any entry uses string SSR mode.

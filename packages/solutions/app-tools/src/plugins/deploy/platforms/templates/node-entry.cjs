@@ -14,7 +14,7 @@ async function loadRoutes(routeFilepath) {
     const content = await fs.readFile(routeFilepath, 'utf-8');
     const routeSpec = JSON.parse(content);
     return routeSpec.routes || [];
-  } catch (error) {
+  } catch {
     console.warn(
       'route.json not found or invalid, continuing with empty routes.',
     );

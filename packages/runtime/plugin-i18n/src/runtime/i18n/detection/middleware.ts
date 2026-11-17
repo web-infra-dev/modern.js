@@ -101,7 +101,7 @@ export const readLanguageFromStorage = (
         }
       }
     }
-  } catch (error) {
+  } catch {
     // Ignore errors
   }
 
@@ -174,7 +174,7 @@ export const detectLanguage = (
         }
       }
     }
-  } catch (error) {
+  } catch {
     return undefined;
   }
 

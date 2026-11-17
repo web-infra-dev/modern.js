@@ -1,4 +1,3 @@
-import type { RuntimeContext } from '@modern-js/runtime';
 import { Link, Outlet } from '@modern-js/runtime/router';
 
 declare global {

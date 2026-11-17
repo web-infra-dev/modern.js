@@ -31,7 +31,7 @@ export async function getHtmlTemplates(pwd: string, routes: ServerRoute[]) {
       try {
         const htmlPath = path.join(pwd, route.entryPath);
         html = (await fileReader.readFile(htmlPath, 'utf-8'))?.toString();
-      } catch (e) {
+      } catch {
         // ignore error
       }
       return [uniqueKeyByRoute(route), html];

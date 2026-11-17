@@ -16,7 +16,7 @@ export function exist(route: ModernRoute, pageRoutes: ModernRoute[]): number {
 export function replaceRoute(ssgRoutes: SsgRoute[], pageRoutes: ModernRoute[]) {
   // remove redundant fields and replace rendered entryPath
   const cleanSsgRoutes = ssgRoutes.map(ssgRoute => {
-    const { output, headers, ...cleanSsgRoute } = ssgRoute;
+    const { output, headers: _headers, ...cleanSsgRoute } = ssgRoute;
     return Object.assign(
       cleanSsgRoute,
       { isSSG: true },

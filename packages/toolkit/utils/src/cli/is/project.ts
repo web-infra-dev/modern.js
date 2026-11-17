@@ -40,7 +40,7 @@ export const isPackageInstalled = (
   try {
     tryResolve(name, ...ensureArray(resolvePaths));
     return true;
-  } catch (err) {
+  } catch {
     return false;
   }
 };
