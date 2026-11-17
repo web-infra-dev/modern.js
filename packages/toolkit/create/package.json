@@ -41,6 +41,7 @@
   },
   "devDependencies": {
     "@modern-js/i18n-utils": "workspace:*",
+    "@modern-js/mcp-apps": "workspace:*",
     "@modern-js/rslib": "workspace:*",
     "@scripts/rstest-config": "workspace:*",
     "@types/node": "^20",
