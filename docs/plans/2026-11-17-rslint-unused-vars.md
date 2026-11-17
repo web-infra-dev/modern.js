@@ -58,3 +58,7 @@
 [2026-11-17] 本轮单测确认了参数数量约定：`PrefetchLink.tsx` 通过 `loader.length === 0` 判断是否跳过数据预取。删除 loader 的全部参数会导致四个预取用例失败，因此改为保留一个 `_args` 参数，同时移除无用的属性解构。该约定也适用于集成夹具中的 loader，已统一保留参数数量并在预取用例旁添加说明。缓存包装器通过泛型透传函数参数类型，其有意忽略的入参继续保留。
 
 [2026-11-17] 本轮验证完成：`pnpm check`、`pnpm test:lint`、`git diff --check` 均通过。`pnpm test:ut --pool.maxWorkers 4 --reporters default` 通过全部 156 个测试文件，994 个用例通过，3 个跳过。`@modern-js/runtime`、`@modern-js/create-request`、`@modern-js/plugin` 和 `@modern-js/server-core` 的构建及声明生成通过。后续提交将本轮无用绑定清理更新到同一个 PR。
+
+## 当前交付范围更新
+
+[2026-11-17] 用户明确要求不保留独立 lint 测试，此指示替代前述计划中保留回归测试的部分。已移除新增的 lint 测试、`test:lint` 命令和专用 CI 步骤。项目发现、自定义规则及存量清理继续保留，当前交付使用 `pnpm check` 和 `git diff --check` 验证。以上测试及构建结果为执行历史。
