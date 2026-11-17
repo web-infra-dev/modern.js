@@ -1,5 +1,4 @@
 import type { ServerRoute } from '@modern-js/types';
-import { getPath } from 'hono/utils/url';
 
 export const sortRoutes = (route1: ServerRoute, route2: ServerRoute) => {
   return route2.urlPath.length - route1.urlPath.length;
@@ -12,9 +11,7 @@ export const uniqueKeyByRoute = (route: ServerRoute) => {
 
 export const getRoutePath = ({ urlPath, isSSG }: ServerRoute): string => {
   if (isSSG) {
-    const pathname = getPath({ url: `http://localhost${urlPath}` } as Request);
-    // Keep explicit paths from acquiring route syntax during decoding.
-    return /[*:{}]/.test(pathname) ? urlPath : pathname;
+    return urlPath;
   }
   return urlPath.endsWith('/') ? `${urlPath}*` : `${urlPath}/*`;
 };

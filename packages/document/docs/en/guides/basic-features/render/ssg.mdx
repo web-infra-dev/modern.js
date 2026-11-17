@@ -148,20 +148,20 @@ If the published posts have the slugs `hello` and `getting-started`, Modern.js g
 
 #### Parameter Values
 
-Return raw strings, without URL encoding. Values containing the literal sequence `%2F` (case-insensitive) are rejected because routing would decode it as `/`. Return a raw `/` instead of its encoded form. Modern.js encodes each dynamic segment and adds the entry's configured base path. For example, `{ slug: 'hello world' }` produces `/blog/hello%20world`. A slug containing a dot, such as `release.v3`, still generates an `index.html` inside that page's directory.
+Each path segment can contain ASCII letters, digits, `-`, `.`, `_`, or `~`. Empty segments, `.`, and `..` are rejected. A slug such as `release.v3` generates an `index.html` inside that page's directory.
 
 | Route file                               | Parameter object                    | Generated path                   |
 | ---------------------------------------- | ----------------------------------- | -------------------------------- |
 | `routes/[lang]/blog/[slug]/page.data.ts` | `{ lang: 'en', slug: 'hello' }`     | `/en/blog/hello`                 |
 | `routes/blog/[slug$]/page.data.ts`       | `{}`                                | `/blog`                          |
 | `routes/blog/[slug$]/page.data.ts`       | `{ slug: 'hello' }`                 | `/blog/hello`                    |
-| `routes/docs/$.data.ts`                  | `{ '*': 'guides/getting started' }` | `/docs/guides/getting%20started` |
+| `routes/docs/$.data.ts`                  | `{ '*': 'guides/getting-started' }` | `/docs/guides/getting-started` |
 
-For nested routes, each object must include all required parent and child parameters. Parameters are not collected or combined from `layout.data.ts`. Omit an optional parameter or set it to `undefined` to omit that segment. For a wildcard page (`$.tsx`), export `ssgParams` from `$.data.ts` and use the `'*'` key. Its value is split on `/`, with each segment encoded separately.
+For nested routes, each object must include all required parent and child parameters. Parameters are not collected or combined from `layout.data.ts`. Omit an optional parameter or set it to `undefined` to omit that segment. For a wildcard page (`$.tsx`), export `ssgParams` from `$.data.ts` and use the `'*'` key. Use `/` between segments of a wildcard value.
 
 An empty array adds no paths for that page. You can still list a path for it explicitly in `routes`. Duplicate generated paths are rendered once. Dynamic routes without `ssgParams` remain excluded from automatic SSG.
 
-A missing required parameter, a non-string value other than `undefined` for an optional parameter, an invalid result, or an exception fails the build with a route-specific error. Required values must not be empty. Values containing route syntax characters (`*`, `:`, `{`, `}`) are rejected, as are dot segments and empty segments within a wildcard value. Use `'*'` as the key for a wildcard parameter.
+A missing required parameter, a non-string value other than `undefined` for an optional parameter, an invalid result, or an exception fails the build with a route-specific error.
 
 #### Combining Explicit and Generated Paths
 

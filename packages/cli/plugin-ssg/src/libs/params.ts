@@ -2,19 +2,18 @@ import path from 'path';
 import { compatibleRequire, SERVER_BUNDLE_DIRECTORY } from '@modern-js/utils';
 import type { AgreedRoute } from '../types';
 
-function encodeSegment(value: string): string {
-  // URL parsing normalizes dot segments even when they are percent encoded.
-  if (!value || value === '.' || value === '..') {
-    throw new Error('parameters must not contain empty or dot path segments');
+function validateSegment(value: string): string {
+  if (
+    !value ||
+    value === '.' ||
+    value === '..' ||
+    /[^a-zA-Z0-9._~-]/.test(value)
+  ) {
+    throw new Error(
+      'path segments must use only ASCII letters, digits, "-", ".", "_" or "~", and cannot be empty, "." or ".."',
+    );
   }
-  // React Router decodes this sequence again when extracting matched params.
-  if (/%2f/i.test(value)) {
-    throw new Error('parameters must use raw slashes instead of literal "%2F"');
-  }
-  if (/[*:{}]/.test(value)) {
-    throw new Error('parameters must not contain "*", ":", "{" or "}"');
-  }
-  return encodeURIComponent(value);
+  return value;
 }
 
 export function generatePaths(pattern: string, result: unknown): string[] {
@@ -46,7 +45,7 @@ export function generatePaths(pattern: string, result: unknown): string[] {
         // A splat can match the parent path itself.
         return value === undefined || value === ''
           ? ''
-          : value.split('/').map(encodeSegment).join('/');
+          : value.split('/').map(validateSegment).join('/');
       }
 
       const match = segment.match(/^:([\w-]+)(\??)$/);
@@ -59,7 +58,7 @@ export function generatePaths(pattern: string, result: unknown): string[] {
         if (value === undefined) {
           throw new Error(`missing parameter "${name}" at index ${index}`);
         }
-        return encodeSegment(value);
+        return validateSegment(value);
       }
       return segment.replace(/\?$/, '');
     });

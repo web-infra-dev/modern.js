@@ -149,20 +149,20 @@ export const loader = async ({ params }: { params: { slug: string } }) => {
 
 #### 参数值
 
-返回未经 URL 编码的原始字符串。包含字面序列 `%2F`（不区分大小写）的值会被拒绝，因为路由匹配时会将其再次解码为 `/`。请返回原始的 `/`，而非编码形式。Modern.js 会对每个动态段编码，并添加入口配置的基础路径。例如，`{ slug: 'hello world' }` 会生成 `/blog/hello%20world`。包含点号的 slug（如 `release.v3`）仍会在对应页面目录中生成 `index.html`。
+路径段可包含 ASCII 字母、数字、`-`、`.`、`_` 或 `~`。空路径段、`.` 和 `..` 会被拒绝。包含点号的 slug（如 `release.v3`）会在对应页面目录中生成 `index.html`。
 
 | 路由文件                                 | 参数对象                            | 生成路径                         |
 | ---------------------------------------- | ----------------------------------- | -------------------------------- |
 | `routes/[lang]/blog/[slug]/page.data.ts` | `{ lang: 'en', slug: 'hello' }`     | `/en/blog/hello`                 |
 | `routes/blog/[slug$]/page.data.ts`       | `{}`                                | `/blog`                          |
 | `routes/blog/[slug$]/page.data.ts`       | `{ slug: 'hello' }`                 | `/blog/hello`                    |
-| `routes/docs/$.data.ts`                  | `{ '*': 'guides/getting started' }` | `/docs/guides/getting%20started` |
+| `routes/docs/$.data.ts`                  | `{ '*': 'guides/getting-started' }` | `/docs/guides/getting-started` |
 
-嵌套路由的每个对象必须包含父子路由所需的全部必填参数，不会从 `layout.data.ts` 收集或组合参数。可选参数可以省略或设为 `undefined`，对应的路径段也会省略。对于通配页面（`$.tsx`），在 `$.data.ts` 中导出 `ssgParams`，通过 `'*'` 键传入路径，其值会按 `/` 分段编码。
+嵌套路由的每个对象必须包含父子路由所需的全部必填参数，不会从 `layout.data.ts` 收集或组合参数。可选参数可以省略或设为 `undefined`，对应的路径段也会省略。对于通配页面（`$.tsx`），在 `$.data.ts` 中导出 `ssgParams`，通过 `'*'` 键传入路径，用 `/` 分隔路径段。
 
 返回空数组时，该页面不会自动生成路径，仍可在 `routes` 中手动指定具体路径。生成的重复路径只渲染一次。没有导出 `ssgParams` 的动态路由仍不会参与自动 SSG。
 
-缺少必填参数、参数值不是字符串（可选参数的 `undefined` 除外）、返回结果无效或函数抛出异常时，构建会失败并报告对应路由。必填值不能为空。拒绝路径段 `.`、`..`、通配参数中的空路径段，以及参数值中的路由语法字符 `*`、`:`、`{`、`}`。通配参数的键仍写作 `'*'`。
+缺少必填参数、参数值不是字符串（可选参数的 `undefined` 除外）、返回结果无效或函数抛出异常时，构建会失败并报告对应路由。
 
 #### 组合显式路径和生成路径
 

@@ -147,20 +147,14 @@ describe('route-level ssgParams', () => {
     const generated = routes.filter(
       (route: { isSSG?: boolean }) => route.isSSG,
     );
-    const encodedSlug = encodeURIComponent('你好 world?#%');
     const expectedPages = [
       ['/prefix', '<main>Static home</main>'],
       ['/prefix/about', '<main>About this site</main>'],
       ['/prefix/blog/en/hello', '<main>en: hello</main>'],
       ['/prefix/blog/en/release.v1', '<main>en: release.v1</main>'],
-      [`/prefix/blog/zh/${encodedSlug}`, '<main>zh: 你好 world?#%</main>'],
-      ['/prefix/blog/en/a%2Fb', '<main>en: a/b</main>'],
       ['/prefix/optional', 'Category: <!-- -->all'],
       ['/prefix/optional/news', 'Category: <!-- -->news'],
-      [
-        '/prefix/files/guides/hello%20world',
-        'File: <!-- -->guides/hello world',
-      ],
+      ['/prefix/files/guides/hello-world', 'File: <!-- -->guides/hello-world'],
     ];
     expect(generated).toHaveLength(expectedPages.length);
     for (const [url, content] of expectedPages) {
@@ -292,16 +286,16 @@ describe('route-level ssgParams', () => {
     );
   });
 
-  test.each(['invalid', 'route-syntax', 'throws'])(
+  test.each(['invalid', 'encoded-path', 'throws'])(
     'fails the build for %s parameter generators',
     async scenario => {
       const result = await buildParams(scenario);
       expect(result.code).not.toBe(0);
       expect(result.stdout + result.stderr).toContain('ssgParams');
       expect(result.stdout + result.stderr).toContain('blog');
-      if (scenario === 'route-syntax') {
+      if (scenario === 'encoded-path') {
         expect(result.stdout + result.stderr).toContain(
-          'parameters must not contain "*", ":", "{" or "}"',
+          'path segments must use only ASCII letters',
         );
       }
       if (scenario === 'throws') {
