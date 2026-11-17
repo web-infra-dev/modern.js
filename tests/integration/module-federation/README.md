@@ -47,7 +47,7 @@ The producer result cache is explicitly enabled for this fixture. Exact matching
 
 The first Service test in each fresh dev/production Lab requests Service SSR, then another page path with `?local=1` for ordinary Bridge SSR from the same producer, then Service SSR again. It requires real remote HTML and completed streams on every response, while the Host's Node entry probe records loading counts of 0, 1 and 1. The probe normally allows actual JS loading. `MF_SERVICE_BLOCK_NODE=1` retains the separate blocking control.
 
-For performance runs, `MF_SERVICE_WEATHER_DELAY=0` removes the station API's deliberate 900 ms wait in the Service lab. Use `delay=0` in the page URL to remove the independent detail delay as well. Record both delayed and zero-delay runs separately. This setting does not change the regular lab.
+For performance runs, `MF_LAB_WEATHER_DELAY=0` removes the station API's deliberate 900 ms wait in any lab, including Bridge SSR and the update previews. The Service-only lab also accepts its existing `MF_SERVICE_WEATHER_DELAY=0` setting. Use `delay=0` in the page URL to remove the independent detail delay as well. Record both delayed and zero-delay runs separately. Without either setting, the station API retains its 900 ms delay.
 
 Fault-only queries `serviceFault=early` and `serviceFault=late` exercise HTTP 503 and a real producer disconnect. Tests release the latter through the existing response gate only after proving interaction. A recovered `csr=1` document is a recovery assertion and is never counted as SSR success.
 
