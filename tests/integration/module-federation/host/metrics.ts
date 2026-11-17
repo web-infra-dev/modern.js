@@ -16,7 +16,7 @@ export const weatherMetricsScript = String.raw`
   });
   // Compact screens contain current weather and hourly forecast only.
   // Suspense boundaries may hydrate independently: wait for every key control.
-  const expected = new URLSearchParams(location.search).get('compact') === '1'
+  const expected = new URLSearchParams(location.search).get('static') === '1' ? ['current'] : new URLSearchParams(location.search).get('compact') === '1'
     ? ['current', 'hourly'] : ['current', 'hourly', 'wind'];
   const ready = window.__weatherComponentReady = {};
   addEventListener('mf-weather-component-ready', event => {

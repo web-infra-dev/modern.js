@@ -2,7 +2,7 @@ import type { moduleFederationPlugin } from '@module-federation/sdk';
 import type { StatsAssetResource } from '@module-federation/rsbuild-plugin/utils';
 import type { BridgeServices } from '@module-federation/bridge-react/service-node';
 import type { ServiceProviderOptions } from '../serviceProvider';
-import type { SSRRequestCoordinatorOptions } from '@modern-js/server-core/node';
+import type { SSRApplicationOptions } from '@modern-js/server-core/node';
 
 export interface PluginOptions {
   /** Automatically publish and serve isService Bridge exposes. */
@@ -24,16 +24,19 @@ export interface PluginOptions {
         distOutputDir?: string;
         /** Enable the experimental server entry invalidation integration. */
         cacheUpdates?: boolean;
+        /** All request-side remote consumption is compiled static imports. Requires resolveScope. */
+        staticOnly?: boolean;
         /** Admission and drain policy used by explicit updates and development refresh. */
         application?: Partial<
           Pick<
-            SSRRequestCoordinatorOptions,
+            SSRApplicationOptions,
             | 'requestPolicy'
             | 'maxPendingRequests'
             | 'requestTimeoutMs'
             | 'drainTimeoutMs'
             | 'maxResumeConcurrency'
             | 'maxPendingUpdates'
+            | 'resolveScope'
           >
         >;
       }

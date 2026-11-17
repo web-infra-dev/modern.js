@@ -130,6 +130,30 @@ export function createSSRUpdateSnapshotPlugin(
       }
       return args;
     },
+    beforeRegisterRemote(args) {
+      // A rebuilt provider can register a dependency while evaluating its
+      // expose, after beforeInit has run. Its first registration must use the
+      // owner's selected release. Later explicit overrides keep their meaning.
+      if (
+        args.origin.options.remotes.some(
+          remote => remote.name === args.remote.name,
+        )
+      )
+        return args;
+      const owner = (args.origin as any)[runtimeOwnerKey];
+      const candidate = registry()
+        .get(explicitOwner() ?? owner?.id ?? ownerId ?? '')
+        ?.get(args.remote.name);
+      if (candidate)
+        Object.assign(args.remote, {
+          entry: candidate.entry,
+          ...(candidate.type === undefined ? {} : { type: candidate.type }),
+          ...(candidate.entryGlobalName === undefined
+            ? {}
+            : { entryGlobalName: candidate.entryGlobalName }),
+        });
+      return args;
+    },
     loadSnapshot(args) {
       const snapshot = select(args);
       return snapshot ? { ...args, remoteSnapshot: snapshot } : args;

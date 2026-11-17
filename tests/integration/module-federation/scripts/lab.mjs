@@ -32,7 +32,8 @@ export async function startLab(
     updates,
     portAttempt = 0,
     serviceDeployment = false,
-    serviceNested = false,
+    serviceNested = process.env.MF_LAB_SERVICE_NESTED === '1',
+    ssrScope = process.env.MF_LAB_SSR_SCOPE || 'application',
   } = options;
   if (updates && !['ordinary', 'bridge', 'service', 'all'].includes(updates))
     throw new Error(`Unknown update scenario: ${updates}`);
@@ -151,6 +152,8 @@ export async function startLab(
         : '',
     MF_LAB_SERVICE_NESTED: serviceNested ? '1' : '',
     MF_LAB_UPDATES: updates || '',
+    MF_LAB_SSR_SCOPE: ssrScope,
+    MF_LAB_UPDATE_PLUGIN: path.join(fixtureRoot, 'scripts/update-lab.mjs'),
     MF_LAB_SERVICE_DEPLOYMENT: serviceDeployment ? '1' : '',
     MF_LAB_MODE: mode,
     MODERN_MF_AUTO_CORS: '1',
@@ -347,7 +350,22 @@ export async function startLab(
           port: ports.hostInternal,
           path: req.url,
           method: req.method,
-          headers: req.headers,
+          headers: {
+            ...req.headers,
+            ...(updates &&
+            ['wait', 'csr', 'reject'].includes(
+              new URL(req.url, 'http://localhost').searchParams.get(
+                '__labPolicy',
+              ),
+            )
+              ? {
+                  'x-lab-update-policy': new URL(
+                    req.url,
+                    'http://localhost',
+                  ).searchParams.get('__labPolicy'),
+                }
+              : {}),
+          },
         },
         response => {
           res.writeHead(response.statusCode, {

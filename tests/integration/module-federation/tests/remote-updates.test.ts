@@ -19,6 +19,7 @@ import {
   writeEvidence,
   type MemoryRound,
   type DocumentEvidence,
+  exerciseUpdateRequestFrames,
 } from './update-evidence';
 
 const updateCount = Number(process.env.MF_LAB_UPDATE_COUNT || 10);
@@ -31,6 +32,55 @@ for (const scenario of scenarios.filter(
   describeLab(
     `Producer updates / ${scenario}`,
     getContext => {
+      if (getContext().mode === 'production') {
+        if (scenario === 'service')
+          it('mounts a Service only after click and records visible and interactive timings', async () => {
+            const { page, lab } = getContext();
+            const posts: string[] = [];
+            page.on('request', request => {
+              if (
+                request.method() === 'POST' &&
+                request.url().includes('/mf/service/')
+              )
+                posts.push(request.url());
+            });
+            await page.goto(`${lab.url}/service/forecast/today?late=1`, {
+              waitUntil: 'networkidle0',
+            });
+            expect(
+              await page.$('[data-testid="weather-application"]'),
+            ).toBeNull();
+            expect(posts).toHaveLength(0);
+            await page.waitForSelector(
+              '[data-testid="service-connect"]:not(:disabled)',
+            );
+            await page.click('[data-testid="service-connect"]');
+            await page.waitForSelector(
+              '[data-testid="service-mount-timing"][data-visible-ms][data-ready-ms]',
+            );
+            const timing = await page.$eval(
+              '[data-testid="service-mount-timing"]',
+              element => ({
+                visible: Number(element.getAttribute('data-visible-ms')),
+                ready: Number(element.getAttribute('data-ready-ms')),
+              }),
+            );
+            expect(timing.visible).toBeGreaterThanOrEqual(0);
+            expect(timing.ready).toBeGreaterThanOrEqual(0);
+            expect(posts).toHaveLength(1);
+            await page.click('[data-testid="save-day"]');
+            await page.waitForFunction(
+              () =>
+                document.querySelector('[data-testid="favorite-count"]')
+                  ?.textContent === '1',
+            );
+            console.info('Service click-to-mount timings (ms)', timing);
+          });
+        it('keeps two iframe requests pending while CSR and reject requests return according to policy', async () => {
+          const { page, lab } = getContext();
+          await exerciseUpdateRequestFrames(page, lab.url, scenario);
+        });
+      }
       if (getContext().mode === 'dev') {
         if (scenario === 'service') {
           it('keeps a mixed-export layout reload on SSR while the Service producer updates', async () => {
@@ -528,6 +578,183 @@ for (const scenario of scenarios.filter(
     {
       updates: scenario,
       publicRoutesOnly: true,
+    },
+  );
+}
+
+if (process.env.MF_LAB_MODE !== 'dev') {
+  describeLab(
+    'Static Weather Lab entries',
+    getContext => {
+      it('updates the weather entry while the homepage remains available with its original module cache', async () => {
+        const { page, lab } = getContext();
+        await page.goto(lab.url, { waitUntil: 'networkidle0' });
+        const status = async () =>
+          (await fetch(`${lab.url}/_lab/update/lab/status`)).json();
+        const before = await status();
+        const originalShell = before.entries.filter(record =>
+          record.entry.startsWith('index'),
+        );
+        const documents = await exerciseUpdateRequestFrames(
+          page,
+          lab.url,
+          'ordinary',
+          async () => {
+            const home = await fetch(lab.url, {
+              signal: AbortSignal.timeout(2000),
+            });
+            expect(home.status).toBe(200);
+            expect(home.headers.get('x-modernjs-render')).not.toBe('client');
+            expect(await home.text()).toContain('SSR update checks');
+          },
+        );
+        expect(documents.filter(item => item.policy === 'wait')).toHaveLength(
+          2,
+        );
+        const after = await status();
+        expect(after.pid).toBe(before.pid);
+        expect(after.operation.result).toMatchObject({
+          mode: 'entries',
+          entries: ['weather'],
+          reasons: [],
+        });
+        expect(
+          after.entries.filter(record => record.entry.startsWith('index')),
+        ).toEqual(originalShell);
+        expect(
+          after.entries.find(record => record.entry === 'weather').runtime,
+        ).toBe(
+          before.entries.find(record => record.entry === 'weather').runtime,
+        );
+        expect(
+          after.entries.find(record => record.entry === 'weather').modules,
+        ).not.toEqual(
+          before.entries.find(record => record.entry === 'weather').modules,
+        );
+      });
+    },
+    {
+      updates: 'bridge',
+      publicRoutesOnly: true,
+      partialUpdates: true,
+      mode: 'production',
+    },
+  );
+
+  describeLab(
+    'Service producer internal SSR updates',
+    getContext => {
+      it('holds repeated Service renders for a nested dependency update and preserves the Host and producer processes', async () => {
+        const { page, lab } = getContext();
+        const route = `${lab.url}/service/forecast/today?remote=nested`;
+        const control = async (action: string, body?: object) => {
+          const response = await fetch(
+            `${lab.url}/_lab/update/lab/producer/${action}`,
+            body && {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify(body),
+            },
+          );
+          expect(response.ok).toBe(true);
+          return response.json();
+        };
+        await page.goto(route, { waitUntil: 'networkidle0' });
+        expect(
+          await page.$eval(
+            '[data-testid="service-remote-child"]',
+            element => element.textContent,
+          ),
+        ).toContain('Rslib · v1');
+        const before = await control('status');
+        const hostBefore = await (
+          await fetch(`${lab.url}/_lab/update/lab/status`)
+        ).json();
+        let completed = 0;
+        const requests: Promise<string>[] = [];
+        try {
+          await control('start', { version: 'v2' });
+          await expect
+            .poll(async () => (await control('status')).operation?.held)
+            .toBe(true);
+          for (let request = 0; request < 3; request++)
+            requests.push(
+              fetch(`${route}&__labRequest=${request}&__labPolicy=wait`).then(
+                async response => {
+                  expect(response.status).toBe(200);
+                  const html = await response.text();
+                  completed++;
+                  return html;
+                },
+              ),
+            );
+          await new Promise(resolve => setTimeout(resolve, 200));
+          expect(completed).toBe(0);
+          await control('policy', { policy: 'reject' });
+          const rejected = await fetch(`${route}&__labRequest=rejected`);
+          const errorStream = await rejected.text();
+          // The Host shell has already been sent before the producer rejects.
+          expect(rejected.status).toBe(200);
+          expect(errorStream).toContain('"status":503');
+          await control('policy', { policy: 'wait' });
+          await control('release', {});
+          for (const html of await Promise.all(requests)) {
+            expect(html).toContain('Rslib · v2');
+            expect(html).toContain('v1:initial');
+            expect(html).not.toContain('"type":"error"');
+          }
+          await expect
+            .poll(async () => (await control('status')).operation?.completed)
+            .toBe(true);
+          expect((await control('status')).pid).toBe(before.pid);
+          expect(
+            (await (await fetch(`${lab.url}/_lab/update/lab/status`)).json())
+              .pid,
+          ).toBe(hostBefore.pid);
+          await page.goto(route, { waitUntil: 'networkidle0' });
+          await page.waitForFunction(() =>
+            document
+              .querySelector('[data-testid="service-remote-child"]')
+              ?.textContent?.includes('Rslib · v2'),
+          );
+          await page.click('[data-testid="service-remote-child"] h2');
+          await page.waitForSelector(
+            '[data-testid="service-remote-child"] input[type="range"]:not(:disabled)',
+          );
+          expect(
+            await page.$eval(
+              '[data-testid="service-remote-child"]',
+              element => element.textContent,
+            ),
+          ).toContain('Rslib · v2');
+          await page.focus(
+            '[data-testid="service-remote-child"] input[type="range"]',
+          );
+          await page.keyboard.press('Home');
+          await page.waitForFunction(
+            () =>
+              document.querySelector(
+                '[data-testid="service-remote-child"] [data-testid="wind-angle"]',
+              )?.textContent === '0°',
+          );
+          await page.click('[data-testid="save-day"]');
+          await page.waitForFunction(
+            () =>
+              document.querySelector('[data-testid="favorite-count"]')
+                ?.textContent === '1',
+          );
+        } finally {
+          await control('release', {});
+          await control('policy', { policy: 'wait' });
+          await Promise.allSettled(requests);
+        }
+      });
+    },
+    {
+      updates: 'ordinary',
+      serviceNested: true,
+      publicRoutesOnly: true,
+      mode: 'production',
     },
   );
 }

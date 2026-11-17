@@ -141,7 +141,27 @@ Service 的业务 HTTP 错误继续保留状态码。业务 409 不自动重放�
 
 ## 更新与失败边界
 
-更新先等待受影响的响应流和已登记生产者工作结束，再清除缓存并准备新资源。自动接入默认重建整个应用。底层适配器在显式配置静态消费约束、入口请求归属且所有权信息完整时，可以只重建受影响入口；动态消费或所有权不完整时仍使用整个应用重建。
+更新先等待受影响的响应流和已登记生产者工作结束，再清除缓存并准备新资源。自动接入默认重建整个应用。多入口应用可通过 `ssr.staticOnly` 声明所有请求侧远端消费都是编译期静态导入，并同时提供 `ssr.application.resolveScope`，将请求映射到实际编译入口。
+
+{/* prettier-ignore */}
+```ts
+moduleFederation: {
+  ssr: {
+    cacheUpdates: true,
+    staticOnly: true,
+    application: {
+      resolveScope(request) {
+        const path = new URL(request.url).pathname
+        if (path === '/weather' || path.startsWith('/weather/')) return ['weather']
+        if (path === '/') return ['index']
+        return undefined
+      },
+    },
+  },
+}
+```
+
+返回值使用编译入口名称，不是远端名称。无法确认归属的请求返回 `undefined`，按整个应用处理。只有依赖图、请求归属和入口所有权完整时才局部更新。动态消费、共享 runtime 或共享清单变化可能扩大更新范围，局部准备失败会回退到应用级重建。以更新结果的 `mode`、`entries` 和 `reasons` 判断实际执行范围，PID 不变本身不能证明发生了局部更新。业务存在路由重写或跨入口消费时，不应使用上述简单路径映射。
 
 普通 SSR 组件的静态导入及编译器可识别的 `import()` 会进入模块依赖图。清理包含远端模块及持有旧引用的宿主父模块，再重新创建 SSR 入口。运行时 `loadRemote()` 无法完整静态追踪使用方，因此使用整个应用重建。业务自行保存到应用资源之外的模块引用仍需要业务负责失效。
 

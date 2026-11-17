@@ -17,13 +17,22 @@ const remote = {
   entry: 'https://remote/mf-manifest.json',
   moduleInfo: { remoteEntry: 'a.js', buildVersion: 'a' },
 };
-function fixture(name: string, onReady = rs.fn()) {
+function fixture(
+  name: string,
+  onReady = rs.fn(),
+  options: Partial<Parameters<typeof createSSRUpdateServerPlugin>[0]> = {},
+) {
   const prepare: Array<() => unknown> = [];
   const context: any = {
     routes: [{ entryName: 'main', isSSR: true }],
     ssrUpdateParticipants: [],
   };
-  createSSRUpdateServerPlugin({ name, remotes: [remote], onReady }).setup({
+  createSSRUpdateServerPlugin({
+    name,
+    remotes: [remote],
+    onReady,
+    ...options,
+  }).setup({
     onPrepare: (callback: () => unknown) => prepare.push(callback),
     getServerContext: () => ({ ...context }),
     updateServerContext: (values: Record<string, unknown>) =>
@@ -37,6 +46,24 @@ function fixture(name: string, onReady = rs.fn()) {
   };
 }
 describe('application-bound public update API', () => {
+  it('requires an owned request scope for static updates and forwards the resolver', async () => {
+    const invalid = fixture('static-invalid', rs.fn(), { staticOnly: true });
+    await expect(invalid.init()).rejects.toThrow('application.resolveScope');
+    const resolveScope = (request: Request) => [
+      new URL(request.url).pathname.split('/')[1],
+    ];
+    const scoped = fixture('static-valid', rs.fn(), {
+      staticOnly: true,
+      application: { resolveScope },
+    });
+    await scoped.init();
+    expect(scoped.context.ssrApplication.resolveScope).toBe(resolveScope);
+    expect(
+      scoped.context.ssrApplication.resolveScope(
+        new Request('http://test/weather'),
+      ),
+    ).toEqual(['weather']);
+  });
   it('binds single-application background APIs after resources are ready, and removes the binding on close', async () => {
     (globalThis as any)[key] = undefined;
     const onReady = rs.fn();

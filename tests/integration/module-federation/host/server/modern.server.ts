@@ -31,6 +31,14 @@ const state = (
 });
 
 export default defineServerConfig({
+  plugins: process.env.MF_LAB_UPDATES
+    ? [
+        createRequire(path.join(process.cwd(), 'package.json'))(
+          process.env.MF_LAB_UPDATE_PLUGIN ||
+            `${process.cwd()}/../scripts/update-lab.mjs`,
+        ).updateLabPlugin(),
+      ]
+    : [],
   middlewares: [
     {
       name: 'weather-update-controls',

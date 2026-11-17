@@ -81,6 +81,10 @@ export async function createWorkspace(options = {}) {
     }
     await cp(path.join(source, 'ports.ts'), path.join(workspace, 'ports.ts'));
     await cp(
+      path.join(source, 'update-lab.ts'),
+      path.join(workspace, 'update-lab.ts'),
+    );
+    await cp(
       path.join(source, 'package.json'),
       path.join(workspace, 'package.json'),
     );

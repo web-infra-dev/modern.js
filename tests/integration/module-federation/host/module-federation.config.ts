@@ -3,18 +3,21 @@ import { origin, shared } from '../ports';
 export default createModuleFederationConfig({
   name: 'lab_host',
   dts: false,
-  runtimePlugins: [
-    require.resolve('./src/plugins/inspect.tsx'),
-    require.resolve('./src/plugins/recovery.ts'),
-    ...(process.env.MF_LAB_UPDATES === 'service'
-      ? [
-          [
-            require.resolve('../fixtures/service-app/host/src/node-entry-probe.ts'),
-            { block: true },
-          ] as [string, { block: boolean }],
-        ]
-      : []),
-  ],
+  runtimePlugins:
+    process.env.MF_LAB_SSR_SCOPE === 'entries'
+      ? []
+      : [
+          require.resolve('./src/plugins/inspect.tsx'),
+          require.resolve('./src/plugins/recovery.ts'),
+          ...(process.env.MF_LAB_UPDATES === 'service'
+            ? [
+                [
+                  require.resolve('../fixtures/service-app/host/src/node-entry-probe.ts'),
+                  { block: true },
+                ] as [string, { block: boolean }],
+              ]
+            : []),
+        ],
   remotes: {
     provider:
       process.env.MF_LAB_SERVICE_DEPLOYMENT === '1'

@@ -6,6 +6,9 @@ import {
 } from '../failure/Controls';
 import { useCallback, useEffect, useRef, useState } from 'react';
 import { Link } from '@modern-js/runtime/router';
+import '../weather-base.css';
+import '../../../provider/src/weather-scene.css';
+import '../weather.css';
 function inspectPaletteSeed() {
   if (typeof window === 'undefined') return '';
   const seed = window.crypto.randomUUID();
@@ -20,17 +23,44 @@ function inspectPaletteSeed() {
   return seed;
 }
 export function LabNav() {
+  const partial = process.env.MF_LAB_SSR_SCOPE === 'entries';
+  const NavLink = ({
+    to,
+    children,
+    className,
+  }: {
+    to: string;
+    children: React.ReactNode;
+    className?: string;
+  }) =>
+    partial ? (
+      <a href={to} className={className}>
+        {children}
+      </a>
+    ) : (
+      <Link to={to} className={className}>
+        {children}
+      </Link>
+    );
   return (
     <nav className="weather-nav" aria-label="Comparison pages">
-      <Link className="weather-brand" to="/">
+      <NavLink className="weather-brand" to="/">
         ◈ Weather Lab
-      </Link>
+      </NavLink>
       <div>
-        <Link to="/">Rendering</Link>
-        <Link to="/data">Data fetching</Link>
-        <Link to="/advanced">Advanced scenarios</Link>
-        <Link to="/bridge-ssr">Weather application</Link>
-        <Link to="/service/forecast/today">Weather service</Link>
+        <NavLink to="/">Rendering</NavLink>
+        {!partial && (
+          <>
+            <NavLink to="/data">Data fetching</NavLink>
+            <NavLink to="/advanced">Advanced scenarios</NavLink>
+            <NavLink to="/bridge-ssr/forecast/today">
+              Weather application
+            </NavLink>
+            {process.env.MF_LAB_SERVICE && (
+              <NavLink to="/service/forecast/today">Weather service</NavLink>
+            )}
+          </>
+        )}
       </div>
     </nav>
   );
@@ -173,6 +203,7 @@ function Panel({
   );
 }
 export default function Comparison({ data = false }: { data?: boolean }) {
+  const partial = process.env.MF_LAB_SSR_SCOPE === 'entries';
   const [run, setRun] = useState(0);
   const [refresh, setRefresh] = useState(0);
   const [delay, setDelay] = useState(0);
@@ -196,90 +227,150 @@ export default function Comparison({ data = false }: { data?: boolean }) {
   return (
     <div className="comparison-shell">
       <LabNav />
-      <header className="comparison-toolbar" aria-label="Comparison controls">
-        <div className="comparison-controls">
-          <FailureControls
-            enabled={failureEnabled}
-            kind={failure}
-            options={
-              data
-                ? [...renderFailures, ...dataFailures]
-                : target.includes('nested/')
-                  ? [
-                      ...renderFailures,
-                      ['inner-network', 'Inner remote network failure'],
-                    ]
-                  : renderFailures
-            }
-            onChange={(enabled, kind) => {
-              setFailureEnabled(enabled);
-              setFailure(kind);
-              if (enabled || enabled !== failureEnabled)
-                setRun(value => value + 1);
-            }}
-          />
-          {!data && (
-            <select
-              aria-label="Failure target"
-              value={target}
-              onChange={event => {
-                setTarget(event.target.value);
-                if (failure === 'inner-network') setFailure('network');
-                setRun(value => value + 1);
-              }}
-            >
-              <option value="provider/Weather">Current weather</option>
-              <option value="dynamic/WeatherHourly">
-                Dynamic hourly forecast
-              </option>
-              <option value="nested/WeatherDays">Nested daily forecast</option>
-              <option value="nested/WeatherWind">Dynamic nested wind</option>
-            </select>
+      {process.env.MF_LAB_UPDATES && (
+        <section className="producer-update-controls" aria-label="Test guide">
+          <h2>SSR update checks</h2>
+          <p>
+            {process.env.MF_LAB_SSR_SCOPE === 'entries'
+              ? 'Static imports · entry-scoped update configuration'
+              : 'Dynamic imports · application update configuration'}
+            . Open “Requests during SSR updates” below to hold an update and
+            create request frames.
+          </p>
+          {process.env.MF_LAB_SSR_SCOPE !== 'entries' && (
+            <ul>
+              {process.env.MF_LAB_UPDATE_ORIGIN && (
+                <li>
+                  <a href={process.env.MF_LAB_UPDATE_ORIGIN}>
+                    Build + serve · requests during updates
+                  </a>
+                </li>
+              )}
+              {process.env.MF_LAB_SERVICE && (
+                <li>
+                  <a href="/service/forecast/today?late=1">
+                    Service App · click to load and measure
+                  </a>
+                </li>
+              )}
+              <li>
+                <a href="/bridge-ssr/forecast/today">
+                  Bridge SSR · producer switch and request frames
+                </a>
+              </li>
+              {process.env.MF_LAB_SERVICE && (
+                <li>
+                  <a href="/service/forecast/today">
+                    Service App · producer switch and request frames
+                  </a>
+                </li>
+              )}
+              {process.env.MF_LAB_SERVICE_NESTED && (
+                <li>
+                  <a href="/service/forecast/today?remote=nested">
+                    Service App · internal nested SSR update
+                  </a>
+                </li>
+              )}
+              {process.env.MF_LAB_PARTIAL_ORIGIN && (
+                <li>
+                  <a href={process.env.MF_LAB_PARTIAL_ORIGIN}>
+                    Static imports · partial update configuration
+                  </a>
+                </li>
+              )}
+            </ul>
           )}
-
-          <label className="inspect-control">
-            <input
-              type="checkbox"
-              checked={inspect}
-              onChange={event => setInspect(event.target.checked)}
+        </section>
+      )}
+      {!partial && (
+        <header className="comparison-toolbar" aria-label="Comparison controls">
+          <div className="comparison-controls">
+            <FailureControls
+              enabled={failureEnabled}
+              kind={failure}
+              options={
+                data
+                  ? [...renderFailures, ...dataFailures]
+                  : target.includes('nested/')
+                    ? [
+                        ...renderFailures,
+                        ['inner-network', 'Inner remote network failure'],
+                      ]
+                    : renderFailures
+              }
+              onChange={(enabled, kind) => {
+                setFailureEnabled(enabled);
+                setFailure(kind);
+                if (enabled || enabled !== failureEnabled)
+                  setRun(value => value + 1);
+              }}
             />
-            Inspect
-          </label>
-          {data && (
-            <label
-              className="prefetch-control"
-              title="Start MF client data loading before rendering. SSR data is already loaded on the server."
-            >
-              <input
-                type="checkbox"
-                checked={prefetch}
+            {!data && (
+              <select
+                aria-label="Failure target"
+                value={target}
                 onChange={event => {
-                  setPrefetch(event.target.checked);
+                  setTarget(event.target.value);
+                  if (failure === 'inner-network') setFailure('network');
                   setRun(value => value + 1);
                 }}
+              >
+                <option value="provider/Weather">Current weather</option>
+                <option value="dynamic/WeatherHourly">
+                  Dynamic hourly forecast
+                </option>
+                <option value="nested/WeatherDays">
+                  Nested daily forecast
+                </option>
+                <option value="nested/WeatherWind">Dynamic nested wind</option>
+              </select>
+            )}
+
+            <label className="inspect-control">
+              <input
+                type="checkbox"
+                checked={inspect}
+                onChange={event => setInspect(event.target.checked)}
               />
-              Data prefetch
+              Inspect
             </label>
-          )}
-          <label>
-            Simulate slow startup{' '}
-            <select
-              aria-label="JavaScript startup delay"
-              title="Delay the weather entry script to compare the initial page before JavaScript starts"
-              value={delay}
-              onChange={event => {
-                setDelay(Number(event.target.value));
-                setRun(value => value + 1);
-              }}
-            >
-              <option value={0}>No delay</option>
-              <option value={1500}>1.5 s delay</option>
-              <option value={3000}>3 s delay</option>
-            </select>
-          </label>
-          <button onClick={() => setRun(run + 1)}>↻ Reload</button>
-        </div>
-      </header>
+            {data && (
+              <label
+                className="prefetch-control"
+                title="Start MF client data loading before rendering. SSR data is already loaded on the server."
+              >
+                <input
+                  type="checkbox"
+                  checked={prefetch}
+                  onChange={event => {
+                    setPrefetch(event.target.checked);
+                    setRun(value => value + 1);
+                  }}
+                />
+                Data prefetch
+              </label>
+            )}
+            <label>
+              Simulate slow startup{' '}
+              <select
+                aria-label="JavaScript startup delay"
+                title="Delay the weather entry script to compare the initial page before JavaScript starts"
+                value={delay}
+                onChange={event => {
+                  setDelay(Number(event.target.value));
+                  setRun(value => value + 1);
+                }}
+              >
+                <option value={0}>No delay</option>
+                <option value={1500}>1.5 s delay</option>
+                <option value={3000}>3 s delay</option>
+              </select>
+            </label>
+            <button onClick={() => setRun(run + 1)}>↻ Reload</button>
+          </div>
+        </header>
+      )}
       {!data && (
         <ProducerUpdateControls
           scenario="ordinary"
@@ -291,7 +382,7 @@ export default function Comparison({ data = false }: { data?: boolean }) {
           <Panel
             key={name}
             name={name}
-            query={`${query}&failure=${failureEnabled ? failure : ''}&target=${data ? 'provider/Weather' : target}&delay=${delay}${data ? `&compact=1&prefetch=${prefetch ? '1' : '0'}` : ''}`}
+            query={`${query}&failure=${failureEnabled ? failure : ''}&target=${data ? 'provider/Weather' : target}&delay=${delay}${partial ? '&static=1' : ''}${data ? `&compact=1&prefetch=${prefetch ? '1' : '0'}` : ''}`}
             run={run}
             refresh={refresh}
             inspect={inspect}

@@ -65,6 +65,16 @@ The checked-in MF dependencies are pinned to published preview `0.0.0-feat-enhan
 
 ## Producer updates and SSR cache validation
 
+The homepage links to the existing Bridge and Service routes and their test configurations. No new public test route is needed.
+
+- Open `/service/forecast/today?late=1` and click **Connect Service App**. Before the click the Service is not mounted and makes no render request. The page records click-to-visible time as a paint-opportunity estimate and click-to-controls-enabled time. Disconnect and reconnect start a new sample. This is a client mount of a Service, so omit `csr=1`, which explicitly disables Service SSR in the current consumer protocol.
+- In a Build + serve lab, expand **Requests during SSR updates** on `/`, the Bridge page or the Service page. Choose the other version and click **Start held update**. The real update pauses inside invalidation, after request draining. Click **Open request iframe** repeatedly. The policy selector exercises waiting, an immediate CSR document or HTTP 503. **Release update** publishes the selected release and releases waiting requests. The page shows the actual result mode, affected entries and fallback reasons. A CSR document is not counted as SSR success and can show the previous browser release.
+- For a static-import configuration, start with `MF_LAB_SSR_SCOPE=entries`. It reuses `/` and `/weather` as separate compiled entries, with route wrappers that reuse the same UI. The homepage remains available during a weather-only update. Tests require `mode: entries`, unchanged homepage runtime/module identities and a replaced weather root. Dynamic configuration remains the default. Startup requires the matching local Rspack binding, including asynchronous startup export support.
+- Set `MF_LAB_SERVICE_NESTED=1` for the complete production lab, using `--updates=ordinary`, to enable Service-internal ordinary and nested SSR. In the Service page select **Service producer** as the update owner. This switches its library dependency while keeping the Service root release and both Node processes. Each request frame uses `remote=nested`. The producer policy control configures admission in that process without inspecting a queued POST body. Service render POSTs support waiting or rejection, not an HTML CSR shell. A producer rejection can appear as a Bridge error frame inside an already-started Host response.
+- `MF_LAB_PARTIAL_ORIGIN` optionally links a separately running static configuration from the homepage. `MF_LAB_UPDATE_ORIGIN` links a running Build + serve lab from a development homepage. `MF_LAB_WEATHER_DELAY=0` removes simulated API latency for timing measurements. Configured service URLs always use the allocated port map.
+
+`remote-updates.test.ts` covers these existing page controls, raw Document responses, Service timings and hydrated interaction. The request coordinator tests also cover cancellation, capacity, timeouts and selective failure recovery. Timing samples are observations, not fixed speed thresholds.
+
 Producer updates use the original Weather Lab routes. Select a scenario when starting it:
 
 ```sh
@@ -205,17 +215,17 @@ The Module Federation E2E workflow runs five test jobs on independent runners. E
 | Job                | MF cases |
 | ------------------ | -------: |
 | `lab-dev-A`        |       46 |
-| `lab-dev-B`        |       78 |
+| `lab-dev-B`        |       83 |
 | `lab-production-A` |       46 |
-| `lab-production-B` |       77 |
+| `lab-production-B` |       86 |
 | `common`           |       59 |
 
-The common job also runs `rootExposes.test.ts` and `routeScope.test.ts` once each, using their existing package configurations. These 33 unit cases are checked separately from the 306 MF cases.
+The common job also runs `rootExposes.test.ts` and `routeScope.test.ts` once each, using their existing package configurations. These 33 unit cases are checked separately from the 320 MF cases.
 
 [`scripts/groups.mjs`](./scripts/groups.mjs) owns the A/B/common file assignments. Both Rstest selection and result verification use it. Unknown, duplicate and unassigned files, empty groups and invalid environment parameters fail before services start. When adding or removing cases, update the committed [`case-manifest.json`](./case-manifest.json) from a successful full serial report and review the identity diff.
 
 ```sh
-# All 306 MF cases, serially, with the original local entry point
+# All 320 MF cases, serially, with the original local entry point
 pnpm --filter mf-lab-tests test --bail=1
 
 # One file group and mode

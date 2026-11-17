@@ -1,5 +1,6 @@
 import { appTools, defineConfig } from '@modern-js/app-tools';
 import { port, origin } from '../ports';
+import { updateRequestPolicy } from '../update-lab';
 const name = process.env.MF_LAB_VERSION === 'v2' ? 'providerV2' : 'provider';
 export default defineConfig({
   html: { title: 'Federation lab · SSR & data fetching' },
@@ -95,8 +96,14 @@ export default defineConfig({
   },
   performance: { buildCache: false },
   moduleFederation: {
-    ...(process.env.MF_LAB_UPDATES && process.env.MF_LAB_MODE === 'dev'
-      ? { ssr: { cacheUpdates: true } }
+    ...(process.env.MF_LAB_UPDATES &&
+    (process.env.MF_LAB_MODE === 'dev' || process.env.MF_LAB_SERVICE_NESTED)
+      ? {
+          ssr: {
+            cacheUpdates: true,
+            application: { requestPolicy: updateRequestPolicy },
+          },
+        }
       : {}),
     ...(process.env.MF_LAB_SERVICE
       ? {

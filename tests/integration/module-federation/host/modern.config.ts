@@ -1,7 +1,9 @@
 import { weatherMetricsScript } from './metrics';
 import { appTools, defineConfig } from '@modern-js/app-tools';
 import { port, origin } from '../ports';
+import { updateRequestPolicy } from '../update-lab';
 const name = 'host';
+const partial = process.env.MF_LAB_SSR_SCOPE === 'entries';
 export default defineConfig({
   html: {
     title: 'Weather Lab · Module Federation',
@@ -30,8 +32,26 @@ export default defineConfig({
   },
   dev: { assetPrefix: `${origin(name, 4300)}/`, lazyCompilation: false },
   source: {
+    ...(partial
+      ? {
+          disableDefaultEntries: true,
+          entries: {
+            index: 'src/entries/update-shell/routes',
+            weather: 'src/entries/update-weather/routes',
+          },
+        }
+      : {}),
     globalVars: {
       'process.env.MF_LAB_UPDATES': process.env.MF_LAB_UPDATES || '',
+      'process.env.MF_LAB_SSR_SCOPE': process.env.MF_LAB_SSR_SCOPE || '',
+      'process.env.MF_LAB_SERVICE': process.env.MF_LAB_SERVICE || '',
+      'process.env.MF_LAB_SERVICE_NESTED':
+        process.env.MF_LAB_SERVICE_NESTED ||
+        (process.env.MF_LAB_UPDATES === 'all' ? '1' : ''),
+      'process.env.MF_LAB_UPDATE_ORIGIN':
+        process.env.MF_LAB_UPDATE_ORIGIN || '',
+      'process.env.MF_LAB_PARTIAL_ORIGIN':
+        process.env.MF_LAB_PARTIAL_ORIGIN || '',
       'process.env.MF_LAB_ORIGIN': origin('host', 4300),
       'process.env.MF_LAB_API': origin('api', 4306),
       'process.env.MF_LAB_LIBRARY': origin('library', 4303),
@@ -42,14 +62,38 @@ export default defineConfig({
   performance: { buildCache: false },
   moduleFederation: {
     fetchServerQuery: { lab: 'federation' },
-    ...(process.env.MF_LAB_UPDATES ? { ssr: { cacheUpdates: true } } : {}),
+    ...(process.env.MF_LAB_UPDATES
+      ? {
+          ssr: {
+            cacheUpdates: true,
+            staticOnly: partial,
+            application: {
+              requestPolicy: updateRequestPolicy,
+              ...(partial
+                ? {
+                    resolveScope(request: Request) {
+                      const path = new URL(request.url).pathname;
+                      return path === '/weather' || path.startsWith('/weather/')
+                        ? ['weather']
+                        : path === '/' ||
+                            path === '/index' ||
+                            path.startsWith('/index/')
+                          ? ['index']
+                          : undefined;
+                    },
+                  }
+                : {}),
+            },
+          },
+        }
+      : {}),
     ...(['service', 'all'].includes(process.env.MF_LAB_UPDATES || '') ||
     process.env.MF_LAB_SERVICE_NESTED
       ? {
           services: {
             'provider/ServiceWeatherApplication': {
               timeoutMs: 15000,
-              forwardHeaders: ['accept-language'],
+              forwardHeaders: ['accept-language', 'x-lab-update-policy'],
               serviceHeaders: {
                 'x-weather-service-key': 'local-service-test-key',
               },

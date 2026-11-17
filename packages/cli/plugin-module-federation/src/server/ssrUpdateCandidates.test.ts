@@ -1,5 +1,5 @@
 import { randomUUID } from 'node:crypto';
-import { afterEach, describe, expect, it } from '@rstest/core';
+import { afterEach, describe, expect, it, rs } from '@rstest/core';
 import { helpers, ModuleFederation } from '@module-federation/enhanced/runtime';
 import {
   generateSnapshotFromManifest,
@@ -18,6 +18,7 @@ import {
 const applications: string[] = [];
 const disposals: Array<() => Promise<void>> = [];
 afterEach(async () => {
+  rs.restoreAllMocks();
   await Promise.all(disposals.splice(0).map(dispose => dispose()));
   for (const application of applications.splice(0))
     clearSSRUpdateCandidates(application);
@@ -96,6 +97,36 @@ function fixture() {
 }
 
 describe('application-owned SSR update candidates', () => {
+  it('applies the selected URL to a newly registered dynamic dependency without overriding a later explicit registration', async () => {
+    const f = fixture();
+    const selectedEntry =
+      'https://producer.invalid/releases/B/mf-manifest.json';
+    setSSRUpdateCandidates(f.application, [
+      {
+        name: f.name,
+        entry: selectedEntry,
+        moduleInfo: f.manifest('B') as unknown as Record<string, unknown>,
+      },
+    ]);
+    const runtime = new ModuleFederation({
+      name: `${f.application}_dynamic`,
+      remotes: [],
+      plugins: [f.fallback, createSSRUpdateSnapshotPlugin(f.application)],
+      shareStrategy: 'loaded-first',
+    });
+    disposals.push(() => helpers.dispose.notifyDispose(runtime));
+    runtime.registerRemotes([
+      { name: f.name, alias: 'selected', entry: f.entry },
+    ]);
+    expect(runtime.options.remotes[0].entry).toBe(selectedEntry);
+    expect((await f.selected(runtime)).remoteSnapshot?.buildVersion).toBe('B');
+    runtime.registerRemotes(
+      [{ name: f.name, alias: 'selected', entry: `${f.entry}?explicit` }],
+      { force: true },
+    );
+    expect(runtime.options.remotes[0].entry).toBe(`${f.entry}?explicit`);
+    expect((await f.selected(runtime)).remoteSnapshot?.buildVersion).toBe('C');
+  });
   it('keeps captured B for the real Host runtime after later discovery selects C, including a rebuilt runtime', async () => {
     const f = fixture();
     const candidate = f.manifest('B');
@@ -165,6 +196,12 @@ describe('application-owned SSR update candidates', () => {
     const selectedEntry =
       'https://producer.invalid/releases/B/mf-manifest.json';
     const observedEntries: string[] = [];
+    const upstream = rs
+      .spyOn(globalThis, 'fetch')
+      .mockImplementation(
+        async () =>
+          new Response('Business conflict from producer', { status: 409 }),
+      );
     setSSRUpdateCandidates(f.application, [
       {
         name: f.name,
@@ -223,13 +260,19 @@ describe('application-owned SSR update candidates', () => {
       );
     const response = await invoke();
     expect(response?.status).toBe(409);
-    expect(await response!.text()).toContain('buildVersion mismatch');
+    expect(await response!.text()).toBe('Bridge service returned HTTP 409.');
+    expect(String(upstream.mock.calls[0][0])).toBe(
+      'https://producer.invalid/B/render',
+    );
+    expect(
+      JSON.parse(String(upstream.mock.calls[0][1]?.body)),
+    ).not.toHaveProperty('buildVersion');
     expect(observedEntries).toEqual([selectedEntry]);
     await ingress.dispose();
     setSSRUpdateCandidates(f.application, [{ name: f.name, entry: f.entry }]);
     const latest = await invoke();
     expect(latest?.status).toBe(409);
-    expect(await latest!.text()).toContain('buildVersion mismatch');
+    expect(await latest!.text()).toBe('Bridge service returned HTTP 409.');
     expect(observedEntries).toEqual([selectedEntry, f.entry]);
   });
 

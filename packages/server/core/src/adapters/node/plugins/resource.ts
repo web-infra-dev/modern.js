@@ -652,6 +652,7 @@ export const injectResourcePlugin = (
           const requestMiddleware: Middleware<ServerEnv> = async (c, next) => {
             if (
               context.dev ||
+              application.status.phase === 'serving' ||
               (c.req.method !== 'GET' && c.req.method !== 'HEAD')
             )
               return application.middleware(c, next);

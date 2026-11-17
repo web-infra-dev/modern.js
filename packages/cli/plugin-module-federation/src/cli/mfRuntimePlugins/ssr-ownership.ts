@@ -33,6 +33,7 @@ export default function ssrOwnership(): ModuleFederationRuntimePlugin {
     },
     loadSnapshot: candidates.loadSnapshot,
     loadRemoteSnapshot: candidates.loadRemoteSnapshot,
+    beforeRegisterRemote: candidates.beforeRegisterRemote,
     beforeInit(args) {
       const compiledOwner = ownerOfSSRRuntime(
         typeof MODERN_SSR_FEDERATION_REQUIRE === 'undefined'

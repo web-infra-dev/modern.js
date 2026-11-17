@@ -2,10 +2,19 @@ import {
   defineServerConfig,
   type MiddlewareHandler,
 } from '@modern-js/server-runtime';
+import { createRequire } from 'node:module';
 const hostOrigin = `http://localhost:${JSON.parse(process.env.MF_LAB_PORTS || '{}').host || 4300}`;
 let serviceRequests = 0;
 
 export default defineServerConfig({
+  plugins: process.env.MF_LAB_UPDATES
+    ? [
+        createRequire(`${process.cwd()}/package.json`)(
+          process.env.MF_LAB_UPDATE_PLUGIN ||
+            `${process.cwd()}/../scripts/update-lab.mjs`,
+        ).updateLabPlugin(),
+      ]
+    : [],
   middlewares: [
     {
       name: 'weather-update-memory',

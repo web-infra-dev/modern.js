@@ -5,6 +5,7 @@ import type {
   SSRApplication,
   SSRResourceApplicationOptions,
   SSRRequestCoordinatorOptions,
+  SSRApplicationOptions,
 } from '@modern-js/server-core/node';
 import {
   createSSRUpdateAdapter,
@@ -54,7 +55,8 @@ export interface SSRUpdateServerPluginOptions extends Omit<
   'entries'
 > {
   entries?: string[];
-  application?: Partial<SSRRequestCoordinatorOptions>;
+  application?: Partial<SSRRequestCoordinatorOptions> &
+    Pick<SSRApplicationOptions, 'resolveScope'>;
   beforeRequest?: (request: Request) => Promise<void | Response>;
   transformTemplates?: (
     templates: Record<string, string>,
@@ -74,6 +76,10 @@ export function createSSRUpdateServerPlugin(
     name: '@modern-js/module-federation/ssr-update-owner',
     setup(api) {
       api.onPrepare(() => {
+        if (options.staticOnly && !options.application?.resolveScope)
+          throw new Error(
+            'SSR staticOnly requires an application.resolveScope resolver',
+          );
         const context = api.getServerContext() as ServerContext;
         const participants: SSRUpdateParticipant[] =
           (context.ssrUpdateParticipants ||= []);

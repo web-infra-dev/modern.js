@@ -32,6 +32,8 @@ export function setupLab(
     updates?: 'ordinary' | 'bridge' | 'service';
     serviceDeployment?: boolean;
     serviceNested?: boolean;
+    partialUpdates?: boolean;
+    mode?: 'dev' | 'production';
   } = {},
 ) {
   let lab: Awaited<ReturnType<typeof startLab>>;
@@ -226,6 +228,7 @@ export default function Document() {
         updates: options.updates,
         serviceDeployment: options.serviceDeployment,
         serviceNested: options.serviceNested,
+        ssrScope: options.partialUpdates ? 'entries' : undefined,
       },
     );
     browser = await puppeteer.launch({
@@ -418,12 +421,16 @@ export function describeLab(
     updates?: 'ordinary' | 'bridge' | 'service';
     serviceDeployment?: boolean;
     serviceNested?: boolean;
+    partialUpdates?: boolean;
+    mode?: 'dev' | 'production';
   } = {},
 ) {
   rstest.setConfig({ testTimeout: 60000, hookTimeout: 600000, retry: 0 });
-  const modes = process.env.MF_LAB_MODE
-    ? [process.env.MF_LAB_MODE as 'dev' | 'production']
-    : (['dev', 'production'] as const);
+  const modes = options.mode
+    ? [options.mode]
+    : process.env.MF_LAB_MODE
+      ? [process.env.MF_LAB_MODE as 'dev' | 'production']
+      : (['dev', 'production'] as const);
   for (const mode of modes) {
     describe(`Weather Lab (${mode})`, () => {
       describe(name, () => register(setupLab(mode, options)));

@@ -10,6 +10,92 @@ export const scenarioRoutes = {
   bridge: '/bridge-ssr/forecast/today',
   service: '/service/forecast/today',
 } as const;
+
+/** Use the same visible controls as a developer, preserving real Document responses. */
+export async function exerciseUpdateRequestFrames(
+  page: Page,
+  origin: string,
+  scenario: Scenario,
+  onHeld?: () => Promise<void>,
+) {
+  const documents: {
+    policy: string;
+    status: number;
+    html: string;
+    render: string | undefined;
+  }[] = [];
+  const reads: Promise<void>[] = [];
+  const receive = (response: HTTPResponse) => {
+    const url = new URL(response.url());
+    if (
+      !url.searchParams.has('__labRequest') ||
+      response.request().resourceType() !== 'document'
+    )
+      return;
+    reads.push(
+      response.text().then(html => {
+        documents.push({
+          policy: url.searchParams.get('__labPolicy')!,
+          status: response.status(),
+          html,
+          render: response.headers()['x-modernjs-render'],
+        });
+      }),
+    );
+  };
+  page.on('response', receive);
+  await page.goto(origin + scenarioRoutes[scenario], {
+    waitUntil: 'networkidle0',
+  });
+  await page.click('[data-testid="update-request-lab"] summary');
+  try {
+    await page.select('[data-testid="request-version"]', 'v2');
+    await page.click('[data-testid="request-start"]');
+    await page.waitForFunction(() =>
+      document
+        .querySelector('[data-testid="request-state"]')
+        ?.textContent?.includes('held'),
+    );
+    await onHeld?.();
+    await page.click('[data-testid="request-add"]');
+    await page.click('[data-testid="request-add"]');
+    await new Promise(resolve => setTimeout(resolve, 200));
+    expect(documents.filter(item => item.policy === 'wait')).toHaveLength(0);
+    await page.select('[data-testid="request-policy"]', 'csr');
+    await page.click('[data-testid="request-add"]');
+    await page.select('[data-testid="request-policy"]', 'reject');
+    await page.click('[data-testid="request-add"]');
+    await expect
+      .poll(() => documents.filter(item => item.policy !== 'wait').length)
+      .toBe(2);
+    const csr = documents.find(item => item.policy === 'csr')!;
+    expect(csr.status).toBe(200);
+    expect(csr.render).toBe('client');
+    expect(csr.html).not.toContain('data-testid="weather-application"');
+    expect(documents.find(item => item.policy === 'reject')!.status).toBe(503);
+    expect(documents.filter(item => item.policy === 'wait')).toHaveLength(0);
+    await page.click('[data-testid="request-release"]');
+    await expect
+      .poll(() => documents.filter(item => item.policy === 'wait').length)
+      .toBe(2);
+    for (const document of documents.filter(item => item.policy === 'wait')) {
+      expect(document.status).toBe(200);
+      assertServerVersion(document.html, scenario, 'v2:initial');
+    }
+    await page.waitForFunction(() =>
+      document
+        .querySelector('[data-testid="request-result"]')
+        ?.textContent?.includes('Applied:'),
+    );
+    return documents;
+  } finally {
+    await page.evaluate(() =>
+      fetch('/_lab/update/lab/release', { method: 'POST' }),
+    );
+    await Promise.allSettled(reads);
+    page.off('response', receive);
+  }
+}
 export type MemorySample = {
   role: string;
   pid: number;

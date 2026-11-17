@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 import './ProducerUpdateControls.css';
+import { UpdateRequestControls } from './UpdateRequestControls';
 
 type UpdateState = {
   mode: 'dev' | 'production';
@@ -96,29 +97,32 @@ export function ProducerUpdateControls({
   return (
     <section className="producer-update-controls" aria-label="Producer updates">
       {state?.mode === 'production' ? (
-        <div className="updates-controls">
-          <label>
-            Producer version{' '}
-            <select
-              data-testid="update-select"
-              value={selected}
-              onChange={event => setSelected(event.target.value)}
-              disabled={busy}
-            >
-              {state.versions.map(({ version }) => (
-                <option key={version} value={version}>
-                  {version}
-                </option>
-              ))}
-            </select>
-          </label>
-          <button data-testid="update-apply" onClick={update} disabled={busy}>
-            {busy ? 'Updating…' : 'Update and render'}
-          </button>
-          <button data-testid="update-memory" onClick={sampleMemory}>
-            GC and sample memory
-          </button>
-        </div>
+        <>
+          <div className="updates-controls">
+            <label>
+              Producer version{' '}
+              <select
+                data-testid="update-select"
+                value={selected}
+                onChange={event => setSelected(event.target.value)}
+                disabled={busy}
+              >
+                {state.versions.map(({ version }) => (
+                  <option key={version} value={version}>
+                    {version}
+                  </option>
+                ))}
+              </select>
+            </label>
+            <button data-testid="update-apply" onClick={update} disabled={busy}>
+              {busy ? 'Updating…' : 'Update and render'}
+            </button>
+            <button data-testid="update-memory" onClick={sampleMemory}>
+              GC and sample memory
+            </button>
+          </div>
+          <UpdateRequestControls scenario={scenario} />
+        </>
       ) : (
         <p>Edit the producer to observe its automatic update below.</p>
       )}

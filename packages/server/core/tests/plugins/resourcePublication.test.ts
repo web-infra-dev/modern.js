@@ -14,6 +14,7 @@ import {
   renderPlugin,
 } from '../../src';
 import { injectResourcePlugin } from '../../src/adapters/node/plugins/resource';
+import { serverStaticPlugin } from '../../src/adapters/node/plugins/static';
 import type {
   SSRApplication,
   SSRApplicationResources,
@@ -36,6 +37,7 @@ async function fixture(
     run?: <T>(operation: () => T) => T;
     validate?: () => void | Promise<void>;
     onInitialError?: (error: unknown) => void;
+    assetHeaders?: boolean;
   } = {},
 ) {
   const pwd = await mkdtemp(
@@ -82,6 +84,14 @@ async function fixture(
       isSSR: true,
     })),
   });
+  if (options.assetHeaders) {
+    await mkdir(path.join(pwd, 'static/js'), { recursive: true });
+    await writeFile(path.join(pwd, 'static/js/client.js'), 'published-client');
+    server.use('*', async (context, next) => {
+      context.header('Access-Control-Allow-Origin', 'https://host.example');
+      await next();
+    });
+  }
   let heldWork: Promise<void> | undefined;
   server.get('/b/pending', c => {
     if (heldWork) c.get('ssrWork')!.track(heldWork);
@@ -120,6 +130,7 @@ async function fixture(
         resources = candidate;
       },
     }),
+    ...(options.assetHeaders ? [serverStaticPlugin()] : []),
     renderPlugin(),
   ]);
   await server.init();
@@ -139,6 +150,38 @@ async function fixture(
     },
   };
 }
+
+it('preserves normal asset middleware while serving and bypasses generation code only during updates', async () => {
+  const current = await fixture(false, { assetHeaders: true });
+  let release!: () => void;
+  const gate = new Promise<void>(resolve => {
+    release = resolve;
+  });
+  try {
+    const serving = await current.server.request('/static/js/client.js');
+    expect(serving.headers.get('access-control-allow-origin')).toBe(
+      'https://host.example',
+    );
+    expect(await serving.text()).toBe('published-client');
+    const update = current.application.update(async () => gate);
+    await tick();
+    expect(current.application.status.phase).toBe('updating');
+    const bypassed = await current.server.request('/static/js/client.js');
+    expect(bypassed.status).toBe(200);
+    expect(await bypassed.text()).toBe('published-client');
+    expect(bypassed.headers.has('access-control-allow-origin')).toBe(false);
+    release();
+    await update;
+    const restored = await current.server.request('/static/js/client.js');
+    expect(restored.headers.get('access-control-allow-origin')).toBe(
+      'https://host.example',
+    );
+    await restored.text();
+  } finally {
+    release();
+    await current.server.close();
+  }
+});
 
 it('establishes a recoverable owner after failed warmup and opens requests after recovery', async () => {
   let unavailable = true;
