@@ -829,6 +829,7 @@ export {};
 
     // Entry level part, written into the HTML at build time.
     const html = new Map<string, string>();
+    const earlyHintEntries: string[] = [];
     const entries: Record<string, TargetPlan['critical']> = Object.create(null);
     for (const [entryName, entry] of snapshot.entries) {
       const target = plan.targets.find(
@@ -836,8 +837,13 @@ export {};
       );
       const payload: Record<string, unknown> = { c: runtimeConfig };
       const preloads = target?.critical ?? [];
-      if (entry.serverRendered && preloads.length) {
-        entries[entryName] = preloads;
+      if (entry.serverRendered) {
+        if (preloads.length) {
+          entries[entryName] = preloads;
+        }
+        if (stages.config.earlyHints === true) {
+          earlyHintEntries.push(entryName);
+        }
       }
       // Chunks without a JS file, so the browser does not request one.
       const noScript = [...entry.reachable].filter(id => {
@@ -909,6 +915,14 @@ export {};
       budget: getCriticalBudget(stages),
       entries,
       routes: manifestRoutes,
+      ...(earlyHintEntries.length
+        ? {
+            earlyHints: {
+              entries: earlyHintEntries,
+              crossOriginLoading: options.crossOriginLoading,
+            },
+          }
+        : {}),
     };
 
     const reportFile = {

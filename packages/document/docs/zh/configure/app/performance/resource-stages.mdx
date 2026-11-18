@@ -23,6 +23,7 @@ interface ResourceStagesConfig {
   routes?:
     | false
     | Record<string, 'critical' | 'visible' | 'interactive' | 'idle' | false>;
+  earlyHints?: boolean;
   concurrency?: number;
   inlineLimit?: string | number;
   firstPaintTarget?: number;
@@ -89,6 +90,12 @@ resourceStages: {
 ```
 
 `routes: false` 关闭整个规则：框架不为路由 JS 输出 preload，和没有配置 `performance.resourceStages` 时一样。字符串 SSR 已经输出命中路由的脚本，不受这个规则影响。
+
+## earlyHints
+
+默认关闭。将 `performance.resourceStages.earlyHints` 设为 `true` 后，Node SSR 服务端会在执行 loader 前发送 HTTP `103 Early Hints`。服务端根据分阶段加载的构建清单，选出当前入口和命中路由中适合提前发送的 `critical` 资源。流式 SSR 的路由 JS 保留低下载优先级。需要子资源完整性校验的资源仍通过 HTML 预加载。
+
+正式响应会保留 HTML preload。浏览器忽略 103 时，收到 HTML 后仍能按原计划预加载。开启前需要确认网关、CDN 和部署运行时能正确处理 1xx 响应。中间层错误处理 103 可能导致正式响应中断。
 
 ## concurrency
 
