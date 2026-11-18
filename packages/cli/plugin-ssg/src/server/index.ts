@@ -34,7 +34,7 @@ const MAX_CONCURRENT_REQUESTS = 10;
 
 function createMockIncomingMessage(
   url: string,
-  headers: Record<string, string> = {},
+  headers: Headers,
 ): IncomingMessage {
   const urlObj = new URL(url);
   const mockReq = new IncomingMessage({} as any);
@@ -49,8 +49,10 @@ function createMockIncomingMessage(
     'accept-language': 'en-US,en;q=0.5',
     'accept-encoding': 'gzip, deflate',
     connection: 'keep-alive',
-    ...headers,
   };
+  headers.forEach((value, name) => {
+    mockReq.headers[name] = value;
+  });
 
   // Set other required properties for IncomingMessage
   mockReq.httpVersion = '1.1';
@@ -116,15 +118,14 @@ export const createServer = async (
     for (const routes of chunkedRoutes) {
       const promises = routes.map(async route => {
         const url = `http://localhost${route.urlPath}`;
-        const request = new Request(url, {
-          method: 'GET',
-          headers: {
-            host: 'localhost',
-            'x-modern-ssg-render': 'true',
-          },
-        });
+        const headers = new Headers(route.headers);
+        if (!headers.has('host')) {
+          headers.set('host', 'localhost');
+        }
+        headers.set('x-modern-ssg-render', 'true');
+        const request = new Request(url, { method: 'GET', headers });
 
-        const mockReq = createMockIncomingMessage(url);
+        const mockReq = createMockIncomingMessage(url, headers);
         const mockRes = createMockServerResponse();
 
         const response = await requestHandler(request, {
