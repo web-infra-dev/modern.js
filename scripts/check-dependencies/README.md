@@ -11,7 +11,6 @@ pnpm lint:package-json
 pnpm check-source-dependencies
 pnpm check-source-dependencies --staged
 pnpm check-source-dependencies --json
-pnpm test:source-dependencies
 ```
 
 - 清单检查保留原有 exports、workspace 协议及清单依赖环规则。
@@ -26,6 +25,6 @@ pnpm test:source-dependencies
 
 暂存区模式创建一个隔离的 Git index 快照，检查受影响包的完整源码。未暂存源码、清单和配置不能使检查通过。配置或根清单变化会扩大范围，删除和重命名同样触发。已安装外部依赖只读复用，workspace 链接指向暂存区快照。结束后删除工具自己创建的临时快照，不修改用户工作区或 Git index。
 
-Lint 工作流运行同一套全量规则和工具回归测试，不要求先构建框架。
+Lint 工作流运行全量源码依赖检查，无需先构建框架。
 
 退出码：0 表示没有声明错误，1 表示发现未声明依赖，2 表示配置、Git 或解析执行失败。JSON 输出包含范围、耗时和诊断，不包含自动修复或依赖归属建议。

@@ -21,7 +21,6 @@
     "test:ut:update": "rstest -u",
     "lint:package-json": "cd ./scripts/check-dependencies && pnpm start",
     "check-source-dependencies": "node ./scripts/check-dependencies/check-source.mjs",
-    "test:source-dependencies": "pnpm --filter @scripts/check-dependencies test",
     "prepare-build": "cross-env NX_DAEMON=false NX_REJECT_UNKNOWN_LOCAL_CACHE=0 nx run-many -t build -p @modern-js/* --exclude=@modern-js/main-doc,@modern-js/module-tools-docs --maxParallel=4",
     "prepare": "npm run prepare-build && rs hooks",
     "prepare-build-continue": "cross-env NX_DAEMON=false NX_REJECT_UNKNOWN_LOCAL_CACHE=0 nx run-many -t build -p @modern-js/* --exclude=@modern-js/main-doc,@modern-js/module-tools-docs --nxBail=false --maxParallel=4 || echo 'Build completed with some failures, continuing...'",

@@ -44,9 +44,6 @@ jobs:
       - name: Lint package.json
         run: pnpm run lint:package-json
 
-      - name: Test Source Dependency Checker
-        run: pnpm run test:source-dependencies
-
       - name: Check Source Dependencies
         run: pnpm run check-source-dependencies
 

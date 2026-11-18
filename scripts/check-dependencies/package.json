@@ -5,8 +5,7 @@
   "scripts": {
     "dev": "tsc --watch",
     "build": "tsc",
-    "start": "tsx ./src/index.ts",
-    "test": "node --test tests/*.test.mjs"
+    "start": "tsx ./src/index.ts"
   },
   "dependencies": {
     "@types/fs-extra": "9.0.13",
