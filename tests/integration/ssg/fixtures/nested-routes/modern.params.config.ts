@@ -6,6 +6,10 @@ const scenario = process.env.SSG_PARAMS_SCENARIO;
 export default defineConfig({
   source: {
     entriesDir: './params-src',
+    entries:
+      scenario === 'multi-entry'
+        ? { secondary: './params-src/secondary' }
+        : undefined,
     enableAsyncEntry: scenario !== 'explicit',
     alias: {
       '@posts': './params-src/posts.ts',
@@ -28,7 +32,9 @@ export default defineConfig({
                 },
               ],
             }
-          : { routes: [] },
+          : scenario === 'multi-entry'
+            ? true
+            : { routes: [] },
     polyfill: 'off',
     disableTsChecker: true,
   },

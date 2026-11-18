@@ -276,6 +276,28 @@ describe('route-level ssgParams', () => {
     ).toContain('<main>en: hello (preview)</main>');
   });
 
+  test('prerenders multiple entries with global SSG enabled', async () => {
+    const result = await buildParams('multi-entry');
+    expect(result.code, result.stdout + result.stderr).toBe(0);
+
+    const { routes } = await fs.readJSON(join(paramsDistDir, 'route.json'));
+    const article = routes.find(
+      (route: { urlPath: string }) => route.urlPath === '/prefix/blog/en/hello',
+    );
+    expect(article?.isSSG).toBe(true);
+    expect(
+      await fs.readFile(join(paramsDistDir, article.entryPath), 'utf8'),
+    ).toContain('<main>en: hello</main>');
+    const secondary = routes.find(
+      (route: { urlPath: string }) =>
+        route.urlPath === '/prefix/secondary/start',
+    );
+    expect(secondary?.isSSG).toBe(true);
+    expect(
+      await fs.readFile(join(paramsDistDir, secondary.entryPath), 'utf8'),
+    ).toContain('<main>Secondary: start</main>');
+  });
+
   test('disabling SSG does not execute parameter generators', async () => {
     const result = await buildParams('disabled');
     expect(result.code, result.stdout + result.stderr).toBe(0);

@@ -5,7 +5,8 @@ import {
   fs,
   ROUTE_SPEC_FILE,
   SERVER_BUNDLE_DIRECTORY,
-  isSingleEntry,
+  getSSGEntryOptions,
+  isEmpty,
 } from '@modern-js/utils';
 import type {
   AgreedRoute,
@@ -114,93 +115,46 @@ export const standardOptions = (
   server: ServerUserConfig,
   ssgByEntries?: SSGMultiEntryOptions,
 ) => {
-  if (ssgByEntries && Object.keys(ssgByEntries).length > 0) {
-    const result: SSGMultiEntryOptions = {};
-
-    Object.keys(ssgByEntries).forEach(key => {
-      const val = ssgByEntries[key];
-      if (typeof val !== 'function') {
-        result[key] = val;
-      }
-    });
-
-    for (const entry of entrypoints) {
-      const { entryName } = entry;
-      const configured = ssgByEntries[entryName];
-      if (typeof configured === 'function') {
-        const routesForEntry = routes.filter(r => r.entryName === entryName);
-        if (Array.isArray(server?.baseUrl)) {
-          for (const url of server.baseUrl) {
-            routesForEntry
-              .filter(
-                r => typeof r.urlPath === 'string' && r.urlPath.startsWith(url),
-              )
-              .forEach(r => {
-                result[r.urlPath as string] = configured(entryName, {
-                  baseUrl: url,
-                });
-              });
-          }
-        } else {
-          result[entryName] = configured(entryName, {
-            baseUrl: server?.baseUrl,
-          });
-        }
-      } else if (typeof configured !== 'undefined') {
-        result[entryName] = configured;
-      }
-    }
-
-    return result;
-  }
-
-  if (ssgOptions === false) {
+  if (ssgOptions === false && (!ssgByEntries || isEmpty(ssgByEntries))) {
     return false;
   }
 
-  if (ssgOptions === true) {
-    return entrypoints.reduce((opt, entry) => {
-      opt[entry.entryName] = ssgOptions;
-      return opt;
-    }, {} as SSGMultiEntryOptions);
-  } else if (typeof ssgOptions === 'object') {
-    const isSingle = isSingleEntry(entrypoints);
-
-    if (isSingle) {
-      return { main: ssgOptions } as SSGMultiEntryOptions;
+  const result: SSGMultiEntryOptions = {};
+  for (const [name, configured] of Object.entries(ssgByEntries ?? {})) {
+    if (typeof configured !== 'function') {
+      result[name] = configured;
     }
-
-    return entrypoints.reduce((opt, entry) => {
-      opt[entry.entryName] = ssgOptions;
-      return opt;
-    }, {} as SSGMultiEntryOptions);
-  } else if (typeof ssgOptions === 'function') {
-    const intermediateOptions: SSGMultiEntryOptions = {};
-    for (const entrypoint of entrypoints) {
-      const { entryName } = entrypoint;
-      const routesForEntry = routes.filter(r => r.entryName === entryName);
-      if (Array.isArray(server?.baseUrl)) {
-        for (const url of server.baseUrl) {
-          routesForEntry
-            .filter(
-              r => typeof r.urlPath === 'string' && r.urlPath.startsWith(url),
-            )
-            .forEach(r => {
-              intermediateOptions[r.urlPath as string] = ssgOptions(entryName, {
-                baseUrl: url,
-              });
-            });
-        }
-      } else {
-        intermediateOptions[entryName] = ssgOptions(entryName, {
-          baseUrl: server?.baseUrl,
-        });
-      }
-    }
-    return intermediateOptions;
   }
 
-  return false;
+  for (const { entryName } of entrypoints) {
+    const configured = getSSGEntryOptions(entryName, ssgOptions, ssgByEntries);
+    if (typeof configured !== 'function') {
+      if (configured !== undefined) {
+        result[entryName] = configured;
+      }
+      continue;
+    }
+
+    const baseUrl = server?.baseUrl;
+    if (Array.isArray(baseUrl)) {
+      const routesForEntry = routes.filter(
+        route => route.entryName === entryName,
+      );
+      for (const prefix of baseUrl) {
+        for (const route of routesForEntry) {
+          if (
+            typeof route.urlPath === 'string' &&
+            route.urlPath.startsWith(prefix)
+          ) {
+            result[route.urlPath] = configured(entryName, { baseUrl: prefix });
+          }
+        }
+      }
+    } else {
+      result[entryName] = configured(entryName, { baseUrl });
+    }
+  }
+  return result;
 };
 
 export const openRouteSSR = (routes: ModernRoute[], entries: string[] = []) =>

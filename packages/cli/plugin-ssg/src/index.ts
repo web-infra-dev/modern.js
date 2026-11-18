@@ -55,7 +55,7 @@ export const ssgPlugin = (): CliPlugin<AppTools> => ({
       const { ssg, ssgByEntries, distPath: { root: outputPath } = {} } = output;
 
       const ssgOptions: SSGConfig =
-        (Array.isArray(ssg) ? ssg.pop() : ssg) ?? true;
+        (Array.isArray(ssg) ? ssg.at(-1) : ssg) ?? true;
 
       const buildDir = path.join(appDirectory, outputPath as string);
       const routes = readJSONSpec(buildDir);
