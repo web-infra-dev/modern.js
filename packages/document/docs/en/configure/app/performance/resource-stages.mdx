@@ -23,6 +23,7 @@ interface ResourceStagesConfig {
   routes?:
     | false
     | Record<string, 'critical' | 'visible' | 'interactive' | 'idle' | false>;
+  earlyHints?: boolean;
   concurrency?: number;
   inlineLimit?: string | number;
   firstPaintTarget?: number;
@@ -90,6 +91,12 @@ resourceStages: {
 ```
 
 `routes: false` turns the rule off: the framework does not preload route JS, the same as without `performance.resourceStages`. String SSR already outputs the scripts of the matched routes and is not affected.
+
+## earlyHints
+
+Defaults to `false`. Set `performance.resourceStages.earlyHints` to `true` to send HTTP `103 Early Hints` from a Node SSR server before data loaders run. The server selects eligible `critical` preloads for the entry and matched routes from the same build manifest used by staged resource loading. Streaming SSR keeps the low fetch priority on route JS. Resources that require Subresource Integrity stay in the HTML.
+
+The final response keeps its HTML preloads, so clients that ignore the 103 can still preload the same resources. Verify that your gateway, CDN and hosting runtime handle informational responses before enabling this option. A proxy that mishandles a 103 can interrupt the final response.
 
 ## concurrency
 

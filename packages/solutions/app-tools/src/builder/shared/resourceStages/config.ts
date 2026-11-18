@@ -52,6 +52,8 @@ export interface ResourceStagesUserConfig {
    * off. Applies to streaming SSR.
    */
   routes?: false | Record<string, BuiltinPageStage | false>;
+  /** Send HTTP 103 for eligible critical preloads on Node SSR. @default false */
+  earlyHints?: boolean;
   /** Prefetches in flight at the same time. @default 4 */
   concurrency?: number;
   /**

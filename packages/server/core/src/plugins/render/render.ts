@@ -20,6 +20,7 @@ import {
 } from '../../utils';
 import { csrRscRender } from './csrRscRender';
 import { dataHandler } from './dataHandler';
+import { getEarlyHintLinks } from './earlyHints';
 import { renderRscHandler } from './renderRscHandler';
 import { serverActionHandler } from './serverActionHandler';
 import { type SSRRenderOptions, ssrRender } from './ssrRender';
@@ -139,6 +140,7 @@ export async function createRender({
       loaderContext,
       contextForceCSR,
       reporter,
+      writeEarlyHints,
     },
   ) => {
     // Match the normalized path used by Hono's outer middleware router.
@@ -265,6 +267,7 @@ export async function createRender({
           renderMode,
           fallbackWrapper,
           framework,
+          writeEarlyHints,
         );
         break;
       default:
@@ -284,6 +287,7 @@ async function renderHandler(
   mode: 'ssr' | 'csr',
   fallbackWrapper: FallbackWrapper,
   framework: string,
+  writeEarlyHints?: (links: string[]) => void,
 ) {
   let response: Response | null = null;
 
@@ -326,6 +330,21 @@ async function renderHandler(
   }
 
   if (mode === 'ssr' && !response) {
+    if (
+      writeEarlyHints &&
+      request.method === 'GET' &&
+      !options.staticGenerate
+    ) {
+      try {
+        // Send before loaders run, without committing the final status.
+        const links = getEarlyHintLinks(request, options);
+        if (links.length) {
+          writeEarlyHints(links);
+        }
+      } catch (e) {
+        options.onError(e, 'EarlyHints');
+      }
+    }
     try {
       response = await ssrRender(request, options);
     } catch (e) {
