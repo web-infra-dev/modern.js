@@ -54,7 +54,7 @@ describe('create builder provider config', () => {
     expect(config.output.copy).toEqual([
       pattern,
       expect.objectContaining({
-        context: join(appDirectory, 'config', 'upload'),
+        context: join(appDirectory, 'config', 'upload').replaceAll('\\', '/'),
         to: 'upload',
       }),
     ]);
