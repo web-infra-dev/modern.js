@@ -92,11 +92,13 @@ pnpm run reset
 
 ## Testing
 
-### Add New Tests
+### Validate Changes and Retain Regression Tests
 
-If you've fixed a bug or added code that should be tested, then add some tests.
+Do not add new test files or fixtures by default. When fixing bugs or adding features, reuse existing tests or provide evidence through temporary scripts or manual black-box validation. Record commands, results and checks not run in the PR. Temporary validation does not need to be committed as permanent tests.
 
-Modern.js uses [Rstest](https://rstest.rs/) for unit tests across the repository. You can add test cases in the `<PACKAGE_DIR>/tests` folder, using Rstest syntax.
+Retain permanent regression tests only to protect specific user-visible behavior or public contracts that existing coverage does not protect, and explain why they are needed. Do not duplicate existing integration flows with layer-by-layer mocked unit tests. Prefer lightweight black-box input/output tests for pure logic rather than internal invocation-order assertions. Do not narrow TypeScript types to replace validation. Snapshots may cover stable user output or public protocols, but should not lock down implementation details.
+
+Modern.js uses [Rstest](https://rstest.rs/) for unit tests across the repository, with existing cases in `<PACKAGE_DIR>/tests`. Run `pnpm check-test-governance` to check your changes. The existing 52 directories under `tests/integration` are frozen. New allowlist entries require human maintainer approval and the `approved-new-integration-fixture` PR label. See the repository's [test governance guide](https://github.com/web-infra-dev/modern.js/blob/main/scripts/test-governance/README.md) for all rules, commands and inline exceptions.
 
 ### Run Unit Tests
 
