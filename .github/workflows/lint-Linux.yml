@@ -44,6 +44,9 @@ jobs:
       - name: Lint package.json
         run: pnpm run lint:package-json
 
+      - name: Check Source Dependencies
+        run: pnpm run check-source-dependencies
+
       - name: Check Lint and Formatting
         run: pnpm run check
 
