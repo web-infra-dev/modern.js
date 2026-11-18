@@ -38,6 +38,8 @@ Prefetch adds a separate resource-warmed Bridge or Service frame. It fetches the
 
 Open `/service/forecast/today?lab=service&tab=load` for click-to-load comparison. Both host frames use CSR. One button mounts a Service App on the left and an ordinary Bridge CSR application on the right. Nothing mounts before the click. Both content-visible estimates and enabled-control times use the same click timestamp. Optional application loaders and resource warming apply to both sides. Warming does not cache the Service response stream. Clicking again remounts both applications and starts new measurements.
 
+In development, the SSR update workbench provides source links for the selected experiment. Click a link to open its producer file and line through the existing development server editor integration. Ordinary SSR points to the weather title, nested SSR provides the intermediate entry and Rslib wind component, and Bridge SSR points to the application layout. The page stays open while the editor launches.
+
 ## Independent Service App lab
 
 Service runs allocate a fresh free port group instead of the interactive Weather Lab ports. Start from the repository root:

@@ -16,8 +16,22 @@ export function SSRWorkbench() {
         : 'ordinary',
   );
   const [run, setRun] = useState(0);
+  const [sourceMessage, setSourceMessage] = useState('');
   const bridge = scenario === 'bridge';
   const nested = scenario === 'nested';
+  const sources = bridge
+    ? [
+        {
+          label: '应用标题',
+          file: 'provider/src/routes/weather-application/layout.tsx:67',
+        },
+      ]
+    : nested
+      ? [
+          { label: '中间层入口', file: 'nested/src/WeatherWind.tsx:3' },
+          { label: 'Rslib 风力文案', file: 'library/src/WeatherWind.tsx:10' },
+        ]
+      : [{ label: '天气标题', file: 'provider/src/weather-ui.tsx:112' }];
   const query = new URLSearchParams({
     render: 'ssr',
     data: 'local',
@@ -47,6 +61,7 @@ export function SSRWorkbench() {
               value={scenario}
               onChange={event => {
                 setScenario(event.target.value);
+                setSourceMessage('');
                 const next = new URLSearchParams(params);
                 next.set('scenario', event.target.value);
                 history.replaceState(
@@ -76,6 +91,38 @@ export function SSRWorkbench() {
             重新请求 SSR
           </button>
         </div>
+        {!cache && process.env.NODE_ENV === 'development' && (
+          <div className="lab-control-row" aria-label="生产者源码">
+            <span>打开源码</span>
+            {sources.map(source => {
+              // Rsbuild resolves this path from the Host process's cwd.
+              const href = `/__open-in-editor?file=${encodeURIComponent(`../${source.file}`)}`;
+              return (
+                <a
+                  key={source.file}
+                  href={href}
+                  title={source.file}
+                  onClick={async event => {
+                    event.preventDefault();
+                    setSourceMessage('');
+                    try {
+                      const response = await fetch(href);
+                      if (!response.ok) throw Error(`HTTP ${response.status}`);
+                      setSourceMessage(`已请求编辑器打开 ${source.file}`);
+                    } catch {
+                      setSourceMessage(
+                        `打开失败，请在编辑器中打开 ${source.file}`,
+                      );
+                    }
+                  }}
+                >
+                  {source.label} ↗ <code>{source.file}</code>
+                </a>
+              );
+            })}
+            {sourceMessage && <small role="status">{sourceMessage}</small>}
+          </div>
+        )}
         <p className="lab-note">
           {cache
             ? '在同一轮实验中切换版本、观察更新期间请求，再执行 GC 对比内存。局部更新需要进入静态配置，以实际 mode / entries 判断结果。'
