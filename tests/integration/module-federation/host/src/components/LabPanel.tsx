@@ -1,0 +1,141 @@
+import { useCallback, useEffect, useRef, useState } from 'react';
+
+export function LabPanel({
+  name,
+  path = '/weather',
+  query,
+  run,
+  inspect,
+  paletteSeed,
+  refresh,
+}: {
+  name: string;
+  path?: string;
+  query: string;
+  run: number;
+  inspect: boolean;
+  paletteSeed: string;
+  refresh: number;
+}) {
+  const frame = useRef<HTMLIFrameElement>(null);
+  const inspectRef = useRef(inspect);
+  inspectRef.current = inspect;
+  const sendInspect = useCallback(() => {
+    frame.current?.contentWindow?.postMessage(
+      { type: 'mf-weather-metrics-request' },
+      window.location.origin,
+    );
+    frame.current?.contentWindow?.postMessage(
+      { type: 'mf-lab-inspect', enabled: inspectRef.current, paletteSeed },
+      window.location.origin,
+    );
+  }, [paletteSeed]);
+  useEffect(sendInspect, [inspect, run, sendInspect]);
+  const [recovery, setRecovery] = useState('');
+  const [events, setEvents] = useState<Record<string, number>>({});
+  const [methods, setMethods] = useState<Record<string, string>>({});
+  useEffect(() => {
+    setEvents({});
+    setMethods({});
+    setRecovery('');
+    function receive(event: MessageEvent) {
+      if (
+        event.origin !== window.location.origin ||
+        event.source !== frame.current?.contentWindow
+      )
+        return;
+      if (
+        event.data?.type === 'mf-lab-recovery' &&
+        typeof event.data.status === 'string'
+      ) {
+        setRecovery(event.data.status);
+        return;
+      }
+      if (
+        event.data?.type === 'mf-lab-inspect-ready' ||
+        event.data?.type === 'mf-weather-metrics-ready'
+      ) {
+        sendInspect();
+        return;
+      }
+      if (event.data?.type !== 'mf-weather') return;
+      if (
+        ![
+          'Client ready',
+          'Data visible',
+          'Data request failed',
+          'Data prefetch started',
+        ].includes(event.data.event) ||
+        typeof event.data.at !== 'number'
+      )
+        return;
+      if (typeof event.data.method === 'string')
+        setMethods(previous => ({
+          ...previous,
+          [event.data.event]: event.data.method,
+        }));
+      setEvents(previous => ({
+        ...previous,
+        [event.data.event]: previous[event.data.event] ?? event.data.at,
+      }));
+    }
+    window.addEventListener('message', receive);
+    return () => window.removeEventListener('message', receive);
+  }, [run, refresh, sendInspect]);
+  return (
+    <section className="comparison-panel">
+      <div className="comparison-sky" aria-hidden="true">
+        <div className="sky-cloud cloud-one" />
+        <div className="sky-cloud cloud-two" />
+      </div>
+      <header>
+        <h2>
+          {name}
+          {recovery && (
+            <small className="recovery-badge" role="status">
+              {recovery}
+            </small>
+          )}
+        </h2>
+        <span>
+          {events['Client ready'] !== undefined
+            ? '● Client ready'
+            : events['Data prefetch started'] !== undefined
+              ? '◌ Prefetching data'
+              : '◌ Waiting for client'}
+        </span>
+      </header>
+      <iframe
+        key={`${run}:${refresh}`}
+        data-testid={name === 'SSR' ? 'ssr-frame' : undefined}
+        ref={frame}
+        title={name}
+        onLoad={sendInspect}
+        src={`${path}?${query}&run=${run}&sharedSky=1`}
+        sandbox="allow-scripts allow-same-origin"
+      />
+      <footer>
+        {['Data visible', 'Client ready'].map(event => (
+          <span
+            key={event}
+            data-metric={event}
+            title={
+              event === 'Data visible'
+                ? methods[event] === 'visibility estimate'
+                  ? 'Estimated visibility of temperature and condition after intersection and a paint opportunity.'
+                  : 'From frame navigation to the first paint of temperature and condition (Element Timing).'
+                : 'From frame navigation until all key controls have hydrated or mounted: save station, hourly forecast, and wind when shown. Independent of weather data.'
+            }
+          >
+            {event}
+            <b>
+              {events[event] === undefined
+                ? '—'
+                : `${methods[event] === 'visibility estimate' ? '≈ ' : ''}${events[event]} ms`}
+            </b>
+          </span>
+        ))}
+      </footer>
+    </section>
+  );
+}

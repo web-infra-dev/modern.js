@@ -57,9 +57,8 @@ export default defineServerConfig({
           const version = url.searchParams.get('version');
           if (!version) {
             const selectedScenario =
-              scenario === 'all'
-                ? url.searchParams.get('scenario') || 'ordinary'
-                : scenario;
+              url.searchParams.get('scenario') ||
+              (scenario === 'all' ? 'ordinary' : scenario);
             if (
               !['ordinary', 'bridge', 'service'].includes(
                 selectedScenario || '',
@@ -148,7 +147,9 @@ export default defineServerConfig({
         ) {
           const gc = url.searchParams.get('gc') === '1';
           const producers =
-            scenario === 'service'
+            scenario === 'service' ||
+            (url.searchParams.get('scenario') === 'service' &&
+              process.env.MF_LAB_SERVICE)
               ? await Promise.all(
                   versions.map(async ({ version }) => {
                     const port =

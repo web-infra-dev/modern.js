@@ -95,6 +95,7 @@ export function UpdateRequestControls({
       location.origin,
     );
     url.searchParams.set('__labPolicy', policy);
+    url.searchParams.set('labFrame', '1');
     url.searchParams.set('__labRequest', String(++nextId.current));
     if (owner) url.searchParams.set('remote', 'nested');
     setFrames(previous => [
@@ -108,7 +109,7 @@ export function UpdateRequestControls({
       data-testid="update-request-lab"
       onToggle={event => setOpen(event.currentTarget.open)}
     >
-      <summary>Requests during SSR updates</summary>
+      <summary>缓存更新期间的请求</summary>
       {open && (
         <>
           <p>
@@ -118,7 +119,7 @@ export function UpdateRequestControls({
           </p>
           <div className="updates-controls">
             <label>
-              Update owner{' '}
+              更新进程{' '}
               <select
                 data-testid="request-owner"
                 value={owner}
@@ -137,7 +138,7 @@ export function UpdateRequestControls({
               </select>
             </label>
             <label>
-              Target version{' '}
+              目标版本{' '}
               <select
                 data-testid="request-version"
                 value={version}
@@ -153,17 +154,17 @@ export function UpdateRequestControls({
               disabled={pending}
               onClick={() => action('start')}
             >
-              Start held update
+              开始并暂停更新
             </button>
             <button
               data-testid="request-release"
               disabled={!pending}
               onClick={() => action('release')}
             >
-              Release update
+              释放更新
             </button>
             <label>
-              New request policy{' '}
+              新请求策略{' '}
               <select
                 data-testid="request-policy"
                 value={policy}
@@ -177,9 +178,9 @@ export function UpdateRequestControls({
               </select>
             </label>
             <button data-testid="request-add" onClick={addFrame}>
-              Open request iframe
+              发起请求 iframe
             </button>
-            <button onClick={() => setFrames([])}>Clear frames</button>
+            <button onClick={() => setFrames([])}>清空请求</button>
           </div>
           <p data-testid="request-state">
             {state?.status?.application.phase || 'serving'} ·{' '}

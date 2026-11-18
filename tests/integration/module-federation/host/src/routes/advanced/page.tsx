@@ -4,7 +4,7 @@ import {
   dataFailures,
 } from '../../failure/Controls';
 import { useState, useEffect, useRef } from 'react';
-import { LabNav } from '../../components/Comparison';
+import { LabLayout } from '../../components/LabLayout';
 export default function Page() {
   const [scenario, setScenario] = useState<
     'recovery' | 'lifecycle' | 'replace' | 'bridge' | 'data'
@@ -29,8 +29,11 @@ export default function Page() {
     return () => window.removeEventListener('message', receive);
   }, [run, scenario]);
   return (
-    <div className="advanced-shell">
-      <LabNav />
+    <LabLayout
+      section="render"
+      title="扩展实验"
+      description="原有的 Remote 替换、故障恢复和独立应用实验。"
+    >
       <header className="comparison-intro">
         <div>
           <span>WEATHER / ADVANCED</span>
@@ -88,6 +91,6 @@ export default function Page() {
         title="Advanced weather experiment"
         src={`/weather?scenario=${scenario}&failure=${failureEnabled ? failure : ''}&run=${run}&after=${scenario === 'lifecycle' ? 'remount' : ''}&target=${scenario === 'replace' ? 'replacement/' : scenario === 'lifecycle' ? 'dynamic/Reload' : ''}`}
       />
-    </div>
+    </LabLayout>
   );
 }

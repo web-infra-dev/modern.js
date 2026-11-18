@@ -1,320 +1,181 @@
-import { ProducerUpdateControls } from './ProducerUpdateControls';
+import { useState, type CSSProperties } from 'react';
+import { useSearchParams } from '@modern-js/runtime/router';
 import {
   FailureControls,
   renderFailures,
   dataFailures,
 } from '../failure/Controls';
-import { useCallback, useEffect, useRef, useState } from 'react';
-import { Link } from '@modern-js/runtime/router';
+import { LabLayout } from './LabLayout';
+import { LabPanel } from './LabPanel';
+import { SSRWorkbench } from './SSRWorkbench';
 import '../weather-base.css';
 import '../../../provider/src/weather-scene.css';
 import '../weather.css';
-function inspectPaletteSeed() {
+export { LegacyLabNav as LabNav } from './LabLayout';
+
+type Mode = 'csr' | 'ssr' | 'bridge' | 'service';
+const labels: Record<Mode, string> = {
+  csr: 'CSR',
+  ssr: 'SSR',
+  bridge: 'Bridge SSR',
+  service: 'Service App',
+};
+function paletteSeed() {
   if (typeof window === 'undefined') return '';
-  const seed = window.crypto.randomUUID();
+  const key = 'mf-lab.inspect-palette';
   try {
-    const key = 'mf-lab.inspect-palette';
-    const existing = window.sessionStorage.getItem(key);
-    if (existing) return existing;
-    window.sessionStorage.setItem(key, seed);
+    const previous = sessionStorage.getItem(key);
+    if (previous) return previous;
+    const value = crypto.randomUUID();
+    sessionStorage.setItem(key, value);
+    return value;
   } catch {
-    // The parent still supplies one shared palette if storage is unavailable.
+    return crypto.randomUUID();
   }
-  return seed;
-}
-export function LabNav() {
-  const partial = process.env.MF_LAB_SSR_SCOPE === 'entries';
-  const NavLink = ({
-    to,
-    children,
-    className,
-  }: {
-    to: string;
-    children: React.ReactNode;
-    className?: string;
-  }) =>
-    partial ? (
-      <a href={to} className={className}>
-        {children}
-      </a>
-    ) : (
-      <Link to={to} className={className}>
-        {children}
-      </Link>
-    );
-  return (
-    <nav className="weather-nav" aria-label="Comparison pages">
-      <NavLink className="weather-brand" to="/">
-        ◈ Weather Lab
-      </NavLink>
-      <div>
-        <NavLink to="/">Rendering</NavLink>
-        {!partial && (
-          <>
-            <NavLink to="/data">Data fetching</NavLink>
-            <NavLink to="/advanced">Advanced scenarios</NavLink>
-            <NavLink to="/bridge-ssr/forecast/today">
-              Weather application
-            </NavLink>
-            {process.env.MF_LAB_SERVICE && (
-              <NavLink to="/service/forecast/today">Weather service</NavLink>
-            )}
-          </>
-        )}
-      </div>
-    </nav>
-  );
-}
-function Panel({
-  name,
-  query,
-  run,
-  inspect,
-  paletteSeed,
-  refresh,
-}: {
-  name: string;
-  query: string;
-  run: number;
-  inspect: boolean;
-  paletteSeed: string;
-  refresh: number;
-}) {
-  const frame = useRef<HTMLIFrameElement>(null);
-  const inspectRef = useRef(inspect);
-  inspectRef.current = inspect;
-  const sendInspect = useCallback(() => {
-    frame.current?.contentWindow?.postMessage(
-      { type: 'mf-weather-metrics-request' },
-      window.location.origin,
-    );
-    frame.current?.contentWindow?.postMessage(
-      { type: 'mf-lab-inspect', enabled: inspectRef.current, paletteSeed },
-      window.location.origin,
-    );
-  }, [paletteSeed]);
-  useEffect(sendInspect, [inspect, run, sendInspect]);
-  const [recovery, setRecovery] = useState('');
-  const [events, setEvents] = useState<Record<string, number>>({});
-  const [methods, setMethods] = useState<Record<string, string>>({});
-  useEffect(() => {
-    setEvents({});
-    setMethods({});
-    setRecovery('');
-    function receive(event: MessageEvent) {
-      if (
-        event.origin !== window.location.origin ||
-        event.source !== frame.current?.contentWindow
-      )
-        return;
-      if (
-        event.data?.type === 'mf-lab-recovery' &&
-        typeof event.data.status === 'string'
-      ) {
-        setRecovery(event.data.status);
-        return;
-      }
-      if (
-        event.data?.type === 'mf-lab-inspect-ready' ||
-        event.data?.type === 'mf-weather-metrics-ready'
-      ) {
-        sendInspect();
-        return;
-      }
-      if (event.data?.type !== 'mf-weather') return;
-      if (
-        ![
-          'Client ready',
-          'Data visible',
-          'Data request failed',
-          'Data prefetch started',
-        ].includes(event.data.event) ||
-        typeof event.data.at !== 'number'
-      )
-        return;
-      if (typeof event.data.method === 'string')
-        setMethods(previous => ({
-          ...previous,
-          [event.data.event]: event.data.method,
-        }));
-      setEvents(previous => ({
-        ...previous,
-        [event.data.event]: previous[event.data.event] ?? event.data.at,
-      }));
-    }
-    window.addEventListener('message', receive);
-    return () => window.removeEventListener('message', receive);
-  }, [run, refresh, sendInspect]);
-  return (
-    <section className="comparison-panel">
-      <div className="comparison-sky" aria-hidden="true">
-        <div className="sky-cloud cloud-one" />
-        <div className="sky-cloud cloud-two" />
-      </div>
-      <header>
-        <h2>
-          {name}
-          {recovery && (
-            <small className="recovery-badge" role="status">
-              {recovery}
-            </small>
-          )}
-        </h2>
-        <span>
-          {events['Client ready'] !== undefined
-            ? '● Client ready'
-            : events['Data prefetch started'] !== undefined
-              ? '◌ Prefetching data'
-              : '◌ Waiting for client'}
-        </span>
-      </header>
-      <iframe
-        key={`${run}:${refresh}`}
-        data-testid={name === 'SSR' ? 'ssr-frame' : undefined}
-        ref={frame}
-        title={name}
-        onLoad={sendInspect}
-        src={`/weather?${query}&run=${run}&sharedSky=1`}
-        sandbox="allow-scripts allow-same-origin"
-      />
-      <footer>
-        {['Data visible', 'Client ready'].map(event => (
-          <span
-            key={event}
-            data-metric={event}
-            title={
-              event === 'Data visible'
-                ? methods[event] === 'visibility estimate'
-                  ? 'Estimated visibility of temperature and condition after intersection and a paint opportunity.'
-                  : 'From frame navigation to the first paint of temperature and condition (Element Timing).'
-                : 'From frame navigation until all key controls have hydrated or mounted: save station, hourly forecast, and wind when shown. Independent of weather data.'
-            }
-          >
-            {event}
-            <b>
-              {events[event] === undefined
-                ? '—'
-                : `${methods[event] === 'visibility estimate' ? '≈ ' : ''}${events[event]} ms`}
-            </b>
-          </span>
-        ))}
-      </footer>
-    </section>
-  );
 }
 export default function Comparison({ data = false }: { data?: boolean }) {
+  const [params] = useSearchParams();
+  if (params.get('lab') === 'ssr') return <SSRWorkbench />;
+  return <RenderingComparison data={data} />;
+}
+function RenderingComparison({ data }: { data: boolean }) {
+  const [params] = useSearchParams();
   const partial = process.env.MF_LAB_SSR_SCOPE === 'entries';
+  const available: Mode[] = partial
+    ? ['csr', 'ssr']
+    : process.env.MF_LAB_SERVICE
+      ? ['csr', 'ssr', 'bridge', 'service']
+      : ['csr', 'ssr', 'bridge'];
+  const configured = params
+    .get('modes')
+    ?.split(',')
+    .filter((mode): mode is Mode => available.includes(mode as Mode));
+  const initial = {
+    modes: configured?.length
+      ? configured
+      : data
+        ? (['csr', 'ssr'] as Mode[])
+        : available,
+    data: data || params.get('fetch') === '1',
+    prefetch: params.get('preload') === '1',
+    delay: [1500, 3000].includes(Number(params.get('delay')))
+      ? Number(params.get('delay'))
+      : 0,
+    failureEnabled: params.has('failure'),
+    failure: params.get('failure') || 'network',
+    target: params.get('target') || 'provider/Weather',
+  };
+  const [draft, setDraft] = useState(initial);
+  const [applied, setApplied] = useState(initial);
   const [run, setRun] = useState(0);
-  const [refresh, setRefresh] = useState(0);
-  const [delay, setDelay] = useState(0);
   const [inspect, setInspect] = useState(false);
-  const [failureEnabled, setFailureEnabled] = useState(false);
-  const [failure, setFailure] = useState('network');
-  const [target, setTarget] = useState('provider/Weather');
-  const [prefetch, setPrefetch] = useState(true);
-  const [paletteSeed] = useState(inspectPaletteSeed);
-  const panels = data
-    ? [
-        ['CSR', 'render=csr&csr=1&data=client'],
-        ['SSR', 'render=ssr&data=client'],
-        ['CSR + data-fetch', 'render=csr&csr=1&data=mf'],
-        ['SSR + data-fetch', 'render=ssr&data=mf'],
-      ]
-    : [
-        ['CSR', 'render=csr&csr=1&data=local'],
-        ['SSR', 'render=ssr&data=local'],
-      ];
+  const [seed] = useState(paletteSeed);
+  const edit = <K extends keyof typeof draft>(
+    key: K,
+    value: (typeof draft)[K],
+  ) => setDraft(previous => ({ ...previous, [key]: value }));
+  const changed = JSON.stringify(draft) !== JSON.stringify(applied);
+  const modeCount = applied.modes.length;
   return (
-    <div className="comparison-shell">
-      <LabNav />
-      {process.env.MF_LAB_UPDATES && (
-        <section className="producer-update-controls" aria-label="Test guide">
-          <h2>SSR update checks</h2>
-          <p>
-            {process.env.MF_LAB_SSR_SCOPE === 'entries'
-              ? 'Static imports · entry-scoped update configuration'
-              : 'Dynamic imports · application update configuration'}
-            . Open “Requests during SSR updates” below to hold an update and
-            create request frames.
-          </p>
-          {process.env.MF_LAB_SSR_SCOPE !== 'entries' && (
-            <ul>
-              {process.env.MF_LAB_UPDATE_ORIGIN && (
-                <li>
-                  <a href={process.env.MF_LAB_UPDATE_ORIGIN}>
-                    Build + serve · requests during updates
-                  </a>
-                </li>
-              )}
-              {process.env.MF_LAB_SERVICE && (
-                <li>
-                  <a href="/service/forecast/today?late=1">
-                    Service App · click to load and measure
-                  </a>
-                </li>
-              )}
-              <li>
-                <a href="/bridge-ssr/forecast/today">
-                  Bridge SSR · producer switch and request frames
-                </a>
-              </li>
-              {process.env.MF_LAB_SERVICE && (
-                <li>
-                  <a href="/service/forecast/today">
-                    Service App · producer switch and request frames
-                  </a>
-                </li>
-              )}
-              {process.env.MF_LAB_SERVICE_NESTED && (
-                <li>
-                  <a href="/service/forecast/today?remote=nested">
-                    Service App · internal nested SSR update
-                  </a>
-                </li>
-              )}
-              {process.env.MF_LAB_PARTIAL_ORIGIN && (
-                <li>
-                  <a href={process.env.MF_LAB_PARTIAL_ORIGIN}>
-                    Static imports · partial update configuration
-                  </a>
-                </li>
-              )}
-            </ul>
-          )}
-        </section>
-      )}
-      {!partial && (
-        <header className="comparison-toolbar" aria-label="Comparison controls">
-          <div className="comparison-controls">
-            <FailureControls
-              enabled={failureEnabled}
-              kind={failure}
-              options={
-                data
-                  ? [...renderFailures, ...dataFailures]
-                  : target.includes('nested/')
-                    ? [
-                        ...renderFailures,
-                        ['inner-network', 'Inner remote network failure'],
-                      ]
-                    : renderFailures
-              }
-              onChange={(enabled, kind) => {
-                setFailureEnabled(enabled);
-                setFailure(kind);
-                if (enabled || enabled !== failureEnabled)
-                  setRun(value => value + 1);
-              }}
+    <LabLayout
+      section="render"
+      title="渲染对比"
+      description="在独立页面中对照加载、首屏内容与可交互时间。配置先暂存，应用后统一刷新。"
+    >
+      <section className="lab-controls" aria-label="渲染配置">
+        <div className="lab-control-row">
+          <fieldset>
+            <legend>渲染方式</legend>
+            {available.map(mode => (
+              <label key={mode}>
+                <input
+                  type="checkbox"
+                  data-testid={`mode-${mode}`}
+                  checked={draft.modes.includes(mode)}
+                  onChange={event =>
+                    edit(
+                      'modes',
+                      event.target.checked
+                        ? [...draft.modes, mode]
+                        : draft.modes.filter(item => item !== mode),
+                    )
+                  }
+                />
+                {labels[mode]}
+              </label>
+            ))}
+          </fieldset>
+        </div>
+        <div className="lab-control-row">
+          <label>
+            <input
+              data-testid="compare-data"
+              type="checkbox"
+              checked={draft.data}
+              onChange={event => edit('data', event.target.checked)}
             />
-            {!data && (
+            数据获取对照
+          </label>
+          <label className="prefetch-control">
+            <input
+              type="checkbox"
+              checked={draft.prefetch}
+              onChange={event => edit('prefetch', event.target.checked)}
+            />
+            预加载对照
+          </label>
+          <label className="inspect-control">
+            <input
+              type="checkbox"
+              checked={inspect}
+              onChange={event => setInspect(event.target.checked)}
+            />
+            Inspect
+          </label>
+          <button
+            className="lab-primary"
+            data-testid="render-apply"
+            disabled={!draft.modes.length}
+            onClick={() => {
+              setApplied(draft);
+              setRun(value => value + 1);
+              const next = new URLSearchParams(params);
+              next.set('modes', draft.modes.join(','));
+              next.set('fetch', draft.data ? '1' : '0');
+              next.set('preload', draft.prefetch ? '1' : '0');
+              next.set('delay', String(draft.delay));
+              if (draft.failureEnabled) next.set('failure', draft.failure);
+              else next.delete('failure');
+              next.set('target', draft.target);
+              history.replaceState(
+                history.state,
+                '',
+                `${location.pathname}?${next}`,
+              );
+            }}
+          >
+            应用并刷新
+          </button>
+          {changed && <small role="status">有未应用的配置</small>}
+          <details className="lab-advanced">
+            <summary>高级设置</summary>
+            <div className="comparison-controls">
+              <FailureControls
+                enabled={draft.failureEnabled}
+                kind={draft.failure}
+                options={[...renderFailures, ...dataFailures]}
+                onChange={(enabled, kind) =>
+                  setDraft(value => ({
+                    ...value,
+                    failureEnabled: enabled,
+                    failure: kind,
+                  }))
+                }
+              />
               <select
                 aria-label="Failure target"
-                value={target}
-                onChange={event => {
-                  setTarget(event.target.value);
-                  if (failure === 'inner-network') setFailure('network');
-                  setRun(value => value + 1);
-                }}
+                value={draft.target}
+                onChange={event => edit('target', event.target.value)}
               >
                 <option value="provider/Weather">Current weather</option>
                 <option value="dynamic/WeatherHourly">
@@ -325,71 +186,121 @@ export default function Comparison({ data = false }: { data?: boolean }) {
                 </option>
                 <option value="nested/WeatherWind">Dynamic nested wind</option>
               </select>
-            )}
-
-            <label className="inspect-control">
-              <input
-                type="checkbox"
-                checked={inspect}
-                onChange={event => setInspect(event.target.checked)}
-              />
-              Inspect
-            </label>
-            {data && (
-              <label
-                className="prefetch-control"
-                title="Start MF client data loading before rendering. SSR data is already loaded on the server."
-              >
-                <input
-                  type="checkbox"
-                  checked={prefetch}
-                  onChange={event => {
-                    setPrefetch(event.target.checked);
-                    setRun(value => value + 1);
-                  }}
-                />
-                Data prefetch
+              <label>
+                脚本延迟{' '}
+                <select
+                  aria-label="JavaScript startup delay"
+                  value={draft.delay}
+                  onChange={event => edit('delay', Number(event.target.value))}
+                >
+                  <option value="0">无延迟</option>
+                  <option value="1500">1.5 s</option>
+                  <option value="3000">3 s</option>
+                </select>
               </label>
-            )}
-            <label>
-              Simulate slow startup{' '}
-              <select
-                aria-label="JavaScript startup delay"
-                title="Delay the weather entry script to compare the initial page before JavaScript starts"
-                value={delay}
-                onChange={event => {
-                  setDelay(Number(event.target.value));
-                  setRun(value => value + 1);
-                }}
+            </div>
+          </details>
+        </div>
+        <p className="lab-note">
+          {applied.data || applied.prefetch
+            ? '普通组件使用相同天气 API，对照普通请求、MF data-fetch 与提前取数。Bridge / Service 使用各自的应用 loader，不重复套用组件数据协议。'
+            : 'CSR / SSR 使用固定数据，观察代码加载与渲染；Bridge / Service 保留真实应用 loader。'}{' '}
+          指标从各 iframe 导航起算，并发加载会共享浏览器网络与 HTTP
+          缓存，不能直接视为性能排名。
+        </p>
+      </section>
+      {!modeCount && (
+        <p className="lab-empty">选择至少一种渲染方式后应用配置。</p>
+      )}
+      <div className="lab-render-grid" data-testid="render-grid">
+        {applied.modes.map(mode => {
+          const ordinary = mode === 'csr' || mode === 'ssr';
+          const variants =
+            ordinary && !partial
+              ? [
+                  {
+                    label: labels[mode],
+                    data: applied.data
+                      ? 'client'
+                      : applied.prefetch
+                        ? 'mf'
+                        : 'local',
+                    prefetch: false,
+                  },
+                  ...(applied.data
+                    ? [
+                        {
+                          label: `${labels[mode]} + data-fetch`,
+                          data: 'mf',
+                          prefetch: false,
+                        },
+                      ]
+                    : []),
+                  ...(applied.prefetch && mode === 'csr'
+                    ? [
+                        {
+                          label: `${labels[mode]} + prefetch`,
+                          data: 'mf',
+                          prefetch: true,
+                        },
+                      ]
+                    : []),
+                ]
+              : [{ label: labels[mode], data: 'local', prefetch: false }];
+          return (
+            <section
+              className={`lab-render-group ${variants.length > 1 ? 'has-variants' : ''}`}
+              key={mode}
+              data-render-mode={mode}
+            >
+              <h2>
+                {labels[mode]}
+                {mode === 'ssr' && applied.prefetch
+                  ? ' · 首屏数据由 SSR 提供，浏览器预取不重复执行'
+                  : ''}
+              </h2>
+              <div
+                className="lab-render-variants"
+                style={{ '--variants': variants.length } as CSSProperties}
               >
-                <option value={0}>No delay</option>
-                <option value={1500}>1.5 s delay</option>
-                <option value={3000}>3 s delay</option>
-              </select>
-            </label>
-            <button onClick={() => setRun(run + 1)}>↻ Reload</button>
-          </div>
-        </header>
-      )}
-      {!data && (
-        <ProducerUpdateControls
-          scenario="ordinary"
-          onUpdate={() => setRefresh(value => value + 1)}
-        />
-      )}
-      <div className={`comparison-grid ${data ? 'four-panels' : ''}`}>
-        {panels.map(([name, query]) => (
-          <Panel
-            key={name}
-            name={name}
-            query={`${query}&failure=${failureEnabled ? failure : ''}&target=${data ? 'provider/Weather' : target}&delay=${delay}${partial ? '&static=1' : ''}${data ? `&compact=1&prefetch=${prefetch ? '1' : '0'}` : ''}`}
-            run={run}
-            refresh={refresh}
-            inspect={inspect}
-            paletteSeed={paletteSeed}
-          />
-        ))}
+                {variants.map(variant => {
+                  const query = new URLSearchParams({
+                    render: mode,
+                    data: variant.data,
+                    prefetch: variant.prefetch ? '1' : '0',
+                    failure: applied.failureEnabled ? applied.failure : '',
+                    target: applied.target,
+                    delay: String(applied.delay),
+                  });
+                  if (mode === 'csr') query.set('csr', '1');
+                  if (partial) query.set('static', '1');
+                  if (!ordinary) query.set('labFrame', '1');
+                  if (applied.data || applied.prefetch)
+                    query.set('compact', '1');
+                  return (
+                    <LabPanel
+                      key={variant.label}
+                      name={variant.label}
+                      path={
+                        mode === 'bridge'
+                          ? '/bridge-ssr/forecast/today'
+                          : mode === 'service'
+                            ? '/service/forecast/today'
+                            : '/weather'
+                      }
+                      query={query.toString()}
+                      run={run}
+                      refresh={0}
+                      inspect={inspect}
+                      paletteSeed={seed}
+                    />
+                  );
+                })}
+              </div>
+            </section>
+          );
+        })}
       </div>
-    </div>
+    </LabLayout>
   );
 }

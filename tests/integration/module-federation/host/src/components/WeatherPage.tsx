@@ -95,27 +95,41 @@ export default function WeatherPage() {
         </>
       )}
       <div className="weather-content">
-        {params.get('data') === 'mf' ? (
-          params.get('render') === 'csr' ? (
-            <ClientData />
-          ) : (
-            <Data />
-          )
-        ) : (
-          <Current local={local} />
-        )}
-        <div className="weather-grid">
-          <Hourly />
-          {!compact && (
-            <>
+        {params.get('focus') === 'nested' ? (
+          <>
+            <Current local />
+            <div className="weather-grid">
               <Days />
               <Wind />
-              <AirWeather />
-              <UVWeather />
-              <SunsetWeather />
-            </>
-          )}
-        </div>
+            </div>
+          </>
+        ) : (
+          <>
+            {params.get('data') === 'mf' ? (
+              params.get('render') === 'csr' ? (
+                <ClientData />
+              ) : (
+                <Data />
+              )
+            ) : (
+              <Current local={local} />
+            )}
+            {params.get('focus') !== 'current' && (
+              <div className="weather-grid">
+                <Hourly />
+                {!compact && (
+                  <>
+                    <Days />
+                    <Wind />
+                    <AirWeather />
+                    <UVWeather />
+                    <SunsetWeather />
+                  </>
+                )}
+              </div>
+            )}
+          </>
+        )}
       </div>
     </main>
   );

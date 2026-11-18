@@ -85,66 +85,46 @@ describeLab('Data fetching', getContext => {
     expect(await page.evaluate(() => (window as any).noDataLoads)).toBe(1);
     expect(noDataRequests).toBe(0);
   });
-  it('prefetches CSR weather data by default and reuses one request when rendering', async () => {
+  it('keeps prefetch off until explicitly applied and reuses one data request per document', async () => {
     const { lab, page, weatherFrames } = getContext();
-    await page.setViewport({ width: 1440, height: 900 });
-    await page.goto(`${lab.url}/data`, {
-      waitUntil: 'domcontentloaded',
-    });
-    await page.waitForSelector('html[data-lab-ready="true"]');
-    await page.waitForSelector('.prefetch-control input');
+    await page.goto(`${lab.url}/data`, { waitUntil: 'networkidle0' });
     expect(
       await page.$eval(
         '.prefetch-control input',
-        element => (element as HTMLInputElement).checked,
-      ),
-    ).toBe(true);
-    const sources: string[] = [];
-    for (const enabled of [true, false]) {
-      const frames = await weatherFrames(4);
-      expect(frames).toHaveLength(4);
-      for (const [index, frame] of frames.entries()) {
-        await frame.waitForSelector('[data-source="Local weather API"]');
-        await frame.waitForSelector(
-          '[data-testid="weather-save"]:not(:disabled)',
-        );
-        const result = await frame.evaluate(
-          api => ({
-            starts: performance
-              .getEntriesByName('weather-prefetch-start')
-              .map(entry => entry.startTime),
-            requests: performance
-              .getEntriesByType('resource')
-              .filter(entry => entry.name === `${api}/weather`)
-              .map(entry => entry.startTime),
-            source: document.querySelector('.weather-source')!.textContent!,
-          }),
-          `http://localhost:${lab.ports.api}`,
-        );
-        expect(result.starts).toHaveLength(enabled && index === 2 ? 1 : 0);
-        expect(result.requests).toHaveLength(index === 3 ? 0 : 1);
-        if (enabled && index === 2)
-          expect(result.requests[0]).toBeGreaterThanOrEqual(result.starts[0]);
-        if (enabled) sources.push(result.source);
-        else expect(result.source).not.toBe(sources[index]);
-        await frame.click('[data-testid="weather-save"]');
-        expect(
-          await frame.$eval(
-            '[data-testid="weather-save"]',
-            element => element.textContent,
-          ),
-        ).toContain('Station saved');
-      }
-      if (enabled) {
-        await page.click('.prefetch-control input');
-      }
-    }
-    expect(
-      await page.$eval(
-        '.prefetch-control input',
-        element => (element as HTMLInputElement).checked,
+        node => (node as HTMLInputElement).checked,
       ),
     ).toBe(false);
+    expect(await weatherFrames(4)).toHaveLength(4);
+    const before = await page.$$eval('iframe', nodes =>
+      nodes.map(node => node.src),
+    );
+    await page.click('.prefetch-control input');
+    expect(
+      await page.$$eval('iframe', nodes => nodes.map(node => node.src)),
+    ).toEqual(before);
+    await page.click('[data-testid="render-apply"]');
+    const frames = await weatherFrames(5);
+    for (const frame of frames) {
+      await frame.waitForSelector('[data-source="Local weather API"]');
+      const query = new URL(frame.url()).searchParams;
+      const result = await frame.evaluate(
+        api => ({
+          starts: performance.getEntriesByName('weather-prefetch-start').length,
+          requests: performance
+            .getEntriesByType('resource')
+            .filter(entry => entry.name === `${api}/weather`).length,
+        }),
+        `http://localhost:${lab.ports.api}`,
+      );
+      const prefetched =
+        query.get('render') === 'csr' &&
+        query.get('data') === 'mf' &&
+        query.get('prefetch') === '1';
+      expect(result.starts).toBe(prefetched ? 1 : 0);
+      expect(result.requests).toBe(
+        query.get('render') === 'ssr' && query.get('data') === 'mf' ? 0 : 1,
+      );
+    }
   });
   it('makes prefetched data visible sooner from the same navigation start', async () => {
     const { lab, page } = getContext();

@@ -329,7 +329,9 @@ export default function Document() {
     await page
       .waitForFunction(
         expected => {
-          const frames = Array.from(document.querySelectorAll('iframe'));
+          const frames = Array.from(
+            document.querySelectorAll<HTMLIFrameElement>('iframe'),
+          ).filter(frame => new URL(frame.src).pathname.endsWith('/weather'));
           return (
             frames.length === expected &&
             frames.every(frame =>

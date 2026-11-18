@@ -75,6 +75,31 @@ for (const scenario of scenarios.filter(
                   ?.textContent === '1',
             );
             console.info('Service click-to-mount timings (ms)', timing);
+            await page.goto(
+              `${lab.url}/service/forecast/today?lab=service&tab=load`,
+              { waitUntil: 'networkidle0' },
+            );
+            const paired = page
+              .frames()
+              .filter(frame =>
+                new URL(frame.url()).searchParams.has('labFrame'),
+              );
+            expect(paired).toHaveLength(2);
+            await paired[0].waitForSelector(
+              '[data-testid="weather-application"]',
+            );
+            expect(
+              await paired[1].$('[data-testid="weather-application"]'),
+            ).toBeNull();
+            posts.length = 0;
+            await paired[1].waitForSelector(
+              '[data-testid="service-connect"]:not(:disabled)',
+            );
+            await paired[1].click('[data-testid="service-connect"]');
+            await paired[1].waitForSelector(
+              '[data-testid="service-mount-timing"][data-ready-ms]',
+            );
+            expect(posts).toHaveLength(1);
           });
         it('keeps two iframe requests pending while CSR and reject requests return according to policy', async () => {
           const { page, lab } = getContext();
@@ -605,7 +630,7 @@ if (process.env.MF_LAB_MODE !== 'dev') {
             });
             expect(home.status).toBe(200);
             expect(home.headers.get('x-modernjs-render')).not.toBe('client');
-            expect(await home.text()).toContain('SSR update checks');
+            expect(await home.text()).toContain('渲染对比');
           },
         );
         expect(documents.filter(item => item.policy === 'wait')).toHaveLength(

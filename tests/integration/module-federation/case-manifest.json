@@ -498,7 +498,7 @@
       "tests/integration/module-federation/tests/data-fetch.test.ts",
       "dev",
       ["Weather Lab (dev)", "Data fetching"],
-      "prefetches CSR weather data by default and reuses one request when rendering",
+      "keeps prefetch off until explicitly applied and reuses one data request per document",
       "rstest"
     ],
     [
@@ -540,7 +540,7 @@
       "tests/integration/module-federation/tests/data-fetch.test.ts",
       "production",
       ["Weather Lab (production)", "Data fetching"],
-      "prefetches CSR weather data by default and reuses one request when rendering",
+      "keeps prefetch off until explicitly applied and reuses one data request per document",
       "rstest"
     ],
     [

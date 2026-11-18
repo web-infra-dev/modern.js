@@ -6,7 +6,7 @@ import type { HTTPRequest, HTTPResponse, Page } from 'puppeteer';
 export const scenarios = ['ordinary', 'bridge', 'service'] as const;
 export type Scenario = (typeof scenarios)[number];
 export const scenarioRoutes = {
-  ordinary: '/',
+  ordinary: '/?lab=ssr&tab=cache',
   bridge: '/bridge-ssr/forecast/today',
   service: '/service/forecast/today',
 } as const;
