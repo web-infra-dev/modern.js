@@ -1,5 +1,5 @@
 import { AGGRED_DIR } from '@modern-js/server-core';
-import { DEFAULT_ENTRY_NAME, MAIN_ENTRY_NAME } from '@modern-js/utils';
+import { DEFAULT_ENTRY_NAME } from '@modern-js/utils';
 import type { AppUserConfig } from '../types';
 import type { AppToolsContext } from '../types/plugin';
 import { getAutoInjectEnv } from '../utils/env';

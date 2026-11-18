@@ -23,11 +23,11 @@ export function initPluginAPI<Extends extends CLIPluginExtends>({
   function getAppContext() {
     if (context) {
       const {
-        hooks,
-        extendsHooks,
-        config,
-        normalizedConfig,
-        pluginAPI,
+        hooks: _hooks,
+        extendsHooks: _extendsHooks,
+        config: _config,
+        normalizedConfig: _normalizedConfig,
+        pluginAPI: _pluginAPI,
         ...appContext
       } = context;
       appContext._internalContext = context;

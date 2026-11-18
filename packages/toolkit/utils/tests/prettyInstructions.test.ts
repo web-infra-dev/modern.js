@@ -1,4 +1,3 @@
-import { after } from '../compiled/lodash';
 import { prettyInstructions } from '../src';
 
 const mockNetworkInterfaces = {

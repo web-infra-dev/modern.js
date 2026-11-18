@@ -29,8 +29,13 @@ export function initPluginAPI<Extends extends RuntimePluginExtends>({
 
   function getRuntimeContext() {
     if (context) {
-      const { hooks, extendsHooks, config, pluginAPI, ...runtimeContext } =
-        context;
+      const {
+        hooks: _hooks,
+        extendsHooks: _extendsHooks,
+        config: _config,
+        pluginAPI: _pluginAPI,
+        ...runtimeContext
+      } = context;
       runtimeContext._internalContext = context;
       return runtimeContext as RuntimeContext & Extends['extendContext'];
     }

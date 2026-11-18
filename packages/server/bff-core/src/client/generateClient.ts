@@ -13,7 +13,7 @@ const getPackageName = (appDir: string): string | undefined => {
     const packageJsonPath = path.resolve(appDir, './package.json');
     const packageJson = require(packageJsonPath);
     return packageJson.name;
-  } catch (error) {
+  } catch {
     // If package.json doesn't exist or is invalid, return undefined
     return undefined;
   }
@@ -49,7 +49,6 @@ export const generateClient = async ({
   target,
   requestCreator,
   fetcher,
-  requireResolve = require.resolve,
   httpMethodDecider,
   domain,
 }: GenClientOptions): Promise<GenClientResult> => {

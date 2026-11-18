@@ -83,7 +83,7 @@ export const detectLanguage = (
       }
       return undefined;
     }
-  } catch (error) {
+  } catch {
     return undefined;
   }
 

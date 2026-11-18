@@ -4,7 +4,7 @@ export type Data = {
   data: string;
 };
 
-export const fetchData = async (params: DataFetchParams): Promise<Data> => {
+export const fetchData = async (_params: DataFetchParams): Promise<Data> => {
   return new Promise(resolve => {
     setTimeout(() => {
       resolve({

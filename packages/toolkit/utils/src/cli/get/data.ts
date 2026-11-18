@@ -37,7 +37,7 @@ export const getCoreJsVersion = (corejsPkgPath: string) => {
     const { version } = fs.readJSONSync(corejsPkgPath);
     const [major, minor] = version.split('.');
     return `${major}.${minor}`;
-  } catch (err) {
+  } catch {
     return '3';
   }
 };

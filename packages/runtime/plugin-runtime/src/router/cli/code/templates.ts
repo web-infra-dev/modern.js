@@ -22,11 +22,7 @@ import {
   slash,
 } from '@modern-js/utils';
 import { ROUTE_MODULES } from '@modern-js/utils/universal/constants';
-import {
-  APP_CONFIG_NAME,
-  APP_INIT_EXPORTED,
-  TEMP_LOADERS_DIR,
-} from '../constants';
+import { APP_INIT_EXPORTED, TEMP_LOADERS_DIR } from '../constants';
 import {
   getPathWithoutExt,
   getServerLoadersFile,

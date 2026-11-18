@@ -4,7 +4,6 @@ import type { RouterSubscriber } from '@modern-js/runtime-utils/router';
 import {
   type RouteObject,
   RouterProvider,
-  type RouterProviderProps,
   createBrowserRouter,
   createHashRouter,
   createRoutesFromElements,
@@ -14,15 +13,15 @@ import {
 } from '@modern-js/runtime-utils/router';
 import { normalizePathname } from '@modern-js/runtime-utils/url';
 import * as React from 'react';
-import { useContext, useEffect, useMemo } from 'react';
-import { RuntimeContext, type RuntimePlugin } from '../../core';
+import { useContext, useMemo } from 'react';
+import { type RuntimePlugin } from '../../core';
 import {
   InternalRuntimeContext,
   getGlobalLayoutApp,
   getGlobalRoutes,
 } from '../../core/context';
 import { getGlobalIsRscClient } from '../../core/context';
-import type { TInternalRuntimeContext } from '../../core/context/runtime';
+
 import {
   type RouterExtendsHooks,
   modifyRoutes as modifyRoutesHook,

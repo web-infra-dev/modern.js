@@ -29,7 +29,7 @@ const resolveESMDependency = (entry: string) => {
       conditions,
       false,
     ).pathname.replace(/^\/(\w)\:/, '$1:');
-  } catch (err) {
+  } catch {
     // ignore
   }
 };

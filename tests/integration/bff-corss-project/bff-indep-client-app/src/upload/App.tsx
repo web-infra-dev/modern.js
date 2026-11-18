@@ -45,7 +45,7 @@ const Index = (): JSX.Element => {
     if (!file) {
       return;
     }
-    const res = await upload({
+    await upload({
       files: {
         images: file,
         params: JSON.stringify({

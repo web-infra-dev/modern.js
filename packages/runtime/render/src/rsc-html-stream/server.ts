@@ -88,7 +88,7 @@ async function writeRSCStream(
         JSON.stringify(decoder.decode(chunk, { stream: true })),
         controller,
       );
-    } catch (err) {
+    } catch {
       const base64 = JSON.stringify(btoa(String.fromCodePoint(...chunk)));
       writeChunk(
         `Uint8Array.from(atob(${base64}), m => m.codePointAt(0))`,
@@ -149,7 +149,6 @@ export function injectCSS(
 
   const decoder = new TextDecoder();
   const headTrailer = '</head>';
-  const bodyTrailer = '</body>';
 
   // Buffer all HTML chunks enqueued during the current tick of the event loop (roughly)
   // and write them to the output stream all at once. This ensures that we don't generate

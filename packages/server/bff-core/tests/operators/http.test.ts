@@ -108,7 +108,7 @@ describe('test api function', () => {
 
     const { query, data } = res;
 
-    type Case = Expect<Assert<typeof data, typeof outputsExpectedData>>;
+    type _Case = Expect<Assert<typeof data, typeof outputsExpectedData>>;
 
     expect(query).toEqual(expectedQuery);
     expect(data).toEqual(outputsExpectedData);
@@ -159,8 +159,8 @@ describe('test api function', () => {
       },
     });
 
-    type Case = Expect<Assert<z.input<typeof DataSchema>, { stars: string }>>;
-    type Case2 = Expect<
+    type _Case = Expect<Assert<z.input<typeof DataSchema>, { stars: string }>>;
+    type _Case2 = Expect<
       Assert<z.output<typeof DataSchema>, { stars: { test: number } }>
     >;
 
@@ -212,7 +212,7 @@ describe('test api function', () => {
     const response = await getResponse(reqData);
     expect(response.data).toEqual(reqData.data);
 
-    type Case2 = Expect<Assert<typeof response.data, CircularDataSchemaData>>;
+    type _Case2 = Expect<Assert<typeof response.data, CircularDataSchemaData>>;
   });
 
   test('should support records', async () => {
@@ -230,7 +230,7 @@ describe('test api function', () => {
       },
     });
 
-    type Case2 = Expect<
+    type _Case2 = Expect<
       Assert<z.infer<typeof DataSchema>, Record<string, number>>
     >;
 

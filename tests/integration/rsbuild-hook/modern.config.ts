@@ -20,13 +20,13 @@ const MyPlugin = (): CliPlugin<AppTools> => ({
         },
       };
     });
-    api.modifyBundlerChain(async (chain, utils) => {
+    api.modifyBundlerChain(async () => {
       console.log('modifyBundlerChain');
     });
-    api.modifyRsbuildConfig(async (config, utils) => {
+    api.modifyRsbuildConfig(async () => {
       console.log('modifyRsbuildConfig');
     });
-    api.modifyRspackConfig(async (config, utils) => {
+    api.modifyRspackConfig(async () => {
       console.log('modifyRspackConfig');
     });
   },

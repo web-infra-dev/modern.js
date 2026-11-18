@@ -1,6 +1,6 @@
 import path from 'node:path';
 import type { NestedRouteForCli } from '@modern-js/types';
-import { fs, logger, normalizeToPosixPath } from '@modern-js/utils';
+import { fs, normalizeToPosixPath } from '@modern-js/utils';
 import { getRouteId } from '../code/nestedRoutes';
 import { getPathWithoutExt, replaceWithAlias } from '../code/utils';
 
@@ -200,7 +200,7 @@ async function discoverRelatedFiles(
             : filePath;
           (nestedRoute as any)[key] = normalizeToPosixPath(aliasedPath);
         }
-      } catch (e) {
+      } catch {
         // Ignore
       }
     }),
@@ -225,7 +225,7 @@ export function normalizeRoutes(
  */
 function normalizeRoute(route: NestedRouteForCli): NestedRouteForCli {
   // Use destructuring to create a new object without the component field
-  const { component, ...rest } = route as any;
+  const { component: _component, ...rest } = route as any;
 
   // Recursively process children
   const processedRoute = {

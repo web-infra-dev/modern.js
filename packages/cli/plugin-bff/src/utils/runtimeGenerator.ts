@@ -11,7 +11,7 @@ const getPackageName = (appDirectory: string): string | undefined => {
     const packageJsonPath = path.resolve(appDirectory, './package.json');
     const packageJson = require(packageJsonPath);
     return packageJson.name;
-  } catch (error) {
+  } catch {
     // If package.json doesn't exist or is invalid, return undefined
     return undefined;
   }

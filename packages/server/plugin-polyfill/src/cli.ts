@@ -5,7 +5,7 @@ export const polyfillPlugin = (): CliPlugin<AppTools> => ({
   name: '@modern-js/plugin-polyfill',
 
   setup: api => {
-    api.modifyHtmlPartials(async ({ entrypoint, partials }) => {
+    api.modifyHtmlPartials(async ({ partials }) => {
       const resolvedConfig = api.getNormalizedConfig();
       if (resolvedConfig.output.polyfill === 'ua') {
         partials.top.append(

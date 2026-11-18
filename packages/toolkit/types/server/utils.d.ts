@@ -1,5 +1,5 @@
 import type { IncomingMessage, ServerResponse } from 'http';
-import type { Http2ServerRequest } from 'node:http2';
+
 import type {
   Filter as ProxyFilter,
   Options as ProxyOptions,

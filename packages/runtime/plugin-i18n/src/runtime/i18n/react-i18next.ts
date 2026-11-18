@@ -5,7 +5,7 @@ export async function getInitReactI18next() {
   try {
     const { initReactI18next } = await import('react-i18next');
     return initReactI18next;
-  } catch (error) {
+  } catch {
     return null;
   }
 }
@@ -14,7 +14,7 @@ export async function getI18nextProvider() {
   try {
     const { I18nextProvider } = await import('react-i18next');
     return I18nextProvider;
-  } catch (error) {
+  } catch {
     return null;
   }
 }

@@ -1,6 +1,5 @@
 import {
   type EagerRouteComponentFilesByEntry,
-  type RouteComponentFileCollection,
   normalizeModulePath,
 } from '@modern-js/utils';
 
