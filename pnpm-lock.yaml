@@ -1621,8 +1621,8 @@ importers:
   packages/server/plugin-polyfill:
     dependencies:
       '@modern-js/polyfill-lib':
-        specifier: ^1.0.2
-        version: 1.0.2
+        specifier: ^1.0.3
+        version: 1.0.3
       '@modern-js/utils':
         specifier: workspace:*
         version: link:../../toolkit/utils
@@ -7107,8 +7107,8 @@ packages:
   '@modern-js/plugin@3.11.3':
     resolution: {integrity: sha512-t9G8GvpKdmysuS9vPpL1FOjnZDp8NchlPgTSTJqyoiaIoPJtwgJZ1BRt9pYIwojaM8SbpFdmnZQ1zsuKJO8T2Q==}
 
-  '@modern-js/polyfill-lib@1.0.2':
-    resolution: {integrity: sha512-UdBEpS0kwBYm43n60FEZFvZ3dUhqlzzvZkIMwiQGYHvlpXuAN/30GrWnp2WUdd5+eM5ObRCJ1bSJ7+UYouxPAQ==}
+  '@modern-js/polyfill-lib@1.0.3':
+    resolution: {integrity: sha512-HdqNDMFXo1gvH9PJ2dwREou+fILQuaEId8BnjxNL0ndHGOXmXSQvm02sdm0712HG3oahKpl/9pAqE0CSHHjVJQ==}
     engines: {node: '>=8'}
 
   '@modern-js/prod-server@3.11.3':
@@ -11851,6 +11851,7 @@ packages:
   eslint@9.39.4:
     resolution: {integrity: sha512-XoMjdBOwe/esVgEvLmNsD3IRHkm7fbKIUGvrleloJXUZgDHig2IPWNniv+GwjyJXzuNqVjlr5+4yVUZjycJwfQ==}
     engines: {node: ^18.18.0 || ^20.9.0 || >=21.1.0}
+    deprecated: This version is no longer supported. Please see https://eslint.org/version-support for other options.
     hasBin: true
     peerDependencies:
       jiti: '*'
@@ -20395,7 +20396,7 @@ snapshots:
       - react
       - react-dom
 
-  '@modern-js/polyfill-lib@1.0.2':
+  '@modern-js/polyfill-lib@1.0.3':
     dependencies:
       '@financial-times/polyfill-useragent-normaliser': 1.10.2
       '@formatjs/intl-datetimeformat': 2.8.4
@@ -20411,7 +20412,6 @@ snapshots:
       abort-controller: 3.0.0
       audio-context-polyfill: 1.0.0
       current-script-polyfill: 1.0.0
-      diff: 8.0.3
       event-source-polyfill: 1.0.31
       fastestsmallesttextencoderdecoder: 1.0.22
       from2-string: 1.1.0
