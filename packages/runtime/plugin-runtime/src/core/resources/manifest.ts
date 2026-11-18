@@ -1,52 +1,27 @@
-import type { ChunkId } from './types';
+import type {
+  ResourcePreload,
+  ResourcePreloadPlan,
+  RoutePreloadPlan,
+} from '@modern-js/utils/universal';
+import type { ChunkId, ExternalStagePayload } from './types';
 
-/**
- * `resourceStages` in `route-manifest.json`, written by the build
- * (`@modern-js/app-tools` ResourceStagesPlugin, keep the two in sync) and read
- * by the server to add the lists of the matched routes to the HTML.
- */
-export interface ResourceStagesManifest {
+export type { ResourcePreload as PreloadItem };
+
+/** Resource stages in routes-manifest.json, written by ResourceStagesPlugin. */
+export interface ResourceStagesManifest extends ResourcePreloadPlan {
   version: 1;
-  /**
-   * Whether route JS is staged by the framework (streaming SSR). String SSR
-   * already outputs the scripts of the matched routes, so it skips `rc`, `rs`
-   * and uses `u` instead of `ur`.
-   */
-  routeRule: boolean;
   routes: Record<string, RouteStages>;
 }
 
-export interface PreloadItem {
-  /** URL. */
-  h: string;
-  /** `as` of the preload. */
-  a: 'script' | 'style';
-  /** Low fetch priority. */
-  l?: 1;
-  /**
-   * `integrity` of the file, when the build outputs Subresource Integrity
-   * hashes (`security.sri`). The bundler runtime then loads the chunk with
-   * `integrity`, and the browser only reuses a preload that has the same one.
-   */
-  i?: string;
-}
-
-export interface RouteStages {
-  /** `critical` declarations of the route. */
-  c?: PreloadItem[];
-  /**
-   * Route JS that is `critical` by the route rule, all with a low fetch
-   * priority. JS only: streaming SSR outputs the route CSS as stylesheets.
-   */
-  rc?: PreloadItem[];
+export interface RouteStages extends RoutePreloadPlan {
   /** Declared stage -> chunk ids. */
   s?: Record<string, ChunkId[]>;
-  /** Route JS that the route rule moved to a later stage. */
+  /** Route JS configured to load after critical. */
   rs?: Record<string, ChunkId[]>;
   /** Chunk id -> URLs of its CSS files. */
   k?: Record<string, string[]>;
-  /** External payload of `s` when it is too large to inline. */
-  u?: string;
-  /** External payload of `s` and `rs`. */
-  ur?: string;
+  /** External payload of all declarations at runtime. */
+  u?: ExternalStagePayload;
+  /** External payload that also includes the route rule. */
+  ur?: ExternalStagePayload;
 }

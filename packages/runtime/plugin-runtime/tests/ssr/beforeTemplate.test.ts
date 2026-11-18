@@ -193,6 +193,83 @@ describe('stream SSR route resource stages', () => {
     expect(html).not.toContain('user/page.js');
   });
 
+  test.each([
+    { requests: 4, size: 1000 },
+    { requests: 20, size: 400 },
+  ])(
+    'shares the critical budget across the entry and nested routes (%j)',
+    async budget => {
+      const preload = (id: string, low = false) => ({
+        h: '/static/js/' + id + '.js',
+        a: 'script',
+        b: 100,
+        ...(low ? { l: 1 } : {}),
+      });
+      const group = (id: string, low = false) => ({
+        id,
+        files: [preload(id, low)],
+      });
+      const runtimeContext = createRuntimeContext('/user/1');
+      runtimeContext.routeManifest.resourceStages = {
+        version: 1,
+        routeRule: true,
+        budget,
+        entries: { main: [preload('entry-first'), preload('entry-second')] },
+        routes: {
+          'user/layout': {
+            declared: [group('entry-first')],
+            own: [group('layout-chunk', true)],
+            shared: [group('shared', true)],
+          },
+          'user/[id]/page': {
+            declared: [group('page-declared')],
+            own: [group('page-chunk', true)],
+            shared: [group('shared', true)],
+          },
+          'user/page': { declared: [group('unmatched')] },
+        },
+      };
+      const entryPreloads = ['entry-first', 'entry-second']
+        .map(
+          id =>
+            '<link rel="preload" as="script" href="/static/js/' + id + '.js">',
+        )
+        .join('');
+      const html = await buildShellBeforeTemplate(
+        template.replace('<!--', entryPreloads + '<!--'),
+        {
+          runtimeContext,
+          entryName: 'main',
+          config: {},
+        },
+      );
+      expect(
+        getPreloads(html).map(tag => tag.match(/href="([^"]+)"/)?.[1]),
+      ).toEqual([
+        '/static/js/entry-first.js',
+        '/static/js/entry-second.js',
+        '/static/js/page-declared.js',
+        '/static/js/layout-chunk.js',
+      ]);
+      expect(html).toContain('"visible":["page-chunk","shared"]');
+    },
+  );
+
+  test('keeps external declarations when route preloads have no separate payload', async () => {
+    const runtimeContext = createRuntimeContext('/user/1');
+    runtimeContext.routeManifest.resourceStages = {
+      version: 1,
+      routeRule: true,
+      routes: { 'user/layout': { u: ['/layout-stages.js', 'visible'] } },
+    };
+    const html = await buildShellBeforeTemplate(template, {
+      runtimeContext,
+      entryName: 'main',
+      config: {},
+    });
+    expect(html).toContain('"u":["/layout-stages.js","visible"]');
+  });
+
   test('does not preload route js when the route rule is off', async () => {
     const runtimeContext = createRuntimeContext('/user/1');
     runtimeContext.routeManifest.resourceStages = createStagesManifest(false);

@@ -23,6 +23,7 @@ import {
   type TargetPlan,
   checkBudgets,
   formatBytes,
+  getCriticalBudget,
   planResourceStages,
 } from '../resourceStages/plan';
 
@@ -376,6 +377,11 @@ export {};
         get size() {
           return [...js, ...css].reduce((sum, file) => sum + getSize(file), 0);
         },
+        get fileSizes() {
+          return Object.fromEntries(
+            [...js, ...css].map(file => [prefix + file, getSize(file)]),
+          );
+        },
         get integrity() {
           const integrity: Record<string, string> = {};
           for (const file of [...js, ...css]) {
@@ -648,9 +654,7 @@ export {};
           ids.map(id => [id, stage] as [ChunkId, string]),
         ),
       ];
-      const criticalUrls = new Set(
-        [...target.critical, ...target.routeCritical].map(item => item.h),
-      );
+      const criticalUrls = new Set(target.critical.map(item => item.h));
       for (const chunk of snapshot.chunks.values()) {
         if ([...chunk.js, ...chunk.css].some(file => criticalUrls.has(file))) {
           chunkStages.push([chunk.id, 'critical']);
@@ -743,7 +747,11 @@ export {};
 
     const files = new Map<string, string>();
     const staticJsDir = options.staticJsDir ?? 'static/js';
-    const externalize = (name: string, payload: object) => {
+    const externalize = (
+      name: string,
+      payload: object,
+      stageLists: TargetPlan['lists'][],
+    ): [url: string, stage: string] => {
       const content = payloadScript(payload);
       const file = `${staticJsDir}/resource-stages/${name.replace(/[^\w.-]/g, '_')}${
         options.disableFilenameHash ? '' : `.${contentHash(content)}`
@@ -752,7 +760,13 @@ export {};
       const { publicPath } = compilation
         .getStats()
         .toJson({ all: false, publicPath: true });
-      return normalizePublicPath(publicPath) + file;
+      const firstStage = stages.order.find(stage =>
+        stageLists.some(lists => lists[stage]?.length),
+      );
+      return [
+        normalizePublicPath(publicPath) + file,
+        firstStage ?? stages.order[0],
+      ];
     };
     const fits = (payload: object) =>
       gzipSync(serialize(payload)).length <= stages.inlineLimit;
@@ -783,8 +797,10 @@ export {};
     const routeTargets = plan.targets.filter(target => target.kind === 'route');
     for (const target of routeTargets) {
       const route: Record<string, unknown> = {};
-      if (target.critical.length) route.c = target.critical;
-      if (target.routeCritical.length) route.rc = target.routeCritical;
+      if (target.declaredCritical.length)
+        route.declared = target.declaredCritical;
+      if (target.ownCritical.length) route.own = target.ownCritical;
+      if (target.sharedCritical.length) route.shared = target.sharedCritical;
       const declared = lists(target, false);
       const all = lists(target, true);
       const declaredPayload = { s: declared, k: cssOf(target, declared) };
@@ -794,7 +810,7 @@ export {};
           route.s = declared;
           route.k = declaredPayload.k;
         } else {
-          route.u = externalize(`${target.name}`, declaredPayload);
+          route.u = externalize(target.name, declaredPayload, [declared]);
           report(
             `route "${target.name}": its stage list is over ${formatBytes(stages.inlineLimit)} compressed and is loaded from a separate file after first paint.`,
           );
@@ -803,7 +819,7 @@ export {};
       if (Object.keys(target.routeLists).length) {
         route.rs = target.routeLists;
         if (route.u || !fits(allPayload)) {
-          route.ur = externalize(`${target.name}-routes`, allPayload);
+          route.ur = externalize(`${target.name}-routes`, allPayload, [all]);
         } else {
           route.k = allPayload.k;
         }
@@ -813,12 +829,16 @@ export {};
 
     // Entry level part, written into the HTML at build time.
     const html = new Map<string, string>();
+    const entries: Record<string, TargetPlan['critical']> = Object.create(null);
     for (const [entryName, entry] of snapshot.entries) {
       const target = plan.targets.find(
         item => item.kind === 'entry' && item.name === entryName,
       );
       const payload: Record<string, unknown> = { c: runtimeConfig };
-      const preloads: PreloadItem[] = [...(target?.critical ?? [])];
+      const preloads = target?.critical ?? [];
+      if (entry.serverRendered && preloads.length) {
+        entries[entryName] = preloads;
+      }
       // Chunks without a JS file, so the browser does not request one.
       const noScript = [...entry.reachable].filter(id => {
         const chunk = snapshot.chunks.get(id);
@@ -827,13 +847,16 @@ export {};
       if (noScript.length) {
         payload.d = noScript;
       }
-      if (target) {
-        const merged = lists(target, false);
-        if (Object.keys(merged).length) {
-          payload.s = merged;
-          const css = cssOf(target, merged);
-          if (Object.keys(css).length) payload.k = css;
-        }
+      const entryLists = target ? lists(target, false) : {};
+      const stageLists = [entryLists];
+      if (noScript.length) {
+        // These ids can be needed by any stage, even in an inline route list.
+        stageLists.push({ [stages.order[0]]: noScript });
+      }
+      if (target && Object.keys(entryLists).length) {
+        payload.s = entryLists;
+        const css = cssOf(target, entryLists);
+        if (Object.keys(css).length) payload.k = css;
       }
       // Client rendered entries pick the route lists in the browser.
       if (!entry.serverRendered) {
@@ -842,6 +865,7 @@ export {};
           if (routeTarget.entry !== entryName) continue;
           const merged = lists(routeTarget, false);
           if (Object.keys(merged).length) {
+            stageLists.push(merged);
             routeLists[routeTarget.name] = {
               s: merged,
               k: cssOf(routeTarget, merged),
@@ -864,7 +888,7 @@ export {};
       let inline: Record<string, unknown> = payload;
       if (!fits(payload)) {
         const { c, ...rest } = payload;
-        inline = { c, u: externalize(`entry-${entryName}`, rest) };
+        inline = { c, u: externalize(`entry-${entryName}`, rest, stageLists) };
         report(
           `entry "${entryName}": its stage list is over ${formatBytes(stages.inlineLimit)} compressed and is loaded from a separate file after first paint.`,
         );
@@ -882,6 +906,8 @@ export {};
     const manifest = {
       version: 1 as const,
       routeRule,
+      budget: getCriticalBudget(stages),
+      entries,
       routes: manifestRoutes,
     };
 

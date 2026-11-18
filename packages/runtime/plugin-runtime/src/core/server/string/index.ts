@@ -90,6 +90,7 @@ export const renderString: RenderString = async (
       stagesManifest,
       getMatchedRouteIds(runtimeContext),
       {
+        entryName,
         mode: 'string',
         template: htmlTemplate,
         loadedUrls: new Set([

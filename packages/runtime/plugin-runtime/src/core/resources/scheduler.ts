@@ -1,6 +1,7 @@
 import { RESOURCE_STAGES } from '@modern-js/utils/universal/constants';
 import type {
   ChunkId,
+  ExternalStagePayload,
   ResourceStageRecord,
   ResourceStageReport,
   RuntimeStageConfig,
@@ -79,6 +80,8 @@ const DEFAULT_IDLE_QUIET_MS = 2000;
 const IDLE_MAX_WAIT_MS = 10000;
 /** A prefetch that reports neither load nor error stops holding its slot. */
 const PREFETCH_TIMEOUT_MS = 30000;
+const EXTERNAL_PAYLOAD_TIMEOUT_MS = 30000;
+const DISCARDED_PAYLOAD_ATTRIBUTE = 'data-resource-stages-discarded';
 
 /** Safari does not implement `<link rel="prefetch">` and fires no event for it. */
 const supportsPrefetch = () => {
@@ -116,6 +119,12 @@ export class ResourceStageScheduler {
 
   private routeListsApplied = false;
 
+  private initialRoutes?: string[];
+
+  private pendingExternal = new Map<string, number>();
+
+  private initializing = true;
+
   /** Chunk id -> stage that queued it, so a chunk is fetched once. */
   private queued = new Map<ChunkId, string>();
 
@@ -144,12 +153,18 @@ export class ResourceStageScheduler {
 
   constructor(payloads: StagePayload[]) {
     this.bundler = getBundlerRuntime();
+    const config = payloads.find(payload => payload.c)?.c;
+    if (config) {
+      this.add({ c: config });
+    }
     for (const payload of payloads) {
       this.add(payload);
     }
+    this.initializing = false;
     this.patchChunkLoading();
     this.watchPageStages();
     this.watchPageHide();
+    this.pump();
   }
 
   add(payload: StagePayload) {
@@ -177,6 +192,8 @@ export class ResourceStageScheduler {
     }
     if (payload.q) {
       this.setRoutes(payload.q);
+    } else if (payload.r && this.initialRoutes) {
+      this.setRoutes(this.initialRoutes);
     }
     this.pump();
   }
@@ -187,9 +204,14 @@ export class ResourceStageScheduler {
    * lists of the matched routes from the server.
    */
   setRoutes(routeIds: string[]) {
-    if (this.routeListsApplied || !this.routeLists) {
+    if (this.routeListsApplied) {
       return;
     }
+    if (!this.routeLists) {
+      this.initialRoutes ??= routeIds;
+      return;
+    }
+    this.initialRoutes = undefined;
     this.routeListsApplied = true;
     for (const routeId of routeIds) {
       const list = this.routeLists[routeId];
@@ -263,7 +285,10 @@ export class ResourceStageScheduler {
     const index = order.indexOf(stage);
     const stages = index === -1 ? [stage] : order.slice(0, index + 1);
     return stages.every(
-      item => !this.lists.get(item)?.length && !(this.inFlight.get(item) ?? 0),
+      item =>
+        !this.lists.get(item)?.length &&
+        !this.inFlight.get(item) &&
+        !this.pendingExternal.get(item),
     );
   }
 
@@ -381,7 +406,7 @@ export class ResourceStageScheduler {
     for (const stage of this.config.o) {
       const list = this.lists.get(stage);
       const pending = (list?.length ?? 0) + (this.inFlight.get(stage) ?? 0);
-      if (!this.arrived.has(stage)) {
+      if (!this.arrived.has(stage) || this.pendingExternal.get(stage)) {
         return undefined;
       }
       if (list?.length) {
@@ -399,7 +424,7 @@ export class ResourceStageScheduler {
   }
 
   private pump() {
-    if (typeof document === 'undefined') {
+    if (this.initializing || typeof document === 'undefined') {
       return;
     }
     const limit = this.config.n ?? DEFAULT_CONCURRENCY;
@@ -689,7 +714,14 @@ export class ResourceStageScheduler {
   }
 
   /** A payload too large for the HTML is fetched after first paint. */
-  private loadExternalPayload(url: string) {
+  private loadExternalPayload(payload: ExternalStagePayload) {
+    const [url, firstStage] =
+      typeof payload === 'string' ? [payload, this.config.o[0]] : payload;
+    const stage = this.config.o.includes(firstStage)
+      ? firstStage
+      : this.config.o[0];
+    this.pendingExternal.set(stage, (this.pendingExternal.get(stage) ?? 0) + 1);
+
     const load = () => {
       const script = document.createElement('script');
       script.src = url;
@@ -702,6 +734,24 @@ export class ResourceStageScheduler {
       }
       (script as HTMLScriptElement & { fetchPriority?: string }).fetchPriority =
         'low';
+      const finish = () => {
+        clearTimeout(timer);
+        script.onload = script.onerror = null;
+        const remaining = (this.pendingExternal.get(stage) ?? 1) - 1;
+        if (remaining) {
+          this.pendingExternal.set(stage, remaining);
+        } else {
+          this.pendingExternal.delete(stage);
+        }
+        this.pump();
+      };
+      const timer = setTimeout(() => {
+        script.setAttribute(DISCARDED_PAYLOAD_ATTRIBUTE, '');
+        script.remove();
+        finish();
+      }, EXTERNAL_PAYLOAD_TIMEOUT_MS);
+      script.onload = finish;
+      script.onerror = finish;
       document.head.appendChild(script);
     };
     if (this.arrived.has('visible')) {
@@ -745,7 +795,11 @@ export const getResourceStageScheduler = ():
   }
   const scheduler = new ResourceStageScheduler(current ?? []);
   global[RESOURCE_STAGES] = {
-    push: (payload: StagePayload) => scheduler.add(payload),
+    push: (payload: StagePayload) => {
+      if (!document.currentScript?.hasAttribute(DISCARDED_PAYLOAD_ATTRIBUTE)) {
+        scheduler.add(payload);
+      }
+    },
     report: () => scheduler.getReport(),
     scheduler,
   };

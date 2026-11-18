@@ -38,11 +38,21 @@ describe('ResourceStageScheduler', () => {
   const { supports } = relList;
   afterEach(() => {
     relList.supports = supports;
+    rs.restoreAllMocks();
   });
 
   beforeEach(() => {
     relList.supports = () => true;
     document.head.innerHTML = '';
+    // Drive script completion explicitly. Happy DOM fails external scripts
+    // immediately, which cannot exercise the pending-list path.
+    const append = document.head.appendChild.bind(document.head);
+    rs.spyOn(document.head, 'appendChild').mockImplementation(node => {
+      if (node instanceof HTMLScriptElement) {
+        node.type = 'application/json';
+      }
+      return append(node);
+    });
     loaded = [];
     g.__webpack_chunk_load_test__ = async chunkId => {
       loaded.push(chunkId);
@@ -138,6 +148,85 @@ describe('ResourceStageScheduler', () => {
     finish('/p/js/i.js');
     await Promise.resolve();
     expect(ready).toBe(true);
+  });
+
+  it('waits for an outside stage list before running later prefetches or resolving ready()', async () => {
+    const scheduler = new ResourceStageScheduler([
+      { c: manual, s: { visible: ['first'], idle: ['last'] } },
+      { u: ['/interactive-stages.js', 'interactive'] },
+    ]);
+    let ready = false;
+    void scheduler.whenDone('idle').then(() => {
+      ready = true;
+    });
+    scheduler.mark('idle');
+    expect(prefetched()).toEqual(['/p/js/first.js']);
+    finish('/p/js/first.js');
+    await Promise.resolve();
+    expect(ready).toBe(false);
+    expect(prefetched()).not.toContain('/p/js/last.js');
+
+    const script = document.querySelector<HTMLScriptElement>(
+      'script[src="/interactive-stages.js"]',
+    )!;
+    scheduler.add({ s: { interactive: ['middle'] } });
+    expect(prefetched()).not.toContain('/p/js/middle.js');
+    script.onload?.(new Event('load'));
+    expect(prefetched()).toEqual(['/p/js/first.js', '/p/js/middle.js']);
+    finish('/p/js/middle.js');
+    finish('/p/js/last.js');
+    await Promise.resolve();
+    expect(ready).toBe(true);
+  });
+
+  it.each(['error', 'timeout'])(
+    'unblocks later stages after an outside stage list %s',
+    async outcome => {
+      rs.useFakeTimers();
+      try {
+        const scheduler = new ResourceStageScheduler([
+          { c: manual, s: { idle: ['last'] } },
+          { u: ['/missing-stages.js', 'visible'] },
+        ]);
+        const ready = scheduler.whenDone('idle');
+        scheduler.mark('idle');
+        expect(prefetched()).toEqual([]);
+        const script = document.querySelector<HTMLScriptElement>(
+          'script[src="/missing-stages.js"]',
+        )!;
+        if (outcome === 'timeout') {
+          rs.advanceTimersByTime(30000);
+          expect(script.isConnected).toBe(false);
+        } else {
+          script.onerror?.(new Event('error'));
+        }
+        expect(prefetched()).toEqual(['/p/js/last.js']);
+        finish('/p/js/last.js');
+        await ready;
+      } finally {
+        rs.useRealTimers();
+      }
+    },
+  );
+
+  it('uses the initial client routes when their outside stage list arrives late', () => {
+    const scheduler = new ResourceStageScheduler([
+      { c: manual, u: ['/route-stages.js', 'visible'] },
+      { q: ['home'] },
+    ]);
+    scheduler.mark('visible');
+    scheduler.add({
+      r: {
+        home: { s: { visible: ['home'] } },
+        other: { s: { visible: ['other'] } },
+      },
+    });
+    const script = document.querySelector<HTMLScriptElement>(
+      'script[src="/route-stages.js"]',
+    )!;
+    script.onload?.(new Event('load'));
+    expect(prefetched()).toEqual(['/p/js/home.js']);
+    finish('/p/js/home.js');
   });
 
   it('skips files the HTML already preloads', () => {

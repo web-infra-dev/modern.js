@@ -217,6 +217,13 @@ const createSnapshot = (): Snapshot => ({
 });
 
 describe('planResourceStages', () => {
+  // Strip compressed sizes when assertions are about which tags are selected.
+  const declaredPreloads = (
+    plan: ReturnType<typeof planResourceStages>['targets'][number],
+  ) =>
+    plan.critical.filter(item => !item.l).map(({ b: _bytes, ...item }) => item);
+  const routePreloads = (plan: Parameters<typeof declaredPreloads>[0]) =>
+    plan.critical.filter(item => item.l).map(({ b: _bytes, ...item }) => item);
   const stages = normalizeResourceStages({
     budget: { critical: { size: '400kB', requests: 8 } },
   });
@@ -231,7 +238,9 @@ describe('planResourceStages', () => {
     // The earliest stage wins, and entry files are left out.
     expect(entry.lists).toEqual({ visible: ['editor'], idle: ['plugins'] });
     expect(entry.css).toEqual({ editor: ['/static/css/editor.css'] });
-    expect(route.critical).toEqual([{ h: '/static/js/panel.js', a: 'script' }]);
+    expect(declaredPreloads(route)).toEqual([
+      { h: '/static/js/panel.js', a: 'script' },
+    ]);
     expect(
       plan.declarations.find(item => item.request === './Mention')?.level,
     ).toEqual(['route:page']);
@@ -247,11 +256,15 @@ describe('planResourceStages', () => {
     const route = plan.targets.find(target => target.kind === 'route')!;
     // The route's own chunk first, then shared chunks while they fit 400 kB,
     // all at low priority.
-    expect(route.routeCritical).toEqual([
+    expect(routePreloads(route)).toEqual([
       { h: '/static/js/route.js', a: 'script', l: 1 },
       { h: '/static/js/shared1.js', a: 'script', l: 1 },
     ]);
-    expect(route.routeLists).toEqual({ visible: ['shared2'] });
+    expect(route.sharedCritical.map(group => group.id)).toEqual([
+      'shared1',
+      'shared2',
+    ]);
+    expect(route.stats.visible).toMatchObject({ bytes: 400_000, requests: 1 });
   });
 
   it('does not preload route CSS by the route rule', () => {
@@ -261,12 +274,12 @@ describe('planResourceStages', () => {
     const plan = planResourceStages(snapshot, stages, { routeRule: true });
     const route = plan.targets.find(target => target.kind === 'route')!;
     // Streaming SSR already outputs the route CSS as a stylesheet.
-    expect(route.routeCritical).toEqual([
+    expect(routePreloads(route)).toEqual([
       { h: '/static/js/route.js', a: 'script', l: 1 },
       { h: '/static/js/shared1.js', a: 'script', l: 1 },
     ]);
     // A `critical` declaration is not route CSS and keeps its style preload.
-    expect(route.critical).toEqual([
+    expect(declaredPreloads(route)).toEqual([
       { h: '/static/js/panel.js', a: 'script' },
       { h: '/static/css/panel.css', a: 'style' },
     ]);
@@ -283,10 +296,12 @@ describe('planResourceStages', () => {
       { routeRule: true },
     );
     const route = plan.targets.find(target => target.kind === 'route')!;
-    // The route CSS is not preloaded, so it does not take a request slot.
-    expect(route.routeCritical).toEqual([
+    // The explicit declaration gets the first slot. The route CSS takes none.
+    expect(declaredPreloads(route)).toEqual([
+      { h: '/static/js/panel.js', a: 'script' },
+    ]);
+    expect(routePreloads(route)).toEqual([
       { h: '/static/js/route.js', a: 'script', l: 1 },
-      { h: '/static/js/shared1.js', a: 'script', l: 1 },
     ]);
   });
 
@@ -305,11 +320,11 @@ describe('planResourceStages', () => {
     });
     const plan = planResourceStages(snapshot, stages, { routeRule: true });
     const route = plan.targets.find(target => target.kind === 'route')!;
-    expect(route.routeCritical).toEqual([
+    expect(routePreloads(route)).toEqual([
       { h: '/static/js/route.js', a: 'script', l: 1, i: 'sha384-route' },
       { h: '/static/js/shared1.js', a: 'script', l: 1 },
     ]);
-    expect(route.critical).toEqual([
+    expect(declaredPreloads(route)).toEqual([
       { h: '/static/js/panel.js', a: 'script', i: 'sha384-panel' },
       { h: '/static/css/panel.css', a: 'style', i: 'sha384-panel-css' },
     ]);
@@ -329,8 +344,14 @@ describe('planResourceStages', () => {
     const plan = planResourceStages(snapshot, stages, { routeRule: false });
     const route = plan.targets.find(target => target.kind === 'route')!;
     // `panel` (5 kB) fits the 400 kB budget, `plugins` (900 kB) does not.
-    expect(route.critical).toEqual([{ h: '/static/js/panel.js', a: 'script' }]);
-    expect(route.lists.visible).toEqual(['plugins']);
+    expect(declaredPreloads(route)).toEqual([
+      { h: '/static/js/panel.js', a: 'script' },
+    ]);
+    expect(route.stats.visible).toMatchObject({ bytes: 900_000, requests: 1 });
+    expect(route.declaredCritical.map(group => group.id)).toEqual([
+      'panel',
+      'plugins',
+    ]);
     expect(plan.warnings.join('\n')).toContain('exceed the critical budget');
   });
 
@@ -341,7 +362,7 @@ describe('planResourceStages', () => {
       { routeRule: true },
     );
     const route = plan.targets.find(target => target.kind === 'route')!;
-    expect(route.routeCritical).toEqual([]);
+    expect(routePreloads(route)).toEqual([]);
     // The route's own chunk first, then the shared ones in group order.
     expect(route.routeLists).toEqual({
       idle: ['route', 'shared1', 'shared2'],
@@ -359,13 +380,10 @@ describe('planResourceStages', () => {
       routeRule: true,
     });
     const entry = plan.targets.find(target => target.kind === 'entry')!;
-    const route = plan.targets.find(target => target.kind === 'route')!;
     expect(checkBudgets(entry, strict, 100_000).join('\n')).toContain(
       'stage "idle" downloads',
     );
-    expect(checkBudgets(route, strict, 0).join('\n')).toContain(
-      'stage "critical" downloads',
-    );
+    expect(plan.warnings.join('\n')).toContain('exceed the critical budget');
   });
 });
 
