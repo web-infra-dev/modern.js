@@ -1,3 +1,4 @@
+import path from 'node:path';
 import { weatherMetricsScript } from './metrics';
 import { appTools, defineConfig } from '@modern-js/app-tools';
 import { port, origin } from '../ports';
@@ -42,6 +43,8 @@ export default defineConfig({
         }
       : {}),
     globalVars: {
+      'process.env.MF_LAB_SOURCE_ROOT':
+        process.env.MF_LAB_SOURCE_ROOT || path.resolve(__dirname, '..'),
       'process.env.MF_LAB_UPDATES': process.env.MF_LAB_UPDATES || '',
       'process.env.MF_LAB_SSR_SCOPE': process.env.MF_LAB_SSR_SCOPE || '',
       'process.env.MF_LAB_SERVICE': process.env.MF_LAB_SERVICE || '',

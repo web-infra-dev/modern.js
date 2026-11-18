@@ -1,3 +1,4 @@
+import { Select, SelectItem, Checkbox, Button } from './ui/controls';
 import { useState, type CSSProperties } from 'react';
 import { useSearchParams } from '@modern-js/runtime/router';
 import {
@@ -95,23 +96,22 @@ function RenderingComparison({ data }: { data: boolean }) {
     <LabLayout
       section="render"
       className={`lab-render-layout ${fit ? 'lab-fit-layout' : ''}`}
-      title="渲染对比"
-      description="在独立页面中对照加载、首屏内容与可交互时间。配置先暂存，应用后统一刷新。"
+      title="Rendering"
+      description="Compare loading and interaction timing."
     >
-      <section className="lab-controls" aria-label="渲染配置">
+      <section className="lab-controls" aria-label="Rendering settings">
         <div className="lab-control-row">
           <fieldset>
-            <legend>渲染方式</legend>
+            <legend>Render modes</legend>
             {available.map(mode => (
               <label key={mode}>
-                <input
-                  type="checkbox"
+                <Checkbox
                   data-testid={`mode-${mode}`}
                   checked={draft.modes.includes(mode)}
-                  onChange={event =>
+                  onCheckedChange={checked =>
                     edit(
                       'modes',
-                      event.target.checked
+                      checked
                         ? [...draft.modes, mode]
                         : draft.modes.filter(item => item !== mode),
                     )
@@ -125,52 +125,47 @@ function RenderingComparison({ data }: { data: boolean }) {
             <label
               className="inspect-control"
               aria-label="Inspect"
-              title="仅显示调试标记，不应用配置、不刷新 iframe"
+              title="Show debug markers"
             >
-              <input
-                type="checkbox"
+              <Checkbox
                 aria-label="Inspect"
                 checked={inspect}
-                onChange={event => setInspect(event.target.checked)}
+                onCheckedChange={checked => setInspect(checked)}
               />
               <LabIcon name="inspect" />
             </label>
-            <button onClick={() => setFit(value => !value)}>
-              {fit ? '滚动大图' : '同屏总览'}
-            </button>
+            <Button onClick={() => setFit(value => !value)}>
+              {fit ? 'Full-size view' : 'Fit to screen'}
+            </Button>
           </div>
         </div>
         <div className="lab-control-row">
           <label>
-            <input
+            <Checkbox
               data-testid="compare-data"
-              type="checkbox"
               checked={draft.data}
-              onChange={event => edit('data', event.target.checked)}
+              onCheckedChange={checked => edit('data', checked)}
             />
-            数据获取对照
+            Data fetching
           </label>
           <label className="prefetch-control">
-            <input
-              type="checkbox"
+            <Checkbox
               checked={draft.prefetch}
-              onChange={event => edit('prefetch', event.target.checked)}
+              onCheckedChange={checked => edit('prefetch', checked)}
             />
-            预加载对照
+            Prefetch
           </label>
-          <button
+          <Button
             className="lab-primary"
             data-testid="render-apply"
             disabled={!draft.modes.length}
             onClick={() => applyConfiguration()}
           >
-            <LabIcon name="refresh" /> 应用
-          </button>
-          {changed && (
-            <small role="status">有未应用的配置，请点击“应用并刷新”</small>
-          )}
+            <LabIcon name="refresh" /> Apply
+          </Button>
+          {changed && <small role="status">Changes pending</small>}
           {applied.failureEnabled && (
-            <button
+            <Button
               data-testid="clear-failure"
               onClick={() => {
                 const clean = { ...draft, failureEnabled: false };
@@ -178,11 +173,11 @@ function RenderingComparison({ data }: { data: boolean }) {
                 applyConfiguration(clean);
               }}
             >
-              <LabIcon name="refresh" /> 恢复
-            </button>
+              <LabIcon name="refresh" /> Reset
+            </Button>
           )}
           <details className="lab-advanced">
-            <summary>高级设置</summary>
+            <summary>Advanced</summary>
             <div className="comparison-controls">
               <FailureControls
                 enabled={draft.failureEnabled}
@@ -197,42 +192,44 @@ function RenderingComparison({ data }: { data: boolean }) {
                 }
               />
               <label>
-                故障目标{' '}
-                <select
+                Failure target{' '}
+                <Select
                   aria-label="Failure target"
                   value={draft.target}
-                  onChange={event => edit('target', event.target.value)}
+                  onValueChange={value => edit('target', value)}
                 >
-                  <option value="provider/Weather">Current weather</option>
-                  <option value="dynamic/WeatherHourly">
+                  <SelectItem value="provider/Weather">
+                    Current weather
+                  </SelectItem>
+                  <SelectItem value="dynamic/WeatherHourly">
                     Dynamic hourly forecast
-                  </option>
-                  <option value="nested/WeatherDays">
+                  </SelectItem>
+                  <SelectItem value="nested/WeatherDays">
                     Nested daily forecast
-                  </option>
-                  <option value="nested/WeatherWind">
+                  </SelectItem>
+                  <SelectItem value="nested/WeatherWind">
                     Dynamic nested wind
-                  </option>
-                </select>
+                  </SelectItem>
+                </Select>
               </label>
               <label>
-                脚本延迟{' '}
-                <select
+                Script delay{' '}
+                <Select
                   aria-label="JavaScript startup delay"
                   value={draft.delay}
-                  onChange={event => edit('delay', Number(event.target.value))}
+                  onValueChange={value => edit('delay', Number(value))}
                 >
-                  <option value="0">无延迟</option>
-                  <option value="1500">1.5 s</option>
-                  <option value="3000">3 s</option>
-                </select>
+                  <SelectItem value="0">No delay</SelectItem>
+                  <SelectItem value="1500">1.5 s</SelectItem>
+                  <SelectItem value="3000">3 s</SelectItem>
+                </Select>
               </label>
             </div>
           </details>
         </div>
       </section>
       {!modeCount && (
-        <p className="lab-empty">选择至少一种渲染方式后应用配置。</p>
+        <p className="lab-empty">Select at least one rendering mode.</p>
       )}
       <div className="lab-render-grid" data-testid="render-grid">
         {applied.modes.map(mode => {
@@ -282,7 +279,7 @@ function RenderingComparison({ data }: { data: boolean }) {
                   ...(!ordinary && applied.prefetch
                     ? [
                         {
-                          label: `${labels[mode]} + 资源预加载`,
+                          label: `${labels[mode]} + Asset prefetch`,
                           data: applied.data ? 'loader' : 'local',
                           prefetch: true,
                         },
@@ -298,7 +295,7 @@ function RenderingComparison({ data }: { data: boolean }) {
               <h2>
                 {labels[mode]}
                 {mode === 'ssr' && applied.prefetch
-                  ? ' · 首屏数据由 SSR 提供，浏览器预取不重复执行'
+                  ? ' · SSR supplies initial data; browser prefetch is skipped'
                   : ''}
               </h2>
               <div
@@ -343,8 +340,8 @@ function RenderingComparison({ data }: { data: boolean }) {
                       description={
                         !ordinary
                           ? variant.data === 'local'
-                            ? '固定数据'
-                            : '应用 loader'
+                            ? 'Local data'
+                            : 'App loader'
                           : undefined
                       }
                       preloadApplication={

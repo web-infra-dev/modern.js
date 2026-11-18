@@ -1,3 +1,4 @@
+import { Checkbox, Button } from './ui/controls';
 import { useEffect, useRef, useState } from 'react';
 import { LabIcon } from './LabIcon';
 import { LabPanel } from './LabPanel';
@@ -56,35 +57,33 @@ export function ServiceLoadComparison() {
   return (
     <>
       <section className="lab-controls">
-        <h2>点击后加载 · 点击起算</h2>
+        <h2>Load on click</h2>
         <div className="lab-control-row">
           <label>
-            <input
-              type="checkbox"
+            <Checkbox
               data-testid="service-compare-data"
               checked={data}
               disabled={preparing}
-              onChange={event => {
-                setData(event.target.checked);
+              onCheckedChange={checked => {
+                setData(checked);
                 void prepare(preload);
               }}
             />
-            应用 data loader
+            App data loader
           </label>
           <label>
-            <input
-              type="checkbox"
+            <Checkbox
               data-testid="service-compare-prefetch"
               checked={preload}
               disabled={preparing}
-              onChange={event => {
-                setPreload(event.target.checked);
-                void prepare(event.target.checked);
+              onCheckedChange={checked => {
+                setPreload(checked);
+                void prepare(checked);
               }}
             />
-            提前加载浏览器资源
+            Prefetch browser assets
           </label>
-          <button
+          <Button
             className="lab-primary"
             data-testid="service-compare-load"
             disabled={ready !== 2 || preparing || Boolean(error)}
@@ -103,8 +102,8 @@ export function ServiceLoadComparison() {
             }}
           >
             <LabIcon name="play" />{' '}
-            {preparing ? '准备资源…' : clicked ? '再次加载' : '加载'}
-          </button>
+            {preparing ? 'Preparing assets…' : clicked ? 'Load again' : 'Load'}
+          </Button>
         </div>
         {error && <p role="alert">{error}</p>}
       </section>

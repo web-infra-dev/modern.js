@@ -1,3 +1,4 @@
+import { Button } from '../../components/ui/controls';
 import { ProducerUpdateControls } from '../../components/ProducerUpdateControls';
 import { useState } from 'react';
 import { createModernReactRemote } from '@modern-js/runtime/mf';
@@ -13,7 +14,7 @@ const WeatherApplication = createModernReactRemote<{ label: string }>({
   fallback: ({ retry }) => (
     <section role="alert">
       <p>The weather application is unavailable.</p>
-      <button onClick={retry}>Reconnect weather application</button>
+      <Button onClick={retry}>Reconnect weather application</Button>
     </section>
   ),
 });
@@ -33,7 +34,7 @@ export default function BridgeWeather() {
           <p>
             State belongs to this mounted application. Reconnecting resets it.
           </p>
-          <button
+          <Button
             data-testid="application-rename"
             onClick={() =>
               setLabel(value =>
@@ -42,13 +43,13 @@ export default function BridgeWeather() {
             }
           >
             Change station label
-          </button>
-          <button
+          </Button>
+          <Button
             data-testid="application-toggle"
             onClick={() => setMounted(value => !value)}
           >
             {mounted ? 'Disconnect' : 'Reconnect'} application
-          </button>
+          </Button>
         </details>
       )}
       {mounted && <WeatherApplication label={label} />}
@@ -60,11 +61,11 @@ export default function BridgeWeather() {
     <LabLayout
       section="ssr"
       title="Bridge SSR"
-      description="完整应用的服务端首屏、浏览器接管与版本更新。"
+      description="Application SSR, hydration and version updates."
       tabs={[
-        { label: '热更新', href: '/?lab=ssr&tab=hmr', active: false },
+        { label: 'Hot updates', href: '/?lab=ssr&tab=hmr', active: false },
         {
-          label: '缓存与内存',
+          label: 'Cache & memory',
           href: '/bridge-ssr/forecast/today',
           active: true,
         },

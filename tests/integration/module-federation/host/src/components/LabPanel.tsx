@@ -184,11 +184,16 @@ export function LabPanel({
           )}
         </h2>
         <span className="lab-panel-state">
-          {events['Client ready'] !== undefined
-            ? '● Client ready'
-            : events['Data prefetch started'] !== undefined
-              ? '◌ Prefetching data'
-              : '◌ Waiting for client'}
+          {events['Client ready'] !== undefined ? (
+            <>
+              <i className="lab-ready-dot" aria-hidden="true" />
+              Client ready
+            </>
+          ) : events['Data prefetch started'] !== undefined ? (
+            '◌ Prefetching data'
+          ) : (
+            '◌ Waiting for client'
+          )}
         </span>
         {!new URLSearchParams(query).has('bench') && (
           <a
@@ -196,8 +201,8 @@ export function LabPanel({
             href={`${path}?${query}`}
             target="_blank"
             rel="noreferrer"
-            title={`单独查看 ${name}`}
-            aria-label={`单独查看 ${name}`}
+            title={`Open ${name}`}
+            aria-label={`Open ${name}`}
           >
             <LabIcon name="browser" />
           </a>
@@ -206,7 +211,7 @@ export function LabPanel({
       <div className="lab-frame-viewport" ref={viewport}>
         {!canNavigate ? (
           <p role={prepared?.error ? 'alert' : 'status'}>
-            {prepared?.error || '正在提前加载浏览器资源…'}
+            {prepared?.error || 'Preparing browser assets…'}
           </p>
         ) : (
           <iframe
@@ -232,7 +237,10 @@ export function LabPanel({
         )}
       </div>
       {preloadApplication && prepared?.ms !== undefined && (
-        <small>资源准备 {prepared.ms} ms（导航前，不计入下方时间）</small>
+        <small>
+          Asset preparation {prepared.ms} ms（before navigation, excluded
+          below）
+        </small>
       )}
       <footer>
         {['Data visible', 'Client ready'].map(event => (

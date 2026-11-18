@@ -1,3 +1,4 @@
+import { selectControl } from './select-control';
 import { describeLab } from './fixture';
 
 describeLab(
@@ -32,7 +33,7 @@ describeLab(
         await page.$$eval('[data-testid^="mode-"]', nodes =>
           nodes.map(node => ({
             mode: node.getAttribute('data-testid'),
-            checked: (node as HTMLInputElement).checked,
+            checked: node.getAttribute('aria-checked') === 'true',
           })),
         ),
       ).toEqual(
@@ -67,24 +68,21 @@ describeLab(
       expect(
         await page.$eval(
           '[data-testid="compare-data"]',
-          node => (node as HTMLInputElement).checked,
+          node => node.getAttribute('aria-checked') === 'true',
         ),
       ).toBe(false);
       expect(
         await page.$eval(
-          '.prefetch-control input',
-          node => (node as HTMLInputElement).checked,
+          '.prefetch-control [role="checkbox"]',
+          node => node.getAttribute('aria-checked') === 'true',
         ),
       ).toBe(false);
-      await page.waitForSelector(
-        'select[aria-label="JavaScript startup delay"]',
-      );
+      await page.waitForSelector('[aria-label="JavaScript startup delay"]');
       expect(
-        await page.$eval(
-          'select[aria-label="JavaScript startup delay"]',
-          element => (element as HTMLSelectElement).value,
+        await page.$eval('[aria-label="JavaScript startup delay"]', element =>
+          element.textContent?.trim(),
         ),
-      ).toBe('0');
+      ).toContain('No delay');
       const frames = await weatherFrames(2);
       expect(frames).toHaveLength(2);
       for (const frame of frames) {
@@ -198,8 +196,9 @@ describeLab(
         response => response.headers()['x-lab-script-delay'] === '1500',
       );
       await page.click('.lab-advanced summary');
-      await page.select(
-        'select[aria-label="JavaScript startup delay"]',
+      await selectControl(
+        page,
+        '[aria-label="JavaScript startup delay"]',
         '1500',
       );
       // Configuration stays pending until the explicit refresh action.

@@ -114,7 +114,7 @@ export function ClickApplication({ kind }: { kind: ApplicationKind }) {
       {start ? (
         <Application key={start.id} label="Hangzhou" />
       ) : (
-        <p>等待上方“点击加载”</p>
+        <p>Click Load above to start</p>
       )}
     </div>
   );

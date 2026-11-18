@@ -146,6 +146,7 @@ export async function startLab(
   const env = {
     ...process.env,
     MF_LAB_PORTS: JSON.stringify(ports),
+    MF_LAB_SOURCE_ROOT: process.env.MF_LAB_SOURCE_ROOT || fixtureRoot,
     MF_LAB_SERVICE:
       serviceOnly || updates === 'service' || updates === 'all' || serviceNested
         ? '1'

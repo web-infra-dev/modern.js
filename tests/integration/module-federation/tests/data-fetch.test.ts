@@ -90,15 +90,15 @@ describeLab('Data fetching', getContext => {
     await page.goto(`${lab.url}/data`, { waitUntil: 'networkidle0' });
     expect(
       await page.$eval(
-        '.prefetch-control input',
-        node => (node as HTMLInputElement).checked,
+        '.prefetch-control [role="checkbox"]',
+        node => node.getAttribute('aria-checked') === 'true',
       ),
     ).toBe(false);
     expect(await weatherFrames(4)).toHaveLength(4);
     const before = await page.$$eval('iframe', nodes =>
       nodes.map(node => node.src),
     );
-    await page.click('.prefetch-control input');
+    await page.click('.prefetch-control [role="checkbox"]');
     expect(
       await page.$$eval('iframe', nodes => nodes.map(node => node.src)),
     ).toEqual(before);

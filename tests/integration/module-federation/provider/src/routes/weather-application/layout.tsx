@@ -63,7 +63,7 @@ export default function WeatherLayout() {
         <div className="weather-app-layout">
           <header className="weather-app-header">
             <div>
-              <p>MY WEATHER / 杭州</p>
+              <p>MY WEATHER / HANGZHOU</p>
               <h1>{label}</h1>
               <UpdateVersion />
               <span>Partly cloudy · A little room to slow down.</span>

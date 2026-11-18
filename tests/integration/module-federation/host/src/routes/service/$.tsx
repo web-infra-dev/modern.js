@@ -1,3 +1,4 @@
+import { Select, SelectItem } from '../../components/ui/controls';
 import { ProducerUpdateControls } from '../../components/ProducerUpdateControls';
 import { ServiceMount } from '../../components/ServiceMount';
 import { useState } from 'react';
@@ -18,21 +19,21 @@ export default function ServiceWeather() {
     <LabLayout
       section="service"
       className={comparison ? 'lab-render-layout lab-fit-layout' : undefined}
-      title="Service 应用"
-      description="对照加载方式，追踪 Service 内部 SSR 依赖，并同时观察 Host 与生产者内存。"
+      title="Service apps"
+      description="Compare loading, SSR dependencies and memory."
       tabs={[
         {
-          label: '加载对比',
+          label: 'Loading',
           href: '/service/forecast/today?lab=service&tab=load',
           active: tab === 'load',
         },
         {
-          label: '热更新与 SSR 依赖',
+          label: 'HMR & SSR dependencies',
           href: '/service/forecast/today?lab=service&tab=hmr',
           active: tab === 'hmr',
         },
         {
-          label: '版本与内存',
+          label: 'Versions & memory',
           href: '/service/forecast/today?lab=service&tab=cache',
           active: tab === 'cache',
         },
@@ -49,26 +50,26 @@ export default function ServiceWeather() {
             <section className="lab-controls">
               <div className="lab-control-row">
                 <label>
-                  SSR 依赖{' '}
-                  <select
+                  SSR dependency{' '}
+                  <Select
                     aria-label="Service SSR dependency"
                     value={params.get('remote') || ''}
-                    onChange={event => {
+                    onValueChange={value => {
                       const next = new URLSearchParams(params);
-                      if (event.target.value)
-                        next.set('remote', event.target.value);
+                      if (value)
+                        next.set('remote', value);
                       else next.delete('remote');
                       setParams(next);
                     }}
                   >
-                    <option value="">Service 自身</option>
+                    <SelectItem value="">Service root</SelectItem>
                     {process.env.MF_LAB_SERVICE_NESTED && (
                       <>
-                        <option value="plain">内部普通 SSR</option>
-                        <option value="nested">内部嵌套 SSR</option>
+                        <SelectItem value="plain">Plain SSR dependency</SelectItem>
+                        <SelectItem value="nested">Nested SSR dependency</SelectItem>
                       </>
                     )}
-                  </select>
+                  </Select>
                 </label>
                 <span>
                   {params.get('remote') === 'nested'

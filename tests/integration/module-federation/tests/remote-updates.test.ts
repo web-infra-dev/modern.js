@@ -1,3 +1,4 @@
+import { selectControl } from './select-control';
 import { verifyNestedWindUpdate } from './wind-update';
 import { readFile, writeFile } from 'node:fs/promises';
 import path from 'node:path';
@@ -752,9 +753,9 @@ if (process.env.MF_LAB_MODE !== 'dev') {
           ),
         ).toBe('false');
         // Automatic delay pauses the real update after admission has closed.
-        await page.select('[data-testid="update-select"]', 'v1');
-        await page.select('[data-testid="update-delay"]', '1000');
-        await page.select('[data-testid="request-policy"]', 'wait');
+        await selectControl(page, '[data-testid="update-select"]', 'v1');
+        await selectControl(page, '[data-testid="update-delay"]', '1000');
+        await selectControl(page, '[data-testid="request-policy"]', 'wait');
         await page.click('[data-testid="update-apply"]');
         await page.waitForFunction(
           () =>

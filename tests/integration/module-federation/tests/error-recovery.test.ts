@@ -1,3 +1,4 @@
+import { selectControl } from './select-control';
 import { describeLab } from './fixture';
 import { screenshotPath } from '../scripts/artifacts.mjs';
 
@@ -216,7 +217,7 @@ describeLab(
             '[data-testid="weather-save"]:not(:disabled)',
           );
         expect(await page.$('.recovery-badge')).toBeNull();
-        await page.select('[aria-label="Failure scenario"]', failure);
+        await selectControl(page, '[aria-label="Failure scenario"]', failure);
         await page.click('[aria-label="Simulate failure"]');
         await page.click('[data-testid="render-apply"]');
         const frames = await readyFrames(failure);
@@ -307,7 +308,11 @@ describeLab(
           ]);
         await page.goto(`${lab.url}/advanced`, { waitUntil: 'networkidle0' });
         await page.waitForSelector('[aria-label="Advanced scenarios"]');
-        await page.select('[aria-label="Advanced scenarios"]', scenario);
+        await selectControl(
+          page,
+          '[aria-label="Advanced scenarios"]',
+          scenario,
+        );
         await page.waitForFunction(
           scenario => {
             const doc = document.querySelector('iframe')?.contentDocument;
@@ -345,7 +350,8 @@ describeLab(
         }
         let resumeNeighbor = () => {};
         let neighborRequested:
-          ReturnType<typeof page.waitForRequest> | undefined;
+          | ReturnType<typeof page.waitForRequest>
+          | undefined;
         if (scenario === 'replace') {
           // A fast replacement failure can precede the independent station's
           // first load. Hold its actual chunk to exercise that ordering.
@@ -371,7 +377,7 @@ describeLab(
         }
         try {
           const kind = scenario === 'replace' ? 'network' : 'data';
-          await page.select('[aria-label="Failure scenario"]', kind);
+          await selectControl(page, '[aria-label="Failure scenario"]', kind);
           await page.click('[aria-label="Simulate failure"]');
           async function currentFrame(enabled: boolean) {
             await page
@@ -539,11 +545,11 @@ describeLab(
         );
       expect(
         await page.$eval(
-          '.prefetch-control input',
-          el => (el as HTMLInputElement).checked,
+          '.prefetch-control [role="checkbox"]',
+          el => el.getAttribute('aria-checked') === 'true',
         ),
       ).toBe(true);
-      await page.select('[aria-label="Failure scenario"]', 'data');
+      await selectControl(page, '[aria-label="Failure scenario"]', 'data');
       await page.click('[aria-label="Simulate failure"]');
       await page.waitForFunction(() =>
         Array.from(document.querySelectorAll('iframe')).every(frame =>

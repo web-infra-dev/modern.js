@@ -1,3 +1,4 @@
+import { Button } from './ui/controls';
 import { LabIcon } from './LabIcon';
 import { useEffect, useState } from 'react';
 
@@ -56,16 +57,16 @@ export function UpdateResult() {
         <strong className="lab-result-badge" data-testid="update-mode">
           {result
             ? result.mode === 'entries'
-              ? '局部更新'
-              : '全量更新'
+              ? 'Partial update'
+              : 'Application update'
             : operation.completed
-              ? '更新失败'
+              ? 'Update failed'
               : operation.held
-                ? '等待放行'
-                : '更新中'}
+                ? 'Paused'
+                : 'Updating'}
         </strong>
         {!operation.completed && operation.held && (
-          <button
+          <Button
             data-testid="request-release"
             className="lab-icon-button"
             onClick={async () => {
@@ -80,8 +81,8 @@ export function UpdateResult() {
             }}
           >
             <LabIcon name="play" />
-            放行
-          </button>
+            Resume
+          </Button>
         )}
         <span>{operation.version}</span>
         {result?.entries && <span>{result.entries.join(', ')}</span>}
@@ -98,14 +99,14 @@ export function UpdateResult() {
       )}
       {operation.after && (
         <details>
-          <summary>入口变化</summary>
+          <summary>Entry changes</summary>
           <table className="lab-change-table" data-testid="update-entry-diff">
             <thead>
               <tr>
-                <th>入口</th>
+                <th>Entry</th>
                 <th>Runtime</th>
-                <th>根模块</th>
-                <th>结果</th>
+                <th>Root module</th>
+                <th>Result</th>
               </tr>
             </thead>
             <tbody>
@@ -131,7 +132,7 @@ export function UpdateResult() {
                       {before?.modules.join(', ') || '—'} →{' '}
                       {after.modules.join(', ')}
                     </td>
-                    <td>{changed ? '已替换' : '保留'}</td>
+                    <td>{changed ? 'Replaced' : 'Retained'}</td>
                   </tr>
                 );
               })}

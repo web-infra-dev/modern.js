@@ -1,3 +1,4 @@
+import { Select, SelectItem, Button } from './ui/controls';
 import { useEffect, useRef, useState } from 'react';
 import './ProducerUpdateControls.css';
 import { UpdateResult } from './UpdateResult';
@@ -158,14 +159,18 @@ export function ProducerUpdateControls({
         });
         const html = await response.text();
         if (!response.ok || !html.includes(`${version}:initial`))
-          throw Error(`第 ${index + 1} 轮未得到 ${version} 的 SSR 结果`);
+          throw Error(
+            `Round ${index + 1} did not return ${version} SSR output`,
+          );
         const measured = await capture();
         setHistory(previous => [...previous, { version, samples: measured }]);
         current = version;
       }
       onUpdate?.();
       setProgress(
-        stop.current ? '已停止，当前轮已完成' : '切换、SSR 验证与 GC 已完成',
+        stop.current
+          ? 'Stopped after the current round'
+          : 'Switches, SSR checks and GC completed',
       );
     } catch (error) {
       setError(String(error));
@@ -192,53 +197,53 @@ export function ProducerUpdateControls({
         <>
           <div className="updates-controls">
             <label>
-              生产者版本{' '}
-              <select
+              Producer version{' '}
+              <Select
                 data-testid="update-select"
                 value={selected}
-                onChange={event => setSelected(event.target.value)}
+                onValueChange={value => setSelected(value)}
                 disabled={busy}
               >
                 {state.versions.map(({ version }) => (
-                  <option key={version} value={version}>
+                  <SelectItem key={version} value={version}>
                     {version}
-                  </option>
+                  </SelectItem>
                 ))}
-              </select>
+              </Select>
             </label>
             <label>
-              等待
-              <select
+              Delay
+              <Select
                 data-testid="update-delay"
                 value={delayMs}
                 disabled={busy}
-                onChange={event => setDelayMs(Number(event.target.value))}
+                onValueChange={value => setDelayMs(Number(value))}
               >
-                <option value="0">无延迟</option>
-                <option value="1000">1 s</option>
-                <option value="3000">3 s</option>
-                <option value="5000">5 s</option>
-                <option value="-1">手动放行</option>
-              </select>
+                <SelectItem value="0">No delay</SelectItem>
+                <SelectItem value="1000">1 s</SelectItem>
+                <SelectItem value="3000">3 s</SelectItem>
+                <SelectItem value="5000">5 s</SelectItem>
+                <SelectItem value="-1">Manual resume</SelectItem>
+              </Select>
             </label>
-            <button
+            <Button
               className="lab-icon-button"
               data-testid="update-apply"
               onClick={update}
               disabled={busy}
             >
               <LabIcon name="refresh" />
-              {busy ? '更新中' : '更新'}
-            </button>
-            <button
-              title="GC 并采样内存"
+              {busy ? 'Updating' : 'Update'}
+            </Button>
+            <Button
+              title="GC & memory sample"
               className="lab-icon-button"
               data-testid="update-memory"
               onClick={sampleMemory}
             >
               <LabIcon name="memory" /> GC
-            </button>
-            <button
+            </Button>
+            <Button
               disabled={busy}
               onClick={async () => {
                 try {
@@ -249,13 +254,13 @@ export function ProducerUpdateControls({
                 }
               }}
             >
-              <LabIcon name="memory" /> 基线
-            </button>
+              <LabIcon name="memory" /> Baseline
+            </Button>
           </div>
           {verifyURL && (
             <div className="updates-controls lab-repeat-controls">
               <label>
-                往返切换次数{' '}
+                Switch count{' '}
                 <input
                   type="number"
                   min="1"
@@ -265,7 +270,7 @@ export function ProducerUpdateControls({
                   onChange={event => setRounds(Number(event.target.value))}
                 />
               </label>
-              <button
+              <Button
                 data-testid="update-repeat"
                 disabled={
                   busy ||
@@ -276,16 +281,16 @@ export function ProducerUpdateControls({
                 }
                 onClick={repeat}
               >
-                <LabIcon name="play" /> 连续切换
-              </button>
+                <LabIcon name="play" /> Run switches
+              </Button>
               {repeating && (
-                <button
+                <Button
                   onClick={() => {
                     stop.current = true;
                   }}
                 >
-                  <LabIcon name="stop" /> 停止
-                </button>
+                  <LabIcon name="stop" /> Stop
+                </Button>
               )}
               <span role="status" data-testid="update-progress">
                 {progress}
@@ -296,7 +301,7 @@ export function ProducerUpdateControls({
           <UpdateRequestControls scenario={scenario} />
         </>
       ) : (
-        <p>Dev · 版本与内存实验使用 Build + serve</p>
+        <p>Dev · Version & memory tests use Build + serve</p>
       )}
       {error && (
         <p role="alert" data-testid="update-error">
@@ -357,14 +362,14 @@ export function ProducerUpdateControls({
           </div>
           {history.length > 0 && (
             <details>
-              <summary>逐轮 GC 记录（{history.length}）</summary>
+              <summary>GC samples（{history.length}）</summary>
               <div className="lab-memory-scroll">
                 <table>
                   <thead>
                     <tr>
-                      <th>轮次</th>
-                      <th>版本</th>
-                      <th>进程</th>
+                      <th>Round</th>
+                      <th>Version</th>
+                      <th>Process</th>
                       <th>PID</th>
                       <th>Heap MiB</th>
                       <th>RSS MiB</th>

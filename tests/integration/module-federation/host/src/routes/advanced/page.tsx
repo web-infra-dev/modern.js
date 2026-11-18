@@ -1,3 +1,4 @@
+import { Select, SelectItem } from '../../components/ui/controls';
 import {
   FailureControls,
   renderFailures,
@@ -31,8 +32,8 @@ export default function Page() {
   return (
     <LabLayout
       section="render"
-      title="扩展实验"
-      description="原有的 Remote 替换、故障恢复和独立应用实验。"
+      title="Experiments"
+      description="Remote replacement, recovery and standalone app experiments."
     >
       <header className="comparison-intro">
         <div>
@@ -68,21 +69,21 @@ export default function Page() {
             }}
           />
         )}
-        <select
+        <Select
           aria-label="Advanced scenarios"
           value={scenario}
-          onChange={event => {
-            setScenario(event.target.value as typeof scenario);
+          onValueChange={value => {
+            setScenario(value as typeof scenario);
             setFailure('network');
             setRun(value => value + 1);
           }}
         >
-          <option value="replace">Remote replacement</option>
-          <option value="recovery">Data recovery</option>
-          <option value="lifecycle">Data lifecycle</option>
-          <option value="data">Remote data sources</option>
-          <option value="bridge">Independent weather stations</option>
-        </select>
+          <SelectItem value="replace">Remote replacement</SelectItem>
+          <SelectItem value="recovery">Data recovery</SelectItem>
+          <SelectItem value="lifecycle">Data lifecycle</SelectItem>
+          <SelectItem value="data">Remote data sources</SelectItem>
+          <SelectItem value="bridge">Independent weather stations</SelectItem>
+        </Select>
       </header>
       <iframe
         key={`${scenario}:${run}`}

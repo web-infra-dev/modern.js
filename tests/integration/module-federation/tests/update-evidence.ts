@@ -1,3 +1,4 @@
+import { selectControl } from './select-control';
 import { mkdir, mkdtemp, writeFile } from 'node:fs/promises';
 import { tmpdir } from 'node:os';
 import path from 'node:path';
@@ -49,8 +50,8 @@ export async function exerciseUpdateRequestFrames(
   });
   await page.click('[data-testid="update-request-lab"] summary');
   try {
-    await page.select('[data-testid="update-select"]', 'v2');
-    await page.select('[data-testid="update-delay"]', '-1');
+    await selectControl(page, '[data-testid="update-select"]', 'v2');
+    await selectControl(page, '[data-testid="update-delay"]', '-1');
     await page.click('[data-testid="update-apply"]');
     await page.waitForFunction(
       () =>
@@ -63,9 +64,9 @@ export async function exerciseUpdateRequestFrames(
     await page.click('[data-testid="request-add"]');
     await new Promise(resolve => setTimeout(resolve, 200));
     expect(documents.filter(item => item.policy === 'wait')).toHaveLength(0);
-    await page.select('[data-testid="request-policy"]', 'csr');
+    await selectControl(page, '[data-testid="request-policy"]', 'csr');
     await page.click('[data-testid="request-add"]');
-    await page.select('[data-testid="request-policy"]', 'reject');
+    await selectControl(page, '[data-testid="request-policy"]', 'reject');
     await page.click('[data-testid="request-add"]');
     await expect
       .poll(() => documents.filter(item => item.policy !== 'wait').length)
@@ -390,7 +391,7 @@ export async function assertInteraction(
 
 export async function applyVersion(page: Page, version: string) {
   await page.waitForSelector('[data-testid="update-apply"]:not(:disabled)');
-  await page.select('[data-testid="update-select"]', version);
+  await selectControl(page, '[data-testid="update-select"]', version);
   await page.click('[data-testid="update-apply"]');
   await waitForVersion(page, `${version}:initial`);
   expect(await page.$('[data-testid="update-error"]')).toBeNull();

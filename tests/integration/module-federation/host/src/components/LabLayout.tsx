@@ -1,3 +1,4 @@
+import { Tabs, TabsList, TabsTrigger, TabsContent } from './ui/controls';
 import { LabIcon } from './LabIcon';
 import type { ReactNode } from 'react';
 import { useLocation } from '@modern-js/runtime/router';
@@ -14,14 +15,14 @@ export function LabSidebar({ section }: { section: LabSection }) {
       : '';
   return (
     <aside className="lab-sidebar">
-      <nav aria-label="实验导航">
+      <nav aria-label="Lab navigation">
         {(
           [
-            ['render', '渲染对比', '/'],
-            ['ssr', 'SSR 更新', '/?lab=ssr&tab=hmr'],
+            ['render', 'Rendering', '/'],
+            ['ssr', 'SSR updates', '/?lab=ssr&tab=hmr'],
             [
               'service',
-              'Service 应用',
+              'Service apps',
               '/service/forecast/today?lab=service&tab=load',
             ],
           ] as const
@@ -84,20 +85,37 @@ export function LabLayout({
         <header className="lab-heading">
           <h1>{title}</h1>
         </header>
-        {tabs && (
-          <nav className="lab-tabs" aria-label="专项测试">
-            {tabs.map(tab => (
-              <a
-                key={tab.label}
-                href={tab.href}
-                aria-current={tab.active ? 'page' : undefined}
-              >
-                {tab.label}
-              </a>
-            ))}
-          </nav>
+        {tabs ? (
+          <Tabs
+            className="ui-tabs-root"
+            value={tabs.find(tab => tab.active)?.href || ''}
+            onValueChange={href => {
+              window.location.href = href;
+            }}
+          >
+            <div className="ui-tabs">
+              <TabsList className="ui-tabs-list" aria-label="Test scenarios">
+                {tabs.map(tab => (
+                  <TabsTrigger
+                    className="ui-tabs-trigger"
+                    key={tab.href}
+                    value={tab.href}
+                  >
+                    {tab.label}
+                  </TabsTrigger>
+                ))}
+              </TabsList>
+            </div>
+            <TabsContent
+              className="lab-content"
+              value={tabs.find(tab => tab.active)?.href || ''}
+            >
+              {children}
+            </TabsContent>
+          </Tabs>
+        ) : (
+          <div className="lab-content">{children}</div>
         )}
-        <div className="lab-content">{children}</div>
       </main>
     </div>
   );
@@ -132,7 +150,9 @@ export function LabEnvironments({
     <div className="lab-environments">
       <span>
         {process.env.NODE_ENV === 'production' ? 'Build + serve' : 'Dev'} ·{' '}
-        {partial ? '静态入口 · 局部更新' : '动态消费 · 应用更新'}
+        {partial
+          ? 'Static imports · Partial update'
+          : 'Dynamic imports · Application update'}
       </span>
       {production && (
         <a href={`${production}${path}`}>
@@ -141,7 +161,7 @@ export function LabEnvironments({
       )}
       {staticOrigin && !partial && (
         <a href={`${staticOrigin}/?lab=ssr&tab=cache`}>
-          <LabIcon name="code" /> 局部更新
+          <LabIcon name="code" /> Partial update
         </a>
       )}
     </div>

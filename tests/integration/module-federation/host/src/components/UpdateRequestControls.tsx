@@ -1,3 +1,4 @@
+import { Select, SelectItem, Button } from './ui/controls';
 import { LabIcon } from './LabIcon';
 import { useEffect, useRef, useState } from 'react';
 
@@ -114,101 +115,101 @@ export function UpdateRequestControls({
       data-testid="update-request-lab"
       onToggle={event => setOpen(event.currentTarget.open)}
     >
-      <summary>缓存更新期间的请求</summary>
+      <summary>Requests during updates</summary>
       {open && (
         <>
           <div className="updates-controls">
             <label>
-              更新进程{' '}
-              <select
+              Update process{' '}
+              <Select
                 data-testid="request-owner"
                 value={owner}
                 disabled={pending}
-                onChange={event => {
-                  setOwner(event.target.value);
+                onValueChange={value => {
+                  setOwner(value);
                   setPolicy('wait');
                 }}
               >
-                <option value="">Host</option>
+                <SelectItem value="">Host</SelectItem>
                 {state?.serviceDependencies && scenario === 'service' && (
-                  <option value="producer/">
+                  <SelectItem value="producer/">
                     Service producer · nested SSR dependency
-                  </option>
+                  </SelectItem>
                 )}
-              </select>
+              </Select>
             </label>
             {owner && (
               <>
                 <label>
-                  目标版本{' '}
-                  <select
+                  Target version{' '}
+                  <Select
                     data-testid="request-version"
                     value={version}
                     disabled={pending}
-                    onChange={event => setVersion(event.target.value)}
+                    onValueChange={value => setVersion(value)}
                   >
-                    <option value="v1">v1</option>
-                    <option value="v2">v2</option>
-                  </select>
+                    <SelectItem value="v1">v1</SelectItem>
+                    <SelectItem value="v2">v2</SelectItem>
+                  </Select>
                 </label>
                 <label>
-                  等待
-                  <select
+                  Delay
+                  <Select
                     aria-label="Producer update delay"
                     value={delayMs}
                     disabled={pending}
-                    onChange={event => setDelayMs(Number(event.target.value))}
+                    onValueChange={value => setDelayMs(Number(value))}
                   >
-                    <option value="0">无延迟</option>
-                    <option value="1000">1 s</option>
-                    <option value="3000">3 s</option>
-                    <option value="5000">5 s</option>
-                    <option value="-1">手动放行</option>
-                  </select>
+                    <SelectItem value="0">No delay</SelectItem>
+                    <SelectItem value="1000">1 s</SelectItem>
+                    <SelectItem value="3000">3 s</SelectItem>
+                    <SelectItem value="5000">5 s</SelectItem>
+                    <SelectItem value="-1">Manual resume</SelectItem>
+                  </Select>
                 </label>
-                <button
+                <Button
                   data-testid="request-start"
                   disabled={pending}
                   onClick={() => action('start')}
                 >
                   <LabIcon name="refresh" />
-                  更新依赖
-                </button>
-                <button
+                  Update dependency
+                </Button>
+                <Button
                   data-testid="request-release"
                   disabled={!pending}
                   onClick={() => action('release')}
                 >
                   <LabIcon name="play" />
-                  放行
-                </button>
+                  Resume
+                </Button>
               </>
             )}
             <label>
-              新请求策略{' '}
-              <select
+              Request policy{' '}
+              <Select
                 data-testid="request-policy"
                 value={policy}
-                onChange={event => setPolicy(event.target.value)}
+                onValueChange={value => setPolicy(value)}
               >
-                <option value="wait">等待 SSR</option>
-                <option value="csr" disabled={Boolean(owner)}>
-                  返回 CSR
-                </option>
-                <option value="reject">返回 503</option>
-              </select>
+                <SelectItem value="wait">Wait for SSR</SelectItem>
+                <SelectItem value="csr" disabled={Boolean(owner)}>
+                  Return CSR
+                </SelectItem>
+                <SelectItem value="reject">Return 503</SelectItem>
+              </Select>
             </label>
-            <button data-testid="request-add" onClick={addFrame}>
+            <Button data-testid="request-add" onClick={addFrame}>
               <LabIcon name="plus" />
-              请求
-            </button>
-            <button
-              title="清空请求"
-              aria-label="清空请求"
+              Request
+            </Button>
+            <Button
+              title="Clear requests"
+              aria-label="Clear requests"
               onClick={() => setFrames([])}
             >
               <LabIcon name="trash" />
-            </button>
+            </Button>
           </div>
           <p
             data-testid="request-state"
@@ -216,14 +217,14 @@ export function UpdateRequestControls({
           >
             {pending
               ? state?.operation?.held
-                ? '等待放行'
-                : '更新中'
-              : '就绪'}
+                ? 'Paused'
+                : 'Updating'
+              : 'Ready'}
           </p>
           {owner && (
             <p data-testid="request-result">
               {state?.operation?.result &&
-                `${state.operation.result.mode === 'entries' ? '局部更新' : '全量更新'} · ${state.operation.result.entries?.join(', ') || ''}`}
+                `${state.operation.result.mode === 'entries' ? 'Partial update' : 'Application update'} · ${state.operation.result.entries?.join(', ') || ''}`}
             </p>
           )}
           {(error || state?.operation?.error) && (
@@ -238,12 +239,12 @@ export function UpdateRequestControls({
                 data-status={frame.status || 'pending'}
               >
                 <h3>
-                  请求 {frame.id} · {frame.policy}
+                  Request {frame.id} · {frame.policy}
                 </h3>
                 <p>
                   {frame.elapsed === undefined
-                    ? '等待响应'
-                    : `HTTP ${frame.status} · ${frame.elapsed} ms · ${frame.version || '无版本'}`}
+                    ? 'Pending response'
+                    : `HTTP ${frame.status} · ${frame.elapsed} ms · ${frame.version || 'No version'}`}
                 </p>
                 <iframe
                   title={`Update request ${frame.id}`}
