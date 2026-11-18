@@ -12,7 +12,7 @@ exports[`builder rspack with cache > should disable cache by default 1`] = `
     "type": "filesystem",
   },
   "type": "persistent",
-  "version": "web-test",
+  "version": "rsbuild-2.3.3-web-test",
 }
 `;
 
@@ -28,6 +28,6 @@ exports[`builder rspack with cache > should generator rspack config correctly wi
     "type": "filesystem",
   },
   "type": "persistent",
-  "version": "web-test",
+  "version": "rsbuild-2.3.3-web-test",
 }
 `;
