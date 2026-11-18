@@ -61,5 +61,28 @@ describe('plugin-html-minifier-terser', () => {
         '<html>\n  <body>\n    <div  id="root" ></div>\n  </body>\n</html>',
       ),
     ).toBe('<html><body><div id="root"></div></body></html>');
+
+    // Preserve the Modern.js-owned policies formerly exercised by Builder e2e.
+    const [policy] = await getHtmlMinify({
+      output: { charset: 'ascii', legalComments: 'none' },
+      performance: { removeConsole: ['warn'] },
+    });
+    const html =
+      '<!-- keep --><style>.a { color: red; }</style><script>console.warn("warn");console.info("info");window.message="你好";</script>';
+    const result = await (policy as (html: string) => Promise<string>)(html);
+    expect(result).toContain('<!-- keep -->');
+    expect(result).toContain('<style>.a{color:red}</style>');
+    expect(result).not.toContain('console.warn');
+    expect(result).toContain('console.info');
+    expect(result).not.toContain('你好');
+
+    const [override] = await getHtmlMinify({
+      tools: { htmlPlugin: { minify: { removeComments: true } } },
+    });
+    expect(
+      await (override as (html: string) => Promise<string>)(
+        '<!-- remove --><div>value</div>',
+      ),
+    ).toBe('<div>value</div>');
   });
 });

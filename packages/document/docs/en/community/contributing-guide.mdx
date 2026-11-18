@@ -114,15 +114,14 @@ Alternatively, you can run the unit tests of single package using the `--filter`
 pnpm run --filter @modern-js/some-package test
 ```
 
-### Run E2E Tests
+### Run Integration Tests
 
-In addition to the unit tests, the Modern.js also includes end-to-end (E2E) tests, which checks the functionality of the application as a whole.
+In addition to unit tests, Modern.js includes framework integration tests that check application behavior.
 
-Run the framework integration tests and Builder E2E tests with the following commands:
+Run the framework integration tests with the following command:
 
 ```sh
 pnpm run test:framework
-pnpm run test:builder
 ```
 
 If you need to run a specified test, you can add keywords to filter:
