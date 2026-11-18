@@ -37,7 +37,10 @@ for (const scenario of scenarios.filter(
         it('compares the same climate report through Service and CSR with working chart controls', async () => {
           const { page, lab } = getContext();
           const posts: string[] = [];
+          const reportChunks: string[] = [];
           const record = (request: import('puppeteer').HTTPRequest) => {
+            if (request.url().includes('weather-application/report/page'))
+              reportChunks.push(request.url());
             if (
               request.method() === 'POST' &&
               request.url().includes('/mf/service/')
@@ -54,6 +57,7 @@ for (const scenario of scenarios.filter(
               '[data-testid="service-compare-load"]:not(:disabled)',
             );
             expect(posts).toHaveLength(0);
+            expect(reportChunks).toHaveLength(0);
             const response = page.waitForResponse(
               response =>
                 response.request().method() === 'POST' &&
@@ -125,6 +129,25 @@ for (const scenario of scenarios.filter(
                   !footer.textContent.includes('—'),
               ),
             );
+            // A second click creates fresh application instances with warm
+            // modules. Both must reset their controls and initialize all charts.
+            await page.click('[data-testid="service-compare-load"]');
+            for (const frame of frames) {
+              await frame.waitForFunction(
+                () =>
+                  document.querySelectorAll('[data-chart-ready="true"]')
+                    .length === 6 &&
+                  document
+                    .querySelector('.report-sample-count')
+                    ?.textContent?.includes('17,280'),
+              );
+              expect(
+                await frame.$eval(
+                  '[aria-label="Find report station"]',
+                  input => (input as HTMLInputElement).value,
+                ),
+              ).toBe('');
+            }
           } finally {
             page.off('request', record);
           }
