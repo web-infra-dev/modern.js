@@ -54,58 +54,62 @@ export default function WeatherLayout() {
         setAngle,
       }}
     >
-      <section
-        className={`weather-scene weather-application${pathname.endsWith('/report') ? ' weather-report-page' : ''}`}
-        data-testid="weather-application"
-      >
-        <div className="sky-cloud cloud-one" />
-        <div className="sky-cloud cloud-two" />
-        <div className="weather-app-layout">
-          <header className="weather-app-header">
-            <div>
-              <p>MY WEATHER / HANGZHOU</p>
-              <h1>{label}</h1>
-              <UpdateVersion />
-              <span>Partly cloudy · A little room to slow down.</span>
-            </div>
-            <span>
-              Local sample forecast
-              <br />
-              30.18° N · 120.15° E
-            </span>
-          </header>
-          <nav className="weather-app-nav" aria-label="Weather pages">
-            <NavLink
-              to="overview"
-              className={({ isActive }) =>
-                isActive || current === 'Overview' ? 'active' : undefined
-              }
-            >
-              Overview
-            </NavLink>
-            <NavLink to="forecast">5-day forecast</NavLink>
-            <NavLink to="favorites">
-              Favorites{' '}
-              <span data-testid="favorite-count">
-                {favorites.length + Number(saved)}
+      {pathname.endsWith('/report') ? (
+        <Outlet />
+      ) : (
+        <section
+          className="weather-scene weather-application"
+          data-testid="weather-application"
+        >
+          <div className="sky-cloud cloud-one" />
+          <div className="sky-cloud cloud-two" />
+          <div className="weather-app-layout">
+            <header className="weather-app-header">
+              <div>
+                <p>MY WEATHER / HANGZHOU</p>
+                <h1>{label}</h1>
+                <UpdateVersion />
+                <span>Partly cloudy · A little room to slow down.</span>
+              </div>
+              <span>
+                Local sample forecast
+                <br />
+                30.18° N · 120.15° E
               </span>
-            </NavLink>
-          </nav>
-          <div
-            className="weather-app-breadcrumb"
-            data-testid="weather-page-label"
-          >
-            {current}
+            </header>
+            <nav className="weather-app-nav" aria-label="Weather pages">
+              <NavLink
+                to="overview"
+                className={({ isActive }) =>
+                  isActive || current === 'Overview' ? 'active' : undefined
+                }
+              >
+                Overview
+              </NavLink>
+              <NavLink to="forecast">5-day forecast</NavLink>
+              <NavLink to="favorites">
+                Favorites{' '}
+                <span data-testid="favorite-count">
+                  {favorites.length + Number(saved)}
+                </span>
+              </NavLink>
+            </nav>
+            <div
+              className="weather-app-breadcrumb"
+              data-testid="weather-page-label"
+            >
+              {current}
+            </div>
+            <main>
+              <Outlet />
+            </main>
+            <footer className="weather-app-footer">
+              Your selections stay with you as you explore. Reconnecting starts
+              a new visit.
+            </footer>
           </div>
-          <main>
-            <Outlet />
-          </main>
-          <footer className="weather-app-footer">
-            Your selections stay with you as you explore. Reconnecting starts a
-            new visit.
-          </footer>
-        </div>
-      </section>
+        </section>
+      )}
     </WeatherContext.Provider>
   );
 }

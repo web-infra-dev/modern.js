@@ -3841,10 +3841,10 @@ importers:
         version: link:../../../../packages/runtime/plugin-runtime
       '@module-federation/bridge-react':
         specifier: 0.0.0-feat-enhanced-runtime-unification-20261111082820
-        version: 0.0.0-feat-enhanced-runtime-unification-20261111082820(@module-federation/enhanced@0.0.0-feat-enhanced-runtime-unification-20261111082820(@rspack/core@2.2.9(@module-federation/runtime-tools@2.9.2)(@swc/helpers@0.5.23))(bufferutil@4.1.0)(typescript@5.9.3)(utf-8-validate@5.0.10)(webpack@5.104.1(@swc/core@1.16.20(@swc/helpers@0.5.23))))(react-dom@19.3.1(react@19.3.1))(react-router-dom@7.18.4(react-dom@19.3.1(react@19.3.1))(react@19.3.1))(react-router@7.18.4(react-dom@19.3.1(react@19.3.1))(react@19.3.1))(react@19.3.1)
+        version: 0.0.0-feat-enhanced-runtime-unification-20261111082820(@module-federation/enhanced@0.0.0-feat-enhanced-runtime-unification-20261111082820(@rspack/core@2.3.3(@module-federation/runtime-tools@2.9.2)(@swc/helpers@0.5.24))(bufferutil@4.1.0)(typescript@5.9.3)(utf-8-validate@5.0.10)(webpack@5.104.1(@swc/core@1.16.21(@swc/helpers@0.5.24))))(react-dom@19.3.1(react@19.3.1))(react-router-dom@7.18.4(react-dom@19.3.1(react@19.3.1))(react@19.3.1))(react-router@7.18.4(react-dom@19.3.1(react@19.3.1))(react@19.3.1))(react@19.3.1)
       '@module-federation/enhanced':
         specifier: 0.0.0-feat-enhanced-runtime-unification-20261111082820
-        version: 0.0.0-feat-enhanced-runtime-unification-20261111082820(@rspack/core@2.2.9(@module-federation/runtime-tools@2.9.2)(@swc/helpers@0.5.23))(bufferutil@4.1.0)(typescript@5.9.3)(utf-8-validate@5.0.10)(webpack@5.104.1(@swc/core@1.16.20(@swc/helpers@0.5.23)))
+        version: 0.0.0-feat-enhanced-runtime-unification-20261111082820(@rspack/core@2.3.3(@module-federation/runtime-tools@2.9.2)(@swc/helpers@0.5.24))(bufferutil@4.1.0)(typescript@5.9.3)(utf-8-validate@5.0.10)(webpack@5.104.1(@swc/core@1.16.21(@swc/helpers@0.5.24)))
       '@radix-ui/react-checkbox':
         specifier: 1.3.3
         version: 1.3.3(@types/react-dom@19.3.0(@types/react@19.3.0))(@types/react@19.3.0)(react-dom@19.3.1(react@19.3.1))(react@19.3.1)
@@ -3950,6 +3950,9 @@ importers:
       '@module-federation/enhanced':
         specifier: 0.0.0-feat-enhanced-runtime-unification-20261111082820
         version: 0.0.0-feat-enhanced-runtime-unification-20261111082820(@rspack/core@2.3.3(@module-federation/runtime-tools@2.9.2)(@swc/helpers@0.5.24))(bufferutil@4.1.0)(typescript@5.9.3)(utf-8-validate@5.0.10)(webpack@5.104.1(@swc/core@1.16.21(@swc/helpers@0.5.24)))
+      echarts:
+        specifier: 6.0.0
+        version: 6.0.0
       i18next:
         specifier: 25.10.10
         version: 25.10.10(typescript@5.9.3)
@@ -9908,12 +9911,6 @@ packages:
     cpu: [arm64]
     os: [darwin]
 
-  '@swc/core-darwin-arm64@1.16.20':
-    resolution: {integrity: sha512-i7NFSDnuE6tdBvBgmoVKKmburgcwZt/FZK2IusJaVGrjFrMUC1hrgE3RI+Kt9RhYM7vHvQj0W9j53zSxKEMbWQ==}
-    engines: {node: '>=10'}
-    cpu: [arm64]
-    os: [darwin]
-
   '@swc/core-darwin-arm64@1.16.21':
     resolution: {integrity: sha512-VRreJpbRygpSD1hj3HBEOIA1xjXYnhB+IfcKsxZRhCIBGRP4UkqxZH4/ipFh/heIRp7EKQ56E8ygwEftLNCWXw==}
     engines: {node: '>=10'}
@@ -9922,12 +9919,6 @@ packages:
 
   '@swc/core-darwin-x64@1.16.18':
     resolution: {integrity: sha512-tuwxXi+sjxxTAi7GP3NeQXQxOf4SXSiFxKAMYLBdoy7JqGYby6uSDXojcFoLOhSp7oiNGstnaFXxfbP0Hpro9w==}
-    engines: {node: '>=10'}
-    cpu: [x64]
-    os: [darwin]
-
-  '@swc/core-darwin-x64@1.16.20':
-    resolution: {integrity: sha512-ho/LkT1Q3beSBeZGNZnm1mVbh5bKZHC0UGHtK3MswqOylbHtZoMXJBL40N8JpDj5SBxwECmdNEyXnU9HJ4F6RA==}
     engines: {node: '>=10'}
     cpu: [x64]
     os: [darwin]
@@ -9944,12 +9935,6 @@ packages:
     cpu: [arm]
     os: [linux]
 
-  '@swc/core-linux-arm-gnueabihf@1.16.20':
-    resolution: {integrity: sha512-xm3/s3zp9WyNgB1Sl78tpH76MHgobI3TSenTY15bkSHyrdQa9W2MUSESHRPd7CHGFLfpWl/0jwwNp5+hwG0e9A==}
-    engines: {node: '>=10'}
-    cpu: [arm]
-    os: [linux]
-
   '@swc/core-linux-arm-gnueabihf@1.16.21':
     resolution: {integrity: sha512-tLkw3uWxQj69qBRX5Xm8vbq+5iX5e/ktoPXhrDeFFa2jNMc+AWcxa0bqwatvVGK40v5mcmz6Ulu5Nk9jF8ciMA==}
     engines: {node: '>=10'}
@@ -9958,12 +9943,6 @@ packages:
 
   '@swc/core-linux-arm64-gnu@1.16.18':
     resolution: {integrity: sha512-ep/mQyhblQYZ6tkfq0IJspcVSFl5jdywks3kejanrbB31uuujRD/QWOoGNp2L3lLRdAdQvgl/M3pA7g3hSuQug==}
-    engines: {node: '>=10'}
-    cpu: [arm64]
-    os: [linux]
-
-  '@swc/core-linux-arm64-gnu@1.16.20':
-    resolution: {integrity: sha512-e6Um0U+VcTQyurOXhbratRQlrPITSRwugG00fhICbi2MGTi1vRiE4TMqGCjWpR1zPmZKXDGMw+yNFvh7AAgT2Q==}
     engines: {node: '>=10'}
     cpu: [arm64]
     os: [linux]
@@ -9980,12 +9959,6 @@ packages:
     cpu: [arm64]
     os: [linux]
 
-  '@swc/core-linux-arm64-musl@1.16.20':
-    resolution: {integrity: sha512-ekCO2obfK9NFwXGHfAQjjuU5mLDDC7qMaUJH/V/4iyzD0BqNhilr6McZrXLytOQ/xKtTNxLQ71wYrD3M2LW8Kg==}
-    engines: {node: '>=10'}
-    cpu: [arm64]
-    os: [linux]
-
   '@swc/core-linux-arm64-musl@1.16.21':
     resolution: {integrity: sha512-gXDgrMMDsWT7r5gZsml10snBS9yaoVYwU9vGffa+DAts4ctEMrMHv+G8AH+ZxCV9gr5MfdgtGGQKjXjLay4mXQ==}
     engines: {node: '>=10'}
@@ -9994,12 +9967,6 @@ packages:
 
   '@swc/core-linux-ppc64-gnu@1.16.18':
     resolution: {integrity: sha512-v9kiu4as1pJyQ8ESFTtMNydZ99m86QXLfAtm+XiKPKS93pXL80BCaXokAs9ebioGkIXgmwfbzUCdUC62H3JWkw==}
-    engines: {node: '>=10'}
-    cpu: [ppc64]
-    os: [linux]
-
-  '@swc/core-linux-ppc64-gnu@1.16.20':
-    resolution: {integrity: sha512-6/x2K3l4GNUWyaSmkywnth6ipZISzhVzOLsI66bj12/hSQYaKAyg9MKTwnuFf2B/iYA6GrjDghk36RYghRameQ==}
     engines: {node: '>=10'}
     cpu: [ppc64]
     os: [linux]
@@ -10016,12 +9983,6 @@ packages:
     cpu: [s390x]
     os: [linux]
 
-  '@swc/core-linux-s390x-gnu@1.16.20':
-    resolution: {integrity: sha512-1GTd8sqS/NpcF+Y3YDSE0bT31V61+hD7ZZWEsVyiyxk/HQt2zpk4zlJJHOASBLc+/CyUuBZ949n6QMszbIXkmQ==}
-    engines: {node: '>=10'}
-    cpu: [s390x]
-    os: [linux]
-
   '@swc/core-linux-s390x-gnu@1.16.21':
     resolution: {integrity: sha512-rmtGwkAlbl+fQMGrGUMklUmByueOmt1ju9sKsE5YWVA0KfFYM0W87WVx4lFYQXt+E4P3zkLjeqo/AUa5mFbF1A==}
     engines: {node: '>=10'}
@@ -10030,12 +9991,6 @@ packages:
 
   '@swc/core-linux-x64-gnu@1.16.18':
     resolution: {integrity: sha512-Ml6kbe0BoVJkSgmYPAEUudGcu84jaQeqDN8xeMumbwNpT0vlmm7241Ddp9XKCjQABvjomnXF0OiNOAfjBhNDNw==}
-    engines: {node: '>=10'}
-    cpu: [x64]
-    os: [linux]
-
-  '@swc/core-linux-x64-gnu@1.16.20':
-    resolution: {integrity: sha512-XtMeYAgQa5UZhAX84TXn0sXPmhf1xHwcv0cl5hHiBXxTVbplY7WiTwIQU9uOtVm3VUqL/quyCm78/umUNZ7FmA==}
     engines: {node: '>=10'}
     cpu: [x64]
     os: [linux]
@@ -10052,12 +10007,6 @@ packages:
     cpu: [x64]
     os: [linux]
 
-  '@swc/core-linux-x64-musl@1.16.20':
-    resolution: {integrity: sha512-qeF3UILa+MA4zJ29CdQ8KE7YbGFPMQBxWo3Lh0Ed0ETFEJ8pCKISWo7wQG4/SmfM9HX4KT1Odoj6ixyBn6Ji2Q==}
-    engines: {node: '>=10'}
-    cpu: [x64]
-    os: [linux]
-
   '@swc/core-linux-x64-musl@1.16.21':
     resolution: {integrity: sha512-ZXUnLjxTHxvNhVmQmYlb8XNKArfi/MiGoW5DmfuME8ttCLH9OJTqJVFy7g1yYxUCgw3tU6dF1uU59N8P/Yr5Pw==}
     engines: {node: '>=10'}
@@ -10066,12 +10015,6 @@ packages:
 
   '@swc/core-win32-arm64-msvc@1.16.18':
     resolution: {integrity: sha512-S53hm7Amc3YV8t2BUT6R7J+zSnwiGarG+GnxMca4W0uMkxBZ3Gl6jBwEgb6YqrYjf2DzOuRfauztqptCO76a/w==}
-    engines: {node: '>=10'}
-    cpu: [arm64]
-    os: [win32]
-
-  '@swc/core-win32-arm64-msvc@1.16.20':
-    resolution: {integrity: sha512-ciMtHXAmE+jnrWWO14rErr6tfK34QZm8jZRSdRLPodqJlzrYDw7TqN60HC8Yim5Ua9a1r/poyfkpNft6GRXvxA==}
     engines: {node: '>=10'}
     cpu: [arm64]
     os: [win32]
@@ -10088,12 +10031,6 @@ packages:
     cpu: [ia32]
     os: [win32]
 
-  '@swc/core-win32-ia32-msvc@1.16.20':
-    resolution: {integrity: sha512-MTbkgGooWebmjmATx1+QRECVZ+q4ICKNXCutwOrFVD5b5hdxla/yV4e6cRFrfNMowejaNpmMQg31ENWt0Yfzpg==}
-    engines: {node: '>=10'}
-    cpu: [ia32]
-    os: [win32]
-
   '@swc/core-win32-ia32-msvc@1.16.21':
     resolution: {integrity: sha512-TaVTnNm9c1I+VG3hJUt11uspwbTrTQ9+fUPzODlvx4tj/ChYqUm4cKTIHw3O97hILxpmhBR0hbvLEs9seOV59A==}
     engines: {node: '>=10'}
@@ -10106,12 +10043,6 @@ packages:
     cpu: [x64]
     os: [win32]
 
-  '@swc/core-win32-x64-msvc@1.16.20':
-    resolution: {integrity: sha512-Lf5oMaSdJBImtGhDecasxcIa7Z5LeJ4aGmBOY7TScroO+A/MxxB9PslIpgV0rtG/FcxtipN7hveBg9ZTeboaaw==}
-    engines: {node: '>=10'}
-    cpu: [x64]
-    os: [win32]
-
   '@swc/core-win32-x64-msvc@1.16.21':
     resolution: {integrity: sha512-aPv58Clf6SdAQtouzDYKbEtcCETY2hOXlrHgSFnFIJQOlMWINHSGazaM1Iv63/9wOUDPq6+0ZFytMqnPtER9OQ==}
     engines: {node: '>=10'}
@@ -10120,15 +10051,6 @@ packages:
 
   '@swc/core@1.16.18':
     resolution: {integrity: sha512-0cYQLkpcwUngg55TDwpwrrVOU+B6zh1NFbp+oS7dVFhmYkzaARelwugo/bzPJh1FrcnppmF+KTqioCGwyqbcEw==}
-    engines: {node: '>=10'}
-    peerDependencies:
-      '@swc/helpers': '>=0.5.17'
-    peerDependenciesMeta:
-      '@swc/helpers':
-        optional: true
-
-  '@swc/core@1.16.20':
-    resolution: {integrity: sha512-zcdfS7k28OJIMuLhqRRyGja9PxrC2GXhFXkbQ1X15y6uZEMsTrqyej55V1DiJtlXaDOmwSLn5222YPT9ZoFxPA==}
     engines: {node: '>=10'}
     peerDependencies:
       '@swc/helpers': '>=0.5.17'
@@ -12557,6 +12479,9 @@ packages:
 
   eastasianwidth@0.2.0:
     resolution: {integrity: sha512-I88TYZWc9XiYHRQ4/3c5rjjfgkjhLyW2luGIheGERbNQ6OY7yTybanSpDXZa8y7VUP9YmDcYa+eyq4ca7iLqWA==}
+
+  echarts@6.0.0:
+    resolution: {integrity: sha512-Tte/grDQRiETQP4xz3iZWSvoHrkCQtwqd6hs+mifXcjrCuo2iKWbajFObuLJVBlDIJlOzgQPd1hsaKt/3+OMkQ==}
 
   edit-json-file@1.8.1:
     resolution: {integrity: sha512-x8L381+GwqxQejPipwrUZIyAg5gDQ9tLVwiETOspgXiaQztLsrOm7luBW5+Pe31aNezuzDY79YyzF+7viCRPXA==}
@@ -17801,6 +17726,9 @@ packages:
   tslib@1.14.1:
     resolution: {integrity: sha512-Xni35NKzjgMrwevysHTCArtLDpPvye8zV/0E4EyYn43P7/7qvQwPh9BGkHewbMulVntbigmcT7rdX3BNo9wRJg==}
 
+  tslib@2.3.0:
+    resolution: {integrity: sha512-N82ooyxVNm6h1riLCoyS9e3fuJ3AMG2zIZs2Gd1ATcSFjSA23Q0fzjjZeh0jbJvWVDZ0cJT8yaNNaaXHzueNjg==}
+
   tslib@2.8.1:
     resolution: {integrity: sha512-oJFu94HQb+KVduSUQL7wnpmqnfmLsOA/nAh6b6EH0wCEoK0/mPeXU6c3wKDV83MkOuHPRHtSXKKU99IBazS/2w==}
 
@@ -18534,6 +18462,9 @@ packages:
 
   zod@3.25.76:
     resolution: {integrity: sha512-gzUt/qt81nXsFGKIFcC3YnfEAx5NkunCfnDlvuBSSFS02bcXu4Lmea0AFIUwbLWxWPx3d9p8S5QoaujKcNQxcQ==}
+
+  zrender@6.0.0:
+    resolution: {integrity: sha512-41dFXEEXuJpNecuUQq6JlbybmnHaqqpGlbH1yxnA5V9MMP4SbohSVZsJIwz+zdjQXSSlR1Vc34EgH1zxyTDvhg==}
 
   zwitch@2.0.4:
     resolution: {integrity: sha512-bXE4cR/kVZhKZX/RjPEflHaKVhUVl85noU3v6b8apfQEc1x4A+zBxjZ4lN8LqGd6WZ3dl98pY4o717VFmoPp+A==}
@@ -22160,18 +22091,6 @@ snapshots:
       react-router: 7.18.4(react-dom@19.3.1(react@19.3.1))(react@19.3.1)
       react-router-dom: 7.18.4(react-dom@19.3.1(react@19.3.1))(react@19.3.1)
 
-  '@module-federation/bridge-react@0.0.0-feat-enhanced-runtime-unification-20261111082820(@module-federation/enhanced@0.0.0-feat-enhanced-runtime-unification-20261111082820(@rspack/core@2.2.9(@module-federation/runtime-tools@2.9.2)(@swc/helpers@0.5.23))(bufferutil@4.1.0)(typescript@5.9.3)(utf-8-validate@5.0.10)(webpack@5.104.1(@swc/core@1.16.20(@swc/helpers@0.5.23))))(react-dom@19.3.1(react@19.3.1))(react-router-dom@7.18.4(react-dom@19.3.1(react@19.3.1))(react@19.3.1))(react-router@7.18.4(react-dom@19.3.1(react@19.3.1))(react@19.3.1))(react@19.3.1)':
-    dependencies:
-      '@module-federation/bridge-shared': 0.0.0-feat-enhanced-runtime-unification-20261111082820
-      '@module-federation/enhanced': 0.0.0-feat-enhanced-runtime-unification-20261111082820(@rspack/core@2.2.9(@module-federation/runtime-tools@2.9.2)(@swc/helpers@0.5.23))(bufferutil@4.1.0)(typescript@5.9.3)(utf-8-validate@5.0.10)(webpack@5.104.1(@swc/core@1.16.20(@swc/helpers@0.5.23)))
-      '@module-federation/sdk': 0.0.0-feat-enhanced-runtime-unification-20261111082820
-      acorn: 8.15.0
-      react: 19.3.1
-      react-dom: 19.3.1(react@19.3.1)
-    optionalDependencies:
-      react-router: 7.18.4(react-dom@19.3.1(react@19.3.1))(react@19.3.1)
-      react-router-dom: 7.18.4(react-dom@19.3.1(react@19.3.1))(react@19.3.1)
-
   '@module-federation/bridge-react@0.0.0-feat-enhanced-runtime-unification-20261111082820(@module-federation/enhanced@0.0.0-feat-enhanced-runtime-unification-20261111082820(@rspack/core@2.3.3(@module-federation/runtime-tools@0.0.0-feat-enhanced-runtime-unification-20261111082820)(@swc/helpers@0.5.24))(bufferutil@4.1.0)(typescript@5.9.3)(utf-8-validate@5.0.10)(webpack@5.104.1(@swc/core@1.16.21(@swc/helpers@0.5.24))(postcss@8.5.31)))(react-dom@19.2.8(react@19.2.8))(react-router-dom@7.16.0(react-dom@19.2.8(react@19.2.8))(react@19.2.8))(react-router@7.15.1(react-dom@19.2.8(react@19.2.8))(react@19.2.8))(react@19.2.8)':
     dependencies:
       '@module-federation/bridge-shared': 0.0.0-feat-enhanced-runtime-unification-20261111082820
@@ -22417,29 +22336,6 @@ snapshots:
     optionalDependencies:
       typescript: 5.7.3
       webpack: 5.104.1(@swc/core@1.16.21(@swc/helpers@0.5.24))
-    transitivePeerDependencies:
-      - '@rspack/core'
-      - bufferutil
-      - utf-8-validate
-
-  '@module-federation/enhanced@0.0.0-feat-enhanced-runtime-unification-20261111082820(@rspack/core@2.2.9(@module-federation/runtime-tools@2.9.2)(@swc/helpers@0.5.23))(bufferutil@4.1.0)(typescript@5.9.3)(utf-8-validate@5.0.10)(webpack@5.104.1(@swc/core@1.16.20(@swc/helpers@0.5.23)))':
-    dependencies:
-      '@module-federation/bridge-react-webpack-plugin': 0.0.0-feat-enhanced-runtime-unification-20261111082820
-      '@module-federation/cli': 0.0.0-feat-enhanced-runtime-unification-20261111082820(bufferutil@4.1.0)(typescript@5.9.3)(utf-8-validate@5.0.10)
-      '@module-federation/dts-plugin': 0.0.0-feat-enhanced-runtime-unification-20261111082820(bufferutil@4.1.0)(typescript@5.9.3)(utf-8-validate@5.0.10)
-      '@module-federation/error-codes': 0.0.0-feat-enhanced-runtime-unification-20261111082820
-      '@module-federation/inject-external-runtime-core-plugin': 0.0.0-feat-enhanced-runtime-unification-20261111082820(@module-federation/runtime-tools@0.0.0-feat-enhanced-runtime-unification-20261111082820)
-      '@module-federation/managers': 0.0.0-feat-enhanced-runtime-unification-20261111082820
-      '@module-federation/manifest': 0.0.0-feat-enhanced-runtime-unification-20261111082820(bufferutil@4.1.0)(typescript@5.9.3)(utf-8-validate@5.0.10)
-      '@module-federation/rspack': 0.0.0-feat-enhanced-runtime-unification-20261111082820(@rspack/core@2.2.9(@module-federation/runtime-tools@2.9.2)(@swc/helpers@0.5.23))(bufferutil@4.1.0)(typescript@5.9.3)(utf-8-validate@5.0.10)
-      '@module-federation/runtime-tools': 0.0.0-feat-enhanced-runtime-unification-20261111082820
-      '@module-federation/sdk': 0.0.0-feat-enhanced-runtime-unification-20261111082820
-      '@module-federation/webpack-bundler-runtime': 0.0.0-feat-enhanced-runtime-unification-20261111082820
-      schema-utils: 4.5.0
-      tapable: 2.3.0
-    optionalDependencies:
-      typescript: 5.9.3
-      webpack: 5.104.1(@swc/core@1.16.20(@swc/helpers@0.5.23))
     transitivePeerDependencies:
       - '@rspack/core'
       - bufferutil
@@ -22991,22 +22887,6 @@ snapshots:
       '@rspack/core': 2.2.9(@module-federation/runtime-tools@2.9.2)(@swc/helpers@0.5.23)
     optionalDependencies:
       typescript: 5.7.3
-    transitivePeerDependencies:
-      - bufferutil
-      - utf-8-validate
-
-  '@module-federation/rspack@0.0.0-feat-enhanced-runtime-unification-20261111082820(@rspack/core@2.2.9(@module-federation/runtime-tools@2.9.2)(@swc/helpers@0.5.23))(bufferutil@4.1.0)(typescript@5.9.3)(utf-8-validate@5.0.10)':
-    dependencies:
-      '@module-federation/bridge-react-webpack-plugin': 0.0.0-feat-enhanced-runtime-unification-20261111082820
-      '@module-federation/dts-plugin': 0.0.0-feat-enhanced-runtime-unification-20261111082820(bufferutil@4.1.0)(typescript@5.9.3)(utf-8-validate@5.0.10)
-      '@module-federation/inject-external-runtime-core-plugin': 0.0.0-feat-enhanced-runtime-unification-20261111082820(@module-federation/runtime-tools@0.0.0-feat-enhanced-runtime-unification-20261111082820)
-      '@module-federation/managers': 0.0.0-feat-enhanced-runtime-unification-20261111082820
-      '@module-federation/manifest': 0.0.0-feat-enhanced-runtime-unification-20261111082820(bufferutil@4.1.0)(typescript@5.9.3)(utf-8-validate@5.0.10)
-      '@module-federation/runtime-tools': 0.0.0-feat-enhanced-runtime-unification-20261111082820
-      '@module-federation/sdk': 0.0.0-feat-enhanced-runtime-unification-20261111082820
-      '@rspack/core': 2.2.9(@module-federation/runtime-tools@2.9.2)(@swc/helpers@0.5.23)
-    optionalDependencies:
-      typescript: 5.9.3
     transitivePeerDependencies:
       - bufferutil
       - utf-8-validate
@@ -25889,16 +25769,10 @@ snapshots:
   '@swc/core-darwin-arm64@1.16.18':
     optional: true
 
-  '@swc/core-darwin-arm64@1.16.20':
-    optional: true
-
   '@swc/core-darwin-arm64@1.16.21':
     optional: true
 
   '@swc/core-darwin-x64@1.16.18':
-    optional: true
-
-  '@swc/core-darwin-x64@1.16.20':
     optional: true
 
   '@swc/core-darwin-x64@1.16.21':
@@ -25907,16 +25781,10 @@ snapshots:
   '@swc/core-linux-arm-gnueabihf@1.16.18':
     optional: true
 
-  '@swc/core-linux-arm-gnueabihf@1.16.20':
-    optional: true
-
   '@swc/core-linux-arm-gnueabihf@1.16.21':
     optional: true
 
   '@swc/core-linux-arm64-gnu@1.16.18':
-    optional: true
-
-  '@swc/core-linux-arm64-gnu@1.16.20':
     optional: true
 
   '@swc/core-linux-arm64-gnu@1.16.21':
@@ -25925,16 +25793,10 @@ snapshots:
   '@swc/core-linux-arm64-musl@1.16.18':
     optional: true
 
-  '@swc/core-linux-arm64-musl@1.16.20':
-    optional: true
-
   '@swc/core-linux-arm64-musl@1.16.21':
     optional: true
 
   '@swc/core-linux-ppc64-gnu@1.16.18':
-    optional: true
-
-  '@swc/core-linux-ppc64-gnu@1.16.20':
     optional: true
 
   '@swc/core-linux-ppc64-gnu@1.16.21':
@@ -25943,16 +25805,10 @@ snapshots:
   '@swc/core-linux-s390x-gnu@1.16.18':
     optional: true
 
-  '@swc/core-linux-s390x-gnu@1.16.20':
-    optional: true
-
   '@swc/core-linux-s390x-gnu@1.16.21':
     optional: true
 
   '@swc/core-linux-x64-gnu@1.16.18':
-    optional: true
-
-  '@swc/core-linux-x64-gnu@1.16.20':
     optional: true
 
   '@swc/core-linux-x64-gnu@1.16.21':
@@ -25961,16 +25817,10 @@ snapshots:
   '@swc/core-linux-x64-musl@1.16.18':
     optional: true
 
-  '@swc/core-linux-x64-musl@1.16.20':
-    optional: true
-
   '@swc/core-linux-x64-musl@1.16.21':
     optional: true
 
   '@swc/core-win32-arm64-msvc@1.16.18':
-    optional: true
-
-  '@swc/core-win32-arm64-msvc@1.16.20':
     optional: true
 
   '@swc/core-win32-arm64-msvc@1.16.21':
@@ -25979,16 +25829,10 @@ snapshots:
   '@swc/core-win32-ia32-msvc@1.16.18':
     optional: true
 
-  '@swc/core-win32-ia32-msvc@1.16.20':
-    optional: true
-
   '@swc/core-win32-ia32-msvc@1.16.21':
     optional: true
 
   '@swc/core-win32-x64-msvc@1.16.18':
-    optional: true
-
-  '@swc/core-win32-x64-msvc@1.16.20':
     optional: true
 
   '@swc/core-win32-x64-msvc@1.16.21':
@@ -26031,26 +25875,6 @@ snapshots:
       '@swc/core-win32-ia32-msvc': 1.16.18
       '@swc/core-win32-x64-msvc': 1.16.18
       '@swc/helpers': 0.5.24
-
-  '@swc/core@1.16.20(@swc/helpers@0.5.23)':
-    dependencies:
-      '@swc/counter': 0.1.3
-      '@swc/types': 0.1.28
-    optionalDependencies:
-      '@swc/core-darwin-arm64': 1.16.20
-      '@swc/core-darwin-x64': 1.16.20
-      '@swc/core-linux-arm-gnueabihf': 1.16.20
-      '@swc/core-linux-arm64-gnu': 1.16.20
-      '@swc/core-linux-arm64-musl': 1.16.20
-      '@swc/core-linux-ppc64-gnu': 1.16.20
-      '@swc/core-linux-s390x-gnu': 1.16.20
-      '@swc/core-linux-x64-gnu': 1.16.20
-      '@swc/core-linux-x64-musl': 1.16.20
-      '@swc/core-win32-arm64-msvc': 1.16.20
-      '@swc/core-win32-ia32-msvc': 1.16.20
-      '@swc/core-win32-x64-msvc': 1.16.20
-      '@swc/helpers': 0.5.23
-    optional: true
 
   '@swc/core@1.16.21(@swc/helpers@0.5.23)':
     dependencies:
@@ -28940,6 +28764,11 @@ snapshots:
   duplexer@0.1.2: {}
 
   eastasianwidth@0.2.0: {}
+
+  echarts@6.0.0:
+    dependencies:
+      tslib: 2.3.0
+      zrender: 6.0.0
 
   edit-json-file@1.8.1:
     dependencies:
@@ -35587,17 +35416,6 @@ snapshots:
       '@swc/core': 1.16.18(@swc/helpers@0.5.23)
     optional: true
 
-  terser-webpack-plugin@5.6.1(@swc/core@1.16.20(@swc/helpers@0.5.23))(webpack@5.104.1(@swc/core@1.16.20(@swc/helpers@0.5.23))):
-    dependencies:
-      '@jridgewell/trace-mapping': 0.3.31
-      jest-worker: 27.5.1
-      schema-utils: 4.5.0
-      terser: 5.51.2
-      webpack: 5.104.1(@swc/core@1.16.20(@swc/helpers@0.5.23))
-    optionalDependencies:
-      '@swc/core': 1.16.20(@swc/helpers@0.5.23)
-    optional: true
-
   terser-webpack-plugin@5.6.1(@swc/core@1.16.21(@swc/helpers@0.5.23))(esbuild@0.27.2)(lightningcss@1.32.0)(postcss@8.5.31)(webpack@5.104.1(@swc/core@1.16.21(@swc/helpers@0.5.23))(esbuild@0.27.2)(lightningcss@1.32.0)(postcss@8.5.31)):
     dependencies:
       '@jridgewell/trace-mapping': 0.3.31
@@ -36028,6 +35846,8 @@ snapshots:
       strip-bom: 3.0.0
 
   tslib@1.14.1: {}
+
+  tslib@2.3.0: {}
 
   tslib@2.8.1: {}
 
@@ -36519,48 +36339,6 @@ snapshots:
       - postcss
       - uglify-js
 
-  webpack@5.104.1(@swc/core@1.16.20(@swc/helpers@0.5.23)):
-    dependencies:
-      '@types/eslint-scope': 3.7.7
-      '@types/estree': 1.0.9
-      '@types/json-schema': 7.0.15
-      '@webassemblyjs/ast': 1.14.1
-      '@webassemblyjs/wasm-edit': 1.14.1
-      '@webassemblyjs/wasm-parser': 1.14.1
-      acorn: 8.18.0
-      acorn-import-phases: 1.0.4(acorn@8.18.0)
-      browserslist: 4.29.3
-      chrome-trace-event: 1.0.4
-      enhanced-resolve: 5.26.0
-      es-module-lexer: 2.3.2
-      eslint-scope: 5.1.1
-      events: 3.3.0
-      glob-to-regexp: 0.4.1
-      graceful-fs: 4.2.11
-      json-parse-even-better-errors: 2.3.1
-      loader-runner: 4.3.2
-      mime-types: 2.1.35
-      neo-async: 2.6.2
-      schema-utils: 4.5.0
-      tapable: 2.3.3
-      terser-webpack-plugin: 5.6.1(@swc/core@1.16.20(@swc/helpers@0.5.23))(webpack@5.104.1(@swc/core@1.16.20(@swc/helpers@0.5.23)))
-      watchpack: 2.5.2
-      webpack-sources: 3.5.1
-    transitivePeerDependencies:
-      - '@minify-html/node'
-      - '@swc/core'
-      - '@swc/css'
-      - '@swc/html'
-      - clean-css
-      - cssnano
-      - csso
-      - esbuild
-      - html-minifier-terser
-      - lightningcss
-      - postcss
-      - uglify-js
-    optional: true
-
   webpack@5.104.1(@swc/core@1.16.21(@swc/helpers@0.5.23))(esbuild@0.27.2)(lightningcss@1.32.0)(postcss@8.5.31):
     dependencies:
       '@types/eslint-scope': 3.7.7
@@ -36969,5 +36747,9 @@ snapshots:
       zod: 3.25.76
 
   zod@3.25.76: {}
+
+  zrender@6.0.0:
+    dependencies:
+      tslib: 2.3.0
 
   zwitch@2.0.4: {}

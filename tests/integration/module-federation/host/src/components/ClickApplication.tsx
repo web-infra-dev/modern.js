@@ -84,7 +84,9 @@ export function ClickApplication({ kind }: { kind: ApplicationKind }) {
       }
       if (
         !complete &&
-        container.current?.querySelector('[data-report-complete]')
+        container.current?.querySelector('[data-report-complete]') &&
+        container.current.querySelectorAll('[data-report-chart] svg').length ===
+          6
       ) {
         complete = true;
         frames.add(

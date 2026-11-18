@@ -60,9 +60,7 @@ for (const scenario of scenarios.filter(
                 response.url().includes('/mf/service/'),
             );
             await page.click('[data-testid="service-compare-load"]');
-            expect(await (await response).text()).toContain(
-              'data-report-chart',
-            );
+            expect((await response).status()).toBe(200);
             const frames = page
               .frames()
               .filter(frame => /bench=(service|bridge)/.test(frame.url()));
@@ -76,29 +74,35 @@ for (const scenario of scenarios.filter(
               );
               expect(new URL(frame.url()).searchParams.has('csr')).toBe(false);
               expect(
-                await frame.$eval(
-                  '[data-report-chart="rain"] rect title',
-                  node => node.textContent,
-                ),
-              ).toContain('Jun 1');
-              expect(
                 await frame.$$eval(
                   '[data-report-chart] svg',
                   charts => charts.length,
                 ),
               ).toBe(6);
+              expect(await frame.$('.weather-app-header')).toBeNull();
+              const serverChartCount = await frame.$$eval(
+                '[data-server-chart="true"]',
+                nodes => nodes.length,
+              );
+              expect(serverChartCount).toBe(
+                frame.url().includes('bench=service') ? 6 : 0,
+              );
               expect(
-                await frame.$$eval(
-                  '[data-report-chart="heatmap"] rect',
-                  cells => cells.length,
+                await frame.$eval(
+                  '.report-sample-count',
+                  node => node.textContent,
                 ),
-              ).toBe(720);
-              await frame.select('[aria-label="Report period"]', '7');
+              ).toContain('17,280');
               await frame.waitForFunction(
                 () =>
-                  document.querySelectorAll(
-                    '[data-report-chart="heatmap"] rect',
-                  ).length === 168,
+                  document.querySelectorAll('[data-chart-ready="true"]')
+                    .length === 6,
+              );
+              await frame.select('[aria-label="Report period"]', '7');
+              await frame.waitForFunction(() =>
+                document
+                  .querySelector('.report-sample-count')
+                  ?.textContent?.includes('4,032'),
               );
               await frame.select('[aria-label="Report station"]', '1');
               expect(
@@ -787,7 +791,7 @@ if (process.env.MF_LAB_MODE !== 'dev') {
             });
             expect(home.status).toBe(200);
             expect(home.headers.get('x-modernjs-render')).not.toBe('client');
-            expect(await home.text()).toContain('渲染对比');
+            expect(await home.text()).toContain('Rendering');
           },
         );
         expect(documents.filter(item => item.policy === 'wait')).toHaveLength(

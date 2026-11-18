@@ -160,14 +160,6 @@
   height: auto;
   overflow: visible;
 }
-.weather-report .report-chart svg text {
-  font:
-    11px -apple-system,
-    BlinkMacSystemFont,
-    'Segoe UI',
-    sans-serif;
-  fill: #64778b;
-}
 .weather-report .report-legend {
   display: flex;
   flex-wrap: wrap;
@@ -277,21 +269,13 @@
   }
 }
 
-.weather-report-page .weather-app-header,
-.weather-report-page .weather-app-nav,
-.weather-report-page .weather-app-breadcrumb,
-.weather-report-page .weather-app-footer {
-  display: none;
+.weather-report .report-echart {
+  width: 100%;
+  height: 280px;
+  overflow: hidden;
 }
-.weather-report-page .weather-app-layout {
-  max-width: none;
-  padding: 0;
-  margin: 0;
-}
-.weather-report-page.weather-application {
-  min-height: 100vh;
-  background: #f4f8fc;
-}
-.weather-report-page .weather-report {
-  border-radius: 0;
+.weather-report .report-echart > svg {
+  width: 100%;
+  height: 100%;
+  display: block;
 }
