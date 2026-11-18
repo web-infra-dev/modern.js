@@ -17,6 +17,7 @@ import {
   type EagerRouteComponentFilesByEntry,
   collectRouteComponentFiles,
   getEntryOptions,
+  isSSGEntry,
   isUseRsc,
   isUseSSRBundle,
   logger,
