@@ -2,6 +2,8 @@ import { useState } from 'react';
 import { useSearchParams } from '@modern-js/runtime/router';
 import { LabLayout, LabEnvironments } from './LabLayout';
 import { LabPanel } from './LabPanel';
+import { LabChain } from './LabChain';
+import { LabIcon } from './LabIcon';
 import { ProducerUpdateControls } from './ProducerUpdateControls';
 
 export function SSRWorkbench() {
@@ -80,15 +82,14 @@ export function SSRWorkbench() {
               )}
             </select>
           </label>
-          <span className="lab-note">
-            {nested
-              ? 'Host → Modern → Rslib'
-              : bridge
-                ? 'Host → Bridge application'
-                : 'Host → Weather component'}
-          </span>
-          <button onClick={() => setRun(value => value + 1)}>
-            重新请求 SSR
+          <LabChain nested={nested} />
+          <button
+            className="lab-icon-button"
+            title="重新请求 SSR"
+            aria-label="重新请求 SSR"
+            onClick={() => setRun(value => value + 1)}
+          >
+            <LabIcon name="refresh" /> SSR
           </button>
         </div>
         {!cache && process.env.NODE_ENV === 'development' && (
@@ -102,6 +103,7 @@ export function SSRWorkbench() {
                   key={source.file}
                   href={href}
                   title={source.file}
+                  className="lab-source-link"
                   onClick={async event => {
                     event.preventDefault();
                     setSourceMessage('');
@@ -116,18 +118,14 @@ export function SSRWorkbench() {
                     }
                   }}
                 >
-                  {source.label} ↗ <code>{source.file}</code>
+                  <LabIcon name="code" />
+                  {source.label}
                 </a>
               );
             })}
             {sourceMessage && <small role="status">{sourceMessage}</small>}
           </div>
         )}
-        <p className="lab-note">
-          {cache
-            ? '在同一轮实验中切换版本、观察更新期间请求，再执行 GC 对比内存。局部更新需要进入静态配置，以实际 mode / entries 判断结果。'
-            : '编辑生产者源码观察浏览器 HMR。Node 准备完成不触发额外刷新；点击重新请求 SSR，观察最新首屏。'}
-        </p>
       </section>
       {cache && (
         <ProducerUpdateControls

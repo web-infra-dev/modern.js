@@ -49,12 +49,14 @@ export async function exerciseUpdateRequestFrames(
   });
   await page.click('[data-testid="update-request-lab"] summary');
   try {
-    await page.select('[data-testid="request-version"]', 'v2');
-    await page.click('[data-testid="request-start"]');
-    await page.waitForFunction(() =>
-      document
-        .querySelector('[data-testid="request-state"]')
-        ?.textContent?.includes('held'),
+    await page.select('[data-testid="update-select"]', 'v2');
+    await page.select('[data-testid="update-delay"]', '-1');
+    await page.click('[data-testid="update-apply"]');
+    await page.waitForFunction(
+      () =>
+        document
+          .querySelector('[data-testid="request-state"]')
+          ?.getAttribute('data-held') === 'true',
     );
     await onHeld?.();
     await page.click('[data-testid="request-add"]');
@@ -84,8 +86,8 @@ export async function exerciseUpdateRequestFrames(
     }
     await page.waitForFunction(() =>
       document
-        .querySelector('[data-testid="request-result"]')
-        ?.textContent?.includes('Applied:'),
+        .querySelector('[data-testid="update-mode"]')
+        ?.textContent?.includes('更新'),
     );
     return documents;
   } finally {

@@ -1,3 +1,4 @@
+import { LabIcon } from './LabIcon';
 import type { ReactNode } from 'react';
 import { useLocation } from '@modern-js/runtime/router';
 import '../weather-base.css';
@@ -65,14 +66,13 @@ export function LabSidebar({ section }: { section: LabSection }) {
 export function LabLayout({
   section,
   title,
-  description,
   tabs,
   children,
   className = '',
 }: {
   section: LabSection;
   title: string;
-  description: string;
+  description?: string;
   tabs?: LabTab[];
   children: ReactNode;
   className?: string;
@@ -83,7 +83,6 @@ export function LabLayout({
       <main className="lab-main">
         <header className="lab-heading">
           <h1>{title}</h1>
-          <p>{description}</p>
         </header>
         {tabs && (
           <nav className="lab-tabs" aria-label="专项测试">
@@ -137,12 +136,12 @@ export function LabEnvironments({
       </span>
       {production && (
         <a href={`${production}${path}`}>
-          进入 Build + serve 测试 <span aria-hidden="true">↗</span>
+          <LabIcon name="server" /> Build + serve
         </a>
       )}
       {staticOrigin && !partial && (
         <a href={`${staticOrigin}/?lab=ssr&tab=cache`}>
-          局部更新配置 <span aria-hidden="true">↗</span>
+          <LabIcon name="code" /> 局部更新
         </a>
       )}
     </div>

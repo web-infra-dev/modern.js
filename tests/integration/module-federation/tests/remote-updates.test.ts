@@ -700,6 +700,27 @@ if (process.env.MF_LAB_MODE !== 'dev') {
         expect(documents.filter(item => item.policy === 'wait')).toHaveLength(
           2,
         );
+        const manifest = await (
+          await fetch(
+            `http://localhost:${lab.ports.providerV2}/static/mf-manifest.json`,
+          )
+        ).json();
+        const weather = manifest.exposes.find(item => item.name === 'Weather');
+        const stylesheets = [
+          ...weather.assets.css.sync,
+          ...weather.assets.css.async,
+        ].map(asset => new URL(asset, manifest.metaData.publicPath).href);
+        expect(stylesheets.length).toBeGreaterThan(0);
+        for (const document of documents.filter(
+          item => item.policy === 'wait',
+        )) {
+          for (const href of stylesheets) {
+            expect(document.html).toContain(`href="${href}"`);
+            expect(document.html.indexOf(`href="${href}"`)).toBeLessThan(
+              document.html.indexOf('data-testid="weather-current"'),
+            );
+          }
+        }
         const after = await status();
         expect(after.pid).toBe(before.pid);
         expect(after.operation.result).toMatchObject({
@@ -719,6 +740,50 @@ if (process.env.MF_LAB_MODE !== 'dev') {
           after.entries.find(record => record.entry === 'weather').modules,
         ).not.toEqual(
           before.entries.find(record => record.entry === 'weather').modules,
+        );
+        expect(
+          await page.$eval('[data-entry="weather"]', row =>
+            row.getAttribute('data-changed'),
+          ),
+        ).toBe('true');
+        expect(
+          await page.$eval('[data-entry="index"]', row =>
+            row.getAttribute('data-changed'),
+          ),
+        ).toBe('false');
+        // Automatic delay pauses the real update after admission has closed.
+        await page.select('[data-testid="update-select"]', 'v1');
+        await page.select('[data-testid="update-delay"]', '1000');
+        await page.select('[data-testid="request-policy"]', 'wait');
+        await page.click('[data-testid="update-apply"]');
+        await page.waitForFunction(
+          () =>
+            document
+              .querySelector('[data-testid="request-state"]')
+              ?.getAttribute('data-held') === 'true',
+        );
+        await page.click('[data-testid="request-add"]');
+        expect(
+          await page.$$eval('[data-testid="request-frame"]', frames =>
+            frames.at(-1)?.getAttribute('data-status'),
+          ),
+        ).toBe('pending');
+        await page.waitForSelector(
+          '[data-testid="update-apply"]:not(:disabled)',
+        );
+        const delayed = await status();
+        expect(delayed.operation.delayMs).toBe(1000);
+        expect(delayed.operation.completed).toBe(true);
+        expect(delayed.operation.result.timingsMs.total).toBeGreaterThanOrEqual(
+          1000,
+        );
+        await page.waitForFunction(
+          () =>
+            Array.from(
+              document.querySelectorAll('[data-testid="request-frame"]'),
+            )
+              .at(-1)
+              ?.getAttribute('data-status') === '200',
         );
       });
     },

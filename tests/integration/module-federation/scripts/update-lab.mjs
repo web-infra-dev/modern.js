@@ -18,11 +18,40 @@ export function updateLabPlugin() {
             throw error;
           };
         const ports = JSON.parse(process.env.MF_LAB_PORTS || '{}');
+        const entryState = () => {
+          const owner = globalThis[
+            Symbol.for('modern-js.mf.ssr.owners')
+          ]?.owners.get(api.getServerContext().ssrUpdateOwnerId);
+          return [...(owner?.entries.values() || [])].map(record => {
+            if (!identities.has(record.runtime))
+              identities.set(record.runtime, ++identity);
+            return {
+              entry: record.entry,
+              runtime: identities.get(record.runtime),
+              modules: record.rootIds.map(id => {
+                const module = record.runtime.c[id];
+                if (!module) return null;
+                if (!identities.has(module)) identities.set(module, ++identity);
+                return identities.get(module);
+              }),
+            };
+          });
+        };
         context.ssrUpdateParticipants.push({
           async invalidate() {
-            if (!current?.release) return;
-            current.held = true;
-            await current.gate;
+            const operation = current;
+            if (!operation?.release) return;
+            operation.held = true;
+            if (operation.delayMs >= 0) {
+              if (operation.delayMs === 0) operation.release();
+              else
+                operation.timer = setTimeout(
+                  operation.release,
+                  operation.delayMs,
+                );
+            }
+            await operation.gate;
+            operation.held = false;
           },
         });
         const previous = application.beforeRequest;
@@ -60,9 +89,6 @@ export function updateLabPlugin() {
             return json({ policy });
           }
           if (action === 'status' && request.method === 'GET') {
-            const owner = globalThis[
-              Symbol.for('modern-js.mf.ssr.owners')
-            ]?.owners.get(api.getServerContext().ssrUpdateOwnerId);
             return json({
               pid: process.pid,
               configuredScope: process.env.MF_LAB_SSR_SCOPE || 'application',
@@ -73,23 +99,12 @@ export function updateLabPlugin() {
                 completed: current.completed,
                 result: current.result,
                 error: current.error,
+                delayMs: current.delayMs,
+                before: current.before,
+                after: current.after,
               },
               status: manager?.status(),
-              entries: [...(owner?.entries.values() || [])].map(record => {
-                if (!identities.has(record.runtime))
-                  identities.set(record.runtime, ++identity);
-                return {
-                  entry: record.entry,
-                  runtime: identities.get(record.runtime),
-                  modules: record.rootIds.map(id => {
-                    const module = record.runtime.c[id];
-                    if (!module) return null;
-                    if (!identities.has(module))
-                      identities.set(module, ++identity);
-                    return identities.get(module);
-                  }),
-                };
-              }),
+              entries: entryState(),
             });
           }
           if (action === 'release' && request.method === 'POST') {
@@ -103,7 +118,12 @@ export function updateLabPlugin() {
             return json({ error: 'Build and serve is required' }, 405);
           if (current && !current.completed)
             return json({ error: 'An update is already pending' }, 409);
-          const { version } = await request.json();
+          const { version, delayMs = -1 } = await request.json();
+          if (!Number.isSafeInteger(delayMs) || delayMs < -1 || delayMs > 10000)
+            return json(
+              { error: 'Delay must be -1 (manual) or 0..10000 ms' },
+              400,
+            );
           if (version !== 'v1' && version !== 'v2')
             return json({ error: 'Unknown version' }, 400);
           const provider =
@@ -129,20 +149,39 @@ export function updateLabPlugin() {
                 },
                 400,
               );
-            const operation = { version, held: false, completed: false };
+            const operation = {
+              version,
+              delayMs,
+              held: false,
+              completed: false,
+              before: entryState(),
+            };
             operation.gate = new Promise(resolve => {
-              operation.release = resolve;
+              operation.release = () => {
+                clearTimeout(operation.timer);
+                operation.timer = undefined;
+                resolve();
+              };
             });
             current = operation;
             void manager.updateRemotes([target], { revalidate: true }).then(
               result => {
                 operation.result = result;
+                operation.after = entryState();
                 operation.completed = true;
+                operation.release =
+                  operation.gate =
+                  operation.timer =
+                    undefined;
               },
               error => {
                 operation.error = error.message;
                 operation.completed = true;
                 operation.release?.();
+                operation.release =
+                  operation.gate =
+                  operation.timer =
+                    undefined;
               },
             );
             return json({ accepted: true }, 202);

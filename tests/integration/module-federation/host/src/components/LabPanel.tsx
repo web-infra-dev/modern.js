@@ -2,6 +2,7 @@ import {
   prefetchApplicationResources,
   type ApplicationKind,
 } from './application-prefetch';
+import { LabIcon } from './LabIcon';
 import { useCallback, useEffect, useRef, useState } from 'react';
 
 export function LabPanel({
@@ -198,7 +199,7 @@ export function LabPanel({
             title={`单独查看 ${name}`}
             aria-label={`单独查看 ${name}`}
           >
-            ↗
+            <LabIcon name="browser" />
           </a>
         )}
       </header>

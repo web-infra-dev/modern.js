@@ -7,6 +7,7 @@ import {
 } from '../failure/Controls';
 import { LabLayout } from './LabLayout';
 import { LabPanel } from './LabPanel';
+import { LabIcon } from './LabIcon';
 import { SSRWorkbench } from './SSRWorkbench';
 import '../weather-base.css';
 import '../../../provider/src/weather-scene.css';
@@ -123,14 +124,16 @@ function RenderingComparison({ data }: { data: boolean }) {
           <div className="lab-render-display">
             <label
               className="inspect-control"
+              aria-label="Inspect"
               title="仅显示调试标记，不应用配置、不刷新 iframe"
             >
               <input
                 type="checkbox"
+                aria-label="Inspect"
                 checked={inspect}
                 onChange={event => setInspect(event.target.checked)}
               />
-              Inspect
+              <LabIcon name="inspect" />
             </label>
             <button onClick={() => setFit(value => !value)}>
               {fit ? '滚动大图' : '同屏总览'}
@@ -161,7 +164,7 @@ function RenderingComparison({ data }: { data: boolean }) {
             disabled={!draft.modes.length}
             onClick={() => applyConfiguration()}
           >
-            应用并刷新
+            <LabIcon name="refresh" /> 应用
           </button>
           {changed && (
             <small role="status">有未应用的配置，请点击“应用并刷新”</small>
@@ -175,7 +178,7 @@ function RenderingComparison({ data }: { data: boolean }) {
                 applyConfiguration(clean);
               }}
             >
-              恢复正常并刷新
+              <LabIcon name="refresh" /> 恢复
             </button>
           )}
           <details className="lab-advanced">
@@ -225,19 +228,8 @@ function RenderingComparison({ data }: { data: boolean }) {
                 </select>
               </label>
             </div>
-            <p className="lab-note">
-              故障目标指定普通 CSR / SSR 天气组件中的注入位置，不影响 Bridge /
-              Service 应用。修改后需点击“应用并刷新”。
-            </p>
           </details>
         </div>
-        <p className="lab-note">
-          默认使用固定数据。开启数据获取后，普通组件对照客户端请求与 MF
-          data-fetch，Bridge / Service 对照固定数据与生产者路由 loader。
-          预加载：普通 CSR 提前取数；Bridge / Service
-          仅提前缓存浏览器资源，不运行 loader、不复用 SSR 流。各 iframe
-          并发加载会共享浏览器 HTTP 缓存，数值用于观察流程，不直接视作性能排名。
-        </p>
       </section>
       {!modeCount && (
         <p className="lab-empty">选择至少一种渲染方式后应用配置。</p>

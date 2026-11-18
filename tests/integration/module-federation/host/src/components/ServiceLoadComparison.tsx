@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState } from 'react';
+import { LabIcon } from './LabIcon';
 import { LabPanel } from './LabPanel';
 import { prefetchApplicationResources } from './application-prefetch';
 
@@ -101,16 +102,11 @@ export function ServiceLoadComparison() {
               setClicked(true);
             }}
           >
-            {preparing ? '准备资源…' : clicked ? '再次点击加载' : '点击加载'}
+            <LabIcon name="play" />{' '}
+            {preparing ? '准备资源…' : clicked ? '再次加载' : '加载'}
           </button>
         </div>
         {error && <p role="alert">{error}</p>}
-        <p className="lab-note">
-          两侧宿主均为 CSR，点击前不挂载应用。左侧通过 Service
-          流接口渲染，右侧在浏览器中运行同一 Bridge
-          应用。两项时间都从同一次点击起算；资源预加载耗时不计入点击后的时间，SSR
-          响应流不预取、不复用。
-        </p>
       </section>
       <div className="lab-render-grid" ref={container}>
         {(['service', 'bridge'] as const).map(kind => (
@@ -128,7 +124,6 @@ export function ServiceLoadComparison() {
             inspect={false}
             paletteSeed=""
             fit
-            description="点击起算"
           />
         ))}
       </div>

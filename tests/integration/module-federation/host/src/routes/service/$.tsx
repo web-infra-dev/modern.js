@@ -78,9 +78,6 @@ export default function ServiceWeather() {
                       : 'Host → Service'}
                 </span>
               </div>
-              <p className="lab-note">
-                修改对应生产者源码观察热更新；主动刷新检查 Node SSR 的新结果。
-              </p>
             </section>
           )}
           {(tab === 'cache' || (!params.has('lab') && !params.has('late'))) && (

@@ -1,5 +1,7 @@
 import { useEffect, useRef, useState } from 'react';
 import './ProducerUpdateControls.css';
+import { UpdateResult } from './UpdateResult';
+import { LabIcon } from './LabIcon';
 import { UpdateRequestControls } from './UpdateRequestControls';
 
 type UpdateState = {
@@ -38,6 +40,8 @@ export function ProducerUpdateControls({
   const [state, setState] = useState<UpdateState>();
   const [selected, setSelected] = useState('v1');
   const [busy, setBusy] = useState(false);
+  const [repeating, setRepeating] = useState(false);
+  const [delayMs, setDelayMs] = useState(0);
   const [error, setError] = useState('');
   const [samples, setSamples] = useState<MemorySample[]>([]);
   const [baseline, setBaseline] = useState<MemorySample[]>([]);
@@ -47,9 +51,12 @@ export function ProducerUpdateControls({
   >([]);
   const [progress, setProgress] = useState('');
   const stop = useRef(false);
+  const pending = useRef(new Set<AbortController>());
   useEffect(
     () => () => {
       stop.current = true;
+      pending.current.forEach(controller => controller.abort());
+      pending.current.clear();
     },
     [],
   );
@@ -65,23 +72,45 @@ export function ProducerUpdateControls({
   }, [scenario]);
 
   async function replace(version: string) {
-    const signal = AbortSignal.timeout(30000);
-    let next = await request<UpdateState>('/_lab/update/apply', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ version }),
-      signal,
-    });
-    while (next.pending) {
-      signal.throwIfAborted();
-      await new Promise(resolve => setTimeout(resolve, 100));
-      next = await request<UpdateState>(
+    const controller = new AbortController();
+    pending.current.add(controller);
+    const signal =
+      delayMs === -1
+        ? controller.signal
+        : AbortSignal.any([controller.signal, AbortSignal.timeout(30000)]);
+    try {
+      const check = await request<UpdateState>(
         `/_lab/update/state?version=${encodeURIComponent(version)}`,
         { signal },
       );
+      if (check.pending) {
+        await request('/_lab/update/lab/start', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ version, delayMs }),
+          signal,
+        });
+        for (;;) {
+          signal.throwIfAborted();
+          const status = await request<{
+            operation?: { completed: boolean; error?: string };
+          }>('/_lab/update/lab/status', { signal });
+          if (status.operation?.completed) {
+            if (status.operation.error) throw Error(status.operation.error);
+            break;
+          }
+          await new Promise(resolve => setTimeout(resolve, 100));
+        }
+      }
+      const next = await request<UpdateState>(
+        `/_lab/update/state?version=${encodeURIComponent(version)}`,
+        { signal },
+      );
+      setState(next);
+      setSelected(next.selectedVersion);
+    } finally {
+      pending.current.delete(controller);
     }
-    setState(next);
-    setSelected(next.selectedVersion);
   }
   async function update() {
     setBusy(true);
@@ -112,6 +141,7 @@ export function ProducerUpdateControls({
     setBusy(true);
     setError('');
     stop.current = false;
+    setRepeating(true);
     setHistory([]);
     try {
       setBaseline(await capture());
@@ -141,6 +171,7 @@ export function ProducerUpdateControls({
       setError(String(error));
     } finally {
       setBusy(false);
+      setRepeating(false);
     }
   }
 
@@ -175,11 +206,37 @@ export function ProducerUpdateControls({
                 ))}
               </select>
             </label>
-            <button data-testid="update-apply" onClick={update} disabled={busy}>
-              {busy ? '正在更新…' : '切换版本并渲染'}
+            <label>
+              等待
+              <select
+                data-testid="update-delay"
+                value={delayMs}
+                disabled={busy}
+                onChange={event => setDelayMs(Number(event.target.value))}
+              >
+                <option value="0">无延迟</option>
+                <option value="1000">1 s</option>
+                <option value="3000">3 s</option>
+                <option value="5000">5 s</option>
+                <option value="-1">手动放行</option>
+              </select>
+            </label>
+            <button
+              className="lab-icon-button"
+              data-testid="update-apply"
+              onClick={update}
+              disabled={busy}
+            >
+              <LabIcon name="refresh" />
+              {busy ? '更新中' : '更新'}
             </button>
-            <button data-testid="update-memory" onClick={sampleMemory}>
-              GC 并采样内存
+            <button
+              title="GC 并采样内存"
+              className="lab-icon-button"
+              data-testid="update-memory"
+              onClick={sampleMemory}
+            >
+              <LabIcon name="memory" /> GC
             </button>
             <button
               disabled={busy}
@@ -192,7 +249,7 @@ export function ProducerUpdateControls({
                 }
               }}
             >
-              记录 GC 基线
+              <LabIcon name="memory" /> 基线
             </button>
           </div>
           {verifyURL && (
@@ -212,21 +269,22 @@ export function ProducerUpdateControls({
                 data-testid="update-repeat"
                 disabled={
                   busy ||
+                  delayMs === -1 ||
                   !Number.isSafeInteger(rounds) ||
                   rounds < 1 ||
                   rounds > 100
                 }
                 onClick={repeat}
               >
-                连续切换并检查内存
+                <LabIcon name="play" /> 连续切换
               </button>
-              {busy && (
+              {repeating && (
                 <button
                   onClick={() => {
                     stop.current = true;
                   }}
                 >
-                  当前轮结束后停止
+                  <LabIcon name="stop" /> 停止
                 </button>
               )}
               <span role="status" data-testid="update-progress">
@@ -234,13 +292,11 @@ export function ProducerUpdateControls({
               </span>
             </div>
           )}
+          <UpdateResult />
           <UpdateRequestControls scenario={scenario} />
         </>
       ) : (
-        <p>
-          当前为开发环境。编辑生产者源码观察更新，版本与内存实验请进入 Build +
-          serve 配置。
-        </p>
+        <p>Dev · 版本与内存实验使用 Build + serve</p>
       )}
       {error && (
         <p role="alert" data-testid="update-error">
@@ -332,10 +388,6 @@ export function ProducerUpdateControls({
               </div>
             </details>
           )}
-          <p>
-            Samples follow GC. RSS can retain allocated pages even after objects
-            are collected.
-          </p>
         </>
       )}
     </section>
