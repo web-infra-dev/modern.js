@@ -1,6 +1,0 @@
-{
-  "remote": "https://ui.example/vmok-manifest.json",
-  "views": {
-    "todos": { "expose": "./Todos" }
-  }
-}

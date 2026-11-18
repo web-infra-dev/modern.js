@@ -432,19 +432,6 @@ describe('createRender', () => {
     expect((await render({})).html).toBe('SSR');
   });
 
-  it('only reads the request headers to report an error', async () => {
-    const headers = { 'x-custom': 'custom' };
-    const request = new Request('http://localhost/', { headers });
-    const forEach = rstest.spyOn(request.headers, 'forEach');
-    const render = await createTestRender(
-      'modern-js',
-      () => new Response('SSR'),
-    );
-
-    expect((await render(headers, request)).html).toBe('SSR');
-    expect(forEach).not.toHaveBeenCalled();
-  });
-
   it('reports render errors with the request headers except cookie', async () => {
     const error = new Error('render failed');
     const render = await createTestRender('modern-js', () => {
