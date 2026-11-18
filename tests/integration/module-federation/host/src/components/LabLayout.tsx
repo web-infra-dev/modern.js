@@ -68,15 +68,17 @@ export function LabLayout({
   description,
   tabs,
   children,
+  className = '',
 }: {
   section: LabSection;
   title: string;
   description: string;
   tabs?: LabTab[];
   children: ReactNode;
+  className?: string;
 }) {
   return (
-    <div className="lab-layout">
+    <div className={`lab-layout ${className}`}>
       <LabSidebar section={section} />
       <main className="lab-main">
         <header className="lab-heading">

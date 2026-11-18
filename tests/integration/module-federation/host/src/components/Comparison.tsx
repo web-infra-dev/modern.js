@@ -69,6 +69,7 @@ function RenderingComparison({ data }: { data: boolean }) {
   const [applied, setApplied] = useState(initial);
   const [run, setRun] = useState(0);
   const [inspect, setInspect] = useState(false);
+  const [fit, setFit] = useState(true);
   const [seed] = useState(paletteSeed);
   const edit = <K extends keyof typeof draft>(
     key: K,
@@ -76,9 +77,23 @@ function RenderingComparison({ data }: { data: boolean }) {
   ) => setDraft(previous => ({ ...previous, [key]: value }));
   const changed = JSON.stringify(draft) !== JSON.stringify(applied);
   const modeCount = applied.modes.length;
+  function applyConfiguration(nextConfig = draft) {
+    setApplied(nextConfig);
+    setRun(value => value + 1);
+    const next = new URLSearchParams(params);
+    next.set('modes', nextConfig.modes.join(','));
+    next.set('fetch', nextConfig.data ? '1' : '0');
+    next.set('preload', nextConfig.prefetch ? '1' : '0');
+    next.set('delay', String(nextConfig.delay));
+    if (nextConfig.failureEnabled) next.set('failure', nextConfig.failure);
+    else next.delete('failure');
+    next.set('target', nextConfig.target);
+    history.replaceState(history.state, '', `${location.pathname}?${next}`);
+  }
   return (
     <LabLayout
       section="render"
+      className={`lab-render-layout ${fit ? 'lab-fit-layout' : ''}`}
       title="渲染对比"
       description="在独立页面中对照加载、首屏内容与可交互时间。配置先暂存，应用后统一刷新。"
     >
@@ -105,6 +120,22 @@ function RenderingComparison({ data }: { data: boolean }) {
               </label>
             ))}
           </fieldset>
+          <div className="lab-render-display">
+            <label
+              className="inspect-control"
+              title="仅显示调试标记，不应用配置、不刷新 iframe"
+            >
+              <input
+                type="checkbox"
+                checked={inspect}
+                onChange={event => setInspect(event.target.checked)}
+              />
+              Inspect
+            </label>
+            <button onClick={() => setFit(value => !value)}>
+              {fit ? '滚动大图' : '同屏总览'}
+            </button>
+          </div>
         </div>
         <div className="lab-control-row">
           <label>
@@ -114,7 +145,7 @@ function RenderingComparison({ data }: { data: boolean }) {
               checked={draft.data}
               onChange={event => edit('data', event.target.checked)}
             />
-            数据获取对照
+            MF 数据获取对照
           </label>
           <label className="prefetch-control">
             <input
@@ -124,39 +155,29 @@ function RenderingComparison({ data }: { data: boolean }) {
             />
             预加载对照
           </label>
-          <label className="inspect-control">
-            <input
-              type="checkbox"
-              checked={inspect}
-              onChange={event => setInspect(event.target.checked)}
-            />
-            Inspect
-          </label>
           <button
             className="lab-primary"
             data-testid="render-apply"
             disabled={!draft.modes.length}
-            onClick={() => {
-              setApplied(draft);
-              setRun(value => value + 1);
-              const next = new URLSearchParams(params);
-              next.set('modes', draft.modes.join(','));
-              next.set('fetch', draft.data ? '1' : '0');
-              next.set('preload', draft.prefetch ? '1' : '0');
-              next.set('delay', String(draft.delay));
-              if (draft.failureEnabled) next.set('failure', draft.failure);
-              else next.delete('failure');
-              next.set('target', draft.target);
-              history.replaceState(
-                history.state,
-                '',
-                `${location.pathname}?${next}`,
-              );
-            }}
+            onClick={() => applyConfiguration()}
           >
             应用并刷新
           </button>
-          {changed && <small role="status">有未应用的配置</small>}
+          {changed && (
+            <small role="status">有未应用的配置，请点击“应用并刷新”</small>
+          )}
+          {applied.failureEnabled && (
+            <button
+              data-testid="clear-failure"
+              onClick={() => {
+                const clean = { ...draft, failureEnabled: false };
+                setDraft(clean);
+                applyConfiguration(clean);
+              }}
+            >
+              恢复正常并刷新
+            </button>
+          )}
           <details className="lab-advanced">
             <summary>高级设置</summary>
             <div className="comparison-controls">
@@ -172,20 +193,25 @@ function RenderingComparison({ data }: { data: boolean }) {
                   }))
                 }
               />
-              <select
-                aria-label="Failure target"
-                value={draft.target}
-                onChange={event => edit('target', event.target.value)}
-              >
-                <option value="provider/Weather">Current weather</option>
-                <option value="dynamic/WeatherHourly">
-                  Dynamic hourly forecast
-                </option>
-                <option value="nested/WeatherDays">
-                  Nested daily forecast
-                </option>
-                <option value="nested/WeatherWind">Dynamic nested wind</option>
-              </select>
+              <label>
+                故障目标{' '}
+                <select
+                  aria-label="Failure target"
+                  value={draft.target}
+                  onChange={event => edit('target', event.target.value)}
+                >
+                  <option value="provider/Weather">Current weather</option>
+                  <option value="dynamic/WeatherHourly">
+                    Dynamic hourly forecast
+                  </option>
+                  <option value="nested/WeatherDays">
+                    Nested daily forecast
+                  </option>
+                  <option value="nested/WeatherWind">
+                    Dynamic nested wind
+                  </option>
+                </select>
+              </label>
               <label>
                 脚本延迟{' '}
                 <select
@@ -199,14 +225,18 @@ function RenderingComparison({ data }: { data: boolean }) {
                 </select>
               </label>
             </div>
+            <p className="lab-note">
+              故障目标指定普通 CSR / SSR 天气组件中的注入位置，不影响 Bridge /
+              Service 应用。修改后需点击“应用并刷新”。
+            </p>
           </details>
         </div>
         <p className="lab-note">
           {applied.data || applied.prefetch
             ? '普通组件使用相同天气 API，对照普通请求、MF data-fetch 与提前取数。Bridge / Service 使用各自的应用 loader，不重复套用组件数据协议。'
             : 'CSR / SSR 使用固定数据，观察代码加载与渲染；Bridge / Service 保留真实应用 loader。'}{' '}
-          指标从各 iframe 导航起算，并发加载会共享浏览器网络与 HTTP
-          缓存，不能直接视为性能排名。
+          预加载对照用于普通 CSR 的 MF 取数。Service
+          资源可提前加载，但当前不预加载或复用 SSR 响应流。
         </p>
       </section>
       {!modeCount && (
@@ -268,7 +298,8 @@ function RenderingComparison({ data }: { data: boolean }) {
                     render: mode,
                     data: variant.data,
                     prefetch: variant.prefetch ? '1' : '0',
-                    failure: applied.failureEnabled ? applied.failure : '',
+                    failure:
+                      ordinary && applied.failureEnabled ? applied.failure : '',
                     target: applied.target,
                     delay: String(applied.delay),
                   });
@@ -293,6 +324,8 @@ function RenderingComparison({ data }: { data: boolean }) {
                       refresh={0}
                       inspect={inspect}
                       paletteSeed={seed}
+                      fit={fit}
+                      description={!ordinary ? '含应用 loader' : undefined}
                     />
                   );
                 })}

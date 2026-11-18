@@ -68,7 +68,9 @@ export function labComponent<P extends object = Record<string, unknown>>(
     const run = query.get('run') || '0';
     const Lazy = useMemo(() => {
       let remote = id;
-      if (failure === 'network') {
+      if (failure === 'network' && typeof window !== 'undefined') {
+        // The browser runtime belongs to this iframe. Keep the actual MF
+        // errorLoadRemote hook path without polluting the Node host's registry.
         const faultId = scope.startsWith('replacement/') ? scope : id;
         const name = `offline_${faultId.replace(/\W/g, '_')}_${run.replace(/\W/g, '_')}`;
         registerRemotes([
@@ -82,7 +84,22 @@ export function labComponent<P extends object = Record<string, unknown>>(
       }
       return createReactRemote<P & { labFailure?: string; labRun?: string }>({
         ...options,
-        remote: () => loadRemote(remote),
+        remote: async () => {
+          if (failure === 'network' && typeof window === 'undefined') {
+            // Make the real failing HTTP request without registering its fake
+            // producer in the process-lifetime MF runtime. Otherwise dev SSR
+            // readiness keeps discovering it after the experiment is disabled.
+            const faultId = scope.startsWith('replacement/') ? scope : id;
+            const name = `offline_${faultId.replace(/\W/g, '_')}_${run.replace(/\W/g, '_')}`;
+            const entry = `${process.env.MF_LAB_ORIGIN}/_lab/offline/${name}/mf-manifest.json`;
+            const response = await fetch(entry);
+            if (!response.ok)
+              throw new Error(
+                `Remote manifest returned HTTP ${response.status}: ${entry}`,
+              );
+          }
+          return loadRemote(remote);
+        },
         dataFetchParams: {
           isDowngrade: false,
           ...options.dataFetchParams,

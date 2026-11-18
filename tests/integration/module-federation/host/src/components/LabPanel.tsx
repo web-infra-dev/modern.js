@@ -8,6 +8,8 @@ export function LabPanel({
   inspect,
   paletteSeed,
   refresh,
+  fit = false,
+  description,
 }: {
   name: string;
   path?: string;
@@ -16,8 +18,33 @@ export function LabPanel({
   inspect: boolean;
   paletteSeed: string;
   refresh: number;
+  fit?: boolean;
+  description?: string;
 }) {
   const frame = useRef<HTMLIFrameElement>(null);
+  const viewport = useRef<HTMLDivElement>(null);
+  const [scale, setScale] = useState(1);
+  useEffect(() => {
+    if (!fit || !viewport.current) {
+      setScale(1);
+      return;
+    }
+    const element = viewport.current;
+    const compact = new URLSearchParams(query).get('compact') === '1';
+    const minimumHeight = path === '/weather' ? (compact ? 350 : 520) : 720;
+    const resize = () =>
+      setScale(
+        Math.min(
+          1,
+          element.clientWidth / 640,
+          element.clientHeight / minimumHeight,
+        ),
+      );
+    const observer = new ResizeObserver(resize);
+    observer.observe(element);
+    resize();
+    return () => observer.disconnect();
+  }, [fit, path, query]);
   const inspectRef = useRef(inspect);
   inspectRef.current = inspect;
   const sendInspect = useCallback(() => {
@@ -91,29 +118,55 @@ export function LabPanel({
       <header>
         <h2>
           {name}
+          {description && (
+            <small className="lab-mode-note">{description}</small>
+          )}
           {recovery && (
             <small className="recovery-badge" role="status">
               {recovery}
             </small>
           )}
         </h2>
-        <span>
+        <span className="lab-panel-state">
           {events['Client ready'] !== undefined
             ? '● Client ready'
             : events['Data prefetch started'] !== undefined
               ? '◌ Prefetching data'
               : '◌ Waiting for client'}
         </span>
+        <a
+          className="lab-panel-open"
+          href={`${path}?${query}`}
+          target="_blank"
+          rel="noreferrer"
+          title={`单独查看 ${name}`}
+          aria-label={`单独查看 ${name}`}
+        >
+          ↗
+        </a>
       </header>
-      <iframe
-        key={`${run}:${refresh}`}
-        data-testid={name === 'SSR' ? 'ssr-frame' : undefined}
-        ref={frame}
-        title={name}
-        onLoad={sendInspect}
-        src={`${path}?${query}&run=${run}&sharedSky=1`}
-        sandbox="allow-scripts allow-same-origin"
-      />
+      <div className="lab-frame-viewport" ref={viewport}>
+        <iframe
+          key={`${run}:${refresh}`}
+          data-testid={name === 'SSR' ? 'ssr-frame' : undefined}
+          ref={frame}
+          title={name}
+          onLoad={sendInspect}
+          src={`${path}?${query}&run=${run}&sharedSky=1`}
+          sandbox="allow-scripts allow-same-origin"
+          style={
+            fit && scale > 0
+              ? {
+                  width: `${100 / scale}%`,
+                  height: `${100 / scale}%`,
+                  transform: `scale(${scale})`,
+                  transformOrigin: 'top left',
+                  position: 'absolute',
+                }
+              : undefined
+          }
+        />
+      </div>
       <footer>
         {['Data visible', 'Client ready'].map(event => (
           <span

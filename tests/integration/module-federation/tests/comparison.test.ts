@@ -42,6 +42,27 @@ describeLab(
         })),
       );
       expect(await page.$$('.comparison-panel')).toHaveLength(4);
+      expect(
+        await page.$$eval('.comparison-panel', panels =>
+          panels.every(panel => {
+            const rect = panel.getBoundingClientRect();
+            return (
+              rect.top >= 0 &&
+              rect.bottom <= innerHeight &&
+              rect.right <= innerWidth
+            );
+          }),
+        ),
+      ).toBe(true);
+      expect(
+        await page.$eval(
+          '.lab-render-display .inspect-control',
+          node =>
+            !node
+              .closest('.lab-control-row')
+              ?.querySelector('[data-testid="compare-data"]'),
+        ),
+      ).toBe(true);
       expect(await page.$('.weather-nav')).toBeNull();
       expect(
         await page.$eval(
