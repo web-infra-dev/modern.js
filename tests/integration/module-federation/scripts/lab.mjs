@@ -145,6 +145,12 @@ export async function startLab(
   };
   const env = {
     ...process.env,
+    // Rstest can use a different Rspack version from the application under test.
+    ...(process.env.MF_LAB_APP_NATIVE_BINDING
+      ? {
+          NAPI_RS_NATIVE_LIBRARY_PATH: process.env.MF_LAB_APP_NATIVE_BINDING,
+        }
+      : {}),
     MF_LAB_PORTS: JSON.stringify(ports),
     MF_LAB_SOURCE_ROOT: process.env.MF_LAB_SOURCE_ROOT || fixtureRoot,
     MF_LAB_SERVICE:

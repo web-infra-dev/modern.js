@@ -47,6 +47,7 @@ export function ClickApplication({ kind }: { kind: ApplicationKind }) {
     if (!start || !container.current) return;
     let visible = false;
     let ready = false;
+    let complete = false;
     let intersection: IntersectionObserver | undefined;
     const frames = new Set<number>();
     const publish = (event: string, method: string) =>
@@ -62,7 +63,7 @@ export function ClickApplication({ kind }: { kind: ApplicationKind }) {
       );
     const inspect = () => {
       const detail = container.current?.querySelector(
-        '[data-testid="weather-detail"]',
+        '[data-testid="weather-detail"], [data-testid="weather-report"]',
       );
       if (detail && !visible) {
         visible = true;
@@ -82,9 +83,24 @@ export function ClickApplication({ kind }: { kind: ApplicationKind }) {
         intersection.observe(detail);
       }
       if (
+        !complete &&
+        container.current?.querySelector('[data-report-complete]')
+      ) {
+        complete = true;
+        frames.add(
+          requestAnimationFrame(() =>
+            frames.add(
+              requestAnimationFrame(() =>
+                publish('Content complete', 'all report sections committed'),
+              ),
+            ),
+          ),
+        );
+      }
+      if (
         !ready &&
         container.current?.querySelector(
-          'input[aria-label="Adjust wind direction"]:not(:disabled)',
+          'input[aria-label="Adjust wind direction"]:not(:disabled), [data-report-interactive="true"]',
         )
       ) {
         ready = true;

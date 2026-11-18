@@ -55,7 +55,7 @@ export default function WeatherLayout() {
       }}
     >
       <section
-        className="weather-scene weather-application"
+        className={`weather-scene weather-application${pathname.endsWith('/report') ? ' weather-report-page' : ''}`}
         data-testid="weather-application"
       >
         <div className="sky-cloud cloud-one" />

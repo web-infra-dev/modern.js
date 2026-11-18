@@ -146,6 +146,7 @@ export function LabPanel({
         ![
           'Client ready',
           'Data visible',
+          'Content complete',
           'Data request failed',
           'Data prefetch started',
         ].includes(event.data.event) ||
@@ -243,16 +244,22 @@ export function LabPanel({
         </small>
       )}
       <footer>
-        {['Data visible', 'Client ready'].map(event => (
+        {[
+          'Data visible',
+          ...(path.endsWith('/report') ? ['Content complete'] : []),
+          'Client ready',
+        ].map(event => (
           <span
             key={event}
             data-metric={event}
             title={
-              event === 'Data visible'
-                ? methods[event] === 'visibility estimate'
-                  ? 'Estimated visibility of temperature and condition after intersection and a paint opportunity.'
-                  : `${new URLSearchParams(query).has('bench') ? 'From the common click' : 'From frame navigation'} to the first paint of temperature and condition (Element Timing).`
-                : `${new URLSearchParams(query).has('bench') ? 'From the common click' : 'From frame navigation'} until all key controls have hydrated or mounted: save station, hourly forecast, and wind when shown. Independent of weather data.`
+              event === 'Content complete'
+                ? 'From the common click until all six report charts, the station table and notes are present in the document. Offscreen content need not be painted.'
+                : event === 'Data visible'
+                  ? methods[event] === 'visibility estimate'
+                    ? 'Estimated visibility of temperature and condition after intersection and a paint opportunity.'
+                    : `${new URLSearchParams(query).has('bench') ? 'From the common click' : 'From frame navigation'} to the first paint of temperature and condition (Element Timing).`
+                  : `${new URLSearchParams(query).has('bench') ? 'From the common click' : 'From frame navigation'} until all key controls have hydrated or mounted: save station, hourly forecast, and wind when shown. Independent of weather data.`
             }
           >
             {event}

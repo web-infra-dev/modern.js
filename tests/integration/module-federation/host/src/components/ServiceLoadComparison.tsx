@@ -1,10 +1,13 @@
-import { Checkbox, Button } from './ui/controls';
+import { Checkbox, Button, Select, SelectItem } from './ui/controls';
 import { useEffect, useRef, useState } from 'react';
+import { useSearchParams } from '@modern-js/runtime/router';
 import { LabIcon } from './LabIcon';
 import { LabPanel } from './LabPanel';
 import { prefetchApplicationResources } from './application-prefetch';
 
 export function ServiceLoadComparison() {
+  const [params, setParams] = useSearchParams();
+  const report = params.get('page') === 'report';
   const container = useRef<HTMLDivElement>(null);
   const [ready, setReady] = useState(0);
   const [data, setData] = useState(false);
@@ -60,6 +63,25 @@ export function ServiceLoadComparison() {
         <h2>Load on click</h2>
         <div className="lab-control-row">
           <label>
+            Page
+            <Select
+              aria-label="Comparison page"
+              data-testid="service-compare-page"
+              value={report ? 'report' : 'forecast'}
+              disabled={preparing}
+              onValueChange={value => {
+                const next = new URLSearchParams(params);
+                if (value === 'report') next.set('page', 'report');
+                else next.delete('page');
+                setParams(next);
+                void prepare(preload);
+              }}
+            >
+              <SelectItem value="forecast">Weather forecast</SelectItem>
+              <SelectItem value="report">Climate report</SelectItem>
+            </Select>
+          </label>
+          <label>
             <Checkbox
               data-testid="service-compare-data"
               checked={data}
@@ -110,19 +132,19 @@ export function ServiceLoadComparison() {
       <div className="lab-render-grid" ref={container}>
         {(['service', 'bridge'] as const).map(kind => (
           <LabPanel
-            key={kind}
+            key={`${kind}-${report}`}
             name={kind === 'service' ? 'Service App' : 'Bridge CSR'}
             path={
               kind === 'service'
-                ? '/service/forecast/today'
-                : '/bridge-ssr/forecast/today'
+                ? `/service/${report ? 'report' : 'forecast/today'}`
+                : `/bridge-ssr/${report ? 'report' : 'forecast/today'}`
             }
             query={`labFrame=1&bench=${kind}&labData=${data ? 'loader' : 'local'}`}
             run={run}
             refresh={0}
             inspect={false}
             paletteSeed=""
-            fit
+            fit={!report}
           />
         ))}
       </div>

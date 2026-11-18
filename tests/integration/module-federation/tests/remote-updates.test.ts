@@ -33,6 +33,98 @@ for (const scenario of scenarios.filter(
   describeLab(
     `Producer updates / ${scenario}`,
     getContext => {
+      if (scenario === 'service')
+        it('compares the same climate report through Service and CSR with working chart controls', async () => {
+          const { page, lab } = getContext();
+          const posts: string[] = [];
+          const record = (request: import('puppeteer').HTTPRequest) => {
+            if (
+              request.method() === 'POST' &&
+              request.url().includes('/mf/service/')
+            )
+              posts.push(request.url());
+          };
+          page.on('request', record);
+          try {
+            await page.goto(
+              `${lab.url}/service/forecast/today?lab=service&tab=load&page=report`,
+              { waitUntil: 'networkidle0' },
+            );
+            await page.waitForSelector(
+              '[data-testid="service-compare-load"]:not(:disabled)',
+            );
+            expect(posts).toHaveLength(0);
+            const response = page.waitForResponse(
+              response =>
+                response.request().method() === 'POST' &&
+                response.url().includes('/mf/service/'),
+            );
+            await page.click('[data-testid="service-compare-load"]');
+            expect(await (await response).text()).toContain(
+              'data-report-chart',
+            );
+            const frames = page
+              .frames()
+              .filter(frame => /bench=(service|bridge)/.test(frame.url()));
+            expect(frames).toHaveLength(2);
+            for (const frame of frames) {
+              await frame.waitForSelector('[data-report-interactive="true"]');
+              await frame.waitForFunction(
+                () =>
+                  document.querySelectorAll('[data-report-chart] svg')
+                    .length === 6,
+              );
+              expect(new URL(frame.url()).searchParams.has('csr')).toBe(false);
+              expect(
+                await frame.$eval(
+                  '[data-report-chart="rain"] rect title',
+                  node => node.textContent,
+                ),
+              ).toContain('Jun 1');
+              expect(
+                await frame.$$eval(
+                  '[data-report-chart] svg',
+                  charts => charts.length,
+                ),
+              ).toBe(6);
+              expect(
+                await frame.$$eval(
+                  '[data-report-chart="heatmap"] rect',
+                  cells => cells.length,
+                ),
+              ).toBe(720);
+              await frame.select('[aria-label="Report period"]', '7');
+              await frame.waitForFunction(
+                () =>
+                  document.querySelectorAll(
+                    '[data-report-chart="heatmap"] rect',
+                  ).length === 168,
+              );
+              await frame.select('[aria-label="Report station"]', '1');
+              expect(
+                await frame.$eval(
+                  '.report-summary small',
+                  element => element.textContent,
+                ),
+              ).toBe('Qiantang');
+              await frame.type('[aria-label="Find report station"]', 'Lake');
+              await frame.waitForFunction(
+                () =>
+                  document.querySelectorAll('.report-stations tbody tr')
+                    .length === 1,
+              );
+            }
+            await page.waitForFunction(() =>
+              [...document.querySelectorAll('.comparison-panel footer')].every(
+                footer =>
+                  footer.textContent?.includes('Content complete') &&
+                  !footer.textContent.includes('—'),
+              ),
+            );
+          } finally {
+            page.off('request', record);
+          }
+        });
       if (getContext().mode === 'production') {
         if (scenario === 'service')
           it('mounts a Service only after click and records visible and interactive timings', async () => {
