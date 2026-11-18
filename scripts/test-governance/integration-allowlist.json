@@ -6,6 +6,7 @@
   "bff-corss-project",
   "bff-hono",
   "builder-plugins",
+  "clean-dist-path",
   "copy-assets",
   "custom-dist-path",
   "custom-file-system-entry",
