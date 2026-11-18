@@ -115,7 +115,10 @@ export function ProducerUpdateControls({
     setHistory([]);
     try {
       setBaseline(await capture());
-      let current = state!.selectedVersion;
+      // The held-update controls can also change this runtime. Read its real
+      // selection instead of counting a stale dropdown's no-op as a switch.
+      const check = await request<UpdateState>('/_lab/update/state?version=v1');
+      let current = check.pending ? 'v2' : 'v1';
       for (let index = 0; index < rounds && !stop.current; index++) {
         const version = current === 'v1' ? 'v2' : 'v1';
         setProgress(`${index + 1} / ${rounds} · ${version}`);
