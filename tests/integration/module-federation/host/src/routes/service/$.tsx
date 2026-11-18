@@ -3,17 +3,21 @@ import { ServiceMount } from '../../components/ServiceMount';
 import { useState } from 'react';
 import { useSearchParams } from '@modern-js/runtime/router';
 import { LabLayout, LabEnvironments } from '../../components/LabLayout';
-import { LabPanel } from '../../components/LabPanel';
+import { ServiceLoadComparison } from '../../components/ServiceLoadComparison';
+import { ClickApplication } from '../../components/ClickApplication';
 
 export default function ServiceWeather() {
   const [params, setParams] = useSearchParams();
   const [run, setRun] = useState(0);
   const tab = params.get('tab') || (params.has('late') ? 'load' : 'hmr');
+  if (params.get('bench') === 'service')
+    return <ClickApplication kind="service" />;
   if (params.has('labFrame')) return <ServiceMount />;
   const comparison = params.get('lab') === 'service' && tab === 'load';
   return (
     <LabLayout
       section="service"
+      className={comparison ? 'lab-render-layout lab-fit-layout' : undefined}
       title="Service 应用"
       description="对照加载方式，追踪 Service 内部 SSR 依赖，并同时观察 Host 与生产者内存。"
       tabs={[
@@ -38,37 +42,7 @@ export default function ServiceWeather() {
         <LabEnvironments path="/service/forecast/today?lab=service&tab=cache" />
       )}
       {comparison ? (
-        <>
-          <section className="lab-controls">
-            <div className="lab-control-row">
-              <span>同一应用 · 同一数据 · 独立挂载</span>
-              <button
-                className="lab-primary"
-                onClick={() => setRun(value => value + 1)}
-              >
-                刷新两侧对照
-              </button>
-            </div>
-            <p className="lab-note">
-              左侧从页面导航起算，右侧从“连接 Service
-              App”点击起算。首屏加载与按需加载的起点不同，不直接按数值排名。
-            </p>
-          </section>
-          <div className="lab-render-grid">
-            {[false, true].map(late => (
-              <LabPanel
-                key={String(late)}
-                name={late ? '点击后加载 · 点击起算' : '首屏加载 · 导航起算'}
-                path="/service/forecast/today"
-                query={`labFrame=1${late ? '&late=1' : ''}`}
-                run={run}
-                refresh={0}
-                inspect={false}
-                paletteSeed=""
-              />
-            ))}
-          </div>
-        </>
+        <ServiceLoadComparison />
       ) : (
         <>
           {tab === 'hmr' && (

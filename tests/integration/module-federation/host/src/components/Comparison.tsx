@@ -145,7 +145,7 @@ function RenderingComparison({ data }: { data: boolean }) {
               checked={draft.data}
               onChange={event => edit('data', event.target.checked)}
             />
-            MF 数据获取对照
+            数据获取对照
           </label>
           <label className="prefetch-control">
             <input
@@ -232,11 +232,11 @@ function RenderingComparison({ data }: { data: boolean }) {
           </details>
         </div>
         <p className="lab-note">
-          {applied.data || applied.prefetch
-            ? '普通组件使用相同天气 API，对照普通请求、MF data-fetch 与提前取数。Bridge / Service 使用各自的应用 loader，不重复套用组件数据协议。'
-            : 'CSR / SSR 使用固定数据，观察代码加载与渲染；Bridge / Service 保留真实应用 loader。'}{' '}
-          预加载对照用于普通 CSR 的 MF 取数。Service
-          资源可提前加载，但当前不预加载或复用 SSR 响应流。
+          默认使用固定数据。开启数据获取后，普通组件对照客户端请求与 MF
+          data-fetch，Bridge / Service 对照固定数据与生产者路由 loader。
+          预加载：普通 CSR 提前取数；Bridge / Service
+          仅提前缓存浏览器资源，不运行 loader、不复用 SSR 流。各 iframe
+          并发加载会共享浏览器 HTTP 缓存，数值用于观察流程，不直接视作性能排名。
         </p>
       </section>
       {!modeCount && (
@@ -276,7 +276,27 @@ function RenderingComparison({ data }: { data: boolean }) {
                       ]
                     : []),
                 ]
-              : [{ label: labels[mode], data: 'local', prefetch: false }];
+              : [
+                  { label: labels[mode], data: 'local', prefetch: false },
+                  ...(!ordinary && applied.data
+                    ? [
+                        {
+                          label: `${labels[mode]} + data loader`,
+                          data: 'loader',
+                          prefetch: false,
+                        },
+                      ]
+                    : []),
+                  ...(!ordinary && applied.prefetch
+                    ? [
+                        {
+                          label: `${labels[mode]} + 资源预加载`,
+                          data: applied.data ? 'loader' : 'local',
+                          prefetch: true,
+                        },
+                      ]
+                    : []),
+                ];
           return (
             <section
               className={`lab-render-group ${variants.length > 1 ? 'has-variants' : ''}`}
@@ -305,7 +325,10 @@ function RenderingComparison({ data }: { data: boolean }) {
                   });
                   if (mode === 'csr') query.set('csr', '1');
                   if (partial) query.set('static', '1');
-                  if (!ordinary) query.set('labFrame', '1');
+                  if (!ordinary) {
+                    query.set('labFrame', '1');
+                    query.set('labData', variant.data);
+                  }
                   if (applied.data || applied.prefetch)
                     query.set('compact', '1');
                   return (
@@ -325,7 +348,16 @@ function RenderingComparison({ data }: { data: boolean }) {
                       inspect={inspect}
                       paletteSeed={seed}
                       fit={fit}
-                      description={!ordinary ? '含应用 loader' : undefined}
+                      description={
+                        !ordinary
+                          ? variant.data === 'local'
+                            ? '固定数据'
+                            : '应用 loader'
+                          : undefined
+                      }
+                      preloadApplication={
+                        !ordinary && variant.prefetch ? mode : undefined
+                      }
                     />
                   );
                 })}

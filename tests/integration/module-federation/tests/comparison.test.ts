@@ -314,6 +314,38 @@ describeLab(
           () => document.documentElement.scrollWidth <= innerWidth,
         ),
       ).toBe(true);
+      // The same controls also compare application loaders and resource warming.
+      await page.goto(`${lab.url}/?modes=bridge,service&fetch=1&preload=1`, {
+        waitUntil: 'networkidle0',
+      });
+      await page.waitForFunction(
+        () => document.querySelectorAll('iframe').length === 6,
+      );
+      const applications = page
+        .frames()
+        .filter(frame => new URL(frame.url()).searchParams.has('labFrame'));
+      expect(applications).toHaveLength(6);
+      for (const frame of applications) {
+        await frame.waitForSelector('[data-testid="outlook-resolved"]');
+        const local =
+          new URL(frame.url()).searchParams.get('labData') === 'local';
+        expect(
+          await frame.$eval(
+            '[data-testid="outlook-resolved"]',
+            element => element.textContent,
+          ),
+        ).toContain(local ? 'Local fixture' : 'Resolved weather-today');
+        await frame.waitForSelector(
+          'input[aria-label="Adjust wind direction"]:not(:disabled)',
+        );
+      }
+      expect(
+        await page.$$eval(
+          '.comparison-panel>small',
+          nodes =>
+            nodes.filter(node => node.textContent?.includes('资源准备')).length,
+        ),
+      ).toBe(2);
     });
     it('records SSR data paint before hydration and reports client readiness only after controls are enabled', async () => {
       const { lab, page } = getContext();

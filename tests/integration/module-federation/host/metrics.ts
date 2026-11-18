@@ -2,6 +2,8 @@
 // Element Timing measures the two real data texts, not a React lifecycle.
 export const weatherMetricsScript = String.raw`
 (() => {
+  // Click comparison frames report their own common-click measurements.
+  if (new URLSearchParams(location.search).has('bench')) return;
   const metrics = window.__weatherMetrics = {};
   const publish = (event, at, method) => {
     if (metrics[event] || !Number.isFinite(at)) return;

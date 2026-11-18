@@ -4,18 +4,8 @@ import { checkDataFailure } from './data-failure';
 import { useEffect, useState, type ReactNode } from 'react';
 import { forecastDays, type ForecastDay } from './weather-days';
 import { UpdateVersion } from './update-version';
-export type WeatherData = {
-  temperature: number;
-  condition: string;
-  source: string;
-  requestId: number;
-};
-export const fixture: WeatherData = {
-  temperature: 30,
-  condition: 'Partly cloudy',
-  source: 'Local fixture',
-  requestId: 0,
-};
+import { fixture, type WeatherData } from './weather-fixture';
+export { fixture, type WeatherData } from './weather-fixture';
 export function report(event: string) {
   if (typeof window !== 'undefined')
     window.parent.postMessage(

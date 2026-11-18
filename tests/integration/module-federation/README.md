@@ -1,6 +1,6 @@
 # Weather Lab
 
-The built-in Modern.js Module Federation playground uses the unified React APIs from `@modern-js/runtime/mf`. The weather UI is the demo and the browser E2E fixture. Old signal pages and their sidebar layout have been removed.
+The built-in Modern.js Module Federation playground uses the unified React APIs from `@modern-js/runtime/mf`. The weather UI is the demo and the browser E2E fixture. The sidebar groups rendering comparisons, SSR updates and Service App experiments.
 
 ## Run
 
@@ -15,7 +15,7 @@ Open http://localhost:4300/. Stop the interactive lab with Ctrl+C. Add `--produc
 
 | Route                                  | Purpose                                                                                                                                      |
 | -------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------- |
-| `/`                                    | Rendering comparison, CSR and SSR weather documents                                                                                          |
+| `/`                                    | Rendering comparison with CSR, SSR, Bridge SSR and Service App documents                                                                     |
 | `/data`                                | CSR, SSR, CSR with MF data and SSR with MF data                                                                                              |
 | `/advanced`                            | Weather release replacement, data recovery, loader lifecycle, remote data sources and independent weather stations                           |
 | `/bridge-ssr/*`                        | Complete remote weather application with overview, forecast details, favorites and real deferred loading and recovery                        |
@@ -27,6 +27,16 @@ Open http://localhost:4300/. Stop the interactive lab with Ctrl+C. Add `--produc
 Advanced frames select their experiment through `/weather?scenario=...`. These share the weather layout and do not add separate demo routes. Removed routes such as `/static`, `/recovery`, `/compare` and `/unified` return 404. Navigation and history are tested from the root Weather Lab.
 
 The public `/bridge-stream`, `/route-exports`, `/bridge-failure` and `/input-forms` routes are removed and return 404. Their contract fixtures live in `fixtures/bridge-contracts` and are copied only into test workspaces. The former three-panel Bridge input demonstration lives there as `/bridge-inputs`, also unavailable in the public lab. The application suite disables those copies to verify the real public route set.
+
+## Comparison controls
+
+The root comparison selects every available rendering mode by default. Data fetching and prefetch are off. Apply configuration to refresh the frames together. Inspect toggles debug overlays without reloading a frame.
+
+Data fetching adds a neighboring frame for each selected mode. Ordinary components use MF data-fetch. Bridge and Service applications use their existing producer route loaders. The baseline supplies fixed loader results without calling the weather API. Unconfigured application routes keep their real loaders.
+
+Prefetch adds a separate resource-warmed Bridge or Service frame. It fetches the current configured manifest and prefetches browser assets without evaluating a container, running loaders or requesting a Service response. Resource preparation happens before frame navigation and its duration is shown separately. Ordinary CSR retains its MF data-prefetch experiment. Concurrent frames share browser HTTP caches, so this is a loading-flow experiment rather than an isolated performance ranking.
+
+Open `/service/forecast/today?lab=service&tab=load` for click-to-load comparison. Both host frames use CSR. One button mounts a Service App on the left and an ordinary Bridge CSR application on the right. Nothing mounts before the click. Both content-visible estimates and enabled-control times use the same click timestamp. Optional application loaders and resource warming apply to both sides. Warming does not cache the Service response stream. Clicking again remounts both applications and starts new measurements.
 
 ## Independent Service App lab
 

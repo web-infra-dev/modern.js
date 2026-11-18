@@ -85,21 +85,85 @@ for (const scenario of scenarios.filter(
                 new URL(frame.url()).searchParams.has('labFrame'),
               );
             expect(paired).toHaveLength(2);
-            await paired[0].waitForSelector(
-              '[data-testid="weather-application"]',
+            for (const frame of paired) {
+              expect(
+                await frame.$('[data-testid="weather-application"]'),
+              ).toBeNull();
+              expect(new URL(frame.url()).searchParams.has('csr')).toBe(false);
+              const html = await (await fetch(frame.url())).text();
+              expect(html).not.toContain('data-testid="weather-application"');
+              expect(html).not.toContain('data-testid="click-');
+              expect(html).not.toContain('"renderLevel":2');
+            }
+            posts.length = 0;
+            await page.waitForSelector(
+              '[data-testid="service-compare-load"]:not(:disabled)',
+            );
+            await page.click('[data-testid="service-compare-load"]');
+            for (const frame of paired) {
+              await frame.waitForSelector(
+                'input[aria-label="Adjust wind direction"]:not(:disabled)',
+              );
+              await frame.click('[data-testid="save-day"]');
+              await frame.waitForFunction(
+                () =>
+                  document.querySelector('[data-testid="favorite-count"]')
+                    ?.textContent === '1',
+              );
+            }
+            expect(posts).toHaveLength(1);
+            const starts = await Promise.all(
+              paired.map(frame =>
+                frame.$eval('[data-start-at]', element =>
+                  element.getAttribute('data-start-at'),
+                ),
+              ),
+            );
+            expect(starts[0]).toBe(starts[1]);
+            await page.waitForFunction(() =>
+              Array.from(
+                document.querySelectorAll('.comparison-panel [data-metric] b'),
+              ).every(node => node.textContent?.includes('ms')),
             );
             expect(
-              await paired[1].$('[data-testid="weather-application"]'),
-            ).toBeNull();
-            posts.length = 0;
-            await paired[1].waitForSelector(
-              '[data-testid="service-connect"]:not(:disabled)',
+              await page.$$eval('.comparison-panel [data-metric] b', nodes =>
+                nodes.every(node => node.textContent?.includes('ms')),
+              ),
+            ).toBe(true);
+            // Re-mount both from a new common click without navigating the host.
+            await page.click('[data-testid="service-compare-load"]');
+            for (const frame of paired)
+              await frame.waitForFunction(
+                () =>
+                  document.querySelector('[data-testid="favorite-count"]')
+                    ?.textContent === '0',
+              );
+            expect(posts).toHaveLength(2);
+            await page.click('[data-testid="service-compare-data"]');
+            await page.waitForSelector(
+              '[data-testid="service-compare-load"]:not(:disabled)',
             );
-            await paired[1].click('[data-testid="service-connect"]');
-            await paired[1].waitForSelector(
-              '[data-testid="service-mount-timing"][data-ready-ms]',
+            await page.click('[data-testid="service-compare-prefetch"]');
+            await page.waitForSelector(
+              '[data-testid="service-compare-load"]:not(:disabled)',
             );
-            expect(posts).toHaveLength(1);
+            // Prewarming resources must not POST a Service render before the click.
+            expect(posts).toHaveLength(2);
+            const prepared = page
+              .frames()
+              .filter(frame => new URL(frame.url()).searchParams.has('bench'));
+            for (const frame of prepared)
+              expect(
+                await frame.$('[data-testid="weather-application"]'),
+              ).toBeNull();
+            await page.click('[data-testid="service-compare-load"]');
+            for (const frame of prepared)
+              await frame.waitForFunction(() =>
+                document
+                  .querySelector('[data-testid="outlook-resolved"]')
+                  ?.textContent?.includes('Resolved weather-today'),
+              );
+            expect(posts).toHaveLength(3);
           });
         it('keeps two iframe requests pending while CSR and reject requests return according to policy', async () => {
           const { page, lab } = getContext();

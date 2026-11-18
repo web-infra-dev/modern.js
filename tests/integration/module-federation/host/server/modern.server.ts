@@ -46,6 +46,15 @@ export default defineServerConfig({
       handler: async (context, next) => {
         const request = context.req.raw;
         const url = new URL(request.url);
+        // Force only the host shell to CSR. `?csr=1` would also bypass the
+        // Service transport in bridge-react and invalidate this comparison.
+        if (
+          url.searchParams.has('bench') ||
+          (url.searchParams.get('lab') === 'service' &&
+            url.searchParams.get('tab') === 'load')
+        ) {
+          context.set('forceCSR', 'lab-click-comparison');
+        }
         if (!scenario || !url.pathname.startsWith('/_lab/update/'))
           return next();
         const json = (body: unknown, status = 200) =>

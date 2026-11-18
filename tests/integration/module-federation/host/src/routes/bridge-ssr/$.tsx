@@ -3,6 +3,7 @@ import { useState } from 'react';
 import { createModernReactRemote } from '@modern-js/runtime/mf';
 import { loadRemote } from '@module-federation/enhanced/runtime';
 import { useSearchParams } from '@modern-js/runtime/router';
+import { ClickApplication } from '../../components/ClickApplication';
 import { LabLayout } from '../../components/LabLayout';
 import './host-controls.css';
 
@@ -21,6 +22,8 @@ export default function BridgeWeather() {
   const [params] = useSearchParams();
   const [label, setLabel] = useState('Hangzhou');
   const [mounted, setMounted] = useState(true);
+  if (params.get('bench') === 'bridge')
+    return <ClickApplication kind="bridge" />;
   const content = (
     <div>
       {!params.has('labFrame') && <ProducerUpdateControls scenario="bridge" />}
