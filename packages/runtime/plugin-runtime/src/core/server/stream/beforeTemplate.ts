@@ -99,6 +99,7 @@ export async function buildShellBeforeTemplate(
         stagesManifest,
         getMatchedRouteIds(runtimeContext),
         {
+          entryName,
           mode: 'stream',
           template,
           // The entry assets (merged with `async-${entryName}` when async

@@ -45,7 +45,7 @@ The network used to estimate the download time of each stage. Defaults to `'fast
 
 Upper limits per stage. Exceeding one is a build warning and does not fail the build. `size` is gzip bytes, `requests` is the number of files, and `depth` is how many async levels lie between the entry and a declared chunk.
 
-Chunks declared `critical` fill this budget in declaration order; the ones over it are prefetched at `visible` instead, with a warning, so first paint is not delayed.
+The page shares a critical budget across entry and matched-route preloads, deduplicated by URL. Explicit critical declarations have priority, and automatic route JS uses the remaining budget. Chunks that exceed the budget are prefetched at the visible stage. Build warnings estimate the budget per entry or route.
 
 The default `critical` budget is what the target network downloads in a third of `firstPaintTarget` for `size`, and 8 for `requests`. The shared chunks of route JS are staged by this budget too.
 
@@ -75,7 +75,7 @@ export default defineConfig({
 
 ## routes
 
-With streaming SSR, the framework stages the JS of the matched routes: the route component's own file is `critical`; the shared chunks it depends on fill the `critical` budget in chunk group order, the rest goes to `visible`. The `critical` route JS is output as `<link rel="preload" as="script" fetchpriority="low">`, so it downloads in parallel with the entry JS without competing with the entry scripts and stylesheets. Route CSS is not preloaded, streaming SSR already outputs it as stylesheets.
+During streaming SSR, automatic route JS uses the remaining critical budget. Route components are considered before shared chunks. Route JS within the budget is preloaded with `<link rel="preload" as="script" fetchpriority="low">`. The rest is prefetched at the visible stage. Streaming SSR emits route CSS as stylesheets.
 
 Route JS is only preloaded as part of `performance.resourceStages`. Without this config, the HTML has no preload for route JS.
 
@@ -98,6 +98,8 @@ Prefetches in flight at the same time within a stage. Defaults to `4`.
 ## inlineLimit
 
 When the stage list written into the HTML exceeds this size after gzip, it is written to a separate file with a content hash instead, fetched at low priority after first paint, with a build warning. Defaults to `'2kB'`.
+
+Affected stages wait for the external list to load. Scheduling continues if the load fails or times out.
 
 ## firstPaintTarget
 

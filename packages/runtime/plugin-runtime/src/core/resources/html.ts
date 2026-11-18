@@ -1,6 +1,7 @@
+import { selectMatchedResourcePreloads } from '@modern-js/utils/universal';
 import { RESOURCE_STAGES } from '@modern-js/utils/universal/constants';
 import type { PreloadItem, ResourceStagesManifest } from './manifest';
-import type { ChunkId, StagePayload } from './types';
+import type { ChunkId, ExternalStagePayload, StagePayload } from './types';
 
 type CrossOrigin = boolean | 'anonymous' | 'use-credentials' | undefined;
 
@@ -90,6 +91,7 @@ export const renderRouteStages = (
   manifest: ResourceStagesManifest | undefined,
   routeIds: string[],
   options: {
+    entryName?: string;
     mode: 'string' | 'stream';
     template: string;
     loadedUrls: Set<string>;
@@ -101,22 +103,22 @@ export const renderRouteStages = (
     return '';
   }
   const useRouteRule = manifest.routeRule && options.mode === 'stream';
-  const preloads: PreloadItem[] = [];
+  const { preloads, overflow } = selectMatchedResourcePreloads(
+    manifest,
+    options.entryName,
+    routeIds,
+    options.mode,
+    options.loadedUrls,
+  );
   const lists: Record<string, ChunkId[]> = {};
   const cssFiles: Record<string, string[]> = {};
-  const externals: string[] = [];
+  const externals: ExternalStagePayload[] = [];
   for (const routeId of routeIds) {
     const route = manifest.routes[routeId];
     if (!route) {
       continue;
     }
-    if (useRouteRule && route.rc) {
-      preloads.push(...route.rc);
-    }
-    if (route.c) {
-      preloads.push(...route.c);
-    }
-    const external = useRouteRule ? route.ur : route.u;
+    const external = useRouteRule ? (route.ur ?? route.u) : route.u;
     if (external) {
       externals.push(external);
       continue;
@@ -128,6 +130,19 @@ export const renderRouteStages = (
     Object.assign(cssFiles, route.k);
   }
 
+  if (overflow.length) {
+    lists.visible = [
+      ...new Set([
+        ...(lists.visible ?? []),
+        ...overflow.map(group => group.id),
+      ]),
+    ];
+    for (const group of overflow) {
+      if (group.css) {
+        cssFiles[String(group.id)] = group.css;
+      }
+    }
+  }
   let html = renderPreloads(preloads, {
     nonce: options.nonce,
     crossorigin: options.crossorigin,

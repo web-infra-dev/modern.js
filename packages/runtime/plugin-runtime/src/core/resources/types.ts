@@ -20,6 +20,9 @@ export type ResourceStage = PageStage | ElementStage | CustomStage;
 
 export type ChunkId = string | number;
 
+/** URL and earliest affected stage. Older builds store only the URL. */
+export type ExternalStagePayload = string | [url: string, stage: string];
+
 /**
  * Stage lists the build writes into the HTML (entry level) and the server adds
  * per request (matched routes). Field names are short because the payload is
@@ -42,7 +45,7 @@ export interface StagePayload {
     { s?: Record<string, ChunkId[]>; k?: Record<string, string[]> }
   >;
   /** URL of a payload moved out of the HTML because it was too large. */
-  u?: string;
+  u?: ExternalStagePayload;
   /** Entry level: chunk ids that have no JS file, e.g. CSS only chunks. */
   d?: ChunkId[];
   /**

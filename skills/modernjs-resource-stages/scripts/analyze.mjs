@@ -25,15 +25,16 @@ const rows = stages.declarations.map(declaration => {
   const ids = declaration.chunks.map(chunk => String(chunk.id));
   ids.forEach(id => declared.add(id));
   let prefetched = 0;
-  let used = 0;
+  let paired = 0;
   let late = 0;
   const leads = [];
   for (const report of reports) {
     for (const record of report.records ?? []) {
       if (!ids.includes(String(record.chunkId))) continue;
-      if (record.prefetchStart !== undefined) prefetched++;
+      if (record.prefetchStart === undefined) continue;
+      prefetched++;
       if (record.requested === undefined) continue;
-      used++;
+      paired++;
       if (
         record.prefetchEnd === undefined ||
         record.prefetchEnd > record.requested
@@ -52,10 +53,10 @@ const rows = stages.declarations.map(declaration => {
       Math.round(declaration.chunks.reduce((s, c) => s + c.size, 0) / 102.4) /
       10,
     hitRate: prefetched
-      ? `${Math.round((Math.min(used, prefetched) / prefetched) * 100)}%`
-      : '-',
-    lateRate: used ? `${Math.round((late / used) * 100)}%` : '-',
-    medianLeadMs: median(leads) ?? '-',
+      ? `${Math.round((paired / prefetched) * 100)}%`
+      : 'unknown',
+    lateRate: paired ? `${Math.round((late / paired) * 100)}%` : 'unknown',
+    medianLeadMs: median(leads) ?? 'unknown',
   };
 });
 console.log('Declarations');
