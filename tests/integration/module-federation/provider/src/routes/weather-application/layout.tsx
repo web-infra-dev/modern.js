@@ -14,7 +14,7 @@ import './weather-application.css';
 
 // The station snapshot lives for the mounted application, independently of
 // detail query changes. Each detail owns its own deferred request.
-export const shouldRevalidate = () => false;
+// export const shouldRevalidate = () => false;
 
 export default function WeatherLayout() {
   const { label = 'Hangzhou' } = useOutletContext<{ label?: string }>();
