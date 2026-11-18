@@ -33,6 +33,24 @@
     "bin.js",
     "templates"
   ],
+  "nx": {
+    "targets": {
+      "build": {
+        "dependsOn": [
+          {
+            "projects": [
+              "@modern-js/i18n-utils",
+              "@modern-js/rslib"
+            ],
+            "target": "build"
+          }
+        ],
+        "metadata": {
+          "description": "Build locale and bundler dependencies. MCP Apps supplies only template version metadata."
+        }
+      }
+    }
+  },
   "scripts": {
     "build": "rs lib",
     "dev": "rs lib -w",
