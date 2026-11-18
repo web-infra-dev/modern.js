@@ -91,11 +91,13 @@ pnpm run reset
 
 ## 测试
 
-### 添加新测试
+### 验证变更与保留回归测试
 
-如果你进行了 bugfix，或者添加了需要测试的代码，请添加一些测试代码。
+默认不新增测试文件或 fixtures。修复 bug 或添加功能时，优先复用现有测试，或通过临时脚本、手动黑盒验证提供证据，并在 PR 中记录命令、结果及未执行的检查。临时验证不需要作为永久测试提交。
 
-Modern.js 仓库的单元测试统一使用 [Rstest](https://rstest.rs/)。你可以在 `<PACKAGE_DIR>/tests` 文件夹中添加测试用例，测试语法基于 Rstest。
+仅在需要保护明确的用户行为或公共契约、且现有覆盖不足时保留永久回归测试，并说明其必要性。不要为已有集成流程增加逐层 mock 的重复单测。纯逻辑优先使用轻量黑盒测试，断言输入输出而非内部调用顺序。不要通过收紧 TypeScript 类型来替代验证。快照可用于稳定的用户输出或公共协议，不用于锁定内部实现细节。
+
+Modern.js 仓库的单元测试统一使用 [Rstest](https://rstest.rs/)，已有用例位于 `<PACKAGE_DIR>/tests`。运行 `pnpm check-test-governance` 检查本次改动。`tests/integration` 已冻结现有 52 个目录，新增清单条目需要维护者人工批准及 PR 标签 `approved-new-integration-fixture`。完整规则、命令和行内例外格式见仓库的 [测试治理说明](https://github.com/web-infra-dev/modern.js/blob/main/scripts/test-governance/README.md)。
 
 ### 运行单元测试
 
