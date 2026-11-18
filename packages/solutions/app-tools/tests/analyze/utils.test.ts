@@ -30,6 +30,24 @@ describe('checkIsBuildCommands', () => {
 
     expect(checkIsBuildCommands()).toBe(false);
   });
+
+  it.each(['build --help', 'build -h', 'dev --help', 'inspect -h'])(
+    'treats %s as printing help instead of a build',
+    argv => {
+      process.env.MODERN_ARGV = `node modern ${argv}`;
+
+      expect(checkIsBuildCommands()).toBe(false);
+    },
+  );
+
+  it.each(['build --watch --help', 'build -wh', 'build --title -h'])(
+    'keeps %s a build command',
+    argv => {
+      process.env.MODERN_ARGV = `node modern ${argv}`;
+
+      expect(checkIsBuildCommands()).toBe(true);
+    },
+  );
 });
 
 describe('isSubDirOrEqual', () => {
