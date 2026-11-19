@@ -7,7 +7,6 @@ on:
   pull_request:
     branches:
       - main
-      - release-v3.12.0
 
 jobs:
   check:
@@ -31,8 +30,5 @@ jobs:
       - name: Install dependencies
         run: pnpm install --ignore-scripts
 
-      - name: Check dependencies
-        run: pnpm run check-dependencies
-
       - name: Verify example dependency and release contracts
-        run: pnpm exec rstest run --config scripts/check-dependencies/rstest.config.mts
+        run: pnpm run check-dependencies

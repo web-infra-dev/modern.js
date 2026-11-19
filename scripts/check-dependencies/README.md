@@ -28,12 +28,8 @@ pnpm check-source-dependencies --json
 
 暂存区模式创建一个隔离的 Git index 快照，检查受影响包的完整源码。未暂存源码、清单和配置不能使检查通过。配置或根清单变化会扩大范围，删除和重命名同样触发。已安装外部依赖只读复用，workspace 链接指向暂存区快照。结束后删除工具自己创建的临时快照，不修改用户工作区或 Git index。
 
-Lint 工作流运行全量源码依赖检查，无需先构建框架。现有 `rs staged` 的 package.json 任务与依赖检查工作流均调用 `pnpm check-dependencies`。依赖检查工作流覆盖目标为 `main` 和 `release-v3.12.0` 的 PR，并运行以下 Rstest 回归命令：
+Lint 工作流运行全量源码依赖检查，无需先构建框架。现有 `rs staged` 的 package.json 任务与依赖检查工作流均调用 `pnpm check-dependencies`。依赖检查工作流仅对 `main` 的 push 和目标为 `main` 的 PR 生效。
 
-```sh
-pnpm exec rstest run --config scripts/check-dependencies/rstest.config.mts
-```
-
-回归检查保护新增的示例依赖与发布契约，现有测试没有覆盖这些行为。测试在临时 workspace 使用真实 Changesets 配置及已安装 CLI，通过普通版本升级和 canary snapshot 验证框架升级、示例清单逐字节不变，并包含单独提议示例版本变更的 changeset，不新增永久 fixtures。
+示例依赖与发布契约通过临时 workspace 验证，使用真实 Changesets 配置及已安装 CLI，检查普通版本升级和 canary snapshot 中框架升级、示例清单逐字节不变，并包含单独提议示例版本变更的 changeset。不新增永久测试文件或 fixtures，验证命令和结果记录在 PR 中。
 
 退出码：0 表示没有声明错误，1 表示发现未声明依赖，2 表示配置、Git 或解析执行失败。JSON 输出包含范围、耗时和诊断，不包含自动修复或依赖归属建议。
