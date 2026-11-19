@@ -2,7 +2,9 @@
 
 Example projects for [Modern.js](https://modernjs.dev).
 
-Most examples depend on the `latest` published Modern.js packages, so you can copy an example directory out of this repo and use it directly with `pnpm install && pnpm dev`. Examples that pin a version explain the compatibility target in their README.
+Every workspace project under `examples/`, including nested Module Federation projects, uses exactly `latest` for its `@modern-js/*` installation dependencies. This means the registry's published stable release, not the current checkout or an unpublished framework feature. You can copy an example directory out of this repo and use it directly with `pnpm install && pnpm dev`.
+
+`pnpm check-dependencies` enforces this contract in `dependencies`, `devDependencies` and `optionalDependencies`, without restricting third-party versions. Example package names must match `@examples/*` and be excluded by `.changeset/config.json`, so ordinary and canary release bumps leave their manifests unchanged.
 
 To run one inside this repo (examples are also members of the pnpm workspace, resolved against the published packages, pinned by the root lockfile):
 

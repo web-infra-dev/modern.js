@@ -1,5 +1,11 @@
 # @scripts/rstest-config
 
+## 2.66.8
+
+### Patch Changes
+
+- @modern-js/tsconfig@3.12.0
+
 ## 2.66.7
 
 ### Patch Changes

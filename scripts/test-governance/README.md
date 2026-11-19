@@ -42,7 +42,7 @@ pnpm check-test-governance --help
 
 ## 冻结清单与人工审批
 
-`integration-allowlist.json` 是排序后的字符串 JSON 数组，冻结维护者批准的现有 53 个已跟踪 `tests/integration` 顶层目录。不允许贡献者或 agent 自行扩展清单来绕过检查，也不授权删除现有 fixture。
+`integration-allowlist.json` 是排序后的字符串 JSON 数组，冻结维护者批准的现有 51 个已跟踪 `tests/integration` 顶层目录。不允许贡献者或 agent 自行扩展清单来绕过检查，也不授权删除现有 fixture。
 
 确需新增目录时，先说明现有 fixture 为何不足及新增维护成本，取得维护者人工批准后，将批准目录加入排序清单，在 PR 记录理由和批准者，并由维护者添加 `approved-new-integration-fixture` 标签。任何清单新增条目都需要该标签，包括清单首次引入。纯条目删除不需扩展审批标签，但剩余目录仍必须登记。
 

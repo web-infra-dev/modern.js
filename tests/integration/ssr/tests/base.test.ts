@@ -44,7 +44,7 @@ async function errorThrownInClientNavigation(page: Page, appPort: number) {
   await page.waitForSelector('.error');
   const element = await page.$('.error');
   const elementContent = await page.evaluate(el => el?.textContent, element);
-  expect(elementContent).toMatchSnapshot();
+  expect(elementContent).toBe('error occurs');
 }
 
 async function redirectInLoader(page: Page, appPort: number) {

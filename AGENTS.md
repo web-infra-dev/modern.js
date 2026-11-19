@@ -30,7 +30,7 @@
 ## 禁改区（除非任务明确要求并人工确认）
 
 - 不手改 `pnpm-lock.yaml`、`dist/`、`node_modules/`、各包 `CHANGELOG.md`。
-- 不未经维护者人工批准修改 `scripts/test-governance/integration-allowlist.json`。现有 53 个目录的冻结基线已获批准，后续扩展仍需单独审批。
+- 不未经维护者人工批准修改 `scripts/test-governance/integration-allowlist.json`。现有 51 个目录的冻结基线已获批准，后续扩展仍需单独审批。
 - 不在缺少验证证据时修改框架运行时语义。优先复用现有测试或临时验证，不机械新增测试文件。
 - 不提交 secret / token。
 
@@ -41,7 +41,7 @@
 - 不为已有集成流程编写逐层 mock 的重复单测。纯逻辑优先轻量黑盒测试，断言输入输出而非内部结构、调用次数或调用顺序。
 - 不通过收紧 TypeScript 类型来替代测试或验证，也不为迎合测试而改变公共类型契约。
 - 快照只保护稳定的用户输出或公共协议，不锁定内部实现细节。没有快照禁令，也没有测试数量软告警。
-- `tests/integration` 冻结维护者批准的现有 53 个已跟踪目录，不删除已有 fixture。清单为 `scripts/test-governance/integration-allowlist.json`，格式是排序后的字符串 JSON 数组。不得自行扩展清单来绕过检查。
+- `tests/integration` 冻结维护者批准的现有 51 个已跟踪目录，不删除已有 fixture。清单为 `scripts/test-governance/integration-allowlist.json`，格式是排序后的字符串 JSON 数组。不得自行扩展清单来绕过检查。
 - 新增清单条目（包括清单首次引入）须经维护者人工批准，并在 PR 添加 `approved-new-integration-fixture` 标签。CI 在 PR 中通过 `--require-approval` 和 `TEST_GOVERNANCE_PR_LABELS` 标签名 JSON 数组校验。
 - 行内例外需人工批准，格式必须为 `// test-governance-allow: <rule> | reason: <why> | expires: YYYY-MM-DD | approved-by: @<handle>`。仅 diff 触及的测试行校验例外格式和到期日期，agent 不能自批例外。
 
