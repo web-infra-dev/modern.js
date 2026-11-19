@@ -1,0 +1,1 @@
+Served under a different URL with server.publicRoutes.
