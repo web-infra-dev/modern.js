@@ -1,10 +1,6 @@
 {
   "views": {
-    "local": "./src/components/Todos.tsx",
-    "todos": {
-      "remote": "http://localhost:8088/static/mf-manifest.json",
-      "expose": "./Todos"
-    }
+    "local": "./src/components/Todos.tsx"
   },
   "prefersBorder": true
 }

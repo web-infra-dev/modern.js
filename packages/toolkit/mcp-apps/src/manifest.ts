@@ -9,7 +9,7 @@ export interface McpViewsConfig extends UiMetadata {
 }
 export interface UiManifest {
   version: 1;
-  /** Locally bundled HTML shells without an HTTP asset base. Remote modules may still use the network. */
+  /** Self-contained local HTML, without an HTTP asset base. */
   inline?: boolean;
   assetBase: string;
   remotes: Record<string, { entry: string; shell: string }>;

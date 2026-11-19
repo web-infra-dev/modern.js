@@ -229,8 +229,6 @@ mcpAppsPlugin({
 
 server 模块应默认导出接收 `RegisterUiOptions` 的异步工厂，在工厂里创建 McpServer，调用 `registerUiResources(server, options)` 并注册业务工具。HTTP 路由可通过 `createBffHandlers(request => createServer({ request }))` 复用同一工厂，不需要伪造 HTTP Request 来运行 stdio。
 
-构建保留 `createMcpView` 生命周期与组件导出的 mcpCapabilities，内联脚本、样式及导入的静态资源，每份 HTML 最大 5 MiB。此模式读取 source.alias、source.define 和应用 tsconfig，但不执行应用的 Rsbuild 插件或服务端中间件。需要自定义 loader 或页面运行时时，请继续使用 HTTP 模式。MF 视图支持显式配置 remote manifest URL，加载 shell 内联打包，打开卡片时再请求远程 manifest 和模块。远程 origin 自动加入 resourceDomains 和 connectDomains，额外 CDN 域名需自行声明。本项目 expose 必须先构建并托管，再配置 remote URL。mf.runtime 同样适用于 STDIO shell。业务中的网络请求仍需配置明确的 API 来源与 CSP。
+构建保留 `createMcpView` 生命周期与组件导出的 mcpCapabilities，内联脚本、样式及导入的静态资源，每份 HTML 最大 5 MiB。此模式读取 source.alias、source.define 和应用 tsconfig，但不执行应用的 Rsbuild 插件或服务端中间件。需要自定义 loader、页面运行时或 Module Federation 远程资源时，请继续使用 HTTP 模式。业务中的网络请求仍需配置明确的 API 来源与 CSP。
 
 服务端 stdout 专用于 JSON-RPC，日志写入 stderr。产物仍依赖项目安装的 Node 包。修改后重新构建并重启连接器，服务启动时会读取 HTML，重启前继续使用旧页面。HTTP 的构建及部署流程保持原样。
-
-MF 远程资源还受 Host 沙箱策略约束。豆包工作中的本地 STDIO 卡片已验证展示、新增与重新读取，MF 远程卡片目前未验证通过，manifest 请求被 Host 的 CSP 拦截。清单包含远程来源不代表 Host 一定放行，需确认 Host 采用资源 CSP 并支持远程地址的协议。

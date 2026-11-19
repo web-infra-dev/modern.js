@@ -30,23 +30,18 @@ export async function prepareStdio(input: {
   alias?: Record<string, string | string[]>;
   applicationDist?: string;
   csp?: UiCsp;
-  mfRuntime?: string;
 }) {
   const { root, stdio } = input;
   const configFile = path.resolve(root, input.views);
   const definition: unknown = JSON.parse(await fs.readFile(configFile, 'utf8'));
   validateViewsConfig(definition);
-  if (!Object.keys(definition.views).length)
-    throw new Error('mcp-prepare requires at least one view');
-  for (const [name, view] of Object.entries(definition.views))
-    if (typeof view !== 'string' && !(view.remote ?? definition.remote))
-      throw new Error(
-        `STDIO MF view ${name} requires an explicit remote manifest URL. Build and host this application's MF resources first`,
-      );
-  const manifest = {
-    ...createUiManifest(definition, undefined, undefined, input.csp),
-    inline: true,
-  };
+  if (
+    !Object.keys(definition.views).length ||
+    Object.values(definition.views).some(view => typeof view !== 'string')
+  )
+    throw new Error(
+      'mcp-prepare requires local component views. Module Federation views require hosted resources',
+    );
   const output = path.resolve(root, stdio.output ?? 'dist-mcp');
   if (output === root || !output.startsWith(root + path.sep))
     throw new Error(
@@ -60,8 +55,7 @@ export async function prepareStdio(input: {
   if ((await fs.lstat(output).catch(() => undefined))?.isSymbolicLink())
     throw new Error('stdio.output must not be a symbolic link');
   for (const component of Object.values(definition.views)) {
-    if (typeof component !== 'string') continue;
-    const source = path.resolve(path.dirname(configFile), component);
+    const source = path.resolve(path.dirname(configFile), component as string);
     if (source === output || source.startsWith(output + path.sep))
       throw new Error('stdio.output must not contain view source files');
   }
@@ -75,10 +69,6 @@ export async function prepareStdio(input: {
     for (const [name, component] of Object.entries(definition.views)) {
       const entryName = viewEntryName(name);
       const filename = path.join(staging, `${entryName}.jsx`);
-      if (typeof component !== 'string' && 'expose' in component) {
-        entries[entryName] = sdkFile('mf-entry.mjs');
-        continue;
-      }
       await fs.writeFile(
         filename,
         `import React from ${JSON.stringify(appRequire.resolve('react'))};\nimport { createRoot } from ${JSON.stringify(appRequire.resolve('react-dom/client'))};\nimport { createMcpView } from ${JSON.stringify(sdkFile('react.mjs'))};\nimport View, * as viewModule from ${JSON.stringify(path.resolve(path.dirname(configFile), component as string))};\ncreateRoot(document.getElementById('root')).render(React.createElement(createMcpView(View, ${JSON.stringify({ name, version: '1.0.0' })}, Reflect.get(viewModule, 'mcpCapabilities'))));\n`,
@@ -93,13 +83,6 @@ export async function prepareStdio(input: {
         resolve: {
           alias: {
             ...input.alias,
-            ...(Object.keys(manifest.remotes).length
-              ? {
-                  '@module-federation/enhanced/runtime$': appRequire.resolve(
-                    input.mfRuntime ?? '@module-federation/enhanced/runtime',
-                  ),
-                }
-              : {}),
             ...Object.fromEntries(
               [
                 'react',
@@ -123,8 +106,7 @@ export async function prepareStdio(input: {
         },
         performance: { chunkSplit: { strategy: 'all-in-one' } },
         tools: {
-          // This isolated build does not load the application's React plugin.
-          // jsx:preserve in app tsconfig must not fall back to React globals.
+          // This isolated build does not load the application React plugin.
           swc: { jsc: { transform: { react: { runtime: 'automatic' } } } },
           rspack: {
             optimization: { splitChunks: false },
@@ -135,44 +117,17 @@ export async function prepareStdio(input: {
     });
     const uiBuild = await browser.build();
     await uiBuild.close();
+    const manifest = {
+      ...createUiManifest(definition, undefined, undefined, input.csp),
+      inline: true,
+    };
     const artifact = path.join(staging, 'artifact');
     await fs.mkdir(path.join(artifact, 'ui'), { recursive: true });
     for (const name of Object.keys(definition.views)) {
-      let html = await fs.readFile(
+      const html = await fs.readFile(
         path.join(staging, 'web', `${viewEntryName(name)}.html`),
         'utf8',
       );
-      const view = manifest.views[name];
-      if ('remote' in view) {
-        const remote = manifest.remotes[view.remote];
-        const origin = new URL(remote.entry).origin;
-        const config = JSON.stringify({
-          name: view.remote,
-          entry: remote.entry,
-          expose: view.expose,
-          view: name,
-        }).replace(/</g, '\\u003c');
-        html = html.replace(
-          /<head\b[^>]*>/i,
-          head =>
-            `${head}<script type="application/json" id="modern-mcp-config">${config}</script>`,
-        );
-        manifest.views[name] = {
-          html: `./ui/${viewEntryName(name)}.html`,
-          ui: {
-            ...view.ui,
-            csp: {
-              ...view.ui.csp,
-              resourceDomains: [
-                ...new Set([...(view.ui.csp?.resourceDomains ?? []), origin]),
-              ],
-              connectDomains: [
-                ...new Set([...(view.ui.csp?.connectDomains ?? []), origin]),
-              ],
-            },
-          },
-        };
-      }
       if (
         /<script\b[^>]*\bsrc\s*=|<link\b[^>]*\brel\s*=\s*["']?(?:stylesheet|preload|modulepreload)|<base\b/i.test(
           html,
@@ -182,7 +137,7 @@ export async function prepareStdio(input: {
       if (Buffer.byteLength(html) > 5 * 1024 * 1024)
         throw new Error(`View ${name} exceeds the 5 MiB inline HTML limit`);
       for (const script of html.matchAll(
-        /<script\b(?![^>]*type=["']application\/json["'])[^>]*>([\s\S]*?)<\/script\s*>/gi,
+        /<script\b[^>]*>([\s\S]*?)<\/script\s*>/gi,
       ))
         new Script(script[1]);
       await fs.writeFile(
@@ -190,7 +145,6 @@ export async function prepareStdio(input: {
         html,
       );
     }
-    manifest.remotes = {};
     await fs.writeFile(
       path.join(artifact, 'ui-manifest.json'),
       JSON.stringify(manifest, null, 2),

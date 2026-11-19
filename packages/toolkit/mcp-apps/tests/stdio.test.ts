@@ -124,70 +124,6 @@ describe('local stdio prepare', () => {
       await fs.rm(directory, { recursive: true, force: true });
     }
   }, 60_000);
-  it('prepares deployed MF shells alongside local views without fetching the remote', async () => {
-    const directory = await fs.mkdtemp(path.join(root, '.test-remote-'));
-    try {
-      const entry = 'https://remote.example/static/mf-manifest.json';
-      await fs.writeFile(
-        path.join(directory, 'views.json'),
-        JSON.stringify({
-          remote: entry,
-          views: {
-            local: '../tests/fixtures/stdio-view.tsx',
-            remote: { expose: './Todos' },
-          },
-          csp: { resourceDomains: ['https://cdn.example'] },
-        }),
-      );
-      const connector = await prepareStdio({
-        root,
-        views: path.join(directory, 'views.json'),
-        stdio: {
-          server: 'tests/fixtures/stdio-server.ts',
-          output: path.relative(root, path.join(directory, 'output')),
-        },
-      });
-      const client = new Client({ name: 'mf-stdio-test', version: '1' });
-      try {
-        await client.connect(
-          new StdioClientTransport({ ...connector, stderr: 'pipe' }),
-        );
-        const resource = (await client.readResource({ uri: 'ui://app/remote' }))
-          .contents[0];
-        const html = String(resource.text);
-        const config = JSON.parse(
-          html.match(/id="modern-mcp-config">(.*?)<\/script>/)![1],
-        );
-        expect(config).toMatchObject({
-          entry,
-          expose: './Todos',
-          view: 'remote',
-        });
-        expect(html).not.toMatch(/<script[^>]*\bsrc=|<base\b/);
-        expect(resource._meta).toMatchObject({
-          ui: {
-            csp: {
-              resourceDomains: [
-                'https://cdn.example',
-                'https://remote.example',
-              ],
-              connectDomains: ['https://remote.example'],
-            },
-          },
-        });
-        expect(
-          String(
-            (await client.readResource({ uri: 'ui://app/local' })).contents[0]
-              .text,
-          ),
-        ).not.toContain('modern-mcp-config');
-      } finally {
-        await client.close();
-      }
-    } finally {
-      await fs.rm(directory, { recursive: true, force: true });
-    }
-  }, 60_000);
   it('rejects output inside normal dist to avoid dev/build deleting the server', async () => {
     await expect(
       prepareStdio({
@@ -200,15 +136,18 @@ describe('local stdio prepare', () => {
       }),
     ).rejects.toThrow('outside the application dist');
   });
-  it('rejects same-project MF views without a hosted manifest URL', async () => {
-    await expect(
-      prepareStdio({
-        root,
-        views: 'tests/fixtures/mcp-views-mf.json',
-        stdio: { server: 'tests/fixtures/stdio-server.ts' },
-      }),
-    ).rejects.toThrow('requires an explicit remote manifest URL');
-  });
+  it.each(['mcp-views-mf.json', 'mcp-views-remote.json'])(
+    'rejects MF views in stdio mode: %s',
+    async filename => {
+      await expect(
+        prepareStdio({
+          root,
+          views: `tests/fixtures/${filename}`,
+          stdio: { server: 'tests/fixtures/stdio-server.ts' },
+        }),
+      ).rejects.toThrow('local component views');
+    },
+  );
 });
 
 it('keeps previous output intact when a view exceeds the inline size limit', async () => {

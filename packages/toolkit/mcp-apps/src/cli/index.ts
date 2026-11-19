@@ -69,7 +69,6 @@ export const mcpAppsPlugin = (
             root: api.getAppContext().appDirectory,
             views: options.views ?? 'mcp-views.json',
             stdio: options.stdio,
-            mfRuntime: options.mf?.runtime,
             csp: options.csp,
             applicationDist: api.getAppContext().distDirectory,
             define: config.source.define,
