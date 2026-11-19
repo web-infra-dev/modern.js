@@ -1,5 +1,14 @@
 # @modern-js/i18n-utils
 
+## 3.12.0
+
+### Patch Changes
+
+- Updated dependencies [b35f295]
+- Updated dependencies [67fc367]
+- Updated dependencies [d378801]
+  - @modern-js/utils@3.12.0
+
 ## 3.11.3
 
 ### Patch Changes
