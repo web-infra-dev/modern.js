@@ -1,62 +1,59 @@
-import type { Rspack, RspackRule } from '@rsbuild/core';
-import type { BuilderInstance } from '../src';
+import { join } from 'node:path';
+import type { Rspack } from '@rsbuild/core';
+import {
+  createBuilder,
+  type BuilderConfig,
+  type BuilderInstance,
+} from '../src';
 
-export function matchRules({
-  config,
-  testFile,
-}: {
-  config: Rspack.Configuration;
-  testFile: string;
-}): RspackRule[] {
-  if (!config.module?.rules) {
-    return [];
-  }
-  const rules = config.module.rules.filter(rule => {
-    if (
-      rule &&
-      typeof rule === 'object' &&
-      rule.test &&
-      rule.test instanceof RegExp &&
-      rule.test.test(testFile)
-    ) {
-      return true;
-    }
-    return false;
+export async function getRules(config: BuilderConfig, testFile: string) {
+  const builder = await createBuilder({
+    bundlerType: 'rspack',
+    config,
+    cwd: join(__dirname, '..'),
   });
-
-  normalizePostcssProcessorVersions(rules);
-
-  return rules;
+  const [bundlerConfig] = await builder.initConfigs();
+  return (
+    bundlerConfig.module?.rules?.filter(
+      rule =>
+        rule &&
+        typeof rule === 'object' &&
+        rule.test instanceof RegExp &&
+        rule.test.test(testFile),
+    ) ?? []
+  );
 }
 
-function normalizePostcssProcessorVersions(
-  value: unknown,
-  seen = new WeakSet<object>(),
-) {
-  if (!value || typeof value !== 'object') {
-    return;
-  }
+type LoaderUse = { loader?: string; options?: any; parallel?: boolean };
 
-  if (seen.has(value)) {
-    return;
-  }
-  seen.add(value);
-
-  if (Array.isArray(value)) {
-    for (const item of value) {
-      normalizePostcssProcessorVersions(item, seen);
+/**
+ * Collect every loader `use` item whose loader path matches `pattern`.
+ * Loader paths are built with `path.join`, so normalize the separators
+ * before matching to keep the assertions valid on Windows.
+ */
+export function findLoaderUses(value: unknown, pattern: RegExp): LoaderUse[] {
+  const result: LoaderUse[] = [];
+  const walk = (node: unknown) => {
+    if (!node || typeof node !== 'object') {
+      return;
     }
-    return;
-  }
-
-  const record = value as Record<string, unknown>;
-  if (typeof record.version === 'string' && Array.isArray(record.plugins)) {
-    record.version = '<POSTCSS_VERSION>';
-  }
-
-  for (const item of Object.values(record)) {
-    normalizePostcssProcessorVersions(item, seen);
-  }
+    if (Array.isArray(node)) {
+      node.forEach(walk);
+      return;
+    }
+    const obj = node as Record<string, unknown>;
+    if (
+      typeof obj.loader === 'string' &&
+      pattern.test(obj.loader.replace(/\\/g, '/'))
+    ) {
+      result.push(obj as LoaderUse);
+    }
+    walk(obj.use);
+    walk(obj.oneOf);
+    walk(obj.rules);
+  };
+  walk(value);
+  return result;
 }
 
 export const unwrapConfig = async (rsbuild: BuilderInstance) => {
