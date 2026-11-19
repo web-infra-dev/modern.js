@@ -294,7 +294,7 @@ export const fileSystemRoutes = async ({
         ? `/* webpackMode: "eager" */  `
         : '';
 
-    return `() => import(${importOptions}'${componentPath}').then(routeModule => handleRouteModule(routeModule, "${routeId}"))`;
+    return `() => import(${importOptions}'${formatImportPath(componentPath)}').then(routeModule => handleRouteModule(routeModule, "${routeId}"))`;
   };
 
   const traverseRouteTree = async (
@@ -357,7 +357,7 @@ export const fileSystemRoutes = async ({
             componentPath: route._component,
             routeId: route.id,
           });
-          rootLayoutCode = `import RootLayout from '${route._component}'`;
+          rootLayoutCode = `import RootLayout from '${formatImportPath(route._component)}'`;
           component = 'RootLayout';
         } else if (splitRouteChunks) {
           lazyImport = createLazyImport({
@@ -386,7 +386,7 @@ export const fileSystemRoutes = async ({
       }
     } else if (route._component) {
       if (splitRouteChunks) {
-        lazyImport = `() => import('${route._component}')`;
+        lazyImport = `() => import('${formatImportPath(route._component)}')`;
         component = `loadable(${lazyImport})`;
       } else {
         components.push(route._component);
@@ -459,7 +459,7 @@ export const fileSystemRoutes = async ({
         .replace(/\\"/g, '"');
       routeComponentsCode += `${newRouteStr},`;
     } else {
-      const component = `loadable(() => import('${route._component}'))`;
+      const component = `loadable(() => import('${formatImportPath(route._component)}'))`;
       const finalRoute = {
         ...route,
         component,
@@ -477,19 +477,19 @@ export const fileSystemRoutes = async ({
 
   const importLoadingCode = loadings
     .map((loading, index) => {
-      return `import loading_${index} from '${loading}';\n`;
+      return `import loading_${index} from '${formatImportPath(loading)}';\n`;
     })
     .join('');
 
   const importComponentsCode = components
     .map((component, index) => {
-      return `import component_${index} from '${component}';\n`;
+      return `import component_${index} from '${formatImportPath(component)}';\n`;
     })
     .join('');
 
   const importErrorComponentsCode = errors
     .map((error, index) => {
-      return `import error_${index} from '${error}';\n`;
+      return `import error_${index} from '${formatImportPath(error)}';\n`;
     })
     .join('');
 
