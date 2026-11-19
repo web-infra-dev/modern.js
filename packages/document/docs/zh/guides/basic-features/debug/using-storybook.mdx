@@ -18,17 +18,13 @@ import { PackageManagerTabs } from '@theme';
 
 Rsbuild 提供了 [Storybook Rsbuild](https://storybook.rsbuild.rs/index.html)，任何 Rsbuild 的项目都可以使用该工具来实现 Storybook 的构建。
 
-Modern.js 基于此工具实现了 `storybook-addon-modernjs`，该插件会加载 Modern.js 配置文件，并转换为 **Storybook Rsbuild** 可用的配置。
-
-:::info
-本文档仅提供最简单的使用方式，更多内容可参考 [Storybook Rsbuild Modern.js 集成](https://storybook.rsbuild.rs/guide/integrations/modernjs.html)。
-:::
+在 Modern.js v3 项目中，`@modern-js/storybook-addon` 复用应用的配置解析流程，将公共配置和 `client` 环境配置合入 Storybook 预览。预览入口、输出路径和 HMR 客户端由 Storybook Rsbuild 管理。
 
 ## 安装
 
-<PackageManagerTabs command="install @rsbuild/core storybook-builder-rsbuild storybook-addon-modernjs -D" />
+<PackageManagerTabs command="install storybook@~10.6.7 storybook-react-rsbuild@~3.6.3 storybook-builder-rsbuild@~3.6.3 @rsbuild/core@^2.3.2 @modern-js/storybook-addon -D" />
 
-你需要在项目中安装 `@rsbuild/core`，否则该插件可能无法正常工作。
+请使用与项目 `@modern-js/app-tools` 一致的 `@rsbuild/core` 版本。旧版 Modern.js 项目可以继续使用 [storybook-addon-modernjs](https://storybook.rsbuild.rs/guide/integrations/modernjs)。
 
 ## 配置 `.storybook/main.ts`
 
@@ -37,7 +33,7 @@ import type { StorybookConfig } from 'storybook-react-rsbuild';
 
 const config: StorybookConfig = {
   stories: ['../src/**/*.stories.@(js|jsx|mjs|ts|tsx)'],
-  addons: ['storybook-addon-modernjs'],
+  addons: ['@modern-js/storybook-addon'],
   framework: 'storybook-react-rsbuild',
 };
 export default config;
@@ -89,4 +85,4 @@ pnpm storybook
 
 ## 示例
 
-你可以查看 [示例](https://github.com/rstackjs/storybook-rsbuild/tree/main/sandboxes/modernjs-react) 了解 Modern.js 中使用 Storybook 的方式。
+你可以查看 [示例](https://github.com/web-infra-dev/modern.js/tree/main/examples/storybook) 了解 Modern.js 中使用 Storybook 的方式。

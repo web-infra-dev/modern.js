@@ -5,10 +5,7 @@ const config: StorybookConfig = {
   addons: [
     '@storybook/addon-onboarding',
     '@storybook/addon-docs',
-    {
-      name: 'storybook-addon-modernjs',
-      options: {},
-    },
+    '@modern-js/storybook-addon',
   ],
   framework: 'storybook-react-rsbuild',
   typescript: {

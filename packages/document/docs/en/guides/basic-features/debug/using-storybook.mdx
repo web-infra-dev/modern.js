@@ -18,17 +18,13 @@ import { PackageManagerTabs } from '@theme';
 
 Rsbuild provides [Storybook Rsbuild](https://storybook.rsbuild.rs/index.html), which allows any Rsbuild project to use this tool for building Storybook.
 
-Modern.js implements `storybook-addon-modernjs` based on this tool. This plugin loads the Modern.js configuration file and converts it into a configuration usable by **Storybook Rsbuild**.
-
-:::info
-This document only provides the simplest usage. For more information, please refer to [Storybook Rsbuild Modern.js Integration](https://storybook.rsbuild.rs/guide/integrations/modernjs.html).
-:::
+In Modern.js v3 projects, `@modern-js/storybook-addon` uses the application config resolver and merges the shared and `client` configurations into the Storybook preview. Storybook Rsbuild manages the preview entry, output paths and HMR client.
 
 ## Installation
 
-<PackageManagerTabs command="install @rsbuild/core storybook-builder-rsbuild storybook-addon-modernjs -D" />
+<PackageManagerTabs command="install storybook@~10.6.7 storybook-react-rsbuild@~3.6.3 storybook-builder-rsbuild@~3.6.3 @rsbuild/core@^2.3.2 @modern-js/storybook-addon -D" />
 
-You need to install `@rsbuild/core` in your project, otherwise the plugin may not work properly.
+Use the same `@rsbuild/core` version as your project’s `@modern-js/app-tools`. Projects on older Modern.js versions can continue using [storybook-addon-modernjs](https://storybook.rsbuild.rs/guide/integrations/modernjs).
 
 ## Configure `.storybook/main.ts`
 
@@ -37,7 +33,7 @@ import type { StorybookConfig } from 'storybook-react-rsbuild';
 
 const config: StorybookConfig = {
   stories: ['../src/**/*.stories.@(js|jsx|mjs|ts|tsx)'],
-  addons: ['storybook-addon-modernjs'],
+  addons: ['@modern-js/storybook-addon'],
   framework: 'storybook-react-rsbuild',
 };
 export default config;
@@ -96,4 +92,4 @@ Now you can request the path configured in `bff.prefix`; if not configured, use 
 
 ## Example
 
-You can check out the [example](https://github.com/rstackjs/storybook-rsbuild/tree/main/sandboxes/modernjs-react) to learn how to use Storybook in Modern.js.
+You can check out the [example](https://github.com/web-infra-dev/modern.js/tree/main/examples/storybook) to learn how to use Storybook in Modern.js.

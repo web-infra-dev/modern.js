@@ -1,6 +1,8 @@
 # storybook
 
-Using [Storybook](https://storybook.js.org) with a Modern.js app via [`storybook-addon-modernjs`](https://www.npmjs.com/package/storybook-addon-modernjs) (on top of `storybook-react-rsbuild`).
+Using [Storybook](https://storybook.js.org) with a Modern.js app via [`@modern-js/storybook-addon`](../../packages/cli/storybook-addon) (on top of `storybook-react-rsbuild`).
+
+This example links the workspace Modern.js packages for integration testing with Storybook Rsbuild 3.6.3. When copying it into a standalone project, replace `workspace:*` with matching published Modern.js versions.
 
 The example includes:
 
