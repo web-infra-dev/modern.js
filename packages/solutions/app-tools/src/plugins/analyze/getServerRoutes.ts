@@ -257,7 +257,7 @@ export const getProdServerRoutes = (distDirectory: string) => {
   try {
     const { routes } = fs.readJSONSync(routeJSON);
     return routes;
-  } catch (e) {
+  } catch {
     throw new Error(
       `Failed to read routes from ${routeJSON}, please check if the file exists.`,
     );

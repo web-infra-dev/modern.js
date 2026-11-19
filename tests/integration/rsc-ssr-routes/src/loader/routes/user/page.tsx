@@ -1,7 +1,6 @@
 import { Suspense } from 'react';
 import UserData from './UserData';
 import './page.css';
-import { preinit } from 'react-dom';
 
 // preinit(
 //   'http://localhost:8080/static/css/async/src_loader_routes_user_page_css.css',
@@ -10,7 +9,6 @@ import { preinit } from 'react-dom';
 
 export default function UserPage({
   loaderData,
-  matches,
 }: {
   loaderData: any;
   matches: any[];

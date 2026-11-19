@@ -1,5 +1,6 @@
 import { execFileSync } from 'node:child_process';
 import fs from 'node:fs';
+import { readFile } from 'node:fs/promises';
 import os from 'node:os';
 import path from 'node:path';
 
@@ -14,7 +15,13 @@ afterEach(() => {
 
 it.each(['mcp-apps', 'mcp-apps-mf'])(
   'scaffolds %s with official SDK routes',
-  variant => {
+  async variant => {
+    const { version } = JSON.parse(
+      await readFile(
+        path.resolve(__dirname, '../../mcp-apps/package.json'),
+        'utf8',
+      ),
+    );
     const mf = variant === 'mcp-apps-mf';
     execFileSync(
       process.execPath,
@@ -63,7 +70,7 @@ it.each(['mcp-apps', 'mcp-apps-mf'])(
     expect(
       fs.readFileSync(path.join(directory, 'modern.config.ts'), 'utf8'),
     ).toContain("from '@modern-js/mcp-apps/cli'");
-    expect(pkg.dependencies['@modern-js/mcp-apps']).toMatch(/^\d/);
+    expect(pkg.dependencies['@modern-js/mcp-apps']).toBe(version);
     expect(pkg.devDependencies['@modern-js/plugin-mcp-apps']).toBeUndefined();
     expect(pkg.scripts.inspect).toBeUndefined();
   },

@@ -82,7 +82,10 @@ export const createWebRequest = (
           return (...args: any[]) => {
             cloneableReq!.resume();
 
-            return (target[prop] as Function).call(target, ...(args as [any]));
+            return (target[prop] as (...args: any[]) => unknown).call(
+              target,
+              ...args,
+            );
           };
         }
         const value = target[prop];

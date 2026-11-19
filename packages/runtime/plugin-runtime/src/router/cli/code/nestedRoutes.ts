@@ -2,7 +2,12 @@ import * as path from 'path';
 import type { NestedRouteForCli } from '@modern-js/types';
 import { fs, JS_EXTENSIONS, normalizeToPosixPath } from '@modern-js/utils';
 import { NESTED_ROUTE } from '../constants';
-import { getPathWithoutExt, hasAction, replaceWithAlias } from './utils';
+import {
+  getPathWithoutExt,
+  hasAction,
+  hasSsgParams,
+  replaceWithAlias,
+} from './utils';
 
 const conventionNames = Object.values(NESTED_ROUTE);
 
@@ -157,12 +162,14 @@ export const walk = async (options: {
   let pageClientData = '';
   let pageData = '';
   let pageAction = '';
+  let pageSsgParams = '';
   let splatLoaderFile = '';
   let splatRoute = null;
   let splatConfigFile = '';
   let splatClientData = '';
   let splatData = '';
   let splatAction = '';
+  let splatSsgParams = '';
 
   const items = await fs.readdir(dirname);
 
@@ -240,6 +247,9 @@ export const walk = async (options: {
       if (await hasAction(itemPath)) {
         pageAction = itemPathWithAlias;
       }
+      if (await hasSsgParams(itemPath)) {
+        pageSsgParams = itemPathWithAlias;
+      }
     }
 
     if (itemWithoutExt === NESTED_ROUTE.PAGE_CONFIG_FILE) {
@@ -272,6 +282,9 @@ export const walk = async (options: {
       if (pageAction) {
         pageRoute.action = pageAction;
       }
+      if (pageSsgParams) {
+        pageRoute.ssgParams = pageSsgParams;
+      }
 
       // Should ensure that the `page.tsx` has a higher priority than `__a/layout.tsx`
       route.children?.unshift(pageRoute);
@@ -297,6 +310,9 @@ export const walk = async (options: {
       splatData = itemPathWithAlias;
       if (await hasAction(itemPath)) {
         splatAction = itemPathWithAlias;
+      }
+      if (await hasSsgParams(itemPath)) {
+        splatSsgParams = itemPathWithAlias;
       }
     }
 
@@ -327,6 +343,9 @@ export const walk = async (options: {
       }
       if (splatAction) {
         splatRoute.action = splatAction;
+      }
+      if (splatSsgParams) {
+        splatRoute.ssgParams = splatSsgParams;
       }
       route.children?.push(splatRoute);
     }

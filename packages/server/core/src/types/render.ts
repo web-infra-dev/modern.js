@@ -1,7 +1,4 @@
-import type { IncomingMessage } from 'node:http';
 import type {
-  Logger,
-  Metrics,
   Monitors,
   Reporter,
   ClientManifest as RscClientManifest,

@@ -1,6 +1,6 @@
 import { join } from 'path';
 import { afterEach, describe, expect, it, rstest } from '@rstest/core';
-import { after } from 'lodash';
+
 import { createBuilder } from '../src';
 import { pluginEnvironmentDefaults } from '../src/plugins/environmentDefaults';
 

@@ -213,7 +213,7 @@ export const createReadableStreamFromElement: CreateReadableStreamFromElement =
         },
       });
       return stream;
-    } catch (e) {
+    } catch {
       // Don't log error in `onShellError` callback, since it has been logged in `onError` callback
       const fallbackHtml = `${shellBefore}${shellAfter}`;
       const stream = getReadableStreamFromString(fallbackHtml);

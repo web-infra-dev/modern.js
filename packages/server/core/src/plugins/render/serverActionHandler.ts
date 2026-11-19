@@ -3,7 +3,7 @@ import type { SSRRenderOptions } from './ssrRender';
 
 export const serverActionHandler = async (
   req: Request,
-  { serverManifest, routeInfo, rscClientManifest }: SSRRenderOptions,
+  { serverManifest, routeInfo }: SSRRenderOptions,
 ) => {
   const serverBundle =
     serverManifest?.renderBundles?.[routeInfo.entryName || MAIN_ENTRY_NAME];

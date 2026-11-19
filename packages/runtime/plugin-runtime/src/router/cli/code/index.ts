@@ -11,7 +11,6 @@ import type {
   PageRoute,
   Route,
   RouteLegacy,
-  SSRMode,
 } from '@modern-js/types';
 import {
   fs,
@@ -137,7 +136,7 @@ export const generateCode = async (
     const { metaName } = api.getAppContext();
     if (isAutoMount) {
       const config = api.getNormalizedConfig();
-      const ssr = getEntryOptions(
+      getEntryOptions(
         entryName,
         isMainEntry,
         config.server.ssr,
@@ -261,6 +260,7 @@ export const generateCode = async (
 
           const code = templates.routesForServer({
             routesForServerLoaderMatches,
+            ssg: isSSGEntry(config, entryName, entrypoints),
           });
 
           await fs.ensureFile(routesServerFile);

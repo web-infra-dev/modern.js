@@ -1,6 +1,6 @@
 import type { Server as NodeServer } from 'node:http';
 import type { Http2SecureServer } from 'node:http2';
-import type { BuilderInstance, Rspack } from '@modern-js/builder';
+import type { BuilderInstance } from '@modern-js/builder';
 import type {
   DevServerHttpsOptions,
   ExposeServerApis,

@@ -1,8 +1,4 @@
-import type {
-  IncomingHttpHeaders,
-  IncomingMessage,
-  ServerResponse,
-} from 'http';
+import type { IncomingHttpHeaders } from 'http';
 import type { ServerRoute } from './route';
 import type { NodeRequest, NodeResponse } from './server';
 import type { Logger, Metrics, Reporter } from './utils';

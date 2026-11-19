@@ -30,7 +30,7 @@ export class TypescriptLoader {
 
       const ts = require(tsPath);
       return ts;
-    } catch (error) {
+    } catch {
       throw new Error(
         'TypeScript could not be found! Please, install "typescript" package.',
       );

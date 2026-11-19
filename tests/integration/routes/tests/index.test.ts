@@ -698,24 +698,6 @@ const supportConfigWithCompanionFiles = async (
   expect(errorText?.includes('Product load error')).toBeTruthy();
 };
 
-const supportDeepFileRoutesManipulation = async (
-  page: Page,
-  errors: string[],
-  appPort: number,
-) => {
-  // Ensure that 'client-loader' route has been removed
-  const response = await page.goto(
-    `http://localhost:${appPort}/three/client-loader`,
-    {
-      waitUntil: ['domcontentloaded'],
-    },
-  );
-  // After removal, it should be 404 or unmatched.
-  // Since catch-all may exist, ensure no client-loader content is shown.
-  const clientLoaderLayout = await page.$('.client-loader-layout');
-  expect(clientLoaderLayout).toBeNull();
-};
-
 describe('dev with rspack', () => {
   let app: unknown;
   let appPort: number;

@@ -58,15 +58,15 @@ describe('operator types', () => {
       Data(DataSchema),
       Query(QuerySchema),
       async ({ data, query }) => {
-        type DataCase = Expect<Assert<typeof data, { count: number }>>;
-        type QueryCase = Expect<Assert<typeof query, { id: string }>>;
+        type _DataCase = Expect<Assert<typeof data, { count: number }>>;
+        type _QueryCase = Expect<Assert<typeof query, { id: string }>>;
         return { data, query };
       },
     );
     const upload = Api(
       Upload('/upload', UploadSchema),
       async ({ formData }) => {
-        type UploadCase = Expect<
+        type _UploadCase = Expect<
           Assert<typeof formData, { images: Record<string, any> }>
         >;
         return formData;
@@ -75,7 +75,7 @@ describe('operator types', () => {
     expect(typeof upload).toBe('function');
 
     type Input = Parameters<typeof handler>[0];
-    type InputCase = Expect<
+    type _InputCase = Expect<
       Assert<Input['data'], { count: string }> &
         Assert<Input['query'], { id: string }>
     >;
@@ -91,12 +91,12 @@ describe('operator types', () => {
     });
 
     const handler = Api(Data(DataSchema), async ({ data }) => {
-      type DataCase = Expect<Assert<typeof data, { count: number }>>;
+      type _DataCase = Expect<Assert<typeof data, { count: number }>>;
       return data;
     });
 
     type Input = Parameters<typeof handler>[0];
-    type InputCase = Expect<Assert<Input['data'], { count: string }>>;
+    type _InputCase = Expect<Assert<Input['data'], { count: string }>>;
 
     expect(await handler({ data: { count: '1' } })).toEqual({ count: 1 });
   });
@@ -116,7 +116,7 @@ describe('non-zod standard schemas', () => {
 
   test('should validate through ~standard.validate', async () => {
     const handler = Api(Data(NumberSchema), async ({ data }) => {
-      type DataCase = Expect<Assert<typeof data, number>>;
+      type _DataCase = Expect<Assert<typeof data, number>>;
       return data;
     });
 
@@ -138,12 +138,12 @@ describe('zod schemas without standard schema support', () => {
 
   test('should infer types from _input and _output', async () => {
     const handler = Api(Data(LegacySchema), async ({ data }) => {
-      type DataCase = Expect<Assert<typeof data, number>>;
+      type _DataCase = Expect<Assert<typeof data, number>>;
       return data;
     });
 
     type Input = Parameters<typeof handler>[0];
-    type InputCase = Expect<Assert<Input['data'], string>>;
+    type _InputCase = Expect<Assert<Input['data'], string>>;
 
     expect(await handler({ data: '42' })).toBe(42);
   });

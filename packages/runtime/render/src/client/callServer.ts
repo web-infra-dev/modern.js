@@ -1,8 +1,6 @@
 import {
   createFromFetch,
-  createTemporaryReferenceSet,
   encodeReply,
-  setServerCallback,
 } from 'react-server-dom-rspack/client.browser';
 
 type ReactServerValue = unknown;

@@ -117,6 +117,20 @@ describe('app-tools onPrepare dist cleanup', () => {
     }
   });
 
+  it.each(['build --help', 'dev -h'])(
+    'keeps dist when %s only prints help',
+    async argv => {
+      process.env.MODERN_ARGV = `node modern ${argv}`;
+      const harness = setupPrepare();
+      try {
+        await harness.runPrepare();
+        expect(fs.readdirSync(harness.distDirectory)).toEqual(['stale.js']);
+      } finally {
+        harness.cleanup();
+      }
+    },
+  );
+
   it('skips cleanup for CLI deploy --skip-build', async () => {
     process.env.MODERN_ARGV = 'node modern deploy --skip-build';
     const harness = setupPrepare();

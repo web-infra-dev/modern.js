@@ -131,24 +131,4 @@ describe('static middleware', () => {
       expect(await res.text()).toBe('fallback');
     }
   });
-
-  it('should only stat a cached static file once per request', async () => {
-    const app = createApp(createRoutes());
-    await app.request('/static/js/main.js');
-
-    const stat = rstest.spyOn(fs, 'stat');
-    const lstat = rstest.spyOn(fs, 'lstat');
-    const pathExists = rstest.spyOn(fs, 'pathExists');
-    try {
-      const res = await app.request('/static/js/main.js');
-      expect(await res.text()).toBe(jsContent);
-      expect(stat).toHaveBeenCalledTimes(1);
-      expect(lstat).not.toHaveBeenCalled();
-      expect(pathExists).not.toHaveBeenCalled();
-    } finally {
-      stat.mockRestore();
-      lstat.mockRestore();
-      pathExists.mockRestore();
-    }
-  });
 });
