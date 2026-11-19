@@ -17,6 +17,7 @@ import {
   type EagerRouteComponentFilesByEntry,
   collectRouteComponentFiles,
   getEntryOptions,
+  isSSGEntry,
   isUseRsc,
   isUseSSRBundle,
   logger,
@@ -259,6 +260,7 @@ export const generateCode = async (
 
           const code = templates.routesForServer({
             routesForServerLoaderMatches,
+            ssg: isSSGEntry(config, entryName, entrypoints),
           });
 
           await fs.ensureFile(routesServerFile);

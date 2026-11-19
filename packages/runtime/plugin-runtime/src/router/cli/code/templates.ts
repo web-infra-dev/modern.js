@@ -32,11 +32,15 @@ import {
 
 export const routesForServer = ({
   routesForServerLoaderMatches,
+  ssg = false,
 }: {
   routesForServerLoaderMatches: (NestedRouteForCli | PageRoute)[];
+  ssg?: boolean;
 }) => {
   const loaders: string[] = [];
   const actions: string[] = [];
+  const ssgParamsImports: string[] = [];
+  const ssgParamsEntries: string[] = [];
   const loadersMap: Record<
     string,
     {
@@ -57,6 +61,13 @@ export const routesForServer = ({
     let action: string | undefined;
 
     if (route.type === 'nested') {
+      if (ssg && route.ssgParams && route.id && !route.inValidSSRRoute) {
+        const name = `ssgParams_${ssgParamsImports.length}`;
+        ssgParamsImports.push(
+          `import { ssgParams as ${name} } from ${JSON.stringify(slash(route.ssgParams))};`,
+        );
+        ssgParamsEntries.push(`${JSON.stringify(route.id)}: ${name}`);
+      }
       if (route.loader || route.data) {
         loaders.push(route.loader);
         const loaderId = loaders.length - 1;
@@ -83,6 +94,10 @@ export const routesForServer = ({
       action,
       children,
     };
+    // Parameter generators belong to the build, not to runtime route objects.
+    if ('ssgParams' in finalRoute) {
+      delete finalRoute.ssgParams;
+    }
     return finalRoute;
   };
 
@@ -128,10 +143,13 @@ export const routesForServer = ({
     }
   }
 
-  return `
+  const code = `
     ${importLoadersCode}
     ${routesCode}
   `;
+  return ssg
+    ? `${code}\n${ssgParamsImports.join('\n')}\nexport const ssgParams = {${ssgParamsEntries.join(',')}};\n`
+    : code;
 };
 
 const createMatchReg = (keyword: string) =>
@@ -276,7 +294,7 @@ export const fileSystemRoutes = async ({
         ? `/* webpackMode: "eager" */  `
         : '';
 
-    return `() => import(${importOptions}'${componentPath}').then(routeModule => handleRouteModule(routeModule, "${routeId}"))`;
+    return `() => import(${importOptions}'${formatImportPath(componentPath)}').then(routeModule => handleRouteModule(routeModule, "${routeId}"))`;
   };
 
   const traverseRouteTree = async (
@@ -339,7 +357,7 @@ export const fileSystemRoutes = async ({
             componentPath: route._component,
             routeId: route.id,
           });
-          rootLayoutCode = `import RootLayout from '${route._component}'`;
+          rootLayoutCode = `import RootLayout from '${formatImportPath(route._component)}'`;
           component = 'RootLayout';
         } else if (splitRouteChunks) {
           lazyImport = createLazyImport({
@@ -368,7 +386,7 @@ export const fileSystemRoutes = async ({
       }
     } else if (route._component) {
       if (splitRouteChunks) {
-        lazyImport = `() => import('${route._component}')`;
+        lazyImport = `() => import('${formatImportPath(route._component)}')`;
         component = `loadable(${lazyImport})`;
       } else {
         components.push(route._component);
@@ -401,6 +419,7 @@ export const fileSystemRoutes = async ({
       ...(shouldIncludeClientBundle && { lazyImport }),
       ...(shouldIncludeClientBundle && route._component && { component }),
     };
+    delete finalRoute.ssgParams;
     /**
      * All routing components with loader will add shouldRevalidate
      * but when routeModule does not have a corresponding shouldRevalidate
@@ -440,7 +459,7 @@ export const fileSystemRoutes = async ({
         .replace(/\\"/g, '"');
       routeComponentsCode += `${newRouteStr},`;
     } else {
-      const component = `loadable(() => import('${route._component}'))`;
+      const component = `loadable(() => import('${formatImportPath(route._component)}'))`;
       const finalRoute = {
         ...route,
         component,
@@ -458,19 +477,19 @@ export const fileSystemRoutes = async ({
 
   const importLoadingCode = loadings
     .map((loading, index) => {
-      return `import loading_${index} from '${loading}';\n`;
+      return `import loading_${index} from '${formatImportPath(loading)}';\n`;
     })
     .join('');
 
   const importComponentsCode = components
     .map((component, index) => {
-      return `import component_${index} from '${component}';\n`;
+      return `import component_${index} from '${formatImportPath(component)}';\n`;
     })
     .join('');
 
   const importErrorComponentsCode = errors
     .map((error, index) => {
-      return `import error_${index} from '${error}';\n`;
+      return `import error_${index} from '${formatImportPath(error)}';\n`;
     })
     .join('');
 

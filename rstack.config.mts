@@ -1,4 +1,5 @@
 // Configuration guide: https://rstack.rs/config
+import { execFileSync, spawnSync } from 'node:child_process';
 import { define } from 'rstack';
 import { modernLintPlugin } from './scripts/lint/no-unused-destructuring.mjs';
 
@@ -57,10 +58,48 @@ define.lint(({ js, ts }) => [
   },
 ]);
 
+const testGovernanceScript = './scripts/test-governance/check.mjs';
+let testGovernanceScheduled = false;
+const testGovernanceCommand = () => {
+  // Run once even if lint-staged splits the staged filenames into chunks.
+  if (testGovernanceScheduled) return [];
+  testGovernanceScheduled = true;
+  return `node ${testGovernanceScript} --staged`;
+};
+const rstackCommand = process.argv
+  .slice(2)
+  .find(
+    (arg, index, args) =>
+      !arg.startsWith('-') && !['--config', '-c'].includes(args[index - 1]),
+  );
+
+// lint-staged does not invoke task functions for deletion-only commits.
+if (
+  rstackCommand === 'staged' &&
+  execFileSync('git', [
+    'diff',
+    '--cached',
+    '--name-only',
+    '--diff-filter=ACMR',
+    '-z',
+  ]).length === 0
+) {
+  const result = spawnSync(
+    process.execPath,
+    [testGovernanceScript, '--staged'],
+    { stdio: 'inherit' },
+  );
+  // Do not throw: the config loader retries failed imports, rerunning the check.
+  if (result.error) console.error(result.error);
+  if (result.status !== 0) process.exitCode = result.status ?? 1;
+}
+
 define.staged({
-  '*.{md,mdx,json,json5,yml,yaml,css,less,scss,html}': 'rs fmt',
-  '*.{js,jsx,ts,tsx,cjs,mjs,mts}': ['rs lint', 'rs fmt'],
+  '*.{md,mdx,json,json5,jsonc,yml,yaml,css,less,scss,html}': 'rs fmt',
+  '*.{js,jsx,ts,tsx,cjs,mjs,mts,cts}': ['rs lint', 'rs fmt'],
   '**/package.json': ['pnpm check-dependencies'],
+  // A function prevents lint-staged from appending filenames to the command.
+  '*': testGovernanceCommand,
 });
 
 define.fmt({
