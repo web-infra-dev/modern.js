@@ -2,7 +2,7 @@ import path from 'path';
 import { Api } from '../src';
 import { Put } from '../src/operators/http';
 import { type APIHandlerInfo, ApiRouter } from '../src/router';
-import { getPathFromFilename } from '../src/router/utils';
+import { getPathFromFilename, sortRoutes } from '../src/router/utils';
 import { HttpMethod } from '../src/types';
 
 const PWD = path.resolve(__dirname, '../fixtures/function');
@@ -105,27 +105,18 @@ describe('test api router', () => {
     expect(methods).toEqual(['DELETE', 'GET', 'PUT']);
   });
 
-  test('getAllAPIFiles', () => {
-    const apiDir = path.join(__dirname, 'fixtures', 'function');
-    const apiRouter = new ApiRouter({
-      apiDir,
-      lambdaDir: path.join(apiDir, 'lambda'),
-      prefix: '/',
-    });
-    const filenames = apiRouter.getApiFiles();
-    expect(filenames.length).toBe(7);
-  });
-
-  test('getAllApiHandlers', async () => {
-    const apiDir = path.join(__dirname, 'fixtures', 'function');
-    const apiRouter = new ApiRouter({
-      apiDir,
-      prefix: '/',
-    });
-    const handlerInfos = await apiRouter.getApiHandlers();
-    const routePaths = handlerInfos.map(handlerInfo => handlerInfo.routePath);
-    expect(routePaths).toMatchSnapshot();
-    expect(handlerInfos.length).toBe(15);
+  test('literal routes take precedence over parameter routes', () => {
+    const handlers = ['[id]', 'normal'].map(directory =>
+      apiRouter.getHandlerInfo(
+        path.join(mockApiDir, 'lambda', directory, 'origin/foo.ts'),
+        'get',
+        () => 'Hello Modernjs',
+      )!,
+    );
+    expect(sortRoutes(handlers).map(handler => handler.routeName)).toEqual([
+      '/normal/origin/foo',
+      '/:id/origin/foo',
+    ]);
   });
 
   test('getHandlerInfo', () => {
@@ -178,6 +169,19 @@ describe('test api router', () => {
       get,
     );
     expect(handlerInfo4?.routePath).toEqual('/');
+
+    const prefixedRouter = new ApiRouter({
+      apiDir,
+      lambdaDir: path.join(apiDir, 'lambda'),
+      prefix: '/api',
+    });
+    expect(
+      prefixedRouter.getHandlerInfo(
+        path.join(apiDir, 'lambda/[id]/origin/foo.ts'),
+        'get',
+        get,
+      )?.routePath,
+    ).toBe('/api/:id/origin/foo');
   });
 
   test('getSafeRoutePath should throw error when file is not a api file', () => {

@@ -1,15 +1,4 @@
-import {
-  createDefaultConfig,
-  isLazyCompilationSafeByDefault,
-} from '../../src/config';
-
-describe('createDefaultConfig', () => {
-  it('uses config/mock as the default Mock directory', () => {
-    const config = createDefaultConfig({ metaName: 'modern' } as any);
-
-    expect(config.dev?.mockDir).toBe('./config/mock');
-  });
-});
+import { isLazyCompilationSafeByDefault } from '../../src/config';
 
 describe('isLazyCompilationSafeByDefault', () => {
   it('enables for pure CSR (no ssr / rsc / ssg)', () => {

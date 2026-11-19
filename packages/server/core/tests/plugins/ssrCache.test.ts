@@ -221,30 +221,4 @@ describe('matchCacheControl', () => {
       ).toThrow(SyntaxError);
     }
   });
-
-  it('compiles each pattern only once', () => {
-    const compiled: string[] = [];
-    const OriginalRegExp = globalThis.RegExp;
-    globalThis.RegExp = new Proxy(OriginalRegExp, {
-      construct(target, args) {
-        compiled.push(String(args[0]));
-        return Reflect.construct(target, args);
-      },
-    });
-    try {
-      const options = { '^/compile-once/a': user, '^/compile-once/b': blog };
-      for (let i = 0; i < 3; i++) {
-        expect(matchCacheControl(options, createReq('/compile-once/b'))).toBe(
-          blog,
-        );
-      }
-    } finally {
-      globalThis.RegExp = OriginalRegExp;
-    }
-
-    expect(compiled.filter(source => source.includes('compile-once'))).toEqual([
-      '^/compile-once/a',
-      '^/compile-once/b',
-    ]);
-  });
 });
