@@ -1,5 +1,16 @@
 # @examples/mcp-apps-todo
 
+## 0.1.5
+
+### Patch Changes
+
+- Updated dependencies [28fb881]
+- Updated dependencies [d378801]
+  - @modern-js/runtime@3.12.0
+  - @modern-js/plugin-bff@3.12.0
+  - @modern-js/mcp-apps@3.12.0
+  - @modern-js/server-runtime@3.12.0
+
 ## 0.1.4
 
 ### Patch Changes

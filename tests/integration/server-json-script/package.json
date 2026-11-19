@@ -1,6 +1,6 @@
 {
   "name": "server-json-script",
-  "version": "2.66.7",
+  "version": "2.66.8",
   "private": true,
   "scripts": {
     "new": "modern new",
