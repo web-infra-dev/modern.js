@@ -1,5 +1,6 @@
 import { type Plugin, createPluginManager } from '@modern-js/plugin';
 import { build } from '../../src/commands/build';
+import { releaseAllLocks } from '../../src/utils/devLock';
 
 const mockGenerateRoutes = rstest.fn();
 const mockSetupTsRuntime = rstest.fn();
@@ -21,6 +22,10 @@ rstest.mock('../../src/utils/loadPlugins', () => ({
 }));
 
 describe('command build', () => {
+  afterEach(() => {
+    releaseAllLocks();
+  });
+
   afterAll(() => {
     rstest.resetAllMocks();
   });

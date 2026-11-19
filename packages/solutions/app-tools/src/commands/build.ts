@@ -3,6 +3,7 @@ import type { CLIPluginAPI } from '@modern-js/plugin';
 import { fs, type Alias, logger } from '@modern-js/utils';
 import type { ConfigChain } from '@rsbuild/core';
 import type { AppTools } from '../types';
+import { markLockPersistent, releaseCommandLock } from '../utils/devLock';
 import { loadServerPlugins } from '../utils/loadPlugins';
 import { setupTsRuntime } from '../utils/register';
 import { generateRoutes } from '../utils/routes';
@@ -46,6 +47,34 @@ async function copyEnvFiles(
 }
 
 export const build = async (
+  api: CLIPluginAPI<AppTools>,
+  options?: BuildOptions,
+) => {
+  const { appDirectory, metaName } = api.getAppContext();
+  let keepLockUntilExit = false;
+  try {
+    if (options?.watch) {
+      // A watcher keeps writing output for the lifetime of the process, so
+      // nobody may queue behind its lock. The flag only becomes visible in
+      // this action (after the lock was taken in `onPrepare`).
+      markLockPersistent(appDirectory, metaName);
+    }
+    await runBuild(api, options);
+    // In watch mode `builder.build()` resolves after the first compilation,
+    // while the watcher continues to write output. Keep the exclusive lock
+    // for the lifetime of the CLI process; `onBeforeExit` owns its cleanup.
+    keepLockUntilExit = Boolean(options?.watch);
+  } finally {
+    // The exclusive lock is taken in `onPrepare`; a bare `deploy` runs this
+    // function while holding a 'deploy' lock, which this op-matched release
+    // leaves alone.
+    if (!keepLockUntilExit) {
+      releaseCommandLock(appDirectory, metaName, 'build');
+    }
+  }
+};
+
+const runBuild = async (
   api: CLIPluginAPI<AppTools>,
   options?: BuildOptions,
 ) => {
