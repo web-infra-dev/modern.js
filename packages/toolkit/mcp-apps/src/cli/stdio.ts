@@ -35,12 +35,14 @@ export async function prepareStdio(input: {
   const configFile = path.resolve(root, input.views);
   const definition: unknown = JSON.parse(await fs.readFile(configFile, 'utf8'));
   validateViewsConfig(definition);
-  if (
-    !Object.keys(definition.views).length ||
-    Object.values(definition.views).some(view => typeof view !== 'string')
-  )
+  definition.views = Object.fromEntries(
+    Object.entries(definition.views).filter(
+      ([, source]) => typeof source === 'string',
+    ),
+  );
+  if (!Object.keys(definition.views).length)
     throw new Error(
-      'mcp-prepare requires local component views. Module Federation views require hosted resources',
+      'mcp-prepare requires at least one local component view. Module Federation views use HTTP',
     );
   const output = path.resolve(root, stdio.output ?? 'dist-mcp');
   if (output === root || !output.startsWith(root + path.sep))

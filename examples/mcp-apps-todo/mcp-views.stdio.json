@@ -1,6 +1,0 @@
-{
-  "views": {
-    "local": "./src/components/Todos.tsx"
-  },
-  "prefersBorder": true
-}

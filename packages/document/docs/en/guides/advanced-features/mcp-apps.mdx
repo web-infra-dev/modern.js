@@ -202,7 +202,7 @@ mcpAppsPlugin({
 
 Running `modern mcp-prepare` without `stdio` reports an error requesting a server entry. The example explicitly selects `api/server/mcp.ts`. It is not a conventional entry discovered by the framework.
 
-STDIO supports local component views only. Use HTTP for MF views. Both transports can share one `mcp-views.json` when it contains only local components. The Todo example uses a separate `mcp-views.stdio.json` because its HTTP manifest includes MF views, and selects the manifest by command in `modern.config.ts`. Two configuration files are not a framework requirement.
+HTTP and STDIO share one `mcp-views.json`. `modern mcp-prepare` automatically selects and inlines local component views, skipping MF views. MF views remain available through HTTP. No command-dependent configuration or extra view file is needed. If the manifest contains no local component views, preparation reports an error. Register tools only for views present in the URI map returned by `registerUiResources`, for example with `if (ui.todos)`.
 
 Add `"mcp:prepare": "modern mcp-prepare"` to package scripts and run `pnpm mcp:prepare`. Copy the printed command and args into a local MCP connector. The host starts the process. Output defaults to `dist-mcp/`, separate from the normal dist directory. Configure `stdio.output` to choose another dedicated directory outside application dist, and ignore it in Git.
 

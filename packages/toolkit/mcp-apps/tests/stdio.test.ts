@@ -89,6 +89,45 @@ describe('local stdio prepare', () => {
       await transport.close();
     }
   }, 60_000);
+  it('builds only local views from a shared local and MF manifest', async () => {
+    const directory = await fs.mkdtemp(path.join(root, '.test-mixed-'));
+    try {
+      await fs.writeFile(
+        path.join(directory, 'views.json'),
+        JSON.stringify({
+          views: {
+            local: '../tests/fixtures/stdio-view.tsx',
+            sameProject: { expose: './Todos' },
+            hosted: {
+              remote: 'https://remote.example/mf-manifest.json',
+              expose: './Todos',
+            },
+          },
+        }),
+      );
+      await prepareStdio({
+        root,
+        views: path.join(directory, 'views.json'),
+        stdio: {
+          server: 'tests/fixtures/stdio-server.ts',
+          output: path.relative(root, path.join(directory, 'output')),
+        },
+      });
+      const manifest = JSON.parse(
+        await fs.readFile(
+          path.join(directory, 'output/ui-manifest.json'),
+          'utf8',
+        ),
+      );
+      expect(Object.keys(manifest.views)).toEqual(['local']);
+      expect(manifest.remotes).toEqual({});
+      expect(await fs.readdir(path.join(directory, 'output/ui'))).toEqual([
+        path.basename(manifest.views.local.html),
+      ]);
+    } finally {
+      await fs.rm(directory, { recursive: true, force: true });
+    }
+  }, 60_000);
   it('uses automatic JSX for applications with jsx:preserve and no React global', async () => {
     const directory = await fs.mkdtemp(path.join(root, '.test-jsx-'));
     try {
@@ -137,7 +176,7 @@ describe('local stdio prepare', () => {
     ).rejects.toThrow('outside the application dist');
   });
   it.each(['mcp-views-mf.json', 'mcp-views-remote.json'])(
-    'rejects MF views in stdio mode: %s',
+    'requires a local view when the manifest contains only MF views: %s',
     async filename => {
       await expect(
         prepareStdio({
@@ -145,7 +184,7 @@ describe('local stdio prepare', () => {
           views: `tests/fixtures/${filename}`,
           stdio: { server: 'tests/fixtures/stdio-server.ts' },
         }),
-      ).rejects.toThrow('local component views');
+      ).rejects.toThrow('at least one local component view');
     },
   );
 });

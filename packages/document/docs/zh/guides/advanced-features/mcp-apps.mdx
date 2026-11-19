@@ -235,7 +235,7 @@ mcpAppsPlugin({
 
 未配置 `stdio` 时，执行 `modern mcp-prepare` 会报错并提示配置服务入口。示例中的 `api/server/mcp.ts` 是显式选择的路径，不是框架约定入口。
 
-stdio 只支持本地组件视图，MF 视图使用 HTTP。如果两种模式都只有本地组件，可以共用一份 `mcp-views.json`。Todo 示例的 HTTP 清单包含 MF 视图，因此另用 `mcp-views.stdio.json` 声明本地视图，并在 `modern.config.ts` 中按命令选择清单。框架不要求创建两份文件。
+HTTP 和 stdio 共用一份 `mcp-views.json`。`modern mcp-prepare` 自动选择并内联本地组件视图，跳过 MF 视图，MF 继续通过 HTTP 提供。无需按命令切换配置或创建额外的视图文件。清单中没有本地组件视图时，构建会报错。服务工厂应根据 `registerUiResources` 返回的 URI 映射注册对应工具，例如使用 `if (ui.todos)` 判断该视图是否可用。
 
 在 package.json 增加 `"mcp:prepare": "modern mcp-prepare"`，执行 `pnpm mcp:prepare` 后，将输出的 command 和 args 填入本机 MCP 连接器。默认产物为独立的 `dist-mcp/`，不会被普通 dev/build 清理。`stdio.output` 可修改目录，但不能放在应用的 dist 内。将产物加入 Git 忽略列表。
 

@@ -52,7 +52,7 @@ pnpm --filter @examples/mcp-apps-todo mcp:prepare
 
 产物位于本示例的 `dist-mcp/`，包括 `server.cjs`、`ui-manifest.json` 和内联 JS/CSS 的 UI HTML。修改源码后重新运行 `mcp:prepare`，再重启客户端连接器。运行产物仍需要保留本项目安装的 Node 依赖。
 
-STDIO 使用 `mcp-views.stdio.json`，只注册本地卡片工具 `local_todos` 和普通工具 `add_todo`，无需启动 HTTP 服务。MF 卡片通过 HTTP 模式提供，使用 `dev`、`build` 和 `serve` 以及包含 MF 的 `mcp-views.json`。
+HTTP 和 STDIO 共用 `mcp-views.json`。`mcp-prepare` 自动构建本地组件视图并跳过 MF 视图，STDIO 只注册本地卡片工具 `local_todos` 和普通工具 `add_todo`，无需启动 HTTP 服务。MF 卡片通过 HTTP 模式提供，使用 `dev`、`build` 和 `serve` 以及包含 MF 的 `mcp-views.json`。
 
 可以对豆包说：“请调用 Todo MCP 的 local_todos，打开待办卡片。”确认初始列表显示后，在卡片输入标题并点击 Add todo。再次调用 `local_todos` 应能看到新增项。重启连接器后，内存数据恢复初始值。
 
