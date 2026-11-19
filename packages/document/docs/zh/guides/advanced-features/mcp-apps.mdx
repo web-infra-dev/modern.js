@@ -225,6 +225,18 @@ mcpAppsPlugin({
 });
 ```
 
+`views` 决定构建哪些 UI 卡片，`stdio.server` 指定注册 tools、UI resources 和业务逻辑的服务入口。`mcp-prepare` 导入该模块的默认工厂，通过 `StdioServerTransport` 启动返回的 MCP Server，并生成 `dist-mcp/server.cjs`。
+
+| 配置           | 是否必填          | 默认值与说明                                                     |
+| -------------- | ----------------- | ---------------------------------------------------------------- |
+| `stdio.server` | 使用 stdio 时必填 | 无默认值，路径相对于应用根目录，不会自动查找 `api/server/mcp.ts` |
+| `stdio.output` | 否                | `dist-mcp`，相对于应用根目录                                     |
+| `views`        | 否                | `mcp-views.json`，只接受 JSON 文件路径                           |
+
+未配置 `stdio` 时，执行 `modern mcp-prepare` 会报错并提示配置服务入口。示例中的 `api/server/mcp.ts` 是显式选择的路径，不是框架约定入口。
+
+stdio 只支持本地组件视图，MF 视图使用 HTTP。如果两种模式都只有本地组件，可以共用一份 `mcp-views.json`。Todo 示例的 HTTP 清单包含 MF 视图，因此另用 `mcp-views.stdio.json` 声明本地视图，并在 `modern.config.ts` 中按命令选择清单。框架不要求创建两份文件。
+
 在 package.json 增加 `"mcp:prepare": "modern mcp-prepare"`，执行 `pnpm mcp:prepare` 后，将输出的 command 和 args 填入本机 MCP 连接器。默认产物为独立的 `dist-mcp/`，不会被普通 dev/build 清理。`stdio.output` 可修改目录，但不能放在应用的 dist 内。将产物加入 Git 忽略列表。
 
 server 模块应默认导出接收 `RegisterUiOptions` 的异步工厂，在工厂里创建 McpServer，调用 `registerUiResources(server, options)` 并注册业务工具。HTTP 路由可通过 `createBffHandlers(request => createServer({ request }))` 复用同一工厂，不需要伪造 HTTP Request 来运行 stdio。

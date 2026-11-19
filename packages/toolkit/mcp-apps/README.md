@@ -72,6 +72,18 @@ Development resource CSP includes the request origin's `ws:` or `wss:` equivalen
 
 For local component views, configure `mcpAppsPlugin({ stdio: { server: './api/server/mcp.ts' } })` and add `"mcp:prepare": "modern mcp-prepare"` to package scripts. The server module must default-export a factory accepting `RegisterUiOptions` and returning a fresh `McpServer`. Inside it, call `registerUiResources(server, options)` and register business tools. The HTTP route can reuse it with `createBffHandlers(request => createServer({ request }))`.
 
+`views` selects the UI cards to build. `stdio.server` identifies the module that registers tools, UI resources and business handlers. `mcp-prepare` imports its default factory, connects the returned MCP Server to `StdioServerTransport`, and generates `dist-mcp/server.cjs`.
+
+| Option         | Required           | Default and behavior                                                                                              |
+| -------------- | ------------------ | ----------------------------------------------------------------------------------------------------------------- |
+| `stdio.server` | Required for stdio | No default. Resolved from the application root. The framework does not discover `api/server/mcp.ts` automatically |
+| `stdio.output` | No                 | `dist-mcp`, relative to the application root                                                                      |
+| `views`        | No                 | `mcp-views.json`. Only JSON file paths are accepted                                                               |
+
+Running `modern mcp-prepare` without `stdio` reports an error requesting a server entry. The example explicitly selects `api/server/mcp.ts`. It is not a conventional entry discovered by the framework.
+
+STDIO supports local component views only. Use HTTP for MF views. Both transports can share one `mcp-views.json` when it contains only local components. The Todo example uses a separate `mcp-views.stdio.json` because its HTTP manifest includes MF views, and selects the manifest by command in `modern.config.ts`. Two configuration files are not a framework requirement.
+
 Run `pnpm mcp:prepare`. This creates `dist-mcp/server.cjs`, `dist-mcp/ui-manifest.json` and self-contained UI HTML, then prints the Node command and absolute server argument for a local MCP connector. The host starts the process. No HTTP server, relay, or `modern dev` is required. Only JSON-RPC belongs on server stdout, so application diagnostics must use stderr. Keep application dependencies installed beside the output.
 
 The isolated production pipeline bundles local components with `createMcpView`, preserving exported `mcpCapabilities`, inlining JavaScript, CSS and imported assets. It respects `source.alias`, `source.define` and the application tsconfig. It does not run the application's Rsbuild plugins or its server middleware. Custom loaders and framework page runtime features are outside this mode. Module Federation views are rejected because they require hosted resources. Runtime API requests still require explicit endpoints and suitable CSP. Each HTML document must fit within 5 MiB.

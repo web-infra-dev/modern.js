@@ -192,6 +192,18 @@ mcpAppsPlugin({
 });
 ```
 
+`views` selects the UI cards to build. `stdio.server` identifies the module that registers tools, UI resources and business handlers. `mcp-prepare` imports its default factory, connects the returned MCP Server to `StdioServerTransport`, and generates `dist-mcp/server.cjs`.
+
+| Option         | Required           | Default and behavior                                                                                              |
+| -------------- | ------------------ | ----------------------------------------------------------------------------------------------------------------- |
+| `stdio.server` | Required for stdio | No default. Resolved from the application root. The framework does not discover `api/server/mcp.ts` automatically |
+| `stdio.output` | No                 | `dist-mcp`, relative to the application root                                                                      |
+| `views`        | No                 | `mcp-views.json`. Only JSON file paths are accepted                                                               |
+
+Running `modern mcp-prepare` without `stdio` reports an error requesting a server entry. The example explicitly selects `api/server/mcp.ts`. It is not a conventional entry discovered by the framework.
+
+STDIO supports local component views only. Use HTTP for MF views. Both transports can share one `mcp-views.json` when it contains only local components. The Todo example uses a separate `mcp-views.stdio.json` because its HTTP manifest includes MF views, and selects the manifest by command in `modern.config.ts`. Two configuration files are not a framework requirement.
+
 Add `"mcp:prepare": "modern mcp-prepare"` to package scripts and run `pnpm mcp:prepare`. Copy the printed command and args into a local MCP connector. The host starts the process. Output defaults to `dist-mcp/`, separate from the normal dist directory. Configure `stdio.output` to choose another dedicated directory outside application dist, and ignore it in Git.
 
 The server module must default-export an async factory accepting `RegisterUiOptions`. Create a McpServer, call `registerUiResources(server, options)`, register business tools and return the server. The HTTP route can share this factory with `createBffHandlers(request => createServer({ request }))`. No synthetic HTTP Request is needed for stdio.
