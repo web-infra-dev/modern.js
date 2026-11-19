@@ -47,12 +47,54 @@ function fixture(
 }
 describe('application-bound public update API', () => {
   it('allows static cache updates with the default global request admission', async () => {
-    const app = fixture('static-admission', rs.fn(), {
-      staticOnly: true,
-    });
+    const app = fixture('static-admission', rs.fn());
     await app.init();
     expect(app.context.ssrApplication.reloadEntry).toBeTypeOf('function');
     expect(app.context.ssrApplication.resolveScope).toBeUndefined();
+  });
+
+  it('supports background polling in onReady with zero incoming requests and stops on close', async () => {
+    (globalThis as any)[key] = undefined;
+    let timer: ReturnType<typeof setTimeout> | undefined;
+    let stopped = false;
+    let pollCount = 0;
+    const updates: unknown[] = [];
+    let resolveDone!: () => void;
+    const done = new Promise<void>(resolve => {
+      resolveDone = resolve;
+    });
+
+    const f = fixture('poller-host', manager => {
+      const check = async () => {
+        if (stopped) return;
+        pollCount++;
+        if (pollCount === 1) {
+          updates.push('checked-v2');
+          resolveDone();
+        }
+        if (!stopped) {
+          timer = setTimeout(check, 20);
+        }
+      };
+      timer = setTimeout(check, 5);
+      return () => {
+        stopped = true;
+        if (timer) clearTimeout(timer);
+      };
+    });
+    await f.init();
+    f.context.ssrApplication.onReady({
+      status: { phase: 'serving' },
+      close: async () => {},
+      update: rs.fn(),
+    });
+    await done;
+    expect(updates).toEqual(['checked-v2']);
+    await f.context.ssrUpdateManager.close();
+    const countAfterClose = pollCount;
+    await new Promise(resolve => setTimeout(resolve, 50));
+    expect(stopped).toBe(true);
+    expect(pollCount).toBe(countAfterClose);
   });
   it('binds single-application background APIs after resources are ready, and removes the binding on close', async () => {
     (globalThis as any)[key] = undefined;

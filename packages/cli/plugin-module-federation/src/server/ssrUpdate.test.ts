@@ -90,7 +90,6 @@ function fixture() {
       name: 'host',
       owner,
       entries: ['a', 'b'],
-      staticOnly: true,
     }),
   };
 }
@@ -112,21 +111,15 @@ describe('SSR static scope proof', () => {
       reasons: ['incomplete-parent-closure'],
     });
   });
-  it('requires the complete entry inventory and explicit static-only contract', () => {
+  it('requires the complete entry inventory for selective updates', () => {
     const { owner } = fixture();
     expect(
       createSSRUpdateAdapter({
         name: 'host',
         owner,
         entries: ['a', 'missing'],
-        staticOnly: true,
       }).plan('remote').reasons,
     ).toContain('missing-entry-metadata');
-    expect(
-      createSSRUpdateAdapter({ name: 'host', owner, entries: ['a', 'b'] }).plan(
-        'remote',
-      ).reasons,
-    ).toContain('dynamic-or-mixed-consumption');
   });
   it('invalidates the proof on runtime consumption and unknown remote names', () => {
     const { adapter, state } = fixture();

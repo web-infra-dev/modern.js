@@ -192,12 +192,20 @@ it('rejects an external asynchronous update while another owner is active', asyn
   expect(update).toHaveBeenCalledTimes(1);
 });
 
+function mockContainer(clear = rs.fn()) {
+  const get = rs.fn();
+  const clearers: WeakMap<object, (preserveShared: boolean) => boolean> = ((
+    globalThis as any
+  )[Symbol.for('module-federation.clear-cache.containers')] ||= new WeakMap());
+  clearers.set(get, clear);
+  return { container: { get }, clear };
+}
+
 it('releases owned remote entries but preserves an externally consumed container', async () => {
   const previous = (globalThis as any).__FEDERATION__;
   const previousLoading = (globalThis as any).__GLOBAL_LOADING_REMOTE_ENTRY__;
   try {
-    const clear = rs.fn();
-    const container = { __webpack_clear_cache__: clear };
+    const { container, clear } = mockContainer();
     const other = {
       name: 'other',
       moduleCache: new Map([['remote', { remoteEntryExports: container }]]),
@@ -236,33 +244,33 @@ it('releases owned remote entries but preserves an externally consumed container
 
 it('forgets all removed remote URLs without clearing another remote or the replacement', async () => {
   const owner = plugin();
-  const oldClear = rs.fn();
-  const olderClear = rs.fn();
-  const otherClear = rs.fn();
-  const newClear = rs.fn();
-  for (const [name, entry, clear] of [
-    ['remote', 'v1', oldClear],
-    ['remote', 'v0', olderClear],
-    ['other', 'v1', otherClear],
+  const old = mockContainer();
+  const older = mockContainer();
+  const other = mockContainer();
+  const next = mockContainer();
+  for (const [name, entry, entryMock] of [
+    ['remote', 'v1', old],
+    ['remote', 'v0', older],
+    ['other', 'v1', other],
   ] as const) {
     await owner.afterLoadEntry!({
       remoteInfo: { name, entry },
-      remoteEntryExports: { __webpack_clear_cache__: clear },
+      remoteEntryExports: entryMock.container,
     } as any);
   }
   await owner.removeRemote!({
     remote: { name: 'remote', alias: 'alias' },
   } as any);
-  expect(oldClear).not.toHaveBeenCalled();
+  expect(old.clear).not.toHaveBeenCalled();
   await owner.afterLoadEntry!({
     remoteInfo: { name: 'remote', entry: 'v1' },
-    remoteEntryExports: { __webpack_clear_cache__: newClear },
+    remoteEntryExports: next.container,
   } as any);
   await owner.dispose!({ origin: { name: 'host' } } as any);
-  expect(oldClear).not.toHaveBeenCalled();
-  expect(olderClear).not.toHaveBeenCalled();
-  expect(otherClear).toHaveBeenCalledTimes(1);
-  expect(newClear).toHaveBeenCalledTimes(1);
+  expect(old.clear).not.toHaveBeenCalled();
+  expect(older.clear).not.toHaveBeenCalled();
+  expect(other.clear).toHaveBeenCalledTimes(1);
+  expect(next.clear).toHaveBeenCalledTimes(1);
 });
 
 it('releases only its build entry promise when the URL and provider name are shared', async () => {
@@ -271,15 +279,15 @@ it('releases only its build entry promise when the URL and provider name are sha
   const globalName = 'ownershipVersionedEntry';
   try {
     (globalThis as any).__FEDERATION__ = { __INSTANCES__: [], __SHARE__: {} };
-    const oldEntry = { __webpack_clear_cache__: rs.fn() };
-    const newEntry = { __webpack_clear_cache__: rs.fn() };
-    const oldLoading = Promise.resolve(oldEntry);
-    const newLoading = Promise.resolve(newEntry);
+    const oldEntry = mockContainer();
+    const newEntry = mockContainer();
+    const oldLoading = Promise.resolve(oldEntry.container);
+    const newLoading = Promise.resolve(newEntry.container);
     (globalThis as any).__GLOBAL_LOADING_REMOTE_ENTRY__ = {
       'remote:entry:v1': oldLoading,
       'remote:entry:v2': newLoading,
     };
-    (globalThis as any)[globalName] = newEntry;
+    (globalThis as any)[globalName] = newEntry.container;
     const owner = plugin();
     await owner.afterLoadEntry!({
       remoteInfo: {
@@ -288,18 +296,18 @@ it('releases only its build entry promise when the URL and provider name are sha
         buildVersion: 'v1',
         entryGlobalName: globalName,
       },
-      remoteEntryExports: oldEntry,
+      remoteEntryExports: oldEntry.container,
     } as any);
     await owner.dispose!({ origin: { name: 'host' } } as any);
-    expect(oldEntry.__webpack_clear_cache__).toHaveBeenCalledTimes(1);
-    expect(newEntry.__webpack_clear_cache__).not.toHaveBeenCalled();
+    expect(oldEntry.clear).toHaveBeenCalledTimes(1);
+    expect(newEntry.clear).not.toHaveBeenCalled();
     expect(
       (globalThis as any).__GLOBAL_LOADING_REMOTE_ENTRY__['remote:entry:v1'],
     ).toBeUndefined();
     expect(
       (globalThis as any).__GLOBAL_LOADING_REMOTE_ENTRY__['remote:entry:v2'],
     ).toBe(newLoading);
-    expect((globalThis as any)[globalName]).toBe(newEntry);
+    expect((globalThis as any)[globalName]).toBe(newEntry.container);
   } finally {
     (globalThis as any).__FEDERATION__ = previous;
     (globalThis as any).__GLOBAL_LOADING_REMOTE_ENTRY__ = previousLoading;

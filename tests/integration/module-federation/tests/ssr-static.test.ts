@@ -172,7 +172,6 @@ test.each([
     const adapter = createSSRUpdateAdapter({
       name: 'static-host',
       entries: ['a', 'b', 'c'],
-      staticOnly: true,
     });
     let application: any;
     let fail = false;
@@ -348,14 +347,6 @@ test.each([
         assert.equal(updatedStable, stable);
       }
       assert.deepEqual(http.address(), address);
-      assert.equal(
-        createSSRUpdateAdapter({
-          name: 'static-host',
-          owner: adapter.owner,
-          entries: ['a', 'b', 'c'],
-        }).plan('remote').mode,
-        'application',
-      );
       assert.equal(adapter.plan('dynamic').mode, 'application');
       fail = true;
       await assert.rejects(

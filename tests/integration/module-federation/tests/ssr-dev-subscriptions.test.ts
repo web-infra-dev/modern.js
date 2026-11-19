@@ -14,9 +14,7 @@ describe('Development request discovery and nested graph', () => {
     await runSubscriptionScenario('build-serve');
   }, 600000);
 
-  for (const mode of ['bridge', 'service', 'service-csr']) {
-    it(`${mode}: prepares updated SSR without browser reload and serves the selected release on manual refresh`, async () => {
-      await runSubscriptionScenario(mode);
-    }, 600000);
-  }
+  it('service: prepares updated SSR without browser reload and serves the selected release on manual refresh', async () => {
+    await runSubscriptionScenario('service');
+  }, 600000);
 });

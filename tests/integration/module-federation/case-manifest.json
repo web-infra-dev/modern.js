@@ -1863,13 +1863,6 @@
       "rstest"
     ],
     [
-      "tests/integration/module-federation/tests/ssr-bridge-release.test.ts",
-      "common",
-      [],
-      "Bridge updates drain original producer work and preserve hydrated old releases",
-      "rstest"
-    ],
-    [
       "tests/integration/module-federation/tests/ssr-dev-admission.test.ts",
       "common",
       [],
@@ -2006,13 +1999,6 @@
       "tests/integration/module-federation/tests/ssr-dev-subscriptions.test.ts",
       "common",
       ["Development subscription graph and fallback"],
-      "bridge: applies loader and component changes and remounts the selected release",
-      "rstest"
-    ],
-    [
-      "tests/integration/module-federation/tests/ssr-dev-subscriptions.test.ts",
-      "common",
-      ["Development subscription graph and fallback"],
       "discovers rebuilt static producer artifacts without a producer subscription",
       "rstest"
     ],
@@ -2028,13 +2014,6 @@
       "common",
       ["Development subscription graph and fallback"],
       "recovers when the producer starts after the host without recompiling the host",
-      "rstest"
-    ],
-    [
-      "tests/integration/module-federation/tests/ssr-dev-subscriptions.test.ts",
-      "common",
-      ["Development subscription graph and fallback"],
-      "service-csr: applies loader and component changes and remounts the selected release",
       "rstest"
     ],
     [

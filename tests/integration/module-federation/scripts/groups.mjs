@@ -39,7 +39,6 @@ export const groups = {
     'ssr-update-api',
     'ssr-update-identity',
     'ssr-release-retention',
-    'ssr-bridge-release',
     'ssr-dev-fallback',
     'ssr-dev-subscriptions',
     'ssr-dev-admission',

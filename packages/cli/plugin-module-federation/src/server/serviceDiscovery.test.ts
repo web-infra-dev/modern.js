@@ -102,7 +102,12 @@ function ingress(plugins: () => Promise<ModuleFederationRuntimePlugin[]>) {
 it('releases discovery plugins and local metadata without retiring an existing producer', async () => {
   const provider = createInstance({ name: 'catalog', id: 'catalog:current' });
   providers.push(provider);
-  const container = { __webpack_clear_cache__: rs.fn() };
+  const clearContainer = rs.fn();
+  const container = { get: rs.fn() };
+  const clearers: WeakMap<object, (preserveShared: boolean) => boolean> = ((
+    globalThis as any
+  )[Symbol.for('module-federation.clear-cache.containers')] ||= new WeakMap());
+  clearers.set(container.get, clearContainer);
   (globalThis as any).discoveryCatalogContainer = container;
   let discovery: ModuleFederation | undefined;
   const disposed = rs.fn();
@@ -139,7 +144,7 @@ it('releases discovery plugins and local metadata without retiring an existing p
     expect(helpers.global.Global.__FEDERATION__.__INSTANCES__).toContain(
       provider,
     );
-    expect(container.__webpack_clear_cache__).not.toHaveBeenCalled();
+    expect(clearContainer).not.toHaveBeenCalled();
     expect((globalThis as any).discoveryCatalogContainer).toBe(container);
   } finally {
     delete (globalThis as any).discoveryCatalogContainer;

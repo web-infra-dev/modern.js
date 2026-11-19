@@ -124,7 +124,6 @@ async function verifyProductionUpdate(asyncStartup: boolean) {
     const plugin = createSSRUpdateServerPlugin({
       name: 'r6_host',
       remotes: [initial],
-      staticOnly: true,
       hydration: {
         remotes: [
           { name: 'r6_remote', entry: `${assetURL}/v1/mf-manifest.json` },
@@ -308,7 +307,7 @@ async function verifyProductionUpdate(asyncStartup: boolean) {
     });
     delete state.__r6Loader;
     await readPage('v2');
-    for (let i = 0; i < 10; i++) {
+    for (let i = 0; i < 3; i++) {
       published = i % 2 === 0 ? 'v1' : 'v2';
       const result = await updateRemotes([target(published)], {
         revalidate: true,

@@ -471,7 +471,6 @@ export const moduleFederationConfigPlugin = (
             name: ssrConfig.name,
             remotes,
             application,
-            staticOnly: true,
             ...(isDev() && {
               devCheckPaths: serviceProviderBasePaths(
                 modernjsConfig.server?.baseUrl,

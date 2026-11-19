@@ -82,7 +82,6 @@ export function createSSRUpdateAdapter(options: {
   name: string;
   entries: string[];
   owner?: SSRUpdateOwner;
-  staticOnly?: boolean;
   /** Immutable public entries paired with the initial server release. */
   hydration?: { remotes: SSRClientRemote[] };
   remotes?: SSRRemoteReplacement[];
@@ -154,7 +153,6 @@ export function createSSRUpdateAdapter(options: {
   const plan = (remote: string): SSRUpdatePlan => {
     const all = records();
     const reasons = new Set<string>();
-    if (!options.staticOnly) reasons.add('dynamic-or-mixed-consumption');
     if (!states().length || states().some(state => !state))
       reasons.add('missing-consumption-tracker');
     if (states().some(state => state?.dynamic))

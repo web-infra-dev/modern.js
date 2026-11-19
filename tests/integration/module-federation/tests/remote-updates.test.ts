@@ -809,12 +809,16 @@ if (process.env.MF_LAB_MODE !== 'dev') {
           lab.url,
           'ordinary',
           async () => {
-            const home = await fetch(lab.url, {
+            // Default global admission holds all entries during an update.
+            await expect(
+              fetch(lab.url, { signal: AbortSignal.timeout(400) }),
+            ).rejects.toThrow();
+            // Per-entry requestPolicy can return CSR for the homepage while weather waits.
+            const homeCsr = await fetch(`${lab.url}/?__labPolicy=csr-index`, {
               signal: AbortSignal.timeout(2000),
             });
-            expect(home.status).toBe(200);
-            expect(home.headers.get('x-modernjs-render')).not.toBe('client');
-            expect(await home.text()).toContain('Rendering');
+            expect(homeCsr.status).toBe(200);
+            expect(homeCsr.headers.get('x-modernjs-render')).toBe('client');
           },
         );
         expect(documents.filter(item => item.policy === 'wait')).toHaveLength(
