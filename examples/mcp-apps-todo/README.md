@@ -4,11 +4,21 @@
 
 ## 开发
 
-在仓库根目录执行：
+Modern.js 安装依赖均使用 `latest`，指向 registry 已发布的稳定版本，不依赖当前仓库源码或未发布特性。无需在仓库中构建框架包。
+
+将本目录复制为独立项目后，在项目目录执行：
 
 ```bash
 pnpm install
-pnpm --filter @modern-js/mcp-apps build
+pnpm dev
+```
+
+如果 pnpm 报告 `ERR_PNPM_IGNORED_BUILDS`，使用 `pnpm approve-builds` 审核被阻止的依赖脚本，只批准你信任的依赖，再重新执行 `pnpm install`。独立验证时需批准 `@swc/core` 和 `core-js`，不要全局关闭脚本审批。
+
+在仓库根目录也可以执行：
+
+```bash
+pnpm install
 pnpm --filter @examples/mcp-apps-todo dev
 ```
 
@@ -24,15 +34,22 @@ pnpm --filter @examples/mcp-apps-todo dev
 - `src/components/Todos.tsx`：通过 `McpViewProps` 接收 structuredContent 和 mcpApp
 - `api/lambda/mcp.ts`：官方 SDK 注册 tools，通过 UI 清单注册 resources，显式导出 BFF handlers
 - `api/server/store.ts`：内存数据
+- `server/modern.server.ts`：仅为 `/static/*` 公开资源添加 CORS 响应头，供隔离 iframe 内的 MF 卡片读取
 
 ## 生产
 
+在独立项目目录执行：
+
 ```bash
-pnpm --filter @examples/mcp-apps-todo build
-pnpm --filter @examples/mcp-apps-todo serve
+pnpm build
+pnpm serve
 ```
 
+在仓库根目录运行时，可使用 `pnpm --filter @examples/mcp-apps-todo build` 和 `pnpm --filter @examples/mcp-apps-todo serve`。
+
 构建生成 `dist/mcp-apps/ui-manifest.json`、本地卡片 HTML 和 MF shell，静态文件与 MF manifest 使用标准应用产物。
+
+MF 卡片运行在 `sandbox="allow-scripts"` 的 iframe 中，源站为不透明的 `null`。生产模式读取 MF manifest 和脚本时，需要公开静态资源允许跨域访问。示例中的服务端 middleware 只为 `/static/*` 设置 `Access-Control-Allow-Origin: *`，不对 `/api/mcp` 或其他 API 开放跨域权限，也不允许跨域凭据。若将静态资源交给 CDN，应同步配置这一公开资源策略。
 
 使用 `PORT=8090 pnpm --filter @examples/mcp-apps-todo dev` 可以切换端口。
 
