@@ -1,3 +1,4 @@
+import path from 'node:path';
 import type { RouteLegacy } from '@modern-js/types/cli';
 import * as utils from '@modern-js/utils' with { rstest: 'importActual' };
 
@@ -87,6 +88,62 @@ describe('fileSystemRoutes', () => {
       internalDirectory: '',
     });
     expect(code).toMatchSnapshot();
+  });
+
+  // The generator used to read each route component's 'use client' directive
+  // while walking the tree, so sibling branches appended to the shared errors
+  // array in file-read completion order and error_0 / error_1 pointed at
+  // different files between runs of the same sources.
+  test('assigns route component bindings in a stable order', async () => {
+    const srcDirectory = path.join(__dirname, 'fixtures', 'stable-order');
+    const internalSrcAlias = '@_modern_js_src';
+    const branches = ['a', 'b', 'c', 'd'];
+    const buildRoutes = () => [
+      {
+        path: '/',
+        _component: `${internalSrcAlias}/layout`,
+        id: 'layout',
+        isRoot: true,
+        type: 'nested' as const,
+        children: branches.map(name => ({
+          path: name,
+          error: `${internalSrcAlias}/${name}/error`,
+          _component: `${internalSrcAlias}/${name}/layout`,
+          id: `${name}/layout`,
+          type: 'nested' as const,
+          children: [
+            {
+              _component: `${internalSrcAlias}/${name}/page`,
+              index: true,
+              id: `${name}/page`,
+              type: 'nested' as const,
+            },
+          ],
+        })),
+      },
+    ];
+
+    const orders = new Set<string>();
+    for (let i = 0; i < 20; i++) {
+      const code = await fileSystemRoutes({
+        metaName: 'modern-js',
+        routes: buildRoutes(),
+        entryName: 'main',
+        internalDirectory: '',
+        srcDirectory,
+        internalSrcAlias,
+      });
+      orders.add(
+        Array.from(
+          code.matchAll(/import error_\d+ from '([^']+)'/g),
+          match => match[1],
+        ).join(','),
+      );
+    }
+
+    expect(Array.from(orders)).toEqual([
+      branches.map(name => `${internalSrcAlias}/${name}/error`).join(','),
+    ]);
   });
 });
 
