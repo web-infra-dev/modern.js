@@ -2,6 +2,7 @@ import fs from 'fs';
 import path from 'path';
 import {
   JS_EXTENSIONS,
+  getArgv,
   getCommand,
   normalizeToPosixPath,
 } from '@modern-js/utils';
@@ -81,6 +82,17 @@ export const getServerCombinedModuleFile = (
   return path.join(internalDirectory, entryName, 'server-loader-combined.js');
 };
 
+/**
+ * `build --help` and `dev -h` only print help, so they are not a build and
+ * must not clean or generate any output.
+ */
+export const isHelpOnlyCommand = () => {
+  const [, ...options] = getArgv();
+  return (
+    options.length === 1 && (options[0] === '--help' || options[0] === '-h')
+  );
+};
+
 export const checkIsBuildCommands = () => {
   const buildCommands = [
     'dev',
@@ -92,7 +104,7 @@ export const checkIsBuildCommands = () => {
   ];
   const command = getCommand();
 
-  return buildCommands.includes(command);
+  return buildCommands.includes(command) && !isHelpOnlyCommand();
 };
 
 export const checkIsServeCommand = () => {
