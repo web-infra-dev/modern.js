@@ -1,12 +1,4 @@
-export { defineMcpViews } from './config';
-export type {
-  McpViewsDefinition,
-  RouteView,
-  McpViewsConfig,
-  McpViewOptions,
-} from './config';
 import fs from 'node:fs/promises';
-import { writeRouteView } from './routes';
 import path from 'node:path';
 import { createRequire } from 'node:module';
 import { fileURLToPath } from 'node:url';
@@ -24,8 +16,8 @@ import {
 } from './build';
 
 export interface McpAppsPluginOptions {
-  /** JSON path, or imported typed configuration with paths relative to the app root. */
-  views?: string | McpViewsConfig;
+  /** JSON UI configuration, relative to the application root. */
+  views?: string;
   /** CSP domains added to every view, merged with the csp in the views file. */
   csp?: UiCsp;
   stdio?: McpStdioOptions;
@@ -114,29 +106,21 @@ export const mcpAppsPlugin = (
     const configPath = () =>
       path.resolve(
         api.getAppContext().appDirectory,
-        typeof options.views === 'string' ? options.views : 'mcp-views.json',
+        options.views ?? 'mcp-views.json',
       );
-    api.addWatchFiles(() => [
-      ...(typeof options.views === 'object' ? [] : [configPath()]),
-      ...Object.values(definition?.views ?? {}).flatMap(view =>
-        typeof view !== 'string' && 'routes' in view
-          ? [path.resolve(path.dirname(configPath()), view.routes)]
-          : [],
-      ),
-    ]);
+    api.addWatchFiles(() => [configPath()]);
     api.modifyEntrypoints(async ({ entrypoints: current }) => {
       const ctx = api.getAppContext();
-      const source: unknown =
-        typeof options.views === 'object'
-          ? options.views
-          : JSON.parse(await fs.readFile(configPath(), 'utf8'));
+      const source: unknown = JSON.parse(
+        await fs.readFile(configPath(), 'utf8'),
+      );
       validateViewsConfig(source);
       definition = source;
       const appRequire = createRequire(
         path.join(ctx.appDirectory, 'package.json'),
       );
       const needsMf = Object.values(definition.views).some(
-        view => typeof view !== 'string' && 'expose' in view,
+        view => typeof view !== 'string',
       );
       localEntries.clear();
       shellHtml.clear();
@@ -151,7 +135,7 @@ export const mcpAppsPlugin = (
       );
       const { enableAsyncEntry } = api.getNormalizedConfig().source;
       for (const [name, source] of Object.entries(definition.views)) {
-        if (typeof source !== 'string' && 'expose' in source) continue;
+        if (typeof source !== 'string') continue;
         const entryName = viewEntryName(name);
         if (entrypoints.some(entry => entry.entryName === entryName))
           throw new Error(
@@ -161,18 +145,9 @@ export const mcpAppsPlugin = (
         const mountEntry = enableAsyncEntry
           ? path.join(entryDir, `${entryName}-mount.jsx`)
           : entry;
-        const componentPath =
-          typeof source === 'string'
-            ? path.resolve(path.dirname(configPath()), source)
-            : await writeRouteView({
-                root: ctx.appDirectory,
-                configDirectory: path.dirname(configPath()),
-                view: source,
-                filename: path.join(entryDir, `${entryName}-routes.jsx`),
-              });
         await writeArtifact(
           mountEntry,
-          `import React from ${JSON.stringify(appRequire.resolve('react'))};\nimport { createRoot } from ${JSON.stringify(appRequire.resolve('react-dom/client'))};\nimport { createMcpView } from ${JSON.stringify(packageFile('react.mjs'))};\nimport View, * as viewModule from ${JSON.stringify(componentPath)};\ncreateRoot(document.getElementById('root')).render(React.createElement(createMcpView(View, ${JSON.stringify({ name, version: '1.0.0' })}, Reflect.get(viewModule, 'mcpCapabilities'), ${JSON.stringify({ bootstrap: definition.viewOptions?.[name]?.bootstrap })})));\n`,
+          `import React from ${JSON.stringify(appRequire.resolve('react'))};\nimport { createRoot } from ${JSON.stringify(appRequire.resolve('react-dom/client'))};\nimport { createMcpView } from ${JSON.stringify(packageFile('react.mjs'))};\nimport View, * as viewModule from ${JSON.stringify(path.resolve(path.dirname(configPath()), source))};\ncreateRoot(document.getElementById('root')).render(React.createElement(createMcpView(View, ${JSON.stringify({ name, version: '1.0.0' })}, Reflect.get(viewModule, 'mcpCapabilities'))));\n`,
         );
         // MF shared dependencies initialize asynchronously. Mount directly
         // instead of loading the framework's page runtime, which reads cookies
@@ -385,7 +360,6 @@ export const mcpAppsPlugin = (
               Object.values(definition.views).some(
                 view =>
                   typeof view !== 'string' &&
-                  'expose' in view &&
                   view.remote === undefined &&
                   definition.remote === undefined,
               )

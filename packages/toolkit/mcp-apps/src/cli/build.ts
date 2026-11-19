@@ -74,7 +74,7 @@ export function createUiManifest(
 ): UiManifest {
   validateViewsConfig(config);
   if (csp !== undefined) validateUiMetadata({ csp });
-  const { views, viewOptions, remote: defaultRemote, ...metadata } = config;
+  const { views, remote: defaultRemote, ...metadata } = config;
   // Scripts and chunks load from the asset prefix even when assetBase stays
   // request-relative, such as with a protocol-relative CDN prefix.
   const assetOrigin = assetPrefixOrigin(prefix);
@@ -100,22 +100,8 @@ export function createUiManifest(
     views: Object.create(null),
   };
   for (const [name, source] of Object.entries(views)) {
-    const options = viewOptions?.[name];
-    const viewUi = {
-      ...ui,
-      ...options?.ui,
-      csp: mergeCsp(ui.csp, options?.ui?.csp),
-    };
-    const extra = {
-      ...(options?.resourceMeta ? { resourceMeta: options.resourceMeta } : {}),
-      ...(options?.bootstrap ? { bootstrap: options.bootstrap } : {}),
-    };
-    if (typeof source === 'string' || 'routes' in source) {
-      manifest.views[name] = {
-        html: `./ui/${viewEntryName(name)}.html`,
-        ui: viewUi,
-        ...extra,
-      };
+    if (typeof source === 'string') {
+      manifest.views[name] = { html: `./ui/${viewEntryName(name)}.html`, ui };
       continue;
     }
     let remote: string;
@@ -149,12 +135,7 @@ export function createUiManifest(
       remote = mf.manifest.name;
     }
     manifest.remotes[remote] = { entry, shell: './ui/mcp-shell.html' };
-    manifest.views[name] = {
-      remote,
-      expose: source.expose,
-      ui: viewUi,
-      ...extra,
-    };
+    manifest.views[name] = { remote, expose: source.expose, ui };
   }
   return manifest;
 }

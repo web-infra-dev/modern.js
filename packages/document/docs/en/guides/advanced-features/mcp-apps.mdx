@@ -200,18 +200,4 @@ The isolated build preserves createMcpView lifecycle and exported mcpCapabilitie
 
 Reserve server stdout for JSON-RPC and send diagnostics to stderr. Keep application Node dependencies installed. Rebuild after changes and restart the connector to load updated code and HTML. HTTP builds and deployment remain unchanged.
 
-
-## Application startup and per-view metadata
-
-`mcp-views.json` accepts a `viewOptions` map keyed by declared view names. Each entry can set `ui` (standard UI metadata), `resourceMeta` (namespaced resource metadata) and `bootstrap` (`tool-result` by default, or `connected`). Both HTTP and stdio preserve resource metadata. MF shells also preserve the selected startup mode.
-
-Connected views render after the official App handshake without requiring a tool result. They retain props during new input and unmount on teardown. Use `createMcpView(View, appInfo, capabilities, { bootstrap: 'connected' })` for direct wrappers.
-
-`useMcpOperation(app, getScopeKey)` provides `run`, `cancel` and cleanup. Pass the operation's signal to SDK calls. A changed scope key cancels pending calls and rejects late results. Reset business caches with the same trusted scope identity. Remote writes may still complete after cancellation, so the helper never retries them automatically.
-
-
-## Shared component routes and business actions
-
-A View can declare `{ "routes": "./src/routes", "include": ["/projects"], "home": "/projects", "shell": "./src/McpShell.tsx" }`. HTTP and stdio reuse selected page/layout modules in a generated MemoryRouter. The optional shell receives entry props and children. Shared layouts can use `useMcpViewContext()` to avoid creating a second browser-only provider. This adapter supports component routes with static directories, `[id]` parameters and `$` fallback pages. Web loaders/actions, SSR, configured routes and authentication are not automatically migrated, and unsupported route data modules are rejected.
-
-`defineAction` and `createActionClient` from `@modern-js/mcp-apps/actions` share a Zod input/output contract, tool name, description and explicit visibility. `registerActions` from `/server` binds server-only handlers and optional UI resources. Page methods validate responses and reject tool business errors. Expected handler failures use `ActionError`. Keep handlers and credentials out of shared contract files, and enforce authentication and object permissions on the server. Visibility controls discovery, not authorization.
+Remote MF resources also depend on the Host sandbox policy. Local STDIO cards have been verified in Doubao Work, including displaying, adding and rereading todos. MF remote cards have not passed verification there because the Host CSP blocked the manifest request. Declaring the remote origin does not guarantee Host access. The Host must apply the resource CSP and permit the remote protocol.

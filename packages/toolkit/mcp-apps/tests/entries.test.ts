@@ -20,15 +20,11 @@ afterEach(async () => {
   await rm(internalDirectory, { recursive: true, force: true });
 });
 
-async function setupEntries(enableAsyncEntry: boolean, inlineConfig = false) {
+async function setupEntries(enableAsyncEntry: boolean) {
   internalDirectory = await mkdtemp(path.join(os.tmpdir(), 'mcp-entries-'));
   let modifyEntrypoints!: ModifyEntrypoints;
   const noop = () => {};
-  mcpAppsPlugin({
-    views: inlineConfig
-      ? { views: { todos: './tests/fixtures/Local.tsx' } }
-      : 'tests/fixtures/mcp-views.json',
-  }).setup!({
+  mcpAppsPlugin({ views: 'tests/fixtures/mcp-views.json' }).setup!({
     getAppContext: () => ({
       appDirectory: packageRoot,
       internalDirectory,
@@ -104,13 +100,4 @@ describe('mcpAppsPlugin local card entries', () => {
       `MCP entry conflicts with application entry: ${entryName}`,
     );
   });
-});
-
-it('accepts an imported configuration object with application-relative sources', async () => {
-  const modify = await setupEntries(false, true);
-  const { entrypoints } = await modify({ entrypoints: [] });
-  expect(entrypoints).toHaveLength(1);
-  expect(await readFile(entrypoints[0].entry, 'utf8')).toContain(
-    'createMcpView',
-  );
 });

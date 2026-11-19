@@ -55,3 +55,5 @@ pnpm --filter @examples/mcp-apps-todo mcp:prepare
 STDIO 使用 `mcp-views.stdio.json`，注册本地卡片工具 `local_todos`、MF 卡片工具 `list_todos` 和普通工具 `add_todo`。MF 卡片使用 `http://localhost:8088/static/mf-manifest.json`，测试前另开终端运行 `pnpm --filter @examples/mcp-apps-todo dev` 托管远程模块。也可以把清单中的 remote 改成实际部署的 manifest URL 后重新 prepare。MF shell 内联打包，远程模块仍需网络访问。原来的 `dev`、`build` 和 `serve` 继续使用包含 MF 的 `mcp-views.json`。
 
 可以对豆包说：“请调用 Todo MCP 的 local_todos，打开待办卡片。”确认初始列表显示后，在卡片输入标题并点击 Add todo。再次调用 `local_todos` 应能看到新增项。重启连接器后，内存数据恢复初始值。
+
+豆包工作已验证本地 STDIO 卡片的展示、新增待办与重新读取。MF 远程卡片目前未验证通过，沙箱 CSP 拦截了 manifest 请求，控制台报告 `connect-src https: wss:` 和 `connect-src 'none'`。请先使用 `local_todos` 测试，远程模块加载需要 Host 正确采用资源 CSP 并允许远程地址的协议。

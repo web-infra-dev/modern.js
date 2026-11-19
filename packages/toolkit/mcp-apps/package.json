@@ -44,12 +44,6 @@
       "modern:source": "./src/ui/react.ts",
       "import": "./dist/esm/react.mjs",
       "default": "./dist/esm/react.mjs"
-    },
-    "./actions": {
-      "types": "./dist/types/actions.d.ts",
-      "modern:source": "./src/actions.ts",
-      "import": "./dist/esm/actions.mjs",
-      "default": "./dist/esm/actions.mjs"
     }
   },
   "scripts": {
@@ -61,13 +55,12 @@
     "@rsbuild/core": "2.3.2"
   },
   "peerDependencies": {
-    "@modelcontextprotocol/ext-apps": "^2.0.4",
-    "@modelcontextprotocol/server": "^2.3.1",
-    "@modern-js/server-runtime": "workspace:^3.11.3",
-    "@module-federation/enhanced": "^2.0.0",
     "react": "^18.0.0 || ^19.0.0",
     "react-dom": "^18.0.0 || ^19.0.0",
-    "zod": "^4.2.0"
+    "@module-federation/enhanced": "^2.0.0",
+    "@modelcontextprotocol/server": "^2.3.1",
+    "@modelcontextprotocol/ext-apps": "^2.0.4",
+    "@modern-js/server-runtime": "workspace:^3.11.3"
   },
   "peerDependenciesMeta": {
     "@module-federation/enhanced": {
@@ -78,11 +71,6 @@
     }
   },
   "devDependencies": {
-    "@modelcontextprotocol/client": "2.3.1",
-    "@modelcontextprotocol/ext-apps": "2.0.4",
-    "@modelcontextprotocol/server": "2.3.1",
-    "@modern-js/app-tools": "workspace:*",
-    "@modern-js/server-runtime": "workspace:*",
     "@module-federation/enhanced": "2.0.0",
     "@rslib/core": "1.0.5",
     "@scripts/rstest-config": "workspace:*",
@@ -91,9 +79,13 @@
     "@types/react-dom": "^19.3.0",
     "react": "^19.3.1",
     "react-dom": "^19.3.1",
-    "react-router": "7.18.4",
     "typescript": "^5",
-    "zod": "^4.2.0"
+    "@modelcontextprotocol/client": "2.3.1",
+    "zod": "^4.2.0",
+    "@modelcontextprotocol/server": "2.3.1",
+    "@modelcontextprotocol/ext-apps": "2.0.4",
+    "@modern-js/server-runtime": "workspace:*",
+    "@modern-js/app-tools": "workspace:*"
   },
   "publishConfig": {
     "access": "public",
@@ -118,11 +110,6 @@
         "types": "./dist/types/ui/react.d.ts",
         "import": "./dist/esm/react.mjs",
         "default": "./dist/esm/react.mjs"
-      },
-      "./actions": {
-        "types": "./dist/types/actions.d.ts",
-        "import": "./dist/esm/actions.mjs",
-        "default": "./dist/esm/actions.mjs"
       }
     }
   },
@@ -139,9 +126,6 @@
       ],
       "react": [
         "./dist/types/ui/react.d.ts"
-      ],
-      "actions": [
-        "./dist/types/actions.d.ts"
       ]
     }
   }

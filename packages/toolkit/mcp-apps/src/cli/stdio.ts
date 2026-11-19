@@ -1,12 +1,11 @@
 import fs from 'node:fs/promises';
-import { writeRouteView } from './routes';
 import path from 'node:path';
 import { createRequire } from 'node:module';
 import { fileURLToPath } from 'node:url';
 import { Script } from 'node:vm';
 import { createRsbuild } from '@rsbuild/core';
 import type { RsbuildConfig } from '@rsbuild/core';
-import { validateViewsConfig, type McpViewsConfig } from '../manifest';
+import { validateViewsConfig } from '../manifest';
 import { createUiManifest, viewEntryName, type UiCsp } from './build';
 
 export interface McpStdioOptions {
@@ -25,7 +24,7 @@ const sdkFile = (filename: string) =>
 /** Isolated production builds, without starting HTTP or importing server code into UI. */
 export async function prepareStdio(input: {
   root: string;
-  views: string | McpViewsConfig;
+  views: string;
   stdio: McpStdioOptions;
   define?: NonNullable<RsbuildConfig['source']>['define'];
   alias?: Record<string, string | string[]>;
@@ -34,23 +33,13 @@ export async function prepareStdio(input: {
   mfRuntime?: string;
 }) {
   const { root, stdio } = input;
-  const configFile = path.resolve(
-    root,
-    typeof input.views === 'string' ? input.views : 'mcp-views.json',
-  );
-  const definition: unknown =
-    typeof input.views === 'object'
-      ? input.views
-      : JSON.parse(await fs.readFile(configFile, 'utf8'));
+  const configFile = path.resolve(root, input.views);
+  const definition: unknown = JSON.parse(await fs.readFile(configFile, 'utf8'));
   validateViewsConfig(definition);
   if (!Object.keys(definition.views).length)
     throw new Error('mcp-prepare requires at least one view');
   for (const [name, view] of Object.entries(definition.views))
-    if (
-      typeof view !== 'string' &&
-      'expose' in view &&
-      !(view.remote ?? definition.remote)
-    )
+    if (typeof view !== 'string' && !(view.remote ?? definition.remote))
       throw new Error(
         `STDIO MF view ${name} requires an explicit remote manifest URL. Build and host this application's MF resources first`,
       );
@@ -71,25 +60,7 @@ export async function prepareStdio(input: {
   if ((await fs.lstat(output).catch(() => undefined))?.isSymbolicLink())
     throw new Error('stdio.output must not be a symbolic link');
   for (const component of Object.values(definition.views)) {
-    if (typeof component !== 'string') {
-      if ('routes' in component) {
-        for (const source of [
-          component.routes,
-          ...(component.shell ? [component.shell] : []),
-        ]) {
-          const filename = path.resolve(path.dirname(configFile), source);
-          if (
-            filename === output ||
-            filename.startsWith(output + path.sep) ||
-            ('routes' in component &&
-              source === component.routes &&
-              output.startsWith(filename + path.sep))
-          )
-            throw new Error('stdio.output must not overlap route sources');
-        }
-      }
-      continue;
-    }
+    if (typeof component !== 'string') continue;
     const source = path.resolve(path.dirname(configFile), component);
     if (source === output || source.startsWith(output + path.sep))
       throw new Error('stdio.output must not contain view source files');
@@ -108,18 +79,9 @@ export async function prepareStdio(input: {
         entries[entryName] = sdkFile('mf-entry.mjs');
         continue;
       }
-      const componentPath =
-        typeof component === 'string'
-          ? path.resolve(path.dirname(configFile), component)
-          : await writeRouteView({
-              root,
-              configDirectory: path.dirname(configFile),
-              view: component,
-              filename: path.join(staging, `${entryName}-routes.jsx`),
-            });
       await fs.writeFile(
         filename,
-        `import React from ${JSON.stringify(appRequire.resolve('react'))};\nimport { createRoot } from ${JSON.stringify(appRequire.resolve('react-dom/client'))};\nimport { createMcpView } from ${JSON.stringify(sdkFile('react.mjs'))};\nimport View, * as viewModule from ${JSON.stringify(componentPath)};\ncreateRoot(document.getElementById('root')).render(React.createElement(createMcpView(View, ${JSON.stringify({ name, version: '1.0.0' })}, Reflect.get(viewModule, 'mcpCapabilities'), ${JSON.stringify({ bootstrap: definition.viewOptions?.[name]?.bootstrap })})));\n`,
+        `import React from ${JSON.stringify(appRequire.resolve('react'))};\nimport { createRoot } from ${JSON.stringify(appRequire.resolve('react-dom/client'))};\nimport { createMcpView } from ${JSON.stringify(sdkFile('react.mjs'))};\nimport View, * as viewModule from ${JSON.stringify(path.resolve(path.dirname(configFile), component as string))};\ncreateRoot(document.getElementById('root')).render(React.createElement(createMcpView(View, ${JSON.stringify({ name, version: '1.0.0' })}, Reflect.get(viewModule, 'mcpCapabilities'))));\n`,
       );
       entries[entryName] = filename;
     }
@@ -189,7 +151,6 @@ export async function prepareStdio(input: {
           entry: remote.entry,
           expose: view.expose,
           view: name,
-          bootstrap: view.bootstrap,
         }).replace(/</g, '\\u003c');
         html = html.replace(
           /<head\b[^>]*>/i,
@@ -198,8 +159,6 @@ export async function prepareStdio(input: {
         );
         manifest.views[name] = {
           html: `./ui/${viewEntryName(name)}.html`,
-          resourceMeta: view.resourceMeta,
-          bootstrap: view.bootstrap,
           ui: {
             ...view.ui,
             csp: {
