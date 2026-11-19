@@ -1,26 +1,42 @@
 import { describe, expect, it } from '@rstest/core';
-import { getRscPlugins } from '../src/plugins/rscConfig';
+import { createBuilder } from '../src';
 
-describe('getRscPlugins', () => {
-  const internalDir = '/tmp/internal';
-
-  it('returns no plugins when RSC is disabled', async () => {
-    const plugins = await getRscPlugins(false, internalDir);
-    expect(plugins).toHaveLength(0);
-  });
-
-  it('returns the RSC plugins when enabled (default environments)', async () => {
-    const plugins = await getRscPlugins(true, internalDir);
-    expect(plugins).toHaveLength(2);
-    expect(plugins.map(p => p.name)).toContain('builder:rsc-config');
-  });
-
-  it('accepts a custom environments mapping without throwing', async () => {
-    const plugins = await getRscPlugins(true, internalDir, {
+describe('RSC build environments', () => {
+  it.each([
+    { rsc: true, server: 'server', client: 'client' },
+    {
+      rsc: { environments: { server: 'Server', client: 'Render' } },
       server: 'Server',
       client: 'Render',
-    });
-    expect(plugins).toHaveLength(2);
-    expect(plugins.map(p => p.name)).toContain('builder:rsc-config');
-  });
+    },
+  ] as const)(
+    'assigns the SSR entry to $server and the web entry to $client',
+    async ({ rsc, server, client }) => {
+      const entry = './src/index.ts';
+      const builder = await createBuilder({
+        bundlerType: 'rspack',
+        cwd: __dirname,
+        internalDirectory: __dirname,
+        config: { server: { rsc }, source: { entry: { main: entry } } },
+      });
+
+      const configs = await builder.initConfigs();
+      expect(configs.map(config => config.name).sort()).toEqual(
+        [server, client].sort(),
+      );
+      expect(
+        configs.find(config => config.name === server)?.entry,
+      ).toMatchObject({
+        main: {
+          import: expect.arrayContaining([entry]),
+          layer: 'server-side-rendering',
+        },
+      });
+      expect(
+        configs.find(config => config.name === client)?.entry,
+      ).toMatchObject({
+        main: expect.arrayContaining([entry]),
+      });
+    },
+  );
 });

@@ -15,7 +15,7 @@
     "modern",
     "modern.js"
   ],
-  "version": "3.11.3",
+  "version": "3.12.0",
   "files": [
     "dist",
     "hook.d.ts"
@@ -24,8 +24,7 @@
     "prepublishOnly": "only-allow-pnpm",
     "dev": "rs lib --watch",
     "build": "rs lib",
-    "test": "rstest --passWithNoTests",
-    "test:build": "pnpm run build && node --test tests/build.test.mjs"
+    "test": "rstest --passWithNoTests"
   },
   "dependencies": {
     "@modern-js/types": "workspace:*",

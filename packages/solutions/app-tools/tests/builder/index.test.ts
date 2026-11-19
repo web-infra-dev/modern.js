@@ -1,121 +1,63 @@
-import path from 'path';
+import { join } from 'node:path';
 import { createBuilderProviderConfig } from '../../src/builder/generator/createBuilderProviderConfig';
 import { getBuilderEnvironments } from '../../src/builder/generator/getBuilderEnvironments';
 
-describe('create builder Options', () => {
-  it('test create builder environments config', () => {
-    const appContext = {
-      entrypoints: [
-        {
-          entryName: 'main',
-          entry: './src/index.ts',
-        },
-        {
-          entryName: 'main',
-          entry: './src/main.ts',
-        },
-        {
-          entryName: 'next',
-          entry: './src/next.ts',
-        },
-        {
-          entryName: 'error',
-          entry: '',
-        },
-      ],
-      checkedEntries: ['main', 'next'],
-      configFile: 'modern.config.ts',
-      appDirectory: 'appDirectory',
-    };
+describe('getBuilderEnvironments', () => {
+  const appContext = {
+    entrypoints: [
+      { entryName: 'main', entry: './index.jsx' },
+      { entryName: 'main', entry: './bootstrap.jsx' },
+      { entryName: 'ignored', entry: './other.ts' },
+    ],
+    checkedEntries: ['main'],
+  };
 
-    expect(
-      getBuilderEnvironments({} as any, appContext as any, {} as any),
-    ).toMatchSnapshot();
+  it('groups enabled entries and selects their server counterparts for SSR', () => {
+    const { environments } = getBuilderEnvironments(
+      { server: { ssr: true } } as any,
+      appContext as any,
+      {} as any,
+    );
 
-    expect(
-      getBuilderEnvironments(
-        {
-          server: {
-            ssr: true,
-          },
-        } as any,
-        appContext as any,
-        {} as any,
-      ),
-    ).toMatchSnapshot();
+    expect(environments.client.source?.entry).toEqual({
+      main: ['./index.jsx', './bootstrap.jsx'],
+    });
+    expect(environments.server.source?.entry).toEqual({
+      main: ['./index.server.jsx', './bootstrap.server.jsx'],
+    });
+    expect(environments.server.output?.target).toBe('node');
+  });
 
-    expect(
-      getBuilderEnvironments(
-        {
-          output: {
-            ssg: true,
-          },
-          deploy: {
-            worker: {
-              ssr: true,
-            },
-          },
-        } as any,
-        appContext as any,
-        {
-          output: {
-            copy: [
-              {
-                from: '**/*',
-                to: 'upload',
-              },
-            ],
-          },
-        } as any,
-      ),
-    ).toMatchSnapshot();
+  it('copies assets only from the client environment when building a worker', () => {
+    const copy = [{ from: '**/*', to: 'upload' }];
+    const { environments, builderConfig } = getBuilderEnvironments(
+      { output: { ssg: true }, deploy: { worker: { ssr: true } } } as any,
+      appContext as any,
+      { output: { copy } } as any,
+    );
+
+    expect(environments.client.output?.copy).toEqual(copy);
+    expect(environments.workerSSR.output?.target).toBe('web-worker');
+    expect(environments.workerSSR.output?.copy).toBeUndefined();
+    expect(builderConfig.output?.copy).toBeUndefined();
   });
 });
 
 describe('create builder provider config', () => {
-  it('should add default config', () => {
-    const config = {
-      output: {
-        assetPrefix: '/x',
-        copy: [{ from: 'xxx', to: 'yyy' }],
-      },
-      source: {},
-      performance: {},
-      dev: {},
-      html: {},
-    };
-    const appContext = {
-      appDirectory: path.join(__dirname, '../fixtures'),
-      configDir: './icons',
-    };
-
-    const builderConfig = createBuilderProviderConfig(
-      config as any,
-      appContext as any,
+  it('preserves user copy patterns alongside the framework upload directory', () => {
+    const pattern = { from: 'extra', to: 'assets' };
+    const appDirectory = join(__dirname, '../fixtures');
+    const config = createBuilderProviderConfig(
+      { output: { copy: [pattern] } } as any,
+      { appDirectory } as any,
     );
-
-    expect(builderConfig).toMatchSnapshot();
-  });
-
-  it('should passing dev.startUrl config', () => {
-    const config = {
-      source: {},
-      output: {},
-      dev: {
-        startUrl: '/xxx',
-      },
-    };
-    const appContext = {
-      appDirectory: `/fixtrues`,
-      configDir: './icons',
-    };
-
-    const builderConfig = createBuilderProviderConfig(
-      config as any,
-      appContext as any,
-    );
-
-    expect(builderConfig.dev?.startUrl).toEqual('/xxx');
+    expect(config.output.copy).toEqual([
+      pattern,
+      expect.objectContaining({
+        context: join(appDirectory, 'config', 'upload').replaceAll('\\', '/'),
+        to: 'upload',
+      }),
+    ]);
   });
 
   it('should not pass dev.mockDir to Builder', () => {

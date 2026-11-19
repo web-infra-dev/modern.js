@@ -1,3 +1,14 @@
+const { execSync, spawnSync } = require('node:child_process');
+const path = require('node:path');
+
+const exampleCheck = spawnSync(
+  process.execPath,
+  [path.join(__dirname, 'check-dependencies/check-examples.mjs')],
+  { stdio: 'inherit' },
+);
+if (exampleCheck.error) console.error(exampleCheck.error);
+let failed = exampleCheck.status !== 0;
+
 const ignoreDeps = [
   'fs-extra',
   'react-router-dom',
@@ -19,8 +30,8 @@ const command = `npx check-dependency-version-consistency . ${ignoreDeps
 console.log(`> ${command}`);
 
 try {
-  require('child_process').execSync(command, { stdio: 'inherit' });
-} catch (e) {
-  // eslint-disable-next-line no-process-exit
-  process.exit(1);
+  execSync(command, { stdio: 'inherit' });
+} catch {
+  failed = true;
 }
+if (failed) process.exitCode = 1;

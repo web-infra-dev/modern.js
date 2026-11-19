@@ -1,5 +1,14 @@
 # @scripts/release-node
 
+## 2.66.8
+
+### Patch Changes
+
+- Updated dependencies [b35f295]
+- Updated dependencies [67fc367]
+- Updated dependencies [d378801]
+  - @modern-js/utils@3.12.0
+
 ## 2.66.7
 
 ### Patch Changes
