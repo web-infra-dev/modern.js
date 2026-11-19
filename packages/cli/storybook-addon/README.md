@@ -4,4 +4,4 @@ Use a Modern.js v3 application's shared and `client` build configuration in a St
 
 Register `@modern-js/storybook-addon` in the `addons` array of `.storybook/main.ts` and set `framework` to `storybook-react-rsbuild`. The addon discovers `modern.config.*` in the application directory. To select a custom file, use `{ name: '@modern-js/storybook-addon', options: { configPath: './config/modern.config.ts' } }`.
 
-See the [Modern.js Storybook guide](https://modernjs.dev/guides/basic-features/debug/using-storybook) and the [workspace example](https://github.com/web-infra-dev/modern.js/tree/main/examples/storybook).
+See the [Modern.js Storybook guide](https://modernjs.dev/guides/basic-features/debug/using-storybook) and the [Storybook Rsbuild example](https://github.com/rstackjs/storybook-rsbuild/tree/main/sandboxes/modernjs-react).

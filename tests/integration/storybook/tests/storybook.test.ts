@@ -12,17 +12,17 @@ import {
   createIsolatedTestApp,
   getPort,
   killApp,
-} from '../../utils/modernTestUtils';
+} from '../../../utils/modernTestUtils';
 
-const example = path.resolve(__dirname, '../../../examples/storybook');
-const storybook = createRequire(path.join(example, 'package.json')).resolve(
+const fixture = path.resolve(__dirname, '..');
+const storybook = createRequire(path.join(fixture, 'package.json')).resolve(
   'storybook/internal/bin/dispatcher',
 );
 const env = { ...process.env, CI: 'true', STORYBOOK_DISABLE_TELEMETRY: '1' };
 let app: Awaited<ReturnType<typeof createIsolatedTestApp>>;
 
 beforeEach(async () => {
-  app = await createIsolatedTestApp(example, {
+  app = await createIsolatedTestApp(fixture, {
     parentDir: tmpdir(),
     prefix: 'modern-storybook-',
     exclude: ['storybook-static'],
@@ -35,10 +35,10 @@ afterEach(async () => {
 
 function addButtonStory(componentImport: string) {
   return writeFile(
-    path.join(app.appDir, 'src/stories/Design.stories.js'),
-    `import { AntdButton } from '${componentImport}';
-     export default { title: 'Design', component: AntdButton };
-     export const Preview = { args: { children: 'New preview', myButtonExtra: '' } };`,
+    path.join(app.appDir, 'src/Design.stories.js'),
+    `import { Button } from '${componentImport}';
+     export default { title: 'Design', component: Button };
+     export const Preview = { args: { buttonLabel: 'New preview' } };`,
   );
 }
 
@@ -80,18 +80,17 @@ test('renders component docs and hot-updates a newly added story', async () => {
     const browser = await puppeteer.launch({ args: ['--no-sandbox'] });
     try {
       const page = await browser.newPage();
-      await page.goto(`${url}/?path=/docs/example-antdbutton--docs`);
+      await page.goto(`${url}/?path=/docs/components-button--docs`);
       const frame = await page.waitForFrame(frame =>
         frame.url().includes('/iframe.html'),
       );
       await frame.waitForFunction(
         () =>
-          document.body.innerText.includes('AntdButton') &&
-          document.body.innerText.includes('myButtonExtra'),
+          document.body.innerText.includes('Button') &&
+          document.body.innerText.includes('buttonLabel'),
       );
 
-      const stories = path.join(app.appDir, 'src/stories');
-      await addButtonStory('@my-src/stories/AntdButton');
+      await addButtonStory('@components/Button');
       await expect
         .poll(
           async () =>
@@ -110,17 +109,17 @@ test('renders component docs and hot-updates a newly added story', async () => {
       await page.evaluate(() => {
         document.documentElement.dataset.hmr = 'mounted';
       });
-      const componentPath = path.join(stories, 'AntdButton.tsx');
+      const componentPath = path.join(app.appDir, 'src/Button.tsx');
       const component = await readFile(componentPath, 'utf8');
       await writeFile(
         componentPath,
-        component.replace('res:', 'Updated result:'),
+        component.replace('{buttonLabel}', '{buttonLabel.toUpperCase()}'),
       );
       await expect
         .poll(() => page.$eval('#storybook-root', root => root.textContent), {
           timeout: 30_000,
         })
-        .toContain('Updated result:');
+        .toContain('NEW PREVIEW');
       expect(
         await page.evaluate(() => document.documentElement.dataset.hmr),
       ).toBe('mounted');
@@ -155,7 +154,7 @@ test('builds the client preview and preserves the application output', async () 
       environments: {
         client: {
           output: { assetPrefix: '/host-only-client/' },
-          resolve: { alias: { '@preview-button': path.resolve('src/stories/AntdButton') } },
+          resolve: { alias: { '@preview-button': path.resolve('src/Button') } },
         },
         server: {
           output: { assetPrefix: '/host-only-server/' },

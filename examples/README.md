@@ -27,6 +27,7 @@ pnpm dev
 | [module-federation/app-export](./module-federation/app-export) | Module Federation app-level export: remote exports a full app via bridge                     |
 | [react-compiler](./react-compiler)                             | Enabling React Compiler with `@rsbuild/plugin-babel`                                         |
 | [sse](./sse)                                                   | Server-Sent Events with BFF (Hono) and custom server middlewares                             |
-| [storybook](./storybook)                                       | Storybook integration via `@modern-js/storybook-addon`, with a BFF api                       |
 | [test-playwright](./test-playwright)                           | E2E testing with Playwright                                                                  |
 | [test-vitest](./test-vitest)                                   | Unit testing with Vitest                                                                     |
+
+The [Modern.js Storybook example](https://github.com/rstackjs/storybook-rsbuild/tree/main/sandboxes/modernjs-react) is maintained in the Storybook Rsbuild repository.
