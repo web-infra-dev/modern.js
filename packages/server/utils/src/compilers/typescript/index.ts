@@ -163,7 +163,7 @@ export const compileByTs: CompileFunc = async (
       `TypeScript did not emit ${missing
         .map(
           ({ entry, output }) =>
-            `${path.relative(appDirectory, output)} (from ${path.relative(appDirectory, entry)})`,
+            `${toPosix(path.relative(appDirectory, output))} (from ${toPosix(path.relative(appDirectory, entry))})`,
         )
         .join(', ')}${emitResult.emitSkipped ? ', emit was skipped' : ''}. ` +
         `Check the TypeScript diagnostics above, if any, and the tsconfig at ${tsconfigPath}. ` +
@@ -239,6 +239,8 @@ const getServerEmitOptions = (
   }
   return overrides;
 };
+
+const toPosix = (file: string) => file.split(path.sep).join(path.posix.sep);
 
 const getEmittedPath = (entry: string, appDirectory: string, distDir: string) =>
   path
