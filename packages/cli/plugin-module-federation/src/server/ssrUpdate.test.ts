@@ -43,10 +43,11 @@ function fixture() {
       },
       bundlerRuntimeOptions: {},
       remotesLoadingData: {
+        moduleIdToRemoteDataMapping: {
+          1: { remoteName: 'remote', externalModuleId: 201 },
+        },
         cache: {
-          remoteKeyToRemoteModuleIds: { remote: [1] },
-          remoteModuleIdToConsumerModuleIds: { 1: [2] },
-          consumerModuleIdToParentModuleIds: { 2: [3] },
+          moduleIdToParentModuleIds: { 1: [2], 2: [3] },
           modules: {},
           factories: {},
         },
@@ -104,7 +105,7 @@ describe('SSR static scope proof', () => {
   });
   it('falls back even when a chunk exists if the native parent closure cannot reach its entry', () => {
     const { adapter, runtime } = fixture();
-    runtime.federation.remotesLoadingData.cache.consumerModuleIdToParentModuleIds[2] =
+    runtime.federation.remotesLoadingData.cache.moduleIdToParentModuleIds[2] =
       [];
     expect(adapter.plan('remote')).toEqual({
       mode: 'application',
@@ -170,7 +171,7 @@ describe('SSR replacement recovery', () => {
       delete (runtime.federation as any).disposeClearCache;
     };
     delete (runtime.federation.remotesLoadingData.cache as any)
-      .consumerModuleIdToParentModuleIds;
+      .moduleIdToParentModuleIds;
     host.moduleCache.set(
       remote.name,
       new Module({

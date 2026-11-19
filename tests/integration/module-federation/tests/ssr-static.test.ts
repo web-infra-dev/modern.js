@@ -62,7 +62,7 @@ test.each([
     );
     await write(
       'parent.js',
-      "import value from 'remote/Value'; export default value;",
+      "// loadRemote('comment') and eval() in comments must not disable selective invalidation\nimport value from 'remote/Value'; export default value;",
     );
     for (const entry of ['a', 'b', 'c']) {
       await write(
@@ -375,7 +375,7 @@ test.each([
       const beforeFallback = state.__staticRuns.b;
       const records = [...adapter.owner.entries.values()];
       delete records.find(record => record.entry === 'a').runtime.federation
-        .remotesLoadingData.cache.consumerModuleIdToParentModuleIds;
+        .remotesLoadingData.cache.moduleIdToParentModuleIds;
       const incomplete = await adapter.update(application, 'remote', {
         entry: path.join(out, 'v1.cjs'),
         entryGlobalName: 'v1',

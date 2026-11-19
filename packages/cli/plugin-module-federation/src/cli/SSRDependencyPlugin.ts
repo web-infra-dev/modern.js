@@ -1,16 +1,19 @@
-import path from 'node:path';
 import type { Rspack } from '@rsbuild/core';
 
 const pluginName = 'ModernSSRDependencyPlugin';
 
-/** Modern-specific entry ownership; Rspack supplies only module/chunk graph APIs. */
+/** Modern-specific entry root registration; Rspack supplies the reverse module graph. */
 export class SSRDependencyPlugin {
-  constructor(private readonly options: { name: string; remotes: string[] }) {}
+  constructor(private readonly options: { name: string; remotes?: string[] }) {}
 
   apply(compiler: Rspack.Compiler) {
-    const { name, remotes } = this.options;
+    const { name } = this.options;
     const { RuntimeModule, RuntimeGlobals } = compiler.webpack;
-    const appRoot = path.join(path.resolve(compiler.context), path.sep);
+    if (!RuntimeModule || !RuntimeGlobals?.moduleCache) {
+      throw new Error(
+        'Modern SSR cache updates require a Rspack build with SSR cache update support',
+      );
+    }
     // Keep this macro free while building the plugin library. Resolving Rspack's
     // special __webpack_require__ in that build would capture the library runtime
     // instead of the application runtime that owns the SSR entries.
@@ -33,83 +36,38 @@ export class SSRDependencyPlugin {
             }
             generate() {
               const records = entrypoints.map(([entry, point]) => {
+                const entryChunk = point.getEntrypointChunk();
                 const roots = [
                   ...compilation.chunkGraph.getChunkEntryModulesIterable(
-                    point.getEntrypointChunk(),
+                    entryChunk,
                   ),
                 ];
-                const seen = new Set<Rspack.Module>();
-                const queue = [...roots];
-                const remoteNames = new Set<string>();
-                const reasons = new Set<string>();
-                for (let i = 0; i < queue.length; i++) {
-                  const module = queue[i];
-                  if (seen.has(module)) continue;
-                  seen.add(module);
-                  const resource = (module as Rspack.NormalModule).resource;
-                  // Build/runtime packages may resolve outside node_modules in a workspace.
-                  // The source heuristic applies to application files. The runtime
-                  // tracker detects dynamic consumption through other modules.
-                  if (
-                    resource?.startsWith(appRoot) &&
-                    !resource
-                      .slice(appRoot.length)
-                      .split(path.sep)
-                      .includes('node_modules') &&
-                    /\b(loadRemote|registerRemotes|importRemote|eval)\s*\(/.test(
-                      module.originalSource()?.source().toString() || '',
-                    )
-                  )
-                    reasons.add('runtime-consumption');
-                  if (module.type === 'remote-module') {
-                    const requests = compilation.moduleGraph
-                      .getIncomingConnections(module)
-                      .map(edge => edge.dependency?.request)
-                      .filter(Boolean) as string[];
-                    const matched = remotes.filter(remote =>
-                      requests.some(
-                        request =>
-                          request === remote ||
-                          request.startsWith(`${remote}/`),
-                      ),
-                    );
-                    if (!matched.length) reasons.add('unmapped-remote');
-                    matched.forEach(remote => remoteNames.add(remote));
-                  }
-                  for (const edge of compilation.moduleGraph.getOutgoingConnections(
-                    module,
-                  )) {
-                    if (edge.dependency?.critical)
-                      reasons.add('critical-dependency');
-                    if (edge.module) queue.push(edge.module);
-                  }
-                }
+                const reasons: string[] = [];
                 const rootIds = roots.map(root =>
                   compilation.chunkGraph.getModuleId(root),
                 );
-                if (rootIds.length !== 1 || rootIds[0] === null)
-                  reasons.add('unsupported-entry-roots');
-                const chunks = new Set<string | number>();
-                for (const module of seen)
-                  for (const owned of compilation.chunkGraph.getModuleChunksIterable(
-                    module,
-                  ))
-                    if (owned.id != null) chunks.add(owned.id);
+                if (rootIds.length !== 1 || rootIds[0] === null) {
+                  reasons.push('unsupported-entry-roots');
+                }
+                const chunks = entryChunk.id != null ? [entryChunk.id] : [];
                 return {
                   application: name,
                   entry,
                   owner: entry.replace(/-server-loaders$/, ''),
                   rootIds,
-                  remoteNames: [...remoteNames],
-                  chunks: [...chunks],
-                  reasons: [...reasons],
+                  chunks,
+                  reasons,
                 };
               });
               return `var ownership = globalThis[Symbol.for('modern-js.mf.ssr.owners')];
 ${JSON.stringify(records)}.forEach(function(record) {
   record.runtime = __webpack_require__;
   record.load = function() {
-    return __webpack_require__(record.rootIds[0]);
+    var ensure = __webpack_require__.federation && __webpack_require__.federation.ensureRemoteChunks;
+    var ready = ensure ? ensure(record.chunks) : undefined;
+    return ready && ready.then
+      ? ready.then(function() { return __webpack_require__(record.rootIds[0]); })
+      : __webpack_require__(record.rootIds[0]);
   };
   if (ownership) ownership.registerEntry(record);
 });`;

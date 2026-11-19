@@ -36,8 +36,8 @@ export interface SSREntryRecord {
   entry: string;
   owner: string;
   rootIds: Array<string | number | null>;
-  remoteNames: string[];
-  chunks: Array<string | number>;
+  remoteNames?: string[];
+  chunks?: Array<string | number>;
   reasons: string[];
   runtime: any;
   load(): unknown;
@@ -168,12 +168,74 @@ export function createSSRUpdateAdapter(options: {
       reasons.add('unknown-entry-metadata');
     for (const record of all)
       for (const reason of record.reasons) reasons.add(reason);
-    const targets = all.filter(record => record.remoteNames.includes(remote));
-    if (!targets.length) reasons.add('remote-not-in-static-graph');
-    // Only publish selected renderers if the MF eviction plan includes their roots.
-    for (const record of targets) {
+
+    const hasCompiledRemote = (runtime: any, target: string): boolean => {
+      const federation = runtime?.federation;
+      const names = new Set<string>([target]);
+      for (const item of federation?.instance?.options?.remotes || []) {
+        if (item.name === target || item.alias === target) {
+          if (item.name) names.add(item.name);
+          if (item.alias) names.add(item.alias);
+        }
+      }
+      const remoteInfos =
+        federation?.bundlerRuntimeOptions?.remotes?.remoteInfos || {};
+      for (const [key, infos] of Object.entries(remoteInfos) as Array<
+        [string, any[]]
+      >) {
+        if (
+          key === target ||
+          infos?.some(info => info?.name === target || info?.alias === target)
+        ) {
+          names.add(key);
+          for (const info of infos || []) {
+            if (info?.name) names.add(info.name);
+            if (info?.alias) names.add(info.alias);
+          }
+        }
+      }
+      const idToRemoteMap =
+        federation?.bundlerRuntimeOptions?.remotes?.idToRemoteMap || {};
+      for (const infos of Object.values(idToRemoteMap) as any[][]) {
+        if (
+          infos?.some(info => names.has(info?.name) || names.has(info?.alias))
+        )
+          return true;
+      }
+      const mapping =
+        federation?.remotesLoadingData?.moduleIdToRemoteDataMapping ||
+        runtime?.remotesLoadingData?.moduleIdToRemoteDataMapping ||
+        {};
+      return Object.values(mapping).some((data: any) =>
+        names.has(data?.remoteName),
+      );
+    };
+
+    const targets: SSREntryRecord[] = [];
+    const byRuntime = new Map<any, SSREntryRecord[]>();
+    for (const record of all) {
+      const group = byRuntime.get(record.runtime) || [];
+      group.push(record);
+      byRuntime.set(record.runtime, group);
+    }
+
+    // Reuse MF's eviction plan both to discover affected entries and verify root coverage.
+    for (const [runtime, group] of byRuntime) {
+      const explicitTargets = group.filter(
+        record =>
+          Array.isArray(record.remoteNames) &&
+          record.remoteNames.includes(remote),
+      );
+      const implicitCandidates = group.filter(
+        record => !Array.isArray(record.remoteNames),
+      );
+      const runtimeDeclaresRemote =
+        explicitTargets.length > 0 ||
+        (implicitCandidates.length > 0 && hasCompiledRemote(runtime, remote));
+      if (!runtimeDeclaresRemote) continue;
+
       const cachePlan = planRemoteCache({
-        webpackRequire: record.runtime,
+        webpackRequire: runtime,
         name: remote,
       });
       if (!cachePlan?.remoteModuleIds.length) {
@@ -181,9 +243,38 @@ export function createSSRUpdateAdapter(options: {
         continue;
       }
       const affected = new Set(cachePlan.consumerModuleIds);
-      if (!record.rootIds.every(id => id !== null && affected.has(String(id))))
-        reasons.add('incomplete-parent-closure');
+      for (const record of explicitTargets) {
+        targets.push(record);
+        if (
+          !record.rootIds.every(id => id !== null && affected.has(String(id)))
+        )
+          reasons.add('incomplete-parent-closure');
+      }
+      if (implicitCandidates.length) {
+        const matched = implicitCandidates.filter(record =>
+          record.rootIds.some(id => id !== null && affected.has(String(id))),
+        );
+        if (!matched.length) {
+          reasons.add('incomplete-parent-closure');
+        } else {
+          for (const record of matched) {
+            targets.push(record);
+            if (
+              !record.rootIds.every(
+                id => id !== null && affected.has(String(id)),
+              )
+            )
+              reasons.add('incomplete-parent-closure');
+          }
+        }
+      }
     }
+    if (
+      !targets.length &&
+      !reasons.has('missing-invalidation-graph') &&
+      !reasons.has('incomplete-parent-closure')
+    )
+      reasons.add('remote-not-in-static-graph');
     if (reasons.size) return { mode: 'application', reasons: [...reasons] };
     const owners = new Set(targets.map(record => record.owner));
     // Entries sharing a bundler runtime share its caches and must drain together.
