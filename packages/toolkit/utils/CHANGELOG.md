@@ -1,5 +1,18 @@
 # @modern-js/utils
 
+## 3.12.0
+
+### Patch Changes
+
+- b35f295: fix(app-tools, utils): centralize CLI plugin loading in `compatibleRequire`. Fall back to ESM imports only when `require` reports an incompatible ESM module, including modules with top-level await. Preserve other loading errors without retrying, avoiding misleading Windows URL scheme errors, and report the actual ESM execution error if the fallback fails.
+
+  fix(app-tools, utils)：统一使用 `compatibleRequire` 加载 CLI 插件，仅在 `require` 无法加载 ESM 模块时回退到 ESM 导入，支持包含顶层 await 的模块。其他加载错误直接抛出，避免被 Windows URL 协议错误覆盖。ESM 回退执行失败时，报告实际的 ESM 执行错误。
+
+- 67fc367: Use an explicit callable signature for the isFunction type guard when enabling TypeScript project discovery in the repository linter.
+- d378801: feat: support a build-time `ssgParams` export alongside a conventional page's data loader to generate static paths from route parameters. Combine generated paths with explicit SSG route lists, giving explicit options precedence for duplicate URLs. Global SSG settings apply to every entry unless an entry map is provided.
+
+  feat: 支持在约定式路由的数据加载文件中导出构建期 `ssgParams`，由路由参数生成静态路径。合并生成路径与显式 SSG 路径列表，重复 URL 使用显式配置。未提供入口映射时，全局 SSG 配置适用于所有入口。
+
 ## 3.11.3
 
 ## 3.11.2

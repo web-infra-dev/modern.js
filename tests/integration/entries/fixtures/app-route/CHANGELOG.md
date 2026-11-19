@@ -1,5 +1,17 @@
 # app-route
 
+## 2.66.8
+
+### Patch Changes
+
+- Updated dependencies [1f61141]
+- Updated dependencies [b35f295]
+- Updated dependencies [28fb881]
+- Updated dependencies [ce64c5d]
+- Updated dependencies [d378801]
+  - @modern-js/app-tools@3.12.0
+  - @modern-js/runtime@3.12.0
+
 ## 2.66.7
 
 ### Patch Changes

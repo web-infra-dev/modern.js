@@ -23,7 +23,7 @@ Both modes use SSR for the article pages. Their initial HTML contains the title,
 
 ## Run
 
-Use Node.js 22.18 or later in the 22.x line, or Node.js 24.3 or later, as declared in `package.json`. The Modern.js packages are pinned to the validated 3.11.3 release.
+Use Node.js 22.18 or later in the 22.x line, or Node.js 24.3 or later, as declared in `package.json`. The Modern.js dependencies use `latest`, the registry's published stable release, rather than the current monorepo checkout or an unpublished release.
 
 From the repository root:
 
@@ -34,6 +34,8 @@ pnpm dev
 ```
 
 If you copy this directory into a standalone project, run `pnpm install` there instead. The example does not need external APIs or credentials.
+
+If pnpm reports `ERR_PNPM_IGNORED_BUILDS`, review the blocked dependency scripts with `pnpm approve-builds`, approve the dependencies you trust, then rerun `pnpm install`. Standalone validation with pnpm 12 required approval for `@swc/core` and `core-js`. Do not disable script approval globally.
 
 Open the [article](http://localhost:8080/posts/hello-modern) or [long-title page](http://localhost:8080/posts/long-title). Each page links to its PNG. The default development command generates images before compilation, then serves them as static assets. Restart development after changing article data, the image template or fonts to regenerate the images and their URL map.
 

@@ -1,5 +1,18 @@
 # @modern-js/plugin-polyfill
 
+## 3.12.0
+
+### Patch Changes
+
+- 12a4d73: fix: upgrade `@modern-js/polyfill-lib` to remove `diff` from its production dependencies.
+
+  fix: 升级 `@modern-js/polyfill-lib`，移除其生产依赖中的 `diff`。
+
+- Updated dependencies [b35f295]
+- Updated dependencies [67fc367]
+- Updated dependencies [d378801]
+  - @modern-js/utils@3.12.0
+
 ## 3.11.3
 
 ### Patch Changes
