@@ -72,8 +72,7 @@ export function observations(
     };
   });
 }
-export function summarize(station: number, days: number, reference = 30) {
-  const rows = observations(station, 30, reference).slice(-days * 24);
+export function summarize(station: number, rows: Observation[]) {
   return {
     name: stationNames[station],
     station,

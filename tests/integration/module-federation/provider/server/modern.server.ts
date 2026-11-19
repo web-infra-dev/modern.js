@@ -3,7 +3,12 @@ import {
   type MiddlewareHandler,
 } from '@modern-js/server-runtime';
 import { createRequire } from 'node:module';
-const hostOrigin = `http://localhost:${JSON.parse(process.env.MF_LAB_PORTS || '{}').host || 4300}`;
+const ports = JSON.parse(process.env.MF_LAB_PORTS || '{}') as Record<
+  string,
+  number
+>;
+const publicHost = process.env.MF_LAB_PUBLIC_HOST || 'localhost';
+const hostOrigin = `http://${publicHost}:${ports.host || 4300}`;
 let serviceRequests = 0;
 
 export default defineServerConfig({
@@ -183,10 +188,9 @@ export default defineServerConfig({
               context.req.path.startsWith('/static/'))) &&
           [
             hostOrigin,
-            ...['serviceSSR', 'serviceCSR'].map(
-              name =>
-                `http://localhost:${JSON.parse(process.env.MF_LAB_PORTS || '{}')[name]}`,
-            ),
+            ...['serviceSSR', 'serviceCSR']
+              .filter(name => ports[name])
+              .map(name => `http://${publicHost}:${ports[name]}`),
           ].includes(context.req.header('Origin') || '')
         ) {
           context.header(

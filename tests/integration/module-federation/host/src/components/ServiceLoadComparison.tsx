@@ -7,7 +7,11 @@ import { prefetchApplicationResources } from './application-prefetch';
 
 export function ServiceLoadComparison() {
   const [params, setParams] = useSearchParams();
-  const report = params.get('page') === 'report';
+  const rscOrigin = process.env.MF_LAB_RSC_ORIGIN || '';
+  const nextRscOrigin = process.env.MF_LAB_NEXT_RSC_ORIGIN || '';
+  const report =
+    params.get('page') === 'report' ||
+    Boolean(rscOrigin && !params.has('page'));
   const container = useRef<HTMLDivElement>(null);
   const [ready, setReady] = useState(0);
   const [data, setData] = useState(false);
@@ -20,16 +24,16 @@ export function ServiceLoadComparison() {
   useEffect(() => {
     const seen = new Set<MessageEventSource>();
     const receive = (event: MessageEvent) => {
-      if (
-        event.origin !== location.origin ||
-        event.data?.type !== 'mf-lab-bench-ready'
-      )
-        return;
+      if (event.data?.type !== 'mf-lab-bench-ready') return;
       const frames = Array.from(
         container.current?.querySelectorAll('iframe') || [],
       );
       if (
-        !frames.some(frame => frame.contentWindow === event.source) ||
+        !frames.some(
+          frame =>
+            frame.contentWindow === event.source &&
+            new URL(frame.src).origin === event.origin,
+        ) ||
         !event.source
       )
         return;
@@ -72,9 +76,13 @@ export function ServiceLoadComparison() {
               onValueChange={value => {
                 const next = new URLSearchParams(params);
                 if (value === 'report') next.set('page', 'report');
-                else next.delete('page');
+                else next.set('page', 'forecast');
                 setParams(next);
-                void prepare(preload);
+                if (value === 'report' && rscOrigin) {
+                  setData(false);
+                  setPreload(false);
+                  void prepare(false);
+                } else void prepare(preload);
               }}
             >
               <SelectItem value="forecast">Weather forecast</SelectItem>
@@ -85,7 +93,7 @@ export function ServiceLoadComparison() {
             <Checkbox
               data-testid="service-compare-data"
               checked={data}
-              disabled={preparing}
+              disabled={preparing || Boolean(report && rscOrigin)}
               onCheckedChange={checked => {
                 setData(checked);
                 void prepare(preload);
@@ -97,7 +105,7 @@ export function ServiceLoadComparison() {
             <Checkbox
               data-testid="service-compare-prefetch"
               checked={preload}
-              disabled={preparing}
+              disabled={preparing || Boolean(report && rscOrigin)}
               onCheckedChange={checked => {
                 setPreload(checked);
                 void prepare(checked);
@@ -108,7 +116,11 @@ export function ServiceLoadComparison() {
           <Button
             className="lab-primary"
             data-testid="service-compare-load"
-            disabled={ready !== 2 || preparing || Boolean(error)}
+            disabled={
+              ready !== 2 + Number(Boolean(report && rscOrigin)) + Number(Boolean(report && nextRscOrigin)) ||
+              preparing ||
+              Boolean(error)
+            }
             onClick={() => {
               const message = {
                 type: 'mf-lab-bench-start',
@@ -118,7 +130,10 @@ export function ServiceLoadComparison() {
               container.current
                 ?.querySelectorAll('iframe')
                 .forEach(frame =>
-                  frame.contentWindow?.postMessage(message, location.origin),
+                  frame.contentWindow?.postMessage(
+                    message,
+                    new URL(frame.src).origin,
+                  ),
                 );
               setClicked(true);
             }}
@@ -129,7 +144,10 @@ export function ServiceLoadComparison() {
         </div>
         {error && <p role="alert">{error}</p>}
       </section>
-      <div className="lab-render-grid" ref={container}>
+      <div
+        className={`lab-render-grid${report && rscOrigin ? ' lab-rsc-comparison' : ''}`}
+        ref={container}
+      >
         {(['service', 'bridge'] as const).map(kind => (
           <LabPanel
             key={`${kind}-${report}`}
@@ -147,6 +165,30 @@ export function ServiceLoadComparison() {
             fit={!report}
           />
         ))}
+        {report && rscOrigin && (
+          <LabPanel
+            name="Service App RSC"
+            path={rscOrigin}
+            query="bench=rsc&page=report"
+            run={run}
+            refresh={0}
+            inspect={false}
+            paletteSeed=""
+            fit={false}
+          />
+        )}
+        {report && nextRscOrigin && (
+          <LabPanel
+            name="Next.js RSC Service App"
+            path={new URL('/embed', nextRscOrigin).href}
+            query="bench=next-rsc"
+            run={run}
+            refresh={0}
+            inspect={false}
+            paletteSeed=""
+            fit={false}
+          />
+        )}
       </div>
     </>
   );

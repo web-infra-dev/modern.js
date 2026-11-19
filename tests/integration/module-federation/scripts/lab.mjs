@@ -1,5 +1,6 @@
 import { spawn } from 'node:child_process';
 import { createServer, request } from 'node:http';
+import { isIPv4 } from 'node:net';
 import { createReadStream } from 'node:fs';
 import { stat } from 'node:fs/promises';
 import path from 'node:path';
@@ -8,6 +9,7 @@ import { createRequire } from 'node:module';
 import getPort from 'get-port';
 import treeKill from 'tree-kill';
 import { createResponseGate } from './response-gate.mjs';
+import { readReport } from '../provider/src/routes/weather-application/report/report-data.mjs';
 const fixtureRoot = fileURLToPath(new URL('../', import.meta.url));
 const regularNames = [
   'host',
@@ -28,6 +30,10 @@ export async function startLab(
   serviceOnly = false,
   options = {},
 ) {
+  const publicHost = process.env.MF_LAB_PUBLIC_HOST;
+  if (publicHost && !isIPv4(publicHost))
+    throw Error('MF_LAB_PUBLIC_HOST must be an IPv4 address');
+  const publicOrigin = port => `http://${publicHost || 'localhost'}:${port}`;
   const {
     updates,
     portAttempt = 0,
@@ -401,7 +407,9 @@ export async function startLab(
     });
     if (!serviceOnly) {
       servers.push(gateway);
-      await new Promise(resolve => gateway.listen(ports.host, resolve));
+      await new Promise(resolve =>
+        gateway.listen({ port: ports.host, host: publicHost }, resolve),
+      );
     }
     let requestId = 0;
     let serviceDeploymentVersion = 'v1';
@@ -413,7 +421,7 @@ export async function startLab(
         serviceManifests.set(
           version,
           await (
-            await fetch(`http://localhost:${port}/static/mf-manifest.json`)
+            await fetch(`${publicOrigin(port)}/static/mf-manifest.json`)
           ).json(),
         );
       }
@@ -443,7 +451,7 @@ export async function startLab(
       ) {
         if (!serviceDiscovery) {
           serviceDiscovery = structuredClone(await deploymentManifest('v1'));
-          serviceDiscovery.metaData.serviceBaseUrl = `http://localhost:${ports.api}/`;
+          serviceDiscovery.metaData.serviceBaseUrl = `${publicOrigin(ports.api)}/`;
           for (const expose of serviceDiscovery.exposes)
             if (typeof expose.servicePath === 'string')
               expose.servicePath = `service-deployment/render/${encodeURIComponent(expose.name)}`;
@@ -635,6 +643,11 @@ export async function startLab(
         res.end(JSON.stringify({ path: record.path }));
         return;
       }
+      if (url.pathname === '/climate-report' && req.method === 'GET') {
+        res.setHeader('Content-Type', 'application/json');
+        res.end(JSON.stringify(readReport(url.searchParams)));
+        return;
+      }
       if (url.pathname !== '/weather') {
         res.writeHead(404).end();
         return;
@@ -666,7 +679,7 @@ export async function startLab(
     servers.push(api);
     await new Promise((resolve, reject) => {
       api.once('error', reject);
-      api.listen(ports.api, resolve);
+      api.listen({ port: ports.api, host: publicHost }, resolve);
     });
     for (const version of serviceOnly || updateOnly ? [] : ['v1', 'v2']) {
       const libraryRequire = createRequire(
@@ -742,12 +755,12 @@ export async function startLab(
     }
     if (!serviceOnly)
       await wait(
-        `http://localhost:${ports.host}${updates ? '/_lab/update/state' : `${hostBase}/`}`,
+        `${publicOrigin(ports.host)}${updates ? '/_lab/update/state' : `${hostBase}/`}`,
       );
     return {
       ports,
       processInfo,
-      url: `http://localhost:${serviceOnly ? ports.serviceSSR : ports.host}`,
+      url: publicOrigin(serviceOnly ? ports.serviceSSR : ports.host),
       stop,
       logs,
       routeRequests,

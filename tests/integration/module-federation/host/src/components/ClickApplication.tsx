@@ -1,3 +1,4 @@
+import { observeBenchReport } from './observe-bench-report';
 import { useEffect, useRef, useState } from 'react';
 import { createModernReactRemote } from '@modern-js/runtime/mf';
 import { loadRemote } from '@module-federation/enhanced/runtime';
@@ -45,11 +46,6 @@ export function ClickApplication({ kind }: { kind: ApplicationKind }) {
   }, []);
   useEffect(() => {
     if (!start || !container.current) return;
-    let visible = false;
-    let ready = false;
-    let complete = false;
-    let intersection: IntersectionObserver | undefined;
-    const frames = new Set<number>();
     const publish = (event: string, method: string) =>
       parent.postMessage(
         {
@@ -61,66 +57,7 @@ export function ClickApplication({ kind }: { kind: ApplicationKind }) {
         },
         location.origin,
       );
-    const inspect = () => {
-      const detail = container.current?.querySelector(
-        '[data-testid="weather-detail"], [data-testid="weather-report"]',
-      );
-      if (detail && !visible) {
-        visible = true;
-        intersection = new IntersectionObserver(entries => {
-          if (!entries.some(entry => entry.isIntersecting)) return;
-          intersection!.disconnect();
-          frames.add(
-            requestAnimationFrame(() => {
-              frames.add(
-                requestAnimationFrame(() =>
-                  publish('Data visible', 'visibility estimate'),
-                ),
-              );
-            }),
-          );
-        });
-        intersection.observe(detail);
-      }
-      if (
-        !complete &&
-        container.current?.querySelector('[data-report-complete]') &&
-        container.current.querySelectorAll('[data-report-chart] svg').length ===
-          6
-      ) {
-        complete = true;
-        frames.add(
-          requestAnimationFrame(() =>
-            frames.add(
-              requestAnimationFrame(() =>
-                publish('Content complete', 'all report sections committed'),
-              ),
-            ),
-          ),
-        );
-      }
-      if (
-        !ready &&
-        container.current?.querySelector(
-          'input[aria-label="Adjust wind direction"]:not(:disabled), [data-report-interactive="true"]',
-        )
-      ) {
-        ready = true;
-        publish('Client ready', 'controls enabled after common click');
-      }
-    };
-    const observer = new MutationObserver(inspect);
-    observer.observe(container.current, {
-      childList: true,
-      subtree: true,
-      attributes: true,
-    });
-    inspect();
-    return () => {
-      observer.disconnect();
-      intersection?.disconnect();
-      frames.forEach(cancelAnimationFrame);
-    };
+    return observeBenchReport(container.current, publish);
   }, [start]);
   const Application = kind === 'service' ? Service : BridgeCSR;
   return (
