@@ -216,19 +216,33 @@ export default function Card() {
 
 ## 本机 stdio 调试
 
-本地组件视图可以直接构建成自包含 HTML，并由宿主启动 Node stdio 服务，不需要运行 HTTP 开发服务器。
+面向只支持本机 stdio 接入或限制隔离 iframe 访问本地资源的宿主（如桌面端 Agent），不需要拆分服务端入口或维护额外编译产物，只需在 `mcpAppsPlugin` 中开启 `inline` 并照常运行 `pnpm dev`：
 
 ```ts
 mcpAppsPlugin({
   views: './mcp-views.json',
-  stdio: { server: './api/server/mcp.ts' },
+  // 'dev' 仅在开发模式打包自包含内联 HTML，true 同时作用于开发和生产构建
+  inline: 'dev',
 });
 ```
 
-在 package.json 增加 `"mcp:prepare": "modern mcp-prepare"`，执行 `pnpm mcp:prepare` 后，将输出的 command 和 args 填入本机 MCP 连接器。默认产物为独立的 `dist-mcp/`，不会被普通 dev/build 清理。`stdio.output` 可修改目录，但不能放在应用的 dist 内。将产物加入 Git 忽略列表。
+启动 `pnpm dev` 后，终端会输出一段可直接复制到本机 MCP 连接器的配置，使用 `@modern-js/mcp-apps` 内置的轻量脚本 `modern-mcp-stdio` 将 stdio 的 JSON-RPC 转发到本地 HTTP 开发服务（例如 `http://localhost:8088/api/mcp`）：
 
-server 模块应默认导出接收 `RegisterUiOptions` 的异步工厂，在工厂里创建 McpServer，调用 `registerUiResources(server, options)` 并注册业务工具。HTTP 路由可通过 `createBffHandlers(request => createServer({ request }))` 复用同一工厂，不需要伪造 HTTP Request 来运行 stdio。
+```json
+{
+  "mcpServers": {
+    "app": {
+      "command": "node",
+      "args": [
+        "<app>/node_modules/@modern-js/mcp-apps/bin/modern-mcp-stdio.js",
+        "http://localhost:8088/api/mcp"
+      ]
+    }
+  }
+}
+```
 
-构建保留 `createMcpView` 生命周期与组件导出的 mcpCapabilities，内联脚本、样式及导入的静态资源，每份 HTML 最大 5 MiB。此模式读取 source.alias、source.define 和应用 tsconfig，但不执行应用的 Rsbuild 插件或服务端中间件。需要自定义 loader、页面运行时或 Module Federation 远程资源时，请继续使用 HTTP 模式。业务中的网络请求仍需配置明确的 API 来源与 CSP。
-
-服务端 stdout 专用于 JSON-RPC，日志写入 stderr。产物仍依赖项目安装的 Node 包。修改后重新构建并重启连接器，服务启动时会读取 HTML，重启前继续使用旧页面。HTTP 的构建及部署流程保持原样。
+- **零代码侵入与中间件兼容**：请求实际走 `modern dev` 的 HTTP 管线，BFF 路由、自定义 Hono 中间件和服务端插件无需修改即可生效。需要向鉴权中间件透传请求头时，可追加 `--header "Authorization: Bearer <token>"`（可重复传多个）
+- **自动端口发现**：也可将 URL 参数替换为 `--cwd <项目目录>`，脚本会读取 `.modern-js/mcp-apps/dev-server.json` 自动定位当前开发服务地址
+- **增量热更新**：`inline` 模式下本地组件卡片通过独立的 watch 构建打包为单文件自包含 HTML（内联脚本、样式和导入资源，上限 5 MiB，不注入 `<base>` 或本地 CSP），修改组件后自动重编，无需重启连接器，且不影响主应用普通页面的 HMR。若同一份 `mcp-views.json` 还包含 Module Federation 卡片，本地卡片走内联、MF 卡片仍走原有 HTTP shell
+- **不污染 `stdout`**：开发服务的日志照常输出在 `pnpm dev` 终端，转发脚本的 `stdout` 仅用于 JSON-RPC。`modern dev` 未启动或重启期间，转发脚本会返回 JSON-RPC 错误而不是退出进程，待开发服务就绪后下一次调用自动恢复

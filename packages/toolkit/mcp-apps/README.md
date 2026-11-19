@@ -70,10 +70,15 @@ Development resource CSP includes the request origin's `ws:` or `wss:` equivalen
 
 ## Local stdio debugging
 
-For local component views, configure `mcpAppsPlugin({ stdio: { server: './api/server/mcp.ts' } })` and add `"mcp:prepare": "modern mcp-prepare"` to package scripts. The server module must default-export a factory accepting `RegisterUiOptions` and returning a fresh `McpServer`. Inside it, call `registerUiResources(server, options)` and register business tools. The HTTP route can reuse it with `createBffHandlers(request => createServer({ request }))`.
+Enable `inline: 'dev'` (or `inline: true` for both dev and production) in `mcpAppsPlugin`:
 
-Run `pnpm mcp:prepare`. This creates `dist-mcp/server.cjs`, `dist-mcp/ui-manifest.json` and self-contained UI HTML, then prints the Node command and absolute server argument for a local MCP connector. The host starts the process. No HTTP server, relay, or `modern dev` is required. Only JSON-RPC belongs on server stdout, so application diagnostics must use stderr. Keep application dependencies installed beside the output.
+```ts
+mcpAppsPlugin({
+  views: './mcp-views.json',
+  inline: 'dev',
+});
+```
 
-The isolated production pipeline bundles local components with `createMcpView`, preserving exported `mcpCapabilities`, inlining JavaScript, CSS and imported assets. It respects `source.alias`, `source.define` and the application tsconfig. It does not run the application's Rsbuild plugins or its server middleware. Custom loaders and framework page runtime features are outside this mode. Module Federation views are rejected because they require hosted resources. Runtime API requests still require explicit endpoints and suitable CSP. Each HTML document must fit within 5 MiB.
+Run `pnpm dev` as usual. Local component views are compiled by an isolated watch build into self-contained inline HTML (up to 5 MiB per view, inlining scripts, styles, and imported assets, without injecting `<base>` or localhost CSP), leaving normal application pages and HMR untouched. If `mcp-views.json` also declares Module Federation views, local views are inlined while MF views keep using the HTTP shell.
 
-`stdio.output` defaults to `dist-mcp`, outside normal `dist` so dev/build cannot remove a running connector's entry. Ignore this directory in Git. Rebuild after editing, then restart the connector to load new server code and HTML. Inline manifests load local HTML at server startup, preserve configured UI metadata and do not inject HTTP base URLs or localhost CSP permissions. The normal HTTP manifest pipeline is unchanged.
+On startup, `modern dev` writes `.modern-js/mcp-apps/dev-server.json` and prints a connector snippet that runs the built-in `modern-mcp-stdio` bridge script (`bin/modern-mcp-stdio.js`). The bridge forwards stdio JSON-RPC messages (supporting JSON, SSE streams, `202` notifications, `Mcp-Session-Id`, and repeatable `--header` flags) to the running HTTP dev server (`/api/mcp`), so existing BFF routes and custom middlewares work unchanged without splitting server code or polluting stdio `stdout`. Pass `--cwd <app-dir>` instead of a URL to discover the dev server port dynamically.

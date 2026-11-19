@@ -9,7 +9,11 @@
     "url": "https://github.com/web-infra-dev/modern.js",
     "directory": "packages/toolkit/mcp-apps"
   },
+  "bin": {
+    "modern-mcp-stdio": "./bin/modern-mcp-stdio.js"
+  },
   "files": [
+    "bin",
     "dist",
     "README.md"
   ],
