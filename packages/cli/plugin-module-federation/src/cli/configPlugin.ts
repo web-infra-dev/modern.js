@@ -463,7 +463,6 @@ export const moduleFederationConfigPlugin = (
       userConfig.originPluginOptions.ssr.cacheUpdates
     ) {
       const application = userConfig.originPluginOptions.ssr.application;
-      const staticOnly = userConfig.originPluginOptions.ssr.staticOnly;
       userConfig.devManifestPublication?.setSSRReady(false);
       api._internalServerPlugins(({ plugins }) => {
         plugins.push({
@@ -472,7 +471,7 @@ export const moduleFederationConfigPlugin = (
             name: ssrConfig.name,
             remotes,
             application,
-            staticOnly,
+            staticOnly: true,
             ...(isDev() && {
               devCheckPaths: serviceProviderBasePaths(
                 modernjsConfig.server?.baseUrl,

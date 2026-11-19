@@ -34,6 +34,7 @@ export type {
   SSRRequestPolicyContext,
   SSRRequestPolicy,
   SSRUpdatePhase,
+  SSRUpdateScope,
   SSRDeferredUpdate,
 } from './requestCoordinator';
 

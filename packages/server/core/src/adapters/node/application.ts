@@ -8,6 +8,7 @@ import type {
 import {
   type SSRRequestCoordinatorOptions,
   type SSRRequestPolicyContext,
+  type SSRUpdateScope,
   createSSRRequestCoordinator,
 } from './requestCoordinator';
 
@@ -24,6 +25,8 @@ export interface SSRApplicationOptions extends SSRRequestCoordinatorOptions {
   ) => Promise<SSRApplicationResources>;
   /** Owned adapters may opt into entry isolation; unknown requests use the whole application. */
   resolveScope?: (request: Request) => readonly string[] | undefined;
+  /** Identify the default route for an update-time policy decision. */
+  resolvePolicyEntry?: (request: Request) => string | undefined;
   /** Release generation-owned adapters/state; must be safe to retry after failure. */
   dispose?: (
     resources: SSRApplicationResources | undefined,
@@ -127,6 +130,7 @@ export async function createSSRApplication(options: SSRApplicationOptions) {
         c.set('ssrRender', undefined);
         c.set('ssrWork', undefined);
       },
+      options.resolvePolicyEntry,
     );
     c.res = response;
     return response;
@@ -151,14 +155,8 @@ export async function createSSRApplication(options: SSRApplicationOptions) {
     /** Called only by the control plane; invalidate must detach/reset owned bundler state. */
     update(
       invalidate: (entries?: readonly string[]) => Promise<void>,
-      entries?: readonly string[] | (() => readonly string[] | undefined),
+      entries?: readonly string[] | SSRUpdateScope,
     ) {
-      if (entries && typeof entries !== 'function' && !options.resolveScope)
-        return Promise.reject(
-          new Error(
-            'Scoped SSR updates require an owned request scope resolver',
-          ),
-        );
       if (typeof invalidate !== 'function')
         return Promise.reject(
           new TypeError('An owned module invalidator is required'),
@@ -195,16 +193,8 @@ export async function createSSRApplication(options: SSRApplicationOptions) {
               entryNamespaces = new Map();
             }
           },
-          typeof entries === 'function'
-            ? () => {
-                const resolved = entries();
-                if (resolved && !options.resolveScope)
-                  throw new Error(
-                    'Scoped SSR updates require an owned request scope resolver',
-                  );
-                return resolved;
-              }
-            : entries,
+          entries,
+          !options.resolveScope,
         )
         .finally(() => {
           options.onAvailabilityChange?.(

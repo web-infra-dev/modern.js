@@ -76,10 +76,6 @@ export function createSSRUpdateServerPlugin(
     name: '@modern-js/module-federation/ssr-update-owner',
     setup(api) {
       api.onPrepare(() => {
-        if (options.staticOnly && !options.application?.resolveScope)
-          throw new Error(
-            'SSR staticOnly requires an application.resolveScope resolver',
-          );
         const context = api.getServerContext() as ServerContext;
         const participants: SSRUpdateParticipant[] =
           (context.ssrUpdateParticipants ||= []);

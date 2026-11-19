@@ -15,6 +15,7 @@ import {
 } from '../../src';
 import { injectResourcePlugin } from '../../src/adapters/node/plugins/resource';
 import { serverStaticPlugin } from '../../src/adapters/node/plugins/static';
+import type { SSRRequestPolicy } from '../../src/adapters/node/requestCoordinator';
 import type {
   SSRApplication,
   SSRApplicationResources,
@@ -38,6 +39,8 @@ async function fixture(
     validate?: () => void | Promise<void>;
     onInitialError?: (error: unknown) => void;
     assetHeaders?: boolean;
+    globalAdmission?: boolean;
+    requestPolicy?: SSRRequestPolicy;
   } = {},
 ) {
   const pwd = await mkdtemp(
@@ -120,7 +123,10 @@ async function fixture(
       maxPendingRequests: 2,
       requestTimeoutMs: 1000,
       drainTimeoutMs: 1000,
-      resolveScope: request => [new URL(request.url).pathname.split('/')[1]],
+      resolveScope: options.globalAdmission
+        ? undefined
+        : request => [new URL(request.url).pathname.split('/')[1]],
+      requestPolicy: options.requestPolicy,
       reloadEntry: reload,
       onReady(owner) {
         application = owner;
@@ -150,6 +156,60 @@ async function fixture(
     },
   };
 }
+
+it.each([undefined, 'csr', 'per-entry'] as const)(
+  'uses %s request policy during a selective cache update',
+  async policy => {
+    const resolvePolicy = rstest.fn(({ entryName }: { entryName?: string }) =>
+      entryName === 'b' ? ('csr' as const) : ('wait' as const),
+    );
+    const current = await fixture(false, {
+      globalAdmission: true,
+      requestPolicy: policy === 'per-entry' ? resolvePolicy : policy,
+    });
+    let release!: () => void;
+    const gate = new Promise<void>(resolve => {
+      release = resolve;
+    });
+    const invalidate = rstest.fn(async () => gate);
+    const update = current.application.update(invalidate, ['a']);
+    try {
+      await tick();
+      expect(current.application.status.phase).toBe('updating');
+      const requests = ['/a', '/b'].map(route =>
+        current.server.request(route, { headers: { accept: 'text/html' } }, {}),
+      );
+      if (policy === 'csr')
+        expect(await (await requests[0]).text()).toBe('<html>a:old</html>');
+      if (policy)
+        expect(await (await requests[1]).text()).toBe('<html>b:old</html>');
+      else {
+        await tick();
+        expect(current.application.status.pendingRequests).toBe(2);
+      }
+      if (policy === 'per-entry') {
+        expect(
+          resolvePolicy.mock.calls.map(([context]) => context.entryName),
+        ).toEqual(['a', 'b']);
+        expect(current.application.status.pendingRequests).toBe(1);
+      }
+      release();
+      await update;
+      if (policy !== 'csr')
+        expect(await (await requests[0]).text()).toBe('a:new');
+      if (!policy) expect(await (await requests[1]).text()).toBe('b:old');
+      expect(invalidate).toHaveBeenCalledWith(['a']);
+      expect(current.reload.mock.calls.map(([entry]) => entry)).toEqual([
+        'a',
+        'a-server-loaders',
+      ]);
+    } finally {
+      release();
+      await update.catch(() => {});
+      await current.server.close();
+    }
+  },
+);
 
 it('preserves normal asset middleware while serving and bypasses generation code only during updates', async () => {
   const current = await fixture(false, { assetHeaders: true });

@@ -3,7 +3,7 @@
 内置 Module Federation 可以在 Modern 服务进程内更新已经消费的远端，协调 SSR 请求、生产者工作和应用缓存。普通 SSR 组件与 Bridge SSR 使用同一套更新入口，Service 内部消费的 SSR 代码也遵循这套生命周期。生产环境由业务主动调用，开发环境通过浏览器 HMR 提示和请求前 manifest 检查发现更新。远程 Service 端点可独立部署，外部 Host 不替它更新 Node 代码。
 
 :::warning 当前构建要求
-此能力目前需要本地构建的 Rspack 原生 binding 和配套 JavaScript 包，包含 SSR 缓存失效与 `updateEntryExports` 支持，同时链接配套的 MF Runtime 和 Modern 代码。不能仅替换 Rspack 的 JavaScript 包，也不能据此认为已有发布版本支持此功能。不支持的 Rspack 构建会在配置阶段报错。
+此能力目前需要本地构建的 Rspack 原生 binding 和配套 JavaScript 包，包含 SSR 缓存失效与生产者 shared 依赖元数据，同时链接配套的 MF Runtime 和 Modern 代码。不能仅替换 Rspack 的 JavaScript 包，也不能据此认为已有发布版本支持此功能。不支持的 Rspack 构建会在配置阶段报错。
 :::
 
 ## 开启能力
@@ -80,11 +80,71 @@ if (await shouldUpdateRemote(remote, { revalidate: true })) {
 
 Modern 在编译前为浏览器和 Node 构建分配同一个 `buildVersion`，一端失效时同时更新另一端，仅发布两端版本一致且构建完成的 manifest。生产者运行时按生产者名称和所选构建版本定位。不要在构建完成后单独改写 manifest 的 `buildVersion`。
 
-Modern 负责排空请求和发布应用版本，并自动为 SSR 构建产物中的 MF 实例注入 `@module-federation/node/runtimePlugin`。整代替换时，Modern 通过 `@module-federation/node/lifecycle` 的 `destroyNodeInstance` 关闭旧实例、等待 MF 操作完成并释放容器和共享依赖。其他框架或原始 Rspack 构建的 Node 生产者，如果参与这套整代销毁，也需要显式安装 `@module-federation/node/runtimePlugin`，缺少该能力会明确报错。单个远端更新仍使用局部清理，不销毁整个消费者实例。MF bundler adapter 将清理请求交给 Rspack，模块依赖图、模块缓存、chunk 状态和过期加载判断由 Rspack 原生 runtime 管理。
+Modern 负责排空请求和发布应用版本，并自动为 SSR 构建产物中的 MF 实例注入 `@module-federation/node/runtimePlugin`。整代替换时，Modern 通过 `@module-federation/node/lifecycle` 的 `destroyNodeInstance` 关闭旧实例、等待 MF 操作完成并释放容器和共享依赖。其他框架或原始 Rspack 构建的 Node 生产者，如果参与这套整代销毁，也需要显式安装 `@module-federation/node/runtimePlugin`，缺少该能力会明确报错。单个远端更新仍使用局部清理，不销毁整个消费者实例。Rspack 负责模块依赖图、消费者 chunk 状态和过期加载判断。MF Node bundler adapter 根据 Rspack 提供的 shared 模块 ID 清理生产者的模块执行缓存。
 
 实例退出时，通用 `dispose` hook 通知各插件释放自身引用。纯 CSR 实例无需安装 Node runtime plugin，也不会被添加 Node 生命周期能力。Service 同源入口只解析 manifest，其查询实例在远端更新、插件替换或入口关闭时通知插件收尾并释放局部元数据，不清理其他消费者正在使用的生产者容器。
 
 如果目标生产者已被另一个应用加载，新 Host 会在执行渲染器前，复用该生产者已加载且包版本相同的 singleton 记录，保证保留的组件和 Host 使用相同的运行时依赖。非 singleton 依赖及其他包版本仍按 MF 的正常规则选择。如果选中的多个生产者已经使用不同的 singleton 实例，初始化会报错。
+
+## 从 Server 插件定时检查
+
+下面的插件在服务启动后定期检查同一个生产者 manifest，即使没有 SSR 请求也会执行。一次检查和更新结束后才安排下一次。示例发现新版本就调用更新 API，实际应用可以在调用前加入自己的发布条件。
+
+{/* prettier-ignore */}
+```ts title="modern.server.ts"
+import {
+  defineServerConfig,
+  type ServerPlugin,
+} from '@modern-js/server-runtime'
+import {
+  shouldUpdateRemote,
+  updateRemotes,
+} from '@modern-js/runtime/mf/update'
+
+const shop = {
+  name: 'shop',
+  entry: 'https://cdn.example.com/shop/mf-manifest.json',
+}
+
+const pollShop: ServerPlugin = {
+  name: 'poll-shop-release',
+  setup(api) {
+    api.onPrepare(() => {
+      if (api.getServerContext().dev) return
+
+      const lifetime = new AbortController()
+      const { signal } = lifetime
+      let timer: ReturnType<typeof setTimeout>
+      const schedule = () => {
+        timer = setTimeout(check, 30_000)
+        timer.unref()
+      }
+      const check = async () => {
+        try {
+          if (signal.aborted || !api.getServerContext().ssrUpdateManager) return
+          const options = { revalidate: true, signal }
+          if (await shouldUpdateRemote(shop, options)) {
+            await updateRemotes([shop], options)
+          }
+        } catch (error) {
+          if (!signal.aborted) console.error('Could not update shop', error)
+        } finally {
+          if (!signal.aborted) schedule()
+        }
+      }
+      const onServerClose = api.getServerContext().onServerClose ?? []
+      onServerClose.push(() => {
+        lifetime.abort()
+        clearTimeout(timer)
+      })
+      api.updateServerContext({ onServerClose })
+      schedule()
+    })
+  },
+}
+
+export default defineServerConfig({ plugins: [pollShop] })
+```
 
 ## 在 SSR 请求中延后执行
 
@@ -139,29 +199,28 @@ Modern 为生产 Service 构建生成带内容哈希的客户端入口。部署�
 
 Service 的业务 HTTP 错误继续保留状态码。业务 409 不自动重放或转为 `csr=1`，它不再表示框架内部的版本冲突。已经输出的流仍通过原流式错误路径结束。
 
-## 更新与失败边界
+## 更新期间的请求策略
 
-更新先等待受影响的响应流和已登记生产者工作结束，再清除缓存并准备新资源。自动接入默认重建整个应用。多入口应用可通过 `ssr.staticOnly` 声明所有请求侧远端消费都是编译期静态导入，并同时提供 `ssr.application.resolveScope`，将请求映射到实际编译入口。
+更新开始后，默认所有入口的新 SSR 请求都等待发布。希望某个入口继续返回页面时，可让普通 HTML 导航返回最后一代已发布的 CSR shell：
 
 {/* prettier-ignore */}
-```ts
+```ts title="modern.config.ts"
 moduleFederation: {
   ssr: {
     cacheUpdates: true,
-    staticOnly: true,
     application: {
-      resolveScope(request) {
-        const path = new URL(request.url).pathname
-        if (path === '/weather' || path.startsWith('/weather/')) return ['weather']
-        if (path === '/') return ['index']
-        return undefined
-      },
+      requestPolicy: ({ entryName }) =>
+        entryName === 'weather' ? 'csr' : 'wait',
     },
   },
 }
 ```
 
-返回值使用编译入口名称，不是远端名称。无法确认归属的请求返回 `undefined`，按整个应用处理。只有依赖图、请求归属和入口所有权完整时才局部更新。动态消费、共享 runtime 或共享清单变化可能扩大更新范围，局部准备失败会回退到应用级重建。以更新结果的 `mode`、`entries` 和 `reasons` 判断实际执行范围，PID 不变本身不能证明发生了局部更新。业务存在路由重写或跨入口消费时，不应使用上述简单路径映射。
+`requestPolicy` 也可以直接设为 `'csr'` 或 `'wait'`。函数同步执行，`entryName` 由 Modern 的入口路由匹配得到，无法匹配时为 `undefined`。CSR 回退使用已发布的 HTML 和客户端资源，绕过应用中间件和 loader。只对允许公开访问或已经由上游鉴权的页面使用此选项，其他类型请求选中 CSR 时会收到 503。
+
+## 更新与失败边界
+
+更新先停止接收新的 SSR 工作，再等待在途响应和已登记的生产者工作结束。对于依赖图和运行时所有权完整的静态导入，Modern 自动重建受影响的入口。动态消费、共享 runtime 或清单变动可能扩大更新范围，局部准备失败会回退到应用级重建。查看结果中的 `mode`、`entries` 和 `reasons` 判断实际范围。
 
 普通 SSR 组件的静态导入及编译器可识别的 `import()` 会进入模块依赖图。清理包含远端模块及持有旧引用的宿主父模块，再重新创建 SSR 入口。运行时 `loadRemote()` 无法完整静态追踪使用方，因此使用整个应用重建。业务自行保存到应用资源之外的模块引用仍需要业务负责失效。
 

@@ -21,6 +21,7 @@ export type SSRRequestPolicyReason =
   'updating' | 'unavailable' | 'timeout' | 'queue-full';
 export interface SSRRequestPolicyContext {
   readonly request: Request;
+  readonly entryName?: string;
   readonly update: Readonly<{
     phase: SSRUpdatePhase;
     generation: number;
@@ -40,6 +41,9 @@ export interface SSRDeferredUpdate<T> {
   readonly completed: Promise<T>;
 }
 export type SSRRequestScope = readonly string[] | undefined;
+export type SSRUpdateScope = (
+  previousPhase?: SSRUpdatePhase,
+) => SSRRequestScope;
 type Waiter = {
   scope: SSRRequestScope;
   resume: (release: () => void) => void;
@@ -204,9 +208,11 @@ export function createSSRRequestCoordinator(
     request: Request,
     started: number,
     reason: SSRRequestPolicyReason,
+    entryName?: string,
   ) => {
     const policyContext: SSRRequestPolicyContext = Object.freeze({
       request,
+      entryName,
       update: Object.freeze({
         phase,
         generation,
@@ -301,6 +307,7 @@ export function createSSRRequestCoordinator(
       renderCSR?: (context: SSRRequestPolicyContext) => Promise<Response>,
       /** Release request-owned references once transport and registered work settle. */
       onSettled?: () => void,
+      resolvePolicyEntry?: (request: Request) => string | undefined,
     ): Promise<Response> {
       if (closing) return rejectRequest('SSR application is closed');
       if (
@@ -314,8 +321,14 @@ export function createSSRRequestCoordinator(
       const started = Date.now();
       const deadline = started + requestTimeoutMs;
       let releaseAdmission: (() => void) | undefined;
+      const policyEntry = () => resolvePolicyEntry?.(request);
       const respond = (reason: SSRRequestPolicyReason, message: string) => {
-        const { decision, policyContext } = decide(request, started, reason);
+        const { decision, policyContext } = decide(
+          request,
+          started,
+          reason,
+          policyEntry(),
+        );
         return decision === 'csr' && renderCSR
           ? renderCSR(policyContext)
           : rejectRequest(message);
@@ -325,7 +338,12 @@ export function createSSRRequestCoordinator(
         // Waking is only a notification: another update may have closed admission.
         while (blocked(scope)) {
           const reason = phase === 'unavailable' ? 'unavailable' : 'updating';
-          const { decision, policyContext } = decide(request, started, reason);
+          const { decision, policyContext } = decide(
+            request,
+            started,
+            reason,
+            policyEntry(),
+          );
           if (decision === 'csr' && renderCSR) return renderCSR(policyContext);
           if (decision !== 'wait' || reason === 'unavailable')
             return rejectRequest('SSR application is unavailable');
@@ -463,7 +481,8 @@ export function createSSRRequestCoordinator(
     /** Serialize updates. A mutation failure stays closed; retry explicitly. */
     update(
       publish: (scope: SSRRequestScope) => Promise<void>,
-      requestedScope?: readonly string[] | (() => SSRRequestScope),
+      requestedScope?: readonly string[] | SSRUpdateScope,
+      blockAllEntries = false,
     ): Promise<number> {
       let scope: SSRRequestScope;
       try {
@@ -476,15 +495,20 @@ export function createSSRRequestCoordinator(
         return Promise.reject(error);
       }
       const operation = updates.then(async () => {
-        if (typeof requestedScope === 'function')
-          scope = copyScope(requestedScope());
         const previous = phase;
+        if (!blockAllEntries && typeof requestedScope === 'function')
+          scope = copyScope(requestedScope(previous));
         const previousScope = closedScope;
         // A failed mutation must be repaired before its scope can reopen.
-        closedScope = previous === 'unavailable' ? undefined : scope;
+        closedScope =
+          blockAllEntries || previous === 'unavailable' ? undefined : scope;
         phase = 'draining';
         try {
           await drain();
+          // Requests can discover dynamic MF dependencies while draining.
+          // Choose the cache scope after all leases finish when admission is global.
+          if (blockAllEntries && typeof requestedScope === 'function')
+            scope = copyScope(requestedScope(previous));
         } catch (error) {
           phase = previous;
           closedScope = previousScope;
@@ -494,7 +518,9 @@ export function createSSRRequestCoordinator(
         phase = 'updating';
         const publication = { active: true, updating: true };
         try {
-          await context.run(publication, () => publish(closedScope));
+          await context.run(publication, () =>
+            publish(previous === 'unavailable' ? undefined : scope),
+          );
           generation++;
           phase = 'serving';
           wake();

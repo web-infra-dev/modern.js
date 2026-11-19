@@ -67,7 +67,7 @@ test.each([
     for (const entry of ['a', 'b', 'c']) {
       await write(
         `${entry}.js`,
-        `import stable from './stable'; globalThis.__staticRuns.${entry}++; export { stable }; export const req = __webpack_require__; export const requestHandler = import('./page-${entry}').then(m => m.default);`,
+        `import stable from './stable'; globalThis.__staticRuns.${entry}++; export { stable }; export const req = __webpack_require__; export const loadSSR = () => import('./page-${entry}').then(m => ({ requestHandler: m.default }));`,
       );
       await write(
         `page-${entry}.js`,
@@ -254,7 +254,8 @@ test.each([
         'hit',
       );
       const before = { ...state.__staticRuns };
-      const stable = require(path.join(out, 'a.cjs')).stable;
+      const entryA = require(path.join(out, 'a.cjs'));
+      const stable = entryA.stable;
       const unrelatedStable = require(path.join(out, 'b.cjs')).stable;
       assert.deepEqual(adapter.plan('remote'), {
         mode: 'entries',
@@ -320,6 +321,12 @@ test.each([
       assert.deepEqual(state.__staticRuns, afterUpdate);
       assert.equal(adapter.status(application).appliedRevision, 1);
       assert.equal(await waiting, 'v2');
+      assert.equal(require(path.join(out, 'a.cjs')), entryA);
+      const { requestHandler } = await entryA.loadSSR();
+      assert.equal(
+        await (await requestHandler(new Request(url), {})).text(),
+        'v2',
+      );
       assert.equal(await get('/a'), 'v2');
       assert.equal(await get('/a?__loader=a'), 'v2:loader');
       assert.equal(

@@ -6,7 +6,11 @@ import fs from 'node:fs/promises';
 import path from 'node:path';
 import { once } from 'node:events';
 import { tmpdir } from 'node:os';
-import { packageRequire, packageAudit } from './ssr-update/packages.mjs';
+import {
+  nodeRequire,
+  packageRequire,
+  packageAudit,
+} from './ssr-update/packages.mjs';
 import { buildProductionFixture } from './ssr-update/production-fixture.mjs';
 import { updatePorts } from './ssr-update/ports.mjs';
 const state = globalThis as any;
@@ -34,7 +38,13 @@ async function waitFor(check) {
   }
 }
 
-test('production API checks are read-only and updates support no-op, rollback and deferred publication', async () => {
+test.each([false, true])(
+  'production cache updates with asyncStartup=%s support no-op, rollback and deferred publication',
+  verifyProductionUpdate,
+  600000,
+);
+
+async function verifyProductionUpdate(asyncStartup: boolean) {
   const ports = await updatePorts();
   const { createProdServer } = packageRequire('@modern-js/prod-server');
   const { createSSRUpdateServerPlugin } = packageRequire(
@@ -86,6 +96,7 @@ test('production API checks are read-only and updates support no-op, rollback an
       assetURL,
       manifestURL: entry,
       formalAPI: true,
+      asyncStartup,
     });
     const initial = { name: 'r6_remote', alias: 'remote', entry };
     const target = version => ({
@@ -96,6 +107,7 @@ test('production API checks are read-only and updates support no-op, rollback an
     const plugin = createSSRUpdateServerPlugin({
       name: 'r6_host',
       remotes: [initial],
+      staticOnly: true,
       hydration: {
         remotes: [
           { name: 'r6_remote', entry: `${assetURL}/v1/mf-manifest.json` },
@@ -171,6 +183,11 @@ test('production API checks are read-only and updates support no-op, rollback an
       );
     const initialRuntime = runtime();
     assert.ok(initialRuntime);
+    const bundlePath = path.join(root, 'host/dist/bundles/index.js');
+    const startup = nodeRequire(bundlePath);
+    const initialEntry = await startup;
+    assert.equal(typeof initialEntry.loadSSR, 'function');
+    const initialHandler = (await initialEntry.loadSSR()).requestHandler;
     assert.equal(
       await shouldUpdateRemote(
         { name: 'remote', entry },
@@ -202,6 +219,12 @@ test('production API checks are read-only and updates support no-op, rollback an
     flipDuringUpdate = true;
     const updated = await updateRemotes([target('v2')], { revalidate: true });
     assert.equal(updated.changed, true);
+    assert.equal(updated.mode, 'entries', updated.reasons?.join(', '));
+    assert.equal(nodeRequire(bundlePath), startup);
+    assert.notEqual(
+      (await initialEntry.loadSSR()).requestHandler,
+      initialHandler,
+    );
     assert.equal(pinnedDuringUpdate, true);
     assert.equal(published, 'v1');
     await readPage('v2');
@@ -216,7 +239,9 @@ test('production API checks are read-only and updates support no-op, rollback an
     assert.equal(runtime(), afterUpdateRuntime, 'No-op rebuilt the runtime');
     await readPage('v2');
     published = 'v1';
-    const rollback = await updateRemotes([target('v1')], { revalidate: true });
+    const rollback = await updateRemotes([target('v1')], {
+      revalidate: true,
+    });
     assert.equal(rollback.changed, true);
     await readPage('v1');
 
@@ -278,4 +303,4 @@ test('production API checks are read-only and updates support no-op, rollback an
     await manager?.close();
     await close(asset);
   }
-}, 600000);
+}

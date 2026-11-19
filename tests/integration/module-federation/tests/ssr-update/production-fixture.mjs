@@ -14,6 +14,7 @@ export async function buildProductionFixture({
   manifestURL = undefined,
   formalAPI = false,
   identity = false,
+  asyncStartup,
 }) {
   for (const app of ['remote', 'host']) {
     const dir = path.join(root, app);
@@ -41,6 +42,7 @@ export async function buildProductionFixture({
               'react-dom': { singleton: true },
             },
           };
+    if (asyncStartup !== undefined) config.experiments = { asyncStartup };
     await fs.writeFile(
       path.join(dir, 'modern.config.ts'),
       `import {appTools,defineConfig} from '@modern-js/app-tools'; export default defineConfig({output:{disableTsChecker:true,${app === 'remote' ? `assetPrefix:'${assetURL}/v1/',` : ''}},source:{alias:{react:${JSON.stringify(react)}, 'react-dom':${JSON.stringify(reactDOM)}}},server:{ssr:{mode:'stream'}},plugins:[appTools()],moduleFederation:{ssr:{cacheUpdates:true},config:${JSON.stringify(config)}}});`,

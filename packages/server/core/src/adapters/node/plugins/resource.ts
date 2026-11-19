@@ -1,4 +1,4 @@
-import Module, { createRequire } from 'node:module';
+import { createRequire } from 'node:module';
 import path from 'path';
 import { isDeepStrictEqual } from 'node:util';
 import { AsyncLocalStorage } from 'node:async_hooks';
@@ -15,7 +15,10 @@ import {
   isProd,
 } from '@modern-js/utils';
 import { getRenderHandler } from '../../../plugins/render/inject';
-import { createCSRRender } from '../../../plugins/render/render';
+import {
+  createCSRRender,
+  createSSRPolicyEntryResolver,
+} from '../../../plugins/render/render';
 import type {
   Middleware,
   MiddlewareHandler,
@@ -176,15 +179,9 @@ export async function getServerManifest(
     failOnError?: boolean;
     reloadable?: boolean;
     reloadEntry?: (entry: string) => Promise<any>;
-    onReloadedBundle?: (filename: string, exports: any) => void;
   } = {},
 ): Promise<ServerManifest> {
-  const {
-    failOnError = false,
-    reloadable = false,
-    reloadEntry,
-    onReloadedBundle,
-  } = options;
+  const { failOnError = false, reloadable = false, reloadEntry } = options;
   const loaderBundles: Record<string, any> = {};
   const renderBundles: Record<string, any> = {};
 
@@ -203,13 +200,18 @@ export async function getServerManifest(
         `${entryName}-server-loaders.js`,
       );
 
-      const renderBundle = reloadEntry
+      const renderEntry = reloadEntry
         ? await reloadEntry(entryName)
         : await loadBundle(renderBundlePath, monitors, {
             required: failOnBundleError,
             failOnError: failOnBundleError,
             reloadable,
           });
+      let renderBundle = renderEntry;
+      if (typeof renderEntry?.loadSSR === 'function') {
+        const loaded = await renderEntry.loadSSR();
+        renderBundle = { requestHandler: await loaded.requestHandler };
+      }
       if (
         reloadable &&
         route.isSSR &&
@@ -224,11 +226,6 @@ export async function getServerManifest(
               failOnError: failOnBundleError,
               reloadable,
             });
-      if (reloadEntry) {
-        onReloadedBundle?.(renderBundlePath, renderBundle);
-        if (loaderBundle) onReloadedBundle?.(loaderBundlePath, loaderBundle);
-      }
-
       renderBundle && (renderBundles[entryName] = renderBundle);
       if (loaderBundle) {
         try {
@@ -451,6 +448,10 @@ export const injectResourcePlugin = (
             );
           const application = await createSSRApplication({
             ...applicationOptions,
+            resolvePolicyEntry:
+              typeof applicationOptions.requestPolicy === 'function'
+                ? createSSRPolicyEntryResolver(routes)
+                : undefined,
             renderCSR:
               applicationOptions.renderCSR ||
               createCSRRender(routes, context.metaName),
@@ -495,7 +496,6 @@ export const injectResourcePlugin = (
                     }
                   }
                 }
-                const reloadedBundles = new Map<string, any>();
                 // allSettled prevents a failed loader from abandoning concurrent preparation.
                 const loaded = await Promise.allSettled([
                   getHtmlTemplates(pwd!, selectedRoutes, { fresh: true }),
@@ -504,9 +504,6 @@ export const injectResourcePlugin = (
                     reloadEntry: entries
                       ? applicationOptions.reloadEntry
                       : undefined,
-                    onReloadedBundle: (filename, exports) => {
-                      reloadedBundles.set(filename, exports);
-                    },
                   }),
                   getRenderHandler(context.getRenderOptions),
                 ]);
@@ -579,55 +576,6 @@ export const injectResourcePlugin = (
                 const resources = { templates, serverManifest, render };
                 await applicationOptions.validate?.(resources);
                 compilation.getStore()?.();
-                // Publish Node's entry exports with the validated Modern resources.
-                // Keep the bundler runtime itself, and retain raw loader exports rather
-                // than the result of loadModules(). Preparation failures publish nothing.
-                const cacheUpdates: Array<[NodeModule, any]> = [];
-                for (const [filename, exports] of reloadedBundles) {
-                  const require = createRequire(path.resolve(filename));
-                  const cached =
-                    require.cache[require.resolve(path.resolve(filename))];
-                  if (cached) cacheUpdates.push([cached, exports]);
-                }
-                // Module.load also saves initial exports in a Node-private field.
-                // Replace its wrapper without re-executing the bundler runtime.
-                const replacements = new Map<NodeModule, NodeModule>();
-                const nodeCache = createRequire(
-                  path.resolve(pwd!, 'package.json'),
-                ).cache;
-                for (const [cached, exports] of cacheUpdates) {
-                  const next = new Module(
-                    cached.id,
-                    cached.parent || undefined,
-                  );
-                  next.filename = cached.filename;
-                  next.paths = cached.paths;
-                  next.loaded = cached.loaded;
-                  next.children = cached.children;
-                  next.exports = exports;
-                  replacements.set(cached, next);
-                }
-                const parents = new Set([
-                  ...Object.values(nodeCache),
-                  ...replacements.values(),
-                  ...cacheUpdates.map(([cached]) => cached.parent),
-                ]);
-                for (const parent of parents) {
-                  if (!parent) continue;
-                  if (parent.parent && replacements.has(parent.parent))
-                    parent.parent = replacements.get(parent.parent);
-                  parent.children = [
-                    ...new Set(
-                      parent.children.map(
-                        child => replacements.get(child) || child,
-                      ),
-                    ),
-                  ];
-                }
-                for (const [cached, next] of replacements) {
-                  if (nodeCache[cached.filename] === cached)
-                    nodeCache[cached.filename] = next;
-                }
                 published = resources;
                 return resources;
               };

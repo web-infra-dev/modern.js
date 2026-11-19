@@ -300,7 +300,7 @@ describe('SSR replacement recovery', () => {
         await invalidate(entries);
         if (entries) {
           this.status.phase = 'unavailable';
-          throw new Error('Cannot synchronize SSR entry startup exports');
+          throw new Error('Cannot prepare the updated SSR entry');
         }
         this.status.phase = 'serving';
         return 1;
@@ -864,7 +864,7 @@ it('refreshes a registered Service ingress without an SSR bundler instance', asy
   }
 });
 
-it('publishes a whole-application adapter update through the real Modern owner without an entry scope resolver', async () => {
+it('publishes through the Modern owner with global admission and optional entry scope', async () => {
   const { createSSRApplication } =
     await import('../../../../server/core/src/adapters/node/application');
   const adapter = createSSRUpdateAdapter({
@@ -872,13 +872,13 @@ it('publishes a whole-application adapter update through the real Modern owner w
     entries: [],
     remotes: [{ name: 'service', entry: 'v1' }],
   });
-  let loaded = 0;
+  const loads: (readonly string[] | undefined)[] = [];
   const application = await createSSRApplication({
     maxPendingRequests: 2,
     requestTimeoutMs: 1000,
     drainTimeoutMs: 1000,
-    load: async () => {
-      loaded++;
+    load: async (_rebuilding, entries) => {
+      loads.push(entries);
       return {
         templates: {},
         serverManifest: {},
@@ -896,13 +896,13 @@ it('publishes a whole-application adapter update through the real Modern owner w
         },
       ]),
     ).resolves.toMatchObject({ generation: 1, mode: 'application' });
-    expect(loaded).toBe(2);
     await expect(
       application.update(
         async () => {},
         () => ['main'],
       ),
-    ).rejects.toThrow('owned request scope resolver');
+    ).resolves.toBe(2);
+    expect(loads).toEqual([undefined, undefined, ['main']]);
   } finally {
     await application.close();
     await adapter.dispose(undefined, { preserveRemotes: false });

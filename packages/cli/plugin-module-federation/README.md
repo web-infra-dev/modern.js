@@ -111,7 +111,7 @@ producer caches. Application code does not need to connect the low-level
 `createSSRUpdateAdapter` manually.
 
 This work currently requires the locally built Rspack native binding and matching
-JavaScript package with SSR invalidation and `updateEntryExports` support, together
+JavaScript package with SSR invalidation and producer cache metadata, together
 with the matching MF runtime and Modern builds. An unsupported Rspack build is
 rejected during configuration. The local validation setup does not imply that
 these capabilities are available in an existing published version.
@@ -169,10 +169,8 @@ In development, Modern assigns one `buildVersion` before each application build.
 The browser and Node compilations use that same value in their container identities
 and manifests. Invalidating one target also rebuilds the other target, and Modern
 publishes the merged manifest only after both outputs complete with the current
-version. Build subscriptions carry this version so consumers can update caches
-and refresh after producer edits. A stale Service request receives HTTP 409
-without replaying the request. Production keeps the configured release version
-and updates only when the application calls the update API.
+version. Production keeps the configured release version and updates when the
+application calls the update API.
 
 When a selected provider is already used by another application, a new Host
 adopts that provider's loaded singleton records of the same package version
@@ -201,26 +199,23 @@ waiting for its own drain would deadlock. The receipt identifies accepted work,
 not successful publication. Its `revision` is diagnostic metadata, not a release
 ordering input.
 
-Production performs no automatic discovery or browser reload. A deployment
-controller calls these APIs explicitly. Development automatically checks configured
-manifest URLs in the background, applies a changed successful build, and only then
-notifies connected consumers. Ordinary components and Bridge applications use
-HMR and router revalidation, with a document reload when required. Service
-applications and static producers reload the document. Component, loader and
-CSS edits create a new coordinated build version shared by browser and Node
-runtime identifiers and manifests. Failed compilation or
-publication does not send a success reload, and no extra watcher configuration is
-needed after enabling `cacheUpdates` on the cooperating apps.
+Production updates run when the server calls the update API. A Server plugin
+can schedule a check in `onPrepare` and cancel its timer on close. This works
+without any incoming SSR requests. For a complete example, see the
+[SSR update guide](../../document/docs/zh/guides/topic-detail/module-federation/ssr-update.mdx).
 
-Service endpoints reject stale version descriptors with HTTP 409. The existing
-Service error path reports the rejection without a generic CSR redirect. In
-development, the next successful manifest-driven update reloads the page without
-replaying the failed Service POST. Production leaves recovery to the
-application's policy.
+In development, browser HMR and incoming SSR requests prompt the owning server
+to check its known manifest URLs. Server publication prepares the next request.
+The browser continues to use the bundler's HMR and reload fallback. A remote
+Service App renders in its own server process and sends the client snapshot
+associated with the response. Its Host forwards the stream.
 
-The resource owner drains affected response streams and registered producer work
-before invalidation. Complete static ownership allows selective entry reloads.
-Dynamic consumption or incomplete ownership requires an application rebuild.
+During updates, new SSR requests wait by default. Set
+`ssr.application.requestPolicy` to `'csr'` for an HTML shell or use a synchronous
+function of `{ entryName }` to choose between `'wait'` and `'csr'` per entry.
+The resource owner drains response streams and registered producer work before
+invalidation. Complete static ownership allows selective entry reloads. Dynamic
+consumption or incomplete ownership requires an application rebuild.
 A destructive failure can leave SSR unavailable until a later successful update.
 Neither cancellation nor an update failure guarantees restoration of already
 invalidated application state. Production deployments that retain old HTML also

@@ -1,4 +1,7 @@
-import { getNodeInstanceLifecycle } from '@module-federation/node/lifecycle';
+import {
+  clearContainerCache,
+  getNodeInstanceLifecycle,
+} from '@module-federation/node/lifecycle';
 import { AsyncLocalStorage } from 'node:async_hooks';
 import { recordSSRRemoteSnapshot } from '../../server/ssrRuntimeGraph';
 import {
@@ -170,7 +173,7 @@ export default function ssrOwnership(): ModuleFederationRuntimePlugin {
           ),
         );
         if (externallyUsed || externallyLoaded) continue;
-        entry.exports.__webpack_clear_cache__?.();
+        clearContainerCache(entry.exports);
         const loading = (globalThis as any).__GLOBAL_LOADING_REMOTE_ENTRY__;
         if (loading && loading[key] === entry.loading) delete loading[key];
         const globalName = entry.info.entryGlobalName;

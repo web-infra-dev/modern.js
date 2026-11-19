@@ -69,23 +69,8 @@ export default defineConfig({
       ? {
           ssr: {
             cacheUpdates: true,
-            staticOnly: partial,
             application: {
               requestPolicy: updateRequestPolicy,
-              ...(partial
-                ? {
-                    resolveScope(request: Request) {
-                      const path = new URL(request.url).pathname;
-                      return path === '/weather' || path.startsWith('/weather/')
-                        ? ['weather']
-                        : path === '/' ||
-                            path === '/index' ||
-                            path.startsWith('/index/')
-                          ? ['index']
-                          : undefined;
-                    },
-                  }
-                : {}),
             },
           },
         }

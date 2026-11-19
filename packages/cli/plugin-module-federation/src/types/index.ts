@@ -24,8 +24,6 @@ export interface PluginOptions {
         distOutputDir?: string;
         /** Enable the experimental server entry invalidation integration. */
         cacheUpdates?: boolean;
-        /** All request-side remote consumption is compiled static imports. Requires resolveScope. */
-        staticOnly?: boolean;
         /** Admission and drain policy used by explicit updates and development refresh. */
         application?: Partial<
           Pick<
@@ -36,7 +34,6 @@ export interface PluginOptions {
             | 'drainTimeoutMs'
             | 'maxResumeConcurrency'
             | 'maxPendingUpdates'
-            | 'resolveScope'
           >
         >;
       }

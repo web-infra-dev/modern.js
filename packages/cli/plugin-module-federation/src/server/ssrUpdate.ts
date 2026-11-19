@@ -1,4 +1,5 @@
 import { collectSSRRuntimeGraph } from './ssrRuntimeGraph';
+import type { SSRUpdateScope } from '@modern-js/server-core/node';
 import { destroyNodeInstance } from '@module-federation/node/lifecycle';
 import {
   setSSRUpdateCandidates,
@@ -70,9 +71,9 @@ export interface SSRUpdateReceipt {
 }
 
 /**
- * Opt-in contract: all request-side MF consumption uses compiled static imports,
- * entry middleware cannot consume another entry, and mutations use this owner.
- * Dynamic/mixed applications must leave staticOnly disabled.
+ * The owner uses compiled entry metadata and observed MF consumption to choose
+ * selective invalidation. Dynamic consumption or incomplete metadata widens
+ * the update to the application.
  */
 export function createSSRUpdateAdapter(options: {
   name: string;
@@ -225,7 +226,7 @@ export function createSSRUpdateAdapter(options: {
       defer?<T>(operation: () => Promise<T>): { completed: Promise<T> };
       update(
         invalidate: (entries?: readonly string[]) => Promise<void>,
-        scope?: () => readonly string[] | undefined,
+        scope?: SSRUpdateScope,
       ): Promise<number>;
     },
     changes: Change[],
@@ -410,12 +411,13 @@ export function createSSRUpdateAdapter(options: {
               );
             onStage('rebuild');
           },
-          () => {
+          previousPhase => {
             onStage('analyze');
             const hosts = instances();
             if (!hosts.length && !owner.registrations && !options.remotes)
               throw new Error('Missing MF application instance');
-            recovering = application.status?.phase === 'unavailable';
+            recovering =
+              (previousPhase ?? application.status?.phase) === 'unavailable';
             for (const instance of hosts) {
               const names = changes.map(({ name }) => {
                 const existing =

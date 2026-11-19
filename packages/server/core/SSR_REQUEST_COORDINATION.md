@@ -162,22 +162,20 @@ fall through into application middleware.
 
 ## Entry scope and deferred submission
 
-`resolveScope(request)` returns all entries used by a request, or `undefined` when
-unknown. Unknown requests intersect every update. Selective updates require both
-this classifier and `reloadEntry(entryName)`. The latter reacquires entry exports
-in the existing bundler runtime after selective invalidation.
-
 `application.update(invalidate, entries)` accepts entry names or a synchronous
-plan evaluated inside the serialized update queue. Empty scopes are rejected.
-Changes to shared host JSON manifests expand the scope before admission closes,
-so every entry drains before those manifests publish. A shared manifest changed
-by the invalidator after selective draining rejects publication and requires a
-whole-application retry.
-Unrelated entries continue serving, while selected render/loader maps publish
-atomically. Rewrites across an admitted entry boundary return 503 before selecting
-resources for the other entry. Multiple routes in the same compiled entry update
-together. Dynamic consumption and incomplete adapter metadata require the
-whole-application path.
+plan evaluated inside the serialized update queue. With default admission, all
+new SSR requests wait. The plan is resolved after active work drains so it can
+account for dependencies discovered by that work. Selective updates reacquire
+render and loader exports through `reloadEntry(entryName)` and publish those
+entries atomically. Dynamic consumption and incomplete metadata require the
+application path.
+
+Low-level integrations can supply `resolveScope(request)` when they own a
+reliable request-to-entry mapping and need selective request admission. Unknown
+requests intersect every update. Shared manifest changes can expand the update
+scope. Rewrites across an admitted entry boundary return 503. Modern's
+Module Federation configuration uses global admission and supplies the matched
+`entryName` to an optional per-entry request policy.
 
 `application.defer(operation)` synchronously returns `{ accepted: true, completed }`.
 It waits for the submitting request's response and registered producers, then runs

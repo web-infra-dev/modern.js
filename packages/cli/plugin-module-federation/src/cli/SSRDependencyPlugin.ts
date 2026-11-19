@@ -1,3 +1,4 @@
+import path from 'node:path';
 import type { Rspack } from '@rsbuild/core';
 
 const pluginName = 'ModernSSRDependencyPlugin';
@@ -9,15 +10,7 @@ export class SSRDependencyPlugin {
   apply(compiler: Rspack.Compiler) {
     const { name, remotes } = this.options;
     const { RuntimeModule, RuntimeGlobals } = compiler.webpack;
-    const updateEntryExports = (
-      RuntimeGlobals as typeof RuntimeGlobals & {
-        updateEntryExports?: string;
-      }
-    ).updateEntryExports;
-    if (!updateEntryExports)
-      throw new Error(
-        'moduleFederation.ssr.cacheUpdates requires a Rspack build with SSR cache update support (updateEntryExports)',
-      );
+    const appRoot = path.join(path.resolve(compiler.context), path.sep);
     // Keep this macro free while building the plugin library. Resolving Rspack's
     // special __webpack_require__ in that build would capture the library runtime
     // instead of the application runtime that owns the SSR entries.
@@ -34,7 +27,6 @@ export class SSRDependencyPlugin {
           if (!entrypoints.length) return;
           requirements.add(RuntimeGlobals.require);
           requirements.add(RuntimeGlobals.moduleCache);
-          requirements.add(updateEntryExports);
           class EntryOwnership extends RuntimeModule {
             constructor() {
               super('modern SSR entry ownership', RuntimeModule.STAGE_ATTACH);
@@ -54,17 +46,18 @@ export class SSRDependencyPlugin {
                   const module = queue[i];
                   if (seen.has(module)) continue;
                   seen.add(module);
-                  const source = module.originalSource()?.source().toString();
                   const resource = (module as Rspack.NormalModule).resource;
-                  // Runtime consumption cannot be proven from a request history.
-                  // Generated MF internals implement static imports with loadRemote;
-                  // business use of those APIs invalidates the static-only contract.
+                  // Build/runtime packages may resolve outside node_modules in a workspace.
+                  // The source heuristic applies to application files. The runtime
+                  // tracker detects dynamic consumption through other modules.
                   if (
-                    resource &&
-                    !resource.includes('node_modules') &&
-                    source &&
+                    resource?.startsWith(appRoot) &&
+                    !resource
+                      .slice(appRoot.length)
+                      .split(path.sep)
+                      .includes('node_modules') &&
                     /\b(loadRemote|registerRemotes|importRemote|eval)\s*\(/.test(
-                      source,
+                      module.originalSource()?.source().toString() || '',
                     )
                   )
                     reasons.add('runtime-consumption');
@@ -115,20 +108,8 @@ export class SSRDependencyPlugin {
               return `var ownership = globalThis[Symbol.for('modern-js.mf.ssr.owners')];
 ${JSON.stringify(records)}.forEach(function(record) {
   record.runtime = __webpack_require__;
-  record.load = async function() {
-    var exports = await __webpack_require__(record.rootIds[0]);
-    try {
-      if (typeof __webpack_require__.updateEntryExports !== 'function' ||
-          !__webpack_require__.updateEntryExports(record.rootIds[0], exports)) {
-        throw new Error('Cannot synchronize SSR entry startup exports: ' + record.entry);
-      }
-    } catch (error) {
-      // Modern's render root starts an async import immediately. Settle it before
-      // recovery disposes MF; otherwise its late provider can cross generations.
-      await Promise.allSettled([exports && exports.requestHandler]);
-      throw error;
-    }
-    return exports;
+  record.load = function() {
+    return __webpack_require__(record.rootIds[0]);
   };
   if (ownership) ownership.registerEntry(record);
 });`;
