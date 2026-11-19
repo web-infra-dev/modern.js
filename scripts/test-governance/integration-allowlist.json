@@ -1,5 +1,4 @@
 [
-  "alias-set",
   "app-document",
   "asset-prefix",
   "async-entry",
@@ -8,7 +7,6 @@
   "bff-hono",
   "builder-plugins",
   "clean-dist-path",
-  "compatibility",
   "copy-assets",
   "custom-dist-path",
   "custom-file-system-entry",
