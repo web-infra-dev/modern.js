@@ -23,7 +23,7 @@
 
 ## 运行
 
-使用 Node.js 22.18 及以上的 22.x 版本，或 Node.js 24.3 及以上版本，具体要求见 `package.json`。Modern.js 依赖固定为已验证的 3.11.3 版本。
+使用 Node.js 22.18 及以上的 22.x 版本，或 Node.js 24.3 及以上版本，具体要求见 `package.json`。Modern.js 依赖使用 `latest`，指向 registry 已发布的稳定版本，而非当前 monorepo 源码或未发布版本。
 
 在仓库根目录执行：
 
@@ -34,6 +34,8 @@ pnpm dev
 ```
 
 如果将示例目录复制为独立项目，在该目录执行 `pnpm install` 即可。示例不需要外部 API 或凭据。
+
+如果 pnpm 报告 `ERR_PNPM_IGNORED_BUILDS`，使用 `pnpm approve-builds` 审核被阻止的依赖脚本，只批准你信任的依赖，再重新执行 `pnpm install`。使用 pnpm 12 独立验证时，需批准 `@swc/core` 和 `core-js`。不要全局关闭脚本审批。
 
 访问[文章页面](http://localhost:8080/posts/hello-modern)或[长标题页面](http://localhost:8080/posts/long-title)，页面中提供对应 PNG 的链接。默认开发命令在编译前生成图片，再将其作为静态资源提供访问。修改文章数据、图片模板或字体后，重启开发服务以重新生成图片和地址映射。
 
