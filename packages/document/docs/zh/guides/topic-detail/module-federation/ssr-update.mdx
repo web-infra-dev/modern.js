@@ -3,7 +3,7 @@
 内置 Module Federation 可以在 Modern 服务进程内更新已经消费的远端，协调 SSR 请求、生产者工作和应用缓存。普通 SSR 组件与 Bridge SSR 使用同一套更新入口，Service 内部消费的 SSR 代码也遵循这套生命周期。生产环境由业务主动调用，开发环境通过浏览器 HMR 提示和请求前 manifest 检查发现更新。远程 Service 端点可独立部署，外部 Host 不替它更新 Node 代码。
 
 :::warning 当前构建要求
-此能力目前需要本地构建的 Rspack 原生 binding 和配套 JavaScript 包，包含 SSR 缓存失效与生产者 shared 依赖元数据，同时链接配套的 MF Runtime 和 Modern 代码。不能仅替换 Rspack 的 JavaScript 包，也不能据此认为已有发布版本支持此功能。不支持的 Rspack 构建会在配置阶段报错。
+此能力目前需要本地构建的 Rspack 原生 binding 和配套 JavaScript 包，包含 SSR 失效依赖图与生产者 shared 依赖元数据，同时链接配套的 MF Runtime 和 Modern 代码。不能仅替换 Rspack 的 JavaScript 包，也不能据此认为已有发布版本支持此功能。不支持的 Rspack 构建会在配置阶段报错。
 :::
 
 ## 开启能力
@@ -80,7 +80,7 @@ if (await shouldUpdateRemote(remote, { revalidate: true })) {
 
 Modern 在编译前为浏览器和 Node 构建分配同一个 `buildVersion`，一端失效时同时更新另一端，仅发布两端版本一致且构建完成的 manifest。生产者运行时按生产者名称和所选构建版本定位。不要在构建完成后单独改写 manifest 的 `buildVersion`。
 
-Modern 负责排空请求和发布应用版本，并自动为 SSR 构建产物中的 MF 实例注入 `@module-federation/node/runtimePlugin`。整代替换时，Modern 通过 `@module-federation/node/lifecycle` 的 `destroyNodeInstance` 关闭旧实例、等待 MF 操作完成并释放容器和共享依赖。其他框架或原始 Rspack 构建的 Node 生产者，如果参与这套整代销毁，也需要显式安装 `@module-federation/node/runtimePlugin`，缺少该能力会明确报错。单个远端更新仍使用局部清理，不销毁整个消费者实例。Rspack 负责模块依赖图、消费者 chunk 状态和过期加载判断。MF Node bundler adapter 根据 Rspack 提供的 shared 模块 ID 清理生产者的模块执行缓存。
+Modern 负责排空请求和发布应用版本，并自动为 SSR 构建产物中的 MF 实例注入 `@module-federation/node/runtimePlugin`。整代替换时，Modern 通过 `@module-federation/node/lifecycle` 的 `destroyNodeInstance` 关闭旧实例、等待 MF 操作完成并释放容器和共享依赖。其他框架或原始 Rspack 构建的 Node 生产者，如果参与这套整代销毁，也需要显式安装 `@module-federation/node/runtimePlugin`，缺少该能力会明确报错。单个远端更新仍使用局部清理，不销毁整个消费者实例。Rspack 提供远端依赖图和生产者 shared 模块 ID。MF bundler runtime 生成并执行清理计划，Modern 复用这份计划判断需要重建的入口。远端 chunk 加载由 MF Node runtime 插件管理。
 
 实例退出时，通用 `dispose` hook 通知各插件释放自身引用。纯 CSR 实例无需安装 Node runtime plugin，也不会被添加 Node 生命周期能力。Service 同源入口只解析 manifest，其查询实例在远端更新、插件替换或入口关闭时通知插件收尾并释放局部元数据，不清理其他消费者正在使用的生产者容器。
 

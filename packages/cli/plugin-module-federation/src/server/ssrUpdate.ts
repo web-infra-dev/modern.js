@@ -1,6 +1,9 @@
 import { collectSSRRuntimeGraph } from './ssrRuntimeGraph';
 import type { SSRUpdateScope } from '@modern-js/server-core/node';
-import { destroyNodeInstance } from '@module-federation/node/lifecycle';
+import {
+  destroyNodeInstance,
+  planRemoteCache,
+} from '@module-federation/node/lifecycle';
 import {
   setSSRUpdateCandidates,
   clearSSRUpdateCandidates,
@@ -167,34 +170,19 @@ export function createSSRUpdateAdapter(options: {
       for (const reason of record.reasons) reasons.add(reason);
     const targets = all.filter(record => record.remoteNames.includes(remote));
     if (!targets.length) reasons.add('remote-not-in-static-graph');
-    // Native metadata is required even if compilation found a remote chunk.
+    // Only publish selected renderers if the MF eviction plan includes their roots.
     for (const record of targets) {
-      const data = record.runtime.remotesLoadingData;
-      if (
-        !data?.remoteKeyToRemoteModuleIds?.[remote]?.length ||
-        !data.remoteModuleIdToConsumerModuleIds ||
-        !data.consumerModuleIdToParentModuleIds
-      )
-        reasons.add('missing-native-invalidation-graph');
-      else {
-        const queue: Array<string | number> = data.remoteKeyToRemoteModuleIds[
-          remote
-        ].flatMap(
-          (id: string | number) =>
-            data.remoteModuleIdToConsumerModuleIds[id] || [],
-        );
-        const affected = new Set<string>();
-        for (let index = 0; index < queue.length; index++) {
-          const id = queue[index];
-          if (affected.has(String(id))) continue;
-          affected.add(String(id));
-          queue.push(...(data.consumerModuleIdToParentModuleIds[id] || []));
-        }
-        if (
-          !record.rootIds.every(id => id !== null && affected.has(String(id)))
-        )
-          reasons.add('incomplete-parent-closure');
+      const cachePlan = planRemoteCache({
+        webpackRequire: record.runtime,
+        name: remote,
+      });
+      if (!cachePlan?.remoteModuleIds.length) {
+        reasons.add('missing-invalidation-graph');
+        continue;
       }
+      const affected = new Set(cachePlan.consumerModuleIds);
+      if (!record.rootIds.every(id => id !== null && affected.has(String(id))))
+        reasons.add('incomplete-parent-closure');
     }
     if (reasons.size) return { mode: 'application', reasons: [...reasons] };
     const owners = new Set(targets.map(record => record.owner));

@@ -111,7 +111,7 @@ producer caches. Application code does not need to connect the low-level
 `createSSRUpdateAdapter` manually.
 
 This work currently requires the locally built Rspack native binding and matching
-JavaScript package with SSR invalidation and producer cache metadata, together
+JavaScript package with SSR dependency graphs and producer cache metadata, together
 with the matching MF runtime and Modern builds. An unsupported Rspack build is
 rejected during configuration. The local validation setup does not imply that
 these capabilities are available in an existing published version.

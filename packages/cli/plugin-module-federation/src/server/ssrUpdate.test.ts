@@ -38,13 +38,19 @@ function fixture() {
     federation: {
       instance: {
         [stateKey]: state,
+        options: { remotes: [] },
         testLifecycle: { closed: false, destroy: async () => {} },
       },
-    },
-    remotesLoadingData: {
-      remoteKeyToRemoteModuleIds: { remote: [1] },
-      remoteModuleIdToConsumerModuleIds: { 1: [2] },
-      consumerModuleIdToParentModuleIds: { 2: [3] },
+      bundlerRuntimeOptions: {},
+      remotesLoadingData: {
+        cache: {
+          remoteKeyToRemoteModuleIds: { remote: [1] },
+          remoteModuleIdToConsumerModuleIds: { 1: [2] },
+          consumerModuleIdToParentModuleIds: { 2: [3] },
+          modules: {},
+          factories: {},
+        },
+      },
     },
   };
   const a = {
@@ -98,7 +104,8 @@ describe('SSR static scope proof', () => {
   });
   it('falls back even when a chunk exists if the native parent closure cannot reach its entry', () => {
     const { adapter, runtime } = fixture();
-    runtime.remotesLoadingData.consumerModuleIdToParentModuleIds[2] = [];
+    runtime.federation.remotesLoadingData.cache.consumerModuleIdToParentModuleIds[2] =
+      [];
     expect(adapter.plan('remote')).toEqual({
       mode: 'application',
       reasons: ['incomplete-parent-closure'],
@@ -162,7 +169,7 @@ describe('SSR replacement recovery', () => {
       attached = false;
       delete (runtime.federation as any).disposeClearCache;
     };
-    delete (runtime.remotesLoadingData as any)
+    delete (runtime.federation.remotesLoadingData.cache as any)
       .consumerModuleIdToParentModuleIds;
     host.moduleCache.set(
       remote.name,
@@ -206,7 +213,7 @@ describe('SSR replacement recovery', () => {
         }),
       ).resolves.toMatchObject({
         mode: 'application',
-        reasons: ['missing-native-invalidation-graph'],
+        reasons: ['missing-invalidation-graph'],
       });
       expect(adapter.owner.entries.size).toBe(0);
       expect(adapter.owner.registrations?.[0].entry).toBe(

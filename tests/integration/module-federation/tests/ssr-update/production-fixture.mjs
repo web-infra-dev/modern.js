@@ -25,7 +25,10 @@ export async function buildProductionFixture({
             name: 'r6_remote',
             filename: 'remoteEntry.js',
             dts: false,
-            exposes: { './Counter': './src/Counter.tsx' },
+            exposes: {
+              './Counter': './src/Counter.tsx',
+              ...(formalAPI ? { './Delayed': './src/Delayed.tsx' } : {}),
+            },
             shared: {
               react: { singleton: true },
               'react-dom': { singleton: true },
@@ -63,13 +66,20 @@ export async function buildProductionFixture({
       await fs.mkdir(path.join(dir, 'src/routes/client'), { recursive: true });
       await fs.writeFile(
         path.join(dir, 'src/routes/client/page.tsx'),
-        `import Counter from 'remote/Counter'; export default () => <main><h1>Client-ready counter</h1><Counter /></main>;`,
+        formalAPI
+          ? `import Delayed from 'remote/Delayed'; export default () => <main><Delayed /></main>;`
+          : `import Counter from 'remote/Counter'; export default () => <main><h1>Client-ready counter</h1><Counter /></main>;`,
       );
     }
     if (app === 'remote')
       await fs.writeFile(
         path.join(dir, 'src/Counter.tsx'),
         `import {useState,useEffect} from 'react'; export const release='v1'; export default function Counter(){const [n,set]=useState(0); useEffect(()=>{document.getElementById("remote-counter").dataset.hydrated="true"},[]); return <button id="remote-counter" onClick={()=>set(n+1)}>v1:{n}</button>}`,
+      );
+    if (app === 'remote' && formalAPI)
+      await fs.writeFile(
+        path.join(dir, 'src/Delayed.tsx'),
+        `export default () => <span>v1:delayed-remote</span>;`,
       );
     const result = await buildApp(
       process.execPath,
@@ -93,7 +103,11 @@ export async function buildProductionFixture({
   await fs.cp(path.join(dir, 'dist'), path.join(root, 'releases/v1'), {
     recursive: true,
   });
-  for (const file of ['modern.config.ts', 'src/Counter.tsx']) {
+  for (const file of [
+    'modern.config.ts',
+    'src/Counter.tsx',
+    ...(formalAPI ? ['src/Delayed.tsx'] : []),
+  ]) {
     const text = await fs.readFile(path.join(dir, file), 'utf8');
     await fs.writeFile(path.join(dir, file), text.replaceAll('v1', 'v2'));
   }

@@ -30,10 +30,13 @@ async function close(server) {
     server.close(error => (error ? reject(error) : resolve())),
   );
 }
-async function waitFor(check) {
+async function waitFor(
+  check,
+  message = 'Deferred publication did not complete',
+) {
   const deadline = Date.now() + 10000;
   while (!(await check())) {
-    assert.ok(Date.now() < deadline, 'Deferred publication did not complete');
+    assert.ok(Date.now() < deadline, message);
     await new Promise(resolve => setTimeout(resolve, 20));
   }
 }
@@ -63,6 +66,13 @@ async function verifyProductionUpdate(asyncStartup: boolean) {
   let manager: any;
   let flipDuringUpdate = false;
   let pinnedDuringUpdate = false;
+  let releaseDelayedChunk!: () => void;
+  const delayedChunk = new Promise<void>(resolve => {
+    releaseDelayedChunk = resolve;
+  });
+  let waitingForChunk = false;
+  let delayedPage: Promise<string> | undefined;
+  let publication: Promise<any> | undefined;
   const asset = http.createServer(async (request, response) => {
     try {
       const pathname = new URL(request.url, 'http://asset.invalid').pathname;
@@ -80,6 +90,13 @@ async function verifyProductionUpdate(asyncStartup: boolean) {
         file.endsWith('.json') ? 'application/json' : 'application/javascript',
       );
       response.setHeader('Cache-Control', 'no-store');
+      if (
+        requested.startsWith('/v1/bundles/') &&
+        requested.includes('__federation_expose_Delayed')
+      ) {
+        waitingForChunk = true;
+        await delayedChunk;
+      }
       response.end(await fs.readFile(file));
     } catch {
       response.statusCode = 404;
@@ -216,8 +233,20 @@ async function verifyProductionUpdate(asyncStartup: boolean) {
       'Checking mutated the active runtime',
     );
     await readPage('v1');
+    delayedPage = fetch(`${hostURL}/client`).then(response => response.text());
+    void delayedPage.catch(() => {});
+    await waitFor(
+      () => waitingForChunk,
+      'MF Node did not request the delayed producer chunk',
+    );
     flipDuringUpdate = true;
-    const updated = await updateRemotes([target('v2')], { revalidate: true });
+    publication = updateRemotes([target('v2')], { revalidate: true });
+    void publication.catch(() => {});
+    await waitFor(() => manager.status()?.application.phase === 'draining');
+    assert.equal(pinnedDuringUpdate, false);
+    releaseDelayedChunk();
+    assert.match(await delayedPage, /v1:delayed-remote/);
+    const updated = await publication;
     assert.equal(updated.changed, true);
     assert.equal(updated.mode, 'entries', updated.reasons?.join(', '));
     assert.equal(nodeRequire(bundlePath), startup);
@@ -228,6 +257,10 @@ async function verifyProductionUpdate(asyncStartup: boolean) {
     assert.equal(pinnedDuringUpdate, true);
     assert.equal(published, 'v1');
     await readPage('v2');
+    assert.match(
+      await (await fetch(`${hostURL}/client`)).text(),
+      /v2:delayed-remote/,
+    );
     published = 'v2';
     assert.equal(
       await shouldUpdateRemote(target('v2'), { revalidate: true }),
@@ -275,6 +308,15 @@ async function verifyProductionUpdate(asyncStartup: boolean) {
     });
     delete state.__r6Loader;
     await readPage('v2');
+    for (let i = 0; i < 10; i++) {
+      published = i % 2 === 0 ? 'v1' : 'v2';
+      const result = await updateRemotes([target(published)], {
+        revalidate: true,
+      });
+      assert.equal(result.mode, 'entries', result.reasons?.join(', '));
+      assert.equal(nodeRequire(bundlePath), startup);
+      await readPage(published);
+    }
     assert.equal(process.pid, pid);
     assert.deepEqual(server.address(), address);
     const result = {
@@ -297,6 +339,8 @@ async function verifyProductionUpdate(asyncStartup: boolean) {
       path.join(root, 'result.json'),
     );
   } finally {
+    releaseDelayedChunk();
+    await Promise.allSettled([delayedPage, publication]);
     delete state.__r6Loader;
     delete state.__r6FormalMF;
     await close(server);

@@ -374,8 +374,8 @@ test.each([
       assert.equal(await get('/a'), 'v2');
       const beforeFallback = state.__staticRuns.b;
       const records = [...adapter.owner.entries.values()];
-      delete records.find(record => record.entry === 'a').runtime
-        .remotesLoadingData.consumerModuleIdToParentModuleIds;
+      delete records.find(record => record.entry === 'a').runtime.federation
+        .remotesLoadingData.cache.consumerModuleIdToParentModuleIds;
       const incomplete = await adapter.update(application, 'remote', {
         entry: path.join(out, 'v1.cjs'),
         entryGlobalName: 'v1',
@@ -386,9 +386,7 @@ test.each([
         adapter.update(application, 'remote', replacement, { revision: 1 }),
         /Stale/,
       );
-      assert.ok(
-        incomplete.reasons.includes('missing-native-invalidation-graph'),
-      );
+      assert.ok(incomplete.reasons.includes('missing-invalidation-graph'));
       assert.equal(await get('/a'), 'v1');
       assert.ok(state.__staticRuns.b > beforeFallback);
       const rebuiltInstance = require(path.join(out, 'a.cjs')).req.federation
