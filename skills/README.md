@@ -4,7 +4,8 @@
 
 ## 已落地
 
-- `modernjs-migrate-to-v3` —— Modern.js v2 → v3 迁移（含 tsconfig 迁移：删除默认 `baseUrl`、补 `@api/*`、生成 `tsconfig.server.json`，可用 `scripts/migrate-tsconfig.mjs` 单独执行）
+- `modernjs-migrate-to-v3` —— Modern.js v2 → v3 迁移
+- `modernjs-migrate-tsconfig` —— tsconfig 迁到 3.12 的 bundler 基线（`baseUrl` 等价改写为 `paths`、补 `@api/*`、生成 `tsconfig.server.json`）
 - `modernjs-feature-enable` —— 为 v3 应用启用 BFF / SSG / Tailwind / 自定义 Web Server
 
 ## 安装
