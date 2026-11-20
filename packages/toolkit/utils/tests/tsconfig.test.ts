@@ -4,6 +4,7 @@ import {
   isEsmModuleKind,
   readTsConfigWithExtends,
   resolveServerTsconfig,
+  logger,
   resolveServerTsconfigInfo,
 } from '../src';
 
@@ -49,15 +50,24 @@ describe('resolveServerTsconfigInfo', () => {
     expect(info.compilerOverrides).toBeUndefined();
   });
 
-  it('uses tsconfig.server.json by convention', () => {
+  it('uses tsconfig.server.json by convention and says so once', () => {
     const appDir = fixture('convention');
-    const info = resolveServerTsconfigInfo(appDir);
+    const info = rstest.spyOn(logger, 'info').mockImplementation(() => {});
 
-    expect(info).toEqual({
-      path: path.join(appDir, SERVER_TSCONFIG_FILENAME),
-      source: 'convention',
-    });
-    expect(resolveServerTsconfig(appDir)).toBe(info.path);
+    try {
+      const resolved = resolveServerTsconfigInfo(appDir);
+      resolveServerTsconfigInfo(appDir);
+
+      expect(resolved).toEqual({
+        path: path.join(appDir, SERVER_TSCONFIG_FILENAME),
+        source: 'convention',
+      });
+      expect(resolveServerTsconfig(appDir)).toBe(resolved.path);
+      expect(info).toBeCalledTimes(1);
+      expect(info.mock.calls[0][0]).toContain(SERVER_TSCONFIG_FILENAME);
+    } finally {
+      info.mockRestore();
+    }
   });
 
   it('never rewrites the convention file', () => {

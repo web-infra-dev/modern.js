@@ -91,6 +91,20 @@ const resolveServerTsconfigPath = (
   };
 };
 
+const loggedConventionPaths = new Set<string>();
+
+// The convention file is picked up without any config, so say once which file
+// the server compile actually uses.
+const logConventionTsconfig = (tsconfigPath: string) => {
+  if (loggedConventionPaths.has(tsconfigPath)) {
+    return;
+  }
+  loggedConventionPaths.add(tsconfigPath);
+  logger.info(
+    `Server-side code (api/, server/, shared/) uses ${path.basename(tsconfigPath)}`,
+  );
+};
+
 /**
  * Resolve the tsconfig used for all server-side TypeScript stages (BFF /
  * custom server compile, ts-node at dev time).
@@ -110,6 +124,9 @@ export const resolveServerTsconfigInfo = (
   options: ResolveServerTsconfigOptions = {},
 ): ServerTsconfigInfo => {
   const resolved = resolveServerTsconfigPath(appDirectory, configuredPath);
+  if (resolved.source === 'convention') {
+    logConventionTsconfig(resolved.path);
+  }
   if (resolved.source !== 'fallback' || !fs.existsSync(resolved.path)) {
     return resolved;
   }
