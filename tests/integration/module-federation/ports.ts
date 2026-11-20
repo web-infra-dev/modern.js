@@ -4,7 +4,7 @@ export const ports = JSON.parse(process.env.MF_LAB_PORTS || '{}') as Record<
 >;
 export const port = (name: string, fallback: number) => ports[name] || fallback;
 export const origin = (name: string, fallback: number) =>
-  `http://localhost:${port(name, fallback)}`;
+  `http://${process.env.MF_LAB_PUBLIC_HOST || 'localhost'}:${port(name, fallback)}`;
 export const shared = {
   react: { singleton: true },
   'react-dom': { singleton: true },

@@ -43,6 +43,8 @@ export default defineConfig({
         }
       : {}),
     globalVars: {
+      'process.env.MF_LAB_RSC_ORIGIN': process.env.MF_LAB_RSC_ORIGIN || '',
+      'process.env.MF_LAB_NEXT_RSC_ORIGIN': process.env.MF_LAB_NEXT_RSC_ORIGIN || '',
       'process.env.MF_LAB_SOURCE_ROOT':
         process.env.MF_LAB_SOURCE_ROOT || path.resolve(__dirname, '..'),
       'process.env.MF_LAB_UPDATES': process.env.MF_LAB_UPDATES || '',

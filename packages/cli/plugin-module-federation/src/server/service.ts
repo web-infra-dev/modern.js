@@ -218,7 +218,10 @@ function deployment(
       const stylesheets =
         snapshot && metadata
           ? metadata.assets.css.sync.map(asset =>
-              getResourceUrl(snapshot, asset),
+              // CSS is consumed by the browser even when resolved by the Node producer.
+              'publicPath' in snapshot
+                ? getResourceUrl({ publicPath: snapshot.publicPath }, asset)
+                : getResourceUrl(snapshot, asset),
             )
           : [];
       const dependencies = () =>

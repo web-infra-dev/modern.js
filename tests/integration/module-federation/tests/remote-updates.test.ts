@@ -33,6 +33,55 @@ for (const scenario of scenarios.filter(
   describeLab(
     `Producer updates / ${scenario}`,
     getContext => {
+      const rscPanels = [
+        ...(process.env.MF_LAB_RSC_ORIGIN ? ['Service App RSC'] : []),
+        ...(process.env.MF_LAB_NEXT_RSC_ORIGIN ? ['Next.js RSC Service App'] : []),
+      ];
+      if (scenario === 'service' && rscPanels.length)
+        it('compares the RSC Service report with the existing Service and Bridge CSR reports', async () => {
+          const { page, lab } = getContext();
+          await page.goto(
+            `${lab.url}/service/forecast/today?lab=service&tab=load&page=report`,
+            { waitUntil: 'networkidle0' },
+          );
+          await page.waitForSelector(
+            '[data-testid="service-compare-load"]:not(:disabled)',
+          );
+          expect(
+            await page.$$eval('iframe', frames =>
+              frames.map(frame => frame.title),
+            ),
+          ).toEqual(['Service App', 'Bridge CSR', ...rscPanels]);
+          for (let run = 0; run < 2; run++) {
+            await page.click('[data-testid="service-compare-load"]');
+            for (const frame of page
+              .frames()
+              .filter(frame =>
+                ['service', 'bridge', 'rsc', 'next-rsc'].includes(
+                  new URL(frame.url()).searchParams.get('bench') || '',
+                ),
+              )) {
+              await frame.waitForSelector('[data-report-interactive="true"]');
+              await frame.waitForFunction(
+                () =>
+                  document.querySelectorAll('[data-report-chart] svg')
+                    .length === 6,
+              );
+              expect(
+                await frame.$eval(
+                  '.report-sample-count',
+                  node => node.textContent,
+                ),
+              ).toContain('17,280');
+              await frame.select('select[aria-label="Report period"]', '7');
+              await frame.waitForFunction(() =>
+                document
+                  .querySelector('.report-sample-count')
+                  ?.textContent?.includes('4,032'),
+              );
+            }
+          }
+        });
       if (scenario === 'service')
         it('compares the same climate report through Service and CSR with working chart controls', async () => {
           const { page, lab } = getContext();
@@ -58,6 +107,27 @@ for (const scenario of scenarios.filter(
             );
             expect(posts).toHaveLength(0);
             expect(reportChunks).toHaveLength(0);
+            const serviceFrame = page
+              .frames()
+              .find(
+                frame =>
+                  new URL(frame.url()).searchParams.get('bench') === 'service',
+              )!;
+            const firstBackground = serviceFrame.evaluate(
+              () =>
+                new Promise<string>(resolve => {
+                  const observer = new MutationObserver(() => {
+                    const report = document.querySelector('.weather-report');
+                    if (!report) return;
+                    observer.disconnect();
+                    resolve(getComputedStyle(report).backgroundColor);
+                  });
+                  observer.observe(document.body, {
+                    childList: true,
+                    subtree: true,
+                  });
+                }),
+            );
             const response = page.waitForResponse(
               response =>
                 response.request().method() === 'POST' &&
@@ -65,6 +135,7 @@ for (const scenario of scenarios.filter(
             );
             await page.click('[data-testid="service-compare-load"]');
             expect((await response).status()).toBe(200);
+            expect(await firstBackground).toBe('rgb(244, 248, 252)');
             const frames = page
               .frames()
               .filter(frame => /bench=(service|bridge)/.test(frame.url()));

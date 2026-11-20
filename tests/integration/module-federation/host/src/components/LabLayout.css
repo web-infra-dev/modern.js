@@ -649,3 +649,9 @@
 .lab-layout [data-testid='update-evidence'] details {
   overflow-x: auto;
 }
+
+@media (min-width: 1100px) {
+  .lab-render-grid.lab-rsc-comparison {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}

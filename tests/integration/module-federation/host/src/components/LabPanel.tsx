@@ -90,17 +90,17 @@ export function LabPanel({
   const sendInspect = useCallback(() => {
     frame.current?.contentWindow?.postMessage(
       { type: 'mf-lab-bench-query' },
-      window.location.origin,
+      new URL(path, window.location.href).origin,
     );
     frame.current?.contentWindow?.postMessage(
       { type: 'mf-weather-metrics-request' },
-      window.location.origin,
+      new URL(path, window.location.href).origin,
     );
     frame.current?.contentWindow?.postMessage(
       { type: 'mf-lab-inspect', enabled: inspectRef.current, paletteSeed },
-      window.location.origin,
+      new URL(path, window.location.href).origin,
     );
-  }, [paletteSeed]);
+  }, [paletteSeed, path]);
   useEffect(sendInspect, [inspect, run, sendInspect]);
   const benchID = useRef<number | undefined>(undefined);
   const [recovery, setRecovery] = useState('');
@@ -112,7 +112,7 @@ export function LabPanel({
     setRecovery('');
     function receive(event: MessageEvent) {
       if (
-        event.origin !== window.location.origin ||
+        event.origin !== new URL(path, window.location.href).origin ||
         event.source !== frame.current?.contentWindow
       )
         return;
@@ -246,7 +246,10 @@ export function LabPanel({
       <footer>
         {[
           'Data visible',
-          ...(path.endsWith('/report') ? ['Content complete'] : []),
+          ...(path.endsWith('/report') ||
+          new URLSearchParams(query).get('page') === 'report'
+            ? ['Content complete']
+            : []),
           'Client ready',
         ].map(event => (
           <span

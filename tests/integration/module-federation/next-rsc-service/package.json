@@ -1,0 +1,13 @@
+{
+  "name": "weather-lab-next-rsc-service",
+  "private": true,
+  "scripts": {
+    "build": "next build --webpack",
+    "start": "node serve.mjs"
+  },
+  "dependencies": {
+    "next": "16.4.6",
+    "react": "19.2.7",
+    "react-dom": "19.2.7"
+  }
+}
