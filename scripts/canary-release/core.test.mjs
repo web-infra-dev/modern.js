@@ -194,7 +194,7 @@ test('consumer internal dependencies must be exact canary, never workspace range
 test('legacy dependency is limited to the exact consumer, name and existing range', () => {
   const json = {
     name: '@modern-js/plugin-polyfill',
-    dependencies: { '@modern-js/polyfill-lib': '^1.0.2' },
+    dependencies: { '@modern-js/polyfill-lib': '^1.0.3' },
   };
   validateDependencies(json, makePlan(), { packed: true });
   assert.throws(() =>

@@ -115,7 +115,7 @@ export const dependencyFields = [
 // Only this existing runtime dependency is outside the current release set.
 export const legacyDependencies = Object.freeze({
   '@modern-js/plugin-polyfill': Object.freeze({
-    '@modern-js/polyfill-lib': '^1.0.2',
+    '@modern-js/polyfill-lib': '^1.0.3',
   }),
 });
 
