@@ -61,3 +61,4 @@ export default defineConfig({
 - `tsconfigPath` 相对 `appDirectory` 解析，也支持绝对路径。
 - 建议通过 `extends` 继承根 tsconfig 中的 `paths` 等公共配置，避免重复维护。
 - 如果配置的文件不存在，TypeScript / ts-node 会在启动时抛出错误。
+- 自定义 Server 的入口文件（`server/modern.server.ts|js` 和 `server/cache.ts|js`）及其导入的文件总会被编译输出，即使 tsconfig 设置了 `noEmit` 或 `emitDeclarationOnly`，或者 `include` 没有包含它们。CommonJS 应用中，面向 ES 模块的 `module` 配置（例如 `ESNext`）会按 CommonJS 输出。必需的入口文件仍未输出时，构建会失败。

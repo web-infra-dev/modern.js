@@ -61,3 +61,4 @@ export default defineConfig({
 - `tsconfigPath` is resolved relative to `appDirectory`. Absolute paths are also supported.
 - It is recommended to inherit shared options such as `paths` from the root tsconfig through `extends`, instead of maintaining them in multiple files.
 - If the configured file does not exist, TypeScript / ts-node will throw an error at startup.
+- The custom server entries (`server/modern.server.ts|js` and `server/cache.ts|js`) are always emitted, together with the files they import, even when the tsconfig sets `noEmit` or `emitDeclarationOnly` or its `include` does not cover them. In a CommonJS app, a `module` setting for ES modules such as `ESNext` is emitted as CommonJS. If a required entry is still not emitted, the build fails.

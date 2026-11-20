@@ -78,12 +78,22 @@ export const compileByTs: CompileFunc = async (
       })
     );
   });
+  const entries = compileOptions.entries ?? [];
+  // Required entries are compiled even when the frontend tsconfig `files`/`include`
+  // leave them out; their imports join the program as usual.
+  for (const entry of entries) {
+    const posixEntry = entry.split(path.sep).join(path.posix.sep);
+    if (!rootNames.includes(posixEntry)) {
+      rootNames.push(posixEntry);
+    }
+  }
 
   const program = createProgram.call(ts, {
     rootNames,
     projectReferences,
     options: {
       ...options,
+      ...getServerEmitOptions(ts, options, entries, compileOptions.moduleType),
       rootDir: appDirectory,
       outDir: distDir,
       // `jsx: preserve` emits `.jsx` files, which Node cannot execute and which
@@ -142,12 +152,102 @@ export const compileByTs: CompileFunc = async (
     }
   }
 
+  const missing = entries
+    .map(entry => ({
+      entry,
+      output: getEmittedPath(entry, appDirectory, distDir),
+    }))
+    .filter(({ output }) => !fs.existsSync(output));
+  if (missing.length > 0) {
+    throw new Error(
+      `TypeScript did not emit ${missing
+        .map(
+          ({ entry, output }) =>
+            `${toPosix(path.relative(appDirectory, output))} (from ${toPosix(path.relative(appDirectory, entry))})`,
+        )
+        .join(', ')}${emitResult.emitSkipped ? ', emit was skipped' : ''}. ` +
+        `Check the TypeScript diagnostics above, if any, and the tsconfig at ${tsconfigPath}. ` +
+        'Use `server.tsconfigPath` to compile the server with a separate tsconfig.',
+    );
+  }
+
   for (const source of sourceDirs) {
     await copyFiles(source, distDir, appDirectory);
   }
 
   logger.info(`Ts compile succeed`);
 };
+
+const ES_MODULE_KINDS = (ts: typeof import('typescript')) => [
+  ts.ModuleKind.ES2015,
+  ts.ModuleKind.ES2020,
+  ts.ModuleKind.ES2022,
+  ts.ModuleKind.ESNext,
+  ts.ModuleKind.Preserve,
+];
+
+/**
+ * Options the server compile always needs, whatever the frontend tsconfig says:
+ * a frontend tsconfig often only type-checks (`noEmit`, `emitDeclarationOnly`) and
+ * targets a bundler (`module: esnext`), but the server output runs in Node directly.
+ */
+const getServerEmitOptions = (
+  ts: typeof import('typescript'),
+  options: import('typescript').CompilerOptions,
+  entries: string[],
+  moduleType: 'module' | 'commonjs' | undefined,
+): import('typescript').CompilerOptions => {
+  const overrides: import('typescript').CompilerOptions = {
+    noEmit: false,
+    emitDeclarationOnly: false,
+    // A build info file kept outside `distDir` would report the cleaned output as
+    // up to date and skip emitting it on the next build.
+    incremental: false,
+    composite: false,
+    tsBuildInfoFile: undefined,
+  };
+  if (entries.some(entry => /\.(c|m)?jsx?$/.test(entry))) {
+    overrides.allowJs = true;
+  }
+  // `allowImportingTsExtensions` is only valid without emit. TypeScript 5.7+ can emit
+  // such imports by rewriting `.ts` specifiers to `.js`. Older versions drop the
+  // option, so only files that actually import `.ts` paths report an error.
+  if (options.allowImportingTsExtensions) {
+    const [major, minor] = ts.versionMajorMinor.split('.').map(Number);
+    if (major > 5 || (major === 5 && minor >= 7)) {
+      overrides.rewriteRelativeImportExtensions = true;
+    } else {
+      overrides.allowImportingTsExtensions = false;
+    }
+  }
+  if (
+    moduleType !== 'module' &&
+    options.module !== undefined &&
+    ES_MODULE_KINDS(ts).includes(options.module)
+  ) {
+    // A commonjs app loads the output with require(), so ES module syntax cannot stay.
+    overrides.module = ts.ModuleKind.CommonJS;
+    // `verbatimModuleSyntax` forbids rewriting ES module syntax to CommonJS.
+    overrides.verbatimModuleSyntax = false;
+    if (options.moduleResolution === ts.ModuleResolutionKind.Bundler) {
+      overrides.moduleResolution = ts.ModuleResolutionKind.Node10;
+      // Options that `node10` resolution does not support.
+      overrides.customConditions = undefined;
+      overrides.resolvePackageJsonExports = undefined;
+      overrides.resolvePackageJsonImports = undefined;
+    }
+  }
+  return overrides;
+};
+
+const toPosix = (file: string) => file.split(path.sep).join(path.posix.sep);
+
+const getEmittedPath = (entry: string, appDirectory: string, distDir: string) =>
+  path
+    .join(distDir, path.relative(appDirectory, entry))
+    .replace(/\.(ts|tsx|js|jsx)$/, '.js')
+    .replace(/\.(mts|mjs)$/, '.mjs')
+    .replace(/\.(cts|cjs)$/, '.cjs');
 
 const getFormatHost = (ts: typeof import('typescript')) => {
   return {

@@ -9,6 +9,17 @@ import {
 } from '@modern-js/utils';
 import type { AppTools, CliPlugin } from '../types';
 
+/** The server sources that must be emitted: `<meta>.server.ts|js` and `cache.ts|js`. */
+function getServerEntries(appDir: string, metaName = 'modern-js') {
+  const meta = getMeta(metaName);
+  return [`${meta}.server`, 'cache'].flatMap(name => {
+    const entry = ['ts', 'js']
+      .map(ext => path.resolve(appDir, SERVER_DIR, `${name}.${ext}`))
+      .find(file => fs.existsSync(file));
+    return entry ? [entry] : [];
+  });
+}
+
 function checkHasCache(appDir: string) {
   const tsFilepath = path.resolve(appDir, SERVER_DIR, 'cache.ts');
   const jsfilepath = path.resolve(appDir, SERVER_DIR, 'cache.js');
@@ -73,6 +84,7 @@ export default (): CliPlugin<AppTools> => ({
             distDir,
             tsconfigPath,
             moduleType,
+            entries: getServerEntries(appDirectory, metaName),
           },
         );
       }
