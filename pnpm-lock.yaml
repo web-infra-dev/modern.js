@@ -2281,28 +2281,6 @@ importers:
         specifier: ^5
         version: 5.7.3
 
-  scripts/lint-package-json:
-    dependencies:
-      '@types/fs-extra':
-        specifier: 9.0.13
-        version: 9.0.13
-      chalk:
-        specifier: 4.1.2
-        version: 4.1.2
-      consola:
-        specifier: ^2.15.3
-        version: 2.15.3
-      fast-glob:
-        specifier: 3.3.3
-        version: 3.3.3
-      fs-extra:
-        specifier: ^10.1.0
-        version: 10.1.0
-    devDependencies:
-      tsx:
-        specifier: ^3.14.0
-        version: 3.14.0
-
   scripts/prebundle:
     dependencies:
       '@babel/core':
