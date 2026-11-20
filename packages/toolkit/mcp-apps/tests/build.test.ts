@@ -425,3 +425,45 @@ it('rejects ambiguous views, obsolete delivery, conflicting sources and invalid 
     }),
   ).not.toThrow();
 });
+
+it('preserves native tool name, title, annotations and icons in the compiled manifest', () => {
+  const tool = {
+    name: 'todo.open',
+    title: 'Todo application',
+    annotations: { title: 'Todo fallback', readOnlyHint: true },
+    icons: [
+      {
+        src: 'https://app.example/icon.png',
+        mimeType: 'image/png',
+        sizes: ['32x32'],
+        theme: 'light' as const,
+      },
+    ],
+    _meta: { ui: { resourceUri: 'ui://cards/todos', visibility: ['app'] } },
+  };
+  expect(
+    createUiManifest(
+      { views: { todos: { component: './Todos.tsx', tool } } },
+      '/',
+    ).views.todos.tool,
+  ).toEqual(tool);
+});
+
+it.each([
+  { name: '' },
+  { title: 1 },
+  { annotations: { readOnlyHint: 'yes' } },
+  { icons: [{ src: 1 }] },
+  { icons: [{ src: 'https://app.example/icon', sizes: [1] }] },
+  { _meta: { ui: { resourceUri: 'https://app.example/card' } } },
+  { _meta: { ui: { visibility: ['unknown'] } } },
+])(
+  'rejects malformed native tool presentation or official UI fields: %j',
+  tool => {
+    expect(() =>
+      validateViewsConfig({
+        views: { todos: { component: './Todos.tsx', tool } },
+      }),
+    ).toThrow();
+  },
+);

@@ -125,3 +125,9 @@ with a single `/`. Host adapters resolve relative paths before sending tool meta
 The framework-specific `delivery` option is not supported.
 `resolveUiViews` exposes the declaration as `view.tool`. Resource registration can
 select manifest views with `registerUiResources(server, { ...options, viewNames })`.
+
+`tool` also accepts native `name`, `title`, `annotations`, and `icons` defaults.
+The build validates these fields and official `ui.visibility` metadata, and requires
+resource URIs to use `ui://`. Host adapters return the presentation defaults alongside
+`_meta`. Pass `name` as the first SDK registration argument and spread the remaining
+fields into the tool options. Input schemas and callbacks stay in application code.

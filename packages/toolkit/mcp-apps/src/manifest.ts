@@ -1,8 +1,12 @@
+import type { Tool } from '@modelcontextprotocol/server';
+import { McpUiToolMetaSchema } from '@modelcontextprotocol/ext-apps/app-bridge';
 import type { McpUiResourceMeta } from '@modelcontextprotocol/ext-apps';
 
 export type UiMetadata = McpUiResourceMeta;
 /** Defaults used when registering tools that reference a compiled view. */
-export interface UiToolConfig {
+export interface UiToolConfig extends Partial<
+  Pick<Tool, 'name' | 'title' | 'annotations' | 'icons'>
+> {
   _meta?: Record<string, unknown>;
 }
 export type McpViewSource =
@@ -120,13 +124,64 @@ export function validateUiToolConfig(
   value: unknown,
 ): asserts value is UiToolConfig | undefined {
   if (value === undefined) return;
-  if (!isRecord(value) || Object.keys(value).some(key => key !== '_meta'))
+  if (
+    !isRecord(value) ||
+    Object.keys(value).some(
+      key => !['_meta', 'name', 'title', 'annotations', 'icons'].includes(key),
+    )
+  )
     throw new Error('Invalid view tool configuration');
+  for (const key of ['name', 'title'] as const) {
+    if (
+      value[key] !== undefined &&
+      (typeof value[key] !== 'string' || !value[key].trim())
+    )
+      throw new Error(`Tool ${key} must be a non-empty string`);
+  }
+  if (value.annotations !== undefined) {
+    if (!isRecord(value.annotations))
+      throw new Error('Tool annotations must be an object');
+    if (
+      value.annotations.title !== undefined &&
+      typeof value.annotations.title !== 'string'
+    )
+      throw new Error('Tool annotations.title must be a string');
+    for (const key of [
+      'readOnlyHint',
+      'destructiveHint',
+      'idempotentHint',
+      'openWorldHint',
+    ]) {
+      if (
+        value.annotations[key] !== undefined &&
+        typeof value.annotations[key] !== 'boolean'
+      )
+        throw new Error(`Tool annotations.${key} must be a boolean`);
+    }
+  }
+  if (
+    value.icons !== undefined &&
+    (!Array.isArray(value.icons) ||
+      value.icons.some(
+        icon =>
+          !isRecord(icon) ||
+          typeof icon.src !== 'string' ||
+          !icon.src ||
+          (icon.mimeType !== undefined && typeof icon.mimeType !== 'string') ||
+          (icon.sizes !== undefined &&
+            (!Array.isArray(icon.sizes) ||
+              icon.sizes.some(size => typeof size !== 'string'))) ||
+          (icon.theme !== undefined &&
+            !['light', 'dark'].includes(String(icon.theme))),
+      ))
+  )
+    throw new Error('Invalid tool icons');
   if (value._meta !== undefined) {
     if (!isRecord(value._meta)) throw new Error('Tool _meta must be an object');
     const ui = value._meta.ui;
     if (ui !== undefined && !isRecord(ui))
       throw new Error('Tool ui metadata must be an object');
+    if (ui !== undefined) McpUiToolMetaSchema.parse(ui);
     if (isRecord(ui) && 'url' in ui)
       throw new Error('Use a namespaced UI url instead of ui.url');
     if (isRecord(ui) && ui.resourceUri !== undefined) {
@@ -136,7 +191,11 @@ export function validateUiToolConfig(
         ui.resourceUri.trim() !== ui.resourceUri
       )
         throw new Error('Tool resourceUri must be an absolute URI');
-      new URL(ui.resourceUri);
+      if (
+        !ui.resourceUri.startsWith('ui://') ||
+        new URL(ui.resourceUri).protocol !== 'ui:'
+      )
+        throw new Error('Tool resourceUri must use ui://');
     }
     for (const [namespace, metadata] of Object.entries(value._meta)) {
       if (!namespace.endsWith('/ui')) continue;
