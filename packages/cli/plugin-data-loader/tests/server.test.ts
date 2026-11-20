@@ -116,7 +116,7 @@ describe('handleRequest', () => {
     expect(res.status).toBe(403);
   });
 
-  test.skip('should return directly when routeId not exist', async () => {
+  test('falls through to the next handler when the loader query is absent', async () => {
     const handler = createHandler(
       [
         {
@@ -131,12 +131,15 @@ describe('handleRequest', () => {
     );
 
     const realHandler = async (req: IncomingMessage, res: ServerResponse) => {
-      res.statusCode = 404;
       await handler(req, res);
+      if (!res.headersSent) {
+        res.writeHead(404).end('fallback');
+      }
     };
 
     const res = await request(realHandler).get('/three/user/profile');
     expect(res.status).toBe(404);
+    expect(res.text).toBe('fallback');
   });
 
   test('support return data directly', async () => {

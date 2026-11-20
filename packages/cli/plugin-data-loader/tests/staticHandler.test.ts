@@ -140,6 +140,26 @@ describe('static handler cache', () => {
     );
   });
 
+  it('preserves an absolute action redirect at the root basename', async () => {
+    const res = await handleRequest({
+      request: new Request('http://localhost/edit?__loader=edit/page', {
+        method: 'POST',
+      }),
+      serverRoutes,
+      routes: [
+        {
+          path: '/edit',
+          id: 'edit/page',
+          type: 'nested',
+          action: () => redirect('/user/1'),
+        },
+      ],
+      context: { monitors: undefined as any, loaderContext: new Map() },
+    });
+    expect(res?.status).toBe(204);
+    expect(res?.headers.get('X-Modernjs-Redirect')).toBe('/user/1');
+  });
+
   it('should still handle redirects and errors', async () => {
     const routes = createRoutes();
     const redirectRes = await request(
