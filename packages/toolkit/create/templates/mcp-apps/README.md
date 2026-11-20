@@ -8,3 +8,5 @@ Declare cards in `mcp-views.json`. Connect an MCP Apps compatible host to `/api/
 
 Run `pnpm build` and `pnpm serve` for production. Deploy `dist/mcp-apps` together with the generated static assets.
 The UI build never loads the server route or business store. Card props come from `structuredContent`.
+
+For a local stdio host, enable `inline: 'dev'` in `mcpAppsPlugin`, run `pnpm dev`, and copy the printed `modern-mcp-stdio` connector config into your host. The bridge forwards stdio JSON-RPC to the local HTTP dev server (`/api/mcp`), so BFF routes and server middlewares continue to work unchanged.

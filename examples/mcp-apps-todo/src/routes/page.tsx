@@ -16,6 +16,14 @@ export default function Page() {
         MCP 地址：<code>/api/mcp</code>
       </p>
       <p>
+        本机 STDIO 调试：保持 <code>pnpm dev</code>{' '}
+        运行，将终端打印的连接器配置填入豆包， 再调用 <code>local_todos</code>
+        。连接器通过 HTTP 转发到当前开发服务。
+      </p>
+      <p>
+        在卡片中新增 Todo 后，再次调用 local_todos，检查新卡片是否显示新增项。
+      </p>
+      <p>
         UI 配置：<code>mcp-views.json</code>
       </p>
       <p>
