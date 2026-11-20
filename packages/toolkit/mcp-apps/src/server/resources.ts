@@ -249,7 +249,19 @@ export async function registerUiResources(
   const uris: Record<string, string> = Object.create(null);
   for (const [name, view] of Object.entries(views)) {
     if (options.viewNames && !options.viewNames.includes(name)) continue;
-    const uri = `ui://app/${encodeURIComponent(name)}`;
+    const configuredUi = view.tool?._meta?.ui;
+    const configuredUri =
+      configuredUi &&
+      typeof configuredUi === 'object' &&
+      'resourceUri' in configuredUi
+        ? configuredUi.resourceUri
+        : undefined;
+    const uri =
+      typeof configuredUri === 'string'
+        ? configuredUri
+        : `ui://app/${encodeURIComponent(name)}`;
+    if (Object.values(uris).includes(uri))
+      throw new Error(`Duplicate UI resource URI: ${uri}`);
     uris[name] = uri;
     registerAppResource(
       server,

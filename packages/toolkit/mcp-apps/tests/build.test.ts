@@ -343,9 +343,11 @@ describe('view entry names', () => {
 
 it('carries local and remote tool metadata into the manifest without changing protocol namespaces', () => {
   const tool = {
-    delivery: 'url' as const,
     _meta: {
-      'doubao/ui': { entrypoints: [{ type: 'thread' }] },
+      'doubao/ui': {
+        url: '/mcp-views/local',
+        entrypoints: [{ type: 'thread' }],
+      },
       'example/custom': { key: 1 },
     },
   };
@@ -380,18 +382,22 @@ it('carries local and remote tool metadata into the manifest without changing pr
   ).toMatchObject({ inline: true, tool });
 });
 
-it('rejects ambiguous component definitions, invalid delivery and configured source URLs', () => {
+it('rejects ambiguous views, obsolete delivery, conflicting sources and invalid URLs', () => {
   for (const view of [
     { component: './Todos.tsx', expose: './Todos' },
-    { component: './Todos.tsx', tool: { delivery: 'unknown' } },
-    {
-      component: './Todos.tsx',
-      tool: { _meta: { ui: { resourceUri: 'ui://other' } } },
-    },
-    {
-      component: './Todos.tsx',
-      tool: { _meta: { 'doubao/ui': { url: 'https://other.example' } } },
-    },
+    { component: './Todos.tsx', tool: { delivery: 'url' } },
+    ...[
+      {
+        ui: { resourceUri: 'ui://cards/todos' },
+        'doubao/ui': { url: '/mcp-views/todos' },
+      },
+      { 'doubao/ui': { url: '//other.example/card' } },
+      { 'doubao/ui': { url: '/\n/other.example/card' } },
+      { 'doubao/ui': { url: '/\\other.example/card' } },
+      { 'doubao/ui': { url: 'javascript:alert(1)' } },
+      { 'doubao/ui': { url: 'https://user:password@other.example/card' } },
+      { ui: { resourceUri: '' } },
+    ].map(_meta => ({ component: './Todos.tsx', tool: { _meta } })),
   ])
     expect(() => validateViewsConfig({ views: { todos: view } })).toThrow();
   expect(() =>
@@ -400,8 +406,22 @@ it('rejects ambiguous component definitions, invalid delivery and configured sou
       assetBase: 'request',
       remotes: {},
       views: {
-        todos: { html: './card.html', ui: {}, tool: { delivery: 'invalid' } },
+        todos: {
+          html: './card.html',
+          ui: {},
+          tool: { _meta: { ui: { resourceUri: 'ui://cards/todos' } } },
+        },
       },
     }),
-  ).toThrow('delivery');
+  ).not.toThrow();
+  expect(() =>
+    validateViewsConfig({
+      views: {
+        todos: {
+          component: './Todos.tsx',
+          tool: { _meta: { 'doubao/ui': { url: 'https://app.example/card' } } },
+        },
+      },
+    }),
+  ).not.toThrow();
 });

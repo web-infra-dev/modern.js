@@ -112,13 +112,16 @@ entry tool or automatically fetch application data.
 
 ## Tool UI defaults
 
-A local view can use `{ "component": "./src/components/Todos.tsx", "tool": { "delivery": "resource", "_meta": { "ui": { "visibility": ["app"] }, "example/ui": { "entrypoints": [{ "type": "thread" }] } } }`.
+A local view can use `{ "component": "./src/components/Todos.tsx", "tool": { "_meta": { "ui": { "visibility": ["app"] }, "example/ui": { "entrypoints": [{ "type": "thread" }] } } }`.
 Expose views accept the same `tool` property. String component paths remain supported.
 
 `tool._meta` contains tool metadata, separate from the resource metadata in `ui`.
 The build validates its structure and preserves namespaced extension fields in the
-UI manifest. Host adapters validate their extension semantics and use `delivery`
-(`resource` by default, or `url`) to generate the source metadata. Do not configure
-`ui.resourceUri`, `ui.url`, or a namespaced UI `url` in these defaults.
+UI manifest. Declare a native `ui.resourceUri` for a compiled resource or a namespaced UI
+`url` for a URL source. They are mutually exclusive. Resource registration uses
+the configured URI, or generates `ui://app/<encoded-view-name>` when omitted.
+Namespaced URLs accept HTTP(S) without credentials or application paths starting
+with a single `/`. Host adapters resolve relative paths before sending tool metadata.
+The framework-specific `delivery` option is not supported.
 `resolveUiViews` exposes the declaration as `view.tool`. Resource registration can
 select manifest views with `registerUiResources(server, { ...options, viewNames })`.

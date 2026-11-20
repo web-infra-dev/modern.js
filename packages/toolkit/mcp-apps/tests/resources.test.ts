@@ -532,7 +532,7 @@ it('registers only selected resource views while retaining manifest tool default
   const value = manifest();
   value.views.local.tool = {
     _meta: {
-      ui: { visibility: ['app'] },
+      ui: { visibility: ['app'], resourceUri: 'ui://cards/custom' },
       'example/ui': { entrypoints: [{ type: 'thread' }] },
     },
   };
@@ -547,16 +547,25 @@ it('registers only selected resource views while retaining manifest tool default
   expect(views.local.tool).toEqual(value.views.local.tool);
   const session = await connect(filename, options);
   try {
-    expect(session.uris).toEqual({ local: 'ui://app/local' });
+    expect(session.uris).toEqual({ local: 'ui://cards/custom' });
     const resources = await session.client.listResources();
     expect(resources.resources.map(resource => resource.uri)).toEqual([
-      'ui://app/local',
+      'ui://cards/custom',
     ]);
     expect(
-      (await session.client.readResource({ uri: 'ui://app/local' })).contents[0]
-        .text,
+      (await session.client.readResource({ uri: 'ui://cards/custom' }))
+        .contents[0].text,
     ).toContain('Hello');
   } finally {
     await session.close();
   }
+});
+
+it('rejects two compiled views declaring the same native resource URI', async () => {
+  const value = manifest();
+  for (const view of Object.values(value.views))
+    view.tool = { _meta: { ui: { resourceUri: 'ui://cards/duplicate' } } };
+  await expect(
+    connect(value, { request: new Request('https://app.example/api/mcp') }),
+  ).rejects.toThrow('Duplicate UI resource URI');
 });
