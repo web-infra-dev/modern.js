@@ -30,6 +30,7 @@ pnpm check-test-governance --help
 | 规则                                           | 自动执行范围                         |
 | ---------------------------------------------- | ------------------------------------ |
 | 集成目录必须在 `integration-allowlist.json` 中 | 检查所选模式的全部集成目录           |
+| `internal-src-import`                          | 增量检查 `packages/` 单测的源码导入  |
 | `internal-module-mock`                         | 增量阻止新增内部相对模块 mock        |
 | `invocation-call-order`                        | 增量阻止新增内部调用顺序断言         |
 | `non-rstest-runner`                            | 增量阻止新增非 Rstest runner         |
@@ -37,6 +38,10 @@ pnpm check-test-governance --help
 | 清单新增条目的审批标签                         | PR CI 使用 `--require-approval` 校验 |
 
 反模式检查覆盖 `.test`、`.spec` 的 JS/TS 文件变体、`__tests__`，以及 packages/scripts 下 tests 目录中的非 fixture 辅助代码。检查结合完整测试文件和 diff 触及的行识别多行写法，不因未触及的历史反模式阻塞无关改动。
+
+`internal-src-import` 检查 `packages/` 下工作区包的单测及测试辅助代码。修改 `import`（含 `import type`）、`export … from`、`import()` 或 `require()` 时，相对路径只能通过本包公开入口访问源码。跨包访问请使用对方的包名和公开子路径。测试目录内仍可相对导入辅助代码。
+
+检查器从当前模式对应的工作区、暂存区或 Git tree 读取包的 `package.json`，按 `exports` 和 `main` 的目标定位源码入口，无需预构建。例如，`./dist/esm/router/index.mjs` 对应 `src/router/index.ts`，测试可以导入 `../src/router`。名称含 `internal` 的已公开入口同样可用。请通过公开行为编写断言，或在 `tests/integration/` 验证用户流程。禁止仅为测试扩大 `package.json` 的 `exports` 或入口文件导出，维护者在 PR 中审核这类变更。
 
 测试必要性、重复覆盖、纯逻辑黑盒验证、快照公共性及类型契约由贡献者与维护者审核，不作为启发式自动阻断。没有快照禁令，也没有测试数量软告警。
 
@@ -54,7 +59,7 @@ pnpm check-test-governance --help
 // test-governance-allow: <rule> | reason: <why> | expires: YYYY-MM-DD | approved-by: @<handle>
 ```
 
-`<rule>` 必须是上表中的三个反模式标识之一。注释放在违规表达式同一行，或该多行表达式内被 diff 触及的行，独立的前置注释不豁免下一行。理由应说明必要性和后续移除方案，日期必须有效且未过期，账号必须是实际人工批准者。
+`<rule>` 必须是上表中的反模式标识之一。注释放在违规表达式同一行，或该多行表达式内被 diff 触及的行，独立的前置注释不豁免下一行。理由应说明必要性和后续移除方案，日期必须有效且未过期，账号必须是实际人工批准者。
 
 checker 只校验 diff 触及的测试行中的例外格式和到期日期，真实批准由维护者审核。agent 不得自批、伪造批准或机械延长日期。行内例外不批准新增集成目录。
 

@@ -3,12 +3,17 @@ import { dirname, join, resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { parseSync, traverse } from '@babel/core';
 import { git } from '../check-dependencies/git-index.mjs';
+import { packageImportCheck } from './public-entries.mjs';
 
 export const allowlistPath =
   'scripts/test-governance/integration-allowlist.json';
 export const approvalLabel = 'approved-new-integration-fixture';
 const integrationPath = 'tests/integration';
 const rules = new Map([
+  [
+    'internal-src-import',
+    'Test through public package entries or exercise the user flow in tests/integration/. Do not widen package exports or entry-file exports solely for testing.',
+  ],
   [
     'internal-module-mock',
     'Avoid internal relative-path module mocks. Verify observable behavior in an existing integration base app or a black-box pure-logic test.',
@@ -99,6 +104,7 @@ export function checkTestSource(
   source,
   touched,
   today = new Date().toISOString().slice(0, 10),
+  isInternalImport,
 ) {
   if (!touched.size) return [];
   // Reuse the repository's declared Babel dependency, never contributor configs.
@@ -120,7 +126,7 @@ export function checkTestSource(
     today,
     path,
   );
-  function report(rule, start, end = start) {
+  function report(rule, start, end = start, detail = '') {
     let changedLine;
     for (let line = start.loc.start.line; line <= end.loc.end.line; line++) {
       if (!touched.has(line)) continue;
@@ -132,11 +138,21 @@ export function checkTestSource(
         path,
         line: changedLine,
         rule,
-        message: rules.get(rule),
+        message: detail + rules.get(rule),
       });
   }
-  function checkRunner(start, module) {
+  function checkSourceImport(start, module, value = stringValue(module)) {
+    if (value && !module.expressions?.length && isInternalImport?.(value))
+      report(
+        'internal-src-import',
+        start,
+        module,
+        `"${value}" accesses package source directly. `,
+      );
+  }
+  function checkImport(start, module) {
     const value = stringValue(module);
+    checkSourceImport(start, module, value);
     if (
       value &&
       otherRunners.some(
@@ -165,10 +181,16 @@ export function checkTestSource(
         callee.type === 'Import' ||
         (callee.type === 'Identifier' && callee.name === 'require')
       )
-        checkRunner(callee, args[0]);
+        checkImport(callee, args[0]);
     },
     'ImportDeclaration|ExportNamedDeclaration|ExportAllDeclaration'({ node }) {
-      if (node.source) checkRunner(node, node.source);
+      if (node.source) checkImport(node, node.source);
+    },
+    TSImportType({ node }) {
+      checkSourceImport(node, node.argument);
+    },
+    TSExternalModuleReference({ node }) {
+      checkSourceImport(node, node.expression);
     },
     Identifier({ node }) {
       if (node.name === 'invocationCallOrder')
@@ -341,17 +363,38 @@ export async function runCheck(
         )
       : [];
   const untrackedSet = new Set(untracked);
+  const changedTests = [...new Set([...changed, ...untracked])].filter(
+    isTestFile,
+  );
+  let checkPackage;
+  if (changedTests.some(path => path.startsWith('packages/'))) {
+    const files = new Set([...targetPaths, ...untracked]);
+    if (!staged && !treeMode) {
+      for (const path of splitPaths(
+        await git(root, ['ls-files', '--deleted', '-z']),
+      ))
+        files.delete(path);
+    }
+    checkPackage = await packageImportCheck(files, content);
+  }
   let files = 0;
   let lines = 0;
-  for (const path of new Set([...changed, ...untracked])) {
-    if (!isTestFile(path)) continue;
+  for (const path of changedTests) {
     const source = await content(path);
     const touched = untrackedSet.has(path)
       ? new Set(source.split('\n').map((_, index) => index + 1))
       : addedLines(await git(root, [...diffArgs, '--unified=0', '--', path]));
     files++;
     lines += touched.size;
-    diagnostics.push(...checkTestSource(path, source, touched, today));
+    diagnostics.push(
+      ...checkTestSource(
+        path,
+        source,
+        touched,
+        today,
+        await checkPackage?.(path),
+      ),
+    );
   }
   return { directories: directories.size, files, lines, diagnostics };
 }
