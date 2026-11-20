@@ -18,6 +18,7 @@ const appDir = path.resolve(__dirname, '..');
 describe.each(['dev', 'prod'])('server in %s', mode => {
   let app: ChildProcess | undefined;
   let baseUrl: string;
+  let buildOutput = '';
 
   beforeAll(async () => {
     const port = await getPort();
@@ -27,6 +28,7 @@ describe.each(['dev', 'prod'])('server in %s', mode => {
     } else {
       const build = await modernBuild(appDir);
       expect(build.code, build.stderr || build.stdout).toBe(0);
+      buildOutput = `${build.stdout}${build.stderr}`;
       app = await modernServe(appDir, port);
     }
     expect(app?.pid).toBeDefined();
@@ -36,6 +38,23 @@ describe.each(['dev', 'prod'])('server in %s', mode => {
     if (app) {
       await killApp(app);
     }
+  });
+
+  // This app has no tsconfig.server.json and its tsconfig.json extends the
+  // bundler-mode base (module: ESNext), so the server compile falls back to
+  // tsconfig.json with NodeNext overrides to keep CommonJS output.
+  test('compiles the custom server to CommonJS through the tsconfig.json fallback', () => {
+    if (mode !== 'prod') {
+      return;
+    }
+    const fallbackWarning = 'add a tsconfig.server.json';
+    expect(buildOutput.split(fallbackWarning).length - 1).toBe(1);
+    const serverEntry = fs.readFileSync(
+      path.join(appDir, 'dist/server/modern.server.js'),
+      'utf-8',
+    );
+    expect(serverEntry).toContain('exports.');
+    expect(serverEntry).not.toMatch(/^import /m);
   });
 
   test('runs request and render middleware from server config and plugins', async () => {

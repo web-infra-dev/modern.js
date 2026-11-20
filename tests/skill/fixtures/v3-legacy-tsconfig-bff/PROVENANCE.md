@@ -7,4 +7,4 @@
 - `api/lambda/index.ts` + `shared/greeting.ts`：最小 BFF 函数，经相对路径引用 shared
 
 用于验证 `modernjs-migrate-tsconfig` 的 `scripts/migrate-tsconfig.mjs`：改写并删除 `baseUrl`、补 `@api/*` 别名、生成 `tsconfig.server.json`；
-`tests/integration/tsconfig-migrate-codemod` 也用它做 TypeScript 6 验收。
+`tests/skill/migrate-tsconfig.mjs` 的最后一段也用它做 TypeScript 6 验收。
