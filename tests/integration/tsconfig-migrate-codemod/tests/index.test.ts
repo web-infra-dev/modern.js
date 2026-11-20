@@ -3,7 +3,7 @@ import fs from 'node:fs';
 import os from 'node:os';
 import path from 'node:path';
 
-// Acceptance for the tsconfig codemod in the `modernjs-migrate-to-v3` skill:
+// Acceptance for the `modernjs-migrate-tsconfig` skill:
 // take a project created from the pre-bundler-baseline template
 // (`"baseUrl": "./"` + `extends @modern-js/tsconfig/base`, BFF, CommonJS),
 // run `migrate-tsconfig.mjs`, then check the result with TypeScript 6.0.3
@@ -19,7 +19,7 @@ const fixture = path.join(
 );
 const codemod = path.join(
   repoRoot,
-  'skills/modernjs-migrate-to-v3/scripts/migrate-tsconfig.mjs',
+  'skills/modernjs-migrate-tsconfig/scripts/migrate-tsconfig.mjs',
 );
 // Inside the repo so `@modern-js/tsconfig` resolves to the workspace package.
 const appDir = path.resolve(__dirname, '../.tmp/app');
@@ -96,6 +96,12 @@ beforeAll(() => {
   // this scratch project; it is not what this test is about.
   fs.rmSync(path.join(appDir, 'modern.config.ts'));
   fs.rmSync(path.join(appDir, 'PROVENANCE.md'));
+  // A bare import that only resolves through `baseUrl: "./"`: the migration
+  // must keep it resolvable after `baseUrl` is gone.
+  fs.writeFileSync(
+    path.join(appDir, 'src/index.ts'),
+    "import { greeting } from 'shared/greeting';\n\nexport const app = greeting;\n",
+  );
 });
 
 afterAll(() => {
@@ -109,8 +115,8 @@ afterAll(() => {
 });
 
 // `tests/skill/*.mjs` are plain Node scripts outside rstest; run the tsconfig
-// one here so its behavior matrix (custom baseUrl, JSONC, ESM, idempotency,
-// migrate.mjs flow) is covered by CI too.
+// one here so its behavior matrix (custom baseUrl, bare imports, JSONC, ESM,
+// idempotency) is covered by CI too.
 test('skill script checks for migrate-tsconfig pass', () => {
   const result = spawnSync(
     process.execPath,
@@ -148,6 +154,7 @@ describe('tsconfig codemod on the legacy create template', () => {
     expect(tsconfig.compilerOptions.paths['@api/*']).toEqual([
       './api/lambda/*',
     ]);
+    expect(tsconfig.compilerOptions.paths['*']).toEqual(['./*']);
 
     const { parsed, messages } = configErrors('tsconfig.json');
     expect(messages).toEqual([]);
