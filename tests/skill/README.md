@@ -22,4 +22,4 @@ node tests/skill/run.mjs
 node tests/skill/migrate-tsconfig.mjs
 ```
 
-CI 通过 `tests/integration/tsconfig-migrate-codemod`（rstest 集成用例）执行这个脚本，并用 TypeScript 6.0.3 对迁移结果做验收。
+最后一段会临时安装 TypeScript 6.0.3（需要访问 npm），对迁移后的旧模板做 `tsc` 验收，包括依赖 `baseUrl` 的裸导入。
