@@ -1,7 +1,6 @@
 import { storage } from '@modern-js/runtime-utils/node';
 import { createStaticHandler, redirect } from '@modern-js/runtime-utils/router';
 import type { NestedRoute, ServerRoute } from '@modern-js/types';
-import { LOADER_ID_PARAM } from '../src/common/constants';
 import { handleRequest } from '../src/runtime';
 
 rstest.mock('@modern-js/runtime-utils/router', () => {
@@ -78,10 +77,9 @@ const request = (
   id = '',
 ) =>
   handleRequest({
-    request: new Request(
-      `http://localhost${pathname}?${LOADER_ID_PARAM}=${routeId}`,
-      { headers: { 'x-request-id': id } },
-    ),
+    request: new Request(`http://localhost${pathname}?__loader=${routeId}`, {
+      headers: { 'x-request-id': id },
+    }),
     serverRoutes,
     routes,
     context: {

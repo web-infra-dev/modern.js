@@ -4,7 +4,6 @@ import qs from 'querystring';
 import { createWebRequest, sendResponse } from '@modern-js/server-core/node';
 import type { ServerRoute } from '@modern-js/types';
 import request from 'supertest';
-import { LOADER_ID_PARAM } from '../src/common/constants';
 import { handleRequest } from '../src/runtime';
 
 describe('handleRequest', () => {
@@ -111,7 +110,7 @@ describe('handleRequest', () => {
       {},
     );
     const res = await request(handler).get(
-      `/three?${LOADER_ID_PARAM}=user/profile/layout`,
+      '/three?__loader=user/profile/layout',
     );
 
     expect(res.status).toBe(403);
@@ -155,7 +154,7 @@ describe('handleRequest', () => {
     );
 
     const res = await request(handler).get(
-      `/three/user/profile?${LOADER_ID_PARAM}=user/profile/layout`,
+      '/three/user/profile?__loader=user/profile/layout',
     );
     expect(res.status).toBe(200);
     expect(
@@ -178,9 +177,7 @@ describe('handleRequest', () => {
       {},
     );
 
-    const res = await request(handler).get(
-      `/three/user?${LOADER_ID_PARAM}=user/layout`,
-    );
+    const res = await request(handler).get('/three/user?__loader=user/layout');
     expect(res.status).toBe(404);
     expect(res.headers['content-type'].includes('text/plain')).toBeTruthy();
     expect(res.text).toBe('loader1');
@@ -203,7 +200,7 @@ describe('handleRequest', () => {
       },
     );
     const res = await request(handler).get(
-      `/three/user/${id}?${LOADER_ID_PARAM}=user/[id]/layout`,
+      `/three/user/${id}?__loader=user/[id]/layout`,
     );
 
     expect(res.status).toBe(200);
@@ -228,7 +225,7 @@ describe('handleRequest', () => {
     );
 
     const res = await request(handler).get(
-      `/three/user/profile/name?${LOADER_ID_PARAM}=user.profile.name/layout`,
+      '/three/user/profile/name?__loader=user.profile.name/layout',
     );
     expect(res.status).toBe(500);
     expect(

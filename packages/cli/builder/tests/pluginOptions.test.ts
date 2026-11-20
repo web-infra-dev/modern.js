@@ -1,244 +1,77 @@
-import { logger } from '@modern-js/utils';
 import { afterEach, beforeEach, describe, expect, it, rs } from '@rstest/core';
-import {
-  normalizeLessOptions,
-  normalizeSassOptions,
-  resetPluginOptionsWarnings,
-  resolveSvgrOptions,
-} from '../src/shared/pluginOptions';
+import type { BuilderConfig } from '../src';
 import { findLoaderUses, getRules } from './helper';
 
-describe('normalizeLessOptions / normalizeSassOptions', () => {
-  let warn: ReturnType<typeof rs.spyOn>;
-
+describe('plugin option migration warnings', () => {
+  // Each test gets the warn-once state of a new CLI process.
   beforeEach(() => {
-    resetPluginOptionsWarnings();
-    // hints are gated on the CLI command, not on NODE_ENV
-    rs.stubEnv('MODERN_ARGV', 'node modern dev');
-    warn = rs.spyOn(logger, 'warn').mockImplementation(() => {});
+    rs.resetModules();
   });
-
   afterEach(() => {
     rs.unstubAllEnvs();
-    warn.mockRestore();
+    rs.restoreAllMocks();
   });
 
-  it('should keep the legacy shape when tools.less is not set', () => {
-    expect(normalizeLessOptions(undefined)).toEqual({
-      lessLoaderOptions: undefined,
-    });
-    expect(normalizeSassOptions(undefined)).toEqual({
-      sassLoaderOptions: undefined,
-    });
-    expect(warn).not.toHaveBeenCalled();
-  });
-
-  it('should wrap less-loader options and warn once in dev', () => {
-    const loaderOptions = { lessOptions: { javascriptEnabled: false } };
-    expect(normalizeLessOptions(loaderOptions)).toEqual({
-      lessLoaderOptions: loaderOptions,
-    });
-    normalizeLessOptions(loaderOptions);
-    expect(warn).toHaveBeenCalledTimes(1);
-    expect(warn.mock.calls[0][0]).toContain('lessLoaderOptions');
-  });
-
-  it('should wrap function and array forms without changing them', () => {
-    const fn = (config: any) => {
-      config.sourceMap = true;
-    };
-    expect(normalizeLessOptions(fn)).toEqual({ lessLoaderOptions: fn });
-    expect(normalizeSassOptions([fn])).toEqual({ sassLoaderOptions: [fn] });
-  });
-
-  it('should not warn for an empty object', () => {
-    expect(normalizeLessOptions({})).toEqual({ lessLoaderOptions: {} });
-    expect(normalizeSassOptions({})).toEqual({ sassLoaderOptions: {} });
-    expect(warn).not.toHaveBeenCalled();
-  });
-
-  it('should pass plugin-level options through untouched', () => {
-    const less = {
-      parallel: true,
-      exclude: /node_modules/,
-      lessLoaderOptions: { lessOptions: { math: 'always' as const } },
-    };
-    expect(normalizeLessOptions(less)).toBe(less);
-
-    // `rewriteUrls` only exists on the plugin level and must be recognized.
-    const sass = { rewriteUrls: false };
-    expect(normalizeSassOptions(sass)).toBe(sass);
-    expect(warn).not.toHaveBeenCalled();
-  });
-
-  it('should treat a mixed object as plugin-level options and warn about ignored keys', () => {
-    const mixed = { parallel: true, lessOptions: { javascriptEnabled: true } };
-    expect(normalizeLessOptions(mixed as any)).toBe(mixed);
-    expect(warn).toHaveBeenCalledTimes(1);
-    expect(warn.mock.calls[0][0]).toContain('(parallel)');
-    expect(warn.mock.calls[0][0]).toContain('(lessOptions)');
-    expect(warn.mock.calls[0][0]).toContain('ignored');
-  });
-
-  it('should also warn for the start command', () => {
-    rs.stubEnv('MODERN_ARGV', 'node modern start');
-    normalizeLessOptions({ lessOptions: {} });
-    expect(warn).toHaveBeenCalledTimes(1);
-  });
-
-  it('should stay silent for build even with NODE_ENV=development', () => {
-    rs.stubEnv('MODERN_ARGV', 'node modern build');
-    rs.stubEnv('NODE_ENV', 'development');
-    normalizeLessOptions({ lessOptions: {} });
-    normalizeSassOptions({ sassOptions: {} });
-    normalizeLessOptions({ parallel: true, lessOptions: {} } as any);
-    resolveSvgrOptions({
-      svgr: undefined,
-      disableSvgr: true,
-      svgDefaultExport: 'component',
-    });
-    expect(warn).not.toHaveBeenCalled();
-  });
-});
-
-describe('resolveSvgrOptions', () => {
-  let warn: ReturnType<typeof rs.spyOn>;
-
-  beforeEach(() => {
-    resetPluginOptionsWarnings();
-    // hints are gated on the CLI command, not on NODE_ENV
+  it('hints that the default output.disableSvgr setting can be removed', async () => {
     rs.stubEnv('MODERN_ARGV', 'node modern dev');
-    warn = rs.spyOn(logger, 'warn').mockImplementation(() => {});
-  });
-
-  afterEach(() => {
-    rs.unstubAllEnvs();
-    warn.mockRestore();
-  });
-
-  it('should keep the previous defaults when nothing is configured', () => {
-    expect(resolveSvgrOptions({ svgr: undefined })).toEqual({
-      mixedImport: true,
-      svgrOptions: { exportType: 'named' },
-    });
-    expect(warn).not.toHaveBeenCalled();
-  });
-
-  it('should still honor the deprecated output options and warn', () => {
-    expect(
-      resolveSvgrOptions({ svgr: undefined, svgDefaultExport: 'component' }),
-    ).toEqual({
-      mixedImport: true,
-      svgrOptions: { exportType: 'default' },
-    });
-    expect(resolveSvgrOptions({ svgr: undefined, disableSvgr: true })).toBe(
-      false,
+    const { parseRspackConfig } = await import('../src');
+    const { logger } = await import('@modern-js/utils');
+    const warn = rs.spyOn(logger, 'warn').mockImplementation(() => {});
+    await parseRspackConfig(
+      { output: { disableSvgr: false } },
+      { cwd: __dirname },
     );
-    expect(warn).toHaveBeenCalledTimes(2);
-    expect(warn.mock.calls[0][0]).toContain('output.svgDefaultExport');
-    expect(warn.mock.calls[1][0]).toContain('output.disableSvgr');
-  });
-
-  it('should give a different hint for output.disableSvgr: false', () => {
-    expect(resolveSvgrOptions({ svgr: undefined, disableSvgr: false })).toEqual(
-      {
-        mixedImport: true,
-        svgrOptions: { exportType: 'named' },
-      },
+    expect(warn).toHaveBeenCalledWith(
+      expect.stringContaining('can be removed'),
     );
-    expect(warn).toHaveBeenCalledTimes(1);
-    expect(warn.mock.calls[0][0]).toContain('can be removed');
-    expect(warn.mock.calls[0][0]).not.toContain('svgr: false');
   });
 
-  it('should disable the plugin with tools.svgr: false', () => {
-    expect(resolveSvgrOptions({ svgr: false })).toBe(false);
-  });
+  it.each(['dev', 'start', 'build'])(
+    'reports migration hints once in %s when appropriate',
+    async command => {
+      rs.stubEnv('MODERN_ARGV', `node modern ${command}`);
+      rs.stubEnv('NODE_ENV', 'development');
+      const { parseRspackConfig } = await import('../src');
+      const { logger } = await import('@modern-js/utils');
+      const warn = rs.spyOn(logger, 'warn').mockImplementation(() => {});
+      const parse = (config: BuilderConfig) =>
+        parseRspackConfig(config, { cwd: __dirname });
 
-  it('should re-enable the plugin when tools.svgr is set explicitly', () => {
-    expect(resolveSvgrOptions({ svgr: {}, disableSvgr: true })).toEqual({
-      mixedImport: true,
-      svgrOptions: { exportType: 'named' },
-    });
-  });
-
-  it('should keep the derived exportType when only parallel is set', () => {
-    expect(
-      resolveSvgrOptions({
-        svgr: { parallel: true },
-        svgDefaultExport: 'component',
-      }),
-    ).toEqual({
-      mixedImport: true,
-      parallel: true,
-      svgrOptions: { exportType: 'default' },
-    });
-  });
-
-  it('should merge svgrOptions one level deep', () => {
-    expect(
-      resolveSvgrOptions({
-        svgr: { svgrOptions: { icon: true } },
-        svgDefaultExport: 'component',
-      }),
-    ).toEqual({
-      mixedImport: true,
-      svgrOptions: { exportType: 'default', icon: true },
-    });
-  });
-
-  it('should let tools.svgr.svgrOptions.exportType win', () => {
-    expect(
-      resolveSvgrOptions({
-        svgr: { svgrOptions: { exportType: 'default' } },
-        svgDefaultExport: 'url',
-      }),
-    ).toEqual({
-      mixedImport: true,
-      svgrOptions: { exportType: 'default' },
-    });
-  });
-
-  it('should keep merging svgrOptions across an array chain', () => {
-    expect(
-      resolveSvgrOptions({
-        svgr: [
-          { svgrOptions: { icon: true } },
-          { svgrOptions: { svgo: false } },
-          config => {
-            config.svgrOptions!.ref = true;
-          },
-        ],
-        svgDefaultExport: 'component',
-      }),
-    ).toEqual({
-      mixedImport: true,
-      svgrOptions: {
-        exportType: 'default',
-        icon: true,
-        svgo: false,
-        ref: true,
-      },
-    });
-  });
-
-  it('should support function and array forms', () => {
-    expect(
-      resolveSvgrOptions({
-        svgr: [
-          { exclude: /icons/ },
-          config => {
-            config.parallel = true;
-          },
-        ],
-      }),
-    ).toEqual({
-      mixedImport: true,
-      exclude: /icons/,
-      parallel: true,
-      svgrOptions: { exportType: 'named' },
-    });
-  });
+      await parse({});
+      await parse({
+        tools: { less: {}, sass: { rewriteUrls: false }, svgr: {} },
+      });
+      expect(warn).not.toHaveBeenCalled();
+      const legacy = {
+        tools: { less: { lessOptions: {} }, sass: { sassOptions: {} } },
+        output: { svgDefaultExport: 'component', disableSvgr: true },
+      } satisfies BuilderConfig;
+      const mixed = {
+        parallel: true,
+        lessOptions: { javascriptEnabled: false },
+      };
+      for (let i = 0; i < 2; i++) {
+        await parse(legacy);
+        await parse({ tools: { less: mixed } });
+      }
+      if (command === 'build') {
+        expect(warn).not.toHaveBeenCalled();
+        return;
+      }
+      expect(warn).toHaveBeenCalledTimes(5);
+      for (const hint of [
+        'lessLoaderOptions',
+        'sassLoaderOptions',
+        'output.svgDefaultExport',
+        'output.disableSvgr',
+      ]) {
+        expect(warn).toHaveBeenCalledWith(expect.stringContaining(hint));
+      }
+      expect(warn).toHaveBeenCalledWith(
+        expect.stringMatching(/\(parallel\).*\(lessOptions\).*ignored/),
+      );
+    },
+  );
 });
 
 describe('tools.less / tools.sass / tools.svgr in the bundler config', () => {
@@ -277,6 +110,78 @@ describe('tools.less / tools.sass / tools.svgr in the bundler config', () => {
     ).toBe(true);
   });
 
+  it('applies a legacy Less loader options function', async () => {
+    const uses = findLoaderUses(
+      await getRules(
+        {
+          tools: {
+            less: options => {
+              options.additionalData = '@color: red;';
+            },
+          },
+        },
+        'a.less',
+      ),
+      /less-loader/,
+    );
+    expect(uses.length).toBeGreaterThan(0);
+    expect(
+      uses.every(use => use.options.additionalData === '@color: red;'),
+    ).toBe(true);
+  });
+
+  it('applies a legacy array of Sass loader options', async () => {
+    const uses = findLoaderUses(
+      await getRules(
+        {
+          tools: {
+            sass: [
+              options => {
+                options.additionalData = '$color: red;';
+              },
+            ],
+          },
+        },
+        'a.scss',
+      ),
+      /sass-loader/,
+    );
+    expect(uses.length).toBeGreaterThan(0);
+    expect(
+      uses.every(use => use.options.additionalData === '$color: red;'),
+    ).toBe(true);
+  });
+
+  it('merges chained SVGR options with the legacy export type', async () => {
+    const uses = findLoaderUses(
+      await getRules(
+        {
+          output: { svgDefaultExport: 'component' },
+          tools: {
+            svgr: [
+              { svgrOptions: { icon: true } },
+              { svgrOptions: { svgo: false } },
+              options => {
+                options.svgrOptions!.ref = true;
+              },
+            ],
+          },
+        },
+        'a.svg',
+      ),
+      /plugin-svgr\/dist\/loader/,
+    );
+    expect(uses.length).toBeGreaterThan(0);
+    for (const use of uses) {
+      expect(use.options).toMatchObject({
+        exportType: 'default',
+        icon: true,
+        svgo: false,
+        ref: true,
+      });
+    }
+  });
+
   it('should pass tools.sass.rewriteUrls to the sass plugin', async () => {
     const before = findLoaderUses(
       await getRules({}, 'a.scss'),
@@ -298,6 +203,8 @@ describe('tools.less / tools.sass / tools.svgr in the bundler config', () => {
     );
     expect(before.length).toBeGreaterThan(0);
     expect(before.every(use => !use.parallel)).toBe(true);
+    // Bare SVG imports expose a named component alongside the default asset URL.
+    expect(before.some(use => use.options.exportType === 'named')).toBe(true);
 
     const after = findLoaderUses(
       await getRules({ tools: { svgr: { parallel: true } } }, 'a.svg'),

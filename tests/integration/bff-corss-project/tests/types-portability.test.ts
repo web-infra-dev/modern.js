@@ -48,7 +48,28 @@ describe('crossProject client type portability', () => {
 
     const workDir = fs.mkdtempSync(path.join(os.tmpdir(), 'bff-portability-'));
     try {
-      await modernBuild(apiAppDir, [], {});
+      const manifest = path.join(apiAppDir, 'package.json');
+      const pkg = JSON.parse(fs.readFileSync(manifest, 'utf8'));
+      delete pkg.exports;
+      fs.writeFileSync(manifest, JSON.stringify(pkg));
+      const lambda = path.join(apiAppDir, 'api/lambda');
+      fs.writeFileSync(
+        path.join(lambda, 'stray.test.ts'),
+        'export default () => 1;',
+      );
+      fs.writeFileSync(
+        path.join(lambda, 'stray.d.ts'),
+        'export declare const ignored: string;',
+      );
+      const build = await modernBuild(apiAppDir);
+      expect(build.code, build.stderr || build.stdout).toBe(0);
+
+      const generated = fs.readFileSync(manifest, 'utf8');
+      expect(generated.endsWith('\n')).toBe(true);
+      const publicApis = Object.keys(JSON.parse(generated).exports);
+      expect(publicApis).toContain('./api/user/index');
+      expect(publicApis).not.toContain('./api/stray.test');
+      expect(publicApis).not.toContain('./api/stray.d');
 
       // 1. Pack exactly what would be published.
       //    Spawned through cross-spawn: on Windows `pnpm` is a `.cmd` shim,
@@ -116,6 +137,20 @@ describe('crossProject client type portability', () => {
         `from '../api/lambda/portable'`,
       );
 
+      const clientDir = path.join(pkgDir, 'dist-1', 'client');
+      const upload = fs.readFileSync(
+        path.join(clientDir, 'upload.d.ts'),
+        'utf8',
+      );
+      expect(upload).toContain(`export * from '../api/lambda/upload'`);
+      expect(upload).not.toContain('export { default }');
+      expect(
+        fs.readFileSync(path.join(clientDir, 'user/index.d.ts'), 'utf8'),
+      ).toContain(`export * from '../../api/lambda/user/index'`);
+      expect(
+        fs.readdirSync(clientDir).filter(name => name.startsWith('stray.')),
+      ).toEqual([]);
+
       // 4. Isolated consumer that exercises the resolved type.
       fs.writeFileSync(
         path.join(consumerDir, 'index.ts'),
@@ -159,6 +194,35 @@ describe('crossProject client type portability', () => {
       expect(messages).toEqual([]);
     } finally {
       fs.rmSync(workDir, { recursive: true, force: true });
+      await cleanup();
+    }
+  });
+
+  it('generates explicit .js re-exports for native ESM clients', async () => {
+    const { appDir, cleanup } = await createIsolatedTestApp(sourceApiAppDir, {
+      exclude: ['dist-1'],
+    });
+    try {
+      const manifest = path.join(appDir, 'package.json');
+      const pkg = JSON.parse(fs.readFileSync(manifest, 'utf8'));
+      fs.writeFileSync(manifest, JSON.stringify({ ...pkg, type: 'module' }));
+      const tsconfigPath = path.join(appDir, 'tsconfig.json');
+      const tsconfig = JSON.parse(fs.readFileSync(tsconfigPath, 'utf8'));
+      tsconfig.compilerOptions.module = 'esnext';
+      tsconfig.compilerOptions.moduleResolution = 'bundler';
+      fs.writeFileSync(tsconfigPath, JSON.stringify(tsconfig));
+      const build = await modernBuild(appDir);
+      expect(build.code, build.stderr || build.stdout).toBe(0);
+
+      const facade = fs.readFileSync(
+        path.join(appDir, 'dist-1/client/portable.d.ts'),
+        'utf8',
+      );
+      expect(facade).toContain(
+        `export { default } from '../api/lambda/portable.js'`,
+      );
+      expect(facade).toContain(`export * from '../api/lambda/portable.js'`);
+    } finally {
       await cleanup();
     }
   });
