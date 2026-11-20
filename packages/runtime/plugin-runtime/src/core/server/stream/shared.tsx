@@ -155,6 +155,37 @@ export function getReadableStreamFromString(content: string): ReadableStream {
   return readableStream;
 }
 
+const StreamServerRootWrapper = ({
+  children,
+}: {
+  children: React.ReactNode;
+}) => {
+  return (
+    <>
+      {children}
+      {JSX_SHELL_STREAM_END_MARK}
+    </>
+  );
+};
+
+/**
+ * The root element of a streaming render: the app inside the runtime context,
+ * followed by the marker that ends the shell.
+ */
+export function createStreamRootElement(
+  serverRoot: React.ReactElement,
+  runtimeContext: TRuntimeContext,
+) {
+  return (
+    <StreamServerRootWrapper>
+      {wrapRuntimeContextProvider(
+        serverRoot,
+        Object.assign(runtimeContext, { ssr: true }),
+      )}
+    </StreamServerRootWrapper>
+  );
+}
+
 export function createRenderStreaming(
   createReadableStreamPromise: Promise<CreateReadableStreamFromElement>,
 ): RenderStreaming {
@@ -173,27 +204,7 @@ export function createRenderStreaming(
       config.ssrByEntries,
     );
 
-    const StreamServerRootWrapper = ({
-      children,
-    }: {
-      children: React.ReactNode;
-    }) => {
-      return (
-        <>
-          {children}
-          {JSX_SHELL_STREAM_END_MARK}
-        </>
-      );
-    };
-
-    let rootElement = wrapRuntimeContextProvider(
-      serverRoot,
-      Object.assign(runtimeContext, { ssr: true }),
-    );
-
-    rootElement = (
-      <StreamServerRootWrapper>{rootElement}</StreamServerRootWrapper>
-    );
+    const rootElement = createStreamRootElement(serverRoot, runtimeContext);
 
     const stream = await createReadableStreamFromElement(request, rootElement, {
       config,

@@ -70,6 +70,11 @@ export const DEFAULT_RUNTIME_CONFIG = 'modern.runtime';
 export const ROUTE_MANIFEST_FILE = 'routes-manifest.json';
 
 /**
+ * Partial prerendering (`server.ssr.mode: 'ppr'`) build artifacts filename
+ */
+export const PPR_MANIFEST_FILE = 'ppr-manifest.json';
+
+/**
  * directory name for loader routes
  */
 export const LOADER_ROUTES_DIR = `loader-routes`;

@@ -145,7 +145,8 @@ const collectHtmlRoutes = (
       const isWorker = Boolean(workerSSR);
       // The http would open stream when stream ssr or enable ssr.preload
       const isStream =
-        typeof entryOptions === 'object' && entryOptions.mode === 'stream';
+        typeof entryOptions === 'object' &&
+        (entryOptions.mode === 'stream' || entryOptions.mode === 'ppr');
       const { resHeaders } = routes?.[entryName] || ({} as any);
       const isRSC = !!rsc;
 
