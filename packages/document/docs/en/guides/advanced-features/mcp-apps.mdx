@@ -181,6 +181,43 @@ export default function Card() {
 
 You can also pass capabilities as the third argument to `createMcpView`. Explicit display mode arrays replace the defaults. MF modules are loaded before initialization so the handshake includes their capabilities. Declaring fullscreen support does not add a fullscreen button or switch modes automatically.
 
+## Connect to a deployed service
+
+After building and deploying the MCP service, the application developer shares its MCP endpoint with users, for example `https://example.com/api/mcp`. Users do not need to clone the application or Modern.js repository or run `pnpm dev` locally. The service must remain running, and the client must support MCP Apps to display cards.
+
+### Direct HTTP connection
+
+If the client supports Streamable HTTP, select that transport and enter `https://example.com/api/mcp` as the server URL. Configure authentication in the client as required by the service.
+
+### Connect over STDIO
+
+For clients that only support STDIO, users first install Node.js 20 or later (including npm and `npx`), then configure the `modern-mcp-stdio` bridge command. `npx` downloads and runs the specified package version, so users do not need to install Modern.js beforehand.
+
+Replace `<version>` below with a published `@modern-js/mcp-apps` version containing `modern-mcp-stdio`, and replace the URL with the deployed endpoint. Application providers should give users a specific version they have verified.
+
+```json
+{
+  "mcpServers": {
+    "app": {
+      "command": "npx",
+      "args": [
+        "-y",
+        "--package=@modern-js/mcp-apps@<version>",
+        "modern-mcp-stdio",
+        "--url",
+        "https://example.com/api/mcp"
+      ]
+    }
+  }
+}
+```
+
+In clients with a configuration form, enter `npx` as the command and add each item in `args` as a separate argument. If the client cannot find `npx`, enter the absolute path to `npx` on the user's computer. For authentication, append `--header` and `Authorization: Bearer <token>` as two arguments. Repeat this pair for additional headers.
+
+This configuration uses `--url` to connect to the deployed HTTP service. The `--cwd` option and local script paths in the debugging section below are for development and do not need to be shared with end users. The bridge does not start or deploy the application service.
+
+To bundle local component cards as self-contained HTML in production, application developers set `inline: true` in `mcpAppsPlugin` before building and deploying. `inline: 'dev'` only applies in development. MF cards still require the host to access their remote assets.
+
 ## Local stdio debugging
 
 For local MCP hosts that connect over stdio or restrict sandboxed iframes from loading localhost assets, enable `inline` in `mcpAppsPlugin` and run `pnpm dev` to start the development server.
