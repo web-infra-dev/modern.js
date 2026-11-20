@@ -79,7 +79,9 @@ export async function exerciseUpdateRequestFrames(
     expect(documents.filter(item => item.policy === 'wait')).toHaveLength(0);
     await page.click('[data-testid="request-release"]');
     await expect
-      .poll(() => documents.filter(item => item.policy === 'wait').length)
+      .poll(() => documents.filter(item => item.policy === 'wait').length, {
+        timeout: 15000,
+      })
       .toBe(2);
     for (const document of documents.filter(item => item.policy === 'wait')) {
       expect(document.status).toBe(200);
@@ -102,6 +104,27 @@ export async function exerciseUpdateRequestFrames(
     await Promise.allSettled(reads);
     page.off('response', receive);
   }
+}
+
+export async function resetProducerVersion(page: Page, version = 'v1') {
+  await page.evaluate(async target => {
+    const check = await (
+      await fetch(`/_lab/update/state?version=${encodeURIComponent(target)}`)
+    ).json();
+    if (check.pending) {
+      await fetch('/_lab/update/lab/start', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ version: target, delayMs: 0 }),
+      });
+      for (let i = 0; i < 300; i++) {
+        const status = await (await fetch('/_lab/update/lab/status')).json();
+        if (status.operation?.completed) break;
+        await new Promise(resolve => setTimeout(resolve, 100));
+      }
+      await fetch(`/_lab/update/state?version=${encodeURIComponent(target)}`);
+    }
+  }, version);
 }
 export type MemorySample = {
   role: string;

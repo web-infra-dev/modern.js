@@ -21,6 +21,7 @@ import {
   type MemoryRound,
   type DocumentEvidence,
   exerciseUpdateRequestFrames,
+  resetProducerVersion,
 } from './update-evidence';
 
 const updateCount = Number(process.env.MF_LAB_UPDATE_COUNT || 10);
@@ -224,7 +225,12 @@ for (const scenario of scenarios.filter(
               await frame.waitForSelector(
                 'input[aria-label="Adjust wind direction"]:not(:disabled)',
               );
-              await frame.click('[data-testid="save-day"]');
+              const saveButton = await frame.waitForSelector(
+                '[data-testid="save-day"]:not(:disabled)',
+              );
+              await saveButton!.evaluate(element =>
+                (element as HTMLButtonElement).click(),
+              );
               await frame.waitForFunction(
                 () =>
                   document.querySelector('[data-testid="favorite-count"]')
@@ -287,7 +293,11 @@ for (const scenario of scenarios.filter(
           });
         it('keeps two iframe requests pending while CSR and reject requests return according to policy', async () => {
           const { page, lab } = getContext();
-          await exerciseUpdateRequestFrames(page, lab.url, scenario);
+          try {
+            await exerciseUpdateRequestFrames(page, lab.url, scenario);
+          } finally {
+            await resetProducerVersion(page, 'v1');
+          }
         });
       }
       if (getContext().mode === 'dev') {
@@ -300,10 +310,10 @@ for (const scenario of scenarios.filter(
             );
             const original = await readFile(source, 'utf8');
             const marker = 'Service layout reload regression';
-            const changed = original.replace(
+            const changed = `${original.replace(
               /<p>MY WEATHER \/[^<]*<\/p>/,
               `<p>${marker}</p>`,
-            );
+            )}\nexport const mixedExportReloadMarker = ${JSON.stringify(marker)};\n`;
             expect(changed).not.toBe(original);
             const observer = observeDocuments(page, 'service');
             try {
@@ -377,14 +387,31 @@ for (const scenario of scenarios.filter(
                   { timeout: 15000 },
                 )
                 .toBe(true);
+              const manifestVersion = async () => {
+                const response = await fetch(
+                  `http://localhost:${lab.ports.provider}/static/mf-manifest.json`,
+                );
+                if (!response.ok) return undefined;
+                const manifest = await response.json();
+                return manifest.metaData?.buildInfo?.buildVersion as
+                  string | undefined;
+              };
+              const initialVersion = await manifestVersion();
+              expect(initialVersion).toBeTruthy();
               const updating = () =>
                 (lab.logs.get('host-v1') || '').match(/\[MF SSR\] Updating/g)
                   ?.length || 0;
               const before = updating();
               await writeFile(source, changed);
               await expect
-                .poll(updating, { timeout: 30000 })
-                .toBeGreaterThan(before);
+                .poll(
+                  async () => {
+                    const next = await manifestVersion();
+                    return Boolean(next && next !== initialVersion);
+                  },
+                  { timeout: 30000 },
+                )
+                .toBe(true);
               let admitted = false;
               const refreshed = fetch(`${lab.url}${scenarioRoutes.bridge}`, {
                 signal: controller.signal,
@@ -394,6 +421,9 @@ for (const scenario of scenarios.filter(
                 return response.text();
               });
               void refreshed.catch(() => {});
+              await expect
+                .poll(updating, { timeout: 30000 })
+                .toBeGreaterThan(before);
               // The response cannot begin while the current generation is held.
               await new Promise(resolve => setTimeout(resolve, 200));
               expect(admitted).toBe(false);
@@ -757,7 +787,9 @@ for (const scenario of scenarios.filter(
               if (baseHostDiag && finalHostDiag) {
                 expect(
                   finalHostDiag.manifestLoadingKeys.length,
-                ).toBeLessThanOrEqual(baseHostDiag.manifestLoadingKeys.length + 1);
+                ).toBeLessThanOrEqual(
+                  baseHostDiag.manifestLoadingKeys.length + 1,
+                );
                 expect(finalHostDiag.instances.length).toBeLessThanOrEqual(
                   baseHostDiag.instances.length,
                 );

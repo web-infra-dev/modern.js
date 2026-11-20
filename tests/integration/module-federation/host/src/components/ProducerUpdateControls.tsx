@@ -123,6 +123,12 @@ export function ProducerUpdateControls({
       if (onUpdate) {
         onUpdate();
         setBusy(false);
+      } else if (
+        document
+          .querySelector('[data-testid="update-request-lab"]')
+          ?.hasAttribute('open')
+      ) {
+        setBusy(false);
       } else window.location.reload();
     } catch (error) {
       setError(String(error));

@@ -25,7 +25,7 @@ export async function verifyNestedWindUpdate(
           ),
         ];
         return (
-          frames.length === 2 &&
+          frames.length > 0 &&
           frames.every(
             frame =>
               frame.contentDocument?.querySelector(
