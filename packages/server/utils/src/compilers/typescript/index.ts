@@ -4,10 +4,11 @@ import {
   getAliasConfig,
   logger,
   readTsConfigByFile as readRawTsConfigByFile,
+  warnServerTsconfigOverrides,
 } from '@modern-js/utils';
 import type { ParseConfigFileHost, Program } from 'typescript';
 import type ts from 'typescript';
-import type { CompileFunc } from '../../common';
+import type { CompileFunc, CompilerOverrides } from '../../common';
 import {
   tsconfigPathsAfterDeclarationsHookFactory,
   tsconfigPathsBeforeHookFactory,
@@ -24,6 +25,60 @@ const readTsConfigByFile = (tsConfigFile: string, tsInstance: typeof ts) => {
   return { options, fileNames, projectReferences };
 };
 
+// Look up a numeric TypeScript enum member by its tsconfig spelling
+// (`NodeNext`, `nodenext`, ...). Returns undefined for unknown values so an
+// unsupported override never silently becomes `0` (ModuleKind.None).
+const findEnumValue = (
+  enumObject: Record<string, string | number>,
+  name: string,
+): number | undefined => {
+  const wanted = name.toLowerCase();
+  for (const key of Object.keys(enumObject)) {
+    if (typeof enumObject[key] === 'number' && key.toLowerCase() === wanted) {
+      return enumObject[key] as number;
+    }
+  }
+  return undefined;
+};
+
+const resolveCompilerOverrides = (
+  tsInstance: typeof ts,
+  overrides: CompilerOverrides | undefined,
+): Partial<ts.CompilerOptions> => {
+  const options: Partial<ts.CompilerOptions> = {};
+  if (!overrides) {
+    return options;
+  }
+  if (overrides.module) {
+    const kind = findEnumValue(
+      tsInstance.ModuleKind as unknown as Record<string, string | number>,
+      overrides.module,
+    );
+    if (kind === undefined) {
+      throw new Error(
+        `Unsupported compilerOverrides.module value: ${overrides.module}`,
+      );
+    }
+    options.module = kind as ts.ModuleKind;
+  }
+  if (overrides.moduleResolution) {
+    const kind = findEnumValue(
+      tsInstance.ModuleResolutionKind as unknown as Record<
+        string,
+        string | number
+      >,
+      overrides.moduleResolution,
+    );
+    if (kind === undefined) {
+      throw new Error(
+        `Unsupported compilerOverrides.moduleResolution value: ${overrides.moduleResolution}`,
+      );
+    }
+    options.moduleResolution = kind as ts.ModuleResolutionKind;
+  }
+  return options;
+};
+
 const copyFiles = async (from: string, to: string, appDirectory: string) => {
   if (await fs.pathExists(from)) {
     const relativePath = path.relative(appDirectory, from);
@@ -36,13 +91,16 @@ const copyFiles = async (from: string, to: string, appDirectory: string) => {
   }
 };
 
+const DEPRECATED_OPTION_DIAGNOSTIC = 5101;
+
 export const compileByTs: CompileFunc = async (
   appDirectory,
   config,
   compileOptions,
 ) => {
   logger.info(`Running ts compile...`);
-  const { sourceDirs, distDir, tsconfigPath } = compileOptions;
+  const { sourceDirs, distDir, tsconfigPath, compilerOverrides } =
+    compileOptions;
   if (!tsconfigPath) {
     return;
   }
@@ -79,13 +137,22 @@ export const compileByTs: CompileFunc = async (
     );
   });
 
+  const overrideOptions = resolveCompilerOverrides(ts, compilerOverrides);
+  warnServerTsconfigOverrides(tsconfigPath, compilerOverrides);
+
   const program = createProgram.call(ts, {
     rootNames,
     projectReferences,
     options: {
       ...options,
+      ...overrideOptions,
       rootDir: appDirectory,
       outDir: distDir,
+      // The server compile is an emit step by definition: the project's main
+      // `tsconfig.json` is typically type-check only (`noEmit: true`), which
+      // must not leak into the api/ and server/ output.
+      noEmit: false,
+      emitDeclarationOnly: false,
       // `jsx: preserve` emits `.jsx` files, which Node cannot execute and which
       // the emitted specifiers (always `.js`) would not point at. Server output
       // has to run in Node directly, so JSX must be transformed here.
@@ -120,9 +187,13 @@ export const compileByTs: CompileFunc = async (
       : [],
   });
 
+  // TS5101 ("baseUrl" and friends are deprecated) only concerns the project's
+  // own type check: the compile still works and the bundler keeps honoring
+  // `baseUrl`, so it must not fail the server build on TypeScript 6.
   const allDiagnostics = ts
     .getPreEmitDiagnostics(program as unknown as Program)
-    .concat(emitResult.diagnostics);
+    .concat(emitResult.diagnostics)
+    .filter(diagnostic => diagnostic.code !== DEPRECATED_OPTION_DIAGNOSTIC);
 
   const { noEmitOnError } = options;
 
