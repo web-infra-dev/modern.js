@@ -237,7 +237,7 @@ export async function getCacheResult(
   let value: string | undefined;
   try {
     value = await container.get(key);
-  } catch (_) {
+  } catch {
     if (onError) {
       onError(`[render-cache] get cache failed, key: ${key}`);
     } else {

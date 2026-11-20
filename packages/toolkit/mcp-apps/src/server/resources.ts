@@ -137,43 +137,19 @@ export async function registerUiResources(
     options.manifest,
     options.mode ?? 'production',
   );
-  if (manifest.inline) {
-    if (
-      location.protocol !== 'file:' ||
-      Object.values(manifest.views).some(view => !('html' in view))
-    )
-      throw new Error('Inline UI manifests require local HTML views');
-    const uris: Record<string, string> = Object.create(null);
-    for (const [name, view] of Object.entries(manifest.views)) {
-      if (!('html' in view)) continue;
-      const source = new URL(view.html, location);
-      if (source.protocol !== 'file:')
-        throw new Error('Inline UI must use local HTML');
-      const html = await readSource(source);
-      const uri = `ui://app/${encodeURIComponent(name)}`;
-      uris[name] = uri;
-      registerAppResource(
-        server,
-        name,
-        uri,
-        { _meta: { ui: view.ui } },
-        async () => ({
-          contents: [
-            {
-              uri,
-              mimeType: RESOURCE_MIME_TYPE,
-              text: html,
-              _meta: { ui: view.ui },
-            },
-          ],
-        }),
-      );
-    }
-    return uris;
-  }
-  const base = publicBase(manifest, options);
+  if (
+    manifest.inline &&
+    Object.values(manifest.views).some(view => !('html' in view))
+  )
+    throw new Error('Inline UI manifests require local HTML views');
+  const isInlineView = (view: UiManifest['views'][string]) =>
+    manifest.inline === true || ('inline' in view && view.inline === true);
+  const needsBase = Object.values(manifest.views).some(
+    view => !isInlineView(view),
+  );
+  const base = needsBase ? publicBase(manifest, options) : undefined;
   const devSocket =
-    options.mode === 'development' && options.request
+    needsBase && options.mode === 'development' && options.request
       ? new URL(requestOrigin(options.request))
       : undefined;
   if (devSocket)
@@ -182,8 +158,38 @@ export async function registerUiResources(
   for (const [name, view] of Object.entries(manifest.views)) {
     const uri = `ui://app/${encodeURIComponent(name)}`;
     uris[name] = uri;
+    if (isInlineView(view) && 'html' in view) {
+      const sourceUrl = /^https?:\/\//.test(view.html)
+        ? new URL(view.html)
+        : new URL(view.html, location);
+      registerAppResource(
+        server,
+        name,
+        uri,
+        { _meta: { ui: view.ui } },
+        async (_uri, extra) => {
+          const html = await readSource(
+            sourceUrl,
+            options.request
+              ? AbortSignal.any([options.request.signal, extra.mcpReq.signal])
+              : extra.mcpReq.signal,
+          );
+          return {
+            contents: [
+              {
+                uri,
+                mimeType: RESOURCE_MIME_TYPE,
+                text: html,
+                _meta: { ui: view.ui },
+              },
+            ],
+          };
+        },
+      );
+      continue;
+    }
     const remote = 'remote' in view ? manifest.remotes[view.remote] : undefined;
-    const entry = remote ? new URL(remote.entry, base).href : undefined;
+    const entry = remote ? new URL(remote.entry, base!).href : undefined;
     const ui: UiMetadata = {
       ...view.ui,
       csp: {
@@ -191,17 +197,17 @@ export async function registerUiResources(
         resourceDomains: [
           ...new Set([
             ...(view.ui.csp?.resourceDomains ?? []),
-            base.origin,
+            base!.origin,
             ...(entry ? [new URL(entry).origin] : []),
           ]),
         ],
         baseUriDomains: [
-          ...new Set([...(view.ui.csp?.baseUriDomains ?? []), base.origin]),
+          ...new Set([...(view.ui.csp?.baseUriDomains ?? []), base!.origin]),
         ],
         connectDomains: [
           ...new Set([
             ...(view.ui.csp?.connectDomains ?? []),
-            base.origin,
+            base!.origin,
             ...(entry ? [new URL(entry).origin] : []),
             ...(devSocket ? [devSocket.origin] : []),
           ]),
@@ -234,7 +240,8 @@ export async function registerUiResources(
             : '';
         html = html.replace(
           /<head\b[^>]*>/i,
-          head => `${head}<base href="${escapeAttribute(base.href)}">${config}`,
+          head =>
+            `${head}<base href="${escapeAttribute(base!.href)}">${config}`,
         );
         return {
           contents: [

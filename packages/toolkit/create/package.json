@@ -19,7 +19,7 @@
   "engines": {
     "node": ">=20"
   },
-  "version": "3.11.3",
+  "version": "3.12.0",
   "main": "./dist/index.js",
   "bin": {
     "create": "./bin/run.js"
@@ -33,6 +33,24 @@
     "bin.js",
     "templates"
   ],
+  "nx": {
+    "targets": {
+      "build": {
+        "dependsOn": [
+          {
+            "projects": [
+              "@modern-js/i18n-utils",
+              "@modern-js/rslib"
+            ],
+            "target": "build"
+          }
+        ],
+        "metadata": {
+          "description": "Build locale and bundler dependencies. MCP Apps supplies only template version metadata."
+        }
+      }
+    }
+  },
   "scripts": {
     "build": "rs lib",
     "dev": "rs lib -w",
@@ -41,6 +59,7 @@
   },
   "devDependencies": {
     "@modern-js/i18n-utils": "workspace:*",
+    "@modern-js/mcp-apps": "workspace:*",
     "@modern-js/rslib": "workspace:*",
     "@scripts/rstest-config": "workspace:*",
     "@types/node": "^20",

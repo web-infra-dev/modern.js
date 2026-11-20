@@ -1,5 +1,6 @@
 import { createHash } from 'node:crypto';
 import path from 'node:path';
+import { Script } from 'node:vm';
 import {
   validateUiMetadata,
   validateViewsConfig,
@@ -9,6 +10,40 @@ import {
 } from '../manifest';
 
 export type UiCsp = NonNullable<UiMetadata['csp']>;
+export const INLINE_HTML_MAX_BYTES = 5 * 1024 * 1024;
+
+export function validateInlineHtml(name: string, html: string) {
+  const markupOnly = html
+    .replace(/<script\b([^>]*)>[\s\S]*?<\/script\s*>/gi, '<script$1></script>')
+    .replace(/<style\b([^>]*)>[\s\S]*?<\/style\s*>/gi, '<style$1></style>');
+  if (
+    /<script\b[^>]*\bsrc\s*=|<link\b[^>]*\brel\s*=\s*["']?(?:stylesheet|preload|modulepreload)|<base\b/i.test(
+      markupOnly,
+    )
+  )
+    throw new Error(`View ${name} still requires external assets`);
+  if (Buffer.byteLength(html) > INLINE_HTML_MAX_BYTES)
+    throw new Error(`View ${name} exceeds the 5 MiB inline HTML limit`);
+  for (const match of html.matchAll(
+    /<script\b([^>]*)>([\s\S]*?)<\/script\s*>/gi,
+  )) {
+    const type = /\btype\s*=\s*(?:"([^"]*)"|'([^']*)'|([^\s>]+))/i.exec(
+      match[1],
+    );
+    const mime = (type?.[1] ?? type?.[2] ?? type?.[3] ?? '').toLowerCase();
+    if (
+      mime &&
+      ![
+        'text/javascript',
+        'application/javascript',
+        'text/ecmascript',
+        'application/ecmascript',
+      ].includes(mime)
+    )
+      continue;
+    new Script(match[2]);
+  }
+}
 
 /** Origin of an absolute or protocol-relative asset prefix. */
 function assetPrefixOrigin(prefix: unknown) {
@@ -71,6 +106,7 @@ export function createUiManifest(
   prefix: unknown,
   mf?: { manifest: MfManifest; filename: string },
   csp?: UiCsp,
+  options?: { inline?: boolean },
 ): UiManifest {
   validateViewsConfig(config);
   if (csp !== undefined) validateUiMetadata({ csp });
@@ -78,6 +114,12 @@ export function createUiManifest(
   // Scripts and chunks load from the asset prefix even when assetBase stays
   // request-relative, such as with a protocol-relative CDN prefix.
   const assetOrigin = assetPrefixOrigin(prefix);
+  const inlineCsp = mergeCsp(metadata.csp, csp);
+  const inlineUi = {
+    prefersBorder: true,
+    ...metadata,
+    ...(inlineCsp ? { csp: inlineCsp } : {}),
+  };
   const mergedCsp = mergeCsp(
     metadata.csp,
     csp,
@@ -101,7 +143,13 @@ export function createUiManifest(
   };
   for (const [name, source] of Object.entries(views)) {
     if (typeof source === 'string') {
-      manifest.views[name] = { html: `./ui/${viewEntryName(name)}.html`, ui };
+      manifest.views[name] = options?.inline
+        ? {
+            html: `./ui/${viewEntryName(name)}.html`,
+            inline: true,
+            ui: inlineUi,
+          }
+        : { html: `./ui/${viewEntryName(name)}.html`, ui };
       continue;
     }
     let remote: string;

@@ -183,31 +183,34 @@ You can also pass capabilities as the third argument to `createMcpView`. Explici
 
 ## Local stdio debugging
 
-Local component views can be prepared as self-contained HTML and a Node stdio server without an HTTP development server.
+For local MCP hosts that connect over stdio or restrict sandboxed iframes from loading localhost assets, enable `inline` in `mcpAppsPlugin` and keep running `pnpm dev` as usual. No extra server entry or separate build directory is required.
 
 ```ts
 mcpAppsPlugin({
   views: './mcp-views.json',
-  stdio: { server: './api/server/mcp.ts' },
+  // 'dev' inlines local views during dev only, true applies to both dev and build
+  inline: 'dev',
 });
 ```
 
-`views` selects the UI cards to build. `stdio.server` identifies the module that registers tools, UI resources and business handlers. `mcp-prepare` imports its default factory, connects the returned MCP Server to `StdioServerTransport`, and generates `dist-mcp/server.cjs`.
+When `pnpm dev` starts, the terminal prints a ready-to-copy connector config using the built-in lightweight `modern-mcp-stdio` bridge script, which forwards stdio JSON-RPC messages directly to the running HTTP dev server (for example `http://localhost:8088/api/mcp`):
 
-| Option         | Required           | Default and behavior                                                                                              |
-| -------------- | ------------------ | ----------------------------------------------------------------------------------------------------------------- |
-| `stdio.server` | Required for stdio | No default. Resolved from the application root. The framework does not discover `api/server/mcp.ts` automatically |
-| `stdio.output` | No                 | `dist-mcp`, relative to the application root                                                                      |
-| `views`        | No                 | `mcp-views.json`. Only JSON file paths are accepted                                                               |
+```json
+{
+  "mcpServers": {
+    "app": {
+      "command": "node",
+      "args": [
+        "<app>/node_modules/@modern-js/mcp-apps/bin/modern-mcp-stdio.js",
+        "--cwd",
+        "<app>"
+      ]
+    }
+  }
+}
+```
 
-Running `modern mcp-prepare` without `stdio` reports an error requesting a server entry. The example explicitly selects `api/server/mcp.ts`. It is not a conventional entry discovered by the framework.
-
-HTTP and STDIO share one `mcp-views.json`. `modern mcp-prepare` automatically selects and inlines local component views, skipping MF views. MF views remain available through HTTP. No command-dependent configuration or extra view file is needed. If the manifest contains no local component views, preparation reports an error. Register tools only for views present in the URI map returned by `registerUiResources`, for example with `if (ui.todos)`.
-
-Add `"mcp:prepare": "modern mcp-prepare"` to package scripts and run `pnpm mcp:prepare`. Copy the printed command and args into a local MCP connector. The host starts the process. Output defaults to `dist-mcp/`, separate from the normal dist directory. Configure `stdio.output` to choose another dedicated directory outside application dist, and ignore it in Git.
-
-The server module must default-export an async factory accepting `RegisterUiOptions`. Create a McpServer, call `registerUiResources(server, options)`, register business tools and return the server. The HTTP route can share this factory with `createBffHandlers(request => createServer({ request }))`. No synthetic HTTP Request is needed for stdio.
-
-The isolated build preserves createMcpView lifecycle and exported mcpCapabilities. JavaScript, styles and imported static assets are inlined, with a 5 MiB limit per HTML document. It uses source.alias, source.define and the application tsconfig, but does not execute application Rsbuild plugins or server middleware. Use HTTP for custom loaders, page runtime dependencies or Module Federation views. Runtime API requests still need explicit endpoints and suitable CSP.
-
-Reserve server stdout for JSON-RPC and send diagnostics to stderr. Keep application Node dependencies installed. Rebuild after changes and restart the connector to load updated code and HTML. HTTP builds and deployment remain unchanged.
+- **Full runtime and middleware parity**: Requests flow through the real `modern dev` HTTP pipeline, so BFF routes, custom Hono middlewares, and server plugins work without code changes. Pass `--header "Authorization: Bearer <token>"` (repeatable) if your middleware expects custom headers.
+- **Dynamic port discovery**: The generated connector uses `--cwd <app-dir>` to read `node_modules/.modern-js/mcp-apps/dev-server.json` written by `modern dev` on each request. A fixed HTTP MCP URL is also supported.
+- **Incremental rebuilds without restarting the host**: In inline mode, local component views are built by an isolated watch compiler into self-contained HTML (inlining JS, CSS, and imported assets, up to 5 MiB per view, without injecting `<base>` or localhost CSP). Edits take effect on the next card read without affecting normal app page HMR. If `mcp-views.json` mixes local views and Module Federation views, local views are inlined while MF views continue using the HTTP shell.
+- **Clean stdio stream**: Dev logs stay in your `pnpm dev` terminal while the bridge reserves `stdout` strictly for JSON-RPC. If `modern dev` is stopped or restarting, the bridge returns a JSON-RPC error instead of exiting and recovers automatically once the dev server is back.

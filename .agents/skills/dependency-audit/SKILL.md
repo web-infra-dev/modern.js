@@ -44,7 +44,6 @@ metadata:
    - 幽灵依赖 → 补 `package.json` 声明，或移除多余 import。**不手改 lockfile**。
    - 循环依赖 → 给最短断环建议。
    - 重复多版本 → `pnpm dedupe` 视角收敛。
-5. **验证**：修完跑 `pnpm install` + `pnpm --filter <pkg> build` / `pnpm --filter <pkg> test`，确认不回归。
 
 ## 安全红线
 

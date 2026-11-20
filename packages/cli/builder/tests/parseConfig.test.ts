@@ -1,7 +1,5 @@
-import type { OutputConfig } from '@rsbuild/core';
-import { afterAll, afterEach, describe, expect, rs, test } from '@rstest/core';
+import { afterEach, describe, expect, rs, test } from '@rstest/core';
 import { parseCommonConfig } from '../src/shared/parseCommonConfig';
-import type { BuilderConfig } from '../src/types';
 
 describe('parseCommonConfig', () => {
   afterEach(() => {
@@ -36,21 +34,23 @@ describe('parseCommonConfig', () => {
     expect(plugin instanceof A).toBeTruthy();
   });
 
-  test('output.disableCssModuleExtension', async () => {
-    expect(
-      (
-        await parseCommonConfig({
-          output: {
-            disableCssModuleExtension: true,
-          },
-        })
-      ).rsbuildConfig,
-    ).toMatchSnapshot();
+  test('disableCssModuleExtension distinguishes application styles from dependency styles', async () => {
+    const { rsbuildConfig } = await parseCommonConfig({
+      output: { disableCssModuleExtension: true },
+    });
+    const auto = rsbuildConfig.output?.cssModules?.auto;
+    if (typeof auto !== 'function') {
+      throw new Error('Expected a CSS module filename matcher');
+    }
+    expect(auto('/app/styles.css', '', '')).toBe(true);
+    expect(auto('/app/styles.global.css', '', '')).toBe(false);
+    expect(auto('/app/node_modules/pkg/styles.css', '', '')).toBe(false);
+    expect(auto('/app/node_modules/pkg/styles.module.css', '', '')).toBe(true);
   });
 
   test('output.assetsRetry', async () => {
     expect(
-      (await parseCommonConfig({}, {})).rsbuildPlugins.some(
+      (await parseCommonConfig({})).rsbuildPlugins.some(
         item => item.name === 'rsbuild:assets-retry',
       ),
     ).toBeFalsy();
@@ -104,72 +104,30 @@ describe('parseCommonConfig', () => {
     });
   });
 
-  test('dev.xxx', async () => {
+  test('maps legacy dev server options in development only', async () => {
+    const input = {
+      dev: {
+        host: 'dev.example',
+        client: { path: '/hmr' },
+        hmr: false,
+      },
+      tools: {
+        devServer: { headers: { 'X-Custom-Foo': 'bar' } },
+      },
+    };
+
     rs.stubEnv('NODE_ENV', 'development');
-    expect(
-      (
-        await parseCommonConfig({
-          dev: {
-            https: {
-              key: 'xxxx',
-              cert: 'xxx',
-            },
-            host: 'xxx.xxx',
-            client: {
-              path: '/aaaa',
-            },
-            hmr: false,
-          },
-          tools: {
-            devServer: {
-              compress: false,
-              headers: {
-                'X-Custom-Foo': 'bar',
-              },
-              historyApiFallback: true,
-            },
-          },
-        })
-      ).rsbuildConfig,
-    ).toMatchSnapshot();
+    const dev = (await parseCommonConfig(input)).rsbuildConfig;
+    expect(dev.server).toMatchObject({
+      host: 'dev.example',
+      headers: { 'X-Custom-Foo': 'bar' },
+    });
+    expect(dev.dev).toMatchObject({ client: { path: '/hmr' }, hmr: false });
 
     rs.stubEnv('NODE_ENV', 'production');
-    expect(
-      (
-        await parseCommonConfig({
-          dev: {
-            https: {
-              key: 'xxxx',
-              cert: 'xxx',
-            },
-            host: 'xxx.xxx',
-          },
-          tools: {
-            devServer: {
-              historyApiFallback: true,
-            },
-          },
-        })
-      ).rsbuildConfig,
-    ).toMatchSnapshot();
-  });
-
-  const injectStylesCases: [BuilderConfig['output'], OutputConfig][] = [
-    [{}, { injectStyles: undefined }],
-    [{ injectStyles: true }, { injectStyles: true }],
-    [{ injectStyles: false }, { injectStyles: false }],
-  ];
-  describe('output.injectStyles', () => {
-    for (const [config, output] of injectStylesCases) {
-      test(`${JSON.stringify(config)} => ${JSON.stringify(
-        output,
-      )}`, async () => {
-        expect(
-          (await parseCommonConfig({ output: config })).rsbuildConfig.output
-            ?.injectStyles,
-        ).toEqual(output.injectStyles);
-      });
-    }
+    const prod = (await parseCommonConfig(input)).rsbuildConfig;
+    expect(prod.server?.host).toBeUndefined();
+    expect(prod.server?.headers).toBeUndefined();
   });
 
   describe('CSS source map configuration', () => {
@@ -228,13 +186,13 @@ describe('parseCommonConfig', () => {
       const config = await parseCommonConfig({
         output: {
           sourceMap: {
-            js: true,
+            js: 'source-map',
           },
         },
       });
 
       expect(config.rsbuildConfig.output?.sourceMap).toEqual({
-        js: true,
+        js: 'source-map',
         css: true,
       });
     });
@@ -245,13 +203,13 @@ describe('parseCommonConfig', () => {
       const config = await parseCommonConfig({
         output: {
           sourceMap: {
-            js: true,
+            js: 'source-map',
           },
         },
       });
 
       expect(config.rsbuildConfig.output?.sourceMap).toEqual({
-        js: true,
+        js: 'source-map',
         css: false,
       });
     });

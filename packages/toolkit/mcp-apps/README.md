@@ -70,22 +70,15 @@ Development resource CSP includes the request origin's `ws:` or `wss:` equivalen
 
 ## Local stdio debugging
 
-For local component views, configure `mcpAppsPlugin({ stdio: { server: './api/server/mcp.ts' } })` and add `"mcp:prepare": "modern mcp-prepare"` to package scripts. The server module must default-export a factory accepting `RegisterUiOptions` and returning a fresh `McpServer`. Inside it, call `registerUiResources(server, options)` and register business tools. The HTTP route can reuse it with `createBffHandlers(request => createServer({ request }))`.
+Enable `inline: 'dev'` (or `inline: true` for both dev and production) in `mcpAppsPlugin`:
 
-`views` selects the UI cards to build. `stdio.server` identifies the module that registers tools, UI resources and business handlers. `mcp-prepare` imports its default factory, connects the returned MCP Server to `StdioServerTransport`, and generates `dist-mcp/server.cjs`.
+```ts
+mcpAppsPlugin({
+  views: './mcp-views.json',
+  inline: 'dev',
+});
+```
 
-| Option         | Required           | Default and behavior                                                                                              |
-| -------------- | ------------------ | ----------------------------------------------------------------------------------------------------------------- |
-| `stdio.server` | Required for stdio | No default. Resolved from the application root. The framework does not discover `api/server/mcp.ts` automatically |
-| `stdio.output` | No                 | `dist-mcp`, relative to the application root                                                                      |
-| `views`        | No                 | `mcp-views.json`. Only JSON file paths are accepted                                                               |
+Run `pnpm dev` as usual. Local component views are compiled by an isolated watch build into self-contained inline HTML (up to 5 MiB per view, inlining scripts, styles, and imported assets, without injecting `<base>` or localhost CSP), leaving normal application pages and HMR untouched. If `mcp-views.json` also declares Module Federation views, local views are inlined while MF views keep using the HTTP shell.
 
-Running `modern mcp-prepare` without `stdio` reports an error requesting a server entry. The example explicitly selects `api/server/mcp.ts`. It is not a conventional entry discovered by the framework.
-
-HTTP and STDIO share one `mcp-views.json`. `modern mcp-prepare` automatically selects and inlines local component views, skipping MF views. MF views remain available through HTTP. No command-dependent configuration or extra view file is needed. If the manifest contains no local component views, preparation reports an error. Register tools only for views present in the URI map returned by `registerUiResources`, for example with `if (ui.todos)`.
-
-Run `pnpm mcp:prepare`. This creates `dist-mcp/server.cjs`, `dist-mcp/ui-manifest.json` and self-contained UI HTML, then prints the Node command and absolute server argument for a local MCP connector. The host starts the process. No HTTP server, relay, or `modern dev` is required. Only JSON-RPC belongs on server stdout, so application diagnostics must use stderr. Keep application dependencies installed beside the output.
-
-The isolated production pipeline bundles local components with `createMcpView`, preserving exported `mcpCapabilities`, inlining JavaScript, CSS and imported assets. It respects `source.alias`, `source.define` and the application tsconfig. It does not run the application's Rsbuild plugins or its server middleware. Custom loaders and framework page runtime features are outside this mode. Module Federation views are skipped and remain available through HTTP. Runtime API requests still require explicit endpoints and suitable CSP. Each HTML document must fit within 5 MiB.
-
-`stdio.output` defaults to `dist-mcp`, outside normal `dist` so dev/build cannot remove a running connector's entry. Ignore this directory in Git. Rebuild after editing, then restart the connector to load new server code and HTML. Inline manifests load local HTML at server startup, preserve configured UI metadata and do not inject HTTP base URLs or localhost CSP permissions. The normal HTTP manifest pipeline is unchanged.
+On startup, `modern dev` writes `node_modules/.modern-js/mcp-apps/dev-server.json` and prints a connector snippet that runs the built-in `modern-mcp-stdio` bridge script (`bin/modern-mcp-stdio.js`). The bridge forwards stdio JSON-RPC messages (supporting JSON, SSE streams, `202` notifications, `Mcp-Session-Id`, and repeatable `--header` flags) to the running HTTP dev server (`/api/mcp`), so existing BFF routes and custom middlewares work unchanged without splitting server code or polluting stdio `stdout`. Pass `--cwd <app-dir>` instead of a URL to discover the dev server port dynamically.

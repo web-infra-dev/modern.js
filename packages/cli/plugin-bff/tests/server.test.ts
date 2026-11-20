@@ -10,8 +10,6 @@ import {
 import { assign } from '@modern-js/utils/lodash';
 import plugin from '../src/server';
 
-const noop = () => {};
-
 const pwd = path.resolve(__dirname, './fixtures/function');
 
 // biome-ignore lint/suspicious/noExportsInTest: <explanation>

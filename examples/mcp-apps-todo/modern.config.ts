@@ -9,9 +9,6 @@ export default {
     appTools(),
     bffPlugin(),
     moduleFederationPlugin(),
-    mcpAppsPlugin({
-      views: './mcp-views.json',
-      stdio: { server: './api/server/mcp.ts' },
-    }),
+    mcpAppsPlugin({ views: './mcp-views.json', inline: 'dev' }),
   ],
 };

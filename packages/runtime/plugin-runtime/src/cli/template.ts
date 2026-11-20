@@ -82,7 +82,6 @@ ${genRenderStatement({
 export const entryForCSRWithRSC = ({
   metaName,
   entryName,
-  urlPath = '/',
   mountId = 'root',
   isNestedRouter,
 }: {

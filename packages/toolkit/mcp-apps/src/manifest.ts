@@ -15,7 +15,9 @@ export interface UiManifest {
   remotes: Record<string, { entry: string; shell: string }>;
   views: Record<
     string,
-    ({ html: string } | { remote: string; expose: string }) & { ui: UiMetadata }
+    (
+      { html: string; inline?: boolean } | { remote: string; expose: string }
+    ) & { ui: UiMetadata }
   >;
 }
 export function isRecord(value: unknown): value is Record<string, unknown> {
@@ -155,10 +157,13 @@ export function validateUiManifest(
   for (const [name, view] of Object.entries(value.views)) {
     if (!name.trim() || !isRecord(view)) throw new Error('Invalid UI view');
     validateUiMetadata(view.ui);
-    if ('html' in view && !('remote' in view) && !('expose' in view))
+    if ('html' in view && !('remote' in view) && !('expose' in view)) {
+      if (view.inline !== undefined && typeof view.inline !== 'boolean')
+        throw new Error(`Invalid inline option on UI manifest view: ${name}`);
       checkSource(view.html);
-    else if (
+    } else if (
       !('html' in view) &&
+      view.inline === undefined &&
       typeof view.remote === 'string' &&
       Object.hasOwn(value.remotes, view.remote) &&
       typeof view.expose === 'string' &&

@@ -22,7 +22,7 @@ export async function clearI18nTestState(page: Page): Promise<void> {
         localStorage.clear();
       }
     });
-  } catch (error) {
+  } catch {
     // Ignore SecurityError if page is not loaded yet
   }
 

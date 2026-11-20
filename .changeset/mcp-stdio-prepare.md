@@ -3,4 +3,4 @@
 '@modern-js/create': patch
 ---
 
-Add mcp-prepare for local MCP Apps with self-contained HTML and a stdio server in a separate dist-mcp directory. Local MCP Apps templates share their server factory between HTTP and stdio and include an mcp:prepare script.
+Add `inline` option (`'dev' | boolean`) to `mcpAppsPlugin` and a lightweight `modern-mcp-stdio` stdio-to-HTTP bridge for local MCP Apps debugging with `modern dev`. Local views can be built into self-contained inline HTML with incremental watch rebuilds while requests continue flowing through the real HTTP dev server and middlewares.

@@ -1,3 +1,4 @@
+import os from 'node:os';
 import path, { join } from 'path';
 import { fs } from '@modern-js/utils';
 import puppeteer from 'puppeteer';
@@ -7,6 +8,7 @@ import {
   launchOptions,
   modernBuild,
   modernServe,
+  runModernCommandDev,
 } from '../../../utils/modernTestUtils';
 
 rstest.setConfig({ testTimeout: 1000 * 60 * 3, hookTimeout: 1000 * 60 * 3 });
@@ -112,4 +114,217 @@ describe('test ssg request', () => {
       await browser.close();
     }
   });
+});
+
+describe('route-level ssgParams', () => {
+  const paramsDistDir = join(appDir, 'dist-ssg');
+  let temporaryDir: string;
+  let callsFile: string;
+
+  beforeAll(async () => {
+    temporaryDir = await fs.mkdtemp(join(os.tmpdir(), 'modern-ssg-params-'));
+    callsFile = join(temporaryDir, 'calls.txt');
+  });
+
+  afterAll(async () => {
+    await fs.remove(temporaryDir);
+  });
+
+  const buildParams = async (scenario: string) => {
+    await fs.remove(callsFile);
+    return modernBuild(appDir, ['--config', 'modern.params.config.ts'], {
+      env: {
+        SSG_PARAMS_SCENARIO: scenario,
+        SSG_PARAMS_CALLS: callsFile,
+      },
+    });
+  };
+
+  test('prerenders generated params with the compiled loaders and keeps server dependencies out of the browser', async () => {
+    const result = await buildParams('automatic');
+    expect(result.code, result.stdout + result.stderr).toBe(0);
+    const { routes } = await fs.readJSON(join(paramsDistDir, 'route.json'));
+    const generated = routes.filter(
+      (route: { isSSG?: boolean }) => route.isSSG,
+    );
+    const expectedPages = [
+      ['/prefix', '<main>Static home</main>'],
+      ['/prefix/about', '<main>About this site</main>'],
+      ['/prefix/blog/en/hello', '<main>en: hello</main>'],
+      ['/prefix/blog/en/release.v1', '<main>en: release.v1</main>'],
+      ['/prefix/optional', 'Category: <!-- -->all'],
+      ['/prefix/optional/news', 'Category: <!-- -->news'],
+      ['/prefix/files/guides/hello-world', 'File: <!-- -->guides/hello-world'],
+    ];
+    expect(generated).toHaveLength(expectedPages.length);
+    for (const [url, content] of expectedPages) {
+      const matches = generated.filter(
+        (route: { urlPath: string }) => route.urlPath === url,
+      );
+      expect(matches, url).toHaveLength(1);
+      const html = await fs.readFile(
+        join(paramsDistDir, matches[0].entryPath),
+        'utf8',
+      );
+      expect(html, url).toContain(content);
+      expect(path.basename(matches[0].entryPath), url).toBe('index.html');
+    }
+    expect(
+      generated.some(
+        (route: { urlPath: string }) =>
+          route.urlPath.includes('/empty/') ||
+          route.urlPath.includes('/excluded') ||
+          route.urlPath.includes('/scheduled'),
+      ),
+    ).toBe(false);
+    expect(await fs.readFile(callsFile, 'utf8')).toBe(
+      'SSG_PARAMS_SERVER_ONLY\n',
+    );
+
+    const readJavaScript = async (directory: string): Promise<string[]> => {
+      const contents = await Promise.all(
+        (await fs.readdir(directory, { withFileTypes: true })).map(
+          async entry => {
+            const filename = join(directory, entry.name);
+            if (entry.isDirectory()) {
+              return readJavaScript(filename);
+            }
+            return entry.name.endsWith('.js')
+              ? [await fs.readFile(filename, 'utf8')]
+              : [];
+          },
+        ),
+      );
+      return contents.flat();
+    };
+    const browserJavaScript = await readJavaScript(
+      join(paramsDistDir, 'static'),
+    );
+    expect(browserJavaScript.length).toBeGreaterThan(0);
+    expect(browserJavaScript.join('\n')).not.toContain(
+      'SSG_PARAMS_SERVER_ONLY',
+    );
+    expect(browserJavaScript.join('\n')).not.toContain('node:fs');
+
+    const port = await getPort();
+    const app = await runModernCommandDev(
+      ['serve', '--config', 'modern.params.config.ts'],
+      undefined,
+      {
+        cwd: appDir,
+        modernServe: true,
+        env: {
+          NODE_ENV: 'production',
+          PORT: port,
+          SSG_PARAMS_SCENARIO: 'automatic',
+          SSG_PARAMS_CALLS: callsFile,
+        },
+      },
+    );
+    try {
+      for (const [url, content] of expectedPages) {
+        const response = await fetch(`http://localhost:${port}${url}`);
+        expect(response.status, url).toBe(200);
+        expect(await response.text(), url).toContain(content);
+      }
+      for (const url of [
+        '/prefix/blog/en/not-generated',
+        '/prefix/files/guides/missing',
+      ]) {
+        const response = await fetch(`http://localhost:${port}${url}`);
+        expect(response.status, url).toBe(404);
+      }
+    } finally {
+      await killApp(app);
+    }
+    expect(await fs.readFile(callsFile, 'utf8')).toBe(
+      'SSG_PARAMS_SERVER_ONLY\n',
+    );
+  });
+
+  test('combines explicit and generated paths, with explicit options taking priority', async () => {
+    const result = await buildParams('explicit');
+    expect(result.code, result.stdout + result.stderr).toBe(0);
+    expect(await fs.readFile(callsFile, 'utf8')).toBe(
+      'SSG_PARAMS_SERVER_ONLY\n',
+    );
+
+    const { routes } = await fs.readJSON(join(paramsDistDir, 'route.json'));
+    const generated = routes.filter(
+      (route: { isSSG?: boolean }) => route.isSSG,
+    );
+    const paths = generated.map((route: { urlPath: string }) => route.urlPath);
+    expect(paths).toEqual(
+      expect.arrayContaining([
+        '/prefix/about',
+        '/prefix/blog/en/explicit',
+        '/prefix/blog/en/hello',
+        '/prefix/blog/en/release.v1',
+      ]),
+    );
+    expect(paths).not.toContain('/prefix');
+    expect(
+      paths.filter((url: string) => url === '/prefix/blog/en/hello'),
+    ).toHaveLength(1);
+
+    const hello = generated.find(
+      (route: { urlPath: string }) => route.urlPath === '/prefix/blog/en/hello',
+    );
+    expect(hello.entryPath).toBe(path.join('custom', 'hello.html'));
+    expect(
+      await fs.readFile(join(paramsDistDir, hello.entryPath), 'utf8'),
+    ).toContain('<main>en: hello (preview)</main>');
+  });
+
+  test('prerenders multiple entries with global SSG enabled', async () => {
+    const result = await buildParams('multi-entry');
+    expect(result.code, result.stdout + result.stderr).toBe(0);
+
+    const { routes } = await fs.readJSON(join(paramsDistDir, 'route.json'));
+    const article = routes.find(
+      (route: { urlPath: string }) => route.urlPath === '/prefix/blog/en/hello',
+    );
+    expect(article?.isSSG).toBe(true);
+    expect(
+      await fs.readFile(join(paramsDistDir, article.entryPath), 'utf8'),
+    ).toContain('<main>en: hello</main>');
+    const secondary = routes.find(
+      (route: { urlPath: string }) =>
+        route.urlPath === '/prefix/secondary/start',
+    );
+    expect(secondary?.isSSG).toBe(true);
+    expect(
+      await fs.readFile(join(paramsDistDir, secondary.entryPath), 'utf8'),
+    ).toContain('<main>Secondary: start</main>');
+  });
+
+  test('disabling SSG does not execute parameter generators', async () => {
+    const result = await buildParams('disabled');
+    expect(result.code, result.stdout + result.stderr).toBe(0);
+    expect(await fs.pathExists(callsFile)).toBe(false);
+    const { routes } = await fs.readJSON(join(paramsDistDir, 'route.json'));
+    expect(routes.some((route: { isSSG?: boolean }) => route.isSSG)).toBe(
+      false,
+    );
+  });
+
+  test.each(['invalid', 'encoded-path', 'throws'])(
+    'fails the build for %s parameter generators',
+    async scenario => {
+      const result = await buildParams(scenario);
+      expect(result.code).not.toBe(0);
+      expect(result.stdout + result.stderr).toContain('ssgParams');
+      expect(result.stdout + result.stderr).toContain('blog');
+      if (scenario === 'encoded-path') {
+        expect(result.stdout + result.stderr).toContain(
+          'path segments must use only ASCII letters',
+        );
+      }
+      if (scenario === 'throws') {
+        expect(result.stdout + result.stderr).toContain(
+          'CMS unavailable during ssgParams',
+        );
+      }
+    },
+  );
 });

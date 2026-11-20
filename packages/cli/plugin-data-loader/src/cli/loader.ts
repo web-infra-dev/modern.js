@@ -67,7 +67,7 @@ export default async function loader(
 
       const clientDataContent = await readFile(clientDataPath);
       return clientDataContent;
-    } catch (error) {
+    } catch {
       if (process.env.NODE_ENV === 'development') {
         logger.error(
           `Failed to read the clientData file ${options.clientData}`,

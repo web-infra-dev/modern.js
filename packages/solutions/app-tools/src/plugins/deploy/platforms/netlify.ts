@@ -1,8 +1,8 @@
 import path from 'node:path';
 import { fs as fse, removeModuleSyncFromExports } from '@modern-js/utils';
 import { isMainEntry } from '../../../utils/routes';
-import { getTemplatePath, readTemplate, resolveESMDependency } from '../utils';
-import { type PluginItem, generateHandler } from '../utils/generator';
+import { readTemplate, resolveESMDependency } from '../utils';
+import { generateHandler } from '../utils/generator';
 import type { CreatePreset } from './platform';
 
 async function cleanDistDirectory(dir: string) {

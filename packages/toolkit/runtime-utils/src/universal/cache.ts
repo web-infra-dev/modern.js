@@ -207,7 +207,7 @@ export function generateKey(args: unknown[]): string {
   });
 }
 
-function generateStableFunctionId(fn: Function): string {
+function generateStableFunctionId(fn: (...args: any[]) => unknown): string {
   const fnString = fn.toString();
   let hash = 0;
   for (let i = 0; i < fnString.length; i++) {

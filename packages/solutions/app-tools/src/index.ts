@@ -21,12 +21,12 @@ import { compatPlugin } from './compat';
 import { DEFAULT_RUNTIME_CONFIG_FILE } from './constants';
 import { i18n } from './locale';
 import analyzePlugin from './plugins/analyze';
+import { isHelpOnlyCommand } from './plugins/analyze/utils';
 import deployPlugin from './plugins/deploy';
 import initializePlugin from './plugins/initialize';
 import serverBuildPlugin from './plugins/serverBuild';
 import type { AppTools, CliPlugin } from './types';
 import type {
-  AddRuntimeExportsFn,
   AfterPrepareFn,
   BeforeGenerateRoutesFn,
   BeforePrintInstructionsFn,
@@ -113,7 +113,10 @@ export const appTools = (): CliPlugin<AppTools> => ({
       // `onPrepare` (before the analyze plugin's `generateEntryCode`, which
       // writes `nestedRoutes.json` into dist), NOT in the `build`/`dev`
       // commands which run afterwards and would delete it.
-      if (['dev', 'start', 'build', 'deploy'].includes(command)) {
+      if (
+        ['dev', 'start', 'build', 'deploy'].includes(command) &&
+        !isHelpOnlyCommand()
+      ) {
         const resolvedConfig = api.getNormalizedConfig();
         if (resolvedConfig.output.cleanDistPath) {
           const appContext = api.getAppContext();

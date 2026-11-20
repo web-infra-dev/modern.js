@@ -9,7 +9,6 @@ import {
   launchOptions,
   modernBuild,
 } from '../../../utils/modernTestUtils';
-import { SequenceWait } from '../../../utils/testInSequence';
 
 const appDir = path.resolve(__dirname, '../');
 

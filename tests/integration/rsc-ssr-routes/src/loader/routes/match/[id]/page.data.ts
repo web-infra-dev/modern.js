@@ -3,7 +3,6 @@ export type LoaderResult = {
 };
 
 export const loader = async ({
-  request,
   params,
 }: {
   request: Request;

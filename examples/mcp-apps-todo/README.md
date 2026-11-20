@@ -4,11 +4,21 @@
 
 ## 开发
 
-在仓库根目录执行：
+Modern.js 安装依赖均使用 `latest`，指向 registry 已发布的稳定版本，不依赖当前仓库源码或未发布特性。无需在仓库中构建框架包。
+
+将本目录复制为独立项目后，在项目目录执行：
 
 ```bash
 pnpm install
-pnpm --filter @modern-js/mcp-apps build
+pnpm dev
+```
+
+如果 pnpm 报告 `ERR_PNPM_IGNORED_BUILDS`，使用 `pnpm approve-builds` 审核被阻止的依赖脚本，只批准你信任的依赖，再重新执行 `pnpm install`。独立验证时需批准 `@swc/core` 和 `core-js`，不要全局关闭脚本审批。
+
+在仓库根目录也可以执行：
+
+```bash
+pnpm install
 pnpm --filter @examples/mcp-apps-todo dev
 ```
 
@@ -22,38 +32,33 @@ pnpm --filter @examples/mcp-apps-todo dev
 - `modern.config.ts`：Modern.js、BFF、MF、MCP UI 构建插件
 - `module-federation.config.ts`：暴露 `./Todos`
 - `src/components/Todos.tsx`：通过 `McpViewProps` 接收 structuredContent 和 mcpApp
-- `api/server/mcp.ts`：HTTP 和 STDIO 共用的 server 工厂，注册 tools 和 UI resources
-- `api/lambda/mcp.ts`：调用 server 工厂，导出 HTTP BFF handlers
+- `api/lambda/mcp.ts`：官方 SDK 注册 tools，通过 UI 清单注册 resources，显式导出 BFF handlers
 - `api/server/store.ts`：内存数据
+- `server/modern.server.ts`：仅为 `/static/*` 公开资源添加 CORS 响应头，供隔离 iframe 内的 MF 卡片读取
 
 ## 生产
 
+在独立项目目录执行：
+
 ```bash
-pnpm --filter @examples/mcp-apps-todo build
-pnpm --filter @examples/mcp-apps-todo serve
+pnpm build
+pnpm serve
 ```
 
+在仓库根目录运行时，可使用 `pnpm --filter @examples/mcp-apps-todo build` 和 `pnpm --filter @examples/mcp-apps-todo serve`。
+
 构建生成 `dist/mcp-apps/ui-manifest.json`、本地卡片 HTML 和 MF shell，静态文件与 MF manifest 使用标准应用产物。
+
+MF 卡片运行在 `sandbox="allow-scripts"` 的 iframe 中，源站为不透明的 `null`。生产模式读取 MF manifest 和脚本时，需要公开静态资源允许跨域访问。示例中的服务端 middleware 只为 `/static/*` 设置 `Access-Control-Allow-Origin: *`，不对 `/api/mcp` 或其他 API 开放跨域权限，也不允许跨域凭据。若将静态资源交给 CDN，应同步配置这一公开资源策略。
 
 使用 `PORT=8090 pnpm --filter @examples/mcp-apps-todo dev` 可以切换端口。
 
 同一项目目录只运行一个 `modern dev` 实例。多个实例会共享 `.modern-js` 中间产物，可能导致 UI HTML 与所连接开发服务器的脚本不匹配。重启前先退出已有 dev 进程，并让 MCP 客户端连接终端实际打印的服务端口。
 
-## STDIO 本地调试
+## 本机 STDIO 调试
 
-在当前分支中先构建 MCP Apps 包，再准备示例：
+示例已配置 `inline: 'dev'`，仍然只需运行 `pnpm dev`。将终端打印的 `command` 和 `args` 填入豆包等客户端的 STDIO 连接器。客户端启动包内置的转发脚本，请求经 HTTP 到达当前开发服务，继续使用原有 BFF、中间件和业务逻辑。
 
-```bash
-pnpm --filter @modern-js/mcp-apps build
-pnpm --filter @examples/mcp-apps-todo mcp:prepare
-```
+连接后调用 `local_todos` 打开本地卡片，点击 Add todo，再次调用 `local_todos` 验证新增结果。MF 卡片 `list_todos` 仍需宿主能够访问本地 HTTP 静态资源。
 
-命令打印可填写到 MCP 客户端的 `command` 和 `args`。在豆包中选择 STDIO，把 `command` 填到命令栏，把 `args` 中的 `server.cjs` 绝对路径作为一个参数填写。仅测试本地卡片时无需启动 `modern dev`。
-
-产物位于本示例的 `dist-mcp/`，包括 `server.cjs`、`ui-manifest.json` 和内联 JS/CSS 的 UI HTML。修改源码后重新运行 `mcp:prepare`，再重启客户端连接器。运行产物仍需要保留本项目安装的 Node 依赖。
-
-HTTP 和 STDIO 共用 `mcp-views.json`。`mcp-prepare` 自动构建本地组件视图并跳过 MF 视图，STDIO 只注册本地卡片工具 `local_todos` 和普通工具 `add_todo`，无需启动 HTTP 服务。MF 卡片通过 HTTP 模式提供，使用 `dev`、`build` 和 `serve` 以及包含 MF 的 `mcp-views.json`。
-
-可以对豆包说：“请调用 Todo MCP 的 local_todos，打开待办卡片。”确认初始列表显示后，在卡片输入标题并点击 Add todo。再次调用 `local_todos` 应能看到新增项。重启连接器后，内存数据恢复初始值。
-
-豆包工作已验证本地 STDIO 卡片的展示、新增待办与重新读取。
+无需运行 `mcp-prepare`、配置 `stdio.server` 或生成 `dist-mcp/`。框架在 `node_modules/.modern-js/mcp-apps/` 内管理临时 UI 文件和开发服务地址。默认连接器使用 `--cwd` 在每次请求时发现服务端口。修改组件后自动重编，下次读取卡片资源时获取更新后的 HTML，无需重启连接器。开发服务需保持运行，重启服务会重置内存数据。
