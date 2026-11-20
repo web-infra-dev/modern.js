@@ -1,19 +1,19 @@
 {
   "private": true,
   "name": "react-compiler-test",
-  "version": "2.66.7",
+  "version": "0.0.0-canary-verify.r20261120-e21de18c0e1dea05d7792de3c7650e1e",
   "scripts": {
     "dev": "modern dev",
     "build": "modern build",
     "serve": "modern serve"
   },
   "dependencies": {
-    "@modern-js/runtime": "workspace:*",
+    "@modern-js/runtime": "workspace:0.0.0-canary-verify.r20261120-e21de18c0e1dea05d7792de3c7650e1e",
     "react": "^19.3.1",
     "react-dom": "^19.3.1"
   },
   "devDependencies": {
-    "@modern-js/app-tools": "workspace:*",
+    "@modern-js/app-tools": "workspace:0.0.0-canary-verify.r20261120-e21de18c0e1dea05d7792de3c7650e1e",
     "@types/node": "^20",
     "@types/react": "^19.3.0",
     "@types/react-dom": "^19.3.0",
