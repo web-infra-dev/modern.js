@@ -1,6 +1,6 @@
 ---
 name: modernjs-migrate-tsconfig
-description: 把 Modern.js 3 应用的 tsconfig 迁到 3.12 起的 bundler 基线：把 baseUrl 等价改写成 paths、补 BFF 的 @api/* 别名、为 CommonJS 项目生成 tsconfig.server.json。在「升级 TypeScript 6/7 后 tsconfig 报 TS5101/TS5102（baseUrl 废弃/移除）、升级 @modern-js/tsconfig 到 3.12+、BFF 服务端编译提示缺少 tsconfig.server.json」时使用。
+description: 把 Modern.js 3 应用的 tsconfig 迁到 3.13 起的 bundler 基线：把 baseUrl 等价改写成 paths、补 BFF 的 @api/* 别名、为 CommonJS 项目生成 tsconfig.server.json。在「升级 TypeScript 6/7 后 tsconfig 报 TS5101/TS5102（baseUrl 废弃/移除）、升级 @modern-js/tsconfig 到 3.13+、BFF 服务端编译提示缺少 tsconfig.server.json」时使用。
 ---
 
 # Migrate Modern.js tsconfig
