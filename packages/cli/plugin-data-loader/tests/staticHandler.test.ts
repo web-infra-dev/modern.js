@@ -1,7 +1,6 @@
 import { storage } from '@modern-js/runtime-utils/node';
 import { createStaticHandler, redirect } from '@modern-js/runtime-utils/router';
 import type { NestedRoute, ServerRoute } from '@modern-js/types';
-import { LOADER_ID_PARAM } from '../src/common/constants';
 import { handleRequest } from '../src/runtime';
 
 rstest.mock('@modern-js/runtime-utils/router', () => {
@@ -78,10 +77,9 @@ const request = (
   id = '',
 ) =>
   handleRequest({
-    request: new Request(
-      `http://localhost${pathname}?${LOADER_ID_PARAM}=${routeId}`,
-      { headers: { 'x-request-id': id } },
-    ),
+    request: new Request(`http://localhost${pathname}?__loader=${routeId}`, {
+      headers: { 'x-request-id': id },
+    }),
     serverRoutes,
     routes,
     context: {
@@ -140,6 +138,26 @@ describe('static handler cache', () => {
         expect(await res.text()).toBe(`${JSON.stringify({ id })}\n\n`);
       }),
     );
+  });
+
+  it('preserves an absolute action redirect at the root basename', async () => {
+    const res = await handleRequest({
+      request: new Request('http://localhost/edit?__loader=edit/page', {
+        method: 'POST',
+      }),
+      serverRoutes,
+      routes: [
+        {
+          path: '/edit',
+          id: 'edit/page',
+          type: 'nested',
+          action: () => redirect('/user/1'),
+        },
+      ],
+      context: { monitors: undefined as any, loaderContext: new Map() },
+    });
+    expect(res?.status).toBe(204);
+    expect(res?.headers.get('X-Modernjs-Redirect')).toBe('/user/1');
   });
 
   it('should still handle redirects and errors', async () => {

@@ -436,6 +436,20 @@ const supportActionInSSR = async (
   expect(text?.includes('modern_three_action')).toBeTruthy();
 };
 
+async function checkActionRedirect(page: Page, appPort: number, mode: string) {
+  await page.goto(`http://localhost:${appPort}/three/user/profile`, {
+    waitUntil: 'networkidle0',
+  });
+  await page.click(`button[name="mode"][value="${mode}"]`);
+  const id = mode === 'throw' ? '5678' : '1234';
+  await page.waitForFunction(
+    path => location.pathname === path,
+    {},
+    `/three/user/${id}`,
+  );
+  await expectPageToMatchTextContent(page, `item page, param is ${id}`);
+}
+
 const supportShouldRevalidateInSSR = async (
   page: Page,
   errors: string[],
@@ -789,6 +803,12 @@ describe('dev with rspack', () => {
   });
 
   describe('support action', () => {
+    test.each(['return', 'throw'])(
+      'follows a %s redirect under the entry basename',
+      async mode => {
+        await checkActionRedirect(page, appPort, mode);
+      },
+    );
     test('support action in CSR', async () => {
       await supportActionInCSR(page, errors, appPort);
     });
@@ -926,6 +946,12 @@ describe('build with rspack', () => {
   });
 
   describe('support action', () => {
+    test.each(['return', 'throw'])(
+      'follows a %s redirect under the entry basename',
+      async mode => {
+        await checkActionRedirect(page, appPort, mode);
+      },
+    );
     test('support action in CSR', async () => {
       await supportActionInCSR(page, errors, appPort);
     });
