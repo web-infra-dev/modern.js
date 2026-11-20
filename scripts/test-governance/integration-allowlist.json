@@ -38,6 +38,7 @@
   "source-code-build",
   "ssg",
   "ssr",
+  "storybook",
   "styled-components",
   "tailwindcss",
   "temp-dir",
