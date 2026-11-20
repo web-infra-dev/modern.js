@@ -1,3 +1,4 @@
+import { selectControl } from './select-control';
 import { describeLab } from './fixture';
 
 const route = 'weather?scenario=bridge';
@@ -59,7 +60,7 @@ describeLab('Independent weather applications', getContext => {
   it('updates station props without replacing its root and reconnects a fresh instance through Advanced', async () => {
     const { lab, page } = getContext();
     await page.goto(`${lab.url}/advanced`, { waitUntil: 'networkidle0' });
-    await page.select('[aria-label="Advanced scenarios"]', 'bridge');
+    await selectControl(page, '[aria-label="Advanced scenarios"]', 'bridge');
     await page.waitForFunction(
       () =>
         document

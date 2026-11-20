@@ -1,291 +1,360 @@
+import { Select, SelectItem, Checkbox, Button } from './ui/controls';
+import { useState, type CSSProperties } from 'react';
+import { useSearchParams } from '@modern-js/runtime/router';
 import {
   FailureControls,
   renderFailures,
   dataFailures,
 } from '../failure/Controls';
-import { useCallback, useEffect, useRef, useState } from 'react';
-import { Link } from '@modern-js/runtime/router';
-function inspectPaletteSeed() {
+import { LabLayout } from './LabLayout';
+import { LabPanel } from './LabPanel';
+import { LabIcon } from './LabIcon';
+import { SSRWorkbench } from './SSRWorkbench';
+import '../weather-base.css';
+import '../../../provider/src/weather-scene.css';
+import '../weather.css';
+export { LegacyLabNav as LabNav } from './LabLayout';
+
+type Mode = 'csr' | 'ssr' | 'bridge' | 'service';
+const labels: Record<Mode, string> = {
+  csr: 'CSR',
+  ssr: 'SSR',
+  bridge: 'Bridge SSR',
+  service: 'Service App',
+};
+function paletteSeed() {
   if (typeof window === 'undefined') return '';
-  const seed = window.crypto.randomUUID();
+  const key = 'mf-lab.inspect-palette';
   try {
-    const key = 'mf-lab.inspect-palette';
-    const existing = window.sessionStorage.getItem(key);
-    if (existing) return existing;
-    window.sessionStorage.setItem(key, seed);
+    const previous = sessionStorage.getItem(key);
+    if (previous) return previous;
+    const value = crypto.randomUUID();
+    sessionStorage.setItem(key, value);
+    return value;
   } catch {
-    // The parent still supplies one shared palette if storage is unavailable.
+    return crypto.randomUUID();
   }
-  return seed;
-}
-export function LabNav() {
-  return (
-    <nav className="weather-nav" aria-label="Comparison pages">
-      <Link className="weather-brand" to="/">
-        ◈ Weather Lab
-      </Link>
-      <div>
-        <Link to="/">Rendering</Link>
-        <Link to="/data">Data fetching</Link>
-        <Link to="/advanced">Advanced scenarios</Link>
-        <Link to="/bridge-ssr">Weather application</Link>
-      </div>
-    </nav>
-  );
-}
-function Panel({
-  name,
-  query,
-  run,
-  inspect,
-  paletteSeed,
-}: {
-  name: string;
-  query: string;
-  run: number;
-  inspect: boolean;
-  paletteSeed: string;
-}) {
-  const frame = useRef<HTMLIFrameElement>(null);
-  const inspectRef = useRef(inspect);
-  inspectRef.current = inspect;
-  const sendInspect = useCallback(() => {
-    frame.current?.contentWindow?.postMessage(
-      { type: 'mf-weather-metrics-request' },
-      window.location.origin,
-    );
-    frame.current?.contentWindow?.postMessage(
-      { type: 'mf-lab-inspect', enabled: inspectRef.current, paletteSeed },
-      window.location.origin,
-    );
-  }, [paletteSeed]);
-  useEffect(sendInspect, [inspect, run, sendInspect]);
-  const [recovery, setRecovery] = useState('');
-  const [events, setEvents] = useState<Record<string, number>>({});
-  const [methods, setMethods] = useState<Record<string, string>>({});
-  useEffect(() => {
-    setEvents({});
-    setMethods({});
-    setRecovery('');
-    function receive(event: MessageEvent) {
-      if (
-        event.origin !== window.location.origin ||
-        event.source !== frame.current?.contentWindow
-      )
-        return;
-      if (
-        event.data?.type === 'mf-lab-recovery' &&
-        typeof event.data.status === 'string'
-      ) {
-        setRecovery(event.data.status);
-        return;
-      }
-      if (
-        event.data?.type === 'mf-lab-inspect-ready' ||
-        event.data?.type === 'mf-weather-metrics-ready'
-      ) {
-        sendInspect();
-        return;
-      }
-      if (event.data?.type !== 'mf-weather') return;
-      if (
-        ![
-          'Client ready',
-          'Data visible',
-          'Data request failed',
-          'Data prefetch started',
-        ].includes(event.data.event) ||
-        typeof event.data.at !== 'number'
-      )
-        return;
-      if (typeof event.data.method === 'string')
-        setMethods(previous => ({
-          ...previous,
-          [event.data.event]: event.data.method,
-        }));
-      setEvents(previous => ({
-        ...previous,
-        [event.data.event]: previous[event.data.event] ?? event.data.at,
-      }));
-    }
-    window.addEventListener('message', receive);
-    return () => window.removeEventListener('message', receive);
-  }, [run, sendInspect]);
-  return (
-    <section className="comparison-panel">
-      <div className="comparison-sky" aria-hidden="true">
-        <div className="sky-cloud cloud-one" />
-        <div className="sky-cloud cloud-two" />
-      </div>
-      <header>
-        <h2>
-          {name}
-          {recovery && (
-            <small className="recovery-badge" role="status">
-              {recovery}
-            </small>
-          )}
-        </h2>
-        <span>
-          {events['Client ready'] !== undefined
-            ? '● Client ready'
-            : events['Data prefetch started'] !== undefined
-              ? '◌ Prefetching data'
-              : '◌ Waiting for client'}
-        </span>
-      </header>
-      <iframe
-        key={run}
-        ref={frame}
-        title={name}
-        onLoad={sendInspect}
-        src={`/weather?${query}&run=${run}&sharedSky=1`}
-        sandbox="allow-scripts allow-same-origin"
-      />
-      <footer>
-        {['Data visible', 'Client ready'].map(event => (
-          <span
-            key={event}
-            data-metric={event}
-            title={
-              event === 'Data visible'
-                ? methods[event] === 'visibility estimate'
-                  ? 'Estimated visibility of temperature and condition after intersection and a paint opportunity.'
-                  : 'From frame navigation to the first paint of temperature and condition (Element Timing).'
-                : 'From frame navigation until all key controls have hydrated or mounted: save station, hourly forecast, and wind when shown. Independent of weather data.'
-            }
-          >
-            {event}
-            <b>
-              {events[event] === undefined
-                ? '—'
-                : `${methods[event] === 'visibility estimate' ? '≈ ' : ''}${events[event]} ms`}
-            </b>
-          </span>
-        ))}
-      </footer>
-    </section>
-  );
 }
 export default function Comparison({ data = false }: { data?: boolean }) {
+  const [params] = useSearchParams();
+  if (params.get('lab') === 'ssr') return <SSRWorkbench />;
+  return <RenderingComparison data={data} />;
+}
+function RenderingComparison({ data }: { data: boolean }) {
+  const [params] = useSearchParams();
+  const partial = process.env.MF_LAB_SSR_SCOPE === 'entries';
+  const available: Mode[] = partial
+    ? ['csr', 'ssr']
+    : process.env.MF_LAB_SERVICE
+      ? ['csr', 'ssr', 'bridge', 'service']
+      : ['csr', 'ssr', 'bridge'];
+  const configured = params
+    .get('modes')
+    ?.split(',')
+    .filter((mode): mode is Mode => available.includes(mode as Mode));
+  const initial = {
+    modes: configured?.length
+      ? configured
+      : data
+        ? (['csr', 'ssr'] as Mode[])
+        : available,
+    data: data || params.get('fetch') === '1',
+    prefetch: params.get('preload') === '1',
+    delay: [1500, 3000].includes(Number(params.get('delay')))
+      ? Number(params.get('delay'))
+      : 0,
+    failureEnabled: params.has('failure'),
+    failure: params.get('failure') || 'network',
+    target: params.get('target') || 'provider/Weather',
+  };
+  const [draft, setDraft] = useState(initial);
+  const [applied, setApplied] = useState(initial);
   const [run, setRun] = useState(0);
-  const [delay, setDelay] = useState(0);
   const [inspect, setInspect] = useState(false);
-  const [failureEnabled, setFailureEnabled] = useState(false);
-  const [failure, setFailure] = useState('network');
-  const [target, setTarget] = useState('provider/Weather');
-  const [prefetch, setPrefetch] = useState(true);
-  const [paletteSeed] = useState(inspectPaletteSeed);
-  const panels = data
-    ? [
-        ['CSR', 'render=csr&csr=1&data=client'],
-        ['SSR', 'render=ssr&data=client'],
-        ['CSR + data-fetch', 'render=csr&csr=1&data=mf'],
-        ['SSR + data-fetch', 'render=ssr&data=mf'],
-      ]
-    : [
-        ['CSR', 'render=csr&csr=1&data=local'],
-        ['SSR', 'render=ssr&data=local'],
-      ];
+  const [fit, setFit] = useState(true);
+  const [seed] = useState(paletteSeed);
+  const edit = <K extends keyof typeof draft>(
+    key: K,
+    value: (typeof draft)[K],
+  ) => setDraft(previous => ({ ...previous, [key]: value }));
+  const changed = JSON.stringify(draft) !== JSON.stringify(applied);
+  const modeCount = applied.modes.length;
+  function applyConfiguration(nextConfig = draft) {
+    setApplied(nextConfig);
+    setRun(value => value + 1);
+    const next = new URLSearchParams(params);
+    next.set('modes', nextConfig.modes.join(','));
+    next.set('fetch', nextConfig.data ? '1' : '0');
+    next.set('preload', nextConfig.prefetch ? '1' : '0');
+    next.set('delay', String(nextConfig.delay));
+    if (nextConfig.failureEnabled) next.set('failure', nextConfig.failure);
+    else next.delete('failure');
+    next.set('target', nextConfig.target);
+    history.replaceState(history.state, '', `${location.pathname}?${next}`);
+  }
   return (
-    <div className="comparison-shell">
-      <LabNav />
-      <header className="comparison-toolbar" aria-label="Comparison controls">
-        <div className="comparison-controls">
-          <FailureControls
-            enabled={failureEnabled}
-            kind={failure}
-            options={
-              data
-                ? [...renderFailures, ...dataFailures]
-                : target.includes('nested/')
-                  ? [
-                      ...renderFailures,
-                      ['inner-network', 'Inner remote network failure'],
-                    ]
-                  : renderFailures
-            }
-            onChange={(enabled, kind) => {
-              setFailureEnabled(enabled);
-              setFailure(kind);
-              if (enabled || enabled !== failureEnabled)
-                setRun(value => value + 1);
-            }}
-          />
-          {!data && (
-            <select
-              aria-label="Failure target"
-              value={target}
-              onChange={event => {
-                setTarget(event.target.value);
-                if (failure === 'inner-network') setFailure('network');
-                setRun(value => value + 1);
-              }}
-            >
-              <option value="provider/Weather">Current weather</option>
-              <option value="dynamic/WeatherHourly">
-                Dynamic hourly forecast
-              </option>
-              <option value="nested/WeatherDays">Nested daily forecast</option>
-              <option value="nested/WeatherWind">Dynamic nested wind</option>
-            </select>
-          )}
-
-          <label className="inspect-control">
-            <input
-              type="checkbox"
-              checked={inspect}
-              onChange={event => setInspect(event.target.checked)}
-            />
-            Inspect
-          </label>
-          {data && (
+    <LabLayout
+      section="render"
+      className={`lab-render-layout ${fit ? 'lab-fit-layout' : ''}`}
+      title="Rendering"
+      description="Compare loading and interaction timing."
+    >
+      <section className="lab-controls" aria-label="Rendering settings">
+        <div className="lab-control-row">
+          <fieldset>
+            <legend>Render modes</legend>
+            {available.map(mode => (
+              <label key={mode}>
+                <Checkbox
+                  data-testid={`mode-${mode}`}
+                  checked={draft.modes.includes(mode)}
+                  onCheckedChange={checked =>
+                    edit(
+                      'modes',
+                      checked
+                        ? [...draft.modes, mode]
+                        : draft.modes.filter(item => item !== mode),
+                    )
+                  }
+                />
+                {labels[mode]}
+              </label>
+            ))}
+          </fieldset>
+          <div className="lab-render-display">
             <label
-              className="prefetch-control"
-              title="Start MF client data loading before rendering. SSR data is already loaded on the server."
+              className="inspect-control"
+              aria-label="Inspect"
+              title="Show debug markers"
             >
-              <input
-                type="checkbox"
-                checked={prefetch}
-                onChange={event => {
-                  setPrefetch(event.target.checked);
-                  setRun(value => value + 1);
-                }}
+              <Checkbox
+                aria-label="Inspect"
+                checked={inspect}
+                onCheckedChange={checked => setInspect(checked)}
               />
-              Data prefetch
+              <LabIcon name="inspect" />
             </label>
-          )}
+            <Button onClick={() => setFit(value => !value)}>
+              {fit ? 'Full-size view' : 'Fit to screen'}
+            </Button>
+          </div>
+        </div>
+        <div className="lab-control-row">
           <label>
-            Simulate slow startup{' '}
-            <select
-              aria-label="JavaScript startup delay"
-              title="Delay the weather entry script to compare the initial page before JavaScript starts"
-              value={delay}
-              onChange={event => {
-                setDelay(Number(event.target.value));
-                setRun(value => value + 1);
+            <Checkbox
+              data-testid="compare-data"
+              checked={draft.data}
+              onCheckedChange={checked => edit('data', checked)}
+            />
+            Data fetching
+          </label>
+          <label className="prefetch-control">
+            <Checkbox
+              checked={draft.prefetch}
+              onCheckedChange={checked => edit('prefetch', checked)}
+            />
+            Prefetch
+          </label>
+          <Button
+            className="lab-primary"
+            data-testid="render-apply"
+            disabled={!draft.modes.length}
+            onClick={() => applyConfiguration()}
+          >
+            <LabIcon name="refresh" /> Apply
+          </Button>
+          {changed && <small role="status">Changes pending</small>}
+          {applied.failureEnabled && (
+            <Button
+              data-testid="clear-failure"
+              onClick={() => {
+                const clean = { ...draft, failureEnabled: false };
+                setDraft(clean);
+                applyConfiguration(clean);
               }}
             >
-              <option value={0}>No delay</option>
-              <option value={1500}>1.5 s delay</option>
-              <option value={3000}>3 s delay</option>
-            </select>
-          </label>
-          <button onClick={() => setRun(run + 1)}>↻ Reload</button>
+              <LabIcon name="refresh" /> Reset
+            </Button>
+          )}
+          <details className="lab-advanced">
+            <summary>Advanced</summary>
+            <div className="comparison-controls">
+              <FailureControls
+                enabled={draft.failureEnabled}
+                kind={draft.failure}
+                options={[...renderFailures, ...dataFailures]}
+                onChange={(enabled, kind) =>
+                  setDraft(value => ({
+                    ...value,
+                    failureEnabled: enabled,
+                    failure: kind,
+                  }))
+                }
+              />
+              <label>
+                Failure target{' '}
+                <Select
+                  aria-label="Failure target"
+                  value={draft.target}
+                  onValueChange={value => edit('target', value)}
+                >
+                  <SelectItem value="provider/Weather">
+                    Current weather
+                  </SelectItem>
+                  <SelectItem value="dynamic/WeatherHourly">
+                    Dynamic hourly forecast
+                  </SelectItem>
+                  <SelectItem value="nested/WeatherDays">
+                    Nested daily forecast
+                  </SelectItem>
+                  <SelectItem value="nested/WeatherWind">
+                    Dynamic nested wind
+                  </SelectItem>
+                </Select>
+              </label>
+              <label>
+                Script delay{' '}
+                <Select
+                  aria-label="JavaScript startup delay"
+                  value={draft.delay}
+                  onValueChange={value => edit('delay', Number(value))}
+                >
+                  <SelectItem value="0">No delay</SelectItem>
+                  <SelectItem value="1500">1.5 s</SelectItem>
+                  <SelectItem value="3000">3 s</SelectItem>
+                </Select>
+              </label>
+            </div>
+          </details>
         </div>
-      </header>
-      <div className={`comparison-grid ${data ? 'four-panels' : ''}`}>
-        {panels.map(([name, query]) => (
-          <Panel
-            key={name}
-            name={name}
-            query={`${query}&failure=${failureEnabled ? failure : ''}&target=${data ? 'provider/Weather' : target}&delay=${delay}${data ? `&compact=1&prefetch=${prefetch ? '1' : '0'}` : ''}`}
-            run={run}
-            inspect={inspect}
-            paletteSeed={paletteSeed}
-          />
-        ))}
+      </section>
+      {!modeCount && (
+        <p className="lab-empty">Select at least one rendering mode.</p>
+      )}
+      <div className="lab-render-grid" data-testid="render-grid">
+        {applied.modes.map(mode => {
+          const ordinary = mode === 'csr' || mode === 'ssr';
+          const variants =
+            ordinary && !partial
+              ? [
+                  {
+                    label: labels[mode],
+                    data: applied.data
+                      ? 'client'
+                      : applied.prefetch
+                        ? 'mf'
+                        : 'local',
+                    prefetch: false,
+                  },
+                  ...(applied.data
+                    ? [
+                        {
+                          label: `${labels[mode]} + data-fetch`,
+                          data: 'mf',
+                          prefetch: false,
+                        },
+                      ]
+                    : []),
+                  ...(applied.prefetch && mode === 'csr'
+                    ? [
+                        {
+                          label: `${labels[mode]} + prefetch`,
+                          data: 'mf',
+                          prefetch: true,
+                        },
+                      ]
+                    : []),
+                ]
+              : [
+                  { label: labels[mode], data: 'local', prefetch: false },
+                  ...(!ordinary && applied.data
+                    ? [
+                        {
+                          label: `${labels[mode]} + data loader`,
+                          data: 'loader',
+                          prefetch: false,
+                        },
+                      ]
+                    : []),
+                  ...(!ordinary && applied.prefetch
+                    ? [
+                        {
+                          label: `${labels[mode]} + Asset prefetch`,
+                          data: applied.data ? 'loader' : 'local',
+                          prefetch: true,
+                        },
+                      ]
+                    : []),
+                ];
+          return (
+            <section
+              className={`lab-render-group ${variants.length > 1 ? 'has-variants' : ''}`}
+              key={mode}
+              data-render-mode={mode}
+            >
+              <h2>
+                {labels[mode]}
+                {mode === 'ssr' && applied.prefetch
+                  ? ' · SSR supplies initial data; browser prefetch is skipped'
+                  : ''}
+              </h2>
+              <div
+                className="lab-render-variants"
+                style={{ '--variants': variants.length } as CSSProperties}
+              >
+                {variants.map(variant => {
+                  const query = new URLSearchParams({
+                    render: mode,
+                    data: variant.data,
+                    prefetch: variant.prefetch ? '1' : '0',
+                    failure:
+                      ordinary && applied.failureEnabled ? applied.failure : '',
+                    target: applied.target,
+                    delay: String(applied.delay),
+                  });
+                  if (mode === 'csr') query.set('csr', '1');
+                  if (partial) query.set('static', '1');
+                  if (!ordinary) {
+                    query.set('labFrame', '1');
+                    query.set('labData', variant.data);
+                  }
+                  if (applied.data || applied.prefetch)
+                    query.set('compact', '1');
+                  return (
+                    <LabPanel
+                      key={variant.label}
+                      name={variant.label}
+                      path={
+                        mode === 'bridge'
+                          ? '/bridge-ssr/forecast/today'
+                          : mode === 'service'
+                            ? '/service/forecast/today'
+                            : '/weather'
+                      }
+                      query={query.toString()}
+                      run={run}
+                      refresh={0}
+                      inspect={inspect}
+                      paletteSeed={seed}
+                      fit={fit}
+                      description={
+                        !ordinary
+                          ? variant.data === 'local'
+                            ? 'Local data'
+                            : 'App loader'
+                          : undefined
+                      }
+                      preloadApplication={
+                        !ordinary && variant.prefetch ? mode : undefined
+                      }
+                    />
+                  );
+                })}
+              </div>
+            </section>
+          );
+        })}
       </div>
-    </div>
+    </LabLayout>
   );
 }

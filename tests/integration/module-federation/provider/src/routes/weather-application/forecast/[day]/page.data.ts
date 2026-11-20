@@ -10,6 +10,17 @@ export const loader = ({
   const day = forecastDays.find(item => item.id === params.day);
   if (!day) throw new Response('Forecast not found', { status: 404 });
   const url = new URL(request.url);
+  if (url.searchParams.get('labData') === 'local')
+    return {
+      day,
+      detail: Promise.resolve({
+        outlook: day.rainy
+          ? 'Bring an umbrella for showers.'
+          : 'A good day for a lakeside walk.',
+        detail: 'Local fixture · no API request',
+      }),
+      cancelToken: '',
+    };
   const endpoint = new URL('/bridge-data', process.env.MF_LAB_API);
   const cancelToken = crypto.randomUUID();
   endpoint.search = url.search;

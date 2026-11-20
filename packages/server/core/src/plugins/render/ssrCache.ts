@@ -65,7 +65,9 @@ async function processCache({
       await reader.cancel(reason);
     };
     // A disconnected consumer may leave the producer waiting in reader.read().
-    void writer.closed.catch(cancel).catch(() => {});
+    const downstream = writer.closed.catch(cancel);
+    requestHandlerOptions.work?.track(downstream);
+    void downstream.catch(() => {});
     const onAbort = () => {
       void Promise.allSettled([
         cancel(request.signal.reason),
@@ -110,6 +112,7 @@ async function processCache({
         request.signal.removeEventListener('abort', onAbort);
       }
     })();
+    requestHandlerOptions.work?.track(pumping);
     void pumping.catch(() => {});
 
     cacheStatus && response.headers.set(X_RENDER_CACHE, cacheStatus);
@@ -203,6 +206,7 @@ export function matchCacheControl(
 }
 
 export interface GetCacheResultOptions {
+  cacheNamespace?: string;
   cacheControl: CacheControl;
   requestHandler: RequestHandler;
   requestHandlerOptions: RequestHandlerOptions;
@@ -221,7 +225,11 @@ export async function getCacheResult(
   } = options;
   const { onError } = requestHandlerOptions;
 
-  const key = computedKey(request, cacheControl);
+  const computed = computedKey(request, cacheControl);
+  const key =
+    options.cacheNamespace === undefined
+      ? computed
+      : JSON.stringify(['modern-ssr', options.cacheNamespace, computed]);
 
   let value: string | undefined;
   try {
@@ -254,7 +262,7 @@ export async function getCacheResult(
       // the cache is stale while revalidate
 
       // we shouldn't await this promise.
-      void processCache({
+      const refreshing = processCache({
         key,
         request,
         requestHandler,
@@ -275,6 +283,7 @@ export async function getCacheResult(
           }
         });
 
+      requestHandlerOptions.work?.track(refreshing);
       const cacheStatus: CacheStatus = 'stale';
       return new Response(cache.val, {
         headers: {

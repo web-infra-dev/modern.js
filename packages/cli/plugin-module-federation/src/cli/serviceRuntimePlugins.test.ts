@@ -177,7 +177,10 @@ it('bundles a TS plugin graph and its options into a movable artifact for indepe
       }),
     },
   );
-  const output = await ingress({ req: { raw: request } }, async () => {});
+  const output = await ingress(
+    { req: { raw: request }, get: () => undefined },
+    async () => {},
+  );
   expect(output?.status).toBe(200);
   expect(await output!.text()).toContain('selected weather');
   expect(

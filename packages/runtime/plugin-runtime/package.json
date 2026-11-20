@@ -146,6 +146,11 @@
     "./mf/server": {
       "types": "./dist/types/mf.node.d.ts",
       "default": "./dist/esm/mf.node.mjs"
+    },
+    "./mf/update": {
+      "types": "./dist/types/mf/update.d.ts",
+      "import": "./dist/esm/mf/update.mjs",
+      "require": "./dist/cjs/mf/update.js"
     }
   },
   "typesVersions": {
@@ -227,6 +232,9 @@
       ],
       "mf/server": [
         "./dist/types/mf.node.d.ts"
+      ],
+      "mf/update": [
+        "./dist/types/mf/update.d.ts"
       ]
     }
   },
@@ -246,7 +254,7 @@
     "@modern-js/runtime-utils": "workspace:*",
     "@modern-js/types": "workspace:*",
     "@modern-js/utils": "workspace:*",
-    "@module-federation/bridge-react": "0.0.0-feat-enhanced-runtime-unification-20261111082820",
+    "@module-federation/bridge-react": "0.0.0-feat-mf-ssr-update-current-20261120081805",
     "@swc/core": "1.16.18",
     "@swc/helpers": "^0.5.17",
     "@swc/plugin-loadable-components": "^12.0.0",
@@ -261,7 +269,7 @@
     "react-is": "^18.3.1"
   },
   "peerDependencies": {
-    "@module-federation/enhanced": "0.0.0-feat-enhanced-runtime-unification-20261111082820",
+    "@module-federation/enhanced": "0.0.0-feat-mf-ssr-update-current-20261120081805",
     "react": ">=18.3.1",
     "react-dom": ">=18.3.1"
   },

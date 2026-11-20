@@ -44,16 +44,24 @@ export default function inspectPlugin(): ModuleFederationRuntimePlugin {
       return {
         async onLoad(args) {
           if (/\.data(?:\.client)?$/.test(args.expose)) return;
-          const snapshot = instance.snapshotHandler.getGlobalRemoteInfo(
-            args.options.remoteInfo,
-          ).remoteSnapshot;
+          // SSR updates keep the chosen snapshot on the application. Reading
+          // the global registry can miss it or inspect another release instead.
+          const { remoteMatchInfo } =
+            await instance.remoteHandler.getRemoteModuleAndOptions({
+              id: args.id,
+            });
+          const snapshot = remoteMatchInfo.remoteSnapshot;
+          const metadata =
+            snapshot && 'modules' in snapshot
+              ? snapshot.modules.find(
+                  module => module.modulePath === remoteMatchInfo.expose,
+                )
+              : undefined;
+          // Bridge and Service exports are provider factories, not components.
           if (
-            snapshot &&
-            'modules' in snapshot &&
-            snapshot.modules.some(
-              module =>
-                module.modulePath === args.expose && module.render === 'bridge',
-            )
+            metadata?.render === 'bridge' ||
+            (metadata &&
+              Object.prototype.hasOwnProperty.call(metadata, 'servicePath'))
           )
             return;
           // Runtime plugins initialize before React's share scope. Load the UI

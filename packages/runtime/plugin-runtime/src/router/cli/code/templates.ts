@@ -584,7 +584,12 @@ export function ssrLoaderCombinedModule(
       serverLoaderRuntime,
     )}"; export * from "${slash(serverLoadersFile)}"`;
 
-    if (!config.source.enableAsyncEntry) {
+    const mf = config.moduleFederation;
+    const reloadableSSR =
+      typeof mf === 'object' &&
+      typeof mf.ssr === 'object' &&
+      mf.ssr.cacheUpdates;
+    if (!config.source.enableAsyncEntry && !reloadableSSR) {
       return combinedModule;
     }
 

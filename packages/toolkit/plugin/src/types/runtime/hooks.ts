@@ -33,6 +33,8 @@ export interface StreamSSRExtender {
     shellEndMarker?: string;
     identifierPrefix?: string;
     request?: Request;
+    /** Work that must settle before the owning SSR application can update. */
+    work?: { track<T>(task: Promise<T>): Promise<T> };
     nonce?: string;
     runtimeContext?: {
       ssrContext?: {

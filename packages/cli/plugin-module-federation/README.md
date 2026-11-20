@@ -57,7 +57,7 @@ The package exports root CLI registration, config-plugin, ssr-plugin, data-fetch
 The framework MF entry also provides Modern application renderer callbacks and a provider helper.
 General runtime APIs continue to come from @module-federation/enhanced/runtime.
 The producer registers its framework import with the engine's manifest analyzer.
-Service deployment is documented in the [Service App guide](../../document/docs/en/guides/topic-detail/module-federation/service-app.mdx). Remote version replacement remains separate.
+Service deployment is documented in the [Service App guide](../../document/docs/en/guides/topic-detail/module-federation/service-app.mdx). Coordinated server remote replacement is described below.
 
 ## Modern application SSR
 
@@ -101,3 +101,135 @@ development and production. See [React #26228](https://github.com/facebook/react
 and [React #31134](https://github.com/facebook/react/issues/31134). It is outside
 the initial SSR support boundary. The adapter does not patch React, strip bytes,
 or add a runtime version guard. Existing CSR support remains unchanged.
+
+## SSR cache updates
+
+Set `moduleFederation: { ssr: { cacheUpdates: true } }` in `modern.config.ts` to
+enable server ownership tracking and the service-lifetime update manager. Modern
+binds the manager to its application resources, including Service ingress and
+producer caches. Application code does not need to connect the low-level
+`createSSRUpdateAdapter` manually.
+
+This work currently requires the locally built Rspack native binding and matching
+JavaScript package with SSR dependency graphs and producer cache metadata, together
+with the matching MF runtime and Modern builds. An unsupported Rspack build is
+rejected during configuration. The local validation setup does not imply that
+these capabilities are available in an existing published version.
+
+Server code imports the public APIs from `@modern-js/runtime/mf/update`:
+
+<!-- prettier-ignore -->
+```ts
+import { shouldUpdateRemote, updateRemotes } from '@modern-js/runtime/mf/update'
+
+const remote = {
+  name: 'shop',
+  entry: 'https://cdn.example.com/shop/mf-manifest.json',
+}
+
+// Run outside an active SSR request in a running Modern server.
+if (await shouldUpdateRemote(remote, { revalidate: true })) {
+  const result = await updateRemotes([remote], { revalidate: true })
+  console.log(result.changed, result.generation)
+}
+```
+
+`shouldUpdateRemote` returns `Promise<boolean>` and checks candidate deployment
+data without changing the active runtime. The registered manifest URL can stay
+the same. A supplied `moduleInfo` contains a fresh manifest or provider snapshot.
+`updateRemotes` checks again when the operation executes and returns a
+`Promise<RemoteUpdateResult>`, including `operationId`, `changed` and the available
+generation or reload scope. Both APIs accept `signal`, `revalidate` and
+`application`. Use `application` to select the MF application name when several
+services share a process and there is no owning request context. The name must
+select one service in that case. Give independent applications distinct names. These APIs
+require a running Modern server with the capability enabled and do not perform
+browser-side remote replacement.
+
+The lightweight `mf/update` entry supports native Node ESM and CommonJS imports
+without loading the React rendering integrations. It still requires the running
+Modern server described above. A release controller can trigger updates through
+an application-controlled endpoint, which must use the after-response form when
+its request is owned by the update coordinator. The complete `mf` entry retains
+the same API exports for compiled application code.
+
+Once an update selects candidate module information, Host runtimes and the
+application's Service ingress use that captured snapshot through rebuilding.
+User `afterResolve` plugins must preserve its deployment identity. Changes to
+request headers and other request policy remain supported. Capturing metadata
+does not retain overwritten artifact bytes, so production releases still need
+immutable versioned resources.
+
+Provider lookup reuses the MF build identifier derived from its provider name
+and manifest `buildVersion`. Concurrent versions of one provider need distinct
+build versions, such as a per-release `MF_BUILD_VERSION` supplied during build.
+Do not rewrite that manifest field independently of the compiled runtime.
+
+In development, Modern assigns one `buildVersion` before each application build.
+The browser and Node compilations use that same value in their container identities
+and manifests. Invalidating one target also rebuilds the other target, and Modern
+publishes the merged manifest only after both outputs complete with the current
+version. Production keeps the configured release version and updates when the
+application calls the update API.
+
+When a selected provider is already used by another application, a new Host
+adopts that provider's loaded singleton records of the same package version
+before evaluating its renderer. This keeps retained components and the Host on
+the same runtime dependencies. Non-singleton dependencies and other package
+versions retain their normal MF selection. Conflicting loaded singletons among
+the selected providers fail initialization.
+
+An explicit remote `client` entry is embedded in HTML published after that update.
+Subsequent updates to that remote must also supply its matching client entry.
+Already-issued HTML is unchanged. Keeping those documents usable requires an
+initial release mapping and retained immutable browser assets.
+
+Inside an owning SSR request or loader, submit a deferred update instead:
+
+<!-- prettier-ignore -->
+```ts
+const receipt = updateRemotes([remote], { defer: 'after-response' })
+console.log(receipt.operationId, receipt.phase)
+```
+
+This overload returns a synchronous `RemoteUpdateReceipt`, not a completion
+Promise. It schedules execution after the request's response and registered
+producer work settle. A plain update from that active request is rejected because
+waiting for its own drain would deadlock. The receipt identifies accepted work,
+not successful publication. Its `revision` is diagnostic metadata, not a release
+ordering input.
+
+Production updates run when the server calls the update API. A Server plugin
+can schedule a check in `onPrepare` and cancel its timer on close. This works
+without any incoming SSR requests. For a complete example, see the
+[SSR update guide](../../document/docs/zh/guides/topic-detail/module-federation/ssr-update.mdx).
+
+In development, browser HMR and incoming SSR requests prompt the owning server
+to check its known manifest URLs. Server publication prepares the next request.
+The browser continues to use the bundler's HMR and reload fallback. A remote
+Service App renders in its own server process and sends the client snapshot
+associated with the response. Its Host forwards the stream.
+
+During updates, new SSR requests wait by default. Set
+`ssr.application.requestPolicy` to `'csr'` for an HTML shell or use a synchronous
+function of `{ entryName }` to choose between `'wait'` and `'csr'` per entry.
+The resource owner drains response streams and registered producer work before
+invalidation. Complete static ownership allows selective entry reloads. Dynamic
+consumption or incomplete ownership requires an application rebuild.
+A destructive failure can leave SSR unavailable until a later successful update.
+Neither cancellation nor an update failure guarantees restoration of already
+invalidated application state. Production deployments that retain old HTML also
+need matching immutable browser assets and release metadata.
+
+The low-level `createSSRUpdateAdapter` requires explicit runtime ownership.
+Execute compiled entry loading and reloading through `adapter.run`, including
+`run: adapter.run` in the resource application options. Bind consumers created
+through runtime APIs with `adapter.bindRuntime(instance)`. Instances are never
+adopted merely because their names match in the global federation registry.
+The automatically installed server plugin supplies this ownership for normal apps.
+
+See the [SSR update guide](../../document/docs/zh/guides/topic-detail/module-federation/ssr-update.mdx),
+[server coordination contract](../../server/core/SSR_REQUEST_COORDINATION.md)
+and [Weather Lab integration tests](../../../tests/integration/module-federation/README.md#producer-updates-and-ssr-cache-validation)
+for examples, validation and limits. The work owner is server-local, including on
+Service producers, and is never serialized into Service requests or responses.

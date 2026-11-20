@@ -1,4 +1,4 @@
-import type { OnError } from '@modern-js/app-tools';
+import type { OnError, RequestHandlerOptions } from '@modern-js/app-tools';
 import { time } from '@modern-js/runtime-utils/time';
 import type {
   ClientManifest as RscClientManifest,
@@ -17,6 +17,7 @@ import { SSRErrors, SSRTimings } from '../tracer';
 import { getSSRConfigByEntry } from '../utils';
 
 export type CreateReadableStreamFromElementOptions = {
+  work?: RequestHandlerOptions['work'];
   runtimeContext: TRuntimeContext;
   config: HandleRequestConfig;
   ssrConfig: SSRConfig;
@@ -188,6 +189,7 @@ export function createRenderStreaming(
       rscSSRManifest: options.rscSSRManifest,
       rscServerManifest: options.rscServerManifest,
       rscRoot: options.rscRoot,
+      work: options.work,
       onShellReady() {
         const cost = end();
         onTiming(SSRTimings.RENDER_SHELL, cost);

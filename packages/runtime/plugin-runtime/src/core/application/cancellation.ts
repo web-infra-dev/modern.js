@@ -18,6 +18,7 @@ export function initializeCancellation(
   api: RuntimePluginAPI<RuntimeExtends>,
   signal?: AbortSignal,
   onError?: (error: unknown) => void,
+  work?: { track<T>(task: Promise<T>): Promise<T> },
 ) {
   signal?.throwIfAborted();
   let cancel: ((reason: unknown) => void) | undefined;
@@ -43,7 +44,9 @@ export function initializeCancellation(
     const cancelled = new Promise<never>((_, reject) => {
       cancel = reject;
     });
-    return Promise.race([prepare(), cancelled]).finally(() => {
+    const preparation = prepare();
+    work?.track(preparation);
+    return Promise.race([preparation, cancelled]).finally(() => {
       cancel = undefined;
     });
   });
@@ -52,10 +55,11 @@ export function initializeCancellation(
 export function cancellationPlugin(
   signal?: AbortSignal,
   onError?: (error: unknown) => void,
+  work?: { track<T>(task: Promise<T>): Promise<T> },
 ): RuntimePlugin {
   return {
     name: '@modern-js/runtime-preparation-cancellation',
     registryHooks: preparationHooks,
-    setup: api => initializeCancellation(api, signal, onError),
+    setup: api => initializeCancellation(api, signal, onError, work),
   };
 }

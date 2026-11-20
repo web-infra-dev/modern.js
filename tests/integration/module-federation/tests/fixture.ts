@@ -29,6 +29,11 @@ export function setupLab(
     applicationIsolation?: boolean;
     bridgeInputEvidence?: boolean;
     publicRoutesOnly?: boolean;
+    updates?: 'ordinary' | 'bridge' | 'service';
+    serviceDeployment?: boolean;
+    serviceNested?: boolean;
+    partialUpdates?: boolean;
+    mode?: 'dev' | 'production';
   } = {},
 ) {
   let lab: Awaited<ReturnType<typeof startLab>>;
@@ -72,7 +77,10 @@ export function setupLab(
   let expectedErrorGroups: { pattern: RegExp; count: number }[] | undefined;
   let expectedErrors: { pattern: RegExp; min: number; max: number } | undefined;
   beforeAll(async () => {
-    workspace = await createWorkspace({ service: options.service });
+    workspace = await createWorkspace({
+      service: options.service,
+      updates: options.updates,
+    });
     if (!options.publicRoutesOnly)
       await cp(
         fileURLToPath(
@@ -216,6 +224,12 @@ export default function Document() {
       workspace,
       options.basename || '',
       Boolean(options.service),
+      {
+        updates: options.updates,
+        serviceDeployment: options.serviceDeployment,
+        serviceNested: options.serviceNested,
+        ssrScope: options.partialUpdates ? 'entries' : undefined,
+      },
     );
     browser = await puppeteer.launch({
       headless: true,
@@ -315,7 +329,9 @@ export default function Document() {
     await page
       .waitForFunction(
         expected => {
-          const frames = Array.from(document.querySelectorAll('iframe'));
+          const frames = Array.from(
+            document.querySelectorAll<HTMLIFrameElement>('iframe'),
+          ).filter(frame => new URL(frame.src).pathname.endsWith('/weather'));
           return (
             frames.length === expected &&
             frames.every(frame =>
@@ -404,12 +420,19 @@ export function describeLab(
     applicationIsolation?: boolean;
     bridgeInputEvidence?: boolean;
     publicRoutesOnly?: boolean;
+    updates?: 'ordinary' | 'bridge' | 'service';
+    serviceDeployment?: boolean;
+    serviceNested?: boolean;
+    partialUpdates?: boolean;
+    mode?: 'dev' | 'production';
   } = {},
 ) {
   rstest.setConfig({ testTimeout: 60000, hookTimeout: 600000, retry: 0 });
-  const modes = process.env.MF_LAB_MODE
-    ? [process.env.MF_LAB_MODE as 'dev' | 'production']
-    : (['dev', 'production'] as const);
+  const modes = options.mode
+    ? [options.mode]
+    : process.env.MF_LAB_MODE
+      ? [process.env.MF_LAB_MODE as 'dev' | 'production']
+      : (['dev', 'production'] as const);
   for (const mode of modes) {
     describe(`Weather Lab (${mode})`, () => {
       describe(name, () => register(setupLab(mode, options)));

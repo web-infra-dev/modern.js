@@ -1,5 +1,6 @@
 import { withRenderFailure } from '../render-failure';
 import { useState } from 'react';
+import { UpdateVersion } from '../update-version';
 type Data = {
   source: string;
   temperature: number;
@@ -21,6 +22,7 @@ function Forecast({ mfData, id = 'forecast' }: { mfData?: Data; id?: string }) {
         {weather === 'rainy' ? '☂' : '☀'}
       </div>
       <small>REMOTE WEATHER STATION · {version}</small>
+      <UpdateVersion />
       <h2 data-testid={`${id}-condition`}>
         {weather === 'rainy' ? 'Rain is rolling in.' : 'Clear skies ahead.'}
       </h2>

@@ -26,11 +26,33 @@ export async function startLab(
   root = fixtureRoot,
   hostBase = '',
   serviceOnly = false,
-  portAttempt = 0,
+  options = {},
 ) {
-  const names = serviceOnly
-    ? ['provider', 'api', 'serviceSSR', 'serviceCSR']
-    : regularNames;
+  const {
+    updates,
+    portAttempt = 0,
+    serviceDeployment = false,
+    serviceNested = process.env.MF_LAB_SERVICE_NESTED === '1',
+    ssrScope = process.env.MF_LAB_SSR_SCOPE || 'application',
+  } = options;
+  if (updates && !['ordinary', 'bridge', 'service', 'all'].includes(updates))
+    throw new Error(`Unknown update scenario: ${updates}`);
+  if (updates === 'all' && mode !== 'dev')
+    throw new Error('The combined update lab is development-only');
+  if (updates && serviceOnly)
+    throw new Error('Update scenarios use the Weather Lab host');
+  const updateOnly = updates === 'bridge' || updates === 'service';
+  const names = updateOnly
+    ? [
+        'host',
+        'hostInternal',
+        'provider',
+        'api',
+        ...(mode === 'production' ? ['providerV2'] : []),
+      ]
+    : serviceOnly
+      ? ['provider', 'api', 'serviceSSR', 'serviceCSR']
+      : regularNames;
   const hostRequire = createRequire(path.join(root, 'host/package.json'));
   const modern = path.resolve(
     path.dirname(hostRequire.resolve('@modern-js/app-tools')),
@@ -38,8 +60,34 @@ export async function startLab(
   );
   /** @type {Record<string, number>} */
   const ports = {};
+  const configuredPorts = process.env.MF_LAB_PORTS
+    ? JSON.parse(process.env.MF_LAB_PORTS)
+    : undefined;
+  if (
+    configuredPorts !== undefined &&
+    (!configuredPorts ||
+      typeof configuredPorts !== 'object' ||
+      Array.isArray(configuredPorts))
+  ) {
+    throw new Error('MF_LAB_PORTS must be a JSON object of service ports');
+  }
   const portRangeStart = 12000 + Math.floor(Math.random() * 8000);
   for (const [index, name] of names.entries()) {
+    if (configuredPorts) {
+      const port = configuredPorts[name];
+      if (
+        !Number.isSafeInteger(port) ||
+        port < 1 ||
+        port > 65535 ||
+        Object.values(ports).includes(port)
+      ) {
+        throw new Error(
+          `MF_LAB_PORTS requires a distinct valid port for ${name}`,
+        );
+      }
+      ports[name] = port;
+      continue;
+    }
     ports[name] = fixedPorts
       ? 4300 + index
       : await getPort({
@@ -49,17 +97,17 @@ export async function startLab(
           exclude: Object.values(ports),
         });
   }
-  const weatherDelay = serviceOnly
-    ? Number(process.env.MF_SERVICE_WEATHER_DELAY ?? 900)
-    : 900;
+  const weatherDelay = Number(
+    process.env.MF_LAB_WEATHER_DELAY ??
+      (serviceOnly ? process.env.MF_SERVICE_WEATHER_DELAY : undefined) ??
+      900,
+  );
   if (
     !Number.isSafeInteger(weatherDelay) ||
     weatherDelay < 0 ||
     weatherDelay > 5000
   )
-    throw Error(
-      'Service weather delay must be an integer between 0 and 5000 ms.',
-    );
+    throw Error('Weather delay must be an integer between 0 and 5000 ms.');
   const processes = [];
   const processInfo = [];
   const servers = [];
@@ -97,8 +145,24 @@ export async function startLab(
   };
   const env = {
     ...process.env,
+    // Rstest can use a different Rspack version from the application under test.
+    ...(process.env.MF_LAB_APP_NATIVE_BINDING
+      ? {
+          NAPI_RS_NATIVE_LIBRARY_PATH: process.env.MF_LAB_APP_NATIVE_BINDING,
+        }
+      : {}),
     MF_LAB_PORTS: JSON.stringify(ports),
-    MF_LAB_SERVICE: serviceOnly ? '1' : '',
+    MF_LAB_SOURCE_ROOT: process.env.MF_LAB_SOURCE_ROOT || fixtureRoot,
+    MF_LAB_SERVICE:
+      serviceOnly || updates === 'service' || updates === 'all' || serviceNested
+        ? '1'
+        : '',
+    MF_LAB_SERVICE_NESTED: serviceNested ? '1' : '',
+    MF_LAB_UPDATES: updates || '',
+    MF_LAB_SSR_SCOPE: ssrScope,
+    MF_LAB_UPDATE_PLUGIN: path.join(fixtureRoot, 'scripts/update-lab.mjs'),
+    MF_LAB_SERVICE_DEPLOYMENT: serviceDeployment ? '1' : '',
+    MF_LAB_MODE: mode,
     MODERN_MF_AUTO_CORS: '1',
     NO_COLOR: '1',
     MODERN_SERVER_LOG_LEVEL: 'warn',
@@ -106,19 +170,26 @@ export async function startLab(
   function launch(name, args, version = 'v1', continuous = false) {
     const cwd = path.join(root, name);
     const key = `${name}-${version}`;
-    const child = spawn(process.execPath, args, {
-      cwd,
-      env: {
-        ...env,
-        MF_LAB_VERSION: version,
-        MF_LAB_HOST_MODE: name === 'service-csr' ? 'csr' : 'ssr',
-        NODE_ENV:
-          args.includes('build') || mode === 'production'
-            ? 'production'
-            : 'development',
+    const child = spawn(
+      process.execPath,
+      updates && continuous ? ['--expose-gc', ...args] : args,
+      {
+        cwd,
+        env: {
+          ...env,
+          MF_LAB_VERSION: version,
+          ...(updates && mode === 'production'
+            ? { MF_BUILD_VERSION: version }
+            : {}),
+          MF_LAB_HOST_MODE: name === 'service-csr' ? 'csr' : 'ssr',
+          NODE_ENV:
+            args.includes('build') || mode === 'production'
+              ? 'production'
+              : 'development',
+        },
+        stdio: ['ignore', 'pipe', 'pipe'],
       },
-      stdio: ['ignore', 'pipe', 'pipe'],
-    });
+    );
     processes.push(child);
     processInfo.push({ name, key, pid: child.pid });
     logs.set(key, '');
@@ -144,11 +215,6 @@ export async function startLab(
       if (continuous) resolve(child);
     });
   }
-  const libraryRequire = createRequire(path.join(root, 'library/package.json'));
-  const rslib = path.join(
-    path.dirname(libraryRequire.resolve('@rslib/core/package.json')),
-    'bin/rslib.js',
-  );
   async function wait(url, json = false) {
     const deadline = Date.now() + 180000;
     let lastResponse;
@@ -177,8 +243,8 @@ export async function startLab(
       `Readiness timed out: ${url}\nLast response: ${JSON.stringify(lastResponse)}\n${[...logs].map(([key, log]) => `${key}:\n${log}`).join('\n')}`,
     );
   }
-  async function verifyServicePort(name, expected) {
-    if (!serviceOnly) return;
+  async function verifyServicePort(name, expected, always = false) {
+    if (!serviceOnly && !always) return;
     const key = `${name}-v1`;
     const deadline = Date.now() + 180000;
     while (Date.now() < deadline) {
@@ -291,7 +357,22 @@ export async function startLab(
           port: ports.hostInternal,
           path: req.url,
           method: req.method,
-          headers: req.headers,
+          headers: {
+            ...req.headers,
+            ...(updates &&
+            ['wait', 'csr', 'reject'].includes(
+              new URL(req.url, 'http://localhost').searchParams.get(
+                '__labPolicy',
+              ),
+            )
+              ? {
+                  'x-lab-update-policy': new URL(
+                    req.url,
+                    'http://localhost',
+                  ).searchParams.get('__labPolicy'),
+                }
+              : {}),
+          },
         },
         response => {
           res.writeHead(response.statusCode, {
@@ -323,10 +404,96 @@ export async function startLab(
       await new Promise(resolve => gateway.listen(ports.host, resolve));
     }
     let requestId = 0;
+    let serviceDeploymentVersion = 'v1';
+    let serviceDiscovery;
+    const serviceManifests = new Map();
+    const deploymentManifest = async version => {
+      if (!serviceManifests.has(version)) {
+        const port = version === 'v2' ? ports.providerV2 : ports.provider;
+        serviceManifests.set(
+          version,
+          await (
+            await fetch(`http://localhost:${port}/static/mf-manifest.json`)
+          ).json(),
+        );
+      }
+      return serviceManifests.get(version);
+    };
     const api = createServer(async (req, res) => {
       res.setHeader('Access-Control-Allow-Origin', '*');
       res.setHeader('Cache-Control', 'no-store');
       const url = new URL(req.url, 'http://localhost');
+      if (
+        serviceDeployment &&
+        url.pathname === '/service-deployment/select' &&
+        req.method === 'POST'
+      ) {
+        const version = url.searchParams.get('version');
+        if (!['v1', 'v2'].includes(version)) {
+          res.writeHead(400).end();
+          return;
+        }
+        serviceDeploymentVersion = version;
+        res.writeHead(204).end();
+        return;
+      }
+      if (
+        serviceDeployment &&
+        url.pathname === '/service-deployment/mf-manifest.json'
+      ) {
+        if (!serviceDiscovery) {
+          serviceDiscovery = structuredClone(await deploymentManifest('v1'));
+          serviceDiscovery.metaData.serviceBaseUrl = `http://localhost:${ports.api}/`;
+          for (const expose of serviceDiscovery.exposes)
+            if (typeof expose.servicePath === 'string')
+              expose.servicePath = `service-deployment/render/${encodeURIComponent(expose.name)}`;
+        }
+        res.setHeader('Content-Type', 'application/json');
+        res.end(JSON.stringify(serviceDiscovery));
+        return;
+      }
+      if (
+        serviceDeployment &&
+        url.pathname.startsWith('/service-deployment/render/')
+      ) {
+        const current = await deploymentManifest(serviceDeploymentVersion);
+        const expose = current.exposes.find(
+          expose =>
+            expose.name ===
+            decodeURIComponent(
+              url.pathname.slice('/service-deployment/render/'.length),
+            ),
+        );
+        if (!expose?.servicePath) {
+          res.writeHead(404).end();
+          return;
+        }
+        const target = new URL(
+          expose.servicePath,
+          current.metaData.serviceBaseUrl,
+        );
+        const upstream = request(
+          target,
+          {
+            method: req.method,
+            headers: {
+              ...req.headers,
+              host: target.host,
+              'content-type': req.headers['content-type'] || 'application/json',
+              accept: 'application/x-ndjson',
+            },
+          },
+          response => {
+            res.writeHead(response.statusCode || 500, response.headers);
+            response.pipe(res);
+          },
+        );
+        upstream.on('error', error => res.destroy(error));
+        req.once('aborted', () => upstream.destroy());
+        res.once('close', () => upstream.destroy());
+        req.pipe(upstream);
+        return;
+      }
       if (serviceOnly && url.pathname === '/service-stats') {
         res.setHeader('Content-Type', 'application/json');
         res.end(
@@ -501,27 +668,49 @@ export async function startLab(
       api.once('error', reject);
       api.listen(ports.api, resolve);
     });
-    for (const version of serviceOnly ? [] : ['v1', 'v2']) {
-      // Library builds are deterministic and serve the same emitted files in both modes.
-      await launch('library', [rslib, 'build'], version);
-      await serveArtifacts(
-        'library',
-        version === 'v2' ? 'dist/v2' : 'dist/v1',
-        version === 'v2' ? ports.libraryV2 : ports.library,
+    for (const version of serviceOnly || updateOnly ? [] : ['v1', 'v2']) {
+      const libraryRequire = createRequire(
+        path.join(root, 'library/package.json'),
       );
+      const rslib = path.join(
+        path.dirname(libraryRequire.resolve('@rslib/core/package.json')),
+        'bin/rslib.js',
+      );
+      if (mode === 'dev' && version === 'v1') {
+        await launch('library', [rslib, 'mf-dev'], version, true);
+        await verifyServicePort('library', ports.library, true);
+        await wait(`http://localhost:${ports.library}/mf-manifest.json`, true);
+      } else {
+        // Secondary releases stay immutable for explicit version-switch tests.
+        await launch('library', [rslib, 'build'], version);
+        await serveArtifacts(
+          'library',
+          version === 'v2' ? 'dist/v2' : 'dist/v1',
+          version === 'v2' ? ports.libraryV2 : ports.library,
+        );
+      }
     }
-    if (!serviceOnly) {
+    if (!serviceOnly && !updateOnly && !(updates && mode === 'production')) {
       await launch('provider', [modern, 'build'], 'v2');
       await serveArtifacts('provider', 'dist-v2', ports.providerV2);
     }
-    for (const [name, version, key] of serviceOnly
-      ? [['provider', 'v1', 'provider']]
-      : [
+    for (const [name, version, key] of updateOnly
+      ? [
           ['provider', 'v1', 'provider'],
-          ['nested', 'v1', 'nested'],
-          // Probe the Host listener directly before checking the public gateway.
+          ...(mode === 'production' ? [['provider', 'v2', 'providerV2']] : []),
           ['host', 'v1', 'hostInternal'],
-        ]) {
+        ]
+      : serviceOnly
+        ? [['provider', 'v1', 'provider']]
+        : [
+            ['provider', 'v1', 'provider'],
+            ['nested', 'v1', 'nested'],
+            ...(updates && mode === 'production'
+              ? [['provider', 'v2', 'providerV2']]
+              : []),
+            // Probe the Host listener directly before checking the public gateway.
+            ['host', 'v1', 'hostInternal'],
+          ]) {
       if (mode === 'production') await launch(name, [modern, 'build'], version);
       await launch(
         name,
@@ -531,7 +720,7 @@ export async function startLab(
       );
       await verifyServicePort(name, ports[key]);
       await wait(
-        `http://localhost:${ports[key]}/${name === 'host' ? hostBase.replace(/^\//, '') : 'static/mf-manifest.json'}`,
+        `http://localhost:${ports[key]}/${name === 'host' ? (updates ? '_lab/update/state' : hostBase.replace(/^\//, '')) : 'static/mf-manifest.json'}`,
         name !== 'host',
       );
     }
@@ -551,7 +740,10 @@ export async function startLab(
         await wait(`http://localhost:${ports[key]}/service?late=1`);
       }
     }
-    if (!serviceOnly) await wait(`http://localhost:${ports.host}${hostBase}/`);
+    if (!serviceOnly)
+      await wait(
+        `http://localhost:${ports.host}${updates ? '/_lab/update/state' : `${hostBase}/`}`,
+      );
     return {
       ports,
       processInfo,
@@ -569,12 +761,16 @@ export async function startLab(
     await stop();
     if (
       serviceOnly &&
+      !configuredPorts &&
       portAttempt < 3 &&
       /EADDRINUSE|address already in use|SERVICE_PORT_CHANGED/i.test(
         String(error),
       )
     )
-      return startLab(mode, false, root, hostBase, true, portAttempt + 1);
+      return startLab(mode, false, root, hostBase, true, {
+        ...options,
+        portAttempt: portAttempt + 1,
+      });
     throw error;
   }
 }

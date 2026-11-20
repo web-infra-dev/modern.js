@@ -1,9 +1,9 @@
 {
   "version": 1,
   "counts": {
-    "dev": 121,
-    "production": 120,
-    "common": 22
+    "dev": 129,
+    "production": 132,
+    "common": 59
   },
   "mf": [
     [
@@ -498,7 +498,7 @@
       "tests/integration/module-federation/tests/data-fetch.test.ts",
       "dev",
       ["Weather Lab (dev)", "Data fetching"],
-      "prefetches CSR weather data by default and reuses one request when rendering",
+      "keeps prefetch off until explicitly applied and reuses one data request per document",
       "rstest"
     ],
     [
@@ -540,7 +540,7 @@
       "tests/integration/module-federation/tests/data-fetch.test.ts",
       "production",
       ["Weather Lab (production)", "Data fetching"],
-      "prefetches CSR weather data by default and reuses one request when rendering",
+      "keeps prefetch off until explicitly applied and reuses one data request per document",
       "rstest"
     ],
     [
@@ -873,6 +873,20 @@
       "rstest"
     ],
     [
+      "tests/integration/module-federation/tests/inspect-protocol.test.ts",
+      "common",
+      [],
+      "inspect preserves the bridge provider selected by an application-owned snapshot",
+      "rstest"
+    ],
+    [
+      "tests/integration/module-federation/tests/inspect-protocol.test.ts",
+      "common",
+      [],
+      "inspect preserves the service provider selected by an application-owned snapshot",
+      "rstest"
+    ],
+    [
       "tests/integration/module-federation/tests/inspect.test.ts",
       "dev",
       ["Weather Lab (dev)", "Inspect"],
@@ -919,6 +933,104 @@
       "common",
       ["Ordinary React production builds without module federation"],
       "string preserves normal rendering and excludes the Bridge engine",
+      "rstest"
+    ],
+    [
+      "tests/integration/module-federation/tests/remote-updates.test.ts",
+      "dev",
+      ["Weather Lab (dev)", "Producer updates / bridge"],
+      "observes producer edits through the shell and refreshes Node SSR without restarting",
+      "rstest"
+    ],
+    [
+      "tests/integration/module-federation/tests/remote-updates.test.ts",
+      "dev",
+      ["Weather Lab (dev)", "Producer updates / bridge"],
+      "waits for Node readiness on a manual refresh while an older SSR stream drains",
+      "rstest"
+    ],
+    [
+      "tests/integration/module-federation/tests/remote-updates.test.ts",
+      "dev",
+      ["Weather Lab (dev)", "Producer updates / ordinary"],
+      "observes producer edits through the shell and refreshes Node SSR without restarting",
+      "rstest"
+    ],
+    [
+      "tests/integration/module-federation/tests/remote-updates.test.ts",
+      "dev",
+      ["Weather Lab (dev)", "Producer updates / service"],
+      "keeps a mixed-export layout reload on SSR while the Service producer updates",
+      "rstest"
+    ],
+    [
+      "tests/integration/module-federation/tests/remote-updates.test.ts",
+      "dev",
+      ["Weather Lab (dev)", "Producer updates / service"],
+      "observes producer edits through the shell and refreshes Node SSR without restarting",
+      "rstest"
+    ],
+    [
+      "tests/integration/module-federation/tests/remote-updates.test.ts",
+      "production",
+      ["Weather Lab (production)", "Producer updates / bridge"],
+      "keeps two iframe requests pending while CSR and reject requests return according to policy",
+      "rstest"
+    ],
+    [
+      "tests/integration/module-federation/tests/remote-updates.test.ts",
+      "production",
+      ["Weather Lab (production)", "Producer updates / bridge"],
+      "switches two built producers ten times and records post-GC memory",
+      "rstest"
+    ],
+    [
+      "tests/integration/module-federation/tests/remote-updates.test.ts",
+      "production",
+      ["Weather Lab (production)", "Producer updates / ordinary"],
+      "keeps two iframe requests pending while CSR and reject requests return according to policy",
+      "rstest"
+    ],
+    [
+      "tests/integration/module-federation/tests/remote-updates.test.ts",
+      "production",
+      ["Weather Lab (production)", "Producer updates / ordinary"],
+      "switches two built producers ten times and records post-GC memory",
+      "rstest"
+    ],
+    [
+      "tests/integration/module-federation/tests/remote-updates.test.ts",
+      "production",
+      ["Weather Lab (production)", "Producer updates / service"],
+      "keeps two iframe requests pending while CSR and reject requests return according to policy",
+      "rstest"
+    ],
+    [
+      "tests/integration/module-federation/tests/remote-updates.test.ts",
+      "production",
+      ["Weather Lab (production)", "Producer updates / service"],
+      "mounts a Service only after click and records visible and interactive timings",
+      "rstest"
+    ],
+    [
+      "tests/integration/module-federation/tests/remote-updates.test.ts",
+      "production",
+      ["Weather Lab (production)", "Producer updates / service"],
+      "switches two built producers ten times and records post-GC memory",
+      "rstest"
+    ],
+    [
+      "tests/integration/module-federation/tests/remote-updates.test.ts",
+      "production",
+      ["Weather Lab (production)", "Service producer internal SSR updates"],
+      "holds repeated Service renders for a nested dependency update and preserves the Host and producer processes",
+      "rstest"
+    ],
+    [
+      "tests/integration/module-federation/tests/remote-updates.test.ts",
+      "production",
+      ["Weather Lab (production)", "Static Weather Lab entries"],
+      "updates the weather entry while the homepage remains available with its original module cache",
       "rstest"
     ],
     [
@@ -1488,6 +1600,13 @@
       "tests/integration/module-federation/tests/runtime-exports.test.ts",
       "common",
       [],
+      "loads the public update APIs in native Node ESM and CommonJS without UI rendering modules",
+      "rstest"
+    ],
+    [
+      "tests/integration/module-federation/tests/runtime-exports.test.ts",
+      "common",
+      [],
       "renders a registry scope through built Node callbacks and the existing router context",
       "rstest"
     ],
@@ -1730,6 +1849,223 @@
       "rstest"
     ],
     [
+      "tests/integration/module-federation/tests/ssr-admission-response.test.ts",
+      "common",
+      [],
+      "a pre-admission response does not fall back to CSR or queue while an update is in progress",
+      "rstest"
+    ],
+    [
+      "tests/integration/module-federation/tests/ssr-admission-response.test.ts",
+      "common",
+      [],
+      "returns the admission response unchanged, observes the original signal and preserves POST bodies",
+      "rstest"
+    ],
+    [
+      "tests/integration/module-federation/tests/ssr-dev-admission.test.ts",
+      "common",
+      [],
+      "cancels one waiting document without cancelling another document",
+      "rstest"
+    ],
+    [
+      "tests/integration/module-federation/tests/ssr-dev-admission.test.ts",
+      "common",
+      [],
+      "does not gate a never-published remote and falls back when the broker disconnects",
+      "rstest"
+    ],
+    [
+      "tests/integration/module-federation/tests/ssr-dev-admission.test.ts",
+      "common",
+      [],
+      "holds a new document until the queued Node update is ready without blocking that update",
+      "rstest"
+    ],
+    [
+      "tests/integration/module-federation/tests/ssr-dev-admission.test.ts",
+      "common",
+      [],
+      "invalidates the consumer publication while a known nested producer is rebuilding",
+      "rstest"
+    ],
+    [
+      "tests/integration/module-federation/tests/ssr-dev-admission.test.ts",
+      "common",
+      [],
+      "keeps checking a static manifest when the broker has never published that producer",
+      "rstest"
+    ],
+    [
+      "tests/integration/module-federation/tests/ssr-dev-admission.test.ts",
+      "common",
+      [],
+      "keeps wait-manifest pending across a superseded compilation until current SSR resources are ready",
+      "rstest"
+    ],
+    [
+      "tests/integration/module-federation/tests/ssr-dev-admission.test.ts",
+      "common",
+      [],
+      "propagates a changed build through a acyclic chain before admitting its external consumer",
+      "rstest"
+    ],
+    [
+      "tests/integration/module-federation/tests/ssr-dev-admission.test.ts",
+      "common",
+      [],
+      "propagates a changed build through a three-node cycle before admitting its external consumer",
+      "rstest"
+    ],
+    [
+      "tests/integration/module-federation/tests/ssr-dev-admission.test.ts",
+      "common",
+      [],
+      "propagates a changed build through a two-node cycle before admitting its external consumer",
+      "rstest"
+    ],
+    [
+      "tests/integration/module-federation/tests/ssr-dev-admission.test.ts",
+      "common",
+      [],
+      "recovers a failed broker acknowledgement through HTTP without requiring another publication",
+      "rstest"
+    ],
+    [
+      "tests/integration/module-federation/tests/ssr-dev-admission.test.ts",
+      "common",
+      [],
+      "rejects a known producer 503 after a disconnected broker instead of admitting old SSR",
+      "rstest"
+    ],
+    [
+      "tests/integration/module-federation/tests/ssr-dev-admission.test.ts",
+      "common",
+      [],
+      "removes a cancelled manifest waiter without cancelling another waiter",
+      "rstest"
+    ],
+    [
+      "tests/integration/module-federation/tests/ssr-dev-admission.test.ts",
+      "common",
+      [],
+      "requests manifest readiness only through the private dev reader option",
+      "rstest"
+    ],
+    [
+      "tests/integration/module-federation/tests/ssr-dev-admission.test.ts",
+      "common",
+      [],
+      "returns 503 rather than entering old SSR on admission close",
+      "rstest"
+    ],
+    [
+      "tests/integration/module-federation/tests/ssr-dev-admission.test.ts",
+      "common",
+      [],
+      "returns 503 rather than entering old SSR on admission timeout",
+      "rstest"
+    ],
+    [
+      "tests/integration/module-federation/tests/ssr-dev-fallback.test.ts",
+      "common",
+      ["Development manifest fallback and Service recovery"],
+      "discovers ordinary SSR updates behind a fixed manifest URL",
+      "rstest"
+    ],
+    [
+      "tests/integration/module-federation/tests/ssr-dev-fallback.test.ts",
+      "common",
+      ["Development manifest fallback and Service recovery"],
+      "service-csr: rejects a stale POST once and reloads exactly once without replay or CSR downgrade",
+      "rstest"
+    ],
+    [
+      "tests/integration/module-federation/tests/ssr-dev-fallback.test.ts",
+      "common",
+      ["Development manifest fallback and Service recovery"],
+      "service: rejects a stale POST once and reloads exactly once without replay or CSR downgrade",
+      "rstest"
+    ],
+    [
+      "tests/integration/module-federation/tests/ssr-dev-fallback.test.ts",
+      "common",
+      ["Development manifest fallback and Service recovery"],
+      "withholds failed builds and recovers Bridge source, CSS, loader and rapid edits",
+      "rstest"
+    ],
+    [
+      "tests/integration/module-federation/tests/ssr-dev-subscriptions.test.ts",
+      "common",
+      ["Development subscription graph and fallback"],
+      "discovers rebuilt static producer artifacts without a producer subscription",
+      "rstest"
+    ],
+    [
+      "tests/integration/module-federation/tests/ssr-dev-subscriptions.test.ts",
+      "common",
+      ["Development subscription graph and fallback"],
+      "propagates nested producer changes without rebuilding either consumer",
+      "rstest"
+    ],
+    [
+      "tests/integration/module-federation/tests/ssr-dev-subscriptions.test.ts",
+      "common",
+      ["Development subscription graph and fallback"],
+      "recovers when the producer starts after the host without recompiling the host",
+      "rstest"
+    ],
+    [
+      "tests/integration/module-federation/tests/ssr-dev-subscriptions.test.ts",
+      "common",
+      ["Development subscription graph and fallback"],
+      "service: applies loader and component changes and remounts the selected release",
+      "rstest"
+    ],
+    [
+      "tests/integration/module-federation/tests/ssr-release-retention.test.ts",
+      "common",
+      [],
+      "SSR updates retain old browser releases and drain streams, loaders and deferred work",
+      "rstest"
+    ],
+    [
+      "tests/integration/module-federation/tests/ssr-static.test.ts",
+      "common",
+      [],
+      "compiled concatenated imports invalidate affected entries and preserve unrelated caches",
+      "rstest"
+    ],
+    [
+      "tests/integration/module-federation/tests/ssr-static.test.ts",
+      "common",
+      [],
+      "compiled named imports invalidate affected entries and preserve unrelated caches",
+      "rstest"
+    ],
+    [
+      "tests/integration/module-federation/tests/ssr-static.test.ts",
+      "common",
+      [],
+      "compiled numeric imports invalidate affected entries and preserve unrelated caches",
+      "rstest"
+    ],
+    [
+      "tests/integration/module-federation/tests/ssr-update-api.test.ts",
+      "common",
+      [],
+      "production API checks are read-only and updates support no-op, rollback and deferred publication",
+      "rstest"
+    ],
+    [
+      "tests/integration/module-federation/tests/ssr-update-identity.test.ts",
+      "common",
+      [],
+      "applications own their provider build identities through updates and disposal",
+      "rstest"
+    ],
+    [
       "tests/integration/module-federation/tests/unified.test.ts",
       "dev",
       ["Weather Lab (dev)", "Independent weather applications"],
@@ -1881,6 +2217,48 @@
       "production",
       ["Weather Lab (production)", "Routed weather application"],
       "renders styled deep-link SSR before host JavaScript and hydrates the same DOM without re-fetching",
+      "rstest"
+    ],
+    [
+      "tests/integration/module-federation/tests/service-deployment.test.ts",
+      "dev",
+      ["Weather Lab (dev)", "Service internal SSR dependencies"],
+      "streams and hydrates nested SSR with the selected dependency snapshots",
+      "rstest"
+    ],
+    [
+      "tests/integration/module-federation/tests/service-deployment.test.ts",
+      "dev",
+      ["Weather Lab (dev)", "Service internal SSR dependencies"],
+      "streams and hydrates plain SSR with the selected dependency snapshots",
+      "rstest"
+    ],
+    [
+      "tests/integration/module-federation/tests/service-deployment.test.ts",
+      "dev",
+      ["Weather Lab (dev)", "Service internal SSR dependencies"],
+      "updates only the nested Rslib producer without rebuilding the Service or reloading its document",
+      "rstest"
+    ],
+    [
+      "tests/integration/module-federation/tests/service-deployment.test.ts",
+      "production",
+      ["Weather Lab (production)", "Service independent deployment"],
+      "renders and hydrates the current deployment without updating the Host snapshot",
+      "rstest"
+    ],
+    [
+      "tests/integration/module-federation/tests/service-deployment.test.ts",
+      "production",
+      ["Weather Lab (production)", "Service internal SSR dependencies"],
+      "streams and hydrates nested SSR with the selected dependency snapshots",
+      "rstest"
+    ],
+    [
+      "tests/integration/module-federation/tests/service-deployment.test.ts",
+      "production",
+      ["Weather Lab (production)", "Service internal SSR dependencies"],
+      "streams and hydrates plain SSR with the selected dependency snapshots",
       "rstest"
     ]
   ],
