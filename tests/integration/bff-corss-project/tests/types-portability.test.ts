@@ -50,7 +50,10 @@ describe('crossProject client type portability', () => {
     try {
       const manifest = path.join(apiAppDir, 'package.json');
       const pkg = JSON.parse(fs.readFileSync(manifest, 'utf8'));
+      // The checked-in manifest already contains the output of an earlier build.
       delete pkg.exports;
+      delete pkg.files;
+      delete pkg.typesVersions;
       fs.writeFileSync(manifest, JSON.stringify(pkg));
       const lambda = path.join(apiAppDir, 'api/lambda');
       fs.writeFileSync(
@@ -66,7 +69,9 @@ describe('crossProject client type portability', () => {
 
       const generated = fs.readFileSync(manifest, 'utf8');
       expect(generated.endsWith('\n')).toBe(true);
-      const publicApis = Object.keys(JSON.parse(generated).exports);
+      const generatedPkg = JSON.parse(generated);
+      expect(generatedPkg.files).toContain('dist-1/**/*.d.ts');
+      const publicApis = Object.keys(generatedPkg.exports);
       expect(publicApis).toContain('./api/user/index');
       expect(publicApis).not.toContain('./api/stray.test');
       expect(publicApis).not.toContain('./api/stray.d');
