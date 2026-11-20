@@ -177,8 +177,15 @@ export default defineServerConfig({
           if (gc) {
             if (!globalThis.gc)
               return json({ error: 'Host requires --expose-gc' }, 500);
+            // Allow completed HTTP streams/sockets and after-response callbacks to unwind first.
+            await new Promise(resolve => setTimeout(resolve, 60));
+            performance.clearResourceTimings();
+            const runGC = globalThis.gc as (options?: {
+              type?: string;
+              execution?: string;
+            }) => void | Promise<void>;
             for (let attempt = 0; attempt < 3; attempt++) {
-              globalThis.gc();
+              await runGC({ type: 'major', execution: 'async' });
               await new Promise<void>(resolve => setImmediate(resolve));
             }
           }

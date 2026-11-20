@@ -3,6 +3,7 @@ import { useSearchParams } from '@modern-js/runtime/router';
 import { getInstance } from '@module-federation/enhanced/runtime';
 import './remotes';
 import { WeatherExperiments } from './WeatherExperiments';
+import { HostLocalStateBadge } from './HostLocalStateBadge';
 import {
   AirWeather,
   UVWeather,
@@ -95,6 +96,7 @@ export default function WeatherPage() {
         </>
       )}
       <div className="weather-content">
+        <HostLocalStateBadge />
         {params.get('focus') === 'nested' ? (
           <>
             <Current local />

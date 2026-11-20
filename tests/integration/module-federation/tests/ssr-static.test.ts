@@ -365,7 +365,7 @@ test.each([
       assert.equal(await get('/a'), 'v2');
       const beforeFallback = state.__staticRuns.b;
       const records = [...adapter.owner.entries.values()];
-      delete records.find(record => record.entry === 'a').runtime.federation
+      delete records.find(record => record.entry === 'a').runtime
         .remotesLoadingData.cache.moduleIdToParentModuleIds;
       const incomplete = await adapter.update(application, 'remote', {
         entry: path.join(out, 'v1.cjs'),

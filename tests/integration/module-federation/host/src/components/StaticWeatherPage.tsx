@@ -1,5 +1,6 @@
 import Weather from 'provider/Weather';
 import { createReactRemote } from '@modern-js/runtime/mf';
+import { HostLocalStateBadge } from './HostLocalStateBadge';
 
 const RemoteWeather = createReactRemote<{ local: boolean }>({
   remote: () => Weather,
@@ -14,6 +15,7 @@ import '../weather.css';
 export default function StaticWeatherPage() {
   return (
     <main className="weather-scene">
+      <HostLocalStateBadge />
       <RemoteWeather local />
     </main>
   );

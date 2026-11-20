@@ -112,6 +112,20 @@ export type MemorySample = {
   arrayBuffers: number;
   gcExposed: boolean;
   serviceRequests?: number;
+  diagnostics?: {
+    moduleInfoKeys: string[];
+    manifestLoadingKeys: string[];
+    remoteEntryKeys: string[];
+    resourceTimings: number;
+    instances: {
+      name?: string;
+      id?: string;
+      modules?: number;
+      manifests?: number;
+      retainedProviders?: number;
+    }[];
+    shareScopeKeys: string[];
+  };
 };
 export type MemoryRound = { label: string; samples: MemorySample[] };
 export type DocumentEvidence = {

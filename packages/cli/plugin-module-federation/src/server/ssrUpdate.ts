@@ -202,9 +202,7 @@ export function createSSRUpdateAdapter(options: {
           return true;
       }
       const mapping =
-        federation?.remotesLoadingData?.moduleIdToRemoteDataMapping ||
-        runtime?.remotesLoadingData?.moduleIdToRemoteDataMapping ||
-        {};
+        runtime?.remotesLoadingData?.moduleIdToRemoteDataMapping || {};
       return Object.values(mapping).some((data: any) =>
         names.has(data?.remoteName),
       );

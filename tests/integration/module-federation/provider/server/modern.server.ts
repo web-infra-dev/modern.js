@@ -32,8 +32,13 @@ export default defineServerConfig({
               { error: 'Producer requires --expose-gc' },
               { status: 500 },
             );
+          await new Promise(resolve => setTimeout(resolve, 60));
+          const runGC = globalThis.gc as (options?: {
+            type?: string;
+            execution?: string;
+          }) => void | Promise<void>;
           for (let attempt = 0; attempt < 3; attempt++) {
-            globalThis.gc();
+            await runGC({ type: 'major', execution: 'async' });
             await new Promise<void>(resolve => setImmediate(resolve));
           }
         }

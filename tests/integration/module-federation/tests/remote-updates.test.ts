@@ -738,6 +738,8 @@ for (const scenario of scenarios.filter(
                 );
               }
               expect(evidence.completedUpdates).toBe(updateCount);
+              // Let active connections and deferred callbacks settle before final major GC.
+              await new Promise(resolve => setTimeout(resolve, 150));
               for (let index = 0; index < 3; index++) {
                 evidence.phase = `final-${index + 1}-gc`;
                 const samples = await memorySample(lab.url);
@@ -746,6 +748,39 @@ for (const scenario of scenarios.filter(
               }
               const comparison = compareMemory(baseline, rounds, final);
               evidence.comparison = comparison;
+              const baseHostDiag = baseline
+                .at(-1)!
+                .samples.find(sample => sample.role === 'host')?.diagnostics;
+              const finalHostDiag = final
+                .at(-1)!
+                .samples.find(sample => sample.role === 'host')?.diagnostics;
+              if (baseHostDiag && finalHostDiag) {
+                expect(
+                  finalHostDiag.manifestLoadingKeys.length,
+                ).toBeLessThanOrEqual(baseHostDiag.manifestLoadingKeys.length + 1);
+                expect(finalHostDiag.instances.length).toBeLessThanOrEqual(
+                  baseHostDiag.instances.length,
+                );
+                expect(
+                  finalHostDiag.instances.every(
+                    item => (item.retainedProviders || 0) === 0,
+                  ),
+                ).toBe(true);
+                expect(finalHostDiag.moduleInfoKeys.length).toBeLessThanOrEqual(
+                  baseHostDiag.moduleInfoKeys.length + 1,
+                );
+                expect(
+                  finalHostDiag.remoteEntryKeys.length,
+                ).toBeLessThanOrEqual(baseHostDiag.remoteEntryKeys.length + 1);
+                expect(finalHostDiag.shareScopeKeys.length).toBeLessThanOrEqual(
+                  baseHostDiag.shareScopeKeys.length,
+                );
+              }
+              for (const metric of comparison.filter(
+                item => item.metric === 'heapUsed',
+              )) {
+                expect(metric.deltaBytes).toBeLessThan(12 * 1024 * 1024);
+              }
               // The same samples are accessible to a person reviewing the shell.
               evidence.phase = 'idle-gc';
               if (process.env.MF_LAB_MEMORY_DIAGNOSTICS === '1') {
@@ -803,6 +838,15 @@ for (const scenario of scenarios.filter(
                   className: 'lab-result-badge is-applied',
                   text: 'Application update',
                 });
+                const refreshedDoc = await (
+                  await fetch(
+                    `${lab.url}/weather?render=ssr&data=local&target=provider%2FWeather&labFrame=1`,
+                  )
+                ).text();
+                const seqMatch = refreshedDoc.match(
+                  /data-testid="host-local-state"[^>]*data-seq="(\d+)"/,
+                );
+                expect(Number(seqMatch?.[1] || 0)).toBeGreaterThan(1);
               }
               await page.click('[data-testid="update-memory"]');
               await page.waitForSelector('[data-testid="update-memory-table"]');
@@ -882,6 +926,8 @@ if (process.env.MF_LAB_MODE !== 'dev') {
         for (const document of documents.filter(
           item => item.policy === 'wait',
         )) {
+          // Partial entry update preserves unrelated Host SSR module state (#1).
+          expect(document.html).toContain('data-seq="1"');
           for (const href of stylesheets) {
             expect(document.html).toContain(`href="${href}"`);
             expect(document.html.indexOf(`href="${href}"`)).toBeLessThan(
