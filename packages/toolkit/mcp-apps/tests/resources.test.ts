@@ -486,3 +486,43 @@ it('serves local and MF URL views with the same HTML and metadata as resources',
     await handle(new Request('https://app.example/other')),
   ).toBeUndefined();
 });
+
+it('keeps inline resource HTML and CSP unchanged while URL delivery adds only connected bootstrap', async () => {
+  const { createUiViewHandler } = await import('../src/server/resources');
+  const filename = path.join(directory, 'inline-url-view.json');
+  const html = '<html><head></head><body>Hello</body></html>';
+  const value: UiManifest = {
+    version: 1,
+    inline: true,
+    assetBase: 'request',
+    remotes: {},
+    views: {
+      local: {
+        html: './ui/card.html',
+        ui: { permissions: { clipboardWrite: {} } },
+      },
+    },
+  };
+  await writeFile(filename, JSON.stringify(value));
+  const session = await connect(filename, {});
+  try {
+    const resource = await session.client.readResource({
+      uri: session.uris.local,
+    });
+    expect(resource.contents[0].text).toBe(html);
+    expect(resource.contents[0]._meta).toEqual({
+      ui: { permissions: { clipboardWrite: {} } },
+    });
+    const response = await createUiViewHandler({ manifest: filename })(
+      new Request('https://app.example/mcp-views/local'),
+    );
+    expect(await response?.text()).toBe(
+      html.replace(
+        '<head>',
+        '<head><meta name="modern-mcp-bootstrap" content="connected">',
+      ),
+    );
+  } finally {
+    await session.close();
+  }
+});

@@ -167,12 +167,13 @@ export async function resolveUiViews(
         : new URL(view.html, location);
       views[name] = {
         ui: view.ui,
-        render: signal => readSource(
-          sourceUrl,
-          options.request && signal
-            ? AbortSignal.any([options.request.signal, signal])
-            : options.request?.signal ?? signal,
-        ),
+        render: signal =>
+          readSource(
+            sourceUrl,
+            options.request && signal
+              ? AbortSignal.any([options.request.signal, signal])
+              : (options.request?.signal ?? signal),
+          ),
       };
       continue;
     }
