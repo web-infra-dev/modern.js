@@ -254,7 +254,7 @@ function sleep(t) {
 }
 
 /**
- * Copy a fixture app into a unique temporary sibling directory so test files
+ * Copy a fixture app into a unique temporary directory so test files
  * that would otherwise share one project directory each run against their own
  * copy. Concurrent build/dev in a single directory corrupts artifacts: the
  * build empties `dist` under the running server.
@@ -266,12 +266,12 @@ function sleep(t) {
  */
 async function createIsolatedTestApp(sourceAppDir, options = {}) {
   const fse = require('fs-extra');
-  const { prefix = `.isolated-${path.basename(sourceAppDir)}-`, exclude = [] } =
-    options;
-
-  const appDir = await fse.mkdtemp(
-    path.join(path.dirname(sourceAppDir), prefix),
-  );
+  const {
+    parentDir = path.dirname(sourceAppDir),
+    prefix = `.isolated-${path.basename(sourceAppDir)}-`,
+    exclude = [],
+  } = options;
+  const appDir = await fse.mkdtemp(path.join(parentDir, prefix));
   const topLevelExcludes = [
     'node_modules',
     'dist',
