@@ -29,17 +29,22 @@ export async function exists(path) {
   }
 }
 
-export async function readWorkspace(root) {
-  const configuration = yaml.load(
-    await readFile(resolve(root, 'pnpm-workspace.yaml'), 'utf8'),
-  );
+export function workspacePatterns(source) {
+  const configuration = yaml.load(source);
   if (
     !Array.isArray(configuration?.packages) ||
     !configuration.packages.every(item => typeof item === 'string')
   ) {
     throw new Error('pnpm-workspace.yaml must contain a packages array');
   }
-  const directories = await glob(configuration.packages, {
+  return configuration.packages;
+}
+
+export async function readWorkspace(root) {
+  const patterns = workspacePatterns(
+    await readFile(resolve(root, 'pnpm-workspace.yaml'), 'utf8'),
+  );
+  const directories = await glob(patterns, {
     cwd: root,
     onlyDirectories: true,
     followSymbolicLinks: false,
