@@ -1,0 +1,29 @@
+{
+  "private": true,
+  "name": "server",
+  "version": "2.66.8",
+  "scripts": {
+    "dev": "modern dev",
+    "build": "modern build",
+    "serve": "modern serve",
+    "new": "modern new",
+    "test": "pnpm --dir ../../ exec rstest integration/server/tests/index.test.ts"
+  },
+  "dependencies": {
+    "@modern-js/runtime": "workspace:*",
+    "@modern-js/server-runtime": "workspace:*",
+    "react": "^19.3.1",
+    "react-dom": "^19.3.1"
+  },
+  "devDependencies": {
+    "ts-node": "^10.9.2",
+    "@modern-js/app-tools": "workspace:*",
+    "@modern-js/server-core": "workspace:*",
+    "@modern-js/utils": "workspace:*",
+    "@types/express": "^4.17.25",
+    "@types/node": "^20",
+    "@types/react": "^19.3.0",
+    "@types/react-dom": "^19.3.0",
+    "typescript": "^5"
+  }
+}

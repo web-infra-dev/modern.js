@@ -301,7 +301,7 @@ export async function runCheck(
       diagnostics.push({
         path: `${integrationPath}/${directory}`,
         rule: 'integration-fixture',
-        message: `Unregistered integration fixture. Do NOT edit ${allowlistPath} to silence this check. Merge high-risk user scenarios into existing base apps under tests/integration/ (such as basic-app, routes, ssr or server-prod), or write a black-box pure-logic unit test. New fixtures require explicit human approval and the ${approvalLabel} PR label.`,
+        message: `Unregistered integration fixture. Do NOT edit ${allowlistPath} to silence this check. Merge high-risk user scenarios into existing base apps under tests/integration/ (such as basic-app, routes, ssr or server), or write a black-box pure-logic unit test. New fixtures require explicit human approval and the ${approvalLabel} PR label.`,
       });
   }
   if (requireApproval) {
