@@ -57,8 +57,8 @@ MF 卡片运行在 `sandbox="allow-scripts"` 的 iframe 中，源站为不透明
 
 ## 本机 STDIO 调试
 
-示例已配置 `inline: 'dev'`，仍然只需运行 `pnpm dev`。将终端打印的 `command` 和 `args` 填入豆包等客户端的 STDIO 连接器。客户端启动包内置的转发脚本，请求经 HTTP 到达当前开发服务，继续使用原有 BFF、中间件和业务逻辑。
+示例使用 `inline: 'dev'` 构建本地卡片。运行 `pnpm dev` 启动开发服务。将终端打印的 `command` 和 `args` 填入豆包等客户端的 STDIO 连接器。客户端启动包内置的转发脚本，请求经 HTTP 到达当前开发服务，由应用的中间件和 BFF 路由处理。
 
-连接后调用 `local_todos` 打开本地卡片，点击 Add todo，再次调用 `local_todos` 验证新增结果。MF 卡片 `list_todos` 仍需宿主能够访问本地 HTTP 静态资源。
+连接后调用 `local_todos` 打开本地卡片，点击 Add todo，再次调用 `local_todos` 验证新增结果。MF 卡片 `list_todos` 要求宿主能够访问本地 HTTP 静态资源。
 
-无需运行 `mcp-prepare`、配置 `stdio.server` 或生成 `dist-mcp/`。框架在 `node_modules/.modern-js/mcp-apps/` 内管理临时 UI 文件和开发服务地址。默认连接器使用 `--cwd` 在每次请求时发现服务端口。修改组件后自动重编，下次读取卡片资源时获取更新后的 HTML，无需重启连接器。开发服务需保持运行，重启服务会重置内存数据。
+框架在 `node_modules/.modern-js/mcp-apps/` 内管理临时 UI 文件和开发服务地址。默认连接器使用 `--cwd` 在每次请求时发现服务端口。修改组件后自动重编，下次读取卡片资源时获取更新后的 HTML。开发服务需保持运行，重启服务会重置内存数据。
