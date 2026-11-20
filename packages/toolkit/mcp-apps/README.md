@@ -82,3 +82,21 @@ mcpAppsPlugin({
 Run `pnpm dev` to start the development server. Local component views are compiled by an isolated watch build into self-contained inline HTML (up to 5 MiB per view, inlining scripts, styles, and imported assets, without injecting `<base>` or localhost CSP), leaving normal application pages and HMR untouched. If `mcp-views.json` also declares Module Federation views, local views are inlined while MF views use the HTTP shell.
 
 On startup, `modern dev` writes `node_modules/.modern-js/mcp-apps/dev-server.json` and prints a connector snippet that runs the built-in `modern-mcp-stdio` bridge script (`bin/modern-mcp-stdio.js`). The bridge forwards stdio JSON-RPC messages (supporting JSON, SSE streams, `202` notifications, `Mcp-Session-Id`, and repeatable `--header` flags) to the running HTTP dev server (`/api/mcp`), where the application’s middleware and BFF routes handle them. The bridge writes JSON-RPC messages to stdout. Pass `--cwd <app-dir>` instead of a URL to discover the dev server port dynamically.
+
+## URL views
+
+The server plugin also serves compiled cards at `GET /mcp-views/<encoded-view-name>`.
+These pages use the same HTML renderer as `resources/read`, including the asset base
+and MF shell configuration. `HEAD` returns the same headers without a body.
+The route only serves names declared in the UI manifest.
+
+Standalone Fetch services can use `createUiViewHandler({ manifest, assetBase })`.
+Call the returned handler with a `Request`. It returns a `Response` for the
+`/mcp-views/` route, or `undefined` for other paths so the service can continue routing.
+`resolveUiViews({ request, manifest })` returns each view's resolved `ui` metadata
+and `render(signal?)` function for host-specific adapters.
+
+URL loading still requires an MCP Apps host that supports URL sources and establishes
+the official App bridge. Opening the page directly does not supply tool results.
+The surrounding application controls authentication, embedding response headers and
+trusted reverse proxy headers, just as it does for the MCP endpoint.

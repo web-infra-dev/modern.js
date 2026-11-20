@@ -4,8 +4,13 @@ import { requestOrigin } from './resources';
 import { requestUiOptions } from './context';
 import type { RegisterUiOptions } from './resources';
 
-export { registerUiResources } from './resources';
-export type { RegisterUiOptions } from './resources';
+export {
+  registerUiResources,
+  resolveUiViews,
+  createUiViewHandler,
+  UI_VIEW_PATH,
+} from './resources';
+export type { RegisterUiOptions, ResolvedUiView } from './resources';
 export type { UiManifest, UiMetadata } from '../manifest';
 
 export type McpServerFactory = (

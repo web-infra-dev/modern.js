@@ -428,3 +428,56 @@ describe('manifest cache policy', () => {
     },
   );
 });
+
+it('serves local and MF URL views with the same HTML and metadata as resources', async () => {
+  const { createUiViewHandler, resolveUiViews } =
+    await import('../src/server/resources');
+  const filename = path.join(directory, 'url-views.json');
+  await writeFile(filename, JSON.stringify(manifest()));
+  const options = {
+    manifest: filename,
+    assetBase: 'https://cdn.example/project/',
+  };
+  const handle = createUiViewHandler(options);
+  const views = await resolveUiViews(options);
+  for (const name of ['local', 'remote']) {
+    const response = await handle(
+      new Request(`https://app.example/mcp-views/${name}`),
+    );
+    expect(response?.status).toBe(200);
+    expect(response?.headers.get('content-type')).toBe(
+      'text/html; charset=utf-8',
+    );
+    expect(await response?.text()).toBe(await views[name].render());
+  }
+  expect(await views.remote.render()).toContain('"expose":"./Stats"');
+  expect(views.local.ui.permissions).toEqual({ clipboardWrite: {} });
+  expect(
+    (
+      await handle(
+        new Request('https://app.example/mcp-views/local', { method: 'HEAD' }),
+      )
+    )?.body,
+  ).toBeNull();
+  expect(
+    (
+      await handle(
+        new Request('https://app.example/mcp-views/local', { method: 'POST' }),
+      )
+    )?.status,
+  ).toBe(405);
+  expect(
+    (await handle(new Request('https://app.example/mcp-views/constructor')))
+      ?.status,
+  ).toBe(404);
+  expect(
+    (await handle(new Request('https://app.example/mcp-views/%2e%2e%2fsecret')))
+      ?.status,
+  ).toBe(404);
+  expect(
+    (await handle(new Request('https://app.example/mcp-views/%zz')))?.status,
+  ).toBe(400);
+  expect(
+    await handle(new Request('https://app.example/other')),
+  ).toBeUndefined();
+});
