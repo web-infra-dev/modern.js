@@ -77,6 +77,9 @@ export function createMcpView<P extends object>(
   capabilities: McpCapabilities = {},
   options: McpViewOptions = {},
 ) {
+  // The HTTP view handler marks URL delivery so the same compiled page can also
+  // serve resource cards, which default to waiting for a tool result. An explicit
+  // bootstrap option takes precedence over the delivery marker.
   const bootstrap =
     options.bootstrap ??
     (typeof document !== 'undefined' &&
@@ -98,6 +101,8 @@ export function createMcpView<P extends object>(
       return createElement('p', { role: 'status' }, 'Tool cancelled');
     if (result?.isError)
       return createElement('p', { role: 'alert' }, 'Tool execution failed');
+    // Both modes require the SDK handshake. Directly opened URL apps may never
+    // receive a tool result, so connected mode can render before business data arrives.
     if (!app || !isConnected || (!result && bootstrap !== 'connected'))
       return null;
     return createElement(View, { ...viewProps, mcpApp: app } as P);

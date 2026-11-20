@@ -304,6 +304,9 @@ export function createUiViewHandler(options: RegisterUiOptions = {}) {
     const views = await resolveUiViews({ ...options, request });
     if (!Object.hasOwn(views, name))
       return new Response('View not found', { status: 404 });
+    // URL apps can open directly from a host entrypoint without a tool result.
+    // Reuse the resource HTML, but tell createMcpView to render after connection.
+    // This marker selects the render timing; the page's SDK still performs the handshake.
     const html = (await views[name].render(request.signal)).replace(
       /<head\b[^>]*>/i,
       head => `${head}<meta name="modern-mcp-bootstrap" content="connected">`,
