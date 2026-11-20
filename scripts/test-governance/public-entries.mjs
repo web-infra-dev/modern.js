@@ -119,6 +119,9 @@ export async function packageImportCheck(files, content) {
       entriesByRoot.set(root, publicEntries(root, manifest, files));
     }
     const entries = entriesByRoot.get(root);
+    const testDirectory = posix
+      .relative(root, testPath)
+      .match(/^(?:.*?\/)?(?:tests|__tests__)(?=\/)/)?.[0];
     return specifier => {
       if (!/^\.{1,2}(?:\/|$)/.test(specifier)) return false;
       const path = posix
@@ -128,7 +131,10 @@ export async function packageImportCheck(files, content) {
         root => path === root + '/src' || path.startsWith(root + '/src/'),
       );
       if (!sourceRoot) return false;
-      return sourceRoot !== root || !entries.has(sourceFile(path, files));
+      if (sourceRoot !== root) return true;
+      if (testDirectory && `${path}/`.startsWith(`${root}/${testDirectory}/`))
+        return false;
+      return !entries.has(sourceFile(path, files));
     };
   };
 }
