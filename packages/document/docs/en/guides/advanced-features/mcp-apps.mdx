@@ -211,6 +211,6 @@ When `pnpm dev` starts, the terminal prints a ready-to-copy connector config usi
 ```
 
 - **Full runtime and middleware parity**: Requests flow through the real `modern dev` HTTP pipeline, so BFF routes, custom Hono middlewares, and server plugins work without code changes. Pass `--header "Authorization: Bearer <token>"` (repeatable) if your middleware expects custom headers.
-- **Dynamic port discovery**: The generated connector uses `--cwd <app-dir>` to read `.modern-js/mcp-apps/dev-server.json` written by `modern dev` on each request. A fixed HTTP MCP URL is also supported.
+- **Dynamic port discovery**: The generated connector uses `--cwd <app-dir>` to read `node_modules/.modern-js/mcp-apps/dev-server.json` written by `modern dev` on each request. A fixed HTTP MCP URL is also supported.
 - **Incremental rebuilds without restarting the host**: In inline mode, local component views are built by an isolated watch compiler into self-contained HTML (inlining JS, CSS, and imported assets, up to 5 MiB per view, without injecting `<base>` or localhost CSP). Edits take effect on the next card read without affecting normal app page HMR. If `mcp-views.json` mixes local views and Module Federation views, local views are inlined while MF views continue using the HTTP shell.
 - **Clean stdio stream**: Dev logs stay in your `pnpm dev` terminal while the bridge reserves `stdout` strictly for JSON-RPC. If `modern dev` is stopped or restarting, the bridge returns a JSON-RPC error instead of exiting and recovers automatically once the dev server is back.

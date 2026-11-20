@@ -7,7 +7,7 @@ import { assertHttpUrl, isRecord } from '../manifest';
 export interface StdioBridgeOptions {
   /** Target Streamable HTTP MCP endpoint, e.g. http://localhost:8088/api/mcp */
   url?: string;
-  /** Resolve target URL dynamically (e.g. from .modern-js/mcp-apps/dev-server.json). */
+  /** Resolve target URL dynamically (e.g. from node_modules/.modern-js/mcp-apps/dev-server.json). */
   resolveUrl?: () => Promise<string>;
   /** Extra HTTP headers forwarded on every upstream request. */
   headers?: Record<string, string>;
@@ -91,7 +91,10 @@ function parseTimeout(raw: string): number {
 }
 
 export async function readDevServerUrl(cwd: string): Promise<string> {
-  const infoPath = path.resolve(cwd, '.modern-js/mcp-apps/dev-server.json');
+  const infoPath = path.resolve(
+    cwd,
+    'node_modules/.modern-js/mcp-apps/dev-server.json',
+  );
   let raw: string;
   try {
     raw = await fs.readFile(infoPath, 'utf8');
@@ -268,6 +271,33 @@ export function createStdioBridge(options: StdioBridgeOptions) {
     const headers = new Headers(options.headers);
     headers.set('content-type', 'application/json');
     headers.set('accept', 'application/json, text/event-stream');
+    // Modern MCP envelopes repeat routing metadata in HTTP transport headers.
+    const params =
+      isRecord(parsed) && isRecord(parsed.params) ? parsed.params : undefined;
+    const meta = params && isRecord(params._meta) ? params._meta : undefined;
+    const version = meta?.['io.modelcontextprotocol/protocolVersion'];
+    if (
+      typeof version === 'string' &&
+      isRecord(parsed) &&
+      typeof parsed.method === 'string'
+    ) {
+      headers.set('MCP-Protocol-Version', version);
+      headers.set('Mcp-Method', parsed.method);
+      const nameField = new Map([
+        ['tools/call', 'name'],
+        ['prompts/get', 'name'],
+        ['resources/read', 'uri'],
+        ['tasks/get', 'taskId'],
+        ['tasks/update', 'taskId'],
+        ['tasks/cancel', 'taskId'],
+      ]).get(parsed.method);
+      const name = nameField ? params?.[nameField] : undefined;
+      if (typeof name === 'string')
+        headers.set(
+          'Mcp-Name',
+          `=?base64?${Buffer.from(name).toString('base64')}?=`,
+        );
+    }
     if (sessionId) headers.set('mcp-session-id', sessionId);
 
     let response: Response;
@@ -386,7 +416,7 @@ Forward MCP JSON-RPC messages over stdio to a running Modern.js HTTP MCP endpoin
 
 Options:
   --url <url>          Target MCP HTTP endpoint (e.g. http://localhost:8088/api/mcp)
-  --cwd <dir>          Modern.js app directory (reads .modern-js/mcp-apps/dev-server.json)
+  --cwd <dir>          Modern.js app directory (reads node_modules/.modern-js/mcp-apps/dev-server.json)
   -H, --header <h>     Extra HTTP header in "Name: Value" format (repeatable)
   --timeout <ms>       Optional per-request timeout in milliseconds
   -h, --help           Show this help message

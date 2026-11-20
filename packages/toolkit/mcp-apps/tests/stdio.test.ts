@@ -76,6 +76,52 @@ async function startFetchServer(
 }
 
 describe('stdio-to-HTTP bridge', () => {
+  it('forwards modern protocol envelopes through HTTP routing headers', async () => {
+    const handler = createFetchHandler(() => {
+      const server = new McpServer({ name: 'modern-bridge', version: '1.0.0' });
+      server.registerTool('echo', { inputSchema: z.object({}) }, async () => ({
+        content: [{ type: 'text', text: 'ok' }],
+      }));
+      return server;
+    });
+    const input = new PassThrough();
+    const output = new PassThrough();
+    let response = '';
+    output.on('data', chunk => {
+      response += chunk.toString();
+    });
+    const bridge = createStdioBridge({
+      url: 'http://localhost/api/mcp',
+      input,
+      output,
+      fetch: async (url, init) => handler(new Request(url, init)),
+    });
+    input.end(
+      `${JSON.stringify({
+        jsonrpc: '2.0',
+        id: 1,
+        method: 'tools/call',
+        params: {
+          name: 'echo',
+          arguments: {},
+          _meta: {
+            'io.modelcontextprotocol/protocolVersion': '2026-07-28',
+            'io.modelcontextprotocol/clientCapabilities': {},
+            'io.modelcontextprotocol/clientInfo': {
+              name: 'test',
+              version: '1',
+            },
+          },
+        },
+      })}\n`,
+    );
+    await bridge.done;
+    expect(JSON.parse(response)).toMatchObject({
+      id: 1,
+      result: { content: [{ type: 'text', text: 'ok' }] },
+    });
+  });
+
   it('forwards MCP calls, custom middleware headers, and live-updated inline HTML over stdio', async () => {
     const dir = await makeTempDir('modern-mcp-bridge-');
     await fs.mkdir(path.join(dir, 'ui'));
@@ -293,11 +339,11 @@ describe('stdio-to-HTTP bridge', () => {
     expect(() => parseStdioCliArgs(['--header', 'bad-header'])).toThrow();
 
     const appDir = await makeTempDir('modern-mcp-cwd-');
-    await fs.mkdir(path.join(appDir, '.modern-js/mcp-apps'), {
+    await fs.mkdir(path.join(appDir, 'node_modules/.modern-js/mcp-apps'), {
       recursive: true,
     });
     await fs.writeFile(
-      path.join(appDir, '.modern-js/mcp-apps/dev-server.json'),
+      path.join(appDir, 'node_modules/.modern-js/mcp-apps/dev-server.json'),
       JSON.stringify({ url: 'http://localhost:8091/api/mcp', inline: true }),
     );
     expect(await readDevServerUrl(appDir)).toBe(
