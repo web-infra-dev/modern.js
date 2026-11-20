@@ -2,7 +2,7 @@
 
 此工具冻结已批准的集成目录并阻止本次变更新增的明确反模式，不删除现有测试或 fixture，不改变发布包行为，无需 changeset。
 
-默认不新增测试文件或 fixtures。优先复用已有用例或临时黑盒验证，在 PR 记录命令、结果及未执行项。永久测试只保护现有覆盖不足的明确用户行为或公共契约。不要逐层 mock 重复集成流程，不通过收紧 TypeScript 类型替代验证。纯逻辑优先轻量输入输出测试，快照只保护稳定用户输出或公共协议。完整贡献规则见 [AGENTS.md](../../AGENTS.md)。
+默认不新增测试文件或 fixtures。优先复用已有用例或临时黑盒验证，在 PR 记录命令、结果及未执行项。永久测试只保护现有覆盖不足的明确用户行为或公共契约。不要逐层 mock 重复集成流程，不通过收紧 TypeScript 类型替代验证。纯逻辑优先轻量输入输出测试，快照只保护稳定用户输出或公共协议。测试贡献原则见[贡献指南](../../packages/document/docs/zh/community/contributing-guide.mdx#验证变更与保留回归测试)。
 
 ## CLI 与数据来源
 
@@ -42,7 +42,7 @@ pnpm check-test-governance --help
 
 ## 冻结清单与人工审批
 
-`integration-allowlist.json` 是排序后的字符串 JSON 数组，冻结维护者批准的现有 52 个已跟踪 `tests/integration` 顶层目录。不允许贡献者或 agent 自行扩展清单来绕过检查，也不授权删除现有 fixture。
+`tests/integration` 顶层目录的冻结基线以[集成目录清单](./integration-allowlist.json)为准。清单按名称排序，以 JSON 字符串数组保存维护者批准的目录名。不允许贡献者或 agent 自行扩展清单来绕过检查，也不授权删除现有 fixture。
 
 确需新增目录时，先说明现有 fixture 为何不足及新增维护成本，取得维护者人工批准后，将批准目录加入排序清单，在 PR 记录理由和批准者，并由维护者添加 `approved-new-integration-fixture` 标签。任何清单新增条目都需要该标签，包括清单首次引入。纯条目删除不需扩展审批标签，但剩余目录仍必须登记。
 
