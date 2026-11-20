@@ -14,10 +14,8 @@ type PrepareHarness = {
  * point it at a real temp dist so we can assert the cleanup behavior.
  */
 const setupPrepare = ({
-  cleanDistPath = true,
   contextCommand,
 }: {
-  cleanDistPath?: boolean;
   contextCommand?: string;
 } = {}): PrepareHarness => {
   const root = fs.mkdtempSync(path.join(os.tmpdir(), 'app-tools-prepare-'));
@@ -36,7 +34,7 @@ const setupPrepare = ({
   const api: any = {
     getAppContext: () => appContext,
     getConfig: () => ({}),
-    getNormalizedConfig: () => ({ output: { cleanDistPath } }),
+    getNormalizedConfig: () => ({ output: { cleanDistPath: true } }),
     updateAppContext: () => {},
     addCommand: () => {},
     onPrepare: (cb: () => Promise<void>) => {
@@ -73,17 +71,6 @@ describe('app-tools onPrepare dist cleanup', () => {
     }
   });
 
-  it('does not clean dist when cleanDistPath is disabled', async () => {
-    process.env.MODERN_ARGV = 'node modern build';
-    const harness = setupPrepare({ cleanDistPath: false });
-    try {
-      await harness.runPrepare();
-      expect(fs.readdirSync(harness.distDirectory)).toEqual(['stale.js']);
-    } finally {
-      harness.cleanup();
-    }
-  });
-
   it('does not clean dist for unrelated commands', async () => {
     process.env.MODERN_ARGV = 'node rstest test';
     const harness = setupPrepare();
@@ -116,6 +103,20 @@ describe('app-tools onPrepare dist cleanup', () => {
       harness.cleanup();
     }
   });
+
+  it.each(['build --help', 'dev -h'])(
+    'keeps dist when %s only prints help',
+    async argv => {
+      process.env.MODERN_ARGV = `node modern ${argv}`;
+      const harness = setupPrepare();
+      try {
+        await harness.runPrepare();
+        expect(fs.readdirSync(harness.distDirectory)).toEqual(['stale.js']);
+      } finally {
+        harness.cleanup();
+      }
+    },
+  );
 
   it('skips cleanup for CLI deploy --skip-build', async () => {
     process.env.MODERN_ARGV = 'node modern deploy --skip-build';

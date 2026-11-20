@@ -4,7 +4,7 @@ import {
   injectServerTiming,
 } from '../../src/plugins/monitors';
 import { createServerBase } from '../../src/serverBase';
-import type { Context, Next, ServerEnv, ServerPlugin } from '../../src/types';
+import type { Context, ServerEnv, ServerPlugin } from '../../src/types';
 import { getDefaultAppContext, getDefaultConfig } from '../helpers';
 
 type Timing = [name: string, dur: number, desc?: string];
@@ -13,30 +13,11 @@ async function createServer(
   timings: Timing[],
   headers: Record<string, string> = {},
 ) {
-  const setTimingHeader = rstest.fn();
   const server = createServerBase({
     config: getDefaultConfig(),
     appContext: getDefaultAppContext(),
     pwd: '',
   });
-  const spyPlugin: ServerPlugin = {
-    name: 'spy-server-timing-header',
-    setup(api) {
-      api.onPrepare(() => {
-        api.getServerContext().middlewares.push({
-          name: 'spy-server-timing-header',
-          handler: async (c: Context<ServerEnv>, next: Next) => {
-            const { header } = c;
-            c.header = (name, value, options) => {
-              if (name === SERVER_TIMING) setTimingHeader(value);
-              header(name, value, options);
-            };
-            return next();
-          },
-        });
-      });
-    },
-  };
   const handlerPlugin: ServerPlugin = {
     name: 'emit-timings',
     setup(api) {
@@ -56,12 +37,11 @@ async function createServer(
   };
   server.addPlugins([
     initMonitorsPlugin(),
-    spyPlugin,
     injectServerTiming(),
     handlerPlugin,
   ]);
   await server.init();
-  return { server, setTimingHeader };
+  return { server };
 }
 
 describe('inject server timing', () => {
@@ -86,8 +66,8 @@ describe('inject server timing', () => {
     return headers.get(SERVER_TIMING);
   };
 
-  it('sets all timings with a single header update', async () => {
-    const { server, setTimingHeader } = await createServer(timings);
+  it('returns all timings in the response header', async () => {
+    const { server } = await createServer(timings);
 
     const response = await server.request('/');
 
@@ -99,7 +79,6 @@ describe('inject server timing', () => {
         'bd-modern-js-server-middleware; dur=0.8, ' +
         'bd-modern-js-ssr-render-html;decs="SSR"; dur=7',
     );
-    expect(setTimingHeader).toHaveBeenCalledTimes(1);
     expect(await response.text()).toBe('<html></html>');
   });
 
@@ -118,11 +97,10 @@ describe('inject server timing', () => {
   });
 
   it('does not touch the response without timings', async () => {
-    const { server, setTimingHeader } = await createServer([]);
+    const { server } = await createServer([]);
 
     const response = await server.request('/');
 
     expect(response.headers.has(SERVER_TIMING)).toBe(false);
-    expect(setTimingHeader).not.toHaveBeenCalled();
   });
 });

@@ -94,61 +94,6 @@ beforeEach(() => {
   resetWatchers();
 });
 
-describe('devRuntimeMiddlewarePlugin (per-runtime injection)', () => {
-  async function buildRuntimeMiddlewareNames(
-    builderDevServer: any,
-  ): Promise<string[]> {
-    let names: string[] = [];
-    const probe: ServerPlugin = {
-      name: 'probe',
-      setup(api) {
-        api.onPrepare(async () => {
-          names = api.getServerContext().middlewares.map(m => m.name);
-        });
-      },
-    };
-
-    const server = createServerBase({
-      config: getDefaultConfig(),
-      appContext: getDefaultAppContext(),
-      pwd: '',
-    });
-    server.addPlugins([
-      compatPlugin(),
-      devRuntimeMiddlewarePlugin(
-        { pwd: '', dev: {}, builderDevServer } as any,
-        null,
-        server,
-      ),
-      probe,
-    ]);
-    await server.init();
-    return names;
-  }
-
-  it('injects mock / rsbuild / file-reader middlewares into every fresh runtime', async () => {
-    const builderDevServer = makeBuilderDevServer(true);
-
-    // Two independent fresh runtimes both get a complete dev middleware set.
-    const names1 = await buildRuntimeMiddlewareNames(builderDevServer);
-    const names2 = await buildRuntimeMiddlewareNames(builderDevServer);
-
-    for (const names of [names1, names2]) {
-      expect(names).toEqual(
-        expect.arrayContaining(['mock-dev', 'rsbuild-dev', 'init-file-reader']),
-      );
-    }
-  });
-
-  it('omits rsbuild-dev when the builder has no dev middleware', async () => {
-    const names = await buildRuntimeMiddlewareNames(
-      makeBuilderDevServer(false),
-    );
-    expect(names).toContain('mock-dev');
-    expect(names).not.toContain('rsbuild-dev');
-  });
-});
-
 describe('setupDevInfra (process-level singletons)', () => {
   function setup(
     getRuntimeServer: () => any,

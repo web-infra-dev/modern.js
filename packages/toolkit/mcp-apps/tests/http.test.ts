@@ -1,4 +1,5 @@
 import { it, expect, rs, afterEach } from '@rstest/core';
+import { AsyncLocalStorage } from 'node:async_hooks';
 import { McpServer } from '@modelcontextprotocol/server';
 import { z } from 'zod';
 import {
@@ -7,19 +8,17 @@ import {
   createBffHandlers,
 } from '../src/server';
 
-const { requestContext, contextStorage } = rs.hoisted(() => {
-  const { AsyncLocalStorage } = require('node:async_hooks');
+const contextStorage = new AsyncLocalStorage<{
+  raw: Request;
+  uiOptions?: { manifest: string; mode: 'development' | 'production' };
+}>();
+const useContext = () => {
+  const context = contextStorage.getStore()!;
   return {
-    requestContext: { raw: undefined as Request | undefined },
-    contextStorage: new AsyncLocalStorage(),
+    req: { raw: context.raw },
+    get: () => ({ modernMcpApps: context.uiOptions }),
   };
-});
-rs.mock('@modern-js/server-runtime', () => ({
-  useHonoContext: () => ({
-    req: { raw: contextStorage.getStore()?.raw ?? requestContext.raw },
-    get: () => ({ modernMcpApps: contextStorage.getStore()?.uiOptions }),
-  }),
-}));
+};
 const factory = () => {
   const server = new McpServer({ name: 'test', version: '1' });
   server.registerTool(
@@ -99,9 +98,8 @@ it('reconstructs a consumed BFF JSON body and returns the transport Response dir
     body: JSON.stringify(data),
   });
   await raw.json();
-  requestContext.raw = raw;
-  const { POST } = createBffHandlers(factory);
-  const response = await POST({ data });
+  const { POST } = createBffHandlers(factory, { useContext });
+  const response = await contextStorage.run({ raw }, () => POST({ data }));
   expect((await responseResult(response)).result.structuredContent).toEqual({
     text: 'from BFF',
   });
@@ -136,6 +134,7 @@ it('resolves injected options from BFF requests and isolates concurrent requests
       return server;
     },
     {
+      useContext,
       onError: error => {
         errors.push(error.message);
       },
