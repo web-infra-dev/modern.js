@@ -100,3 +100,12 @@ URL loading still requires an MCP Apps host that supports URL sources and establ
 the official App bridge. Opening the page directly does not supply tool results.
 The surrounding application controls authentication, embedding response headers and
 trusted reverse proxy headers, just as it does for the MCP endpoint.
+
+URL pages carry a `modern-mcp-bootstrap` HTML marker. The local and MF wrappers
+render after the host handshake without waiting for a tool result, since a host
+may open a URL application without delivering one. Resource cards keep waiting
+for a successful tool result. For a separately built page, use
+`createMcpView(View, appInfo, capabilities, { bootstrap: 'connected' })` explicitly.
+Connected views preserve their latest output during new tool input and unmount
+on teardown, including when a late result arrives. Rendering does not replay the
+entry tool or automatically fetch application data.

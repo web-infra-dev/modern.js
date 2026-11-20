@@ -448,7 +448,12 @@ it('serves local and MF URL views with the same HTML and metadata as resources',
     expect(response?.headers.get('content-type')).toBe(
       'text/html; charset=utf-8',
     );
-    expect(await response?.text()).toBe(await views[name].render());
+    expect(await response?.text()).toBe(
+      (await views[name].render()).replace(
+        '<head>',
+        '<head><meta name="modern-mcp-bootstrap" content="connected">',
+      ),
+    );
   }
   expect(await views.remote.render()).toContain('"expose":"./Stats"');
   expect(views.local.ui.permissions).toEqual({ clipboardWrite: {} });

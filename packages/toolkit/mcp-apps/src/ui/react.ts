@@ -21,13 +21,29 @@ export type McpViewProps<T extends object = Record<string, unknown>> = Omit<
   'mcpApp'
 > & { mcpApp: App };
 
-export function useMcpApp(options: Omit<UseAppOptions, 'onAppCreated'>) {
+export interface McpViewOptions {
+  /** URL pages can render after the host handshake, before receiving a tool result. */
+  bootstrap?: 'result' | 'connected';
+}
+
+export function useMcpApp(
+  options: Omit<UseAppOptions, 'onAppCreated'>,
+  viewOptions: McpViewOptions = {},
+) {
   const [state, dispatch] = useReducer(reduceViewState, { cancelled: false });
   const connection = useApp({
     ...options,
     onAppCreated(app) {
-      app.ontoolinput = () => dispatch({ type: 'input' });
-      app.ontoolinputpartial = () => dispatch({ type: 'input' });
+      app.ontoolinput = () =>
+        dispatch({
+          type: 'input',
+          keepResult: viewOptions.bootstrap === 'connected',
+        });
+      app.ontoolinputpartial = () =>
+        dispatch({
+          type: 'input',
+          keepResult: viewOptions.bootstrap === 'connected',
+        });
       app.ontoolresult = result => dispatch({ type: 'result', result });
       app.ontoolcancelled = () => dispatch({ type: 'cancelled' });
       app.onteardown = async () => {
@@ -44,21 +60,31 @@ export function createMcpView<P extends object>(
   View: ComponentType<P>,
   appInfo: { name: string; version: string },
   capabilities: McpCapabilities = {},
+  options: McpViewOptions = {},
 ) {
+  const bootstrap =
+    options.bootstrap ??
+    (typeof document !== 'undefined' &&
+    document
+      .querySelector('meta[name="modern-mcp-bootstrap"]')
+      ?.getAttribute('content') === 'connected'
+      ? 'connected'
+      : 'result');
   const appCapabilities: McpCapabilities = {
     availableDisplayModes: ['inline', 'fullscreen'],
     ...capabilities,
   };
   return function McpView() {
-    const { app, isConnected, error, cancelled, result, viewProps } = useMcpApp(
-      { appInfo, capabilities: appCapabilities },
-    );
+    const { app, isConnected, error, cancelled, tornDown, result, viewProps } =
+      useMcpApp({ appInfo, capabilities: appCapabilities }, { bootstrap });
+    if (tornDown) return null;
     if (error) return createElement('p', { role: 'alert' }, error.message);
     if (cancelled)
       return createElement('p', { role: 'status' }, 'Tool cancelled');
     if (result?.isError)
       return createElement('p', { role: 'alert' }, 'Tool execution failed');
-    if (!app || !isConnected || !result) return null;
+    if (!app || !isConnected || (!result && bootstrap !== 'connected'))
+      return null;
     return createElement(View, { ...viewProps, mcpApp: app } as P);
   };
 }

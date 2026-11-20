@@ -286,7 +286,10 @@ export function createUiViewHandler(options: RegisterUiOptions = {}) {
     const views = await resolveUiViews({ ...options, request });
     if (!Object.hasOwn(views, name))
       return new Response('View not found', { status: 404 });
-    const html = await views[name].render(request.signal);
+    const html = (await views[name].render(request.signal)).replace(
+      /<head\b[^>]*>/i,
+      head => `${head}<meta name="modern-mcp-bootstrap" content="connected">`,
+    );
     return new Response(request.method === 'HEAD' ? null : html, {
       headers: {
         'Content-Type': 'text/html; charset=utf-8',
