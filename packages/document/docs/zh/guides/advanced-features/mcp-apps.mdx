@@ -235,7 +235,8 @@ mcpAppsPlugin({
       "command": "node",
       "args": [
         "<app>/node_modules/@modern-js/mcp-apps/bin/modern-mcp-stdio.js",
-        "http://localhost:8088/api/mcp"
+        "--cwd",
+        "<app>"
       ]
     }
   }
@@ -243,6 +244,6 @@ mcpAppsPlugin({
 ```
 
 - **零代码侵入与中间件兼容**：请求实际走 `modern dev` 的 HTTP 管线，BFF 路由、自定义 Hono 中间件和服务端插件无需修改即可生效。需要向鉴权中间件透传请求头时，可追加 `--header "Authorization: Bearer <token>"`（可重复传多个）
-- **自动端口发现**：也可将 URL 参数替换为 `--cwd <项目目录>`，脚本会读取 `.modern-js/mcp-apps/dev-server.json` 自动定位当前开发服务地址
-- **增量热更新**：`inline` 模式下本地组件卡片通过独立的 watch 构建打包为单文件自包含 HTML（内联脚本、样式和导入资源，上限 5 MiB，不注入 `<base>` 或本地 CSP），修改组件后自动重编，无需重启连接器，且不影响主应用普通页面的 HMR。若同一份 `mcp-views.json` 还包含 Module Federation 卡片，本地卡片走内联、MF 卡片仍走原有 HTTP shell
+- **自动端口发现**：默认连接器使用 `--cwd <项目目录>`，脚本在每次请求时读取 `.modern-js/mcp-apps/dev-server.json` 自动定位当前开发服务地址。也可直接传入固定的 HTTP MCP URL
+- **增量构建**：`inline` 模式下本地组件卡片通过独立的 watch 构建打包为单文件自包含 HTML（内联脚本、样式和导入资源，上限 5 MiB，不注入 `<base>` 或本地 CSP），修改组件后自动重编，下次读取卡片资源时生效，无需重启连接器，且不影响主应用普通页面的 HMR。若同一份 `mcp-views.json` 还包含 Module Federation 卡片，本地卡片走内联、MF 卡片仍走原有 HTTP shell
 - **不污染 `stdout`**：开发服务的日志照常输出在 `pnpm dev` 终端，转发脚本的 `stdout` 仅用于 JSON-RPC。`modern dev` 未启动或重启期间，转发脚本会返回 JSON-RPC 错误而不是退出进程，待开发服务就绪后下一次调用自动恢复

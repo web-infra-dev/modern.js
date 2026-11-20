@@ -640,7 +640,7 @@ export const mcpAppsPlugin = (
           mcpServers: {
             app: {
               command: process.execPath,
-              args: [stdioBinFile(), mcpUrl],
+              args: [stdioBinFile(), '--cwd', ctx.appDirectory],
             },
           },
         };
