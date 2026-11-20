@@ -2,4 +2,4 @@
 '@modern-js/mcp-apps': patch
 ---
 
-feat(mcp-apps): serve compiled cards through HTTP URL views using the resource HTML renderer
+feat(mcp-apps): serve compiled URL views and preserve tool UI defaults in the view manifest

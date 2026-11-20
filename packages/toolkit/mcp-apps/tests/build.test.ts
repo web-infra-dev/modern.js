@@ -340,3 +340,68 @@ describe('view entry names', () => {
     );
   });
 });
+
+it('carries local and remote tool metadata into the manifest without changing protocol namespaces', () => {
+  const tool = {
+    delivery: 'url' as const,
+    _meta: {
+      'doubao/ui': { entrypoints: [{ type: 'thread' }] },
+      'example/custom': { key: 1 },
+    },
+  };
+  const manifest = createUiManifest(
+    {
+      views: {
+        local: { component: './Todos.tsx', tool },
+        remote: {
+          expose: './Stats',
+          remote: 'https://cdn.example/mf-manifest.json',
+          tool,
+        },
+      },
+    },
+    '/',
+  );
+  expect(manifest.views.local).toEqual({
+    html: `./ui/${viewEntryName('local')}.html`,
+    ui: { prefersBorder: true },
+    tool,
+  });
+  expect(manifest.views.remote.tool).toEqual(tool);
+  expect(() => validateUiManifest(manifest)).not.toThrow();
+  expect(
+    createUiManifest(
+      { views: { local: { component: './Todos.tsx', tool } } },
+      '/',
+      undefined,
+      undefined,
+      { inline: true },
+    ).views.local,
+  ).toMatchObject({ inline: true, tool });
+});
+
+it('rejects ambiguous component definitions, invalid delivery and configured source URLs', () => {
+  for (const view of [
+    { component: './Todos.tsx', expose: './Todos' },
+    { component: './Todos.tsx', tool: { delivery: 'unknown' } },
+    {
+      component: './Todos.tsx',
+      tool: { _meta: { ui: { resourceUri: 'ui://other' } } },
+    },
+    {
+      component: './Todos.tsx',
+      tool: { _meta: { 'doubao/ui': { url: 'https://other.example' } } },
+    },
+  ])
+    expect(() => validateViewsConfig({ views: { todos: view } })).toThrow();
+  expect(() =>
+    validateUiManifest({
+      version: 1,
+      assetBase: 'request',
+      remotes: {},
+      views: {
+        todos: { html: './card.html', ui: {}, tool: { delivery: 'invalid' } },
+      },
+    }),
+  ).toThrow('delivery');
+});

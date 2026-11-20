@@ -526,3 +526,37 @@ it('keeps inline resource HTML and CSP unchanged while URL delivery adds only co
     await session.close();
   }
 });
+
+it('registers only selected resource views while retaining manifest tool defaults', async () => {
+  const { resolveUiViews } = await import('../src/server/resources');
+  const value = manifest();
+  value.views.local.tool = {
+    _meta: {
+      ui: { visibility: ['app'] },
+      'example/ui': { entrypoints: [{ type: 'thread' }] },
+    },
+  };
+  const filename = path.join(directory, 'selected-resources.json');
+  await writeFile(filename, JSON.stringify(value));
+  const options = {
+    manifest: filename,
+    request: new Request('https://app.example/api/mcp'),
+    viewNames: ['local'],
+  };
+  const views = await resolveUiViews(options);
+  expect(views.local.tool).toEqual(value.views.local.tool);
+  const session = await connect(filename, options);
+  try {
+    expect(session.uris).toEqual({ local: 'ui://app/local' });
+    const resources = await session.client.listResources();
+    expect(resources.resources.map(resource => resource.uri)).toEqual([
+      'ui://app/local',
+    ]);
+    expect(
+      (await session.client.readResource({ uri: 'ui://app/local' })).contents[0]
+        .text,
+    ).toContain('Hello');
+  } finally {
+    await session.close();
+  }
+});

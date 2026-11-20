@@ -109,3 +109,16 @@ for a successful tool result. For a separately built page, use
 Connected views preserve their latest output during new tool input and unmount
 on teardown, including when a late result arrives. Rendering does not replay the
 entry tool or automatically fetch application data.
+
+## Tool UI defaults
+
+A local view can use `{ "component": "./src/components/Todos.tsx", "tool": { "delivery": "resource", "_meta": { "ui": { "visibility": ["app"] }, "example/ui": { "entrypoints": [{ "type": "thread" }] } } }`.
+Expose views accept the same `tool` property. String component paths remain supported.
+
+`tool._meta` contains tool metadata, separate from the resource metadata in `ui`.
+The build validates its structure and preserves namespaced extension fields in the
+UI manifest. Host adapters validate their extension semantics and use `delivery`
+(`resource` by default, or `url`) to generate the source metadata. Do not configure
+`ui.resourceUri`, `ui.url`, or a namespaced UI `url` in these defaults.
+`resolveUiViews` exposes the declaration as `view.tool`. Resource registration can
+select manifest views with `registerUiResources(server, { ...options, viewNames })`.

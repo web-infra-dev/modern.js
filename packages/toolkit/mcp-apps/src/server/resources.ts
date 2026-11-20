@@ -12,6 +12,7 @@ import {
   validateUiManifest,
   type UiManifest,
   type UiMetadata,
+  type UiToolConfig,
 } from '../manifest';
 
 interface ManifestCacheEntry {
@@ -122,6 +123,7 @@ function escapeAttribute(value: string) {
 /** A compiled view with the same metadata and HTML for resource and URL delivery. */
 export interface ResolvedUiView {
   ui: UiMetadata;
+  tool?: UiToolConfig;
   render: (signal?: AbortSignal) => Promise<string>;
 }
 
@@ -167,6 +169,7 @@ export async function resolveUiViews(
         : new URL(view.html, location);
       views[name] = {
         ui: view.ui,
+        ...(view.tool ? { tool: view.tool } : {}),
         render: signal =>
           readSource(
             sourceUrl,
@@ -206,6 +209,7 @@ export async function resolveUiViews(
     };
     views[name] = {
       ui,
+      ...(view.tool ? { tool: view.tool } : {}),
       async render(signal) {
         const source = 'html' in view ? view.html : remote!.shell;
         const sourceUrl = /^https?:\/\//.test(source)
@@ -239,11 +243,12 @@ export async function resolveUiViews(
 
 export async function registerUiResources(
   server: Pick<McpServer, 'registerResource'>,
-  options: RegisterUiOptions = {},
+  options: RegisterUiOptions & { viewNames?: string[] } = {},
 ): Promise<Record<string, string>> {
   const views = await resolveUiViews(options);
   const uris: Record<string, string> = Object.create(null);
   for (const [name, view] of Object.entries(views)) {
+    if (options.viewNames && !options.viewNames.includes(name)) continue;
     const uri = `ui://app/${encodeURIComponent(name)}`;
     uris[name] = uri;
     registerAppResource(
