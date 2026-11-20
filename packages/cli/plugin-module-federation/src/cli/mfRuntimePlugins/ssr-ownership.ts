@@ -24,6 +24,30 @@ import {
 declare const MODERN_SSR_FEDERATION_REQUIRE: any;
 
 export const ownershipKey = Symbol.for('modern-js.mf.ssr.consumption');
+const wrappedMutationKey = Symbol.for('modern-js.mf.ssr.wrapped-mutation');
+
+function wrapAsyncMutations(host: any, state: any) {
+  for (const [key, label] of [
+    ['updateRemotes', 'Remote update'],
+    ['removeRemote', 'Remote removal'],
+  ] as const) {
+    const current = host[key];
+    if (typeof current !== 'function' || current[wrappedMutationKey]) continue;
+    const wrapped = function (this: any, ...args: any[]) {
+      if (!state.owner || state.context.getStore() !== state.owner) {
+        state.dynamic = true;
+        if (state.owner)
+          return Promise.reject(
+            new Error(`${label} outside the active SSR update owner`),
+          );
+      }
+      return current.apply(this, args);
+    };
+    Object.defineProperty(wrapped, wrappedMutationKey, { value: true });
+    host[key] = wrapped;
+  }
+}
+
 export default function ssrOwnership(): ModuleFederationRuntimePlugin {
   const candidates = createSSRUpdateSnapshotPlugin();
   const entries = new Map<string, { info: any; exports: any; loading: any }>();
@@ -51,6 +75,8 @@ export default function ssrOwnership(): ModuleFederationRuntimePlugin {
         (args.origin as any)[runtimeOwnerKey] ||
         currentSSRUpdateOwner();
       if (owner) bindSSRRuntime(owner, args.origin, Boolean(compiledOwner));
+      const consumptionState = (args.origin as any)[ownershipKey];
+      if (consumptionState) wrapAsyncMutations(args.origin, consumptionState);
       const remotes = compiledOwner?.registrations;
       if (remotes)
         args.userOptions.remotes = remotes.map((remote: any) => ({
@@ -230,28 +256,7 @@ export default function ssrOwnership(): ModuleFederationRuntimePlugin {
         }
         return register.apply(this, args);
       };
-      const update = instance.updateRemotes;
-      host.updateRemotes = function (...args: Parameters<typeof update>) {
-        if (!state.owner || state.context.getStore() !== state.owner) {
-          state.dynamic = true;
-          if (state.owner)
-            return Promise.reject(
-              new Error('Remote update outside the active SSR update owner'),
-            );
-        }
-        return update.apply(this, args);
-      };
-      const remove = instance.removeRemote;
-      host.removeRemote = function (...args: Parameters<typeof remove>) {
-        if (!state.owner || state.context.getStore() !== state.owner) {
-          state.dynamic = true;
-          if (state.owner)
-            return Promise.reject(
-              new Error('Remote removal outside the active SSR update owner'),
-            );
-        }
-        return remove.apply(this, args);
-      };
+      wrapAsyncMutations(host, state);
     },
   };
 }

@@ -1,4 +1,4 @@
-import { afterEach, expect, it, rs } from '@rstest/core';
+import { afterEach, beforeEach, expect, it, rs } from '@rstest/core';
 import {
   createInstance,
   helpers,
@@ -10,7 +10,17 @@ import { createBridgeServiceIngressMiddleware } from './service';
 
 const scopes: ReturnType<typeof createBridgeServiceIngressMiddleware>[] = [];
 const providers: ModuleFederation[] = [];
+beforeEach(() => {
+  rs.spyOn(globalThis, 'fetch').mockImplementation(
+    async () =>
+      new Response(JSON.stringify({ error: 'Version conflict' }), {
+        status: 409,
+        headers: { 'content-type': 'application/json' },
+      }),
+  );
+});
 afterEach(async () => {
+  rs.restoreAllMocks();
   for (const ingress of scopes.splice(0)) await ingress.dispose();
   const instances = helpers.global.Global.__FEDERATION__.__INSTANCES__;
   for (const provider of providers.splice(0)) {

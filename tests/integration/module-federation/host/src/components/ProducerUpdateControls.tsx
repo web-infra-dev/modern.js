@@ -297,7 +297,7 @@ export function ProducerUpdateControls({
               </span>
             </div>
           )}
-          <UpdateResult />
+          <UpdateResult active={busy || repeating} />
           <UpdateRequestControls scenario={scenario} />
         </>
       ) : (

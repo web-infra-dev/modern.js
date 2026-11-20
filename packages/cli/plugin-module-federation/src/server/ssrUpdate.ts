@@ -3,6 +3,7 @@ import type { SSRUpdateScope } from '@modern-js/server-core/node';
 import {
   destroyNodeInstance,
   planRemoteCache,
+  updateNodeRemotes,
 } from '@module-federation/node/lifecycle';
 import {
   setSSRUpdateCandidates,
@@ -472,7 +473,9 @@ export function createSSRUpdateAdapter(options: {
                       }
                     }
                   }
-                  await instance.updateRemotes(targets);
+                  await (typeof instance.updateRemotes === 'function'
+                    ? instance.updateRemotes(targets)
+                    : updateNodeRemotes(instance, targets));
                 };
                 if (state) await state.context.run(token, replace);
                 else await replace();

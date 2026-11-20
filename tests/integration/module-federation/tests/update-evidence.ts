@@ -85,11 +85,15 @@ export async function exerciseUpdateRequestFrames(
       expect(document.status).toBe(200);
       assertServerVersion(document.html, scenario, 'v2:initial');
     }
-    await page.waitForFunction(() =>
-      document
-        .querySelector('[data-testid="update-mode"]')
-        ?.textContent?.includes('更新'),
-    );
+    await page.waitForFunction(() => {
+      const badge = document.querySelector('[data-testid="update-mode"]');
+      return (
+        badge?.getAttribute('data-state') === 'applied' &&
+        ['Partial update', 'Application update'].includes(
+          badge.textContent?.trim() || '',
+        )
+      );
+    });
     return documents;
   } finally {
     await page.evaluate(() =>
@@ -270,7 +274,7 @@ export function assertServerVersion(
   expected: string,
 ) {
   expect(html).not.toContain('Switched to client rendering');
-  if (scenario === 'ordinary') {
+  if (scenario === 'ordinary' && !html.includes('"static":"1"')) {
     for (const component of ['weather-hourly', 'weather-days', 'weather-wind'])
       expect(html).toContain(`data-testid="${component}"`);
   }

@@ -598,6 +598,18 @@
   padding: 3px 9px;
   border-radius: 5px;
 }
+.lab-result-badge.is-failed {
+  background: #fde8e8;
+  color: #9b1c1c;
+}
+.lab-result-badge.is-paused {
+  background: #fef3c7;
+  color: #92400e;
+}
+.lab-result-badge.is-updating {
+  background: #e0effe;
+  color: #1e429f;
+}
 .lab-change-table td:last-child {
   color: #385981;
 }

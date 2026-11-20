@@ -103,6 +103,8 @@ export function UpdateRequestControls({
     url.searchParams.set('__labPolicy', policy);
     url.searchParams.set('labFrame', '1');
     url.searchParams.set('__labRequest', String(++nextId.current));
+    if (scenario === 'ordinary' && process.env.MF_LAB_SSR_SCOPE === 'entries')
+      url.searchParams.set('static', '1');
     if (owner) url.searchParams.set('remote', 'nested');
     setFrames(previous => [
       ...previous,

@@ -21,40 +21,56 @@ type Observation = {
     error?: string;
   };
 };
-export function UpdateResult() {
+export function UpdateResult({ active = false }: { active?: boolean }) {
   const [state, setState] = useState<Observation>();
   const [error, setError] = useState('');
+  const pending = Boolean(state?.operation && !state.operation.completed);
   useEffect(() => {
     let stopped = false;
-    let timer: ReturnType<typeof setTimeout>;
+    let timer: ReturnType<typeof setTimeout> | undefined;
     async function poll() {
       try {
         const response = await fetch('/_lab/update/lab/status');
         if (!response.ok) throw Error(`HTTP ${response.status}`);
-        const next = await response.json();
+        const next: Observation = await response.json();
         if (!stopped) {
           setState(next);
           setError('');
+          if (active || (next.operation && !next.operation.completed)) {
+            timer = setTimeout(poll, 250);
+          }
         }
       } catch (error) {
-        if (!stopped) setError(String(error));
-      } finally {
-        if (!stopped) timer = setTimeout(poll, 250);
+        if (!stopped) {
+          setError(String(error));
+          if (active) timer = setTimeout(poll, 250);
+        }
       }
     }
     void poll();
     return () => {
       stopped = true;
-      clearTimeout(timer);
+      if (timer) clearTimeout(timer);
     };
-  }, []);
+  }, [active, pending]);
   const operation = state?.operation;
   if (!operation) return error ? <p role="alert">{error}</p> : null;
   const result = operation.result;
+  const badgeState = result
+    ? 'applied'
+    : operation.completed
+      ? 'failed'
+      : operation.held
+        ? 'paused'
+        : 'updating';
   return (
     <div data-testid="update-evidence">
       <div className="lab-update-result" role="status">
-        <strong className="lab-result-badge" data-testid="update-mode">
+        <strong
+          className={`lab-result-badge is-${badgeState}`}
+          data-testid="update-mode"
+          data-state={badgeState}
+        >
           {result
             ? result.mode === 'entries'
               ? 'Partial update'

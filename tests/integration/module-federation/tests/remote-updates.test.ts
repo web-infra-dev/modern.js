@@ -533,7 +533,7 @@ for (const scenario of scenarios.filter(
                 .slice(documentCount)
                 .filter(document => document !== serverDocument),
             ).toHaveLength(0);
-            await page.reload({ waitUntil: 'networkidle0' });
+            await page.reload({ waitUntil: 'load' });
             await waitForVersion(page, 'v1:updated');
             await assertInteraction(page, scenario, 'v1:updated');
             evidence.phase = 'verify-process-and-service-transport';
@@ -760,6 +760,50 @@ for (const scenario of scenarios.filter(
                 await snapshot('idle');
               }
               evidence.phase = 'shell-memory-table';
+              if (scenario === 'ordinary') {
+                evidence.phase = 'shell-run-switches';
+                await page.$eval(
+                  '.lab-repeat-controls input[type="number"]',
+                  input => {
+                    const el = input as HTMLInputElement;
+                    const setter = Object.getOwnPropertyDescriptor(
+                      window.HTMLInputElement.prototype,
+                      'value',
+                    )?.set;
+                    setter?.call(el, '2');
+                    el.dispatchEvent(new Event('input', { bubbles: true }));
+                    el.dispatchEvent(new Event('change', { bubbles: true }));
+                  },
+                );
+                await page.click('[data-testid="update-repeat"]');
+                await page.waitForFunction(
+                  () => {
+                    const error = document.querySelector(
+                      '[data-testid="update-error"]',
+                    );
+                    const progress = document
+                      .querySelector('[data-testid="update-progress"]')
+                      ?.textContent?.trim();
+                    return (
+                      Boolean(error) ||
+                      progress === 'Switches, SSR checks and GC completed'
+                    );
+                  },
+                  { timeout: 60000 },
+                );
+                expect(await page.$('[data-testid="update-error"]')).toBeNull();
+                expect(
+                  await page.$eval('[data-testid="update-mode"]', el => ({
+                    state: el.getAttribute('data-state'),
+                    className: el.className,
+                    text: el.textContent?.trim(),
+                  })),
+                ).toEqual({
+                  state: 'applied',
+                  className: 'lab-result-badge is-applied',
+                  text: 'Application update',
+                });
+              }
               await page.click('[data-testid="update-memory"]');
               await page.waitForSelector('[data-testid="update-memory-table"]');
               evidence.phase = 'complete';
@@ -989,7 +1033,7 @@ if (process.env.MF_LAB_MODE !== 'dev') {
             (await (await fetch(`${lab.url}/_lab/update/lab/status`)).json())
               .pid,
           ).toBe(hostBefore.pid);
-          await page.goto(route, { waitUntil: 'networkidle0' });
+          await page.goto(route, { waitUntil: 'load' });
           await page.waitForFunction(() =>
             document
               .querySelector('[data-testid="service-remote-child"]')
