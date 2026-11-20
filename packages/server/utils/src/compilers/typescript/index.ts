@@ -91,6 +91,8 @@ const copyFiles = async (from: string, to: string, appDirectory: string) => {
   }
 };
 
+const DEPRECATED_OPTION_DIAGNOSTIC = 5101;
+
 export const compileByTs: CompileFunc = async (
   appDirectory,
   config,
@@ -185,9 +187,13 @@ export const compileByTs: CompileFunc = async (
       : [],
   });
 
+  // TS5101 ("baseUrl" and friends are deprecated) only concerns the project's
+  // own type check: the compile still works and the bundler keeps honoring
+  // `baseUrl`, so it must not fail the server build on TypeScript 6.
   const allDiagnostics = ts
     .getPreEmitDiagnostics(program as unknown as Program)
-    .concat(emitResult.diagnostics);
+    .concat(emitResult.diagnostics)
+    .filter(diagnostic => diagnostic.code !== DEPRECATED_OPTION_DIAGNOSTIC);
 
   const { noEmitOnError } = options;
 

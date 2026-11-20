@@ -134,6 +134,36 @@ describe('typescript', () => {
     }
   });
 
+  it('does not fail the build on the TS5101 baseUrl deprecation', async () => {
+    const example = path.join(__dirname, './fixtures', './ts-example');
+    // The compiler stand-in adds the TS5101 diagnostic TypeScript 6 reports
+    // for the `baseUrl` this fixture keeps.
+    const tsconfigPath = path.join(example, './tsconfig.ts6.json');
+    const distDir = path.join(example, './dist-ts6');
+    const exit = rstest.spyOn(process, 'exit').mockImplementation((() => {
+      throw new Error('process.exit');
+    }) as any);
+    const error = rstest.spyOn(logger, 'error').mockImplementation(() => {});
+
+    try {
+      await compile(example, { alias: {} } as any, {
+        sourceDirs: [path.join(example, './shared')],
+        distDir,
+        tsconfigPath,
+      });
+
+      expect(exit).not.toBeCalled();
+      expect(error).not.toBeCalled();
+      expect(
+        await fs.pathExists(path.join(distDir, './shared/index.js')),
+      ).toBeTruthy();
+    } finally {
+      exit.mockRestore();
+      error.mockRestore();
+      await fs.remove(distDir);
+    }
+  });
+
   it('rejects unknown compilerOverrides values', async () => {
     const example = path.join(__dirname, './fixtures', './ts-example');
     const distDir = path.join(example, './dist-invalid');
