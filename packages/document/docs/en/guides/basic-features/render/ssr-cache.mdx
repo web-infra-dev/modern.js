@@ -23,7 +23,13 @@ export const cacheOption: CacheOption = {
 
 The caching strategy implements [stale-while-revalidate](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Cache-Control).
 
-Within the `maxAge` period, the cache content is directly returned. Exceeding `maxAge` but within `staleWhileRevalidate`, the cache content is still returned directly, but it re-renders asynchronously.
+Cache behavior depends on when a request arrives:
+
+- Within `maxAge`, the request receives the cached content without re-rendering.
+- During the additional `staleWhileRevalidate` window after `maxAge`, the request receives stale content and triggers a background render to refresh the cache.
+- If the cache is missing or older than `maxAge + staleWhileRevalidate`, the request requires a new render.
+
+Expiration alone does not trigger a render. Refreshes are request-driven, so rendering cache does not guarantee updates at a specific time, such as a blog post's scheduled publication time.
 
 **Object Type**
 
