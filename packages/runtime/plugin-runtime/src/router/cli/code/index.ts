@@ -98,6 +98,19 @@ export async function generateRoutesForEntry(
   return routes;
 }
 
+const collectRouteIds = (routes: unknown, ids = new Set<string>()) => {
+  if (!Array.isArray(routes)) {
+    return ids;
+  }
+  for (const route of routes as { id?: string; children?: unknown }[]) {
+    if (route.id) {
+      ids.add(route.id);
+    }
+    collectRouteIds(route.children, ids);
+  }
+  return ids;
+};
+
 export const generateCode = async (
   appContext: AppToolsContext,
   config: AppNormalizedConfig,
@@ -120,10 +133,13 @@ export const generateCode = async (
   // under lazy compilation.
   const eagerRouteComponentFilesByEntry: EagerRouteComponentFilesByEntry =
     new Map();
+  // Route ids of the same FINAL routes, keyed by entry. The client route
+  // manifest only needs these keys (PrefetchLink and RSC look up `route.id`).
+  const routeIdsByEntry: Map<string, Set<string>> = new Map();
 
   await Promise.all(entrypoints.map(generateEntryCode));
 
-  api.updateAppContext({ eagerRouteComponentFilesByEntry });
+  api.updateAppContext({ eagerRouteComponentFilesByEntry, routeIdsByEntry });
 
   async function generateEntryCode(entrypoint: Entrypoint) {
     const {
@@ -212,6 +228,7 @@ export const generateCode = async (
           internalSrcAlias,
         );
         eagerRouteComponentFilesByEntry.set(entryName, routeEagerFilesForEntry);
+        routeIdsByEntry.set(entryName, collectRouteIds(routes));
 
         if (ssrMode === 'stream') {
           const hasPageRoute = routes.some(

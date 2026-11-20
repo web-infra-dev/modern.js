@@ -204,6 +204,7 @@ export default (): CliPlugin<AppTools> => ({
           normalizedConfig: normalizedConfig as any,
           appContext: appContext as any,
           eagerRouteComponentFilesByEntry,
+          getRouteIdsByEntry: () => api.getAppContext().routeIdsByEntry,
         });
 
         builder.onBeforeBuild(
