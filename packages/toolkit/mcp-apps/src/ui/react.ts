@@ -5,7 +5,12 @@ import {
 } from '@modelcontextprotocol/ext-apps/react';
 import type { App } from '@modelcontextprotocol/ext-apps';
 import { createElement, useReducer, type ComponentType } from 'react';
-import { reduceViewState, resultProps } from './state';
+import {
+  reduceViewState,
+  resultProps,
+  type ViewState,
+  type ViewEvent,
+} from './state';
 export {
   useApp,
   useHostStyles,
@@ -30,7 +35,17 @@ export function useMcpApp(
   options: Omit<UseAppOptions, 'onAppCreated'>,
   viewOptions: McpViewOptions = {},
 ) {
-  const [state, dispatch] = useReducer(reduceViewState, { cancelled: false });
+  const [state, dispatch] = useReducer(
+    (
+      state: ViewState & { tornDown?: boolean },
+      event: ViewEvent,
+    ): ViewState & { tornDown?: boolean } => {
+      if (state.tornDown) return state;
+      const view = reduceViewState(state, event);
+      return event.type === 'teardown' ? { ...view, tornDown: true } : view;
+    },
+    { cancelled: false },
+  );
   const connection = useApp({
     ...options,
     onAppCreated(app) {
