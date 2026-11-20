@@ -1,5 +1,5 @@
 #!/usr/bin/env node
-// 验证 modernjs-migrate-to-v3 的 tsconfig 迁移（scripts/migrate-tsconfig.mjs，以及 migrate.mjs 中的调用）。
+// 验证 modernjs-migrate-tsconfig skill（scripts/migrate-tsconfig.mjs）。
 // 输入以 fixtures/v3-legacy-tsconfig-bff（旧创建模板的 tsconfig）为基础，按用例改写后复制到临时目录。
 //   node tests/skill/migrate-tsconfig.mjs
 
@@ -11,7 +11,7 @@ import { fileURLToPath } from 'node:url';
 
 const HERE = path.dirname(fileURLToPath(import.meta.url));
 const REPO = path.resolve(HERE, '..', '..');
-const SCRIPTS = path.join(REPO, 'skills/modernjs-migrate-to-v3/scripts');
+const SCRIPTS = path.join(REPO, 'skills/modernjs-migrate-tsconfig/scripts');
 const CODEMOD = path.join(SCRIPTS, 'migrate-tsconfig.mjs');
 const FIXTURE = path.join(HERE, 'fixtures', 'v3-legacy-tsconfig-bff');
 const SERVER_TSCONFIG = {
@@ -66,7 +66,7 @@ function prepare(mutate = () => {}) {
     report: () =>
       JSON.parse(
         fs.readFileSync(
-          path.join(work, '.agents/runs/modernjs-migrate/report.json'),
+          path.join(work, '.agents/runs/modernjs-migrate-tsconfig/report.json'),
           'utf8',
         ),
       ),
@@ -81,9 +81,10 @@ try {
   const r1 = legacy.run();
   const ts1 = legacy.json('tsconfig.json');
   check(
-    '[auto] 删除 baseUrl "./"',
+    '[auto] 删除 baseUrl "./"；没有裸导入时不补 "*"',
     !('baseUrl' in ts1.compilerOptions) &&
-      r1.changed.some(c => /删除 compilerOptions\.baseUrl/.test(c)),
+      r1.changed.some(c => /删除 compilerOptions\.baseUrl/.test(c)) &&
+      !('*' in ts1.compilerOptions.paths),
   );
   check(
     '[auto] 保留原有 paths 与其他字段',
@@ -153,70 +154,93 @@ try {
     ts.compilerOptions.paths = { '@/*': ['*'], '@shared/*': ['../shared/*'] };
     p.write('tsconfig.json', ts);
   });
-  const customBefore = custom.read('tsconfig.json');
   const r4 = custom.run();
-  const manual4 = r4.manual.join('\n');
+  const ts4 = custom.json('tsconfig.json');
   check(
-    '[manual] 不删除自定义 baseUrl，tsconfig.json 不改写',
-    custom.read('tsconfig.json') === customBefore,
+    '[auto] paths 加上原 baseUrl 前缀后删除 baseUrl',
+    !('baseUrl' in ts4.compilerOptions) &&
+      JSON.stringify(ts4.compilerOptions.paths['@/*']) ===
+        JSON.stringify(['./src/*']) &&
+      JSON.stringify(ts4.compilerOptions.paths['@shared/*']) ===
+        JSON.stringify(['./shared/*']),
   );
   check(
-    '[manual] 给出加前缀后的 paths 写法',
-    /"\.\/src"/.test(manual4) &&
-      manual4.includes('"@/*": ["./src/*"]') &&
-      manual4.includes('"@shared/*": ["./shared/*"]'),
-  );
-  check(
-    '[manual] @api/* 放进人工清单（依赖 baseUrl 改写后再加）',
-    /@api\/\*/.test(manual4),
+    '[auto] @api/* 直接补充、无人工项',
+    '@api/*' in ts4.compilerOptions.paths && r4.manual.length === 0,
   );
   check(
     '[auto] tsconfig.server.json 仍生成',
     custom.has('tsconfig.server.json'),
   );
 
-  console.log('== 4b. baseUrl "./" 但没有 paths ==');
-  const noPaths = prepare(p => {
-    const ts = p.json('tsconfig.json');
-    delete ts.compilerOptions.paths;
-    p.write('tsconfig.json', ts);
+  console.log('== 4b. baseUrl "./" + 裸导入 ==');
+  const bare = prepare(p => {
+    p.write(
+      'src/index.ts',
+      "import { greeting } from 'shared/greeting';\nexport const app = greeting;\n",
+    );
   });
-  const noPathsBefore = noPaths.read('tsconfig.json');
-  const r4b = noPaths.run();
-  const manual4b = r4b.manual.join('\n');
+  const r4b = bare.run();
+  const ts4b = bare.json('tsconfig.json');
   check(
-    '[manual] 没有 paths 时保留 baseUrl，tsconfig.json 不改写',
-    noPaths.read('tsconfig.json') === noPathsBefore,
+    '[auto] 检测到裸导入时补 "*": ["./*"]',
+    JSON.stringify(ts4b.compilerOptions.paths['*']) ===
+      JSON.stringify(['./*']) && !('baseUrl' in ts4b.compilerOptions),
   );
   check(
-    '[manual] 提示先用 paths "*": ["./*"] 映射裸导入再删 baseUrl',
-    manual4b.includes('"*": ["./*"]') && /baseUrl/.test(manual4b),
+    '[auto] changed 中写明触发 "*" 的导入',
+    r4b.changed.some(c => c.includes("'shared/greeting'")),
   );
   check(
-    '[manual] 保留 baseUrl 时 @api/* 不自动补、进人工清单',
-    /@api\/\*/.test(manual4b) &&
-      !r4b.changed.some(c => /@api/.test(c)) &&
-      !('paths' in noPaths.json('tsconfig.json').compilerOptions),
-  );
-  const r4b2 = noPaths.run();
-  check(
-    '[idempotent] 再次执行仍不删 baseUrl、不改 tsconfig.json',
-    r4b2.changed.length === 0 &&
-      noPaths.read('tsconfig.json') === noPathsBefore,
+    '[auto] 已被 paths 覆盖的导入不算裸导入',
+    (() => {
+      const covered = prepare(p => {
+        p.write(
+          'src/index.ts',
+          "import { greeting } from '@shared/greeting';\nexport const app = greeting;\n",
+        );
+      });
+      covered.run();
+      return !('*' in covered.json('tsconfig.json').compilerOptions.paths);
+    })(),
   );
 
-  console.log('== 4c. baseUrl "." + paths ==');
+  console.log('== 4c. baseUrl "." 且没有 paths ==');
   const dot = prepare(p => {
     const ts = p.json('tsconfig.json');
     ts.compilerOptions.baseUrl = '.';
+    delete ts.compilerOptions.paths;
     p.write('tsconfig.json', ts);
+    p.write(
+      'src/index.ts',
+      "import { greeting } from 'shared/greeting';\nexport const app = greeting;\n",
+    );
   });
   const r4c = dot.run();
+  const ts4c = dot.json('tsconfig.json');
   check(
-    '[auto] baseUrl "." 与 "./" 同样删除，并补 @api/*',
-    !('baseUrl' in dot.json('tsconfig.json').compilerOptions) &&
-      '@api/*' in dot.json('tsconfig.json').compilerOptions.paths &&
+    '[auto] 删除 baseUrl，补 "*" 与 @api/*',
+    !('baseUrl' in ts4c.compilerOptions) &&
+      JSON.stringify(ts4c.compilerOptions.paths['*']) ===
+        JSON.stringify(['./*']) &&
+      '@api/*' in ts4c.compilerOptions.paths &&
       r4c.manual.length === 0,
+  );
+
+  console.log('== 4d. baseUrl 写在父配置 ==');
+  const inherited = prepare(p => {
+    const ts = p.json('tsconfig.json');
+    const { baseUrl } = ts.compilerOptions;
+    delete ts.compilerOptions.baseUrl;
+    ts.extends = './tsconfig.base.json';
+    p.write('tsconfig.json', ts);
+    p.write('tsconfig.base.json', { compilerOptions: { baseUrl } });
+  });
+  const r4d = inherited.run();
+  check(
+    '[manual] 父配置里的 baseUrl 进人工清单，父配置不改',
+    r4d.manual.some(m => m.includes('tsconfig.base.json')) &&
+      'baseUrl' in inherited.json('tsconfig.base.json').compilerOptions,
   );
 
   console.log('== 5. 含注释的 tsconfig.json ==');
@@ -288,25 +312,6 @@ try {
     r7.changed.length === 1 &&
       !web.has('tsconfig.server.json') &&
       !('@api/*' in web.json('tsconfig.json').compilerOptions.paths),
-  );
-
-  console.log('== 8. migrate.mjs 主流程（v3 续迁移）调用 tsconfig 步骤 ==');
-  const flow = prepare();
-  execFileSync(
-    'node',
-    [path.join(SCRIPTS, 'migrate.mjs'), flow.work, '--to=3.0.0'],
-    { encoding: 'utf8' },
-  );
-  const flowReport = flow.report();
-  check(
-    '[flow] report.changed 含 tsconfig 改写',
-    flowReport.changed.some(c => /tsconfig\.json：删除/.test(c)) &&
-      flowReport.changed.some(c => /tsconfig\.server\.json/.test(c)),
-  );
-  check(
-    '[flow] 文件已改写',
-    flow.has('tsconfig.server.json') &&
-      !('baseUrl' in flow.json('tsconfig.json').compilerOptions),
   );
 
   console.log(`\n结果：${pass} 通过 / ${fail} 失败`);

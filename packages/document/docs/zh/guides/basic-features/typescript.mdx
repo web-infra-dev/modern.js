@@ -53,32 +53,33 @@ Modern.js 通过 `@modern-js/tsconfig` 提供共享的 TypeScript 预设。一�
 
 ## 没有 `tsconfig.server.json` 会怎样
 
-框架按「`server.tsconfigPath` → `tsconfig.server.json` → `tsconfig.json`」的顺序解析服务端配置。只有回退到 `tsconfig.json` 且它的 `module` 是 ES Module 取值、而项目又不是 `type: module` 时，框架才会改用 `module: NodeNext` + `moduleResolution: NodeNext` 编译服务端代码，并打印一次警告。`type: module` 项目不会被改写。完整规则见 [server.tsconfigPath](/configure/app/server/tsconfig-path)。
+框架按「`server.tsconfigPath` → `tsconfig.server.json` → `tsconfig.json`」的顺序解析服务端配置。按约定使用 `tsconfig.server.json` 时，启动会打印一行日志说明实际使用的文件。只有回退到 `tsconfig.json` 且它的 `module` 是 ES Module 取值、而项目又不是 `type: module` 时，框架才会改用 `module: NodeNext` + `moduleResolution: NodeNext` 编译服务端代码，并打印一次警告。`type: module` 项目不会被改写。完整规则见 [server.tsconfigPath](/configure/app/server/tsconfig-path)。
 
 ## 迁移存量项目
 
-旧版创建模板会在 `tsconfig.json` 中写入 `"baseUrl": "./"`，而 TypeScript 6 对任何 `baseUrl` 都会报 TS5101（该选项已废弃）。Modern.js 3 中已没有 `modern upgrade` 命令，存量项目通过迁移 Skill `modernjs-migrate-to-v3` 迁移。它的 `migrate.mjs` 会执行下面的 tsconfig 改写（已是 v3 的项目按续迁移处理），也可以只运行 tsconfig 这一步：
+旧版创建模板会在 `tsconfig.json` 中写入 `"baseUrl": "./"`。TypeScript 6 对 `baseUrl` 报 TS5101（已废弃），TypeScript 7 报 TS5102（已移除）。只升级 Modern.js、TypeScript 仍是 5.x 时不受影响；框架的构建也会继续识别 `baseUrl`。
+
+升级依赖不会改动项目文件。需要迁移时，执行 Skill `modernjs-migrate-tsconfig`：
 
 ```bash
 # 安装 Skill（--agent 可选 claude-code / codex / cursor 等）
-npx skills add web-infra-dev/modern.js --skill modernjs-migrate-to-v3
+npx skills add web-infra-dev/modern.js --skill modernjs-migrate-tsconfig
 
-# 只迁移 tsconfig；<skillDir> 为上一步安装的 Skill 目录
+# 也可以直接执行脚本；<skillDir> 为上一步安装的 Skill 目录
 node <skillDir>/scripts/migrate-tsconfig.mjs <projectDir>
 ```
 
-结果会写入 `<projectDir>/.agents/runs/modernjs-migrate/report.json` 的 `changed`（已自动改写）与 `manual`（需人工处理）。脚本可重复执行。
+结果会写入 `<projectDir>/.agents/runs/modernjs-migrate-tsconfig/report.json` 的 `changed`（已自动改写）与 `manual`（需人工处理）。脚本可重复执行。
 
-| 项目现状                                                                                                       | 脚本行为                                                                                                                         |
-| -------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------- |
-| `baseUrl` 为 `"./"` 或 `"."`，且有 `paths`                                                                     | 删除 `baseUrl`，`paths` 保持不变                                                                                                 |
-| `baseUrl` 为 `"./"` 或 `"."`，但没有 `paths`                                                                   | 不删除，列入人工清单：`import 'src/foo'` 这类依赖 `baseUrl` 的裸导入需要先用 `paths` 映射（如 `"*": ["./*"]`），再删除 `baseUrl` |
-| `baseUrl` 为其他值（如 `"./src"`）                                                                             | 不删除，列入人工清单，并给出改写后的 `paths`                                                                                     |
-| 有 `api/lambda`，`paths` 缺少 `@api/*`                                                                         | 补充 `"@api/*": ["./api/lambda/*"]`；如果 `baseUrl` 被保留，则列入人工清单，待 `baseUrl` 改写后再加                              |
-| 项目不是 `type: module`，有 `api/` 或 `server/`，没有 `tsconfig.server.json`，也没有配置 `server.tsconfigPath` | 写入上文的 `tsconfig.server.json`                                                                                                |
-| `tsconfig.json` 含注释或尾逗号                                                                                 | 不改写该文件，把上述改写列入人工清单                                                                                             |
+| 项目现状                                                                                                       | 脚本行为                                                                                                                                     |
+| -------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------- |
+| 有 `baseUrl`                                                                                                   | `paths` 每一项加上原 `baseUrl` 前缀，改成相对 `tsconfig.json` 所在目录；源码中有靠 `baseUrl` 解析的裸导入时补 `"*"` 映射；然后删除 `baseUrl` |
+| 有 `api/lambda`，`paths` 缺少 `@api/*`                                                                         | 补充 `"@api/*": ["./api/lambda/*"]`                                                                                                          |
+| 项目不是 `type: module`，有 `api/` 或 `server/`，没有 `tsconfig.server.json`，也没有配置 `server.tsconfigPath` | 写入上文的 `tsconfig.server.json`                                                                                                            |
+| `tsconfig.json` 含注释或尾逗号                                                                                 | 不改写该文件，把上述改写列入人工清单                                                                                                         |
+| `baseUrl` 写在 `extends` 的父配置中                                                                            | 不改写父配置，列入人工清单                                                                                                                   |
 
-`baseUrl` 为其他值时，`paths` 中的每一项原本相对 `baseUrl` 解析，删除 `baseUrl` 前需要加上原 `baseUrl` 作为前缀，改成相对 `tsconfig.json` 所在目录：
+改写与 `baseUrl` 等价。以 `baseUrl: "./src"`、源码中有 `import { log } from 'utils/log'`（解析到 `src/utils/log.ts`）为例：
 
 ```json title="迁移前"
 {
@@ -97,16 +98,18 @@ node <skillDir>/scripts/migrate-tsconfig.mjs <projectDir>
   "compilerOptions": {
     "paths": {
       "@/*": ["./src/*"],
-      "@shared/*": ["./shared/*"]
+      "@shared/*": ["./shared/*"],
+      "*": ["./src/*"]
     }
   }
 }
 ```
 
-不使用 Skill 时，按上表手动修改即可。
+源码中没有这类裸导入时不会补 `"*"`。不使用 Skill 时，按上表手动修改即可。
 
 ## 注意事项
 
 - 不要在 `tsconfig.server.json` 中声明 `paths`：TypeScript 对 `paths` 是整体替换，而不是逐键合并。
 - 不再需要 `baseUrl`。`paths` 中的相对路径以声明它的文件所在目录为基准。
+- 项目在 TypeScript 6 下保留 `baseUrl` 时，服务端编译会忽略 TS5101 这一条废弃提示，不会因此构建失败；其他类型错误照常报错。
 - `@modern-js/tsconfig` 3.12 及以上版本需要搭配 `@modern-js/app-tools` 3.12 及以上版本使用。

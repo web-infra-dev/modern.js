@@ -1,21 +1,18 @@
 #!/usr/bin/env node
-// 把项目 tsconfig 迁到 @modern-js/tsconfig 的 bundler 基线（Modern.js 3）。
+// 把项目 tsconfig 迁到 @modern-js/tsconfig 的 bundler 基线（Modern.js 3.12+）。
 //   node scripts/migrate-tsconfig.mjs <projectDir> [--json]
 //
-// 也会被 migrate.mjs 作为一个步骤调用（v2 迁移与已是 v3 的续迁移都会执行）。
-// 结果写进 <projectDir>/.agents/runs/modernjs-migrate/report.json 的 changed / manual。
+// 结果写进 <projectDir>/.agents/runs/modernjs-migrate-tsconfig/report.json 的 changed / manual。
 //
-// 自动改写：
-//   a. compilerOptions.baseUrl 为 "." / "./" 且存在 paths → 删除（paths 保留，本就相对 tsconfig 目录）
-//   c. CommonJS 项目（package.json#type !== "module"）有 api/ 或 server/，且没有
+// 自动改写（与 TypeScript 7 报错 TS5102 给出的写法等价）：
+//   a. compilerOptions.baseUrl → paths 的每个目标加上原 baseUrl 前缀（改为相对 tsconfig 目录）；
+//      源码里有靠 baseUrl 解析的裸导入（如 `import 'src/foo'`）时补 "*": ["<baseUrl>/*"]；最后删除 baseUrl
+//   b. CommonJS 项目（package.json#type !== "module"）有 api/ 或 server/，且没有
 //      tsconfig.server.json、modern.config 里也没有 server.tsconfigPath → 写 tsconfig.server.json
-//   d. 有 api/lambda 且 paths 缺 "@api/*"（且 baseUrl 已不存在或本次删除）→ 补 "@api/*": ["./api/lambda/*"]
+//   c. 有 api/lambda 且 paths 缺 "@api/*" → 补 "@api/*": ["./api/lambda/*"]
 // 人工清单：
-//   a'. baseUrl 为 "." / "./" 但没有 paths：可能有 `import 'src/foo'` 这类靠 baseUrl 解析的裸导入，
-//       不删；提示先用 paths（如 "*": ["./*"]）映射，再删 baseUrl
-//   b. 其他 baseUrl 值：不删，给出每条 paths 改写成相对 tsconfig 目录后的值
-//   保留了 baseUrl 时，缺失的 "@api/*" 也进人工清单（它会相对 baseUrl 解析，需在 baseUrl 改写后再加）
 //   tsconfig.json 不是严格 JSON（含注释 / 尾逗号）：不改写，把本应执行的改写列进人工清单
+//   baseUrl 写在 extends 的父配置里：父配置不改，提示人工按同样规则处理
 // 幂等：重复执行不会产生新的改写；type: "module" 的项目不会生成 tsconfig.server.json。
 
 import fs from 'node:fs';
@@ -137,8 +134,92 @@ function rebasePathTarget(baseUrl, target) {
     : `./${joined}`;
 }
 
-function isDefaultBaseUrl(baseUrl) {
-  return baseUrl === '.' || baseUrl === './';
+const SRC_EXTS = new Set([
+  '.ts',
+  '.tsx',
+  '.mts',
+  '.cts',
+  '.js',
+  '.jsx',
+  '.mjs',
+  '.cjs',
+]);
+const SKIP_DIRS = new Set([
+  'node_modules',
+  'dist',
+  'build',
+  'output',
+  'coverage',
+]);
+const SPECIFIER_RE =
+  /(?:\bfrom\s*|\bimport\s*\(\s*|\brequire\s*\(\s*|^\s*import\s+)(['"])([^'"\n]+)\1/gm;
+const MAX_SCANNED_FILES = 20000;
+
+function listSourceFiles(dir, out = []) {
+  for (const entry of fs.readdirSync(dir, { withFileTypes: true })) {
+    if (out.length >= MAX_SCANNED_FILES) break;
+    if (entry.name.startsWith('.') || SKIP_DIRS.has(entry.name)) continue;
+    const file = path.join(dir, entry.name);
+    if (entry.isDirectory()) listSourceFiles(file, out);
+    else if (SRC_EXTS.has(path.extname(entry.name))) out.push(file);
+  }
+  return out;
+}
+
+function matchesPathsKey(specifier, keys) {
+  return keys.some(key => {
+    const star = key.indexOf('*');
+    if (star === -1) return specifier === key;
+    return (
+      specifier.startsWith(key.slice(0, star)) &&
+      specifier.endsWith(key.slice(star + 1))
+    );
+  });
+}
+
+// 找出一条靠 baseUrl 解析的裸导入：不是相对路径、不命中已有 paths，且首段在 baseUrl 目录下存在
+function findBaseUrlImport(dir, baseUrlDir, pathsKeys) {
+  for (const file of listSourceFiles(dir)) {
+    const code = fs.readFileSync(file, 'utf8');
+    for (const [, , specifier] of code.matchAll(SPECIFIER_RE)) {
+      if (/^[./]|^[a-z]+:/i.test(specifier)) continue;
+      if (matchesPathsKey(specifier, pathsKeys)) continue;
+      const parts = specifier.split('/');
+      const head = specifier.startsWith('@')
+        ? parts.slice(0, 2)
+        : parts.slice(0, 1);
+      const target = path.join(baseUrlDir, ...head);
+      if (
+        fs.existsSync(target) ||
+        [...SRC_EXTS].some(ext => fs.existsSync(`${target}${ext}`))
+      ) {
+        return { file: path.relative(dir, file), specifier };
+      }
+    }
+  }
+  return undefined;
+}
+
+// extends 指向的本地父配置里是否声明了 baseUrl（只看相对路径的 extends）
+function inheritedBaseUrlFile(dir, config) {
+  const parents = Array.isArray(config.extends)
+    ? config.extends
+    : [config.extends];
+  for (const parent of parents) {
+    if (typeof parent !== 'string' || !parent.startsWith('.')) continue;
+    const file = path.resolve(
+      dir,
+      parent.endsWith('.json') ? parent : `${parent}.json`,
+    );
+    if (!fs.existsSync(file)) continue;
+    try {
+      const parsed = JSON.parse(stripJsonc(fs.readFileSync(file, 'utf8')));
+      if (typeof parsed?.compilerOptions?.baseUrl === 'string') {
+        return path.relative(dir, file);
+      }
+    } catch {}
+  }
+  return undefined;
 }
 
 /**
@@ -176,62 +257,76 @@ export function migrateTsconfig(dir) {
     const hasPaths =
       compilerOptions.paths && typeof compilerOptions.paths === 'object';
     // 本次执行后 baseUrl 是否仍保留（保留时不自动补 @api/*）
-    const keepsBaseUrl =
-      typeof baseUrl === 'string' && !(isDefaultBaseUrl(baseUrl) && hasPaths);
 
-    // a / b：baseUrl
-    if (typeof baseUrl === 'string' && isDefaultBaseUrl(baseUrl) && !hasPaths) {
-      manualEdits.push(
-        `tsconfig.json 的 compilerOptions.baseUrl 为 "${baseUrl}" 且没有 paths（TS 6 报 TS5101，未自动删除）：如果有 \`import 'src/foo'\` 这类靠 baseUrl 解析的裸导入，先用 paths 映射（如 "*": ["./*"]），再删除 baseUrl`,
+    // a：baseUrl → 等价的 paths
+    if (typeof baseUrl === 'string') {
+      const rebased = {};
+      for (const [key, targets] of Object.entries(
+        hasPaths ? compilerOptions.paths : {},
+      )) {
+        rebased[key] = (Array.isArray(targets) ? targets : [targets]).map(t =>
+          rebasePathTarget(baseUrl, String(t)),
+        );
+      }
+      const usage = findBaseUrlImport(
+        dir,
+        path.resolve(dir, baseUrl),
+        Object.keys(rebased),
       );
-    } else if (typeof baseUrl === 'string' && isDefaultBaseUrl(baseUrl)) {
+      if (usage && !('*' in rebased)) {
+        rebased['*'] = [rebasePathTarget(baseUrl, '*')];
+      }
+      const changedPaths = Object.keys(rebased).filter(
+        key =>
+          JSON.stringify(rebased[key]) !==
+          JSON.stringify(compilerOptions.paths?.[key]),
+      );
+      if (changedPaths.length) {
+        edits.push({
+          desc: `paths 改为相对 tsconfig 目录：${changedPaths
+            .map(key => `"${key}": ${JSON.stringify(rebased[key])}`)
+            .join(', ')}${
+            usage
+              ? `（"*" 用于 ${usage.file} 中的 '${usage.specifier}' 这类裸导入）`
+              : ''
+          }`,
+          apply: c => {
+            c.compilerOptions.paths = {
+              ...c.compilerOptions.paths,
+              ...rebased,
+            };
+          },
+        });
+      }
       edits.push({
-        desc: `删除 compilerOptions.baseUrl（"${baseUrl}"），paths 保留`,
+        desc: `删除 compilerOptions.baseUrl（"${baseUrl}"，TS 6 报 TS5101，TS 7 已移除）`,
         apply: c => {
           delete c.compilerOptions.baseUrl;
         },
       });
-    } else if (typeof baseUrl === 'string') {
-      const paths = compilerOptions.paths ?? {};
-      const rewrites = Object.entries(paths).map(
-        ([key, targets]) =>
-          `"${key}": ${JSON.stringify(
-            (Array.isArray(targets) ? targets : [targets]).map(t =>
-              rebasePathTarget(baseUrl, String(t)),
-            ),
-          )}`,
-      );
-      manualEdits.push(
-        [
-          `tsconfig.json 的 compilerOptions.baseUrl 为 "${baseUrl}"（TS 6 报 TS5101，未自动删除）：`,
-          rewrites.length
-            ? `先把 paths 改成相对 tsconfig 目录（加上原 baseUrl 前缀）：${rewrites.join(', ')}，`
-            : '先确认没有依赖 baseUrl 的非相对 import，',
-          '再删除 baseUrl',
-        ].join(''),
-      );
+    } else {
+      const parentFile = inheritedBaseUrlFile(dir, config);
+      if (parentFile) {
+        manualEdits.push(
+          `baseUrl 写在父配置 ${parentFile} 里（TS 6 报 TS5101）：在该文件中按同样规则改写——paths 目标加上 baseUrl 前缀；有靠 baseUrl 解析的裸导入时补 "*" 映射；再删除 baseUrl`,
+        );
+      }
     }
 
-    // d：@api/* 别名
+    // c：@api/* 别名
     if (fs.existsSync(path.join(dir, 'api', 'lambda'))) {
       const paths = compilerOptions.paths;
       const hasAlias = paths && typeof paths === 'object' && API_ALIAS in paths;
       if (!hasAlias) {
-        if (keepsBaseUrl) {
-          manualEdits.push(
-            `tsconfig.json 缺少 BFF 别名：完成上面的 baseUrl 改写后补 "${API_ALIAS}": ${JSON.stringify(API_ALIAS_TARGET)}`,
-          );
-        } else {
-          edits.push({
-            desc: `compilerOptions.paths 补充 "${API_ALIAS}": ${JSON.stringify(API_ALIAS_TARGET)}`,
-            apply: c => {
-              c.compilerOptions.paths = {
-                ...(c.compilerOptions.paths ?? {}),
-                [API_ALIAS]: [...API_ALIAS_TARGET],
-              };
-            },
-          });
-        }
+        edits.push({
+          desc: `compilerOptions.paths 补充 "${API_ALIAS}": ${JSON.stringify(API_ALIAS_TARGET)}`,
+          apply: c => {
+            c.compilerOptions.paths = {
+              ...(c.compilerOptions.paths ?? {}),
+              [API_ALIAS]: [...API_ALIAS_TARGET],
+            };
+          },
+        });
       }
     }
 
@@ -250,7 +345,7 @@ export function migrateTsconfig(dir) {
     manual.push(...manualEdits);
   }
 
-  // c：tsconfig.server.json
+  // b：tsconfig.server.json
   const serverFile = path.join(dir, 'tsconfig.server.json');
   const hasServerCode =
     fs.existsSync(path.join(dir, 'api')) ||
@@ -270,9 +365,9 @@ export function migrateTsconfig(dir) {
   return { changed, manual };
 }
 
-// 把结果并入 report.json（已存在则去重追加，保留 migrate.mjs 写入的其他字段）
+// 把结果并入 report.json（已存在则去重追加，保留已有的其他字段）
 export function writeReport(dir, result) {
-  const outDir = path.join(dir, '.agents', 'runs', 'modernjs-migrate');
+  const outDir = path.join(dir, '.agents', 'runs', 'modernjs-migrate-tsconfig');
   const file = path.join(outDir, 'report.json');
   let report = { projectDir: dir, changed: [], manual: [] };
   if (fs.existsSync(file)) {
@@ -308,10 +403,10 @@ function main() {
   for (const c of result.changed) console.log(`  - ${c}`);
   console.log(`\n🔴 人工清单 ${result.manual.length} 项：`);
   for (const m of result.manual) console.log(`  - ${m}`);
-  console.log('\n报告见 .agents/runs/modernjs-migrate/report.json');
+  console.log('\n报告见 .agents/runs/modernjs-migrate-tsconfig/report.json');
 }
 
-// 仅在直接执行时运行 main；被 migrate.mjs import 时不执行
+// 仅在直接执行时运行 main；被 import 时不执行
 const normalize = p => {
   const real = fs.realpathSync(p);
   return process.platform === 'win32' ? real.toLowerCase() : real;
