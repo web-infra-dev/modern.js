@@ -112,4 +112,4 @@ Without such bare imports no `"*"` mapping is added. Without the Skill, apply th
 - Never declare `paths` in `tsconfig.server.json`: TypeScript replaces `paths` wholesale instead of merging it key by key.
 - `baseUrl` is no longer needed. Relative entries in `paths` are resolved against the directory of the file that declares them.
 - If a project keeps `baseUrl` on TypeScript 6, the server build ignores the TS5101 deprecation and does not fail because of it; other type errors still fail the build.
-- `@modern-js/tsconfig` 3.12 and later requires `@modern-js/app-tools` 3.12 or later.
+- `@modern-js/tsconfig` 3.13 and later requires `@modern-js/app-tools` 3.13 or later.
