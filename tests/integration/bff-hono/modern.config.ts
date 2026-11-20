@@ -9,7 +9,7 @@ export default applyBaseConfig({
     ssr: {
       mode: 'stream',
     },
-    tsconfigPath: 'tsconfig.server.json',
+    // tsconfig.server.json is picked up by convention.
   },
   bff: {
     prefix: '/bff-api',
