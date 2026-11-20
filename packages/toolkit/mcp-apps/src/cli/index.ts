@@ -153,7 +153,7 @@ export const mcpAppsPlugin = (
         path.join(ctx.appDirectory, 'package.json'),
       );
       const needsMf = Object.values(definition.views).some(
-        view => typeof view !== 'string',
+        view => typeof view !== 'string' && 'expose' in view,
       );
       const useInline = shouldInline(options.inline, ctx.command);
       if (closeInlineWatch) {
@@ -183,7 +183,10 @@ export const mcpAppsPlugin = (
       const config = api.getNormalizedConfig();
       const { enableAsyncEntry } = config.source;
       for (const [name, viewSource] of Object.entries(definition.views)) {
-        if (typeof viewSource !== 'string') continue;
+        if (typeof viewSource !== 'string' && !('component' in viewSource))
+          continue;
+        const component =
+          typeof viewSource === 'string' ? viewSource : viewSource.component;
         const entryName = viewEntryName(name);
         if (
           !useInline &&
@@ -199,7 +202,7 @@ export const mcpAppsPlugin = (
             : entry;
         await writeArtifact(
           mountEntry,
-          `import React from ${JSON.stringify(appRequire.resolve('react'))};\nimport { createRoot } from ${JSON.stringify(appRequire.resolve('react-dom/client'))};\nimport { createMcpView } from ${JSON.stringify(packageFile('react.mjs'))};\nimport View, * as viewModule from ${JSON.stringify(path.resolve(path.dirname(configPath()), viewSource))};\ncreateRoot(document.getElementById('root')).render(React.createElement(createMcpView(View, ${JSON.stringify({ name, version: '1.0.0' })}, Reflect.get(viewModule, 'mcpCapabilities'))));\n`,
+          `import React from ${JSON.stringify(appRequire.resolve('react'))};\nimport { createRoot } from ${JSON.stringify(appRequire.resolve('react-dom/client'))};\nimport { createMcpView } from ${JSON.stringify(packageFile('react.mjs'))};\nimport View, * as viewModule from ${JSON.stringify(path.resolve(path.dirname(configPath()), component))};\ncreateRoot(document.getElementById('root')).render(React.createElement(createMcpView(View, ${JSON.stringify({ name, version: '1.0.0' })}, Reflect.get(viewModule, 'mcpCapabilities'))));\n`,
         );
         if (useInline) {
           inlineEntries[entryName] = mountEntry;
@@ -571,6 +574,7 @@ export const mcpAppsPlugin = (
               Object.values(definition.views).some(
                 view =>
                   typeof view !== 'string' &&
+                  'expose' in view &&
                   view.remote === undefined &&
                   definition.remote === undefined,
               )

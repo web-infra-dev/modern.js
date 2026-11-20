@@ -12,6 +12,7 @@ import {
   validateUiManifest,
   type UiManifest,
   type UiMetadata,
+  type UiToolConfig,
 } from '../manifest';
 
 interface ManifestCacheEntry {
@@ -119,10 +120,16 @@ function escapeAttribute(value: string) {
     .replace(/</g, '&lt;');
 }
 
-export async function registerUiResources(
-  server: Pick<McpServer, 'registerResource'>,
+/** A compiled view with the same metadata and HTML for resource and URL delivery. */
+export interface ResolvedUiView {
+  ui: UiMetadata;
+  tool?: UiToolConfig;
+  render: (signal?: AbortSignal) => Promise<string>;
+}
+
+export async function resolveUiViews(
   options: RegisterUiOptions = {},
-): Promise<Record<string, string>> {
+): Promise<Record<string, ResolvedUiView>> {
   const injected = options.request && requestUiOptions.get(options.request);
   options = {
     ...options,
@@ -154,40 +161,26 @@ export async function registerUiResources(
       : undefined;
   if (devSocket)
     devSocket.protocol = devSocket.protocol === 'https:' ? 'wss:' : 'ws:';
-  const uris: Record<string, string> = Object.create(null);
+  const views: Record<string, ResolvedUiView> = Object.create(null);
   for (const [name, view] of Object.entries(manifest.views)) {
-    const uri = `ui://app/${encodeURIComponent(name)}`;
-    uris[name] = uri;
     if (isInlineView(view) && 'html' in view) {
       const sourceUrl = /^https?:\/\//.test(view.html)
         ? new URL(view.html)
         : new URL(view.html, location);
-      registerAppResource(
-        server,
-        name,
-        uri,
-        { _meta: { ui: view.ui } },
-        async (_uri, extra) => {
-          const html = await readSource(
+      views[name] = {
+        ui: view.ui,
+        ...(view.tool ? { tool: view.tool } : {}),
+        render: signal =>
+          readSource(
             sourceUrl,
-            options.request
-              ? AbortSignal.any([options.request.signal, extra.mcpReq.signal])
-              : extra.mcpReq.signal,
-          );
-          return {
-            contents: [
-              {
-                uri,
-                mimeType: RESOURCE_MIME_TYPE,
-                text: html,
-                _meta: { ui: view.ui },
-              },
-            ],
-          };
-        },
-      );
+            options.request && signal
+              ? AbortSignal.any([options.request.signal, signal])
+              : (options.request?.signal ?? signal),
+          ),
+      };
       continue;
     }
+
     const remote = 'remote' in view ? manifest.remotes[view.remote] : undefined;
     const entry = remote ? new URL(remote.entry, base!).href : undefined;
     const ui: UiMetadata = {
@@ -214,21 +207,19 @@ export async function registerUiResources(
         ],
       },
     };
-    registerAppResource(
-      server,
-      name,
-      uri,
-      { _meta: { ui } },
-      async (_uri, extra) => {
+    views[name] = {
+      ui,
+      ...(view.tool ? { tool: view.tool } : {}),
+      async render(signal) {
         const source = 'html' in view ? view.html : remote!.shell;
         const sourceUrl = /^https?:\/\//.test(source)
           ? new URL(source)
           : new URL(source, location);
         let html = await readSource(
           sourceUrl,
-          options.request
-            ? AbortSignal.any([options.request.signal, extra.mcpReq.signal])
-            : extra.mcpReq.signal,
+          options.request && signal
+            ? AbortSignal.any([options.request.signal, signal])
+            : (options.request?.signal ?? signal),
         );
         if (!/<head\b[^>]*>/i.test(html))
           throw new Error('UI HTML requires a head element');
@@ -243,13 +234,89 @@ export async function registerUiResources(
           head =>
             `${head}<base href="${escapeAttribute(base!.href)}">${config}`,
         );
-        return {
-          contents: [
-            { uri, mimeType: RESOURCE_MIME_TYPE, text: html, _meta: { ui } },
-          ],
-        };
+        return html;
       },
+    };
+  }
+  return views;
+}
+
+export async function registerUiResources(
+  server: Pick<McpServer, 'registerResource'>,
+  options: RegisterUiOptions & { viewNames?: string[] } = {},
+): Promise<Record<string, string>> {
+  const views = await resolveUiViews(options);
+  const uris: Record<string, string> = Object.create(null);
+  for (const [name, view] of Object.entries(views)) {
+    if (options.viewNames && !options.viewNames.includes(name)) continue;
+    const configuredUi = view.tool?._meta?.ui;
+    const configuredUri =
+      configuredUi &&
+      typeof configuredUi === 'object' &&
+      'resourceUri' in configuredUi
+        ? configuredUi.resourceUri
+        : undefined;
+    const uri =
+      typeof configuredUri === 'string'
+        ? configuredUri
+        : `ui://app/${encodeURIComponent(name)}`;
+    if (Object.values(uris).includes(uri))
+      throw new Error(`Duplicate UI resource URI: ${uri}`);
+    uris[name] = uri;
+    registerAppResource(
+      server,
+      name,
+      uri,
+      { _meta: { ui: view.ui } },
+      async (_uri, extra) => ({
+        contents: [
+          {
+            uri,
+            mimeType: RESOURCE_MIME_TYPE,
+            text: await view.render(extra.mcpReq.signal),
+            _meta: { ui: view.ui },
+          },
+        ],
+      }),
     );
   }
   return uris;
+}
+
+/** HTTP route shared by the framework plugin and standalone Fetch services. */
+export const UI_VIEW_PATH = '/mcp-views/';
+
+export function createUiViewHandler(options: RegisterUiOptions = {}) {
+  return async (request: Request): Promise<Response | undefined> => {
+    const pathname = new URL(request.url).pathname;
+    if (!pathname.startsWith(UI_VIEW_PATH)) return undefined;
+    if (request.method !== 'GET' && request.method !== 'HEAD')
+      return new Response('Method not allowed', {
+        status: 405,
+        headers: { Allow: 'GET, HEAD' },
+      });
+    let name: string;
+    try {
+      name = decodeURIComponent(pathname.slice(UI_VIEW_PATH.length));
+    } catch {
+      return new Response('Invalid view name', { status: 400 });
+    }
+    const views = await resolveUiViews({ ...options, request });
+    if (!Object.hasOwn(views, name))
+      return new Response('View not found', { status: 404 });
+    // URL apps can open directly from a host entrypoint without a tool result.
+    // Reuse the resource HTML, but tell createMcpView to render after connection.
+    // This marker selects the render timing; the page's SDK still performs the handshake.
+    const html = (await views[name].render(request.signal)).replace(
+      /<head\b[^>]*>/i,
+      head => `${head}<meta name="modern-mcp-bootstrap" content="connected">`,
+    );
+    return new Response(request.method === 'HEAD' ? null : html, {
+      headers: {
+        'Content-Type': 'text/html; charset=utf-8',
+        'Cache-Control': 'no-store',
+        'X-Content-Type-Options': 'nosniff',
+      },
+    });
+  };
 }

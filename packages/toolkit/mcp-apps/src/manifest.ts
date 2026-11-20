@@ -1,11 +1,24 @@
+import type { Tool } from '@modelcontextprotocol/server';
+import { McpUiToolMetaSchema } from '@modelcontextprotocol/ext-apps/app-bridge';
 import type { McpUiResourceMeta } from '@modelcontextprotocol/ext-apps';
 
 export type UiMetadata = McpUiResourceMeta;
+/** Defaults used when registering tools that reference a compiled view. */
+export interface UiToolConfig extends Partial<
+  Pick<Tool, 'name' | 'title' | 'annotations' | 'icons'>
+> {
+  _meta?: Record<string, unknown>;
+}
+export type McpViewSource =
+  | string
+  | (({ component: string } | { expose: string; remote?: string }) & {
+      tool?: UiToolConfig;
+    });
 export interface McpViewsConfig extends UiMetadata {
   /** Default deployed MF remote for expose views. Individual views may override it. */
   remote?: string;
   /** A component path, an expose of this application, or an expose of a deployed remote. */
-  views: Record<string, string | { expose: string; remote?: string }>;
+  views: Record<string, McpViewSource>;
 }
 export interface UiManifest {
   version: 1;
@@ -17,7 +30,7 @@ export interface UiManifest {
     string,
     (
       { html: string; inline?: boolean } | { remote: string; expose: string }
-    ) & { ui: UiMetadata }
+    ) & { ui: UiMetadata; tool?: UiToolConfig }
   >;
 }
 export function isRecord(value: unknown): value is Record<string, unknown> {
@@ -80,23 +93,132 @@ export function validateViewsConfig(
   for (const [name, view] of Object.entries(value.views)) {
     if (!name.trim()) throw new Error('View names must be non-empty');
     if (typeof view === 'string' && view.trim()) continue;
-    if (
-      isRecord(view) &&
-      typeof view.expose === 'string' &&
-      view.expose.startsWith('./') &&
-      Object.keys(view).every(key => key === 'expose' || key === 'remote')
-    ) {
-      if (!('remote' in view)) continue;
-      if (typeof view.remote === 'string') {
-        assertRemoteManifest(view.remote);
+    if (isRecord(view)) {
+      validateUiToolConfig(view.tool);
+      const keys = Object.keys(view).filter(key => key !== 'tool');
+      if (
+        typeof view.component === 'string' &&
+        view.component.trim() &&
+        keys.length === 1
+      )
         continue;
+      if (
+        typeof view.expose === 'string' &&
+        view.expose.startsWith('./') &&
+        keys.every(key => key === 'expose' || key === 'remote')
+      ) {
+        if (!('remote' in view)) continue;
+        if (typeof view.remote === 'string') {
+          assertRemoteManifest(view.remote);
+          continue;
+        }
       }
     }
     throw new Error(
-      `Invalid view: ${name}. Use a component path, { expose: './Name' } or { remote: 'https://host/mf-manifest.json', expose: './Name' }`,
+      `Invalid view: ${name}. Use a component path, { component: './View.tsx', tool: {} }, { expose: './Name' } or { remote: 'https://host/mf-manifest.json', expose: './Name' }`,
     );
   }
 }
+/** Namespaced metadata is carried unchanged. Hosts validate their own extension fields. */
+export function validateUiToolConfig(
+  value: unknown,
+): asserts value is UiToolConfig | undefined {
+  if (value === undefined) return;
+  if (
+    !isRecord(value) ||
+    Object.keys(value).some(
+      key => !['_meta', 'name', 'title', 'annotations', 'icons'].includes(key),
+    )
+  )
+    throw new Error('Invalid view tool configuration');
+  for (const key of ['name', 'title'] as const) {
+    if (
+      value[key] !== undefined &&
+      (typeof value[key] !== 'string' || !value[key].trim())
+    )
+      throw new Error(`Tool ${key} must be a non-empty string`);
+  }
+  if (value.annotations !== undefined) {
+    if (!isRecord(value.annotations))
+      throw new Error('Tool annotations must be an object');
+    if (
+      value.annotations.title !== undefined &&
+      typeof value.annotations.title !== 'string'
+    )
+      throw new Error('Tool annotations.title must be a string');
+    for (const key of [
+      'readOnlyHint',
+      'destructiveHint',
+      'idempotentHint',
+      'openWorldHint',
+    ]) {
+      if (
+        value.annotations[key] !== undefined &&
+        typeof value.annotations[key] !== 'boolean'
+      )
+        throw new Error(`Tool annotations.${key} must be a boolean`);
+    }
+  }
+  if (
+    value.icons !== undefined &&
+    (!Array.isArray(value.icons) ||
+      value.icons.some(
+        icon =>
+          !isRecord(icon) ||
+          typeof icon.src !== 'string' ||
+          !icon.src ||
+          (icon.mimeType !== undefined && typeof icon.mimeType !== 'string') ||
+          (icon.sizes !== undefined &&
+            (!Array.isArray(icon.sizes) ||
+              icon.sizes.some(size => typeof size !== 'string'))) ||
+          (icon.theme !== undefined &&
+            !['light', 'dark'].includes(String(icon.theme))),
+      ))
+  )
+    throw new Error('Invalid tool icons');
+  if (value._meta !== undefined) {
+    if (!isRecord(value._meta)) throw new Error('Tool _meta must be an object');
+    const ui = value._meta.ui;
+    if (ui !== undefined && !isRecord(ui))
+      throw new Error('Tool ui metadata must be an object');
+    if (ui !== undefined) McpUiToolMetaSchema.parse(ui);
+    if (isRecord(ui) && 'url' in ui)
+      throw new Error('Use a namespaced UI url instead of ui.url');
+    if (isRecord(ui) && ui.resourceUri !== undefined) {
+      if (
+        typeof ui.resourceUri !== 'string' ||
+        !ui.resourceUri ||
+        ui.resourceUri.trim() !== ui.resourceUri
+      )
+        throw new Error('Tool resourceUri must be an absolute URI');
+      if (
+        !ui.resourceUri.startsWith('ui://') ||
+        new URL(ui.resourceUri).protocol !== 'ui:'
+      )
+        throw new Error('Tool resourceUri must use ui://');
+    }
+    for (const [namespace, metadata] of Object.entries(value._meta)) {
+      if (!namespace.endsWith('/ui')) continue;
+      if (!isRecord(metadata))
+        throw new Error('Namespaced UI metadata must be an object');
+      if (metadata.url === undefined) continue;
+      if (isRecord(ui) && ui.resourceUri !== undefined)
+        throw new Error('Tool url and resourceUri are mutually exclusive');
+      if (
+        typeof metadata.url !== 'string' ||
+        !metadata.url ||
+        metadata.url.trim() !== metadata.url ||
+        /[\u0000-\u001f\u007f]/.test(metadata.url) ||
+        metadata.url.includes('\\')
+      )
+        throw new Error('Invalid tool UI URL');
+      if (metadata.url.startsWith('/') && !metadata.url.startsWith('//'))
+        continue;
+      assertHttpUrl(metadata.url);
+    }
+  }
+}
+
 /**
  * A deployed MF remote must be a manifest URL. The MF runtime finds the
  * container through the manifest only for `.json` entries. Any other entry
@@ -157,6 +279,7 @@ export function validateUiManifest(
   for (const [name, view] of Object.entries(value.views)) {
     if (!name.trim() || !isRecord(view)) throw new Error('Invalid UI view');
     validateUiMetadata(view.ui);
+    validateUiToolConfig(view.tool);
     if ('html' in view && !('remote' in view) && !('expose' in view)) {
       if (view.inline !== undefined && typeof view.inline !== 'boolean')
         throw new Error(`Invalid inline option on UI manifest view: ${name}`);

@@ -4,14 +4,14 @@ export interface ViewState {
   cancelled: boolean;
 }
 export type ViewEvent =
-  | { type: 'input' | 'cancelled' | 'teardown' }
+  | { type: 'input'; keepResult?: boolean }
+  | { type: 'cancelled' | 'teardown' }
   | { type: 'result'; result: CallToolResult };
-export function reduceViewState(
-  _state: ViewState,
-  event: ViewEvent,
-): ViewState {
+export function reduceViewState(state: ViewState, event: ViewEvent): ViewState {
   if (event.type === 'result')
     return { result: event.result, cancelled: false };
+  if (event.type === 'input' && event.keepResult)
+    return { ...state, cancelled: false };
   return { cancelled: event.type === 'cancelled' };
 }
 export function resultProps(result?: CallToolResult): Record<string, unknown> {

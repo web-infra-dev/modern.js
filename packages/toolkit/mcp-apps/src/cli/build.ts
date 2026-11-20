@@ -142,14 +142,23 @@ export function createUiManifest(
     views: Object.create(null),
   };
   for (const [name, source] of Object.entries(views)) {
-    if (typeof source === 'string') {
+    if (typeof source === 'string' || 'component' in source) {
       manifest.views[name] = options?.inline
         ? {
             html: `./ui/${viewEntryName(name)}.html`,
             inline: true,
             ui: inlineUi,
+            ...(typeof source !== 'string' && source.tool
+              ? { tool: source.tool }
+              : {}),
           }
-        : { html: `./ui/${viewEntryName(name)}.html`, ui };
+        : {
+            html: `./ui/${viewEntryName(name)}.html`,
+            ui,
+            ...(typeof source !== 'string' && source.tool
+              ? { tool: source.tool }
+              : {}),
+          };
       continue;
     }
     let remote: string;
@@ -183,7 +192,12 @@ export function createUiManifest(
       remote = mf.manifest.name;
     }
     manifest.remotes[remote] = { entry, shell: './ui/mcp-shell.html' };
-    manifest.views[name] = { remote, expose: source.expose, ui };
+    manifest.views[name] = {
+      remote,
+      expose: source.expose,
+      ui,
+      ...(source.tool ? { tool: source.tool } : {}),
+    };
   }
   return manifest;
 }

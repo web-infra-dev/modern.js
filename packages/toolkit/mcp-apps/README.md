@@ -82,3 +82,52 @@ mcpAppsPlugin({
 Run `pnpm dev` to start the development server. Local component views are compiled by an isolated watch build into self-contained inline HTML (up to 5 MiB per view, inlining scripts, styles, and imported assets, without injecting `<base>` or localhost CSP), leaving normal application pages and HMR untouched. If `mcp-views.json` also declares Module Federation views, local views are inlined while MF views use the HTTP shell.
 
 On startup, `modern dev` writes `node_modules/.modern-js/mcp-apps/dev-server.json` and prints a connector snippet that runs the built-in `modern-mcp-stdio` bridge script (`bin/modern-mcp-stdio.js`). The bridge forwards stdio JSON-RPC messages (supporting JSON, SSE streams, `202` notifications, `Mcp-Session-Id`, and repeatable `--header` flags) to the running HTTP dev server (`/api/mcp`), where the application’s middleware and BFF routes handle them. The bridge writes JSON-RPC messages to stdout. Pass `--cwd <app-dir>` instead of a URL to discover the dev server port dynamically.
+
+## URL views
+
+The server plugin also serves compiled cards at `GET /mcp-views/<encoded-view-name>`.
+These pages use the same HTML renderer as `resources/read`, including the asset base
+and MF shell configuration. `HEAD` returns the same headers without a body.
+The route only serves names declared in the UI manifest.
+
+Standalone Fetch services can use `createUiViewHandler({ manifest, assetBase })`.
+Call the returned handler with a `Request`. It returns a `Response` for the
+`/mcp-views/` route, or `undefined` for other paths so the service can continue routing.
+`resolveUiViews({ request, manifest })` returns each view's resolved `ui` metadata
+and `render(signal?)` function for host-specific adapters.
+
+URL loading still requires an MCP Apps host that supports URL sources and establishes
+the official App bridge. Opening the page directly does not supply tool results.
+The surrounding application controls authentication, embedding response headers and
+trusted reverse proxy headers, just as it does for the MCP endpoint.
+
+URL pages carry a `modern-mcp-bootstrap` HTML marker. The local and MF wrappers
+render after the host handshake without waiting for a tool result, since a host
+may open a URL application without delivering one. Resource cards keep waiting
+for a successful tool result. For a separately built page, use
+`createMcpView(View, appInfo, capabilities, { bootstrap: 'connected' })` explicitly.
+Connected views preserve their latest output during new tool input and unmount
+on teardown, including when a late result arrives. Rendering does not replay the
+entry tool or automatically fetch application data.
+
+## Tool UI defaults
+
+A local view can use `{ "component": "./src/components/Todos.tsx", "tool": { "_meta": { "ui": { "visibility": ["app"] }, "example/ui": { "entrypoints": [{ "type": "thread" }] } } }`.
+Expose views accept the same `tool` property. String component paths remain supported.
+
+`tool._meta` contains tool metadata, separate from the resource metadata in `ui`.
+The build validates its structure and preserves namespaced extension fields in the
+UI manifest. Declare a native `ui.resourceUri` for a compiled resource or a namespaced UI
+`url` for a URL source. They are mutually exclusive. Resource registration uses
+the configured URI, or generates `ui://app/<encoded-view-name>` when omitted.
+Namespaced URLs accept HTTP(S) without credentials or application paths starting
+with a single `/`. Host adapters resolve relative paths before sending tool metadata.
+The framework-specific `delivery` option is not supported.
+`resolveUiViews` exposes the declaration as `view.tool`. Resource registration can
+select manifest views with `registerUiResources(server, { ...options, viewNames })`.
+
+`tool` also accepts native `name`, `title`, `annotations`, and `icons` defaults.
+The build validates these fields and official `ui.visibility` metadata, and requires
+resource URIs to use `ui://`. Host adapters return the presentation defaults alongside
+`_meta`. Pass `name` as the first SDK registration argument and spread the remaining
+fields into the tool options. Input schemas and callbacks stay in application code.
