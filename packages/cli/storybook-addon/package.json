@@ -38,7 +38,7 @@
     "@modern-js/tsconfig": "workspace:*",
     "@rsbuild/core": "2.3.3",
     "storybook-builder-rsbuild": "3.6.3",
-    "storybook": "10.6.7",
+    "storybook": "10.6.8",
     "typescript": "^5"
   },
   "sideEffects": false,
