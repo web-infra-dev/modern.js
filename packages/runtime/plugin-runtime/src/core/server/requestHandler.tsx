@@ -180,6 +180,8 @@ function createSSRContext(
 
   const loaderFailureMode =
     typeof ssrConfig === 'object' ? ssrConfig.loaderFailureMode : undefined;
+  const deferredDataTimeout =
+    typeof ssrConfig === 'object' ? ssrConfig.deferredDataTimeout : undefined;
 
   return {
     nonce,
@@ -214,6 +216,7 @@ function createSSRContext(
     onError,
     onTiming,
     loaderFailureMode,
+    deferredDataTimeout,
   };
 }
 

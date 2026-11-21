@@ -5,6 +5,7 @@ export default applyBaseConfig({
     ssr: {
       mode: 'string',
       unsafeHeaders: ['Host'],
+      deferredDataTimeout: 100,
     },
   },
   tools: {

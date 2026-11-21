@@ -21,6 +21,8 @@ export interface RouteData {
 export interface RouterSSRData {
   loaderData: RouteData;
   errors: RouteData | null;
+  /** String SSR: deferred loader data the browser still has to load, by route id. */
+  deferredPending?: Record<string, string[]>;
 }
 
 export type SSRMode = 'string' | 'stream';
@@ -55,6 +57,7 @@ export type SSRServerContext = Pick<
   };
   htmlModifiers: BuildHtmlCb[];
   loaderFailureMode?: 'clientRender' | 'errorBoundary';
+  deferredDataTimeout?: number;
   onError: OnError;
   onTiming: OnTiming;
   useJsonScript?: boolean;
