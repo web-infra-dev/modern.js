@@ -2,12 +2,16 @@
 import { matchRoutes } from '@modern-js/runtime-utils/router';
 import ReactHelmet, { type HelmetData } from 'react-helmet';
 import type { TInternalRuntimeContext } from '../../context';
+import { renderRouteStages } from '../../resources/html';
+import type { ResourceStagesManifest } from '../../resources/manifest';
 import { CHUNK_CSS_PLACEHOLDER } from '../constants';
 import { createReplaceHelemt } from '../helmet';
 import type { HandleRequestConfig } from '../requestHandler';
 import { type BuildHtmlCb, buildHtml } from '../shared';
 import {
   checkIsNode,
+  getLoadedScriptUrls,
+  getMatchedRouteIds,
   hasStylesheetLink,
   readAssetWithCache,
   safeReplace,
@@ -58,12 +62,13 @@ export async function buildShellBeforeTemplate(
 
   const callbacks: BuildHtmlCb[] = [
     createReplaceHelemt(helmetData),
-    template => injectCss(template, entryName, styledComponentsStyleTags),
+    template =>
+      injectRouteAssets(template, entryName, styledComponentsStyleTags),
   ];
 
   return buildHtml(beforeAppTemplate, callbacks);
 
-  async function injectCss(
+  async function injectRouteAssets(
     template: string,
     entryName: string,
     styledComponentsStyleTags?: string,
@@ -72,7 +77,43 @@ export async function buildShellBeforeTemplate(
     if (styledComponentsStyleTags) {
       css += styledComponentsStyleTags;
     }
-    return safeReplace(template, CHUNK_CSS_PLACEHOLDER, css);
+    return safeReplace(
+      template,
+      CHUNK_CSS_PLACEHOLDER,
+      `${css}${getResourceStages()}`,
+    );
+
+    /**
+     * Preloads and stage lists of the matched routes. Nothing is output, and
+     * no route JS is preloaded, unless the build wrote `resourceStages` into
+     * the route manifest (`performance.resourceStages`).
+     */
+    function getResourceStages() {
+      const stagesManifest = runtimeContext.routeManifest?.resourceStages as
+        ResourceStagesManifest | undefined;
+      if (!stagesManifest) {
+        return '';
+      }
+      const routeAssets = runtimeContext.routeManifest?.routeAssets ?? {};
+      return renderRouteStages(
+        stagesManifest,
+        getMatchedRouteIds(runtimeContext),
+        {
+          entryName,
+          mode: 'stream',
+          template,
+          // The entry assets (merged with `async-${entryName}` when async
+          // entry is enabled) are already loaded by the entry `<script>` tags.
+          loadedUrls: new Set<string>([
+            ...(routeAssets[entryName]?.assets ?? []),
+            ...(routeAssets[`async-${entryName}`]?.assets ?? []),
+            ...getLoadedScriptUrls(template),
+          ]),
+          nonce: config.nonce,
+          crossorigin: config.crossorigin,
+        },
+      );
+    }
 
     async function getCssChunks() {
       const { routeManifest, routerContext, routes } = runtimeContext;

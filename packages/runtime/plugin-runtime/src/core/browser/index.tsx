@@ -4,8 +4,11 @@ import { createRoot } from 'react-dom/client';
 import { getGlobalInternalRuntimeContext } from '../context';
 import { type TRuntimeContext, getInitialContext } from '../context/runtime';
 import { wrapRuntimeContextProvider } from '../react/wrapper';
+import { hasResourceStages, markInteractiveStage } from '../resources/bridge';
+import { startResourceStages } from '../resources/start';
 import type { SSRContainer } from '../types';
 import { hydrateRoot, hydrateWithReact } from './hydrate';
+import { WithCallback } from './withCallback';
 
 export { hydrateWithReact };
 
@@ -80,6 +83,11 @@ export async function render(
   };
 
   if (isClientArgs(id)) {
+    // Replaced at build time, so the scheduler is only bundled when
+    // `performance.resourceStages` is configured.
+    if (process.env.MODERN_RESOURCE_STAGES) {
+      startResourceStages();
+    }
     // TODO: This field may suitable to be called `requestData`, because both SSR and CSR can get the context
     const ssrData = getSSRData();
 
@@ -97,7 +105,15 @@ export async function render(
         : document.getElementById(id || 'root')!;
 
     async function ModernRender(App: React.ReactElement) {
-      return renderWithReact(App, rootElement);
+      // The first commit of a client render is when the page becomes interactive.
+      return renderWithReact(
+        hasResourceStages() ? (
+          <WithCallback callback={markInteractiveStage}>{App}</WithCallback>
+        ) : (
+          App
+        ),
+        rootElement,
+      );
     }
 
     // we should hydrateRoot only when SSR or SSG is enabled

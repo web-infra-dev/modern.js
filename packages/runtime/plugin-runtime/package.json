@@ -61,6 +61,10 @@
       "types": "./dist/types/exports/head.d.ts",
       "default": "./dist/esm/exports/head.mjs"
     },
+    "./resources": {
+      "types": "./dist/types/exports/resources.d.ts",
+      "default": "./dist/esm/exports/resources.mjs"
+    },
     "./ssr": {
       "types": "./dist/types/core/server/index.d.ts",
       "default": "./dist/esm/core/server/index.mjs"
@@ -161,6 +165,9 @@
       ],
       "head": [
         "./dist/types/exports/head.d.ts"
+      ],
+      "resources": [
+        "./dist/types/exports/resources.d.ts"
       ],
       "document": [
         "./dist/types/document/index.d.ts"

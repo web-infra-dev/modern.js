@@ -1,0 +1,162 @@
+import { selectMatchedResourcePreloads } from '@modern-js/utils/universal';
+import { RESOURCE_STAGES } from '@modern-js/utils/universal/constants';
+import type { PreloadItem, ResourceStagesManifest } from './manifest';
+import type { ChunkId, ExternalStagePayload, StagePayload } from './types';
+
+type CrossOrigin = boolean | 'anonymous' | 'use-credentials' | undefined;
+
+/**
+ * The `crossorigin` of a preload must match the one the bundler runtime puts
+ * on the chunk `<script>`, otherwise the browser downloads the chunk again.
+ * The runtime follows `output.crossOriginLoading` (set from `html.crossorigin`):
+ * `use-credentials` always applies, other values only to files from another
+ * origin. An absolute URL means `output.assetPrefix` points to another origin,
+ * the same rule Rsbuild uses for its own preload tags.
+ */
+export const getPreloadCrossOrigin = (
+  href: string,
+  crossorigin: CrossOrigin,
+) => {
+  if (!crossorigin) {
+    return undefined;
+  }
+  const value = crossorigin === true ? 'anonymous' : crossorigin;
+  if (value === 'use-credentials') {
+    return value;
+  }
+  return /^([a-z][a-z\d+\-.]*:)?\/\//i.test(href) ? value : undefined;
+};
+
+/**
+ * With Subresource Integrity the bundler runtime sets `crossorigin` on every
+ * chunk it loads, same origin or not: `output.crossOriginLoading`, which
+ * Rsbuild defaults to `anonymous` when `security.sri` is enabled.
+ */
+export const getIntegrityCrossOrigin = (crossorigin: CrossOrigin) =>
+  crossorigin === 'use-credentials' ? crossorigin : 'anonymous';
+
+const escapeAttribute = (value: string) =>
+  value.replace(/&/g, '&amp;').replace(/"/g, '&quot;');
+
+export const renderPreloads = (
+  items: PreloadItem[],
+  options: { nonce?: string; crossorigin?: CrossOrigin; exclude?: Set<string> },
+) => {
+  const { nonce, crossorigin, exclude = new Set() } = options;
+  return items
+    .filter(item => {
+      if (exclude.has(item.h)) {
+        return false;
+      }
+      exclude.add(item.h);
+      return true;
+    })
+    .map(item => {
+      const cross = item.i
+        ? getIntegrityCrossOrigin(crossorigin)
+        : getPreloadCrossOrigin(item.h, crossorigin);
+      return `<link rel="preload" as="${item.a}" href="${escapeAttribute(item.h)}"${
+        cross ? ` crossorigin="${cross}"` : ''
+      }${item.i ? ` integrity="${escapeAttribute(item.i)}"` : ''}${
+        nonce ? ` nonce="${escapeAttribute(nonce)}"` : ''
+      }${item.l ? ' fetchpriority="low"' : ''} />`;
+    })
+    .join('');
+};
+
+/** JSON that is safe inside an inline `<script>`. */
+const serialize = (value: unknown) =>
+  JSON.stringify(value)
+    .replace(/</g, '\\u003c')
+    .replace(/\u2028/g, '\\u2028')
+    .replace(/\u2029/g, '\\u2029');
+
+export const renderPayloadScript = (payload: StagePayload, nonce?: string) =>
+  `<script${nonce ? ` nonce="${escapeAttribute(nonce)}"` : ''}>(self.${RESOURCE_STAGES}=self.${RESOURCE_STAGES}||[]).push(${serialize(payload)})</script>`;
+
+const mergeLists = (
+  target: Record<string, ChunkId[]>,
+  lists?: Record<string, ChunkId[]>,
+) => {
+  for (const [stage, chunkIds] of Object.entries(lists ?? {})) {
+    target[stage] = [...(target[stage] ?? []), ...chunkIds];
+  }
+};
+
+/**
+ * HTML for the matched routes: preloads of their `critical` files and the
+ * lists of the later stages. The entry level part is already in the template.
+ */
+export const renderRouteStages = (
+  manifest: ResourceStagesManifest | undefined,
+  routeIds: string[],
+  options: {
+    entryName?: string;
+    mode: 'string' | 'stream';
+    template: string;
+    loadedUrls: Set<string>;
+    nonce?: string;
+    crossorigin?: CrossOrigin;
+  },
+) => {
+  if (!manifest || !routeIds.length) {
+    return '';
+  }
+  const useRouteRule = manifest.routeRule && options.mode === 'stream';
+  const { preloads, overflow } = selectMatchedResourcePreloads(
+    manifest,
+    options.entryName,
+    routeIds,
+    options.mode,
+    options.loadedUrls,
+  );
+  const lists: Record<string, ChunkId[]> = {};
+  const cssFiles: Record<string, string[]> = {};
+  const externals: ExternalStagePayload[] = [];
+  for (const routeId of routeIds) {
+    const route = manifest.routes[routeId];
+    if (!route) {
+      continue;
+    }
+    const external = useRouteRule ? (route.ur ?? route.u) : route.u;
+    if (external) {
+      externals.push(external);
+      continue;
+    }
+    mergeLists(lists, route.s);
+    if (useRouteRule) {
+      mergeLists(lists, route.rs);
+    }
+    Object.assign(cssFiles, route.k);
+  }
+
+  if (overflow.length) {
+    lists.visible = [
+      ...new Set([
+        ...(lists.visible ?? []),
+        ...overflow.map(group => group.id),
+      ]),
+    ];
+    for (const group of overflow) {
+      if (group.css) {
+        cssFiles[String(group.id)] = group.css;
+      }
+    }
+  }
+  let html = renderPreloads(preloads, {
+    nonce: options.nonce,
+    crossorigin: options.crossorigin,
+    exclude: options.loadedUrls,
+  });
+  const payloads: StagePayload[] = externals.map(u => ({ u }));
+  if (Object.keys(lists).length) {
+    payloads.push({
+      s: lists,
+      ...(Object.keys(cssFiles).length ? { k: cssFiles } : {}),
+    });
+  }
+  for (const payload of payloads) {
+    html += renderPayloadScript(payload, options.nonce);
+  }
+  return html;
+};
