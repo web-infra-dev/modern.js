@@ -182,7 +182,14 @@ export class ResourceStagesPlugin {
       const content = `${header}
 declare global {
   interface ModernResourceStages {
-${custom.map(stage => `    ${JSON.stringify(stage)}: true;`).join('\n')}
+${custom
+  .map(
+    stage =>
+      // Unquoted when possible, as formatters write it, so a committed file
+      // is not rewritten by every build.
+      `    ${/^[A-Za-z_$][\w$]*$/.test(stage) ? stage : JSON.stringify(stage)}: true;`,
+  )
+  .join('\n')}
   }
 }
 
