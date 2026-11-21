@@ -1,3 +1,4 @@
+import { getBundleId } from './bridge';
 import { getResourceStageScheduler, isSchedulerRuntime } from './scheduler';
 import type { ElementStage, ResourceStage, ResourceStageReport } from './types';
 
@@ -38,6 +39,22 @@ const ELEMENT_STAGES: ElementStage[] = ['viewport', 'interaction'];
 
 const isBrowser = () =>
   typeof window !== 'undefined' && typeof document !== 'undefined';
+
+const getScheduler = () => getResourceStageScheduler(getBundleId());
+
+/**
+ * What the loadable SWC plugin makes of an annotated `() => import()`, so
+ * `loadable(stagedImport.<stage>(() => import()))` renders on the server.
+ */
+type LoadableDescriptor = {
+  requireAsync: (props?: unknown) => Promise<unknown>;
+  importAsync?: (props?: unknown) => Promise<unknown>;
+};
+
+const isLoadableDescriptor = (value: unknown): value is LoadableDescriptor =>
+  typeof value === 'object' &&
+  value !== null &&
+  typeof (value as LoadableDescriptor).requireAsync === 'function';
 
 const createTrigger = (stage: ElementStage, start: () => void) => {
   let started = false;
@@ -80,18 +97,24 @@ const createTrigger = (stage: ElementStage, start: () => void) => {
 
 const createStage = (stage: string): StageDeclaration => {
   const declare = <T>(loader: Loader<T>): StagedLoader<T> => {
-    const staged = (() => loader()) as StagedLoader<T>;
     if (isBrowser()) {
       // The lists are in the HTML; a declaration means the page uses them.
-      getResourceStageScheduler();
+      getScheduler();
     }
+    // Loadable descriptors stay objects: loadable only renders an object on
+    // the server, a function is loaded on the client only.
+    const descriptor = isLoadableDescriptor(loader) ? loader : undefined;
+    const load = descriptor
+      ? () => (descriptor.importAsync ?? descriptor.requireAsync)()
+      : loader;
+    const staged = (descriptor ?? (() => loader())) as StagedLoader<T>;
     staged.trigger = ELEMENT_STAGES.includes(stage as ElementStage)
       ? createTrigger(stage as ElementStage, () => {
-          const scheduler = getResourceStageScheduler();
+          const scheduler = getScheduler();
           // Capturing the chunk ids needs the wrapped chunk loading. In
           // another bundle the loader would run the real import instead.
           if (isSchedulerRuntime()) {
-            scheduler?.prefetchLoader(loader, stage);
+            scheduler?.prefetchLoader(load, stage);
           }
         })
       : () => undefined;
@@ -99,14 +122,19 @@ const createStage = (stage: string): StageDeclaration => {
   };
   return Object.assign(declare, {
     mark: () => {
-      getResourceStageScheduler()?.mark(stage);
+      getScheduler()?.mark(stage);
     },
-    ready: () =>
-      getResourceStageScheduler()?.whenDone(stage) ?? Promise.resolve(),
+    ready: () => getScheduler()?.whenDone(stage) ?? Promise.resolve(),
   });
 };
 
 const stages = new Map<string, StageDeclaration>();
+
+/**
+ * Names that tooling reads on any object, e.g. `then` when the object is
+ * returned from an async function. They are not stages.
+ */
+const RESERVED = new Set(['then', 'toJSON', '__esModule', '$$typeof']);
 
 /**
  * Declare when the code behind an `import()` is needed, so the framework
@@ -122,7 +150,7 @@ const stages = new Map<string, StageDeclaration>();
  */
 export const stagedImport = new Proxy({} as StagedImport, {
   get(_, name) {
-    if (typeof name !== 'string') {
+    if (typeof name !== 'string' || RESERVED.has(name)) {
       return undefined;
     }
     let stage = stages.get(name);
@@ -139,11 +167,11 @@ export const stagedImport = new Proxy({} as StagedImport, {
  * when it was prefetched, requested and loaded.
  */
 export const getResourceStageReport = (): ResourceStageReport | undefined =>
-  getResourceStageScheduler()?.getReport();
+  getScheduler()?.getReport();
 
 /** Receive the loading records when the page is hidden, e.g. to report them. */
 export const onResourceStageReport = (
   callback: (report: ResourceStageReport) => void,
 ) => {
-  getResourceStageScheduler()?.onReport(callback);
+  getScheduler()?.onReport(callback);
 };

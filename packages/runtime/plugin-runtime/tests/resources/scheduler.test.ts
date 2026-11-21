@@ -1,13 +1,46 @@
 import { rs } from '@rstest/core';
-import { ResourceStageScheduler } from '../../src/core/resources/scheduler';
+import {
+  getResourceStageReport,
+  stagedImport,
+} from '../../src/exports/resources';
 
 type Loader = (chunkId: string | number) => Promise<unknown>;
+type Payload = Record<string, unknown>;
 
 const g = globalThis as unknown as {
   __webpack_chunk_load_test__: Loader;
   __webpack_get_script_filename_test__: (chunkId: string | number) => string;
   __webpack_public_path_test__: string;
   __webpack_nonce_test__?: string;
+};
+
+const stages = stagedImport as unknown as Record<
+  string,
+  typeof stagedImport.idle
+>;
+
+/**
+ * Start the scheduler like a page does: the HTML pushes its payloads to the
+ * global, and the first declaration starts the scheduler. Everything else
+ * goes through the public API and the global the framework runtime pushes to.
+ */
+const start = (payloads: Payload[]) => {
+  const w = window as unknown as Record<string, unknown>;
+  w.__MODERN_RS__ = payloads;
+  stagedImport.visible(() => Promise.resolve());
+  const global = w.__MODERN_RS__ as { push: (payload: Payload) => void };
+  return {
+    mark: (stage: string) => stages[stage].mark(),
+    add: (payload: Payload) => global.push(payload),
+    setRoutes: (routeIds: string[]) => global.push({ q: routeIds }),
+    whenDone: (stage: string) => stages[stage].ready(),
+    getReport: () => getResourceStageReport()!,
+    prefetchLoader: (loader: () => Promise<unknown>, stage: string) => {
+      const element = document.createElement('div');
+      stages[stage](loader).trigger(element);
+      element.dispatchEvent(new Event('pointerenter'));
+    },
+  };
 };
 
 const prefetched = () =>
@@ -28,7 +61,7 @@ const manual = {
   n: 2,
 };
 
-describe('ResourceStageScheduler', () => {
+describe('stagedImport scheduling', () => {
   let loaded: (string | number)[];
 
   // jsdom reports no support for `rel="prefetch"`.
@@ -42,6 +75,7 @@ describe('ResourceStageScheduler', () => {
   });
 
   beforeEach(() => {
+    delete (window as unknown as Record<string, unknown>).__MODERN_RS__;
     relList.supports = () => true;
     document.head.innerHTML = '';
     // Drive script completion explicitly. Happy DOM fails external scripts
@@ -62,7 +96,7 @@ describe('ResourceStageScheduler', () => {
   });
 
   it('prefetches a stage when it arrives and the previous stage is done', () => {
-    const scheduler = new ResourceStageScheduler([
+    const scheduler = start([
       {
         c: manual,
         s: { visible: ['a', 'b', 'c'], interactive: ['d'] },
@@ -93,9 +127,7 @@ describe('ResourceStageScheduler', () => {
   });
 
   it('drops a queued chunk the page requests itself', async () => {
-    const scheduler = new ResourceStageScheduler([
-      { c: manual, s: { idle: ['x', 'y'] } },
-    ]);
+    const scheduler = start([{ c: manual, s: { idle: ['x', 'y'] } }]);
     await g.__webpack_chunk_load_test__('x');
     expect(loaded).toEqual(['x']);
     scheduler.mark('idle');
@@ -107,7 +139,7 @@ describe('ResourceStageScheduler', () => {
   });
 
   it('prefetches element stage chunks without executing the module', () => {
-    const scheduler = new ResourceStageScheduler([{ c: manual }]);
+    const scheduler = start([{ c: manual }]);
     let executed = false;
     scheduler.prefetchLoader(
       () =>
@@ -125,7 +157,7 @@ describe('ResourceStageScheduler', () => {
   });
 
   it('moves a chunk to an earlier stage a later list asks for', () => {
-    const scheduler = new ResourceStageScheduler([
+    const scheduler = start([
       { c: manual, s: { idle: ['shared', 'other'] } },
       { s: { visible: ['shared'] } },
     ]);
@@ -134,7 +166,7 @@ describe('ResourceStageScheduler', () => {
   });
 
   it('resolves ready() after the stage and earlier stages are downloaded', async () => {
-    const scheduler = new ResourceStageScheduler([
+    const scheduler = start([
       { c: manual, s: { visible: ['v'], idle: ['i'] } },
     ]);
     let ready = false;
@@ -151,7 +183,7 @@ describe('ResourceStageScheduler', () => {
   });
 
   it('waits for an outside stage list before running later prefetches or resolving ready()', async () => {
-    const scheduler = new ResourceStageScheduler([
+    const scheduler = start([
       { c: manual, s: { visible: ['first'], idle: ['last'] } },
       { u: ['/interactive-stages.js', 'interactive'] },
     ]);
@@ -184,7 +216,7 @@ describe('ResourceStageScheduler', () => {
     async outcome => {
       rs.useFakeTimers();
       try {
-        const scheduler = new ResourceStageScheduler([
+        const scheduler = start([
           { c: manual, s: { idle: ['last'] } },
           { u: ['/missing-stages.js', 'visible'] },
         ]);
@@ -210,7 +242,7 @@ describe('ResourceStageScheduler', () => {
   );
 
   it('uses the initial client routes when their outside stage list arrives late', () => {
-    const scheduler = new ResourceStageScheduler([
+    const scheduler = start([
       { c: manual, u: ['/route-stages.js', 'visible'] },
       { q: ['home'] },
     ]);
@@ -232,15 +264,13 @@ describe('ResourceStageScheduler', () => {
   it('skips files the HTML already preloads', () => {
     document.head.innerHTML =
       '<link rel="preload" as="script" href="/p/js/a.js">';
-    const scheduler = new ResourceStageScheduler([
-      { c: manual, s: { visible: ['a', 'b'] } },
-    ]);
+    const scheduler = start([{ c: manual, s: { visible: ['a', 'b'] } }]);
     scheduler.mark('visible');
     expect(prefetched()).toEqual(['/p/js/b.js']);
   });
 
   it('picks route lists of client rendered pages', () => {
-    const scheduler = new ResourceStageScheduler([
+    const scheduler = start([
       {
         c: manual,
         r: {
@@ -255,7 +285,7 @@ describe('ResourceStageScheduler', () => {
   });
 
   it('marks a custom stage after its timeout', async () => {
-    const scheduler = new ResourceStageScheduler([
+    const scheduler = start([
       {
         c: {
           o: ['visible', 'firstReply', 'idle'],
@@ -278,7 +308,7 @@ describe('ResourceStageScheduler', () => {
       configurable: true,
     });
     try {
-      const scheduler = new ResourceStageScheduler([
+      const scheduler = start([
         { c: manual, s: { visible: ['v'], idle: ['i'] } },
       ]);
       scheduler.mark('idle');
@@ -294,7 +324,7 @@ describe('ResourceStageScheduler', () => {
   });
 
   it('does not request a script for chunks without a JS file', () => {
-    const scheduler = new ResourceStageScheduler([
+    const scheduler = start([
       {
         c: manual,
         s: { visible: ['styles', 'empty', 'a'] },
@@ -309,7 +339,7 @@ describe('ResourceStageScheduler', () => {
   it('skips prefetching when the browser does not support it', async () => {
     relList.supports = () => false;
     {
-      const scheduler = new ResourceStageScheduler([
+      const scheduler = start([
         { c: manual, s: { visible: ['v'], idle: ['i'] } },
       ]);
       let ready = false;
@@ -336,7 +366,7 @@ describe('ResourceStageScheduler', () => {
   it('frees the slot of a prefetch that never settles', () => {
     rs.useFakeTimers();
     try {
-      const scheduler = new ResourceStageScheduler([
+      const scheduler = start([
         { c: { ...manual, n: 1 }, s: { visible: ['a', 'b'] } },
       ]);
       scheduler.mark('visible');
@@ -355,7 +385,7 @@ describe('ResourceStageScheduler', () => {
   });
 
   it('takes the stage and the routes the framework runtime pushes', () => {
-    const scheduler = new ResourceStageScheduler([
+    const scheduler = start([
       {
         c: { o: ['visible', 'interactive', 'idle'], m: ['idle'] },
         s: { interactive: ['i'] },
@@ -374,7 +404,7 @@ describe('ResourceStageScheduler', () => {
   });
 
   it('leaves a manual stage to the application', () => {
-    const scheduler = new ResourceStageScheduler([
+    const scheduler = start([
       { c: manual, s: { interactive: ['i'] } },
       { a: ['interactive', 120] },
     ]);
@@ -387,7 +417,7 @@ describe('ResourceStageScheduler', () => {
       document.head.innerHTML = '';
       g.__webpack_get_script_filename_test__ = chunkId =>
         chunkId === 'cdn' ? '' : `js/${chunkId}.js`;
-      const scheduler = new ResourceStageScheduler([
+      const scheduler = start([
         {
           c: { ...manual, x },
           s: { visible: ['same', 'cdn'] },
@@ -405,5 +435,98 @@ describe('ResourceStageScheduler', () => {
       'use-credentials',
       'use-credentials',
     ]);
+  });
+
+  it.each(['critical', 'viewport', 'interaction', 'notConfigured'])(
+    'resolves ready() of %s, which has no order',
+    async stage => {
+      const scheduler = start([{ c: manual, s: { visible: ['v'] } }]);
+      await expect(scheduler.whenDone(stage)).resolves.toBeUndefined();
+    },
+  );
+
+  it('resolves ready() of an element stage after its prefetch', async () => {
+    const scheduler = start([{ c: manual }]);
+    scheduler.prefetchLoader(
+      () => g.__webpack_chunk_load_test__('m'),
+      'interaction',
+    );
+    let ready = false;
+    void scheduler.whenDone('interaction').then(() => {
+      ready = true;
+    });
+    await Promise.resolve();
+    expect(ready).toBe(false);
+    finish('/p/js/m.js');
+    await Promise.resolve();
+    expect(ready).toBe(true);
+  });
+
+  it('adds the lists of routes a client side navigation matches', () => {
+    const scheduler = start([
+      {
+        c: manual,
+        r: {
+          home: { s: { visible: ['h'] } },
+          other: { s: { visible: ['o'] } },
+        },
+      },
+    ]);
+    scheduler.setRoutes(['layout', 'home']);
+    scheduler.mark('visible');
+    expect(prefetched()).toEqual(['/p/js/h.js']);
+    scheduler.setRoutes(['layout', 'home']);
+    scheduler.setRoutes(['layout', 'other']);
+    expect(prefetched()).toEqual(['/p/js/h.js', '/p/js/o.js']);
+  });
+
+  it('prefixes CSS files with the public path at prefetch time', () => {
+    const scheduler = start([
+      {
+        c: manual,
+        s: { visible: ['a', 'b'] },
+        k: { a: ['css/a.css'], b: ['https://cdn.example.com/b.css'] },
+      },
+    ]);
+    // An application switching CDN at runtime.
+    g.__webpack_public_path_test__ = 'https://cdn2.example.com/';
+    scheduler.mark('visible');
+    expect(prefetched()).toEqual([
+      'https://cdn2.example.com/js/a.js',
+      'https://cdn2.example.com/css/a.css',
+      'https://cdn2.example.com/js/b.js',
+      'https://cdn.example.com/b.css',
+    ]);
+  });
+
+  it('ignores stages and routes pushed by another application', () => {
+    const scheduler = start([
+      {
+        c: { ...manual, b: 'host' },
+        s: { interactive: ['i'] },
+        r: { home: { s: { visible: ['h'] } } },
+      },
+    ]);
+    scheduler.add({ q: ['home'], b: 'child' });
+    scheduler.add({ a: ['visible', 10], b: 'child' });
+    expect(scheduler.getReport().stages).toEqual({});
+    scheduler.add({ q: ['home'], b: 'host' });
+    scheduler.mark('visible');
+    expect(prefetched()).toEqual(['/p/js/h.js']);
+  });
+
+  it('passes a loadable descriptor through and has no `then`', () => {
+    const descriptor = {
+      requireAsync: () => Promise.resolve(),
+      chunkName: () => 'a',
+    };
+    const declared = stagedImport.idle(
+      descriptor as unknown as () => Promise<unknown>,
+    );
+    expect(declared).toBe(descriptor);
+    expect(typeof declared.trigger).toBe('function');
+    expect((stagedImport as unknown as { then?: unknown }).then).toBe(
+      undefined,
+    );
   });
 });

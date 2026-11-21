@@ -118,3 +118,19 @@ export const selectMatchedResourcePreloads = (
     ...selectResourcePreloads(groups, plan.budget, loaded, entry),
   };
 };
+
+/**
+ * Identifies the bundle of an application for resource stages. The build
+ * writes it into the stage config of the HTML and into the runtime of the
+ * bundle, so on a page that runs several applications only the bundle the
+ * lists were built for schedules them.
+ */
+export const getResourceStagesBundleId = (name: string) => {
+  // FNV-1a, enough to tell applications apart on one page.
+  let hash = 0x811c9dc5;
+  for (let i = 0; i < name.length; i++) {
+    hash ^= name.charCodeAt(i);
+    hash = Math.imul(hash, 0x01000193);
+  }
+  return (hash >>> 0).toString(36);
+};

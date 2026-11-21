@@ -21,7 +21,7 @@ interface ResourceStagesConfig {
     { after?: string; timeout?: number; manual?: boolean }
   >;
   routes?:
-    | false
+    | boolean
     | Record<string, 'critical' | 'visible' | 'interactive' | 'idle' | false>;
   concurrency?: number;
   inlineLimit?: string | number;
@@ -35,7 +35,11 @@ interface ResourceStagesConfig {
 
 - **Default:** `undefined`
 
-Configures [staged resource loading](/guides/advanced-features/page-performance/resource-stages). `stagedImport` declarations in code work without this option. Setting it also stages the route JS of streaming SSR and turns on the budget checks.
+Configures [staged resource loading](/guides/advanced-features/page-performance/resource-stages). `stagedImport` declarations with built-in stages work without this option. Custom stages, budgets and the route JS preloads of streaming SSR are configured here.
+
+:::warning Experimental
+Staged resource loading is experimental. Its options and the manifest format may change in later versions.
+:::
 
 ## targetNetwork
 
@@ -75,21 +79,26 @@ export default defineConfig({
 
 ## routes
 
-During streaming SSR, automatic route JS uses the remaining critical budget. Route components are considered before shared chunks. Route JS within the budget is preloaded with `<link rel="preload" as="script" fetchpriority="low">`. The rest is prefetched at the visible stage. Streaming SSR emits route CSS as stylesheets.
+Route JS preloads of streaming SSR pages, off by default. With `true`, the JS of the matched routes is preloaded with `<link rel="preload" as="script" fetchpriority="low">` within the critical budget, route components before their shared chunks, and the rest is prefetched at the visible stage. Streaming SSR already emits route CSS as stylesheets, so it is not preloaded.
 
-Route JS is only preloaded as part of `performance.resourceStages`. Without this config, the HTML has no preload for route JS.
+```ts
+resourceStages: {
+  routes: true,
+}
+```
 
-Set the stage per route id, or `false` to turn it off for a route:
+You can also set the stage per route id, or `false` to leave a route out. An object turns the preloads on as well:
 
 ```ts
 resourceStages: {
   routes: {
     'files/[id]/page': 'visible',
+    'settings/page': false,
   },
 }
 ```
 
-`routes: false` turns the rule off: the framework does not preload route JS, the same as without `performance.resourceStages`. String SSR already outputs the scripts of the matched routes and is not affected.
+Only streaming SSR entries are affected. Client rendered and string SSR entries are not: string SSR already outputs the scripts of the matched routes.
 
 ## concurrency
 
@@ -112,3 +121,7 @@ Target first paint time in milliseconds, used to check the estimated download ti
 ## baseline
 
 Path of a `resource-stages.json` from an earlier build. A warning is shown when the bytes of a stage grow more than `baselineThreshold` percent (default `10`) over the baseline.
+
+## include
+
+Source files in `node_modules` are not scanned, so their `stagedImport` declarations are not prefetched. Match the packages to scan here, by string (path contains) or regular expression. Workspace packages of a monorepo resolve to their source directory through symlinks and are scanned by default.

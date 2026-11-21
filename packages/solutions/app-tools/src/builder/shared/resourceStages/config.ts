@@ -48,10 +48,12 @@ export interface ResourceStagesUserConfig {
    */
   stages?: Record<string, CustomStageConfig>;
   /**
-   * Stage of route JS, by route id. `false` turns the framework's route rule
-   * off. Applies to streaming SSR.
+   * Route JS of streaming SSR pages. `true` preloads the JS of the matched
+   * routes with a low priority within the `critical` budget, the rest at
+   * `visible`; an object does the same and sets the stage of some routes by
+   * route id (`false` leaves a route out). Off by default.
    */
-  routes?: false | Record<string, BuiltinPageStage | false>;
+  routes?: boolean | Record<string, BuiltinPageStage | false>;
   /** Prefetches in flight at the same time. @default 4 */
   concurrency?: number;
   /**

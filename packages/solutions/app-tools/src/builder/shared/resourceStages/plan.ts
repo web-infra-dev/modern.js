@@ -19,6 +19,12 @@ export interface ChunkInfo {
   js: string[];
   /** CSS files, with the public path. */
   css: string[];
+  /**
+   * CSS files without the public path, for the stage lists: the browser adds
+   * the public path of the bundler runtime, which also covers
+   * `assetPrefix: 'auto'` and a public path changed at runtime.
+   */
+  cssFiles?: string[];
   /** Compressed bytes of all files. */
   size: number;
   /** Compressed bytes by file URL. */
@@ -37,6 +43,8 @@ export interface EntryInfo {
   reachable: Set<ChunkId>;
   /** The server renders the entry, so it adds the route lists per request. */
   serverRendered: boolean;
+  /** Streaming SSR, the only mode that applies the route JS rule. */
+  streaming?: boolean;
 }
 
 export interface RouteInfo {
@@ -102,6 +110,8 @@ export interface Plan {
   warnings: string[];
   /** Duplicate modules are filled in by the caller, which owns the module graph. */
   declarations: (DeclarationInfo & { level: string[] })[];
+  /** Budget of the HTML preloads of a page. */
+  budget: { size: number; requests: number };
 }
 
 const DEFAULT_CRITICAL_REQUESTS = 8;
@@ -136,7 +146,7 @@ const toPreloads = (
       ...chunk.js.map(h => toItem(h, 'script')),
       ...(css ? chunk.css.map(h => toItem(h, 'style')) : []),
     ],
-    ...(chunk.css.length ? { css: chunk.css } : {}),
+    ...(chunk.css.length ? { css: chunk.cssFiles ?? chunk.css } : {}),
   };
 };
 
@@ -176,7 +186,11 @@ export const getCriticalBudget = (stages: NormalizedResourceStages) => {
 export const planResourceStages = (
   snapshot: Snapshot,
   stages: NormalizedResourceStages,
-  options: { routeRule: boolean },
+  options: {
+    routeRule: boolean;
+    /** No HTML preloads (`assetPrefix: 'auto'`): `critical` goes to the first stage. */
+    noPreload?: boolean;
+  },
 ): Plan => {
   const warnings: string[] = [];
   const rank = createStageRank(stages.order);
@@ -296,15 +310,23 @@ export const planResourceStages = (
     }
   }
 
-  const budget = getCriticalBudget(stages);
+  const budget = options.noPreload
+    ? { size: 0, requests: 0 }
+    : getCriticalBudget(stages);
   if (options.routeRule) {
-    const routeConfig = stages.config.routes || {};
+    const routeConfig =
+      typeof stages.config.routes === 'object' ? stages.config.routes : {};
     for (const [routeName, route] of snapshot.routes) {
       const override = routeConfig[routeName];
       if (override === false) {
         continue;
       }
       const entry = snapshot.entries.get(route.entry);
+      // Only streaming SSR outputs route JS from the rule; client rendering
+      // and string SSR load it as before.
+      if (!entry?.serverRendered || !entry.streaming) {
+        continue;
+      }
       const target = getTarget('route', routeName, route.entry);
       const entryTarget = targets.get(`entry:${route.entry}`);
       const ordered = [
@@ -355,7 +377,7 @@ export const planResourceStages = (
       }
       (plan.lists[stage] ??= []).push(chunkId);
       if (chunk.css.length) {
-        css[String(chunkId)] = chunk.css;
+        css[String(chunkId)] = chunk.cssFiles ?? chunk.css;
       }
       byStage.set(stage, [...(byStage.get(stage) ?? []), chunkId]);
     }
@@ -382,18 +404,28 @@ export const planResourceStages = (
       ]);
       const declarationsOverBudget = overflow.filter(group =>
         plan.declaredCritical.includes(group),
-      );
-      if (declarationsOverBudget.length) {
+      ).length;
+      const routeJsOverBudget = overflow.length - declarationsOverBudget;
+      const fallback =
+        plan.kind === 'entry'
+          ? 'are prefetched at "visible" instead'
+          : 'are prefetched at "visible" instead when the page has no room left for them';
+      if (!options.noPreload && declarationsOverBudget) {
         warnings.push(
-          `${plan.kind} "${plan.name}": ${declarationsOverBudget.length} chunks declared "critical" exceed the critical budget and are prefetched at "visible" instead.`,
+          `${plan.kind} "${plan.name}": ${declarationsOverBudget} chunks declared "critical" exceed the critical budget (${formatBytes(budget.size)}, ${budget.requests} requests) and ${fallback}.`,
+        );
+      }
+      if (!options.noPreload && routeJsOverBudget) {
+        warnings.push(
+          `${plan.kind} "${plan.name}": ${routeJsOverBudget} route JS chunks exceed the critical budget (${formatBytes(budget.size)}, ${budget.requests} requests) and ${fallback}.`,
         );
       }
     }
     for (const [stage, chunkIds] of Object.entries(plan.routeLists)) {
       for (const chunkId of chunkIds) {
-        const files = snapshot.chunks.get(chunkId)?.css;
-        if (files?.length) {
-          css[String(chunkId)] = files;
+        const chunk = snapshot.chunks.get(chunkId);
+        if (chunk?.css.length) {
+          css[String(chunkId)] = chunk.cssFiles ?? chunk.css;
         }
       }
       byStage.set(stage, [...(byStage.get(stage) ?? []), ...chunkIds]);
@@ -436,6 +468,7 @@ export const planResourceStages = (
     targets: [...targets.values()].map(target => target.plan),
     warnings,
     declarations,
+    budget,
   };
 };
 

@@ -1,6 +1,7 @@
 #!/usr/bin/env node
 // Usage: node analyze.mjs <resource-stages.json> <records.json>
 // records.json: a report object or an array of reports from window.__MODERN_RS__.report()
+// Both must come from the same build: chunk ids change between builds.
 import { readFileSync } from 'node:fs';
 
 const [stagesFile, recordsFile] = process.argv.slice(2);
@@ -62,12 +63,20 @@ const rows = stages.declarations.map(declaration => {
 console.log('Declarations');
 console.table(rows);
 
+// Route JS is loaded by the router, not by an import() to declare.
+const routeChunks = new Set((stages.routeChunks ?? []).map(String));
 const undeclared = new Map();
 for (const report of reports) {
   const interactive = report.stages?.interactive ?? Number.POSITIVE_INFINITY;
   for (const record of report.records ?? []) {
     const id = String(record.chunkId);
-    if (declared.has(id) || record.requested === undefined) continue;
+    if (
+      declared.has(id) ||
+      routeChunks.has(id) ||
+      record.stage !== undefined ||
+      record.requested === undefined
+    )
+      continue;
     if (record.requested < interactive) {
       undeclared.set(id, (undeclared.get(id) ?? 0) + 1);
     }

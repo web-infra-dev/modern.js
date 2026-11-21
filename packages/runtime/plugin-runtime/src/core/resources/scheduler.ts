@@ -31,7 +31,8 @@ interface BundlerRuntime {
   ) => void;
   /** Chunk id -> JS file name. */
   filename: (chunkId: ChunkId) => string;
-  publicPath: string;
+  /** Read on each use: applications can change it at runtime (CDN switch). */
+  publicPath: () => string;
   nonce?: string;
 }
 
@@ -47,8 +48,15 @@ const getBundlerRuntime = (): BundlerRuntime | undefined => {
       load: WEBPACK_CHUNK_LOAD,
       setLoad: WEBPACK_SET_CHUNK_LOAD,
       filename: WEBPACK_GET_SCRIPT_FILENAME,
-      publicPath:
-        typeof WEBPACK_PUBLIC_PATH === 'string' ? WEBPACK_PUBLIC_PATH : '',
+      publicPath: () => {
+        try {
+          return typeof WEBPACK_PUBLIC_PATH === 'string'
+            ? WEBPACK_PUBLIC_PATH
+            : '';
+        } catch {
+          return '';
+        }
+      },
       nonce: typeof WEBPACK_NONCE === 'string' ? WEBPACK_NONCE : undefined,
     };
   } catch {
@@ -74,6 +82,8 @@ export const isSchedulerRuntime = () => {
 
 export const DEFAULT_STAGE_ORDER = ['visible', 'interactive', 'idle'];
 const ELEMENT_STAGES = ['viewport', 'interaction'];
+/** Stages that are not page stages in order: always arrived. */
+const UNORDERED_STAGES = ['critical', ...ELEMENT_STAGES];
 const DEFAULT_CONCURRENCY = 4;
 const DEFAULT_IDLE_QUIET_MS = 2000;
 /** Upper bound after `load`, for pages that never stop requesting. */
@@ -99,6 +109,20 @@ type QueueItem = { chunkId: ChunkId; stage: string };
 const now = () =>
   typeof performance !== 'undefined' ? Math.round(performance.now()) : 0;
 
+const isAbsoluteUrl = (url: string) =>
+  /^([a-z][a-z\d+\-.]*:)?\/\//i.test(url) || url.startsWith('/');
+
+/** The browser already fetched the URL, e.g. before the scheduler started. */
+const wasFetched = (url: string) => {
+  try {
+    return (
+      performance.getEntriesByName(new URL(url, location.href).href).length > 0
+    );
+  } catch {
+    return false;
+  }
+};
+
 export class ResourceStageScheduler {
   private config: RuntimeStageConfig = { o: DEFAULT_STAGE_ORDER };
 
@@ -117,9 +141,13 @@ export class ResourceStageScheduler {
 
   private routeLists?: StagePayload['r'];
 
-  private routeListsApplied = false;
+  /** Routes whose lists were added, so a navigation adds only new ones. */
+  private appliedRoutes = new Set<string>();
 
-  private initialRoutes?: string[];
+  private pendingRoutes?: string[];
+
+  /** Bundle that owns this scheduler. */
+  readonly bundleId?: string;
 
   private pendingExternal = new Map<string, number>();
 
@@ -151,9 +179,10 @@ export class ResourceStageScheduler {
   /** Stage -> callbacks waiting for the stage to finish downloading. */
   private waiters = new Map<string, (() => void)[]>();
 
-  constructor(payloads: StagePayload[]) {
+  constructor(payloads: StagePayload[], bundleId?: string) {
     this.bundler = getBundlerRuntime();
     const config = payloads.find(payload => payload.c)?.c;
+    this.bundleId = config?.b ?? bundleId;
     if (config) {
       this.add({ c: config });
     }
@@ -168,6 +197,13 @@ export class ResourceStageScheduler {
   }
 
   add(payload: StagePayload) {
+    // Stages and routes pushed by the runtime of another application.
+    if (payload.b && this.bundleId && payload.b !== this.bundleId) {
+      return;
+    }
+    if (payload.c?.b && this.bundleId && payload.c.b !== this.bundleId) {
+      return;
+    }
     if (payload.c && !this.hasConfig) {
       this.hasConfig = true;
       this.config = payload.c;
@@ -192,8 +228,8 @@ export class ResourceStageScheduler {
     }
     if (payload.q) {
       this.setRoutes(payload.q);
-    } else if (payload.r && this.initialRoutes) {
-      this.setRoutes(this.initialRoutes);
+    } else if (payload.r && this.pendingRoutes) {
+      this.setRoutes(this.pendingRoutes);
     }
     this.pump();
   }
@@ -204,16 +240,16 @@ export class ResourceStageScheduler {
    * lists of the matched routes from the server.
    */
   setRoutes(routeIds: string[]) {
-    if (this.routeListsApplied) {
-      return;
-    }
     if (!this.routeLists) {
-      this.initialRoutes ??= routeIds;
+      this.pendingRoutes = routeIds;
       return;
     }
-    this.initialRoutes = undefined;
-    this.routeListsApplied = true;
+    this.pendingRoutes = undefined;
     for (const routeId of routeIds) {
+      if (this.appliedRoutes.has(routeId)) {
+        continue;
+      }
+      this.appliedRoutes.add(routeId);
       const list = this.routeLists[routeId];
       if (list?.s) {
         this.addLists(list.s, list.k);
@@ -238,7 +274,7 @@ export class ResourceStageScheduler {
         this.onArrived(order[i]);
       }
     }
-    if (index === -1) {
+    if (index === -1 && !UNORDERED_STAGES.includes(stage)) {
       this.arrived.set(stage, time);
     }
     this.pump();
@@ -278,12 +314,21 @@ export class ResourceStageScheduler {
   }
 
   private isDone(stage: string) {
+    const order = this.config.o;
+    const index = order.indexOf(stage);
+    if (index === -1) {
+      // `critical` is preloaded by the HTML and element stages per element:
+      // done once nothing of the stage is downloading. An unknown stage has
+      // nothing to wait for.
+      return (
+        !this.inFlight.get(stage) &&
+        !this.urgent.some(item => item.stage === stage)
+      );
+    }
     if (!this.arrived.has(stage)) {
       return false;
     }
-    const order = this.config.o;
-    const index = order.indexOf(stage);
-    const stages = index === -1 ? [stage] : order.slice(0, index + 1);
+    const stages = order.slice(0, index + 1);
     return stages.every(
       item =>
         !this.lists.get(item)?.length &&
@@ -370,7 +415,11 @@ export class ResourceStageScheduler {
     if (typeof setTimeout === 'undefined') {
       return;
     }
-    this.timers.push(setTimeout(() => this.mark(stage), timeout));
+    // The first stage counts from navigation start, also when the scheduler
+    // starts late with the first declaration.
+    const start = index > 0 && previous ? this.arrived.get(previous)! : 0;
+    const delay = Math.max(0, start + timeout - now());
+    this.timers.push(setTimeout(() => this.mark(stage), delay));
   }
 
   private shouldSkip(stage: string) {
@@ -451,20 +500,27 @@ export class ResourceStageScheduler {
       // Already prefetched, or the application loads it at normal priority.
       return false;
     }
+    const publicPath = bundler.publicPath();
     const candidates: [string, string][] = [
       ...(this.noScript.has(String(chunkId))
         ? []
         : [
-            [bundler.publicPath + bundler.filename(chunkId), 'script'] as [
+            [publicPath + bundler.filename(chunkId), 'script'] as [
               string,
               string,
             ],
           ]),
       ...(this.cssFiles.get(String(chunkId)) ?? []).map(
-        url => [url, 'style'] as [string, string],
+        file =>
+          [isAbsoluteUrl(file) ? file : publicPath + file, 'style'] as [
+            string,
+            string,
+          ],
       ),
     ];
-    const urls = candidates.filter(([url]) => !this.isPreloaded(url));
+    const urls = candidates.filter(
+      ([url]) => !this.isPreloaded(url) && !wasFetched(url),
+    );
     if (!urls.length) {
       return false;
     }
@@ -709,7 +765,7 @@ export class ResourceStageScheduler {
           }
         }
       },
-      { once: true },
+      // Not once: a page restored from the back/forward cache is hidden again.
     );
   }
 
@@ -724,7 +780,10 @@ export class ResourceStageScheduler {
 
     const load = () => {
       const script = document.createElement('script');
-      script.src = url;
+      // Relative to the public path with `assetPrefix: 'auto'`.
+      script.src = isAbsoluteUrl(url)
+        ? url
+        : (this.bundler?.publicPath() ?? '') + url;
       script.async = true;
       if (this.shouldSetCrossOrigin(url)) {
         script.crossOrigin = this.config.x!;
@@ -783,17 +842,28 @@ export interface ResourceStagesGlobal {
  * One scheduler per page, kept on `window` so copies of this package share it.
  * Payloads pushed before the scheduler starts are consumed on start.
  */
-export const getResourceStageScheduler = ():
-  ResourceStageScheduler | undefined => {
+export const getResourceStageScheduler = (
+  bundleId?: string,
+): ResourceStageScheduler | undefined => {
   if (typeof window === 'undefined') {
     return undefined;
   }
   const global = window as unknown as Record<string, GlobalStages | undefined>;
   const current = global[RESOURCE_STAGES];
   if (current && !Array.isArray(current)) {
-    return current.scheduler;
+    // Another application's scheduler: its lists are not for this bundle.
+    const owner = current.scheduler.bundleId;
+    return owner && bundleId && owner !== bundleId
+      ? undefined
+      : current.scheduler;
   }
-  const scheduler = new ResourceStageScheduler(current ?? []);
+  // The HTML lists were built for another application on the page; leave the
+  // scheduler to that application.
+  const owner = current?.find(payload => payload.c?.b)?.c?.b;
+  if (owner && bundleId && owner !== bundleId) {
+    return undefined;
+  }
+  const scheduler = new ResourceStageScheduler(current ?? [], bundleId);
   global[RESOURCE_STAGES] = {
     push: (payload: StagePayload) => {
       if (!document.currentScript?.hasAttribute(DISCARDED_PAYLOAD_ATTRIBUTE)) {

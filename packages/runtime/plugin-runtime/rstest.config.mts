@@ -25,7 +25,6 @@ export default {
       exclude: [
         'tests/router/prefetch.test.tsx',
         'tests/resources/scheduler.test.ts',
-        'tests/resources/bridge.test.ts',
       ],
       extends: commonConfig,
       plugins: [
@@ -53,7 +52,6 @@ export default {
       include: [
         'tests/router/prefetch.test.tsx',
         'tests/resources/scheduler.test.ts',
-        'tests/resources/bridge.test.ts',
       ],
       extends: commonConfig,
       plugins: [

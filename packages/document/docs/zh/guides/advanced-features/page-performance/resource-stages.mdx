@@ -10,6 +10,10 @@
 
 声明只决定**什么时候开始下载**，不改变代码什么时候执行。声明设错只影响快慢和流量，不会让功能出错：代码真正调用时文件还没下完，会立即按正常优先级加载。
 
+:::warning 实验性
+按阶段加载目前是实验性功能，API 和清单格式在后续版本中可能调整。
+:::
+
 ## 声明
 
 ```tsx
@@ -22,7 +26,29 @@ const Editor = lazy(stagedImport.interactive(() => import('./Editor')));
 const loadPlugins = stagedImport.idle(() => import('./plugins'));
 ```
 
-参数必须是直接返回 `import('<静态路径>')` 的函数，阶段名必须是内置阶段或配置里声明的自定义阶段，否则构建报错。
+参数是返回 `import('<静态路径>')` 的函数，可以带 `async`/`await`，也可以在 `import()` 后接 `.then()`，例如取具名导出：
+
+```tsx
+const Panel = lazy(
+  stagedImport.visible(() =>
+    import('./Panel').then(m => ({ default: m.Panel })),
+  ),
+);
+```
+
+阶段名不是内置阶段、也没有在配置里声明，或者参数不是上面的写法时，构建给出告警，这个声明不预取，代码仍在用到时正常加载，构建不会失败。路径由变量拼接的 `import()` 无法在构建时确定文件，同样只告警。
+
+### 配合 loadable 与字符串 SSR
+
+字符串 SSR 下可以把声明直接交给 loadable，服务端照常渲染该组件：
+
+```tsx
+import loadable from '@modern-js/runtime/loadable';
+
+const Editor = loadable(stagedImport.interactive(() => import('./Editor')));
+```
+
+框架在构建时识别 `loadable(stagedImport.<阶段>(() => import()))` 的写法。声明需要直接写在 loadable 调用里；先赋值给变量再交给 loadable 时，服务端不渲染该组件。
 
 ## 阶段
 
@@ -70,7 +96,7 @@ chatStore.onFirstReply(() => stagedImport.firstReply.mark());
 
 ### 等待阶段完成
 
-`stagedImport.<阶段>.ready()` 在该阶段到来、且它和之前各阶段的文件都下载完成后 resolve。需要在某个阶段之后才执行的代码（例如空闲时预热模块）可以等它，执行时文件已经在缓存里，不会和前面的阶段抢带宽：
+`stagedImport.<阶段>.ready()` 在该阶段到来、且它和之前各阶段的文件都下载完成后 resolve。`critical` 和元素阶段没有先后顺序，`ready()` 在当前没有该阶段的文件在下载时 resolve；未声明的阶段名直接 resolve。需要在某个阶段之后才执行的代码（例如空闲时预热模块）可以等它，执行时文件已经在缓存里，不会和前面的阶段抢带宽：
 
 ```ts
 stagedImport.idle.ready().then(() => warmUpMessagePlugins());
@@ -80,7 +106,9 @@ stagedImport.idle.ready().then(() => warmUpMessagePlugins());
 
 ## 路由 JS
 
-流式 SSR 下，配置了 `performance.resourceStages` 后，命中路由的 JS 也按阶段输出，不需要声明：路由组件自身的文件为 `critical`，依赖的共享 chunk 按 `critical` 预算分到 `critical` 或 `visible`。`critical` 的路由 JS 以低优先级 preload 输出。没有配置 `performance.resourceStages` 时，不会输出路由 JS 的 preload。见 [`routes`](/configure/app/performance/resource-stages#routes)。
+流式 SSR 下，设置 [`routes: true`](/configure/app/performance/resource-stages#routes) 后，命中路由的 JS 也按阶段输出，不需要声明：路由组件自身的文件为 `critical`，依赖的共享 chunk 按 `critical` 预算分到 `critical` 或 `visible`。`critical` 的路由 JS 以低优先级 preload 输出。这项默认关闭。
+
+客户端渲染的入口在每次路由跳转后，按新匹配的路由补上它们的声明清单。服务端渲染的入口只有首屏命中路由的清单，跳转到其他路由后，那些路由里的声明在用到时正常加载。
 
 ## 浏览器支持与限制
 
@@ -88,10 +116,12 @@ stagedImport.idle.ready().then(() => warmUpMessagePlugins());
 - **不支持 `<link rel="prefetch">` 的浏览器**（Safari）会跳过所有阶段的预取，被跳过的阶段记录在加载记录的 `skipped` 里。`critical` 的预加载照常生效，`ready()` 照常 resolve，代码在用到时再加载，和没有声明时一样。
 - **既没有成功也没有失败的预取**在 30 秒后不再占用并发名额，后面的文件和阶段不会被卡住。
 - **由应用通知的阶段**（`manual: true`）建议同时设置 `timeout`。不设置时，后面的阶段会一直等到应用通知该阶段或更晚的阶段。
-- **写在后加载代码里的声明**在这段代码执行时才生效：没有配置 `performance.resourceStages` 时，调度器在第一个声明被执行时启动。
+- **写在后加载代码里的声明**在这段代码执行时才生效：没有配置 `performance.resourceStages` 时，调度器在第一个声明被执行时启动。之前已经下载过的文件不会重复预取。
+- **`assetPrefix: 'auto'`** 时，HTML 无法写出 preload 地址，`critical` 改为在首次绘制后预取，构建给出告警。运行时修改 `__webpack_public_path__`（例如切换 CDN）后，预取使用修改后的地址。
+- **`node_modules` 里的声明**默认不扫描，不预取；需要时用 [`include`](/configure/app/performance/resource-stages#include) 加入。monorepo 里通过软链引用的工作区包会被扫描。
 - **服务端渲染的入口降级为客户端渲染时**只有入口级的清单；路由级的清单由服务端在渲染时写入。
 - **子资源完整性**（[`security.sri`](/configure/app/security/sri)）：`critical` 的 preload 带有和加载该文件的 `<script>`、`<link>` 相同的 `integrity` 与 `crossorigin`，浏览器会复用预加载的文件。后续阶段预取的文件通过 HTTP 缓存复用。输出成独立文件的阶段清单（见 [`inlineLimit`](/configure/app/performance/resource-stages#inlinelimit)）加载时不带 `integrity`。
-- **不支持微前端子应用和 Module Federation 的 remote。** 清单按页面所属应用的 chunk 表解析。请在主应用里声明阶段；子应用里的 `stagedImport` 会在用到时加载代码，元素阶段不预取。
+- **不支持微前端子应用和 Module Federation 的 remote。** 清单按页面所属应用的 chunk 表解析。请在主应用里声明阶段；子应用里的 `stagedImport` 会在用到时加载代码，元素阶段不预取。每个应用的构建带有自己的标识，子应用的声明、路由和阶段通知不会影响主应用的调度。
 
 ## 构建产物
 

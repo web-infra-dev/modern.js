@@ -23,7 +23,6 @@ import {
   type TargetPlan,
   checkBudgets,
   formatBytes,
-  getCriticalBudget,
   planResourceStages,
 } from '../resourceStages/plan';
 
@@ -56,6 +55,14 @@ export interface ResourceStagesPluginOptions {
   srcDirectory?: string;
   /** The server renders the entry and adds the route lists per request. */
   isServerRendered: (entryName: string) => boolean;
+  /** The server renders the entry with streaming SSR. */
+  isStreaming?: (entryName: string) => boolean;
+  /**
+   * Identifies this application's bundle at runtime, so a page running
+   * several applications (micro-frontends) uses the stage lists only with the
+   * bundle they were built for.
+   */
+  bundleId?: string;
   staticJsDir?: string;
   disableFilenameHash?: boolean;
   nonce?: string;
@@ -147,17 +154,32 @@ export class ResourceStagesPlugin {
     this.writeStageTypes();
   }
 
-  /** Type declaration of the custom stages, rewritten only when it changes. */
+  /**
+   * Type declaration of the custom stages, rewritten only when it changes and
+   * removed when the config no longer has custom stages.
+   */
   private writeStageTypes() {
     const { srcDirectory } = this.options;
+    if (!srcDirectory) {
+      return;
+    }
     const custom = this.stages.order.filter(
       stage => !['visible', 'interactive', 'idle'].includes(stage),
     );
-    if (!srcDirectory || !custom.length) {
-      return;
-    }
     const file = path.join(srcDirectory, 'modern-resource-stages.d.ts');
-    const content = `// Generated from performance.resourceStages.stages, do not edit.
+    const header =
+      '// Generated from performance.resourceStages.stages, do not edit.';
+    try {
+      const existing = fs.existsSync(file)
+        ? fs.readFileSync(file, 'utf-8')
+        : undefined;
+      if (!custom.length) {
+        if (existing?.startsWith(header)) {
+          fs.unlinkSync(file);
+        }
+        return;
+      }
+      const content = `${header}
 declare global {
   interface ModernResourceStages {
 ${custom.map(stage => `    ${JSON.stringify(stage)}: true;`).join('\n')}
@@ -166,11 +188,9 @@ ${custom.map(stage => `    ${JSON.stringify(stage)}: true;`).join('\n')}
 
 export {};
 `;
-    try {
-      if (fs.existsSync(file) && fs.readFileSync(file, 'utf-8') === content) {
-        return;
+      if (existing !== content) {
+        fs.writeFileSync(file, content);
       }
-      fs.writeFileSync(file, content);
     } catch {
       // Types are a convenience; a read-only source tree must not fail the build.
     }
@@ -215,9 +235,10 @@ export {};
           stage: Compilation.PROCESS_ASSETS_STAGE_REPORT + 1,
         },
         async () => {
-          const report = (message: string, isError = false) => {
-            const error = new WebpackError(`[resource stages] ${message}`);
-            (isError ? compilation.errors : compilation.warnings).push(error);
+          const report = (message: string) => {
+            compilation.warnings.push(
+              new WebpackError(`[resource stages] ${message}`),
+            );
           };
           const htmlParts = new Map<string, string>();
           try {
@@ -267,19 +288,29 @@ export {};
     );
   }
 
-  private run(
-    compilation: Compilation,
-    report: (message: string, isError?: boolean) => void,
-  ) {
+  private run(compilation: Compilation, report: (message: string) => void) {
     const { publicPath } = compilation
       .getStats()
       .toJson({ all: false, publicPath: true });
     const prefix = normalizePublicPath(publicPath);
+    // With `assetPrefix: 'auto'` the bundler works out the public path in the
+    // browser; the HTML cannot carry preload URLs, so `critical` chunks are
+    // prefetched at the first stage instead.
+    const noPreload = publicPath === 'auto';
+    if (noPreload) {
+      report(
+        'output.assetPrefix is "auto", so "critical" chunks are prefetched after first paint instead of preloaded from the HTML.',
+      );
+    }
     const routeManifest = this.readRouteManifest(compilation);
     const snapshot = this.collect(compilation, prefix, routeManifest, report);
+    const routes = this.options.config?.routes;
     const routeRule =
-      Boolean(this.options.config) && this.options.config?.routes !== false;
-    const plan = planResourceStages(snapshot, this.stages, { routeRule });
+      routes === true || (typeof routes === 'object' && routes !== null);
+    const plan = planResourceStages(snapshot, this.stages, {
+      routeRule,
+      noPreload,
+    });
     for (const warning of plan.warnings) {
       report(warning);
     }
@@ -332,7 +363,7 @@ export {};
     compilation: Compilation,
     prefix: string,
     routeManifest: ReturnType<ResourceStagesPlugin['readRouteManifest']>,
-    report: (message: string, isError?: boolean) => void,
+    report: (message: string) => void,
   ): Snapshot {
     const { chunkGraph } = compilation;
     const sizes = new Map<string, number>();
@@ -374,6 +405,7 @@ export {};
         id,
         js: js.map(file => prefix + file),
         css: css.map(file => prefix + file),
+        cssFiles: css,
         get size() {
           return [...js, ...css].reduce((sum, file) => sum + getSize(file), 0);
         },
@@ -411,9 +443,10 @@ export {};
       visited = new Set<string>(),
     ) => {
       const reachable = new Set<ChunkId>();
-      const stack: [ChunkGroup, number][] = [[root, 0]];
-      while (stack.length) {
-        const [group, level] = stack.pop()!;
+      // Breadth first, so a group is first reached by its shortest path.
+      const queue: [ChunkGroup, number][] = [[root, 0]];
+      while (queue.length) {
+        const [group, level] = queue.shift()!;
         const key = groupKey(group);
         if (visited.has(key)) {
           continue;
@@ -429,7 +462,7 @@ export {};
           reachable.add(id);
         }
         for (const child of group.childrenIterable) {
-          stack.push([child, level + 1]);
+          queue.push([child, level + 1]);
         }
       }
       return reachable;
@@ -449,6 +482,7 @@ export {};
           groups,
         ),
         serverRendered: this.options.isServerRendered(name),
+        streaming: Boolean(this.options.isStreaming?.(name)),
       });
     }
 
@@ -541,8 +575,8 @@ export {};
       }
       scanned.add(resource);
       const result = this.parse(resource);
-      for (const error of result.errors) {
-        report(error, true);
+      for (const warning of result.warnings) {
+        report(warning);
       }
       if (!result.declarations.length) {
         continue;
@@ -595,7 +629,7 @@ export {};
     try {
       mtime = fs.statSync(resource).mtimeMs;
     } catch {
-      return { declarations: [], errors: [] };
+      return { declarations: [], warnings: [] };
     }
     const cached = this.parseCache.get(resource);
     if (cached && cached.mtime === mtime) {
@@ -682,10 +716,7 @@ export {};
     return result;
   }
 
-  private compareBaseline(
-    plan: Plan,
-    report: (message: string, isError?: boolean) => void,
-  ) {
+  private compareBaseline(plan: Plan, report: (message: string) => void) {
     const baselinePath = this.options.config?.baseline;
     if (!baselinePath) {
       return;
@@ -730,12 +761,13 @@ export {};
     plan: Plan,
     routeManifest: ReturnType<ResourceStagesPlugin['readRouteManifest']>,
     routeRule: boolean,
-    report: (message: string, isError?: boolean) => void,
+    report: (message: string) => void,
     duplicates: Map<TargetPlan, Map<string, number>>,
   ) {
     const { stages, options } = this;
     const runtimeConfig = {
       o: stages.order,
+      ...(options.bundleId ? { b: options.bundleId } : {}),
       ...(stages.manual.length ? { m: stages.manual } : {}),
       ...(Object.keys(stages.timeouts).length ? { t: stages.timeouts } : {}),
       ...(stages.config.concurrency ? { n: stages.config.concurrency } : {}),
@@ -753,9 +785,11 @@ export {};
       stageLists: TargetPlan['lists'][],
     ): [url: string, stage: string] => {
       const content = payloadScript(payload);
-      const file = `${staticJsDir}/resource-stages/${name.replace(/[^\w.-]/g, '_')}${
-        options.disableFilenameHash ? '' : `.${contentHash(content)}`
-      }.js`;
+      // Route ids can differ only in characters a file name cannot have.
+      const safeName = name.replace(/[^\w.-]/g, '_');
+      const file = `${staticJsDir}/resource-stages/${safeName}${
+        safeName === name ? '' : `-${contentHash(name)}`
+      }${options.disableFilenameHash ? '' : `.${contentHash(content)}`}.js`;
       files.set(file, content);
       const { publicPath } = compilation
         .getStats()
@@ -906,7 +940,7 @@ export {};
     const manifest = {
       version: 1 as const,
       routeRule,
-      budget: getCriticalBudget(stages),
+      budget: plan.budget,
       entries,
       routes: manifestRoutes,
     };
@@ -915,6 +949,13 @@ export {};
       version: 1,
       network: stages.network,
       order: ['critical', ...stages.order],
+      // Route JS is loaded by the router, not by an `import()` the
+      // application can declare; the analysis leaves it out.
+      routeChunks: [
+        ...new Set(
+          [...snapshot.routes.values()].flatMap(route => route.chunks),
+        ),
+      ],
       targets: plan.targets.map(target => ({
         kind: target.kind,
         name: target.name,

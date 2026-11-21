@@ -58,6 +58,7 @@ export default applyBaseConfig({
   performance: {
     resourceStages: {
       stages: { firstReply: { after: 'interactive', timeout: 500 } },
+      routes: true,
       idleQuietTime: 300,
     },
   },
@@ -182,9 +183,11 @@ describe.each([
     const visibleCss = declaration('./Visible').chunks.flatMap(chunk =>
       chunk.files.filter(file => file.endsWith('.css')),
     );
-    expect(Object.values(css).flat()).toEqual(
-      expect.arrayContaining(visibleCss),
-    );
+    // The lists keep CSS relative to the public path the browser uses.
+    const listedCss = Object.values(css).flat() as string[];
+    for (const file of visibleCss) {
+      expect(listedCss.some(item => file.endsWith(item))).toBe(true);
+    }
   });
 
   test('preloads critical declarations of the matched route', () => {
@@ -493,5 +496,146 @@ export default () => <Outlet />;
     expect(failed).toEqual([]);
     expect(prefetched.some(href => href.endsWith('.css'))).toBe(true);
     expect(prefetched.join()).not.toContain('undefined');
+  });
+});
+
+describe('resource stages (declaration forms)', () => {
+  let fixture: Awaited<ReturnType<typeof createIsolatedTestApp>>;
+  let app: ChildProcess | undefined;
+  let output: string;
+  let html: string;
+  let report: Report & {
+    declarations: (Report['declarations'][number] & { line: number })[];
+  };
+
+  // Comment and blank lines first: the reported lines count them.
+  const source = `// Declarations in the forms the build recognizes.
+// The stage below is not configured.
+
+import { Suspense, lazy } from 'react';
+import { stagedImport } from '@modern-js/runtime/resources';
+
+const Named = lazy(
+  stagedImport.visible(() => import('./Named').then(m => ({ default: m.Named }))),
+);
+const loadAwaited = stagedImport.idle(async () => {
+  return await import('./Awaited');
+});
+// @ts-expect-error not a configured stage
+const loadUnknown = stagedImport.notConfigured(() => import('./Unknown'));
+
+export default function Page() {
+  return (
+    <Suspense fallback="loading">
+      <Named />
+      <button id="load" type="button" onClick={() => Promise.all([loadAwaited(), loadUnknown()])}>load</button>
+    </Suspense>
+  );
+}
+`;
+
+  beforeAll(async () => {
+    fixture = await createIsolatedTestApp(fixtureDir);
+    const { appDir } = fixture;
+    await writeFile(
+      path.join(appDir, 'modern.config.ts'),
+      `import { applyBaseConfig } from '../../../../utils/applyBaseConfig';
+export default applyBaseConfig({
+  server: { ssr: true },
+  performance: { resourceStages: { idleQuietTime: 300 } },
+});`,
+    );
+    const dir = path.join(appDir, 'src/routes/stages');
+    await mkdir(dir, { recursive: true });
+    await writeFile(path.join(dir, 'page.tsx'), source);
+    await writeFile(
+      path.join(dir, 'Named.tsx'),
+      'export const Named = () => <div id="named">Named component</div>;\n',
+    );
+    for (const name of ['Awaited', 'Unknown']) {
+      await writeFile(path.join(dir, `${name}.tsx`), component(name));
+    }
+    const result = await modernBuild(appDir);
+    output = `${result.stdout}\n${result.stderr}`;
+    expect(result.code, output).toBe(0);
+    report = JSON.parse(
+      await readFile(path.join(appDir, 'dist/resource-stages.json'), 'utf-8'),
+    );
+    const port = await getPort();
+    app = await modernServe(appDir, port);
+    html = await (await fetch(`http://127.0.0.1:${port}/stages`)).text();
+  });
+
+  afterAll(async () => {
+    if (app) {
+      await killApp(app);
+    }
+    await fixture?.cleanup?.();
+  });
+
+  test('recognizes .then() and async functions, with source lines', () => {
+    const find = (request: string) =>
+      report.declarations.find(item => item.request === request);
+    expect(find('./Named')).toMatchObject({ stage: 'visible', line: 8 });
+    expect(find('./Awaited')).toMatchObject({ stage: 'idle', line: 10 });
+    expect(find('./Named')!.chunks.length).toBeGreaterThan(0);
+  });
+
+  test('warns about an unknown stage without failing the build', () => {
+    expect(output).toContain('unknown resource stage "notConfigured"');
+    expect(
+      report.declarations.find(item => item.request === './Unknown'),
+    ).toBeUndefined();
+  });
+
+  test('does not preload route JS unless routes is set', () => {
+    expect(html).not.toMatch(/<link\b[^>]*\bfetchpriority="low"/);
+    expect(html).toContain('__MODERN_RS__');
+  });
+});
+
+describe('resource stages (loadable with string SSR)', () => {
+  let fixture: Awaited<ReturnType<typeof createIsolatedTestApp>>;
+  let app: ChildProcess | undefined;
+
+  afterAll(async () => {
+    if (app) {
+      await killApp(app);
+    }
+    await fixture?.cleanup?.();
+  });
+
+  test('renders a staged loadable component on the server', async () => {
+    fixture = await createIsolatedTestApp(fixtureDir);
+    const { appDir } = fixture;
+    await writeFile(
+      path.join(appDir, 'modern.config.ts'),
+      `import { applyBaseConfig } from '../../../../utils/applyBaseConfig';
+export default applyBaseConfig({
+  server: { ssr: { mode: 'string' } },
+});`,
+    );
+    await rm(path.join(appDir, 'src/entry.server.tsx'));
+    const dir = path.join(appDir, 'src/routes/stages');
+    await mkdir(dir, { recursive: true });
+    await writeFile(
+      path.join(dir, 'page.tsx'),
+      `import loadable from '@modern-js/runtime/loadable';
+import { stagedImport } from '@modern-js/runtime/resources';
+
+const Editor = loadable(stagedImport.idle(() => import('./Editor')));
+
+export default function Page() {
+  return <Editor />;
+}
+`,
+    );
+    await writeFile(path.join(dir, 'Editor.tsx'), component('Editor'));
+    const result = await modernBuild(appDir);
+    expect(result.code, result.stderr || result.stdout).toBe(0);
+    const port = await getPort();
+    app = await modernServe(appDir, port);
+    const html = await (await fetch(`http://127.0.0.1:${port}/stages`)).text();
+    expect(html).toContain('Editor component');
   });
 });

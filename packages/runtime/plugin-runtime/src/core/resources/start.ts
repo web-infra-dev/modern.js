@@ -1,4 +1,5 @@
 import { getResourceStageScheduler } from './scheduler';
+import { getBundleId } from './bridge';
 
 /**
  * Start the scheduler with the runtime. Only called when
@@ -6,5 +7,5 @@ import { getResourceStageScheduler } from './scheduler';
  * with `stagedImport` start it with their first declaration.
  */
 export const startResourceStages = () => {
-  getResourceStageScheduler();
+  getResourceStageScheduler(getBundleId());
 };

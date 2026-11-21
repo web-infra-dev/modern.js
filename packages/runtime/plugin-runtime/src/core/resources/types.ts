@@ -33,7 +33,10 @@ export interface StagePayload {
   c?: RuntimeStageConfig;
   /** Stage name -> JS chunk ids to prefetch when the stage arrives. */
   s?: Record<string, ChunkId[]>;
-  /** Chunk id in `s` -> URLs of its CSS files. */
+  /**
+   * Chunk id in `s` -> its CSS files, relative to the public path of the
+   * bundler runtime (older builds wrote full URLs).
+   */
   k?: Record<string, string[]>;
   /**
    * Client rendered entries only: lists of each route, picked after the router
@@ -55,11 +58,15 @@ export interface StagePayload {
   a?: [stage: string, time: number];
   /** Pushed by the framework runtime: ids of the matched routes. */
   q?: string[];
+  /** Bundle that pushed `a` or `q`; payloads of another bundle are ignored. */
+  b?: string;
 }
 
 export interface RuntimeStageConfig {
   /** Scheduled stages in the order they are downloaded. */
   o: string[];
+  /** Bundle the lists were built for. */
+  b?: string;
   /** Stages the application marks itself. */
   m?: string[];
   /** Stage -> milliseconds after its previous stage before it is marked anyway. */

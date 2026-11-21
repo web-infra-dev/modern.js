@@ -10,6 +10,10 @@ Staged loading lets you declare, at the `import()`, the stage in which the code 
 
 A declaration only decides **when the download starts**; it never changes when the code runs. A wrong declaration only affects speed and traffic: if the code is needed before its file is prefetched, the file is loaded right away at normal priority.
 
+:::warning Experimental
+Staged resource loading is experimental. Its API and the manifest format may change in later versions.
+:::
+
 ## Declaring
 
 ```tsx
@@ -22,7 +26,29 @@ const Editor = lazy(stagedImport.interactive(() => import('./Editor')));
 const loadPlugins = stagedImport.idle(() => import('./plugins'));
 ```
 
-The argument must be a function that directly returns `import('<static path>')`, and the stage must be a built-in stage or a custom stage from the config; otherwise the build fails.
+The argument is a function that returns `import('<static path>')`. It may use `async`/`await`, and `.then()` may follow the `import()`, for example to pick a named export:
+
+```tsx
+const Panel = lazy(
+  stagedImport.visible(() =>
+    import('./Panel').then(m => ({ default: m.Panel })),
+  ),
+);
+```
+
+When the stage is neither built in nor declared in the config, or the argument has another form, the build shows a warning and the declaration is not prefetched; the code still loads when it is used, and the build does not fail. An `import()` whose path is built from variables cannot be mapped to files at build time and only warns as well.
+
+### With loadable and string SSR
+
+With string SSR, pass the declaration straight to loadable and the server still renders the component:
+
+```tsx
+import loadable from '@modern-js/runtime/loadable';
+
+const Editor = loadable(stagedImport.interactive(() => import('./Editor')));
+```
+
+The build recognizes `loadable(stagedImport.<stage>(() => import()))`. Write the declaration inside the loadable call; if it is first assigned to a variable, the server does not render the component.
 
 ## Stages
 
@@ -70,7 +96,7 @@ An application with its own lifecycle can set built-in stages to `manual: true` 
 
 ### Waiting for a stage
 
-`stagedImport.<stage>.ready()` resolves when the stage arrived and the files of it and every earlier stage are downloaded. Code that should run after a stage, such as warming up modules when idle, can wait for it; its files are then in the cache and it does not take bandwidth from earlier stages:
+`stagedImport.<stage>.ready()` resolves when the stage arrived and the files of it and every earlier stage are downloaded. `critical` and the element stages have no order: their `ready()` resolves when none of their files is downloading. An undeclared stage name resolves at once. Code that should run after a stage, such as warming up modules when idle, can wait for it; its files are then in the cache and it does not take bandwidth from earlier stages:
 
 ```ts
 stagedImport.idle.ready().then(() => warmUpMessagePlugins());
@@ -80,7 +106,9 @@ It resolves at once on the server.
 
 ## Route JS
 
-With streaming SSR and `performance.resourceStages` set, the JS of the matched routes is staged without declarations: the route component's own file is `critical`, and the shared chunks it depends on go to `critical` or `visible` by the `critical` budget. `critical` route JS is preloaded at low priority. Without `performance.resourceStages`, route JS is not preloaded. See [`routes`](/configure/app/performance/resource-stages#routes).
+With streaming SSR and [`routes: true`](/configure/app/performance/resource-stages#routes), the JS of the matched routes is staged without declarations: the route component's own file is `critical`, and the shared chunks it depends on go to `critical` or `visible` by the `critical` budget. `critical` route JS is preloaded at low priority. This is off by default.
+
+Client rendered entries add the declaration lists of the newly matched routes after each navigation. Server rendered entries only have the lists of the routes matched on the first screen; after navigating to another route, its declarations load on use.
 
 ## Browser support and limits
 
@@ -88,10 +116,12 @@ With streaming SSR and `performance.resourceStages` set, the JS of the matched r
 - **Browsers without `<link rel="prefetch">`** (Safari) skip the prefetch of every stage; the stages are listed in `skipped` of the loading records. `critical` preloads still apply, `ready()` still resolves, and code is loaded when it is used, as without a declaration.
 - **A prefetch that reports neither load nor error** stops holding its place after 30 seconds, so later files and stages are not blocked.
 - **Stages marked by the application** (`manual: true`) should set a `timeout`. Without one, later stages wait until the application marks the stage or a later one.
-- **Declarations in code that is loaded later** take effect when that code runs: without `performance.resourceStages`, the scheduler starts with the first declaration that is evaluated.
+- **Declarations in code that is loaded later** take effect when that code runs: without `performance.resourceStages`, the scheduler starts with the first declaration that is evaluated. Files downloaded before that are not prefetched again.
+- **With `assetPrefix: 'auto'`** the HTML cannot carry preload URLs, so `critical` is prefetched after first paint instead, with a build warning. When `__webpack_public_path__` changes at runtime (a CDN switch, for example), prefetches use the new path.
+- **Declarations in `node_modules`** are not scanned or prefetched by default; add packages with [`include`](/configure/app/performance/resource-stages#include). Workspace packages linked in a monorepo are scanned.
 - **Server rendered entries that fall back to client rendering** only get the entry level lists; the route level lists are added by the server when it renders.
 - **Subresource Integrity** ([`security.sri`](/configure/app/security/sri)): `critical` preloads carry the same `integrity` and `crossorigin` as the `<script>` or `<link>` that loads the file, so the browser reuses the preloaded file. Files prefetched by later stages are reused from the HTTP cache. A stage list written to a separate file (see [`inlineLimit`](/configure/app/performance/resource-stages#inlinelimit)) is loaded without `integrity`.
-- **Micro-frontend sub-applications and Module Federation remotes are not supported.** The lists are resolved with the chunk map of the application that owns the page. Declare stages in the host application; in a sub-application `stagedImport` loads the code on use, and element stages do not prefetch.
+- **Micro-frontend sub-applications and Module Federation remotes are not supported.** The lists are resolved with the chunk map of the application that owns the page. Declare stages in the host application; in a sub-application `stagedImport` loads the code on use, and element stages do not prefetch. Each application's build carries its own id, so the declarations, routes and stage notifications of a sub-application do not affect the host's scheduling.
 
 ## Build output
 

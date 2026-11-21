@@ -95,6 +95,7 @@ export const renderString: RenderString = async (
         template: htmlTemplate,
         loadedUrls: new Set([
           ...(routeAssets[entryName]?.assets ?? []),
+          ...(routeAssets[`async-${entryName}`]?.assets ?? []),
           ...getLoadedScriptUrls(htmlTemplate),
           ...getLoadedScriptUrls(chunkSet.jsChunk),
         ]),

@@ -7,6 +7,7 @@ import type {
 import type { CLIPluginAPI } from '@modern-js/plugin';
 import type { Entrypoint } from '@modern-js/types';
 import { LOADABLE_STATS_FILE, isUseSSRBundle } from '@modern-js/utils';
+import { getResourceStagesBundleId } from '@modern-js/utils/universal';
 import type { RsbuildPlugin } from '@rsbuild/core';
 import LoadableBundlerPlugin from './loadable-bundler-plugin';
 import { resolveSSRMode } from './mode';
@@ -86,6 +87,11 @@ const ssrBuilderPlugin = (
             'process.env.MODERN_RESOURCE_STAGES': JSON.stringify(
               Boolean(userConfig.performance?.resourceStages),
             ),
+            'process.env.MODERN_RESOURCE_STAGES_ID': JSON.stringify(
+              getResourceStagesBundleId(
+                appContext.packageName || appContext.appDirectory,
+              ),
+            ),
           },
         },
         output: {
@@ -99,15 +105,33 @@ const ssrBuilderPlugin = (
             isServerEnvironment && isUseSSRBundle(userConfig)
               ? { output: { strictModuleErrorHandling: true } }
               : undefined,
-          bundlerChain: useLoadablePlugin
-            ? chain => {
-                chain
-                  .plugin('loadable')
-                  .use(LoadableBundlerPlugin, [
-                    { filename: LOADABLE_STATS_FILE },
-                  ]);
-              }
-            : undefined,
+          bundlerChain:
+            useLoadablePlugin || useLoadableComponents
+              ? chain => {
+                  if (useLoadablePlugin) {
+                    chain
+                      .plugin('loadable')
+                      .use(LoadableBundlerPlugin, [
+                        { filename: LOADABLE_STATS_FILE },
+                      ]);
+                  }
+                  if (useLoadableComponents) {
+                    // Before the SWC loader, so the loadable SWC plugin sees
+                    // the annotation.
+                    chain.module
+                      .rule('loadable-staged-import')
+                      .test(/\.[cm]?[jt]sx?$/)
+                      .exclude.add(/[\\/]node_modules[\\/]/)
+                      .end()
+                      .enforce('pre')
+                      .use('loadable-staged-import')
+                      .loader(require.resolve('./loadableStagedImport'))
+                      .options({
+                        sources: ['@loadable/component', exportLoadablePath],
+                      });
+                  }
+                }
+              : undefined,
           swc: useLoadableComponents
             ? {
                 jsc: {

@@ -6,6 +6,7 @@ export {
   type ResourcePreloadPlan,
   type RoutePreloadPlan,
   type SizedResourcePreload,
+  getResourceStagesBundleId,
   selectMatchedResourcePreloads,
   selectResourcePreloads,
 } from './resourceStages';

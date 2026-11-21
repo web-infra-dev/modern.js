@@ -11,6 +11,7 @@ import {
   isUseSSRBundle,
   logger,
 } from '@modern-js/utils';
+import { getResourceStagesBundleId } from '@modern-js/utils/universal';
 import {
   type RsbuildPlugin,
   type RspackChain,
@@ -327,6 +328,11 @@ function applyResourceStagesPlugin(
             appContext.packageName,
           ),
         ),
+      isStreaming: (entryName: string) =>
+        isStreamingSSR(normalizedConfig, entryName, appContext),
+      bundleId: getResourceStagesBundleId(
+        appContext.packageName || appContext.appDirectory,
+      ),
       staticJsDir: normalizedConfig.output?.distPath?.js,
       disableFilenameHash: normalizedConfig.output?.filenameHash === false,
       nonce: normalizedConfig.security?.nonce,

@@ -21,7 +21,7 @@ interface ResourceStagesConfig {
     { after?: string; timeout?: number; manual?: boolean }
   >;
   routes?:
-    | false
+    | boolean
     | Record<string, 'critical' | 'visible' | 'interactive' | 'idle' | false>;
   concurrency?: number;
   inlineLimit?: string | number;
@@ -35,7 +35,11 @@ interface ResourceStagesConfig {
 
 - **默认值：** `undefined`
 
-配置[按阶段加载](/guides/advanced-features/page-performance/resource-stages)。代码里的 `stagedImport` 声明不需要这个配置也会生效；设置这个配置后，流式 SSR 的路由 JS 也按阶段输出，并启用预算检查。
+配置[按阶段加载](/guides/advanced-features/page-performance/resource-stages)。代码里用内置阶段的 `stagedImport` 声明不需要这个配置也会生效；自定义阶段、预算、流式 SSR 的路由 JS 预加载等需要在这里配置。
+
+:::warning 实验性
+按阶段加载目前是实验性功能，配置项和清单格式在后续版本中可能调整。
+:::
 
 ## targetNetwork
 
@@ -74,21 +78,26 @@ export default defineConfig({
 
 ## routes
 
-流式 SSR 下，自动预加载的路由 JS 使用剩余首屏预算，路由组件自身的文件优先于共享 chunk。预算内的路由 JS 以 `<link rel="preload" as="script" fetchpriority="low">` 输出，超出的放到 visible 阶段。路由 CSS 由流式 SSR 作为样式表输出。
+流式 SSR 页面的路由 JS 预加载，默认关闭。设为 `true` 后，命中路由的 JS 在首屏预算内以 `<link rel="preload" as="script" fetchpriority="low">` 输出，路由组件自身的文件优先于共享 chunk，超出预算的放到 visible 阶段。路由 CSS 已由流式 SSR 作为样式表输出，不再预加载。
 
-路由 JS 的 preload 只是 `performance.resourceStages` 的一部分。没有这项配置时，HTML 中不会有路由 JS 的 preload。
+```ts
+resourceStages: {
+  routes: true,
+}
+```
 
-按路由 id 指定阶段，或设为 `false` 关闭：
+也可以按路由 id 指定阶段，或设为 `false` 排除某个路由。传入对象时同样开启这项预加载：
 
 ```ts
 resourceStages: {
   routes: {
     'files/[id]/page': 'visible',
+    'settings/page': false,
   },
 }
 ```
 
-`routes: false` 关闭整个规则：框架不为路由 JS 输出 preload，和没有配置 `performance.resourceStages` 时一样。字符串 SSR 已经输出命中路由的脚本，不受这个规则影响。
+这项预加载只对流式 SSR 入口生效。客户端渲染和字符串 SSR 的入口不受影响：字符串 SSR 已经输出命中路由的脚本。
 
 ## concurrency
 
@@ -109,3 +118,7 @@ resourceStages: {
 ## baseline
 
 上一次构建输出的 `resource-stages.json` 的路径。某个阶段的字节数比基线增长超过 `baselineThreshold`（默认 `10`，单位 %）时告警。
+
+## include
+
+默认不扫描 `node_modules` 里的源码文件，其中的 `stagedImport` 声明不预取。需要扫描的包在这里用字符串（路径包含）或正则匹配。monorepo 里通过软链引用的工作区包解析到源码目录，默认就会扫描。
