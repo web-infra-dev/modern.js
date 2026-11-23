@@ -13,8 +13,8 @@
     "vue": "^3.5.41"
   },
   "devDependencies": {
-    "@modern-js/builder": "workspace:*",
-    "@modern-js/utils": "workspace:*",
+    "@modern-js/builder": "workspace:0.0.0-canary-verify.r20261123-bd79a7b7a3e56929456745506e1fd602",
+    "@modern-js/utils": "workspace:0.0.0-canary-verify.r20261123-bd79a7b7a3e56929456745506e1fd602",
     "@playwright/test": "1.64.1",
     "@rsbuild/core": "2.3.3",
     "@types/connect": "^3.4.38",
