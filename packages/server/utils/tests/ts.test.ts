@@ -167,14 +167,18 @@ describe('server compile', () => {
       expect(api()).toBe('api');
 
       const config = await lastConfig();
-      expect(config.extends).toBe(path.join(appDir, 'tsconfig.json'));
+      expect(config.extends).toBe(
+        path.join(appDir, 'tsconfig.json').replace(/\\/g, '/'),
+      );
       expect(config.compilerOptions).toMatchObject({
         module: 'NodeNext',
         moduleResolution: 'NodeNext',
         noEmit: true,
       });
       expect(config.compilerOptions.ignoreDeprecations).toBeUndefined();
-      expect(config.include).toEqual([path.join(appDir, 'api/**/*')]);
+      expect(config.include).toEqual([
+        path.join(appDir, 'api/**/*').replace(/\\/g, '/'),
+      ]);
     } finally {
       await fs.remove(appDir);
     }

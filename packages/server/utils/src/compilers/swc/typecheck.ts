@@ -91,6 +91,9 @@ const findNearest = (configFiles: string[], key: 'include' | 'files') => {
 
 const isDeclarationEntry = (entry: string) => entry.endsWith('.d.ts');
 
+// tsconfig `include` globs only understand forward slashes.
+const toPosix = (file: string) => file.replace(/\\/g, '/');
+
 export interface TypeCheckOptions {
   appDirectory: string;
   tsconfigPath: string;
@@ -121,22 +124,24 @@ export const writeTypeCheckConfig = (
   } = options;
   const { files: configFiles } = readTsConfigWithExtends(tsconfigPath);
 
-  const include = sourceDirs.map(dir => path.join(dir, '**/*'));
+  const include = sourceDirs.map(dir => toPosix(path.join(dir, '**/*')));
   const nearestInclude = findNearest(configFiles, 'include');
   for (const entry of nearestInclude?.entries ?? []) {
     const absolute = path.resolve(nearestInclude!.dir, entry);
     include.push(
-      isDeclarationEntry(entry) ? absolute : path.join(absolute, '**/*.d.ts'),
+      toPosix(
+        isDeclarationEntry(entry) ? absolute : path.join(absolute, '**/*.d.ts'),
+      ),
     );
   }
   const nearestFiles = findNearest(configFiles, 'files');
   const files = (nearestFiles?.entries ?? [])
     .filter(isDeclarationEntry)
-    .map(entry => path.resolve(nearestFiles!.dir, entry));
+    .map(entry => toPosix(path.resolve(nearestFiles!.dir, entry)));
 
   const major = Number(typescriptVersion.split('.')[0]);
   const config = {
-    extends: path.resolve(tsconfigPath),
+    extends: toPosix(path.resolve(tsconfigPath)),
     compilerOptions: {
       ...compilerOverrides,
       // TS5101 and the other TypeScript 6 deprecations only concern the
