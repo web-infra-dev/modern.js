@@ -1,19 +1,19 @@
 {
   "private": true,
   "name": "i18n-routes",
-  "version": "2.66.8",
+  "version": "0.0.0-canary-verify.r20261123-4cb030bd2bf07c9228c8c3ac31b1cce9",
   "scripts": {
     "dev": "modern dev"
   },
   "dependencies": {
-    "@modern-js/plugin-i18n": "workspace:*",
-    "@modern-js/runtime": "workspace:*",
+    "@modern-js/plugin-i18n": "workspace:0.0.0-canary-verify.r20261123-4cb030bd2bf07c9228c8c3ac31b1cce9",
+    "@modern-js/runtime": "workspace:0.0.0-canary-verify.r20261123-4cb030bd2bf07c9228c8c3ac31b1cce9",
     "i18next": "25.10.10",
     "react": "^19.3.1",
     "react-dom": "^19.3.1",
     "react-i18next": "15.7.4"
   },
   "devDependencies": {
-    "@modern-js/app-tools": "workspace:*"
+    "@modern-js/app-tools": "workspace:0.0.0-canary-verify.r20261123-4cb030bd2bf07c9228c8c3ac31b1cce9"
   }
 }

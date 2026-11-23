@@ -13,16 +13,16 @@
     "node": ">=20.19.5"
   },
   "dependencies": {
-    "@modern-js/plugin-ssg": "latest",
-    "@modern-js/runtime": "latest",
+    "@modern-js/plugin-ssg": "workspace:0.0.0-canary-verify.r20261123-4cb030bd2bf07c9228c8c3ac31b1cce9",
+    "@modern-js/runtime": "workspace:0.0.0-canary-verify.r20261123-4cb030bd2bf07c9228c8c3ac31b1cce9",
     "react": "^19.2.8",
     "react-dom": "^19.2.8",
     "zephyr-modernjs-plugin": "1.1.0",
     "zephyr-rspack-plugin": "1.1.0"
   },
   "devDependencies": {
-    "@modern-js/app-tools": "latest",
-    "@modern-js/tsconfig": "latest",
+    "@modern-js/app-tools": "workspace:0.0.0-canary-verify.r20261123-4cb030bd2bf07c9228c8c3ac31b1cce9",
+    "@modern-js/tsconfig": "workspace:0.0.0-canary-verify.r20261123-4cb030bd2bf07c9228c8c3ac31b1cce9",
     "@types/node": "^20",
     "@types/react": "^19.2.17",
     "@types/react-dom": "^19.2.3",

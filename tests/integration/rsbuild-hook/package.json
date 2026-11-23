@@ -1,14 +1,14 @@
 {
   "private": true,
   "name": "app-rsbuild-hooks",
-  "version": "2.66.8",
+  "version": "0.0.0-canary-verify.r20261123-4cb030bd2bf07c9228c8c3ac31b1cce9",
   "scripts": {
     "dev": "modern dev",
     "build": "modern build"
   },
   "dependencies": {
-    "@modern-js/app-tools": "workspace:*",
-    "@modern-js/runtime": "workspace:*",
+    "@modern-js/app-tools": "workspace:0.0.0-canary-verify.r20261123-4cb030bd2bf07c9228c8c3ac31b1cce9",
+    "@modern-js/runtime": "workspace:0.0.0-canary-verify.r20261123-4cb030bd2bf07c9228c8c3ac31b1cce9",
     "react": "^19.3.1",
     "react-dom": "^19.3.1"
   }
