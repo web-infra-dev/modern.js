@@ -222,6 +222,24 @@ const SPAN_ANCHOR = '0;';
  * source text. Only the string literals change; everything else, including
  * import attributes and comments, is kept byte for byte.
  */
+/** Module specifiers of `source` (the same set {@link rewriteSpecifiers} rewrites). */
+export const listSpecifiers = (
+  source: string,
+  { typescript, tsx = false }: { typescript: boolean; tsx?: boolean },
+): string[] => {
+  const ast = parseSync(source.startsWith('#!') ? `//${source}` : source, {
+    syntax: typescript ? 'typescript' : 'ecmascript',
+    ...(typescript
+      ? { tsx, decorators: true }
+      : { jsx: true, decorators: true }),
+    target: 'esnext',
+    comments: false,
+  } as Parameters<typeof parseSync>[1]);
+  const literals: StringLiteral[] = [];
+  collectSpecifiers(ast.body, literals);
+  return literals.map(literal => literal.value);
+};
+
 export const rewriteSpecifiers = (
   source: string,
   filename: string,

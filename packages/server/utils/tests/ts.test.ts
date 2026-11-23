@@ -176,8 +176,9 @@ describe('server compile', () => {
         noEmit: true,
       });
       expect(config.compilerOptions.ignoreDeprecations).toBeUndefined();
-      expect(config.include).toEqual([
-        path.join(appDir, 'api/**/*').replace(/\\/g, '/'),
+      expect(config.include).toEqual([]);
+      expect(config.files).toEqual([
+        path.join(appDir, 'api/index.ts').replace(/\\/g, '/'),
       ]);
     } finally {
       await fs.remove(appDir);
@@ -219,6 +220,48 @@ describe('server compile', () => {
     } finally {
       exit.mockRestore();
       error.mockRestore();
+      await fs.remove(appDir);
+    }
+  });
+
+  it('emits only the tsconfig files and their imports, like the TypeScript program', async () => {
+    const appDir = await fs.mkdtemp(
+      path.join(os.tmpdir(), 'server-utils-files-'),
+    );
+    try {
+      await fs.outputFile(
+        path.join(appDir, 'server/entry.ts'),
+        "import { marker } from '../shared/marker';\nexport default marker;\n",
+      );
+      await fs.outputFile(
+        path.join(appDir, 'shared/marker.ts'),
+        "export const marker = 'marker';\n",
+      );
+      await fs.outputFile(
+        path.join(appDir, 'server/index.ts'),
+        "export const collision = 'must-not-emit';\n",
+      );
+      await fs.outputJSON(path.join(appDir, 'tsconfig.server.json'), {
+        compilerOptions: { target: 'ES2020' },
+        files: ['server/entry.ts'],
+      });
+
+      await compile(appDir, { alias: {} } as any, {
+        sourceDirs: [path.join(appDir, 'server'), path.join(appDir, 'shared')],
+        distDir: path.join(appDir, 'dist'),
+        tsconfigPath: path.join(appDir, 'tsconfig.server.json'),
+      });
+
+      expect(require(path.join(appDir, 'dist/server/entry')).default).toBe(
+        'marker',
+      );
+      expect(
+        await fs.pathExists(path.join(appDir, 'dist/shared/marker.js')),
+      ).toBe(true);
+      expect(
+        await fs.pathExists(path.join(appDir, 'dist/server/index.js')),
+      ).toBe(false);
+    } finally {
       await fs.remove(appDir);
     }
   });

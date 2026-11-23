@@ -79,7 +79,10 @@ export const findProjectTypeScript = (
 
 // `include` / `files` are inherited from the nearest config that declares
 // them, so look them up along the `extends` chain, entry file first.
-const findNearest = (configFiles: string[], key: 'include' | 'files') => {
+export const findNearest = (
+  configFiles: string[],
+  key: 'include' | 'files' | 'exclude',
+) => {
   for (const file of [...configFiles].reverse()) {
     const raw = readTsConfigByFile(file);
     if (Array.isArray(raw?.[key])) {
@@ -99,6 +102,8 @@ export interface TypeCheckOptions {
   tsconfigPath: string;
   sourceDirs: string[];
   distDir: string;
+  /** The files the compile emits; tsc follows their imports itself. */
+  programFiles: string[];
   compilerOverrides?: CompilerOverrides;
   /** Emit `.d.ts` next to the compiled output. */
   declaration: boolean;
@@ -106,9 +111,9 @@ export interface TypeCheckOptions {
 
 /**
  * Write the tsconfig the server type check runs with: it extends the server
- * tsconfig, keeps only the server directories plus the project's ambient
- * `.d.ts` files (as the in-process compile did), and turns emit off except
- * for declarations.
+ * tsconfig, checks the compiled files plus the project's ambient `.d.ts`
+ * files (the program the in-process compile used to build), and turns emit
+ * off except for declarations.
  */
 export const writeTypeCheckConfig = (
   options: TypeCheckOptions,
@@ -117,14 +122,14 @@ export const writeTypeCheckConfig = (
   const {
     appDirectory,
     tsconfigPath,
-    sourceDirs,
     distDir,
+    programFiles,
     compilerOverrides,
     declaration,
   } = options;
   const { files: configFiles } = readTsConfigWithExtends(tsconfigPath);
 
-  const include = sourceDirs.map(dir => toPosix(path.join(dir, '**/*')));
+  const include: string[] = [];
   const nearestInclude = findNearest(configFiles, 'include');
   for (const entry of nearestInclude?.entries ?? []) {
     const absolute = path.resolve(nearestInclude!.dir, entry);
@@ -135,9 +140,12 @@ export const writeTypeCheckConfig = (
     );
   }
   const nearestFiles = findNearest(configFiles, 'files');
-  const files = (nearestFiles?.entries ?? [])
-    .filter(isDeclarationEntry)
-    .map(entry => toPosix(path.resolve(nearestFiles!.dir, entry)));
+  const files = [
+    ...programFiles.map(toPosix),
+    ...(nearestFiles?.entries ?? [])
+      .filter(isDeclarationEntry)
+      .map(entry => toPosix(path.resolve(nearestFiles!.dir, entry))),
+  ];
 
   const major = Number(typescriptVersion.split('.')[0]);
   const config = {
@@ -180,6 +188,9 @@ export const runTypeCheck = (
   const typescript = findProjectTypeScript(options.appDirectory);
   if (!typescript) {
     return undefined;
+  }
+  if (options.programFiles.length === 0) {
+    return { ok: true, output: '' };
   }
   const configPath = writeTypeCheckConfig(options, typescript.version);
   const result = spawnSync(
