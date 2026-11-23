@@ -2,7 +2,7 @@
   "private": true,
   "type": "module",
   "name": "integration-tailwindcss-v4-tools",
-  "version": "2.66.7",
+  "version": "0.0.0-canary-verify.r20261123-ae2ecce310e5319e96cf85cfe1bf1d89",
   "scripts": {
     "dev": "modern dev",
     "build": "modern build",
@@ -10,8 +10,8 @@
     "new": "modern new"
   },
   "dependencies": {
-    "@modern-js/app-tools": "workspace:*",
-    "@modern-js/runtime": "workspace:*",
+    "@modern-js/app-tools": "workspace:0.0.0-canary-verify.r20261123-ae2ecce310e5319e96cf85cfe1bf1d89",
+    "@modern-js/runtime": "workspace:0.0.0-canary-verify.r20261123-ae2ecce310e5319e96cf85cfe1bf1d89",
     "postcss": "^8.5.31",
     "react": "^19.3.1",
     "react-dom": "^19.3.1",

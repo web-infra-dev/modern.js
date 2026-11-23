@@ -1,6 +1,6 @@
 {
   "name": "@modern-js/builder",
-  "version": "3.11.3",
+  "version": "0.0.0-canary-verify.r20261123-ae2ecce310e5319e96cf85cfe1bf1d89",
   "description": "A builder for Modern.js",
   "repository": {
     "type": "git",
@@ -32,7 +32,7 @@
     "test:watch": "rstest watch"
   },
   "dependencies": {
-    "@modern-js/utils": "workspace:*",
+    "@modern-js/utils": "workspace:0.0.0-canary-verify.r20261123-ae2ecce310e5319e96cf85cfe1bf1d89",
     "@rsbuild/core": "2.3.2",
     "@rsbuild/plugin-assets-retry": "2.0.2",
     "@rsbuild/plugin-check-syntax": "2.0.1",
@@ -67,7 +67,7 @@
   },
   "devDependencies": {
     "@modern-js/rslib": "workspace:*",
-    "@modern-js/types": "workspace:*",
+    "@modern-js/types": "workspace:0.0.0-canary-verify.r20261123-ae2ecce310e5319e96cf85cfe1bf1d89",
     "@scripts/rstest-config": "workspace:*",
     "@types/html-minifier-terser": "^7.0.2",
     "@types/lodash": "^4.17.27",
