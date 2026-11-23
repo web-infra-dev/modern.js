@@ -44,7 +44,7 @@ A project keeps one main `tsconfig.json` and, when it has server-side code, a `t
 
 When the project has a BFF (`api/`) or a custom server (`server/`), add `"@api/*": ["./api/lambda/*"]` to `paths` and `api` / `server` to `include`.
 
-`tsconfig.server.json` (used by Modern.js to compile `api/`, `server/` and `shared/`, and by ts-node at dev time):
+`tsconfig.server.json` (used by Modern.js to compile and type-check `api/`, `server/` and `shared/`, and to run them at dev time):
 
 ```json
 {
@@ -59,24 +59,25 @@ When the project has a BFF (`api/`) or a custom server (`server/`), add `"@api/*
 }
 ```
 
-The four `compilerOptions` are exactly what `@modern-js/tsconfig/server` carries. They are inlined rather than added as a second `extends` entry because ts-node 10 does not support `extends` arrays, and `tsconfig.server.json` is also what ts-node reads at dev time.
+The four `compilerOptions` are exactly what `@modern-js/tsconfig/server` carries. They are inlined rather than added as a second `extends` entry so tools still on ts-node 10, which does not support `extends` arrays, can read the file.
 
 Rules:
 
 - `paths` stays in `tsconfig.json`. TypeScript replaces `paths` wholesale across `extends`, so never declare `paths` in `tsconfig.server.json`.
 - Modern.js picks the server config in this order: `server.tsconfigPath` → `<appDir>/tsconfig.server.json` → `<appDir>/tsconfig.json`.
-- Only the last fallback is rewritten: when `tsconfig.json` resolves to an ESM `module` (for example `ESNext`) and `package.json#type` is not `module`, Modern.js compiles server code with `module: NodeNext` / `moduleResolution: NodeNext` and prints a one-time warning suggesting `tsconfig.server.json`.
+- Server code is transpiled with SWC and its output format follows `package.json#type`; the type check runs the project's own `tsc` command (TypeScript 5, 6 and 7 all work).
+- Only the last fallback is rewritten, for the type check: when `tsconfig.json` resolves to an ESM `module` (for example `ESNext`) and `package.json#type` is not `module`, it runs with `module: NodeNext` / `moduleResolution: NodeNext`.
 
 ## Migrating an existing project
 
-Modern.js does not generate `tsconfig.server.json`, and it does not rewrite your `tsconfig.json`. Projects created from the previous template still carry `"baseUrl": "./"`, which TypeScript 6 reports as TS5101. The `modernjs-migrate-to-v3` Skill ships a script that fixes this:
+Modern.js does not generate `tsconfig.server.json`, and it does not rewrite your `tsconfig.json`. Projects created from the previous template still carry `"baseUrl": "./"`, which TypeScript 6 reports as TS5101 and TypeScript 7 rejects (TS5102). The `modernjs-migrate-tsconfig` Skill rewrites it into equivalent `paths`:
 
 ```bash
-npx skills add web-infra-dev/modern.js --skill modernjs-migrate-to-v3
+npx skills add web-infra-dev/modern.js --skill modernjs-migrate-tsconfig
 node <skillDir>/scripts/migrate-tsconfig.mjs <projectDir>
 ```
 
-It removes `baseUrl: "./"` / `"."` when `paths` exists, adds `"@api/*": ["./api/lambda/*"]` for BFF projects, and writes the `tsconfig.server.json` above for CommonJS projects with `api/` or `server/`. A custom `baseUrl` (such as `"./src"`) is left in place and reported as a manual step: prefix each `paths` entry with the old `baseUrl` (`"@/*": ["*"]` becomes `"@/*": ["./src/*"]`), then remove `baseUrl`. See [TypeScript Configuration](https://modernjs.dev/en/guides/basic-features/typescript) for the full rules.
+It prefixes every `paths` target with the old `baseUrl`, adds `"*"` when source files use bare imports resolved through `baseUrl`, adds `"@api/*": ["./api/lambda/*"]` for BFF projects, and writes the `tsconfig.server.json` above for CommonJS projects with `api/` or `server/`. A `baseUrl` or `paths` declared in an `extends` parent is reported as a manual step instead. See [TypeScript Configuration](https://modernjs.dev/en/guides/basic-features/typescript) for the full rules.
 
 ## Getting Started
 

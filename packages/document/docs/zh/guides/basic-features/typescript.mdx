@@ -45,15 +45,15 @@ Modern.js 通过 `@modern-js/tsconfig` 提供共享的 TypeScript 预设。一�
 }
 ```
 
-框架编译 `api/`、`server/`、`shared/` 以及开发时注册 ts-node 都会使用这份文件。这四个 `compilerOptions` 只覆盖各自的键，其余选项（包括 `paths`）全部继承自 `tsconfig.json`。它们与 `@modern-js/tsconfig/server` 的内容一致，直接写在文件内是因为 ts-node 10 不支持 `extends` 数组。
+框架编译 `api/`、`server/`、`shared/`（SWC 转译 + 项目 `tsc` 类型检查）以及开发时运行服务端源码都会使用这份文件。这四个 `compilerOptions` 只覆盖各自的键，其余选项（包括 `paths`）全部继承自 `tsconfig.json`。它们与 `@modern-js/tsconfig/server` 的内容一致，直接写在文件内是为了兼容仍在使用 ts-node 10 的工具（它不支持 `extends` 数组）。
 
 ## 为什么需要两份文件
 
-打包器希望看到 `module: ESNext`，而 Node 侧的产物必须与 `package.json#type` 一致：没有 `"type": "module"` 的项目需要 CommonJS 产物。同一份 `module` 取值无法同时满足两边，因此服务端单独覆盖模块选项。
+打包器希望看到 `module: ESNext`，而服务端代码的类型检查应按 Node 的规则解析模块（`NodeNext`）。同一份 `module` 取值无法同时满足两边，因此服务端单独覆盖模块选项。产物格式由框架按 `package.json#type` 决定，与这两个字段无关。
 
 ## 没有 `tsconfig.server.json` 会怎样
 
-框架按「`server.tsconfigPath` → `tsconfig.server.json` → `tsconfig.json`」的顺序解析服务端配置。按约定使用 `tsconfig.server.json` 时，启动会打印一行日志说明实际使用的文件。只有回退到 `tsconfig.json` 且它的 `module` 是 ES Module 取值、而项目又不是 `type: module` 时，框架才会改用 `module: NodeNext` + `moduleResolution: NodeNext` 编译服务端代码，并打印一次警告。`type: module` 项目不会被改写。完整规则见 [server.tsconfigPath](/configure/app/server/tsconfig-path)。
+框架按「`server.tsconfigPath` → `tsconfig.server.json` → `tsconfig.json`」的顺序解析服务端配置。按约定使用 `tsconfig.server.json` 时，启动会打印一行日志说明实际使用的文件。回退到 `tsconfig.json` 时，产物照样跟随 `package.json#type`（CommonJS 项目仍是 `require`），不会打印提示；只有它的 `module` 是 ES Module 取值、而项目又不是 `type: module` 时，类型检查改用 `module: NodeNext` + `moduleResolution: NodeNext`。`type: module` 项目不会被改写。完整规则见 [server.tsconfigPath](/configure/app/server/tsconfig-path)。
 
 ## 迁移存量项目
 
@@ -111,5 +111,6 @@ node <skillDir>/scripts/migrate-tsconfig.mjs <projectDir>
 
 - 不要在 `tsconfig.server.json` 中声明 `paths`：TypeScript 对 `paths` 是整体替换，而不是逐键合并。
 - 不再需要 `baseUrl`。`paths` 中的相对路径以声明它的文件所在目录为基准。
-- 项目在 TypeScript 6 下保留 `baseUrl` 时，服务端编译会忽略 TS5101 这一条废弃提示，不会因此构建失败；其他类型错误照常报错。
+- 项目在 TypeScript 6 下保留 `baseUrl` 时，服务端类型检查会忽略 TS5101 等废弃提示，不会因此构建失败；其他类型错误照常报错。
+- 服务端编译不依赖 TypeScript 的 JS API，项目使用 TypeScript 7 时 BFF 与自定义 Server 同样可用；不再需要安装 ts-node。
 - `@modern-js/tsconfig` 与 `@modern-js/app-tools` 保持同一版本：框架需要支持从 bundler 模式的 `tsconfig.json` 编译 `api/`、`server/` 和 `shared/`。

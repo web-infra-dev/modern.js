@@ -45,15 +45,15 @@ When the project has a BFF (`api/`) or a custom server (`server/`), add `"@api/*
 }
 ```
 
-The framework uses this file to compile `api/`, `server/` and `shared/`, and for ts-node at dev time. The four `compilerOptions` override only their own keys; everything else, including `paths`, is inherited from `tsconfig.json`. They are the same fields as `@modern-js/tsconfig/server`, inlined because ts-node 10 does not support `extends` arrays.
+The framework uses this file to compile `api/`, `server/` and `shared/` (SWC transpile plus a type check with the project's `tsc`) and to run server source at dev time. The four `compilerOptions` override only their own keys; everything else, including `paths`, is inherited from `tsconfig.json`. They are the same fields as `@modern-js/tsconfig/server`, inlined so tools still on ts-node 10 (which does not support `extends` arrays) can read the file.
 
 ## Why two files
 
-Bundlers expect `module: ESNext`, while Node-side output has to match `package.json#type`: a project without `"type": "module"` needs CommonJS output. No single `module` value satisfies both, so the server side overrides the module options separately.
+Bundlers expect `module: ESNext`, while the type check of server code should resolve modules the way Node does (`NodeNext`). No single `module` value satisfies both, so the server side overrides the module options separately. The output format is decided by the framework from `package.json#type`, independently of these two fields.
 
 ## Without `tsconfig.server.json`
 
-The server config is resolved as `server.tsconfigPath` → `tsconfig.server.json` → `tsconfig.json`. When `tsconfig.server.json` is picked up by convention, a one-line message shows which file is used. Only when the framework falls back to `tsconfig.json`, its `module` is an ES module value, and the project is not `type: module`, server code is compiled with `module: NodeNext` + `moduleResolution: NodeNext` and a one-time warning is printed. `type: module` projects are never rewritten. See [server.tsconfigPath](/configure/app/server/tsconfig-path) for the full rule.
+The server config is resolved as `server.tsconfigPath` → `tsconfig.server.json` → `tsconfig.json`. When `tsconfig.server.json` is picked up by convention, a one-line message shows which file is used. When it falls back to `tsconfig.json`, the output still follows `package.json#type` (a CommonJS project still gets `require`) and nothing is reported; only when its `module` is an ES module value and the project is not `type: module` does the type check use `module: NodeNext` + `moduleResolution: NodeNext`. `type: module` projects are never rewritten. See [server.tsconfigPath](/configure/app/server/tsconfig-path) for the full rule.
 
 ## Migrating an existing project
 
@@ -111,5 +111,6 @@ Without such bare imports no `"*"` mapping is added. Without the Skill, apply th
 
 - Never declare `paths` in `tsconfig.server.json`: TypeScript replaces `paths` wholesale instead of merging it key by key.
 - `baseUrl` is no longer needed. Relative entries in `paths` are resolved against the directory of the file that declares them.
-- If a project keeps `baseUrl` on TypeScript 6, the server build ignores the TS5101 deprecation and does not fail because of it; other type errors still fail the build.
+- If a project keeps `baseUrl` on TypeScript 6, the server type check ignores TS5101 and the other deprecations and does not fail because of them; other type errors still fail the build.
+- The server compile does not rely on the TypeScript JS API, so BFF and custom servers keep working on TypeScript 7; ts-node is no longer needed.
 - Keep `@modern-js/tsconfig` and `@modern-js/app-tools` on the same version: the framework has to know how to compile `api/`, `server/` and `shared/` from a bundler-mode `tsconfig.json`.
