@@ -48,7 +48,7 @@
   },
   "dependencies": {
     "@modern-js/utils": "workspace:*",
-    "@swc/core": "1.16.21",
+    "@swc/core": "1.16.22",
     "@swc/helpers": "^0.5.17"
   },
   "devDependencies": {

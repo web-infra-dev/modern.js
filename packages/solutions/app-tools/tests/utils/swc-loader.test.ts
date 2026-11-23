@@ -241,7 +241,13 @@ describe('swc-loader', () => {
                 appDir: ${JSON.stringify(appDir)},
                 baseUrl: ${JSON.stringify(appDir)},
                 paths: {},
-                compilerOptions: { target: 'ES2022' },
+                swcOptions: {
+                  '.ts': {
+                    swcrc: false,
+                    module: { type: 'es6' },
+                    jsc: { target: 'es2022', parser: { syntax: 'typescript' } },
+                  },
+                },
               },
             });
             const { result } = await import(pathToFileURL(${JSON.stringify(entryFile)}).href);

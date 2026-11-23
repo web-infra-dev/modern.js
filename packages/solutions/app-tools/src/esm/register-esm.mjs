@@ -6,7 +6,7 @@ export const registerSwcModuleHooks = async ({
   distDir,
   baseUrl,
   paths,
-  compilerOptions,
+  swcOptions,
 }) => {
   const { register } = await import('node:module');
   register('./swc-loader.mjs', import.meta.url, {
@@ -15,7 +15,7 @@ export const registerSwcModuleHooks = async ({
       distDir,
       baseUrl,
       paths,
-      compilerOptions,
+      swcOptions,
     },
   });
 };

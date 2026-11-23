@@ -43,7 +43,7 @@ const TS_FOR_JS: Record<string, string[]> = {
   '.cjs': ['.cts'],
 };
 
-export const getTypeScriptCandidates = (request: string): string[] => {
+const getTypeScriptCandidates = (request: string): string[] => {
   if (!request.startsWith('./') && !request.startsWith('../')) {
     return [];
   }
