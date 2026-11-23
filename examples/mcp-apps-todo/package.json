@@ -8,10 +8,10 @@
     "serve": "modern serve"
   },
   "dependencies": {
-    "@modern-js/runtime": "latest",
-    "@modern-js/mcp-apps": "latest",
-    "@modern-js/server-runtime": "latest",
-    "@modern-js/plugin-bff": "latest",
+    "@modern-js/runtime": "workspace:0.0.0-canary-verify.r20261123-7bc248a2824fbcf7be744f19e39161b2",
+    "@modern-js/mcp-apps": "workspace:0.0.0-canary-verify.r20261123-7bc248a2824fbcf7be744f19e39161b2",
+    "@modern-js/server-runtime": "workspace:0.0.0-canary-verify.r20261123-7bc248a2824fbcf7be744f19e39161b2",
+    "@modern-js/plugin-bff": "workspace:0.0.0-canary-verify.r20261123-7bc248a2824fbcf7be744f19e39161b2",
     "@modelcontextprotocol/server": "2.3.1",
     "@modelcontextprotocol/ext-apps": "2.0.3",
     "@module-federation/enhanced": "2.0.0",
@@ -20,8 +20,8 @@
     "zod": "^4.2.0"
   },
   "devDependencies": {
-    "@modern-js/app-tools": "latest",
-    "@modern-js/tsconfig": "latest",
+    "@modern-js/app-tools": "workspace:0.0.0-canary-verify.r20261123-7bc248a2824fbcf7be744f19e39161b2",
+    "@modern-js/tsconfig": "workspace:0.0.0-canary-verify.r20261123-7bc248a2824fbcf7be744f19e39161b2",
     "@module-federation/modern-js-v3": "2.0.0",
     "@types/react": "^19.3.0",
     "@types/react-dom": "^19.3.0",
