@@ -1217,11 +1217,11 @@ importers:
   packages/runtime/plugin-image:
     dependencies:
       '@rsbuild-image/core':
-        specifier: 0.0.1-next.16
-        version: 0.0.1-next.16(ipx@3.1.3(ioredis@5.8.2))(react-dom@19.3.1(react@19.3.1))(react@19.3.1)(sharp@0.35.5(@types/node@20.19.27))
+        specifier: 0.0.1-next.36
+        version: 0.0.1-next.36(ipx@3.1.3(ioredis@5.8.2))(react-dom@19.3.1(react@19.3.1))(react@19.3.1)(sharp@0.35.5(@types/node@20.19.27))
       '@rsbuild-image/react':
         specifier: 0.0.1-next.16
-        version: 0.0.1-next.16(@rsbuild-image/core@0.0.1-next.16(ipx@3.1.3(ioredis@5.8.2))(react-dom@19.3.1(react@19.3.1))(react@19.3.1)(sharp@0.35.5(@types/node@20.19.27)))(ipx@3.1.3(ioredis@5.8.2))(react-dom@19.3.1(react@19.3.1))(react@19.3.1)(sharp@0.35.5(@types/node@20.19.27))
+        version: 0.0.1-next.16(@rsbuild-image/core@0.0.1-next.36(ipx@3.1.3(ioredis@5.8.2))(react-dom@19.3.1(react@19.3.1))(react@19.3.1)(sharp@0.35.5(@types/node@20.19.27)))(ipx@3.1.3(ioredis@5.8.2))(react-dom@19.3.1(react@19.3.1))(react@19.3.1)(sharp@0.35.5(@types/node@20.19.27))
       ipx:
         specifier: ^3.1.3
         version: 3.1.3(ioredis@5.8.2)
@@ -7938,8 +7938,8 @@ packages:
     cpu: [x64]
     os: [win32]
 
-  '@rsbuild-image/core@0.0.1-next.16':
-    resolution: {integrity: sha512-CA788hY+ZKOMdfdGr1hamyBcS6BBZmq7aBk/bTv8OKnL6iZ3Lyw3TBBvBGG4SQtm86+0djpK3fef3oQNOCcsXQ==}
+  '@rsbuild-image/core@0.0.1-next.36':
+    resolution: {integrity: sha512-GfYFL8JyqFZIZUzq7jGz6t+oWAaS3gOd8NqL7SIJCgLqeWJtVx5fE54sxhMfzINCi/Sy/r+BR5XizMBqGPOO9Q==}
     peerDependencies:
       ipx: '>=3.0.3'
       react: '>=16.9.0'
@@ -12958,6 +12958,9 @@ packages:
   kleur@3.0.3:
     resolution: {integrity: sha512-eTIzlVOSUR+JxdDFepEYcBMtZ9Qqdef+rnzWdRZuMbOywu5tO2w2N7rqjoANZ5k9vywhL6Br1VRjUIgTQx4E8w==}
     engines: {node: '>=6'}
+
+  knitwork@1.3.0:
+    resolution: {integrity: sha512-4LqMNoONzR43B1W0ek0fhXMsDNW/zxa1NdFAVMY+k28pgZLovR4G3PB5MrpTxCy1QaZCqNoiaKPr5w5qZHfSNw==}
 
   koa-compose@4.1.0:
     resolution: {integrity: sha512-8ODW8TrDuMYvXRwra/Kh7/rJo9BtOfPc6qO8eAfC80CnCvSjSl0bkRM24X6/XBBEyj0v1nRUQ1LyOy3dbqOWXw==}
@@ -21961,22 +21964,22 @@ snapshots:
   '@rollup/rollup-win32-x64-msvc@4.62.2':
     optional: true
 
-  '@rsbuild-image/core@0.0.1-next.16(ipx@3.1.3(ioredis@5.8.2))(react-dom@19.3.1(react@19.3.1))(react@19.3.1)(sharp@0.35.5(@types/node@20.19.27))':
+  '@rsbuild-image/core@0.0.1-next.36(ipx@3.1.3(ioredis@5.8.2))(react-dom@19.3.1(react@19.3.1))(react@19.3.1)(sharp@0.35.5(@types/node@20.19.27))':
     dependencies:
-      '@sindresorhus/is': 7.2.0
       image-size: 2.0.2
+      knitwork: 1.3.0
       react: 19.3.1
       react-dom: 19.3.1(react@19.3.1)
       rslog: 1.3.2
       type-fest: 4.41.0
-      ufo: 1.6.3
+      ufo: 1.6.4
     optionalDependencies:
       ipx: 3.1.3(ioredis@5.8.2)
       sharp: 0.35.5(@types/node@20.19.27)
 
-  '@rsbuild-image/react@0.0.1-next.16(@rsbuild-image/core@0.0.1-next.16(ipx@3.1.3(ioredis@5.8.2))(react-dom@19.3.1(react@19.3.1))(react@19.3.1)(sharp@0.35.5(@types/node@20.19.27)))(ipx@3.1.3(ioredis@5.8.2))(react-dom@19.3.1(react@19.3.1))(react@19.3.1)(sharp@0.35.5(@types/node@20.19.27))':
+  '@rsbuild-image/react@0.0.1-next.16(@rsbuild-image/core@0.0.1-next.36(ipx@3.1.3(ioredis@5.8.2))(react-dom@19.3.1(react@19.3.1))(react@19.3.1)(sharp@0.35.5(@types/node@20.19.27)))(ipx@3.1.3(ioredis@5.8.2))(react-dom@19.3.1(react@19.3.1))(react@19.3.1)(sharp@0.35.5(@types/node@20.19.27))':
     dependencies:
-      '@rsbuild-image/core': 0.0.1-next.16(ipx@3.1.3(ioredis@5.8.2))(react-dom@19.3.1(react@19.3.1))(react@19.3.1)(sharp@0.35.5(@types/node@20.19.27))
+      '@rsbuild-image/core': 0.0.1-next.36(ipx@3.1.3(ioredis@5.8.2))(react-dom@19.3.1(react@19.3.1))(react@19.3.1)(sharp@0.35.5(@types/node@20.19.27))
       '@sindresorhus/is': 7.2.0
       react: 19.3.1
       react-dom: 19.3.1(react@19.3.1)
@@ -27894,6 +27897,8 @@ snapshots:
   kind-of@6.0.3: {}
 
   kleur@3.0.3: {}
+
+  knitwork@1.3.0: {}
 
   koa-compose@4.1.0: {}
 
