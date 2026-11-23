@@ -112,4 +112,4 @@ node <skillDir>/scripts/migrate-tsconfig.mjs <projectDir>
 - 不要在 `tsconfig.server.json` 中声明 `paths`：TypeScript 对 `paths` 是整体替换，而不是逐键合并。
 - 不再需要 `baseUrl`。`paths` 中的相对路径以声明它的文件所在目录为基准。
 - 项目在 TypeScript 6 下保留 `baseUrl` 时，服务端编译会忽略 TS5101 这一条废弃提示，不会因此构建失败；其他类型错误照常报错。
-- `@modern-js/tsconfig` 3.13 及以上版本需要搭配 `@modern-js/app-tools` 3.13 及以上版本使用。
+- `@modern-js/tsconfig` 与 `@modern-js/app-tools` 保持同一版本：框架需要支持从 bundler 模式的 `tsconfig.json` 编译 `api/`、`server/` 和 `shared/`。
