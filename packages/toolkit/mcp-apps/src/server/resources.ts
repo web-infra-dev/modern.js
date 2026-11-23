@@ -120,7 +120,11 @@ function escapeAttribute(value: string) {
     .replace(/</g, '&lt;');
 }
 
-/** A compiled view with the same metadata and HTML for resource and URL delivery. */
+/**
+ * Shared rendering contract for MCP resources and HTTP pages.
+ * Keep page assembly here so both sources use the same asset base and MF config.
+ * Host adapters interpret tool metadata and decide which views need resources.
+ */
 export interface ResolvedUiView {
   ui: UiMetadata;
   tool?: UiToolConfig;
@@ -283,7 +287,11 @@ export async function registerUiResources(
   return uris;
 }
 
-/** HTTP route shared by the framework plugin and standalone Fetch services. */
+/**
+ * HTTP route shared by the framework plugin and standalone Fetch services.
+ * Serving a page does not register a tool or advertise a host entrypoint.
+ * Host adapters provide the URL metadata and the host performs the SDK handshake.
+ */
 export const UI_VIEW_PATH = '/mcp-views/';
 
 export function createUiViewHandler(options: RegisterUiOptions = {}) {

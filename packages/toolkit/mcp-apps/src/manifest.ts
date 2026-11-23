@@ -119,7 +119,11 @@ export function validateViewsConfig(
     );
   }
 }
-/** Namespaced metadata is carried unchanged. Hosts validate their own extension fields. */
+/**
+ * Validate native tool fields and UI source syntax before writing the manifest.
+ * Namespaced metadata is carried unchanged: entrypoint semantics, aliases and
+ * permission requests belong to host adapters, rather than this shared builder.
+ */
 export function validateUiToolConfig(
   value: unknown,
 ): asserts value is UiToolConfig | undefined {

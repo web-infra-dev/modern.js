@@ -88,6 +88,8 @@ export function createMcpView<P extends object>(
       ?.getAttribute('content') === 'connected'
       ? 'connected'
       : 'result');
+  // This only selects when to render. Neither mode invokes the entry tool:
+  // URL applications fetch initial business data explicitly through the SDK.
   const appCapabilities: McpCapabilities = {
     availableDisplayModes: ['inline', 'fullscreen'],
     ...capabilities,
