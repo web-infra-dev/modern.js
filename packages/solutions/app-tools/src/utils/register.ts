@@ -6,7 +6,6 @@ import {
   isDepExists,
   loadFromProject,
   mergeAlias,
-  readTsConfigByFile,
   readTsConfigWithExtends,
   resolveServerTsconfigInfo,
   warnServerTsconfigOverrides,
@@ -132,53 +131,6 @@ const createRuntimePaths = ({
   return normalizedPaths;
 };
 
-// Compiler options that only matter for a full program / emit, or whose
-// relative paths are resolved against the declaring config file. They are
-// dropped when the merged options are handed to ts-node without a project.
-const TS_NODE_IGNORED_OPTIONS = new Set([
-  'baseUrl',
-  'paths',
-  'rootDir',
-  'rootDirs',
-  'outDir',
-  'outFile',
-  'declarationDir',
-  'typeRoots',
-  'tsBuildInfoFile',
-  'composite',
-  'incremental',
-  'noEmit',
-  'emitDeclarationOnly',
-  'declaration',
-  'declarationMap',
-  'sourceMap',
-  'inlineSourceMap',
-  'inlineSources',
-  'mapRoot',
-  'sourceRoot',
-]);
-
-export const createTsNodeCompilerOptions = (
-  compilerOptions: Record<string, unknown>,
-  ...overrides: Array<Record<string, unknown> | undefined>
-) => {
-  const result: Record<string, unknown> = {};
-  for (const [key, value] of Object.entries(compilerOptions)) {
-    if (!TS_NODE_IGNORED_OPTIONS.has(key)) {
-      result[key] = value;
-    }
-  }
-  return Object.assign(result, ...overrides);
-};
-
-// ts-node 10.x resolves `extends` itself and only understands a string. The
-// recommended `tsconfig.server.json` keeps `extends` a string, but a chain
-// that does contain an array (for example `@modern-js/tsconfig/server` used
-// as a second entry) cannot be passed to ts-node as `project`; it is merged
-// here instead as a defensive fallback.
-export const canTsNodeReadProject = (files: string[]) =>
-  files.every(file => !Array.isArray(readTsConfigByFile(file)?.extends));
-
 // Describes final runtime selection policy.
 // Prefer ts-node when available. Otherwise CommonJS projects compile with swc,
 // and module projects use Node.js native TypeScript support.
@@ -259,20 +211,14 @@ export const setupTsRuntime = async (
   if (registerMode === 'ts-node') {
     const tsConfig = readTsConfigWithExtends(tsconfigPath);
     const tsNodeOptions = tsConfig.raw['ts-node'];
-    const tsNodeProject = canTsNodeReadProject(tsConfig.files);
     // A bundler-mode `tsconfig.json` (`module: ESNext`) in a commonjs project
     // has to be transpiled as NodeNext or `require()` fails on the output.
     // ts-node `compilerOptions` overrides the project file; the user's own
-    // `ts-node.compilerOptions` still wins over the framework defaults. When
-    // ts-node cannot read the project itself, the whole merged option set is
-    // passed instead.
-    const tsNodeCompilerOptions = tsNodeProject
-      ? { ...tsconfigInfo.compilerOverrides, ...tsNodeOptions?.compilerOptions }
-      : createTsNodeCompilerOptions(
-          tsConfig.compilerOptions,
-          tsconfigInfo.compilerOverrides,
-          tsNodeOptions?.compilerOptions,
-        );
+    // `ts-node.compilerOptions` still wins over the framework defaults.
+    const tsNodeCompilerOptions = {
+      ...tsconfigInfo.compilerOverrides,
+      ...tsNodeOptions?.compilerOptions,
+    };
 
     if (options.moduleType === 'module') {
       const { registerModuleHooks } = await import('../esm/register-esm.mjs');
@@ -281,7 +227,7 @@ export const setupTsRuntime = async (
         distDir,
         baseUrl: absoluteBaseUrl || './',
         paths: runtimePaths,
-        tsconfigPath: tsNodeProject ? tsconfigPath : undefined,
+        tsconfigPath,
         compilerOptions: tsNodeCompilerOptions,
       });
     } else {
@@ -298,9 +244,7 @@ export const setupTsRuntime = async (
     const tsNode = await loadFromProject('ts-node', appDir);
     warnServerTsconfigOverrides(tsconfigPath, tsconfigInfo.compilerOverrides);
     tsNode.register({
-      ...(tsNodeProject
-        ? { project: tsconfigPath }
-        : { skipProject: true, scopeDir: appDir }),
+      project: tsconfigPath,
       scope: true,
       // for env.d.ts, https://www.npmjs.com/package/ts-node#missing-types
       files: true,

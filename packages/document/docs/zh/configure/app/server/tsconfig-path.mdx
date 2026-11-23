@@ -92,6 +92,6 @@ export default defineConfig({
 
 - **`paths` 必须留在 `tsconfig.json` 中**。TypeScript 在 `extends` 合并时对 `compilerOptions` 逐键覆盖，但对 `paths` 是整体替换；在 `tsconfig.server.json` 里声明 `paths` 会丢掉主配置中的全部别名。框架读取别名时会沿 `extends` 链查找，所以服务端配置只继承即可。
 - `tsconfig.server.json` 中的 `include` 只需列出服务端目录。
-- `tsconfig.server.json` 中的 `extends` 保持为单个字符串。Modern.js 自己注册 ts-node 时会兼容数组形式作为兜底，但 ts-node CLI（`ts-node --project tsconfig.server.json`）不支持。
+- `tsconfig.server.json` 中的 `extends` 保持为单个字符串：开发时 ts-node 直接读取这份文件，ts-node 10 不支持 `extends` 数组。
 - 如果显式配置的文件不存在，TypeScript / ts-node 会在启动时抛出错误。
 - 不希望采用新布局的项目可以改为继承 `@modern-js/tsconfig/legacy`（旧版 `commonjs` + `node` 配置），但这些选项在 TypeScript 6 中已被标记为废弃。
