@@ -340,3 +340,97 @@ describe('view entry names', () => {
     );
   });
 });
+
+describe('native resource declarations', () => {
+  it('keeps open metadata for component, inline and expose views without mutating defaults', () => {
+    const resource = {
+      uri: 'ui://app/sales-overview',
+      mimeType: 'text/html;profile=mcp-app',
+      title: 'Sales overview',
+      _meta: {
+        'vendor/custom': { enabled: true },
+        ui: {
+          availableDisplayModes: ['inline', 'fullscreen'],
+          preferredDisplayMode: 'inline',
+          prefersBorder: false,
+          permissions: {},
+          csp: { connectDomains: ['https://api.example'] },
+        },
+      },
+    };
+    for (const inline of [false, true]) {
+      const config = {
+        views: {
+          sales: { component: './Sales.tsx', resource },
+          stats: {
+            expose: './Stats',
+            resource: { ...resource, uri: 'ui://app/stats' },
+          },
+        },
+        permissions: { clipboardWrite: {} },
+        csp: { resourceDomains: ['https://shared.example'] },
+      };
+      const before = structuredClone(config);
+      const manifest = createUiManifest(
+        config,
+        'https://cdn.example/',
+        {
+          filename: 'mf-manifest.json',
+          manifest: { name: 'stats', exposes: [{ name: 'Stats' }] },
+        },
+        undefined,
+        { inline },
+      );
+      expect(manifest.views.sales.resource).toEqual(resource);
+      expect(manifest.views.stats.resource?.uri).toBe('ui://app/stats');
+      for (const view of Object.values(manifest.views)) {
+        expect(view.ui).toMatchObject({
+          availableDisplayModes: ['inline', 'fullscreen'],
+          preferredDisplayMode: 'inline',
+          prefersBorder: false,
+          permissions: {},
+        });
+        expect(view.ui.csp?.resourceDomains).toContain(
+          'https://shared.example',
+        );
+        expect(view.ui.csp?.connectDomains).toContain('https://api.example');
+      }
+      expect(config).toEqual(before);
+      expect(() => validateUiManifest(manifest)).not.toThrow();
+    }
+  });
+  it.each([
+    [{ uri: 'https://app.example' }, 'absolute ui://'],
+    [{ mimeType: '' }, 'mimeType'],
+    [{ _meta: [] }, '_meta'],
+    [{ _meta: { ui: [] } }, 'metadata must be an object'],
+    [{ text: 'overridden HTML' }, 'content is generated'],
+    [{ _meta: { ui: { csp: { connectDomains: 'invalid' } } } }, 'Invalid CSP'],
+  ])(
+    'rejects invalid resource structure while allowing extension fields',
+    (resource, error) => {
+      expect(() =>
+        validateViewsConfig({
+          views: { card: { component: './Card.tsx', resource } },
+        }),
+      ).toThrow(error);
+    },
+  );
+  it('rejects conflicting resource URI declarations and URL delivery', () => {
+    for (const meta of [
+      { ui: { resourceUri: 'ui://other/card' } },
+      { 'doubao/ui': { url: 'https://app.example' } },
+    ])
+      expect(() =>
+        validateViewsConfig({
+          views: {
+            card: {
+              component: './Card.tsx',
+              resource: { uri: 'ui://app/card' },
+              tool: { _meta: meta },
+            },
+          },
+        }),
+      ).toThrow(/Conflicting|mutually exclusive/);
+  });
+});

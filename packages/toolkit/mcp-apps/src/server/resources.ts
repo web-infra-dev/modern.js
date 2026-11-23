@@ -9,10 +9,12 @@ import {
 } from '@modelcontextprotocol/ext-apps/server';
 import {
   assertHttpUrl,
+  mergeUiMetadata,
   validateUiManifest,
   type UiManifest,
   type UiMetadata,
   type UiToolConfig,
+  type UiResourceConfig,
 } from '../manifest';
 
 interface ManifestCacheEntry {
@@ -128,6 +130,7 @@ function escapeAttribute(value: string) {
 export interface ResolvedUiView {
   ui: UiMetadata;
   tool?: UiToolConfig;
+  resource?: UiResourceConfig;
   render: (signal?: AbortSignal) => Promise<string>;
 }
 
@@ -167,12 +170,17 @@ export async function resolveUiViews(
     devSocket.protocol = devSocket.protocol === 'https:' ? 'wss:' : 'ws:';
   const views: Record<string, ResolvedUiView> = Object.create(null);
   for (const [name, view] of Object.entries(manifest.views)) {
+    const configuredUi = mergeUiMetadata(view.ui, view.resource?._meta?.ui);
+    const resourceFields = view.resource
+      ? { resource: structuredClone(view.resource) }
+      : {};
     if (isInlineView(view) && 'html' in view) {
       const sourceUrl = /^https?:\/\//.test(view.html)
         ? new URL(view.html)
         : new URL(view.html, location);
       views[name] = {
-        ui: view.ui,
+        ui: configuredUi,
+        ...resourceFields,
         ...(view.tool ? { tool: view.tool } : {}),
         render: signal =>
           readSource(
@@ -188,22 +196,25 @@ export async function resolveUiViews(
     const remote = 'remote' in view ? manifest.remotes[view.remote] : undefined;
     const entry = remote ? new URL(remote.entry, base!).href : undefined;
     const ui: UiMetadata = {
-      ...view.ui,
+      ...configuredUi,
       csp: {
-        ...view.ui.csp,
+        ...configuredUi.csp,
         resourceDomains: [
           ...new Set([
-            ...(view.ui.csp?.resourceDomains ?? []),
+            ...(configuredUi.csp?.resourceDomains ?? []),
             base!.origin,
             ...(entry ? [new URL(entry).origin] : []),
           ]),
         ],
         baseUriDomains: [
-          ...new Set([...(view.ui.csp?.baseUriDomains ?? []), base!.origin]),
+          ...new Set([
+            ...(configuredUi.csp?.baseUriDomains ?? []),
+            base!.origin,
+          ]),
         ],
         connectDomains: [
           ...new Set([
-            ...(view.ui.csp?.connectDomains ?? []),
+            ...(configuredUi.csp?.connectDomains ?? []),
             base!.origin,
             ...(entry ? [new URL(entry).origin] : []),
             ...(devSocket ? [devSocket.origin] : []),
@@ -213,6 +224,7 @@ export async function resolveUiViews(
     };
     views[name] = {
       ui,
+      ...resourceFields,
       ...(view.tool ? { tool: view.tool } : {}),
       async render(signal) {
         const source = 'html' in view ? view.html : remote!.shell;
@@ -261,24 +273,28 @@ export async function registerUiResources(
         ? configuredUi.resourceUri
         : undefined;
     const uri =
-      typeof configuredUri === 'string'
+      view.resource?.uri ??
+      (typeof configuredUri === 'string'
         ? configuredUri
-        : `ui://app/${encodeURIComponent(name)}`;
+        : `ui://app/${encodeURIComponent(name)}`);
     if (Object.values(uris).includes(uri))
       throw new Error(`Duplicate UI resource URI: ${uri}`);
     uris[name] = uri;
+    const { uri: _uri, _meta, ...resourceMetadata } = view.resource ?? {};
+    const meta = { ..._meta, ui: view.ui };
+    const mimeType = view.resource?.mimeType ?? RESOURCE_MIME_TYPE;
     registerAppResource(
       server,
       name,
       uri,
-      { _meta: { ui: view.ui } },
+      { ...resourceMetadata, mimeType, _meta: meta },
       async (_uri, extra) => ({
         contents: [
           {
             uri,
-            mimeType: RESOURCE_MIME_TYPE,
+            mimeType,
             text: await view.render(extra.mcpReq.signal),
-            _meta: { ui: view.ui },
+            _meta: structuredClone(meta),
           },
         ],
       }),

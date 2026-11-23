@@ -182,7 +182,7 @@ dist/
 - `html`、`shell` 相对清单文件位置解析，也支持绝对 HTTP(S) 地址
 - `entry` 相对 `assetBase` 解析，也支持绝对 HTTP(S) 地址
 - `ui` 保留卡片的 CSP、permissions、domain、prefersBorder 元数据
-- 清单不记录 tool 或 resource URI，服务端生成 `ui://app/<编码后的卡片名>`，多个 tool 可以复用同一 URI
+- 清单保留可选的 `tool` 和 `resource` 声明。未指定 URI 时，服务端生成 `ui://app/<编码后的卡片名>`，多个工具可以复用同一资源
 - MF 配置在读取 resource 时注入 shell，不需要 tool result 携带框架元数据
 
 `createBffHandlers()` 将服务端插件提供的清单路径和运行模式关联到当前请求。调用 `registerUiResources(server, { request })` 即可自动获取配置。开发使用框架的内部目录，生产使用运行时的实际输出目录。显式选项优先于注入配置。独立服务必须显式配置 `manifest` 文件路径或 HTTP(S) URL，`mode` 默认为 `production`。相对 HTML 路径以清单位置为基准解析。
@@ -194,6 +194,40 @@ dist/
 服务端把资源根地址加入 CSP 的 resourceDomains、connectDomains 和 baseUriDomains，把 MF entry 的 origin 加入 connectDomains 和 resourceDomains。构建时还会把绝对地址或不带协议的 `output.assetPrefix` 的 origin 加入 CSP，`//cdn.example/` 按 `https://cdn.example` 处理。其他 CDN、接口和 iframe 域名需在 `mcp-views.json` 中声明，或在配置中计算后通过 `mcpAppsPlugin({ csp })` 传入，两者都会合并到每张卡片。生产部署必须保留清单、HTML、应用静态资源和 MF 产物。
 
 平台可以把已构建的卡片文件和 MF 地址转换为绝对地址，组合成同版本的新清单，再由独立服务端消费。未知清单版本会被拒绝。
+
+## 自定义资源元数据
+
+每个组件视图或 expose 视图都可以配置 `resource`：
+
+```json
+{
+  "views": {
+    "sales-overview": {
+      "component": "./src/components/SalesOverview.tsx",
+      "resource": {
+        "uri": "ui://app/sales-overview",
+        "mimeType": "text/html;profile=mcp-app",
+        "_meta": {
+          "ui": {
+            "availableDisplayModes": ["inline", "fullscreen"],
+            "preferredDisplayMode": "inline",
+            "prefersBorder": true,
+            "permissions": {},
+            "csp": { "connectDomains": ["https://api.example.com"] }
+          },
+          "vendor/custom": { "enabled": true }
+        }
+      }
+    }
+  }
+}
+```
+
+`resource._meta` 接受宿主扩展字段，`ui` 内的未知字段也会保留。框架将其保存到构建 manifest，并在资源注册列表 `resources/list` 和资源内容 `resources/read` 中返回。`resource.mimeType` 覆盖 SDK 默认值。`resource.uri` 覆盖自动生成的 `ui://app/<编码后的视图名>`。旧的 `tool._meta.ui.resourceUri` 仍然兼容，两处显式 URI 不一致会报错。显式资源 URI 与工具 URL 来源不能同时配置。
+
+视图的 `resource._meta.ui` 覆盖公共 UI 默认值。四类已知 CSP 域名数组与公共配置、页面必需域名去重合并，未知 CSP 字段保持原值。显式 `permissions` 整体替代默认权限，`{}` 也生效。其他元数据值覆盖默认值，框架不解释其宿主语义。`title`、`description` 等资源声明字段交给 SDK 注册。HTML 内容由框架生成，不能配置 `text` 或 `blob`。
+
+工具元数据继续放在 `tool._meta`。资源元数据不会自动复制到工具或 URL 来源元数据中。`preferredDisplayMode` 等扩展字段是否生效由宿主决定，不会修改 `mcpCapabilities`、主动请求全屏或改变 SDK 握手。URL 模式仍然返回 `text/html` 页面，并使用原有宿主工具声明。
 
 ## 卡片能力声明
 

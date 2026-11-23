@@ -2,7 +2,13 @@ import type { Tool } from '@modelcontextprotocol/server';
 import { McpUiToolMetaSchema } from '@modelcontextprotocol/ext-apps/app-bridge';
 import type { McpUiResourceMeta } from '@modelcontextprotocol/ext-apps';
 
-export type UiMetadata = McpUiResourceMeta;
+export type UiMetadata = McpUiResourceMeta & Record<string, unknown>;
+/** Native resource declaration. Unknown resource and host metadata fields are retained. */
+export interface UiResourceConfig extends Record<string, unknown> {
+  uri?: string;
+  mimeType?: string;
+  _meta?: Record<string, unknown> & { ui?: UiMetadata };
+}
 /** Defaults used when registering tools that reference a compiled view. */
 export interface UiToolConfig extends Partial<
   Pick<Tool, 'name' | 'title' | 'annotations' | 'icons'>
@@ -13,6 +19,7 @@ export type McpViewSource =
   | string
   | (({ component: string } | { expose: string; remote?: string }) & {
       tool?: UiToolConfig;
+      resource?: UiResourceConfig;
     });
 export interface McpViewsConfig extends UiMetadata {
   /** Default deployed MF remote for expose views. Individual views may override it. */
@@ -30,7 +37,7 @@ export interface UiManifest {
     string,
     (
       { html: string; inline?: boolean } | { remote: string; expose: string }
-    ) & { ui: UiMetadata; tool?: UiToolConfig }
+    ) & { ui: UiMetadata; tool?: UiToolConfig; resource?: UiResourceConfig }
   >;
 }
 export function isRecord(value: unknown): value is Record<string, unknown> {
@@ -38,6 +45,7 @@ export function isRecord(value: unknown): value is Record<string, unknown> {
 }
 export function validateUiMetadata(
   value: unknown,
+  allowExtensions = false,
 ): asserts value is UiMetadata {
   if (!isRecord(value)) throw new Error('UI metadata must be an object');
   if (
@@ -53,6 +61,16 @@ export function validateUiMetadata(
     if (!isRecord(value.csp)) throw new Error('csp must be an object');
     for (const [key, domains] of Object.entries(value.csp)) {
       if (
+        allowExtensions &&
+        ![
+          'resourceDomains',
+          'connectDomains',
+          'frameDomains',
+          'baseUriDomains',
+        ].includes(key)
+      )
+        continue;
+      if (
         ![
           'resourceDomains',
           'connectDomains',
@@ -66,6 +84,77 @@ export function validateUiMetadata(
     }
   }
 }
+/** Merge resource UI overrides while retaining the domains required by the page. */
+export function mergeUiMetadata(
+  defaults: UiMetadata,
+  configured?: UiMetadata,
+): UiMetadata {
+  if (!configured) return structuredClone(defaults);
+  const ui: UiMetadata = { ...defaults, ...configured };
+  if (defaults.csp || configured.csp) {
+    ui.csp = { ...defaults.csp, ...configured.csp };
+    for (const key of [
+      'resourceDomains',
+      'connectDomains',
+      'frameDomains',
+      'baseUriDomains',
+    ] as const) {
+      if (defaults.csp?.[key] || configured.csp?.[key])
+        ui.csp[key] = [
+          ...new Set([
+            ...(defaults.csp?.[key] ?? []),
+            ...(configured.csp?.[key] ?? []),
+          ]),
+        ];
+    }
+  }
+  return structuredClone(ui);
+}
+
+function validateResourceConfig(
+  value: unknown,
+  tool?: UiToolConfig,
+): asserts value is UiResourceConfig | undefined {
+  if (value === undefined) return;
+  if (!isRecord(value)) throw new Error('View resource must be an object');
+  if ('text' in value || 'blob' in value)
+    throw new Error(
+      'View resource content is generated from its component or expose',
+    );
+  if (value.uri !== undefined) {
+    if (
+      typeof value.uri !== 'string' ||
+      value.uri.trim() !== value.uri ||
+      !value.uri.startsWith('ui://') ||
+      /[\u0000-\u0020\u007f]/.test(value.uri)
+    )
+      throw new Error('Resource uri must be an absolute ui:// URI');
+    const uri = new URL(value.uri);
+    if (uri.protocol !== 'ui:' || !uri.host)
+      throw new Error('Resource uri must be an absolute ui:// URI');
+    const legacyUi = tool?._meta?.ui;
+    if (
+      isRecord(legacyUi) &&
+      legacyUi.resourceUri !== undefined &&
+      legacyUi.resourceUri !== value.uri
+    )
+      throw new Error('Conflicting resource.uri and tool._meta.ui.resourceUri');
+    for (const [key, meta] of Object.entries(tool?._meta ?? {}))
+      if (key.endsWith('/ui') && isRecord(meta) && meta.url !== undefined)
+        throw new Error('Resource uri and tool UI URL are mutually exclusive');
+  }
+  if (
+    value.mimeType !== undefined &&
+    (typeof value.mimeType !== 'string' || !value.mimeType.trim())
+  )
+    throw new Error('Resource mimeType must be a non-empty string');
+  if (value._meta !== undefined) {
+    if (!isRecord(value._meta))
+      throw new Error('Resource _meta must be an object');
+    if (value._meta.ui !== undefined) validateUiMetadata(value._meta.ui, true);
+  }
+}
+
 export function validateViewsConfig(
   value: unknown,
 ): asserts value is McpViewsConfig {
@@ -95,7 +184,13 @@ export function validateViewsConfig(
     if (typeof view === 'string' && view.trim()) continue;
     if (isRecord(view)) {
       validateUiToolConfig(view.tool);
-      const keys = Object.keys(view).filter(key => key !== 'tool');
+      validateResourceConfig(
+        view.resource,
+        view.tool as UiToolConfig | undefined,
+      );
+      const keys = Object.keys(view).filter(
+        key => key !== 'tool' && key !== 'resource',
+      );
       if (
         typeof view.component === 'string' &&
         view.component.trim() &&
@@ -282,8 +377,12 @@ export function validateUiManifest(
   }
   for (const [name, view] of Object.entries(value.views)) {
     if (!name.trim() || !isRecord(view)) throw new Error('Invalid UI view');
-    validateUiMetadata(view.ui);
+    validateUiMetadata(view.ui, true);
     validateUiToolConfig(view.tool);
+    validateResourceConfig(
+      view.resource,
+      view.tool as UiToolConfig | undefined,
+    );
     if ('html' in view && !('remote' in view) && !('expose' in view)) {
       if (view.inline !== undefined && typeof view.inline !== 'boolean')
         throw new Error(`Invalid inline option on UI manifest view: ${name}`);

@@ -3,6 +3,7 @@ import path from 'node:path';
 import { Script } from 'node:vm';
 import {
   validateUiMetadata,
+  mergeUiMetadata,
   validateViewsConfig,
   type UiManifest,
   type UiMetadata,
@@ -142,19 +143,27 @@ export function createUiManifest(
     views: Object.create(null),
   };
   for (const [name, source] of Object.entries(views)) {
+    const resource = typeof source === 'string' ? undefined : source.resource;
+    const resourceFields = resource
+      ? { resource: structuredClone(resource) }
+      : {};
+    const viewUi = mergeUiMetadata(ui, resource?._meta?.ui);
+    const inlineViewUi = mergeUiMetadata(inlineUi, resource?._meta?.ui);
     if (typeof source === 'string' || 'component' in source) {
       manifest.views[name] = options?.inline
         ? {
             html: `./ui/${viewEntryName(name)}.html`,
             inline: true,
-            ui: inlineUi,
+            ui: inlineViewUi,
+            ...resourceFields,
             ...(typeof source !== 'string' && source.tool
               ? { tool: source.tool }
               : {}),
           }
         : {
             html: `./ui/${viewEntryName(name)}.html`,
-            ui,
+            ui: viewUi,
+            ...resourceFields,
             ...(typeof source !== 'string' && source.tool
               ? { tool: source.tool }
               : {}),
@@ -195,7 +204,8 @@ export function createUiManifest(
     manifest.views[name] = {
       remote,
       expose: source.expose,
-      ui,
+      ui: viewUi,
+      ...resourceFields,
       ...(source.tool ? { tool: source.tool } : {}),
     };
   }
