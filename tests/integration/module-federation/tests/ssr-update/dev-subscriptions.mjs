@@ -8,6 +8,7 @@ import { createFixture } from './dev-fixture.mjs';
 import { packageAudit, testRequire } from './packages.mjs';
 import {
   allocateDevPorts,
+  cleanupScenarioWorkspace,
   scenarioDirectory,
   stopProcesses,
 } from './dev-support.mjs';
@@ -22,7 +23,7 @@ async function defaultBrowser(root) {
   });
   const page = await browser.newPage();
   return {
-    open: url => page.goto(url, { waitUntil: 'load' }),
+    open: url => page.goto(url, { waitUntil: 'load', timeout: 60000 }),
     evaluate: fn => page.evaluate(fn),
     click: selector => page.click(selector),
     close: () => browser.close(),
@@ -178,6 +179,7 @@ export async function runSubscriptionScenario(mode) {
         path.join(root, 'result.json'),
         JSON.stringify(evidence, null, 2),
       );
+      await cleanupScenarioWorkspace(root);
     })();
     return closing;
   }

@@ -8,6 +8,7 @@ import { createFixture, writeGeneration, colors } from './dev-fixture.mjs';
 import { packageAudit, testRequire } from './packages.mjs';
 import {
   allocateDevPorts,
+  cleanupScenarioWorkspace,
   scenarioDirectory,
   stopProcesses,
 } from './dev-support.mjs';
@@ -279,6 +280,7 @@ export async function runManifestFallbackScenario(mode) {
       path.join(root, 'result.json'),
       JSON.stringify(evidence, null, 2),
     );
+    await cleanupScenarioWorkspace(root);
   }
   try {
     await new Promise((resolve, reject) => {

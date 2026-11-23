@@ -1,4 +1,4 @@
-import { mkdir, mkdtemp } from 'node:fs/promises';
+import { mkdir, mkdtemp, rm } from 'node:fs/promises';
 import { tmpdir } from 'node:os';
 import { once } from 'node:events';
 import path from 'node:path';
@@ -47,6 +47,27 @@ export async function scenarioDirectory(prefix) {
   const parent = process.env.MF_LAB_ARTIFACT_DIR || tmpdir();
   await mkdir(parent, { recursive: true });
   return mkdtemp(path.join(parent, prefix));
+}
+
+export async function cleanupScenarioWorkspace(root) {
+  await Promise.all(
+    ['host', 'provider', 'middle', 'browser-profile'].map(name =>
+      rm(path.join(root, name), {
+        recursive: true,
+        force: true,
+        maxRetries: 5,
+        retryDelay: 100,
+      }),
+    ),
+  );
+  if (!process.env.MF_LAB_ARTIFACT_DIR) {
+    await rm(root, {
+      recursive: true,
+      force: true,
+      maxRetries: 5,
+      retryDelay: 100,
+    });
+  }
 }
 
 export async function stopProcesses(records) {

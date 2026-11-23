@@ -309,6 +309,16 @@ export default function Document() {
     page.on('requestfailed', request => {
       pendingRequests.delete(request.url());
       requestStarts.delete(request);
+      // Chromium can report a spurious CDP loadingFailed(ERR_ABORTED) when a
+      // chunked 200 NDJSON Service stream's Mojo DataPipe closes at EOF ahead
+      // of URLLoaderClient::OnComplete, even though net::URLRequest succeeded.
+      // Real truncation still throws in fetchBridgeService and triggers fallback.
+      if (
+        request.url().includes('/_modern/mf/service/') &&
+        request.response()?.status() === 200 &&
+        request.failure()?.errorText === 'net::ERR_ABORTED'
+      )
+        return;
       consoleErrors.push(`${request.url()}: ${request.failure()?.errorText}`);
     });
     expectsRecovery = false;
