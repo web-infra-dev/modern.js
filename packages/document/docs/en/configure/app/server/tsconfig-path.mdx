@@ -92,6 +92,6 @@ export default defineConfig({
 
 - **`paths` must stay in `tsconfig.json`.** TypeScript merges `compilerOptions` key by key across `extends` but replaces `paths` wholesale, so declaring `paths` in `tsconfig.server.json` drops every alias from the main config. The framework reads aliases through the whole `extends` chain, so the server config only needs to inherit them.
 - `include` in `tsconfig.server.json` only needs to list the server-side directories.
-- Keep `extends` a single string in `tsconfig.server.json`. Modern.js's own ts-node registration tolerates an `extends` array as a fallback, but the ts-node CLI (`ts-node --project tsconfig.server.json`) does not.
+- Keep `extends` a single string in `tsconfig.server.json`: ts-node reads this file directly at dev time, and ts-node 10 does not support `extends` arrays.
 - If an explicitly configured file does not exist, TypeScript / ts-node throws at startup.
 - Projects that do not want the new layout can extend `@modern-js/tsconfig/legacy` (the previous `commonjs` + `node` config) instead, but TypeScript 6 reports those options as deprecated.

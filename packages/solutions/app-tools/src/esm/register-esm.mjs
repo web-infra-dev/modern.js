@@ -15,14 +15,7 @@ export const registerModuleHooks = async ({
   const { register } = await import('node:module');
   // These can be overridden by ts-node options in the project file
   process.env.TS_NODE_TRANSPILE_ONLY = true;
-  if (tsconfigPath) {
-    process.env.TS_NODE_PROJECT = tsconfigPath;
-  } else {
-    // ts-node cannot read this project (an `extends` array in the chain);
-    // the caller passes the merged compiler options instead.
-    process.env.TS_NODE_SKIP_PROJECT = true;
-    process.env.TS_NODE_SCOPE_DIR = appDir;
-  }
+  process.env.TS_NODE_PROJECT = tsconfigPath;
   process.env.TS_NODE_SCOPE = true;
   process.env.TS_NODE_FILES = true;
   process.env.TS_NODE_IGNORE = `(?:^|/)node_modules/,(?:^|/)${path.relative(
