@@ -7,6 +7,7 @@ import {
 } from '@modern-js/utils';
 import { type Options, transform } from '@swc/core';
 import type { CompileFunc } from '../../common';
+import { listProgramFiles } from './files';
 import { createSpecifierRewriter, rewriteSpecifiers } from './specifiers';
 import { runTypeCheck, validateCompilerOverrides } from './typecheck';
 
@@ -102,30 +103,6 @@ export const createSwcOptions = (
   };
 };
 
-const listSourceFiles = async (dir: string, distDir: string) => {
-  const result: string[] = [];
-  const walk = async (current: string) => {
-    if (!(await fs.pathExists(current))) {
-      return;
-    }
-    for (const entry of await fs.readdir(current, { withFileTypes: true })) {
-      const file = path.join(current, entry.name);
-      if (entry.isDirectory()) {
-        if (entry.name !== 'node_modules' && file !== distDir) {
-          await walk(file);
-        }
-      } else if (
-        OUTPUT_EXTENSIONS[path.extname(entry.name)] &&
-        !/\.d\.[cm]?ts$/.test(entry.name)
-      ) {
-        result.push(file);
-      }
-    }
-  };
-  await walk(dir);
-  return result;
-};
-
 const copyFiles = async (from: string, to: string, appDirectory: string) => {
   if (await fs.pathExists(from)) {
     const relativePath = path.relative(appDirectory, from);
@@ -205,30 +182,35 @@ export const compileBySwc: CompileFunc = async (
     compileOptions.moduleType,
   );
 
-  for (const sourceDir of sourceDirs) {
-    for (const file of await listSourceFiles(sourceDir, distDir)) {
-      const ext = path.extname(file);
-      const options = createSwcOptions(file, compilerOptions, moduleType);
-      const source = await fs.readFile(file, 'utf8');
-      const input = rewrite
-        ? rewriteSpecifiers(source, file, rewrite, {
-            typescript: ['.ts', '.tsx', '.mts', '.cts'].includes(ext),
-            tsx: ext === '.tsx',
-          })
-        : source;
-      const { code, map } = await transform(input, options);
-      const outFile = path
-        .join(distDir, path.relative(appDirectory, file))
-        .replace(/\.[^.]+$/, OUTPUT_EXTENSIONS[ext]);
-      await fs.outputFile(
-        outFile,
-        map
-          ? `${code}\n//# sourceMappingURL=${path.basename(outFile)}.map\n`
-          : code,
-      );
-      if (map) {
-        await fs.outputFile(`${outFile}.map`, map);
-      }
+  const programFiles = await listProgramFiles({
+    appDirectory,
+    tsconfigPath,
+    sourceDirs,
+    distDir,
+    rewrite,
+  });
+  for (const file of programFiles) {
+    const ext = path.extname(file);
+    const options = createSwcOptions(file, compilerOptions, moduleType);
+    const source = await fs.readFile(file, 'utf8');
+    const input = rewrite
+      ? rewriteSpecifiers(source, file, rewrite, {
+          typescript: ['.ts', '.tsx', '.mts', '.cts'].includes(ext),
+          tsx: ext === '.tsx',
+        })
+      : source;
+    const { code, map } = await transform(input, options);
+    const outFile = path
+      .join(distDir, path.relative(appDirectory, file))
+      .replace(/\.[^.]+$/, OUTPUT_EXTENSIONS[ext]);
+    await fs.outputFile(
+      outFile,
+      map
+        ? `${code}\n//# sourceMappingURL=${path.basename(outFile)}.map\n`
+        : code,
+    );
+    if (map) {
+      await fs.outputFile(`${outFile}.map`, map);
     }
   }
 
@@ -242,6 +224,7 @@ export const compileBySwc: CompileFunc = async (
     tsconfigPath,
     sourceDirs,
     distDir,
+    programFiles,
     compilerOverrides,
     declaration,
   });
