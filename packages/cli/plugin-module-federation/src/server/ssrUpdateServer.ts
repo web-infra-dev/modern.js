@@ -15,6 +15,7 @@ import {
 } from './ssrUpdate';
 import type { RemoteCheckOptions } from './remoteUpdate';
 import { createSSRUpdateOwner } from './ssrUpdateOwner';
+import { anyAbortSignal } from '../ssr-runtime/devManifestWait';
 
 const key = Symbol.for('modern-js.mf.ssr.update-manager');
 type Registry = {
@@ -108,7 +109,7 @@ export function createSSRUpdateServerPlugin(
         const withSignal = (input: RemoteCheckOptions = {}) => ({
           ...input,
           signal: input.signal
-            ? AbortSignal.any([input.signal, lifetime.signal])
+            ? anyAbortSignal([input.signal, lifetime.signal])
             : lifetime.signal,
         });
         const run = <T>(operation: () => T): T =>

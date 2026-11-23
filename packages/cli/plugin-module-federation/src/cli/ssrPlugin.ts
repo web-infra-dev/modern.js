@@ -29,6 +29,7 @@ import { BridgeSSRPlugin, getBridgeSSRRuntimePlugin } from './BridgeSSRPlugin';
 import {
   DEV_MANIFEST_WAIT_HEADER,
   DEV_MANIFEST_WAIT_TIMEOUT,
+  anyAbortSignal,
 } from '../ssr-runtime/devManifestWait';
 
 export function setEnv() {
@@ -471,7 +472,7 @@ export const moduleFederationSSRPlugin = (
                         if (req.aborted || res.destroyed) cancel();
                         try {
                           await pluginOptions.devManifestPublication.wait(
-                            AbortSignal.any([
+                            anyAbortSignal([
                               disconnected.signal,
                               AbortSignal.timeout(DEV_MANIFEST_WAIT_TIMEOUT),
                             ]),

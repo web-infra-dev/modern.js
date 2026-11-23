@@ -3,7 +3,10 @@ import {
   type RemoteCheckOptions,
   type RemoteUpdateTarget,
 } from './remoteUpdate';
-import { DEV_MANIFEST_WAIT_TIMEOUT } from '../ssr-runtime/devManifestWait';
+import {
+  DEV_MANIFEST_WAIT_TIMEOUT,
+  anyAbortSignal,
+} from '../ssr-runtime/devManifestWait';
 
 export class DevRemoteUnavailableError extends Error {}
 
@@ -58,7 +61,7 @@ export function startDevRemoteUpdates(options: DevRemoteUpdatesOptions) {
     const deadline = AbortSignal.timeout(
       options.checkTimeoutMs ?? DEV_MANIFEST_WAIT_TIMEOUT,
     );
-    const signal = AbortSignal.any([lifetime.signal, deadline]);
+    const signal = anyAbortSignal([lifetime.signal, deadline]);
     const reads = new Map<string, Promise<Record<string, unknown>>>();
     const readOnce = (remote: RemoteUpdateTarget) => {
       let pending = reads.get(remote.entry);
