@@ -4,12 +4,7 @@ import {
   pluginImage as builderPluginImage,
 } from '@rsbuild-image/core';
 
-export interface ImagePluginOptions extends BuilderPluginImageOptions {
-  ipx?: BuilderPluginImageOptions['ipx'] & {
-    basename?: string;
-    assetPrefix?: string;
-  };
-}
+export interface ImagePluginOptions extends BuilderPluginImageOptions {}
 
 export const imagePlugin = (
   options: ImagePluginOptions = {},
@@ -18,9 +13,7 @@ export const imagePlugin = (
   setup: api => {
     const { ...builderPluginOptions } = options;
     builderPluginOptions.ipx ||= {};
-    builderPluginOptions.ipx.assetPrefix ||=
-      builderPluginOptions.ipx.basename || '/_modern/ipx';
-    builderPluginOptions.ipx.basename ||= builderPluginOptions.ipx.assetPrefix;
+    builderPluginOptions.ipx.basename ||= '/_modern/ipx';
 
     api.config(() => ({
       builderPlugins: [builderPluginImage(builderPluginOptions) as any],
