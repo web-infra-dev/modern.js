@@ -429,9 +429,7 @@ try {
         ? `[${tag}] 迁移前报 ${before}`
         : `[${tag}] 迁移前 tsc 0 error（TS 5 不受 baseUrl 影响）`,
       installed === version &&
-        (before
-          ? beforeRun.stdout.includes(before)
-          : beforeRun.status === 0),
+        (before ? beforeRun.stdout.includes(before) : beforeRun.status === 0),
     );
     execFileSync('node', [CODEMOD, appDir], { stdio: 'pipe' });
     const after = runTsc(['-p', 'tsconfig.json', '--noEmit']);

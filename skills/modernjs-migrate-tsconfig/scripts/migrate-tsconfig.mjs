@@ -226,7 +226,8 @@ function inheritedOptionFile(dir, config, key, seen = new Set()) {
       return path.relative(dir, file);
     }
     const found = inheritedOptionFile(path.dirname(file), parsed, key, seen);
-    if (found) return path.relative(dir, path.resolve(path.dirname(file), found));
+    if (found)
+      return path.relative(dir, path.resolve(path.dirname(file), found));
   }
   return undefined;
 }
