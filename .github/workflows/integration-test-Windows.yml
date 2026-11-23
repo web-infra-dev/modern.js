@@ -2,6 +2,12 @@ name: Integration Test(Windows)
 
 # Controls when the action will run.
 on:
+  pull_request:
+    branches: [main]
+    paths:
+      - 'packages/cli/storybook-addon/**'
+      - 'tests/integration/storybook/**'
+      - '.github/workflows/integration-test-Windows.yml'
   # Triggers the workflow on pull request events but only for the main branch
   push:
     branches: [main, renovate/main-rsbuild]

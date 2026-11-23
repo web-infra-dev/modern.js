@@ -119,9 +119,9 @@
     "test": "rstest"
   },
   "dependencies": {
-    "@babel/parser": "^7.29.14",
-    "@babel/traverse": "^7.29.14",
-    "@babel/types": "^7.29.14",
+    "@babel/parser": "^7.29.15",
+    "@babel/traverse": "^7.29.15",
+    "@babel/types": "^7.29.15",
     "@modern-js/builder": "workspace:*",
     "@modern-js/i18n-utils": "workspace:*",
     "@modern-js/plugin": "workspace:*",
@@ -133,7 +133,7 @@
     "@modern-js/types": "workspace:*",
     "@modern-js/utils": "workspace:*",
     "@rsbuild/core": "2.3.3",
-    "@swc/core": "1.16.21",
+    "@swc/core": "1.16.22",
     "@swc/helpers": "^0.5.17",
     "es-module-lexer": "^1.7.0",
     "flatted": "^3.4.4",
