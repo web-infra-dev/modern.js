@@ -1,6 +1,6 @@
 import { createRequire } from 'node:module';
 import path from 'node:path';
-import { registerSwc } from '@modern-js/server-utils';
+import { createSwcOptions, registerSwc } from '@modern-js/server-utils';
 import {
   fs,
   type Alias,
@@ -179,7 +179,20 @@ export const setupTsRuntime = async (
       distDir,
       baseUrl: absoluteBaseUrl || './',
       paths: runtimePaths,
-      compilerOptions: swcCompilerOptions,
+      // The loader runs in its own thread; hand it ready-made swc options.
+      swcOptions: Object.fromEntries(
+        ['.ts', '.tsx', '.mts', '.cts'].map(ext => [
+          ext,
+          {
+            ...createSwcOptions(
+              `index${ext}`,
+              swcCompilerOptions,
+              ext === '.cts' ? 'commonjs' : 'module',
+            ),
+            sourceMaps: 'inline',
+          },
+        ]),
+      ),
     });
   } else {
     const { register } = await import('@modern-js/utils/tsconfig-paths');
