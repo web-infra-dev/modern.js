@@ -371,71 +371,89 @@ try {
       !('@api/*' in web.json('tsconfig.json').compilerOptions.paths),
   );
 
-  console.log(
-    '== 8. TypeScript 6.0.3 验收（旧模板 + 依赖 baseUrl 的裸导入）==',
-  );
-  // TypeScript 6 不是工作区依赖，装到临时目录；项目放在仓库内（node_modules/.cache），
+  // TypeScript 不是工作区依赖，装到临时目录；项目放在仓库内（node_modules/.cache），
   // 让 @modern-js/tsconfig 解析到本仓库的工作区包。
-  const tsPrefix = fs.mkdtempSync(path.join(os.tmpdir(), 'mj-ts6-'));
-  tmpDirs.push(tsPrefix);
-  fs.writeFileSync(path.join(tsPrefix, 'package.json'), '{"private":true}');
-  execFileSync(
-    'npm',
-    [
-      'install',
-      'typescript@6.0.3',
-      '--no-save',
-      '--no-package-lock',
-      '--no-audit',
-      '--no-fund',
-      '--ignore-scripts',
-    ],
-    { cwd: tsPrefix, stdio: 'pipe', shell: process.platform === 'win32' },
-  );
-  const tsDir = path.join(tsPrefix, 'node_modules/typescript');
-  const tsc = path.join(tsDir, 'bin/tsc');
-  const ts = createRequire(import.meta.url)(tsDir);
-  const appDir = path.join(REPO, 'node_modules/.cache/mj-migrate-tsconfig-ts6');
-  tmpDirs.push(appDir);
-  fs.rmSync(appDir, { recursive: true, force: true });
-  fs.cpSync(FIXTURE, appDir, { recursive: true });
-  // modern.config.ts 依赖未安装的框架包，与本验收无关
-  fs.rmSync(path.join(appDir, 'modern.config.ts'));
-  fs.rmSync(path.join(appDir, 'PROVENANCE.md'));
-  fs.writeFileSync(
-    path.join(appDir, 'src/index.ts'),
-    "import { greeting } from 'shared/greeting';\n\nexport const app = greeting;\n",
-  );
-  const runTsc = args =>
-    spawnSync(process.execPath, [tsc, ...args], {
-      cwd: appDir,
-      encoding: 'utf8',
-    });
-  const ts6Before = runTsc(['-p', 'tsconfig.json', '--noEmit']);
-  check(
-    '[ts6] 迁移前报 TS5101',
-    ts.version === '6.0.3' && ts6Before.stdout.includes('TS5101'),
-  );
-  execFileSync('node', [CODEMOD, appDir], { stdio: 'pipe' });
-  const after = runTsc(['-p', 'tsconfig.json', '--noEmit']);
-  check(
-    '[ts6] 迁移后 tsc 0 error（裸导入经 "*" 映射仍可解析）',
-    after.status === 0 && after.stdout + after.stderr === '',
-  );
-  const serverBuild = runTsc([
-    '-p',
-    'tsconfig.server.json',
-    '--outDir',
-    'dist',
-  ]);
-  const emitted = path.join(appDir, 'dist/api/lambda/index.js');
-  check(
-    '[ts6] tsconfig.server.json 产出可 require 的 CommonJS',
-    serverBuild.status === 0 &&
-      fs.existsSync(emitted) &&
-      fs.readFileSync(emitted, 'utf8').includes('require(') &&
-      typeof createRequire(import.meta.url)(emitted).get === 'function',
-  );
+  const TS_CASES = [
+    { version: '5.9.3', before: '' },
+    { version: '6.0.3', before: 'TS5101' },
+    { version: '7.0.2', before: 'TS5102' },
+  ];
+  for (const { version, before } of TS_CASES) {
+    const tag = `ts${version.split('.')[0]}`;
+    console.log(
+      `== 8. TypeScript ${version} 验收（旧模板 + 依赖 baseUrl 的裸导入）==`,
+    );
+    const tsPrefix = fs.mkdtempSync(path.join(os.tmpdir(), `mj-${tag}-`));
+    tmpDirs.push(tsPrefix);
+    fs.writeFileSync(path.join(tsPrefix, 'package.json'), '{"private":true}');
+    execFileSync(
+      'npm',
+      [
+        'install',
+        `typescript@${version}`,
+        '--no-save',
+        '--no-package-lock',
+        '--no-audit',
+        '--no-fund',
+        '--ignore-scripts',
+      ],
+      { cwd: tsPrefix, stdio: 'pipe', shell: process.platform === 'win32' },
+    );
+    const tsDir = path.join(tsPrefix, 'node_modules/typescript');
+    const tsc = path.join(tsDir, 'bin/tsc');
+    const installed = JSON.parse(
+      fs.readFileSync(path.join(tsDir, 'package.json'), 'utf8'),
+    ).version;
+    const appDir = path.join(
+      REPO,
+      `node_modules/.cache/mj-migrate-tsconfig-${tag}`,
+    );
+    tmpDirs.push(appDir);
+    fs.rmSync(appDir, { recursive: true, force: true });
+    fs.cpSync(FIXTURE, appDir, { recursive: true });
+    // modern.config.ts 依赖未安装的框架包，与本验收无关
+    fs.rmSync(path.join(appDir, 'modern.config.ts'));
+    fs.rmSync(path.join(appDir, 'PROVENANCE.md'));
+    fs.writeFileSync(
+      path.join(appDir, 'src/index.ts'),
+      "import { greeting } from 'shared/greeting';\n\nexport const app = greeting;\n",
+    );
+    const runTsc = args =>
+      spawnSync(process.execPath, [tsc, ...args], {
+        cwd: appDir,
+        encoding: 'utf8',
+      });
+    const beforeRun = runTsc(['-p', 'tsconfig.json', '--noEmit']);
+    check(
+      before
+        ? `[${tag}] 迁移前报 ${before}`
+        : `[${tag}] 迁移前 tsc 0 error（TS 5 不受 baseUrl 影响）`,
+      installed === version &&
+        (before
+          ? beforeRun.stdout.includes(before)
+          : beforeRun.status === 0),
+    );
+    execFileSync('node', [CODEMOD, appDir], { stdio: 'pipe' });
+    const after = runTsc(['-p', 'tsconfig.json', '--noEmit']);
+    check(
+      `[${tag}] 迁移后 tsc 0 error（裸导入经 "*" 映射仍可解析）`,
+      after.status === 0 && after.stdout + after.stderr === '',
+    );
+    const serverBuild = runTsc([
+      '-p',
+      'tsconfig.server.json',
+      '--outDir',
+      'dist',
+    ]);
+    const emitted = path.join(appDir, 'dist/api/lambda/index.js');
+    check(
+      `[${tag}] tsconfig.server.json 产出可 require 的 CommonJS`,
+      serverBuild.status === 0 &&
+        fs.existsSync(emitted) &&
+        fs.readFileSync(emitted, 'utf8').includes('require(') &&
+        typeof createRequire(import.meta.url)(emitted).get === 'function',
+    );
+  }
 
   console.log(`\n结果：${pass} 通过 / ${fail} 失败`);
   if (fail > 0) process.exit(1);
