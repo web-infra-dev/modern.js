@@ -15,7 +15,7 @@
     "modern",
     "modern.js"
   ],
-  "version": "3.11.3",
+  "version": "0.0.0-canary-verify.r20261123-00c57617a6319aeb03d131f76c945f79",
   "types": "./src/index.ts",
   "main": "./dist/cjs/index.js",
   "module": "./dist/esm/index.mjs",
@@ -47,7 +47,7 @@
   "devDependencies": {
     "@modern-js/codesmith-api-handlebars": "2.6.9",
     "@modern-js/codesmith-utils": "2.6.9",
-    "@modern-js/create": "workspace:*",
+    "@modern-js/create": "workspace:0.0.0-canary-verify.r20261123-00c57617a6319aeb03d131f76c945f79",
     "@modern-js/rslib": "workspace:*",
     "@types/node": "^20",
     "@types/react": "^19.3.0",

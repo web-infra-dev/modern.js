@@ -1,13 +1,13 @@
 {
   "private": true,
   "name": "app-entry",
-  "version": "2.66.7",
+  "version": "0.0.0-canary-verify.r20261123-00c57617a6319aeb03d131f76c945f79",
   "scripts": {
     "dev": "modern dev"
   },
   "dependencies": {
-    "@modern-js/app-tools": "workspace:*",
-    "@modern-js/runtime": "workspace:*",
+    "@modern-js/app-tools": "workspace:0.0.0-canary-verify.r20261123-00c57617a6319aeb03d131f76c945f79",
+    "@modern-js/runtime": "workspace:0.0.0-canary-verify.r20261123-00c57617a6319aeb03d131f76c945f79",
     "react": "^19.3.1",
     "react-dom": "^19.3.1"
   }
