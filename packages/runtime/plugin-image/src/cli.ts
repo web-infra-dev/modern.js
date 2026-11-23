@@ -18,8 +18,9 @@ export const imagePlugin = (
   setup: api => {
     const { ...builderPluginOptions } = options;
     builderPluginOptions.ipx ||= {};
-    builderPluginOptions.ipx.basename ||= '/_modern/ipx';
-    builderPluginOptions.ipx.assetPrefix ||= builderPluginOptions.ipx.basename;
+    builderPluginOptions.ipx.assetPrefix ||=
+      builderPluginOptions.ipx.basename || '/_modern/ipx';
+    builderPluginOptions.ipx.basename ||= builderPluginOptions.ipx.assetPrefix;
 
     api.config(() => ({
       builderPlugins: [builderPluginImage(builderPluginOptions) as any],
