@@ -1,5 +1,5 @@
 #!/usr/bin/env node
-// 把项目 tsconfig 迁到 @modern-js/tsconfig 的 bundler 基线（Modern.js 3.13+）。
+// 把项目 tsconfig 迁到 @modern-js/tsconfig 的 bundler 基线。
 //   node scripts/migrate-tsconfig.mjs <projectDir> [--json]
 //
 // 结果写进 <projectDir>/.agents/runs/modernjs-migrate-tsconfig/report.json 的 changed / manual。

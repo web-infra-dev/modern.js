@@ -19,7 +19,7 @@ Shared TypeScript presets for Modern.js projects.
 | `legacy` | `@modern-js/tsconfig/legacy` | The previous `base` preset (`module: commonjs`, `moduleResolution: node`, `target: ES2015`). Rollback aid only; TypeScript 6 reports these options as deprecated.                                                                                                              |
 | `react`  | `@modern-js/tsconfig/react`  | Deprecated alias of `base`. Use `base` instead.                                                                                                                                                                                                                                |
 
-`@modern-js/tsconfig >= 3.13.0` requires `@modern-js/app-tools >= 3.13.0`: the framework needs to know how to compile `api/`, `server/` and `shared/` from a bundler-mode `tsconfig.json`.
+Keep `@modern-js/tsconfig` and `@modern-js/app-tools` on the same version: the framework needs to know how to compile `api/`, `server/` and `shared/` from a bundler-mode `tsconfig.json`.
 
 ## Two-file layout
 

@@ -99,7 +99,7 @@ bash scripts/run-lint.sh <projectDir>
 
 跑 `modern build`（必要时关键路由 smoke）。最终报告：成功步骤、跳过项、失败项、人工处理项、后续建议。
 
-`tsconfig` 不在本 skill 的改写范围内。升级到 `@modern-js/tsconfig` 3.13+ 或 TypeScript 6/7 时，在后续建议中提示执行 `modernjs-migrate-tsconfig` skill。
+`tsconfig` 不在本 skill 的改写范围内。升级到 bundler 模式的 `@modern-js/tsconfig` 基线或 TypeScript 6/7 时，在后续建议中提示执行 `modernjs-migrate-tsconfig` skill。
 
 ## 安全红线
 
