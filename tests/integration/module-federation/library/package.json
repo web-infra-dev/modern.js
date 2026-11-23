@@ -8,13 +8,13 @@
   "dependencies": {
     "react": "^19.3.1",
     "react-dom": "^19.3.1",
-    "@module-federation/enhanced": "0.0.0-feat-mf-ssr-update-current-20261120081805",
-    "@module-federation/bridge-react": "0.0.0-feat-mf-ssr-update-current-20261120081805"
+    "@module-federation/enhanced": "0.0.0-feat-mf-ssr-update-current-20261123061307",
+    "@module-federation/bridge-react": "0.0.0-feat-mf-ssr-update-current-20261123061307"
   },
   "devDependencies": {
     "@rslib/core": "0.23.2",
     "@rsbuild/plugin-react": "1.4.5",
-    "@module-federation/rsbuild-plugin": "0.0.0-feat-mf-ssr-update-current-20261120081805",
+    "@module-federation/rsbuild-plugin": "0.0.0-feat-mf-ssr-update-current-20261123061307",
     "@modern-js/tsconfig": "workspace:*"
   }
 }
