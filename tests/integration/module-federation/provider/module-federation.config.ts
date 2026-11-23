@@ -1,5 +1,7 @@
 import { createModuleFederationConfig } from '@module-federation/enhanced';
 import { origin, shared } from '../ports';
+const staticV2 =
+  process.env.MF_LAB_VERSION === 'v2' && !process.env.MF_LAB_UPDATES;
 export default createModuleFederationConfig({
   name: 'lab_provider',
   dts: false,
@@ -14,7 +16,7 @@ export default createModuleFederationConfig({
       }
     : {}),
   exposes: {
-    ...(process.env.MF_LAB_SERVICE
+    ...(process.env.MF_LAB_SERVICE && !staticV2
       ? {
           './ServiceWeatherApplication':
             './src/exports/ServiceWeatherApplication.tsx',

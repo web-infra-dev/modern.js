@@ -317,9 +317,24 @@ export async function startLab(
         .filter(child => child.exitCode === null && child.signalCode === null)
         .map(
           child =>
-            new Promise(resolve =>
-              treeKill(child.pid, 'SIGTERM', () => resolve()),
-            ),
+            new Promise(resolve => {
+              const exited = new Promise(done => {
+                if (child.exitCode !== null || child.signalCode !== null)
+                  done();
+                else child.once('exit', () => done());
+              });
+              treeKill(child.pid, 'SIGTERM', () => {
+                const timer = setTimeout(() => {
+                  if (child.exitCode === null && child.signalCode === null)
+                    treeKill(child.pid, 'SIGKILL', () => resolve());
+                  else resolve();
+                }, 5000);
+                exited.then(() => {
+                  clearTimeout(timer);
+                  resolve();
+                });
+              });
+            }),
         ),
     );
   }

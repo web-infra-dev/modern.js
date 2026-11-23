@@ -111,6 +111,15 @@ export function setupLab(
           ),
         );
       }
+      const providerIsolationRuntime = path.join(
+        workspace,
+        'provider/src/modern.runtime.tsx',
+      );
+      await writeFile(
+        path.join(workspace, 'provider/src/modern.runtime.ts'),
+        await readFile(providerIsolationRuntime, 'utf8'),
+      );
+      await rm(providerIsolationRuntime, { force: true });
       const federation = path.join(
         workspace,
         'provider/module-federation.config.ts',
@@ -205,16 +214,9 @@ export default function Document() {
             "import { defineRuntimeConfig } from '@modern-js/runtime'\nexport default defineRuntimeConfig({ router: { supportHtml5History: false } })\n",
           );
       }
-      const providerRuntime = path.join(
-        workspace,
-        'provider/src/modern.runtime.ts',
-      );
       await writeFile(
-        providerRuntime,
-        (await readFile(providerRuntime, 'utf8')).replace(
-          'plugins: [prepareClientPages() as RuntimePlugin]',
-          'router: { supportHtml5History: false },\n  plugins: [prepareClientPages() as RuntimePlugin]',
-        ),
+        path.join(workspace, 'provider/src/modern.runtime.ts'),
+        "import { defineRuntimeConfig } from '@modern-js/runtime'\nexport default defineRuntimeConfig({ router: { supportHtml5History: false } })\n",
       );
       const config = path.join(workspace, 'host/modern.config.ts');
       await writeFile(
@@ -253,7 +255,13 @@ export default function Document() {
       try {
         await lab?.stop();
       } finally {
-        if (workspace) await rm(workspace, { recursive: true, force: true });
+        if (workspace)
+          await rm(workspace, {
+            recursive: true,
+            force: true,
+            maxRetries: 5,
+            retryDelay: 100,
+          });
       }
     }
   });
@@ -436,7 +444,9 @@ export function describeLab(
 ) {
   rstest.setConfig({ testTimeout: 60000, hookTimeout: 600000, retry: 0 });
   const modes = options.mode
-    ? [options.mode]
+    ? process.env.MF_LAB_MODE && process.env.MF_LAB_MODE !== options.mode
+      ? []
+      : [options.mode]
     : process.env.MF_LAB_MODE
       ? [process.env.MF_LAB_MODE as 'dev' | 'production']
       : (['dev', 'production'] as const);

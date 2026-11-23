@@ -23,11 +23,13 @@
   background: #ffffff42;
   border-right: 1px solid var(--lab-line);
   padding: 32px 16px;
+  display: flex;
+  flex-direction: column;
+}
+.lab-layout > .lab-sidebar {
   position: sticky;
   top: 0;
   height: 100dvh;
-  display: flex;
-  flex-direction: column;
 }
 .lab-sidebar nav {
   display: grid;

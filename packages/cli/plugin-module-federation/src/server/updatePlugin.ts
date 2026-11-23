@@ -23,6 +23,7 @@ export default function updatePlugin(
     devBuild?: {
       publisher(): { name: string; entry: string };
       setReady?(ready: boolean): void;
+      registerRecover?(recover: (() => Promise<void>) | undefined): void;
     };
   },
 ) {
@@ -88,8 +89,14 @@ export default function updatePlugin(
           ...registered,
           ...localServices,
         ])
-          if (typeof remote.entry === 'string')
-            result.set(remote.name, { ...remote });
+          if (typeof remote.entry === 'string') {
+            const {
+              manifest: _manifest,
+              moduleInfo: _moduleInfo,
+              ...descriptor
+            } = remote;
+            result.set(remote.name, descriptor);
+          }
         return [...result.values()];
       };
       watcher = startDevRemoteUpdates({
@@ -138,7 +145,13 @@ export default function updatePlugin(
             error instanceof Error ? error : new Error(String(error)),
           ),
       });
-      return () => watcher!.close();
+      options.devBuild?.registerRecover?.(async () => {
+        await watcher?.notify();
+      });
+      return () => {
+        options.devBuild?.registerRecover?.(undefined);
+        watcher!.close();
+      };
     },
   });
   return {

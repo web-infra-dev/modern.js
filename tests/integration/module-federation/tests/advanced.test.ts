@@ -59,11 +59,7 @@ describeLab('Advanced scenarios', getContext => {
     await frame.waitForSelector(
       '[data-testid="provider-forecast"][data-version="v2"]',
     );
-    await selectControl(
-      page,
-      'select[aria-label="Advanced scenarios"]',
-      'lifecycle',
-    );
+    await selectControl(page, '[aria-label="Advanced scenarios"]', 'lifecycle');
     await page.waitForFunction(() =>
       document
         .querySelector('iframe')
@@ -79,11 +75,7 @@ describeLab('Advanced scenarios', getContext => {
         element => element.textContent,
       ),
     ).toBe('30°');
-    await selectControl(
-      page,
-      'select[aria-label="Advanced scenarios"]',
-      'replace',
-    );
+    await selectControl(page, '[aria-label="Advanced scenarios"]', 'replace');
     await page.waitForFunction(() =>
       document
         .querySelector('iframe')

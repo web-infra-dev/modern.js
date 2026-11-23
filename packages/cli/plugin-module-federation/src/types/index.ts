@@ -65,6 +65,7 @@ export interface InternalModernPluginOptions {
     typeof import('../cli/devManifest').createDevManifestPublication
   >;
   devManifestReady?: boolean;
+  recoverDevSSR?: () => Promise<void>;
   waitForServiceRuntimePlugins?: (compilation?: object) => Promise<void>;
   userConfig?: PluginOptions;
   fetchServerQuery?: Record<string, unknown>;

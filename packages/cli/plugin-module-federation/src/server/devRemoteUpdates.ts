@@ -117,7 +117,9 @@ export function startDevRemoteUpdates(options: DevRemoteUpdatesOptions) {
           discover(info);
         }
         dependencies.sort((a, b) => identity(a).localeCompare(identity(b)));
-        const candidate = { ...remote, manifest, dependencies };
+        const { moduleInfo: _moduleInfo, ...baseRemote } =
+          remote as RemoteUpdateTarget;
+        const candidate = { ...baseRemote, manifest, dependencies };
         return (await options.shouldUpdateRemote(candidate, { signal }))
           ? candidate
           : undefined;

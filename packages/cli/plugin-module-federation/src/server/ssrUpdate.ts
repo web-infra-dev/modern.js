@@ -9,6 +9,7 @@ import {
   applyNodeGlobalModuleInfo,
   destroyNodeInstance,
   diffNodeGlobalModuleInfo,
+  getNodeInstanceLifecycle,
   lookupProviderInGlobalModuleInfo,
   planRemoteCache,
   resolveTargetModuleInfo,
@@ -472,10 +473,10 @@ export function createSSRUpdateAdapter(options: {
                           ).values(),
                         ]
                       : next;
-                  // Full application disposal follows invalidation. Capture the
-                  // provider objects before Core/bundler hooks detach them from
+                  // Capture the provider objects before Core/bundler hooks detach them from
                   // both the host cache and the global instance registry.
-                  if (!entries) {
+                  const detachedProviders = new Set<any>();
+                  {
                     const known = [
                       ...((globalThis as any).__FEDERATION__?.__INSTANCES__ ||
                         []),
@@ -492,13 +493,31 @@ export function createSSRUpdateAdapter(options: {
                         );
                       if (provider) {
                         requireSSRNodeLifecycle(provider);
-                        retiringProviders.add(provider);
+                        if (!entries) retiringProviders.add(provider);
+                        else detachedProviders.add(provider);
                       }
                     }
                   }
                   await (typeof instance.updateRemotes === 'function'
                     ? instance.updateRemotes(targets)
                     : updateNodeRemotes(instance, targets));
+                  if (entries && detachedProviders.size) {
+                    const activeInstances = new Set(
+                      (globalThis as any).__FEDERATION__?.__INSTANCES__ || [],
+                    );
+                    const retainedByHost = new Set(
+                      instance.retainedProviders || [],
+                    );
+                    await Promise.all(
+                      [...detachedProviders]
+                        .filter(
+                          provider =>
+                            !activeInstances.has(provider) &&
+                            !retainedByHost.has(provider),
+                        )
+                        .map(provider => destroyNodeInstance(provider)),
+                    );
+                  }
                 };
                 if (state) await state.context.run(token, replace);
                 else await replace();
@@ -543,6 +562,54 @@ export function createSSRUpdateAdapter(options: {
               if (new Set(names).size !== names.length)
                 throw new Error('Multiple replacements target the same remote');
             }
+            const hasSharedSingletonMismatch = (
+              name: string,
+              replacement: Replacement,
+            ): boolean => {
+              if (!hosts.length) return false;
+              const snapshot =
+                replacement.manifest || replacement.moduleInfo
+                  ? resolveTargetModuleInfo({
+                      entry: replacement.entry,
+                      manifest: replacement.manifest,
+                      moduleInfo: replacement.moduleInfo,
+                    })
+                  : undefined;
+              if (
+                !snapshot ||
+                !('buildVersion' in snapshot) ||
+                typeof snapshot.buildVersion !== 'string' ||
+                !snapshot.buildVersion
+              )
+                return false;
+              const provider = helpers.global.getRemoteFederationInstance({
+                name: canonicalName(name),
+                buildVersion: snapshot.buildVersion,
+                version:
+                  typeof snapshot.version === 'string'
+                    ? snapshot.version
+                    : replacement.entry,
+              });
+              if (!provider || getNodeInstanceLifecycle(provider)?.closed)
+                return false;
+              for (const [scope, pkgs] of Object.entries(
+                provider.shareScopeMap || {},
+              ) as Array<[string, Record<string, Record<string, any>>]>) {
+                for (const [pkgName, versions] of Object.entries(pkgs || {})) {
+                  for (const [ver, record] of Object.entries(versions || {})) {
+                    if (!record?.loaded || typeof record.lib !== 'function')
+                      continue;
+                    for (const host of hosts) {
+                      const current =
+                        host.shareScopeMap?.[scope]?.[pkgName]?.[ver];
+                      if (current?.loaded && current.lib !== record.lib)
+                        return true;
+                    }
+                  }
+                }
+              }
+              return false;
+            };
             const plans = changes.map(({ name, replacement }) => {
               // Native entry metadata proves only the direct import boundary.
               // Nested containers need disposal, including when a dependency
@@ -554,6 +621,11 @@ export function createSSRUpdateAdapter(options: {
                 return {
                   mode: 'application' as const,
                   reasons: ['transitive-remote-dependencies'],
+                };
+              if (hasSharedSingletonMismatch(name, replacement))
+                return {
+                  mode: 'application' as const,
+                  reasons: ['shared-singleton-mismatch'],
                 };
               return plan(name);
             });

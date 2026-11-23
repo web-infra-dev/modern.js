@@ -1243,4 +1243,80 @@ describe('GlobalModuleInfo updates', () => {
       helpers.global.resetFederationGlobalInfo();
     }
   });
+
+  it('widens to application mode when a retained target provider uses a different loaded singleton', async () => {
+    helpers.global.resetFederationGlobalInfo();
+    const { adapter, runtime, owner, b } = fixture();
+    const instance = runtime.federation.instance as any;
+    b.runtime = {
+      federation: { instance, bundlerRuntimeOptions: {} },
+      remotesLoadingData: {
+        moduleIdToRemoteDataMapping: {},
+        cache: { moduleIdToParentModuleIds: {}, modules: {}, factories: {} },
+      },
+    };
+    const hostReactLib = () => ({ id: 'host-react' });
+    const otherReactLib = () => ({ id: 'other-host-react' });
+    instance.name = 'host';
+    instance.options = {
+      name: 'host',
+      remotes: [
+        {
+          name: 'provider_a',
+          alias: 'remote',
+          entry: 'https://cdn.example.test/provider_a/1.0.0/mf-manifest.json',
+        },
+      ],
+    };
+    instance.shareScopeMap = {
+      default: {
+        react: {
+          '19.3.1': { loaded: 1, lib: hostReactLib },
+        },
+      },
+    };
+    instance.updateRemotes = async () => {};
+    const retainedProvider = {
+      name: 'provider_a',
+      options: { id: 'provider_a:2.0.0', remotes: [] },
+      shareScopeMap: {
+        default: {
+          react: {
+            '19.3.1': { loaded: 1, lib: otherReactLib },
+          },
+        },
+      },
+    };
+    globalThis.__FEDERATION__.__INSTANCES__.push(retainedProvider as any);
+    const scopes: Array<readonly string[] | undefined> = [];
+    const application = {
+      async update(
+        invalidate: (entries?: readonly string[]) => Promise<void>,
+        getScope?: () => readonly string[] | undefined,
+      ) {
+        const scope = getScope?.();
+        scopes.push(scope);
+        await invalidate(scope);
+        return scopes.length;
+      },
+    };
+    try {
+      const result = await adapter.updateRemotes(application, [
+        {
+          name: 'remote',
+          entry: 'https://cdn.example.test/provider_a/2.0.0/mf-manifest.json',
+          moduleInfo: providerSnapshot('provider_a', '2.0.0'),
+        },
+      ]);
+      expect(result).toMatchObject({
+        changed: true,
+        mode: 'application',
+        reasons: ['shared-singleton-mismatch'],
+      });
+      expect(scopes).toEqual([undefined]);
+    } finally {
+      releaseSSRUpdateOwner(owner);
+      helpers.global.resetFederationGlobalInfo();
+    }
+  });
 });

@@ -2,18 +2,18 @@ import { appTools, defineConfig } from '@modern-js/app-tools';
 import { port, origin } from '../ports';
 import { updateRequestPolicy } from '../update-lab';
 const name = process.env.MF_LAB_VERSION === 'v2' ? 'providerV2' : 'provider';
+const staticV2 =
+  process.env.MF_LAB_VERSION === 'v2' && !process.env.MF_LAB_UPDATES;
+const serviceEnabled = Boolean(process.env.MF_LAB_SERVICE) && !staticV2;
 export default defineConfig({
   html: { title: 'Federation lab · SSR & data fetching' },
   server: {
     tsconfigPath: './tsconfig.server.json',
-    baseUrl: process.env.MF_LAB_SERVICE
+    baseUrl: serviceEnabled
       ? ['/weather-service', '/weather-service-alias', '/']
       : '/',
     port: port(name, 4301),
-    ssr:
-      process.env.MF_LAB_VERSION === 'v2' && !process.env.MF_LAB_UPDATES
-        ? false
-        : { mode: 'stream' },
+    ssr: staticV2 ? false : { mode: 'stream' },
   },
   output: {
     dataUriLimit: 0,
@@ -105,7 +105,7 @@ export default defineConfig({
           },
         }
       : {}),
-    ...(process.env.MF_LAB_SERVICE
+    ...(serviceEnabled
       ? {
           serviceProvider: {
             origin: origin(name, 0),

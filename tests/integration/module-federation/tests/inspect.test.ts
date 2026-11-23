@@ -6,6 +6,11 @@ describeLab('Inspect', getContext => {
     const colors = new Map<string, string>();
     await page.setViewport({ width: 1440, height: 900 });
     await page.goto(`${lab.url}/`, { waitUntil: 'networkidle0' });
+    await page.evaluate(() =>
+      Array.from(document.querySelectorAll('button'))
+        .find(button => button.textContent?.includes('Full-size view'))
+        ?.click(),
+    );
     const frames = await weatherFrames(2);
     for (const frame of frames) {
       await frame.waitForSelector(
@@ -17,7 +22,7 @@ describeLab('Inspect', getContext => {
         (window as any).inspectSentinel = 'preserved';
       });
     }
-    await page.click('.inspect-control input');
+    await page.click('.inspect-control [role="checkbox"]');
     for (const frame of frames) {
       await frame.waitForFunction(
         () =>
@@ -147,15 +152,37 @@ describeLab('Inspect', getContext => {
       for (const key of ['left', 'top', 'width', 'height'] as const)
         expect(Math.abs(position[key] - outline[key])).toBeLessThan(2);
     }
-    await page.click('.inspect-control input');
+    await page.click('.inspect-control [role="checkbox"]');
     for (const frame of frames)
       await frame.waitForFunction(
         () => !document.querySelector('[data-testid="mf-inspect-outline"]'),
       );
-    await page.click('.inspect-control input');
-    await page.click('.comparison-controls button');
+    await page.click('.inspect-control [role="checkbox"]');
+    await page.click('[data-testid="render-apply"]');
+    await page.waitForFunction(() =>
+      Array.from(document.querySelectorAll<HTMLIFrameElement>('iframe'))
+        .filter(frame => new URL(frame.src).pathname.endsWith('/weather'))
+        .every(
+          frame =>
+            frame.contentWindow &&
+            new URLSearchParams(frame.contentWindow.location.search).get(
+              'run',
+            ) === '1' &&
+            frame.contentDocument?.readyState === 'complete',
+        ),
+    );
     for (const frame of await weatherFrames(2)) {
-      await frame.waitForSelector('[data-testid="mf-inspect-outline"]');
+      await frame.waitForFunction(() => {
+        const outlines = document.querySelectorAll(
+          '[data-testid="mf-inspect-outline"]',
+        );
+        return (
+          outlines.length > 0 &&
+          Array.from(outlines).every(
+            element => getComputedStyle(element).borderTopColor !== '',
+          )
+        );
+      });
       const palette = await frame.$$eval(
         '[data-testid="mf-inspect-outline"]',
         elements =>
@@ -172,6 +199,11 @@ describeLab('Inspect', getContext => {
     const { lab, page, weatherFrames } = getContext();
     await page.setViewport({ width: 1440, height: 900 });
     await page.goto(`${lab.url}/data`, { waitUntil: 'networkidle0' });
+    await page.evaluate(() =>
+      Array.from(document.querySelectorAll('button'))
+        .find(button => button.textContent?.includes('Full-size view'))
+        ?.click(),
+    );
     const frames = await weatherFrames(4);
     const initial = [];
     for (const frame of frames) {
@@ -198,7 +230,7 @@ describeLab('Inspect', getContext => {
       )
         requests++;
     });
-    await page.click('.inspect-control input');
+    await page.click('.inspect-control [role="checkbox"]');
     for (const [index, frame] of frames.entries()) {
       await frame.waitForFunction(
         () =>

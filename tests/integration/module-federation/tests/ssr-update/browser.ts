@@ -67,7 +67,7 @@ export async function verifyBrowser(baseURL: string) {
     await current.page.goto(baseURL, { waitUntil: 'load' });
     await interact(current.page, 'v1');
     const updated = await control('/__update?v=v2');
-    assert.equal(updated.mode, 'application');
+    assert.equal(updated.mode, 'entries');
     assert.equal(
       await current.page.$eval('#remote-counter', node => node.textContent),
       'v1:1',

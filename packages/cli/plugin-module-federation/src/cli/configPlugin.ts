@@ -492,6 +492,9 @@ export const moduleFederationConfigPlugin = (
                   userConfig.devManifestReady =
                     ready && userConfig.devManifestPublication!.ready;
                 },
+                registerRecover: (recover?: () => Promise<void>) => {
+                  userConfig.recoverDevSSR = recover;
+                },
               },
             }),
           },

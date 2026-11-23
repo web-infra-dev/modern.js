@@ -132,7 +132,9 @@ describeLab(
             Math.max(...(Object.values(readiness.components) as number[])),
           ),
         );
-        await frame.click('[data-testid="weather-save"]');
+        await frame.$eval('[data-testid="weather-save"]', element =>
+          (element as HTMLElement).click(),
+        );
         expect(
           await frame.$eval(
             '[data-testid="weather-save"]',
@@ -282,7 +284,9 @@ describeLab(
             Math.max(...(Object.values(readiness.components) as number[])),
           ),
         );
-        await frame.click('[data-testid="weather-save"]');
+        await frame.$eval('[data-testid="weather-save"]', element =>
+          (element as HTMLElement).click(),
+        );
         expect(
           await frame.$eval(
             '[data-testid="weather-save"]',
@@ -342,7 +346,9 @@ describeLab(
         await page.$$eval(
           '.comparison-panel>small',
           nodes =>
-            nodes.filter(node => node.textContent?.includes('资源准备')).length,
+            nodes.filter(node =>
+              node.textContent?.includes('Asset preparation'),
+            ).length,
         ),
       ).toBe(2);
     });

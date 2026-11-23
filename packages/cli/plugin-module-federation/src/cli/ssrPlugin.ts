@@ -462,6 +462,19 @@ export const moduleFederationSSRPlugin = (
                       !pluginOptions.devManifestReady
                     ) {
                       if (
+                        pluginOptions.devManifestPublication?.ready &&
+                        !pluginOptions.devManifestPublication.ssrReady &&
+                        pluginOptions.recoverDevSSR
+                      ) {
+                        try {
+                          await pluginOptions.recoverDevSSR();
+                        } catch {
+                          // Upstream producer may still be unavailable; keep manifest gated.
+                        }
+                        if (res.destroyed) return;
+                      }
+                      if (
+                        !pluginOptions.devManifestReady &&
                         req.headers[DEV_MANIFEST_WAIT_HEADER] === '1' &&
                         pluginOptions.devManifestPublication
                       ) {

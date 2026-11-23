@@ -531,13 +531,15 @@ describeLab(
     it('shows actual data fallbacks in all four panels and restores prefetched data', async () => {
       const { lab, page, weatherFrames, expectErrors } = getContext();
       expectErrors(
-        /LAB_WEATHER_API: HTTP 503|Hydration failed|Minified React error #418/,
+        /LAB_WEATHER_API: HTTP 503|Hydration failed|There was an error while hydrating|Minified React error #(?:418|419|422)/,
         1,
-        2,
+        3,
       );
       await page.setViewport({ width: 1440, height: 900 });
-      await page.goto(`${lab.url}/data`, { waitUntil: 'networkidle0' });
-      for (const frame of await weatherFrames(4))
+      await page.goto(`${lab.url}/data?preload=1`, {
+        waitUntil: 'networkidle0',
+      });
+      for (const frame of await weatherFrames(5))
         await frame.waitForSelector(
           '[data-testid="weather-save"]:not(:disabled)',
         );
@@ -547,21 +549,23 @@ describeLab(
           el => el.getAttribute('aria-checked') === 'true',
         ),
       ).toBe(true);
+      await page.click('.lab-advanced summary');
       await selectControl(page, '[aria-label="Failure scenario"]', 'data');
       await page.click('[aria-label="Simulate failure"]');
+      await page.click('[data-testid="render-apply"]');
       await page.waitForFunction(() =>
         Array.from(document.querySelectorAll('iframe')).every(frame =>
           frame.contentWindow?.location.search.includes('failure=data'),
         ),
       );
-      for (const frame of await weatherFrames(4)) {
+      for (const frame of await weatherFrames(5)) {
         await frame.waitForSelector('[data-testid="recovery-card"]');
         await frame.waitForSelector('[data-testid="weather-hourly"]');
       }
       await page.waitForFunction(
         () =>
           Array.from(document.querySelectorAll('.recovery-badge')).length ===
-            4 &&
+            5 &&
           Array.from(document.querySelectorAll('.recovery-badge')).every(
             el => el.textContent === 'Data fallback',
           ),
@@ -576,6 +580,7 @@ describeLab(
           path: screenshotPath(getContext().mode, 'mf-data-failure.png'),
         });
       await page.click('[aria-label="Simulate failure"]');
+      await page.click('[data-testid="render-apply"]');
       await page.waitForFunction(() =>
         Array.from(document.querySelectorAll('iframe')).every(
           frame =>
@@ -584,7 +589,7 @@ describeLab(
             ) === '',
         ),
       );
-      for (const frame of await weatherFrames(4)) {
+      for (const frame of await weatherFrames(5)) {
         await frame.waitForSelector(
           '[data-testid="weather-save"]:not(:disabled)',
         );

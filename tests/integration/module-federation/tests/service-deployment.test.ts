@@ -10,7 +10,6 @@ import {
 describeLab(
   'Service independent deployment',
   getContext => {
-    if (getContext().mode !== 'production') return;
     it('renders and hydrates the current deployment without updating the Host snapshot', async () => {
       const { page, lab } = getContext();
       const discovery = `http://localhost:${lab.ports.api}/service-deployment/mf-manifest.json`;
@@ -41,7 +40,12 @@ describeLab(
       }
     });
   },
-  { updates: 'service', serviceDeployment: true, publicRoutesOnly: true },
+  {
+    mode: 'production',
+    updates: 'service',
+    serviceDeployment: true,
+    publicRoutesOnly: true,
+  },
 );
 
 describeLab(
@@ -89,8 +93,8 @@ describeLab(
         const original = await readFile(source, 'utf8');
         const marker = 'Service nested C update';
         const changed = original.replace(
-          'export default withRenderFailure(WindWeather);',
-          `export default withRenderFailure(function Wind(props: Parameters<typeof WindWeather>[0]) { return <WindWeather {...props} attribution=${JSON.stringify(marker)} />; });`,
+          'export default withRenderFailure(VersionedWind);',
+          `export default withRenderFailure(function Wind(props: ComponentProps<typeof WindWeather>) { return <VersionedWind {...props} attribution=${JSON.stringify(marker)} />; });`,
         );
         expect(changed).not.toBe(original);
         try {

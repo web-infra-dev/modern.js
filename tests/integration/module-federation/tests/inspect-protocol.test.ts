@@ -41,7 +41,7 @@ test.each(['bridge', 'service'] as const)(
       {
         name,
         entry,
-        moduleInfo: {
+        manifest: {
           id: name,
           name,
           metaData: {
