@@ -1784,14 +1784,14 @@ importers:
   packages/solutions/app-tools:
     dependencies:
       '@babel/parser':
-        specifier: ^7.29.14
-        version: 7.29.14
+        specifier: ^7.29.15
+        version: 7.29.15
       '@babel/traverse':
-        specifier: ^7.29.14
-        version: 7.29.14(supports-color@5.5.0)
+        specifier: ^7.29.15
+        version: 7.29.15(supports-color@5.5.0)
       '@babel/types':
-        specifier: ^7.29.14
-        version: 7.29.14
+        specifier: ^7.29.15
+        version: 7.29.15
       '@modern-js/builder':
         specifier: workspace:*
         version: link:../../cli/builder
@@ -5474,6 +5474,10 @@ packages:
     resolution: {integrity: sha512-qSY56jgW5JnSXzuekLVil6zaOQxOCtOHidr65KkaMBw772IuAY28Qx4ZykAcDn8+FRF15qk80XzKwgSc/RYW6g==}
     engines: {node: '>=6.9.0'}
 
+  '@babel/generator@7.29.15':
+    resolution: {integrity: sha512-gNWJUX0FlevflramOkaInywOMhU1lkln38gAC7TFZv2tsWbLYbN/2WZFGcq8zbX0Z55e4vGa27IB/NaeZoauWQ==}
+    engines: {node: '>=6.9.0'}
+
   '@babel/helper-annotate-as-pure@7.27.3':
     resolution: {integrity: sha512-fXSwMQqitTGeHLBC08Eq5yXz2m37E4pJX1qAU1+2cNedz/ifv/bVXft90VeSav5nFO61EcNgwr0aJxbyPaWBPg==}
     engines: {node: '>=6.9.0'}
@@ -5544,6 +5548,10 @@ packages:
     resolution: {integrity: sha512-CXvKMFvM80ihI7Vox9jb+kQjnyjESQNPM+vB7U0Zz6TWuZA+Z/FL0QPMH300h33qJtIx+REeBhXqWOPW48TcAQ==}
     engines: {node: '>=6.9.0'}
 
+  '@babel/helper-string-parser@7.29.15':
+    resolution: {integrity: sha512-C2FuapQ2Kh1OnVHAoLi5rD3GBJ8COb9Q609T6HEpLqaBAo560PDP5OxBE5dCI/h951MBO/+bCUYU5SZ+8ZlV+w==}
+    engines: {node: '>=6.9.0'}
+
   '@babel/helper-validator-identifier@7.29.7':
     resolution: {integrity: sha512-qehxGkRj55h/ff8EMaJ+cYhyaKlHIxqYDn682wQD7RNp9UujOQsHog2uS0r2vzr4pW+sXf90NeeayjcNaX3fFg==}
     engines: {node: '>=6.9.0'}
@@ -5562,6 +5570,11 @@ packages:
 
   '@babel/parser@7.29.14':
     resolution: {integrity: sha512-VL220vXuyO2z3rNIQwY7ftj9UwpqOt+33sH+sBWkOekbsSR2g7EEMnOx24ZlCH0xOA3DM/33SifVFGbnJD8r/w==}
+    engines: {node: '>=6.0.0'}
+    hasBin: true
+
+  '@babel/parser@7.29.15':
+    resolution: {integrity: sha512-RpKWyisHoP81twtSCgmE02iU0RnPcq1DN5bBEbpUePrjA9Q3wXhufnCJrrayPpoZieqFh3zyZQqwtSK0gGccRA==}
     engines: {node: '>=6.0.0'}
     hasBin: true
 
@@ -5659,8 +5672,16 @@ packages:
     resolution: {integrity: sha512-RAdQJrBgmIH1FWvN0X+1hoDxzMzlP4cv/1Zi4dn4tG1H0cTb+rw7CzUxQJhp1f4ANd8j5vH3fy8BAWFGkBDEsA==}
     engines: {node: '>=6.9.0'}
 
+  '@babel/traverse@7.29.15':
+    resolution: {integrity: sha512-ZfawBo2i8vvt+BTt37dWDKBPjUfm/H+bw+ltwsCRhW7gPtyNVwUXuNo54eO2Xo+P4VXpalPFfFISbBTRKC8SOQ==}
+    engines: {node: '>=6.9.0'}
+
   '@babel/types@7.29.14':
     resolution: {integrity: sha512-UjI/dKmwJwT9pOszJitq2G6EObZPnsZUfdCr92z2TlF3EZK9J3EdfOKUrCzHl6wFthbzwhzl1Soc/UIwxRiq6w==}
+    engines: {node: '>=6.9.0'}
+
+  '@babel/types@7.29.15':
+    resolution: {integrity: sha512-/XKpKDakL//LZ66bq1XsZOswuqeI5MZqPLDu18o3XdkU1fNJ7bdPtzgnc4ZNS+bBGHV0FJG8jjb8SwcC3nNVQQ==}
     engines: {node: '>=6.9.0'}
 
   '@braintree/sanitize-url@7.1.2':
@@ -17407,7 +17428,7 @@ snapshots:
       '@babel/helpers': 7.29.14
       '@babel/parser': 7.29.14
       '@babel/template': 7.29.7
-      '@babel/traverse': 7.29.14(supports-color@5.5.0)
+      '@babel/traverse': 7.29.14
       '@babel/types': 7.29.14
       '@jridgewell/remapping': 2.3.5
       convert-source-map: 2.0.0
@@ -17420,27 +17441,35 @@ snapshots:
 
   '@babel/generator@7.28.6':
     dependencies:
-      '@babel/parser': 7.29.14
-      '@babel/types': 7.29.14
+      '@babel/parser': 7.29.15
+      '@babel/types': 7.29.15
       '@jridgewell/gen-mapping': 0.3.13
       '@jridgewell/trace-mapping': 0.3.31
       jsesc: 3.1.0
 
   '@babel/generator@7.29.14':
     dependencies:
-      '@babel/parser': 7.29.14
-      '@babel/types': 7.29.14
+      '@babel/parser': 7.29.15
+      '@babel/types': 7.29.15
+      '@jridgewell/gen-mapping': 0.3.13
+      '@jridgewell/trace-mapping': 0.3.31
+      jsesc: 3.1.0
+
+  '@babel/generator@7.29.15':
+    dependencies:
+      '@babel/parser': 7.29.15
+      '@babel/types': 7.29.15
       '@jridgewell/gen-mapping': 0.3.13
       '@jridgewell/trace-mapping': 0.3.31
       jsesc: 3.1.0
 
   '@babel/helper-annotate-as-pure@7.27.3':
     dependencies:
-      '@babel/types': 7.29.14
+      '@babel/types': 7.29.15
 
   '@babel/helper-annotate-as-pure@7.29.7':
     dependencies:
-      '@babel/types': 7.29.14
+      '@babel/types': 7.29.15
 
   '@babel/helper-compilation-targets@7.29.13':
     dependencies:
@@ -17458,7 +17487,7 @@ snapshots:
       '@babel/helper-optimise-call-expression': 7.29.7
       '@babel/helper-replace-supers': 7.29.7(@babel/core@7.29.13)
       '@babel/helper-skip-transparent-expression-wrappers': 7.29.7
-      '@babel/traverse': 7.29.14(supports-color@5.5.0)
+      '@babel/traverse': 7.29.15(supports-color@5.5.0)
       semver: 6.3.1
     transitivePeerDependencies:
       - supports-color
@@ -17469,29 +17498,29 @@ snapshots:
 
   '@babel/helper-member-expression-to-functions@7.29.7':
     dependencies:
-      '@babel/traverse': 7.29.14(supports-color@5.5.0)
-      '@babel/types': 7.29.14
+      '@babel/traverse': 7.29.15(supports-color@5.5.0)
+      '@babel/types': 7.29.15
     transitivePeerDependencies:
       - supports-color
 
   '@babel/helper-module-imports@7.27.1(supports-color@5.5.0)':
     dependencies:
-      '@babel/traverse': 7.29.14(supports-color@5.5.0)
-      '@babel/types': 7.29.14
+      '@babel/traverse': 7.29.15(supports-color@5.5.0)
+      '@babel/types': 7.29.15
     transitivePeerDependencies:
       - supports-color
 
   '@babel/helper-module-imports@7.28.6(supports-color@5.5.0)':
     dependencies:
-      '@babel/traverse': 7.29.14(supports-color@5.5.0)
-      '@babel/types': 7.29.14
+      '@babel/traverse': 7.29.15(supports-color@5.5.0)
+      '@babel/types': 7.29.15
     transitivePeerDependencies:
       - supports-color
 
   '@babel/helper-module-imports@7.29.7':
     dependencies:
-      '@babel/traverse': 7.29.14(supports-color@5.5.0)
-      '@babel/types': 7.29.14
+      '@babel/traverse': 7.29.15(supports-color@5.5.0)
+      '@babel/types': 7.29.15
     transitivePeerDependencies:
       - supports-color
 
@@ -17500,13 +17529,13 @@ snapshots:
       '@babel/core': 7.29.13
       '@babel/helper-module-imports': 7.29.7
       '@babel/helper-validator-identifier': 7.29.7
-      '@babel/traverse': 7.29.14(supports-color@5.5.0)
+      '@babel/traverse': 7.29.15(supports-color@5.5.0)
     transitivePeerDependencies:
       - supports-color
 
   '@babel/helper-optimise-call-expression@7.29.7':
     dependencies:
-      '@babel/types': 7.29.14
+      '@babel/types': 7.29.15
 
   '@babel/helper-plugin-utils@7.29.7': {}
 
@@ -17515,18 +17544,20 @@ snapshots:
       '@babel/core': 7.29.13
       '@babel/helper-member-expression-to-functions': 7.29.7
       '@babel/helper-optimise-call-expression': 7.29.7
-      '@babel/traverse': 7.29.14(supports-color@5.5.0)
+      '@babel/traverse': 7.29.15(supports-color@5.5.0)
     transitivePeerDependencies:
       - supports-color
 
   '@babel/helper-skip-transparent-expression-wrappers@7.29.7':
     dependencies:
-      '@babel/traverse': 7.29.14(supports-color@5.5.0)
-      '@babel/types': 7.29.14
+      '@babel/traverse': 7.29.15(supports-color@5.5.0)
+      '@babel/types': 7.29.15
     transitivePeerDependencies:
       - supports-color
 
   '@babel/helper-string-parser@7.29.14': {}
+
+  '@babel/helper-string-parser@7.29.15': {}
 
   '@babel/helper-validator-identifier@7.29.7': {}
 
@@ -17538,11 +17569,15 @@ snapshots:
   '@babel/helpers@7.29.14':
     dependencies:
       '@babel/template': 7.29.7
-      '@babel/types': 7.29.14
+      '@babel/types': 7.29.15
 
   '@babel/parser@7.29.14':
     dependencies:
-      '@babel/types': 7.29.14
+      '@babel/types': 7.29.15
+
+  '@babel/parser@7.29.15':
+    dependencies:
+      '@babel/types': 7.29.15
 
   '@babel/plugin-proposal-decorators@7.29.7(@babel/core@7.29.13)':
     dependencies:
@@ -17628,41 +17663,53 @@ snapshots:
   '@babel/template@7.27.2':
     dependencies:
       '@babel/code-frame': 7.29.7
-      '@babel/parser': 7.29.14
-      '@babel/types': 7.29.14
+      '@babel/parser': 7.29.15
+      '@babel/types': 7.29.15
 
   '@babel/template@7.28.6':
     dependencies:
       '@babel/code-frame': 7.29.7
-      '@babel/parser': 7.29.14
-      '@babel/types': 7.29.14
+      '@babel/parser': 7.29.15
+      '@babel/types': 7.29.15
 
   '@babel/template@7.29.7':
     dependencies:
       '@babel/code-frame': 7.29.7
-      '@babel/parser': 7.29.14
-      '@babel/types': 7.29.14
+      '@babel/parser': 7.29.15
+      '@babel/types': 7.29.15
 
   '@babel/traverse@7.28.5(supports-color@5.5.0)':
     dependencies:
       '@babel/code-frame': 7.28.6
       '@babel/generator': 7.28.6
       '@babel/helper-globals': 7.28.0
-      '@babel/parser': 7.29.14
+      '@babel/parser': 7.29.15
       '@babel/template': 7.28.6
-      '@babel/types': 7.29.14
+      '@babel/types': 7.29.15
       debug: 4.4.3(supports-color@5.5.0)
     transitivePeerDependencies:
       - supports-color
 
-  '@babel/traverse@7.29.14(supports-color@5.5.0)':
+  '@babel/traverse@7.29.14':
     dependencies:
       '@babel/code-frame': 7.29.7
       '@babel/generator': 7.29.14
       '@babel/helper-globals': 7.29.7
-      '@babel/parser': 7.29.14
+      '@babel/parser': 7.29.15
       '@babel/template': 7.29.7
-      '@babel/types': 7.29.14
+      '@babel/types': 7.29.15
+      debug: 4.4.3(supports-color@5.5.0)
+    transitivePeerDependencies:
+      - supports-color
+
+  '@babel/traverse@7.29.15(supports-color@5.5.0)':
+    dependencies:
+      '@babel/code-frame': 7.29.7
+      '@babel/generator': 7.29.15
+      '@babel/helper-globals': 7.29.7
+      '@babel/parser': 7.29.15
+      '@babel/template': 7.29.7
+      '@babel/types': 7.29.15
       debug: 4.4.3(supports-color@5.5.0)
     transitivePeerDependencies:
       - supports-color
@@ -17670,6 +17717,11 @@ snapshots:
   '@babel/types@7.29.14':
     dependencies:
       '@babel/helper-string-parser': 7.29.14
+      '@babel/helper-validator-identifier': 7.29.7
+
+  '@babel/types@7.29.15':
+    dependencies:
+      '@babel/helper-string-parser': 7.29.15
       '@babel/helper-validator-identifier': 7.29.7
 
   '@braintree/sanitize-url@7.1.2': {}
@@ -19061,7 +19113,7 @@ snapshots:
   '@modern-js/app-tools@3.12.0(@module-federation/runtime-tools@2.0.0)(@rspack/core@2.3.3(@module-federation/runtime-tools@2.0.0)(@swc/helpers@0.5.24))(bufferutil@4.1.0)(core-js@3.50.0)(devcert@1.2.3)(encoding@0.1.14)(react-dom@19.3.1(react@19.3.1))(react-server-dom-rspack@0.1.0(@rspack/core@2.3.3(@module-federation/runtime-tools@2.0.0)(@swc/helpers@0.5.24))(react-dom@19.3.1(react@19.3.1))(react@19.3.1))(react@19.3.1)(ts-node@10.9.2(@swc/core@1.16.21(@swc/helpers@0.5.24))(@types/node@20.19.43)(typescript@5.9.3))(tsconfig-paths@4.2.0)(typescript@5.9.3)(utf-8-validate@5.0.10)(webpack@5.104.1(@swc/core@1.16.21(@swc/helpers@0.5.24))(postcss@8.5.31))':
     dependencies:
       '@babel/parser': 7.29.14
-      '@babel/traverse': 7.29.14(supports-color@5.5.0)
+      '@babel/traverse': 7.29.14
       '@babel/types': 7.29.14
       '@modern-js/builder': 3.12.0(@module-federation/runtime-tools@2.0.0)(@rspack/core@2.3.3(@module-federation/runtime-tools@2.0.0)(@swc/helpers@0.5.24))(react-dom@19.3.1(react@19.3.1))(react-server-dom-rspack@0.1.0(@rspack/core@2.3.3(@module-federation/runtime-tools@2.0.0)(@swc/helpers@0.5.24))(react-dom@19.3.1(react@19.3.1))(react@19.3.1))(react@19.3.1)(typescript@5.9.3)(webpack@5.104.1(@swc/core@1.16.21(@swc/helpers@0.5.24))(postcss@8.5.31))
       '@modern-js/i18n-utils': 3.12.0(react-dom@19.3.1(react@19.3.1))(react@19.3.1)
@@ -19113,7 +19165,7 @@ snapshots:
   '@modern-js/app-tools@3.12.0(@module-federation/runtime-tools@2.0.0)(@rspack/core@2.3.3(@module-federation/runtime-tools@2.0.0)(@swc/helpers@0.5.24))(bufferutil@4.1.0)(core-js@3.50.0)(devcert@1.2.3)(lightningcss@1.32.0)(react-dom@19.2.8(react@19.2.8))(react-server-dom-rspack@0.1.0(@rspack/core@2.3.3(@module-federation/runtime-tools@2.0.0)(@swc/helpers@0.5.24))(react-dom@19.2.8(react@19.2.8))(react@19.2.8))(react@19.2.8)(ts-node@10.9.2(@swc/core@1.16.21(@swc/helpers@0.5.24))(@types/node@20.19.27)(typescript@5.0.4))(tsconfig-paths@4.2.0)(typescript@5.0.4)(utf-8-validate@5.0.10)':
     dependencies:
       '@babel/parser': 7.29.14
-      '@babel/traverse': 7.29.14(supports-color@5.5.0)
+      '@babel/traverse': 7.29.14
       '@babel/types': 7.29.14
       '@modern-js/builder': 3.12.0(@module-federation/runtime-tools@2.0.0)(@rspack/core@2.3.3(@module-federation/runtime-tools@2.0.0)(@swc/helpers@0.5.24))(lightningcss@1.32.0)(react-dom@19.2.8(react@19.2.8))(react-server-dom-rspack@0.1.0(@rspack/core@2.3.3(@module-federation/runtime-tools@2.0.0)(@swc/helpers@0.5.24))(react-dom@19.2.8(react@19.2.8))(react@19.2.8))(react@19.2.8)(typescript@5.0.4)
       '@modern-js/i18n-utils': 3.12.0(react-dom@19.2.8(react@19.2.8))(react@19.2.8)
@@ -19165,7 +19217,7 @@ snapshots:
   '@modern-js/app-tools@3.12.0(@module-federation/runtime-tools@2.0.0)(@rspack/core@2.3.3(@module-federation/runtime-tools@2.0.0)(@swc/helpers@0.5.24))(bufferutil@4.1.0)(core-js@3.50.0)(devcert@1.2.3)(react-dom@19.2.8(react@19.2.8))(react-server-dom-rspack@0.1.0(@rspack/core@2.3.3(@module-federation/runtime-tools@2.0.0)(@swc/helpers@0.5.24))(react-dom@19.2.8(react@19.2.8))(react@19.2.8))(react@19.2.8)(ts-node@10.8.2(@swc/core@1.16.21(@swc/helpers@0.5.24))(@types/node@20.19.27)(typescript@5.0.4))(tsconfig-paths@3.14.2)(typescript@5.0.4)(utf-8-validate@5.0.10)(webpack@5.104.1(@swc/core@1.16.21(@swc/helpers@0.5.24))(postcss@8.5.31))':
     dependencies:
       '@babel/parser': 7.29.14
-      '@babel/traverse': 7.29.14(supports-color@5.5.0)
+      '@babel/traverse': 7.29.14
       '@babel/types': 7.29.14
       '@modern-js/builder': 3.12.0(@module-federation/runtime-tools@2.0.0)(@rspack/core@2.3.3(@module-federation/runtime-tools@2.0.0)(@swc/helpers@0.5.24))(react-dom@19.2.8(react@19.2.8))(react-server-dom-rspack@0.1.0(@rspack/core@2.3.3(@module-federation/runtime-tools@2.0.0)(@swc/helpers@0.5.24))(react-dom@19.2.8(react@19.2.8))(react@19.2.8))(react@19.2.8)(typescript@5.0.4)(webpack@5.104.1(@swc/core@1.16.21(@swc/helpers@0.5.24))(postcss@8.5.31))
       '@modern-js/i18n-utils': 3.12.0(react-dom@19.2.8(react@19.2.8))(react@19.2.8)
@@ -19217,7 +19269,7 @@ snapshots:
   '@modern-js/app-tools@3.12.0(@module-federation/runtime-tools@2.0.0)(@rspack/core@2.3.3(@module-federation/runtime-tools@2.0.0)(@swc/helpers@0.5.24))(bufferutil@4.1.0)(core-js@3.50.0)(devcert@1.2.3)(react-dom@19.2.8(react@19.2.8))(react-server-dom-rspack@0.1.0(@rspack/core@2.3.3(@module-federation/runtime-tools@2.0.0)(@swc/helpers@0.5.24))(react-dom@19.2.8(react@19.2.8))(react@19.2.8))(react@19.2.8)(ts-node@10.8.2(@swc/core@1.16.21(@swc/helpers@0.5.24))(@types/node@20.19.27)(typescript@5.7.3))(tsconfig-paths@3.14.2)(typescript@5.7.3)(utf-8-validate@5.0.10)':
     dependencies:
       '@babel/parser': 7.29.14
-      '@babel/traverse': 7.29.14(supports-color@5.5.0)
+      '@babel/traverse': 7.29.14
       '@babel/types': 7.29.14
       '@modern-js/builder': 3.12.0(@module-federation/runtime-tools@2.0.0)(@rspack/core@2.3.3(@module-federation/runtime-tools@2.0.0)(@swc/helpers@0.5.24))(react-dom@19.2.8(react@19.2.8))(react-server-dom-rspack@0.1.0(@rspack/core@2.3.3(@module-federation/runtime-tools@2.0.0)(@swc/helpers@0.5.24))(react-dom@19.2.8(react@19.2.8))(react@19.2.8))(react@19.2.8)(typescript@5.7.3)
       '@modern-js/i18n-utils': 3.12.0(react-dom@19.2.8(react@19.2.8))(react@19.2.8)
@@ -19269,7 +19321,7 @@ snapshots:
   '@modern-js/app-tools@3.12.0(@module-federation/runtime-tools@2.0.0)(@rspack/core@2.3.3(@module-federation/runtime-tools@2.0.0)(@swc/helpers@0.5.24))(bufferutil@4.1.0)(core-js@3.50.0)(devcert@1.2.3)(react-dom@19.2.8(react@19.2.8))(react-server-dom-rspack@0.1.0(@rspack/core@2.3.3(@module-federation/runtime-tools@2.0.0)(@swc/helpers@0.5.24))(react-dom@19.2.8(react@19.2.8))(react@19.2.8))(react@19.2.8)(ts-node@10.9.2(@swc/core@1.16.21(@swc/helpers@0.5.24))(@types/node@20.19.27)(typescript@5.0.4))(tsconfig-paths@4.2.0)(typescript@5.0.4)(utf-8-validate@5.0.10)':
     dependencies:
       '@babel/parser': 7.29.14
-      '@babel/traverse': 7.29.14(supports-color@5.5.0)
+      '@babel/traverse': 7.29.14
       '@babel/types': 7.29.14
       '@modern-js/builder': 3.12.0(@module-federation/runtime-tools@2.0.0)(@rspack/core@2.3.3(@module-federation/runtime-tools@2.0.0)(@swc/helpers@0.5.24))(react-dom@19.2.8(react@19.2.8))(react-server-dom-rspack@0.1.0(@rspack/core@2.3.3(@module-federation/runtime-tools@2.0.0)(@swc/helpers@0.5.24))(react-dom@19.2.8(react@19.2.8))(react@19.2.8))(react@19.2.8)(typescript@5.0.4)
       '@modern-js/i18n-utils': 3.12.0(react-dom@19.2.8(react@19.2.8))(react@19.2.8)
@@ -19321,7 +19373,7 @@ snapshots:
   '@modern-js/app-tools@3.12.0(@module-federation/runtime-tools@2.0.0)(@rspack/core@2.3.3(@module-federation/runtime-tools@2.0.0)(@swc/helpers@0.5.24))(bufferutil@4.1.0)(core-js@3.50.0)(devcert@1.2.3)(react-dom@19.2.8(react@19.2.8))(react-server-dom-rspack@0.1.0(@rspack/core@2.3.3(@module-federation/runtime-tools@2.0.0)(@swc/helpers@0.5.24))(react-dom@19.2.8(react@19.2.8))(react@19.2.8))(react@19.2.8)(ts-node@10.9.2(@swc/core@1.16.21(@swc/helpers@0.5.24))(@types/node@20.19.27)(typescript@5.0.4))(tsconfig-paths@4.2.0)(typescript@5.0.4)(utf-8-validate@5.0.10)(webpack@5.104.1(@swc/core@1.16.21(@swc/helpers@0.5.24))(postcss@8.5.31))':
     dependencies:
       '@babel/parser': 7.29.14
-      '@babel/traverse': 7.29.14(supports-color@5.5.0)
+      '@babel/traverse': 7.29.14
       '@babel/types': 7.29.14
       '@modern-js/builder': 3.12.0(@module-federation/runtime-tools@2.0.0)(@rspack/core@2.3.3(@module-federation/runtime-tools@2.0.0)(@swc/helpers@0.5.24))(react-dom@19.2.8(react@19.2.8))(react-server-dom-rspack@0.1.0(@rspack/core@2.3.3(@module-federation/runtime-tools@2.0.0)(@swc/helpers@0.5.24))(react-dom@19.2.8(react@19.2.8))(react@19.2.8))(react@19.2.8)(typescript@5.0.4)(webpack@5.104.1(@swc/core@1.16.21(@swc/helpers@0.5.24))(postcss@8.5.31))
       '@modern-js/i18n-utils': 3.12.0(react-dom@19.2.8(react@19.2.8))(react@19.2.8)
@@ -19373,7 +19425,7 @@ snapshots:
   '@modern-js/app-tools@3.12.0(@module-federation/runtime-tools@2.0.0)(@rspack/core@2.3.3(@module-federation/runtime-tools@2.0.0)(@swc/helpers@0.5.24))(bufferutil@4.1.0)(core-js@3.50.0)(devcert@1.2.3)(react-dom@19.2.8(react@19.2.8))(react-server-dom-rspack@0.1.0(@rspack/core@2.3.3(@module-federation/runtime-tools@2.0.0)(@swc/helpers@0.5.24))(react-dom@19.2.8(react@19.2.8))(react@19.2.8))(react@19.2.8)(ts-node@10.9.2(@swc/core@1.16.21(@swc/helpers@0.5.24))(@types/node@20.19.27)(typescript@5.7.3))(tsconfig-paths@4.2.0)(typescript@5.7.3)(utf-8-validate@5.0.10)':
     dependencies:
       '@babel/parser': 7.29.14
-      '@babel/traverse': 7.29.14(supports-color@5.5.0)
+      '@babel/traverse': 7.29.14
       '@babel/types': 7.29.14
       '@modern-js/builder': 3.12.0(@module-federation/runtime-tools@2.0.0)(@rspack/core@2.3.3(@module-federation/runtime-tools@2.0.0)(@swc/helpers@0.5.24))(react-dom@19.2.8(react@19.2.8))(react-server-dom-rspack@0.1.0(@rspack/core@2.3.3(@module-federation/runtime-tools@2.0.0)(@swc/helpers@0.5.24))(react-dom@19.2.8(react@19.2.8))(react@19.2.8))(react@19.2.8)(typescript@5.7.3)
       '@modern-js/i18n-utils': 3.12.0(react-dom@19.2.8(react@19.2.8))(react@19.2.8)
@@ -19425,7 +19477,7 @@ snapshots:
   '@modern-js/app-tools@3.12.0(@module-federation/runtime-tools@2.0.0)(@rspack/core@2.3.3(@module-federation/runtime-tools@2.0.0)(@swc/helpers@0.5.24))(bufferutil@4.1.0)(core-js@3.50.0)(devcert@1.2.3)(react-dom@19.2.8(react@19.2.8))(react-server-dom-rspack@0.1.0(@rspack/core@2.3.3(@module-federation/runtime-tools@2.0.0)(@swc/helpers@0.5.24))(react-dom@19.2.8(react@19.2.8))(react@19.2.8))(react@19.2.8)(ts-node@10.9.2(@swc/core@1.16.21(@swc/helpers@0.5.24))(@types/node@20.19.27)(typescript@5.7.3))(tsconfig-paths@4.2.0)(typescript@5.7.3)(utf-8-validate@5.0.10)(webpack@5.104.1(@swc/core@1.16.21(@swc/helpers@0.5.24))(postcss@8.5.31))':
     dependencies:
       '@babel/parser': 7.29.14
-      '@babel/traverse': 7.29.14(supports-color@5.5.0)
+      '@babel/traverse': 7.29.14
       '@babel/types': 7.29.14
       '@modern-js/builder': 3.12.0(@module-federation/runtime-tools@2.0.0)(@rspack/core@2.3.3(@module-federation/runtime-tools@2.0.0)(@swc/helpers@0.5.24))(react-dom@19.2.8(react@19.2.8))(react-server-dom-rspack@0.1.0(@rspack/core@2.3.3(@module-federation/runtime-tools@2.0.0)(@swc/helpers@0.5.24))(react-dom@19.2.8(react@19.2.8))(react@19.2.8))(react@19.2.8)(typescript@5.7.3)(webpack@5.104.1(@swc/core@1.16.21(@swc/helpers@0.5.24))(postcss@8.5.31))
       '@modern-js/i18n-utils': 3.12.0(react-dom@19.2.8(react@19.2.8))(react@19.2.8)
@@ -19477,7 +19529,7 @@ snapshots:
   '@modern-js/app-tools@3.12.0(@module-federation/runtime-tools@2.0.0)(@rspack/core@2.3.3(@module-federation/runtime-tools@2.0.0)(@swc/helpers@0.5.24))(bufferutil@4.1.0)(core-js@3.50.0)(devcert@1.2.3)(react-dom@19.3.1(react@19.3.1))(react-server-dom-rspack@0.1.0(@rspack/core@2.3.3(@module-federation/runtime-tools@2.0.0)(@swc/helpers@0.5.24))(react-dom@19.3.1(react@19.3.1))(react@19.3.1))(react@19.3.1)(ts-node@10.9.2(@swc/core@1.16.21(@swc/helpers@0.5.24))(@types/node@22.20.5)(typescript@5.9.3))(tsconfig-paths@4.2.0)(typescript@5.9.3)(utf-8-validate@5.0.10)':
     dependencies:
       '@babel/parser': 7.29.14
-      '@babel/traverse': 7.29.14(supports-color@5.5.0)
+      '@babel/traverse': 7.29.14
       '@babel/types': 7.29.14
       '@modern-js/builder': 3.12.0(@module-federation/runtime-tools@2.0.0)(@rspack/core@2.3.3(@module-federation/runtime-tools@2.0.0)(@swc/helpers@0.5.24))(react-dom@19.3.1(react@19.3.1))(react-server-dom-rspack@0.1.0(@rspack/core@2.3.3(@module-federation/runtime-tools@2.0.0)(@swc/helpers@0.5.24))(react-dom@19.3.1(react@19.3.1))(react@19.3.1))(react@19.3.1)(typescript@5.9.3)
       '@modern-js/i18n-utils': 3.12.0(react-dom@19.3.1(react@19.3.1))(react@19.3.1)
@@ -23245,7 +23297,7 @@ snapshots:
 
   '@svgr/hast-util-to-babel-ast@8.0.0':
     dependencies:
-      '@babel/types': 7.29.14
+      '@babel/types': 7.29.15
       entities: 4.5.0
 
   '@svgr/plugin-jsx@8.1.0(@svgr/core@8.1.0(typescript@5.0.4))':
@@ -23626,24 +23678,24 @@ snapshots:
 
   '@types/babel__core@7.20.5':
     dependencies:
-      '@babel/parser': 7.29.14
-      '@babel/types': 7.29.14
+      '@babel/parser': 7.29.15
+      '@babel/types': 7.29.15
       '@types/babel__generator': 7.27.0
       '@types/babel__template': 7.4.4
       '@types/babel__traverse': 7.28.0
 
   '@types/babel__generator@7.27.0':
     dependencies:
-      '@babel/types': 7.29.14
+      '@babel/types': 7.29.15
 
   '@types/babel__template@7.4.4':
     dependencies:
-      '@babel/parser': 7.29.14
-      '@babel/types': 7.29.14
+      '@babel/parser': 7.29.15
+      '@babel/types': 7.29.15
 
   '@types/babel__traverse@7.28.0':
     dependencies:
-      '@babel/types': 7.29.14
+      '@babel/types': 7.29.15
 
   '@types/body-parser@1.19.6':
     dependencies:
@@ -24289,7 +24341,7 @@ snapshots:
 
   '@vue/compiler-core@3.5.41':
     dependencies:
-      '@babel/parser': 7.29.14
+      '@babel/parser': 7.29.15
       '@vue/shared': 3.5.41
       entities: 7.0.1
       estree-walker: 2.0.2
@@ -24302,7 +24354,7 @@ snapshots:
 
   '@vue/compiler-sfc@3.5.41':
     dependencies:
-      '@babel/parser': 7.29.14
+      '@babel/parser': 7.29.15
       '@vue/compiler-core': 3.5.41
       '@vue/compiler-dom': 3.5.41
       '@vue/compiler-ssr': 3.5.41
@@ -30541,8 +30593,8 @@ snapshots:
   react-docgen@8.0.4:
     dependencies:
       '@babel/core': 7.29.13
-      '@babel/traverse': 7.29.14(supports-color@5.5.0)
-      '@babel/types': 7.29.14
+      '@babel/traverse': 7.29.15(supports-color@5.5.0)
+      '@babel/types': 7.29.15
       '@types/babel__core': 7.20.5
       '@types/babel__traverse': 7.28.0
       '@types/doctrine': 0.0.9
