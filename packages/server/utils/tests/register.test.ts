@@ -5,10 +5,11 @@ import { fs } from '@modern-js/utils';
 import {
   createSwcOptions,
   readCompilerOptions,
+  registerServerRuntime,
   registerSwc,
-} from '../../src/utils/swcRegister';
+} from '../src';
 
-describe('swcRegister', () => {
+describe('server runtime register', () => {
   let appDir: string;
   const write = (file: string, content: string) =>
     fs.outputFileSync(path.join(appDir, file), content);
@@ -64,16 +65,17 @@ describe('swcRegister', () => {
 
   test('derives class field semantics from the target', () => {
     const transform = (target: string) =>
-      createSwcOptions('a.ts', { target }).jsc?.transform
+      createSwcOptions('a.ts', { target }, 'commonjs').jsc?.transform
         ?.useDefineForClassFields;
     expect(transform('ES2015')).toBe(false);
     expect(transform('ES2022')).toBe(true);
     expect(transform('ESNext')).toBe(true);
     expect(
-      createSwcOptions('a.ts', {
-        target: 'ESNext',
-        useDefineForClassFields: false,
-      }).jsc?.transform?.useDefineForClassFields,
+      createSwcOptions(
+        'a.ts',
+        { target: 'ESNext', useDefineForClassFields: false },
+        'commonjs',
+      ).jsc?.transform?.useDefineForClassFields,
     ).toBe(false);
   });
 
@@ -188,5 +190,58 @@ export function boom() {
       tag: 'entry-v2',
       msg: 'dep-v2',
     });
+  });
+
+  test('registerServerRuntime runs the ts-node.require preloads of the server tsconfig', () => {
+    write('preload.js', 'globalThis.__serverPreloaded = true;\n');
+    write(
+      'tsconfig.server.json',
+      JSON.stringify({
+        extends: './tsconfig.json',
+        'ts-node': { require: ['./preload.js'] },
+      }),
+    );
+
+    registerServerRuntime({
+      appDirectory: appDir,
+      distDirectory: path.join(appDir, 'dist'),
+      tsconfigPath: path.join(appDir, 'tsconfig.server.json'),
+    });
+
+    expect((globalThis as any).__serverPreloaded).toBe(true);
+    delete (globalThis as any).__serverPreloaded;
+  });
+
+  test('resolves a NodeNext-style `.js` specifier to the TypeScript source', () => {
+    write('src/nodenext/user.ts', "export const name: string = 'user';\n");
+    write(
+      'src/nodenext/entry.ts',
+      "import { name } from './user.js';\nexport default name;\n",
+    );
+
+    expect(
+      nodeRequire(path.join(appDir, 'src/nodenext/entry.ts')).default,
+    ).toBe('user');
+  });
+
+  test('fails require() of a .ts file in a module app with ERR_REQUIRE_ESM', () => {
+    write('src/esm-only.ts', 'export const value: number = 1;\n');
+    registerSwc({
+      distDir: path.join(appDir, 'dist'),
+      compilerOptions: {},
+      moduleType: 'module',
+    });
+    try {
+      expect(() => nodeRequire(path.join(appDir, 'src/esm-only.ts'))).toThrow(
+        expect.objectContaining({ code: 'ERR_REQUIRE_ESM' }),
+      );
+    } finally {
+      registerSwc({
+        distDir: path.join(appDir, 'dist'),
+        compilerOptions: readCompilerOptions(
+          path.join(appDir, 'tsconfig.json'),
+        ),
+      });
+    }
   });
 });

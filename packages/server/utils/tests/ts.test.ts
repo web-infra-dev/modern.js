@@ -1,19 +1,41 @@
+import os from 'os';
 import path from 'path';
 import { fs, logger } from '@modern-js/utils';
 import { compile } from '../src';
-import { TypescriptLoader } from '../src/compilers/typescript/typescriptLoader';
 
-describe('typescript', () => {
-  it('loads the configured compiler', () => {
-    const compiler = require.resolve('typescript');
-    const ts = new TypescriptLoader({
-      appDirectory: path.parse(process.cwd()).root,
-      compiler,
-    }).load();
-
-    expect(ts).toBe(require(compiler));
+// A project whose `typescript` is a stand-in: `tsc` records the config it was
+// given and exits with `exitCode`. The package has no JS entry, like TS 7.
+const createStubTypeScriptApp = async (version: string, exitCode = 0) => {
+  const appDir = await fs.mkdtemp(path.join(os.tmpdir(), 'server-utils-ts-'));
+  await fs.outputFile(
+    path.join(appDir, 'api/index.ts'),
+    "export default (): string => 'api';\n",
+  );
+  await fs.outputJSON(path.join(appDir, 'tsconfig.json'), {
+    compilerOptions: { target: 'ES2022', baseUrl: './' },
   });
+  const tsDir = path.join(appDir, 'node_modules/typescript');
+  await fs.outputJSON(path.join(tsDir, 'package.json'), {
+    name: 'typescript',
+    version,
+    bin: { tsc: './bin/tsc' },
+  });
+  await fs.outputFile(
+    path.join(tsDir, 'bin/tsc'),
+    [
+      "const fs = require('fs');",
+      "const project = process.argv[process.argv.indexOf('-p') + 1];",
+      "fs.writeFileSync(require('path').join(__dirname, 'last-config.json'), fs.readFileSync(project));",
+      exitCode ? "console.log('api/index.ts(1,1): error TS2322: stub');" : '',
+      `process.exit(${exitCode});`,
+    ].join('\n'),
+  );
+  const lastConfig = () =>
+    fs.readJSON(path.join(tsDir, 'bin/last-config.json'));
+  return { appDir, lastConfig };
+};
 
+describe('server compile', () => {
   it('compile typescript', async () => {
     const example = path.join(__dirname, './fixtures', './ts-example');
     // tsconfig.json is bundler-mode (ESNext); the convention file layers the
@@ -69,7 +91,7 @@ describe('typescript', () => {
     await fs.remove(distDir);
   });
 
-  it('compiles a bundler-mode tsconfig to commonjs with compilerOverrides', async () => {
+  it('emits commonjs from a bundler-mode tsconfig without a warning', async () => {
     const example = path.join(__dirname, './fixtures', './ts-example');
     // The main tsconfig resolves to `module: ESNext`; the framework passes the
     // NodeNext overrides when it falls back to it in a commonjs project.
@@ -109,7 +131,7 @@ describe('typescript', () => {
       const apiContent = (
         await fs.readFile(path.join(distDir, './api/index.js'))
       ).toString();
-      expect(apiContent).toContain('exports.');
+      expect(apiContent).toMatch(/\bexports\b/);
       expect(apiContent).toContain('require(');
       expect(apiContent).not.toMatch(/^import /m);
       // aliases are rewritten to relative specifiers
@@ -122,45 +144,78 @@ describe('typescript', () => {
       const server = require(path.join(distDir, './server')).default;
       expect(server()).toEqual('shared-server');
 
-      expect(warn).toBeCalledTimes(1);
-      expect(warn.mock.calls[0][0]).toContain('tsconfig.server.json');
-
-      // The warning is printed once per process and tsconfig file.
-      await run();
-      expect(warn).toBeCalledTimes(1);
+      // The output format follows package.json#type, so the fallback no
+      // longer changes what is emitted and is not reported.
+      expect(warn).not.toBeCalled();
     } finally {
       warn.mockRestore();
       await fs.remove(distDir);
     }
   });
 
-  it('does not fail the build on the TS5101 baseUrl deprecation', async () => {
-    const example = path.join(__dirname, './fixtures', './ts-example');
-    // The compiler stand-in adds the TS5101 diagnostic TypeScript 6 reports
-    // for the `baseUrl` this fixture keeps.
-    const tsconfigPath = path.join(example, './tsconfig.ts6.json');
-    const distDir = path.join(example, './dist-ts6');
+  it('compiles without the TypeScript JS API and type-checks with the project tsc', async () => {
+    const { appDir, lastConfig } = await createStubTypeScriptApp('7.0.2');
+    try {
+      await compile(appDir, { alias: {} } as any, {
+        sourceDirs: [path.join(appDir, 'api')],
+        distDir: path.join(appDir, 'dist'),
+        tsconfigPath: path.join(appDir, 'tsconfig.json'),
+        compilerOverrides: { module: 'NodeNext', moduleResolution: 'NodeNext' },
+      });
+
+      const api = require(path.join(appDir, 'dist/api')).default;
+      expect(api()).toBe('api');
+
+      const config = await lastConfig();
+      expect(config.extends).toBe(path.join(appDir, 'tsconfig.json'));
+      expect(config.compilerOptions).toMatchObject({
+        module: 'NodeNext',
+        moduleResolution: 'NodeNext',
+        noEmit: true,
+      });
+      expect(config.compilerOptions.ignoreDeprecations).toBeUndefined();
+      expect(config.include).toEqual([path.join(appDir, 'api/**/*')]);
+    } finally {
+      await fs.remove(appDir);
+    }
+  });
+
+  it('ignores the TypeScript 6 deprecations such as TS5101 in the type check', async () => {
+    const { appDir, lastConfig } = await createStubTypeScriptApp('6.0.3');
+    try {
+      await compile(appDir, { alias: {} } as any, {
+        sourceDirs: [path.join(appDir, 'api')],
+        distDir: path.join(appDir, 'dist'),
+        tsconfigPath: path.join(appDir, 'tsconfig.json'),
+      });
+
+      expect((await lastConfig()).compilerOptions.ignoreDeprecations).toBe(
+        '6.0',
+      );
+    } finally {
+      await fs.remove(appDir);
+    }
+  });
+
+  it('fails the build when the type check reports errors', async () => {
+    const { appDir } = await createStubTypeScriptApp('5.9.3', 2);
     const exit = rstest.spyOn(process, 'exit').mockImplementation((() => {
       throw new Error('process.exit');
     }) as any);
     const error = rstest.spyOn(logger, 'error').mockImplementation(() => {});
-
     try {
-      await compile(example, { alias: {} } as any, {
-        sourceDirs: [path.join(example, './shared')],
-        distDir,
-        tsconfigPath,
-      });
-
-      expect(exit).not.toBeCalled();
-      expect(error).not.toBeCalled();
-      expect(
-        await fs.pathExists(path.join(distDir, './shared/index.js')),
-      ).toBeTruthy();
+      await expect(
+        compile(appDir, { alias: {} } as any, {
+          sourceDirs: [path.join(appDir, 'api')],
+          distDir: path.join(appDir, 'dist'),
+          tsconfigPath: path.join(appDir, 'tsconfig.json'),
+        }),
+      ).rejects.toThrow('process.exit');
+      expect(error.mock.calls[0][0]).toContain('TS2322');
     } finally {
       exit.mockRestore();
       error.mockRestore();
-      await fs.remove(distDir);
+      await fs.remove(appDir);
     }
   });
 
