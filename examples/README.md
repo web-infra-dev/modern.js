@@ -2,7 +2,9 @@
 
 Example projects for [Modern.js](https://modernjs.dev).
 
-Most examples depend on the `latest` published Modern.js packages, so you can copy an example directory out of this repo and use it directly with `pnpm install && pnpm dev`. Examples that pin a version explain the compatibility target in their README.
+Every workspace project under `examples/`, including nested Module Federation projects, uses exactly `latest` for its `@modern-js/*` installation dependencies. This means the registry's published stable release, not the current checkout or an unpublished framework feature. You can copy an example directory out of this repo and use it directly with `pnpm install && pnpm dev`.
+
+`pnpm check-dependencies` enforces this contract in `dependencies`, `devDependencies` and `optionalDependencies`, without restricting third-party versions. Example package names must match `@examples/*` and be excluded by `.changeset/config.json`, so ordinary and canary release bumps leave their manifests unchanged.
 
 To run one inside this repo (examples are also members of the pnpm workspace, resolved against the published packages, pinned by the root lockfile):
 
@@ -27,6 +29,7 @@ pnpm dev
 | [module-federation/app-export](./module-federation/app-export) | Module Federation app-level export: remote exports a full app via bridge                     |
 | [react-compiler](./react-compiler)                             | Enabling React Compiler with `@rsbuild/plugin-babel`                                         |
 | [sse](./sse)                                                   | Server-Sent Events with BFF (Hono) and custom server middlewares                             |
-| [storybook](./storybook)                                       | Storybook integration via `storybook-addon-modernjs`, with a BFF api                         |
 | [test-playwright](./test-playwright)                           | E2E testing with Playwright                                                                  |
 | [test-vitest](./test-vitest)                                   | Unit testing with Vitest                                                                     |
+
+The [Modern.js Storybook example](https://github.com/rstackjs/storybook-rsbuild/tree/main/sandboxes/modernjs-react) is maintained in the Storybook Rsbuild repository.

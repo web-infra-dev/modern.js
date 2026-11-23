@@ -1,15 +1,27 @@
-import path from 'path';
+import path from 'node:path';
 import { fs } from '@modern-js/utils';
-import { modernBuild } from '../../../utils/modernTestUtils';
+import {
+  createIsolatedTestApp,
+  modernBuild,
+} from '../../../utils/modernTestUtils';
 
-describe('clean dist path', () => {
-  test(`should not clean dist path when output.cleanDistPath is false`, async () => {
-    const appDir = path.resolve(__dirname, '..');
-    const tempFile = path.join(appDir, 'dist/foo.txt');
-    const htmlFile = path.join(appDir, 'dist/html/index/index.html');
-    fs.outputFileSync(tempFile, 'foo');
-    await modernBuild(appDir);
-    expect(fs.existsSync(tempFile)).toBeTruthy();
-    expect(fs.existsSync(htmlFile)).toBeTruthy();
-  });
+test('preserves existing dist files and emits HTML when cleanDistPath is false', async () => {
+  const fixtureDir = path.resolve(__dirname, '..');
+  const { appDir, cleanup } = await createIsolatedTestApp(fixtureDir);
+  const preservedFile = path.join(appDir, 'dist/existing.txt');
+  const preservedContent = 'existing output';
+  const htmlFile = path.join(appDir, 'dist/html/index/index.html');
+
+  try {
+    await fs.outputFile(preservedFile, preservedContent);
+    const result = await modernBuild(appDir);
+
+    expect(result.code, `${result.stdout}\n${result.stderr}`).toBe(0);
+    await expect(fs.readFile(preservedFile, 'utf8')).resolves.toBe(
+      preservedContent,
+    );
+    expect(await fs.pathExists(htmlFile)).toBe(true);
+  } finally {
+    await cleanup();
+  }
 });

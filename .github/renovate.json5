@@ -151,6 +151,9 @@
     'caniuse-lite',
     '@vercel/nft',
     'vitest',
+    // @rsbuild-image/core and @rsbuild-image/react have no stable release yet and
+    // must be upgraded together; upgrade both manually
+    '@rsbuild-image/core',
     '@rsbuild-image/react',
     '@rsbuild/plugin-styled-components',
     '@rspress/shared',

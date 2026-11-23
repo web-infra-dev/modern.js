@@ -1,3 +1,4 @@
+import type { SSGConfig, SSGMultiEntryOptions } from '@modern-js/types';
 import { MAIN_ENTRY_NAME } from '../constants';
 import { isEmpty } from './type';
 
@@ -61,25 +62,24 @@ export const isServiceWorker = (config: any): boolean => {
   return false;
 };
 
+export const getSSGEntryOptions = (
+  entryName: string,
+  ssg: SSGConfig | SSGConfig[] | undefined,
+  ssgByEntries?: SSGMultiEntryOptions,
+): SSGConfig | undefined => {
+  if (ssgByEntries && !isEmpty(ssgByEntries)) {
+    return ssgByEntries[entryName];
+  }
+  return Array.isArray(ssg) ? ssg.at(-1) : ssg;
+};
+
 export const isSSGEntry = (
   config: any,
   entryName: string,
-  entrypoints: EntryPoint[],
-) => {
-  const { output, source } = config;
-  const single = isSingleEntry(entrypoints, source?.mainEntryName);
-
-  if (single) {
-    const byEntries = output?.ssgByEntries;
-    return Boolean(output?.ssg) || (byEntries && !isEmpty(byEntries));
-  }
-
-  const byEntries = output?.ssgByEntries;
-  if (!byEntries || isEmpty(byEntries)) {
-    return false;
-  }
-
-  return Boolean(byEntries[entryName]);
+  _entrypoints?: EntryPoint[],
+): boolean => {
+  const { ssg, ssgByEntries } = config?.output ?? {};
+  return Boolean(getSSGEntryOptions(entryName, ssg, ssgByEntries));
 };
 
 export const isSingleEntry = (

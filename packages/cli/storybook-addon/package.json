@@ -1,0 +1,49 @@
+{
+  "name": "@modern-js/storybook-addon",
+  "version": "3.12.0",
+  "description": "Use Modern.js application configuration in Storybook Rsbuild previews.",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/web-infra-dev/modern.js",
+    "directory": "packages/cli/storybook-addon"
+  },
+  "license": "MIT",
+  "type": "module",
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "default": "./dist/index.js"
+    },
+    "./preset": "./dist/preset.js",
+    "./package.json": "./package.json"
+  },
+  "files": [
+    "dist",
+    "preset.js"
+  ],
+  "scripts": {
+    "build": "rs lib",
+    "dev": "rs lib --watch"
+  },
+  "peerDependencies": {
+    "@modern-js/app-tools": "workspace:^3.12.0",
+    "@rsbuild/core": "^2.3.2",
+    "storybook-builder-rsbuild": "~3.6.3"
+  },
+  "devDependencies": {
+    "@modern-js/app-tools": "workspace:*",
+    "@modern-js/rslib": "workspace:*",
+    "@modern-js/tsconfig": "workspace:*",
+    "@rsbuild/core": "2.3.3",
+    "storybook-builder-rsbuild": "3.6.3",
+    "storybook": "10.6.8",
+    "typescript": "^5"
+  },
+  "sideEffects": false,
+  "publishConfig": {
+    "registry": "https://registry.npmjs.org/",
+    "access": "public"
+  }
+}

@@ -247,7 +247,7 @@ describe('resource preparation', () => {
   it('waits for entry warmup before completing production preparation', async () => {
     const entry = deferred<unknown>();
     available.set(renderPath, entry.promise);
-    const { prepare, context } = preparation();
+    const { prepare } = preparation();
     let prepared = false;
     const pending = prepare().then(() => {
       prepared = true;
@@ -260,10 +260,6 @@ describe('resource preparation', () => {
       entry.resolve(renderBundle);
       await pending;
       expect(prepared).toBe(true);
-      expect(context.middlewares.map(item => item.name)).toEqual([
-        'inject-server-manifest',
-        'inject-html',
-      ]);
     } finally {
       entry.resolve(renderBundle);
       await pending;

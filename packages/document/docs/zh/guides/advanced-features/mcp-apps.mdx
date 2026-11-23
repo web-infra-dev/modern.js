@@ -213,3 +213,74 @@ export default function Card() {
 ```
 
 手动使用 `createMcpView` 时，也可以通过第三个参数传入能力声明。显式的展示模式数组会替换默认值。MF 模块在初始化前加载，确保握手包含该模块的能力。声明支持全屏不会自动添加全屏按钮或切换展示模式。
+
+## 连接已部署的服务
+
+应用开发者构建并部署 MCP 服务后，将实际的 MCP 地址提供给用户，例如 `https://example.com/api/mcp`。用户无需克隆应用或 Modern.js 仓库，也无需在本机运行 `pnpm dev`。服务需保持运行，客户端还需支持 MCP Apps 卡片展示。
+
+### HTTP 直连
+
+如果客户端支持 Streamable HTTP，选择该传输类型，并将服务器地址填写为 `https://example.com/api/mcp`。鉴权信息按服务要求在客户端配置。
+
+### 通过 STDIO 连接
+
+如果客户端仅支持 STDIO，用户需先安装 Node.js 20 或更高版本（含 npm 和 `npx`），再配置 `modern-mcp-stdio` 桥接命令。`npx` 会下载并运行指定版本的包，无需预先安装 Modern.js。
+
+将下面的 `<version>` 替换为包含 `modern-mcp-stdio` 功能的已发布 `@modern-js/mcp-apps` 版本，将 URL 替换为实际部署地址。应用提供方应向用户提供已验证的具体版本号。
+
+```json
+{
+  "mcpServers": {
+    "app": {
+      "command": "npx",
+      "args": [
+        "-y",
+        "--package=@modern-js/mcp-apps@<version>",
+        "modern-mcp-stdio",
+        "--url",
+        "https://example.com/api/mcp"
+      ]
+    }
+  }
+}
+```
+
+如果客户端使用表单，命令填写 `npx`，参数按 `args` 数组逐项添加，每项单独一行。若客户端找不到 `npx`，命令填写用户本机的 `npx` 绝对路径。需要鉴权时，在参数末尾追加 `--header` 和 `Authorization: Bearer <token>` 两项，多个请求头可重复添加。
+
+这里使用 `--url` 连接已部署的 HTTP 服务。`--cwd` 和本地脚本路径用于下文的开发调试，不需要提供给最终用户。桥接命令不会启动或部署应用服务。
+
+生产环境如需将本地组件卡片打包为自包含 HTML，应用开发者应在 `mcpAppsPlugin` 中设置 `inline: true` 后构建部署。`inline: 'dev'` 仅作用于开发模式。MF 卡片仍需宿主能够访问其远程资源。
+
+## 本机 stdio 调试
+
+面向只支持本机 stdio 接入或限制隔离 iframe 访问本地资源的宿主（如桌面端 Agent），在 `mcpAppsPlugin` 中配置 `inline`，然后运行 `pnpm dev` 启动开发服务。
+
+```ts
+mcpAppsPlugin({
+  views: './mcp-views.json',
+  // 'dev' 仅在开发模式打包自包含内联 HTML，true 同时作用于开发和生产构建
+  inline: 'dev',
+});
+```
+
+启动 `pnpm dev` 后，终端会输出一段可直接复制到本机 MCP 连接器的配置，使用 `@modern-js/mcp-apps` 内置的轻量脚本 `modern-mcp-stdio` 将 stdio 的 JSON-RPC 转发到本地 HTTP 开发服务（例如 `http://localhost:8088/api/mcp`）：
+
+```json
+{
+  "mcpServers": {
+    "app": {
+      "command": "node",
+      "args": [
+        "<app>/node_modules/@modern-js/mcp-apps/bin/modern-mcp-stdio.js",
+        "--cwd",
+        "<app>"
+      ]
+    }
+  }
+}
+```
+
+- **请求处理**：开发服务通过应用的 BFF 路由、自定义 Hono 中间件和服务端插件处理 HTTP 请求。需要向鉴权中间件透传请求头时，可追加 `--header "Authorization: Bearer <token>"`（可重复传多个）
+- **自动端口发现**：默认连接器使用 `--cwd <项目目录>`，脚本在每次请求时读取 `node_modules/.modern-js/mcp-apps/dev-server.json` 自动定位当前开发服务地址。也可直接传入固定的 HTTP MCP URL
+- **增量构建**：`inline` 模式下本地组件卡片通过独立的 watch 构建打包为单文件自包含 HTML（内联脚本、样式和导入资源，上限 5 MiB，不注入 `<base>` 或本地 CSP），修改组件后自动重编，下次读取卡片资源时生效。普通页面使用主应用的 HMR。若同一份 `mcp-views.json` 还包含 Module Federation 卡片，本地卡片走内联、MF 卡片使用 HTTP shell
+- **日志输出**：开发服务的日志输出在 `pnpm dev` 终端，转发脚本的 `stdout` 仅用于 JSON-RPC。`modern dev` 未启动或重启期间，转发脚本会返回 JSON-RPC 错误而不是退出进程，待开发服务就绪后下一次调用自动恢复

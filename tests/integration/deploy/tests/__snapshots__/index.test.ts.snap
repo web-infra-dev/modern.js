@@ -1,0 +1,72 @@
+// Rstest Snapshot v1
+
+exports[`deploy csr > support csr when deploy target is netlify 1`] = `
+"/one/* /html/one/index.html 200
+/two/* /html/two/index.html 200"
+`;
+
+exports[`deploy csr > support csr when deploy target is vercel 1`] = `
+{
+  "routes": [
+    {
+      "continue": true,
+      "headers": {
+        "cache-control": "s-maxage=31536000, immutable",
+      },
+      "src": "/static/(.*)",
+    },
+    {
+      "handle": "filesystem",
+    },
+    {
+      "dest": "/html/one/index.html",
+      "headers": {
+        "cache-control": "s-maxage=0",
+      },
+      "src": "/one(?:/.*)?",
+    },
+    {
+      "dest": "/html/two/index.html",
+      "headers": {
+        "cache-control": "s-maxage=0",
+      },
+      "src": "/two(?:/.*)?",
+    },
+  ],
+  "version": 3,
+}
+`;
+
+exports[`deploy server > support server when deploy target is netlify 1`] = `"/* /.netlify/functions/index 200"`;
+
+exports[`deploy server > support server when deploy target is vercel 1`] = `
+{
+  "routes": [
+    {
+      "continue": true,
+      "headers": {
+        "cache-control": "s-maxage=31536000, immutable",
+      },
+      "src": "/static/(.*)",
+    },
+    {
+      "handle": "filesystem",
+    },
+    {
+      "dest": "/index",
+      "src": "/(.*)",
+    },
+  ],
+  "version": 3,
+}
+`;
+
+exports[`deploy server > support server when deploy target is vercel 2`] = `
+{
+  "handler": "index.js",
+  "launcherType": "Nodejs",
+  "runtime": Any<String>,
+  "shouldAddHelpers": false,
+  "supportsResponseStreaming": true,
+}
+`;

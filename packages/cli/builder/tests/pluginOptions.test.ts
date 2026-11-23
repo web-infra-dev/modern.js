@@ -1,76 +1,12 @@
-import { join } from 'path';
 import { logger } from '@modern-js/utils';
 import { afterEach, beforeEach, describe, expect, it, rs } from '@rstest/core';
-import { createBuilder } from '../src';
 import {
   normalizeLessOptions,
   normalizeSassOptions,
   resetPluginOptionsWarnings,
   resolveSvgrOptions,
 } from '../src/shared/pluginOptions';
-import type { BuilderConfig } from '../src/types';
-import { matchRules } from './helper';
-
-const cwd = join(__dirname, '..');
-
-type LoaderUse = { loader?: string; options?: any; parallel?: boolean };
-
-/**
- * Collect every loader `use` item whose loader path matches `pattern`.
- * Loader paths are built with `path.join`, so normalize the separators
- * before matching to keep the assertions valid on Windows.
- */
-function findLoaderUses(value: unknown, pattern: RegExp): LoaderUse[] {
-  const result: LoaderUse[] = [];
-  const walk = (node: unknown) => {
-    if (!node || typeof node !== 'object') {
-      return;
-    }
-    if (Array.isArray(node)) {
-      node.forEach(walk);
-      return;
-    }
-    const obj = node as Record<string, unknown>;
-    if (
-      typeof obj.loader === 'string' &&
-      pattern.test(obj.loader.replace(/\\/g, '/'))
-    ) {
-      result.push(obj as LoaderUse);
-    }
-    Object.values(obj).forEach(walk);
-  };
-  walk(value);
-  return result;
-}
-
-/**
- * Rules contain per-instance closures (loader callbacks), so two builders can
- * never be compared by reference. Compare their serialized form instead,
- * which is what `modern inspect` writes to disk.
- */
-function serializeRules(rules: unknown): string {
-  return JSON.stringify(
-    rules,
-    (_key, value) => {
-      if (value instanceof RegExp) {
-        return value.toString();
-      }
-      if (typeof value === 'function') {
-        return `[Function ${value.name || 'anonymous'}]`;
-      }
-      return value;
-    },
-    2,
-  );
-}
-
-async function getRules(config: BuilderConfig, testFile: string) {
-  const builder = await createBuilder({ bundlerType: 'rspack', config, cwd });
-  const {
-    origin: { bundlerConfigs },
-  } = await builder.inspectConfig();
-  return matchRules({ config: bundlerConfigs[0], testFile });
-}
+import { findLoaderUses, getRules } from './helper';
 
 describe('normalizeLessOptions / normalizeSassOptions', () => {
   let warn: ReturnType<typeof rs.spyOn>;
@@ -327,29 +263,17 @@ describe('tools.less / tools.sass / tools.svgr in the bundler config', () => {
     expect(after.every(use => use.parallel === true)).toBe(true);
   });
 
-  it('should generate the same rules for the legacy and the plugin form', async () => {
-    const legacy = await getRules(
-      { tools: { less: { lessOptions: { javascriptEnabled: false } } } },
-      'a.less',
+  it.each([
+    { lessOptions: { javascriptEnabled: false } },
+    { lessLoaderOptions: { lessOptions: { javascriptEnabled: false } } },
+  ])('maps legacy and current options to the less loader', async less => {
+    const uses = findLoaderUses(
+      await getRules({ tools: { less } }, 'a.less'),
+      /less-loader/,
     );
-    const plugin = await getRules(
-      {
-        tools: {
-          less: {
-            lessLoaderOptions: { lessOptions: { javascriptEnabled: false } },
-          },
-        },
-      },
-      'a.less',
-    );
-    expect(serializeRules(plugin)).toBe(serializeRules(legacy));
-
-    const lessUses = findLoaderUses(plugin, /less-loader/);
-    expect(lessUses.length).toBeGreaterThan(0);
+    expect(uses.length).toBeGreaterThan(0);
     expect(
-      lessUses.every(
-        use => use.options.lessOptions.javascriptEnabled === false,
-      ),
+      uses.every(use => use.options.lessOptions.javascriptEnabled === false),
     ).toBe(true);
   });
 

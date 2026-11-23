@@ -1,3 +1,0 @@
-// Rstest Snapshot v1
-
-exports[`Traditional SSR > error thrown in client navigation 1`] = `"error occurs"`;

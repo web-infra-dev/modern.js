@@ -1,5 +1,39 @@
 # @modern-js/app-tools
 
+## 3.12.0
+
+### Minor Changes
+
+- ce64c5d: feat(app-tools): simplify the default HTML meta tags to UTF-8 charset and `width=device-width, initial-scale=1` viewport. Remove the default zoom restrictions, `shrink-to-fit`, `viewport-fit`, `x-ua-compatible`, `renderer`, `layoutmode`, `imagemode`, `wap-font-scale`, and `format-detection` settings. Existing applications using these defaults will receive the new tags after upgrading and rebuilding. Configure `html.meta` explicitly if the application needs any of the removed settings, such as `viewport-fit=cover` for edge-to-edge layouts or `format-detection: telephone=no` to disable phone number detection.
+
+  feat(app-tools)：将默认 HTML meta 标签精简为 UTF-8 字符编码和 `width=device-width, initial-scale=1` 视口配置。移除默认缩放限制、`shrink-to-fit`、`viewport-fit`、`x-ua-compatible`、`renderer`、`layoutmode`、`imagemode`、`wap-font-scale` 和 `format-detection` 设置。使用默认配置的已有应用在升级并重新构建后也会采用这些新值。如需保留已移除的设置，请通过 `html.meta` 显式配置，例如使用 `viewport-fit=cover` 保持页面铺满屏幕，或使用 `format-detection: telephone=no` 关闭电话号码自动识别。
+
+### Patch Changes
+
+- 1f61141: fix(app-tools): treat a build command followed only by `--help` or `-h` (for example `modern build --help` or `modern dev -h`) as printing help, so it no longer empties the output directory or regenerates `node_modules/.modern-js`. The plugin lifecycle order is unchanged.
+
+  fix(app-tools)：构建类命令后面只跟 `--help` 或 `-h` 时（例如 `modern build --help`、`modern dev -h`）视为打印帮助，不再清空产物目录，也不再重新生成 `node_modules/.modern-js`。插件生命周期顺序不变。
+
+- b35f295: fix(app-tools, utils): centralize CLI plugin loading in `compatibleRequire`. Fall back to ESM imports only when `require` reports an incompatible ESM module, including modules with top-level await. Preserve other loading errors without retrying, avoiding misleading Windows URL scheme errors, and report the actual ESM execution error if the fallback fails.
+
+  fix(app-tools, utils)：统一使用 `compatibleRequire` 加载 CLI 插件，仅在 `require` 无法加载 ESM 模块时回退到 ESM 导入，支持包含顶层 await 的模块。其他加载错误直接抛出，避免被 Windows URL 协议错误覆盖。ESM 回退执行失败时，报告实际的 ESM 执行错误。
+
+- Updated dependencies [b35f295]
+- Updated dependencies [67fc367]
+- Updated dependencies [58fc58d]
+- Updated dependencies [d378801]
+- Updated dependencies [8bb2f02]
+  - @modern-js/utils@3.12.0
+  - @modern-js/prod-server@3.12.0
+  - @modern-js/types@3.12.0
+  - @modern-js/server-core@3.12.0
+  - @modern-js/builder@3.12.0
+  - @modern-js/plugin-data-loader@3.12.0
+  - @modern-js/server@3.12.0
+  - @modern-js/server-utils@3.12.0
+  - @modern-js/i18n-utils@3.12.0
+  - @modern-js/plugin@3.12.0
+
 ## 3.11.3
 
 ### Patch Changes

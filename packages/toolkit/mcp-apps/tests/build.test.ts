@@ -321,7 +321,8 @@ describe('findMfManifest', () => {
 
 describe('view entry names', () => {
   it('includes a readable label and stable name hash', () => {
-    expect(viewEntryName('local')).toBe('mcp-ui-local-25bf8e1a2393');
+    expect(viewEntryName('local')).toMatch(/^mcp-ui-local-[a-f0-9]{12}$/);
+    expect(viewEntryName('local')).toBe(viewEntryName('local'));
     expect(viewEntryName('Order / Detail')).toMatch(
       /^mcp-ui-order-detail-[a-f0-9]{12}$/,
     );

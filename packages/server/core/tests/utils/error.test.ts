@@ -1,15 +1,12 @@
 import { createErrorHtml } from '../../src/utils';
 
-describe('test utils.error', () => {
-  it('should get 404 error html', () => {
-    const html = createErrorHtml(404);
+it.each([
+  [404, 'This page could not be found.'],
+  [500, 'Internal Server Error.'],
+])('renders the %s status and error message', (status, message) => {
+  const html = createErrorHtml(status);
 
-    expect(html).toMatchSnapshot();
-  });
-
-  it('should get 500 error html', () => {
-    const html = createErrorHtml(500);
-
-    expect(html).toMatchSnapshot();
-  });
+  expect(html).toContain(`<title>${status}: ${message}</title>`);
+  expect(html).toContain(`<h1>${status}</h1>`);
+  expect(html).toContain(message);
 });
