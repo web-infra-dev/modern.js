@@ -244,6 +244,62 @@ try {
       'baseUrl' in inherited.json('tsconfig.base.json').compilerOptions,
   );
 
+  console.log('== 4e. paths 写在父配置、子配置只有 baseUrl ==');
+  const inheritedPaths = prepare(p => {
+    const ts = p.json('tsconfig.json');
+    const { paths } = ts.compilerOptions;
+    delete ts.compilerOptions.paths;
+    ts.extends = './tsconfig.base.json';
+    p.write('tsconfig.json', ts);
+    p.write('tsconfig.base.json', { compilerOptions: { paths } });
+  });
+  const r4e = inheritedPaths.run();
+  const ts4e = inheritedPaths.json('tsconfig.json').compilerOptions;
+  check(
+    '[inherited-paths] 子配置不新增 paths（否则覆盖掉父配置的别名），baseUrl 保留',
+    !('paths' in ts4e) && 'baseUrl' in ts4e,
+  );
+  check(
+    '[inherited-paths] baseUrl 与 @api/* 进人工清单并指向父配置',
+    r4e.manual.some(
+      m => m.includes('tsconfig.base.json') && m.includes('baseUrl'),
+    ) &&
+      r4e.manual.some(
+        m => m.includes('tsconfig.base.json') && m.includes('@api/*'),
+      ),
+  );
+
+  console.log('== 4f. paths 写在父配置、子配置没有 baseUrl ==');
+  const inheritedPathsNoBase = prepare(p => {
+    const ts = p.json('tsconfig.json');
+    const { paths } = ts.compilerOptions;
+    delete ts.compilerOptions.paths;
+    delete ts.compilerOptions.baseUrl;
+    ts.extends = './tsconfig.base.json';
+    p.write('tsconfig.json', ts);
+    p.write('tsconfig.base.json', { compilerOptions: { paths } });
+  });
+  const r4f = inheritedPathsNoBase.run();
+  check(
+    '[inherited-paths] 没有 baseUrl 时也不在子配置补 @api/*，改为人工清单',
+    !('paths' in inheritedPathsNoBase.json('tsconfig.json').compilerOptions) &&
+      r4f.manual.some(m => m.includes('@api/*')),
+  );
+
+  console.log('== 4g. paths 目标是绝对路径 ==');
+  const absTarget = prepare(p => {
+    const ts = p.json('tsconfig.json');
+    ts.compilerOptions.paths['@abs/*'] = ['/opt/shared/*'];
+    p.write('tsconfig.json', ts);
+  });
+  absTarget.run();
+  check(
+    '[abs-target] 绝对路径目标原样保留，不加 baseUrl 前缀',
+    JSON.stringify(
+      absTarget.json('tsconfig.json').compilerOptions.paths['@abs/*'],
+    ) === JSON.stringify(['/opt/shared/*']),
+  );
+
   console.log('== 5. 含注释的 tsconfig.json ==');
   const jsonc = prepare(p => {
     p.write(
