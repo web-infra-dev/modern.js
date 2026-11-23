@@ -21,6 +21,20 @@ const apiAppDir = path.resolve(__dirname, '../bff-api-app');
 const appDir = path.resolve(__dirname, '../bff-client-app');
 const indepAppDir = path.resolve(__dirname, '../bff-indep-client-app');
 
+const waitForText = async (
+  page: Page,
+  selector: string,
+  expectedText: string,
+) => {
+  await page.waitForFunction(
+    (targetSelector, targetText) =>
+      document.querySelector(targetSelector)?.textContent === targetText,
+    { timeout: 30000 },
+    selector,
+    expectedText,
+  );
+};
+
 const testApiWorked = async ({
   host,
   port,
@@ -72,7 +86,7 @@ describe('corss project bff', () => {
       await page.goto(`${host}:${port}/${BASE_PAGE}`, {
         timeout: 50000,
       });
-      await new Promise(resolve => setTimeout(resolve, 3000));
+      await waitForText(page, '.hello', expectedText);
       const text = await page.$eval('.hello', el => el?.textContent);
       expect(text).toBe(expectedText);
     });
@@ -84,7 +98,7 @@ describe('corss project bff', () => {
         const helloEl = document.querySelector('.hello');
         return !loadingEl && helloEl;
       });
-      await new Promise(resolve => setTimeout(resolve, 3000));
+      await waitForText(page, '.hello', expectedText);
       const text1 = await page.$eval('.hello', el => el?.textContent);
       expect(text1).toBe(expectedText);
     });
@@ -98,14 +112,14 @@ describe('corss project bff', () => {
 
     test('support custom sdk', async () => {
       await page.goto(`${host}:${port}/${CUSTOM_PAGE}`);
-      await new Promise(resolve => setTimeout(resolve, 1000));
+      await waitForText(page, '.hello', 'Hello Custom SDK');
       const text = await page.$eval('.hello', el => el?.textContent);
       expect(text).toBe('Hello Custom SDK');
     });
 
     test('support upload', async () => {
       await page.goto(`${host}:${port}/${UPLOAD_PAGE}`);
-      await new Promise(resolve => setTimeout(resolve, 1000));
+      await waitForText(page, '.mock_file', 'mock_image.png');
       const text = await page.$eval('.mock_file', el => el?.textContent);
       expect(text).toBe('mock_image.png');
     });
@@ -161,7 +175,7 @@ describe('corss project bff', () => {
       await page.goto(`${host}:${port}/${BASE_PAGE}`, {
         timeout: 50000,
       });
-      await new Promise(resolve => setTimeout(resolve, 3000));
+      await waitForText(page, '.hello', expectedText);
       const text = await page.$eval('.hello', el => el?.textContent);
       expect(text).toBe(expectedText);
     });
@@ -173,7 +187,7 @@ describe('corss project bff', () => {
         const helloEl = document.querySelector('.hello');
         return !loadingEl && helloEl;
       });
-      await new Promise(resolve => setTimeout(resolve, 3000));
+      await waitForText(page, '.hello', expectedText);
       const text1 = await page.$eval('.hello', el => el?.textContent);
       expect(text1).toBe(expectedText);
     });
@@ -187,14 +201,14 @@ describe('corss project bff', () => {
 
     test('support custom sdk', async () => {
       await page.goto(`${host}:${port}/${CUSTOM_PAGE}`);
-      await new Promise(resolve => setTimeout(resolve, 1000));
+      await waitForText(page, '.hello', 'Hello Custom SDK');
       const text = await page.$eval('.hello', el => el?.textContent);
       expect(text).toBe('Hello Custom SDK');
     });
 
     test('support upload', async () => {
       await page.goto(`${host}:${port}/${UPLOAD_PAGE}`);
-      await new Promise(resolve => setTimeout(resolve, 1000));
+      await waitForText(page, '.mock_file', 'mock_image.png');
       const text = await page.$eval('.mock_file', el => el?.textContent);
       expect(text).toBe('mock_image.png');
     });
@@ -239,28 +253,28 @@ describe('corss project bff', () => {
       await page.goto(`${host}:${port}/${BASE_PAGE}`, {
         timeout: 50000,
       });
-      await new Promise(resolve => setTimeout(resolve, 2000));
+      await waitForText(page, '.hello', 'hello：Hello get bff-api-app');
       const text = await page.$eval('.hello', el => el?.textContent);
       expect(text).toBe('hello：Hello get bff-api-app');
     });
 
     conditionalTest('basic usage with csr', async () => {
       await page.goto(`${host}:${port}/${SSR_PAGE}`);
-      await new Promise(resolve => setTimeout(resolve, 2000));
+      await waitForText(page, '.hello', 'node-fetch：Hello get bff-api-app');
       const text1 = await page.$eval('.hello', el => el?.textContent);
       expect(text1).toBe('node-fetch：Hello get bff-api-app');
     });
 
     test('support custom sdk', async () => {
       await page.goto(`${host}:${port}/${CUSTOM_PAGE}`);
-      await new Promise(resolve => setTimeout(resolve, 3000));
+      await waitForText(page, '.hello', 'interceptor return：Hello Custom SDK');
       const text = await page.$eval('.hello', el => el?.textContent);
       expect(text).toBe('interceptor return：Hello Custom SDK');
     });
 
     test('support upload', async () => {
       await page.goto(`${host}:${port}/${UPLOAD_PAGE}`);
-      await new Promise(resolve => setTimeout(resolve, 1000));
+      await waitForText(page, '.mock_file', 'mock_image.png');
       const text = await page.$eval('.mock_file', el => el?.textContent);
       expect(text).toBe('mock_image.png');
     });
@@ -309,27 +323,28 @@ describe('corss project bff', () => {
       await page.goto(`${host}:${port}/${BASE_PAGE}`, {
         timeout: 50000,
       });
-      await new Promise(resolve => setTimeout(resolve, 2000));
+      await waitForText(page, '.hello', 'hello：Hello get bff-api-app');
       const text = await page.$eval('.hello', el => el?.textContent);
       expect(text).toBe('hello：Hello get bff-api-app');
     });
 
     conditionalTest('basic usage with csr', async () => {
       await page.goto(`${host}:${port}/${SSR_PAGE}`);
+      await waitForText(page, '.hello', 'node-fetch：Hello get bff-api-app');
       const text1 = await page.$eval('.hello', el => el?.textContent);
       expect(text1).toBe('node-fetch：Hello get bff-api-app');
     });
 
     test('support custom sdk', async () => {
       await page.goto(`${host}:${port}/${CUSTOM_PAGE}`);
-      await new Promise(resolve => setTimeout(resolve, 1000));
+      await waitForText(page, '.hello', 'interceptor return：Hello Custom SDK');
       const text = await page.$eval('.hello', el => el?.textContent);
       expect(text).toBe('interceptor return：Hello Custom SDK');
     });
 
     test('support upload', async () => {
       await page.goto(`${host}:${port}/${UPLOAD_PAGE}`);
-      await new Promise(resolve => setTimeout(resolve, 1000));
+      await waitForText(page, '.mock_file', 'mock_image.png');
       const text = await page.$eval('.mock_file', el => el?.textContent);
       expect(text).toBe('mock_image.png');
     });
