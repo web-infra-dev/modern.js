@@ -128,6 +128,9 @@ function readPackageType(dir) {
 
 // "./src" + "*" → "./src/*"；"../shared" + "./x/*" → "../shared/x/*"
 function rebasePathTarget(baseUrl, target) {
+  if (path.posix.isAbsolute(target) || path.win32.isAbsolute(target)) {
+    return target;
+  }
   const joined = path.posix.join(baseUrl.replace(/\\/g, '/'), target);
   return joined.startsWith('.') || joined.startsWith('/')
     ? joined
@@ -200,10 +203,10 @@ function findBaseUrlImport(dir, baseUrlDir, pathsKeys) {
   return undefined;
 }
 
-// extends 指向的本地父配置里是否声明了 baseUrl（只看相对路径的 extends）
-function inheritedBaseUrlFile(dir, config) {
+// 沿相对路径的 extends 链向上找，返回最近一个声明了 compilerOptions[key] 的父配置（相对 dir 的路径）
+function inheritedOptionFile(dir, config, key, seen = new Set()) {
   const parents = Array.isArray(config.extends)
-    ? config.extends
+    ? [...config.extends].reverse()
     : [config.extends];
   for (const parent of parents) {
     if (typeof parent !== 'string' || !parent.startsWith('.')) continue;
@@ -211,13 +214,19 @@ function inheritedBaseUrlFile(dir, config) {
       dir,
       parent.endsWith('.json') ? parent : `${parent}.json`,
     );
-    if (!fs.existsSync(file)) continue;
+    if (seen.has(file) || !fs.existsSync(file)) continue;
+    seen.add(file);
+    let parsed;
     try {
-      const parsed = JSON.parse(stripJsonc(fs.readFileSync(file, 'utf8')));
-      if (typeof parsed?.compilerOptions?.baseUrl === 'string') {
-        return path.relative(dir, file);
-      }
-    } catch {}
+      parsed = JSON.parse(stripJsonc(fs.readFileSync(file, 'utf8')));
+    } catch {
+      continue;
+    }
+    if (parsed?.compilerOptions?.[key] !== undefined) {
+      return path.relative(dir, file);
+    }
+    const found = inheritedOptionFile(path.dirname(file), parsed, key, seen);
+    if (found) return path.relative(dir, path.resolve(path.dirname(file), found));
   }
   return undefined;
 }
@@ -256,10 +265,17 @@ export function migrateTsconfig(dir) {
     const { baseUrl } = compilerOptions;
     const hasPaths =
       compilerOptions.paths && typeof compilerOptions.paths === 'object';
-    // 本次执行后 baseUrl 是否仍保留（保留时不自动补 @api/*）
+    // paths 整项覆盖：自身没有 paths、却从父配置继承了 paths 时，在本文件里写 paths 会丢掉继承来的别名
+    const inheritedPathsFile = hasPaths
+      ? undefined
+      : inheritedOptionFile(dir, config, 'paths');
 
     // a：baseUrl → 等价的 paths
-    if (typeof baseUrl === 'string') {
+    if (typeof baseUrl === 'string' && inheritedPathsFile) {
+      manualEdits.push(
+        `paths 继承自父配置 ${inheritedPathsFile}，并按本文件的 baseUrl（"${baseUrl}"）解析：直接删除 baseUrl 会改变这些别名的解析位置。请把 paths 复制到 tsconfig.json，每个目标加上 baseUrl 前缀；有靠 baseUrl 解析的裸导入时补 "*" 映射；再删除 baseUrl`,
+      );
+    } else if (typeof baseUrl === 'string') {
       const rebased = {};
       for (const [key, targets] of Object.entries(
         hasPaths ? compilerOptions.paths : {},
@@ -305,7 +321,7 @@ export function migrateTsconfig(dir) {
         },
       });
     } else {
-      const parentFile = inheritedBaseUrlFile(dir, config);
+      const parentFile = inheritedOptionFile(dir, config, 'baseUrl');
       if (parentFile) {
         manualEdits.push(
           `baseUrl 写在父配置 ${parentFile} 里（TS 6 报 TS5101）：在该文件中按同样规则改写——paths 目标加上 baseUrl 前缀；有靠 baseUrl 解析的裸导入时补 "*" 映射；再删除 baseUrl`,
@@ -317,7 +333,11 @@ export function migrateTsconfig(dir) {
     if (fs.existsSync(path.join(dir, 'api', 'lambda'))) {
       const paths = compilerOptions.paths;
       const hasAlias = paths && typeof paths === 'object' && API_ALIAS in paths;
-      if (!hasAlias) {
+      if (!hasAlias && inheritedPathsFile) {
+        manualEdits.push(
+          `paths 继承自父配置 ${inheritedPathsFile}：在该文件的 paths 中补充 "${API_ALIAS}"（目标相对该文件所在目录指向 api/lambda/*）`,
+        );
+      } else if (!hasAlias) {
         edits.push({
           desc: `compilerOptions.paths 补充 "${API_ALIAS}": ${JSON.stringify(API_ALIAS_TARGET)}`,
           apply: c => {
