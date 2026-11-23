@@ -1,7 +1,7 @@
 {
   "private": true,
   "name": "@integration-test/image-component",
-  "version": "2.66.8",
+  "version": "0.0.0-canary-verify.r20261123-3c1fee8d7066042efd8c1de670e29585",
   "scripts": {
     "dev": "modern dev",
     "build": "modern build",
@@ -9,13 +9,13 @@
     "test:me": "pnpm --dir ../../ exec rstest integration/image-component/tests/index.test.ts"
   },
   "dependencies": {
-    "@modern-js/image": "workspace:*",
-    "@modern-js/runtime": "workspace:*",
+    "@modern-js/image": "workspace:0.0.0-canary-verify.r20261123-3c1fee8d7066042efd8c1de670e29585",
+    "@modern-js/runtime": "workspace:0.0.0-canary-verify.r20261123-3c1fee8d7066042efd8c1de670e29585",
     "react": "^19.3.1",
     "react-dom": "^19.3.1"
   },
   "devDependencies": {
-    "@modern-js/app-tools": "workspace:*",
+    "@modern-js/app-tools": "workspace:0.0.0-canary-verify.r20261123-3c1fee8d7066042efd8c1de670e29585",
     "@rsdoctor/rspack-plugin": "^1.6.5",
     "@types/node": "^20",
     "@types/react": "^19.3.0",
