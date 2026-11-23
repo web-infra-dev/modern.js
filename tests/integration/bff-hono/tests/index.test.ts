@@ -208,11 +208,10 @@ describe('bff hono tests', () => {
       page = await browser.newPage();
     });
 
-    // tsconfig.server.json is picked up by convention: no fallback warning,
-    // and the BFF output is CommonJS.
+    // tsconfig.server.json is picked up by convention and said so; the BFF
+    // output is CommonJS.
     test('compiles api/ with tsconfig.server.json by convention', async () => {
       expect(buildOutput).toContain('uses tsconfig.server.json');
-      expect(buildOutput).not.toContain('add a tsconfig.server.json');
       const files = await fs.promises.readdir(path.join(appDir, 'dist/api'), {
         recursive: true,
       });

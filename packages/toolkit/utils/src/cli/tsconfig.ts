@@ -157,34 +157,3 @@ export const resolveServerTsconfig = (
   appDirectory: string,
   configuredPath?: string,
 ): string => resolveServerTsconfigPath(appDirectory, configuredPath).path;
-
-const warnedTsconfigPaths = new Set<string>();
-
-/**
- * Print, once per process and tsconfig file, the warning that server-side
- * code is compiled with forced `NodeNext` module options because the project
- * only has a bundler-mode `tsconfig.json`. No-op when no override applies.
- */
-export const warnServerTsconfigOverrides = (
-  tsconfigPath: string,
-  compilerOverrides?: Record<string, unknown>,
-): void => {
-  if (!compilerOverrides || Object.keys(compilerOverrides).length === 0) {
-    return;
-  }
-  const key = path.resolve(tsconfigPath);
-  if (warnedTsconfigPaths.has(key)) {
-    return;
-  }
-  warnedTsconfigPaths.add(key);
-
-  const overrides = Object.entries(compilerOverrides)
-    .map(([name, value]) => `${name}: ${String(value)}`)
-    .join(', ');
-  logger.warn(
-    `${path.basename(key)} sets an ES module "module" option but package.json "type" is not "module". ` +
-      `Server-side code (api/, server/, shared/) is compiled with { ${overrides} } instead. ` +
-      `To silence this warning, add a ${SERVER_TSCONFIG_FILENAME} next to it:\n` +
-      `  { "extends": "./${TS_CONFIG_FILENAME}", "compilerOptions": { "module": "NodeNext", "moduleResolution": "NodeNext", "noEmit": false, "declaration": false }, "include": ["api", "server", "shared"] }`,
-  );
-};

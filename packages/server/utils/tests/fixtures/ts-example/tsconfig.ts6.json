@@ -1,4 +1,0 @@
-{
-  "extends": "./tsconfig.server.json",
-  "ts-node": { "compiler": "./ts6-compiler.js" }
-}

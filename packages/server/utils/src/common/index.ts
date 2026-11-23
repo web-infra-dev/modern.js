@@ -70,6 +70,6 @@ export const compile: CompileFunc = async (
   );
   validateAbsolutePath(distDir, `dist dir ${distDir} is not an absolute path.`);
 
-  const { compileByTs } = await import('../compilers/typescript');
-  await compileByTs(appDirectory, modernConfig, compileOptions);
+  const { compileBySwc } = await import('../compilers/swc');
+  await compileBySwc(appDirectory, modernConfig, compileOptions);
 };
