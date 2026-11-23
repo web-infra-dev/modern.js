@@ -153,13 +153,9 @@
     "typescript": "^5"
   },
   "peerDependencies": {
-    "ts-node": "^10.9.2",
     "tsconfig-paths": "^4.2.0"
   },
   "peerDependenciesMeta": {
-    "ts-node": {
-      "optional": true
-    },
     "tsconfig-paths": {
       "optional": true
     }

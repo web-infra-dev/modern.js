@@ -1,18 +1,15 @@
+import { createRequire } from 'node:module';
 import path from 'node:path';
+import { registerSwc } from '@modern-js/server-utils';
 import {
   fs,
   type Alias,
   getAliasConfig,
-  isDepExists,
-  loadFromProject,
   mergeAlias,
   readTsConfigWithExtends,
   resolveServerTsconfigInfo,
-  warnServerTsconfigOverrides,
 } from '@modern-js/utils';
 import type { ConfigChain } from '@rsbuild/core';
-
-type TsRuntimeRegisterMode = 'ts-node' | 'swc' | 'node-loader' | 'unsupported';
 
 interface TsRuntimeSetupOptions {
   moduleType?: string;
@@ -131,42 +128,12 @@ const createRuntimePaths = ({
   return normalizedPaths;
 };
 
-// Describes final runtime selection policy.
-// Prefer ts-node when available. Otherwise CommonJS projects compile with swc,
-// and module projects use Node.js native TypeScript support.
-export const resolveTsRuntimeRegisterMode = (
-  hasTsNode: boolean,
-  moduleType?: string,
-): TsRuntimeRegisterMode => {
-  if (hasTsNode) {
-    return 'ts-node';
-  }
-
-  // Native type stripping loads files with ESM syntax as ES modules, which
-  // can't be evicted from the module cache, so the dev server could never
-  // reload them. Compile to CommonJS instead.
-  if (moduleType !== 'module') {
-    return 'swc';
-  }
-
-  const hasNativeTypeScriptSupport = (process as any).features?.typescript;
-  const nodeMajorVersion = Number(process.versions.node.split('.')[0]);
-  const supportsNativeTypeScript =
-    hasNativeTypeScriptSupport === undefined
-      ? nodeMajorVersion >= 22
-      : hasNativeTypeScriptSupport !== false;
-
-  if (supportsNativeTypeScript) {
-    return 'node-loader';
-  }
-
-  return 'unsupported';
-};
-
 /**
- * Setup TypeScript runtime support.
- * Register ts-node (or swc when ts-node is not installed) for compilation and
- * tsconfig-paths for path alias resolution.
+ * Setup TypeScript runtime support for server code at dev time (and for the
+ * server config loaded at build time): tsconfig `paths` aliases plus swc
+ * hooks — require hooks for CommonJS projects, module hooks for
+ * `type: module` ones. TypeScript itself is not loaded, so this works with
+ * any TypeScript version, including 7.
  */
 export const setupTsRuntime = async (
   appDir: string,
@@ -181,17 +148,9 @@ export const setupTsRuntime = async (
         : undefined,
   });
   const tsconfigPath = tsconfigInfo.path;
-  const isTsProject = await fs.pathExists(tsconfigPath);
-  const hasTsNode = isDepExists(appDir, 'ts-node');
-
-  if (!isTsProject) {
+  if (!(await fs.pathExists(tsconfigPath))) {
     return;
   }
-
-  const registerMode = resolveTsRuntimeRegisterMode(
-    hasTsNode,
-    options.moduleType,
-  );
 
   const aliasConfig = getAliasConfig(alias, {
     appDirectory: appDir,
@@ -204,78 +163,44 @@ export const setupTsRuntime = async (
     absoluteBaseUrl,
   });
 
-  if (registerMode === 'unsupported') {
-    return;
-  }
+  // The tsconfig `"ts-node"` section keeps working without ts-node: its
+  // `compilerOptions` win over the project file and `require` is preloaded.
+  const { raw, compilerOptions } = readTsConfigWithExtends(tsconfigPath);
+  const tsNodeOptions = raw['ts-node'] ?? {};
+  const swcCompilerOptions = {
+    ...compilerOptions,
+    ...tsNodeOptions.compilerOptions,
+  };
 
-  if (registerMode === 'ts-node') {
-    const tsConfig = readTsConfigWithExtends(tsconfigPath);
-    const tsNodeOptions = tsConfig.raw['ts-node'];
-    // A bundler-mode `tsconfig.json` (`module: ESNext`) in a commonjs project
-    // has to be transpiled as NodeNext or `require()` fails on the output.
-    // ts-node `compilerOptions` overrides the project file; the user's own
-    // `ts-node.compilerOptions` still wins over the framework defaults.
-    const tsNodeCompilerOptions = {
-      ...tsconfigInfo.compilerOverrides,
-      ...tsNodeOptions?.compilerOptions,
-    };
-
-    if (options.moduleType === 'module') {
-      const { registerModuleHooks } = await import('../esm/register-esm.mjs');
-      await registerModuleHooks({
-        appDir,
-        distDir,
-        baseUrl: absoluteBaseUrl || './',
-        paths: runtimePaths,
-        tsconfigPath,
-        compilerOptions: tsNodeCompilerOptions,
-      });
-    } else {
-      const { register } = await import('@modern-js/utils/tsconfig-paths');
-      register({
-        baseUrl: absoluteBaseUrl || './',
-        paths: runtimePaths,
-      });
-    }
-
-    // Keep CJS require hooks in module projects:
-    // some server scanners still do `require('*.ts')` first and only
-    // fallback to `import()` on ERR_REQUIRE_ESM.
-    const tsNode = await loadFromProject('ts-node', appDir);
-    warnServerTsconfigOverrides(tsconfigPath, tsconfigInfo.compilerOverrides);
-    tsNode.register({
-      project: tsconfigPath,
-      scope: true,
-      // for env.d.ts, https://www.npmjs.com/package/ts-node#missing-types
-      files: true,
-      transpileOnly: true,
-      ignore: [
-        '(?:^|/)node_modules/',
-        `(?:^|/)${path.relative(appDir, distDir)}/`,
-      ],
-      ...tsNodeOptions,
-      ...(Object.keys(tsNodeCompilerOptions).length > 0
-        ? { compilerOptions: tsNodeCompilerOptions }
-        : {}),
+  if (options.moduleType === 'module') {
+    const { registerSwcModuleHooks } = await import('../esm/register-esm.mjs');
+    await registerSwcModuleHooks({
+      appDir,
+      distDir,
+      baseUrl: absoluteBaseUrl || './',
+      paths: runtimePaths,
+      compilerOptions: swcCompilerOptions,
     });
-  } else if (registerMode === 'swc') {
+  } else {
     const { register } = await import('@modern-js/utils/tsconfig-paths');
     register({
       baseUrl: absoluteBaseUrl || './',
       paths: runtimePaths,
     });
+  }
 
-    const { readCompilerOptions, registerSwc } = await import('./swcRegister');
-    registerSwc({
-      distDir,
-      compilerOptions: readCompilerOptions(tsconfigPath),
-    });
-  } else if (registerMode === 'node-loader') {
-    const { registerPathsLoader } = await import('../esm/register-esm.mjs');
-    await registerPathsLoader({
-      appDir,
-      baseUrl: absoluteBaseUrl || './',
-      paths: runtimePaths,
-    });
+  // Keep CJS require hooks in module projects:
+  // some server scanners still do `require('*.ts')` first and only
+  // fallback to `import()` on ERR_REQUIRE_ESM.
+  registerSwc({
+    distDir,
+    compilerOptions: swcCompilerOptions,
+    moduleType: options.moduleType === 'module' ? 'module' : 'commonjs',
+  });
+
+  const appRequire = createRequire(path.join(appDir, 'package.json'));
+  const preloads: string[] = [].concat(tsNodeOptions.require ?? []);
+  for (const request of preloads) {
+    appRequire(request);
   }
 };

@@ -43,7 +43,7 @@ export const dev = async (
     .concat(normalizedConfig?.resolve?.alias ?? [])
     .concat(normalizedConfig?.source?.alias ?? []) as ConfigChain<Alias>;
 
-  // Setup ts-node and tsconfig-paths for TypeScript runtime support
+  // Setup swc hooks and tsconfig paths for TypeScript runtime support
   await setupTsRuntime(
     appContext.appDirectory,
     appContext.distDirectory,
