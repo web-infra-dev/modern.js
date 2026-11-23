@@ -838,6 +838,14 @@ export async function runManifestFallbackScenario(mode) {
           navigations,
           'Node readiness or the Service response reloaded the browser',
         );
+        assert.equal(
+          recovery.serviceRequests.filter(
+            request =>
+              request.body.request.instanceId === staleBody.request.instanceId,
+          ).length,
+          1,
+          'The Service POST was replayed during deployment selection',
+        );
         await latePage.reload({ waitUntil: 'load' });
         await expectBrowser('v6', 'v6', colors.first, latePage);
         assert.equal(new URL(latePage.url()).searchParams.has('csr'), false);
@@ -855,13 +863,16 @@ export async function runManifestFallbackScenario(mode) {
           'Only the user refresh should reload the document',
         );
         assert.equal(
-          recovery.serviceRequests.filter(
-            request =>
-              request.body.request.instanceId === staleBody.request.instanceId,
-          ).length,
-          1,
-          'The Service POST was replayed during deployment selection',
+          recovery.serviceRequests.length,
+          csr ? 2 : 1,
+          'Unexpected Service POST count after user refresh',
         );
+        assert.equal(
+          evidence.navigations.length,
+          1,
+          'Node readiness or Service selection reloaded the existing main tab',
+        );
+        await page.reload({ waitUntil: 'load' });
         await expectBrowser('v6', 'v6', colors.first);
         await stableNavigation('Service recovery');
       } finally {

@@ -205,9 +205,16 @@ export default function Document() {
             "import { defineRuntimeConfig } from '@modern-js/runtime'\nexport default defineRuntimeConfig({ router: { supportHtml5History: false } })\n",
           );
       }
+      const providerRuntime = path.join(
+        workspace,
+        'provider/src/modern.runtime.ts',
+      );
       await writeFile(
-        path.join(workspace, 'provider/src/modern.runtime.tsx'),
-        "import { defineRuntimeConfig } from '@modern-js/runtime'\nexport default defineRuntimeConfig({ router: { supportHtml5History: false } })\n",
+        providerRuntime,
+        (await readFile(providerRuntime, 'utf8')).replace(
+          'plugins: [prepareClientPages() as RuntimePlugin]',
+          'router: { supportHtml5History: false },\n  plugins: [prepareClientPages() as RuntimePlugin]',
+        ),
       );
       const config = path.join(workspace, 'host/modern.config.ts');
       await writeFile(

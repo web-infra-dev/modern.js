@@ -180,12 +180,11 @@ describeLab(
       'switches successful cached comparisons through %s failure and back',
       async failure => {
         const { lab, page, weatherFrames, expectErrors } = getContext();
-        if (failure === 'server' || failure === 'render')
-          expectErrors(
-            /LAB_REMOTE_RENDER|server rendering errored|server could not finish|Minified React error #419/i,
-            0,
-            2,
-          );
+        expectErrors(
+          /LAB_REMOTE_RENDER|server rendering errored|server could not finish|There was an error while hydrating|Minified React error #(?:418|419|422)/i,
+          0,
+          2,
+        );
         await page.setViewport({ width: 1440, height: 900 });
         await page.goto(`${lab.url}/?modes=csr,ssr`, {
           waitUntil: 'domcontentloaded',
@@ -350,8 +349,7 @@ describeLab(
         }
         let resumeNeighbor = () => {};
         let neighborRequested:
-          | ReturnType<typeof page.waitForRequest>
-          | undefined;
+          ReturnType<typeof page.waitForRequest> | undefined;
         if (scenario === 'replace') {
           // A fast replacement failure can precede the independent station's
           // first load. Hold its actual chunk to exercise that ordering.

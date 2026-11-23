@@ -353,8 +353,28 @@ for (const scenario of scenarios.filter(
               expect(html).toContain(marker);
               await assertInteraction(page, 'service', 'v1:initial');
             } finally {
-              if ((await readFile(source, 'utf8')) === changed)
+              if ((await readFile(source, 'utf8')) === changed) {
                 await writeFile(source, original);
+                await expect
+                  .poll(
+                    async () => {
+                      const response = await fetch(
+                        `${lab.url}${scenarioRoutes.service}`,
+                      );
+                      if (!response.ok) return false;
+                      const html = await response.text();
+                      if (html.includes(marker)) return false;
+                      try {
+                        assertServerVersion(html, 'service', 'v1:initial');
+                        return true;
+                      } catch {
+                        return false;
+                      }
+                    },
+                    { timeout: 30000 },
+                  )
+                  .toBe(true);
+              }
               observer.stop();
             }
           }, 120000);
