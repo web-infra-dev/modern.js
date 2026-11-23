@@ -1520,8 +1520,8 @@ importers:
         specifier: ^20
         version: 20.19.27
       http-proxy-middleware:
-        specifier: ^2.0.11
-        version: 2.0.11(@types/express@4.17.25)
+        specifier: ^2.0.12
+        version: 2.0.12(@types/express@4.17.25)
       typescript:
         specifier: ^5
         version: 5.9.3
@@ -2117,8 +2117,8 @@ importers:
         specifier: ^20
         version: 20.19.27
       http-proxy-middleware:
-        specifier: ^2.0.11
-        version: 2.0.11(@types/express@4.17.25)
+        specifier: ^2.0.12
+        version: 2.0.12(@types/express@4.17.25)
       type-fest:
         specifier: 2.19.0
         version: 2.19.0
@@ -12384,8 +12384,8 @@ packages:
     resolution: {integrity: sha512-T1gkAiYYDWYx3V5Bmyu7HcfcvL7mUrTWiM6yOfa3PIphViJ/gFPbvidQ+veqSOHci/PxBcDabeUNCzpOODJZig==}
     engines: {node: '>= 14'}
 
-  http-proxy-middleware@2.0.11:
-    resolution: {integrity: sha512-vTR6+QTUDDOQ3a5RI5YwSwSx3roJjLLAi+PBNFmBWDfrfk7zVteTFSMq6E8+FhnJ8yjMOTZfk71fRAFv1gl2OQ==}
+  http-proxy-middleware@2.0.12:
+    resolution: {integrity: sha512-XlshaD1JTph+1Itj2B+m+zrVaMKmdYkE+452U+scHCsQgL2eXpjGliTmHLZi8Ly5/w86IC9ZGrOYTuzTyUMxAg==}
     engines: {node: '>=12.0.0'}
     peerDependencies:
       '@types/express': ^4.17.13
@@ -27330,7 +27330,7 @@ snapshots:
     transitivePeerDependencies:
       - supports-color
 
-  http-proxy-middleware@2.0.11(@types/express@4.17.25):
+  http-proxy-middleware@2.0.12(@types/express@4.17.25):
     dependencies:
       '@types/http-proxy': 1.17.17
       http-proxy: 1.18.1
@@ -27345,7 +27345,7 @@ snapshots:
   http-proxy@1.18.1:
     dependencies:
       eventemitter3: 4.0.7
-      follow-redirects: 1.16.0(debug@4.4.3)
+      follow-redirects: 1.16.2(debug@4.4.3)
       requires-port: 1.0.0
     transitivePeerDependencies:
       - debug
