@@ -141,8 +141,15 @@ export const createSpecifierRewriter = (
     return undefined;
   }
   const matchPath = createTsMatchPath(baseUrl, paths);
+  // The rewrite works on posix paths, like the file names TypeScript used to
+  // hand it, so a Windows importer path is normalized first.
   return (importer, text) =>
-    getNotAliasedPath(importer, matchPath, text, moduleType);
+    getNotAliasedPath(
+      importer.replace(/\\/g, '/'),
+      matchPath,
+      text,
+      moduleType,
+    );
 };
 
 type Node = Record<string, any>;
