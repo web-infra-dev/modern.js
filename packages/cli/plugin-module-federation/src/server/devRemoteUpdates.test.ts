@@ -49,7 +49,7 @@ describe('request-driven development updates', () => {
     const f = fixture();
     await f.watcher.notify();
     expect(f.updateRemotes).toHaveBeenCalledWith(
-      [expect.objectContaining({ moduleInfo: manifest('2') })],
+      [expect.objectContaining({ manifest: manifest('2') })],
       expect.anything(),
     );
     await f.watcher.close();
@@ -87,7 +87,7 @@ describe('request-driven development updates', () => {
     await Promise.all([first, next]);
     expect(fetcher).toHaveBeenCalledTimes(1);
     expect(f.updateRemotes).toHaveBeenCalledWith(
-      [{ ...remote('weather'), moduleInfo: manifest(), dependencies: [] }],
+      [{ ...remote('weather'), manifest: manifest(), dependencies: [] }],
       { signal: expect.any(AbortSignal) },
     );
     expect(f.onApplied).toHaveBeenCalledTimes(1);
@@ -231,7 +231,7 @@ describe('request-driven development updates', () => {
       compiling.resolve(Response.json(serviceManifest()));
       await document;
       expect(f.updateRemotes).toHaveBeenCalledTimes(previous + 1);
-      expect(f.updateRemotes.mock.calls.at(-1)![0][0].moduleInfo).toEqual(
+      expect(f.updateRemotes.mock.calls.at(-1)![0][0].manifest).toEqual(
         serviceManifest(),
       );
       expect(admitted).toBe(true);
@@ -283,7 +283,7 @@ describe('request-driven development updates', () => {
       await Promise.all([first, second, latest, document]);
       expect(f.updateRemotes).toHaveBeenCalledTimes(2);
       expect(
-        f.updateRemotes.mock.calls[1][0][0].moduleInfo.metaData.buildInfo
+        f.updateRemotes.mock.calls[1][0][0].manifest.metaData.buildInfo
           .buildVersion,
       ).toBe('c');
       expect(admitted).toBe(true);
@@ -375,7 +375,7 @@ describe('request-driven development updates', () => {
       [
         expect.objectContaining({
           dependencies: [{ ...remote('nested'), buildVersion: 'nested-new' }],
-          moduleInfo: expect.objectContaining({
+          manifest: expect.objectContaining({
             metaData: expect.objectContaining({
               buildInfo: { buildVersion: 'unchanged' },
             }),

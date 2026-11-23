@@ -181,7 +181,7 @@ it('rechecks the latest manifest when another hint arrives during an update', as
     await Promise.all([first, second, admission]);
     expect(f.updateRemotes).toHaveBeenCalledTimes(2);
     expect(
-      (f.updateRemotes as any).mock.calls[1][0][0].moduleInfo.metaData.buildInfo
+      (f.updateRemotes as any).mock.calls[1][0][0].manifest.metaData.buildInfo
         .buildVersion,
     ).toBe('second');
   } finally {

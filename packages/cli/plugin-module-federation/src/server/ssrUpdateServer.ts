@@ -7,6 +7,7 @@ import type {
   SSRRequestCoordinatorOptions,
   SSRApplicationOptions,
 } from '@modern-js/server-core/node';
+import type { GlobalModuleInfo } from '@module-federation/sdk';
 import {
   createSSRUpdateAdapter,
   type SSRRemoteReplacement,
@@ -31,15 +32,15 @@ function registry(): Registry {
 export interface SSRUpdateManager {
   name: string;
   shouldUpdateRemote(
-    remote: SSRRemoteReplacement,
+    remote: SSRRemoteReplacement | GlobalModuleInfo,
     options?: RemoteCheckOptions,
   ): Promise<boolean>;
   updateRemotes(
-    remotes: SSRRemoteReplacement[],
+    remotes: SSRRemoteReplacement[] | GlobalModuleInfo,
     options: SSRUpdateOptions & { defer: 'after-response' },
   ): SSRUpdateReceipt;
   updateRemotes(
-    remotes: SSRRemoteReplacement[],
+    remotes: SSRRemoteReplacement[] | GlobalModuleInfo,
     options?: SSRUpdateOptions & { defer?: undefined },
   ): Promise<any>;
   status(): unknown;
@@ -149,7 +150,7 @@ export function createSSRUpdateServerPlugin(
                   withSignal(input),
                 ),
               updateRemotes: ((
-                remotes: SSRRemoteReplacement[],
+                remotes: SSRRemoteReplacement[] | GlobalModuleInfo,
                 input?: SSRUpdateOptions,
               ) => {
                 if (closed) {

@@ -1,9 +1,19 @@
 import { collectSSRRuntimeGraph } from './ssrRuntimeGraph';
 import type { SSRUpdateScope } from '@modern-js/server-core/node';
+import type {
+  GlobalModuleInfo,
+  Manifest,
+  ProviderModuleInfo,
+} from '@module-federation/sdk';
 import {
+  applyNodeGlobalModuleInfo,
   destroyNodeInstance,
+  diffNodeGlobalModuleInfo,
+  lookupProviderInGlobalModuleInfo,
   planRemoteCache,
+  resolveTargetModuleInfo,
   updateNodeRemotes,
+  type RegisteredRemoteDescriptor,
 } from '@module-federation/node/lifecycle';
 import {
   setSSRUpdateCandidates,
@@ -44,7 +54,7 @@ export interface SSREntryRecord {
   load(): unknown;
 }
 export type SSRUpdatePlan = {
-  mode: 'entries' | 'application';
+  mode: 'snapshot' | 'entries' | 'application';
   entries?: string[];
   reasons: string[];
 };
@@ -55,13 +65,26 @@ export interface SSRRemoteReplacement {
   type?: string;
   entryGlobalName?: string;
   client?: Omit<SSRClientRemote, 'name'>;
-  moduleInfo?: Record<string, unknown>;
+  manifest?: Manifest;
+  moduleInfo?: ProviderModuleInfo;
   /** Development subscriptions retain transitive build identities separately. */
   dependencies?: {
     name: string;
     entry: string;
     buildVersion: string;
   }[];
+}
+
+function isGlobalModuleInfoInput(value: unknown): value is GlobalModuleInfo {
+  return Boolean(
+    value &&
+    typeof value === 'object' &&
+    !Array.isArray(value) &&
+    !(
+      typeof (value as { name?: unknown }).name === 'string' &&
+      typeof (value as { entry?: unknown }).entry === 'string'
+    ),
+  );
 }
 export interface SSRUpdateOptions extends RemoteCheckOptions {
   revision?: number;
@@ -360,6 +383,7 @@ export function createSSRUpdateAdapter(options: {
                 );
                 const {
                   client: _client,
+                  manifest: _manifest,
                   moduleInfo: _info,
                   dependencies: _dependencies,
                   ...server
@@ -418,6 +442,7 @@ export function createSSRUpdateAdapter(options: {
                     remembered.get(name) || { name };
                   const {
                     client: _client,
+                    manifest: _manifest,
                     moduleInfo: _info,
                     dependencies: _dependencies,
                     ...serverReplacement
@@ -932,27 +957,338 @@ export function createSSRUpdateAdapter(options: {
       );
     },
   });
+  function collectExtraRemotes(): RegisteredRemoteDescriptor[] {
+    const raw = [...(owner.registrations || []), ...(options.remotes || [])];
+    return raw.map(remote => {
+      const candidate = getSSRUpdateRegistration(owner.id, remote.name);
+      return {
+        name: remote.name,
+        alias: (remote as any).alias,
+        entry: candidate?.entry ?? remote.entry,
+        type: candidate?.type ?? remote.type,
+        entryGlobalName: candidate?.entryGlobalName ?? remote.entryGlobalName,
+      };
+    });
+  }
+  function computeGlobalDiff(
+    application: Application,
+    globalModuleInfo: GlobalModuleInfo,
+  ) {
+    const hosts = instances();
+    const extraRemotes = collectExtraRemotes();
+    const diff = diffNodeGlobalModuleInfo(globalModuleInfo, {
+      instances: hosts,
+      remotes: extraRemotes,
+      host: { name: options.name },
+      resolveCurrentModuleInfo(remote) {
+        const appliedTarget = controller.getApplied(application, remote.name);
+        if (appliedTarget?.manifest || appliedTarget?.moduleInfo) {
+          return resolveTargetModuleInfo({
+            entry: appliedTarget.entry,
+            manifest: appliedTarget.manifest,
+            moduleInfo: appliedTarget.moduleInfo,
+          });
+        }
+        return getSSRUpdateRegistration(owner.id, remote.name)?.moduleInfo;
+      },
+      isRemoteLoaded(remoteName) {
+        return records().some(record => {
+          const cache = record.runtime?.c;
+          if (!cache || typeof cache !== 'object') return false;
+          const declares = Array.isArray(record.remoteNames)
+            ? record.remoteNames.includes(remoteName)
+            : Boolean(record.runtime);
+          if (!declares) return false;
+          const cachePlan = planRemoteCache({
+            webpackRequire: record.runtime,
+            name: remoteName,
+          });
+          if (!cachePlan) return false;
+          return [
+            ...cachePlan.remoteModuleIds,
+            ...cachePlan.consumerModuleIds,
+          ].some(id => Object.prototype.hasOwnProperty.call(cache, id));
+        });
+      },
+    });
+    return { diff, hosts, extraRemotes };
+  }
+  function shouldUpdateRemote(
+    application: Application,
+    remoteOrGlobal: SSRRemoteReplacement | GlobalModuleInfo,
+    input?: RemoteCheckOptions,
+  ): Promise<boolean> {
+    if (isGlobalModuleInfoInput(remoteOrGlobal)) {
+      return Promise.resolve().then(() => {
+        input?.signal?.throwIfAborted();
+        const { diff } = computeGlobalDiff(application, remoteOrGlobal);
+        if (application.status?.phase === 'unavailable') return true;
+        return diff.changed;
+      });
+    }
+    return controller.shouldUpdateRemote(application, remoteOrGlobal, input);
+  }
+  let globalSequence = 0;
   function updateRemotes(
     application: Application,
-    remotes: SSRRemoteReplacement[],
+    remotes: SSRRemoteReplacement[] | GlobalModuleInfo,
     input: SSRUpdateOptions & { defer: 'after-response' },
   ): SSRUpdateReceipt;
   function updateRemotes(
     application: Application,
-    remotes: SSRRemoteReplacement[],
+    remotes: SSRRemoteReplacement[] | GlobalModuleInfo,
     input?: SSRUpdateOptions & { defer?: undefined },
   ): Promise<any>;
   function updateRemotes(
     application: Application,
-    remotes: SSRRemoteReplacement[],
+    remotes: SSRRemoteReplacement[] | GlobalModuleInfo,
     input?: SSRUpdateOptions,
   ): Promise<any> | SSRUpdateReceipt;
   function updateRemotes(
     application: Application,
-    remotes: SSRRemoteReplacement[],
+    remotes: SSRRemoteReplacement[] | GlobalModuleInfo,
     input?: SSRUpdateOptions,
   ): Promise<any> | SSRUpdateReceipt {
     try {
+      if (isGlobalModuleInfoInput(remotes)) {
+        if (!input?.defer) application.assertUpdateAllowed?.();
+        if (input?.defer && !application.defer)
+          throw new Error(
+            'Modern SSR application does not support deferred updates',
+          );
+        input?.signal?.throwIfAborted();
+        // Validate GlobalModuleInfo synchronously before scheduling.
+        computeGlobalDiff(application, remotes);
+        const snapshotCopy = structuredClone(remotes);
+        const revision = input?.revision ?? ++globalSequence;
+        const operationId = `global:${revision}:${++globalSequence}`;
+        const executeGlobal = async () => {
+          const started = performance.now();
+          const timingsMs: Record<string, number> = {};
+          let currentStage = 'check';
+          let stageStarted = started;
+          const onStage = (nextStage: string) => {
+            const now = performance.now();
+            timingsMs[currentStage] =
+              (timingsMs[currentStage] || 0) + now - stageStarted;
+            stageStarted = now;
+            currentStage = nextStage;
+          };
+          input?.signal?.throwIfAborted();
+          const { diff, hosts, extraRemotes } = computeGlobalDiff(
+            application,
+            snapshotCopy,
+          );
+          const recovering = application.status?.phase === 'unavailable';
+
+          if (diff.unloadedRemotes.length > 0) {
+            applyNodeGlobalModuleInfo(snapshotCopy, {
+              instances: hosts,
+              remotes: extraRemotes,
+              host: { name: options.name },
+              remoteNames: diff.unloadedRemotes.map(item => item.name),
+            });
+            setSSRUpdateCandidates(
+              owner.id,
+              diff.unloadedRemotes.map(item => ({
+                name: item.name,
+                entry: item.entry,
+                ...(item.type ? { type: item.type } : {}),
+                ...(item.entryGlobalName
+                  ? { entryGlobalName: item.entryGlobalName }
+                  : {}),
+                moduleInfo: item.moduleInfo,
+              })),
+            );
+            const unloadedTargets = diff.unloadedRemotes.map(item => {
+              const hasClient =
+                Boolean(item.clientEntry) &&
+                (Boolean(options.hydration) ||
+                  canonicalClientTargets().has(item.name));
+              if (hasClient && item.clientEntry) {
+                hydrationEnabled = true;
+                clientTargets.set(
+                  item.name,
+                  clientRemote({
+                    name: item.name,
+                    entry: item.clientEntry,
+                  }),
+                );
+              }
+              return {
+                name: item.name,
+                entry: item.entry,
+                ...(item.type ? { type: item.type } : {}),
+                ...(item.entryGlobalName
+                  ? { entryGlobalName: item.entryGlobalName }
+                  : {}),
+                moduleInfo: item.moduleInfo,
+                ...(hasClient && item.clientEntry
+                  ? { client: { entry: item.clientEntry } }
+                  : {}),
+              };
+            });
+            controller.recordApplied(application, unloadedTargets);
+          }
+
+          let activeLoaded = diff.loadedRemotes;
+          if (!activeLoaded.length && recovering) {
+            const allRegistered = collectExtraRemotes();
+            for (const host of hosts) {
+              for (const reg of host.options?.remotes || []) {
+                if (!allRegistered.some(r => r.name === reg.name))
+                  allRegistered.push({
+                    name: reg.name,
+                    alias: reg.alias,
+                    entry: 'entry' in reg ? reg.entry : undefined,
+                  });
+              }
+            }
+            activeLoaded = allRegistered.flatMap(reg => {
+              const found = lookupProviderInGlobalModuleInfo(
+                snapshotCopy,
+                reg,
+                { name: options.name },
+              );
+              if (!found) return [];
+              return [
+                {
+                  name: reg.name,
+                  alias: reg.alias,
+                  entry: reg.entry || found.moduleInfo.remoteEntry,
+                  key: found.key,
+                  matchedVersion: found.matchedVersion,
+                  moduleInfo: found.moduleInfo,
+                  loaded: true,
+                },
+              ];
+            });
+          }
+
+          if (!activeLoaded.length && !recovering) {
+            if (diff.hasSnapshotDiff) {
+              applyNodeGlobalModuleInfo(snapshotCopy, {
+                instances: hosts,
+                remotes: extraRemotes,
+                host: { name: options.name },
+              });
+            }
+            onStage('applied');
+            timingsMs.total = performance.now() - started;
+            return {
+              changed: diff.changed,
+              ...(diff.changed ? { mode: 'snapshot' as const } : {}),
+              entries: [],
+              reasons: [],
+              revision,
+              appliedRevision: revision,
+              operationId,
+              timingsMs,
+            };
+          }
+
+          const changes: Change[] = activeLoaded.map(item => {
+            const hasClient =
+              Boolean(item.clientEntry) &&
+              (Boolean(options.hydration) ||
+                canonicalClientTargets().has(item.name));
+            return {
+              name: item.alias || item.name,
+              replacement: {
+                entry: item.entry,
+                ...(item.type ? { type: item.type } : {}),
+                ...(item.entryGlobalName
+                  ? { entryGlobalName: item.entryGlobalName }
+                  : {}),
+                moduleInfo: item.moduleInfo,
+                ...(hasClient && item.clientEntry
+                  ? { client: { entry: item.clientEntry } }
+                  : {}),
+              },
+            };
+          });
+
+          const result = await performUpdate(
+            application,
+            changes,
+            () => {
+              applyNodeGlobalModuleInfo(snapshotCopy, {
+                instances: instances(),
+                remotes: collectExtraRemotes(),
+                host: { name: options.name },
+              });
+              if (
+                options.hydration ||
+                changes.some(c => Boolean(c.replacement.client))
+              ) {
+                hydrationEnabled = true;
+                for (const item of activeLoaded) {
+                  if (!item.clientEntry) continue;
+                  if (
+                    !options.hydration &&
+                    !canonicalClientTargets().has(item.name)
+                  )
+                    continue;
+                  clientTargets.set(
+                    item.name,
+                    clientRemote({
+                      name: item.name,
+                      entry: item.clientEntry,
+                    }),
+                  );
+                }
+                targetRevision++;
+              }
+            },
+            onStage,
+          );
+          controller.recordApplied(
+            application,
+            activeLoaded.map(item => ({
+              name: item.name,
+              entry: item.entry,
+              ...(item.type ? { type: item.type } : {}),
+              ...(item.entryGlobalName
+                ? { entryGlobalName: item.entryGlobalName }
+                : {}),
+              moduleInfo: item.moduleInfo,
+              ...(item.clientEntry &&
+              (options.hydration || canonicalClientTargets().has(item.name))
+                ? { client: { entry: item.clientEntry } }
+                : {}),
+            })),
+          );
+          onStage('applied');
+          timingsMs.total = performance.now() - started;
+          return {
+            ...result,
+            changed: true,
+            revision,
+            appliedRevision: revision,
+            operationId,
+            timingsMs,
+          };
+        };
+
+        const runPromise = controller.runExternal(
+          application,
+          [],
+          executeGlobal,
+          input?.defer
+            ? scheduled => application.defer!(scheduled).completed
+            : undefined,
+        );
+        if (input?.defer) {
+          void runPromise.catch(() => {});
+          return {
+            operationId,
+            revision,
+            phase: 'scheduled',
+          };
+        }
+        return runPromise;
+      }
+
       const targets = remotes.map(remote => {
         if (
           !options.hydration &&
@@ -998,7 +1334,7 @@ export function createSSRUpdateAdapter(options: {
     run: <T>(operation: () => T): T => runWithSSRUpdateOwner(owner, operation),
     bindRuntime: (instance: any) => bindSSRRuntime(owner, instance),
     plan,
-    shouldUpdateRemote: controller.shouldUpdateRemote,
+    shouldUpdateRemote,
     shouldUpdateRemotes: controller.shouldUpdateRemotes,
     updateRemotes,
     whenIdle: controller.whenIdle,

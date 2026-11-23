@@ -105,7 +105,7 @@ describe('application-owned SSR update candidates', () => {
       {
         name: f.name,
         entry: selectedEntry,
-        moduleInfo: f.manifest('B') as unknown as Record<string, unknown>,
+        manifest: f.manifest('B'),
       },
     ]);
     const runtime = new ModuleFederation({
@@ -134,7 +134,7 @@ describe('application-owned SSR update candidates', () => {
       {
         name: f.name,
         entry: f.entry,
-        moduleInfo: candidate as unknown as Record<string, unknown>,
+        manifest: candidate,
       },
     ]);
     candidate.metaData.buildInfo.buildVersion = 'caller-mutation';
@@ -163,14 +163,14 @@ describe('application-owned SSR update candidates', () => {
         entry: f.entry,
         moduleInfo: generateSnapshotFromManifest(f.manifest('B'), {
           version: f.entry,
-        }) as unknown as Record<string, unknown>,
+        }),
       },
     ]);
     setSSRUpdateCandidates(other, [
       {
         name: f.name,
         entry: f.entry,
-        moduleInfo: f.manifest('A') as unknown as Record<string, unknown>,
+        manifest: f.manifest('A'),
       },
     ]);
     expect((await f.selected(f.host())).remoteSnapshot?.buildVersion).toBe('B');
@@ -206,7 +206,7 @@ describe('application-owned SSR update candidates', () => {
       {
         name: f.name,
         entry: selectedEntry,
-        moduleInfo: f.manifest('B') as unknown as Record<string, unknown>,
+        manifest: f.manifest('B'),
       },
     ]);
     const ingress = createBridgeServiceIngressMiddleware(
@@ -339,7 +339,7 @@ describe('application-owned SSR update candidates', () => {
       {
         name: f.name,
         entry: f.entry,
-        moduleInfo: f.manifest('B') as unknown as Record<string, unknown>,
+        manifest: f.manifest('B'),
       },
     ]);
     expect(() =>
@@ -347,15 +347,15 @@ describe('application-owned SSR update candidates', () => {
         {
           name: f.name,
           entry: f.entry,
-          moduleInfo: f.manifest('C') as unknown as Record<string, unknown>,
+          manifest: f.manifest('C'),
         },
         {
           name: 'unresolved',
           entry: f.entry,
-          moduleInfo: { remoteEntry: f.entry },
+          moduleInfo: { remoteEntry: f.entry } as any,
         },
       ]),
-    ).toThrow('resolved provider Snapshot');
+    ).toThrow(/resolved provider module information/i);
     expect((await f.selected(f.host())).remoteSnapshot?.buildVersion).toBe('B');
   });
 });

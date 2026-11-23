@@ -136,7 +136,7 @@ async function verifyProductionUpdate(asyncStartup: boolean) {
       async invalidate(targets) {
         if (!flipDuringUpdate) return;
         flipDuringUpdate = false;
-        assert.match(targets[0].moduleInfo.metaData.publicPath, /\/v2\//);
+        assert.match(targets[0].manifest.metaData.publicPath, /\/v2\//);
         // A later publication arrives after the operation captured v2. The
         // chosen operation must still use v2, not reread this live endpoint.
         published = 'v1';

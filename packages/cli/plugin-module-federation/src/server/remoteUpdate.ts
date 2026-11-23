@@ -1,9 +1,14 @@
+import type { Manifest, ProviderModuleInfo } from '@module-federation/sdk';
 import {
-  generateSnapshotFromManifest,
-  isManifestProvider,
-  type Manifest,
-} from '@module-federation/sdk';
+  isRawManifest,
+  isResolvedProviderModuleInfo,
+  manifestFingerprint,
+  moduleInfoFingerprint,
+  resolveTargetModuleInfo,
+} from '@module-federation/node/lifecycle';
 import { DEV_MANIFEST_WAIT_HEADER } from '../ssr-runtime/devManifestWait';
+
+export { manifestFingerprint, moduleInfoFingerprint };
 
 export class RemoteManifestUnavailableError extends Error {}
 
@@ -14,8 +19,10 @@ export interface RemoteUpdateTarget {
   type?: string;
   entryGlobalName?: string;
   client?: { entry: string; type?: string; entryGlobalName?: string };
-  /** A fresh manifest or provider snapshot obtained by the caller. */
-  moduleInfo?: Record<string, unknown>;
+  /** A fresh raw mf-manifest.json document obtained by the caller. */
+  manifest?: Manifest;
+  /** A resolved provider snapshot (ProviderModuleInfo) obtained by the caller. */
+  moduleInfo?: ProviderModuleInfo;
   /** Applied transitive builds, independent of this provider's own manifest. */
   dependencies?: {
     name: string;
@@ -54,79 +61,38 @@ function stable(value: unknown): unknown {
     );
   return value;
 }
-/** Select deployment data only. Runtime consumption bookkeeping is mutable. */
-export function moduleInfoFingerprint(
-  info: Record<string, unknown>,
-  entry: string,
-): string {
-  const snapshot = (
-    info.metaData
-      ? generateSnapshotFromManifest(info as unknown as Manifest, {
-          version: entry,
-        })
-      : info
-  ) as Record<string, unknown>;
-  if (
-    typeof snapshot.remoteEntry !== 'string' ||
-    !snapshot.remoteEntry ||
-    isManifestProvider(snapshot as any)
-  )
-    throw new TypeError(
-      'SSR update requires resolved provider module information',
-    );
-  const fields = [
-    'buildVersion',
-    'globalName',
-    'remoteEntry',
-    'remoteEntryType',
-    'ssrRemoteEntry',
-    'ssrRemoteEntryType',
-    'publicPath',
-    'ssrPublicPath',
-    'getPublicPath',
-    'serviceBaseUrl',
-  ];
-  const picked: Record<string, unknown> = Object.fromEntries(
-    fields.map(key => [key, snapshot[key]]),
-  );
-  picked.modules = (snapshot.modules as any[] | undefined)
-    ?.map(item => ({
-      moduleName: item.moduleName,
-      modulePath: item.modulePath,
-      assets: item.assets,
-      render: item.render,
-      servicePath: item.servicePath,
-    }))
-    .sort((a, b) => String(a.moduleName).localeCompare(String(b.moduleName)));
-  picked.shared = (snapshot.shared as any[] | undefined)
-    ?.map(item => ({
-      sharedName: item.sharedName,
-      version: item.version,
-      assets: item.assets,
-    }))
-    .sort((a, b) => String(a.sharedName).localeCompare(String(b.sharedName)));
-  return JSON.stringify(stable(picked));
+
+function candidateFingerprint(target: RemoteUpdateTarget): string | undefined {
+  const resolved = resolveTargetModuleInfo({
+    entry: target.entry,
+    manifest: target.manifest,
+    moduleInfo: target.moduleInfo,
+  });
+  return resolved ? moduleInfoFingerprint(resolved) : undefined;
 }
+
 function targetKey(target: RemoteUpdateTarget) {
-  const { moduleInfo, ...registration } = target;
+  const { manifest: _m, moduleInfo: _i, ...registration } = target;
+  const snapshotFingerprint = candidateFingerprint(target);
   return JSON.stringify(
     stable({
       ...registration,
-      ...(moduleInfo
-        ? { moduleInfo: moduleInfoFingerprint(moduleInfo, target.entry) }
-        : {}),
+      ...(snapshotFingerprint ? { snapshot: snapshotFingerprint } : {}),
     }),
   );
 }
 function aborted(signal?: AbortSignal) {
   signal?.throwIfAborted();
 }
-export async function readRemoteModuleInfo(
+export async function readRemoteManifest(
   target: RemoteUpdateTarget,
   options: RemoteCheckOptions = {},
-) {
+): Promise<Manifest> {
   aborted(options.signal);
-  if (target.moduleInfo) return target.moduleInfo;
+  if (target.manifest) {
+    manifestFingerprint(target.manifest, target.entry);
+    return target.manifest;
+  }
   // Candidate reads never enter the runtime snapshot loader or its cache.
   const response = await fetch(target.entry, {
     signal: options.signal,
@@ -138,25 +104,28 @@ export async function readRemoteModuleInfo(
     );
   const manifest = await response.json();
   aborted(options.signal);
-  if (!manifest || typeof manifest !== 'object' || !manifest.metaData)
+  if (!isRawManifest(manifest))
     throw new TypeError(`Invalid remote manifest: ${target.entry}`);
   // Validate the shape while the candidate is still unpublished.
-  moduleInfoFingerprint(manifest, target.entry);
-  return manifest as Record<string, unknown>;
+  manifestFingerprint(manifest, target.entry);
+  return manifest;
 }
 
 /** Conditional candidates are service-local and never populate MF runtime caches. */
 export function createRemoteManifestReader({ waitForDevReady = false } = {}) {
   const cache = new Map<
     string,
-    { moduleInfo: Record<string, unknown>; etag?: string; modified?: string }
+    { manifest: Manifest; etag?: string; modified?: string }
   >();
   return async (
     target: RemoteUpdateTarget,
     options: RemoteCheckOptions = {},
-  ) => {
+  ): Promise<Manifest> => {
     aborted(options.signal);
-    if (target.moduleInfo) return target.moduleInfo;
+    if (target.manifest) {
+      manifestFingerprint(target.manifest, target.entry);
+      return target.manifest;
+    }
     const previous = cache.get(target.entry);
     const headers = new Headers();
     if (waitForDevReady) headers.set(DEV_MANIFEST_WAIT_HEADER, '1');
@@ -168,23 +137,33 @@ export function createRemoteManifestReader({ waitForDevReady = false } = {}) {
       signal: options.signal,
       cache: 'no-cache',
     });
-    if (response.status === 304 && previous) return previous.moduleInfo;
+    if (response.status === 304 && previous) return previous.manifest;
     if (!response.ok)
       throw new (
         response.status === 503 ? RemoteManifestUnavailableError : Error
       )(`Remote manifest returned HTTP ${response.status}: ${target.entry}`);
-    const moduleInfo = await response.json();
+    const manifest = await response.json();
     aborted(options.signal);
-    if (!moduleInfo || typeof moduleInfo !== 'object' || !moduleInfo.metaData)
+    if (!isRawManifest(manifest))
       throw new TypeError(`Invalid remote manifest: ${target.entry}`);
-    moduleInfoFingerprint(moduleInfo, target.entry);
+    manifestFingerprint(manifest, target.entry);
     cache.set(target.entry, {
-      moduleInfo,
+      manifest,
       etag: response.headers.get('etag') || undefined,
       modified: response.headers.get('last-modified') || undefined,
     });
-    return moduleInfo as Record<string, unknown>;
+    return manifest;
   };
+}
+
+function normalizeBaselineSnapshot(
+  baseline: unknown,
+): Pick<RemoteUpdateTarget, 'manifest' | 'moduleInfo'> {
+  if (!baseline || typeof baseline !== 'object') return {};
+  if (isRawManifest(baseline)) return { manifest: structuredClone(baseline) };
+  if (isResolvedProviderModuleInfo(baseline))
+    return { moduleInfo: structuredClone(baseline) };
+  return {};
 }
 
 export function createRemoteUpdateController<
@@ -193,7 +172,7 @@ export function createRemoteUpdateController<
 >(options: {
   maxPendingUpdates?: number;
   resolve(name: string): RemoteUpdateTarget | undefined;
-  baseline(target: RemoteUpdateTarget): Record<string, unknown> | undefined;
+  baseline(target: RemoteUpdateTarget): unknown;
   apply(
     application: A,
     targets: RemoteUpdateTarget[],
@@ -254,14 +233,20 @@ export function createRemoteUpdateController<
           throw new TypeError(
             'Unique remote names and replacement entries are required',
           );
-        if (target.moduleInfo)
-          moduleInfoFingerprint(target.moduleInfo, target.entry);
+        resolveTargetModuleInfo({
+          entry: target.entry,
+          manifest: target.manifest,
+          moduleInfo: target.moduleInfo,
+        });
         const registered = options.resolve(target.name);
         if (!registered)
           throw new Error(`Remote is not registered: ${target.name}`);
         return {
           ...target,
           name: registered.name,
+          ...(target.manifest
+            ? { manifest: structuredClone(target.manifest) }
+            : {}),
           ...(target.moduleInfo
             ? { moduleInfo: structuredClone(target.moduleInfo) }
             : {}),
@@ -282,10 +267,19 @@ export function createRemoteUpdateController<
     let current = state.applied.get(target.name);
     if (!current) {
       const registered = options.resolve(target.name)!;
-      const info = registered.moduleInfo || options.baseline(registered);
+      const fromBaseline =
+        !registered.manifest && !registered.moduleInfo
+          ? normalizeBaselineSnapshot(options.baseline(registered))
+          : {};
       current = {
         ...registered,
-        ...(info ? { moduleInfo: structuredClone(info) } : {}),
+        ...(registered.manifest
+          ? { manifest: structuredClone(registered.manifest) }
+          : {}),
+        ...(registered.moduleInfo
+          ? { moduleInfo: structuredClone(registered.moduleInfo) }
+          : {}),
+        ...fromBaseline,
       };
       state.applied.set(target.name, current);
     }
@@ -314,15 +308,12 @@ export function createRemoteUpdateController<
     current: RemoteUpdateTarget,
     target: RemoteUpdateTarget,
   ) {
+    const nextFp = candidateFingerprint(target);
+    const currentFp = candidateFingerprint(current);
     return (
       registrationChanged(current, target) ||
       dependenciesChanged(current, target) ||
-      Boolean(
-        target.moduleInfo &&
-        (!current.moduleInfo ||
-          moduleInfoFingerprint(current.moduleInfo, current.entry) !==
-            moduleInfoFingerprint(target.moduleInfo, target.entry)),
-      )
+      Boolean(nextFp && (!currentFp || currentFp !== nextFp))
     );
   }
   function dependenciesChanged(
@@ -335,6 +326,17 @@ export function createRemoteUpdateController<
         JSON.stringify(stable(target.dependencies))
     );
   }
+  function mergeAppliedTarget(
+    previous: RemoteUpdateTarget,
+    next: RemoteUpdateTarget,
+  ): RemoteUpdateTarget {
+    const merged: RemoteUpdateTarget = { ...previous, ...next };
+    if (next.manifest !== undefined && next.moduleInfo === undefined)
+      delete merged.moduleInfo;
+    else if (next.moduleInfo !== undefined && next.manifest === undefined)
+      delete merged.manifest;
+    return merged;
+  }
   async function changed(
     state: State,
     target: RemoteUpdateTarget,
@@ -342,9 +344,13 @@ export function createRemoteUpdateController<
   ) {
     aborted(input.signal);
     if (registrationChanged(applied(state, target), target)) return true;
-    if (!target.moduleInfo && /\.json(?:[?#]|$)/.test(target.entry)) {
-      const info = await readRemoteModuleInfo(target, input);
-      target.moduleInfo = structuredClone(info);
+    if (
+      !target.manifest &&
+      !target.moduleInfo &&
+      /\.json(?:[?#]|$)/.test(target.entry)
+    ) {
+      const manifest = await readRemoteManifest(target, input);
+      target.manifest = structuredClone(manifest);
     }
     return targetChanged(applied(state, target), target);
   }
@@ -360,14 +366,13 @@ export function createRemoteUpdateController<
     const intent = state.pending
       .get(captured.name)
       ?.targets.find(value => value.name === captured.name);
+    const capturedFp = candidateFingerprint(captured);
+    const intentFp = intent ? candidateFingerprint(intent) : undefined;
     if (
       intent &&
       (registrationChanged(intent, captured) ||
         dependenciesChanged(intent, captured) ||
-        (intent.moduleInfo &&
-          captured.moduleInfo &&
-          moduleInfoFingerprint(intent.moduleInfo, intent.entry) !==
-            moduleInfoFingerprint(captured.moduleInfo, captured.entry)))
+        Boolean(intentFp && capturedFp && intentFp !== capturedFp))
     )
       return true;
     await changed(state, captured, input);
@@ -379,14 +384,17 @@ export function createRemoteUpdateController<
     const latestIntent = state.pending
       .get(captured.name)
       ?.targets.find(value => value.name === captured.name);
+    const latestIntentFp = latestIntent
+      ? candidateFingerprint(latestIntent)
+      : undefined;
+    const finalCapturedFp = candidateFingerprint(captured);
     return Boolean(
       latestIntent &&
       (registrationChanged(latestIntent, captured) ||
         dependenciesChanged(latestIntent, captured) ||
-        !latestIntent.moduleInfo ||
-        !captured.moduleInfo ||
-        moduleInfoFingerprint(latestIntent.moduleInfo, latestIntent.entry) !==
-          moduleInfoFingerprint(captured.moduleInfo, captured.entry)),
+        !latestIntentFp ||
+        !finalCapturedFp ||
+        latestIntentFp !== finalCapturedFp),
     );
   }
   function submit(
@@ -425,7 +433,8 @@ export function createRemoteUpdateController<
       // synchronously with an earlier unknown candidate.
       captured.every(
         target =>
-          target.moduleInfo || target.entry !== applied(state, target).entry,
+          Boolean(target.manifest || target.moduleInfo) ||
+          target.entry !== applied(state, target).entry,
       ) &&
       captured.every(target => state.pending.get(target.name) === previous)
     )
@@ -464,19 +473,37 @@ export function createRemoteUpdateController<
         // URL changes are a fast check, but snapshot evidence is captured before publication.
         if (
           needsUpdate &&
+          !target.manifest &&
           !target.moduleInfo &&
           /\.json(?:[?#]|$)/.test(target.entry)
         )
-          target.moduleInfo = await readRemoteModuleInfo(target, input);
+          target.manifest = await readRemoteManifest(target, input);
         if (needsUpdate) candidates.push(target);
       }
       aborted(input.signal);
       const recovering = application.status?.phase === 'unavailable';
       let result: R | undefined;
       if (candidates.length || recovering) {
+        const activeTargets = (recovering ? captured : candidates).map(
+          target => {
+            const current = applied(state, target);
+            if (!target.manifest && !target.moduleInfo) {
+              return {
+                ...target,
+                ...(current.manifest
+                  ? { manifest: structuredClone(current.manifest) }
+                  : {}),
+                ...(current.moduleInfo
+                  ? { moduleInfo: structuredClone(current.moduleInfo) }
+                  : {}),
+              };
+            }
+            return target;
+          },
+        );
         result = await options.apply(
           application,
-          recovering ? captured : candidates,
+          activeTargets,
           () => {
             operation.mutationStarted = true;
           },
@@ -484,11 +511,11 @@ export function createRemoteUpdateController<
             operation.stage = stage;
           },
         );
-        for (const target of recovering ? captured : candidates)
-          state.applied.set(target.name, {
-            ...applied(state, target),
-            ...target,
-          });
+        for (const target of activeTargets)
+          state.applied.set(
+            target.name,
+            mergeAppliedTarget(applied(state, target), target),
+          );
         state.appliedRevision = revision;
       }
       operation.phase = 'applied';
@@ -558,13 +585,30 @@ export function createRemoteUpdateController<
       return false;
     },
     updateRemotes: submit,
+    recordApplied(application: A, targets: RemoteUpdateTarget[]) {
+      const state = stateFor(application);
+      for (const target of targets) {
+        const canonical = options.resolve(target.name)?.name || target.name;
+        const normalized = { ...target, name: canonical };
+        state.applied.set(
+          canonical,
+          mergeAppliedTarget(applied(state, normalized), normalized),
+        );
+      }
+      state.appliedRevision = ++sequence;
+    },
+    getApplied(application: A, name: string): RemoteUpdateTarget | undefined {
+      const state = applications.get(application);
+      const canonical = options.resolve(name)?.name || name;
+      return state?.applied.get(canonical);
+    },
     /** Serialize the compatibility adapter through the same publication queue. */
-    runExternal(
+    runExternal<T = R>(
       application: A,
       targets: RemoteUpdateTarget[],
-      operation: () => Promise<R>,
-      schedule?: (execute: () => Promise<R>) => Promise<R>,
-    ): Promise<R> {
+      operation: () => Promise<T>,
+      schedule?: (execute: () => Promise<T>) => Promise<T>,
+    ): Promise<T> {
       const state = stateFor(application);
       if (state.pendingCount >= capacity) {
         const error = new Error('SSR update queue is full');
@@ -596,16 +640,24 @@ export function createRemoteUpdateController<
         .then(result => {
           // Adopt the target at its actual publication boundary, never by revision.
           for (const target of captured) {
-            const { moduleInfo: _old, ...previous } =
-              state.applied.get(target.name) ||
-              options.resolve(target.name) ||
-              target;
-            const info = target.moduleInfo || options.baseline(target);
-            state.applied.set(target.name, {
-              ...previous,
-              ...target,
-              ...(info ? { moduleInfo: structuredClone(info) } : {}),
-            });
+            const {
+              manifest: _oldManifest,
+              moduleInfo: _oldInfo,
+              ...previous
+            } = state.applied.get(target.name) ||
+            options.resolve(target.name) ||
+            target;
+            const fromBaseline =
+              !target.manifest && !target.moduleInfo
+                ? normalizeBaselineSnapshot(options.baseline(target))
+                : {};
+            state.applied.set(
+              target.name,
+              mergeAppliedTarget(previous, {
+                ...target,
+                ...fromBaseline,
+              }),
+            );
           }
           return result;
         })

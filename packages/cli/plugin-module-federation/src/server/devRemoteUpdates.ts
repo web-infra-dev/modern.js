@@ -62,25 +62,31 @@ export function startDevRemoteUpdates(options: DevRemoteUpdatesOptions) {
       options.checkTimeoutMs ?? DEV_MANIFEST_WAIT_TIMEOUT,
     );
     const signal = anyAbortSignal([lifetime.signal, deadline]);
-    const reads = new Map<string, Promise<Record<string, unknown>>>();
+    const reads = new Map<
+      string,
+      Promise<import('@module-federation/sdk').Manifest>
+    >();
     const readOnce = (remote: RemoteUpdateTarget) => {
       let pending = reads.get(remote.entry);
       if (!pending) {
-        // Never reuse a previously applied moduleInfo as a fresh HTTP candidate.
-        pending = read({ ...remote, moduleInfo: undefined }, { signal });
+        // Never reuse a previously applied manifest/moduleInfo as a fresh HTTP candidate.
+        pending = read(
+          { ...remote, manifest: undefined, moduleInfo: undefined },
+          { signal },
+        );
         reads.set(remote.entry, pending);
       }
       return pending;
     };
     const changes = await Promise.all(
       roots().map(async remote => {
-        const moduleInfo = await readOnce(remote);
+        const manifest = await readOnce(remote);
         const visited = new Set([identity(remote)]);
         if (options.self) visited.add(identity(options.self));
         const dependencies: NonNullable<RemoteUpdateTarget['dependencies']> =
           [];
         const pending = [...(options.dependencies?.(remote) || [])];
-        const discover = (info: Record<string, unknown>) => {
+        const discover = (info: import('@module-federation/sdk').Manifest) => {
           for (const dependency of (info.remotes || []) as any[]) {
             if (
               typeof dependency.federationContainerName === 'string' &&
@@ -92,7 +98,7 @@ export function startDevRemoteUpdates(options: DevRemoteUpdatesOptions) {
               });
           }
         };
-        discover(moduleInfo);
+        discover(manifest);
         for (const dependency of pending) {
           if (!isManifest(dependency) || visited.has(identity(dependency)))
             continue;
@@ -111,7 +117,7 @@ export function startDevRemoteUpdates(options: DevRemoteUpdatesOptions) {
           discover(info);
         }
         dependencies.sort((a, b) => identity(a).localeCompare(identity(b)));
-        const candidate = { ...remote, moduleInfo, dependencies };
+        const candidate = { ...remote, manifest, dependencies };
         return (await options.shouldUpdateRemote(candidate, { signal }))
           ? candidate
           : undefined;
@@ -121,7 +127,7 @@ export function startDevRemoteUpdates(options: DevRemoteUpdatesOptions) {
       (
         value,
       ): value is RemoteUpdateTarget & {
-        moduleInfo: Record<string, unknown>;
+        manifest: import('@module-federation/sdk').Manifest;
         dependencies: NonNullable<RemoteUpdateTarget['dependencies']>;
       } => !!value,
     );

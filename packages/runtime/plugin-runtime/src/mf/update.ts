@@ -4,9 +4,15 @@ export interface RemoteUpdateTarget {
   type?: string;
   entryGlobalName?: string;
   client?: { entry: string; type?: string; entryGlobalName?: string };
-  /** Fresh manifest or provider module information supplied by the caller. */
+  /** Fresh raw mf-manifest.json document supplied by the caller. */
+  manifest?: Record<string, unknown>;
+  /** Resolved provider snapshot (ProviderModuleInfo) supplied by the caller. */
   moduleInfo?: Record<string, unknown>;
 }
+export type GlobalModuleInfoInput = Record<
+  string,
+  Record<string, unknown> | undefined
+>;
 export interface RemoteUpdateOptions {
   signal?: AbortSignal;
   revalidate?: boolean;
@@ -23,7 +29,7 @@ export interface RemoteUpdateResult {
   operationId: string;
   changed: boolean;
   generation?: number;
-  mode?: 'entries' | 'application';
+  mode?: 'snapshot' | 'entries' | 'application';
   entries?: string[];
   reasons?: string[];
 }
@@ -59,25 +65,31 @@ function manager(application?: string): any {
 }
 /** Check candidate deployment data without mutating the active runtime. */
 export async function shouldUpdateRemote(
-  remote: RemoteUpdateTarget,
+  remoteOrGlobalModuleInfo: RemoteUpdateTarget | GlobalModuleInfoInput,
   options: Omit<RemoteUpdateOptions, 'defer'> = {},
 ): Promise<boolean> {
-  return manager(options.application).shouldUpdateRemote(remote, options);
+  return manager(options.application).shouldUpdateRemote(
+    remoteOrGlobalModuleInfo,
+    options,
+  );
 }
 export function updateRemotes(
-  remotes: RemoteUpdateTarget[],
+  remotesOrGlobalModuleInfo: RemoteUpdateTarget[] | GlobalModuleInfoInput,
   options: RemoteUpdateOptions & { defer: 'after-response' },
 ): RemoteUpdateReceipt;
 export function updateRemotes(
-  remotes: RemoteUpdateTarget[],
+  remotesOrGlobalModuleInfo: RemoteUpdateTarget[] | GlobalModuleInfoInput,
   options?: RemoteUpdateOptions & { defer?: undefined },
 ): Promise<RemoteUpdateResult>;
 export function updateRemotes(
-  remotes: RemoteUpdateTarget[],
+  remotesOrGlobalModuleInfo: RemoteUpdateTarget[] | GlobalModuleInfoInput,
   options: RemoteUpdateOptions = {},
 ): Promise<RemoteUpdateResult> | RemoteUpdateReceipt {
   try {
-    return manager(options.application).updateRemotes(remotes, options);
+    return manager(options.application).updateRemotes(
+      remotesOrGlobalModuleInfo,
+      options,
+    );
   } catch (error) {
     if (options.defer) throw error;
     return Promise.reject(error);

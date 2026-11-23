@@ -1,32 +1,38 @@
 import { afterEach, describe, expect, it, rs } from '@rstest/core';
 import {
   createRemoteUpdateController,
+  manifestFingerprint,
   moduleInfoFingerprint,
 } from './remoteUpdate';
 
-const info = (version: string) => ({
-  remoteEntry: `${version}.js`,
-  buildVersion: version,
-  modules: [
-    { moduleName: '.', assets: { js: { sync: [`${version}.js`], async: [] } } },
-  ],
-});
+const info = (version: string) =>
+  ({
+    remoteEntry: `${version}.js`,
+    buildVersion: version,
+    modules: [
+      {
+        moduleName: '.',
+        assets: { js: { sync: [`${version}.js`], async: [] } },
+      },
+    ],
+  }) as any;
 const target = (version: string, name = 'remote') => ({
   name,
   entry: 'https://remote/mf-manifest.json',
   moduleInfo: info(version),
 });
-const manifest = (version: string) => ({
-  name: 'remote',
-  metaData: {
-    remoteEntry: { path: '', name: `${version}.js`, type: 'global' },
-    buildInfo: { buildVersion: version },
-    globalName: 'remote',
-    publicPath: 'https://remote/',
-  },
-  exposes: [],
-  shared: [],
-});
+const manifest = (version: string) =>
+  ({
+    name: 'remote',
+    metaData: {
+      remoteEntry: { path: '', name: `${version}.js`, type: 'global' },
+      buildInfo: { buildVersion: version },
+      globalName: 'remote',
+      publicPath: 'https://remote/',
+    },
+    exposes: [],
+    shared: [],
+  }) as any;
 function deferred<T>() {
   let resolve!: (value: T) => void;
   let reject!: (error: unknown) => void;
@@ -58,8 +64,9 @@ describe('application remote target checks', () => {
   it('detects new application builds for direct and transitive providers', async () => {
     const f = fixture();
     const first = {
-      ...target('a'),
-      moduleInfo: {
+      name: 'remote',
+      entry: 'https://remote/mf-manifest.json',
+      manifest: {
         ...manifest('a'),
         metaData: {
           ...manifest('a').metaData,
@@ -84,7 +91,7 @@ describe('application remote target checks', () => {
       false,
     );
     const next = structuredClone(first);
-    next.moduleInfo.metaData.buildInfo.buildVersion = 'b';
+    next.manifest.metaData.buildInfo.buildVersion = 'b';
     expect(await f.controller.shouldUpdateRemote(f.application, next)).toBe(
       true,
     );
@@ -163,10 +170,23 @@ describe('application remote target checks', () => {
       }),
     ).resolves.toBe(true);
     expect(
-      moduleInfoFingerprint({ buildVersion: 'a', remoteEntry: 'a.js' }, ''),
+      moduleInfoFingerprint({ buildVersion: 'a', remoteEntry: 'a.js' } as any),
     ).toBe(
-      moduleInfoFingerprint({ remoteEntry: 'a.js', buildVersion: 'a' }, ''),
+      moduleInfoFingerprint({ remoteEntry: 'a.js', buildVersion: 'a' } as any),
     );
+    expect(() => moduleInfoFingerprint(manifest('a'))).toThrow(
+      /not a raw Manifest/,
+    );
+    expect(() =>
+      manifestFingerprint(info('a'), 'https://remote/mf-manifest.json'),
+    ).toThrow(/metaData/);
+    await expect(
+      f.controller.shouldUpdateRemote(f.application, {
+        name: 'remote',
+        entry: 'https://remote/mf-manifest.json',
+        moduleInfo: manifest('b'),
+      }),
+    ).rejects.toThrow(/not a raw Manifest/);
   });
   it('reads same-URL candidate manifests without mutating registered or applied snapshots', async () => {
     const f = fixture();
@@ -229,7 +249,11 @@ describe('publication and pending intent', () => {
     'retains rollback intent when B becomes %s while checking A',
     async phase => {
       const f = fixture();
-      f.registered[0].moduleInfo = manifest('a') as any;
+      f.registered[0] = {
+        name: 'remote',
+        entry: target('a').entry,
+        manifest: manifest('a'),
+      } as any;
       const response = deferred<Response>();
       rs.spyOn(globalThis, 'fetch').mockReturnValue(response.promise);
       const publication = deferred<{ generation: number }>();
@@ -240,7 +264,7 @@ describe('publication and pending intent', () => {
         entry: target('a').entry,
       });
       const update = f.controller.updateRemotes(f.application, [
-        { ...target('b'), moduleInfo: manifest('b') },
+        { name: 'remote', entry: target('b').entry, manifest: manifest('b') },
       ]);
       await expect.poll(() => f.apply.mock.calls.length).toBe(1);
       if (phase === 'applied') {
@@ -258,7 +282,11 @@ describe('publication and pending intent', () => {
   );
   it('returns unchanged when publication catches up with the fetched candidate', async () => {
     const f = fixture();
-    f.registered[0].moduleInfo = manifest('a') as any;
+    f.registered[0] = {
+      name: 'remote',
+      entry: target('a').entry,
+      manifest: manifest('a'),
+    } as any;
     const response = deferred<Response>();
     const fetcher = rs
       .spyOn(globalThis, 'fetch')
@@ -268,7 +296,7 @@ describe('publication and pending intent', () => {
       entry: target('a').entry,
     });
     await f.controller.updateRemotes(f.application, [
-      { ...target('b'), moduleInfo: manifest('b') },
+      { name: 'remote', entry: target('b').entry, manifest: manifest('b') },
     ]);
     response.resolve(Response.json(manifest('b')));
     await expect(check).resolves.toBe(false);
@@ -278,7 +306,12 @@ describe('publication and pending intent', () => {
   it('rechecks a queued client release change after reading the server manifest', async () => {
     const f = fixture();
     const client = { entry: 'https://remote/client-v1.json' };
-    Object.assign(f.registered[0], { moduleInfo: manifest('a'), client });
+    f.registered[0] = {
+      name: 'remote',
+      entry: target('a').entry,
+      manifest: manifest('a'),
+      client,
+    } as any;
     const response = deferred<Response>();
     rs.spyOn(globalThis, 'fetch').mockReturnValue(response.promise);
     const publication = deferred<{ generation: number }>();
@@ -290,8 +323,9 @@ describe('publication and pending intent', () => {
     });
     const update = f.controller.updateRemotes(f.application, [
       {
-        ...target('a'),
-        moduleInfo: manifest('a'),
+        name: 'remote',
+        entry: target('a').entry,
+        manifest: manifest('a'),
         client: { entry: 'https://remote/client-v2.json' },
       },
     ]);
@@ -436,7 +470,11 @@ describe('publication and pending intent', () => {
 
 it('checks fetched same-URL rollback against pending B and does not dedupe unknown candidates', async () => {
   const f = fixture();
-  f.registered[0].moduleInfo = manifest('a') as any;
+  f.registered[0] = {
+    name: 'remote',
+    entry: target('a').entry,
+    manifest: manifest('a'),
+  } as any;
   const fetcher = rs
     .spyOn(globalThis, 'fetch')
     .mockResolvedValue(Response.json(manifest('b')));

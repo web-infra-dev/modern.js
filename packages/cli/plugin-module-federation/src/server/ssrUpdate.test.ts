@@ -1010,3 +1010,237 @@ it('keeps compatibility deferred receipts synchronous while sharing publication 
     adapter.shouldUpdateRemote(application, { name: 'remote', entry: 'v2' }),
   ).resolves.toBe(false);
 });
+
+describe('GlobalModuleInfo updates', () => {
+  const providerSnapshot = (name: string, version: string) =>
+    ({
+      version,
+      buildVersion: version,
+      globalName: name,
+      remoteEntry: 'remoteEntry.js',
+      remoteEntryType: 'global',
+      ssrRemoteEntry: 'ssr/remoteEntry.js',
+      ssrRemoteEntryType: 'commonjs-module',
+      publicPath: `https://cdn.example.test/${name}/${version}/`,
+      ssrPublicPath: `https://ssr.example.test/${name}/${version}/`,
+      remoteTypes: '',
+      remoteTypesZip: '',
+      remotesInfo: {},
+      shared: [],
+      modules: [
+        {
+          moduleName: 'Widget',
+          modulePath: './Widget',
+          assets: {
+            js: { sync: [`widget.${version}.js`], async: [] },
+            css: { sync: [], async: [] },
+          },
+        },
+      ],
+    }) as any;
+
+  it('updates loaded providerA via partial entries (or full application when dynamic) while unloaded providerB only refreshes GlobalModuleInfo', async () => {
+    helpers.global.resetFederationGlobalInfo();
+    const { adapter, runtime, state, owner, b } = fixture();
+    const instance = runtime.federation.instance as any;
+    b.runtime = {
+      federation: { instance, bundlerRuntimeOptions: {} },
+      remotesLoadingData: {
+        moduleIdToRemoteDataMapping: {},
+        cache: { moduleIdToParentModuleIds: {}, modules: {}, factories: {} },
+      },
+    };
+    instance.name = 'host';
+    instance.options = {
+      name: 'host',
+      remotes: [
+        {
+          name: 'provider_a',
+          alias: 'remote',
+          entry: 'https://cdn.example.test/provider_a/mf-manifest.json',
+        },
+        {
+          name: 'provider_b',
+          alias: 'providerB',
+          entry: 'https://cdn.example.test/provider_b/mf-manifest.json',
+        },
+      ],
+    };
+    instance.moduleCache = new Map([
+      [
+        'provider_a',
+        {
+          remoteInfo: {
+            name: 'provider_a',
+            alias: 'remote',
+            buildVersion: '1.0.0',
+            entry:
+              'https://ssr.example.test/provider_a/1.0.0/ssr/remoteEntry.js',
+          },
+        },
+      ],
+    ]);
+    const updatedRemotes: any[][] = [];
+    instance.updateRemotes = async (remotes: any[]) => {
+      updatedRemotes.push(remotes);
+    };
+
+    const initialGlobal = {
+      host: {
+        version: '1.0.0',
+        buildVersion: '1.0.0',
+        remotesInfo: {
+          provider_a: { matchedVersion: '1.0.0' },
+          provider_b: { matchedVersion: '1.0.0' },
+        },
+        shared: [],
+        consumerList: [],
+      },
+      'provider_a:1.0.0': providerSnapshot('provider_a', '1.0.0'),
+      'provider_b:1.0.0': providerSnapshot('provider_b', '1.0.0'),
+    };
+    let updateCalls = 0;
+    const scopes: Array<readonly string[] | undefined> = [];
+    const application = {
+      async update(
+        invalidate: (entries?: readonly string[]) => Promise<void>,
+        getScope?: () => readonly string[] | undefined,
+      ) {
+        updateCalls++;
+        const scope = getScope?.();
+        scopes.push(scope);
+        await invalidate(scope);
+        return updateCalls;
+      },
+    };
+    try {
+      // Seed v1 baseline with unloaded-only snapshot sync first
+      instance.moduleCache.clear();
+      const seedRes = await adapter.updateRemotes(application, initialGlobal);
+      expect(seedRes).toMatchObject({ changed: true, mode: 'snapshot' });
+      expect(updateCalls).toBe(0);
+      await expect(
+        adapter.shouldUpdateRemote(application, initialGlobal),
+      ).resolves.toBe(false);
+
+      // Case 1: Only unloaded provider_b changes -> snapshot-only update, 0 drains/rebuilds
+      instance.moduleCache.set('provider_a', {
+        remoteInfo: {
+          name: 'provider_a',
+          alias: 'remote',
+          buildVersion: '1.0.0',
+          entry: 'https://ssr.example.test/provider_a/1.0.0/ssr/remoteEntry.js',
+        },
+      });
+      const onlyUnloadedChanged = {
+        ...initialGlobal,
+        host: {
+          ...initialGlobal.host,
+          remotesInfo: {
+            provider_a: { matchedVersion: '1.0.0' },
+            provider_b: { matchedVersion: '2.0.0' },
+          },
+        },
+        'provider_b:2.0.0': providerSnapshot('provider_b', '2.0.0'),
+      };
+      delete (onlyUnloadedChanged as any)['provider_b:1.0.0'];
+      await expect(
+        adapter.shouldUpdateRemote(application, onlyUnloadedChanged),
+      ).resolves.toBe(true);
+      const unloadedRes = await adapter.updateRemotes(
+        application,
+        onlyUnloadedChanged,
+      );
+      expect(unloadedRes).toMatchObject({ changed: true, mode: 'snapshot' });
+      expect(updateCalls).toBe(0);
+      expect(
+        globalThis.__FEDERATION__.moduleInfo['provider_b:2.0.0'],
+      ).toBeDefined();
+      expect(
+        globalThis.__FEDERATION__.moduleInfo['provider_b:1.0.0'],
+      ).toBeUndefined();
+      await expect(
+        adapter.shouldUpdateRemote(application, onlyUnloadedChanged),
+      ).resolves.toBe(false);
+
+      // Case 2: Both loaded provider_a AND unloaded provider_b change ->
+      // only provider_a enters performUpdate (partial 'entries' scope ['a']!),
+      // while provider_b only updates GlobalModuleInfo.
+      const bothChanged = {
+        host: {
+          ...initialGlobal.host,
+          remotesInfo: {
+            provider_a: { matchedVersion: '2.0.0' },
+            provider_b: { matchedVersion: '3.0.0' },
+          },
+        },
+        'provider_a:2.0.0': providerSnapshot('provider_a', '2.0.0'),
+        'provider_b:3.0.0': providerSnapshot('provider_b', '3.0.0'),
+      };
+      await expect(
+        adapter.shouldUpdateRemote(application, bothChanged),
+      ).resolves.toBe(true);
+      const partialRes = await adapter.updateRemotes(application, bothChanged);
+      expect(partialRes).toMatchObject({
+        changed: true,
+        mode: 'entries',
+        entries: ['a'],
+      });
+      expect(updateCalls).toBe(1);
+      expect(scopes).toEqual([['a']]);
+      expect(updatedRemotes).toHaveLength(1);
+      expect(updatedRemotes[0].map(r => r.name)).toEqual(['provider_a']);
+      expect(
+        globalThis.__FEDERATION__.moduleInfo['provider_a:2.0.0'],
+      ).toBeDefined();
+      expect(
+        globalThis.__FEDERATION__.moduleInfo['provider_b:3.0.0'],
+      ).toBeDefined();
+      expect(
+        globalThis.__FEDERATION__.moduleInfo['provider_b:2.0.0'],
+      ).toBeUndefined();
+
+      // Simulate provider_a reloaded at 2.0.0, then dynamic consumption observed -> widens to 'application'
+      instance.moduleCache.set('provider_a', {
+        remoteInfo: {
+          name: 'provider_a',
+          alias: 'remote',
+          buildVersion: '2.0.0',
+          entry: 'https://ssr.example.test/provider_a/2.0.0/ssr/remoteEntry.js',
+        },
+      });
+      await expect(
+        adapter.shouldUpdateRemote(application, bothChanged),
+      ).resolves.toBe(false);
+
+      state.dynamic = true;
+      const dynamicChanged = {
+        host: {
+          ...initialGlobal.host,
+          remotesInfo: {
+            provider_a: { matchedVersion: '3.0.0' },
+            provider_b: { matchedVersion: '4.0.0' },
+          },
+        },
+        'provider_a:3.0.0': providerSnapshot('provider_a', '3.0.0'),
+        'provider_b:4.0.0': providerSnapshot('provider_b', '4.0.0'),
+      };
+      const fullRes = await adapter.updateRemotes(application, dynamicChanged);
+      expect(fullRes).toMatchObject({
+        changed: true,
+        mode: 'application',
+      });
+      expect(updateCalls).toBe(2);
+      expect(scopes[1]).toBeUndefined();
+      expect(
+        globalThis.__FEDERATION__.moduleInfo['provider_a:3.0.0'],
+      ).toBeDefined();
+      expect(
+        globalThis.__FEDERATION__.moduleInfo['provider_b:4.0.0'],
+      ).toBeDefined();
+    } finally {
+      releaseSSRUpdateOwner(owner);
+      helpers.global.resetFederationGlobalInfo();
+    }
+  });
+});

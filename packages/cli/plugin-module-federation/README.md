@@ -136,7 +136,11 @@ if (await shouldUpdateRemote(remote, { revalidate: true })) {
 
 `shouldUpdateRemote` returns `Promise<boolean>` and checks candidate deployment
 data without changing the active runtime. The registered manifest URL can stay
-the same. A supplied `moduleInfo` contains a fresh manifest or provider snapshot.
+the same. Pass raw `mf-manifest.json` documents via `manifest` and resolved
+provider snapshots via `moduleInfo` (never mixed). Both `shouldUpdateRemote` and
+`updateRemotes` also accept a complete `GlobalModuleInfo` map directly, diffing
+it against the active runtime so loaded changed providers run partial/full SSR
+updates while unloaded changed providers only refresh their global `moduleInfo`.
 `updateRemotes` checks again when the operation executes and returns a
 `Promise<RemoteUpdateResult>`, including `operationId`, `changed` and the available
 generation or reload scope. Both APIs accept `signal`, `revalidate` and

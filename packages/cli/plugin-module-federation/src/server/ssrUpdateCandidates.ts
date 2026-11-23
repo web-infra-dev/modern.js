@@ -1,9 +1,5 @@
-import {
-  generateSnapshotFromManifest,
-  isManifestProvider,
-  type Manifest,
-  type ModuleInfo,
-} from '@module-federation/sdk';
+import type { ProviderModuleInfo } from '@module-federation/sdk';
+import { resolveTargetModuleInfo } from '@module-federation/node/lifecycle';
 import type { ModuleFederationRuntimePlugin } from '@module-federation/enhanced/runtime';
 import type { RemoteUpdateTarget } from './remoteUpdate';
 import { runtimeOwnerKey } from './ssrUpdateOwner';
@@ -12,7 +8,7 @@ type Candidate = {
   entry: string;
   type?: string;
   entryGlobalName?: string;
-  snapshot?: ModuleInfo;
+  snapshot?: ProviderModuleInfo;
 };
 const key = Symbol.for('modern-js.mf.ssr.update-candidates');
 function registry(): Map<string, Map<string, Candidate>> {
@@ -24,7 +20,7 @@ export function setSSRUpdateCandidates(
   application: string,
   targets: readonly Pick<
     RemoteUpdateTarget,
-    'name' | 'entry' | 'type' | 'entryGlobalName' | 'moduleInfo'
+    'name' | 'entry' | 'type' | 'entryGlobalName' | 'manifest' | 'moduleInfo'
   >[],
 ) {
   const next = new Map(registry().get(application));
@@ -40,23 +36,15 @@ export function setSSRUpdateCandidates(
     // A legacy/direct-entry update replaces the registration too, but no longer
     // pins a previously captured manifest at that new target.
     delete registration.snapshot;
-    if (!target.moduleInfo) {
+    const snapshot = resolveTargetModuleInfo({
+      entry: target.entry,
+      manifest: target.manifest,
+      moduleInfo: target.moduleInfo,
+    });
+    if (!snapshot) {
       next.set(target.name, registration);
       continue;
     }
-    const info = structuredClone(target.moduleInfo);
-    const snapshot = info.metaData
-      ? generateSnapshotFromManifest(info as unknown as Manifest, {
-          version: target.entry,
-        })
-      : (info as unknown as ModuleInfo);
-    if (
-      !('remoteEntry' in snapshot) ||
-      typeof snapshot.remoteEntry !== 'string' ||
-      !snapshot.remoteEntry ||
-      isManifestProvider(snapshot)
-    )
-      throw new TypeError('SSR update requires a resolved provider Snapshot.');
     next.set(target.name, { ...registration, snapshot });
   }
   // Invalid evidence must not partially replace an application's candidates.
@@ -79,9 +67,7 @@ export function getSSRUpdateRegistration(
   return {
     name,
     ...registration,
-    ...(snapshot
-      ? { moduleInfo: snapshot as unknown as Record<string, unknown> }
-      : {}),
+    ...(snapshot ? { moduleInfo: snapshot } : {}),
   };
 }
 
