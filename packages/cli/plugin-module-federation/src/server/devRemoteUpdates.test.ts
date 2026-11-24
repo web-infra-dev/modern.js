@@ -131,6 +131,23 @@ describe('request-driven development updates', () => {
     await f.watcher.close();
   });
 
+  it('retries a truncated dev manifest response written mid-rebuild', async () => {
+    const fetcher = rs
+      .spyOn(globalThis, 'fetch')
+      .mockResolvedValueOnce(
+        new Response('{"metaData":{"buildInfo":', {
+          status: 200,
+          headers: { 'content-type': 'application/json' },
+        }),
+      )
+      .mockResolvedValueOnce(Response.json(manifest('b')));
+    const f = fixture();
+    await f.watcher.check();
+    expect(fetcher).toHaveBeenCalledTimes(2);
+    expect(f.updateRemotes).toHaveBeenCalledTimes(1);
+    await f.watcher.close();
+  });
+
   it('waits for Node preparation before releasing admission and records dynamic nested sources', async () => {
     rs.spyOn(globalThis, 'fetch').mockImplementation(async () =>
       Response.json(manifest('b')),

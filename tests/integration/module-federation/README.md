@@ -126,7 +126,7 @@ Additional regressions use the same Rstest entry point and live in `tests/`, wit
 | --------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------ |
 | `ssr-static`                                  | Named, numeric and concatenated module graphs, affected and unrelated caches, drain, publication failure and whole-application fallback                      |
 | `ssr-update-api`, `ssr-update-identity`       | Asynchronous checks, explicit production updates, no-op, rollback, after-response and multiple Host/build ownership                                          |
-| `ssr-release-retention` | Old browser and saved HTML retention, cancellation, queued requests and producer work draining                                                               |
+| `ssr-release-retention`                       | Old browser and saved HTML retention, cancellation, queued requests and producer work draining                                                               |
 | `ssr-dev-fallback`, `ssr-dev-subscriptions`   | Fixed manifest gateways, failed builds and recovery, nested propagation, late producers, static producers and Service 409 recovery without POST replay       |
 | `ssr-dev-admission`, `ssr-admission-response` | Request admission during rebuilds, cancellation and timeout, static producers, failed acknowledgement recovery, cyclic dependencies and early HTTP responses |
 

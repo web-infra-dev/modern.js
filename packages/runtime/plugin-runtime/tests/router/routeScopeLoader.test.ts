@@ -2,7 +2,7 @@ import fs from 'node:fs/promises';
 import os from 'node:os';
 import path from 'node:path';
 import { parseSync } from '@swc/core';
-import { fs as modernFs } from '@modern-js/utils';
+import { formatImportPath, fs as modernFs } from '@modern-js/utils';
 import loader from '../../src/cli/federation/loader';
 import { fileSystemRoutes } from '../../src/router/cli/code/templates';
 
@@ -150,7 +150,7 @@ export default createBridgeComponent({ rootComponent: App, render });
     );
     expect(scopedRoutes).not.toContain('window.');
     expect(definition).toContain(
-      `import { createRegistryRuntime } from ${JSON.stringify(runtimeFile)}`,
+      `import { createRegistryRuntime } from ${JSON.stringify(formatImportPath(runtimeFile))}`,
     );
     expect(await fs.readFile(runtimeFile, 'utf8')).toBe(runtimeCode);
     expect(
@@ -241,9 +241,9 @@ export default createBridgeComponent({ rootComponent: App });`;
         .spyOn(modernFs, 'outputFile')
         .mockImplementation((async (filename: string, content: string) => {
           if (
-            String(filename).startsWith(
-              path.join(path.dirname(registry), target),
-            )
+            path
+              .resolve(String(filename))
+              .startsWith(path.resolve(path.dirname(registry), target))
           ) {
             await outputFile(filename, '');
             writing();

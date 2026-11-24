@@ -1,6 +1,10 @@
+import path from 'node:path';
 import { describe, expect, it, rstest } from '@rstest/core';
 import type { Rspack } from '@rsbuild/core';
-import { createDevManifestPublication } from './devManifest';
+import {
+  createDevHotUpdateCache,
+  createDevManifestPublication,
+} from './devManifest';
 
 function compiler() {
   const invalid: (() => void)[] = [];
@@ -134,5 +138,67 @@ describe('development manifest publication', () => {
     expect(second.isReadyFor(peerStats)).toBe(true);
     expect(first.publish(peerStats)).toBe(false);
     expect(first.isReadyFor({})).toBe(false);
+  });
+});
+
+describe('development hot-update fallback cache', () => {
+  it('serves evicted browser hot-update chunks while deferring to memfs when present', async () => {
+    const existing = new Set<string>();
+    let afterEmit!: (compilation: any) => void;
+    const webCompiler = {
+      options: {
+        target: 'web',
+        output: { publicPath: 'http://localhost:3001/' },
+      },
+      outputPath: '/dist',
+      outputFileSystem: {
+        stat(filename: string, cb: (err: unknown) => void) {
+          cb(existing.has(filename) ? null : new Error('ENOENT'));
+        },
+      },
+      hooks: {
+        afterEmit: {
+          tap: (_name: string, callback: typeof afterEmit) => {
+            afterEmit = callback;
+          },
+        },
+      },
+    };
+    const cache = createDevHotUpdateCache(2);
+    cache.attach(webCompiler as unknown as Rspack.Compiler);
+
+    const emit = (hash: string, assets: Record<string, string>) => {
+      afterEmit({
+        hash,
+        errors: [],
+        getAssets: () =>
+          Object.entries(assets).map(([name, body]) => ({
+            name,
+            source: { source: () => body },
+          })),
+      });
+    };
+
+    emit('h1', {
+      'lab_provider.h0.hot-update.json': '{"c":["lab_provider"]}',
+      'lab_provider.h0.hot-update.js': '/* h0 */',
+    });
+    // Still present in memfs -> defer to Rsbuild middleware.
+    existing.add(path.join('/dist', 'lab_provider.h0.hot-update.js'));
+    expect(await cache.get('/lab_provider.h0.hot-update.js')).toBeUndefined();
+
+    // Evicted from memfs by Rsbuild cleanup -> served from fallback cache.
+    existing.clear();
+    const hit = await cache.get('/lab_provider.h0.hot-update.js');
+    expect(hit?.contentType).toBe('text/javascript; charset=utf-8');
+    expect(hit?.content.toString()).toBe('/* h0 */');
+
+    // Bounded to maxGenerations = 2.
+    emit('h2', { 'lab_provider.h1.hot-update.js': '/* h1 */' });
+    emit('h3', { 'lab_provider.h2.hot-update.js': '/* h2 */' });
+    expect(await cache.get('/lab_provider.h0.hot-update.js')).toBeUndefined();
+    expect(
+      (await cache.get('/lab_provider.h1.hot-update.js'))?.content.toString(),
+    ).toBe('/* h1 */');
   });
 });

@@ -25,7 +25,7 @@ const removeHost = (url: string): string => {
       : url;
 
     return pathname;
-  } catch (e) {
+  } catch {
     return url;
   }
 };

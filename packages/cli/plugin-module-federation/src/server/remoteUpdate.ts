@@ -132,17 +132,40 @@ export function createRemoteManifestReader({ waitForDevReady = false } = {}) {
     if (previous?.etag) headers.set('If-None-Match', previous.etag);
     else if (previous?.modified)
       headers.set('If-Modified-Since', previous.modified);
-    const response = await fetch(target.entry, {
-      headers,
-      signal: options.signal,
-      cache: 'no-cache',
-    });
-    if (response.status === 304 && previous) return previous.manifest;
-    if (!response.ok)
-      throw new (
-        response.status === 503 ? RemoteManifestUnavailableError : Error
-      )(`Remote manifest returned HTTP ${response.status}: ${target.entry}`);
-    const manifest = await response.json();
+    const maxAttempts = waitForDevReady ? 3 : 1;
+    let response!: Response;
+    let manifest: unknown;
+    for (let attempt = 1; attempt <= maxAttempts; attempt++) {
+      response = await fetch(target.entry, {
+        headers,
+        signal: options.signal,
+        cache: 'no-cache',
+      });
+      if (response.status === 304 && previous) return previous.manifest;
+      if (!response.ok)
+        throw new (
+          response.status === 503 ? RemoteManifestUnavailableError : Error
+        )(`Remote manifest returned HTTP ${response.status}: ${target.entry}`);
+      try {
+        manifest = await response.json();
+        break;
+      } catch (error) {
+        if (attempt >= maxAttempts || !(error instanceof SyntaxError))
+          throw error;
+        aborted(options.signal);
+        await new Promise<void>((resolve, reject) => {
+          const timer = setTimeout(() => {
+            options.signal?.removeEventListener('abort', onAbort);
+            resolve();
+          }, 50);
+          const onAbort = () => {
+            clearTimeout(timer);
+            reject(options.signal?.reason);
+          };
+          options.signal?.addEventListener('abort', onAbort, { once: true });
+        });
+      }
+    }
     aborted(options.signal);
     if (!isRawManifest(manifest))
       throw new TypeError(`Invalid remote manifest: ${target.entry}`);

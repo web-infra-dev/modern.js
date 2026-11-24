@@ -85,3 +85,23 @@ it('replaces successful asset snapshots without retaining expired compilation ob
   expect(asset('failed.js')).toBe(true);
   expect(asset('business.json')).toBe(false);
 });
+
+it('retains recent hot-update asset ownership across rapid rebuilds', () => {
+  const matcher = createDevAssetMatcher(() => '/');
+  const child = compiler('auto');
+  matcher.track(child.value);
+  const asset = (name: string) =>
+    matcher.isAsset(new Request(`http://localhost/${name}`));
+  child.compile([
+    'lab_provider.aaa.hot-update.json',
+    'lab_provider.aaa.hot-update.js',
+  ]);
+  child.compile([
+    'lab_provider.bbb.hot-update.json',
+    'lab_provider.bbb.hot-update.js',
+  ]);
+  expect(asset('lab_provider.aaa.hot-update.json')).toBe(true);
+  expect(asset('lab_provider.aaa.hot-update.js')).toBe(true);
+  expect(asset('lab_provider.bbb.hot-update.js')).toBe(true);
+  expect(asset('lab_provider.ccc.hot-update.js')).toBe(false);
+});

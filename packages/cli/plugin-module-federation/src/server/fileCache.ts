@@ -61,7 +61,7 @@ export class FileCache {
         content,
         lastModified: currentModified,
       };
-    } catch (err) {
+    } catch {
       return null;
     }
   }
