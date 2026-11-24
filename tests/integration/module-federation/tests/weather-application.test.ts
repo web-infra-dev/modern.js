@@ -7,8 +7,9 @@ describeLab(
       const { lab, page } = getContext();
       await page.setViewport({ width: 390, height: 844 });
       await page.goto(lab.url, { waitUntil: 'networkidle0' });
-      expect(await page.$$('iframe')).toHaveLength(2);
-      await page.click('a[href="/bridge-ssr"]');
+      expect(await page.$$('iframe')).toHaveLength(3);
+      expect(await page.$('[aria-label="Open Bridge SSR"]')).not.toBeNull();
+      await page.goto(`${lab.url}/bridge-ssr`, { waitUntil: 'networkidle0' });
       await page.waitForSelector('[data-testid="weather-overview"]');
       expect(
         await page.$eval(

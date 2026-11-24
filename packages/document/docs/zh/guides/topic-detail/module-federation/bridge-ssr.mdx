@@ -87,6 +87,6 @@ Hash Router 通过 fragment 选择页面，而 fragment 不会随 HTTP 请求发
 
 未打补丁的 React 18.3.1 不属于首版 SSR 支持范围。它的 Node `renderToPipeableStream` 在多字节字符跨缓冲区边界时可能产生 NUL 字节并破坏 HTML，开发与生产模式均可复现。上游修复见 [React #26228](https://github.com/facebook/react/pull/26228)，18.3.1 的后续报告见 [React #31134](https://github.com/facebook/react/issues/31134)。此接入不修改 React、不删除输出中的 NUL 字节，也不添加按版本禁止运行的检查。已有 CSR 支持保持不变。
 
-`noSSR` 保留纯浏览器渲染，服务端不会执行该远端 loader。RSC 应用、Service App HTTP 部署与缓存不属于此接入范围。
+`noSSR` 保留纯浏览器渲染，服务端不会执行该远端 loader。RSC 应用不属于此接入范围。HTTP 部署见 [Service App](/guides/topic-detail/module-federation/service-app)，远端更新见 [SSR 缓存更新与本地开发刷新](/guides/topic-detail/module-federation/ssr-update)。
 
 验证 SSR 时，应同时检查响应里的远端 HTML 帧与浏览器 DOM 复用。仅看到浏览器最终内容，不能证明远端完成了 SSR。

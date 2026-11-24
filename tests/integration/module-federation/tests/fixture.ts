@@ -29,6 +29,11 @@ export function setupLab(
     applicationIsolation?: boolean;
     bridgeInputEvidence?: boolean;
     publicRoutesOnly?: boolean;
+    updates?: 'ordinary' | 'bridge' | 'service';
+    serviceDeployment?: boolean;
+    serviceNested?: boolean;
+    partialUpdates?: boolean;
+    mode?: 'dev' | 'production';
   } = {},
 ) {
   let lab: Awaited<ReturnType<typeof startLab>>;
@@ -72,7 +77,10 @@ export function setupLab(
   let expectedErrorGroups: { pattern: RegExp; count: number }[] | undefined;
   let expectedErrors: { pattern: RegExp; min: number; max: number } | undefined;
   beforeAll(async () => {
-    workspace = await createWorkspace({ service: options.service });
+    workspace = await createWorkspace({
+      service: options.service,
+      updates: options.updates,
+    });
     if (!options.publicRoutesOnly)
       await cp(
         fileURLToPath(
@@ -103,6 +111,15 @@ export function setupLab(
           ),
         );
       }
+      const providerIsolationRuntime = path.join(
+        workspace,
+        'provider/src/modern.runtime.tsx',
+      );
+      await writeFile(
+        path.join(workspace, 'provider/src/modern.runtime.ts'),
+        await readFile(providerIsolationRuntime, 'utf8'),
+      );
+      await rm(providerIsolationRuntime, { force: true });
       const federation = path.join(
         workspace,
         'provider/module-federation.config.ts',
@@ -198,7 +215,7 @@ export default function Document() {
           );
       }
       await writeFile(
-        path.join(workspace, 'provider/src/modern.runtime.tsx'),
+        path.join(workspace, 'provider/src/modern.runtime.ts'),
         "import { defineRuntimeConfig } from '@modern-js/runtime'\nexport default defineRuntimeConfig({ router: { supportHtml5History: false } })\n",
       );
       const config = path.join(workspace, 'host/modern.config.ts');
@@ -216,6 +233,12 @@ export default function Document() {
       workspace,
       options.basename || '',
       Boolean(options.service),
+      {
+        updates: options.updates,
+        serviceDeployment: options.serviceDeployment,
+        serviceNested: options.serviceNested,
+        ssrScope: options.partialUpdates ? 'entries' : undefined,
+      },
     );
     browser = await puppeteer.launch({
       headless: true,
@@ -232,7 +255,13 @@ export default function Document() {
       try {
         await lab?.stop();
       } finally {
-        if (workspace) await rm(workspace, { recursive: true, force: true });
+        if (workspace)
+          await rm(workspace, {
+            recursive: true,
+            force: true,
+            maxRetries: 5,
+            retryDelay: 100,
+          });
       }
     }
   });
@@ -280,6 +309,16 @@ export default function Document() {
     page.on('requestfailed', request => {
       pendingRequests.delete(request.url());
       requestStarts.delete(request);
+      // Chromium can report a spurious CDP loadingFailed(ERR_ABORTED) when a
+      // chunked 200 NDJSON Service stream's Mojo DataPipe closes at EOF ahead
+      // of URLLoaderClient::OnComplete, even though net::URLRequest succeeded.
+      // Real truncation still throws in fetchBridgeService and triggers fallback.
+      if (
+        request.url().includes('/_modern/mf/service/') &&
+        request.response()?.status() === 200 &&
+        request.failure()?.errorText === 'net::ERR_ABORTED'
+      )
+        return;
       consoleErrors.push(`${request.url()}: ${request.failure()?.errorText}`);
     });
     expectsRecovery = false;
@@ -315,7 +354,9 @@ export default function Document() {
     await page
       .waitForFunction(
         expected => {
-          const frames = Array.from(document.querySelectorAll('iframe'));
+          const frames = Array.from(
+            document.querySelectorAll<HTMLIFrameElement>('iframe'),
+          ).filter(frame => new URL(frame.src).pathname.endsWith('/weather'));
           return (
             frames.length === expected &&
             frames.every(frame =>
@@ -404,12 +445,21 @@ export function describeLab(
     applicationIsolation?: boolean;
     bridgeInputEvidence?: boolean;
     publicRoutesOnly?: boolean;
+    updates?: 'ordinary' | 'bridge' | 'service';
+    serviceDeployment?: boolean;
+    serviceNested?: boolean;
+    partialUpdates?: boolean;
+    mode?: 'dev' | 'production';
   } = {},
 ) {
   rstest.setConfig({ testTimeout: 60000, hookTimeout: 600000, retry: 0 });
-  const modes = process.env.MF_LAB_MODE
-    ? [process.env.MF_LAB_MODE as 'dev' | 'production']
-    : (['dev', 'production'] as const);
+  const modes = options.mode
+    ? process.env.MF_LAB_MODE && process.env.MF_LAB_MODE !== options.mode
+      ? []
+      : [options.mode]
+    : process.env.MF_LAB_MODE
+      ? [process.env.MF_LAB_MODE as 'dev' | 'production']
+      : (['dev', 'production'] as const);
   for (const mode of modes) {
     describe(`Weather Lab (${mode})`, () => {
       describe(name, () => register(setupLab(mode, options)));

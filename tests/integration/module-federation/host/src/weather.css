@@ -717,3 +717,15 @@
   padding: 8px 18px;
   cursor: pointer;
 }
+
+.host-local-state-badge {
+  display: inline-block;
+  margin: 10px auto 0;
+  padding: 4px 10px;
+  border-radius: 999px;
+  font-size: 12px;
+  color: #fff;
+  background: #0d223842;
+  border: 1px solid #ffffff47;
+  backdrop-filter: blur(6px);
+}

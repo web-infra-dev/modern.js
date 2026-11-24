@@ -32,6 +32,7 @@ export async function renderStream(
     basename: info.memoryRoute ? '/' : info.basename,
     identifierPrefix: info.identifierPrefix,
     signal: info.signal,
+    work: info.work,
     nonce: info.nonce,
     props: info.props,
     memoryRoute: info.memoryRoute,

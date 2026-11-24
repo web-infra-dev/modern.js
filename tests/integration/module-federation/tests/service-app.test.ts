@@ -529,7 +529,7 @@ describeLab(
       const stats = await (
         await fetch(`http://localhost:${lab.ports.api}/service-stats`)
       ).json();
-      expect(stats.weather).toBe(1);
+      expect(stats.weather).toBe(2);
       expect(new URL(page.url()).searchParams.has('csr')).toBe(false);
     });
   },

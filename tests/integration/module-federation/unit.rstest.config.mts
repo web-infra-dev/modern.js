@@ -1,9 +1,10 @@
 import path from 'node:path';
-import { defineConfig } from '@rstest/core';
+import { defineConfig, type RstestConfig } from '@rstest/core';
 import producer from '../../../packages/cli/plugin-module-federation/rstest.config.mts';
 import runtime from '../../../packages/runtime/plugin-runtime/rstest.config.mts';
 import { repoRoot, unitFiles } from './scripts/groups.mjs';
 import MFReporter from './scripts/reporter.mjs';
+import { runnerPortPlugins } from './scripts/runner-port.mjs';
 
 const name = process.env.MF_REPORT_NAME;
 if (name !== 'rootExposes' && name !== 'routeScope')
@@ -15,7 +16,7 @@ const root = path.join(
     ? 'packages/cli/plugin-module-federation'
     : 'packages/runtime/plugin-runtime',
 );
-const config = name === 'rootExposes' ? producer : runtime;
+const config: RstestConfig = name === 'rootExposes' ? producer : runtime;
 export default defineConfig({
   ...config,
   root,
@@ -27,5 +28,6 @@ export default defineConfig({
   pool: { maxWorkers: 1 },
   retry: 0,
   passWithNoTests: false,
+  plugins: [...(config.plugins || []), ...runnerPortPlugins()],
   reporters: ['verbose', new MFReporter()],
 });

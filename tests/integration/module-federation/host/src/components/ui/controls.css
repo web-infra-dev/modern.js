@@ -1,0 +1,194 @@
+/* shadcn/ui New York geometry and states, scoped to the Weather Lab. */
+:root {
+  --ui-background: #fff;
+  --ui-foreground: #172033;
+  --ui-muted: #edf1f6;
+  --ui-border: #d5dde8;
+  --ui-primary: #2456c7;
+}
+.lab-layout .ui-button,
+.lab-layout .ui-select-trigger {
+  display: inline-flex;
+  height: 36px;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 0 12px;
+  border: 1px solid var(--ui-border);
+  border-radius: 7px;
+  background: var(--ui-background);
+  color: var(--ui-foreground);
+  font: inherit;
+  font-size: 13px;
+  font-weight: 500;
+  line-height: 1;
+  white-space: nowrap;
+  box-shadow: 0 1px 2px #15244308;
+  transition:
+    background 0.15s,
+    border-color 0.15s;
+}
+.lab-layout .ui-button:hover,
+.lab-layout .ui-select-trigger:hover {
+  background: #f6f8fb;
+}
+.lab-layout .ui-select-trigger {
+  justify-content: space-between;
+  min-width: 140px;
+}
+.ui-select-icon {
+  display: inline-flex;
+  width: 16px;
+  height: 16px;
+  opacity: 0.6;
+}
+.ui-select-icon svg {
+  width: 16px;
+  height: 16px;
+}
+.lab-layout .ui-checkbox {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+  width: 16px;
+  height: 16px;
+  flex-shrink: 0;
+  border: 1px solid #8090a6;
+  border-radius: 4px;
+  background: #fff;
+}
+.lab-layout .ui-checkbox[data-state='checked'] {
+  background: var(--ui-primary);
+  border-color: var(--ui-primary);
+  color: #fff;
+}
+.ui-checkbox-indicator {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.ui-checkbox-indicator svg {
+  width: 12px;
+  height: 12px;
+}
+.ui-select-content {
+  z-index: 100;
+  max-height: var(--radix-select-content-available-height);
+  min-width: var(--radix-select-trigger-width);
+  overflow: hidden;
+  border: 1px solid var(--ui-border);
+  border-radius: 8px;
+  background: #fff;
+  color: var(--ui-foreground);
+  box-shadow: 0 8px 24px #182b4526;
+  font:
+    13px/1.4 -apple-system,
+    BlinkMacSystemFont,
+    'Segoe UI',
+    sans-serif;
+}
+.ui-select-viewport {
+  padding: 4px;
+}
+.ui-select-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 24px;
+  min-height: 32px;
+  padding: 4px 10px;
+  border-radius: 4px;
+  cursor: default;
+  outline: none;
+}
+.ui-select-item[data-highlighted] {
+  background: #eaf0ff;
+  color: #2456c7;
+}
+.ui-select-item[data-disabled] {
+  opacity: 0.45;
+  pointer-events: none;
+}
+.ui-select-scroll {
+  text-align: center;
+  height: 20px;
+}
+.lab-layout .ui-tabs {
+  margin: 0 32px;
+}
+.lab-layout .ui-tabs-list {
+  display: inline-flex;
+  align-items: center;
+  height: 38px;
+  gap: 3px;
+  padding: 4px;
+  border-radius: 9px;
+  background: #dfe7f2a6;
+}
+.lab-layout .ui-tabs-trigger {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  height: 30px;
+  border: 0;
+  border-radius: 6px;
+  padding: 0 13px;
+  color: #586779;
+  background: transparent;
+  box-shadow: none;
+  font-size: 13px;
+  line-height: 1;
+}
+.lab-layout .ui-tabs-trigger[data-state='active'] {
+  background: #fff;
+  color: #172033;
+  box-shadow: 0 1px 3px #1720331c;
+}
+.lab-layout .ui-button:disabled,
+.lab-layout .ui-select-trigger:disabled {
+  opacity: 0.5;
+  pointer-events: none;
+}
+.lab-layout .ui-button.lab-primary {
+  background: #2456c7;
+  color: #fff;
+  border-color: #2456c7;
+}
+.lab-layout label,
+.lab-layout legend {
+  line-height: 20px;
+}
+.lab-panel-state {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+.lab-ready-dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: #16a34a;
+  box-shadow: 0 0 0 3px #16a34a15;
+  flex: none;
+}
+@media (max-width: 760px) {
+  .lab-layout .ui-tabs {
+    margin: 0 12px;
+  }
+  .lab-layout .ui-tabs-list {
+    max-width: 100%;
+    height: auto;
+    flex-wrap: wrap;
+  }
+}
+
+.lab-fit-layout .ui-tabs-root {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  min-height: 0;
+}
+.lab-fit-layout .ui-tabs-root > .ui-tabs {
+  flex: none;
+}

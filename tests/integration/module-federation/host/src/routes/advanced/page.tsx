@@ -1,10 +1,11 @@
+import { Select, SelectItem } from '../../components/ui/controls';
 import {
   FailureControls,
   renderFailures,
   dataFailures,
 } from '../../failure/Controls';
 import { useState, useEffect, useRef } from 'react';
-import { LabNav } from '../../components/Comparison';
+import { LabLayout } from '../../components/LabLayout';
 export default function Page() {
   const [scenario, setScenario] = useState<
     'recovery' | 'lifecycle' | 'replace' | 'bridge' | 'data'
@@ -29,8 +30,11 @@ export default function Page() {
     return () => window.removeEventListener('message', receive);
   }, [run, scenario]);
   return (
-    <div className="advanced-shell">
-      <LabNav />
+    <LabLayout
+      section="render"
+      title="Experiments"
+      description="Remote replacement, recovery and standalone app experiments."
+    >
       <header className="comparison-intro">
         <div>
           <span>WEATHER / ADVANCED</span>
@@ -65,21 +69,21 @@ export default function Page() {
             }}
           />
         )}
-        <select
+        <Select
           aria-label="Advanced scenarios"
           value={scenario}
-          onChange={event => {
-            setScenario(event.target.value as typeof scenario);
+          onValueChange={value => {
+            setScenario(value as typeof scenario);
             setFailure('network');
             setRun(value => value + 1);
           }}
         >
-          <option value="replace">Remote replacement</option>
-          <option value="recovery">Data recovery</option>
-          <option value="lifecycle">Data lifecycle</option>
-          <option value="data">Remote data sources</option>
-          <option value="bridge">Independent weather stations</option>
-        </select>
+          <SelectItem value="replace">Remote replacement</SelectItem>
+          <SelectItem value="recovery">Data recovery</SelectItem>
+          <SelectItem value="lifecycle">Data lifecycle</SelectItem>
+          <SelectItem value="data">Remote data sources</SelectItem>
+          <SelectItem value="bridge">Independent weather stations</SelectItem>
+        </Select>
       </header>
       <iframe
         key={`${scenario}:${run}`}
@@ -88,6 +92,6 @@ export default function Page() {
         title="Advanced weather experiment"
         src={`/weather?scenario=${scenario}&failure=${failureEnabled ? failure : ''}&run=${run}&after=${scenario === 'lifecycle' ? 'remount' : ''}&target=${scenario === 'replace' ? 'replacement/' : scenario === 'lifecycle' ? 'dynamic/Reload' : ''}`}
       />
-    </div>
+    </LabLayout>
   );
 }

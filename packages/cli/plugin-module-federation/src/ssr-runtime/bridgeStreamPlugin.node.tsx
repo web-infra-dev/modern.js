@@ -22,6 +22,7 @@ export const bridgeStreamPlugin = (): RuntimePlugin<
           }
           controller = createBridgeSSRController({
             request,
+            work: params.work,
             nonce,
             shellEndMarker,
             identifierPrefix,

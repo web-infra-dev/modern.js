@@ -1,3 +1,9 @@
+declare module 'provider/Weather' {
+  import type { ComponentType } from 'react';
+  const Weather: ComponentType<{ local?: boolean }>;
+  export default Weather;
+}
+
 declare module 'provider/InputCard' {
   import type { ComponentType } from 'react';
   export interface InputCardProps {

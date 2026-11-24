@@ -21,6 +21,8 @@ import { createRequestHandlerConfig } from './utils';
 
 // TODO: It's a type combine by RenderOptions and CreateRenderOptions, improve it.
 export interface SSRRenderOptions {
+  work?: RequestHandlerOptions['work'];
+  cacheNamespace?: string;
   pwd: string;
   html: string;
   routeInfo: ServerRoute;
@@ -68,6 +70,8 @@ export async function ssrRender(
     onError,
     onTiming,
     reporter,
+    work,
+    cacheNamespace,
   }: SSRRenderOptions,
 ): Promise<Response> {
   const { entryName } = routeInfo;
@@ -86,6 +90,7 @@ export async function ssrRender(
   const config = createRequestHandlerConfig(userConfig);
 
   const requestHandlerOptions: RequestHandlerOptions = {
+    work,
     resource: {
       route: routeInfo,
       loadableStats,
@@ -119,6 +124,7 @@ export async function ssrRender(
   if (cacheControl && shouldUseCache(request)) {
     response = await getCacheResult(request, {
       cacheControl,
+      cacheNamespace,
       container: cacheConfig?.container,
       requestHandler: requestHandler!,
       requestHandlerOptions,
