@@ -1,13 +1,13 @@
 {
   "private": true,
   "name": "app-custom-entries",
-  "version": "2.66.8",
+  "version": "0.0.0-canary-20261124094903",
   "scripts": {
     "dev": "modern dev"
   },
   "dependencies": {
-    "@modern-js/app-tools": "workspace:*",
-    "@modern-js/runtime": "workspace:*",
+    "@modern-js/app-tools": "workspace:0.0.0-canary-20261124094903",
+    "@modern-js/runtime": "workspace:0.0.0-canary-20261124094903",
     "react": "^19.3.1",
     "react-dom": "^19.3.1"
   }
