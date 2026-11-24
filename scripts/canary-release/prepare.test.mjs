@@ -3,7 +3,15 @@ import fs from 'node:fs';
 import path from 'node:path';
 import test from 'node:test';
 import { fileURLToPath } from 'node:url';
-import { TAG, planHash, readJson, run, writeJson } from './core.mjs';
+import {
+  TAG,
+  channelFor,
+  planHash,
+  readJson,
+  run,
+  snapshotSuffix,
+  writeJson,
+} from './core.mjs';
 import { releaseId, temporary, version } from './fixtures.mjs';
 import { install, prepare, withoutRootPrepare } from './prepare.mjs';
 
@@ -285,9 +293,16 @@ test('install suppresses only root prepare, preserves native dependency scripts 
 });
 
 // Optional real-tool test. CI runs it after installing the repository dependencies.
-for (const changeset of [true, false]) {
+// Both id shapes go through the real Changesets: the legacy date id keeps its
+// long version, a minted id must come out as 0.0.0-canary-<time>.
+const mintedId = 'r20261124072140-123456781234423482341234567890ab';
+for (const [changeset, id, expected] of [
+  [true, releaseId, version],
+  [false, releaseId, version],
+  [true, mintedId, '0.0.0-canary-20261124072140'],
+]) {
   test(
-    `real repository bump + Changesets snapshot, changeset=${changeset}`,
+    `real repository bump + Changesets snapshot, changeset=${changeset}, id=${id.slice(0, 15)}`,
     { skip: !process.env.CANARY_TEST_TOOLCHAIN },
     t => {
       const root = fixture(t, { changeset });
@@ -323,15 +338,15 @@ for (const changeset of [true, false]) {
         if (args.includes('--lockfile-only')) return '';
         return run(command, args, { ...options, inherit: false });
       };
-      const result = prepare(root, releaseId, 'a'.repeat(40), execute);
+      const result = prepare(root, id, 'a'.repeat(40), execute);
       assert.equal(result.plan.packages.length, 2);
-      assert(result.plan.packages.every(pkg => pkg.version === version));
-      assert.equal(result.plan.version, version);
+      assert(result.plan.packages.every(pkg => pkg.version === expected));
+      assert.equal(result.plan.version, expected);
       assert.deepEqual(
         calls.filter(call => call.includes('bump')),
         [
           ['pnpm', 'run', 'bump'],
-          ['pnpm', 'run', 'bump', '--snapshot', releaseId],
+          ['pnpm', 'run', 'bump', '--snapshot', snapshotSuffix(channelFor(), id)],
         ],
       );
       assert.equal(
@@ -346,7 +361,7 @@ for (const changeset of [true, false]) {
         readJson(path.join(root, 'packages/a/package.json')).dependencies[
           '@modern-js/b'
         ],
-        `workspace:${version}`,
+        `workspace:${expected}`,
       );
       // Exercise actual pnpm pack conversion, not a handcrafted tarball manifest.
       const output = path.join(root, 'packed');
@@ -361,8 +376,8 @@ for (const changeset of [true, false]) {
           'package/package.json',
         ]),
       );
-      assert.equal(packed.version, version);
-      assert.equal(packed.dependencies['@modern-js/b'], version);
+      assert.equal(packed.version, expected);
+      assert.equal(packed.dependencies['@modern-js/b'], expected);
     },
   );
 }
