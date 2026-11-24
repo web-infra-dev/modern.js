@@ -2,7 +2,7 @@ import { once } from 'node:events';
 import { Agent, request } from 'node:http';
 import { type ClientHttp2Session, connect, createServer } from 'node:http2';
 import type { AddressInfo } from 'node:net';
-import { createNodeServer } from '../../src/adapters/node/node';
+import { createNodeServer } from '../../src/adapters/node';
 
 describe.each(['http', 'http2'])('%s request cancellation', protocol => {
   it.each([false, true])('GET with disconnect=%s', async disconnect => {

@@ -1,4 +1,4 @@
-import { createErrorHtml } from '../../src/utils';
+import { createErrorHtml } from '../../src';
 
 it.each([
   [404, 'This page could not be found.'],

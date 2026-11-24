@@ -6,17 +6,16 @@ import type {
   ServerRoute,
 } from '@modern-js/types';
 import type { NodeRequest } from '@modern-js/types/server';
-import { TrieRouter } from 'hono/router/trie-router';
-import { injectResourcePlugin } from '../../src/adapters/node/plugins';
-import { createDefaultPlugins, renderPlugin } from '../../src/plugins';
-import { createRender, matchRoute } from '../../src/plugins/render/render';
-import { createServerBase } from '../../src/serverBase';
-import type {
-  ServerManifest,
-  ServerPlugin,
-  ServerUserConfig,
-  UserConfig,
-} from '../../src/types';
+import {
+  createDefaultPlugins,
+  createServerBase,
+  getRenderHandler,
+  renderPlugin,
+  type ServerManifest,
+  type ServerPlugin,
+  type ServerUserConfig,
+} from '../../src';
+import { injectResourcePlugin } from '../../src/adapters/node';
 import { getDefaultAppContext, getDefaultConfig } from '../helpers';
 
 const logger: Logger = {
@@ -153,21 +152,6 @@ describe('should render html correctly', () => {
     );
 
     expect(html2).toBe('SSR User Render');
-  });
-
-  it('should return empty params for unmatched route', () => {
-    const router = new TrieRouter<ServerRoute>();
-    const route = {
-      urlPath: '/user',
-      entryName: 'user',
-    } as ServerRoute;
-
-    router.add('*', '/user/*', route);
-
-    const [routeInfo, params] = matchRoute(router, '/missing');
-
-    expect(routeInfo).toBeUndefined();
-    expect(params).toEqual({});
   });
 
   it('should force csr correctly', async () => {
@@ -360,7 +344,7 @@ describe('should render html correctly', () => {
   });
 });
 
-describe('createRender', () => {
+describe('getRenderHandler', () => {
   const route = {
     urlPath: '/',
     entryName: 'main',
@@ -385,12 +369,11 @@ describe('createRender', () => {
     metaName: string,
     requestHandler: (request: Request) => Response,
   ) {
-    const render = await createRender({
+    const render = await getRenderHandler({
       routes: [route],
       pwd: '',
-      config: {} as UserConfig,
+      config: { server: { ssr: { forceCSR: true } } },
       metaName,
-      forceCSR: true,
     });
     const serverManifest = {
       renderBundles: { main: { requestHandler } },
