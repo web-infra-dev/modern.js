@@ -418,49 +418,45 @@ export const moduleFederationSSRPlugin = (
       }
     });
     const hotUpdateCache = isDev() ? createDevHotUpdateCache() : undefined;
+    const serveCachedHotUpdate = (req: any, res: any) => {
+      if (
+        !hotUpdateCache ||
+        (req.method !== 'GET' && req.method !== 'HEAD') ||
+        !req.url?.includes('.hot-update.')
+      )
+        return false;
+      const pathname = decodeURIComponent(
+        new URL(req.url, 'http://localhost').pathname,
+      );
+      const hit = hotUpdateCache.get(pathname);
+      if (!hit) return false;
+      res.statusCode = 200;
+      res.setHeader('Content-Type', hit.contentType);
+      res.setHeader('Content-Length', String(hit.content.length));
+      res.setHeader('Cache-Control', 'no-store');
+      res.setHeader('Access-Control-Allow-Origin', '*');
+      res.setHeader(
+        'Access-Control-Allow-Methods',
+        'GET, POST, PUT, DELETE, PATCH, OPTIONS',
+      );
+      res.setHeader('Access-Control-Allow-Headers', '*');
+      if (req.method === 'HEAD') res.end();
+      else res.end(hit.content);
+      return true;
+    };
     api.config(() => {
       return {
         builderPlugins: [mfSSRRsbuildPlugin(pluginOptions, hotUpdateCache)],
         dev: {
           setupMiddlewares: [
-            middlewares =>
+            middlewares => {
               middlewares.unshift(async (req, res, next) => {
                 if (!enableSSR) {
                   next();
                   return;
                 }
                 try {
-                  if (
-                    hotUpdateCache &&
-                    (req.method === 'GET' || req.method === 'HEAD') &&
-                    req.url?.includes('.hot-update.')
-                  ) {
-                    const pathname = decodeURIComponent(
-                      new URL(req.url, 'http://localhost').pathname,
-                    );
-                    const hit = await hotUpdateCache.get(
-                      pathname,
-                      pluginOptions.distOutputDir,
-                    );
-                    if (hit) {
-                      res.statusCode = 200;
-                      res.setHeader('Content-Type', hit.contentType);
-                      res.setHeader(
-                        'Content-Length',
-                        String(hit.content.length),
-                      );
-                      res.setHeader('Cache-Control', 'no-store');
-                      res.setHeader('Access-Control-Allow-Origin', '*');
-                      res.setHeader(
-                        'Access-Control-Allow-Methods',
-                        'GET, POST, PUT, DELETE, PATCH, OPTIONS',
-                      );
-                      res.setHeader('Access-Control-Allow-Headers', '*');
-                      if (req.method === 'HEAD') res.end();
-                      else res.end(hit.content);
-                      return;
-                    }
-                  }
+                  if (serveCachedHotUpdate(req, res)) return;
                   if (
                     req.url?.includes('.json') &&
                     !req.url?.includes('hot-update')
@@ -556,7 +552,16 @@ export const moduleFederationSSRPlugin = (
                   logger.debug(err);
                   next();
                 }
-              }),
+              });
+              middlewares.push((req, res, next) => {
+                try {
+                  if (enableSSR && serveCachedHotUpdate(req, res)) return;
+                } catch (err) {
+                  logger.debug(err);
+                }
+                next();
+              });
+            },
           ],
         },
       };

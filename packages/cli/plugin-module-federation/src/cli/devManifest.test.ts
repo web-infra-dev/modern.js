@@ -1,4 +1,3 @@
-import path from 'node:path';
 import { describe, expect, it, rstest } from '@rstest/core';
 import type { Rspack } from '@rsbuild/core';
 import {
@@ -142,19 +141,12 @@ describe('development manifest publication', () => {
 });
 
 describe('development hot-update fallback cache', () => {
-  it('serves evicted browser hot-update chunks while deferring to memfs when present', async () => {
-    const existing = new Set<string>();
+  it('serves emitted browser hot-update chunks directly across rapid rebuilds within its bound', () => {
     let afterEmit!: (compilation: any) => void;
     const webCompiler = {
       options: {
-        target: 'web',
+        target: ['web', 'es2017'],
         output: { publicPath: 'http://localhost:3001/' },
-      },
-      outputPath: '/dist',
-      outputFileSystem: {
-        stat(filename: string, cb: (err: unknown) => void) {
-          cb(existing.has(filename) ? null : new Error('ENOENT'));
-        },
       },
       hooks: {
         afterEmit: {
@@ -183,22 +175,17 @@ describe('development hot-update fallback cache', () => {
       'lab_provider.h0.hot-update.json': '{"c":["lab_provider"]}',
       'lab_provider.h0.hot-update.js': '/* h0 */',
     });
-    // Still present in memfs -> defer to Rsbuild middleware.
-    existing.add(path.join('/dist', 'lab_provider.h0.hot-update.js'));
-    expect(await cache.get('/lab_provider.h0.hot-update.js')).toBeUndefined();
-
-    // Evicted from memfs by Rsbuild cleanup -> served from fallback cache.
-    existing.clear();
-    const hit = await cache.get('/lab_provider.h0.hot-update.js');
+    const hit = cache.get('/lab_provider.h0.hot-update.js');
     expect(hit?.contentType).toBe('text/javascript; charset=utf-8');
     expect(hit?.content.toString()).toBe('/* h0 */');
+    expect(cache.get('/lab_provider.missing.hot-update.js')).toBeUndefined();
 
     // Bounded to maxGenerations = 2.
     emit('h2', { 'lab_provider.h1.hot-update.js': '/* h1 */' });
     emit('h3', { 'lab_provider.h2.hot-update.js': '/* h2 */' });
-    expect(await cache.get('/lab_provider.h0.hot-update.js')).toBeUndefined();
+    expect(cache.get('/lab_provider.h0.hot-update.js')).toBeUndefined();
     expect(
-      (await cache.get('/lab_provider.h1.hot-update.js'))?.content.toString(),
+      cache.get('/lab_provider.h1.hot-update.js')?.content.toString(),
     ).toBe('/* h1 */');
   });
 });
