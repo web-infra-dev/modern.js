@@ -5,7 +5,7 @@
     "url": "https://github.com/web-infra-dev/modern.js",
     "directory": "packages/runtime/plugin-image"
   },
-  "version": "3.11.3",
+  "version": "0.0.0-canary-verify.r20261124-969f931dab6e2f20682ad909b9fc7478",
   "type": "module",
   "main": "./dist/index.cjs",
   "types": "./dist/index.d.ts",
@@ -49,7 +49,7 @@
     "sharp": "^0.35.5"
   },
   "devDependencies": {
-    "@modern-js/app-tools": "workspace:*",
+    "@modern-js/app-tools": "workspace:0.0.0-canary-verify.r20261124-969f931dab6e2f20682ad909b9fc7478",
     "@types/node": "^20",
     "react": "^19.3.1",
     "react-dom": "^19.3.1",
