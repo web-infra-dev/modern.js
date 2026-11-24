@@ -1,7 +1,7 @@
 {
   "private": true,
   "name": "tmp-dir",
-  "version": "2.66.7",
+  "version": "0.0.0-canary-verify.r20261124-bec9e469421af0726a61fb3b0ad06775",
   "scripts": {
     "dev": "modern dev",
     "build": "modern build",
@@ -9,12 +9,12 @@
     "new": "modern new"
   },
   "dependencies": {
-    "@modern-js/runtime": "workspace:*",
+    "@modern-js/runtime": "workspace:0.0.0-canary-verify.r20261124-bec9e469421af0726a61fb3b0ad06775",
     "react": "^19.3.1",
     "react-dom": "^19.3.1"
   },
   "devDependencies": {
-    "@modern-js/app-tools": "workspace:*",
+    "@modern-js/app-tools": "workspace:0.0.0-canary-verify.r20261124-bec9e469421af0726a61fb3b0ad06775",
     "@types/node": "^20",
     "@types/react": "^19.3.0",
     "@types/react-dom": "^19.3.0",

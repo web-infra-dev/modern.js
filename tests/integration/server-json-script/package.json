@@ -1,6 +1,6 @@
 {
   "name": "server-json-script",
-  "version": "2.66.7",
+  "version": "0.0.0-canary-verify.r20261124-bec9e469421af0726a61fb3b0ad06775",
   "private": true,
   "scripts": {
     "new": "modern new",
@@ -13,14 +13,14 @@
     "deploy": "modern deploy"
   },
   "dependencies": {
-    "@modern-js/runtime": "workspace:*",
+    "@modern-js/runtime": "workspace:0.0.0-canary-verify.r20261124-bec9e469421af0726a61fb3b0ad06775",
     "axios": "^1.20.0",
     "express": "^4.22.3",
     "react": "^19.3.1",
     "react-dom": "^19.3.1"
   },
   "devDependencies": {
-    "@modern-js/app-tools": "workspace:*",
+    "@modern-js/app-tools": "workspace:0.0.0-canary-verify.r20261124-bec9e469421af0726a61fb3b0ad06775",
     "@types/node": "^20"
   }
 }
