@@ -1,13 +1,13 @@
 {
   "private": true,
   "name": "runtime-custom-plugin",
-  "version": "2.66.7",
+  "version": "0.0.0-canary-verify.r20261124-a70a09443914ca6621ee98b3ffc4546d",
   "scripts": {
     "dev": "modern dev"
   },
   "dependencies": {
-    "@modern-js/app-tools": "workspace:*",
-    "@modern-js/runtime": "workspace:*",
+    "@modern-js/app-tools": "workspace:0.0.0-canary-verify.r20261124-a70a09443914ca6621ee98b3ffc4546d",
+    "@modern-js/runtime": "workspace:0.0.0-canary-verify.r20261124-a70a09443914ca6621ee98b3ffc4546d",
     "react": "^19.3.1",
     "react-dom": "^19.3.1"
   }
