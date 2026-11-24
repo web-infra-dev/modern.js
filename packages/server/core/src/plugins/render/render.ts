@@ -73,7 +73,7 @@ function getRouter(routes: ServerRoute[]): Router<ServerRoute> {
 export function createSSRPolicyEntryResolver(routes: ServerRoute[]) {
   const router = getRouter(routes);
   return (request: Request) =>
-    matchRoute(router, getPathname(request))[0]?.entryName;
+    matchRoute(router, getPath(request))[0]?.entryName;
 }
 
 type MatchedRoute = [ServerRoute | undefined, Params];

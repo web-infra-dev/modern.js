@@ -1,6 +1,6 @@
 {
   "name": "@modern-js/plugin-module-federation",
-  "version": "3.10.1",
+  "version": "3.12.0",
   "files": [
     "dist",
     "LICENSE",
@@ -76,7 +76,7 @@
     "@module-federation/node": "0.0.0-feat-mf-ssr-update-current-20261124030451",
     "@module-federation/rsbuild-plugin": "0.0.0-feat-mf-ssr-update-current-20261124030451",
     "@module-federation/sdk": "0.0.0-feat-mf-ssr-update-current-20261124030451",
-    "@rsbuild/core": "2.2.13",
+    "@rsbuild/core": "2.3.3",
     "@swc/helpers": "^0.5.17",
     "jiti": "^2.7.0"
   },
