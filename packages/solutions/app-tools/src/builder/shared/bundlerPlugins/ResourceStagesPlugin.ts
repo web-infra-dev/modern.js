@@ -2,7 +2,11 @@ import { createHash } from 'crypto';
 import fs from 'fs';
 import path from 'path';
 import { gzipSync } from 'zlib';
-import { ROUTE_MANIFEST_FILE } from '@modern-js/utils';
+import { NESTED_ROUTE_SPEC_FILE, ROUTE_MANIFEST_FILE } from '@modern-js/utils';
+import {
+  type ResourcePreloadPlan,
+  selectMatchedResourcePreloads,
+} from '@modern-js/utils/universal';
 import { RESOURCE_STAGES } from '@modern-js/utils/universal/constants';
 import type { Rspack } from '@rsbuild/core';
 import {
@@ -65,10 +69,18 @@ export interface ResourceStagesPluginOptions {
    * bundle they were built for.
    */
   bundleId?: string;
+  /** Output directory; the route tree (`nestedRoutes.json`) is written there. */
+  distDirectory?: string;
   staticJsDir?: string;
   disableFilenameHash?: boolean;
   nonce?: string;
   crossOriginLoading?: false | 'anonymous' | 'use-credentials';
+}
+
+/** A route of `nestedRoutes.json`, the route tree the server matches. */
+interface NestedRoute {
+  id?: string;
+  children?: NestedRoute[];
 }
 
 const normalizePublicPath = (publicPath?: string) => {
@@ -378,7 +390,7 @@ export {};
     }
     this.compareBaseline(plan, report);
 
-    return this.render(
+    const result = this.render(
       compilation,
       snapshot,
       plan,
@@ -387,6 +399,105 @@ export {};
       report,
       duplicates,
     );
+    this.checkPageBudgets(result.manifest, snapshot, report);
+    return result;
+  }
+
+  /**
+   * The server puts the entry, every matched layout and the page into one
+   * critical budget. Each target fits on its own but a page can still exceed
+   * it, which moves its `critical` chunks to `visible` without a warning. Run
+   * the same selection as the server for each page of the route tree.
+   */
+  private checkPageBudgets(
+    manifest: ResourcePreloadPlan,
+    snapshot: Snapshot,
+    report: (message: string) => void,
+  ) {
+    const { distDirectory } = this.options;
+    if (!distDirectory || !manifest.budget) {
+      return;
+    }
+    let tree: Record<string, NestedRoute[]>;
+    try {
+      tree = JSON.parse(
+        fs.readFileSync(
+          path.join(distDirectory, NESTED_ROUTE_SPEC_FILE),
+          'utf-8',
+        ),
+      );
+    } catch {
+      return;
+    }
+    for (const [entryName, routes] of Object.entries(tree ?? {})) {
+      const entry = snapshot.entries.get(entryName);
+      if (!entry?.serverRendered || !Array.isArray(routes)) {
+        continue;
+      }
+      // The entry files are loaded by the HTML before any route preload.
+      const loaded = new Set<string>();
+      for (const id of entry.initial) {
+        const chunk = snapshot.chunks.get(id);
+        for (const file of [...(chunk?.js ?? []), ...(chunk?.css ?? [])]) {
+          loaded.add(file);
+        }
+      }
+      const visit = (route: NestedRoute, chain: string[]) => {
+        const ids = route.id ? [...chain, route.id] : chain;
+        const children = route.children ?? [];
+        if (children.length) {
+          for (const child of children) {
+            visit(child, ids);
+          }
+          return;
+        }
+        // Only a page combines more than one target.
+        if (ids.length < 2) {
+          return;
+        }
+        // Streaming SSR outputs the CSS of the matched routes and their async
+        // chunks as stylesheets, which the server leaves out of the budget.
+        const pageLoaded = new Set(loaded);
+        if (entry.streaming) {
+          for (const id of ids) {
+            const route = manifest.routes[id];
+            for (const group of [
+              ...(route?.declared ?? []),
+              ...(route?.own ?? []),
+              ...(route?.shared ?? []),
+            ]) {
+              for (const file of group.files) {
+                if (file.a === 'style') {
+                  pageLoaded.add(file.h);
+                }
+              }
+            }
+          }
+        }
+        const { overflow } = selectMatchedResourcePreloads(
+          manifest,
+          entryName,
+          ids,
+          entry.streaming ? 'stream' : 'string',
+          pageLoaded,
+        );
+        const declared = new Set(
+          ids.flatMap(id =>
+            (manifest.routes[id]?.declared ?? []).map(group => group.id),
+          ),
+        );
+        const moved = overflow.filter(group => declared.has(group.id));
+        if (moved.length) {
+          const budget = manifest.budget!;
+          report(
+            `page "${ids[ids.length - 1]}": the entry, its layouts and the page together exceed the critical budget (${formatBytes(budget.size)}, ${budget.requests} requests); ${moved.length} chunks declared "critical" are prefetched at "visible" instead (${ids.join(' > ')}).`,
+          );
+        }
+      };
+      for (const route of routes) {
+        visit(route, []);
+      }
+    }
   }
 
   private readRouteManifest(compilation: Compilation) {

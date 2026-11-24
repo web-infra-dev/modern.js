@@ -345,6 +345,7 @@ function applyResourceStagesPlugin(
       HtmlBundlerPlugin,
       config: normalizedConfig.performance?.resourceStages,
       appDirectory: appContext.appDirectory,
+      distDirectory: appContext.distDirectory,
       srcDirectory: appContext.srcDirectory,
       internalDirectory: appContext.internalDirectory,
       isServerRendered: (entryName: string) =>

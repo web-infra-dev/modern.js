@@ -49,7 +49,7 @@ The network used to estimate the download time of each stage. Defaults to `'fast
 
 Upper limits per stage. Exceeding one is a build warning and does not fail the build. `size` is gzip bytes, `requests` is the number of files, and `depth` is how many async levels lie between the entry and a declared chunk.
 
-The page shares a critical budget across entry and matched-route preloads, deduplicated by URL. Explicit critical declarations have priority, and automatic route JS uses the remaining budget. Chunks that exceed the budget are prefetched at the visible stage. Build warnings estimate the budget per entry or route.
+The page shares a critical budget across entry and matched-route preloads, deduplicated by URL. Explicit critical declarations have priority, and automatic route JS uses the remaining budget. Chunks that exceed the budget are prefetched at the visible stage. The build estimates the budget per entry and route, and again for each page of a server rendered entry with the entry, its layouts and the page combined: it warns when chunks declared critical move to the visible stage because the page as a whole is over the budget.
 
 The default `critical` budget is what the target network downloads in a third of `firstPaintTarget` for `size`, and 8 for `requests`. The shared chunks of route JS are staged by this budget too.
 

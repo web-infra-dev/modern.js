@@ -49,7 +49,7 @@ interface ResourceStagesConfig {
 
 各阶段的上限，超出时构建告警，不中断构建。`size` 按 gzip 后的字节数计算，`requests` 是文件数，`depth` 是从入口到声明的 chunk 经过几层异步加载。
 
-同一页面的分阶段 preload 共用首屏预算。按 URL 去重后计算入口和命中路由的文件体积与请求数。显式声明的 critical 优先，自动路由 JS 用剩余预算。超出的 chunk 改在 visible 阶段预取。构建告警按入口和单条路由估算。
+同一页面的分阶段 preload 共用首屏预算。按 URL 去重后计算入口和命中路由的文件体积与请求数。显式声明的 critical 优先，自动路由 JS 用剩余预算。超出的 chunk 改在 visible 阶段预取。构建时按入口和单条路由估算，并对 SSR 入口的每个页面按「入口 + 各级 layout + page」合并后再算一遍：声明为 critical 的 chunk 因合并超出而被改到 visible 时告警。
 
 `critical` 默认上限：`size` 为目标网络在 `firstPaintTarget` 的三分之一时间内能下载的字节数，`requests` 为 8。路由 JS 的共享 chunk 也按这个上限分档。
 

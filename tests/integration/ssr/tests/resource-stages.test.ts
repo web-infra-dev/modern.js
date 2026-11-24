@@ -398,34 +398,39 @@ export default function Page() {
   });
 });
 
-describe('resource stages (critical budget of layout and page)', () => {
-  let fixture: Awaited<ReturnType<typeof createIsolatedTestApp>>;
-  let app: ChildProcess | undefined;
+describe.each([
+  [2, false],
+  [1, true],
+] as const)(
+  'resource stages (critical budget of layout and page, %s requests)',
+  (requests, overBudget) => {
+    let fixture: Awaited<ReturnType<typeof createIsolatedTestApp>>;
+    let app: ChildProcess | undefined;
 
-  afterAll(async () => {
-    if (app) {
-      await killApp(app);
-    }
-    await fixture?.cleanup?.();
-  });
+    afterAll(async () => {
+      if (app) {
+        await killApp(app);
+      }
+      await fixture?.cleanup?.();
+    });
 
-  test('does not count stylesheets the HTML has against the budget', async () => {
-    fixture = await createIsolatedTestApp(fixtureDir);
-    await writeFile(
-      path.join(fixture.appDir, 'modern.config.ts'),
-      `import { applyBaseConfig } from '../../../../utils/applyBaseConfig';
+    test('combines the entry, the layout and the page into one budget', async () => {
+      fixture = await createIsolatedTestApp(fixtureDir);
+      await writeFile(
+        path.join(fixture.appDir, 'modern.config.ts'),
+        `import { applyBaseConfig } from '../../../../utils/applyBaseConfig';
 export default applyBaseConfig({
   server: { ssr: true },
-  performance: { resourceStages: { budget: { critical: { requests: 2 } } } },
+  performance: { resourceStages: { budget: { critical: { requests: ${requests} } } } },
 });`,
-    );
-    const dir = path.join(fixture.appDir, 'src/routes/stages');
-    await mkdir(dir, { recursive: true });
-    const declare = (name: string) =>
-      `const ${name} = lazy(stagedImport.critical(() => import('./${name}')));`;
-    await writeFile(
-      path.join(dir, 'layout.tsx'),
-      `import { Suspense, lazy } from 'react';
+      );
+      const dir = path.join(fixture.appDir, 'src/routes/stages');
+      await mkdir(dir, { recursive: true });
+      const declare = (name: string) =>
+        `const ${name} = lazy(stagedImport.critical(() => import('./${name}')));`;
+      await writeFile(
+        path.join(dir, 'layout.tsx'),
+        `import { Suspense, lazy } from 'react';
 import { Outlet } from '@modern-js/runtime/router';
 import { stagedImport } from '@modern-js/runtime/resources';
 ${declare('Shell')}
@@ -433,50 +438,67 @@ export default function Layout() {
   return <Suspense fallback="loading"><Shell /><Outlet /></Suspense>;
 }
 `,
-    );
-    await writeFile(
-      path.join(dir, 'page.tsx'),
-      `import { Suspense, lazy } from 'react';
+      );
+      await writeFile(
+        path.join(dir, 'page.tsx'),
+        `import { Suspense, lazy } from 'react';
 import { stagedImport } from '@modern-js/runtime/resources';
 ${declare('Critical')}
 export default function Page() {
   return <Suspense fallback="loading"><Critical /></Suspense>;
 }
 `,
-    );
-    for (const name of ['Shell', 'Critical']) {
-      await writeFile(path.join(dir, `${name}.tsx`), component(name, true));
-      await writeFile(
-        path.join(dir, `${name}.css`),
-        `#${name.toLowerCase()} { color: red; }`,
       );
-    }
-    const port = await getPort();
-    const result = await modernBuild(fixture.appDir);
-    expect(result.code, result.stderr || result.stdout).toBe(0);
-    app = await modernServe(fixture.appDir, port);
-    const html = await (await fetch(`http://127.0.0.1:${port}/stages`)).text();
-    const report: Report = JSON.parse(
-      await readFile(
-        path.join(fixture.appDir, 'dist/resource-stages.json'),
-        'utf-8',
-      ),
-    );
-    const links = preloads(html);
-    for (const request of ['./Shell', './Critical']) {
-      const js = report.declarations
-        .find(item => item.request === request)!
-        .chunks.flatMap(chunk =>
-          chunk.files.filter(file => file.endsWith('.js')),
+      for (const name of ['Shell', 'Critical']) {
+        await writeFile(path.join(dir, `${name}.tsx`), component(name, true));
+        await writeFile(
+          path.join(dir, `${name}.css`),
+          `#${name.toLowerCase()} { color: red; }`,
         );
-      expect(links).toEqual(expect.arrayContaining(js));
-    }
-    // Nothing declared critical fell back to a later stage.
-    expect(
-      payloads(html).some(payload => Object.keys(payload.s ?? {}).length),
-    ).toBe(false);
-  });
-});
+      }
+      const port = await getPort();
+      const result = await modernBuild(fixture.appDir);
+      expect(result.code, result.stderr || result.stdout).toBe(0);
+      app = await modernServe(fixture.appDir, port);
+      const html = await (
+        await fetch(`http://127.0.0.1:${port}/stages`)
+      ).text();
+      const report: Report = JSON.parse(
+        await readFile(
+          path.join(fixture.appDir, 'dist/resource-stages.json'),
+          'utf-8',
+        ),
+      );
+      const links = preloads(html);
+      const jsOf = (request: string) =>
+        report.declarations
+          .find(item => item.request === request)!
+          .chunks.flatMap(chunk =>
+            chunk.files.filter(file => file.endsWith('.js')),
+          );
+      const output = `${result.stdout}\n${result.stderr}`;
+      // The layout is matched first and keeps its place in the budget.
+      expect(links).toEqual(expect.arrayContaining(jsOf('./Shell')));
+      if (overBudget) {
+        // Each target fits on its own; only the page as a whole does not.
+        expect(output).toContain(
+          'page "stages/page": the entry, its layouts and the page together exceed the critical budget',
+        );
+        for (const file of jsOf('./Critical')) {
+          expect(links).not.toContain(file);
+        }
+      } else {
+        // Stylesheets the HTML has are not counted, so both JS files fit.
+        expect(links).toEqual(expect.arrayContaining(jsOf('./Critical')));
+        expect(output).not.toContain('together exceed the critical budget');
+        // Nothing declared critical fell back to a later stage.
+        expect(
+          payloads(html).some(payload => Object.keys(payload.s ?? {}).length),
+        ).toBe(false);
+      }
+    });
+  },
+);
 
 describe('resource stages (not used)', () => {
   let fixture: Awaited<ReturnType<typeof createIsolatedTestApp>>;
