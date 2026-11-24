@@ -1,7 +1,10 @@
 import { afterEach, describe, expect, rs, test } from '@rstest/core';
-import { parseCommonConfig } from '../src/shared/parseCommonConfig';
+import { type BuilderConfig, parseRspackConfig } from '../src';
 
-describe('parseCommonConfig', () => {
+const parseConfig = (config: BuilderConfig) =>
+  parseRspackConfig(config, { cwd: __dirname });
+
+describe('parseRspackConfig', () => {
   afterEach(() => {
     rs.unstubAllEnvs();
   });
@@ -15,18 +18,13 @@ describe('parseCommonConfig', () => {
       }
     }
 
-    const config = await parseCommonConfig(
-      {
-        tools: {
-          rspack: {
-            plugins: [new A()],
-          },
+    const config = await parseConfig({
+      tools: {
+        rspack: {
+          plugins: [new A()],
         },
       },
-      {
-        cwd: '',
-      },
-    );
+    });
 
     // @ts-expect-error
     const plugin = config.rsbuildConfig.tools!.rspack!.plugins![0];
@@ -35,7 +33,7 @@ describe('parseCommonConfig', () => {
   });
 
   test('disableCssModuleExtension distinguishes application styles from dependency styles', async () => {
-    const { rsbuildConfig } = await parseCommonConfig({
+    const { rsbuildConfig } = await parseConfig({
       output: { disableCssModuleExtension: true },
     });
     const auto = rsbuildConfig.output?.cssModules?.auto;
@@ -50,14 +48,14 @@ describe('parseCommonConfig', () => {
 
   test('output.assetsRetry', async () => {
     expect(
-      (await parseCommonConfig({})).rsbuildPlugins.some(
+      (await parseConfig({})).rsbuildPlugins.some(
         item => item.name === 'rsbuild:assets-retry',
       ),
     ).toBeFalsy();
 
     expect(
       (
-        await parseCommonConfig({
+        await parseConfig({
           output: {
             assetsRetry: {},
           },
@@ -67,7 +65,7 @@ describe('parseCommonConfig', () => {
   });
 
   test('tools.htmlPlugin should preserve async template parameters', async () => {
-    const { rsbuildConfig } = await parseCommonConfig({
+    const { rsbuildConfig } = await parseConfig({
       html: {
         mountId: 'app',
       },
@@ -117,7 +115,7 @@ describe('parseCommonConfig', () => {
     };
 
     rs.stubEnv('NODE_ENV', 'development');
-    const dev = (await parseCommonConfig(input)).rsbuildConfig;
+    const dev = (await parseConfig(input)).rsbuildConfig;
     expect(dev.server).toMatchObject({
       host: 'dev.example',
       headers: { 'X-Custom-Foo': 'bar' },
@@ -125,14 +123,14 @@ describe('parseCommonConfig', () => {
     expect(dev.dev).toMatchObject({ client: { path: '/hmr' }, hmr: false });
 
     rs.stubEnv('NODE_ENV', 'production');
-    const prod = (await parseCommonConfig(input)).rsbuildConfig;
+    const prod = (await parseConfig(input)).rsbuildConfig;
     expect(prod.server?.host).toBeUndefined();
     expect(prod.server?.headers).toBeUndefined();
   });
 
   describe('CSS source map configuration', () => {
     test('should not set css source map when output.sourceMap is true', async () => {
-      const config = await parseCommonConfig({
+      const config = await parseConfig({
         output: {
           sourceMap: true,
         },
@@ -143,7 +141,7 @@ describe('parseCommonConfig', () => {
     });
 
     test('should set css source map to false when output.sourceMap is false', async () => {
-      const config = await parseCommonConfig({
+      const config = await parseConfig({
         output: {
           sourceMap: false,
         },
@@ -153,7 +151,7 @@ describe('parseCommonConfig', () => {
     });
 
     test('should set css source map to true when output.sourceMap.css is explicitly true', async () => {
-      const config = await parseCommonConfig({
+      const config = await parseConfig({
         output: {
           sourceMap: {
             css: true,
@@ -167,7 +165,7 @@ describe('parseCommonConfig', () => {
     });
 
     test('should set css source map to false when output.sourceMap.css is explicitly false', async () => {
-      const config = await parseCommonConfig({
+      const config = await parseConfig({
         output: {
           sourceMap: {
             css: false,
@@ -183,7 +181,7 @@ describe('parseCommonConfig', () => {
     test('should set css source map to true when output.sourceMap.css is undefined in development', async () => {
       rs.stubEnv('NODE_ENV', 'development');
 
-      const config = await parseCommonConfig({
+      const config = await parseConfig({
         output: {
           sourceMap: {
             js: 'source-map',
@@ -200,7 +198,7 @@ describe('parseCommonConfig', () => {
     test('should set css source map to false when output.sourceMap.css is undefined in production', async () => {
       rs.stubEnv('NODE_ENV', 'production');
 
-      const config = await parseCommonConfig({
+      const config = await parseConfig({
         output: {
           sourceMap: {
             js: 'source-map',
@@ -217,7 +215,7 @@ describe('parseCommonConfig', () => {
     test('should set css source map to true when output.sourceMap is undefined in development', async () => {
       rs.stubEnv('NODE_ENV', 'development');
 
-      const config = await parseCommonConfig({
+      const config = await parseConfig({
         output: {},
       });
 
@@ -229,7 +227,7 @@ describe('parseCommonConfig', () => {
     test('should set css source map to false when output.sourceMap is undefined in production', async () => {
       rs.stubEnv('NODE_ENV', 'production');
 
-      const config = await parseCommonConfig({
+      const config = await parseConfig({
         output: {},
       });
 
@@ -241,7 +239,7 @@ describe('parseCommonConfig', () => {
     test('should respect explicitly set css source map in development', async () => {
       rs.stubEnv('NODE_ENV', 'development');
 
-      const config = await parseCommonConfig({
+      const config = await parseConfig({
         output: {
           sourceMap: {
             css: false,
@@ -258,7 +256,7 @@ describe('parseCommonConfig', () => {
     test('should respect explicitly set css source map in production', async () => {
       rs.stubEnv('NODE_ENV', 'production');
 
-      const config = await parseCommonConfig({
+      const config = await parseConfig({
         output: {
           sourceMap: {
             css: true,
