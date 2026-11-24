@@ -1,4 +1,5 @@
 import dns from 'node:dns';
+import fs from 'node:fs';
 import path from 'path';
 import puppeteer, { type Browser, type Page } from 'puppeteer';
 import {
@@ -193,16 +194,34 @@ describe('bff hono tests', () => {
     let app: any;
     let page: Page;
     let browser: Browser;
+    let buildOutput = '';
 
     beforeAll(async () => {
       port = await getPort();
 
-      await modernBuild(appDir, [], {});
+      const build = await modernBuild(appDir, [], {});
+      buildOutput = `${build.stdout}${build.stderr}`;
 
       app = await modernServe(appDir, port, {});
 
       browser = await puppeteer.launch(launchOptions as any);
       page = await browser.newPage();
+    });
+
+    // tsconfig.server.json is picked up by convention and said so; the BFF
+    // output is CommonJS.
+    test('compiles api/ with tsconfig.server.json by convention', async () => {
+      expect(buildOutput).toContain('uses tsconfig.server.json');
+      const files = await fs.promises.readdir(path.join(appDir, 'dist/api'), {
+        recursive: true,
+      });
+      const lambda = files.find(file => String(file).endsWith('.js'));
+      expect(lambda).toBeDefined();
+      const code = await fs.promises.readFile(
+        path.join(appDir, 'dist/api', String(lambda)),
+        'utf-8',
+      );
+      expect(code).not.toMatch(/^import /m);
     });
 
     test('basic usage', async () => {
