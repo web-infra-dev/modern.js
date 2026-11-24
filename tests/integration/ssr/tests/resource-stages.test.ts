@@ -24,12 +24,14 @@ type Report = {
 };
 
 const pageSource = `import { Suspense, lazy } from 'react';
+import { Link } from '@modern-js/runtime/router';
 import { stagedImport } from '@modern-js/runtime/resources';
 
 const Critical = lazy(stagedImport.critical(() => import('./Critical')));
 const loadVisible = stagedImport.visible(() => import('./Visible'));
 const loadIdle = stagedImport.idle(() => import('./Idle'));
 const loadReply = stagedImport.firstReply(() => import('./Reply'));
+// 提及面板：multi-byte text before a declaration the build adds a key to.
 const loadMention = stagedImport.interaction(() => import('./Mention'));
 
 export default function Page() {
@@ -37,6 +39,7 @@ export default function Page() {
     <Suspense fallback="loading">
       <Critical />
       <input id="mention" ref={loadMention.trigger} />
+      <Link id="about" prefetch="intent" to="/about">about</Link>
       <button id="load" type="button" onClick={() => Promise.all([loadVisible(), loadIdle(), loadReply()])}>load</button>
     </Suspense>
   );
@@ -285,6 +288,16 @@ describe.each([
               record.stage === 'interaction' &&
               record.prefetchEnd !== undefined,
           ),
+      { timeout: 5000 },
+    );
+    // The router prefetches the route on hover; recorded apart from the
+    // application's requests.
+    await page.hover('#about');
+    await page.waitForFunction(
+      () =>
+        (window as any).__MODERN_RS__
+          .report()
+          .records.some((record: any) => record.source === 'link'),
       { timeout: 5000 },
     );
     const result = await page.evaluate(() =>

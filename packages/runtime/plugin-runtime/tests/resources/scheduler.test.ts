@@ -3,7 +3,6 @@ import {
   getResourceStageReport,
   stagedImport,
 } from '../../src/exports/resources';
-import { asRoutePrefetch } from '../../src/core/resources/requestSource';
 
 type Loader = (chunkId: string | number) => Promise<unknown>;
 type Payload = Record<string, unknown>;
@@ -742,17 +741,5 @@ describe('stagedImport scheduling', () => {
       window.PerformanceObserver = original;
       rs.useRealTimers();
     }
-  });
-
-  it('records route prefetches of <Link prefetch> apart from the application', async () => {
-    const scheduler = start([{ c: manual }]);
-    await asRoutePrefetch(() => g.__webpack_chunk_load_test__('route'));
-    await g.__webpack_chunk_load_test__('lazy');
-    const source = Object.fromEntries(
-      scheduler
-        .getReport()
-        .records.map(record => [record.chunkId, record.source]),
-    );
-    expect(source).toEqual({ route: 'link', lazy: 'app' });
   });
 });
