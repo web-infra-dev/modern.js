@@ -2,9 +2,10 @@
   "extends": "@modern-js/tsconfig/base",
   "compilerOptions": {
     "types": ["@modern-js/app-tools/types"],
-    "declaration": false,
-    "jsx": "preserve",
-    "baseUrl": "./",
+    "noEmit": true,
+    "isolatedModules": true,
+    "moduleDetection": "force",
+    "noEmitOnError": true,
     "paths": {
       "@/*": ["./src/*"],
       "@shared/*": ["./shared/*"]
