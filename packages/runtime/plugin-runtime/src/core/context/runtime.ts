@@ -3,7 +3,11 @@ import type { StaticHandlerContext } from '@modern-js/runtime-utils/router';
 import type { BaseSSRServerContext } from '@modern-js/types';
 import { ROUTE_MANIFEST } from '@modern-js/utils/universal/constants';
 import { createContext, useContext } from 'react';
-import type { RouteManifest } from '../../router/runtime/types';
+import type {
+  MemoryRouteState,
+  MemoryRouterConfig,
+  RouteManifest,
+} from '../../router/runtime/types';
 import type { RequestContext, SSRServerContext } from '../types';
 
 export interface TRuntimeContext {
@@ -28,6 +32,8 @@ export interface TInternalRuntimeContext extends TRuntimeContext {
   ssrContext?: SSRServerContext;
   _internalContext?: any;
   _internalRouterBaseName?: any;
+  _internalMemoryRoute?: MemoryRouterConfig;
+  _internalMemoryRouteState?: MemoryRouteState;
 }
 
 export const InternalRuntimeContext = createContext<TInternalRuntimeContext>(

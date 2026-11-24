@@ -1,0 +1,64 @@
+---
+title: memory-route
+sidebar_position: 2
+---
+
+# Memory Route API
+
+APIs exported from `@modern-js/runtime/router` for configuring and inspecting Memory Route on `<ModernRoot />`. Standard navigation APIs (`useNavigate`, `useLocation`, `<Link>`, `useLoaderData`, etc.) remain unchanged.
+
+## MemoryRouteProvider
+
+Enables Memory Route for a `<ModernRoot />` subtree.
+
+```tsx
+import { MemoryRouteProvider } from '@modern-js/runtime/router';
+
+<MemoryRouteProvider
+  initialEntries={['/', '/detail/42']}
+  initialIndex={1}
+  basename="/shop"
+>
+  <ModernRoot />
+</MemoryRouteProvider>;
+```
+
+### Props
+
+| Prop             | Type                 | Description                                                    |
+| ---------------- | -------------------- | -------------------------------------------------------------- |
+| `entryPath`      | `string`             | Initial route path, such as `'/detail/42?tab=info'`.           |
+| `initialEntries` | `MemoryRouteEntry[]` | Initial history stack.                                         |
+| `initialIndex`   | `number`             | Active index in `initialEntries` (defaults to the last entry). |
+| `initialState`   | `unknown`            | Initial `location.state` used with `entryPath`.                |
+| `basename`       | `string`             | Route basename.                                                |
+| `config`         | `MemoryRouterConfig` | Shorthand or options object; explicit props take precedence.   |
+
+## ModernRoot `memoryRoute`
+
+Enables or overrides Memory Route directly on a root component:
+
+```tsx
+<ModernRoot memoryRoute="/beta" />
+```
+
+Resolution priority: `props.memoryRoute` > `<MemoryRouteProvider>` > `router.memory`.
+
+## useMemoryRoute
+
+Returns the active Memory Route state inside a route component.
+
+```ts
+function useMemoryRoute(): {
+  enabled: boolean;
+  initialEntries?: MemoryRouteEntry[];
+  initialIndex?: number;
+  basename?: string;
+};
+```
+
+```tsx
+import { useMemoryRoute } from '@modern-js/runtime/router';
+
+const { enabled, basename } = useMemoryRoute();
+```

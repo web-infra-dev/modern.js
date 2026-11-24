@@ -16,6 +16,10 @@ export default defineConfig({
         loaderFailureMode: 'clientRender',
       },
       four: false,
+      'memory-csr': false,
+      'memory-ssr': {
+        mode: 'stream',
+      },
     },
   },
   performance: {

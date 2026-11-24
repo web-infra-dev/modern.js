@@ -1,10 +1,12 @@
 import type { RuntimePlugin } from './core/plugin';
+import type { RouterConfig } from './router/runtime/types';
 
 export const isBrowser = () =>
   typeof window !== 'undefined' && window.name !== 'nodejs';
 
 export interface RuntimeConfig {
   plugins?: RuntimePlugin[];
+  router?: Partial<RouterConfig>;
   [key: string]: any;
 }
 

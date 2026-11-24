@@ -712,6 +712,125 @@ const supportConfigWithCompanionFiles = async (
   expect(errorText?.includes('Product load error')).toBeTruthy();
 };
 
+const supportMemoryRouteCSR = async (
+  page: Page,
+  errors: string[],
+  appPort: number,
+) => {
+  await page.goto(`http://localhost:${appPort}/memory-csr`, {
+    waitUntil: ['networkidle0'],
+  });
+  await page.waitForSelector('[data-testid="memory-user-data"]');
+
+  expect(
+    await page.$eval('[data-testid="memory-enabled"]', el => el.textContent),
+  ).toBe('memory-enabled:true');
+  expect(
+    await page.$eval('[data-testid="memory-location"]', el => el.textContent),
+  ).toBe('/user/42?tab=csr');
+  expect(
+    await page.$eval('[data-testid="memory-user-data"]', el => el.textContent),
+  ).toBe('user:42:csr');
+  expect(
+    await page.$eval('[data-testid="memory-user-state"]', el => el.textContent),
+  ).toBe('initial');
+  expect(new URL(page.url()).pathname).toBe('/memory-csr');
+
+  // Navigate back in memory history to initialEntries[0] ('/')
+  await page.click('[data-testid="memory-back"]');
+  await page.waitForSelector('[data-testid="memory-home"]');
+  expect(
+    await page.$eval('[data-testid="memory-location"]', el => el.textContent),
+  ).toBe('/');
+  expect(new URL(page.url()).pathname).toBe('/memory-csr');
+
+  // Navigate via Link to dynamic route with Data Loader without mutating URL
+  await page.click('[data-testid="memory-to-user-99"]');
+  await page.waitForFunction(
+    () =>
+      document.querySelector('[data-testid="memory-user-data"]')
+        ?.textContent === 'user:99:next',
+  );
+  expect(
+    await page.$eval('[data-testid="memory-location"]', el => el.textContent),
+  ).toBe('/user/99?tab=next');
+  expect(new URL(page.url()).pathname).toBe('/memory-csr');
+  expect(errors.length).toEqual(0);
+};
+
+const supportMemoryRouteSSR = async (
+  page: Page,
+  errors: string[],
+  appPort: number,
+) => {
+  // 1. Verify raw SSR HTML already renders the active memory entry, loader data & state
+  const response = await fetch(`http://localhost:${appPort}/memory-ssr`);
+  expect(response.status).toBe(200);
+  const ssrHtml = (await response.text()).replace(/<!--\s*-->/g, '');
+  expect(ssrHtml).toContain('memory-enabled:true');
+  expect(ssrHtml).toContain('user:42:ssr');
+  expect(ssrHtml).toContain('ssr-card');
+
+  // 2. Verify browser hydration reuses SSR loader data with zero duplicate loader requests
+  const initialLoaderRequests: string[] = [];
+  const onRequest = (req: import('puppeteer').HTTPRequest) => {
+    const url = new URL(req.url());
+    if (
+      url.pathname.includes('/memory-ssr/user/42') &&
+      url.searchParams.has('__loader')
+    ) {
+      initialLoaderRequests.push(req.url());
+    }
+  };
+  page.on('request', onRequest);
+  try {
+    await page.goto(`http://localhost:${appPort}/memory-ssr`, {
+      waitUntil: ['networkidle0'],
+    });
+    await page.waitForSelector('[data-testid="memory-user-data"]');
+
+    expect(
+      await page.$eval('[data-testid="memory-enabled"]', el => el.textContent),
+    ).toBe('memory-enabled:true');
+    expect(
+      await page.$eval('[data-testid="memory-location"]', el => el.textContent),
+    ).toBe('/user/42?tab=ssr');
+    expect(
+      await page.$eval(
+        '[data-testid="memory-user-data"]',
+        el => el.textContent,
+      ),
+    ).toBe('user:42:ssr');
+    expect(
+      await page.$eval(
+        '[data-testid="memory-user-state"]',
+        el => el.textContent,
+      ),
+    ).toBe('ssr-card');
+    expect(initialLoaderRequests).toEqual([]);
+    expect(new URL(page.url()).pathname).toBe('/memory-ssr');
+
+    // 3. Navigate back in memory history and forward via Link + server Data Loader
+    await page.click('[data-testid="memory-back"]');
+    await page.waitForSelector('[data-testid="memory-home"]');
+    expect(new URL(page.url()).pathname).toBe('/memory-ssr');
+
+    await page.click('[data-testid="memory-to-user-99"]');
+    await page.waitForFunction(
+      () =>
+        document.querySelector('[data-testid="memory-user-data"]')
+          ?.textContent === 'user:99:next',
+    );
+    expect(
+      await page.$eval('[data-testid="memory-location"]', el => el.textContent),
+    ).toBe('/user/99?tab=next');
+    expect(new URL(page.url()).pathname).toBe('/memory-ssr');
+    expect(errors.length).toEqual(0);
+  } finally {
+    page.off('request', onRequest);
+  }
+};
+
 describe('dev with rspack', () => {
   let app: unknown;
   let appPort: number;
@@ -844,6 +963,13 @@ describe('dev with rspack', () => {
       supportConfigOnlyCatchAll(page, errors, appPort));
     test('error boundary works', async () =>
       supportConfigOnlyErrorBoundary(page, errors, appPort));
+  });
+
+  describe('memory route', () => {
+    test('supports CSR memory route with nested layout, data loader, and history', async () =>
+      supportMemoryRouteCSR(page, errors, appPort));
+    test('supports streaming SSR memory route, hydration, and server data loader', async () =>
+      supportMemoryRouteSSR(page, errors, appPort));
   });
 
   afterAll(async () => {
@@ -998,6 +1124,13 @@ describe('build with rspack', () => {
       supportMixedNestedRoutes(page, errors, appPort));
     test('config route with auto-discovered companion files', async () =>
       supportConfigWithCompanionFiles(page, errors, appPort));
+  });
+
+  describe('memory route', () => {
+    test('supports CSR memory route with nested layout, data loader, and history', async () =>
+      supportMemoryRouteCSR(page, errors, appPort));
+    test('supports streaming SSR memory route, hydration, and server data loader', async () =>
+      supportMemoryRouteSSR(page, errors, appPort));
   });
 
   afterAll(async () => {

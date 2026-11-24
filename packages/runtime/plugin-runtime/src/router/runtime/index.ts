@@ -12,4 +12,18 @@ export const useRouteLoaderData: typeof useRouteData = (routeId: string) => {
 
 export * from './withRouter';
 
+export {
+  MemoryRouteProvider,
+  normalizeMemoryRouterConfig,
+  useMemoryRoute,
+} from './memory';
+export type {
+  MemoryRouteEntry,
+  MemoryRouteProviderProps,
+  MemoryRouteState,
+  MemoryRouterConfig,
+  MemoryRouterOptions,
+  NormalizedMemoryRouterConfig,
+} from './memory';
+
 export type { LoaderFunction, LoaderFunctionArgs } from './types';

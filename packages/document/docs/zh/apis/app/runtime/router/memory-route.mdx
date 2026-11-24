@@ -1,0 +1,64 @@
+---
+title: memory-route
+sidebar_position: 2
+---
+
+# Memory Route API
+
+用于为 `<ModernRoot />` 配置和查询内存路由，均从 `@modern-js/runtime/router` 导出。常规路由 API（`useNavigate`、`useLocation`、`<Link>`、`useLoaderData` 等）用法保持不变。
+
+## MemoryRouteProvider
+
+为包裹的 `<ModernRoot />` 子树启用内存路由。
+
+```tsx
+import { MemoryRouteProvider } from '@modern-js/runtime/router';
+
+<MemoryRouteProvider
+  initialEntries={['/', '/detail/42']}
+  initialIndex={1}
+  basename="/shop"
+>
+  <ModernRoot />
+</MemoryRouteProvider>;
+```
+
+### Props
+
+| 属性             | 类型                 | 说明                                                    |
+| ---------------- | -------------------- | ------------------------------------------------------- |
+| `entryPath`      | `string`             | 初始路由路径，例如 `'/detail/42?tab=info'`。            |
+| `initialEntries` | `MemoryRouteEntry[]` | 初始历史栈。                                            |
+| `initialIndex`   | `number`             | `initialEntries` 中的当前激活索引（默认指向最后一项）。 |
+| `initialState`   | `unknown`            | 配合 `entryPath` 使用的初始 `location.state`。          |
+| `basename`       | `string`             | 路由前缀。                                              |
+| `config`         | `MemoryRouterConfig` | 简写或完整配置对象；显式传入的 prop 优先级更高。        |
+
+## ModernRoot `memoryRoute`
+
+直接在根组件上启用或覆盖内存路由：
+
+```tsx
+<ModernRoot memoryRoute="/beta" />
+```
+
+多处同时配置时的优先级：`props.memoryRoute` > `<MemoryRouteProvider>` > `router.memory`。
+
+## useMemoryRoute
+
+在路由组件内读取当前内存路由状态。
+
+```ts
+function useMemoryRoute(): {
+  enabled: boolean;
+  initialEntries?: MemoryRouteEntry[];
+  initialIndex?: number;
+  basename?: string;
+};
+```
+
+```tsx
+import { useMemoryRoute } from '@modern-js/runtime/router';
+
+const { enabled, basename } = useMemoryRoute();
+```

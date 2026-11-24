@@ -18,7 +18,21 @@ export const getRequestUrl = ({
   request: Request;
   routeId: string;
 }) => {
-  const url = new URL(request.url);
+  const parsed = new URL(request.url);
+  // React Router's createMemoryHistory hardcodes "http://localhost" as the
+  // request URL base. Rewrite it to the active browser origin when running in
+  // memory router mode so server data loader/action fetches hit the real host.
+  const url =
+    typeof window !== 'undefined' &&
+    window.location?.origin &&
+    window.location.origin !== 'null' &&
+    parsed.origin === 'http://localhost' &&
+    window.location.origin !== 'http://localhost'
+      ? new URL(
+          `${parsed.pathname}${parsed.search}${parsed.hash}`,
+          window.location.origin,
+        )
+      : parsed;
   const toPath = compile(url.pathname, {
     encode: encodeURIComponent,
   });

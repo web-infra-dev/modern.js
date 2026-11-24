@@ -38,6 +38,33 @@ When SSR is enabled, `supportHtml5History` is not supported.
 
 :::
 
+## memory
+
+- **Type:** `boolean | string | MemoryRouterOptions`
+- **Default:** `undefined`
+
+Enables memory routing so route navigation stays in memory without changing the browser URL.
+
+- `true`: starts from the current URL (or `'/'`).
+- `string`: starts from the specified path, such as `'/dashboard'`.
+- `MemoryRouterOptions`: configures `entryPath`, `initialEntries`, `initialIndex`, `initialState`, and `basename`.
+
+```ts title="src/modern.runtime.ts"
+import { defineRuntimeConfig } from '@modern-js/runtime';
+
+export default defineRuntimeConfig({
+  router: {
+    memory: {
+      initialEntries: ['/', '/detail/42?tab=info'],
+      initialIndex: 1,
+      basename: '/shop',
+    },
+  },
+});
+```
+
+For multi-instance usage and React APIs, see [Memory Route](/guides/basic-features/routes/memory-route) and [Memory Route API](/apis/app/runtime/router/memory-route).
+
 ## useTransitions
 
 - **Type:** `boolean`
