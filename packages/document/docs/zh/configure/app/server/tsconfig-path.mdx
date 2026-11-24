@@ -50,6 +50,8 @@ title: tsconfigPath
   "extends": "@modern-js/tsconfig/base",
   "compilerOptions": {
     "noEmit": true,
+    "isolatedModules": true,
+    "moduleDetection": "force",
     "types": ["@modern-js/app-tools/types"],
     "paths": {
       "@/*": ["./src/*"],

@@ -50,6 +50,8 @@ Keep one main `tsconfig.json` (editor, Rspack aliases, type-check) and add a `ts
   "extends": "@modern-js/tsconfig/base",
   "compilerOptions": {
     "noEmit": true,
+    "isolatedModules": true,
+    "moduleDetection": "force",
     "types": ["@modern-js/app-tools/types"],
     "paths": {
       "@/*": ["./src/*"],

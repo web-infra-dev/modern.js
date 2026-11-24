@@ -3,6 +3,8 @@
   "compilerOptions": {
     "types": ["@modern-js/app-tools/types"],
     "noEmit": true,
+    "isolatedModules": true,
+    "moduleDetection": "force",
     "paths": {
       "@/*": ["./src/*"],
       "@shared/*": ["./shared/*"]
