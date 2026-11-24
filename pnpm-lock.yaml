@@ -1427,12 +1427,6 @@ importers:
       '@types/node':
         specifier: ^20
         version: 20.19.27
-      ts-node:
-        specifier: ^10.9.2
-        version: 10.9.2(@swc/core@1.16.22(@swc/helpers@0.5.23))(@types/node@20.19.27)(typescript@5.9.3)
-      tsconfig-paths:
-        specifier: ^4.2.0
-        version: 4.2.0
       typescript:
         specifier: ^5
         version: 5.9.3
@@ -1715,12 +1709,6 @@ importers:
       node-mocks-http:
         specifier: ^1.18.1
         version: 1.18.1(@types/express@4.17.25)(@types/node@20.19.27)
-      ts-node:
-        specifier: ^10.9.2
-        version: 10.9.2(@swc/core@1.16.22(@swc/helpers@0.5.23))(@types/node@20.19.27)(typescript@5.9.3)
-      tsconfig-paths:
-        specifier: 4.2.0
-        version: 4.2.0
       typescript:
         specifier: ^5
         version: 5.9.3
@@ -1761,6 +1749,9 @@ importers:
       '@modern-js/utils':
         specifier: workspace:*
         version: link:../../toolkit/utils
+      '@swc/core':
+        specifier: 1.16.22
+        version: 1.16.22(@swc/helpers@0.5.23)
       '@swc/helpers':
         specifier: ^0.5.17
         version: 0.5.23
@@ -1865,12 +1856,6 @@ importers:
       '@types/node':
         specifier: ^20
         version: 20.19.27
-      ts-node:
-        specifier: ^10.9.2
-        version: 10.9.2(@swc/core@1.16.22(@swc/helpers@0.5.23))(@types/node@20.19.27)(typescript@5.9.3)
-      tsconfig-paths:
-        specifier: ^4.2.0
-        version: 4.2.0
       typescript:
         specifier: ^5
         version: 5.9.3
