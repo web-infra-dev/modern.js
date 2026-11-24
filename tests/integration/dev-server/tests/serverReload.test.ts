@@ -29,6 +29,30 @@ describe('server runtime reload without ts-node', () => {
     ({ appDir, cleanup } = await createIsolatedTestApp(sourceAppDir, {
       prefix: 'isolated-dev-server-reload-',
     }));
+    // ESM-only packages that require() can't load, created in this copy only.
+    const writePackage = async (
+      name: string,
+      pkg: Record<string, unknown>,
+      code: string,
+    ) => {
+      const dir = path.join(appDir, 'node_modules', name);
+      await fs.outputJSON(path.join(dir, 'package.json'), {
+        name,
+        type: 'module',
+        ...pkg,
+      });
+      await fs.outputFile(path.join(dir, 'index.js'), code);
+    };
+    await writePackage(
+      'dev-server-esm-only',
+      { exports: { '.': { import: './index.js' } } },
+      "export const value = 'esm-only';\n",
+    );
+    await writePackage(
+      'dev-server-esm-tla',
+      { main: './index.js' },
+      "await Promise.resolve();\nexport const value = 'esm-tla';\n",
+    );
     appPort = await getPort();
     app = await launchApp(appDir, appPort, {}, {});
   });
@@ -38,6 +62,13 @@ describe('server runtime reload without ts-node', () => {
       await killApp(app);
     }
     await cleanup?.();
+  });
+
+  test('should load ESM-only packages through dynamic import', async () => {
+    const res = await fetch(`http://localhost:${appPort}/`, {
+      headers: { 'x-esm-import': '1' },
+    });
+    expect(res.headers.get('x-esm-import')).toBe('esm-only,esm-tla,v1');
   });
 
   test('should load the server config and reload its imported files', async () => {
