@@ -68,8 +68,6 @@ type ConnectMiddleware =
     ) => void)
   | ((req: NodeRequest, res: NodeResponse) => void);
 
-const noop = () => {};
-
 export const connectMid2HonoMid = (handler: ConnectMiddleware): Middleware => {
   return async (context: Context<ServerNodeEnv & ServerEnv>, next: Next) => {
     return new Promise<void>((resolve, reject) => {

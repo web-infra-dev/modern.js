@@ -210,7 +210,7 @@ export const routerPlugin = (
 
         const getRouteApp = () => {
           const enableRsc = context.application?.definition.enableRsc;
-          return (props => {
+          return (_props => {
             const context = useContext(InternalRuntimeContext);
             const { routerContext, ssrContext, routes } = context;
             const { nonce, mode, useJsonScript } = ssrContext!;

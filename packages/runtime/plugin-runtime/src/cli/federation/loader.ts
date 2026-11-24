@@ -31,14 +31,20 @@ interface ScopeGraph extends Omit<
 }
 
 async function output(filename: string, content: string) {
-  if ((await fs.readFile(filename, 'utf8').catch(() => undefined)) === content)
-    return;
+  const existing = await fs.readFile(filename, 'utf8').catch(() => undefined);
+  if (existing === content) return;
   // Exposes of the same scope can generate this module concurrently. Publish
   // complete files so the compiler never caches an empty or partial module.
   const temporary = `${filename}.${randomUUID()}.tmp`;
   try {
     await fs.outputFile(temporary, content);
     await fs.rename(temporary, filename);
+    if (existing === undefined) {
+      // Backdate initial codegen so watchpack does not treat files created
+      // during startup compilation as post-start user edits.
+      const past = new Date(Date.now() - 10_000);
+      await fs.utimes(filename, past, past).catch(() => {});
+    }
   } finally {
     await fs.remove(temporary);
   }
@@ -81,7 +87,8 @@ export default async function loader(
       .digest('hex')
       .slice(0, 16);
     const directory = path.join(internalDirectory, entryName, 'mf-scopes', id);
-    const registry = formatImportPath(path.join(directory, 'registry.js'));
+    const registryFile = path.join(directory, 'registry.js');
+    const registry = formatImportPath(registryFile);
     const scopedCode = await fileSystemRoutes({
       ...graph,
       routes,
@@ -99,7 +106,7 @@ export default async function loader(
       ? `import globalApp from ${JSON.stringify(graph.globalApp)};`
       : 'const globalApp = undefined;';
     await output(
-      registry,
+      registryFile,
       `import { createScopedRoot, createScopedRender } from '@${metaName}/runtime/internal/route-scope';
 import { routes } from './routes';
 import { createRegistryRuntime } from ${JSON.stringify(formatImportPath(runtimeFile))};

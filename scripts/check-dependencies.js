@@ -19,6 +19,9 @@ const ignoreDeps = [
   'tsx',
   // MCP SDK requires zod >=4.2, while existing BFF APIs still use zod 3.
   'zod',
+  // @modern-js/plugin-module-federation temporarily pins the MF Core preview
+  // release while mcp-apps still depends on @module-federation/enhanced 2.0.0.
+  '@module-federation/enhanced',
 ];
 
 // examples/ intentionally track the published packages (`latest`) and mirror

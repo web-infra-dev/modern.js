@@ -78,7 +78,7 @@ it.each(['cjs', 'esm-node'])(
   format => {
     const plugin = getBridgeSSRRuntimePlugin(`/package/dist/${format}/cli`);
     expect(plugin.path).toBe(
-      '/package/dist/esm/ssr-runtime/bridgeStreamPlugin.mjs',
+      path.resolve('/package/dist/esm/ssr-runtime/bridgeStreamPlugin.mjs'),
     );
     const generated = runtimeFactory({
       entryName: 'main',

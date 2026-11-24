@@ -1,3 +1,4 @@
+import path from 'node:path';
 import { it, expect, describe, rs, afterEach } from '@rstest/core';
 import {
   moduleFederationConfigPlugin,
@@ -355,19 +356,19 @@ describe('resolved output directories', () => {
       target: 'node',
       outputPath: undefined,
       distPath: { root: 'build', server: 'ssr' },
-      expected: '/project/build/ssr',
+      expected: path.resolve('/project/build/ssr'),
     },
     {
       target: 'node',
       outputPath: undefined,
       distPath: { root: '/external/build', server: 'server-render' },
-      expected: '/external/build/server-render',
+      expected: path.resolve('/external/build/server-render'),
     },
     {
       target: 'node',
       outputPath: undefined,
       distPath: {},
-      expected: '/project/dist/bundles',
+      expected: path.resolve('/project/dist/bundles'),
     },
     {
       target: 'web',

@@ -1,3 +1,4 @@
+import path from 'node:path';
 import { it, expect, describe, rs, beforeEach } from '@rstest/core';
 import { createStaticMiddleware } from './staticMiddleware';
 
@@ -101,7 +102,9 @@ describe('staticMiddleware', () => {
       await middleware(mockContext, nextSpy);
 
       // Should proceed to file existence check
-      expect(access).toHaveBeenCalledWith('/test/path/bundles/test.js');
+      expect(access).toHaveBeenCalledWith(
+        path.resolve('/test/path/bundles/test.js'),
+      );
     });
   });
 
@@ -112,7 +115,9 @@ describe('staticMiddleware', () => {
 
       await middleware(mockContext, nextSpy);
 
-      expect(access).toHaveBeenCalledWith('/test/path/bundles/nonexistent.js');
+      expect(access).toHaveBeenCalledWith(
+        path.resolve('/test/path/bundles/nonexistent.js'),
+      );
       expect(nextSpy).toHaveBeenCalledOnce();
       expect(fileCache.getFile).not.toHaveBeenCalled();
       expect(mockContext.header).not.toHaveBeenCalled();
@@ -126,9 +131,11 @@ describe('staticMiddleware', () => {
 
       await middleware(mockContext, nextSpy);
 
-      expect(access).toHaveBeenCalledWith('/test/path/bundles/existing.js');
+      expect(access).toHaveBeenCalledWith(
+        path.resolve('/test/path/bundles/existing.js'),
+      );
       expect(fileCache.getFile).toHaveBeenCalledWith(
-        '/test/path/bundles/existing.js',
+        path.resolve('/test/path/bundles/existing.js'),
       );
     });
   });
@@ -148,9 +155,11 @@ describe('staticMiddleware', () => {
 
       const result = await middleware(mockContext, nextSpy);
 
-      expect(access).toHaveBeenCalledWith('/test/path/bundles/app.js');
+      expect(access).toHaveBeenCalledWith(
+        path.resolve('/test/path/bundles/app.js'),
+      );
       expect(fileCache.getFile).toHaveBeenCalledWith(
-        '/test/path/bundles/app.js',
+        path.resolve('/test/path/bundles/app.js'),
       );
       expect(nextSpy).not.toHaveBeenCalled();
 
@@ -228,7 +237,9 @@ describe('staticMiddleware', () => {
       await customMiddleware(mockContext, nextSpy);
 
       // Should remove prefix from path
-      expect(access).toHaveBeenCalledWith('/test/path/bundles/test.js');
+      expect(access).toHaveBeenCalledWith(
+        path.resolve('/test/path/bundles/test.js'),
+      );
     });
   });
   it('does not serve paths outside the bundles directory or lookalike prefixes', async () => {
@@ -282,7 +293,7 @@ it.each(['/ssr/nested', 'https://cdn.example.com/ssr/nested'])(
     });
     await middleware(context, next);
     expect(access).toHaveBeenCalledWith(
-      '/build/server-output/chunks/remote.js',
+      path.resolve('/build/server-output/chunks/remote.js'),
     );
     expect(context.body).toHaveBeenCalledWith('export {}', 200);
     expect(next).not.toHaveBeenCalled();

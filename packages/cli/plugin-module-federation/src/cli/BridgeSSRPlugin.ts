@@ -12,11 +12,11 @@ export const getBridgeSSRRuntimePlugin = (cliDirectory: string) => ({
   config: {},
 });
 
-const resolveContextModule = (appDirectory: string) => {
+const resolveContextModule = (appDirectory: string, metaName: string) => {
   let consumerDirectory = appDirectory;
   try {
     consumerDirectory = path.dirname(
-      require.resolve('@modern-js/runtime/package.json', {
+      require.resolve(`@${metaName}/runtime/package.json`, {
         paths: [appDirectory],
       }),
     );
@@ -57,7 +57,8 @@ export class BridgeSSRPlugin {
     )
       return;
     const contextModule =
-      this.contextModule || resolveContextModule(compiler.context);
+      this.contextModule ||
+      resolveContextModule(compiler.context, this.metaName);
     compiler.hooks.normalModuleFactory.tap('ModernBridgeSSRPlugin', factory => {
       factory.hooks.beforeResolve.tap('ModernBridgeSSRPlugin', data => {
         if (!data) return;

@@ -26,6 +26,7 @@ import type { RsbuildPlugin, ModifyRspackConfigFn } from '@rsbuild/core';
 import type { FederationCliPlugin } from '../types/cli';
 import type { AssetFileNames, InternalModernPluginOptions } from '../types';
 import { BridgeSSRPlugin, getBridgeSSRRuntimePlugin } from './BridgeSSRPlugin';
+import { createDevHotUpdateCache } from './devManifest';
 import {
   DEV_MANIFEST_WAIT_HEADER,
   DEV_MANIFEST_WAIT_TIMEOUT,
@@ -100,6 +101,7 @@ const preserveStaticAssetPublicPath = (
 
 const mfSSRRsbuildPlugin = (
   pluginOptions: Required<InternalModernPluginOptions>,
+  hotUpdateCache?: ReturnType<typeof createDevHotUpdateCache>,
 ): RsbuildPlugin => {
   return {
     name: '@modern-js/plugin-mf-post-config',
@@ -113,6 +115,7 @@ const mfSSRRsbuildPlugin = (
       if (isDev()) {
         pluginOptions.devManifestReady = false;
         api.onAfterCreateCompiler(({ compiler }) => {
+          hotUpdateCache?.attach(compiler);
           pluginOptions.devManifestPublication?.attach(compiler, () => {
             pluginOptions.devManifestReady = false;
           });
@@ -414,9 +417,10 @@ export const moduleFederationSSRPlugin = (
         });
       }
     });
+    const hotUpdateCache = isDev() ? createDevHotUpdateCache() : undefined;
     api.config(() => {
       return {
-        builderPlugins: [mfSSRRsbuildPlugin(pluginOptions)],
+        builderPlugins: [mfSSRRsbuildPlugin(pluginOptions, hotUpdateCache)],
         dev: {
           setupMiddlewares: [
             middlewares =>
@@ -426,6 +430,37 @@ export const moduleFederationSSRPlugin = (
                   return;
                 }
                 try {
+                  if (
+                    hotUpdateCache &&
+                    (req.method === 'GET' || req.method === 'HEAD') &&
+                    req.url?.includes('.hot-update.')
+                  ) {
+                    const pathname = decodeURIComponent(
+                      new URL(req.url, 'http://localhost').pathname,
+                    );
+                    const hit = await hotUpdateCache.get(
+                      pathname,
+                      pluginOptions.distOutputDir,
+                    );
+                    if (hit) {
+                      res.statusCode = 200;
+                      res.setHeader('Content-Type', hit.contentType);
+                      res.setHeader(
+                        'Content-Length',
+                        String(hit.content.length),
+                      );
+                      res.setHeader('Cache-Control', 'no-store');
+                      res.setHeader('Access-Control-Allow-Origin', '*');
+                      res.setHeader(
+                        'Access-Control-Allow-Methods',
+                        'GET, POST, PUT, DELETE, PATCH, OPTIONS',
+                      );
+                      res.setHeader('Access-Control-Allow-Headers', '*');
+                      if (req.method === 'HEAD') res.end();
+                      else res.end(hit.content);
+                      return;
+                    }
+                  }
                   if (
                     req.url?.includes('.json') &&
                     !req.url?.includes('hot-update')

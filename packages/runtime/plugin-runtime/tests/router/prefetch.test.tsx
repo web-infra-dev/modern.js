@@ -53,7 +53,7 @@ function application({
     {
       id: 'detail',
       path: '/detail',
-      loader: ({ request }: LoaderFunctionArgs) => null,
+      loader: (_args: LoaderFunctionArgs) => null,
       hasClientLoader: clientLoader,
       shouldRevalidate,
       element: <h1>Detail</h1>,
@@ -262,7 +262,7 @@ describe('prefetch', () => {
           {
             id: 'detail',
             path: 'detail/:id',
-            loader: ({ request }: LoaderFunctionArgs) => null,
+            loader: (_args: LoaderFunctionArgs) => null,
             shouldRevalidate,
             element: <h1>Detail</h1>,
           },
