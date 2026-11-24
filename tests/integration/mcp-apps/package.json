@@ -1,17 +1,17 @@
 {
   "private": true,
   "name": "mcp-apps-integration",
-  "version": "0.0.5",
+  "version": "0.0.0-canary-20261124141820",
   "scripts": {
     "dev": "modern dev",
     "build": "modern build",
     "serve": "modern serve"
   },
   "dependencies": {
-    "@modern-js/runtime": "workspace:*",
-    "@modern-js/mcp-apps": "workspace:*",
-    "@modern-js/server-runtime": "workspace:*",
-    "@modern-js/plugin-bff": "workspace:*",
+    "@modern-js/runtime": "workspace:0.0.0-canary-20261124141820",
+    "@modern-js/mcp-apps": "workspace:0.0.0-canary-20261124141820",
+    "@modern-js/server-runtime": "workspace:0.0.0-canary-20261124141820",
+    "@modern-js/plugin-bff": "workspace:0.0.0-canary-20261124141820",
     "@modelcontextprotocol/server": "2.3.1",
     "@modelcontextprotocol/ext-apps": "2.0.4",
     "@module-federation/enhanced": "2.0.0",
@@ -20,7 +20,7 @@
     "zod": "^4.2.0"
   },
   "devDependencies": {
-    "@modern-js/app-tools": "workspace:*",
+    "@modern-js/app-tools": "workspace:0.0.0-canary-20261124141820",
     "@module-federation/modern-js-v3": "2.0.0",
     "@types/react": "^19.3.0",
     "@types/react-dom": "^19.3.0",
