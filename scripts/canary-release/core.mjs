@@ -12,7 +12,7 @@ export const REGISTRY = 'https://registry.npmjs.org/';
  * their version is arrived at, and which branch the workflow will accept as
  * the trigger. Nothing else in these scripts decides any of them separately.
  *
- * `snapshot` discards the changesets and builds 0.0.0-<tag>.<release id>: the
+ * `snapshot` discards the changesets and builds 0.0.0-canary-<time>: the
  * major is zero and the whole string is a prerelease, so no range in any
  * consumer resolves to it and nothing is written back to the repository.
  * `stable` keeps what `pnpm run bump` produced - consumed changesets, bumped
@@ -89,8 +89,25 @@ export function stagingBranch(plan) {
   return `canary-staging/${plan.releaseId}`;
 }
 
+/**
+ * The prerelease part of a snapshot version: `canary-<UTC time the release
+ * was minted>`, e.g. 0.0.0-canary-20261124072140.
+ *
+ * The time is read out of the release id rather than taken from the clock, so
+ * every job of one release - and a retry an hour later - arrives at the same
+ * string without being told it. The canary channel's dist-tag stays
+ * canary-verify; only the version reads `canary`. A custom channel uses its
+ * own tag. An id minted before the time was part of it (r<date>-<hex>) keeps
+ * the long form it was released under, so a release in flight is not renamed.
+ */
+export function snapshotSuffix(channel, releaseId) {
+  const minted = /^r(\d{14})-/.exec(releaseId)?.[1];
+  if (!minted) return `${channel.tag}.${releaseId}`;
+  return `${channel.tag === TAG ? 'canary' : channel.tag}-${minted}`;
+}
+
 export function versionFor(channel, releaseId, bumped) {
-  if (channel.scheme === 'snapshot') return `0.0.0-${channel.tag}.${releaseId}`;
+  if (channel.scheme === 'snapshot') return `0.0.0-${snapshotSuffix(channel, releaseId)}`;
   assert(
     typeof bumped === 'string' && STABLE_VERSION.test(bumped),
     'A stable release publishes the version changesets computed, as plain major.minor.patch',
@@ -101,8 +118,9 @@ export function versionFor(channel, releaseId, bumped) {
 // redacts UUID shaped values out of its own `publish --json` output, so a
 // release id in that shape comes back as [REDACTED_UUID] and no published
 // package can be matched to the manifest that produced it. Same entropy,
-// different punctuation. The pipeline mints exactly this shape.
-export const RELEASE_ID = /^r\d{8}-[0-9a-f]{32}$/;
+// different punctuation. The pipeline mints r<UTC date and time>-<hex>; ids
+// minted before 2026-11-24 carry the date alone and stay valid.
+export const RELEASE_ID = /^r(?:\d{8}|\d{14})-[0-9a-f]{32}$/;
 const SHA = /^[0-9a-f]{40}$/;
 const HASH = /^[0-9a-f]{64}$/;
 const NAME = /^@modern-js\/[a-z0-9][a-z0-9._-]*$/;

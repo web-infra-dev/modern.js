@@ -90,9 +90,10 @@ function fakeRunner(
         assert.equal(
           readJson(path.join(root, '.changeset/config.json')).snapshot
             .prereleaseTemplate,
-          `${tag}.{tag}`,
+          '{tag}',
         );
-        assert.equal(args.at(-1), releaseId);
+        // The fixture id predates the time in it, so it keeps the long form.
+        assert.equal(args.at(-1), `${tag}.${releaseId}`);
         assert(
           fs
             .readFileSync(path.join(root, '.changeset/original.md'), 'utf8')
@@ -122,8 +123,10 @@ function fakeRunner(
       for (const name of ['a', 'b']) {
         const file = path.join(root, `packages/${name}/package.json`);
         const json = readJson(file);
+        // What changesets does with useCalculatedVersion off and a
+        // '{tag}' template: 0.0.0-<the --snapshot argument>.
         json.version = args.includes('--snapshot')
-          ? `0.0.0-${tag}.${releaseId}`
+          ? `0.0.0-${args.at(-1)}`
           : '3.11.0';
         writeJson(file, json);
       }

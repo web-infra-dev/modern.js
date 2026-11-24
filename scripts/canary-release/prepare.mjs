@@ -14,6 +14,7 @@ import {
   validateDependencies,
   validatePackageSet,
   validatePlan,
+  snapshotSuffix,
   versionFor,
   writeJson,
 } from './core.mjs';
@@ -147,7 +148,7 @@ export function prepare(
   // bumped versions, written changelogs, all of it committed and later merged
   // back. A snapshot release runs the same bump only to learn which version it
   // would have been, throws that away, and re-versions from the untouched
-  // changesets into 0.0.0-<tag>.<release id>, writing nothing back.
+  // changesets into the snapshot version (see snapshotSuffix), writing nothing back.
   const stable = channel.scheme === 'stable';
   try {
     execute('pnpm', ['run', 'bump'], { cwd: root, inherit: true });
@@ -179,7 +180,7 @@ export function prepare(
       const config = readJson(configFile);
       config.snapshot = {
         useCalculatedVersion: false,
-        prereleaseTemplate: `${channel.tag}.{tag}`,
+        prereleaseTemplate: '{tag}',
       };
       config.changelog = false;
       config.commit = false;
@@ -189,7 +190,7 @@ export function prepare(
         temporaryChangeset,
         `---\n${packages.map(pkg => `${JSON.stringify(pkg.name)}: patch`).join('\n')}\n---\n\nTemporary full ${channel.tag} coverage.\n`,
       );
-      execute('pnpm', ['run', 'bump', '--snapshot', releaseId], {
+      execute('pnpm', ['run', 'bump', '--snapshot', snapshotSuffix(channel, releaseId)], {
         cwd: root,
         inherit: true,
       });
