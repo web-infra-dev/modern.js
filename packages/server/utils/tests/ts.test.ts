@@ -224,6 +224,37 @@ describe('server compile', () => {
     }
   });
 
+  it('keeps every diagnostic when tsc prints more than 1MB', async () => {
+    const { appDir } = await createStubTypeScriptApp('5.9.3', 2);
+    await fs.outputFile(
+      path.join(appDir, 'node_modules/typescript/bin/tsc'),
+      [
+        "process.stdout.write('api/index.ts(1,1): error TS2322: noise\\n'.repeat(40000));",
+        "console.log('api/index.ts(9,9): error TS2322: last');",
+        // exitCode, not exit(): exit() drops output still queued on the pipe
+        'process.exitCode = 2;',
+      ].join('\n'),
+    );
+    const exit = rstest.spyOn(process, 'exit').mockImplementation((() => {
+      throw new Error('process.exit');
+    }) as any);
+    const error = rstest.spyOn(logger, 'error').mockImplementation(() => {});
+    try {
+      await expect(
+        compile(appDir, { alias: {} } as any, {
+          sourceDirs: [path.join(appDir, 'api')],
+          distDir: path.join(appDir, 'dist'),
+          tsconfigPath: path.join(appDir, 'tsconfig.json'),
+        }),
+      ).rejects.toThrow('process.exit');
+      expect(error.mock.calls[0][0]).toContain('error TS2322: last');
+    } finally {
+      exit.mockRestore();
+      error.mockRestore();
+      await fs.remove(appDir);
+    }
+  });
+
   it('emits only the tsconfig files and their imports, like the TypeScript program', async () => {
     const appDir = await fs.mkdtemp(
       path.join(os.tmpdir(), 'server-utils-files-'),

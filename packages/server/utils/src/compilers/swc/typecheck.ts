@@ -196,10 +196,22 @@ export const runTypeCheck = (
   const result = spawnSync(
     process.execPath,
     [typescript.tsc, '-p', configPath, '--pretty'],
-    { cwd: options.appDirectory, encoding: 'utf8' },
+    // tsc can print far more than spawnSync's 1MB default on a large project;
+    // past the limit the child is killed and the diagnostics are lost.
+    {
+      cwd: options.appDirectory,
+      encoding: 'utf8',
+      maxBuffer: 256 * 1024 * 1024,
+    },
   );
+  const output = `${result.stdout ?? ''}${result.stderr ?? ''}`.trim();
   return {
     ok: result.status === 0,
-    output: `${result.stdout ?? ''}${result.stderr ?? ''}`.trim(),
+    output: result.error
+      ? `${output}\n${result.error.message}`.trim()
+      : output ||
+        (result.status === 0
+          ? ''
+          : `tsc exited with ${result.signal ?? result.status}`),
   };
 };
