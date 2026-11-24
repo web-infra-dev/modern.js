@@ -1,4 +1,5 @@
 import { Select, SelectItem } from '../../components/ui/controls';
+import { ProducerSourceLinks } from '../../components/ProducerSourceLinks';
 import { ProducerUpdateControls } from '../../components/ProducerUpdateControls';
 import { ServiceMount } from '../../components/ServiceMount';
 import { useState } from 'react';
@@ -15,6 +16,35 @@ export default function ServiceWeather() {
     return <ClickApplication kind="service" />;
   if (params.has('labFrame')) return <ServiceMount />;
   const comparison = params.get('lab') === 'service' && tab === 'load';
+  const isProd = process.env.NODE_ENV === 'production';
+  const devOrigin = process.env.MF_LAB_DEV_ORIGIN;
+  const buildOrigin = process.env.MF_LAB_UPDATE_ORIGIN;
+  const hmrHref =
+    isProd && devOrigin
+      ? `${devOrigin}/service/forecast/today?lab=service&tab=hmr`
+      : '/service/forecast/today?lab=service&tab=hmr';
+  const cacheHref =
+    !isProd && buildOrigin
+      ? `${buildOrigin}/service/forecast/today?lab=service&tab=cache`
+      : '/service/forecast/today?lab=service&tab=cache';
+  const remote = params.get('remote') || '';
+  const sources = [
+    {
+      label: 'Service title',
+      file: 'provider/src/routes/weather-application/layout.tsx:67',
+    },
+    ...(remote === 'nested'
+      ? [{ label: 'Intermediate entry', file: 'nested/src/WeatherWind.tsx:3' }]
+      : []),
+    ...(remote === 'plain' || remote === 'nested'
+      ? [
+          {
+            label: 'Rslib wind component',
+            file: 'library/src/WeatherWind.tsx:10',
+          },
+        ]
+      : []),
+  ];
   return (
     <LabLayout
       section="service"
@@ -29,18 +59,22 @@ export default function ServiceWeather() {
         },
         {
           label: 'HMR & SSR dependencies',
-          href: '/service/forecast/today?lab=service&tab=hmr',
+          href: hmrHref,
           active: tab === 'hmr',
         },
         {
           label: 'Versions & memory',
-          href: '/service/forecast/today?lab=service&tab=cache',
+          href: cacheHref,
           active: tab === 'cache',
         },
       ]}
     >
       {tab !== 'load' && (
-        <LabEnvironments path="/service/forecast/today?lab=service&tab=cache" />
+        <LabEnvironments
+          path="/service/forecast/today?lab=service&tab=cache"
+          devPath="/service/forecast/today?lab=service&tab=hmr"
+          showPartialSwitch={false}
+        />
       )}
       {comparison ? (
         <ServiceLoadComparison />
@@ -56,8 +90,7 @@ export default function ServiceWeather() {
                     value={params.get('remote') || ''}
                     onValueChange={value => {
                       const next = new URLSearchParams(params);
-                      if (value)
-                        next.set('remote', value);
+                      if (value) next.set('remote', value);
                       else next.delete('remote');
                       setParams(next);
                     }}
@@ -65,8 +98,12 @@ export default function ServiceWeather() {
                     <SelectItem value="">Service root</SelectItem>
                     {process.env.MF_LAB_SERVICE_NESTED && (
                       <>
-                        <SelectItem value="plain">Plain SSR dependency</SelectItem>
-                        <SelectItem value="nested">Nested SSR dependency</SelectItem>
+                        <SelectItem value="plain">
+                          Plain SSR dependency
+                        </SelectItem>
+                        <SelectItem value="nested">
+                          Nested SSR dependency
+                        </SelectItem>
                       </>
                     )}
                   </Select>
@@ -79,6 +116,7 @@ export default function ServiceWeather() {
                       : 'Host → Service'}
                 </span>
               </div>
+              <ProducerSourceLinks sources={sources} resetKey={remote} />
             </section>
           )}
           {(tab === 'cache' || (!params.has('lab') && !params.has('late'))) && (

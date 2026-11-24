@@ -51,6 +51,9 @@ export default defineConfig({
       'process.env.MF_LAB_SERVICE_NESTED':
         process.env.MF_LAB_SERVICE_NESTED ||
         (process.env.MF_LAB_UPDATES === 'all' ? '1' : ''),
+      'process.env.MF_LAB_DEV_ORIGIN': process.env.MF_LAB_DEV_ORIGIN || '',
+      'process.env.MF_LAB_DEV_PARTIAL_ORIGIN':
+        process.env.MF_LAB_DEV_PARTIAL_ORIGIN || '',
       'process.env.MF_LAB_UPDATE_ORIGIN':
         process.env.MF_LAB_UPDATE_ORIGIN || '',
       'process.env.MF_LAB_PARTIAL_ORIGIN':

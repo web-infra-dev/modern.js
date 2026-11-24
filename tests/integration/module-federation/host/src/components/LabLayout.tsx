@@ -9,9 +9,14 @@ export type LabSection = 'render' | 'ssr' | 'service';
 export type LabTab = { label: string; href: string; active: boolean };
 
 export function LabSidebar({ section }: { section: LabSection }) {
+  const isProd = process.env.NODE_ENV === 'production';
   const fullOrigin =
     process.env.MF_LAB_SSR_SCOPE === 'entries'
-      ? process.env.MF_LAB_UPDATE_ORIGIN || ''
+      ? (isProd
+          ? process.env.MF_LAB_UPDATE_ORIGIN
+          : process.env.MF_LAB_DEV_ORIGIN) ||
+        process.env.MF_LAB_UPDATE_ORIGIN ||
+        ''
       : '';
   return (
     <aside className="lab-sidebar">
@@ -19,11 +24,17 @@ export function LabSidebar({ section }: { section: LabSection }) {
         {(
           [
             ['render', 'Rendering', '/'],
-            ['ssr', 'SSR updates', '/?lab=ssr&tab=hmr'],
+            [
+              'ssr',
+              'SSR updates',
+              isProd ? '/?lab=ssr&tab=cache' : '/?lab=ssr&tab=hmr',
+            ],
             [
               'service',
               'Service apps',
-              '/service/forecast/today?lab=service&tab=load',
+              isProd
+                ? '/service/forecast/today?lab=service&tab=cache'
+                : '/service/forecast/today?lab=service&tab=load',
             ],
           ] as const
         ).map(([id, label, href]) => (
@@ -139,29 +150,51 @@ export function LegacyLabNav() {
 /** Explicit links between real dev/production/static configurations. */
 export function LabEnvironments({
   path = '/?lab=ssr&tab=cache',
+  devPath = '/?lab=ssr&tab=hmr',
   partial = false,
+  showPartialSwitch = true,
 }: {
   path?: string;
+  devPath?: string;
   partial?: boolean;
+  showPartialSwitch?: boolean;
 }) {
+  const isProd = process.env.NODE_ENV === 'production';
+  const devOrigin = process.env.MF_LAB_DEV_ORIGIN;
+  const devPartialOrigin = process.env.MF_LAB_DEV_PARTIAL_ORIGIN;
   const production = process.env.MF_LAB_UPDATE_ORIGIN;
   const staticOrigin = process.env.MF_LAB_PARTIAL_ORIGIN;
+  const targetBuild = (partial && staticOrigin) || production;
+  const targetDev = (partial && devPartialOrigin) || devOrigin;
+  const targetPartial = isProd ? staticOrigin : devPartialOrigin;
+  const targetFull = isProd ? production : devOrigin;
+  const scopePath = isProd ? path : devPath;
   return (
     <div className="lab-environments">
       <span>
-        {process.env.NODE_ENV === 'production' ? 'Build + serve' : 'Dev'} ·{' '}
+        {isProd ? 'Build + serve' : 'Dev'} ·{' '}
         {partial
           ? 'Static imports · Partial update'
           : 'Dynamic imports · Application update'}
       </span>
-      {production && (
-        <a href={`${production}${path}`}>
+      {!isProd && targetBuild && (
+        <a href={`${targetBuild}${path}`}>
           <LabIcon name="server" /> Build + serve
         </a>
       )}
-      {staticOrigin && !partial && (
-        <a href={`${staticOrigin}/?lab=ssr&tab=cache`}>
+      {isProd && targetDev && (
+        <a href={`${targetDev}${devPath}`}>
+          <LabIcon name="server" /> Dev
+        </a>
+      )}
+      {showPartialSwitch && !partial && targetPartial && (
+        <a href={`${targetPartial}${scopePath}`}>
           <LabIcon name="code" /> Partial update
+        </a>
+      )}
+      {showPartialSwitch && partial && targetFull && (
+        <a href={`${targetFull}${scopePath}`}>
+          <LabIcon name="code" /> Application update
         </a>
       )}
     </div>

@@ -1,15 +1,23 @@
 import { Select, SelectItem, Button } from './ui/controls';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useSearchParams } from '@modern-js/runtime/router';
 import { LabLayout, LabEnvironments } from './LabLayout';
 import { LabPanel } from './LabPanel';
 import { LabChain } from './LabChain';
 import { LabIcon } from './LabIcon';
+import { ProducerSourceLinks } from './ProducerSourceLinks';
 import { ProducerUpdateControls } from './ProducerUpdateControls';
+
+type DevEntryState = {
+  pid: number;
+  configuredScope: string;
+  entries: { entry: string; runtime: number; modules: (number | null)[] }[];
+};
 
 export function SSRWorkbench() {
   const [params] = useSearchParams();
   const cache = params.get('tab') === 'cache';
+  const isProd = process.env.NODE_ENV === 'production';
   const partial = process.env.MF_LAB_SSR_SCOPE === 'entries';
   const [scenario, setScenario] = useState(
     params.get('scenario') === 'bridge'
@@ -19,9 +27,34 @@ export function SSRWorkbench() {
         : 'ordinary',
   );
   const [run, setRun] = useState(0);
-  const [sourceMessage, setSourceMessage] = useState('');
+  const [devState, setDevState] = useState<DevEntryState>();
+  useEffect(() => {
+    if (cache || isProd || !process.env.MF_LAB_UPDATES) return;
+    let active = true;
+    void fetch('/_lab/update/lab/status')
+      .then(response => (response.ok ? response.json() : undefined))
+      .then(data => {
+        if (active && data?.entries) setDevState(data);
+      })
+      .catch(() => {});
+    return () => {
+      active = false;
+    };
+  }, [cache, isProd, run, scenario]);
   const bridge = scenario === 'bridge';
   const nested = scenario === 'nested';
+  const devOrigin =
+    (partial && process.env.MF_LAB_DEV_PARTIAL_ORIGIN) ||
+    process.env.MF_LAB_DEV_ORIGIN;
+  const buildOrigin =
+    (partial && process.env.MF_LAB_PARTIAL_ORIGIN) ||
+    process.env.MF_LAB_UPDATE_ORIGIN;
+  const hmrHref =
+    isProd && devOrigin ? `${devOrigin}/?lab=ssr&tab=hmr` : '/?lab=ssr&tab=hmr';
+  const cacheHref =
+    !isProd && buildOrigin
+      ? `${buildOrigin}/?lab=ssr&tab=cache`
+      : '/?lab=ssr&tab=cache';
   const sources = bridge
     ? [
         {
@@ -53,8 +86,8 @@ export function SSRWorkbench() {
       title="SSR updates"
       description="Observe HMR, cache updates and memory across versions."
       tabs={[
-        { label: 'Hot updates', href: '/?lab=ssr&tab=hmr', active: !cache },
-        { label: 'Cache & memory', href: '/?lab=ssr&tab=cache', active: cache },
+        { label: 'Hot updates', href: hmrHref, active: !cache },
+        { label: 'Cache & memory', href: cacheHref, active: cache },
       ]}
     >
       <LabEnvironments partial={partial} />
@@ -68,7 +101,6 @@ export function SSRWorkbench() {
               value={scenario}
               onValueChange={value => {
                 setScenario(value);
-                setSourceMessage('');
                 const next = new URLSearchParams(params);
                 next.set('scenario', value);
                 history.replaceState(
@@ -100,41 +132,19 @@ export function SSRWorkbench() {
           </Button>
         </div>
         {!cache && (
-          <div className="lab-control-row" aria-label="Producer source">
-            <span>Edit source</span>
-            {sources.map(source => {
-              // Rsbuild resolves this path from the Host process's cwd.
-              const href =
-                process.env.NODE_ENV === 'development'
-                  ? `/__open-in-editor?file=${encodeURIComponent(`../${source.file}`)}`
-                  : `vscode://file${process.env.MF_LAB_SOURCE_ROOT?.replace(/\/$/, '')}/${source.file}`;
-              return (
-                <a
-                  key={source.file}
-                  href={href}
-                  title={source.file}
-                  className="lab-source-link"
-                  onClick={async event => {
-                    if (process.env.NODE_ENV !== 'development') return;
-                    event.preventDefault();
-                    setSourceMessage('');
-                    try {
-                      const response = await fetch(href);
-                      if (!response.ok) throw Error(`HTTP ${response.status}`);
-                      setSourceMessage(`Requested editor for ${source.file}`);
-                    } catch {
-                      setSourceMessage(
-                        `Open this file in your editor: ${source.file}`,
-                      );
-                    }
-                  }}
-                >
-                  <LabIcon name="code" />
-                  {source.file}
-                </a>
-              );
-            })}
-            {sourceMessage && <small role="status">{sourceMessage}</small>}
+          <ProducerSourceLinks sources={sources} resetKey={scenario} />
+        )}
+        {!cache && devState && (
+          <div className="lab-control-row" aria-label="SSR entry status">
+            <span>
+              PID {devState.pid} · scope:{' '}
+              <strong>{devState.configuredScope}</strong>
+            </span>
+            {devState.entries.map(item => (
+              <span key={item.entry}>
+                <code>{item.entry}</code> runtime #{item.runtime}
+              </span>
+            ))}
           </div>
         )}
       </section>

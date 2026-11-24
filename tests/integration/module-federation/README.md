@@ -95,12 +95,15 @@ Regression coverage remains under `tests/integration/module-federation/tests`, u
 Producer updates use the original Weather Lab routes. Select a scenario when starting it:
 
 ```sh
+pnpm --filter mf-lab-tests dev --full
 pnpm --filter mf-lab-tests dev --updates=all
 pnpm --filter mf-lab-tests dev --updates=ordinary
 pnpm --filter mf-lab-tests dev --updates=bridge
 pnpm --filter mf-lab-tests dev --updates=service
 pnpm --filter mf-lab-tests dev --production --updates=service
 ```
+
+`--full` launches four linked environments together: Dev application updates (`:4300`), Dev partial entry updates (`:4310`, sharing the live producer dev servers), Build + serve application updates & memory (`:4320`), and Build + serve partial updates & memory (`:4330`), so the `Hot updates` / `HMR & SSR dependencies` and `Cache & memory` / `Versions & memory` tabs automatically switch between Dev and Build + serve.
 
 `--updates=all` starts the complete Weather Lab, including the Host, producer, nested producer and both library releases, directly from this repository's demo directories. Open `/` for the complete CSR/SSR comparison, `/bridge-ssr/forecast/today` for Bridge SSR, or `/service/forecast/today` for Service App. No scenario query is required. These pages observe the same source edits, without copied workspaces or competing compilation outputs. This combined producer includes Service exposes, so its updates can require document reloads. Combined mode is development-only. Ordinary mode also starts the complete comparison dependencies. Isolated Bridge and Service modes start the Host and their producer.
 

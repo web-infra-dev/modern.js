@@ -76,6 +76,16 @@ describeLab(
         await page.waitForSelector(
           '[data-testid="service-remote-child"] [data-testid="weather-wind"]',
         );
+        const sourceLinks = await page.$$eval(
+          '[aria-label="Producer source"] a.lab-source-link',
+          links => links.map(link => link.textContent?.trim()),
+        );
+        expect(sourceLinks).toContain(
+          'provider/src/routes/weather-application/layout.tsx:67',
+        );
+        expect(sourceLinks).toContain('library/src/WeatherWind.tsx:10');
+        if (kind === 'nested')
+          expect(sourceLinks).toContain('nested/src/WeatherWind.tsx:3');
         expect(new URL(page.url()).searchParams.has('csr')).toBe(false);
         await assertInteraction(page, 'service', 'v1:initial');
       });

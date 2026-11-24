@@ -34,6 +34,9 @@ export async function startLab(
     serviceDeployment = false,
     serviceNested = process.env.MF_LAB_SERVICE_NESTED === '1',
     ssrScope = process.env.MF_LAB_SSR_SCOPE || 'application',
+    ports: overridePorts,
+    env: extraEnv,
+    hostOnly = false,
   } = options;
   if (updates && !['ordinary', 'bridge', 'service', 'all'].includes(updates))
     throw new Error(`Unknown update scenario: ${updates}`);
@@ -60,9 +63,11 @@ export async function startLab(
   );
   /** @type {Record<string, number>} */
   const ports = {};
-  const configuredPorts = process.env.MF_LAB_PORTS
-    ? JSON.parse(process.env.MF_LAB_PORTS)
-    : undefined;
+  const configuredPorts =
+    overridePorts ??
+    (process.env.MF_LAB_PORTS
+      ? JSON.parse(process.env.MF_LAB_PORTS)
+      : undefined);
   if (
     configuredPorts !== undefined &&
     (!configuredPorts ||
@@ -145,6 +150,7 @@ export async function startLab(
   };
   const env = {
     ...process.env,
+    ...extraEnv,
     // Rstest can use a different Rspack version from the application under test.
     ...(process.env.MF_LAB_APP_NATIVE_BINDING
       ? {
@@ -678,12 +684,16 @@ export async function startLab(
         }),
       );
     });
-    servers.push(api);
-    await new Promise((resolve, reject) => {
-      api.once('error', reject);
-      api.listen(ports.api, resolve);
-    });
-    for (const version of serviceOnly || updateOnly ? [] : ['v1', 'v2']) {
+    if (!hostOnly) {
+      servers.push(api);
+      await new Promise((resolve, reject) => {
+        api.once('error', reject);
+        api.listen(ports.api, resolve);
+      });
+    }
+    for (const version of hostOnly || serviceOnly || updateOnly
+      ? []
+      : ['v1', 'v2']) {
       const libraryRequire = createRequire(
         path.join(root, 'library/package.json'),
       );
@@ -705,27 +715,36 @@ export async function startLab(
         );
       }
     }
-    if (!serviceOnly && !updateOnly && !(updates && mode === 'production')) {
+    if (
+      !hostOnly &&
+      !serviceOnly &&
+      !updateOnly &&
+      !(updates && mode === 'production')
+    ) {
       await launch('provider', [modern, 'build'], 'v2');
       await serveArtifacts('provider', 'dist-v2', ports.providerV2);
     }
-    for (const [name, version, key] of updateOnly
-      ? [
-          ['provider', 'v1', 'provider'],
-          ...(mode === 'production' ? [['provider', 'v2', 'providerV2']] : []),
-          ['host', 'v1', 'hostInternal'],
-        ]
-      : serviceOnly
-        ? [['provider', 'v1', 'provider']]
-        : [
+    for (const [name, version, key] of hostOnly
+      ? [['host', 'v1', 'hostInternal']]
+      : updateOnly
+        ? [
             ['provider', 'v1', 'provider'],
-            ['nested', 'v1', 'nested'],
-            ...(updates && mode === 'production'
+            ...(mode === 'production'
               ? [['provider', 'v2', 'providerV2']]
               : []),
-            // Probe the Host listener directly before checking the public gateway.
             ['host', 'v1', 'hostInternal'],
-          ]) {
+          ]
+        : serviceOnly
+          ? [['provider', 'v1', 'provider']]
+          : [
+              ['provider', 'v1', 'provider'],
+              ['nested', 'v1', 'nested'],
+              ...(updates && mode === 'production'
+                ? [['provider', 'v2', 'providerV2']]
+                : []),
+              // Probe the Host listener directly before checking the public gateway.
+              ['host', 'v1', 'hostInternal'],
+            ]) {
       if (mode === 'production') await launch(name, [modern, 'build'], version);
       await launch(
         name,
