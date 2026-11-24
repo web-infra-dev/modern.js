@@ -131,6 +131,66 @@ describeLab(
       }
     });
 
+    it('renders extended memoryRoute (initialEntries, initialIndex, basename) over the Service App HTTP endpoint', async () => {
+      const { lab } = getContext();
+      const producerOrigin = `http://localhost:${lab.ports.provider}`;
+      const manifest = await (
+        await fetch(`${producerOrigin}/static/mf-manifest.json`)
+      ).json();
+      const service = manifest.exposes.find(
+        (expose: { name: string }) =>
+          expose.name === 'ServiceWeatherApplication',
+      );
+      const endpoint = new URL(
+        service.servicePath,
+        manifest.metaData.serviceBaseUrl,
+      );
+      const memoryRoute = {
+        initialEntries: [
+          '/overview',
+          '/forecast/wed?probe=extended-memory-service',
+          '/favorites',
+        ],
+        initialIndex: 1,
+        basename: '/service',
+      };
+      const response = await fetch(endpoint, {
+        method: 'POST',
+        headers: {
+          'content-type': 'application/json',
+          'x-weather-service-key': 'local-service-test-key',
+        },
+        body: JSON.stringify({
+          protocol: 'module-federation/bridge-ssr/producer/v1',
+          buildVersion: manifest.metaData.buildInfo.buildVersion,
+          request: {
+            instanceId: 'extended-memory-route',
+            identifierPrefix: 'extended-memory-route-',
+            moduleName: `${manifest.name}/ServiceWeatherApplication`,
+            url: `http://localhost:${lab.ports.serviceSSR}/unrelated-host-path`,
+            memoryRoute,
+            props: {},
+          },
+        }),
+      });
+      expect(response.status).toBe(200);
+      const frames = (await response.text())
+        .trim()
+        .split('\n')
+        .map(line => JSON.parse(line));
+      const ready = frames.find(frame => frame.type === 'ready');
+      expect(ready).toBeDefined();
+      expect(ready.snapshot.memoryRoute).toEqual(memoryRoute);
+      expect(frames.at(-1).type).toBe('done');
+      expect(frames.filter(frame => frame.type === 'error')).toEqual([]);
+      expect(
+        frames
+          .filter(frame => frame.type === 'html')
+          .map(frame => frame.html)
+          .join(''),
+      ).toContain('data-testid="weather-detail"');
+    });
+
     it('keeps the CSR document empty and includes real producer HTML in the SSR response', async () => {
       const { lab, mode } = getContext();
       const ssr = await (

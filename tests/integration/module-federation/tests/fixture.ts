@@ -27,6 +27,7 @@ export function setupLab(
     conditionalClientRedirect?: boolean;
     initialRouteNoSSR?: boolean;
     applicationIsolation?: boolean;
+    memoryRoute?: boolean;
     bridgeInputEvidence?: boolean;
     publicRoutesOnly?: boolean;
     updates?: 'ordinary' | 'bridge' | 'service';
@@ -129,6 +130,28 @@ export function setupLab(
         (await readFile(federation, 'utf8')).replace(
           'exposes: {',
           "exposes: { './IsolationApp': './src/exports/IsolationApp.tsx',",
+        ),
+      );
+    }
+    if (options.memoryRoute) {
+      for (const app of ['host', 'provider']) {
+        await cp(
+          fileURLToPath(
+            new URL(`../fixtures/memory-route/${app}`, import.meta.url),
+          ),
+          path.join(workspace, app),
+          { recursive: true },
+        );
+      }
+      const federation = path.join(
+        workspace,
+        'provider/module-federation.config.ts',
+      );
+      await writeFile(
+        federation,
+        (await readFile(federation, 'utf8')).replace(
+          'exposes: {',
+          "exposes: { './MemoryRouteApp': './src/exports/MemoryRouteApp.tsx',",
         ),
       );
     }
@@ -443,6 +466,7 @@ export function describeLab(
     conditionalClientRedirect?: boolean;
     initialRouteNoSSR?: boolean;
     applicationIsolation?: boolean;
+    memoryRoute?: boolean;
     bridgeInputEvidence?: boolean;
     publicRoutesOnly?: boolean;
     updates?: 'ordinary' | 'bridge' | 'service';

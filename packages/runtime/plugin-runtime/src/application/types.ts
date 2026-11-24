@@ -1,5 +1,6 @@
 import type { BridgeNavigation } from '@module-federation/bridge-react/base';
 import type { RouterSSRData } from '../core/types';
+import type { MemoryRouterOptions } from '../router/runtime/memory';
 import type { APPLICATION_SNAPSHOT_PROTOCOL } from './constants';
 
 /** Serializable state for one independently rendered Modern application. */
@@ -11,7 +12,7 @@ export interface ApplicationSnapshot {
   identifierPrefix: string;
   url: string;
   basename: string;
-  memoryRoute?: { entryPath: string };
+  memoryRoute?: MemoryRouterOptions;
   props: Record<string, unknown>;
   initialData?: Record<string, unknown>;
   /** Initial language for this application, independent of the outer document. */
@@ -44,7 +45,7 @@ export interface ApplicationOptions {
   identifierPrefix?: string;
   props?: Record<string, unknown>;
   signal?: AbortSignal;
-  memoryRoute?: { entryPath: string };
+  memoryRoute?: MemoryRouterOptions;
   navigation?: BridgeNavigation;
   onRecoverableError?: (error: unknown) => void;
 }

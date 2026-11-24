@@ -5,6 +5,7 @@ import { createContext, useContext } from 'react';
 import type {
   MemoryRouteState,
   MemoryRouterConfig,
+  NormalizedMemoryRouterConfig,
   RouteManifest,
   RouterConfig,
 } from '../../router/runtime/types';
@@ -38,6 +39,7 @@ export interface TInternalRuntimeContext extends TRuntimeContext {
     hydrationData?: import('../types').RouterSSRData;
     getDataUrl?: (url: URL) => URL;
     memory?: boolean;
+    memoryRoute?: NormalizedMemoryRouterConfig;
     hash?: boolean;
     basename?: string;
     getWindow?: () => Window;

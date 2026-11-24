@@ -12,6 +12,11 @@ import {
 } from '../core/react/scopeDefinition';
 import { wrapRuntimeContextProvider } from '../core/react/wrapper';
 import { createRequestHandler } from '../core/server/requestHandler';
+import {
+  type MemoryRouterOptions,
+  normalizeMemoryRouterConfig,
+  updateMemoryRouteForRedirect,
+} from '../router/runtime/memory';
 import { serializeErrors } from '../router/runtime/utils';
 import { ApplicationShell } from './ApplicationShell';
 import { createApplicationData } from './data.server';
@@ -20,12 +25,15 @@ import type { ApplicationDataPatch, ApplicationSnapshot } from './types';
 
 export type { ApplicationDataPatch, ApplicationSnapshot } from './types';
 
+const REDIRECT_STATUSES = new Set([301, 302, 303, 307, 308]);
+const MAX_MEMORY_REDIRECTS = 5;
+
 export interface RenderApplicationOptions {
   /** Complete producer work owned by the invoking SSR request. */
   work?: RequestHandlerOptions['work'];
   identifierPrefix: string;
   definition: ScopedRootDefinition;
-  memoryRoute?: { entryPath: string };
+  memoryRoute?: MemoryRouterOptions;
   /** Already wrapped by Modern createRoot; do not wrap the component again. */
   element?: React.ReactElement;
   basename?: string;
@@ -60,148 +68,21 @@ export async function renderApplication(
   }
   const signal = options.signal || request.signal;
   signal.throwIfAborted();
-  if (options.memoryRoute) {
-    request = new Request(
-      new URL(options.memoryRoute.entryPath, request.url),
-      request,
-    );
-  }
-  if (options.signal) request = new Request(request, { signal });
-  const basename = options.memoryRoute ? '/' : options.basename || '/';
-  const props = options.props || {};
-  let result: ApplicationStream | undefined;
-  const prepared = createScopeRuntime(options.definition, {
-    isBrowser: false,
-    basename,
-    initialUrl: request.url,
-    memory: Boolean(options.memoryRoute),
-    observeRouteCommits: true,
-    plugins: [cancellationPlugin(signal, options.onError, options.work)],
-  });
-  const Root = createScopedRoot(options.definition);
-
-  const handler = await createRequestHandler(
-    async (_request, Root, context) => {
-      signal.throwIfAborted();
-      const { runtimeContext } = context;
-      const shellMarker = `${options.identifierPrefix}shell`;
-      const app = (
-        <PreparedScopeContext.Provider value={prepared}>
-          {options.element || <Root {...props} />}
-        </PreparedScopeContext.Provider>
-      );
-      const element = wrapRuntimeContextProvider(
-        <ApplicationShell marker={shellMarker}>{app}</ApplicationShell>,
-        runtimeContext,
-      );
-      const getSnapshot = (): Omit<ApplicationSnapshot, 'pending'> => {
-        const router = runtimeContext.routerContext;
-        return {
-          protocol: APPLICATION_SNAPSHOT_PROTOCOL,
-          reactVersion: React.version,
-          identifierPrefix: options.identifierPrefix,
-          shellMarker,
-          url: request.url,
-          basename,
-          ...(options.memoryRoute ? { memoryRoute: options.memoryRoute } : {}),
-          props,
-          initialData: runtimeContext.initialData,
-          i18nData: runtimeContext.__i18nData__,
-          routerData: router
-            ? {
-                loaderData: router.loaderData,
-                errors: serializeErrors(router.errors),
-              }
-            : undefined,
-        };
-      };
-      let applicationData: ReturnType<typeof createApplicationData> | undefined;
-      const output = new PassThrough();
-      if (options.work) {
-        options.work.track(
-          new Promise<void>(resolve => {
-            const cleanup = finished(output, () => {
-              cleanup();
-              resolve();
-            });
-          }),
-        );
-      }
-      let abortRender: (reason?: unknown) => void = () => {};
-      let failed = false;
-      const fail = (reason: unknown) => {
-        if (failed) return;
-        failed = true;
-        const error =
-          reason instanceof Error ? reason : new Error(String(reason));
-        applicationData?.cancel(error);
-        // Close transport before aborting React: abort can synchronously write
-        // client-render instructions, which must not escape a cancelled task.
-        output.destroy(error);
-        abortRender(error);
-      };
-      const abort = () =>
-        fail(signal.reason || new Error('Application render aborted'));
-      signal.addEventListener('abort', abort, { once: true });
-      output.once('close', () => {
-        try {
-          prepared.dispose();
-        } catch (error) {
-          (options.onError || console.error)(error);
-        }
-        signal.removeEventListener('abort', abort);
-        if (!output.writableFinished)
-          fail(new Error('Application stream was cancelled'));
-      });
-      const stream = Readable.toWeb(output) as ReadableStream<Uint8Array>;
-      await new Promise<void>((resolve, reject) => {
-        const rendered = renderToPipeableStream(element, {
-          identifierPrefix: options.identifierPrefix,
-          nonce: options.nonce,
-          onShellReady() {
-            try {
-              applicationData = createApplicationData(
-                getSnapshot(),
-                options.work,
-              );
-              result = {
-                stream,
-                hydration: {
-                  snapshot: Promise.resolve(applicationData.snapshot),
-                  updates: applicationData.updates,
-                  shellMarker,
-                },
-                cancel: fail,
-              };
-              rendered.pipe(output);
-              resolve();
-            } catch (error) {
-              fail(error);
-              reject(error);
-            }
-          },
-          onShellError(error) {
-            fail(error);
-            reject(error);
-          },
-          onError(error) {
-            options.onError?.(error);
-            // Do not publish a successful hydration snapshot after React aborted
-            // a boundary; the transport can now apply its failure policy.
-            fail(error);
-            reject(error);
-          },
-        });
-        abortRender = rendered.abort;
-        if (signal.aborted) {
-          abort();
-          reject(signal.reason);
-        }
-      });
-      return new Response(stream);
-    },
-    { instance: prepared, root: Root },
+  let currentMemoryRoute = options.memoryRoute;
+  let normalizedMemory = normalizeMemoryRouterConfig(
+    currentMemoryRoute,
+    request.url,
+    '/',
   );
+  const basename = normalizedMemory
+    ? normalizedMemory.basename || '/'
+    : options.basename || '/';
+  const props = options.props || {};
+  let currentRequest = normalizedMemory
+    ? new Request(new URL(normalizedMemory.activePath, request.url), request)
+    : request;
+  if (options.signal) currentRequest = new Request(currentRequest, { signal });
+  const Root = createScopedRoot(options.definition);
   const entryName = options.definition.entryName || 'index';
   const noop = () => {};
   const handlerOptions = {
@@ -229,15 +110,197 @@ export async function renderApplication(
     onError: options.onError || noop,
     onTiming: noop,
   } as unknown as RequestHandlerOptions;
-  let response: Response;
-  try {
-    response = await handler(request, handlerOptions);
-  } catch (error) {
-    disposeAfterError(error, prepared.dispose);
-  }
-  if (!result) {
+
+  for (let redirectCount = 0; ; redirectCount++) {
+    signal.throwIfAborted();
+    let result: ApplicationStream | undefined;
+    const activeRequest = currentRequest;
+    const activeMemoryRoute = currentMemoryRoute;
+    const prepared = createScopeRuntime(options.definition, {
+      isBrowser: false,
+      basename,
+      initialUrl: activeRequest.url,
+      memory: Boolean(normalizedMemory),
+      memoryRoute: normalizedMemory,
+      observeRouteCommits: true,
+      plugins: [cancellationPlugin(signal, options.onError, options.work)],
+    });
+
+    const handler = await createRequestHandler(
+      async (_request, Root, context) => {
+        signal.throwIfAborted();
+        const { runtimeContext } = context;
+        const shellMarker = `${options.identifierPrefix}shell`;
+        const app = (
+          <PreparedScopeContext.Provider value={prepared}>
+            {options.element || <Root {...props} />}
+          </PreparedScopeContext.Provider>
+        );
+        const element = wrapRuntimeContextProvider(
+          <ApplicationShell marker={shellMarker}>{app}</ApplicationShell>,
+          runtimeContext,
+        );
+        const getSnapshot = (): Omit<ApplicationSnapshot, 'pending'> => {
+          const router = runtimeContext.routerContext;
+          return {
+            protocol: APPLICATION_SNAPSHOT_PROTOCOL,
+            reactVersion: React.version,
+            identifierPrefix: options.identifierPrefix,
+            shellMarker,
+            url: activeRequest.url,
+            basename,
+            ...(activeMemoryRoute ? { memoryRoute: activeMemoryRoute } : {}),
+            props,
+            initialData: runtimeContext.initialData,
+            i18nData: runtimeContext.__i18nData__,
+            routerData: router
+              ? {
+                  loaderData: router.loaderData,
+                  errors: serializeErrors(router.errors),
+                }
+              : undefined,
+          };
+        };
+        let applicationData:
+          ReturnType<typeof createApplicationData> | undefined;
+        const output = new PassThrough();
+        if (options.work) {
+          options.work.track(
+            new Promise<void>(resolve => {
+              const cleanup = finished(output, () => {
+                cleanup();
+                resolve();
+              });
+            }),
+          );
+        }
+        let abortRender: (reason?: unknown) => void = () => {};
+        let failed = false;
+        const fail = (reason: unknown) => {
+          if (failed) return;
+          failed = true;
+          const error =
+            reason instanceof Error ? reason : new Error(String(reason));
+          applicationData?.cancel(error);
+          // Close transport before aborting React: abort can synchronously write
+          // client-render instructions, which must not escape a cancelled task.
+          output.destroy(error);
+          abortRender(error);
+        };
+        const abort = () =>
+          fail(signal.reason || new Error('Application render aborted'));
+        signal.addEventListener('abort', abort, { once: true });
+        output.once('close', () => {
+          try {
+            prepared.dispose();
+          } catch (error) {
+            (options.onError || console.error)(error);
+          }
+          signal.removeEventListener('abort', abort);
+          if (!output.writableFinished)
+            fail(new Error('Application stream was cancelled'));
+        });
+        const stream = Readable.toWeb(output) as ReadableStream<Uint8Array>;
+        await new Promise<void>((resolve, reject) => {
+          const rendered = renderToPipeableStream(element, {
+            identifierPrefix: options.identifierPrefix,
+            nonce: options.nonce,
+            onShellReady() {
+              try {
+                applicationData = createApplicationData(
+                  getSnapshot(),
+                  options.work,
+                );
+                result = {
+                  stream,
+                  hydration: {
+                    snapshot: Promise.resolve(applicationData.snapshot),
+                    updates: applicationData.updates,
+                    shellMarker,
+                  },
+                  cancel: fail,
+                };
+                rendered.pipe(output);
+                resolve();
+              } catch (error) {
+                fail(error);
+                reject(error);
+              }
+            },
+            onShellError(error) {
+              fail(error);
+              reject(error);
+            },
+            onError(error) {
+              options.onError?.(error);
+              // Do not publish a successful hydration snapshot after React aborted
+              // a boundary; the transport can now apply its failure policy.
+              fail(error);
+              reject(error);
+            },
+          });
+          abortRender = rendered.abort;
+          if (signal.aborted) {
+            abort();
+            reject(signal.reason);
+          }
+        });
+        return new Response(stream);
+      },
+      { instance: prepared, root: Root },
+    );
+
+    let response: Response;
+    try {
+      response = await handler(activeRequest, handlerOptions);
+    } catch (error) {
+      disposeAfterError(error, prepared.dispose);
+    }
+    if (result) {
+      return result;
+    }
+
+    // In memoryRoute mode, follow same-origin loader redirects internally so
+    // Bridge SSR and Service App renders land cleanly without leaking redirects
+    // to the outer host document.
+    if (
+      activeMemoryRoute &&
+      normalizedMemory &&
+      response instanceof Response &&
+      REDIRECT_STATUSES.has(response.status) &&
+      redirectCount < MAX_MEMORY_REDIRECTS
+    ) {
+      const location = response.headers.get('location');
+      if (location) {
+        const currentUrl = new URL(activeRequest.url);
+        const targetUrl = new URL(location, currentUrl);
+        if (targetUrl.origin === currentUrl.origin) {
+          prepared.dispose();
+          const targetPath = `${targetUrl.pathname}${targetUrl.search}${targetUrl.hash}`;
+          currentMemoryRoute = updateMemoryRouteForRedirect(
+            activeMemoryRoute,
+            normalizedMemory,
+            targetPath,
+          );
+          normalizedMemory = normalizeMemoryRouterConfig(
+            currentMemoryRoute,
+            currentUrl.href,
+            basename,
+          )!;
+          currentRequest = new Request(
+            new URL(normalizedMemory.activePath, currentUrl),
+            {
+              method: 'GET',
+              headers: activeRequest.headers,
+              signal,
+            },
+          );
+          continue;
+        }
+      }
+    }
+
     // Redirects and other short-circuit responses are not an application stream.
     disposeAfterError(response, prepared.dispose);
   }
-  return result;
 }

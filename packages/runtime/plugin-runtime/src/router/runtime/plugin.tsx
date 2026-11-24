@@ -267,31 +267,33 @@ function useRouterCreation(props: any, options: UseRouterCreationOptions) {
       : baseUrl);
 
   const currentBrowserPath = `${location.pathname}${location.search}${location.hash}`;
+  const scopeMemory = scope?.memory
+    ? (scope.memoryRoute ??
+      normalizeMemoryRouterConfig(
+        { entryPath: scope.initialUrl, basename: scope.basename },
+        scope.initialUrl,
+        scope.basename || '/',
+      ))
+    : undefined;
   const normalizedMemory =
-    scope?.output === 'fragment'
+    scopeMemory ??
+    (scope?.output === 'fragment'
       ? undefined
       : normalizeMemoryRouterConfig(
           memoryInput,
           currentBrowserPath,
           defaultBasename,
-        );
+        ));
   const _basename = normalizedMemory?.basename ?? defaultBasename;
   if (scope) scope.basename = _basename;
-  const memoryState: MemoryRouteState = scope?.memory
+  const memoryState: MemoryRouteState = normalizedMemory
     ? {
         enabled: true,
-        initialEntries: [scope.initialUrl],
-        initialIndex: 0,
+        initialEntries: normalizedMemory.initialEntries,
+        initialIndex: normalizedMemory.initialIndex,
         basename: _basename,
       }
-    : normalizedMemory
-      ? {
-          enabled: true,
-          initialEntries: normalizedMemory.initialEntries,
-          initialIndex: normalizedMemory.initialIndex,
-          basename: _basename,
-        }
-      : { enabled: false };
+    : { enabled: false };
 
   const { unstable_getBlockNavState: getBlockNavState } = runtimeContext;
   // Keep the define expression inline at every RSC branch. Rspack can then
@@ -306,7 +308,7 @@ function useRouterCreation(props: any, options: UseRouterCreationOptions) {
     (process.env.MODERN_ENABLE_RSC ? rscPayload : undefined);
 
   const createRouter = () => {
-    if (scope?.router)
+    if (scope?.router && (!normalizedMemory || scope.output === 'fragment'))
       return { router: scope.router, routes: scope.routes || [], memoryState };
     if (hydrationData?.errors) {
       hydrationData = {
@@ -366,29 +368,24 @@ function useRouterCreation(props: any, options: UseRouterCreationOptions) {
     if (topology) assertScopeTopology(modifiedRoutes, topology);
 
     if (scope) scope.hash = !supportHtml5History;
-    const router = scope?.memory
+    const router = normalizedMemory
       ? createMemoryRouter(modifiedRoutes, {
-          initialEntries: [scope.initialUrl],
+          basename: _basename,
+          initialEntries: normalizedMemory.initialEntries,
+          initialIndex: normalizedMemory.initialIndex,
           hydrationData,
         })
-      : normalizedMemory
-        ? createMemoryRouter(modifiedRoutes, {
+      : supportHtml5History
+        ? createBrowserRouter(modifiedRoutes, {
             basename: _basename,
-            initialEntries: normalizedMemory.initialEntries,
-            initialIndex: normalizedMemory.initialIndex,
             hydrationData,
+            window: scope?.getWindow?.(),
           })
-        : supportHtml5History
-          ? createBrowserRouter(modifiedRoutes, {
-              basename: _basename,
-              hydrationData,
-              window: scope?.getWindow?.(),
-            })
-          : createHashRouter(modifiedRoutes, {
-              basename: _basename,
-              hydrationData,
-              window: scope?.getWindow?.(),
-            });
+        : createHashRouter(modifiedRoutes, {
+            basename: _basename,
+            hydrationData,
+            window: scope?.getWindow?.(),
+          });
     if (scope) {
       scope.router = router;
       scope.routes = modifiedRoutes;

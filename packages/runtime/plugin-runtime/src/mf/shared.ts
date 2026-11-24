@@ -1,5 +1,6 @@
 import type { BridgeRenderInfo } from './types';
 import { getScopedRootDefinition } from '../core/react/scopeDefinition';
+import { normalizeMemoryRouterConfig } from '../router/runtime/memory';
 
 export function applicationDefinition(
   info: Pick<BridgeRenderInfo, 'rootComponent'>,
@@ -18,8 +19,13 @@ export function applicationURL(
   info: Pick<BridgeRenderInfo, 'url' | 'memoryRoute'>,
   fallback: string,
 ): string {
+  const normalizedMemory = normalizeMemoryRouterConfig(
+    info.memoryRoute,
+    info.url || fallback,
+    '/',
+  );
   return new URL(
-    info.memoryRoute?.entryPath || info.url || fallback,
+    normalizedMemory?.activePath || info.url || fallback,
     fallback,
   ).toString();
 }

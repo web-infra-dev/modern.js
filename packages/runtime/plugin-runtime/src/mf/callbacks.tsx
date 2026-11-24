@@ -4,6 +4,7 @@ import {
   type ApplicationSnapshot,
   createApplication,
 } from '../application';
+import { normalizeMemoryRouterConfig } from '../router/runtime/memory';
 import {
   applicationDefinition,
   applicationProps,
@@ -49,9 +50,16 @@ function containerElement(container?: HTMLElement | string): HTMLElement {
 }
 
 function options(info: BridgeRenderInfo) {
+  const normalizedMemory = normalizeMemoryRouterConfig(
+    info.memoryRoute,
+    info.url || window.location.href,
+    '/',
+  );
   return {
     url: applicationURL(info, window.location.href),
-    basename: info.memoryRoute ? '/' : info.basename,
+    basename: normalizedMemory
+      ? normalizedMemory.basename || '/'
+      : info.basename,
     memoryRoute: info.memoryRoute,
     ...('navigation' in info ? { navigation: info.navigation } : {}),
     identifierPrefix: info.rootOptions?.identifierPrefix,

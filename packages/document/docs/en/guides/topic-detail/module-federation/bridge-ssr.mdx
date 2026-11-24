@@ -77,6 +77,28 @@ Each application restores its initial SSR language from its own snapshot without
 
 Application `Link` components default to `prefetch="none"`. In the browser, `prefetch="intent"` and `prefetch="render"` use the current producer's route assets and server loader capability. Data requests use the same producer address and path translation as navigation loaders, such as consumer `/inventory/detail/42` mapping to producer `/product/detail/42`. Route JavaScript is loaded by the producer's own build runtime. A `noSSR` mount can still prefetch supported server loaders. Client-only loaders do not generate server data prefetch requests.
 
+## Independent memory routing
+
+Pass `memoryRoute` to `createReactRemote`, `createModernReactRemote`, or `<ReactRemote>` to mount one or more remote application instances with in-memory history without changing the Host URL:
+
+```tsx
+import { createModernReactRemote } from '@modern-js/runtime/mf';
+import { loadRemote } from '@module-federation/enhanced/runtime';
+
+const ProductCard = createModernReactRemote({
+  remote: () => loadRemote('shop/ProductApp'),
+  memoryRoute: {
+    initialEntries: ['/', '/detail/42?tab=specs'],
+    initialIndex: 1,
+    basename: '/shop',
+  },
+});
+```
+
+- `memoryRoute` accepts `entryPath`, `initialEntries`, `initialIndex`, `initialState`, and `basename`.
+- When `memoryRoute` is configured, `createModernReactRemote` does not infer a basename from the Host route, so it can mount outside a Modern Router context and stays mounted across Host route changes.
+- Same-origin loader redirects during SSR are resolved automatically inside the remote instance without redirecting the Host page, while preserving prior `initialEntries` history for `navigate(-1)`.
+
 ## Boundaries
 
 The browser retains Browser Router or the configured Hash mode. Only explicit `memoryRoute` enables independent memory navigation. Browser Router hydrates its first frame from the server request snapshot, then adopts the current browser URL and fragment after commit. Creation-time subscriptions and the same Router instance are preserved.

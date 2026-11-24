@@ -7,13 +7,9 @@ import {
 } from '@modern-js/runtime-utils/router';
 import { fireEvent, render, waitFor } from '@testing-library/react';
 import React from 'react';
-import {
-  InternalRuntimeContext,
-  getInitialContext,
-  setGlobalContext,
-} from '../../src/core/context';
-import { registerPlugin } from '../../src/core/plugin';
-import { createRoot } from '../../src/core/react';
+import { createApplicationInstance } from '../../src/core/application/instance';
+import { InternalRuntimeContext } from '../../src/core/context';
+import { createRuntime } from '../../src/core/plugin';
 import {
   MemoryRouteProvider,
   normalizeMemoryRouterConfig,
@@ -35,18 +31,33 @@ afterEach(() => {
   delete (window as any)._SSR_DATA;
 });
 
-function createBrowserApp(
+async function createBrowserApp(
   routes: any[],
   routerConfig: Partial<RouterConfig> = {},
+  hydrationData?: any,
 ) {
-  setGlobalContext({ routes });
-  const runtime = registerPlugin([routerPlugin(routerConfig)], {
-    router: routerConfig,
-  });
-  const context = getInitialContext(true);
-  runtime.pluginAPI.updateRuntimeContext(context);
-  const Root = createRoot();
-  return { Root, context, runtime };
+  const instance = createApplicationInstance(
+    {
+      routes,
+      createRuntime: (context, instancePlugins) =>
+        createRuntime(
+          [routerPlugin(routerConfig)],
+          { router: routerConfig },
+          context,
+          instancePlugins,
+        ),
+    },
+    {
+      isBrowser: true,
+      output: 'document',
+      initialUrl: window.location.href,
+    },
+  );
+  if (hydrationData) {
+    instance.context.application!.hydrationData = hydrationData;
+  }
+  await instance.prepare();
+  return { Root: instance.Root, context: instance.context, instance };
 }
 
 describe('normalizeMemoryRouterConfig', () => {
@@ -172,7 +183,7 @@ describe('Modern.js memory router (config & API)', () => {
       },
     ];
 
-    const { Root, context } = createBrowserApp(routes, {
+    const { Root, context, instance } = await createBrowserApp(routes, {
       basename: '/shop',
       memory: {
         initialEntries: [
@@ -219,6 +230,7 @@ describe('Modern.js memory router (config & API)', () => {
     expect(window.location.search).toBe('?keep=1');
 
     view.unmount();
+    instance.dispose();
   });
 
   it('supports API-driven MemoryRouteProvider and memoryRoute prop with full multi-instance isolation', async () => {
@@ -245,7 +257,7 @@ describe('Modern.js memory router (config & API)', () => {
       },
     ];
 
-    const { Root, context } = createBrowserApp(routes);
+    const { Root, context, instance } = await createBrowserApp(routes);
 
     const view = render(
       <InternalRuntimeContext.Provider value={context}>
@@ -286,6 +298,7 @@ describe('Modern.js memory router (config & API)', () => {
     expect(window.location.pathname).toBe('/host-page');
 
     view.unmount();
+    instance.dispose();
   });
 
   it('hydrates from serialized SSR _ROUTER_DATA in memory mode without re-running client loaders', async () => {
@@ -323,14 +336,18 @@ describe('Modern.js memory router (config & API)', () => {
       },
     };
 
-    (window as any)._ROUTER_DATA = {
+    const hydrationData = {
       loaderData: {
         detail: { item: 'server-second' },
       },
       errors: null,
     };
 
-    const { Root, context } = createBrowserApp(clientRoutes, routerConfig);
+    const { Root, context, instance } = await createBrowserApp(
+      clientRoutes,
+      routerConfig,
+      hydrationData,
+    );
     const view = render(
       <InternalRuntimeContext.Provider value={context}>
         <Root />
@@ -346,5 +363,6 @@ describe('Modern.js memory router (config & API)', () => {
     expect(window.location.pathname).toBe('/host-page');
 
     view.unmount();
+    instance.dispose();
   });
 });

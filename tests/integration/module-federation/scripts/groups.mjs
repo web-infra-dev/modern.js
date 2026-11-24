@@ -11,6 +11,7 @@ export const groups = {
     'comparison',
     'route-scope',
     'application-isolation',
+    'memory-route',
     'input-forms',
     'advanced',
   ],

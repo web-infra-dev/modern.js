@@ -77,6 +77,28 @@ Modern 导出应用统一使用渐进式水合：先发送初始 loader 快照�
 
 应用内的 `Link` 默认 `prefetch="none"`。在浏览器使用 `prefetch="intent"` 或 `prefetch="render"` 时，框架使用当前生产者的路由资源和服务端 loader 能力。数据请求采用与导航 loader 相同的生产者地址和路径换算，例如消费者的 `/inventory/detail/42` 对应生产者的 `/product/detail/42`。路由 JS 也由生产者自身的构建运行时加载。`noSSR` 挂载仍可预取生产者支持的服务端 loader，纯客户端 loader 不会生成服务端数据预取请求。
 
+## 独立内存路由
+
+向 `createReactRemote`、`createModernReactRemote` 或 `<ReactRemote>` 传入 `memoryRoute`，可在不修改 Host 浏览器地址栏的前提下挂载一个或多个独立内存路由的远端应用：
+
+```tsx
+import { createModernReactRemote } from '@modern-js/runtime/mf';
+import { loadRemote } from '@module-federation/enhanced/runtime';
+
+const ProductCard = createModernReactRemote({
+  remote: () => loadRemote('shop/ProductApp'),
+  memoryRoute: {
+    initialEntries: ['/', '/detail/42?tab=specs'],
+    initialIndex: 1,
+    basename: '/shop',
+  },
+});
+```
+
+- `memoryRoute` 支持 `entryPath`、`initialEntries`、`initialIndex`、`initialState` 和 `basename`。
+- 配置 `memoryRoute` 后，`createModernReactRemote` 不会推导 Host 路由 basename，支持在非路由上下文中挂载，且 Host 路由切换时不会重挂载该远端实例。
+- SSR 期间远端路由 loader 返回同源重定向时会自动在远端内部完成跳转，不影响 Host 页面地址，同时保留前置 `initialEntries` 历史供 `navigate(-1)` 返回。
+
 ## 支持边界
 
 浏览器保持 Browser Router 或原有 Hash 配置，只有显式 `memoryRoute` 启用独立 memory 导航。Browser Router 的水合首帧使用服务端请求快照，提交后接回真实浏览器地址及 fragment，保留创建时订阅和同一个 Router。

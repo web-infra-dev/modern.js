@@ -1,5 +1,4 @@
 import React, { createContext, useContext, useMemo } from 'react';
-import { urlJoin } from './utils';
 
 export type MemoryRouteEntry =
   | string
@@ -65,8 +64,9 @@ export const ActiveMemoryRouteContext = createContext<MemoryRouteState>({
 
 function normalizeBasename(basename?: string): string | undefined {
   if (!basename) return undefined;
-  const normalized = urlJoin('/', basename);
-  return normalized === '/' ? '/' : normalized.replace(/\/+$/, '');
+  const collapsed = basename.trim().replace(/\/{2,}/g, '/');
+  const trimmed = collapsed.replace(/^\/+|\/+$/g, '');
+  return trimmed ? `/${trimmed}` : '/';
 }
 
 function hasBasenamePrefix(pathname: string, basename: string): boolean {
@@ -216,6 +216,31 @@ export function normalizeMemoryRouterConfig(
     activePath: memoryEntryToPath(initialEntries[initialIndex]),
     basename: effectiveBasename,
     hasExplicitInitialEntry,
+  };
+}
+
+/**
+ * Produce an updated `MemoryRouterOptions` after an internal SSR redirect so
+ * client hydration starts at the landed path while preserving history entries.
+ */
+export function updateMemoryRouteForRedirect(
+  source: MemoryRouterOptions,
+  normalized: NormalizedMemoryRouterConfig,
+  redirectPath: string,
+): MemoryRouterOptions {
+  const effectiveBasename = normalized.basename;
+  const landedEntry = applyMemoryBasename(redirectPath, effectiveBasename);
+  const landedPath = memoryEntryToPath(landedEntry);
+  const nextEntries = [...normalized.initialEntries];
+  nextEntries[normalized.initialIndex] = landedEntry;
+  return {
+    ...source,
+    entryPath: landedPath,
+    initialEntries: nextEntries,
+    initialIndex: normalized.initialIndex,
+    ...(effectiveBasename && effectiveBasename !== '/'
+      ? { basename: effectiveBasename }
+      : {}),
   };
 }
 

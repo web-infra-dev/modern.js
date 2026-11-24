@@ -20,6 +20,15 @@ export type {
   BridgeProvider,
 } from '@module-federation/bridge-react/base';
 
+export { MemoryRouteProvider, useMemoryRoute } from './router/runtime/memory';
+export type {
+  MemoryRouteEntry,
+  MemoryRouteProviderProps,
+  MemoryRouteState,
+  MemoryRouterConfig,
+  MemoryRouterOptions,
+} from './router/runtime/memory';
+
 export { shouldUpdateRemote, updateRemotes } from './mf/update';
 export type {
   RemoteUpdateTarget,

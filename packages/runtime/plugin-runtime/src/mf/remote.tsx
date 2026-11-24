@@ -22,7 +22,10 @@ function RoutedRemote({
   inferBasename = false,
   ...options
 }: ReactRemoteProps & { inferBasename?: boolean }) {
-  const basename = useMountBasename(options.basename, inferBasename);
+  const basename = useMountBasename(
+    options.basename,
+    inferBasename && !options.memoryRoute,
+  );
   const context = useContext(UNSAFE_NavigationContext);
   const location = useLocation();
   const navigate = useNavigate();
@@ -85,13 +88,18 @@ function RoutedRemote({
 }
 
 /** Generic consumption stays independent unless a mount prefix is supplied. */
-function ModernReactRemote(options: ReactRemoteProps) {
+function ModernReactRemote({
+  inferBasename = false,
+  ...options
+}: ReactRemoteProps & { inferBasename?: boolean }) {
   const context = useContext(UNSAFE_NavigationContext);
-  return context ? (
-    <RoutedRemote {...options} />
-  ) : (
-    <BrowserRemote {...options} />
-  );
+  if (context) {
+    return <RoutedRemote {...options} inferBasename={inferBasename} />;
+  }
+  if (inferBasename && !options.memoryRoute && options.basename === undefined) {
+    useMountBasename(undefined, true);
+  }
+  return <BrowserRemote {...options} />;
 }
 
 // Keep the framework adapter on Core's callable contracts so remote source,
@@ -106,7 +114,7 @@ export const createReactRemote = ((options: CreateReactRemoteOptions) =>
 /** Use in the Modern route that owns the application's URL. */
 export const createModernReactRemote = ((options: CreateReactRemoteOptions) =>
   (props: Record<string, unknown>) => (
-    <RoutedRemote {...options} inferBasename props={props} />
+    <ModernReactRemote {...options} inferBasename props={props} />
   )) as CreateReactRemote;
 
 /** Browser history compatibility for explicit mounts without a Modern Router. */

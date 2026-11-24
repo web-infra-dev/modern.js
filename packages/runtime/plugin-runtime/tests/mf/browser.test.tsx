@@ -1,14 +1,24 @@
 import React, { useState } from 'react';
 import {
   Link,
+  MemoryRouter,
+  Outlet,
+  Route,
+  Routes,
   useLoaderData,
   useLocation,
+  useNavigate,
 } from '@modern-js/runtime-utils/router';
+import { createBridgeComponent } from '@module-federation/bridge-react/v18';
+import type { CreateReactRemoteOptions } from '@module-federation/bridge-react/base';
+import { act, render as rtlRender, waitFor } from '@testing-library/react';
 import { createRuntime } from '../../src/core/plugin';
 import { createScopedRoot } from '../../src/core/react/scope';
 import type { ScopedRootDefinition } from '../../src/core/react/scopeDefinition';
 import { routerPlugin } from '../../src/router/runtime/plugin';
+import { useMemoryRoute } from '../../src/router/runtime/memory';
 import { hydrate, render } from '../../src/mf/callbacks';
+import { createModernReactRemote } from '../../src/mf/remote';
 import { APPLICATION_SNAPSHOT_PROTOCOL } from '../../src/application/constants';
 
 const tick = () => new Promise(resolve => setTimeout(resolve, 20));
@@ -235,4 +245,212 @@ it('retains memory navigation and page state when Bridge updates ordinary props'
   expect(window.location.pathname).toBe('/inventory');
   root.unmount();
   container.remove();
+});
+
+it('supports rich memoryRoute options (initialEntries, initialIndex, basename) and SSR redirect hydration in Bridge callbacks', async () => {
+  let clientLoads = 0;
+  function Layout() {
+    const memory = useMemoryRoute();
+    return (
+      <section>
+        <span data-testid="mem">{`${memory.enabled}:${memory.basename}`}</span>
+        <Outlet />
+      </section>
+    );
+  }
+  function Home() {
+    return <p data-testid="view">home</p>;
+  }
+  function Detail() {
+    const location = useLocation();
+    const navigate = useNavigate();
+    const data = useLoaderData() as { item: string };
+    return (
+      <div>
+        <p data-testid="view">{`${data.item}:${location.pathname}`}</p>
+        <button type="button" onClick={() => navigate(-1)}>
+          Back
+        </button>
+      </div>
+    );
+  }
+  const Root = createScopedRoot({
+    routes: [
+      {
+        id: 'root',
+        type: 'nested',
+        isRoot: true,
+        path: '/',
+        component: Layout,
+        children: [
+          { id: 'home', type: 'nested', index: true, component: Home },
+          {
+            id: 'detail',
+            type: 'nested',
+            path: 'detail/:id',
+            component: Detail,
+            loader: ({ params }: any) => {
+              clientLoads++;
+              return { item: `client-${params.id}` };
+            },
+          },
+        ],
+      },
+    ],
+    selected: true,
+    basename: '/',
+    serverLoaders: false,
+    getDataBase: () => window.location.origin,
+    createRuntime: (context, instancePlugins) =>
+      createRuntime([routerPlugin({})], undefined, context, instancePlugins),
+  });
+
+  // Simulate hydrating from an SSR snapshot that redirected from /secret -> /detail/42
+  // while host caller still passes the original memoryRoute ({ entryPath: '/secret' }).
+  const container = document.createElement('div');
+  container.innerHTML =
+    '<section><span data-testid="mem">true:/shop</span><div><p data-testid="view">server-42:/detail/42</p><button type="button">Back</button></div></section><template id="shop-shell"></template>';
+  document.body.append(container);
+  const errors: unknown[] = [];
+
+  const root = await hydrate(<Root />, container, {
+    rootComponent: Root,
+    memoryRoute: {
+      entryPath: '/secret',
+      basename: '/shop',
+    },
+    snapshot: {
+      protocol: APPLICATION_SNAPSHOT_PROTOCOL,
+      reactVersion: React.version,
+      identifierPrefix: 'shop-',
+      shellMarker: 'shop-shell',
+      pending: [],
+      url: `${window.location.origin}/shop/detail/42`,
+      basename: '/shop',
+      memoryRoute: {
+        entryPath: '/shop/detail/42',
+        initialEntries: ['/shop/', '/shop/detail/42'],
+        initialIndex: 1,
+        basename: '/shop',
+      },
+      props: {},
+      routerData: {
+        loaderData: { root: null, detail: { item: 'server-42' } },
+        errors: null,
+      },
+    },
+    updates: new ReadableStream({
+      start(controller) {
+        controller.close();
+      },
+    }),
+    rootOptions: { onRecoverableError: error => errors.push(error) },
+  });
+
+  expect(errors).toEqual([]);
+  expect(clientLoads).toBe(0);
+  expect(container.querySelector('[data-testid="mem"]')?.textContent).toBe(
+    'true:/shop',
+  );
+  expect(container.querySelector('[data-testid="view"]')?.textContent).toBe(
+    'server-42:/detail/42',
+  );
+
+  // Back button navigates along the preserved initialEntries stack without mutating browser URL.
+  container.querySelector('button')!.click();
+  await expect
+    .poll(() => container.querySelector('[data-testid="view"]')?.textContent)
+    .toBe('home');
+  expect(window.location.pathname).toBe('/inventory');
+
+  root.unmount();
+  container.remove();
+});
+
+it('decouples createModernReactRemote with memoryRoute from Host route context and basename changes', async () => {
+  function Card({ title }: { title: string }) {
+    const [count, setCount] = useState(0);
+    return (
+      <button
+        type="button"
+        data-testid="card"
+        onClick={() => setCount(value => value + 1)}
+      >
+        {`${title}:${count}`}
+      </button>
+    );
+  }
+  const producer = createBridgeComponent({ rootComponent: Card });
+  const factory = rstest.fn(() => producer());
+  const loadRemote = rstest.fn(async () => ({ default: factory }));
+  const instance = {
+    registerPlugins: rstest.fn(),
+    remoteHandler: {
+      getLoadedRemoteInfo: () => ({
+        id: 'cards/Card',
+        isModule: true,
+        recovered: false,
+        remoteMatchInfo: {
+          expose: './Card',
+          remoteSnapshot: {
+            modules: [{ modulePath: './Card', render: 'bridge' }],
+          },
+        },
+      }),
+    },
+  } as unknown as NonNullable<CreateReactRemoteOptions['instance']>;
+
+  const MemoryCard = createModernReactRemote({
+    remote: loadRemote,
+    instance,
+    memoryRoute: { entryPath: '/card' },
+  });
+
+  // 1. Works outside any Modern route / Router context without throwing.
+  let outsideView!: ReturnType<typeof rtlRender>;
+  await act(async () => {
+    outsideView = rtlRender(<MemoryCard title="Outside" />);
+  });
+  await waitFor(() =>
+    expect(outsideView.getByTestId('card').textContent).toBe('Outside:0'),
+  );
+  await act(async () => outsideView.unmount());
+
+  // 2. Inside a Modern route, changing the Host route does not remount or reset state.
+  function HostShell() {
+    const navigate = useNavigate();
+    return (
+      <div>
+        <button
+          type="button"
+          data-testid="switch-store"
+          onClick={() => navigate('/stores/200')}
+        >
+          Switch
+        </button>
+        <MemoryCard title="Inside" />
+      </div>
+    );
+  }
+  let routedView!: ReturnType<typeof rtlRender>;
+  await act(async () => {
+    routedView = rtlRender(
+      <MemoryRouter initialEntries={['/stores/100']}>
+        <Routes>
+          <Route path="/stores/:id" element={<HostShell />} />
+        </Routes>
+      </MemoryRouter>,
+    );
+  });
+  await waitFor(() =>
+    expect(routedView.getByTestId('card').textContent).toBe('Inside:0'),
+  );
+  act(() => routedView.getByTestId('card').click());
+  expect(routedView.getByTestId('card').textContent).toBe('Inside:1');
+  act(() => routedView.getByTestId('switch-store').click());
+  await tick();
+  // Factory was called twice total (once for outsideView, once for routedView) — NOT remounted on Host route change!
+  expect(factory).toHaveBeenCalledTimes(2);
+  expect(routedView.getByTestId('card').textContent).toBe('Inside:1');
+  await act(async () => routedView.unmount());
 });

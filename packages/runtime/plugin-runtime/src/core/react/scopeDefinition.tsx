@@ -4,6 +4,7 @@ import { createContext, useContext, useEffect } from 'react';
 import type {
   LoaderFunction,
   LoaderFunctionArgs,
+  NormalizedMemoryRouterConfig,
 } from '../../router/runtime/types';
 import { addBasename, removeBasename } from '../../mf/location';
 import {
@@ -56,6 +57,7 @@ export function createScopeRuntime(
   options: Omit<ApplicationEnvironment, 'output'> & {
     basename?: string;
     memory?: boolean;
+    memoryRoute?: NormalizedMemoryRouterConfig;
     observeRouteCommits?: boolean;
     onRouteCommit?: (id: string, error: boolean) => void;
   },
@@ -65,6 +67,7 @@ export function createScopeRuntime(
     onRouteCommit,
     basename = '/',
     memory,
+    memoryRoute,
     ...environment
   } = options;
   const routeCommits = observeRouteCommits
@@ -144,6 +147,7 @@ export function createScopeRuntime(
   Object.assign(instance.context.application!, {
     basename,
     memory,
+    memoryRoute,
   });
   if (getDataUrl) instance.context.application!.getDataUrl = getDataUrl;
   return Object.assign(instance, { routeCommits });

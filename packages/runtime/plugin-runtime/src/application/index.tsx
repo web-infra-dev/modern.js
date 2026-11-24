@@ -18,6 +18,7 @@ import {
   createMountWindow,
 } from '../mf/navigation';
 import { wrapRuntimeContextProvider } from '../core/react/wrapper';
+import { normalizeMemoryRouterConfig } from '../router/runtime/memory';
 import { ApplicationShell } from './ApplicationShell';
 import { restoreApplicationData } from './data';
 import { APPLICATION_SNAPSHOT_PROTOCOL } from './constants';
@@ -182,6 +183,14 @@ export function createApplication(
       });
     }
     const url = new URL(options.url, window.location.href);
+    const normalizedMemory = normalizeMemoryRouterConfig(
+      options.memoryRoute,
+      url.href,
+      '/',
+    );
+    const scopeBasename = normalizedMemory
+      ? normalizedMemory.basename || '/'
+      : options.basename || '/';
     const committedRoutes = new Set<string>();
     let shellCommitted = false;
     let initialRouteCommit: string | undefined;
@@ -190,11 +199,12 @@ export function createApplication(
     shellMarker = snapshot?.shellMarker;
     const instance: PreparedScope = createScopeRuntime(config.definition, {
       isBrowser: true,
-      basename: options.memoryRoute ? '/' : options.basename || '/',
+      basename: scopeBasename,
       initialUrl:
-        options.memoryRoute?.entryPath ??
+        normalizedMemory?.activePath ??
         `${url.pathname}${url.search}${url.hash}`,
-      memory: Boolean(options.memoryRoute),
+      memory: Boolean(normalizedMemory),
+      memoryRoute: normalizedMemory,
       observeRouteCommits: Boolean(snapshot),
       onRouteCommit(id, error) {
         committedRoutes.add(`${error ? 'error' : 'route'}:${id}`);
@@ -344,7 +354,15 @@ export function createApplication(
           new Error('Unsupported Modern application snapshot'),
         );
       }
-      return start(container, { ...snapshot, ...options }, snapshot);
+      return start(
+        container,
+        {
+          ...snapshot,
+          ...options,
+          memoryRoute: snapshot.memoryRoute ?? options.memoryRoute,
+        },
+        snapshot,
+      );
     },
     mount: (container, options) => start(container, options),
     async update(options) {

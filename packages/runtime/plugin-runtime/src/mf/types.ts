@@ -3,6 +3,7 @@ import type {
   BridgeNavigation,
   ProviderFnParams,
 } from '@module-federation/bridge-react/base';
+import type { MemoryRouterOptions } from '../router/runtime/memory';
 
 /** Structural Bridge contracts keep the framework independent of an MF runtime. */
 export interface BridgeRenderInfo {
@@ -10,7 +11,7 @@ export interface BridgeRenderInfo {
   url?: string;
   basename?: string;
   navigation?: BridgeNavigation;
-  memoryRoute?: { entryPath: string };
+  memoryRoute?: MemoryRouterOptions;
   signal?: AbortSignal;
   rootOptions?: {
     identifierPrefix?: string;
@@ -28,7 +29,7 @@ export interface BridgeStreamInfo {
   rootComponent?: React.ComponentType<any>;
   url: string;
   basename?: string;
-  memoryRoute?: { entryPath: string };
+  memoryRoute?: MemoryRouterOptions;
   identifierPrefix: string;
   headers?: Record<string, string>;
   props: Record<string, unknown>;

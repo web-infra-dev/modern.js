@@ -8,6 +8,12 @@ import {
 } from '../../mf/navigation';
 import React, { useContext, useEffect, useState } from 'react';
 import { createRoot as createReactRoot, type Root } from 'react-dom/client';
+import {
+  MemoryRouteContext,
+  type MemoryRouterConfig,
+  type NormalizedMemoryRouterConfig,
+  normalizeMemoryRouterConfig,
+} from '../../router/runtime/memory';
 import { wrapRuntimeContextProvider } from './wrapper';
 
 export type { ScopedRootDefinition } from './scopeDefinition';
@@ -29,26 +35,29 @@ export function createScopedRoot(
     props,
     bridge,
     basename,
+    memoryRoute,
   }: {
     props: Record<string, unknown>;
     bridge: ReturnType<typeof useBridgeRouter>;
     basename: string;
+    memoryRoute?: NormalizedMemoryRouterConfig;
   }) {
-    const navigation = bridge?.memoryRoute ? undefined : bridge?.navigation;
+    const navigation = memoryRoute ? undefined : bridge?.navigation;
     const [instance] = useState(() => {
-      const memory = Boolean(bridge?.memoryRoute);
+      const memory = Boolean(memoryRoute);
       const url = new URL(
-        bridge?.memoryRoute?.entryPath || window.location.href,
+        memoryRoute?.activePath || window.location.href,
         window.location.href,
       );
       const instance = createScopeRuntime(definition, {
         isBrowser: true,
-        basename: memory ? '/' : basename,
+        basename: memory ? memoryRoute?.basename || '/' : basename,
         initialUrl: `${url.pathname}${url.search}${url.hash}`,
         context: {
           ssrContext: createBrowserRequestContext(url, undefined, 'stream'),
         },
         memory,
+        memoryRoute,
       });
       const { context } = instance;
       const mountWindow = memory
@@ -142,7 +151,13 @@ export function createScopedRoot(
     props: Record<string, unknown>,
   ) {
     const bridge = useBridgeRouter();
+    const memoryRouteContext = useContext(MemoryRouteContext);
     const prepared = useContext(PreparedScopeContext);
+    const memoryConfig: MemoryRouterConfig | undefined =
+      (bridge?.memoryRoute as MemoryRouterConfig | undefined) ??
+      (props.memoryRoute as MemoryRouterConfig | undefined) ??
+      memoryRouteContext;
+    const isMemory = Boolean(memoryConfig);
     useEffect(() => {
       if (prepared?.definition === definition && bridge)
         prepared.setNavigation?.(
@@ -151,16 +166,26 @@ export function createScopedRoot(
     }, [prepared, bridge?.memoryRoute, bridge?.navigation]);
     if (prepared?.definition === definition)
       return <PreparedScopedRoot instance={prepared} props={props} />;
-    const basename = normalizeBasename(
-      bridge?.basename ??
-        (typeof props.basename === 'string' ? props.basename : '/'),
-    );
+    const normalizedMemory = isMemory
+      ? normalizeMemoryRouterConfig(
+          memoryConfig,
+          typeof window !== 'undefined' ? window.location.href : '/',
+          '/',
+        )
+      : undefined;
+    const basename = isMemory
+      ? normalizedMemory?.basename || '/'
+      : normalizeBasename(
+          bridge?.basename ??
+            (typeof props.basename === 'string' ? props.basename : '/'),
+        );
     return (
       <ScopedRootInstance
-        key={basename}
+        key={`${isMemory ? 'memory' : 'url'}:${basename}`}
         props={props}
         bridge={bridge}
         basename={basename}
+        memoryRoute={normalizedMemory}
       />
     );
   };

@@ -83,8 +83,8 @@ export const routerPlugin = (
 
         const enableRsc = context.application?.definition.enableRsc;
 
-        if (enableRsc) {
-          await prepareRSCRoutes(finalRouteConfig.routes);
+        if (enableRsc && finalRouteConfig.routes) {
+          await prepareRSCRoutes(finalRouteConfig.routes as any);
         }
 
         const {
@@ -96,31 +96,36 @@ export const routerPlugin = (
         const defaultBasename =
           application.basename ??
           (baseUrl === '/' ? urlJoin(baseUrl, basename) : baseUrl);
+        const scopeMemory = application.memory
+          ? (application.memoryRoute ??
+            normalizeMemoryRouterConfig(
+              {
+                entryPath: application.initialUrl,
+                basename: application.basename,
+              },
+              application.initialUrl,
+              application.basename || '/',
+            ))
+          : undefined;
         const normalizedMemory =
-          application.output === 'fragment'
+          scopeMemory ??
+          (application.output === 'fragment'
             ? undefined
             : normalizeMemoryRouterConfig(
                 context._internalMemoryRoute ?? memory,
                 context.ssrContext!.request.raw.url,
                 defaultBasename,
-              );
+              ));
         const _basename = normalizedMemory?.basename ?? defaultBasename;
         application.basename = _basename;
-        context._internalMemoryRouteState = application.memory
+        context._internalMemoryRouteState = normalizedMemory
           ? {
               enabled: true,
-              initialEntries: [application.initialUrl],
-              initialIndex: 0,
+              initialEntries: normalizedMemory.initialEntries,
+              initialIndex: normalizedMemory.initialIndex,
               basename: _basename,
             }
-          : normalizedMemory
-            ? {
-                enabled: true,
-                initialEntries: normalizedMemory.initialEntries,
-                initialIndex: normalizedMemory.initialIndex,
-                basename: _basename,
-              }
-            : { enabled: false };
+          : { enabled: false };
 
         const requestContext = createRequestContext(
           context.ssrContext?.loaderContext,
@@ -164,7 +169,7 @@ export const routerPlugin = (
         const rawRequest = context.ssrContext!.request.raw;
         const remixRequest = createRemixRequest(
           rawRequest,
-          normalizedMemory?.hasExplicitInitialEntry
+          !scopeMemory && normalizedMemory?.hasExplicitInitialEntry
             ? new URL(normalizedMemory.activePath, rawRequest.url).toString()
             : undefined,
         );

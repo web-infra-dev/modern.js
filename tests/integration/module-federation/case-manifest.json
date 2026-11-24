@@ -1,8 +1,8 @@
 {
   "version": 1,
   "counts": {
-    "dev": 130,
-    "production": 133,
+    "dev": 134,
+    "production": 137,
     "common": 51
   },
   "mf": [
@@ -915,6 +915,66 @@
       "rstest"
     ],
     [
+      "tests/integration/module-federation/tests/memory-route.test.ts",
+      "dev",
+      [
+        "Weather Lab (dev)",
+        "Memory route multi-instance and SSR redirect hydration"
+      ],
+      "hydrates multi-instance memoryRoute (initialEntries, initialIndex, basename, state) and SSR internal 3xx redirects without mismatch or duplicate loader requests",
+      "rstest"
+    ],
+    [
+      "tests/integration/module-federation/tests/memory-route.test.ts",
+      "dev",
+      [
+        "Weather Lab (dev)",
+        "Memory route multi-instance and SSR redirect hydration"
+      ],
+      "isolates history stacks across memoryRoute instances, supports navigate(-1) after SSR redirect, and maps basename data loaders to the producer",
+      "rstest"
+    ],
+    [
+      "tests/integration/module-federation/tests/memory-route.test.ts",
+      "dev",
+      [
+        "Weather Lab (dev)",
+        "Memory route multi-instance and SSR redirect hydration"
+      ],
+      "keeps independent memoryRoute remotes mounted and stateful when the Host navigates across dynamic routes",
+      "rstest"
+    ],
+    [
+      "tests/integration/module-federation/tests/memory-route.test.ts",
+      "production",
+      [
+        "Weather Lab (production)",
+        "Memory route multi-instance and SSR redirect hydration"
+      ],
+      "hydrates multi-instance memoryRoute (initialEntries, initialIndex, basename, state) and SSR internal 3xx redirects without mismatch or duplicate loader requests",
+      "rstest"
+    ],
+    [
+      "tests/integration/module-federation/tests/memory-route.test.ts",
+      "production",
+      [
+        "Weather Lab (production)",
+        "Memory route multi-instance and SSR redirect hydration"
+      ],
+      "isolates history stacks across memoryRoute instances, supports navigate(-1) after SSR redirect, and maps basename data loaders to the producer",
+      "rstest"
+    ],
+    [
+      "tests/integration/module-federation/tests/memory-route.test.ts",
+      "production",
+      [
+        "Weather Lab (production)",
+        "Memory route multi-instance and SSR redirect hydration"
+      ],
+      "keeps independent memoryRoute remotes mounted and stateful when the Host navigates across dynamic routes",
+      "rstest"
+    ],
+    [
       "tests/integration/module-federation/tests/ordinary-react.test.ts",
       "common",
       ["Ordinary React production builds without module federation"],
@@ -1719,6 +1779,13 @@
       "tests/integration/module-federation/tests/service-app.test.ts",
       "dev",
       ["Weather Lab (dev)", "Service weather application"],
+      "renders extended memoryRoute (initialEntries, initialIndex, basename) over the Service App HTTP endpoint",
+      "rstest"
+    ],
+    [
+      "tests/integration/module-federation/tests/service-app.test.ts",
+      "dev",
+      ["Weather Lab (dev)", "Service weather application"],
       "retains both function inputs and unified APIs: ",
       "rstest"
     ],
@@ -1832,6 +1899,13 @@
       "production",
       ["Weather Lab (production)", "Service weather application"],
       "recovers a real Service HTTP late failure once through a CSR document",
+      "rstest"
+    ],
+    [
+      "tests/integration/module-federation/tests/service-app.test.ts",
+      "production",
+      ["Weather Lab (production)", "Service weather application"],
+      "renders extended memoryRoute (initialEntries, initialIndex, basename) over the Service App HTTP endpoint",
       "rstest"
     ],
     [

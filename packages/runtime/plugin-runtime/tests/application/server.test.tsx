@@ -16,7 +16,14 @@ import { once } from 'node:events';
 import { createServer } from 'node:http';
 import type { AddressInfo } from 'node:net';
 import { storage } from '@modern-js/runtime-utils/node';
-import { Await, useLoaderData } from '@modern-js/runtime-utils/router';
+import {
+  Await,
+  Outlet,
+  redirect,
+  useLoaderData,
+  useLocation,
+} from '@modern-js/runtime-utils/router';
+import { useMemoryRoute } from '../../src/router/runtime/memory';
 import React, { Suspense, useId } from 'react';
 import {
   renderApplication as renderScopedApplication,
@@ -1057,3 +1064,164 @@ it.each(['page', 'Bridge'] as const)(
     ]);
   },
 );
+
+describe('renderApplication memoryRoute SSR', () => {
+  async function readStreamText(stream: ReadableStream<Uint8Array>) {
+    const reader = stream.getReader();
+    const decoder = new TextDecoder();
+    let html = '';
+    while (true) {
+      const { done, value } = await reader.read();
+      if (done) break;
+      html += decoder.decode(value, { stream: true });
+    }
+    return html + decoder.decode();
+  }
+
+  it('supports initialEntries, initialIndex, basename, and internal 3xx loader redirects in memoryRoute mode', async () => {
+    function Layout() {
+      const memory = useMemoryRoute();
+      return (
+        <section data-memory={`${memory.enabled}:${memory.basename}`}>
+          <Outlet />
+        </section>
+      );
+    }
+    function Login() {
+      const location = useLocation();
+      const data = useLoaderData() as { notice: string };
+      return <p>{`${data.notice}:${location.pathname}${location.search}`}</p>;
+    }
+    const redirectDef: ScopedRootDefinition = {
+      routes: [
+        {
+          id: 'root',
+          type: 'nested',
+          isRoot: true,
+          path: '/',
+          component: Layout,
+          children: [
+            {
+              id: 'home',
+              type: 'nested',
+              index: true,
+              component: () => <p>home</p>,
+            },
+            {
+              id: 'secret',
+              type: 'nested',
+              path: 'secret',
+              loader: () => redirect('/login?from=secret'),
+              component: () => <p>secret</p>,
+            },
+            {
+              id: 'login',
+              type: 'nested',
+              path: 'login',
+              loader: () => ({ notice: 'please-sign-in' }),
+              component: Login,
+            },
+          ],
+        },
+      ] as any,
+      selected: false,
+      basename: '/',
+      serverLoaders: false,
+      getDataBase: () => 'http://products',
+      createRuntime: (context, instancePlugins) =>
+        createRuntime([routerPlugin({})], undefined, context, instancePlugins),
+    };
+
+    const rendered = await renderScopedApplication(
+      new Request('http://host.example/dashboard'),
+      {
+        definition: redirectDef,
+        identifierPrefix: 'mem-redir-',
+        memoryRoute: {
+          initialEntries: ['/', '/secret'],
+          initialIndex: 1,
+          basename: '/shop',
+        },
+      },
+    );
+
+    const html = await readStreamText(rendered.stream);
+    const snapshot = await rendered.hydration.snapshot;
+
+    expect(html).toContain('data-memory="true:/shop"');
+    expect(html).toContain('please-sign-in');
+    expect(html).toContain('/login?from=secret');
+    expect(snapshot.url).toBe('http://host.example/shop/login?from=secret');
+    expect(snapshot.basename).toBe('/shop');
+    expect(snapshot.memoryRoute).toEqual({
+      entryPath: '/shop/login?from=secret',
+      initialEntries: ['/shop', '/shop/login?from=secret'],
+      initialIndex: 1,
+      basename: '/shop',
+    });
+    expect(snapshot.routerData?.loaderData).toEqual({
+      root: null,
+      login: { notice: 'please-sign-in' },
+    });
+  });
+
+  it('rejects cross-origin redirects and caps redirect loops under memoryRoute', async () => {
+    const loopDef: ScopedRootDefinition = {
+      routes: [
+        {
+          id: 'root',
+          type: 'nested',
+          isRoot: true,
+          path: '/',
+          component: Outlet,
+          children: [
+            {
+              id: 'loop',
+              type: 'nested',
+              path: 'loop',
+              loader: () => redirect('/loop'),
+              component: () => <p>loop</p>,
+            },
+            {
+              id: 'ext',
+              type: 'nested',
+              path: 'external',
+              loader: () => redirect('https://other.example/auth'),
+              component: () => <p>external</p>,
+            },
+          ],
+        },
+      ] as any,
+      selected: false,
+      basename: '/',
+      serverLoaders: false,
+      getDataBase: () => 'http://products',
+      createRuntime: (context, instancePlugins) =>
+        createRuntime([routerPlugin({})], undefined, context, instancePlugins),
+    };
+
+    const loopFailure = await renderScopedApplication(
+      new Request('http://host.example/'),
+      {
+        definition: loopDef,
+        identifierPrefix: 'loop-',
+        memoryRoute: { entryPath: '/loop' },
+      },
+    ).catch(error => error);
+    expect(loopFailure).toBeInstanceOf(Response);
+    expect((loopFailure as Response).status).toBe(302);
+
+    const externalFailure = await renderScopedApplication(
+      new Request('http://host.example/'),
+      {
+        definition: loopDef,
+        identifierPrefix: 'ext-',
+        memoryRoute: { entryPath: '/external' },
+      },
+    ).catch(error => error);
+    expect(externalFailure).toBeInstanceOf(Response);
+    expect((externalFailure as Response).headers.get('location')).toBe(
+      'https://other.example/auth',
+    );
+  });
+});

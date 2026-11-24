@@ -1,5 +1,6 @@
 import type React from 'react';
 import { renderApplication } from '../application/server';
+import { normalizeMemoryRouterConfig } from '../router/runtime/memory';
 import { applicationDefinition, applicationURL } from './shared';
 import type {
   BridgeHydrateInfo,
@@ -22,6 +23,11 @@ export async function renderStream(
   element: React.ReactElement,
   info: BridgeStreamInfo,
 ): Promise<BridgeStreamResult> {
+  const normalizedMemory = normalizeMemoryRouterConfig(
+    info.memoryRoute,
+    info.url,
+    '/',
+  );
   const request = new Request(applicationURL(info, info.url), {
     headers: info.headers,
     signal: info.signal,
@@ -29,7 +35,9 @@ export async function renderStream(
   const result = await renderApplication(request, {
     element,
     definition: applicationDefinition(info),
-    basename: info.memoryRoute ? '/' : info.basename,
+    basename: normalizedMemory
+      ? normalizedMemory.basename || '/'
+      : info.basename,
     identifierPrefix: info.identifierPrefix,
     signal: info.signal,
     work: info.work,
