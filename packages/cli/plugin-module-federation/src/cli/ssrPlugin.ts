@@ -1,4 +1,6 @@
+import { createHash } from 'node:crypto';
 import path from 'path';
+import { SSRDependencyPlugin } from './SSRDependencyPlugin';
 import fs from 'fs';
 import {
   ModuleFederationPlugin as RspackModuleFederationPlugin,
@@ -24,6 +26,11 @@ import type { RsbuildPlugin, ModifyRspackConfigFn } from '@rsbuild/core';
 import type { FederationCliPlugin } from '../types/cli';
 import type { AssetFileNames, InternalModernPluginOptions } from '../types';
 import { BridgeSSRPlugin, getBridgeSSRRuntimePlugin } from './BridgeSSRPlugin';
+import {
+  DEV_MANIFEST_WAIT_HEADER,
+  DEV_MANIFEST_WAIT_TIMEOUT,
+  anyAbortSignal,
+} from '../ssr-runtime/devManifestWait';
 
 export function setEnv() {
   process.env['MF_SSR_PRJ'] = 'true';
@@ -98,13 +105,50 @@ const mfSSRRsbuildPlugin = (
     name: '@modern-js/plugin-mf-post-config',
     pre: ['@modern-js/builder-plugin-ssr'],
     setup(api) {
-      if (pluginOptions.csrConfig.getPublicPath) {
-        return;
-      }
       let csrOutputPath = '';
       let ssrOutputPath = '';
       let ssrEnv = '';
       let csrEnv = '';
+
+      if (isDev()) {
+        pluginOptions.devManifestReady = false;
+        api.onAfterCreateCompiler(({ compiler }) => {
+          pluginOptions.devManifestPublication?.attach(compiler, () => {
+            pluginOptions.devManifestReady = false;
+          });
+        });
+        api.onBeforeDevCompile(() => {
+          pluginOptions.devManifestReady = false;
+        });
+        // The server's default compile hook drains and prepares its generation.
+        // Publish the merged manifest over HTTP only after that hook completes.
+        api.onDevCompileDone({
+          order: 'post',
+          handler: ({ stats }) => {
+            const compiled =
+              !stats.hasErrors() &&
+              (!pluginOptions.devManifestPublication ||
+                pluginOptions.devManifestPublication.isReadyFor(stats));
+            pluginOptions.devManifestReady =
+              compiled &&
+              (pluginOptions.devManifestPublication?.ssrReady ?? true);
+            if (compiled && pluginOptions.devManifestPublication) {
+              const manifest = JSON.parse(
+                fs.readFileSync(
+                  path.resolve(
+                    pluginOptions.distOutputDir,
+                    browserAssetFileNames.manifestFileName,
+                  ),
+                  'utf8',
+                ),
+              );
+              pluginOptions.devManifestPublication.notifyReady(stats, {
+                buildVersion: manifest.metaData.buildInfo.buildVersion,
+              });
+            }
+          },
+        });
+      }
 
       const browserAssetFileNames =
         pluginOptions.assetFileNames.browser ||
@@ -188,6 +232,9 @@ const mfSSRRsbuildPlugin = (
         return config;
       };
       api.modifyRspackConfig((config, utils) => {
+        // Dynamic public paths own their runtime prefix. Identity and publication
+        // still participate in the same dev lifecycle as static public paths.
+        if (pluginOptions.csrConfig.getPublicPath) return config;
         modifySSRPublicPath(config, utils);
         if (ssrEnv === utils.environment.name) {
           config.plugins ||= [];
@@ -270,7 +317,11 @@ export const moduleFederationSSRPlugin = (
           fetchServerQuery,
         },
       });
-      if (!isDev()) {
+      if (
+        !isDev() ||
+        (typeof pluginOptions.userConfig.ssr === 'object' &&
+          pluginOptions.userConfig.ssr.cacheUpdates)
+      ) {
         return { entrypoint, plugins };
       }
       plugins.push({
@@ -334,7 +385,30 @@ export const moduleFederationSSRPlugin = (
         }
       }
 
+      if (
+        !isWeb &&
+        typeof pluginOptions.userConfig.ssr === 'object' &&
+        pluginOptions.userConfig.ssr.cacheUpdates
+      ) {
+        chain.plugin('modern-ssr-dependencies').use(SSRDependencyPlugin, [
+          {
+            name: pluginOptions.ssrConfig.name!,
+            remotes: Object.keys(pluginOptions.ssrConfig.remotes || {}),
+          },
+        ]);
+      }
+
       if (isDev() && isWeb) {
+        if (
+          typeof pluginOptions.userConfig.ssr === 'object' &&
+          pluginOptions.userConfig.ssr.cacheUpdates
+        ) {
+          chain.module
+            .rule('mf-react-refresh-renderers')
+            .test(/[/\\]react-refresh[/\\]runtime\.js$/)
+            .use('mf-react-refresh-renderers')
+            .loader(resolveInternalPlugin('./reactRefreshLoader'));
+        }
         chain.externals({
           '@module-federation/node/utils': 'NOT_USED_IN_BROWSER',
         });
@@ -346,7 +420,7 @@ export const moduleFederationSSRPlugin = (
         dev: {
           setupMiddlewares: [
             middlewares =>
-              middlewares.unshift((req, res, next) => {
+              middlewares.unshift(async (req, res, next) => {
                 if (!enableSSR) {
                   next();
                   return;
@@ -367,7 +441,72 @@ export const moduleFederationSSRPlugin = (
                       )
                     )
                       return next();
+                    const manifests = [
+                      ...Object.values(
+                        pluginOptions.assetFileNames.browser ||
+                          getManifestAssetFileNames(
+                            pluginOptions.csrConfig.manifest,
+                          ),
+                      ),
+                      ...Object.values(
+                        pluginOptions.assetFileNames.node ||
+                          getManifestAssetFileNames(
+                            pluginOptions.ssrConfig.manifest,
+                          ),
+                      ),
+                    ];
+                    if (
+                      manifests.some(
+                        name => path.resolve(outputRoot, name) === filepath,
+                      ) &&
+                      !pluginOptions.devManifestReady
+                    ) {
+                      if (
+                        pluginOptions.devManifestPublication?.ready &&
+                        !pluginOptions.devManifestPublication.ssrReady &&
+                        pluginOptions.recoverDevSSR
+                      ) {
+                        try {
+                          await pluginOptions.recoverDevSSR();
+                        } catch {
+                          // Upstream producer may still be unavailable; keep manifest gated.
+                        }
+                        if (res.destroyed) return;
+                      }
+                      if (
+                        !pluginOptions.devManifestReady &&
+                        req.headers[DEV_MANIFEST_WAIT_HEADER] === '1' &&
+                        pluginOptions.devManifestPublication
+                      ) {
+                        const disconnected = new AbortController();
+                        const cancel = () => disconnected.abort();
+                        req.once('aborted', cancel);
+                        res.once('close', cancel);
+                        if (req.aborted || res.destroyed) cancel();
+                        try {
+                          await pluginOptions.devManifestPublication.wait(
+                            anyAbortSignal([
+                              disconnected.signal,
+                              AbortSignal.timeout(DEV_MANIFEST_WAIT_TIMEOUT),
+                            ]),
+                          );
+                        } catch {
+                          // Timeout and disconnect never expose a stale manifest.
+                        } finally {
+                          req.off('aborted', cancel);
+                          res.off('close', cancel);
+                        }
+                        if (res.destroyed) return;
+                      }
+                      if (!pluginOptions.devManifestReady) {
+                        res.statusCode = 503;
+                        res.setHeader('Cache-Control', 'no-store');
+                        res.end('Federation build is not ready');
+                        return;
+                      }
+                    }
                     fs.statSync(filepath);
+                    res.setHeader('Cache-Control', 'no-store');
                     res.setHeader('Access-Control-Allow-Origin', '*');
                     res.setHeader(
                       'Access-Control-Allow-Methods',
@@ -387,27 +526,69 @@ export const moduleFederationSSRPlugin = (
         },
       };
     });
-    const writeMergedManifest = () => {
+    const writeMergedManifest = async (compilation?: object) => {
       const { distOutputDir, assetResources } = pluginOptions;
       const browserAssets = assetResources.browser;
       const nodeAssets = assetResources.node;
 
-      if (!distOutputDir || !browserAssets || !nodeAssets) {
-        return;
-      }
       try {
-        updateStatsAndManifest(nodeAssets, browserAssets, distOutputDir);
+        if (isDev()) {
+          await pluginOptions.waitForServiceRuntimePlugins?.(compilation);
+          if (
+            pluginOptions.devManifestPublication &&
+            (!compilation ||
+              !pluginOptions.devManifestPublication.publish(compilation))
+          )
+            return;
+        }
+        if (distOutputDir && browserAssets && nodeAssets) {
+          if (
+            !isDev() &&
+            browserAssets.manifest &&
+            browserAssets.stats &&
+            browserAssets.manifest.data.exposes?.some(
+              expose => typeof expose.servicePath === 'string',
+            )
+          ) {
+            // Keep an immutable entry beside the original so auto publicPath and
+            // chunk URLs stay valid after an independent Service deployment.
+            const entry = browserAssets.manifest.data.metaData.remoteEntry;
+            const filename = path.resolve(
+              distOutputDir,
+              entry.path,
+              entry.name,
+            );
+            const contents = fs.readFileSync(filename);
+            const digest = createHash('sha256')
+              .update(contents)
+              .digest('hex')
+              .slice(0, 20);
+            const extension = path.extname(entry.name);
+            const name = `${entry.name.slice(0, extension ? -extension.length : undefined)}.${digest}${extension}`;
+            fs.writeFileSync(
+              path.resolve(distOutputDir, entry.path, name),
+              contents,
+            );
+            browserAssets.manifest.data.metaData.remoteEntry = {
+              ...entry,
+              name,
+            };
+            browserAssets.stats.data.metaData.remoteEntry = { ...entry, name };
+          }
+          updateStatsAndManifest(nodeAssets, browserAssets, distOutputDir);
+        }
       } catch (err) {
         logger.error(err);
+        throw err;
       }
     };
 
-    api.onAfterBuild(() => {
-      writeMergedManifest();
+    api.onAfterBuild(async () => {
+      await writeMergedManifest();
     });
-    api.onDevCompileDone(() => {
-      // 热更后修改 manifest
-      writeMergedManifest();
+    api.onDevCompileDone(async ({ stats }) => {
+      if (stats.hasErrors()) return;
+      await writeMergedManifest(stats);
     });
   },
 });

@@ -17,6 +17,7 @@ export const groups = {
   B: [
     'bridge-ssr',
     'service-app',
+    'service-deployment',
     'bridge-stream',
     'error-recovery',
     'weather-application',
@@ -25,6 +26,7 @@ export const groups = {
     'inspect',
     'unified',
     'bridge-failure',
+    'remote-updates',
   ],
   common: [
     'activation',
@@ -32,6 +34,15 @@ export const groups = {
     'input-types',
     'route-scope-build',
     'runtime-exports',
+    'inspect-protocol',
+    'ssr-static',
+    'ssr-update-api',
+    'ssr-update-identity',
+    'ssr-release-retention',
+    'ssr-dev-fallback',
+    'ssr-dev-subscriptions',
+    'ssr-dev-admission',
+    'ssr-admission-response',
   ],
 };
 for (const group of Object.keys(groups)) {

@@ -1,3 +1,4 @@
+import { Checkbox, Select, SelectItem } from '../components/ui/controls';
 export const renderFailures = [
   ['network', 'Remote network failure'],
   ['server', 'Server rendering failure'],
@@ -21,25 +22,24 @@ export function FailureControls({
   return (
     <div className="failure-controls">
       <label>
-        <input
-          type="checkbox"
+        <Checkbox
           aria-label="Simulate failure"
           checked={enabled}
-          onChange={event => onChange(event.target.checked, kind)}
+          onCheckedChange={checked => onChange(checked, kind)}
         />{' '}
         Simulate failure
       </label>
-      <select
+      <Select
         aria-label="Failure scenario"
         value={kind}
-        onChange={event => onChange(enabled, event.target.value)}
+        onValueChange={value => onChange(enabled, value)}
       >
         {options.map(([value, label]) => (
-          <option key={value} value={value}>
+          <SelectItem key={value} value={value}>
             {label}
-          </option>
+          </SelectItem>
         ))}
-      </select>
+      </Select>
     </div>
   );
 }

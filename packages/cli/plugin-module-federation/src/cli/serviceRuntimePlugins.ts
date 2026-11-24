@@ -4,7 +4,6 @@ import type { moduleFederationPlugin } from '@module-federation/sdk';
 import { SERVICE_RUNTIME_PLUGINS_FILE } from '../servicePath';
 import type { FederationAPI } from '../types/cli';
 import { isDev } from './utils';
-import { logger } from '@modern-js/utils';
 
 type RuntimePlugins = NonNullable<
   moduleFederationPlugin.ModuleFederationPluginOptions['runtimePlugins']
@@ -103,14 +102,21 @@ export function configureServiceRuntimePlugins(
     pending = next;
     return next;
   };
+  const builds = new WeakMap<object, Promise<void>>();
+  const buildForCompilation = (compilation: object) => {
+    let built = builds.get(compilation);
+    if (!built) {
+      built = rebuild();
+      builds.set(compilation, built);
+    }
+    return built;
+  };
   // CSR-only Hosts have no Node page bundle. This private build is independent.
   api.onAfterBuild(async () => {
     if (!isDev()) await rebuild();
   });
-  api.onDevCompileDone(() => {
-    // Modern does not await this hook. Observe failure here, while preserving
-    // the rejected pending promise for ingress requests and allowing a retry.
-    if (isDev()) void rebuild().catch(error => logger.error(error));
+  api.onDevCompileDone(async ({ stats }) => {
+    if (isDev() && !stats.hasErrors()) await buildForCompilation(stats);
   });
   // Dev starts its server plugins before the first page compilation completes.
   api._internalServerPlugins(async ({ plugins: serverPlugins }) => {
@@ -119,6 +125,11 @@ export function configureServiceRuntimePlugins(
   });
   return {
     filename: SERVICE_RUNTIME_PLUGINS_FILE,
-    ...(isDev() && { waitForBuild: () => pending }),
+    ...(isDev() && {
+      // Manifest publication and this hook share the same compilation barrier,
+      // regardless of their registration order.
+      waitForBuild: (compilation?: object) =>
+        compilation ? buildForCompilation(compilation) : pending,
+    }),
   };
 }

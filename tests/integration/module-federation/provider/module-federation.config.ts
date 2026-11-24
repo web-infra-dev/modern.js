@@ -1,12 +1,22 @@
 import { createModuleFederationConfig } from '@module-federation/enhanced';
-import { shared } from '../ports';
+import { origin, shared } from '../ports';
+const staticV2 =
+  process.env.MF_LAB_VERSION === 'v2' && !process.env.MF_LAB_UPDATES;
 export default createModuleFederationConfig({
   name: 'lab_provider',
   dts: false,
   manifest: { filePath: 'static' },
   filename: 'static/remoteEntry.js',
+  ...(process.env.MF_LAB_UPDATES === 'all' || process.env.MF_LAB_SERVICE_NESTED
+    ? {
+        remotes: {
+          nested: `lab_nested@${origin('nested', 4304)}/static/mf-manifest.json`,
+          library: `lab_library@${origin('library', 4305)}/mf-manifest.json`,
+        },
+      }
+    : {}),
   exposes: {
-    ...(process.env.MF_LAB_SERVICE
+    ...(process.env.MF_LAB_SERVICE && !staticV2
       ? {
           './ServiceWeatherApplication':
             './src/exports/ServiceWeatherApplication.tsx',

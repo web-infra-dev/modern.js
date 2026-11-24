@@ -103,14 +103,12 @@ describeLab('Weather rendering and assets', getContext => {
     await page.evaluate(() => {
       (window as any).navigationSentinel = 'preserved';
     });
-    await page.click('a[href="/data"]');
-    await page.waitForSelector('.four-panels');
+    await page.click('[data-testid="compare-data"]');
+    await page.click('[data-testid="render-apply"]');
     expect(await weatherFrames(4)).toHaveLength(4);
-    await page.goBack();
-    await page.waitForSelector('.comparison-grid:not(.four-panels)');
+    await page.click('[data-testid="compare-data"]');
+    await page.click('[data-testid="render-apply"]');
     expect(await weatherFrames(2)).toHaveLength(2);
-    await page.goForward();
-    await page.waitForSelector('.four-panels');
     expect(await page.evaluate(() => (window as any).navigationSentinel)).toBe(
       'preserved',
     );

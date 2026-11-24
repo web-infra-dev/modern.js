@@ -12,95 +12,64 @@ import {
 } from 'node:fs';
 import { tmpdir } from 'node:os';
 import path from 'node:path';
-import { pathToFileURL } from 'node:url';
+import { fileURLToPath, pathToFileURL } from 'node:url';
 import { jobEnv, repoRoot, selectFiles, unitFiles } from './groups.mjs';
-
-function processes() {
-  return execFileSync('ps', ['-axo', 'pid=,ppid=,pgid=,stat=,command='], {
-    encoding: 'utf8',
-  })
-    .trim()
-    .split('\n')
-    .flatMap(line => {
-      const match = line.match(/^\s*(\d+)\s+(\d+)\s+(\d+)\s+(\S+)\s+(.+)$/);
-      return match
-        ? [
-            {
-              pid: Number(match[1]),
-              parent: Number(match[2]),
-              group: Number(match[3]),
-              state: match[4],
-              command: match[5],
-            },
-          ]
-        : [];
-    });
-}
+import {
+  ProcessTracker,
+  readProcesses,
+  signalTrackedProcesses,
+} from './process-tracker.mjs';
 
 // Audit before any fallback cleanup. Leaks fail the job and remain in its report.
-export async function runCommand(command, args, env, directory, name) {
+export async function runCommand(
+  command,
+  args,
+  env,
+  directory,
+  name,
+  { read = readProcesses } = {},
+) {
   const startedAt = new Date().toISOString();
   const log = openSync(path.join(directory, `${name}.log`), 'wx');
   const temporary = mkdtempSync(path.join(tmpdir(), 'mf-run-'));
-  const owned = new Set();
-  const ownedGroups = new Set();
-  const observed = new Map();
+  const tracker = new ProcessTracker();
   const workspaces = new Set();
   let auditError;
-  const child = spawn(command, args, {
-    cwd: repoRoot,
-    env: { ...env, TMPDIR: temporary, TMP: temporary, TEMP: temporary },
-    stdio: ['ignore', 'pipe', 'pipe'],
-    // A dedicated process group also identifies short-lived parents' orphans.
-    detached: true,
-  });
-  if (child.pid) {
-    owned.add(child.pid);
-    ownedGroups.add(child.pid);
-  }
+  const child = spawn(
+    process.execPath,
+    [fileURLToPath(new URL('./process-command.mjs', import.meta.url))],
+    {
+      cwd: repoRoot,
+      env: { ...env, TMPDIR: temporary, TMP: temporary, TEMP: temporary },
+      stdio: ['ignore', 'pipe', 'pipe', 'ipc'],
+      // An IPC-gated supervisor anchors the group until the audit is complete.
+      detached: true,
+    },
+  );
   const sample = () => {
     try {
-      const rows = processes();
-      let size;
-      do {
-        size = owned.size;
-        for (const row of rows) {
-          if (
-            owned.has(row.parent) ||
-            owned.has(row.pid) ||
-            ownedGroups.has(row.group)
-          ) {
-            owned.add(row.pid);
-            if (row.group === row.pid) ownedGroups.add(row.group);
-            observed.set(row.pid, row);
-          }
-        }
-      } while (size !== owned.size);
+      const live = tracker.update(read());
       for (const name of readdirSync(temporary)) workspaces.add(name);
-      return rows.filter(
-        row => owned.has(row.pid) && !row.state.startsWith('Z'),
-      );
+      return live.filter(row => row.pid !== child.pid);
     } catch (error) {
       auditError = String(error);
       return [];
     }
   };
-  const signalGroups = signal => {
-    for (const group of ownedGroups) {
-      try {
-        process.kill(-group, signal);
-      } catch (error) {
-        if (error.code !== 'ESRCH') auditError = String(error);
-      }
+  const signalOwned = signal => {
+    try {
+      signalTrackedProcesses(tracker, read, process.kill, signal, [child.pid]);
+    } catch (error) {
+      auditError = String(error);
     }
   };
   let interrupted;
+  const interrupt = signal => {
+    interrupted = signal;
+    signalOwned(signal);
+  };
   const handlers = ['SIGINT', 'SIGTERM'].map(signal => {
-    const handler = () => {
-      interrupted = signal;
-      sample();
-      signalGroups(signal);
-    };
+    const handler = () => interrupt(signal);
     process.once(signal, handler);
     return [signal, handler];
   });
@@ -111,14 +80,46 @@ export async function runCommand(command, args, env, directory, name) {
       (stream === child.stdout ? process.stdout : process.stderr).write(data);
     });
   }
+  const closed = new Promise(resolve => child.on('close', resolve));
+  const exited = new Promise(resolve => {
+    child.on('exit', resolve);
+    child.on('error', resolve);
+  });
   const result = await new Promise(resolve => {
     child.on('error', error => resolve({ code: null, error: String(error) }));
-    child.on('close', (code, signal) => resolve({ code, signal }));
+    child.on('exit', (code, signal) => resolve({ code, signal }));
+    child.on('message', message => {
+      if (message.type === 'interrupted') interrupt(message.signal);
+      if (message.type === 'finished') {
+        const { type: _, ...result } = message;
+        resolve(result);
+      }
+      if (message.type === 'ready') {
+        if (interrupted) {
+          resolve({ code: null, signal: interrupted });
+          return;
+        }
+        try {
+          const rows = read();
+          const root = rows.find(
+            row =>
+              row.pid === child.pid &&
+              row.parent === process.pid &&
+              row.group === child.pid,
+          );
+          if (!root)
+            throw new Error('Cannot identify the waiting command supervisor');
+          tracker.seed(root);
+          tracker.update(rows);
+          child.send({ type: 'start', command, args });
+        } catch (error) {
+          auditError = String(error);
+          resolve({ code: null, error: auditError });
+        }
+      }
+    });
   });
   clearInterval(timer);
-  for (const [signal, handler] of handlers)
-    process.removeListener(signal, handler);
-  closeSync(log);
   let live = sample();
   // SIGTERM delivery in Lab.stop is asynchronous. Observe exit without changing
   // any test readiness, assertion, hook timeout or retry setting.
@@ -134,20 +135,43 @@ export async function runCommand(command, args, env, directory, name) {
     ok: !auditError && live.length === 0 && remaining.length === 0,
     auditError,
     temporary,
-    observedProcesses: [...observed.values()],
+    observedProcesses: [...tracker.observed.values()],
     observedWorkspaces: [...workspaces].sort(),
     live,
     remaining,
   };
   if (live.length) {
-    signalGroups('SIGTERM');
+    signalOwned('SIGTERM');
     await new Promise(resolve => setTimeout(resolve, 100));
-    if (sample().length) signalGroups('SIGKILL');
+    if (sample().length) signalOwned('SIGKILL');
     const deadline = Date.now() + 1000;
     while (sample().length && Date.now() < deadline)
       await new Promise(resolve => setTimeout(resolve, 100));
     cleanup.afterCleanup = sample();
   }
+  // Release only after the final process snapshot. This also handles a command
+  // that creates an orphan and exits entirely between periodic samples.
+  if (child.connected) child.send({ type: 'release' });
+  await exited;
+  // Drain normal buffered output, but do not wait on an orphan-held pipe.
+  let drainTimer;
+  await Promise.race([
+    closed,
+    new Promise(resolve => {
+      drainTimer = setTimeout(resolve, 100);
+    }),
+  ]);
+  clearTimeout(drainTimer);
+  // A failed audit must still produce its report if an unidentifiable orphan
+  // retains an inherited pipe. Releasing the supervisor does not close that fd.
+  child.stdout.destroy();
+  child.stderr.destroy();
+  await closed;
+  for (const [signal, handler] of handlers)
+    process.removeListener(signal, handler);
+  closeSync(log);
+  cleanup.auditError = auditError;
+  if (auditError) cleanup.ok = false;
   // Cleanup never changes the failed audit into a pass.
   rmSync(temporary, { recursive: true, force: true });
   writeFileSync(

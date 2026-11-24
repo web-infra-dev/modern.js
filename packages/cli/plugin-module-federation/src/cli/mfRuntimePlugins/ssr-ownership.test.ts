@@ -1,0 +1,382 @@
+import nodeRuntimePlugin from '@module-federation/node/runtimePlugin';
+import { destroyNodeInstance } from '@module-federation/node/lifecycle';
+import { expect, it, rs } from '@rstest/core';
+import { createInstance, helpers } from '@module-federation/enhanced/runtime';
+import {
+  bindSSRRuntime,
+  createSSRUpdateOwner,
+  releaseSSRUpdateOwner,
+  runWithSSRUpdateOwner,
+  runtimeOwnerKey,
+} from '../../server/ssrUpdateOwner';
+import {
+  clearSSRUpdateCandidates,
+  setSSRUpdateCandidates,
+} from '../../server/ssrUpdateCandidates';
+import plugin, { ownershipKey } from './ssr-ownership';
+
+it.each([
+  'candidate',
+  'snapshot',
+  'identity',
+  'changed-entry',
+  'candidate-over-identity',
+])(
+  'adopts loaded singletons only from the selected provider build through %s',
+  async mode => {
+    const firstValue = {};
+    const selectedValue = {};
+    const localValue = {};
+    const first = createInstance({
+      name: 'singleton-provider',
+      id: 'singleton-provider:one',
+      plugins: [nodeRuntimePlugin()],
+      shared: { library: { version: '1.0.0', lib: () => firstValue } },
+    });
+    const selected = createInstance({
+      name: 'singleton-provider',
+      id: 'singleton-provider:two',
+      plugins: [nodeRuntimePlugin()],
+      shared: {
+        library: { version: '1.0.0', lib: () => selectedValue },
+        plain: { version: '1.0.0', lib: () => selectedValue },
+        differentVersion: { version: '2.0.0', lib: () => selectedValue },
+      },
+    });
+    const owner = createSSRUpdateOwner('singleton-consumer');
+    if (['identity', 'changed-entry', 'candidate-over-identity'].includes(mode))
+      owner.providerIdentities = new Map([
+        [
+          'singleton-provider',
+          {
+            entry: `https://provider.test/${mode === 'identity' ? 'two' : 'one'}/manifest.json`,
+            buildVersion: mode === 'identity' ? 'two' : 'one',
+          },
+        ],
+      ]);
+    const snapshot = {
+      buildVersion: 'two',
+      version: 'https://provider.test/two/manifest.json',
+      remoteEntry: 'entry.js',
+      remotesInfo: {},
+    };
+    const resetSnapshot = helpers.global.addGlobalSnapshot(
+      mode === 'snapshot'
+        ? { [`singleton-provider:${snapshot.version}`]: snapshot }
+        : {},
+    );
+    if (mode === 'candidate' || mode === 'candidate-over-identity')
+      setSSRUpdateCandidates(owner.id, [
+        {
+          name: 'singleton-provider',
+          entry: snapshot.version,
+          moduleInfo: snapshot,
+        },
+      ]);
+    const host = createInstance({
+      name: owner.name,
+      shareStrategy: 'loaded-first',
+      remotes: [
+        {
+          name: 'singleton-provider',
+          alias: 'registered-provider',
+          entry:
+            mode === 'candidate' || mode === 'candidate-over-identity'
+              ? 'https://provider.test/one/manifest.json'
+              : snapshot.version,
+        },
+      ],
+      shared: {
+        library: {
+          version: '1.0.0',
+          lib: () => localValue,
+          shareConfig: { singleton: true },
+        },
+        plain: { version: '1.0.0', lib: () => localValue },
+        differentVersion: {
+          version: '1.0.0',
+          lib: () => localValue,
+          shareConfig: { singleton: true },
+        },
+      },
+      plugins: [
+        nodeRuntimePlugin(),
+        {
+          name: 'bind-test-owner',
+          beforeInit(args) {
+            bindSSRRuntime(owner, args.origin);
+            return args;
+          },
+        },
+        plugin(),
+      ],
+    });
+    try {
+      expect(host.loadShareSync('library')()).toBe(
+        mode === 'changed-entry' ? localValue : selectedValue,
+      );
+      if (mode !== 'changed-entry')
+        expect(host.shareScopeMap.default.library['1.0.0']).toBe(
+          selected.shareScopeMap.default.library['1.0.0'],
+        );
+      expect(host.loadShareSync('plain')()).toBe(localValue);
+      expect(host.loadShareSync('differentVersion')()).toBe(localValue);
+      expect(first.loadShareSync('library')()).toBe(firstValue);
+    } finally {
+      await destroyNodeInstance(host);
+      await destroyNodeInstance(first);
+      await destroyNodeInstance(selected);
+      clearSSRUpdateCandidates(owner.id);
+      releaseSSRUpdateOwner(owner);
+      resetSnapshot();
+    }
+  },
+);
+
+it('observes dynamic loads and rejects them before execution during selective updates', async () => {
+  const load = rs.fn(async () => 'loaded');
+  const instance = {
+    loadRemote: load,
+    registerRemotes: rs.fn(),
+  } as any;
+  plugin().apply!(instance);
+  const state = instance[ownershipKey];
+  await instance.loadRemote('remote/Value', { from: 'build' });
+  expect(state.dynamic).toBe(false);
+  state.selective = true;
+  await expect(instance.loadRemote('remote/Value')).rejects.toThrow(
+    'Dynamic MF consumption',
+  );
+  expect(load).toHaveBeenCalledTimes(1);
+  expect(state.dynamic).toBe(true);
+});
+
+it('authorizes registration by async context rather than a process-wide flag', async () => {
+  const register = rs.fn();
+  const instance = { loadRemote: rs.fn(), registerRemotes: register } as any;
+  plugin().apply!(instance);
+  const state = instance[ownershipKey];
+  const token = {};
+  state.owner = token;
+  state.selective = true;
+  expect(() => instance.registerRemotes([])).toThrow(
+    'outside the active SSR update owner',
+  );
+  expect(register).not.toHaveBeenCalled();
+  await state.context.run(token, async () => {
+    await Promise.resolve();
+    instance.registerRemotes([]);
+  });
+  expect(register).toHaveBeenCalledTimes(1);
+});
+
+it('rejects an external asynchronous update while another owner is active', async () => {
+  const update = rs.fn(async () => {});
+  const instance = {
+    loadRemote: rs.fn(),
+    registerRemotes: rs.fn(),
+    updateRemotes: update,
+  } as any;
+  plugin().apply!(instance);
+  const state = instance[ownershipKey];
+  const token = {};
+  state.owner = token;
+  await expect(instance.updateRemotes([])).rejects.toThrow(
+    'outside the active SSR update owner',
+  );
+  expect(update).not.toHaveBeenCalled();
+  await state.context.run(token, async () => {
+    await Promise.resolve();
+    await instance.updateRemotes([]);
+  });
+  expect(update).toHaveBeenCalledTimes(1);
+});
+
+function mockContainer(clear = rs.fn()) {
+  const get = rs.fn();
+  const clearers: WeakMap<object, (preserveShared: boolean) => boolean> = ((
+    globalThis as any
+  )[Symbol.for('module-federation.clear-cache.containers')] ||= new WeakMap());
+  clearers.set(get, clear);
+  return { container: { get }, clear };
+}
+
+it('releases owned remote entries but preserves an externally consumed container', async () => {
+  const previous = (globalThis as any).__FEDERATION__;
+  const previousLoading = (globalThis as any).__GLOBAL_LOADING_REMOTE_ENTRY__;
+  try {
+    const { container, clear } = mockContainer();
+    const other = {
+      name: 'other',
+      moduleCache: new Map([['remote', { remoteEntryExports: container }]]),
+    };
+    (globalThis as any).__FEDERATION__ = {
+      __INSTANCES__: [other],
+      __SHARE__: {},
+    };
+    const pending = Promise.resolve(container);
+    (globalThis as any).__GLOBAL_LOADING_REMOTE_ENTRY__ = {
+      'remote:entry': pending,
+    };
+    const owner = plugin();
+    await owner.afterLoadEntry!({
+      remoteInfo: { name: 'remote', entry: 'entry' },
+      remoteEntryExports: container,
+    } as any);
+    await owner.dispose!({ origin: { name: 'host' } } as any);
+    expect(clear).not.toHaveBeenCalled();
+    const next = plugin();
+    await next.afterLoadEntry!({
+      remoteInfo: { name: 'remote', entry: 'entry' },
+      remoteEntryExports: container,
+    } as any);
+    (globalThis as any).__FEDERATION__.__INSTANCES__ = [];
+    await next.dispose!({ origin: { name: 'host' } } as any);
+    expect(clear).toHaveBeenCalledTimes(1);
+    expect(
+      (globalThis as any).__GLOBAL_LOADING_REMOTE_ENTRY__['remote:entry'],
+    ).toBeUndefined();
+  } finally {
+    (globalThis as any).__FEDERATION__ = previous;
+    (globalThis as any).__GLOBAL_LOADING_REMOTE_ENTRY__ = previousLoading;
+  }
+});
+
+it('forgets all removed remote URLs without clearing another remote or the replacement', async () => {
+  const owner = plugin();
+  const old = mockContainer();
+  const older = mockContainer();
+  const other = mockContainer();
+  const next = mockContainer();
+  for (const [name, entry, entryMock] of [
+    ['remote', 'v1', old],
+    ['remote', 'v0', older],
+    ['other', 'v1', other],
+  ] as const) {
+    await owner.afterLoadEntry!({
+      remoteInfo: { name, entry },
+      remoteEntryExports: entryMock.container,
+    } as any);
+  }
+  await owner.removeRemote!({
+    remote: { name: 'remote', alias: 'alias' },
+  } as any);
+  expect(old.clear).not.toHaveBeenCalled();
+  await owner.afterLoadEntry!({
+    remoteInfo: { name: 'remote', entry: 'v1' },
+    remoteEntryExports: next.container,
+  } as any);
+  await owner.dispose!({ origin: { name: 'host' } } as any);
+  expect(old.clear).not.toHaveBeenCalled();
+  expect(older.clear).not.toHaveBeenCalled();
+  expect(other.clear).toHaveBeenCalledTimes(1);
+  expect(next.clear).toHaveBeenCalledTimes(1);
+});
+
+it('releases only its build entry promise when the URL and provider name are shared', async () => {
+  const previous = (globalThis as any).__FEDERATION__;
+  const previousLoading = (globalThis as any).__GLOBAL_LOADING_REMOTE_ENTRY__;
+  const globalName = 'ownershipVersionedEntry';
+  try {
+    (globalThis as any).__FEDERATION__ = { __INSTANCES__: [], __SHARE__: {} };
+    const oldEntry = mockContainer();
+    const newEntry = mockContainer();
+    const oldLoading = Promise.resolve(oldEntry.container);
+    const newLoading = Promise.resolve(newEntry.container);
+    (globalThis as any).__GLOBAL_LOADING_REMOTE_ENTRY__ = {
+      'remote:entry:v1': oldLoading,
+      'remote:entry:v2': newLoading,
+    };
+    (globalThis as any)[globalName] = newEntry.container;
+    const owner = plugin();
+    await owner.afterLoadEntry!({
+      remoteInfo: {
+        name: 'remote',
+        entry: 'entry',
+        buildVersion: 'v1',
+        entryGlobalName: globalName,
+      },
+      remoteEntryExports: oldEntry.container,
+    } as any);
+    await owner.dispose!({ origin: { name: 'host' } } as any);
+    expect(oldEntry.clear).toHaveBeenCalledTimes(1);
+    expect(newEntry.clear).not.toHaveBeenCalled();
+    expect(
+      (globalThis as any).__GLOBAL_LOADING_REMOTE_ENTRY__['remote:entry:v1'],
+    ).toBeUndefined();
+    expect(
+      (globalThis as any).__GLOBAL_LOADING_REMOTE_ENTRY__['remote:entry:v2'],
+    ).toBe(newLoading);
+    expect((globalThis as any)[globalName]).toBe(newEntry.container);
+  } finally {
+    (globalThis as any).__FEDERATION__ = previous;
+    (globalThis as any).__GLOBAL_LOADING_REMOTE_ENTRY__ = previousLoading;
+    delete (globalThis as any)[globalName];
+  }
+});
+
+it('inherits the request owner for dynamically created producer runtimes without replacing their registrations with Host roots', async () => {
+  const owner = createSSRUpdateOwner('service-host');
+  owner.registrations = [
+    { name: 'host-only', entry: 'https://host.test/root.json' },
+  ];
+  setSSRUpdateCandidates(owner.id, [
+    {
+      name: 'dynamic',
+      entry: 'https://remote.test/v2.json',
+      moduleInfo: {
+        remoteEntry: 'entry.js',
+        buildVersion: 'v2',
+        remotesInfo: {},
+      },
+    },
+  ]);
+  const child = runWithSSRUpdateOwner(owner, () =>
+    createInstance({
+      name: 'dynamically-created-producer',
+      remotes: [{ name: 'dynamic', entry: 'https://remote.test/v1.json' }],
+      plugins: [nodeRuntimePlugin(), plugin()],
+    }),
+  );
+  try {
+    expect((child as any)[runtimeOwnerKey]).toBe(owner);
+    expect(owner.instances.has(child)).toBe(false);
+    expect(
+      child.options.remotes.map(remote => [
+        remote.name,
+        'entry' in remote ? remote.entry : undefined,
+      ]),
+    ).toEqual([['dynamic', 'https://remote.test/v2.json']]);
+  } finally {
+    await destroyNodeInstance(child);
+    clearSSRUpdateCandidates(owner.id);
+    releaseSSRUpdateOwner(owner);
+  }
+});
+
+it('retains an existing producer owner when another application initializes the same build', async () => {
+  const first = createSSRUpdateOwner('first-consumer');
+  const second = createSSRUpdateOwner('second-consumer');
+  const provider = runWithSSRUpdateOwner(first, () =>
+    createInstance({
+      name: 'shared-producer-build',
+      plugins: [nodeRuntimePlugin(), plugin()],
+      remotes: [],
+    }),
+  );
+  try {
+    runWithSSRUpdateOwner(second, () =>
+      provider.initOptions({
+        name: provider.name,
+        remotes: [],
+      }),
+    );
+    expect((provider as any)[runtimeOwnerKey]).toBe(first);
+    expect(first.instances.has(provider)).toBe(false);
+    expect(second.instances.has(provider)).toBe(false);
+  } finally {
+    await destroyNodeInstance(provider);
+    releaseSSRUpdateOwner(first);
+    releaseSSRUpdateOwner(second);
+  }
+});

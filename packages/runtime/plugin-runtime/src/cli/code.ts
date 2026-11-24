@@ -68,6 +68,9 @@ export const generateCode = async (
 ) => {
   const { mountId } = config.html;
   const { enableAsyncEntry, enableAsyncPreEntry, preEntry } = config.source;
+  const mf = config.moduleFederation;
+  const reloadableSSR =
+    typeof mf === 'object' && typeof mf.ssr === 'object' && mf.ssr.cacheUpdates;
   const shouldInjectAsyncPreEntry = !!enableAsyncEntry && !!enableAsyncPreEntry;
   const {
     appDirectory,
@@ -164,20 +167,31 @@ export const generateCode = async (
             `import(/* webpackChunkName: "async-${entryName}" */ './${INDEX_FILE_NAME}');`,
             'utf8',
           );
+        }
 
+        if (ssrMode && enableAsyncEntry) {
           const bootstrapServerFile = path.resolve(
             internalDirectory,
             `./${entryName}/${ENTRY_SERVER_BOOTSTRAP_FILE_NAME}`,
           );
 
-          if (ssrMode) {
-            // bootstrap.server.jsx
-            await fs.outputFile(
-              bootstrapServerFile,
-              `export const requestHandler = import('./${SERVER_ENTRY_POINT_FILE_NAME}').then((m) => m.requestHandler)`,
-              'utf8',
-            );
-          }
+          await fs.outputFile(
+            bootstrapServerFile,
+            `export const requestHandler = import('./${SERVER_ENTRY_POINT_FILE_NAME}').then((m) => m.requestHandler)`,
+            'utf8',
+          );
+        }
+
+        if (ssrMode && reloadableSSR) {
+          await fs.outputFile(
+            path.resolve(
+              internalDirectory,
+              entryName,
+              'ssr-bootstrap.server.jsx',
+            ),
+            `export const loadSSR = () => import('./${SERVER_ENTRY_POINT_FILE_NAME}')`,
+            'utf8',
+          );
         }
 
         if (ssrMode) {

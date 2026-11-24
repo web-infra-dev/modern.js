@@ -78,6 +78,7 @@
   },
   "pnpm": {
     "overrides": {
+      "@rspack/core": "npm:@rspack-canary/core@2.3.4-canary-24cae013-20261120083057",
       "micromatch": "^4.0.8",
       "read-yaml-file>js-yaml": "3.15.2",
       "@remix-run/router": ">=1.23.2",

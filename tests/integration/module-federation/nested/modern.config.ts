@@ -20,5 +20,10 @@ export default defineConfig({
     },
   },
   performance: { buildCache: false },
+  ...(process.env.MF_LAB_SERVICE_NESTED ||
+  (process.env.MF_LAB_MODE === 'dev' &&
+    ['ordinary', 'all'].includes(process.env.MF_LAB_UPDATES || ''))
+    ? { moduleFederation: { ssr: { cacheUpdates: true } } }
+    : {}),
   plugins: [appTools()],
 });

@@ -1,0 +1,1592 @@
+import { collectSSRRuntimeGraph } from './ssrRuntimeGraph';
+import type { SSRUpdateScope } from '@modern-js/server-core/node';
+import type {
+  GlobalModuleInfo,
+  Manifest,
+  ProviderModuleInfo,
+} from '@module-federation/sdk';
+import {
+  applyNodeGlobalModuleInfo,
+  destroyNodeInstance,
+  diffNodeGlobalModuleInfo,
+  getNodeInstanceLifecycle,
+  lookupProviderInGlobalModuleInfo,
+  planRemoteCache,
+  resolveTargetModuleInfo,
+  updateNodeRemotes,
+  type RegisteredRemoteDescriptor,
+} from '@module-federation/node/lifecycle';
+import {
+  setSSRUpdateCandidates,
+  clearSSRUpdateCandidates,
+  getSSRUpdateRegistration,
+} from './ssrUpdateCandidates';
+import {
+  createRemoteUpdateController,
+  type RemoteCheckOptions,
+} from './remoteUpdate';
+import {
+  clientRemote,
+  releaseScript,
+  type SSRClientRemote,
+} from '../ssr-runtime/release';
+import { helpers } from '@module-federation/enhanced/runtime';
+import {
+  bindSSRRuntime,
+  requireSSRNodeLifecycle,
+  createSSRUpdateOwner,
+  runWithSSRUpdateOwner,
+  releaseSSRUpdateOwner,
+  type SSRUpdateOwner,
+} from './ssrUpdateOwner';
+
+/** This protocol is owned by the Modern adapter, not the generic MF runtime. */
+export interface SSREntryRecord {
+  application: string;
+  applicationOwner?: string;
+  readonly buildId?: string;
+  entry: string;
+  owner: string;
+  rootIds: Array<string | number | null>;
+  remoteNames?: string[];
+  chunks?: Array<string | number>;
+  reasons: string[];
+  runtime: any;
+  load(): unknown;
+}
+export type SSRUpdatePlan = {
+  mode: 'snapshot' | 'entries' | 'application';
+  entries?: string[];
+  reasons: string[];
+};
+
+export interface SSRRemoteReplacement {
+  name: string;
+  entry: string;
+  type?: string;
+  entryGlobalName?: string;
+  client?: Omit<SSRClientRemote, 'name'>;
+  manifest?: Manifest;
+  moduleInfo?: ProviderModuleInfo;
+  /** Development subscriptions retain transitive build identities separately. */
+  dependencies?: {
+    name: string;
+    entry: string;
+    buildVersion: string;
+  }[];
+}
+
+function isGlobalModuleInfoInput(value: unknown): value is GlobalModuleInfo {
+  return Boolean(
+    value &&
+    typeof value === 'object' &&
+    !Array.isArray(value) &&
+    !(
+      typeof (value as { name?: unknown }).name === 'string' &&
+      typeof (value as { entry?: unknown }).entry === 'string'
+    ),
+  );
+}
+export interface SSRUpdateOptions extends RemoteCheckOptions {
+  revision?: number;
+  /** Submit from SSR without waiting for the response that must drain first. */
+  defer?: 'after-response';
+}
+export interface SSRUpdateReceipt {
+  operationId: string;
+  revision: number;
+  phase: 'scheduled' | 'pending' | 'applied';
+}
+
+/**
+ * The owner uses compiled entry metadata and observed MF consumption to choose
+ * selective invalidation. Dynamic consumption or incomplete metadata widens
+ * the update to the application.
+ */
+export function createSSRUpdateAdapter(options: {
+  name: string;
+  entries: string[];
+  owner?: SSRUpdateOwner;
+  /** Immutable public entries paired with the initial server release. */
+  hydration?: { remotes: SSRClientRemote[] };
+  remotes?: SSRRemoteReplacement[];
+  maxPendingUpdates?: number;
+  invalidate?: (remotes: SSRRemoteReplacement[]) => Promise<void>;
+}) {
+  options = { ...options, entries: [...options.entries] };
+  const owner =
+    options.owner || createSSRUpdateOwner(options.name, options.entries);
+  for (const entry of options.entries) {
+    owner.entryNames.add(entry);
+    owner.entryNames.add(`${entry}-server-loaders`);
+  }
+  const clientTargets = new Map(
+    options.hydration?.remotes.map(value => {
+      const remote = clientRemote(value);
+      return [remote.name, remote] as const;
+    }),
+  );
+  let targetRevision = 0;
+  let hydrationEnabled = Boolean(options.hydration);
+  const records = () => [...owner.entries.values()];
+  const instances = () => [
+    ...new Set(
+      [
+        ...records().map(record => record.runtime.federation?.instance),
+        ...owner.instances,
+      ].filter(Boolean),
+    ),
+  ];
+  const states = () =>
+    instances().map(
+      instance => instance[Symbol.for('modern-js.mf.ssr.consumption')],
+    );
+  const detachRuntimeAdapters = (hosts: any[]) => {
+    const runtimes = new Set(records().map(record => record.runtime));
+    for (const host of hosts)
+      for (const runtime of host[
+        Symbol.for('module-federation.clear-cache.adapters')
+      ]?.bindings || [])
+        runtimes.add(runtime);
+    for (const runtime of runtimes) runtime.federation?.disposeClearCache?.();
+  };
+  const registrations = new WeakMap<object, Map<string, any>>();
+  const retiringProviders = new Set<any>();
+  const dependencyGraphs = new Map(
+    options.remotes?.map(remote => [remote.name, remote.dependencies || []]),
+  );
+  const canonicalName = (name: string) => {
+    for (const instance of instances()) {
+      const remote =
+        instance.options?.remotes.find(
+          (item: any) => item.name === name || item.alias === name,
+        ) ||
+        [...(registrations.get(instance)?.values() || [])].find(
+          (item: any) => item.name === name || item.alias === name,
+        );
+      if (remote) return remote.name as string;
+    }
+    return name;
+  };
+  const canonicalClientTargets = () =>
+    new Map(
+      [...clientTargets.values()].map(remote => {
+        const name = canonicalName(remote.name);
+        return [name, { ...remote, name }] as const;
+      }),
+    );
+  const plan = (remote: string): SSRUpdatePlan => {
+    const all = records();
+    const reasons = new Set<string>();
+    if (!states().length || states().some(state => !state))
+      reasons.add('missing-consumption-tracker');
+    if (states().some(state => state?.dynamic))
+      reasons.add('runtime-consumption-observed');
+    if (
+      !options.entries.length ||
+      options.entries.some(entry => !all.some(record => record.owner === entry))
+    )
+      reasons.add('missing-entry-metadata');
+    if (all.some(record => !options.entries.includes(record.owner)))
+      reasons.add('unknown-entry-metadata');
+    for (const record of all)
+      for (const reason of record.reasons) reasons.add(reason);
+
+    const hasCompiledRemote = (runtime: any, target: string): boolean => {
+      const federation = runtime?.federation;
+      const names = new Set<string>([target]);
+      for (const item of federation?.instance?.options?.remotes || []) {
+        if (item.name === target || item.alias === target) {
+          if (item.name) names.add(item.name);
+          if (item.alias) names.add(item.alias);
+        }
+      }
+      const remoteInfos =
+        federation?.bundlerRuntimeOptions?.remotes?.remoteInfos || {};
+      for (const [key, infos] of Object.entries(remoteInfos) as Array<
+        [string, any[]]
+      >) {
+        if (
+          key === target ||
+          infos?.some(info => info?.name === target || info?.alias === target)
+        ) {
+          names.add(key);
+          for (const info of infos || []) {
+            if (info?.name) names.add(info.name);
+            if (info?.alias) names.add(info.alias);
+          }
+        }
+      }
+      const idToRemoteMap =
+        federation?.bundlerRuntimeOptions?.remotes?.idToRemoteMap || {};
+      for (const infos of Object.values(idToRemoteMap) as any[][]) {
+        if (
+          infos?.some(info => names.has(info?.name) || names.has(info?.alias))
+        )
+          return true;
+      }
+      const mapping =
+        runtime?.remotesLoadingData?.moduleIdToRemoteDataMapping || {};
+      return Object.values(mapping).some((data: any) =>
+        names.has(data?.remoteName),
+      );
+    };
+
+    const targets: SSREntryRecord[] = [];
+    const byRuntime = new Map<any, SSREntryRecord[]>();
+    for (const record of all) {
+      const group = byRuntime.get(record.runtime) || [];
+      group.push(record);
+      byRuntime.set(record.runtime, group);
+    }
+
+    // Reuse MF's eviction plan both to discover affected entries and verify root coverage.
+    for (const [runtime, group] of byRuntime) {
+      const explicitTargets = group.filter(
+        record =>
+          Array.isArray(record.remoteNames) &&
+          record.remoteNames.includes(remote),
+      );
+      const implicitCandidates = group.filter(
+        record => !Array.isArray(record.remoteNames),
+      );
+      const runtimeDeclaresRemote =
+        explicitTargets.length > 0 ||
+        (implicitCandidates.length > 0 && hasCompiledRemote(runtime, remote));
+      if (!runtimeDeclaresRemote) continue;
+
+      const cachePlan = planRemoteCache({
+        webpackRequire: runtime,
+        name: remote,
+      });
+      if (!cachePlan?.remoteModuleIds.length) {
+        reasons.add('missing-invalidation-graph');
+        continue;
+      }
+      const affected = new Set(cachePlan.consumerModuleIds);
+      for (const record of explicitTargets) {
+        targets.push(record);
+        if (
+          !record.rootIds.every(id => id !== null && affected.has(String(id)))
+        )
+          reasons.add('incomplete-parent-closure');
+      }
+      if (implicitCandidates.length) {
+        const matched = implicitCandidates.filter(record =>
+          record.rootIds.some(id => id !== null && affected.has(String(id))),
+        );
+        if (!matched.length) {
+          reasons.add('incomplete-parent-closure');
+        } else {
+          for (const record of matched) {
+            targets.push(record);
+            if (
+              !record.rootIds.every(
+                id => id !== null && affected.has(String(id)),
+              )
+            )
+              reasons.add('incomplete-parent-closure');
+          }
+        }
+      }
+    }
+    if (
+      !targets.length &&
+      !reasons.has('missing-invalidation-graph') &&
+      !reasons.has('incomplete-parent-closure')
+    )
+      reasons.add('remote-not-in-static-graph');
+    if (reasons.size) return { mode: 'application', reasons: [...reasons] };
+    const owners = new Set(targets.map(record => record.owner));
+    // Entries sharing a bundler runtime share its caches and must drain together.
+    let changed = true;
+    while (changed) {
+      changed = false;
+      const runtimes = new Set(
+        all
+          .filter(record => owners.has(record.owner))
+          .map(record => record.runtime),
+      );
+      for (const record of all)
+        if (runtimes.has(record.runtime) && !owners.has(record.owner)) {
+          owners.add(record.owner);
+          changed = true;
+        }
+    }
+    if ([...owners].some(owner => !options.entries.includes(owner)))
+      return { mode: 'application', reasons: ['unknown-runtime-owner'] };
+    return { mode: 'entries', entries: [...owners].sort(), reasons: [] };
+  };
+  type Replacement = Omit<SSRRemoteReplacement, 'name'>;
+  type Change = { name: string; replacement: Replacement };
+  async function performUpdate(
+    application: {
+      readonly status?: { phase: string };
+      assertUpdateAllowed?(): void;
+      defer?<T>(operation: () => Promise<T>): { completed: Promise<T> };
+      update(
+        invalidate: (entries?: readonly string[]) => Promise<void>,
+        scope?: SSRUpdateScope,
+      ): Promise<number>;
+    },
+    changes: Change[],
+    onMutation: () => void,
+    onStage: (stage: string) => void,
+  ) {
+    let selected: SSRUpdatePlan = { mode: 'application', reasons: [] };
+    let recovering = false;
+    const token = {};
+    const ownedStates = new Set<any>();
+    try {
+      const execute = () =>
+        application.update(
+          async entries => {
+            onStage('clear');
+            setSSRUpdateCandidates(
+              owner.id,
+              changes.map(({ name, replacement }) => ({
+                ...replacement,
+                name: canonicalName(name),
+              })),
+            );
+            await options.invalidate?.(
+              changes.map(({ name, replacement }) => ({
+                name,
+                ...replacement,
+              })),
+            );
+            if (!entries && selected.mode === 'entries')
+              selected = {
+                mode: 'application',
+                reasons: ['application-scope-required'],
+              };
+            if (recovering)
+              selected = {
+                mode: 'application',
+                reasons: ['failed-update-recovery'],
+              };
+            for (const state of ownedStates) state.selective = Boolean(entries);
+            const hosts = instances();
+            if (!hosts.length) {
+              const previous =
+                owner.registrations ||
+                options.remotes?.map(remote => ({
+                  ...remote,
+                  ...getSSRUpdateRegistration(owner.id, remote.name),
+                }));
+              if (!previous) throw new Error('Missing MF application instance');
+              const targets = new Map(
+                previous.map(remote => [remote.name, remote]),
+              );
+              for (const { name, replacement } of changes) {
+                const existing = previous.find(
+                  remote => remote.name === name || remote.alias === name,
+                );
+                const {
+                  client: _client,
+                  manifest: _manifest,
+                  moduleInfo: _info,
+                  dependencies: _dependencies,
+                  ...server
+                } = replacement;
+                targets.set(existing?.name || name, {
+                  ...existing,
+                  ...server,
+                  name: existing?.name || name,
+                });
+              }
+              owner.registrations = [...targets.values()];
+              onMutation();
+              onStage('rebuild');
+              return;
+            }
+            if (!entries) {
+              const pending = [...hosts];
+              const seen = new Set();
+              const known = [
+                ...((globalThis as any).__FEDERATION__?.__INSTANCES__ || []),
+                ...hosts.flatMap(host => [...(host.retainedProviders || [])]),
+                ...retiringProviders,
+              ];
+              for (const instance of pending) {
+                if (seen.has(instance)) continue;
+                seen.add(instance);
+                requireSSRNodeLifecycle(instance);
+                for (const module of instance.moduleCache?.values() || []) {
+                  const provider = helpers.global.getRemoteFederationInstance(
+                    module.remoteInfo,
+                    known,
+                  );
+                  if (provider) pending.push(provider);
+                }
+                pending.push(...(instance.retainedProviders || []));
+              }
+              // The drained generation will be discarded in full. Detach its
+              // native adapters before Core removes remotes: a fallback may
+              // have been selected precisely because its graph is incomplete.
+              onMutation();
+              detachRuntimeAdapters(hosts);
+            }
+            const outcomes = await Promise.allSettled(
+              hosts.map(async instance => {
+                const next = changes.map(({ name, replacement }) => {
+                  const registered = instance.options.remotes.find(
+                    (remote: any) =>
+                      remote.name === name || remote.alias === name,
+                  );
+                  let remembered = registrations.get(instance);
+                  if (!remembered) {
+                    remembered = new Map();
+                    registrations.set(instance, remembered);
+                  }
+                  const previous = registered ||
+                    remembered.get(name) || { name };
+                  const {
+                    client: _client,
+                    manifest: _manifest,
+                    moduleInfo: _info,
+                    dependencies: _dependencies,
+                    ...serverReplacement
+                  } = replacement;
+                  const target = {
+                    ...previous,
+                    ...serverReplacement,
+                    name: previous.name,
+                    alias: previous.alias,
+                  };
+                  // Retain the intended registration even if mutation removes it.
+                  remembered.set(name, target);
+                  return target;
+                });
+                const state =
+                  instance[Symbol.for('modern-js.mf.ssr.consumption')];
+                const replace = async () => {
+                  onMutation();
+                  const targets =
+                    recovering || !entries
+                      ? [
+                          ...new Map(
+                            [
+                              ...registrations.get(instance)!.values(),
+                              ...next,
+                            ].map(remote => [remote.name, remote]),
+                          ).values(),
+                        ]
+                      : next;
+                  // Capture the provider objects before Core/bundler hooks detach them from
+                  // both the host cache and the global instance registry.
+                  const detachedProviders = new Set<any>();
+                  {
+                    const known = [
+                      ...((globalThis as any).__FEDERATION__?.__INSTANCES__ ||
+                        []),
+                      ...(instance.retainedProviders || []),
+                      ...retiringProviders,
+                    ];
+                    for (const target of targets) {
+                      const module = instance.moduleCache?.get(target.name);
+                      if (!module) continue;
+                      const provider =
+                        helpers.global.getRemoteFederationInstance(
+                          module.remoteInfo,
+                          known,
+                        );
+                      if (provider) {
+                        requireSSRNodeLifecycle(provider);
+                        if (!entries) retiringProviders.add(provider);
+                        else detachedProviders.add(provider);
+                      }
+                    }
+                  }
+                  await (typeof instance.updateRemotes === 'function'
+                    ? instance.updateRemotes(targets)
+                    : updateNodeRemotes(instance, targets));
+                  if (entries && detachedProviders.size) {
+                    const activeInstances = new Set(
+                      (globalThis as any).__FEDERATION__?.__INSTANCES__ || [],
+                    );
+                    const retainedByHost = new Set(
+                      instance.retainedProviders || [],
+                    );
+                    await Promise.all(
+                      [...detachedProviders]
+                        .filter(
+                          provider =>
+                            !activeInstances.has(provider) &&
+                            !retainedByHost.has(provider),
+                        )
+                        .map(provider => destroyNodeInstance(provider)),
+                    );
+                  }
+                };
+                if (state) await state.context.run(token, replace);
+                else await replace();
+              }),
+            );
+            const failures = outcomes.filter(
+              result => result.status === 'rejected',
+            );
+            if (failures.length)
+              throw new AggregateError(
+                failures.map(result => result.reason),
+                'SSR remote replacement failed',
+              );
+            onStage('rebuild');
+          },
+          previousPhase => {
+            onStage('analyze');
+            const hosts = instances();
+            if (!hosts.length && !owner.registrations && !options.remotes)
+              throw new Error('Missing MF application instance');
+            recovering =
+              (previousPhase ?? application.status?.phase) === 'unavailable';
+            for (const instance of hosts) {
+              const names = changes.map(({ name }) => {
+                const existing =
+                  instance.options.remotes.find(
+                    (remote: any) =>
+                      remote.name === name || remote.alias === name,
+                  ) || registrations.get(instance)?.get(name);
+                if (
+                  !existing &&
+                  instance.options.remotes.some(
+                    (remote: any) =>
+                      remote.alias && name.startsWith(remote.alias),
+                  )
+                )
+                  throw new Error(
+                    `Remote name conflicts with a registered alias: ${name}`,
+                  );
+                return existing?.name || name;
+              });
+              if (new Set(names).size !== names.length)
+                throw new Error('Multiple replacements target the same remote');
+            }
+            const hasSharedSingletonMismatch = (
+              name: string,
+              replacement: Replacement,
+            ): boolean => {
+              if (!hosts.length) return false;
+              const snapshot =
+                replacement.manifest || replacement.moduleInfo
+                  ? resolveTargetModuleInfo({
+                      entry: replacement.entry,
+                      manifest: replacement.manifest,
+                      moduleInfo: replacement.moduleInfo,
+                    })
+                  : undefined;
+              if (
+                !snapshot ||
+                !('buildVersion' in snapshot) ||
+                typeof snapshot.buildVersion !== 'string' ||
+                !snapshot.buildVersion
+              )
+                return false;
+              const provider = helpers.global.getRemoteFederationInstance({
+                name: canonicalName(name),
+                buildVersion: snapshot.buildVersion,
+                version:
+                  typeof snapshot.version === 'string'
+                    ? snapshot.version
+                    : replacement.entry,
+              });
+              if (!provider || getNodeInstanceLifecycle(provider)?.closed)
+                return false;
+              for (const [scope, pkgs] of Object.entries(
+                provider.shareScopeMap || {},
+              ) as Array<[string, Record<string, Record<string, any>>]>) {
+                for (const [pkgName, versions] of Object.entries(pkgs || {})) {
+                  for (const [ver, record] of Object.entries(versions || {})) {
+                    if (!record?.loaded || typeof record.lib !== 'function')
+                      continue;
+                    for (const host of hosts) {
+                      const current =
+                        host.shareScopeMap?.[scope]?.[pkgName]?.[ver];
+                      if (current?.loaded && current.lib !== record.lib)
+                        return true;
+                    }
+                  }
+                }
+              }
+              return false;
+            };
+            const plans = changes.map(({ name, replacement }) => {
+              // Native entry metadata proves only the direct import boundary.
+              // Nested containers need disposal, including when a dependency
+              // was removed from the newly published graph.
+              if (
+                replacement.dependencies?.length ||
+                dependencyGraphs.get(canonicalName(name))?.length
+              )
+                return {
+                  mode: 'application' as const,
+                  reasons: ['transitive-remote-dependencies'],
+                };
+              if (hasSharedSingletonMismatch(name, replacement))
+                return {
+                  mode: 'application' as const,
+                  reasons: ['shared-singleton-mismatch'],
+                };
+              return plan(name);
+            });
+            selected = plans.some(item => item.mode === 'application')
+              ? {
+                  mode: 'application',
+                  reasons: [...new Set(plans.flatMap(item => item.reasons))],
+                }
+              : {
+                  mode: 'entries',
+                  entries: [
+                    ...new Set(plans.flatMap(item => item.entries || [])),
+                  ].sort(),
+                  reasons: [],
+                };
+            for (const state of states())
+              if (state) {
+                state.owner = token;
+                state.selective = selected.mode === 'entries';
+                ownedStates.add(state);
+              }
+            onStage('drain');
+            return selected.entries;
+          },
+        );
+      const authorized = states()
+        .filter(Boolean)
+        .reduce<() => Promise<number>>(
+          (next, state) => () => state.context.run(token, next),
+          execute,
+        );
+      let generation: number;
+      try {
+        generation = await authorized();
+      } catch (error) {
+        if (
+          selected.mode !== 'entries' ||
+          application.status?.phase !== 'unavailable'
+        )
+          throw error;
+        // Modern keeps a failed scope closed and widens its next update to the
+        // whole application. Retry once using the same intended remote targets.
+        onStage('fallback');
+        try {
+          generation = await authorized();
+        } catch (recoveryError) {
+          throw new AggregateError(
+            [error, recoveryError],
+            'SSR update and application recovery failed',
+          );
+        }
+      }
+      for (const { name, replacement } of changes)
+        if (replacement.dependencies !== undefined)
+          dependencyGraphs.set(canonicalName(name), replacement.dependencies);
+      return { ...selected, generation };
+    } finally {
+      for (const state of ownedStates)
+        if (state.owner === token) {
+          state.owner = undefined;
+          state.selective = false;
+        }
+    }
+  }
+  type Application = Parameters<typeof performUpdate>[0];
+  type Result = Awaited<ReturnType<typeof performUpdate>> & {
+    revision: number;
+    appliedRevision: number;
+    operationId: string;
+    timingsMs: Record<string, number>;
+  };
+  const updates = new WeakMap<
+    Application,
+    {
+      revision: number;
+      fingerprint: string;
+      operationId: string;
+      mutationStarted: boolean;
+      stage: string;
+      timingsMs: Record<string, number>;
+      phase: 'scheduled' | 'pending' | 'applied' | 'failed';
+      appliedRevision?: number;
+      promise: Promise<Result>;
+      error?: unknown;
+    }
+  >();
+  let attempt = 0;
+  function capture(changes: Change[], revision: number) {
+    if (!Number.isSafeInteger(revision) || revision < 1)
+      throw new TypeError('revision must be a positive safe integer');
+    if (
+      !changes.length ||
+      changes.some(
+        ({ name, replacement }) =>
+          typeof name !== 'string' ||
+          !name ||
+          typeof replacement?.entry !== 'string' ||
+          !replacement.entry,
+      )
+    )
+      throw new TypeError(
+        'Unique remote names and replacement entries are required',
+      );
+    const captured = changes
+      .map(({ name, replacement }) => {
+        const { entry, type, entryGlobalName, client, dependencies } =
+          replacement;
+        const publicTarget =
+          options.hydration || client
+            ? clientRemote({ ...client, name } as SSRClientRemote)
+            : undefined;
+        return {
+          name,
+          replacement: {
+            entry,
+            ...(type !== undefined ? { type } : {}),
+            ...(entryGlobalName !== undefined ? { entryGlobalName } : {}),
+            ...(dependencies !== undefined
+              ? { dependencies: structuredClone(dependencies) }
+              : {}),
+            ...(publicTarget
+              ? {
+                  client: {
+                    entry: publicTarget.entry,
+                    ...(publicTarget.type ? { type: publicTarget.type } : {}),
+                    ...(publicTarget.entryGlobalName
+                      ? { entryGlobalName: publicTarget.entryGlobalName }
+                      : {}),
+                  },
+                }
+              : {}),
+          },
+        };
+      })
+      .sort((a, b) =>
+        canonicalName(a.name).localeCompare(canonicalName(b.name)),
+      );
+    // Bundler graph keys retain the declared alias. Canonical identity is only
+    // for revision comparison and duplicate detection, not entry-scope planning.
+    const normalized = captured.map(({ name, replacement }) => ({
+      name: canonicalName(name),
+      replacement,
+    }));
+    if (new Set(normalized.map(({ name }) => name)).size !== captured.length)
+      throw new TypeError(
+        'Unique remote names and replacement entries are required',
+      );
+    return { captured, fingerprint: JSON.stringify(normalized) };
+  }
+  const receipt = (
+    state: NonNullable<ReturnType<typeof updates.get>>,
+  ): SSRUpdateReceipt => ({
+    operationId: state.operationId,
+    revision: state.revision,
+    phase: state.phase === 'failed' ? 'scheduled' : state.phase,
+  });
+  function submit(
+    application: Application,
+    changes: Change[],
+    input: SSRUpdateOptions & { defer: 'after-response' },
+  ): SSRUpdateReceipt;
+  function submit(
+    application: Application,
+    changes: Change[],
+    input?: SSRUpdateOptions & { defer?: undefined },
+  ): Promise<Result>;
+  function submit(
+    application: Application,
+    changes: Change[],
+    input?: SSRUpdateOptions,
+  ): Promise<Result> | SSRUpdateReceipt;
+  function submit(
+    application: Application,
+    changes: Change[],
+    input?: SSRUpdateOptions,
+  ): Promise<Result> | SSRUpdateReceipt {
+    const previous = updates.get(application);
+    const revision = input?.revision ?? (previous?.revision ?? 0) + 1;
+    let captured: Change[], fingerprint: string;
+    try {
+      if (!input?.defer) application.assertUpdateAllowed?.();
+      if (input?.defer && !application.defer)
+        throw new Error(
+          'Modern SSR application does not support deferred updates',
+        );
+      ({ captured, fingerprint } = capture(changes, revision));
+      if (previous) {
+        if (revision < previous.revision)
+          throw new Error('Stale SSR update revision');
+        if (revision === previous.revision) {
+          if (fingerprint !== previous.fingerprint)
+            throw new Error('SSR revision already has a different replacement');
+          if (previous.phase !== 'failed')
+            return input?.defer ? receipt(previous) : previous.promise;
+        }
+      }
+    } catch (error) {
+      if (input?.defer) throw error;
+      return Promise.reject(error);
+    }
+    const state = {
+      revision,
+      fingerprint,
+      operationId: `${revision}:${++attempt}`,
+      mutationStarted: false,
+      phase: (input?.defer ? 'scheduled' : 'pending') as
+        'scheduled' | 'pending' | 'applied' | 'failed',
+      stage: input?.defer ? 'after-response' : 'queue',
+      timingsMs: {} as Record<string, number>,
+      appliedRevision: previous?.appliedRevision,
+      promise: undefined as unknown as Promise<Result>,
+      error: undefined as unknown,
+    };
+    // The application queue serializes resource publication. Retain only the
+    // latest message; older pending completions may advance appliedRevision.
+    updates.set(application, state);
+    const started = performance.now();
+    let stageStarted = started;
+    const onStage = (stage: string) => {
+      const now = performance.now();
+      state.timingsMs[state.stage] =
+        (state.timingsMs[state.stage] || 0) + now - stageStarted;
+      stageStarted = now;
+      state.stage = stage;
+    };
+    const execute = () => {
+      // A newer notification may have arrived while the triggering SSR streamed.
+      // Never apply this older release after the newer one.
+      if (
+        input?.defer &&
+        revision < (updates.get(application)?.revision ?? revision)
+      )
+        return Promise.reject(new Error('Stale SSR update revision'));
+      state.phase = 'pending';
+      onStage('queue');
+      return performUpdate(
+        application,
+        captured,
+        () => {
+          state.mutationStarted = true;
+          if (
+            options.hydration ||
+            captured.some(({ replacement }) => replacement.client)
+          ) {
+            hydrationEnabled = true;
+            const normalized = canonicalClientTargets();
+            clientTargets.clear();
+            for (const [name, remote] of normalized)
+              clientTargets.set(name, remote);
+            for (const { name, replacement } of captured) {
+              if (!replacement.client) continue;
+              clientTargets.set(
+                canonicalName(name),
+                clientRemote({
+                  ...replacement.client,
+                  name: canonicalName(name),
+                } as SSRClientRemote),
+              );
+            }
+            targetRevision = revision;
+          }
+        },
+        onStage,
+      );
+    };
+    let operation: Promise<Awaited<ReturnType<typeof performUpdate>>>;
+    try {
+      operation = controller.runExternal(
+        application,
+        captured.map(({ name, replacement }) => ({
+          name: canonicalName(name),
+          ...replacement,
+        })),
+        execute,
+        input?.defer
+          ? scheduled => application.defer!(scheduled).completed
+          : undefined,
+      );
+    } catch (error) {
+      // Capacity rejection is not acceptance: keep an earlier accepted release
+      // eligible to run, and allow this revision to be submitted again later.
+      if (input?.defer) {
+        if (updates.get(application) === state) {
+          if (previous) updates.set(application, previous);
+          else updates.delete(application);
+        }
+        throw error;
+      }
+      operation = Promise.reject(error);
+    }
+    state.promise = operation.then(
+      result => {
+        onStage('applied');
+        state.timingsMs.total = performance.now() - started;
+        state.phase = 'applied';
+        const latest = updates.get(application)!;
+        latest.appliedRevision = Math.max(
+          latest.appliedRevision ?? 0,
+          revision,
+        );
+        return {
+          ...result,
+          revision,
+          appliedRevision: revision,
+          operationId: state.operationId,
+          timingsMs: { ...state.timingsMs },
+        };
+      },
+      error => {
+        const failedStage = state.stage;
+        onStage('failed');
+        state.timingsMs.total = performance.now() - started;
+        state.phase = 'failed';
+        const failure = Object.assign(
+          new Error(
+            error instanceof Error ? error.message : 'SSR update failed',
+            { cause: error },
+          ),
+          {
+            operationId: state.operationId,
+            revision,
+            appliedRevision: updates.get(application)?.appliedRevision,
+            mutationStarted: state.mutationStarted,
+            failedStage,
+            timingsMs: { ...state.timingsMs },
+            application: application.status,
+          },
+        );
+        state.error = failure;
+        throw failure;
+      },
+    );
+    if (input?.defer) {
+      // The caller owns a receipt, not a completion promise. Failure is exposed by
+      // status(); handle the rejection here so a failed background update is safe.
+      void state.promise.catch(() => {});
+      return receipt(state);
+    }
+    return state.promise;
+  }
+  const controller = createRemoteUpdateController<
+    Application,
+    Awaited<ReturnType<typeof performUpdate>>
+  >({
+    maxPendingUpdates: options.maxPendingUpdates,
+    resolve(name) {
+      let registered = [
+        ...collectSSRRuntimeGraph([...instances(), ...owner.serviceInstances]),
+      ]
+        .flatMap(instance => [
+          ...(instance.options?.remotes || []),
+          ...(registrations.get(instance)?.values() || []),
+        ])
+        .concat(owner.registrations || [], options.remotes || [])
+        .find(remote => remote.name === name || remote.alias === name);
+      if (!registered) return undefined;
+      Object.assign(
+        (registered = { ...registered }),
+        getSSRUpdateRegistration(owner.id, registered.name),
+      );
+      const publicTarget = canonicalClientTargets().get(registered.name);
+      if (!publicTarget) return { ...registered };
+      const { name: _name, ...client } = publicTarget;
+      return { ...registered, client };
+    },
+    baseline(target) {
+      for (const instance of instances()) {
+        const manifest = instance.snapshotHandler?.manifestCache?.get(
+          target.entry,
+        );
+        if (manifest) return manifest;
+      }
+      return undefined;
+    },
+    apply(application, targets, onMutation, onStage) {
+      // Native graph keys are declared aliases; preserve them for scope planning.
+      const changes = targets.map(({ name, ...replacement }) => {
+        let registered = instances()
+          .flatMap(instance => instance.options?.remotes || [])
+          .find(remote => remote.name === name);
+        return { name: registered?.alias || name, replacement };
+      });
+      return performUpdate(
+        application,
+        changes,
+        () => {
+          onMutation();
+          if (options.hydration || targets.some(target => target.client)) {
+            hydrationEnabled = true;
+            for (const { name, ...target } of targets) {
+              if (!target.client) continue;
+              clientTargets.set(
+                name,
+                clientRemote({ ...target.client, name } as SSRClientRemote),
+              );
+            }
+            targetRevision++;
+          }
+        },
+        onStage,
+      );
+    },
+  });
+  function collectExtraRemotes(): RegisteredRemoteDescriptor[] {
+    const raw = [...(owner.registrations || []), ...(options.remotes || [])];
+    return raw.map(remote => {
+      const candidate = getSSRUpdateRegistration(owner.id, remote.name);
+      return {
+        name: remote.name,
+        alias: (remote as any).alias,
+        entry: candidate?.entry ?? remote.entry,
+        type: candidate?.type ?? remote.type,
+        entryGlobalName: candidate?.entryGlobalName ?? remote.entryGlobalName,
+      };
+    });
+  }
+  function computeGlobalDiff(
+    application: Application,
+    globalModuleInfo: GlobalModuleInfo,
+  ) {
+    const hosts = instances();
+    const extraRemotes = collectExtraRemotes();
+    const diff = diffNodeGlobalModuleInfo(globalModuleInfo, {
+      instances: hosts,
+      remotes: extraRemotes,
+      host: { name: options.name },
+      resolveCurrentModuleInfo(remote) {
+        const appliedTarget = controller.getApplied(application, remote.name);
+        if (appliedTarget?.manifest || appliedTarget?.moduleInfo) {
+          return resolveTargetModuleInfo({
+            entry: appliedTarget.entry,
+            manifest: appliedTarget.manifest,
+            moduleInfo: appliedTarget.moduleInfo,
+          });
+        }
+        return getSSRUpdateRegistration(owner.id, remote.name)?.moduleInfo;
+      },
+      isRemoteLoaded(remoteName) {
+        return records().some(record => {
+          const cache = record.runtime?.c;
+          if (!cache || typeof cache !== 'object') return false;
+          const declares = Array.isArray(record.remoteNames)
+            ? record.remoteNames.includes(remoteName)
+            : Boolean(record.runtime);
+          if (!declares) return false;
+          const cachePlan = planRemoteCache({
+            webpackRequire: record.runtime,
+            name: remoteName,
+          });
+          if (!cachePlan) return false;
+          return [
+            ...cachePlan.remoteModuleIds,
+            ...cachePlan.consumerModuleIds,
+          ].some(id => Object.prototype.hasOwnProperty.call(cache, id));
+        });
+      },
+    });
+    return { diff, hosts, extraRemotes };
+  }
+  function shouldUpdateRemote(
+    application: Application,
+    remoteOrGlobal: SSRRemoteReplacement | GlobalModuleInfo,
+    input?: RemoteCheckOptions,
+  ): Promise<boolean> {
+    if (isGlobalModuleInfoInput(remoteOrGlobal)) {
+      return Promise.resolve().then(() => {
+        input?.signal?.throwIfAborted();
+        const { diff } = computeGlobalDiff(application, remoteOrGlobal);
+        if (application.status?.phase === 'unavailable') return true;
+        return diff.changed;
+      });
+    }
+    return controller.shouldUpdateRemote(application, remoteOrGlobal, input);
+  }
+  let globalSequence = 0;
+  function updateRemotes(
+    application: Application,
+    remotes: SSRRemoteReplacement[] | GlobalModuleInfo,
+    input: SSRUpdateOptions & { defer: 'after-response' },
+  ): SSRUpdateReceipt;
+  function updateRemotes(
+    application: Application,
+    remotes: SSRRemoteReplacement[] | GlobalModuleInfo,
+    input?: SSRUpdateOptions & { defer?: undefined },
+  ): Promise<any>;
+  function updateRemotes(
+    application: Application,
+    remotes: SSRRemoteReplacement[] | GlobalModuleInfo,
+    input?: SSRUpdateOptions,
+  ): Promise<any> | SSRUpdateReceipt;
+  function updateRemotes(
+    application: Application,
+    remotes: SSRRemoteReplacement[] | GlobalModuleInfo,
+    input?: SSRUpdateOptions,
+  ): Promise<any> | SSRUpdateReceipt {
+    try {
+      if (isGlobalModuleInfoInput(remotes)) {
+        if (!input?.defer) application.assertUpdateAllowed?.();
+        if (input?.defer && !application.defer)
+          throw new Error(
+            'Modern SSR application does not support deferred updates',
+          );
+        input?.signal?.throwIfAborted();
+        // Validate GlobalModuleInfo synchronously before scheduling.
+        computeGlobalDiff(application, remotes);
+        const snapshotCopy = structuredClone(remotes);
+        const revision = input?.revision ?? ++globalSequence;
+        const operationId = `global:${revision}:${++globalSequence}`;
+        const executeGlobal = async () => {
+          const started = performance.now();
+          const timingsMs: Record<string, number> = {};
+          let currentStage = 'check';
+          let stageStarted = started;
+          const onStage = (nextStage: string) => {
+            const now = performance.now();
+            timingsMs[currentStage] =
+              (timingsMs[currentStage] || 0) + now - stageStarted;
+            stageStarted = now;
+            currentStage = nextStage;
+          };
+          input?.signal?.throwIfAborted();
+          const { diff, hosts, extraRemotes } = computeGlobalDiff(
+            application,
+            snapshotCopy,
+          );
+          const recovering = application.status?.phase === 'unavailable';
+
+          if (diff.unloadedRemotes.length > 0) {
+            applyNodeGlobalModuleInfo(snapshotCopy, {
+              instances: hosts,
+              remotes: extraRemotes,
+              host: { name: options.name },
+              remoteNames: diff.unloadedRemotes.map(item => item.name),
+            });
+            setSSRUpdateCandidates(
+              owner.id,
+              diff.unloadedRemotes.map(item => ({
+                name: item.name,
+                entry: item.entry,
+                ...(item.type ? { type: item.type } : {}),
+                ...(item.entryGlobalName
+                  ? { entryGlobalName: item.entryGlobalName }
+                  : {}),
+                moduleInfo: item.moduleInfo,
+              })),
+            );
+            const unloadedTargets = diff.unloadedRemotes.map(item => {
+              const hasClient =
+                Boolean(item.clientEntry) &&
+                (Boolean(options.hydration) ||
+                  canonicalClientTargets().has(item.name));
+              if (hasClient && item.clientEntry) {
+                hydrationEnabled = true;
+                clientTargets.set(
+                  item.name,
+                  clientRemote({
+                    name: item.name,
+                    entry: item.clientEntry,
+                  }),
+                );
+              }
+              return {
+                name: item.name,
+                entry: item.entry,
+                ...(item.type ? { type: item.type } : {}),
+                ...(item.entryGlobalName
+                  ? { entryGlobalName: item.entryGlobalName }
+                  : {}),
+                moduleInfo: item.moduleInfo,
+                ...(hasClient && item.clientEntry
+                  ? { client: { entry: item.clientEntry } }
+                  : {}),
+              };
+            });
+            controller.recordApplied(application, unloadedTargets);
+          }
+
+          let activeLoaded = diff.loadedRemotes;
+          if (!activeLoaded.length && recovering) {
+            const allRegistered = collectExtraRemotes();
+            for (const host of hosts) {
+              for (const reg of host.options?.remotes || []) {
+                if (!allRegistered.some(r => r.name === reg.name))
+                  allRegistered.push({
+                    name: reg.name,
+                    alias: reg.alias,
+                    entry: 'entry' in reg ? reg.entry : undefined,
+                  });
+              }
+            }
+            activeLoaded = allRegistered.flatMap(reg => {
+              const found = lookupProviderInGlobalModuleInfo(
+                snapshotCopy,
+                reg,
+                { name: options.name },
+              );
+              if (!found) return [];
+              return [
+                {
+                  name: reg.name,
+                  alias: reg.alias,
+                  entry: reg.entry || found.moduleInfo.remoteEntry,
+                  key: found.key,
+                  matchedVersion: found.matchedVersion,
+                  moduleInfo: found.moduleInfo,
+                  loaded: true,
+                },
+              ];
+            });
+          }
+
+          if (!activeLoaded.length && !recovering) {
+            if (diff.hasSnapshotDiff) {
+              applyNodeGlobalModuleInfo(snapshotCopy, {
+                instances: hosts,
+                remotes: extraRemotes,
+                host: { name: options.name },
+              });
+            }
+            onStage('applied');
+            timingsMs.total = performance.now() - started;
+            return {
+              changed: diff.changed,
+              ...(diff.changed ? { mode: 'snapshot' as const } : {}),
+              entries: [],
+              reasons: [],
+              revision,
+              appliedRevision: revision,
+              operationId,
+              timingsMs,
+            };
+          }
+
+          const changes: Change[] = activeLoaded.map(item => {
+            const hasClient =
+              Boolean(item.clientEntry) &&
+              (Boolean(options.hydration) ||
+                canonicalClientTargets().has(item.name));
+            return {
+              name: item.alias || item.name,
+              replacement: {
+                entry: item.entry,
+                ...(item.type ? { type: item.type } : {}),
+                ...(item.entryGlobalName
+                  ? { entryGlobalName: item.entryGlobalName }
+                  : {}),
+                moduleInfo: item.moduleInfo,
+                ...(hasClient && item.clientEntry
+                  ? { client: { entry: item.clientEntry } }
+                  : {}),
+              },
+            };
+          });
+
+          const result = await performUpdate(
+            application,
+            changes,
+            () => {
+              applyNodeGlobalModuleInfo(snapshotCopy, {
+                instances: instances(),
+                remotes: collectExtraRemotes(),
+                host: { name: options.name },
+              });
+              if (
+                options.hydration ||
+                changes.some(c => Boolean(c.replacement.client))
+              ) {
+                hydrationEnabled = true;
+                for (const item of activeLoaded) {
+                  if (!item.clientEntry) continue;
+                  if (
+                    !options.hydration &&
+                    !canonicalClientTargets().has(item.name)
+                  )
+                    continue;
+                  clientTargets.set(
+                    item.name,
+                    clientRemote({
+                      name: item.name,
+                      entry: item.clientEntry,
+                    }),
+                  );
+                }
+                targetRevision++;
+              }
+            },
+            onStage,
+          );
+          controller.recordApplied(
+            application,
+            activeLoaded.map(item => ({
+              name: item.name,
+              entry: item.entry,
+              ...(item.type ? { type: item.type } : {}),
+              ...(item.entryGlobalName
+                ? { entryGlobalName: item.entryGlobalName }
+                : {}),
+              moduleInfo: item.moduleInfo,
+              ...(item.clientEntry &&
+              (options.hydration || canonicalClientTargets().has(item.name))
+                ? { client: { entry: item.clientEntry } }
+                : {}),
+            })),
+          );
+          onStage('applied');
+          timingsMs.total = performance.now() - started;
+          return {
+            ...result,
+            changed: true,
+            revision,
+            appliedRevision: revision,
+            operationId,
+            timingsMs,
+          };
+        };
+
+        const runPromise = controller.runExternal(
+          application,
+          [],
+          executeGlobal,
+          input?.defer
+            ? scheduled => application.defer!(scheduled).completed
+            : undefined,
+        );
+        if (input?.defer) {
+          void runPromise.catch(() => {});
+          return {
+            operationId,
+            revision,
+            phase: 'scheduled',
+          };
+        }
+        return runPromise;
+      }
+
+      const targets = remotes.map(remote => {
+        if (
+          !options.hydration &&
+          !remote.client &&
+          !canonicalClientTargets().has(canonicalName(remote.name))
+        )
+          return remote;
+        const client = clientRemote({
+          ...remote.client,
+          name: remote.name,
+        } as SSRClientRemote);
+        const { name: _name, ...target } = client;
+        return { ...remote, client: target };
+      });
+      return controller.updateRemotes(application, targets, input);
+    } catch (error) {
+      if (input?.defer) throw error;
+      return Promise.reject(error);
+    }
+  }
+  function update(
+    application: Application,
+    name: string,
+    replacement: Replacement,
+    input: Pick<SSRUpdateOptions, 'revision'> & { defer: 'after-response' },
+  ): SSRUpdateReceipt;
+  function update(
+    application: Application,
+    name: string,
+    replacement: Replacement,
+    input?: Pick<SSRUpdateOptions, 'revision'> & { defer?: undefined },
+  ): Promise<Result>;
+  function update(
+    application: Application,
+    name: string,
+    replacement: Replacement,
+    input?: Pick<SSRUpdateOptions, 'revision' | 'defer'>,
+  ): Promise<Result> | SSRUpdateReceipt {
+    return submit(application, [{ name, replacement }], input);
+  }
+  return {
+    owner,
+    run: <T>(operation: () => T): T => runWithSSRUpdateOwner(owner, operation),
+    bindRuntime: (instance: any) => bindSSRRuntime(owner, instance),
+    plan,
+    shouldUpdateRemote,
+    shouldUpdateRemotes: controller.shouldUpdateRemotes,
+    updateRemotes,
+    whenIdle: controller.whenIdle,
+    /** Run in Modern's unpublished resource validation hook, before publication. */
+    prepareResources(resources: { templates: Record<string, string> }) {
+      owner.registrations = undefined;
+      if (!hydrationEnabled) return;
+      const script = releaseScript(options.name, targetRevision, [
+        ...canonicalClientTargets().values(),
+      ]);
+      resources.templates = Object.fromEntries(
+        Object.entries(resources.templates).map(([key, html]) => {
+          const clean = html.replace(
+            /<script type="application\/json" data-modern-mf-release>[\s\S]*?<\/script>/g,
+            '',
+          );
+          if (!/<head(?:\s[^>]*)?>/i.test(clean))
+            throw new Error('SSR release bootstrap requires an HTML head');
+          return [
+            key,
+            clean.replace(/<head(?:\s[^>]*)?>/i, head => head + script),
+          ];
+        }),
+      );
+    },
+    status(application: Application) {
+      const current = controller.status(application);
+      if (current) return current;
+      const state = updates.get(application);
+      return state
+        ? {
+            revision: state.revision,
+            appliedRevision: state.appliedRevision,
+            phase: state.phase,
+            error: state.error,
+            operationId: state.operationId,
+            mutationStarted: state.mutationStarted,
+            stage: state.stage,
+            timingsMs: { ...state.timingsMs },
+            application: application.status,
+          }
+        : undefined;
+    },
+    /** @deprecated PoC compatibility. Use the application-bound updateRemotes API. */
+    update,
+    async reload(entry: string) {
+      const record = owner.entries.get(entry);
+      if (!record || record.reasons.length || record.rootIds.length !== 1)
+        throw new Error(`Missing reloadable SSR entry: ${entry}`);
+      // Re-evaluate the invalidated root in its existing runtime, retaining
+      // unrelated modules and shared singleton closures.
+      return await record.load();
+    },
+    async dispose(
+      entries?: readonly string[],
+      { preserveRemotes = true } = {},
+    ) {
+      // Partial updates reuse runtimes. Full rebuilds release their registrations.
+      if (entries) return;
+      const owned = records();
+      const hosts = instances();
+      // Carry only declarative registrations across generations, never factories
+      // or plugins from the old application bundle.
+      if (!preserveRemotes) {
+        owner.registrations = undefined;
+        clearSSRUpdateCandidates(owner.id);
+      }
+      if (preserveRemotes && hosts.length) {
+        owner.registrations = hosts[0].options.remotes.map((remote: any) => ({
+          ...remote,
+        }));
+        owner.providerIdentities = new Map(
+          hosts.flatMap(host =>
+            host.options.remotes.flatMap((remote: any) => {
+              const info = host.moduleCache?.get(remote.name)?.remoteInfo;
+              return info?.buildVersion && remote.entry
+                ? [
+                    [
+                      remote.name,
+                      { entry: remote.entry, buildVersion: info.buildVersion },
+                    ] as const,
+                  ]
+                : [];
+            }),
+          ),
+        );
+      }
+      const providers = new Set<any>([
+        ...retiringProviders,
+        ...hosts.flatMap(host => [...(host.retainedProviders || [])]),
+      ]);
+      const globalInstances: any[] =
+        (globalThis as any).__FEDERATION__?.__INSTANCES__ || [];
+      const knownInstances = [...new Set([...globalInstances, ...providers])];
+      // Follow actual containers through the entire retiring graph. A direct
+      // provider can keep a nested provider alive even after our host detaches it.
+      for (const provider of collectSSRRuntimeGraph([...hosts, ...providers], {
+        includeRetained: true,
+      }))
+        if (!hosts.includes(provider)) providers.add(provider);
+      const sharedRecords = (scope: any) =>
+        Object.values(scope || {}).flatMap((packages: any) =>
+          Object.values(packages).flatMap((versions: any) =>
+            Object.values(versions),
+          ),
+        );
+      const scopes = (globalThis as any).__FEDERATION__?.__SHARE__ || {};
+      // A retained provider can itself consume another retiring provider. Once it
+      // survives this update, propagate its ownership through that dependency
+      // graph until no additional runtime needs to survive.
+      let retained = true;
+      while (retained) {
+        retained = false;
+        const ownedInstances = new Set([...hosts, ...providers]);
+        const names = new Set(
+          [...ownedInstances].map(instance => instance.name),
+        );
+        const otherInstances = knownInstances.filter(
+          other => !ownedInstances.has(other),
+        );
+        for (const provider of providers) {
+          const providerShared = new Set([
+            ...sharedRecords(provider.shareScopeMap),
+            ...sharedRecords(scopes[provider.options.id]),
+          ]);
+          const externallyUsed = [...providerShared].some(
+            (shared: any) =>
+              shared.from === provider.name &&
+              ((shared.loading && !shared.loaded) ||
+                shared.useIn?.some((name: string) => {
+                  const consumers = otherInstances.filter(
+                    other => other.name === name,
+                  );
+                  return consumers.length
+                    ? consumers.some(other =>
+                        sharedRecords(other.shareScopeMap).includes(shared),
+                      )
+                    : !names.has(name);
+                })),
+          );
+          const externallyLoaded = otherInstances.some(other =>
+            [...(other.moduleCache?.values() || [])].some(
+              (module: any) =>
+                helpers.global.getRemoteFederationInstance(
+                  module.remoteInfo,
+                  knownInstances,
+                ) === provider,
+            ),
+          );
+          if (externallyUsed || externallyLoaded) {
+            providers.delete(provider);
+            retained = true;
+          }
+        }
+      }
+      for (const instance of [...hosts, ...providers])
+        requireSSRNodeLifecycle(instance);
+      for (const host of [...hosts, ...providers]) {
+        const state = host[Symbol.for('modern-js.mf.ssr.consumption')];
+        if (state) state.disposingInstances = new Set([...hosts, ...providers]);
+      }
+      // Close the entire owned generation before releasing shared ownership.
+      detachRuntimeAdapters([...hosts, ...providers]);
+      const disposed = await Promise.allSettled(
+        [...new Set([...hosts, ...providers])].map(host =>
+          destroyNodeInstance(host),
+        ),
+      );
+      const failures = disposed.filter(result => result.status === 'rejected');
+      if (failures.length)
+        throw new AggregateError(
+          failures.map(result => result.reason),
+          'SSR instance disposal failed',
+        );
+      for (const record of owned) owner.entries.delete(record.entry);
+      for (const host of hosts) owner.instances.delete(host);
+      retiringProviders.clear();
+      if (!preserveRemotes) releaseSSRUpdateOwner(owner);
+    },
+  };
+}
+
+export { createSSRUpdateServerPlugin } from './ssrUpdateServer';

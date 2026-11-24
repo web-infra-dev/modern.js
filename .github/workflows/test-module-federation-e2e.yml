@@ -48,7 +48,7 @@ jobs:
           cache: pnpm
 
       - name: Validate MF scheduling contracts
-        run: node --test tests/integration/module-federation/scripts/parallelism.test.mjs
+        run: node --test tests/integration/module-federation/scripts/parallelism.test.mjs tests/integration/module-federation/scripts/process-tracker.test.mjs
 
       - name: Install dependencies
         run: pnpm install --ignore-scripts --frozen-lockfile

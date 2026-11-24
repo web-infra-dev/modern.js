@@ -3,18 +3,9 @@ import styles from './weather.module.css';
 import { checkDataFailure } from './data-failure';
 import { useEffect, useState, type ReactNode } from 'react';
 import { forecastDays, type ForecastDay } from './weather-days';
-export type WeatherData = {
-  temperature: number;
-  condition: string;
-  source: string;
-  requestId: number;
-};
-export const fixture: WeatherData = {
-  temperature: 30,
-  condition: 'Partly cloudy',
-  source: 'Local fixture',
-  requestId: 0,
-};
+import { UpdateVersion } from './update-version';
+import { fixture, type WeatherData } from './weather-fixture';
+export { fixture, type WeatherData } from './weather-fixture';
 export function report(event: string) {
   if (typeof window !== 'undefined')
     window.parent.postMessage(
@@ -119,6 +110,7 @@ export function CurrentWeather({
         My location
       </span>
       <h1>{location}</h1>
+      <UpdateVersion />
       <div
         className="current-temperature"
         key={data ? 'temperature-data' : 'temperature-pending'}

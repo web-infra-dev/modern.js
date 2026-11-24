@@ -1,0 +1,281 @@
+.weather-report {
+  --report-ink: #163047;
+  --report-muted: #60758a;
+  --report-line: #dce7ef;
+  background: #f4f8fc;
+  color: var(--report-ink);
+  border-radius: 16px;
+  padding: 28px;
+  font:
+    14px/1.5 -apple-system,
+    BlinkMacSystemFont,
+    'Segoe UI',
+    sans-serif;
+}
+.weather-report * {
+  box-sizing: border-box;
+}
+.weather-report .report-heading {
+  padding-bottom: 22px;
+  border-bottom: 1px solid var(--report-line);
+}
+.weather-report .report-heading p {
+  font-size: 10px;
+  letter-spacing: 0.18em;
+  font-weight: 700;
+  color: #087e9a;
+  margin: 0 0 10px;
+}
+.weather-report h2 {
+  color: var(--report-ink);
+  font-size: clamp(24px, 3vw, 36px);
+  font-weight: 650;
+  letter-spacing: -0.04em;
+  margin: 0 0 6px;
+}
+.weather-report .report-heading > span {
+  color: var(--report-muted);
+  font-size: 12px;
+}
+.weather-report .report-toolbar {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16px;
+  align-items: center;
+  padding: 18px 0;
+}
+.weather-report label {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 12px;
+  font-weight: 500;
+  color: var(--report-muted);
+}
+.weather-report :is(select, input, button) {
+  font: inherit;
+  color: var(--report-ink);
+  background: white;
+  border: 1px solid #cbd9e5;
+  border-radius: 6px;
+  padding: 6px 9px;
+  min-height: 32px;
+  line-height: 1.4;
+}
+.weather-report :is(button, select):not(:disabled) {
+  cursor: pointer;
+}
+.weather-report :is(select, input, button):focus-visible {
+  outline: 2px solid #2563eb;
+  outline-offset: 2px;
+}
+.weather-report :disabled {
+  opacity: 0.6;
+}
+.weather-report .report-sample-count {
+  margin-left: auto;
+  font:
+    11px/1.5 ui-monospace,
+    SFMono-Regular,
+    monospace;
+  color: var(--report-muted);
+}
+.weather-report .report-summary {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 1px;
+  border: 1px solid var(--report-line);
+  background: var(--report-line);
+  border-radius: 10px;
+  overflow: hidden;
+}
+.weather-report .report-summary > div {
+  display: flex;
+  flex-direction: column;
+  background: white;
+  padding: 18px 16px;
+  gap: 5px;
+}
+.weather-report .report-summary span {
+  font-size: 11px;
+  color: var(--report-muted);
+}
+.weather-report .report-summary strong {
+  font-size: clamp(19px, 2.2vw, 28px);
+  font-weight: 650;
+  letter-spacing: -0.04em;
+  white-space: nowrap;
+  font-variant-numeric: tabular-nums;
+}
+.weather-report .report-summary small {
+  color: var(--report-muted);
+  font-size: 10px;
+}
+.weather-report .report-risk {
+  display: flex;
+  align-items: baseline;
+  gap: 18px;
+  padding: 16px 0;
+  color: #386174;
+}
+.weather-report .report-risk b {
+  white-space: nowrap;
+  font-size: 12px;
+}
+.weather-report .report-risk p {
+  margin: 0;
+  font-size: 12px;
+}
+.weather-report .report-charts {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 16px;
+}
+.weather-report .report-chart {
+  min-width: 0;
+  background: white;
+  border: 1px solid var(--report-line);
+  border-radius: 10px;
+  padding: 18px 16px 12px;
+}
+.weather-report .report-chart header {
+  margin-bottom: 12px;
+}
+.weather-report h3 {
+  margin: 0;
+  font-size: 14px;
+  letter-spacing: -0.01em;
+  font-weight: 650;
+  color: var(--report-ink);
+}
+.weather-report .report-chart p,
+.weather-report .report-stations header p {
+  margin: 4px 0 0;
+  font-size: 11px;
+  color: var(--report-muted);
+}
+.weather-report .report-chart svg {
+  display: block;
+  width: 100%;
+  height: auto;
+  overflow: visible;
+}
+.weather-report .report-legend {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  padding-top: 8px;
+  color: var(--report-muted);
+  font-size: 10px;
+}
+.weather-report .report-legend span {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+}
+.weather-report .report-legend i {
+  display: inline-block;
+  width: 8px;
+  height: 8px;
+  border-radius: 2px;
+}
+.weather-report .report-stations {
+  margin-top: 20px;
+  background: white;
+  border: 1px solid var(--report-line);
+  border-radius: 10px;
+  overflow: hidden;
+}
+.weather-report .report-stations header {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 12px;
+  padding: 18px;
+}
+.weather-report .report-stations header > div {
+  margin-right: auto;
+}
+.weather-report .report-stations input {
+  width: 120px;
+}
+.weather-report table {
+  border-collapse: collapse;
+  width: 100%;
+  text-align: left;
+  font-size: 12px;
+  font-variant-numeric: tabular-nums;
+}
+.weather-report :is(th, td) {
+  padding: 9px 16px;
+  border-bottom: 1px solid #edf2f7;
+  white-space: nowrap;
+}
+.weather-report th {
+  font-size: 11px;
+  color: var(--report-muted);
+  background: #f7fafc;
+  font-weight: 500;
+}
+.weather-report td button {
+  min-height: 0;
+  padding: 0;
+  background: transparent;
+  border: 0;
+  color: #2563eb;
+}
+.weather-report .report-stations footer {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 12px 16px;
+}
+.weather-report .report-stations footer span {
+  margin-right: auto;
+  font-size: 11px;
+  color: var(--report-muted);
+}
+.weather-report .report-method {
+  margin-top: 24px;
+  padding-top: 22px;
+  border-top: 1px solid var(--report-line);
+  color: var(--report-muted);
+  font-size: 12px;
+}
+.weather-report .report-method p {
+  max-width: 100ch;
+}
+.weather-report .report-method small {
+  font-size: 10px;
+}
+@media (max-width: 800px) {
+  .weather-report {
+    padding: 18px;
+  }
+  .weather-report .report-charts {
+    grid-template-columns: 1fr;
+  }
+  .weather-report .report-summary {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+  .weather-report .report-risk {
+    display: block;
+  }
+  .weather-report .report-risk p {
+    margin-top: 6px;
+  }
+  .weather-report .report-stations {
+    overflow-x: auto;
+  }
+}
+
+.weather-report .report-echart {
+  width: 100%;
+  height: 280px;
+  overflow: hidden;
+}
+.weather-report .report-echart > svg {
+  width: 100%;
+  height: 100%;
+  display: block;
+}

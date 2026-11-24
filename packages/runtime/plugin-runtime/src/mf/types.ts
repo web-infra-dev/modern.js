@@ -34,6 +34,8 @@ export interface BridgeStreamInfo {
   props: Record<string, unknown>;
   nonce?: string;
   signal: AbortSignal;
+  /** Server request ownership, never serialized into hydration data. */
+  work?: { track<T>(promise: Promise<T>): Promise<T> };
 }
 
 /** Modern supplies its application lifecycle while Core owns the Bridge provider. */
