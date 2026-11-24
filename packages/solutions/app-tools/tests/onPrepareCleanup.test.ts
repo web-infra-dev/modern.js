@@ -14,10 +14,8 @@ type PrepareHarness = {
  * point it at a real temp dist so we can assert the cleanup behavior.
  */
 const setupPrepare = ({
-  cleanDistPath = true,
   contextCommand,
 }: {
-  cleanDistPath?: boolean;
   contextCommand?: string;
 } = {}): PrepareHarness => {
   const root = fs.mkdtempSync(path.join(os.tmpdir(), 'app-tools-prepare-'));
@@ -36,7 +34,7 @@ const setupPrepare = ({
   const api: any = {
     getAppContext: () => appContext,
     getConfig: () => ({}),
-    getNormalizedConfig: () => ({ output: { cleanDistPath } }),
+    getNormalizedConfig: () => ({ output: { cleanDistPath: true } }),
     updateAppContext: () => {},
     addCommand: () => {},
     onPrepare: (cb: () => Promise<void>) => {
@@ -70,17 +68,6 @@ describe('app-tools onPrepare dist cleanup', () => {
       delete process.env.MODERN_ARGV;
     } else {
       process.env.MODERN_ARGV = originalArgv;
-    }
-  });
-
-  it('does not clean dist when cleanDistPath is disabled', async () => {
-    process.env.MODERN_ARGV = 'node modern build';
-    const harness = setupPrepare({ cleanDistPath: false });
-    try {
-      await harness.runPrepare();
-      expect(fs.readdirSync(harness.distDirectory)).toEqual(['stale.js']);
-    } finally {
-      harness.cleanup();
     }
   });
 

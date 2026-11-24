@@ -42,3 +42,8 @@ jobs:
 
       - name: Test
         run: pnpm run test:builder
+
+      - name: Test Modern.js Storybook integration
+        env:
+          PUPPETEER_EXECUTABLE_PATH: /usr/bin/google-chrome
+        run: pnpm --dir tests test:storybook

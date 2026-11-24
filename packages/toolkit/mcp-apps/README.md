@@ -67,3 +67,18 @@ export default function Card() {
 `createMcpView(View, appInfo, capabilities)` accepts the same options directly. Properties are merged with the defaults, and an explicit `availableDisplayModes` array replaces the default array. MF modules are loaded before the handshake so their capabilities are included in initialization. Declaring fullscreen support does not add a fullscreen control or change the display mode automatically.
 
 Development resource CSP includes the request origin's `ws:` or `wss:` equivalent for the application HMR connection. Custom HMR hosts still need explicit `connectDomains` configuration. Production resources do not add this permission automatically.
+
+## Local stdio debugging
+
+Enable `inline: 'dev'` (or `inline: true` for both dev and production) in `mcpAppsPlugin`:
+
+```ts
+mcpAppsPlugin({
+  views: './mcp-views.json',
+  inline: 'dev',
+});
+```
+
+Run `pnpm dev` to start the development server. Local component views are compiled by an isolated watch build into self-contained inline HTML (up to 5 MiB per view, inlining scripts, styles, and imported assets, without injecting `<base>` or localhost CSP), leaving normal application pages and HMR untouched. If `mcp-views.json` also declares Module Federation views, local views are inlined while MF views use the HTTP shell.
+
+On startup, `modern dev` writes `node_modules/.modern-js/mcp-apps/dev-server.json` and prints a connector snippet that runs the built-in `modern-mcp-stdio` bridge script (`bin/modern-mcp-stdio.js`). The bridge forwards stdio JSON-RPC messages (supporting JSON, SSE streams, `202` notifications, `Mcp-Session-Id`, and repeatable `--header` flags) to the running HTTP dev server (`/api/mcp`), where the application’s middleware and BFF routes handle them. The bridge writes JSON-RPC messages to stdout. Pass `--cwd <app-dir>` instead of a URL to discover the dev server port dynamically.

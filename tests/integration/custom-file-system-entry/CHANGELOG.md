@@ -1,5 +1,13 @@
 # custom-file-system-entry
 
+## 2.66.8
+
+### Patch Changes
+
+- Updated dependencies [28fb881]
+- Updated dependencies [d378801]
+  - @modern-js/runtime@3.12.0
+
 ## 2.66.7
 
 ### Patch Changes

@@ -7,6 +7,7 @@ export default defineConfig({
       source: {
         entry: {
           cli: './src/cli/index.ts',
+          stdio: './src/cli/stdio.ts',
           'server-plugin': './src/cli/server-plugin.ts',
           server: './src/server/index.ts',
         },

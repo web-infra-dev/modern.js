@@ -2,7 +2,7 @@
 
 此工具冻结已批准的集成目录并阻止本次变更新增的明确反模式，不删除现有测试或 fixture，不改变发布包行为，无需 changeset。
 
-默认不新增测试文件或 fixtures。优先复用已有用例或临时黑盒验证，在 PR 记录命令、结果及未执行项。永久测试只保护现有覆盖不足的明确用户行为或公共契约。不要逐层 mock 重复集成流程，不通过收紧 TypeScript 类型替代验证。纯逻辑优先轻量输入输出测试，快照只保护稳定用户输出或公共协议。完整贡献规则见 [AGENTS.md](../../AGENTS.md)。
+默认不新增测试文件或 fixtures。优先复用已有用例或临时黑盒验证，在 PR 记录命令、结果及未执行项。永久测试只保护现有覆盖不足的明确用户行为或公共契约。不要逐层 mock 重复集成流程，不通过收紧 TypeScript 类型替代验证。纯逻辑优先轻量输入输出测试，快照只保护稳定用户输出或公共协议。测试贡献原则见[贡献指南](../../packages/document/docs/zh/community/contributing-guide.mdx#验证变更与保留回归测试)。
 
 ## CLI 与数据来源
 
@@ -30,6 +30,7 @@ pnpm check-test-governance --help
 | 规则                                           | 自动执行范围                         |
 | ---------------------------------------------- | ------------------------------------ |
 | 集成目录必须在 `integration-allowlist.json` 中 | 检查所选模式的全部集成目录           |
+| `internal-src-import`                          | 增量检查 `packages/` 单测的源码导入  |
 | `internal-module-mock`                         | 增量阻止新增内部相对模块 mock        |
 | `invocation-call-order`                        | 增量阻止新增内部调用顺序断言         |
 | `non-rstest-runner`                            | 增量阻止新增非 Rstest runner         |
@@ -38,11 +39,15 @@ pnpm check-test-governance --help
 
 反模式检查覆盖 `.test`、`.spec` 的 JS/TS 文件变体、`__tests__`，以及 packages/scripts 下 tests 目录中的非 fixture 辅助代码。检查结合完整测试文件和 diff 触及的行识别多行写法，不因未触及的历史反模式阻塞无关改动。
 
+`internal-src-import` 检查 `packages/` 下工作区包的单测及测试辅助代码。修改 `import`（含 `import type`）、`export … from`、`import()` 或 `require()` 时，相对路径只能通过本包公开入口访问源码。跨包访问请使用对方的包名和公开子路径。测试目录内仍可相对导入辅助代码。
+
+检查器从当前模式对应的工作区、暂存区或 Git tree 读取包的 `package.json`，按 `exports` 和 `main` 的目标定位源码入口，无需预构建。例如，`./dist/esm/router/index.mjs` 对应 `src/router/index.ts`，测试可以导入 `../src/router`。名称含 `internal` 的已公开入口同样可用。请通过公开行为编写断言，或在 `tests/integration/` 验证用户流程。禁止仅为测试扩大 `package.json` 的 `exports` 或入口文件导出，维护者在 PR 中审核这类变更。
+
 测试必要性、重复覆盖、纯逻辑黑盒验证、快照公共性及类型契约由贡献者与维护者审核，不作为启发式自动阻断。没有快照禁令，也没有测试数量软告警。
 
 ## 冻结清单与人工审批
 
-`integration-allowlist.json` 是排序后的字符串 JSON 数组，冻结维护者批准的现有 52 个已跟踪 `tests/integration` 顶层目录。不允许贡献者或 agent 自行扩展清单来绕过检查，也不授权删除现有 fixture。
+`tests/integration` 顶层目录的冻结基线以[集成目录清单](./integration-allowlist.json)为准。清单按名称排序，以 JSON 字符串数组保存维护者批准的目录名。不允许贡献者或 agent 自行扩展清单来绕过检查，也不授权删除现有 fixture。
 
 确需新增目录时，先说明现有 fixture 为何不足及新增维护成本，取得维护者人工批准后，将批准目录加入排序清单，在 PR 记录理由和批准者，并由维护者添加 `approved-new-integration-fixture` 标签。任何清单新增条目都需要该标签，包括清单首次引入。纯条目删除不需扩展审批标签，但剩余目录仍必须登记。
 
@@ -54,7 +59,7 @@ pnpm check-test-governance --help
 // test-governance-allow: <rule> | reason: <why> | expires: YYYY-MM-DD | approved-by: @<handle>
 ```
 
-`<rule>` 必须是上表中的三个反模式标识之一。注释放在违规表达式同一行，或该多行表达式内被 diff 触及的行，独立的前置注释不豁免下一行。理由应说明必要性和后续移除方案，日期必须有效且未过期，账号必须是实际人工批准者。
+`<rule>` 必须是上表中的反模式标识之一。注释放在违规表达式同一行，或该多行表达式内被 diff 触及的行，独立的前置注释不豁免下一行。理由应说明必要性和后续移除方案，日期必须有效且未过期，账号必须是实际人工批准者。
 
 checker 只校验 diff 触及的测试行中的例外格式和到期日期，真实批准由维护者审核。agent 不得自批、伪造批准或机械延长日期。行内例外不批准新增集成目录。
 

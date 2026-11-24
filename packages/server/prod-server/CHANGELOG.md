@@ -1,5 +1,18 @@
 # @modern-js/prod-server
 
+## 3.12.0
+
+### Patch Changes
+
+- 58fc58d: Remove an obsolete ambient type reference to the unavailable module-tools package.
+- Updated dependencies [b35f295]
+- Updated dependencies [67fc367]
+- Updated dependencies [d378801]
+- Updated dependencies [8bb2f02]
+  - @modern-js/utils@3.12.0
+  - @modern-js/server-core@3.12.0
+  - @modern-js/runtime-utils@3.12.0
+
 ## 3.11.3
 
 ### Patch Changes
