@@ -345,7 +345,13 @@ for (const [changeset, id, expected] of [
         calls.filter(call => call.includes('bump')),
         [
           ['pnpm', 'run', 'bump'],
-          ['pnpm', 'run', 'bump', '--snapshot', snapshotSuffix(channelFor(), id)],
+          [
+            'pnpm',
+            'run',
+            'bump',
+            '--snapshot',
+            snapshotSuffix(channelFor(), id),
+          ],
         ],
       );
       assert.equal(

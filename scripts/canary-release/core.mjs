@@ -107,7 +107,8 @@ export function snapshotSuffix(channel, releaseId) {
 }
 
 export function versionFor(channel, releaseId, bumped) {
-  if (channel.scheme === 'snapshot') return `0.0.0-${snapshotSuffix(channel, releaseId)}`;
+  if (channel.scheme === 'snapshot')
+    return `0.0.0-${snapshotSuffix(channel, releaseId)}`;
   assert(
     typeof bumped === 'string' && STABLE_VERSION.test(bumped),
     'A stable release publishes the version changesets computed, as plain major.minor.patch',

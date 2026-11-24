@@ -190,10 +190,14 @@ export function prepare(
         temporaryChangeset,
         `---\n${packages.map(pkg => `${JSON.stringify(pkg.name)}: patch`).join('\n')}\n---\n\nTemporary full ${channel.tag} coverage.\n`,
       );
-      execute('pnpm', ['run', 'bump', '--snapshot', snapshotSuffix(channel, releaseId)], {
-        cwd: root,
-        inherit: true,
-      });
+      execute(
+        'pnpm',
+        ['run', 'bump', '--snapshot', snapshotSuffix(channel, releaseId)],
+        {
+          cwd: root,
+          inherit: true,
+        },
+      );
       versioned = listWorkspaces(root, execute);
     }
     const plan = validatePlan({
