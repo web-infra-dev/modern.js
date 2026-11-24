@@ -4,11 +4,8 @@ import os from 'node:os';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 
-describe('ts-node-loader', () => {
-  const loaderPath = path.resolve(
-    __dirname,
-    '../../src/esm/ts-node-loader.mjs',
-  );
+describe('swc-loader', () => {
+  const loaderPath = path.resolve(__dirname, '../../src/esm/swc-loader.mjs');
 
   function createTmpApp() {
     const rootDir = fs.mkdtempSync(path.join(os.tmpdir(), 'app-tools-loader-'));
@@ -119,7 +116,7 @@ describe('ts-node-loader', () => {
                 paths: {},
               });
               // Extensionless relative import resolved from a file: parentURL inside
-              // the app directory must be forwarded to ts-node as a real .ts path.
+              // the app directory must be resolved to the real .ts path.
               const result = await loader.resolve(
                 './helper',
                 { parentURL: pathToFileURL(${JSON.stringify(entryFile)}).href },
@@ -207,6 +204,60 @@ describe('ts-node-loader', () => {
       expect(fs.realpathSync(fileURLToPath(result.url))).toBe(
         fs.realpathSync(serviceFile),
       );
+    } finally {
+      fs.rmSync(rootDir, { recursive: true, force: true });
+    }
+  });
+
+  it('compiles app TypeScript with swc, including syntax type stripping rejects and `.js` specifiers', async () => {
+    const { rootDir, appDir } = createTmpApp();
+    const entryFile = path.join(appDir, 'entry.ts');
+    fs.writeFileSync(
+      entryFile,
+      [
+        "import { suffix } from './helper.js';",
+        'enum Color { Red, Blue }',
+        'class Service { constructor(private name: string) {} get() { return this.name; } }',
+        'export const result: string = `${Color.Blue}-${new Service("svc").get()}-${suffix}`;',
+      ].join('\n'),
+    );
+    // NodeNext-style `./helper.js` must resolve to `helper.ts`.
+    fs.writeFileSync(
+      path.join(appDir, 'helper.ts'),
+      "export const suffix: string = 'ok';\n",
+    );
+
+    try {
+      const output = childProcess.execFileSync(
+        process.execPath,
+        [
+          '--input-type=module',
+          '-e',
+          `
+            import { register } from 'node:module';
+            import { pathToFileURL } from 'node:url';
+            register(pathToFileURL(${JSON.stringify(loaderPath)}).href, {
+              data: {
+                appDir: ${JSON.stringify(appDir)},
+                baseUrl: ${JSON.stringify(appDir)},
+                paths: {},
+                swcOptions: {
+                  '.ts': {
+                    swcrc: false,
+                    module: { type: 'es6' },
+                    jsc: { target: 'es2022', parser: { syntax: 'typescript' } },
+                  },
+                },
+              },
+            });
+            const { result } = await import(pathToFileURL(${JSON.stringify(entryFile)}).href);
+            console.log(result);
+          `,
+        ],
+        { cwd: rootDir, encoding: 'utf8' },
+      );
+
+      expect(output.trim()).toBe('1-svc-ok');
     } finally {
       fs.rmSync(rootDir, { recursive: true, force: true });
     }
