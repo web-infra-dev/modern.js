@@ -65,24 +65,14 @@
     "@types/node": "^20",
     "@types/ws": "^8.18.2",
     "node-mocks-http": "^1.18.1",
-    "ts-node": "^10.9.2",
-    "tsconfig-paths": "4.2.0",
     "typescript": "^5",
     "websocket": "^1.0.35"
   },
   "peerDependencies": {
-    "devcert": "^1.2.3",
-    "ts-node": "^10.9.2",
-    "tsconfig-paths": ">= 3.0.0 || >= 4.0.0"
+    "devcert": "^1.2.3"
   },
   "peerDependenciesMeta": {
     "devcert": {
-      "optional": true
-    },
-    "ts-node": {
-      "optional": true
-    },
-    "tsconfig-paths": {
       "optional": true
     }
   },

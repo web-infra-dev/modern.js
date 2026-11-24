@@ -69,7 +69,7 @@ export interface ServerUserConfig {
   disableHook?: boolean;
   /**
    * Path to the tsconfig used by all server-side TypeScript stages:
-   * BFF/api compile, custom server compile, runtime ts-node register,
+   * BFF/api compile, custom server compile, dev-time require hooks,
    * and downstream runtimes.
    *
    * @default <appDirectory>/tsconfig.json

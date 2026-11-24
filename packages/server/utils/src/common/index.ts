@@ -14,11 +14,24 @@ export interface IConfig {
   };
 }
 
+export type CompilerOverrides = {
+  /** tsconfig `module` value, e.g. `NodeNext`. */
+  module?: string;
+  /** tsconfig `moduleResolution` value, e.g. `NodeNext`. */
+  moduleResolution?: string;
+};
+
 export interface CompileOptions {
   sourceDirs: string[];
   distDir: string;
   tsconfigPath?: string;
   moduleType?: 'module' | 'commonjs';
+  /**
+   * Compiler options forced on top of `tsconfigPath`. Set by the framework
+   * when it falls back to a bundler-mode `tsconfig.json` in a CommonJS
+   * project (see `resolveServerTsconfigInfo` in `@modern-js/utils`).
+   */
+  compilerOverrides?: CompilerOverrides;
   throwErrorInsteadOfExit?: boolean;
 }
 
@@ -57,6 +70,6 @@ export const compile: CompileFunc = async (
   );
   validateAbsolutePath(distDir, `dist dir ${distDir} is not an absolute path.`);
 
-  const { compileByTs } = await import('../compilers/typescript');
-  await compileByTs(appDirectory, modernConfig, compileOptions);
+  const { compileBySwc } = await import('../compilers/swc');
+  await compileBySwc(appDirectory, modernConfig, compileOptions);
 };
