@@ -217,40 +217,27 @@ const collectSpecifiers = (node: unknown, found: StringLiteral[]) => {
 // so a leading `0;` pins the start of this file to a known position.
 const SPAN_ANCHOR = '0;';
 
-/**
- * Apply `rewrite` to every module specifier of `source` and return the new
- * source text. Only the string literals change; everything else, including
- * import attributes and comments, is kept byte for byte.
- */
-/** Module specifiers of `source` (the same set {@link rewriteSpecifiers} rewrites). */
-export const listSpecifiers = (
-  source: string,
-  { typescript, tsx = false }: { typescript: boolean; tsx?: boolean },
-): string[] => {
-  const ast = parseSync(source.startsWith('#!') ? `//${source}` : source, {
-    syntax: typescript ? 'typescript' : 'ecmascript',
-    ...(typescript
-      ? { tsx, decorators: true }
-      : { jsx: true, decorators: true }),
-    target: 'esnext',
-    comments: false,
-  } as Parameters<typeof parseSync>[1]);
-  const literals: StringLiteral[] = [];
-  collectSpecifiers(ast.body, literals);
-  return literals.map(literal => literal.value);
-};
+interface SpecifierEdit {
+  start: number;
+  end: number;
+  value: string;
+}
 
-export const rewriteSpecifiers = (
+/** The module specifiers of one file, with their byte ranges, from one parse. */
+export interface ScannedSource {
+  source: string;
+  shebang: string;
+  specifiers: SpecifierEdit[];
+}
+
+export const scanSpecifiers = (
   source: string,
-  filename: string,
-  rewrite: SpecifierRewriter,
   { typescript, tsx = false }: { typescript: boolean; tsx?: boolean },
-): string => {
+): ScannedSource => {
   const shebang = source.startsWith('#!')
     ? source.slice(0, source.indexOf('\n') + 1 || source.length)
     : '';
-  const body = Buffer.from(SPAN_ANCHOR + source.slice(shebang.length));
-  const ast = parseSync(body.toString(), {
+  const ast = parseSync(SPAN_ANCHOR + source.slice(shebang.length), {
     syntax: typescript ? 'typescript' : 'ecmascript',
     ...(typescript
       ? { tsx, decorators: true }
@@ -259,26 +246,53 @@ export const rewriteSpecifiers = (
     comments: false,
   } as Parameters<typeof parseSync>[1]);
   const base = ast.span.start;
-
   const literals: StringLiteral[] = [];
   collectSpecifiers(ast.body, literals);
-
-  const edits = literals
-    .map(literal => ({
+  return {
+    source,
+    shebang,
+    specifiers: literals.map(literal => ({
       start: literal.span.start - base,
       end: literal.span.end - base,
-      value: rewrite(filename, literal.value),
+      value: literal.value,
+    })),
+  };
+};
+
+/** Module specifiers of `source` (the same set {@link rewriteSpecifiers} rewrites). */
+export const listSpecifiers = (
+  source: string,
+  options: { typescript: boolean; tsx?: boolean },
+): string[] =>
+  scanSpecifiers(source, options).specifiers.map(({ value }) => value);
+
+/**
+ * Apply `rewrite` to every module specifier of `source` and return the new
+ * source text. Only the string literals change; everything else, including
+ * import attributes and comments, is kept byte for byte. Pass `scanned` to
+ * reuse an earlier {@link scanSpecifiers} of the same source.
+ */
+export const rewriteSpecifiers = (
+  source: string,
+  filename: string,
+  rewrite: SpecifierRewriter,
+  options: { typescript: boolean; tsx?: boolean },
+  scanned: ScannedSource = scanSpecifiers(source, options),
+): string => {
+  const edits = scanned.specifiers
+    .map(({ start, end, value }) => ({
+      start,
+      end,
+      value: rewrite(filename, value),
     }))
-    .filter((edit): edit is { start: number; end: number; value: string } =>
-      Boolean(edit.value),
-    )
+    .filter((edit): edit is SpecifierEdit => Boolean(edit.value))
     .sort((a, b) => b.start - a.start);
 
   if (edits.length === 0) {
     return source;
   }
 
-  let result = body;
+  let result = Buffer.from(SPAN_ANCHOR + source.slice(scanned.shebang.length));
   for (const { start, end, value } of edits) {
     result = Buffer.concat([
       result.subarray(0, start),
@@ -286,7 +300,7 @@ export const rewriteSpecifiers = (
       result.subarray(end),
     ]);
   }
-  return shebang + result.subarray(SPAN_ANCHOR.length).toString();
+  return scanned.shebang + result.subarray(SPAN_ANCHOR.length).toString();
 };
 
 function getNotAliasedPath(

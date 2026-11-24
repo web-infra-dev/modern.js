@@ -1,6 +1,10 @@
 import path from 'path';
 import { fastGlob, fs, readTsConfigWithExtends } from '@modern-js/utils';
-import { type SpecifierRewriter, listSpecifiers } from './specifiers';
+import {
+  type ScannedSource,
+  type SpecifierRewriter,
+  scanSpecifiers,
+} from './specifiers';
 import { findNearest } from './typecheck';
 
 // Source extensions the server compile emits.
@@ -58,12 +62,15 @@ export const listProgramFiles = async ({
   sourceDirs,
   distDir,
   rewrite,
+  scanned,
 }: {
   appDirectory: string;
   tsconfigPath: string;
   sourceDirs: string[];
   distDir: string;
   rewrite?: SpecifierRewriter;
+  /** Filled with each file's source and specifiers, so the compile reads and parses it once. */
+  scanned?: Map<string, ScannedSource>;
 }): Promise<string[]> => {
   const { files: configFiles } = readTsConfigWithExtends(tsconfigPath);
   const files = findNearest(configFiles, 'files');
@@ -98,7 +105,7 @@ export const listProgramFiles = async ({
     }
   }
 
-  const queue = [...roots].filter(
+  let queue = [...roots].filter(
     file =>
       isSource(file) &&
       fs.existsSync(file) &&
@@ -107,35 +114,43 @@ export const listProgramFiles = async ({
   );
   const program = new Set(queue);
 
+  // Breadth first, one import level at a time, so the reads run in parallel.
   while (queue.length > 0) {
-    const file = queue.shift()!;
-    const ext = path.extname(file);
-    let specifiers: string[];
-    try {
-      specifiers = listSpecifiers(await fs.readFile(file, 'utf8'), {
-        typescript: ['.ts', '.tsx', '.mts', '.cts'].includes(ext),
-        tsx: ext === '.tsx',
-      });
-    } catch {
-      // A file swc cannot parse fails the transform with a proper error.
-      continue;
-    }
-    for (const specifier of specifiers) {
-      const local = rewrite?.(file, specifier) ?? specifier;
-      if (!local.startsWith('./') && !local.startsWith('../')) {
-        continue;
-      }
-      const target = resolveFile(path.resolve(path.dirname(file), local));
-      if (
-        target &&
-        isSource(target) &&
-        !program.has(target) &&
-        isInside(target, appDirectory) &&
-        !isInside(target, distDir) &&
-        !target.split(path.sep).includes('node_modules')
-      ) {
-        program.add(target);
-        queue.push(target);
+    const level = await Promise.all(
+      queue.map(async file => {
+        const ext = path.extname(file);
+        try {
+          const result = scanSpecifiers(await fs.readFile(file, 'utf8'), {
+            typescript: ['.ts', '.tsx', '.mts', '.cts'].includes(ext),
+            tsx: ext === '.tsx',
+          });
+          scanned?.set(file, result);
+          return { file, specifiers: result.specifiers };
+        } catch {
+          // A file swc cannot parse fails the transform with a proper error.
+          return { file, specifiers: [] };
+        }
+      }),
+    );
+    queue = [];
+    for (const { file, specifiers } of level) {
+      for (const { value: specifier } of specifiers) {
+        const local = rewrite?.(file, specifier) ?? specifier;
+        if (!local.startsWith('./') && !local.startsWith('../')) {
+          continue;
+        }
+        const target = resolveFile(path.resolve(path.dirname(file), local));
+        if (
+          target &&
+          isSource(target) &&
+          !program.has(target) &&
+          isInside(target, appDirectory) &&
+          !isInside(target, distDir) &&
+          !target.split(path.sep).includes('node_modules')
+        ) {
+          program.add(target);
+          queue.push(target);
+        }
       }
     }
   }

@@ -8,7 +8,11 @@ import {
 import { type Options, transform } from '@swc/core';
 import type { CompileFunc } from '../../common';
 import { listProgramFiles } from './files';
-import { createSpecifierRewriter, rewriteSpecifiers } from './specifiers';
+import {
+  type ScannedSource,
+  createSpecifierRewriter,
+  rewriteSpecifiers,
+} from './specifiers';
 import { runTypeCheck, validateCompilerOverrides } from './typecheck';
 
 type CompilerOptions = Record<string, any>;
@@ -182,37 +186,49 @@ export const compileBySwc: CompileFunc = async (
     compileOptions.moduleType,
   );
 
+  const scanned = new Map<string, ScannedSource>();
   const programFiles = await listProgramFiles({
     appDirectory,
     tsconfigPath,
     sourceDirs,
     distDir,
     rewrite,
+    scanned,
   });
-  for (const file of programFiles) {
-    const ext = path.extname(file);
-    const options = createSwcOptions(file, compilerOptions, moduleType);
-    const source = await fs.readFile(file, 'utf8');
-    const input = rewrite
-      ? rewriteSpecifiers(source, file, rewrite, {
-          typescript: ['.ts', '.tsx', '.mts', '.cts'].includes(ext),
-          tsx: ext === '.tsx',
-        })
-      : source;
-    const { code, map } = await transform(input, options);
-    const outFile = path
-      .join(distDir, path.relative(appDirectory, file))
-      .replace(/\.[^.]+$/, OUTPUT_EXTENSIONS[ext]);
-    await fs.outputFile(
-      outFile,
-      map
-        ? `${code}\n//# sourceMappingURL=${path.basename(outFile)}.map\n`
-        : code,
-    );
-    if (map) {
-      await fs.outputFile(`${outFile}.map`, map);
-    }
-  }
+  // swc transforms on its own threads, so the files are compiled in parallel.
+  await Promise.all(
+    programFiles.map(async file => {
+      const ext = path.extname(file);
+      const options = createSwcOptions(file, compilerOptions, moduleType);
+      const scan = scanned.get(file);
+      const source = scan?.source ?? (await fs.readFile(file, 'utf8'));
+      const input = rewrite
+        ? rewriteSpecifiers(
+            source,
+            file,
+            rewrite,
+            {
+              typescript: ['.ts', '.tsx', '.mts', '.cts'].includes(ext),
+              tsx: ext === '.tsx',
+            },
+            scan,
+          )
+        : source;
+      const { code, map } = await transform(input, options);
+      const outFile = path
+        .join(distDir, path.relative(appDirectory, file))
+        .replace(/\.[^.]+$/, OUTPUT_EXTENSIONS[ext]);
+      await fs.outputFile(
+        outFile,
+        map
+          ? `${code}\n//# sourceMappingURL=${path.basename(outFile)}.map\n`
+          : code,
+      );
+      if (map) {
+        await fs.outputFile(`${outFile}.map`, map);
+      }
+    }),
+  );
 
   for (const source of sourceDirs) {
     await copyFiles(source, distDir, appDirectory);
