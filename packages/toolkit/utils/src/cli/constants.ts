@@ -50,7 +50,7 @@ export const TS_CONFIG_FILENAME = 'tsconfig.json';
 /**
  * Convention filename of the server-side tsconfig. When it exists next to
  * `tsconfig.json`, it is used to compile `api/`, `server/` and `shared/` and
- * for ts-node at dev time, without any `server.tsconfigPath` configuration.
+ * to run them at dev time, without any `server.tsconfigPath` configuration.
  */
 export const SERVER_TSCONFIG_FILENAME = 'tsconfig.server.json';
 

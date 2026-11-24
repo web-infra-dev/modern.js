@@ -150,7 +150,7 @@ function copyTemplate(
             if (data.mf) config.include.push('module-federation.config.ts');
             rendered = `${JSON.stringify(config, null, 2)}\n`;
             // The main config stays in bundler mode; `api/` is compiled and
-            // run by ts-node with the server config, picked up by convention.
+            // run with the server config, picked up by convention.
             fs.writeFileSync(
               path.join(destDir, 'tsconfig.server.json'),
               `${JSON.stringify(SERVER_TSCONFIG, null, 2)}\n`,

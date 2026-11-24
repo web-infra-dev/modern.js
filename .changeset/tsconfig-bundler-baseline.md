@@ -2,6 +2,8 @@
 '@modern-js/tsconfig': patch
 '@modern-js/utils': patch
 '@modern-js/server-utils': patch
+'@modern-js/server': patch
+'@modern-js/bff-core': patch
 '@modern-js/app-tools': patch
 '@modern-js/plugin-bff': patch
 '@modern-js/create': patch

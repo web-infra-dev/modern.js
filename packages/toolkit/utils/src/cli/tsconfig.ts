@@ -107,7 +107,7 @@ const logConventionTsconfig = (tsconfigPath: string) => {
 
 /**
  * Resolve the tsconfig used for all server-side TypeScript stages (BFF /
- * custom server compile, ts-node at dev time).
+ * custom server compile, the dev-time require hooks).
  *
  * Precedence: explicit `server.tsconfigPath` → `<appDir>/tsconfig.server.json`
  * → `<appDir>/tsconfig.json`.
