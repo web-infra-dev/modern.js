@@ -498,3 +498,28 @@ test('only the branch its own channel prescribes may trigger a publish', () => {
     );
   }
 });
+
+test('a release id with the time in it gives the short canary version', async () => {
+  const { channelFor, snapshotSuffix, versionFor, RELEASE_ID } = await import(
+    './core.mjs'
+  );
+  const id = 'r20261124072140-521272f3d8a6ec8e12146634b3f60ef4';
+  assert(RELEASE_ID.test(id));
+  assert.equal(
+    versionFor(channelFor('canary'), id),
+    '0.0.0-canary-20261124072140',
+  );
+  assert.equal(
+    snapshotSuffix(channelFor('custom', 'mcp-preview'), id),
+    'mcp-preview-20261124072140',
+  );
+  // An id minted before the time was part of it keeps the version it was
+  // released under.
+  const legacy = 'r20261124-521272f3d8a6ec8e12146634b3f60ef4';
+  assert(RELEASE_ID.test(legacy));
+  assert.equal(
+    versionFor(channelFor('canary'), legacy),
+    `0.0.0-canary-verify.${legacy}`,
+  );
+  assert(!RELEASE_ID.test('r2026112407-521272f3d8a6ec8e12146634b3f60ef4'));
+});
