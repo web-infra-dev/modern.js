@@ -65,6 +65,7 @@ const getStaticFiles = () => {
 describe.each(['dev', 'prod'])('server in %s', mode => {
   let app: ChildProcess | undefined;
   let baseUrl: string;
+  let buildOutput = '';
 
   beforeAll(async () => {
     const port = await getPort();
@@ -74,6 +75,7 @@ describe.each(['dev', 'prod'])('server in %s', mode => {
     } else {
       const build = await modernBuild(appDir);
       expect(build.code, build.stderr || build.stdout).toBe(0);
+      buildOutput = `${build.stdout}${build.stderr}`;
       app = await modernServe(appDir, port);
     }
     expect(app?.pid).toBeDefined();
@@ -83,6 +85,23 @@ describe.each(['dev', 'prod'])('server in %s', mode => {
     if (app) {
       await killApp(app);
     }
+  });
+
+  // This app has no tsconfig.server.json and its tsconfig.json extends the
+  // bundler-mode base (module: ESNext). The output format follows
+  // package.json#type, so the server is still CommonJS and nothing is
+  // reported about the fallback.
+  test('compiles the custom server to CommonJS through the tsconfig.json fallback', () => {
+    if (mode !== 'prod') {
+      return;
+    }
+    expect(buildOutput).not.toContain('tsconfig.server.json');
+    const serverEntry = fs.readFileSync(
+      path.join(appDir, 'dist/server/modern.server.js'),
+      'utf-8',
+    );
+    expect(serverEntry).toMatch(/\bexports\b/);
+    expect(serverEntry).not.toMatch(/^import /m);
   });
 
   test('runs request and render middleware from server config and plugins', async () => {
