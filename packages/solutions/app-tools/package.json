@@ -148,21 +148,7 @@
     "@scripts/rstest-config": "workspace:*",
     "@types/babel__traverse": "7.28.0",
     "@types/node": "^20",
-    "ts-node": "^10.9.2",
-    "tsconfig-paths": "^4.2.0",
     "typescript": "^5"
-  },
-  "peerDependencies": {
-    "ts-node": "^10.9.2",
-    "tsconfig-paths": "^4.2.0"
-  },
-  "peerDependenciesMeta": {
-    "ts-node": {
-      "optional": true
-    },
-    "tsconfig-paths": {
-      "optional": true
-    }
   },
   "sideEffects": false,
   "publishConfig": {
