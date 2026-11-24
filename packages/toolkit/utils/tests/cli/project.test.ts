@@ -1,4 +1,4 @@
-import { isVersionBeyond17 } from '../../src/cli/is/project';
+import { isVersionBeyond17 } from '../../src';
 
 describe('isVersionBeyondReact17', () => {
   test('should return true for version 17 and above', () => {

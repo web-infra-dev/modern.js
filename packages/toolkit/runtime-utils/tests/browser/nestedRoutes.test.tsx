@@ -1,4 +1,4 @@
-import { renderNestedRoute } from '../../src/browser/nestedRoutes';
+import { renderNestedRoute } from '../../src/browser';
 
 // A rejected promise whose rejection is only "handled" once something attaches
 // a rejection handler to it; `.catch(fn)` goes through `.then(undefined, fn)`.

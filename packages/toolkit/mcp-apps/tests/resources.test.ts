@@ -15,8 +15,7 @@ import os from 'node:os';
 import { McpServer } from '@modelcontextprotocol/server';
 import { Client } from '@modelcontextprotocol/client';
 import { InMemoryTransport } from '@modelcontextprotocol/server';
-import { registerUiResources } from '../src/server/resources';
-import { validateUiManifest, type UiManifest } from '../src/manifest';
+import { registerUiResources, type UiManifest } from '../src/server';
 
 let directory: string;
 beforeAll(async () => {
@@ -152,17 +151,6 @@ it('supports independent absolute remote entries and request HTTPS termination',
     await session.close();
   }
 });
-it('rejects unsupported versions, missing remotes and path traversal', () => {
-  expect(() => validateUiManifest({ ...manifest(), version: 2 })).toThrow(
-    'version',
-  );
-  const value = manifest();
-  value.remotes = {};
-  expect(() => validateUiManifest(value)).toThrow('Invalid UI manifest view');
-  value.views = { local: { html: '../secret', ui: {} } };
-  expect(() => validateUiManifest(value)).toThrow('Invalid relative');
-});
-
 it('loads a hosted manifest and resolves relative HTML from its URL', async () => {
   const { createServer } = await import('node:http');
   const hosted: UiManifest = {
@@ -213,11 +201,23 @@ it('rejects missing or invalid manifests during resource registration', async ()
       manifest: path.join(directory, 'missing.json'),
     }),
   ).rejects.toThrow('ENOENT');
-  const filename = path.join(directory, 'invalid.json');
-  await writeFile(filename, JSON.stringify({ ...manifest(), version: 2 }));
-  await expect(
-    registerUiResources(server, { manifest: filename }),
-  ).rejects.toThrow('version');
+  for (const [value, error] of [
+    [{ ...manifest(), version: 2 }, 'version'],
+    [{ ...manifest(), remotes: {} }, 'Invalid UI manifest view'],
+    [
+      { ...manifest(), views: { local: { html: '../secret', ui: {} } } },
+      'Invalid relative',
+    ],
+  ] as const) {
+    const filename = path.join(
+      directory,
+      `invalid-${crypto.randomUUID()}.json`,
+    );
+    await writeFile(filename, JSON.stringify(value));
+    await expect(
+      registerUiResources(server, { manifest: filename }),
+    ).rejects.toThrow(error);
+  }
 });
 
 it('keeps request origins isolated when servers share a cached manifest', async () => {
