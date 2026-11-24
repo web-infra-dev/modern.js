@@ -5,6 +5,7 @@
     "noEmit": true,
     "isolatedModules": true,
     "moduleDetection": "force",
+    "noEmitOnError": true,
     "paths": {
       "@/*": ["./src/*"],
       "@shared/*": ["./shared/*"]

@@ -224,30 +224,8 @@ describe('server compile', () => {
     }
   });
 
-  it('rejects instead of exiting when the caller asks to, so a BFF build fails on type errors', async () => {
+  it('only reports type errors for a BFF build unless noEmitOnError is true', async () => {
     const { appDir } = await createStubTypeScriptApp('5.9.3', 2);
-    const error = rstest.spyOn(logger, 'error').mockImplementation(() => {});
-    try {
-      await expect(
-        compile(appDir, { alias: {} } as any, {
-          sourceDirs: [path.join(appDir, 'api')],
-          distDir: path.join(appDir, 'dist'),
-          tsconfigPath: path.join(appDir, 'tsconfig.json'),
-          throwErrorInsteadOfExit: true,
-        }),
-      ).rejects.toThrow('"noEmitOnError": false in tsconfig.json');
-      expect(error.mock.calls[0][0]).toContain('TS2322');
-    } finally {
-      error.mockRestore();
-      await fs.remove(appDir);
-    }
-  });
-
-  it('only reports type errors when noEmitOnError is false', async () => {
-    const { appDir } = await createStubTypeScriptApp('5.9.3', 2);
-    await fs.outputJSON(path.join(appDir, 'tsconfig.json'), {
-      compilerOptions: { target: 'ES2022', noEmitOnError: false },
-    });
     const error = rstest.spyOn(logger, 'error').mockImplementation(() => {});
     try {
       await compile(appDir, { alias: {} } as any, {
@@ -257,9 +235,32 @@ describe('server compile', () => {
         throwErrorInsteadOfExit: true,
       });
       expect(error.mock.calls[0][0]).toContain('TS2322');
+      expect(error.mock.calls[1][0]).toContain('"noEmitOnError": true');
       expect(await fs.pathExists(path.join(appDir, 'dist/api/index.js'))).toBe(
         true,
       );
+    } finally {
+      error.mockRestore();
+      await fs.remove(appDir);
+    }
+  });
+
+  it('fails a BFF build on type errors when noEmitOnError is true', async () => {
+    const { appDir } = await createStubTypeScriptApp('5.9.3', 2);
+    await fs.outputJSON(path.join(appDir, 'tsconfig.json'), {
+      compilerOptions: { target: 'ES2022', noEmitOnError: true },
+    });
+    const error = rstest.spyOn(logger, 'error').mockImplementation(() => {});
+    try {
+      await expect(
+        compile(appDir, { alias: {} } as any, {
+          sourceDirs: [path.join(appDir, 'api')],
+          distDir: path.join(appDir, 'dist'),
+          tsconfigPath: path.join(appDir, 'tsconfig.json'),
+          throwErrorInsteadOfExit: true,
+        }),
+      ).rejects.toThrow('"noEmitOnError": true in tsconfig.json');
+      expect(error.mock.calls[0][0]).toContain('TS2322');
     } finally {
       error.mockRestore();
       await fs.remove(appDir);

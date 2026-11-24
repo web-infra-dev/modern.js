@@ -14,7 +14,7 @@ Shared TypeScript presets for Modern.js projects.
 
 | Preset   | Import path                  | Purpose                                                                                                                                                                                                                                                                        |
 | -------- | ---------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
-| `base`   | `@modern-js/tsconfig/base`   | Main project config: `module: ESNext`, `moduleResolution: bundler`, `jsx: react-jsx`, `target: ES2022`, `strict`. Used by the editor, Rspack and type-checking.                                                                                             |
+| `base`   | `@modern-js/tsconfig/base`   | Main project config: `module: ESNext`, `moduleResolution: bundler`, `jsx: react-jsx`, `target: ES2022`, `strict`. Used by the editor, Rspack and type-checking.                                                                                                                |
 | `server` | `@modern-js/tsconfig/server` | Reference preset with the four server-side emit overrides: `module: NodeNext`, `moduleResolution: NodeNext`, `noEmit: false`, `declaration: false`. For tools that support `extends` arrays (tsc >= 5.0); the recommended `tsconfig.server.json` inlines the same four fields. |
 | `legacy` | `@modern-js/tsconfig/legacy` | The previous `base` preset (`module: commonjs`, `moduleResolution: node`, `target: ES2015`). Rollback aid only; TypeScript 6 reports these options as deprecated.                                                                                                              |
 | `react`  | `@modern-js/tsconfig/react`  | Deprecated alias of `base`. Use `base` instead.                                                                                                                                                                                                                                |
@@ -34,6 +34,7 @@ A project keeps one main `tsconfig.json` and, when it has server-side code, a `t
     "noEmit": true,
     "isolatedModules": true,
     "moduleDetection": "force",
+    "noEmitOnError": true,
     "types": ["node"],
     "paths": {
       "@/*": ["./src/*"],

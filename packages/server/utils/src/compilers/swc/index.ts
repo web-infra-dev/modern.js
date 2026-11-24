@@ -251,12 +251,21 @@ export const compileBySwc: CompileFunc = async (
   } else if (!check.ok) {
     logger.error(check.output);
     const { noEmitOnError } = compilerOptions;
-    if (noEmitOnError === undefined || noEmitOnError === true) {
-      const message = `TypeScript compilation failed. To report type errors without failing the build, set "noEmitOnError": false in ${path.relative(appDirectory, tsconfigPath)}.`;
-      if (compileOptions.throwErrorInsteadOfExit) {
-        throw new Error(message);
+    const tsconfigFile = path.relative(appDirectory, tsconfigPath);
+    if (compileOptions.throwErrorInsteadOfExit) {
+      // BFF builds only reported type errors before, so failing stays opt-in.
+      if (noEmitOnError === true) {
+        throw new Error(
+          `TypeScript compilation failed ("noEmitOnError": true in ${tsconfigFile}).`,
+        );
       }
-      logger.error(message);
+      logger.error(
+        `TypeScript compilation failed. Set "noEmitOnError": true in ${tsconfigFile} to fail the build on type errors.`,
+      );
+    } else if (noEmitOnError === undefined || noEmitOnError === true) {
+      logger.error(
+        `TypeScript compilation failed. To report type errors without failing the build, set "noEmitOnError": false in ${tsconfigFile}.`,
+      );
       process.exit(1);
     }
   }
