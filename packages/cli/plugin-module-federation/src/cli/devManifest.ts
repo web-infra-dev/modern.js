@@ -1,10 +1,9 @@
-import path from 'node:path';
 import type { Rspack } from '@rsbuild/core';
 import { createBuildVersionCoordinator } from '@module-federation/enhanced/rspack';
 import { isWebTarget } from './utils';
 
 const HOT_UPDATE_ASSET_RE = /\.hot-update\.(?:json|m?js|css)(?:\.map)?$/i;
-const MAX_HOT_UPDATE_GENERATIONS = 8;
+const MAX_HOT_UPDATE_GENERATIONS = 16;
 
 function hotUpdateContentType(filename: string) {
   if (filename.endsWith('.json') || filename.endsWith('.map'))
@@ -16,23 +15,19 @@ function hotUpdateContentType(filename: string) {
 interface HotUpdateEntry {
   content: Buffer;
   contentType: string;
-  outputPath?: string;
   prefix: string;
 }
 
 /**
  * Retain recent browser hot-update chunks across rapid multi-compiler rebuilds
  * so cross-origin MF remotes do not fail with HTML fallbacks if Rsbuild's
- * memory-filesystem cleanup evicts an in-flight generation.
+ * memory-filesystem cleanup evicts an in-flight generation while queued.
  */
 export function createDevHotUpdateCache(
   maxGenerations = MAX_HOT_UPDATE_GENERATIONS,
 ) {
   const generations = new Map<string, Map<string, HotUpdateEntry>>();
   let order: string[] = [];
-  let outputFileSystem:
-    | { stat?: (filename: string, cb: (err: unknown) => void) => void }
-    | undefined;
 
   return {
     attach(compiler: Rspack.Compiler | Rspack.MultiCompiler) {
@@ -41,7 +36,6 @@ export function createDevHotUpdateCache(
       for (const child of compilers) {
         if (!isWebTarget(child.options?.target)) continue;
         child.hooks.afterEmit.tap('ModernMFHotUpdateCache', compilation => {
-          outputFileSystem = child.outputFileSystem as typeof outputFileSystem;
           if (compilation.errors?.length) return;
           const hash = compilation.hash;
           if (!hash) return;
@@ -54,7 +48,6 @@ export function createDevHotUpdateCache(
             publicPath || '/',
             'http://modern.invalid',
           ).pathname.replace(/\/?$/, '/');
-          const outputPath = child.outputPath;
           const entries = new Map<string, HotUpdateEntry>();
           for (const asset of compilation.getAssets()) {
             const name = asset.name.split('?')[0].replace(/^\/+/, '');
@@ -64,7 +57,6 @@ export function createDevHotUpdateCache(
             entries.set(name, {
               content,
               contentType: hotUpdateContentType(name),
-              outputPath,
               prefix,
             });
           }
@@ -79,7 +71,7 @@ export function createDevHotUpdateCache(
         });
       }
     },
-    async get(pathname: string, fallbackOutputDir?: string) {
+    get(pathname: string) {
       if (!HOT_UPDATE_ASSET_RE.test(pathname)) return undefined;
       for (let i = order.length - 1; i >= 0; i--) {
         const entries = generations.get(order[i]);
@@ -87,15 +79,6 @@ export function createDevHotUpdateCache(
         for (const [name, entry] of entries) {
           const expected = `${entry.prefix}${name}`;
           if (pathname !== expected && pathname !== `/${name}`) continue;
-          const dir = entry.outputPath || fallbackOutputDir;
-          if (dir && outputFileSystem?.stat) {
-            const existsInFs = await new Promise<boolean>(resolve => {
-              outputFileSystem!.stat!(path.join(dir, name), err => {
-                resolve(!err);
-              });
-            });
-            if (existsInFs) return undefined;
-          }
           return { content: entry.content, contentType: entry.contentType };
         }
       }
