@@ -1,44 +1,39 @@
-import { createAsyncHook } from '@modern-js/plugin';
-import { appTools } from '../../src';
-import type { ModifyBuilderEnvironmentsFn } from '../../src/types/plugin';
+import { type AppToolsExtendHooks, appTools } from '../../src';
+
+function createHook() {
+  return appTools().registryHooks!
+    .modifyBuilderEnvironments as AppToolsExtendHooks['modifyBuilderEnvironments'];
+}
 
 describe('modifyBuilderEnvironments hook', () => {
-  it('is registered on the app-tools registryHooks', () => {
-    const plugin = appTools();
-    expect(plugin.registryHooks?.modifyBuilderEnvironments).toBeDefined();
+  it('preserves the environments map when there are no taps', async () => {
+    const hook = createHook();
+    const environments = { web: {} };
+    const result = await hook.call({ environments });
+    expect(result.environments).toBe(environments);
   });
 
-  it('identity default: with no taps, environments is byte-identical (same ref)', async () => {
-    const hook = createAsyncHook<ModifyBuilderEnvironmentsFn>();
-    const environments = { web: { output: { target: 'web' } } } as any;
-    const { environments: out } = await hook.call({ environments });
-    expect(out).toBe(environments);
-  });
-
-  it('a tap returning undefined leaves environments untouched', async () => {
-    const hook = createAsyncHook<ModifyBuilderEnvironmentsFn>();
+  it('preserves the environments map when a tap returns undefined', async () => {
+    const hook = createHook();
     hook.tap(() => undefined as any);
-    const environments = { web: {} } as any;
-    const { environments: out } = await hook.call({ environments });
-    expect(out).toBe(environments);
+    const environments = { web: {} };
+    const result = await hook.call({ environments });
+    expect(result.environments).toBe(environments);
   });
 
-  it('a transform replaces the environments map and chains to the next tap', async () => {
-    const hook = createAsyncHook<ModifyBuilderEnvironmentsFn>();
+  it('passes the transformed environments map to the next tap', async () => {
+    const hook = createHook();
     hook.tap(({ environments }) => ({
       environments: {
         ...environments,
-        Worker: { output: { target: 'web-worker' } } as any,
+        Worker: { output: { target: 'web-worker' } },
       },
     }));
     hook.tap(({ environments }) => {
-      // the second tap sees the first tap's output
-      expect(environments.Worker).toBeDefined();
+      expect(environments.Worker.output?.target).toBe('web-worker');
       return { environments };
     });
-    const { environments: out } = await hook.call({
-      environments: { web: {} } as any,
-    });
-    expect(Object.keys(out)).toEqual(['web', 'Worker']);
+    const { environments } = await hook.call({ environments: { web: {} } });
+    expect(Object.keys(environments)).toEqual(['web', 'Worker']);
   });
 });
