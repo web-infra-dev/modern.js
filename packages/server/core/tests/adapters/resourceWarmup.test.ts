@@ -1,11 +1,11 @@
 import path from 'node:path';
 import type { Monitors, ServerRoute } from '@modern-js/types';
 import { compatibleRequire, fs } from '@modern-js/utils';
+import type { ServerPluginAPI } from '../../src';
 import {
   getServerManifest,
   injectResourcePlugin,
-} from '../../src/adapters/node/plugins/resource';
-import type { ServerPluginAPI } from '../../src/types';
+} from '../../src/adapters/node';
 
 rstest.mock('@modern-js/utils', () => {
   const actualUtils =
