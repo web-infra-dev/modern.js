@@ -13,3 +13,13 @@ node tests/skill/run.mjs
 ```
 
 退出码非 0 表示有断言失败。
+
+## modernjs-migrate-tsconfig
+
+`migrate-tsconfig.mjs` 以 `fixtures/v3-legacy-tsconfig-bff/`（旧创建模板的 tsconfig，含 `"baseUrl": "./"`）为输入，覆盖 `skills/modernjs-migrate-tsconfig/scripts/migrate-tsconfig.mjs` 的行为矩阵：默认 / 自定义 / 无 `paths` / 写在父配置的 `baseUrl`、裸导入补 `"*"`、`@api/*`、`tsconfig.server.json`、`type: module`、含注释的 tsconfig、幂等：
+
+```bash
+node tests/skill/migrate-tsconfig.mjs
+```
+
+最后一段会临时安装 TypeScript 6.0.3（需要访问 npm），对迁移后的旧模板做 `tsc` 验收，包括依赖 `baseUrl` 的裸导入。
