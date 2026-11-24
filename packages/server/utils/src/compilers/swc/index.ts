@@ -236,11 +236,12 @@ export const compileBySwc: CompileFunc = async (
     logger.error(check.output);
     const { noEmitOnError } = compilerOptions;
     if (noEmitOnError === undefined || noEmitOnError === true) {
+      const message = `TypeScript compilation failed. To report type errors without failing the build, set "noEmitOnError": false in ${path.relative(appDirectory, tsconfigPath)}.`;
       if (compileOptions.throwErrorInsteadOfExit) {
-        logger.error('TypeScript compilation failed');
-      } else {
-        process.exit(1);
+        throw new Error(message);
       }
+      logger.error(message);
+      process.exit(1);
     }
   }
 

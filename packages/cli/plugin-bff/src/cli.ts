@@ -8,6 +8,7 @@ import type { ServerRoute } from '@modern-js/types';
 import {
   fs,
   API_DIR,
+  logger,
   type Alias,
   DEFAULT_API_PREFIX,
   SHARED_DIR,
@@ -138,7 +139,13 @@ export const bffPlugin = (): CliPlugin<AppTools> => ({
       const { bff } = api.getNormalizedConfig();
       if (bff?.crossProject) {
         if (!isBuild) {
-          await compileApi();
+          // In dev a type or syntax error is reported and the server keeps
+          // running, so the next save can fix it; `build` lets it fail.
+          try {
+            await compileApi();
+          } catch (error) {
+            logger.error(error);
+          }
         }
         await generator();
       }
