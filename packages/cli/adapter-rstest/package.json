@@ -9,7 +9,7 @@
     "directory": "packages/cli/adapter-rstest"
   },
   "license": "MIT",
-  "version": "3.11.3",
+  "version": "0.0.0-canary-verify.r20261124-db1b8117fdfcc6722dd09abca1f0b014",
   "type": "module",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
@@ -26,13 +26,13 @@
     "test": "rstest"
   },
   "dependencies": {
-    "@modern-js/app-tools": "workspace:*",
+    "@modern-js/app-tools": "workspace:0.0.0-canary-verify.r20261124-db1b8117fdfcc6722dd09abca1f0b014",
     "@rstest/adapter-rsbuild": "^0.12.3"
   },
   "devDependencies": {
     "@modern-js/rslib": "workspace:*",
-    "@modern-js/tsconfig": "workspace:*",
-    "@modern-js/types": "workspace:*",
+    "@modern-js/tsconfig": "workspace:0.0.0-canary-verify.r20261124-db1b8117fdfcc6722dd09abca1f0b014",
+    "@modern-js/types": "workspace:0.0.0-canary-verify.r20261124-db1b8117fdfcc6722dd09abca1f0b014",
     "@rsbuild/core": "2.3.2",
     "@rstest/core": "0.12.3",
     "@scripts/rstest-config": "workspace:*",

@@ -10,6 +10,6 @@
     "react-dom": "^19.3.1"
   },
   "devDependencies": {
-    "@modern-js/app-tools": "workspace:*"
+    "@modern-js/app-tools": "workspace:0.0.0-canary-verify.r20261124-db1b8117fdfcc6722dd09abca1f0b014"
   }
 }

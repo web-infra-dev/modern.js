@@ -1,13 +1,13 @@
 {
   "private": true,
   "name": "app-route",
-  "version": "2.66.7",
+  "version": "0.0.0-canary-verify.r20261124-db1b8117fdfcc6722dd09abca1f0b014",
   "scripts": {
     "dev": "modern dev"
   },
   "dependencies": {
-    "@modern-js/app-tools": "workspace:*",
-    "@modern-js/runtime": "workspace:*",
+    "@modern-js/app-tools": "workspace:0.0.0-canary-verify.r20261124-db1b8117fdfcc6722dd09abca1f0b014",
+    "@modern-js/runtime": "workspace:0.0.0-canary-verify.r20261124-db1b8117fdfcc6722dd09abca1f0b014",
     "react": "^19.3.1",
     "react-dom": "^19.3.1"
   }
