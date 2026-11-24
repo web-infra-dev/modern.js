@@ -19,7 +19,7 @@
   "engines": {
     "node": ">=20"
   },
-  "version": "3.11.3",
+  "version": "0.0.0-canary-verify.r20261124-67f87c1bf0625a0280cdf862c71c5ba2",
   "main": "./dist/index.js",
   "bin": {
     "create": "./bin/run.js"
@@ -58,8 +58,8 @@
     "test": "rstest"
   },
   "devDependencies": {
-    "@modern-js/i18n-utils": "workspace:*",
-    "@modern-js/mcp-apps": "workspace:*",
+    "@modern-js/i18n-utils": "workspace:0.0.0-canary-verify.r20261124-67f87c1bf0625a0280cdf862c71c5ba2",
+    "@modern-js/mcp-apps": "workspace:0.0.0-canary-verify.r20261124-67f87c1bf0625a0280cdf862c71c5ba2",
     "@modern-js/rslib": "workspace:*",
     "@scripts/rstest-config": "workspace:*",
     "@types/node": "^20",
