@@ -254,7 +254,7 @@
     "@modern-js/runtime-utils": "workspace:*",
     "@modern-js/types": "workspace:*",
     "@modern-js/utils": "workspace:*",
-    "@module-federation/bridge-react": "0.0.0-feat-mf-ssr-update-current-20261124030451",
+    "@module-federation/bridge-react": "0.0.0-feat-enhanced-runtime-unification-20261124090002",
     "@swc/core": "1.16.22",
     "@swc/helpers": "^0.5.17",
     "@swc/plugin-loadable-components": "^12.0.0",
@@ -269,7 +269,7 @@
     "react-is": "^18.3.1"
   },
   "peerDependencies": {
-    "@module-federation/enhanced": "0.0.0-feat-mf-ssr-update-current-20261124030451",
+    "@module-federation/enhanced": "0.0.0-feat-enhanced-runtime-unification-20261124090002",
     "react": ">=18.3.1",
     "react-dom": ">=18.3.1"
   },
