@@ -1,5 +1,5 @@
 import assert from 'node:assert/strict';
-import test from 'node:test';
+import { test } from '@rstest/core';
 import { assertTrigger, releaseBranch, stagingBranch } from './core.mjs';
 import { locateBuild } from './release.mjs';
 import {

@@ -1,6 +1,7 @@
 import fs from 'node:fs';
 import os from 'node:os';
 import path from 'node:path';
+import { onTestFinished } from '@rstest/core';
 import { integrity, planHash, run, writeJson } from './core.mjs';
 
 export const releaseId = 'r20261018-123456781234423482341234567890ab';
@@ -22,9 +23,10 @@ export const makePlan = () => ({
   requiredTargets: ['npm'],
 });
 
-export function temporary(t) {
+// Called from inside a test; the directory is removed when that test ends.
+export function temporary() {
   const root = fs.mkdtempSync(path.join(os.tmpdir(), 'canary-test-'));
-  t.after(() => fs.rmSync(root, { recursive: true, force: true }));
+  onTestFinished(() => fs.rmSync(root, { recursive: true, force: true }));
   return root;
 }
 

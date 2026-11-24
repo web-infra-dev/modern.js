@@ -70,8 +70,10 @@ jobs:
           node-version: '24.21.0'
       - name: Install pinned clients without repository dependencies
         run: npm install --global npm@11.21.0 pnpm@10.13.1 --ignore-scripts
-      - name: Test canary contracts
-        run: node --test scripts/canary-release/*.test.mjs
+      # The contract tests run in the build workflow, which needs the
+      # repository dependencies for Rstest. This job installs none on purpose:
+      # it holds the OIDC token, and it only publishes artifacts that build
+      # packed and tested for this exact commit.
       - name: Verify prepared source and plan
         id: plan
         env:

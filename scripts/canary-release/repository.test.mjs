@@ -1,19 +1,17 @@
 import assert from 'node:assert/strict';
 import fs from 'node:fs';
 import path from 'node:path';
-import test from 'node:test';
+import { test } from '@rstest/core';
 import { fileURLToPath } from 'node:url';
 import { listWorkspaces, readJson, run } from './core.mjs';
 import { releaseId, temporary, version } from './fixtures.mjs';
 import { prepare } from './prepare.mjs';
 
 // Opt-in: exercise real tracked workspace manifests without changing this checkout.
-test(
+test.skipIf(
+  !process.env.CANARY_TEST_REPOSITORY || !process.env.CANARY_TEST_TOOLCHAIN,
+)(
   'real Modern.js repository produces exactly the 29 publishable snapshot packages',
-  {
-    skip:
-      !process.env.CANARY_TEST_REPOSITORY || !process.env.CANARY_TEST_TOOLCHAIN,
-  },
   t => {
     const repository = path.resolve(
       path.dirname(fileURLToPath(import.meta.url)),

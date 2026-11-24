@@ -45,17 +45,15 @@ jobs:
           node-version: '24.21.0'
       - name: Install pinned pnpm
         run: npm install --global pnpm@10.13.1 --ignore-scripts
-      - name: Test canary contracts
-        run: node --test scripts/canary-release/*.test.mjs
       - name: Verify prepared source and plan
         id: plan
         run: node scripts/canary-release/release.mjs verify --staging
       - name: Install dependencies with native scripts
         run: node scripts/canary-release/release.mjs install
-      - name: Test real Changesets and pnpm packing contracts
+      - name: Test canary contracts, with the real Changesets and pnpm packing
         env:
           CANARY_TEST_TOOLCHAIN: .
-        run: node --test scripts/canary-release/prepare.test.mjs
+        run: pnpm exec rstest run --config scripts/canary-release/rstest.config.mts
       - name: Build packages
         run: pnpm run prepare-build
       - name: Unit tests

@@ -1,7 +1,7 @@
 import assert from 'node:assert/strict';
 import fs from 'node:fs';
 import path from 'node:path';
-import test from 'node:test';
+import { test } from '@rstest/core';
 import { fileURLToPath } from 'node:url';
 import {
   TAG,
@@ -301,9 +301,8 @@ for (const [changeset, id, expected] of [
   [false, releaseId, version],
   [true, mintedId, '0.0.0-canary-20261124072140'],
 ]) {
-  test(
+  test.skipIf(!process.env.CANARY_TEST_TOOLCHAIN)(
     `real repository bump + Changesets snapshot, changeset=${changeset}, id=${id.slice(0, 15)}`,
-    { skip: !process.env.CANARY_TEST_TOOLCHAIN },
     t => {
       const root = fixture(t, { changeset });
       const toolchain = path.resolve(process.env.CANARY_TEST_TOOLCHAIN);
