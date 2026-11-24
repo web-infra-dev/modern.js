@@ -15,5 +15,10 @@ export default defineConfig({
   },
   server: {
     ssr: server,
+    // Written to the build output and read from there by the deployed server.
+    staticCacheControl: {
+      hashed: 'public, max-age=86400',
+      unhashed: 'public, max-age=300',
+    },
   },
 });
