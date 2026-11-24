@@ -9,8 +9,8 @@
     "react": "^19.3.1",
     "react-dom": "^19.3.1",
     "@modern-js/runtime": "workspace:*",
-    "@module-federation/enhanced": "0.0.0-feat-mf-ssr-update-current-20261123061307",
-    "@module-federation/bridge-react": "0.0.0-feat-mf-ssr-update-current-20261123061307"
+    "@module-federation/enhanced": "0.0.0-feat-mf-ssr-update-current-20261124030451",
+    "@module-federation/bridge-react": "0.0.0-feat-mf-ssr-update-current-20261124030451"
   },
   "devDependencies": {
     "@modern-js/app-tools": "workspace:*",

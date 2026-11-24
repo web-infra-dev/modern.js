@@ -270,11 +270,11 @@ importers:
         specifier: latest
         version: 3.11.3(@module-federation/runtime-tools@2.9.2)(core-js@3.50.0)(react-dom@19.2.8(react@19.2.8))(react-server-dom-rspack@0.1.0(@rspack/core@2.3.3(@module-federation/runtime-tools@2.9.2)(@swc/helpers@0.5.24))(react-dom@19.2.8(react@19.2.8))(react@19.2.8))(react@19.2.8)
       '@module-federation/bridge-react':
-        specifier: 0.0.0-feat-mf-ssr-update-current-20261123061307
-        version: 0.0.0-feat-mf-ssr-update-current-20261123061307(@module-federation/enhanced@0.0.0-feat-mf-ssr-update-current-20261123061307(@rspack/core@2.3.3(@module-federation/runtime-tools@2.9.2)(@swc/helpers@0.5.24))(bufferutil@4.1.0)(typescript@5.9.3)(utf-8-validate@5.0.10)(webpack@5.104.1(@swc/core@1.16.21(@swc/helpers@0.5.24))))(react-dom@19.2.8(react@19.2.8))(react-router-dom@7.16.0(react-dom@19.2.8(react@19.2.8))(react@19.2.8))(react-router@7.15.1(react-dom@19.2.8(react@19.2.8))(react@19.2.8))(react@19.2.8)
+        specifier: 0.0.0-feat-mf-ssr-update-current-20261124030451
+        version: 0.0.0-feat-mf-ssr-update-current-20261124030451(@module-federation/enhanced@0.0.0-feat-mf-ssr-update-current-20261124030451(@rspack/core@2.3.3(@module-federation/runtime-tools@2.9.2)(@swc/helpers@0.5.24))(bufferutil@4.1.0)(typescript@5.9.3)(utf-8-validate@5.0.10)(webpack@5.104.1(@swc/core@1.16.21(@swc/helpers@0.5.24))))(react-dom@19.2.8(react@19.2.8))(react-router-dom@7.16.0(react-dom@19.2.8(react@19.2.8))(react@19.2.8))(react-router@7.15.1(react-dom@19.2.8(react@19.2.8))(react@19.2.8))(react@19.2.8)
       '@module-federation/enhanced':
-        specifier: 0.0.0-feat-mf-ssr-update-current-20261123061307
-        version: 0.0.0-feat-mf-ssr-update-current-20261123061307(@rspack/core@2.3.3(@module-federation/runtime-tools@2.9.2)(@swc/helpers@0.5.24))(bufferutil@4.1.0)(typescript@5.9.3)(utf-8-validate@5.0.10)(webpack@5.104.1(@swc/core@1.16.21(@swc/helpers@0.5.24)))
+        specifier: 0.0.0-feat-mf-ssr-update-current-20261124030451
+        version: 0.0.0-feat-mf-ssr-update-current-20261124030451(@rspack/core@2.3.3(@module-federation/runtime-tools@2.9.2)(@swc/helpers@0.5.24))(bufferutil@4.1.0)(typescript@5.9.3)(utf-8-validate@5.0.10)(webpack@5.104.1(@swc/core@1.16.21(@swc/helpers@0.5.24)))
       react:
         specifier: ^19.2.8
         version: 19.2.8
@@ -316,11 +316,11 @@ importers:
         specifier: latest
         version: 3.11.3(@module-federation/runtime-tools@2.9.2)(core-js@3.50.0)(react-dom@19.2.8(react@19.2.8))(react-server-dom-rspack@0.1.0(@rspack/core@2.3.3(@module-federation/runtime-tools@2.9.2)(@swc/helpers@0.5.24))(react-dom@19.2.8(react@19.2.8))(react@19.2.8))(react@19.2.8)
       '@module-federation/bridge-react':
-        specifier: 0.0.0-feat-mf-ssr-update-current-20261123061307
-        version: 0.0.0-feat-mf-ssr-update-current-20261123061307(@module-federation/enhanced@0.0.0-feat-mf-ssr-update-current-20261123061307(@rspack/core@2.3.3(@module-federation/runtime-tools@2.9.2)(@swc/helpers@0.5.24))(bufferutil@4.1.0)(typescript@5.9.3)(utf-8-validate@5.0.10)(webpack@5.104.1(@swc/core@1.16.21(@swc/helpers@0.5.24))))(react-dom@19.2.8(react@19.2.8))(react-router-dom@7.18.4(react-dom@19.2.8(react@19.2.8))(react@19.2.8))(react-router@7.18.4(react-dom@19.2.8(react@19.2.8))(react@19.2.8))(react@19.2.8)
+        specifier: 0.0.0-feat-mf-ssr-update-current-20261124030451
+        version: 0.0.0-feat-mf-ssr-update-current-20261124030451(@module-federation/enhanced@0.0.0-feat-mf-ssr-update-current-20261124030451(@rspack/core@2.3.3(@module-federation/runtime-tools@2.9.2)(@swc/helpers@0.5.24))(bufferutil@4.1.0)(typescript@5.9.3)(utf-8-validate@5.0.10)(webpack@5.104.1(@swc/core@1.16.21(@swc/helpers@0.5.24))))(react-dom@19.2.8(react@19.2.8))(react-router-dom@7.18.4(react-dom@19.2.8(react@19.2.8))(react@19.2.8))(react-router@7.18.4(react-dom@19.2.8(react@19.2.8))(react@19.2.8))(react@19.2.8)
       '@module-federation/enhanced':
-        specifier: 0.0.0-feat-mf-ssr-update-current-20261123061307
-        version: 0.0.0-feat-mf-ssr-update-current-20261123061307(@rspack/core@2.3.3(@module-federation/runtime-tools@2.9.2)(@swc/helpers@0.5.24))(bufferutil@4.1.0)(typescript@5.9.3)(utf-8-validate@5.0.10)(webpack@5.104.1(@swc/core@1.16.21(@swc/helpers@0.5.24)))
+        specifier: 0.0.0-feat-mf-ssr-update-current-20261124030451
+        version: 0.0.0-feat-mf-ssr-update-current-20261124030451(@rspack/core@2.3.3(@module-federation/runtime-tools@2.9.2)(@swc/helpers@0.5.24))(bufferutil@4.1.0)(typescript@5.9.3)(utf-8-validate@5.0.10)(webpack@5.104.1(@swc/core@1.16.21(@swc/helpers@0.5.24)))
       react:
         specifier: ^19.2.8
         version: 19.2.8
@@ -356,11 +356,11 @@ importers:
         specifier: latest
         version: 3.11.3(@module-federation/runtime-tools@2.9.2)(core-js@3.50.0)(react-dom@19.2.8(react@19.2.8))(react-server-dom-rspack@0.1.0(@rspack/core@2.3.3(@module-federation/runtime-tools@2.9.2)(@swc/helpers@0.5.24))(react-dom@19.2.8(react@19.2.8))(react@19.2.8))(react@19.2.8)
       '@module-federation/bridge-react':
-        specifier: 0.0.0-feat-mf-ssr-update-current-20261123061307
-        version: 0.0.0-feat-mf-ssr-update-current-20261123061307(@module-federation/enhanced@0.0.0-feat-mf-ssr-update-current-20261123061307(@rspack/core@2.3.3(@module-federation/runtime-tools@2.9.2)(@swc/helpers@0.5.24))(bufferutil@4.1.0)(typescript@5.9.3)(utf-8-validate@5.0.10)(webpack@5.104.1(@swc/core@1.16.21(@swc/helpers@0.5.24))))(react-dom@19.2.8(react@19.2.8))(react-router-dom@7.16.0(react-dom@19.2.8(react@19.2.8))(react@19.2.8))(react-router@7.18.4(react-dom@19.2.8(react@19.2.8))(react@19.2.8))(react@19.2.8)
+        specifier: 0.0.0-feat-mf-ssr-update-current-20261124030451
+        version: 0.0.0-feat-mf-ssr-update-current-20261124030451(@module-federation/enhanced@0.0.0-feat-mf-ssr-update-current-20261124030451(@rspack/core@2.3.3(@module-federation/runtime-tools@2.9.2)(@swc/helpers@0.5.24))(bufferutil@4.1.0)(typescript@5.9.3)(utf-8-validate@5.0.10)(webpack@5.104.1(@swc/core@1.16.21(@swc/helpers@0.5.24))))(react-dom@19.2.8(react@19.2.8))(react-router-dom@7.16.0(react-dom@19.2.8(react@19.2.8))(react@19.2.8))(react-router@7.18.4(react-dom@19.2.8(react@19.2.8))(react@19.2.8))(react@19.2.8)
       '@module-federation/enhanced':
-        specifier: 0.0.0-feat-mf-ssr-update-current-20261123061307
-        version: 0.0.0-feat-mf-ssr-update-current-20261123061307(@rspack/core@2.3.3(@module-federation/runtime-tools@2.9.2)(@swc/helpers@0.5.24))(bufferutil@4.1.0)(typescript@5.9.3)(utf-8-validate@5.0.10)(webpack@5.104.1(@swc/core@1.16.21(@swc/helpers@0.5.24)))
+        specifier: 0.0.0-feat-mf-ssr-update-current-20261124030451
+        version: 0.0.0-feat-mf-ssr-update-current-20261124030451(@rspack/core@2.3.3(@module-federation/runtime-tools@2.9.2)(@swc/helpers@0.5.24))(bufferutil@4.1.0)(typescript@5.9.3)(utf-8-validate@5.0.10)(webpack@5.104.1(@swc/core@1.16.21(@swc/helpers@0.5.24)))
       react:
         specifier: ^19.2.8
         version: 19.2.8
@@ -399,11 +399,11 @@ importers:
         specifier: latest
         version: 3.11.3(@module-federation/runtime-tools@2.9.2)(core-js@3.50.0)(react-dom@19.2.8(react@19.2.8))(react-server-dom-rspack@0.1.0(@rspack/core@2.3.3(@module-federation/runtime-tools@2.9.2)(@swc/helpers@0.5.24))(react-dom@19.2.8(react@19.2.8))(react@19.2.8))(react@19.2.8)
       '@module-federation/bridge-react':
-        specifier: 0.0.0-feat-mf-ssr-update-current-20261123061307
-        version: 0.0.0-feat-mf-ssr-update-current-20261123061307(@module-federation/enhanced@0.0.0-feat-mf-ssr-update-current-20261123061307(@rspack/core@2.3.3(@module-federation/runtime-tools@2.9.2)(@swc/helpers@0.5.24))(bufferutil@4.1.0)(typescript@5.9.3)(utf-8-validate@5.0.10)(webpack@5.104.1(@swc/core@1.16.21(@swc/helpers@0.5.24))))(react-dom@19.2.8(react@19.2.8))(react-router-dom@7.18.4(react-dom@19.2.8(react@19.2.8))(react@19.2.8))(react-router@7.18.4(react-dom@19.2.8(react@19.2.8))(react@19.2.8))(react@19.2.8)
+        specifier: 0.0.0-feat-mf-ssr-update-current-20261124030451
+        version: 0.0.0-feat-mf-ssr-update-current-20261124030451(@module-federation/enhanced@0.0.0-feat-mf-ssr-update-current-20261124030451(@rspack/core@2.3.3(@module-federation/runtime-tools@2.9.2)(@swc/helpers@0.5.24))(bufferutil@4.1.0)(typescript@5.9.3)(utf-8-validate@5.0.10)(webpack@5.104.1(@swc/core@1.16.21(@swc/helpers@0.5.24))))(react-dom@19.2.8(react@19.2.8))(react-router-dom@7.18.4(react-dom@19.2.8(react@19.2.8))(react@19.2.8))(react-router@7.18.4(react-dom@19.2.8(react@19.2.8))(react@19.2.8))(react@19.2.8)
       '@module-federation/enhanced':
-        specifier: 0.0.0-feat-mf-ssr-update-current-20261123061307
-        version: 0.0.0-feat-mf-ssr-update-current-20261123061307(@rspack/core@2.3.3(@module-federation/runtime-tools@2.9.2)(@swc/helpers@0.5.24))(bufferutil@4.1.0)(typescript@5.9.3)(utf-8-validate@5.0.10)(webpack@5.104.1(@swc/core@1.16.21(@swc/helpers@0.5.24)))
+        specifier: 0.0.0-feat-mf-ssr-update-current-20261124030451
+        version: 0.0.0-feat-mf-ssr-update-current-20261124030451(@rspack/core@2.3.3(@module-federation/runtime-tools@2.9.2)(@swc/helpers@0.5.24))(bufferutil@4.1.0)(typescript@5.9.3)(utf-8-validate@5.0.10)(webpack@5.104.1(@swc/core@1.16.21(@swc/helpers@0.5.24)))
       react:
         specifier: ^19.2.8
         version: 19.2.8
@@ -985,20 +985,20 @@ importers:
         specifier: workspace:*
         version: link:../../toolkit/utils
       '@module-federation/bridge-react':
-        specifier: 0.0.0-feat-mf-ssr-update-current-20261123061307
-        version: 0.0.0-feat-mf-ssr-update-current-20261123061307(@module-federation/enhanced@0.0.0-feat-mf-ssr-update-current-20261123061307(@rspack-canary/core@2.3.4-canary-24cae013-20261120083057(@module-federation/runtime-tools@0.0.0-feat-mf-ssr-update-current-20261123061307)(@swc/helpers@0.5.23))(bufferutil@4.1.0)(typescript@5.7.3)(utf-8-validate@5.0.10)(webpack@5.104.1(@swc/core@1.16.21(@swc/helpers@0.5.24))))(react-dom@19.3.1(react@19.3.1))(react-router-dom@7.18.4(react-dom@19.3.1(react@19.3.1))(react@19.3.1))(react-router@7.18.4(react-dom@19.3.1(react@19.3.1))(react@19.3.1))(react@19.3.1)
+        specifier: 0.0.0-feat-mf-ssr-update-current-20261124030451
+        version: 0.0.0-feat-mf-ssr-update-current-20261124030451(@module-federation/enhanced@0.0.0-feat-mf-ssr-update-current-20261124030451(@rspack-canary/core@2.3.4-canary-24cae013-20261120083057(@module-federation/runtime-tools@0.0.0-feat-mf-ssr-update-current-20261124030451)(@swc/helpers@0.5.23))(bufferutil@4.1.0)(typescript@5.7.3)(utf-8-validate@5.0.10)(webpack@5.104.1(@swc/core@1.16.21(@swc/helpers@0.5.24))))(react-dom@19.3.1(react@19.3.1))(react-router-dom@7.18.4(react-dom@19.3.1(react@19.3.1))(react@19.3.1))(react-router@7.18.4(react-dom@19.3.1(react@19.3.1))(react@19.3.1))(react@19.3.1)
       '@module-federation/node':
-        specifier: 0.0.0-feat-mf-ssr-update-current-20261123061307
-        version: 0.0.0-feat-mf-ssr-update-current-20261123061307(@rspack-canary/core@2.3.4-canary-24cae013-20261120083057(@module-federation/runtime-tools@0.0.0-feat-mf-ssr-update-current-20261123061307)(@swc/helpers@0.5.23))(bufferutil@4.1.0)(typescript@5.7.3)(utf-8-validate@5.0.10)(webpack@5.104.1(@swc/core@1.16.21(@swc/helpers@0.5.24)))
+        specifier: 0.0.0-feat-mf-ssr-update-current-20261124030451
+        version: 0.0.0-feat-mf-ssr-update-current-20261124030451(@rspack-canary/core@2.3.4-canary-24cae013-20261120083057(@module-federation/runtime-tools@0.0.0-feat-mf-ssr-update-current-20261124030451)(@swc/helpers@0.5.23))(bufferutil@4.1.0)(typescript@5.7.3)(utf-8-validate@5.0.10)(webpack@5.104.1(@swc/core@1.16.21(@swc/helpers@0.5.24)))
       '@module-federation/rsbuild-plugin':
-        specifier: 0.0.0-feat-mf-ssr-update-current-20261123061307
-        version: 0.0.0-feat-mf-ssr-update-current-20261123061307(@rsbuild/core@2.2.13(@module-federation/runtime-tools@0.0.0-feat-mf-ssr-update-current-20261123061307)(core-js@3.50.0))(@rspack-canary/core@2.3.4-canary-24cae013-20261120083057(@module-federation/runtime-tools@0.0.0-feat-mf-ssr-update-current-20261123061307)(@swc/helpers@0.5.23))(bufferutil@4.1.0)(typescript@5.7.3)(utf-8-validate@5.0.10)(webpack@5.104.1(@swc/core@1.16.21(@swc/helpers@0.5.24)))
+        specifier: 0.0.0-feat-mf-ssr-update-current-20261124030451
+        version: 0.0.0-feat-mf-ssr-update-current-20261124030451(@rsbuild/core@2.2.13(@module-federation/runtime-tools@0.0.0-feat-mf-ssr-update-current-20261124030451)(core-js@3.50.0))(@rspack-canary/core@2.3.4-canary-24cae013-20261120083057(@module-federation/runtime-tools@0.0.0-feat-mf-ssr-update-current-20261124030451)(@swc/helpers@0.5.23))(bufferutil@4.1.0)(typescript@5.7.3)(utf-8-validate@5.0.10)(webpack@5.104.1(@swc/core@1.16.21(@swc/helpers@0.5.24)))
       '@module-federation/sdk':
-        specifier: 0.0.0-feat-mf-ssr-update-current-20261123061307
-        version: 0.0.0-feat-mf-ssr-update-current-20261123061307
+        specifier: 0.0.0-feat-mf-ssr-update-current-20261124030451
+        version: 0.0.0-feat-mf-ssr-update-current-20261124030451
       '@rsbuild/core':
         specifier: 2.2.13
-        version: 2.2.13(@module-federation/runtime-tools@0.0.0-feat-mf-ssr-update-current-20261123061307)(core-js@3.50.0)
+        version: 2.2.13(@module-federation/runtime-tools@0.0.0-feat-mf-ssr-update-current-20261124030451)(core-js@3.50.0)
       '@swc/helpers':
         specifier: ^0.5.17
         version: 0.5.23
@@ -1013,11 +1013,11 @@ importers:
         specifier: workspace:*
         version: link:../../server/server-runtime
       '@module-federation/enhanced':
-        specifier: 0.0.0-feat-mf-ssr-update-current-20261123061307
-        version: 0.0.0-feat-mf-ssr-update-current-20261123061307(@rspack-canary/core@2.3.4-canary-24cae013-20261120083057(@module-federation/runtime-tools@0.0.0-feat-mf-ssr-update-current-20261123061307)(@swc/helpers@0.5.23))(bufferutil@4.1.0)(typescript@5.7.3)(utf-8-validate@5.0.10)(webpack@5.104.1(@swc/core@1.16.21(@swc/helpers@0.5.24)))
+        specifier: 0.0.0-feat-mf-ssr-update-current-20261124030451
+        version: 0.0.0-feat-mf-ssr-update-current-20261124030451(@rspack-canary/core@2.3.4-canary-24cae013-20261120083057(@module-federation/runtime-tools@0.0.0-feat-mf-ssr-update-current-20261124030451)(@swc/helpers@0.5.23))(bufferutil@4.1.0)(typescript@5.7.3)(utf-8-validate@5.0.10)(webpack@5.104.1(@swc/core@1.16.21(@swc/helpers@0.5.24)))
       '@rspack/core':
         specifier: npm:@rspack-canary/core@2.3.4-canary-24cae013-20261120083057
-        version: '@rspack-canary/core@2.3.4-canary-24cae013-20261120083057(@module-federation/runtime-tools@0.0.0-feat-mf-ssr-update-current-20261123061307)(@swc/helpers@0.5.23)'
+        version: '@rspack-canary/core@2.3.4-canary-24cae013-20261120083057(@module-federation/runtime-tools@0.0.0-feat-mf-ssr-update-current-20261124030451)(@swc/helpers@0.5.23)'
       '@scripts/rstest-config':
         specifier: workspace:*
         version: link:../../../scripts/rstest-config
@@ -1294,11 +1294,11 @@ importers:
         specifier: workspace:*
         version: link:../../toolkit/utils
       '@module-federation/bridge-react':
-        specifier: 0.0.0-feat-mf-ssr-update-current-20261123061307
-        version: 0.0.0-feat-mf-ssr-update-current-20261123061307(@module-federation/enhanced@0.0.0-feat-mf-ssr-update-current-20261123061307(@rspack/core@2.3.3(@module-federation/runtime-tools@2.9.2)(@swc/helpers@0.5.23))(bufferutil@4.1.0)(typescript@5.9.3)(utf-8-validate@5.0.10)(webpack@5.104.1(@swc/core@1.16.18(@swc/helpers@0.5.23))))(react-dom@19.3.1(react@19.3.1))(react-router-dom@7.18.4(react-dom@19.3.1(react@19.3.1))(react@19.3.1))(react-router@7.18.4(react-dom@19.3.1(react@19.3.1))(react@19.3.1))(react@19.3.1)
+        specifier: 0.0.0-feat-mf-ssr-update-current-20261124030451
+        version: 0.0.0-feat-mf-ssr-update-current-20261124030451(@module-federation/enhanced@0.0.0-feat-mf-ssr-update-current-20261124030451(@rspack/core@2.3.3(@module-federation/runtime-tools@2.9.2)(@swc/helpers@0.5.23))(bufferutil@4.1.0)(typescript@5.9.3)(utf-8-validate@5.0.10)(webpack@5.104.1(@swc/core@1.16.18(@swc/helpers@0.5.23))))(react-dom@19.3.1(react@19.3.1))(react-router-dom@7.18.4(react-dom@19.3.1(react@19.3.1))(react@19.3.1))(react-router@7.18.4(react-dom@19.3.1(react@19.3.1))(react@19.3.1))(react@19.3.1)
       '@module-federation/enhanced':
-        specifier: 0.0.0-feat-mf-ssr-update-current-20261123061307
-        version: 0.0.0-feat-mf-ssr-update-current-20261123061307(@rspack/core@2.3.3(@module-federation/runtime-tools@2.9.2)(@swc/helpers@0.5.23))(bufferutil@4.1.0)(typescript@5.9.3)(utf-8-validate@5.0.10)(webpack@5.104.1(@swc/core@1.16.18(@swc/helpers@0.5.23)))
+        specifier: 0.0.0-feat-mf-ssr-update-current-20261124030451
+        version: 0.0.0-feat-mf-ssr-update-current-20261124030451(@rspack/core@2.3.3(@module-federation/runtime-tools@2.9.2)(@swc/helpers@0.5.23))(bufferutil@4.1.0)(typescript@5.9.3)(utf-8-validate@5.0.10)(webpack@5.104.1(@swc/core@1.16.18(@swc/helpers@0.5.23)))
       '@swc/core':
         specifier: 1.16.18
         version: 1.16.18(@swc/helpers@0.5.23)
@@ -3841,11 +3841,11 @@ importers:
         specifier: workspace:*
         version: link:../../../../packages/runtime/plugin-runtime
       '@module-federation/bridge-react':
-        specifier: 0.0.0-feat-mf-ssr-update-current-20261123061307
-        version: 0.0.0-feat-mf-ssr-update-current-20261123061307(@module-federation/enhanced@0.0.0-feat-mf-ssr-update-current-20261123061307(@rspack/core@2.3.3(@module-federation/runtime-tools@2.9.2)(@swc/helpers@0.5.24))(bufferutil@4.1.0)(typescript@5.9.3)(utf-8-validate@5.0.10)(webpack@5.104.1(@swc/core@1.16.21(@swc/helpers@0.5.24))))(react-dom@19.3.1(react@19.3.1))(react-router-dom@7.18.4(react-dom@19.3.1(react@19.3.1))(react@19.3.1))(react-router@7.18.4(react-dom@19.3.1(react@19.3.1))(react@19.3.1))(react@19.3.1)
+        specifier: 0.0.0-feat-mf-ssr-update-current-20261124030451
+        version: 0.0.0-feat-mf-ssr-update-current-20261124030451(@module-federation/enhanced@0.0.0-feat-mf-ssr-update-current-20261124030451(@rspack/core@2.3.3(@module-federation/runtime-tools@2.9.2)(@swc/helpers@0.5.24))(bufferutil@4.1.0)(typescript@5.9.3)(utf-8-validate@5.0.10)(webpack@5.104.1(@swc/core@1.16.21(@swc/helpers@0.5.24))))(react-dom@19.3.1(react@19.3.1))(react-router-dom@7.18.4(react-dom@19.3.1(react@19.3.1))(react@19.3.1))(react-router@7.18.4(react-dom@19.3.1(react@19.3.1))(react@19.3.1))(react@19.3.1)
       '@module-federation/enhanced':
-        specifier: 0.0.0-feat-mf-ssr-update-current-20261123061307
-        version: 0.0.0-feat-mf-ssr-update-current-20261123061307(@rspack/core@2.3.3(@module-federation/runtime-tools@2.9.2)(@swc/helpers@0.5.24))(bufferutil@4.1.0)(typescript@5.9.3)(utf-8-validate@5.0.10)(webpack@5.104.1(@swc/core@1.16.21(@swc/helpers@0.5.24)))
+        specifier: 0.0.0-feat-mf-ssr-update-current-20261124030451
+        version: 0.0.0-feat-mf-ssr-update-current-20261124030451(@rspack/core@2.3.3(@module-federation/runtime-tools@2.9.2)(@swc/helpers@0.5.24))(bufferutil@4.1.0)(typescript@5.9.3)(utf-8-validate@5.0.10)(webpack@5.104.1(@swc/core@1.16.21(@swc/helpers@0.5.24)))
       '@radix-ui/react-checkbox':
         specifier: 1.3.3
         version: 1.3.3(@types/react-dom@19.3.0(@types/react@19.3.0))(@types/react@19.3.0)(react-dom@19.3.1(react@19.3.1))(react@19.3.1)
@@ -3884,11 +3884,11 @@ importers:
   tests/integration/module-federation/library:
     dependencies:
       '@module-federation/bridge-react':
-        specifier: 0.0.0-feat-mf-ssr-update-current-20261123061307
-        version: 0.0.0-feat-mf-ssr-update-current-20261123061307(@module-federation/enhanced@0.0.0-feat-mf-ssr-update-current-20261123061307(@rspack/core@2.3.3(@module-federation/runtime-tools@2.9.2)(@swc/helpers@0.5.23))(bufferutil@4.1.0)(typescript@5.9.3)(utf-8-validate@5.0.10)(webpack@5.104.1(@swc/core@1.16.21(@swc/helpers@0.5.24))))(react-dom@19.3.1(react@19.3.1))(react-router-dom@7.18.4(react-dom@19.3.1(react@19.3.1))(react@19.3.1))(react-router@7.18.4(react-dom@19.3.1(react@19.3.1))(react@19.3.1))(react@19.3.1)
+        specifier: 0.0.0-feat-mf-ssr-update-current-20261124030451
+        version: 0.0.0-feat-mf-ssr-update-current-20261124030451(@module-federation/enhanced@0.0.0-feat-mf-ssr-update-current-20261124030451(@rspack/core@2.3.3(@module-federation/runtime-tools@2.9.2)(@swc/helpers@0.5.23))(bufferutil@4.1.0)(typescript@5.9.3)(utf-8-validate@5.0.10)(webpack@5.104.1(@swc/core@1.16.21(@swc/helpers@0.5.24))))(react-dom@19.3.1(react@19.3.1))(react-router-dom@7.18.4(react-dom@19.3.1(react@19.3.1))(react@19.3.1))(react-router@7.18.4(react-dom@19.3.1(react@19.3.1))(react@19.3.1))(react@19.3.1)
       '@module-federation/enhanced':
-        specifier: 0.0.0-feat-mf-ssr-update-current-20261123061307
-        version: 0.0.0-feat-mf-ssr-update-current-20261123061307(@rspack/core@2.3.3(@module-federation/runtime-tools@2.9.2)(@swc/helpers@0.5.23))(bufferutil@4.1.0)(typescript@5.9.3)(utf-8-validate@5.0.10)(webpack@5.104.1(@swc/core@1.16.21(@swc/helpers@0.5.24)))
+        specifier: 0.0.0-feat-mf-ssr-update-current-20261124030451
+        version: 0.0.0-feat-mf-ssr-update-current-20261124030451(@rspack/core@2.3.3(@module-federation/runtime-tools@2.9.2)(@swc/helpers@0.5.23))(bufferutil@4.1.0)(typescript@5.9.3)(utf-8-validate@5.0.10)(webpack@5.104.1(@swc/core@1.16.21(@swc/helpers@0.5.24)))
       react:
         specifier: ^19.3.1
         version: 19.3.1
@@ -3900,8 +3900,8 @@ importers:
         specifier: workspace:*
         version: link:../../../../packages/tsconfig
       '@module-federation/rsbuild-plugin':
-        specifier: 0.0.0-feat-mf-ssr-update-current-20261123061307
-        version: 0.0.0-feat-mf-ssr-update-current-20261123061307(@rsbuild/core@2.1.13(@module-federation/runtime-tools@2.9.2)(core-js@3.50.0))(@rspack/core@2.3.3(@module-federation/runtime-tools@2.9.2)(@swc/helpers@0.5.23))(bufferutil@4.1.0)(typescript@5.9.3)(utf-8-validate@5.0.10)(webpack@5.104.1(@swc/core@1.16.21(@swc/helpers@0.5.24)))
+        specifier: 0.0.0-feat-mf-ssr-update-current-20261124030451
+        version: 0.0.0-feat-mf-ssr-update-current-20261124030451(@rsbuild/core@2.1.13(@module-federation/runtime-tools@2.9.2)(core-js@3.50.0))(@rspack/core@2.3.3(@module-federation/runtime-tools@2.9.2)(@swc/helpers@0.5.23))(bufferutil@4.1.0)(typescript@5.9.3)(utf-8-validate@5.0.10)(webpack@5.104.1(@swc/core@1.16.21(@swc/helpers@0.5.24)))
       '@rsbuild/plugin-react':
         specifier: 1.4.5
         version: 1.4.5(@rsbuild/core@2.1.13(@module-federation/runtime-tools@2.9.2)(core-js@3.50.0))
@@ -3915,11 +3915,11 @@ importers:
         specifier: workspace:*
         version: link:../../../../packages/runtime/plugin-runtime
       '@module-federation/bridge-react':
-        specifier: 0.0.0-feat-mf-ssr-update-current-20261123061307
-        version: 0.0.0-feat-mf-ssr-update-current-20261123061307(@module-federation/enhanced@0.0.0-feat-mf-ssr-update-current-20261123061307(@rspack/core@2.3.3(@module-federation/runtime-tools@2.9.2)(@swc/helpers@0.5.24))(bufferutil@4.1.0)(typescript@5.9.3)(utf-8-validate@5.0.10)(webpack@5.104.1(@swc/core@1.16.21(@swc/helpers@0.5.24))))(react-dom@19.3.1(react@19.3.1))(react-router-dom@7.18.4(react-dom@19.3.1(react@19.3.1))(react@19.3.1))(react-router@7.18.4(react-dom@19.3.1(react@19.3.1))(react@19.3.1))(react@19.3.1)
+        specifier: 0.0.0-feat-mf-ssr-update-current-20261124030451
+        version: 0.0.0-feat-mf-ssr-update-current-20261124030451(@module-federation/enhanced@0.0.0-feat-mf-ssr-update-current-20261124030451(@rspack/core@2.3.3(@module-federation/runtime-tools@2.9.2)(@swc/helpers@0.5.24))(bufferutil@4.1.0)(typescript@5.9.3)(utf-8-validate@5.0.10)(webpack@5.104.1(@swc/core@1.16.21(@swc/helpers@0.5.24))))(react-dom@19.3.1(react@19.3.1))(react-router-dom@7.18.4(react-dom@19.3.1(react@19.3.1))(react@19.3.1))(react-router@7.18.4(react-dom@19.3.1(react@19.3.1))(react@19.3.1))(react@19.3.1)
       '@module-federation/enhanced':
-        specifier: 0.0.0-feat-mf-ssr-update-current-20261123061307
-        version: 0.0.0-feat-mf-ssr-update-current-20261123061307(@rspack/core@2.3.3(@module-federation/runtime-tools@2.9.2)(@swc/helpers@0.5.24))(bufferutil@4.1.0)(typescript@5.9.3)(utf-8-validate@5.0.10)(webpack@5.104.1(@swc/core@1.16.21(@swc/helpers@0.5.24)))
+        specifier: 0.0.0-feat-mf-ssr-update-current-20261124030451
+        version: 0.0.0-feat-mf-ssr-update-current-20261124030451(@rspack/core@2.3.3(@module-federation/runtime-tools@2.9.2)(@swc/helpers@0.5.24))(bufferutil@4.1.0)(typescript@5.9.3)(utf-8-validate@5.0.10)(webpack@5.104.1(@swc/core@1.16.21(@swc/helpers@0.5.24)))
       react:
         specifier: ^19.3.1
         version: 19.3.1
@@ -3946,11 +3946,11 @@ importers:
         specifier: workspace:*
         version: link:../../../../packages/runtime/plugin-runtime
       '@module-federation/bridge-react':
-        specifier: 0.0.0-feat-mf-ssr-update-current-20261123061307
-        version: 0.0.0-feat-mf-ssr-update-current-20261123061307(@module-federation/enhanced@0.0.0-feat-mf-ssr-update-current-20261123061307(@rspack/core@2.3.3(@module-federation/runtime-tools@2.9.2)(@swc/helpers@0.5.24))(bufferutil@4.1.0)(typescript@5.9.3)(utf-8-validate@5.0.10)(webpack@5.104.1(@swc/core@1.16.21(@swc/helpers@0.5.24))))(react-dom@19.3.1(react@19.3.1))(react-router-dom@7.18.4(react-dom@19.3.1(react@19.3.1))(react@19.3.1))(react-router@7.18.4(react-dom@19.3.1(react@19.3.1))(react@19.3.1))(react@19.3.1)
+        specifier: 0.0.0-feat-mf-ssr-update-current-20261124030451
+        version: 0.0.0-feat-mf-ssr-update-current-20261124030451(@module-federation/enhanced@0.0.0-feat-mf-ssr-update-current-20261124030451(@rspack/core@2.3.3(@module-federation/runtime-tools@2.9.2)(@swc/helpers@0.5.24))(bufferutil@4.1.0)(typescript@5.9.3)(utf-8-validate@5.0.10)(webpack@5.104.1(@swc/core@1.16.21(@swc/helpers@0.5.24))))(react-dom@19.3.1(react@19.3.1))(react-router-dom@7.18.4(react-dom@19.3.1(react@19.3.1))(react@19.3.1))(react-router@7.18.4(react-dom@19.3.1(react@19.3.1))(react@19.3.1))(react@19.3.1)
       '@module-federation/enhanced':
-        specifier: 0.0.0-feat-mf-ssr-update-current-20261123061307
-        version: 0.0.0-feat-mf-ssr-update-current-20261123061307(@rspack/core@2.3.3(@module-federation/runtime-tools@2.9.2)(@swc/helpers@0.5.24))(bufferutil@4.1.0)(typescript@5.9.3)(utf-8-validate@5.0.10)(webpack@5.104.1(@swc/core@1.16.21(@swc/helpers@0.5.24)))
+        specifier: 0.0.0-feat-mf-ssr-update-current-20261124030451
+        version: 0.0.0-feat-mf-ssr-update-current-20261124030451(@rspack/core@2.3.3(@module-federation/runtime-tools@2.9.2)(@swc/helpers@0.5.24))(bufferutil@4.1.0)(typescript@5.9.3)(utf-8-validate@5.0.10)(webpack@5.104.1(@swc/core@1.16.21(@swc/helpers@0.5.24)))
       echarts:
         specifier: 6.0.0
         version: 6.0.0
@@ -7404,8 +7404,8 @@ packages:
     peerDependencies:
       webpack: ^5.0.0-beta.16
 
-  '@module-federation/bridge-react-webpack-plugin@0.0.0-feat-mf-ssr-update-current-20261123061307':
-    resolution: {integrity: sha512-0osLLgBCkhZj4Cic8MBJ/xQrKW/LwbClMNlwvtEraUv8HYWFVUX2QvL8FwA4oQDLjv6cz2ebCnqfaJymS5vRfg==}
+  '@module-federation/bridge-react-webpack-plugin@0.0.0-feat-mf-ssr-update-current-20261124030451':
+    resolution: {integrity: sha512-yie+JhdI5sioB+jbawu3nM1iEsC3scgJS1G49G/09ydSWhUsDfcCxuD9jP3o63jhhlqV9D/esHal3Ge+g5/5+g==}
 
   '@module-federation/bridge-react-webpack-plugin@2.0.0':
     resolution: {integrity: sha512-AVT/rZK6RHva6ZTYfsyQ8oP4xYNTws3OzqKW/YxWaLXwQ3oG9ZbF7fKl4jIKoMKuuy2L9MGVXS4CYPZy0s8fXg==}
@@ -7413,10 +7413,10 @@ packages:
   '@module-federation/bridge-react-webpack-plugin@2.9.2':
     resolution: {integrity: sha512-6ikuvP1639g8jzSxveDLz/BOk0VTIkO7aSuvrZgq0waB0h553zFtkTJAXQETezzO+s1taHGhEvFoCtl6DJWu6A==}
 
-  '@module-federation/bridge-react@0.0.0-feat-mf-ssr-update-current-20261123061307':
-    resolution: {integrity: sha512-MItYCVe2ToDjsYuj+tbA6TpdzlXf4yd7c6Jgbd5Aflk93jNQGJgVh4hsdAAsoYVYuz72PwG4Dahdd9IpSvhvMQ==}
+  '@module-federation/bridge-react@0.0.0-feat-mf-ssr-update-current-20261124030451':
+    resolution: {integrity: sha512-o/RNVVkku48cP21pLlKxg4pC/KwCQtqaLLnur4PaTd+MTgqu9/+Xok8XpTi+yz1XnMXLZLXkMN4Pm1CmyYTW8Q==}
     peerDependencies:
-      '@module-federation/enhanced': ^0.0.0-feat-mf-ssr-update-current-20261123061307
+      '@module-federation/enhanced': ^0.0.0-feat-mf-ssr-update-current-20261124030451
       react: '>=16.9.0'
       react-dom: '>=16.9.0'
       react-router: ^6 || ^7
@@ -7453,14 +7453,14 @@ packages:
       react-router-dom:
         optional: true
 
-  '@module-federation/bridge-shared@0.0.0-feat-mf-ssr-update-current-20261123061307':
-    resolution: {integrity: sha512-AC+qI2NOH1TbFCe8Czk34NBlfnhKNVtTBwZMp1mocqMAAuEPUt8OlsfI982sNra4E/RaJRY63+dMCbXKeiMKRw==}
+  '@module-federation/bridge-shared@0.0.0-feat-mf-ssr-update-current-20261124030451':
+    resolution: {integrity: sha512-vG9zTKKOtUQUw49tgg4wxS8osOyI89rCLdcH3HM7lXGAjf/37xPzz2kBDs/QxMT+LgTndP0idSJhBDgVhzSL+g==}
 
   '@module-federation/bridge-shared@2.0.0':
     resolution: {integrity: sha512-kid2tyGOjX02da/kjjHtkw035M7NHiD8UGynBfZBi9mznAWUUReT0n8EHyvTIdBpj7S4AQKHpwppPCrg7Rv3ZA==}
 
-  '@module-federation/cli@0.0.0-feat-mf-ssr-update-current-20261123061307':
-    resolution: {integrity: sha512-5VeNfYrAOUvgP4brc/hTf5OrwjEGZCPY7Sryye6X3mPqlmidqwL0ArZ9DWMkXsAwUr+eSg2S8ZrvTrfBwPuEOQ==}
+  '@module-federation/cli@0.0.0-feat-mf-ssr-update-current-20261124030451':
+    resolution: {integrity: sha512-GfmtV8rs/jVF9t2VK1UVKNF0BHwRKF8My12TMdmVsJ21f11WDOuVGSbqWIGYygjqIrMqQklHNr929fty1mnsMQ==}
     engines: {node: '>=16.0.0'}
     hasBin: true
 
@@ -7485,8 +7485,8 @@ packages:
       react-dom:
         optional: true
 
-  '@module-federation/dts-plugin@0.0.0-feat-mf-ssr-update-current-20261123061307':
-    resolution: {integrity: sha512-4MgcuhRQkbUtAQYcL7bML/NkdTKayKP1z47CY+eneinUKtLoOL/1FyZQX0Yq0ykLBKbyJKr7skXBBx46S9NYMg==}
+  '@module-federation/dts-plugin@0.0.0-feat-mf-ssr-update-current-20261124030451':
+    resolution: {integrity: sha512-F4oYBc0EOQNdiXmiV57kmksih0me9lb5uAwT1h5i2l6HM/nbXfciT3XBeTX6Fj6Kw44lPa1W4q33cshuag8WBA==}
     peerDependencies:
       typescript: ^4.9.0 || ^5.0.0 || ^6.0.0 || ^7.0.0
       vue-tsc: '>=1.0.24'
@@ -7512,8 +7512,8 @@ packages:
       vue-tsc:
         optional: true
 
-  '@module-federation/enhanced@0.0.0-feat-mf-ssr-update-current-20261123061307':
-    resolution: {integrity: sha512-NIWXbrTbG24MvpJIdUFofpgsUtJtdon5Xwz7oXigU1IhSihH2XyRlyz+10AP6Mo+8VuhVr4DFR2y2MX0KlkrdQ==}
+  '@module-federation/enhanced@0.0.0-feat-mf-ssr-update-current-20261124030451':
+    resolution: {integrity: sha512-N8BItRPtAZHozD2twziDNn5f/dMBQZ+tykC/CwIcQyar0hS9OsLh5lvYdzIlrgiKZ/o0XgsAKWwBaF30k+IfEA==}
     hasBin: true
     peerDependencies:
       typescript: ^4.9.0 || ^5.0.0 || ^6.0.0 || ^7.0.0
@@ -7557,8 +7557,8 @@ packages:
       webpack:
         optional: true
 
-  '@module-federation/error-codes@0.0.0-feat-mf-ssr-update-current-20261123061307':
-    resolution: {integrity: sha512-xTouRrucwJE+ZrY5mF3i3vsKQ3o7YYGPJ+tvdQLUu0NPwxCA0mM8t27r7v90UaTYhPmTh0iZ3il/oqsp20/dow==}
+  '@module-federation/error-codes@0.0.0-feat-mf-ssr-update-current-20261124030451':
+    resolution: {integrity: sha512-XL+V9hkLSLWlD3nec9yCcgW1i4P6Y1jQmzcHC/TvgN4htk6jxRcHBt5HFR4ptMCPzqwPz7qO0fG4WvXojtdisQ==}
 
   '@module-federation/error-codes@2.0.0':
     resolution: {integrity: sha512-9oE+hXuPv2zej7AxJ5hOgeRqlPs98meooV2FiutTfftLAyy2N6+Kwmmz5NR9d9t91weJj8N0cSHFoyenNHKTVg==}
@@ -7566,10 +7566,10 @@ packages:
   '@module-federation/error-codes@2.9.2':
     resolution: {integrity: sha512-MTpKubqsJSBgnuw+2Pli1kHL4INeHD5cGnHL84oRANwQAWK7b6lN3ZZTmL3FL6lYn65ImineqZNqGWBv5GQVLQ==}
 
-  '@module-federation/inject-external-runtime-core-plugin@0.0.0-feat-mf-ssr-update-current-20261123061307':
-    resolution: {integrity: sha512-ykd1lHvHuA3QWvW3oMAHkxDdtj96aGab8JBbeJS0B0jBFPrcsJ6DopT3zEfZPE6GN/Y6buJHl4DR/++RXWbFTw==}
+  '@module-federation/inject-external-runtime-core-plugin@0.0.0-feat-mf-ssr-update-current-20261124030451':
+    resolution: {integrity: sha512-W0xgwwhCvYYiKHfhlW2V80FJAqGf1cnc1esH0Bi4+Ohrkh35tBIXagDaG6kxqcEbDvC0UKholY+j2m23Ldwavw==}
     peerDependencies:
-      '@module-federation/runtime-tools': 0.0.0-feat-mf-ssr-update-current-20261123061307
+      '@module-federation/runtime-tools': 0.0.0-feat-mf-ssr-update-current-20261124030451
 
   '@module-federation/inject-external-runtime-core-plugin@2.0.0':
     resolution: {integrity: sha512-aZ6f4UU7KM5zBnHf3xsb2guqsfaEd6IlmuldbpED3JPk4ITwZk0DbvxRMr4prde7cfj8RH0nKMz2kmMncp+lIQ==}
@@ -7581,8 +7581,8 @@ packages:
     peerDependencies:
       '@module-federation/runtime-tools': 2.9.2
 
-  '@module-federation/managers@0.0.0-feat-mf-ssr-update-current-20261123061307':
-    resolution: {integrity: sha512-XSDNQkG+PB8g4l5jLCIqDpfWwoEjIVJGgR65TQWsHQ287gl4dltFebVvAHGxgOyzqtaFY4hJ2yjnazWQTTW7bw==}
+  '@module-federation/managers@0.0.0-feat-mf-ssr-update-current-20261124030451':
+    resolution: {integrity: sha512-p2gLqOE5pKqeoDb47KmtfQ0Idm4qgEMWdcqzGSs3huCvIEW+AutAsGl0PBNQIPBAIrVgCIy1362S8ocGyonOog==}
 
   '@module-federation/managers@2.0.0':
     resolution: {integrity: sha512-ZmkRIujH+T3xvkmy04TNvviFH8xFOrNeKCLb4tlH4ifU/kLfjTu+PYO/KAEIsgtmrDnd52zTf22dg3ok85OAHA==}
@@ -7590,8 +7590,8 @@ packages:
   '@module-federation/managers@2.9.2':
     resolution: {integrity: sha512-VtSKLkT2EA1wqCMFXNiklC+XF+5bZPYY3sUQ9LCFHqKS7v7NOJDrwMV6Qtw3fxH4Y6Pe6P28MiU8D9dlzknCKQ==}
 
-  '@module-federation/manifest@0.0.0-feat-mf-ssr-update-current-20261123061307':
-    resolution: {integrity: sha512-47U8e2cUdwOiqJurUtkXSGIzwdgZqzWwpK38qGuo2M51n2BWRpDWA0E8o9Ze7xZdxG+3K+uHhlQZawr+A/IFew==}
+  '@module-federation/manifest@0.0.0-feat-mf-ssr-update-current-20261124030451':
+    resolution: {integrity: sha512-njLDvyE3kiuHIyYYhj9n1LcLLVFmUZlYfdhzpq41KQGsfqMs63J9Zhb8NDViWoKh2yU66QaTn7pQkpkwWHLl7w==}
 
   '@module-federation/manifest@2.0.0':
     resolution: {integrity: sha512-AXwYyGiDJdfP9MteKyIdJrLwG5tp4qKaq0uOPiWHilYN3/21G0DM7f30HgJqgx3WSTFSh7hcq0a3V3EZHH/9TA==}
@@ -7638,8 +7638,8 @@ packages:
       vue-tsc:
         optional: true
 
-  '@module-federation/node@0.0.0-feat-mf-ssr-update-current-20261123061307':
-    resolution: {integrity: sha512-ilcSii4mVomAivNl0xsP4JnCe1vRp44/QvE+kzcVxOLAh/AlJ5le8Di1+wl1rb6Quj2qr1v92D1ZmE7AwSwTaQ==}
+  '@module-federation/node@0.0.0-feat-mf-ssr-update-current-20261124030451':
+    resolution: {integrity: sha512-yn6Z1qbHVD3Bu5VvM6EfW0k/Zauoz4vFXcKFvdPuy8FOLDTQ6b8Ux5hoShzy0aApjOkQqHbd3fYI+ndy0VSg2w==}
     peerDependencies:
       webpack: ^5.40.0
     peerDependenciesMeta:
@@ -7662,8 +7662,8 @@ packages:
       webpack:
         optional: true
 
-  '@module-federation/rsbuild-plugin@0.0.0-feat-mf-ssr-update-current-20261123061307':
-    resolution: {integrity: sha512-89uaWODr7/D4Xbk6gBAdnR+rhE7e1/KuShJzpLCzLWGS8HkdwygtjjUtAdPthLycvjgQOz2KoZG8vklIPDiLyQ==}
+  '@module-federation/rsbuild-plugin@0.0.0-feat-mf-ssr-update-current-20261124030451':
+    resolution: {integrity: sha512-K2fV0chU+p4efd1hIOBphNV/kImNCM7FasT0+3hiPVzMbNpTjdEB8KwlkKSAdjjIISPsLIgev2sh+p5xa3ZkcQ==}
     engines: {node: '>=16.0.0'}
     peerDependencies:
       '@rsbuild/core': ^1.3.21 || ^2.0.0-0
@@ -7689,8 +7689,8 @@ packages:
       '@rsbuild/core':
         optional: true
 
-  '@module-federation/rspack@0.0.0-feat-mf-ssr-update-current-20261123061307':
-    resolution: {integrity: sha512-K0NeIAZ5Zd2AXpiftLJgviju3FMEWRpeBQy3YA6xOHoz28LlUp5z/fl5jbSvjED5s1Vx6NNkPABu5ULBYVF0TQ==}
+  '@module-federation/rspack@0.0.0-feat-mf-ssr-update-current-20261124030451':
+    resolution: {integrity: sha512-SsrHypCEtN3UiNX7969DBftPLc1yfT+/uYb7iKLzR6agEVbHlPbyjMEXvYBKtL/f/xeByzmuXIQgtcJ1Ya723g==}
     peerDependencies:
       '@rspack/core': ^0.7.0 || ^1.0.0 || ^2.0.0-0
       typescript: ^4.9.0 || ^5.0.0 || ^6.0.0 || ^7.0.0
@@ -7725,8 +7725,8 @@ packages:
       vue-tsc:
         optional: true
 
-  '@module-federation/runtime-core@0.0.0-feat-mf-ssr-update-current-20261123061307':
-    resolution: {integrity: sha512-QuxotjHJoo+GQsJE00ocjGv7YpPumDrDlSWaC6oJIsKEexY8xeV90TaYtH0GzB4G7fBebmvguKreK4yv/GWIpA==}
+  '@module-federation/runtime-core@0.0.0-feat-mf-ssr-update-current-20261124030451':
+    resolution: {integrity: sha512-Sl+IIgrbHUbnyMm5YR+hmuZ7TbotaTdM1/sTj+vMZS+dJ4jFT/NFLI0SOE3aJG0DzpiYhTFkftVOpbAGiez/PQ==}
 
   '@module-federation/runtime-core@2.0.0':
     resolution: {integrity: sha512-UhIGUs7Mg+TwMI2lgaLnj4UehpoyXbR7HDb2+vLikgBulPmFtodeWfsxCgENEwKsIY1vS0lOun15lNOn1vo3Xg==}
@@ -7734,8 +7734,8 @@ packages:
   '@module-federation/runtime-core@2.9.2':
     resolution: {integrity: sha512-S9roTDqLtAWaaDBuug69ZnXXGEx0pUq/yG06J759bjRgfAg2P9+dWEv1q7rB2eMIp7HH4L6s3ColDRYdL6tJ9w==}
 
-  '@module-federation/runtime-tools@0.0.0-feat-mf-ssr-update-current-20261123061307':
-    resolution: {integrity: sha512-J9jj3bqFtr3crVDQLIeBqLnYTQ8FnDDh4aD22r4TAUb4OuT56lHXzU9NjPiJ+duUxQhk+cr57+rkbbnbP60hpw==}
+  '@module-federation/runtime-tools@0.0.0-feat-mf-ssr-update-current-20261124030451':
+    resolution: {integrity: sha512-y6L8/g0pMTEMN7CrwuqIcJf5Ub6MvHk2xvlupO5YMmmPrBUNvltgsbGz+aYTPzYRCekS3lKLU0uxjTNRWqCNtg==}
 
   '@module-federation/runtime-tools@2.0.0':
     resolution: {integrity: sha512-eMDQN4hYpwvUnCNMjfQdtPVzYaO2DdauemHVc4HnyibgqijRzBwJh9bI2ph4R1xfYEm18+QmTrfXrRlaK2Xizw==}
@@ -7743,8 +7743,8 @@ packages:
   '@module-federation/runtime-tools@2.9.2':
     resolution: {integrity: sha512-rhOvimSLLnnocfOVUfAzH2xDq1pHMw4f/nSC+JQhSztEgP/1UslPPvcBcenx3B8/6CoYmBbGa2OIBTJ225ZHAg==}
 
-  '@module-federation/runtime@0.0.0-feat-mf-ssr-update-current-20261123061307':
-    resolution: {integrity: sha512-z4xCWI6ohSzwV7VUb0BCL37zNduLrxTMY6g9AioGk4yAA2ZLEEsT5FTR5c/kyv0nFvEHF6rudtfMmfe3OhFN1g==}
+  '@module-federation/runtime@0.0.0-feat-mf-ssr-update-current-20261124030451':
+    resolution: {integrity: sha512-f9/4ht7Q5ui+GVo2do2PZek/sZtjvtvS/hchknzd4h57zyuHA4huyWTCQNYCvjvfQnf5jmRNjcAVzf9C58vk5w==}
 
   '@module-federation/runtime@2.0.0':
     resolution: {integrity: sha512-vPxQrmQNq3Z1T+1fkHEvFwTdJq9wuCLvdp/lpu9k2Oy7QP/Pj6QoQ/S7J5MCIAoRwj8Wj3z3ma21/DyHwLGvzA==}
@@ -7752,8 +7752,8 @@ packages:
   '@module-federation/runtime@2.9.2':
     resolution: {integrity: sha512-1lPZVy7TkMTTBMkkjgQt7jA+9FAx226yQqEz+X0lFAIbpxIWfpzNQLD+7IydEe83ZhDJpK3cv/9bn3jjQBZeqQ==}
 
-  '@module-federation/sdk@0.0.0-feat-mf-ssr-update-current-20261123061307':
-    resolution: {integrity: sha512-H8STdmYpvLYHR017jzkhgzqm94Xo8T7Krc9bLPECUqP9nQPKtQvcPNTeD/Fd14B1EgsCGbZXCTqwY9keHPj7fg==}
+  '@module-federation/sdk@0.0.0-feat-mf-ssr-update-current-20261124030451':
+    resolution: {integrity: sha512-6qaKBEML0kwp1+Ai0K+Dwj07SvwCkb+/krUobNJOWdzA+DQ7VDAml96o9wN5rGCrfalJC7f+r9WcBoWvIRfFIQ==}
 
   '@module-federation/sdk@2.0.0':
     resolution: {integrity: sha512-JYd1wTulsaoLT7HTk2oXL5y5797Z+H4mzxuUEKnSJo7R34RZSqehsqPSND7n0HT/1nf7uyn0Rb4qBfR3BVvdHQ==}
@@ -7761,8 +7761,8 @@ packages:
   '@module-federation/sdk@2.9.2':
     resolution: {integrity: sha512-ILtBFPuYpVcRA/Qay1lJ2hMtZI8fDE/v1n7xiN17e5qx5rSBR3FaamTsmRpN1hIt+gVnoa76CzOP/Y73d8hHNg==}
 
-  '@module-federation/third-party-dts-extractor@0.0.0-feat-mf-ssr-update-current-20261123061307':
-    resolution: {integrity: sha512-4Gjo934SoF1FDk0PUHM7vmfnFh3efs+Cqx1I3zGlAhcx8Vay76OsvYohqmIvY4QS5q4uvk4G45NF3F2wqMI2zA==}
+  '@module-federation/third-party-dts-extractor@0.0.0-feat-mf-ssr-update-current-20261124030451':
+    resolution: {integrity: sha512-ydsugURgFWr7Lysaj5Zr9YiDsNkl1zyWrVAebatwQPjEyz/PvwRcsMAtIPNf76XrYd3hWQNVhX52DqpaDAe+cQ==}
 
   '@module-federation/third-party-dts-extractor@2.0.0':
     resolution: {integrity: sha512-B99+Wkbd2xIodVTjNCeFtFC89Uh2/AtYkSESlz4+6Cec42wyqrGxyfYm4qRY0LhJI+YmZXLk/RTm85m15eBKKg==}
@@ -7770,8 +7770,8 @@ packages:
   '@module-federation/third-party-dts-extractor@2.9.2':
     resolution: {integrity: sha512-FKJVGx+/jIe16RfmwoyIDVMPAttIFJv6AJCLkKf05IRNvI3RJFqQ1tLP1YjcfGuumCbYuWGa4QKnMla7YjVpqg==}
 
-  '@module-federation/webpack-bundler-runtime@0.0.0-feat-mf-ssr-update-current-20261123061307':
-    resolution: {integrity: sha512-hMnZBoeEUQPe0Sb2klBy6QFqXWnuoaxBtv3DUeyj0pGlnQtTcH2coc8DZRN2iUCHag7+s9PavCSvTRYOhtl4Rw==}
+  '@module-federation/webpack-bundler-runtime@0.0.0-feat-mf-ssr-update-current-20261124030451':
+    resolution: {integrity: sha512-u3EUiHWpp9yIXkw5KWvsksBUm0OUyoR+8beMuBXP9RwxwnsRnKnlJXsNkVXgA+385g0APTvn4Ed0s+RuHDFiow==}
 
   '@module-federation/webpack-bundler-runtime@2.0.0':
     resolution: {integrity: sha512-XxiFR/A1G1fa9hTyylWNbs6yEU2hC7FqHAArFptD4U9qp/xyoLgqbK4M8LwltOAyAM8hRofcMdSyiRKVlWqAfQ==}
@@ -21667,9 +21667,9 @@ snapshots:
       find-package-json: 1.2.0
       webpack: 5.104.1(@swc/core@1.16.21(@swc/helpers@0.5.24))
 
-  '@module-federation/bridge-react-webpack-plugin@0.0.0-feat-mf-ssr-update-current-20261123061307':
+  '@module-federation/bridge-react-webpack-plugin@0.0.0-feat-mf-ssr-update-current-20261124030451':
     dependencies:
-      '@module-federation/sdk': 0.0.0-feat-mf-ssr-update-current-20261123061307
+      '@module-federation/sdk': 0.0.0-feat-mf-ssr-update-current-20261124030451
 
   '@module-federation/bridge-react-webpack-plugin@2.0.0':
     dependencies:
@@ -21681,11 +21681,11 @@ snapshots:
     dependencies:
       '@module-federation/sdk': 2.9.2
 
-  '@module-federation/bridge-react@0.0.0-feat-mf-ssr-update-current-20261123061307(@module-federation/enhanced@0.0.0-feat-mf-ssr-update-current-20261123061307(@rspack-canary/core@2.3.4-canary-24cae013-20261120083057(@module-federation/runtime-tools@0.0.0-feat-mf-ssr-update-current-20261123061307)(@swc/helpers@0.5.23))(bufferutil@4.1.0)(typescript@5.7.3)(utf-8-validate@5.0.10)(webpack@5.104.1(@swc/core@1.16.21(@swc/helpers@0.5.24))))(react-dom@19.3.1(react@19.3.1))(react-router-dom@7.18.4(react-dom@19.3.1(react@19.3.1))(react@19.3.1))(react-router@7.18.4(react-dom@19.3.1(react@19.3.1))(react@19.3.1))(react@19.3.1)':
+  '@module-federation/bridge-react@0.0.0-feat-mf-ssr-update-current-20261124030451(@module-federation/enhanced@0.0.0-feat-mf-ssr-update-current-20261124030451(@rspack-canary/core@2.3.4-canary-24cae013-20261120083057(@module-federation/runtime-tools@0.0.0-feat-mf-ssr-update-current-20261124030451)(@swc/helpers@0.5.23))(bufferutil@4.1.0)(typescript@5.7.3)(utf-8-validate@5.0.10)(webpack@5.104.1(@swc/core@1.16.21(@swc/helpers@0.5.24))))(react-dom@19.3.1(react@19.3.1))(react-router-dom@7.18.4(react-dom@19.3.1(react@19.3.1))(react@19.3.1))(react-router@7.18.4(react-dom@19.3.1(react@19.3.1))(react@19.3.1))(react@19.3.1)':
     dependencies:
-      '@module-federation/bridge-shared': 0.0.0-feat-mf-ssr-update-current-20261123061307
-      '@module-federation/enhanced': 0.0.0-feat-mf-ssr-update-current-20261123061307(@rspack-canary/core@2.3.4-canary-24cae013-20261120083057(@module-federation/runtime-tools@0.0.0-feat-mf-ssr-update-current-20261123061307)(@swc/helpers@0.5.23))(bufferutil@4.1.0)(typescript@5.7.3)(utf-8-validate@5.0.10)(webpack@5.104.1(@swc/core@1.16.21(@swc/helpers@0.5.24)))
-      '@module-federation/sdk': 0.0.0-feat-mf-ssr-update-current-20261123061307
+      '@module-federation/bridge-shared': 0.0.0-feat-mf-ssr-update-current-20261124030451
+      '@module-federation/enhanced': 0.0.0-feat-mf-ssr-update-current-20261124030451(@rspack-canary/core@2.3.4-canary-24cae013-20261120083057(@module-federation/runtime-tools@0.0.0-feat-mf-ssr-update-current-20261124030451)(@swc/helpers@0.5.23))(bufferutil@4.1.0)(typescript@5.7.3)(utf-8-validate@5.0.10)(webpack@5.104.1(@swc/core@1.16.21(@swc/helpers@0.5.24)))
+      '@module-federation/sdk': 0.0.0-feat-mf-ssr-update-current-20261124030451
       acorn: 8.15.0
       react: 19.3.1
       react-dom: 19.3.1(react@19.3.1)
@@ -21693,11 +21693,11 @@ snapshots:
       react-router: 7.18.4(react-dom@19.3.1(react@19.3.1))(react@19.3.1)
       react-router-dom: 7.18.4(react-dom@19.3.1(react@19.3.1))(react@19.3.1)
 
-  '@module-federation/bridge-react@0.0.0-feat-mf-ssr-update-current-20261123061307(@module-federation/enhanced@0.0.0-feat-mf-ssr-update-current-20261123061307(@rspack/core@2.3.3(@module-federation/runtime-tools@2.9.2)(@swc/helpers@0.5.23))(bufferutil@4.1.0)(typescript@5.9.3)(utf-8-validate@5.0.10)(webpack@5.104.1(@swc/core@1.16.18(@swc/helpers@0.5.23))))(react-dom@19.3.1(react@19.3.1))(react-router-dom@7.18.4(react-dom@19.3.1(react@19.3.1))(react@19.3.1))(react-router@7.18.4(react-dom@19.3.1(react@19.3.1))(react@19.3.1))(react@19.3.1)':
+  '@module-federation/bridge-react@0.0.0-feat-mf-ssr-update-current-20261124030451(@module-federation/enhanced@0.0.0-feat-mf-ssr-update-current-20261124030451(@rspack/core@2.3.3(@module-federation/runtime-tools@2.9.2)(@swc/helpers@0.5.23))(bufferutil@4.1.0)(typescript@5.9.3)(utf-8-validate@5.0.10)(webpack@5.104.1(@swc/core@1.16.18(@swc/helpers@0.5.23))))(react-dom@19.3.1(react@19.3.1))(react-router-dom@7.18.4(react-dom@19.3.1(react@19.3.1))(react@19.3.1))(react-router@7.18.4(react-dom@19.3.1(react@19.3.1))(react@19.3.1))(react@19.3.1)':
     dependencies:
-      '@module-federation/bridge-shared': 0.0.0-feat-mf-ssr-update-current-20261123061307
-      '@module-federation/enhanced': 0.0.0-feat-mf-ssr-update-current-20261123061307(@rspack/core@2.3.3(@module-federation/runtime-tools@2.9.2)(@swc/helpers@0.5.23))(bufferutil@4.1.0)(typescript@5.9.3)(utf-8-validate@5.0.10)(webpack@5.104.1(@swc/core@1.16.18(@swc/helpers@0.5.23)))
-      '@module-federation/sdk': 0.0.0-feat-mf-ssr-update-current-20261123061307
+      '@module-federation/bridge-shared': 0.0.0-feat-mf-ssr-update-current-20261124030451
+      '@module-federation/enhanced': 0.0.0-feat-mf-ssr-update-current-20261124030451(@rspack/core@2.3.3(@module-federation/runtime-tools@2.9.2)(@swc/helpers@0.5.23))(bufferutil@4.1.0)(typescript@5.9.3)(utf-8-validate@5.0.10)(webpack@5.104.1(@swc/core@1.16.18(@swc/helpers@0.5.23)))
+      '@module-federation/sdk': 0.0.0-feat-mf-ssr-update-current-20261124030451
       acorn: 8.15.0
       react: 19.3.1
       react-dom: 19.3.1(react@19.3.1)
@@ -21705,11 +21705,11 @@ snapshots:
       react-router: 7.18.4(react-dom@19.3.1(react@19.3.1))(react@19.3.1)
       react-router-dom: 7.18.4(react-dom@19.3.1(react@19.3.1))(react@19.3.1)
 
-  '@module-federation/bridge-react@0.0.0-feat-mf-ssr-update-current-20261123061307(@module-federation/enhanced@0.0.0-feat-mf-ssr-update-current-20261123061307(@rspack/core@2.3.3(@module-federation/runtime-tools@2.9.2)(@swc/helpers@0.5.23))(bufferutil@4.1.0)(typescript@5.9.3)(utf-8-validate@5.0.10)(webpack@5.104.1(@swc/core@1.16.21(@swc/helpers@0.5.24))))(react-dom@19.3.1(react@19.3.1))(react-router-dom@7.18.4(react-dom@19.3.1(react@19.3.1))(react@19.3.1))(react-router@7.18.4(react-dom@19.3.1(react@19.3.1))(react@19.3.1))(react@19.3.1)':
+  '@module-federation/bridge-react@0.0.0-feat-mf-ssr-update-current-20261124030451(@module-federation/enhanced@0.0.0-feat-mf-ssr-update-current-20261124030451(@rspack/core@2.3.3(@module-federation/runtime-tools@2.9.2)(@swc/helpers@0.5.23))(bufferutil@4.1.0)(typescript@5.9.3)(utf-8-validate@5.0.10)(webpack@5.104.1(@swc/core@1.16.21(@swc/helpers@0.5.24))))(react-dom@19.3.1(react@19.3.1))(react-router-dom@7.18.4(react-dom@19.3.1(react@19.3.1))(react@19.3.1))(react-router@7.18.4(react-dom@19.3.1(react@19.3.1))(react@19.3.1))(react@19.3.1)':
     dependencies:
-      '@module-federation/bridge-shared': 0.0.0-feat-mf-ssr-update-current-20261123061307
-      '@module-federation/enhanced': 0.0.0-feat-mf-ssr-update-current-20261123061307(@rspack/core@2.3.3(@module-federation/runtime-tools@2.9.2)(@swc/helpers@0.5.23))(bufferutil@4.1.0)(typescript@5.9.3)(utf-8-validate@5.0.10)(webpack@5.104.1(@swc/core@1.16.21(@swc/helpers@0.5.24)))
-      '@module-federation/sdk': 0.0.0-feat-mf-ssr-update-current-20261123061307
+      '@module-federation/bridge-shared': 0.0.0-feat-mf-ssr-update-current-20261124030451
+      '@module-federation/enhanced': 0.0.0-feat-mf-ssr-update-current-20261124030451(@rspack/core@2.3.3(@module-federation/runtime-tools@2.9.2)(@swc/helpers@0.5.23))(bufferutil@4.1.0)(typescript@5.9.3)(utf-8-validate@5.0.10)(webpack@5.104.1(@swc/core@1.16.21(@swc/helpers@0.5.24)))
+      '@module-federation/sdk': 0.0.0-feat-mf-ssr-update-current-20261124030451
       acorn: 8.15.0
       react: 19.3.1
       react-dom: 19.3.1(react@19.3.1)
@@ -21717,11 +21717,11 @@ snapshots:
       react-router: 7.18.4(react-dom@19.3.1(react@19.3.1))(react@19.3.1)
       react-router-dom: 7.18.4(react-dom@19.3.1(react@19.3.1))(react@19.3.1)
 
-  '@module-federation/bridge-react@0.0.0-feat-mf-ssr-update-current-20261123061307(@module-federation/enhanced@0.0.0-feat-mf-ssr-update-current-20261123061307(@rspack/core@2.3.3(@module-federation/runtime-tools@2.9.2)(@swc/helpers@0.5.24))(bufferutil@4.1.0)(typescript@5.9.3)(utf-8-validate@5.0.10)(webpack@5.104.1(@swc/core@1.16.21(@swc/helpers@0.5.24))))(react-dom@19.2.8(react@19.2.8))(react-router-dom@7.16.0(react-dom@19.2.8(react@19.2.8))(react@19.2.8))(react-router@7.15.1(react-dom@19.2.8(react@19.2.8))(react@19.2.8))(react@19.2.8)':
+  '@module-federation/bridge-react@0.0.0-feat-mf-ssr-update-current-20261124030451(@module-federation/enhanced@0.0.0-feat-mf-ssr-update-current-20261124030451(@rspack/core@2.3.3(@module-federation/runtime-tools@2.9.2)(@swc/helpers@0.5.24))(bufferutil@4.1.0)(typescript@5.9.3)(utf-8-validate@5.0.10)(webpack@5.104.1(@swc/core@1.16.21(@swc/helpers@0.5.24))))(react-dom@19.2.8(react@19.2.8))(react-router-dom@7.16.0(react-dom@19.2.8(react@19.2.8))(react@19.2.8))(react-router@7.15.1(react-dom@19.2.8(react@19.2.8))(react@19.2.8))(react@19.2.8)':
     dependencies:
-      '@module-federation/bridge-shared': 0.0.0-feat-mf-ssr-update-current-20261123061307
-      '@module-federation/enhanced': 0.0.0-feat-mf-ssr-update-current-20261123061307(@rspack/core@2.3.3(@module-federation/runtime-tools@2.9.2)(@swc/helpers@0.5.24))(bufferutil@4.1.0)(typescript@5.9.3)(utf-8-validate@5.0.10)(webpack@5.104.1(@swc/core@1.16.21(@swc/helpers@0.5.24)))
-      '@module-federation/sdk': 0.0.0-feat-mf-ssr-update-current-20261123061307
+      '@module-federation/bridge-shared': 0.0.0-feat-mf-ssr-update-current-20261124030451
+      '@module-federation/enhanced': 0.0.0-feat-mf-ssr-update-current-20261124030451(@rspack/core@2.3.3(@module-federation/runtime-tools@2.9.2)(@swc/helpers@0.5.24))(bufferutil@4.1.0)(typescript@5.9.3)(utf-8-validate@5.0.10)(webpack@5.104.1(@swc/core@1.16.21(@swc/helpers@0.5.24)))
+      '@module-federation/sdk': 0.0.0-feat-mf-ssr-update-current-20261124030451
       acorn: 8.15.0
       react: 19.2.8
       react-dom: 19.2.8(react@19.2.8)
@@ -21729,11 +21729,11 @@ snapshots:
       react-router: 7.15.1(react-dom@19.2.8(react@19.2.8))(react@19.2.8)
       react-router-dom: 7.16.0(react-dom@19.2.8(react@19.2.8))(react@19.2.8)
 
-  '@module-federation/bridge-react@0.0.0-feat-mf-ssr-update-current-20261123061307(@module-federation/enhanced@0.0.0-feat-mf-ssr-update-current-20261123061307(@rspack/core@2.3.3(@module-federation/runtime-tools@2.9.2)(@swc/helpers@0.5.24))(bufferutil@4.1.0)(typescript@5.9.3)(utf-8-validate@5.0.10)(webpack@5.104.1(@swc/core@1.16.21(@swc/helpers@0.5.24))))(react-dom@19.2.8(react@19.2.8))(react-router-dom@7.16.0(react-dom@19.2.8(react@19.2.8))(react@19.2.8))(react-router@7.18.4(react-dom@19.2.8(react@19.2.8))(react@19.2.8))(react@19.2.8)':
+  '@module-federation/bridge-react@0.0.0-feat-mf-ssr-update-current-20261124030451(@module-federation/enhanced@0.0.0-feat-mf-ssr-update-current-20261124030451(@rspack/core@2.3.3(@module-federation/runtime-tools@2.9.2)(@swc/helpers@0.5.24))(bufferutil@4.1.0)(typescript@5.9.3)(utf-8-validate@5.0.10)(webpack@5.104.1(@swc/core@1.16.21(@swc/helpers@0.5.24))))(react-dom@19.2.8(react@19.2.8))(react-router-dom@7.16.0(react-dom@19.2.8(react@19.2.8))(react@19.2.8))(react-router@7.18.4(react-dom@19.2.8(react@19.2.8))(react@19.2.8))(react@19.2.8)':
     dependencies:
-      '@module-federation/bridge-shared': 0.0.0-feat-mf-ssr-update-current-20261123061307
-      '@module-federation/enhanced': 0.0.0-feat-mf-ssr-update-current-20261123061307(@rspack/core@2.3.3(@module-federation/runtime-tools@2.9.2)(@swc/helpers@0.5.24))(bufferutil@4.1.0)(typescript@5.9.3)(utf-8-validate@5.0.10)(webpack@5.104.1(@swc/core@1.16.21(@swc/helpers@0.5.24)))
-      '@module-federation/sdk': 0.0.0-feat-mf-ssr-update-current-20261123061307
+      '@module-federation/bridge-shared': 0.0.0-feat-mf-ssr-update-current-20261124030451
+      '@module-federation/enhanced': 0.0.0-feat-mf-ssr-update-current-20261124030451(@rspack/core@2.3.3(@module-federation/runtime-tools@2.9.2)(@swc/helpers@0.5.24))(bufferutil@4.1.0)(typescript@5.9.3)(utf-8-validate@5.0.10)(webpack@5.104.1(@swc/core@1.16.21(@swc/helpers@0.5.24)))
+      '@module-federation/sdk': 0.0.0-feat-mf-ssr-update-current-20261124030451
       acorn: 8.15.0
       react: 19.2.8
       react-dom: 19.2.8(react@19.2.8)
@@ -21741,11 +21741,11 @@ snapshots:
       react-router: 7.18.4(react-dom@19.2.8(react@19.2.8))(react@19.2.8)
       react-router-dom: 7.16.0(react-dom@19.2.8(react@19.2.8))(react@19.2.8)
 
-  '@module-federation/bridge-react@0.0.0-feat-mf-ssr-update-current-20261123061307(@module-federation/enhanced@0.0.0-feat-mf-ssr-update-current-20261123061307(@rspack/core@2.3.3(@module-federation/runtime-tools@2.9.2)(@swc/helpers@0.5.24))(bufferutil@4.1.0)(typescript@5.9.3)(utf-8-validate@5.0.10)(webpack@5.104.1(@swc/core@1.16.21(@swc/helpers@0.5.24))))(react-dom@19.2.8(react@19.2.8))(react-router-dom@7.18.4(react-dom@19.2.8(react@19.2.8))(react@19.2.8))(react-router@7.18.4(react-dom@19.2.8(react@19.2.8))(react@19.2.8))(react@19.2.8)':
+  '@module-federation/bridge-react@0.0.0-feat-mf-ssr-update-current-20261124030451(@module-federation/enhanced@0.0.0-feat-mf-ssr-update-current-20261124030451(@rspack/core@2.3.3(@module-federation/runtime-tools@2.9.2)(@swc/helpers@0.5.24))(bufferutil@4.1.0)(typescript@5.9.3)(utf-8-validate@5.0.10)(webpack@5.104.1(@swc/core@1.16.21(@swc/helpers@0.5.24))))(react-dom@19.2.8(react@19.2.8))(react-router-dom@7.18.4(react-dom@19.2.8(react@19.2.8))(react@19.2.8))(react-router@7.18.4(react-dom@19.2.8(react@19.2.8))(react@19.2.8))(react@19.2.8)':
     dependencies:
-      '@module-federation/bridge-shared': 0.0.0-feat-mf-ssr-update-current-20261123061307
-      '@module-federation/enhanced': 0.0.0-feat-mf-ssr-update-current-20261123061307(@rspack/core@2.3.3(@module-federation/runtime-tools@2.9.2)(@swc/helpers@0.5.24))(bufferutil@4.1.0)(typescript@5.9.3)(utf-8-validate@5.0.10)(webpack@5.104.1(@swc/core@1.16.21(@swc/helpers@0.5.24)))
-      '@module-federation/sdk': 0.0.0-feat-mf-ssr-update-current-20261123061307
+      '@module-federation/bridge-shared': 0.0.0-feat-mf-ssr-update-current-20261124030451
+      '@module-federation/enhanced': 0.0.0-feat-mf-ssr-update-current-20261124030451(@rspack/core@2.3.3(@module-federation/runtime-tools@2.9.2)(@swc/helpers@0.5.24))(bufferutil@4.1.0)(typescript@5.9.3)(utf-8-validate@5.0.10)(webpack@5.104.1(@swc/core@1.16.21(@swc/helpers@0.5.24)))
+      '@module-federation/sdk': 0.0.0-feat-mf-ssr-update-current-20261124030451
       acorn: 8.15.0
       react: 19.2.8
       react-dom: 19.2.8(react@19.2.8)
@@ -21753,11 +21753,11 @@ snapshots:
       react-router: 7.18.4(react-dom@19.2.8(react@19.2.8))(react@19.2.8)
       react-router-dom: 7.18.4(react-dom@19.2.8(react@19.2.8))(react@19.2.8)
 
-  '@module-federation/bridge-react@0.0.0-feat-mf-ssr-update-current-20261123061307(@module-federation/enhanced@0.0.0-feat-mf-ssr-update-current-20261123061307(@rspack/core@2.3.3(@module-federation/runtime-tools@2.9.2)(@swc/helpers@0.5.24))(bufferutil@4.1.0)(typescript@5.9.3)(utf-8-validate@5.0.10)(webpack@5.104.1(@swc/core@1.16.21(@swc/helpers@0.5.24))))(react-dom@19.3.1(react@19.3.1))(react-router-dom@7.18.4(react-dom@19.3.1(react@19.3.1))(react@19.3.1))(react-router@7.18.4(react-dom@19.3.1(react@19.3.1))(react@19.3.1))(react@19.3.1)':
+  '@module-federation/bridge-react@0.0.0-feat-mf-ssr-update-current-20261124030451(@module-federation/enhanced@0.0.0-feat-mf-ssr-update-current-20261124030451(@rspack/core@2.3.3(@module-federation/runtime-tools@2.9.2)(@swc/helpers@0.5.24))(bufferutil@4.1.0)(typescript@5.9.3)(utf-8-validate@5.0.10)(webpack@5.104.1(@swc/core@1.16.21(@swc/helpers@0.5.24))))(react-dom@19.3.1(react@19.3.1))(react-router-dom@7.18.4(react-dom@19.3.1(react@19.3.1))(react@19.3.1))(react-router@7.18.4(react-dom@19.3.1(react@19.3.1))(react@19.3.1))(react@19.3.1)':
     dependencies:
-      '@module-federation/bridge-shared': 0.0.0-feat-mf-ssr-update-current-20261123061307
-      '@module-federation/enhanced': 0.0.0-feat-mf-ssr-update-current-20261123061307(@rspack/core@2.3.3(@module-federation/runtime-tools@2.9.2)(@swc/helpers@0.5.24))(bufferutil@4.1.0)(typescript@5.9.3)(utf-8-validate@5.0.10)(webpack@5.104.1(@swc/core@1.16.21(@swc/helpers@0.5.24)))
-      '@module-federation/sdk': 0.0.0-feat-mf-ssr-update-current-20261123061307
+      '@module-federation/bridge-shared': 0.0.0-feat-mf-ssr-update-current-20261124030451
+      '@module-federation/enhanced': 0.0.0-feat-mf-ssr-update-current-20261124030451(@rspack/core@2.3.3(@module-federation/runtime-tools@2.9.2)(@swc/helpers@0.5.24))(bufferutil@4.1.0)(typescript@5.9.3)(utf-8-validate@5.0.10)(webpack@5.104.1(@swc/core@1.16.21(@swc/helpers@0.5.24)))
+      '@module-federation/sdk': 0.0.0-feat-mf-ssr-update-current-20261124030451
       acorn: 8.15.0
       react: 19.3.1
       react-dom: 19.3.1(react@19.3.1)
@@ -21786,14 +21786,14 @@ snapshots:
       react-router: 7.18.4(react-dom@19.3.1(react@19.3.1))(react@19.3.1)
       react-router-dom: 7.18.4(react-dom@19.3.1(react@19.3.1))(react@19.3.1)
 
-  '@module-federation/bridge-shared@0.0.0-feat-mf-ssr-update-current-20261123061307': {}
+  '@module-federation/bridge-shared@0.0.0-feat-mf-ssr-update-current-20261124030451': {}
 
   '@module-federation/bridge-shared@2.0.0': {}
 
-  '@module-federation/cli@0.0.0-feat-mf-ssr-update-current-20261123061307(bufferutil@4.1.0)(typescript@5.7.3)(utf-8-validate@5.0.10)':
+  '@module-federation/cli@0.0.0-feat-mf-ssr-update-current-20261124030451(bufferutil@4.1.0)(typescript@5.7.3)(utf-8-validate@5.0.10)':
     dependencies:
-      '@module-federation/dts-plugin': 0.0.0-feat-mf-ssr-update-current-20261123061307(bufferutil@4.1.0)(typescript@5.7.3)(utf-8-validate@5.0.10)
-      '@module-federation/sdk': 0.0.0-feat-mf-ssr-update-current-20261123061307
+      '@module-federation/dts-plugin': 0.0.0-feat-mf-ssr-update-current-20261124030451(bufferutil@4.1.0)(typescript@5.7.3)(utf-8-validate@5.0.10)
+      '@module-federation/sdk': 0.0.0-feat-mf-ssr-update-current-20261124030451
       commander: 11.1.0
       jiti: 2.4.2
     transitivePeerDependencies:
@@ -21802,10 +21802,10 @@ snapshots:
       - utf-8-validate
       - vue-tsc
 
-  '@module-federation/cli@0.0.0-feat-mf-ssr-update-current-20261123061307(bufferutil@4.1.0)(typescript@5.9.3)(utf-8-validate@5.0.10)':
+  '@module-federation/cli@0.0.0-feat-mf-ssr-update-current-20261124030451(bufferutil@4.1.0)(typescript@5.9.3)(utf-8-validate@5.0.10)':
     dependencies:
-      '@module-federation/dts-plugin': 0.0.0-feat-mf-ssr-update-current-20261123061307(bufferutil@4.1.0)(typescript@5.9.3)(utf-8-validate@5.0.10)
-      '@module-federation/sdk': 0.0.0-feat-mf-ssr-update-current-20261123061307
+      '@module-federation/dts-plugin': 0.0.0-feat-mf-ssr-update-current-20261124030451(bufferutil@4.1.0)(typescript@5.9.3)(utf-8-validate@5.0.10)
+      '@module-federation/sdk': 0.0.0-feat-mf-ssr-update-current-20261124030451
       commander: 11.1.0
       jiti: 2.4.2
     transitivePeerDependencies:
@@ -21850,12 +21850,12 @@ snapshots:
       react: 19.3.1
       react-dom: 19.3.1(react@19.3.1)
 
-  '@module-federation/dts-plugin@0.0.0-feat-mf-ssr-update-current-20261123061307(bufferutil@4.1.0)(typescript@5.7.3)(utf-8-validate@5.0.10)':
+  '@module-federation/dts-plugin@0.0.0-feat-mf-ssr-update-current-20261124030451(bufferutil@4.1.0)(typescript@5.7.3)(utf-8-validate@5.0.10)':
     dependencies:
-      '@module-federation/error-codes': 0.0.0-feat-mf-ssr-update-current-20261123061307
-      '@module-federation/managers': 0.0.0-feat-mf-ssr-update-current-20261123061307
-      '@module-federation/sdk': 0.0.0-feat-mf-ssr-update-current-20261123061307
-      '@module-federation/third-party-dts-extractor': 0.0.0-feat-mf-ssr-update-current-20261123061307
+      '@module-federation/error-codes': 0.0.0-feat-mf-ssr-update-current-20261124030451
+      '@module-federation/managers': 0.0.0-feat-mf-ssr-update-current-20261124030451
+      '@module-federation/sdk': 0.0.0-feat-mf-ssr-update-current-20261124030451
+      '@module-federation/third-party-dts-extractor': 0.0.0-feat-mf-ssr-update-current-20261124030451
       adm-zip: 0.6.1
       isomorphic-ws: 5.0.0(ws@8.21.3(bufferutil@4.1.0)(utf-8-validate@5.0.10))
       typescript: 5.7.3
@@ -21865,12 +21865,12 @@ snapshots:
       - bufferutil
       - utf-8-validate
 
-  '@module-federation/dts-plugin@0.0.0-feat-mf-ssr-update-current-20261123061307(bufferutil@4.1.0)(typescript@5.9.3)(utf-8-validate@5.0.10)':
+  '@module-federation/dts-plugin@0.0.0-feat-mf-ssr-update-current-20261124030451(bufferutil@4.1.0)(typescript@5.9.3)(utf-8-validate@5.0.10)':
     dependencies:
-      '@module-federation/error-codes': 0.0.0-feat-mf-ssr-update-current-20261123061307
-      '@module-federation/managers': 0.0.0-feat-mf-ssr-update-current-20261123061307
-      '@module-federation/sdk': 0.0.0-feat-mf-ssr-update-current-20261123061307
-      '@module-federation/third-party-dts-extractor': 0.0.0-feat-mf-ssr-update-current-20261123061307
+      '@module-federation/error-codes': 0.0.0-feat-mf-ssr-update-current-20261124030451
+      '@module-federation/managers': 0.0.0-feat-mf-ssr-update-current-20261124030451
+      '@module-federation/sdk': 0.0.0-feat-mf-ssr-update-current-20261124030451
+      '@module-federation/third-party-dts-extractor': 0.0.0-feat-mf-ssr-update-current-20261124030451
       adm-zip: 0.6.1
       isomorphic-ws: 5.0.0(ws@8.21.3(bufferutil@4.1.0)(utf-8-validate@5.0.10))
       typescript: 5.9.3
@@ -21920,19 +21920,19 @@ snapshots:
       - bufferutil
       - utf-8-validate
 
-  '@module-federation/enhanced@0.0.0-feat-mf-ssr-update-current-20261123061307(@rspack-canary/core@2.3.4-canary-24cae013-20261120083057(@module-federation/runtime-tools@0.0.0-feat-mf-ssr-update-current-20261123061307)(@swc/helpers@0.5.23))(bufferutil@4.1.0)(typescript@5.7.3)(utf-8-validate@5.0.10)(webpack@5.104.1(@swc/core@1.16.21(@swc/helpers@0.5.24)))':
+  '@module-federation/enhanced@0.0.0-feat-mf-ssr-update-current-20261124030451(@rspack-canary/core@2.3.4-canary-24cae013-20261120083057(@module-federation/runtime-tools@0.0.0-feat-mf-ssr-update-current-20261124030451)(@swc/helpers@0.5.23))(bufferutil@4.1.0)(typescript@5.7.3)(utf-8-validate@5.0.10)(webpack@5.104.1(@swc/core@1.16.21(@swc/helpers@0.5.24)))':
     dependencies:
-      '@module-federation/bridge-react-webpack-plugin': 0.0.0-feat-mf-ssr-update-current-20261123061307
-      '@module-federation/cli': 0.0.0-feat-mf-ssr-update-current-20261123061307(bufferutil@4.1.0)(typescript@5.7.3)(utf-8-validate@5.0.10)
-      '@module-federation/dts-plugin': 0.0.0-feat-mf-ssr-update-current-20261123061307(bufferutil@4.1.0)(typescript@5.7.3)(utf-8-validate@5.0.10)
-      '@module-federation/error-codes': 0.0.0-feat-mf-ssr-update-current-20261123061307
-      '@module-federation/inject-external-runtime-core-plugin': 0.0.0-feat-mf-ssr-update-current-20261123061307(@module-federation/runtime-tools@0.0.0-feat-mf-ssr-update-current-20261123061307)
-      '@module-federation/managers': 0.0.0-feat-mf-ssr-update-current-20261123061307
-      '@module-federation/manifest': 0.0.0-feat-mf-ssr-update-current-20261123061307(bufferutil@4.1.0)(typescript@5.7.3)(utf-8-validate@5.0.10)
-      '@module-federation/rspack': 0.0.0-feat-mf-ssr-update-current-20261123061307(@rspack-canary/core@2.3.4-canary-24cae013-20261120083057(@module-federation/runtime-tools@0.0.0-feat-mf-ssr-update-current-20261123061307)(@swc/helpers@0.5.23))(bufferutil@4.1.0)(typescript@5.7.3)(utf-8-validate@5.0.10)
-      '@module-federation/runtime-tools': 0.0.0-feat-mf-ssr-update-current-20261123061307
-      '@module-federation/sdk': 0.0.0-feat-mf-ssr-update-current-20261123061307
-      '@module-federation/webpack-bundler-runtime': 0.0.0-feat-mf-ssr-update-current-20261123061307
+      '@module-federation/bridge-react-webpack-plugin': 0.0.0-feat-mf-ssr-update-current-20261124030451
+      '@module-federation/cli': 0.0.0-feat-mf-ssr-update-current-20261124030451(bufferutil@4.1.0)(typescript@5.7.3)(utf-8-validate@5.0.10)
+      '@module-federation/dts-plugin': 0.0.0-feat-mf-ssr-update-current-20261124030451(bufferutil@4.1.0)(typescript@5.7.3)(utf-8-validate@5.0.10)
+      '@module-federation/error-codes': 0.0.0-feat-mf-ssr-update-current-20261124030451
+      '@module-federation/inject-external-runtime-core-plugin': 0.0.0-feat-mf-ssr-update-current-20261124030451(@module-federation/runtime-tools@0.0.0-feat-mf-ssr-update-current-20261124030451)
+      '@module-federation/managers': 0.0.0-feat-mf-ssr-update-current-20261124030451
+      '@module-federation/manifest': 0.0.0-feat-mf-ssr-update-current-20261124030451(bufferutil@4.1.0)(typescript@5.7.3)(utf-8-validate@5.0.10)
+      '@module-federation/rspack': 0.0.0-feat-mf-ssr-update-current-20261124030451(@rspack-canary/core@2.3.4-canary-24cae013-20261120083057(@module-federation/runtime-tools@0.0.0-feat-mf-ssr-update-current-20261124030451)(@swc/helpers@0.5.23))(bufferutil@4.1.0)(typescript@5.7.3)(utf-8-validate@5.0.10)
+      '@module-federation/runtime-tools': 0.0.0-feat-mf-ssr-update-current-20261124030451
+      '@module-federation/sdk': 0.0.0-feat-mf-ssr-update-current-20261124030451
+      '@module-federation/webpack-bundler-runtime': 0.0.0-feat-mf-ssr-update-current-20261124030451
       schema-utils: 4.5.0
       tapable: 2.3.0
     optionalDependencies:
@@ -21943,19 +21943,19 @@ snapshots:
       - bufferutil
       - utf-8-validate
 
-  '@module-federation/enhanced@0.0.0-feat-mf-ssr-update-current-20261123061307(@rspack/core@2.3.3(@module-federation/runtime-tools@2.9.2)(@swc/helpers@0.5.23))(bufferutil@4.1.0)(typescript@5.9.3)(utf-8-validate@5.0.10)(webpack@5.104.1(@swc/core@1.16.18(@swc/helpers@0.5.23)))':
+  '@module-federation/enhanced@0.0.0-feat-mf-ssr-update-current-20261124030451(@rspack/core@2.3.3(@module-federation/runtime-tools@2.9.2)(@swc/helpers@0.5.23))(bufferutil@4.1.0)(typescript@5.9.3)(utf-8-validate@5.0.10)(webpack@5.104.1(@swc/core@1.16.18(@swc/helpers@0.5.23)))':
     dependencies:
-      '@module-federation/bridge-react-webpack-plugin': 0.0.0-feat-mf-ssr-update-current-20261123061307
-      '@module-federation/cli': 0.0.0-feat-mf-ssr-update-current-20261123061307(bufferutil@4.1.0)(typescript@5.9.3)(utf-8-validate@5.0.10)
-      '@module-federation/dts-plugin': 0.0.0-feat-mf-ssr-update-current-20261123061307(bufferutil@4.1.0)(typescript@5.9.3)(utf-8-validate@5.0.10)
-      '@module-federation/error-codes': 0.0.0-feat-mf-ssr-update-current-20261123061307
-      '@module-federation/inject-external-runtime-core-plugin': 0.0.0-feat-mf-ssr-update-current-20261123061307(@module-federation/runtime-tools@0.0.0-feat-mf-ssr-update-current-20261123061307)
-      '@module-federation/managers': 0.0.0-feat-mf-ssr-update-current-20261123061307
-      '@module-federation/manifest': 0.0.0-feat-mf-ssr-update-current-20261123061307(bufferutil@4.1.0)(typescript@5.9.3)(utf-8-validate@5.0.10)
-      '@module-federation/rspack': 0.0.0-feat-mf-ssr-update-current-20261123061307(@rspack/core@2.3.3(@module-federation/runtime-tools@2.9.2)(@swc/helpers@0.5.23))(bufferutil@4.1.0)(typescript@5.9.3)(utf-8-validate@5.0.10)
-      '@module-federation/runtime-tools': 0.0.0-feat-mf-ssr-update-current-20261123061307
-      '@module-federation/sdk': 0.0.0-feat-mf-ssr-update-current-20261123061307
-      '@module-federation/webpack-bundler-runtime': 0.0.0-feat-mf-ssr-update-current-20261123061307
+      '@module-federation/bridge-react-webpack-plugin': 0.0.0-feat-mf-ssr-update-current-20261124030451
+      '@module-federation/cli': 0.0.0-feat-mf-ssr-update-current-20261124030451(bufferutil@4.1.0)(typescript@5.9.3)(utf-8-validate@5.0.10)
+      '@module-federation/dts-plugin': 0.0.0-feat-mf-ssr-update-current-20261124030451(bufferutil@4.1.0)(typescript@5.9.3)(utf-8-validate@5.0.10)
+      '@module-federation/error-codes': 0.0.0-feat-mf-ssr-update-current-20261124030451
+      '@module-federation/inject-external-runtime-core-plugin': 0.0.0-feat-mf-ssr-update-current-20261124030451(@module-federation/runtime-tools@0.0.0-feat-mf-ssr-update-current-20261124030451)
+      '@module-federation/managers': 0.0.0-feat-mf-ssr-update-current-20261124030451
+      '@module-federation/manifest': 0.0.0-feat-mf-ssr-update-current-20261124030451(bufferutil@4.1.0)(typescript@5.9.3)(utf-8-validate@5.0.10)
+      '@module-federation/rspack': 0.0.0-feat-mf-ssr-update-current-20261124030451(@rspack/core@2.3.3(@module-federation/runtime-tools@2.9.2)(@swc/helpers@0.5.23))(bufferutil@4.1.0)(typescript@5.9.3)(utf-8-validate@5.0.10)
+      '@module-federation/runtime-tools': 0.0.0-feat-mf-ssr-update-current-20261124030451
+      '@module-federation/sdk': 0.0.0-feat-mf-ssr-update-current-20261124030451
+      '@module-federation/webpack-bundler-runtime': 0.0.0-feat-mf-ssr-update-current-20261124030451
       schema-utils: 4.5.0
       tapable: 2.3.0
     optionalDependencies:
@@ -21966,19 +21966,19 @@ snapshots:
       - bufferutil
       - utf-8-validate
 
-  '@module-federation/enhanced@0.0.0-feat-mf-ssr-update-current-20261123061307(@rspack/core@2.3.3(@module-federation/runtime-tools@2.9.2)(@swc/helpers@0.5.23))(bufferutil@4.1.0)(typescript@5.9.3)(utf-8-validate@5.0.10)(webpack@5.104.1(@swc/core@1.16.21(@swc/helpers@0.5.24)))':
+  '@module-federation/enhanced@0.0.0-feat-mf-ssr-update-current-20261124030451(@rspack/core@2.3.3(@module-federation/runtime-tools@2.9.2)(@swc/helpers@0.5.23))(bufferutil@4.1.0)(typescript@5.9.3)(utf-8-validate@5.0.10)(webpack@5.104.1(@swc/core@1.16.21(@swc/helpers@0.5.24)))':
     dependencies:
-      '@module-federation/bridge-react-webpack-plugin': 0.0.0-feat-mf-ssr-update-current-20261123061307
-      '@module-federation/cli': 0.0.0-feat-mf-ssr-update-current-20261123061307(bufferutil@4.1.0)(typescript@5.9.3)(utf-8-validate@5.0.10)
-      '@module-federation/dts-plugin': 0.0.0-feat-mf-ssr-update-current-20261123061307(bufferutil@4.1.0)(typescript@5.9.3)(utf-8-validate@5.0.10)
-      '@module-federation/error-codes': 0.0.0-feat-mf-ssr-update-current-20261123061307
-      '@module-federation/inject-external-runtime-core-plugin': 0.0.0-feat-mf-ssr-update-current-20261123061307(@module-federation/runtime-tools@0.0.0-feat-mf-ssr-update-current-20261123061307)
-      '@module-federation/managers': 0.0.0-feat-mf-ssr-update-current-20261123061307
-      '@module-federation/manifest': 0.0.0-feat-mf-ssr-update-current-20261123061307(bufferutil@4.1.0)(typescript@5.9.3)(utf-8-validate@5.0.10)
-      '@module-federation/rspack': 0.0.0-feat-mf-ssr-update-current-20261123061307(@rspack/core@2.3.3(@module-federation/runtime-tools@2.9.2)(@swc/helpers@0.5.23))(bufferutil@4.1.0)(typescript@5.9.3)(utf-8-validate@5.0.10)
-      '@module-federation/runtime-tools': 0.0.0-feat-mf-ssr-update-current-20261123061307
-      '@module-federation/sdk': 0.0.0-feat-mf-ssr-update-current-20261123061307
-      '@module-federation/webpack-bundler-runtime': 0.0.0-feat-mf-ssr-update-current-20261123061307
+      '@module-federation/bridge-react-webpack-plugin': 0.0.0-feat-mf-ssr-update-current-20261124030451
+      '@module-federation/cli': 0.0.0-feat-mf-ssr-update-current-20261124030451(bufferutil@4.1.0)(typescript@5.9.3)(utf-8-validate@5.0.10)
+      '@module-federation/dts-plugin': 0.0.0-feat-mf-ssr-update-current-20261124030451(bufferutil@4.1.0)(typescript@5.9.3)(utf-8-validate@5.0.10)
+      '@module-federation/error-codes': 0.0.0-feat-mf-ssr-update-current-20261124030451
+      '@module-federation/inject-external-runtime-core-plugin': 0.0.0-feat-mf-ssr-update-current-20261124030451(@module-federation/runtime-tools@0.0.0-feat-mf-ssr-update-current-20261124030451)
+      '@module-federation/managers': 0.0.0-feat-mf-ssr-update-current-20261124030451
+      '@module-federation/manifest': 0.0.0-feat-mf-ssr-update-current-20261124030451(bufferutil@4.1.0)(typescript@5.9.3)(utf-8-validate@5.0.10)
+      '@module-federation/rspack': 0.0.0-feat-mf-ssr-update-current-20261124030451(@rspack/core@2.3.3(@module-federation/runtime-tools@2.9.2)(@swc/helpers@0.5.23))(bufferutil@4.1.0)(typescript@5.9.3)(utf-8-validate@5.0.10)
+      '@module-federation/runtime-tools': 0.0.0-feat-mf-ssr-update-current-20261124030451
+      '@module-federation/sdk': 0.0.0-feat-mf-ssr-update-current-20261124030451
+      '@module-federation/webpack-bundler-runtime': 0.0.0-feat-mf-ssr-update-current-20261124030451
       schema-utils: 4.5.0
       tapable: 2.3.0
     optionalDependencies:
@@ -21989,19 +21989,19 @@ snapshots:
       - bufferutil
       - utf-8-validate
 
-  '@module-federation/enhanced@0.0.0-feat-mf-ssr-update-current-20261123061307(@rspack/core@2.3.3(@module-federation/runtime-tools@2.9.2)(@swc/helpers@0.5.24))(bufferutil@4.1.0)(typescript@5.9.3)(utf-8-validate@5.0.10)(webpack@5.104.1(@swc/core@1.16.21(@swc/helpers@0.5.24)))':
+  '@module-federation/enhanced@0.0.0-feat-mf-ssr-update-current-20261124030451(@rspack/core@2.3.3(@module-federation/runtime-tools@2.9.2)(@swc/helpers@0.5.24))(bufferutil@4.1.0)(typescript@5.9.3)(utf-8-validate@5.0.10)(webpack@5.104.1(@swc/core@1.16.21(@swc/helpers@0.5.24)))':
     dependencies:
-      '@module-federation/bridge-react-webpack-plugin': 0.0.0-feat-mf-ssr-update-current-20261123061307
-      '@module-federation/cli': 0.0.0-feat-mf-ssr-update-current-20261123061307(bufferutil@4.1.0)(typescript@5.9.3)(utf-8-validate@5.0.10)
-      '@module-federation/dts-plugin': 0.0.0-feat-mf-ssr-update-current-20261123061307(bufferutil@4.1.0)(typescript@5.9.3)(utf-8-validate@5.0.10)
-      '@module-federation/error-codes': 0.0.0-feat-mf-ssr-update-current-20261123061307
-      '@module-federation/inject-external-runtime-core-plugin': 0.0.0-feat-mf-ssr-update-current-20261123061307(@module-federation/runtime-tools@0.0.0-feat-mf-ssr-update-current-20261123061307)
-      '@module-federation/managers': 0.0.0-feat-mf-ssr-update-current-20261123061307
-      '@module-federation/manifest': 0.0.0-feat-mf-ssr-update-current-20261123061307(bufferutil@4.1.0)(typescript@5.9.3)(utf-8-validate@5.0.10)
-      '@module-federation/rspack': 0.0.0-feat-mf-ssr-update-current-20261123061307(@rspack/core@2.3.3(@module-federation/runtime-tools@2.9.2)(@swc/helpers@0.5.24))(bufferutil@4.1.0)(typescript@5.9.3)(utf-8-validate@5.0.10)
-      '@module-federation/runtime-tools': 0.0.0-feat-mf-ssr-update-current-20261123061307
-      '@module-federation/sdk': 0.0.0-feat-mf-ssr-update-current-20261123061307
-      '@module-federation/webpack-bundler-runtime': 0.0.0-feat-mf-ssr-update-current-20261123061307
+      '@module-federation/bridge-react-webpack-plugin': 0.0.0-feat-mf-ssr-update-current-20261124030451
+      '@module-federation/cli': 0.0.0-feat-mf-ssr-update-current-20261124030451(bufferutil@4.1.0)(typescript@5.9.3)(utf-8-validate@5.0.10)
+      '@module-federation/dts-plugin': 0.0.0-feat-mf-ssr-update-current-20261124030451(bufferutil@4.1.0)(typescript@5.9.3)(utf-8-validate@5.0.10)
+      '@module-federation/error-codes': 0.0.0-feat-mf-ssr-update-current-20261124030451
+      '@module-federation/inject-external-runtime-core-plugin': 0.0.0-feat-mf-ssr-update-current-20261124030451(@module-federation/runtime-tools@0.0.0-feat-mf-ssr-update-current-20261124030451)
+      '@module-federation/managers': 0.0.0-feat-mf-ssr-update-current-20261124030451
+      '@module-federation/manifest': 0.0.0-feat-mf-ssr-update-current-20261124030451(bufferutil@4.1.0)(typescript@5.9.3)(utf-8-validate@5.0.10)
+      '@module-federation/rspack': 0.0.0-feat-mf-ssr-update-current-20261124030451(@rspack/core@2.3.3(@module-federation/runtime-tools@2.9.2)(@swc/helpers@0.5.24))(bufferutil@4.1.0)(typescript@5.9.3)(utf-8-validate@5.0.10)
+      '@module-federation/runtime-tools': 0.0.0-feat-mf-ssr-update-current-20261124030451
+      '@module-federation/sdk': 0.0.0-feat-mf-ssr-update-current-20261124030451
+      '@module-federation/webpack-bundler-runtime': 0.0.0-feat-mf-ssr-update-current-20261124030451
       schema-utils: 4.5.0
       tapable: 2.3.0
     optionalDependencies:
@@ -22091,15 +22091,15 @@ snapshots:
       - bufferutil
       - utf-8-validate
 
-  '@module-federation/error-codes@0.0.0-feat-mf-ssr-update-current-20261123061307': {}
+  '@module-federation/error-codes@0.0.0-feat-mf-ssr-update-current-20261124030451': {}
 
   '@module-federation/error-codes@2.0.0': {}
 
   '@module-federation/error-codes@2.9.2': {}
 
-  '@module-federation/inject-external-runtime-core-plugin@0.0.0-feat-mf-ssr-update-current-20261123061307(@module-federation/runtime-tools@0.0.0-feat-mf-ssr-update-current-20261123061307)':
+  '@module-federation/inject-external-runtime-core-plugin@0.0.0-feat-mf-ssr-update-current-20261124030451(@module-federation/runtime-tools@0.0.0-feat-mf-ssr-update-current-20261124030451)':
     dependencies:
-      '@module-federation/runtime-tools': 0.0.0-feat-mf-ssr-update-current-20261123061307
+      '@module-federation/runtime-tools': 0.0.0-feat-mf-ssr-update-current-20261124030451
 
   '@module-federation/inject-external-runtime-core-plugin@2.0.0(@module-federation/runtime-tools@2.0.0)':
     dependencies:
@@ -22109,9 +22109,9 @@ snapshots:
     dependencies:
       '@module-federation/runtime-tools': 2.9.2
 
-  '@module-federation/managers@0.0.0-feat-mf-ssr-update-current-20261123061307':
+  '@module-federation/managers@0.0.0-feat-mf-ssr-update-current-20261124030451':
     dependencies:
-      '@module-federation/sdk': 0.0.0-feat-mf-ssr-update-current-20261123061307
+      '@module-federation/sdk': 0.0.0-feat-mf-ssr-update-current-20261124030451
 
   '@module-federation/managers@2.0.0':
     dependencies:
@@ -22123,24 +22123,24 @@ snapshots:
     dependencies:
       '@module-federation/sdk': 2.9.2
 
-  '@module-federation/manifest@0.0.0-feat-mf-ssr-update-current-20261123061307(bufferutil@4.1.0)(typescript@5.7.3)(utf-8-validate@5.0.10)':
+  '@module-federation/manifest@0.0.0-feat-mf-ssr-update-current-20261124030451(bufferutil@4.1.0)(typescript@5.7.3)(utf-8-validate@5.0.10)':
     dependencies:
       '@babel/parser': 7.29.9
-      '@module-federation/dts-plugin': 0.0.0-feat-mf-ssr-update-current-20261123061307(bufferutil@4.1.0)(typescript@5.7.3)(utf-8-validate@5.0.10)
-      '@module-federation/managers': 0.0.0-feat-mf-ssr-update-current-20261123061307
-      '@module-federation/sdk': 0.0.0-feat-mf-ssr-update-current-20261123061307
+      '@module-federation/dts-plugin': 0.0.0-feat-mf-ssr-update-current-20261124030451(bufferutil@4.1.0)(typescript@5.7.3)(utf-8-validate@5.0.10)
+      '@module-federation/managers': 0.0.0-feat-mf-ssr-update-current-20261124030451
+      '@module-federation/sdk': 0.0.0-feat-mf-ssr-update-current-20261124030451
     transitivePeerDependencies:
       - bufferutil
       - typescript
       - utf-8-validate
       - vue-tsc
 
-  '@module-federation/manifest@0.0.0-feat-mf-ssr-update-current-20261123061307(bufferutil@4.1.0)(typescript@5.9.3)(utf-8-validate@5.0.10)':
+  '@module-federation/manifest@0.0.0-feat-mf-ssr-update-current-20261124030451(bufferutil@4.1.0)(typescript@5.9.3)(utf-8-validate@5.0.10)':
     dependencies:
       '@babel/parser': 7.29.9
-      '@module-federation/dts-plugin': 0.0.0-feat-mf-ssr-update-current-20261123061307(bufferutil@4.1.0)(typescript@5.9.3)(utf-8-validate@5.0.10)
-      '@module-federation/managers': 0.0.0-feat-mf-ssr-update-current-20261123061307
-      '@module-federation/sdk': 0.0.0-feat-mf-ssr-update-current-20261123061307
+      '@module-federation/dts-plugin': 0.0.0-feat-mf-ssr-update-current-20261124030451(bufferutil@4.1.0)(typescript@5.9.3)(utf-8-validate@5.0.10)
+      '@module-federation/managers': 0.0.0-feat-mf-ssr-update-current-20261124030451
+      '@module-federation/sdk': 0.0.0-feat-mf-ssr-update-current-20261124030451
     transitivePeerDependencies:
       - bufferutil
       - typescript
@@ -22257,12 +22257,12 @@ snapshots:
       - utf-8-validate
       - webpack
 
-  '@module-federation/node@0.0.0-feat-mf-ssr-update-current-20261123061307(@rspack-canary/core@2.3.4-canary-24cae013-20261120083057(@module-federation/runtime-tools@0.0.0-feat-mf-ssr-update-current-20261123061307)(@swc/helpers@0.5.23))(bufferutil@4.1.0)(typescript@5.7.3)(utf-8-validate@5.0.10)(webpack@5.104.1(@swc/core@1.16.21(@swc/helpers@0.5.24)))':
+  '@module-federation/node@0.0.0-feat-mf-ssr-update-current-20261124030451(@rspack-canary/core@2.3.4-canary-24cae013-20261120083057(@module-federation/runtime-tools@0.0.0-feat-mf-ssr-update-current-20261124030451)(@swc/helpers@0.5.23))(bufferutil@4.1.0)(typescript@5.7.3)(utf-8-validate@5.0.10)(webpack@5.104.1(@swc/core@1.16.21(@swc/helpers@0.5.24)))':
     dependencies:
-      '@module-federation/enhanced': 0.0.0-feat-mf-ssr-update-current-20261123061307(@rspack-canary/core@2.3.4-canary-24cae013-20261120083057(@module-federation/runtime-tools@0.0.0-feat-mf-ssr-update-current-20261123061307)(@swc/helpers@0.5.23))(bufferutil@4.1.0)(typescript@5.7.3)(utf-8-validate@5.0.10)(webpack@5.104.1(@swc/core@1.16.21(@swc/helpers@0.5.24)))
-      '@module-federation/runtime': 0.0.0-feat-mf-ssr-update-current-20261123061307
-      '@module-federation/sdk': 0.0.0-feat-mf-ssr-update-current-20261123061307
-      '@module-federation/webpack-bundler-runtime': 0.0.0-feat-mf-ssr-update-current-20261123061307
+      '@module-federation/enhanced': 0.0.0-feat-mf-ssr-update-current-20261124030451(@rspack-canary/core@2.3.4-canary-24cae013-20261120083057(@module-federation/runtime-tools@0.0.0-feat-mf-ssr-update-current-20261124030451)(@swc/helpers@0.5.23))(bufferutil@4.1.0)(typescript@5.7.3)(utf-8-validate@5.0.10)(webpack@5.104.1(@swc/core@1.16.21(@swc/helpers@0.5.24)))
+      '@module-federation/runtime': 0.0.0-feat-mf-ssr-update-current-20261124030451
+      '@module-federation/sdk': 0.0.0-feat-mf-ssr-update-current-20261124030451
+      '@module-federation/webpack-bundler-runtime': 0.0.0-feat-mf-ssr-update-current-20261124030451
       encoding: 0.1.13
       node-fetch: 2.7.0(encoding@0.1.13)
       tapable: 2.3.0
@@ -22275,12 +22275,12 @@ snapshots:
       - utf-8-validate
       - vue-tsc
 
-  '@module-federation/node@0.0.0-feat-mf-ssr-update-current-20261123061307(@rspack/core@2.3.3(@module-federation/runtime-tools@2.9.2)(@swc/helpers@0.5.23))(bufferutil@4.1.0)(typescript@5.9.3)(utf-8-validate@5.0.10)(webpack@5.104.1(@swc/core@1.16.21(@swc/helpers@0.5.24)))':
+  '@module-federation/node@0.0.0-feat-mf-ssr-update-current-20261124030451(@rspack/core@2.3.3(@module-federation/runtime-tools@2.9.2)(@swc/helpers@0.5.23))(bufferutil@4.1.0)(typescript@5.9.3)(utf-8-validate@5.0.10)(webpack@5.104.1(@swc/core@1.16.21(@swc/helpers@0.5.24)))':
     dependencies:
-      '@module-federation/enhanced': 0.0.0-feat-mf-ssr-update-current-20261123061307(@rspack/core@2.3.3(@module-federation/runtime-tools@2.9.2)(@swc/helpers@0.5.23))(bufferutil@4.1.0)(typescript@5.9.3)(utf-8-validate@5.0.10)(webpack@5.104.1(@swc/core@1.16.21(@swc/helpers@0.5.24)))
-      '@module-federation/runtime': 0.0.0-feat-mf-ssr-update-current-20261123061307
-      '@module-federation/sdk': 0.0.0-feat-mf-ssr-update-current-20261123061307
-      '@module-federation/webpack-bundler-runtime': 0.0.0-feat-mf-ssr-update-current-20261123061307
+      '@module-federation/enhanced': 0.0.0-feat-mf-ssr-update-current-20261124030451(@rspack/core@2.3.3(@module-federation/runtime-tools@2.9.2)(@swc/helpers@0.5.23))(bufferutil@4.1.0)(typescript@5.9.3)(utf-8-validate@5.0.10)(webpack@5.104.1(@swc/core@1.16.21(@swc/helpers@0.5.24)))
+      '@module-federation/runtime': 0.0.0-feat-mf-ssr-update-current-20261124030451
+      '@module-federation/sdk': 0.0.0-feat-mf-ssr-update-current-20261124030451
+      '@module-federation/webpack-bundler-runtime': 0.0.0-feat-mf-ssr-update-current-20261124030451
       encoding: 0.1.13
       node-fetch: 2.7.0(encoding@0.1.13)
       tapable: 2.3.0
@@ -22352,11 +22352,11 @@ snapshots:
       - utf-8-validate
       - vue-tsc
 
-  '@module-federation/rsbuild-plugin@0.0.0-feat-mf-ssr-update-current-20261123061307(@rsbuild/core@2.1.13(@module-federation/runtime-tools@2.9.2)(core-js@3.50.0))(@rspack/core@2.3.3(@module-federation/runtime-tools@2.9.2)(@swc/helpers@0.5.23))(bufferutil@4.1.0)(typescript@5.9.3)(utf-8-validate@5.0.10)(webpack@5.104.1(@swc/core@1.16.21(@swc/helpers@0.5.24)))':
+  '@module-federation/rsbuild-plugin@0.0.0-feat-mf-ssr-update-current-20261124030451(@rsbuild/core@2.1.13(@module-federation/runtime-tools@2.9.2)(core-js@3.50.0))(@rspack/core@2.3.3(@module-federation/runtime-tools@2.9.2)(@swc/helpers@0.5.23))(bufferutil@4.1.0)(typescript@5.9.3)(utf-8-validate@5.0.10)(webpack@5.104.1(@swc/core@1.16.21(@swc/helpers@0.5.24)))':
     dependencies:
-      '@module-federation/enhanced': 0.0.0-feat-mf-ssr-update-current-20261123061307(@rspack/core@2.3.3(@module-federation/runtime-tools@2.9.2)(@swc/helpers@0.5.23))(bufferutil@4.1.0)(typescript@5.9.3)(utf-8-validate@5.0.10)(webpack@5.104.1(@swc/core@1.16.21(@swc/helpers@0.5.24)))
-      '@module-federation/node': 0.0.0-feat-mf-ssr-update-current-20261123061307(@rspack/core@2.3.3(@module-federation/runtime-tools@2.9.2)(@swc/helpers@0.5.23))(bufferutil@4.1.0)(typescript@5.9.3)(utf-8-validate@5.0.10)(webpack@5.104.1(@swc/core@1.16.21(@swc/helpers@0.5.24)))
-      '@module-federation/sdk': 0.0.0-feat-mf-ssr-update-current-20261123061307
+      '@module-federation/enhanced': 0.0.0-feat-mf-ssr-update-current-20261124030451(@rspack/core@2.3.3(@module-federation/runtime-tools@2.9.2)(@swc/helpers@0.5.23))(bufferutil@4.1.0)(typescript@5.9.3)(utf-8-validate@5.0.10)(webpack@5.104.1(@swc/core@1.16.21(@swc/helpers@0.5.24)))
+      '@module-federation/node': 0.0.0-feat-mf-ssr-update-current-20261124030451(@rspack/core@2.3.3(@module-federation/runtime-tools@2.9.2)(@swc/helpers@0.5.23))(bufferutil@4.1.0)(typescript@5.9.3)(utf-8-validate@5.0.10)(webpack@5.104.1(@swc/core@1.16.21(@swc/helpers@0.5.24)))
+      '@module-federation/sdk': 0.0.0-feat-mf-ssr-update-current-20261124030451
     optionalDependencies:
       '@rsbuild/core': 2.1.13(@module-federation/runtime-tools@2.9.2)(core-js@3.50.0)
     transitivePeerDependencies:
@@ -22367,13 +22367,13 @@ snapshots:
       - vue-tsc
       - webpack
 
-  '@module-federation/rsbuild-plugin@0.0.0-feat-mf-ssr-update-current-20261123061307(@rsbuild/core@2.2.13(@module-federation/runtime-tools@0.0.0-feat-mf-ssr-update-current-20261123061307)(core-js@3.50.0))(@rspack-canary/core@2.3.4-canary-24cae013-20261120083057(@module-federation/runtime-tools@0.0.0-feat-mf-ssr-update-current-20261123061307)(@swc/helpers@0.5.23))(bufferutil@4.1.0)(typescript@5.7.3)(utf-8-validate@5.0.10)(webpack@5.104.1(@swc/core@1.16.21(@swc/helpers@0.5.24)))':
+  '@module-federation/rsbuild-plugin@0.0.0-feat-mf-ssr-update-current-20261124030451(@rsbuild/core@2.2.13(@module-federation/runtime-tools@0.0.0-feat-mf-ssr-update-current-20261124030451)(core-js@3.50.0))(@rspack-canary/core@2.3.4-canary-24cae013-20261120083057(@module-federation/runtime-tools@0.0.0-feat-mf-ssr-update-current-20261124030451)(@swc/helpers@0.5.23))(bufferutil@4.1.0)(typescript@5.7.3)(utf-8-validate@5.0.10)(webpack@5.104.1(@swc/core@1.16.21(@swc/helpers@0.5.24)))':
     dependencies:
-      '@module-federation/enhanced': 0.0.0-feat-mf-ssr-update-current-20261123061307(@rspack-canary/core@2.3.4-canary-24cae013-20261120083057(@module-federation/runtime-tools@0.0.0-feat-mf-ssr-update-current-20261123061307)(@swc/helpers@0.5.23))(bufferutil@4.1.0)(typescript@5.7.3)(utf-8-validate@5.0.10)(webpack@5.104.1(@swc/core@1.16.21(@swc/helpers@0.5.24)))
-      '@module-federation/node': 0.0.0-feat-mf-ssr-update-current-20261123061307(@rspack-canary/core@2.3.4-canary-24cae013-20261120083057(@module-federation/runtime-tools@0.0.0-feat-mf-ssr-update-current-20261123061307)(@swc/helpers@0.5.23))(bufferutil@4.1.0)(typescript@5.7.3)(utf-8-validate@5.0.10)(webpack@5.104.1(@swc/core@1.16.21(@swc/helpers@0.5.24)))
-      '@module-federation/sdk': 0.0.0-feat-mf-ssr-update-current-20261123061307
+      '@module-federation/enhanced': 0.0.0-feat-mf-ssr-update-current-20261124030451(@rspack-canary/core@2.3.4-canary-24cae013-20261120083057(@module-federation/runtime-tools@0.0.0-feat-mf-ssr-update-current-20261124030451)(@swc/helpers@0.5.23))(bufferutil@4.1.0)(typescript@5.7.3)(utf-8-validate@5.0.10)(webpack@5.104.1(@swc/core@1.16.21(@swc/helpers@0.5.24)))
+      '@module-federation/node': 0.0.0-feat-mf-ssr-update-current-20261124030451(@rspack-canary/core@2.3.4-canary-24cae013-20261120083057(@module-federation/runtime-tools@0.0.0-feat-mf-ssr-update-current-20261124030451)(@swc/helpers@0.5.23))(bufferutil@4.1.0)(typescript@5.7.3)(utf-8-validate@5.0.10)(webpack@5.104.1(@swc/core@1.16.21(@swc/helpers@0.5.24)))
+      '@module-federation/sdk': 0.0.0-feat-mf-ssr-update-current-20261124030451
     optionalDependencies:
-      '@rsbuild/core': 2.2.13(@module-federation/runtime-tools@0.0.0-feat-mf-ssr-update-current-20261123061307)(core-js@3.50.0)
+      '@rsbuild/core': 2.2.13(@module-federation/runtime-tools@0.0.0-feat-mf-ssr-update-current-20261124030451)(core-js@3.50.0)
     transitivePeerDependencies:
       - '@rspack/core'
       - bufferutil
@@ -22433,31 +22433,31 @@ snapshots:
       - vue-tsc
       - webpack
 
-  '@module-federation/rspack@0.0.0-feat-mf-ssr-update-current-20261123061307(@rspack-canary/core@2.3.4-canary-24cae013-20261120083057(@module-federation/runtime-tools@0.0.0-feat-mf-ssr-update-current-20261123061307)(@swc/helpers@0.5.23))(bufferutil@4.1.0)(typescript@5.7.3)(utf-8-validate@5.0.10)':
+  '@module-federation/rspack@0.0.0-feat-mf-ssr-update-current-20261124030451(@rspack-canary/core@2.3.4-canary-24cae013-20261120083057(@module-federation/runtime-tools@0.0.0-feat-mf-ssr-update-current-20261124030451)(@swc/helpers@0.5.23))(bufferutil@4.1.0)(typescript@5.7.3)(utf-8-validate@5.0.10)':
     dependencies:
-      '@module-federation/bridge-react-webpack-plugin': 0.0.0-feat-mf-ssr-update-current-20261123061307
-      '@module-federation/dts-plugin': 0.0.0-feat-mf-ssr-update-current-20261123061307(bufferutil@4.1.0)(typescript@5.7.3)(utf-8-validate@5.0.10)
-      '@module-federation/inject-external-runtime-core-plugin': 0.0.0-feat-mf-ssr-update-current-20261123061307(@module-federation/runtime-tools@0.0.0-feat-mf-ssr-update-current-20261123061307)
-      '@module-federation/managers': 0.0.0-feat-mf-ssr-update-current-20261123061307
-      '@module-federation/manifest': 0.0.0-feat-mf-ssr-update-current-20261123061307(bufferutil@4.1.0)(typescript@5.7.3)(utf-8-validate@5.0.10)
-      '@module-federation/runtime-tools': 0.0.0-feat-mf-ssr-update-current-20261123061307
-      '@module-federation/sdk': 0.0.0-feat-mf-ssr-update-current-20261123061307
-      '@rspack/core': '@rspack-canary/core@2.3.4-canary-24cae013-20261120083057(@module-federation/runtime-tools@0.0.0-feat-mf-ssr-update-current-20261123061307)(@swc/helpers@0.5.23)'
+      '@module-federation/bridge-react-webpack-plugin': 0.0.0-feat-mf-ssr-update-current-20261124030451
+      '@module-federation/dts-plugin': 0.0.0-feat-mf-ssr-update-current-20261124030451(bufferutil@4.1.0)(typescript@5.7.3)(utf-8-validate@5.0.10)
+      '@module-federation/inject-external-runtime-core-plugin': 0.0.0-feat-mf-ssr-update-current-20261124030451(@module-federation/runtime-tools@0.0.0-feat-mf-ssr-update-current-20261124030451)
+      '@module-federation/managers': 0.0.0-feat-mf-ssr-update-current-20261124030451
+      '@module-federation/manifest': 0.0.0-feat-mf-ssr-update-current-20261124030451(bufferutil@4.1.0)(typescript@5.7.3)(utf-8-validate@5.0.10)
+      '@module-federation/runtime-tools': 0.0.0-feat-mf-ssr-update-current-20261124030451
+      '@module-federation/sdk': 0.0.0-feat-mf-ssr-update-current-20261124030451
+      '@rspack/core': '@rspack-canary/core@2.3.4-canary-24cae013-20261120083057(@module-federation/runtime-tools@0.0.0-feat-mf-ssr-update-current-20261124030451)(@swc/helpers@0.5.23)'
     optionalDependencies:
       typescript: 5.7.3
     transitivePeerDependencies:
       - bufferutil
       - utf-8-validate
 
-  '@module-federation/rspack@0.0.0-feat-mf-ssr-update-current-20261123061307(@rspack/core@2.3.3(@module-federation/runtime-tools@2.9.2)(@swc/helpers@0.5.23))(bufferutil@4.1.0)(typescript@5.9.3)(utf-8-validate@5.0.10)':
+  '@module-federation/rspack@0.0.0-feat-mf-ssr-update-current-20261124030451(@rspack/core@2.3.3(@module-federation/runtime-tools@2.9.2)(@swc/helpers@0.5.23))(bufferutil@4.1.0)(typescript@5.9.3)(utf-8-validate@5.0.10)':
     dependencies:
-      '@module-federation/bridge-react-webpack-plugin': 0.0.0-feat-mf-ssr-update-current-20261123061307
-      '@module-federation/dts-plugin': 0.0.0-feat-mf-ssr-update-current-20261123061307(bufferutil@4.1.0)(typescript@5.9.3)(utf-8-validate@5.0.10)
-      '@module-federation/inject-external-runtime-core-plugin': 0.0.0-feat-mf-ssr-update-current-20261123061307(@module-federation/runtime-tools@0.0.0-feat-mf-ssr-update-current-20261123061307)
-      '@module-federation/managers': 0.0.0-feat-mf-ssr-update-current-20261123061307
-      '@module-federation/manifest': 0.0.0-feat-mf-ssr-update-current-20261123061307(bufferutil@4.1.0)(typescript@5.9.3)(utf-8-validate@5.0.10)
-      '@module-federation/runtime-tools': 0.0.0-feat-mf-ssr-update-current-20261123061307
-      '@module-federation/sdk': 0.0.0-feat-mf-ssr-update-current-20261123061307
+      '@module-federation/bridge-react-webpack-plugin': 0.0.0-feat-mf-ssr-update-current-20261124030451
+      '@module-federation/dts-plugin': 0.0.0-feat-mf-ssr-update-current-20261124030451(bufferutil@4.1.0)(typescript@5.9.3)(utf-8-validate@5.0.10)
+      '@module-federation/inject-external-runtime-core-plugin': 0.0.0-feat-mf-ssr-update-current-20261124030451(@module-federation/runtime-tools@0.0.0-feat-mf-ssr-update-current-20261124030451)
+      '@module-federation/managers': 0.0.0-feat-mf-ssr-update-current-20261124030451
+      '@module-federation/manifest': 0.0.0-feat-mf-ssr-update-current-20261124030451(bufferutil@4.1.0)(typescript@5.9.3)(utf-8-validate@5.0.10)
+      '@module-federation/runtime-tools': 0.0.0-feat-mf-ssr-update-current-20261124030451
+      '@module-federation/sdk': 0.0.0-feat-mf-ssr-update-current-20261124030451
       '@rspack/core': 2.3.3(@module-federation/runtime-tools@2.9.2)(@swc/helpers@0.5.23)
     optionalDependencies:
       typescript: 5.9.3
@@ -22465,15 +22465,15 @@ snapshots:
       - bufferutil
       - utf-8-validate
 
-  '@module-federation/rspack@0.0.0-feat-mf-ssr-update-current-20261123061307(@rspack/core@2.3.3(@module-federation/runtime-tools@2.9.2)(@swc/helpers@0.5.24))(bufferutil@4.1.0)(typescript@5.9.3)(utf-8-validate@5.0.10)':
+  '@module-federation/rspack@0.0.0-feat-mf-ssr-update-current-20261124030451(@rspack/core@2.3.3(@module-federation/runtime-tools@2.9.2)(@swc/helpers@0.5.24))(bufferutil@4.1.0)(typescript@5.9.3)(utf-8-validate@5.0.10)':
     dependencies:
-      '@module-federation/bridge-react-webpack-plugin': 0.0.0-feat-mf-ssr-update-current-20261123061307
-      '@module-federation/dts-plugin': 0.0.0-feat-mf-ssr-update-current-20261123061307(bufferutil@4.1.0)(typescript@5.9.3)(utf-8-validate@5.0.10)
-      '@module-federation/inject-external-runtime-core-plugin': 0.0.0-feat-mf-ssr-update-current-20261123061307(@module-federation/runtime-tools@0.0.0-feat-mf-ssr-update-current-20261123061307)
-      '@module-federation/managers': 0.0.0-feat-mf-ssr-update-current-20261123061307
-      '@module-federation/manifest': 0.0.0-feat-mf-ssr-update-current-20261123061307(bufferutil@4.1.0)(typescript@5.9.3)(utf-8-validate@5.0.10)
-      '@module-federation/runtime-tools': 0.0.0-feat-mf-ssr-update-current-20261123061307
-      '@module-federation/sdk': 0.0.0-feat-mf-ssr-update-current-20261123061307
+      '@module-federation/bridge-react-webpack-plugin': 0.0.0-feat-mf-ssr-update-current-20261124030451
+      '@module-federation/dts-plugin': 0.0.0-feat-mf-ssr-update-current-20261124030451(bufferutil@4.1.0)(typescript@5.9.3)(utf-8-validate@5.0.10)
+      '@module-federation/inject-external-runtime-core-plugin': 0.0.0-feat-mf-ssr-update-current-20261124030451(@module-federation/runtime-tools@0.0.0-feat-mf-ssr-update-current-20261124030451)
+      '@module-federation/managers': 0.0.0-feat-mf-ssr-update-current-20261124030451
+      '@module-federation/manifest': 0.0.0-feat-mf-ssr-update-current-20261124030451(bufferutil@4.1.0)(typescript@5.9.3)(utf-8-validate@5.0.10)
+      '@module-federation/runtime-tools': 0.0.0-feat-mf-ssr-update-current-20261124030451
+      '@module-federation/sdk': 0.0.0-feat-mf-ssr-update-current-20261124030451
       '@rspack/core': 2.3.3(@module-federation/runtime-tools@2.9.2)(@swc/helpers@0.5.24)
     optionalDependencies:
       typescript: 5.9.3
@@ -22535,10 +22535,10 @@ snapshots:
       - bufferutil
       - utf-8-validate
 
-  '@module-federation/runtime-core@0.0.0-feat-mf-ssr-update-current-20261123061307':
+  '@module-federation/runtime-core@0.0.0-feat-mf-ssr-update-current-20261124030451':
     dependencies:
-      '@module-federation/error-codes': 0.0.0-feat-mf-ssr-update-current-20261123061307
-      '@module-federation/sdk': 0.0.0-feat-mf-ssr-update-current-20261123061307
+      '@module-federation/error-codes': 0.0.0-feat-mf-ssr-update-current-20261124030451
+      '@module-federation/sdk': 0.0.0-feat-mf-ssr-update-current-20261124030451
 
   '@module-federation/runtime-core@2.0.0':
     dependencies:
@@ -22550,10 +22550,10 @@ snapshots:
       '@module-federation/error-codes': 2.9.2
       '@module-federation/sdk': 2.9.2
 
-  '@module-federation/runtime-tools@0.0.0-feat-mf-ssr-update-current-20261123061307':
+  '@module-federation/runtime-tools@0.0.0-feat-mf-ssr-update-current-20261124030451':
     dependencies:
-      '@module-federation/runtime': 0.0.0-feat-mf-ssr-update-current-20261123061307
-      '@module-federation/webpack-bundler-runtime': 0.0.0-feat-mf-ssr-update-current-20261123061307
+      '@module-federation/runtime': 0.0.0-feat-mf-ssr-update-current-20261124030451
+      '@module-federation/webpack-bundler-runtime': 0.0.0-feat-mf-ssr-update-current-20261124030451
 
   '@module-federation/runtime-tools@2.0.0':
     dependencies:
@@ -22565,11 +22565,11 @@ snapshots:
       '@module-federation/runtime': 2.9.2
       '@module-federation/webpack-bundler-runtime': 2.9.2
 
-  '@module-federation/runtime@0.0.0-feat-mf-ssr-update-current-20261123061307':
+  '@module-federation/runtime@0.0.0-feat-mf-ssr-update-current-20261124030451':
     dependencies:
-      '@module-federation/error-codes': 0.0.0-feat-mf-ssr-update-current-20261123061307
-      '@module-federation/runtime-core': 0.0.0-feat-mf-ssr-update-current-20261123061307
-      '@module-federation/sdk': 0.0.0-feat-mf-ssr-update-current-20261123061307
+      '@module-federation/error-codes': 0.0.0-feat-mf-ssr-update-current-20261124030451
+      '@module-federation/runtime-core': 0.0.0-feat-mf-ssr-update-current-20261124030451
+      '@module-federation/sdk': 0.0.0-feat-mf-ssr-update-current-20261124030451
 
   '@module-federation/runtime@2.0.0':
     dependencies:
@@ -22583,13 +22583,13 @@ snapshots:
       '@module-federation/runtime-core': 2.9.2
       '@module-federation/sdk': 2.9.2
 
-  '@module-federation/sdk@0.0.0-feat-mf-ssr-update-current-20261123061307': {}
+  '@module-federation/sdk@0.0.0-feat-mf-ssr-update-current-20261124030451': {}
 
   '@module-federation/sdk@2.0.0': {}
 
   '@module-federation/sdk@2.9.2': {}
 
-  '@module-federation/third-party-dts-extractor@0.0.0-feat-mf-ssr-update-current-20261123061307': {}
+  '@module-federation/third-party-dts-extractor@0.0.0-feat-mf-ssr-update-current-20261124030451': {}
 
   '@module-federation/third-party-dts-extractor@2.0.0':
     dependencies:
@@ -22599,11 +22599,11 @@ snapshots:
 
   '@module-federation/third-party-dts-extractor@2.9.2': {}
 
-  '@module-federation/webpack-bundler-runtime@0.0.0-feat-mf-ssr-update-current-20261123061307':
+  '@module-federation/webpack-bundler-runtime@0.0.0-feat-mf-ssr-update-current-20261124030451':
     dependencies:
-      '@module-federation/error-codes': 0.0.0-feat-mf-ssr-update-current-20261123061307
-      '@module-federation/runtime': 0.0.0-feat-mf-ssr-update-current-20261123061307
-      '@module-federation/sdk': 0.0.0-feat-mf-ssr-update-current-20261123061307
+      '@module-federation/error-codes': 0.0.0-feat-mf-ssr-update-current-20261124030451
+      '@module-federation/runtime': 0.0.0-feat-mf-ssr-update-current-20261124030451
+      '@module-federation/sdk': 0.0.0-feat-mf-ssr-update-current-20261124030451
 
   '@module-federation/webpack-bundler-runtime@2.0.0':
     dependencies:
@@ -23539,9 +23539,9 @@ snapshots:
     transitivePeerDependencies:
       - '@module-federation/runtime-tools'
 
-  '@rsbuild/core@2.2.13(@module-federation/runtime-tools@0.0.0-feat-mf-ssr-update-current-20261123061307)(core-js@3.50.0)':
+  '@rsbuild/core@2.2.13(@module-federation/runtime-tools@0.0.0-feat-mf-ssr-update-current-20261124030451)(core-js@3.50.0)':
     dependencies:
-      '@rspack/core': '@rspack-canary/core@2.3.4-canary-24cae013-20261120083057(@module-federation/runtime-tools@0.0.0-feat-mf-ssr-update-current-20261123061307)(@swc/helpers@0.5.23)'
+      '@rspack/core': '@rspack-canary/core@2.3.4-canary-24cae013-20261120083057(@module-federation/runtime-tools@0.0.0-feat-mf-ssr-update-current-20261124030451)(@swc/helpers@0.5.23)'
       '@swc/helpers': 0.5.23
     optionalDependencies:
       core-js: 3.50.0
@@ -24251,11 +24251,11 @@ snapshots:
       '@rspack/binding-win32-ia32-msvc': '@rspack-canary/binding-win32-ia32-msvc@2.3.4-canary-24cae013-20261120083057'
       '@rspack/binding-win32-x64-msvc': '@rspack-canary/binding-win32-x64-msvc@2.3.4-canary-24cae013-20261120083057'
 
-  '@rspack-canary/core@2.3.4-canary-24cae013-20261120083057(@module-federation/runtime-tools@0.0.0-feat-mf-ssr-update-current-20261123061307)(@swc/helpers@0.5.23)':
+  '@rspack-canary/core@2.3.4-canary-24cae013-20261120083057(@module-federation/runtime-tools@0.0.0-feat-mf-ssr-update-current-20261124030451)(@swc/helpers@0.5.23)':
     dependencies:
       '@rspack/binding': '@rspack-canary/binding@2.3.4-canary-24cae013-20261120083057'
     optionalDependencies:
-      '@module-federation/runtime-tools': 0.0.0-feat-mf-ssr-update-current-20261123061307
+      '@module-federation/runtime-tools': 0.0.0-feat-mf-ssr-update-current-20261124030451
       '@swc/helpers': 0.5.23
 
   '@rspack-canary/core@2.3.4-canary-24cae013-20261120083057(@module-federation/runtime-tools@2.9.2)(@swc/helpers@0.5.23)':
