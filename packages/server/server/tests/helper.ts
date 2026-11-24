@@ -1,3 +1,0 @@
-export const noop = () => {
-  // empty
-};
