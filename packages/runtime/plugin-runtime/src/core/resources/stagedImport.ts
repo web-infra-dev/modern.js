@@ -12,13 +12,17 @@ export type StagedLoader<T> = Loader<T> & {
   /**
    * Element stages only: the element that starts the prefetch when it enters
    * the viewport (`viewport`) or is hovered, focused or touched
-   * (`interaction`). Use it as a React ref, or call it with an element.
+   * (`interaction`). Use it as a React ref, or call it with an element; the
+   * returned function releases the element (React 19 calls it on detach).
    */
-  trigger: (element: Element | null) => void;
+  trigger: (element: Element | null) => void | (() => void);
 };
 
 export type StageDeclaration = {
-  <T>(loader: Loader<T>): StagedLoader<T>;
+  /**
+   * `key` is added by the build to element stage declarations; do not pass it.
+   */
+  <T>(loader: Loader<T>, key?: string): StagedLoader<T>;
   /**
    * Tell the framework the stage arrived. For custom stages, and for built-in
    * stages configured with `manual: true`.
@@ -56,47 +60,85 @@ const isLoadableDescriptor = (value: unknown): value is LoadableDescriptor =>
   value !== null &&
   typeof (value as LoadableDescriptor).requireAsync === 'function';
 
+/**
+ * The `trigger` of an element stage declaration. One declaration can be bound
+ * to many elements (e.g. `ref={loader.trigger}` in a list): the first element
+ * that triggers starts the prefetch, and every element is then released.
+ * An element is also released by the function `trigger(element)` returns
+ * (React 19 calls it when the ref is detached), and, for React 18 which calls
+ * `trigger(null)` instead, once it is no longer in the document.
+ */
 const createTrigger = (stage: ElementStage, start: () => void) => {
   let started = false;
+  /** Element -> removes its observer or listeners. */
+  const bound = new Map<Element, () => void>();
+  const release = (element: Element) => {
+    bound.get(element)?.();
+    bound.delete(element);
+  };
+  const releaseAll = () => {
+    for (const element of [...bound.keys()]) {
+      release(element);
+    }
+  };
+  const releaseDetached = () => {
+    for (const element of [...bound.keys()]) {
+      if (!element.isConnected) {
+        release(element);
+      }
+    }
+  };
   const run = () => {
     if (!started) {
       started = true;
+      releaseAll();
       start();
     }
   };
   return (element: Element | null) => {
-    if (!element || started || !isBrowser()) {
-      return;
+    if (!element) {
+      // The element is removed from the document after its ref is detached.
+      if (bound.size) {
+        queueMicrotask(releaseDetached);
+      }
+      return undefined;
+    }
+    if (started || !isBrowser()) {
+      return undefined;
+    }
+    if (bound.has(element)) {
+      return () => release(element);
     }
     if (stage === 'viewport') {
       if (typeof IntersectionObserver === 'undefined') {
         run();
-        return;
+        return undefined;
       }
       const observer = new IntersectionObserver(entries => {
         if (entries.some(entry => entry.isIntersecting)) {
-          observer.disconnect();
           run();
         }
       });
       observer.observe(element);
-      return;
+      bound.set(element, () => observer.disconnect());
+      return () => release(element);
     }
     const events = ['pointerenter', 'focusin', 'touchstart'];
-    const onEvent = () => {
-      for (const event of events) {
-        element.removeEventListener(event, onEvent);
-      }
-      run();
-    };
+    const onEvent = () => run();
     for (const event of events) {
       element.addEventListener(event, onEvent, { passive: true });
     }
+    bound.set(element, () => {
+      for (const event of events) {
+        element.removeEventListener(event, onEvent);
+      }
+    });
+    return () => release(element);
   };
 };
 
 const createStage = (stage: string): StageDeclaration => {
-  const declare = <T>(loader: Loader<T>): StagedLoader<T> => {
+  const declare = <T>(loader: Loader<T>, key?: string): StagedLoader<T> => {
     if (isBrowser()) {
       // The lists are in the HTML; a declaration means the page uses them.
       getScheduler();
@@ -111,10 +153,11 @@ const createStage = (stage: string): StageDeclaration => {
     staged.trigger = ELEMENT_STAGES.includes(stage as ElementStage)
       ? createTrigger(stage as ElementStage, () => {
           const scheduler = getScheduler();
-          // Capturing the chunk ids needs the wrapped chunk loading. In
-          // another bundle the loader would run the real import instead.
+          // The chunk ids are of this bundle: the build mapped them to the
+          // key, or they are captured with the wrapped chunk loading. In
+          // another bundle neither applies.
           if (isSchedulerRuntime()) {
-            scheduler?.prefetchLoader(load, stage);
+            scheduler?.prefetchElement(key, load, stage);
           }
         })
       : () => undefined;

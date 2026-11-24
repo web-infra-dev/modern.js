@@ -60,6 +60,12 @@ export interface StagePayload {
   q?: string[];
   /** Bundle that pushed `a` or `q`; payloads of another bundle are ignored. */
   b?: string;
+  /**
+   * Entry level: element stage declaration key -> its chunk ids and their CSS
+   * files. The build adds the key to the declaration; an element prefetches
+   * these files without calling the loader.
+   */
+  e?: Record<string, { s: ChunkId[]; k?: Record<string, string[]> }>;
 }
 
 export interface RuntimeStageConfig {
@@ -77,6 +83,11 @@ export interface RuntimeStageConfig {
   x?: 'anonymous' | 'use-credentials';
   /** Quiet window in milliseconds before `idle`. */
   i?: number;
+  /**
+   * The build outputs Subresource Integrity hashes: the bundler runtime then
+   * sets `crossorigin` on every chunk, same origin or not.
+   */
+  z?: 1;
 }
 
 export interface ResourceStageRecord {
@@ -86,6 +97,16 @@ export interface ResourceStageRecord {
   /** Milliseconds since navigation start. */
   prefetchStart?: number;
   prefetchEnd?: number;
+  /**
+   * How the prefetch ended: every file loaded, a file failed, or a file
+   * reported nothing within 30 seconds. Only `ok` prefetches are in the cache.
+   */
+  prefetchStatus?: 'ok' | 'error' | 'timeout';
+  /**
+   * Who asked for the chunk first: the application (`import()`), or the
+   * router prefetching a route for `<Link prefetch>`.
+   */
+  source?: 'app' | 'link';
   /** When the application asked for the chunk (`import()`). */
   requested?: number;
   /** When the chunk finished loading for the application. */

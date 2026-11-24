@@ -20,6 +20,7 @@ import { renderRouteStages } from '../../resources/html';
 import type { ResourceStagesManifest } from '../../resources/manifest';
 import {
   getLoadedScriptUrls,
+  getLoadedStyleUrls,
   getMatchedRouteIds,
   getSSRConfigByEntry,
   safeReplace,
@@ -98,6 +99,9 @@ export const renderString: RenderString = async (
           ...(routeAssets[`async-${entryName}`]?.assets ?? []),
           ...getLoadedScriptUrls(htmlTemplate),
           ...getLoadedScriptUrls(chunkSet.jsChunk),
+          // Stylesheets of the template and of the chunks loadable rendered.
+          ...getLoadedStyleUrls(htmlTemplate),
+          ...getLoadedStyleUrls(chunkSet.cssChunk),
         ]),
         nonce: config.nonce,
         crossorigin: config.crossorigin,

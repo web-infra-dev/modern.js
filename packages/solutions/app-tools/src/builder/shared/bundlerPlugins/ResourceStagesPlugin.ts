@@ -6,10 +6,12 @@ import { ROUTE_MANIFEST_FILE } from '@modern-js/utils';
 import { RESOURCE_STAGES } from '@modern-js/utils/universal/constants';
 import type { Rspack } from '@rsbuild/core';
 import {
+  ELEMENT_STAGES,
   type NormalizedResourceStages,
   type ResourceStagesUserConfig,
   normalizeResourceStages,
 } from '../resourceStages/config';
+import { getElementDeclarationKey } from '../resourceStages/elementKey';
 import { parseStageDeclarations } from '../resourceStages/parse';
 import {
   type ChunkId,
@@ -101,6 +103,30 @@ const getResourcePath = (module: Module | null | undefined) => {
 };
 
 /**
+ * Entries of an HTML file. Rsbuild marks the HTML plugin of each entry with the
+ * entry name; `chunks` is the fallback, and can be customized by the user.
+ */
+const getHtmlEntries = (options: unknown): string[] => {
+  if (!options || typeof options !== 'object') {
+    return [];
+  }
+  const symbol = Object.getOwnPropertySymbols(options).find(
+    item => item.description === 'entryName',
+  );
+  const entryName = symbol
+    ? (options as Record<symbol, unknown>)[symbol]
+    : undefined;
+  if (typeof entryName === 'string') {
+    return [entryName];
+  }
+  const { chunks } = options as { chunks?: unknown };
+  return Array.isArray(chunks) ? (chunks as string[]) : [];
+};
+
+const escapeAttribute = (value: string) =>
+  value.replace(/&/g, '&amp;').replace(/"/g, '&quot;');
+
+/**
  * A preload is only reused when its `crossorigin` and `integrity` match the
  * ones the bundler runtime puts on the chunk. Without Subresource Integrity
  * the runtime sets `use-credentials` always and `anonymous` only for files
@@ -110,6 +136,7 @@ const getResourcePath = (module: Module | null | undefined) => {
 export const renderPreloadTag = (
   item: PreloadItem,
   crossOriginLoading?: false | 'anonymous' | 'use-credentials',
+  nonce?: string,
 ) => {
   let crossorigin: string | undefined;
   if (item.i) {
@@ -121,11 +148,11 @@ export const renderPreloadTag = (
   ) {
     crossorigin = crossOriginLoading;
   }
-  return `<link rel="preload" as="${item.a}" href="${item.h}"${
+  return `<link rel="preload" as="${item.a}" href="${escapeAttribute(item.h)}"${
     crossorigin ? ` crossorigin="${crossorigin}"` : ''
-  }${item.i ? ` integrity="${item.i}"` : ''}${
-    item.l ? ' fetchpriority="low"' : ''
-  }>`;
+  }${item.i ? ` integrity="${escapeAttribute(item.i)}"` : ''}${
+    nonce ? ` nonce="${escapeAttribute(nonce)}"` : ''
+  }${item.l ? ' fetchpriority="low"' : ''}>`;
 };
 
 /**
@@ -147,6 +174,9 @@ export class ResourceStagesPlugin {
     string,
     { mtime: number; result: ReturnType<typeof parseStageDeclarations> }
   >();
+
+  /** Compressed size by file and content hash. */
+  private sizeCache = new Map<string, number>();
 
   constructor(options: ResourceStagesPluginOptions) {
     this.options = options;
@@ -225,11 +255,7 @@ export {};
         compilation,
       ).beforeEmit.tapAsync(PLUGIN_NAME, (data, callback) => {
         if (isActive() && data.html.includes('</head>')) {
-          const chunks = data.plugin.options?.chunks;
-          htmlNames.set(
-            data.outputName,
-            Array.isArray(chunks) ? (chunks as string[]) : [],
-          );
+          htmlNames.set(data.outputName, getHtmlEntries(data.plugin.options));
           data.html = data.html.replace('</head>', `${PLACEHOLDER}</head>`);
         }
         callback(null, data);
@@ -272,8 +298,8 @@ export {};
               compilation.updateAsset(
                 htmlName,
                 new sources.RawSource(
-                  html.replace(
-                    PLACEHOLDER,
+                  // A function, so `$` in the parts is not a replacement pattern.
+                  html.replace(PLACEHOLDER, () =>
                     entries.map(entry => htmlParts.get(entry) ?? '').join(''),
                   ),
                 ),
@@ -325,11 +351,23 @@ export {};
     const duplicates = this.findDuplicateModules(compilation, snapshot, plan);
     for (const target of plan.targets) {
       const entry = snapshot.entries.get(target.entry);
-      const entryBytes = [...(entry?.initial ?? [])].reduce<number>(
-        (sum, id) => sum + (snapshot.chunks.get(id)?.size ?? 0),
+      const initialChunks = [...(entry?.initial ?? [])].map(id =>
+        snapshot.chunks.get(id),
+      );
+      const entryBytes = initialChunks.reduce<number>(
+        (sum, chunk) => sum + (chunk?.size ?? 0),
         0,
       );
-      for (const warning of checkBudgets(target, this.stages, entryBytes)) {
+      const entryRequests = initialChunks.reduce<number>(
+        (sum, chunk) => sum + (chunk ? chunk.js.length + chunk.css.length : 0),
+        0,
+      );
+      for (const warning of checkBudgets(
+        target,
+        this.stages,
+        entryBytes,
+        entryRequests,
+      )) {
         report(warning);
       }
       for (const [stage, count] of duplicates.get(target) ?? []) {
@@ -373,13 +411,23 @@ export {};
     report: (message: string) => void,
   ): Snapshot {
     const { chunkGraph } = compilation;
-    const sizes = new Map<string, number>();
     const getSize = (file: string) => {
-      let size = sizes.get(file);
+      const asset = compilation.getAsset(file);
+      if (!asset) {
+        return 0;
+      }
+      // Kept across rebuilds: in development most files do not change.
+      const { contenthash } = asset.info;
+      const hash = Array.isArray(contenthash)
+        ? contenthash.join(' ')
+        : contenthash;
+      const key = hash ? `${file}\0${hash}` : undefined;
+      let size = key ? this.sizeCache.get(key) : undefined;
       if (size === undefined) {
-        const asset = compilation.getAsset(file);
-        size = asset ? gzipSync(asset.source.buffer()).length : 0;
-        sizes.set(file, size);
+        size = gzipSync(asset.source.buffer()).length;
+        if (key) {
+          this.sizeCache.set(key, size);
+        }
       }
       return size;
     };
@@ -481,8 +529,15 @@ export {};
     for (const [name, entrypoint] of compilation.entrypoints) {
       const groups = new Set<string>();
       groupsOfEntry.set(name, groups);
+      // With `source.enableAsyncEntry` the entry module is in the
+      // `async-${name}` chunk group, which the server also loads up front.
+      const asyncEntry = compilation.namedChunkGroups.get(`async-${name}`) as
+        ChunkGroup | undefined;
       entries.set(name, {
-        initial: new Set(idsOf(entrypoint as unknown as ChunkGroup)),
+        initial: new Set([
+          ...idsOf(entrypoint as unknown as ChunkGroup),
+          ...(asyncEntry ? idsOf(asyncEntry) : []),
+        ]),
         reachable: reachableFrom(
           entrypoint as unknown as ChunkGroup,
           0,
@@ -772,13 +827,26 @@ export {};
     duplicates: Map<TargetPlan, Map<string, number>>,
   ) {
     const { stages, options } = this;
+    // Read from the compilation: `tools.rspack` and the Subresource Integrity
+    // plugin can change it after the bundler chain is built.
+    const finalCrossOrigin = compilation.outputOptions.crossOriginLoading;
+    const crossOriginLoading =
+      finalCrossOrigin === 'anonymous' || finalCrossOrigin === 'use-credentials'
+        ? finalCrossOrigin
+        : options.crossOriginLoading || undefined;
+    // With Subresource Integrity the bundler runtime sets `crossorigin` on
+    // every chunk, same origin or not; prefetches must do the same to be reused.
+    const integrity = [...snapshot.chunks.values()].some(
+      chunk => chunk.integrity && Object.keys(chunk.integrity).length,
+    );
     const runtimeConfig = {
       o: stages.order,
       ...(options.bundleId ? { b: options.bundleId } : {}),
       ...(stages.manual.length ? { m: stages.manual } : {}),
       ...(Object.keys(stages.timeouts).length ? { t: stages.timeouts } : {}),
       ...(stages.config.concurrency ? { n: stages.config.concurrency } : {}),
-      ...(options.crossOriginLoading ? { x: options.crossOriginLoading } : {}),
+      ...(crossOriginLoading ? { x: crossOriginLoading } : {}),
+      ...(integrity ? { z: 1 } : {}),
       ...(stages.config.idleQuietTime !== undefined
         ? { i: stages.config.idleQuietTime }
         : {}),
@@ -888,6 +956,34 @@ export {};
       if (noScript.length) {
         payload.d = noScript;
       }
+      // Element stages: chunks and CSS of each declaration, by the key the
+      // build added to the declaration, so the runtime prefetches them when
+      // the element triggers without calling the loader.
+      const elements: Record<
+        string,
+        { s: ChunkId[]; k?: Record<string, string[]> }
+      > = {};
+      for (const declaration of snapshot.declarations) {
+        if (
+          !(ELEMENT_STAGES as string[]).includes(declaration.stage) ||
+          !declaration.declaringChunks.some(id => entry.reachable.has(id))
+        ) {
+          continue;
+        }
+        const ids = declaration.chunks.filter(id => !entry.initial.has(id));
+        const css: Record<string, string[]> = {};
+        for (const id of ids) {
+          const chunk = snapshot.chunks.get(id);
+          if (chunk?.css.length) {
+            css[String(id)] = chunk.cssFiles ?? chunk.css;
+          }
+        }
+        elements[getElementDeclarationKey(declaration.file, declaration.line)] =
+          { s: ids, ...(Object.keys(css).length ? { k: css } : {}) };
+      }
+      if (Object.keys(elements).length) {
+        payload.e = elements;
+      }
       const entryLists = target ? lists(target, false) : {};
       const stageLists = [entryLists];
       if (noScript.length) {
@@ -917,26 +1013,42 @@ export {};
           payload.r = routeLists;
         }
       }
+      // The runtime config is needed whenever the entry has any declaration:
+      // route level ones are added by the server per request and still use
+      // `c` (e.g. `crossorigin`).
       if (
         !payload.s &&
         !payload.r &&
         !payload.d &&
+        !payload.e &&
         !preloads.length &&
-        !this.options.config
+        !this.options.config &&
+        !routeTargets.some(item => item.entry === entryName)
       ) {
         continue;
       }
       let inline: Record<string, unknown> = payload;
       if (!fits(payload)) {
-        const { c, ...rest } = payload;
-        inline = { c, u: externalize(`entry-${entryName}`, rest, stageLists) };
+        // The element keys stay inline: an element can trigger before the
+        // external part arrives.
+        const { c, e, ...rest } = payload;
+        inline = {
+          c,
+          ...(e ? { e } : {}),
+          u: externalize(`entry-${entryName}`, rest, stageLists),
+        };
         report(
           `entry "${entryName}": its stage list is over ${formatBytes(stages.inlineLimit)} compressed and is loaded from a separate file after first paint.`,
         );
       }
-      const nonce = options.nonce ? ` nonce="${options.nonce}"` : '';
+      const nonce = options.nonce
+        ? ` nonce="${escapeAttribute(options.nonce)}"`
+        : '';
+      // Each URL once, like the preloads the server adds.
+      const seen = new Set<string>();
       const preloadTags = preloads
-        .map(item => renderPreloadTag(item, options.crossOriginLoading))
+        .filter(item => !seen.has(item.h) && Boolean(seen.add(item.h)))
+        .map(item => renderPreloadTag(item, crossOriginLoading, options.nonce))
         .join('');
       html.set(
         entryName,

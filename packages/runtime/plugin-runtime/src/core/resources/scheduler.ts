@@ -1,4 +1,5 @@
 import { RESOURCE_STAGES } from '@modern-js/utils/universal/constants';
+import { getChunkRequestSource } from './requestSource';
 import type {
   ChunkId,
   ExternalStagePayload,
@@ -134,6 +135,9 @@ export class ResourceStageScheduler {
   /** Chunk id -> URLs of its CSS files. */
   private cssFiles = new Map<ChunkId, string[]>();
 
+  /** Element stage declaration key -> chunk ids, from the build. */
+  private elements = new Map<string, ChunkId[]>();
+
   /** Chunk ids without a JS file. */
   private noScript = new Set<string>();
 
@@ -214,11 +218,22 @@ export class ResourceStageScheduler {
     if (payload.s) {
       this.addLists(payload.s, payload.k);
     }
+    for (const [key, element] of Object.entries(payload.e ?? {})) {
+      this.elements.set(key, element.s);
+      for (const [chunkId, files] of Object.entries(element.k ?? {})) {
+        this.cssFiles.set(chunkId, files);
+      }
+    }
     if (payload.r) {
       this.routeLists = { ...this.routeLists, ...payload.r };
     }
     if (payload.u) {
-      this.loadExternalPayload(payload.u);
+      if (this.canPrefetch) {
+        this.loadExternalPayload(payload.u);
+      } else {
+        // Nothing of it would be prefetched; do not download it.
+        this.skipped.add(this.externalStage(payload.u));
+      }
     }
     for (const chunkId of payload.d ?? []) {
       this.noScript.add(String(chunkId));
@@ -281,15 +296,23 @@ export class ResourceStageScheduler {
   }
 
   /**
-   * Element stages: prefetch the chunks a loader would request, without
-   * executing the module. The loader is called while chunk loading is
-   * captured, so only the chunk ids are recorded.
+   * Element stages: prefetch the chunks of a declaration when its element
+   * triggers. The build maps the declaration key to its chunks and CSS, so
+   * nothing runs. Without a key in the mapping (a declaration the build did
+   * not process, e.g. in a package outside `include`), the loader is called
+   * while chunk loading is captured, so only the chunk ids are recorded; an
+   * `import()` that is not split into a chunk runs its module then.
    */
-  prefetchLoader(loader: () => unknown, stage: string) {
+  prefetchElement(
+    key: string | undefined,
+    loader: () => unknown,
+    stage: string,
+  ) {
     if (this.shouldSkip(stage)) {
       return;
     }
-    const chunkIds = this.captureChunkIds(loader);
+    const mapped = key === undefined ? undefined : this.elements.get(key);
+    const chunkIds = mapped ?? this.captureChunkIds(loader);
     for (const chunkId of chunkIds) {
       if (this.queued.has(chunkId)) {
         continue;
@@ -534,17 +557,23 @@ export class ResourceStageScheduler {
         return;
       }
       record.prefetchEnd = now();
+      record.prefetchStatus = status;
       this.inFlight.set(stage, (this.inFlight.get(stage) ?? 1) - 1);
       this.pump();
     };
+    // The worst result of the chunk's files.
+    let status: NonNullable<ResourceStageRecord['prefetchStatus']> = 'ok';
     for (const [url, as] of urls) {
       const link = document.createElement('link');
       let settled = false;
-      const timer = setTimeout(() => done(), PREFETCH_TIMEOUT_MS);
-      const done = () => {
+      const timer = setTimeout(() => done('timeout'), PREFETCH_TIMEOUT_MS);
+      const done = (result: 'ok' | 'error' | 'timeout') => {
         if (!settled) {
           settled = true;
           clearTimeout(timer);
+          if (result !== 'ok' && status !== 'error') {
+            status = result;
+          }
           finish();
         }
       };
@@ -560,8 +589,8 @@ export class ResourceStageScheduler {
       }
       (link as HTMLLinkElement & { fetchPriority?: string }).fetchPriority =
         'low';
-      link.onload = done;
-      link.onerror = done;
+      link.onload = () => done('ok');
+      link.onerror = () => done('error');
       document.head.appendChild(link);
     }
     return true;
@@ -569,13 +598,15 @@ export class ResourceStageScheduler {
 
   /**
    * The bundler runtime always sets `use-credentials`, and `anonymous` only
-   * for files from another origin.
+   * for files from another origin; with Subresource Integrity it sets
+   * `crossorigin` on every chunk.
    */
   private shouldSetCrossOrigin(url: string) {
-    const { x } = this.config;
+    const { x, z } = this.config;
     return Boolean(
       x &&
-      (x === 'use-credentials' ||
+      (z ||
+        x === 'use-credentials' ||
         new URL(url, location.href).origin !== location.origin),
     );
   }
@@ -620,6 +651,7 @@ export class ResourceStageScheduler {
       const record = this.getRecord(chunkId);
       if (record.requested === undefined) {
         record.requested = now();
+        record.source = getChunkRequestSource() ?? 'app';
         this.removeQueued(chunkId);
       }
       const result = original(chunkId, ...args);
@@ -713,11 +745,13 @@ export class ResourceStageScheduler {
       };
       const reset = () => {
         if (timer) clearTimeout(timer);
-        if (now() - loadTime >= IDLE_MAX_WAIT_MS) {
+        const left = loadTime + IDLE_MAX_WAIT_MS - now();
+        if (left <= 0) {
           fire();
           return;
         }
-        timer = setTimeout(fire, quiet);
+        // Never later than the upper bound after `load`.
+        timer = setTimeout(fire, Math.min(quiet, left));
       };
       try {
         observer = new PerformanceObserver(list => {
@@ -769,23 +803,28 @@ export class ResourceStageScheduler {
     );
   }
 
+  /** Earliest stage an external payload has lists for. */
+  private externalStage(payload: ExternalStagePayload) {
+    const firstStage =
+      typeof payload === 'string' ? this.config.o[0] : payload[1];
+    return this.config.o.includes(firstStage) ? firstStage : this.config.o[0];
+  }
+
   /** A payload too large for the HTML is fetched after first paint. */
   private loadExternalPayload(payload: ExternalStagePayload) {
-    const [url, firstStage] =
-      typeof payload === 'string' ? [payload, this.config.o[0]] : payload;
-    const stage = this.config.o.includes(firstStage)
-      ? firstStage
-      : this.config.o[0];
+    const url = typeof payload === 'string' ? payload : payload[0];
+    const stage = this.externalStage(payload);
     this.pendingExternal.set(stage, (this.pendingExternal.get(stage) ?? 0) + 1);
 
     const load = () => {
       const script = document.createElement('script');
       // Relative to the public path with `assetPrefix: 'auto'`.
-      script.src = isAbsoluteUrl(url)
+      const src = isAbsoluteUrl(url)
         ? url
         : (this.bundler?.publicPath() ?? '') + url;
+      script.src = src;
       script.async = true;
-      if (this.shouldSetCrossOrigin(url)) {
+      if (this.shouldSetCrossOrigin(src)) {
         script.crossOrigin = this.config.x!;
       }
       if (this.bundler?.nonce) {

@@ -11,6 +11,7 @@ import { type BuildHtmlCb, buildHtml } from '../shared';
 import {
   checkIsNode,
   getLoadedScriptUrls,
+  getLoadedStyleUrls,
   getMatchedRouteIds,
   hasStylesheetLink,
   readAssetWithCache,
@@ -103,11 +104,14 @@ export async function buildShellBeforeTemplate(
           mode: 'stream',
           template,
           // The entry assets (merged with `async-${entryName}` when async
-          // entry is enabled) are already loaded by the entry `<script>` tags.
+          // entry is enabled) are already loaded by the entry `<script>` tags,
+          // and the route CSS above is already applied as stylesheets.
           loadedUrls: new Set<string>([
             ...(routeAssets[entryName]?.assets ?? []),
             ...(routeAssets[`async-${entryName}`]?.assets ?? []),
             ...getLoadedScriptUrls(template),
+            ...getLoadedStyleUrls(template),
+            ...getLoadedStyleUrls(css),
           ]),
           nonce: config.nonce,
           crossorigin: config.crossorigin,

@@ -67,11 +67,21 @@ export default applyBaseConfig({
   const dir = path.join(appDir, 'src/routes/stages');
   await mkdir(dir, { recursive: true });
   await writeFile(path.join(dir, 'page.tsx'), pageSource);
-  for (const name of ['Critical', 'Idle', 'Reply', 'Mention']) {
+  for (const name of ['Idle', 'Reply']) {
     await writeFile(path.join(dir, `${name}.tsx`), component(name));
   }
-  await writeFile(path.join(dir, 'Visible.tsx'), component('Visible', true));
-  await writeFile(path.join(dir, 'Visible.css'), '#visible { color: red; }');
+  for (const name of ['Critical', 'Visible', 'Mention']) {
+    await writeFile(path.join(dir, `${name}.tsx`), component(name, true));
+    await writeFile(
+      path.join(dir, `${name}.css`),
+      `#${name.toLowerCase()} { color: red; }`,
+    );
+  }
+  // Prefetching an element stage must not run the module.
+  await writeFile(
+    path.join(dir, 'Mention.tsx'),
+    `(window as any).__mentionExecuted = true;\n${component('Mention', true)}`,
+  );
 };
 
 const payloads = (html: string) =>
@@ -170,8 +180,24 @@ describe.each([
     expect(lists('firstReply')).toEqual(
       expect.arrayContaining(chunkIds('./Reply')),
     );
-    // Element stages are found at runtime, not listed.
+    // Element stages are not page stage lists: the build maps each
+    // declaration key to its chunks and CSS, prefetched when it triggers.
     expect(lists('interaction')).toEqual([]);
+    const elements = Object.values(
+      Object.assign({}, ...all.map(payload => payload.e ?? {})),
+    ) as { s: (string | number)[]; k?: Record<string, string[]> }[];
+    const mention = elements.find(element =>
+      element.s.map(String).some(id => chunkIds('./Mention').includes(id)),
+    );
+    expect(mention).toBeDefined();
+    const mentionCss = declaration('./Mention').chunks.flatMap(chunk =>
+      chunk.files.filter(file => file.endsWith('.css')),
+    );
+    expect(mentionCss.length).toBeGreaterThan(0);
+    const mappedCss = Object.values(mention!.k ?? {}).flat();
+    for (const file of mentionCss) {
+      expect(mappedCss.some(item => file.endsWith(item))).toBe(true);
+    }
 
     const css = Object.assign(
       {},
@@ -203,6 +229,21 @@ describe.each([
         expect(links).not.toContain(file);
       }
     }
+  });
+
+  test('does not preload a stylesheet the HTML already has', () => {
+    const tags = html.match(/<link\b[^>]*>/g) ?? [];
+    const hrefOf = (tag: string) => tag.match(/\bhref="([^"]+)"/)?.[1];
+    const stylesheets = new Set(
+      tags.filter(tag => /\brel="stylesheet"/.test(tag)).map(hrefOf),
+    );
+    const stylePreloads = tags
+      .filter(tag => /\brel="preload"/.test(tag) && /\bas="style"/.test(tag))
+      .map(hrefOf);
+    for (const href of stylePreloads) {
+      expect(stylesheets.has(href)).toBe(false);
+    }
+    expect(new Set(stylePreloads).size).toBe(stylePreloads.length);
   });
 
   test('preloads route JS at low priority and no route CSS', () => {
@@ -249,7 +290,11 @@ describe.each([
     const result = await page.evaluate(() =>
       (window as any).__MODERN_RS__.report(),
     );
+    const mentionExecuted = await page.evaluate(
+      () => (window as any).__mentionExecuted === true,
+    );
     await page.close();
+    expect(mentionExecuted).toBe(false);
 
     expect(errors).toEqual([]);
     const { stages, records } = result as {
@@ -276,6 +321,147 @@ describe.each([
         .filter(record => record.stage)
         .every(record => record.prefetchEnd !== undefined),
     ).toBe(true);
+    expect(
+      records
+        .filter(record => record.stage)
+        .every((record: any) => record.prefetchStatus === 'ok'),
+    ).toBe(true);
+  });
+});
+
+describe.each([
+  [
+    'Subresource Integrity',
+    `security: { sri: true }, performance: { resourceStages: {} }`,
+    { x: 'anonymous', z: 1 },
+  ],
+  [
+    'crossOriginLoading from tools.rspack',
+    `tools: { rspack(config) { config.output = { ...config.output, crossOriginLoading: 'anonymous' }; } }, performance: { resourceStages: {} }`,
+    { x: 'anonymous' },
+  ],
+  [
+    'route declarations only, without config and split chunks',
+    `security: { sri: true }, tools: { rspack(config) { config.optimization = { ...config.optimization, splitChunks: false, runtimeChunk: false }; } }`,
+    { x: 'anonymous', z: 1 },
+  ],
+] as const)('resource stages runtime config (%s)', (_, appConfig, expected) => {
+  let fixture: Awaited<ReturnType<typeof createIsolatedTestApp>>;
+  let app: ChildProcess | undefined;
+
+  afterAll(async () => {
+    if (app) {
+      await killApp(app);
+    }
+    await fixture?.cleanup?.();
+  });
+
+  test('writes the final crossorigin settings into the HTML', async () => {
+    fixture = await createIsolatedTestApp(fixtureDir);
+    await writeFile(
+      path.join(fixture.appDir, 'modern.config.ts'),
+      `import { applyBaseConfig } from '../../../../utils/applyBaseConfig';
+export default applyBaseConfig({ server: { ssr: true }, ${appConfig} });`,
+    );
+    const dir = path.join(fixture.appDir, 'src/routes/stages');
+    await mkdir(dir, { recursive: true });
+    await writeFile(
+      path.join(dir, 'page.tsx'),
+      `import { stagedImport } from '@modern-js/runtime/resources';
+const loadVisible = stagedImport.visible(() => import('./Visible'));
+export default function Page() {
+  return <button id="load" type="button" onClick={() => loadVisible()}>load</button>;
+}
+`,
+    );
+    await writeFile(path.join(dir, 'Visible.tsx'), component('Visible'));
+    const port = await getPort();
+    const result = await modernBuild(fixture.appDir);
+    expect(result.code, result.stderr || result.stdout).toBe(0);
+    app = await modernServe(fixture.appDir, port);
+    const html = await (await fetch(`http://127.0.0.1:${port}/stages`)).text();
+    const runtimeConfig = payloads(html).find(payload => payload.c)?.c;
+    expect(runtimeConfig).toMatchObject(expected);
+  });
+});
+
+describe('resource stages (critical budget of layout and page)', () => {
+  let fixture: Awaited<ReturnType<typeof createIsolatedTestApp>>;
+  let app: ChildProcess | undefined;
+
+  afterAll(async () => {
+    if (app) {
+      await killApp(app);
+    }
+    await fixture?.cleanup?.();
+  });
+
+  test('does not count stylesheets the HTML has against the budget', async () => {
+    fixture = await createIsolatedTestApp(fixtureDir);
+    await writeFile(
+      path.join(fixture.appDir, 'modern.config.ts'),
+      `import { applyBaseConfig } from '../../../../utils/applyBaseConfig';
+export default applyBaseConfig({
+  server: { ssr: true },
+  performance: { resourceStages: { budget: { critical: { requests: 2 } } } },
+});`,
+    );
+    const dir = path.join(fixture.appDir, 'src/routes/stages');
+    await mkdir(dir, { recursive: true });
+    const declare = (name: string) =>
+      `const ${name} = lazy(stagedImport.critical(() => import('./${name}')));`;
+    await writeFile(
+      path.join(dir, 'layout.tsx'),
+      `import { Suspense, lazy } from 'react';
+import { Outlet } from '@modern-js/runtime/router';
+import { stagedImport } from '@modern-js/runtime/resources';
+${declare('Shell')}
+export default function Layout() {
+  return <Suspense fallback="loading"><Shell /><Outlet /></Suspense>;
+}
+`,
+    );
+    await writeFile(
+      path.join(dir, 'page.tsx'),
+      `import { Suspense, lazy } from 'react';
+import { stagedImport } from '@modern-js/runtime/resources';
+${declare('Critical')}
+export default function Page() {
+  return <Suspense fallback="loading"><Critical /></Suspense>;
+}
+`,
+    );
+    for (const name of ['Shell', 'Critical']) {
+      await writeFile(path.join(dir, `${name}.tsx`), component(name, true));
+      await writeFile(
+        path.join(dir, `${name}.css`),
+        `#${name.toLowerCase()} { color: red; }`,
+      );
+    }
+    const port = await getPort();
+    const result = await modernBuild(fixture.appDir);
+    expect(result.code, result.stderr || result.stdout).toBe(0);
+    app = await modernServe(fixture.appDir, port);
+    const html = await (await fetch(`http://127.0.0.1:${port}/stages`)).text();
+    const report: Report = JSON.parse(
+      await readFile(
+        path.join(fixture.appDir, 'dist/resource-stages.json'),
+        'utf-8',
+      ),
+    );
+    const links = preloads(html);
+    for (const request of ['./Shell', './Critical']) {
+      const js = report.declarations
+        .find(item => item.request === request)!
+        .chunks.flatMap(chunk =>
+          chunk.files.filter(file => file.endsWith('.js')),
+        );
+      expect(links).toEqual(expect.arrayContaining(js));
+    }
+    // Nothing declared critical fell back to a later stage.
+    expect(
+      payloads(html).some(payload => Object.keys(payload.s ?? {}).length),
+    ).toBe(false);
   });
 });
 

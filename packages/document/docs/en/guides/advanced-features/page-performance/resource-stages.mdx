@@ -78,7 +78,9 @@ function ChatInput() {
 }
 ```
 
-When the element is hovered or focused, only the files of `MentionPanel` are downloaded; the module does not run.
+When the element is hovered or focused, only the JS and CSS files of `MentionPanel` are downloaded; the module does not run. The build maps each element declaration to its files, so the declaration must be written in the application code (or in a package listed in [`include`](/configure/app/performance/resource-stages#include)) as `stagedImport.<stage>(() => import('<static path>'))`.
+
+One `trigger` can be bound to many elements, e.g. every item of a list: the first element that triggers starts the prefetch and all elements are released. An element is also released when React detaches the ref.
 
 ### Custom stages and stages marked by the application
 
@@ -142,10 +144,11 @@ onResourceStageReport(report => {
 });
 ```
 
-A record has the time each stage arrived and, for each chunk, its stage, when its prefetch started and ended, and when the application requested and loaded it. During development, `window.__MODERN_RS__.report()` in the console shows the same data.
+A record has the time each stage arrived and, for each chunk, its stage, when its prefetch started and ended and whether it succeeded (`prefetchStatus`: `ok`, `error` or `timeout`), and when the chunk was requested and loaded. `source` tells whether the application requested it (`app`) or the router prefetched it for `<Link prefetch>` (`link`). During development, `window.__MODERN_RS__.report()` in the console shows the same data.
 
 Use the records to tune declarations:
 
 - prefetched but never requested: move it to a later stage or drop it;
 - often requested before its prefetch finishes: move it to an earlier stage;
+- leave out records whose `prefetchStatus` is not `ok`: nothing was cached for them;
 - requested before the page is interactive without a declaration: consider declaring it.

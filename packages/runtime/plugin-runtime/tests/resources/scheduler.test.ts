@@ -3,6 +3,7 @@ import {
   getResourceStageReport,
   stagedImport,
 } from '../../src/exports/resources';
+import { asRoutePrefetch } from '../../src/core/resources/requestSource';
 
 type Loader = (chunkId: string | number) => Promise<unknown>;
 type Payload = Record<string, unknown>;
@@ -528,5 +529,230 @@ describe('stagedImport scheduling', () => {
     expect((stagedImport as unknown as { then?: unknown }).then).toBe(
       undefined,
     );
+  });
+
+  it('prefetches the chunks and CSS the build mapped to an element declaration, without calling the loader', () => {
+    start([
+      {
+        c: manual,
+        e: {
+          k1: { s: ['m1'], k: { m1: ['css/m1.css'] } },
+          // An import() that is not split into a chunk: nothing to prefetch.
+          k2: { s: [] },
+        },
+      },
+    ]);
+    let called = 0;
+    const loader = () => {
+      called++;
+      return Promise.resolve();
+    };
+    const element = document.createElement('div');
+    stages.interaction(loader, 'k1').trigger(element);
+    element.dispatchEvent(new Event('pointerenter'));
+    expect(prefetched()).toEqual(['/p/js/m1.js', '/p/css/m1.css']);
+
+    const other = document.createElement('div');
+    stages.interaction(loader, 'k2').trigger(other);
+    other.dispatchEvent(new Event('pointerenter'));
+    expect(called).toBe(0);
+    expect(prefetched()).toEqual(['/p/js/m1.js', '/p/css/m1.css']);
+  });
+
+  it('releases every element of a declaration once one triggers', () => {
+    start([{ c: manual, e: { k: { s: ['m'] } } }]);
+    const declared = stages.interaction(() => Promise.resolve(), 'k');
+    const a = document.createElement('div');
+    const b = document.createElement('div');
+    const removeA = rs.spyOn(a, 'removeEventListener');
+    const removeB = rs.spyOn(b, 'removeEventListener');
+    declared.trigger(a);
+    declared.trigger(b);
+    a.dispatchEvent(new Event('pointerenter'));
+    expect(removeA).toHaveBeenCalledTimes(3);
+    expect(removeB).toHaveBeenCalledTimes(3);
+    expect(prefetched()).toEqual(['/p/js/m.js']);
+  });
+
+  it('releases an element with the function trigger returns, and a removed element after trigger(null)', async () => {
+    start([{ c: manual, e: { k: { s: ['m'] } } }]);
+    const declared = stages.interaction(() => Promise.resolve(), 'k');
+    const a = document.createElement('div');
+    const release = declared.trigger(a) as () => void;
+    release();
+    a.dispatchEvent(new Event('pointerenter'));
+    expect(prefetched()).toEqual([]);
+
+    // React 18 calls trigger(null) when the ref is detached; the element
+    // leaves the document right after.
+    const b = document.createElement('div');
+    document.body.appendChild(b);
+    declared.trigger(b);
+    declared.trigger(null);
+    b.remove();
+    await Promise.resolve();
+    b.dispatchEvent(new Event('pointerenter'));
+    expect(prefetched()).toEqual([]);
+
+    // An element still in the document keeps working.
+    const c = document.createElement('div');
+    document.body.appendChild(c);
+    declared.trigger(c);
+    declared.trigger(null);
+    await Promise.resolve();
+    c.dispatchEvent(new Event('pointerenter'));
+    expect(prefetched()).toEqual(['/p/js/m.js']);
+    c.remove();
+  });
+
+  it('disconnects every viewport observer once one element is visible', () => {
+    const observers: {
+      callback: IntersectionObserverCallback;
+      disconnected: boolean;
+    }[] = [];
+    const original = (window as unknown as { IntersectionObserver?: unknown })
+      .IntersectionObserver;
+    (
+      window as unknown as { IntersectionObserver: unknown }
+    ).IntersectionObserver = class {
+      record: { callback: IntersectionObserverCallback; disconnected: boolean };
+      constructor(callback: IntersectionObserverCallback) {
+        this.record = { callback, disconnected: false };
+        observers.push(this.record);
+      }
+      observe() {}
+      disconnect() {
+        this.record.disconnected = true;
+      }
+    };
+    try {
+      start([{ c: manual, e: { k: { s: ['v'] } } }]);
+      const declared = stages.viewport(() => Promise.resolve(), 'k');
+      declared.trigger(document.createElement('div'));
+      declared.trigger(document.createElement('div'));
+      observers[0].callback(
+        [{ isIntersecting: true } as IntersectionObserverEntry],
+        {} as IntersectionObserver,
+      );
+      expect(observers.map(item => item.disconnected)).toEqual([true, true]);
+      expect(prefetched()).toEqual(['/p/js/v.js']);
+    } finally {
+      (
+        window as unknown as { IntersectionObserver?: unknown }
+      ).IntersectionObserver = original;
+    }
+  });
+
+  it('records whether a prefetch loaded, failed or timed out', () => {
+    rs.useFakeTimers();
+    const scheduler = start([
+      { c: { ...manual, n: 3 }, s: { visible: ['ok', 'err', 'slow'] } },
+    ]);
+    scheduler.mark('visible');
+    finish('/p/js/ok.js');
+    (
+      document.head.querySelector(
+        'link[href="/p/js/err.js"]',
+      ) as HTMLLinkElement
+    ).onerror?.(new Event('error'));
+    rs.advanceTimersByTime(30000);
+    const status = Object.fromEntries(
+      scheduler
+        .getReport()
+        .records.map(record => [record.chunkId, record.prefetchStatus]),
+    );
+    expect(status).toEqual({ ok: 'ok', err: 'error', slow: 'timeout' });
+    rs.useRealTimers();
+  });
+
+  it('sets crossorigin on same origin prefetches with Subresource Integrity', () => {
+    const scheduler = start([
+      { c: { ...manual, x: 'anonymous', z: 1 }, s: { visible: ['a'] } },
+    ]);
+    scheduler.mark('visible');
+    expect(
+      document.head
+        .querySelector('link[href="/p/js/a.js"]')
+        ?.getAttribute('crossorigin'),
+    ).toBe('anonymous');
+  });
+
+  it('does not download an external payload when the browser cannot prefetch', () => {
+    relList.supports = () => false;
+    const scheduler = start([
+      { c: manual, u: ['static/js/resource-stages/entry-main.js', 'visible'] },
+    ]);
+    scheduler.mark('visible');
+    expect(document.head.querySelectorAll('script').length).toBe(0);
+    expect(scheduler.getReport().skipped).toContain('visible');
+  });
+
+  it('sets crossorigin on an external payload by its final URL', () => {
+    g.__webpack_public_path_test__ = 'https://cdn.example.com/p/';
+    const scheduler = start([
+      {
+        c: { ...manual, x: 'anonymous' },
+        u: ['static/js/resource-stages/entry-main.js', 'visible'],
+      },
+    ]);
+    scheduler.mark('visible');
+    const script = document.head.querySelector('script');
+    expect(script?.getAttribute('src')).toBe(
+      'https://cdn.example.com/p/static/js/resource-stages/entry-main.js',
+    );
+    expect(script?.getAttribute('crossorigin')).toBe('anonymous');
+  });
+
+  it('marks idle at most 10 seconds after load, even within the quiet window', () => {
+    rs.useFakeTimers();
+    let time = 0;
+    rs.spyOn(performance, 'now').mockImplementation(() => time);
+    const callbacks: Record<string, PerformanceObserverCallback> = {};
+    const original = window.PerformanceObserver;
+    (
+      window as unknown as { PerformanceObserver: unknown }
+    ).PerformanceObserver = class {
+      callback: PerformanceObserverCallback;
+      constructor(callback: PerformanceObserverCallback) {
+        this.callback = callback;
+      }
+      observe({ type }: { type: string }) {
+        callbacks[type] = this.callback;
+      }
+      disconnect() {}
+    };
+    try {
+      const scheduler = start([
+        { c: { o: ['visible', 'interactive', 'idle'], i: 2000 } },
+      ]);
+      // A request 9.9 s after load restarts the quiet window.
+      time = 9900;
+      callbacks.resource(
+        {
+          getEntries: () => [{ initiatorType: 'script' }],
+        } as unknown as PerformanceObserverEntryList,
+        {} as PerformanceObserver,
+      );
+      rs.advanceTimersByTime(99);
+      expect(scheduler.getReport().stages.idle).toBeUndefined();
+      time = 10000;
+      rs.advanceTimersByTime(1);
+      expect(scheduler.getReport().stages.idle).toBe(10000);
+    } finally {
+      window.PerformanceObserver = original;
+      rs.useRealTimers();
+    }
+  });
+
+  it('records route prefetches of <Link prefetch> apart from the application', async () => {
+    const scheduler = start([{ c: manual }]);
+    await asRoutePrefetch(() => g.__webpack_chunk_load_test__('route'));
+    await g.__webpack_chunk_load_test__('lazy');
+    const source = Object.fromEntries(
+      scheduler
+        .getReport()
+        .records.map(record => [record.chunkId, record.source]),
+    );
+    expect(source).toEqual({ route: 'link', lazy: 'app' });
   });
 });

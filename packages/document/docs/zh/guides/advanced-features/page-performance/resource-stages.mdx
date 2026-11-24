@@ -78,7 +78,9 @@ function ChatInput() {
 }
 ```
 
-元素被悬停或获得焦点时，框架只下载 `MentionPanel` 的文件，不执行模块。
+元素被悬停或获得焦点时，框架只下载 `MentionPanel` 的 JS 和 CSS 文件，不执行模块。构建时会把每个元素阶段的声明对应到它的文件，所以声明要写在应用代码里（或 [`include`](/configure/app/performance/resource-stages#include) 列出的包里），形式为 `stagedImport.<阶段>(() => import('<静态路径>'))`。
+
+同一个 `trigger` 可以绑定到多个元素，例如列表的每一项：第一个触发的元素开始预取，所有元素随即解除绑定。React 解除 ref 时，对应的元素也会解除绑定。
 
 ### 自定义阶段和由应用通知的阶段
 
@@ -142,10 +144,11 @@ onResourceStageReport(report => {
 });
 ```
 
-记录包含每个阶段到来的时间，以及每个 chunk 的阶段、预取开始和结束时间、应用请求和加载完成的时间。开发时也可以在控制台用 `window.__MODERN_RS__.report()` 查看。
+记录包含每个阶段到来的时间，以及每个 chunk 的阶段、预取开始和结束时间、预取结果（`prefetchStatus`：`ok`、`error` 或 `timeout`）、被请求和加载完成的时间。`source` 区分是应用请求的（`app`）还是路由为 `<Link prefetch>` 预取的（`link`）。开发时也可以在控制台用 `window.__MODERN_RS__.report()` 查看。
 
 用记录判断声明是否合适：
 
 - 预取了但一直没被请求的，降一个阶段或去掉声明；
 - 经常在预取完成前就被请求的，升一个阶段；
+- `prefetchStatus` 不是 `ok` 的记录不要计入，这些文件没有进缓存；
 - 没有声明、但在可交互之前就被请求的 chunk，考虑补声明。

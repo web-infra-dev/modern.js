@@ -6,6 +6,11 @@ export interface StageDeclaration {
   request: string;
   /** 1-based line of the declaration, for messages. */
   line: number;
+  /**
+   * UTF-8 byte offset in the source right after the first argument, where the
+   * build adds the declaration key of an element stage.
+   */
+  argumentEnd?: number;
 }
 
 export interface ParseResult {
@@ -219,7 +224,9 @@ export const parseStageDeclarations = (
         : undefined;
     if (stage !== undefined) {
       const line = getLine(bytes, offsetOf(current.span?.start ?? 0));
-      const request = getImportRequest(current.arguments?.[0]?.expression);
+      const firstArgument: Node | undefined =
+        current.arguments?.[0]?.expression;
+      const request = getImportRequest(firstArgument);
       if (!knownStages.has(stage)) {
         result.warnings.push(
           `${filename}:${line}: unknown resource stage "${stage}", so it is not prefetched. Declare it in performance.resourceStages.stages.`,
@@ -229,7 +236,14 @@ export const parseStageDeclarations = (
           `${filename}:${line}: ${API_NAME}.${stage}() is not prefetched: it must receive a function that returns import('<static path>').`,
         );
       } else {
-        result.declarations.push({ stage, request, line });
+        result.declarations.push({
+          stage,
+          request,
+          line,
+          ...(firstArgument?.span && current.arguments.length === 1
+            ? { argumentEnd: offsetOf(firstArgument.span.end) }
+            : {}),
+        });
       }
     }
     for (const key of Object.keys(current)) {

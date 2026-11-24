@@ -188,6 +188,30 @@ export const getLoadedScriptUrls = (template: string) => {
 };
 
 /**
+ * Collect the style URLs the HTML already applies or preloads:
+ * `<link rel="stylesheet">` and `<link rel="preload" as="style">`. A critical
+ * preload of such a file would be a second tag for the same response, and
+ * would take a place in the critical budget the page does not need.
+ */
+export const getLoadedStyleUrls = (html: string) => {
+  const urls = new Set<string>();
+  for (const linkTag of html.match(/<link\b[^>]*>/gi) ?? []) {
+    const attributes = getTagAttributes(linkTag);
+    const href = attributes.get('href');
+    const rel = attributes.get('rel');
+    if (
+      href &&
+      (hasRelToken(rel, 'stylesheet') ||
+        (hasRelToken(rel, 'preload') &&
+          attributes.get('as')?.toLowerCase() === 'style'))
+    ) {
+      urls.add(href);
+    }
+  }
+  return urls;
+};
+
+/**
  * Ids of the routes matched by the current request, outermost first. Empty
  * when the entry has no router.
  */

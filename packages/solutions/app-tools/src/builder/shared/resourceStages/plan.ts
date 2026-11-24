@@ -146,7 +146,9 @@ const toPreloads = (
       ...chunk.js.map(h => toItem(h, 'script')),
       ...(css ? chunk.css.map(h => toItem(h, 'style')) : []),
     ],
-    ...(chunk.css.length ? { css: chunk.cssFiles ?? chunk.css } : {}),
+    // Without CSS (route JS, whose CSS the router loads) a group that
+    // overflows to a later stage must not carry CSS into that stage either.
+    ...(css && chunk.css.length ? { css: chunk.cssFiles ?? chunk.css } : {}),
   };
 };
 
@@ -477,6 +479,7 @@ export const checkBudgets = (
   plan: TargetPlan,
   stages: NormalizedResourceStages,
   entryInitialBytes: number,
+  entryInitialRequests = 0,
 ): string[] => {
   const warnings: string[] = [];
   const label =
@@ -508,7 +511,7 @@ export const checkBudgets = (
   if (criticalStats) {
     const time = estimateDownloadTime(
       criticalStats.bytes + entryInitialBytes,
-      criticalStats.requests,
+      criticalStats.requests + entryInitialRequests,
       stages.network,
     );
     if (time > stages.firstPaintTarget) {

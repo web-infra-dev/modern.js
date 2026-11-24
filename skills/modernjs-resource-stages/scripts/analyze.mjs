@@ -26,6 +26,7 @@ const rows = stages.declarations.map(declaration => {
   const ids = declaration.chunks.map(chunk => String(chunk.id));
   ids.forEach(id => declared.add(id));
   let prefetched = 0;
+  let failed = 0;
   let paired = 0;
   let late = 0;
   const leads = [];
@@ -33,8 +34,15 @@ const rows = stages.declarations.map(declaration => {
     for (const record of report.records ?? []) {
       if (!ids.includes(String(record.chunkId))) continue;
       if (record.prefetchStart === undefined) continue;
+      // A failed or timed out prefetch put nothing in the cache. Records of
+      // builds before the status field count as ok.
+      if (record.prefetchStatus && record.prefetchStatus !== 'ok') {
+        failed++;
+        continue;
+      }
       prefetched++;
-      if (record.requested === undefined) continue;
+      // Requests of the router for <Link prefetch> are not the application's.
+      if (record.requested === undefined || record.source === 'link') continue;
       paired++;
       if (
         record.prefetchEnd === undefined ||
@@ -57,6 +65,10 @@ const rows = stages.declarations.map(declaration => {
       ? `${Math.round((paired / prefetched) * 100)}%`
       : 'unknown',
     lateRate: paired ? `${Math.round((late / paired) * 100)}%` : 'unknown',
+    failRate:
+      prefetched + failed
+        ? `${Math.round((failed / (prefetched + failed)) * 100)}%`
+        : 'unknown',
     medianLeadMs: median(leads) ?? 'unknown',
   };
 });
@@ -74,7 +86,8 @@ for (const report of reports) {
       declared.has(id) ||
       routeChunks.has(id) ||
       record.stage !== undefined ||
-      record.requested === undefined
+      record.requested === undefined ||
+      record.source === 'link'
     )
       continue;
     if (record.requested < interactive) {

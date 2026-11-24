@@ -310,7 +310,36 @@ function applyResourceStagesPlugin(
 ) {
   const { appContext, normalizedConfig } = options;
   const { server, source } = normalizedConfig;
+  // Read again from the compilation by the plugin; `tools.rspack` and the
+  // Subresource Integrity plugin can still change it.
   const crossOriginLoading = chain.output.get('crossOriginLoading');
+  // Adds the declaration key to element stage declarations, so the runtime
+  // prefetches their mapped files instead of calling the loader. Same files
+  // as the plugin scans: application code, and packages listed in `include`.
+  const include = normalizedConfig.performance?.resourceStages?.include ?? [];
+  const depExt = process.env.MODERN_LIB_FORMAT === 'esm' ? 'mjs' : 'js';
+  chain.module
+    .rule('resource-stages-element-key')
+    .test(/\.[cm]?[jt]sx?$/)
+    .exclude.add(
+      (resource: string) =>
+        /[\\/]node_modules[\\/]/.test(resource) &&
+        !include.some(pattern =>
+          typeof pattern === 'string'
+            ? resource.includes(pattern)
+            : pattern.test(resource),
+        ),
+    )
+    .end()
+    .enforce('pre')
+    .use('resource-stages-element-key')
+    .loader(
+      path.join(
+        __dirname,
+        `../loaders/resourceStagesElementKeyLoader.${depExt}`,
+      ),
+    )
+    .options({ appDirectory: appContext.appDirectory });
   chain.plugin('resource-stages-plugin').use(ResourceStagesPlugin, [
     {
       HtmlBundlerPlugin,
