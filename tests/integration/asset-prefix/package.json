@@ -10,7 +10,7 @@
     "react-dom": "^19.3.1"
   },
   "devDependencies": {
-    "@modern-js/app-tools": "workspace:*",
+    "@modern-js/app-tools": "workspace:0.0.0-canary-verify.r20261124-521272f3d8a6ec8e12146634b3f60ef4",
     "@types/node": "^20"
   }
 }

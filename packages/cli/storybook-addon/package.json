@@ -1,6 +1,6 @@
 {
   "name": "@modern-js/storybook-addon",
-  "version": "3.12.0",
+  "version": "0.0.0-canary-verify.r20261124-521272f3d8a6ec8e12146634b3f60ef4",
   "description": "Use Modern.js application configuration in Storybook Rsbuild previews.",
   "repository": {
     "type": "git",
@@ -28,14 +28,14 @@
     "dev": "rs lib --watch"
   },
   "peerDependencies": {
-    "@modern-js/app-tools": "workspace:^3.12.0",
+    "@modern-js/app-tools": "workspace:0.0.0-canary-verify.r20261124-521272f3d8a6ec8e12146634b3f60ef4",
     "@rsbuild/core": "^2.3.2",
     "storybook-builder-rsbuild": "~3.6.3"
   },
   "devDependencies": {
-    "@modern-js/app-tools": "workspace:*",
+    "@modern-js/app-tools": "workspace:0.0.0-canary-verify.r20261124-521272f3d8a6ec8e12146634b3f60ef4",
     "@modern-js/rslib": "workspace:*",
-    "@modern-js/tsconfig": "workspace:*",
+    "@modern-js/tsconfig": "workspace:0.0.0-canary-verify.r20261124-521272f3d8a6ec8e12146634b3f60ef4",
     "@rsbuild/core": "2.3.3",
     "storybook-builder-rsbuild": "3.6.3",
     "storybook": "10.6.7",
