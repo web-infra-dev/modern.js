@@ -1,14 +1,14 @@
 {
   "private": true,
   "name": "ssg-fixtures-simple",
-  "version": "2.66.7",
+  "version": "0.0.0-canary-20261124095358",
   "scripts": {
     "build": "modern build"
   },
   "dependencies": {
-    "@modern-js/app-tools": "workspace:*",
-    "@modern-js/plugin-ssg": "workspace:*",
-    "@modern-js/runtime": "workspace:*",
+    "@modern-js/app-tools": "workspace:0.0.0-canary-20261124095358",
+    "@modern-js/plugin-ssg": "workspace:0.0.0-canary-20261124095358",
+    "@modern-js/runtime": "workspace:0.0.0-canary-20261124095358",
     "react": "^19.3.1",
     "react-dom": "^19.3.1"
   }
