@@ -54,10 +54,19 @@ it.each(['mcp-apps', 'mcp-apps-mf'])(
     expect(
       fs.existsSync(path.join(directory, 'module-federation.config.ts')),
     ).toBe(mf);
+    const tsconfig = JSON.parse(
+      fs.readFileSync(path.join(directory, 'tsconfig.json'), 'utf8'),
+    );
+    expect(tsconfig.include).toContain('api');
+    expect(tsconfig.compilerOptions.module).toBeUndefined();
     expect(
-      JSON.parse(fs.readFileSync(path.join(directory, 'tsconfig.json'), 'utf8'))
-        .include,
-    ).toContain('api');
+      JSON.parse(
+        fs.readFileSync(path.join(directory, 'tsconfig.server.json'), 'utf8'),
+      ),
+    ).toMatchObject({
+      extends: './tsconfig.json',
+      compilerOptions: { module: 'NodeNext', moduleResolution: 'NodeNext' },
+    });
     expect(
       fs.readFileSync(path.join(directory, 'src/components/Todos.tsx'), 'utf8'),
     ).toContain('McpViewProps');
