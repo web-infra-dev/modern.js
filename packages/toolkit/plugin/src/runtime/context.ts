@@ -8,10 +8,13 @@ import type {
   RuntimePluginExtends,
 } from '../types/runtime/plugin';
 import { initHooks } from './hooks';
+import { cloneHook } from '../hooks';
 
 export interface RuntimeConfig<Extends extends RuntimePluginExtends> {
   plugins?: RuntimePlugin<Extends>[];
 }
+
+const ready = Promise.resolve();
 
 export function initRuntimeContext(): RuntimeContext {
   return {};
@@ -28,21 +31,60 @@ export function createRuntimeContext<Extends extends RuntimePluginExtends>({
 }): InternalRuntimeContext<Extends> {
   const extendsHooks: Record<string, PluginHook<(...args: any[]) => any>> = {};
   plugins.forEach(plugin => {
-    const { registryHooks = {} } = plugin;
+    const factory = typeof plugin.registryHooks === 'function';
+    const registryHooks =
+      typeof plugin.registryHooks === 'function'
+        ? plugin.registryHooks()
+        : plugin.registryHooks || {};
     Object.keys(registryHooks).forEach(hookName => {
-      extendsHooks[hookName] = registryHooks[hookName];
+      extendsHooks[hookName] = factory
+        ? registryHooks[hookName]
+        : cloneHook(registryHooks[hookName]);
     });
   });
-  return {
-    ...runtimeContext,
+  let cleanups: Array<(reason?: unknown) => void> | undefined;
+  const context: Omit<InternalRuntimeContext<Extends>, 'disposed'> & {
+    disposed: boolean;
+    disposeReason?: unknown;
+  } = {
+    runtimeContext,
+    ready,
+    disposed: false,
+    onDispose(callback) {
+      if (context.disposed) callback(context.disposeReason);
+      else (cleanups ||= []).push(callback);
+    },
+    dispose(reason?: unknown) {
+      if (context.disposed) return;
+      context.disposed = true;
+      context.disposeReason = reason;
+      let errors: unknown[] | undefined;
+      while (cleanups?.length) {
+        try {
+          cleanups.pop()!(reason);
+        } catch (error) {
+          (errors ||= []).push(error);
+        }
+      }
+      cleanups = undefined;
+      if (errors) {
+        throw new AggregateError(errors, 'Runtime cleanup failed');
+      }
+    },
     hooks: {
       ...initHooks<
         Extends['config'],
         RuntimeContext & Extends['extendContext']
-      >(),
+      >(() => !context.disposed, runtimeContext),
       ...extendsHooks,
     },
     extendsHooks,
     config,
   };
+  Object.defineProperty(runtimeContext, '_internalContext', {
+    value: context,
+    writable: true,
+    configurable: true,
+  });
+  return context;
 }

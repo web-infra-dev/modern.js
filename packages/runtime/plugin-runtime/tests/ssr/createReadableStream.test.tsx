@@ -1,7 +1,6 @@
 import { Readable } from 'stream';
 import { storage } from '@modern-js/runtime-utils/node';
 import { ESCAPED_SHELL_STREAM_END_MARK } from '../../src/common';
-import { setGlobalInternalRuntimeContext } from '../../src/core/context';
 import { createReadableStreamFromElement } from '../../src/core/server/stream/createReadableStream';
 import { createShellEndMarkSplitter } from '../../src/core/server/stream/shared';
 
@@ -58,7 +57,7 @@ const options = {
  * boundaries are fully controlled by the test.
  */
 async function renderChunks(chunks: Buffer[]) {
-  setGlobalInternalRuntimeContext({
+  options.runtimeContext._internalContext = {
     hooks: {
       extendStreamSSR: {
         call: () => [
@@ -71,7 +70,7 @@ async function renderChunks(chunks: Buffer[]) {
         ],
       },
     },
-  } as any);
+  };
 
   const stream = await storage.run(
     { activeDeferreds: new Map(), deferredScriptKeys: new Map() },

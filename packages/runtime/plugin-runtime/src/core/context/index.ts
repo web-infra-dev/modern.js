@@ -1,7 +1,5 @@
-import type { InternalRuntimeContext } from '@modern-js/plugin';
 import type { NestedRoute, PageRoute } from '@modern-js/types';
 import type React from 'react';
-import type { RuntimeExtends } from '../plugin/types';
 import type { ServerPayload } from './serverPayload/index';
 
 export {
@@ -37,7 +35,6 @@ interface GlobalContext {
    */
   basename?: string;
 
-  internalRuntimeContext?: InternalRuntimeContext<RuntimeExtends>;
   /**
    * RSCRoot
    */
@@ -59,9 +56,7 @@ export function getGlobalEnableRsc() {
   return globalContext.enableRsc;
 }
 
-export function setGlobalContext(
-  context: Omit<GlobalContext, 'internalRuntimeContext'>,
-) {
+export function setGlobalContext(context: GlobalContext) {
   globalContext.entryName = context.entryName;
   globalContext.App = context.App;
   globalContext.routes = context.routes;
@@ -81,16 +76,6 @@ export function getGlobalRSCRoot() {
   return globalContext.RSCRoot;
 }
 
-export function setGlobalInternalRuntimeContext(
-  context: InternalRuntimeContext<RuntimeExtends>,
-) {
-  globalContext.internalRuntimeContext = context;
-}
-
-export function getGlobalInternalRuntimeContext() {
-  return globalContext.internalRuntimeContext!;
-}
-
 export function getGlobalApp() {
   return globalContext.App;
 }
@@ -105,4 +90,9 @@ export function getGlobalLayoutApp() {
 
 export function getGlobalBasename() {
   return globalContext.basename;
+}
+
+/** Capture only immutable entry information, never request or mount state. */
+export function getApplicationEntry() {
+  return { ...globalContext };
 }

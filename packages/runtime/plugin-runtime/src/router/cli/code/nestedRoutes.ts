@@ -8,6 +8,7 @@ import {
   hasSsgParams,
   replaceWithAlias,
 } from './utils';
+import type { ScopeRoute } from './scopeOrigins';
 
 const conventionNames = Object.values(NESTED_ROUTE);
 
@@ -78,6 +79,7 @@ const createRoute = (
 
 export const optimizeRoute = (
   routeTree: NestedRouteForCli,
+  preserveScopeDefinitions = false,
 ): NestedRouteForCli[] => {
   if (!routeTree.children || routeTree.children.length === 0) {
     return [routeTree];
@@ -102,6 +104,19 @@ export const optimizeRoute = (
         component: child.component || undefined,
         origin: 'file-system',
       };
+      if (preserveScopeDefinitions) {
+        (newRoute as ScopeRoute)._scopeAncestors = [
+          ...((routeTree as ScopeRoute)._scopeAncestors || []),
+          { id: routeTree.id!, path: routeTree.path || '' },
+          ...((child as ScopeRoute)._scopeAncestors || []).map(ancestor => ({
+            ...ancestor,
+            path: `${routeTree.path || ''}/${ancestor.path}`.replace(
+              /\/+/g,
+              '/',
+            ),
+          })),
+        ];
+      }
 
       // the index is removed when the route path exists
       if (routePath.length > 0) {
@@ -111,14 +126,19 @@ export const optimizeRoute = (
       }
       return newRoute;
     });
-    return Array.from(new Set(newRoutes)).flatMap(optimizeRoute);
+    return Array.from(new Set(newRoutes)).flatMap(route =>
+      optimizeRoute(route, preserveScopeDefinitions),
+    );
   } else {
-    const optimizedChildren = routeTree.children.flatMap(optimizeRoute);
+    const optimizedChildren = routeTree.children.flatMap(route =>
+      optimizeRoute(route, preserveScopeDefinitions),
+    );
     return [{ ...routeTree, children: optimizedChildren }];
   }
 };
 
 export const walk = async (options: {
+  preserveScopeDefinitions?: boolean;
   dirname: string;
   rootDir: string;
   alias?: {
@@ -420,7 +440,10 @@ export const walk = async (options: {
   }
 
   if (isRoot) {
-    const optimizedRoutes = optimizeRoute(finalRoute);
+    const optimizedRoutes = optimizeRoute(
+      finalRoute,
+      options.preserveScopeDefinitions,
+    );
     return optimizedRoutes;
   }
 

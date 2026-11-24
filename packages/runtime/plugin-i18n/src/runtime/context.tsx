@@ -1,4 +1,5 @@
 import { isBrowser } from '@modern-js/runtime';
+import { InternalRuntimeContext } from '@modern-js/runtime/context';
 import { createContext, useCallback, useContext, useMemo } from 'react';
 import type { FC, ReactNode } from 'react';
 import type { I18nInstance } from './i18n';
@@ -67,6 +68,7 @@ export interface UseModernI18nReturn {
  */
 export const useModernI18n = (): UseModernI18nReturn => {
   const context = useContext(ModernI18nContext);
+  const runtimeContext = useContext(InternalRuntimeContext);
   if (!context) {
     throw new Error('useModernI18n must be used within a ModernI18nProvider');
   }
@@ -121,7 +123,7 @@ export const useModernI18n = (): UseModernI18nReturn => {
           location
         ) {
           const currentPath = location.pathname;
-          const entryPath = getEntryPath();
+          const entryPath = getEntryPath(runtimeContext);
           const relativePath = currentPath.replace(entryPath, '');
 
           // Check if the path already contains the target language
@@ -129,6 +131,7 @@ export const useModernI18n = (): UseModernI18nReturn => {
             currentPath,
             languages || [],
             localePathRedirect,
+            entryPath,
           );
 
           // If path already has the target language, skip redirect
@@ -155,7 +158,7 @@ export const useModernI18n = (): UseModernI18nReturn => {
           }
         } else if (localePathRedirect && isBrowser() && !hasRouter) {
           const currentPath = window.location.pathname;
-          const entryPath = getEntryPath();
+          const entryPath = getEntryPath(runtimeContext);
           const relativePath = currentPath.replace(entryPath, '');
 
           // Check if the path already contains the target language
@@ -163,6 +166,7 @@ export const useModernI18n = (): UseModernI18nReturn => {
             currentPath,
             languages || [],
             localePathRedirect,
+            entryPath,
           );
 
           // If path already has the target language, skip redirect
@@ -210,6 +214,7 @@ export const useModernI18n = (): UseModernI18nReturn => {
       hasRouter,
       navigate,
       location,
+      runtimeContext,
     ],
   );
 

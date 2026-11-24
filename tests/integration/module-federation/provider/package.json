@@ -1,0 +1,26 @@
+{
+  "name": "mf-lab-provider",
+  "private": true,
+  "scripts": {
+    "dev": "modern dev",
+    "build": "modern build"
+  },
+  "dependencies": {
+    "react": "^19.3.1",
+    "react-dom": "^19.3.1",
+    "@modern-js/runtime": "workspace:*",
+    "@modern-js/plugin-i18n": "workspace:*",
+    "i18next": "25.10.10",
+    "react-i18next": "15.7.4",
+    "@module-federation/enhanced": "0.0.0-feat-enhanced-runtime-unification-20261124090002",
+    "@module-federation/bridge-react": "0.0.0-feat-enhanced-runtime-unification-20261124090002",
+    "echarts": "6.0.0"
+  },
+  "devDependencies": {
+    "typescript": "^5",
+    "@modern-js/server-runtime": "workspace:*",
+    "@modern-js/app-tools": "workspace:*",
+    "@modern-js/tsconfig": "workspace:*",
+    "@modern-js/plugin-module-federation": "workspace:*"
+  }
+}

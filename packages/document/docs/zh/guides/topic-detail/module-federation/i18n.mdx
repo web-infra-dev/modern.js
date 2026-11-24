@@ -17,6 +17,16 @@ Modern.js 提供了 **@modern-js/plugin-i18n** 插件来支持国际化能力。
 1. **共享 I18n 实例**：生产者和消费者使用同一个 i18n 实例，语言切换会同步更新
 2. **独立 I18n 实例**：生产者和消费者各自维护独立的 i18n 实例，可以独立切换语言
 
+共享 `i18next` 依赖代码与共享可变的 `i18nInstance` 是两件事。应用各自管理文案，框架不会自动把消费者的字典合并到生产者。只有显式传入同一个 `i18nInstance` 时，应用才选择共享该实例的语言状态。
+
+### 内置 Bridge SSR 的实例隔离
+
+使用内置 Module Federation 导出应用和 Bridge SSR 时，每次挂载都有自己的应用上下文。服务端语言随该实例的应用快照传输，浏览器先恢复这个语言再水合，以匹配已有 DOM。同一生产者挂载多次时，独立实例可以使用不同语言。没有本地 SSR 快照的实例按自己的配置检测语言，不读取消费者的 SSR 语言。
+
+显式传入的 i18next 实例在 SSR 请求中先克隆，再应用请求语言，已有资源仍按 i18next 的克隆语义共享。自定义 i18n 包装器需提供 `cloneInstance` 来隔离 SSR 请求。浏览器仍保留显式共享实例的行为，共享实例意味着共享语言切换。若多个挂载需要不同语言，请使用独立实例。字典和资源加载仍由应用配置负责。
+
+下文使用 `@module-federation/modern-js-v3` 的示例说明共享与独立实例的接入方式。内置 Bridge SSR 的入口和支持范围见[应用级别模块](/guides/topic-detail/module-federation/application)与[内置应用 SSR](/guides/topic-detail/module-federation/bridge-ssr)。
+
 :::tip
 
 对于组件场景，推荐使用共享 I18n 实例，因为组件最终会在同一棵 React 树上渲染，共享实例可以保证语言切换的一致性。

@@ -19,13 +19,18 @@ const ignoreDeps = [
   'tsx',
   // MCP SDK requires zod >=4.2, while existing BFF APIs still use zod 3.
   'zod',
+  // @modern-js/plugin-module-federation temporarily pins the MF Core preview
+  // release while mcp-apps still depends on @module-federation/enhanced 2.0.0.
+  '@module-federation/enhanced',
 ];
 
 // examples/ intentionally track the published packages (`latest`) and mirror
 // real user apps, so they are exempt from workspace version consistency.
+// MF regression fixtures pin the upstream adapter/toolchain baseline independently
+// of the older i18n fixtures and the workspace build toolchain.
 const command = `npx check-dependency-version-consistency . ${ignoreDeps
   .map(dep => `--ignore-dep "${dep}"`)
-  .join(' ')} --ignore-package-pattern "^@examples/"`;
+  .join(' ')} --ignore-package-pattern "^(@examples/|mf-lab-)"`;
 
 console.log(`> ${command}`);
 

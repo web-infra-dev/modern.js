@@ -3,6 +3,7 @@ import { i18nPlugin } from '@modern-js/plugin-i18n';
 import { moduleFederationPlugin } from '@module-federation/modern-js-v3';
 
 export default defineConfig({
+  moduleFederation: false,
   server: {
     port: 3005,
   },
