@@ -117,13 +117,9 @@ describe('pure-esm-project in dev', () => {
 
   beforeAll(async () => {
     appDir = await createIsolatedAppDir();
-    await fse.writeFile(
+    await fse.copyFile(
+      path.join(__dirname, 'fixtures/module-resolution.ts'),
       path.join(appDir, 'api/lambda/module-resolution.ts'),
-      `import { getUser } from '../service/user';
-export const get = async () => {
-  const fromData = await import('data:text/javascript,export { getUser } from "@service/user.js"');
-  return { relative: getUser().name, aliasFromData: fromData.getUser().name };
-};`,
     );
     port = await getPort();
     app = await launchApp(appDir, port);
