@@ -15,7 +15,7 @@
     "modern",
     "modern.js"
   ],
-  "version": "3.11.3",
+  "version": "0.0.0-canary-20261124082633",
   "types": "./index.d.ts",
   "exports": {
     ".": {

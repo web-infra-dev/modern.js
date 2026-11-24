@@ -15,7 +15,7 @@
     "modern",
     "modern.js"
   ],
-  "version": "3.11.3",
+  "version": "0.0.0-canary-20261124082633",
   "types": "./src/index.ts",
   "main": "./dist/cjs/index.js",
   "exports": {
@@ -43,12 +43,12 @@
     "test": "rstest --passWithNoTests"
   },
   "dependencies": {
-    "@modern-js/utils": "workspace:*",
+    "@modern-js/utils": "workspace:0.0.0-canary-20261124082633",
     "@swc/helpers": "^0.5.17"
   },
   "devDependencies": {
     "@modern-js/rslib": "workspace:*",
-    "@modern-js/server-core": "workspace:*",
+    "@modern-js/server-core": "workspace:0.0.0-canary-20261124082633",
     "@scripts/rstest-config": "workspace:*",
     "@types/node": "^20",
     "typescript": "^5"
