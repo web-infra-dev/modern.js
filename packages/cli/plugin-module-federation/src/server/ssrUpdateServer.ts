@@ -17,7 +17,7 @@ import {
 import type { RemoteCheckOptions } from './remoteUpdate';
 import { createSSRUpdateOwner } from './ssrUpdateOwner';
 import { anyAbortSignal } from '../ssr-runtime/devManifestWait';
-import { formatErrorMessage, logMFSSR } from './ssrLogger';
+import { debugMFSSRVerbose, logMFSSR, logMFSSRError } from './ssrLogger';
 
 const key = Symbol.for('modern-js.mf.ssr.update-manager');
 type Registry = {
@@ -91,10 +91,12 @@ export function createSSRUpdateServerPlugin(
         const lifetime = new AbortController();
         const owner = createSSRUpdateOwner(options.name);
         api.updateServerContext({ ssrUpdateOwnerId: owner.id });
+        const logMode = options.mode ?? (context.dev ? 'dev' : 'prod');
+        const logOptions = { mode: logMode, logger: options.logger };
         const adapter = createSSRUpdateAdapter({
           ...options,
           owner,
-          mode: options.mode ?? (context.dev ? 'dev' : 'prod'),
+          mode: logMode,
           maxPendingUpdates: options.application?.maxPendingUpdates,
           entries: options.entries || [
             ...new Set<string>(
@@ -119,28 +121,130 @@ export function createSSRUpdateServerPlugin(
           adapter.run(() =>
             manager ? registry().context.run(manager, operation) : operation(),
           );
+        const ADMISSION_WARN_WINDOW_MS = 5_000;
+        const admissionWindows = new Map<
+          string,
+          {
+            lastLoggedAt: number;
+            suppressed: number;
+            latest: Extract<SSRCoordinatorEvent, { type: 'admission' }>;
+          }
+        >();
+        let admissionFlushTimer: ReturnType<typeof setTimeout> | undefined;
+        const flushAdmissionSummaries = () => {
+          if (admissionFlushTimer) {
+            clearTimeout(admissionFlushTimer);
+            admissionFlushTimer = undefined;
+          }
+          for (const [key, state] of admissionWindows) {
+            if (state.suppressed > 0) {
+              const e = state.latest;
+              logMFSSR(
+                'warn',
+                'Admission',
+                {
+                  app: options.name,
+                  decision: e.decision,
+                  reason: e.reason,
+                  phase: e.phase,
+                  gen: e.generation,
+                  entry: e.entryName,
+                  waitedMs: Math.round(e.waitedMs),
+                  active: e.activeRequests,
+                  pending: e.pendingRequests,
+                  suppressed: state.suppressed,
+                },
+                undefined,
+                logOptions,
+              );
+              state.suppressed = 0;
+              state.lastLoggedAt = Date.now();
+            } else {
+              admissionWindows.delete(key);
+            }
+          }
+        };
+        const scheduleAdmissionFlush = () => {
+          if (admissionFlushTimer) return;
+          admissionFlushTimer = setTimeout(() => {
+            admissionFlushTimer = undefined;
+            flushAdmissionSummaries();
+          }, ADMISSION_WARN_WINDOW_MS);
+          admissionFlushTimer.unref?.();
+        };
         const onCoordinatorEvent = (event: SSRCoordinatorEvent) => {
-          options.application?.onEvent?.(event);
           if (event.type === 'admission') {
-            logMFSSR('warn', 'Admission', {
-              app: options.name,
-              decision: event.decision,
-              reason: event.reason,
-              phase: event.phase,
-              gen: event.generation,
-              entry: event.entryName,
-              waitedMs: event.waitedMs,
-              active: event.activeRequests,
-              pending: event.pendingRequests,
-            });
+            if (event.decision === 'csr' && event.reason === 'updating') {
+              debugMFSSRVerbose('admission', () => ({
+                app: options.name,
+                decision: event.decision,
+                reason: event.reason,
+                phase: event.phase,
+                gen: event.generation,
+                entry: event.entryName,
+                waitedMs: Math.round(event.waitedMs),
+                active: event.activeRequests,
+                pending: event.pendingRequests,
+              }));
+            } else {
+              const key = `${event.phase}|${event.generation}|${event.decision}|${event.reason}`;
+              const now = Date.now();
+              const existing = admissionWindows.get(key);
+              if (
+                existing &&
+                now - existing.lastLoggedAt < ADMISSION_WARN_WINDOW_MS
+              ) {
+                existing.suppressed++;
+                existing.latest = event;
+                scheduleAdmissionFlush();
+              } else {
+                const suppressed = existing?.suppressed || 0;
+                admissionWindows.set(key, {
+                  lastLoggedAt: now,
+                  suppressed: 0,
+                  latest: event,
+                });
+                logMFSSR(
+                  'warn',
+                  'Admission',
+                  {
+                    app: options.name,
+                    decision: event.decision,
+                    reason: event.reason,
+                    phase: event.phase,
+                    gen: event.generation,
+                    entry: event.entryName,
+                    waitedMs: Math.round(event.waitedMs),
+                    active: event.activeRequests,
+                    pending: event.pendingRequests,
+                    suppressed: suppressed > 0 ? suppressed : undefined,
+                  },
+                  undefined,
+                  logOptions,
+                );
+              }
+            }
           } else if (event.type === 'drain-timeout') {
-            logMFSSR('warn', 'Drain timeout', {
-              app: options.name,
-              drainTimeoutMs: event.drainTimeoutMs,
-              active: event.activeRequests,
-              scope: event.closedScope ?? 'all',
-              gen: event.generation,
-            });
+            logMFSSR(
+              'warn',
+              'Drain timeout',
+              {
+                app: options.name,
+                drainTimeoutMs: event.drainTimeoutMs,
+                active: event.activeRequests,
+                scope: event.closedScope ?? 'all',
+                gen: event.generation,
+              },
+              undefined,
+              logOptions,
+            );
+          }
+          if (options.application?.onEvent) {
+            try {
+              options.application.onEvent(event);
+            } catch {
+              // Isolate user observer errors from internal coordination logging.
+            }
           }
         };
         const resourceOptions: SSRResourceApplicationOptions & {
@@ -153,13 +257,17 @@ export function createSSRUpdateServerPlugin(
           onEvent: onCoordinatorEvent,
           onInitialError: context.dev
             ? error =>
-                logMFSSR('error', 'Failed', {
-                  app: options.name,
-                  mode: 'dev',
-                  stage: 'init',
-                  phase: 'unavailable',
-                  error: formatErrorMessage(error),
-                })
+                logMFSSRError(
+                  'Failed',
+                  {
+                    app: options.name,
+                    mode: 'dev',
+                    stage: 'init',
+                    phase: 'unavailable',
+                  },
+                  error,
+                  logOptions,
+                )
             : undefined,
           onAvailabilityChange: options.onAvailabilityChange,
           beforeRequest: options.beforeRequest,
@@ -218,6 +326,8 @@ export function createSSRUpdateServerPlugin(
               close() {
                 if (closing) return closing;
                 closed = true;
+                flushAdmissionSummaries();
+                admissionWindows.clear();
                 lifetime.abort(new Error('SSR update manager is closed'));
                 closing = (async () => {
                   const errors: unknown[] = [];

@@ -47,7 +47,8 @@ import {
   formatTimings,
   isMFSSRDebugEnabled,
   logMFSSR,
-  markMFSSRLogged,
+  logMFSSRError,
+  type MFSSRLogger,
 } from './ssrLogger';
 
 /** This protocol is owned by the Modern adapter, not the generic MF runtime. */
@@ -121,6 +122,8 @@ export function createSSRUpdateAdapter(options: {
   owner?: SSRUpdateOwner;
   /** Diagnostic mode tag used for structured SSR update logs. */
   mode?: 'dev' | 'prod';
+  /** Optional custom logger for SSR update logs; pass `false` to disable. */
+  logger?: MFSSRLogger | false;
   /** Immutable public entries paired with the initial server release. */
   hydration?: { remotes: SSRClientRemote[] };
   remotes?: SSRRemoteReplacement[];
@@ -129,6 +132,104 @@ export function createSSRUpdateAdapter(options: {
 }) {
   options = { ...options, entries: [...options.entries] };
   const logMode = options.mode ?? 'prod';
+  const logOptionsFor = (mode: 'dev' | 'prod' | 'global' = logMode) => ({
+    mode,
+    logger: options.logger,
+  });
+  const logUpdateStart = (info: {
+    mode?: 'dev' | 'prod' | 'global';
+    trigger?: string;
+    operationId: string;
+    remotes: Array<{
+      name: string;
+      fromVersion?: string;
+      toVersion?: string;
+      note?: string;
+    }>;
+  }) => {
+    const mode = info.mode ?? logMode;
+    logMFSSR(
+      'info',
+      'Updating',
+      {
+        mode,
+        trigger: info.trigger || 'api',
+        app: options.name,
+        op: info.operationId,
+      },
+      formatRemoteTransitions(info.remotes) || undefined,
+      logOptionsFor(mode),
+    );
+  };
+  const logUpdateReady = (info: {
+    mode?: 'dev' | 'prod' | 'global';
+    remotes: string[];
+    planMode: 'snapshot' | 'entries' | 'application';
+    entries?: string[];
+    reasons?: string[];
+    generation?: number;
+    timingsMs?: Record<string, number>;
+    operationId: string;
+  }) => {
+    const mode = info.mode ?? logMode;
+    const scope =
+      info.planMode === 'entries'
+        ? 'partial'
+        : info.planMode === 'snapshot'
+          ? 'snapshot'
+          : 'full';
+    const headline = info.remotes.length ? info.remotes.join(', ') : undefined;
+    logMFSSR(
+      'info',
+      'Ready',
+      {
+        mode,
+        scope,
+        entries: scope === 'partial' ? info.entries : undefined,
+        reason: scope === 'full' ? info.reasons : undefined,
+        gen: info.generation,
+        durationMs:
+          info.timingsMs?.total !== undefined
+            ? Math.round(info.timingsMs.total)
+            : undefined,
+        timings: formatTimings(info.timingsMs),
+        app: options.name,
+        op: info.operationId,
+      },
+      headline,
+      logOptionsFor(mode),
+    );
+  };
+  const logUpdateFailed = (info: {
+    mode?: 'dev' | 'prod' | 'global';
+    remotes: string[];
+    stage: string;
+    mutationStarted: boolean;
+    phase?: string;
+    timingsMs?: Record<string, number>;
+    operationId: string;
+    error: unknown;
+  }) => {
+    const mode = info.mode ?? logMode;
+    logMFSSRError(
+      'Failed',
+      {
+        remotes: info.remotes,
+        mode,
+        stage: info.stage,
+        mutationStarted: info.mutationStarted,
+        phase: info.phase,
+        durationMs:
+          info.timingsMs?.total !== undefined
+            ? Math.round(info.timingsMs.total)
+            : undefined,
+        app: options.name,
+        op: info.operationId,
+      },
+      info.error,
+      logOptionsFor(mode),
+    );
+  };
   const owner =
     options.owner || createSSRUpdateOwner(options.name, options.entries);
   for (const entry of options.entries) {
@@ -685,13 +786,19 @@ export function createSSRUpdateAdapter(options: {
         // Modern keeps a failed scope closed and widens its next update to the
         // whole application. Retry once using the same intended remote targets.
         onStage('fallback');
-        logMFSSR('warn', 'Fallback', {
-          scope: 'partial->full',
-          remotes: changes.map(({ name }) => canonicalName(name)),
-          reason: formatErrorMessage(error),
-          app: options.name,
-          op: operationId,
-        });
+        logMFSSR(
+          'warn',
+          'Fallback',
+          {
+            scope: 'partial->full',
+            remotes: changes.map(({ name }) => canonicalName(name)),
+            reason: formatErrorMessage(error),
+            app: options.name,
+            op: operationId,
+          },
+          undefined,
+          logOptionsFor(),
+        );
         try {
           generation = await authorized();
         } catch (recoveryError) {
@@ -884,6 +991,25 @@ export function createSSRUpdateAdapter(options: {
         return Promise.reject(new Error('Stale SSR update revision'));
       state.phase = 'pending';
       onStage('queue');
+      logUpdateStart({
+        trigger: input?.trigger || (input?.defer ? 'api-defer' : 'api'),
+        operationId: state.operationId,
+        remotes: captured.map(({ name, replacement }) => {
+          const canonical = canonicalName(name);
+          const appliedTarget = controller.getApplied(application, canonical);
+          const fromVersion = extractTargetVersion(appliedTarget);
+          const toVersion = extractTargetVersion(replacement);
+          const note =
+            !toVersion &&
+            appliedTarget &&
+            appliedTarget.entry !== replacement.entry
+              ? 'url-changed'
+              : !toVersion && replacement.dependencies?.length
+                ? 'deps-changed'
+                : undefined;
+          return { name: canonical, fromVersion, toVersion, note };
+        }),
+      });
       return performUpdate(
         application,
         captured,
@@ -912,6 +1038,7 @@ export function createSSRUpdateAdapter(options: {
           }
         },
         onStage,
+        state.operationId,
       );
     };
     let operation: Promise<Awaited<ReturnType<typeof performUpdate>>>;
@@ -939,6 +1066,7 @@ export function createSSRUpdateAdapter(options: {
       }
       operation = Promise.reject(error);
     }
+    const remoteNames = captured.map(({ name }) => canonicalName(name));
     state.promise = operation.then(
       result => {
         onStage('applied');
@@ -949,6 +1077,15 @@ export function createSSRUpdateAdapter(options: {
           latest.appliedRevision ?? 0,
           revision,
         );
+        logUpdateReady({
+          remotes: remoteNames,
+          planMode: result.mode,
+          entries: result.entries,
+          reasons: result.reasons,
+          generation: result.generation,
+          timingsMs: state.timingsMs,
+          operationId: state.operationId,
+        });
         return {
           ...result,
           revision,
@@ -978,6 +1115,23 @@ export function createSSRUpdateAdapter(options: {
           },
         );
         state.error = failure;
+        if (input?.signal?.aborted) {
+          debugMFSSR('update-aborted', () => ({
+            remotes: remoteNames,
+            stage: failedStage,
+            op: state.operationId,
+          }));
+        } else {
+          logUpdateFailed({
+            remotes: remoteNames,
+            stage: failedStage,
+            mutationStarted: state.mutationStarted,
+            phase: application.status?.phase,
+            timingsMs: state.timingsMs,
+            operationId: state.operationId,
+            error: failure,
+          });
+        }
         throw failure;
       },
     );
@@ -1024,8 +1178,10 @@ export function createSSRUpdateAdapter(options: {
       return undefined;
     },
     apply(application, targets, onMutation, onStage, meta) {
-      const headline = formatRemoteTransitions(
-        targets.map(target => {
+      logUpdateStart({
+        trigger: meta.trigger,
+        operationId: meta.operationId,
+        remotes: targets.map(target => {
           const previous = meta.previousTargets.get(target.name);
           const fromVersion = extractTargetVersion(previous);
           const toVersion = extractTargetVersion(target);
@@ -1042,18 +1198,7 @@ export function createSSRUpdateAdapter(options: {
             note,
           };
         }),
-      );
-      logMFSSR(
-        'info',
-        'Updating',
-        {
-          mode: logMode,
-          trigger: meta.trigger || 'api',
-          app: options.name,
-          op: meta.operationId,
-        },
-        headline,
-      );
+      });
       // Native graph keys are declared aliases; preserve them for scope planning.
       const changes = targets.map(({ name, ...replacement }) => {
         let registered = instances()
@@ -1083,28 +1228,15 @@ export function createSSRUpdateAdapter(options: {
       );
     },
     onApplied({ targets, result, operationId, timingsMs }) {
-      const scope =
-        result.mode === 'entries'
-          ? 'partial'
-          : result.mode === 'snapshot'
-            ? 'snapshot'
-            : 'full';
-      logMFSSR(
-        'info',
-        'Ready',
-        {
-          mode: logMode,
-          scope,
-          entries: scope === 'partial' ? result.entries : undefined,
-          reason: scope === 'full' ? result.reasons : undefined,
-          gen: result.generation,
-          durationMs: timingsMs.total,
-          timings: formatTimings(timingsMs),
-          app: options.name,
-          op: operationId,
-        },
-        targets.map(target => target.name).join(', '),
-      );
+      logUpdateReady({
+        remotes: targets.map(target => target.name),
+        planMode: result.mode,
+        entries: result.entries,
+        reasons: result.reasons,
+        generation: result.generation,
+        timingsMs,
+        operationId,
+      });
     },
     onError({
       application,
@@ -1115,17 +1247,14 @@ export function createSSRUpdateAdapter(options: {
       timingsMs,
       error,
     }) {
-      markMFSSRLogged(error);
-      logMFSSR('error', 'Failed', {
+      logUpdateFailed({
         remotes: targets.map(target => target.name),
-        mode: logMode,
         stage: failedStage,
         mutationStarted,
         phase: application.status?.phase,
-        durationMs: timingsMs.total,
-        app: options.name,
-        op: operationId,
-        error: formatErrorMessage(error),
+        timingsMs,
+        operationId,
+        error,
       });
     },
   });
@@ -1351,18 +1480,13 @@ export function createSSRUpdateAdapter(options: {
               onStage('applied');
               timingsMs.total = performance.now() - started;
               if (diff.changed) {
-                logMFSSR(
-                  'info',
-                  'Ready',
-                  {
-                    mode: 'global',
-                    scope: 'snapshot',
-                    durationMs: timingsMs.total,
-                    app: options.name,
-                    op: operationId,
-                  },
-                  diff.unloadedRemotes.map(item => item.name).join(', '),
-                );
+                logUpdateReady({
+                  mode: 'global',
+                  remotes: diff.unloadedRemotes.map(item => item.name),
+                  planMode: 'snapshot',
+                  timingsMs,
+                  operationId,
+                });
               }
               return {
                 changed: diff.changed,
@@ -1377,8 +1501,11 @@ export function createSSRUpdateAdapter(options: {
             }
 
             activeRemoteNames = activeLoaded.map(item => item.name);
-            const headline = formatRemoteTransitions(
-              activeLoaded.map(item => {
+            logUpdateStart({
+              mode: 'global',
+              trigger: input?.trigger || (input?.defer ? 'api-defer' : 'api'),
+              operationId,
+              remotes: activeLoaded.map(item => {
                 const previous = controller.getApplied(application, item.name);
                 return {
                   name: item.name,
@@ -1388,18 +1515,7 @@ export function createSSRUpdateAdapter(options: {
                   }),
                 };
               }),
-            );
-            logMFSSR(
-              'info',
-              'Updating',
-              {
-                mode: 'global',
-                trigger: input?.trigger || (input?.defer ? 'api-defer' : 'api'),
-                app: options.name,
-                op: operationId,
-              },
-              headline,
-            );
+            });
 
             const changes: Change[] = activeLoaded.map(item => {
               const hasClient =
@@ -1476,28 +1592,16 @@ export function createSSRUpdateAdapter(options: {
             );
             onStage('applied');
             timingsMs.total = performance.now() - started;
-            const scope =
-              result.mode === 'entries'
-                ? 'partial'
-                : result.mode === 'snapshot'
-                  ? 'snapshot'
-                  : 'full';
-            logMFSSR(
-              'info',
-              'Ready',
-              {
-                mode: 'global',
-                scope,
-                entries: scope === 'partial' ? result.entries : undefined,
-                reason: scope === 'full' ? result.reasons : undefined,
-                gen: result.generation,
-                durationMs: timingsMs.total,
-                timings: formatTimings(timingsMs),
-                app: options.name,
-                op: operationId,
-              },
-              activeRemoteNames.join(', '),
-            );
+            logUpdateReady({
+              mode: 'global',
+              remotes: activeRemoteNames,
+              planMode: result.mode,
+              entries: result.entries,
+              reasons: result.reasons,
+              generation: result.generation,
+              timingsMs,
+              operationId,
+            });
             return {
               ...result,
               changed: true,
@@ -1510,18 +1614,24 @@ export function createSSRUpdateAdapter(options: {
             const failedStage = currentStage;
             onStage('failed');
             timingsMs.total = performance.now() - started;
-            markMFSSRLogged(error);
-            logMFSSR('error', 'Failed', {
-              remotes: activeRemoteNames,
-              mode: 'global',
-              stage: failedStage,
-              mutationStarted,
-              phase: application.status?.phase,
-              durationMs: timingsMs.total,
-              app: options.name,
-              op: operationId,
-              error: formatErrorMessage(error),
-            });
+            if (input?.signal?.aborted) {
+              debugMFSSR('update-aborted', () => ({
+                remotes: activeRemoteNames,
+                stage: failedStage,
+                op: operationId,
+              }));
+            } else {
+              logUpdateFailed({
+                mode: 'global',
+                remotes: activeRemoteNames,
+                stage: failedStage,
+                mutationStarted,
+                phase: application.status?.phase,
+                timingsMs,
+                operationId,
+                error,
+              });
+            }
             throw error;
           }
         };
@@ -1776,12 +1886,12 @@ export function createSSRUpdateAdapter(options: {
           'SSR instance disposal failed',
         );
       if (hosts.length || providers.size || retainedProviders.length) {
-        debugMFSSR('dispose', {
+        debugMFSSR('dispose', () => ({
           app: options.name,
           hostsDisposed: hosts.length,
           providersDisposed: providers.size,
           providersRetained: retainedProviders,
-        });
+        }));
       }
       for (const record of owned) owner.entries.delete(record.entry);
       for (const host of hosts) owner.instances.delete(host);

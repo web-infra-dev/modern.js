@@ -88,7 +88,7 @@ describe('request-driven development updates', () => {
     expect(fetcher).toHaveBeenCalledTimes(1);
     expect(f.updateRemotes).toHaveBeenCalledWith(
       [{ ...remote('weather'), manifest: manifest(), dependencies: [] }],
-      { signal: expect.any(AbortSignal) },
+      { signal: expect.any(AbortSignal), trigger: 'request' },
     );
     expect(f.onApplied).toHaveBeenCalledTimes(1);
     await f.watcher.close();

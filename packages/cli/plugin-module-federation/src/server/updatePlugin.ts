@@ -13,7 +13,7 @@ import {
   startDevRemoteUpdates,
   DevRemoteUnavailableError,
 } from './devRemoteUpdates';
-import { formatErrorMessage, isMFSSRLogged, logMFSSR } from './ssrLogger';
+import { logMFSSRError } from './ssrLogger';
 
 /** Development subscriptions and request fallback share the production update owner. */
 export default function updatePlugin(
@@ -99,7 +99,6 @@ export default function updatePlugin(
           }
         return [...result.values()];
       };
-      let activeTrigger: 'hmr-check' | 'request' | 'recover' | undefined;
       watcher = startDevRemoteUpdates({
         self: options.devBuild?.publisher(),
         requestTimeoutMs: options.application?.requestTimeoutMs,
@@ -131,23 +130,20 @@ export default function updatePlugin(
         },
         shouldUpdateRemote: (remote, input) =>
           manager.shouldUpdateRemote(remote, input),
-        onUpdating: (_remotes, trigger) => {
-          activeTrigger = trigger;
-        },
         updateRemotes: (remotes, input) =>
-          manager.updateRemotes(remotes, {
-            ...input,
-            trigger: activeTrigger,
-          }),
-        onApplied: () => {},
-        onError: error => {
-          if (isMFSSRLogged(error)) return;
-          logMFSSR('error', 'Failed', {
-            app: options.name,
-            mode: 'dev',
-            stage: 'check',
-            error: formatErrorMessage(error),
-          });
+          manager.updateRemotes(remotes, input),
+        onError: (error, phase) => {
+          if (phase === 'update') return;
+          logMFSSRError(
+            'Failed',
+            {
+              app: options.name,
+              mode: 'dev',
+              stage: 'check',
+            },
+            error,
+            { mode: 'dev', logger: options.logger },
+          );
         },
       });
       options.devBuild?.registerRecover?.(async () => {

@@ -1,44 +1,64 @@
-import { createDebugger, logger } from '@modern-js/utils';
+import { createDebugger, logger as defaultLogger } from '@modern-js/utils';
 
 export type MFSSRLogLevel = 'info' | 'warn' | 'error';
 
-const mfSSRLoggedKey = Symbol.for('modern-js.mf.ssr.logged');
-
-export function markMFSSRLogged(error: unknown): void {
-  if (error && typeof error === 'object') {
-    try {
-      Object.defineProperty(error, mfSSRLoggedKey, {
-        value: true,
-        configurable: true,
-      });
-    } catch {
-      // Frozen/non-extensible error objects stay untouched.
-    }
-  }
+export interface MFSSRLogger {
+  info?(...args: unknown[]): void;
+  warn?(...args: unknown[]): void;
+  error?(...args: unknown[]): void;
 }
 
-export function isMFSSRLogged(error: unknown): boolean {
-  return Boolean(
-    error && typeof error === 'object' && (error as any)[mfSSRLoggedKey],
-  );
+export interface MFSSRLogOptions {
+  mode?: 'dev' | 'prod' | 'global';
+  logger?: MFSSRLogger | false;
 }
 
 export const mfSSRDebug = createDebugger('mf-ssr');
+export const mfSSRVerboseDebug = createDebugger('mf-ssr:verbose');
 
 export function isMFSSRDebugEnabled(): boolean {
   return Boolean(mfSSRDebug.enabled);
 }
 
+export function isMFSSRVerboseDebugEnabled(): boolean {
+  return Boolean(mfSSRVerboseDebug.enabled);
+}
+
+const LOG_LEVEL_RANK: Record<string, number> = {
+  silent: 0,
+  error: 1,
+  warn: 2,
+  info: 3,
+  verbose: 4,
+};
+
+function shouldLogInMode(
+  level: MFSSRLogLevel,
+  mode?: 'dev' | 'prod' | 'global',
+): boolean {
+  if (mode === 'dev') return true;
+  const configured = process.env.MODERN_SERVER_LOG_LEVEL?.toLowerCase();
+  if (!configured) return true;
+  const rank = LOG_LEVEL_RANK[configured];
+  if (rank === undefined) return true;
+  return LOG_LEVEL_RANK[level] <= rank;
+}
+
+function resolveLogger(custom?: MFSSRLogger | false): MFSSRLogger | undefined {
+  if (custom === false) return undefined;
+  return custom ?? defaultLogger;
+}
+
 const MAX_VALUE_LENGTH = 400;
 
-function sanitizeString(value: string): string {
+function sanitizeString(value: string): string | undefined {
   const singleLine = value.replace(/\r?\n+/g, ' ').trim();
+  if (!singleLine) return undefined;
   const truncated =
     singleLine.length > MAX_VALUE_LENGTH
       ? `${singleLine.slice(0, MAX_VALUE_LENGTH - 3)}...`
       : singleLine;
-  if (!truncated) return '""';
-  if (/[\s="]/.test(truncated)) {
+  if (/[\s="\\]/.test(truncated)) {
     return `"${truncated.replace(/\\/g, '\\\\').replace(/"/g, '\\"')}"`;
   }
   return truncated;
@@ -49,14 +69,16 @@ function formatFieldValue(value: unknown): string | undefined {
   if (typeof value === 'boolean') return value ? 'true' : 'false';
   if (typeof value === 'number') {
     if (!Number.isFinite(value)) return undefined;
-    return Number.isInteger(value) ? String(value) : String(Math.round(value));
+    return String(value);
   }
   if (typeof value === 'string') {
-    return value ? sanitizeString(value) : undefined;
+    return sanitizeString(value);
   }
   if (Array.isArray(value)) {
     const items = value
-      .map(item => (item === undefined || item === null ? '' : String(item)))
+      .map(item =>
+        item === undefined || item === null ? '' : String(item).trim(),
+      )
       .filter(Boolean);
     if (!items.length) return undefined;
     return sanitizeString(items.join(','));
@@ -143,18 +165,49 @@ export function logMFSSR(
   event: string,
   fields?: Record<string, unknown>,
   headline?: string,
+  options?: MFSSRLogOptions,
 ): void {
+  if (!shouldLogInMode(level, options?.mode)) return;
+  const target = resolveLogger(options?.logger);
+  if (!target?.[level]) return;
   const formattedFields = formatLogFields(fields);
   const head = headline ? `[MF SSR] ${event} ${headline}` : `[MF SSR] ${event}`;
   const line = formattedFields ? `${head} ${formattedFields}` : head;
-  logger[level](line);
+  target[level]!(line);
+}
+
+export function logMFSSRError(
+  event: string,
+  fields: Record<string, unknown> | undefined,
+  error: unknown,
+  options?: MFSSRLogOptions,
+): void {
+  if (!shouldLogInMode('error', options?.mode)) return;
+  const target = resolveLogger(options?.logger);
+  if (!target?.error) return;
+  const formattedFields = formatLogFields(fields);
+  const line = formattedFields
+    ? `[MF SSR] ${event} ${formattedFields}`
+    : `[MF SSR] ${event}`;
+  target.error(line, error);
 }
 
 export function debugMFSSR(
   event: string,
-  fields?: Record<string, unknown>,
+  fields?: Record<string, unknown> | (() => Record<string, unknown>),
 ): void {
   if (!mfSSRDebug.enabled) return;
-  const formattedFields = formatLogFields(fields);
+  const resolved = typeof fields === 'function' ? fields() : fields;
+  const formattedFields = formatLogFields(resolved);
   mfSSRDebug(formattedFields ? `${event} ${formattedFields}` : event);
+}
+
+export function debugMFSSRVerbose(
+  event: string,
+  fields?: Record<string, unknown> | (() => Record<string, unknown>),
+): void {
+  if (!mfSSRVerboseDebug.enabled) return;
+  const resolved = typeof fields === 'function' ? fields() : fields;
+  const formattedFields = formatLogFields(resolved);
+  mfSSRVerboseDebug(formattedFields ? `${event} ${formattedFields}` : event);
 }

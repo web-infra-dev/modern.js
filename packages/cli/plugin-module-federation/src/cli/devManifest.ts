@@ -140,7 +140,7 @@ export function createDevManifestPublication() {
       // A save during compilation or private-plugin preparation supersedes that
       // output, even if the compiler finishes successfully afterwards.
       if (!isCurrent(stats)) {
-        debugMFSSR('manifest-superseded', { stage: 'publish' });
+        debugMFSSR('manifest-superseded', () => ({ stage: 'publish' }));
         return false;
       }
       published = stats;
@@ -149,17 +149,17 @@ export function createDevManifestPublication() {
     /** Called after manifest, Service plugins and SSR resources are all ready. */
     notifyReady(stats: object, publication: DevBuildPublication) {
       if (published !== stats || !isCurrent(stats)) {
-        debugMFSSR('manifest-superseded', {
+        debugMFSSR('manifest-superseded', () => ({
           stage: 'notify-ready',
           buildVersion: publication.buildVersion,
-        });
+        }));
         return false;
       }
       readyPublication = publication;
-      debugMFSSR('manifest-ready', {
+      debugMFSSR('manifest-ready', () => ({
         buildVersion: publication.buildVersion,
         ssrReady,
-      });
+      }));
       notify();
       return true;
     },

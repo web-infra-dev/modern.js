@@ -8,12 +8,13 @@ import {
   anyAbortSignal,
 } from '../ssr-runtime/devManifestWait';
 import {
-  debugMFSSR,
+  debugMFSSRVerbose,
   extractTargetVersion,
-  isMFSSRDebugEnabled,
+  isMFSSRVerboseDebugEnabled,
 } from './ssrLogger';
 
 export type DevRemoteUpdateTrigger = 'hmr-check' | 'request' | 'recover';
+export type DevRemoteUpdateErrorPhase = 'check' | 'update';
 
 export class DevRemoteUnavailableError extends Error {}
 
@@ -28,14 +29,14 @@ export interface DevRemoteUpdatesOptions {
   ): Promise<boolean>;
   updateRemotes(
     remotes: RemoteUpdateTarget[],
-    options: RemoteCheckOptions,
+    options: RemoteCheckOptions & { trigger?: DevRemoteUpdateTrigger },
   ): Promise<unknown>;
   onUpdating?(
     remotes: RemoteUpdateTarget[],
     trigger?: DevRemoteUpdateTrigger,
   ): void;
-  onApplied(remotes: RemoteUpdateTarget[]): void;
-  onError(error: unknown): void;
+  onApplied?(remotes: RemoteUpdateTarget[]): void;
+  onError(error: unknown, phase?: DevRemoteUpdateErrorPhase): void;
   checkTimeoutMs?: number;
   requestTimeoutMs?: number;
 }
@@ -68,8 +69,13 @@ export function startDevRemoteUpdates(options: DevRemoteUpdatesOptions) {
         (!options.self || identity(remote) !== identity(options.self)),
     );
   };
-  const apply = async (trigger: DevRemoteUpdateTrigger) => {
-    const started = isMFSSRDebugEnabled() ? performance.now() : 0;
+  const apply = async (
+    trigger: DevRemoteUpdateTrigger,
+    setPhase: (phase: DevRemoteUpdateErrorPhase) => void,
+  ) => {
+    setPhase('check');
+    const verboseDebug = isMFSSRVerboseDebugEnabled();
+    const started = verboseDebug ? performance.now() : 0;
     const deadline = AbortSignal.timeout(
       options.checkTimeoutMs ?? DEV_MANIFEST_WAIT_TIMEOUT,
     );
@@ -90,11 +96,11 @@ export function startDevRemoteUpdates(options: DevRemoteUpdatesOptions) {
       }
       return pending;
     };
-    const checkedRemotes: string[] = [];
+    const checkedRemotes = verboseDebug ? ([] as string[]) : undefined;
     const changes = await Promise.all(
       roots().map(async remote => {
         const manifest = await readOnce(remote);
-        if (isMFSSRDebugEnabled()) {
+        if (checkedRemotes) {
           const ver = extractTargetVersion({ manifest });
           checkedRemotes.push(ver ? `${remote.name}@${ver}` : remote.name);
         }
@@ -152,19 +158,22 @@ export function startDevRemoteUpdates(options: DevRemoteUpdatesOptions) {
     );
     lifetime.signal.throwIfAborted();
     if (!targets.length) {
-      if (checkedRemotes.length) {
-        debugMFSSR('check-noop', {
+      if (checkedRemotes?.length) {
+        debugMFSSRVerbose('check-noop', () => ({
           trigger,
           remotes: checkedRemotes,
-          durationMs: started ? performance.now() - started : undefined,
-        });
+          durationMs: started
+            ? Math.round(performance.now() - started)
+            : undefined,
+        }));
       }
       return;
     }
     options.onUpdating?.(targets, trigger);
+    setPhase('update');
     // HTTP candidate deadlines do not cancel the drain of existing SSR work.
-    await options.updateRemotes(targets, { signal: lifetime.signal });
-    options.onApplied(targets);
+    await options.updateRemotes(targets, { signal: lifetime.signal, trigger });
+    options.onApplied?.(targets);
   };
   const check = (trigger: DevRemoteUpdateTrigger = 'request') => {
     if (lifetime.signal.aborted)
@@ -173,16 +182,19 @@ export function startDevRemoteUpdates(options: DevRemoteUpdatesOptions) {
       );
     if (!checking) {
       pendingTrigger = trigger;
+      let phase: DevRemoteUpdateErrorPhase = 'check';
       checking = (async () => {
         do {
           const revision = requested;
           const currentTrigger = pendingTrigger;
-          await apply(currentTrigger);
+          await apply(currentTrigger, nextPhase => {
+            phase = nextPhase;
+          });
           checked = revision;
         } while (checked !== requested);
       })()
         .catch(error => {
-          if (!lifetime.signal.aborted) options.onError(error);
+          if (!lifetime.signal.aborted) options.onError(error, phase);
           throw new DevRemoteUnavailableError(
             error instanceof Error ? error.message : 'Node SSR update failed',
           );

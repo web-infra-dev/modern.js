@@ -227,7 +227,9 @@ export async function captureFailure(
             .split(/\r?\n/)
             .filter(
               line =>
-                line.includes('[MF SSR]') || line.includes('modern-js:mf-ssr'),
+                line.includes('[MF SSR]') ||
+                line.includes('modern-js:mf-ssr') ||
+                line.includes('[MF Node Lifecycle]'),
             )
             .slice(-30);
           if (lines.length) mfSSRSummary[role] = lines;

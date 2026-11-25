@@ -93,10 +93,10 @@ export default (options: Options): ServerPlugin => ({
           handlers = nextHandlers;
           modified = file.mtimeMs;
           if (routes.length) {
-            debugMFSSR('service-provider-ready', {
+            debugMFSSR('service-provider-ready', () => ({
               buildVersion: (manifest.metaData as any)?.buildInfo?.buildVersion,
               routes: routes.map(route => route.path),
-            });
+            }));
           }
         })().finally(() => {
           loading = undefined;

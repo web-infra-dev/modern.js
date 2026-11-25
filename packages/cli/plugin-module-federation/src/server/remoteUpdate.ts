@@ -9,8 +9,10 @@ import {
 import { DEV_MANIFEST_WAIT_HEADER } from '../ssr-runtime/devManifestWait';
 import {
   debugMFSSR,
+  debugMFSSRVerbose,
   extractTargetVersion,
   isMFSSRDebugEnabled,
+  isMFSSRVerboseDebugEnabled,
 } from './ssrLogger';
 
 export { manifestFingerprint, moduleInfoFingerprint };
@@ -140,7 +142,8 @@ export function createRemoteManifestReader({ waitForDevReady = false } = {}) {
     else if (previous?.modified)
       headers.set('If-Modified-Since', previous.modified);
     const maxAttempts = waitForDevReady ? 3 : 1;
-    const started = isMFSSRDebugEnabled() ? performance.now() : 0;
+    const trackTiming = isMFSSRDebugEnabled() || isMFSSRVerboseDebugEnabled();
+    const started = trackTiming ? performance.now() : 0;
     let response!: Response;
     let manifest: unknown;
     for (let attempt = 1; attempt <= maxAttempts; attempt++) {
@@ -150,22 +153,26 @@ export function createRemoteManifestReader({ waitForDevReady = false } = {}) {
         cache: 'no-cache',
       });
       if (response.status === 304 && previous) {
-        debugMFSSR('manifest-fetch', {
+        debugMFSSRVerbose('manifest-fetch', () => ({
           remote: target.name,
           status: 304,
           buildVersion: extractTargetVersion({ manifest: previous.manifest }),
-          durationMs: started ? performance.now() - started : undefined,
-        });
+          durationMs: started
+            ? Math.round(performance.now() - started)
+            : undefined,
+        }));
         return previous.manifest;
       }
       if (!response.ok) {
-        debugMFSSR('manifest-fetch', {
+        debugMFSSR('manifest-fetch', () => ({
           remote: target.name,
           status: response.status,
           attempt: attempt > 1 ? attempt : undefined,
           url: target.entry,
-          durationMs: started ? performance.now() - started : undefined,
-        });
+          durationMs: started
+            ? Math.round(performance.now() - started)
+            : undefined,
+        }));
         throw new (
           response.status === 503 ? RemoteManifestUnavailableError : Error
         )(`Remote manifest returned HTTP ${response.status}: ${target.entry}`);
@@ -176,12 +183,12 @@ export function createRemoteManifestReader({ waitForDevReady = false } = {}) {
       } catch (error) {
         if (attempt >= maxAttempts || !(error instanceof SyntaxError))
           throw error;
-        debugMFSSR('manifest-retry', {
+        debugMFSSR('manifest-retry', () => ({
           remote: target.name,
           attempt,
           maxAttempts,
           url: target.entry,
-        });
+        }));
         aborted(options.signal);
         await new Promise<void>((resolve, reject) => {
           const timer = setTimeout(() => {
@@ -200,12 +207,12 @@ export function createRemoteManifestReader({ waitForDevReady = false } = {}) {
     if (!isRawManifest(manifest))
       throw new TypeError(`Invalid remote manifest: ${target.entry}`);
     manifestFingerprint(manifest, target.entry);
-    debugMFSSR('manifest-fetch', {
+    debugMFSSRVerbose('manifest-fetch', () => ({
       remote: target.name,
       status: response.status,
       buildVersion: extractTargetVersion({ manifest }),
-      durationMs: started ? performance.now() - started : undefined,
-    });
+      durationMs: started ? Math.round(performance.now() - started) : undefined,
+    }));
     cache.set(target.entry, {
       manifest,
       etag: response.headers.get('etag') || undefined,
@@ -392,17 +399,22 @@ export function createRemoteUpdateController<
       return true;
     return false;
   }
+  function changeReason(
+    current: RemoteUpdateTarget,
+    target: RemoteUpdateTarget,
+  ): 'entry' | 'deps' | 'version' | undefined {
+    if (registrationChanged(current, target)) return 'entry';
+    if (dependenciesChanged(current, target)) return 'deps';
+    const nextFp = candidateFingerprint(target);
+    const currentFp = candidateFingerprint(current);
+    if (nextFp && (!currentFp || currentFp !== nextFp)) return 'version';
+    return undefined;
+  }
   function targetChanged(
     current: RemoteUpdateTarget,
     target: RemoteUpdateTarget,
   ) {
-    const nextFp = candidateFingerprint(target);
-    const currentFp = candidateFingerprint(current);
-    return (
-      registrationChanged(current, target) ||
-      dependenciesChanged(current, target) ||
-      Boolean(nextFp && (!currentFp || currentFp !== nextFp))
-    );
+    return Boolean(changeReason(current, target));
   }
   function dependenciesChanged(
     current: RemoteUpdateTarget,
@@ -442,17 +454,6 @@ export function createRemoteUpdateController<
     }
     return targetChanged(applied(state, target), target);
   }
-  function changeReason(
-    current: RemoteUpdateTarget,
-    target: RemoteUpdateTarget,
-  ): 'entry' | 'deps' | 'version' | undefined {
-    if (registrationChanged(current, target)) return 'entry';
-    if (dependenciesChanged(current, target)) return 'deps';
-    const nextFp = candidateFingerprint(target);
-    const currentFp = candidateFingerprint(current);
-    if (nextFp && (!currentFp || currentFp !== nextFp)) return 'version';
-    return undefined;
-  }
   async function shouldUpdateRemote(
     application: A,
     target: RemoteUpdateTarget,
@@ -462,14 +463,16 @@ export function createRemoteUpdateController<
     const state = stateFor(application);
     aborted(input.signal);
     const reportCheck = (changed: boolean, reason: string) => {
-      if (!isMFSSRDebugEnabled()) return changed;
-      const current = applied(state, captured);
-      debugMFSSR('check-remote', {
-        remote: captured.name,
-        changed,
-        reason,
-        fromVer: extractTargetVersion(current),
-        toVer: extractTargetVersion(captured),
+      const emit = changed ? debugMFSSR : debugMFSSRVerbose;
+      emit('check-remote', () => {
+        const current = applied(state, captured);
+        return {
+          remote: captured.name,
+          changed,
+          reason,
+          fromVer: extractTargetVersion(current),
+          toVer: extractTargetVersion(captured),
+        };
       });
       return changed;
     };
@@ -520,6 +523,32 @@ export function createRemoteUpdateController<
     targets: RemoteUpdateTarget[],
     input: RemoteUpdateOptions = {},
   ): Promise<any> | RemoteUpdateReceipt {
+    const reportReject = (
+      error: unknown,
+      failedTargets: RemoteUpdateTarget[],
+      operationId = 'enqueue',
+      revision = input.revision ?? 0,
+    ) => {
+      if (input.signal?.aborted) {
+        debugMFSSR('update-aborted', () => ({
+          remotes: failedTargets.map(target => target.name).filter(Boolean),
+          stage: 'queue',
+          op: operationId,
+        }));
+        return;
+      }
+      options.onError?.({
+        application,
+        targets: failedTargets,
+        operationId,
+        revision,
+        trigger: input.trigger,
+        failedStage: 'queue',
+        mutationStarted: false,
+        timingsMs: {},
+        error,
+      });
+    };
     let captured: RemoteUpdateTarget[], state: State;
     try {
       if (!input.defer) application.assertUpdateAllowed?.();
@@ -533,6 +562,7 @@ export function createRemoteUpdateController<
       // Capture the published baseline before a pending mutation can alter runtime registrations.
       for (const target of captured) applied(state, target);
     } catch (error) {
+      reportReject(error, Array.isArray(targets) ? targets : []);
       if (input.defer) throw error;
       return Promise.reject(error);
     }
@@ -559,6 +589,7 @@ export function createRemoteUpdateController<
       return input.defer ? receipt(previous) : previous.promise;
     if (state.pendingCount >= capacity) {
       const error = new Error('SSR update queue is full');
+      reportReject(error, captured);
       if (input.defer) throw error;
       return Promise.reject(error);
     }
@@ -704,17 +735,25 @@ export function createRemoteUpdateController<
         operation.phase = 'failed';
         operation.error = error;
         operation.timingsMs.total = performance.now() - started;
-        options.onError?.({
-          application,
-          targets: activeTargetsForLog,
-          operationId: operation.operationId,
-          revision,
-          trigger: input.trigger,
-          failedStage,
-          mutationStarted: operation.mutationStarted,
-          timingsMs: { ...operation.timingsMs },
-          error,
-        });
+        if (input.signal?.aborted) {
+          debugMFSSR('update-aborted', () => ({
+            remotes: activeTargetsForLog.map(target => target.name),
+            stage: failedStage,
+            op: operation.operationId,
+          }));
+        } else {
+          options.onError?.({
+            application,
+            targets: activeTargetsForLog,
+            operationId: operation.operationId,
+            revision,
+            trigger: input.trigger,
+            failedStage,
+            mutationStarted: operation.mutationStarted,
+            timingsMs: { ...operation.timingsMs },
+            error,
+          });
+        }
         throw error;
       })
       .finally(() => {

@@ -32,7 +32,11 @@ export interface SSRRequestCoordinatorOptions {
   maxResumeConcurrency?: number;
   /** Bounds deferred submissions, including those awaiting response completion. Defaults to 32. */
   maxPendingUpdates?: number;
-  /** Optional observer for abnormal admission or drain events (CSR fallback, reject, drain timeout). */
+  /**
+   * Optional observer for admission decisions (CSR fallback, reject) and drain
+   * timeouts. Invoked synchronously on request/drain paths; observers must not
+   * perform per-request synchronous I/O (aggregate or throttle instead).
+   */
   onEvent?: (event: SSRCoordinatorEvent) => void;
 }
 
