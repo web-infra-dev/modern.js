@@ -2,7 +2,7 @@
   "private": true,
   "type": "module",
   "name": "integration-tailwindcss-v4",
-  "version": "2.66.8",
+  "version": "0.0.0-canary-20261125063633",
   "scripts": {
     "dev": "modern dev",
     "build": "modern build",
