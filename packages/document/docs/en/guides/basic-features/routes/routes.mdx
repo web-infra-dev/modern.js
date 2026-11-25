@@ -384,6 +384,8 @@ In each directory under `routes/`, developers can define an `error.tsx` file tha
 
 `<ErrorBoundary>` can return the UI view when an error occurs. If the current level does not declare an `<ErrorBoundary>` component, errors will bubble up to higher-level components until they are caught or thrown. Additionally, when an error occurs within a component, it only affects the route component and its children, leaving the state and view of other components unaffected and interactive.
 
+If an error reaches the root without a custom error boundary, React Router renders its default error page. That page shows a developer hint only in development.
+
 {/* Todo API Routes */}
 
 In the `<ErrorBoundary>` component, you can use [useRouteError](/apis/app/runtime/router/router#userouteerror) to obtain specific error information:

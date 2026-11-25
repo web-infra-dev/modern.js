@@ -18,6 +18,9 @@ import {
 export { isRouteEntry } from './entry';
 export { handleFileChange, handleModifyEntrypoints } from './handler';
 
+const reactRouterDevEntry =
+  /([\\/]node_modules[\\/]react-router[\\/]dist[\\/])development([\\/](?:index|dom-export)\b)/;
+
 export const routerPlugin = (): CliPlugin<AppTools> => ({
   name: '@modern-js/plugin-router',
   required: ['@modern-js/runtime'],
@@ -72,6 +75,35 @@ export const routerPlugin = (): CliPlugin<AppTools> => ({
             /[\\/]node_modules[\\/]react-router-dom[\\/]/,
             path.resolve(__dirname, '../runtime').replace('cjs', 'esm'),
           ],
+        },
+        tools: {
+          rspack(config, { isProd, rspack }) {
+            if (!isProd) {
+              return;
+            }
+            // Invalidate module resolutions cached before this plugin was installed.
+            if (
+              typeof config.cache === 'object' &&
+              config.cache.type === 'persistent'
+            ) {
+              (config.cache.buildDependencies ??= []).push(__filename);
+            }
+            // React Router 7.18.4 exports development files in every mode.
+            // Keep the entry selected for ESM, CommonJS or react-server.
+            config.plugins.push(
+              new rspack.NormalModuleReplacementPlugin(
+                reactRouterDevEntry,
+                ({ createData }) => {
+                  if (createData) {
+                    createData.resource = createData.resource.replace(
+                      reactRouterDevEntry,
+                      '$1production$2',
+                    );
+                  }
+                },
+              ),
+            );
+          },
         },
       };
     });
