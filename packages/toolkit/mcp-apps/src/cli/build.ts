@@ -149,6 +149,14 @@ export function createUiManifest(
       : {};
     const viewUi = mergeUiMetadata(ui, resource?._meta?.ui);
     const inlineViewUi = mergeUiMetadata(inlineUi, resource?._meta?.ui);
+    if (typeof source !== 'string' && 'entry' in source) {
+      manifest.views[name] = {
+        entry: source.entry,
+        ui: viewUi,
+        ...resourceFields,
+      };
+      continue;
+    }
     if (typeof source === 'string' || 'component' in source) {
       manifest.views[name] = options?.inline
         ? {

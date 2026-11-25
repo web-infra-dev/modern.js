@@ -110,3 +110,6 @@ export function createMcpView<P extends object>(
     return createElement(View, { ...viewProps, mcpApp: app } as P);
   };
 }
+
+export { useEntryMcpApp } from './entry-react';
+export type { EntryMcpState } from './entry-react';

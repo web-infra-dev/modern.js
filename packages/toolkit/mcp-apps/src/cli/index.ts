@@ -209,6 +209,13 @@ export const mcpAppsPlugin = (
       );
       const config = api.getNormalizedConfig();
       const { enableAsyncEntry } = config.source;
+      for (const [name, view] of Object.entries(definition.views)) {
+        if (typeof view === 'string' || !('entry' in view)) continue;
+        if (!entrypoints.some(entry => entry.entryName === view.entry))
+          throw new Error(
+            `View ${name} references missing application entry: ${view.entry}`,
+          );
+      }
       for (const [name, viewSource] of Object.entries(definition.views)) {
         if (typeof viewSource !== 'string' && !('component' in viewSource))
           continue;
@@ -510,6 +517,37 @@ export const mcpAppsPlugin = (
     });
 
     api.modifyRsbuildConfig(config => {
+      const entries =
+        config.environments?.client?.source?.entry ?? config.source?.entry;
+      if (entries && definition) {
+        const selected = new Set(
+          Object.values(definition.views).flatMap(view =>
+            typeof view !== 'string' && 'entry' in view ? [view.entry] : [],
+          ),
+        );
+        for (const name of selected) {
+          const entry = entries[name];
+          if (!entry) continue;
+          const bootstrap = packageFile('app-entry.mjs');
+          if (typeof entry === 'string') entries[name] = [bootstrap, entry];
+          else if (Array.isArray(entry))
+            entries[name] = [
+              bootstrap,
+              ...entry.filter(item => item !== bootstrap),
+            ];
+          else
+            entries[name] = {
+              ...entry,
+              import: [
+                bootstrap,
+                ...(typeof entry.import === 'string'
+                  ? [entry.import]
+                  : (entry.import ?? [])
+                ).filter(item => item !== bootstrap),
+              ],
+            };
+        }
+      }
       const lazy = config.dev?.lazyCompilation;
       if (!lazy) return config;
       const current = typeof lazy === 'object' ? lazy : {};

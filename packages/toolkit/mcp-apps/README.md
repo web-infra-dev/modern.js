@@ -228,3 +228,17 @@ The generated `dist/plugin/mcp.json` contains:
 Only `plugin.json` and `com.doubao/` are collected from the source package. A source `mcp.json` is not consumed. Source and output package directories must not overlap, and symbolic links are rejected. Each successful package build replaces `dist/plugin/` to remove stale resources. A custom application output directory also relocates its `plugin/` subdirectory. Without `mcpServers`, no package is generated. Providing `plugin` without `mcpServers` is an error. Development mode does not generate deployment packages.
 
 Deploy the application server and MCP UI assets separately from this declaration and resource package. Packaging does not validate the full Doubao workbench protocol or discover remote tools. It does not generate navigation, compile `web/` pages, or add startup result claims. Author these configurations and pages according to the host protocol and publish them together with the MCP server.
+
+### Existing application entries in URL mode
+
+Use `{ "entry": "main" }` to reference a normal application entry. The name must match an existing entry. `entry`, `component` and `expose` are mutually exclusive.
+
+```json
+{ "views": { "home": { "entry": "main" }, "todos": { "component": "./Todos.tsx" } } }
+```
+
+The selected entry keeps its normal HTML, React root and application routes. Its browser bundle connects to an MCP host when embedded. Top-level browser visits render normally. Register the tool with `doubao/ui.url` pointing to the application's actual public URL, such as `https://app.example.com/home`. Entry names do not determine URL paths. Entry views are excluded from MCP resource registration and return 404 under `/mcp-views/`. Component views keep that route.
+
+The bootstrap emits `mcp-app-connected` (detail: App), `mcp-app-tool-result` (detail: tool result), and `mcp-app-error` browser events. Register listeners before connection completes when consuming these events. CSP and browser permissions remain declarations for the host, and belong in the URL tool's `doubao/ui` metadata.
+
+Existing entry pages can import `useEntryMcpApp` from `@modern-js/mcp-apps/react`. It returns `status`, `app`, `result`, `resultCount`, and any connection `error`. It reuses the injected App connection and retains the latest entry tool result before React mounts or after application route changes. Use `app.callServerTool` only when `status` is `connected`. Normal top-level browser visits report `standalone` and do not create a Host connection.

@@ -127,6 +127,8 @@ function escapeAttribute(value: string) {
  * Callers decide which views need resources.
  */
 export interface ResolvedUiView {
+  /** Existing application entry. URL-only, served by the application router. */
+  entry?: string;
   ui: UiMetadata;
   resource?: UiResourceConfig;
   render: (signal?: AbortSignal) => Promise<string>;
@@ -157,7 +159,7 @@ export async function resolveUiViews(
   const isInlineView = (view: UiManifest['views'][string]) =>
     manifest.inline === true || ('inline' in view && view.inline === true);
   const needsBase = Object.values(manifest.views).some(
-    view => !isInlineView(view),
+    view => !('entry' in view) && !isInlineView(view),
   );
   const base = needsBase ? publicBase(manifest, options) : undefined;
   const devSocket =
@@ -172,6 +174,17 @@ export async function resolveUiViews(
     const resourceFields = view.resource
       ? { resource: structuredClone(view.resource) }
       : {};
+    if ('entry' in view) {
+      views[name] = {
+        entry: view.entry,
+        ui: configuredUi,
+        ...resourceFields,
+        render: async () => {
+          throw new Error(`Entry view ${name} must use its application URL`);
+        },
+      };
+      continue;
+    }
     if (isInlineView(view) && 'html' in view) {
       const sourceUrl = /^https?:\/\//.test(view.html)
         ? new URL(view.html)
@@ -261,6 +274,11 @@ export async function registerUiResources(
   const uris: Record<string, string> = Object.create(null);
   for (const [name, view] of Object.entries(views)) {
     if (options.viewNames && !options.viewNames.includes(name)) continue;
+    if (view.entry) {
+      if (options.viewNames)
+        throw new Error(`Entry view ${name} requires URL delivery`);
+      continue;
+    }
     const uri = view.resource?.uri ?? `ui://app/${encodeURIComponent(name)}`;
     if (Object.values(uris).includes(uri))
       throw new Error(`Duplicate UI resource URI: ${uri}`);
@@ -311,7 +329,7 @@ export function createUiViewHandler(options: RegisterUiOptions = {}) {
       return new Response('Invalid view name', { status: 400 });
     }
     const views = await resolveUiViews({ ...options, request });
-    if (!Object.hasOwn(views, name))
+    if (!Object.hasOwn(views, name) || views[name].entry)
       return new Response('View not found', { status: 404 });
     // URL apps can open directly from a host entrypoint without a tool result.
     // Reuse the resource HTML, but tell createMcpView to render after connection.

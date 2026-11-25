@@ -9,7 +9,11 @@ export interface UiResourceConfig extends Record<string, unknown> {
 }
 export type McpViewSource =
   | string
-  | (({ component: string } | { expose: string; remote?: string }) & {
+  | ((
+      | { component: string }
+      | { entry: string }
+      | { expose: string; remote?: string }
+    ) & {
       resource?: UiResourceConfig;
     });
 export interface McpViewsConfig extends UiMetadata {
@@ -27,7 +31,9 @@ export interface UiManifest {
   views: Record<
     string,
     (
-      { html: string; inline?: boolean } | { remote: string; expose: string }
+      | { html: string; inline?: boolean }
+      | { entry: string }
+      | { remote: string; expose: string }
     ) & { ui: UiMetadata; resource?: UiResourceConfig }
   >;
 }
@@ -166,6 +172,12 @@ export function validateViewsConfig(
       validateResourceConfig(view.resource);
       const keys = Object.keys(view).filter(key => key !== 'resource');
       if (
+        typeof view.entry === 'string' &&
+        view.entry.trim() &&
+        keys.length === 1
+      )
+        continue;
+      if (
         typeof view.component === 'string' &&
         view.component.trim() &&
         keys.length === 1
@@ -184,7 +196,7 @@ export function validateViewsConfig(
       }
     }
     throw new Error(
-      `Invalid view: ${name}. Use a component path, { component: './View.tsx' }, { expose: './Name' } or { remote: 'https://host/mf-manifest.json', expose: './Name' }`,
+      `Invalid view: ${name}. Use a component path, { component: './View.tsx' }, { entry: 'main' }, { expose: './Name' } or { remote: 'https://host/mf-manifest.json', expose: './Name' }`,
     );
   }
 }
@@ -251,6 +263,15 @@ export function validateUiManifest(
       throw new Error('UI manifest views do not support tool configuration');
     validateUiMetadata(view.ui, true);
     validateResourceConfig(view.resource);
+    if (
+      typeof view.entry === 'string' &&
+      view.entry.trim() &&
+      !('html' in view) &&
+      !('remote' in view) &&
+      !('expose' in view) &&
+      view.inline === undefined
+    )
+      continue;
     if ('html' in view && !('remote' in view) && !('expose' in view)) {
       if (view.inline !== undefined && typeof view.inline !== 'boolean')
         throw new Error(`Invalid inline option on UI manifest view: ${name}`);
