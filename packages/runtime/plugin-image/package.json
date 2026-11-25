@@ -5,7 +5,7 @@
     "url": "https://github.com/web-infra-dev/modern.js",
     "directory": "packages/runtime/plugin-image"
   },
-  "version": "3.12.0",
+  "version": "0.0.0-canary-20261125061254",
   "type": "module",
   "main": "./dist/index.cjs",
   "types": "./dist/index.d.ts",
