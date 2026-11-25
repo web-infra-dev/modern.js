@@ -68,7 +68,15 @@ export const findProjectTypeScript = (
       paths: [appDirectory],
     });
     const { version, bin } = fs.readJSONSync(pkgPath);
-    const relativeBin = typeof bin === 'string' ? bin : bin?.tsc;
+    // Aliased builds name the command after the line, e.g.
+    // `npm:@typescript/typescript6` ships `tsc6` instead of `tsc`.
+    const relativeBin =
+      typeof bin === 'string'
+        ? bin
+        : (bin?.tsc ??
+          Object.entries<string>(bin ?? {}).find(([name]) =>
+            /^tsc\d*$/.test(name),
+          )?.[1]);
     if (!relativeBin) {
       return undefined;
     }
@@ -154,6 +162,18 @@ export const writeTypeCheckConfig = (
       .map(entry => toPosix(path.resolve(nearestFiles!.dir, entry))),
   ];
 
+  // `references` is not inherited through `extends`; without it tsc checks
+  // referenced projects from source under this config instead of reading
+  // their built declarations.
+  const references = (
+    (readTsConfigByFile(tsconfigPath)?.references ?? []) as {
+      path: string;
+    }[]
+  ).map(reference => ({
+    ...reference,
+    path: toPosix(path.resolve(path.dirname(tsconfigPath), reference.path)),
+  }));
+
   const major = Number(typescriptVersion.split('.')[0]);
   const config = {
     extends: toPosix(path.resolve(tsconfigPath)),
@@ -175,6 +195,7 @@ export const writeTypeCheckConfig = (
     },
     include,
     files,
+    ...(references.length ? { references } : {}),
   };
 
   const configPath = path.join(

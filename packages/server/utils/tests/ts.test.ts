@@ -196,6 +196,87 @@ describe('server compile', () => {
     }
   });
 
+  it('finds tsc in an aliased TypeScript package such as @typescript/typescript6', async () => {
+    // `typescript: npm:@typescript/typescript6` names its command `tsc6`.
+    // The version stays 5.x: the real tsc behind the stub is TS 5.9.
+    const { appDir, lastConfig } = await createStubTypeScriptApp('5.9.3');
+    await fs.outputJSON(
+      path.join(appDir, 'node_modules/typescript/package.json'),
+      {
+        name: '@typescript/typescript6',
+        version: '5.9.3',
+        bin: { tsc6: './bin/tsc' },
+      },
+    );
+    try {
+      await compile(appDir, { alias: {} } as any, {
+        sourceDirs: [path.join(appDir, 'api')],
+        distDir: path.join(appDir, 'dist'),
+        tsconfigPath: path.join(appDir, 'tsconfig.json'),
+        compilerOverrides: { module: 'NodeNext', moduleResolution: 'NodeNext' },
+      });
+
+      expect(require(path.join(appDir, 'dist/api')).default()).toBe('api');
+      expect((await lastConfig()).compilerOptions.noEmit).toBe(false);
+    } finally {
+      await fs.remove(appDir);
+    }
+  });
+
+  it('passes the tsconfig references on, so referenced projects are checked by their own config', async () => {
+    const { appDir, lastConfig } = await createStubTypeScriptApp('5.9.3');
+    const libDir = path.join(appDir, 'lib');
+    // `LIB_FLAG` is declared only in the referenced project's own files.
+    await fs.outputFile(
+      path.join(libDir, 'globals.d.ts'),
+      'declare const LIB_FLAG: string;\n',
+    );
+    await fs.outputFile(
+      path.join(libDir, 'index.ts'),
+      'export const flag = (): string => LIB_FLAG;\n',
+    );
+    await fs.outputJSON(path.join(libDir, 'tsconfig.json'), {
+      compilerOptions: {
+        composite: true,
+        module: 'commonjs',
+        target: 'ES2022',
+        outDir: 'dist',
+      },
+      include: ['index.ts', 'globals.d.ts'],
+    });
+    await fs.outputJSON(path.join(appDir, 'tsconfig.json'), {
+      compilerOptions: { target: 'ES2022' },
+      references: [{ path: './lib' }],
+    });
+    await fs.outputFile(
+      path.join(appDir, 'api/index.ts'),
+      "import { flag } from '../lib';\nexport default (): string => typeof flag;\n",
+    );
+    const built = require('child_process').spawnSync(
+      process.execPath,
+      [REAL_TSC, '-b', libDir],
+      { encoding: 'utf8' },
+    );
+    expect(built.stdout).toBe('');
+    const error = rstest.spyOn(logger, 'error').mockImplementation(() => {});
+    try {
+      await compile(appDir, { alias: {} } as any, {
+        sourceDirs: [path.join(appDir, 'api')],
+        distDir: path.join(appDir, 'dist'),
+        tsconfigPath: path.join(appDir, 'tsconfig.json'),
+        compilerOverrides: { module: 'NodeNext', moduleResolution: 'NodeNext' },
+      });
+
+      expect(error).not.toBeCalled();
+      expect((await lastConfig()).references).toEqual([
+        { path: libDir.replace(/\\/g, '/') },
+      ]);
+    } finally {
+      error.mockRestore();
+      await fs.remove(appDir);
+    }
+  });
+
   it('ignores the TypeScript 6 deprecations such as TS5101 in the type check', async () => {
     // The real tsc here is TS 5.9, which rejects `ignoreDeprecations: "6.0"`.
     const { appDir, lastConfig } = await createStubTypeScriptApp(
