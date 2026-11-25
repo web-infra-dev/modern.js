@@ -165,11 +165,12 @@ const isStringLiteral = (node: unknown): node is StringLiteral =>
 // Module specifiers the compile rewrites: import / export declarations,
 // `import('...')` with a literal argument, `import x = require('...')` and,
 // in declaration files, inline `import('...')` types. `require('...')` calls
-// are left alone, as before, and only collected into `requires`.
+// are collected apart into `requires`: source files keep them as they are,
+// while the CommonJS output of tsc has every import as one.
 const collectSpecifiers = (
   node: unknown,
   found: StringLiteral[],
-  requires: string[],
+  requires: StringLiteral[],
 ) => {
   if (!node || typeof node !== 'object') {
     return;
@@ -200,7 +201,7 @@ const collectSpecifiers = (
         current.callee.value === 'require' &&
         isStringLiteral(current.arguments?.[0]?.expression)
       ) {
-        requires.push(current.arguments[0].expression.value);
+        requires.push(current.arguments[0].expression);
       }
       break;
     case 'TsExternalModuleReference':
@@ -238,8 +239,8 @@ export interface ScannedSource {
   source: string;
   shebang: string;
   specifiers: SpecifierEdit[];
-  /** `require('...')` calls, which are not rewritten. */
-  requires: string[];
+  /** `require('...')` calls, rewritten only with `{ requires: true }`. */
+  requires: SpecifierEdit[];
 }
 
 export const scanSpecifiers = (
@@ -259,17 +260,18 @@ export const scanSpecifiers = (
   } as Parameters<typeof parseSync>[1]);
   const base = ast.span.start;
   const literals: StringLiteral[] = [];
-  const requires: string[] = [];
+  const requires: StringLiteral[] = [];
   collectSpecifiers(ast.body, literals, requires);
+  const toEdit = (literal: StringLiteral): SpecifierEdit => ({
+    start: literal.span.start - base,
+    end: literal.span.end - base,
+    value: literal.value,
+  });
   return {
     source,
     shebang,
-    requires,
-    specifiers: literals.map(literal => ({
-      start: literal.span.start - base,
-      end: literal.span.end - base,
-      value: literal.value,
-    })),
+    requires: requires.map(toEdit),
+    specifiers: literals.map(toEdit),
   };
 };
 
@@ -290,10 +292,13 @@ export const rewriteSpecifiers = (
   source: string,
   filename: string,
   rewrite: SpecifierRewriter,
-  options: { typescript: boolean; tsx?: boolean },
+  options: { typescript: boolean; tsx?: boolean; requires?: boolean },
   scanned: ScannedSource = scanSpecifiers(source, options),
 ): string => {
-  const edits = scanned.specifiers
+  const edits = [
+    ...scanned.specifiers,
+    ...(options.requires ? scanned.requires : []),
+  ]
     .map(({ start, end, value }) => ({
       start,
       end,

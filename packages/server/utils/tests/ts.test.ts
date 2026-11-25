@@ -3,9 +3,16 @@ import path from 'path';
 import { fs, logger } from '@modern-js/utils';
 import { compile } from '../src';
 
+const REAL_TSC = require.resolve('typescript/bin/tsc');
+
 // A project whose `typescript` is a stand-in: `tsc` records the config it was
-// given and exits with `exitCode`. The package has no JS entry, like TS 7.
-const createStubTypeScriptApp = async (version: string, exitCode = 0) => {
+// given, runs the real tsc of this repo on it (unless `delegate` is false)
+// and exits with `exitCode`. The package has no JS entry, like TS 7.
+const createStubTypeScriptApp = async (
+  version: string,
+  exitCode = 0,
+  delegate = true,
+) => {
   const appDir = await fs.mkdtemp(path.join(os.tmpdir(), 'server-utils-ts-'));
   await fs.outputFile(
     path.join(appDir, 'api/index.ts'),
@@ -26,8 +33,12 @@ const createStubTypeScriptApp = async (version: string, exitCode = 0) => {
       "const fs = require('fs');",
       "const project = process.argv[process.argv.indexOf('-p') + 1];",
       "fs.writeFileSync(require('path').join(__dirname, 'last-config.json'), fs.readFileSync(project));",
+      delegate
+        ? `const real = require('child_process').spawnSync(process.execPath, [${JSON.stringify(REAL_TSC)}, ...process.argv.slice(2)], { encoding: 'utf8' });`
+        : "const real = { stdout: '', status: 0 };",
+      'process.stdout.write(real.stdout);',
       exitCode ? "console.log('api/index.ts(1,1): error TS2322: stub');" : '',
-      `process.exit(${exitCode});`,
+      `process.exitCode = ${exitCode} || real.status;`,
     ].join('\n'),
   );
   const lastConfig = () =>
@@ -173,7 +184,7 @@ describe('server compile', () => {
       expect(config.compilerOptions).toMatchObject({
         module: 'NodeNext',
         moduleResolution: 'NodeNext',
-        noEmit: true,
+        noEmit: false,
       });
       expect(config.compilerOptions.ignoreDeprecations).toBeUndefined();
       expect(config.include).toEqual([]);
@@ -186,7 +197,12 @@ describe('server compile', () => {
   });
 
   it('ignores the TypeScript 6 deprecations such as TS5101 in the type check', async () => {
-    const { appDir, lastConfig } = await createStubTypeScriptApp('6.0.3');
+    // The real tsc here is TS 5.9, which rejects `ignoreDeprecations: "6.0"`.
+    const { appDir, lastConfig } = await createStubTypeScriptApp(
+      '6.0.3',
+      0,
+      false,
+    );
     try {
       await compile(appDir, { alias: {} } as any, {
         sourceDirs: [path.join(appDir, 'api')],
@@ -316,7 +332,7 @@ describe('server compile', () => {
         "export const collision = 'must-not-emit';\n",
       );
       await fs.outputJSON(path.join(appDir, 'tsconfig.server.json'), {
-        compilerOptions: { target: 'ES2020' },
+        compilerOptions: { target: 'ES2020', module: 'commonjs' },
         files: ['server/entry.ts'],
       });
 
@@ -381,6 +397,42 @@ describe('server compile', () => {
       expect(
         require(path.join(appDir, 'dist/server/index.js')).default,
       ).toEqual({ flags: { enabled: true }, helper: { cjs: true } });
+    } finally {
+      await fs.remove(appDir);
+    }
+  });
+
+  it('keeps whole-program semantics such as const enums declared in .d.ts files', async () => {
+    const appDir = await fs.mkdtemp(
+      path.join(os.tmpdir(), 'server-utils-enum-'),
+    );
+    try {
+      await fs.outputFile(
+        path.join(appDir, 'server/dir.d.ts'),
+        'declare const enum Dir { Up = 1, Down = 2 }\n',
+      );
+      await fs.outputFile(
+        path.join(appDir, 'server/index.ts'),
+        'export default Dir.Down;\n',
+      );
+      await fs.outputJSON(path.join(appDir, 'tsconfig.json'), {
+        compilerOptions: { target: 'ES2022', module: 'commonjs' },
+        include: ['server'],
+      });
+      await fs.ensureSymlink(
+        path.dirname(require.resolve('typescript/package.json')),
+        path.join(appDir, 'node_modules/typescript'),
+      );
+
+      await compile(appDir, { alias: {} } as any, {
+        sourceDirs: [path.join(appDir, 'server')],
+        distDir: path.join(appDir, 'dist'),
+        tsconfigPath: path.join(appDir, 'tsconfig.json'),
+      });
+
+      expect(require(path.join(appDir, 'dist/server/index.js')).default).toBe(
+        2,
+      );
     } finally {
       await fs.remove(appDir);
     }

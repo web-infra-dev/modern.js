@@ -13,7 +13,11 @@ import {
   createSpecifierRewriter,
   rewriteSpecifiers,
 } from './specifiers';
-import { runTypeCheck, validateCompilerOverrides } from './typecheck';
+import {
+  reportTypeCheck,
+  runTypeCheck,
+  validateCompilerOverrides,
+} from './typecheck';
 
 type CompilerOptions = Record<string, any>;
 
@@ -88,11 +92,21 @@ export const createSwcOptions = (
       target: toSwcTarget(compilerOptions.target),
       keepClassNames: true,
       parser: typescript
-        ? { syntax: 'typescript', tsx: ext === '.tsx', decorators }
-        : { syntax: 'ecmascript', jsx: true, decorators },
+        ? { syntax: 'typescript', tsx: ext === '.tsx', decorators: true }
+        : { syntax: 'ecmascript', jsx: true, decorators: true },
+      experimental: {
+        // `import data from './data.json' with { type: 'json' }` needs the
+        // attribute at runtime in ES module output.
+        keepImportAttributes: true,
+      },
       transform: {
-        legacyDecorator: decorators,
+        // Without `experimentalDecorators`, TypeScript compiles standard
+        // (TC39) decorators.
+        ...(decorators
+          ? { legacyDecorator: true }
+          : { decoratorVersion: '2022-03' as const }),
         decoratorMetadata: Boolean(compilerOptions.emitDecoratorMetadata),
+        verbatimModuleSyntax: Boolean(compilerOptions.verbatimModuleSyntax),
         useDefineForClassFields,
         react: {
           // `jsx: preserve` would leave JSX that Node cannot run, so only the
@@ -107,7 +121,11 @@ export const createSwcOptions = (
   };
 };
 
-const copyFiles = async (from: string, to: string, appDirectory: string) => {
+export const copyFiles = async (
+  from: string,
+  to: string,
+  appDirectory: string,
+) => {
   if (await fs.pathExists(from)) {
     const relativePath = path.relative(appDirectory, from);
     const targetDir = path.join(to, relativePath);
@@ -255,26 +273,13 @@ export const compileBySwc: CompileFunc = async (
     logger.warn(
       'typescript is not installed, so the server code was compiled without type checking.',
     );
-  } else if (!check.ok) {
-    logger.error(check.output);
-    const { noEmitOnError } = compilerOptions;
-    const tsconfigFile = path.relative(appDirectory, tsconfigPath);
-    if (compileOptions.throwErrorInsteadOfExit) {
-      // BFF builds only reported type errors before, so failing stays opt-in.
-      if (noEmitOnError === true) {
-        throw new Error(
-          `TypeScript compilation failed ("noEmitOnError": true in ${tsconfigFile}).`,
-        );
-      }
-      logger.error(
-        `TypeScript compilation failed. Set "noEmitOnError": true in ${tsconfigFile} to fail the build on type errors.`,
-      );
-    } else if (noEmitOnError === undefined || noEmitOnError === true) {
-      logger.error(
-        `TypeScript compilation failed. To report type errors without failing the build, set "noEmitOnError": false in ${tsconfigFile}.`,
-      );
-      process.exit(1);
-    }
+  } else {
+    reportTypeCheck(check, {
+      appDirectory,
+      tsconfigPath,
+      compilerOptions,
+      throwErrorInsteadOfExit: compileOptions.throwErrorInsteadOfExit,
+    });
   }
 
   if (declaration && rewrite) {

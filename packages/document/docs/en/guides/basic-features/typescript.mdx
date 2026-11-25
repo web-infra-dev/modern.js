@@ -50,7 +50,7 @@ When the project has a BFF (`api/`) or a custom server (`server/`), add `"@api/*
 }
 ```
 
-The framework uses this file to compile `api/`, `server/` and `shared/` (SWC transpile plus a type check with the project's `tsc`) and to run server source at dev time. The four `compilerOptions` override only their own keys; everything else, including `paths`, is inherited from `tsconfig.json`. They are the same fields as `@modern-js/tsconfig/server`, inlined so tools still on ts-node 10 (which does not support `extends` arrays) can read the file.
+The framework uses this file to compile `api/`, `server/` and `shared/` (with the project's own `tsc` command) and to run server source at dev time. The four `compilerOptions` override only their own keys; everything else, including `paths`, is inherited from `tsconfig.json`. They are the same fields as `@modern-js/tsconfig/server`, inlined so tools still on ts-node 10 (which does not support `extends` arrays) can read the file.
 
 ## Why two files
 

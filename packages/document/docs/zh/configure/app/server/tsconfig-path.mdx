@@ -15,7 +15,7 @@ title: tsconfigPath
 - 自定义 Server 编译（`server/` 目录，以及随之编译的 `shared/` 目录）
 - 开发时直接运行服务端源码（如 SSR、`config/` 目录下的 `.ts` 文件）
 
-服务端代码由 SWC 逐文件转译，产物格式跟随 `package.json#type`；这份 tsconfig 提供装饰器、`target`、`jsx`、`paths` 等选项，并用于类型检查：构建时框架调用项目自己的 `tsc` 命令行检查 `api/`、`server/`、`shared/`（TypeScript 5 / 6 / 7 均可），类型错误会让构建失败。框架不再依赖 TypeScript 的 JS API，也不需要安装 ts-node。
+构建时框架用这份 tsconfig 调用项目自己的 `tsc` 命令行，一次完成 `api/`、`server/`、`shared/` 的类型检查和输出（TypeScript 5 / 6 / 7 均可），再把产物里的 `paths` 别名改写为相对路径。框架不再依赖 TypeScript 的 JS API，也不需要安装 ts-node；开发时服务端代码由框架的 SWC 钩子加载。
 
 ## 解析优先级
 

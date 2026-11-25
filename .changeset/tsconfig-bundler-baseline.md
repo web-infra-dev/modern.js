@@ -11,6 +11,6 @@
 '@modern-js/types': patch
 ---
 
-feat: move the tsconfig baseline to bundler mode, compile server code with swc and type-check it with the project tsc
+feat: move the tsconfig baseline to bundler mode, and compile server code with the project's own tsc command
 
-feat: tsconfig 基线切换到 bundler 模式，服务端代码改用 swc 编译、用项目自己的 tsc 做类型检查
+feat: tsconfig 基线切换到 bundler 模式，服务端代码改用项目自己的 tsc 命令行编译

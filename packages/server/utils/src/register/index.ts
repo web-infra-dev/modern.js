@@ -21,7 +21,7 @@ interface SwcRegisterOptions {
 
 type ExtensionHandler = (module: NodeJS.Module, filename: string) => void;
 
-const TS_EXTENSIONS = ['.ts', '.tsx', '.cts'];
+const TS_EXTENSIONS = ['.ts', '.tsx', '.mts', '.cts'];
 
 // Only the first call installs the require hooks; later calls (e.g. a dev
 // restart in the same process) just swap the options they read.
@@ -226,7 +226,8 @@ export const registerSwc = (options: SwcRegisterOptions) => {
         (originalHandler || extensions['.js'])(module, filename);
         return;
       }
-      if (moduleType === 'module' && ext !== '.cts') {
+      // A `.mts` file is an ES module in any project, like `.mjs`.
+      if ((moduleType === 'module' && ext !== '.cts') || ext === '.mts') {
         const error: NodeJS.ErrnoException = new Error(
           `require() of ES Module ${filename} not supported.`,
         );
