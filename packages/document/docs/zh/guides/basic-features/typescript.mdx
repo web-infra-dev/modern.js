@@ -50,7 +50,7 @@ Modern.js 通过 `@modern-js/tsconfig` 提供共享的 TypeScript 预设。一�
 }
 ```
 
-框架编译 `api/`、`server/`、`shared/`（SWC 转译 + 项目 `tsc` 类型检查）以及开发时运行服务端源码都会使用这份文件。这四个 `compilerOptions` 只覆盖各自的键，其余选项（包括 `paths`）全部继承自 `tsconfig.json`。它们与 `@modern-js/tsconfig/server` 的内容一致，直接写在文件内是为了兼容仍在使用 ts-node 10 的工具（它不支持 `extends` 数组）。
+框架编译 `api/`、`server/`、`shared/`（调用项目自己的 `tsc` 命令行）以及开发时运行服务端源码都会使用这份文件。这四个 `compilerOptions` 只覆盖各自的键，其余选项（包括 `paths`）全部继承自 `tsconfig.json`。它们与 `@modern-js/tsconfig/server` 的内容一致，直接写在文件内是为了兼容仍在使用 ts-node 10 的工具（它不支持 `extends` 数组）。
 
 ## 为什么需要两份文件
 

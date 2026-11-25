@@ -2,6 +2,7 @@ import { spawnSync } from 'child_process';
 import path from 'path';
 import {
   fs,
+  logger,
   readTsConfigByFile,
   readTsConfigWithExtends,
 } from '@modern-js/utils';
@@ -107,6 +108,10 @@ export interface TypeCheckOptions {
   compilerOverrides?: CompilerOverrides;
   /** Emit `.d.ts` next to the compiled output. */
   declaration: boolean;
+  /** Emit the JavaScript too, so tsc compiles the server code itself. */
+  emit?: boolean;
+  /** `jsx` forced onto the program, as the in-process compile did. */
+  jsx?: string;
 }
 
 /**
@@ -126,6 +131,8 @@ export const writeTypeCheckConfig = (
     programFiles,
     compilerOverrides,
     declaration,
+    emit = false,
+    jsx,
   } = options;
   const { files: configFiles } = readTsConfigWithExtends(tsconfigPath);
 
@@ -155,12 +162,14 @@ export const writeTypeCheckConfig = (
       // TS5101 and the other TypeScript 6 deprecations only concern the
       // project's own config check; they must not fail the server build.
       ...(major === 6 ? { ignoreDeprecations: '6.0' } : {}),
-      noEmit: !declaration,
-      emitDeclarationOnly: declaration,
+      noEmit: !emit && !declaration,
+      emitDeclarationOnly: !emit && declaration,
       declaration,
-      ...(declaration
-        ? { rootDir: appDirectory, outDir: distDir, declarationDir: distDir }
+      ...(emit || declaration
+        ? { rootDir: appDirectory, outDir: distDir }
         : {}),
+      ...(declaration ? { declarationDir: distDir } : {}),
+      ...(jsx ? { jsx } : {}),
       incremental: false,
       composite: false,
     },
@@ -170,7 +179,7 @@ export const writeTypeCheckConfig = (
 
   const configPath = path.join(
     appDirectory,
-    'node_modules/.cache/modern-js/tsconfig.server-check.json',
+    `node_modules/.cache/modern-js/tsconfig.server-${emit ? 'build' : 'check'}.json`,
   );
   fs.outputJSONSync(configPath, config, { spaces: 2 });
   return configPath;
@@ -179,7 +188,11 @@ export const writeTypeCheckConfig = (
 export interface TypeCheckResult {
   ok: boolean;
   output: string;
+  /** Absolute paths of the files tsc wrote. */
+  emitted: string[];
 }
+
+const EMITTED_PREFIX = 'TSFILE: ';
 
 /** Run the project's tsc on the server code; undefined when not installed. */
 export const runTypeCheck = (
@@ -190,12 +203,12 @@ export const runTypeCheck = (
     return undefined;
   }
   if (options.programFiles.length === 0) {
-    return { ok: true, output: '' };
+    return { ok: true, output: '', emitted: [] };
   }
   const configPath = writeTypeCheckConfig(options, typescript.version);
   const result = spawnSync(
     process.execPath,
-    [typescript.tsc, '-p', configPath, '--pretty'],
+    [typescript.tsc, '-p', configPath, '--pretty', '--listEmittedFiles'],
     // tsc can print far more than spawnSync's 1MB default on a large project;
     // past the limit the child is killed and the diagnostics are lost.
     {
@@ -204,9 +217,21 @@ export const runTypeCheck = (
       maxBuffer: 256 * 1024 * 1024,
     },
   );
-  const output = `${result.stdout ?? ''}${result.stderr ?? ''}`.trim();
+  const emitted: string[] = [];
+  const output = `${result.stdout ?? ''}${result.stderr ?? ''}`
+    .split('\n')
+    .filter(line => {
+      if (line.startsWith(EMITTED_PREFIX)) {
+        emitted.push(path.resolve(line.slice(EMITTED_PREFIX.length).trim()));
+        return false;
+      }
+      return true;
+    })
+    .join('\n')
+    .trim();
   return {
     ok: result.status === 0,
+    emitted,
     output: result.error
       ? `${output}\n${result.error.message}`.trim()
       : output ||
@@ -214,4 +239,47 @@ export const runTypeCheck = (
           ? ''
           : `tsc exited with ${result.signal ?? result.status}`),
   };
+};
+
+/**
+ * Print a failed check and fail the build the way the in-process compile
+ * did: a custom server stops unless `noEmitOnError` is false; a BFF build
+ * (`throwErrorInsteadOfExit`) only fails when `noEmitOnError` is true.
+ */
+export const reportTypeCheck = (
+  check: TypeCheckResult,
+  {
+    appDirectory,
+    tsconfigPath,
+    compilerOptions,
+    throwErrorInsteadOfExit,
+  }: {
+    appDirectory: string;
+    tsconfigPath: string;
+    compilerOptions: Record<string, any>;
+    throwErrorInsteadOfExit?: boolean;
+  },
+) => {
+  if (check.ok) {
+    return;
+  }
+  logger.error(check.output);
+  const { noEmitOnError } = compilerOptions;
+  const tsconfigFile = path.relative(appDirectory, tsconfigPath);
+  if (throwErrorInsteadOfExit) {
+    // BFF builds only reported type errors before, so failing stays opt-in.
+    if (noEmitOnError === true) {
+      throw new Error(
+        `TypeScript compilation failed ("noEmitOnError": true in ${tsconfigFile}).`,
+      );
+    }
+    logger.error(
+      `TypeScript compilation failed. Set "noEmitOnError": true in ${tsconfigFile} to fail the build on type errors.`,
+    );
+  } else if (noEmitOnError === undefined || noEmitOnError === true) {
+    logger.error(
+      `TypeScript compilation failed. To report type errors without failing the build, set "noEmitOnError": false in ${tsconfigFile}.`,
+    );
+    process.exit(1);
+  }
 };

@@ -79,6 +79,49 @@ describe('server runtime register', () => {
     ).toBe(false);
   });
 
+  test('keeps import attributes, standard decorators and verbatimModuleSyntax imports', () => {
+    const { transformSync } = require('@swc/core');
+    const compileTs = (source: string, compilerOptions: Record<string, any>) =>
+      transformSync(
+        source,
+        createSwcOptions(
+          'a.ts',
+          { target: 'ES2022', ...compilerOptions },
+          'module',
+        ),
+      ).code as string;
+
+    expect(
+      compileTs(
+        "import data from './data.json' with { type: 'json' };\nexport default data;",
+        {},
+      ),
+    ).toContain('with {');
+    // Without `experimentalDecorators`, TypeScript compiles TC39 decorators.
+    expect(() =>
+      compileTs(
+        'function tag(v: any, c: any) {}\n@tag class S {}\nexport default S;',
+        {},
+      ),
+    ).not.toThrow();
+    expect(
+      compileTs("import { Unused } from './side';\nexport const x = 1;", {
+        verbatimModuleSyntax: true,
+      }),
+    ).toContain('./side');
+  });
+
+  test('sends require() of a .mts file to import()', () => {
+    write('src/esm.mts', 'export const value = 1;\n');
+    let code: string | undefined;
+    try {
+      nodeRequire(path.join(appDir, 'src/esm.mts'));
+    } catch (error) {
+      code = (error as NodeJS.ErrnoException).code;
+    }
+    expect(code).toBe('ERR_REQUIRE_ESM');
+  });
+
   test('compiles syntax that native type stripping rejects', () => {
     write('src/types.ts', 'export interface User { id: string }\n');
     write(

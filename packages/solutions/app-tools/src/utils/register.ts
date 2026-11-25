@@ -1,5 +1,6 @@
 import { createRequire } from 'node:module';
 import path from 'node:path';
+import { pathToFileURL } from 'node:url';
 import { createSwcOptions, registerSwc } from '@modern-js/server-utils';
 import {
   fs,
@@ -214,6 +215,14 @@ export const setupTsRuntime = async (
   const appRequire = createRequire(path.join(appDir, 'package.json'));
   const preloads: string[] = [].concat(tsNodeOptions.require ?? []);
   for (const request of preloads) {
-    appRequire(request);
+    try {
+      appRequire(request);
+    } catch (error) {
+      // In a `type: module` app a TypeScript preload is an ES module.
+      if ((error as NodeJS.ErrnoException).code !== 'ERR_REQUIRE_ESM') {
+        throw error;
+      }
+      await import(pathToFileURL(appRequire.resolve(request)).href);
+    }
   }
 };

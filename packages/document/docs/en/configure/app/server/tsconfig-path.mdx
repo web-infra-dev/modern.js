@@ -15,7 +15,7 @@ This option affects:
 - Custom server compilation (the `server/` directory, plus `shared/` compiled with it)
 - Running server source directly at dev time, such as SSR and `.ts` files under `config/`
 
-Server code is transpiled file by file with SWC, and its output format follows `package.json#type`. This tsconfig supplies options such as decorators, `target`, `jsx` and `paths`, and drives the type check: at build time the framework runs the project's own `tsc` command on `api/`, `server/` and `shared/` (TypeScript 5, 6 and 7 all work), and type errors fail the build. The framework no longer relies on the TypeScript JS API, and ts-node is not required.
+At build time the framework runs the project's own `tsc` command with this tsconfig: one run type-checks `api/`, `server/` and `shared/` and emits them to the output directory (TypeScript 5, 6 and 7 all work), then the framework rewrites `paths` aliases in the output to relative paths. The framework no longer relies on the TypeScript JS API, and ts-node is not required; at dev time server code is loaded through the framework's SWC hooks.
 
 ## Resolution precedence
 
