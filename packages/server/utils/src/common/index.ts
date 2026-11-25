@@ -70,6 +70,14 @@ export const compile: CompileFunc = async (
   );
   validateAbsolutePath(distDir, `dist dir ${distDir} is not an absolute path.`);
 
-  const { compileBySwc } = await import('../compilers/swc');
-  await compileBySwc(appDirectory, modernConfig, compileOptions);
+  // The project's tsc compiles the server code; swc only stands in, without
+  // a type check, when the project has no typescript installed.
+  const { findProjectTypeScript } = await import('../compilers/swc/typecheck');
+  if (findProjectTypeScript(appDirectory)) {
+    const { compileByTsc } = await import('../compilers/tsc');
+    await compileByTsc(appDirectory, modernConfig, compileOptions);
+  } else {
+    const { compileBySwc } = await import('../compilers/swc');
+    await compileBySwc(appDirectory, modernConfig, compileOptions);
+  }
 };

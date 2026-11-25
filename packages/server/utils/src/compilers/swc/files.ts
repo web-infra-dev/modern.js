@@ -57,30 +57,20 @@ const resolveFile = (target: string): string | undefined => {
 };
 
 /**
- * The files the server compile emits, chosen like the TypeScript program the
- * compile used to build: the tsconfig `files` / `include` entries (minus
- * `exclude`) inside the server directories, plus every local file they
- * import, transitively. Imported `.json`, `.mjs` and `.cjs` files outside the
- * server directories go to `assets`, to be copied into the output.
+ * The tsconfig `files` / `include` entries (minus `exclude`) inside the server
+ * directories, the root files of the TypeScript program the server compile
+ * builds. JavaScript files count only with `allowJs`, as in tsc.
  */
-export const listProgramFiles = async ({
-  appDirectory,
+export const listRootFiles = async ({
   tsconfigPath,
   sourceDirs,
   distDir,
-  rewrite,
-  scanned,
-  assets,
+  allowJs = true,
 }: {
-  appDirectory: string;
   tsconfigPath: string;
   sourceDirs: string[];
   distDir: string;
-  rewrite?: SpecifierRewriter;
-  /** Filled with each file's source and specifiers, so the compile reads and parses it once. */
-  scanned?: Map<string, ScannedSource>;
-  /** Filled with the imported files outside `sourceDirs` that are copied, not compiled. */
-  assets?: Set<string>;
+  allowJs?: boolean;
 }): Promise<string[]> => {
   const { files: configFiles } = readTsConfigWithExtends(tsconfigPath);
   const files = findNearest(configFiles, 'files');
@@ -115,13 +105,45 @@ export const listProgramFiles = async ({
     }
   }
 
-  let queue = [...roots].filter(
+  return [...roots].filter(
     file =>
-      isSource(file) &&
+      (isSource(file) || ['.mjs', '.cjs'].includes(path.extname(file))) &&
       fs.existsSync(file) &&
       !isInside(file, distDir) &&
-      sourceDirs.some(dir => isInside(file, dir)),
+      sourceDirs.some(dir => isInside(file, dir)) &&
+      (allowJs || !JS_EXTENSIONS.includes(path.extname(file))),
   );
+};
+
+/**
+ * The files the server compile emits, chosen like the TypeScript program the
+ * compile used to build: the tsconfig `files` / `include` entries (minus
+ * `exclude`) inside the server directories, plus every local file they
+ * import, transitively. Imported `.json`, `.mjs` and `.cjs` files outside the
+ * server directories go to `assets`, to be copied into the output.
+ */
+export const listProgramFiles = async ({
+  appDirectory,
+  tsconfigPath,
+  sourceDirs,
+  distDir,
+  rewrite,
+  scanned,
+  assets,
+}: {
+  appDirectory: string;
+  tsconfigPath: string;
+  sourceDirs: string[];
+  distDir: string;
+  rewrite?: SpecifierRewriter;
+  /** Filled with each file's source and specifiers, so the compile reads and parses it once. */
+  scanned?: Map<string, ScannedSource>;
+  /** Filled with the imported files outside `sourceDirs` that are copied, not compiled. */
+  assets?: Set<string>;
+}): Promise<string[]> => {
+  let queue = (
+    await listRootFiles({ tsconfigPath, sourceDirs, distDir })
+  ).filter(isSource);
   const program = new Set(queue);
   const visitedAssets = new Set<string>();
 
@@ -144,7 +166,7 @@ export const listProgramFiles = async ({
           return {
             file,
             specifiers: JS_EXTENSIONS.includes(ext)
-              ? [...specifiers, ...result.requires]
+              ? [...specifiers, ...result.requires.map(({ value }) => value)]
               : specifiers,
           };
         } catch {
