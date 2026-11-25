@@ -39,6 +39,10 @@
 - 行内例外须经维护者人工批准，agent 不得自行批准。
 - 运行 `pnpm check-test-governance` 验证变更。详细规则、命令选项、例外格式和 CI 流程见[测试治理说明](scripts/test-governance/README.md)。
 
+| 测试约定 | 验证方式 |
+| --- | --- |
+| 集成用例通过 fixture 的配置入口传入场景参数。例如，dev-server 用例通过 `launchApp` 的第四个参数传入 mock 目录。配置文件的排版和检出换行应可独立变化。 | 修改 `tests/integration/**` 或 `tests/utils/**` 的 PR 会运行 Windows 集成测试，使用 CRLF 检出验证实际行为。 |
+
 ## 查文档（知识检索）
 
 - API / 配置 / 概念问题优先查 llms.txt：https://modernjs.dev/llms.txt

@@ -6,7 +6,8 @@ on:
     branches: [main]
     paths:
       - 'packages/cli/storybook-addon/**'
-      - 'tests/integration/storybook/**'
+      - 'tests/integration/**'
+      - 'tests/utils/**'
       - '.github/workflows/integration-test-Windows.yml'
   # Triggers the workflow on pull request events but only for the main branch
   push:
@@ -32,6 +33,7 @@ jobs:
         shell: bash
         run: |
           git config --system core.longpaths true
+          git config --global core.autocrlf true
 
       - name: Checkout
         uses: actions/checkout@f43a0e5ff2bd294095638e18286ca9a3d1956744 # v3
