@@ -1,4 +1,8 @@
+import fs from 'node:fs/promises';
+import os from 'node:os';
+import path from 'node:path';
 import { describe, it, expect } from '@rstest/core';
+import { mcpAppsPlugin, type McpAppsPluginOptions } from '../src/cli';
 import {
   createUiManifest,
   findMfManifest,
@@ -65,6 +69,12 @@ describe('UI build contract', () => {
     ).toThrow('missing MF expose');
   });
   it('rejects the old combined tool configuration and ambiguous views', () => {
+    for (const source of [{ component: './View.tsx' }, { expose: './View' }]) {
+      expect(() =>
+        validateViewsConfig({ views: { a: { ...source, tool: {} } } }),
+      ).toThrow('Invalid view');
+    }
+
     expect(() => validateViewsConfig({ views: {}, tools: [] })).toThrow(
       'Unknown MCP views option',
     );
@@ -338,5 +348,111 @@ describe('view entry names', () => {
     expect(viewEntryName('A'.repeat(200))).not.toBe(
       viewEntryName('A'.repeat(201)),
     );
+  });
+});
+
+describe('Plugin package output', () => {
+  it('packages declarations, generates connections and removes stale package assets', async () => {
+    const appDirectory = await fs.mkdtemp(
+      path.join(os.tmpdir(), 'mcp-plugin-'),
+    );
+    const distDirectory = path.join(appDirectory, 'dist');
+    const source = path.join(appDirectory, 'plugin');
+    const output = path.join(distDirectory, 'plugin');
+    async function build(options: McpAppsPluginOptions) {
+      let afterBuild: (() => Promise<void>) | undefined;
+      const api = new Proxy(
+        {},
+        {
+          get: (_, key) => {
+            if (key === 'onAfterBuild')
+              return (callback: () => Promise<void>) => {
+                afterBuild = callback;
+              };
+            if (key === 'getAppContext')
+              return () => ({ appDirectory, distDirectory });
+            return () => {};
+          },
+        },
+      );
+      mcpAppsPlugin(options).setup!(api as never);
+      await afterBuild!();
+    }
+    const mcpServers = {
+      tasks: {
+        type: 'streamable-http' as const,
+        url: 'https://app.example.com/api/mcp',
+      },
+    };
+    try {
+      await fs.mkdir(path.join(source, 'com.doubao/workbench/assets'), {
+        recursive: true,
+      });
+      const declaration = {
+        name: 'tasks',
+        version: '1.0.0',
+        description: 'Tasks',
+      };
+      await fs.writeFile(
+        path.join(source, 'plugin.json'),
+        JSON.stringify(declaration),
+      );
+      const workbench = '{"schemaVersion":"1.0"}';
+      await fs.writeFile(
+        path.join(source, 'com.doubao/workbench/manifest.json'),
+        workbench,
+      );
+      await fs.writeFile(
+        path.join(source, 'com.doubao/workbench/assets/icon.png'),
+        'icon',
+      );
+      await fs.writeFile(path.join(source, '.env'), 'PRIVATE=value');
+      await build({ mcpServers });
+      expect(
+        JSON.parse(await fs.readFile(path.join(output, 'mcp.json'), 'utf8')),
+      ).toEqual({
+        $schema: 'https://agent-plugins.org/schemas/1.0.0/mcp.schema.json',
+        mcpServers,
+      });
+      expect(
+        JSON.parse(await fs.readFile(path.join(output, 'plugin.json'), 'utf8')),
+      ).toEqual(declaration);
+      expect(
+        await fs.readFile(
+          path.join(output, 'com.doubao/workbench/manifest.json'),
+          'utf8',
+        ),
+      ).toBe(workbench);
+      expect(await fs.readdir(output)).toEqual([
+        'com.doubao',
+        'mcp.json',
+        'plugin.json',
+      ]);
+      await fs.rm(path.join(source, 'com.doubao/workbench/assets/icon.png'));
+      await build({ mcpServers });
+      await expect(
+        fs.stat(path.join(output, 'com.doubao/workbench/assets/icon.png')),
+      ).rejects.toThrow();
+      await expect(
+        build({
+          mcpServers: { tasks: { type: 'streamable-http', url: '/api/mcp' } },
+        }),
+      ).rejects.toThrow('Invalid HTTP MCP server');
+      await expect(build({ mcpServers: {} })).rejects.toThrow('at least one');
+      await expect(
+        build({ mcpServers, plugin: { directory: 'dist/plugin' } }),
+      ).rejects.toThrow('must not overlap');
+      await fs.symlink(
+        path.join(source, 'plugin.json'),
+        path.join(source, 'com.doubao/link'),
+      );
+      await expect(build({ mcpServers })).rejects.toThrow('symbolic links');
+      expect(
+        JSON.parse(await fs.readFile(path.join(output, 'mcp.json'), 'utf8'))
+          .mcpServers,
+      ).toEqual(mcpServers);
+    } finally {
+      await fs.rm(appDirectory, { recursive: true, force: true });
+    }
   });
 });

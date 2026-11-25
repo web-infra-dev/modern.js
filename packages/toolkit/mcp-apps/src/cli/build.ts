@@ -156,17 +156,11 @@ export function createUiManifest(
             inline: true,
             ui: inlineViewUi,
             ...resourceFields,
-            ...(typeof source !== 'string' && source.tool
-              ? { tool: source.tool }
-              : {}),
           }
         : {
             html: `./ui/${viewEntryName(name)}.html`,
             ui: viewUi,
             ...resourceFields,
-            ...(typeof source !== 'string' && source.tool
-              ? { tool: source.tool }
-              : {}),
           };
       continue;
     }
@@ -206,7 +200,6 @@ export function createUiManifest(
       expose: source.expose,
       ui: viewUi,
       ...resourceFields,
-      ...(source.tool ? { tool: source.tool } : {}),
     };
   }
   return manifest;

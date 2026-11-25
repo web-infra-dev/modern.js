@@ -14,7 +14,6 @@ export type { RegisterUiOptions, ResolvedUiView } from './resources';
 export type {
   UiManifest,
   UiMetadata,
-  UiToolConfig,
   UiResourceConfig,
 } from '../manifest';
 

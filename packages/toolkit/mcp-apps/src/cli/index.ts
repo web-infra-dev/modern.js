@@ -14,9 +14,23 @@ import {
   type UiCsp,
 } from './build';
 
+import {
+  buildPluginPackage,
+  type McpHttpServerConfig,
+  type PluginPackageOptions,
+} from './plugin-package';
+export type {
+  McpHttpServerConfig,
+  PluginPackageOptions,
+} from './plugin-package';
+
 export type { StdioBridgeOptions } from './stdio';
 
 export interface McpAppsPluginOptions {
+  /** Generate dist/plugin/mcp.json and package user-owned plugin declarations. */
+  mcpServers?: Record<string, McpHttpServerConfig>;
+  /** Plugin source package settings. Requires mcpServers. */
+  plugin?: PluginPackageOptions;
   /** JSON UI configuration, relative to the application root. */
   views?: string;
   /** CSP domains added to every view, merged with the csp in the views file. */
@@ -105,6 +119,19 @@ export const mcpAppsPlugin = (
   name: '@modern-js/mcp-apps',
   post: ['@modern-js/runtime'],
   setup(api) {
+    if (options.plugin && !options.mcpServers)
+      throw new Error('Plugin packaging requires mcpServers');
+    api.onAfterBuild(async () => {
+      if (!options.mcpServers) return;
+      const ctx = api.getAppContext();
+      await buildPluginPackage(
+        ctx.appDirectory,
+        ctx.distDirectory,
+        options.mcpServers,
+        options.plugin,
+      );
+    });
+
     api._internalServerPlugins(({ plugins }) => {
       const ctx = api.getAppContext();
       plugins.push({

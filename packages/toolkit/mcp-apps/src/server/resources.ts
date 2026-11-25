@@ -13,7 +13,6 @@ import {
   validateUiManifest,
   type UiManifest,
   type UiMetadata,
-  type UiToolConfig,
   type UiResourceConfig,
 } from '../manifest';
 
@@ -125,11 +124,10 @@ function escapeAttribute(value: string) {
 /**
  * Shared rendering contract for MCP resources and HTTP pages.
  * Keep page assembly here so both sources use the same asset base and MF config.
- * Host adapters interpret tool metadata and decide which views need resources.
+ * Callers decide which views need resources.
  */
 export interface ResolvedUiView {
   ui: UiMetadata;
-  tool?: UiToolConfig;
   resource?: UiResourceConfig;
   render: (signal?: AbortSignal) => Promise<string>;
 }
@@ -181,7 +179,6 @@ export async function resolveUiViews(
       views[name] = {
         ui: configuredUi,
         ...resourceFields,
-        ...(view.tool ? { tool: view.tool } : {}),
         render: signal =>
           readSource(
             sourceUrl,
@@ -225,7 +222,6 @@ export async function resolveUiViews(
     views[name] = {
       ui,
       ...resourceFields,
-      ...(view.tool ? { tool: view.tool } : {}),
       async render(signal) {
         const source = 'html' in view ? view.html : remote!.shell;
         const sourceUrl = /^https?:\/\//.test(source)
@@ -265,18 +261,7 @@ export async function registerUiResources(
   const uris: Record<string, string> = Object.create(null);
   for (const [name, view] of Object.entries(views)) {
     if (options.viewNames && !options.viewNames.includes(name)) continue;
-    const configuredUi = view.tool?._meta?.ui;
-    const configuredUri =
-      configuredUi &&
-      typeof configuredUi === 'object' &&
-      'resourceUri' in configuredUi
-        ? configuredUi.resourceUri
-        : undefined;
-    const uri =
-      view.resource?.uri ??
-      (typeof configuredUri === 'string'
-        ? configuredUri
-        : `ui://app/${encodeURIComponent(name)}`);
+    const uri = view.resource?.uri ?? `ui://app/${encodeURIComponent(name)}`;
     if (Object.values(uris).includes(uri))
       throw new Error(`Duplicate UI resource URI: ${uri}`);
     uris[name] = uri;
