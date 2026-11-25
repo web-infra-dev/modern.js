@@ -1,6 +1,6 @@
 {
   "name": "@scripts/release-node",
-  "version": "2.66.8",
+  "version": "0.0.0-canary-20261125141054",
   "private": true,
   "scripts": {
     "dev": "tsc --watch",
