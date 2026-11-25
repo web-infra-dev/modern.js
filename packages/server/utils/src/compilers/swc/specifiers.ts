@@ -164,15 +164,19 @@ const isStringLiteral = (node: unknown): node is StringLiteral =>
 
 // Module specifiers the compile rewrites: import / export declarations,
 // `import('...')` with a literal argument, `import x = require('...')` and,
-// in declaration files, inline `import('...')` types. `require()` calls are
-// left alone, as before.
-const collectSpecifiers = (node: unknown, found: StringLiteral[]) => {
+// in declaration files, inline `import('...')` types. `require('...')` calls
+// are left alone, as before, and only collected into `requires`.
+const collectSpecifiers = (
+  node: unknown,
+  found: StringLiteral[],
+  requires: string[],
+) => {
   if (!node || typeof node !== 'object') {
     return;
   }
   if (Array.isArray(node)) {
     for (const child of node) {
-      collectSpecifiers(child, found);
+      collectSpecifiers(child, found, requires);
     }
     return;
   }
@@ -191,6 +195,12 @@ const collectSpecifiers = (node: unknown, found: StringLiteral[]) => {
         isStringLiteral(current.arguments?.[0]?.expression)
       ) {
         found.push(current.arguments[0].expression);
+      } else if (
+        current.callee?.type === 'Identifier' &&
+        current.callee.value === 'require' &&
+        isStringLiteral(current.arguments?.[0]?.expression)
+      ) {
+        requires.push(current.arguments[0].expression.value);
       }
       break;
     case 'TsExternalModuleReference':
@@ -208,7 +218,7 @@ const collectSpecifiers = (node: unknown, found: StringLiteral[]) => {
   }
   for (const key of Object.keys(current)) {
     if (key !== 'span') {
-      collectSpecifiers(current[key], found);
+      collectSpecifiers(current[key], found, requires);
     }
   }
 };
@@ -228,6 +238,8 @@ export interface ScannedSource {
   source: string;
   shebang: string;
   specifiers: SpecifierEdit[];
+  /** `require('...')` calls, which are not rewritten. */
+  requires: string[];
 }
 
 export const scanSpecifiers = (
@@ -247,10 +259,12 @@ export const scanSpecifiers = (
   } as Parameters<typeof parseSync>[1]);
   const base = ast.span.start;
   const literals: StringLiteral[] = [];
-  collectSpecifiers(ast.body, literals);
+  const requires: string[] = [];
+  collectSpecifiers(ast.body, literals, requires);
   return {
     source,
     shebang,
+    requires,
     specifiers: literals.map(literal => ({
       start: literal.span.start - base,
       end: literal.span.end - base,
