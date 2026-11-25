@@ -117,6 +117,10 @@ describe('pure-esm-project in dev', () => {
 
   beforeAll(async () => {
     appDir = await createIsolatedAppDir();
+    await fse.copyFile(
+      path.join(__dirname, 'fixtures/module-resolution.ts'),
+      path.join(appDir, 'api/lambda/module-resolution.ts'),
+    );
     port = await getPort();
     app = await launchApp(appDir, port);
     browser = await puppeteer.launch(launchOptions as any);
@@ -141,6 +145,15 @@ describe('pure-esm-project in dev', () => {
 
   test('api service should serve normally', async () => {
     await expectApiInfo(host, port);
+  });
+
+  test('resolves extensionless imports and aliased JS specifiers from data URLs', async () => {
+    const response = await fetch(`${host}:${port}/api/module-resolution`);
+    expect(response.status).toBe(200);
+    expect(await response.json()).toEqual({
+      relative: 'modern.js',
+      aliasFromData: 'modern.js',
+    });
   });
 
   afterAll(async () => {

@@ -1,7 +1,8 @@
 import { createRsbuild } from '@rsbuild/core';
 import { describe, expect, it } from '@rstest/core';
-import { builderPluginAdapterBasic } from '../../src/builder/shared/builderPlugins/adapterBasic';
-import type { BuilderOptions } from '../../src/builder/shared/types';
+import { builderPluginAdapterBasic } from '../../src/builder';
+
+type BuilderOptions = Parameters<typeof builderPluginAdapterBasic>[0];
 
 describe('watch ignored paths', () => {
   it.each(['modern-js', 'custom'])(

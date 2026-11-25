@@ -1,24 +1,15 @@
-import { SSR_HYDRATION_ID_PREFIX } from '@modern-js/utils/universal/constants';
 import type React from 'react';
-import ReactDomServer from 'react-dom/server';
 import { Helmet } from 'react-helmet';
-import { RenderLevel } from '../../src/core/constants';
 import {
   getGlobalInternalRuntimeContext,
   setGlobalInternalRuntimeContext,
 } from '../../src/core/context';
-import {
-  CHUNK_CSS_PLACEHOLDER,
-  CHUNK_JS_PLACEHOLDER,
-  HTML_PLACEHOLDER,
-  SSR_DATA_PLACEHOLDER,
-} from '../../src/core/server/constants';
-import { createReplaceHelemt } from '../../src/core/server/helmet';
-import { type BuildHtmlCb, buildHtml } from '../../src/core/server/shared';
-import { renderString } from '../../src/core/server/string';
-import { SSRDataCollector } from '../../src/core/server/string/ssrData';
-import type { ChunkSet } from '../../src/core/server/string/types';
-import { safeReplace } from '../../src/core/server/utils';
+import { renderString } from '../../src/core/server/server';
+
+const HTML_PLACEHOLDER = '<!--<?- html ?>-->';
+const CHUNK_JS_PLACEHOLDER = '<!--<?- chunksMap.js ?>-->';
+const CHUNK_CSS_PLACEHOLDER = '<!--<?- chunksMap.css ?>-->';
+const SSR_DATA_PLACEHOLDER = '<!--<?- SSRDataScript ?>-->';
 
 const jsChunk = '<script defer src="/static/js/async/page.js"></script>';
 const cssChunk = '<link href="/static/css/async/page.css" rel="stylesheet" />';
@@ -165,7 +156,7 @@ const apps: Record<string, () => React.ReactElement> = {
 
 function createRenderOptions(
   htmlTemplate: string,
-  htmlModifiers: BuildHtmlCb[] = [],
+  htmlModifiers: ((html: string) => string | Promise<string>)[] = [],
 ) {
   const ssrContext = {
     request: {
@@ -202,40 +193,6 @@ function render(htmlTemplate: string, app: React.ReactElement) {
   );
 }
 
-// The order used to build the html before the app html was moved to the end.
-async function renderWithPreviousOrder(
-  htmlTemplate: string,
-  app: React.ReactElement,
-) {
-  const html = ReactDomServer.renderToString(app, {
-    identifierPrefix: SSR_HYDRATION_ID_PREFIX,
-  });
-  const helmetData = Helmet.renderStatic();
-  const { runtimeContext, config } = createRenderOptions(htmlTemplate);
-  const chunkSet: ChunkSet = {
-    renderLevel: RenderLevel.SERVER_RENDER,
-    ssrScripts: '',
-    jsChunk,
-    cssChunk,
-  };
-  new SSRDataCollector({
-    runtimeContext,
-    request: new Request('http://localhost:8080/'),
-    ssrConfig: config.ssr,
-    ssrContext: runtimeContext.ssrContext,
-    chunkSet,
-  }).effect();
-
-  return buildHtml(htmlTemplate, [
-    template => safeReplace(template, HTML_PLACEHOLDER, html),
-    template => safeReplace(template, CHUNK_JS_PLACEHOLDER, chunkSet.jsChunk),
-    template => safeReplace(template, CHUNK_CSS_PLACEHOLDER, chunkSet.cssChunk),
-    template =>
-      safeReplace(template, SSR_DATA_PLACEHOLDER, chunkSet.ssrScripts),
-    createReplaceHelemt(helmetData),
-  ]);
-}
-
 describe('renderString html building', () => {
   const previousContext = getGlobalInternalRuntimeContext();
 
@@ -247,7 +204,11 @@ describe('renderString html building', () => {
     setGlobalInternalRuntimeContext({
       hooks: {
         extendStringSSRCollectors: {
-          call: ({ chunkSet }: { chunkSet: ChunkSet }) => [
+          call: ({
+            chunkSet,
+          }: {
+            chunkSet: { jsChunk: string; cssChunk: string };
+          }) => [
             {
               effect() {
                 chunkSet.jsChunk += jsChunk;
@@ -265,15 +226,18 @@ describe('renderString html building', () => {
   ) as [keyof typeof templates, keyof typeof apps][];
 
   it.each(cases)(
-    'should build the same html as before for %s and %s',
+    'should render complete HTML for %s and %s',
     async (templateName, appName) => {
       const template = templates[templateName];
       const App = apps[appName];
 
-      const expected = await renderWithPreviousOrder(template, <App />);
       const html = await render(template, <App />);
 
-      expect(html).toBe(expected);
+      expect(html).toMatch(/^<!DOCTYPE html>\s*<html/);
+      expect(html).toMatch(/<\/body>\s*<\/html>$/);
+      if (template.includes(CHUNK_CSS_PLACEHOLDER)) {
+        expect(html).toContain(cssChunk);
+      }
       expect(html).toContain('<h1 class="title">Hello Modern.js</h1>');
       expect(html).toContain(jsChunk);
       expect(html).toContain('window._SSR_DATA');
@@ -282,6 +246,48 @@ describe('renderString html building', () => {
       expect(outsideHelmetScript).not.toContain(HTML_PLACEHOLDER);
       expect(outsideHelmetScript).not.toContain(CHUNK_JS_PLACEHOLDER);
       expect(outsideHelmetScript).not.toContain(SSR_DATA_PLACEHOLDER);
+      expect(outsideHelmetScript).not.toContain(CHUNK_CSS_PLACEHOLDER);
+
+      if (appName === 'svgTitle') {
+        expect(html).toContain('<svg><title>Close</title></svg>');
+      }
+      if (appName === 'svgTitleWithHelmet') {
+        const expectedTitle =
+          templateName === 'titleTemplate' ||
+          templateName === 'headChunksTemplate'
+            ? '<title>Close</title>'
+            : '<title data-react-helmet="true">Page Title</title>';
+        expect(html).toContain(`<svg>${expectedTitle}</svg>`);
+        expect(html.match(/<title[^>]*>Page Title<\/title>/g)).toHaveLength(1);
+      }
+      if (appName === 'reactTitle') {
+        expect(html).toContain('<title>React Title</title><main>');
+      }
+      if (appName === 'helmetScriptWithPlaceholders') {
+        expect(html).toContain(
+          `window.__html = "${HTML_PLACEHOLDER}${SSR_DATA_PLACEHOLDER}";`,
+        );
+      }
+      if (appName === 'helmetTitle' || appName === 'helmetAttributes') {
+        expect(html).toContain(
+          '<title data-react-helmet="true">Page Title</title>',
+        );
+        expect(html).not.toContain('<title>Default Title</title>');
+      }
+      if (appName === 'helmetTitle') {
+        expect(html).toContain(
+          '<meta data-react-helmet="true" name="description" content="page description"/>',
+        );
+      }
+      if (appName === 'helmetAttributes') {
+        expect(html).toContain('<html lang="en">');
+        expect(html).toContain('<body class="dark">');
+        expect(html).toContain(
+          '<link data-react-helmet="true" rel="canonical" href="https://modernjs.dev/"/>',
+        );
+        expect(html).toContain('body { margin: 0; }');
+        expect(html).toContain('window.__helmet = true;');
+      }
     },
   );
 
@@ -294,6 +300,7 @@ describe('renderString html building', () => {
 
   it('should only replace the placeholders of the template', async () => {
     const appHtml = [
+      HTML_PLACEHOLDER,
       CHUNK_JS_PLACEHOLDER,
       CHUNK_CSS_PLACEHOLDER,
       SSR_DATA_PLACEHOLDER,
@@ -307,9 +314,7 @@ describe('renderString html building', () => {
     expect(html).toContain(`</div></div>\n  ${jsChunk}\n  <script>`);
   });
 
-  it('should insert the app html last when the template has a title', async () => {
-    // The app html has a <title>, but helmet finds the template's one first,
-    // so the template edits still run before the app html is inserted.
+  it('should preserve app titles and literal placeholders with a template title', async () => {
     const appHtml = `<svg><title>Close</title></svg>${CHUNK_JS_PLACEHOLDER}`;
     const html = await render(
       titleTemplate,

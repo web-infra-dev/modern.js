@@ -1,36 +1,7 @@
 import path from 'path';
-import { Api } from '../src';
-import { Put } from '../src/operators/http';
-import { type APIHandlerInfo, ApiRouter } from '../src/router';
-import { getPathFromFilename, sortRoutes } from '../src/router/utils';
-import { HttpMethod } from '../src/types';
+import { type APIHandlerInfo, Api, ApiRouter, HttpMethod, Put } from '../src';
 
 const PWD = path.resolve(__dirname, '../fixtures/function');
-
-describe('test getPathFromFilename', () => {
-  test('index path', () => {
-    expect(getPathFromFilename('', path.normalize('/index.ts'))).toBe('/');
-  });
-
-  test('normal path', () => {
-    expect(getPathFromFilename('', path.normalize('/foo.ts'))).toBe('/foo');
-    expect(getPathFromFilename('', path.normalize('/foo/test.ts'))).toBe(
-      '/foo/test',
-    );
-  });
-
-  test('with params', () => {
-    expect(getPathFromFilename('', path.normalize('/[id]/foo.ts'))).toBe(
-      '/:id/foo',
-    );
-  });
-
-  test('with index', () => {
-    expect(getPathFromFilename('', path.normalize('/foo/index.ts'))).toBe(
-      '/foo',
-    );
-  });
-});
 
 describe('test api router', () => {
   const mockApiDir = path.join(__dirname, 'fixtures', 'function');
@@ -41,6 +12,22 @@ describe('test api router', () => {
       lambdaDir: path.join(mockApiDir, 'lambda'),
       prefix: '/',
     });
+  });
+
+  test.each([
+    ['index.ts', '/'],
+    ['foo.ts', '/foo'],
+    ['foo/test.ts', '/foo/test'],
+    ['[id]/foo.ts', '/:id/foo'],
+    ['foo/index.ts', '/foo'],
+  ])('normalizes the route for %s', (filename, routePath) => {
+    expect(
+      apiRouter.getHandlerInfo(
+        path.join(mockApiDir, 'lambda', filename),
+        'get',
+        () => 'ok',
+      )?.routePath,
+    ).toBe(routePath);
   });
 
   test('support get http method from function name', () => {
@@ -105,18 +92,16 @@ describe('test api router', () => {
     expect(methods).toEqual(['DELETE', 'GET', 'PUT']);
   });
 
-  test('literal routes take precedence over parameter routes', () => {
-    const handlers = ['[id]', 'normal'].map(directory =>
-      apiRouter.getHandlerInfo(
-        path.join(mockApiDir, 'lambda', directory, 'origin/foo.ts'),
-        'get',
-        () => 'Hello Modernjs',
-      )!,
-    );
-    expect(sortRoutes(handlers).map(handler => handler.routeName)).toEqual([
-      '/normal/origin/foo',
-      '/:id/origin/foo',
-    ]);
+  test('literal routes take precedence over parameter routes', async () => {
+    const handlers = await apiRouter.getApiHandlers();
+    const routes = handlers
+      .filter(
+        handler =>
+          handler.httpMethod === HttpMethod.Get &&
+          handler.routePath.endsWith('/origin/foo'),
+      )
+      .map(handler => handler.routePath);
+    expect(routes).toEqual(['/normal/origin/foo', '/:id/origin/foo']);
   });
 
   test('getHandlerInfo', () => {
