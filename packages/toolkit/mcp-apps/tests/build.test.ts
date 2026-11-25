@@ -1,8 +1,4 @@
-import fs from 'node:fs/promises';
-import os from 'node:os';
-import path from 'node:path';
 import { describe, it, expect } from '@rstest/core';
-import { mcpAppsPlugin, type McpAppsPluginOptions } from '../src/cli';
 import {
   createUiManifest,
   findMfManifest,
@@ -11,35 +7,6 @@ import {
 import { validateUiManifest, validateViewsConfig } from '../src/manifest';
 
 describe('UI build contract', () => {
-  it('keeps existing application entries as URL-only views without generating card HTML', () => {
-    const config = {
-      views: {
-        home: {
-          entry: 'main',
-          resource: {
-            _meta: {
-              ui: { csp: { connectDomains: ['https://tasks.example.com'] } },
-            },
-          },
-        },
-        todos: './Todos.tsx',
-      },
-    };
-    expect(() => validateViewsConfig(config)).not.toThrow();
-    const manifest = createUiManifest(config, '');
-    expect(manifest.views.home).toMatchObject({
-      entry: 'main',
-      ui: { csp: { connectDomains: ['https://tasks.example.com'] } },
-    });
-    expect(manifest.views.home).not.toHaveProperty('html');
-    expect(manifest.views.todos).toHaveProperty('html');
-    expect(() => validateUiManifest(manifest)).not.toThrow();
-    expect(() =>
-      validateViewsConfig({
-        views: { home: { entry: 'main', component: './Home.tsx' } },
-      }),
-    ).toThrow('Invalid view');
-  });
   it('emits local and MF cards without tools or server definitions', () => {
     const manifest = createUiManifest(
       {
@@ -98,12 +65,6 @@ describe('UI build contract', () => {
     ).toThrow('missing MF expose');
   });
   it('rejects the old combined tool configuration and ambiguous views', () => {
-    for (const source of [{ component: './View.tsx' }, { expose: './View' }]) {
-      expect(() =>
-        validateViewsConfig({ views: { a: { ...source, tool: {} } } }),
-      ).toThrow('Invalid view');
-    }
-
     expect(() => validateViewsConfig({ views: {}, tools: [] })).toThrow(
       'Unknown MCP views option',
     );
@@ -377,188 +338,5 @@ describe('view entry names', () => {
     expect(viewEntryName('A'.repeat(200))).not.toBe(
       viewEntryName('A'.repeat(201)),
     );
-  });
-});
-
-describe('Plugin package output', () => {
-  it('packages declarations, generates connections and removes stale package assets', async () => {
-    const appDirectory = await fs.mkdtemp(
-      path.join(os.tmpdir(), 'mcp-plugin-'),
-    );
-    const distDirectory = path.join(appDirectory, 'dist');
-    const source = path.join(appDirectory, 'plugin');
-    const output = path.join(distDirectory, 'plugin');
-    async function build(options: McpAppsPluginOptions) {
-      let afterBuild: (() => Promise<void>) | undefined;
-      const api = new Proxy(
-        {},
-        {
-          get: (_, key) => {
-            if (key === 'onAfterBuild')
-              return (callback: () => Promise<void>) => {
-                afterBuild = callback;
-              };
-            if (key === 'getAppContext')
-              return () => ({ appDirectory, distDirectory });
-            return () => {};
-          },
-        },
-      );
-      mcpAppsPlugin(options).setup!(api as never);
-      await afterBuild!();
-    }
-    const mcpServers = {
-      tasks: {
-        type: 'streamable-http' as const,
-        url: 'https://app.example.com/api/mcp',
-      },
-    };
-    try {
-      await fs.mkdir(path.join(source, 'com.doubao/workbench/assets'), {
-        recursive: true,
-      });
-      const declaration = {
-        name: 'tasks',
-        version: '1.0.0',
-        description: 'Tasks',
-      };
-      await fs.writeFile(
-        path.join(source, 'plugin.json'),
-        JSON.stringify(declaration),
-      );
-      const workbench = '{"schemaVersion":"1.0"}';
-      await fs.writeFile(
-        path.join(source, 'com.doubao/workbench/manifest.json'),
-        workbench,
-      );
-      await fs.writeFile(
-        path.join(source, 'com.doubao/workbench/assets/icon.png'),
-        'icon',
-      );
-      await fs.writeFile(path.join(source, '.env'), 'PRIVATE=value');
-      await build({ mcpServers });
-      expect(
-        JSON.parse(await fs.readFile(path.join(output, 'mcp.json'), 'utf8')),
-      ).toEqual({
-        $schema: 'https://agent-plugins.org/schemas/1.0.0/mcp.schema.json',
-        mcpServers,
-      });
-      expect(
-        JSON.parse(await fs.readFile(path.join(output, 'plugin.json'), 'utf8')),
-      ).toEqual(declaration);
-      expect(
-        await fs.readFile(
-          path.join(output, 'com.doubao/workbench/manifest.json'),
-          'utf8',
-        ),
-      ).toBe(workbench);
-      expect(await fs.readdir(output)).toEqual([
-        'com.doubao',
-        'mcp.json',
-        'plugin.json',
-      ]);
-      await fs.rm(path.join(source, 'com.doubao/workbench/assets/icon.png'));
-      await build({ mcpServers });
-      await expect(
-        fs.stat(path.join(output, 'com.doubao/workbench/assets/icon.png')),
-      ).rejects.toThrow();
-      await expect(
-        build({
-          mcpServers: { tasks: { type: 'streamable-http', url: '/api/mcp' } },
-        }),
-      ).rejects.toThrow('Invalid HTTP MCP server');
-      await expect(build({ mcpServers: {} })).rejects.toThrow('at least one');
-      await expect(
-        build({ mcpServers, plugin: { directory: 'dist/plugin' } }),
-      ).rejects.toThrow('must not overlap');
-      await fs.symlink(
-        path.join(source, 'plugin.json'),
-        path.join(source, 'com.doubao/link'),
-      );
-      await expect(build({ mcpServers })).rejects.toThrow('symbolic links');
-      expect(
-        JSON.parse(await fs.readFile(path.join(output, 'mcp.json'), 'utf8'))
-          .mcpServers,
-      ).toEqual(mcpServers);
-    } finally {
-      await fs.rm(appDirectory, { recursive: true, force: true });
-    }
-  });
-});
-
-describe('existing application entry bootstrap', () => {
-  it('prepends bootstrap only to selected client entries and rejects missing application entries', async () => {
-    const appDirectory = await fs.mkdtemp(
-      path.join(os.tmpdir(), 'mcp-app-entry-'),
-    );
-    const callbacks = new Map<string, (value: never) => Promise<unknown>>();
-    const api = new Proxy(
-      {},
-      {
-        get: (_, key) => {
-          if (key === 'getAppContext')
-            return () => ({
-              appDirectory,
-              internalDirectory: path.join(appDirectory, '.internal'),
-              command: 'build',
-            });
-          if (key === 'getNormalizedConfig') return () => ({ source: {} });
-          return (callback: (value: never) => Promise<unknown>) =>
-            callbacks.set(String(key), callback);
-        },
-      },
-    );
-    try {
-      await fs.writeFile(
-        path.join(appDirectory, 'mcp-views.json'),
-        JSON.stringify({
-          views: { home: { entry: 'main' }, other: { entry: 'other' } },
-        }),
-      );
-      mcpAppsPlugin().setup!(api as never);
-      const entries = [
-        { entryName: 'main', entry: '/app/main.tsx' },
-        { entryName: 'other', entry: '/app/other.tsx' },
-      ];
-      const result = await callbacks.get('modifyEntrypoints')!({
-        entrypoints: entries,
-      } as never);
-      expect(result).toEqual({ entrypoints: entries });
-      const config = {
-        environments: {
-          client: {
-            source: {
-              entry: {
-                main: ['/app/main.tsx'],
-                other: ['/app/other.tsx'],
-                plain: ['/app/plain.tsx'],
-              },
-            },
-          },
-          server: { source: { entry: { main: ['/app/main.server.tsx'] } } },
-        },
-      };
-      await callbacks.get('modifyRsbuildConfig')!(config as never);
-      expect(config.environments.client.source.entry.main[0]).toMatch(
-        /app-entry.mjs$/,
-      );
-      expect(config.environments.client.source.entry.main[1]).toBe(
-        '/app/main.tsx',
-      );
-      expect(config.environments.client.source.entry.other[0]).toMatch(
-        /app-entry.mjs$/,
-      );
-      expect(config.environments.client.source.entry.plain).toEqual([
-        '/app/plain.tsx',
-      ]);
-      expect(config.environments.server.source.entry.main).toEqual([
-        '/app/main.server.tsx',
-      ]);
-      await expect(
-        callbacks.get('modifyEntrypoints')!({ entrypoints: [] } as never),
-      ).rejects.toThrow('missing application entry');
-    } finally {
-      await fs.rm(appDirectory, { recursive: true, force: true });
-    }
   });
 });

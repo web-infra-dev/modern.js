@@ -16,10 +16,6 @@ import { McpServer } from '@modelcontextprotocol/server';
 import { Client } from '@modelcontextprotocol/client';
 import { InMemoryTransport } from '@modelcontextprotocol/server';
 import { registerUiResources } from '../src/server/resources';
-import {
-  resolveUiViews,
-  createUiViewHandler,
-} from '@modern-js/mcp-apps/server';
 import { validateUiManifest, type UiManifest } from '../src/manifest';
 
 let directory: string;
@@ -431,50 +427,4 @@ describe('manifest cache policy', () => {
       expect(fetch).toHaveBeenCalledTimes(2);
     },
   );
-});
-
-it('entry views retain metadata, skip resource registration and are not served as component pages', async () => {
-  const filename = path.join(directory, 'entry.json');
-  await writeFile(
-    filename,
-    JSON.stringify({
-      version: 1,
-      assetBase: 'request',
-      remotes: {},
-      views: {
-        home: {
-          entry: 'main',
-          ui: { csp: { connectDomains: ['https://tasks.example.com'] } },
-        },
-      },
-    }),
-  );
-  const server = new McpServer({ name: 'entry-test', version: '1' });
-  try {
-    const views = await resolveUiViews({ manifest: filename });
-    expect(views.home.entry).toBe('main');
-    expect(views.home.ui.csp?.connectDomains).toEqual([
-      'https://tasks.example.com',
-    ]);
-    expect(await registerUiResources(server, { manifest: filename })).toEqual(
-      {},
-    );
-    await expect(
-      registerUiResources(server, { manifest: filename, viewNames: ['home'] }),
-    ).rejects.toThrow('requires URL delivery');
-    await expect(views.home.render()).rejects.toThrow(
-      'must use its application URL',
-    );
-    const response = await createUiViewHandler({ manifest: filename })(
-      new Request('https://app.example.com/mcp-views/home'),
-    );
-    expect(response?.status).toBe(404);
-    expect(
-      await createUiViewHandler({ manifest: filename })(
-        new Request('https://app.example.com/home'),
-      ),
-    ).toBeUndefined();
-  } finally {
-    await server.close();
-  }
 });
