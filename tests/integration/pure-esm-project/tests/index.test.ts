@@ -121,6 +121,10 @@ describe('pure-esm-project in dev', () => {
       path.join(__dirname, 'fixtures/module-resolution.ts'),
       path.join(appDir, 'api/lambda/module-resolution.ts'),
     );
+    await fse.copyFile(
+      path.join(__dirname, 'fixtures/ts-syntax.ts'),
+      path.join(appDir, 'api/lambda/ts-syntax.ts'),
+    );
     port = await getPort();
     app = await launchApp(appDir, port);
     browser = await puppeteer.launch(launchOptions as any);
@@ -154,6 +158,12 @@ describe('pure-esm-project in dev', () => {
       relative: 'modern.js',
       aliasFromData: 'modern.js',
     });
+  });
+
+  test('compiles enums, parameter properties and `.js` specifiers to TS files', async () => {
+    const response = await fetch(`${host}:${port}/api/ts-syntax`);
+    expect(response.status).toBe(200);
+    expect(await response.json()).toEqual({ result: '1-svc-modern.js' });
   });
 
   afterAll(async () => {
