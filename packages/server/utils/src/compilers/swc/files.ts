@@ -17,9 +17,15 @@ const TS_FOR_JS: Record<string, string[]> = {
   '.cjs': ['.cts'],
 };
 
+// Imported files tsc used to emit next to the compiled code (with
+// `resolveJsonModule` / `allowJs`) that the server compile copies as they are.
+const ASSET_EXTENSIONS = ['.json', '.mjs', '.cjs'];
+const JS_EXTENSIONS = ['.js', '.jsx', '.mjs', '.cjs'];
+
 const isDeclaration = (file: string) => /\.d\.[cm]?ts$/.test(file);
 const isSource = (file: string) =>
   SOURCE_EXTENSIONS.includes(path.extname(file)) && !isDeclaration(file);
+const isAsset = (file: string) => ASSET_EXTENSIONS.includes(path.extname(file));
 const isInside = (file: string, dir: string) => {
   const relative = path.relative(dir, file);
   return !relative.startsWith('..') && !path.isAbsolute(relative);
@@ -54,7 +60,8 @@ const resolveFile = (target: string): string | undefined => {
  * The files the server compile emits, chosen like the TypeScript program the
  * compile used to build: the tsconfig `files` / `include` entries (minus
  * `exclude`) inside the server directories, plus every local file they
- * import, transitively.
+ * import, transitively. Imported `.json`, `.mjs` and `.cjs` files outside the
+ * server directories go to `assets`, to be copied into the output.
  */
 export const listProgramFiles = async ({
   appDirectory,
@@ -63,6 +70,7 @@ export const listProgramFiles = async ({
   distDir,
   rewrite,
   scanned,
+  assets,
 }: {
   appDirectory: string;
   tsconfigPath: string;
@@ -71,6 +79,8 @@ export const listProgramFiles = async ({
   rewrite?: SpecifierRewriter;
   /** Filled with each file's source and specifiers, so the compile reads and parses it once. */
   scanned?: Map<string, ScannedSource>;
+  /** Filled with the imported files outside `sourceDirs` that are copied, not compiled. */
+  assets?: Set<string>;
 }): Promise<string[]> => {
   const { files: configFiles } = readTsConfigWithExtends(tsconfigPath);
   const files = findNearest(configFiles, 'files');
@@ -113,19 +123,30 @@ export const listProgramFiles = async ({
       sourceDirs.some(dir => isInside(file, dir)),
   );
   const program = new Set(queue);
+  const visitedAssets = new Set<string>();
 
   // Breadth first, one import level at a time, so the reads run in parallel.
   while (queue.length > 0) {
     const level = await Promise.all(
       queue.map(async file => {
         const ext = path.extname(file);
+        if (ext === '.json') {
+          return { file, specifiers: [] };
+        }
         try {
           const result = scanSpecifiers(await fs.readFile(file, 'utf8'), {
             typescript: ['.ts', '.tsx', '.mts', '.cts'].includes(ext),
             tsx: ext === '.tsx',
           });
           scanned?.set(file, result);
-          return { file, specifiers: result.specifiers };
+          const specifiers = result.specifiers.map(({ value }) => value);
+          // tsc follows `require()` only in JavaScript files.
+          return {
+            file,
+            specifiers: JS_EXTENSIONS.includes(ext)
+              ? [...specifiers, ...result.requires]
+              : specifiers,
+          };
         } catch {
           // A file swc cannot parse fails the transform with a proper error.
           return { file, specifiers: [] };
@@ -134,22 +155,30 @@ export const listProgramFiles = async ({
     );
     queue = [];
     for (const { file, specifiers } of level) {
-      for (const { value: specifier } of specifiers) {
+      for (const specifier of specifiers) {
         const local = rewrite?.(file, specifier) ?? specifier;
         if (!local.startsWith('./') && !local.startsWith('../')) {
           continue;
         }
         const target = resolveFile(path.resolve(path.dirname(file), local));
         if (
-          target &&
-          isSource(target) &&
-          !program.has(target) &&
-          isInside(target, appDirectory) &&
-          !isInside(target, distDir) &&
-          !target.split(path.sep).includes('node_modules')
+          !target ||
+          !isInside(target, appDirectory) ||
+          isInside(target, distDir) ||
+          target.split(path.sep).includes('node_modules')
         ) {
+          continue;
+        }
+        if (isSource(target) && !program.has(target)) {
           program.add(target);
           queue.push(target);
+        } else if (isAsset(target) && !visitedAssets.has(target)) {
+          visitedAssets.add(target);
+          queue.push(target);
+          // Files inside the server directories are copied with them.
+          if (!sourceDirs.some(dir => isInside(target, dir))) {
+            assets?.add(target);
+          }
         }
       }
     }
