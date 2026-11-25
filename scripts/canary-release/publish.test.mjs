@@ -1,0 +1,1136 @@
+import assert from 'node:assert/strict';
+import fs from 'node:fs';
+import path from 'node:path';
+import { test } from '@rstest/core';
+import { planHash, readJson } from './core.mjs';
+import { artifactFixture, githubEnvironment } from './fixtures.mjs';
+import { EventEmitter } from 'node:events';
+import {
+  ATTEMPTS,
+  PUBLISH_CONCURRENCY,
+  SUBMISSION_ATTEMPTS,
+  assertTrustedPublishers,
+  confirmFromRegistry,
+  diagnostic,
+  isolatedNpmEnvironment,
+  missingFromRegistry,
+  npmErrorCode,
+  retryAfterMs,
+  sameValue,
+  publish,
+  publishArguments,
+  publishedFromOutput,
+  repairInstructions,
+  spawnNpm,
+} from './publish.mjs';
+
+function settings(fixture, npm, log = () => {}) {
+  return {
+    env: githubEnvironment(),
+    validateSource: () => {},
+    validateTrigger: () => {},
+    workspaces: () => fixture.plan.packages,
+    execute: () => '11.21.0',
+    verifyTrust: () => {},
+    npm,
+    log,
+    // The registry is asked for real in its own test; here nothing is confirmed.
+    confirm: async items => items,
+    wait: async () => {},
+  };
+}
+const options = plan => ({
+  artifacts: 'artifacts',
+  receiptDir: 'receipts',
+  expectedPlanHash: planHash(plan),
+});
+
+test('publish command pins tag, access, registry and ignores scripts', () => {
+  assert.deepEqual(publishArguments('/tmp/a.tgz'), [
+    'publish',
+    '/tmp/a.tgz',
+    '--tag',
+    'canary-verify',
+    '--access',
+    'public',
+    '--ignore-scripts',
+    '--json',
+    '--registry',
+    'https://registry.npmjs.org/',
+  ]);
+});
+
+test('OIDC-only environment strips injected npm config and refuses token fallback', () => {
+  const env = {
+    ...githubEnvironment(),
+    npm_config_registry: 'https://bad.invalid/',
+    NODE_OPTIONS: '--require=bad',
+    NPM_CONFIG_USERCONFIG: '/tmp/token',
+  };
+  const clean = isolatedNpmEnvironment(env, '/tmp/isolated');
+  assert.equal(clean.npm_config_registry, undefined);
+  assert.equal(clean.NODE_OPTIONS, undefined);
+  assert.equal(clean.NPM_CONFIG_USERCONFIG, '/tmp/isolated/user.npmrc');
+  for (const key of ['NODE_AUTH_TOKEN', 'NPM_TOKEN', 'NPM_AUTH_TOKEN'])
+    assert.throws(() =>
+      isolatedNpmEnvironment({ ...env, [key]: 'secret' }, '/tmp'),
+    );
+  assert.throws(() => isolatedNpmEnvironment({}, '/tmp'));
+});
+
+test('a complete run records every package as published', async t => {
+  const fixture = artifactFixture(t);
+  let count = 0;
+  const receipt = await publish(
+    fixture.root,
+    options(fixture.plan),
+    settings(fixture, () => {
+      const pkg = fixture.manifest.packages[count++];
+      return { status: 0, stdout: JSON.stringify({ [pkg.name]: { ...pkg } }) };
+    }),
+  );
+  assert.equal(count, 2);
+  assert.equal(receipt.status, 'published');
+  assert.equal(receipt.mode, 'publish');
+  assert.equal(receipt.publicAvailable, true);
+  assert.deepEqual(
+    receipt.packages.map(item => item.status),
+    ['published', 'published'],
+  );
+  assert(
+    !fs.existsSync(path.join(fixture.root, 'receipts/stage-ids.json')),
+    'Stage IDs no longer exist',
+  );
+});
+
+test('partial failure keeps the earlier package published and marks the ambiguous one, never retries', async t => {
+  const fixture = artifactFixture(t);
+  let count = 0;
+  await assert.rejects(() =>
+    publish(
+      fixture.root,
+      options(fixture.plan),
+      settings(fixture, () => {
+        if (count++ > 0)
+          return { status: 1, stderr: 'secret must not enter receipt' };
+        const pkg = fixture.manifest.packages[0];
+        return {
+          status: 0,
+          stdout: JSON.stringify({ [pkg.name]: { ...pkg } }),
+        };
+      }),
+    ),
+  );
+  const receipt = readJson(path.join(fixture.root, 'receipts/receipt.json'));
+  assert.equal(count, 2);
+  assert.equal(receipt.status, 'partial-or-unknown');
+  assert.equal(receipt.packages[0].status, 'published');
+  assert.equal(receipt.packages[1].status, 'unknown');
+  assert(!JSON.stringify(receipt).includes('secret'));
+});
+
+test('all artifacts and OIDC validate before the first network write, failure receipt is saved', async t => {
+  const fixture = artifactFixture(t);
+  let count = 0;
+  const deps = settings(fixture, () => {
+    count++;
+  });
+  deps.env.NPM_TOKEN = 'forbidden';
+  await assert.rejects(() =>
+    publish(fixture.root, options(fixture.plan), deps),
+  );
+  assert.equal(count, 0);
+  assert.equal(
+    readJson(path.join(fixture.root, 'receipts/receipt.json')).status,
+    'blocked',
+  );
+});
+
+test('reruns fail closed because a published version can never be replaced', async t => {
+  const fixture = artifactFixture(t);
+  const deps = settings(fixture, () => assert.fail('must not publish'));
+  deps.env.GITHUB_RUN_ATTEMPT = '2';
+  await assert.rejects(
+    () => publish(fixture.root, options(fixture.plan), deps),
+    /retries/,
+  );
+});
+
+test('publish response must contain a matching identity and integrity', t => {
+  const { manifest } = artifactFixture(t);
+  const pkg = manifest.packages[0];
+  for (const result of [
+    {},
+    { [pkg.name]: { ...pkg, version: '1.2.3' } },
+    { [pkg.name]: { ...pkg, integrity: 'wrong' } },
+    { ...pkg, version: '1.2.3' },
+    { ...pkg, integrity: 'wrong' },
+    { name: 'other', version: pkg.version },
+  ]) {
+    assert.throws(() => publishedFromOutput(JSON.stringify(result), pkg));
+  }
+  // Every shape npm has been observed to emit, plus a response without
+  // integrity, which the registry verification in the next job covers.
+  for (const result of [
+    { [pkg.name]: pkg },
+    pkg,
+    { name: pkg.name, version: pkg.version },
+    { [pkg.name]: pkg.version },
+    { [pkg.name]: { version: pkg.version } },
+  ]) {
+    assert.equal(
+      publishedFromOutput(JSON.stringify(result), pkg),
+      `${pkg.name}@${pkg.version}`,
+    );
+  }
+  // npm prints its own output through a redactor; a field it masked still has to
+  // identify this package, and anything else it masked must not.
+  const masked = {
+    ...pkg,
+    version: pkg.version.replace(/-[0-9a-f]{6,}$/, '-[REDACTED_UUID]'),
+  };
+  assert.notEqual(
+    masked.version,
+    pkg.version,
+    'the fixture version must contain a maskable tail',
+  );
+  assert.equal(
+    publishedFromOutput(JSON.stringify({ [pkg.name]: masked }), pkg),
+    `${pkg.name}@${pkg.version}`,
+  );
+  assert.throws(() =>
+    publishedFromOutput(
+      JSON.stringify({
+        [pkg.name]: { ...masked, version: `9.9.9-[REDACTED_UUID]` },
+      }),
+      pkg,
+    ),
+  );
+  assert.ok(sameValue('a-[REDACTED_UUID]-b', 'a-1234-b'));
+  assert.ok(!sameValue('a-[REDACTED_UUID]-b', 'a-1234-c'));
+  assert.ok(
+    !sameValue('[REDACTED_UUID]', ''),
+    'a mask must still cover something',
+  );
+  // A rejection has to say what arrived, or the next surprise costs another run.
+  assert.throws(
+    () => publishedFromOutput(JSON.stringify({}), pkg),
+    /empty object/,
+  );
+  assert.throws(
+    () => publishedFromOutput(JSON.stringify({ [pkg.name]: { id: 'x' } }), pkg),
+    /object\{id\}/,
+  );
+  assert.throws(
+    () => publishedFromOutput(JSON.stringify({ [pkg.name]: '9.9.9' }), pkg),
+    /string "9\.9\.9"/,
+  );
+});
+
+test('a failure that precedes the request is sent again', async t => {
+  const fixture = artifactFixture(t);
+  const logged = [];
+  const calls = [];
+  await publish(
+    fixture.root,
+    options(fixture.plan),
+    settings(
+      fixture,
+      args => {
+        calls.push(args[1]);
+        const pkg = fixture.manifest.packages.find(item =>
+          args[1].endsWith(item.filename),
+        );
+        // Fails the way npm does when it cannot read the OIDC token, then works.
+        if (
+          calls.filter(file => file === args[1]).length === 1 &&
+          pkg === fixture.manifest.packages[0]
+        ) {
+          return {
+            status: 1,
+            stderr:
+              'npm error code TLOG_CREATE_ENTRY_ERROR\nnpm error error creating tlog entry - (409) an equivalent entry already exists',
+          };
+        }
+        return { status: 0, stdout: JSON.stringify({ [pkg.name]: pkg }) };
+      },
+      message => logged.push(message),
+    ),
+  );
+  assert.equal(
+    calls.length,
+    fixture.manifest.packages.length + 1,
+    'only the identity failure is sent again',
+  );
+  assert.match(logged.join('\n'), /retrying in 20s: TLOG_CREATE_ENTRY_ERROR/);
+  assert.equal(
+    readJson(path.join(fixture.root, 'receipts/receipt.json')).status,
+    'published',
+  );
+});
+
+// What cost that release a package was the spacing, not the number of tries:
+// the one repeat it had went out 42 seconds after the refusal, while Sigstore
+// was still refusing, and the package stayed unpublished.
+test('a submission that keeps being refused is sent again on a widening gap', async t => {
+  const fixture = artifactFixture(t);
+  const gaps = [];
+  const calls = [];
+  await assert.rejects(
+    () =>
+      publish(
+        fixture.root,
+        { ...options(fixture.plan), concurrency: 1 },
+        {
+          ...settings(fixture, args => {
+            calls.push(args[1]);
+            return {
+              status: 1,
+              stderr:
+                'npm error code TLOG_CREATE_ENTRY_ERROR\nnpm error error creating tlog entry - (409) an equivalent entry already exists',
+            };
+          }),
+          wait: async ms => {
+            gaps.push(ms);
+          },
+        },
+      ),
+    /2 of 2 packages/,
+  );
+  assert.equal(
+    calls.length,
+    fixture.manifest.packages.length * SUBMISSION_ATTEMPTS,
+  );
+  assert.deepEqual(gaps, [20_000, 40_000, 80_000, 20_000, 40_000, 80_000]);
+});
+
+test('the repeats share the waiting, so a service refusing everything stops the release instead of holding the runner', async t => {
+  const fixture = artifactFixture(t);
+  const calls = [];
+  const gaps = [];
+  const logged = [];
+  // Thirty seconds of waiting for the whole release: the first package's first
+  // repeat takes twenty of them, its second would need forty and is refused,
+  // and the package after it gets none.
+  await assert.rejects(
+    () =>
+      publish(
+        fixture.root,
+        { ...options(fixture.plan), concurrency: 1, repeatWaitBudget: 30_000 },
+        {
+          ...settings(
+            fixture,
+            args => {
+              calls.push(args[1]);
+              return {
+                status: 1,
+                stderr: 'npm error code TLOG_CREATE_ENTRY_ERROR',
+              };
+            },
+            message => logged.push(message),
+          ),
+          wait: async ms => {
+            gaps.push(ms);
+          },
+        },
+      ),
+    /2 of 2 packages/,
+  );
+  assert.deepEqual(gaps, [20_000]);
+  assert.equal(
+    calls.length,
+    fixture.manifest.packages.length + 1,
+    'one repeat fitted in the shared waiting',
+  );
+  assert.match(
+    logged.join('\n'),
+    /not sent again: the release has spent the waiting its repeats share/,
+  );
+});
+
+test('an unusable repeat budget is refused before anything is sent', async t => {
+  const fixture = artifactFixture(t);
+  for (const repeatWaitBudget of [-1, 1.5, 31 * 60_000]) {
+    await assert.rejects(
+      () =>
+        publish(
+          fixture.root,
+          { ...options(fixture.plan), repeatWaitBudget },
+          settings(fixture, () => assert.fail('nothing may be sent')),
+        ),
+      /repeat wait budget/,
+    );
+  }
+});
+
+test('a failure the registry may have accepted is never sent again', async t => {
+  const fixture = artifactFixture(t);
+  const calls = [];
+  await assert.rejects(
+    () =>
+      publish(
+        fixture.root,
+        options(fixture.plan),
+        settings(fixture, args => {
+          calls.push(args[1]);
+          return {
+            status: 1,
+            stderr: 'npm error code E409\nnpm error 409 Conflict',
+          };
+        }),
+      ),
+    /2 of 2 packages/,
+  );
+  assert.equal(calls.length, fixture.manifest.packages.length);
+});
+
+test('one unresolved package does not stop the rest, and each is attempted once', async t => {
+  const fixture = artifactFixture(t);
+  const logged = [];
+  let count = 0;
+  await assert.rejects(
+    () =>
+      publish(
+        fixture.root,
+        options(fixture.plan),
+        settings(
+          fixture,
+          () => {
+            const index = count++;
+            if (index === 0)
+              return {
+                status: 1,
+                stderr: 'npm error code E404\nnpm error 404 Not Found',
+              };
+            const pkg = fixture.manifest.packages[index];
+            return {
+              status: 0,
+              stdout: JSON.stringify({ [pkg.name]: { ...pkg } }),
+            };
+          },
+          message => logged.push(message),
+        ),
+      ),
+    /1 of 2 packages/,
+  );
+  const receipt = readJson(path.join(fixture.root, 'receipts/receipt.json'));
+  assert.equal(count, 2, 'Every package is attempted exactly once');
+  assert.equal(receipt.packages[0].status, 'unknown');
+  assert.equal(receipt.packages[0].errorCode, 'E404');
+  assert.equal(receipt.packages[1].status, 'published');
+  assert.equal(receipt.status, 'partial-or-unknown');
+  assert.match(logged.join('\n'), /npm error 404 Not Found/);
+});
+
+test('npm diagnostics reach the log without a token or the receipt', async t => {
+  const fixture = artifactFixture(t);
+  const token = `npm_${'a'.repeat(36)}`;
+  const logged = [];
+  await assert.rejects(() =>
+    publish(
+      fixture.root,
+      options(fixture.plan),
+      settings(
+        fixture,
+        () => ({
+          status: 1,
+          stderr: `npm error code E403\nnpm error 403 ${token} rejected\nunrelated line`,
+        }),
+        message => logged.push(message),
+      ),
+    ),
+  );
+  const text = logged.join('\n');
+  assert(!text.includes(token), 'A token shaped value must never be logged');
+  assert.match(text, /npm error 403 \[redacted\] rejected/);
+  assert(!text.includes('unrelated line'), 'Only npm diagnostics are logged');
+  assert(
+    !JSON.stringify(
+      readJson(path.join(fixture.root, 'receipts/receipt.json')),
+    ).includes('403 '),
+    'Receipt carries the code alone',
+  );
+});
+
+test('only a fixed shape error code is read back from npm', () => {
+  assert.equal(
+    npmErrorCode({ stderr: 'npm error code ENEEDAUTH' }),
+    'ENEEDAUTH',
+  );
+  assert.equal(
+    npmErrorCode({
+      stdout: JSON.stringify({
+        error: { code: 'E429', summary: 'Too many requests' },
+      }),
+    }),
+    'E429',
+  );
+  assert.equal(npmErrorCode({ error: { code: 'ENOENT' } }), 'ENOENT');
+  assert.equal(npmErrorCode({ stderr: 'npm error code not a code' }), null);
+  assert.equal(npmErrorCode({ stderr: 'nothing useful' }), null);
+  assert.match(diagnostic({ status: 1 }), /no npm diagnostic/);
+});
+
+// Trusted publishers are configured per package and cannot be configured at all
+// for a package npm does not serve yet, so a package added to the repository
+// reaches the publish job unconfigured. The probe has to catch that before the
+// first package is published, and has to stay out of the way when the registry
+// answers something that proves nothing.
+function registry({
+  refuse = new Set(),
+  status = 403,
+  absent = new Set(),
+  fail = new Set(),
+  flaky = new Map(),
+  retryAfter = null,
+} = {}) {
+  const calls = [];
+  const attempts = new Map();
+  const headers = { get: name => (name === 'retry-after' ? retryAfter : null) };
+  return {
+    calls,
+    attempts,
+    request(url, settings = {}) {
+      calls.push(`${settings.method ?? 'GET'} ${url}`);
+      if (!url.startsWith('https://registry.npmjs.org/')) {
+        return Promise.resolve({
+          ok: true,
+          status: 200,
+          json: () => Promise.resolve({ value: 'id-token' }),
+        });
+      }
+      const name = decodeURIComponent(
+        new URL(url).pathname.split('/package/').pop() ?? '',
+      );
+      if (settings.method === 'HEAD') {
+        const packed = decodeURIComponent(new URL(url).pathname.slice(1));
+        return Promise.resolve({
+          ok: !absent.has(packed),
+          status: absent.has(packed) ? 404 : 200,
+        });
+      }
+      const attempt = (attempts.get(name) ?? 0) + 1;
+      attempts.set(name, attempt);
+      // A package that answers transiently for its first few attempts and then
+      // works, which is what a rate limit or a restarting backend looks like.
+      if (attempt <= (flaky.get(name) ?? 0))
+        return Promise.resolve({ ok: false, status: 429, headers });
+      if (fail.has(name)) return Promise.reject(new Error('socket hang up'));
+      if (refuse.has(name))
+        return Promise.resolve({ ok: false, status, headers });
+      return Promise.resolve({
+        ok: true,
+        status: 200,
+        json: () => Promise.resolve({ token: 'npm_exchanged' }),
+      });
+    },
+  };
+}
+// Collects the backoff the probe asks for instead of sleeping through it.
+function probeSettings(stub, logged = [], waits = []) {
+  return {
+    logged,
+    waits,
+    options: {
+      env: trustEnvironment(),
+      request: stub.request,
+      log: message => logged.push(message),
+      wait: ms => {
+        waits.push(ms);
+        return Promise.resolve();
+      },
+    },
+  };
+}
+const names = ['@modern-js/a', '@modern-js/b'];
+const trustEnvironment = () => ({
+  ...githubEnvironment(),
+  GITHUB_REPOSITORY: 'web-infra-dev/modern.js',
+  GITHUB_WORKFLOW_REF:
+    'web-infra-dev/modern.js/.github/workflows/release.yml@refs/heads/release-canary-verify/x',
+});
+
+test('every package is probed through the same exchange npm uses, and a token is never logged', async () => {
+  const logged = [];
+  const stub = registry();
+  await assertTrustedPublishers(names, {
+    env: trustEnvironment(),
+    request: stub.request,
+    log: message => logged.push(message),
+  });
+  assert.deepEqual(stub.calls.slice(1), [
+    'POST https://registry.npmjs.org/-/npm/v1/oidc/token/exchange/package/@modern-js%2fa',
+    'POST https://registry.npmjs.org/-/npm/v1/oidc/token/exchange/package/@modern-js%2fb',
+  ]);
+  assert.match(stub.calls[0], /audience=npm%3Aregistry.npmjs.org/);
+  assert(!logged.join('\n').includes('npm_exchanged'));
+});
+
+test('a refused exchange blocks the release and names the command that repairs it', async () => {
+  const logged = [];
+  const stub = registry({ refuse: new Set(['@modern-js/b']) });
+  await assert.rejects(
+    () =>
+      assertTrustedPublishers(names, {
+        env: trustEnvironment(),
+        request: stub.request,
+        log: message => logged.push(message),
+      }),
+    /1 of 2 packages have no trusted publisher/,
+  );
+  assert.match(
+    logged.join('\n'),
+    /npm trust github @modern-js\/b --repo web-infra-dev\/modern.js --file release.yml --allow-publish/,
+  );
+});
+
+test('a package npm does not serve yet is reported as needing a first publish, not a binding', async () => {
+  const logged = [];
+  const stub = registry({
+    refuse: new Set(['@modern-js/b']),
+    status: 404,
+    absent: new Set(['@modern-js/b']),
+  });
+  await assert.rejects(() =>
+    assertTrustedPublishers(names, {
+      env: trustEnvironment(),
+      request: stub.request,
+      log: message => logged.push(message),
+    }),
+  );
+  assert.match(logged.join('\n'), /@modern-js\/b: not on npm yet/);
+  assert(!logged.join('\n').includes('npm trust github @modern-js/b'));
+});
+
+test('an answer that proves nothing is retried, then stops the release before the first package', async () => {
+  for (const [stub, reason] of [
+    [
+      registry({ refuse: new Set(['@modern-js/a']), status: 503 }),
+      /@modern-js\/a: HTTP 503/,
+    ],
+    [
+      registry({ fail: new Set(['@modern-js/a']) }),
+      /@modern-js\/a: connection failed/,
+    ],
+  ]) {
+    const probe = probeSettings(stub);
+    await assert.rejects(
+      () => assertTrustedPublishers(names, probe.options),
+      /1 of 2 packages could not be checked/,
+    );
+    assert.equal(
+      stub.attempts.get('@modern-js/a'),
+      4,
+      'The probe gives the registry four chances',
+    );
+    assert.deepEqual(
+      probe.waits,
+      [2000, 4000, 8000],
+      'Backoff doubles and is never slept through in tests',
+    );
+    assert.match(
+      probe.logged.join('\n'),
+      /Nothing was published; rerun the job/,
+    );
+    assert.match(probe.logged.join('\n'), reason);
+  }
+});
+
+test('a transient answer that clears on a retry publishes normally and honours Retry-After', async () => {
+  const stub = registry({
+    flaky: new Map([['@modern-js/a', 2]]),
+    retryAfter: '5',
+  });
+  const probe = probeSettings(stub);
+  await assertTrustedPublishers(names, probe.options);
+  assert.equal(stub.attempts.get('@modern-js/a'), 3);
+  assert.deepEqual(
+    probe.waits,
+    [5000, 5000],
+    'The registry decides the wait while it answers with one',
+  );
+  assert.deepEqual(probe.logged, []);
+});
+
+test('a refusal is reported as a refusal even when other packages went unanswered', async () => {
+  const stub = registry({
+    refuse: new Set(['@modern-js/a', '@modern-js/b']),
+    status: 403,
+  });
+  const probe = probeSettings(stub);
+  await assert.rejects(
+    () => assertTrustedPublishers(['@modern-js/a'], probe.options),
+    /no trusted publisher/,
+  );
+  assert.equal(
+    stub.attempts.get('@modern-js/a'),
+    1,
+    'A conclusive refusal is never retried',
+  );
+  // One package refused outright, the other never answered: the refusal is the
+  // one a maintainer can act on, so it decides the error.
+  const mixed = probeSettings(
+    registry({
+      refuse: new Set(['@modern-js/a']),
+      flaky: new Map([['@modern-js/b', ATTEMPTS]]),
+    }),
+  );
+  await assert.rejects(
+    () => assertTrustedPublishers(names, mixed.options),
+    /1 of 2 packages have no trusted publisher/,
+  );
+  assert.match(mixed.logged.join('\n'), /npm trust github @modern-js\/a/);
+  assert.match(mixed.logged.join('\n'), /1 of 2 packages could not be checked/);
+});
+
+test('a registry that is down for every package stops inside the probe budget', async () => {
+  const stub = registry({
+    flaky: new Map(names.map(name => [name, ATTEMPTS])),
+  });
+  // A clock the test advances itself: every attempt costs the wait plus the time
+  // a request that answers nothing spends before it is abandoned.
+  let clock = 0;
+  const logged = [];
+  await assert.rejects(
+    () =>
+      assertTrustedPublishers(names, {
+        env: trustEnvironment(),
+        request: stub.request,
+        log: message => logged.push(message),
+        wait: ms => {
+          clock += ms + 150_000;
+          return Promise.resolve();
+        },
+        now: () => clock,
+      }),
+    /2 of 2 packages could not be checked/,
+  );
+  assert.equal(
+    stub.attempts.get('@modern-js/a'),
+    3,
+    'Retrying stops once the budget is spent',
+  );
+  assert.equal(
+    stub.attempts.get('@modern-js/b'),
+    undefined,
+    'A package past the budget is never asked',
+  );
+  assert.match(
+    logged.join('\n'),
+    /@modern-js\/b: not reached, the 5 minute probe budget ran out/,
+  );
+});
+
+test('Retry-After is read when it is usable and ignored when it is not', () => {
+  const response = value => ({ headers: { get: () => value } });
+  assert.equal(retryAfterMs(response('5')), 5000);
+  assert.equal(
+    retryAfterMs(response(new Date(21_000).toUTCString()), 1000),
+    20_000,
+  );
+  for (const value of [
+    null,
+    '',
+    '   ',
+    'soon',
+    '-1',
+    '3600',
+    new Date(0).toUTCString(),
+  ]) {
+    assert.equal(
+      retryAfterMs(response(value), 1000),
+      null,
+      `Retry-After: ${value}`,
+    );
+  }
+  assert.equal(retryAfterMs({}), null);
+  assert.equal(retryAfterMs(null), null);
+});
+
+test('the probe fails closed when GitHub will not mint an identity token', async () => {
+  const request = () =>
+    Promise.resolve({
+      ok: false,
+      status: 403,
+      json: () => Promise.resolve({}),
+    });
+  await assert.rejects(
+    () =>
+      assertTrustedPublishers(names, {
+        env: trustEnvironment(),
+        request,
+        log: () => {},
+      }),
+    /identity token/,
+  );
+});
+
+test('repair instructions fall back to placeholders outside a known workflow', () => {
+  assert.match(
+    repairInstructions('@modern-js/a', true, {}),
+    /--repo <owner>\/<repository> --file <workflow>.yml/,
+  );
+});
+
+test('the publish job runs the probe before the first package and refuses to continue', async t => {
+  const fixture = artifactFixture(t);
+  let attempted = 0;
+  const deps = settings(fixture, () => {
+    attempted++;
+  });
+  deps.verifyTrust = probed => {
+    assert.deepEqual(
+      probed,
+      fixture.manifest.packages.map(pkg => pkg.name),
+    );
+    return Promise.reject(
+      new Error('1 of 2 packages have no trusted publisher for this workflow'),
+    );
+  };
+  await assert.rejects(
+    () => publish(fixture.root, options(fixture.plan), deps),
+    /no trusted publisher/,
+  );
+  assert.equal(attempted, 0, 'Nothing may be published once the probe refuses');
+  const receipt = readJson(path.join(fixture.root, 'receipts/receipt.json'));
+  assert.equal(receipt.status, 'blocked');
+  assert.equal(receipt.failure, 'preflight-failed');
+});
+
+test('a package npm was unsure about is settled by the registry, not by its exit code', async () => {
+  const items = [
+    {
+      name: '@modern-js/a',
+      version: '0.0.0-x',
+      integrity: 'sha512-aaa',
+      status: 'unknown',
+    },
+    {
+      name: '@modern-js/b',
+      version: '0.0.0-x',
+      integrity: 'sha512-bbb',
+      status: 'unknown',
+    },
+    {
+      name: '@modern-js/c',
+      version: '0.0.0-x',
+      integrity: 'sha512-ccc',
+      status: 'unknown',
+    },
+  ];
+  const seen = [];
+  const waits = [];
+  // a appears only on the second look, b is served with other bytes, c never arrives.
+  const request = url => {
+    seen.push(url);
+    if (url.includes('%2fa')) {
+      return seen.filter(item => item.includes('%2fa')).length > 1
+        ? Promise.resolve({
+            ok: true,
+            json: () => Promise.resolve({ dist: { integrity: 'sha512-aaa' } }),
+          })
+        : Promise.resolve({ ok: false, status: 404 });
+    }
+    if (url.includes('%2fb'))
+      return Promise.resolve({
+        ok: true,
+        json: () =>
+          Promise.resolve({ dist: { integrity: 'sha512-different' } }),
+      });
+    return Promise.resolve({ ok: false, status: 404 });
+  };
+  let clock = 0;
+  const logged = [];
+  const pending = await confirmFromRegistry(items, {
+    request,
+    log: message => logged.push(message),
+    wait: ms => {
+      waits.push(ms);
+      clock += ms;
+      return Promise.resolve();
+    },
+    now: () => clock,
+    budgetMs: 60_000,
+  });
+  assert.deepEqual(
+    pending.map(item => item.name),
+    ['@modern-js/c'],
+    'only what the registry never served stays unresolved',
+  );
+  assert.equal(items[0].status, 'published');
+  assert.equal(items[0].confirmedBy, 'registry');
+  assert.equal(
+    items[1].status,
+    'unknown',
+    "different bytes are not this job's publication",
+  );
+  assert.match(logged.join('\n'), /different contents/);
+  assert.ok(waits.length >= 1 && waits.every(ms => ms === 20_000));
+});
+
+test('registry confirmation turns a doubtful publish into a published receipt', async t => {
+  const fixture = artifactFixture(t);
+  const deps = settings(fixture, () => ({
+    status: 1,
+    stderr: 'npm error code E401',
+  }));
+  deps.confirm = async items => {
+    for (const item of items) {
+      item.status = 'published';
+    }
+    return [];
+  };
+  const receipt = await publish(fixture.root, options(fixture.plan), deps);
+  assert.equal(receipt.status, 'published');
+  assert.ok(
+    readJson(path.join(fixture.root, 'receipts/receipt.json')).packages.every(
+      item => item.status === 'published',
+    ),
+  );
+});
+
+test('the reconcile lookup keeps what the registry serves, sends what is absent and stops on other contents', async () => {
+  const packages = [
+    { name: '@modern-js/a', version: '0.0.0-x', integrity: 'sha512-aaa' },
+    { name: '@modern-js/b', version: '0.0.0-x', integrity: 'sha512-bbb' },
+  ];
+  const served = url =>
+    Promise.resolve(
+      url.includes('%2fa')
+        ? {
+            ok: true,
+            status: 200,
+            json: () => Promise.resolve({ dist: { integrity: 'sha512-aaa' } }),
+          }
+        : { ok: false, status: 404 },
+    );
+  assert.deepEqual(
+    (await missingFromRegistry(packages, { request: served })).map(
+      pkg => pkg.name,
+    ),
+    ['@modern-js/b'],
+  );
+
+  const other = () =>
+    Promise.resolve({
+      ok: true,
+      status: 200,
+      json: () =>
+        Promise.resolve({ dist: { integrity: 'sha512-someone-else' } }),
+    });
+  await assert.rejects(
+    () => missingFromRegistry(packages, { request: other }),
+    /different contents/,
+  );
+
+  // An unreadable answer is not an absent version: publishing on a guess is
+  // the one mistake that cannot be taken back.
+  const broken = () => Promise.resolve({ ok: false, status: 500 });
+  await assert.rejects(
+    () => missingFromRegistry(packages, { request: broken }),
+    /answered 500/,
+  );
+});
+
+test('reconcile sends only the missing package and writes its own receipt', async t => {
+  const fixture = artifactFixture(t);
+  const [first, second] = fixture.manifest.packages;
+  const sent = [];
+  const probed = [];
+  const deps = settings(fixture, args => {
+    sent.push(args[1]);
+    return {
+      status: 0,
+      stdout: JSON.stringify({ [second.name]: { ...second } }),
+    };
+  });
+  deps.missing = async items => items.filter(pkg => pkg.name === second.name);
+  deps.verifyTrust = names => {
+    probed.push(...names);
+  };
+  const receipt = await publish(
+    fixture.root,
+    { ...options(fixture.plan), reconcile: true },
+    deps,
+  );
+
+  assert.equal(
+    sent.length,
+    1,
+    'the package the registry already serves is not sent again',
+  );
+  assert.deepEqual(
+    probed,
+    [second.name],
+    'only what will be published is probed for a trusted publisher',
+  );
+  assert.equal(receipt.mode, 'reconcile');
+  assert.equal(receipt.status, 'published');
+  assert.deepEqual(
+    receipt.packages.map(item => [
+      item.name,
+      item.status,
+      item.confirmedBy ?? null,
+    ]),
+    [
+      [first.name, 'published', 'registry'],
+      [second.name, 'published', null],
+    ],
+  );
+  assert.ok(
+    fs.existsSync(path.join(fixture.root, 'receipts/receipt-reconcile.json')),
+  );
+  assert.ok(
+    !fs.existsSync(path.join(fixture.root, 'receipts/receipt.json')),
+    'the receipt of the publish it finishes is left alone',
+  );
+});
+
+test('reconcile with nothing missing publishes nothing and still reports the release', async t => {
+  const fixture = artifactFixture(t);
+  const deps = settings(fixture, () => assert.fail('npm must not be called'));
+  deps.missing = async () => [];
+  const receipt = await publish(
+    fixture.root,
+    { ...options(fixture.plan), reconcile: true },
+    deps,
+  );
+  assert.equal(receipt.status, 'published');
+  assert.equal(receipt.packages.length, fixture.manifest.packages.length);
+  assert.ok(receipt.packages.every(item => item.confirmedBy === 'registry'));
+});
+
+// A child process that this test drives: nothing is spawned, the streams and
+// the close are produced on demand.
+function fakeChild() {
+  const child = new EventEmitter();
+  for (const name of ['stdout', 'stderr']) {
+    const stream = new EventEmitter();
+    stream.setEncoding = () => {};
+    child[name] = stream;
+  }
+  child.kill = () => {
+    child.killed = true;
+  };
+  return child;
+}
+
+test('several packages are published at once and the receipt still reads in manifest order', async t => {
+  const fixture = artifactFixture(t);
+  const [first, second] = fixture.manifest.packages;
+  let live = 0;
+  let peak = 0;
+  const waiting = new Map();
+  const deps = settings(fixture, args => {
+    const name = args[1].includes(first.filename) ? first.name : second.name;
+    live += 1;
+    peak = Math.max(peak, live);
+    return new Promise(resolve => {
+      waiting.set(name, () => {
+        live -= 1;
+        resolve({
+          status: 0,
+          stdout: JSON.stringify({ [name]: { version: fixture.plan.version } }),
+        });
+      });
+    });
+  });
+  // The second package answers first, which is the ordering a receipt
+  // assembled as the answers arrive would record.
+  const settled = publish(fixture.root, options(fixture.plan), deps);
+  await new Promise(resolve => setImmediate(resolve));
+  assert.equal(peak, 2, 'both packages were in flight before either answered');
+  waiting.get(second.name)();
+  await new Promise(resolve => setImmediate(resolve));
+  waiting.get(first.name)();
+  const receipt = await settled;
+
+  assert.equal(receipt.status, 'published');
+  assert.deepEqual(
+    receipt.packages.map(item => item.name),
+    [first.name, second.name],
+  );
+  assert.ok(receipt.packages.every(item => item.status === 'published'));
+  assert.deepEqual(
+    readJson(path.join(fixture.root, 'receipts/receipt.json')).packages.map(
+      item => item.name,
+    ),
+    [first.name, second.name],
+    'the receipt on disk reads the same way',
+  );
+});
+
+test('concurrency 1 sends one package at a time', async t => {
+  const fixture = artifactFixture(t);
+  let live = 0;
+  let peak = 0;
+  const deps = settings(fixture, async () => {
+    live += 1;
+    peak = Math.max(peak, live);
+    await new Promise(resolve => setImmediate(resolve));
+    live -= 1;
+    return {
+      status: 0,
+      stdout: JSON.stringify({ version: fixture.plan.version }),
+    };
+  });
+  await publish(
+    fixture.root,
+    { ...options(fixture.plan), concurrency: 1 },
+    deps,
+  );
+  assert.equal(peak, 1);
+});
+
+test('a concurrency this script will not vouch for is refused before anything is sent', async t => {
+  for (const concurrency of [0, 9, 1.5, '4']) {
+    const fixture = artifactFixture(t);
+    const deps = settings(fixture, () => assert.fail('npm must not be called'));
+    await assert.rejects(
+      publish(fixture.root, { ...options(fixture.plan), concurrency }, deps),
+      /publish concurrency must be an integer between 1 and 8/,
+    );
+  }
+  assert.equal(PUBLISH_CONCURRENCY, 4);
+});
+
+test('spawnNpm reports what the child said, and a child that never starts as an error', async () => {
+  const child = fakeChild();
+  const result = spawnNpm(['publish'], {}, { launch: () => child });
+  child.stdout.emit('data', '{"ok":');
+  child.stdout.emit('data', 'true}');
+  child.stderr.emit('data', 'npm notice');
+  child.emit('close', 0);
+  assert.deepEqual(await result, {
+    status: 0,
+    stdout: '{"ok":true}',
+    stderr: 'npm notice',
+  });
+
+  const broken = await spawnNpm(
+    ['publish'],
+    {},
+    {
+      launch: () => {
+        throw new Error('ENOENT');
+      },
+    },
+  );
+  assert.equal(broken.status, null);
+  assert.match(broken.error.message, /ENOENT/);
+});
+
+test('spawnNpm refuses output it cannot hold rather than returning half of it', async () => {
+  const child = fakeChild();
+  const result = spawnNpm(['publish'], {}, { launch: () => child });
+  child.stdout.emit('data', 'x'.repeat(17 * 1024 * 1024));
+  assert.equal(
+    child.killed,
+    true,
+    'the child is stopped once it has written too much',
+  );
+  child.emit('close', null);
+  const settled = await result;
+  assert.equal(settled.status, null);
+  assert.match(settled.error.message, /wrote more than/);
+});
