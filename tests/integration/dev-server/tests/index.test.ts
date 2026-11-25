@@ -1,4 +1,3 @@
-import os from 'node:os';
 import path from 'path';
 import fs from 'fs-extra';
 import puppeteer, { type Browser, type Page } from 'puppeteer';
@@ -22,25 +21,17 @@ test.each(['default', 'relative', 'absolute'])(
     let app: unknown;
     let externalMockDir: string | undefined;
     try {
+      const env: Record<string, string> = {};
       let mockDir = path.join(isolated.appDir, 'config/mock');
       if (directory !== 'default') {
         externalMockDir = await fs.mkdtemp(
-          path.join(os.tmpdir(), 'modern-mock-'),
+          path.join(path.dirname(isolated.appDir), 'modern-mock-'),
         );
         mockDir = externalMockDir;
-        const configuredDir =
+        env.MODERN_TEST_MOCK_DIR =
           directory === 'relative'
             ? path.relative(isolated.appDir, mockDir)
             : mockDir;
-        const configFile = path.join(isolated.appDir, 'modern.config.ts');
-        const config = await fs.readFile(configFile, 'utf-8');
-        await fs.writeFile(
-          configFile,
-          config.replace(
-            '  dev: {\n    server: {',
-            `  dev: {\n    mockDir: ${JSON.stringify(configuredDir)},\n    server: {`,
-          ),
-        );
       }
       const mockFile = path.join(mockDir, 'index.ts');
       const mockSource = `
@@ -55,7 +46,7 @@ export default {
 `;
       await fs.outputFile(mockFile, mockSource);
       const port = await getPort();
-      app = await launchApp(isolated.appDir, port);
+      app = await launchApp(isolated.appDir, port, {}, env);
       const url = `http://localhost:${port}/api/mock-info`;
       const request = (method = 'GET', headers = {}) =>
         fetch(url, {
