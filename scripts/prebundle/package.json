@@ -1,7 +1,7 @@
 {
   "name": "@scripts/prebundle",
   "private": true,
-  "version": "2.66.8",
+  "version": "0.0.0-canary-20261125082226",
   "main": "./dist/index.js",
   "scripts": {
     "dev": "tsc --watch",
