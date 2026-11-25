@@ -56,11 +56,18 @@ jobs:
         run: pnpm exec rstest run --config scripts/canary-release/rstest.config.mts
       - name: Build packages
         run: pnpm run prepare-build
+      # A snapshot - a branch canary - skips these, as the canary pipeline
+      # it replaces did: the branch's own CI runs the unit tests, and nobody
+      # installs a canary for its documentation. Together they were 81 of the
+      # build's 233 seconds on 2026-11-24.
       - name: Unit tests
+        if: steps.plan.outputs.channel != 'canary' && steps.plan.outputs.channel != 'custom'
         run: pnpm run test:ut
       - name: Build documentation
+        if: steps.plan.outputs.channel != 'canary' && steps.plan.outputs.channel != 'custom'
         run: pnpm run build:docs
       - name: Check documentation bundle
+        if: steps.plan.outputs.channel != 'canary' && steps.plan.outputs.channel != 'custom'
         run: pnpm run check-doc-bundle
       - name: Pack and verify all canary tarballs
         env:

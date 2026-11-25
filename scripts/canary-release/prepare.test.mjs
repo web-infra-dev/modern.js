@@ -78,9 +78,23 @@ function fakeRunner(
     snapshots = [],
     baseline = '3.10.0',
     tag = 'canary-verify',
+    staleLock = false,
+    lockChecks = [],
   } = {},
 ) {
   return (command, args) => {
+    if (args.includes('--frozen-lockfile')) {
+      assert.deepEqual(args, [
+        'install',
+        '--frozen-lockfile',
+        '--lockfile-only',
+        '--ignore-scripts',
+        '--offline',
+      ]);
+      lockChecks.push(staleLock ? 'stale' : 'current');
+      if (staleLock) throw new Error('ERR_PNPM_OUTDATED_LOCKFILE');
+      return '';
+    }
     if (command === 'git') return '';
     if (args.includes('list'))
       return JSON.stringify(
@@ -161,10 +175,20 @@ test('prepare contract preserves original bump inputs, prediction and a complete
     path.join(root, '.changeset/config.json'),
     'utf8',
   );
-  const result = prepare(root, releaseId, 'a'.repeat(40), fakeRunner(root));
+  const lockChecks = [];
+  const result = prepare(
+    root,
+    releaseId,
+    'a'.repeat(40),
+    fakeRunner(root, { lockChecks }),
+  );
   assert.equal(result.plan.version, version);
   assert(result.plan.packages.every(pkg => pkg.version === version));
   assert.equal(result.plan.packages.length, 2);
+  // `workspace:*` already packs as the exact version, so the snapshot leaves
+  // it, the importers stay as they were, and the lockfile is not re-resolved.
+  assert.deepEqual(lockChecks, ['current']);
+  assert(!fs.existsSync(path.join(root, 'pnpm-lock.yaml')));
   assert.equal(result.predicted.packages[0].version, '3.11.0');
   assert.equal(result.predicted.packages[1].previousVersion, '3.6.0');
   assert.equal(
@@ -179,7 +203,7 @@ test('prepare contract preserves original bump inputs, prediction and a complete
     readJson(path.join(root, 'packages/a/package.json')).dependencies[
       '@modern-js/b'
     ],
-    `workspace:${version}`,
+    'workspace:*',
   );
   assert.equal(
     fs.readFileSync(path.join(root, '.changeset/config.json'), 'utf8'),
@@ -196,6 +220,68 @@ test('prepare contract preserves original bump inputs, prediction and a complete
   assert.throws(
     () => prepare(root, releaseId, 'a'.repeat(40), fakeRunner(root)),
     /Already prepared/,
+  );
+});
+
+test('a snapshot pins what is not already workspace:* and re-resolves only a lockfile that moved', t => {
+  const root = fixture(t);
+  const file = path.join(root, 'packages/a/package.json');
+  writeJson(file, {
+    ...readJson(file),
+    peerDependencies: { '@modern-js/b': 'workspace:^3.6.0' },
+  });
+  const privateFile = path.join(root, 'packages/private/package.json');
+  writeJson(privateFile, {
+    ...readJson(privateFile),
+    dependencies: { '@modern-js/a': 'latest' },
+  });
+  const lockChecks = [];
+  prepare(
+    root,
+    releaseId,
+    'a'.repeat(40),
+    fakeRunner(root, { staleLock: true, lockChecks }),
+  );
+  const prepared = readJson(file);
+  assert.equal(prepared.dependencies['@modern-js/b'], 'workspace:*');
+  assert.equal(
+    prepared.peerDependencies['@modern-js/b'],
+    `workspace:${version}`,
+  );
+  // Nothing this release does not publish is pinned.
+  assert.equal(readJson(privateFile).dependencies['@modern-js/a'], 'latest');
+  assert.deepEqual(lockChecks, ['stale']);
+  assert.equal(
+    fs.readFileSync(path.join(root, 'pnpm-lock.yaml'), 'utf8'),
+    'generated lockfile\n',
+  );
+});
+
+test('a snapshot is not stopped by a changeset that also names an ignored package', t => {
+  const root = fixture(t);
+  const configFile = path.join(root, '.changeset/config.json');
+  writeJson(configFile, { ...readJson(configFile), ignore: ['@examples/*'] });
+  const original =
+    "---\n'@modern-js/a': minor\n'@examples/demo': patch\n---\n\nOriginal real change.\n";
+  fs.writeFileSync(path.join(root, '.changeset/original.md'), original);
+  const seen = [];
+  const runner = fakeRunner(root);
+  const result = prepare(root, releaseId, 'a'.repeat(40), (command, args) => {
+    if (args.includes('bump'))
+      seen.push(
+        fs.readFileSync(path.join(root, '.changeset/original.md'), 'utf8'),
+      );
+    return runner(command, args);
+  });
+  assert.equal(result.plan.version, version);
+  // Both bumps read the changeset without the ignored name...
+  assert.equal(seen.length, 2);
+  assert(seen.every(text => !text.includes('@examples/demo')));
+  assert(seen.every(text => text.includes("'@modern-js/a': minor")));
+  // ...and the branch's own changeset is what is left behind.
+  assert.equal(
+    fs.readFileSync(path.join(root, '.changeset/original.md'), 'utf8'),
+    original,
   );
 });
 
@@ -362,11 +448,23 @@ for (const [changeset, id, expected] of [
         result.predicted.packages[1].version,
         changeset ? '3.11.0' : '3.6.0',
       );
+      // Left as `workspace:*`, which is what keeps the lockfile as it was;
+      // the pack below is what turns it into the exact version.
       assert.equal(
         readJson(path.join(root, 'packages/a/package.json')).dependencies[
           '@modern-js/b'
         ],
-        `workspace:${expected}`,
+        'workspace:*',
+      );
+      // pnpm reads the version of a `workspace:*` dependency from the
+      // installed link, so the link the build's install makes is made here.
+      fs.mkdirSync(path.join(root, 'packages/a/node_modules/@modern-js'), {
+        recursive: true,
+      });
+      fs.symlinkSync(
+        path.join(root, 'packages/b'),
+        path.join(root, 'packages/a/node_modules/@modern-js/b'),
+        'dir',
       );
       // Exercise actual pnpm pack conversion, not a handcrafted tarball manifest.
       const output = path.join(root, 'packed');

@@ -346,9 +346,13 @@ export function validateDependencies(json, plan, { packed = false } = {}) {
         );
       if (!dependencyFields.includes(field)) continue;
       if (versions.has(name)) {
-        assert.equal(
-          spec,
-          packed ? versions.get(name) : `workspace:${versions.get(name)}`,
+        // `workspace:*` packs as the exact version of that workspace, which
+        // is the planned one, so in the source it is as exact as the pin.
+        assert(
+          packed
+            ? spec === versions.get(name)
+            : spec === `workspace:${versions.get(name)}` ||
+                spec === 'workspace:*',
           `Non-exact canary dependency: ${json.name} -> ${name}`,
         );
       } else if (name.startsWith('@modern-js/')) {

@@ -47,6 +47,43 @@ export function withoutRootPrepare(root, operation) {
   }
 }
 
+// Changesets refuses a changeset that names an ignored package beside one it
+// versions ("Found mixed changeset"). That is a rule about writing changelogs,
+// and a snapshot writes none and versions every package the same way whatever
+// its changesets say, so a branch carrying one could not get a canary at all:
+// the Modern.js canary pipeline's run 5 stopped there on 2026-11-24. For a
+// snapshot the ignored names are dropped from the changesets before the
+// bumps read them; the originals are put back with everything else.
+const BUMP_LINE = /^\s*(['"]?)([^'":\s]+)\1\s*:\s*(major|minor|patch|none)\s*$/;
+
+function ignoredBy(patterns) {
+  const expressions = patterns.map(
+    pattern =>
+      new RegExp(
+        `^${pattern.replace(/[.+?^${}()|[\]\\]/g, '\\$&').replace(/\*/g, '.*')}$`,
+      ),
+  );
+  return name => expressions.some(expression => expression.test(name));
+}
+
+export function withoutIgnoredPackages(changesetDir, names, patterns) {
+  const ignored = ignoredBy(patterns);
+  for (const name of names) {
+    if (!name.endsWith('.md') || name === 'README.md') continue;
+    const file = path.join(changesetDir, name);
+    const lines = fs.readFileSync(file, 'utf8').split('\n');
+    if (lines[0].trim() !== '---') continue;
+    const end = lines.indexOf('---', 1);
+    if (end === -1) continue;
+    const kept = lines.filter((line, index) => {
+      if (index === 0 || index >= end) return true;
+      const match = BUMP_LINE.exec(line);
+      return !(match && ignored(match[2]));
+    });
+    if (kept.length !== lines.length) fs.writeFileSync(file, kept.join('\n'));
+  }
+}
+
 export function install(root, execute = run) {
   return withoutRootPrepare(root, () =>
     execute(
@@ -151,6 +188,12 @@ export function prepare(
   // changesets into the snapshot version (see snapshotSuffix), writing nothing back.
   const stable = channel.scheme === 'stable';
   try {
+    if (!stable)
+      withoutIgnoredPackages(
+        changesetDir,
+        changesetNames,
+        readJson(configFile).ignore ?? [],
+      );
     execute('pnpm', ['run', 'bump'], { cwd: root, inherit: true });
     const bumped = listWorkspaces(root, execute);
     const predicted = {
@@ -178,6 +221,7 @@ export function prepare(
       // The snapshot must see the original changesets and versions, not the consumed bump.
       restore();
       const config = readJson(configFile);
+      withoutIgnoredPackages(changesetDir, changesetNames, config.ignore ?? []);
       config.snapshot = {
         useCalculatedVersion: false,
         prereleaseTemplate: '{tag}',
@@ -216,14 +260,25 @@ export function prepare(
       requiredTargets: ['npm'],
     });
     const versions = new Map(plan.packages.map(pkg => [pkg.name, pkg.version]));
-    for (const pkg of versioned) {
+    // A stable release pins every internal range everywhere, examples
+    // included, and re-resolves the lockfile around the pins. A snapshot pins
+    // only what it publishes, and only where the source does not already
+    // say `workspace:*`, which packs as the exact version anyway. That leaves
+    // the lockfile's importers as they were, so it needs no re-resolution:
+    // rewriting the 380 `workspace:*` entries made pnpm re-resolve the whole
+    // tree through the relay, 173 of the 235 seconds preparation took on
+    // 2026-11-25.
+    const pinned = stable
+      ? versioned
+      : publishable(versioned).filter(pkg => versions.has(pkg.name));
+    for (const pkg of pinned) {
       let changed = false;
       for (const field of [...dependencyFields, 'devDependencies']) {
-        for (const name of Object.keys(pkg.json[field] ?? {})) {
-          if (versions.has(name)) {
-            pkg.json[field][name] = `workspace:${versions.get(name)}`;
-            changed = true;
-          }
+        for (const [name, spec] of Object.entries(pkg.json[field] ?? {})) {
+          if (!versions.has(name)) continue;
+          if (!stable && spec === 'workspace:*') continue;
+          pkg.json[field][name] = `workspace:${versions.get(name)}`;
+          changed = true;
         }
       }
       if (changed)
@@ -245,7 +300,29 @@ export function prepare(
       }
       fs.rmSync(temporaryChangeset, { force: true });
     }
-    withoutRootPrepare(root, () =>
+    withoutRootPrepare(root, () => {
+      // Answered from the lockfile alone, without the network: it fails when
+      // any importer's specifiers moved, and then the lockfile is re-resolved.
+      if (!stable) {
+        try {
+          execute(
+            'pnpm',
+            [
+              'install',
+              '--frozen-lockfile',
+              '--lockfile-only',
+              '--ignore-scripts',
+              '--offline',
+            ],
+            { cwd: root, inherit: true },
+          );
+          return;
+        } catch {
+          console.error(
+            '[prepare] the lockfile no longer matches the manifests; re-resolving it',
+          );
+        }
+      }
       execute(
         'pnpm',
         [
@@ -255,8 +332,8 @@ export function prepare(
           '--no-frozen-lockfile',
         ],
         { cwd: root, inherit: true },
-      ),
-    );
+      );
+    });
     const prepared = listWorkspaces(root, execute);
     validatePackageSet(plan, prepared);
     for (const pkg of publishable(prepared))
