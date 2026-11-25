@@ -69,7 +69,7 @@
       "default": "./dist/compiled/execa/index.js"
     },
     "./json5": {
-      "types": "./dist/compiled/json5/index.d.ts",
+      "types": "./dist/compiled/json5/lib/index.d.ts",
       "default": "./dist/compiled/json5/index.js"
     },
     "./semver": {
@@ -90,7 +90,7 @@
       "default": "./dist/compiled/fs-extra/index.js"
     },
     "./fast-glob": {
-      "types": "./dist/compiled/fast-glob/index.d.ts",
+      "types": "./dist/compiled/fast-glob/out/index.d.ts",
       "default": "./dist/compiled/fast-glob/index.js"
     },
     "./gzip-size": {
@@ -138,7 +138,7 @@
         "./dist/compiled/chalk/index.d.ts"
       ],
       "json5": [
-        "./dist/compiled/json5/index.d.ts"
+        "./dist/compiled/json5/lib/index.d.ts"
       ],
       "semver": [
         "./dist/compiled/semver/index.d.ts"
@@ -153,7 +153,7 @@
         "./dist/compiled/fs-extra/index.d.ts"
       ],
       "fast-glob": [
-        "./dist/compiled/fast-glob/index.d.ts"
+        "./dist/compiled/fast-glob/out/index.d.ts"
       ],
       "gzip-size": [
         "./dist/compiled/gzip-size/index.d.ts"
