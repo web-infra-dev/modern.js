@@ -20,7 +20,7 @@ A file is treated as hashed only when it is in a build output directory (`static
 
 Every static file also gets an `ETag`, computed from the content that is sent, and a request with a matching `If-None-Match` header is answered with `304 Not Modified` without a body. The content comes from the server's file cache, so a `304` doesn't read the file from disk again.
 
-The values above apply in production. During development every static file gets `no-cache`, so edited files are never served from the browser cache. The header is not added to HTML pages. Use a [custom middleware](/guides/advanced-features/web-server) if you need it there.
+The values above apply in production. During development, files from `config/public` get `no-cache`, so edited files are never served from the browser cache. Build assets and the other files copied by the bundler, such as files in `config/upload`, are served by the Rsbuild dev server, which sends them with its own `ETag` and without `Cache-Control`. The header is not added to HTML pages. Use a [custom middleware](/guides/advanced-features/web-server) if you need it there.
 
 A `Cache-Control` or `ETag` header set by a route's response headers, or a `Cache-Control` set by a custom middleware before or after `await next()`, takes precedence.
 

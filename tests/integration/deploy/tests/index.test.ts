@@ -1,3 +1,4 @@
+import os from 'node:os';
 import path from 'node:path';
 import { execa, fs as fse } from '@modern-js/utils';
 import {
@@ -29,6 +30,34 @@ async function checkAppRun(host: string) {
   expect(await api.json()).toEqual({
     message: 'Hello Modern.js',
   });
+}
+
+// The deployed server uses `server.staticCacheControl` from build time.
+async function checkStaticCacheControl(host: string, outputDirectory: string) {
+  const js = (await fse.readdir(path.join(outputDirectory, 'static/js'))).find(
+    file => /\.[0-9a-f]{8,}\.js$/.test(file),
+  );
+  expect(js).toBeDefined();
+  for (const [url, file, cacheControl] of [
+    [`/static/js/${js}`, `static/js/${js}`, 'public, max-age=86400'],
+    ['/robots.txt', 'public/robots.txt', 'public, max-age=300'],
+  ]) {
+    const res = await fetch(host + url);
+    expect({
+      url,
+      status: res.status,
+      cacheControl: res.headers.get('cache-control'),
+    }).toEqual({ url, status: 200, cacheControl });
+    expect(Buffer.from(await res.arrayBuffer())).toEqual(
+      await fse.readFile(path.join(outputDirectory, file)),
+    );
+    const etag = res.headers.get('etag');
+    expect(etag).toMatch(/^W\/"[0-9a-f]+-[\w-]{22}"$/);
+    const notModified = await fetch(host + url, {
+      headers: { 'If-None-Match': etag! },
+    });
+    expect({ url, status: notModified.status }).toEqual({ url, status: 304 });
+  }
 }
 
 type Mode = 'csr' | 'server';
@@ -140,10 +169,15 @@ describe.sequential('deploy server', () => {
     expect(await fse.pathExists(apiFile)).toBe(true);
     expect(await fse.pathExists(bootstrapPath)).toBe(true);
 
-    // check server run
+    // Run the server outside the repository, so a dependency missing from
+    // the output cannot be resolved from the workspace.
+    const deployDirectory = await fse.mkdtemp(
+      path.join(os.tmpdir(), 'modern-deploy-'),
+    );
+    await fse.copy(outputDirectory, deployDirectory);
     const port = await getPort();
-    const app = await runContinuousTask(['.output/index.js'], undefined, {
-      cwd: appDir,
+    const app = await runContinuousTask(['index.js'], undefined, {
+      cwd: deployDirectory,
       env: {
         ...process.env,
         NODE_ENV: 'production',
@@ -152,9 +186,12 @@ describe.sequential('deploy server', () => {
       waitMessage: /Server is listening on/i,
     });
     try {
-      await checkAppRun(`http://127.0.0.1:${port}`);
+      const host = `http://127.0.0.1:${port}`;
+      await checkAppRun(host);
+      await checkStaticCacheControl(host, deployDirectory);
     } finally {
       if (app) await killApp(app, true);
+      await fse.remove(deployDirectory);
     }
   });
 
