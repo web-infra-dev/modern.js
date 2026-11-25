@@ -11,11 +11,7 @@ export {
   UI_VIEW_PATH,
 } from './resources';
 export type { RegisterUiOptions, ResolvedUiView } from './resources';
-export type {
-  UiManifest,
-  UiMetadata,
-  UiResourceConfig,
-} from '../manifest';
+export type { UiManifest, UiMetadata, UiResourceConfig } from '../manifest';
 
 export type McpServerFactory = (
   request: Request,

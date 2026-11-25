@@ -234,7 +234,12 @@ Deploy the application server and MCP UI assets separately from this declaration
 Use `{ "entry": "main" }` to reference a normal application entry. The name must match an existing entry. `entry`, `component` and `expose` are mutually exclusive.
 
 ```json
-{ "views": { "home": { "entry": "main" }, "todos": { "component": "./Todos.tsx" } } }
+{
+  "views": {
+    "home": { "entry": "main" },
+    "todos": { "component": "./Todos.tsx" }
+  }
+}
 ```
 
 The selected entry keeps its normal HTML, React root and application routes. Its browser bundle connects to an MCP host when embedded. Top-level browser visits render normally. Register the tool with `doubao/ui.url` pointing to the application's actual public URL, such as `https://app.example.com/home`. Entry names do not determine URL paths. Entry views are excluded from MCP resource registration and return 404 under `/mcp-views/`. Component views keep that route.
