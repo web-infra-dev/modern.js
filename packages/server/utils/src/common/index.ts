@@ -73,7 +73,7 @@ export const compile: CompileFunc = async (
   // The project's tsc compiles the server code; swc only stands in, without
   // a type check, when the project has no typescript installed.
   const { findProjectTypeScript } = await import('../compilers/swc/typecheck');
-  if (findProjectTypeScript(appDirectory)) {
+  if (findProjectTypeScript(appDirectory, compileOptions.tsconfigPath)) {
     const { compileByTsc } = await import('../compilers/tsc');
     await compileByTsc(appDirectory, modernConfig, compileOptions);
   } else {

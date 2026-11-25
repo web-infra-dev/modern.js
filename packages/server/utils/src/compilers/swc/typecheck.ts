@@ -59,31 +59,76 @@ interface TypeScriptPackage {
   version: string;
 }
 
-/** The project's own `typescript`, run as a command so TS 7 works too. */
-export const findProjectTypeScript = (
-  appDirectory: string,
-): TypeScriptPackage | undefined => {
-  try {
-    const pkgPath = require.resolve('typescript/package.json', {
-      paths: [appDirectory],
-    });
-    const { version, bin } = fs.readJSONSync(pkgPath);
-    // Aliased builds name the command after the line, e.g.
-    // `npm:@typescript/typescript6` ships `tsc6` instead of `tsc`.
-    const relativeBin =
-      typeof bin === 'string'
-        ? bin
-        : (bin?.tsc ??
-          Object.entries<string>(bin ?? {}).find(([name]) =>
-            /^tsc\d*$/.test(name),
-          )?.[1]);
-    if (!relativeBin) {
+const findPackageJson = (file: string) => {
+  for (let dir = path.dirname(file); ; dir = path.dirname(dir)) {
+    const candidate = path.join(dir, 'package.json');
+    if (fs.existsSync(candidate)) {
+      return candidate;
+    }
+    if (path.dirname(dir) === dir) {
       return undefined;
     }
-    return { tsc: path.join(path.dirname(pkgPath), relativeBin), version };
+  }
+};
+
+/**
+ * The project's own TypeScript compiler, run as a command so TS 7 works too.
+ * The package is the tsconfig `"ts-node": { "compiler" }` when set, as the
+ * in-process compile honoured, else `typescript`; aliases such as
+ * `npm:@typescript/typescript6` and forks such as ttypescript or
+ * `ts-patch/compiler` resolve the same way. The command is the `tsc.js` that
+ * TypeScript 5 and 6 ship next to their JS API, else the `tsc` the package
+ * declares, else its only declared command (TS 7, native previews).
+ */
+export const findProjectTypeScript = (
+  appDirectory: string,
+  tsconfigPath?: string,
+): TypeScriptPackage | undefined => {
+  const raw = tsconfigPath ? readTsConfigByFile(tsconfigPath) : undefined;
+  const compiler: string = raw?.['ts-node']?.compiler || 'typescript';
+  const paths = [appDirectory];
+  let pkgPath: string | undefined;
+  let api: string | undefined;
+  try {
+    pkgPath = require.resolve(`${compiler}/package.json`, { paths });
   } catch {
+    // A module inside a package, such as `ts-patch/compiler`.
+    try {
+      api = require.resolve(compiler, { paths });
+      pkgPath = findPackageJson(api);
+    } catch {
+      return undefined;
+    }
+  }
+  if (!pkgPath) {
     return undefined;
   }
+  const { version, main, bin } = fs.readJSONSync(pkgPath);
+  api ??= main ? path.resolve(path.dirname(pkgPath), main) : undefined;
+  const sibling = api && path.join(path.dirname(api), 'tsc.js');
+  if (sibling && fs.existsSync(sibling)) {
+    return { tsc: sibling, version };
+  }
+  const commands = Object.entries<string>(
+    typeof bin === 'string' ? { tsc: bin } : (bin ?? {}),
+  );
+  const relativeBin =
+    commands.find(([name]) => name === 'tsc')?.[1] ??
+    (commands.length === 1 ? commands[0][1] : undefined);
+  return relativeBin
+    ? { tsc: path.join(path.dirname(pkgPath), relativeBin), version }
+    : undefined;
+};
+
+/**
+ * The TypeScript version the command runs. A fork's package version is its
+ * own (ttypescript 1.x runs the installed TypeScript), so ask the command.
+ */
+const compilerVersion = ({ tsc, version }: TypeScriptPackage) => {
+  const result = spawnSync(process.execPath, [tsc, '--version'], {
+    encoding: 'utf8',
+  });
+  return /Version (\d+\.\S+)/.exec(result.stdout ?? '')?.[1] ?? version ?? '';
 };
 
 // `include` / `files` are inherited from the nearest config that declares
@@ -219,14 +264,17 @@ const EMITTED_PREFIX = 'TSFILE: ';
 export const runTypeCheck = (
   options: TypeCheckOptions,
 ): TypeCheckResult | undefined => {
-  const typescript = findProjectTypeScript(options.appDirectory);
+  const typescript = findProjectTypeScript(
+    options.appDirectory,
+    options.tsconfigPath,
+  );
   if (!typescript) {
     return undefined;
   }
   if (options.programFiles.length === 0) {
     return { ok: true, output: '', emitted: [] };
   }
-  const configPath = writeTypeCheckConfig(options, typescript.version);
+  const configPath = writeTypeCheckConfig(options, compilerVersion(typescript));
   const result = spawnSync(
     process.execPath,
     [typescript.tsc, '-p', configPath, '--pretty', '--listEmittedFiles'],
@@ -250,15 +298,24 @@ export const runTypeCheck = (
     })
     .join('\n')
     .trim();
+  // A compiler that cannot run (incompatible fork, killed process) reports
+  // no diagnostics; that is a broken toolchain, not type errors to report.
+  if (
+    result.status !== 0 &&
+    // `--pretty` colours the diagnostics.
+    !/error TS\d+/.test(output.replace(/\x1b\[[0-9;]*m/g, ''))
+  ) {
+    throw new Error(
+      `${typescript.tsc} failed without reporting type errors:\n${
+        [output, result.error?.message].filter(Boolean).join('\n') ||
+        `exited with ${result.signal ?? result.status}`
+      }`,
+    );
+  }
   return {
     ok: result.status === 0,
     emitted,
-    output: result.error
-      ? `${output}\n${result.error.message}`.trim()
-      : output ||
-        (result.status === 0
-          ? ''
-          : `tsc exited with ${result.signal ?? result.status}`),
+    output,
   };
 };
 

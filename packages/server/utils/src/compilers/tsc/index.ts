@@ -8,12 +8,16 @@ import {
 import type { CompileFunc } from '../../common';
 import { copyFiles } from '../swc';
 import { listRootFiles } from '../swc/files';
-import { createSpecifierRewriter, rewriteSpecifiers } from '../swc/specifiers';
+import {
+  createSpecifierRewriter,
+  rewriteSpecifiersWithShifts,
+} from '../swc/specifiers';
 import {
   reportTypeCheck,
   runTypeCheck,
   validateCompilerOverrides,
 } from '../swc/typecheck';
+import { shiftInlineSourceMap, shiftSourceMapFile } from './sourcemap';
 
 const JS_OUTPUT = /\.[cm]?js$/;
 const DECLARATION_OUTPUT = /\.d\.[cm]?ts$/;
@@ -88,12 +92,26 @@ export const compileByTsc: CompileFunc = async (
             path.relative(distDir, file),
           );
           const source = await fs.readFile(file, 'utf8');
-          const next = rewriteSpecifiers(source, importer, rewrite, {
-            typescript: DECLARATION_OUTPUT.test(file),
-            requires: JS_OUTPUT.test(file),
-          });
-          if (next !== source) {
-            await fs.writeFile(file, next);
+          const { code, shifts } = rewriteSpecifiersWithShifts(
+            source,
+            importer,
+            rewrite,
+            {
+              typescript: DECLARATION_OUTPUT.test(file),
+              requires: JS_OUTPUT.test(file),
+            },
+          );
+          if (code === source) {
+            return;
+          }
+          // tsc mapped the text before the rewrite; keep its maps in step.
+          await fs.writeFile(file, shiftInlineSourceMap(code, shifts));
+          const mapFile = `${file}.map`;
+          if (await fs.pathExists(mapFile)) {
+            await fs.writeFile(
+              mapFile,
+              shiftSourceMapFile(await fs.readFile(mapFile, 'utf8'), shifts),
+            );
           }
         }),
     );

@@ -288,13 +288,20 @@ export const listSpecifiers = (
  * import attributes and comments, is kept byte for byte. Pass `scanned` to
  * reuse an earlier {@link scanSpecifiers} of the same source.
  */
-export const rewriteSpecifiers = (
+/** Where a rewrite moved the text after it: a column on a 0-based line. */
+export interface ColumnShift {
+  line: number;
+  column: number;
+  delta: number;
+}
+
+export const rewriteSpecifiersWithShifts = (
   source: string,
   filename: string,
   rewrite: SpecifierRewriter,
   options: { typescript: boolean; tsx?: boolean; requires?: boolean },
   scanned: ScannedSource = scanSpecifiers(source, options),
-): string => {
+): { code: string; shifts: ColumnShift[] } => {
   const edits = [
     ...scanned.specifiers,
     ...(options.requires ? scanned.requires : []),
@@ -308,19 +315,40 @@ export const rewriteSpecifiers = (
     .sort((a, b) => b.start - a.start);
 
   if (edits.length === 0) {
-    return source;
+    return { code: source, shifts: [] };
   }
 
-  let result = Buffer.from(SPAN_ANCHOR + source.slice(scanned.shebang.length));
+  const original = Buffer.from(
+    SPAN_ANCHOR + source.slice(scanned.shebang.length),
+  );
+  const shifts: ColumnShift[] = [];
+  let result = original;
   for (const { start, end, value } of edits) {
+    const literal = JSON.stringify(value);
+    // Spans are UTF-8 byte offsets; source map columns count UTF-16 units.
+    const before =
+      scanned.shebang + original.subarray(SPAN_ANCHOR.length, end).toString();
+    const lineStart = before.lastIndexOf('\n') + 1;
+    shifts.push({
+      line: before.split('\n').length - 1,
+      column: before.length - lineStart,
+      delta: literal.length - original.subarray(start, end).toString().length,
+    });
     result = Buffer.concat([
       result.subarray(0, start),
-      Buffer.from(JSON.stringify(value)),
+      Buffer.from(literal),
       result.subarray(end),
     ]);
   }
-  return scanned.shebang + result.subarray(SPAN_ANCHOR.length).toString();
+  return {
+    code: scanned.shebang + result.subarray(SPAN_ANCHOR.length).toString(),
+    shifts,
+  };
 };
+
+export const rewriteSpecifiers = (
+  ...args: Parameters<typeof rewriteSpecifiersWithShifts>
+): string => rewriteSpecifiersWithShifts(...args).code;
 
 function getNotAliasedPath(
   importer: string,

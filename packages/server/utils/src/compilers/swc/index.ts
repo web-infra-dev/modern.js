@@ -271,7 +271,7 @@ export const compileBySwc: CompileFunc = async (
   });
   if (!check) {
     logger.warn(
-      'typescript is not installed, so the server code was compiled without type checking.',
+      'No runnable TypeScript compiler was found (typescript is not installed, or its package.json declares no tsc command), so the server code was compiled with swc and without type checking.',
     );
   } else {
     reportTypeCheck(check, {

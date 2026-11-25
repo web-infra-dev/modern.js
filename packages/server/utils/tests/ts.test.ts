@@ -223,6 +223,44 @@ describe('server compile', () => {
     }
   });
 
+  it('runs the compiler named by the tsconfig ts-node.compiler, like ttypescript', async () => {
+    const { appDir, lastConfig } = await createStubTypeScriptApp('5.9.3');
+    // A fork with a JS API and two commands, neither called `tsc`: the CLI
+    // is the `tsc.js` next to the API, as in TypeScript's own layout.
+    const forkDir = path.join(appDir, 'node_modules/fork-ts');
+    await fs.outputJSON(path.join(forkDir, 'package.json'), {
+      name: 'fork-ts',
+      version: '5.9.3',
+      main: './lib/typescript.js',
+      bin: { ttsc: './bin/tsc', ttsserver: './bin/tsserver' },
+    });
+    await fs.outputFile(path.join(forkDir, 'lib/typescript.js'), '');
+    await fs.copy(
+      path.join(appDir, 'node_modules/typescript/bin/tsc'),
+      path.join(forkDir, 'lib/tsc.js'),
+    );
+    await fs.outputJSON(path.join(appDir, 'tsconfig.json'), {
+      compilerOptions: { target: 'ES2022' },
+      'ts-node': { compiler: 'fork-ts' },
+    });
+    try {
+      await compile(appDir, { alias: {} } as any, {
+        sourceDirs: [path.join(appDir, 'api')],
+        distDir: path.join(appDir, 'dist'),
+        tsconfigPath: path.join(appDir, 'tsconfig.json'),
+        compilerOverrides: { module: 'NodeNext', moduleResolution: 'NodeNext' },
+      });
+
+      expect(require(path.join(appDir, 'dist/api')).default()).toBe('api');
+      expect(
+        await fs.pathExists(path.join(forkDir, 'lib/last-config.json')),
+      ).toBe(true);
+      await expect(lastConfig()).rejects.toThrow();
+    } finally {
+      await fs.remove(appDir);
+    }
+  });
+
   it('passes the tsconfig references on, so referenced projects are checked by their own config', async () => {
     const { appDir, lastConfig } = await createStubTypeScriptApp('5.9.3');
     const libDir = path.join(appDir, 'lib');
@@ -276,6 +314,90 @@ describe('server compile', () => {
       await fs.remove(appDir);
     }
   });
+
+  it.each([
+    [
+      'sourceMap',
+      (dir: string) => fs.readJSON(path.join(dir, 'aliased.js.map')),
+    ],
+    [
+      'inlineSourceMap',
+      async (dir: string) => {
+        const code = await fs.readFile(path.join(dir, 'aliased.js'), 'utf8');
+        const data = code.split('base64,')[1].trim();
+        return JSON.parse(Buffer.from(data, 'base64').toString());
+      },
+    ],
+  ] as const)(
+    'keeps %s in step with rewritten alias specifiers',
+    async (option, readMap) => {
+      const ts: typeof import('typescript') = require('typescript');
+      const appDir = await fs.mkdtemp(
+        path.join(os.tmpdir(), 'server-utils-map-'),
+      );
+      const source =
+        'import { value } from "@server/lib/value";\nexport const read = (): string => value + "-" + value;\n';
+      await fs.outputFile(
+        path.join(appDir, 'server/lib/value.ts'),
+        "export const value = 'v';\n",
+      );
+      await fs.outputFile(path.join(appDir, 'server/aliased.ts'), source);
+      await fs.outputJSON(path.join(appDir, 'tsconfig.json'), {
+        compilerOptions: {
+          target: 'ES2022',
+          module: 'commonjs',
+          [option]: true,
+          paths: { '@server/*': ['./server/*'] },
+        },
+      });
+      // What the in-process compile produced: the specifier rewritten by a
+      // transformer before emit, so tsc maps the rewritten text.
+      const expected = ts.transpileModule(source, {
+        fileName: 'aliased.ts',
+        compilerOptions: {
+          target: ts.ScriptTarget.ES2022,
+          module: ts.ModuleKind.CommonJS,
+          sourceMap: true,
+        },
+        transformers: {
+          before: [
+            () => file =>
+              ts.factory.updateSourceFile(
+                file,
+                file.statements.map(statement =>
+                  ts.isImportDeclaration(statement)
+                    ? ts.factory.updateImportDeclaration(
+                        statement,
+                        statement.modifiers,
+                        statement.importClause,
+                        ts.factory.createStringLiteral('./lib/value'),
+                        statement.attributes,
+                      )
+                    : statement,
+                ),
+              ),
+          ],
+        },
+      });
+      try {
+        await compile(appDir, { alias: {} } as any, {
+          sourceDirs: [path.join(appDir, 'server')],
+          distDir: path.join(appDir, 'dist'),
+          tsconfigPath: path.join(appDir, 'tsconfig.json'),
+        });
+        const out = path.join(appDir, 'dist/server');
+        const code = await fs.readFile(path.join(out, 'aliased.js'), 'utf8');
+        expect(code.split('//# sourceMappingURL')[0]).toBe(
+          expected.outputText.split('//# sourceMappingURL')[0],
+        );
+        expect((await readMap(out)).mappings).toBe(
+          JSON.parse(expected.sourceMapText!).mappings,
+        );
+      } finally {
+        await fs.remove(appDir);
+      }
+    },
+  );
 
   it('ignores the TypeScript 6 deprecations such as TS5101 in the type check', async () => {
     // The real tsc here is TS 5.9, which rejects `ignoreDeprecations: "6.0"`.
@@ -357,6 +479,50 @@ describe('server compile', () => {
           throwErrorInsteadOfExit: true,
         }),
       ).rejects.toThrow('"noEmitOnError": true in tsconfig.json');
+      expect(error.mock.calls[0][0]).toContain('TS2322');
+    } finally {
+      error.mockRestore();
+      await fs.remove(appDir);
+    }
+  });
+
+  it('fails when the compiler cannot run instead of reporting type errors', async () => {
+    const { appDir } = await createStubTypeScriptApp('5.9.3');
+    await fs.outputFile(
+      path.join(appDir, 'node_modules/typescript/bin/tsc'),
+      "throw new Error('incompatible compiler');\n",
+    );
+    try {
+      await expect(
+        compile(appDir, { alias: {} } as any, {
+          sourceDirs: [path.join(appDir, 'api')],
+          distDir: path.join(appDir, 'dist'),
+          tsconfigPath: path.join(appDir, 'tsconfig.json'),
+          throwErrorInsteadOfExit: true,
+        }),
+      ).rejects.toThrow('incompatible compiler');
+    } finally {
+      await fs.remove(appDir);
+    }
+  });
+
+  it('treats coloured --pretty diagnostics as type errors', async () => {
+    const { appDir } = await createStubTypeScriptApp('5.9.3');
+    await fs.outputFile(
+      path.join(appDir, 'node_modules/typescript/bin/tsc'),
+      [
+        "console.log('api/index.ts:1:1 - \\x1b[91merror\\x1b[0m\\x1b[90m TS2322: \\x1b[0mcoloured');",
+        'process.exitCode = 2;',
+      ].join('\n'),
+    );
+    const error = rstest.spyOn(logger, 'error').mockImplementation(() => {});
+    try {
+      await compile(appDir, { alias: {} } as any, {
+        sourceDirs: [path.join(appDir, 'api')],
+        distDir: path.join(appDir, 'dist'),
+        tsconfigPath: path.join(appDir, 'tsconfig.json'),
+        throwErrorInsteadOfExit: true,
+      });
       expect(error.mock.calls[0][0]).toContain('TS2322');
     } finally {
       error.mockRestore();
