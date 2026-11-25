@@ -1,6 +1,6 @@
 {
   "name": "app-document",
-  "version": "2.66.8",
+  "version": "0.0.0-canary-20261125071020",
   "private": true,
   "scripts": {
     "dev": "modern dev",
