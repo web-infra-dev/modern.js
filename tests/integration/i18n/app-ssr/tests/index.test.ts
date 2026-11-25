@@ -183,6 +183,68 @@ describe('app-ssr-i18n', () => {
   });
 });
 
+describe('app-ssr-i18n-request-detection', () => {
+  let app: Awaited<ReturnType<typeof launchApp>>;
+  let appPort: number;
+
+  beforeAll(async () => {
+    appPort = await getPort();
+    app = await launchApp(
+      projectDir,
+      appPort,
+      {},
+      { I18N_REQUEST_DETECTION: 'true' },
+    );
+  });
+
+  afterAll(async () => {
+    if (app) {
+      await killApp(app);
+    }
+  });
+
+  test.each([
+    {
+      source: 'regional query',
+      url: '/?lng=zh-Hant-TW',
+      headers: new Headers({ 'accept-language': 'en' }),
+    },
+    {
+      source: 'regional cookie',
+      url: '/',
+      headers: new Headers({
+        cookie: 'i18next=zh-CN',
+        'accept-language': 'en',
+      }),
+    },
+    {
+      source: 'regional cookie after an unsupported query',
+      url: '/?lng=fr-FR',
+      headers: new Headers({
+        cookie: 'i18next=zh-CN',
+        'accept-language': 'en',
+      }),
+    },
+  ])(
+    'resolves $source to zh before the English header',
+    async ({ url, headers }) => {
+      // Inspect the raw response so redirects or client rendering cannot hide a
+      // failed SSR language detection. Do not retry an SSR fallback.
+      const response = await fetch(`http://localhost:${appPort}${url}`, {
+        headers,
+        redirect: 'manual',
+      });
+      const html = await response.text();
+
+      expect(response.status).toBe(200);
+      expect(response.headers.get('x-modernjs-render')).toBe('server');
+      expect(html).not.toContain('__modern_ssr_fallback_reason__');
+      expect(html).toContain('你好，世界');
+      expect(html).toContain('"lng":"zh"');
+    },
+  );
+});
+
 describe('app-ssr-i18n-build-and-server', () => {
   let app: Awaited<ReturnType<typeof modernServe>>;
   let page: Page;

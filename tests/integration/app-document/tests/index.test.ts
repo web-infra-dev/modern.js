@@ -38,7 +38,7 @@ describe('test dev and build', () => {
         path.join(appDir, 'dist', 'html/test/index.html'),
         'utf-8',
       );
-      expect(htmlNoDoc.includes('<div id="root"><!--<?- html ?>--></div>'));
+      expect(htmlNoDoc).toContain('<div id="root"><!--<?- html ?>--></div>');
     });
 
     test('should have the sub html and the correct content', async () => {
@@ -46,7 +46,9 @@ describe('test dev and build', () => {
         path.join(appDir, 'dist', 'html/sub/index.html'),
         'utf-8',
       );
-      expect(htmlWithDoc.includes('<div id="root"><!--<?- html ?>--><h1'));
+      expect(htmlWithDoc).toContain(
+        '<div id="root" class="root"><!--<?- html ?>--><h1',
+      );
     });
 
     test('should has comment in Head', async () => {
@@ -244,7 +246,7 @@ describe('test dev and build', () => {
         path.join(appDir, 'dist-1', 'html/test/index.html'),
         'utf-8',
       );
-      expect(htmlNoDoc.includes('/static/js/convert-rem.'));
+      expect(htmlNoDoc).toContain('/static/js/convert-rem.');
     });
   });
 });
