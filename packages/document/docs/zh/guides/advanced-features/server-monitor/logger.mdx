@@ -19,3 +19,19 @@ import InternalLogger from '@site-docs/components/internal-logger.mdx';
 <InternalLogger />
 
 如需通过 `MODERN_SERVER_LOG_LEVEL` 配置内置生产服务器的日志级别，请参阅[生产服务器日志](../../basic-features/deploy#生产服务器日志)。
+
+## 错误日志中的请求头
+
+Modern.js 在 SSR 或服务端错误日志中记录请求头时，默认过滤 `cookie`、`set-cookie`、`authorization`、`proxy-authorization`、`x-api-key` 和 `x-proxy-auth`。日志会保留其他请求头，例如用于排查问题的 `x-request-id`。
+
+可以在 `modern.config.ts` 中通过 `server.logger.redactHeaders` 追加要过滤的请求头，名称不区分大小写。
+
+```ts
+import { defineConfig } from '@modern-js/app-tools'
+
+export default defineConfig({
+  server: {
+    logger: { redactHeaders: ['X-Internal-Token'] },
+  },
+})
+```

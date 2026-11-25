@@ -368,11 +368,12 @@ describe('getRenderHandler', () => {
   async function createTestRender(
     metaName: string,
     requestHandler: (request: Request) => Response,
+    logger?: ServerUserConfig['logger'],
   ) {
     const render = await getRenderHandler({
       routes: [route],
       pwd: '',
-      config: { server: { ssr: { forceCSR: true } } },
+      config: { server: { ssr: { forceCSR: true }, logger } },
       metaName,
     });
     const serverManifest = {
@@ -415,24 +416,37 @@ describe('getRenderHandler', () => {
     expect((await render({})).html).toBe('SSR');
   });
 
-  it('reports render errors with the request headers except cookie', async () => {
+  it('omits built-in and configured headers from SSR error logs', async () => {
     const error = new Error('render failed');
-    const render = await createTestRender('modern-js', () => {
-      throw error;
-    });
+    const render = await createTestRender(
+      'modern-js',
+      () => {
+        throw error;
+      },
+      { redactHeaders: ['X-Internal-Token'] },
+    );
 
-    const result = await render({
-      cookie: 'token=secret',
-      'x-custom': 'custom',
-    });
+    const headers = {
+      Cookie: 'sample',
+      'Set-Cookie': 'sample',
+      Authorization: 'sample',
+      'Proxy-Authorization': 'sample',
+      'X-Api-Key': 'sample',
+      'X-Proxy-Auth': 'sample',
+      'x-internal-token': 'sample',
+      'x-request-id': 'request-1',
+    };
+    const request = new Request('http://localhost/', { headers });
+    const result = await render(headers, request);
 
+    expect(request.headers.get('x-internal-token')).toBe('sample');
     expect(result.headers.get('x-modern-ssr-fallback')).toBe('1;reason=error');
     expect(result.monitors.error).toHaveBeenCalledTimes(1);
     expect(result.monitors.error).toHaveBeenCalledWith(
       expect.stringContaining('SSR Error - '),
       error.stack,
       '/',
-      { 'x-custom': 'custom' },
+      { 'x-request-id': 'request-1' },
     );
   });
 });

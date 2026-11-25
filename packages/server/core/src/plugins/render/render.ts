@@ -12,9 +12,9 @@ import { uniqueKeyByRoute } from '../../utils';
 import {
   ErrorDigest,
   createErrorHtml,
+  getHeadersForErrorLog,
   getRoutePath,
   getRuntimeEnv,
-  parseHeaders,
   parseQuery,
   sortRoutes,
 } from '../../utils';
@@ -97,16 +97,6 @@ export function matchRoute(
 
     return [result[0], result[1] as Params];
   }
-}
-
-function getHeadersWithoutCookie(headers: Record<string, any>) {
-  const _headers = {
-    ...headers,
-    cookie: undefined,
-  };
-  delete _headers.cookie;
-
-  return _headers;
 }
 
 export async function createRender({
@@ -196,7 +186,7 @@ export async function createRender({
         }, error = %s, req.url = %s, req.headers = %o`,
         e instanceof Error ? e.stack || e.message : e,
         forMatchpathname,
-        getHeadersWithoutCookie(parseHeaders(req)),
+        getHeadersForErrorLog(req, config.server?.logger),
       );
     };
 

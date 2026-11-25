@@ -1,5 +1,6 @@
 import type { Monitors } from '@modern-js/types';
-import { parseHeaders } from './request';
+import type { ServerUserConfig } from '../types/config';
+import { getHeadersForErrorLog } from './request';
 
 const ERROR_PAGE_TEXT: Record<number, string> = {
   404: 'This page could not be found.',
@@ -55,10 +56,9 @@ export function onError(
   error: Error | string,
   monitors?: Monitors,
   req?: Request,
+  logger?: ServerUserConfig['logger'],
 ) {
-  const headerData = req && parseHeaders(req);
-
-  headerData && delete headerData.cookie;
+  const headerData = req && getHeadersForErrorLog(req, logger);
 
   if (monitors) {
     monitors.error(
