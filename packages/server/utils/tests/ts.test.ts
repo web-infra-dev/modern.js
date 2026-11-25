@@ -340,6 +340,52 @@ describe('server compile', () => {
     }
   });
 
+  it('copies imported .json, .mjs and .cjs files outside the server directories into the output', async () => {
+    const appDir = await fs.mkdtemp(
+      path.join(os.tmpdir(), 'server-utils-assets-'),
+    );
+    try {
+      await fs.outputFile(
+        path.join(appDir, 'server/index.ts'),
+        [
+          "import flags from '../config/flags.json';",
+          "import helper = require('../lib/helper.cjs');",
+          'export default { flags, helper };',
+        ].join('\n'),
+      );
+      await fs.outputJSON(path.join(appDir, 'config/flags.json'), {
+        enabled: true,
+      });
+      await fs.outputFile(
+        path.join(appDir, 'lib/helper.cjs'),
+        "module.exports = require('./data.json');\n",
+      );
+      await fs.outputJSON(path.join(appDir, 'lib/data.json'), { cjs: true });
+      await fs.outputJSON(path.join(appDir, 'tsconfig.json'), {
+        compilerOptions: {
+          target: 'ES2022',
+          module: 'NodeNext',
+          moduleResolution: 'NodeNext',
+          resolveJsonModule: true,
+          allowJs: true,
+        },
+        include: ['server'],
+      });
+
+      await compile(appDir, { alias: {} } as any, {
+        sourceDirs: [path.join(appDir, 'server')],
+        distDir: path.join(appDir, 'dist'),
+        tsconfigPath: path.join(appDir, 'tsconfig.json'),
+      });
+
+      expect(
+        require(path.join(appDir, 'dist/server/index.js')).default,
+      ).toEqual({ flags: { enabled: true }, helper: { cjs: true } });
+    } finally {
+      await fs.remove(appDir);
+    }
+  });
+
   it('rejects unknown compilerOverrides values', async () => {
     const example = path.join(__dirname, './fixtures', './ts-example');
     const distDir = path.join(example, './dist-invalid');

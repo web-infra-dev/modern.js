@@ -187,6 +187,7 @@ export const compileBySwc: CompileFunc = async (
   );
 
   const scanned = new Map<string, ScannedSource>();
+  const assets = new Set<string>();
   const programFiles = await listProgramFiles({
     appDirectory,
     tsconfigPath,
@@ -194,6 +195,7 @@ export const compileBySwc: CompileFunc = async (
     distDir,
     rewrite,
     scanned,
+    assets,
   });
   // swc transforms on its own threads, so the files are compiled in parallel.
   await Promise.all(
@@ -233,6 +235,11 @@ export const compileBySwc: CompileFunc = async (
   for (const source of sourceDirs) {
     await copyFiles(source, distDir, appDirectory);
   }
+  await Promise.all(
+    [...assets].map(file =>
+      fs.copy(file, path.join(distDir, path.relative(appDirectory, file))),
+    ),
+  );
 
   const declaration = Boolean(compilerOptions.declaration);
   const check = runTypeCheck({
