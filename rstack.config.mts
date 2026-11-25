@@ -112,7 +112,6 @@ define.fmt({
     // Preserve release history.
     '**/CHANGELOG.md',
     'packages/runtime/plugin-runtime/tests/document/feature/document/_tempTsconfig.json',
-    'packages/server/server/tests/fixtures/pure/test-dist/**',
     // This HTML fixture is invalid.
     'packages/solutions/app-tools/tests/analyze/fixtures/html-templates/custom-partial/config/html/head.html',
     // This legacy declaration contains a default value in a function type.
