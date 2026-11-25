@@ -1,5 +1,6 @@
 import type { Rspack } from '@rsbuild/core';
 import { createBuildVersionCoordinator } from '@module-federation/enhanced/rspack';
+import { debugMFSSR } from '../server/ssrLogger';
 import { isWebTarget } from './utils';
 
 const HOT_UPDATE_ASSET_RE = /\.hot-update\.(?:json|m?js|css)(?:\.map)?$/i;
@@ -138,14 +139,27 @@ export function createDevManifestPublication() {
     publish(stats: object) {
       // A save during compilation or private-plugin preparation supersedes that
       // output, even if the compiler finishes successfully afterwards.
-      if (!isCurrent(stats)) return false;
+      if (!isCurrent(stats)) {
+        debugMFSSR('manifest-superseded', { stage: 'publish' });
+        return false;
+      }
       published = stats;
       return true;
     },
     /** Called after manifest, Service plugins and SSR resources are all ready. */
     notifyReady(stats: object, publication: DevBuildPublication) {
-      if (published !== stats || !isCurrent(stats)) return false;
+      if (published !== stats || !isCurrent(stats)) {
+        debugMFSSR('manifest-superseded', {
+          stage: 'notify-ready',
+          buildVersion: publication.buildVersion,
+        });
+        return false;
+      }
       readyPublication = publication;
+      debugMFSSR('manifest-ready', {
+        buildVersion: publication.buildVersion,
+        ssrReady,
+      });
       notify();
       return true;
     },

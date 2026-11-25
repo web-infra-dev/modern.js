@@ -32,6 +32,7 @@ import {
   DEV_MANIFEST_WAIT_TIMEOUT,
   anyAbortSignal,
 } from '../ssr-runtime/devManifestWait';
+import { logMFSSR } from '../server/ssrLogger';
 
 export function setEnv() {
   process.env['MF_SSR_PRJ'] = 'true';
@@ -492,6 +493,10 @@ export const moduleFederationSSRPlugin = (
                       ) &&
                       !pluginOptions.devManifestReady
                     ) {
+                      const waitHeader =
+                        req.headers[DEV_MANIFEST_WAIT_HEADER] === '1';
+                      let waitedMs: number | undefined;
+                      let waitTimedOut = false;
                       if (
                         pluginOptions.devManifestPublication?.ready &&
                         !pluginOptions.devManifestPublication.ssrReady &&
@@ -506,9 +511,10 @@ export const moduleFederationSSRPlugin = (
                       }
                       if (
                         !pluginOptions.devManifestReady &&
-                        req.headers[DEV_MANIFEST_WAIT_HEADER] === '1' &&
+                        waitHeader &&
                         pluginOptions.devManifestPublication
                       ) {
+                        const waitStarted = Date.now();
                         const disconnected = new AbortController();
                         const cancel = () => disconnected.abort();
                         req.once('aborted', cancel);
@@ -523,13 +529,33 @@ export const moduleFederationSSRPlugin = (
                           );
                         } catch {
                           // Timeout and disconnect never expose a stale manifest.
+                          if (!disconnected.signal.aborted) waitTimedOut = true;
                         } finally {
+                          waitedMs = Date.now() - waitStarted;
                           req.off('aborted', cancel);
                           res.off('close', cancel);
                         }
                         if (res.destroyed) return;
                       }
                       if (!pluginOptions.devManifestReady) {
+                        const buildReady = Boolean(
+                          pluginOptions.devManifestPublication?.ready,
+                        );
+                        const ssrReady =
+                          pluginOptions.devManifestPublication?.ssrReady;
+                        const reason = waitTimedOut
+                          ? 'wait-timeout'
+                          : buildReady && ssrReady === false
+                            ? 'ssr-not-ready'
+                            : 'not-ready';
+                        logMFSSR('warn', 'Manifest 503', {
+                          path: pathname,
+                          reason,
+                          waitedMs,
+                          buildReady,
+                          ssrReady,
+                          waitHeader: waitHeader ? 1 : 0,
+                        });
                         res.statusCode = 503;
                         res.setHeader('Cache-Control', 'no-store');
                         res.end('Federation build is not ready');

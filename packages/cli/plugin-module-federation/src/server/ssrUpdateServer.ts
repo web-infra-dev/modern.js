@@ -1,8 +1,8 @@
 import { AsyncLocalStorage } from 'node:async_hooks';
-import { logger } from '@modern-js/utils';
 import type { ServerPlugin, ServerContext } from '@modern-js/server-core';
 import type {
   SSRApplication,
+  SSRCoordinatorEvent,
   SSRResourceApplicationOptions,
   SSRRequestCoordinatorOptions,
   SSRApplicationOptions,
@@ -17,6 +17,7 @@ import {
 import type { RemoteCheckOptions } from './remoteUpdate';
 import { createSSRUpdateOwner } from './ssrUpdateOwner';
 import { anyAbortSignal } from '../ssr-runtime/devManifestWait';
+import { formatErrorMessage, logMFSSR } from './ssrLogger';
 
 const key = Symbol.for('modern-js.mf.ssr.update-manager');
 type Registry = {
@@ -93,6 +94,7 @@ export function createSSRUpdateServerPlugin(
         const adapter = createSSRUpdateAdapter({
           ...options,
           owner,
+          mode: options.mode ?? (context.dev ? 'dev' : 'prod'),
           maxPendingUpdates: options.application?.maxPendingUpdates,
           entries: options.entries || [
             ...new Set<string>(
@@ -117,6 +119,30 @@ export function createSSRUpdateServerPlugin(
           adapter.run(() =>
             manager ? registry().context.run(manager, operation) : operation(),
           );
+        const onCoordinatorEvent = (event: SSRCoordinatorEvent) => {
+          options.application?.onEvent?.(event);
+          if (event.type === 'admission') {
+            logMFSSR('warn', 'Admission', {
+              app: options.name,
+              decision: event.decision,
+              reason: event.reason,
+              phase: event.phase,
+              gen: event.generation,
+              entry: event.entryName,
+              waitedMs: event.waitedMs,
+              active: event.activeRequests,
+              pending: event.pendingRequests,
+            });
+          } else if (event.type === 'drain-timeout') {
+            logMFSSR('warn', 'Drain timeout', {
+              app: options.name,
+              drainTimeoutMs: event.drainTimeoutMs,
+              active: event.activeRequests,
+              scope: event.closedScope ?? 'all',
+              gen: event.generation,
+            });
+          }
+        };
         const resourceOptions: SSRResourceApplicationOptions & {
           run: typeof run;
         } = {
@@ -124,8 +150,16 @@ export function createSSRUpdateServerPlugin(
           requestTimeoutMs: 30_000,
           drainTimeoutMs: 30_000,
           ...options.application,
+          onEvent: onCoordinatorEvent,
           onInitialError: context.dev
-            ? error => logger.error(error)
+            ? error =>
+                logMFSSR('error', 'Failed', {
+                  app: options.name,
+                  mode: 'dev',
+                  stage: 'init',
+                  phase: 'unavailable',
+                  error: formatErrorMessage(error),
+                })
             : undefined,
           onAvailabilityChange: options.onAvailabilityChange,
           beforeRequest: options.beforeRequest,

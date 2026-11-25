@@ -170,6 +170,7 @@ export async function captureFailure(
   directory: string,
   phase: unknown,
   error: unknown,
+  logs?: ReadonlyMap<string, string>,
 ) {
   const snapshot: Record<string, unknown> = {
     phase,
@@ -209,6 +210,36 @@ export async function captureFailure(
     snapshot.screenshot = 'failure.png';
   } catch (error) {
     snapshot.screenshotError = String(error);
+  }
+  if (logs?.size) {
+    try {
+      const logsDir = path.join(directory, 'logs');
+      await mkdir(logsDir, { recursive: true });
+      const logFiles: Record<string, string> = {};
+      const mfSSRSummary: Record<string, string[]> = {};
+      await Promise.all(
+        [...logs.entries()].map(async ([role, content]) => {
+          const safeName = role.replace(/[^a-zA-Z0-9._-]/g, '_');
+          const filename = `${safeName}.log`;
+          await writeFile(path.join(logsDir, filename), content);
+          logFiles[role] = `logs/${filename}`;
+          const lines = content
+            .split(/\r?\n/)
+            .filter(
+              line =>
+                line.includes('[MF SSR]') || line.includes('modern-js:mf-ssr'),
+            )
+            .slice(-30);
+          if (lines.length) mfSSRSummary[role] = lines;
+        }),
+      );
+      snapshot.logs = logFiles;
+      if (Object.keys(mfSSRSummary).length) {
+        snapshot.mfSSRSummary = mfSSRSummary;
+      }
+    } catch (logError) {
+      snapshot.logsError = String(logError);
+    }
   }
   await writeFile(
     path.join(directory, 'failure.json'),

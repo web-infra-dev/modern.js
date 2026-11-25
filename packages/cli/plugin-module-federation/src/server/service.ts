@@ -33,6 +33,7 @@ import {
   getSSRUpdateOwner,
   runWithSSRUpdateOwner,
 } from './ssrUpdateOwner';
+import { debugMFSSR } from './ssrLogger';
 
 export interface BridgeServiceMiddlewareOptions {
   ownerId?: string;
@@ -327,6 +328,7 @@ export function createBridgeServiceIngressMiddleware(
   let scope: DiscoveryScope | undefined;
   let selections: Promise<unknown> = Promise.resolve();
   let disposal: Promise<void> | undefined;
+  const lastResolvedVersions = new Map<string, string>();
   const releaseScope = async (current: DiscoveryScope) => {
     current.closing = true;
     await Promise.allSettled([...current.pending]);
@@ -433,8 +435,19 @@ export function createBridgeServiceIngressMiddleware(
         throw Error(`Module '${id}' is not a Service Bridge application.`);
       if (!snapshot?.buildVersion)
         throw Error(`Service '${id}' has no build identity.`);
+      const url = getServiceUrl(snapshot.serviceBaseUrl, metadata.servicePath!);
+      const previousVersion = lastResolvedVersions.get(id);
+      if (previousVersion !== snapshot.buildVersion) {
+        lastResolvedVersions.set(id, snapshot.buildVersion);
+        debugMFSSR('service-ingress-resolved', {
+          module: id,
+          fromVer: previousVersion,
+          buildVersion: snapshot.buildVersion,
+          serviceUrl: url,
+        });
+      }
       return {
-        url: getServiceUrl(snapshot.serviceBaseUrl, metadata.servicePath!),
+        url,
         buildVersion: snapshot.buildVersion,
       };
     } finally {

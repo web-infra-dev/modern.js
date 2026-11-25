@@ -119,6 +119,15 @@ export async function startLab(
   const failures = [];
   let stopping = false;
   const logs = new Map();
+  const configuredLogLimit = Number(process.env.MF_LAB_LOG_LIMIT);
+  const logLimit =
+    Number.isSafeInteger(configuredLogLimit) && configuredLogLimit > 0
+      ? configuredLogLimit
+      : process.env.DEBUG ||
+          process.env.FEDERATION_DEBUG ||
+          process.env.MF_LAB_DIAGNOSTICS
+        ? 200000
+        : 24000;
   /** @type {{ probe: string; path: string; completed: boolean; aborted: boolean }[]} */
   const routeRequests = [];
   /** @type {{ probe: string; completed: boolean; aborted: boolean; marker?: string }[]} */
@@ -201,7 +210,7 @@ export async function startLab(
     logs.set(key, '');
     for (const stream of [child.stdout, child.stderr])
       stream.on('data', chunk => {
-        logs.set(key, (logs.get(key) + chunk).slice(-24000));
+        logs.set(key, (logs.get(key) + chunk).slice(-logLimit));
         if (process.env.MF_LAB_VERBOSE)
           process.stdout.write(`[${key}] ${chunk}`);
       });

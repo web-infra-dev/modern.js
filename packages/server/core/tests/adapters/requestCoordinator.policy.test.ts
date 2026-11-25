@@ -287,3 +287,67 @@ it('rejects submission from update and admission policy contexts', async () => {
   publication.resolve();
   await update;
 });
+
+it('emits abnormal admission and drain-timeout events without breaking handling', async () => {
+  const events: any[] = [];
+  const gate = coordinator({
+    drainTimeoutMs: 20,
+    requestPolicy: ctx => (ctx.request.url.includes('csr') ? 'csr' : 'reject'),
+    onEvent(event) {
+      events.push(event);
+      if (event.type === 'admission' && event.decision === 'reject') {
+        throw new Error('observer error must be ignored');
+      }
+    },
+  });
+  const inflight = deferred();
+  const active = gate.handle(request(), async () => {
+    await inflight.promise;
+    return new Response('ok');
+  });
+  await tick();
+
+  const update = gate.update(async () => {});
+  await tick();
+
+  const csrResponse = await gate.handle(
+    new Request('http://localhost/?csr=1'),
+    async () => new Response('ssr'),
+    undefined,
+    async () => new Response('csr', { status: 200 }),
+  );
+  expect(csrResponse.status).toBe(200);
+
+  const rejectResponse = await gate.handle(
+    new Request('http://localhost/?reject=1'),
+    async () => new Response('ssr'),
+  );
+  expect(rejectResponse.status).toBe(503);
+
+  await expect(update).rejects.toThrow('SSR drain timed out before mutation');
+  inflight.resolve();
+  await active;
+
+  expect(events).toEqual([
+    expect.objectContaining({
+      type: 'admission',
+      decision: 'csr',
+      reason: 'updating',
+      phase: 'draining',
+      generation: 0,
+    }),
+    expect.objectContaining({
+      type: 'admission',
+      decision: 'reject',
+      reason: 'updating',
+      phase: 'draining',
+      generation: 0,
+    }),
+    expect.objectContaining({
+      type: 'drain-timeout',
+      drainTimeoutMs: 20,
+      activeRequests: 1,
+      generation: 0,
+    }),
+  ]);
+});

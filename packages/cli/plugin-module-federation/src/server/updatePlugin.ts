@@ -13,7 +13,7 @@ import {
   startDevRemoteUpdates,
   DevRemoteUnavailableError,
 } from './devRemoteUpdates';
-import { logger } from '@modern-js/utils';
+import { formatErrorMessage, isMFSSRLogged, logMFSSR } from './ssrLogger';
 
 /** Development subscriptions and request fallback share the production update owner. */
 export default function updatePlugin(
@@ -42,7 +42,7 @@ export default function updatePlugin(
           const origin = request.headers.get('origin');
           if (origin && origin !== new URL(request.url).origin)
             return new Response(null, { status: 403 });
-          await watcher.notify();
+          await watcher.notify('hmr-check');
           return new Response(null, {
             status: 204,
             headers: { 'Cache-Control': 'no-store' },
@@ -99,6 +99,7 @@ export default function updatePlugin(
           }
         return [...result.values()];
       };
+      let activeTrigger: 'hmr-check' | 'request' | 'recover' | undefined;
       watcher = startDevRemoteUpdates({
         self: options.devBuild?.publisher(),
         requestTimeoutMs: options.application?.requestTimeoutMs,
@@ -130,23 +131,27 @@ export default function updatePlugin(
         },
         shouldUpdateRemote: (remote, input) =>
           manager.shouldUpdateRemote(remote, input),
+        onUpdating: (_remotes, trigger) => {
+          activeTrigger = trigger;
+        },
         updateRemotes: (remotes, input) =>
-          manager.updateRemotes(remotes, input),
-        onUpdating: remotes =>
-          logger.info(
-            `[MF SSR] Updating ${remotes.map(remote => remote.name).join(', ')}`,
-          ),
-        onApplied: remotes =>
-          logger.info(
-            `[MF SSR] Ready ${remotes.map(remote => remote.name).join(', ')}`,
-          ),
-        onError: error =>
-          logger.error(
-            error instanceof Error ? error : new Error(String(error)),
-          ),
+          manager.updateRemotes(remotes, {
+            ...input,
+            trigger: activeTrigger,
+          }),
+        onApplied: () => {},
+        onError: error => {
+          if (isMFSSRLogged(error)) return;
+          logMFSSR('error', 'Failed', {
+            app: options.name,
+            mode: 'dev',
+            stage: 'check',
+            error: formatErrorMessage(error),
+          });
+        },
       });
       options.devBuild?.registerRecover?.(async () => {
-        await watcher?.notify();
+        await watcher?.notify('recover');
       });
       return () => {
         options.devBuild?.registerRecover?.(undefined);

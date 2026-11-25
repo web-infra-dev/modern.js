@@ -7,6 +7,11 @@ import {
   resolveTargetModuleInfo,
 } from '@module-federation/node/lifecycle';
 import { DEV_MANIFEST_WAIT_HEADER } from '../ssr-runtime/devManifestWait';
+import {
+  debugMFSSR,
+  extractTargetVersion,
+  isMFSSRDebugEnabled,
+} from './ssrLogger';
 
 export { manifestFingerprint, moduleInfoFingerprint };
 
@@ -38,6 +43,8 @@ export interface RemoteCheckOptions {
 }
 export interface RemoteUpdateOptions extends RemoteCheckOptions {
   defer?: 'after-response';
+  /** Diagnostic metadata identifying what initiated this update. */
+  trigger?: string;
 }
 export interface RemoteUpdateReceipt {
   operationId: string;
@@ -133,6 +140,7 @@ export function createRemoteManifestReader({ waitForDevReady = false } = {}) {
     else if (previous?.modified)
       headers.set('If-Modified-Since', previous.modified);
     const maxAttempts = waitForDevReady ? 3 : 1;
+    const started = isMFSSRDebugEnabled() ? performance.now() : 0;
     let response!: Response;
     let manifest: unknown;
     for (let attempt = 1; attempt <= maxAttempts; attempt++) {
@@ -141,17 +149,39 @@ export function createRemoteManifestReader({ waitForDevReady = false } = {}) {
         signal: options.signal,
         cache: 'no-cache',
       });
-      if (response.status === 304 && previous) return previous.manifest;
-      if (!response.ok)
+      if (response.status === 304 && previous) {
+        debugMFSSR('manifest-fetch', {
+          remote: target.name,
+          status: 304,
+          buildVersion: extractTargetVersion({ manifest: previous.manifest }),
+          durationMs: started ? performance.now() - started : undefined,
+        });
+        return previous.manifest;
+      }
+      if (!response.ok) {
+        debugMFSSR('manifest-fetch', {
+          remote: target.name,
+          status: response.status,
+          attempt: attempt > 1 ? attempt : undefined,
+          url: target.entry,
+          durationMs: started ? performance.now() - started : undefined,
+        });
         throw new (
           response.status === 503 ? RemoteManifestUnavailableError : Error
         )(`Remote manifest returned HTTP ${response.status}: ${target.entry}`);
+      }
       try {
         manifest = await response.json();
         break;
       } catch (error) {
         if (attempt >= maxAttempts || !(error instanceof SyntaxError))
           throw error;
+        debugMFSSR('manifest-retry', {
+          remote: target.name,
+          attempt,
+          maxAttempts,
+          url: target.entry,
+        });
         aborted(options.signal);
         await new Promise<void>((resolve, reject) => {
           const timer = setTimeout(() => {
@@ -170,6 +200,12 @@ export function createRemoteManifestReader({ waitForDevReady = false } = {}) {
     if (!isRawManifest(manifest))
       throw new TypeError(`Invalid remote manifest: ${target.entry}`);
     manifestFingerprint(manifest, target.entry);
+    debugMFSSR('manifest-fetch', {
+      remote: target.name,
+      status: response.status,
+      buildVersion: extractTargetVersion({ manifest }),
+      durationMs: started ? performance.now() - started : undefined,
+    });
     cache.set(target.entry, {
       manifest,
       etag: response.headers.get('etag') || undefined,
@@ -189,6 +225,14 @@ function normalizeBaselineSnapshot(
   return {};
 }
 
+export interface RemoteApplyContext<A extends UpdateApplication> {
+  application: A;
+  operationId: string;
+  revision: number;
+  trigger?: string;
+  previousTargets: ReadonlyMap<string, RemoteUpdateTarget>;
+}
+
 export function createRemoteUpdateController<
   A extends UpdateApplication,
   R,
@@ -201,7 +245,28 @@ export function createRemoteUpdateController<
     targets: RemoteUpdateTarget[],
     onMutation: () => void,
     onStage: (stage: string) => void,
+    context: RemoteApplyContext<A>,
   ): Promise<R>;
+  onApplied?(info: {
+    application: A;
+    targets: RemoteUpdateTarget[];
+    result: R;
+    operationId: string;
+    revision: number;
+    trigger?: string;
+    timingsMs: Record<string, number>;
+  }): void;
+  onError?(info: {
+    application: A;
+    targets: RemoteUpdateTarget[];
+    operationId: string;
+    revision: number;
+    trigger?: string;
+    failedStage: string;
+    mutationStarted: boolean;
+    timingsMs: Record<string, number>;
+    error: unknown;
+  }): void;
 }) {
   type Operation = {
     fingerprint: string;
@@ -377,6 +442,17 @@ export function createRemoteUpdateController<
     }
     return targetChanged(applied(state, target), target);
   }
+  function changeReason(
+    current: RemoteUpdateTarget,
+    target: RemoteUpdateTarget,
+  ): 'entry' | 'deps' | 'version' | undefined {
+    if (registrationChanged(current, target)) return 'entry';
+    if (dependenciesChanged(current, target)) return 'deps';
+    const nextFp = candidateFingerprint(target);
+    const currentFp = candidateFingerprint(current);
+    if (nextFp && (!currentFp || currentFp !== nextFp)) return 'version';
+    return undefined;
+  }
   async function shouldUpdateRemote(
     application: A,
     target: RemoteUpdateTarget,
@@ -385,7 +461,20 @@ export function createRemoteUpdateController<
     const [captured] = capture([target]);
     const state = stateFor(application);
     aborted(input.signal);
-    if (application.status?.phase === 'unavailable') return true;
+    const reportCheck = (changed: boolean, reason: string) => {
+      if (!isMFSSRDebugEnabled()) return changed;
+      const current = applied(state, captured);
+      debugMFSSR('check-remote', {
+        remote: captured.name,
+        changed,
+        reason,
+        fromVer: extractTargetVersion(current),
+        toVer: extractTargetVersion(captured),
+      });
+      return changed;
+    };
+    if (application.status?.phase === 'unavailable')
+      return reportCheck(true, 'unavailable');
     const intent = state.pending
       .get(captured.name)
       ?.targets.find(value => value.name === captured.name);
@@ -397,13 +486,15 @@ export function createRemoteUpdateController<
         dependenciesChanged(intent, captured) ||
         Boolean(intentFp && capturedFp && intentFp !== capturedFp))
     )
-      return true;
+      return reportCheck(true, 'pending-intent');
     await changed(state, captured, input);
     aborted(input.signal);
     // Both publication and accepted intent can change while reading a candidate.
     // Recheck them together without another await or another manifest fetch.
-    if (application.status?.phase === 'unavailable') return true;
-    if (targetChanged(applied(state, captured), captured)) return true;
+    if (application.status?.phase === 'unavailable')
+      return reportCheck(true, 'unavailable');
+    const reason = changeReason(applied(state, captured), captured);
+    if (reason) return reportCheck(true, reason);
     const latestIntent = state.pending
       .get(captured.name)
       ?.targets.find(value => value.name === captured.name);
@@ -411,13 +502,17 @@ export function createRemoteUpdateController<
       ? candidateFingerprint(latestIntent)
       : undefined;
     const finalCapturedFp = candidateFingerprint(captured);
-    return Boolean(
+    const intentDiffers = Boolean(
       latestIntent &&
       (registrationChanged(latestIntent, captured) ||
         dependenciesChanged(latestIntent, captured) ||
         !latestIntentFp ||
         !finalCapturedFp ||
         latestIntentFp !== finalCapturedFp),
+    );
+    return reportCheck(
+      intentDiffers,
+      intentDiffers ? 'pending-intent' : 'unchanged',
     );
   }
   function submit(
@@ -483,13 +578,22 @@ export function createRemoteUpdateController<
     };
     const predecessor = state.queue;
     const started = performance.now();
+    let stageStarted = started;
+    const advanceStage = (nextStage: string) => {
+      const now = performance.now();
+      operation.timingsMs[operation.stage] =
+        (operation.timingsMs[operation.stage] || 0) + now - stageStarted;
+      stageStarted = now;
+      operation.stage = nextStage;
+    };
     let executing = false;
+    let activeTargetsForLog: RemoteUpdateTarget[] = captured;
     const execute = async () => {
       await predecessor;
       aborted(input.signal);
       executing = true;
       operation.phase = 'pending';
-      operation.stage = 'check';
+      advanceStage('check');
       const candidates: RemoteUpdateTarget[] = [];
       for (const target of captured) {
         const needsUpdate = await changed(state, target, input);
@@ -507,9 +611,11 @@ export function createRemoteUpdateController<
       const recovering = application.status?.phase === 'unavailable';
       let result: R | undefined;
       if (candidates.length || recovering) {
+        const previousTargets = new Map<string, RemoteUpdateTarget>();
         const activeTargets = (recovering ? captured : candidates).map(
           target => {
             const current = applied(state, target);
+            previousTargets.set(target.name, current);
             if (!target.manifest && !target.moduleInfo) {
               return {
                 ...target,
@@ -524,14 +630,20 @@ export function createRemoteUpdateController<
             return target;
           },
         );
+        activeTargetsForLog = activeTargets;
         result = await options.apply(
           application,
           activeTargets,
           () => {
             operation.mutationStarted = true;
           },
-          stage => {
-            operation.stage = stage;
+          advanceStage,
+          {
+            application,
+            operationId: operation.operationId,
+            revision,
+            trigger: input.trigger,
+            previousTargets,
           },
         );
         for (const target of activeTargets)
@@ -542,9 +654,20 @@ export function createRemoteUpdateController<
         state.appliedRevision = revision;
       }
       operation.phase = 'applied';
-      operation.stage = 'applied';
+      advanceStage('applied');
       operation.timingsMs.total = performance.now() - started;
       operation.appliedRevision = state.appliedRevision;
+      if (result !== undefined) {
+        options.onApplied?.({
+          application,
+          targets: activeTargetsForLog,
+          result,
+          operationId: operation.operationId,
+          revision,
+          trigger: input.trigger,
+          timingsMs: { ...operation.timingsMs },
+        });
+      }
       return {
         ...result,
         changed: Boolean(candidates.length || recovering),
@@ -576,9 +699,22 @@ export function createRemoteUpdateController<
     });
     operation.promise = accepted
       .catch(error => {
+        const failedStage = operation.stage;
+        advanceStage('failed');
         operation.phase = 'failed';
         operation.error = error;
         operation.timingsMs.total = performance.now() - started;
+        options.onError?.({
+          application,
+          targets: activeTargetsForLog,
+          operationId: operation.operationId,
+          revision,
+          trigger: input.trigger,
+          failedStage,
+          mutationStarted: operation.mutationStarted,
+          timingsMs: { ...operation.timingsMs },
+          error,
+        });
         throw error;
       })
       .finally(() => {
