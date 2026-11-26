@@ -1,6 +1,6 @@
 {
   "name": "ssr-base-json-test",
-  "version": "2.66.8",
+  "version": "0.0.0-canary-20261126181137",
   "private": true,
   "scripts": {
     "dev": "modern dev"
