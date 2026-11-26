@@ -26,6 +26,7 @@ type Options = {
   scriptLoading?: ScriptLoading;
   nonce?: string;
   useRsc?: boolean;
+  getRouteIdsByEntry?: () => Map<string, Set<string>> | undefined;
 };
 
 const generateContentHash = (content: string) => {
@@ -49,6 +50,8 @@ export class RouterPlugin {
 
   private useRsc: boolean;
 
+  private getRouteIdsByEntry?: Options['getRouteIdsByEntry'];
+
   constructor({
     staticJsDir = 'static/js',
     HtmlBundlerPlugin,
@@ -57,6 +60,7 @@ export class RouterPlugin {
     scriptLoading = 'defer',
     nonce,
     useRsc = false,
+    getRouteIdsByEntry,
   }: Options) {
     this.HtmlBundlerPlugin = HtmlBundlerPlugin;
     this.enableInlineRouteManifests = enableInlineRouteManifests;
@@ -65,6 +69,7 @@ export class RouterPlugin {
     this.scriptLoading = scriptLoading;
     this.nonce = nonce;
     this.useRsc = useRsc;
+    this.getRouteIdsByEntry = getRouteIdsByEntry;
   }
 
   private isTargetNodeOrWebWorker(target: Compiler['options']['target']) {
@@ -270,6 +275,7 @@ export class RouterPlugin {
 
           const entryChunkFiles = this.getEntryChunkFiles(entryChunks);
           const entryChunkFileIds = entryChunks.map(chunk => chunk.id);
+          const routeIdsByEntry = this.getRouteIdsByEntry?.();
           for (let i = 0; i < entryChunkFiles.length; i++) {
             const entryName = entryNames[i];
             const file = entryChunkFiles[i];
@@ -282,7 +288,20 @@ export class RouterPlugin {
             }
 
             let relatedAssets: typeof routeAssets = {};
-            if (entryChunkFiles.length > 1) {
+            // The client only looks up route ids (PrefetchLink, RSC CSS
+            // injection), so keep just the routes registered for this entry and
+            // drop other named chunk groups (entry groups, `webpackChunkName`
+            // lazy chunks). Server-side readers use the on-disk manifest.
+            const entryRouteIds = (chunkNames || [])
+              .map(name => routeIdsByEntry?.get(name))
+              .filter((ids): ids is Set<string> => Boolean(ids));
+            if (entryRouteIds.length > 0) {
+              Object.keys(routeAssets).forEach(routeId => {
+                if (entryRouteIds.some(ids => ids.has(routeId))) {
+                  relatedAssets[routeId] = routeAssets[routeId];
+                }
+              });
+            } else if (entryChunkFiles.length > 1) {
               Object.keys(routeAssets).forEach(routeId => {
                 const segments = routeId.split('_');
                 const chunkName = segments[0];
