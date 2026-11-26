@@ -38,18 +38,28 @@ type DeferredDataComponentType = (props?: {
   nonce?: string;
 }) => JSX.Element | null;
 
+type DynamicBoundaryComponentType = React.ComponentType<{
+  children?: React.ReactNode;
+}>;
+
 export const renderNestedRoute = (
   nestedRoute: NestedRoute,
   options: {
     parent?: NestedRoute;
     DeferredDataComponent?: DeferredDataComponentType;
+    /**
+     * Wraps the element of every route that has a data loader, inside a
+     * Suspense boundary whose fallback is the nearest `loading` component.
+     * Partial prerendering uses it to postpone the parts that need loader data.
+     */
+    DynamicBoundary?: DynamicBoundaryComponentType;
     props?: Record<string, any>;
   } = {},
 ) => {
   const { children, index, id, component, isRoot, lazyImport, config, handle } =
     nestedRoute;
   const Component = component as unknown as React.ComponentType<any>;
-  const { parent, props = {} } = options;
+  const { parent, props = {}, DynamicBoundary } = options;
 
   const routeProps: Omit<RouteProps, 'children' | 'lazy'> = {
     caseSensitive: nestedRoute.caseSensitive,
@@ -113,6 +123,17 @@ export const renderNestedRoute = (
     routeProps.element = element;
   }
 
+  if (DynamicBoundary && nestedRoute.loader) {
+    // A page route shows the `loading` component of its directory, which
+    // belongs to the parent route.
+    const Loading = nestedRoute.loading || parent?.loading;
+    routeProps.element = (
+      <Suspense fallback={Loading ? <Loading /> : null}>
+        <DynamicBoundary>{routeProps.element}</DynamicBoundary>
+      </Suspense>
+    );
+  }
+
   if (nestedRoute.loading) {
     routeProps.hydrateFallbackElement = <nestedRoute.loading />;
   }
@@ -120,6 +141,7 @@ export const renderNestedRoute = (
   const childElements = children?.map(childRoute => {
     return renderNestedRoute(childRoute, {
       parent: nestedRoute,
+      DynamicBoundary,
     });
   });
 

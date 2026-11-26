@@ -12,7 +12,7 @@ export interface EntryInfo {
   isAutoMount: boolean;
   isCustomSourceEntry: boolean;
   customEntry: boolean;
-  ssr: boolean | 'stream' | 'string';
+  ssr: boolean | 'stream' | 'string' | 'ppr';
   ssg: boolean;
 }
 
@@ -88,14 +88,17 @@ export const info = async (
     );
 
     // Determine SSR mode
-    let ssrMode: boolean | 'stream' | 'string' = false;
+    let ssrMode: boolean | 'stream' | 'string' | 'ppr' = false;
     if (ssrOptions) {
       if (typeof ssrOptions === 'boolean') {
         // When ssr is boolean true, default mode is 'stream'
         ssrMode = 'stream';
       } else if (typeof ssrOptions === 'object') {
         // When ssr is object, default mode is 'stream' unless explicitly set to 'string'
-        ssrMode = ssrOptions.mode === 'string' ? 'string' : 'stream';
+        ssrMode =
+          ssrOptions.mode === 'string' || ssrOptions.mode === 'ppr'
+            ? ssrOptions.mode
+            : 'stream';
       }
     }
 
