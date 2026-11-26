@@ -1,5 +1,4 @@
-import { createPluginManager } from '../src/manager';
-import type { CLIPlugin } from '../src/types/plugin';
+import { createPluginManager, type CLIPlugin } from '../src';
 
 const pluginModern = (): CLIPlugin<{}, {}> => {
   return {

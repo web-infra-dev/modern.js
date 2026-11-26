@@ -5,9 +5,19 @@ import type { AddressInfo } from 'node:net';
 import type { Readable } from 'node:stream';
 import { createStaticHandler } from '@modern-js/runtime-utils/router';
 import { createMemoryStorage } from '@modern-js/runtime-utils/storer';
-import { createNodeServer } from '../../src/adapters/node/node';
-import { getCacheResult } from '../../src/plugins/render/ssrCache';
-import type { RequestHandlerOptions } from '../../src/types/requestHandler';
+import { createNodeServer } from '../../src/adapters/node';
+import { createCachedRender } from '../helpers';
+
+const strategy = { maxAge: 30_000, staleWhileRevalidate: 300_000 };
+let elapsed = 0;
+beforeEach(() => {
+  elapsed = 0;
+  const now = Date.now.bind(Date);
+  rstest.spyOn(Date, 'now').mockImplementation(() => now() + elapsed);
+});
+afterEach(() => {
+  rstest.restoreAllMocks();
+});
 
 function deferred<T>() {
   let resolve!: (value: T) => void;
@@ -103,27 +113,29 @@ async function close(server: Server | Http2Server) {
 
 it('finishes stale cache revalidation after the HTTP response closes', async () => {
   const container = createMemoryStorage<string>('ssr-cache-response-lifecycle');
-  await container.set(
-    '/',
-    JSON.stringify({ val: 'cached', cursor: Date.now() - 60_000 }),
-  );
   const loader = deferred<string>();
   const responseClosed = deferred<void>();
   const router = createStaticHandler([
     { id: 'page', path: '/', loader: () => loader.promise },
   ]);
-  const server = await createNodeServer(req =>
-    getCacheResult(req, {
-      cacheControl: { maxAge: 30_000, staleWhileRevalidate: 300_000 },
-      container,
-      requestHandlerOptions: {} as RequestHandlerOptions,
-      requestHandler: async request => {
-        const context = await router.query(request);
-        if (context instanceof Response) return context;
-        return new Response(context.loaderData.page);
-      },
-    }),
+  let revalidating = false;
+  const { render } = await createCachedRender(
+    { strategy, container },
+    async request => {
+      if (!revalidating) return new Response('cached');
+      const context = await router.query(request);
+      if (context instanceof Response) return context;
+      return new Response(context.loaderData.page);
+    },
   );
+  expect(await (await render(new Request('http://localhost/'))).text()).toBe(
+    'cached',
+  );
+  await expect.poll(() => container.has('/')).toBe(true);
+  const previous = await container.get('/');
+  revalidating = true;
+  elapsed += 60_000;
+  const server = await createNodeServer(render);
   server.on('request', (_req, res) => {
     res.once('close', () => responseClosed.resolve());
   });
@@ -134,9 +146,7 @@ it('finishes stale cache revalidation after the HTTP response closes', async () 
     expect(await request(url)).toEqual({ body: 'cached', cache: 'stale' });
     await responseClosed.promise;
     loader.resolve('fresh');
-    await expect
-      .poll(async () => JSON.parse((await container.get('/'))!).val)
-      .toBe('fresh');
+    await expect.poll(() => container.get('/')).not.toBe(previous);
     expect(await request(url)).toEqual({ body: 'fresh', cache: 'hit' });
   } finally {
     loader.resolve('fresh');
@@ -149,21 +159,12 @@ it.each(['render', 'stream'])(
   'keeps the cached response when revalidation fails in the %s',
   async failure => {
     const container = createMemoryStorage<string>(`ssr-cache-error-${failure}`);
-    await container.set(
-      '/',
-      JSON.stringify({ val: 'cached', cursor: Date.now() - 60_000 }),
-    );
     const error = new Error('render failed');
-    const errors: unknown[] = [];
-    const response = await getCacheResult(new Request('http://localhost/'), {
-      cacheControl: { maxAge: 30_000, staleWhileRevalidate: 300_000 },
-      container,
-      requestHandlerOptions: {
-        onError: error => {
-          errors.push(error);
-        },
-      } as RequestHandlerOptions,
-      requestHandler: async () => {
+    let revalidating = false;
+    const { render, monitors } = await createCachedRender(
+      { strategy, container },
+      async () => {
+        if (!revalidating) return new Response('cached');
         if (failure === 'stream') {
           return new Response(
             new ReadableStream({
@@ -176,11 +177,29 @@ it.each(['render', 'stream'])(
         }
         throw error;
       },
-    });
-    expect(await response.text()).toBe('cached');
-    await expect.poll(() => errors).toEqual([error]);
-    expect(JSON.parse((await container.get('/'))!).val).toBe('cached');
-    await container.delete('/');
+    );
+    try {
+      const req = new Request('http://localhost/');
+      expect(await (await render(req)).text()).toBe('cached');
+      await expect.poll(() => container.has('/')).toBe(true);
+      const previous = await container.get('/');
+      revalidating = true;
+      elapsed += 60_000;
+
+      const response = await render(req);
+      expect(response.headers.get('x-render-cache')).toBe('stale');
+      expect(await response.text()).toBe('cached');
+      await expect.poll(() => monitors.error.mock.calls.length).toBe(1);
+      expect(monitors.error).toHaveBeenCalledWith(
+        expect.stringContaining('render-cache'),
+        error.stack,
+        '/',
+        {},
+      );
+      expect(await container.get('/')).toBe(previous);
+    } finally {
+      await container.delete('/');
+    }
   },
 );
 
@@ -194,11 +213,18 @@ describe.each(['http', 'http2'] as const)(
           const container = createMemoryStorage<string>(
             `ssr-cache-stream-${protocol}-${cacheStatus}-${outcome}`,
           );
-          const previous =
-            cacheStatus === 'expired'
-              ? JSON.stringify({ val: 'cached', cursor: Date.now() - 400_000 })
-              : undefined;
-          if (previous) await container.set('/', previous);
+          if (cacheStatus === 'expired') {
+            const { render } = await createCachedRender(
+              { strategy, container },
+              async () => new Response('cached'),
+            );
+            expect(
+              await (await render(new Request('http://localhost/'))).text(),
+            ).toBe('cached');
+            await expect.poll(() => container.has('/')).toBe(true);
+            elapsed += 400_000;
+          }
+          const previous = await container.get('/');
           const originalSet = container.set.bind(container);
           const setCache = rstest.spyOn(container, 'set');
           const finishCacheWrite = deferred<void>();
@@ -224,17 +250,11 @@ describe.each(['http', 'http2'] as const)(
               cancel(reason);
             },
           });
-          const adapter = await createNodeServer(req =>
-            getCacheResult(req, {
-              cacheControl: { maxAge: 30_000, staleWhileRevalidate: 300_000 },
-              container,
-              requestHandlerOptions: {} as RequestHandlerOptions,
-              requestHandler: async () =>
-                new Response(stream, {
-                  headers: { 'Content-Type': 'text/html' },
-                }),
-            }),
+          const { render } = await createCachedRender(
+            { strategy, container },
+            async () => new Response(stream),
           );
+          const adapter = await createNodeServer(render);
           const server =
             protocol === 'http'
               ? adapter
@@ -267,12 +287,10 @@ describe.each(['http', 'http2'] as const)(
                 expect(await container.get('/')).toBe(previous);
                 finishCacheWrite.resolve();
               }
-              await expect
-                .poll(async () => {
-                  const cached = await container.get('/');
-                  return cached ? JSON.parse(cached).val : undefined;
-                })
-                .toBe(firstChunk + lastChunk);
+              await expect.poll(() => container.get('/')).not.toBe(previous);
+              const cached = await render(new Request(url));
+              expect(cached.headers.get('x-render-cache')).toBe('hit');
+              expect(await cached.text()).toBe(firstChunk + lastChunk);
               expect(cancel).not.toHaveBeenCalled();
             } else {
               if (outcome === 'disconnect') {

@@ -2,6 +2,7 @@ import path from 'node:path';
 import puppeteer, { type Browser, type Page } from 'puppeteer';
 import { readFile, writeFile, readdir } from 'node:fs/promises';
 import {
+  createIsolatedTestApp,
   getPort,
   killApp,
   launchApp,
@@ -170,7 +171,75 @@ describe('manifest-based MCP Apps', () => {
     }
   });
 
-  it('boots a local multi-entry card and rebuilds its dependencies', async () => {
+  it('rejects an invalid mcp-views.json during build', async () => {
+    const isolated = await createIsolatedTestApp(appDir, {
+      parentDir: path.resolve(appDir, '../..'),
+    });
+    try {
+      await writeFile(
+        path.join(isolated.appDir, 'mcp-views.json'),
+        JSON.stringify({ views: {}, tools: [] }),
+      );
+      const build = await modernBuild(isolated.appDir, [], {
+        rejectOnCompileError: false,
+        env: { MCP_BUILD_ONLY: '1' },
+      });
+      const output = `${build.stdout}\n${build.stderr}`;
+      expect(build.code, output).not.toBe(0);
+      expect(output).toContain('Unknown MCP views option: tools');
+    } finally {
+      await isolated.cleanup();
+    }
+  });
+
+  it('emits configured CSP and a deployed remote in the UI manifest', async () => {
+    const isolated = await createIsolatedTestApp(appDir, {
+      parentDir: path.resolve(appDir, '../..'),
+    });
+    try {
+      const viewsPath = path.join(isolated.appDir, 'mcp-views.json');
+      const views = JSON.parse(await readFile(viewsPath, 'utf8'));
+      const remote = 'https://ui.example/mf-manifest.json';
+      const csp = {
+        resourceDomains: ['https://images.example'],
+        connectDomains: ['https://api.example'],
+      };
+      await writeFile(viewsPath, JSON.stringify({ ...views, remote, csp }));
+      const build = await modernBuild(isolated.appDir, [], {
+        env: { MCP_BUILD_ONLY: '1' },
+      });
+      expect(build.code, `${build.stdout}\n${build.stderr}`).toBe(0);
+      const manifest = JSON.parse(
+        await readFile(
+          path.join(isolated.appDir, 'dist/mcp-apps/ui-manifest.json'),
+          'utf8',
+        ),
+      );
+      expect(manifest.version).toBe(1);
+      expect(manifest.views.local).toMatchObject({
+        html: expect.stringMatching(/^\.\/ui\/.+\.html$/),
+        ui: { csp },
+      });
+      expect(manifest.views.todos).toMatchObject({
+        expose: './Todos',
+        ui: { csp },
+      });
+      expect(manifest.remotes[manifest.views.todos.remote]).toEqual({
+        entry: remote,
+        shell: './ui/mcp-shell.html',
+      });
+      expect(
+        await readFile(
+          path.join(isolated.appDir, 'dist/mcp-apps/ui/mcp-shell.html'),
+          'utf8',
+        ),
+      ).toContain('<html');
+    } finally {
+      await isolated.cleanup();
+    }
+  });
+
+  it('boots a local multi-entry card, isolates tool results and rebuilds its dependencies', async () => {
     port = await getPort();
     app = await launchApp(appDir, port);
     const initial = await rpc(port, 'resources/read', {
@@ -221,6 +290,70 @@ describe('manifest-based MCP Apps', () => {
       availableDisplayModes: ['inline'],
       experimental: { fixture: { source: 'local' } },
     });
+    const notify = (method: string, params: unknown) =>
+      page.$eval(
+        'iframe',
+        (iframe, method, params) =>
+          iframe.contentWindow!.postMessage(
+            { jsonrpc: '2.0', method, params },
+            '*',
+          ),
+        `ui/notifications/${method}`,
+        params,
+      );
+    const previousTitle = 'Previous tool result';
+    const errorTitle = 'Error structured content must not render';
+    for (const [method, params, status] of [
+      [
+        'tool-result',
+        {
+          isError: true,
+          content: [],
+          structuredContent: {
+            todos: [{ id: 'error', title: errorTitle, completed: false }],
+          },
+        },
+        'Tool execution failed',
+      ],
+      ['tool-cancelled', { reason: 'Cancelled by host' }, 'Tool cancelled'],
+      ['tool-input', { arguments: {} }, ''],
+    ] as const) {
+      // Start each call with an unmounted view, then render a successful result.
+      await notify('tool-input', { arguments: {} });
+      await initialFrame.waitForFunction(
+        () => !document.querySelector('section'),
+      );
+      await notify('tool-result', {
+        content: [],
+        structuredContent: {
+          todos: [{ id: 'previous', title: previousTitle, completed: false }],
+        },
+      });
+      await initialFrame.waitForFunction(
+        title => document.querySelector('li')?.textContent === title,
+        {},
+        previousTitle,
+      );
+      await notify(method, params);
+      await initialFrame.waitForFunction(
+        status =>
+          !document.querySelector('section') &&
+          (document.querySelector('[role="alert"], [role="status"]')
+            ?.textContent ?? '') === status,
+        {},
+        status,
+      );
+      const text = await initialFrame.evaluate(() => document.body.textContent);
+      expect(text).not.toContain(previousTitle);
+      expect(text).not.toContain(errorTitle);
+    }
+    await notify('tool-result', {
+      content: [],
+      structuredContent: { todos: [] },
+    });
+    await initialFrame.waitForSelector('input[aria-label="Todo title"]');
+    expect(await initialFrame.$$('li')).toHaveLength(0);
+
     const labelPath = path.join(appDir, 'src/components/local-label.ts');
     originalLabel = await readFile(labelPath, 'utf8');
     await writeFile(

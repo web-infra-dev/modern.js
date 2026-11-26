@@ -1,8 +1,11 @@
 import path from 'path';
 import type { ServerRoute } from '@modern-js/types';
-import { injectResourcePlugin } from '../../src/adapters/node/plugins';
-import { createDefaultPlugins, renderPlugin } from '../../src/plugins';
-import { createServerBase } from '../../src/serverBase';
+import {
+  createDefaultPlugins,
+  createServerBase,
+  renderPlugin,
+} from '../../src';
+import { injectResourcePlugin } from '../../src/adapters/node';
 import { getDefaultAppContext, getDefaultConfig } from '../helpers';
 
 it.each([false, true, undefined])(

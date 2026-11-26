@@ -1,9 +1,12 @@
 import path from 'path';
 import type { ServerRoute } from '@modern-js/types';
-import { injectResourcePlugin } from '../../src/adapters/node/plugins';
-import { createDefaultPlugins, renderPlugin } from '../../src/plugins';
-import { createRender } from '../../src/plugins/render/render';
-import { createServerBase } from '../../src/serverBase';
+import {
+  createDefaultPlugins,
+  createServerBase,
+  getRenderHandler,
+  renderPlugin,
+} from '../../src';
+import { injectResourcePlugin } from '../../src/adapters/node';
 import { getDefaultAppContext, getDefaultConfig } from '../helpers';
 
 async function createRouteServer(urlPath: string, isSSR = true) {
@@ -120,7 +123,7 @@ describe('render route paths', () => {
         isSSR: false,
       }),
     ) as ServerRoute[];
-    const render = await createRender({
+    const render = await getRenderHandler({
       routes,
       pwd: '',
       config: getDefaultConfig(),

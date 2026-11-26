@@ -1,3 +1,5 @@
+import { execFileSync } from 'node:child_process';
+import { lstatSync } from 'node:fs';
 import { readdir, readFile, realpath } from 'node:fs/promises';
 import { dirname, join, resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
@@ -12,7 +14,7 @@ const integrationPath = 'tests/integration';
 const rules = new Map([
   [
     'internal-src-import',
-    'Test through public package entries or exercise the user flow in tests/integration/. Do not widen package exports or entry-file exports solely for testing.',
+    'Test through public package entries or existing tests/integration/ user flows. If neither covers the behavior, record temporary verification evidence in the PR. Do not commit internal unit tests, widen package.json exports or entry-file exports, or self-approve inline exceptions.',
   ],
   [
     'internal-module-mock',
@@ -45,14 +47,14 @@ const marker = 'test-governance-allow';
 export function isTestFile(path) {
   return (
     /\.[cm]?[jt]sx?$/.test(path) &&
+    !/(?:^|\/)(?:fixtures?|node_modules)\//.test(path) &&
     (/\.(?:test|spec)\.[cm]?[jt]sx?$/.test(path) ||
       /(?:^|\/)__tests__\//.test(path) ||
-      (/^(?:packages|scripts)\/.+\/tests\//.test(path) &&
-        !/(?:^|\/)(?:fixtures?|node_modules)\//.test(path)))
+      /^(?:packages|scripts)\/.+\/tests\//.test(path))
   );
 }
 
-function exceptionsFor(comments, touched, today, path) {
+function exceptionsFor(comments, includesLine, today, path) {
   const exceptions = new Map();
   const diagnostics = [];
   for (const comment of comments) {
@@ -60,7 +62,7 @@ function exceptionsFor(comments, touched, today, path) {
       comment.type === 'CommentLine' ? `//${comment.value}` : comment.value;
     for (const [offset, text] of commentText.split('\n').entries()) {
       const line = comment.loc.start.line + offset;
-      if (!touched.has(line) || !text.includes(marker)) continue;
+      if (!includesLine(line) || !text.includes(marker)) continue;
       const match = text.match(
         /^\/\/ test-governance-allow: ([a-z-]+) \| reason: ([^|]+?) \| expires: (\d{4}-\d{2}-\d{2}) \| approved-by: @([a-z\d](?:[a-z\d-]{0,37}[a-z\d])?)\s*$/i,
       );
@@ -106,7 +108,9 @@ export function checkTestSource(
   today = new Date().toISOString().slice(0, 10),
   isInternalImport,
 ) {
-  if (!touched.size) return [];
+  if (touched?.size === 0) return [];
+  // Without a diff filter every line is in scope, including exception comments.
+  const includesLine = line => !touched || touched.has(line);
   // Reuse the repository's declared Babel dependency, never contributor configs.
   const ast = parseSync(source, {
     filename: path,
@@ -122,21 +126,21 @@ export function checkTestSource(
   });
   const { exceptions, diagnostics } = exceptionsFor(
     ast.comments || [],
-    touched,
+    includesLine,
     today,
     path,
   );
   function report(rule, start, end = start, detail = '') {
-    let changedLine;
+    let firstLine;
     for (let line = start.loc.start.line; line <= end.loc.end.line; line++) {
-      if (!touched.has(line)) continue;
-      changedLine ??= line;
+      if (!includesLine(line)) continue;
+      firstLine ??= line;
       if (exceptions.get(line) === rule) return;
     }
-    if (changedLine !== undefined)
+    if (firstLine !== undefined)
       diagnostics.push({
         path,
-        line: changedLine,
+        line: firstLine,
         rule,
         message: detail + rules.get(rule),
       });
@@ -239,6 +243,31 @@ function addedLines(diff) {
   return touched;
 }
 
+// -z accepts literal paths (including newlines). The batch response frames each
+// blob with its byte length, so decode UTF-8 only after slicing the payload.
+function readGitFiles(root, revision, paths) {
+  if (!paths.length) return [];
+  const blobs = execFileSync(
+    'git',
+    ['cat-file', '--batch=%(objecttype) %(objectsize)', '-z'],
+    {
+      cwd: root,
+      input: paths.map(path => `${revision}:${path}\0`).join(''),
+      maxBuffer: Infinity,
+    },
+  );
+  let offset = 0;
+  return paths.map(path => {
+    const end = blobs.indexOf(10, offset);
+    const header = blobs.toString('utf8', offset, end).match(/^blob (\d+)$/);
+    if (!header) throw new Error(`Cannot read Git blob ${revision}:${path}`);
+    const start = end + 1;
+    const size = Number(header[1]);
+    offset = start + size + 1;
+    return blobs.toString('utf8', start, start + size);
+  });
+}
+
 function fixtureDirectories(paths) {
   return new Set(
     paths
@@ -285,29 +314,39 @@ export async function runCheck(
     '--no-textconv',
     '--no-renames',
   ];
-  if (staged) diffArgs.push('--cached');
+  if (staged) diffArgs.push('--cached', '--ita-invisible-in-index');
   diffArgs.push(baseline);
   if (target) diffArgs.push(target);
-  const targetPaths = splitPaths(
-    await git(
-      root,
-      treeMode
-        ? ['ls-tree', '-r', '--name-only', '-z', target]
-        : ['ls-files', '--cached', '-z'],
-    ),
-  );
   const basePaths = splitPaths(
     await git(root, ['ls-tree', '-r', '--name-only', '-z', baseline]),
   );
-  async function content(path) {
-    if (treeMode) return git(root, ['show', `${target}:${path}`]);
-    if (staged) return git(root, ['show', `:${path}`]);
-    return readFile(join(root, path), 'utf8');
+  // Apply the selected diff to the base tree. Unlike ls-files --cached, this
+  // includes only real staged additions, not `git add -N` placeholders.
+  const files = new Set(basePaths);
+  const changed = new Set();
+  const changes = splitPaths(
+    await git(root, [...diffArgs, '--name-status', '-z', '--']),
+  );
+  for (let i = 0; i < changes.length; i += 2) {
+    const status = changes[i];
+    const path = changes[i + 1];
+    if (status === 'U') throw new Error(`Unmerged path: ${path}`);
+    if (status === 'D') files.delete(path);
+    else {
+      files.add(path);
+      changed.add(path);
+    }
   }
-  const allowlist = parseAllowlist(await content(allowlistPath));
+  const fromGit = staged || treeMode;
+  const readFiles = paths =>
+    fromGit
+      ? readGitFiles(root, target ?? '', paths)
+      : Promise.all(paths.map(path => readFile(join(root, path), 'utf8')));
+  const [allowlistSource] = await readFiles([allowlistPath]);
+  const allowlist = parseAllowlist(allowlistSource);
   const diagnostics = [];
   let directories;
-  if (staged || treeMode) directories = fixtureDirectories(targetPaths);
+  if (fromGit) directories = fixtureDirectories([...files]);
   else {
     const entries = await readdir(join(root, integrationPath), {
       withFileTypes: true,
@@ -347,56 +386,78 @@ export async function runCheck(
         message: `Allowlist additions (${added.join(', ')}) require explicit human approval and the ${approvalLabel} PR label. Pure entry removals do not require this label. Do not add the label or change the allowlist without human approval.`,
       });
   }
-  const changed = splitPaths(
-    await git(root, [
-      ...diffArgs,
-      '--diff-filter=ACMRT',
-      '--name-only',
-      '-z',
-      '--',
-    ]),
-  );
-  const untracked =
-    !staged && !treeMode
-      ? splitPaths(
-          await git(root, ['ls-files', '--others', '--exclude-standard', '-z']),
-        )
-      : [];
-  const untrackedSet = new Set(untracked);
-  const changedTests = [...new Set([...changed, ...untracked])].filter(
-    isTestFile,
-  );
-  let checkPackage;
-  if (changedTests.some(path => path.startsWith('packages/'))) {
-    const files = new Set([...targetPaths, ...untracked]);
-    if (!staged && !treeMode) {
-      for (const path of splitPaths(
-        await git(root, ['ls-files', '--deleted', '-z']),
-      ))
+  const untracked = new Set();
+  if (!fromGit) {
+    // -t marks skip-worktree paths S, deletions R and untracked files ?.
+    // S is only an index flag: exclude the path only if it is absent on disk.
+    const entries = splitPaths(
+      await git(root, [
+        'ls-files',
+        '-t',
+        '--cached',
+        '--deleted',
+        '--others',
+        '--exclude-standard',
+        '-z',
+      ]),
+    );
+    for (const entry of entries) {
+      const path = entry.slice(2);
+      if (
+        entry[0] === 'R' ||
+        (entry[0] === 'S' &&
+          !lstatSync(join(root, path), { throwIfNoEntry: false }))
+      )
         files.delete(path);
+      else if (entry[0] === '?') {
+        untracked.add(path);
+        files.add(path);
+        changed.add(path);
+      }
     }
-    checkPackage = await packageImportCheck(files, content);
   }
-  let files = 0;
+  const packageTests = [...files].filter(
+    path => path.startsWith('packages/') && isTestFile(path),
+  );
+  const changedTests = [...changed].filter(
+    path =>
+      files.has(path) && !path.startsWith('packages/') && isTestFile(path),
+  );
+  if (packageTests.length) {
+    const checkPackage = await packageImportCheck(
+      files,
+      packageTests,
+      readFiles,
+    );
+    const sources = await readFiles(packageTests);
+    for (const [i, path] of packageTests.entries())
+      diagnostics.push(
+        ...checkTestSource(
+          path,
+          sources[i],
+          undefined,
+          today,
+          checkPackage(path),
+        ),
+      );
+  }
+  const sources = await readFiles(changedTests);
   let lines = 0;
-  for (const path of changedTests) {
-    const source = await content(path);
-    const touched = untrackedSet.has(path)
+  for (const [i, path] of changedTests.entries()) {
+    const source = sources[i];
+    const touched = untracked.has(path)
       ? new Set(source.split('\n').map((_, index) => index + 1))
       : addedLines(await git(root, [...diffArgs, '--unified=0', '--', path]));
-    files++;
     lines += touched.size;
-    diagnostics.push(
-      ...checkTestSource(
-        path,
-        source,
-        touched,
-        today,
-        await checkPackage?.(path),
-      ),
-    );
+    diagnostics.push(...checkTestSource(path, source, touched, today));
   }
-  return { directories: directories.size, files, lines, diagnostics };
+  return {
+    directories: directories.size,
+    packageFiles: packageTests.length,
+    files: changedTests.length,
+    lines,
+    diagnostics,
+  };
 }
 
 async function main() {
@@ -432,7 +493,7 @@ async function main() {
         `${diagnostic.path}${diagnostic.line ? `:${diagnostic.line}` : ''}: [${diagnostic.rule}] ${diagnostic.message}`,
       );
     console.log(
-      `Checked ${result.directories} integration directories and ${result.lines} changed lines in ${result.files} test files.`,
+      `Checked ${result.directories} integration directories, ${result.packageFiles} full test files under packages/, and ${result.lines} changed lines in ${result.files} test files outside packages/.`,
     );
   }
   if (result.diagnostics.length) process.exitCode = 1;

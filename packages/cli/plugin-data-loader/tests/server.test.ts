@@ -4,7 +4,6 @@ import qs from 'querystring';
 import { createWebRequest, sendResponse } from '@modern-js/server-core/node';
 import type { ServerRoute } from '@modern-js/types';
 import request from 'supertest';
-import { LOADER_ID_PARAM } from '../src/common/constants';
 import { handleRequest } from '../src/runtime';
 
 describe('handleRequest', () => {
@@ -111,13 +110,13 @@ describe('handleRequest', () => {
       {},
     );
     const res = await request(handler).get(
-      `/three?${LOADER_ID_PARAM}=user/profile/layout`,
+      '/three?__loader=user/profile/layout',
     );
 
     expect(res.status).toBe(403);
   });
 
-  test.skip('should return directly when routeId not exist', async () => {
+  test('falls through to the next handler when the loader query is absent', async () => {
     const handler = createHandler(
       [
         {
@@ -132,12 +131,15 @@ describe('handleRequest', () => {
     );
 
     const realHandler = async (req: IncomingMessage, res: ServerResponse) => {
-      res.statusCode = 404;
       await handler(req, res);
+      if (!res.headersSent) {
+        res.writeHead(404).end('fallback');
+      }
     };
 
     const res = await request(realHandler).get('/three/user/profile');
     expect(res.status).toBe(404);
+    expect(res.text).toBe('fallback');
   });
 
   test('support return data directly', async () => {
@@ -155,7 +157,7 @@ describe('handleRequest', () => {
     );
 
     const res = await request(handler).get(
-      `/three/user/profile?${LOADER_ID_PARAM}=user/profile/layout`,
+      '/three/user/profile?__loader=user/profile/layout',
     );
     expect(res.status).toBe(200);
     expect(
@@ -178,9 +180,7 @@ describe('handleRequest', () => {
       {},
     );
 
-    const res = await request(handler).get(
-      `/three/user?${LOADER_ID_PARAM}=user/layout`,
-    );
+    const res = await request(handler).get('/three/user?__loader=user/layout');
     expect(res.status).toBe(404);
     expect(res.headers['content-type'].includes('text/plain')).toBeTruthy();
     expect(res.text).toBe('loader1');
@@ -203,7 +203,7 @@ describe('handleRequest', () => {
       },
     );
     const res = await request(handler).get(
-      `/three/user/${id}?${LOADER_ID_PARAM}=user/[id]/layout`,
+      `/three/user/${id}?__loader=user/[id]/layout`,
     );
 
     expect(res.status).toBe(200);
@@ -228,7 +228,7 @@ describe('handleRequest', () => {
     );
 
     const res = await request(handler).get(
-      `/three/user/profile/name?${LOADER_ID_PARAM}=user.profile.name/layout`,
+      '/three/user/profile/name?__loader=user.profile.name/layout',
     );
     expect(res.status).toBe(500);
     expect(

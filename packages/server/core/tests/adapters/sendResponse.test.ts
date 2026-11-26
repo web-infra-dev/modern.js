@@ -4,8 +4,8 @@ import { connect, createServer } from 'node:http2';
 import type { AddressInfo } from 'node:net';
 import { Writable } from 'node:stream';
 import type { NodeResponse } from '@modern-js/types/server';
-import { createNodeServer, sendResponse } from '../../src/adapters/node/node';
-import type { RequestHandler } from '../../src/types';
+import type { RequestHandler } from '../../src';
+import { createNodeServer, sendResponse } from '../../src/adapters/node';
 
 const encoder = new TextEncoder();
 

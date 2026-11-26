@@ -3,7 +3,6 @@ import { execFile, spawn } from 'node:child_process';
 import { once } from 'node:events';
 import { mkdir, readFile, readdir, rename, writeFile } from 'node:fs/promises';
 import { createRequire } from 'node:module';
-import { tmpdir } from 'node:os';
 import path from 'node:path';
 import { promisify } from 'node:util';
 import { afterEach, beforeEach, expect, test } from '@rstest/core';
@@ -23,7 +22,6 @@ let app: Awaited<ReturnType<typeof createIsolatedTestApp>>;
 
 beforeEach(async () => {
   app = await createIsolatedTestApp(fixture, {
-    parentDir: tmpdir(),
     prefix: 'modern-storybook-',
     exclude: ['storybook-static'],
   });
@@ -172,6 +170,10 @@ test('builds the client preview and preserves the application output', async () 
     env: { ...env, NODE_ENV: 'production' },
     timeout: 240_000,
     maxBuffer: 10 * 1024 * 1024,
+  }).catch(error => {
+    throw new Error(`${error.message}\n${error.stdout}\n${error.stderr}`, {
+      cause: error,
+    });
   });
   expect(await readdir(file('dist'))).toEqual(['sentinel.txt']);
   expect(await readFile(file('dist/sentinel.txt'), 'utf8')).toBe(

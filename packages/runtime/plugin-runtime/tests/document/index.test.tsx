@@ -10,12 +10,10 @@ import {
   Script,
   Scripts,
 } from '../../src/document';
-import cliPlugin from '../../src/document/cli';
 
 describe('plugin-document', () => {
   it('default', () => {
     expect(Html).toBeDefined();
-    expect(cliPlugin).toBeDefined();
   });
 
   it('should render correct document', () => {

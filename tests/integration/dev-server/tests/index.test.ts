@@ -1,13 +1,121 @@
 import path from 'path';
+import fs from 'fs-extra';
 import puppeteer, { type Browser, type Page } from 'puppeteer';
 import {
+  createIsolatedTestApp,
   getPort,
   killApp,
   launchApp,
   launchOptions,
+  sleep,
 } from '../../../utils/modernTestUtils';
 
 const appDir = path.resolve(__dirname, '../');
+
+test.each(['default', 'relative', 'absolute'])(
+  'should load, reload and disable TypeScript HTTP mocks in a %s directory',
+  async directory => {
+    const isolated = await createIsolatedTestApp(appDir, {
+      prefix: 'isolated-dev-server-mock-',
+    });
+    let app: unknown;
+    let externalMockDir: string | undefined;
+    try {
+      const env: Record<string, string> = {};
+      let mockDir = path.join(isolated.appDir, 'config/mock');
+      if (directory !== 'default') {
+        externalMockDir = await fs.mkdtemp(
+          path.join(path.dirname(isolated.appDir), 'modern-mock-'),
+        );
+        mockDir = externalMockDir;
+        env.MODERN_TEST_MOCK_DIR =
+          directory === 'relative'
+            ? path.relative(isolated.appDir, mockDir)
+            : mockDir;
+      }
+      const mockFile = path.join(mockDir, 'index.ts');
+      const mockSource = `
+const label: string = 'from-ts';
+export const config = {
+  enable: (req: { headers: Record<string, string> }) => req.headers['x-disable-mock'] !== '1',
+};
+export default {
+  'GET /api/mock-info': { value: label },
+  'POST /api/mock-info': { values: [1, 2, 3, 4] },
+};
+`;
+      await fs.outputFile(mockFile, mockSource);
+      const port = await getPort();
+      app = await launchApp(isolated.appDir, port, {}, env);
+      const url = `http://localhost:${port}/api/mock-info`;
+      const request = (method = 'GET', headers = {}) =>
+        fetch(url, {
+          method,
+          headers: { Accept: 'application/json', ...headers },
+          signal: AbortSignal.timeout(5000),
+        });
+
+      const getResponse = await request();
+      expect(getResponse.status).toBe(200);
+      expect(await getResponse.json()).toEqual({ value: 'from-ts' });
+      const postResponse = await request('POST');
+      expect(postResponse.status).toBe(200);
+      expect(await postResponse.json()).toEqual({ values: [1, 2, 3, 4] });
+      // Disabled mocks fall through to this app's HTML fallback, not a 404.
+      const disabledResponse = await request('POST', { 'x-disable-mock': '1' });
+      expect(disabledResponse.status).toBe(200);
+      expect(disabledResponse.headers.get('content-type')).toContain(
+        'text/html',
+      );
+      await disabledResponse.text();
+
+      await fs.writeFile(
+        mockFile,
+        mockSource.replace("'from-ts'", "'updated-ts'"),
+      );
+      let value: string | undefined;
+      for (let i = 0; i < 40 && value !== 'updated-ts'; i++) {
+        await sleep(250);
+        value = (await (await request()).json()).value;
+      }
+      expect(value).toBe('updated-ts');
+
+      await fs.writeFile(
+        mockFile,
+        mockSource.replace(
+          "(req: { headers: Record<string, string> }) => req.headers['x-disable-mock'] !== '1'",
+          'false',
+        ),
+      );
+      let contentType: string | null = null;
+      for (let i = 0; i < 40 && !contentType?.includes('text/html'); i++) {
+        await sleep(250);
+        const response = await request('POST');
+        expect(response.status).toBe(200);
+        contentType = response.headers.get('content-type');
+        await response.text();
+      }
+      expect(contentType).toContain('text/html');
+      const disabledGetResponse = await request();
+      expect(disabledGetResponse.status).toBe(200);
+      expect(disabledGetResponse.headers.get('content-type')).toContain(
+        'text/html',
+      );
+      await disabledGetResponse.text();
+    } finally {
+      try {
+        if (app) {
+          await killApp(app);
+        }
+      } finally {
+        await isolated.cleanup();
+        if (externalMockDir) {
+          await fs.remove(externalMockDir);
+        }
+      }
+    }
+  },
+);
 
 describe('dev', () => {
   let app: unknown;

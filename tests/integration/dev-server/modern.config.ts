@@ -27,6 +27,9 @@ const plugin = (): CliPlugin<AppTools> => {
 export default applyBaseConfig({
   plugins: [plugin()],
   dev: {
+    ...(process.env.MODERN_TEST_MOCK_DIR && {
+      mockDir: process.env.MODERN_TEST_MOCK_DIR,
+    }),
     server: {
       cors: {
         origin: ['http://localhost:3000', 'http://example.com'],

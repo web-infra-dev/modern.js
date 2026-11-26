@@ -2,8 +2,7 @@ import { mkdir, mkdtemp, rm, writeFile } from 'node:fs/promises';
 import { tmpdir } from 'node:os';
 import path from 'node:path';
 import { createServerBase } from '@modern-js/server-core';
-import { applyPlugins } from '../src/apply';
-import type { ProdServerOptions } from '../src/types';
+import { type ProdServerOptions, applyPlugins } from '../src';
 
 let pwd: string;
 

@@ -1,9 +1,7 @@
 import { join } from 'path';
 import type { Rspack } from '@rsbuild/core';
 import { describe, expect, test } from '@rstest/core';
-import { createBuilder } from '../src';
-import { parseCommonConfig } from '../src/shared/parseCommonConfig';
-import type { BuilderConfig } from '../src/types';
+import { type BuilderConfig, createBuilder, parseRspackConfig } from '../src';
 
 function getSwcTransformOptions(config: Rspack.Configuration) {
   for (const rule of config.module?.rules || []) {
@@ -76,11 +74,14 @@ describe('source.reactCompiler', () => {
   });
 
   test('should not leak reactCompiler into rsbuild source config', async () => {
-    const { rsbuildConfig } = await parseCommonConfig({
-      source: {
-        reactCompiler: true,
+    const { rsbuildConfig } = await parseRspackConfig(
+      {
+        source: {
+          reactCompiler: true,
+        },
       },
-    });
+      { cwd: __dirname },
+    );
 
     expect(rsbuildConfig.source).not.toHaveProperty('reactCompiler');
   });

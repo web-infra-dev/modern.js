@@ -45,6 +45,16 @@ export default defineServerConfig({
       },
     },
     {
+      // Set before the static file is served, so the static cache policy
+      // must keep it.
+      name: 'static-cache-control',
+      path: '/no-store.txt',
+      handler: async (c, next) => {
+        c.header('Cache-Control', 'private, no-store');
+        await next();
+      },
+    },
+    {
       name: 'set-message',
       handler: async (c, next) => {
         c.set('message', value);

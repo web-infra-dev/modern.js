@@ -1,10 +1,8 @@
 # 测试治理
 
-此工具冻结已批准的集成目录并阻止本次变更新增的明确反模式，不删除现有测试或 fixture，不改变发布包行为，无需 changeset。
+用于校验 `tests/integration` 冻结清单，并拦截测试代码中的明确反模式。测试编写与保留原则见[贡献指南](../../packages/document/docs/zh/community/contributing-guide.mdx#验证变更与保留回归测试)。
 
-默认不新增测试文件或 fixtures。优先复用已有用例或临时黑盒验证，在 PR 记录命令、结果及未执行项。永久测试只保护现有覆盖不足的明确用户行为或公共契约。不要逐层 mock 重复集成流程，不通过收紧 TypeScript 类型替代验证。纯逻辑优先轻量输入输出测试，快照只保护稳定用户输出或公共协议。测试贡献原则见[贡献指南](../../packages/document/docs/zh/community/contributing-guide.mdx#验证变更与保留回归测试)。
-
-## CLI 与数据来源
+## 用法
 
 在仓库根目录运行：
 
@@ -16,56 +14,63 @@ TEST_GOVERNANCE_PR_LABELS='["approved-new-integration-fixture"]' pnpm check-test
 pnpm check-test-governance --help
 ```
 
-| 模式                    | 检查数据来源                                                                |
-| ----------------------- | --------------------------------------------------------------------------- |
-| 默认工作区              | HEAD 与暂存、未暂存及未跟踪变更，同时检查文件系统中的集成目录               |
-| `--staged`              | HEAD 与 Git index，文件内容及目录列表只来自 index，未暂存修复不能使检查通过 |
-| `--base REV --head REV` | 两个 Git tree，不依赖工作区内容，省略 `--head` 时使用 HEAD                  |
-| `--require-approval`    | 额外读取 `TEST_GOVERNANCE_PR_LABELS` 标签名 JSON 数组，校验清单新增审批     |
+| 参数                    | 说明                                                                    |
+| ----------------------- | ----------------------------------------------------------------------- |
+| 无参数（默认）          | 检查工作区（HEAD 与暂存、未暂存、未跟踪变更）及本地集成目录             |
+| `--staged`              | 仅检查 Git 暂存区快照，未暂存的修改不生效                               |
+| `--base REV --head REV` | 比较两个 Git commit，不依赖工作区内容（省略 `--head` 时默认为 `HEAD`）  |
+| `--require-approval`    | 读取环境变量 `TEST_GOVERNANCE_PR_LABELS`（JSON 数组），校验清单新增审批 |
+| `--json`                | 输出结构化 JSON 结果                                                    |
 
-`--staged` 不与 `--base`、`--head` 混用。比较前确保已获取对应 Git 历史，可加 `--json` 获取结构化诊断。失败后根据输出的路径、行号和修复建议调整本次变更，再运行相同命令。本地设置标签变量仅验证检查行为，不代表人工批准。
+- `--staged` 不能与 `--base`、`--head` 同时使用，使用 `--base` 前需确保本地已拉取对应 Git 历史。
+- 输出摘要中，`packageFiles` 为 `packages/` 全量扫描的文件数，`files` 和 `lines` 为包外增量检查的文件数和新增行数。
 
-## 规则
+## 检查范围与规则
 
-| 规则                                           | 自动执行范围                         |
-| ---------------------------------------------- | ------------------------------------ |
-| 集成目录必须在 `integration-allowlist.json` 中 | 检查所选模式的全部集成目录           |
-| `internal-src-import`                          | 增量检查 `packages/` 单测的源码导入  |
-| `internal-module-mock`                         | 增量阻止新增内部相对模块 mock        |
-| `invocation-call-order`                        | 增量阻止新增内部调用顺序断言         |
-| `non-rstest-runner`                            | 增量阻止新增非 Rstest runner         |
-| 行内例外格式与到期日期                         | 只校验 diff 触及的测试行             |
-| 清单新增条目的审批标签                         | PR CI 使用 `--require-approval` 校验 |
+- **扫描范围**：`packages/` 下无论 diff 是否为空，都会对目标快照中的全部测试及测试辅助文件做全量检查；`packages/` 之外（如 `tests/e2e/builder/`、`examples/`）仅检查 diff 新增行，不阻断未触及的历史代码。
+- **文件匹配**：匹配 `.test` / `.spec` 的 JS/TS 文件、`__tests__/`，以及 `packages/` 或 `scripts/` 下 `tests/` 中的辅助代码，统一排除 `fixture/`、`fixtures/` 和 `node_modules/`。
 
-反模式检查覆盖 `.test`、`.spec` 的 JS/TS 文件变体、`__tests__`，以及 packages/scripts 下 tests 目录中的非 fixture 辅助代码。检查结合完整测试文件和 diff 触及的行识别多行写法，不因未触及的历史反模式阻塞无关改动。
+| 规则                    | 检查内容                                             | 生效范围                                    |
+| ----------------------- | ---------------------------------------------------- | ------------------------------------------- |
+| `integration-fixture`   | 集成目录必须在 `integration-allowlist.json` 中       | 所选模式的全部 `tests/integration` 顶层目录 |
+| `allowlist-approval`    | 清单新增条目必须带有审批标签                         | 仅在启用 `--require-approval` 时            |
+| `internal-src-import`   | 禁止相对路径绕过公开入口直接导入包内 `src/`          | `packages/` 全量                            |
+| `internal-module-mock`  | 禁止对内部相对路径模块使用 `rs.mock` / `rstest.mock` | `packages/` 全量，包外增量                  |
+| `invocation-call-order` | 禁止断言 `invocationCallOrder` 实现细节              | `packages/` 全量，包外增量                  |
+| `non-rstest-runner`     | 禁止引入 Rstest 之外的测试框架                       | `packages/` 全量，包外增量                  |
+| `invalid-exception`     | 校验行内例外注释的格式与有效期                       | `packages/` 全量，包外增量                  |
 
-`internal-src-import` 检查 `packages/` 下工作区包的单测及测试辅助代码。修改 `import`（含 `import type`）、`export … from`、`import()` 或 `require()` 时，相对路径只能通过本包公开入口访问源码。跨包访问请使用对方的包名和公开子路径。测试目录内仍可相对导入辅助代码。
+关于 `internal-src-import`：检查器按包的 `package.json`（`exports` 和 `main`）识别公开入口，无需预构建；跨包需通过包名和公开子路径导入，同一测试目录内允许相对导入辅助代码。若公开入口和现有 `tests/integration/` 均无法覆盖内部细节，应在 PR 中记录临时验证证据，不要为此提交内部单测或扩大包导出。
 
-检查器从当前模式对应的工作区、暂存区或 Git tree 读取包的 `package.json`，按 `exports` 和 `main` 的目标定位源码入口，无需预构建。例如，`./dist/esm/router/index.mjs` 对应 `src/router/index.ts`，测试可以导入 `../src/router`。名称含 `internal` 的已公开入口同样可用。请通过公开行为编写断言，或在 `tests/integration/` 验证用户流程。禁止仅为测试扩大 `package.json` 的 `exports` 或入口文件导出，维护者在 PR 中审核这类变更。
+测试必要性、重复覆盖、快照粒度等质量判断由人工 review 把关，不作自动阻断。
 
-测试必要性、重复覆盖、纯逻辑黑盒验证、快照公共性及类型契约由贡献者与维护者审核，不作为启发式自动阻断。没有快照禁令，也没有测试数量软告警。
+## 审批与豁免
 
-## 冻结清单与人工审批
+> 贡献者与 agent 均不得自行修改集成目录清单，也不得自批、伪造或机械延长行内例外。本地设置 `TEST_GOVERNANCE_PR_LABELS` 仅用于验证脚本行为，不代表人工批准。
 
-`tests/integration` 顶层目录的冻结基线以[集成目录清单](./integration-allowlist.json)为准。清单按名称排序，以 JSON 字符串数组保存维护者批准的目录名。不允许贡献者或 agent 自行扩展清单来绕过检查，也不授权删除现有 fixture。
+### 新增集成目录
 
-确需新增目录时，先说明现有 fixture 为何不足及新增维护成本，取得维护者人工批准后，将批准目录加入排序清单，在 PR 记录理由和批准者，并由维护者添加 `approved-new-integration-fixture` 标签。任何清单新增条目都需要该标签，包括清单首次引入。纯条目删除不需扩展审批标签，但剩余目录仍必须登记。
+`tests/integration` 顶层目录的冻结基线见 [integration-allowlist.json](./integration-allowlist.json)（按名称排序的 JSON 字符串数组）。工具不会删除现有 fixture。
 
-## 行内例外
+确需新增目录时：
 
-确实无法避免反模式时，先申请有明确理由、到期日期和人工批准者的短期例外，使用以下精确格式：
+1. 说明现有 fixture 为何不足及新增维护成本，取得维护者人工批准。
+2. 将目录名按排序加入 `integration-allowlist.json`，并在 PR 中记录理由与批准者。
+3. 由维护者为 PR 添加 `approved-new-integration-fixture` 标签（纯条目删除无需该标签）。
+
+### 行内例外
+
+确实无法避免某条反模式时，取得维护者人工批准后，在违规表达式所在行添加单行注释：
 
 ```text
 // test-governance-allow: <rule> | reason: <why> | expires: YYYY-MM-DD | approved-by: @<handle>
 ```
 
-`<rule>` 必须是上表中的反模式标识之一。注释放在违规表达式同一行，或该多行表达式内被 diff 触及的行，独立的前置注释不豁免下一行。理由应说明必要性和后续移除方案，日期必须有效且未过期，账号必须是实际人工批准者。
+- `<rule>` 必须是上表中的反模式规则 ID 之一（行内例外不适用于集成目录清单）。
+- 注释必须位于违规表达式所在行（多行表达式可放在其中任一受检行），前置独立注释不生效。
+- `reason` 需说明必要性与后续移除方案，`expires` 必须为有效且未过期的日期，`approved-by` 必须为实际人工批准者。
 
-checker 只校验 diff 触及的测试行中的例外格式和到期日期，真实批准由维护者审核。agent 不得自批、伪造批准或机械延长日期。行内例外不批准新增集成目录。
+## Hooks 与 CI
 
-## 提交与 CI
-
-- 根脚本直接运行 `node ./scripts/test-governance/check.mjs`，所有入口使用同一个 checker，无新增依赖。
-- 启用仓库 hooks 后，`rs staged` 使用函数任务运行相同命令并加 `--staged`，不追加文件名，checker 自行读取全部 index 变更。lint-staged 跳过仅删除的提交，`rstack.config.mts` 在该情况下调用同一个 staged 检查。
-- Linux lint 工作流保留现有任务并获取完整历史，使用 `--base SHA --head SHA`。PR 比较 base 与 checkout 的合并候选提交，并要求审批标签，避免落后分支缺少新清单或把 main 已完成的清理算作新增反模式。merge queue 比较 merge group base/head，手动触发比较所选提交与父提交。仅 PR 加 `--require-approval`。
-- CI 通过 `TEST_GOVERNANCE_PR_LABELS` 传入标签名 JSON 数组，不把标签内容当作 shell 命令执行。PR 添加或移除标签时重新检查。
+- 本地通过 `pnpm check-test-governance` 调用，启用仓库 Git hooks 后，提交阶段会自动运行 `--staged` 检查。
+- CI 在 PR、merge queue 和手动触发场景下使用 `--base` / `--head` 比较对应提交，其中仅 PR 启用 `--require-approval`，并在标签变更时重新触发检查。
