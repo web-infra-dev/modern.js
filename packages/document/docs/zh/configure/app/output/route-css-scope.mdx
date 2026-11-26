@@ -1,0 +1,25 @@
+---
+title: routeCssScope
+---
+
+# output.routeCssScope
+
+- **类型：** `'descendants' | 'direct'`
+- **默认值：** `'descendants'`
+
+使用约定式路由时，框架会把每个路由需要的 CSS 记录在路由清单里。流式渲染（Streaming SSR）时，服务端把命中路由记录的 CSS 以 `<link rel="stylesheet">` 输出到 HTML 的 head 中。这个配置决定路由清单记录哪些 CSS：
+
+- `'descendants'`：记录路由 chunk 自身的 CSS，以及它通过动态 `import()` 或 `React.lazy` 加载的所有 chunk 的 CSS（任意层级）。服务端渲染时出现在 Suspense 里的懒加载组件不会出现样式闪烁。代价是懒加载链路较深时，head 里会出现很多阻塞渲染的样式表，其中包括首屏用不到的 CSS（例如点击后才加载的弹窗）。
+- `'direct'`：只记录路由 chunk 自身的 CSS。懒加载 chunk 的 CSS 在客户端随它的 JS 一起加载。服务端渲染时出现在 Suspense 里的懒加载组件，在它的 CSS 下载完成前可能没有样式。
+
+如果应用的路由下有大量首屏不渲染的懒加载组件，可以设置为 `'direct'`，并在泳道上确认首屏没有样式闪烁。
+
+示例：
+
+```ts
+export default {
+  output: {
+    routeCssScope: 'direct',
+  },
+};
+```
