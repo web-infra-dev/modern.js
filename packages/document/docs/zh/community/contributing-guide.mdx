@@ -83,6 +83,8 @@ pnpm run --filter @modern-js/some-package build
 pnpm run prepare
 ```
 
+构建后，运行 `pnpm check-package-exports` 检查公共导出的目标文件是否存在，以及原生 Node.js 能否加载声明的 ESM 和 CommonJS 入口。浏览器和 React Server 目标只检查文件是否存在。只检查一个包时，可以运行 `pnpm check-package-exports --filter @modern-js/server`。
+
 如果你需要清理项目中的所有 `node_modules/*`，执行 `reset` 命令：
 
 ```sh

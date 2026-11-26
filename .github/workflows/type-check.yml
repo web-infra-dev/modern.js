@@ -58,3 +58,7 @@ jobs:
       - name: Type Check
         if: ${{steps.skip-ci.outputs.RESULT != 'true'}}
         run: pnpm run prepare
+
+      - name: Check public package exports with Node.js
+        if: ${{steps.skip-ci.outputs.RESULT != 'true'}}
+        run: pnpm check-package-exports
