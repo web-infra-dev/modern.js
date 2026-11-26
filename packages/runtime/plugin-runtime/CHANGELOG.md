@@ -1,5 +1,22 @@
 # @modern-js/runtime
 
+## 3.13.0
+
+### Patch Changes
+
+- 6644a30: fix(runtime): keep body tags at the end of body for streaming entries with a custom Document
+
+  fix(runtime): 流式入口使用自定义 Document 时，body 标签保留在 body 末尾
+
+- Updated dependencies [e950060]
+- Updated dependencies [2d22b2c]
+  - @modern-js/plugin@3.13.0
+  - @modern-js/utils@3.13.0
+  - @modern-js/plugin-data-loader@3.13.0
+  - @modern-js/render@3.13.0
+  - @modern-js/runtime-utils@3.13.0
+  - @modern-js/types@3.13.0
+
 ## 3.12.0
 
 ### Minor Changes
