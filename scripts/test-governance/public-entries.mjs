@@ -92,8 +92,9 @@ function publicEntries(root, manifest, files) {
 }
 
 // Git paths use forward slashes in every mode, including on Windows.
-export async function packageImportCheck(files, content) {
-  const patterns = workspacePatterns(await content('pnpm-workspace.yaml'));
+export async function packageImportCheck(files, tests, readFiles) {
+  const [workspace] = await readFiles(['pnpm-workspace.yaml']);
+  const patterns = workspacePatterns(workspace);
   const included = patterns.filter(pattern => !pattern.startsWith('!'));
   const excluded = patterns
     .filter(pattern => pattern.startsWith('!'))
@@ -107,17 +108,20 @@ export async function packageImportCheck(files, content) {
         !excluded.some(pattern => posix.matchesGlob(root, pattern)),
     )
     .sort((a, b) => b.length - a.length);
-  const entriesByRoot = new Map();
-  return async testPath => {
-    if (!testPath.startsWith('packages/')) return;
-    const root = roots.find(root => testPath.startsWith(root + '/'));
+  const owner = path => roots.find(root => path.startsWith(root + '/'));
+  const owners = [...new Set(tests.map(owner).filter(Boolean))];
+  const manifests = await readFiles(
+    owners.map(root => posix.join(root, 'package.json')),
+  );
+  const entriesByRoot = new Map(
+    owners.map((root, i) => [
+      root,
+      publicEntries(root, JSON.parse(manifests[i]), files),
+    ]),
+  );
+  return testPath => {
+    const root = owner(testPath);
     if (!root) return;
-    if (!entriesByRoot.has(root)) {
-      const manifest = JSON.parse(
-        await content(posix.join(root, 'package.json')),
-      );
-      entriesByRoot.set(root, publicEntries(root, manifest, files));
-    }
     const entries = entriesByRoot.get(root);
     const testDirectory = posix
       .relative(root, testPath)
