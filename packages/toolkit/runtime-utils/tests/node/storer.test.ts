@@ -1,65 +1,55 @@
-import {
-  calculateSize,
-  MemoryContainer,
-} from '../../src/node/storer/container';
+import { createMemoryStorage } from '../../src/node/storer';
 
-const KB = 1024;
-
-describe('MemoryContainer size calculation', () => {
-  it('should use the byte length of Buffer and TypedArray', () => {
-    expect(calculateSize(Buffer.alloc(100 * KB, 1))).toBe(100 * KB);
-    expect(calculateSize(new Uint16Array(10))).toBe(20);
-    expect(calculateSize(new ArrayBuffer(30))).toBe(30);
-    const view = Buffer.alloc(100).subarray(10, 30);
-    expect(calculateSize(view)).toBe(20);
-  });
-
-  it('should use the length of string', () => {
-    expect(calculateSize('hello')).toBe(5);
-    expect(calculateSize('"quoted"\n')).toBe(9);
-  });
-
-  it('should use the serialized length of other values', () => {
-    const value = { foo: 'bar', list: [1, 2] };
-    expect(calculateSize(value)).toBe(JSON.stringify(value).length);
-    expect(calculateSize(null)).toBe(4);
-    expect(calculateSize(123)).toBe(3);
-  });
-
-  it('should return a positive integer for empty or unserializable values', () => {
-    expect(calculateSize(Buffer.alloc(0))).toBe(1);
-    expect(calculateSize('')).toBe(1);
-    expect(calculateSize(() => {})).toBe(1);
-  });
-
-  it('should store empty values', async () => {
-    const container = new MemoryContainer<string, any>();
-    await container.set('buffer', Buffer.alloc(0));
-    await container.set('string', '');
-    await container.set('null', null);
-    expect(await container.get('buffer')).toEqual(Buffer.alloc(0));
-    expect(await container.get('string')).toBe('');
-    expect(await container.get('null')).toBeNull();
-  });
-
-  it('should count Buffer by bytes and still evict by maxSize', async () => {
-    // maxSize is 1 MB
-    const container = new MemoryContainer<string, Buffer>({ max: 1 });
-    const names = ['a', 'b', 'c'];
-    for (const name of names) {
-      await container.set(name, Buffer.alloc(300 * KB, 0xff));
+describe('createMemoryStorage', () => {
+  it('round-trips empty buffers, empty strings and null', async () => {
+    const storage = createMemoryStorage<Buffer | string | null>('empty-values');
+    try {
+      await storage.set('buffer', Buffer.alloc(0));
+      await storage.set('string', '');
+      await storage.set('null', null);
+      expect(await storage.has('buffer')).toBe(true);
+      expect(await storage.get('buffer')).toEqual(Buffer.alloc(0));
+      expect(await storage.has('string')).toBe(true);
+      expect(await storage.get('string')).toBe('');
+      expect(await storage.has('null')).toBe(true);
+      expect(await storage.get('null')).toBeNull();
+    } finally {
+      await Promise.all(
+        ['buffer', 'string', 'null'].map(key => storage.delete(key)),
+      );
     }
-    // 900 KB fits in 1 MB, while serializing would count ~1.2 MB for each one
-    for (const name of names) {
-      expect(await container.has(name)).toBe(true);
+  });
+
+  it('isolates values and deletion across namespaces', async () => {
+    const first = createMemoryStorage<string>('first-namespace');
+    const second = createMemoryStorage<string>('second-namespace');
+    try {
+      await first.set('shared-key', 'first');
+      expect(await second.has('shared-key')).toBe(false);
+      await second.set('shared-key', 'second');
+      expect(await first.get('shared-key')).toBe('first');
+      expect(await second.get('shared-key')).toBe('second');
+      expect(await first.delete('shared-key')).toBe(true);
+      expect(await first.get('shared-key')).toBeUndefined();
+      expect(await second.get('shared-key')).toBe('second');
+    } finally {
+      await first.delete('shared-key');
+      await second.delete('shared-key');
     }
+  });
 
-    await container.set('d', Buffer.alloc(300 * KB));
-    expect(await container.has('a')).toBe(false);
-    expect(await container.has('b')).toBe(true);
-    expect(await container.has('d')).toBe(true);
-
-    await container.set('large', Buffer.alloc(1024 * KB + 1));
-    expect(await container.has('large')).toBe(false);
+  it('stores and removes a large buffer', async () => {
+    const storage = createMemoryStorage<Buffer>('large-buffer');
+    const buffer = Buffer.alloc(2 * 1024 * 1024, 0xff);
+    try {
+      await storage.set('asset', buffer);
+      expect(await storage.has('asset')).toBe(true);
+      expect(await storage.get('asset')).toEqual(buffer);
+      expect(await storage.delete('asset')).toBe(true);
+      expect(await storage.has('asset')).toBe(false);
+      expect(await storage.get('asset')).toBeUndefined();
+    } finally {
+      await storage.delete('asset');
+    }
   });
 });

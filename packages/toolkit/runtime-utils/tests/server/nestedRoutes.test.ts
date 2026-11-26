@@ -1,5 +1,5 @@
 import type { ServerRoute } from '@modern-js/types';
-import { matchEntry } from '../../src/server/nestedRoutes';
+import { matchEntry } from '../../src/server';
 
 const route = (urlPath: string, entryName = urlPath): ServerRoute => ({
   urlPath,
