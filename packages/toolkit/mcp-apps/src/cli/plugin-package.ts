@@ -11,6 +11,8 @@ export interface McpHttpServerConfig {
 export interface PluginPackageOptions {
   /** Source package directory relative to the app root. Defaults to 'plugin'. */
   directory?: string;
+  /** Files or directories relative to the source package. Defaults to no extra resources. */
+  resources?: string[];
 }
 
 /** Package user-owned declarations separately from the deployed application. */
@@ -79,16 +81,32 @@ export async function buildPluginPackage(
     !plugin.version.trim()
   )
     throw new Error('plugin.json requires non-empty name and version fields');
-  if (
-    await fs.lstat(path.join(source, 'com.doubao')).then(
-      () => true,
-      error => {
-        if (error.code === 'ENOENT') return false;
-        throw error;
-      },
+  const resources = options.resources ?? [];
+  if (!Array.isArray(resources))
+    throw new Error('Plugin resources must be an array of relative paths');
+  for (const resource of resources) {
+    if (
+      typeof resource !== 'string' ||
+      !resource ||
+      resource.includes('\\') ||
+      resource
+        .split('/')
+        .some(part => !part || part === '.' || part === '..') ||
+      path.isAbsolute(resource) ||
+      ['plugin.json', 'mcp.json'].includes(resource.split('/')[0])
     )
-  )
-    await collect('com.doubao');
+      throw new Error(`Invalid plugin resource path: ${resource}`);
+    // Check ancestors too: a nested resource must not traverse a symbolic link.
+    const parts = resource.split('/');
+    for (let index = 1; index < parts.length; index++) {
+      const parent = parts.slice(0, index).join('/');
+      if ((await fs.lstat(path.join(source, parent))).isSymbolicLink())
+        throw new Error(
+          `Plugin package does not support symbolic links: ${parent}`,
+        );
+    }
+    await collect(resource);
+  }
 
   await fs.mkdir(distDirectory, { recursive: true });
   const staging = await fs.mkdtemp(path.join(distDirectory, '.mcp-plugin-'));

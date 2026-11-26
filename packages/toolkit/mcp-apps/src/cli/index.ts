@@ -33,6 +33,8 @@ export interface McpAppsPluginOptions {
   plugin?: PluginPackageOptions;
   /** JSON UI configuration, relative to the application root. */
   views?: string;
+  /** Automatically connect existing application entries when embedded. Defaults to true. */
+  entryAutoConnect?: boolean;
   /** CSP domains added to every view, merged with the csp in the views file. */
   csp?: UiCsp;
   /**
@@ -519,7 +521,7 @@ export const mcpAppsPlugin = (
     api.modifyRsbuildConfig(config => {
       const entries =
         config.environments?.client?.source?.entry ?? config.source?.entry;
-      if (entries && definition) {
+      if (entries && definition && options.entryAutoConnect !== false) {
         const selected = new Set(
           Object.values(definition.views).flatMap(view =>
             typeof view !== 'string' && 'entry' in view ? [view.entry] : [],
@@ -650,9 +652,17 @@ export const mcpAppsPlugin = (
               );
             }
             const config = api.getNormalizedConfig();
+            // Deployment plugins can change the bundler public path after app
+            // configuration is normalized. Use the path that emitted the assets.
+            const publicPath = child.options.output?.publicPath;
+            const assetPrefix = development
+              ? config.dev.assetPrefix
+              : typeof publicPath === 'string' && publicPath !== 'auto'
+                ? publicPath
+                : config.output.assetPrefix;
             const manifest = createUiManifest(
               definition,
-              development ? config.dev.assetPrefix : config.output.assetPrefix,
+              assetPrefix,
               mf,
               options.csp,
               { inline: useInline },

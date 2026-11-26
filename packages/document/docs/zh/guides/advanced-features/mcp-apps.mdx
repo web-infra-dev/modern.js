@@ -241,6 +241,7 @@ mcpAppsPlugin({
   plugin: {
     // 可选，相对项目根目录，默认值为 'plugin'
     directory: './plugin',
+    resources: ['com.doubao'],
   },
 });
 ```
@@ -299,7 +300,7 @@ dist/plugin/                    # 构建生成的 Plugin 包根
 }
 ```
 
-打包只收集源目录的 `plugin.json` 和 `com.doubao/`，不读取用户手写的 `mcp.json`。源目录不能与输出包目录重叠，包内不支持符号链接。每次成功打包都会替换 `dist/plugin/`，清理不再使用的资源。自定义应用产物目录时，Plugin 包也随之输出到该目录的 `plugin/` 下。未配置 `mcpServers` 时不生成 Plugin 包，单独配置 `plugin` 会报错。开发模式不生成部署包。
+打包始终复制源目录的 `plugin.json`。通过 `plugin.resources` 显式选择额外的文件或目录，路径相对源包目录，默认值为 `[]`。本例配置 `['com.doubao']`，其他宿主可配置 `['assets', 'vendor.example']`。声明的路径必须存在，不允许绝对路径、空路径段、`.` 或 `..` 路径段，也不允许选择保留的 `plugin.json` 和 `mcp.json`。资源路径及其内容不支持符号链接。不读取用户手写的 `mcp.json`。源目录不能与输出包目录重叠，包内不支持符号链接。每次成功打包都会替换 `dist/plugin/`，清理不再使用的资源。自定义应用产物目录时，Plugin 包也随之输出到该目录的 `plugin/` 下。未配置 `mcpServers` 时不生成 Plugin 包，单独配置 `plugin` 会报错。开发模式不生成部署包。
 
 `dist/plugin/` 是插件声明与资源包，应用服务及 MCP UI 产物仍需正常部署。当前打包不会校验完整的豆包工作台协议或远程工具是否存在，也不会自动生成工作台导航、编译 `web/` 页面或添加启动结果领取逻辑。这些配置和页面需要遵循宿主协议并与 MCP Server 一同发布。
 
@@ -426,3 +427,7 @@ mcpAppsPlugin({
 - **自动端口发现**：默认连接器使用 `--cwd <项目目录>`，脚本在每次请求时读取 `node_modules/.modern-js/mcp-apps/dev-server.json` 自动定位当前开发服务地址。也可直接传入固定的 HTTP MCP URL
 - **增量构建**：`inline` 模式下本地组件卡片通过独立的 watch 构建打包为单文件自包含 HTML（内联脚本、样式和导入资源，上限 5 MiB，不注入 `<base>` 或本地 CSP），修改组件后自动重编，下次读取卡片资源时生效。普通页面使用主应用的 HMR。若同一份 `mcp-views.json` 还包含 Module Federation 卡片，本地卡片走内联、MF 卡片使用 HTTP shell
 - **日志输出**：开发服务的日志输出在 `pnpm dev` 终端，转发脚本的 `stdout` 仅用于 JSON-RPC。`modern dev` 未启动或重启期间，转发脚本会返回 JSON-RPC 错误而不是退出进程，待开发服务就绪后下一次调用自动恢复
+
+入口连接的浏览器事件供非 React 消费方接收后续通知，不提供历史状态快照。宿主关闭视图时触发 `mcp-app-teardown`，关闭后忽略迟到结果和连接回调。React 消费方应使用 `useEntryMcpApp` 读取已保留的状态并订阅变化。初始状态为 `standalone`，由入口脚本启动连接后才切换为 `connecting`。在 iframe 中嵌入页面会触发握手尝试，不代表已经确认父页面是 MCP 宿主。
+
+应用同时需要普通 iframe 嵌入时，可设置 `mcpAppsPlugin({ entryAutoConnect: false })` 禁用自动注入的握手。在应用接入逻辑明确选择 MCP 模式时，调用 `@modern-js/mcp-apps/react` 导出的 `connectEntryMcpApp()`。重复调用复用当前连接，顶层页面和服务端调用不建立连接。连接失败后释放 App 实例，可再次显式调用重试。宿主身份通过 SDK 握手确认，不能仅凭 iframe 判断。

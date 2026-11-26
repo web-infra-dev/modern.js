@@ -23,7 +23,7 @@ function store(): EntryStore {
   const scope = window as unknown as Record<symbol, EntryStore | undefined>;
   return (scope[key] ??= {
     state: {
-      status: window.parent === window ? 'standalone' : 'connecting',
+      status: 'standalone',
       resultCount: 0,
     },
     listeners: new Set(),

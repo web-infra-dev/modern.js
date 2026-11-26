@@ -208,6 +208,7 @@ mcpAppsPlugin({
   plugin: {
     // Optional, relative to the application root, defaults to 'plugin'
     directory: './plugin',
+    resources: ['com.doubao'],
   },
 });
 ```
@@ -264,7 +265,7 @@ The generated `dist/plugin/mcp.json` contains:
 }
 ```
 
-Only `plugin.json` and `com.doubao/` are collected from the source package. A source `mcp.json` is not consumed. Source and output package directories must not overlap, and symbolic links are rejected. Each successful package build replaces `dist/plugin/` to remove stale resources. A custom application output directory also relocates its `plugin/` subdirectory. Without `mcpServers`, no package is generated. Providing `plugin` without `mcpServers` is an error. Development mode does not generate deployment packages.
+The source `plugin.json` is always copied. Set `plugin.resources` to explicitly include additional files or directories relative to the source package, such as `['com.doubao']` for this example or `['assets', 'vendor.example']` for other hosts. The default is `[]`. Declared paths must exist and cannot be absolute, contain empty, `.` or `..` segments, or target the reserved `plugin.json` and `mcp.json` paths. Symbolic links in resource paths or their contents are rejected. A source `mcp.json` is not consumed. Source and output package directories must not overlap, and symbolic links are rejected. Each successful package build replaces `dist/plugin/` to remove stale resources. A custom application output directory also relocates its `plugin/` subdirectory. Without `mcpServers`, no package is generated. Providing `plugin` without `mcpServers` is an error. Development mode does not generate deployment packages.
 
 Deploy the application server and MCP UI assets separately from this declaration and resource package. Packaging does not validate the full Doubao workbench protocol or discover remote tools. It does not generate navigation, compile `web/` pages, or add startup result claims. Author these configurations and pages according to the host protocol and publish them together with the MCP server.
 
@@ -391,3 +392,7 @@ When `pnpm dev` starts, the terminal prints a ready-to-copy connector config usi
 - **Dynamic port discovery**: The generated connector uses `--cwd <app-dir>` to read `node_modules/.modern-js/mcp-apps/dev-server.json` written by `modern dev` on each request. A fixed HTTP MCP URL is also supported.
 - **Incremental rebuilds**: In inline mode, local component views are built by an isolated watch compiler into self-contained HTML (inlining JS, CSS, and imported assets, up to 5 MiB per view, without injecting `<base>` or localhost CSP). Edits take effect on the next card read without affecting normal app page HMR. If `mcp-views.json` mixes local views and Module Federation views, local views are inlined while MF views use the HTTP shell.
 - **Clean stdio stream**: Dev logs stay in your `pnpm dev` terminal while the bridge reserves `stdout` strictly for JSON-RPC. If `modern dev` is stopped or restarting, the bridge returns a JSON-RPC error instead of exiting and recovers automatically once the dev server is back.
+
+Entry connection browser events are notifications for non-React consumers, not state snapshots. The bootstrap emits `mcp-app-teardown` when the host closes the view. Late results and connection callbacks are ignored after teardown. React consumers should use `useEntryMcpApp` to read the retained snapshot and subscribe to changes. Its initial status is `standalone` until the bootstrap starts connecting. Embedding in an iframe triggers a handshake attempt and does not by itself establish that the parent is an MCP host.
+
+For applications also embedded in ordinary iframes, set `mcpAppsPlugin({ entryAutoConnect: false })` to disable the injected handshake. Call `connectEntryMcpApp()` from `@modern-js/mcp-apps/react` only when your application integration explicitly selects MCP mode. Repeated calls reuse the active connection. Top-level and server-side calls do nothing. A failed connection releases the App instance so an explicit call can retry. Host identity is established by the SDK handshake, not by iframe detection.

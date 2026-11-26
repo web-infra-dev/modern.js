@@ -272,6 +272,7 @@ export async function registerUiResources(
 ): Promise<Record<string, string>> {
   const views = await resolveUiViews(options);
   const uris: Record<string, string> = Object.create(null);
+  // Validate the complete selection before mutating the SDK server.
   for (const [name, view] of Object.entries(views)) {
     if (options.viewNames && !options.viewNames.includes(name)) continue;
     if (view.entry) {
@@ -283,6 +284,9 @@ export async function registerUiResources(
     if (Object.values(uris).includes(uri))
       throw new Error(`Duplicate UI resource URI: ${uri}`);
     uris[name] = uri;
+  }
+  for (const [name, uri] of Object.entries(uris)) {
+    const view = views[name];
     const { uri: _uri, _meta, ...resourceMetadata } = view.resource ?? {};
     const meta = { ..._meta, ui: view.ui };
     const mimeType = view.resource?.mimeType ?? RESOURCE_MIME_TYPE;

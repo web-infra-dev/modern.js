@@ -113,3 +113,5 @@ export function createMcpView<P extends object>(
 
 export { useEntryMcpApp } from './entry-react';
 export type { EntryMcpState } from './entry-react';
+
+export { connectEntryMcpApp } from './entry-connection';
