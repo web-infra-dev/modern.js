@@ -2,6 +2,10 @@ import type { IncomingHttpHeaders } from 'http';
 import { serializeJson } from '@modern-js/runtime-utils/node';
 import type { StaticHandlerContext } from '@modern-js/runtime-utils/router';
 import type { HeadersData } from '@modern-js/runtime-utils/universal/request';
+import {
+  getDeferredPending,
+  omitDeferredPending,
+} from '../../../router/runtime/deferredData';
 import { ROUTER_DATA_JSON_ID, SSR_DATA_JSON_ID } from '../../constants';
 import type { TRuntimeContext } from '../../context';
 import type { SSRContainer, SSRServerContext } from '../../types';
@@ -31,10 +35,16 @@ export class SSRDataCollector implements Collector {
     const { routerContext, chunkSet } = this.#options;
 
     const ssrData = this.#getSSRData();
+    const deferredPending = routerContext
+      ? getDeferredPending(routerContext)
+      : undefined;
     const routerData = routerContext
       ? {
-          loaderData: routerContext.loaderData,
+          loaderData: deferredPending
+            ? omitDeferredPending(routerContext.loaderData, deferredPending)
+            : routerContext.loaderData,
           errors: serializeErrors(routerContext.errors),
+          ...(deferredPending ? { deferredPending } : {}),
         }
       : undefined;
 

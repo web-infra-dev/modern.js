@@ -7,12 +7,38 @@ import type { TRuntimeContext } from '../context/runtime';
 import { wrapRuntimeContextProvider } from '../react/wrapper';
 import { WithCallback } from './withCallback';
 
+// React reports a recoverable error for every Suspense boundary that string SSR left at
+// its fallback. With deferred loader data (`ssr.deferredDataTimeout`) that is expected:
+// those regions render in the browser once their data arrives.
+const isDeferredFallbackError = (error: unknown): boolean => {
+  if (!window._ROUTER_DATA?.deferredPending) {
+    return false;
+  }
+  const message = String(
+    (error as { message?: string } | undefined)?.message ?? error,
+  );
+  return message.includes('renderToString') && message.includes('Suspense');
+};
+
+const reportRecoverableError = (error: unknown) => {
+  if (isDeferredFallbackError(error)) {
+    return;
+  }
+  // same as React's default
+  if (typeof window.reportError === 'function') {
+    window.reportError(error);
+  } else {
+    console.error(error);
+  }
+};
+
 export async function hydrateWithReact(
   App: React.ReactElement,
   rootElement: HTMLElement,
 ) {
   return hydrateReactRoot(rootElement, App, {
     identifierPrefix: SSR_HYDRATION_ID_PREFIX,
+    onRecoverableError: reportRecoverableError,
   });
 }
 

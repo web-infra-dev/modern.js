@@ -19,6 +19,15 @@ export type SSR =
       inlineScript?: boolean;
       unsafeHeaders?: string[];
       loaderFailureMode?: 'clientRender' | 'errorBoundary';
+      /**
+       * String SSR only. Loaders may return an object whose values are promises
+       * (deferred data). The server waits up to this many milliseconds for them before
+       * rendering: settled values are rendered and serialized as usual, values that are
+       * still pending or rejected are fetched again by the browser for their route, so
+       * only the `<Await>` regions that use them render later.
+       * Without a value the server waits for every promise.
+       */
+      deferredDataTimeout?: number;
     };
 
 export type SSRByEntries = Record<string, SSR>;
